@@ -11,12 +11,12 @@ WorkspaceDressing dressingForWorkspace(EditorWorkspace workspace) noexcept {
             return WorkspaceDressing{.levelToolBarVisible = true,
                                      .pixelToolBarVisible = false,
                                      .workshopMenuVisible = false};
+        // Les deux espaces de PEINTURE partagent le meme habillage, et c'est leur definition : on
+        // y peint une image, on n'y pose pas de tuiles. D'ou les outils de peinture plutot que
+        // ceux du niveau, et le menu de l'atelier dont les commandes valent dans les deux. Les
+        // ecrire deux fois laisserait croire qu'ils peuvent diverger, alors que rien ne le
+        // justifierait -- et clang-tidy le signale a juste titre (bugprone-branch-clone).
         case EditorWorkspace::Planes:
-            // Mode creation : les outils de PEINTURE, pas ceux du niveau -- on y peint une image,
-            // on n'y pose pas de tuiles. Le menu de l'atelier suit, ses commandes valant aussi ici.
-            return WorkspaceDressing{.levelToolBarVisible = false,
-                                     .pixelToolBarVisible = true,
-                                     .workshopMenuVisible = true};
         case EditorWorkspace::PixelArt:
             return WorkspaceDressing{.levelToolBarVisible = false,
                                      .pixelToolBarVisible = true,
