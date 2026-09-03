@@ -76,6 +76,9 @@ add_library(HmiLib STATIC
     Audio/SoundTriggers.cpp
     # Jeu : événements, affichage tête haute, progression, bilan de tableau.
     Game/GameEvents.cpp
+    # Ordre des passes du pas fixe (LOT-05) : logique pure, sans Qt ni GPU -- c'est ce qui la rend
+    # testable sans fenetre, alors que GameSession, son orchestrateur, ne l'est pas.
+    Game/ExplorationMode.cpp
     Game/GameHud.cpp
     Game/DiagnosticsHud.cpp
     Game/Progression.cpp

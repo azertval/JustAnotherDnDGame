@@ -1,8 +1,8 @@
 # Cahier de test {#cahiertest}
 
-**914 cas de test**, générés depuis les blocs `\castest{...}` du code par `scripts/generate_cahier_test.py` (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de `Source/Test/` pour rester lisibles page par page.
+**919 cas de test**, générés depuis les blocs `\castest{...}` du code par `scripts/generate_cahier_test.py` (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de `Source/Test/` pour rester lisibles page par page.
 
-## Tests unitaires (892)
+## Tests unitaires (897)
 
 ### Core
 
@@ -789,7 +789,7 @@
 | **TileTaxonomy.ChaqueTypeFigureExactementUneFois** (Majeur)<br/><sub>`Source/Test/Unit/HMI/Editor/test_tile_taxonomy.cpp:43`</sub> | Chaque type de tuile figure exactement une fois dans la taxonomie. | 1. Mettre en place le contexte du test (arrangement).<br/>2. Executer le scenario et verifier les assertions. | Vérifie que `types.size()` vaut `TILE_TYPE_COUNT`.<br/>Vérifie que `unique.size()` vaut `types.size()`.<br/>Vérifie que `unique.size()` vaut `TILE_TYPE_COUNT`. |
 | **TileTaxonomy.ChaqueEntreeAUnLibelle** (Majeur)<br/><sub>`Source/Test/Unit/HMI/Editor/test_tile_taxonomy.cpp:65`</sub> | Chaque catégorie, sous-groupe et tuile de la taxonomie porte un libellé non vide. | 1. Mettre en place le contexte du test (arrangement).<br/>2. Executer le scenario et verifier les assertions. | Vérifie que `category.label.empty()` est faux.<br/>Vérifie que `entry.label.empty()` est faux.<br/>Vérifie que `subgroup.label.empty()` est faux.<br/>Vérifie que `entry.label.empty()` est faux. |
 
-#### Game (47)
+#### Game (52)
 
 **`test_diagnostics_hud.cpp`**
 
@@ -836,6 +836,16 @@
 | **GameHudTest.BudgetPartielNAfficheQuUnCompteur** (Majeur)<br/><sub>`Source/Test/Unit/HMI/Game/test_game_hud.cpp:80`</sub> | Un budget partiellement défini n'affiche qu'un seul compteur. | 1. Mettre en place le contexte du test (arrangement).<br/>2. Executer le scenario et verifier les assertions. | Vérifie que `lines.size()` vaut `2u`.<br/>Vérifie que `lines[0]` vaut `"Sauts : 2"`.<br/>Vérifie que `lines[1]` vaut `"Chute libre"`. |
 | **GameHudTest.ClesDeTraductionExistentDansLesDeuxCatalogues** (Majeur)<br/><sub>`Source/Test/Unit/HMI/Game/test_game_hud.cpp:104`</sub> | Les clés de traduction du HUD existent dans les deux catalogues livrés. | 1. Charger fr.lang puis en.lang depuis les catalogues livrés.<br/>2. Résoudre les clés du HUD. | Vérifie que `localization.loadDefaultLanguage(language)` est vrai.<br/>Vérifie que `localization.text("hud.jumps_remaining")` diffère de `"hud.jumps_remaining"`.<br/>Vérifie que `localization.text("hud.dashes_remaining")` diffère de `"hud.dashes_remaining"`.<br/>Vérifie que `localization.text("hud.interact_prompt")` diffère de `"hud.interact_prompt"`. |
 | **GameHudTest.InviteInteragirSeulementAuContactDUneCle** (Majeur)<br/><sub>`Source/Test/Unit/HMI/Game/test_game_hud.cpp:132`</sub> | L'invite « Interagir » n'apparaît qu'au contact d'une clé non ramassée, en première ligne du HUD. | 1. Composer le HUD hors contact d'une clé.<br/>2. Le composer au contact d'une clé non ramassée. | Vérifie que `sansCle.size()` vaut `1u`.<br/>Vérifie que `sansCle[0]` vaut `"Cle"`.<br/>Vérifie que `surUneCle.size()` vaut `2u`.<br/>Vérifie que `surUneCle[0]` vaut `"Interagir pour ramasser"`.<br/>Vérifie que `surUneCle[1]` vaut `"Cle"`.<br/>Vérifie que `avecBudget.size()` vaut `3u`.<br/>Vérifie que `avecBudget[0]` vaut `"Interagir pour ramasser"`.<br/>Vérifie que `avecBudget[1]` vaut `"Sauts : 2"`.<br/>Vérifie que `avecBudget[2]` vaut `"Cle"`. |
+
+**`test_game_mode.cpp`**
+
+| Titre (criticité) | Brief | Étapes | Résultat attendu |
+|---|---|---|---|
+| **ModeDeJeuTest.OrdreAppeleIdentiqueALOrdreAnnonce** (Majeur)<br/><sub>`Source/Test/Unit/HMI/Game/test_game_mode.cpp:96`</sub> | L'ordre des passes appele est celui annonce. | 1. Avancer le mode d'exploration d'un pas fixe sur des passes qui enregistrent leurs appels.<br/>2. Comparer la sequence enregistree a passOrder(). | Vérifie que `outcome` vaut `core::LevelOutcome::Playing`.<br/>Vérifie que `passes.calls()` vaut `announcedOrder(mode)`. |
+| **ModeDeJeuTest.SequenceStableSur600Pas** (Majeur)<br/><sub>`Source/Test/Unit/HMI/Game/test_game_mode.cpp:117`</sub> | 600 pas produisent 600 fois la meme sequence de passes. | 1. Avancer le mode de 600 pas fixes, avec une intention qui change a chaque pas.<br/>2. Comparer la sequence de chaque pas a celle du premier. | Vérifie que `passes.calls()` vaut `expected`. |
+| **ModeDeJeuTest.EchecDeclencheSesConsequencesApresLEvaluation** (Majeur)<br/><sub>`Source/Test/Unit/HMI/Game/test_game_mode.cpp:142`</sub> | Un echec declenche ses consequences apres l'evaluation. | 1. Avancer le mode d'un pas sur des passes qui repondent Lost a l'evaluation. | Vérifie que `outcome` vaut `core::LevelOutcome::Lost`.<br/>Vérifie que `passes.calls().size()` est supérieur ou égal à `2u`.<br/>Vérifie que `passes.calls().back()` vaut `"onLevelLost"`.<br/>Vérifie que `passes.calls()[passes.calls().size() - 2]` vaut `"evaluateOutcome"`. |
+| **ModeDeJeuTest.ReussiteNeDeclenchePasLesConsequencesDUnEchec** (Majeur)<br/><sub>`Source/Test/Unit/HMI/Game/test_game_mode.cpp:164`</sub> | Une reussite ne declenche pas les consequences d'un echec. | 1. Avancer le mode d'un pas sur des passes qui repondent Won a l'evaluation. | Vérifie que `outcome` vaut `core::LevelOutcome::Won`.<br/>Vérifie que `passes.calls()` vaut `announcedOrder(mode)`. |
+| **ModeDeJeuTest.ModeSansEtatEtNomme** (Mineur)<br/><sub>`Source/Test/Unit/HMI/Game/test_game_mode.cpp:184`</sub> | Le mode d'exploration est sans etat et se nomme. | 1. Charger puis decharger le mode. | Vérifie que `passes.calls().empty()` est vrai.<br/>Vérifie que `mode.name()` vaut `"exploration"`. |
 
 **`test_level_run_stats.cpp`**
 

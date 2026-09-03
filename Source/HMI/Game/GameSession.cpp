@@ -6,7 +6,9 @@
 #include <algorithm>
 #include <cmath>
 #include <cstddef>
+#include <memory>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "Core/Ecs/Components/Animation.h"
@@ -24,6 +26,7 @@
 #include "Core/Physics/AabbVsAabb.h"
 #include "Core/Physics/PlayerInput.h"
 #include "Core/Physics/PlayerSpawn.h"
+#include "HMI/Game/ExplorationMode.h"
 #include "HMI/Game/GameHud.h"
 #include "HMI/Graphics/AnimationCatalog.h"
 #include "HMI/Graphics/BitmapFont.h"
@@ -104,7 +107,11 @@ GameSession::GameSession(SpriteBatch& batch, const TextureAtlas& atlas, TextureC
     // Images des plans (LOT-69 TACHE-05) : a cote des niveaux, pas sous Assets/ -- un plan est une
     // donnee de niveau, jamais un asset reutilisable.
     _renderer.setPlanesDirectory(executableDirectory() / "Levels" / "Plans");
+    // Mode de jeu par defaut (LOT-05) : l'exploration, seul mode existant. Pose AVANT le
+    // chargement, pour que son onLoad() voie un niveau pret.
+    _mode = std::make_unique<ExplorationMode>();
     loadLevel(std::move(level));
+    _mode->onLoad(*this);
 }
 
 // (Re)construit la scene pour un niveau deja charge et valide : monde neuf + grille + personnage
@@ -228,6 +235,19 @@ void GameSession::loadLevel(core::Level level) {
     spawnPlayer(levelRef.entry());
     HMI_LOG_INFO("Niveau charge : " + levelRef.name() + " (" + std::to_string(_levelWidth) + "x" +
                  std::to_string(_levelHeight) + ")");
+}
+
+void GameSession::setGameMode(std::unique_ptr<IGameMode> mode) {
+    if (!mode) {
+        // Une session sans mode n'aurait plus d'ordre de passes du tout : on garde le mode
+        // courant plutot que de se retrouver sans (EX-NFR-040).
+        HMI_LOG_WARNING("Mode de jeu nul refuse : le mode courant est conserve");
+        return;
+    }
+    _mode->onUnload(*this);
+    _mode = std::move(mode);
+    _mode->onLoad(*this);
+    HMI_LOG_INFO("Mode de jeu : " + std::string(_mode->name()));
 }
 
 void GameSession::reload() {
@@ -609,38 +629,43 @@ core::LevelOutcome GameSession::update(const core::PlayerInput& intent, float fi
     if (!_level) {
         return core::LevelOutcome::Playing;  // chargement echoue : rien a simuler (etat neutre)
     }
+    // L'ORDRE des passes appartient au mode, jamais a la session (LOT-05, EX-ARCH-002) : ici, plus
+    // aucun choix -- ni sequence codee en dur, ni `if (mode == ...)`, seulement une delegation.
+    return _mode->step(*this, intent, fixedDelta);
+}
 
-    // 0. Interpolation (EX-ARCH-031) : fige la position COURANTE de chaque entite mobile comme sa
-    //    position "precedente" AVANT que ce pas ne la modifie (voir render()).
-    snapshotPreviousPositions();
+// --- Passes du pas fixe (hmi::IGameModePasses) --------------------------------------------------
+//
+// Chacune ne fait que ce que son nom dit. Le corps qu'elles se partagent est exactement celui que
+// GameSession::update enchainait avant le LOT-05, decoupe sans rien y changer.
 
-    // 0bis. Particules (LOT-53 TACHE-01/02) : avance celles emises aux pas precedents AVANT que
-    // ce pas n'en emette de nouvelles (age puis emet, jamais l'inverse).
+void GameSession::advanceParticles(float fixedDelta) {
     _particles.update(_world, fixedDelta);
-    // 0ter. Secousse d'ecran (LOT-53 TACHE-03) : decroissance au pas fixe, comme les particules.
-    advanceScreenShake(_screenShake, fixedDelta);
+}
 
-    // 1. Deplacement du personnage.
-    //
-    // LOT-01 : le contrôleur de plateforme (core::CharacterPhysicsSystem) a ete retire avec le
+void GameSession::advanceScreenShake(float fixedDelta) {
+    hmi::advanceScreenShake(_screenShake, fixedDelta);
+}
+
+void GameSession::moveCharacter(const core::PlayerInput& input, float fixedDelta) {
+    // LOT-01 : le controleur de plateforme (core::CharacterPhysicsSystem) a ete retire avec le
     // gameplay en vue de cote, et son remplacant top-down (core::TopDownMovementSystem, 8
     // directions au-dessus de core::sweepAabb) arrive au LOT-06. Entre les deux, le personnage ne
     // se deplace pas : la session charge, affiche et evalue un tableau, mais ne le joue pas encore.
     // L'intention d'entree est donc lue sans etre consommee -- elle le sera telle quelle des que le
     // systeme de deplacement existera, sans changer ni cette signature ni l'ordre des passes.
-    (void)intent;
+    (void)input;
+    (void)fixedDelta;
+}
 
-    // 2. Animation (EX-REN-012) et tuiles animees (LOT-46 TACHE-05) : meme pas fixe que tout ce qui
+void GameSession::advanceAnimations(float fixedDelta) {
+    // Animation (EX-REN-012) et tuiles animees (LOT-46 TACHE-05) : meme pas fixe que tout ce qui
     // precede, jamais le rythme du rendu (EX-NFR-002).
     _animation.update(_world, fixedDelta);
     updateTileAnimations(fixedDelta);
+}
 
-    // 3. Boite du personnage apres deplacement.
-    const core::Transform& transform = _world.getComponent<core::Transform>(_player);
-    const core::Collider& collider = _world.getComponent<core::Collider>(_player);
-    const core::Aabb box = core::Aabb::fromTopLeftSize(transform.position, collider.size);
-
-    // 3bis. Camera : selon le mode de cadrage resolu du niveau (LOT-64).
+void GameSession::updateCamera(float fixedDelta) {
     switch (_cameraFraming.mode) {
         case core::CameraFramingMode::WholeLevel:
             break;
@@ -655,14 +680,24 @@ core::LevelOutcome GameSession::update(const core::PlayerInput& intent, float fi
             updateFollowCamera(fixedDelta);
             break;
     }
+}
 
-    // 4. Mecanismes : contact interrupteurs (front) / poids sur plaque (continu) -> etat des
-    // portes. La liste de poids est vide : les blocs poussables reviendront avec leur controleur
-    // top-down, seul le personnage pese aujourd'hui sur une plaque.
+core::Aabb GameSession::playerBox() {
+    const core::Transform& transform = _world.getComponent<core::Transform>(_player);
+    const core::Collider& collider = _world.getComponent<core::Collider>(_player);
+    return core::Aabb::fromTopLeftSize(transform.position, collider.size);
+}
+
+void GameSession::updateMechanisms(const core::PlayerInput& input) {
+    // Contact interrupteurs (front) / poids sur plaque (continu) -> etat des portes. La liste de
+    // poids est vide : les blocs poussables reviendront avec leur controleur top-down, seul le
+    // personnage pese aujourd'hui sur une plaque.
     const float playerMass = _world.getComponent<core::Player>(_player).mass;
-    _mechanisms->update(box, playerMass, intent.interactPressed, {});
+    _mechanisms->update(playerBox(), playerMass, input.interactPressed, {});
+}
 
-    // 4a. Detection d'evenements (LOT-60 TACHE-03) : mecanismes a jour, une seule fois par pas fixe
+void GameSession::detectEvents() {
+    // Detection d'evenements (LOT-60 TACHE-03) : mecanismes a jour, une seule fois par pas fixe
     // (jamais par image de rendu, EX-REN-021).
     const PlayerEventState currentPlayerEventState =
         PlayerEventState::capture(_world.getComponent<core::Player>(_player));
@@ -690,28 +725,26 @@ core::LevelOutcome GameSession::update(const core::PlayerInput& intent, float fi
     }
     _previousPlayerEventState = currentPlayerEventState;
     _previousMechanismEventState = currentMechanismEventState;
+}
 
-    // 4ter. Apparence des mecanismes pilotee par l'etat logique (LOT-47, EX-REN-006), au meme pas
-    // fixe que tout ce qui precede (la simulation, elle, n'en depend jamais).
-    updateMechanismVisuals(fixedDelta);
-
-    // 5. Issue du niveau. Sur echec : rechargement complet depuis le Level en memoire. Sur
-    // reussite : l'appelant decide (enchainer, revenir au menu, terminer un essai...).
+core::LevelOutcome GameSession::evaluateOutcome() {
     const core::LevelOutcome outcome =
-        core::evaluateOutcome(box, *_level, collectActiveDangerBoxes());
-    // Evenement d'issue (LOT-60 TACHE-03) : calcule et memorise AVANT reload(), qui remet le
+        core::evaluateOutcome(playerBox(), *_level, collectActiveDangerBoxes());
+    // Evenement d'issue (LOT-60 TACHE-03) : pousse ICI, avant que onLevelLost() ne remette le
     // personnage et les mecanismes a l'etat d'entree -- apres, "Died" ne serait plus observable.
     if (const std::optional<GameEvent> outcomeEvent = detectOutcomeEvent(outcome)) {
         _lastStepEvents.push_back(*outcomeEvent);
     }
-    if (outcome == core::LevelOutcome::Lost) {
-        // Eclatement a la mort (LOT-53 TACHE-02) : emis AVANT reload(), pour la meme raison que
-        // l'evenement Died ci-dessus.
-        _particles.emitDeath(_world, (box.min + box.max) * 0.5f);
-        triggerScreenShake(_screenShake, DEATH_SHAKE_AMPLITUDE_PIXELS, SCREEN_SHAKE_DURATION);
-        reload();
-    }
     return outcome;
+}
+
+void GameSession::onLevelLost() {
+    // Eclatement a la mort (LOT-53 TACHE-02) : emis AVANT reload(), qui remet le personnage a
+    // l'entree -- apres, l'eclatement partirait du point d'apparition.
+    const core::Aabb box = playerBox();
+    _particles.emitDeath(_world, (box.min + box.max) * 0.5f);
+    triggerScreenShake(_screenShake, DEATH_SHAKE_AMPLITUDE_PIXELS, SCREEN_SHAKE_DURATION);
+    reload();
 }
 
 // Dessine le niveau charge (rien si le chargement a echoue : l'appelant gere l'affichage d'erreur).

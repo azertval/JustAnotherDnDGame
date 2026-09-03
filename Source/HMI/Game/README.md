@@ -2,6 +2,12 @@
 
 Le **jeu** dans l'application Qt : la simulation d'un niveau et le viewport qui l'affiche.
 
+- `IGameMode` / `IGameModePasses` — l'**ordre des passes** d'un pas fixe, séparé de
+  l'orchestrateur (`EX-ARCH-002`, `LOT-05`) : `IGameModePasses` nomme les passes que la session
+  offre, `IGameMode` décide de leur enchaînement. Interface sans Qt ni GPU, donc testable sans
+  fenêtre.
+- `ExplorationMode` — le mode par défaut : déplacement, animations, caméra, mécanismes, issue.
+  Sans état, extrait à comportement constant de `GameSession::update`.
 - `GameSession` — simule et rend **un seul niveau** (déjà validé, en mémoire), sans dépendance
   d'écran. `update()` avance d'un **pas fixe** et renvoie l'issue (`core::LevelOutcome`, rechargement
   interne sur échec) ; `render()` dessine via `hmi::SpriteRenderer` avec interpolation

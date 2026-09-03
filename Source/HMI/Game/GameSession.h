@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <memory>
 #include <optional>
 #include <set>
 #include <string>
@@ -20,6 +21,7 @@
 #include "Core/Physics/Aabb.h"
 #include "Core/Physics/PlayerInput.h"
 #include "HMI/Game/GameEvents.h"
+#include "HMI/Game/IGameMode.h"
 #include "HMI/Graphics/Camera2D.h"
 #include "HMI/Graphics/CameraZones.h"
 #include "HMI/Graphics/FollowCamera.h"
@@ -58,7 +60,7 @@ class Localization;
  * interpolation (`EX-ARCH-031`). Un échec de chargement est **récupérable** (`EX-NFR-040`) : la
  * session reste dans un état neutre, `loaded()` est faux et `loadError()` renseigné.
  */
-class GameSession {
+class GameSession : private IGameModePasses {
 public:
     /**
      * @brief Construit la session et charge la scène du niveau donné.
@@ -157,14 +159,48 @@ public:
         return _renderer.lastScene().statistics();
     }
 
+    /**
+     * @brief Remplace le mode de jeu courant (`EX-ARCH-002`).
+     *
+     * Le mode sortant reçoit `onUnload`, l'entrant `onLoad` — dans cet ordre, pour qu'un mode
+     * puisse défaire ce qu'il avait posé avant que le suivant ne pose le sien. Un pointeur nul est
+     * refusé sans rien changer : une session sans mode n'aurait plus d'ordre de passes du tout
+     * (`EX-NFR-040`).
+     * @param mode Nouveau mode (la session en prend possession).
+     */
+    void setGameMode(std::unique_ptr<IGameMode> mode);
+
+    /// @return Le mode de jeu courant, jamais nul.
+    [[nodiscard]] const IGameMode& gameMode() const noexcept {
+        return *_mode;
+    }
+
 private:
+    // --- Passes du pas fixe (hmi::IGameModePasses, LOT-05) ---
+    //
+    // Heritage PRIVE : ces passes sont offertes au mode de jeu, pas a l'appelant de la session.
+    // Elles ne font chacune que ce que leur nom dit, et aucune ne decide de ce qui vient apres --
+    // c'est tout l'objet de la separation (EX-ARCH-002).
+    void snapshotPreviousPositions() override;
+    void advanceParticles(float fixedDelta) override;
+    void advanceScreenShake(float fixedDelta) override;
+    void moveCharacter(const core::PlayerInput& input, float fixedDelta) override;
+    void advanceAnimations(float fixedDelta) override;
+    void updateCamera(float fixedDelta) override;
+    void updateMechanisms(const core::PlayerInput& input) override;
+    void detectEvents() override;
+    void updateMechanismVisuals(float fixedDelta) override;
+    [[nodiscard]] core::LevelOutcome evaluateOutcome() override;
+    void onLevelLost() override;
+
+    /// @return La boîte du personnage à l'instant présent, relue de l'ECS. Recalculée par chaque
+    /// passe qui en a besoin plutôt que passée de l'une à l'autre : aucune passe située entre
+    /// elles ne déplace le personnage, et un état partagé de plus entre passes rendrait leur ordre
+    /// bien plus difficile à changer — ce que ce lot cherche précisément à rendre facile.
+    [[nodiscard]] core::Aabb playerBox();
+
     void loadLevel(core::Level level);
     void spawnPlayer(core::GridPosition entry);
-    void snapshotPreviousPositions();
-    /// Apparence des mécanismes pilotée par leur état logique (`LOT-47`, `EX-REN-006`) : projette
-    /// l'état de chaque mécanisme suivi sur un clip (correspondance + transitions), au **pas fixe**
-    /// — la simulation n'en dépend jamais, seule l'apparence en résulte (`EX-ARCH-012`).
-    void updateMechanismVisuals(float fixedDelta);
     /// Applique la correspondance état → clip à **une** entité-tuile de mécanisme : résout l'asset
     /// effectivement lié (via le point de résolution unique `hmi::resolveTileAppearance`, jamais
     /// dupliqué ici), avance son horloge propre et écrit l'image courante sur son `TileSkinTag`
@@ -294,6 +330,10 @@ private:
     // Détection d'événements (LOT-60 TACHE-03) : snapshots du pas précédent, pour ne diffuser une
     // transition qu'au pas où elle a réellement lieu (même discipline que MechanismVisualState
     // ci-dessus -- previousXxx/initialized).
+    /// Mode de jeu courant (`LOT-05`) : l'ordre des passes du pas fixe. Jamais nul — la session
+    /// démarre en exploration, et `setGameMode` refuse un pointeur nul.
+    std::unique_ptr<IGameMode> _mode;
+
     PlayerEventState _previousPlayerEventState;
     MechanismEventState _previousMechanismEventState;
     bool _gameEventsInitialized = false;

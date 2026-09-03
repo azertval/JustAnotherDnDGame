@@ -8,6 +8,16 @@
 ## 1. Modules & dépendances
 - `Core` (simulation, indépendant du système), `HMI` (fenêtre, rendu, entrées, éditeur), `Elements` (assets), `Test`.
 - \anchor EX-ARCH-001 **EX-ARCH-001** — Le sens des dépendances est `HMI → Core`, jamais l'inverse. `Core` est testable sans fenêtre ni GPU.
+- \anchor EX-ARCH-002 **EX-ARCH-002** — L'**ordre des passes** d'un pas fixe est une donnée
+  du **mode de jeu**, jamais de l'orchestrateur. Un RPG en a au moins trois — exploration
+  (déplacement, animation, caméra, mécanismes, issue), dialogue (monde gelé, seul le runner de
+  dialogue avance), combat (initiative, tour actif, résolution d'action) — et les entasser en `if`
+  dans la boucle de session ferait grossir sans fin une fonction déjà longue. L'orchestrateur garde
+  ce qui ne dépend pas du mode (monde ECS, caméra, événements, HUD, pas fixe, interpolation) et
+  **offre** ses passes ; le mode décide seul de leur enchaînement, et la sélection se fait par
+  **polymorphisme**, jamais par un test de type. L'interface des passes ne parle que de `Core` :
+  un mode se vérifie donc sans fenêtre, quand son orchestrateur, lui, exige un GPU. Concrétisé en
+  `LOT-05`.
 
 ## 2. Modèle d'entités : ECS
 Choix retenu : **ECS complet**, hébergé dans `Core`. Assumé plus lourd, justifié par le grand nombre de types d'objets manipulables visés (dont décors dynamiques, cf. §11).
