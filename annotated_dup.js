@@ -37,6 +37,7 @@ var annotated_dup =
       [ "GridPosition", "structcore_1_1GridPosition.html", "structcore_1_1GridPosition" ],
       [ "Mechanism", "structcore_1_1Mechanism.html", "structcore_1_1Mechanism" ],
       [ "TileTextureOverride", "structcore_1_1TileTextureOverride.html", "structcore_1_1TileTextureOverride" ],
+      [ "LevelData", "structcore_1_1LevelData.html", "structcore_1_1LevelData" ],
       [ "Level", "classcore_1_1Level.html", "classcore_1_1Level" ],
       [ "LevelDraft", "classcore_1_1LevelDraft.html", "classcore_1_1LevelDraft" ],
       [ "LevelLoadResult", "structcore_1_1LevelLoadResult.html", "structcore_1_1LevelLoadResult" ],

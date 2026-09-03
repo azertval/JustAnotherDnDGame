@@ -1,5 +1,6 @@
 var NAVTREEINDEX20 =
 {
+"namespacehmi.html#aad6be73525ade97eef38c10c8ba51be7ab1ca34f82e83c52b010f86955f264e05":[11,0,1,196,1],
 "namespacehmi.html#aadfbb57622e1e177b3c41c9ba011779b":[11,0,1,359],
 "namespacehmi.html#aaebc5001a9e15748fcf70eac997f48c6":[11,0,1,255],
 "namespacehmi.html#aaec3ea44878dd72a447a29150231ddba":[11,0,1,302],
@@ -248,6 +249,5 @@ var NAVTREEINDEX20 =
 "spec-architecture.html#autotoc_md250":[6,10,2],
 "spec-architecture.html#autotoc_md251":[6,10,3],
 "spec-architecture.html#autotoc_md252":[6,10,4],
-"spec-architecture.html#autotoc_md253":[6,10,5],
-"spec-architecture.html#autotoc_md254":[6,10,6]
+"spec-architecture.html#autotoc_md253":[6,10,5]
 };

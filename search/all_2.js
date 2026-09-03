@@ -6,7 +6,7 @@ var searchData=
   ['2_200_3',['LOT-28 — Audio, effets et version `0.2.0`',['../lot-28.html',1,'lots']]],
   ['2_20actions_20du_20jeu_20mapping_20logique_4',['2. Actions du jeu (mapping logique)',['../spec-controles.html#autotoc_md261',1,'']]],
   ['2_20architecture_20maintenabilité_5',['2. Architecture &amp;amp; maintenabilité',['../spec-exigences.html#autotoc_md305',1,'']]],
-  ['2_20lancer_20l_20éditeur_6',['2. Lancer l&apos;éditeur',['../manuel-partager-niveau.html#autotoc_md546',1,'']]],
+  ['2_20lancer_20l_20éditeur_6',['2. Lancer l&apos;éditeur',['../manuel-partager-niveau.html#autotoc_md547',1,'']]],
   ['2_20modèle_20d_20entités_20_3a_20ecs_7',['2. Modèle d&apos;entités : ECS',['../spec-architecture.html#autotoc_md249',1,'']]],
   ['2_20nommage_8',['2. Nommage',['../spec-conventions.html#autotoc_md266',1,'']]],
   ['2_20personnage_20déplacement_9',['2. Personnage &amp;amp; déplacement',['../spec-gameplay.html#autotoc_md313',1,'']]],

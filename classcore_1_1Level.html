@@ -93,15 +93,12 @@ $(function(){initNavTree('classcore_1_1Level.html','','classcore_1_1Level-member
 </div><!--header-->
 <div class="contents">
 
-<p>Niveau complet en mémoire : nom, grille de tuiles, entrée/sortie et mécanismes.  
- <a href="#details">More...</a></p>
-
 <p><code>#include &lt;<a class="el" href="Level_8h_source.html">Level.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a5e201ac683a74c2a32522e224bb9fc7e" id="r_a5e201ac683a74c2a32522e224bb9fc7e"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a5e201ac683a74c2a32522e224bb9fc7e">Level</a> (std::string <a class="el" href="#a5980749eacb886074a65f8e06f51fb59">name</a>, <a class="el" href="classcore_1_1TileMap.html">TileMap</a> <a class="el" href="#af42df8d6a33bdaa7aedf5b2aafd728ef">tileMap</a>, <a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> <a class="el" href="#a08c4420372462d6e7991956902906da5">entry</a>, <a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> <a class="el" href="#a48013f02f41e85d8928b0e2412486273">exit</a>, std::vector&lt; <a class="el" href="structcore_1_1Mechanism.html">Mechanism</a> &gt; <a class="el" href="#a2a38db06b24c085d46e05e4d02a66e09">mechanisms</a>, std::optional&lt; std::string &gt; <a class="el" href="#a8eb90b383f0aa69b2674aea4c416681f">background</a>=std::nullopt, std::optional&lt; std::string &gt; <a class="el" href="#a8d161da24a222053000c9ec45669dfc2">skinSet</a>=std::nullopt, std::vector&lt; <a class="el" href="structcore_1_1TileTextureOverride.html">TileTextureOverride</a> &gt; <a class="el" href="#aa562b98400ba2c32e4d0a130c2f8c6e1">textureOverrides</a>={}, <a class="el" href="structcore_1_1CameraFramingConfig.html">CameraFramingConfig</a> <a class="el" href="#a8d56f4ba26c846f832b6490994908cdf">cameraFraming</a>={}, std::vector&lt; <a class="el" href="structcore_1_1Plane.html">Plane</a> &gt; <a class="el" href="#ad64b564a49caeefb231e00256378d5df">planes</a>={}, bool <a class="el" href="#aa8d9500afd49d956c042b89d70ab5d29">parallaxEnabled</a>=true)</td></tr>
-<tr class="memdesc:a5e201ac683a74c2a32522e224bb9fc7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construit un niveau à partir de ses composantes.  <br /></td></tr>
+<tr class="memitem:ae6faff5815b1f2b4b2c8434b76b6b40e" id="r_ae6faff5815b1f2b4b2c8434b76b6b40e"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#ae6faff5815b1f2b4b2c8434b76b6b40e">Level</a> (<a class="el" href="structcore_1_1LevelData.html">LevelData</a> data)</td></tr>
+<tr class="memdesc:ae6faff5815b1f2b4b2c8434b76b6b40e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construit un niveau à partir de ses composantes nommées.  <br /></td></tr>
 <tr class="memitem:a5980749eacb886074a65f8e06f51fb59" id="r_a5980749eacb886074a65f8e06f51fb59"><td class="memItemLeft">const std::string &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a5980749eacb886074a65f8e06f51fb59">name</a> () const noexcept</td></tr>
 <tr class="memitem:af42df8d6a33bdaa7aedf5b2aafd728ef" id="r_af42df8d6a33bdaa7aedf5b2aafd728ef"><td class="memItemLeft">const <a class="el" href="classcore_1_1TileMap.html">TileMap</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#af42df8d6a33bdaa7aedf5b2aafd728ef">tileMap</a> () const noexcept</td></tr>
 <tr class="memitem:a08c4420372462d6e7991956902906da5" id="r_a08c4420372462d6e7991956902906da5"><td class="memItemLeft"><a class="el" href="structcore_1_1GridPosition.html">GridPosition</a>&#160;</td><td class="memItemRight"><a class="el" href="#a08c4420372462d6e7991956902906da5">entry</a> () const noexcept</td></tr>
@@ -128,12 +125,9 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:abd7fed21fbb3953056a09a1b4160a5dc" id="r_abd7fed21fbb3953056a09a1b4160a5dc"><td class="memItemLeft">std::vector&lt; <a class="el" href="structcore_1_1Plane.html">Plane</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#abd7fed21fbb3953056a09a1b4160a5dc">_planes</a></td></tr>
 <tr class="memitem:a79ee9eb259b0c62070825489e19b1793" id="r_a79ee9eb259b0c62070825489e19b1793"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a79ee9eb259b0c62070825489e19b1793">_parallaxEnabled</a> = true</td></tr>
 </table>
-<a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Niveau complet en mémoire : nom, grille de tuiles, entrée/sortie et mécanismes. </p>
-<p>Assemblé par le chargeur (après parsing et validation) puis lu par le rendu et, à terme, le gameplay. Donnée pure (<span class="tt">EX-ARCH-011</span>, <span class="tt">EX-LVL-002</span>) : aucune dépendance rendu ni fichier. </p>
-</div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a5e201ac683a74c2a32522e224bb9fc7e" name="a5e201ac683a74c2a32522e224bb9fc7e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5e201ac683a74c2a32522e224bb9fc7e">&#9670;&#160;</a></span>Level()</h2>
+<a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="ae6faff5815b1f2b4b2c8434b76b6b40e" name="ae6faff5815b1f2b4b2c8434b76b6b40e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae6faff5815b1f2b4b2c8434b76b6b40e">&#9670;&#160;</a></span>Level()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -144,84 +138,24 @@ Private Attributes</h2></td></tr>
         <tr>
           <td class="memname">core::Level::Level </td>
           <td>(</td>
-          <td class="paramtype">std::string</td>          <td class="paramname"><span class="paramname"><em>name</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramtype"><a class="el" href="structcore_1_1LevelData.html">LevelData</a></td>          <td class="paramname"><span class="paramname"><em>data</em></span></td><td>)</td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classcore_1_1TileMap.html">TileMap</a></td>          <td class="paramname"><span class="paramname"><em>tileMap</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="structcore_1_1GridPosition.html">GridPosition</a></td>          <td class="paramname"><span class="paramname"><em>entry</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="structcore_1_1GridPosition.html">GridPosition</a></td>          <td class="paramname"><span class="paramname"><em>exit</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::vector&lt; <a class="el" href="structcore_1_1Mechanism.html">Mechanism</a> &gt;</td>          <td class="paramname"><span class="paramname"><em>mechanisms</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::optional&lt; std::string &gt;</td>          <td class="paramname"><span class="paramname"><em>background</em></span><span class="paramdefsep"> = </span><span class="paramdefval">std::nullopt</span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::optional&lt; std::string &gt;</td>          <td class="paramname"><span class="paramname"><em>skinSet</em></span><span class="paramdefsep"> = </span><span class="paramdefval">std::nullopt</span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::vector&lt; <a class="el" href="structcore_1_1TileTextureOverride.html">TileTextureOverride</a> &gt;</td>          <td class="paramname"><span class="paramname"><em>textureOverrides</em></span><span class="paramdefsep"> = </span><span class="paramdefval">{}</span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="structcore_1_1CameraFramingConfig.html">CameraFramingConfig</a></td>          <td class="paramname"><span class="paramname"><em>cameraFraming</em></span><span class="paramdefsep"> = </span><span class="paramdefval">{}</span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::vector&lt; <a class="el" href="structcore_1_1Plane.html">Plane</a> &gt;</td>          <td class="paramname"><span class="paramname"><em>planes</em></span><span class="paramdefsep"> = </span><span class="paramdefval">{}</span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>parallaxEnabled</em></span><span class="paramdefsep"> = </span><span class="paramdefval">true</span>&#160;)</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel explicit">explicit</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Construit un niveau à partir de ses composantes. </p>
+<p>Construit un niveau à partir de ses composantes nommées. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname"><a class="el" href="#a5980749eacb886074a65f8e06f51fb59">name</a></td><td>Nom du niveau. </td></tr>
-    <tr><td class="paramname"><a class="el" href="#af42df8d6a33bdaa7aedf5b2aafd728ef">tileMap</a></td><td>Grille de tuiles typées (déplacée). </td></tr>
-    <tr><td class="paramname"><a class="el" href="#a08c4420372462d6e7991956902906da5">entry</a></td><td>Position d'apparition (case <span class="tt">Entry</span>). </td></tr>
-    <tr><td class="paramname"><a class="el" href="#a48013f02f41e85d8928b0e2412486273">exit</a></td><td>Position de sortie (case <span class="tt">Exit</span>). </td></tr>
-    <tr><td class="paramname"><a class="el" href="#a2a38db06b24c085d46e05e4d02a66e09">mechanisms</a></td><td>Liaisons interrupteur↔porte résolues. </td></tr>
-    <tr><td class="paramname"><a class="el" href="#a8eb90b383f0aa69b2674aea4c416681f">background</a></td><td>Nom de l'asset de fond du niveau (<span class="tt">EX-REN-044</span>), vide si aucun. Une chaîne, jamais un handle de texture : <span class="tt">Core</span> ignore tout du rendu. </td></tr>
-    <tr><td class="paramname"><a class="el" href="#a8d161da24a222053000c9ec45669dfc2">skinSet</a></td><td>Nom du jeu de skins du niveau (<span class="tt">EX-EDIT-024</span>), vide pour le jeu par défaut. </td></tr>
-    <tr><td class="paramname"><a class="el" href="#aa562b98400ba2c32e4d0a130c2f8c6e1">textureOverrides</a></td><td>Textures assignées par instance (<span class="tt">EX-EDIT-043</span>), prioritaires sur le skin de leur type. </td></tr>
-    <tr><td class="paramname"><a class="el" href="#a8d56f4ba26c846f832b6490994908cdf">cameraFraming</a></td><td>Cadrage de caméra <b>résolu</b> du niveau (<span class="tt">EX-LVL-006</span>, LOT-64) : déjà passé par <span class="tt"><a class="el" href="namespacecore.html#ac4655b6e996ba6d305c643f5f7d8e156" title="Résout le cadrage effectif d&#39;un niveau à partir du champ déclaré (peut être absent).">resolveCameraFraming</a></span> côté chargeur, jamais un champ brut "peut-être absent" &ndash; valeur par défaut (<span class="tt">WholeLevel</span>) légitime pour un niveau construit directement (hors <span class="tt"><a class="el" href="classcore_1_1LevelLoader.html" title="Charge un niveau au format JSON (objet {name, width, height, tiles} où tiles est une liste d&#39;objets {...">LevelLoader</a></span>), cohérente avec un petit niveau qui tient dans une salle. </td></tr>
-    <tr><td class="paramname"><a class="el" href="#ad64b564a49caeefb231e00256378d5df">planes</a></td><td>Plans picturaux du niveau (<span class="tt">EX-DEC-040</span>, LOT-69), dans leur ordre de superposition. </td></tr>
-    <tr><td class="paramname"><a class="el" href="#aa8d9500afd49d956c042b89d70ab5d29">parallaxEnabled</a></td><td><span class="tt">true</span> si la parallaxe des plans s'applique (<span class="tt">EX-DEC-043</span>) ; le mode de cadrage peut la neutraliser par-dessus ce drapeau.</td></tr>
+    <tr><td class="paramname">data</td><td>Composantes du niveau (déplacées). </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section note"><dt>Note</dt><dd>Ce constructeur comptait <b>19 paramètres</b> ; le <span class="tt">LOT-01</span> en a retiré huit avec le gameplay de plateforme (liaisons de danger, dangers mobiles et temporisés, plateformes mobiles, budgets de saut et de dash). La dette d'un agrégat <span class="tt">LevelData</span> reste actée : elle est soldée par le <span class="tt">LOT-03</span>, avant que le RPG n'ajoute ses propres champs. </dd></dl>
 
 </div>
 </div>
@@ -274,7 +208,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>Le cadrage de caméra <b>résolu</b> du niveau (<span class="tt">EX-LVL-006</span>), jamais un champ optionnel "peut-être absent" : la règle de repli (<span class="tt"><a class="el" href="namespacecore.html#ac4655b6e996ba6d305c643f5f7d8e156" title="Résout le cadrage effectif d&#39;un niveau à partir du champ déclaré (peut être absent).">resolveCameraFraming</a></span>) a déjà été appliquée par le chargeur avant de construire ce <span class="tt"><a class="el" href="classcore_1_1Level.html" title="Niveau complet en mémoire : nom, grille de tuiles, entrée/sortie et mécanismes.">Level</a></span>. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Le cadrage de caméra <b>résolu</b> du niveau (<span class="tt">EX-LVL-006</span>), jamais un champ optionnel "peut-être absent" : la règle de repli (<span class="tt"><a class="el" href="namespacecore.html#ac4655b6e996ba6d305c643f5f7d8e156" title="Résout le cadrage effectif d&#39;un niveau à partir du champ déclaré (peut être absent).">resolveCameraFraming</a></span>) a déjà été appliquée par le chargeur avant de construire ce <span class="tt"><a class="el" href="classcore_1_1Level.html">Level</a></span>. </dd></dl>
 
 </div>
 </div>

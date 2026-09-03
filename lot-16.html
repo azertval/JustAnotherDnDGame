@@ -96,10 +96,10 @@ $(function(){initNavTree('lot-16.html','',''); });
 <blockquote class="doxtable">
 <p>Statut : <b>à faire</b>. Prérequis : <a class="el" href="lot-15.html" title="LOT-15 — PNJ et dialogues">LOT-15</a> (les dialogues déclenchent et font avancer les quêtes). </p>
 </blockquote>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md445"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md446"></a>
 Objectif</h1>
 <p>Suivre l'avancement du joueur par des <b>drapeaux persistants</b>, et en donner une lecture dans un journal de quêtes.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md446"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md447"></a>
 Périmètre</h1>
 <ul>
 <li><span class="tt">Source/Core/Rpg/WorldFlags.{h,cpp}</span> : ensemble de drapeaux nommés, posés et lus par les dialogues, les entités de carte et les rencontres. C'est le <b>substrat</b> : coffre déjà ouvert (<span class="tt">LOT-10</span>), ennemi vaincu (<span class="tt">LOT-18</span>), PNJ déjà rencontré.</li>
@@ -107,13 +107,13 @@ Périmètre</h1>
 <li>Journal de quêtes (contenu ; l'écran vient au <span class="tt">LOT-24</span> ou avec l'IHM RPG).</li>
 <li>Persistance dans <span class="tt">SaveGame</span> (<span class="tt">LOT-17</span>).</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md447"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md448"></a>
 Note de conception</h1>
 <p>Les drapeaux de monde et les quêtes sont deux niveaux du même mécanisme : une quête <b>lit</b> des drapeaux pour décider de son avancement, elle n'a pas d'état propre au-delà de son étape courante. Cette séparation évite le piège classique où l'état du monde existe en double — une fois dans les entités, une fois dans les quêtes — et diverge.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md448"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md449"></a>
 Exigences couvertes</h1>
 <p><span class="tt">EX-RPG-*</span>.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md449"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md450"></a>
 Critères d'acceptation</h1>
 <ul>
 <li>Une quête à trois étapes se déclenche, progresse et se termine.</li>

@@ -96,27 +96,27 @@ $(function(){initNavTree('lot-19.html','',''); });
 <blockquote class="doxtable">
 <p>Statut : <b>à faire</b>. Prérequis : <a class="el" href="lot-18.html" title="LOT-18 — Bascule exploration ↔ combat">LOT-18</a>. </p>
 </blockquote>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md462"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md463"></a>
 Objectif</h1>
 <p>Poser la grille de combat, l'occupation des cases, et le calcul du déplacement par budget.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md463"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md464"></a>
 Ce qui existe déjà — à ne pas réécrire</h1>
 <p><b><span class="tt"><a class="el" href="classcore_1_1GridDistanceField.html" title="Distance de plus court chemin en nombre de cases (4-connexité, respectant les cases statiquement soli...">core::GridDistanceField</a></span></b> (<span class="tt"><a class="el" href="GridDistanceField_8h.html" title="Champ de distances de plus court chemin sur la grille, respectant les murs (amendement LOT-ANNEXE-08,...">Source/Core/World/GridDistanceField.h</a></span>) : champ de distances de plus court chemin sur la grille, BFS 4-voisins <b>multi-source</b>, lectures <span class="tt">O(1)</span>, avec sentinelle d'inatteignabilité. Il vient du solveur d'IA du dépôt d'origine ; le <span class="tt">LOT-01</span> l'a <b>délibérément sauvé</b> de la purge et déplacé dans <span class="tt">Core/World/</span> <b>pour ce lot précis</b>.</p>
 <p>C'est exactement le calcul « quelles cases puis-je atteindre avec ce budget de déplacement ».</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md464"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md465"></a>
 Périmètre</h1>
 <ul>
 <li><span class="tt">Source/Core/Combat/BattleGrid.{h,cpp}</span> : occupation des cases, terrain difficile, obstacles <b>issus de la couche collision</b> du format v3 (<span class="tt">LOT-04</span>).</li>
 <li>Portée de déplacement via <span class="tt">GridDistanceField</span>, budget dérivé de la vitesse de la fiche (<span class="tt">LOT-13</span>), à l'échelle 1 case = 1,5 m figée au <span class="tt">LOT-12</span>.</li>
 <li><span class="tt">Pathfinding.{h,cpp}</span> : A* <b>déterministe</b>, avec départage stable des égalités.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md465"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md466"></a>
 Pourquoi le déterminisme du chemin n'est pas négociable</h1>
 <p>Deux chemins de même coût existent presque toujours sur une grille. Si le départage dépend de l'ordre d'itération d'un conteneur non ordonné, l'IA (<span class="tt">LOT-23</span>) devient irreproductible et <b>aucun test de combat ne tient</b>. Le départage doit être une règle explicite (par exemple : plus petit indice de case), pas un hasard d'implémentation.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md466"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md467"></a>
 Exigences couvertes</h1>
 <p><span class="tt">EX-CBT-*</span> (grille, portée de déplacement, chemin déterministe).</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md467"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md468"></a>
 Critères d'acceptation</h1>
 <ul>
 <li>Même entrée → <b>même chemin</b>, systématiquement.</li>

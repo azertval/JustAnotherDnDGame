@@ -84,6 +84,7 @@ var hierarchy =
     [ "hmi::KeyHint", "structhmi_1_1KeyHint.html", null ],
     [ "hmi::LayerVisibility", "classhmi_1_1LayerVisibility.html", null ],
     [ "core::Level", "classcore_1_1Level.html", null ],
+    [ "core::LevelData", "structcore_1_1LevelData.html", null ],
     [ "core::LevelDraft", "classcore_1_1LevelDraft.html", null ],
     [ "hmi::LevelFileOperations", "classhmi_1_1LevelFileOperations.html", null ],
     [ "core::LevelLoader", "classcore_1_1LevelLoader.html", null ],

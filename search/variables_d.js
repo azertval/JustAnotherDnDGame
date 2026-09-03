@@ -25,7 +25,7 @@ var searchData=
   ['mechanism_5fclip_5fplate_5freleased_22',['MECHANISM_CLIP_PLATE_RELEASED',['../namespacehmi.html#a3539267126754138eae099565325811e',1,'hmi']]],
   ['mechanism_5fclip_5fswitch_5factive_23',['MECHANISM_CLIP_SWITCH_ACTIVE',['../namespacehmi.html#ab23937c0e128070e181891b2a9a7eae1',1,'hmi']]],
   ['mechanism_5fclip_5fswitch_5finactive_24',['MECHANISM_CLIP_SWITCH_INACTIVE',['../namespacehmi.html#a1bb91a4e58e43581cf3acefad414ffd7',1,'hmi']]],
-  ['mechanisms_25',['mechanisms',['../structcore_1_1LevelDraft_1_1State.html#a569e0485b72f648b9dddadbd167e106d',1,'core::LevelDraft::State']]],
+  ['mechanisms_25',['mechanisms',['../structcore_1_1LevelData.html#a24e6de02644165a888f0cbdf3f16d6de',1,'core::LevelData::mechanisms'],['../structcore_1_1LevelDraft_1_1State.html#a569e0485b72f648b9dddadbd167e106d',1,'core::LevelDraft::State::mechanisms']]],
   ['medium_26',['medium',['../structhmi_1_1SpacingTokens.html#ad1e542ff64a29030f7d2a72b81f20796',1,'hmi::SpacingTokens']]],
   ['menubarvisible_27',['menuBarVisible',['../structhmi_1_1ScreenDressing.html#a0679aed35a5f2f6e12715c8f5ede91f6',1,'hmi::ScreenDressing']]],
   ['message_28',['message',['../structcore_1_1MemoryLogSink_1_1Entry.html#aef520f464dacb8a65da8bff02af981cf',1,'core::MemoryLogSink::Entry::message'],['../structhmi_1_1AssetValidation.html#a30635bb3eaa326ad2115eca419848c52',1,'hmi::AssetValidation::message']]],

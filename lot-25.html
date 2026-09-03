@@ -96,10 +96,10 @@ $(function(){initNavTree('lot-25.html','',''); });
 <blockquote class="doxtable">
 <p>Statut : <b>à faire</b>. Prérequis : <a class="el" href="lot-13.html" title="LOT-13 — Fiche de personnage">LOT-13</a>, <a class="el" href="lot-21.html" title="LOT-21 — Attaques, dégâts et états">LOT-21</a>, <a class="el" href="lot-22.html" title="LOT-22 — Portée, ligne de vue et zones d&#39;effet">LOT-22</a>. </p>
 </blockquote>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md495"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md496"></a>
 Objectif</h1>
 <p>Ajouter les sorts — emplacements, incantation, concentration — et les capacités propres aux classes.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md496"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md497"></a>
 Périmètre</h1>
 <ul>
 <li><span class="tt">Source/Core/Rpg/Spell.{h,cpp}</span> : école, niveau, portée, durée, composantes, effet.</li>
@@ -109,13 +109,13 @@ Périmètre</h1>
 <li>Branchement sur les gabarits d'effet de zone du <span class="tt">LOT-22</span> — aucune géométrie nouvelle.</li>
 <li>Effets <b>hors combat</b> aussi : un sort d'utilité en exploration passe par le même catalogue.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md497"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md498"></a>
 Note de conception</h1>
 <p>C'est le lot où la tentation d'écrire des règles en dur est la plus forte, parce que chaque sort a sa particularité. Y céder rend l'équilibrage impossible : un sort qui se règle en recompilant ne se règle pas. Un sort est une <b>donnée</b> ; le C++ ne porte que les <em>mécanismes</em> qu'elle compose (dégâts de zone, jet de sauvegarde, condition appliquée, durée).</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md498"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md499"></a>
 Exigences couvertes</h1>
 <p><span class="tt">EX-DND-*</span>.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md499"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md500"></a>
 Critères d'acceptation</h1>
 <ul>
 <li>Un emplacement consommé est indisponible jusqu'au repos.</li>

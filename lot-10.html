@@ -96,13 +96,13 @@ $(function(){initNavTree('lot-10.html','',''); });
 <blockquote class="doxtable">
 <p>Statut : <b>à faire</b>. Prérequis : <a class="el" href="lot-04.html" title="LOT-04 — Format de carte `version: 3`, multi-couches">LOT-04</a> (couche <span class="tt">objects</span>), <a class="el" href="lot-06.html" title="LOT-06 — Déplacement top-down 8 directions">LOT-06</a> (orientation du personnage), <a class="el" href="lot-08.html" title="LOT-08 — Vocabulaire de tuiles RPG">LOT-08</a>. </p>
 </blockquote>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md412"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md413"></a>
 Objectif</h1>
 <p>Peupler les cartes d'entités qui ne sont <b>pas des tuiles</b> — PNJ, coffres, panneaux, portails, déclencheurs — et permettre au joueur d'interagir avec elles.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md413"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md414"></a>
 Pourquoi des entités et pas des tuiles</h1>
 <p>Une tuile, c'est un type par case et rien d'autre : la grille ne porte aucune métadonnée. Le platformer avait contourné cela avec des vecteurs annexes indexés par position — le <span class="tt">LOT-01</span> en a retiré quatre. Un PNJ a un nom, un dialogue, un inventaire ; un coffre a un contenu et un état « déjà ouvert ». Cela demande une <b>liste d'objets à propriétés</b>, ce que la couche <span class="tt">objects</span> du format v3 fournit.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md414"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md415"></a>
 Périmètre</h1>
 <ul>
 <li>Instanciation ECS depuis la couche <span class="tt">objects</span> (<span class="tt">LevelScene</span>), une entité par objet, avec ses propriétés libres.</li>
@@ -110,13 +110,13 @@ Périmètre</h1>
 <li>Invite visuelle quand une cible est à portée (le joueur doit savoir qu'il <em>peut</em> interagir).</li>
 <li>Coffre : contenu, état consommé. Panneau : texte localisé.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md415"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md416"></a>
 Le piège</h1>
 <p>Un coffre ouvert deux fois ne doit donner son butin <b>qu'une fois</b>, et cet état doit survivre au départ puis au retour sur la carte (<span class="tt">LOT-09</span>) et à la sauvegarde (<span class="tt">LOT-17</span>). C'est un drapeau de monde, pas un booléen local à l'entité rechargée.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md416"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md417"></a>
 Exigences couvertes</h1>
 <p><span class="tt">EX-EXP-*</span> (interaction, portée, priorité de cible), <span class="tt">EX-RPG-*</span> (coffre, panneau).</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md417"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md418"></a>
 Critères d'acceptation</h1>
 <ul>
 <li>Ouvrir un coffre deux fois ne donne le butin qu'une fois, y compris après aller-retour de carte.</li>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.16.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>JustAnotherDnDGame: LOT-27 — Contenu du *vertical slice*</title>
+<title>JustAnotherDnDGame: Member List</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -63,7 +63,7 @@ $(function() {
   </div>
 </div>
 <script type="text/javascript">
-$(function(){initNavTree('lot-27.html','',''); });
+$(function(){initNavTree('structcore_1_1LevelData.html','',''); });
 </script>
 <div id="container">
 <div id="doc-content">
@@ -88,61 +88,30 @@ $(function(){initNavTree('lot-27.html','',''); });
 </div>
 </div>
 
-<div><div class="header">
-  <div class="headertitle"><div class="title">LOT-27 — Contenu du *vertical slice* </div></div>
+<div class="header">
+  <div class="headertitle"><div class="title">core::LevelData Member List</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="md_Lot_2LOT-27-contenu-vertical-slice_2epic"></a></p>
-<blockquote class="doxtable">
-<p>Statut : <b>à faire</b>. Prérequis : phases B, C et D complètes. </p>
-</blockquote>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md506"></a>
-Objectif</h1>
-<p>Produire le contenu jouable qui démontre la boucle entière : <em>« un personnage explore une carte top-down, parle à un PNJ, déclenche une rencontre, gagne un combat tactique au d20 »</em>.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md507"></a>
-Périmètre</h1>
-<ul>
-<li>Un <b>village</b> : quelques bâtiments, trois PNJ, un marchand, un point de départ.</li>
-<li>Un <b>donjon</b> : trois salles, deux rencontres, un coffre gardé.</li>
-<li>Une <b>quête principale</b> reliant les deux, avec dialogues à choix et au moins un jet de compétence.</li>
-<li>Deux types d'<b>ennemis</b> avec des profils d'IA distincts (mêlée agressive, distance prudente).</li>
-<li>Un <b>combat scénarisé</b> déclenché par un dialogue.</li>
-</ul>
-<p>Tout se produit <b>dans l'éditeur</b> (<span class="tt">LOT-11</span>), pas en écrivant du JSON à la main : c'est le test grandeur nature de l'outil, et la preuve qu'un non-développeur pourrait le faire (<span class="tt">EX-VIS-006</span>).</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md508"></a>
-Outillage</h1>
-<p><span class="tt">scripts/check_world_graph.py</span> remplace le <span class="tt">check_demo_sequence.py</span> hérité, retiré au <span class="tt">LOT-01</span>. Il valide, en CI :</p>
-<ul>
-<li>le <b>graphe de cartes</b> : aucun portail orphelin, aucune carte inatteignable ;</li>
-<li>les <b>références de dialogue et de quête</b> : chaque nœud cible, chaque drapeau, chaque récompense existe ;</li>
-<li>que chaque zone de rencontre est un <b>terrain tactique valide</b> (contrainte du <span class="tt">LOT-11</span>, née de la décision « combat sur la carte »).</li>
-</ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md509"></a>
-Exigences couvertes</h1>
-<p><span class="tt">EX-RPG-*</span>, <span class="tt">EX-LVL-*</span>, et concrétisation de <span class="tt">EX-VIS-001</span> à <span class="tt">EX-VIS-005</span>.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md510"></a>
-Critères d'acceptation</h1>
-<ul>
-<li>La boucle complète se joue de bout en bout.</li>
-<li>Un <b>test système</b> la rejoue en headless, du départ à la victoire du combat.</li>
-<li><span class="tt">check_world_graph.py</span> vert.</li>
-<li>Le contenu se recharge après sauvegarde à n'importe quel point de la boucle. </li>
-</ul>
-</div></div><!-- contents -->
-</div><!-- PageDoc -->
+
+<p>This is the complete list of members for <a class="el" href="structcore_1_1LevelData.html">core::LevelData</a>, including all inherited members.</p>
+<table class="directory">
+  <tr class="even"><td class="entry"><a class="el" href="structcore_1_1LevelData.html#a40c9d52e5bbfda271c8aaa17f158cde5">background</a></td><td class="entry"><a class="el" href="structcore_1_1LevelData.html">core::LevelData</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="structcore_1_1LevelData.html#ad0fd393b0ddebc7bb927d6cf0eae8452">cameraFraming</a></td><td class="entry"><a class="el" href="structcore_1_1LevelData.html">core::LevelData</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="structcore_1_1LevelData.html#aae5be5bb53eeb5dc8b02e00fd7af431f">entry</a></td><td class="entry"><a class="el" href="structcore_1_1LevelData.html">core::LevelData</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="structcore_1_1LevelData.html#a4de7478d6d6835f1024213a54f75cff2">exit</a></td><td class="entry"><a class="el" href="structcore_1_1LevelData.html">core::LevelData</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="structcore_1_1LevelData.html#a24e6de02644165a888f0cbdf3f16d6de">mechanisms</a></td><td class="entry"><a class="el" href="structcore_1_1LevelData.html">core::LevelData</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="structcore_1_1LevelData.html#a74f693819cc222aa9748bd56f697e7e6">name</a></td><td class="entry"><a class="el" href="structcore_1_1LevelData.html">core::LevelData</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="structcore_1_1LevelData.html#a0d97ae604a7ac618dddac9c2c00fe57b">parallaxEnabled</a></td><td class="entry"><a class="el" href="structcore_1_1LevelData.html">core::LevelData</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="structcore_1_1LevelData.html#af7fdbc815f3b4b040601ee9e899be684">planes</a></td><td class="entry"><a class="el" href="structcore_1_1LevelData.html">core::LevelData</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="structcore_1_1LevelData.html#a17461cbdb9c1fe321a6611eb6d66cd57">skinSet</a></td><td class="entry"><a class="el" href="structcore_1_1LevelData.html">core::LevelData</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="structcore_1_1LevelData.html#a0a38ffb15aecf48a654c95ccf6afc368">textureOverrides</a></td><td class="entry"><a class="el" href="structcore_1_1LevelData.html">core::LevelData</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="structcore_1_1LevelData.html#ae394a3e921bbab58997043053a45243a">tileMap</a></td><td class="entry"><a class="el" href="structcore_1_1LevelData.html">core::LevelData</a></td><td class="entry"></td></tr>
+</table></div><!-- contents -->
 </div><!-- doc-content -->
-<div id="page-nav" class="page-nav-panel">
-<div id="page-nav-resize-handle"></div>
-<div id="page-nav-tree">
-<div id="page-nav-contents">
-</div><!-- page-nav-contents -->
-</div><!-- page-nav-tree -->
-</div><!-- page-nav -->
 </div><!-- container -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a href="index.html">JustAnotherDnDGame</a></li><li class="navelem"><a href="lots.html">Lots</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.16.1 </li>
   </ul>
 </div>

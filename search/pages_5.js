@@ -9,7 +9,7 @@ var searchData=
   ['5_20mathématiques_20dans_20core_6',['5. Mathématiques dans Core',['../spec-architecture.html#autotoc_md252',1,'']]],
   ['5_20menus_20options_20unification_7',['5. Menus, options, unification',['../spec-interface-ihm.html#autotoc_md329',1,'']]],
   ['5_20non_20objectifs_20éditeur_20mvp_8',['5. Non-objectifs (éditeur, MVP)',['../spec-editeur.html#autotoc_md296',1,'']]],
-  ['5_20récupérer_20les_20niveaux_20des_20autres_9',['5. Récupérer les niveaux des autres',['../manuel-partager-niveau.html#autotoc_md551',1,'']]],
+  ['5_20récupérer_20les_20niveaux_20des_20autres_9',['5. Récupérer les niveaux des autres',['../manuel-partager-niveau.html#autotoc_md552',1,'']]],
   ['5_20robustesse_10',['5. Robustesse',['../spec-exigences.html#autotoc_md308',1,'']]],
   ['51_11',['51',['../guide-rendu.html#autotoc_md222',1,'Isoler un calque pour l&apos;audit : &lt;span class=&quot;tt&quot;&gt;hmi::LayerVisibility&lt;/span&gt; (&lt;span class=&quot;tt&quot;&gt;LOT-51&lt;/span&gt;)'],['../guide-editeur.html#autotoc_md111',1,'Le mode « définition des textures » : auditer les calques sans les confondre avec &lt;span class=&quot;tt&quot;&gt;F8&lt;/span&gt; (&lt;span class=&quot;tt&quot;&gt;LOT-51&lt;/span&gt;)']]],
   ['52_12',['Le texte dans la scène : &lt;span class=&quot;tt&quot;&gt;hmi::BitmapFont&lt;/span&gt; et &lt;span class=&quot;tt&quot;&gt;hmi::TextRenderer&lt;/span&gt; (&lt;span class=&quot;tt&quot;&gt;LOT-52&lt;/span&gt;)',['../guide-rendu.html#autotoc_md231',1,'']]],

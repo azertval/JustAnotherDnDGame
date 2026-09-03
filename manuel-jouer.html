@@ -94,10 +94,10 @@ $(function(){initNavTree('manuel-jouer.html','',''); });
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md_Manuel_2jouer"></a></p>
 <p>Ce guide s'adresse aux <b>joueurs</b> : comment naviguer le menu, contrôler le personnage et comprendre les mécaniques rencontrées dans les niveaux.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md527"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md528"></a>
 Le menu principal</h1>
 <p>Huit entrées, navigables aux flèches <b>↑</b>/**↓** (ou à la souris) et validées par <b>Entrée</b> (ou clic) : <b>Continuer</b> (reprend au tableau atteint ; grisée tant qu'aucune partie n'a été commencée), <b>Nouvelle partie</b> (recommence au premier tableau — demande confirmation si une progression existe, puisqu'elle sera effacée), <b>Choisir un niveau</b> (voir plus bas), <b>Mode Édition</b> (voir <a class="el" href="manuel-partager-niveau.html" title="Créer et partager un niveau (sans ligne de commande)">créer un niveau</a>), <b>Mode IA</b> (voir <a class="el" href="manuel-mode-ia.html" title="Regarder l&#39;IA jouer">regarder l'IA jouer</a>), <b>Options</b>, <b>Crédits</b> (développement et bruitages), <b>Quitter</b>. Un bouton <b>drapeau</b> en bas à droite bascule la langue de l'interface (français/anglais) à tout moment.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md528"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md529"></a>
 Contrôles en jeu</h1>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -122,13 +122,13 @@ Contrôles en jeu</h1>
 <p>Une manette <b>XInput</b> peut être branchée ou débranchée à tout moment ; elle <b>complète</b> le clavier plutôt que de le remplacer (les deux fonctionnent simultanément).</p>
 <p><b>F8</b> bascule entre deux façons de voir le niveau. L'affichage normal montre le niveau <b>habillé</b> — les cases physiques (sol, pentes, blocs) y projettent une ombre légère sur ce qu'il y a derrière elles, pour aider à distinguer d'un coup d'œil ce qui porte de ce qui n'est que décor ; l'autre le montre <b>tel qu'il est réellement construit</b>, chaque case dans une couleur unie selon son rôle — pratique pour comprendre exactement où commence un sol, une pente ou un piège quand un passage résiste. La bascule ne change rien au jeu lui-même : ni la difficulté, ni la position du personnage, ni la progression. Le choix est conservé pour les fois suivantes.</p>
 <p><b>F9</b> affiche, en haut à droite de l'écran, un petit compteur technique : la cadence de rendu (en images par seconde), le nombre de primitives dessinées et le nombre de passes de dessin. Il ne sert qu'à vérifier que le jeu tourne bien à la vitesse attendue ; désactivé par défaut, il n'a aucun effet sur la partie et n'est pas conservé d'une session à l'autre.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md529"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md530"></a>
 Objectif d'un niveau</h1>
 <p>Rejoindre la <b>sortie</b> termine le tableau et affiche un <b>écran de fin de niveau</b> : <b>Continuer</b> charge le tableau suivant, <b>Rejouer</b> relance le même. Après le dernier tableau de la séquence, un écran de <b>fin de séquence</b> propose de retourner au menu. Toucher un <b>danger</b> ou tomber hors du niveau <b>redémarre</b> le niveau courant à son entrée — aucune pénalité au-delà de recommencer.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md530"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md531"></a>
 Pause</h1>
 <p><b>Échap</b> (ou <b>B</b>/**Start** à la manette) en cours de partie ouvre un écran de <b>pause</b> : la partie est <b>suspendue exactement telle quelle</b> (position, vitesse, budgets de sauts/dashs, dangers temporisés) — rien n'avance derrière l'écran. Quatre choix : <b>Reprendre</b>, <b>Recommencer le niveau</b> (repart de l'entrée, comme un échec), <b>Options</b>, <b>Quitter vers le menu</b> (demande confirmation : la progression du tableau en cours, non terminé, sera perdue).</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md531"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md532"></a>
 Progression et sélection de niveau</h1>
 <p>Le tableau atteint et les tableaux déjà <b>terminés</b> sont conservés d'un lancement à l'autre : fermer l'application ne fait jamais reculer la partie. <b>Choisir un niveau</b>, depuis le menu principal, liste les tableaux de la séquence avec leur état — terminé, atteint (le prochain à jouer) ou verrouillé — ainsi que les niveaux <b>personnels</b> créés dans l'éditeur, jouables directement sans passer par l'essai de l'éditeur ni affecter la progression de la séquence. Seuls les tableaux déjà terminés et le suivant sont jouables ; les tableaux plus loin restent verrouillés jusqu'à ce que la progression les atteigne.</p>
 <p>Certains niveaux ajoutent des <b>mécanismes</b> à résoudre :</p><ul>
@@ -138,7 +138,7 @@ Progression et sélection de niveau</h1>
 <li>une <b>clé</b> se ramasse en s'en approchant et en appuyant sur <b>Interagir</b> ; elle ouvre <b>définitivement</b> la <b>porte verrouillée</b> qui lui correspond (elle ne se referme jamais, contrairement à la porte d'un interrupteur) ;</li>
 <li>une <b>plateforme mobile</b> fait un aller-retour entre deux points ; s'y tenir dessus suffit à être <b>porté</b> avec elle — attention à ne pas rester en dessous d'une plateforme qui monte vers un plafond.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md532"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md533"></a>
 Le menu d'options</h1>
 <p>Accessible depuis le menu principal ou depuis la pause : bascule le <b>V-Sync</b>, règle le <b>volume</b> (un son d'essai se joue au relâchement du curseur, pour régler sans le faire à l'aveugle), change la <b>langue</b>, affiche l'état de connexion de la <b>manette</b>, et propose un retour au menu. Navigable au clavier, à la souris ou à la manette, comme le reste de l'interface. </p>
 </div></div><!-- contents -->

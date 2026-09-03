@@ -21,7 +21,7 @@ var searchData=
   ['skinindex_18',['skinIndex',['../structhmi_1_1TileAppearance.html#a785246a0c5ccb220dedafb953211e5f2',1,'hmi::TileAppearance']]],
   ['skins_19',['skins',['../structhmi_1_1SceneTextures.html#a316efe3bb546e62e2e79d67812d4171c',1,'hmi::SceneTextures']]],
   ['skins_5fsubdirectory_20',['SKINS_SUBDIRECTORY',['../namespacehmi.html#ab94e51ddc058f58bc9dd1692a7568be0',1,'hmi']]],
-  ['skinset_21',['skinSet',['../structcore_1_1LevelDraft_1_1State.html#ac6c4d0bd41537d66e602a3bcf839f45b',1,'core::LevelDraft::State::skinSet'],['../structhmi_1_1SceneTextures.html#a1a7d49eb5842bb0fd960fe53cb4159e5',1,'hmi::SceneTextures::skinSet']]],
+  ['skinset_21',['skinSet',['../structcore_1_1LevelData.html#a17461cbdb9c1fe321a6611eb6d66cd57',1,'core::LevelData::skinSet'],['../structcore_1_1LevelDraft_1_1State.html#ac6c4d0bd41537d66e602a3bcf839f45b',1,'core::LevelDraft::State::skinSet'],['../structhmi_1_1SceneTextures.html#a1a7d49eb5842bb0fd960fe53cb4159e5',1,'hmi::SceneTextures::skinSet']]],
   ['small_22',['small',['../structhmi_1_1SpacingTokens.html#a49320e3cd44ad0e33eccda2946045e8d',1,'hmi::SpacingTokens']]],
   ['sortorder_23',['sortOrder',['../structhmi_1_1ComposedQuad.html#af4241edce3e12e76a2b398e81dae9954',1,'hmi::ComposedQuad']]],
   ['source_24',['source',['../structhmi_1_1PaletteThumbnail.html#a96bfe025c3c44818cd830950ccfdd6dc',1,'hmi::PaletteThumbnail::source'],['../structhmi_1_1TileAppearance.html#a6e0cf1961a31c1fc6ba9ca5e73088f5f',1,'hmi::TileAppearance::source']]],

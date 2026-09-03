@@ -96,11 +96,11 @@ $(function(){initNavTree('lot-24.html','',''); });
 <blockquote class="doxtable">
 <p>Statut : <b>à faire</b>. Prérequis : <a class="el" href="lot-21.html" title="LOT-21 — Attaques, dégâts et états">LOT-21</a>, <a class="el" href="lot-23.html" title="LOT-23 — IA tactique ennemie">LOT-23</a>. </p>
 </blockquote>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md490"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md491"></a>
 Objectif</h1>
 <p>Rendre le combat <b>lisible et jouable</b> : bandeau d'initiative, portées surlignées, curseur de ciblage, prévisualisations, journal.</p>
 <p>C'est le lot qui transforme une machine à états correcte en un combat qu'on a envie de jouer.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md491"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md492"></a>
 Périmètre</h1>
 <ul>
 <li><span class="tt">Source/HMI/Game/CombatHud.{h,cpp}</span> : bandeau d'ordre d'initiative, PV, conditions actives.</li>
@@ -110,13 +110,13 @@ Périmètre</h1>
 <li><b>Journal de combat</b> défilant, alimenté par les entrées auditables du <span class="tt">LOT-21</span>.</li>
 <li>Animations d'attaque via <span class="tt">AnimationCatalog</span>.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md492"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md493"></a>
 Le critère qui est souvent oublié</h1>
 <p>Un combat tactique doit se jouer <b>entièrement au clavier et entièrement à la manette</b>, pas seulement à la souris. Le projet hérite d'un système de remappage complet (clavier, manette XInput) et d'une navigation à la manette dans tous les écrans : il serait incohérent que le combat, cœur du jeu, soit le seul écran à exiger une souris.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md493"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md494"></a>
 Exigences couvertes</h1>
 <p><span class="tt">EX-IHM-*</span>, <span class="tt">EX-REN-*</span>.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md494"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md495"></a>
 Critères d'acceptation</h1>
 <ul>
 <li>Un combat complet se joue <b>entièrement au clavier</b> et <b>entièrement à la manette</b>.</li>

@@ -96,30 +96,30 @@ $(function(){initNavTree('lot-23.html','',''); });
 <blockquote class="doxtable">
 <p>Statut : <b>à faire</b>. Prérequis : <a class="el" href="lot-20.html" title="LOT-20 — Initiative et tour par tour">LOT-20</a>, <a class="el" href="lot-21.html" title="LOT-21 — Attaques, dégâts et états">LOT-21</a>, <a class="el" href="lot-22.html" title="LOT-22 — Portée, ligne de vue et zones d&#39;effet">LOT-22</a>. </p>
 </blockquote>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md484"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md485"></a>
 Objectif</h1>
 <p>Donner aux ennemis un comportement de combat crédible, <b>déterministe</b> et testable sans GPU.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md485"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md486"></a>
 La décision de conception</h1>
 <p><b>Heuristiques pondérées, pas de réseau de neurones.</b></p>
 <p>Le dépôt d'origine embarquait 12 000 lignes de solveur RL (tenseurs, autodiff, réseaux, optimiseurs, quatre familles d'algorithmes), retirées au <span class="tt">LOT-01</span>. La tentation serait de les ressusciter ici : c'est le seul endroit du programme où elles auraient pu resservir.</p>
 <p>Il ne faut pas. Une IA tactique par heuristiques est <b>plus prévisible, plus déboguable et bien moins coûteuse</b> ; surtout, le déterminisme est ici un <b>critère d'acceptation</b>, pas une préférence — sans lui, aucun test de combat ne tient. Un agent entraîné rendrait chaque régression irreproductible.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md486"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md487"></a>
 Périmètre</h1>
 <ul>
 <li><span class="tt">Source/Core/Combat/EnemyAi.{h,cpp}</span> : évaluation de cibles pondérée (distance, PV restants, menace, portée), choix de position, choix d'action.</li>
 <li><b>Profils de comportement en JSON</b> : agressif, prudent, soutien, archer. Les poids sont des données, pas des constantes C++ (<span class="tt">EX-VIS-007</span>) — c'est ce qui permet d'ajuster un ennemi sans recompiler.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md487"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md488"></a>
 Les deux défauts à prévenir</h1>
 <ul>
 <li><b>Le blocage.</b> Une IA qui ne trouve aucune action valide et passe son tour indéfiniment gèle le combat. Un test IA contre IA doit toujours <b>terminer</b>.</li>
 <li><b>Le suicide.</b> Une IA qui ne pondère que la distance finit son tour au milieu de trois ennemis à bas PV. La menace subie doit peser dans le choix de position.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md488"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md489"></a>
 Exigences couvertes</h1>
 <p><span class="tt">EX-CBT-*</span> (choix de cible, de position et d'action).</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md489"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md490"></a>
 Critères d'acceptation</h1>
 <ul>
 <li>Un combat IA contre IA <b>se termine toujours</b>, sur un échantillon de configurations générées.</li>

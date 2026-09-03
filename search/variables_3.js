@@ -1,7 +1,7 @@
 var searchData=
 [
   ['camerabounds_0',['cameraBounds',['../structhmi_1_1PlaneParallax.html#a4d7414cf0723263ff28e22e05bf8baf7',1,'hmi::PlaneParallax']]],
-  ['cameraframing_1',['cameraFraming',['../structcore_1_1LevelDraft_1_1State.html#ab567ae70615b4bcf67fb55eb91410032',1,'core::LevelDraft::State::cameraFraming'],['../structhmi_1_1LevelStatusInfo.html#a82fc1304ab3c156e416019ad6c75a4c2',1,'hmi::LevelStatusInfo::cameraFraming']]],
+  ['cameraframing_1',['cameraFraming',['../structcore_1_1LevelData.html#ad0fd393b0ddebc7bb927d6cf0eae8452',1,'core::LevelData::cameraFraming'],['../structcore_1_1LevelDraft_1_1State.html#ab567ae70615b4bcf67fb55eb91410032',1,'core::LevelDraft::State::cameraFraming'],['../structhmi_1_1LevelStatusInfo.html#a82fc1304ab3c156e416019ad6c75a4c2',1,'hmi::LevelStatusInfo::cameraFraming']]],
   ['caption_2',['caption',['../structhmi_1_1TypographyTokens.html#a6b423df559fc0f6d2de914ab8f90dd42',1,'hmi::TypographyTokens::caption'],['../structhmi_1_1IdentityBaseScale.html#aea532703597d84a7999adfa21105dc4b',1,'hmi::IdentityBaseScale::caption']]],
   ['catalog_3',['catalog',['../structhmi_1_1SoundCatalogResult.html#abf27ad28af384e04e64b2dcbbb9e980a',1,'hmi::SoundCatalogResult::catalog'],['../structhmi_1_1SkinCatalogResult.html#af1719aa7be547951dd4792e4fb62366c',1,'hmi::SkinCatalogResult::catalog']]],
   ['cell_4',['cell',['../structhmi_1_1PendingLink.html#ad011ebec683574bef2f7f5f4d7d77805',1,'hmi::PendingLink::cell'],['../structhmi_1_1LinkGestureDecision.html#a494369edc05024a90942ad9de10e0e88',1,'hmi::LinkGestureDecision::cell'],['../structhmi_1_1TextureAssignDecision.html#a3e52eea7f22dff609d734df17bda8c1e',1,'hmi::TextureAssignDecision::cell']]],
