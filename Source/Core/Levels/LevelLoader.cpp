@@ -16,6 +16,8 @@
 
 #include "Core/Levels/CameraFraming.h"
 #include "Core/Levels/LevelsLog.h"
+#include "Core/Levels/MapEntity.h"
+#include "Core/Levels/TileLayer.h"
 #include "Core/Levels/TileMap.h"
 #include "Core/Levels/TileType.h"
 #include "Core/Levels/TileTypeName.h"
@@ -122,6 +124,136 @@ struct LockedDoorLink {
         }
         plane.depth = parsePlaneDepth(planeJson);
         planes.push_back(std::move(plane));
+    }
+    return std::nullopt;
+}
+
+// --- Couches et entites (LOT-04, format version 3) -------------------------------------------
+
+// Role d'une couche d'apres son champ "kind". Valeur de conception par defaut (Ground) si absent
+// ou non reconnu -- meme tolerance que le reste du format (EX-NFR-040) : une couche au role
+// inconnu s'affiche, elle ne fait pas echouer le chargement de la carte entiere.
+[[nodiscard]] LayerKind parseLayerKind(const nlohmann::json& layer) {
+    const std::string name = layer.value("kind", std::string{"ground"});
+    for (int raw = 0; raw < LAYER_KIND_COUNT; ++raw) {
+        const auto kind = static_cast<LayerKind>(raw);
+        if (layerKindName(kind) == name) {
+            return kind;
+        }
+    }
+    return LayerKind::Ground;
+}
+
+// Range dans @p properties toute cle de @p object qui n'est pas dans @p known.
+//
+// C'est LE mecanisme qui evite un version: 4. Une cle inconnue n'est ni rejetee (elle ferait
+// echouer un fichier produit par une version ulterieure) ni perdue (l'editeur la ferait
+// disparaitre au premier enregistrement) : elle est conservee telle quelle et reemise.
+//
+// Les valeurs COMPOSITES (objet, tableau) n'entrent pas dans core::PropertyValue et sont ignorees
+// -- limite documentee sur core::PropertyMap. Le format n'en produit aucune aujourd'hui.
+void collectProperties(const nlohmann::json& object, const std::set<std::string>& known,
+                       PropertyMap& properties) {
+    for (const auto& [key, value] : object.items()) {
+        if (known.count(key) != 0) {
+            continue;
+        }
+        if (value.is_boolean()) {
+            properties[key] = value.get<bool>();
+        } else if (value.is_number_integer()) {
+            properties[key] = value.get<std::int64_t>();
+        } else if (value.is_number_float()) {
+            properties[key] = value.get<double>();
+        } else if (value.is_string()) {
+            properties[key] = value.get<std::string>();
+        }
+    }
+}
+
+// Traite le tableau racine optionnel "layers" (LOT-04). Absent = carte version 2, dont la grille
+// unique est promue par l'appelant. Chaque couche porte sa propre grille, aux MEMES dimensions que
+// la carte : une couche decalee d'une case rendrait la collision incoherente avec l'affichage,
+// d'ou le refus plutot qu'un redimensionnement silencieux.
+[[nodiscard]] std::optional<LevelLoadResult> parseLayers(const nlohmann::json& root, int width,
+                                                         int height,
+                                                         std::vector<TileLayer>& layers) {
+    if (!root.contains("layers")) {
+        return std::nullopt;
+    }
+    if (!root.at("layers").is_array()) {
+        return failure("Le champ 'layers' doit etre une liste", LevelValidationError::ParseError);
+    }
+    static const std::set<std::string> known{"name", "kind", "tiles"};
+    for (const nlohmann::json& layerJson : root.at("layers")) {
+        TileLayer layer{.name = layerJson.value("name", std::string{}),
+                        .kind = parseLayerKind(layerJson),
+                        .tiles = TileMap(width, height),
+                        .properties = {}};
+        if (layerJson.contains("tiles")) {
+            if (!layerJson.at("tiles").is_array()) {
+                return failure("Le champ 'tiles' d'une couche doit etre une liste",
+                               LevelValidationError::ParseError);
+            }
+            for (const nlohmann::json& tile : layerJson.at("tiles")) {
+                const int x = tile.at("x").get<int>();
+                const int y = tile.at("y").get<int>();
+                if (!layer.tiles.inBounds(x, y)) {
+                    return failure("Tuile hors bornes dans la couche '" + layer.name + "' en (" +
+                                       std::to_string(x) + ", " + std::to_string(y) + ")",
+                                   LevelValidationError::OutOfBounds);
+                }
+                const std::optional<TileType> type =
+                    parseTileType(tile.at("type").get<std::string>());
+                if (!type) {
+                    return failure("Type de tuile inconnu dans la couche '" + layer.name +
+                                       "' : " + tile.at("type").get<std::string>(),
+                                   LevelValidationError::UnknownTileType);
+                }
+                layer.tiles.setTile(x, y, *type);
+            }
+        }
+        // Une couche 'collision' DECLAREE est refusee : la collision d'une carte est son tableau
+        // racine "tiles", et l'accepter ici creerait une seconde grille a tenir d'accord avec la
+        // premiere -- celle ou vivent l'entree, la sortie et les mecanismes. Mieux vaut un refus
+        // nomme qu'une carte a demi jouable (EX-LVL-016, EX-NFR-040).
+        if (layer.kind == LayerKind::Collision) {
+            return failure(
+                "Couche 'collision' declaree dans 'layers' : la grille de collision "
+                "d'une carte est son tableau racine 'tiles'",
+                LevelValidationError::ParseError);
+        }
+        collectProperties(layerJson, known, layer.properties);
+        layers.push_back(std::move(layer));
+    }
+    return std::nullopt;
+}
+
+// Traite le tableau racine optionnel "entities" (LOT-04). Core n'attribue AUCUNE semantique au
+// champ "type" : c'est le gameplay qui l'interprete, et une entite de type inconnu est une erreur
+// de conception toleree plutot qu'une carte invalide (EX-NFR-040).
+[[nodiscard]] std::optional<LevelLoadResult> parseEntities(const nlohmann::json& root, int width,
+                                                           int height,
+                                                           std::vector<MapEntity>& entities) {
+    if (!root.contains("entities")) {
+        return std::nullopt;
+    }
+    if (!root.at("entities").is_array()) {
+        return failure("Le champ 'entities' doit etre une liste", LevelValidationError::ParseError);
+    }
+    static const std::set<std::string> known{"type", "x", "y"};
+    for (const nlohmann::json& entityJson : root.at("entities")) {
+        MapEntity entity{.type = entityJson.value("type", std::string{}),
+                         .position = GridPosition{.column = entityJson.value("x", 0),
+                                                  .row = entityJson.value("y", 0)},
+                         .properties = {}};
+        if (entity.position.column < 0 || entity.position.column >= width ||
+            entity.position.row < 0 || entity.position.row >= height) {
+            return failure("Entite hors bornes en (" + std::to_string(entity.position.column) +
+                               ", " + std::to_string(entity.position.row) + ")",
+                           LevelValidationError::OutOfBounds);
+        }
+        collectProperties(entityJson, known, entity.properties);
+        entities.push_back(std::move(entity));
     }
     return std::nullopt;
 }
@@ -472,9 +604,43 @@ LevelLoadResult LevelLoader::loadFromString(std::string_view json) {
         LEVELS_LOG_TRACE("Niveau charge : '" + name + "' (" + std::to_string(width) + "x" +
                          std::to_string(height) + ", " + std::to_string(mechanisms.size()) +
                          " mecanisme(s))");
+        // Couches et entites (LOT-04). Le tableau racine "layers" ne porte que les couches
+        // VISIBLES (sol, decor) : la grille de collision, elle, EST le tableau racine "tiles" --
+        // celui qui porte deja l'entree, la sortie et les liaisons de mecanismes, et dont
+        // dependent le balayage AABB puis, au LOT-19, la grille de combat tactique. Une seule
+        // source de verite, jamais deux grilles a tenir d'accord.
+        std::vector<TileLayer> declaredLayers;
+        if (std::optional<LevelLoadResult> layersError =
+                parseLayers(root, width, height, declaredLayers)) {
+            return std::move(*layersError);
+        }
+        std::vector<MapEntity> entities;
+        if (std::optional<LevelLoadResult> entitiesError =
+                parseEntities(root, width, height, entities)) {
+            return std::move(*entitiesError);
+        }
+
+        // La grille racine est PROMUE en couche de tete, pour que tout consommateur boucle sur
+        // `layers()` sans cas particulier (EX-LVL-016). Son role dit ce qu'elle vaut : `Collision`
+        // quand la carte declare des couches visibles a cote, `Legacy` quand elle n'en declare
+        // aucune -- une grille plate de version 2, qui vaut alors a la fois decor et collision
+        // comme dans le format d'origine. Aucun fichier existant n'a besoin d'etre touche.
+        std::vector<TileLayer> layers;
+        layers.reserve(declaredLayers.size() + 1);
+        layers.push_back(
+            TileLayer{.name = {},
+                      .kind = declaredLayers.empty() ? LayerKind::Legacy : LayerKind::Collision,
+                      .tiles = map,
+                      .properties = {}});
+        for (TileLayer& declared : declaredLayers) {
+            layers.push_back(std::move(declared));
+        }
+
         return LevelLoadResult{
             .level = Level(LevelData{.name = std::move(name),
                                      .tileMap = std::move(map),
+                                     .layers = std::move(layers),
+                                     .entities = std::move(entities),
                                      .entry = entry,
                                      .exit = exit,
                                      .mechanisms = std::move(mechanisms),

@@ -35,6 +35,33 @@
   `endX`/`endY`, aucune capacité déclarée) se charge et se joue **à l'identique**, la
   rétrocompatibilité des niveaux existants restant un invariant (`EX-LVL-005`). Concrétisé en
   `LOT-67`.
+- \anchor EX-LVL-016 **EX-LVL-016** — Une carte doit porter **N couches de tuiles typées**
+  plutôt qu'une grille unique : un RPG en vue de dessus superpose un **sol** (herbe, dalle, eau),
+  un **décor** (arbre, tonneau, tapis) et une **collision** — masque indépendant du visuel, un
+  tapis se traverse et un tonneau non, les deux pouvant reposer sur la même image de sol. La grille
+  de **collision** d'une carte est son tableau racine `tiles`, celui qui porte déjà l'entrée, la
+  sortie et les cases de mécanismes : le tableau `layers` ne décrit que les couches **visibles**,
+  et une couche de rôle `collision` qui y serait déclarée est **refusée** — deux grilles à tenir
+  d'accord se désynchronisent, et c'est celle qu'on ne voit pas qui gagne. Au chargement, la grille
+  racine est **promue** en couche de tête, pour que tout consommateur boucle sur les couches sans
+  cas particulier. Un fichier **sans** tableau `layers` — tout niveau antérieur à ce champ — se
+  charge à l'identique, sa grille promue en couche unique dite *legacy*, à la fois décor et
+  collision comme dans le format d'origine : la rétrocompatibilité reste un invariant
+  (`EX-LVL-005`). Concrétisé en `LOT-04`.
+- \anchor EX-LVL-017 **EX-LVL-017** — Une carte doit porter une **liste d'entités** — PNJ,
+  coffres, panneaux, portails, déclencheurs de rencontre — distincte de ses grilles : une entité
+  est un **objet** à type libre, placé sur une case et porteur de ses propres données, là où une
+  grille ne retient qu'un type par case. Le type n'est **pas** interprété au chargement — c'est le
+  gameplay qui lui donne un sens — mais la position est validée comme celle d'une tuile
+  (`EX-LVL-004`). Concrétisé en `LOT-04`.
+- \anchor EX-LVL-018 **EX-LVL-018** — Une couche et une entité doivent pouvoir porter un
+  **dictionnaire de propriétés libres**, et tout champ **inconnu** du chargeur doit y être rangé :
+  ignoré sans erreur à la lecture, et **réémis** à l'écriture. Sans quoi le moindre besoin
+  découvert plus tard — terrain difficile, couverture, hauteur, dialogue d'un PNJ — imposerait une
+  nouvelle version de format et la migration de tout le contenu déjà produit ; et un fichier écrit
+  par une version ultérieure de l'éditeur perdrait ses champs au premier enregistrement par une
+  version antérieure. Concrétisé en `LOT-04`.
+
 - \anchor EX-LVL-009 **EX-LVL-009** — Le format de niveau doit porter la **liste ordonnée des
   plans** (`EX-DEC-040`) — nom de fichier, densité, facteurs de parallaxe, opacité et profondeur —
   ainsi qu'un drapeau de niveau décidant si la **parallaxe** s'applique (`EX-DEC-043`). Les champs à
@@ -98,6 +125,36 @@ grille de collision résolue, jamais la carte du niveau. Une case
   ]
 }
 ```
+Une carte `version: 3` ajoute deux tableaux racine **optionnels** : `layers`, les couches visibles
+superposées au-dessus de la grille racine, et `entities`, les objets posés sur la carte
+(`EX-LVL-016`, `EX-LVL-017`). Toute clé non reconnue y est conservée telle quelle et réécrite
+(`EX-LVL-018`) — ci-dessous `difficultTerrain` et `dialogue`.
+```json
+{
+  "version": 3,
+  "name": "Village",
+  "width": 12,
+  "height": 8,
+  "tiles": [
+    { "x": 1, "y": 1, "type": "entry" },
+    { "x": 9, "y": 6, "type": "exit" },
+    { "x": 4, "y": 4, "type": "solid" }
+  ],
+  "layers": [
+    { "name": "sol", "kind": "ground", "tiles": [{ "x": 4, "y": 4, "type": "solid" }] },
+    { "name": "decor", "kind": "decor", "tiles": [{ "x": 5, "y": 4, "type": "danger" }],
+      "difficultTerrain": true }
+  ],
+  "entities": [
+    { "type": "npc", "x": 6, "y": 3, "dialogue": "bonjour" },
+    { "type": "chest", "x": 2, "y": 7 }
+  ]
+}
+```
+Rôles de couche reconnus : `ground`, `decor`, et `legacy` (rôle de la grille racine promue, jamais
+écrit) ; un rôle inconnu retombe sur `ground` plutôt que de faire échouer la carte (`EX-NFR-040`),
+et `collision` déclaré est refusé (`EX-LVL-016`).
+
 Coordonnées `x` = colonne, `y` = ligne, origine **haut-gauche** ; toute tuile hors des bornes
 `width × height` est invalide. Les **liaisons** interrupteur↔porte se font par **identifiant**
 (un `switch` porte un `id`, une `door` le référence via `opensWith`), schéma extensible à

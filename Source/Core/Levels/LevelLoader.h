@@ -55,8 +55,20 @@ enum class LevelValidationError {
  * Version 2 (`LOT-64`) : ajout du champ optionnel `"cameraFraming"` (`EX-LVL-006`). Un fichier de
  * version antérieure, sans ce champ, se charge sans erreur -- la règle de repli
  * (`core::resolveCameraFraming`) reproduit exactement le comportement historique.
+ *
+ * Version 3 (`LOT-04`) : **couches de tuiles** (`"layers"`, `core::TileLayer`) et **entités**
+ * (`"entities"`, `core::MapEntity`), les deux optionnels. `"layers"` ne porte que les couches
+ * **visibles** (sol, décor) : la grille de collision d'une carte est son tableau racine
+ * `"tiles"`, celui qui porte déjà l'entrée, la sortie et les mécanismes — une couche
+ * `"collision"` déclarée est refusée (`EX-LVL-016`). Cette grille racine est **promue** en couche
+ * de tête, de rôle `LayerKind::Collision`, ou `LayerKind::Legacy` quand la carte ne déclare aucune
+ * couche : aucun fichier existant n'a besoin d'être touché, et rien de son comportement ne change.
+ *
+ * Toute clé non reconnue dans une couche ou une entité est rangée dans ses propriétés libres
+ * (`core::PropertyMap`) et **réémise** à l'écriture : un fichier produit par une version
+ * ultérieure de l'éditeur traverse une version antérieure sans rien perdre.
  */
-inline constexpr int LEVEL_FORMAT_VERSION = 2;
+inline constexpr int LEVEL_FORMAT_VERSION = 3;
 
 /**
  * @brief Résultat d'un chargement de niveau : soit un `Level`, soit une **erreur** décrite.

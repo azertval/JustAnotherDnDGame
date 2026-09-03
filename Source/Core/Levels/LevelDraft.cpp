@@ -12,6 +12,26 @@
 
 namespace core {
 
+namespace {
+
+// Copie @p source dans une grille de @p width x @p height, tronquee aux bords. Extrait de
+// resize() : les couches du LOT-04 subissent exactement le meme sort que la grille racine, une
+// couche restee aux anciennes dimensions rendrait le niveau irrecuperable a l'enregistrement (le
+// chargeur refuse une tuile hors bornes).
+[[nodiscard]] TileMap resizedCopy(const TileMap& source, int width, int height) {
+    TileMap resized(width, height);
+    const int copyWidth = (std::min)(width, source.width());
+    const int copyHeight = (std::min)(height, source.height());
+    for (int row = 0; row < copyHeight; ++row) {
+        for (int column = 0; column < copyWidth; ++column) {
+            resized.setTile(column, row, source.tile(column, row));
+        }
+    }
+    return resized;
+}
+
+}  // namespace
+
 LevelDraft::LevelDraft(std::string name, TileMap tileMap)
     : _name(std::move(name)), _tileMap(std::move(tileMap)) {}
 
@@ -34,6 +54,10 @@ LevelDraft LevelDraft::fromLevel(const Level& level) {
     // s'efface simplement au premier enregistrement. Ajouter un champ a Level, c'est l'ajouter ici.
     draft._planes = level.planes();
     draft._parallaxEnabled = level.parallaxEnabled();
+    // Couches et entites (LOT-04), au titre du meme invariant : portees telles quelles jusqu'a
+    // l'enregistrement, l'editeur ne sachant pas encore les manipuler (LOT-11).
+    draft._layers = level.layers();
+    draft._entities = level.entities();
     return draft;
 }
 
@@ -323,15 +347,12 @@ void LevelDraft::removeCameraZone(std::size_t index) {
 
 void LevelDraft::resize(int width, int height) {
     pushUndo();
-    TileMap resized(width, height);
-    const int copyWidth = (std::min)(width, _tileMap.width());
-    const int copyHeight = (std::min)(height, _tileMap.height());
-    for (int row = 0; row < copyHeight; ++row) {
-        for (int column = 0; column < copyWidth; ++column) {
-            resized.setTile(column, row, _tileMap.tile(column, row));
-        }
+    _tileMap = resizedCopy(_tileMap, width, height);
+    // Les couches suivent la grille racine (LOT-04) : toutes les couches d'une carte partagent ses
+    // dimensions, c'est ce que le chargeur verifie a la relecture.
+    for (TileLayer& layer : _layers) {
+        layer.tiles = resizedCopy(layer.tiles, width, height);
     }
-    _tileMap = std::move(resized);
 
     if (_entry && !_tileMap.inBounds(_entry->column, _entry->row)) {
         _entry.reset();
@@ -345,6 +366,11 @@ void LevelDraft::resize(int width, int height) {
     });
     std::erase_if(_textureOverrides, [this](const TileTextureOverride& override) {
         return !_tileMap.inBounds(override.position.column, override.position.row);
+    });
+    // Une entite est keyee par sa case, comme les mecanismes : hors de la nouvelle grille, elle
+    // n'a plus de place ou exister, et la garder rendrait le niveau irrecuperable (EX-LVL-017).
+    std::erase_if(_entities, [this](const MapEntity& entity) {
+        return !_tileMap.inBounds(entity.position.column, entity.position.row);
     });
     // _decors n'est volontairement PAS filtre : contrairement aux autres donnees annexes (keyees
     // par case), un decor libre peut legitimement deborder du niveau (une branche qui depasse) --
@@ -369,6 +395,11 @@ bool LevelDraft::wouldResizeDropContent(int width, int height) const noexcept {
     }
     for (const TileTextureOverride& override : _textureOverrides) {
         if (outOfBounds(override.position)) {
+            return true;
+        }
+    }
+    for (const MapEntity& entity : _entities) {
+        if (outOfBounds(entity.position)) {
             return true;
         }
     }
@@ -401,6 +432,8 @@ LevelDraft::State LevelDraft::snapshot() const {
                  .entry = _entry,
                  .exit = _exit,
                  .mechanisms = _mechanisms,
+                 .layers = _layers,
+                 .entities = _entities,
                  .background = _background,
                  .skinSet = _skinSet,
                  .textureOverrides = _textureOverrides,
@@ -415,6 +448,8 @@ void LevelDraft::restore(State state) {
     _entry = state.entry;
     _exit = state.exit;
     _mechanisms = std::move(state.mechanisms);
+    _layers = std::move(state.layers);
+    _entities = std::move(state.entities);
     _background = std::move(state.background);
     _skinSet = std::move(state.skinSet);
     _textureOverrides = std::move(state.textureOverrides);
@@ -429,9 +464,27 @@ void LevelDraft::pushUndo() {
 }
 
 LevelLoadResult LevelDraft::toLevel() const {
-    const std::string json =
-        LevelWriter::buildJson(_name, _tileMap, _mechanisms, _background, _skinSet,
-                               _textureOverrides, _cameraFraming, _planes, _parallaxEnabled);
+    // La grille editee EST la couche de collision de la carte (LOT-04) : le brouillon n'en peint
+    // qu'une, et laisser la couche de collision figee sur l'etat du fichier d'origine produirait
+    // une carte ou l'on traverse un mur qu'on voit. Les autres couches -- sol, decor -- passent
+    // telles quelles : l'editeur ne sait pas encore les toucher (LOT-11).
+    std::vector<TileLayer> layers = _layers;
+    for (TileLayer& layer : layers) {
+        if (layer.kind == LayerKind::Collision || layer.kind == LayerKind::Legacy) {
+            layer.tiles = _tileMap;
+        }
+    }
+    const std::string json = LevelWriter::buildJson(LevelData{.name = _name,
+                                                              .tileMap = _tileMap,
+                                                              .layers = std::move(layers),
+                                                              .entities = _entities,
+                                                              .mechanisms = _mechanisms,
+                                                              .background = _background,
+                                                              .skinSet = _skinSet,
+                                                              .textureOverrides = _textureOverrides,
+                                                              .cameraFraming = _cameraFraming,
+                                                              .planes = _planes,
+                                                              .parallaxEnabled = _parallaxEnabled});
     return LevelLoader::loadFromString(json);
 }
 
