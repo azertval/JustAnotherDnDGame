@@ -6,6 +6,20 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **Agrégat `LevelData`** (`LOT-03`). Le constructeur de `core::Level` prenait ses composantes en
+  **paramètres positionnels** — jusqu'à 19 avant le `LOT-01`, 11 après lui. Deux
+  `std::optional<std::string>` voisins (`background`, `skinSet`) s'intervertissaient sans que le
+  compilateur bronche, et le RPG s'apprête à rajouter des champs (couches de tuiles, entités,
+  connexions de carte, zones de rencontre). La dette, actée dans l'en-tête lui-même depuis le
+  `LOT-69` d'origine, est soldée alors que la liste est au plus court.
+  - `core::LevelData` s'écrit avec les *designated initializers* de C++20 : chaque site de
+    construction est lisible sans commentaire.
+  - **`tileMap` n'a volontairement pas de défaut** : `core::TileMap` n'étant pas constructible par
+    défaut, l'omettre est une **erreur de compilation**, jamais une grille vide silencieuse. Tous
+    les autres champs ont un défaut utile — un site minimal tient en deux lignes.
+  - Le constructeur positionnel est retiré d'emblée, sans l'étape `[[deprecated]]` prévue : dix
+    sites d'appel seulement, la béquille coûtait plus qu'elle ne rapportait.
+
 - **Fork : `ProjectGaming` devient `JustAnotherDnDGame`** (`LOT-01`). Le dépôt est dérivé du jeu de
   plateforme/puzzle en vue de côté livré en `0.1.3`, dont il reprend le moteur et retire tout le
   gameplay propre à la vue de côté, pour devenir un **RPG en vue de dessus** : exploration temps

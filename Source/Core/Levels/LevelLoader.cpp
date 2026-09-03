@@ -473,9 +473,17 @@ LevelLoadResult LevelLoader::loadFromString(std::string_view json) {
                          std::to_string(height) + ", " + std::to_string(mechanisms.size()) +
                          " mecanisme(s))");
         return LevelLoadResult{
-            .level = Level(std::move(name), std::move(map), entry, exit, std::move(mechanisms),
-                           std::move(background), std::move(skinSet), std::move(textureOverrides),
-                           cameraFraming, std::move(planes), parallaxEnabled),
+            .level = Level(LevelData{.name = std::move(name),
+                                     .tileMap = std::move(map),
+                                     .entry = entry,
+                                     .exit = exit,
+                                     .mechanisms = std::move(mechanisms),
+                                     .background = std::move(background),
+                                     .skinSet = std::move(skinSet),
+                                     .textureOverrides = std::move(textureOverrides),
+                                     .cameraFraming = cameraFraming,
+                                     .planes = std::move(planes),
+                                     .parallaxEnabled = parallaxEnabled}),
             .error = {}};
     } catch (const nlohmann::json::exception& error) {
         return failure(std::string("JSON invalide : ") + error.what(),

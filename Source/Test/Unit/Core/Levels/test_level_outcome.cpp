@@ -29,7 +29,10 @@ core::Level makeLevel(core::GridPosition exit, int dangerCol = -1, int dangerRow
     if (dangerCol >= 0) {
         map.setTile(dangerCol, dangerRow, core::TileType::Danger);
     }
-    return core::Level("test", std::move(map), core::GridPosition{0, 0}, exit, {});
+    return core::Level(core::LevelData{.name = "test",
+                                       .tileMap = std::move(map),
+                                       .entry = core::GridPosition{0, 0},
+                                       .exit = exit});
 }
 
 }  // namespace

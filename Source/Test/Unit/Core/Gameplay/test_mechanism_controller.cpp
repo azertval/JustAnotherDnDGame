@@ -28,8 +28,11 @@ core::Level makeLevelWithMechanism() {
     map.setTile(4, 1, core::TileType::Door);
     std::vector<core::Mechanism> mechanisms{
         core::Mechanism{core::GridPosition{2, 1}, core::GridPosition{4, 1}}};
-    return core::Level("puzzle", std::move(map), core::GridPosition{0, 0}, core::GridPosition{5, 2},
-                       std::move(mechanisms));
+    return core::Level(core::LevelData{.name = "puzzle",
+                                       .tileMap = std::move(map),
+                                       .entry = core::GridPosition{0, 0},
+                                       .exit = core::GridPosition{5, 2},
+                                       .mechanisms = std::move(mechanisms)});
 }
 
 // Boîte 1×1 posée sur la case (column, row).
@@ -46,8 +49,11 @@ core::Level makeLevelWithPressurePlate() {
     map.setTile(4, 1, core::TileType::Door);
     std::vector<core::Mechanism> mechanisms{
         core::Mechanism{core::GridPosition{2, 1}, core::GridPosition{4, 1}}};
-    return core::Level("puzzle-poids", std::move(map), core::GridPosition{0, 0},
-                       core::GridPosition{5, 2}, std::move(mechanisms));
+    return core::Level(core::LevelData{.name = "puzzle-poids",
+                                       .tileMap = std::move(map),
+                                       .entry = core::GridPosition{0, 0},
+                                       .exit = core::GridPosition{5, 2},
+                                       .mechanisms = std::move(mechanisms)});
 }
 
 // Niveau minimal 6×3 : une clé en (2,1) liée à une porte verrouillée en (4,1) (EX-GP-023).
@@ -57,8 +63,11 @@ core::Level makeLevelWithKeyAndLockedDoor() {
     map.setTile(4, 1, core::TileType::LockedDoor);
     std::vector<core::Mechanism> mechanisms{
         core::Mechanism{core::GridPosition{2, 1}, core::GridPosition{4, 1}}};
-    return core::Level("puzzle-cle", std::move(map), core::GridPosition{0, 0},
-                       core::GridPosition{5, 2}, std::move(mechanisms));
+    return core::Level(core::LevelData{.name = "puzzle-cle",
+                                       .tileMap = std::move(map),
+                                       .entry = core::GridPosition{0, 0},
+                                       .exit = core::GridPosition{5, 2},
+                                       .mechanisms = std::move(mechanisms)});
 }
 
 // Niveau minimal 8×3 : deux paires clé/porte verrouillée independantes.
@@ -71,8 +80,11 @@ core::Level makeLevelWithTwoKeyDoorPairs() {
     std::vector<core::Mechanism> mechanisms{
         core::Mechanism{core::GridPosition{1, 1}, core::GridPosition{2, 1}},
         core::Mechanism{core::GridPosition{5, 1}, core::GridPosition{6, 1}}};
-    return core::Level("puzzle-deux-cles", std::move(map), core::GridPosition{0, 0},
-                       core::GridPosition{7, 2}, std::move(mechanisms));
+    return core::Level(core::LevelData{.name = "puzzle-deux-cles",
+                                       .tileMap = std::move(map),
+                                       .entry = core::GridPosition{0, 0},
+                                       .exit = core::GridPosition{7, 2},
+                                       .mechanisms = std::move(mechanisms)});
 }
 
 }  // namespace
