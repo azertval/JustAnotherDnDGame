@@ -1,7 +1,7 @@
 # Elements/UI/
 
 Assets **Qt déclaratifs** de l'IHM, éditables hors code (Qt Designer) et compilés par la cible
-`ProjectGaming` (`AUTOUIC`/`AUTORCC`, cf. `Source/HMI/CMakeLists.txt`, propriété
+`JustAnotherDnDGame` (`AUTOUIC`/`AUTORCC`, cf. `Source/HMI/CMakeLists.txt`, propriété
 `AUTOUIC_SEARCH_PATHS`).
 
 - Un `.ui` par écran, panneau et boîte de dialogue ; `uic` génère les en-têtes `ui_*.h` inclus par

@@ -17,7 +17,7 @@ Direct3D 11**, embarqué dans un viewport Qt. `Core` n'est pas touché.
 ## Une seule cible : l'application Qt
 
 Depuis le `LOT-38`, l'IHM « maison » (écrans, widgets, fenêtre Win32) et l'exécutable historique ont
-été retirés. `Source/HMI` porte désormais **l'unique application** `ProjectGaming` (`QApplication` +
+été retirés. `Source/HMI` porte désormais **l'unique application** `JustAnotherDnDGame` (`QApplication` +
 `QMainWindow`, widget central = viewport Direct3D 11), avec le code réparti par domaine, au plus près
 de l'architecture d'origine :
 

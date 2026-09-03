@@ -135,29 +135,6 @@ IconGeometry iconGeometry(IconId id) {
                            .filled = true,
                            .color = IconColorRole::Accent},
             }};
-        case IconId::ToolPath:
-            // Polyligne a trois sommets, avec un point plein a chaque sommet : la trajectoire
-            // et ses poignees, exactement ce que l'outil affiche dans le canevas.
-            return IconGeometry{{
-                IconStroke{
-                    .points = {IconPoint{.x = 0.18F, .y = 0.74F}, IconPoint{.x = 0.50F, .y = 0.26F},
-                               IconPoint{.x = 0.82F, .y = 0.66F}},
-                    .closed = false,
-                    .filled = false,
-                    .color = IconColorRole::Foreground},
-                IconStroke{.points = circlePoints(0.18F, 0.74F, 0.10F),
-                           .closed = true,
-                           .filled = true,
-                           .color = IconColorRole::Accent},
-                IconStroke{.points = circlePoints(0.50F, 0.26F, 0.10F),
-                           .closed = true,
-                           .filled = true,
-                           .color = IconColorRole::Accent},
-                IconStroke{.points = circlePoints(0.82F, 0.66F, 0.10F),
-                           .closed = true,
-                           .filled = true,
-                           .color = IconColorRole::Accent},
-            }};
         case IconId::Save:
             return IconGeometry{{
                 rectStroke(0.20F, 0.15F, 0.60F, 0.70F, false, IconColorRole::Foreground),

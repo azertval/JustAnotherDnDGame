@@ -113,27 +113,6 @@ TEST(TileMapTest, IsSolidParType) {
 }
 
 /**
- * @brief Les sept nouvelles variantes de danger ne sont jamais solides, comme le danger classique
- * (`EX-GP-050` à `EX-GP-053`).
- * \castest{<b>Les sept nouvelles variantes de danger ne sont jamais solides.</b><br/>
- * \tcat Unitaire · Tile Map<br/>
- * \tcrit Majeur<br/>
- * \tetapes 1. Mettre en place le contexte du test (arrangement).<br/>2. Executer le scenario et
- * verifier les assertions.<br/>
- * \tattendu Les sept nouvelles variantes de danger ne sont jamais solides.
- * }
- */
-TEST(TileMapTest, IsSolidFauxPourLesDangersAvances) {
-    EXPECT_FALSE(core::isSolid(core::TileType::DangerUp));
-    EXPECT_FALSE(core::isSolid(core::TileType::DangerDown));
-    EXPECT_FALSE(core::isSolid(core::TileType::DangerLeft));
-    EXPECT_FALSE(core::isSolid(core::TileType::DangerRight));
-    EXPECT_FALSE(core::isSolid(core::TileType::DangerMover));
-    EXPECT_FALSE(core::isSolid(core::TileType::DangerSwitched));
-    EXPECT_FALSE(core::isSolid(core::TileType::DangerBlink));
-}
-
-/**
  * @brief Un Level restitue ses composantes (nom, grille, entrée/sortie, mécanismes).
  * \castest{<b>Un Level restitue ses composantes (nom, grille, entrée/sortie, mécanismes).</b><br/>
  * \tcat Unitaire · Level<br/>
@@ -164,50 +143,6 @@ TEST(LevelTest, RestitueSesComposantes) {
 }
 
 /**
- * @brief Un Level restitue ses liaisons de danger commuté et ses configurations de danger mobile/
- * temporisé (`EX-GP-051`/`EX-GP-052`/`EX-GP-053`).
- * \castest{<b>Un Level restitue ses liaisons et configurations de dangers avancés.</b><br/>
- * \tcat Unitaire · Level<br/>
- * \tcrit Majeur<br/>
- * \tetapes 1. Mettre en place le contexte du test (arrangement).<br/>2. Executer le scenario et
- * verifier les assertions.<br/>
- * \tattendu Un Level restitue ses liaisons de danger commuté et ses configurations de danger
- * mobile/temporisé.
- * }
- */
-TEST(LevelTest, RestitueSesDangersAvances) {
-    core::TileMap map(5, 4);
-    map.setTile(1, 1, core::TileType::Entry);
-    map.setTile(3, 2, core::TileType::Exit);
-
-    const std::vector<core::DangerLink> dangerLinks = {
-        {core::GridPosition{0, 0}, core::GridPosition{4, 0}},
-    };
-    const std::vector<core::DangerMoverConfig> moverConfigs = {
-        {core::GridPosition{2, 2}, core::DangerMoverAxis::Vertical, 3},
-    };
-    const std::vector<core::DangerBlinkConfig> blinkConfigs = {
-        {core::GridPosition{4, 3}, 90, 10, 30},
-    };
-    const core::Level level("Avance", std::move(map), core::GridPosition{1, 1},
-                            core::GridPosition{3, 2}, {}, -1, -1, dangerLinks, moverConfigs,
-                            blinkConfigs);
-
-    ASSERT_EQ(level.dangerLinks().size(), 1u);
-    EXPECT_EQ(level.dangerLinks().front().triggerPosition, (core::GridPosition{0, 0}));
-    EXPECT_EQ(level.dangerLinks().front().dangerPosition, (core::GridPosition{4, 0}));
-
-    ASSERT_EQ(level.moverConfigs().size(), 1u);
-    EXPECT_EQ(level.moverConfigs().front().axis, core::DangerMoverAxis::Vertical);
-    EXPECT_EQ(level.moverConfigs().front().range, 3);
-
-    ASSERT_EQ(level.blinkConfigs().size(), 1u);
-    EXPECT_EQ(level.blinkConfigs().front().period, 90);
-    EXPECT_EQ(level.blinkConfigs().front().phase, 10);
-    EXPECT_EQ(level.blinkConfigs().front().activeDuration, 30);
-}
-
-/**
  * @brief Un Level sans fond ni jeu de skins configurés restitue les deux champs absents
  * (`EX-REN-044`, `EX-EDIT-024`) ; construit avec les deux, il les restitue tels quels.
  * \castest{<b>Un Level restitue son fond et son jeu de skins, ou leur absence.</b><br/>
@@ -228,8 +163,8 @@ TEST(LevelTest, RestitueSonFondEtSonJeuDeSkinsOuLeurAbsence) {
     EXPECT_FALSE(sansFond.skinSet().has_value());
 
     const core::Level avecFond("N", std::move(map), core::GridPosition{0, 0},
-                               core::GridPosition{2, 2}, {}, -1, -1, {}, {}, {},
-                               std::string{"forest.png"}, std::string{"foret"});
+                               core::GridPosition{2, 2}, {}, std::string{"forest.png"},
+                               std::string{"foret"});
     ASSERT_TRUE(avecFond.background().has_value());
     EXPECT_EQ(*avecFond.background(), "forest.png");
     ASSERT_TRUE(avecFond.skinSet().has_value());
@@ -258,7 +193,7 @@ TEST(LevelTest, RestitueSonCadrageDeCameraOuLeDefaut) {
 
     const core::CameraFramingConfig follow{.mode = core::CameraFramingMode::Follow};
     const core::Level avecCadrage("N", std::move(map), core::GridPosition{0, 0},
-                                  core::GridPosition{2, 2}, {}, -1, -1, {}, {}, {}, std::nullopt,
-                                  std::nullopt, {}, {}, follow);
+                                  core::GridPosition{2, 2}, {}, std::nullopt, std::nullopt, {},
+                                  follow);
     EXPECT_EQ(avecCadrage.cameraFraming().mode, core::CameraFramingMode::Follow);
 }

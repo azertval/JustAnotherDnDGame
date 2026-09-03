@@ -332,7 +332,7 @@ TEST(EditorStatusTest, AideDeLAtelierChangeAvecLOutilActif) {
  * }
  */
 TEST(EditorStatusTest, ClesDeTraductionExistentDansLesDeuxCatalogues) {
-    const std::filesystem::path directory(PROJECTGAMING_LOCALIZATION_DIR);
+    const std::filesystem::path directory(JADG_LOCALIZATION_DIR);
     const char* const keys[] = {"status.zone.level",
                                 "status.zone.asset",
                                 "status.zone.dirty",

@@ -154,20 +154,3 @@ TEST(TextureAssignGesture, ClicDroitSurCaseVideIgnore) {
         GridPosition{2, 3}, TileType::Empty, std::string{"door_red.png"}, std::nullopt, true);
     EXPECT_EQ(decision.action, TextureAssignAction::Ignore);
 }
-
-/**
- * @brief **Tout** type non vide est éligible — y compris une pente — sans liste blanche par type,
- * contrairement aux liens de mécanismes : n'importe quelle case posée peut recevoir sa propre
- * texture.
- * \castest{<b>Tout type non vide est éligible à une surcharge de texture.</b><br/>
- * \tcat Unitaire · Geste d'assignation de texture<br/>
- * \tcrit Majeur<br/>
- * \tetapes 1. Mettre en place le contexte du test (arrangement).<br/>2. Executer le scenario et
- * verifier les assertions.<br/>
- * }
- */
-TEST(TextureAssignGesture, ToutTypeNonVideEstEligible) {
-    const auto decision = resolveTextureAssignClick(GridPosition{0, 0}, TileType::SlopeUpRight,
-                                                    std::nullopt, std::string{"deco.png"}, false);
-    EXPECT_EQ(decision.action, TextureAssignAction::Assign);
-}

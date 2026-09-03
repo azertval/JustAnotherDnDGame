@@ -16,7 +16,7 @@ namespace core {
  * Contrat entre la couche d'entrée (`HMI`, qui traduit clavier/manette — `EX-CTRL-010`) et la
  * simulation (`Core`, qui l'applique). `Core` ne connaît **que** cette intention : il ignore les
  * touches, ce qui garde la simulation testable et permettra remappage/manette sans le modifier.
- * Donnée pure, transitoire (re-remplie chaque frame), passée au `CharacterPhysicsSystem`.
+ * Donnée pure, transitoire (re-remplie chaque frame), passée au système de déplacement.
  */
 struct PlayerInput {
     /// Intention de déplacement horizontal, normalisée dans l'intervalle [-1, 1] :

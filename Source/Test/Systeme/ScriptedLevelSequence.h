@@ -252,7 +252,7 @@ std::vector<ScriptedLevel> scriptedSequence() {
              return in;
          }},
         // 12ter. Bloc FRAGILE (EX-GP-028, LOT-74) : cinq dalles fragiles dans le sol. Le tableau
-        //     declare `dashCharges: 0`, si bien que « dash + bas » en l'air n'est plus un dash
+        //     n'accorde aucune charge de dash, si bien que « dash + bas » en l'air n'agit plus
         //     vertical mais un GROUND POUND (EX-GP-058) -- le seul geste qui brise ces dalles. Le
         //     trace en declenche un au-dessus de la premiere ; le reste du parcours marche sur les
         //     autres sans les casser, ce qui montre que le contact seul ne suffit pas.

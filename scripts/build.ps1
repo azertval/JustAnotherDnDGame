@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-    Configure, construit et teste ProjectGaming dans un environnement MSVC correct.
+    Configure, construit et teste JustAnotherDnDGame dans un environnement MSVC correct.
 
 .DESCRIPTION
     Les générateurs Ninja et Makefiles n'établissent pas l'environnement MSVC : ils héritent des
@@ -133,7 +133,7 @@ finally {
 
 # Emplacement de l'exécutable : le générateur Visual Studio est multi-configuration (sous-dossier
 # par configuration), Ninja ne l'est pas.
-$exe = if ($Preset -eq 'vs') { "$buildDir\bin\Debug\ProjectGaming.exe" } else { "$buildDir\bin\ProjectGaming.exe" }
+$exe = if ($Preset -eq 'vs') { "$buildDir\bin\Debug\JustAnotherDnDGame.exe" } else { "$buildDir\bin\JustAnotherDnDGame.exe" }
 if (Test-Path $exe) {
     Write-Host "`nExécutable : $exe" -ForegroundColor Green
 }

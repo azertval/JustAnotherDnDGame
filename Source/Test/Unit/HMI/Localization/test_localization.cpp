@@ -47,12 +47,12 @@ TEST(LocalizationTest, AnalyseIgnoreCommentairesEtEspaces) {
         "# commentaire\n"
         "\n"
         "menu.quitter = Quitter\n"
-        "  menu.titre   =   ProjectGaming  \n"
+        "  menu.titre   =   JustAnotherDnDGame  \n"
         "# autre commentaire\n");
 
     ASSERT_EQ(strings.size(), 2u);
     EXPECT_EQ(strings.at("menu.quitter"), "Quitter");
-    EXPECT_EQ(strings.at("menu.titre"), "ProjectGaming");
+    EXPECT_EQ(strings.at("menu.titre"), "JustAnotherDnDGame");
 }
 
 /**
@@ -181,7 +181,7 @@ TEST(LocalizationTest, LangueAbsenteEstRecuperable) {
  * }
  */
 TEST(LocalizationTest, CatalogueFrancaisLivreSeCharge) {
-    hmi::Localization localization(std::filesystem::path(PROJECTGAMING_LOCALIZATION_DIR));
+    hmi::Localization localization(std::filesystem::path(JADG_LOCALIZATION_DIR));
 
     ASSERT_TRUE(localization.loadDefaultLanguage("fr"));
     EXPECT_EQ(localization.activeLanguage(), "fr");
@@ -208,9 +208,9 @@ TEST(LocalizationTest, CatalogueFrancaisLivreSeCharge) {
  */
 TEST(LocalizationTest, LesDeuxCataloguesDeclarentLesMemesCles) {
     const std::unordered_map<std::string, std::string> french =
-        hmi::Localization::parseCatalog(readFile(PROJECTGAMING_FR_LANG_PATH));
+        hmi::Localization::parseCatalog(readFile(JADG_FR_LANG_PATH));
     const std::unordered_map<std::string, std::string> english =
-        hmi::Localization::parseCatalog(readFile(PROJECTGAMING_EN_LANG_PATH));
+        hmi::Localization::parseCatalog(readFile(JADG_EN_LANG_PATH));
     ASSERT_FALSE(french.empty());
     ASSERT_FALSE(english.empty());
 

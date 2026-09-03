@@ -2,7 +2,7 @@
 # SPDX-FileCopyrightText: 2026 Valentin Eloy
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-"""Genere une spritesheet de personnage de TEST pour ProjectGaming (LOT-48, livree en LOT-65).
+"""Genere une spritesheet de personnage de TEST pour JustAnotherDnDGame (LOT-48, livree en LOT-65).
 
 `Player/` ne contenait jusqu'ici aucun fichier : le personnage retombait systematiquement sur la
 silhouette procedurale historique (`atlas.png`) faute d'un seul asset livre, alors que le contrat

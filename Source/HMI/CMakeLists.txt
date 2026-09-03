@@ -1,9 +1,9 @@
 # SPDX-FileCopyrightText: 2026 Valentin Eloy
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-# Couche de présentation HMI : **application Qt** (`ProjectGaming`).
+# Couche de présentation HMI : **application Qt** (`JustAnotherDnDGame`).
 #
-# Depuis le LOT-38, l'IHM « maison » et l'exécutable historique `ProjectGaming` ont été retirés :
+# Depuis le LOT-38, l'IHM « maison » et l'exécutable historique `JustAnotherDnDGame` ont été retirés :
 # l'unique application est l'éditeur Qt, qui embarque le rendu Direct3D 11 du jeu dans un viewport et
 # l'entoure de panneaux d'édition. Le code est réparti par domaine, au plus près de l'architecture
 # d'origine du projet :
@@ -16,13 +16,134 @@
 #   Editor/       périmètre éditeur de niveau (palette, outils, navigateur, logique pure).
 # Les fichiers déclaratifs Qt (.ui, .qrc) et le thème (.qss) vivent dans Source/Elements (assets).
 
+# --- HmiLib : la couche de présentation **sans Qt Widgets** (LOT-02) ---
+#
+# Ces sources sont de la logique pure : géométrie de caméra, composition de scène (sans GPU),
+# catalogues, entrées, persistance JSON, géométrie d'éditeur. Elles ne dérivent d'aucun QObject et
+# n'incluent aucun en-tête Qt — c'est exactement ce que les tests unitaires consomment.
+#
+# Avant ce lot, `Source/Test/CMakeLists.txt` **relistait ces 79 chemins un par un** pour les
+# recompiler dans `UnitTests` : chaque fichier ajouté à l'IHM devait l'être à deux endroits, et un
+# oubli ne se voyait qu'à l'édition de liens. Une bibliothèque nomme cette frontière au lieu de la
+# maintenir à la main dans un commentaire.
+#
+# Déclarée **avant** la garde `BUILD_EDITOR_QT`/Qt ci-dessus, et volontairement libre de Qt : sur un
+# poste sans Qt, l'application est ignorée mais `UnitTests` doit continuer de se construire — c'est
+# la raison d'être de l'option. AUTOMOC n'est pas encore actif à ce point du fichier, ce qui est
+# correct : aucune de ces sources n'a de `Q_OBJECT`.
+add_library(HmiLib STATIC
+    # Graphismes : logique de rendu sans GPU (composition, catalogues, géométrie de caméra).
+    Graphics/Camera2D.cpp
+    Graphics/RoomGrid.cpp
+    Graphics/FollowCamera.cpp
+    Graphics/CameraZones.cpp
+    Graphics/AssetPaths.cpp
+    Graphics/TileVisuals.cpp
+    Graphics/ProceduralAtlas.cpp
+    Graphics/TextureAtlasRegions.cpp
+    Graphics/AssetContract.cpp
+    Graphics/RenderMode.cpp
+    Graphics/TileAppearance.cpp
+    Graphics/SkinCatalog.cpp
+    Graphics/AnimationCatalog.cpp
+    Graphics/PlayerSprite.cpp
+    Graphics/TileAutotile.cpp
+    Graphics/TileSilhouette.cpp
+    Graphics/MissingTexture.cpp
+    Graphics/ComposedScene.cpp
+    Graphics/QuadRecorder.cpp
+    Graphics/BackgroundRenderer.cpp
+    Graphics/ShadowRenderer.cpp
+    Graphics/ParticleRenderer.cpp
+    Graphics/MechanismVisuals.cpp
+    Graphics/PlaneVisuals.cpp
+    Graphics/Parallax.cpp
+    Graphics/ProceduralFont.cpp
+    Graphics/TextRenderer.cpp
+    # Entrées : état, mapping, remappage persistant.
+    Input/InputState.cpp
+    Input/PlayerInputMapper.cpp
+    Input/GameKeyBindings.cpp
+    Input/EditorKeyBindings.cpp
+    Input/KeyName.cpp
+    Input/GamepadBindings.cpp
+    Input/GamepadButtonName.cpp
+    # Localisation, journal de session.
+    Localization/Localization.cpp
+    Diagnostics/SessionLog.cpp
+    # Audio : catalogue et table événement -> son (le moteur lui-même dépend de Qt Multimedia).
+    Audio/SoundCatalog.cpp
+    Audio/SoundTriggers.cpp
+    # Jeu : événements, affichage tête haute, progression, bilan de tableau.
+    Game/GameEvents.cpp
+    Game/GameHud.cpp
+    Game/DiagnosticsHud.cpp
+    Game/Progression.cpp
+    Game/LevelRunStats.cpp
+    # Éditeur : validation, taxonomie, gestes et géométrie, bibliothèque d'assets, atelier pixel.
+    Editor/LevelNameValidation.cpp
+    Editor/TileTaxonomy.cpp
+    Editor/TaxonomyLabels.cpp
+    Editor/SkinAssignments.cpp
+    Editor/PaletteAppearance.cpp
+    Editor/LevelFileOperations.cpp
+    Editor/LinkGeometry.cpp
+    Editor/LinkGesture.cpp
+    Editor/TextureAssignGesture.cpp
+    Editor/AssetLibrary.cpp
+    Editor/AssetFileOperations.cpp
+    Editor/AssetReferences.cpp
+    Editor/MechanismAnimationAssignments.cpp
+    Editor/EditorStatus.cpp
+    Editor/PanelFocus.cpp
+    Editor/ThumbnailGeometry.cpp
+    Editor/PixelOperations.cpp
+    Editor/PixelHistory.cpp
+    Editor/PixelCanvasGeometry.cpp
+    Editor/PlaneReference.cpp
+    Editor/PlaneFileNaming.cpp
+    Editor/PixelAssetIO.cpp
+    Editor/PixelPalette.cpp
+    Editor/PixelAutotilePreview.cpp
+    # Interface : logique d'écrans et de thème, sans widget.
+    Interface/ScreenFlow.cpp
+    Interface/DesignTokens.cpp
+    Interface/StyleSheetTemplate.cpp
+    Interface/FontResolution.cpp
+    Interface/ThemeResolution.cpp
+    Interface/IconGeometry.cpp
+    Interface/PixelArtScale.cpp
+    Interface/EditorWorkspace.cpp
+    Interface/PixelFrameGeometry.cpp
+    Interface/MenuBackdropGeometry.cpp
+    Interface/KeyHintText.cpp
+    Interface/ActionCatalog.cpp
+    # Plateforme.
+    Platform/ExecutableDirectory.cpp
+)
+
+# `PUBLIC` sur la racine d'inclusion et sur Core : tout consommateur de HmiLib (l'application, les
+# tests) écrit `#include "HMI/..."` et manipule des types de `core::`.
+target_include_directories(HmiLib PUBLIC ${PROJECT_SOURCE_DIR}/Source)
+target_link_libraries(HmiLib
+    PUBLIC Core
+    PRIVATE project_warnings project_options
+    # Les *KeyBindings et les catalogues persistent en JSON ; Core ne le propage pas (lien PRIVATE).
+    PUBLIC nlohmann_json::nlohmann_json)
+
+target_compile_definitions(HmiLib PUBLIC WIN32_LEAN_AND_MEAN NOMINMAX UNICODE _UNICODE)
+
+if(ENABLE_PCH)
+    target_precompile_headers(HmiLib PRIVATE ${PROJECT_SOURCE_DIR}/Source/pch.h)
+endif()
+
 # La cible reste **optionnelle** : sur un poste sans Qt (ex. CI n'exécutant que les tests unitaires,
 # qui compilent les sources pures directement), la configuration n'échoue pas — l'application est
 # simplement ignorée. Fournir Qt via CMAKE_PREFIX_PATH (ou l'action CI install-qt-action) pour
 # l'activer, ou passer -DBUILD_EDITOR_QT=OFF pour l'ignorer explicitement.
-option(BUILD_EDITOR_QT "Construire l'éditeur Qt (ProjectGaming). Nécessite Qt6." ON)
+option(BUILD_EDITOR_QT "Construire l'éditeur Qt (JustAnotherDnDGame). Nécessite Qt6." ON)
 if(NOT BUILD_EDITOR_QT)
-    message(STATUS "ProjectGaming : désactivé (BUILD_EDITOR_QT=OFF).")
+    message(STATUS "JustAnotherDnDGame : désactivé (BUILD_EDITOR_QT=OFF).")
     return()
 endif()
 
@@ -80,7 +201,7 @@ if(NOT Qt6_FOUND)
     # tests. Passer inaperçu est précisément ce qui rendait l'absence d'exe difficile à diagnostiquer.
     if(Qt6_FOUND)
         message(WARNING
-            "ProjectGaming : Qt6 ${Qt6_VERSION} trouvé (${Qt6_DIR}), mais inférieur à la version "
+            "JustAnotherDnDGame : Qt6 ${Qt6_VERSION} trouvé (${Qt6_DIR}), mais inférieur à la version "
             "minimale requise ${QT_VERSION_MINIMUM} — cible ignorée, AUCUN EXÉCUTABLE ne sera produit.\n"
             "Installer au moins Qt ${QT_VERSION_MINIMUM} (ou désigner une autre installation via "
             "-DCMAKE_PREFIX_PATH), ou passer -DBUILD_EDITOR_QT=OFF pour ne construire que les tests.")
@@ -99,7 +220,7 @@ if(NOT Qt6_FOUND)
                 endif()
             endforeach()
             message(WARNING
-                "ProjectGaming : Qt6 ${Qt6_VERSION} est bien installé (${Qt6_DIR}), mais il manque "
+                "JustAnotherDnDGame : Qt6 ${Qt6_VERSION} est bien installé (${Qt6_DIR}), mais il manque "
                 "le(s) module(s) : ${_qt_missing} — cible ignorée, AUCUN EXÉCUTABLE ne sera produit.\n"
                 "ShaderTools (l'outil `qsb`) et GuiPrivate (les en-têtes QRhi) sont exigés depuis le "
                 "LOT-69 TACHE-02 : le rendu passe par QRhi, plus par Direct3D 11 en direct.\n"
@@ -108,7 +229,7 @@ if(NOT Qt6_FOUND)
                 "Passer -DBUILD_EDITOR_QT=OFF pour ne construire que les tests, sans cet avertissement.")
         else()
             message(WARNING
-                "ProjectGaming : Qt6 introuvable, cible ignorée — AUCUN EXÉCUTABLE ne sera produit.\n"
+                "JustAnotherDnDGame : Qt6 introuvable, cible ignorée — AUCUN EXÉCUTABLE ne sera produit.\n"
                 "Version minimale requise : ${QT_VERSION_MINIMUM}.\n"
                 "Emplacements examinés : ${_qt_hints}\n"
                 "Corriger en installant Qt via l'installateur officiel, ou en désignant l'installation :\n"
@@ -123,12 +244,12 @@ if(NOT Qt6_VERSION VERSION_EQUAL QT_VERSION_MINIMUM)
     # Avertissement, pas erreur (cf. TACHE-01) : interdire de construire sur une version voisine
     # coûterait plus qu'il ne rapporterait. Le but est qu'un écart soit visible, pas interdit.
     message(WARNING
-        "ProjectGaming : Qt6 ${Qt6_VERSION} trouvé (${Qt6_DIR}), différent de la version de "
+        "JustAnotherDnDGame : Qt6 ${Qt6_VERSION} trouvé (${Qt6_DIR}), différent de la version de "
         "référence ${QT_VERSION_MINIMUM} (celle validée par la CI) — le build peut diverger de la "
         "CI sans que rien d'autre ne le signale.")
 endif()
 
-message(STATUS "ProjectGaming : Qt6 ${Qt6_VERSION} trouvé (${Qt6_DIR}).")
+message(STATUS "JustAnotherDnDGame : Qt6 ${Qt6_VERSION} trouvé (${Qt6_DIR}).")
 
 # Traitement automatique des métacompilateurs Qt, restreint à cette cible (moc/uic/rcc).
 set(CMAKE_AUTOMOC ON)
@@ -138,115 +259,50 @@ set(CMAKE_AUTORCC ON)
 # Assets Qt déclaratifs (hors code) : mises en page Designer + ressource embarquée, dans Elements.
 set(ELEMENTS_UI ${PROJECT_SOURCE_DIR}/Source/Elements/UI)
 
-add_executable(ProjectGaming
+add_executable(JustAnotherDnDGame
     Main.cpp
     # Plateforme
-    Platform/ExecutableDirectory.cpp
     # Entrées (dont le pont Qt -> Key)
-    Input/InputState.cpp
     Input/GamepadPoller.cpp
-    Input/PlayerInputMapper.cpp
-    Input/GameKeyBindings.cpp
-    Input/EditorKeyBindings.cpp
-    Input/KeyName.cpp
-    Input/GamepadBindings.cpp
-    Input/GamepadButtonName.cpp
     Input/QtKeyMap.cpp
     # Rendu 2D sur QRhi (LOT-69 TACHE-02) — cible Direct3D 11 sous Windows (EX-REN-002),
     # atteinte au travers de QRhi plutôt qu'en appelant l'API directement.
     Graphics/SpriteBatch.cpp
-    Graphics/AssetPaths.cpp
     Graphics/TextureLoader.cpp
-    Graphics/AssetContract.cpp
-    Graphics/RenderMode.cpp
-    Graphics/TileAppearance.cpp
-    Graphics/SkinCatalog.cpp
-    Graphics/TileAutotile.cpp
-    Graphics/SlopeMask.cpp
-    Graphics/ProceduralAtlas.cpp
-    Graphics/AnimationCatalog.cpp
-    Graphics/PlayerSprite.cpp
-    Graphics/MissingTexture.cpp
     Graphics/TextureAtlas.cpp
     Graphics/TextureCache.cpp
-    Graphics/TextureAtlasRegions.cpp
-    Graphics/Camera2D.cpp
-    Graphics/RoomGrid.cpp
-    Graphics/FollowCamera.cpp
-    Graphics/CameraZones.cpp
-    Graphics/ComposedScene.cpp
-    Graphics/QuadRecorder.cpp
-    Graphics/BackgroundRenderer.cpp
-    Graphics/ShadowRenderer.cpp
-    Graphics/ParticleRenderer.cpp
     Graphics/SpriteRenderer.cpp
     Graphics/DraftRenderer.cpp
-    Graphics/TileVisuals.cpp
-    Graphics/MechanismVisuals.cpp
-    Graphics/PlaneVisuals.cpp
-    Graphics/Parallax.cpp
-    Graphics/ProceduralFont.cpp
     Graphics/BitmapFont.cpp
-    Graphics/TextRenderer.cpp
     # Jeu (simulation d'un niveau + viewport Qt jeu/édition)
     Game/GameSession.cpp
     Game/GameViewport.cpp
-    Game/ReplayPlayback.cpp
-    Game/Progression.cpp
-    Game/GameHud.cpp
-    Game/DiagnosticsHud.cpp
-    Game/GameEvents.cpp
-    Game/LevelRunStats.cpp
-    # Mode IA (LOT-ANNEXE-21) : entrainement interactif depuis l'IHM, seul point de HMI autorise a
-    # referencer AiSolver/Training/Nn/Optim/Eval (amendement documente de LOT-ANNEXE-18, epic.md).
     # Traduction requete -> surcharges (LOT-73, EX-IHM-083) : logique PURE, compilee aussi
     # dans UnitTests (cf. Source/Test/CMakeLists.txt) -- c'est la ou des reglages se perdaient.
-    Ai/TrainingOverrides.cpp
-    Ai/TrainingWorker.cpp
-    Ai/ModelEvaluation.cpp
-    Ai/EvaluationWorker.cpp
     # Localisation
-    Localization/Localization.cpp
     # Audio (bruitages, LOT-60)
-    Audio/SoundCatalog.cpp
-    Audio/SoundTriggers.cpp
     Audio/AudioEngine.cpp
     # Diagnostics (enregistrement des journaux de session)
-    Diagnostics/SessionLog.cpp
     # Interface (fenêtre, menu, options, remappage)
-    Interface/DesignTokens.cpp
-    Interface/StyleSheetTemplate.cpp
-    Interface/FontResolution.cpp
-    Interface/ThemeResolution.cpp
     Interface/ApplicationTheme.cpp
-    Interface/IconGeometry.cpp
     # Habillage pixel art des ecrans du jeu (LOT-68) : logique pure, compilee aussi
     # dans UnitTests (cf. Source/Test/CMakeLists.txt).
-    Interface/PixelArtScale.cpp
-    Interface/PixelFrameGeometry.cpp
-    Interface/MenuBackdropGeometry.cpp
-    Interface/KeyHintText.cpp
     # Widgets Qt de l'habillage pixel art (LOT-68) : peintres au-dessus de la geometrie pure
     # ci-dessus, promus dans les .ui. Non compiles dans UnitTests (dependent de Qt).
     Interface/PixelFrameWidget.cpp
     Interface/PixelFocusCaret.cpp
     Interface/PixelMenuButton.cpp
     Interface/ThemeIcons.cpp
-    Interface/ActionCatalog.cpp
     Interface/EditorActions.cpp
-    Interface/ScreenFlow.cpp
     # Enveloppe defilante de toute page d ecran (LOT-73, EX-IHM-080) : aucun ecran ne
     # contraint la taille de la fenetre.
     Interface/ScreenPageHost.cpp
-    Interface/EditorWorkspace.cpp
     Interface/MainWindow.cpp
     Interface/MainMenu.cpp
     Interface/PauseScreen.cpp
     Interface/LevelCompleteScreen.cpp
     Interface/LevelSelectScreen.cpp
     Interface/CreditsScreen.cpp
-    Interface/AiModeScreen.cpp
-    Interface/TrainingChartWidget.cpp
     Interface/OptionsPage.cpp
     Interface/KeybindingsWidget.cpp
     Interface/EditorKeybindingsWidget.cpp
@@ -255,38 +311,11 @@ add_executable(ProjectGaming
     Editor/PalettePanel.cpp
     Editor/LevelBrowserPanel.cpp
     Editor/LinkPanel.cpp
-    Editor/TileTaxonomy.cpp
-    Editor/TaxonomyLabels.cpp
     Editor/TexturePanel.cpp
-    Editor/PropertiesPanel.cpp
-    Editor/SkinAssignments.cpp
-    Editor/PaletteAppearance.cpp
-    Editor/LevelFileOperations.cpp
-    Editor/LevelNameValidation.cpp
-    Editor/LinkGeometry.cpp
-    Editor/LinkGesture.cpp
-    Editor/TextureAssignGesture.cpp
-    Editor/PathGeometry.cpp
-    Editor/PathGesture.cpp
-    Editor/AssetLibrary.cpp
-    Editor/ThumbnailGeometry.cpp
     Editor/AssetThumbnailView.cpp
-    Editor/AssetFileOperations.cpp
-    Editor/AssetReferences.cpp
-    Editor/MechanismAnimationAssignments.cpp
-    Editor/EditorStatus.cpp
-    Editor/PanelFocus.cpp
-    Editor/PixelOperations.cpp
-    Editor/PixelHistory.cpp
-    Editor/PixelCanvasGeometry.cpp
-    Editor/PlaneReference.cpp
-    Editor/PlaneFileNaming.cpp
     Editor/PixelCanvas.cpp
     Editor/PixelHistoryPanel.cpp
-    Editor/PixelAssetIO.cpp
-    Editor/PixelPalette.cpp
     Editor/PixelPalettePanel.cpp
-    Editor/PixelAutotilePreview.cpp
     Editor/PlanesPanel.cpp
     # Ressource embarquée (thème .qss) — traitée par AUTORCC.
     ${ELEMENTS_UI}/resources.qrc
@@ -297,10 +326,8 @@ add_executable(ProjectGaming
     ${ELEMENTS_UI}/LevelCompleteScreen.ui
     ${ELEMENTS_UI}/LevelSelectScreen.ui
     ${ELEMENTS_UI}/CreditsScreen.ui
-    ${ELEMENTS_UI}/AiModeScreen.ui
     ${ELEMENTS_UI}/OptionsPage.ui
     ${ELEMENTS_UI}/TexturePanel.ui
-    ${ELEMENTS_UI}/PropertiesPanel.ui
     ${ELEMENTS_UI}/PlanesPanel.ui
     ${ELEMENTS_UI}/LevelBrowserPanel.ui
     ${ELEMENTS_UI}/AssetThumbnailView.ui
@@ -309,7 +336,7 @@ add_executable(ProjectGaming
 # Shaders du pipeline 2D, compilés en `.qsb` par `qsb` (module ShaderTools) et embarqués comme
 # ressource Qt. Un `.qsb` porte plusieurs variantes (SPIR-V, HLSL, MSL, GLSL) : c'est ce qui permet
 # à QRhi de choisir son backend à l'exécution sans que le projet ait à livrer un shader par API.
-qt6_add_shaders(ProjectGaming "projectgaming_shaders"
+qt6_add_shaders(JustAnotherDnDGame "jadg_shaders"
     PREFIX "/shaders"
     BASE "${CMAKE_CURRENT_SOURCE_DIR}/Graphics/Shaders"
     FILES
@@ -318,21 +345,16 @@ qt6_add_shaders(ProjectGaming "projectgaming_shaders"
 )
 
 # Racine d'inclusion Source/ (pour les includes "HMI/..." et "Core/...").
-target_include_directories(ProjectGaming PRIVATE ${PROJECT_SOURCE_DIR}/Source)
+target_include_directories(JustAnotherDnDGame PRIVATE ${PROJECT_SOURCE_DIR}/Source)
 
 # Les mises en page .ui vivent dans Source/Elements/UI (assets), pas à côté des widgets : AUTOUIC
 # doit y chercher le .ui correspondant à chaque include "ui_*.h".
-set_target_properties(ProjectGaming PROPERTIES AUTOUIC_SEARCH_PATHS ${ELEMENTS_UI})
+set_target_properties(JustAnotherDnDGame PROPERTIES AUTOUIC_SEARCH_PATHS ${ELEMENTS_UI})
 
-target_link_libraries(ProjectGaming PRIVATE
-    Core
-    # Lecture/validation de rejeu (HMI/Game/ReplayPlayback.h, LOT-ANNEXE-18) : une bibliotheque
-    # CMake complete puisque add_library ne se decoupe pas en sous-cibles internes. En dehors de
-    # HMI/Ai (LOT-ANNEXE-21, entrainement interactif depuis l'IHM -- amendement documente de la
-    # regle de LOT-ANNEXE-18), le reste de HMI (ReplayPlayback, GameSession, GameViewport, Editor)
-    # reste limite au sous-espace aisolver:: de Source/AiSolver/Replay, jamais Nn/Autodiff/Optim/
-    # Training.
-    AiSolver
+target_link_libraries(JustAnotherDnDGame PRIVATE
+    # La couche sans Qt Widgets (LOT-02) : elle propage Core, la racine d'inclusion Source/ et
+    # nlohmann_json, que l'application n'a donc plus à redemander.
+    HmiLib
     Qt6::Widgets
     Qt6::Gui
     # QRhi vit dans les en-têtes privés de QtGui : c'est une API privée, stable en pratique mais
@@ -342,12 +364,10 @@ target_link_libraries(ProjectGaming PRIVATE
     xinput
     project_warnings
     project_options
-    # Les *KeyBindings persistent en JSON ; Core ne propage pas nlohmann_json (lien PRIVATE).
-    nlohmann_json::nlohmann_json
 )
 
 # Réduit la surface de Windows.h, évite les macros min/max, API Unicode.
-target_compile_definitions(ProjectGaming PRIVATE
+target_compile_definitions(JustAnotherDnDGame PRIVATE
     WIN32_LEAN_AND_MEAN
     NOMINMAX
     UNICODE
@@ -355,13 +375,13 @@ target_compile_definitions(ProjectGaming PRIVATE
 )
 
 if(ENABLE_PCH)
-    target_precompile_headers(ProjectGaming PRIVATE ${PROJECT_SOURCE_DIR}/Source/pch.h)
+    target_precompile_headers(JustAnotherDnDGame PRIVATE ${PROJECT_SOURCE_DIR}/Source/pch.h)
 endif()
 
 # Copie des assets à côté de l'exécutable, pour que l'éditeur charge niveaux et traductions
 # relativement à son binaire.
 #
-# Cible séparée (et non des POST_BUILD sur ProjectGaming) : sous Ninja, un POST_BUILD est fondu
+# Cible séparée (et non des POST_BUILD sur JustAnotherDnDGame) : sous Ninja, un POST_BUILD est fondu
 # dans l'arête de build de l'exécutable et n'est rejoué que si celle-ci l'est — c'est-à-dire quand
 # un .obj change. Modifier uniquement un fichier sous Source/Elements/{Levels,Assets,...} ne
 # touche aucun .obj, donc l'exécutable reste « à jour » aux yeux de Ninja et la copie est silencieusement
@@ -370,21 +390,18 @@ endif()
 add_custom_target(CopyGameData ALL
     COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${PROJECT_SOURCE_DIR}/Source/Elements/Localization
-        $<TARGET_FILE_DIR:ProjectGaming>/Localization
+        $<TARGET_FILE_DIR:JustAnotherDnDGame>/Localization
     COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${PROJECT_SOURCE_DIR}/Source/Elements/Levels
-        $<TARGET_FILE_DIR:ProjectGaming>/Levels
+        $<TARGET_FILE_DIR:JustAnotherDnDGame>/Levels
     COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${PROJECT_SOURCE_DIR}/Source/Elements/Assets
-        $<TARGET_FILE_DIR:ProjectGaming>/Assets
+        $<TARGET_FILE_DIR:JustAnotherDnDGame>/Assets
     COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${PROJECT_SOURCE_DIR}/Source/Elements/Audio
-        $<TARGET_FILE_DIR:ProjectGaming>/Audio
-    COMMAND ${CMAKE_COMMAND} -E copy_directory
-        ${PROJECT_SOURCE_DIR}/Source/Elements/Replays
-        $<TARGET_FILE_DIR:ProjectGaming>/Replays
-    COMMENT "Copie des données de jeu (traductions, niveaux, assets, audio, rejeux publiés)")
-add_dependencies(ProjectGaming CopyGameData)
+        $<TARGET_FILE_DIR:JustAnotherDnDGame>/Audio
+    COMMENT "Copie des données de jeu (traductions, cartes, assets, audio)")
+add_dependencies(JustAnotherDnDGame CopyGameData)
 
 # Déploiement Qt : copie les DLL Qt (plateforme, styles) à côté de l'exécutable pour que
 # l'utilisateur final n'ait **aucune bibliothèque à installer** — un simple dossier exécutable
@@ -393,10 +410,10 @@ get_target_property(_qmake_exe Qt6::qmake IMPORTED_LOCATION)
 get_filename_component(_qt_bin_dir "${_qmake_exe}" DIRECTORY)
 find_program(WINDEPLOYQT_EXE windeployqt HINTS "${_qt_bin_dir}")
 if(WINDEPLOYQT_EXE)
-    add_custom_command(TARGET ProjectGaming POST_BUILD
+    add_custom_command(TARGET JustAnotherDnDGame POST_BUILD
         COMMAND "${WINDEPLOYQT_EXE}"
             --no-translations --compiler-runtime
-            "$<TARGET_FILE:ProjectGaming>"
+            "$<TARGET_FILE:JustAnotherDnDGame>"
         COMMENT "Déploiement des DLL Qt + runtime à côté de l'exécutable (windeployqt)")
 
     # `--no-translations` ci-dessus reste le bon réglage : windeployqt déploierait la trentaine de
@@ -414,14 +431,14 @@ if(WINDEPLOYQT_EXE)
     set(_qt_translations_dir "${_qt_prefix}/translations")
     foreach(_lang fr en)
         if(EXISTS "${_qt_translations_dir}/qtbase_${_lang}.qm")
-            add_custom_command(TARGET ProjectGaming POST_BUILD
+            add_custom_command(TARGET JustAnotherDnDGame POST_BUILD
                 COMMAND ${CMAKE_COMMAND} -E copy_if_different
                     "${_qt_translations_dir}/qtbase_${_lang}.qm"
-                    "$<TARGET_FILE_DIR:ProjectGaming>/Translations/qtbase_${_lang}.qm"
+                    "$<TARGET_FILE_DIR:JustAnotherDnDGame>/Translations/qtbase_${_lang}.qm"
                 COMMENT "Copie du catalogue Qt qtbase_${_lang}.qm")
         endif()
     endforeach()
 else()
-    message(STATUS "ProjectGaming : windeployqt introuvable, DLL Qt non déployées "
+    message(STATUS "JustAnotherDnDGame : windeployqt introuvable, DLL Qt non déployées "
         "automatiquement (exécution possible depuis un environnement Qt).")
 endif()

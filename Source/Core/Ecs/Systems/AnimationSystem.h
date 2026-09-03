@@ -71,7 +71,7 @@ constexpr int PLAYER_CLIP_DASH = 6;
  * Toute la logique vit ici ; les composants restent des **données pures** (`EX-ARCH-011`).
  * Déterministe au pas fixe (`EX-NFR-002`), testable sans GPU (`EX-NFR-010`).
  *
- * Doit s'exécuter **après** `CharacterPhysicsSystem` dans la boucle d'un écran : il lit l'état
+ * Doit s'exécuter **après** le système de déplacement dans la boucle d'un écran : il lit l'état
  * `grounded` calculé par la physique pour le **même** pas.
  */
 class AnimationSystem : public ISystem {

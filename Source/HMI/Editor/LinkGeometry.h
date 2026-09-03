@@ -27,11 +27,9 @@ namespace hmi {
            type == core::TileType::Key;
 }
 
-/// @return true si @p type est une cible de liaison (porte, danger commuté ou porte verrouillée,
-///         `EX-GP-023`).
+/// @return true si @p type est une cible de liaison (porte ou porte verrouillée, `EX-GP-023`).
 [[nodiscard]] constexpr bool isLinkTargetTile(core::TileType type) noexcept {
-    return type == core::TileType::Door || type == core::TileType::DangerSwitched ||
-           type == core::TileType::LockedDoor;
+    return type == core::TileType::Door || type == core::TileType::LockedDoor;
 }
 
 /// @brief Segment reliant le centre d'un déclencheur au centre de sa cible, en unités monde.
@@ -75,7 +73,7 @@ struct ArrowHead {
 [[nodiscard]] ArrowHead arrowHead(core::Vector2 from, core::Vector2 to) noexcept;
 
 /// @brief Nature d'une liaison affichée (couleur/libellé distincts dans le panneau et le rendu).
-enum class LinkKind { Mechanism, DangerLink };
+enum class LinkKind { Mechanism };
 
 /// @brief Une ligne du panneau « Liens » (ou une entrée à dessiner dans le viewport).
 struct LinkRow {
@@ -88,8 +86,7 @@ struct LinkRow {
  * @brief Construit la liste des liaisons d'un brouillon, dans un ordre déterministe.
  *
  * Alimente à la fois le panneau « Liens » (`hmi::LinkPanel`) et le rendu (`hmi::DraftRenderer`) —
- * source unique, aucune duplication (`EX-EDIT-010`). Ordre : `draft.mechanisms()` puis
- * `draft.dangerLinks()`, dans l'ordre de leurs vecteurs respectifs.
+ * source unique, aucune duplication (`EX-EDIT-010`). Ordre : celui de `draft.mechanisms()`.
  * @param draft Brouillon dont on liste les liaisons.
  * @return Les liaisons, dans un ordre stable.
  */

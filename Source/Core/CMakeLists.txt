@@ -10,9 +10,10 @@ add_library(Core STATIC
     Ecs/World.cpp
     Ecs/AnimationClip.cpp
     Ecs/Systems/MovementSystem.cpp
-    Ecs/Systems/CharacterPhysicsSystem.cpp
     Ecs/Systems/AnimationSystem.cpp
     Ecs/Systems/ParticleSystem.cpp
+    World/GridDistanceField.cpp
+    Gameplay/MechanismController.cpp
     Levels/TileMap.cpp
     Levels/TileTypeName.cpp
     Levels/CameraFraming.cpp
@@ -22,16 +23,7 @@ add_library(Core STATIC
     Levels/LevelDraft.cpp
     Levels/LevelScene.cpp
     Levels/LevelOutcome.cpp
-    Levels/DangerGeometry.cpp
-    Gameplay/MechanismController.cpp
-    Gameplay/BlockController.cpp
-    Gameplay/DangerController.cpp
-    Gameplay/PlatformController.cpp
-    Gameplay/PlatformPath.cpp
-    Gameplay/SinkingBlockController.cpp
-    Gameplay/VolatileBlockController.cpp
     Physics/SweptCollision.cpp
-    Physics/SlopeGeometry.cpp
     Physics/AabbVsAabb.cpp
     Time/FixedTimestep.cpp
     Diagnostics/LogFormat.cpp
@@ -48,7 +40,7 @@ target_include_directories(Core PUBLIC ${PROJECT_SOURCE_DIR}/Source)
 # Numéro de version : injecté depuis `project(... VERSION ...)`, seul endroit où il est écrit.
 # PRIVATE suffit — Core.cpp est l'unique consommateur, et un en-tête généré obligerait tous les
 # dépendants à connaître un répertoire d'inclusion supplémentaire pour une seule chaîne.
-target_compile_definitions(Core PRIVATE PROJECTGAMING_VERSION="${PROJECT_VERSION}")
+target_compile_definitions(Core PRIVATE JADG_VERSION="${PROJECT_VERSION}")
 
 target_link_libraries(Core PRIVATE project_warnings project_options nlohmann_json::nlohmann_json)
 

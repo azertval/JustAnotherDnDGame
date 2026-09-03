@@ -30,7 +30,6 @@ MainMenu::MainMenu(QWidget* parent) : QWidget(parent), _ui(std::make_unique<Ui::
     connect(_ui->continueButton, &QPushButton::clicked, this, &MainMenu::continueRequested);
     connect(_ui->newGameButton, &QPushButton::clicked, this, &MainMenu::newGameRequested);
     connect(_ui->selectLevelButton, &QPushButton::clicked, this, &MainMenu::selectLevelRequested);
-    connect(_ui->aiModeButton, &QPushButton::clicked, this, &MainMenu::aiModeRequested);
     connect(_ui->editorButton, &QPushButton::clicked, this, &MainMenu::editorRequested);
     connect(_ui->optionsButton, &QPushButton::clicked, this, &MainMenu::optionsRequested);
     connect(_ui->creditsButton, &QPushButton::clicked, this, &MainMenu::creditsRequested);
@@ -52,7 +51,6 @@ void MainMenu::retranslateUi(const Localization& loc) {
     _ui->continueButton->setText(QString::fromStdString(loc.text("menu.continue")));
     _ui->newGameButton->setText(QString::fromStdString(loc.text("menu.new_game")));
     _ui->selectLevelButton->setText(QString::fromStdString(loc.text("menu.select_level")));
-    _ui->aiModeButton->setText(QString::fromStdString(loc.text("menu.ai_mode")));
     _ui->editorButton->setText(QString::fromStdString(loc.text("menu.edit_mode")));
     _ui->optionsButton->setText(QString::fromStdString(loc.text("menu.options")));
     _ui->creditsButton->setText(QString::fromStdString(loc.text("menu.credits")));

@@ -15,6 +15,6 @@ Implémenté (LOT-03) :
 - `ISystem` — interface d'un système (`update(World&, float fixedDelta)`).
 - `World` — façade : `createEntity` / `destroyEntity` (purge toutes les pools), `addComponent` / `getComponent` / `hasComponent` / `removeComponent`, `view<...>()`, `addSystem` / `update` (exécution ordonnée au pas fixe).
 - `Components/` — composants données pures : `Transform` (position, échelle, rotation), `Velocity` (vitesse en unités monde/s), `Sprite` (région d'atlas, couche, teinte — lu par le rendu de `HMI`), `Collider` (boîte AABB de collision), `Player` (marqueur du personnage jouable + état de contact au sol), `Animation` (clip/image courante du personnage, `EX-REN-012`).
-- `Systems/` — systèmes : `MovementSystem` (intègre `position += velocity * fixedDelta` sur les entités `Transform + Velocity`), `CharacterPhysicsSystem` (déplacement, gravité et collisions du personnage par pas fixe), `AnimationSystem` (dérive le clip/l'image d'animation de l'état physique du personnage).
+- `Systems/` — systèmes : `MovementSystem` (intègre `position += velocity * fixedDelta` sur les entités `Transform + Velocity`), `AnimationSystem` (dérive le clip/l'image d'animation de l'état du personnage), `ParticleSystem`. Le contrôleur de déplacement du personnage a été retiré au `LOT-01` avec le gameplay de plateforme ; son remplaçant en vue de dessus arrive au `LOT-06`.
 
 Réf. specs : `EX-ARCH-010`, `EX-ARCH-011`, `EX-ARCH-012`, `EX-ARCH-100`.

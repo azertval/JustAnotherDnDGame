@@ -106,7 +106,7 @@ TEST(GameKeyBindingsTest, ResetToDefaultsRestaureLesDefauts) {
  */
 TEST(GameKeyBindingsTest, SaveEtLoadAllerRetour) {
     const std::filesystem::path path =
-        std::filesystem::temp_directory_path() / "projectgaming_test_game_bindings.json";
+        std::filesystem::temp_directory_path() / "jadg_test_game_bindings.json";
     std::filesystem::remove(path);
 
     hmi::GameKeyBindings original;
@@ -135,7 +135,7 @@ TEST(GameKeyBindingsTest, SaveEtLoadAllerRetour) {
  */
 TEST(GameKeyBindingsTest, LoadFichierAbsentRenvoieLesDefauts) {
     const std::filesystem::path path =
-        std::filesystem::temp_directory_path() / "projectgaming_test_game_bindings_absent.json";
+        std::filesystem::temp_directory_path() / "jadg_test_game_bindings_absent.json";
     std::filesystem::remove(path);
 
     const hmi::GameKeyBindings bindings = hmi::GameKeyBindings::load(path);
@@ -156,7 +156,7 @@ TEST(GameKeyBindingsTest, LoadFichierAbsentRenvoieLesDefauts) {
  */
 TEST(GameKeyBindingsTest, LoadJsonCorrompuRenvoieLesDefauts) {
     const std::filesystem::path path =
-        std::filesystem::temp_directory_path() / "projectgaming_test_game_bindings_corrompu.json";
+        std::filesystem::temp_directory_path() / "jadg_test_game_bindings_corrompu.json";
     {
         std::ofstream corrupt(path, std::ios::binary);
         corrupt << "{ceci n'est pas du json valide";
@@ -181,8 +181,8 @@ TEST(GameKeyBindingsTest, LoadJsonCorrompuRenvoieLesDefauts) {
  * }
  */
 TEST(GameKeyBindingsTest, LoadValeurHorsBornesIgnoree) {
-    const std::filesystem::path path = std::filesystem::temp_directory_path() /
-                                       "projectgaming_test_game_bindings_hors_bornes.json";
+    const std::filesystem::path path =
+        std::filesystem::temp_directory_path() / "jadg_test_game_bindings_hors_bornes.json";
     {
         std::ofstream file(path, std::ios::binary);
         file << R"({"jeu": {"sauter": 99999}})";
@@ -209,7 +209,7 @@ TEST(GameKeyBindingsTest, LoadValeurHorsBornesIgnoree) {
  */
 TEST(GameKeyBindingsTest, LoadFichierAnterieurSansInteragirPrendLaValeurParDefaut) {
     const std::filesystem::path path =
-        std::filesystem::temp_directory_path() / "projectgaming_test_game_bindings_anterieur.json";
+        std::filesystem::temp_directory_path() / "jadg_test_game_bindings_anterieur.json";
     {
         std::ofstream file(path, std::ios::binary);
         // Section "jeu" telle qu'ecrite avant LOT-63 : aucune entree "interagir".
@@ -237,7 +237,7 @@ TEST(GameKeyBindingsTest, LoadFichierAnterieurSansInteragirPrendLaValeurParDefau
  */
 TEST(GameKeyBindingsTest, SavePreserveLaSectionEditeur) {
     const std::filesystem::path path =
-        std::filesystem::temp_directory_path() / "projectgaming_test_game_bindings_partage.json";
+        std::filesystem::temp_directory_path() / "jadg_test_game_bindings_partage.json";
     {
         std::ofstream file(path, std::ios::binary);
         file << R"({"editeur": {"sauvegarder": 83}})";

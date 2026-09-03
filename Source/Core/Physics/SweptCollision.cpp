@@ -10,33 +10,12 @@
 #include "Core/Math/Vector2.h"
 #include "Core/Physics/Aabb.h"
 #include "Core/Physics/PhysicsConfig.h"
-#include "Core/Physics/SlopeGeometry.h"
 
 namespace core {
 namespace {
 
 // Fine « peau » : évite d'accrocher la tuile que le bord de la boîte ne fait qu'effleurer
 // (bord exactement sur une frontière de cellule). Détermine la portée PERPENDICULAIRE au balayage.
-
-// Une pente (EX-GP-003) n'est jamais solide (voir isSolid), donc le bord bas de la boîte peut s'y
-// enfoncer PARTIELLEMENT dans la case — contrairement au sol plat, où il ne fait jamais
-// qu'affleurer la frontière (raison pour laquelle `COLLISION_SKIN` suffit à exclure cette ligne du
-// balayage horizontal). Sans cette exclusion, un bloc plein adjacent à la MÊME ligne qu'une pente
-// bloquerait le personnage à mi-montée : son corps chevauche encore la case du dessous alors qu'il
-// n'a fait que suivre la pente (comportement normal, pas un mur). On exclut donc du balayage
-// horizontal toute ligne où l'empreinte horizontale COURANTE de la boîte repose sur une pente.
-bool rowIsSlopeGround(const TileMap& tiles, const Vector2& position, const Vector2& size, int row) {
-    const int width = tiles.width();
-    const int columnStart = std::clamp(static_cast<int>(std::floor(position.x)), 0, width - 1);
-    const int columnEnd = std::clamp(
-        static_cast<int>(std::floor(position.x + size.x - COLLISION_SKIN)), 0, width - 1);
-    for (int column = columnStart; column <= columnEnd; ++column) {
-        if (isFollowableSurface(tiles.tile(column, row))) {
-            return true;
-        }
-    }
-    return false;
-}
 
 // Choix technique (voir en-tête) : on résout AXE PAR AXE. Chaque axe est un balayage 1D continu.
 // L'avantage décisif sur la méthode diagonale « Minkowski + slabs » est le CLAMP DIRECT : on cale
@@ -66,7 +45,7 @@ float sweepX(const TileMap& tiles, const Vector2& position, const Vector2& size,
         const int columnEnd = std::clamp(static_cast<int>(std::floor(newX + size.x)), 0, width - 1);
         for (int column = columnStart; column <= columnEnd; ++column) {
             for (int row = rowMin; row <= rowMax; ++row) {
-                if (tiles.isSolid(column, row) && !rowIsSlopeGround(tiles, position, size, row)) {
+                if (tiles.isSolid(column, row)) {
                     sign = -1.0F;
                     return static_cast<float>(column) - size.x;  // bord droit collé au mur (column)
                 }
@@ -77,7 +56,7 @@ float sweepX(const TileMap& tiles, const Vector2& position, const Vector2& size,
         const int columnEnd = std::clamp(static_cast<int>(std::floor(newX)), 0, width - 1);
         for (int column = columnStart; column >= columnEnd; --column) {
             for (int row = rowMin; row <= rowMax; ++row) {
-                if (tiles.isSolid(column, row) && !rowIsSlopeGround(tiles, position, size, row)) {
+                if (tiles.isSolid(column, row)) {
                     sign = 1.0F;
                     return static_cast<float>(column + 1);  // bord gauche collé au mur (column + 1)
                 }

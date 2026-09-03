@@ -241,7 +241,7 @@ TEST(PixelHistoryTest, AppliedEntriesExposeLaListeOrdonnee) {
  * }
  */
 TEST(PixelHistoryTest, ClesDeNomDOperationExistentDansLesDeuxCatalogues) {
-    const std::filesystem::path directory(PROJECTGAMING_LOCALIZATION_DIR);
+    const std::filesystem::path directory(JADG_LOCALIZATION_DIR);
     const hmi::PixelOperationKind kinds[] = {
         hmi::PixelOperationKind::Brush,
         hmi::PixelOperationKind::Eraser,

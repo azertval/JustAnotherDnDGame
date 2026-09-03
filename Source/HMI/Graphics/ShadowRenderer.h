@@ -35,7 +35,7 @@ inline constexpr float SHADOW_OPACITY = 0.4f;
  * La forme échantillonnée est celle de `hmi::regionForTile` — **le même** atlas procédural que le
  * mode Physique et que le masque de silhouette (`hmi::isInsideSilhouette`) : une case carrée
  * pleine ou arrondi/pente est déjà, dans cet atlas, opaque **exactement** là où la matière est
- * présente et transparente ailleurs (`hmi::SlopeMask::applySilhouetteMask`, `hmi::
+ * présente et transparente ailleurs (`hmi::isInsideSilhouette`, `hmi::
  * buildProceduralAtlasImage`). Teinter cette région en noir semi-transparent donne donc l'ombre à
  * sa forme réelle sans réimplémenter la géométrie, et sans le moindre nouveau prédicat de solidité
  * dans `Core` — un bloc réduit (`BlockHalf`/`BlockQuarter`) hérite de la même façon de sa taille

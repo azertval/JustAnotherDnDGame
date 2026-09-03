@@ -220,15 +220,15 @@ pendant que le `config.json` du run affirmait le contraire.
 - \anchor EX-IHM-083 **EX-IHM-083** — Tout **réglage exposé** par un écran doit **atteindre** le
   moteur, ou ne pas être exposé ; et l'écran doit **ouvrir sur les valeurs par défaut du moteur**,
   jamais sur une seconde liste de valeurs inscrite dans sa description. Généralise à toute l'IHM le
-  corollaire `IHM ⊇ CLI` du [`LOT-ANNEXE-22`](@ref lot-annexe-22). Un réglage inerte est pire qu'un
+  corollaire `IHM ⊇ CLI` du `LOT-ANNEXE-22` (hérité). Un réglage inerte est pire qu'un
   réglage absent : il se règle, il s'enregistre dans la configuration du run, et il ment.
 
 ## Traçabilité
-Tout ceci relève de `Source/HMI` — depuis le `LOT-38`, l'unique application Qt `ProjectGaming` (rendu
+Tout ceci relève de `Source/HMI` — depuis le `LOT-38`, l'unique application Qt `JustAnotherDnDGame` (rendu
 de jeu Direct3D 11 + widgets Qt répartis par domaine) ; les assets Qt déclaratifs vivent dans
 `Source/Elements`. La logique testable (édition, validation, remappage) reste découplée de l'UI et
 couverte par des tests (`EX-NFR-010`, `EX-NFR-020`). Détail du séquencement : lots
-[`LOT-34`](@ref lot-34) à [`LOT-39`](@ref lot-39) pour la refonte initiale ;
-[`LOT-56`](@ref lot-56) (section 6) et [`LOT-57`](@ref lot-57) (section 7) pour la révision de
-l'apparence et de la répartition de l'information ; [`LOT-73`](@ref lot-73) (section 9) pour
+`LOT-34` à `LOT-39` pour la refonte initiale ;
+`LOT-56` (section 6) et `LOT-57` (section 7) pour la révision de
+l'apparence et de la répartition de l'information ; `LOT-73` (section 9) pour
 l'invariant de taille, les portées de thème et les réglages effectifs.

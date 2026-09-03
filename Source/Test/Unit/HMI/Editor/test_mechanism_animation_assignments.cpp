@@ -22,7 +22,7 @@ namespace {
 
 std::filesystem::path makeTempSkinsDir(const std::string& suffix) {
     const std::filesystem::path directory =
-        std::filesystem::temp_directory_path() / ("projectgaming_mech_anim_dir_" + suffix);
+        std::filesystem::temp_directory_path() / ("jadg_mech_anim_dir_" + suffix);
     std::filesystem::remove_all(directory);
     std::filesystem::create_directories(directory);
     return directory;

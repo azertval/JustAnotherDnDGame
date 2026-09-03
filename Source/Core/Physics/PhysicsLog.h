@@ -15,7 +15,7 @@
  * (`Core/CoreLog.h`) applique la même restriction, voir sa documentation.
  */
 
-#define PHYSICS_LOG_TRACE(message) PROJECTGAMING_LOG_TRACE("Physics", message)
-#define PHYSICS_LOG_INFO(message) PROJECTGAMING_LOG_INFO("Physics", message)
-#define PHYSICS_LOG_WARNING(message) PROJECTGAMING_LOG_WARNING("Physics", message)
-#define PHYSICS_LOG_ERROR(message) PROJECTGAMING_LOG_ERROR("Physics", message)
+#define PHYSICS_LOG_TRACE(message) JADG_LOG_TRACE("Physics", message)
+#define PHYSICS_LOG_INFO(message) JADG_LOG_INFO("Physics", message)
+#define PHYSICS_LOG_WARNING(message) JADG_LOG_WARNING("Physics", message)
+#define PHYSICS_LOG_ERROR(message) JADG_LOG_ERROR("Physics", message)

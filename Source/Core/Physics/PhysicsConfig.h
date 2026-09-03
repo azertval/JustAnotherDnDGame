@@ -25,7 +25,7 @@ inline constexpr float COLLISION_SKIN = 1e-4F;
 /**
  * @brief Paramètres réglables de la physique du personnage, regroupés pour faciliter le *tuning*.
  *
- * Donnée pure (`EX-ARCH-011`) : le `CharacterPhysicsSystem` la lit, ne la modifie pas. Les valeurs
+ * Donnée pure (`EX-ARCH-011`) : le système de déplacement la lit, ne la modifie pas. Les valeurs
  * par défaut sont des points de départ **à affiner par tests** (le ressenti « game feel » est
  * marqué ⚠️ dans la spec `gameplay.md`). Unités monde : une tuile = 1 unité, `y` vers le bas.
  */

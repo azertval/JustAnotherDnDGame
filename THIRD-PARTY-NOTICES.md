@@ -1,10 +1,10 @@
 # Mentions de tiers
 
-Ce fichier recense les composants tiers redistribués avec ProjectGaming, ou dont il dépend au
+Ce fichier recense les composants tiers redistribués avec JustAnotherDnDGame, ou dont il dépend au
 build, avec leur licence. Il ne remplace pas les fichiers de licence livrés à côté des ressources
 concernées : il y renvoie.
 
-ProjectGaming lui-même est sous **GPL-3.0-or-later** ([`LICENSE`](LICENSE)).
+JustAnotherDnDGame lui-même est sous **GPL-3.0-or-later** ([`LICENSE`](LICENSE)).
 
 > **À ne pas confondre.** Les en-têtes `SPDX-License-Identifier: GPL-3.0-or-later` marquent le
 > **code du projet** — `Source/**/*.h`, `Source/**/*.cpp`, `scripts/*.py`, les `CMakeLists.txt` — et

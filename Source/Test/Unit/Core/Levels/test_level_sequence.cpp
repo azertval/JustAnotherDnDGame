@@ -195,24 +195,3 @@ TEST_F(LevelSequenceDir, SequenceDontTousLesNiveauxExistentSeCharge) {
         core::LevelSequenceLoader::loadFromFile(dir / "sequence.json");
     EXPECT_TRUE(result.ok()) << result.error;
 }
-
-/**
- * @brief La séquence de démonstration livrée (`Source/Elements/Levels`) se charge et référence
- * exclusivement des niveaux qui existent tous -- la faute de frappe la plus probable.
- * \castest{<b>La séquence de démonstration livrée se charge et référence des niveaux qui existent
- * tous.</b><br/>
- * \tcat Unitaire · Level Sequence<br/>
- * \tcrit Critique<br/>
- * \tetapes 1. Charger `sequence-demo.json` depuis le dossier de niveaux livré.<br/>2. Vérifier le
- * succès et qu'au moins un niveau est référencé.<br/>
- * \tattendu Le chargement réussit ; tous les niveaux référencés existent (vérifié par
- * `loadFromFile` lui-même).
- * }
- */
-TEST(LevelSequenceLoaderTest, SequenceDeDemoLivreeValide) {
-    const std::filesystem::path path =
-        std::filesystem::path(PROJECTGAMING_LEVELS_DIR) / "sequence-demo.json";
-    const core::LevelSequenceLoadResult result = core::LevelSequenceLoader::loadFromFile(path);
-    ASSERT_TRUE(result.ok()) << result.error;
-    EXPECT_FALSE(result.sequence->levels.empty());
-}

@@ -21,7 +21,7 @@ namespace core {
  * @brief Sink qui écrit chaque message dans un fichier, ligne par ligne.
  *
  * Flush immédiat à chaque message (comme `ConsoleLogSink`) : un arrêt brutal du processus
- * (crash, `std::abort()` déclenché par `PROJECTGAMING_ASSERT`) ne perd pas les dernières lignes
+ * (crash, `std::abort()` déclenché par `JADG_ASSERT`) ne perd pas les dernières lignes
  * écrites avant l'incident — c'est la raison d'être principale de ce sink par rapport à
  * `MemoryLogSink` (perdu à la fermeture) ou à un export manuel.
  */

@@ -17,7 +17,7 @@
  *        `EX-IHM-055`).
  *
  * Logique **pure** (aucune dépendance Qt/GPU), testable hors instance d'application
- * (`EX-NFR-010`) — compilée à la fois dans `ProjectGaming` et directement dans `UnitTests`. La
+ * (`EX-NFR-010`) — compilée à la fois dans `JustAnotherDnDGame` et directement dans `UnitTests`. La
  * construction Qt des `QAction` (`HMI/Interface/EditorActions.h`) est produite depuis ce
  * catalogue, pour qu'aucune commande n'ait deux définitions (menu, barre d'outils, raccourci).
  */
@@ -60,10 +60,10 @@ struct EditorActionSpec {
     ActionSurface surface;
 };
 
-/// Nombre total d'actions du catalogue (huit outils de niveau, cinq outils de canevas pixel art,
+/// Nombre total d'actions du catalogue (six outils de niveau, cinq outils de canevas pixel art,
 /// onze commandes principales, quatre commandes de fichier de l'atelier, quatre commandes de
 /// région de l'atelier).
-constexpr int EDITOR_ACTION_CATALOG_COUNT = 31;
+constexpr int EDITOR_ACTION_CATALOG_COUNT = 30;
 
 /// @return Le catalogue complet, dans l'ordre d'affichage voulu de la barre d'outils : les huit
 ///         outils de niveau (ordre de la palette/du panneau Outils historique), les outils

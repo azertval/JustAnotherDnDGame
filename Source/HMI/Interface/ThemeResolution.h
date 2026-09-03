@@ -8,7 +8,7 @@
  * @brief Résolution du thème effectif du châssis d'édition (`LOT-56` TACHE-06, `EX-IHM-054`).
  *
  * Logique **pure** (aucune dépendance Qt/GPU), testable hors instance d'application
- * (`EX-NFR-010`) — compilée à la fois dans `ProjectGaming` et directement dans `UnitTests`.
+ * (`EX-NFR-010`) — compilée à la fois dans `JustAnotherDnDGame` et directement dans `UnitTests`.
  */
 
 namespace hmi {

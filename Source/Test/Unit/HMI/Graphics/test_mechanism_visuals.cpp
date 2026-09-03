@@ -57,56 +57,6 @@ TEST(MechanismVisualsTest, PressurePlateTargetClips) {
 }
 
 /**
- * @brief Le danger commutable demande le clip inactif ou actif selon son état.
- * \castest{<b>Le danger commutable demande le clip inactif ou actif selon son état.</b><br/>
- * \tcat Unitaire · Apparence des mécanismes<br/>
- * \tcrit Majeur<br/>
- * \tetapes 1. Mettre en place le contexte du test (arrangement).<br/>2. Executer le scenario et
- * verifier les assertions.<br/>
- * }
- */
-TEST(MechanismVisualsTest, DangerSwitchedTargetClips) {
-    EXPECT_EQ(mechanismTargetClip(core::TileType::DangerSwitched, false),
-              MECHANISM_CLIP_DANGER_SWITCHED_INACTIVE);
-    EXPECT_EQ(mechanismTargetClip(core::TileType::DangerSwitched, true),
-              MECHANISM_CLIP_DANGER_SWITCHED_ACTIVE);
-}
-
-/**
- * @brief Le danger clignotant demande le clip inoffensif ou mortel selon la phase courante — c'est
- * ce qui rend sa fenêtre de létalité **lisible** avant de s'y engager.
- * \castest{<b>Le danger clignotant demande le clip inoffensif ou mortel selon sa phase.</b><br/>
- * \tcat Unitaire · Apparence des mécanismes<br/>
- * \tcrit Critique<br/>
- * \tetapes 1. Mettre en place le contexte du test (arrangement).<br/>2. Executer le scenario et
- * verifier les assertions.<br/>
- * }
- */
-TEST(MechanismVisualsTest, DangerBlinkTargetClips) {
-    EXPECT_EQ(mechanismTargetClip(core::TileType::DangerBlink, false),
-              MECHANISM_CLIP_DANGER_BLINK_HARMLESS);
-    EXPECT_EQ(mechanismTargetClip(core::TileType::DangerBlink, true),
-              MECHANISM_CLIP_DANGER_BLINK_LETHAL);
-}
-
-/**
- * @brief Le danger mobile n'a qu'un seul clip, quel que soit l'état passé : il n'a pas d'état
- * logique à refléter, et lui inventer une seconde apparence induirait le joueur en erreur.
- * \castest{<b>Le danger mobile a un seul clip, quel que soit l'état passé.</b><br/>
- * \tcat Unitaire · Apparence des mécanismes<br/>
- * \tcrit Majeur<br/>
- * \tetapes 1. Mettre en place le contexte du test (arrangement).<br/>2. Executer le scenario et
- * verifier les assertions.<br/>
- * }
- */
-TEST(MechanismVisualsTest, DangerMoverHasSingleClipIrrespectiveOfActive) {
-    EXPECT_EQ(mechanismTargetClip(core::TileType::DangerMover, false),
-              MECHANISM_CLIP_DANGER_MOVER_IDLE);
-    EXPECT_EQ(mechanismTargetClip(core::TileType::DangerMover, true),
-              MECHANISM_CLIP_DANGER_MOVER_IDLE);
-}
-
-/**
  * @brief La clé demande le clip « présente » quand elle n'a pas encore été ramassée, « ramassée »
  * une fois consommée — même booléen que la porte verrouillée qui lui est liée (`EX-GP-023`).
  * \castest{<b>La clé demande le clip présente ou ramassée selon son état.</b><br/>
@@ -157,27 +107,6 @@ TEST(MechanismVisualsTest, StatelessTileProducesNoClipRequest) {
 }
 
 /**
- * @brief Les huit familles à état sont toutes reconnues comme mécanismes : le pendant positif du
- * test précédent, sans lequel le prédicat pourrait être trop restrictif sans que rien ne le montre.
- * \castest{<b>Les huit familles de mécanismes à état sont reconnues.</b><br/>
- * \tcat Unitaire · Apparence des mécanismes<br/>
- * \tcrit Majeur<br/>
- * \tetapes 1. Mettre en place le contexte du test (arrangement).<br/>2. Executer le scenario et
- * verifier les assertions.<br/>
- * }
- */
-TEST(MechanismVisualsTest, StatefulMechanismsAreRecognized) {
-    EXPECT_TRUE(isStatefulMechanism(core::TileType::Door));
-    EXPECT_TRUE(isStatefulMechanism(core::TileType::Switch));
-    EXPECT_TRUE(isStatefulMechanism(core::TileType::PressurePlate));
-    EXPECT_TRUE(isStatefulMechanism(core::TileType::DangerSwitched));
-    EXPECT_TRUE(isStatefulMechanism(core::TileType::DangerBlink));
-    EXPECT_TRUE(isStatefulMechanism(core::TileType::DangerMover));
-    EXPECT_TRUE(isStatefulMechanism(core::TileType::Key));
-    EXPECT_TRUE(isStatefulMechanism(core::TileType::LockedDoor));
-}
-
-/**
  * @brief La porte ne demande un clip de transition que sur un **changement** d'état — ouverture ou
  * fermeture — et rien quand l'état est stable : c'est ce qui empêche de rejouer l'ouverture en
  * boucle sur une porte qui reste ouverte.
@@ -199,55 +128,6 @@ TEST(MechanismVisualsTest, DoorTransitionsOnStateChangeOnly) {
 
     EXPECT_FALSE(mechanismTransitionClip(core::TileType::Door, true, true).has_value());
     EXPECT_FALSE(mechanismTransitionClip(core::TileType::Door, false, false).has_value());
-}
-
-/**
- * @brief Aucune autre famille ne demande de transition : interrupteur, plaque et dangers basculent
- * directement. Chercher une transition partout produirait des avertissements pour des assets
- * pourtant conformes.
- * \castest{<b>Seule la porte demande une transition ; les autres familles basculent
- * directement.</b><br/>
- * \tcat Unitaire · Apparence des mécanismes<br/>
- * \tcrit Majeur<br/>
- * \tetapes 1. Mettre en place le contexte du test (arrangement).<br/>2. Executer le scenario et
- * verifier les assertions.<br/>
- * }
- */
-TEST(MechanismVisualsTest, OnlyDoorTransitionsOtherFamiliesSnapDirectly) {
-    EXPECT_FALSE(mechanismTransitionClip(core::TileType::Switch, false, true).has_value());
-    EXPECT_FALSE(mechanismTransitionClip(core::TileType::PressurePlate, false, true).has_value());
-    EXPECT_FALSE(mechanismTransitionClip(core::TileType::DangerSwitched, false, true).has_value());
-    EXPECT_FALSE(mechanismTransitionClip(core::TileType::DangerBlink, false, true).has_value());
-    EXPECT_FALSE(mechanismTransitionClip(core::TileType::DangerMover, false, true).has_value());
-    EXPECT_FALSE(mechanismTransitionClip(core::TileType::Key, false, true).has_value());
-    EXPECT_FALSE(mechanismTransitionClip(core::TileType::LockedDoor, false, true).has_value());
-}
-
-/**
- * @brief La liste des clips attendus par famille couvre exactement les états **et** les transitions
- * qu'utilisent les deux fonctions précédentes, et reste vide pour une tuile sans état. C'est elle
- * qui sert au contrat d'asset : une divergence ferait valider des assets incomplets.
- * \castest{<b>Les clips attendus par famille correspondent aux états et transitions réellement
- * demandés.</b><br/>
- * \tcat Unitaire · Apparence des mécanismes<br/>
- * \tcrit Critique<br/>
- * \tetapes 1. Mettre en place le contexte du test (arrangement).<br/>2. Executer le scenario et
- * verifier les assertions.<br/>
- * }
- */
-TEST(MechanismVisualsTest, ExpectedClipsMatchTargetAndTransitionNames) {
-    const std::vector<std::string> doorClips = mechanismExpectedClips(core::TileType::Door);
-    EXPECT_EQ(doorClips,
-              (std::vector<std::string>{MECHANISM_CLIP_DOOR_CLOSED, MECHANISM_CLIP_DOOR_OPENING,
-                                        MECHANISM_CLIP_DOOR_OPEN, MECHANISM_CLIP_DOOR_CLOSING}));
-    EXPECT_EQ(mechanismExpectedClips(core::TileType::DangerMover),
-              (std::vector<std::string>{MECHANISM_CLIP_DANGER_MOVER_IDLE}));
-    EXPECT_EQ(mechanismExpectedClips(core::TileType::Key),
-              (std::vector<std::string>{MECHANISM_CLIP_KEY_PRESENT, MECHANISM_CLIP_KEY_COLLECTED}));
-    EXPECT_EQ(mechanismExpectedClips(core::TileType::LockedDoor),
-              (std::vector<std::string>{MECHANISM_CLIP_LOCKED_DOOR_CLOSED,
-                                        MECHANISM_CLIP_LOCKED_DOOR_OPEN}));
-    EXPECT_TRUE(mechanismExpectedClips(core::TileType::Solid).empty());
 }
 
 /**

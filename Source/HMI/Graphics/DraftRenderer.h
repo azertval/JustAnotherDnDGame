@@ -15,7 +15,6 @@
 #include "Core/Ecs/Entity.h"
 #include "Core/Ecs/World.h"
 #include "Core/Levels/GridPosition.h"
-#include "HMI/Editor/PathGesture.h"
 #include "HMI/Graphics/LayerVisibility.h"
 #include "HMI/Graphics/PlaneVisibility.h"
 #include "HMI/Graphics/SpriteRenderer.h"
@@ -50,23 +49,6 @@ struct LinkOverlayState {
     std::optional<core::GridPosition> pendingLink;
     /// Liaison sélectionnée dans le panneau « Liens » (déclencheur, cible) : mise en surbrillance.
     std::optional<std::pair<core::GridPosition, core::GridPosition>> selectedLink;
-};
-
-/**
- * @brief État d'affichage de la manipulation de parcours (`LOT-67`, `EX-EDIT-032`), fourni par le
- *        viewport à chaque rendu — jamais écrit dans le brouillon, purement présentatif.
- */
-struct PathOverlayState {
-    /// Parcours actuellement sélectionné (outil « Parcours »), si un l'est : seul un parcours
-    /// sélectionné affiche ses poignées, pour ne pas saturer le canevas.
-    std::optional<PathSelection> selected;
-    /// Action d'**aperçu** du geste en cours (`hmi::updatePathGesture`), appliquée sur une copie
-    /// locale de la configuration pour montrer la manipulation avant validation. `std::nullopt`
-    /// hors glisser.
-    std::optional<PathGestureAction> preview;
-    /// Échelle inverse de la caméra (`1 / (PIXELS_PER_UNIT * zoom)`), pour des poignées de taille
-    /// écran constante — fournie par le viewport, seul à connaître le zoom courant.
-    float worldUnitsPerScreenPixel = 0.02f;
 };
 
 /**
@@ -112,7 +94,7 @@ public:
                 const std::optional<std::pair<core::GridPosition, core::GridPosition>>& highlight,
                 const LinkOverlayState& linkOverlay, RenderMode mode,
                 bool showTextureOverrides = false, float deltaSeconds = 0.0f,
-                const LayerVisibility& visibility = {}, const PathOverlayState& pathOverlay = {},
+                const LayerVisibility& visibility = {},
                 const PlaneVisibility& planeVisibility = {});
 
     /**
@@ -164,18 +146,8 @@ private:
     void composeCameraFraming(const core::LevelDraft& draft);
     /// Compose les liens de mécanismes (flèches déclencheur → cible) sur le calque d'édition.
     void composeLinks(const core::LevelDraft& draft, const LinkOverlayState& overlay);
-    /// Compose le parcours de chaque plateforme mobile (polyligne + pointes de flèche,
-    /// `EX-GP-026`, `EX-GP-054`) sur le calque d'édition, ainsi que les poignées du parcours
-    /// sélectionné et l'aperçu du geste en cours (`LOT-67`).
-    void composeMovingPlatformPaths(const core::LevelDraft& draft,
-                                    const PathOverlayState& pathOverlay);
     /// Compose la course aller-retour de chaque danger mobile (`EX-GP-051`) sur le calque
-    /// d'édition, dans une teinte distincte des plateformes, et la poignée de celui qui est
-    /// sélectionné (`LOT-67`).
-    void composeDangerMoverPaths(const core::LevelDraft& draft,
-                                 const PathOverlayState& pathOverlay);
     /// Compose les poignées de @p handles (carrés double ton, même patron que celles des décors).
-    void composePathHandles(const std::vector<PathHandle>& handles);
     /// @return Un quad plein couvrant @p rect, texturé par la région unie de l'atlas et teinté —
     /// brique commune des aides d'édition rectangulaires (poignées de parcours).
     [[nodiscard]] SpriteQuad solidOverlayQuad(const core::Rect& rect, float r, float g, float b,

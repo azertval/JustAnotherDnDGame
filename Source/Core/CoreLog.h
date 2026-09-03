@@ -13,7 +13,7 @@
  * événements de cycle de vie ; ne jamais journaliser dans les chemins exécutés à chaque frame.
  */
 
-#define CORE_LOG_TRACE(message) PROJECTGAMING_LOG_TRACE("Core", message)
-#define CORE_LOG_INFO(message) PROJECTGAMING_LOG_INFO("Core", message)
-#define CORE_LOG_WARNING(message) PROJECTGAMING_LOG_WARNING("Core", message)
-#define CORE_LOG_ERROR(message) PROJECTGAMING_LOG_ERROR("Core", message)
+#define CORE_LOG_TRACE(message) JADG_LOG_TRACE("Core", message)
+#define CORE_LOG_INFO(message) JADG_LOG_INFO("Core", message)
+#define CORE_LOG_WARNING(message) JADG_LOG_WARNING("Core", message)
+#define CORE_LOG_ERROR(message) JADG_LOG_ERROR("Core", message)

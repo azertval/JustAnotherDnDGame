@@ -23,14 +23,13 @@
 namespace {
 
 // Chemin (source) du modele reel, pour verifier le fichier livre plutot qu'une chaine de test
-// isolee -- coherent avec PROJECTGAMING_ASSETS_DIR etc. (Test/CMakeLists.txt).
+// isolee -- coherent avec JADG_ASSETS_DIR etc. (Test/CMakeLists.txt).
 [[nodiscard]] std::string readThemeTemplate() {
     // Les DEUX portees, concatenees (LOT-73, EX-IHM-082) : separer les feuilles ne doit pas
     // retrecir ce que ces garde-fous couvrent. Une regle interdite le reste dans l'une comme dans
     // l'autre.
     std::ostringstream buffer;
-    for (const char* const path :
-         {PROJECTGAMING_THEME_IDENTITY_PATH, PROJECTGAMING_THEME_EDITOR_PATH}) {
+    for (const char* const path : {JADG_THEME_IDENTITY_PATH, JADG_THEME_EDITOR_PATH}) {
         std::ifstream file(path);
         buffer << file.rdbuf();
     }
@@ -96,8 +95,7 @@ TEST(ApplicationThemeTest, MarqueurInconnuEstSignale) {
  */
 TEST(ApplicationThemeTest, AucuneCouleurLitteraleDansLeModeleReel) {
     const std::string themeText = readThemeTemplate();
-    ASSERT_FALSE(themeText.empty())
-        << "feuilles de theme introuvables (PROJECTGAMING_THEME_*_PATH)";
+    ASSERT_FALSE(themeText.empty()) << "feuilles de theme introuvables (JADG_THEME_*_PATH)";
 
     // Retire les commentaires /* ... */ (l'en-tete documente l'historique en exemples de couleurs)
     // avant de chercher un motif de couleur hexadecimale dans les regles elles-memes.
@@ -124,9 +122,8 @@ TEST(ApplicationThemeTest, AucuneCouleurLitteraleDansLeModeleReel) {
  * }
  */
 TEST(ApplicationThemeTest, EtancheiteDesPortees) {
-    const std::string themeText = readScopeTemplate(PROJECTGAMING_THEME_IDENTITY_PATH);
-    ASSERT_FALSE(themeText.empty())
-        << "feuille d'identite introuvable (PROJECTGAMING_THEME_IDENTITY_PATH)";
+    const std::string themeText = readScopeTemplate(JADG_THEME_IDENTITY_PATH);
+    ASSERT_FALSE(themeText.empty()) << "feuille d'identite introuvable (JADG_THEME_IDENTITY_PATH)";
 
     // Les valeurs sont DERIVEES de buildStyleSheetValues, jamais recopiees : une liste ecrite a la
     // main ici devrait etre etendue a chaque marqueur ajoute au modele, et ne le serait pas -- le
@@ -217,7 +214,7 @@ TEST(ApplicationThemeTest, EchelleTypographiquePositiveEtOrdonnee) {
  * }
  */
 TEST(ApplicationThemeTest, AucuneTailleDePoliceResiduelleDansLesFichiersUi) {
-    for (const char* path : {PROJECTGAMING_MAIN_MENU_UI_PATH, PROJECTGAMING_OPTIONS_PAGE_UI_PATH}) {
+    for (const char* path : {JADG_MAIN_MENU_UI_PATH, JADG_OPTIONS_PAGE_UI_PATH}) {
         std::ifstream file(path);
         std::ostringstream buffer;
         buffer << file.rdbuf();
@@ -272,8 +269,8 @@ TEST(ApplicationThemeTest, ResolutionDuThemeEffectifSuitLeReglageEtLeSysteme) {
  * }
  */
 TEST(ApplicationThemeTest, EtancheiteDesPorteesAvecLesVraisThemes) {
-    const std::string identityText = readScopeTemplate(PROJECTGAMING_THEME_IDENTITY_PATH);
-    const std::string editorText = readScopeTemplate(PROJECTGAMING_THEME_EDITOR_PATH);
+    const std::string identityText = readScopeTemplate(JADG_THEME_IDENTITY_PATH);
+    const std::string editorText = readScopeTemplate(JADG_THEME_EDITOR_PATH);
     ASSERT_FALSE(identityText.empty()) << "feuille d'identite introuvable";
     ASSERT_FALSE(editorText.empty()) << "feuille du chassis introuvable";
 
@@ -323,8 +320,8 @@ TEST(ApplicationThemeTest, LesDeuxPorteesSontDansDeuxFichiersDisjoints) {
     const auto ruleTextOf = [](const char* path) {
         return std::regex_replace(readScopeTemplate(path), commentPattern, "");
     };
-    const std::string identityRules = ruleTextOf(PROJECTGAMING_THEME_IDENTITY_PATH);
-    const std::string editorRules = ruleTextOf(PROJECTGAMING_THEME_EDITOR_PATH);
+    const std::string identityRules = ruleTextOf(JADG_THEME_IDENTITY_PATH);
+    const std::string editorRules = ruleTextOf(JADG_THEME_EDITOR_PATH);
     ASSERT_FALSE(identityRules.empty());
     ASSERT_FALSE(editorRules.empty());
 

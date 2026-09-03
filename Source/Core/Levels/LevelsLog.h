@@ -14,7 +14,7 @@
  * à chaque pas fixe ou par tuile.
  */
 
-#define LEVELS_LOG_TRACE(message) PROJECTGAMING_LOG_TRACE("Levels", message)
-#define LEVELS_LOG_INFO(message) PROJECTGAMING_LOG_INFO("Levels", message)
-#define LEVELS_LOG_WARNING(message) PROJECTGAMING_LOG_WARNING("Levels", message)
-#define LEVELS_LOG_ERROR(message) PROJECTGAMING_LOG_ERROR("Levels", message)
+#define LEVELS_LOG_TRACE(message) JADG_LOG_TRACE("Levels", message)
+#define LEVELS_LOG_INFO(message) JADG_LOG_INFO("Levels", message)
+#define LEVELS_LOG_WARNING(message) JADG_LOG_WARNING("Levels", message)
+#define LEVELS_LOG_ERROR(message) JADG_LOG_ERROR("Levels", message)

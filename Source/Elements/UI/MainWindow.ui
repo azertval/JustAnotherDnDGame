@@ -136,11 +136,6 @@
    <attribute name="dockWidgetArea"><number>2</number></attribute>
    <widget class="QWidget" name="linksContents"/>
   </widget>
-  <widget class="QDockWidget" name="PropertiesPanel">
-   <property name="windowTitle"><string>Propriétés</string></property>
-   <attribute name="dockWidgetArea"><number>2</number></attribute>
-   <widget class="QWidget" name="propertiesContents"/>
-  </widget>
   <widget class="QDockWidget" name="TexturesPanel">
    <property name="windowTitle"><string>Textures</string></property>
    <attribute name="dockWidgetArea"><number>2</number></attribute>

@@ -10,15 +10,9 @@
 #include <vector>
 
 #include "Core/Ecs/Systems/AnimationSystem.h"
-#include "Core/Ecs/Systems/CharacterPhysicsSystem.h"
 #include "Core/Ecs/Systems/ParticleSystem.h"
 #include "Core/Ecs/World.h"
-#include "Core/Gameplay/BlockController.h"
-#include "Core/Gameplay/DangerController.h"
 #include "Core/Gameplay/MechanismController.h"
-#include "Core/Gameplay/PlatformController.h"
-#include "Core/Gameplay/SinkingBlockController.h"
-#include "Core/Gameplay/VolatileBlockController.h"
 #include "Core/Levels/CameraFraming.h"
 #include "Core/Levels/GridPosition.h"
 #include "Core/Levels/Level.h"
@@ -167,23 +161,6 @@ private:
     void loadLevel(core::Level level);
     void spawnPlayer(core::GridPosition entry);
     void snapshotPreviousPositions();
-    void refreshBlockVisuals();
-    /// Résout la collision des blocs à taille RÉDUITE (`EX-GP-005`) contre le personnage : leur
-    /// boîte réelle (centrée, plus petite qu'une case) n'est jamais posée sur la grille de
-    /// collision, donc jamais vue par la physique sur grille -- balayage boîte-boîte dédié
-    /// (`core::sweepAabbVsAabb`) sur le déplacement obtenu par cette dernière. Sans effet si le
-    /// personnage n'a pas bougé ce pas (@p previousBox égale sa position courante).
-    void resolveReducedBlockCollision(const core::Aabb& previousBox);
-    void refreshDangerVisuals();
-    /// Replace chaque entité-tuile de plateforme mobile à sa position COURANTE (`EX-GP-026`,
-    /// `LOT-63`), même patron que `refreshDangerVisuals` pour un danger mobile.
-    void refreshPlatformVisuals();
-    /// Recale l'entité-tuile de chaque bloc descendant sur sa position courante, et efface celles
-    /// des blocs sortis du tableau (`EX-GP-027`, `LOT-74`).
-    void refreshSinkingBlockVisuals();
-    /// Efface l'entité-tuile de chaque bloc volatil disparu et fait clignoter les blocs éphémères
-    /// dont le compte à rebours court (`EX-GP-028`/`EX-GP-029`, `LOT-74`).
-    void refreshVolatileBlockVisuals();
     /// Apparence des mécanismes pilotée par leur état logique (`LOT-47`, `EX-REN-006`) : projette
     /// l'état de chaque mécanisme suivi sur un clip (correspondance + transitions), au **pas fixe**
     /// — la simulation n'en dépend jamais, seule l'apparence en résulte (`EX-ARCH-012`).
@@ -200,6 +177,9 @@ private:
     /// d'un mécanisme inactif. Appelée à chaque `render()` (décision purement visuelle, dépendante
     /// du mode courant) ; force l'alpha à 1 en mode Texture, où l'état se voit désormais au clip.
     void refreshMechanismDiagnosticTint(RenderMode mode);
+    /// @return Les boîtes mortelles **à état** du pas courant, en plus des tuiles `Danger` que
+    ///         `core::evaluateOutcome` lit directement dans la grille : aujourd'hui la seule
+    ///         porte qui se referme sur le personnage (`EX-GP-021`).
     [[nodiscard]] std::vector<core::Aabb> collectActiveDangerBoxes();
     void refreshPlayerSprite();
     void centerCameraOnRoom(core::GridPosition roomIndex);
@@ -254,32 +234,6 @@ private:
     /// ordre que `_doorEntities` (`LOT-47` : le déclencheur change aussi d'apparence, plus
     /// seulement la porte qu'il actionne).
     std::vector<core::Entity> _switchEntities;
-    std::optional<core::BlockController> _blocks;
-    std::optional<core::DangerController> _dangers;
-    std::optional<core::PlatformController> _platforms;
-    /// Entité-tuile de chaque plateforme mobile, même ordre que `core::Level::platformConfigs()`
-    /// (`EX-GP-026`, `LOT-63`).
-    std::vector<core::Entity> _platformEntities;
-    /// Blocs volatils du tableau : fragile (`EX-GP-028`) et éphémère (`EX-GP-029`), `LOT-74`.
-    std::optional<core::VolatileBlockController> _volatileBlocks;
-    /// Entité-tuile de chaque bloc volatil, même ordre que `core::VolatileBlockController`.
-    std::vector<core::Entity> _volatileBlockEntities;
-    /// Blocs descendants du tableau (`EX-GP-027`, `LOT-74`).
-    std::optional<core::SinkingBlockController> _sinkingBlocks;
-    /// Entité-tuile de chaque bloc descendant, même ordre que `core::SinkingBlockController`.
-    std::vector<core::Entity> _sinkingBlockEntities;
-    /// Échantillons des supports mobiles du pas courant : plateformes mobiles **puis** blocs
-    /// descendants, concaténés (`LOT-74` TACHE-06). Membre plutôt que variable locale pour que la
-    /// référence reste valable pendant tout le pas, comme celle de `PlatformController::samples()`.
-    std::vector<core::PlatformSample> _supportSamples;
-    /// Compteur de pas du clignotement d'avertissement d'un bloc éphémère (`EX-GP-029`) — un
-    /// confort d'affichage, sans effet sur la simulation.
-    int _volatileBlinkStep = 0;
-    std::vector<core::Entity> _moverEntities;
-    std::vector<core::Entity> _dangerSwitchedEntities;
-    std::vector<core::Entity> _dangerBlinkEntities;
-    std::vector<core::Entity> _blockEntities;
-    core::CharacterPhysicsSystem _physics;
     core::AnimationSystem _animation;
     /// Particules du personnage (dash, atterrissage, mort ; `LOT-53` TACHE-02) : simulées au pas
     /// fixe, vidées à chaque (re)chargement (`loadLevel`) comme le reste de l'état de session.

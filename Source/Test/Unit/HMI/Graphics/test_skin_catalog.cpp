@@ -34,7 +34,7 @@ constexpr const char* REFERENCE_JSON = R"({
     "foret": {
       "solid": { "asset": "stone.png", "mode": "bitmask16" },
       "block": { "asset": "crate.png", "mode": "single" },
-      "slopeUpRight": { "asset": "stone_flat.png", "mode": "single" }
+      "door": { "asset": "door.png", "mode": "single" }
     },
     "grotte": {
       "solid": { "asset": "rock.png", "mode": "bitmask16" }
@@ -51,7 +51,7 @@ hmi::SkinCatalog referenceCatalog() {
 
 /// Chemin temporaire unique pour les tests d'ecriture.
 std::filesystem::path tempSkinsPath(const std::string& suffix) {
-    return std::filesystem::temp_directory_path() / ("projectgaming_skins_" + suffix + ".json");
+    return std::filesystem::temp_directory_path() / ("jadg_skins_" + suffix + ".json");
 }
 
 /// Dimensions d'un PNG, lues dans son en-tete IHDR (largeur et hauteur, gros-boutistes).
@@ -398,8 +398,7 @@ TEST(SkinCatalogTest, OrdreDesJeuxStable) {
  * }
  */
 TEST(SkinCatalogTest, CatalogueLivreValide) {
-    const std::filesystem::path path =
-        std::filesystem::path(PROJECTGAMING_ASSETS_DIR) / "skins.json";
+    const std::filesystem::path path = std::filesystem::path(JADG_ASSETS_DIR) / "skins.json";
     ASSERT_TRUE(std::filesystem::exists(path)) << path.string();
 
     const hmi::SkinCatalogResult result = hmi::SkinCatalog::loadFromFile(path);
@@ -423,7 +422,7 @@ TEST(SkinCatalogTest, CatalogueLivreValide) {
  * }
  */
 TEST(SkinCatalogTest, AssetsDuCatalogueLivreConformes) {
-    const std::filesystem::path assets{PROJECTGAMING_ASSETS_DIR};
+    const std::filesystem::path assets{JADG_ASSETS_DIR};
     const hmi::SkinCatalogResult result = hmi::SkinCatalog::loadFromFile(assets / "skins.json");
     ASSERT_TRUE(result.ok()) << result.error;
 

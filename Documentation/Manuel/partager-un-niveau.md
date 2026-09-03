@@ -8,12 +8,12 @@ le reste de l'équipe via une interface Git graphique — **jamais de ligne de c
 
 1. Installer [GitHub Desktop](https://desktop.github.com/) (gratuit).
 2. Ouvrir GitHub Desktop, se connecter avec un compte GitHub (en créer un si besoin — gratuit).
-3. **File → Clone repository**, choisir `azertval/ProjectGaming`, puis un dossier sur votre
+3. **File → Clone repository**, choisir `azertval/JustAnotherDnDGame`, puis un dossier sur votre
    ordinateur. Le bouton **Clone** télécharge tout le projet.
 
 ## 2. Lancer l'éditeur
 
-Récupérez l'exécutable du jeu (`ProjectGaming.exe`) — voir
+Récupérez l'exécutable du jeu (`JustAnotherDnDGame.exe`) — voir
 [Télécharger et lancer le jeu](@ref manuel-telecharger) si vous n'avez pas encore compilé le
 projet vous-même. Depuis le menu principal, choisissez **Mode Édition**.
 
@@ -103,7 +103,7 @@ automatiquement si besoin) — c'est le cadrage choisi ci-dessus qui s'applique 
 
 ## 4. Publier votre niveau
 
-1. Copiez le fichier de votre niveau (`Levels\<nom>.json`, à côté de `ProjectGaming.exe`) dans le
+1. Copiez le fichier de votre niveau (`Levels\<nom>.json`, à côté de `JustAnotherDnDGame.exe`) dans le
    dossier `Source/Elements/Levels/` de votre copie du projet (celle clonée à l'étape 1).
 2. Ouvrez **GitHub Desktop** : votre nouveau fichier apparaît dans la liste des changements.
 3. En bas à gauche, donnez un court résumé (ex. « Ajout du niveau Foret-1 ») et cliquez

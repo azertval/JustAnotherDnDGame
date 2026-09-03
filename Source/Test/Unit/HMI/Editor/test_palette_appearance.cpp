@@ -23,15 +23,13 @@ namespace {
 
 constexpr int TILE = hmi::TextureAtlas::TILE_SIZE;
 
-/// Catalogue de reference : un type a raccords, un type a image unique, une pente.
+/// Catalogue de reference : un type a raccords et un type a image unique.
 hmi::SkinCatalog referenceCatalog() {
     hmi::SkinCatalog catalog;
     catalog.assign("foret", core::TileType::Solid,
                    hmi::SkinEntry{"stone.png", hmi::SkinMode::Bitmask16});
     catalog.assign("foret", core::TileType::Block,
                    hmi::SkinEntry{"crate.png", hmi::SkinMode::Single});
-    catalog.assign("foret", core::TileType::SlopeUpRight,
-                   hmi::SkinEntry{"stone_flat.png", hmi::SkinMode::Single});
     return catalog;
 }
 
@@ -104,30 +102,6 @@ TEST(PaletteAppearanceTest, SkinARaccordsMontreLaCaseRepresentative) {
     EXPECT_EQ(thumbnail.region.x, cell.column * TILE);
     EXPECT_EQ(thumbnail.region.y, cell.row * TILE);
     EXPECT_EQ(thumbnail.region.width, TILE);
-}
-
-/**
- * @brief Une pente skinnee est signalee comme a detourer.
- * \castest{<b>Une pente skinnee est signalee comme devant etre detouree.</b><br/>
- * \tcat Unitaire · Vignette de palette<br/>
- * \tcrit Majeur<br/>
- * \tetapes 1. Demander la vignette d'une pente montante assignee a un skin.<br/>
- * \tattendu La vignette porte l'indicateur de detourage ; un type carre ne le porte pas.
- * }
- */
-TEST(PaletteAppearanceTest, PenteSkinneeEstDetouree) {
-    const hmi::SkinCatalog catalog = referenceCatalog();
-
-    const hmi::PaletteThumbnail slope =
-        hmi::paletteThumbnail(hmi::RenderMode::Texture, core::TileType::SlopeUpRight,
-                              hmi::regionForTile(core::TileType::SlopeUpRight), &catalog, "foret");
-    // Sans detourage, la palette montrerait un carre plein la ou le niveau montre une pente.
-    EXPECT_TRUE(slope.masked);
-
-    const hmi::PaletteThumbnail block =
-        hmi::paletteThumbnail(hmi::RenderMode::Texture, core::TileType::Block,
-                              hmi::regionForTile(core::TileType::Block), &catalog, "foret");
-    EXPECT_FALSE(block.masked);
 }
 
 /**

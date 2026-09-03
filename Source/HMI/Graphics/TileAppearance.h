@@ -12,7 +12,7 @@
 #include "HMI/Graphics/RenderLayer.h"
 #include "HMI/Graphics/RenderMode.h"
 #include "HMI/Graphics/SkinCatalog.h"
-#include "HMI/Graphics/SlopeMask.h"
+#include "HMI/Graphics/TileSilhouette.h"
 #include "HMI/Graphics/TileSkinTag.h"
 
 /**

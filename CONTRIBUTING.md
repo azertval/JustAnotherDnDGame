@@ -1,4 +1,4 @@
-# Contribuer à ProjectGaming
+# Contribuer à JustAnotherDnDGame
 
 ## Conventions de code
 Voir [`Documentation/Specification/conventions.md`](Documentation/Specification/conventions.md). Le code doit être formaté (`clang-format`) et compiler sans avertissement avant tout commit.

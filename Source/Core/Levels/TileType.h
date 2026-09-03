@@ -5,102 +5,26 @@
 
 /**
  * @file Core/Levels/TileType.h
- * @brief Types de tuiles d'un niveau et utilitaires associés.
+ * @brief Types de tuiles d'une carte et utilitaires associés.
  */
 
 namespace core {
 
 /**
- * @brief Type d'une tuile de la grille d'un niveau (`EX-GP-001`).
+ * @brief Type d'une tuile de la grille d'une carte (`EX-GP-001`).
  *
  * `Empty` est la case traversable par défaut ; `Solid` bloque le déplacement ; `Danger`
- * provoque l'échec au contact ; `Entry`/`Exit` sont l'apparition et la sortie ; `Switch`,
- * `PressurePlate` et `Door` sont les mécanismes de puzzle, résolus chaque pas fixe par
- * `core::MechanismController` (ce modèle ne fait que les représenter) : `Switch` bascule au
- * contact (front), `PressurePlate` (`EX-GP-025`) reste active tant qu'un poids suffisant y
- * repose — les deux partagent la même infrastructure de liaison à une `Door`. `Block` (`EX-GP-022`)
- * est un **bloc poussable** : sa position initiale est celle du fichier, mais
- * `core::BlockController` la fait évoluer chaque pas fixe (poussée par le personnage, chute si non
- * soutenu) — comme pour les mécanismes, ce modèle ne fait que représenter sa position de
- * **départ**. `SlopeUpRight`/ `SlopeUpLeft` (`EX-GP-003`) sont des **pentes** à 45° (montée sur
- * toute la largeur d'une case, respectivement vers la droite et vers la gauche) : leur surface est
- * **inclinée**, décrite par `core::slopeSurfaceHeight` (`Core/Physics/SlopeGeometry.h`) et suivie
- * par une passe de résolution dédiée (@ref guide-physique) — **pas** par `isSolid` (voir
- * ci-dessous). `RoundedUpRight`/ `RoundedUpLeft` (`EX-GP-004`) sont la variante **courbe** (quart
- * de cercle) des pentes : même orientation, même infrastructure de suivi
- * (`core::slopeSurfaceHeight`, non solides), seule la formule de hauteur diffère (linéaire pour une
- * pente, quart de cercle pour un arrondi). `BlockHalf`/`BlockQuarter` (`EX-GP-005`) sont des
- * **blocs poussables réduits** (facteurs `×0.5`/ `×0.25`, `core::BlockController`) : mêmes règles
- * de poussée/chute que `Block` (case par case), mais leur boîte de collision **réelle** (testée
- * contre le personnage) est plus petite que la case et **centrée** dedans — résolue par une routine
- * dédiée boîte-contre-boîte
- * (`core::sweepAabbVsAabb`, @ref guide-physique), pas par la grille classique. `SlopeDownRight`/
- * `SlopeDownLeft`/`RoundedDownRight`/`RoundedDownLeft` (`EX-GP-006`) sont les variantes de
- * **plafond** des pentes/arrondis ci-dessus : miroir vertical de la même silhouette (matière
- * pleine en haut de la case plutôt qu'en bas). Comme leurs équivalents de sol, elles ne sont
- * **jamais solides** pour la grille classique (`core::isSolid`) — leur collision est résolue par
- * deux passes de suivi symétriques : `core::resolveCeilingSlopeFollow` bloque un saut qui
- * franchirait leur silhouette **par en dessous** (miroir de celle des pentes de sol), tandis que
- * leur **face du haut** (toujours plate, au sommet de la case — `core::slopeSurfaceHeight` y
- * renvoie `0`) supporte normalement un personnage qui tombe dessus **par au-dessus**, via
- * `core::resolveSlopeFollow` réutilisé tel quel. Le personnage ne « marche » en revanche jamais
- * **latéralement** le long de leur silhouette inclinée (`core::isFollowableSurface` reste `false`
- * — pas de déplacement calé en suivant la pente, contrairement à une pente de sol).
- * `ConcaveUpRight`/ `ConcaveUpLeft`/`ConcaveDownRight`/`ConcaveDownLeft` (`EX-GP-007`) sont une
- * **seconde famille** de quart de cercle, **concave** plutôt que **convexe**
- * (`RoundedUpRight`/`RoundedUpLeft` et leurs variantes de plafond ci-dessus) : le centre du cercle
- * est du côté de la **matière** plutôt que du côté creux, ce qui inverse la courbure — tangente
- * **horizontale** du côté bas/creux, **verticale** du côté haut/plein (l'inverse exact de l'arrondi
- * convexe). Mêmes orientations (`Up`/`Down`, `Right`/`Left`) et même infrastructure de suivi que
- * les arrondis convexes (`core::slopeSurfaceHeight`, `core::resolveSlopeFollow` pour le sol ;
- * `core::ceilingSlopeHeight`, `core::resolveCeilingSlopeFollow` pour le plafond) — seule la formule
- * de hauteur change. `DangerUp`/`DangerDown`/`DangerLeft`/ `DangerRight` (`EX-GP-050`) sont un
- * **danger directionnel** : le suffixe décrit le bord **mortel** de la case (celui vers lequel les
- * pics pointent), pas un mouvement — le reste de la case est traversable sans risque. Non solides
- * (comme `Danger`), leur zone mortelle réelle (une bande étroite le long du bord désigné, pas la
- * case entière) est décrite par `core::dangerHitbox`
- * (`Core/Levels/DangerGeometry.h`), consommée par `core::evaluateOutcome`. `DangerMover`
- * (`EX-GP-051`) est un **danger mobile** : sa position initiale est celle du fichier, mais un
- * aller-retour linéaire déterministe (axe/portée, `core::DangerMoverConfig`) la fait évoluer chaque
- * pas fixe — comme pour `Block`, ce modèle ne représente que sa position de **départ**.
- * `DangerSwitched`
- * (`EX-GP-052`) est un **danger commuté** : mortel uniquement quand l'interrupteur/la plaque de
- * pression qui lui est lié (`core::DangerLink`) est actif — l'inverse de `Door`, qui devient
- * franchissable quand actif. `DangerBlink` (`EX-GP-053`) est un **danger temporisé** : alterne
- * mortel/inoffensif selon une période fixe et un déphasage propres à la tuile
- * (`core::DangerBlinkConfig`), indépendamment de tout interrupteur. `Key`/`LockedDoor`
- * (`EX-GP-023`) sont la seconde paire déclencheur↔cible, résolue par la **même** liaison
- * `core::Mechanism` que `Switch`/`PressurePlate`↔`Door` (aucune notion de liaison dupliquée) :
- * `core::MechanismController` distingue leur comportement à la construction, d'après le type de
- * la tuile déclencheur (comme il le fait déjà pour `_continuous`). Une clé ramassée **consomme**
- * son mécanisme et ouvre sa porte **définitivement** (jamais de re-fermeture, contrairement à
- * l'interrupteur) ; une porte verrouillée fermée est solide exactement comme `Door` (géré par la
- * grille de collision du contrôleur, jamais par `isSolid` ci-dessous). `MovingPlatform`
- * (`EX-GP-026`) est une **plateforme mobile** : sa position est **continue** (pas alignée sur la
- * grille comme `Block`), fonction déterministe du numéro de pas fixe
- * (`core::PlatformController`), qui porte le personnage et les blocs poussables posés dessus. Sa
- * position dans le fichier n'est que son point de **départ** — comme `DangerMover`, ce modèle ne
- * représente que cela. N'est jamais solide pour la grille classique (comme les blocs réduits,
- * `EX-GP-005`) : sa collision réelle est résolue par une passe dédiée boîte-contre-boîte
- * (`core::sweepAabbVsAabb`), pas par ce test statique.
- * `SinkingBlock`/`FragileBlock`/`VanishingBlock` (`EX-GP-027`/`EX-GP-028`/`EX-GP-029`) sont les
- * trois **blocs volatils** : de la matière qui ne survit pas au passage du personnage.
- * `SinkingBlock` est **armé** par un contact quelconque (dessus, côté ou dessous — jamais un test
- * de portage), puis descend en **portant** ce qui repose dessus jusqu'à buter sur la matière pleine
- * ou à sortir par le bas du tableau ; comme `MovingPlatform`, sa position est **continue** et
- * fonction du seul numéro de pas écoulé depuis l'armement (`core::SinkingBlockController`), de
- * sorte que sa position dans le fichier n'est que son point de **départ** — et il n'est **jamais**
- * solide pour la grille classique (`isSolid` ci-dessous), sa collision étant résolue
- * boîte-contre-boîte (`core::sweepAabbVsAabb`) exactement comme celle d'une plateforme mobile.
- * `FragileBlock` et `VanishingBlock`, eux, ne bougent **jamais** : ils sont solides comme un
- * `Solid` et se contentent de **quitter** la grille de collision, résolus tous deux par
- * `core::VolatileBlockController` sur une copie mutable du `TileMap` — même infrastructure que
- * l'ouverture d'une porte, et jamais une modification de la carte du `Level`, qui reste immuable.
- * `FragileBlock` est détruit par un **ground pound** (`EX-GP-058`) qui l'atteint par le dessus, et
- * par ce geste seul : un dash, même vertical ou boosté, ne le brise pas. `VanishingBlock` disparaît
- * après un délai fixe une fois que le personnage a cessé d'y **reposer** (un front de départ, pas
- * un contact) ; dans les deux cas, la disparition est **définitive** jusqu'au rechargement du
- * tableau.
+ * provoque l'échec au contact ; `Entry`/`Exit` sont l'apparition et la sortie. `Switch`,
+ * `PressurePlate` et `Door` sont les mécanismes classiques — l'interrupteur bascule au contact,
+ * la plaque reste active tant qu'un poids y repose, les deux ouvrant une porte liée.
+ * `Key`/`LockedDoor` sont la seconde paire déclencheur↔cible, la clé ouvrant sa porte
+ * **définitivement**. `Block` est un bloc poussable.
+ *
+ * @note Ce vocabulaire est celui du **socle** hérité du moteur. Le `LOT-01` a retiré les types
+ *       propres au jeu de plateforme (pentes, arrondis, blocs réduits, plateformes mobiles, blocs
+ *       volatils, dangers directionnels, mobiles et temporisés), sans objet en vue de dessus. Le
+ *       vocabulaire propre au RPG (terrains, obstacles, escaliers, ponts) est introduit par le
+ *       `LOT-08`.
  */
 enum class TileType {
     Empty,
@@ -112,97 +36,35 @@ enum class TileType {
     Door,
     PressurePlate,
     Block,
-    SlopeUpRight,
-    SlopeUpLeft,
-    RoundedUpRight,
-    RoundedUpLeft,
-    BlockHalf,
-    BlockQuarter,
-    SlopeDownRight,
-    SlopeDownLeft,
-    RoundedDownRight,
-    RoundedDownLeft,
-    ConcaveUpRight,
-    ConcaveUpLeft,
-    ConcaveDownRight,
-    ConcaveDownLeft,
-    DangerUp,
-    DangerDown,
-    DangerLeft,
-    DangerRight,
-    DangerMover,
-    DangerSwitched,
-    DangerBlink,
     Key,
     LockedDoor,
-    MovingPlatform,
-    SinkingBlock,
-    FragileBlock,
-    VanishingBlock,
 };
 
 /**
  * @brief Nombre de valeurs de `core::TileType` — **seule** source de vérité de la fin de
- *        l'énumération (`EX-GP-027`/`EX-GP-028`/`EX-GP-029`, `LOT-74` TACHE-02).
+ *        l'énumération (`LOT-74` TACHE-02).
  *
- * Trois endroits recopiaient jusqu'ici la borne « dernier énumérateur » à la main
- * (`core::parseTileType`, le garde-fou de couverture des mécaniques, l'encodeur d'observation de
- * l'IA), et deux d'entre eux documentaient explicitement leur propre fragilité. Ajouter un type
- * ne demande désormais **rien** d'autre que de l'ajouter ci-dessus : cette constante suit, et ses
- * consommateurs avec elle.
+ * Ajouter un type ne demande rien d'autre que de l'ajouter ci-dessus, **avant** le dernier
+ * énumérateur : cette constante suit, et ses consommateurs avec elle.
  *
  * Volontairement une constante libre plutôt qu'un énumérateur `Count` : les `switch` sur `TileType`
  * du projet sont **exhaustifs et sans `default`** (c'est ce qui fait que le compilateur désigne
  * lui-même les points à mettre à jour), et un énumérateur sentinelle les obligerait tous à traiter
  * un cas qui ne décrit aucune tuile.
  */
-inline constexpr int TILE_TYPE_COUNT = static_cast<int>(TileType::VanishingBlock) + 1;
+inline constexpr int TILE_TYPE_COUNT = static_cast<int>(TileType::LockedDoor) + 1;
 
 /**
  * @brief Indique si un type de tuile bloque le déplacement de manière **statique**.
+ *
+ * @note La solidité d'une porte dépend de son **état** (ouverte/fermée) et la position d'un bloc
+ *       poussable évolue en jeu : les deux sont résolues par la simulation, jamais par ce test
+ *       statique.
  * @param type Type de tuile.
- * @return true pour `Solid` et les trois tailles de bloc (`Block`/`BlockHalf`/`BlockQuarter`, non
- *         encore déplacés bloquent comme un mur — `core::BlockController` gère leur position
- *         réelle et, pour les tailles réduites, leur boîte de collision **plus petite que la
- *         case** via `core::sweepAabbVsAabb`, jamais via ce test statique). `false` pour les
- *         pentes et arrondis, de **sol** (`SlopeUpRight`/`SlopeUpLeft`/`RoundedUpRight`/
- *         `RoundedUpLeft`) comme de **plafond** (`SlopeDownRight`/`SlopeDownLeft`/
- *         `RoundedDownRight`/`RoundedDownLeft`, `EX-GP-006`) : une surface suivie n'est **jamais**
- *         solide pour le balayage classique (`core::sweepAabb`), sous peine de transformer son
- *         bord (haut pour le sol, bas pour le plafond) en mur invisible — sa solidité est
- *         entièrement gérée par une passe de suivi dédiée (`core::slopeSurfaceHeight` +
- *         `core::resolveSlopeFollow` pour le sol, `core::ceilingSlopeHeight` +
- *         `core::resolveCeilingSlopeFollow` pour le plafond, miroir l'une de l'autre). La solidité
- *         d'une porte dépend de son **état** (ouverte/fermée) et la position d'un bloc évolue en
- *         jeu : les deux sont gérées par la simulation, pas par ce test statique.
+ * @return `true` pour `Solid` et `Block`, la matière pleine par nature.
  */
 [[nodiscard]] constexpr bool isSolid(TileType type) noexcept {
-    return type == TileType::Solid || type == TileType::Block || type == TileType::BlockHalf ||
-           type == TileType::BlockQuarter || type == TileType::FragileBlock ||
-           type == TileType::VanishingBlock;
-}
-
-/**
- * @brief Facteur de taille **visuel/collision** d'une tuile bloc réduite (`EX-GP-005`).
- *
- * `1.0f` pour tout type qui n'est pas un bloc réduit (y compris `Block`, plein) : un appelant qui
- * calcule systématiquement `margin = (1 - scale) * 0.5` et dessine/teste à `scale × scale` obtient
- * ainsi le comportement plein-case habituel sans cas particulier. Seule source de vérité pour ce
- * facteur, partagée par `core::BlockController` (collision réelle, `core::sweepAabbVsAabb`) et le
- * rendu (`hmi::TileVisuals`, éditeur **et** jeu) — la même formule des deux côtés garantit qu'un
- * bloc réduit s'affiche exactement comme sa hitbox, sans pouvoir diverger.
- * @param type Type de tuile.
- * @return `0.5f` pour `BlockHalf`, `0.25f` pour `BlockQuarter`, `1.0f` sinon.
- */
-[[nodiscard]] constexpr float tileVisualScale(TileType type) noexcept {
-    switch (type) {
-        case TileType::BlockHalf:
-            return 0.5f;
-        case TileType::BlockQuarter:
-            return 0.25f;
-        default:
-            return 1.0f;
-    }
+    return type == TileType::Solid || type == TileType::Block;
 }
 
 }  // namespace core

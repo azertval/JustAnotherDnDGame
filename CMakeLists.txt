@@ -7,9 +7,9 @@ cmake_minimum_required(VERSION 3.21)
 # reçoit par définition de compilation (Source/Core/CMakeLists.txt), et `scripts/build_docs.py`
 # l'injecte dans le `PROJECT_NUMBER` de Doxygen à la génération (le Doxyfile versionné ne le porte
 # pas). Bumper ici, et nulle part ailleurs, avant de poser le tag `vX.Y.Z`.
-project(ProjectGaming
-    VERSION 0.1.3
-    DESCRIPTION "Jeu 2D de plateforme/puzzle en C++/Qt QRhi"
+project(JustAnotherDnDGame
+    VERSION 0.1.0
+    DESCRIPTION "RPG 2D en vue de dessus, exploration temps reel et combat tactique d20, en C++/Qt QRhi"
     LANGUAGES CXX)
 
 # --- Standard C++ ---

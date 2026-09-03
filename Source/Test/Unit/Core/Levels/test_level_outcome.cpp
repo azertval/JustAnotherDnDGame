@@ -112,35 +112,6 @@ TEST(LevelOutcomeTest, EchecPrioritaireSurSucces) {
 }
 
 /**
- * @brief Un danger directionnel (`DangerRight`) ne provoque l'échec que sur la bande de son bord
- * désigné, pas sur le reste de la case (`EX-GP-050`).
- * \castest{<b>Un danger directionnel ne provoque l'échec que sur la bande de son bord
- * désigné.</b><br/>
- * \tcat Unitaire · Level Outcome<br/>
- * \tcrit Majeur<br/>
- * \tetapes 1. Mettre en place le contexte du test (arrangement).<br/>2. Executer le scenario et
- * verifier les assertions.<br/>
- * \tattendu Un danger directionnel ne provoque l'échec que sur la bande de son bord désigné.
- * }
- */
-TEST(LevelOutcomeTest, DangerDirectionnelPerduSeulementSurSaBande) {
-    core::TileMap map(10, 10);
-    map.setTile(5, 5, core::TileType::DangerRight);  // bande mortelle : x in [5.75, 6.0]
-    const core::Level level("test", std::move(map), core::GridPosition{0, 0},
-                            core::GridPosition{8, 8}, {});
-
-    // Boîte étroite (0,2 de large) posée avant la bande : survit.
-    const core::Aabb safeBox =
-        core::Aabb::fromTopLeftSize(core::Vector2{5.0f, 5.0f}, core::Vector2{0.2f, 1.0f});
-    EXPECT_EQ(core::evaluateOutcome(safeBox, level), core::LevelOutcome::Playing);
-
-    // Même largeur, posée sur la bande : perdu.
-    const core::Aabb dangerBox =
-        core::Aabb::fromTopLeftSize(core::Vector2{5.8f, 5.0f}, core::Vector2{0.2f, 1.0f});
-    EXPECT_EQ(core::evaluateOutcome(dangerBox, level), core::LevelOutcome::Lost);
-}
-
-/**
  * @brief Une boîte supplémentaire (`extraDangerBoxes`) provoque l'échec au même titre qu'une
  * tuile de danger statique (`EX-GP-051`/`052`/`053`, assemblées par l'appelant).
  * \castest{<b>Une boîte supplémentaire fournie par l'appelant provoque l'échec.</b><br/>

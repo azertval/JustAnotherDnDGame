@@ -44,7 +44,7 @@ std::vector<hmi::SkinRow> flatten(const std::vector<hmi::SkinSection>& sections)
 /// Dossier temporaire vide, cree pour un test de balayage.
 std::filesystem::path makeTempSkinsDir(const std::string& suffix) {
     const std::filesystem::path directory =
-        std::filesystem::temp_directory_path() / ("projectgaming_skins_dir_" + suffix);
+        std::filesystem::temp_directory_path() / ("jadg_skins_dir_" + suffix);
     std::filesystem::remove_all(directory);
     std::filesystem::create_directories(directory);
     return directory;
@@ -225,9 +225,9 @@ TEST(SkinAssignmentsTest, BalayageNeRetientQueLesImages) {
  */
 TEST(SkinAssignmentsTest, DossierAbsentListeVide) {
     // Etat de depart legitime : aucun skin n'a encore ete depose.
-    EXPECT_TRUE(hmi::listSkinAssets(std::filesystem::temp_directory_path() /
-                                    "projectgaming_dossier_inexistant")
-                    .empty());
+    EXPECT_TRUE(
+        hmi::listSkinAssets(std::filesystem::temp_directory_path() / "jadg_dossier_inexistant")
+            .empty());
 }
 
 /**
@@ -256,7 +256,7 @@ TEST(SkinAssignmentsTest, LibellesTaxonomieTraduitsDansLesDeuxLangues) {
     }
 
     for (const std::string& language : {"fr", "en"}) {
-        hmi::Localization loc{PROJECTGAMING_LOCALIZATION_DIR};
+        hmi::Localization loc{JADG_LOCALIZATION_DIR};
         ASSERT_TRUE(loc.loadLanguage(language)) << "catalogue " << language << " illisible";
 
         for (const std::string& label : labels) {
@@ -297,7 +297,7 @@ TEST(SkinAssignmentsTest, LibellesDuPanneauTraduits) {
     };
 
     for (const std::string& language : {"fr", "en"}) {
-        hmi::Localization loc{PROJECTGAMING_LOCALIZATION_DIR};
+        hmi::Localization loc{JADG_LOCALIZATION_DIR};
         ASSERT_TRUE(loc.loadLanguage(language));
         for (const std::string& key : keys) {
             EXPECT_NE(loc.text(key), key)

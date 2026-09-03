@@ -2,7 +2,7 @@
 # SPDX-FileCopyrightText: 2026 Valentin Eloy
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-"""Genere les assets animes des mecanismes a etat pour ProjectGaming (LOT-47).
+"""Genere les assets animes des mecanismes a etat pour JustAnotherDnDGame (LOT-47).
 
 Un asset par famille (`Door`, `Switch`, `PressurePlate`, `DangerSwitched`, `DangerBlink`,
 `DangerMover`), chacun une spritesheet horizontale accompagnee de son fichier

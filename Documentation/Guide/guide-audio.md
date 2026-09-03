@@ -108,7 +108,7 @@ puisse brancher un effet visuel sur la **même** détection sans la dupliquer ni
 
 `Qt6::Multimedia` est un **composant additionnel** de Qt, pas une bibliothèque tierce : ajouté à
 `find_package(Qt6 ... COMPONENTS Multimedia)` dans `Source/HMI/CMakeLists.txt`, avec la même garde
-que `Widgets`/`Gui` (absent → cible `ProjectGaming` ignorée, configuration jamais cassée,
+que `Widgets`/`Gui` (absent → cible `JustAnotherDnDGame` ignorée, configuration jamais cassée,
 `EX-BUILD-010`). Provisionné en CI via `modules: qtmultimedia` sur les six points
 `install-qt-action` (`ci.yml`, `release.yml`) ; en local, via le composant `Multimedia` de
 l'installateur Qt officiel ou `aqtinstall -m qtmultimedia`.

@@ -60,7 +60,7 @@ jobs:
 
       # Qt n'est pas gérable par FetchContent (SDK volumineux) : on le provisionne via aqtinstall
       # (action dédiée, avec cache). Nécessaire pour construire la cible éditeur Qt
-      # (ProjectGaming, LOT-34) ; l'exécutable historique et les tests n'en dépendent pas.
+      # (JustAnotherDnDGame, LOT-34) ; l'exécutable historique et les tests n'en dépendent pas.
       - name: Install Qt
         uses: jurplel/install-qt-action@v4
         with:
@@ -93,10 +93,10 @@ jobs:
 
       - name: Verifier que l'executable est bien produit
         shell: pwsh
-        # Si Qt n'est pas résolu, la cible ProjectGaming est ignorée et le build « réussit » sans
+        # Si Qt n'est pas résolu, la cible JustAnotherDnDGame est ignorée et le build « réussit » sans
         # produire d'application : une panne muette que seul ce contrôle rend visible.
         run: |
-          $exe = 'build/vs/bin/Debug/ProjectGaming.exe'
+          $exe = 'build/vs/bin/Debug/JustAnotherDnDGame.exe'
           if (-not (Test-Path $exe)) { throw "Executable absent : $exe" }
           Write-Host "OK : $exe"
 
@@ -199,7 +199,7 @@ jobs:
       - name: Verifier que l'executable est bien produit
         shell: pwsh
         run: |
-          $exe = 'build/vs/bin/Release/ProjectGaming.exe'
+          $exe = 'build/vs/bin/Release/JustAnotherDnDGame.exe'
           if (-not (Test-Path $exe)) { throw "Executable absent : $exe" }
           Write-Host "OK : $exe"
 
@@ -249,10 +249,10 @@ jobs:
 
       - name: Verifier que l'executable est bien produit
         shell: pwsh
-        # Sans Qt, la cible ProjectGaming est ignorée et le build « réussit » sans exécutable :
+        # Sans Qt, la cible JustAnotherDnDGame est ignorée et le build « réussit » sans exécutable :
         # c'est exactement la panne que ce lot corrige, donc on l'érige en contrôle.
         run: |
-          $exe = 'build/ninja/bin/ProjectGaming.exe'
+          $exe = 'build/ninja/bin/JustAnotherDnDGame.exe'
           if (-not (Test-Path $exe)) { throw "Executable absent : $exe" }
           Write-Host "OK : $exe"
 
@@ -412,28 +412,12 @@ jobs:
       - name: Cahier de test a jour
         run: python3 scripts/generate_cahier_test.py --check
 
-      - name: Sequence de niveaux demo (LOT-25) synchronisee
-        run: python3 scripts/check_demo_sequence.py
-
-      # Garde-fou LOT-ANNEXE-20 : un rejeu IA publie (Source/Elements/Replays/) dont le niveau
-      # reference a change depuis l'export (empreinte FNV-1a divergente) ou n'existe plus doit
-      # faire echouer la PR, avant que la peremption ne soit decouverte au chargement en jeu.
-      - name: Rejeux IA publies synchronises avec leur niveau (LOT-ANNEXE-20)
-        run: python3 scripts/check_ai_replays.py
-
       # Garde-fou de conception : la palette d'identite est ecrite DEUX fois -- en CSS dans les
       # planches de .design-mockups/, en C++ dans DesignTokens.cpp. Rien ne les reliait, donc une
       # retouche de teinte d'un cote laissait l'autre en arriere : la maquette cessait de decrire
       # le jeu sans que personne ne le voie, ce qui lui retire tout interet.
       - name: Palette d'identite coherente maquettes / code (EX-IHM-070)
         run: python3 scripts/check_design_tokens.py
-
-      # Les plans picturaux livres sont GENERES (LOT-69) : commites pour que le jeu tourne sans
-      # Python, mais reproductibles depuis les sources. Sans ce controle, une retouche du
-      # generateur pourrait ne jamais atteindre les images -- ou l'inverse, une image editee a la
-      # main ne plus se reconstruire. Les deux videraient le choix de la reproductibilite.
-      - name: Plans picturaux livres reproductibles (LOT-69)
-        run: python3 scripts/generate_demo_plans.py --check
 
   docs:
     # Génère la documentation Doxygen (garde-fou WARN_AS_ERROR) pour valider la

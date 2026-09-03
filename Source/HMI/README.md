@@ -1,6 +1,6 @@
 # Source/HMI/
 
-Couche de **présentation** : l'unique application du projet, `ProjectGaming` — une application **Qt**
+Couche de **présentation** : l'unique application du projet, `JustAnotherDnDGame` — une application **Qt**
 qui embarque le **rendu du jeu** (via **QRhi**) dans un viewport et l'entoure de l'IHM (menu, options,
 éditeur de niveau). Depuis le `LOT-38`, l'IHM « maison » et l'exécutable historique ont été retirés :
 ce dossier est la seule cible exécutable (voir `CMakeLists.txt`).

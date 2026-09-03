@@ -3,49 +3,68 @@
   "defaut": "test",
   "jeux": {
     "test": {
-      "solid": { "asset": "stone.png", "mode": "bitmask16" },
-      "entry": { "asset": "entry.png", "mode": "single" },
-      "exit": { "asset": "exit.png", "mode": "single" },
-      "block": { "asset": "crate.png", "mode": "single" },
-      "blockHalf": { "asset": "crate.png", "mode": "single" },
-      "blockQuarter": { "asset": "crate.png", "mode": "single" },
-      "danger": { "asset": "spikes.png", "mode": "single" },
-      "dangerUp": { "asset": "spikes.png", "mode": "single" },
-      "dangerDown": { "asset": "spikes.png", "mode": "single" },
-      "dangerLeft": { "asset": "spikes.png", "mode": "single" },
-      "dangerRight": { "asset": "spikes.png", "mode": "single" },
-      "dangerMover": { "asset": "danger_mover.png", "mode": "single" },
-      "dangerSwitched": { "asset": "danger_switched.png", "mode": "single" },
-      "dangerBlink": { "asset": "danger_blink.png", "mode": "single" },
-      "key": { "asset": "key.png", "mode": "single" },
-      "lockedDoor": { "asset": "locked_door.png", "mode": "single" },
-      "movingPlatform": { "asset": "platform.png", "mode": "single" },
-      "switch": { "asset": "switch.png", "mode": "single" },
-      "door": { "asset": "door.png", "mode": "single" },
-      "pressurePlate": { "asset": "plate.png", "mode": "single" },
-      "slopeUpRight": { "asset": "slope_stone.png", "mode": "single" },
-      "slopeUpLeft": { "asset": "slope_stone.png", "mode": "single" },
-      "slopeDownRight": { "asset": "slope_stone.png", "mode": "single" },
-      "slopeDownLeft": { "asset": "slope_stone.png", "mode": "single" },
-      "roundedUpRight": { "asset": "slope_stone.png", "mode": "single" },
-      "roundedUpLeft": { "asset": "slope_stone.png", "mode": "single" },
-      "roundedDownRight": { "asset": "slope_stone.png", "mode": "single" },
-      "roundedDownLeft": { "asset": "slope_stone.png", "mode": "single" },
-      "concaveUpRight": { "asset": "slope_stone.png", "mode": "single" },
-      "concaveUpLeft": { "asset": "slope_stone.png", "mode": "single" },
-      "concaveDownRight": { "asset": "slope_stone.png", "mode": "single" },
-      "concaveDownLeft": { "asset": "slope_stone.png", "mode": "single" },
-      "sinkingBlock": { "asset": "sinking_block.png", "mode": "single" },
-      "fragileBlock": { "asset": "fragile_block.png", "mode": "single" },
-      "vanishingBlock": { "asset": "vanishing_block.png", "mode": "single" }
+      "solid": {
+        "asset": "stone.png",
+        "mode": "bitmask16"
+      },
+      "entry": {
+        "asset": "entry.png",
+        "mode": "single"
+      },
+      "exit": {
+        "asset": "exit.png",
+        "mode": "single"
+      },
+      "block": {
+        "asset": "crate.png",
+        "mode": "single"
+      },
+      "danger": {
+        "asset": "spikes.png",
+        "mode": "single"
+      },
+      "key": {
+        "asset": "key.png",
+        "mode": "single"
+      },
+      "lockedDoor": {
+        "asset": "locked_door.png",
+        "mode": "single"
+      },
+      "switch": {
+        "asset": "switch.png",
+        "mode": "single"
+      },
+      "door": {
+        "asset": "door.png",
+        "mode": "single"
+      },
+      "pressurePlate": {
+        "asset": "plate.png",
+        "mode": "single"
+      }
     },
     "kenney": {
-      "key": { "asset": "key.png", "mode": "single" },
-      "lockedDoor": { "asset": "locked_door.png", "mode": "single" },
-      "movingPlatform": { "asset": "platform.png", "mode": "single" },
-      "danger": { "asset": "kenney_spikes.png", "mode": "single" },
-      "switch": { "asset": "kenney_switch.png", "mode": "single" },
-      "door": { "asset": "kenney_door.png", "mode": "single" }
+      "key": {
+        "asset": "key.png",
+        "mode": "single"
+      },
+      "lockedDoor": {
+        "asset": "locked_door.png",
+        "mode": "single"
+      },
+      "danger": {
+        "asset": "kenney_spikes.png",
+        "mode": "single"
+      },
+      "switch": {
+        "asset": "kenney_switch.png",
+        "mode": "single"
+      },
+      "door": {
+        "asset": "kenney_door.png",
+        "mode": "single"
+      }
     },
     "aucun": {}
   }

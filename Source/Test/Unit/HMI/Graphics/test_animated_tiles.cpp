@@ -210,20 +210,6 @@ TEST(AnimatedTilesTest, Bitmask16ExclutLAnimation) {
 }
 
 /**
- * @brief Une tuile à silhouette détourée (pente, arrondi) exclut l'animation : son rendu passe par
- * un découpage propre à sa forme, incompatible avec un parcours d'images de planche.
- * \castest{<b>Une tuile à silhouette détourée exclut l'animation.</b><br/>
- * \tcat Unitaire · Tuiles animées<br/>
- * \tcrit Majeur<br/>
- * \tetapes 1. Mettre en place le contexte du test (arrangement).<br/>2. Executer le scenario et
- * verifier les assertions.<br/>
- * }
- */
-TEST(AnimatedTilesTest, SilhouetteDetoureeExclutLAnimation) {
-    EXPECT_TRUE(hmi::animationExcludedForTile(hmi::SkinMode::Single, core::TileType::SlopeUpRight));
-}
-
-/**
  * @brief Une tuile pleine en mode image simple, elle, **peut** être animée : c'est le cas
  * nominal (eau, lave, bloc scintillant). Le pendant positif des deux exclusions ci-dessus, sans
  * lequel elles pourraient être trop larges sans que rien ne le signale.

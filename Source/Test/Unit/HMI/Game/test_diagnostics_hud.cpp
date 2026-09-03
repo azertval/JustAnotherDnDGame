@@ -201,7 +201,7 @@ TEST(DiagnosticsHudTest, AucuneImageMesureeProduitDesLignesValides) {
  * }
  */
 TEST(DiagnosticsHudTest, ClesDeTraductionExistentDansLesDeuxCatalogues) {
-    const std::filesystem::path directory(PROJECTGAMING_LOCALIZATION_DIR);
+    const std::filesystem::path directory(JADG_LOCALIZATION_DIR);
     for (const std::string& language : {"fr", "en"}) {
         hmi::Localization localization(directory);
         ASSERT_TRUE(localization.loadDefaultLanguage(language)) << language;

@@ -6,9 +6,9 @@
 #include <optional>
 
 #include "HMI/Graphics/MissingTexture.h"
-#include "HMI/Graphics/SlopeMask.h"
 #include "HMI/Graphics/TextureAtlas.h"
 #include "HMI/Graphics/TileAutotile.h"
+#include "HMI/Graphics/TileSilhouette.h"
 
 namespace hmi {
 

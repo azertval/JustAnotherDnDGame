@@ -2,7 +2,7 @@
 # SPDX-FileCopyrightText: 2026 Valentin Eloy
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-"""Genere des skins de tuiles ANIMES de demonstration pour ProjectGaming (LOT-46).
+"""Genere des skins de tuiles ANIMES de demonstration pour JustAnotherDnDGame (LOT-46).
 
 Chaque asset est une spritesheet horizontale (les images se suivent de gauche a droite,
 un seul rang de TILE pixels de haut) accompagnee de son fichier `<asset>.anim.json`

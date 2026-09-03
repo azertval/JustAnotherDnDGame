@@ -53,31 +53,8 @@ struct LockedDoorLink {
     std::string opensWith;
 };
 
-// Un danger commuté lu (EX-GP-052), avec la référence (opensWith) à résoudre en position
-// d'interrupteur — même schéma que DoorLink, tuile cible différente.
-struct DangerSwitchedLink {
-    GridPosition position;
-    std::string opensWith;
-};
-
-// Convertit le champ optionnel "axis" d'un dangerMover ("horizontal"/"vertical") ; valeur de
-// conception par défaut (horizontal) si absent ou non reconnu.
-[[nodiscard]] DangerMoverAxis parseMoverAxis(const nlohmann::json& tile) {
-    return tile.value("axis", std::string{"horizontal"}) == "vertical"
-               ? DangerMoverAxis::Vertical
-               : DangerMoverAxis::Horizontal;
-}
-
-// Convertit le champ optionnel "mode" d'une movingPlatform ("pingpong"/"loop") ; valeur de
-// conception par défaut (aller-retour) si absent ou non reconnu -- symétrique à
-// platformPathModeName (LevelWriter.cpp).
-[[nodiscard]] PlatformPathMode parsePlatformPathMode(const nlohmann::json& tile) {
-    return tile.value("mode", std::string{"pingpong"}) == "loop" ? PlatformPathMode::Loop
-                                                                 : PlatformPathMode::PingPong;
-}
-
 // Convertit le champ "depth" d'un plan ("behind"/"front") ; valeur par défaut (Behind) si absent
-// ou non reconnu -- même tolérance que parseDecorLayer et parsePlatformPathMode, et symétrique à
+// ou non reconnu -- même tolérance que parseDecorLayer, et symétrique à
 // planeDepthName (LevelWriter.cpp).
 [[nodiscard]] PlaneDepth parsePlaneDepth(const nlohmann::json& plane) {
     return plane.value("depth", std::string{"behind"}) == "front" ? PlaneDepth::Front
@@ -161,13 +138,9 @@ struct TileParseState {
     std::set<std::pair<int, int>>& occupiedPositions;
     std::unordered_map<std::string, GridPosition>& switchesById;
     std::vector<DoorLink>& doors;
-    std::vector<DangerSwitchedLink>& switchedDangers;
     std::unordered_map<std::string, GridPosition>& keysById;
     std::vector<LockedDoorLink>& lockedDoors;
-    std::vector<DangerMoverConfig>& moverConfigs;
-    std::vector<DangerBlinkConfig>& blinkConfigs;
     std::vector<TileTextureOverride>& textureOverrides;
-    std::vector<MovingPlatformConfig>& platformConfigs;
 };
 
 // Traite UNE entrée du tableau `tiles` : pose la tuile dans la grille et alimente les
@@ -246,57 +219,6 @@ struct TileParseState {
         state.lockedDoors.push_back(
             LockedDoorLink{.position = GridPosition{.column = x, .row = y},
                            .opensWith = tile.value("opensWith", std::string{})});
-    } else if (*type == TileType::DangerSwitched) {
-        state.switchedDangers.push_back(
-            DangerSwitchedLink{.position = GridPosition{.column = x, .row = y},
-                               .opensWith = tile.value("opensWith", std::string{})});
-    } else if (*type == TileType::DangerMover) {
-        const DangerMoverAxis axis = parseMoverAxis(tile);
-        const int range = tile.value("range", 2);
-        const int farColumn = axis == DangerMoverAxis::Horizontal ? x + range : x;
-        const int farRow = axis == DangerMoverAxis::Vertical ? y + range : y;
-        if (range < 0 || !state.map.inBounds(farColumn, farRow)) {
-            return failure("Portee de danger mobile hors bornes en (" + std::to_string(x) + ", " +
-                               std::to_string(y) + ")",
-                           LevelValidationError::OutOfBounds);
-        }
-        state.moverConfigs.push_back(DangerMoverConfig{
-            .startPosition = GridPosition{.column = x, .row = y}, .axis = axis, .range = range});
-    } else if (*type == TileType::DangerBlink) {
-        state.blinkConfigs.push_back(
-            DangerBlinkConfig{.position = GridPosition{.column = x, .row = y},
-                              .period = tile.value("period", 120),
-                              .phase = tile.value("phase", 0),
-                              .activeDuration = tile.value("activeDuration", 60)});
-    } else if (*type == TileType::MovingPlatform) {
-        // Route de la plateforme (EX-GP-026, LOT-67). Deux ecritures acceptees : le tableau
-        // "waypoints" (points suivants, dans l'ordre) ou, pour les niveaux anterieurs au
-        // multi-points, le couple "endX"/"endY" -- lu comme un waypoint unique. Aucune des deux
-        // n'est obligatoire : sans route, la plateforme est immobile (erreur de configuration
-        // toleree plutot qu'un rejet, defauts silencieux, EX-NFR-040).
-        std::vector<GridPosition> waypoints;
-        if (tile.contains("waypoints")) {
-            for (const nlohmann::json& waypoint : tile.at("waypoints")) {
-                waypoints.push_back(
-                    GridPosition{.column = waypoint.value("x", x), .row = waypoint.value("y", y)});
-            }
-        } else if (tile.contains("endX") || tile.contains("endY")) {
-            waypoints.push_back(
-                GridPosition{.column = tile.value("endX", x), .row = tile.value("endY", y)});
-        }
-        for (const GridPosition& waypoint : waypoints) {
-            if (!state.map.inBounds(waypoint.column, waypoint.row)) {
-                return failure("Point de parcours de plateforme mobile hors bornes en (" +
-                                   std::to_string(x) + ", " + std::to_string(y) + ")",
-                               LevelValidationError::OutOfBounds);
-            }
-        }
-        state.platformConfigs.push_back(
-            MovingPlatformConfig{.startPosition = GridPosition{.column = x, .row = y},
-                                 .waypoints = std::move(waypoints),
-                                 .mode = parsePlatformPathMode(tile),
-                                 .speed = tile.value("speed", 2.0f),
-                                 .phase = tile.value("phase", 0)});
     }
     return std::nullopt;
 }
@@ -436,20 +358,6 @@ LevelLoadResult LevelLoader::loadFromString(std::string_view json) {
         }
 
         std::string name = root.value("name", std::string{});
-        // Budgets de mouvements optionnels (EX-GP-024) ; -1 = illimite. A ne pas confondre avec
-        // les CAPACITES ci-dessous : un budget est un total consommable sur tout le tableau,
-        // jamais recharge, alors qu'une capacite se recharge a chaque contact avec le sol.
-        const int jumpBudget = root.value("jumpBudget", -1);
-        const int dashBudget = root.value("dashBudget", -1);
-        // Capacites du tableau (EX-GP-055) : absentes = reglages du moteur (PhysicsConfig).
-        std::optional<int> airJumps;
-        if (root.contains("airJumps")) {
-            airJumps = root.at("airJumps").get<int>();
-        }
-        std::optional<int> dashCharges;
-        if (root.contains("dashCharges")) {
-            dashCharges = root.at("dashCharges").get<int>();
-        }
         // Asset de fond et jeu de skins du niveau (EX-REN-044/EX-EDIT-024) : chaines optionnelles,
         // Core ignore tout du dossier d'assets et du mode de rendu (EX-NFR-011).
         std::optional<std::string> background;
@@ -478,30 +386,14 @@ LevelLoadResult LevelLoader::loadFromString(std::string_view json) {
         std::set<std::pair<int, int>> occupiedPositions;
         std::unordered_map<std::string, GridPosition> switchesById;
         std::vector<DoorLink> doors;
-        std::vector<DangerSwitchedLink> switchedDangers;
         std::unordered_map<std::string, GridPosition> keysById;
         std::vector<LockedDoorLink> lockedDoors;
-        std::vector<DangerMoverConfig> moverConfigs;
-        std::vector<DangerBlinkConfig> blinkConfigs;
         std::vector<TileTextureOverride> textureOverrides;
-        std::vector<MovingPlatformConfig> platformConfigs;
 
         // Chaque objet de 'tiles' place une tuile dans la grille.
-        TileParseState tileState{map,
-                                 entry,
-                                 exit,
-                                 entryCount,
-                                 exitCount,
-                                 occupiedPositions,
-                                 switchesById,
-                                 doors,
-                                 switchedDangers,
-                                 keysById,
-                                 lockedDoors,
-                                 moverConfigs,
-                                 blinkConfigs,
-                                 textureOverrides,
-                                 platformConfigs};
+        TileParseState tileState{
+            map,          entry, exit,     entryCount,  exitCount,       occupiedPositions,
+            switchesById, doors, keysById, lockedDoors, textureOverrides};
         for (const nlohmann::json& tile : root.at("tiles")) {
             std::optional<LevelLoadResult> tileError = parseTile(tile, tileState);
             if (tileError) {
@@ -561,23 +453,6 @@ LevelLoadResult LevelLoader::loadFromString(std::string_view json) {
             }
         }
 
-        // Résout les liaisons interrupteur↔danger commuté (EX-GP-052), même règle que ci-dessus :
-        // un dangerSwitched sans 'opensWith' est une simple tuile inerte (jamais mortelle).
-        std::vector<DangerLink> dangerLinks;
-        for (const DangerSwitchedLink& danger : switchedDangers) {
-            if (danger.opensWith.empty()) {
-                continue;
-            }
-            const auto found = switchesById.find(danger.opensWith);
-            if (found == switchesById.end()) {
-                return failure(
-                    "Danger commute lie a un interrupteur inexistant : " + danger.opensWith,
-                    LevelValidationError::UnresolvedMechanism);
-            }
-            dangerLinks.push_back(
-                DangerLink{.triggerPosition = found->second, .dangerPosition = danger.position});
-        }
-
         warnOnObsoleteDecors(root, name);
 
         std::vector<Plane> planes;
@@ -599,10 +474,8 @@ LevelLoadResult LevelLoader::loadFromString(std::string_view json) {
                          " mecanisme(s))");
         return LevelLoadResult{
             .level = Level(std::move(name), std::move(map), entry, exit, std::move(mechanisms),
-                           jumpBudget, dashBudget, std::move(dangerLinks), std::move(moverConfigs),
-                           std::move(blinkConfigs), std::move(background), std::move(skinSet),
-                           std::move(textureOverrides), std::move(platformConfigs), cameraFraming,
-                           airJumps, dashCharges, std::move(planes), parallaxEnabled),
+                           std::move(background), std::move(skinSet), std::move(textureOverrides),
+                           cameraFraming, std::move(planes), parallaxEnabled),
             .error = {}};
     } catch (const nlohmann::json::exception& error) {
         return failure(std::string("JSON invalide : ") + error.what(),

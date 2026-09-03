@@ -31,22 +31,13 @@ namespace hmi {
  * `core::CameraFramingConfig::zones` au relâchement (`core::LevelDraft::addCameraZone`) ; les
  * zones existantes se retirent depuis le tableau de la section « Cadrage » du panneau Textures,
  * pas depuis le canevas.
- * `Path` (`LOT-67`, `EX-EDIT-032`) manipule la trajectoire des éléments mobiles : cliquer la case
- * d'une plateforme mobile ou d'un danger mobile sélectionne son parcours et en affiche les
- * poignées ; glisser une poignée de point le déplace sur la case visée ; glisser le losange au
- * milieu d'un segment y **insère** un point et le déplace du même geste ; clic droit sur une
- * poignée retire ce point ; `Échap` abandonne un glisser en cours sans toucher au brouillon — voir
- * `hmi::PathGesture`. Le point de **départ** n'a pas de poignée : c'est la tuile elle-même, qu'on
- * déplace en la repeignant. Pour un danger mobile, l'unique poignée d'extrémité redéfinit à la
- * fois l'axe et la portée. Vitesse, déphasage et mode de bouclage se règlent dans le panneau
- * Propriétés, pas au canevas.
  */
-enum class EditorTool { Paint, Rectangle, Selection, Link, TextureAssign, CameraZone, Path };
+enum class EditorTool { Paint, Rectangle, Selection, Link, TextureAssign, CameraZone };
 
 /// Nombre d'outils d'édition, déclaré au plus près de l'énumération qu'il compte. Sert de garde
 /// de **complétude** : le catalogue d'actions doit exposer exactement autant d'outils de niveau
 /// (`hmi::editorActionCatalog`), ce qu'un test vérifie — sans quoi un outil ajouté à
 /// l'énumération peut apparaître dans la barre d'outils sans jamais être relié au viewport.
-inline constexpr std::size_t EDITOR_TOOL_COUNT = 7;
+inline constexpr std::size_t EDITOR_TOOL_COUNT = 6;
 
 }  // namespace hmi

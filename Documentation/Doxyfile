@@ -1,8 +1,8 @@
-# Doxyfile minimal — ProjectGaming
+# Doxyfile minimal — JustAnotherDnDGame
 # Génération : depuis Documentation/, exécuter `doxygen Doxyfile`.
 # Les options non spécifiées gardent les valeurs par défaut de Doxygen.
 
-PROJECT_NAME           = "ProjectGaming"
+PROJECT_NAME           = "JustAnotherDnDGame"
 # PROJECT_NUMBER n'est pas écrit ici : scripts/build_docs.py l'injecte depuis project(VERSION)
 # du CMakeLists.txt racine (source unique de vérité), sur l'entrée standard de Doxygen. Lancer
 # `doxygen Doxyfile` directement (sans passer par le script) produit un numéro vide, pas périmé.
@@ -17,17 +17,19 @@ CREATE_SUBDIRS         = NO
 INPUT                  = index.md \
                          CahierTest.md \
                          Guide \
-                         Guide-Annexe \
                          Specification \
                          Lot \
-                         Lot-Annexe \
                          Manuel \
                          ../Source
 RECURSIVE              = YES
 FILE_PATTERNS          = *.cpp *.h *.hpp *.md
 # Exclusions : build, dépendances, sortie générée, et les README de modules de
 # Source/ (notes internes, non voulues comme pages du site).
-EXCLUDE_PATTERNS       = */build/* */External/* */generated/* */Source/*README.md
+#
+# `Documentation/Heritage/` n'est volontairement PAS dans INPUT : c'est l'archive en lecture seule
+# du programme de lots de `ProjectGaming` (LOT-01). Ses pages portent les ancres `{#lot-01}` a
+# `{#lot-74}`, qui entreraient en collision avec celles du programme courant, reparti a `LOT-01`.
+EXCLUDE_PATTERNS       = */build/* */External/* */generated/* */Source/*README.md */Heritage/*
 
 # Page d'accueil du site (mainpage) et arbre de navigation latéral.
 USE_MDFILE_AS_MAINPAGE = index.md

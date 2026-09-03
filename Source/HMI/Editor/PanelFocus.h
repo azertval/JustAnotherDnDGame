@@ -30,7 +30,6 @@ enum class PanelId {
     Palette,
     Levels,
     Links,
-    Properties,
     Textures,
     // Espace des plans picturaux (LOT-69).
     Planes,
@@ -43,7 +42,7 @@ enum class PanelId {
 /// Nombre de panneaux, declare au plus pres de l'enumeration qu'il compte. Sert de garde de
 /// **completude** a la repartition par espace de travail (`hmi::workspacesForPanel`, `LOT-68`) :
 /// un panneau ajoute sans espace resterait affiche dans les deux, ce qu'un test interdit.
-inline constexpr std::size_t PANEL_COUNT = 9;
+inline constexpr std::size_t PANEL_COUNT = 8;
 
 /// Une entrée de la table : l'outil @p tool met en avant le panneau @p panel.
 struct PanelFocusEntry {

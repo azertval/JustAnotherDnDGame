@@ -6,6 +6,35 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **Fork : `ProjectGaming` devient `JustAnotherDnDGame`** (`LOT-01`). Le dépôt est dérivé du jeu de
+  plateforme/puzzle en vue de côté livré en `0.1.3`, dont il reprend le moteur et retire tout le
+  gameplay propre à la vue de côté, pour devenir un **RPG en vue de dessus** : exploration temps
+  réel façon Zelda, rencontres en combat tactique au tour par tour régi par un système d20 maison.
+  L'historique git est intégralement conservé ; le tag `archive/platformer-v0.1.3` marque l'état
+  d'avant la purge, et le programme de lots d'origine reste consultable sous
+  `Documentation/Heritage/`.
+  - **Retiré** : le solveur d'IA autonome (`AiSolver`, 12 k lignes) avec son IHM, ses rejeux et son
+    écran « Mode IA » ; la physique du personnage de plateforme (`CharacterPhysicsSystem`, seul
+    consommateur de la gravité) ; les contrôleurs de blocs poussables, plateformes mobiles, dangers
+    à état et blocs volatils ; la géométrie des pentes et des dangers directionnels ; l'outil
+    « Parcours » et le panneau « Propriétés » de l'éditeur ; 25 des 36 types de tuile ; les 26
+    niveaux de démonstration et leurs plans. Au total **63 000 lignes** et 376 fichiers.
+  - **Conservé** : l'ECS, la boucle à pas fixe, les mathématiques déterministes, le balayage AABB,
+    le modèle et le chargeur de niveaux, tout le rendu (atlas procédural, autotuilage, skins,
+    caméras, particules, ombres, polices), l'éditeur (undo/redo, bibliothèque d'assets, atelier
+    pixel art), l'IHM Qt, l'audio, la localisation et l'infrastructure CI/doc/test.
+  - **Sauvé de la purge** : `GridDistanceField` (BFS de plus court chemin sur la grille) quitte
+    `AiSolver` pour `Core/World/` — c'est le calcul de portée de déplacement du futur combat
+    tactique. `MechanismController` (interrupteur↔porte, plaque, clé) est conservé : c'est du
+    vocabulaire de puzzle, pas de plateforme. Le détourage par silhouette devient
+    `HMI/Graphics/TileSilhouette`, vidé de sa géométrie mais fonctionnel, en attendant les tuiles
+    du `LOT-08`.
+  - **Conséquence assumée** : le personnage ne se déplace plus. Le jeu se lance, charge et affiche
+    une carte, mais n'est **pas jouable** jusqu'au `LOT-06`, qui livre le déplacement top-down 8
+    directions par-dessus le balayage AABB existant.
+  - Renommage des cibles, du binaire et des macros (`PROJECTGAMING_` → `JADG_`) ; version remise à
+    `0.1.0`.
+
 - **Gameplay — blocs interactifs volatils** (`LOT-74`, `EX-GP-027` à `EX-GP-029`). Trois types de
   tuile pour de la matière qui ne survit pas au passage du personnage, là où le moteur n'avait
   jusqu'ici **aucun** bloc destructible, fragile ou disparaissant : une fois posé, un bloc était là
@@ -1648,7 +1677,7 @@ versionné pendant des semaines sans qu'aucune Pull Request ne le signale.
   historique (`hmi::buildProceduralAtlasImage`, extraite telle quelle, sans régression), sans jamais
   bloquer le rendu (`EX-NFR-040`). Interface publique de `TextureAtlas` inchangée ; `tile`/
   `playerFrameRegion` rendues `static` (pure arithmétique de grille) et testées sans GPU. Un outil de
-  développement (`ProjectGaming.exe --export-atlas=<chemin>`) régénère l'atlas de base depuis la
+  développement (`JustAnotherDnDGame.exe --export-atlas=<chemin>`) régénère l'atlas de base depuis la
   génération procédurale de référence.
 
 - **Feuille de route LOT-40 → LOT-55 — Programme d'habillage : textures, animations, décors** :
@@ -1700,7 +1729,7 @@ versionné pendant des semaines sans qu'aucune Pull Request ne le signale.
 
 - **LOT-34 → LOT-38 — Refonte de l'IHM vers Qt** (`EX-IHM-*`, `EX-BUILD-010`) : toute l'interface
   hors-jeu (menu, options, remappage clavier/manette, éditeur de niveaux) est désormais une
-  application **Qt 6** (`ProjectGaming`), le **rendu in-game restant Direct3D 11** embarqué dans un
+  application **Qt 6** (`JustAnotherDnDGame`), le **rendu in-game restant Direct3D 11** embarqué dans un
   viewport (`hmi::GameViewport`, `QWindow` + `HWND`). Fenêtres dockables (`QDockWidget` : Palette,
   Outils, Niveaux) à disposition persistée (`QSettings`, `EX-IHM-011`), palette en arbre
   (`QTreeView`), navigateur de niveaux (recherche, créer/renommer/dupliquer/supprimer). Mises en
@@ -1718,7 +1747,7 @@ versionné pendant des semaines sans qu'aucune Pull Request ne le signale.
     `"0.1.0"` en dur et `project(… VERSION …)` valait `0.1.0` — aucun des deux n'avait jamais
     correspondu à un tag publié, seul le `Doxyfile` étant bumpé à chaque jalon. Le `project()`
     racine devient l'unique endroit où le numéro est écrit : il alimente `core::Engine::version()`
-    par définition de compilation (`PROJECTGAMING_VERSION`), et `scripts/build_docs.py` — déjà
+    par définition de compilation (`JADG_VERSION`), et `scripts/build_docs.py` — déjà
     exécuté par la CI — **échoue** désormais si le `PROJECT_NUMBER` du `Doxyfile` s'en écarte.
   - **Le garde-fou du Cahier de test en était un à moitié.** `generate_cahier_test.py` ne
     reconnaissait que la forme `TEST(` : les cas de test attachés à une *fixture* (`TEST_F`)
@@ -1749,7 +1778,7 @@ versionné pendant des semaines sans qu'aucune Pull Request ne le signale.
     consignée dans `CONTRIBUTING.md`.
 - **LOT-38 (Étape B) — Retrait du legacy & réorganisation** : suppression de l'IHM « maison »
   (écrans `IScreen`/`ScreenManager`, widgets d'éditeur, police bitmap, fenêtre Win32) et de
-  l'exécutable historique ; `Source/HMI` devient l'unique cible (`ProjectGaming`), code réparti par
+  l'exécutable historique ; `Source/HMI` devient l'unique cible (`JustAnotherDnDGame`), code réparti par
   domaine (`Platform`/`Input`/`Graphics`/`Game`/`Localization`/`Interface`/`Editor`). Documentation
   (guides écrans/éditeur/rendu/entrées) et journalisation mises à jour en conséquence.
 
@@ -2239,7 +2268,7 @@ versionné pendant des semaines sans qu'aucune Pull Request ne le signale.
 - **LOT-07 (TACHE-03)** : chargement de niveau dans `Core/Levels` — `LevelLoader` lit le format **JSON** (objet `{name, width, height, tiles}`, `tiles` = liste d'objets `{x, y, type, …}`) via nlohmann/json et construit un `Level` ; liaisons interrupteur↔porte résolues par identifiant (`switch.id` ↔ `door.opensWith`). Renvoie un **résultat récupérable** (`LevelLoadResult`, jamais d'exception vers l'appelant, `EX-NFR-040`) : JSON malformé, champ manquant, type inconnu, tuile hors bornes, entrée/sortie absente, liaison non résolue. nlohmann/json reste **confiné au `.cpp`**. Couvert par tests unitaires (`EX-LVL-001`, `EX-LVL-003`).
 - **LOT-07 (TACHE-02)** : modèle de niveau dans `Core/Levels` — `TileType` (`Empty`/`Solid`/`Danger`/`Entry`/`Exit`/`Switch`/`Door`), `TileMap` (grille dense typée, accès borné, `isSolid`), `GridPosition` et `Level` (nom + grille + entrée/sortie + mécanismes). Donnée pure, testable sans GPU (`EX-GP-001`, `EX-LVL-002`) ; couvert par tests unitaires.
 - **LOT-07 (TACHE-01)** : dépendance **nlohmann/json** (v3.11.3, épinglée via FetchContent, *header-only*) ajoutée pour le parsing des fichiers de niveaux ; liée **en privé** à `Core` (`EX-NFR-031`).
-- **Niveau de log configurable au lancement** : le niveau minimum du journaliseur (par défaut `Trace`) se règle via la variable d'environnement `PROJECTGAMING_LOG_LEVEL` ou l'argument `--log-level=<trace|info|warning|error>` (ce dernier prioritaire) ; une valeur non reconnue est ignorée et signalée. Un analyseur pur `core::parseLogLevel` (couvert par tests) fait la conversion. Permet de réduire le bruit en release ou d'augmenter le détail pour déboguer.
+- **Niveau de log configurable au lancement** : le niveau minimum du journaliseur (par défaut `Trace`) se règle via la variable d'environnement `JADG_LOG_LEVEL` ou l'argument `--log-level=<trace|info|warning|error>` (ce dernier prioritaire) ; une valeur non reconnue est ignorée et signalée. Un analyseur pur `core::parseLogLevel` (couvert par tests) fait la conversion. Permet de réduire le bruit en release ou d'augmenter le détail pour déboguer.
 - **Bouton d'enregistrement des logs de la session** (**outil de développement, masqué en Release**) : un `MemoryLogSink` capture désormais tous les messages émis, et un **bouton** (icône « télécharger » générée en code) en bas à droite du menu, à gauche du drapeau, écrit la session dans `logs/session_AAAAMMJJ_HHMMSS.log` à côté de l'exécutable. Le bouton n'est présent que dans les builds de développement, via `core::kDeveloperBuild` (`if constexpr`, éliminé en Release). Logique du bouton (`SaveLogButton`) et sérialisation (`serializeSessionLog`) **pures et testées** ; l'action d'enregistrement est injectée dans `MenuScreen` (découplage de la journalisation/fichiers). Écriture **récupérable** (échec signalé, pas de plantage).
 - **Journalisation des événements de cycle de vie sur tout le projet** (via l'infrastructure de log du LOT-02). Chaque module a sa **catégorie** de log (en-têtes dédiés, modèle `HMI/HmiLog.h`) : `Core`, `Ecs`, `Graphics`, `Platform`, `HMI`. Sont tracés : création et dimensions de la fenêtre (`Platform`), création des ressources de rendu — device/swap chain, `SpriteBatch`, atlas, police, drapeaux — et redimensionnement (`Graphics`), cadenceur à pas fixe et enregistrement des systèmes ECS (`Core`/`Ecs`), initialisation, **transitions d'écran** (Menu ↔ Jeu ↔ Éditeur), demande de fermeture et changement de langue (`HMI`). Les traces sont **pilotées par événement** — **aucune journalisation dans les chemins par frame** (rendu, mise à jour ECS) — et respectent les niveaux (`INFO` pour les jalons, `TRACE` pour le détail) ; les logs désactivés sont gratuits (garde `isEnabled` avant formatage). Objectif : rendre le déroulé de l'application observable pour le débogage plutôt qu'un fonctionnement silencieux.
 - **LOT-06 (TACHE-08)** : sélecteur de langue au menu — un **bouton drapeau** en bas à droite affiche le drapeau de la **langue courante** et bascule entre **français** et **anglais** au clic (`EX-REN-033`). Ajoute le catalogue anglais (`en.lang`), des **icônes de drapeaux générées en code** (`FlagIcons` : France, Royaume-Uni) et une logique `LanguageSelector` **pure, testable sans GPU** (ancrage bas-droit, détection du clic, bascule) ; le `MenuScreen` recharge le catalogue au clic et redessine les libellés dans la nouvelle langue. Bascule **récupérable** (langue conservée si le fichier cible manque). Couvert par tests unitaires ; vérifié visuellement (menu fr ↔ en, drapeaux France / Royaume-Uni).
@@ -2259,7 +2288,7 @@ versionné pendant des semaines sans qu'aucune Pull Request ne le signale.
 - **Code mort** (audit projet) : retrait de fonctions publiques définies mais **jamais appelées ni testées** — `Camera2D::center()`/`zoom()`, `Logger::minimumLevel()`, `Localization::defaultLanguage()`. Le build `/W4 /WX` couvre déjà locals/paramètres/fonctions-fichier inutilisés ; l'API testée mais consommée au prochain lot (ex. `TileMap::isSolid`, `Level::entry/exit`, `MovementSystem`) et les macros de log uniformes (sans code généré) sont **conservées**.
 
 ### Corrigé
-- La cible de tests `UnitTests` compile désormais aussi en **Release** : `test_assert.cpp` marquait `[[maybe_unused]]` manquant sur une variable non lue lorsque `PROJECTGAMING_ASSERT` est neutralisé en Release (`/W4 /WX`).
+- La cible de tests `UnitTests` compile désormais aussi en **Release** : `test_assert.cpp` marquait `[[maybe_unused]]` manquant sur une variable non lue lorsque `JADG_ASSERT` est neutralisé en Release (`/W4 /WX`).
 
 ### Ajouté
 - **LOT-05 — Rendu 2D (terminé)** : l'exécutable affiche désormais une **scène issue de l'ECS**. La boucle de `main` branche un `core::World` (avec le `MovementSystem`) cadencé à **pas fixe**, puis un **rendu découplé** en lecture seule. `main` construit une scène de démonstration (grille de tuiles + sprite mobile partiellement transparent) rendue via `SpriteRenderer` / `SpriteBatch` / `TextureAtlas` et la `Camera2D`. Première image réelle du jeu (tuiles, transparence, couches, déplacement déterministe).
@@ -2281,7 +2310,7 @@ versionné pendant des semaines sans qu'aucune Pull Request ne le signale.
 - **LOT-03 (TACHE-03)** : stockage de composants dans `Core/Ecs` — `ComponentPool<T>`, sparse set typé (tableau dense contigu + tableau creux indexé par entité) avec `add` / `get` / `has` / `remove` / `removeIfPresent` ; suppression par swap-and-pop préservant la densité ; `get`/`remove` sur entité absente traités par assertion de précondition. Couvert par tests unitaires.
 - **LOT-03 (TACHE-02)** : entités de l'ECS dans `Core/Ecs` — `Entity` (handle générationnel `index`+`generation`, `INVALID_ENTITY`) et `EntityManager` (`create` / `destroy` / `isAlive`, recyclage des index par liste libre avec incrément de génération pour invalider les handles périmés). Couverts par tests unitaires.
 - **LOT-03 (TACHE-01)** : types mathématiques de `Core` dans `Core/Math`, sans dépendance DirectX — `Vector2` (opérateurs, produit scalaire, longueur, normalisation, égalité approchée), `Rect` (bords, `contains`, `intersects`, origine haut-gauche / Y-bas) et `MathUtils.h` (`approximatelyEqual`, `kEpsilon`). Couverts par tests unitaires.
-- **LOT-02** implémenté : journalisation & diagnostics dans `Core/Diagnostics` — niveaux de log, `Logger` (filtrage + sinks), `ConsoleLogSink` / `MemoryLogSink`, macros `PROJECTGAMING_LOG_*` (horodatage + fichier/ligne) et assertions `PROJECTGAMING_ASSERT` (handler surchargeable, actives en Debug). `main` journalise désormais son démarrage et ses erreurs.
+- **LOT-02** implémenté : journalisation & diagnostics dans `Core/Diagnostics` — niveaux de log, `Logger` (filtrage + sinks), `ConsoleLogSink` / `MemoryLogSink`, macros `JADG_LOG_*` (horodatage + fichier/ligne) et assertions `JADG_ASSERT` (handler surchargeable, actives en Debug). `main` journalise désormais son démarrage et ses erreurs.
 - **LOT-01** implémenté : fenêtre Win32 (`hmi::Window`), initialisation Direct3D 11 en RAII (`hmi::GraphicsDevice`, effacement + présentation V-Sync + redimensionnement) et boucle de jeu à pas de temps fixe déterministe (`core::FixedTimestep`, testée). L'exécutable ouvre une fenêtre stable et se ferme proprement (croix / Échap).
 - Arborescence du projet (`Specification/`, `Lot/`, `Documentation/`, `Source/`, `External/`).
 - Découpage `Source/` : `Core`, `HMI`, `Elements`, `Test` (`Unit`, `Integration`, `Systeme`).

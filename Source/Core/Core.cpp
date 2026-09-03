@@ -8,10 +8,10 @@ namespace core {
 // Retourne la version du moteur.
 // Chaîne de version sémantique (par exemple "0.0.5").
 std::string Engine::version() {
-    // PROJECTGAMING_VERSION est défini par Source/Core/CMakeLists.txt depuis PROJECT_VERSION :
+    // JADG_VERSION est défini par Source/Core/CMakeLists.txt depuis PROJECT_VERSION :
     // le numéro n'existe qu'à un seul endroit (le `project()` racine), d'où il alimente aussi le
     // Doxyfile (contrôlé par scripts/build_docs.py) et le tag de release.
-    return PROJECTGAMING_VERSION;
+    return JADG_VERSION;
 }
 
 }  // namespace core

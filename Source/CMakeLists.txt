@@ -4,12 +4,9 @@
 # Modules de code source
 #
 # Core     : logique / moteur (bibliothèque)
-# HMI      : application/éditeur Qt (ProjectGaming) + rendu via QRhi (Direct3D 11 par défaut
+# HMI      : application/éditeur Qt (JustAnotherDnDGame) + rendu via QRhi (Direct3D 11 par défaut
 #            sous Windows) — nécessite Qt6
 # Elements : assets statiques non compilés (niveaux, localisation, UI Qt, thèmes, textures…)
-# AiSolver : calcul numérique maison (tenseurs, RNG) pour l'IA de résolution autonome (programme
-#            annexe, @ref lots-annexe), sans dépendance à un framework de calcul tiers
 
 add_subdirectory(Core)
 add_subdirectory(HMI)
-add_subdirectory(AiSolver)

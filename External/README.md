@@ -20,7 +20,7 @@ Dépendances **tierces** du projet.
 
 ## Qt (LOT-34, refonte IHM)
 
-Qt porte l'IHM hors-jeu — l'unique application `ProjectGaming` (`Source/HMI`, widgets Qt + assets
+Qt porte l'IHM hors-jeu — l'unique application `JustAnotherDnDGame` (`Source/HMI`, widgets Qt + assets
 déclaratifs dans `Source/Elements`). **Qt 6.11+** est requis depuis le `LOT-69` : c'est la première
 version à fournir **Qt Canvas Painter** (peinture 2D accélérée sur cible QRhi). L'archi
 `win64_msvc2022_64` reste celle retenue (Qt 6.7 n'exposait que `win64_msvc2019_64`). Licence
@@ -53,5 +53,5 @@ redistribuées à côté de l'exécutable (`windeployqt`).
   (prioritaire sur `aqtversion`), pointée sur le même commit épinglé via `env.AQT_SOURCE`.
 - **Release** (`.github/workflows/release.yml`) : tant que l'exécutable livré reste l'historique
   (jusqu'au LOT-38), Qt n'y est pas installé et l'éditeur est simplement ignoré. Quand la release
-  basculera sur `ProjectGaming`, ajouter **`windeployqt`** pour déployer les DLL Qt à côté du
+  basculera sur `JustAnotherDnDGame`, ajouter **`windeployqt`** pour déployer les DLL Qt à côté du
   binaire packagé.

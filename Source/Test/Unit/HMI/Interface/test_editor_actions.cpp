@@ -162,8 +162,8 @@ TEST(EditorActionsTest, GeometrieDesIconesNonVideEtDansLeCadre) {
  * }
  */
 TEST(EditorActionsTest, ChaqueLibelleExisteDansLesDeuxLangues) {
-    const std::unordered_map<std::string, std::string> fr = readCatalog(PROJECTGAMING_FR_LANG_PATH);
-    const std::unordered_map<std::string, std::string> en = readCatalog(PROJECTGAMING_EN_LANG_PATH);
+    const std::unordered_map<std::string, std::string> fr = readCatalog(JADG_FR_LANG_PATH);
+    const std::unordered_map<std::string, std::string> en = readCatalog(JADG_EN_LANG_PATH);
     ASSERT_FALSE(fr.empty());
     ASSERT_FALSE(en.empty());
 

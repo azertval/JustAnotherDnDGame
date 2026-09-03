@@ -54,10 +54,6 @@
    rattache visiblement au jeu, et laisse son CONTENU suivre le chassis d'edition : police d'outil,
    densite normale, themes clair/sombre (EX-IHM-054). Aucune font-family ici : ne pas en nommer,
    c'est laisser la police PAR DEFAUT de l'application s'appliquer aux descendants. */
-#AiModeScreen {
-    background-color: ${identity.color.background};
-    color: ${identity.color.text};
-}
 
 /* Recouvrements (pause, fin de niveau) : fond translucide pose en code, pas ici -- la couleur de
    fond opaque ci-dessus les rendrait opaques et cacherait la scene figee derriere. */
@@ -71,8 +67,7 @@
 #PauseScreen QLabel#pauseTitle,
 #LevelSelectScreen QLabel#titleLabel,
 #LevelCompleteScreen QLabel#titleLabel,
-#CreditsScreen QLabel#creditsTitle,
-#AiModeScreen QLabel#titleLabel {
+#CreditsScreen QLabel#creditsTitle {
     color: ${identity.color.accent};
     font-family: ${identity.font.title};
     font-size: ${identity.size.screenTitle}px;
@@ -209,110 +204,11 @@
    tokens.spacing.*, qui ne sont JAMAIS multiplies par le facteur d'agrandissement. Les grandeurs
    identity.size.* / identity.space.*, elles, le sont : c'est par elles que vingt-six lignes de
    formulaire reclamaient plus de deux mille pixels de hauteur. */
-#AiModeScreen QGroupBox {
-    color: ${identity.color.textMuted};
-    border: 1px solid ${identity.color.border};
-    border-radius: 0;
-    margin-top: ${tokens.spacing.medium}px;
-    padding-top: ${tokens.spacing.medium}px;
-}
-#AiModeScreen QGroupBox::title {
-    subcontrol-origin: margin;
-    left: ${tokens.spacing.small}px;
-    padding: 0 ${tokens.spacing.extraSmall}px;
-}
-#AiModeScreen QComboBox,
-#AiModeScreen QSpinBox,
-#AiModeScreen QDoubleSpinBox,
-#AiModeScreen QLineEdit {
-    background: ${identity.color.surfaceAlt};
-    color: ${identity.color.text};
-    border: 1px solid ${identity.color.outline};
-    border-radius: 0;
-    padding: ${tokens.spacing.extraSmall}px ${tokens.spacing.small}px;
-}
-#AiModeScreen QTableWidget {
-    background: ${identity.color.surface};
-    alternate-background-color: ${identity.color.surfaceAlt};
-    color: ${identity.color.text};
-    border: 1px solid ${identity.color.outline};
-    gridline-color: ${identity.color.border};
-    selection-background-color: ${identity.color.accent};
-    selection-color: ${identity.color.background};
-}
-#AiModeScreen QHeaderView::section {
-    background: ${identity.color.surfaceAlt};
-    color: ${identity.color.textMuted};
-    border: none;
-    border-right: 1px solid ${identity.color.outline};
-    border-bottom: 1px solid ${identity.color.outline};
-    padding: ${tokens.spacing.extraSmall}px ${tokens.spacing.small}px;
-}
-#AiModeScreen QTabWidget::pane {
-    border: 1px solid ${identity.color.outline};
-    background: ${identity.color.surface};
-    border-radius: 0;
-}
-#AiModeScreen QTabBar::tab {
-    background: ${identity.color.surfaceAlt};
-    color: ${identity.color.textMuted};
-    border: 1px solid ${identity.color.outline};
-    border-bottom: none;
-    border-radius: 0;
-    padding: ${tokens.spacing.small}px ${tokens.spacing.large}px;
-}
-#AiModeScreen QTabBar::tab:selected {
-    color: ${identity.color.background};
-    background: ${identity.color.accent};
-}
-#AiModeScreen QPushButton {
-    color: ${identity.color.background};
-    background: ${identity.color.accent};
-    border: 1px solid ${identity.color.outline};
-    border-radius: 0;
-    padding: ${tokens.spacing.extraSmall}px ${tokens.spacing.large}px;
-}
-#AiModeScreen QPushButton:hover,
-#AiModeScreen QPushButton:focus {
-    background: ${identity.color.accentHover};
-}
-#AiModeScreen QPushButton:disabled {
-    background: ${identity.color.surfaceAlt};
-    color: ${identity.color.textMuted};
-    border-color: ${identity.color.border};
-}
-#AiModeScreen QProgressBar {
-    border: 1px solid ${identity.color.outline};
-    border-radius: 0;
-    background: ${identity.color.surfaceAlt};
-    color: ${identity.color.text};
-    text-align: center;
-}
-#AiModeScreen QProgressBar::chunk {
-    background: ${identity.color.accent};
-}
-#AiModeScreen QScrollBar:vertical,
-#AiModeScreen QScrollBar:horizontal {
-    background: ${identity.color.surfaceAlt};
-    border: 1px solid ${identity.color.outline};
-}
-#AiModeScreen QScrollBar::handle {
-    background: ${identity.color.border};
-    border-radius: 0;
-}
-#AiModeScreen QScrollBar::handle:hover {
-    background: ${identity.color.accent};
-}
 
 /* Zones defilantes du Mode IA : le cadre pixel doit rester visible AU TRAVERS.
    Une QScrollArea peint par defaut un fond opaque de la palette systeme, qui poserait un
    rectangle gris au milieu de la carte. Elle n'est la que pour empecher la colonne de reglages
    d'imposer sa hauteur a la fenetre -- elle ne doit rien ajouter a l'image. */
-#AiModeScreen QScrollArea,
-#AiModeScreen QScrollArea > QWidget > QWidget {
-    background: transparent;
-    border: none;
-}
 
 #OptionsPage QCheckBox::indicator {
     width: ${identity.size.body}px;
@@ -363,12 +259,11 @@
     border-color: ${identity.color.border};
 }
 
-/* Retour de l'ecran Options/Mode IA : c'est une ENTREE DE MENU, pas une commande — elle doit se
+/* Retour de l'ecran Options : c'est une ENTREE DE MENU, pas une commande — elle doit se
    lire comme celles du menu principal, pas comme un bouton plein d'action juste au-dessus.
    Le selecteur vise la classe promue : Qt remplace "::" par "--" dans le nom de type QSS, et cette
    regle l'emporte sur la precedente parce qu'elle est plus specifique. */
-#OptionsPage hmi--PixelMenuButton,
-#AiModeScreen hmi--PixelMenuButton {
+#OptionsPage hmi--PixelMenuButton {
     color: ${identity.color.textMuted};
     background: transparent;
     border: none;
@@ -378,9 +273,7 @@
     font-weight: bold;
 }
 #OptionsPage hmi--PixelMenuButton:hover,
-#OptionsPage hmi--PixelMenuButton:focus,
-#AiModeScreen hmi--PixelMenuButton:hover,
-#AiModeScreen hmi--PixelMenuButton:focus {
+#OptionsPage hmi--PixelMenuButton:focus {
     color: ${identity.color.accent};
     background: transparent;
 }
