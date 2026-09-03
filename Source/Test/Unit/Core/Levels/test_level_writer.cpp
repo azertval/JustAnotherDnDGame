@@ -35,7 +35,6 @@ constexpr const char* LEVEL_WITH_MECHANISM = R"({
 
 }  // namespace
 
-
 /**
  * @brief Une plaque de pression survit au round-trip (sérialisation puis rechargement),
  * `TileType` et liaison préservés (`EX-GP-025`).
@@ -143,7 +142,6 @@ TEST(LevelWriterTest, BlocPoussableSurvitAuRoundTrip) {
     EXPECT_TRUE(reloaded.level->mechanisms().empty());
 }
 
-
 /**
  * @brief Le fond et le jeu de skins survivent au round-trip (sérialisation puis rechargement,
  * `EX-REN-044`, `EX-EDIT-024`).
@@ -223,7 +221,6 @@ TEST(LevelWriterTest, InterrupteurNonRelieRegenereUnIdentifiant) {
     EXPECT_TRUE(reloaded.level->mechanisms().empty());
 }
 
-
 /**
  * @brief saveToFile écrit un fichier qui se recharge à l'identique (round-trip disque).
  * \castest{<b>saveToFile écrit un fichier qui se recharge à l'identique (round-trip
@@ -269,7 +266,6 @@ TEST(LevelWriterTest, SaveToFileVersDossierInexistantEchoueProprement) {
     const std::filesystem::path path = "chemin/inexistant/pas_la/niveau.json";
     EXPECT_FALSE(core::LevelWriter::saveToFile(*loaded.level, path));
 }
-
 
 /**
  * @brief Chacun des trois modes de cadrage, avec une taille de salle personnalisée pour le mode
@@ -403,5 +399,3 @@ std::string levelWithPlatform(const std::string& platformFields) {
 }
 
 }  // namespace
-
-

@@ -25,7 +25,6 @@ using core::TileType;
 
 }  // namespace
 
-
 /**
  * @brief paintTile pose le type demandé sur la case visée.
  * \castest{<b>paintTile pose le type demandé sur la case visée.</b><br/>
@@ -175,7 +174,6 @@ TEST(LevelDraftTest, RoundTripEditionCleEtPorteVerrouillee) {
     EXPECT_EQ(reloaded.level->tileMap().tile(1, 0), TileType::Key);
     EXPECT_EQ(reloaded.level->tileMap().tile(2, 0), TileType::LockedDoor);
 }
-
 
 /**
  * @brief Lier une plaque de pression à une porte crée un mécanisme, comme un interrupteur
@@ -333,7 +331,6 @@ TEST(LevelDraftTest, ReduireRetireLesMecanismesHorsBornes) {
     draft.resize(2, 2);
     EXPECT_TRUE(draft.mechanisms().empty());
 }
-
 
 /**
  * @brief toLevel() sur un brouillon sans sortie échoue avec un message récupérable (EX-EDIT-007).
@@ -874,7 +871,6 @@ TEST(LevelDraftTest, UndoApresRedimensionnementRestitueLesDimensions) {
     EXPECT_EQ(*draft.entry(), (GridPosition{4, 4}));
 }
 
-
 /**
  * @brief `fromLevel` restitue les **plans picturaux** et le drapeau de parallaxe d'un niveau déjà
  * chargé (`EX-DEC-040`, `EX-DEC-043`).
@@ -960,4 +956,3 @@ TEST(LevelDraftTest, AllerRetourBrouillonConserveLesPlans) {
     EXPECT_EQ(rewritten.level->planes()[1].fileName, "devant.png");
     EXPECT_EQ(rewritten.level->planes()[1].depth, core::PlaneDepth::Front);
 }
-

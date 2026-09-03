@@ -101,8 +101,7 @@ namespace {
     core::LogLevel level = core::LogLevel::Trace;
     invalidValueGiven = false;
 
-    if (const std::optional<std::string> fromEnvironment =
-            environmentVariable("JADG_LOG_LEVEL")) {
+    if (const std::optional<std::string> fromEnvironment = environmentVariable("JADG_LOG_LEVEL")) {
         if (const std::optional<core::LogLevel> parsed = core::parseLogLevel(*fromEnvironment)) {
             level = *parsed;
         } else {
@@ -152,8 +151,8 @@ int main(int argc, char** argv) {
     // Version du binaire et de Qt contre lequel il a ete compile (QT_VERSION_STR, fourni par les
     // en-tetes Qt) : capture dans le journal de session (LOT-61) pour qu'un rapport de defaut dise
     // contre quel Qt le binaire signale a ete construit, sans dependre d'une reproduction locale.
-    HMI_LOG_INFO(std::string("JustAnotherDnDGame ") + core::Engine::version() + " (compile avec Qt " +
-                 QT_VERSION_STR + ").");
+    HMI_LOG_INFO(std::string("JustAnotherDnDGame ") + core::Engine::version() +
+                 " (compile avec Qt " + QT_VERSION_STR + ").");
 
     QApplication application(argc, argv);
     // Style choisi avant tout widget (LOT-56) : appliqué après, il ne se propage pas aux widgets

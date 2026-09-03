@@ -192,7 +192,6 @@ TEST(MechanismControllerTest, PlaqueDePressionPoidsInsuffisant) {
     EXPECT_TRUE(controller.collisionMap().isSolid(4, 1));
 }
 
-
 /**
  * @brief Le simple contact sur la clé, sans « Interagir », n'ouvre pas la porte verrouillée —
  * contrairement à l'interrupteur (`EX-GP-023`, `EX-CTRL-022`).

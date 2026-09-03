@@ -15,7 +15,6 @@ using core::TileType;
 
 }  // namespace
 
-
 /**
  * @brief Le trait relie les **centres** des deux cases (origine en haut à gauche, demi-case
  * ajoutée) :
@@ -151,7 +150,6 @@ TEST(LinkGeometry, ArrowHeadSegmentDegenere) {
     EXPECT_FLOAT_EQ(head.right.x, point.x);
     EXPECT_FLOAT_EQ(head.right.y, point.y);
 }
-
 
 /**
  * @brief Un brouillon sans aucune liaison donne une liste vide : le panneau affiche alors son état

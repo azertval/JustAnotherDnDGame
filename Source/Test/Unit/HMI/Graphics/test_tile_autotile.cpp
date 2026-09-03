@@ -180,7 +180,6 @@ TEST(TileAutotileTest, RaccordEntreTypesSolidesDifferents) {
     EXPECT_TRUE((hmi::solidNeighborMask(tiles, 2, 2) & hmi::NEIGHBOR_RIGHT) != 0);
 }
 
-
 /**
  * @brief La case representative est l'interieur plein.
  * \castest{<b>La case representative d'une planche est son interieur plein.</b><br/>

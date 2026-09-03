@@ -25,4 +25,3 @@ bool sameRegion(const core::AtlasRegion& a, const core::AtlasRegion& b) {
 }
 
 }  // namespace
-

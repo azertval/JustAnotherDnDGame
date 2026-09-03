@@ -256,7 +256,21 @@ target_compile_definitions(SystemTests PRIVATE
 # TIMEOUT : une borne de TERMINAISON, pas un objectif de performance. Sans elle, un test parti en
 # boucle bloque le job jusqu'au delai global du runner, sans dire lequel. Le seuil laisse une marge
 # large au test le plus lourd connu (~42 s en Debug) : il n'attrape qu'un veritable emballement.
-gtest_discover_tests(UnitTests PROPERTIES LABELS unitaire TIMEOUT 300)
-gtest_discover_tests(IntegrationTests PROPERTIES LABELS integration TIMEOUT 300)
-# Le parcours complet rejoue les 24 tableaux livres, avec un plafond de 9 000 pas chacun.
-gtest_discover_tests(SystemTests PROPERTIES LABELS systeme TIMEOUT 900)
+#
+# DISCOVERY_MODE PRE_TEST : la decouverte a lieu au moment du `ctest`, pas a la fin du build.
+#
+# En mode POST_BUILD (le defaut), CMake execute l'executable de test des qu'il est lie, pour en
+# lister les TEST(). Sous Ninja, qui parallelise agressivement, cette execution tombe dans la
+# meme fenetre que le `windeployqt` de l'application : les deux visent `bin/`, l'un ecrit les DLL
+# Qt pendant que l'autre les charge. Resultat, un STATUS_SHARING_VIOLATION (0xc0000043) au
+# lancement -- « Error running test executable », sans le moindre rapport avec le code teste.
+#
+# La course preexistait ; le LOT-02 l'a rendue visible en decalant l'ordre d'edition de liens
+# (UnitTests attend desormais HmiLib). Un simple reordonnancement ne ferait que la recacher :
+# PRE_TEST la supprime, la decouverte n'ayant plus lieu pendant le build. Le generateur Visual
+# Studio n'etait pas touche, ses cibles ne se recouvrant pas de la meme facon -- exactement le
+# genre d'ecart entre generateurs que le job `build-ninja` existe pour attraper.
+gtest_discover_tests(UnitTests DISCOVERY_MODE PRE_TEST PROPERTIES LABELS unitaire TIMEOUT 300)
+gtest_discover_tests(IntegrationTests DISCOVERY_MODE PRE_TEST
+                     PROPERTIES LABELS integration TIMEOUT 300)
+gtest_discover_tests(SystemTests DISCOVERY_MODE PRE_TEST PROPERTIES LABELS systeme TIMEOUT 900)

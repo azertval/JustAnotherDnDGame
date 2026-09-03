@@ -98,7 +98,6 @@ TEST(GameHudTest, BudgetPartielNAfficheQuUnCompteur) {
     EXPECT_EQ(lines[1], "Chute libre");
 }
 
-
 /**
  * @brief Chaque clé de traduction utilisée par le HUD existe, traduite, dans les deux catalogues
  *        livrés (français et anglais).

@@ -111,7 +111,6 @@ TEST(LevelOutcomeTest, EchecPrioritaireSurSucces) {
     EXPECT_EQ(core::evaluateOutcome(unitBox(5.0f, 5.0f), level), core::LevelOutcome::Lost);
 }
 
-
 /**
  * @brief Une boîte supplémentaire (`extraDangerBoxes`) provoque l'échec au même titre qu'une
  * tuile de danger statique (`EX-GP-051`/`052`/`053`, assemblées par l'appelant).

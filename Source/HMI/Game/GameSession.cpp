@@ -714,7 +714,6 @@ core::LevelOutcome GameSession::update(const core::PlayerInput& intent, float fi
     return outcome;
 }
 
-
 // Dessine le niveau charge (rien si le chargement a echoue : l'appelant gere l'affichage d'erreur).
 void GameSession::render(int viewportWidth, int viewportHeight, RenderMode mode,
                          float interpolationAlpha) {

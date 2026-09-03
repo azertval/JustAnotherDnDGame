@@ -112,7 +112,6 @@ TEST(TileMapTest, IsSolidParType) {
     EXPECT_FALSE(core::isSolid(core::TileType::Danger));
 }
 
-
 /**
  * @brief Un Level restitue ses composantes (nom, grille, entrée/sortie, mécanismes).
  * \castest{<b>Un Level restitue ses composantes (nom, grille, entrée/sortie, mécanismes).</b><br/>
@@ -142,7 +141,6 @@ TEST(LevelTest, RestitueSesComposantes) {
     EXPECT_EQ(level.mechanisms().front().switchPosition, (core::GridPosition{2, 1}));
     EXPECT_EQ(level.mechanisms().front().doorPosition, (core::GridPosition{4, 2}));
 }
-
 
 /**
  * @brief Un Level sans fond ni jeu de skins configurés restitue les deux champs absents

@@ -22,7 +22,6 @@
 #include "Core/Math/Vector2.h"
 #include "Core/Physics/Aabb.h"
 
-
 /**
  * @brief Parcours complet d'édition du cadrage de caméra : choisir un mode, l'annuler, en choisir
  * un autre avec une taille de salle personnalisée, enregistrer, recharger -- exactement le geste

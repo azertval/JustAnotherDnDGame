@@ -225,9 +225,9 @@ TEST(SkinAssignmentsTest, BalayageNeRetientQueLesImages) {
  */
 TEST(SkinAssignmentsTest, DossierAbsentListeVide) {
     // Etat de depart legitime : aucun skin n'a encore ete depose.
-    EXPECT_TRUE(hmi::listSkinAssets(std::filesystem::temp_directory_path() /
-                                    "jadg_dossier_inexistant")
-                    .empty());
+    EXPECT_TRUE(
+        hmi::listSkinAssets(std::filesystem::temp_directory_path() / "jadg_dossier_inexistant")
+            .empty());
 }
 
 /**

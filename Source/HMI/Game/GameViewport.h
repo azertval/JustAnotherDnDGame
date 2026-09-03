@@ -376,7 +376,6 @@ public:
      */
     void setLevelCameraFraming(core::CameraFramingConfig cameraFraming);
 
-
     /**
      * @brief Retire la zone de caméra au rang @p index (section « Cadrage », `EX-LVL-007`,
      *        `EX-EDIT-029`) ; sans effet si hors bornes.
@@ -734,7 +733,6 @@ private:
     /// Session de jeu de l'essai immédiat ; nulle en mode édition (essai ajouté au LOT-35
     /// TACHE-04).
     std::optional<hmi::GameSession> _session;
-
 };
 
 }  // namespace hmi

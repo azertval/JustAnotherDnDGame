@@ -391,17 +391,9 @@ LevelLoadResult LevelLoader::loadFromString(std::string_view json) {
         std::vector<TileTextureOverride> textureOverrides;
 
         // Chaque objet de 'tiles' place une tuile dans la grille.
-        TileParseState tileState{map,
-                                 entry,
-                                 exit,
-                                 entryCount,
-                                 exitCount,
-                                 occupiedPositions,
-                                 switchesById,
-                                 doors,
-                                 keysById,
-                                 lockedDoors,
-                                 textureOverrides};
+        TileParseState tileState{
+            map,          entry, exit,     entryCount,  exitCount,       occupiedPositions,
+            switchesById, doors, keysById, lockedDoors, textureOverrides};
         for (const nlohmann::json& tile : root.at("tiles")) {
             std::optional<LevelLoadResult> tileError = parseTile(tile, tileState);
             if (tileError) {
@@ -482,9 +474,8 @@ LevelLoadResult LevelLoader::loadFromString(std::string_view json) {
                          " mecanisme(s))");
         return LevelLoadResult{
             .level = Level(std::move(name), std::move(map), entry, exit, std::move(mechanisms),
-                           std::move(background), std::move(skinSet),
-                           std::move(textureOverrides), cameraFraming, std::move(planes),
-                           parallaxEnabled),
+                           std::move(background), std::move(skinSet), std::move(textureOverrides),
+                           cameraFraming, std::move(planes), parallaxEnabled),
             .error = {}};
     } catch (const nlohmann::json::exception& error) {
         return failure(std::string("JSON invalide : ") + error.what(),

@@ -8,9 +8,10 @@
  * @brief Facteur d'agrandissement **entier** des écrans du jeu (`LOT-68`, `EX-IHM-070`).
  *
  * Logique **pure** (aucune dépendance Qt/GPU), testable hors instance d'application
- * (`EX-NFR-010`) — compilée à la fois dans `JustAnotherDnDGame` et directement dans `UnitTests`, comme
- * `HMI/Interface/DesignTokens.cpp`. Même découpage que `hmi::thumbnailPixelSize` : cette fonction
- * décide *de combien* agrandir, la couche Qt (`hmi::applyStyleSheet`) décide *quoi* multiplier.
+ * (`EX-NFR-010`) — compilée à la fois dans `JustAnotherDnDGame` et directement dans `UnitTests`,
+ * comme `HMI/Interface/DesignTokens.cpp`. Même découpage que `hmi::thumbnailPixelSize` : cette
+ * fonction décide *de combien* agrandir, la couche Qt (`hmi::applyStyleSheet`) décide *quoi*
+ * multiplier.
  *
  * Le pixel art n'admet pas d'agrandissement fractionnaire : à 1,5×, une bordure d'un pixel devient
  * une bordure d'un pixel et demi, que le rastériseur rend tantôt sur un pixel, tantôt sur deux. La

@@ -51,7 +51,6 @@ struct LinkOverlayState {
     std::optional<std::pair<core::GridPosition, core::GridPosition>> selectedLink;
 };
 
-
 /**
  * @brief Dessine la grille d'un `core::LevelDraft` en cours d'édition.
  *

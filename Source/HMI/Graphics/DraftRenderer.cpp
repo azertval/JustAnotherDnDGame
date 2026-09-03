@@ -64,8 +64,7 @@ void DraftRenderer::render(
     const core::LevelDraft& draft, const Camera2D& camera, bool showGrid,
     const std::optional<std::pair<core::GridPosition, core::GridPosition>>& highlight,
     const LinkOverlayState& linkOverlay, RenderMode mode, bool showTextureOverrides,
-    float deltaSeconds, const LayerVisibility& visibility,
-    const PlaneVisibility& planeVisibility) {
+    float deltaSeconds, const LayerVisibility& visibility, const PlaneVisibility& planeVisibility) {
     if (_dirty) {
         rebuild(draft);
         _dirty = false;
@@ -477,10 +476,9 @@ void DraftRenderer::rebuild(const core::LevelDraft& draft) {
                 continue;  // case vide : aucune entité (grille éparse, comme en jeu).
             }
             const core::Entity entity = _world.createEntity();
-            _world.addComponent(entity,
-                                core::Transform{core::Vector2{static_cast<float>(column),
-                                                              static_cast<float>(row)},
-                                                core::Vector2{1.0f, 1.0f}, 0.0f});
+            _world.addComponent(entity, core::Transform{core::Vector2{static_cast<float>(column),
+                                                                      static_cast<float>(row)},
+                                                        core::Vector2{1.0f, 1.0f}, 0.0f});
             core::Sprite sprite;
             sprite.region = regionForTile(type);
             sprite.tint = core::Color{1.0f, 1.0f, 1.0f, 1.0f};

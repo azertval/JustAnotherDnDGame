@@ -82,4 +82,3 @@ TEST(NiveauEcsIntegration, DuJsonAuxEntites) {
     EXPECT_EQ(tilesByPosition.at({1, 0}), static_cast<int>(core::TileType::Solid));
     EXPECT_EQ(tilesByPosition.at({1, 1}), static_cast<int>(core::TileType::Exit));
 }
-

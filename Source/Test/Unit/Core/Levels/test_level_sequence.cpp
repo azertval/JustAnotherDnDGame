@@ -195,4 +195,3 @@ TEST_F(LevelSequenceDir, SequenceDontTousLesNiveauxExistentSeCharge) {
         core::LevelSequenceLoader::loadFromFile(dir / "sequence.json");
     EXPECT_TRUE(result.ok()) << result.error;
 }
-

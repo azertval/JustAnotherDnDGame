@@ -286,7 +286,6 @@ std::vector<core::Plane> nativePlanes(std::size_t count) {
 
 }  // namespace
 
-
 /**
  * @brief Un plan supplémentaire à densité native sur un niveau **au plafond** le fait dépasser :
  *        le garde-fou est vérifié dans le sens qui compte — celui du refus. Un plafond qu'on n'a

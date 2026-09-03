@@ -209,7 +209,6 @@ TEST(AnimatedTilesTest, Bitmask16ExclutLAnimation) {
     EXPECT_TRUE(hmi::animationExcludedForTile(hmi::SkinMode::Bitmask16, core::TileType::Solid));
 }
 
-
 /**
  * @brief Une tuile pleine en mode image simple, elle, **peut** être animée : c'est le cas
  * nominal (eau, lave, bloc scintillant). Le pendant positif des deux exclusions ci-dessus, sans

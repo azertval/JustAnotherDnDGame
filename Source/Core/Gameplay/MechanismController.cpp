@@ -120,7 +120,6 @@ void MechanismController::update(const Aabb& playerBox, float playerMass, bool i
         }
         _playerOnSwitchPrev[index] = onSwitch;
     }
-
 }
 
 }  // namespace core

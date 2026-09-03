@@ -129,16 +129,16 @@ void LevelDraft::linkMechanism(GridPosition switchPosition, GridPosition targetP
             ? _tileMap.tile(switchPosition.column, switchPosition.row)
             : TileType::Empty;
     JADG_ASSERT(switchTile == TileType::Switch || switchTile == TileType::PressurePlate ||
-                             switchTile == TileType::Key,
-                         "linkMechanism : la position source ne porte pas de declencheur "
-                         "(interrupteur, plaque de pression ou cle)");
+                    switchTile == TileType::Key,
+                "linkMechanism : la position source ne porte pas de declencheur "
+                "(interrupteur, plaque de pression ou cle)");
     [[maybe_unused]] const TileType targetTile =
         _tileMap.inBounds(targetPosition.column, targetPosition.row)
             ? _tileMap.tile(targetPosition.column, targetPosition.row)
             : TileType::Empty;
     JADG_ASSERT(targetTile == TileType::Door || targetTile == TileType::LockedDoor,
-                         "linkMechanism : la position cible ne porte pas de porte "
-                         "ni de porte verrouillee");
+                "linkMechanism : la position cible ne porte pas de porte "
+                "ni de porte verrouillee");
 
     pushUndo();
     // Retrait direct (sans passer par unlinkMechanism, qui empilerait un second snapshot) :
@@ -158,17 +158,6 @@ void LevelDraft::unlinkMechanism(GridPosition targetPosition) {
         return mechanism.doorPosition == targetPosition;
     });
 }
-
-
-
-
-
-
-
-
-
-
-
 
 void LevelDraft::setTextureOverride(GridPosition position, std::string assetName) {
     pushUndo();
@@ -314,10 +303,6 @@ void LevelDraft::setSkinSet(std::optional<std::string> skinSet) {
     _skinSet = std::move(skinSet);
 }
 
-
-
-
-
 void LevelDraft::setCameraFraming(CameraFramingConfig cameraFraming) {
     pushUndo();
     _cameraFraming = cameraFraming;
@@ -444,9 +429,9 @@ void LevelDraft::pushUndo() {
 }
 
 LevelLoadResult LevelDraft::toLevel() const {
-    const std::string json = LevelWriter::buildJson(
-        _name, _tileMap, _mechanisms, _background, _skinSet, _textureOverrides, _cameraFraming,
-        _planes, _parallaxEnabled);
+    const std::string json =
+        LevelWriter::buildJson(_name, _tileMap, _mechanisms, _background, _skinSet,
+                               _textureOverrides, _cameraFraming, _planes, _parallaxEnabled);
     return LevelLoader::loadFromString(json);
 }
 

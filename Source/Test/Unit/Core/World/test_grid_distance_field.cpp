@@ -8,10 +8,10 @@
 
 #include <gtest/gtest.h>
 
-#include "Core/World/GridDistanceField.h"
 #include "Core/Levels/GridPosition.h"
 #include "Core/Levels/TileMap.h"
 #include "Core/Levels/TileType.h"
+#include "Core/World/GridDistanceField.h"
 
 /**
  * @brief La cible a une distance de zéro à elle-même.

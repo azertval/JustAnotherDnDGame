@@ -29,8 +29,7 @@ namespace {
     // retrecir ce que ces garde-fous couvrent. Une regle interdite le reste dans l'une comme dans
     // l'autre.
     std::ostringstream buffer;
-    for (const char* const path :
-         {JADG_THEME_IDENTITY_PATH, JADG_THEME_EDITOR_PATH}) {
+    for (const char* const path : {JADG_THEME_IDENTITY_PATH, JADG_THEME_EDITOR_PATH}) {
         std::ifstream file(path);
         buffer << file.rdbuf();
     }
@@ -96,8 +95,7 @@ TEST(ApplicationThemeTest, MarqueurInconnuEstSignale) {
  */
 TEST(ApplicationThemeTest, AucuneCouleurLitteraleDansLeModeleReel) {
     const std::string themeText = readThemeTemplate();
-    ASSERT_FALSE(themeText.empty())
-        << "feuilles de theme introuvables (JADG_THEME_*_PATH)";
+    ASSERT_FALSE(themeText.empty()) << "feuilles de theme introuvables (JADG_THEME_*_PATH)";
 
     // Retire les commentaires /* ... */ (l'en-tete documente l'historique en exemples de couleurs)
     // avant de chercher un motif de couleur hexadecimale dans les regles elles-memes.
@@ -125,8 +123,7 @@ TEST(ApplicationThemeTest, AucuneCouleurLitteraleDansLeModeleReel) {
  */
 TEST(ApplicationThemeTest, EtancheiteDesPortees) {
     const std::string themeText = readScopeTemplate(JADG_THEME_IDENTITY_PATH);
-    ASSERT_FALSE(themeText.empty())
-        << "feuille d'identite introuvable (JADG_THEME_IDENTITY_PATH)";
+    ASSERT_FALSE(themeText.empty()) << "feuille d'identite introuvable (JADG_THEME_IDENTITY_PATH)";
 
     // Les valeurs sont DERIVEES de buildStyleSheetValues, jamais recopiees : une liste ecrite a la
     // main ici devrait etre etendue a chaque marqueur ajoute au modele, et ne le serait pas -- le

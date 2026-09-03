@@ -56,7 +56,6 @@ TEST(MechanismVisualsTest, PressurePlateTargetClips) {
               MECHANISM_CLIP_PLATE_PRESSED);
 }
 
-
 /**
  * @brief La clé demande le clip « présente » quand elle n'a pas encore été ramassée, « ramassée »
  * une fois consommée — même booléen que la porte verrouillée qui lui est liée (`EX-GP-023`).
@@ -107,7 +106,6 @@ TEST(MechanismVisualsTest, StatelessTileProducesNoClipRequest) {
     EXPECT_FALSE(isStatefulMechanism(core::TileType::Block));
 }
 
-
 /**
  * @brief La porte ne demande un clip de transition que sur un **changement** d'état — ouverture ou
  * fermeture — et rien quand l'état est stable : c'est ce qui empêche de rejouer l'ouverture en
@@ -131,7 +129,6 @@ TEST(MechanismVisualsTest, DoorTransitionsOnStateChangeOnly) {
     EXPECT_FALSE(mechanismTransitionClip(core::TileType::Door, true, true).has_value());
     EXPECT_FALSE(mechanismTransitionClip(core::TileType::Door, false, false).has_value());
 }
-
 
 /**
  * @brief En mode Texture, l'opacité de diagnostic vaut toujours 1 : le rendu habillé montre

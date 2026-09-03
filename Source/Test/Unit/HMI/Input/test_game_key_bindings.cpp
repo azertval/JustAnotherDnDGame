@@ -181,8 +181,8 @@ TEST(GameKeyBindingsTest, LoadJsonCorrompuRenvoieLesDefauts) {
  * }
  */
 TEST(GameKeyBindingsTest, LoadValeurHorsBornesIgnoree) {
-    const std::filesystem::path path = std::filesystem::temp_directory_path() /
-                                       "jadg_test_game_bindings_hors_bornes.json";
+    const std::filesystem::path path =
+        std::filesystem::temp_directory_path() / "jadg_test_game_bindings_hors_bornes.json";
     {
         std::ofstream file(path, std::ios::binary);
         file << R"({"jeu": {"sauter": 99999}})";

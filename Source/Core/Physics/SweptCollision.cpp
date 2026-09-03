@@ -17,7 +17,6 @@ namespace {
 // Fine « peau » : évite d'accrocher la tuile que le bord de la boîte ne fait qu'effleurer
 // (bord exactement sur une frontière de cellule). Détermine la portée PERPENDICULAIRE au balayage.
 
-
 // Choix technique (voir en-tête) : on résout AXE PAR AXE. Chaque axe est un balayage 1D continu.
 // L'avantage décisif sur la méthode diagonale « Minkowski + slabs » est le CLAMP DIRECT : on cale
 // la position sur la coordonnée entière du mur (ex. `column - size.x`), sans jamais faire

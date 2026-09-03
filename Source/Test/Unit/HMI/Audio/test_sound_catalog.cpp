@@ -134,8 +134,7 @@ TEST(SoundCatalogTest, VersionSuperieureRefusee) {
  * }
  */
 TEST(SoundCatalogTest, CatalogueLivreValide) {
-    const std::filesystem::path path =
-        std::filesystem::path(JADG_AUDIO_DIR) / "sounds.json";
+    const std::filesystem::path path = std::filesystem::path(JADG_AUDIO_DIR) / "sounds.json";
     ASSERT_TRUE(std::filesystem::exists(path)) << path.string();
 
     const hmi::SoundCatalogResult result = hmi::SoundCatalog::loadFromFile(path);

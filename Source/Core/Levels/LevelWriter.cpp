@@ -65,13 +65,14 @@ bool LevelWriter::saveToFile(const Level& level, const std::filesystem::path& pa
     return file.good();
 }
 
-std::string LevelWriter::buildJson(
-    const std::string& name, const TileMap& tileMap, const std::vector<Mechanism>& mechanisms,
+std::string LevelWriter::buildJson(const std::string& name, const TileMap& tileMap,
+                                   const std::vector<Mechanism>& mechanisms,
 
-    const std::optional<std::string>& background, const std::optional<std::string>& skinSet,
-    const std::vector<TileTextureOverride>& textureOverrides,
-    const CameraFramingConfig& cameraFraming, const std::vector<Plane>& planes,
-    bool parallaxEnabled) {
+                                   const std::optional<std::string>& background,
+                                   const std::optional<std::string>& skinSet,
+                                   const std::vector<TileTextureOverride>& textureOverrides,
+                                   const CameraFramingConfig& cameraFraming,
+                                   const std::vector<Plane>& planes, bool parallaxEnabled) {
     nlohmann::json root;
     root["version"] = LEVEL_FORMAT_VERSION;
     root["name"] = name;

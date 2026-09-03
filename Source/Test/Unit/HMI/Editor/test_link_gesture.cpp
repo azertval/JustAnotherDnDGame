@@ -85,7 +85,6 @@ TEST(LinkGesture, DeuxDeclencheursRemplacentLAttente) {
     EXPECT_EQ(decision.cell, (GridPosition{1, 0}));
 }
 
-
 /**
  * @brief Déclencheur en attente puis clic sur une cible pas encore liée : la liaison est créée,
  * avec le déclencheur et la cible dans leurs rôles respectifs — jamais dans l'ordre des clics.
@@ -103,7 +102,6 @@ TEST(LinkGesture, DeclencheurPuisCibleNonLieeCreeLaLiaison) {
     EXPECT_EQ(decision.switchPosition, (GridPosition{0, 0}));
     EXPECT_EQ(decision.targetPosition, (GridPosition{3, 3}));
 }
-
 
 /**
  * @brief Une attente périmée — la case retenue a été repeinte entre-temps et ne porte plus un

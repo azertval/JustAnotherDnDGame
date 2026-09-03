@@ -77,4 +77,3 @@ TEST(TileTypeNameTest, NomInconnuRefuse) {
     // main avec une casse fantaisiste doit etre signale, pas interprete.
     EXPECT_FALSE(core::parseTileType("Solid").has_value());
 }
-

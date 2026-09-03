@@ -154,4 +154,3 @@ TEST(TextureAssignGesture, ClicDroitSurCaseVideIgnore) {
         GridPosition{2, 3}, TileType::Empty, std::string{"door_red.png"}, std::nullopt, true);
     EXPECT_EQ(decision.action, TextureAssignAction::Ignore);
 }
-

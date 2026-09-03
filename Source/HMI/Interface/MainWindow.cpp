@@ -1716,10 +1716,9 @@ void MainWindow::buildUi() {
     // Bascules de visibilité des docks : dynamiques, donc ajoutées ici. Elles rejoignent le
     // sous-menu « Panneaux » plutôt que la racine du menu Affichage, qui alignait vingt-trois
     // entrées à plat.
-    for (QDockWidget* const dock :
-         {_ui->PalettePanel, _ui->PlanesPanel, _ui->LevelsPanel, _ui->LinksPanel,
-          _ui->TexturesPanel, _ui->PixelCanvasPanel, _ui->PixelHistoryPanel,
-          _ui->PixelPalettePanel}) {
+    for (QDockWidget* const dock : {_ui->PalettePanel, _ui->PlanesPanel, _ui->LevelsPanel,
+                                    _ui->LinksPanel, _ui->TexturesPanel, _ui->PixelCanvasPanel,
+                                    _ui->PixelHistoryPanel, _ui->PixelPalettePanel}) {
         _ui->panelsMenu->insertAction(_ui->panelsMenu->actions().constFirst(),
                                       dock->toggleViewAction());
     }

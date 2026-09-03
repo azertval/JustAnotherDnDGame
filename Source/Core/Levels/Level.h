@@ -125,11 +125,6 @@ public:
         return _mechanisms;
     }
 
-
-
-
-
-
     /// @return Le nom de l'asset de fond du niveau (`EX-REN-044`), absent si aucun n'est
     /// configuré. Une chaîne, jamais un handle : `Core` n'a pas accès au dossier d'assets.
     [[nodiscard]] const std::optional<std::string>& background() const noexcept {
@@ -159,15 +154,12 @@ public:
         return _parallaxEnabled;
     }
 
-
     /// @return Le cadrage de caméra **résolu** du niveau (`EX-LVL-006`), jamais un champ optionnel
     /// "peut-être absent" : la règle de repli (`resolveCameraFraming`) a déjà été appliquée par le
     /// chargeur avant de construire ce `Level`.
     [[nodiscard]] const CameraFramingConfig& cameraFraming() const noexcept {
         return _cameraFraming;
     }
-
-
 
 private:
     std::string _name;

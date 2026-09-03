@@ -44,7 +44,7 @@ void handleAssertionFailure(const char* condition, const char* message, const ch
 #ifdef NDEBUG
 #define JADG_ASSERT(condition, message) ((void)0)
 #else
-#define JADG_ASSERT(condition, message)                                     \
+#define JADG_ASSERT(condition, message)                                              \
     do {                                                                             \
         if (!(condition)) {                                                          \
             ::core::handleAssertionFailure(#condition, message, __FILE__, __LINE__); \

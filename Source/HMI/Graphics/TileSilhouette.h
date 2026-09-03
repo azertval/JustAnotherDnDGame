@@ -30,8 +30,7 @@ namespace hmi {
 inline constexpr std::array<core::TileType, 0> SILHOUETTE_TILE_TYPES{};
 
 /// Nombre de types de tuile à silhouette (voir `SILHOUETTE_TILE_TYPES`).
-inline constexpr int SILHOUETTE_TILE_TYPE_COUNT =
-    static_cast<int>(SILHOUETTE_TILE_TYPES.size());
+inline constexpr int SILHOUETTE_TILE_TYPE_COUNT = static_cast<int>(SILHOUETTE_TILE_TYPES.size());
 
 /**
  * @brief Indique si @p type a une silhouette, c'est-à-dire une matière qui n'occupe pas toute la

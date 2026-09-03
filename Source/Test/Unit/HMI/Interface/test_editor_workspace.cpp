@@ -21,9 +21,9 @@ namespace {
 /// tous. `PANEL_COUNT` ferme la boucle : un panneau ajouté à `PanelId` sans être ajouté ici fait
 /// échouer le premier test, plutôt que de passer inaperçu.
 constexpr hmi::PanelId ALL_PANELS[] = {
-    hmi::PanelId::Palette,     hmi::PanelId::Planes,       hmi::PanelId::Levels,
-    hmi::PanelId::Links,       hmi::PanelId::Textures,
-    hmi::PanelId::PixelCanvas, hmi::PanelId::PixelHistory, hmi::PanelId::PixelPalette,
+    hmi::PanelId::Palette,      hmi::PanelId::Planes,       hmi::PanelId::Levels,
+    hmi::PanelId::Links,        hmi::PanelId::Textures,     hmi::PanelId::PixelCanvas,
+    hmi::PanelId::PixelHistory, hmi::PanelId::PixelPalette,
 };
 
 /// Les trois espaces de travail, même rôle de garde que `ALL_PANELS`.

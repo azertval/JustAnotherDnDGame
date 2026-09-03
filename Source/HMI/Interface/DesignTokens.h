@@ -13,8 +13,8 @@
  *        couleurs, espacements, typographie et tailles de l'application.
  *
  * Logique **pure** (aucune dépendance Qt/GPU), testable hors instance d'application
- * (`EX-NFR-010`) — compilée à la fois dans `JustAnotherDnDGame` et directement dans `UnitTests`, comme
- * `hmi::ProceduralFont` ou `hmi::TileVisuals`.
+ * (`EX-NFR-010`) — compilée à la fois dans `JustAnotherDnDGame` et directement dans `UnitTests`,
+ * comme `hmi::ProceduralFont` ou `hmi::TileVisuals`.
  *
  * Deux portées d'habillage partagent la structure `DesignTokens` (mêmes rôles, mêmes échelles,
  * mêmes tailles ; seules les couleurs diffèrent) :

@@ -398,8 +398,7 @@ TEST(SkinCatalogTest, OrdreDesJeuxStable) {
  * }
  */
 TEST(SkinCatalogTest, CatalogueLivreValide) {
-    const std::filesystem::path path =
-        std::filesystem::path(JADG_ASSETS_DIR) / "skins.json";
+    const std::filesystem::path path = std::filesystem::path(JADG_ASSETS_DIR) / "skins.json";
     ASSERT_TRUE(std::filesystem::exists(path)) << path.string();
 
     const hmi::SkinCatalogResult result = hmi::SkinCatalog::loadFromFile(path);

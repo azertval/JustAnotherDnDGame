@@ -104,7 +104,6 @@ TEST(PaletteAppearanceTest, SkinARaccordsMontreLaCaseRepresentative) {
     EXPECT_EQ(thumbnail.region.width, TILE);
 }
 
-
 /**
  * @brief Un type non skinne montre le damier dans la palette.
  * \castest{<b>Un type non skinne montre le damier dans la palette, comme dans le niveau.</b><br/>

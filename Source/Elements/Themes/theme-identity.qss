@@ -67,7 +67,12 @@
 #PauseScreen QLabel#pauseTitle,
 #LevelSelectScreen QLabel#titleLabel,
 #LevelCompleteScreen QLabel#titleLabel,
-#CreditsScreen QLabel#creditsTitle,
+#CreditsScreen QLabel#creditsTitle {
+    color: ${identity.color.accent};
+    font-family: ${identity.font.title};
+    font-size: ${identity.size.screenTitle}px;
+    font-weight: bold;
+}
 
 /* ---- Cartes des recouvrements : cadre pixel, contour puis biseaux ----
    Les coins ne sont pas entailles ici (une feuille de style ne sait pas les evider) : les cadres a
@@ -254,10 +259,21 @@
     border-color: ${identity.color.border};
 }
 
-/* Retour de l'ecran Options/Mode IA : c'est une ENTREE DE MENU, pas une commande — elle doit se
+/* Retour de l'ecran Options : c'est une ENTREE DE MENU, pas une commande — elle doit se
    lire comme celles du menu principal, pas comme un bouton plein d'action juste au-dessus.
    Le selecteur vise la classe promue : Qt remplace "::" par "--" dans le nom de type QSS, et cette
    regle l'emporte sur la precedente parce qu'elle est plus specifique. */
-#OptionsPage hmi--PixelMenuButton,
+#OptionsPage hmi--PixelMenuButton {
+    color: ${identity.color.textMuted};
+    background: transparent;
+    border: none;
+    text-align: left;
+    padding: ${identity.space.small}px ${identity.space.medium}px;
+    font-size: ${identity.size.sectionTitle}px;
+    font-weight: bold;
+}
 #OptionsPage hmi--PixelMenuButton:hover,
-#OptionsPage hmi--PixelMenuButton:focus,
+#OptionsPage hmi--PixelMenuButton:focus {
+    color: ${identity.color.accent};
+    background: transparent;
+}

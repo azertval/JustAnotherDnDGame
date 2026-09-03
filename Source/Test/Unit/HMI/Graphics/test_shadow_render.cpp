@@ -39,9 +39,9 @@ hmi::SceneTextures testTextures() {
 // hmi::DraftRenderer::rebuild / core::buildLevelScene : une tuile occupe sa case entiere.
 core::Entity addTile(core::World& world, core::TileType type, int column, int row) {
     const core::Entity entity = world.createEntity();
-    world.addComponent(entity, core::Transform{core::Vector2{static_cast<float>(column),
-                                                             static_cast<float>(row)},
-                                               core::Vector2{1.0f, 1.0f}, 0.0f});
+    world.addComponent(
+        entity, core::Transform{core::Vector2{static_cast<float>(column), static_cast<float>(row)},
+                                core::Vector2{1.0f, 1.0f}, 0.0f});
     world.addComponent(entity, hmi::TileSkinTag{type, 0, std::nullopt, std::nullopt});
     return entity;
 }
@@ -75,7 +75,6 @@ TEST(ShadowRenderTest, TuilePleineProjetteUnQuadDecaleSurShadow) {
     EXPECT_FLOAT_EQ(quad.sprite.height, 1.0f);
     EXPECT_LT(quad.sprite.a, 1.0f);  // semi-transparente
 }
-
 
 /**
  * @brief Chacun des douze types a silhouette projette une ombre echantillonnant EXACTEMENT la
@@ -114,7 +113,6 @@ TEST(ShadowRenderTest, DouzeSilhouettesMemeRegionQueRegionForTile) {
         EXPECT_FLOAT_EQ(quad.sprite.v1, expectedV1);
     }
 }
-
 
 /**
  * @brief Un bloc poussable en mouvement (PreviousPosition distincte de la position courante) voit

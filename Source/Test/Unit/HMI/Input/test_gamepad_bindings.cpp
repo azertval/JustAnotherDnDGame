@@ -179,8 +179,8 @@ TEST(GamepadBindingsTest, LoadNomBoutonInconnuIgnore) {
  * }
  */
 TEST(GamepadBindingsTest, LoadFichierAnterieurSansInteragirPrendLaValeurParDefaut) {
-    const std::filesystem::path path = std::filesystem::temp_directory_path() /
-                                       "jadg_test_gamepad_bindings_anterieur.json";
+    const std::filesystem::path path =
+        std::filesystem::temp_directory_path() / "jadg_test_gamepad_bindings_anterieur.json";
     {
         std::ofstream file(path, std::ios::binary);
         // Section "manette" telle qu'ecrite avant LOT-63 : aucune entree "interagir".

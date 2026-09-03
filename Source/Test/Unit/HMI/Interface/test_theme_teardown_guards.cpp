@@ -30,8 +30,7 @@ namespace {
     // retrecir ce que ces garde-fous couvrent. Une regle interdite le reste dans l'une comme dans
     // l'autre.
     std::ostringstream buffer;
-    for (const char* const path :
-         {JADG_THEME_IDENTITY_PATH, JADG_THEME_EDITOR_PATH}) {
+    for (const char* const path : {JADG_THEME_IDENTITY_PATH, JADG_THEME_EDITOR_PATH}) {
         std::ifstream file(path);
         buffer << file.rdbuf();
     }
