@@ -116,7 +116,7 @@ Objectif</h1>
 2. Réutilisation &amp; cohérence</h1>
 <ul>
 <li><a class="anchor" id="EX-EDIT-010"></a><b>EX-EDIT-010</b> — L'éditeur doit <b>réutiliser le modèle de niveau et la validation de <span class="tt">Core</span></b> — aucune duplication de la logique de niveau entre le jeu et l'éditeur (source unique de vérité).</li>
-<li><a class="anchor" id="EX-EDIT-011"></a><b>EX-EDIT-011</b> — Un niveau enregistré par l'éditeur doit être <b>directement jouable</b> par le jeu sans conversion, et réciproquement (round-trip fiable).</li>
+<li><a class="anchor" id="EX-EDIT-011"></a><b>EX-EDIT-011</b> — Un niveau enregistré par l'éditeur doit être <b>directement jouable</b> par le jeu sans conversion, et réciproquement (round-trip fiable). Ce qu'un éditeur ne sait pas encore modifier, il doit le <b>transporter</b> : les couches visibles, les entités et les propriétés libres d'une carte (<span class="tt">EX-LVL-016</span> à <span class="tt">EX-LVL-018</span>) traversent un cycle ouvrir/enregistrer sans perte, même avant que l'interface ne les expose — un éditeur qui efface en silence ce qu'il n'affiche pas est pire qu'un éditeur incomplet.</li>
 </ul>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md293"></a>
 3. Distribution &amp; collaboration</h1>

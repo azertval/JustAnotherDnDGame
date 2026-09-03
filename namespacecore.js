@@ -45,7 +45,9 @@ var namespacecore =
     [ "LevelSequenceLoadResult", "structcore_1_1LevelSequenceLoadResult.html", "structcore_1_1LevelSequenceLoadResult" ],
     [ "LevelSequenceLoader", "classcore_1_1LevelSequenceLoader.html", "classcore_1_1LevelSequenceLoader" ],
     [ "LevelWriter", "classcore_1_1LevelWriter.html", "classcore_1_1LevelWriter" ],
+    [ "MapEntity", "structcore_1_1MapEntity.html", "structcore_1_1MapEntity" ],
     [ "Plane", "structcore_1_1Plane.html", "structcore_1_1Plane" ],
+    [ "TileLayer", "structcore_1_1TileLayer.html", "structcore_1_1TileLayer" ],
     [ "TileMap", "classcore_1_1TileMap.html", "classcore_1_1TileMap" ],
     [ "DeterministicRandom", "classcore_1_1DeterministicRandom.html", "classcore_1_1DeterministicRandom" ],
     [ "Rect", "structcore_1_1Rect.html", "structcore_1_1Rect" ],
@@ -57,6 +59,8 @@ var namespacecore =
     [ "FixedTimestep", "classcore_1_1FixedTimestep.html", "classcore_1_1FixedTimestep" ],
     [ "GridDistanceField", "classcore_1_1GridDistanceField.html", "classcore_1_1GridDistanceField" ],
     [ "AssertionHandler", "namespacecore.html#af16dfcce848d49387703fb5a0b155485", null ],
+    [ "PropertyMap", "namespacecore.html#ac3cd7f319efbfd33f183ca31782d1731", null ],
+    [ "PropertyValue", "namespacecore.html#a9f79b235a73b6264aa3a97d51267919d", null ],
     [ "CameraFramingMode", "namespacecore.html#a5c6444096b9bc21a78b1f1157e9070b6", [
       [ "WholeLevel", "namespacecore.html#a5c6444096b9bc21a78b1f1157e9070b6a3080b25e8fedb44c9a9a494d7278490e", null ],
       [ "PerRoom", "namespacecore.html#a5c6444096b9bc21a78b1f1157e9070b6a593d6561f5fc067ac08ebb78b33217ad", null ],
@@ -65,6 +69,12 @@ var namespacecore =
     [ "ClipEndMode", "namespacecore.html#a71fba78b647ce3be2a8b78f79c84f522", [
       [ "Loop", "namespacecore.html#a71fba78b647ce3be2a8b78f79c84f522a89d7b10cb4238977d2b523dfd9ea7745", null ],
       [ "OneShot", "namespacecore.html#a71fba78b647ce3be2a8b78f79c84f522ac7fc2ee61fad0e2bba6754efdee31481", null ]
+    ] ],
+    [ "LayerKind", "namespacecore.html#ab0cf50b7ad0dce1357c85662e0fb7e5d", [
+      [ "Ground", "namespacecore.html#ab0cf50b7ad0dce1357c85662e0fb7e5da3519d51443d41746a097cd54cd5c11cf", null ],
+      [ "Decor", "namespacecore.html#ab0cf50b7ad0dce1357c85662e0fb7e5dae953e8671da3a0647c0939df8ebe8e44", null ],
+      [ "Collision", "namespacecore.html#ab0cf50b7ad0dce1357c85662e0fb7e5da15fb6ccbd11ebebcea2b48dc477f3561", null ],
+      [ "Legacy", "namespacecore.html#ab0cf50b7ad0dce1357c85662e0fb7e5da0cc0a0507cf3d31e5089f420a4cf8b4b", null ]
     ] ],
     [ "LevelOutcome", "namespacecore.html#a60398ec3835dd2882a7d3a9eaddb65aa", [
       [ "Playing", "namespacecore.html#a60398ec3835dd2882a7d3a9eaddb65aaac9dbb2b7c84159b632d71e512eba8428", null ],
@@ -135,6 +145,7 @@ var namespacecore =
     [ "handleAssertionFailure", "namespacecore.html#a7278ef05514b62dcd5241984197dfb23", null ],
     [ "isSolid", "namespacecore.html#a105a7f2ca0f25e01231a9bc1bbc36ebb", null ],
     [ "isValidPlaneDensity", "namespacecore.html#a0f61acebed3678706e825f972217a233", null ],
+    [ "layerKindName", "namespacecore.html#a9a1bd2ed20a557ddf1033a2c264c9bdd", null ],
     [ "operator!=", "namespacecore.html#a197b5bff2c73896fbfb05df9ea6419b9", null ],
     [ "operator!=", "namespacecore.html#a29323798eff97fce936a3352846efb93", null ],
     [ "operator*", "namespacecore.html#ab422b18bf5b03f40421c9391b725dcd0", null ],
@@ -170,6 +181,7 @@ var namespacecore =
     [ "LANDING_DUST_MIN_COUNT", "namespacecore.html#aba5e54d19d0541ded5d32fd4b613b923", null ],
     [ "LANDING_MAX_IMPACT_SPEED", "namespacecore.html#a2f9bf6d59b037b9aa946013451473361", null ],
     [ "LANDING_MIN_IMPACT_SPEED", "namespacecore.html#a4436c8349be20efa9139c98f7101a87d", null ],
+    [ "LAYER_KIND_COUNT", "namespacecore.html#a1639bde29cbf10d2ed8629a0fe495374", null ],
     [ "LEVEL_FORMAT_VERSION", "namespacecore.html#a29f56cd5e629fb74668126bbf151066e", null ],
     [ "LEVEL_SEQUENCE_FORMAT_VERSION", "namespacecore.html#aa2bda549f4b3a6da7d1947bdb5d82bc5", null ],
     [ "MAX_PARTICLES", "namespacecore.html#a111487c1e65133a09f9f0aeb582b7e17", null ],

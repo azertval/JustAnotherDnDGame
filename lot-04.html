@@ -94,7 +94,7 @@ $(function(){initNavTree('lot-04.html','',''); });
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md_Lot_2LOT-04-format-v3-multicouches_2epic"></a></p>
 <blockquote class="doxtable">
-<p>Statut : <b>à faire</b>. Prérequis : <a class="el" href="lot-03.html" title="LOT-03 — Agrégat `LevelData`">LOT-03</a> (<span class="tt">LevelData</span> accueille les nouveaux champs sans repasser à 17 paramètres positionnels). </p>
+<p>Statut : <b>fait</b> (vérification automatisée : build <span class="tt">/W4 /WX</span> sans avertissement, <span class="tt">ctest</span> à 914/914, lint d'exigences, cahier de test, Doxygen et <span class="tt">clang-format</span> verts). Prérequis : <a class="el" href="lot-03.html" title="LOT-03 — Agrégat `LevelData`">LOT-03</a> (<span class="tt">LevelData</span> accueille les nouveaux champs sans repasser à 17 paramètres positionnels). </p>
 </blockquote>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md379"></a>
 Objectif</h1>
@@ -112,8 +112,9 @@ Pourquoi maintenant, et pas plus tard</h1>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md381"></a>
 Périmètre</h1>
 <ul>
-<li><span class="tt">struct TileLayer { std::string name; LayerKind kind; TileMap tiles; int renderLayer; }</span> ; <span class="tt">Level</span> porte un <span class="tt">std::vector&lt;TileLayer&gt;</span>.</li>
-<li><b>Migration ascendante</b> : le chargeur promeut une grille <span class="tt">version: 2</span> en couche unique de <span class="tt">kind = Legacy</span>. Le mécanisme existe déjà — <span class="tt"><a class="el" href="LevelLoader_8cpp.html">LevelLoader.cpp</a></span> traite l'absence de champ <span class="tt">version</span> comme la version initiale, et refuse proprement une version qu'il ne connaît pas.</li>
+<li><span class="tt">struct TileLayer { std::string name; LayerKind kind; TileMap tiles; PropertyMap properties; }</span> ; <span class="tt">Level</span> porte un <span class="tt">std::vector&lt;TileLayer&gt;</span>. <b>Pas de champ <span class="tt">renderLayer</span></b> : le rang de la couche dans le vecteur <em>est</em> son ordre de superposition, un second ordre l'aurait contredit.</li>
+<li><span class="tt">struct MapEntity { std::string type; GridPosition position; PropertyMap properties; }</span> ; <span class="tt">Level</span> porte un <span class="tt">std::vector&lt;MapEntity&gt;</span>.</li>
+<li><b>Migration ascendante</b> : le chargeur promeut la grille racine en couche de tête — <span class="tt">kind = Collision</span> quand la carte déclare des couches visibles, <span class="tt">kind = Legacy</span> quand elle n'en déclare aucune. Le mécanisme existe déjà — <span class="tt"><a class="el" href="LevelLoader_8cpp.html">LevelLoader.cpp</a></span> traite l'absence de champ <span class="tt">version</span> comme la version initiale, et refuse proprement une version qu'il ne connaît pas.</li>
 <li><span class="tt">TileAutotile</span> (raccords 16 voisinages) s'applique <b>par couche</b>, sans modification.</li>
 <li><span class="tt">LevelScene::buildLevelScene</span> boucle sur les couches.</li>
 <li>La grille de <b>collision</b> devient la source de vérité du balayage AABB — et, au <span class="tt">LOT-19</span>, de la grille de combat tactique.</li>
@@ -130,8 +131,13 @@ Critères d'acceptation</h1>
 <li>Aller-retour chargement → écriture → rechargement <b>à l'identique</b> sur une carte à trois couches et une liste d'entités.</li>
 <li>Une carte <span class="tt">version: 2</span> se charge sans erreur, promue en couche unique.</li>
 <li>Une <span class="tt">version: 4</span> est refusée avec un message explicite (<span class="tt">EX-NFR-040</span>).</li>
-<li>Un champ inconnu dans une couche ou une entité est <b>ignoré sans erreur</b>, et <b>préservé</b> à la réécriture. </li>
+<li>Un champ inconnu dans une couche ou une entité est <b>ignoré sans erreur</b>, et <b>préservé</b> à la réécriture.</li>
 </ul>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md385"></a>
+Ce que la réalisation a tranché</h1>
+<p><b>La collision n'est pas une couche du tableau <span class="tt">layers</span> : c'est le tableau racine <span class="tt">tiles</span>.</b> Le périmètre initial la voyait comme l'une des trois couches déclarées, à égalité avec le sol et le décor. Elle ne peut pas l'être : la grille racine porte déjà l'entrée, la sortie et les cases de mécanismes, que la validation exige et qu'aucune couche ne réplique. Une carte à deux grilles se serait désynchronisée dès le premier aller-retour d'éditeur — l'écriture repart de la grille du niveau, qui aurait alors perdu son entrée. Une couche <span class="tt">collision</span> déclarée est donc <b>refusée</b>, avec un message qui renvoie à la racine ; le chargeur promeut la grille racine en couche de tête pour que les consommateurs bouclent quand même sans cas particulier.</p>
+<p><b>Le brouillon d'édition transporte ce qu'il ne sait pas éditer.</b> L'éditeur multi-couches est le <span class="tt">LOT-11</span>, mais <span class="tt">LevelDraft</span> porte dès maintenant couches, entités et propriétés : sans cela, ouvrir puis enregistrer une carte <span class="tt">version: 3</span> l'aurait vidée en silence. Le redimensionnement emporte toutes les couches et abandonne les entités sorties de la grille, faute de quoi le niveau devenait irrécupérable à l'enregistrement.</p>
+<p><b><span class="tt">LevelWriter::buildJson</span> prend l'agrégat <span class="tt">LevelData</span>.</b> Les couches et les entités auraient porté sa liste positionnelle à onze paramètres, dont trois <span class="tt">std::vector</span> voisins interchangeables sans que le compilateur bronche — la dette même que le <span class="tt">LOT-03</span> venait de solder côté <span class="tt">Level</span>. </p>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
 </div><!-- doc-content -->

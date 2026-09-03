@@ -8,11 +8,12 @@ var searchData=
   ['dashed_5',['Dashed',['../namespacehmi.html#a3a61aed1c8e95c289c829398d48488deaeb656e41b6da91494775ecf47a51da91',1,'hmi']]],
   ['dashtrail_6',['DashTrail',['../namespacecore.html#aa6799b2e10b4cf31b2527af8a390ce2ca5035aee0b4665a2808f4a262c62e3e0c',1,'core']]],
   ['death_7',['Death',['../namespacecore.html#aa6799b2e10b4cf31b2527af8a390ce2ca6097f89e3092d4ccd249c9d479785c1f',1,'core']]],
-  ['died_8',['Died',['../namespacehmi.html#a3a61aed1c8e95c289c829398d48488deab4ee54591aaa4862bf37f75f6839b514',1,'hmi']]],
-  ['door_9',['Door',['../namespacecore.html#ace99a1be913e6294e42e9ebb145eb875af44e14d49cd011d1e873d9fe0c4624f1',1,'core']]],
-  ['doorclosed_10',['DoorClosed',['../namespacehmi.html#a3a61aed1c8e95c289c829398d48488deacff69fd788d6616924dfbb25559ce338',1,'hmi']]],
-  ['dooropened_11',['DoorOpened',['../namespacehmi.html#a3a61aed1c8e95c289c829398d48488deae1491bc2cd0348e5a6c5ba7ed811895d',1,'hmi']]],
-  ['down_12',['Down',['../namespacehmi.html#a7bd1f14c12b142d5227ad2560e7c5e88a08a38277b0309070706f6652eeae9a53',1,'hmi::Down'],['../namespacehmi.html#a83c98e56e30eafa606048853f7962e48a08a38277b0309070706f6652eeae9a53',1,'hmi::Down']]],
-  ['duplicateposition_13',['DuplicatePosition',['../namespacecore.html#af2a63d18c9ef40479ebdc204e726e823ae661408101649d629107887d94faf5ba',1,'core']]],
-  ['duplicateswitchid_14',['DuplicateSwitchId',['../namespacecore.html#af2a63d18c9ef40479ebdc204e726e823a835bdc9a85fa21f0e6b00dd269e179bb',1,'core']]]
+  ['decor_8',['Decor',['../namespacecore.html#ab0cf50b7ad0dce1357c85662e0fb7e5dae953e8671da3a0647c0939df8ebe8e44',1,'core']]],
+  ['died_9',['Died',['../namespacehmi.html#a3a61aed1c8e95c289c829398d48488deab4ee54591aaa4862bf37f75f6839b514',1,'hmi']]],
+  ['door_10',['Door',['../namespacecore.html#ace99a1be913e6294e42e9ebb145eb875af44e14d49cd011d1e873d9fe0c4624f1',1,'core']]],
+  ['doorclosed_11',['DoorClosed',['../namespacehmi.html#a3a61aed1c8e95c289c829398d48488deacff69fd788d6616924dfbb25559ce338',1,'hmi']]],
+  ['dooropened_12',['DoorOpened',['../namespacehmi.html#a3a61aed1c8e95c289c829398d48488deae1491bc2cd0348e5a6c5ba7ed811895d',1,'hmi']]],
+  ['down_13',['Down',['../namespacehmi.html#a7bd1f14c12b142d5227ad2560e7c5e88a08a38277b0309070706f6652eeae9a53',1,'hmi::Down'],['../namespacehmi.html#a83c98e56e30eafa606048853f7962e48a08a38277b0309070706f6652eeae9a53',1,'hmi::Down']]],
+  ['duplicateposition_14',['DuplicatePosition',['../namespacecore.html#af2a63d18c9ef40479ebdc204e726e823ae661408101649d629107887d94faf5ba',1,'core']]],
+  ['duplicateswitchid_15',['DuplicateSwitchId',['../namespacecore.html#af2a63d18c9ef40479ebdc204e726e823a835bdc9a85fa21f0e6b00dd269e179bb',1,'core']]]
 ];

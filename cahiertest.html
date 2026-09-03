@@ -93,9 +93,9 @@ $(function(){initNavTree('cahiertest.html','',''); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md_CahierTest"></a></p>
-<p><b>899 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
+<p><b>914 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md5"></a>
-Tests unitaires (877)</h1>
+Tests unitaires (892)</h1>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md6"></a>
 Core</h2>
 <p><b><span class="tt"><a class="el" href="test__core_8cpp.html" title="Tests unitaires de la bibliothèque Core (amorçage).">test_core.cpp</a></span></b></p>
@@ -674,7 +674,7 @@ Vérifie que <span class="tt">reloaded.isDoorOpen(0)</span> est faux.<br  />
 Vérifie que <span class="tt">reloaded.collisionMap().isSolid(4, 1)</span> est vrai.  </td></tr>
 </table>
 <h3 class="doxsection"><a class="anchor" id="autotoc_md10"></a>
-Levels (123)</h3>
+Levels (138)</h3>
 <p><b><span class="tt"><a class="el" href="test__camera__framing_8cpp.html" title="Tests unitaires du cadrage de caméra porté par le niveau : modes, règle de repli et validation (EX-LV...">test_camera_framing.cpp</a></span></b></p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -1313,6 +1313,136 @@ Vérifie que <span class="tt">reloaded.level-&gt;cameraFraming().zones</span> va
 <sub><span class="tt"><a class="el" href="test__level__writer_8cpp.html" title="Tests unitaires de la sérialisation de niveau (round-trip avec LevelLoader, EX-EDIT-011).">Source/Test/Unit/Core/Levels/test_level_writer.cpp</a>:363</span></sub>  </td><td class="markdownTableBodyNone">Un cadrage identique au repli reste omis du JSON écrit.  </td><td class="markdownTableBodyNone">1. Charger un petit niveau sans champ <span class="tt">cameraFraming</span> (repli : niveau entier).<br  />
  2. Sérialiser.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">loaded.ok()</span> est vrai.<br  />
 Vérifie que <span class="tt">json.find("cameraFraming")</span> vaut <span class="tt">std::string::npos</span>.  </td></tr>
+</table>
+<p><b><span class="tt"><a class="el" href="test__map__layers_8cpp.html" title="Tests unitaires du format de carte version: 3 : couches typées, entités, propriétés libres et migrati...">test_map_layers.cpp</a></span></b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>CouchesDeCarteTest.CarteVersion2PromueEnCoucheLegacyUnique</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__map__layers_8cpp.html" title="Tests unitaires du format de carte version: 3 : couches typées, entités, propriétés libres et migrati...">Source/Test/Unit/Core/Levels/test_map_layers.cpp</a>:103</span></sub>  </td><td class="markdownTableBodyNone">Une carte version 2 est promue en couche unique.  </td><td class="markdownTableBodyNone">1. Charger une carte au format version 2, sans tableau 'layers'.<br  />
+2. Inspecter les couches du niveau obtenu.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">loaded.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt">loaded.level-&gt;layers().size()</span> vaut <span class="tt">1u</span>.<br  />
+Vérifie que <span class="tt">layer.kind</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ab0cf50b7ad0dce1357c85662e0fb7e5da0cc0a0507cf3d31e5089f420a4cf8b4b">core::LayerKind::Legacy</a></span>.<br  />
+Vérifie que <span class="tt">layer.tiles.width()</span> vaut <span class="tt">loaded.level-&gt;tileMap().width()</span>.<br  />
+Vérifie que <span class="tt">layer.tiles.height()</span> vaut <span class="tt">loaded.level-&gt;tileMap().height()</span>.<br  />
+Vérifie que <span class="tt">layer.tiles.tile(0, 0)</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875ae41480b6bbfbf7407974a88d3d34f4fa">core::TileType::Solid</a></span>.<br  />
+Vérifie que <span class="tt">loaded.level-&gt;entities().empty()</span> est vrai.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>CouchesDeCarteTest.CarteVersion2ReecriteSansTableauDeCouches</b> (Mineur)<br  />
+<sub><span class="tt"><a class="el" href="test__map__layers_8cpp.html" title="Tests unitaires du format de carte version: 3 : couches typées, entités, propriétés libres et migrati...">Source/Test/Unit/Core/Levels/test_map_layers.cpp</a>:128</span></sub>  </td><td class="markdownTableBodyNone">Une carte version 2 reecrite ne gagne pas de tableau 'layers'.  </td><td class="markdownTableBodyNone">1. Charger une carte version 2.<br  />
+2. La reserialiser.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">loaded.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt">json.find("\\"layers\\\\"\")&lt;/tt&gt; vaut &lt;tt&gt;std::string::npos&lt;/tt&gt;.&lt;br/&gt;Vérifie que &lt;tt&gt;json.find(\"\\\\"entities\\\\"\")</span> vaut <span class="tt">std::string::npos</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>CouchesDeCarteTest.AllerRetourSurTroisCouchesEtDeuxEntites</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__map__layers_8cpp.html" title="Tests unitaires du format de carte version: 3 : couches typées, entités, propriétés libres et migrati...">Source/Test/Unit/Core/Levels/test_map_layers.cpp</a>:147</span></sub>  </td><td class="markdownTableBodyNone">Une carte a trois couches et deux entites survit a l'aller-retour.  </td><td class="markdownTableBodyNone">1. Charger une carte version 3 a trois couches et deux entites.<br  />
+2. La reserialiser puis la recharger.<br  />
+3. Comparer couches et entites au niveau d'origine.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">loaded.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt">reloaded.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt">reloaded.level-&gt;layers().size()</span> vaut <span class="tt">loaded.level-&gt;layers().size()</span>.<br  />
+Vérifie que <span class="tt">after.name</span> vaut <span class="tt">before.name</span>.<br  />
+Vérifie que <span class="tt">after.kind</span> vaut <span class="tt">before.kind</span>.<br  />
+Vérifie que <span class="tt">after.tiles.width()</span> vaut <span class="tt">before.tiles.width()</span>.<br  />
+Vérifie que <span class="tt">after.tiles.height()</span> vaut <span class="tt">before.tiles.height()</span>.<br  />
+Vérifie que <span class="tt">after.tiles.tile(column, row)</span> vaut <span class="tt">before.tiles.tile(column, row)</span>.<br  />
+Vérifie que <span class="tt">reloaded.level-&gt;entities().size()</span> vaut <span class="tt">2u</span>.<br  />
+Vérifie que <span class="tt">reloaded.level-&gt;entities()[0].type</span> vaut <span class="tt">"npc"</span>.<br  />
+Vérifie que <span class="tt">reloaded.level-&gt;entities()[0].position</span> vaut <span class="tt">(<a class="el" href="structcore_1_1GridPosition.html" title="Position d&#39;une case dans la grille d&#39;un niveau, en coordonnées entières.">core::GridPosition</a>{2, 2})</span>.<br  />
+Vérifie que <span class="tt">reloaded.level-&gt;entities()[1].type</span> vaut <span class="tt">"chest"</span>.<br  />
+Vérifie que <span class="tt">reloaded.level-&gt;entities()[1].position</span> vaut <span class="tt">(<a class="el" href="structcore_1_1GridPosition.html" title="Position d&#39;une case dans la grille d&#39;un niveau, en coordonnées entières.">core::GridPosition</a>{0, 2})</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>CouchesDeCarteTest.ChampsInconnusDUneCouchePreservesALaReecriture</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__map__layers_8cpp.html" title="Tests unitaires du format de carte version: 3 : couches typées, entités, propriétés libres et migrati...">Source/Test/Unit/Core/Levels/test_map_layers.cpp</a>:189</span></sub>  </td><td class="markdownTableBodyNone">Les champs inconnus d'une couche sont preserves a la reecriture.  </td><td class="markdownTableBodyNone">1. Charger une couche portant quatre cles inconnues (booleen, entier, reel, chaine).<br  />
+2. Reserialiser puis recharger.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">loaded.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt">reloaded.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt">decor</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">decor-&gt;properties.size()</span> vaut <span class="tt">4u</span>.<br  />
+Vérifie que <span class="tt">std::get&lt;bool&gt;(decor-&gt;properties.at("difficultTerrain"))</span> vaut <span class="tt">true</span>.<br  />
+Vérifie que <span class="tt">std::get&lt;std::int64_t&gt;(decor-&gt;properties.at("coverBonus"))</span> vaut <span class="tt">2</span>.<br  />
+Vérifie que <span class="tt">std::get&lt;double&gt;(decor-&gt;properties.at("heightMeters"))</span> vaut <span class="tt">1.5</span> (comparaison flottante).<br  />
+Vérifie que <span class="tt">std::get&lt;std::string&gt;(decor-&gt;properties.at("note"))</span> vaut <span class="tt">"tapis"</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>CouchesDeCarteTest.ChampsInconnusDUneEntitePreservesALaReecriture</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__map__layers_8cpp.html" title="Tests unitaires du format de carte version: 3 : couches typées, entités, propriétés libres et migrati...">Source/Test/Unit/Core/Levels/test_map_layers.cpp</a>:217</span></sub>  </td><td class="markdownTableBodyNone">Les champs inconnus d'une entite sont preserves a la reecriture.  </td><td class="markdownTableBodyNone">1. Charger une entite portant un dialogue, un niveau et un drapeau.<br  />
+2. Reserialiser puis recharger.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">loaded.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt">reloaded.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt">reloaded.level-&gt;entities().size()</span> vaut <span class="tt">2u</span>.<br  />
+Vérifie que <span class="tt">npc.properties.size()</span> vaut <span class="tt">3u</span>.<br  />
+Vérifie que <span class="tt">std::get&lt;std::string&gt;(npc.properties.at("dialogue"))</span> vaut <span class="tt">"bonjour"</span>.<br  />
+Vérifie que <span class="tt">std::get&lt;std::int64_t&gt;(npc.properties.at("level"))</span> vaut <span class="tt">3</span>.<br  />
+Vérifie que <span class="tt">std::get&lt;bool&gt;(npc.properties.at("hostile"))</span> vaut <span class="tt">false</span>.<br  />
+Vérifie que <span class="tt">reloaded.level-&gt;entities().back().properties.empty()</span> est vrai.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>CouchesDeCarteTest.LaCoucheDeCollisionEstLaGrilleDuGameplay</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__map__layers_8cpp.html" title="Tests unitaires du format de carte version: 3 : couches typées, entités, propriétés libres et migrati...">Source/Test/Unit/Core/Levels/test_map_layers.cpp</a>:245</span></sub>  </td><td class="markdownTableBodyNone">La couche de collision est la grille du gameplay.  </td><td class="markdownTableBodyNone">1. Charger une carte dont le decor pose un danger en (2, 1), absent de la collision.<br  />
+2. Lire la grille du niveau.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">loaded.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt">loaded.level-&gt;tileMap().tile(0, 0)</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875ae41480b6bbfbf7407974a88d3d34f4fa">core::TileType::Solid</a></span>.<br  />
+Vérifie que <span class="tt">loaded.level-&gt;tileMap().tile(2, 1)</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875ace2c8aed9c2fa0cfbed56cbda4d8bf07">core::TileType::Empty</a></span>.<br  />
+Vérifie que <span class="tt">decor</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">decor-&gt;tiles.tile(2, 1)</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875a990816b607ebf99b1415760965e4d564">core::TileType::Danger</a></span>.<br  />
+Vérifie que <span class="tt">collision</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">&amp;loaded.level-&gt;layers().front()</span> vaut <span class="tt">collision</span>.<br  />
+Vérifie que <span class="tt">collision-&gt;tiles.tile(1, 1)</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875ab948e8a02a7f8dc9f098c89e8df9892c">core::TileType::Entry</a></span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>CouchesDeCarteTest.ProjectionEcsIgnoreLaCoucheDeCollision</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__map__layers_8cpp.html" title="Tests unitaires du format de carte version: 3 : couches typées, entités, propriétés libres et migrati...">Source/Test/Unit/Core/Levels/test_map_layers.cpp</a>:273</span></sub>  </td><td class="markdownTableBodyNone">La projection ECS ignore la couche de collision.  </td><td class="markdownTableBodyNone">1. Charger une carte a trois couches (2 tuiles de sol, 1 de decor, 1 de collision).<br  />
+2. Projeter le niveau en entites ECS.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">loaded.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt">spriteCount</span> vaut <span class="tt">3u</span>.<br  />
+Vérifie que <span class="tt">std::count(orders.begin(), orders.end(), 0)</span> vaut <span class="tt">2</span>.<br  />
+Vérifie que <span class="tt">std::count(orders.begin(), orders.end(), 1)</span> vaut <span class="tt">1</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>CouchesDeCarteTest.CarteVersion4RefuseeAvecUnMessageExplicite</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__map__layers_8cpp.html" title="Tests unitaires du format de carte version: 3 : couches typées, entités, propriétés libres et migrati...">Source/Test/Unit/Core/Levels/test_map_layers.cpp</a>:303</span></sub>  </td><td class="markdownTableBodyNone">Une carte version 4 est refusee explicitement.  </td><td class="markdownTableBodyNone">1. Charger une carte declarant version 4.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">loaded.ok()</span> est faux.<br  />
+Vérifie que <span class="tt">loaded.errorCode</span> vaut <span class="tt"><a class="el" href="namespacecore.html#af2a63d18c9ef40479ebdc204e726e823a7d194788f42fea83b92833f89101a8f4" title="&quot;version&quot; du fichier supérieure à celle gérée (EX-LVL-005).">core::LevelValidationError::UnsupportedFormatVersion</a></span>.<br  />
+Vérifie que <span class="tt">loaded.error.find('4')</span> diffère de <span class="tt">std::string::npos</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>CouchesDeCarteTest.TuileHorsBornesDansUneCoucheRefusee</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__map__layers_8cpp.html" title="Tests unitaires du format de carte version: 3 : couches typées, entités, propriétés libres et migrati...">Source/Test/Unit/Core/Levels/test_map_layers.cpp</a>:331</span></sub>  </td><td class="markdownTableBodyNone">Une tuile hors bornes dans une couche est refusee.  </td><td class="markdownTableBodyNone">1. Charger une carte dont une couche pose une tuile en dehors de la grille.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">loaded.ok()</span> est faux.<br  />
+Vérifie que <span class="tt">loaded.errorCode</span> vaut <span class="tt"><a class="el" href="namespacecore.html#af2a63d18c9ef40479ebdc204e726e823a46dc1018ac1d8fca7c2752a61ce2fd0f" title="Tuile positionnée hors des dimensions déclarées.">core::LevelValidationError::OutOfBounds</a></span>.<br  />
+Vérifie que <span class="tt">loaded.error.find("sol")</span> diffère de <span class="tt">std::string::npos</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>CouchesDeCarteTest.EntiteHorsBornesRefusee</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__map__layers_8cpp.html" title="Tests unitaires du format de carte version: 3 : couches typées, entités, propriétés libres et migrati...">Source/Test/Unit/Core/Levels/test_map_layers.cpp</a>:360</span></sub>  </td><td class="markdownTableBodyNone">Une entite hors bornes est refusee.  </td><td class="markdownTableBodyNone">1. Charger une carte dont une entite est posee en dehors de la grille.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">loaded.ok()</span> est faux.<br  />
+Vérifie que <span class="tt">loaded.errorCode</span> vaut <span class="tt"><a class="el" href="namespacecore.html#af2a63d18c9ef40479ebdc204e726e823a46dc1018ac1d8fca7c2752a61ce2fd0f" title="Tuile positionnée hors des dimensions déclarées.">core::LevelValidationError::OutOfBounds</a></span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>CouchesDeCarteTest.RoleDeCoucheInconnuRetombeSurLeSol</b> (Mineur)<br  />
+<sub><span class="tt"><a class="el" href="test__map__layers_8cpp.html" title="Tests unitaires du format de carte version: 3 : couches typées, entités, propriétés libres et migrati...">Source/Test/Unit/Core/Levels/test_map_layers.cpp</a>:387</span></sub>  </td><td class="markdownTableBodyNone">Un role de couche inconnu ne fait pas echouer la carte.  </td><td class="markdownTableBodyNone">1. Charger une carte dont une couche declare un role inconnu.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">loaded.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt">loaded.level-&gt;layers().size()</span> vaut <span class="tt">2u</span>.<br  />
+Vérifie que <span class="tt">loaded.level-&gt;layers().back().kind</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ab0cf50b7ad0dce1357c85662e0fb7e5da3519d51443d41746a097cd54cd5c11cf">core::LayerKind::Ground</a></span>.<br  />
+Vérifie que <span class="tt">loaded.level-&gt;layers().back().name</span> vaut <span class="tt">"brouillard"</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>CouchesDeCarteTest.BrouillonDEditionPreserveCouchesEtEntites</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__map__layers_8cpp.html" title="Tests unitaires du format de carte version: 3 : couches typées, entités, propriétés libres et migrati...">Source/Test/Unit/Core/Levels/test_map_layers.cpp</a>:417</span></sub>  </td><td class="markdownTableBodyNone">Le brouillon d'edition preserve couches et entites.  </td><td class="markdownTableBodyNone">1. Charger une carte version 3 et en faire un brouillon d'edition.<br  />
+2. Reconvertir le brouillon en niveau, sans rien modifier.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">loaded.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt">draft.layers().size()</span> vaut <span class="tt">3u</span>.<br  />
+Vérifie que <span class="tt">draft.entities().size()</span> vaut <span class="tt">2u</span>.<br  />
+Vérifie que <span class="tt">rebuilt.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt">rebuilt.level-&gt;layers().size()</span> vaut <span class="tt">3u</span>.<br  />
+Vérifie que <span class="tt">rebuilt.level-&gt;entities().size()</span> vaut <span class="tt">2u</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>CouchesDeCarteTest.TuilePeinteAtteintLaCoucheDeCollision</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__map__layers_8cpp.html" title="Tests unitaires du format de carte version: 3 : couches typées, entités, propriétés libres et migrati...">Source/Test/Unit/Core/Levels/test_map_layers.cpp</a>:442</span></sub>  </td><td class="markdownTableBodyNone">Une tuile peinte dans l'editeur atteint la couche de collision.  </td><td class="markdownTableBodyNone">1. Ouvrir une carte version 3 en brouillon.<br  />
+2. Peindre un solide en (2, 0).<br  />
+3. Reconvertir le brouillon en niveau.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">loaded.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt">rebuilt.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt">collision</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">collision-&gt;tiles.tile(2, 0)</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875ae41480b6bbfbf7407974a88d3d34f4fa">core::TileType::Solid</a></span>.<br  />
+Vérifie que <span class="tt">ground</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">ground-&gt;tiles.tile(2, 0)</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875ace2c8aed9c2fa0cfbed56cbda4d8bf07">core::TileType::Empty</a></span>.<br  />
+Vérifie que <span class="tt">ground-&gt;tiles.tile(1, 0)</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875ae41480b6bbfbf7407974a88d3d34f4fa">core::TileType::Solid</a></span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>CouchesDeCarteTest.RedimensionnementEmporteCouchesEtEntites</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__map__layers_8cpp.html" title="Tests unitaires du format de carte version: 3 : couches typées, entités, propriétés libres et migrati...">Source/Test/Unit/Core/Levels/test_map_layers.cpp</a>:473</span></sub>  </td><td class="markdownTableBodyNone">Un redimensionnement emporte couches et entites.  </td><td class="markdownTableBodyNone">1. Ouvrir une carte version 3 de 4x3 en brouillon.<br  />
+2. La redimensionner en 2x2.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">loaded.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt">draft.wouldResizeDropContent(2, 2)</span> est vrai.<br  />
+Vérifie que <span class="tt">layer.tiles.width()</span> vaut <span class="tt">2</span>.<br  />
+Vérifie que <span class="tt">layer.tiles.height()</span> vaut <span class="tt">2</span>.<br  />
+Vérifie que <span class="tt">draft.entities().empty()</span> est vrai.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>CouchesDeCarteTest.CoucheDeCollisionDeclareeRefusee</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__map__layers_8cpp.html" title="Tests unitaires du format de carte version: 3 : couches typées, entités, propriétés libres et migrati...">Source/Test/Unit/Core/Levels/test_map_layers.cpp</a>:500</span></sub>  </td><td class="markdownTableBodyNone">Une couche 'collision' declaree est refusee.  </td><td class="markdownTableBodyNone">1. Charger une carte declarant une couche de role 'collision'.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">loaded.ok()</span> est faux.<br  />
+Vérifie que <span class="tt">loaded.errorCode</span> vaut <span class="tt"><a class="el" href="namespacecore.html#af2a63d18c9ef40479ebdc204e726e823ae41199faa7290c167f70f314c5e6c165" title="JSON malformé, champ obligatoire manquant, ou de mauvais type.">core::LevelValidationError::ParseError</a></span>.<br  />
+Vérifie que <span class="tt">loaded.error.find("tiles")</span> diffère de <span class="tt">std::string::npos</span>.  </td></tr>
 </table>
 <p><b><span class="tt"><a class="el" href="test__plane_8cpp.html" title="Tests unitaires du plan pictural : modèle, format et brouillon annulable (LOT-69 TACHE-03,...">test_plane.cpp</a></span></b></p>
 <table class="markdownTable">

@@ -187,8 +187,12 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Charge une séquence de niveaux au format <b>JSON</b> (<span class="tt">{version, titleKey, levels: [...]}</span>), <span class="tt">EX-LVL-013</span>.  <a href="classcore_1_1LevelSequenceLoader.html#details">More...</a><br /></td></tr>
 <tr class="memitem:LevelWriter" id="r_LevelWriter"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classcore_1_1LevelWriter.html">LevelWriter</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sérialise un niveau vers le format JSON défini par <span class="tt">EX-LVL-003</span>.  <a href="classcore_1_1LevelWriter.html#details">More...</a><br /></td></tr>
+<tr class="memitem:MapEntity" id="r_MapEntity"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1MapEntity.html">MapEntity</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une entité de carte — ce qui n'est <b>pas</b> une tuile.  <a href="structcore_1_1MapEntity.html#details">More...</a><br /></td></tr>
 <tr class="memitem:Plane" id="r_Plane"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1Plane.html">Plane</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Plan pictural : image couvrant <b>tout</b> le niveau, avec sa densité, sa parallaxe et sa profondeur (<span class="tt">EX-DEC-040</span> à <span class="tt">EX-DEC-043</span>).  <a href="structcore_1_1Plane.html#details">More...</a><br /></td></tr>
+<tr class="memitem:TileLayer" id="r_TileLayer"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1TileLayer.html">TileLayer</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une couche de tuiles : son rôle, sa grille, et ses propriétés libres.  <a href="structcore_1_1TileLayer.html#details">More...</a><br /></td></tr>
 <tr class="memitem:TileMap" id="r_TileMap"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classcore_1_1TileMap.html">TileMap</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Grille dense de tuiles typées (<span class="tt">EX-GP-001</span>), origine haut-gauche.  <a href="classcore_1_1TileMap.html#details">More...</a><br /></td></tr>
 <tr class="memitem:DeterministicRandom" id="r_DeterministicRandom"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classcore_1_1DeterministicRandom.html">DeterministicRandom</a></td></tr>
@@ -214,6 +218,10 @@ Classes</h2></td></tr>
 Typedefs</h2></td></tr>
 <tr class="memitem:af16dfcce848d49387703fb5a0b155485" id="r_af16dfcce848d49387703fb5a0b155485"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#af16dfcce848d49387703fb5a0b155485">AssertionHandler</a></td></tr>
 <tr class="memdesc:af16dfcce848d49387703fb5a0b155485"><td class="mdescLeft">&#160;</td><td class="mdescRight">Signature d'un gestionnaire d'échec d'assertion.  <br /></td></tr>
+<tr class="memitem:a9f79b235a73b6264aa3a97d51267919d" id="r_a9f79b235a73b6264aa3a97d51267919d"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#a9f79b235a73b6264aa3a97d51267919d">PropertyValue</a> = std::variant&lt;bool, std::int64_t, double, std::string&gt;</td></tr>
+<tr class="memdesc:a9f79b235a73b6264aa3a97d51267919d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Valeur d'une propriété libre : booléen, entier, réel ou chaîne.  <br /></td></tr>
+<tr class="memitem:ac3cd7f319efbfd33f183ca31782d1731" id="r_ac3cd7f319efbfd33f183ca31782d1731"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#ac3cd7f319efbfd33f183ca31782d1731">PropertyMap</a> = std::map&lt;std::string, <a class="el" href="#a9f79b235a73b6264aa3a97d51267919d">PropertyValue</a>&gt;</td></tr>
+<tr class="memdesc:ac3cd7f319efbfd33f183ca31782d1731"><td class="mdescLeft">&#160;</td><td class="mdescRight">Propriétés libres, indexées par nom.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-enum-members" class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
@@ -277,6 +285,12 @@ Enumerations</h2></td></tr>
 , <a class="el" href="#a6dc89438a55a80980ab04f7da513f731a5835bab1ade0060909e31a06af2e2cde">Front</a>
  }</td></tr>
 <tr class="memdesc:a6dc89438a55a80980ab04f7da513f731"><td class="mdescLeft">&#160;</td><td class="mdescRight">Position d'un plan dans l'ordonnancement de rendu, relativement au personnage (<span class="tt">EX-DEC-042</span>).  <a href="#a6dc89438a55a80980ab04f7da513f731">More...</a><br /></td></tr>
+<tr class="memitem:ab0cf50b7ad0dce1357c85662e0fb7e5d" id="r_ab0cf50b7ad0dce1357c85662e0fb7e5d"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#ab0cf50b7ad0dce1357c85662e0fb7e5d">LayerKind</a> { <a class="el" href="#ab0cf50b7ad0dce1357c85662e0fb7e5da3519d51443d41746a097cd54cd5c11cf">Ground</a>
+, <a class="el" href="#ab0cf50b7ad0dce1357c85662e0fb7e5dae953e8671da3a0647c0939df8ebe8e44">Decor</a>
+, <a class="el" href="#ab0cf50b7ad0dce1357c85662e0fb7e5da15fb6ccbd11ebebcea2b48dc477f3561">Collision</a>
+, <a class="el" href="#ab0cf50b7ad0dce1357c85662e0fb7e5da0cc0a0507cf3d31e5089f420a4cf8b4b">Legacy</a>
+ }</td></tr>
+<tr class="memdesc:ab0cf50b7ad0dce1357c85662e0fb7e5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rôle d'une couche de tuiles dans une carte.  <a href="#ab0cf50b7ad0dce1357c85662e0fb7e5d">More...</a><br /></td></tr>
 <tr class="memitem:ace99a1be913e6294e42e9ebb145eb875" id="r_ace99a1be913e6294e42e9ebb145eb875"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#ace99a1be913e6294e42e9ebb145eb875">TileType</a> { <br />
 &#160;&#160;<a class="el" href="#ace99a1be913e6294e42e9ebb145eb875ace2c8aed9c2fa0cfbed56cbda4d8bf07">Empty</a>
 , <a class="el" href="#ace99a1be913e6294e42e9ebb145eb875ae41480b6bbfbf7407974a88d3d34f4fa">Solid</a>
@@ -333,6 +347,8 @@ Functions</h2></td></tr>
 <tr class="memdesc:a671cc58bea9439fdb3ea23009b0da54b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Peuple un <span class="tt"><a class="el" href="classcore_1_1World.html" title="Point d&#39;entrée unique de la simulation : possède les entités, les composants et les systèmes.">World</a></span> d'une <b>entité par tuile non vide</b> du niveau.  <br /></td></tr>
 <tr class="memitem:a0f61acebed3678706e825f972217a233" id="r_a0f61acebed3678706e825f972217a233"><td class="memItemLeft">constexpr bool&#160;</td><td class="memItemRight"><a class="el" href="#a0f61acebed3678706e825f972217a233">isValidPlaneDensity</a> (int pixelsPerUnit) noexcept</td></tr>
 <tr class="memdesc:a0f61acebed3678706e825f972217a233"><td class="mdescLeft">&#160;</td><td class="mdescRight">Densité acceptée pour un plan (<span class="tt">EX-DEC-041</span>).  <br /></td></tr>
+<tr class="memitem:a9a1bd2ed20a557ddf1033a2c264c9bdd" id="r_a9a1bd2ed20a557ddf1033a2c264c9bdd"><td class="memItemLeft">constexpr const char *&#160;</td><td class="memItemRight"><a class="el" href="#a9a1bd2ed20a557ddf1033a2c264c9bdd">layerKindName</a> (<a class="el" href="#ab0cf50b7ad0dce1357c85662e0fb7e5d">LayerKind</a> kind) noexcept</td></tr>
+<tr class="memdesc:a9a1bd2ed20a557ddf1033a2c264c9bdd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nom JSON d'un rôle de couche.  <br /></td></tr>
 <tr class="memitem:a105a7f2ca0f25e01231a9bc1bbc36ebb" id="r_a105a7f2ca0f25e01231a9bc1bbc36ebb"><td class="memItemLeft">constexpr bool&#160;</td><td class="memItemRight"><a class="el" href="#a105a7f2ca0f25e01231a9bc1bbc36ebb">isSolid</a> (<a class="el" href="#ace99a1be913e6294e42e9ebb145eb875">TileType</a> type) noexcept</td></tr>
 <tr class="memdesc:a105a7f2ca0f25e01231a9bc1bbc36ebb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Indique si un type de tuile bloque le déplacement de manière <b>statique</b>.  <br /></td></tr>
 <tr class="memitem:a43329559445927c3a2d55531287292d6" id="r_a43329559445927c3a2d55531287292d6"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a43329559445927c3a2d55531287292d6">tileTypeName</a> (<a class="el" href="#ace99a1be913e6294e42e9ebb145eb875">TileType</a> type)</td></tr>
@@ -398,7 +414,7 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
 <tr class="memitem:a16d88a44dd10fb55af743080cdf23310" id="r_a16d88a44dd10fb55af743080cdf23310"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#a16d88a44dd10fb55af743080cdf23310">DEFAULT_ROOM_WIDTH_TILES</a> = 24</td></tr>
 <tr class="memdesc:a16d88a44dd10fb55af743080cdf23310"><td class="mdescLeft">&#160;</td><td class="mdescRight">Taille de salle par défaut du mode <em>par salle</em>, en cases.  <br /></td></tr>
 <tr class="memitem:a27bf5fbce0dbeda08de2d7e82e64d719" id="r_a27bf5fbce0dbeda08de2d7e82e64d719"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#a27bf5fbce0dbeda08de2d7e82e64d719">DEFAULT_ROOM_HEIGHT_TILES</a> = 14</td></tr>
-<tr class="memitem:a29f56cd5e629fb74668126bbf151066e" id="r_a29f56cd5e629fb74668126bbf151066e"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#a29f56cd5e629fb74668126bbf151066e">LEVEL_FORMAT_VERSION</a> = 2</td></tr>
+<tr class="memitem:a29f56cd5e629fb74668126bbf151066e" id="r_a29f56cd5e629fb74668126bbf151066e"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#a29f56cd5e629fb74668126bbf151066e">LEVEL_FORMAT_VERSION</a> = 3</td></tr>
 <tr class="memdesc:a29f56cd5e629fb74668126bbf151066e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Version courante du format de niveau JSON (<span class="tt">EX-LVL-005</span>).  <br /></td></tr>
 <tr class="memitem:aa2bda549f4b3a6da7d1947bdb5d82bc5" id="r_aa2bda549f4b3a6da7d1947bdb5d82bc5"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#aa2bda549f4b3a6da7d1947bdb5d82bc5">LEVEL_SEQUENCE_FORMAT_VERSION</a> = 1</td></tr>
 <tr class="memdesc:aa2bda549f4b3a6da7d1947bdb5d82bc5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Version courante du format de séquence JSON (<span class="tt">EX-LVL-005</span>), indépendante de <span class="tt"><a class="el" href="#a29f56cd5e629fb74668126bbf151066e" title="Version courante du format de niveau JSON (EX-LVL-005).">core::LEVEL_FORMAT_VERSION</a></span> (fichier distinct, cycle de vie distinct).  <br /></td></tr>
@@ -408,6 +424,8 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
 <tr class="memdesc:aba31765307efa0a613fd06d8bcecc203"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nombre maximal de plans par niveau (<span class="tt">EX-DEC-044</span>) : borne le coût dans le <b>format</b>, plutôt que de le laisser à l'usage.  <br /></td></tr>
 <tr class="memitem:a2b0b5578c096a53cc778a39c41f18f72" id="r_a2b0b5578c096a53cc778a39c41f18f72"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#a2b0b5578c096a53cc778a39c41f18f72">MAX_PLANE_TEXTURE_EXTENT</a> = 16384</td></tr>
 <tr class="memdesc:a2b0b5578c096a53cc778a39c41f18f72"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dimension maximale, en pixels, d'une texture de plan sur un axe (<span class="tt">EX-DEC-044</span>) — limite de Direct3D 11 au <em>feature level</em> 11.  <br /></td></tr>
+<tr class="memitem:a1639bde29cbf10d2ed8629a0fe495374" id="r_a1639bde29cbf10d2ed8629a0fe495374"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#a1639bde29cbf10d2ed8629a0fe495374">LAYER_KIND_COUNT</a> = static_cast&lt;int&gt;(<a class="el" href="#ab0cf50b7ad0dce1357c85662e0fb7e5da0cc0a0507cf3d31e5089f420a4cf8b4b">LayerKind::Legacy</a>) + 1</td></tr>
+<tr class="memdesc:a1639bde29cbf10d2ed8629a0fe495374"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nombre de valeurs de <span class="tt"><a class="el" href="#ab0cf50b7ad0dce1357c85662e0fb7e5d" title="Rôle d&#39;une couche de tuiles dans une carte.">core::LayerKind</a></span> — même convention que <span class="tt"><a class="el" href="#a319e1d0258052359525fdc83ee93f269" title="Nombre de valeurs de core::TileType — seule source de vérité de la fin de l&#39;énumération (LOT-74 TACHE...">core::TILE_TYPE_COUNT</a></span> : toute valeur ajoutée doit l'être <b>avant</b> le dernier énumérateur.  <br /></td></tr>
 <tr class="memitem:a319e1d0258052359525fdc83ee93f269" id="r_a319e1d0258052359525fdc83ee93f269"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#a319e1d0258052359525fdc83ee93f269">TILE_TYPE_COUNT</a> = static_cast&lt;int&gt;(<a class="el" href="#ace99a1be913e6294e42e9ebb145eb875a6029de17465e002643abfb52e2cb4c97">TileType::LockedDoor</a>) + 1</td></tr>
 <tr class="memdesc:a319e1d0258052359525fdc83ee93f269"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nombre de valeurs de <span class="tt"><a class="el" href="#ace99a1be913e6294e42e9ebb145eb875" title="Type d&#39;une tuile de la grille d&#39;une carte (EX-GP-001).">core::TileType</a></span> — <b>seule</b> source de vérité de la fin de l'énumération (<span class="tt">LOT-74</span> TACHE-02).  <br /></td></tr>
 <tr class="memitem:a49c6e01fbd8905740993109a36f65c11" id="r_a49c6e01fbd8905740993109a36f65c11"><td class="memItemLeft">constexpr float&#160;</td><td class="memItemRight"><a class="el" href="#a49c6e01fbd8905740993109a36f65c11">EPSILON</a> = 1e-5f</td></tr>
@@ -437,6 +455,42 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
 <div class="line">std::function&lt;void(<span class="keyword">const</span> <span class="keywordtype">char</span>* condition, <span class="keyword">const</span> <span class="keywordtype">char</span>* message, <span class="keyword">const</span> <span class="keywordtype">char</span>* file, <span class="keywordtype">int</span> line)&gt;</div>
 </div><!-- fragment -->
 <p>Signature d'un gestionnaire d'échec d'assertion. </p>
+
+</div>
+</div>
+<a id="ac3cd7f319efbfd33f183ca31782d1731" name="ac3cd7f319efbfd33f183ca31782d1731"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac3cd7f319efbfd33f183ca31782d1731">&#9670;&#160;</a></span>PropertyMap</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#ac3cd7f319efbfd33f183ca31782d1731">core::PropertyMap</a> = std::map&lt;std::string, <a class="el" href="#a9f79b235a73b6264aa3a97d51267919d">PropertyValue</a>&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Propriétés libres, indexées par nom. </p>
+<p><b>C'est le mécanisme qui évite un <span class="tt">version: 4</span>.</b> Un besoin découvert plus tard — terrain difficile, couverture, hauteur, dialogue d'un PNJ — s'exprime comme une propriété, jamais comme un nouveau champ du format. Le chargeur y range en outre <b>toute clé qu'il ne reconnaît pas</b>, et l'écrivain les réémet : un fichier produit par une version ultérieure de l'éditeur traverse donc une version antérieure sans rien perdre.</p>
+<p><span class="tt">std::map</span> (ordonné) et non <span class="tt">unordered_map</span> : l'écriture doit être <b>déterministe</b>, faute de quoi deux enregistrements du même niveau produiraient des fichiers différents et pollueraient chaque diff.</p>
+<dl class="section note"><dt>Note</dt><dd>Limite assumée : une valeur <b>composite</b> (objet ou tableau JSON) ne rentre pas dans <span class="tt"><a class="el" href="#a9f79b235a73b6264aa3a97d51267919d" title="Valeur d&#39;une propriété libre : booléen, entier, réel ou chaîne.">PropertyValue</a></span> et n'est donc pas préservée. Le format n'en produit aucune aujourd'hui ; le jour où il en faudra une, ce sera un champ à part entière, pas une propriété libre. </dd></dl>
+
+</div>
+</div>
+<a id="a9f79b235a73b6264aa3a97d51267919d" name="a9f79b235a73b6264aa3a97d51267919d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9f79b235a73b6264aa3a97d51267919d">&#9670;&#160;</a></span>PropertyValue</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#a9f79b235a73b6264aa3a97d51267919d">core::PropertyValue</a> = std::variant&lt;bool, std::int64_t, double, std::string&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Valeur d'une propriété libre : booléen, entier, réel ou chaîne. </p>
+<p>Volontairement <b>un type de <span class="tt">Core</span></b>, jamais un <span class="tt">nlohmann::json</span> : <span class="tt">Core</span> ne connaît pas le format de fichier (<span class="tt">EX-ARCH-001</span>), et la bibliothèque JSON lui est liée en <span class="tt">PRIVATE</span> — l'exposer dans un en-tête la propagerait à tous ses consommateurs. </p>
 
 </div>
 </div>
@@ -499,6 +553,43 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
 </td></tr>
 <tr><td class="fieldname"><a id="a71fba78b647ce3be2a8b78f79c84f522ac7fc2ee61fad0e2bba6754efdee31481" name="a71fba78b647ce3be2a8b78f79c84f522ac7fc2ee61fad0e2bba6754efdee31481"></a>OneShot&#160;</td><td class="fielddoc"><p>S'arrête à la dernière image puis bascule sur <span class="tt"><a class="el" href="structcore_1_1AnimationClip.html#a508d5f46279f56ab33ec39cd1fceae13" title="Nom du clip suivant, consulté seulement si endMode == OneShot.">AnimationClip::nextClip</a></span> (<span class="tt">LOT-47</span>). </p>
 </td></tr>
+</table>
+
+</div>
+</div>
+<a id="ab0cf50b7ad0dce1357c85662e0fb7e5d" name="ab0cf50b7ad0dce1357c85662e0fb7e5d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab0cf50b7ad0dce1357c85662e0fb7e5d">&#9670;&#160;</a></span>LayerKind</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="#ab0cf50b7ad0dce1357c85662e0fb7e5d">core::LayerKind</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Rôle d'une couche de tuiles dans une carte. </p>
+<p>Un RPG en vue de dessus a besoin d'au moins trois couches là où un jeu de plateforme se contentait d'une grille unique :</p>
+<ul>
+<li><span class="tt">Ground</span> — ce qu'on voit sous les pieds (herbe, dalle, eau) ;</li>
+<li><span class="tt">Decor</span> — dessiné <b>au-dessus</b> du sol, et devant ou derrière le personnage selon sa position (arbre, tonneau, tapis) ;</li>
+<li><span class="tt">Collision</span> — masque <b>indépendant du visuel</b> : un tapis se traverse, un tonneau non, et les deux peuvent reposer sur la même image de sol. C'est cette couche, et elle seule, que consomment le balayage AABB puis la grille de combat tactique (<span class="tt">LOT-19</span>).</li>
+</ul>
+<p><span class="tt">Legacy</span> désigne la grille unique d'une carte au format <span class="tt">version: 2</span>, promue telle quelle au chargement : elle vaut à la fois décor et collision, comme dans le format d'origine. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ab0cf50b7ad0dce1357c85662e0fb7e5da3519d51443d41746a097cd54cd5c11cf" name="ab0cf50b7ad0dce1357c85662e0fb7e5da3519d51443d41746a097cd54cd5c11cf"></a>Ground&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ab0cf50b7ad0dce1357c85662e0fb7e5dae953e8671da3a0647c0939df8ebe8e44" name="ab0cf50b7ad0dce1357c85662e0fb7e5dae953e8671da3a0647c0939df8ebe8e44"></a>Decor&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ab0cf50b7ad0dce1357c85662e0fb7e5da15fb6ccbd11ebebcea2b48dc477f3561" name="ab0cf50b7ad0dce1357c85662e0fb7e5da15fb6ccbd11ebebcea2b48dc477f3561"></a>Collision&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ab0cf50b7ad0dce1357c85662e0fb7e5da0cc0a0507cf3d31e5089f420a4cf8b4b" name="ab0cf50b7ad0dce1357c85662e0fb7e5da0cc0a0507cf3d31e5089f420a4cf8b4b"></a>Legacy&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
 </div>
@@ -1264,6 +1355,34 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><span class="tt">true</span> si la densité vaut 4, 8 ou 16. </dd></dl>
+
+</div>
+</div>
+<a id="a9a1bd2ed20a557ddf1033a2c264c9bdd" name="a9a1bd2ed20a557ddf1033a2c264c9bdd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9a1bd2ed20a557ddf1033a2c264c9bdd">&#9670;&#160;</a></span>layerKindName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char * core::layerKindName </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#ab0cf50b7ad0dce1357c85662e0fb7e5d">LayerKind</a></td>          <td class="paramname"><span class="paramname"><em>kind</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Nom JSON d'un rôle de couche. </p>
+<p>Déclaré ici, et non dans le chargeur ou l'écrivain, parce que les <b>deux</b> en ont besoin et qu'un rôle nommé différemment de part et d'autre casserait l'aller-retour sans qu'aucun test unitaire de l'un ou de l'autre pris isolément ne le voie. Le <span class="tt">switch</span> est exhaustif et sans <span class="tt">default</span> : un rôle ajouté sans nom ne compile pas, plutôt que de retomber silencieusement sur une valeur arbitraire. </p>
 
 </div>
 </div>
@@ -2327,6 +2446,30 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
 
 </div>
 </div>
+<a id="a1639bde29cbf10d2ed8629a0fe495374" name="a1639bde29cbf10d2ed8629a0fe495374"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1639bde29cbf10d2ed8629a0fe495374">&#9670;&#160;</a></span>LAYER_KIND_COUNT</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int core::LAYER_KIND_COUNT = static_cast&lt;int&gt;(<a class="el" href="#ab0cf50b7ad0dce1357c85662e0fb7e5da0cc0a0507cf3d31e5089f420a4cf8b4b">LayerKind::Legacy</a>) + 1</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Nombre de valeurs de <span class="tt"><a class="el" href="#ab0cf50b7ad0dce1357c85662e0fb7e5d" title="Rôle d&#39;une couche de tuiles dans une carte.">core::LayerKind</a></span> — même convention que <span class="tt"><a class="el" href="#a319e1d0258052359525fdc83ee93f269" title="Nombre de valeurs de core::TileType — seule source de vérité de la fin de l&#39;énumération (LOT-74 TACHE...">core::TILE_TYPE_COUNT</a></span> : toute valeur ajoutée doit l'être <b>avant</b> le dernier énumérateur. </p>
+
+</div>
+</div>
 <a id="a29f56cd5e629fb74668126bbf151066e" name="a29f56cd5e629fb74668126bbf151066e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a29f56cd5e629fb74668126bbf151066e">&#9670;&#160;</a></span>LEVEL_FORMAT_VERSION</h2>
 
@@ -2337,7 +2480,7 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">int core::LEVEL_FORMAT_VERSION = 2</td>
+          <td class="memname">int core::LEVEL_FORMAT_VERSION = 3</td>
         </tr>
       </table>
   </td>
@@ -2349,7 +2492,9 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
 
 <p>Version courante du format de niveau JSON (<span class="tt">EX-LVL-005</span>). </p>
 <p>Écrite par <span class="tt"><a class="el" href="classcore_1_1LevelWriter.html" title="Sérialise un niveau vers le format JSON défini par EX-LVL-003.">LevelWriter</a></span> dans le champ racine <span class="tt">"version"</span>. Un fichier sans ce champ est lu comme la version initiale (0), sans erreur ni avertissement — rétrocompatibilité des niveaux antérieurs à ce champ (<span class="tt">LOT-44</span>). Une version supérieure à celle-ci est une erreur exploitable (<span class="tt"><a class="el" href="#af2a63d18c9ef40479ebdc204e726e823a7d194788f42fea83b92833f89101a8f4" title="&quot;version&quot; du fichier supérieure à celle gérée (EX-LVL-005).">LevelValidationError::UnsupportedFormatVersion</a></span>), pas une lecture au mieux.</p>
-<p>Version 2 (<span class="tt">LOT-64</span>) : ajout du champ optionnel <span class="tt">"cameraFraming"</span> (<span class="tt">EX-LVL-006</span>). Un fichier de version antérieure, sans ce champ, se charge sans erreur &ndash; la règle de repli (<span class="tt"><a class="el" href="#ac4655b6e996ba6d305c643f5f7d8e156" title="Résout le cadrage effectif d&#39;un niveau à partir du champ déclaré (peut être absent).">core::resolveCameraFraming</a></span>) reproduit exactement le comportement historique. </p>
+<p>Version 2 (<span class="tt">LOT-64</span>) : ajout du champ optionnel <span class="tt">"cameraFraming"</span> (<span class="tt">EX-LVL-006</span>). Un fichier de version antérieure, sans ce champ, se charge sans erreur &ndash; la règle de repli (<span class="tt"><a class="el" href="#ac4655b6e996ba6d305c643f5f7d8e156" title="Résout le cadrage effectif d&#39;un niveau à partir du champ déclaré (peut être absent).">core::resolveCameraFraming</a></span>) reproduit exactement le comportement historique.</p>
+<p>Version 3 (<span class="tt">LOT-04</span>) : <b>couches de tuiles</b> (<span class="tt">"layers"</span>, <span class="tt"><a class="el" href="structcore_1_1TileLayer.html" title="Une couche de tuiles : son rôle, sa grille, et ses propriétés libres.">core::TileLayer</a></span>) et <b>entités</b> (<span class="tt">"entities"</span>, <span class="tt"><a class="el" href="structcore_1_1MapEntity.html" title="Une entité de carte — ce qui n&#39;est pas une tuile.">core::MapEntity</a></span>), les deux optionnels. <span class="tt">"layers"</span> ne porte que les couches <b>visibles</b> (sol, décor) : la grille de collision d'une carte est son tableau racine <span class="tt">"tiles"</span>, celui qui porte déjà l'entrée, la sortie et les mécanismes — une couche <span class="tt">"collision"</span> déclarée est refusée (<span class="tt">EX-LVL-016</span>). Cette grille racine est <b>promue</b> en couche de tête, de rôle <span class="tt"><a class="el" href="#ab0cf50b7ad0dce1357c85662e0fb7e5da15fb6ccbd11ebebcea2b48dc477f3561">LayerKind::Collision</a></span>, ou <span class="tt"><a class="el" href="#ab0cf50b7ad0dce1357c85662e0fb7e5da0cc0a0507cf3d31e5089f420a4cf8b4b">LayerKind::Legacy</a></span> quand la carte ne déclare aucune couche : aucun fichier existant n'a besoin d'être touché, et rien de son comportement ne change.</p>
+<p>Toute clé non reconnue dans une couche ou une entité est rangée dans ses propriétés libres (<span class="tt"><a class="el" href="#ac3cd7f319efbfd33f183ca31782d1731" title="Propriétés libres, indexées par nom.">core::PropertyMap</a></span>) et <b>réémise</b> à l'écriture : un fichier produit par une version ultérieure de l'éditeur traverse une version antérieure sans rien perdre. </p>
 
 </div>
 </div>

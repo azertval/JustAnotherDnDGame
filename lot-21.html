@@ -96,10 +96,10 @@ $(function(){initNavTree('lot-21.html','',''); });
 <blockquote class="doxtable">
 <p>Statut : <b>à faire</b>. Prérequis : <a class="el" href="lot-13.html" title="LOT-13 — Fiche de personnage">LOT-13</a>, <a class="el" href="lot-14.html" title="LOT-14 — Inventaire et équipement">LOT-14</a>, <a class="el" href="lot-20.html" title="LOT-20 — Initiative et tour par tour">LOT-20</a>. </p>
 </blockquote>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md474"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md475"></a>
 Objectif</h1>
 <p>Résoudre une attaque au d20 contre la classe d'armure, appliquer les dégâts, gérer critiques, inconscience et mort.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md475"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md476"></a>
 Périmètre</h1>
 <ul>
 <li><span class="tt">Source/Core/Combat/Attack.{h,cpp}</span> : jet d'attaque = d20 + modificateur de caractéristique + bonus de maîtrise, contre la CA de la cible.</li>
@@ -107,20 +107,20 @@ Périmètre</h1>
 <li><span class="tt">Condition.{h,cpp}</span> : à terre, entravé, empoisonné, inconscient — et leur effet sur les jets.</li>
 <li>Jets de sauvegarde contre la mort.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md476"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md477"></a>
 Les règles à ne pas se tromper</h1>
 <ul>
 <li><b>Un 20 naturel double les dés de dégâts, pas le modificateur.</b> L'erreur inverse est la plus répandue et fausse tout l'équilibrage.</li>
 <li><b>Un 1 naturel rate toujours</b>, quel que soit le total.</li>
 <li>Les PV sont <b>bornés à 0</b> par le bas : pas de PV négatifs qui rendraient la réanimation arbitraire.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md477"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md478"></a>
 Le journal de combat</h1>
 <p>Chaque jet doit être <b>auditable</b> : jet brut, modificateurs détaillés, cible, total, résultat. « Tu as raté » n'est pas une information ; « 7 + 3 = 10 contre CA 15 : raté » en est une. C'est ce qui permet au joueur de comprendre le système, et au développeur de déboguer l'équilibrage sans attacher un débogueur.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md478"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md479"></a>
 Exigences couvertes</h1>
 <p><span class="tt">EX-DND-*</span> (résolution chiffrée) et <span class="tt">EX-CBT-*</span> (application en combat).</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md479"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md480"></a>
 Critères d'acceptation</h1>
 <ul>
 <li>Un 20 naturel double <b>les dés</b> et non le modificateur, vérifié par test.</li>

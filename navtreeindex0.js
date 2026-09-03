@@ -246,8 +246,8 @@ var NAVTREEINDEX0 =
 "LevelOutcome_8cpp.html":[13,0,3,0,3,8],
 "LevelOutcome_8h.html":[13,0,3,0,3,9],
 "LevelOutcome_8h_source.html":[13,0,3,0,3,9],
+"LevelProperties_8h.html":[13,0,3,0,3,10],
+"LevelProperties_8h_source.html":[13,0,3,0,3,10],
 "LevelRunStats_8cpp.html":[13,0,3,2,3,10],
-"LevelRunStats_8h.html":[13,0,3,2,3,11],
-"LevelRunStats_8h_source.html":[13,0,3,2,3,11],
-"LevelScene_8cpp.html":[13,0,3,0,3,10]
+"LevelRunStats_8h.html":[13,0,3,2,3,11]
 };

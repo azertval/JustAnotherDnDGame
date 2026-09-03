@@ -9,12 +9,13 @@ var searchData=
   ['tileappearance_6',['TileAppearance',['../structhmi_1_1TileAppearance.html',1,'hmi']]],
   ['tilecategory_7',['TileCategory',['../structhmi_1_1TileCategory.html',1,'hmi']]],
   ['tileentry_8',['TileEntry',['../structhmi_1_1TileEntry.html',1,'hmi']]],
-  ['tilemap_9',['TileMap',['../classcore_1_1TileMap.html',1,'core']]],
-  ['tileskintag_10',['TileSkinTag',['../structhmi_1_1TileSkinTag.html',1,'hmi']]],
-  ['tilesubgroup_11',['TileSubgroup',['../structhmi_1_1TileSubgroup.html',1,'hmi']]],
-  ['tiletextureoverride_12',['TileTextureOverride',['../structcore_1_1TileTextureOverride.html',1,'core']]],
-  ['transform_13',['Transform',['../structcore_1_1Transform.html',1,'core']]],
-  ['triggerweight_14',['TriggerWeight',['../structcore_1_1TriggerWeight.html',1,'core']]],
-  ['typographylevel_15',['TypographyLevel',['../structhmi_1_1TypographyLevel.html',1,'hmi']]],
-  ['typographytokens_16',['TypographyTokens',['../structhmi_1_1TypographyTokens.html',1,'hmi']]]
+  ['tilelayer_9',['TileLayer',['../structcore_1_1TileLayer.html',1,'core']]],
+  ['tilemap_10',['TileMap',['../classcore_1_1TileMap.html',1,'core']]],
+  ['tileskintag_11',['TileSkinTag',['../structhmi_1_1TileSkinTag.html',1,'hmi']]],
+  ['tilesubgroup_12',['TileSubgroup',['../structhmi_1_1TileSubgroup.html',1,'hmi']]],
+  ['tiletextureoverride_13',['TileTextureOverride',['../structcore_1_1TileTextureOverride.html',1,'core']]],
+  ['transform_14',['Transform',['../structcore_1_1Transform.html',1,'core']]],
+  ['triggerweight_15',['TriggerWeight',['../structcore_1_1TriggerWeight.html',1,'core']]],
+  ['typographylevel_16',['TypographyLevel',['../structhmi_1_1TypographyLevel.html',1,'hmi']]],
+  ['typographytokens_17',['TypographyTokens',['../structhmi_1_1TypographyTokens.html',1,'hmi']]]
 ];

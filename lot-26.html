@@ -96,10 +96,10 @@ $(function(){initNavTree('lot-26.html','',''); });
 <blockquote class="doxtable">
 <p>Statut : <b>à faire</b>. Prérequis : <a class="el" href="lot-14.html" title="LOT-14 — Inventaire et équipement">LOT-14</a>, <a class="el" href="lot-15.html" title="LOT-15 — PNJ et dialogues">LOT-15</a>. </p>
 </blockquote>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md501"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md502"></a>
 Objectif</h1>
 <p>Boucler la boucle économique : gagner du butin, le vendre, acheter mieux.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md502"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md503"></a>
 Périmètre</h1>
 <ul>
 <li><span class="tt">Source/Core/Rpg/LootTable.{h,cpp}</span> : tables de butin en <b>JSON</b>, tirées avec le hasard déterministe du <span class="tt">LOT-12</span> — un coffre rouvert après rechargement de sauvegarde doit donner le <b>même</b> contenu, sinon le joueur peut relancer jusqu'au bon tirage.</li>
@@ -107,13 +107,13 @@ Périmètre</h1>
 <li><span class="tt">Shop.{h,cpp}</span> : achat, vente, marge du marchand, stock.</li>
 <li>IHM marchand, sur le système de design existant.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md503"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md504"></a>
 Le piège du tirage</h1>
 <p>Un butin tiré au moment de l'ouverture, avec une graine liée à l'instant, se re-tire différemment à chaque chargement de sauvegarde. La graine doit dériver de l'<b>identité du coffre</b> et de l'état de la partie, pas de l'horloge — <span class="tt">deriveSeed(baseSeed, step, entityId)</span> existe pour cela.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md504"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md505"></a>
 Exigences couvertes</h1>
 <p><span class="tt">EX-RPG-*</span>, <span class="tt">EX-INV-*</span>.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md505"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md506"></a>
 Critères d'acceptation</h1>
 <ul>
 <li>Un coffre donne le <b>même</b> butin après sauvegarde et rechargement.</li>

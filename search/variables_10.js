@@ -52,9 +52,10 @@ var searchData=
   ['player_5fwidth_49',['PLAYER_WIDTH',['../namespacecore.html#a841ea8f763991419331d87ffd89758a0',1,'core']]],
   ['points_50',['points',['../structhmi_1_1IconStroke.html#afef4c697431fee96fac7cf5653146228',1,'hmi::IconStroke']]],
   ['pointsize_51',['pointSize',['../structhmi_1_1TypographyLevel.html#a97b1f662877b54dc7eb22c8dec9f51d1',1,'hmi::TypographyLevel']]],
-  ['position_52',['position',['../structcore_1_1Particle.html#a4a1e501affd688369653dff8ad9afec1',1,'core::Particle::position'],['../structcore_1_1Transform.html#a95083539c843b0577d8f8c324c4e6b27',1,'core::Transform::position'],['../structcore_1_1TileTextureOverride.html#a03a135f3977d8006b699cb8e352af176',1,'core::TileTextureOverride::position'],['../structcore_1_1Rect.html#aa80907b79b8c68b4b6cb2ad6600ff1d3',1,'core::Rect::position'],['../structcore_1_1SweepResult.html#a9f874ecc7effce266633af49e4da07f0',1,'core::SweepResult::position']]],
+  ['position_52',['position',['../structcore_1_1Particle.html#a4a1e501affd688369653dff8ad9afec1',1,'core::Particle::position'],['../structcore_1_1Transform.html#a95083539c843b0577d8f8c324c4e6b27',1,'core::Transform::position'],['../structcore_1_1TileTextureOverride.html#a03a135f3977d8006b699cb8e352af176',1,'core::TileTextureOverride::position'],['../structcore_1_1MapEntity.html#a3e295d3994994b3a15733b8377a25695',1,'core::MapEntity::position'],['../structcore_1_1Rect.html#aa80907b79b8c68b4b6cb2ad6600ff1d3',1,'core::Rect::position'],['../structcore_1_1SweepResult.html#a9f874ecc7effce266633af49e4da07f0',1,'core::SweepResult::position']]],
   ['previousactive_53',['previousActive',['../structhmi_1_1MechanismVisualState.html#a638ee6429d408f4770bf09dcc712611c',1,'hmi::MechanismVisualState']]],
-  ['pushmomentumvelocityx_54',['pushMomentumVelocityX',['../structcore_1_1Player.html#a14d968f4c041f1671557db26a08a425c',1,'core::Player']]],
-  ['pushmomentumwindowtime_55',['pushMomentumWindowTime',['../structcore_1_1PhysicsConfig.html#a8bce708b0e3cf525d14827731eea05ba',1,'core::PhysicsConfig']]],
-  ['pushmomentumwindowtimer_56',['pushMomentumWindowTimer',['../structcore_1_1Player.html#a9c10c5fffe679f41e3b266f9668ce37d',1,'core::Player']]]
+  ['properties_54',['properties',['../structcore_1_1MapEntity.html#a8e85ab253ba2e9b4e70fcdce5e1bff0f',1,'core::MapEntity::properties'],['../structcore_1_1TileLayer.html#acfa350d1bf9ee7cf8495b4cd760224cb',1,'core::TileLayer::properties']]],
+  ['pushmomentumvelocityx_55',['pushMomentumVelocityX',['../structcore_1_1Player.html#a14d968f4c041f1671557db26a08a425c',1,'core::Player']]],
+  ['pushmomentumwindowtime_56',['pushMomentumWindowTime',['../structcore_1_1PhysicsConfig.html#a8bce708b0e3cf525d14827731eea05ba',1,'core::PhysicsConfig']]],
+  ['pushmomentumwindowtimer_57',['pushMomentumWindowTimer',['../structcore_1_1Player.html#a9c10c5fffe679f41e3b266f9668ce37d',1,'core::Player']]]
 ];

@@ -96,11 +96,11 @@ $(function(){initNavTree('lot-22.html','',''); });
 <blockquote class="doxtable">
 <p>Statut : <b>à faire</b>. Prérequis : <a class="el" href="lot-19.html" title="LOT-19 — Grille tactique et déplacement">LOT-19</a>. </p>
 </blockquote>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md480"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md481"></a>
 Objectif</h1>
 <p>Rendre la <b>géométrie</b> tactique signifiante : portée d'arme, ligne de vue bloquée, couverture, gabarits d'effet de zone.</p>
 <p>C'est ce lot qui fait qu'un combat se joue avec le terrain plutôt que sur une grille vide.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md481"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md482"></a>
 Périmètre</h1>
 <ul>
 <li><span class="tt">Source/Core/Combat/LineOfSight.{h,cpp}</span> : tracé sur grille, obstacles issus de la <b>couche collision</b> du format v3 (<span class="tt">LOT-04</span>).</li>
@@ -108,14 +108,14 @@ Périmètre</h1>
 <li><span class="tt">AreaOfEffect.{h,cpp}</span> : gabarits cercle, cône, ligne, carré — à l'échelle 1 case = 1,5 m figée au <span class="tt">LOT-12</span>.</li>
 <li>Portée d'arme et portée de sort, distinguées de la portée de déplacement.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md482"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md483"></a>
 L'invariant à tester exhaustivement</h1>
 <p><b>La ligne de vue doit être symétrique</b> : A voit B si et seulement si B voit A. C'est le défaut classique des tracés sur grille — un algorithme qui part de A et s'arrête au premier obstacle ne donne pas le même résultat en partant de B, et le joueur découvre qu'il peut tirer sur un ennemi qui ne peut pas riposter (ou l'inverse, plus rageant encore).</p>
 <p>À vérifier <b>exhaustivement sur des grilles générées</b>, pas sur trois cas choisis à la main.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md483"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md484"></a>
 Exigences couvertes</h1>
 <p><span class="tt">EX-CBT-*</span> (portée, ligne de vue, couverture, gabarits).</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md484"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md485"></a>
 Critères d'acceptation</h1>
 <ul>
 <li><b>Symétrie de la ligne de vue</b> vérifiée exhaustivement sur des grilles générées.</li>

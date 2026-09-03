@@ -13,7 +13,7 @@ var searchData=
   ['tile_5fsize_10',['TILE_SIZE',['../classhmi_1_1TextureAtlas.html#aacbd0307d4440f04585dee673ca56d9d',1,'hmi::TextureAtlas']]],
   ['tile_5ftype_5fcount_11',['TILE_TYPE_COUNT',['../namespacecore.html#a319e1d0258052359525fdc83ee93f269',1,'core']]],
   ['tilemap_12',['tileMap',['../structcore_1_1LevelData.html#ae394a3e921bbab58997043053a45243a',1,'core::LevelData::tileMap'],['../structcore_1_1LevelDraft_1_1State.html#afd392763e413940714ac59e7c018de81',1,'core::LevelDraft::State::tileMap']]],
-  ['tiles_13',['tiles',['../structhmi_1_1TileSubgroup.html#a41e2b5829f2be32eeaad48f55c9328c1',1,'hmi::TileSubgroup::tiles'],['../structhmi_1_1TileCategory.html#a4f6967f841fb6308c9655978ac7898e5',1,'hmi::TileCategory::tiles']]],
+  ['tiles_13',['tiles',['../structcore_1_1TileLayer.html#ab632f9e0fcafeef0e05bd583a8dbefcd',1,'core::TileLayer::tiles'],['../structhmi_1_1TileSubgroup.html#a41e2b5829f2be32eeaad48f55c9328c1',1,'hmi::TileSubgroup::tiles'],['../structhmi_1_1TileCategory.html#a4f6967f841fb6308c9655978ac7898e5',1,'hmi::TileCategory::tiles']]],
   ['tiles_5fper_5fside_14',['TILES_PER_SIDE',['../classhmi_1_1TextureAtlas.html#af4e63cbf4c417709c3a22399de752c67',1,'hmi::TextureAtlas']]],
   ['tiletype_15',['tileType',['../structhmi_1_1PendingLink.html#a19ae36a60be74045f0475f3e6fd8cbe0',1,'hmi::PendingLink']]],
   ['tint_16',['tint',['../structcore_1_1Sprite.html#aa14509186966df68f09f59dfda0e2318',1,'core::Sprite']]],
@@ -22,7 +22,7 @@ var searchData=
   ['toolbar_5fcommand_5fbudget_19',['TOOLBAR_COMMAND_BUDGET',['../namespacehmi.html#a5ebc32fedafb3df6472a578a8faf7596',1,'hmi']]],
   ['toolbarvisible_20',['toolBarVisible',['../structhmi_1_1ScreenDressing.html#aa4b3bb237b2f0c4c94e1cf7457eb9ba7',1,'hmi::ScreenDressing']]],
   ['trigger_21',['trigger',['../structhmi_1_1LinkRow.html#a93d02effe5cbd921e51baa5b4700076a',1,'hmi::LinkRow']]],
-  ['type_22',['type',['../structhmi_1_1MechanismAnimationRow.html#a40938cd8c8ca322f13335109639fda81',1,'hmi::MechanismAnimationRow::type'],['../structhmi_1_1SkinRow.html#aab2e46edc96113bb33a3e70e451507e1',1,'hmi::SkinRow::type'],['../structhmi_1_1TileEntry.html#a9c1d5d345916c39548749b802bd7deb9',1,'hmi::TileEntry::type'],['../structhmi_1_1TileSkinTag.html#af27ab75e03393c0fd46707ed7306232d',1,'hmi::TileSkinTag::type']]],
+  ['type_22',['type',['../structcore_1_1MapEntity.html#a0585fa6522c09d42c879ed8bd9c32550',1,'core::MapEntity::type'],['../structhmi_1_1MechanismAnimationRow.html#a40938cd8c8ca322f13335109639fda81',1,'hmi::MechanismAnimationRow::type'],['../structhmi_1_1SkinRow.html#aab2e46edc96113bb33a3e70e451507e1',1,'hmi::SkinRow::type'],['../structhmi_1_1TileEntry.html#a9c1d5d345916c39548749b802bd7deb9',1,'hmi::TileEntry::type'],['../structhmi_1_1TileSkinTag.html#af27ab75e03393c0fd46707ed7306232d',1,'hmi::TileSkinTag::type']]],
   ['typelabel_23',['typeLabel',['../structhmi_1_1MechanismAnimationRow.html#ae46764178a55be9dd1ba03002ce4efdc',1,'hmi::MechanismAnimationRow::typeLabel'],['../structhmi_1_1SkinRow.html#a770046b5c0e30e8b55f7f69705d8dde4',1,'hmi::SkinRow::typeLabel']]],
   ['typename_24',['typeName',['../structhmi_1_1AssetReference.html#a636c024ee797ff2d5a226207884b7845',1,'hmi::AssetReference']]],
   ['typography_25',['typography',['../structhmi_1_1DesignTokens.html#afcae229bb7d27beb197c18bb50b31be0',1,'hmi::DesignTokens']]]

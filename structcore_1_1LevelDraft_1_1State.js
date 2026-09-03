@@ -2,8 +2,10 @@ var structcore_1_1LevelDraft_1_1State =
 [
     [ "background", "structcore_1_1LevelDraft_1_1State.html#a16b9838d49f1c786323a5ae999daf0e1", null ],
     [ "cameraFraming", "structcore_1_1LevelDraft_1_1State.html#ab567ae70615b4bcf67fb55eb91410032", null ],
+    [ "entities", "structcore_1_1LevelDraft_1_1State.html#a367497155208760031726dd7562df0ed", null ],
     [ "entry", "structcore_1_1LevelDraft_1_1State.html#af146bc5caa96d02bffedd3dbac8a4416", null ],
     [ "exit", "structcore_1_1LevelDraft_1_1State.html#a0c8bf71167d1fc600f3c454fc230c768", null ],
+    [ "layers", "structcore_1_1LevelDraft_1_1State.html#a09352d444a7a0a4a7150a20777fcbf9c", null ],
     [ "mechanisms", "structcore_1_1LevelDraft_1_1State.html#a569e0485b72f648b9dddadbd167e106d", null ],
     [ "name", "structcore_1_1LevelDraft_1_1State.html#a1e45126155b556533c0115da845a20c4", null ],
     [ "parallaxEnabled", "structcore_1_1LevelDraft_1_1State.html#adf8eea5799ed2f17ab9d6b684f812c3b", null ],

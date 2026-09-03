@@ -103,7 +103,11 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a74f693819cc222aa9748bd56f697e7e6" id="r_a74f693819cc222aa9748bd56f697e7e6"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a74f693819cc222aa9748bd56f697e7e6">name</a></td></tr>
 <tr class="memdesc:a74f693819cc222aa9748bd56f697e7e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nom du niveau.  <br /></td></tr>
 <tr class="memitem:ae394a3e921bbab58997043053a45243a" id="r_ae394a3e921bbab58997043053a45243a"><td class="memItemLeft"><a class="el" href="classcore_1_1TileMap.html">TileMap</a>&#160;</td><td class="memItemRight"><a class="el" href="#ae394a3e921bbab58997043053a45243a">tileMap</a></td></tr>
-<tr class="memdesc:ae394a3e921bbab58997043053a45243a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Grille de tuiles typées. Sans défaut : voir la note ci-dessus.  <br /></td></tr>
+<tr class="memdesc:ae394a3e921bbab58997043053a45243a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Grille de tuiles typées.  <br /></td></tr>
+<tr class="memitem:a346a7cadd4d3753fa7e86a323db66a1f" id="r_a346a7cadd4d3753fa7e86a323db66a1f"><td class="memItemLeft">std::vector&lt; <a class="el" href="structcore_1_1TileLayer.html">TileLayer</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a346a7cadd4d3753fa7e86a323db66a1f">layers</a></td></tr>
+<tr class="memdesc:a346a7cadd4d3753fa7e86a323db66a1f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Couches de tuiles de la carte (<span class="tt">LOT-04</span>), dans leur ordre de superposition.  <br /></td></tr>
+<tr class="memitem:a679608c27b5699b0bfe03ef7a97788cf" id="r_a679608c27b5699b0bfe03ef7a97788cf"><td class="memItemLeft">std::vector&lt; <a class="el" href="structcore_1_1MapEntity.html">MapEntity</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a679608c27b5699b0bfe03ef7a97788cf">entities</a></td></tr>
+<tr class="memdesc:a679608c27b5699b0bfe03ef7a97788cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Entités placées sur la carte (<span class="tt">LOT-04</span>) : PNJ, coffres, panneaux, portails, déclencheurs.  <br /></td></tr>
 <tr class="memitem:aae5be5bb53eeb5dc8b02e00fd7af431f" id="r_aae5be5bb53eeb5dc8b02e00fd7af431f"><td class="memItemLeft"><a class="el" href="structcore_1_1GridPosition.html">GridPosition</a>&#160;</td><td class="memItemRight"><a class="el" href="#aae5be5bb53eeb5dc8b02e00fd7af431f">entry</a> {}</td></tr>
 <tr class="memdesc:aae5be5bb53eeb5dc8b02e00fd7af431f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Position d'apparition (case <span class="tt">Entry</span>).  <br /></td></tr>
 <tr class="memitem:a4de7478d6d6835f1024213a54f75cff2" id="r_a4de7478d6d6835f1024213a54f75cff2"><td class="memItemLeft"><a class="el" href="structcore_1_1GridPosition.html">GridPosition</a>&#160;</td><td class="memItemRight"><a class="el" href="#a4de7478d6d6835f1024213a54f75cff2">exit</a> {}</td></tr>
@@ -132,9 +136,9 @@ Public Attributes</h2></td></tr>
 <div class="line">                                  .tileMap = std::move(map),</div>
 <div class="line">                                  .entry = entryPosition,</div>
 <div class="line">                                  .exit = exitPosition});</div>
-<div class="ttc" id="aclasscore_1_1Level_html"><div class="ttname"><a href="classcore_1_1Level.html">core::Level</a></div><div class="ttdef"><b>Definition</b> Level.h:107</div></div>
-<div class="ttc" id="astructcore_1_1LevelData_html"><div class="ttname"><a href="structcore_1_1LevelData.html">core::LevelData</a></div><div class="ttdoc">Niveau complet en mémoire : nom, grille de tuiles, entrée/sortie et mécanismes.</div><div class="ttdef"><b>Definition</b> Level.h:78</div></div>
-</div><!-- fragment --><dl class="section note"><dt>Note</dt><dd><span class="tt"><a class="el" href="#ae394a3e921bbab58997043053a45243a" title="Grille de tuiles typées. Sans défaut : voir la note ci-dessus.">tileMap</a></span> n'a <b>volontairement</b> pas de valeur par défaut : <span class="tt"><a class="el" href="classcore_1_1TileMap.html" title="Grille dense de tuiles typées (EX-GP-001), origine haut-gauche.">core::TileMap</a></span> n'est pas constructible par défaut, si bien que l'omettre est une <b>erreur de compilation</b> et non une grille vide silencieuse. Tous les autres champs ont un défaut utile. </dd></dl>
+<div class="ttc" id="aclasscore_1_1Level_html"><div class="ttname"><a href="classcore_1_1Level.html">core::Level</a></div><div class="ttdef"><b>Definition</b> Level.h:125</div></div>
+<div class="ttc" id="astructcore_1_1LevelData_html"><div class="ttname"><a href="structcore_1_1LevelData.html">core::LevelData</a></div><div class="ttdoc">Niveau complet en mémoire : nom, grille de tuiles, entrée/sortie et mécanismes.</div><div class="ttdef"><b>Definition</b> Level.h:80</div></div>
+</div><!-- fragment --><dl class="section note"><dt>Note</dt><dd><span class="tt"><a class="el" href="#ae394a3e921bbab58997043053a45243a" title="Grille de tuiles typées.">tileMap</a></span> n'a <b>volontairement</b> pas de valeur par défaut : <span class="tt"><a class="el" href="classcore_1_1TileMap.html" title="Grille dense de tuiles typées (EX-GP-001), origine haut-gauche.">core::TileMap</a></span> n'est pas constructible par défaut, si bien que l'omettre est une <b>erreur de compilation</b> et non une grille vide silencieuse. Tous les autres champs ont un défaut utile. </dd></dl>
 </div><a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Member Data Documentation</h2>
 <a id="a40c9d52e5bbfda271c8aaa17f158cde5" name="a40c9d52e5bbfda271c8aaa17f158cde5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a40c9d52e5bbfda271c8aaa17f158cde5">&#9670;&#160;</a></span>background</h2>
@@ -170,6 +174,22 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a679608c27b5699b0bfe03ef7a97788cf" name="a679608c27b5699b0bfe03ef7a97788cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a679608c27b5699b0bfe03ef7a97788cf">&#9670;&#160;</a></span>entities</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;<a class="el" href="structcore_1_1MapEntity.html">MapEntity</a>&gt; core::LevelData::entities</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Entités placées sur la carte (<span class="tt">LOT-04</span>) : PNJ, coffres, panneaux, portails, déclencheurs. </p>
+
+</div>
+</div>
 <a id="aae5be5bb53eeb5dc8b02e00fd7af431f" name="aae5be5bb53eeb5dc8b02e00fd7af431f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aae5be5bb53eeb5dc8b02e00fd7af431f">&#9670;&#160;</a></span>entry</h2>
 
@@ -199,6 +219,23 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Position de sortie (case <span class="tt">Exit</span>). </p>
+
+</div>
+</div>
+<a id="a346a7cadd4d3753fa7e86a323db66a1f" name="a346a7cadd4d3753fa7e86a323db66a1f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a346a7cadd4d3753fa7e86a323db66a1f">&#9670;&#160;</a></span>layers</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;<a class="el" href="structcore_1_1TileLayer.html">TileLayer</a>&gt; core::LevelData::layers</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Couches de tuiles de la carte (<span class="tt">LOT-04</span>), dans leur ordre de superposition. </p>
+<p>La <b>première</b> est <span class="tt"><a class="el" href="#ae394a3e921bbab58997043053a45243a" title="Grille de tuiles typées.">tileMap</a></span> ci-dessus, promue par le chargeur : de rôle <span class="tt">Collision</span> quand la carte déclare des couches visibles, <span class="tt">Legacy</span> quand elle n'en déclare aucune (une grille plate <span class="tt">version: 2</span>, qui vaut alors décor <b>et</b> collision). Un consommateur boucle donc sur <span class="tt"><a class="el" href="#a346a7cadd4d3753fa7e86a323db66a1f" title="Couches de tuiles de la carte (LOT-04), dans leur ordre de superposition.">layers</a></span> sans cas particulier. Vide seulement pour un <span class="tt"><a class="el" href="classcore_1_1Level.html">Level</a></span> construit <b>directement</b>, sans passer par le chargeur — le rendu retombe alors sur <span class="tt"><a class="el" href="#ae394a3e921bbab58997043053a45243a" title="Grille de tuiles typées.">tileMap</a></span>. </p>
 
 </div>
 </div>
@@ -310,7 +347,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Grille de tuiles typées. Sans défaut : voir la note ci-dessus. </p>
+<p>Grille de tuiles typées. </p>
+<p>Sans défaut : voir la note ci-dessus.</p>
+<p>C'est la grille de <b>collision</b> de la carte — celle que consomment le balayage AABB et, au <span class="tt">LOT-19</span>, la grille de combat tactique — et elle porte aussi l'entrée, la sortie et les cases de mécanismes. Le format ne connaît qu'elle sur ce point : une couche <span class="tt">collision</span> déclarée à côté est refusée au chargement, précisément pour qu'il n'existe jamais deux grilles à tenir d'accord (<span class="tt">EX-LVL-016</span>). </p>
 
 </div>
 </div>
