@@ -6,6 +6,24 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **Modes de jeu : l'ordre des passes sort de la session** (`LOT-05`). `hmi::GameSession` mêlait
+  deux rôles — **orchestrateur** du pas fixe (monde ECS, caméra, événements, HUD, `FixedTimestep`,
+  interpolation) et **mode de jeu** (l'ordre des passes lui-même). Tant qu'il n'y avait qu'un genre,
+  la confusion ne coûtait rien ; le RPG a besoin d'au moins trois ordres — exploration, dialogue
+  (`LOT-15`), combat (`LOT-18`) — qui se seraient entassés en `if` dans une fonction déjà longue.
+  - `hmi::IGameModePasses` nomme les onze passes d'un pas fixe ; `hmi::IGameMode` les enchaîne.
+    `GameSession` **implémente** les passes (héritage privé : elles sont offertes au mode, pas à
+    l'appelant) et son `update()` ne fait plus que déléguer — aucun ordre codé en dur, aucun
+    `if (mode == …)`, la sélection est polymorphe (`EX-ARCH-002`).
+  - `hmi::ExplorationMode` est le premier mode, extrait **à comportement constant** du corps de
+    `GameSession::update`. Aucune fonctionnalité ajoutée : mélanger un refactoring et une nouveauté
+    ici aurait rendu indécidable lequel des deux avait cassé quoi.
+  - L'interface des passes ne parle que de `core::` — pas de Qt, pas de GPU. C'est ce qui rend un
+    mode **testable sans fenêtre**, quand `GameSession` exige un atlas, un lot de sprites et une
+    police : le mode se vérifie contre des passes qui **enregistrent** la séquence des appels.
+    `passOrder()` en fait une documentation exécutable, comparée à la séquence réelle par un test
+    — un ordre modifié sans mettre la liste à jour échoue au lieu de mentir aux diagnostics.
+
 - **Format de carte `version: 3` : couches, entités, propriétés libres** (`LOT-04`). Une carte
   n'est plus une grille plate unique mais **N couches typées** — sol, décor — superposées à la
   grille de collision, plus une **liste d'entités** (PNJ, coffres, panneaux, portails,

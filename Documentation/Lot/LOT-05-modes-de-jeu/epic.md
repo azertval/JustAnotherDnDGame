@@ -1,6 +1,7 @@
 # LOT-05 — Modes de jeu {#lot-05}
 
-> Statut : **à faire**.
+> Statut : **fait** (vérification automatisée : build `/W4 /WX` sans avertissement, `ctest`
+> à 919/919, lint d'exigences, cahier de test, Doxygen et `clang-format` verts).
 > Prérequis : [LOT-02](@ref lot-02), [LOT-04](@ref lot-04).
 
 ## Objectif
@@ -51,3 +52,27 @@ l'orchestrateur ».
 - Extraction à comportement **identique**, prouvée par le test de rejeu déterministe.
 - Les tests de `GameSession` passent **sans modification de leur corps**.
 - Aucun `if (mode == …)` résiduel dans `GameSession` : la sélection se fait par polymorphisme.
+
+## Ce que la réalisation a tranché
+
+**Les passes sont une interface, pas des paramètres.** L'epic esquissait
+`step(World&, const PlayerInput&, float)`. Un `World` ne suffit pas : les passes touchent la
+caméra, les particules, la secousse d'écran, les mécanismes, la détection d'événements — tout ce
+que l'orchestrateur **garde**, par décision du périmètre. Le mode reçoit donc `IGameModePasses`,
+que `GameSession` implémente par héritage **privé** : les passes sont offertes au mode, jamais à
+l'appelant de la session, dont l'API publique ne bouge pas d'une ligne.
+
+**Le test de rejeu déterministe porte sur la séquence des passes, pas sur des positions.** Le
+critère de l'epic demandait « mêmes entrées, mêmes positions au flottant près sur 600 pas ». Deux
+obstacles : `GameSession` exige un atlas, un lot de sprites et une police — impossible à instancier
+sans fenêtre, et aucun test ne l'instancie aujourd'hui ; et le personnage **ne se déplace pas
+encore** (le contrôleur top-down arrive au `LOT-06`), si bien que des positions constantes ne
+prouveraient rien. Ce que l'extraction doit garantir, c'est que l'ordre des passes n'a pas changé —
+et c'est vérifiable exactement, sur 600 pas, contre des passes qui enregistrent leurs appels. Le
+mode annonce son ordre (`passOrder()`, pour les diagnostics) et un test le compare à la séquence
+réellement appelée : la documentation ne peut plus diverger du code sans faire échouer la CI.
+
+**La boîte du personnage est relue par chaque passe qui en a besoin**, plutôt que calculée une fois
+et passée de l'une à l'autre. Aucune passe intercalée ne déplace le personnage — le résultat est
+identique — et un état partagé de plus entre passes aurait rendu leur ordre difficile à changer :
+précisément ce que ce lot cherche à rendre facile.

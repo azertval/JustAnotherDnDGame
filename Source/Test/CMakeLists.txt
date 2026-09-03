@@ -87,6 +87,7 @@ add_executable(UnitTests
     Unit/HMI/Game/test_game_hud.cpp
     Unit/HMI/Game/test_diagnostics_hud.cpp
     Unit/HMI/Game/test_progression.cpp
+    Unit/HMI/Game/test_game_mode.cpp
     Unit/HMI/Game/test_game_events.cpp
     Unit/HMI/Game/test_level_run_stats.cpp
     Unit/HMI/Audio/test_sound_triggers.cpp
