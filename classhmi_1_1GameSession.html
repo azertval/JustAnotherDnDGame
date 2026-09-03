@@ -206,6 +206,8 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:acc0e74d080c43350649b3580a5d574ec" id="r_acc0e74d080c43350649b3580a5d574ec"><td class="memItemLeft">std::vector&lt; <a class="el" href="structcore_1_1Entity.html">core::Entity</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#acc0e74d080c43350649b3580a5d574ec">_switchEntities</a></td></tr>
 <tr class="memdesc:acc0e74d080c43350649b3580a5d574ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Entité-tuile du déclencheur (interrupteur/plaque de pression) de chaque mécanisme, même ordre que <span class="tt"><a class="el" href="#ae86ee3a6eb41ee50f77652c6ba24a8cb">_doorEntities</a></span> (<span class="tt">LOT-47</span> : le déclencheur change aussi d'apparence, plus seulement la porte qu'il actionne).  <br /></td></tr>
 <tr class="memitem:a569da45ea0b788515624b18e06d3d46e" id="r_a569da45ea0b788515624b18e06d3d46e"><td class="memItemLeft"><a class="el" href="classcore_1_1AnimationSystem.html">core::AnimationSystem</a>&#160;</td><td class="memItemRight"><a class="el" href="#a569da45ea0b788515624b18e06d3d46e">_animation</a></td></tr>
+<tr class="memitem:a96e9c72fa0fcc16adfdc01d5a57b4b6b" id="r_a96e9c72fa0fcc16adfdc01d5a57b4b6b"><td class="memItemLeft"><a class="el" href="structcore_1_1TopDownConfig.html">core::TopDownConfig</a>&#160;</td><td class="memItemRight"><a class="el" href="#a96e9c72fa0fcc16adfdc01d5a57b4b6b">_movementConfig</a></td></tr>
+<tr class="memdesc:a96e9c72fa0fcc16adfdc01d5a57b4b6b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Réglages du déplacement en vue de dessus (<span class="tt">LOT-06</span>) : valeurs par défaut, une par session.  <br /></td></tr>
 <tr class="memitem:aeea433d545cbb7bce04fe2b9f26b9531" id="r_aeea433d545cbb7bce04fe2b9f26b9531"><td class="memItemLeft"><a class="el" href="classcore_1_1ParticleSystem.html">core::ParticleSystem</a>&#160;</td><td class="memItemRight"><a class="el" href="#aeea433d545cbb7bce04fe2b9f26b9531">_particles</a></td></tr>
 <tr class="memdesc:aeea433d545cbb7bce04fe2b9f26b9531"><td class="mdescLeft">&#160;</td><td class="mdescRight">Particules du personnage (dash, atterrissage, mort ; <span class="tt">LOT-53</span> TACHE-02) : simulées au pas fixe, vidées à chaque (re)chargement (<span class="tt"><a class="el" href="#a64603ed7de0dfef91052394d9e59b9a0">loadLevel</a></span>) comme le reste de l'état de session.  <br /></td></tr>
 <tr class="memitem:aeead5d48e53ad19a1e692da8f44dc2c1" id="r_aeead5d48e53ad19a1e692da8f44dc2c1"><td class="memItemLeft"><a class="el" href="structhmi_1_1ScreenShakeState.html">ScreenShakeState</a>&#160;</td><td class="memItemRight"><a class="el" href="#aeead5d48e53ad19a1e692da8f44dc2c1">_screenShake</a></td></tr>
@@ -239,7 +241,6 @@ Private Attributes</h2></td></tr>
 <tr class="memdesc:a26dc0fafe6519dee52b2e27800ae82f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Couples (asset, clip attendu) deja signales comme manquants : un seul message par combinaison pour toute la session, meme principe que _warnedExcludedAnimations (LOT-47 TACHE-02).  <br /></td></tr>
 <tr class="memitem:a45a928494a983e1b50e793f5fdb492eb" id="r_a45a928494a983e1b50e793f5fdb492eb"><td class="memItemLeft">std::unique_ptr&lt; <a class="el" href="classhmi_1_1IGameMode.html">IGameMode</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a45a928494a983e1b50e793f5fdb492eb">_mode</a></td></tr>
 <tr class="memdesc:a45a928494a983e1b50e793f5fdb492eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mode de jeu courant (<span class="tt">LOT-05</span>) : l'ordre des passes du pas fixe.  <br /></td></tr>
-<tr class="memitem:a23e693840e957120d54a6ea3aa94038c" id="r_a23e693840e957120d54a6ea3aa94038c"><td class="memItemLeft"><a class="el" href="structhmi_1_1PlayerEventState.html">PlayerEventState</a>&#160;</td><td class="memItemRight"><a class="el" href="#a23e693840e957120d54a6ea3aa94038c">_previousPlayerEventState</a></td></tr>
 <tr class="memitem:ada6626ae59a6387c4d59672fbba2706a" id="r_ada6626ae59a6387c4d59672fbba2706a"><td class="memItemLeft"><a class="el" href="structhmi_1_1MechanismEventState.html">MechanismEventState</a>&#160;</td><td class="memItemRight"><a class="el" href="#ada6626ae59a6387c4d59672fbba2706a">_previousMechanismEventState</a></td></tr>
 <tr class="memitem:a79cd31590d71f5dade80a94be25eb357" id="r_a79cd31590d71f5dade80a94be25eb357"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a79cd31590d71f5dade80a94be25eb357">_gameEventsInitialized</a> = false</td></tr>
 <tr class="memitem:a70365096677c1ede265ae6bf72fcbdf0" id="r_a70365096677c1ede265ae6bf72fcbdf0"><td class="memItemLeft">std::vector&lt; <a class="el" href="namespacehmi.html#a3a61aed1c8e95c289c829398d48488de">GameEvent</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a70365096677c1ede265ae6bf72fcbdf0">_lastStepEvents</a></td></tr>
@@ -2024,6 +2025,31 @@ lastScene</span>, <span class="tt">EX-NFR-005</span>) : composées, écartées, 
 
 </div>
 </div>
+<a id="a96e9c72fa0fcc16adfdc01d5a57b4b6b" name="a96e9c72fa0fcc16adfdc01d5a57b4b6b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a96e9c72fa0fcc16adfdc01d5a57b4b6b">&#9670;&#160;</a></span>_movementConfig</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structcore_1_1TopDownConfig.html">core::TopDownConfig</a> hmi::GameSession::_movementConfig</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Réglages du déplacement en vue de dessus (<span class="tt">LOT-06</span>) : valeurs par défaut, une par session. </p>
+<p>Un jour réglables par tableau, comme le cadrage de caméra l'est depuis le <span class="tt">LOT-64</span>. </p>
+
+</div>
+</div>
 <a id="aeea433d545cbb7bce04fe2b9f26b9531" name="aeea433d545cbb7bce04fe2b9f26b9531"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aeea433d545cbb7bce04fe2b9f26b9531">&#9670;&#160;</a></span>_particles</h2>
 
@@ -2105,28 +2131,6 @@ lastScene</span>, <span class="tt">EX-NFR-005</span>) : composées, écartées, 
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="structhmi_1_1MechanismEventState.html">MechanismEventState</a> hmi::GameSession::_previousMechanismEventState</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a23e693840e957120d54a6ea3aa94038c" name="a23e693840e957120d54a6ea3aa94038c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a23e693840e957120d54a6ea3aa94038c">&#9670;&#160;</a></span>_previousPlayerEventState</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="structhmi_1_1PlayerEventState.html">PlayerEventState</a> hmi::GameSession::_previousPlayerEventState</td>
         </tr>
       </table>
   </td>

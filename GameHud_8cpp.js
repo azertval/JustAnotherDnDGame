@@ -1,4 +1,4 @@
 var GameHud_8cpp =
 [
-    [ "hmi::gameHudLines", "namespacehmi.html#a03f731727d8be34206fa2313dad908ab", null ]
+    [ "hmi::gameHudLines", "namespacehmi.html#a588a6cab9c35f77c19c1f0e3a5ee6d20", null ]
 ];

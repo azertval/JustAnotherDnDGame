@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['facing_0',['facing',['../structcore_1_1Player.html#a485438ac4030c8edf6f84c214a1a1e69',1,'core::Player']]],
+  ['facing_0',['facing',['../structcore_1_1Actor.html#ada4c84a898de6c67b5d303ad876b61a0',1,'core::Actor']]],
   ['falldragcoefficient_1',['fallDragCoefficient',['../structcore_1_1PhysicsConfig.html#ad25df5ec421bb0425ed733998852678e',1,'core::PhysicsConfig']]],
   ['fallgravitymultiplier_2',['fallGravityMultiplier',['../structcore_1_1PhysicsConfig.html#a1d917394883028f145c989fd268e876c',1,'core::PhysicsConfig']]],
   ['family_3',['family',['../structhmi_1_1TypographyTokens.html#a1c83eccd644f3cb355dd7836df3dbd91',1,'hmi::TypographyTokens']]],
@@ -25,5 +25,6 @@ var searchData=
   ['frames_22',['frames',['../structcore_1_1AnimationClip.html#a4d3c673e04630c780aeceb031707a127',1,'core::AnimationClip']]],
   ['framespersecond_23',['framesPerSecond',['../structhmi_1_1DiagnosticsMeasurements.html#aa4012ca819a87e7db6625662fdde6438',1,'hmi::DiagnosticsMeasurements']]],
   ['framethickness_24',['frameThickness',['../structhmi_1_1IdentityBaseScale.html#a6363a5795e414ce3656600f895a3dc8f',1,'hmi::IdentityBaseScale']]],
-  ['framewidth_25',['frameWidth',['../structhmi_1_1AnimationDescription.html#a18d25eef98c2ac2863e7d87b35bd4909',1,'hmi::AnimationDescription']]]
+  ['framewidth_25',['frameWidth',['../structhmi_1_1AnimationDescription.html#a18d25eef98c2ac2863e7d87b35bd4909',1,'hmi::AnimationDescription']]],
+  ['friction_26',['friction',['../structcore_1_1TopDownConfig.html#a9e2e50352dbca429a850410f1db3a7c9',1,'core::TopDownConfig']]]
 ];

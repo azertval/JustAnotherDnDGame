@@ -2,7 +2,7 @@ var searchData=
 [
   ['masked_0',['masked',['../structhmi_1_1PaletteThumbnail.html#a28b1d774c762f73a1a2262df902fbe31',1,'hmi::PaletteThumbnail']]],
   ['masktype_1',['maskType',['../structhmi_1_1SkinTexture.html#a52949dad5cfdd031da569d404faaa458',1,'hmi::SkinTexture']]],
-  ['mass_2',['mass',['../structcore_1_1Player.html#a1cdc8a540dc2c37ec5413e40afdac7f6',1,'core::Player::mass'],['../structcore_1_1TriggerWeight.html#ad9218afee67e67972af3efef1550191b',1,'core::TriggerWeight::mass']]],
+  ['mass_2',['mass',['../structcore_1_1Actor.html#af63f6f6c717aecf37f3b396f768cb2d9',1,'core::Actor::mass'],['../structcore_1_1TriggerWeight.html#ad9218afee67e67972af3efef1550191b',1,'core::TriggerWeight::mass']]],
   ['max_3',['max',['../structcore_1_1Aabb.html#a2997b415856d8782b84bad849cf29301',1,'core::Aabb']]],
   ['max_5finstances_5fper_5fevent_4',['MAX_INSTANCES_PER_EVENT',['../classhmi_1_1AudioEngine.html#aedefa2f82cb6d1a74cb0728400b5d7e6',1,'hmi::AudioEngine']]],
   ['max_5fparticles_5',['MAX_PARTICLES',['../namespacecore.html#a111487c1e65133a09f9f0aeb582b7e17',1,'core']]],
@@ -43,7 +43,7 @@ var searchData=
   ['mode_40',['mode',['../structcore_1_1CameraFramingConfig.html#a9222fa446e7902fff8cf04d06d7c8d92',1,'core::CameraFramingConfig::mode'],['../structhmi_1_1SkinRow.html#a55e90df35ca96b9d1b99dabdb74251d7',1,'hmi::SkinRow::mode'],['../structhmi_1_1SkinEntry.html#a13998a108677642623f3d5575c05fe2a',1,'hmi::SkinEntry::mode']]],
   ['momentumcarryratio_41',['momentumCarryRatio',['../structcore_1_1PhysicsConfig.html#a311991a630c5cb0dfed44cefa461b395',1,'core::PhysicsConfig']]],
   ['monospacebody_42',['monospaceBody',['../structhmi_1_1TypographyTokens.html#a1aa0ced064a83a2dbed4f92171037f51',1,'hmi::TypographyTokens']]],
-  ['movespeed_43',['moveSpeed',['../structcore_1_1PhysicsConfig.html#a0fdb33afff65f36642d32a0714f9a642',1,'core::PhysicsConfig']]],
+  ['movespeed_43',['moveSpeed',['../structcore_1_1PhysicsConfig.html#a0fdb33afff65f36642d32a0714f9a642',1,'core::PhysicsConfig::moveSpeed'],['../structcore_1_1TopDownConfig.html#a07b8edf2f44cc4d0c3c845848380e869',1,'core::TopDownConfig::moveSpeed']]],
   ['movex_44',['moveX',['../structcore_1_1PlayerInput.html#adce05fa0a13062c53bfef04c63b85623',1,'core::PlayerInput']]],
   ['movey_45',['moveY',['../structcore_1_1PlayerInput.html#abcac0b75aeffc17a50a48e9a6208c1e2',1,'core::PlayerInput']]],
   ['multipleoftilesize_46',['multipleOfTileSize',['../structhmi_1_1AssetDimensionContract.html#a5ceebbd36c48fe51e3e7b7983c98499f',1,'hmi::AssetDimensionContract']]]

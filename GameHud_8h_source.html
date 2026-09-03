@@ -101,25 +101,18 @@ $(function(){initNavTree('GameHud_8h_source.html','',''); });
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span></div>
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacecore.html">core</a> {</div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="keyword">struct </span><a class="code hl_struct" href="structcore_1_1Player.html">Player</a>;</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>}</div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacehmi.html">hmi</a> {</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="keyword">class </span><a class="code hl_class" href="classhmi_1_1Localization.html">Localization</a>;</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span></div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>[[nodiscard]] std::vector&lt;std::string&gt; <a class="code hl_function" href="namespacehmi.html#a03f731727d8be34206fa2313dad908ab">gameHudLines</a>(<span class="keyword">const</span> core::Player&amp; player,</div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>                                                    <span class="keyword">const</span> std::string&amp; levelName,</div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>                                                    <span class="keyword">const</span> <a class="code hl_class" href="classhmi_1_1Localization.html">Localization</a>&amp; localization,</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>                                                    <span class="keywordtype">bool</span> overlappingKey = <span class="keyword">false</span>);</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>}  <span class="comment">// namespace hmi</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacehmi.html">hmi</a> {</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="keyword">class </span><a class="code hl_class" href="classhmi_1_1Localization.html">Localization</a>;</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>[[nodiscard]] std::vector&lt;std::string&gt; <a class="code hl_function" href="namespacehmi.html#a588a6cab9c35f77c19c1f0e3a5ee6d20">gameHudLines</a>(<span class="keyword">const</span> std::string&amp; levelName,</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>                                                    <span class="keyword">const</span> <a class="code hl_class" href="classhmi_1_1Localization.html">Localization</a>&amp; localization,</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>                                                    <span class="keywordtype">bool</span> overlappingKey = <span class="keyword">false</span>);</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>}  <span class="comment">// namespace hmi</span></div>
 <div class="ttc" id="aclasshmi_1_1Localization_html"><div class="ttname"><a href="classhmi_1_1Localization.html">hmi::Localization</a></div><div class="ttdoc">Catalogue de traduction (i18n) : associe des clés stables à des chaînes selon la langue active,...</div><div class="ttdef"><b>Definition</b> Localization.h:29</div></div>
-<div class="ttc" id="anamespacecore_html"><div class="ttname"><a href="namespacecore.html">core</a></div><div class="ttdoc">Espace de noms du moteur et de la logique de jeu.</div><div class="ttdef"><b>Definition</b> BuildConfig.h:11</div></div>
 <div class="ttc" id="anamespacehmi_html"><div class="ttname"><a href="namespacehmi.html">hmi</a></div><div class="ttdef"><b>Definition</b> AudioEngine.cpp:15</div></div>
-<div class="ttc" id="anamespacehmi_html_a03f731727d8be34206fa2313dad908ab"><div class="ttname"><a href="namespacehmi.html#a03f731727d8be34206fa2313dad908ab">hmi::gameHudLines</a></div><div class="ttdeci">std::vector&lt; std::string &gt; gameHudLines(const core::Player &amp;player, const std::string &amp;levelName, const Localization &amp;localization, bool overlappingKey)</div><div class="ttdoc">Lignes à afficher pour l&#39;affichage tête haute d&#39;un pas de simulation donné.</div><div class="ttdef"><b>Definition</b> GameHud.cpp:29</div></div>
-<div class="ttc" id="astructcore_1_1Player_html"><div class="ttname"><a href="structcore_1_1Player.html">core::Player</a></div><div class="ttdoc">Marque l&#39;entité contrôlable par le joueur et porte son état de contact au sol.</div><div class="ttdef"><b>Definition</b> Player.h:25</div></div>
+<div class="ttc" id="anamespacehmi_html_a588a6cab9c35f77c19c1f0e3a5ee6d20"><div class="ttname"><a href="namespacehmi.html#a588a6cab9c35f77c19c1f0e3a5ee6d20">hmi::gameHudLines</a></div><div class="ttdeci">std::vector&lt; std::string &gt; gameHudLines(const std::string &amp;levelName, const Localization &amp;localization, bool overlappingKey)</div><div class="ttdoc">Lignes à afficher pour l&#39;affichage tête haute d&#39;un pas de simulation donné.</div><div class="ttdef"><b>Definition</b> GameHud.cpp:28</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 </div><!-- container -->

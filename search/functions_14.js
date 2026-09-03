@@ -19,5 +19,6 @@ var searchData=
   ['updatemouseposition_16',['updateMousePosition',['../classhmi_1_1GameViewport.html#ab2638f80f14726b02741409d6ff1f960',1,'hmi::GameViewport']]],
   ['updatepixelcolorbuttonicon_17',['updatePixelColorButtonIcon',['../classhmi_1_1MainWindow.html#a3b786cda76b1c4b3c58cfe1d926711c2',1,'hmi::MainWindow']]],
   ['updatestatus_18',['updateStatus',['../classhmi_1_1GamepadBindingsWidget.html#a7d152ebc17a38ff34e2b5083e4cba46e',1,'hmi::GamepadBindingsWidget']]],
-  ['updatetileanimations_19',['updateTileAnimations',['../classhmi_1_1GameSession.html#a930a2413f190c4c2ce9bfdea2ea4eadb',1,'hmi::GameSession']]]
+  ['updatetileanimations_19',['updateTileAnimations',['../classhmi_1_1GameSession.html#a930a2413f190c4c2ce9bfdea2ea4eadb',1,'hmi::GameSession']]],
+  ['updatetopdownmovement_20',['updateTopDownMovement',['../namespacecore.html#afb50f723166a2e99225a878005f990bc',1,'core']]]
 ];

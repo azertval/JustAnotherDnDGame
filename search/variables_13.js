@@ -34,12 +34,11 @@ var searchData=
   ['speedmin_31',['speedMin',['../structcore_1_1ParticleEffect.html#a6b49e87f5ea53d592351bb37b408e9af',1,'core::ParticleEffect']]],
   ['spreadradians_32',['spreadRadians',['../structcore_1_1ParticleEffect.html#a9aa22795454ec7fa0aceca7a0245c77e',1,'core::ParticleEffect']]],
   ['sprite_33',['sprite',['../structhmi_1_1ComposedQuad.html#a4f3a165eb195336d970a2193706e2a05',1,'hmi::ComposedQuad']]],
-  ['squished_34',['squished',['../structcore_1_1Player.html#a39d12f09a2ae70d648ec96c5ec094d51',1,'core::Player']]],
-  ['strokes_35',['strokes',['../structhmi_1_1IconGeometry.html#a238ebbaf9e0b32d32e08110c73526a8c',1,'hmi::IconGeometry']]],
-  ['subgroups_36',['subgroups',['../structhmi_1_1TileCategory.html#a2c1d9c40e11d8b462c3e24de19f49406',1,'hmi::TileCategory']]],
-  ['submitted_37',['submitted',['../structhmi_1_1SceneStatistics.html#ab6da0ac15fcd9fb0e99f694ca5ba9753',1,'hmi::SceneStatistics']]],
-  ['succeeded_38',['succeeded',['../structhmi_1_1FileOperationResult.html#ad059749c338126e1310a43e6c07f08c8',1,'hmi::FileOperationResult']]],
-  ['surface_39',['surface',['../structhmi_1_1EditorActionSpec.html#a0a64c72075a449a6e6fa0dd613b9f7b5',1,'hmi::EditorActionSpec::surface'],['../structhmi_1_1ColorTokens.html#a3f568f4e9ea50087da9b69cee87853dd',1,'hmi::ColorTokens::surface']]],
-  ['surfacealt_40',['surfaceAlt',['../structhmi_1_1ColorTokens.html#aadd697ac0c19bcbc6ebd49e4b900e0bd',1,'hmi::ColorTokens']]],
-  ['switchposition_41',['switchPosition',['../structcore_1_1Mechanism.html#a5dd9b9cdb7f5f631367af20f9abbf545',1,'core::Mechanism::switchPosition'],['../structhmi_1_1LinkGestureDecision.html#ad132f71711d40ac61d3369a5fc4cae11',1,'hmi::LinkGestureDecision::switchPosition']]]
+  ['strokes_34',['strokes',['../structhmi_1_1IconGeometry.html#a238ebbaf9e0b32d32e08110c73526a8c',1,'hmi::IconGeometry']]],
+  ['subgroups_35',['subgroups',['../structhmi_1_1TileCategory.html#a2c1d9c40e11d8b462c3e24de19f49406',1,'hmi::TileCategory']]],
+  ['submitted_36',['submitted',['../structhmi_1_1SceneStatistics.html#ab6da0ac15fcd9fb0e99f694ca5ba9753',1,'hmi::SceneStatistics']]],
+  ['succeeded_37',['succeeded',['../structhmi_1_1FileOperationResult.html#ad059749c338126e1310a43e6c07f08c8',1,'hmi::FileOperationResult']]],
+  ['surface_38',['surface',['../structhmi_1_1EditorActionSpec.html#a0a64c72075a449a6e6fa0dd613b9f7b5',1,'hmi::EditorActionSpec::surface'],['../structhmi_1_1ColorTokens.html#a3f568f4e9ea50087da9b69cee87853dd',1,'hmi::ColorTokens::surface']]],
+  ['surfacealt_39',['surfaceAlt',['../structhmi_1_1ColorTokens.html#aadd697ac0c19bcbc6ebd49e4b900e0bd',1,'hmi::ColorTokens']]],
+  ['switchposition_40',['switchPosition',['../structcore_1_1Mechanism.html#a5dd9b9cdb7f5f631367af20f9abbf545',1,'core::Mechanism::switchPosition'],['../structhmi_1_1LinkGestureDecision.html#ad132f71711d40ac61d3369a5fc4cae11',1,'hmi::LinkGestureDecision::switchPosition']]]
 ];

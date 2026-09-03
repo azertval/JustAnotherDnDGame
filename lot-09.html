@@ -96,13 +96,13 @@ $(function(){initNavTree('lot-09.html','',''); });
 <blockquote class="doxtable">
 <p>Statut : <b>à faire</b>. Prérequis : <a class="el" href="lot-04.html" title="LOT-04 — Format de carte `version: 3`, multi-couches">LOT-04</a>, <a class="el" href="lot-06.html" title="LOT-06 — Déplacement top-down 8 directions">LOT-06</a>. </p>
 </blockquote>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md410"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md413"></a>
 Objectif</h1>
 <p>Remplacer la <b>séquence linéaire</b> de tableaux héritée par un <b>monde de cartes connectées</b>, où chaque carte a des sorties nommées vers d'autres cartes, et où l'on peut revenir sur ses pas.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md411"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md414"></a>
 Le problème</h1>
 <p><span class="tt"><a class="el" href="structcore_1_1LevelSequence.html" title="Séquence de niveaux chargée : ordre exact du fichier, plus une clé de titre traduisible.">core::LevelSequence</a></span> est une <b>liste ordonnée</b> : tableau 1, puis 2, puis 3. C'est la structure d'un jeu de niveaux discrets, pas d'un monde. Un RPG a besoin d'un <b>graphe</b> : un village ouvre sur une forêt et sur une auberge, la forêt ramène au village, le donjon a trois entrées.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md412"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md415"></a>
 Périmètre</h1>
 <ul>
 <li><span class="tt">Source/Core/World/WorldGraph.{h,cpp}</span> : cartes, portails, points d'arrivée <b>nommés</b>. Un portail référence <span class="tt">(carte cible, nom du point d'arrivée)</span> — jamais des coordonnées brutes, qui se désynchroniseraient au moindre redimensionnement de la carte cible.</li>
@@ -111,10 +111,10 @@ Périmètre</h1>
 <li><b>Validation au chargement</b> : un portail dont la carte ou le point d'arrivée n'existe pas est une erreur explicite, pas un plantage à la traversée (<span class="tt">EX-NFR-040</span>).</li>
 </ul>
 <p><span class="tt">LevelSequence</span> disparaît ou devient un cas dégénéré du graphe — à trancher à l'implémentation.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md413"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md416"></a>
 Exigences couvertes</h1>
 <p><span class="tt">EX-EXP-*</span> (portails, points d'arrivée nommés), <span class="tt">EX-LVL-*</span> (validation du graphe).</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md414"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md417"></a>
 Critères d'acceptation</h1>
 <ul>
 <li>A → B → A ramène le personnage <b>au bon point d'arrivée</b>, pas à l'entrée par défaut de A.</li>

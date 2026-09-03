@@ -199,8 +199,6 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Valeurs mesurées pour une image de diagnostic (<span class="tt">LOT-62</span> TACHE-02).  <a href="structhmi_1_1DiagnosticsMeasurements.html#details">More...</a><br /></td></tr>
 <tr class="memitem:ExplorationMode" id="r_ExplorationMode"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1ExplorationMode.html">ExplorationMode</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le mode par défaut : le personnage parcourt la carte, les mécanismes répondent, la caméra suit, l'issue du niveau est évaluée à chaque pas.  <a href="classhmi_1_1ExplorationMode.html#details">More...</a><br /></td></tr>
-<tr class="memitem:PlayerEventState" id="r_PlayerEventState"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1PlayerEventState.html">PlayerEventState</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sous-ensemble de <span class="tt"><a class="el" href="structcore_1_1Player.html" title="Marque l&#39;entité contrôlable par le joueur et porte son état de contact au sol.">core::Player</a></span> pertinent à la détection d'événements.  <a href="structhmi_1_1PlayerEventState.html#details">More...</a><br /></td></tr>
 <tr class="memitem:MechanismEventState" id="r_MechanismEventState"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1MechanismEventState.html">MechanismEventState</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">État « porte ouverte » de chaque mécanisme, même index que <span class="tt"><a class="el" href="classcore_1_1MechanismController.html#adb0a0f83d8a5302a84bc3c67386c09e7">core::MechanismController::mechanisms()</a></span>.  <a href="structhmi_1_1MechanismEventState.html#details">More...</a><br /></td></tr>
 <tr class="memitem:GameSession" id="r_GameSession"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1GameSession.html">GameSession</a></td></tr>
@@ -993,14 +991,12 @@ Functions</h2></td></tr>
 <tr class="memdesc:a324d7671eeb331de4b3459d66be9d0ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Taxonomie complète des types de tuiles peignables, en catégories/sous-groupes.  <br /></td></tr>
 <tr class="memitem:a2d6fb50a5f3f5828b38c4b60f526f97b" id="r_a2d6fb50a5f3f5828b38c4b60f526f97b"><td class="memItemLeft">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a2d6fb50a5f3f5828b38c4b60f526f97b">composeDiagnosticsHudLines</a> (const <a class="el" href="structhmi_1_1DiagnosticsMeasurements.html">DiagnosticsMeasurements</a> &amp;measurements, const <a class="el" href="classhmi_1_1Localization.html">Localization</a> &amp;localization)</td></tr>
 <tr class="memdesc:a2d6fb50a5f3f5828b38c4b60f526f97b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compose les lignes du compteur de diagnostic à partir de valeurs déjà mesurées.  <br /></td></tr>
-<tr class="memitem:afcb621148a1dc0224b1136f50c952795" id="r_afcb621148a1dc0224b1136f50c952795"><td class="memItemLeft">std::vector&lt; <a class="el" href="#a3a61aed1c8e95c289c829398d48488de">GameEvent</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#afcb621148a1dc0224b1136f50c952795">detectPlayerEvents</a> (const <a class="el" href="structhmi_1_1PlayerEventState.html">PlayerEventState</a> &amp;previous, const <a class="el" href="structhmi_1_1PlayerEventState.html">PlayerEventState</a> &amp;current)</td></tr>
-<tr class="memdesc:afcb621148a1dc0224b1136f50c952795"><td class="mdescLeft">&#160;</td><td class="mdescRight">Détecte les transitions du personnage entre deux pas de simulation consécutifs.  <br /></td></tr>
 <tr class="memitem:afb9ffef4971f7aeeea19cfa0a2cddbb9" id="r_afb9ffef4971f7aeeea19cfa0a2cddbb9"><td class="memItemLeft">std::vector&lt; <a class="el" href="#a3a61aed1c8e95c289c829398d48488de">GameEvent</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#afb9ffef4971f7aeeea19cfa0a2cddbb9">detectMechanismEvents</a> (const <a class="el" href="structhmi_1_1MechanismEventState.html">MechanismEventState</a> &amp;previous, const <a class="el" href="structhmi_1_1MechanismEventState.html">MechanismEventState</a> &amp;current, const std::vector&lt; bool &gt; &amp;isContinuous)</td></tr>
 <tr class="memdesc:afb9ffef4971f7aeeea19cfa0a2cddbb9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Détecte les transitions des mécanismes entre deux pas de simulation consécutifs.  <br /></td></tr>
 <tr class="memitem:a89b12465488e01b1f3b8bfaa0e7bf26a" id="r_a89b12465488e01b1f3b8bfaa0e7bf26a"><td class="memItemLeft">std::optional&lt; <a class="el" href="#a3a61aed1c8e95c289c829398d48488de">GameEvent</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a89b12465488e01b1f3b8bfaa0e7bf26a">detectOutcomeEvent</a> (<a class="el" href="namespacecore.html#a60398ec3835dd2882a7d3a9eaddb65aa">core::LevelOutcome</a> outcome)</td></tr>
 <tr class="memdesc:a89b12465488e01b1f3b8bfaa0e7bf26a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Traduit l'issue d'un pas de simulation en événement.  <br /></td></tr>
-<tr class="memitem:a03f731727d8be34206fa2313dad908ab" id="r_a03f731727d8be34206fa2313dad908ab"><td class="memItemLeft">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a03f731727d8be34206fa2313dad908ab">gameHudLines</a> (const <a class="el" href="structcore_1_1Player.html">core::Player</a> &amp;player, const std::string &amp;levelName, const <a class="el" href="classhmi_1_1Localization.html">Localization</a> &amp;localization, bool overlappingKey=false)</td></tr>
-<tr class="memdesc:a03f731727d8be34206fa2313dad908ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lignes à afficher pour l'affichage tête haute d'un pas de simulation donné.  <br /></td></tr>
+<tr class="memitem:a588a6cab9c35f77c19c1f0e3a5ee6d20" id="r_a588a6cab9c35f77c19c1f0e3a5ee6d20"><td class="memItemLeft">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a588a6cab9c35f77c19c1f0e3a5ee6d20">gameHudLines</a> (const std::string &amp;levelName, const <a class="el" href="classhmi_1_1Localization.html">Localization</a> &amp;localization, bool overlappingKey=false)</td></tr>
+<tr class="memdesc:a588a6cab9c35f77c19c1f0e3a5ee6d20"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lignes à afficher pour l'affichage tête haute d'un pas de simulation donné.  <br /></td></tr>
 <tr class="memitem:a7ad0c5959af0b793d8833b2c517a2a37" id="r_a7ad0c5959af0b793d8833b2c517a2a37"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a7ad0c5959af0b793d8833b2c517a2a37">accumulateStep</a> (<a class="el" href="structhmi_1_1LevelRunStats.html">LevelRunStats</a> &amp;stats, const std::vector&lt; <a class="el" href="#a3a61aed1c8e95c289c829398d48488de">GameEvent</a> &gt; &amp;stepEvents)</td></tr>
 <tr class="memdesc:a7ad0c5959af0b793d8833b2c517a2a37"><td class="mdescLeft">&#160;</td><td class="mdescRight">Comptabilise <b>un</b> pas de simulation et les évènements qu'il a produits.  <br /></td></tr>
 <tr class="memitem:ac3f6e20f88982fbb59a80f9a1b67dfdd" id="r_ac3f6e20f88982fbb59a80f9a1b67dfdd"><td class="memItemLeft">float&#160;</td><td class="memItemRight"><a class="el" href="#ac3f6e20f88982fbb59a80f9a1b67dfdd">elapsedSeconds</a> (const <a class="el" href="structhmi_1_1LevelRunStats.html">LevelRunStats</a> &amp;stats, float fixedDeltaSeconds) noexcept</td></tr>
@@ -3011,7 +3007,7 @@ Variables</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">previous</td><td>État du pas précédent (<span class="tt"><a class="el" href="structhmi_1_1FollowCameraState.html" title="État déterministe de la caméra de suivi, avancé une fois par pas fixe.">FollowCameraState</a>{}</span> par défaut au premier appel après un chargement de niveau). </td></tr>
     <tr><td class="paramname">characterPosition</td><td>Position simulée du personnage (centre de sa boîte), en unités monde. </td></tr>
-    <tr><td class="paramname">movementDirection</td><td>Sens du déplacement du personnage (<span class="tt"><a class="el" href="structcore_1_1Player.html#a485438ac4030c8edf6f84c214a1a1e69" title="Orientation courante : -1 (gauche) / +1 (droite) ; sert de direction de dash par défaut.">core::Player::facing</a></span>, négatif à gauche, positif à droite) ; <span class="tt">0</span> conserve la dernière anticipation (immobile, rien à réviser). </td></tr>
+    <tr><td class="paramname">movementDirection</td><td>Sens du déplacement du personnage (<span class="tt"><a class="el" href="structcore_1_1Actor.html#ada4c84a898de6c67b5d303ad876b61a0" title="Orientation courante, en vecteur unitaire du monde (y vers le bas).">core::Actor::facing</a></span>, négatif à gauche, positif à droite) ; <span class="tt">0</span> conserve la dernière anticipation (immobile, rien à réviser). </td></tr>
     <tr><td class="paramname">levelBounds</td><td>Rectangle du niveau, en unités monde (coin haut-gauche + dimensions). </td></tr>
     <tr><td class="paramname">viewHalfExtent</td><td>Demi-largeur/demi-hauteur de la zone visible par la caméra, en unités monde &ndash; détermine la marge de bornage aux limites du niveau. </td></tr>
     <tr><td class="paramname">fixedDelta</td><td>Durée du pas fixe, en secondes (<span class="tt">EX-REN-021</span>) &ndash; jamais un delta de rendu, sous peine de dépendre de la fréquence d'affichage. </td></tr>
@@ -4291,7 +4287,7 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Compose les lignes du compteur de diagnostic à partir de valeurs déjà mesurées. </p>
-<p>Fonction <b>pure</b> (<span class="tt">EX-NFR-010</span>), sur le patron de <span class="tt"><a class="el" href="#a03f731727d8be34206fa2313dad908ab" title="Lignes à afficher pour l&#39;affichage tête haute d&#39;un pas de simulation donné.">hmi::gameHudLines</a></span> : le calcul (quelles lignes, quel texte) est testable sans rendu ; seul le dessin (<span class="tt"><a class="el" href="#a2c8293a59cb710c2a12f8c459eb645f2" title="Compose une chaîne en quads sur le calque UI, ancrée à une position écran.">hmi::composeText</a></span>, à l'appelant) ne l'est pas. </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Fonction <b>pure</b> (<span class="tt">EX-NFR-010</span>), sur le patron de <span class="tt"><a class="el" href="#a588a6cab9c35f77c19c1f0e3a5ee6d20" title="Lignes à afficher pour l&#39;affichage tête haute d&#39;un pas de simulation donné.">hmi::gameHudLines</a></span> : le calcul (quelles lignes, quel texte) est testable sans rendu ; seul le dessin (<span class="tt"><a class="el" href="#a2c8293a59cb710c2a12f8c459eb645f2" title="Compose une chaîne en quads sur le calque UI, ancrée à une position écran.">hmi::composeText</a></span>, à l'appelant) ne l'est pas. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">measurements</td><td>Valeurs mesurées pour l'image courante. </td></tr>
     <tr><td class="paramname">localization</td><td>Catalogue de traduction, pour les libellés (<span class="tt">EX-REN-033</span>) — aucune chaîne en dur. </td></tr>
@@ -5113,38 +5109,6 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="afcb621148a1dc0224b1136f50c952795" name="afcb621148a1dc0224b1136f50c952795"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afcb621148a1dc0224b1136f50c952795">&#9670;&#160;</a></span>detectPlayerEvents()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::vector&lt; <a class="el" href="#a3a61aed1c8e95c289c829398d48488de">GameEvent</a> &gt; hmi::detectPlayerEvents </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="structhmi_1_1PlayerEventState.html">PlayerEventState</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>previous</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="structhmi_1_1PlayerEventState.html">PlayerEventState</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>current</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Détecte les transitions du personnage entre deux pas de simulation consécutifs. </p>
-<p>Fonction <b>pure</b> : lit <code class="param">previous</code> et <code class="param">current</code>, n'écrit rien, aucune dépendance Qt ni périphérique (<span class="tt">EX-NFR-010</span>). À appeler <b>une fois par pas fixe</b> (jamais par image de rendu, <span class="tt">EX-REN-021</span>) — le piège exact que le <span class="tt">LOT-33</span> a déjà traité pour les entrées : plusieurs images de rendu dans le même pas ne doivent jamais produire l'événement deux fois. </p><dl class="section return"><dt>Returns</dt><dd>La liste des événements survenus sur ce pas (généralement 0 ou 1 ; un dash au contact d'un mur peut en produire deux : <span class="tt">Dashed</span> et <span class="tt">WallContactEnter</span>). </dd></dl>
-
-</div>
-</div>
 <a id="a2d1f5025d8c952998d761fcabb5c8aa3" name="a2d1f5025d8c952998d761fcabb5c8aa3"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2d1f5025d8c952998d761fcabb5c8aa3">&#9670;&#160;</a></span>drawLine()</h2>
 
@@ -5490,7 +5454,7 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Décide le contenu de la barre d'état de l'éditeur pour <code class="param">context</code>. </p>
-<p>Fonction <b>pure</b> (<span class="tt">EX-NFR-010</span>) : ne lit que ce qu'on lui passe, aucune dépendance Qt/GPU — même patron que <span class="tt"><a class="el" href="#a03f731727d8be34206fa2313dad908ab" title="Lignes à afficher pour l&#39;affichage tête haute d&#39;un pas de simulation donné.">hmi::gameHudLines</a></span> (<span class="tt">LOT-52</span>). Le rendu (<span class="tt"><a class="el" href="classhmi_1_1MainWindow.html" title="Fenêtre principale de l&#39;application Qt : poste de travail d&#39;éditeur à panneaux dockables autour du vi...">MainWindow</a></span>) n'a plus qu'à afficher ce que cette fonction décide, et à la rappeler après l'expiration d'un message transitoire pour restaurer l'aide affichée. </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Fonction <b>pure</b> (<span class="tt">EX-NFR-010</span>) : ne lit que ce qu'on lui passe, aucune dépendance Qt/GPU — même patron que <span class="tt"><a class="el" href="#a588a6cab9c35f77c19c1f0e3a5ee6d20" title="Lignes à afficher pour l&#39;affichage tête haute d&#39;un pas de simulation donné.">hmi::gameHudLines</a></span> (<span class="tt">LOT-52</span>). Le rendu (<span class="tt"><a class="el" href="classhmi_1_1MainWindow.html" title="Fenêtre principale de l&#39;application Qt : poste de travail d&#39;éditeur à panneaux dockables autour du vi...">MainWindow</a></span>) n'a plus qu'à afficher ce que cette fonction décide, et à la rappeler après l'expiration d'un message transitoire pour restaurer l'aide affichée. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">context</td><td>Contexte d'édition courant ; <span class="tt">context.level</span> absent (aucun niveau ouvert) produit des zones et une aide vides. </td></tr>
     <tr><td class="paramname">localization</td><td>Catalogue de traduction (<span class="tt">EX-REN-033</span>) — aucune chaîne en dur. </td></tr>
@@ -6045,8 +6009,8 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a03f731727d8be34206fa2313dad908ab" name="a03f731727d8be34206fa2313dad908ab"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a03f731727d8be34206fa2313dad908ab">&#9670;&#160;</a></span>gameHudLines()</h2>
+<a id="a588a6cab9c35f77c19c1f0e3a5ee6d20" name="a588a6cab9c35f77c19c1f0e3a5ee6d20"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a588a6cab9c35f77c19c1f0e3a5ee6d20">&#9670;&#160;</a></span>gameHudLines()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -6057,11 +6021,6 @@ Variables</h2></td></tr>
         <tr>
           <td class="memname">std::vector&lt; std::string &gt; hmi::gameHudLines </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="structcore_1_1Player.html">core::Player</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>player</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
           <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>levelName</em></span>, </td>
         </tr>
         <tr>
@@ -6084,16 +6043,15 @@ Variables</h2></td></tr>
 
 <p>Lignes à afficher pour l'affichage tête haute d'un pas de simulation donné. </p>
 <p>Fonction <b>pure</b> (<span class="tt">EX-NFR-010</span>) : ne lit que ce qu'on lui passe, aucun accès GPU/fichier. C'est ce qui rend le contenu du HUD assertable sans rendu — la brique de texte (<span class="tt"><a class="el" href="#a2c8293a59cb710c2a12f8c459eb645f2" title="Compose une chaîne en quads sur le calque UI, ancrée à une position écran.">hmi::composeText</a></span>, TACHE-02) n'a plus qu'à afficher ce que cette fonction décide.</p>
-<p><b>Budget illimité, rien à afficher</b> : <span class="tt"><a class="el" href="structcore_1_1Player.html#a99d532084d5856cea35317d60ded63e8" title="Sauts restants dans le tableau (budget, EX-GP-024) ; -1 = illimité.">core::Player::jumpsRemaining</a></span>/<span class="tt">dashesRemaining</span> valent <span class="tt">-1</span> quand le niveau ne fixe pas de budget (<span class="tt">EX-GP-024</span>) — la grande majorité des tableaux. Un compteur permanent affichant l'infini serait du bruit visuel sur tous ces tableaux ; la ligne correspondante n'est donc produite que si le budget est <b>fini</b> (valeur <span class="tt">&gt;= 0</span>). </p><dl class="params"><dt>Parameters</dt><dd>
+<p><b>Les budgets de sauts et de dashs ont disparu avec eux</b> (<span class="tt">LOT-06</span>) : ils comptaient les ressources d'un personnage de plateforme, que le déplacement en vue de dessus n'a plus. Ne reste que ce qui a encore un sens — l'invite contextuelle et le nom du tableau. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">player</td><td>Composant du personnage suivi (lu, jamais modifié — <span class="tt">EX-ARCH-012</span>). </td></tr>
     <tr><td class="paramname">levelName</td><td>Nom du tableau en cours (<span class="tt"><a class="el" href="classcore_1_1Level.html#a5980749eacb886074a65f8e06f51fb59">core::Level::name</a></span>), affiché tel quel (donnée, pas un libellé traduit). </td></tr>
-    <tr><td class="paramname">localization</td><td>Catalogue de traduction, pour les libellés « Sauts »/« Dashs » (<span class="tt">EX-REN-033</span>) — aucune chaîne en dur, y compris les libellés courts. </td></tr>
+    <tr><td class="paramname">localization</td><td>Catalogue de traduction des libellés (<span class="tt">EX-REN-033</span>) — aucune chaîne en dur, y compris les libellés courts. </td></tr>
     <tr><td class="paramname">overlappingKey</td><td>Le personnage touche-t-il une <b>clé non ramassée</b> (<span class="tt">EX-GP-023</span>) ? Si oui, une invite rappelle l'action « Interagir » (<span class="tt">EX-CTRL-022</span>). Ramasser une clé exige le contact <b>et</b> cette action — la seule entrée du jeu qu'aucun autre tableau ne demande. Sans invite, un joueur qui l'ignore reste bloqué devant la porte verrouillée sans aucun retour, ce qu'interdit la conception des niveaux (<span class="tt"><a class="el" href="niveaux_8md.html">niveaux.md</a></span>, Sec. 3). Le tutoriel restant « sans texte », c'est la seule exception, et elle est <b>contextuelle</b>. Faux par défaut : un tableau sans clé n'affiche jamais rien. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Les lignes à afficher, dans l'ordre : invite « Interagir » le cas échéant, budgets (sauts puis dashs, seulement s'ils sont finis), puis le nom du tableau. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Les lignes à afficher, dans l'ordre : invite « Interagir » le cas échéant, puis le nom du tableau. </dd></dl>
 
 </div>
 </div>

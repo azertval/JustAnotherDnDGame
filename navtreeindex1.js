@@ -1,5 +1,7 @@
 var NAVTREEINDEX1 =
 {
+"LevelOutcome_8cpp.html":[13,0,3,0,3,8],
+"LevelOutcome_8h.html":[13,0,3,0,3,9],
 "LevelOutcome_8h_source.html":[13,0,3,0,3,9],
 "LevelProperties_8h.html":[13,0,3,0,3,10],
 "LevelProperties_8h_source.html":[13,0,3,0,3,10],
@@ -108,8 +110,8 @@ var NAVTREEINDEX1 =
 "ParticleSystem_8cpp.html":[13,0,3,0,1,1,4],
 "ParticleSystem_8h.html":[13,0,3,0,1,1,5],
 "ParticleSystem_8h_source.html":[13,0,3,0,1,1,5],
-"Particle_8h.html":[13,0,3,0,1,0,2],
-"Particle_8h_source.html":[13,0,3,0,1,0,2],
+"Particle_8h.html":[13,0,3,0,1,0,3],
+"Particle_8h_source.html":[13,0,3,0,1,0,3],
 "PauseScreen_8cpp.html":[13,0,3,2,6,36],
 "PauseScreen_8h.html":[13,0,3,2,6,37],
 "PauseScreen_8h_source.html":[13,0,3,2,6,37],
@@ -193,8 +195,6 @@ var NAVTREEINDEX1 =
 "PlayerSprite_8cpp.html":[13,0,3,2,4,34],
 "PlayerSprite_8h.html":[13,0,3,2,4,35],
 "PlayerSprite_8h_source.html":[13,0,3,2,4,35],
-"Player_8h.html":[13,0,3,0,1,0,3],
-"Player_8h_source.html":[13,0,3,0,1,0,3],
 "PreviousPosition_8h.html":[13,0,3,2,4,37],
 "PreviousPosition_8h_source.html":[13,0,3,2,4,37],
 "ProceduralAtlas_8cpp.html":[13,0,3,2,4,38],
@@ -235,8 +235,6 @@ var NAVTREEINDEX1 =
 "ScreenPageHost_8cpp.html":[13,0,3,2,6,50],
 "ScreenPageHost_8h.html":[13,0,3,2,6,51],
 "ScreenPageHost_8h_source.html":[13,0,3,2,6,51],
-"ScriptedLevelSequence_8h.html":[13,0,3,3,1,0],
-"ScriptedLevelSequence_8h_source.html":[13,0,3,3,1,0],
 "SessionLog_8cpp.html":[13,0,3,2,1,0],
 "SessionLog_8h.html":[13,0,3,2,1,1],
 "SessionLog_8h_source.html":[13,0,3,2,1,1],
@@ -249,5 +247,7 @@ var NAVTREEINDEX1 =
 "SkinCatalog_8cpp.html":[13,0,3,2,4,53],
 "SkinCatalog_8h.html":[13,0,3,2,4,54],
 "SkinCatalog_8h_source.html":[13,0,3,2,4,54],
-"SoundCatalog_8cpp.html":[13,0,3,2,0,3]
+"SoundCatalog_8cpp.html":[13,0,3,2,0,3],
+"SoundCatalog_8h.html":[13,0,3,2,0,4],
+"SoundCatalog_8h_source.html":[13,0,3,2,0,4]
 };

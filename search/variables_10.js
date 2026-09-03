@@ -55,7 +55,5 @@ var searchData=
   ['position_52',['position',['../structcore_1_1Particle.html#a4a1e501affd688369653dff8ad9afec1',1,'core::Particle::position'],['../structcore_1_1Transform.html#a95083539c843b0577d8f8c324c4e6b27',1,'core::Transform::position'],['../structcore_1_1TileTextureOverride.html#a03a135f3977d8006b699cb8e352af176',1,'core::TileTextureOverride::position'],['../structcore_1_1MapEntity.html#a3e295d3994994b3a15733b8377a25695',1,'core::MapEntity::position'],['../structcore_1_1Rect.html#aa80907b79b8c68b4b6cb2ad6600ff1d3',1,'core::Rect::position'],['../structcore_1_1SweepResult.html#a9f874ecc7effce266633af49e4da07f0',1,'core::SweepResult::position']]],
   ['previousactive_53',['previousActive',['../structhmi_1_1MechanismVisualState.html#a638ee6429d408f4770bf09dcc712611c',1,'hmi::MechanismVisualState']]],
   ['properties_54',['properties',['../structcore_1_1MapEntity.html#a8e85ab253ba2e9b4e70fcdce5e1bff0f',1,'core::MapEntity::properties'],['../structcore_1_1TileLayer.html#acfa350d1bf9ee7cf8495b4cd760224cb',1,'core::TileLayer::properties']]],
-  ['pushmomentumvelocityx_55',['pushMomentumVelocityX',['../structcore_1_1Player.html#a14d968f4c041f1671557db26a08a425c',1,'core::Player']]],
-  ['pushmomentumwindowtime_56',['pushMomentumWindowTime',['../structcore_1_1PhysicsConfig.html#a8bce708b0e3cf525d14827731eea05ba',1,'core::PhysicsConfig']]],
-  ['pushmomentumwindowtimer_57',['pushMomentumWindowTimer',['../structcore_1_1Player.html#a9c10c5fffe679f41e3b266f9668ce37d',1,'core::Player']]]
+  ['pushmomentumwindowtime_55',['pushMomentumWindowTime',['../structcore_1_1PhysicsConfig.html#a8bce708b0e3cf525d14827731eea05ba',1,'core::PhysicsConfig']]]
 ];

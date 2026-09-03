@@ -1,6 +1,5 @@
 var GameEvents_8h =
 [
-    [ "hmi::PlayerEventState", "structhmi_1_1PlayerEventState.html", "structhmi_1_1PlayerEventState" ],
     [ "hmi::MechanismEventState", "structhmi_1_1MechanismEventState.html", "structhmi_1_1MechanismEventState" ],
     [ "hmi::GameEvent", "namespacehmi.html#a3a61aed1c8e95c289c829398d48488de", [
       [ "hmi::GameEvent::Jumped", "namespacehmi.html#a3a61aed1c8e95c289c829398d48488dea280e2398821e9b67fa22ab6d512c746b", null ],
@@ -23,6 +22,5 @@ var GameEvents_8h =
     ] ],
     [ "hmi::detectMechanismEvents", "namespacehmi.html#afb9ffef4971f7aeeea19cfa0a2cddbb9", null ],
     [ "hmi::detectOutcomeEvent", "namespacehmi.html#a89b12465488e01b1f3b8bfaa0e7bf26a", null ],
-    [ "hmi::detectPlayerEvents", "namespacehmi.html#afcb621148a1dc0224b1136f50c952795", null ],
     [ "hmi::GAME_EVENT_COUNT", "namespacehmi.html#aab9ebfc2ebacc5718532a560bfd830ea", null ]
 ];

@@ -1,5 +1,8 @@
 var NAVTREEINDEX3 =
 {
+"classcore_1_1GridDistanceField.html#aef1a6349338d9fd3623034b6939b9d8f":[11,0,0,58,4],
+"classcore_1_1GridDistanceField.html#aef1a6349338d9fd3623034b6939b9d8f":[12,0,0,58,4],
+"classcore_1_1IComponentPool.html":[11,0,0,9],
 "classcore_1_1IComponentPool.html":[12,0,0,9],
 "classcore_1_1IComponentPool.html#a0f0a0515092cd03e5e533b271f2a44df":[11,0,0,9,0],
 "classcore_1_1IComponentPool.html#a0f0a0515092cd03e5e533b271f2a44df":[12,0,0,9,0],
@@ -246,8 +249,5 @@ var NAVTREEINDEX3 =
 "classcore_1_1Logger.html#a3f0cbd4596e47500c6da1463ca6fda6f":[11,0,0,4,3],
 "classcore_1_1Logger.html#a3f0cbd4596e47500c6da1463ca6fda6f":[12,0,0,4,3],
 "classcore_1_1Logger.html#a42b5979c9d78e520e0e6d684e329ba26":[11,0,0,4,6],
-"classcore_1_1Logger.html#a42b5979c9d78e520e0e6d684e329ba26":[12,0,0,4,6],
-"classcore_1_1Logger.html#a4e5846a9e46e15964cfbf3ae7282f813":[11,0,0,4,15],
-"classcore_1_1Logger.html#a4e5846a9e46e15964cfbf3ae7282f813":[12,0,0,4,15],
-"classcore_1_1Logger.html#a6b94a49154efabb17a720d59cb0b241e":[11,0,0,4,9]
+"classcore_1_1Logger.html#a42b5979c9d78e520e0e6d684e329ba26":[12,0,0,4,6]
 };

@@ -96,13 +96,13 @@ $(function(){initNavTree('lot-17.html','',''); });
 <blockquote class="doxtable">
 <p>Statut : <b>à faire</b>. Prérequis : <a class="el" href="lot-09.html" title="LOT-09 — Graphe de cartes et transitions">LOT-09</a>, <a class="el" href="lot-10.html" title="LOT-10 — Entités de carte et interaction">LOT-10</a>, <a class="el" href="lot-13.html" title="LOT-13 — Fiche de personnage">LOT-13</a>, <a class="el" href="lot-16.html" title="LOT-16 — Quêtes et drapeaux de monde">LOT-16</a>. </p>
 </blockquote>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md453"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md456"></a>
 Objectif</h1>
 <p>Remplacer la progression héritée — qui ne retenait qu'un <b>tableau atteint</b> — par un état de partie complet et versionné.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md454"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md457"></a>
 Le problème</h1>
 <p><span class="tt"><a class="el" href="classhmi_1_1Progression.html" title="Progression dans une séquence de niveaux : tableaux terminés et tableau atteint (celui où reprendre),...">hmi::Progression</a></span> stocke un identifiant de séquence, un nom de tableau courant et un ensemble de tableaux terminés. C'était suffisant pour un jeu de niveaux discrets ; c'est sans rapport avec un monde persistant où le joueur a une position, un inventaire, des quêtes en cours et un monde qui a gardé la trace de ses actes.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md455"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md458"></a>
 Périmètre</h1>
 <p><span class="tt">Source/Core/Rpg/SaveGame.{h,cpp}</span> : JSON <b>versionné</b>, portant</p>
 <ul>
@@ -113,13 +113,13 @@ Périmètre</h1>
 <li>les quêtes et leur étape.</li>
 </ul>
 <p><span class="tt"><a class="el" href="classhmi_1_1Progression.html" title="Progression dans une séquence de niveaux : tableaux terminés et tableau atteint (celui où reprendre),...">hmi::Progression</a></span> disparaît ou devient un cas dégénéré.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md456"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md459"></a>
 Règles de format</h1>
 <p>Mêmes règles que le format de carte, pour les mêmes raisons : <b>versionné</b>, <b>tolérant aux champs inconnus</b>, migration ascendante. Une sauvegarde est la donnée que le joueur ne peut pas reconstruire — un format qui casse lui fait perdre sa partie.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md457"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md460"></a>
 Exigences couvertes</h1>
 <p><span class="tt">EX-RPG-*</span> (sauvegarde, chargement, versionnement, tolérance).</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md458"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md461"></a>
 Critères d'acceptation</h1>
 <ul>
 <li>Aller-retour sauvegarde → chargement <b>à l'identique</b>, sur un état riche (plusieurs quêtes en cours, inventaire garni, plusieurs cartes visitées).</li>

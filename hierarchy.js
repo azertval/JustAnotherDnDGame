@@ -1,6 +1,7 @@
 var hierarchy =
 [
     [ "core::Aabb", "structcore_1_1Aabb.html", null ],
+    [ "core::Actor", "structcore_1_1Actor.html", null ],
     [ "core::Animation", "structcore_1_1Animation.html", null ],
     [ "hmi::AnimationCatalog", "classhmi_1_1AnimationCatalog.html", null ],
     [ "core::AnimationClip", "structcore_1_1AnimationClip.html", null ],
@@ -141,8 +142,6 @@ var hierarchy =
     [ "hmi::PlanePixelSize", "structhmi_1_1PlanePixelSize.html", null ],
     [ "hmi::PlaneTexture", "structhmi_1_1PlaneTexture.html", null ],
     [ "hmi::PlaneVisibility", "classhmi_1_1PlaneVisibility.html", null ],
-    [ "core::Player", "structcore_1_1Player.html", null ],
-    [ "hmi::PlayerEventState", "structhmi_1_1PlayerEventState.html", null ],
     [ "core::PlayerInput", "structcore_1_1PlayerInput.html", null ],
     [ "hmi::PlayerSpriteQuad", "structhmi_1_1PlayerSpriteQuad.html", null ],
     [ "hmi::PlayerSpriteTag", "structhmi_1_1PlayerSpriteTag.html", null ],
@@ -231,6 +230,7 @@ var hierarchy =
     [ "hmi::TileSkinTag", "structhmi_1_1TileSkinTag.html", null ],
     [ "hmi::TileSubgroup", "structhmi_1_1TileSubgroup.html", null ],
     [ "core::TileTextureOverride", "structcore_1_1TileTextureOverride.html", null ],
+    [ "core::TopDownConfig", "structcore_1_1TopDownConfig.html", null ],
     [ "core::Transform", "structcore_1_1Transform.html", null ],
     [ "core::TriggerWeight", "structcore_1_1TriggerWeight.html", null ],
     [ "hmi::TypographyLevel", "structhmi_1_1TypographyLevel.html", null ],

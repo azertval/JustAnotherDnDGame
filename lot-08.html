@@ -96,10 +96,10 @@ $(function(){initNavTree('lot-08.html','',''); });
 <blockquote class="doxtable">
 <p>Statut : <b>à faire</b>. Prérequis : <a class="el" href="lot-04.html" title="LOT-04 — Format de carte `version: 3`, multi-couches">LOT-04</a> (les couches donnent leur sens aux types). </p>
 </blockquote>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md405"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md408"></a>
 Objectif</h1>
 <p>Donner à la palette les types de terrain d'un RPG en vue de dessus, là où le <span class="tt">LOT-01</span> a laissé le strict minimum hérité (11 types).</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md406"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md409"></a>
 Périmètre</h1>
 <p>Types à ajouter dans <span class="tt"><a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875" title="Type d&#39;une tuile de la grille d&#39;une carte (EX-GP-001).">core::TileType</a></span>, à peu près : <span class="tt">Grass</span>, <span class="tt">Dirt</span>, <span class="tt">Sand</span>, <span class="tt">Water</span>, <span class="tt">DeepWater</span>, <span class="tt">Wall</span>, <span class="tt">Cliff</span>, <span class="tt">Bridge</span>, <span class="tt">Stairs</span>. La liste exacte se décide au contact du level design, pas d'avance.</p>
 <p>Pour <b>chaque</b> type ajouté, la chaîne complète — c'est la leçon la plus chère de l'héritage, où ajouter un type touchait « exactement la même chaîne de huit fichiers » :</p>
@@ -113,13 +113,13 @@ Périmètre</h1>
 <li><span class="tt">TileSilhouette</span> si sa matière n'occupe pas toute la case (falaises, bords d'eau, ponts) — le <span class="tt">LOT-01</span> a <b>conservé ce mécanisme vidé</b> précisément pour ce lot ;</li>
 <li>test d'aller-retour chargeur/écrivain.</li>
 </ol>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md407"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md410"></a>
 Note de conception</h1>
 <p>Le <span class="tt">LOT-01</span> a supprimé les 25 types de plateforme mais gardé les 11 génériques (<span class="tt">Empty</span>, <span class="tt">Solid</span>, <span class="tt">Danger</span>, <span class="tt">Entry</span>, <span class="tt">Exit</span>, <span class="tt">Switch</span>, <span class="tt">Door</span>, <span class="tt">PressurePlate</span>, <span class="tt">Block</span>, <span class="tt">Key</span>, <span class="tt">LockedDoor</span>) : le vocabulaire de puzzle sert tel quel au RPG. Ce lot <b>ajoute</b>, il ne remplace pas.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md408"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md411"></a>
 Exigences couvertes</h1>
 <p><span class="tt">EX-EXP-*</span>, <span class="tt">EX-EDIT-*</span>, <span class="tt">EX-REN-*</span>.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md409"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md412"></a>
 Critères d'acceptation</h1>
 <ul>
 <li>Chaque nouveau type a : un libellé fr/en, une classe de palette, un rendu procédural de repli, et un test d'aller-retour.</li>

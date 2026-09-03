@@ -2,13 +2,13 @@ var searchData=
 [
   ['habillée_0',['De jetons purs à une application habillée',['../guide-design-ihm.html#autotoc_md60',1,'']]],
   ['habillage_20livré_20lot_2040_20→_20lot_2055_1',['Le programme d&apos;habillage, livré (&lt;span class=&quot;tt&quot;&gt;LOT-40&lt;/span&gt; → &lt;span class=&quot;tt&quot;&gt;LOT-55&lt;/span&gt;)',['../guide-rendu.html#autotoc_md238',1,'']]],
-  ['habillage_20lot_2056_2',['6. Système de design et habillage (LOT-56)',['../spec-interface-ihm.html#autotoc_md330',1,'']]],
+  ['habillage_20lot_2056_2',['6. Système de design et habillage (LOT-56)',['../spec-interface-ihm.html#autotoc_md332',1,'']]],
   ['habillage_20par_20textures_20et_20décors_20lot_2040_20→_20lot_2055_3',['11. Habillage par textures et décors (&lt;span class=&quot;tt&quot;&gt;LOT-40&lt;/span&gt; → &lt;span class=&quot;tt&quot;&gt;LOT-55&lt;/span&gt;)',['../spec-editeur.html#autotoc_md302',1,'']]],
   ['header_20commentaires_20simples_20dans_20le_20cpp_4',['Doxygen dans le header, commentaires simples // dans le .cpp',['../spec-conventions.html#autotoc_md276',1,'']]],
   ['hiérarchie_20des_20surfaces_20et_20espaces_20de_20travail_20lot_2068_5',['Hiérarchie des surfaces, et espaces de travail (LOT-68)',['../guide-design-ihm.html#autotoc_md73',1,'']]],
   ['historique_20_3a_20local_20au_20canevas_20et_20nommé_6',['L&apos;historique : local au canevas, et nommé',['../guide-atelier-pixel-art.html#autotoc_md34',1,'']]],
   ['hitbox_7',['&lt;span class=&quot;tt&quot;&gt;LOT-48&lt;/span&gt; : spritesheet externe et découplage image/hitbox',['../guide-rendu.html#autotoc_md217',1,'']]],
-  ['hmi_8',['HMI',['../spec-rendu-technique.html#autotoc_md344',1,'4. Interface (HMI)'],['../cahiertest.html#autotoc_md15',1,'HMI']]],
+  ['hmi_8',['HMI',['../spec-rendu-technique.html#autotoc_md346',1,'4. Interface (HMI)'],['../cahiertest.html#autotoc_md15',1,'HMI']]],
   ['hmi_20graphics_20test_5frender_5fbudget_20cpp_9',['Le test de non-régression du volume (&lt;span class=&quot;tt&quot;&gt;Source/Test/Unit/HMI/Graphics/test_render_budget.cpp&lt;/span&gt;)',['../guide-rendu.html#autotoc_md240',1,'']]],
   ['hmi_3a_3aaudioengine_10',['Le socle : &lt;span class=&quot;tt&quot;&gt;hmi::AudioEngine&lt;/span&gt;',['../guide-audio.html#autotoc_md42',1,'']]],
   ['hmi_3a_3abitmapfont_20et_20hmi_3a_3atextrenderer_20lot_2052_11',['Le texte dans la scène : &lt;span class=&quot;tt&quot;&gt;hmi::BitmapFont&lt;/span&gt; et &lt;span class=&quot;tt&quot;&gt;hmi::TextRenderer&lt;/span&gt; (&lt;span class=&quot;tt&quot;&gt;LOT-52&lt;/span&gt;)',['../guide-rendu.html#autotoc_md231',1,'']]],
@@ -51,8 +51,8 @@ var searchData=
   ['hmi_3a_3atoplayerinput_48',['Traduire l&apos;état en intention : &lt;a class=&quot;el&quot; href=&quot;namespacehmi.html#a2c3341857c60f0bef0a01a6cd10ce5f7&quot; title=&quot;hmi::toPlayerInput&quot;&gt;hmi::toPlayerInput&lt;/a&gt;',['../guide-entrees.html#autotoc_md124',1,'']]],
   ['hmi_3a_3atoplayerinput_20hmi_3a_3atoplayerinput_49',['Traduire l&apos;état en intention : &lt;a class=&quot;el&quot; href=&quot;namespacehmi.html#a2c3341857c60f0bef0a01a6cd10ce5f7&quot; title=&quot;hmi::toPlayerInput&quot;&gt;hmi::toPlayerInput&lt;/a&gt;',['../guide-entrees.html#autotoc_md124',1,'']]],
   ['hmilib_50',['LOT-02 — Bibliothèque `HmiLib`',['../lot-02.html',1,'lots']]],
-  ['hmilib_20»_51',['Le découpage retenu — et pourquoi il n&apos;est pas « une seule &lt;span class=&quot;tt&quot;&gt;HmiLib&lt;/span&gt; »',['../lot-02.html#autotoc_md368',1,'']]],
+  ['hmilib_20»_51',['Le découpage retenu — et pourquoi il n&apos;est pas « une seule &lt;span class=&quot;tt&quot;&gt;HmiLib&lt;/span&gt; »',['../lot-02.html#autotoc_md370',1,'']]],
   ['horizontal_52',['Le piège du mur adjacent (correction du balayage horizontal)',['../guide-physique.html#autotoc_md192',1,'']]],
   ['hors_20code_53',['IHM Qt : le moins de code possible, la mise en page hors code',['../spec-conventions.html#autotoc_md272',1,'']]],
-  ['hors_20périmètre_20vertical_20slice_54',['Hors périmètre (&lt;em&gt;vertical slice&lt;/em&gt;)',['../spec-vision.html#autotoc_md353',1,'']]]
+  ['hors_20périmètre_20vertical_20slice_54',['Hors périmètre (&lt;em&gt;vertical slice&lt;/em&gt;)',['../spec-vision.html#autotoc_md355',1,'']]]
 ];

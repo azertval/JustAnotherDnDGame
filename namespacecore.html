@@ -120,14 +120,14 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interface type-effacée d'une pool de composants.  <a href="classcore_1_1IComponentPool.html#details">More...</a><br /></td></tr>
 <tr class="memitem:ComponentPool" id="r_ComponentPool"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classcore_1_1ComponentPool.html">ComponentPool</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stockage dense des composants d'un type <span class="tt">T</span>, indexé par entité (sparse set).  <a href="classcore_1_1ComponentPool.html#details">More...</a><br /></td></tr>
+<tr class="memitem:Actor" id="r_Actor"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1Actor.html">Actor</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Marque une entité <b>acteur</b> — un personnage qui occupe une case et se déplace — et porte ce que ce déplacement laisse derrière lui : son orientation et sa masse.  <a href="structcore_1_1Actor.html#details">More...</a><br /></td></tr>
 <tr class="memitem:Animation" id="r_Animation"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1Animation.html">Animation</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">État d'animation courant d'une entité : quel jeu de clips, quel clip, quelle image, depuis combien de temps.  <a href="structcore_1_1Animation.html#details">More...</a><br /></td></tr>
 <tr class="memitem:Collider" id="r_Collider"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1Collider.html">Collider</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Étendue physique d'une entité pour la collision : une boîte <b>alignée aux axes</b> (AABB).  <a href="structcore_1_1Collider.html#details">More...</a><br /></td></tr>
 <tr class="memitem:Particle" id="r_Particle"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1Particle.html">Particle</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Particule visuelle pure : position, vitesse, durée de vie &ndash; aucun effet de gameplay (<span class="tt">EX-ARCH-012</span>).  <a href="structcore_1_1Particle.html#details">More...</a><br /></td></tr>
-<tr class="memitem:Player" id="r_Player"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1Player.html">Player</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Marque l'entité <b>contrôlable par le joueur</b> et porte son état de contact au sol.  <a href="structcore_1_1Player.html#details">More...</a><br /></td></tr>
 <tr class="memitem:AtlasRegion" id="r_AtlasRegion"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1AtlasRegion.html">AtlasRegion</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Région source dans l'atlas de textures, en <b>pixels</b> (origine haut-gauche).  <a href="structcore_1_1AtlasRegion.html#details">More...</a><br /></td></tr>
 <tr class="memitem:Color" id="r_Color"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1Color.html">Color</a></td></tr>
@@ -209,6 +209,8 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><b>Intention</b> de déplacement transmise à la physique, dissociée de toute touche.  <a href="structcore_1_1PlayerInput.html#details">More...</a><br /></td></tr>
 <tr class="memitem:SweepResult" id="r_SweepResult"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1SweepResult.html">SweepResult</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Résultat d'un balayage : où la boîte s'arrête et sur quels axes elle a été bloquée.  <a href="structcore_1_1SweepResult.html#details">More...</a><br /></td></tr>
+<tr class="memitem:TopDownConfig" id="r_TopDownConfig"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1TopDownConfig.html">TopDownConfig</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Paramètres réglables du déplacement top-down, regroupés pour faciliter le <em>tuning</em>.  <a href="structcore_1_1TopDownConfig.html#details">More...</a><br /></td></tr>
 <tr class="memitem:FixedTimestep" id="r_FixedTimestep"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classcore_1_1FixedTimestep.html">FixedTimestep</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convertit un temps réel écoulé variable en un nombre de pas de simulation fixes.  <a href="classcore_1_1FixedTimestep.html#details">More...</a><br /></td></tr>
 <tr class="memitem:GridDistanceField" id="r_GridDistanceField"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classcore_1_1GridDistanceField.html">GridDistanceField</a></td></tr>
@@ -331,6 +333,8 @@ Functions</h2></td></tr>
 <tr class="memdesc:a15c89d2a138a59d257f395dcf95efc26"><td class="mdescLeft">&#160;</td><td class="mdescRight">Jeu de clips du personnage, migré tel quel depuis l'ancien dispositif figé (<span class="tt">LOT-18</span>), étendu aux états aériens/dash livrés par <span class="tt">LOT-10</span>/<span class="tt">LOT-11</span> (<span class="tt">LOT-48</span> TACHE-02).  <br /></td></tr>
 <tr class="memitem:a209ceac8415ddadd8463746b94934eed" id="r_a209ceac8415ddadd8463746b94934eed"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a209ceac8415ddadd8463746b94934eed">advanceAnimation</a> (<a class="el" href="structcore_1_1Animation.html">Animation</a> &amp;animation, float fixedDelta)</td></tr>
 <tr class="memdesc:a209ceac8415ddadd8463746b94934eed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fait progresser une seule animation d'un pas fixe (image courante, bouclage/bascule).  <br /></td></tr>
+<tr class="memitem:afb50f723166a2e99225a878005f990bc" id="r_afb50f723166a2e99225a878005f990bc"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#afb50f723166a2e99225a878005f990bc">updateTopDownMovement</a> (<a class="el" href="classcore_1_1World.html">World</a> &amp;world, <a class="el" href="structcore_1_1Entity.html">Entity</a> actor, const <a class="el" href="structcore_1_1PlayerInput.html">PlayerInput</a> &amp;input, const <a class="el" href="classcore_1_1TileMap.html">TileMap</a> &amp;collision, const <a class="el" href="structcore_1_1TopDownConfig.html">TopDownConfig</a> &amp;config, float fixedDelta)</td></tr>
+<tr class="memdesc:afb50f723166a2e99225a878005f990bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Avance un acteur d'un pas fixe : intention → vitesse → balayage → position.  <br /></td></tr>
 <tr class="memitem:a0d231b385924c096dc5f94d17639e679" id="r_a0d231b385924c096dc5f94d17639e679"><td class="memItemLeft">std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#a0d231b385924c096dc5f94d17639e679">cameraFramingModeName</a> (<a class="el" href="#a5c6444096b9bc21a78b1f1157e9070b6">CameraFramingMode</a> mode) noexcept</td></tr>
 <tr class="memdesc:a0d231b385924c096dc5f94d17639e679"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nom JSON du mode (symétrique à <span class="tt"><a class="el" href="#acae8699b6c75742b88007ea470bf54ea" title="Reconnaît le nom JSON d&#39;un mode ; std::nullopt si non reconnu (mode inconnu, EX-LVL-004).">parseCameraFramingMode</a></span>), pour la sérialisation.  <br /></td></tr>
 <tr class="memitem:acae8699b6c75742b88007ea470bf54ea" id="r_acae8699b6c75742b88007ea470bf54ea"><td class="memItemLeft">std::optional&lt; <a class="el" href="#a5c6444096b9bc21a78b1f1157e9070b6">CameraFramingMode</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#acae8699b6c75742b88007ea470bf54ea">parseCameraFramingMode</a> (std::string_view name) noexcept</td></tr>
@@ -2131,6 +2135,64 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Libellé constant ("TRACE", "INFO", "WARNING", "ERROR"). </dd></dl>
+
+</div>
+</div>
+<a id="afb50f723166a2e99225a878005f990bc" name="afb50f723166a2e99225a878005f990bc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afb50f723166a2e99225a878005f990bc">&#9670;&#160;</a></span>updateTopDownMovement()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void core::updateTopDownMovement </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classcore_1_1World.html">World</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>world</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcore_1_1Entity.html">Entity</a></td>          <td class="paramname"><span class="paramname"><em>actor</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structcore_1_1PlayerInput.html">PlayerInput</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>input</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classcore_1_1TileMap.html">TileMap</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>collision</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structcore_1_1TopDownConfig.html">TopDownConfig</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>config</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>fixedDelta</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Avance un acteur d'un pas fixe : intention → vitesse → balayage → position. </p>
+<p>Referme la parenthèse ouverte par le <span class="tt">LOT-01</span>, où la physique de plateforme a été retirée sans remplaçant. <b>Sans gravité</b> : aucun axe n'est privilégié, <span class="tt">x</span> et <span class="tt">y</span> sont traités exactement de la même façon — c'est toute la différence avec le contrôleur qu'il remplace.</p>
+<p>L'entité doit porter <span class="tt"><a class="el" href="structcore_1_1Transform.html" title="Position, échelle et rotation d&#39;une entité, en unités monde (EX-ARCH-020).">Transform</a></span>, <span class="tt"><a class="el" href="structcore_1_1Velocity.html" title="Vitesse linéaire d&#39;une entité, en unités monde par seconde.">Velocity</a></span>, <span class="tt"><a class="el" href="structcore_1_1Collider.html" title="Étendue physique d&#39;une entité pour la collision : une boîte alignée aux axes (AABB).">Collider</a></span> et <span class="tt"><a class="el" href="structcore_1_1Actor.html" title="Marque une entité acteur — un personnage qui occupe une case et se déplace — et porte ce que ce dépla...">Actor</a></span> ; les autres sont ignorées. Le déplacement passe par <span class="tt"><a class="el" href="#a4ca635df367666624247837feb2af5a5" title="Déplace box de delta en s&#39;arrêtant au premier contact avec une tuile solide, puis en glissant le long...">core::sweepAabb</a></span>, balayage <b>continu</b> contre la grille : quelle que soit la vitesse, la boîte ne traverse jamais une tuile solide, et le résidu d'un axe bloqué <b>glisse</b> le long du mur (<span class="tt">EX-EXP-002</span>, <span class="tt">EX-EXP-003</span>).</p>
+<dl class="section note"><dt>Note</dt><dd><b>La diagonale n'est pas plus rapide.</b> L'intention est normalisée avant d'être mise à l'échelle : sans cela, aller en diagonale donnerait <span class="tt">√2 ≈ 1,41</span> fois la vitesse cardinale — le défaut le plus courant du genre, et le plus visible en jeu (<span class="tt">EX-EXP-001</span>).</dd></dl>
+<p>Fonction <b>pure</b> au sens du déterminisme (<span class="tt">EX-NFR-002</span>) : mêmes entrées, mêmes positions, sans aléatoire ni horloge. Testable <b>sans fenêtre ni GPU</b> (<span class="tt">EX-ARCH-001</span>).</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">world</td><td>Monde ECS contenant l'acteur. </td></tr>
+    <tr><td class="paramname">actor</td><td>Entité à déplacer. </td></tr>
+    <tr><td class="paramname">input</td><td>Intention de ce pas (<span class="tt">moveX</span>/<span class="tt">moveY</span>, chacun dans [-1, 1]). </td></tr>
+    <tr><td class="paramname">collision</td><td>Grille de collision de la carte (<span class="tt"><a class="el" href="classcore_1_1Level.html#af42df8d6a33bdaa7aedf5b2aafd728ef">Level::tileMap</a></span>, <span class="tt">EX-LVL-016</span>). </td></tr>
+    <tr><td class="paramname">config</td><td>Réglages de vitesse, d'accélération et de friction. </td></tr>
+    <tr><td class="paramname">fixedDelta</td><td>Durée du pas fixe, en secondes. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['0_0',['0',['../lot-28.html',1,'LOT-28 — Audio, effets et version `0.2.0`'],['../spec-gameplay.html#autotoc_md315',1,'Ressenti (game feel) — ⚠️ réglage fin reporté au-delà de &lt;span class=&quot;tt&quot;&gt;0.1.0&lt;/span&gt;']]],
-  ['0_201_200_1',['Ressenti (game feel) — ⚠️ réglage fin reporté au-delà de &lt;span class=&quot;tt&quot;&gt;0.1.0&lt;/span&gt;',['../spec-gameplay.html#autotoc_md315',1,'']]],
+  ['0_0',['0',['../lot-28.html',1,'LOT-28 — Audio, effets et version `0.2.0`'],['../spec-gameplay.html#autotoc_md317',1,'Ressenti (game feel) — ⚠️ réglage fin reporté au-delà de &lt;span class=&quot;tt&quot;&gt;0.1.0&lt;/span&gt;']]],
+  ['0_201_200_1',['Ressenti (game feel) — ⚠️ réglage fin reporté au-delà de &lt;span class=&quot;tt&quot;&gt;0.1.0&lt;/span&gt;',['../spec-gameplay.html#autotoc_md317',1,'']]],
   ['0_202_200_2',['LOT-28 — Audio, effets et version `0.2.0`',['../lot-28.html',1,'lots']]],
   ['002_20lot_2020_3',['La manette : une seconde source, fusionnée en lecture (EX-CTRL-002, LOT-20)',['../guide-entrees.html#autotoc_md125',1,'']]],
   ['003_20ex_20gp_20004_4',['2. Suivi de pente et d&apos;arrondi (EX-GP-003, EX-GP-004)',['../guide-physique.html#autotoc_md189',1,'']]],
@@ -18,7 +18,7 @@ var searchData=
   ['030_20ex_20ihm_20031_15',['Lier des mécanismes dans l&apos;éditeur (&lt;span class=&quot;tt&quot;&gt;LOT-37&lt;/span&gt;, &lt;span class=&quot;tt&quot;&gt;EX-IHM-030&lt;/span&gt;/&lt;span class=&quot;tt&quot;&gt;EX-IHM-031&lt;/span&gt;)',['../guide-editeur.html#autotoc_md99',1,'']]],
   ['031_16',['Lier des mécanismes dans l&apos;éditeur (&lt;span class=&quot;tt&quot;&gt;LOT-37&lt;/span&gt;, &lt;span class=&quot;tt&quot;&gt;EX-IHM-030&lt;/span&gt;/&lt;span class=&quot;tt&quot;&gt;EX-IHM-031&lt;/span&gt;)',['../guide-editeur.html#autotoc_md99',1,'']]],
   ['04_20—_20format_20de_20carte_20version_3a_203_20multi_20couches_17',['LOT-04 — Format de carte `version: 3`, multi-couches',['../lot-04.html',1,'lots']]],
-  ['05_18',['Doctrine de profondeur (&lt;span class=&quot;tt&quot;&gt;LOT-65&lt;/span&gt; TACHE-05)',['../spec-niveaux.html#autotoc_md339',1,'']]],
+  ['05_18',['Doctrine de profondeur (&lt;span class=&quot;tt&quot;&gt;LOT-65&lt;/span&gt; TACHE-05)',['../spec-niveaux.html#autotoc_md341',1,'']]],
   ['05_20—_20modes_20de_20jeu_19',['LOT-05 — Modes de jeu',['../lot-05.html',1,'lots']]],
   ['05_2006_20',['Sélection de niveau et progression persistée (&lt;span class=&quot;tt&quot;&gt;LOT-59&lt;/span&gt; TACHE-05/06)',['../guide-ecrans.html#autotoc_md81',1,'']]],
   ['06_21',['Sélection de niveau et progression persistée (&lt;span class=&quot;tt&quot;&gt;LOT-59&lt;/span&gt; TACHE-05/06)',['../guide-ecrans.html#autotoc_md81',1,'']]],

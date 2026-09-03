@@ -96,19 +96,16 @@ $(function(){initNavTree('test__game__hud_8cpp.html','',''); });
 <p>Tests unitaires du choix de contenu de l'affichage tête haute (LOT-52 TACHE-03, EX-IHM-003).  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;filesystem&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
+<code>#include &lt;vector&gt;</code><br />
 <code>#include &lt;gtest/gtest.h&gt;</code><br />
-<code>#include &quot;<a class="el" href="Player_8h_source.html">Core/Ecs/Components/Player.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="GameHud_8h_source.html">HMI/Game/GameHud.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="Localization_8h_source.html">HMI/Localization/Localization.h</a>&quot;</code><br />
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:af0cd79edfefc2a0040c72522215ef35a" id="r_af0cd79edfefc2a0040c72522215ef35a"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#af0cd79edfefc2a0040c72522215ef35a">TEST</a> (GameHudTest, BudgetsFinisAffichentLesDeuxCompteurs)</td></tr>
-<tr class="memdesc:af0cd79edfefc2a0040c72522215ef35a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un niveau avec des budgets finis affiche les deux compteurs, puis le nom du tableau.  <br /></td></tr>
-<tr class="memitem:a7e612e1bb5c9afbf34627fe5d7555ef0" id="r_a7e612e1bb5c9afbf34627fe5d7555ef0"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a7e612e1bb5c9afbf34627fe5d7555ef0">TEST</a> (GameHudTest, NiveauSansBudgetNAfficheAucunCompteur)</td></tr>
-<tr class="memdesc:a7e612e1bb5c9afbf34627fe5d7555ef0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un niveau sans budget (illimité aux deux mouvements) n'affiche aucun compteur, seulement le nom du tableau.  <br /></td></tr>
-<tr class="memitem:adb0d2eac8c7f98f5a999f870db847f84" id="r_adb0d2eac8c7f98f5a999f870db847f84"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#adb0d2eac8c7f98f5a999f870db847f84">TEST</a> (GameHudTest, BudgetPartielNAfficheQuUnCompteur)</td></tr>
-<tr class="memdesc:adb0d2eac8c7f98f5a999f870db847f84"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un budget partiellement défini (sauts limités, dashs illimités) n'affiche qu'un seul compteur.  <br /></td></tr>
+<tr class="memitem:a1e966fe72ddcecfa98880792a8f42b13" id="r_a1e966fe72ddcecfa98880792a8f42b13"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a1e966fe72ddcecfa98880792a8f42b13">TEST</a> (GameHudTest, HorsContexteSeulLeNomDuTableauEstAffiche)</td></tr>
+<tr class="memdesc:a1e966fe72ddcecfa98880792a8f42b13"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hors contexte particulier, le HUD n'affiche que le nom du tableau.  <br /></td></tr>
 <tr class="memitem:aa788c63e7b9ac0e9aa8e04cfb5630605" id="r_aa788c63e7b9ac0e9aa8e04cfb5630605"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#aa788c63e7b9ac0e9aa8e04cfb5630605">TEST</a> (GameHudTest, ClesDeTraductionExistentDansLesDeuxCatalogues)</td></tr>
 <tr class="memdesc:aa788c63e7b9ac0e9aa8e04cfb5630605"><td class="mdescLeft">&#160;</td><td class="mdescRight">Chaque clé de traduction utilisée par le HUD existe, traduite, dans les deux catalogues livrés (français et anglais).  <br /></td></tr>
 <tr class="memitem:a4c9c01d5c4fe5ae5fa091a42eb4efd79" id="r_a4c9c01d5c4fe5ae5fa091a42eb4efd79"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a4c9c01d5c4fe5ae5fa091a42eb4efd79">TEST</a> (GameHudTest, InviteInteragirSeulementAuContactDUneCle)</td></tr>
@@ -118,68 +115,8 @@ Functions</h2></td></tr>
 <div class="textblock"><p>Tests unitaires du choix de contenu de l'affichage tête haute (LOT-52 TACHE-03, EX-IHM-003). </p>
 <p>Fonction pure, sans GPU. </p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
-<a id="adb0d2eac8c7f98f5a999f870db847f84" name="adb0d2eac8c7f98f5a999f870db847f84"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adb0d2eac8c7f98f5a999f870db847f84">&#9670;&#160;</a></span>TEST() <span class="overload">[1/5]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">TEST </td>
-          <td>(</td>
-          <td class="paramtype">GameHudTest</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">BudgetPartielNAfficheQuUnCompteur</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Un budget partiellement défini (sauts limités, dashs illimités) n'affiche qu'un seul compteur. </p>
-<p><b>Cas de test :</b> <b>Un budget partiellement défini n'affiche qu'un seul compteur.</b><br  />
- <b>Categorie :</b> Unitaire · HUD de jeu<br  />
- <b>Criticite :</b> Majeur<br  />
- <b>Etapes :</b><br  />
- 1. Mettre en place le contexte du test (arrangement).<br  />
-2. Executer le scenario et verifier les assertions.<br  />
- <b>Resultat attendu :</b> Seul le compteur de sauts est produit, avant le nom du tableau. </p>
-
-</div>
-</div>
-<a id="af0cd79edfefc2a0040c72522215ef35a" name="af0cd79edfefc2a0040c72522215ef35a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af0cd79edfefc2a0040c72522215ef35a">&#9670;&#160;</a></span>TEST() <span class="overload">[2/5]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">TEST </td>
-          <td>(</td>
-          <td class="paramtype">GameHudTest</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">BudgetsFinisAffichentLesDeuxCompteurs</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Un niveau avec des budgets finis affiche les deux compteurs, puis le nom du tableau. </p>
-<p><b>Cas de test :</b> <b>Un niveau avec des budgets finis affiche les deux compteurs et le nom du tableau.</b><br  />
- <b>Categorie :</b> Unitaire · HUD de jeu<br  />
- <b>Criticite :</b> Critique<br  />
- <b>Etapes :</b><br  />
- 1. Mettre en place le contexte du test (arrangement).<br  />
-2. Executer le scenario et verifier les assertions.<br  />
- <b>Resultat attendu :</b> Les lignes « Sauts : 3 », « Dashs : 1 » et le nom du tableau sont produites, dans cet ordre. </p>
-
-</div>
-</div>
 <a id="aa788c63e7b9ac0e9aa8e04cfb5630605" name="aa788c63e7b9ac0e9aa8e04cfb5630605"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa788c63e7b9ac0e9aa8e04cfb5630605">&#9670;&#160;</a></span>TEST() <span class="overload">[3/5]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aa788c63e7b9ac0e9aa8e04cfb5630605">&#9670;&#160;</a></span>TEST() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -198,18 +135,47 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Chaque clé de traduction utilisée par le HUD existe, traduite, dans les deux catalogues livrés (français et anglais). </p>
-<p><b>Cas de test :</b> <b>Les clés de traduction du HUD existent dans les deux catalogues livrés.</b><br  />
+<p><b>Cas de test :</b> <b>Les cles de traduction du HUD existent dans les deux catalogues livres.</b><br  />
  <b>Categorie :</b> Unitaire · HUD de jeu<br  />
  <b>Criticite :</b> Majeur<br  />
  <b>Etapes :</b><br  />
- 1. Charger fr.lang puis en.lang depuis les catalogues livrés.<br  />
-2. Résoudre les clés du HUD.<br  />
- <b>Resultat attendu :</b> Les deux clés résolvent vers un texte traduit, distinct de la clé elle-même. </p>
+ 1. Charger fr.lang puis en.lang depuis les catalogues livres.<br  />
+2. Resoudre les cles du HUD.<br  />
+ <b>Resultat attendu :</b> La cle resout vers un texte traduit, distinct de la cle elle-meme. </p>
+
+</div>
+</div>
+<a id="a1e966fe72ddcecfa98880792a8f42b13" name="a1e966fe72ddcecfa98880792a8f42b13"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1e966fe72ddcecfa98880792a8f42b13">&#9670;&#160;</a></span>TEST() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TEST </td>
+          <td>(</td>
+          <td class="paramtype">GameHudTest</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">HorsContexteSeulLeNomDuTableauEstAffiche</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Hors contexte particulier, le HUD n'affiche que le nom du tableau. </p>
+<p>Les compteurs de sauts et de dashs ont disparu avec le personnage de plateforme (<span class="tt">LOT-06</span>) : ils comptaient des ressources que le déplacement en vue de dessus n'a plus. <b>Cas de test :</b> <b>Le HUD n'affiche que le nom du tableau hors contexte particulier.</b><br  />
+ <b>Categorie :</b> Unitaire · HUD de jeu<br  />
+ <b>Criticite :</b> Critique<br  />
+ <b>Etapes :</b><br  />
+ 1. Composer le HUD d'un tableau, sans contact avec une cle.<br  />
+ <b>Resultat attendu :</b> Une seule ligne : le nom du tableau. </p>
 
 </div>
 </div>
 <a id="a4c9c01d5c4fe5ae5fa091a42eb4efd79" name="a4c9c01d5c4fe5ae5fa091a42eb4efd79"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4c9c01d5c4fe5ae5fa091a42eb4efd79">&#9670;&#160;</a></span>TEST() <span class="overload">[4/5]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a4c9c01d5c4fe5ae5fa091a42eb4efd79">&#9670;&#160;</a></span>TEST() <span class="overload">[3/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -228,43 +194,13 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Invite « Interagir » (<span class="tt">LOT-65</span> TACHE-07) : affichée <b>seulement</b> au contact d'une clé non ramassée, et en première ligne. </p>
-<p>Ramasser une clé exige le contact <b>et</b> l'action « Interagir » (<span class="tt">EX-GP-023</span>, <span class="tt">EX-CTRL-022</span>), la seule entrée du jeu qu'aucun autre tableau ne demande. Sans invite, un joueur qui l'ignore reste bloqué devant la porte verrouillée sans aucun retour. L'invite reste <b>contextuelle</b> : un tableau sans clé, ou une clé déjà ramassée, n'affiche rien — le tutoriel demeure « sans texte » partout ailleurs. <b>Cas de test :</b> <b>L'invite « Interagir » n'apparaît qu'au contact d'une clé non ramassée, en première ligne du HUD.</b><br  />
+<p>Ramasser une clé exige le contact <b>et</b> l'action « Interagir » (<span class="tt">EX-GP-023</span>, <span class="tt">EX-CTRL-022</span>), la seule entrée du jeu qu'aucun autre tableau ne demande. Sans invite, un joueur qui l'ignore reste bloqué devant la porte verrouillée sans aucun retour. L'invite reste <b>contextuelle</b> : un tableau sans clé, ou une clé déjà ramassée, n'affiche rien — le tutoriel demeure « sans texte » partout ailleurs. <b>Cas de test :</b> <b>L'invite Interagir n'apparait qu'au contact d'une cle non ramassee, en premiere ligne du HUD.</b><br  />
  <b>Categorie :</b> Unitaire · HUD de jeu<br  />
  <b>Criticite :</b> Majeur<br  />
  <b>Etapes :</b><br  />
- 1. Composer le HUD hors contact d'une clé.<br  />
-2. Le composer au contact d'une clé non ramassée.<br  />
- <b>Resultat attendu :</b> Aucune invite dans le premier cas ; l'invite en première ligne dans le second, sans modifier les autres lignes. </p>
-
-</div>
-</div>
-<a id="a7e612e1bb5c9afbf34627fe5d7555ef0" name="a7e612e1bb5c9afbf34627fe5d7555ef0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7e612e1bb5c9afbf34627fe5d7555ef0">&#9670;&#160;</a></span>TEST() <span class="overload">[5/5]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">TEST </td>
-          <td>(</td>
-          <td class="paramtype">GameHudTest</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">NiveauSansBudgetNAfficheAucunCompteur</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Un niveau sans budget (illimité aux deux mouvements) n'affiche aucun compteur, seulement le nom du tableau. </p>
-<p><b>Cas de test :</b> <b>Un niveau sans budget n'affiche aucun compteur.</b><br  />
- <b>Categorie :</b> Unitaire · HUD de jeu<br  />
- <b>Criticite :</b> Critique<br  />
- <b>Etapes :</b><br  />
- 1. Mettre en place le contexte du test (arrangement).<br  />
-2. Executer le scenario et verifier les assertions.<br  />
- <b>Resultat attendu :</b> Seul le nom du tableau est produit. </p>
+ 1. Composer le HUD hors contact d'une cle.<br  />
+2. Le composer au contact d'une cle non ramassee.<br  />
+ <b>Resultat attendu :</b> Aucune invite dans le premier cas ; l'invite en premiere ligne dans le second, le nom du tableau restant en derniere ligne. </p>
 
 </div>
 </div>

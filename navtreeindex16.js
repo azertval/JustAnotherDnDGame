@@ -1,5 +1,8 @@
 var NAVTREEINDEX16 =
 {
+"dir_f69202b516efeab62778db608b6130e3.html":[13,0,3,0,1,0],
+"dir_f8b7e8d4ca3133a56858706d968618a8.html":[13,0,1,6],
+"dir_f91c2d018320b0132131716688498ed9.html":[13,0,1,16],
 "dir_fba569c3877bbe768cb389404162bedd.html":[13,0,1,25],
 "dir_ffb0cced123a830bb38647d5fc6270a2.html":[13,0,3,2,0],
 "files.html":[13,0],
@@ -246,8 +249,5 @@ var NAVTREEINDEX16 =
 "guide-maths.html#autotoc_md159":[4,5,3],
 "guide-maths.html#autotoc_md160":[4,5,4],
 "guide-niveaux.html":[4,7],
-"guide-niveaux.html#autotoc_md161":[4,7,0],
-"guide-niveaux.html#autotoc_md162":[4,7,0,0],
-"guide-niveaux.html#autotoc_md163":[4,7,0,1],
-"guide-niveaux.html#autotoc_md164":[4,7,0,2]
+"guide-niveaux.html#autotoc_md161":[4,7,0]
 };

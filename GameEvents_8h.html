@@ -98,7 +98,6 @@ $(function(){initNavTree('GameEvents_8h.html','',''); });
 <div class="textblock"><code>#include &lt;cstddef&gt;</code><br />
 <code>#include &lt;optional&gt;</code><br />
 <code>#include &lt;vector&gt;</code><br />
-<code>#include &quot;<a class="el" href="Player_8h_source.html">Core/Ecs/Components/Player.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="MechanismController_8h_source.html">Core/Gameplay/MechanismController.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="LevelOutcome_8h_source.html">Core/Levels/LevelOutcome.h</a>&quot;</code><br />
 </div>
@@ -106,8 +105,6 @@ $(function(){initNavTree('GameEvents_8h.html','',''); });
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:hmi_3A_3APlayerEventState" id="r_hmi_3A_3APlayerEventState"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1PlayerEventState.html">hmi::PlayerEventState</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sous-ensemble de <span class="tt"><a class="el" href="structcore_1_1Player.html" title="Marque l&#39;entité contrôlable par le joueur et porte son état de contact au sol.">core::Player</a></span> pertinent à la détection d'événements.  <a href="structhmi_1_1PlayerEventState.html#details">More...</a><br /></td></tr>
 <tr class="memitem:hmi_3A_3AMechanismEventState" id="r_hmi_3A_3AMechanismEventState"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1MechanismEventState.html">hmi::MechanismEventState</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">État « porte ouverte » de chaque mécanisme, même index que <span class="tt"><a class="el" href="classcore_1_1MechanismController.html#adb0a0f83d8a5302a84bc3c67386c09e7">core::MechanismController::mechanisms()</a></span>.  <a href="structhmi_1_1MechanismEventState.html#details">More...</a><br /></td></tr>
 </table><table class="memberdecls">
@@ -145,8 +142,6 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:afcb621148a1dc0224b1136f50c952795" id="r_afcb621148a1dc0224b1136f50c952795"><td class="memItemLeft">std::vector&lt; <a class="el" href="namespacehmi.html#a3a61aed1c8e95c289c829398d48488de">GameEvent</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#afcb621148a1dc0224b1136f50c952795">hmi::detectPlayerEvents</a> (const <a class="el" href="structhmi_1_1PlayerEventState.html">PlayerEventState</a> &amp;previous, const <a class="el" href="structhmi_1_1PlayerEventState.html">PlayerEventState</a> &amp;current)</td></tr>
-<tr class="memdesc:afcb621148a1dc0224b1136f50c952795"><td class="mdescLeft">&#160;</td><td class="mdescRight">Détecte les transitions du personnage entre deux pas de simulation consécutifs.  <br /></td></tr>
 <tr class="memitem:afb9ffef4971f7aeeea19cfa0a2cddbb9" id="r_afb9ffef4971f7aeeea19cfa0a2cddbb9"><td class="memItemLeft">std::vector&lt; <a class="el" href="namespacehmi.html#a3a61aed1c8e95c289c829398d48488de">GameEvent</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#afb9ffef4971f7aeeea19cfa0a2cddbb9">hmi::detectMechanismEvents</a> (const <a class="el" href="structhmi_1_1MechanismEventState.html">MechanismEventState</a> &amp;previous, const <a class="el" href="structhmi_1_1MechanismEventState.html">MechanismEventState</a> &amp;current, const std::vector&lt; bool &gt; &amp;isContinuous)</td></tr>
 <tr class="memdesc:afb9ffef4971f7aeeea19cfa0a2cddbb9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Détecte les transitions des mécanismes entre deux pas de simulation consécutifs.  <br /></td></tr>
 <tr class="memitem:a89b12465488e01b1f3b8bfaa0e7bf26a" id="r_a89b12465488e01b1f3b8bfaa0e7bf26a"><td class="memItemLeft">std::optional&lt; <a class="el" href="namespacehmi.html#a3a61aed1c8e95c289c829398d48488de">GameEvent</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#a89b12465488e01b1f3b8bfaa0e7bf26a">hmi::detectOutcomeEvent</a> (<a class="el" href="namespacecore.html#a60398ec3835dd2882a7d3a9eaddb65aa">core::LevelOutcome</a> outcome)</td></tr>

@@ -96,8 +96,8 @@ $(function(){initNavTree('test__animation__personnage_8cpp.html','',''); });
 <p>Tests d'intégration de l'animation du personnage : ECS + système d'animation assemblés.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;gtest/gtest.h&gt;</code><br />
+<code>#include &quot;<a class="el" href="Actor_8h_source.html">Core/Ecs/Components/Actor.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="Animation_8h_source.html">Core/Ecs/Components/Animation.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="Player_8h_source.html">Core/Ecs/Components/Player.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="Velocity_8h_source.html">Core/Ecs/Components/Velocity.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="AnimationSystem_8h_source.html">Core/Ecs/Systems/AnimationSystem.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="World_8h_source.html">Core/Ecs/World.h</a>&quot;</code><br />
@@ -105,39 +105,55 @@ $(function(){initNavTree('test__animation__personnage_8cpp.html','',''); });
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a7869699d21aa0764adb7b4f64fd228f2" id="r_a7869699d21aa0764adb7b4f64fd228f2"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a7869699d21aa0764adb7b4f64fd228f2">TEST</a> (AnimationPersonnageIntegration, ImmobileAuSolEstEnRepos)</td></tr>
-<tr class="memdesc:a7869699d21aa0764adb7b4f64fd228f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Au sol et immobile, le clip est Idle et l'image alterne 0/1 après chaque durée d'image.  <br /></td></tr>
-<tr class="memitem:a69cce02b0150147f506dc00fef8603dc" id="r_a69cce02b0150147f506dc00fef8603dc"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a69cce02b0150147f506dc00fef8603dc">TEST</a> (AnimationPersonnageIntegration, EnMouvementAuSolCourt)</td></tr>
-<tr class="memdesc:a69cce02b0150147f506dc00fef8603dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Au sol et en mouvement, le clip est Run et l'image boucle sur les 4 images dans l'ordre.  <br /></td></tr>
-<tr class="memitem:a525fe939edd26242eb0d04cd0361f6d5" id="r_a525fe939edd26242eb0d04cd0361f6d5"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a525fe939edd26242eb0d04cd0361f6d5">TEST</a> (AnimationPersonnageIntegration, EnLAirEstEnSaut)</td></tr>
-<tr class="memdesc:a525fe939edd26242eb0d04cd0361f6d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">En l'air, le clip est Jump et l'image reste figée sur 0, quelle que soit la durée.  <br /></td></tr>
+<tr class="memitem:a210ee16ce8d12bbb9ac44ee4ac433a7c" id="r_a210ee16ce8d12bbb9ac44ee4ac433a7c"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a210ee16ce8d12bbb9ac44ee4ac433a7c">TEST</a> (AnimationPersonnageIntegration, ALArretEstEnRepos)</td></tr>
+<tr class="memdesc:a210ee16ce8d12bbb9ac44ee4ac433a7c"><td class="mdescLeft">&#160;</td><td class="mdescRight">À l'arrêt, le clip est Idle et l'image alterne 0/1 après chaque durée d'image.  <br /></td></tr>
+<tr class="memitem:a07bb5a308ce378484146cdbcb49eac92" id="r_a07bb5a308ce378484146cdbcb49eac92"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a07bb5a308ce378484146cdbcb49eac92">TEST</a> (AnimationPersonnageIntegration, EnMouvementCourt)</td></tr>
+<tr class="memdesc:a07bb5a308ce378484146cdbcb49eac92"><td class="mdescLeft">&#160;</td><td class="mdescRight">En mouvement horizontal, le clip est Run et l'image boucle sur les 4 images dans l'ordre.  <br /></td></tr>
+<tr class="memitem:ac3ba03a9849b0d77f2bb8adcff57a988" id="r_ac3ba03a9849b0d77f2bb8adcff57a988"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#ac3ba03a9849b0d77f2bb8adcff57a988">TEST</a> (AnimationPersonnageIntegration, MarcheVerticaleCourtAussi)</td></tr>
+<tr class="memdesc:ac3ba03a9849b0d77f2bb8adcff57a988"><td class="mdescLeft">&#160;</td><td class="mdescRight">Marcher <b>vers le haut</b> anime autant que marcher vers la droite : les deux axes comptent pareil (<span class="tt">EX-EXP-001</span>).  <br /></td></tr>
 <tr class="memitem:af4976ace456264a084512b4328003d29" id="r_af4976ace456264a084512b4328003d29"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#af4976ace456264a084512b4328003d29">TEST</a> (AnimationPersonnageIntegration, ChangementDeClipReinitialiseLImage)</td></tr>
 <tr class="memdesc:af4976ace456264a084512b4328003d29"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un changement de clip réinitialise immédiatement l'image et le chronomètre à zéro.  <br /></td></tr>
 <tr class="memitem:a94b553ac3d055dc1002c898b48e73451" id="r_a94b553ac3d055dc1002c898b48e73451"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a94b553ac3d055dc1002c898b48e73451">TEST</a> (AnimationPersonnageIntegration, EntiteSansAnimationIgnoree)</td></tr>
 <tr class="memdesc:a94b553ac3d055dc1002c898b48e73451"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une entité sans composant Animation n'est pas affectée par le système.  <br /></td></tr>
 <tr class="memitem:a7c4b3841db920f96fa3bdaeba63656f3" id="r_a7c4b3841db920f96fa3bdaeba63656f3"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a7c4b3841db920f96fa3bdaeba63656f3">TEST</a> (AnimationPersonnageIntegration, AnimationSansJeuDeClipsResteInerte)</td></tr>
 <tr class="memdesc:a7c4b3841db920f96fa3bdaeba63656f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une entité portant Animation mais sans jeu de clips assigné n'est pas affectée (<span class="tt">EX-NFR-040</span>) : aucune donnée à progresser, ni plantage.  <br /></td></tr>
-<tr class="memitem:a88d1c0f8d64bccfcd250d811cbd268ec" id="r_a88d1c0f8d64bccfcd250d811cbd268ec"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a88d1c0f8d64bccfcd250d811cbd268ec">TEST</a> (AnimationPersonnageIntegration, EnChuteEstDistinctDuSaut)</td></tr>
-<tr class="memdesc:a88d1c0f8d64bccfcd250d811cbd268ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">En l'air et en train de descendre (vitesse verticale positive), le clip est Fall, distinct de Jump (<span class="tt">LOT-48</span> TACHE-02).  <br /></td></tr>
-<tr class="memitem:a664d1ec245c532d40e5080a099152e1e" id="r_a664d1ec245c532d40e5080a099152e1e"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a664d1ec245c532d40e5080a099152e1e">TEST</a> (AnimationPersonnageIntegration, ApexSuspenduResteEnSaut)</td></tr>
-<tr class="memdesc:a664d1ec245c532d40e5080a099152e1e"><td class="mdescLeft">&#160;</td><td class="mdescRight">En l'air et en train de monter (vitesse verticale negative ou nulle, apex compris), le clip reste Jump.  <br /></td></tr>
-<tr class="memitem:a3faf3285fe21cb21f3a4877c9caf1b2c" id="r_a3faf3285fe21cb21f3a4877c9caf1b2c"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a3faf3285fe21cb21f3a4877c9caf1b2c">TEST</a> (AnimationPersonnageIntegration, ContactMuralEstEnGlissade)</td></tr>
-<tr class="memdesc:a3faf3285fe21cb21f3a4877c9caf1b2c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contact mural en l'air (wallDirection non nul, pas au sol) : le clip est WallSlide, quel que soit le signe de la vitesse verticale.  <br /></td></tr>
-<tr class="memitem:a22185739f60f09991b7de3f14f40eae5" id="r_a22185739f60f09991b7de3f14f40eae5"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a22185739f60f09991b7de3f14f40eae5">TEST</a> (AnimationPersonnageIntegration, DashDomineLaChute)</td></tr>
-<tr class="memdesc:a22185739f60f09991b7de3f14f40eae5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le dash est prioritaire sur tout le reste, y compris une chute en cours.  <br /></td></tr>
-<tr class="memitem:a7c199cf0279c7158512cfe0efed7ae48" id="r_a7c199cf0279c7158512cfe0efed7ae48"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a7c199cf0279c7158512cfe0efed7ae48">TEST</a> (AnimationPersonnageIntegration, DashInterrompLAtterrissage)</td></tr>
-<tr class="memdesc:a7c199cf0279c7158512cfe0efed7ae48"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le dash est prioritaire meme sur un atterrissage en cours.  <br /></td></tr>
-<tr class="memitem:acb0d29953a41023a645997de9be6aeb9" id="r_acb0d29953a41023a645997de9be6aeb9"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#acb0d29953a41023a645997de9be6aeb9">TEST</a> (AnimationPersonnageIntegration, AtterrissageEnchaineSurRepos)</td></tr>
-<tr class="memdesc:acb0d29953a41023a645997de9be6aeb9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un contact au sol depuis un clip aerien (Jump/Fall/WallSlide) declenche l'atterrissage (transition detectee par comparaison avec le clip du pas precedent, comme les transitions de mecanismes, <span class="tt">LOT-47</span> TACHE-02), qui enchaine sur Idle ou Run une fois jouee.  <br /></td></tr>
-<tr class="memitem:afe5227fec2db564d0a0979c45f100b58" id="r_afe5227fec2db564d0a0979c45f100b58"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#afe5227fec2db564d0a0979c45f100b58">TEST</a> (AnimationPersonnageIntegration, GlissadeMuraleAuContactDeclencheAtterrissage)</td></tr>
-<tr class="memdesc:afe5227fec2db564d0a0979c45f100b58"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une glissade murale a l'instant du contact au sol declenche l'atterrissage (WallSlide est un clip aerien, meme priorite que Jump/Fall).  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Tests d'intégration de l'animation du personnage : ECS + système d'animation assemblés. </p>
-<p><span class="tt">AnimationSystem</span> dérive le clip (idle/run/jump) et l'image courante de l'état physique du personnage (<span class="tt">Player::grounded</span>, <span class="tt">Velocity</span>). Test de <b>référence</b> (<span class="tt">LOT-46</span> TACHE-04) : la migration vers le moteur générique piloté par données ne doit produire <b>aucune</b> différence de comportement — mêmes attentes qu'avant le lot, exprimées avec la nouvelle API (<span class="tt">clipIndex</span> résolu dans <span class="tt"><a class="el" href="namespacecore.html#a15c89d2a138a59d257f395dcf95efc26" title="Jeu de clips du personnage, migré tel quel depuis l&#39;ancien dispositif figé (LOT-18),...">core::playerClipSet()</a></span>, plutôt que l'ancien <span class="tt">enum class <a class="el" href="structcore_1_1AnimationClip.html" title="Clip d&#39;animation : une suite d&#39;images, une durée par image, une manière de finir.">core::AnimationClip</a></span>). </p>
+<p><span class="tt">AnimationSystem</span> dérive le clip (idle/run) et l'image courante de la <b>vitesse simulée</b> d'un <span class="tt"><a class="el" href="structcore_1_1Actor.html" title="Marque une entité acteur — un personnage qui occupe une case et se déplace — et porte ce que ce dépla...">core::Actor</a></span>. Depuis le <span class="tt">LOT-06</span>, il n'y a plus ni sol à quitter ni mur où glisser : les clips aériens du platformer restent déclarés dans <span class="tt"><a class="el" href="namespacecore.html#a15c89d2a138a59d257f395dcf95efc26" title="Jeu de clips du personnage, migré tel quel depuis l&#39;ancien dispositif figé (LOT-18),...">core::playerClipSet()</a></span> — poses procédurales et spritesheets externes s'y accrochent — mais plus rien ne les sélectionne, et c'est le vocabulaire de sprites RPG du <span class="tt">LOT-08</span> qui refera ce jeu de clips. </p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
+<a id="a210ee16ce8d12bbb9ac44ee4ac433a7c" name="a210ee16ce8d12bbb9ac44ee4ac433a7c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a210ee16ce8d12bbb9ac44ee4ac433a7c">&#9670;&#160;</a></span>TEST() <span class="overload">[1/6]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TEST </td>
+          <td>(</td>
+          <td class="paramtype">AnimationPersonnageIntegration</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ALArretEstEnRepos</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>À l'arrêt, le clip est Idle et l'image alterne 0/1 après chaque durée d'image. </p>
+<p><b>Cas de test :</b> <b>A l'arret, le clip est Idle et l'image alterne 0/1 apres chaque duree d'image.</b> <br  />
+ <b>Categorie :</b> Integration · Animation Personnage<br  />
+ <b>Criticite :</b> Majeur<br  />
+ <b>Etapes :</b><br  />
+ 1. Placer un acteur de vitesse nulle.<br  />
+2. Avancer l'animation d'une duree d'image.<br  />
+ <b>Resultat attendu :</b> Le clip est Idle, et l'image alterne 0 puis 1. </p>
+
+</div>
+</div>
 <a id="a7c4b3841db920f96fa3bdaeba63656f3" name="a7c4b3841db920f96fa3bdaeba63656f3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7c4b3841db920f96fa3bdaeba63656f3">&#9670;&#160;</a></span>TEST() <span class="overload">[1/13]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a7c4b3841db920f96fa3bdaeba63656f3">&#9670;&#160;</a></span>TEST() <span class="overload">[2/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -156,79 +172,18 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Une entité portant Animation mais sans jeu de clips assigné n'est pas affectée (<span class="tt">EX-NFR-040</span>) : aucune donnée à progresser, ni plantage. </p>
-<p><b>Cas de test :</b> <b>Une entité Animation sans jeu de clips assigné reste inerte, sans planter.</b><br  />
+<p><b>Cas de test :</b> <b>Une entite Animation sans jeu de clips assigne reste inerte, sans planter.</b><br  />
  <b>Categorie :</b> Integration · Animation Personnage<br  />
  <b>Criticite :</b> Mineur<br  />
  <b>Etapes :</b><br  />
- 1. Mettre en place le contexte du test (arrangement).<br  />
-2. Executer le scenario et verifier les assertions.<br  />
- <b>Resultat attendu :</b> L'animation reste à ses valeurs par défaut, sans exception. </p>
-
-</div>
-</div>
-<a id="a664d1ec245c532d40e5080a099152e1e" name="a664d1ec245c532d40e5080a099152e1e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a664d1ec245c532d40e5080a099152e1e">&#9670;&#160;</a></span>TEST() <span class="overload">[2/13]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">TEST </td>
-          <td>(</td>
-          <td class="paramtype">AnimationPersonnageIntegration</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">ApexSuspenduResteEnSaut</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>En l'air et en train de monter (vitesse verticale negative ou nulle, apex compris), le clip reste Jump. </p>
-<p><b>Cas de test :</b> <b>En l'air en montee ou a l'apex, le clip est Jump.</b><br  />
- <b>Categorie :</b> Integration · Animation Personnage<br  />
- <b>Criticite :</b> Majeur<br  />
- <b>Etapes :</b><br  />
- 1. Placer le personnage en l'air, vitesse verticale nulle (apex).<br  />
-2. Executer un pas.<br  />
- <b>Resultat attendu :</b> Le clip resolu est Jump. </p>
-
-</div>
-</div>
-<a id="acb0d29953a41023a645997de9be6aeb9" name="acb0d29953a41023a645997de9be6aeb9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acb0d29953a41023a645997de9be6aeb9">&#9670;&#160;</a></span>TEST() <span class="overload">[3/13]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">TEST </td>
-          <td>(</td>
-          <td class="paramtype">AnimationPersonnageIntegration</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">AtterrissageEnchaineSurRepos</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Un contact au sol depuis un clip aerien (Jump/Fall/WallSlide) declenche l'atterrissage (transition detectee par comparaison avec le clip du pas precedent, comme les transitions de mecanismes, <span class="tt">LOT-47</span> TACHE-02), qui enchaine sur Idle ou Run une fois jouee. </p>
-<p><b>Cas de test :</b> <b>Un contact au sol depuis un clip aerien declenche Land, qui enchaine sur Idle.</b><br  />
- <b>Categorie :</b> Integration · Animation Personnage<br  />
- <b>Criticite :</b> Critique<br  />
- <b>Etapes :</b><br  />
- 1. Faire chuter le personnage (Fall).<br  />
-2. Le poser au sol, immobile.<br  />
-3. Executer jusqu'a la fin de la transition.<br  />
- <b>Resultat attendu :</b> Land se joue une fois puis bascule sur Idle. </p>
+ 1. Creer un acteur dont l'Animation n'a aucun jeu de clips.<br  />
+2. Avancer le systeme dix pas.<br  />
+ <b>Resultat attendu :</b> L'animation reste a ses valeurs par defaut, sans exception. </p>
 
 </div>
 </div>
 <a id="af4976ace456264a084512b4328003d29" name="af4976ace456264a084512b4328003d29"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af4976ace456264a084512b4328003d29">&#9670;&#160;</a></span>TEST() <span class="overload">[4/13]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#af4976ace456264a084512b4328003d29">&#9670;&#160;</a></span>TEST() <span class="overload">[3/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -247,18 +202,18 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Un changement de clip réinitialise immédiatement l'image et le chronomètre à zéro. </p>
-<p><b>Cas de test :</b> <b>Un changement de clip réinitialise immédiatement l'image et le chronomètre à zéro.</b><br  />
+<p><b>Cas de test :</b> <b>Un changement de clip reinitialise immediatement l'image et le chronometre.</b><br  />
  <b>Categorie :</b> Integration · Animation Personnage<br  />
  <b>Criticite :</b> Majeur<br  />
  <b>Etapes :</b><br  />
- 1. Mettre en place le contexte du test (arrangement).<br  />
-2. Executer le scenario et verifier les assertions.<br  />
- <b>Resultat attendu :</b> Un changement de clip réinitialise immédiatement l'image et le chronomètre à zéro. </p>
+ 1. Faire courir un acteur jusqu'a une image differente de 0.<br  />
+2. Annuler sa vitesse.<br  />
+ <b>Resultat attendu :</b> Le clip repasse a Idle, image 0, chronometre a zero. </p>
 
 </div>
 </div>
-<a id="a3faf3285fe21cb21f3a4877c9caf1b2c" name="a3faf3285fe21cb21f3a4877c9caf1b2c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3faf3285fe21cb21f3a4877c9caf1b2c">&#9670;&#160;</a></span>TEST() <span class="overload">[5/13]</span></h2>
+<a id="a07bb5a308ce378484146cdbcb49eac92" name="a07bb5a308ce378484146cdbcb49eac92"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07bb5a308ce378484146cdbcb49eac92">&#9670;&#160;</a></span>TEST() <span class="overload">[4/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -271,174 +226,24 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">ContactMuralEstEnGlissade</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+          <td class="paramtype">EnMouvementCourt</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Contact mural en l'air (wallDirection non nul, pas au sol) : le clip est WallSlide, quel que soit le signe de la vitesse verticale. </p>
-<p><b>Cas de test :</b> <b>Contact mural en l'air : le clip est WallSlide.</b><br  />
+<p>En mouvement horizontal, le clip est Run et l'image boucle sur les 4 images dans l'ordre. </p>
+<p><b>Cas de test :</b> <b>En mouvement, le clip est Run et l'image boucle sur les 4 images dans l'ordre.</b> <br  />
  <b>Categorie :</b> Integration · Animation Personnage<br  />
  <b>Criticite :</b> Majeur<br  />
  <b>Etapes :</b><br  />
- 1. Placer le personnage en l'air, au contact d'un mur.<br  />
-2. Executer un pas.<br  />
- <b>Resultat attendu :</b> Le clip resolu est WallSlide, pas Fall/Jump. </p>
-
-</div>
-</div>
-<a id="a22185739f60f09991b7de3f14f40eae5" name="a22185739f60f09991b7de3f14f40eae5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a22185739f60f09991b7de3f14f40eae5">&#9670;&#160;</a></span>TEST() <span class="overload">[6/13]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">TEST </td>
-          <td>(</td>
-          <td class="paramtype">AnimationPersonnageIntegration</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">DashDomineLaChute</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Le dash est prioritaire sur tout le reste, y compris une chute en cours. </p>
-<p><b>Cas de test :</b> <b>Le dash domine la chute (combinaison ambigue).</b><br  />
- <b>Categorie :</b> Integration · Animation Personnage<br  />
- <b>Criticite :</b> Critique<br  />
- <b>Etapes :</b><br  />
- 1. Placer le personnage en chute, dashTimer actif.<br  />
-2. Executer un pas.<br  />
- <b>Resultat attendu :</b> Le clip resolu est Dash. </p>
-
-</div>
-</div>
-<a id="a7c199cf0279c7158512cfe0efed7ae48" name="a7c199cf0279c7158512cfe0efed7ae48"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7c199cf0279c7158512cfe0efed7ae48">&#9670;&#160;</a></span>TEST() <span class="overload">[7/13]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">TEST </td>
-          <td>(</td>
-          <td class="paramtype">AnimationPersonnageIntegration</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">DashInterrompLAtterrissage</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Le dash est prioritaire meme sur un atterrissage en cours. </p>
-<p><b>Cas de test :</b> <b>Le dash domine un atterrissage en cours.</b><br  />
- <b>Categorie :</b> Integration · Animation Personnage<br  />
- <b>Criticite :</b> Majeur<br  />
- <b>Etapes :</b><br  />
- 1. Faire atterrir le personnage (transition Land engagee).<br  />
-2. Declencher un dash au pas suivant.<br  />
- <b>Resultat attendu :</b> Le clip resolu bascule sur Dash, interrompant Land. </p>
-
-</div>
-</div>
-<a id="a88d1c0f8d64bccfcd250d811cbd268ec" name="a88d1c0f8d64bccfcd250d811cbd268ec"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a88d1c0f8d64bccfcd250d811cbd268ec">&#9670;&#160;</a></span>TEST() <span class="overload">[8/13]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">TEST </td>
-          <td>(</td>
-          <td class="paramtype">AnimationPersonnageIntegration</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">EnChuteEstDistinctDuSaut</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>En l'air et en train de descendre (vitesse verticale positive), le clip est Fall, distinct de Jump (<span class="tt">LOT-48</span> TACHE-02). </p>
-<p><b>Cas de test :</b> <b>En l'air et en train de descendre, le clip est Fall.</b><br  />
- <b>Categorie :</b> Integration · Animation Personnage<br  />
- <b>Criticite :</b> Majeur<br  />
- <b>Etapes :</b><br  />
- 1. Placer le personnage en l'air, vitesse verticale positive (chute).<br  />
-2. Executer un pas.<br  />
- <b>Resultat attendu :</b> Le clip resolu est Fall, pas Jump. </p>
-
-</div>
-</div>
-<a id="a525fe939edd26242eb0d04cd0361f6d5" name="a525fe939edd26242eb0d04cd0361f6d5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a525fe939edd26242eb0d04cd0361f6d5">&#9670;&#160;</a></span>TEST() <span class="overload">[9/13]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">TEST </td>
-          <td>(</td>
-          <td class="paramtype">AnimationPersonnageIntegration</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">EnLAirEstEnSaut</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>En l'air, le clip est Jump et l'image reste figée sur 0, quelle que soit la durée. </p>
-<p><b>Cas de test :</b> <b>En l'air, le clip est Jump et l'image reste figée sur 0, quelle que soit la durée.</b><br  />
- <b>Categorie :</b> Integration · Animation Personnage<br  />
- <b>Criticite :</b> Majeur<br  />
- <b>Etapes :</b><br  />
- 1. Mettre en place le contexte du test (arrangement).<br  />
-2. Executer le scenario et verifier les assertions.<br  />
- <b>Resultat attendu :</b> En l'air, le clip est Jump et l'image reste figée sur 0, quelle que soit la durée. </p>
-
-</div>
-</div>
-<a id="a69cce02b0150147f506dc00fef8603dc" name="a69cce02b0150147f506dc00fef8603dc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a69cce02b0150147f506dc00fef8603dc">&#9670;&#160;</a></span>TEST() <span class="overload">[10/13]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">TEST </td>
-          <td>(</td>
-          <td class="paramtype">AnimationPersonnageIntegration</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">EnMouvementAuSolCourt</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Au sol et en mouvement, le clip est Run et l'image boucle sur les 4 images dans l'ordre. </p>
-<p><b>Cas de test :</b> <b>Au sol et en mouvement, le clip est Run et l'image boucle sur les 4 images dans l'ordre.</b><br  />
- <b>Categorie :</b> Integration · Animation Personnage<br  />
- <b>Criticite :</b> Majeur<br  />
- <b>Etapes :</b><br  />
- 1. Mettre en place le contexte du test (arrangement).<br  />
-2. Executer le scenario et verifier les assertions.<br  />
- <b>Resultat attendu :</b> Au sol et en mouvement, le clip est Run et l'image boucle sur les 4 images dans l'ordre. </p>
+ 1. Placer un acteur en mouvement horizontal.<br  />
+2. Avancer l'animation de quatre durees d'image.<br  />
+ <b>Resultat attendu :</b> Le clip est Run, et l'image passe 0, 1, 2, 3 puis reboucle sur 0. </p>
 
 </div>
 </div>
 <a id="a94b553ac3d055dc1002c898b48e73451" name="a94b553ac3d055dc1002c898b48e73451"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a94b553ac3d055dc1002c898b48e73451">&#9670;&#160;</a></span>TEST() <span class="overload">[11/13]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a94b553ac3d055dc1002c898b48e73451">&#9670;&#160;</a></span>TEST() <span class="overload">[5/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -457,18 +262,18 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Une entité sans composant Animation n'est pas affectée par le système. </p>
-<p><b>Cas de test :</b> <b>Une entité sans composant Animation n'est pas affectée par le système.</b><br  />
+<p><b>Cas de test :</b> <b>Une entite sans composant Animation n'est pas affectee par le systeme.</b><br  />
  <b>Categorie :</b> Integration · Animation Personnage<br  />
  <b>Criticite :</b> Mineur<br  />
  <b>Etapes :</b><br  />
- 1. Mettre en place le contexte du test (arrangement).<br  />
-2. Executer le scenario et verifier les assertions.<br  />
- <b>Resultat attendu :</b> Une entité sans composant Animation n'est pas affectée par le système. </p>
+ 1. Creer un acteur sans composant Animation.<br  />
+2. Avancer le systeme dix pas.<br  />
+ <b>Resultat attendu :</b> Aucun composant Animation n'apparait. </p>
 
 </div>
 </div>
-<a id="afe5227fec2db564d0a0979c45f100b58" name="afe5227fec2db564d0a0979c45f100b58"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afe5227fec2db564d0a0979c45f100b58">&#9670;&#160;</a></span>TEST() <span class="overload">[12/13]</span></h2>
+<a id="ac3ba03a9849b0d77f2bb8adcff57a988" name="ac3ba03a9849b0d77f2bb8adcff57a988"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac3ba03a9849b0d77f2bb8adcff57a988">&#9670;&#160;</a></span>TEST() <span class="overload">[6/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -481,50 +286,19 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">GlissadeMuraleAuContactDeclencheAtterrissage</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+          <td class="paramtype">MarcheVerticaleCourtAussi</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Une glissade murale a l'instant du contact au sol declenche l'atterrissage (WallSlide est un clip aerien, meme priorite que Jump/Fall). </p>
-<p><b>Cas de test :</b> <b>Glissade murale au moment du contact au sol : atterrissage.</b><br  />
+<p>Marcher <b>vers le haut</b> anime autant que marcher vers la droite : les deux axes comptent pareil (<span class="tt">EX-EXP-001</span>). </p>
+<p>Le platformer ne regardait que la composante horizontale — la verticale y voulait dire « saut » ou « chute ». En vue de dessus, une marche verticale est une marche. <b>Cas de test :</b> <b>Une marche purement verticale anime comme une marche horizontale.</b><br  />
  <b>Categorie :</b> Integration · Animation Personnage<br  />
  <b>Criticite :</b> Majeur<br  />
  <b>Etapes :</b><br  />
- 1. Placer le personnage en glissade murale.<br  />
-2. Le poser au sol.<br  />
-3. Executer un pas.<br  />
- <b>Resultat attendu :</b> Le clip resolu est Land, pas WallSlide ni Idle. </p>
-
-</div>
-</div>
-<a id="a7869699d21aa0764adb7b4f64fd228f2" name="a7869699d21aa0764adb7b4f64fd228f2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7869699d21aa0764adb7b4f64fd228f2">&#9670;&#160;</a></span>TEST() <span class="overload">[13/13]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">TEST </td>
-          <td>(</td>
-          <td class="paramtype">AnimationPersonnageIntegration</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">ImmobileAuSolEstEnRepos</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Au sol et immobile, le clip est Idle et l'image alterne 0/1 après chaque durée d'image. </p>
-<p><b>Cas de test :</b> <b>Au sol et immobile, le clip est Idle et l'image alterne 0/1 après chaque durée d'image.</b><br  />
- <b>Categorie :</b> Integration · Animation Personnage<br  />
- <b>Criticite :</b> Majeur<br  />
- <b>Etapes :</b><br  />
- 1. Mettre en place le contexte du test (arrangement).<br  />
-2. Executer le scenario et verifier les assertions.<br  />
- <b>Resultat attendu :</b> Au sol et immobile, le clip est Idle et l'image alterne 0/1 après chaque durée d'image. </p>
+ 1. Placer un acteur dont la vitesse est purement verticale.<br  />
+2. Avancer d'un pas.<br  />
+ <b>Resultat attendu :</b> Le clip resolu est Run, comme pour une marche horizontale. </p>
 
 </div>
 </div>
