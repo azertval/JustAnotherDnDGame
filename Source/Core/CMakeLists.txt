@@ -10,6 +10,7 @@ add_library(Core STATIC
     Ecs/World.cpp
     Ecs/AnimationClip.cpp
     Ecs/Systems/MovementSystem.cpp
+    Ecs/Systems/TopDownMovementSystem.cpp
     Ecs/Systems/AnimationSystem.cpp
     Ecs/Systems/ParticleSystem.cpp
     World/GridDistanceField.cpp

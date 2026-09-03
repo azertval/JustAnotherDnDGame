@@ -80,7 +80,7 @@ struct ParticleEffect {
  * jamais dépendante d'un ordre d'itération instable.
  *
  * **Aucun effet de gameplay** (`EX-ARCH-012`) : les particules ne collisionnent pas, ne sont
- * jamais lues par un système de jeu, et n'affectent aucune entité `core::Player`.
+ * jamais lues par un système de jeu, et n'affectent aucune entité `core::Actor`.
  */
 class ParticleSystem {
 public:
@@ -116,13 +116,16 @@ public:
                ParticleKind kind);
 
     /**
-     * @brief Traînée de dash : à appeler à **chaque pas fixe** où `core::Player::dashTimer > 0`
-     *        (émission **continue**, pas ponctuelle, `LOT-53` TACHE-02) -- jamais un champ ajouté
-     *        à `core::Player` pour détecter le début du dash, l'appelant lit le minuteur existant.
+     * @brief Traînée de dash (émission **continue**, pas ponctuelle, `LOT-53` TACHE-02).
+     *
+     * **Sans appelant depuis le `LOT-06`** : le dash était une capacité du personnage de
+     * plateforme, retirée avec lui. Conservée telle quelle plutôt que supprimée — une capacité de
+     * ruée reviendra très probablement au RPG (`LOT-25`), et cet émetteur n'a rien de spécifique
+     * au genre.
      * @param world    Monde ECS recevant les particules.
      * @param position Position du personnage, en unités monde.
-     * @param facing   Orientation courante du personnage (`core::Player::facing`, -1/+1) : la
-     *                 traînée part de l'arrière du mouvement (opposé à l'orientation).
+     * @param facing   Sens horizontal du mouvement (-1/+1) : la traînée part de l'arrière du
+     *                 mouvement (opposé à l'orientation).
      */
     void emitDashTrail(World& world, Vector2 position, float facing);
 

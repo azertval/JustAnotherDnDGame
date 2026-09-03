@@ -20,6 +20,7 @@
 #include "Core/Levels/LevelOutcome.h"
 #include "Core/Physics/Aabb.h"
 #include "Core/Physics/PlayerInput.h"
+#include "Core/Physics/TopDownConfig.h"
 #include "HMI/Game/GameEvents.h"
 #include "HMI/Game/IGameMode.h"
 #include "HMI/Graphics/Camera2D.h"
@@ -271,6 +272,9 @@ private:
     /// seulement la porte qu'il actionne).
     std::vector<core::Entity> _switchEntities;
     core::AnimationSystem _animation;
+    /// Réglages du déplacement en vue de dessus (`LOT-06`) : valeurs par défaut, une par session.
+    /// Un jour réglables par tableau, comme le cadrage de caméra l'est depuis le `LOT-64`.
+    core::TopDownConfig _movementConfig;
     /// Particules du personnage (dash, atterrissage, mort ; `LOT-53` TACHE-02) : simulées au pas
     /// fixe, vidées à chaque (re)chargement (`loadLevel`) comme le reste de l'état de session.
     core::ParticleSystem _particles;
@@ -334,7 +338,6 @@ private:
     /// démarre en exploration, et `setGameMode` refuse un pointeur nul.
     std::unique_ptr<IGameMode> _mode;
 
-    PlayerEventState _previousPlayerEventState;
     MechanismEventState _previousMechanismEventState;
     bool _gameEventsInitialized = false;
     std::vector<GameEvent> _lastStepEvents;

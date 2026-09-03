@@ -7,7 +7,6 @@
 #include <optional>
 #include <vector>
 
-#include "Core/Ecs/Components/Player.h"
 #include "Core/Gameplay/MechanismController.h"
 #include "Core/Levels/LevelOutcome.h"
 
@@ -27,7 +26,11 @@ namespace hmi {
  * énumération pour ses particules sans dupliquer la détection.
  */
 enum class GameEvent {
-    // Personnage (détecté par `detectPlayerEvents`, un pas de simulation à la fois).
+    // Personnage. **Sans producteur depuis le `LOT-06`** : ces quatre transitions étaient celles
+    // d'un personnage de plateforme, et le déplacement en vue de dessus n'a ni saut, ni
+    // atterrissage, ni glissade murale. Les valeurs restent déclarées — la table de sons
+    // (`hmi::soundForEvent`) et les statistiques d'essai (`hmi::LevelRunStats`) s'y accrochent, et
+    // c'est le combat (`LOT-21`) puis l'audio (`LOT-28`) qui diront ce que le RPG met à leur place.
     Jumped,
     Landed,
     Dashed,
@@ -54,27 +57,6 @@ enum class GameEvent {
 /// Nombre de valeurs de `GameEvent` — pour les tests d'exhaustivité (parcours de l'énumération).
 inline constexpr int GAME_EVENT_COUNT = static_cast<int>(GameEvent::SequenceCompleted) + 1;
 
-/**
- * @brief Sous-ensemble de `core::Player` pertinent à la détection d'événements.
- *
- * Ne recopie que les champs dont une **transition** produit un événement — pas tout `Player`,
- * dont la plupart des champs (minuteries, budgets) n'intéressent que la physique.
- */
-struct PlayerEventState {
-    bool grounded = false;
-    float dashTimer = 0.0f;
-    float wallDirection = 0.0f;
-    bool justJumped = false;
-
-    /// @return L'état pertinent extrait de @p player, à un pas de simulation donné.
-    [[nodiscard]] static PlayerEventState capture(const core::Player& player) noexcept {
-        return PlayerEventState{.grounded = player.grounded,
-                                .dashTimer = player.dashTimer,
-                                .wallDirection = player.wallDirection,
-                                .justJumped = player.justJumped};
-    }
-};
-
 /// État « porte ouverte » de chaque mécanisme, même index que
 /// `core::MechanismController::mechanisms()`.
 struct MechanismEventState {
@@ -90,19 +72,6 @@ struct MechanismEventState {
         return state;
     }
 };
-
-/**
- * @brief Détecte les transitions du personnage entre deux pas de simulation consécutifs.
- *
- * Fonction **pure** : lit @p previous et @p current, n'écrit rien, aucune dépendance Qt ni
- * périphérique (`EX-NFR-010`). À appeler **une fois par pas fixe** (jamais par image de rendu,
- * `EX-REN-021`) — le piège exact que le `LOT-33` a déjà traité pour les entrées : plusieurs
- * images de rendu dans le même pas ne doivent jamais produire l'événement deux fois.
- * @return La liste des événements survenus sur ce pas (généralement 0 ou 1 ; un dash au contact
- *         d'un mur peut en produire deux : `Dashed` et `WallContactEnter`).
- */
-[[nodiscard]] std::vector<GameEvent> detectPlayerEvents(const PlayerEventState& previous,
-                                                        const PlayerEventState& current);
 
 /**
  * @brief Détecte les transitions des mécanismes entre deux pas de simulation consécutifs.

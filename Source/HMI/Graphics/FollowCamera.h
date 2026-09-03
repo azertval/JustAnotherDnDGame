@@ -56,7 +56,7 @@ struct FollowCameraState {
  * @param previous           État du pas précédent (`FollowCameraState{}` par défaut au premier
  *                           appel après un chargement de niveau).
  * @param characterPosition  Position simulée du personnage (centre de sa boîte), en unités monde.
- * @param movementDirection  Sens du déplacement du personnage (`core::Player::facing`, négatif à
+ * @param movementDirection  Sens du déplacement du personnage (`core::Actor::facing`, négatif à
  *                           gauche, positif à droite) ; `0` conserve la dernière anticipation
  *                           (immobile, rien à réviser).
  * @param levelBounds        Rectangle du niveau, en unités monde (coin haut-gauche + dimensions).

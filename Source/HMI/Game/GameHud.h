@@ -8,13 +8,9 @@
 
 /**
  * @file HMI/Game/GameHud.h
- * @brief Choix du contenu de l'affichage tête haute : budgets restants, nom du tableau
+ * @brief Choix du contenu de l'affichage tête haute : invite contextuelle, nom du tableau
  *        (`LOT-52` TACHE-03, `EX-IHM-003`).
  */
-
-namespace core {
-struct Player;
-}
 
 namespace hmi {
 
@@ -27,15 +23,13 @@ class Localization;
  * ce qui rend le contenu du HUD assertable sans rendu — la brique de texte (`hmi::composeText`,
  * TACHE-02) n'a plus qu'à afficher ce que cette fonction décide.
  *
- * **Budget illimité, rien à afficher** : `core::Player::jumpsRemaining`/`dashesRemaining` valent
- * `-1` quand le niveau ne fixe pas de budget (`EX-GP-024`) — la grande majorité des tableaux. Un
- * compteur permanent affichant l'infini serait du bruit visuel sur tous ces tableaux ; la ligne
- * correspondante n'est donc produite que si le budget est **fini** (valeur `>= 0`).
- * @param player       Composant du personnage suivi (lu, jamais modifié — `EX-ARCH-012`).
+ * **Les budgets de sauts et de dashs ont disparu avec eux** (`LOT-06`) : ils comptaient les
+ * ressources d'un personnage de plateforme, que le déplacement en vue de dessus n'a plus. Ne
+ * reste que ce qui a encore un sens — l'invite contextuelle et le nom du tableau.
  * @param levelName    Nom du tableau en cours (`core::Level::name`), affiché tel quel (donnée, pas
  *                     un libellé traduit).
- * @param localization Catalogue de traduction, pour les libellés « Sauts »/« Dashs » (`EX-REN-033`)
- *                     — aucune chaîne en dur, y compris les libellés courts.
+ * @param localization Catalogue de traduction des libellés (`EX-REN-033`) — aucune chaîne en dur,
+ *                     y compris les libellés courts.
  * @param overlappingKey Le personnage touche-t-il une **clé non ramassée** (`EX-GP-023`) ? Si oui,
  *                     une invite rappelle l'action « Interagir » (`EX-CTRL-022`). Ramasser une clé
  *                     exige le contact **et** cette action — la seule entrée du jeu qu'aucun autre
@@ -44,11 +38,10 @@ class Localization;
  *                     niveaux (`niveaux.md`, Sec. 3). Le tutoriel restant « sans texte », c'est la
  *                     seule exception, et elle est **contextuelle**. Faux par défaut : un tableau
  *                     sans clé n'affiche jamais rien.
- * @return Les lignes à afficher, dans l'ordre : invite « Interagir » le cas échéant, budgets
- *         (sauts puis dashs, seulement s'ils sont finis), puis le nom du tableau.
+ * @return Les lignes à afficher, dans l'ordre : invite « Interagir » le cas échéant, puis le nom
+ *         du tableau.
  */
-[[nodiscard]] std::vector<std::string> gameHudLines(const core::Player& player,
-                                                    const std::string& levelName,
+[[nodiscard]] std::vector<std::string> gameHudLines(const std::string& levelName,
                                                     const Localization& localization,
                                                     bool overlappingKey = false);
 

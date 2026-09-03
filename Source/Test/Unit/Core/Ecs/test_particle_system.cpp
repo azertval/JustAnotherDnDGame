@@ -11,8 +11,8 @@
 
 #include <gtest/gtest.h>
 
+#include "Core/Ecs/Components/Actor.h"
 #include "Core/Ecs/Components/Particle.h"
-#include "Core/Ecs/Components/Player.h"
 #include "Core/Ecs/Systems/ParticleSystem.h"
 #include "Core/Ecs/World.h"
 #include "Core/Math/Vector2.h"
@@ -158,16 +158,16 @@ TEST(ParticleSystemTest, DureeDeVieDisparaitAuPasAttendu) {
  * \castest{<b>Aucun effet sur le gameplay.</b><br/>
  * \tcat Unitaire · Émetteur de particules<br/>
  * \tcrit Critique<br/>
- * \tetapes 1. Peupler un `core::Player` dans le monde.<br/>2. Émettre et simuler des
+ * \tetapes 1. Peupler un `core::Actor` dans le monde.<br/>2. Émettre et simuler des
  * particules plusieurs pas.<br/>
- * \tattendu Les champs du `core::Player` restent strictement inchangés.
+ * \tattendu Les champs du `core::Actor` restent strictement inchangés.
  * }
  */
 TEST(ParticleSystemTest, AucunEffetSurLesEntitesDeGameplay) {
     core::World world;
     core::ParticleSystem system;
     const core::Entity player = world.createEntity();
-    const core::Player original{};
+    const core::Actor original{};
     world.addComponent(player, original);
 
     constexpr core::ParticleEffect BURST{
@@ -179,11 +179,10 @@ TEST(ParticleSystemTest, AucunEffetSurLesEntitesDeGameplay) {
         system.update(world, 1.0f / 60.0f);
     }
 
-    const core::Player& after = world.getComponent<core::Player>(player);
-    EXPECT_EQ(after.grounded, original.grounded);
-    EXPECT_FLOAT_EQ(after.dashTimer, original.dashTimer);
+    const core::Actor& after = world.getComponent<core::Actor>(player);
+    EXPECT_FLOAT_EQ(after.facing.x, original.facing.x);
+    EXPECT_FLOAT_EQ(after.facing.y, original.facing.y);
     EXPECT_FLOAT_EQ(after.mass, original.mass);
-    EXPECT_EQ(after.jumpsRemaining, original.jumpsRemaining);
 }
 
 /**

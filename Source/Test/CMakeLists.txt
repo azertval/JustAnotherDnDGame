@@ -19,6 +19,7 @@ add_executable(UnitTests
     Unit/Core/Ecs/test_world.cpp
     Unit/Core/Ecs/test_sprite.cpp
     Unit/Core/Ecs/test_particle_system.cpp
+    Unit/Core/Ecs/test_top_down_movement.cpp
     Unit/Core/Ecs/test_particle_triggers.cpp
     Unit/Core/Levels/test_level.cpp
     Unit/Core/Levels/test_camera_framing.cpp

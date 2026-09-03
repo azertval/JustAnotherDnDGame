@@ -20,7 +20,7 @@ bool overlapsCell(const Aabb& box, GridPosition cell) {
     return box.min.x < left + 1.0F && box.max.x > left && box.min.y < top + 1.0F && box.max.y > top;
 }
 
-// Seuil de poids (masse, `core::Player::mass`) requis pour activer une plaque de pression
+// Seuil de poids (masse, `core::Actor::mass`) requis pour activer une plaque de pression
 // (`EX-GP-025`) — calé sur la masse par défaut du personnage, pour qu'une plaque fonctionne
 // « prête à l'emploi » sans configuration tant qu'aucune autre masse n'existe dans le jeu.
 constexpr float MIN_TRIGGER_MASS = 1.0F;
