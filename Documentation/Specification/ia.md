@@ -5,7 +5,8 @@
 > séquence d'actions déterministe. Dépend de [`gameplay.md`](gameplay.md) (conditions de
 > victoire/echec) et de [`controles.md`](controles.md) (actions logiques que l'agent produit).
 
-Le découpage de travail correspondant est le programme [Lots annexes](@ref lots-annexe), dont
+Le découpage de travail correspondant est le programme `LOT-ANNEXE-*`, archivé sous
+`Documentation/Heritage/Lot-Annexe/`, dont
 chaque épic référence les exigences ci-dessous.
 
 ## 1. Fondations numériques

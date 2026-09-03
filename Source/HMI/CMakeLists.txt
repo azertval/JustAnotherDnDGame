@@ -16,6 +16,127 @@
 #   Editor/       périmètre éditeur de niveau (palette, outils, navigateur, logique pure).
 # Les fichiers déclaratifs Qt (.ui, .qrc) et le thème (.qss) vivent dans Source/Elements (assets).
 
+# --- HmiLib : la couche de présentation **sans Qt Widgets** (LOT-02) ---
+#
+# Ces sources sont de la logique pure : géométrie de caméra, composition de scène (sans GPU),
+# catalogues, entrées, persistance JSON, géométrie d'éditeur. Elles ne dérivent d'aucun QObject et
+# n'incluent aucun en-tête Qt — c'est exactement ce que les tests unitaires consomment.
+#
+# Avant ce lot, `Source/Test/CMakeLists.txt` **relistait ces 79 chemins un par un** pour les
+# recompiler dans `UnitTests` : chaque fichier ajouté à l'IHM devait l'être à deux endroits, et un
+# oubli ne se voyait qu'à l'édition de liens. Une bibliothèque nomme cette frontière au lieu de la
+# maintenir à la main dans un commentaire.
+#
+# Déclarée **avant** la garde `BUILD_EDITOR_QT`/Qt ci-dessus, et volontairement libre de Qt : sur un
+# poste sans Qt, l'application est ignorée mais `UnitTests` doit continuer de se construire — c'est
+# la raison d'être de l'option. AUTOMOC n'est pas encore actif à ce point du fichier, ce qui est
+# correct : aucune de ces sources n'a de `Q_OBJECT`.
+add_library(HmiLib STATIC
+    # Graphismes : logique de rendu sans GPU (composition, catalogues, géométrie de caméra).
+    Graphics/Camera2D.cpp
+    Graphics/RoomGrid.cpp
+    Graphics/FollowCamera.cpp
+    Graphics/CameraZones.cpp
+    Graphics/AssetPaths.cpp
+    Graphics/TileVisuals.cpp
+    Graphics/ProceduralAtlas.cpp
+    Graphics/TextureAtlasRegions.cpp
+    Graphics/AssetContract.cpp
+    Graphics/RenderMode.cpp
+    Graphics/TileAppearance.cpp
+    Graphics/SkinCatalog.cpp
+    Graphics/AnimationCatalog.cpp
+    Graphics/PlayerSprite.cpp
+    Graphics/TileAutotile.cpp
+    Graphics/TileSilhouette.cpp
+    Graphics/MissingTexture.cpp
+    Graphics/ComposedScene.cpp
+    Graphics/QuadRecorder.cpp
+    Graphics/BackgroundRenderer.cpp
+    Graphics/ShadowRenderer.cpp
+    Graphics/ParticleRenderer.cpp
+    Graphics/MechanismVisuals.cpp
+    Graphics/PlaneVisuals.cpp
+    Graphics/Parallax.cpp
+    Graphics/ProceduralFont.cpp
+    Graphics/TextRenderer.cpp
+    # Entrées : état, mapping, remappage persistant.
+    Input/InputState.cpp
+    Input/PlayerInputMapper.cpp
+    Input/GameKeyBindings.cpp
+    Input/EditorKeyBindings.cpp
+    Input/KeyName.cpp
+    Input/GamepadBindings.cpp
+    Input/GamepadButtonName.cpp
+    # Localisation, journal de session.
+    Localization/Localization.cpp
+    Diagnostics/SessionLog.cpp
+    # Audio : catalogue et table événement -> son (le moteur lui-même dépend de Qt Multimedia).
+    Audio/SoundCatalog.cpp
+    Audio/SoundTriggers.cpp
+    # Jeu : événements, affichage tête haute, progression, bilan de tableau.
+    Game/GameEvents.cpp
+    Game/GameHud.cpp
+    Game/DiagnosticsHud.cpp
+    Game/Progression.cpp
+    Game/LevelRunStats.cpp
+    # Éditeur : validation, taxonomie, gestes et géométrie, bibliothèque d'assets, atelier pixel.
+    Editor/LevelNameValidation.cpp
+    Editor/TileTaxonomy.cpp
+    Editor/TaxonomyLabels.cpp
+    Editor/SkinAssignments.cpp
+    Editor/PaletteAppearance.cpp
+    Editor/LevelFileOperations.cpp
+    Editor/LinkGeometry.cpp
+    Editor/LinkGesture.cpp
+    Editor/TextureAssignGesture.cpp
+    Editor/AssetLibrary.cpp
+    Editor/AssetFileOperations.cpp
+    Editor/AssetReferences.cpp
+    Editor/MechanismAnimationAssignments.cpp
+    Editor/EditorStatus.cpp
+    Editor/PanelFocus.cpp
+    Editor/ThumbnailGeometry.cpp
+    Editor/PixelOperations.cpp
+    Editor/PixelHistory.cpp
+    Editor/PixelCanvasGeometry.cpp
+    Editor/PlaneReference.cpp
+    Editor/PlaneFileNaming.cpp
+    Editor/PixelAssetIO.cpp
+    Editor/PixelPalette.cpp
+    Editor/PixelAutotilePreview.cpp
+    # Interface : logique d'écrans et de thème, sans widget.
+    Interface/ScreenFlow.cpp
+    Interface/DesignTokens.cpp
+    Interface/StyleSheetTemplate.cpp
+    Interface/FontResolution.cpp
+    Interface/ThemeResolution.cpp
+    Interface/IconGeometry.cpp
+    Interface/PixelArtScale.cpp
+    Interface/EditorWorkspace.cpp
+    Interface/PixelFrameGeometry.cpp
+    Interface/MenuBackdropGeometry.cpp
+    Interface/KeyHintText.cpp
+    Interface/ActionCatalog.cpp
+    # Plateforme.
+    Platform/ExecutableDirectory.cpp
+)
+
+# `PUBLIC` sur la racine d'inclusion et sur Core : tout consommateur de HmiLib (l'application, les
+# tests) écrit `#include "HMI/..."` et manipule des types de `core::`.
+target_include_directories(HmiLib PUBLIC ${PROJECT_SOURCE_DIR}/Source)
+target_link_libraries(HmiLib
+    PUBLIC Core
+    PRIVATE project_warnings project_options
+    # Les *KeyBindings et les catalogues persistent en JSON ; Core ne le propage pas (lien PRIVATE).
+    PUBLIC nlohmann_json::nlohmann_json)
+
+target_compile_definitions(HmiLib PUBLIC WIN32_LEAN_AND_MEAN NOMINMAX UNICODE _UNICODE)
+
+if(ENABLE_PCH)
+    target_precompile_headers(HmiLib PRIVATE ${PROJECT_SOURCE_DIR}/Source/pch.h)
+endif()
+
 # La cible reste **optionnelle** : sur un poste sans Qt (ex. CI n'exécutant que les tests unitaires,
 # qui compilent les sources pures directement), la configuration n'échoue pas — l'application est
 # simplement ignorée. Fournir Qt via CMAKE_PREFIX_PATH (ou l'action CI install-qt-action) pour
@@ -141,97 +262,41 @@ set(ELEMENTS_UI ${PROJECT_SOURCE_DIR}/Source/Elements/UI)
 add_executable(JustAnotherDnDGame
     Main.cpp
     # Plateforme
-    Platform/ExecutableDirectory.cpp
     # Entrées (dont le pont Qt -> Key)
-    Input/InputState.cpp
     Input/GamepadPoller.cpp
-    Input/PlayerInputMapper.cpp
-    Input/GameKeyBindings.cpp
-    Input/EditorKeyBindings.cpp
-    Input/KeyName.cpp
-    Input/GamepadBindings.cpp
-    Input/GamepadButtonName.cpp
     Input/QtKeyMap.cpp
     # Rendu 2D sur QRhi (LOT-69 TACHE-02) — cible Direct3D 11 sous Windows (EX-REN-002),
     # atteinte au travers de QRhi plutôt qu'en appelant l'API directement.
     Graphics/SpriteBatch.cpp
-    Graphics/AssetPaths.cpp
     Graphics/TextureLoader.cpp
-    Graphics/AssetContract.cpp
-    Graphics/RenderMode.cpp
-    Graphics/TileAppearance.cpp
-    Graphics/SkinCatalog.cpp
-    Graphics/TileAutotile.cpp
-    Graphics/TileSilhouette.cpp
-    Graphics/ProceduralAtlas.cpp
-    Graphics/AnimationCatalog.cpp
-    Graphics/PlayerSprite.cpp
-    Graphics/MissingTexture.cpp
     Graphics/TextureAtlas.cpp
     Graphics/TextureCache.cpp
-    Graphics/TextureAtlasRegions.cpp
-    Graphics/Camera2D.cpp
-    Graphics/RoomGrid.cpp
-    Graphics/FollowCamera.cpp
-    Graphics/CameraZones.cpp
-    Graphics/ComposedScene.cpp
-    Graphics/QuadRecorder.cpp
-    Graphics/BackgroundRenderer.cpp
-    Graphics/ShadowRenderer.cpp
-    Graphics/ParticleRenderer.cpp
     Graphics/SpriteRenderer.cpp
     Graphics/DraftRenderer.cpp
-    Graphics/TileVisuals.cpp
-    Graphics/MechanismVisuals.cpp
-    Graphics/PlaneVisuals.cpp
-    Graphics/Parallax.cpp
-    Graphics/ProceduralFont.cpp
     Graphics/BitmapFont.cpp
-    Graphics/TextRenderer.cpp
     # Jeu (simulation d'un niveau + viewport Qt jeu/édition)
     Game/GameSession.cpp
     Game/GameViewport.cpp
-    Game/Progression.cpp
-    Game/GameHud.cpp
-    Game/DiagnosticsHud.cpp
-    Game/GameEvents.cpp
-    Game/LevelRunStats.cpp
     # Traduction requete -> surcharges (LOT-73, EX-IHM-083) : logique PURE, compilee aussi
     # dans UnitTests (cf. Source/Test/CMakeLists.txt) -- c'est la ou des reglages se perdaient.
     # Localisation
-    Localization/Localization.cpp
     # Audio (bruitages, LOT-60)
-    Audio/SoundCatalog.cpp
-    Audio/SoundTriggers.cpp
     Audio/AudioEngine.cpp
     # Diagnostics (enregistrement des journaux de session)
-    Diagnostics/SessionLog.cpp
     # Interface (fenêtre, menu, options, remappage)
-    Interface/DesignTokens.cpp
-    Interface/StyleSheetTemplate.cpp
-    Interface/FontResolution.cpp
-    Interface/ThemeResolution.cpp
     Interface/ApplicationTheme.cpp
-    Interface/IconGeometry.cpp
     # Habillage pixel art des ecrans du jeu (LOT-68) : logique pure, compilee aussi
     # dans UnitTests (cf. Source/Test/CMakeLists.txt).
-    Interface/PixelArtScale.cpp
-    Interface/PixelFrameGeometry.cpp
-    Interface/MenuBackdropGeometry.cpp
-    Interface/KeyHintText.cpp
     # Widgets Qt de l'habillage pixel art (LOT-68) : peintres au-dessus de la geometrie pure
     # ci-dessus, promus dans les .ui. Non compiles dans UnitTests (dependent de Qt).
     Interface/PixelFrameWidget.cpp
     Interface/PixelFocusCaret.cpp
     Interface/PixelMenuButton.cpp
     Interface/ThemeIcons.cpp
-    Interface/ActionCatalog.cpp
     Interface/EditorActions.cpp
-    Interface/ScreenFlow.cpp
     # Enveloppe defilante de toute page d ecran (LOT-73, EX-IHM-080) : aucun ecran ne
     # contraint la taille de la fenetre.
     Interface/ScreenPageHost.cpp
-    Interface/EditorWorkspace.cpp
     Interface/MainWindow.cpp
     Interface/MainMenu.cpp
     Interface/PauseScreen.cpp
@@ -246,35 +311,11 @@ add_executable(JustAnotherDnDGame
     Editor/PalettePanel.cpp
     Editor/LevelBrowserPanel.cpp
     Editor/LinkPanel.cpp
-    Editor/TileTaxonomy.cpp
-    Editor/TaxonomyLabels.cpp
     Editor/TexturePanel.cpp
-    Editor/SkinAssignments.cpp
-    Editor/PaletteAppearance.cpp
-    Editor/LevelFileOperations.cpp
-    Editor/LevelNameValidation.cpp
-    Editor/LinkGeometry.cpp
-    Editor/LinkGesture.cpp
-    Editor/TextureAssignGesture.cpp
-    Editor/AssetLibrary.cpp
-    Editor/ThumbnailGeometry.cpp
     Editor/AssetThumbnailView.cpp
-    Editor/AssetFileOperations.cpp
-    Editor/AssetReferences.cpp
-    Editor/MechanismAnimationAssignments.cpp
-    Editor/EditorStatus.cpp
-    Editor/PanelFocus.cpp
-    Editor/PixelOperations.cpp
-    Editor/PixelHistory.cpp
-    Editor/PixelCanvasGeometry.cpp
-    Editor/PlaneReference.cpp
-    Editor/PlaneFileNaming.cpp
     Editor/PixelCanvas.cpp
     Editor/PixelHistoryPanel.cpp
-    Editor/PixelAssetIO.cpp
-    Editor/PixelPalette.cpp
     Editor/PixelPalettePanel.cpp
-    Editor/PixelAutotilePreview.cpp
     Editor/PlanesPanel.cpp
     # Ressource embarquée (thème .qss) — traitée par AUTORCC.
     ${ELEMENTS_UI}/resources.qrc
@@ -311,7 +352,9 @@ target_include_directories(JustAnotherDnDGame PRIVATE ${PROJECT_SOURCE_DIR}/Sour
 set_target_properties(JustAnotherDnDGame PROPERTIES AUTOUIC_SEARCH_PATHS ${ELEMENTS_UI})
 
 target_link_libraries(JustAnotherDnDGame PRIVATE
-    Core
+    # La couche sans Qt Widgets (LOT-02) : elle propage Core, la racine d'inclusion Source/ et
+    # nlohmann_json, que l'application n'a donc plus à redemander.
+    HmiLib
     Qt6::Widgets
     Qt6::Gui
     # QRhi vit dans les en-têtes privés de QtGui : c'est une API privée, stable en pratique mais
@@ -321,8 +364,6 @@ target_link_libraries(JustAnotherDnDGame PRIVATE
     xinput
     project_warnings
     project_options
-    # Les *KeyBindings persistent en JSON ; Core ne propage pas nlohmann_json (lien PRIVATE).
-    nlohmann_json::nlohmann_json
 )
 
 # Réduit la surface de Windows.h, évite les macros min/max, API Unicode.

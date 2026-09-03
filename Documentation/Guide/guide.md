@@ -53,4 +53,5 @@ affiche. Cette frontière est ce qui rend le moteur analysable domaine par domai
 - @subpage guide-audio — l'**audio** : moteur Qt Multimedia, catalogue de sons, détection des transitions et table événement → son.
 
 Les notions d'apprentissage automatique mises en œuvre par le solveur IA font l'objet d'un guide
-séparé : @ref guide-annexe.
+séparé, archivé sous `Documentation/Heritage/Guide-Annexe/` avec le programme d'IA qu'il
+documentait (retiré au `LOT-01`).
