@@ -4,7 +4,7 @@ var searchData=
   ['géométrie_20d_20abord_20le_20widget_20ensuite_1',['Le canevas : la géométrie d&apos;abord, le widget ensuite',['../guide-atelier-pixel-art.html#autotoc_md35',1,'']]],
   ['géométrique_20pas_20un_20aperçu_2',['La référence : un repère géométrique, pas un aperçu',['../guide-editeur.html#autotoc_md116',1,'']]],
   ['gérer_20ses_20fichiers_20de_20niveaux_3',['Gérer ses fichiers de niveaux',['../guide-editeur.html#autotoc_md117',1,'']]],
-  ['game_2047_4',['Game (47)',['../cahiertest.html#autotoc_md19',1,'']]],
+  ['game_2052_4',['Game (52)',['../cahiertest.html#autotoc_md19',1,'']]],
   ['game_20feel_5',['4. Saut et &lt;em&gt;game feel&lt;/em&gt;',['../guide-physique.html#autotoc_md196',1,'']]],
   ['game_20feel_20—_20⚠️_20réglage_20fin_20reporté_20au_20delà_20de_200_201_200_6',['Ressenti (game feel) — ⚠️ réglage fin reporté au-delà de &lt;span class=&quot;tt&quot;&gt;0.1.0&lt;/span&gt;',['../spec-gameplay.html#autotoc_md315',1,'']]],
   ['gamekeybindings_20hmi_3a_3aeditorkeybindings_20editorkeybindings_20lot_2029_20hmi_3a_3agamepadbindings_20gamepadbindings_20lot_2030_7',['Remapper les touches et boutons : &lt;a class=&quot;el&quot; href=&quot;classhmi_1_1GameKeyBindings.html&quot; title=&quot;hmi::GameKeyBindings&quot;&gt;GameKeyBindings&lt;/a&gt;/&lt;a class=&quot;el&quot; href=&quot;classhmi_1_1EditorKeyBindings.html&quot; title=&quot;hmi::EditorKeyBindings&quot;&gt;EditorKeyBindings&lt;/a&gt; (LOT-29), &lt;a class=&quot;el&quot; href=&quot;classhmi_1_1GamepadBindings.html&quot; title=&quot;hmi::GamepadBindings&quot;&gt;GamepadBindings&lt;/a&gt; (LOT-30)',['../guide-entrees.html#autotoc_md127',1,'']]],

@@ -58,7 +58,6 @@ var hierarchy =
     [ "hmi::GameKeyBindings", "classhmi_1_1GameKeyBindings.html", null ],
     [ "hmi::GamepadBindings", "classhmi_1_1GamepadBindings.html", null ],
     [ "hmi::GamepadPoller", "classhmi_1_1GamepadPoller.html", null ],
-    [ "hmi::GameSession", "classhmi_1_1GameSession.html", null ],
     [ "hmi::GlyphMetrics", "structhmi_1_1GlyphMetrics.html", null ],
     [ "core::GridDistanceField", "classcore_1_1GridDistanceField.html", null ],
     [ "core::GridPosition", "structcore_1_1GridPosition.html", null ],
@@ -69,6 +68,12 @@ var hierarchy =
     [ "hmi::IconPoint", "structhmi_1_1IconPoint.html", null ],
     [ "hmi::IconStroke", "structhmi_1_1IconStroke.html", null ],
     [ "hmi::IdentityBaseScale", "structhmi_1_1IdentityBaseScale.html", null ],
+    [ "hmi::IGameMode", "classhmi_1_1IGameMode.html", [
+      [ "hmi::ExplorationMode", "classhmi_1_1ExplorationMode.html", null ]
+    ] ],
+    [ "hmi::IGameModePasses", "classhmi_1_1IGameModePasses.html", [
+      [ "hmi::GameSession", "classhmi_1_1GameSession.html", null ]
+    ] ],
     [ "core::ILogSink", "classcore_1_1ILogSink.html", [
       [ "core::ConsoleLogSink", "classcore_1_1ConsoleLogSink.html", null ],
       [ "core::FileLogSink", "classcore_1_1FileLogSink.html", null ],

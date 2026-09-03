@@ -40,7 +40,7 @@ var searchData=
   ['entrycount_37',['entryCount',['../classhmi_1_1TextureCache.html#aad87b9660035bbe18c6573a962622388',1,'hmi::TextureCache']]],
   ['eraseline_38',['eraseLine',['../namespacehmi.html#a2085949801371f7bfb91d94f2dd2ac18',1,'hmi']]],
   ['erasepixel_39',['erasePixel',['../namespacehmi.html#af51c0f2ec41091ef3e6e9c031098db4b',1,'hmi']]],
-  ['evaluateoutcome_40',['evaluateOutcome',['../namespacecore.html#a23087f4f32dfa24ad53d7a9811ae351d',1,'core']]],
+  ['evaluateoutcome_40',['evaluateOutcome',['../classhmi_1_1GameSession.html#a89a6c3bbc662240b1354ca547a826a02',1,'hmi::GameSession::evaluateOutcome()'],['../classhmi_1_1IGameModePasses.html#a77ba537f4df15132fccc1414efe9b2bc',1,'hmi::IGameModePasses::evaluateOutcome()'],['../namespacecore.html#a23087f4f32dfa24ad53d7a9811ae351d',1,'core::evaluateOutcome()']]],
   ['event_41',['event',['../classhmi_1_1AssetThumbnailView.html#a6eac7d30fa8ec639d3e50d7f5596144e',1,'hmi::AssetThumbnailView::event()'],['../classhmi_1_1PalettePanel.html#a6a63719ecec98fdc59f3728d58ff8ccd',1,'hmi::PalettePanel::event()'],['../classhmi_1_1TexturePanel.html#a2427986c22aee0e6ce3c9a89d95e1d1e',1,'hmi::TexturePanel::event()'],['../classhmi_1_1GameViewport.html#a5d3760d8afacd89cccc12dff1f843a9b',1,'hmi::GameViewport::event()']]],
   ['eventfilter_42',['eventFilter',['../classhmi_1_1MainWindow.html#a2d1f33de682c39a3c520bfc344b5ab59',1,'hmi::MainWindow']]],
   ['eventids_43',['eventIds',['../classhmi_1_1SoundCatalog.html#a35db0f57b99e009d22b9fbf26de3743d',1,'hmi::SoundCatalog']]],

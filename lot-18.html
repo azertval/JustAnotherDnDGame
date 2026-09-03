@@ -96,14 +96,14 @@ $(function(){initNavTree('lot-18.html','',''); });
 <blockquote class="doxtable">
 <p>Statut : <b>à faire</b>. Prérequis : <a class="el" href="lot-05.html" title="LOT-05 — Modes de jeu">LOT-05</a> (modes de jeu), <a class="el" href="lot-10.html" title="LOT-10 — Entités de carte et interaction">LOT-10</a> (déclencheurs), <a class="el" href="lot-13.html" title="LOT-13 — Fiche de personnage">LOT-13</a> (fiches des combattants). </p>
 </blockquote>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md458"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md459"></a>
 Objectif</h1>
 <p>Déclencher une rencontre depuis l'exploration, geler le monde, monter la grille de combat, et en revenir — sans que le joueur perde quoi que ce soit au passage.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md459"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md460"></a>
 La décision qui structure ce lot</h1>
 <p>Le combat se déroule <b>sur la carte d'exploration</b>, jamais dans une arène chargée à part (décision de cadrage, cf. <span class="tt"><a class="el" href="vision_8md.html">Documentation/Specification/vision.md</a></span>). La grille tactique est <b>dérivée de la couche collision</b> du format v3 (<span class="tt">LOT-04</span>).</p>
 <p>C'est ce qui donne la continuité visuelle d'un Chrono Trigger plutôt que la rupture d'un JRPG classique — et c'est ce qui justifie rétroactivement le soin mis au format de carte en phase B. En contrepartie, <em>toute carte doit être un terrain tactique valide</em> : contrainte de level design signalée dans l'éditeur dès le <span class="tt">LOT-11</span>.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md460"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md461"></a>
 Périmètre</h1>
 <ul>
 <li><span class="tt">CombatMode</span> : le second mode de <span class="tt">LOT-05</span>.</li>
@@ -111,13 +111,13 @@ Périmètre</h1>
 <li>Déclencheurs : contact avec un ennemi de carte, zone de rencontre, action de dialogue.</li>
 <li><b>Sauvegarde et restauration de l'état d'exploration</b> : position, orientation, caméra, entités.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md461"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md462"></a>
 Le critère qui compte</h1>
 <p>Entrer puis sortir d'un combat doit restituer <b>exactement</b> l'état d'exploration — aux PV près, qui eux ont changé. Un ennemi vaincu est retiré de la carte <b>durablement</b> : c'est un drapeau de monde (<span class="tt">LOT-16</span>), persisté (<span class="tt">LOT-17</span>), pas un booléen local perdu au rechargement de la carte.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md462"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md463"></a>
 Exigences couvertes</h1>
 <p>Catégorie <span class="tt">EX-CBT-*</span>, déclarée par ce lot dans <span class="tt">Documentation/Specification/combat.md</span>.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md463"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md464"></a>
 Critères d'acceptation</h1>
 <ul>
 <li>Aller-retour exploration → combat → exploration restituant l'état, PV mis à jour.</li>

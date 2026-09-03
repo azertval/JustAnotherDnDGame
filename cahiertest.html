@@ -93,9 +93,9 @@ $(function(){initNavTree('cahiertest.html','',''); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md_CahierTest"></a></p>
-<p><b>914 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
+<p><b>919 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md5"></a>
-Tests unitaires (892)</h1>
+Tests unitaires (897)</h1>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md6"></a>
 Core</h2>
 <p><b><span class="tt"><a class="el" href="test__core_8cpp.html" title="Tests unitaires de la bibliothèque Core (amorçage).">test_core.cpp</a></span></b></p>
@@ -3146,7 +3146,7 @@ Vérifie que <span class="tt">subgroup.label.empty()</span> est faux.<br  />
 Vérifie que <span class="tt">entry.label.empty()</span> est faux.  </td></tr>
 </table>
 <h3 class="doxsection"><a class="anchor" id="autotoc_md19"></a>
-Game (47)</h3>
+Game (52)</h3>
 <p><b><span class="tt"><a class="el" href="test__diagnostics__hud_8cpp.html" title="Tests unitaires de la moyenne glissante de cadence et du choix de contenu du compteur de diagnostic (...">test_diagnostics_hud.cpp</a></span></b></p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -3302,6 +3302,34 @@ Vérifie que <span class="tt">avecBudget.size()</span> vaut <span class="tt">3u<
 Vérifie que <span class="tt">avecBudget[0]</span> vaut <span class="tt">"Interagir pour ramasser"</span>.<br  />
 Vérifie que <span class="tt">avecBudget[1]</span> vaut <span class="tt">"Sauts : 2"</span>.<br  />
 Vérifie que <span class="tt">avecBudget[2]</span> vaut <span class="tt">"Cle"</span>.  </td></tr>
+</table>
+<p><b><span class="tt"><a class="el" href="test__game__mode_8cpp.html" title="Tests unitaires du mode de jeu : l&#39;ordre des passes du pas fixe (EX-ARCH-002, LOT-05).">test_game_mode.cpp</a></span></b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>ModeDeJeuTest.OrdreAppeleIdentiqueALOrdreAnnonce</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__game__mode_8cpp.html" title="Tests unitaires du mode de jeu : l&#39;ordre des passes du pas fixe (EX-ARCH-002, LOT-05).">Source/Test/Unit/HMI/Game/test_game_mode.cpp</a>:96</span></sub>  </td><td class="markdownTableBodyNone">L'ordre des passes appele est celui annonce.  </td><td class="markdownTableBodyNone">1. Avancer le mode d'exploration d'un pas fixe sur des passes qui enregistrent leurs appels.<br  />
+2. Comparer la sequence enregistree a passOrder().  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">outcome</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a60398ec3835dd2882a7d3a9eaddb65aaac9dbb2b7c84159b632d71e512eba8428" title="Partie en cours.">core::LevelOutcome::Playing</a></span>.<br  />
+Vérifie que <span class="tt">passes.calls()</span> vaut <span class="tt">announcedOrder(mode)</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>ModeDeJeuTest.SequenceStableSur600Pas</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__game__mode_8cpp.html" title="Tests unitaires du mode de jeu : l&#39;ordre des passes du pas fixe (EX-ARCH-002, LOT-05).">Source/Test/Unit/HMI/Game/test_game_mode.cpp</a>:117</span></sub>  </td><td class="markdownTableBodyNone">600 pas produisent 600 fois la meme sequence de passes.  </td><td class="markdownTableBodyNone">1. Avancer le mode de 600 pas fixes, avec une intention qui change a chaque pas.<br  />
+2. Comparer la sequence de chaque pas a celle du premier.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">passes.calls()</span> vaut <span class="tt">expected</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>ModeDeJeuTest.EchecDeclencheSesConsequencesApresLEvaluation</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__game__mode_8cpp.html" title="Tests unitaires du mode de jeu : l&#39;ordre des passes du pas fixe (EX-ARCH-002, LOT-05).">Source/Test/Unit/HMI/Game/test_game_mode.cpp</a>:142</span></sub>  </td><td class="markdownTableBodyNone">Un echec declenche ses consequences apres l'evaluation.  </td><td class="markdownTableBodyNone">1. Avancer le mode d'un pas sur des passes qui repondent Lost a l'evaluation.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">outcome</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a60398ec3835dd2882a7d3a9eaddb65aaab578b733cbb788fc6ad208314d2c4c2b" title="Le personnage a touché un danger ou est sorti par le bas (EX-GP-031).">core::LevelOutcome::Lost</a></span>.<br  />
+Vérifie que <span class="tt">passes.calls().size()</span> est supérieur ou égal à <span class="tt">2u</span>.<br  />
+Vérifie que <span class="tt">passes.calls().back()</span> vaut <span class="tt">"onLevelLost"</span>.<br  />
+Vérifie que <span class="tt">passes.calls()[passes.calls().size() - 2]</span> vaut <span class="tt">"evaluateOutcome"</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>ModeDeJeuTest.ReussiteNeDeclenchePasLesConsequencesDUnEchec</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__game__mode_8cpp.html" title="Tests unitaires du mode de jeu : l&#39;ordre des passes du pas fixe (EX-ARCH-002, LOT-05).">Source/Test/Unit/HMI/Game/test_game_mode.cpp</a>:164</span></sub>  </td><td class="markdownTableBodyNone">Une reussite ne declenche pas les consequences d'un echec.  </td><td class="markdownTableBodyNone">1. Avancer le mode d'un pas sur des passes qui repondent Won a l'evaluation.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">outcome</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a60398ec3835dd2882a7d3a9eaddb65aaa19abd416eb9fe03ae7400a22446956a5" title="Le personnage a atteint la sortie (EX-GP-030).">core::LevelOutcome::Won</a></span>.<br  />
+Vérifie que <span class="tt">passes.calls()</span> vaut <span class="tt">announcedOrder(mode)</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>ModeDeJeuTest.ModeSansEtatEtNomme</b> (Mineur)<br  />
+<sub><span class="tt"><a class="el" href="test__game__mode_8cpp.html" title="Tests unitaires du mode de jeu : l&#39;ordre des passes du pas fixe (EX-ARCH-002, LOT-05).">Source/Test/Unit/HMI/Game/test_game_mode.cpp</a>:184</span></sub>  </td><td class="markdownTableBodyNone">Le mode d'exploration est sans etat et se nomme.  </td><td class="markdownTableBodyNone">1. Charger puis decharger le mode.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">passes.calls().empty()</span> est vrai.<br  />
+Vérifie que <span class="tt">mode.name()</span> vaut <span class="tt">"exploration"</span>.  </td></tr>
 </table>
 <p><b><span class="tt"><a class="el" href="test__level__run__stats_8cpp.html" title="Tests unitaires du bilan d&#39;un tableau joué (LOT-68, EX-IHM-070).">test_level_run_stats.cpp</a></span></b></p>
 <table class="markdownTable">

@@ -3,7 +3,7 @@ var searchData=
   ['vérification_0',['3. Qualité &amp;amp; vérification',['../spec-exigences.html#autotoc_md306',1,'']]],
   ['valeurs_20pas_20trois_1',['Profondeur : deux valeurs, pas trois',['../guide-rendu.html#autotoc_md226',1,'']]],
   ['validation_2',['Validation',['../guide-niveaux.html#autotoc_md168',1,'']]],
-  ['validation_20sauvegarde_3',['Validation &amp;amp; sauvegarde',['../manuel-mode-ia.html#autotoc_md544',1,'']]],
+  ['validation_20sauvegarde_3',['Validation &amp;amp; sauvegarde',['../manuel-mode-ia.html#autotoc_md545',1,'']]],
   ['valider_20avant_20d_20écrire_20jamais_20l_20inverse_4',['Enregistrer : valider avant d&apos;écrire, jamais l&apos;inverse',['../guide-editeur.html#autotoc_md108',1,'']]],
   ['variable_5',['Le piège du framerate variable',['../guide-boucle.html#autotoc_md49',1,'']]],
   ['vector2_20_3a_20un_20point_20ou_20une_20direction_20dans_20le_20monde_6',['&lt;a class=&quot;el&quot; href=&quot;structcore_1_1Vector2.html&quot; title=&quot;core::Vector2&quot;&gt;Vector2&lt;/a&gt; : un point ou une direction dans le monde',['../guide-maths.html#autotoc_md154',1,'']]],
@@ -20,7 +20,7 @@ var searchData=
   ['viewport_20partagé_20_3a_20éditeur_20et_20jeu_17',['Le viewport partagé : éditeur &lt;b&gt;et&lt;/b&gt; jeu',['../guide-ecrans.html#autotoc_md78',1,'']]],
   ['viewport_20qt_20hmi_3a_3agameviewport_18',['La surface de dessin : le viewport Qt (&lt;span class=&quot;tt&quot;&gt;hmi::GameViewport&lt;/span&gt;)',['../guide-rendu.html#autotoc_md203',1,'']]],
   ['vigilance_19',['Points de vigilance',['../lot-02.html#autotoc_md370',1,'']]],
-  ['visible_20ici_20',['La contrainte à rendre visible ici',['../lot-11.html#autotoc_md423',1,'']]],
+  ['visible_20ici_20',['La contrainte à rendre visible ici',['../lot-11.html#autotoc_md424',1,'']]],
   ['vision_21',['Vision',['../spec-decors.html#autotoc_md284',1,'']]],
   ['vision_20périmètre_22',['Vision &amp;amp; périmètre',['../spec-vision.html',1,'specifications']]],
   ['visuelle_20des_20écrans_20du_20jeu_20lot_2068_23',['8. Identité visuelle des écrans du jeu (LOT-68)',['../spec-interface-ihm.html#autotoc_md332',1,'']]],
@@ -33,7 +33,7 @@ var searchData=
   ['voir_20le_20raccord_20avant_20de_20l_20avoir_20posé_30',['Voir le raccord avant de l&apos;avoir posé',['../guide-atelier-pixel-art.html#autotoc_md38',1,'']]],
   ['voit_20_3a_20le_20culling_20lot_2040_31',['Ne dessiner que ce qui se voit : le culling (&lt;span class=&quot;tt&quot;&gt;LOT-40&lt;/span&gt;)',['../guide-rendu.html#autotoc_md220',1,'']]],
   ['volume_20source_20test_20unit_20hmi_20graphics_20test_5frender_5fbudget_20cpp_32',['Le test de non-régression du volume (&lt;span class=&quot;tt&quot;&gt;Source/Test/Unit/HMI/Graphics/test_render_budget.cpp&lt;/span&gt;)',['../guide-rendu.html#autotoc_md240',1,'']]],
-  ['votre_20niveau_33',['4. Publier votre niveau',['../manuel-partager-niveau.html#autotoc_md552',1,'']]],
+  ['votre_20niveau_33',['4. Publier votre niveau',['../manuel-partager-niveau.html#autotoc_md553',1,'']]],
   ['vue_20et_20zones_20d_20effet_34',['LOT-22 — Portée, ligne de vue et zones d&apos;effet',['../lot-22.html',1,'lots']]],
   ['vues_20_3a_20core_3a_3aview_35',['Les vues : core::View&amp;lt;Components...&amp;gt;',['../guide-ecs.html#autotoc_md93',1,'']]]
 ];

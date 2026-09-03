@@ -94,11 +94,11 @@ $(function(){initNavTree('lot-05.html','',''); });
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md_Lot_2LOT-05-modes-de-jeu_2epic"></a></p>
 <blockquote class="doxtable">
-<p>Statut : <b>à faire</b>. Prérequis : <a class="el" href="lot-02.html" title="LOT-02 — Bibliothèque `HmiLib`">LOT-02</a>, <a class="el" href="lot-04.html" title="LOT-04 — Format de carte `version: 3`, multi-couches">LOT-04</a>. </p>
+<p>Statut : <b>fait</b> (vérification automatisée : build <span class="tt">/W4 /WX</span> sans avertissement, <span class="tt">ctest</span> à 919/919, lint d'exigences, cahier de test, Doxygen et <span class="tt">clang-format</span> verts). Prérequis : <a class="el" href="lot-02.html" title="LOT-02 — Bibliothèque `HmiLib`">LOT-02</a>, <a class="el" href="lot-04.html" title="LOT-04 — Format de carte `version: 3`, multi-couches">LOT-04</a>. </p>
 </blockquote>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md386"></a>
 Objectif</h1>
-<p>Sortir de <span class="tt"><a class="el" href="classhmi_1_1GameSession.html" title="Simule et rend un seul niveau (déjà validé, en mémoire), indépendamment de toute infrastructure d&#39;écr...">hmi::GameSession</a></span> l'ordre <b>codé en dur</b> des passes du pas fixe, derrière une interface <span class="tt">hmi::IGameMode</span>.</p>
+<p>Sortir de <span class="tt"><a class="el" href="classhmi_1_1GameSession.html" title="Simule et rend un seul niveau (déjà validé, en mémoire), indépendamment de toute infrastructure d&#39;écr...">hmi::GameSession</a></span> l'ordre <b>codé en dur</b> des passes du pas fixe, derrière une interface <span class="tt"><a class="el" href="classhmi_1_1IGameMode.html" title="Un mode de jeu : l&#39;ordre dans lequel les passes d&#39;un pas fixe s&#39;enchaînent.">hmi::IGameMode</a></span>.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md387"></a>
 Le problème</h1>
 <p><span class="tt"><a class="el" href="GameSession_8cpp.html">Source/HMI/Game/GameSession.cpp</a></span> mêle deux rôles : <b>orchestrateur</b> du pas fixe (monde ECS, caméra, événements, HUD, <span class="tt">FixedTimestep</span>, interpolation de rendu) et <b>mode de jeu</b> (l'ordre des passes lui-même). Tant qu'il n'y avait qu'un genre, la confusion ne coûtait rien.</p>
@@ -112,7 +112,7 @@ Le problème</h1>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md388"></a>
 Périmètre</h1>
 <ul>
-<li><span class="tt">hmi::IGameMode</span> : interface à cinq méthodes environ — <span class="tt">onLoad(World&amp;, const Level&amp;)</span>, <span class="tt">step(World&amp;, const PlayerInput&amp;, float) -&gt; LevelOutcome</span>, <span class="tt">onUnload()</span>, plus de quoi décrire l'ordre des passes pour les diagnostics.</li>
+<li><span class="tt"><a class="el" href="classhmi_1_1IGameMode.html" title="Un mode de jeu : l&#39;ordre dans lequel les passes d&#39;un pas fixe s&#39;enchaînent.">hmi::IGameMode</a></span> : interface à cinq méthodes environ — <span class="tt">onLoad(World&amp;, const Level&amp;)</span>, <span class="tt">step(World&amp;, const PlayerInput&amp;, float) -&gt; LevelOutcome</span>, <span class="tt">onUnload()</span>, plus de quoi décrire l'ordre des passes pour les diagnostics.</li>
 <li><span class="tt">GameSession</span> conserve : monde ECS, caméra et cadrage, événements, HUD, particules, secousse d'écran, <span class="tt">FixedTimestep</span>, interpolation. Il <b>délègue</b> l'ordre des passes.</li>
 <li><span class="tt">ExplorationMode</span> : premier mode, extrait du corps actuel de <span class="tt">GameSession::update</span>.</li>
 </ul>
@@ -128,8 +128,13 @@ Critères d'acceptation</h1>
 <ul>
 <li>Extraction à comportement <b>identique</b>, prouvée par le test de rejeu déterministe.</li>
 <li>Les tests de <span class="tt">GameSession</span> passent <b>sans modification de leur corps</b>.</li>
-<li>Aucun <span class="tt">if (mode == …)</span> résiduel dans <span class="tt">GameSession</span> : la sélection se fait par polymorphisme. </li>
+<li>Aucun <span class="tt">if (mode == …)</span> résiduel dans <span class="tt">GameSession</span> : la sélection se fait par polymorphisme.</li>
 </ul>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md392"></a>
+Ce que la réalisation a tranché</h1>
+<p><b>Les passes sont une interface, pas des paramètres.</b> L'epic esquissait <span class="tt">step(World&amp;, const PlayerInput&amp;, float)</span>. Un <span class="tt">World</span> ne suffit pas : les passes touchent la caméra, les particules, la secousse d'écran, les mécanismes, la détection d'événements — tout ce que l'orchestrateur <b>garde</b>, par décision du périmètre. Le mode reçoit donc <span class="tt">IGameModePasses</span>, que <span class="tt">GameSession</span> implémente par héritage <b>privé</b> : les passes sont offertes au mode, jamais à l'appelant de la session, dont l'API publique ne bouge pas d'une ligne.</p>
+<p><b>Le test de rejeu déterministe porte sur la séquence des passes, pas sur des positions.</b> Le critère de l'epic demandait « mêmes entrées, mêmes positions au flottant près sur 600 pas ». Deux obstacles : <span class="tt">GameSession</span> exige un atlas, un lot de sprites et une police — impossible à instancier sans fenêtre, et aucun test ne l'instancie aujourd'hui ; et le personnage <b>ne se déplace pas encore</b> (le contrôleur top-down arrive au <span class="tt">LOT-06</span>), si bien que des positions constantes ne prouveraient rien. Ce que l'extraction doit garantir, c'est que l'ordre des passes n'a pas changé — et c'est vérifiable exactement, sur 600 pas, contre des passes qui enregistrent leurs appels. Le mode annonce son ordre (<span class="tt">passOrder()</span>, pour les diagnostics) et un test le compare à la séquence réellement appelée : la documentation ne peut plus diverger du code sans faire échouer la CI.</p>
+<p><b>La boîte du personnage est relue par chaque passe qui en a besoin</b>, plutôt que calculée une fois et passée de l'une à l'autre. Aucune passe intercalée ne déplace le personnage — le résultat est identique — et un état partagé de plus entre passes aurait rendu leur ordre difficile à changer : précisément ce que ce lot cherche à rendre facile. </p>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
 </div><!-- doc-content -->

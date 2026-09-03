@@ -190,7 +190,7 @@ var searchData=
   ['_5fmetrics_187',['_metrics',['../classhmi_1_1BitmapFont.html#a9d08a58280e8b83ea1e248e5689ddf18',1,'hmi::BitmapFont']]],
   ['_5fminimumlevel_188',['_minimumLevel',['../classcore_1_1Logger.html#a76791beb2136fabbd72d691cf11af2c9',1,'core::Logger']]],
   ['_5fmissingtexture_189',['_missingTexture',['../classhmi_1_1TextureCache.html#a2e085900c9d152f6727327c9492c9ccf',1,'hmi::TextureCache']]],
-  ['_5fmode_190',['_mode',['../classhmi_1_1PalettePanel.html#ab26a9729b703b6a3677d861b1e6f1b25',1,'hmi::PalettePanel']]],
+  ['_5fmode_190',['_mode',['../classhmi_1_1PalettePanel.html#ab26a9729b703b6a3677d861b1e6f1b25',1,'hmi::PalettePanel::_mode'],['../classhmi_1_1GameSession.html#a45a928494a983e1b50e793f5fdb492eb',1,'hmi::GameSession::_mode']]],
   ['_5fmodel_191',['_model',['../classhmi_1_1LevelBrowserPanel.html#a82f1f4da93c2c41ee4faae7b49047ff0',1,'hmi::LevelBrowserPanel::_model'],['../classhmi_1_1LinkPanel.html#af2b01dca67ace4ed437514a009de3507',1,'hmi::LinkPanel::_model'],['../classhmi_1_1PalettePanel.html#a388bd72162c541b85e8d14341fbacfe8',1,'hmi::PalettePanel::_model'],['../classhmi_1_1TexturePanel.html#a333f70eb897f6bfe586f90b23853aa73',1,'hmi::TexturePanel::_model']]],
   ['_5fmousex_192',['_mouseX',['../classhmi_1_1InputState.html#aec72ed3a0c3b1767f3f3b7e38c94b9f0',1,'hmi::InputState']]],
   ['_5fmousey_193',['_mouseY',['../classhmi_1_1InputState.html#a8fa4e1ad152450c883658be004f0522a',1,'hmi::InputState']]],

@@ -1,6 +1,11 @@
 var NAVTREEINDEX1 =
 {
-"LevelRunStats_8h_source.html":[13,0,3,2,3,11],
+"LevelOutcome_8h_source.html":[13,0,3,0,3,9],
+"LevelProperties_8h.html":[13,0,3,0,3,10],
+"LevelProperties_8h_source.html":[13,0,3,0,3,10],
+"LevelRunStats_8cpp.html":[13,0,3,2,3,13],
+"LevelRunStats_8h.html":[13,0,3,2,3,14],
+"LevelRunStats_8h_source.html":[13,0,3,2,3,14],
 "LevelScene_8cpp.html":[13,0,3,0,3,11],
 "LevelScene_8h.html":[13,0,3,0,3,12],
 "LevelScene_8h_source.html":[13,0,3,0,3,12],
@@ -198,9 +203,9 @@ var NAVTREEINDEX1 =
 "ProceduralFont_8cpp.html":[13,0,3,2,4,40],
 "ProceduralFont_8h.html":[13,0,3,2,4,41],
 "ProceduralFont_8h_source.html":[13,0,3,2,4,41],
-"Progression_8cpp.html":[13,0,3,2,3,12],
-"Progression_8h.html":[13,0,3,2,3,13],
-"Progression_8h_source.html":[13,0,3,2,3,13],
+"Progression_8cpp.html":[13,0,3,2,3,15],
+"Progression_8h.html":[13,0,3,2,3,16],
+"Progression_8h_source.html":[13,0,3,2,3,16],
 "QtKeyMap_8cpp.html":[13,0,3,2,5,17],
 "QtKeyMap_8h.html":[13,0,3,2,5,18],
 "QtKeyMap_8h_source.html":[13,0,3,2,5,18],
@@ -244,10 +249,5 @@ var NAVTREEINDEX1 =
 "SkinCatalog_8cpp.html":[13,0,3,2,4,53],
 "SkinCatalog_8h.html":[13,0,3,2,4,54],
 "SkinCatalog_8h_source.html":[13,0,3,2,4,54],
-"SoundCatalog_8cpp.html":[13,0,3,2,0,3],
-"SoundCatalog_8h.html":[13,0,3,2,0,4],
-"SoundCatalog_8h_source.html":[13,0,3,2,0,4],
-"SoundTriggers_8cpp.html":[13,0,3,2,0,5],
-"SoundTriggers_8h.html":[13,0,3,2,0,6],
-"SoundTriggers_8h_source.html":[13,0,3,2,0,6]
+"SoundCatalog_8cpp.html":[13,0,3,2,0,3]
 };

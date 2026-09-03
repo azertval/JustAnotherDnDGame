@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['name_0',['name',['../classcore_1_1Level.html#a5980749eacb886074a65f8e06f51fb59',1,'core::Level::name()'],['../classcore_1_1LevelDraft.html#a7ac47bce808a2ac8e8fce362411269cf',1,'core::LevelDraft::name()']]],
+  ['name_0',['name',['../classcore_1_1Level.html#a5980749eacb886074a65f8e06f51fb59',1,'core::Level::name()'],['../classcore_1_1LevelDraft.html#a7ac47bce808a2ac8e8fce362411269cf',1,'core::LevelDraft::name()'],['../classhmi_1_1ExplorationMode.html#a7481676c44dfcdc013b32050b2b798ad',1,'hmi::ExplorationMode::name()'],['../classhmi_1_1IGameMode.html#ad83b354d641079ecc0cae047e92f395d',1,'hmi::IGameMode::name()']]],
   ['nearestpalettecolor_1',['nearestPaletteColor',['../namespacehmi.html#aa3ad36cdfd66f4029481e164b0ccb66c',1,'hmi']]],
   ['newgame_2',['newGame',['../classhmi_1_1MainWindow.html#a703c568cb80ba0012846c8baf1a05b72',1,'hmi::MainWindow']]],
   ['newgamerequested_3',['newGameRequested',['../classhmi_1_1MainMenu.html#a7f6d8d9f2f4ea765750d97949760ceb4',1,'hmi::MainMenu']]],

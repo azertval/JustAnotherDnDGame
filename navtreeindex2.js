@@ -1,5 +1,10 @@
 var NAVTREEINDEX2 =
 {
+"SoundCatalog_8h.html":[13,0,3,2,0,4],
+"SoundCatalog_8h_source.html":[13,0,3,2,0,4],
+"SoundTriggers_8cpp.html":[13,0,3,2,0,5],
+"SoundTriggers_8h.html":[13,0,3,2,0,6],
+"SoundTriggers_8h_source.html":[13,0,3,2,0,6],
 "SpriteBatch_8cpp.html":[13,0,3,2,4,55],
 "SpriteBatch_8h.html":[13,0,3,2,4,56],
 "SpriteBatch_8h_source.html":[13,0,3,2,4,56],
@@ -244,10 +249,5 @@ var NAVTREEINDEX2 =
 "classcore_1_1GridDistanceField.html#ab912a545dae807922fa5a0fc74685338":[12,0,0,57,1],
 "classcore_1_1GridDistanceField.html#aef1a6349338d9fd3623034b6939b9d8f":[11,0,0,57,4],
 "classcore_1_1GridDistanceField.html#aef1a6349338d9fd3623034b6939b9d8f":[12,0,0,57,4],
-"classcore_1_1IComponentPool.html":[11,0,0,9],
-"classcore_1_1IComponentPool.html":[12,0,0,9],
-"classcore_1_1IComponentPool.html#a0f0a0515092cd03e5e533b271f2a44df":[11,0,0,9,0],
-"classcore_1_1IComponentPool.html#a0f0a0515092cd03e5e533b271f2a44df":[12,0,0,9,0],
-"classcore_1_1IComponentPool.html#ab0b1a9b6d1ab67638c268e1dd678a90b":[11,0,0,9,1],
-"classcore_1_1IComponentPool.html#ab0b1a9b6d1ab67638c268e1dd678a90b":[12,0,0,9,1]
+"classcore_1_1IComponentPool.html":[11,0,0,9]
 };
