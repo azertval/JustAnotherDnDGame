@@ -130,8 +130,11 @@ TEST(LevelTest, RestitueSesComposantes) {
     const std::vector<core::Mechanism> mechanisms = {
         {core::GridPosition{2, 1}, core::GridPosition{4, 2}},
     };
-    const core::Level level("Tutoriel", std::move(map), core::GridPosition{1, 1},
-                            core::GridPosition{3, 2}, mechanisms);
+    const core::Level level(core::LevelData{.name = "Tutoriel",
+                                            .tileMap = std::move(map),
+                                            .entry = core::GridPosition{1, 1},
+                                            .exit = core::GridPosition{3, 2},
+                                            .mechanisms = mechanisms});
 
     EXPECT_EQ(level.name(), "Tutoriel");
     EXPECT_EQ(level.tileMap().width(), 5);
@@ -158,13 +161,19 @@ TEST(LevelTest, RestitueSonFondEtSonJeuDeSkinsOuLeurAbsence) {
     map.setTile(0, 0, core::TileType::Entry);
     map.setTile(2, 2, core::TileType::Exit);
 
-    const core::Level sansFond("N", map, core::GridPosition{0, 0}, core::GridPosition{2, 2}, {});
+    const core::Level sansFond(core::LevelData{.name = "N",
+                                               .tileMap = map,
+                                               .entry = core::GridPosition{0, 0},
+                                               .exit = core::GridPosition{2, 2}});
     EXPECT_FALSE(sansFond.background().has_value());
     EXPECT_FALSE(sansFond.skinSet().has_value());
 
-    const core::Level avecFond("N", std::move(map), core::GridPosition{0, 0},
-                               core::GridPosition{2, 2}, {}, std::string{"forest.png"},
-                               std::string{"foret"});
+    const core::Level avecFond(core::LevelData{.name = "N",
+                                               .tileMap = std::move(map),
+                                               .entry = core::GridPosition{0, 0},
+                                               .exit = core::GridPosition{2, 2},
+                                               .background = std::string{"forest.png"},
+                                               .skinSet = std::string{"foret"}});
     ASSERT_TRUE(avecFond.background().has_value());
     EXPECT_EQ(*avecFond.background(), "forest.png");
     ASSERT_TRUE(avecFond.skinSet().has_value());
@@ -188,12 +197,17 @@ TEST(LevelTest, RestitueSonCadrageDeCameraOuLeDefaut) {
     map.setTile(0, 0, core::TileType::Entry);
     map.setTile(2, 2, core::TileType::Exit);
 
-    const core::Level defaut("N", map, core::GridPosition{0, 0}, core::GridPosition{2, 2}, {});
+    const core::Level defaut(core::LevelData{.name = "N",
+                                             .tileMap = map,
+                                             .entry = core::GridPosition{0, 0},
+                                             .exit = core::GridPosition{2, 2}});
     EXPECT_EQ(defaut.cameraFraming().mode, core::CameraFramingMode::WholeLevel);
 
     const core::CameraFramingConfig follow{.mode = core::CameraFramingMode::Follow};
-    const core::Level avecCadrage("N", std::move(map), core::GridPosition{0, 0},
-                                  core::GridPosition{2, 2}, {}, std::nullopt, std::nullopt, {},
-                                  follow);
+    const core::Level avecCadrage(core::LevelData{.name = "N",
+                                                  .tileMap = std::move(map),
+                                                  .entry = core::GridPosition{0, 0},
+                                                  .exit = core::GridPosition{2, 2},
+                                                  .cameraFraming = follow});
     EXPECT_EQ(avecCadrage.cameraFraming().mode, core::CameraFramingMode::Follow);
 }

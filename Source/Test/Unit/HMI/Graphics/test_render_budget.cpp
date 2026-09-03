@@ -74,11 +74,7 @@ core::Level loadDeliveredLevel(const std::string& fileName) {
     const core::LevelLoadResult result = core::LevelLoader::loadFromFile(path);
     if (!result.ok()) {
         ADD_FAILURE() << "Echec de chargement de " << fileName << " : " << result.error;
-        return core::Level{"invalide",
-                           core::TileMap{1, 1},
-                           core::GridPosition{0, 0},
-                           core::GridPosition{0, 0},
-                           {}};
+        return core::Level{core::LevelData{.name = "invalide", .tileMap = core::TileMap{1, 1}}};
     }
     return *result.level;
 }

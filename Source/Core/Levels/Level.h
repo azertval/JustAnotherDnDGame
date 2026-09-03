@@ -52,53 +52,76 @@ struct TileTextureOverride {
  * Assemblé par le chargeur (après parsing et validation) puis lu par le rendu et, à terme, le
  * gameplay. Donnée pure (`EX-ARCH-011`, `EX-LVL-002`) : aucune dépendance rendu ni fichier.
  */
+/**
+ * @brief Composantes d'un niveau, nommées — agrégat de construction de `core::Level` (`LOT-03`).
+ *
+ * Le constructeur de `Level` a compté jusqu'à **19 paramètres positionnels**. Le `LOT-01` en a
+ * retiré huit avec le gameplay de plateforme, mais la dette de fond restait : deux
+ * `std::optional<std::string>` voisins (`background`, `skinSet`) s'intervertissent sans que le
+ * compilateur bronche, et le RPG s'apprête à rajouter des champs (couches de tuiles, entités,
+ * connexions de carte, zones de rencontre, points d'apparition). Solder maintenant, alors que la
+ * liste est au plus court, coûte le minimum.
+ *
+ * S'écrit avec les *designated initializers* de C++20, qui rendent chaque site de construction
+ * lisible sans commentaire :
+ * @code
+ * core::Level level(core::LevelData{.name = "village",
+ *                                   .tileMap = std::move(map),
+ *                                   .entry = entryPosition,
+ *                                   .exit = exitPosition});
+ * @endcode
+ *
+ * @note `tileMap` n'a **volontairement** pas de valeur par défaut : `core::TileMap` n'est pas
+ *       constructible par défaut, si bien que l'omettre est une **erreur de compilation** et non
+ *       une grille vide silencieuse. Tous les autres champs ont un défaut utile.
+ */
+struct LevelData {
+    /// Nom du niveau.
+    std::string name;
+    /// Grille de tuiles typées. Sans défaut : voir la note ci-dessus.
+    TileMap tileMap;
+    /// Position d'apparition (case `Entry`).
+    GridPosition entry{};
+    /// Position de sortie (case `Exit`).
+    GridPosition exit{};
+    /// Liaisons interrupteur↔porte résolues.
+    std::vector<Mechanism> mechanisms;
+    /// Nom de l'asset de fond (`EX-REN-044`), absent si aucun. Une chaîne, jamais un handle de
+    /// texture : `Core` ignore tout du rendu.
+    std::optional<std::string> background;
+    /// Nom du jeu de skins (`EX-EDIT-024`), absent pour le jeu par défaut.
+    std::optional<std::string> skinSet;
+    /// Textures assignées par instance (`EX-EDIT-043`), prioritaires sur le skin de leur type.
+    std::vector<TileTextureOverride> textureOverrides;
+    /// Cadrage de caméra **résolu** (`EX-LVL-006`) : déjà passé par `resolveCameraFraming` côté
+    /// chargeur, jamais un champ brut « peut-être absent ». Le défaut (`WholeLevel`) est légitime
+    /// pour un niveau construit directement, cohérent avec un petit niveau tenant dans une salle.
+    CameraFramingConfig cameraFraming;
+    /// Plans picturaux (`EX-DEC-040`), dans leur ordre de superposition.
+    std::vector<Plane> planes;
+    /// `true` si la parallaxe des plans s'applique (`EX-DEC-043`) ; le mode de cadrage peut la
+    /// neutraliser par-dessus ce drapeau.
+    bool parallaxEnabled = true;
+};
+
 class Level {
 public:
     /**
-     * @brief Construit un niveau à partir de ses composantes.
-     * @param name         Nom du niveau.
-     * @param tileMap      Grille de tuiles typées (déplacée).
-     * @param entry        Position d'apparition (case `Entry`).
-     * @param exit         Position de sortie (case `Exit`).
-     * @param mechanisms   Liaisons interrupteur↔porte résolues.
-     * @param background   Nom de l'asset de fond du niveau (`EX-REN-044`), vide si aucun. Une
-     *                     chaîne, jamais un handle de texture : `Core` ignore tout du rendu.
-     * @param skinSet      Nom du jeu de skins du niveau (`EX-EDIT-024`), vide pour le jeu par
-     *                     défaut.
-     * @param textureOverrides Textures assignées par instance (`EX-EDIT-043`), prioritaires sur
-     *                     le skin de leur type.
-     * @param cameraFraming Cadrage de caméra **résolu** du niveau (`EX-LVL-006`, LOT-64) : déjà
-     *                     passé par `resolveCameraFraming` côté chargeur, jamais un champ brut
-     *                     "peut-être absent" -- valeur par défaut (`WholeLevel`) légitime pour un
-     *                     niveau construit directement (hors `LevelLoader`), cohérente avec un
-     *                     petit niveau qui tient dans une salle.
-     * @param planes       Plans picturaux du niveau (`EX-DEC-040`, LOT-69), dans leur ordre de
-     *                     superposition.
-     * @param parallaxEnabled `true` si la parallaxe des plans s'applique (`EX-DEC-043`) ; le mode
-     *                     de cadrage peut la neutraliser par-dessus ce drapeau.
-     *
-     * @note Ce constructeur comptait **19 paramètres** ; le `LOT-01` en a retiré huit avec le
-     *       gameplay de plateforme (liaisons de danger, dangers mobiles et temporisés, plateformes
-     *       mobiles, budgets de saut et de dash). La dette d'un agrégat `LevelData` reste actée :
-     *       elle est soldée par le `LOT-03`, avant que le RPG n'ajoute ses propres champs.
+     * @brief Construit un niveau à partir de ses composantes nommées.
+     * @param data Composantes du niveau (déplacées).
      */
-    Level(std::string name, TileMap tileMap, GridPosition entry, GridPosition exit,
-          std::vector<Mechanism> mechanisms, std::optional<std::string> background = std::nullopt,
-          std::optional<std::string> skinSet = std::nullopt,
-          std::vector<TileTextureOverride> textureOverrides = {},
-          CameraFramingConfig cameraFraming = {}, std::vector<Plane> planes = {},
-          bool parallaxEnabled = true)
-        : _name(std::move(name)),
-          _tileMap(std::move(tileMap)),
-          _entry(entry),
-          _exit(exit),
-          _mechanisms(std::move(mechanisms)),
-          _background(std::move(background)),
-          _skinSet(std::move(skinSet)),
-          _textureOverrides(std::move(textureOverrides)),
-          _cameraFraming(cameraFraming),
-          _planes(std::move(planes)),
-          _parallaxEnabled(parallaxEnabled) {}
+    explicit Level(LevelData data)
+        : _name(std::move(data.name)),
+          _tileMap(std::move(data.tileMap)),
+          _entry(data.entry),
+          _exit(data.exit),
+          _mechanisms(std::move(data.mechanisms)),
+          _background(std::move(data.background)),
+          _skinSet(std::move(data.skinSet)),
+          _textureOverrides(std::move(data.textureOverrides)),
+          _cameraFraming(std::move(data.cameraFraming)),
+          _planes(std::move(data.planes)),
+          _parallaxEnabled(data.parallaxEnabled) {}
 
     /// @return Le nom du niveau.
     [[nodiscard]] const std::string& name() const noexcept {
