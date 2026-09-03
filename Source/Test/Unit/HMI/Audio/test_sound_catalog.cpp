@@ -56,7 +56,7 @@ TEST(SoundCatalogTest, CatalogueValideSeCharge) {
  */
 TEST(SoundCatalogTest, FichierAbsentEstFileNotFound) {
     const std::filesystem::path missing =
-        std::filesystem::temp_directory_path() / "projectgaming_sounds_inexistant.json";
+        std::filesystem::temp_directory_path() / "jadg_sounds_inexistant.json";
     const hmi::SoundCatalogResult result = hmi::SoundCatalog::loadFromFile(missing);
 
     EXPECT_FALSE(result.ok());
@@ -135,7 +135,7 @@ TEST(SoundCatalogTest, VersionSuperieureRefusee) {
  */
 TEST(SoundCatalogTest, CatalogueLivreValide) {
     const std::filesystem::path path =
-        std::filesystem::path(PROJECTGAMING_AUDIO_DIR) / "sounds.json";
+        std::filesystem::path(JADG_AUDIO_DIR) / "sounds.json";
     ASSERT_TRUE(std::filesystem::exists(path)) << path.string();
 
     const hmi::SoundCatalogResult result = hmi::SoundCatalog::loadFromFile(path);
@@ -155,7 +155,7 @@ TEST(SoundCatalogTest, CatalogueLivreValide) {
  * }
  */
 TEST(SoundCatalogTest, AssetsDuCatalogueLivreExistent) {
-    const std::filesystem::path audioDir{PROJECTGAMING_AUDIO_DIR};
+    const std::filesystem::path audioDir{JADG_AUDIO_DIR};
     const hmi::SoundCatalogResult result =
         hmi::SoundCatalog::loadFromFile(audioDir / "sounds.json");
     ASSERT_TRUE(result.ok()) << result.error;

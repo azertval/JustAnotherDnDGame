@@ -14,7 +14,7 @@ TileMap::TileMap(int width, int height)
     : _width(width),
       _height(height),
       _tiles(static_cast<std::size_t>(width) * static_cast<std::size_t>(height), TileType::Empty) {
-    PROJECTGAMING_ASSERT(width > 0 && height > 0, "Dimensions de TileMap invalides");
+    JADG_ASSERT(width > 0 && height > 0, "Dimensions de TileMap invalides");
 }
 
 // Indique si une case est dans les bornes de la grille.
@@ -24,14 +24,14 @@ bool TileMap::inBounds(int column, int row) const noexcept {
 
 // Type de la tuile a une case (precondition : case dans les bornes).
 TileType TileMap::tile(int column, int row) const {
-    PROJECTGAMING_ASSERT(inBounds(column, row), "Acces hors bornes de TileMap");
+    JADG_ASSERT(inBounds(column, row), "Acces hors bornes de TileMap");
     return _tiles[(static_cast<std::size_t>(row) * static_cast<std::size_t>(_width)) +
                   static_cast<std::size_t>(column)];
 }
 
 // Change le type de la tuile a une case (precondition : case dans les bornes).
 void TileMap::setTile(int column, int row, TileType type) {
-    PROJECTGAMING_ASSERT(inBounds(column, row), "Ecriture hors bornes de TileMap");
+    JADG_ASSERT(inBounds(column, row), "Ecriture hors bornes de TileMap");
     _tiles[(static_cast<std::size_t>(row) * static_cast<std::size_t>(_width)) +
            static_cast<std::size_t>(column)] = type;
 }

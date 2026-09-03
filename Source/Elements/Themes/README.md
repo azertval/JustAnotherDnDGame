@@ -11,7 +11,7 @@ alors ses 862 widgets — cinq secondes par redimensionnement en configuration D
 préoccupation ne touchant que les écrans du jeu.
 
 - `theme-identity.qss` — **identité du jeu**, portée par `objectName` (`#MainMenu`, `#OptionsPage`,
-  `#PauseScreen`, `#LevelSelectScreen`, `#LevelCompleteScreen`, `#CreditsScreen`, `#AiModeScreen`).
+  `#PauseScreen`, `#LevelSelectScreen`, `#LevelCompleteScreen`, `#CreditsScreen`).
   **Invariante** : jamais affectée par le thème clair/sombre de l'éditeur (`EX-IHM-054`). Ses
   grandeurs `identity.size.*` / `identity.space.*` sont multipliées par le facteur entier de
   `hmi::pixelArtScale`. Posée par `MainWindow` sur la **pile d'écrans**, jamais sur l'application.
@@ -25,9 +25,3 @@ préoccupation ne touchant que les écrans du jeu.
 > (`ApplicationThemeTest.LesDeuxPorteesSontDansDeuxFichiersDisjoints`) : aucun jeton `editor.color.*`
 > dans l'identité, aucun jeton `identity.*` dans le châssis. Une seule règle d'identité replacée dans
 > la feuille du châssis ramènerait le rejeu applicatif complet.
-
-**Cas particulier du Mode IA.** `#AiModeScreen` est le seul écran de la portée identité à n'être pas
-un écran de *joueur* : c'est un poste de travail. Il n'en garde que l'**enveloppe** (fond, titre,
-cadre, bouton de retour) ; son **contenu** est habillé aux couleurs du jeu mais à la densité d'un
-outil — aucune `font-family` ni `font-size` déclarée (la police par défaut de l'application
-s'applique), et des rembourrages pris dans `tokens.spacing.*`, jamais multipliés.

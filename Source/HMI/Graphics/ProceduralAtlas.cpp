@@ -7,7 +7,6 @@
 #include <optional>
 
 #include "Core/Levels/TileType.h"
-#include "HMI/Graphics/SlopeMask.h"
 #include "HMI/Graphics/TextureAtlas.h"
 #include "HMI/Graphics/TileVisuals.h"
 
@@ -26,14 +25,8 @@ std::uint32_t pack(std::uint8_t red, std::uint8_t green, std::uint8_t blue, std:
 // ne doit jamais redécaler silencieusement les couleurs des tuiles déjà posées dans les niveaux
 // livrés. Les cases au-delà de la colonne 4 sont
 // soit réservées (damier de transparence, toujours la DERNIÈRE case, qui se déplace donc avec la
-// grille), soit remplacées par un masque de forme (`slopeShapePixel`, leur couleur de base ici n'a
-// pas d'importance, remplie de noir par convention), à l'exception de trois cases occupées par les
-// mécanismes de `LOT-63` (`EX-GP-023`/`EX-GP-026`) : `Key` (4,0), `LockedDoor` (3,4) — déjà libres
-// dans la grille 5×5 — et `MovingPlatform` (5,0), dans la sixième colonne ajoutée pour elle.
-// Le `LOT-74` y ajoute les trois blocs volatils (`EX-GP-027` à `EX-GP-029`) : `SinkingBlock` (5,1),
-// `FragileBlock` (5,2) et `VanishingBlock` (5,3) — toutes trois dans cette même sixième colonne,
-// donc sans toucher aux cinq premières et sans redécaler la moindre tuile déjà posée dans un
-// niveau livré.
+// grille), soit libres. Deux cases sont occupées par les mécanismes du `LOT-63`
+// (`EX-GP-023`) : `Key` (4,0) et `LockedDoor` (3,4).
 std::uint32_t tileColor(int tileIndex) {
     static const std::array<std::uint32_t, 36> palette{
         // Ligne 0
@@ -87,42 +80,6 @@ std::uint32_t tileColor(int tileIndex) {
 // Vrai si value est dans l'intervalle ferme [low, high] (bornes des zones du personnage).
 bool inRange(int value, int low, int high) {
     return value >= low && value <= high;
-}
-
-// Type de tuile a silhouette inclinee/courbe dont la case d'atlas est (tileColumn, tileRow), s'il
-// y en a un. La liste des douze types vit dans SlopeMask.h, avec la silhouette elle-meme.
-std::optional<core::TileType> slopeTypeAtGridPosition(int tileColumn, int tileRow) {
-    for (const core::TileType type : SILHOUETTE_TILE_TYPES) {
-        const std::optional<hmi::AtlasGridPosition> position = hmi::slopeTileGridPosition(type);
-        if (position && position->column == tileColumn && position->row == tileRow) {
-            return type;
-        }
-    }
-    return std::nullopt;
-}
-
-// Couleur du pixel (localX, localY) d'une case a silhouette inclinee/courbe, 0-based dans la case
-// 16x16 : plein (gris, meme couleur que Solid — ces tuiles restent un materiau de plateforme comme
-// un autre, pas une famille de couleurs distinctes) d'un cote de la surface, transparent de
-// l'autre — l'affichage reproduit ainsi la silhouette reelle plutot qu'un carre plein qui la
-// masquerait.
-//
-// Pente/arrondi de SOL (EX-GP-003/EX-GP-004) : plein SOUS la surface suivie par la physique
-// (core::slopeSurfaceHeight). Pente/arrondi de PLAFOND (EX-GP-006) : plein AU-DESSUS de la
-// silhouette (core::ceilingSlopeHeight, miroir vertical de la variante de sol) — dans les deux
-// cas, l'affichage correspond exactement a la hitbox reelle (core::resolveSlopeFollow /
-// core::resolveCeilingSlopeFollow, pas de solidite statique via core::isSolid).
-std::uint32_t slopeShapePixel(core::TileType type, int localX, int localY) {
-    // Appartenance a la matiere deleguee a hmi::isInsideSilhouette (LOT-42), point de verite unique
-    // partage avec le detourage des skins : deux implementations de la meme silhouette finiraient
-    // par diverger, et un skin decoupe autrement que l'atlas se verrait immediatement a la bascule
-    // Physique/Texture.
-    if (!isInsideSilhouette(type, localX, localY, TextureAtlas::TILE_SIZE)) {
-        return pack(0, 0, 0, 0);  // du cote vide de la silhouette : transparent
-    }
-    // Meme case que Solid (colonne 0, ligne 2 — TileVisuals.cpp::regionForTile) : gris, reutilise
-    // ici comme indice de palette plutot que la couleur propre de `type`.
-    return tileColor(2 * TextureAtlas::TILES_PER_SIDE);
 }
 
 // Largeur des bras : ecartes du corps ou resserres (variation de pose entre images d'un meme
@@ -301,13 +258,6 @@ ProceduralAtlasImage buildProceduralAtlasImage() {
                 // Un damier 4×4 pixels : une case sur deux est entièrement transparente.
                 const bool transparent = (((x / 4) + (y / 4)) % 2) == 0;
                 color = transparent ? pack(0, 0, 0, 0) : pack(240, 240, 240, 255);
-            } else if (const std::optional<core::TileType> slopeType =
-                           slopeTypeAtGridPosition(tileColumn, tileRow)) {
-                // Pente/arrondi (EX-GP-003/EX-GP-004) : masque de forme (gris, comme Solid)
-                // plutot qu'un carre plein d'une couleur distincte, pour que l'affichage
-                // corresponde a la hitbox reelle (core::slopeSurfaceHeight).
-                color = slopeShapePixel(*slopeType, x % TextureAtlas::TILE_SIZE,
-                                        y % TextureAtlas::TILE_SIZE);
             }
             image.pixels[(static_cast<std::size_t>(y) * static_cast<std::size_t>(image.width)) +
                          static_cast<std::size_t>(x)] = color;

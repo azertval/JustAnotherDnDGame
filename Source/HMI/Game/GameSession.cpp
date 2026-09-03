@@ -15,7 +15,6 @@
 #include "Core/Ecs/Components/Sprite.h"  // core::AtlasRegion, core::Color
 #include "Core/Ecs/Components/Transform.h"
 #include "Core/Ecs/Components/Velocity.h"
-#include "Core/Levels/DangerGeometry.h"
 #include "Core/Levels/LevelScene.h"
 #include "Core/Levels/TileMap.h"
 #include "Core/Levels/TileType.h"
@@ -226,168 +225,6 @@ void GameSession::loadLevel(core::Level level) {
         _switchEntities.push_back(switchEntity);
     }
     _switchVisuals.assign(_switchEntities.size(), MechanismVisualState{});
-    // Dangers mobile/temporise (EX-GP-051/053) : compteur de pas fixes a zero pour ce niveau.
-    _dangers.emplace(levelRef);
-    // Repere l'entite-tuile de chaque danger mobile (a sa position de DEPART) pour la repositionner
-    // chaque pas (refreshDangerVisuals).
-    _moverEntities.clear();
-    for (const core::DangerMoverConfig& config : levelRef.moverConfigs()) {
-        core::Entity moverEntity{};
-        bool found = false;
-        _world.view<core::Transform, core::Sprite>().each(
-            [&](core::Entity entity, core::Transform& transform, core::Sprite&) {
-                if (!found &&
-                    static_cast<int>(transform.position.x) == config.startPosition.column &&
-                    static_cast<int>(transform.position.y) == config.startPosition.row) {
-                    moverEntity = entity;
-                    found = true;
-                }
-            });
-        // Danger mobile = mouvement continu : interpolé au rendu (EX-ARCH-031). PreviousPosition
-        // initialisee a sa position de depart pour ne pas "glisser" depuis l'origine a la 1re
-        // frame.
-        if (found && _world.hasComponent<core::Transform>(moverEntity)) {
-            _world.addComponent(
-                moverEntity,
-                PreviousPosition{_world.getComponent<core::Transform>(moverEntity).position});
-        }
-        _moverEntities.push_back(moverEntity);
-    }
-    _dangerMoverVisuals.assign(_moverEntities.size(), MechanismVisualState{});
-    // Dangers commute/temporise (EX-GP-052/053) : une entite-tuile par danger, dont l'apparence
-    // suit desormais l'etat actif/inactif (LOT-47, updateMechanismVisuals).
-    _dangerSwitchedEntities.clear();
-    for (const core::DangerLink& link : levelRef.dangerLinks()) {
-        core::Entity dangerEntity{};
-        bool found = false;
-        _world.view<core::Transform, core::Sprite>().each(
-            [&](core::Entity entity, core::Transform& transform, core::Sprite&) {
-                if (!found &&
-                    static_cast<int>(transform.position.x) == link.dangerPosition.column &&
-                    static_cast<int>(transform.position.y) == link.dangerPosition.row) {
-                    dangerEntity = entity;
-                    found = true;
-                }
-            });
-        _dangerSwitchedEntities.push_back(dangerEntity);
-    }
-    _dangerSwitchedVisuals.assign(_dangerSwitchedEntities.size(), MechanismVisualState{});
-    _dangerBlinkEntities.clear();
-    for (const core::DangerBlinkConfig& config : levelRef.blinkConfigs()) {
-        core::Entity dangerEntity{};
-        bool found = false;
-        _world.view<core::Transform, core::Sprite>().each(
-            [&](core::Entity entity, core::Transform& transform, core::Sprite&) {
-                if (!found && static_cast<int>(transform.position.x) == config.position.column &&
-                    static_cast<int>(transform.position.y) == config.position.row) {
-                    dangerEntity = entity;
-                    found = true;
-                }
-            });
-        _dangerBlinkEntities.push_back(dangerEntity);
-    }
-    _dangerBlinkVisuals.assign(_dangerBlinkEntities.size(), MechanismVisualState{});
-    // Blocs poussables (EX-GP-022) : une entite-tuile par bloc, reperee a sa position de depart.
-    _blocks.emplace(levelRef);
-    _blockEntities.clear();
-    for (const core::GridPosition& position : _blocks->positions()) {
-        core::Entity blockEntity{};
-        bool found = false;
-        _world.view<core::Transform, core::Sprite>().each(
-            [&](core::Entity entity, core::Transform& transform, core::Sprite&) {
-                if (!found && static_cast<int>(transform.position.x) == position.column &&
-                    static_cast<int>(transform.position.y) == position.row) {
-                    blockEntity = entity;
-                    found = true;
-                }
-            });
-        // Bloc poussable = mouvement (poussee/chute) : interpole au rendu (EX-ARCH-031), comme le
-        // danger mobile ci-dessus. PreviousPosition initialisee a sa position de depart.
-        if (found && _world.hasComponent<core::Transform>(blockEntity)) {
-            _world.addComponent(
-                blockEntity,
-                PreviousPosition{_world.getComponent<core::Transform>(blockEntity).position});
-        }
-        _blockEntities.push_back(blockEntity);
-    }
-    // Plateformes mobiles (EX-GP-026, LOT-63) : une entite-tuile par plateforme, reperee a sa
-    // position de DEPART -- meme patron que les dangers mobiles/blocs ci-dessus (position
-    // continue, donc interpolee au rendu via PreviousPosition).
-    _platforms.emplace(levelRef);
-    _platformEntities.clear();
-    for (const core::MovingPlatformConfig& config : levelRef.platformConfigs()) {
-        core::Entity platformEntity{};
-        bool found = false;
-        _world.view<core::Transform, core::Sprite>().each(
-            [&](core::Entity entity, core::Transform& transform, core::Sprite&) {
-                if (!found &&
-                    static_cast<int>(transform.position.x) == config.startPosition.column &&
-                    static_cast<int>(transform.position.y) == config.startPosition.row) {
-                    platformEntity = entity;
-                    found = true;
-                }
-            });
-        if (found && _world.hasComponent<core::Transform>(platformEntity)) {
-            _world.addComponent(
-                platformEntity,
-                PreviousPosition{_world.getComponent<core::Transform>(platformEntity).position});
-        }
-        _platformEntities.push_back(platformEntity);
-    }
-    // Blocs descendants (EX-GP-027, LOT-74) : position CONTINUE comme une plateforme mobile, donc
-    // meme patron d'entite-tuile interpolee au rendu (PreviousPosition).
-    _sinkingBlocks.emplace(levelRef);
-    _sinkingBlockEntities.clear();
-    for (std::size_t index = 0; index < _sinkingBlocks->count(); ++index) {
-        const core::GridPosition start = _sinkingBlocks->startPositionAt(index);
-        core::Entity sinkingEntity{};
-        bool found = false;
-        _world.view<core::Transform, core::Sprite>().each(
-            [&](core::Entity entity, core::Transform& transform, core::Sprite&) {
-                if (!found && static_cast<int>(transform.position.x) == start.column &&
-                    static_cast<int>(transform.position.y) == start.row) {
-                    sinkingEntity = entity;
-                    found = true;
-                }
-            });
-        if (found && _world.hasComponent<core::Transform>(sinkingEntity)) {
-            _world.addComponent(
-                sinkingEntity,
-                PreviousPosition{_world.getComponent<core::Transform>(sinkingEntity).position});
-        }
-        _sinkingBlockEntities.push_back(sinkingEntity);
-    }
-    // Blocs volatils (EX-GP-028/EX-GP-029, LOT-74) : ils ne bougent JAMAIS, donc aucune
-    // PreviousPosition ni interpolation -- seule leur VISIBILITE change, quand ils disparaissent.
-    _volatileBlocks.emplace(levelRef);
-    _volatileBlockEntities.clear();
-    for (std::size_t index = 0; index < _volatileBlocks->count(); ++index) {
-        const core::GridPosition position = _volatileBlocks->positionAt(index);
-        core::Entity volatileEntity{};
-        bool found = false;
-        _world.view<core::Transform, core::Sprite>().each(
-            [&](core::Entity entity, core::Transform& transform, core::Sprite&) {
-                if (!found && static_cast<int>(transform.position.x) == position.column &&
-                    static_cast<int>(transform.position.y) == position.row) {
-                    volatileEntity = entity;
-                    found = true;
-                }
-            });
-        _volatileBlockEntities.push_back(volatileEntity);
-    }
-    // Capacites du tableau (EX-GP-055) : un niveau peut redefinir le nombre de sauts aeriens et de
-    // charges de dash, tous deux recharges au contact du sol -- a distinguer des BUDGETS poses sur
-    // le personnage dans spawnPlayer, qui se consomment une fois pour toutes. Sans champ, on garde
-    // les reglages du moteur. Applique AVANT spawnPlayer, dont la recharge initiale en depend.
-    core::PhysicsConfig physicsConfig;
-    if (levelRef.airJumps()) {
-        physicsConfig.airJumps = *levelRef.airJumps();
-    }
-    if (levelRef.dashCharges()) {
-        physicsConfig.dashCharges = *levelRef.dashCharges();
-    }
-    _physics.setConfig(physicsConfig);
-
     spawnPlayer(levelRef.entry());
     HMI_LOG_INFO("Niveau charge : " + levelRef.name() + " (" + std::to_string(_levelWidth) + "x" +
                  std::to_string(_levelHeight) + ")");
@@ -407,13 +244,7 @@ void GameSession::spawnPlayer(core::GridPosition entry) {
         _player, core::Transform{core::playerSpawnPosition(entry.column, entry.row), size, 0.0f});
     _world.addComponent(_player, core::Velocity{});
     _world.addComponent(_player, core::Collider{size});
-    // Budget de mouvements du tableau (EX-GP-024) : -1 = illimite si le niveau n'en fixe pas.
-    // Total consommable sur tout le tableau, distinct des CAPACITES rechargees a chaque
-    // atterrissage (EX-GP-055), portees par la PhysicsConfig posee dans loadLevel.
-    core::Player playerComponent;
-    playerComponent.jumpsRemaining = _level->jumpBudget();
-    playerComponent.dashesRemaining = _level->dashBudget();
-    _world.addComponent(_player, playerComponent);
+    _world.addComponent(_player, core::Player{});
     core::Animation animation;
     animation.clips = core::playerClipSet();
     animation.clipIndex = core::PLAYER_CLIP_IDLE;
@@ -506,30 +337,10 @@ void GameSession::updateMechanismVisuals(float fixedDelta) {
         applyMechanismVisual(_switchEntities[index], _mechanisms->isDoorOpen(index),
                              _switchVisuals[index], textures, fixedDelta);
     }
-    const std::vector<core::DangerLink>& links = _level->dangerLinks();
-    for (std::size_t index = 0; index < _dangerSwitchedEntities.size(); ++index) {
-        const bool active = _mechanisms->isDangerActive(links[index].dangerPosition);
-        applyMechanismVisual(_dangerSwitchedEntities[index], active, _dangerSwitchedVisuals[index],
-                             textures, fixedDelta);
-    }
-    const std::vector<core::DangerBlinkConfig>& blinkConfigs = _level->blinkConfigs();
-    for (std::size_t index = 0; index < _dangerBlinkEntities.size(); ++index) {
-        const bool active = _dangers->isBlinkActive(blinkConfigs[index].position);
-        applyMechanismVisual(_dangerBlinkEntities[index], active, _dangerBlinkVisuals[index],
-                             textures, fixedDelta);
-    }
-    for (std::size_t index = 0; index < _moverEntities.size(); ++index) {
-        // Danger mobile : un seul clip (l'etat est porte par la position, pas par ce booleen) --
-        // "actif" constant n'y declenche donc jamais de changement au-dela du calcul initial.
-        applyMechanismVisual(_moverEntities[index], true, _dangerMoverVisuals[index], textures,
-                             fixedDelta);
-    }
 }
 
 // Modulation d'opacite de diagnostic, reservee au mode Physique (voir en-tete).
 void GameSession::refreshMechanismDiagnosticTint(RenderMode mode) {
-    constexpr float INACTIVE_ALPHA = 0.35f;
-    constexpr float ACTIVE_ALPHA = 1.0f;
     constexpr float DOOR_OPEN_ALPHA = 0.25f;
     constexpr float DOOR_CLOSED_ALPHA = 1.0f;
 
@@ -542,184 +353,14 @@ void GameSession::refreshMechanismDiagnosticTint(RenderMode mode) {
                                                      DOOR_OPEN_ALPHA, DOOR_CLOSED_ALPHA);
         _world.getComponent<core::Sprite>(door).tint = core::Color{1.0f, 1.0f, 1.0f, alpha};
     }
-
-    const std::vector<core::DangerLink>& links = _level->dangerLinks();
-    for (std::size_t index = 0; index < _dangerSwitchedEntities.size(); ++index) {
-        const core::Entity entity = _dangerSwitchedEntities[index];
-        if (!_world.hasComponent<core::Sprite>(entity)) {
-            continue;
-        }
-        const bool active = _mechanisms->isDangerActive(links[index].dangerPosition);
-        const float alpha = mechanismDiagnosticAlpha(mode, active, ACTIVE_ALPHA, INACTIVE_ALPHA);
-        _world.getComponent<core::Sprite>(entity).tint = core::Color{1.0f, 1.0f, 1.0f, alpha};
-    }
-
-    const std::vector<core::DangerBlinkConfig>& blinkConfigs = _level->blinkConfigs();
-    for (std::size_t index = 0; index < _dangerBlinkEntities.size(); ++index) {
-        const core::Entity entity = _dangerBlinkEntities[index];
-        if (!_world.hasComponent<core::Sprite>(entity)) {
-            continue;
-        }
-        const bool active = _dangers->isBlinkActive(blinkConfigs[index].position);
-        const float alpha = mechanismDiagnosticAlpha(mode, active, ACTIVE_ALPHA, INACTIVE_ALPHA);
-        _world.getComponent<core::Sprite>(entity).tint = core::Color{1.0f, 1.0f, 1.0f, alpha};
-    }
-}
-
-void GameSession::refreshBlockVisuals() {
-    const std::vector<core::GridPosition>& positions = _blocks->positions();
-    const std::vector<float>& scales = _blocks->scales();
-    for (std::size_t index = 0; index < _blockEntities.size(); ++index) {
-        const core::Entity block = _blockEntities[index];
-        if (!_world.hasComponent<core::Transform>(block)) {
-            continue;  // entite-tuile non reperee (robustesse) : rien a faire
-        }
-        core::Transform& transform = _world.getComponent<core::Transform>(block);
-        const float scale = scales[index];
-        const float margin = (1.0f - scale) * 0.5f;
-        transform.position = core::Vector2{static_cast<float>(positions[index].column) + margin,
-                                           static_cast<float>(positions[index].row) + margin};
-        transform.scale = core::Vector2{scale, scale};
-    }
-}
-
-void GameSession::resolveReducedBlockCollision(const core::Aabb& previousBox) {
-    core::Transform& transform = _world.getComponent<core::Transform>(_player);
-    const core::Vector2 delta = transform.position - previousBox.min;
-    if (delta.x == 0.0f && delta.y == 0.0f) {
-        return;
-    }
-    core::Vector2 bestPosition = transform.position;  // depart : resultat de la grille
-    core::Vector2 bestNormal{};
-    const std::vector<float>& scales = _blocks->scales();
-    for (std::size_t index = 0; index < scales.size(); ++index) {
-        if (scales[index] >= 1.0f) {
-            continue;  // bloc plein : deja resolu par le balayage sur grille ci-dessus
-        }
-        const core::SweepResult result =
-            core::sweepAabbVsAabb(previousBox, delta, _blocks->boxAt(index));
-        if (result.normal.x != 0.0f && std::fabs(result.position.x - previousBox.min.x) <
-                                           std::fabs(bestPosition.x - previousBox.min.x)) {
-            bestPosition.x = result.position.x;
-            bestNormal.x = result.normal.x;
-        }
-        if (result.normal.y != 0.0f && std::fabs(result.position.y - previousBox.min.y) <
-                                           std::fabs(bestPosition.y - previousBox.min.y)) {
-            bestPosition.y = result.position.y;
-            bestNormal.y = result.normal.y;
-        }
-    }
-    if (bestNormal.x == 0.0f && bestNormal.y == 0.0f) {
-        return;
-    }
-    transform.position = bestPosition;
-    core::Velocity& velocity = _world.getComponent<core::Velocity>(_player);
-    core::Player& player = _world.getComponent<core::Player>(_player);
-    if (bestNormal.x != 0.0f) {
-        velocity.value.x = 0.0f;
-    }
-    if (bestNormal.y != 0.0f) {
-        velocity.value.y = 0.0f;
-        if (bestNormal.y < 0.0f) {
-            player.grounded = true;  // pose sur le dessus d'un bloc reduit
-        }
-    }
-}
-
-void GameSession::refreshDangerVisuals() {
-    for (std::size_t index = 0; index < _moverEntities.size(); ++index) {
-        const core::Entity mover = _moverEntities[index];
-        if (!_world.hasComponent<core::Transform>(mover)) {
-            continue;  // entite-tuile non reperee (robustesse) : rien a faire
-        }
-        core::Transform& transform = _world.getComponent<core::Transform>(mover);
-        transform.position = _dangers->moverBox(index).min;
-    }
-}
-
-void GameSession::refreshPlatformVisuals() {
-    for (std::size_t index = 0; index < _platformEntities.size(); ++index) {
-        const core::Entity platform = _platformEntities[index];
-        if (!_world.hasComponent<core::Transform>(platform)) {
-            continue;  // entite-tuile non reperee (robustesse) : rien a faire
-        }
-        core::Transform& transform = _world.getComponent<core::Transform>(platform);
-        transform.position = _platforms->boxAt(index).min;
-    }
-}
-
-void GameSession::refreshSinkingBlockVisuals() {
-    for (std::size_t index = 0; index < _sinkingBlockEntities.size(); ++index) {
-        const core::Entity block = _sinkingBlockEntities[index];
-        if (!_world.hasComponent<core::Transform>(block)) {
-            continue;  // entite-tuile non reperee (robustesse) : rien a faire
-        }
-        core::Transform& transform = _world.getComponent<core::Transform>(block);
-        if (_sinkingBlocks->isRemovedAt(index)) {
-            // Sorti par le bas : plus aucun echantillon, donc plus aucune collision -- il ne doit
-            // pas non plus rester dessine a sa derniere position. core::Sprite n'a pas de drapeau
-            // de visibilite : la teinte entierement transparente est le moyen disponible.
-            if (_world.hasComponent<core::Sprite>(block)) {
-                _world.getComponent<core::Sprite>(block).tint.a = 0.0f;
-            }
-            continue;
-        }
-        transform.position = _sinkingBlocks->boxAt(index).min;
-    }
-}
-
-void GameSession::refreshVolatileBlockVisuals() {
-    for (std::size_t index = 0; index < _volatileBlockEntities.size(); ++index) {
-        const core::Entity block = _volatileBlockEntities[index];
-        if (!_world.hasComponent<core::Sprite>(block)) {
-            continue;  // entite-tuile non reperee (robustesse) : rien a faire
-        }
-        core::Sprite& sprite = _world.getComponent<core::Sprite>(block);
-        if (_volatileBlocks->isGoneAt(index)) {
-            sprite.tint.a = 0.0f;  // core::Sprite n'a pas de drapeau de visibilite
-            continue;
-        }
-        // Clignotement d'avertissement pendant le compte a rebours d'un bloc ephemere
-        // (EX-GP-029) : confort de lisibilite, jamais une mecanique -- la disparition ne depend en
-        // rien de ce qui est affiche. Rythme derive du pas fixe (jamais du rythme de rendu, pour
-        // rester deterministe -- EX-NFR-002), comme les tuiles animees.
-        constexpr int BLINK_PERIOD_STEPS = 6;
-        const bool dimmed = _volatileBlocks->isVanishingAt(index) &&
-                            (_volatileBlinkStep / BLINK_PERIOD_STEPS) % 2 == 1;
-        sprite.tint.a = dimmed ? 0.35f : 1.0f;
-    }
-    ++_volatileBlinkStep;
 }
 
 std::vector<core::Aabb> GameSession::collectActiveDangerBoxes() {
     std::vector<core::Aabb> boxes;
-    boxes.reserve(_dangers->moverCount() + _level->blinkConfigs().size() +
-                  _level->dangerLinks().size() + 1);
-
-    for (std::size_t index = 0; index < _dangers->moverCount(); ++index) {
-        boxes.push_back(_dangers->moverBox(index));
-    }
-    for (const core::DangerBlinkConfig& config : _level->blinkConfigs()) {
-        if (_dangers->isBlinkActive(config.position)) {
-            boxes.push_back(core::dangerHitbox(core::TileType::DangerBlink, config.position.column,
-                                               config.position.row));
-        }
-    }
-    for (const core::DangerLink& link : _level->dangerLinks()) {
-        if (_mechanisms->isDangerActive(link.dangerPosition)) {
-            boxes.push_back(core::dangerHitbox(core::TileType::DangerSwitched,
-                                               link.dangerPosition.column,
-                                               link.dangerPosition.row));
-        }
-    }
-    // Ecrasement par une plateforme mobile (EX-GP-026, LOT-63) : decision de cadrage -- mortel,
-    // signale par core::CharacterPhysicsSystem via Player::squished. La boite du personnage
-    // lui-meme suffit a declencher Lost via evaluateOutcome, sans nouvelle notion de danger.
-    // Ecrasement par une PORTE qui se referme (EX-GP-021, LOT-65 TACHE-06) : meme decision et meme
-    // traduction que ci-dessus. Sans cela, le personnage reste encastre dans un mur sans echec
-    // possible -- la « situation sans issue » que la conception des niveaux interdit.
-    if (_world.hasComponent<core::Player>(_player) &&
-        (_world.getComponent<core::Player>(_player).squished || _mechanisms->crushedPlayer())) {
+    // Ecrasement par une PORTE qui se referme (EX-GP-021, LOT-65 TACHE-06) : mortel, traduit en
+    // boite de danger supplementaire. Sans cela, le personnage reste encastre dans un mur sans
+    // echec possible -- la « situation sans issue » que la conception des niveaux interdit.
+    if (_world.hasComponent<core::Player>(_player) && _mechanisms && _mechanisms->crushedPlayer()) {
         const core::Transform& squishedTransform = _world.getComponent<core::Transform>(_player);
         const core::Collider& squishedCollider = _world.getComponent<core::Collider>(_player);
         boxes.push_back(
@@ -974,92 +615,24 @@ core::LevelOutcome GameSession::update(const core::PlayerInput& intent, float fi
     snapshotPreviousPositions();
 
     // 0bis. Particules (LOT-53 TACHE-01/02) : avance celles emises aux pas precedents AVANT que
-    // ce pas n'en emette de nouvelles (age puis emet, jamais l'inverse -- une particule tout
-    // juste emise ce pas ne doit pas etre vieillie du meme coup).
+    // ce pas n'en emette de nouvelles (age puis emet, jamais l'inverse).
     _particles.update(_world, fixedDelta);
     // 0ter. Secousse d'ecran (LOT-53 TACHE-03) : decroissance au pas fixe, comme les particules.
     advanceScreenShake(_screenShake, fixedDelta);
 
-    // 1bis. Plateformes mobiles (EX-GP-026, LOT-63) : deplacees EN PREMIER (ordre de resolution
-    // documente, TACHE-03) -- portage du personnage et des blocs, puis leur propre physique,
-    // consomment sa position DEJA a jour pour ce pas.
-    _platforms->update();
-    refreshPlatformVisuals();
+    // 1. Deplacement du personnage.
+    //
+    // LOT-01 : le contrôleur de plateforme (core::CharacterPhysicsSystem) a ete retire avec le
+    // gameplay en vue de cote, et son remplacant top-down (core::TopDownMovementSystem, 8
+    // directions au-dessus de core::sweepAabb) arrive au LOT-06. Entre les deux, le personnage ne
+    // se deplace pas : la session charge, affiche et evalue un tableau, mais ne le joue pas encore.
+    // L'intention d'entree est donc lue sans etre consommee -- elle le sera telle quelle des que le
+    // systeme de deplacement existera, sans changer ni cette signature ni l'ordre des passes.
+    (void)intent;
 
-    // 1ter. Blocs poussables (EX-GP-022) : poussee puis chute, resolues AVANT la physique du
-    // personnage, avec sa boite TELLE QUE LAISSEE par le pas precedent. Poussee RENFORCEE
-    // (EX-GP-057) si le personnage etait EN DASH BOOSTE a la fin du pas precedent (dashTimer/
-    // dashIsBoosted/velocity pas encore mis a jour par la physique de CE pas) -- meme principe que
-    // previousBox ci-dessous. Restreinte au dash BOOSTE (EX-GP-056), comme le jump-cancel : un
-    // dash normal pousse un bloc exactement comme avant ce lot (aucune regression possible sur du
-    // contenu existant, qui ne peut jamais produire de dash boaste).
-    const core::Transform& previousTransform = _world.getComponent<core::Transform>(_player);
-    const core::Collider& previousCollider = _world.getComponent<core::Collider>(_player);
-    const core::Aabb previousBox =
-        core::Aabb::fromTopLeftSize(previousTransform.position, previousCollider.size);
-    const core::Player& previousPlayer = _world.getComponent<core::Player>(_player);
-    const core::Velocity& previousVelocity = _world.getComponent<core::Velocity>(_player);
-    const float dashPushSpeed = (previousPlayer.dashTimer > 0.0f && previousPlayer.dashIsBoosted)
-                                    ? previousVelocity.value.x
-                                    : 0.0f;
-
-    // 1ter-a. Blocs VOLATILS (EX-GP-028/EX-GP-029, LOT-74) : resolus AVANT la physique de ce pas,
-    // avec la boite du personnage TELLE QUE LAISSEE par le pas precedent -- meme argument que la
-    // poussee des blocs ci-dessous. Resolue APRES la physique, la destruction d'un bloc fragile
-    // arriverait trop tard : le ground pound se serait deja arrete d'un pas sur un bloc qu'il est
-    // precisement cense traverser en le brisant, et le joueur verrait un a-coup.
-    _volatileBlocks->update(previousBox, previousPlayer.groundPounding);
-    refreshVolatileBlockVisuals();
-
-    // 1ter-b. Blocs DESCENDANTS (EX-GP-027, LOT-74) : armes au contact puis descendus, sur la
-    // grille de collision deja resolue par les mecanismes ET par la disparition ci-dessus (un bloc
-    // volatil brise ne doit plus arreter un bloc descendant). Leurs echantillons sont concatenes a
-    // ceux des plateformes : c'est cette seule concatenation qui leur donne portage du personnage,
-    // collision continue et portage des blocs poussables, sans aucun code de collision dedie.
-    const core::TileMap mechanismAndVolatileCollision =
-        _volatileBlocks->collisionMap(_mechanisms->collisionMap());
-    _sinkingBlocks->update(previousBox, mechanismAndVolatileCollision);
-    refreshSinkingBlockVisuals();
-    _supportSamples = _platforms->samples();
-    _supportSamples.insert(_supportSamples.end(), _sinkingBlocks->samples().begin(),
-                           _sinkingBlocks->samples().end());
-    const std::vector<core::PlatformSample>& platformSamples = _supportSamples;
-
-    _blocks->update(previousBox, intent.moveX, mechanismAndVolatileCollision, platformSamples,
-                    dashPushSpeed);
-    refreshBlockVisuals();
-    // Momentum herite (EX-GP-057/EX-GP-061) : arme la fenetre AVANT que la physique de ce pas ne
-    // s'execute, pour qu'un saut declenche des ce meme pas puisse deja en beneficier.
-    if (_blocks->lastDashPushSpeed() != 0.0f) {
-        core::Player& playerForMomentum = _world.getComponent<core::Player>(_player);
-        playerForMomentum.pushMomentumWindowTimer = _physics.config().pushMomentumWindowTime;
-        playerForMomentum.pushMomentumVelocityX = _blocks->lastDashPushSpeed();
-    }
-
-    // 2. Physique sur la grille des MECANISMES (portes fermees = solides) completee par la position
-    //    COURANTE des blocs (resolue ci-dessus).
-    const core::TileMap collision = _blocks->collisionMap(mechanismAndVolatileCollision);
-    // Vitesse verticale AVANT ce pas (LOT-53 TACHE-02) : la physique remet velocity.y a zero au
-    // contact du sol -- c'est donc la derniere valeur disponible qui approxime la vitesse
-    // d'impact d'un atterrissage survenant CE pas (intensite de la poussiere, cf. plus bas).
-    const float previousVerticalVelocity = _world.getComponent<core::Velocity>(_player).value.y;
-    _physics.update(_world, collision, intent, fixedDelta, platformSamples);
-
-    // 2a. Détection d'événements (LOT-60 TACHE-03) : l'état du personnage est figé par la
-    // physique ci-dessus, avant toute autre système -- c'est l'instantané pertinent pour la
-    // détection, prise une seule fois par pas fixe (jamais par image de rendu, EX-REN-021).
-    const PlayerEventState currentPlayerEventState =
-        PlayerEventState::capture(_world.getComponent<core::Player>(_player));
-
-    // 2bis. Blocs a TAILLE REDUITE (EX-GP-005) : leur boite REELLE (centree, plus petite qu'une
-    // case) n'est jamais posee dans `collision` ci-dessus. Composee ici via un balayage boite-boite
-    // dedie (core::sweepAabbVsAabb), sur le deplacement REEL obtenu par la physique sur grille.
-    resolveReducedBlockCollision(previousBox);
-
-    // 2ter. Animation (EX-REN-012) : derivee de l'etat physique qui vient d'etre mis a jour.
+    // 2. Animation (EX-REN-012) et tuiles animees (LOT-46 TACHE-05) : meme pas fixe que tout ce qui
+    // precede, jamais le rythme du rendu (EX-NFR-002).
     _animation.update(_world, fixedDelta);
-    // 2ter bis. Tuiles animees (LOT-46 TACHE-05) : horloge partagee par asset, au meme pas fixe
-    // (jamais au rythme du rendu, pour rester deterministe -- EX-NFR-002).
     updateTileAnimations(fixedDelta);
 
     // 3. Boite du personnage apres deplacement.
@@ -1067,9 +640,7 @@ core::LevelOutcome GameSession::update(const core::PlayerInput& intent, float fi
     const core::Collider& collider = _world.getComponent<core::Collider>(_player);
     const core::Aabb box = core::Aabb::fromTopLeftSize(transform.position, collider.size);
 
-    // 3bis. Camera : selon le mode de cadrage resolu du niveau (LOT-64). Bascule de salle nette
-    // (LOT-32, EX-REN-015) en mode par salle ; centre fixe en mode niveau entier (pose au
-    // chargement, rien a refaire ici) ; suivi avance au pas fixe en mode suivi.
+    // 3bis. Camera : selon le mode de cadrage resolu du niveau (LOT-64).
     switch (_cameraFraming.mode) {
         case core::CameraFramingMode::WholeLevel:
             break;
@@ -1086,19 +657,15 @@ core::LevelOutcome GameSession::update(const core::PlayerInput& intent, float fi
     }
 
     // 4. Mecanismes : contact interrupteurs (front) / poids sur plaque (continu) -> etat des
-    // portes. Les blocs poussables comptent comme des poids (EX-GP-025, LOT-65 TACHE-06) : c'est ce
-    // qui permet d'en poser un sur une plaque et de repartir, la porte restant ouverte.
+    // portes. La liste de poids est vide : les blocs poussables reviendront avec leur controleur
+    // top-down, seul le personnage pese aujourd'hui sur une plaque.
     const float playerMass = _world.getComponent<core::Player>(_player).mass;
-    std::vector<core::TriggerWeight> blockWeights;
-    blockWeights.reserve(_blocks->positions().size());
-    for (std::size_t index = 0; index < _blocks->positions().size(); ++index) {
-        blockWeights.push_back(
-            core::TriggerWeight{.box = _blocks->boxAt(index), .mass = _blocks->massAt(index)});
-    }
-    _mechanisms->update(box, playerMass, intent.interactPressed, blockWeights);
+    _mechanisms->update(box, playerMass, intent.interactPressed, {});
 
-    // 4a. Détection d'événements, suite de 2a : mécanismes désormais à jour, personnage déjà
-    // capturé plus haut (avant que les mécanismes ne puissent influer sur la boîte de collision).
+    // 4a. Detection d'evenements (LOT-60 TACHE-03) : mecanismes a jour, une seule fois par pas fixe
+    // (jamais par image de rendu, EX-REN-021).
+    const PlayerEventState currentPlayerEventState =
+        PlayerEventState::capture(_world.getComponent<core::Player>(_player));
     const MechanismEventState currentMechanismEventState =
         MechanismEventState::capture(*_mechanisms);
     _lastStepEvents.clear();
@@ -1124,46 +691,12 @@ core::LevelOutcome GameSession::update(const core::PlayerInput& intent, float fi
     _previousPlayerEventState = currentPlayerEventState;
     _previousMechanismEventState = currentMechanismEventState;
 
-    // 4a bis. Particules du personnage (LOT-53 TACHE-02) : trainee de dash CONTINUE (etat
-    // COURANT du minuteur, pas un evenement -- emise a chaque pas ou le dash est actif, jamais
-    // seulement a son declenchement) et bouffee de poussiere sur l'evenement Landed de ce pas
-    // (intensite fonction de previousVerticalVelocity, capturee avant que la physique ne la
-    // remette a zero). Reutilise _lastStepEvents deja detecte ci-dessus, sans reimplementer la
-    // detection de transition (deja faite deux fois dans le projet, LOT-47/LOT-60).
-    {
-        const core::Player& particlePlayer = _world.getComponent<core::Player>(_player);
-        if (particlePlayer.dashTimer > 0.0f) {
-            _particles.emitDashTrail(_world, transform.position, particlePlayer.facing);
-        }
-        const bool landedThisStep = std::find(_lastStepEvents.begin(), _lastStepEvents.end(),
-                                              GameEvent::Landed) != _lastStepEvents.end();
-        if (landedThisStep) {
-            const float impactSpeed = (std::max)(0.0f, previousVerticalVelocity);
-            _particles.emitLanding(_world, transform.position, impactSpeed);
-            // Secousse (LOT-53 TACHE-03) reservee a l'atterrissage LOURD : reutilise le seuil
-            // d'intensite maximale de la poussiere (core::LANDING_MAX_IMPACT_SPEED) plutot que
-            // d'introduire un second seuil -- un atterrissage qui sature deja l'intensite de la
-            // poussiere est, par construction, un atterrissage lourd.
-            if (impactSpeed >= core::LANDING_MAX_IMPACT_SPEED) {
-                triggerScreenShake(_screenShake, LANDING_SHAKE_AMPLITUDE_PIXELS,
-                                   SCREEN_SHAKE_DURATION);
-            }
-        }
-    }
-
-    // 4bis. Dangers mobile/temporise (EX-GP-051/053) : avance le compteur deterministe, puis
-    // replace les sprites des dangers mobiles (position simulee, pas un artifice visuel).
-    _dangers->update();
-    refreshDangerVisuals();
-
-    // 4ter. Apparence des mecanismes pilotee par l'etat logique (LOT-47, EX-REN-006) : porte,
-    // declencheur, dangers commute/temporise/mobile -- correspondance + transitions, au meme pas
+    // 4ter. Apparence des mecanismes pilotee par l'etat logique (LOT-47, EX-REN-006), au meme pas
     // fixe que tout ce qui precede (la simulation, elle, n'en depend jamais).
     updateMechanismVisuals(fixedDelta);
 
-    // 5. Issue du niveau. Sur echec : rechargement complet depuis le Level en memoire. Sur reussite
-    // :
-    //    l'appelant decide (enchainer, revenir au menu, terminer un essai...).
+    // 5. Issue du niveau. Sur echec : rechargement complet depuis le Level en memoire. Sur
+    // reussite : l'appelant decide (enchainer, revenir au menu, terminer un essai...).
     const core::LevelOutcome outcome =
         core::evaluateOutcome(box, *_level, collectActiveDangerBoxes());
     // Evenement d'issue (LOT-60 TACHE-03) : calcule et memorise AVANT reload(), qui remet le
@@ -1173,14 +706,14 @@ core::LevelOutcome GameSession::update(const core::PlayerInput& intent, float fi
     }
     if (outcome == core::LevelOutcome::Lost) {
         // Eclatement a la mort (LOT-53 TACHE-02) : emis AVANT reload(), pour la meme raison que
-        // l'evenement Died ci-dessus -- reload() remet le personnage a l'entree, la position de
-        // mort ne serait plus observable apres.
+        // l'evenement Died ci-dessus.
         _particles.emitDeath(_world, (box.min + box.max) * 0.5f);
         triggerScreenShake(_screenShake, DEATH_SHAKE_AMPLITUDE_PIXELS, SCREEN_SHAKE_DURATION);
         reload();
     }
     return outcome;
 }
+
 
 // Dessine le niveau charge (rien si le chargement a echoue : l'appelant gere l'affichage d'erreur).
 void GameSession::render(int viewportWidth, int viewportHeight, RenderMode mode,

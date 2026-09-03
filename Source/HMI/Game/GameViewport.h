@@ -19,11 +19,9 @@
 #include "Core/Time/FixedTimestep.h"
 #include "HMI/Editor/EditContextTarget.h"
 #include "HMI/Editor/EditorTool.h"
-#include "HMI/Editor/PathGesture.h"
 #include "HMI/Game/DiagnosticsHud.h"
 #include "HMI/Game/GameSession.h"
 #include "HMI/Game/LevelRunStats.h"
-#include "HMI/Game/ReplayPlayback.h"
 #include "HMI/Graphics/Camera2D.h"
 #include "HMI/Graphics/LayerVisibility.h"
 #include "HMI/Graphics/PlaneVisibility.h"
@@ -246,26 +244,6 @@ public:
     /// plus loin). `Échap` ou la fin de la séquence émet `exitToMenuRequested`.
     void startGame(std::vector<std::filesystem::path> levels, std::size_t startIndex = 0);
 
-    /**
-     * @brief Lance la lecture d'un fichier de rejeu (`LOT-ANNEXE-18`, TACHE-02, `EX-IA-019`).
-     *
-     * Valide le rejeu (`hmi::ReplayPlayback`, lui-même appuyé sur `aisolver::validateReplay`,
-     * `LOT-ANNEXE-17`) avant tout affichage : un rejeu invalide (niveau modifié depuis l'export,
-     * ou introuvable) n'ouvre jamais l'écran de jeu, `false` est renvoyé sans aucun effet. Un rejeu
-     * porte toujours sur un **seul** niveau (pas d'enchaînement automatique) ; `tick()` en consomme
-     * la séquence à la place de l'entrée clavier/manette jusqu'à épuisement ou `Won`/`Lost`, dans
-     * les deux cas suivi d'un retour au menu (`exitToMenuRequested`).
-     * @param replayPath Chemin du fichier de rejeu à jouer.
-     * @return `true` si le rejeu est valide et sa lecture démarrée, `false` sinon
-     *         (`lastReplayError()` porte alors le message).
-     */
-    bool startReplay(const std::filesystem::path& replayPath);
-
-    /// @return Le message d'erreur du dernier `startReplay` refusé, chaîne vide sinon.
-    [[nodiscard]] const std::string& lastReplayError() const noexcept {
-        return _lastReplayError;
-    }
-
     /// Suspend la simulation (écran de pause, `LOT-59` TACHE-02) : `tick()` cesse d'alimenter
     /// l'accumulateur de pas fixe -- aucun pas n'est consommé pendant la pause (`EX-GP-041`). Le
     /// rendu continue (la scène reste dessinée derrière l'écran de pause).
@@ -341,25 +319,6 @@ public:
         return _planeVisibility;
     }
 
-    /// @return Le parcours actuellement sélectionné (outil « Parcours », `LOT-67`), si un l'est —
-    /// consommé par le panneau « Propriétés » pour savoir quels réglages afficher.
-    [[nodiscard]] std::optional<hmi::PathSelection> selectedPath() const noexcept {
-        return _pathGesture.selected;
-    }
-
-    /// @return La case du danger temporisé sélectionné (`LOT-67`), si un l'est. Un `DangerBlink`
-    /// n'a pas de trajectoire donc pas de `hmi::PathSelection` : l'outil « Parcours » le désigne
-    /// par sa case, pour que ses réglages de timing restent atteignables comme les autres.
-    [[nodiscard]] std::optional<core::GridPosition> selectedBlinkCell() const noexcept {
-        return _selectedBlinkCell;
-    }
-
-    /// @return L'aperçu du geste de parcours en cours (`LOT-67`), absent hors glisser — consommé
-    /// par `hmi::DraftRenderer` pour dessiner la manipulation avant validation.
-    [[nodiscard]] const std::optional<hmi::PathGestureAction>& pathPreview() const noexcept {
-        return _pathPreview;
-    }
-
     /// @return La case actuellement survolée par le curseur, absente si hors de la grille ou si le
     /// curseur a quitté le viewport (`LOT-57` TACHE-01, barre d'état).
     [[nodiscard]] std::optional<core::GridPosition> hoveredCell() const noexcept {
@@ -417,18 +376,6 @@ public:
      */
     void setLevelCameraFraming(core::CameraFramingConfig cameraFraming);
 
-    /// Réglages de gameplay pilotés par le panneau « Propriétés » (`LOT-67`, `EX-EDIT-033`) : le
-    /// viewport reste **seul** propriétaire du brouillon, le panneau ne fait qu'en demander la
-    /// mutation. Chacun est annulable en un pas, comme les autres propriétés de niveau.
-    void setPlatformSpeed(core::GridPosition position, float speed);
-    void setPlatformPhase(core::GridPosition position, int phase);
-    void setPlatformMode(core::GridPosition position, core::PlatformPathMode mode);
-    void setMoverConfig(core::GridPosition position, core::DangerMoverAxis axis, int range);
-    void setBlinkConfig(core::GridPosition position, int period, int phase, int activeDuration);
-    void setLevelJumpBudget(int jumpBudget);
-    void setLevelDashBudget(int dashBudget);
-    void setLevelAirJumps(std::optional<int> airJumps);
-    void setLevelDashCharges(std::optional<int> dashCharges);
 
     /**
      * @brief Retire la zone de caméra au rang @p index (section « Cadrage », `EX-LVL-007`,
@@ -573,12 +520,6 @@ signals:
     /// La sélection de plan vient de changer par un moyen autre que le panneau (retrait,
     /// réordonnancement) — le panneau se resynchronise sans reboucler.
     void planeSelectionChanged(std::optional<std::size_t> index);
-    /// La sélection de parcours vient de changer (clic au canevas, outil « Parcours », `LOT-67`)
-    /// — consommé par le panneau « Propriétés », qui affiche les réglages de l'élément visé.
-    void pathSelectionChanged(std::optional<hmi::PathSelection> selection);
-    /// La case du danger temporisé sélectionné vient de changer (outil « Parcours », `LOT-67`) —
-    /// consommé par le panneau « Propriétés ».
-    void blinkSelectionChanged(std::optional<core::GridPosition> cell);
     /// La case survolée vient de changer (déplacement de souris, ou sortie du viewport) —
     /// consommé par la barre d'état (`LOT-57` TACHE-01), qui évite ainsi un travail continu inutile
     /// en ne recalculant que sur changement réel.
@@ -627,10 +568,6 @@ private:
     void renderDiagnosticsOverlay(int viewportWidth, int viewportHeight);
     void stopPlaytest();  ///< Termine l'essai et restitue l'éditeur (brouillon intact).
     void loadGameLevel(std::size_t index);  ///< Charge le niveau @p index de la séquence de jeu.
-    /// Charge @p levelPath comme session de rejeu (`startReplay`, `LOT-ANNEXE-18`) ; même repli
-    /// que `loadGameLevel` si les ressources de rendu n'existent pas encore (`_spriteBatch ==
-    /// nullptr`, toute première image) -- `initialize()` la remonte dès qu'il le peut.
-    void loadReplayLevel(const std::filesystem::path& levelPath);
     void updateMousePosition(const QMouseEvent* event);
 
     /// Recale la caméra d'édition : cadrage automatique sur le niveau entier, sauf pan/zoom manuel
@@ -674,23 +611,6 @@ private:
     /// grille (`EX-DEC-001`) — contrairement à `cellAt`/`clampedCell`, utilisées par les autres
     /// outils.
     [[nodiscard]] core::Vector2 worldPositionAt(const QMouseEvent* event);
-    /// Poignées du parcours actuellement sélectionné (`hmi::pathHandleLayout` pour une
-    /// plateforme, `hmi::moverHandleLayout` pour un danger mobile), vides si aucun ne l'est.
-    [[nodiscard]] std::vector<hmi::PathHandle> selectedPathHandles() const;
-    /// Appui (outil « Parcours », `LOT-67`) : désigne le parcours et la poignée sous le clic, et
-    /// arme le geste (`hmi::beginPathGesture`) ; un clic dans le vide désélectionne.
-    void handlePathPress(const QMouseEvent* event);
-    /// Glisser en cours (outil « Parcours ») : fait progresser le geste et met à jour l'aperçu,
-    /// sans jamais muter `_draft`.
-    void handlePathMove(const QMouseEvent* event);
-    /// Relâchement (outil « Parcours ») : termine le geste et applique l'action finale (un seul
-    /// appel, donc une seule entrée d'historique par geste) ; clic droit retire le point visé.
-    void handlePathRelease(const QMouseEvent* event, bool rightClick);
-    /// Abandonne un glisser de parcours en cours (`Échap`) : aucune mutation du brouillon.
-    void cancelPathGesture();
-    /// Applique l'action finale d'un geste de parcours aux mutateurs de `core::LevelDraft` ; sans
-    /// effet pour `PathGestureActionKind::None` (simple clic de sélection).
-    void applyPathGestureAction(const hmi::PathGestureAction& action);
     /// @return true si (@p switchPosition, @p targetPosition) est déjà une liaison du brouillon.
     [[nodiscard]] bool linkExists(core::GridPosition switchPosition,
                                   core::GridPosition targetPosition) const;
@@ -768,15 +688,6 @@ private:
     std::optional<std::size_t> _selectedPlane;
     /// Visibilité des plans dans l'éditeur : aide d'édition, jamais persistée ni annulable.
     hmi::PlaneVisibility _planeVisibility;
-    /// État du geste de parcours (`LOT-67`) ; `selected` porte la sélection courante de l'éditeur,
-    /// au-delà de la durée d'un seul geste.
-    hmi::PathGestureState _pathGesture;
-    /// Aperçu courant du geste de parcours — jamais écrit dans `_draft`, seul `hmi::DraftRenderer`
-    /// le consomme pour afficher la manipulation avant validation. `std::nullopt` hors glisser.
-    std::optional<hmi::PathGestureAction> _pathPreview;
-    /// Case du danger temporisé sélectionné (`LOT-67`), si un l'est — sélection parallèle à celle
-    /// de `_pathGesture`, les deux s'excluant mutuellement.
-    std::optional<core::GridPosition> _selectedBlinkCell;
     hmi::EditorTool _tool = hmi::EditorTool::Paint;  ///< Outil d'édition actif (barre d'outils).
     bool _painting = false;             ///< Un glisser de peinture (Pinceau) est en cours.
     bool _dragging = false;             ///< Un glisser Rectangle/Sélection est en cours.
@@ -824,18 +735,6 @@ private:
     /// TACHE-04).
     std::optional<hmi::GameSession> _session;
 
-    /// Lecture de rejeu active (`LOT-ANNEXE-18`), nulle hors mode rejeu -- `tick()` en consomme
-    /// `nextInput()` à la place de `_input` tant qu'elle est engagée. Distincte de `_gameMode` :
-    /// un rejeu ne suit ni la progression ni le bilan de tableau (`LevelRunStats`), et se termine
-    /// toujours par un retour au menu (jamais un enchaînement de séquence).
-    std::optional<hmi::ReplayPlayback> _replayPlayback;
-    /// Chemin du fichier de rejeu en cours, retenu pour que `initialize()` puisse relancer
-    /// `startReplay()` (repart du début du rejeu, même convention que `loadGameLevel(_gameLevel)`)
-    /// si les ressources de rendu n'étaient pas encore prêtes à l'appel initial, ou si l'interface
-    /// de rendu change en cours de lecture (rare, même repli que le reste de la session de jeu).
-    std::filesystem::path _replayPath;
-    /// Message du dernier `startReplay` refusé (`lastReplayError()`), vide sinon.
-    std::string _lastReplayError;
 };
 
 }  // namespace hmi

@@ -20,7 +20,7 @@ core::Aabb unitBox(float x, float y) {
     return core::Aabb::fromTopLeftSize(core::Vector2{x, y}, core::Vector2{1.0f, 1.0f});
 }
 
-// Boîte réduite (0,5×0,5) centrée dans la case (2, 1) — comme un `BlockHalf` (`BlockController`).
+// Boîte réduite (0,5×0,5) centrée dans la case (2, 1) — un corps plus petit qu'une case.
 core::Aabb reducedObstacle() {
     return core::Aabb::fromTopLeftSize(core::Vector2{2.25f, 1.25f}, core::Vector2{0.5f, 0.5f});
 }

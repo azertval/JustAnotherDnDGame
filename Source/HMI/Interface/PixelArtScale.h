@@ -8,7 +8,7 @@
  * @brief Facteur d'agrandissement **entier** des écrans du jeu (`LOT-68`, `EX-IHM-070`).
  *
  * Logique **pure** (aucune dépendance Qt/GPU), testable hors instance d'application
- * (`EX-NFR-010`) — compilée à la fois dans `ProjectGaming` et directement dans `UnitTests`, comme
+ * (`EX-NFR-010`) — compilée à la fois dans `JustAnotherDnDGame` et directement dans `UnitTests`, comme
  * `HMI/Interface/DesignTokens.cpp`. Même découpage que `hmi::thumbnailPixelSize` : cette fonction
  * décide *de combien* agrandir, la couche Qt (`hmi::applyStyleSheet`) décide *quoi* multiplier.
  *

@@ -1,8 +1,8 @@
-# Doxyfile minimal — ProjectGaming
+# Doxyfile minimal — JustAnotherDnDGame
 # Génération : depuis Documentation/, exécuter `doxygen Doxyfile`.
 # Les options non spécifiées gardent les valeurs par défaut de Doxygen.
 
-PROJECT_NAME           = "ProjectGaming"
+PROJECT_NAME           = "JustAnotherDnDGame"
 # PROJECT_NUMBER n'est pas écrit ici : scripts/build_docs.py l'injecte depuis project(VERSION)
 # du CMakeLists.txt racine (source unique de vérité), sur l'entrée standard de Doxygen. Lancer
 # `doxygen Doxyfile` directement (sans passer par le script) produit un numéro vide, pas périmé.

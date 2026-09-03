@@ -1,80 +1,79 @@
-# ProjectGaming
+# JustAnotherDnDGame
 
-[![CI](https://github.com/azertval/ProjectGaming/actions/workflows/ci.yml/badge.svg)](https://github.com/azertval/ProjectGaming/actions/workflows/ci.yml)
-[![Documentation](https://github.com/azertval/ProjectGaming/actions/workflows/docs.yml/badge.svg)](https://github.com/azertval/ProjectGaming/actions/workflows/docs.yml)
-[![Release](https://github.com/azertval/ProjectGaming/actions/workflows/release.yml/badge.svg)](https://github.com/azertval/ProjectGaming/releases/latest)
+[![CI](https://github.com/azertval/JustAnotherDnDGame/actions/workflows/ci.yml/badge.svg)](https://github.com/azertval/JustAnotherDnDGame/actions/workflows/ci.yml)
+[![Documentation](https://github.com/azertval/JustAnotherDnDGame/actions/workflows/docs.yml/badge.svg)](https://github.com/azertval/JustAnotherDnDGame/actions/workflows/docs.yml)
+[![Release](https://github.com/azertval/JustAnotherDnDGame/actions/workflows/release.yml/badge.svg)](https://github.com/azertval/JustAnotherDnDGame/releases/latest)
 ![C++20](https://img.shields.io/badge/C%2B%2B-20-00599C)
 ![Qt QRhi](https://img.shields.io/badge/Qt%20QRhi-Direct3D%2011-8A2BE2)
 
-Jeu 2D de plateforme / puzzle développé **from scratch** en **C++20** (Windows), sans moteur
-tiers. Le rendu passe par **QRhi**, la couche d'accès au GPU de Qt, qui retient **Direct3D 11**
-par défaut sous Windows.
+RPG 2D **en vue de dessus** développé **from scratch** en **C++20** (Windows), sans moteur
+tiers : exploration en temps réel façon Zelda, et rencontres en **combat tactique au tour par
+tour** régi par un système **d20** maison. Le rendu passe par **QRhi**, la couche d'accès au GPU
+de Qt, qui retient **Direct3D 11** par défaut sous Windows.
 
-- 📖 **Documentation en ligne** : <https://azertval.github.io/ProjectGaming/>
-- ⬇️ **Télécharger la dernière version** : <https://github.com/azertval/ProjectGaming/releases/latest>
-  (préversion roulante du dernier `main` : <https://github.com/azertval/ProjectGaming/releases/tag/debug-latest>)
+> **Dérivé de `ProjectGaming`.** Ce dépôt reprend le moteur d'un jeu de plateforme/puzzle en vue
+> de côté livré en `0.1.3` (ECS, boucle à pas fixe, balayage AABB, chargeur de niveaux, rendu,
+> éditeur, IHM Qt) et en a retiré tout le gameplay propre à la vue de côté. L'historique git est
+> conservé ; le programme de lots d'origine reste consultable sous `Documentation/Heritage/`.
+> État actuel : le moteur est nu — le déplacement top-down arrive au `LOT-06`.
+
+- 📖 **Documentation en ligne** : <https://azertval.github.io/JustAnotherDnDGame/>
+- ⬇️ **Télécharger la dernière version** : <https://github.com/azertval/JustAnotherDnDGame/releases/latest>
+  (préversion roulante du dernier `main` : <https://github.com/azertval/JustAnotherDnDGame/releases/tag/debug-latest>)
 
 ## Description
 
-ProjectGaming est un moteur de jeu 2D maison. Ses partis pris :
+JustAnotherDnDGame est un RPG en vue de dessus bâti sur un moteur de jeu 2D maison. Ses partis
+pris :
 
 - **Séparation stricte** entre la logique (`Core`) et la présentation (`HMI`) :
   `Core` est indépendant du GPU et de la fenêtre, donc **testable sans GPU**.
 - **ECS maison** (sparse sets) : entités = identifiants, composants = données pures,
   systèmes = logique, exécutés à **pas de temps fixe déterministe**.
 - **Rendu pixel art** via **QRhi** (tuiles 16 px, échantillonnage *nearest*).
-- **Éditeur de niveaux** intégré pour permettre à des non-développeurs de créer du
-  contenu (peinture, mécanismes, undo/redo, essai immédiat), et **décors issus de
-  photos converties en pixel art** (post-MVP).
+- **Éditeur de cartes** intégré pour permettre à des non-développeurs de créer du
+  contenu (peinture, mécanismes, undo/redo, essai immédiat).
+- **Règles chiffrées en données** : classes, sorts, objets et ennemis se définissent en JSON,
+  jamais en dur dans le C++ — l'équilibrage ne demande pas de recompiler.
 
 Le *quoi* et le *pourquoi* sont décrits dans les
-[spécifications](https://azertval.github.io/ProjectGaming/) ; le *comment* dans le
+[spécifications](https://azertval.github.io/JustAnotherDnDGame/) ; le *comment* dans le
 **Guide du développeur** et la référence de code Doxygen.
 
 ## Fonctionnalités du moteur (état actuel)
 
-Le moteur physique est complet et **jouable** :
+> **Le jeu n'est pas encore jouable.** Le `LOT-01` a retiré le gameplay de plateforme hérité ; le
+> déplacement top-down 8 directions arrive au `LOT-06`. Le moteur ci-dessous est en revanche
+> complet et éprouvé — c'est précisément ce que le fork conserve.
 
-- **Personnage de plateforme** (silhouette humanoïde animée : repos, course, saut) :
-  déplacement horizontal, **saut** avec *game feel* (hauteur variable, coyote time, jump
-  buffering), **double saut**, **wall jump** + wall slide, **dash** 8 directions.
-- **Gravité** asymétrique (chute plus lourde que la montée), flottement à l'apex, *fast-fall*,
-  chute **newtonienne** (masse/traînée) au-delà du *game feel* de base.
-- **Collisions** par **balayage continu** (swept AABB) : aucune traversée à vitesse élevée.
-- **Niveaux** en tuiles typées, de taille arbitraire, chargés depuis des fichiers **JSON**, avec
-  **validation**.
-- **Mécanismes** interrupteur ↔ porte, **plaque de pression**, **clé et porte verrouillée**,
-  **plateforme mobile**, action **Interagir**, et **budget de mouvements** (sauts/dashs limités par
-  tableau) pour des tableaux **puzzle**.
+- **Collisions** par **balayage continu** (swept AABB) : aucune traversée à vitesse élevée, sans
+  gravité ni axe privilégié — la primitive exacte dont un déplacement en vue de dessus a besoin.
+- **Niveaux** en tuiles typées, de taille arbitraire, chargés depuis des fichiers **JSON**
+  versionnés, avec **validation** et migration ascendante.
+- **Mécanismes** interrupteur ↔ porte, **plaque de pression**, **clé et porte verrouillée**, action
+  **Interagir** — vocabulaire de puzzle conservé tel quel pour le RPG.
 - **Éditeur de niveaux** intégré : peinture à la souris, outils rectangle/sélection, liaison de
-  mécanismes, undo/redo, essai immédiat, guide non-codeur pour partager un niveau via Git ; le level
-  designer choisit le **cadrage de caméra** (par salle, niveau entier ou suivi) tableau par tableau.
-- **Enchaînement de niveaux** en séquence (titre → niveaux → titre), **pause** en cours de partie,
-  **progression persistée** (reprise au tableau exact, y compris après avoir quitté), vingt-deux
-  tableaux de démonstration couvrant l'intégralité des mécaniques, **menu** multilingue (fr/en),
-  **menu d'options** (V-Sync, volume, langue), jouable/navigable au **clavier, à la souris et à la
-  manette** (XInput).
-- **Bruitages** (Qt Multimedia) : saut, atterrissage, dash, mécanismes, mort, victoire de tableau,
-  navigation de menu — volume réglable et persisté, jeu pleinement jouable en silence sans
-  périphérique audio. **Effets de particules** sur les mouvements du personnage (saut, atterrissage,
-  dash).
-- **Diagnostics** : compteur de budget de rendu affichable (`F9`), et journal de session
-  enregistré sur disque — un défaut rencontré par un joueur laisse une trace exploitable.
+  mécanismes, undo/redo, essai immédiat ; le level designer choisit le **cadrage de caméra** (par
+  salle, niveau entier ou suivi).
+- **Menu** multilingue (fr/en), **menu d'options** (V-Sync, volume, langue), **pause**,
+  **progression persistée**, navigable au **clavier, à la souris et à la manette** (XInput).
+- **Bruitages** (Qt Multimedia) à volume réglable, jeu pleinement utilisable en silence sans
+  périphérique audio. **Effets de particules** et secousse d'écran.
+- **Diagnostics** : compteur de budget de rendu affichable (`F9`), journal de session sur disque.
+- **Hasard déterministe** (splitMix64, graine dérivée par entité et par pas) : socle des futurs
+  jets de dés reproductibles.
 
-Le moteur est **habillé** (programme `LOT-40` → `LOT-55`) :
+Le moteur est **habillé** :
 
-- **Rendu texturé multicouche** avec culling : sept calques, **fond** de niveau, **décors libres**
-  hors grille avec **parallaxe**, **ombres** du plan physique, premier plan au-dessus du
-  personnage. Bascule Physique/Texture par `F8`, et mode d'inspection par calque pour auditer un
-  habillage.
-- **Skins de tuiles** avec **raccords automatiques** (16 voisinages), **texture par instance** sur
-  les objets interactifs, **repli procédural** déterministe quand un asset manque — le jeu reste
-  jouable sans aucun fichier d'image.
+- **Rendu texturé multicouche** avec culling : **fond** de niveau, **plans picturaux** avec
+  **parallaxe**, **ombres**, premier plan au-dessus du personnage. Bascule Physique/Texture par
+  `F8`, et mode d'inspection par calque pour auditer un habillage.
+- **Skins de tuiles** avec **raccords automatiques** (16 voisinages), **texture par instance**,
+  **repli procédural** déterministe quand un asset manque — le jeu reste lançable sans aucun
+  fichier d'image.
 - **Animation pilotée par données** (`nom-asset.anim.json`) : clips nommés, bouclés ou joués une
-  fois, apparence des mécanismes suivant leur **état logique**, personnage habillé depuis une
-  spritesheet externe.
-- **Texte dans la scène** : police bitmap avec repli procédural, affichage tête haute des budgets
-  de sauts/dashs et du tableau courant.
+  fois, apparence des mécanismes suivant leur **état logique**.
+- **Texte dans la scène** : police bitmap avec repli procédural, affichage tête haute.
 
 Et l'**éditeur** est un poste de travail complet :
 
@@ -126,7 +125,7 @@ générés dans `build/`).
   `LOT-69` : c'est la première version fournissant Qt Canvas Painter. Installer Qt ≥ 6.11 avec
   `aqtinstall` demande une version de l'outil plus récente que celle publiée sur PyPI — voir
   [`External/README.md`](External/README.md).
-  Sans Qt, la cible `ProjectGaming` est **ignorée** (avertissement explicite) : seuls les tests se
+  Sans Qt, la cible `JustAnotherDnDGame` est **ignorée** (avertissement explicite) : seuls les tests se
   construisent.
 
 ### Depuis Visual Studio (recommandé)
@@ -179,8 +178,6 @@ Les mêmes contrôles qu'en intégration continue, tous lançables **depuis la r
 python scripts/lint_exigences.py           # identifiants EX-… : ni doublon, ni orphelin
 python scripts/lint_exigences.py --next    # prochain numéro libre, par catégorie
 python scripts/generate_cahier_test.py --check   # cahier de test à jour
-python scripts/check_demo_sequence.py      # séquence des niveaux démo cohérente
-python scripts/check_ai_replays.py         # rejeux IA publiés synchronisés avec leur niveau
 python scripts/build_docs.py               # documentation Doxygen (WARN_AS_ERROR)
 ```
 
@@ -220,7 +217,7 @@ de `docs` (`docs.yml`, informatif).
 
 ## Licence
 
-ProjectGaming est distribué sous **GNU General Public License v3.0 ou ultérieure**
+JustAnotherDnDGame est distribué sous **GNU General Public License v3.0 ou ultérieure**
 (`GPL-3.0-or-later`). Le texte complet est dans [`LICENSE`](LICENSE).
 
 ```
@@ -243,7 +240,7 @@ Ce que cela implique concrètement, et qui n'est pas toujours évident :
   (définition de l'Open Source, clause 6). Ce que la GPL garantit à la place est plus fort dans les
   faits : *toute* redistribution, commerciale ou non, d'une version modifiée **doit en publier le
   source** sous la même licence. Personne ne peut refermer le projet.
-- **Le copyleft se propage.** Tout code lié à ProjectGaming doit être compatible GPL-3.0.
+- **Le copyleft se propage.** Tout code lié à JustAnotherDnDGame doit être compatible GPL-3.0.
 - **Qt reste sous LGPLv3**, en lien dynamique — les deux licences sont compatibles, la LGPLv3
   autorisant explicitement la redistribution sous GPLv3. Les obligations propres à Qt sont
   détaillées dans [`THIRD-PARTY-NOTICES.md`](THIRD-PARTY-NOTICES.md).

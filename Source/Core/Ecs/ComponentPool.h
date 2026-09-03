@@ -70,7 +70,7 @@ public:
      * @pre L'entité ne possède pas encore de composant de ce type (has() == false).
      */
     void add(Entity entity, const T& component) {
-        PROJECTGAMING_ASSERT(!has(entity), "L'entite possede deja ce composant.");
+        JADG_ASSERT(!has(entity), "L'entite possede deja ce composant.");
 
         ensureSparseSize(entity.index);
         _sparse[entity.index] = _components.size();
@@ -84,7 +84,7 @@ public:
      * @pre L'entité possède ce composant (has() == true).
      */
     void remove(Entity entity) {
-        PROJECTGAMING_ASSERT(has(entity), "L'entite ne possede pas ce composant.");
+        JADG_ASSERT(has(entity), "L'entite ne possede pas ce composant.");
 
         const std::size_t removed = _sparse[entity.index];
         const std::size_t last = _components.size() - 1;
@@ -136,7 +136,7 @@ public:
      * @pre L'entité possède ce composant (has() == true).
      */
     [[nodiscard]] T& get(Entity entity) {
-        PROJECTGAMING_ASSERT(has(entity), "L'entite ne possede pas ce composant.");
+        JADG_ASSERT(has(entity), "L'entite ne possede pas ce composant.");
         return _components[_sparse[entity.index]];
     }
 
@@ -147,7 +147,7 @@ public:
      * @pre L'entité possède ce composant (has() == true).
      */
     [[nodiscard]] const T& get(Entity entity) const {
-        PROJECTGAMING_ASSERT(has(entity), "L'entite ne possede pas ce composant.");
+        JADG_ASSERT(has(entity), "L'entite ne possede pas ce composant.");
         return _components[_sparse[entity.index]];
     }
 

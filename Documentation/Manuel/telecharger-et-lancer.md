@@ -5,21 +5,21 @@ requise : ni Visual Studio, ni Qt, ni redistribuable) :
 
 | Forme | Quand l'utiliser | Où |
 |-------|------------------|-----|
-| **Version publiée** (`vX.Y.Z`) | Le cas normal : une version arrêtée et annoncée. | [Dernière version](https://github.com/azertval/ProjectGaming/releases/latest) |
-| **Préversion roulante** (`debug-latest`) | Pour essayer le tout dernier état du projet, entre deux versions publiées. | [debug-latest](https://github.com/azertval/ProjectGaming/releases/tag/debug-latest) |
+| **Version publiée** (`vX.Y.Z`) | Le cas normal : une version arrêtée et annoncée. | [Dernière version](https://github.com/azertval/JustAnotherDnDGame/releases/latest) |
+| **Préversion roulante** (`debug-latest`) | Pour essayer le tout dernier état du projet, entre deux versions publiées. | [debug-latest](https://github.com/azertval/JustAnotherDnDGame/releases/tag/debug-latest) |
 
 ## Prérequis
 - **Windows 64 bits** (x64).
 
 ## Étapes
 1. Ouvrir la page de la dernière version publiée :
-   <https://github.com/azertval/ProjectGaming/releases/latest>
-2. Dans la section **Assets**, télécharger **`ProjectGaming-vX.Y.Z-release.zip`**.
+   <https://github.com/azertval/JustAnotherDnDGame/releases/latest>
+2. Dans la section **Assets**, télécharger **`JustAnotherDnDGame-vX.Y.Z-release.zip`**.
    (L'archive **`-debug`** de la même version contient les informations de
    débogage : plus lente, mais utile pour signaler un problème — voir plus bas.)
 3. **Décompresser** l'archive dans un dossier de votre choix (clic droit →
    *Extraire tout…*).
-4. Ouvrir le dossier extrait et double-cliquer sur **`ProjectGaming.exe`**.
+4. Ouvrir le dossier extrait et double-cliquer sur **`JustAnotherDnDGame.exe`**.
 
 Une fenêtre de jeu s'ouvre. Pour quitter : fermer la fenêtre (croix) ou appuyer
 sur **Échap**. Le jeu se joue au clavier et à la souris, ou à la **manette** (XInput) si une
@@ -28,7 +28,7 @@ manette est branchée — voir [Jouer](@ref manuel-jouer) pour le détail des co
 ## Remarques
 - Une version publiée (`vX.Y.Z`) ne change plus une fois parue : c'est celle à
   citer pour signaler un problème. La liste des nouveautés de chaque version est
-  dans le [CHANGELOG](https://github.com/azertval/ProjectGaming/blob/main/CHANGELOG.md).
+  dans le [CHANGELOG](https://github.com/azertval/JustAnotherDnDGame/blob/main/CHANGELOG.md).
 - La version « roulante » (`debug-latest`) correspond toujours au **dernier état
   intégré** du projet ; elle est marquée *pre-release* et peut changer d'un jour à
   l'autre.

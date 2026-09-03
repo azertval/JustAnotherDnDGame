@@ -17,7 +17,7 @@
 #include "HMI/Graphics/PreviousPosition.h"
 #include "HMI/Graphics/QuadRecorder.h"
 #include "HMI/Graphics/ShadowRenderer.h"
-#include "HMI/Graphics/SlopeMask.h"
+#include "HMI/Graphics/TileSilhouette.h"
 #include "HMI/Graphics/TileSkinTag.h"
 #include "HMI/Graphics/TileVisuals.h"
 
@@ -35,15 +35,13 @@ hmi::SceneTextures testTextures() {
     return textures;
 }
 
-// Ajoute une entite-tuile (Transform + TileSkinTag), meme formule marge/echelle que
-// hmi::DraftRenderer::rebuild / core::buildLevelScene.
+// Ajoute une entite-tuile (Transform + TileSkinTag), meme placement que
+// hmi::DraftRenderer::rebuild / core::buildLevelScene : une tuile occupe sa case entiere.
 core::Entity addTile(core::World& world, core::TileType type, int column, int row) {
     const core::Entity entity = world.createEntity();
-    const float scale = core::tileVisualScale(type);
-    const float margin = (1.0f - scale) * 0.5f;
-    world.addComponent(entity, core::Transform{core::Vector2{static_cast<float>(column) + margin,
-                                                             static_cast<float>(row) + margin},
-                                               core::Vector2{scale, scale}, 0.0f});
+    world.addComponent(entity, core::Transform{core::Vector2{static_cast<float>(column),
+                                                             static_cast<float>(row)},
+                                               core::Vector2{1.0f, 1.0f}, 0.0f});
     world.addComponent(entity, hmi::TileSkinTag{type, 0, std::nullopt, std::nullopt});
     return entity;
 }
@@ -78,52 +76,6 @@ TEST(ShadowRenderTest, TuilePleineProjetteUnQuadDecaleSurShadow) {
     EXPECT_LT(quad.sprite.a, 1.0f);  // semi-transparente
 }
 
-/**
- * @brief Les tuiles non physiques (dangers, entree, sortie, declencheurs, porte sans grille de
- * collision) ne projettent aucune ombre.
- * \castest{<b>Tuiles non physiques : aucune ombre.</b><br/>
- * \tcat Unitaire · Ombres du plan physique<br/>
- * \tcrit Critique<br/>
- * \tetapes 1. Peupler danger, entree, sortie, interrupteur, plaque, porte.<br/>2. Composer les
- * ombres en mode Texture.<br/>
- * \tattendu Aucun quad n'est emis.
- * }
- */
-TEST(ShadowRenderTest, TuilesNonPhysiquesAucuneOmbre) {
-    core::World world;
-    addTile(world, core::TileType::Danger, 0, 0);
-    addTile(world, core::TileType::DangerUp, 1, 0);
-    addTile(world, core::TileType::Entry, 2, 0);
-    addTile(world, core::TileType::Exit, 3, 0);
-    addTile(world, core::TileType::Switch, 4, 0);
-    addTile(world, core::TileType::PressurePlate, 5, 0);
-    addTile(world, core::TileType::Door, 6, 0);  // sans grille de collision : jamais d'ombre
-
-    hmi::ComposedScene scene;
-    hmi::composeShadows(scene, world, hmi::RenderMode::Texture, testTextures(), 0.0f);
-
-    EXPECT_EQ(scene.size(), 0u);
-}
-
-/**
- * @brief Aucune ombre n'est emise en mode Physique, quelle que soit la tuile.
- * \castest{<b>Mode Physique : aucune ombre.</b><br/>
- * \tcat Unitaire · Ombres du plan physique<br/>
- * \tcrit Critique<br/>
- * \tetapes 1. Peupler une tuile Solid et une silhouette.<br/>2. Composer en mode Physique.<br/>
- * \tattendu Aucun quad n'est emis (EX-REN-046).
- * }
- */
-TEST(ShadowRenderTest, ModePhysiqueAucuneOmbre) {
-    core::World world;
-    addTile(world, core::TileType::Solid, 0, 0);
-    addTile(world, core::TileType::SlopeUpRight, 1, 0);
-
-    hmi::ComposedScene scene;
-    hmi::composeShadows(scene, world, hmi::RenderMode::Physique, testTextures(), 0.0f);
-
-    EXPECT_EQ(scene.size(), 0u);
-}
 
 /**
  * @brief Chacun des douze types a silhouette projette une ombre echantillonnant EXACTEMENT la
@@ -163,32 +115,6 @@ TEST(ShadowRenderTest, DouzeSilhouettesMemeRegionQueRegionForTile) {
     }
 }
 
-/**
- * @brief Les blocs reduits (BlockHalf/BlockQuarter) projettent une ombre a leur taille reelle
- * (core::tileVisualScale), jamais la case entiere.
- * \castest{<b>Blocs reduits : ombre a la taille reelle.</b><br/>
- * \tcat Unitaire · Ombres du plan physique<br/>
- * \tcrit Critique<br/>
- * \tetapes 1. Peupler BlockHalf et BlockQuarter.<br/>2. Composer les ombres.<br/>
- * \tattendu La largeur/hauteur du quad vaut core::tileVisualScale(type), pas 1.
- * }
- */
-TEST(ShadowRenderTest, BlocsReduitsOmbreATailleReelle) {
-    core::World world;
-    addTile(world, core::TileType::BlockHalf, 0, 0);
-    addTile(world, core::TileType::BlockQuarter, 1, 0);
-
-    hmi::ComposedScene scene;
-    hmi::composeShadows(scene, world, hmi::RenderMode::Texture, testTextures(), 0.0f);
-
-    hmi::QuadRecorder recorder;
-    recorder.record(scene);
-    ASSERT_EQ(recorder.size(), 2u) << recorder.describe();
-    EXPECT_FLOAT_EQ(recorder.quads()[0].sprite.width, 0.5f);
-    EXPECT_FLOAT_EQ(recorder.quads()[0].sprite.height, 0.5f);
-    EXPECT_FLOAT_EQ(recorder.quads()[1].sprite.width, 0.25f);
-    EXPECT_FLOAT_EQ(recorder.quads()[1].sprite.height, 0.25f);
-}
 
 /**
  * @brief Un bloc poussable en mouvement (PreviousPosition distincte de la position courante) voit

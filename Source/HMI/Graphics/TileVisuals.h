@@ -24,11 +24,8 @@ namespace hmi {
  *
  * **Unique** correspondance type → région, utilisée par `GameSession` (rendu d'un niveau joué),
  * `hmi::DraftRenderer` (canevas de l'éditeur) et la palette de l'éditeur (`hmi::PalettePanel`) :
- * le canevas de l'éditeur est un aperçu **fidèle** (même forme — triangle/courbe pour les pentes/
- * arrondis, `EX-GP-003`/`EX-GP-004`, `core::slopeSurfaceHeight` — et, combinée à
- * `core::tileVisualScale` côté appelant, même taille pour les blocs réduits, `EX-GP-005`) de ce
- * que le joueur verra en jouant le niveau (`P`), sans simplification qui pourrait induire en
- * erreur pendant l'édition.
+ * le canevas de l'éditeur est un aperçu **fidèle** de ce que le joueur verra en jouant le niveau
+ * (`P`), sans simplification qui pourrait induire en erreur pendant l'édition.
  * Ne dépend que de la **géométrie de grille** de `hmi::TextureAtlas` (constantes et découpage
  * statiques), jamais d'une texture chargée : la palette de l'éditeur peut donc l'appeler sans
  * device Direct3D, ce qu'un widget Qt ne doit de toute façon jamais exiger.
@@ -37,30 +34,6 @@ namespace hmi {
  * @return La région d'atlas à échantillonner pour ce type.
  */
 [[nodiscard]] core::AtlasRegion regionForTile(core::TileType type);
-
-/// Position (colonne, ligne) d'une tuile dans la grille procédurale de `TextureAtlas`.
-struct AtlasGridPosition {
-    int column = 0;
-    int row = 0;
-};
-
-/**
- * @brief Position, dans la grille de tuiles procédurale, réservée à un type de tuile à silhouette
- *        inclinée/courbe : pentes/arrondis convexes ou concaves de **sol**, suivables
- *        (`core::isFollowableSurface`, `EX-GP-003`/`EX-GP-004`/`EX-GP-007`) ou de **plafond**,
- *        solides (`EX-GP-006`/`EX-GP-007`).
- *
- * Seule source de vérité pour cette association : utilisée par `regionForTile` (couleur) **et**
- * par `TextureAtlas` (génération d'un masque de forme triangulaire/courbe à cet emplacement,
- * plutôt qu'un carré plein, pour que l'affichage corresponde à la silhouette réelle — hitbox pour
- * les variantes de sol via `core::slopeSurfaceHeight`, silhouette purement visuelle pour les
- * variantes de plafond, solides par ailleurs) — dupliquer ces coordonnées aux deux endroits
- * risquerait de les laisser diverger silencieusement.
- * @param type Type de tuile.
- * @return La position dans la grille, ou `std::nullopt` si @p type n'a pas de silhouette inclinée/
- *         courbe.
- */
-[[nodiscard]] std::optional<AtlasGridPosition> slopeTileGridPosition(core::TileType type);
 
 /**
  * @brief Cherche la surcharge de texture assignée à une case précise (`EX-EDIT-043`, `LOT-45`).

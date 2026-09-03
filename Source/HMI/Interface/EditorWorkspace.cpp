@@ -30,7 +30,6 @@ EditorWorkspaceMask workspacesForPanel(PanelId panel) noexcept {
         case PanelId::Palette:
         case PanelId::Levels:
         case PanelId::Links:
-        case PanelId::Properties:
         case PanelId::Textures:
             return workspaceBit(EditorWorkspace::Level);
         case PanelId::Planes:

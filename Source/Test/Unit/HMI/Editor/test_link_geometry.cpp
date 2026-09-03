@@ -15,44 +15,6 @@ using core::TileType;
 
 }  // namespace
 
-/**
- * @brief Seuls l'interrupteur et la plaque de pression sont des **déclencheurs** ; aucun autre type
- * ne l'est. C'est ce prédicat qui décide ce que l'outil de liaison accepte comme point de
- * départ.
- * \castest{<b>Seuls l'interrupteur et la plaque de pression sont reconnus comme
- * déclencheurs.</b><br/>
- * \tcat Unitaire · Géométrie des liens<br/>
- * \tcrit Majeur<br/>
- * \tetapes 1. Mettre en place le contexte du test (arrangement).<br/>2. Executer le scenario et
- * verifier les assertions.<br/>
- * }
- */
-TEST(LinkGeometry, IsTriggerTileReconnaitDeclencheurs) {
-    EXPECT_TRUE(hmi::isTriggerTile(TileType::Switch));
-    EXPECT_TRUE(hmi::isTriggerTile(TileType::PressurePlate));
-    EXPECT_FALSE(hmi::isTriggerTile(TileType::Door));
-    EXPECT_FALSE(hmi::isTriggerTile(TileType::DangerSwitched));
-    EXPECT_FALSE(hmi::isTriggerTile(TileType::Solid));
-}
-
-/**
- * @brief Seuls la porte et le danger commutable sont des **cibles** de liaison — un déclencheur
- * n'en
- * est jamais une, ce qui interdit de lier deux interrupteurs entre eux.
- * \castest{<b>Seuls la porte et le danger commutable sont reconnus comme cibles de
- * liaison.</b><br/>
- * \tcat Unitaire · Géométrie des liens<br/>
- * \tcrit Majeur<br/>
- * \tetapes 1. Mettre en place le contexte du test (arrangement).<br/>2. Executer le scenario et
- * verifier les assertions.<br/>
- * }
- */
-TEST(LinkGeometry, IsLinkTargetTileReconnaitCibles) {
-    EXPECT_TRUE(hmi::isLinkTargetTile(TileType::Door));
-    EXPECT_TRUE(hmi::isLinkTargetTile(TileType::DangerSwitched));
-    EXPECT_FALSE(hmi::isLinkTargetTile(TileType::Switch));
-    EXPECT_FALSE(hmi::isLinkTargetTile(TileType::PressurePlate));
-}
 
 /**
  * @brief Le trait relie les **centres** des deux cases (origine en haut à gauche, demi-case
@@ -190,36 +152,6 @@ TEST(LinkGeometry, ArrowHeadSegmentDegenere) {
     EXPECT_FLOAT_EQ(head.right.y, point.y);
 }
 
-/**
- * @brief La liste des liens est construite dans un ordre déterministe — mécanismes puis liens de
- * danger — et son contenu reflète fidèlement le brouillon. Le panneau Liens s'appuie sur cet
- * ordre : un tri instable ferait sauter les lignes à chaque modification.
- * \castest{<b>La liste des liens est ordonnée (mécanismes puis dangers) et fidèle au
- * brouillon.</b><br/>
- * \tcat Unitaire · Géométrie des liens<br/>
- * \tcrit Majeur<br/>
- * \tetapes 1. Mettre en place le contexte du test (arrangement).<br/>2. Executer le scenario et
- * verifier les assertions.<br/>
- * }
- */
-TEST(LinkGeometry, BuildLinkRowsOrdreEtContenu) {
-    core::LevelDraft draft = core::LevelDraft::empty("N", 6, 6);
-    draft.paintTile(0, 0, TileType::Switch);
-    draft.paintTile(1, 0, TileType::Door);
-    draft.paintTile(2, 0, TileType::PressurePlate);
-    draft.paintTile(3, 0, TileType::DangerSwitched);
-    draft.linkMechanism(GridPosition{0, 0}, GridPosition{1, 0});
-    draft.linkMechanism(GridPosition{2, 0}, GridPosition{3, 0});
-
-    const std::vector<hmi::LinkRow> rows = hmi::buildLinkRows(draft);
-    ASSERT_EQ(rows.size(), 2u);
-    EXPECT_EQ(rows[0].kind, hmi::LinkKind::Mechanism);
-    EXPECT_EQ(rows[0].trigger, (GridPosition{0, 0}));
-    EXPECT_EQ(rows[0].target, (GridPosition{1, 0}));
-    EXPECT_EQ(rows[1].kind, hmi::LinkKind::DangerLink);
-    EXPECT_EQ(rows[1].trigger, (GridPosition{2, 0}));
-    EXPECT_EQ(rows[1].target, (GridPosition{3, 0}));
-}
 
 /**
  * @brief Un brouillon sans aucune liaison donne une liste vide : le panneau affiche alors son état

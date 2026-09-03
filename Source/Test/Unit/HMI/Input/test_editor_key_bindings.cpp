@@ -108,7 +108,7 @@ TEST(EditorKeyBindingsTest, ResetToDefaultsRestaureLesDefauts) {
  */
 TEST(EditorKeyBindingsTest, SaveEtLoadAllerRetour) {
     const std::filesystem::path path =
-        std::filesystem::temp_directory_path() / "projectgaming_test_editor_bindings.json";
+        std::filesystem::temp_directory_path() / "jadg_test_editor_bindings.json";
     std::filesystem::remove(path);
 
     hmi::EditorKeyBindings original;
@@ -135,7 +135,7 @@ TEST(EditorKeyBindingsTest, SaveEtLoadAllerRetour) {
  */
 TEST(EditorKeyBindingsTest, LoadFichierAbsentRenvoieLesDefauts) {
     const std::filesystem::path path =
-        std::filesystem::temp_directory_path() / "projectgaming_test_editor_bindings_absent.json";
+        std::filesystem::temp_directory_path() / "jadg_test_editor_bindings_absent.json";
     std::filesystem::remove(path);
 
     const hmi::EditorKeyBindings bindings = hmi::EditorKeyBindings::load(path);
@@ -155,7 +155,7 @@ TEST(EditorKeyBindingsTest, LoadFichierAbsentRenvoieLesDefauts) {
  */
 TEST(EditorKeyBindingsTest, SavePreserveLaSectionJeu) {
     const std::filesystem::path path =
-        std::filesystem::temp_directory_path() / "projectgaming_test_editor_bindings_partage.json";
+        std::filesystem::temp_directory_path() / "jadg_test_editor_bindings_partage.json";
     {
         std::ofstream file(path, std::ios::binary);
         file << R"({"jeu": {"sauter": 32}})";
@@ -187,7 +187,7 @@ TEST(EditorKeyBindingsTest, SavePreserveLaSectionJeu) {
  */
 TEST(EditorKeyBindingsTest, SavePreserveLaSectionManette) {
     const std::filesystem::path path =
-        std::filesystem::temp_directory_path() / "projectgaming_test_editor_bindings_manette.json";
+        std::filesystem::temp_directory_path() / "jadg_test_editor_bindings_manette.json";
     {
         std::ofstream file(path, std::ios::binary);
         file << R"({"manette": {"sauter": 0}})";

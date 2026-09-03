@@ -104,7 +104,7 @@ TEST(GamepadBindingsTest, ResetToDefaultsRestaureLesDefauts) {
  */
 TEST(GamepadBindingsTest, SaveEtLoadAllerRetour) {
     const std::filesystem::path path =
-        std::filesystem::temp_directory_path() / "projectgaming_test_gamepad_bindings.json";
+        std::filesystem::temp_directory_path() / "jadg_test_gamepad_bindings.json";
     std::filesystem::remove(path);
 
     hmi::GamepadBindings original;
@@ -133,7 +133,7 @@ TEST(GamepadBindingsTest, SaveEtLoadAllerRetour) {
  */
 TEST(GamepadBindingsTest, LoadFichierAbsentRenvoieLesDefauts) {
     const std::filesystem::path path =
-        std::filesystem::temp_directory_path() / "projectgaming_test_gamepad_bindings_absent.json";
+        std::filesystem::temp_directory_path() / "jadg_test_gamepad_bindings_absent.json";
     std::filesystem::remove(path);
 
     const hmi::GamepadBindings bindings = hmi::GamepadBindings::load(path);
@@ -153,7 +153,7 @@ TEST(GamepadBindingsTest, LoadFichierAbsentRenvoieLesDefauts) {
  */
 TEST(GamepadBindingsTest, LoadNomBoutonInconnuIgnore) {
     const std::filesystem::path path =
-        std::filesystem::temp_directory_path() / "projectgaming_test_gamepad_bindings_inconnu.json";
+        std::filesystem::temp_directory_path() / "jadg_test_gamepad_bindings_inconnu.json";
     {
         std::ofstream file(path, std::ios::binary);
         file << R"({"manette": {"sauter": "bouton_qui_n_existe_pas"}})";
@@ -180,7 +180,7 @@ TEST(GamepadBindingsTest, LoadNomBoutonInconnuIgnore) {
  */
 TEST(GamepadBindingsTest, LoadFichierAnterieurSansInteragirPrendLaValeurParDefaut) {
     const std::filesystem::path path = std::filesystem::temp_directory_path() /
-                                       "projectgaming_test_gamepad_bindings_anterieur.json";
+                                       "jadg_test_gamepad_bindings_anterieur.json";
     {
         std::ofstream file(path, std::ios::binary);
         // Section "manette" telle qu'ecrite avant LOT-63 : aucune entree "interagir".
@@ -209,7 +209,7 @@ TEST(GamepadBindingsTest, LoadFichierAnterieurSansInteragirPrendLaValeurParDefau
  */
 TEST(GamepadBindingsTest, SavePreserveLesAutresSections) {
     const std::filesystem::path path =
-        std::filesystem::temp_directory_path() / "projectgaming_test_gamepad_bindings_partage.json";
+        std::filesystem::temp_directory_path() / "jadg_test_gamepad_bindings_partage.json";
     {
         std::ofstream file(path, std::ios::binary);
         file << R"({"jeu": {"sauter": 32}, "editeur": {"sauvegarder": 83}})";

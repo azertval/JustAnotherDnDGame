@@ -98,27 +98,6 @@ TEST(GameHudTest, BudgetPartielNAfficheQuUnCompteur) {
     EXPECT_EQ(lines[1], "Chute libre");
 }
 
-/**
- * @brief Le compteur affiché suit immédiatement la décroissance du budget (après un saut).
- * \castest{<b>Le compteur affiché suit immédiatement la décroissance du budget.</b><br/>
- * \tcat Unitaire · HUD de jeu<br/>
- * \tcrit Majeur<br/>
- * \tetapes 1. Composer les lignes avec 3 sauts restants, puis avec 2 (après un saut simulé).<br/>
- * 2. Comparer les deux résultats.<br/>
- * \tattendu Le compteur passe de « Sauts : 3 » à « Sauts : 2 ».
- * }
- */
-TEST(GameHudTest, CompteurSuitLaDecroissanceDuBudget) {
-    core::Player player;
-    player.jumpsRemaining = 3;
-    const hmi::Localization localization = testLocalization();
-
-    ASSERT_EQ(hmi::gameHudLines(player, "Niveau", localization)[0], "Sauts : 3");
-
-    --player.jumpsRemaining;  // meme decompte que core::CharacterPhysicsSystem apres un saut
-
-    EXPECT_EQ(hmi::gameHudLines(player, "Niveau", localization)[0], "Sauts : 2");
-}
 
 /**
  * @brief Chaque clé de traduction utilisée par le HUD existe, traduite, dans les deux catalogues
@@ -132,7 +111,7 @@ TEST(GameHudTest, CompteurSuitLaDecroissanceDuBudget) {
  * }
  */
 TEST(GameHudTest, ClesDeTraductionExistentDansLesDeuxCatalogues) {
-    const std::filesystem::path directory(PROJECTGAMING_LOCALIZATION_DIR);
+    const std::filesystem::path directory(JADG_LOCALIZATION_DIR);
     for (const std::string& language : {"fr", "en"}) {
         hmi::Localization localization(directory);
         ASSERT_TRUE(localization.loadDefaultLanguage(language)) << language;

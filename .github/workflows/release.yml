@@ -6,7 +6,7 @@ name: Release
 # - tag "vX.Y.Z"   -> publie une release versionnée (non préversion), avec les exécutables Debug
 #   ET Release, chacun autonome.
 #
-# Depuis le LOT-38, l'unique application `ProjectGaming` est une app **Qt** : le job installe Qt
+# Depuis le LOT-38, l'unique application `JustAnotherDnDGame` est une app **Qt** : le job installe Qt
 # (comme la CI), construit avec le **runtime MSVC dynamique** (les DLL Qt officielles sont en /MD ;
 # un CRT statique provoquerait des incohérences d'allocation), et empaquette **tout le dossier de
 # l'exécutable** — `windeployqt` (POST_BUILD, Source/HMI/CMakeLists.txt) y a déposé les DLL Qt, le
@@ -78,10 +78,10 @@ jobs:
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Force -Path package | Out-Null
-          # Tout le dossier de l'exécutable : ProjectGaming.exe, DLL Qt + platforms/ (windeployqt),
+          # Tout le dossier de l'exécutable : JustAnotherDnDGame.exe, DLL Qt + platforms/ (windeployqt),
           # runtime du compilateur, et les assets Levels/ Localization/ (POST_BUILD CMake).
           Copy-Item build-release/bin/Debug/* package/ -Recurse -Force
-          Compress-Archive -Path package/* -DestinationPath ProjectGaming-debug.zip -Force
+          Compress-Archive -Path package/* -DestinationPath JustAnotherDnDGame-debug.zip -Force
 
       - name: Publish rolling release
         shell: pwsh
@@ -90,9 +90,9 @@ jobs:
         run: |
           # Recrée une release « roulante » pointant sur le dernier main.
           gh release delete debug-latest --yes --cleanup-tag 2>$null
-          gh release create debug-latest ProjectGaming-debug.zip `
-            --title "ProjectGaming — Debug (dernier main)" `
-            --notes "Build Debug automatique du dernier commit sur main. Décompresser et lancer ProjectGaming.exe." `
+          gh release create debug-latest JustAnotherDnDGame-debug.zip `
+            --title "JustAnotherDnDGame — Debug (dernier main)" `
+            --notes "Build Debug automatique du dernier commit sur main. Décompresser et lancer JustAnotherDnDGame.exe." `
             --prerelease
 
   versioned-release:
@@ -147,10 +147,10 @@ jobs:
 
           # Tout le dossier de l'exécutable (exe + DLL Qt + platforms/ + runtime + assets).
           Copy-Item build-debug/bin/Debug/* package-debug/ -Recurse -Force
-          Compress-Archive -Path package-debug/* -DestinationPath "ProjectGaming-${{ github.ref_name }}-debug.zip" -Force
+          Compress-Archive -Path package-debug/* -DestinationPath "JustAnotherDnDGame-${{ github.ref_name }}-debug.zip" -Force
 
           Copy-Item build-prod/bin/Release/* package-release/ -Recurse -Force
-          Compress-Archive -Path package-release/* -DestinationPath "ProjectGaming-${{ github.ref_name }}-release.zip" -Force
+          Compress-Archive -Path package-release/* -DestinationPath "JustAnotherDnDGame-${{ github.ref_name }}-release.zip" -Force
 
       # Les notes viennent du CHANGELOG plutôt que de `--generate-notes`, qui ne produit qu'une
       # liste brute de messages de commit — illisible pour le non-développeur à qui la release
@@ -166,7 +166,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           gh release create "${{ github.ref_name }}" `
-            "ProjectGaming-${{ github.ref_name }}-debug.zip" `
-            "ProjectGaming-${{ github.ref_name }}-release.zip" `
+            "JustAnotherDnDGame-${{ github.ref_name }}-debug.zip" `
+            "JustAnotherDnDGame-${{ github.ref_name }}-release.zip" `
             --title "${{ github.ref_name }}" `
             --notes-file release-notes.md

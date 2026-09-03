@@ -19,7 +19,7 @@ namespace {
 
 // Dernier type de l'enumeration : borne du parcours exhaustif. Ajouter un type apres celui-ci sans
 // mettre a jour cette constante ferait passer les tests a cote du nouveau venu.
-constexpr int LAST_TILE_TYPE = static_cast<int>(core::TileType::MovingPlatform);
+constexpr int LAST_TILE_TYPE = static_cast<int>(core::TileType::LockedDoor);
 
 }  // namespace
 
@@ -78,24 +78,3 @@ TEST(TileTypeNameTest, NomInconnuRefuse) {
     EXPECT_FALSE(core::parseTileType("Solid").has_value());
 }
 
-/**
- * @brief Les noms attendus par le format de niveau sont conserves.
- * \castest{<b>Les noms du format de niveau restent inchanges.</b><br/>
- * \tcat Unitaire · Nom de type de tuile<br/>
- * \tcrit Critique<br/>
- * \tetapes 1. Verifier le nom de quelques types representatifs de chaque famille.<br/>
- * \tattendu Les noms sont ceux ecrits dans les niveaux livres.
- * }
- */
-TEST(TileTypeNameTest, NomsDuFormatDeNiveauInchanges) {
-    // Ancre de non-regression : ces noms sont ecrits dans les fichiers de niveaux deja livres.
-    // Les renommer casserait le chargement du contenu existant.
-    EXPECT_EQ(core::tileTypeName(core::TileType::Solid), "solid");
-    EXPECT_EQ(core::tileTypeName(core::TileType::PressurePlate), "pressurePlate");
-    EXPECT_EQ(core::tileTypeName(core::TileType::SlopeUpRight), "slopeUpRight");
-    EXPECT_EQ(core::tileTypeName(core::TileType::ConcaveDownLeft), "concaveDownLeft");
-    EXPECT_EQ(core::tileTypeName(core::TileType::DangerBlink), "dangerBlink");
-    EXPECT_EQ(core::tileTypeName(core::TileType::Key), "key");
-    EXPECT_EQ(core::tileTypeName(core::TileType::LockedDoor), "lockedDoor");
-    EXPECT_EQ(core::tileTypeName(core::TileType::MovingPlatform), "movingPlatform");
-}

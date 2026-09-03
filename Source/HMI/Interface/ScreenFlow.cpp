@@ -34,10 +34,8 @@ ScreenDressing dressingFor(ScreenId screen) noexcept {
         case ScreenId::Options:
         case ScreenId::LevelSelect:
         case ScreenId::Credits:
-        case ScreenId::AiMode:
             // Même habillage que Menu : page du QStackedWidget, jamais un recouvrement (LevelSelect
-            // est atteint depuis le menu, pas en jeu -- LOT-59 TACHE-06 ; Credits de même, LOT-60 ;
-            // AiMode de même, LOT-ANNEXE-21).
+            // est atteint depuis le menu, pas en jeu -- LOT-59 TACHE-06 ; Credits de même, LOT-60).
             return ScreenDressing{.docksVisible = false,
                                   .menuBarVisible = false,
                                   .toolBarVisible = false,
@@ -82,9 +80,6 @@ std::optional<ScreenState> resolveTransition(const ScreenState& current,
                 case ScreenEvent::OpenCredits:
                     return ScreenState{.screen = ScreenId::Credits,
                                        .optionsReturnTo = ScreenId::Menu};
-                case ScreenEvent::OpenAiMode:
-                    return ScreenState{.screen = ScreenId::AiMode,
-                                       .optionsReturnTo = ScreenId::Menu};
                 default:
                     return std::nullopt;
             }
@@ -92,19 +87,6 @@ std::optional<ScreenState> resolveTransition(const ScreenState& current,
             switch (event) {
                 case ScreenEvent::CloseCredits:
                     return ScreenState{.screen = ScreenId::Menu, .optionsReturnTo = ScreenId::Menu};
-                default:
-                    return std::nullopt;
-            }
-        case ScreenId::AiMode:
-            switch (event) {
-                case ScreenEvent::CloseAiMode:
-                    return ScreenState{.screen = ScreenId::Menu, .optionsReturnTo = ScreenId::Menu};
-                case ScreenEvent::OpenGame:
-                    // « Voir en jeu » (aperçu) et Rejeu (onglet dédié) : même transition que
-                    // Menu -> Game, revient au Menu (pas à AiMode) une fois la lecture terminée --
-                    // même convention que l'ancien « Regarder l'IA jouer » (LOT-ANNEXE-18),
-                    // l'entraînement en arrière-plan continue indépendamment de l'écran affiché.
-                    return ScreenState{.screen = ScreenId::Game, .optionsReturnTo = ScreenId::Menu};
                 default:
                     return std::nullopt;
             }

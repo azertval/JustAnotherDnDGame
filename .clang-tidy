@@ -1,4 +1,4 @@
-# Analyse statique — ProjectGaming (voir Documentation/conventions.md)
+# Analyse statique — JustAnotherDnDGame (voir Documentation/conventions.md)
 # Les vérifications de nommage reflètent les conventions du projet.
 ---
 Checks: >
@@ -59,7 +59,7 @@ Checks: >
 #    QObject parent/enfant gere la destruction -- pas RAII/smart pointers. Refactorer combattrait
 #    le framework et risquerait un double-free/use-after-free a la destruction du parent.
 #  - avoid-do-while (43 remontees) : 100% sur l'expansion des macros `*_LOG_*`/
-#    `PROJECTGAMING_ASSERT`, qui utilisent l'idiome standard `do { ... } while (0)` (protection
+#    `JADG_ASSERT`, qui utilisent l'idiome standard `do { ... } while (0)` (protection
 #    syntaxique d'une macro multi-instructions) -- aucune n'est une boucle do-while ecrite par un
 #    developpeur.
 #  - pro-bounds-pointer-arithmetic (5 remontees) : toutes sur `donnees.data() + y * largeur` passe

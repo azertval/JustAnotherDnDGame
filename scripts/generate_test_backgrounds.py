@@ -2,7 +2,7 @@
 # SPDX-FileCopyrightText: 2026 Valentin Eloy
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-"""Genere des fonds de niveau de TEST pour ProjectGaming (LOT-44, etoffes en LOT-65).
+"""Genere des fonds de niveau de TEST pour JustAnotherDnDGame (LOT-44, etoffes en LOT-65).
 
 Cette image est volontairement schematique : elle sert a verifier que le rendu du fond
 fonctionne (calque Background, ratio preserve, recadrage par le centre), pas a habiller

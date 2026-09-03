@@ -2,7 +2,7 @@
 # SPDX-FileCopyrightText: 2026 Valentin Eloy
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-"""Lint des identifiants d'exigences (EX-...) de ProjectGaming.
+"""Lint des identifiants d'exigences (EX-...) de JustAnotherDnDGame.
 
 Vérifie que les identifiants d'exigences forment un référentiel cohérent :
 - chaque exigence est **déclarée exactement une fois** (ancre Doxygen

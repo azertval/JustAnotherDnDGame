@@ -85,23 +85,6 @@ TEST(LinkGesture, DeuxDeclencheursRemplacentLAttente) {
     EXPECT_EQ(decision.cell, (GridPosition{1, 0}));
 }
 
-/**
- * @brief Symétriquement, deux cibles de suite remplacent l'attente : une porte ne se lie pas à
- * une autre porte.
- * \castest{<b>Deux cibles successives remplacent l'attente au lieu de se lier.</b><br/>
- * \tcat Unitaire · Geste de liaison<br/>
- * \tcrit Majeur<br/>
- * \tetapes 1. Mettre en place le contexte du test (arrangement).<br/>2. Executer le scenario et
- * verifier les assertions.<br/>
- * }
- */
-TEST(LinkGesture, DeuxCiblesRemplacentLAttente) {
-    const PendingLink pending{GridPosition{0, 0}, TileType::Door};
-    const auto decision =
-        resolveLinkClick(pending, GridPosition{1, 0}, TileType::DangerSwitched, false);
-    EXPECT_EQ(decision.action, LinkGestureAction::ReplacePending);
-    EXPECT_EQ(decision.cell, (GridPosition{1, 0}));
-}
 
 /**
  * @brief Déclencheur en attente puis clic sur une cible pas encore liée : la liaison est créée,
@@ -121,25 +104,6 @@ TEST(LinkGesture, DeclencheurPuisCibleNonLieeCreeLaLiaison) {
     EXPECT_EQ(decision.targetPosition, (GridPosition{3, 3}));
 }
 
-/**
- * @brief Le même geste sur une paire **déjà liée** supprime la liaison : le geste est une
- * bascule, et il fonctionne en partant de la cible comme du déclencheur — les rôles sont déduits
- * des types, pas de l'ordre.
- * \castest{<b>Le même geste sur une paire déjà liée supprime la liaison.</b><br/>
- * \tcat Unitaire · Geste de liaison<br/>
- * \tcrit Critique<br/>
- * \tetapes 1. Mettre en place le contexte du test (arrangement).<br/>2. Executer le scenario et
- * verifier les assertions.<br/>
- * }
- */
-TEST(LinkGesture, CiblePuisDeclencheurDejaLieSupprimeLaLiaison) {
-    const PendingLink pending{GridPosition{3, 3}, TileType::DangerSwitched};
-    const auto decision =
-        resolveLinkClick(pending, GridPosition{0, 0}, TileType::PressurePlate, true);
-    EXPECT_EQ(decision.action, LinkGestureAction::Unlink);
-    EXPECT_EQ(decision.switchPosition, (GridPosition{0, 0}));
-    EXPECT_EQ(decision.targetPosition, (GridPosition{3, 3}));
-}
 
 /**
  * @brief Une attente périmée — la case retenue a été repeinte entre-temps et ne porte plus un

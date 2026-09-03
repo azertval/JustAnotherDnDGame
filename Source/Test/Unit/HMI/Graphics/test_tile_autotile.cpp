@@ -180,24 +180,6 @@ TEST(TileAutotileTest, RaccordEntreTypesSolidesDifferents) {
     EXPECT_TRUE((hmi::solidNeighborMask(tiles, 2, 2) & hmi::NEIGHBOR_RIGHT) != 0);
 }
 
-/**
- * @brief Les pentes ne participent pas au voisinage solide.
- * \castest{<b>Une pente n'est pas comptee comme voisin solide.</b><br/>
- * \tcat Unitaire · Raccords automatiques<br/>
- * \tcrit Majeur<br/>
- * \tetapes 1. Placer un solide et, a sa droite, une pente montante.<br/>
- * \tattendu Le solide ne compte pas la pente comme voisin solide.
- * }
- */
-TEST(TileAutotileTest, PenteNonCompteeCommeVoisinSolide) {
-    core::TileMap tiles = emptyGrid();
-    tiles.setTile(2, 2, core::TileType::Solid);
-    tiles.setTile(3, 2, core::TileType::SlopeUpRight);
-
-    // core::isSolid exclut les pentes : elles restent en mode single, avec leur masque de
-    // silhouette. Coherent avec la physique, qui les traite par une passe de suivi dediee.
-    EXPECT_FALSE((hmi::solidNeighborMask(tiles, 2, 2) & hmi::NEIGHBOR_RIGHT) != 0);
-}
 
 /**
  * @brief La case representative est l'interieur plein.

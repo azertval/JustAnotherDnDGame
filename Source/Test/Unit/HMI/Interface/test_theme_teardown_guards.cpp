@@ -31,7 +31,7 @@ namespace {
     // l'autre.
     std::ostringstream buffer;
     for (const char* const path :
-         {PROJECTGAMING_THEME_IDENTITY_PATH, PROJECTGAMING_THEME_EDITOR_PATH}) {
+         {JADG_THEME_IDENTITY_PATH, JADG_THEME_EDITOR_PATH}) {
         std::ifstream file(path);
         buffer << file.rdbuf();
     }
@@ -66,7 +66,7 @@ namespace {
  */
 TEST(ThemeTeardownGuardsTest, AucunePropieteDeBarreDeTitreDeDock) {
     const std::string theme = withoutComments(readThemeTemplate());
-    ASSERT_FALSE(theme.empty()) << "feuilles de theme introuvables (PROJECTGAMING_THEME_*_PATH)";
+    ASSERT_FALSE(theme.empty()) << "feuilles de theme introuvables (JADG_THEME_*_PATH)";
 
     for (const char* forbidden : {"titlebar-close-icon", "titlebar-normal-icon"}) {
         EXPECT_EQ(theme.find(forbidden), std::string::npos)

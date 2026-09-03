@@ -10,7 +10,7 @@
  * @brief Géométrie des icônes de l'IHM, dessinées par code (`LOT-56` TACHE-04, `EX-IHM-055`).
  *
  * Logique **pure** (aucune dépendance Qt/GPU), testable hors instance d'application
- * (`EX-NFR-010`) — compilée à la fois dans `ProjectGaming` et directement dans `UnitTests`, comme
+ * (`EX-NFR-010`) — compilée à la fois dans `JustAnotherDnDGame` et directement dans `UnitTests`, comme
  * `HMI/Interface/DesignTokens.cpp`. Même découpage que `hmi::gameHudLines` : cette fonction décide
  * *quoi* dessiner, `hmi::themeIcon` (Qt, `ThemeIcons.h`) décide *comment* le peindre.
  */
@@ -25,7 +25,6 @@ enum class IconId {
     ToolLink,
     ToolTextureAssign,
     ToolCameraZone,
-    ToolPath,
     Save,
     Playtest,
     Undo,

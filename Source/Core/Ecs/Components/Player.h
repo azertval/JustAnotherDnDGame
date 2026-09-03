@@ -13,12 +13,14 @@ namespace core {
 /**
  * @brief Marque l'entité **contrôlable par le joueur** et porte son état de contact au sol.
  *
- * Donnée pure sans logique (`EX-ARCH-011`). Sa présence sur une entité signale à la physique
- * (`CharacterPhysicsSystem`) que celle-ci est pilotée par l'intention d'entrée
- * (::core::PlayerInput) et soumise à la gravité. L'état « au sol » est **calculé par la physique**
- * (mis à `true` quand un contact bloquant se produit sous le personnage) et sert la caméra et le
- * **saut** (`EX-GP-013`). Les minuteries `coyoteTimer`/`jumpBufferTimer` portent l'état de *game
- * feel* du saut (coyote time, jump buffering), décompté par la physique au pas fixe.
+ * Donnée pure sans logique (`EX-ARCH-011`). Sa présence sur une entité signale qu'elle est
+ * pilotée par l'intention d'entrée (::core::PlayerInput).
+ *
+ * @note Ses champs décrivent encore l'état d'un personnage de **plateforme** (contact au sol,
+ *       coyote time, jump buffering, dash, combos) : le `LOT-01` a retiré le système qui les
+ *       calculait, ils sont donc **inertes** jusqu'à ce que le `LOT-06` remplace ce composant par
+ *       son équivalent en vue de dessus. Les conserver tels quels évite de toucher au rendu, à
+ *       l'animation et aux événements dans un lot qui ne fait que retirer.
  */
 struct Player {
     /// Vrai si le personnage repose sur une surface solide ; calculé par la physique.

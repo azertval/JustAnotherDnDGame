@@ -18,7 +18,6 @@ add_executable(UnitTests
     Unit/Core/Ecs/test_view.cpp
     Unit/Core/Ecs/test_world.cpp
     Unit/Core/Ecs/test_sprite.cpp
-    Unit/Core/Ecs/test_player_components.cpp
     Unit/Core/Ecs/test_particle_system.cpp
     Unit/Core/Ecs/test_particle_triggers.cpp
     Unit/Core/Levels/test_level.cpp
@@ -29,19 +28,12 @@ add_executable(UnitTests
     Unit/Core/Levels/test_level_draft.cpp
     Unit/Core/Levels/test_plane.cpp
     Unit/Core/Levels/test_level_outcome.cpp
-    Unit/Core/Levels/test_danger_geometry.cpp
     Unit/Core/Levels/test_tile_type_name.cpp
     Unit/Core/Levels/test_tile_texture_override.cpp
-    Unit/Core/Gameplay/test_mechanism_controller.cpp
-    Unit/Core/Gameplay/test_danger_controller.cpp
-    Unit/Core/Gameplay/test_block_controller.cpp
-    Unit/Core/Gameplay/test_platform_controller.cpp
-    Unit/Core/Gameplay/test_sinking_block_controller.cpp
-    Unit/Core/Gameplay/test_volatile_block_controller.cpp
-    Unit/Core/Gameplay/test_platform_path.cpp
     Unit/Core/Physics/test_swept_collision.cpp
-    Unit/Core/Physics/test_slope_geometry.cpp
     Unit/Core/Physics/test_aabb_vs_aabb.cpp
+    Unit/Core/World/test_grid_distance_field.cpp
+    Unit/Core/Gameplay/test_mechanism_controller.cpp
     Unit/Core/Time/test_fixed_timestep.cpp
     Unit/Core/Diagnostics/test_logger.cpp
     Unit/Core/Diagnostics/test_scoped_log_level.cpp
@@ -50,149 +42,6 @@ add_executable(UnitTests
     Unit/Core/Diagnostics/test_log_format.cpp
     Unit/Core/Diagnostics/test_assert.cpp
     Unit/Core/Diagnostics/test_log_level_parse.cpp
-    # Bibliothèque de calcul numérique maison pour l'IA de résolution autonome (LOT-ANNEXE-01,
-    # programme annexe @ref lots-annexe) : tenseurs, opérations, RNG déterministe.
-    Unit/AiSolver/Math/test_rng.cpp
-    Unit/AiSolver/Math/test_tensor.cpp
-    Unit/AiSolver/Math/test_tensor_ops.cpp
-    Unit/AiSolver/Math/test_matmul.cpp
-    Unit/AiSolver/Math/test_tensor_integration.cpp
-    # Graphe de calcul dynamique de l'autodiff maison (LOT-ANNEXE-02, TACHE-01).
-    Unit/AiSolver/Math/test_autodiff_node.cpp
-    # Operations differentiables de base de l'autodiff maison (LOT-ANNEXE-02, TACHE-02).
-    Unit/AiSolver/Math/test_autodiff_ops.cpp
-    # backward() : parcours topologique inverse de l'autodiff maison (LOT-ANNEXE-02, TACHE-03).
-    Unit/AiSolver/Math/test_autodiff_backward.cpp
-    # Verification de gradient par differences finies (LOT-ANNEXE-02, TACHE-04) ; GradientCheck.h
-    # est header-only, inclus directement par ce fichier de test (pas d'entree propre ici).
-    Unit/AiSolver/Math/test_autodiff_gradient_checking.cpp
-    # Bibliotheque de reseaux de neurones maison (LOT-ANNEXE-03) : couche dense (TACHE-01).
-    Unit/AiSolver/Nn/test_dense.cpp
-    # Activations sigmoid/softmax (LOT-ANNEXE-03, TACHE-02).
-    Unit/AiSolver/Nn/test_activations.cpp
-    # Composition en reseau (LOT-ANNEXE-03, TACHE-03).
-    Unit/AiSolver/Nn/test_network.cpp
-    # Initialisation des poids et serialisation (LOT-ANNEXE-03, TACHE-04).
-    Unit/AiSolver/Nn/test_weight_init.cpp
-    Unit/AiSolver/Nn/test_serialization.cpp
-    # Tests transversaux du reseau complet, activations melees (LOT-ANNEXE-03, TACHE-06).
-    Unit/AiSolver/Nn/test_network_reproducibility.cpp
-    Unit/AiSolver/Nn/test_network_stability.cpp
-    # Optimiseurs maison (LOT-ANNEXE-04) : SGD avec/sans inertie (TACHE-01), zeroGrad partage.
-    Unit/AiSolver/Optim/test_optimizer_utils.cpp
-    Unit/AiSolver/Optim/test_sgd.cpp
-    # Adam, moments d'ordre 1/2, correction de biais (LOT-ANNEXE-04, TACHE-02).
-    Unit/AiSolver/Optim/test_adam.cpp
-    # Convergence sur problemes jouets (LOT-ANNEXE-04, TACHE-03), bloquant avant la generation 3 ;
-    # ToyProblems.h est header-only, inclus directement par ce fichier de test.
-    Unit/AiSolver/Optim/test_convergence.cpp
-    # Environnement de simulation headless (LOT-ANNEXE-05) : reset/step, budget de pas et mesure de
-    # progression, sans fenetre ni GPU.
-    Unit/AiSolver/Env/test_headless_level_environment.cpp
-    # Encodage de l'observation (LOT-ANNEXE-06) : fenetre de tuiles categorielle (TACHE-01), vecteur
-    # d'etat joueur (TACHE-02), etat des mecanismes dans la fenetre (TACHE-03), determinisme et
-    # stabilite dimensionnelle aux bords (TACHE-04).
-    Unit/AiSolver/Env/test_tile_window_encoder.cpp
-    Unit/AiSolver/Env/test_player_state_encoder.cpp
-    Unit/AiSolver/Env/test_mechanism_state_encoder.cpp
-    Unit/AiSolver/Env/test_observation_determinisme.cpp
-    Unit/AiSolver/Env/test_observation_bords_carte.cpp
-    # Espace d'action discret (TACHE-01), decodage deterministe/stochastique (TACHE-02) et format
-    # de rejeu v1 (TACHE-03), LOT-ANNEXE-07 : test de bout en bout inclus dans test_replay_file.cpp
-    # (TACHE-04).
-    Unit/AiSolver/Env/test_action_space.cpp
-    Unit/AiSolver/Env/test_action_decoding.cpp
-    Unit/AiSolver/Replay/test_replay_file.cpp
-    # Fonction de récompense (TACHE-01), classification de fin d'épisode (TACHE-02) et scénarios
-    # combinés (TACHE-03), LOT-ANNEXE-08 : signal d'apprentissage unique et partagé.
-    Unit/AiSolver/Env/test_reward.cpp
-    Unit/AiSolver/Env/test_episode.cpp
-    Unit/AiSolver/Env/test_reward_episode.cpp
-    # Champ de distances de plus court chemin sur la grille (amendement LOT-ANNEXE-08, EX-IA-023) :
-    # remplace la distance euclidienne dans Env/Reward.cpp pour les niveaux à détour forcé par un
-    # mur.
-    Unit/AiSolver/Env/test_grid_distance_field.cpp
-    # Journalisation CSV incrementale des statistiques d'entrainement (LOT-ANNEXE-09) : moyenne
-    # mobile/delta (TACHE-03), format de colonnes (TACHE-02), chemin de fichier par run (TACHE-04),
-    # recorder bout en bout (TACHE-01/05).
-    Unit/AiSolver/Stats/test_moving_average.cpp
-    Unit/AiSolver/Stats/test_csv_format.cpp
-    Unit/AiSolver/Stats/test_training_run_path.cpp
-    Unit/AiSolver/Stats/test_training_stats_recorder.cpp
-    # Algorithme evolutionniste maison (LOT-ANNEXE-10) : population (TACHE-01), evaluation de
-    # fitness (TACHE-02), operateurs genetiques (TACHE-03), boucle de generation (TACHE-04),
-    # reproductibilite et non-regression (TACHE-05).
-    Unit/AiSolver/Training/test_population.cpp
-    Unit/AiSolver/Training/test_fitness_evaluator.cpp
-    Unit/AiSolver/Training/test_genetic_operators.cpp
-    Unit/AiSolver/Training/test_evolutionary_trainer.cpp
-    Unit/AiSolver/Training/test_evolutionary_reproducibility.cpp
-    Unit/AiSolver/Training/test_evolutionary_non_regression.cpp
-    Unit/AiSolver/Training/test_level_training_session.cpp
-    Unit/AiSolver/Training/test_deterministic_replay.cpp
-    Unit/AiSolver/Training/test_argmax_rollout.cpp
-    Unit/AiSolver/Training/test_replay_export.cpp
-    # Policy gradient maison REINFORCE (LOT-ANNEXE-12) : collecte de trajectoire (TACHE-01), retour
-    # actualise (TACHE-02), perte REINFORCE et gradient checking -- le test le plus important du lot
-    # (TACHE-03/05), boucle d'entrainement bout en bout sur le niveau de controle trivial (TACHE-04).
-    Unit/AiSolver/Training/test_trajectory_collector.cpp
-    Unit/AiSolver/Training/test_return_calculator.cpp
-    Unit/AiSolver/Training/test_reinforce_loss.cpp
-    Unit/AiSolver/Training/test_policy_gradient_loss.cpp
-    Unit/AiSolver/Training/test_reinforce_trainer.cpp
-    # Acteur-critique (LOT-ANNEXE-13) : reseau critique (TACHE-01), avantage et non-regression de
-    # la perte REINFORCE apres factorisation (TACHE-02), perte du critique et boucle d'optimisation
-    # conjointe (TACHE-03), comparaison chiffree de convergence vs REINFORCE brut (TACHE-04).
-    Unit/AiSolver/Training/test_critic_network.cpp
-    Unit/AiSolver/Training/test_advantage_calculator.cpp
-    Unit/AiSolver/Training/test_actor_critic_loss.cpp
-    Unit/AiSolver/Training/test_critic_loss.cpp
-    Unit/AiSolver/Training/test_actor_critic_trainer.cpp
-    Unit/AiSolver/Eval/test_convergence_comparator.cpp
-    # Algorithme avance DQN (LOT-ANNEXE-14) : reseau Q(s,a) et memoire de rejeu (TACHE-01), perte de
-    # Bellman/gradient checking (TACHE-01), boucle d'entrainement integree au harnais existant
-    # (TACHE-02), comparaison chiffree generalisee a quatre series (TACHE-03).
-    Unit/AiSolver/Training/test_q_network.cpp
-    Unit/AiSolver/Training/test_replay_buffer.cpp
-    Unit/AiSolver/Training/test_dqn_loss.cpp
-    Unit/AiSolver/Training/test_dqn_trainer.cpp
-    # Meilleur reseau d'un run par gradient : un dernier episode rate ne doit plus ecraser le
-    # modele sauvegarde (equivalent de bestIndividual pour pg/ac/avance).
-    Unit/AiSolver/Training/test_best_policy_snapshot.cpp
-    Unit/AiSolver/Eval/test_generation_comparator.cpp
-    # Harnais de benchmark multi-algorithmes (LOT-ANNEXE-15), premier lot de la generation 4 :
-    # adaptateurs TrainedPolicy uniformes (TACHE-01), execution automatisee repetee et reproductible
-    # (TACHE-01), rapport comparatif CSV par niveau x algorithme reutilisant l'echappement partage
-    # (TACHE-02), robustesse au bruit d'observation sans jamais toucher l'etat reel simule (TACHE-03).
-    Unit/AiSolver/Eval/test_trained_policy.cpp
-    Unit/AiSolver/Eval/test_benchmark_runner.cpp
-    Unit/AiSolver/Eval/test_benchmark_report.cpp
-    Unit/AiSolver/Eval/test_noisy_observation.cpp
-    Unit/AiSolver/Eval/test_cross_level_benchmark.cpp
-    # Validation et stabilisation du format de rejeu v1 (LOT-ANNEXE-17) : empreinte FNV-1a
-    # deterministe du fichier de niveau (TACHE-01), validation a la lecture (fichier absent,
-    # empreinte divergente, rejeu valide), stabilisation du format (formatVersion 1 -> 2,
-    # compatibilite ascendante stricte, TACHE-02).
-    Unit/AiSolver/Replay/test_level_fingerprint.cpp
-    Unit/AiSolver/Replay/test_replay_validation.cpp
-    Unit/AiSolver/Replay/test_replay_format.cpp
-    # Outillage CLI (LOT-ANNEXE-19) : Commands.cpp/ArgumentParsing.cpp/TrainingConfig.cpp n'appartiennent
-    # pas a la bibliotheque AiSolver (elles sont l'executable distinct aisolver-cli, cf.
-    # Source/AiSolver/CMakeLists.txt), meme patron que GameEvents.cpp/ReplayPlayback.cpp ci-dessous
-    # pour HMI : compilees directement dans cette cible pour rester testables sans lancer le vrai
-    # executable (Main.cpp, lui, n'est jamais compile ici).
-    ../AiSolver/Cli/ArgumentParsing.cpp
-    # Cli/TrainingConfig.cpp n'est plus compile ici : deplace dans la bibliotheque AiSolver
-    # (LOT-ANNEXE-21) pour etre reutilise par HMI/Ai/TrainingWorker -- deja fourni par le lien
-    # AiSolver ci-dessous, le compiler aussi ici produirait des symboles dupliques.
-    ../AiSolver/Cli/Commands.cpp
-    # Traduction requete d ecran -> surcharges CLI (LOT-73, EX-IHM-083) : pure, sans QObject ni
-    # moc, donc compilable ici -- c est la ou neuf reglages se perdaient sans que rien ne le dise.
-    ../HMI/Ai/TrainingOverrides.cpp
-    Unit/AiSolver/Cli/test_argument_parsing.cpp
-    Unit/AiSolver/Cli/test_training_config.cpp
-    Unit/AiSolver/Cli/test_cli_commands.cpp
-    Unit/HMI/Ai/test_training_overrides.cpp
     Unit/HMI/Input/test_input_state.cpp
     Unit/HMI/Input/test_player_input_mapper.cpp
     Unit/HMI/Input/test_game_key_bindings.cpp
@@ -222,7 +71,6 @@ add_executable(UnitTests
     Unit/HMI/Graphics/test_tile_autotile.cpp
     Unit/HMI/Graphics/test_tile_skin_resolution.cpp
     Unit/HMI/Graphics/test_texture_resolution.cpp
-    Unit/HMI/Graphics/test_slope_mask.cpp
     Unit/HMI/Graphics/test_cache_registry.cpp
     Unit/HMI/Graphics/test_mechanism_visuals.cpp
     Unit/HMI/Graphics/test_mechanism_transitions.cpp
@@ -240,7 +88,6 @@ add_executable(UnitTests
     Unit/HMI/Game/test_progression.cpp
     Unit/HMI/Game/test_game_events.cpp
     Unit/HMI/Game/test_level_run_stats.cpp
-    Unit/HMI/Game/test_replay_playback.cpp
     Unit/HMI/Audio/test_sound_triggers.cpp
     Unit/HMI/Localization/test_localization.cpp
     Unit/HMI/Diagnostics/test_session_log.cpp
@@ -265,8 +112,6 @@ add_executable(UnitTests
     Unit/HMI/Editor/test_asset_library.cpp
     Unit/HMI/Editor/test_asset_file_operations.cpp
     Unit/HMI/Editor/test_asset_references.cpp
-    Unit/HMI/Editor/test_path_geometry.cpp
-    Unit/HMI/Editor/test_path_gesture.cpp
     Unit/HMI/Editor/test_mechanism_animation_assignments.cpp
     Unit/HMI/Editor/test_editor_status.cpp
     Unit/HMI/Editor/test_panel_focus.cpp
@@ -322,9 +167,8 @@ add_executable(UnitTests
     # La table de raccords automatiques (LOT-42) est de la pure arithmetique de voisinage, sans
     # texture ni GPU : testable exhaustivement hors GPU (EX-NFR-004).
     ../HMI/Graphics/TileAutotile.cpp
-    # La silhouette des pentes (LOT-42) ne fait que decider quels pixels sont dans la matiere,
-    # a partir de la geometrie de Core : testable hors GPU, et comparable a l'atlas procedural.
-    ../HMI/Graphics/SlopeMask.cpp
+    # Detourage des tuiles a silhouette : logique pure, testable hors GPU.
+    ../HMI/Graphics/TileSilhouette.cpp
     # Le damier magenta de repli (LOT-40) ne produit que des pixels en memoire, comme
     # ProceduralAtlas.cpp : testable hors GPU.
     ../HMI/Graphics/MissingTexture.cpp
@@ -367,9 +211,6 @@ add_executable(UnitTests
     # fonctions pures (aucune dependance Qt/peripherique), meme patron que MechanismVisuals.cpp :
     # testables hors GPU/Qt (EX-NFR-010).
     ../HMI/Game/GameEvents.cpp
-    # Lecture/validation de rejeu (LOT-ANNEXE-18, TACHE-01) : aucune dependance Qt/GPU (uniquement
-    # AiSolver/Replay), meme patron que GameEvents.cpp ci-dessus -- testable hors fenetre.
-    ../HMI/Game/ReplayPlayback.cpp
     ../HMI/Audio/SoundTriggers.cpp
     # La validation d'un nom de niveau saisi est une fonction pure, testable hors GPU.
     ../HMI/Editor/LevelNameValidation.cpp
@@ -395,8 +236,6 @@ add_executable(UnitTests
     # Geometrie des poignees de parcours et machine a etats du geste de l'outil « Parcours »
     # (LOT-67) : fonctions et machine a etats pures, sans dependance GPU/Qt, meme patron que
     # LinkGesture/LinkGeometry (LOT-37).
-    ../HMI/Editor/PathGeometry.cpp
-    ../HMI/Editor/PathGesture.cpp
     # Balayage/filtrage d'un dossier d'assets (LOT-43), partagé par AssetThumbnailView : pur,
     # testable hors Qt.
     ../HMI/Editor/AssetLibrary.cpp
@@ -481,7 +320,7 @@ add_executable(UnitTests
     ../HMI/Editor/PixelOperations.cpp
     ../HMI/Editor/PixelHistory.cpp
     # Conversions vue <-> image du canevas pixel art (LOT-54 TACHE-03) : logique pure (aucune
-    # dependance Qt/GPU), le widget PixelCanvas lui-meme (Qt) n'est compile que dans ProjectGaming,
+    # dependance Qt/GPU), le widget PixelCanvas lui-meme (Qt) n'est compile que dans JustAnotherDnDGame,
     # meme distinction que ThumbnailGeometry.cpp/AssetThumbnailView.cpp.
     ../HMI/Editor/PixelCanvasGeometry.cpp
     # Reperes du mode creation (LOT-69 TACHE-07) : pelure d'oignon des tuiles, aplatissement des
@@ -556,7 +395,6 @@ endif()
 
 target_link_libraries(UnitTests PRIVATE
     Core
-    AiSolver
     GTest::gtest_main
     project_warnings
     project_options
@@ -568,45 +406,30 @@ target_link_libraries(UnitTests PRIVATE
 
 # Chemins (source) des assets, pour vérifier que le contenu livré (niveaux, catalogues) se charge.
 target_compile_definitions(UnitTests PRIVATE
-    PROJECTGAMING_LEVELS_DIR="${PROJECT_SOURCE_DIR}/Source/Elements/Levels"
-    PROJECTGAMING_LOCALIZATION_DIR="${PROJECT_SOURCE_DIR}/Source/Elements/Localization"
-    PROJECTGAMING_ASSETS_DIR="${PROJECT_SOURCE_DIR}/Source/Elements/Assets"
-    PROJECTGAMING_AUDIO_DIR="${PROJECT_SOURCE_DIR}/Source/Elements/Audio"
+    JADG_LEVELS_DIR="${PROJECT_SOURCE_DIR}/Source/Elements/Levels"
+    JADG_LOCALIZATION_DIR="${PROJECT_SOURCE_DIR}/Source/Elements/Localization"
+    JADG_ASSETS_DIR="${PROJECT_SOURCE_DIR}/Source/Elements/Assets"
+    JADG_AUDIO_DIR="${PROJECT_SOURCE_DIR}/Source/Elements/Audio"
     # Deux portees depuis le LOT-73 (EX-IHM-082) : les tests de theme lisent les DEUX, pour que
     # leurs garde-fous continuent de couvrir la totalite du style livre.
-    PROJECTGAMING_THEME_IDENTITY_PATH="${PROJECT_SOURCE_DIR}/Source/Elements/Themes/theme-identity.qss"
-    PROJECTGAMING_THEME_EDITOR_PATH="${PROJECT_SOURCE_DIR}/Source/Elements/Themes/theme-editor.qss"
-    PROJECTGAMING_MAIN_MENU_UI_PATH="${PROJECT_SOURCE_DIR}/Source/Elements/UI/MainMenu.ui"
-    PROJECTGAMING_OPTIONS_PAGE_UI_PATH="${PROJECT_SOURCE_DIR}/Source/Elements/UI/OptionsPage.ui"
-    PROJECTGAMING_FR_LANG_PATH="${PROJECT_SOURCE_DIR}/Source/Elements/Localization/fr.lang"
-    PROJECTGAMING_EN_LANG_PATH="${PROJECT_SOURCE_DIR}/Source/Elements/Localization/en.lang")
+    JADG_THEME_IDENTITY_PATH="${PROJECT_SOURCE_DIR}/Source/Elements/Themes/theme-identity.qss"
+    JADG_THEME_EDITOR_PATH="${PROJECT_SOURCE_DIR}/Source/Elements/Themes/theme-editor.qss"
+    JADG_MAIN_MENU_UI_PATH="${PROJECT_SOURCE_DIR}/Source/Elements/UI/MainMenu.ui"
+    JADG_OPTIONS_PAGE_UI_PATH="${PROJECT_SOURCE_DIR}/Source/Elements/UI/OptionsPage.ui"
+    JADG_FR_LANG_PATH="${PROJECT_SOURCE_DIR}/Source/Elements/Localization/fr.lang"
+    JADG_EN_LANG_PATH="${PROJECT_SOURCE_DIR}/Source/Elements/Localization/en.lang")
 
 # Tests d'intégration : plusieurs briques assemblées collaborant de bout en bout.
 add_executable(IntegrationTests
     Integration/test_ecs_mouvement.cpp
     Integration/test_boucle_simulation.cpp
     Integration/test_niveau_ecs.cpp
-    Integration/test_physique_personnage.cpp
     Integration/test_animation_personnage.cpp
-    Integration/test_bloc_reduit.cpp
-    Integration/test_danger_avance.cpp
-    Integration/test_plateforme_composition.cpp
-    Integration/test_croisements_mecaniques.cpp
-    # Non-régression récompense/épisode sur les niveaux demo-*.json livrés (LOT-ANNEXE-08,
-    # TACHE-03) : rejoue le script d'entrées de test_parcours_complet.cpp via
-    # aisolver::HeadlessLevelEnvironment.
-    Integration/test_recompense_demo_niveaux.cpp
-    # Calibration du budget de pas et du seuil de blocage derives du niveau (AiSolver/Env/
-    # StepBudget.h) : confronte l'estimation aux traces scriptes des niveaux livres. Ce sont ces
-    # deux tests qui fixent STEPS_PER_OBJECTIVE_CELL et STEP_BUDGET_MARGIN_PERCENT.
-    Integration/test_budget_pas.cpp
 )
 
 target_link_libraries(IntegrationTests PRIVATE
     Core
-    # AiSolver (LOT-ANNEXE-08) : test_recompense_demo_niveaux.cpp rejoue les niveaux livrés via
     # aisolver::HeadlessLevelEnvironment et sa fonction de récompense.
-    AiSolver
     GTest::gtest_main
     project_warnings
     project_options
@@ -614,32 +437,23 @@ target_link_libraries(IntegrationTests PRIVATE
 
 # Chemin (source) des niveaux, pour le test d'intégration « fichier livré → ECS ».
 target_compile_definitions(IntegrationTests PRIVATE
-    PROJECTGAMING_LEVELS_DIR="${PROJECT_SOURCE_DIR}/Source/Elements/Levels")
+    JADG_LEVELS_DIR="${PROJECT_SOURCE_DIR}/Source/Elements/Levels")
 
 # Tests système : un parcours de jeu complet sur le contenu livré, sans la couche GPU.
 add_executable(SystemTests
-    Systeme/test_couverture_mecaniques.cpp
-    Systeme/test_parcours_complet.cpp
     Systeme/test_parcours_edition.cpp
-    Systeme/test_plans_livres.cpp
-    Systeme/test_rejeu_ia.cpp
 )
 
 target_link_libraries(SystemTests PRIVATE
     Core
-    # AiSolver (LOT-ANNEXE-05, TACHE-05) : garde de fidelite pas-a-pas entre l'orchestration de
-    # reference (playLevelTraced, test_parcours_complet.cpp) et aisolver::HeadlessLevelEnvironment.
-    AiSolver
     GTest::gtest_main
     project_warnings
     project_options
 )
 
 # Chemin (source) des niveaux : le parcours complet rejoue les niveaux livrés.
-# PROJECTGAMING_REPLAY_FIXTURES_DIR (LOT-ANNEXE-18, TACHE-03) : fixture de rejeu committee.
 target_compile_definitions(SystemTests PRIVATE
-    PROJECTGAMING_LEVELS_DIR="${PROJECT_SOURCE_DIR}/Source/Elements/Levels"
-    PROJECTGAMING_REPLAY_FIXTURES_DIR="${PROJECT_SOURCE_DIR}/Source/Test/Systeme/Fixtures")
+    JADG_LEVELS_DIR="${PROJECT_SOURCE_DIR}/Source/Elements/Levels")
 
 # Enregistre chaque TEST() aupres de CTest.
 #

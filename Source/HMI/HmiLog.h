@@ -13,7 +13,7 @@
  * log). Modèle à dupliquer pour les autres modules (Core, Ecs, Graphics…).
  */
 
-#define HMI_LOG_TRACE(message) PROJECTGAMING_LOG_TRACE("HMI", message)
-#define HMI_LOG_INFO(message) PROJECTGAMING_LOG_INFO("HMI", message)
-#define HMI_LOG_WARNING(message) PROJECTGAMING_LOG_WARNING("HMI", message)
-#define HMI_LOG_ERROR(message) PROJECTGAMING_LOG_ERROR("HMI", message)
+#define HMI_LOG_TRACE(message) JADG_LOG_TRACE("HMI", message)
+#define HMI_LOG_INFO(message) JADG_LOG_INFO("HMI", message)
+#define HMI_LOG_WARNING(message) JADG_LOG_WARNING("HMI", message)
+#define HMI_LOG_ERROR(message) JADG_LOG_ERROR("HMI", message)

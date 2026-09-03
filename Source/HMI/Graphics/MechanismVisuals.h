@@ -29,11 +29,6 @@ inline constexpr const char* MECHANISM_CLIP_SWITCH_INACTIVE = "inactive";
 inline constexpr const char* MECHANISM_CLIP_SWITCH_ACTIVE = "active";
 inline constexpr const char* MECHANISM_CLIP_PLATE_RELEASED = "released";
 inline constexpr const char* MECHANISM_CLIP_PLATE_PRESSED = "pressed";
-inline constexpr const char* MECHANISM_CLIP_DANGER_SWITCHED_INACTIVE = "inactive";
-inline constexpr const char* MECHANISM_CLIP_DANGER_SWITCHED_ACTIVE = "active";
-inline constexpr const char* MECHANISM_CLIP_DANGER_BLINK_HARMLESS = "harmless";
-inline constexpr const char* MECHANISM_CLIP_DANGER_BLINK_LETHAL = "lethal";
-inline constexpr const char* MECHANISM_CLIP_DANGER_MOVER_IDLE = "idle";
 inline constexpr const char* MECHANISM_CLIP_KEY_PRESENT = "present";
 inline constexpr const char* MECHANISM_CLIP_KEY_COLLECTED = "collected";
 inline constexpr const char* MECHANISM_CLIP_LOCKED_DOOR_CLOSED = "closed";
@@ -43,8 +38,8 @@ inline constexpr const char* MECHANISM_CLIP_LOCKED_DOOR_OPEN = "open";
  * @brief Indique si un type de tuile est un **mécanisme à état**, dont l'apparence dépend d'une
  *        donnée lue en lecture seule dans `Core` (`EX-ARCH-012`).
  * @param type Type de tuile.
- * @return true pour `Door`, `Switch`, `PressurePlate`, `DangerSwitched`, `DangerBlink`,
- *         `DangerMover`, `Key`, `LockedDoor` (`EX-GP-023`, `LOT-63`) ; false pour tout autre type
+ * @return true pour `Door`, `Switch`, `PressurePlate`, `Key`, `LockedDoor` (`EX-GP-023`,
+ *         `LOT-63`) ; false pour tout autre type
  *         (aucune demande de clip à produire).
  */
 [[nodiscard]] bool isStatefulMechanism(core::TileType type) noexcept;
@@ -57,7 +52,7 @@ inline constexpr const char* MECHANISM_CLIP_LOCKED_DOOR_OPEN = "open";
  * plutôt qu'à cette fonction d'inventer une réponse.
  * @param type   Type de tuile.
  * @param active État logique courant : porte ouverte, interrupteur/plaque actionné, danger commuté
- *               actif, danger temporisé mortel. Sans effet pour `DangerMover` (un seul clip, l'état
+ *               actif. Sans effet pour les types sans état (un seul clip, l'état
  *               est porté par la position, pas par ce booléen).
  * @return Le nom du clip d'état cible, ou `std::nullopt` si @p type n'est pas un mécanisme à état.
  */
@@ -125,7 +120,7 @@ struct MechanismVisualState {
  * @param state              État de présentation de cette instance, muté en place.
  * @param description        Description de l'asset effectivement lié à cette instance.
  * @param type                Type de tuile du mécanisme.
- * @param active              État logique courant (sans effet pour `DangerMover`, voir
+ * @param active              État logique courant (voir
  *                            `mechanismTargetClip`).
  * @param assetKey            Identifiant de l'asset (typiquement son chemin), pour dédoublonner le
  *                            journal d'avertissements.

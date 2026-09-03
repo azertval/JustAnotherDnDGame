@@ -61,7 +61,7 @@ public:
      */
     template <typename T>
     void addComponent(Entity entity, const T& component) {
-        PROJECTGAMING_ASSERT(isAlive(entity), "Ajout d'un composant sur une entite morte.");
+        JADG_ASSERT(isAlive(entity), "Ajout d'un composant sur une entite morte.");
         poolFor<T>().add(entity, component);
     }
 
@@ -86,7 +86,7 @@ public:
      */
     template <typename T>
     [[nodiscard]] T& getComponent(Entity entity) {
-        PROJECTGAMING_ASSERT(hasComponent<T>(entity), "L'entite ne possede pas ce composant.");
+        JADG_ASSERT(hasComponent<T>(entity), "L'entite ne possede pas ce composant.");
         return poolFor<T>().get(entity);
     }
 
@@ -98,7 +98,7 @@ public:
      */
     template <typename T>
     void removeComponent(Entity entity) {
-        PROJECTGAMING_ASSERT(hasComponent<T>(entity), "L'entite ne possede pas ce composant.");
+        JADG_ASSERT(hasComponent<T>(entity), "L'entite ne possede pas ce composant.");
         poolFor<T>().remove(entity);
     }
 

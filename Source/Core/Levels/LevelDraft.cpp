@@ -24,18 +24,10 @@ LevelDraft LevelDraft::fromLevel(const Level& level) {
     draft._entry = level.entry();
     draft._exit = level.exit();
     draft._mechanisms = level.mechanisms();
-    draft._jumpBudget = level.jumpBudget();
-    draft._dashBudget = level.dashBudget();
-    draft._dangerLinks = level.dangerLinks();
-    draft._moverConfigs = level.moverConfigs();
-    draft._blinkConfigs = level.blinkConfigs();
     draft._background = level.background();
     draft._skinSet = level.skinSet();
     draft._textureOverrides = level.textureOverrides();
-    draft._platformConfigs = level.platformConfigs();
     draft._cameraFraming = level.cameraFraming();
-    draft._airJumps = level.airJumps();
-    draft._dashCharges = level.dashCharges();
     // Plans picturaux et drapeau de parallaxe (LOT-69). INVARIANT DE CE CONSTRUCTEUR : fromLevel
     // recopie TOUS les champs de Level, sans exception. Un brouillon reenregistre doit etre
     // equivalent au niveau d'origine -- un champ non recopie ne fait echouer aucun appel, il
@@ -97,11 +89,6 @@ void LevelDraft::paintTileInternal(int column, int row, TileType type) {
     // Parcours ne le trouve dans aucun des vecteurs qu'il parcourt (hmi::designatePathAt) tant que
     // le niveau n'a pas ete sauvegarde puis recharge (seul LevelLoader la creait jusqu'ici) : la
     // tuile reste invisible pour la selection, et son parcours impossible a commencer.
-    if (type == TileType::MovingPlatform) {
-        _platformConfigs.push_back(MovingPlatformConfig{.startPosition = position});
-    } else if (type == TileType::DangerMover) {
-        _moverConfigs.push_back(DangerMoverConfig{.startPosition = position});
-    }
 }
 
 void LevelDraft::setEntry(int column, int row) {
@@ -141,17 +128,17 @@ void LevelDraft::linkMechanism(GridPosition switchPosition, GridPosition targetP
         _tileMap.inBounds(switchPosition.column, switchPosition.row)
             ? _tileMap.tile(switchPosition.column, switchPosition.row)
             : TileType::Empty;
-    PROJECTGAMING_ASSERT(switchTile == TileType::Switch || switchTile == TileType::PressurePlate ||
+    JADG_ASSERT(switchTile == TileType::Switch || switchTile == TileType::PressurePlate ||
                              switchTile == TileType::Key,
                          "linkMechanism : la position source ne porte pas de declencheur "
                          "(interrupteur, plaque de pression ou cle)");
-    const TileType targetTile = _tileMap.inBounds(targetPosition.column, targetPosition.row)
-                                    ? _tileMap.tile(targetPosition.column, targetPosition.row)
-                                    : TileType::Empty;
-    PROJECTGAMING_ASSERT(targetTile == TileType::Door || targetTile == TileType::DangerSwitched ||
-                             targetTile == TileType::LockedDoor,
-                         "linkMechanism : la position cible ne porte pas de porte, de porte "
-                         "verrouillee ni de danger commute");
+    [[maybe_unused]] const TileType targetTile =
+        _tileMap.inBounds(targetPosition.column, targetPosition.row)
+            ? _tileMap.tile(targetPosition.column, targetPosition.row)
+            : TileType::Empty;
+    JADG_ASSERT(targetTile == TileType::Door || targetTile == TileType::LockedDoor,
+                         "linkMechanism : la position cible ne porte pas de porte "
+                         "ni de porte verrouillee");
 
     pushUndo();
     // Retrait direct (sans passer par unlinkMechanism, qui empilerait un second snapshot) :
@@ -159,18 +146,10 @@ void LevelDraft::linkMechanism(GridPosition switchPosition, GridPosition targetP
     std::erase_if(_mechanisms, [targetPosition](const Mechanism& mechanism) {
         return mechanism.doorPosition == targetPosition;
     });
-    std::erase_if(_dangerLinks, [targetPosition](const DangerLink& link) {
-        return link.dangerPosition == targetPosition;
-    });
-    if (targetTile == TileType::Door || targetTile == TileType::LockedDoor) {
-        // Meme vecteur pour Door ET LockedDoor (aucune notion de liaison dupliquee, LOT-63
-        // TACHE-02) : core::MechanismController distingue leur comportement a la construction.
-        _mechanisms.push_back(
-            Mechanism{.switchPosition = switchPosition, .doorPosition = targetPosition});
-    } else {
-        _dangerLinks.push_back(
-            DangerLink{.triggerPosition = switchPosition, .dangerPosition = targetPosition});
-    }
+    // Meme vecteur pour Door ET LockedDoor (aucune notion de liaison dupliquee, LOT-63
+    // TACHE-02) : core::MechanismController distingue leur comportement a la construction.
+    _mechanisms.push_back(
+        Mechanism{.switchPosition = switchPosition, .doorPosition = targetPosition});
 }
 
 void LevelDraft::unlinkMechanism(GridPosition targetPosition) {
@@ -178,115 +157,18 @@ void LevelDraft::unlinkMechanism(GridPosition targetPosition) {
     std::erase_if(_mechanisms, [targetPosition](const Mechanism& mechanism) {
         return mechanism.doorPosition == targetPosition;
     });
-    std::erase_if(_dangerLinks, [targetPosition](const DangerLink& link) {
-        return link.dangerPosition == targetPosition;
-    });
 }
 
-void LevelDraft::setMoverConfig(GridPosition position, DangerMoverAxis axis, int range) {
-    PROJECTGAMING_ASSERT(_tileMap.inBounds(position.column, position.row) &&
-                             _tileMap.tile(position.column, position.row) == TileType::DangerMover,
-                         "setMoverConfig : la position ne porte pas un DangerMover");
-    pushUndo();
-    std::erase_if(_moverConfigs, [position](const DangerMoverConfig& config) {
-        return config.startPosition == position;
-    });
-    _moverConfigs.push_back(
-        DangerMoverConfig{.startPosition = position, .axis = axis, .range = range});
-}
 
-void LevelDraft::setBlinkConfig(GridPosition position, int period, int phase, int activeDuration) {
-    PROJECTGAMING_ASSERT(_tileMap.inBounds(position.column, position.row) &&
-                             _tileMap.tile(position.column, position.row) == TileType::DangerBlink,
-                         "setBlinkConfig : la position ne porte pas un DangerBlink");
-    pushUndo();
-    std::erase_if(_blinkConfigs, [position](const DangerBlinkConfig& config) {
-        return config.position == position;
-    });
-    _blinkConfigs.push_back(DangerBlinkConfig{
-        .position = position, .period = period, .phase = phase, .activeDuration = activeDuration});
-}
 
-void LevelDraft::setPlatformConfig(GridPosition position, std::vector<GridPosition> waypoints,
-                                   PlatformPathMode mode, float speed, int phase) {
-    PROJECTGAMING_ASSERT(
-        _tileMap.inBounds(position.column, position.row) &&
-            _tileMap.tile(position.column, position.row) == TileType::MovingPlatform,
-        "setPlatformConfig : la position ne porte pas une MovingPlatform");
-    pushUndo();
-    std::erase_if(_platformConfigs, [position](const MovingPlatformConfig& config) {
-        return config.startPosition == position;
-    });
-    _platformConfigs.push_back(MovingPlatformConfig{.startPosition = position,
-                                                    .waypoints = std::move(waypoints),
-                                                    .mode = mode,
-                                                    .speed = speed,
-                                                    .phase = phase});
-}
 
-// Renvoie la configuration de la plateforme en `position`, en la creant aux valeurs de conception
-// par defaut si elle n'existait pas encore. Empile UN snapshot (pushUndo) avant toute mutation :
-// tous les mutateurs granulaires ci-dessous passent par ici, ce qui garantit un seul pas d'annu-
-// lation par geste utilisateur meme quand le geste cree la configuration au passage.
-MovingPlatformConfig& LevelDraft::platformConfigForEdit(GridPosition position) {
-    PROJECTGAMING_ASSERT(
-        _tileMap.inBounds(position.column, position.row) &&
-            _tileMap.tile(position.column, position.row) == TileType::MovingPlatform,
-        "platformConfigForEdit : la position ne porte pas une MovingPlatform");
-    pushUndo();
-    const auto found = std::find_if(_platformConfigs.begin(), _platformConfigs.end(),
-                                    [position](const MovingPlatformConfig& config) {
-                                        return config.startPosition == position;
-                                    });
-    if (found != _platformConfigs.end()) {
-        return *found;
-    }
-    _platformConfigs.push_back(MovingPlatformConfig{.startPosition = position});
-    return _platformConfigs.back();
-}
 
-void LevelDraft::addPlatformWaypoint(GridPosition position, GridPosition waypoint) {
-    platformConfigForEdit(position).waypoints.push_back(waypoint);
-}
 
-void LevelDraft::insertPlatformWaypoint(GridPosition position, std::size_t index,
-                                        GridPosition waypoint) {
-    MovingPlatformConfig& config = platformConfigForEdit(position);
-    if (index > config.waypoints.size()) {
-        return;
-    }
-    config.waypoints.insert(config.waypoints.begin() + static_cast<std::ptrdiff_t>(index),
-                            waypoint);
-}
 
-void LevelDraft::movePlatformWaypoint(GridPosition position, std::size_t index,
-                                      GridPosition waypoint) {
-    MovingPlatformConfig& config = platformConfigForEdit(position);
-    if (index >= config.waypoints.size()) {
-        return;
-    }
-    config.waypoints[index] = waypoint;
-}
 
-void LevelDraft::removePlatformWaypoint(GridPosition position, std::size_t index) {
-    MovingPlatformConfig& config = platformConfigForEdit(position);
-    if (index >= config.waypoints.size()) {
-        return;
-    }
-    config.waypoints.erase(config.waypoints.begin() + static_cast<std::ptrdiff_t>(index));
-}
 
-void LevelDraft::setPlatformMode(GridPosition position, PlatformPathMode mode) {
-    platformConfigForEdit(position).mode = mode;
-}
 
-void LevelDraft::setPlatformSpeed(GridPosition position, float speed) {
-    platformConfigForEdit(position).speed = speed;
-}
 
-void LevelDraft::setPlatformPhase(GridPosition position, int phase) {
-    platformConfigForEdit(position).phase = phase;
-}
 
 void LevelDraft::setTextureOverride(GridPosition position, std::string assetName) {
     pushUndo();
@@ -432,28 +314,9 @@ void LevelDraft::setSkinSet(std::optional<std::string> skinSet) {
     _skinSet = std::move(skinSet);
 }
 
-// Budgets et capacites : tous les quatre annulables, comme toute autre propriete de niveau
-// (fond, jeu de skins, cadrage). Un mutateur de brouillon sans pas d'historique serait le seul
-// de sa famille a ne pas se defaire.
-void LevelDraft::setJumpBudget(int jumpBudget) {
-    pushUndo();
-    _jumpBudget = jumpBudget;
-}
 
-void LevelDraft::setDashBudget(int dashBudget) {
-    pushUndo();
-    _dashBudget = dashBudget;
-}
 
-void LevelDraft::setAirJumps(std::optional<int> airJumps) {
-    pushUndo();
-    _airJumps = airJumps;
-}
 
-void LevelDraft::setDashCharges(std::optional<int> dashCharges) {
-    pushUndo();
-    _dashCharges = dashCharges;
-}
 
 void LevelDraft::setCameraFraming(CameraFramingConfig cameraFraming) {
     pushUndo();
@@ -495,26 +358,6 @@ void LevelDraft::resize(int width, int height) {
         return !_tileMap.inBounds(mechanism.switchPosition.column, mechanism.switchPosition.row) ||
                !_tileMap.inBounds(mechanism.doorPosition.column, mechanism.doorPosition.row);
     });
-    std::erase_if(_dangerLinks, [this](const DangerLink& link) {
-        return !_tileMap.inBounds(link.triggerPosition.column, link.triggerPosition.row) ||
-               !_tileMap.inBounds(link.dangerPosition.column, link.dangerPosition.row);
-    });
-    std::erase_if(_moverConfigs, [this](const DangerMoverConfig& config) {
-        return !_tileMap.inBounds(config.startPosition.column, config.startPosition.row);
-    });
-    std::erase_if(_blinkConfigs, [this](const DangerBlinkConfig& config) {
-        return !_tileMap.inBounds(config.position.column, config.position.row);
-    });
-    // Une route est indivisible : si son depart OU l'un de ses points sort du niveau retaille, la
-    // configuration entiere part -- amputer la route donnerait un parcours silencieusement
-    // different de celui dessine par le level designer.
-    std::erase_if(_platformConfigs, [this](const MovingPlatformConfig& config) {
-        return !_tileMap.inBounds(config.startPosition.column, config.startPosition.row) ||
-               std::any_of(config.waypoints.begin(), config.waypoints.end(),
-                           [this](const GridPosition& waypoint) {
-                               return !_tileMap.inBounds(waypoint.column, waypoint.row);
-                           });
-    });
     std::erase_if(_textureOverrides, [this](const TileTextureOverride& override) {
         return !_tileMap.inBounds(override.position.column, override.position.row);
     });
@@ -536,27 +379,6 @@ bool LevelDraft::wouldResizeDropContent(int width, int height) const noexcept {
     }
     for (const Mechanism& mechanism : _mechanisms) {
         if (outOfBounds(mechanism.switchPosition) || outOfBounds(mechanism.doorPosition)) {
-            return true;
-        }
-    }
-    for (const DangerLink& link : _dangerLinks) {
-        if (outOfBounds(link.triggerPosition) || outOfBounds(link.dangerPosition)) {
-            return true;
-        }
-    }
-    for (const DangerMoverConfig& config : _moverConfigs) {
-        if (outOfBounds(config.startPosition)) {
-            return true;
-        }
-    }
-    for (const DangerBlinkConfig& config : _blinkConfigs) {
-        if (outOfBounds(config.position)) {
-            return true;
-        }
-    }
-    for (const MovingPlatformConfig& config : _platformConfigs) {
-        if (outOfBounds(config.startPosition) ||
-            std::any_of(config.waypoints.begin(), config.waypoints.end(), outOfBounds)) {
             return true;
         }
     }
@@ -594,18 +416,10 @@ LevelDraft::State LevelDraft::snapshot() const {
                  .entry = _entry,
                  .exit = _exit,
                  .mechanisms = _mechanisms,
-                 .jumpBudget = _jumpBudget,
-                 .dashBudget = _dashBudget,
-                 .dangerLinks = _dangerLinks,
-                 .moverConfigs = _moverConfigs,
-                 .blinkConfigs = _blinkConfigs,
                  .background = _background,
                  .skinSet = _skinSet,
                  .textureOverrides = _textureOverrides,
-                 .platformConfigs = _platformConfigs,
                  .cameraFraming = _cameraFraming,
-                 .airJumps = _airJumps,
-                 .dashCharges = _dashCharges,
                  .planes = _planes,
                  .parallaxEnabled = _parallaxEnabled};
 }
@@ -616,18 +430,10 @@ void LevelDraft::restore(State state) {
     _entry = state.entry;
     _exit = state.exit;
     _mechanisms = std::move(state.mechanisms);
-    _jumpBudget = state.jumpBudget;
-    _dashBudget = state.dashBudget;
-    _dangerLinks = std::move(state.dangerLinks);
-    _moverConfigs = std::move(state.moverConfigs);
-    _blinkConfigs = std::move(state.blinkConfigs);
     _background = std::move(state.background);
     _skinSet = std::move(state.skinSet);
     _textureOverrides = std::move(state.textureOverrides);
-    _platformConfigs = std::move(state.platformConfigs);
     _cameraFraming = state.cameraFraming;
-    _airJumps = state.airJumps;
-    _dashCharges = state.dashCharges;
     _planes = std::move(state.planes);
     _parallaxEnabled = state.parallaxEnabled;
 }
@@ -639,27 +445,14 @@ void LevelDraft::pushUndo() {
 
 LevelLoadResult LevelDraft::toLevel() const {
     const std::string json = LevelWriter::buildJson(
-        _name, _tileMap, _mechanisms, _jumpBudget, _dashBudget, _dangerLinks, _moverConfigs,
-        _blinkConfigs, _background, _skinSet, _textureOverrides, _platformConfigs, _cameraFraming,
-        _airJumps, _dashCharges, _planes, _parallaxEnabled);
+        _name, _tileMap, _mechanisms, _background, _skinSet, _textureOverrides, _cameraFraming,
+        _planes, _parallaxEnabled);
     return LevelLoader::loadFromString(json);
 }
 
 void LevelDraft::removeLinkedDataAt(GridPosition position, bool keepTextureOverride) {
     std::erase_if(_mechanisms, [position](const Mechanism& mechanism) {
         return mechanism.switchPosition == position || mechanism.doorPosition == position;
-    });
-    std::erase_if(_dangerLinks, [position](const DangerLink& link) {
-        return link.triggerPosition == position || link.dangerPosition == position;
-    });
-    std::erase_if(_moverConfigs, [position](const DangerMoverConfig& config) {
-        return config.startPosition == position;
-    });
-    std::erase_if(_blinkConfigs, [position](const DangerBlinkConfig& config) {
-        return config.position == position;
-    });
-    std::erase_if(_platformConfigs, [position](const MovingPlatformConfig& config) {
-        return config.startPosition == position;
     });
     if (!keepTextureOverride) {
         std::erase_if(_textureOverrides, [position](const TileTextureOverride& override) {

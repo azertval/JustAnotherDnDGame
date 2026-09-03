@@ -71,16 +71,11 @@ ArrowHead arrowHead(core::Vector2 from, core::Vector2 to) noexcept {
 
 std::vector<LinkRow> buildLinkRows(const core::LevelDraft& draft) {
     std::vector<LinkRow> rows;
-    rows.reserve(draft.mechanisms().size() + draft.dangerLinks().size());
+    rows.reserve(draft.mechanisms().size());
     for (const core::Mechanism& mechanism : draft.mechanisms()) {
         rows.push_back(LinkRow{.kind = LinkKind::Mechanism,
                                .trigger = mechanism.switchPosition,
                                .target = mechanism.doorPosition});
-    }
-    for (const core::DangerLink& dangerLink : draft.dangerLinks()) {
-        rows.push_back(LinkRow{.kind = LinkKind::DangerLink,
-                               .trigger = dangerLink.triggerPosition,
-                               .target = dangerLink.dangerPosition});
     }
     return rows;
 }

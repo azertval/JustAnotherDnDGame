@@ -35,7 +35,7 @@ namespace hmi {
 class Localization;
 
 /**
- * @brief Vue tabulaire des liaisons (`Mechanism`/`DangerLink`) du brouillon courant (`EX-IHM-031`).
+ * @brief Vue tabulaire des liaisons (`Mechanism`) du brouillon courant (`EX-IHM-031`).
  *
  * **Vue du modèle**, pas un état : `refresh` reconstruit la liste depuis un `core::LevelDraft`
  * (`hmi::buildLinkRows`), aucune copie de l'état des liaisons n'est conservée entre deux appels.

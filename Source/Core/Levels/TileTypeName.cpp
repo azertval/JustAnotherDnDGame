@@ -45,60 +45,10 @@ std::string tileTypeName(TileType type) {
             return "pressurePlate";
         case TileType::Block:
             return "block";
-        case TileType::SlopeUpRight:
-            return "slopeUpRight";
-        case TileType::SlopeUpLeft:
-            return "slopeUpLeft";
-        case TileType::RoundedUpRight:
-            return "roundedUpRight";
-        case TileType::RoundedUpLeft:
-            return "roundedUpLeft";
-        case TileType::BlockHalf:
-            return "blockHalf";
-        case TileType::BlockQuarter:
-            return "blockQuarter";
-        case TileType::SlopeDownRight:
-            return "slopeDownRight";
-        case TileType::SlopeDownLeft:
-            return "slopeDownLeft";
-        case TileType::RoundedDownRight:
-            return "roundedDownRight";
-        case TileType::RoundedDownLeft:
-            return "roundedDownLeft";
-        case TileType::ConcaveUpRight:
-            return "concaveUpRight";
-        case TileType::ConcaveUpLeft:
-            return "concaveUpLeft";
-        case TileType::ConcaveDownRight:
-            return "concaveDownRight";
-        case TileType::ConcaveDownLeft:
-            return "concaveDownLeft";
-        case TileType::DangerUp:
-            return "dangerUp";
-        case TileType::DangerDown:
-            return "dangerDown";
-        case TileType::DangerLeft:
-            return "dangerLeft";
-        case TileType::DangerRight:
-            return "dangerRight";
-        case TileType::DangerMover:
-            return "dangerMover";
-        case TileType::DangerSwitched:
-            return "dangerSwitched";
-        case TileType::DangerBlink:
-            return "dangerBlink";
         case TileType::Key:
             return "key";
         case TileType::LockedDoor:
             return "lockedDoor";
-        case TileType::MovingPlatform:
-            return "movingPlatform";
-        case TileType::SinkingBlock:
-            return "sinkingBlock";
-        case TileType::FragileBlock:
-            return "fragileBlock";
-        case TileType::VanishingBlock:
-            return "vanishingBlock";
     }
     return "empty";  // inatteignable : le switch ci-dessus couvre tout l'enum.
 }

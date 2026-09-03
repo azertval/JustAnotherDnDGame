@@ -26,7 +26,7 @@ copié à côté de l'exécutable au build (patron `Levels`/`Localization`) et c
   chaud à ce stade).
 - **Régénérer `atlas.png` à partir de la génération procédurale historique** (référence, en cas de
   divergence ou pour repartir d'une base propre) :
-  `ProjectGaming.exe --export-atlas=Source/Elements/Assets/atlas.png` (option de développement,
+  `JustAnotherDnDGame.exe --export-atlas=Source/Elements/Assets/atlas.png` (option de développement,
   n'ouvre aucune fenêtre — voir `Documentation/Guide/guide-rendu.md`).
 - **Asset absent ou illisible** : `hmi::TextureAtlas` retombe automatiquement sur la génération
   procédurale (`EX-NFR-040`), sans bloquer le rendu — utile pour développer sans art final.

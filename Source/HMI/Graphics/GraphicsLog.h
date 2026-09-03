@@ -14,7 +14,7 @@
  * chemins de dessin exécutés à chaque frame.
  */
 
-#define GRAPHICS_LOG_TRACE(message) PROJECTGAMING_LOG_TRACE("Graphics", message)
-#define GRAPHICS_LOG_INFO(message) PROJECTGAMING_LOG_INFO("Graphics", message)
-#define GRAPHICS_LOG_WARNING(message) PROJECTGAMING_LOG_WARNING("Graphics", message)
-#define GRAPHICS_LOG_ERROR(message) PROJECTGAMING_LOG_ERROR("Graphics", message)
+#define GRAPHICS_LOG_TRACE(message) JADG_LOG_TRACE("Graphics", message)
+#define GRAPHICS_LOG_INFO(message) JADG_LOG_INFO("Graphics", message)
+#define GRAPHICS_LOG_WARNING(message) JADG_LOG_WARNING("Graphics", message)
+#define GRAPHICS_LOG_ERROR(message) JADG_LOG_ERROR("Graphics", message)

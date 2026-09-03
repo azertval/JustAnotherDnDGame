@@ -13,7 +13,7 @@
 #include "HMI/Graphics/AssetPaths.h"
 #include "HMI/Graphics/CacheRegistry.h"
 #include "HMI/Graphics/RhiContext.h"
-#include "HMI/Graphics/SlopeMask.h"
+#include "HMI/Graphics/TileSilhouette.h"
 #include "HMI/Graphics/TextureLoader.h"
 
 /**

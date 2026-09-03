@@ -50,9 +50,6 @@ bool isStatefulMechanism(core::TileType type) noexcept {
         case core::TileType::Door:
         case core::TileType::Switch:
         case core::TileType::PressurePlate:
-        case core::TileType::DangerSwitched:
-        case core::TileType::DangerBlink:
-        case core::TileType::DangerMover:
         case core::TileType::Key:
         case core::TileType::LockedDoor:
             return true;
@@ -69,15 +66,6 @@ std::optional<std::string> mechanismTargetClip(core::TileType type, bool active)
             return active ? MECHANISM_CLIP_SWITCH_ACTIVE : MECHANISM_CLIP_SWITCH_INACTIVE;
         case core::TileType::PressurePlate:
             return active ? MECHANISM_CLIP_PLATE_PRESSED : MECHANISM_CLIP_PLATE_RELEASED;
-        case core::TileType::DangerSwitched:
-            return active ? MECHANISM_CLIP_DANGER_SWITCHED_ACTIVE
-                          : MECHANISM_CLIP_DANGER_SWITCHED_INACTIVE;
-        case core::TileType::DangerBlink:
-            return active ? MECHANISM_CLIP_DANGER_BLINK_LETHAL
-                          : MECHANISM_CLIP_DANGER_BLINK_HARMLESS;
-        case core::TileType::DangerMover:
-            return MECHANISM_CLIP_DANGER_MOVER_IDLE;  // un seul clip, l'etat est porte par la
-                                                      // position.
         case core::TileType::Key:
             // active == cle ramassee (meme booleen que la porte verrouillee liee, EX-GP-023) :
             // collected masque la cle, present l'affiche.
@@ -108,12 +96,6 @@ std::vector<std::string> mechanismExpectedClips(core::TileType type) {
             return {MECHANISM_CLIP_SWITCH_INACTIVE, MECHANISM_CLIP_SWITCH_ACTIVE};
         case core::TileType::PressurePlate:
             return {MECHANISM_CLIP_PLATE_RELEASED, MECHANISM_CLIP_PLATE_PRESSED};
-        case core::TileType::DangerSwitched:
-            return {MECHANISM_CLIP_DANGER_SWITCHED_INACTIVE, MECHANISM_CLIP_DANGER_SWITCHED_ACTIVE};
-        case core::TileType::DangerBlink:
-            return {MECHANISM_CLIP_DANGER_BLINK_HARMLESS, MECHANISM_CLIP_DANGER_BLINK_LETHAL};
-        case core::TileType::DangerMover:
-            return {MECHANISM_CLIP_DANGER_MOVER_IDLE};
         case core::TileType::Key:
             return {MECHANISM_CLIP_KEY_PRESENT, MECHANISM_CLIP_KEY_COLLECTED};
         case core::TileType::LockedDoor:

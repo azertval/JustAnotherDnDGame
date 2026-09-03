@@ -330,7 +330,7 @@ respectée. Il est copié à côté de l'exécutable au build (patron CMake `POS
 
 Pour régénérer cet atlas de base à partir de la génération procédurale de référence (après une
 évolution de `buildProceduralAtlasImage`, ou pour repartir d'une base propre) :
-`ProjectGaming.exe --export-atlas=<chemin>.png` — option de développement traitée tout au début de
+`JustAnotherDnDGame.exe --export-atlas=<chemin>.png` — option de développement traitée tout au début de
 `main()`, **avant** l'ouverture de toute fenêtre : elle écrit le fichier PNG et quitte
 immédiatement (code `0` en cas de succès). Il n'y a pas, à ce stade, de rechargement à chaud dans
 l'éditeur — remplacer l'asset puis relancer l'application.

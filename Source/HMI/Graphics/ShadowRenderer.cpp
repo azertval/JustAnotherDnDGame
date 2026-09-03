@@ -11,7 +11,7 @@
 #include "Core/Levels/TileType.h"
 #include "HMI/Graphics/Camera2D.h"
 #include "HMI/Graphics/PreviousPosition.h"
-#include "HMI/Graphics/SlopeMask.h"
+#include "HMI/Graphics/TileSilhouette.h"
 #include "HMI/Graphics/TileSkinTag.h"
 #include "HMI/Graphics/TileVisuals.h"
 

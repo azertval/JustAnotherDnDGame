@@ -35,7 +35,7 @@ class Localization;
  * **Vue du modèle**, pas un état : `refresh` repeuple les champs depuis un `core::LevelDraft`,
  * aucune copie n'est conservée entre deux appels. Le panneau n'écrit rien — il émet un signal typé,
  * et l'appelant (`hmi::MainWindow` → `hmi::GameViewport`) applique la mutation au brouillon, seul
- * propriétaire. Même patron que `hmi::PropertiesPanel`.
+ * propriétaire. Même patron que les autres panneaux de l'éditeur.
  *
  * L'**ordre de la liste est significatif** : il décide de la superposition à l'intérieur d'une
  * profondeur. D'où des boutons Monter/Descendre plutôt qu'un tri de colonne, qui laisserait croire

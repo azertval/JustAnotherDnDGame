@@ -102,107 +102,15 @@ public:
      *
      * Remplace toute liaison existante pour @p targetPosition (une cible n'a qu'un seul
      * déclencheur associé) ; plusieurs cibles peuvent en revanche partager le même déclencheur.
-     * Même geste éditeur pour les deux cibles (clic déclencheur, clic cible) — la liaison
-     * résultante est rangée dans `mechanisms()` (cible `Door`) ou `dangerLinks()` (cible
-     * `DangerSwitched`) selon ce que porte réellement @p targetPosition.
+     * La liaison résultante est rangée dans `mechanisms()`.
      * @pre La case @p switchPosition porte un `Switch`/`PressurePlate`/`Key`, la case
-     *      @p targetPosition porte une `Door`/`LockedDoor` **ou** un `DangerSwitched`.
+     *      @p targetPosition porte une `Door`/`LockedDoor`.
      */
     void linkMechanism(GridPosition switchPosition, GridPosition targetPosition);
 
-    /// Retire la liaison (porte ou danger commuté) à @p targetPosition, si elle en a une. Sans
+    /// Retire la liaison de porte à @p targetPosition, si elle en a une. Sans
     /// effet sinon.
     void unlinkMechanism(GridPosition targetPosition);
-
-    /**
-     * @brief Définit l'axe et la portée d'un danger mobile (`EX-GP-051`).
-     *
-     * Remplace toute configuration existante pour @p position. Sans appel, un `DangerMover` garde
-     * les valeurs de conception par défaut de `DangerMoverConfig` (appliquées par `LevelLoader` au
-     * rechargement, ce brouillon n'a pas besoin de les dupliquer tant qu'elles ne sont pas
-     * personnalisées).
-     * @pre La case @p position porte un `DangerMover`.
-     */
-    void setMoverConfig(GridPosition position, DangerMoverAxis axis, int range);
-
-    /**
-     * @brief Définit la période, le déphasage et la durée active d'un danger temporisé
-     *        (`EX-GP-053`).
-     *
-     * Mêmes remarques que `setMoverConfig` : sans appel, valeurs de conception par défaut.
-     * @pre La case @p position porte un `DangerBlink`.
-     */
-    void setBlinkConfig(GridPosition position, int period, int phase, int activeDuration);
-
-    /**
-     * @brief Définit la route complète, le mode, la vitesse et le déphasage d'une plateforme
-     *        mobile (`EX-GP-026`).
-     *
-     * Remplace toute configuration existante pour @p position. Mêmes remarques que
-     * `setMoverConfig`/`setBlinkConfig` : sans appel, une `MovingPlatform` garde les valeurs de
-     * conception par défaut (`MovingPlatformConfig`), appliquées par `LevelLoader` au rechargement.
-     * @param position  Case portant la plateforme, et point de **départ** de sa route.
-     * @param waypoints Points **suivants** de la route, dans l'ordre ; @p position en est le point
-     *                  de départ implicite et ne doit pas y figurer. Vide = plateforme immobile.
-     * @param mode      Aller-retour ou circuit fermé. Un circuit ferme la route sur son départ ;
-     *                  sans point de passage, il n'y a rien à fermer et le mode est sans effet.
-     * @param speed     Vitesse de parcours, en cases par seconde, constante sur toute la route.
-     * @param phase     Déphasage en pas de simulation : décale le départ dans le cycle, ce qui
-     *                  permet de désynchroniser deux plateformes de routes identiques.
-     * @pre La case @p position porte une `MovingPlatform`.
-     */
-    void setPlatformConfig(GridPosition position, std::vector<GridPosition> waypoints,
-                           PlatformPathMode mode, float speed, int phase);
-
-    /**
-     * @brief Ajoute un point à la fin de la route de la plateforme en @p position (`EX-GP-026`).
-     *
-     * Crée la configuration si la plateforme n'en avait pas encore (le nouveau point devient alors
-     * l'unique waypoint, soit l'aller-retour à deux points historique). Annulable en un seul pas.
-     * @pre La case @p position porte une `MovingPlatform`.
-     */
-    void addPlatformWaypoint(GridPosition position, GridPosition waypoint);
-
-    /**
-     * @brief Insère @p waypoint au rang @p index de la route de la plateforme en @p position.
-     *
-     * Sert le geste « cliquer un segment pour y ajouter un point » de l'éditeur : @p index est le
-     * rang qu'occupera le point inséré. Sans effet si la plateforme n'a pas de configuration ou si
-     * @p index dépasse la taille de la route.
-     * @pre La case @p position porte une `MovingPlatform`.
-     */
-    void insertPlatformWaypoint(GridPosition position, std::size_t index, GridPosition waypoint);
-
-    /**
-     * @brief Déplace le point de rang @p index de la route de la plateforme en @p position.
-     *
-     * Sert le glisser d'une poignée : un seul snapshot pour tout le geste, empilé à l'appel.
-     * Sans effet si la plateforme n'a pas de configuration ou si @p index est hors de la route.
-     * @pre La case @p position porte une `MovingPlatform`.
-     */
-    void movePlatformWaypoint(GridPosition position, std::size_t index, GridPosition waypoint);
-
-    /**
-     * @brief Retire le point de rang @p index de la route de la plateforme en @p position.
-     *
-     * Sans effet si la plateforme n'a pas de configuration ou si @p index est hors de la route.
-     * Retirer le dernier point laisse une plateforme immobile, jamais une configuration invalide.
-     * @pre La case @p position porte une `MovingPlatform`.
-     */
-    void removePlatformWaypoint(GridPosition position, std::size_t index);
-
-    /// Change le mode de bouclage de la plateforme en @p position (`EX-GP-026`), annulable. Crée
-    /// la configuration si elle n'existait pas. @pre @p position porte une `MovingPlatform`.
-    void setPlatformMode(GridPosition position, PlatformPathMode mode);
-
-    /// Change la vitesse (cases/seconde) de la plateforme en @p position, annulable. Crée la
-    /// configuration si elle n'existait pas. @pre @p position porte une `MovingPlatform`.
-    void setPlatformSpeed(GridPosition position, float speed);
-
-    /// Change le déphasage (pas fixes) de la plateforme en @p position, annulable. Crée la
-    /// configuration si elle n'existait pas. @pre @p position porte une `MovingPlatform`.
-    void setPlatformPhase(GridPosition position, int phase);
-
     /**
      * @brief Assigne (ou remplace) la texture affichée pour **une case précise** (`EX-EDIT-043`),
      *        prioritaire sur le skin de son type (LOT-42).
@@ -324,31 +232,6 @@ public:
         return !_redoHistory.empty();
     }
 
-    /// Définit le budget de sauts consommable sur tout le tableau (`EX-GP-024`, `-1` = illimité),
-    /// annulable. À distinguer de `setAirJumps`, qui règle une capacité rechargée au sol.
-    void setJumpBudget(int jumpBudget);
-
-    /// Définit le budget de dashs consommable sur tout le tableau (`EX-GP-024`, `-1` = illimité),
-    /// annulable. À distinguer de `setDashCharges`.
-    void setDashBudget(int dashBudget);
-
-    /**
-     * @brief Définit les sauts **aériens** accordés par ce tableau (`EX-GP-055`), annulable.
-     *
-     * Capacité rechargée à **chaque** contact avec le sol, contrairement au budget de
-     * `setJumpBudget` qui se consomme une fois pour toutes sur l'ensemble du tableau.
-     * @param airJumps Nombre de sauts aériens, ou absent pour s'en remettre au réglage du moteur
-     *                 (`PhysicsConfig::airJumps`).
-     */
-    void setAirJumps(std::optional<int> airJumps);
-
-    /**
-     * @brief Définit les charges de **dash** accordées par ce tableau (`EX-GP-055`), annulable.
-     * @param dashCharges Nombre de dashs utilisables entre deux contacts avec le sol, ou absent
-     *                    pour s'en remettre au réglage du moteur (`PhysicsConfig::dashCharges`).
-     */
-    void setDashCharges(std::optional<int> dashCharges);
-
     /// Renomme le niveau.
     void setName(std::string name) {
         _name = std::move(name);
@@ -414,27 +297,6 @@ public:
     [[nodiscard]] const std::vector<Mechanism>& mechanisms() const noexcept {
         return _mechanisms;
     }
-
-    /// @return Les liaisons de danger commuté courantes (déclencheur ↔ danger, `EX-GP-052`).
-    [[nodiscard]] const std::vector<DangerLink>& dangerLinks() const noexcept {
-        return _dangerLinks;
-    }
-
-    /// @return Les configurations de danger mobile posées explicitement (`EX-GP-051`).
-    [[nodiscard]] const std::vector<DangerMoverConfig>& moverConfigs() const noexcept {
-        return _moverConfigs;
-    }
-
-    /// @return Les configurations de danger temporisé posées explicitement (`EX-GP-053`).
-    [[nodiscard]] const std::vector<DangerBlinkConfig>& blinkConfigs() const noexcept {
-        return _blinkConfigs;
-    }
-
-    /// @return Les configurations de plateforme mobile posées explicitement (`EX-GP-026`).
-    [[nodiscard]] const std::vector<MovingPlatformConfig>& platformConfigs() const noexcept {
-        return _platformConfigs;
-    }
-
     /// @return Les textures assignées par instance du niveau (`EX-EDIT-043`).
     [[nodiscard]] const std::vector<TileTextureOverride>& textureOverrides() const noexcept {
         return _textureOverrides;
@@ -448,28 +310,6 @@ public:
     /// @return `true` si la parallaxe des plans est active pour ce niveau (`EX-DEC-043`).
     [[nodiscard]] bool parallaxEnabled() const noexcept {
         return _parallaxEnabled;
-    }
-
-    /// @return Le budget de sauts courant (`-1` = illimité).
-    [[nodiscard]] int jumpBudget() const noexcept {
-        return _jumpBudget;
-    }
-
-    /// @return Le budget de dashs courant (`-1` = illimité).
-    [[nodiscard]] int dashBudget() const noexcept {
-        return _dashBudget;
-    }
-
-    /// @return Les sauts aériens accordés par ce tableau (`EX-GP-055`), absent si le niveau s'en
-    /// remet au réglage du moteur.
-    [[nodiscard]] const std::optional<int>& airJumps() const noexcept {
-        return _airJumps;
-    }
-
-    /// @return Les charges de dash accordées par ce tableau (`EX-GP-055`), absent si le niveau
-    /// s'en remet au réglage du moteur.
-    [[nodiscard]] const std::optional<int>& dashCharges() const noexcept {
-        return _dashCharges;
     }
 
     /// @return L'asset de fond courant (`EX-REN-044`), absent si aucun n'est posé.
@@ -520,7 +360,6 @@ private:
     /// Configuration de la plateforme en @p position, **créée aux valeurs par défaut** si absente.
     /// Empile un unique `pushUndo()` : point de passage commun des mutateurs granulaires de route,
     /// pour qu'un geste ne coûte jamais plus d'un pas d'annulation.
-    [[nodiscard]] MovingPlatformConfig& platformConfigForEdit(GridPosition position);
 
     /// État complet du brouillon, hors historique (utilisé pour les snapshots undo/redo).
     struct State {
@@ -529,18 +368,10 @@ private:
         std::optional<GridPosition> entry;
         std::optional<GridPosition> exit;
         std::vector<Mechanism> mechanisms;
-        int jumpBudget;
-        int dashBudget;
-        std::vector<DangerLink> dangerLinks;
-        std::vector<DangerMoverConfig> moverConfigs;
-        std::vector<DangerBlinkConfig> blinkConfigs;
         std::optional<std::string> background;
         std::optional<std::string> skinSet;
         std::vector<TileTextureOverride> textureOverrides;
-        std::vector<MovingPlatformConfig> platformConfigs;
         CameraFramingConfig cameraFraming;
-        std::optional<int> airJumps;
-        std::optional<int> dashCharges;
         std::vector<Plane> planes;
         bool parallaxEnabled;
     };
@@ -560,18 +391,10 @@ private:
     std::optional<GridPosition> _entry;
     std::optional<GridPosition> _exit;
     std::vector<Mechanism> _mechanisms;
-    int _jumpBudget = -1;
-    int _dashBudget = -1;
-    std::vector<DangerLink> _dangerLinks;
-    std::vector<DangerMoverConfig> _moverConfigs;
-    std::vector<DangerBlinkConfig> _blinkConfigs;
     std::optional<std::string> _background;
     std::optional<std::string> _skinSet;
     std::vector<TileTextureOverride> _textureOverrides;
-    std::vector<MovingPlatformConfig> _platformConfigs;
     CameraFramingConfig _cameraFraming;
-    std::optional<int> _airJumps;
-    std::optional<int> _dashCharges;
     std::vector<Plane> _planes;
     bool _parallaxEnabled = true;
     std::vector<State> _undoHistory;

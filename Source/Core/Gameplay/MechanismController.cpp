@@ -43,10 +43,7 @@ MechanismController::MechanismController(const Level& level)
     : _collision(level.tileMap()),  // copie de la carte : on la mutera pour les portes
       _mechanisms(level.mechanisms()),
       _switchOn(level.mechanisms().size(), false),
-      _playerOnSwitchPrev(level.mechanisms().size(), false),
-      _dangerLinks(level.dangerLinks()),
-      _dangerActive(level.dangerLinks().size(), false),
-      _playerOnDangerTriggerPrev(level.dangerLinks().size(), false) {
+      _playerOnSwitchPrev(level.mechanisms().size(), false) {
     // Nature de chaque déclencheur, figée d'après la tuile d'origine (avant toute mutation de
     // _collision ci-dessous — seules les portes sont réécrites, jamais les déclencheurs eux-mêmes).
     // _openType capture le type "porte ouverte" (Door ou LockedDoor) AVANT que la boucle suivante
@@ -61,12 +58,6 @@ MechanismController::MechanismController(const Level& level)
         _isKey.push_back(triggerType == TileType::Key);
         _openType.push_back(
             _collision.tile(mechanism.doorPosition.column, mechanism.doorPosition.row));
-    }
-    _dangerContinuous.reserve(_dangerLinks.size());
-    for (const DangerLink& link : _dangerLinks) {
-        _dangerContinuous.push_back(
-            _collision.tile(link.triggerPosition.column, link.triggerPosition.row) ==
-            TileType::PressurePlate);
     }
     // Portes fermées au départ : solides dans la grille de collision.
     for (const Mechanism& mechanism : _mechanisms) {
@@ -130,20 +121,6 @@ void MechanismController::update(const Aabb& playerBox, float playerMass, bool i
         _playerOnSwitchPrev[index] = onSwitch;
     }
 
-    // Dangers commutés (EX-GP-052) : même détection front/continu que ci-dessus, mais sans effet
-    // sur la grille de collision (jamais solide) — seul l'état actif/inactif est exposé.
-    for (std::size_t index = 0; index < _dangerLinks.size(); ++index) {
-        const DangerLink& link = _dangerLinks[index];
-        const bool onTrigger = overlapsCell(playerBox, link.triggerPosition);
-
-        if (_dangerContinuous[index]) {
-            _dangerActive[index] = (onTrigger && playerMass >= MIN_TRIGGER_MASS) ||
-                                   weightRestsOn(weights, link.triggerPosition);
-        } else if (onTrigger && !_playerOnDangerTriggerPrev[index]) {
-            _dangerActive[index] = !_dangerActive[index];
-        }
-        _playerOnDangerTriggerPrev[index] = onTrigger;
-    }
 }
 
 }  // namespace core

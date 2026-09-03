@@ -48,10 +48,10 @@ TEST(LogFormatTest, LigneContientTousLesChamps) {
 TEST(LogFormatTest, CheminReduitAuNomDeFichier) {
     const std::string line =
         core::formatLogLine("00:00:00", core::LogLevel::Info, "Core",
-                            "D:\\ProjectGaming\\Source\\Core\\Foo.cpp", 7, "x");
+                            "D:\\JustAnotherDnDGame\\Source\\Core\\Foo.cpp", 7, "x");
 
     EXPECT_NE(line.find("Foo.cpp:7"), std::string::npos);
-    EXPECT_EQ(line.find("ProjectGaming"), std::string::npos);
+    EXPECT_EQ(line.find("JustAnotherDnDGame"), std::string::npos);
     EXPECT_EQ(line.find("Source"), std::string::npos);
 }
 

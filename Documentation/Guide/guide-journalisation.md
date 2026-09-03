@@ -82,8 +82,8 @@ implémentant `ILogSink`, sans toucher au `Logger` ni au code qui journalise.
 
 Écrire `core::defaultLogger().log(core::LogLevel::Info, "...")` à chaque site d'appel serait
 verbeux et n'indiquerait pas d'où vient le message. `Core/Diagnostics/Log.h` définit une macro
-générique, `PROJECTGAMING_LOG(catégorie, niveau, message)`, et ses quatre raccourcis
-`PROJECTGAMING_LOG_TRACE/INFO/WARNING/ERROR(catégorie, message)`.
+générique, `JADG_LOG(catégorie, niveau, message)`, et ses quatre raccourcis
+`JADG_LOG_TRACE/INFO/WARNING/ERROR(catégorie, message)`.
 
 **Pourquoi une macro plutôt qu'une fonction.** Deux raisons concrètes :
 
@@ -91,7 +91,7 @@ générique, `PROJECTGAMING_LOG(catégorie, niveau, message)`, et ses quatre rac
   automatiquement que par une macro préprocesseur — une fonction ordinaire ne verrait que le fichier
   où **elle-même** est définie, jamais celui de l'appelant ;
 - la macro teste `isEnabled(level)` **avant** de construire la chaîne de message. Un appel comme
-  `PROJECTGAMING_LOG_TRACE("Core", "Position : " + std::to_string(x) + ...)` construirait une
+  `JADG_LOG_TRACE("Core", "Position : " + std::to_string(x) + ...)` construirait une
   concaténation de chaînes à **chaque** appel si c'était une fonction ordinaire, même quand le
   niveau `Trace` est filtré — un coût inutile, potentiellement significatif si l'appel est fréquent.
   En macro, si le niveau est désactivé, le message n'est **jamais évalué**.
@@ -104,10 +104,10 @@ raccourcis — le **modèle** à dupliquer pour un nouveau module est `HMI/HmiLo
 
 ```cpp
 // HMI/HmiLog.h
-#define HMI_LOG_TRACE(message)   PROJECTGAMING_LOG_TRACE("HMI", message)
-#define HMI_LOG_INFO(message)    PROJECTGAMING_LOG_INFO("HMI", message)
-#define HMI_LOG_WARNING(message) PROJECTGAMING_LOG_WARNING("HMI", message)
-#define HMI_LOG_ERROR(message)   PROJECTGAMING_LOG_ERROR("HMI", message)
+#define HMI_LOG_TRACE(message)   JADG_LOG_TRACE("HMI", message)
+#define HMI_LOG_INFO(message)    JADG_LOG_INFO("HMI", message)
+#define HMI_LOG_WARNING(message) JADG_LOG_WARNING("HMI", message)
+#define HMI_LOG_ERROR(message)   JADG_LOG_ERROR("HMI", message)
 ```
 
 `Core/CoreLog.h` (catégorie `"Core"`), `Core/Ecs/EcsLog.h` (`"Ecs"`), `Core/Gameplay/GameplayLog.h`
@@ -157,7 +157,7 @@ Le niveau minimal du `Logger` n'est pas figé dans le code : `core::parseLogLeve
 recompiler. Dans ce moteur (`Source/HMI/Main.cpp`), deux sources sont acceptées, avec priorité à la
 seconde si les deux sont présentes :
 
-1. la variable d'environnement `PROJECTGAMING_LOG_LEVEL` ;
+1. la variable d'environnement `JADG_LOG_LEVEL` ;
 2. l'argument de ligne de commande `--log-level=<niveau>`.
 
 Une valeur non reconnue par `parseLogLevel` (renvoyant `std::nullopt`) est **ignorée** plutôt que de
@@ -183,17 +183,17 @@ logique pure testée) sérialise `MemoryLogSink::entries()` dans un fichier horo
 toucher à ce que `Core` a déjà collecté. En Release, aucun sink mémoire n'est enregistré : le bouton
 signale simplement des journaux indisponibles.
 
-## Assertions : \ref PROJECTGAMING_ASSERT "PROJECTGAMING_ASSERT", un outil différent
+## Assertions : \ref JADG_ASSERT "JADG_ASSERT", un outil différent
 
 Une **assertion** vérifie qu'une condition, censée être **toujours vraie** si le code est correct
 (une précondition, un invariant), l'est effectivement à un point précis de l'exécution — sa
 violation signale un **bug** dans le programme lui-même, pas un événement à consigner pour
 information. C'est déjà ce que `ComponentPool`/`World` utilisent abondamment (@ref guide-ecs) :
-`PROJECTGAMING_ASSERT(has(entity), "...")` avant d'accéder à un composant, par exemple.
+`JADG_ASSERT(has(entity), "...")` avant d'accéder à un composant, par exemple.
 
 Deux différences fondamentales avec la journalisation :
 
-- **active seulement en Debug** : en Release (`NDEBUG` défini), `PROJECTGAMING_ASSERT(condition,
+- **active seulement en Debug** : en Release (`NDEBUG` défini), `JADG_ASSERT(condition,
   message)` ne produit **aucune instruction** et **n'évalue même pas** `condition` — coût nul en
   production, contrairement à un message de log qui peut rester actif (filtré, mais présent) des
   deux côtés. Le raisonnement : une assertion protège le **développement** contre des bugs
@@ -211,6 +211,6 @@ ici ») protège contre un bug du code, et n'a de sens qu'en développement.
 ## Voir aussi
 - `core::Logger`, `core::LogLevel`, `core::ILogSink`, `core::ConsoleLogSink`, `core::MemoryLogSink`.
 - `core::formatLogLine`, `core::parseLogLevel`, `core::defaultLogger`.
-- `PROJECTGAMING_ASSERT`, `core::setAssertionHandler`.
+- `JADG_ASSERT`, `core::setAssertionHandler`.
 - @ref guide-boucle — la règle « jamais de log dans le chemin exécuté à chaque pas fixe ».
 - @ref guide-ecs — usage concret des assertions pour les préconditions du `World`/`ComponentPool`.

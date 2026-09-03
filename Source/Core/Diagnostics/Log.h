@@ -17,7 +17,7 @@
  */
 
 /// Journalise un message pour une catégorie et un niveau donnés, via le journaliseur global.
-#define PROJECTGAMING_LOG(category, level, message)                                       \
+#define JADG_LOG(category, level, message)                                       \
     do {                                                                                  \
         ::core::Logger& projectgamingLogger = ::core::defaultLogger();                    \
         if (projectgamingLogger.isEnabled(level)) {                                       \
@@ -27,11 +27,11 @@
         }                                                                                 \
     } while (false)
 
-#define PROJECTGAMING_LOG_TRACE(category, message) \
-    PROJECTGAMING_LOG(category, ::core::LogLevel::Trace, message)
-#define PROJECTGAMING_LOG_INFO(category, message) \
-    PROJECTGAMING_LOG(category, ::core::LogLevel::Info, message)
-#define PROJECTGAMING_LOG_WARNING(category, message) \
-    PROJECTGAMING_LOG(category, ::core::LogLevel::Warning, message)
-#define PROJECTGAMING_LOG_ERROR(category, message) \
-    PROJECTGAMING_LOG(category, ::core::LogLevel::Error, message)
+#define JADG_LOG_TRACE(category, message) \
+    JADG_LOG(category, ::core::LogLevel::Trace, message)
+#define JADG_LOG_INFO(category, message) \
+    JADG_LOG(category, ::core::LogLevel::Info, message)
+#define JADG_LOG_WARNING(category, message) \
+    JADG_LOG(category, ::core::LogLevel::Warning, message)
+#define JADG_LOG_ERROR(category, message) \
+    JADG_LOG(category, ::core::LogLevel::Error, message)

@@ -50,28 +50,6 @@ core::Level makeLevelWithPressurePlate() {
                        core::GridPosition{5, 2}, std::move(mechanisms));
 }
 
-// Niveau minimal 6×3 : un interrupteur en (2,1) lié à un danger commuté en (4,1) (EX-GP-052).
-core::Level makeLevelWithDangerSwitched() {
-    core::TileMap map(6, 3);
-    map.setTile(2, 1, core::TileType::Switch);
-    map.setTile(4, 1, core::TileType::DangerSwitched);
-    std::vector<core::DangerLink> dangerLinks{
-        core::DangerLink{core::GridPosition{2, 1}, core::GridPosition{4, 1}}};
-    return core::Level("danger-commute", std::move(map), core::GridPosition{0, 0},
-                       core::GridPosition{5, 2}, {}, -1, -1, std::move(dangerLinks));
-}
-
-// Niveau minimal 6×3 : une plaque de pression en (2,1) liée à un danger commuté en (4,1).
-core::Level makeLevelWithDangerSwitchedPressurePlate() {
-    core::TileMap map(6, 3);
-    map.setTile(2, 1, core::TileType::PressurePlate);
-    map.setTile(4, 1, core::TileType::DangerSwitched);
-    std::vector<core::DangerLink> dangerLinks{
-        core::DangerLink{core::GridPosition{2, 1}, core::GridPosition{4, 1}}};
-    return core::Level("danger-commute-poids", std::move(map), core::GridPosition{0, 0},
-                       core::GridPosition{5, 2}, {}, -1, -1, std::move(dangerLinks));
-}
-
 // Niveau minimal 6×3 : une clé en (2,1) liée à une porte verrouillée en (4,1) (EX-GP-023).
 core::Level makeLevelWithKeyAndLockedDoor() {
     core::TileMap map(6, 3);
@@ -214,71 +192,6 @@ TEST(MechanismControllerTest, PlaqueDePressionPoidsInsuffisant) {
     EXPECT_TRUE(controller.collisionMap().isSolid(4, 1));
 }
 
-/**
- * @brief Un danger commuté est inactif par défaut, et devient actif au contact de son
- * interrupteur (bascule sur front, comme une porte, `EX-GP-052`).
- * \castest{<b>Un danger commuté devient actif au contact de son interrupteur.</b><br/>
- * \tcat Unitaire · Mechanism Controller<br/>
- * \tcrit Majeur<br/>
- * \tetapes 1. Mettre en place le contexte du test (arrangement).<br/>2. Executer le scenario et
- * verifier les assertions.<br/>
- * \tattendu Un danger commuté devient actif au contact de son interrupteur.
- * }
- */
-TEST(MechanismControllerTest, DangerCommuteActiveParInterrupteur) {
-    core::MechanismController controller(makeLevelWithDangerSwitched());
-    EXPECT_FALSE(controller.isDangerActive(core::GridPosition{4, 1}));
-
-    controller.update(boxAt(2, 1));  // contact sur l'interrupteur
-    EXPECT_TRUE(controller.isDangerActive(core::GridPosition{4, 1}));
-
-    controller.update(boxAt(2, 1));  // reste dessus : pas de re-bascule (front)
-    EXPECT_TRUE(controller.isDangerActive(core::GridPosition{4, 1}));
-
-    controller.update(boxAt(0, 1));  // quitte l'interrupteur : rien
-    EXPECT_TRUE(controller.isDangerActive(core::GridPosition{4, 1}));
-
-    controller.update(boxAt(2, 1));  // revient : re-bascule (inactif)
-    EXPECT_FALSE(controller.isDangerActive(core::GridPosition{4, 1}));
-}
-
-/**
- * @brief Un danger commuté lié à une plaque de pression est actif tant que le poids y repose,
- * comme une porte — activation continue (`EX-GP-025`/`EX-GP-052`).
- * \castest{<b>Un danger commuté lié à une plaque de pression est actif tant que le poids y
- * repose.</b><br/>
- * \tcat Unitaire · Mechanism Controller<br/>
- * \tcrit Majeur<br/>
- * \tetapes 1. Mettre en place le contexte du test (arrangement).<br/>2. Executer le scenario et
- * verifier les assertions.<br/>
- * \tattendu Un danger commuté lié à une plaque de pression est actif tant que le poids y repose.
- * }
- */
-TEST(MechanismControllerTest, DangerCommuteActivationContinuePlaqueDePression) {
-    core::MechanismController controller(makeLevelWithDangerSwitchedPressurePlate());
-
-    controller.update(boxAt(2, 1), 1.0f);
-    EXPECT_TRUE(controller.isDangerActive(core::GridPosition{4, 1}));
-
-    controller.update(boxAt(0, 1), 1.0f);  // quitte la plaque : inactif immediatement
-    EXPECT_FALSE(controller.isDangerActive(core::GridPosition{4, 1}));
-}
-
-/**
- * @brief `isDangerActive` renvoie faux pour une position qui ne correspond à aucune liaison
- * connue (robustesse).
- * \castest{<b>isDangerActive renvoie faux pour une position sans liaison.</b><br/>
- * \tcat Unitaire · Mechanism Controller<br/>
- * \tcrit Mineur<br/>
- * \tetapes 1. Mettre en place le contexte du test (arrangement).<br/>2. Executer le scenario et
- * verifier les assertions.<br/>
- * \tattendu isDangerActive renvoie faux pour une position sans liaison.
- * }
- */
-TEST(MechanismControllerTest, DangerActiveFauxSansLiaison) {
-    core::MechanismController controller(makeLevelWithMechanism());  // aucune liaison de danger
-    EXPECT_FALSE(controller.isDangerActive(core::GridPosition{4, 1}));
-}
 
 /**
  * @brief Le simple contact sur la clé, sans « Interagir », n'ouvre pas la porte verrouillée —

@@ -53,13 +53,6 @@ struct TriggerWeight {
  * maintient une **copie mutable** du `TileMap` (grille de **collision**) que la physique consomme,
  * laissant la carte du `Level` intacte (source de vérité). Déterministe au pas fixe (`EX-NFR-002`).
  *
- * Résout aussi les liaisons **déclencheur ↔ danger commuté** (`DangerLink`, `TileType::
- * DangerSwitched`, `EX-GP-052`) : même détection front/continu que déclencheur↔porte ci-dessus,
- * réutilisée telle quelle (pas de duplication de cette logique) — seule différence, un danger
- * commuté n'a **aucun effet** sur la grille de collision (il n'est jamais solide), seul son état
- * **actif/inactif** est exposé (`isDangerActive`), consommé par `core::evaluateOutcome` via les
- * boîtes supplémentaires assemblées par l'appelant (`hmi::GameSession`).
- *
  * **Clé/porte verrouillée** (`TileType::Key`/`TileType::LockedDoor`, `EX-GP-023`) : troisième
  * comportement de déclencheur, résolu depuis la **même** liste `mechanisms()` que
  * interrupteur/plaque↔porte (`LevelLoader` les y ajoute toutes deux, aucune notion de liaison
@@ -77,7 +70,7 @@ public:
      * @brief Met à jour les mécanismes pour un pas : bascule les interrupteurs touchés (front),
      *        ouvre/referme les plaques de pression selon le poids présent, ramasse les clés
      *        touchées avec « Interagir », applique l'état des portes/portes verrouillées dans la
-     *        grille de collision, et met à jour l'activation des dangers commutés.
+     *        grille de collision.
      * @param playerBox       Boîte englobante du personnage, en unités monde.
      * @param playerMass      Masse du personnage (`core::Player::mass`, `EX-GP-019`), comparée au
      *                        seuil des plaques de pression (`MIN_TRIGGER_MASS`) ; sans effet sur
@@ -90,7 +83,7 @@ public:
      *                        appels existants, aucun niveau sans clé n'est affecté).
      * @param weights         Poids **autres que le personnage** posés sur les déclencheurs ce pas
      *                        (blocs poussables, `EX-GP-022`) — voir `core::TriggerWeight`. Ne
-     *                        concerne que les plaques de pression et les dangers commutés à
+     *                        concerne que les plaques de pression à
      *                        activation continue : un bloc ne bascule pas un interrupteur et ne
      *                        ramasse pas une clé. Vide par défaut (compatibilité des appels
      *                        existants).
@@ -102,9 +95,8 @@ public:
      * @brief Une porte s'est-elle **refermée sur le personnage** au dernier `update` (`EX-GP-021`,
      *        `LOT-65` TACHE-06) ?
      *
-     * L'écrasement est **mortel**, exactement comme sous une plateforme mobile (`EX-GP-026`) :
-     * l'appelant (`hmi::GameSession`) traduit ce drapeau en boîte de danger supplémentaire pour
-     * `core::evaluateOutcome`, du même geste qu'il le fait déjà pour `core::Player::squished`.
+     * L'écrasement est **mortel** : l'appelant (`hmi::GameSession`) traduit ce drapeau en boîte
+     * de danger supplémentaire pour `core::evaluateOutcome`.
      * Sans cela, une porte qui redevient solide sur le personnage le laisse **encastré** dans un
      * mur, sans échec possible — précisément la « situation sans issue » que la conception des
      * niveaux interdit (`Documentation/Specification/niveaux.md`, Sec. 3).
@@ -144,23 +136,6 @@ public:
         return _isKey[index];
     }
 
-    /// @return Les liaisons de danger commuté (positions interrupteur/danger, `EX-GP-052`).
-    [[nodiscard]] const std::vector<DangerLink>& dangerLinks() const noexcept {
-        return _dangerLinks;
-    }
-
-    /// @return true si le danger commuté à @p dangerPosition est **actif** (mortel) — son
-    ///         déclencheur lié est actionné. `false` si @p dangerPosition ne correspond à aucune
-    ///         liaison connue (danger commuté non lié, inerte).
-    [[nodiscard]] bool isDangerActive(GridPosition dangerPosition) const noexcept {
-        for (std::size_t index = 0; index < _dangerLinks.size(); ++index) {
-            if (_dangerLinks[index].dangerPosition == dangerPosition) {
-                return _dangerActive[index];
-            }
-        }
-        return false;
-    }
-
 private:
     TileMap _collision;  ///< Copie mutable : portes Solid (fermées) / Door (ouvertes).
     std::vector<Mechanism> _mechanisms;  ///< Liaisons déclencheur↔porte (positions).
@@ -175,12 +150,6 @@ private:
         _openType;  ///< Type de tuile « porte ouverte » de chaque mécanisme (`Door` ou
                     ///< `LockedDoor`), capturé avant que le constructeur ne fige la case en
                     ///< `Solid` — la grille de collision y revient quand le mécanisme s'active.
-    std::vector<DangerLink> _dangerLinks;  ///< Liaisons déclencheur↔danger commuté.
-    std::vector<bool> _dangerActive;       ///< État de chaque danger commuté (actif = mortel ?).
-    std::vector<bool> _playerOnDangerTriggerPrev;  ///< Front, même principe que
-                                                   ///< `_playerOnSwitchPrev`, pour `_dangerLinks`.
-    std::vector<bool> _dangerContinuous;           ///< true = plaque de pression, même principe que
-                                                   ///< `_continuous`, pour `_dangerLinks`.
     bool _crushedPlayer = false;  ///< Une porte s'est refermée sur le personnage au dernier pas.
 };
 

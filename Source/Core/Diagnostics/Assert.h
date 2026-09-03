@@ -34,7 +34,7 @@ void handleAssertionFailure(const char* condition, const char* message, const ch
 }  // namespace core
 
 /**
- * @def PROJECTGAMING_ASSERT
+ * @def JADG_ASSERT
  * @brief Vérifie une précondition. Active en Debug, sans effet en Release.
  *
  * En Debug, si la condition est fausse, le gestionnaire d'assertion courant est
@@ -42,9 +42,9 @@ void handleAssertionFailure(const char* condition, const char* message, const ch
  * condition n'est pas évaluée.
  */
 #ifdef NDEBUG
-#define PROJECTGAMING_ASSERT(condition, message) ((void)0)
+#define JADG_ASSERT(condition, message) ((void)0)
 #else
-#define PROJECTGAMING_ASSERT(condition, message)                                     \
+#define JADG_ASSERT(condition, message)                                     \
     do {                                                                             \
         if (!(condition)) {                                                          \
             ::core::handleAssertionFailure(#condition, message, __FILE__, __LINE__); \

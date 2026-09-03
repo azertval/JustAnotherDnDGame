@@ -14,7 +14,7 @@
  * mise en place d'un monde), jamais aux opérations par entité ou par frame.
  */
 
-#define ECS_LOG_TRACE(message) PROJECTGAMING_LOG_TRACE("Ecs", message)
-#define ECS_LOG_INFO(message) PROJECTGAMING_LOG_INFO("Ecs", message)
-#define ECS_LOG_WARNING(message) PROJECTGAMING_LOG_WARNING("Ecs", message)
-#define ECS_LOG_ERROR(message) PROJECTGAMING_LOG_ERROR("Ecs", message)
+#define ECS_LOG_TRACE(message) JADG_LOG_TRACE("Ecs", message)
+#define ECS_LOG_INFO(message) JADG_LOG_INFO("Ecs", message)
+#define ECS_LOG_WARNING(message) JADG_LOG_WARNING("Ecs", message)
+#define ECS_LOG_ERROR(message) JADG_LOG_ERROR("Ecs", message)

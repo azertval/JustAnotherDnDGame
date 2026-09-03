@@ -3,7 +3,7 @@
 
 /**
  * @file HMI/Main.cpp
- * @brief Point d'entrée de l'application Qt (`ProjectGaming`).
+ * @brief Point d'entrée de l'application Qt (`JustAnotherDnDGame`).
  *
  * Configure la journalisation (console + mémoire en développement, niveau réglable), applique le
  * thème de l'IHM, puis ouvre la fenêtre principale (`hmi::MainWindow`) dont le widget central est
@@ -92,7 +92,7 @@ namespace {
 /**
  * @brief Détermine le niveau de log minimum au lancement.
  *
- * Par défaut `Trace`. La variable d'environnement `PROJECTGAMING_LOG_LEVEL` puis, avec priorité,
+ * Par défaut `Trace`. La variable d'environnement `JADG_LOG_LEVEL` puis, avec priorité,
  * l'argument `--log-level=<trace|info|warning|error>` peuvent l'ajuster. Une valeur non reconnue
  * est ignorée (signalée via @p invalidValueGiven).
  */
@@ -102,7 +102,7 @@ namespace {
     invalidValueGiven = false;
 
     if (const std::optional<std::string> fromEnvironment =
-            environmentVariable("PROJECTGAMING_LOG_LEVEL")) {
+            environmentVariable("JADG_LOG_LEVEL")) {
         if (const std::optional<core::LogLevel> parsed = core::parseLogLevel(*fromEnvironment)) {
             level = *parsed;
         } else {
@@ -140,11 +140,11 @@ int main(int argc, char** argv) {
     }
     core::defaultLogger().addSink(std::make_unique<core::FileLogSink>(timestampedLogFilePath()));
 
-    // Niveau de log configurable au lancement (env PROJECTGAMING_LOG_LEVEL ou --log-level=).
+    // Niveau de log configurable au lancement (env JADG_LOG_LEVEL ou --log-level=).
     bool invalidLogLevel = false;
     const core::LogLevel logLevel = resolveMinimumLogLevel(argc, argv, invalidLogLevel);
     core::defaultLogger().setMinimumLevel(logLevel);
-    HMI_LOG_INFO(std::string("Demarrage de ProjectGaming (niveau de log : ") +
+    HMI_LOG_INFO(std::string("Demarrage de JustAnotherDnDGame (niveau de log : ") +
                  core::toString(logLevel) + ").");
     if (invalidLogLevel) {
         HMI_LOG_WARNING("Niveau de log fourni invalide : valeur ignoree.");
@@ -152,7 +152,7 @@ int main(int argc, char** argv) {
     // Version du binaire et de Qt contre lequel il a ete compile (QT_VERSION_STR, fourni par les
     // en-tetes Qt) : capture dans le journal de session (LOT-61) pour qu'un rapport de defaut dise
     // contre quel Qt le binaire signale a ete construit, sans dependre d'une reproduction locale.
-    HMI_LOG_INFO(std::string("ProjectGaming ") + core::Engine::version() + " (compile avec Qt " +
+    HMI_LOG_INFO(std::string("JustAnotherDnDGame ") + core::Engine::version() + " (compile avec Qt " +
                  QT_VERSION_STR + ").");
 
     QApplication application(argc, argv);
@@ -162,7 +162,7 @@ int main(int argc, char** argv) {
     hmi::applyApplicationStyle();
     // Identité de l'application : sert de portée aux réglages persistés (QSettings — disposition
     // des panneaux de l'éditeur, EX-IHM-011).
-    QCoreApplication::setOrganizationName(QStringLiteral("ProjectGaming"));
+    QCoreApplication::setOrganizationName(QStringLiteral("JustAnotherDnDGame"));
     QCoreApplication::setApplicationName(QStringLiteral("Editor"));
 
     // Traductions de Qt LUI-MEME (LOT-69) : les boutons standard des boites de dialogue --
@@ -219,6 +219,6 @@ int main(int argc, char** argv) {
     window.show();
 
     const int code = QApplication::exec();
-    HMI_LOG_INFO("Arret de ProjectGaming (code " + std::to_string(code) + ").");
+    HMI_LOG_INFO("Arret de JustAnotherDnDGame (code " + std::to_string(code) + ").");
     return code;
 }

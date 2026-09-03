@@ -35,7 +35,6 @@ régénère l'intégralité à l'identique) et elle n'ajoute aucune dépendance 
 |---|---|---|---|---|---|
 | `Skins/key.png` (image 0/2) | recadrée, réduite à 16×16 | `keyYellow.png` | Platformer Pack Remastered | Kenney | CC0 1.0 |
 | `Skins/locked_door.png` (image 0/2) | recadrée, réduite à 16×16 | `lockYellow.png` | Platformer Pack Remastered | Kenney | CC0 1.0 |
-| `Skins/platform.png` | recadrée, réduite à 16×16 | `platformIndustrial_030.png` | Platformer Pack: Industrial | Kenney | CC0 1.0 |
 | `Skins/kenney_spikes.png` | recadrée, réduite à 16×16 | `spikes.png` | Platformer Pack Remastered | Kenney | CC0 1.0 |
 | `Skins/kenney_switch.png` (image 0/2) | recadrée, réduite à 16×16 | `switchYellow.png` | Platformer Pack Remastered | Kenney | CC0 1.0 |
 | `Skins/kenney_switch.png` (image 1/2) | recadrée, réduite à 16×16 | `switchYellow_pressed.png` | Platformer Pack Remastered | Kenney | CC0 1.0 |

@@ -42,7 +42,6 @@ TEST(ScreenFlowTest, TransitionsAutoriseesMenentALEcranAttendu) {
     const ScreenState levelSelect{.screen = ScreenId::LevelSelect,
                                   .optionsReturnTo = ScreenId::Menu};
     const ScreenState credits{.screen = ScreenId::Credits, .optionsReturnTo = ScreenId::Menu};
-    const ScreenState aiMode{.screen = ScreenId::AiMode, .optionsReturnTo = ScreenId::Menu};
     const ScreenState optionsFromMenu{.screen = ScreenId::Options,
                                       .optionsReturnTo = ScreenId::Menu};
     const ScreenState optionsFromPause{.screen = ScreenId::Options,
@@ -75,11 +74,8 @@ TEST(ScreenFlowTest, TransitionsAutoriseesMenentALEcranAttendu) {
               ScreenId::Menu);
     EXPECT_EQ(resolveTransition(menu, ScreenEvent::OpenCredits)->screen, ScreenId::Credits);
     EXPECT_EQ(resolveTransition(credits, ScreenEvent::CloseCredits)->screen, ScreenId::Menu);
-    EXPECT_EQ(resolveTransition(menu, ScreenEvent::OpenAiMode)->screen, ScreenId::AiMode);
-    EXPECT_EQ(resolveTransition(aiMode, ScreenEvent::CloseAiMode)->screen, ScreenId::Menu);
     // Aperçu en direct / onglet Rejeu (LOT-ANNEXE-21) : ramène au Menu une fois la lecture
     // terminée (même convention que l'ancien "Regarder l'IA jouer", LOT-ANNEXE-18).
-    EXPECT_EQ(resolveTransition(aiMode, ScreenEvent::OpenGame)->screen, ScreenId::Game);
 }
 
 /**
@@ -139,8 +135,6 @@ TEST(ScreenFlowTest, TransitionInterditeEstRefusee) {
     EXPECT_EQ(resolveTransition(editor, ScreenEvent::OpenCredits), std::nullopt);
     EXPECT_EQ(resolveTransition(game, ScreenEvent::OpenCredits), std::nullopt);
     // Mode IA (LOT-ANNEXE-21) : même règle, atteignable seulement depuis le menu.
-    EXPECT_EQ(resolveTransition(editor, ScreenEvent::OpenAiMode), std::nullopt);
-    EXPECT_EQ(resolveTransition(game, ScreenEvent::OpenAiMode), std::nullopt);
 }
 
 /**
@@ -208,15 +202,6 @@ TEST(ScreenFlowTest, HabillageDeFenetreEstCeluiAttenduParEcran) {
     EXPECT_FALSE(credits.editingCommandsEnabled);
     EXPECT_TRUE(credits.gamepadNavigationActive);
     EXPECT_FALSE(credits.overlayVisible);
-
-    const ScreenDressing aiMode = dressingFor(ScreenId::AiMode);
-    EXPECT_FALSE(aiMode.docksVisible);
-    EXPECT_FALSE(aiMode.menuBarVisible);
-    EXPECT_FALSE(aiMode.toolBarVisible);
-    EXPECT_FALSE(aiMode.pixelToolBarVisible);
-    EXPECT_FALSE(aiMode.editingCommandsEnabled);
-    EXPECT_TRUE(aiMode.gamepadNavigationActive);
-    EXPECT_FALSE(aiMode.overlayVisible);
 
     for (const ScreenId overlayScreen : {ScreenId::Pause, ScreenId::LevelComplete}) {
         const ScreenDressing overlay = dressingFor(overlayScreen);

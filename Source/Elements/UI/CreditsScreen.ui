@@ -138,7 +138,7 @@
          <!-- La licence du JEU, distincte de celles ci-dessus : les ressources restent sous CC0 et
               SIL OFL, Qt sous LGPLv3. Le dire ici evite de laisser croire que tout est GPL. -->
          <property name="wordWrap"><bool>true</bool></property>
-         <property name="text"><string>ProjectGaming — GNU General Public License v3.0 ou ultérieure. Ressources et bibliothèques sous leurs licences propres, ci-dessus.</string></property>
+         <property name="text"><string>JustAnotherDnDGame — GNU General Public License v3.0 ou ultérieure. Ressources et bibliothèques sous leurs licences propres, ci-dessus.</string></property>
         </widget>
        </item>
     </layout>

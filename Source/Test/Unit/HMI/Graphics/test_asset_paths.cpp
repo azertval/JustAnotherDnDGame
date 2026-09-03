@@ -18,7 +18,7 @@ class TemporaryDirectory {
 public:
     TemporaryDirectory()
         : _path(std::filesystem::temp_directory_path() /
-                ("ProjectGaming_AssetPathsTest_" +
+                ("JustAnotherDnDGame_AssetPathsTest_" +
                  std::to_string(reinterpret_cast<std::uintptr_t>(this)))) {
         std::filesystem::create_directories(_path);
     }
@@ -93,7 +93,7 @@ TEST(AssetPathsTest, AssetAbsentSignaleSansException) {
  */
 TEST(AssetPathsTest, DossierInexistantSansException) {
     const hmi::AssetPaths assetPaths(std::filesystem::temp_directory_path() /
-                                     "ProjectGaming_DossierQuiNexistePas");
+                                     "JustAnotherDnDGame_DossierQuiNexistePas");
 
     EXPECT_EQ(assetPaths.resolve("atlas.png"), std::nullopt);
 }

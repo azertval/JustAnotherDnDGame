@@ -20,7 +20,7 @@ Règles à respecter dès la première ligne, pour garder un code cohérent et u
 | Variable / paramètre | camelCase | `deltaTime`, `tileIndex` |
 | Membre de classe | prefixe `_` + camelCase  | `_position`, `_isGrounded` |
 | Constante (`constexpr`) | UPPER_SNAKE_CASE | `MAXIMUM_ENTITIES` |
-| Macro (à éviter) | UPPER_SNAKE_CASE | `PROJECTGAMING_ASSERT` |
+| Macro (à éviter) | UPPER_SNAKE_CASE | `JADG_ASSERT` |
 
 - Un fichier `.h`/`.cpp` porte le nom du type ou module principal qu'il contient.
 - Noms en **anglais** pour le code (identifiants), commentaires et documentation **en français**.
@@ -62,7 +62,7 @@ Dans un `.cpp`, du plus proche au plus général, chaque groupe trié et sépar�
 
 ## 5. Architecture (dépendances entre modules)
 - **`Core`** : logique/moteur, **indépendant** de la présentation. Ne connaît ni DirectX ni la fenêtre.
-- **`HMI`** : dépend de `Core`, jamais l'inverse. L'unique application **Qt** (`ProjectGaming`) : rendu Direct3D 11 du jeu, entrées, et widgets Qt de l'IHM hors-jeu.
+- **`HMI`** : dépend de `Core`, jamais l'inverse. L'unique application **Qt** (`JustAnotherDnDGame`) : rendu Direct3D 11 du jeu, entrées, et widgets Qt de l'IHM hors-jeu.
 - **`Elements`** : données/assets statiques, aucun code exécutable — dont les **assets Qt déclaratifs** (`.ui`, `.qrc`, thèmes `.qss`).
 - Aucune dépendance cyclique. `Core` reste testable sans fenêtre ni GPU.
 
@@ -197,7 +197,7 @@ Règles :
 > Note : `std::expected` (C++23) remplacera avantageusement `Result<T>` lorsque le projet passera à C++23.
 
 ## 10. Assertions & journalisation
-- **Assertions** : vérifier les préconditions et invariants avec une macro projet `PROJECTGAMING_ASSERT(condition, message)` (basée sur `assert`, active en Debug, retirée en Release). Une assertion signale un **bug**, pas une erreur d'exécution normale.
+- **Assertions** : vérifier les préconditions et invariants avec une macro projet `JADG_ASSERT(condition, message)` (basée sur `assert`, active en Debug, retirée en Release). Une assertion signale un **bug**, pas une erreur d'exécution normale.
 - **Journalisation** : passer par un module de log du projet (à venir dans `Core/Diagnostics`), **jamais** `std::cout`/`printf` directement dans le code de production. Niveaux : `trace`, `info`, `warning`, `error`.
 
 ## 11. Outillage qualité (automatisé)

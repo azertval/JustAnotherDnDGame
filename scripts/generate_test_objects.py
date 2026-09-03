@@ -2,7 +2,7 @@
 # SPDX-FileCopyrightText: 2026 Valentin Eloy
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-"""Genere des textures d'objets interactifs de TEST pour ProjectGaming (LOT-45).
+"""Genere des textures d'objets interactifs de TEST pour JustAnotherDnDGame (LOT-45).
 
 Ces images sont volontairement schematiques : elles servent a verifier que la surcharge de
 texture par instance fonctionne (assignation, priorite sur le skin), pas a habiller le jeu. Un

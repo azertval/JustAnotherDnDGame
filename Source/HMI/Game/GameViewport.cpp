@@ -29,8 +29,6 @@
 #include "HMI/Editor/LevelNameValidation.h"
 #include "HMI/Editor/LinkGeometry.h"
 #include "HMI/Editor/LinkGesture.h"
-#include "HMI/Editor/PathGeometry.h"
-#include "HMI/Editor/PathGesture.h"
 #include "HMI/Editor/TextureAssignGesture.h"
 #include "HMI/Input/QtKeyMap.h"
 // QRhi est une API privée de QtGui : l'en-tête vit sous rhi/, pas parmi les classes publiques.
@@ -414,145 +412,6 @@ core::Vector2 GameViewport::worldPositionAt(const QMouseEvent* event) {
                                                static_cast<float>(event->position().y() * ratio)});
 }
 
-// --- Outil « Parcours » (LOT-67, EX-EDIT-032) -------------------------------------------------
-// Une fonction par evenement, la logique de designation et de calcul vivant dans
-// hmi::PathGesture / hmi::PathGeometry (purs, sans Qt). Un parcours est cale sur la grille de jeu :
-// aucune conversion d'espace n'est necessaire entre le curseur et le modele.
-
-std::vector<hmi::PathHandle> GameViewport::selectedPathHandles() const {
-    if (!_pathGesture.selected) {
-        return {};
-    }
-    const float worldUnitsPerScreenPixel = 1.0f / (hmi::Camera2D::PIXELS_PER_UNIT * _camera.zoom());
-    const hmi::PathSelection selection = *_pathGesture.selected;
-    if (selection.kind == hmi::PathTargetKind::Platform) {
-        if (selection.index >= _draft.platformConfigs().size()) {
-            return {};
-        }
-        return hmi::pathHandleLayout(_draft.platformConfigs()[selection.index],
-                                     worldUnitsPerScreenPixel);
-    }
-    if (selection.index >= _draft.moverConfigs().size()) {
-        return {};
-    }
-    return {
-        hmi::moverHandleLayout(_draft.moverConfigs()[selection.index], worldUnitsPerScreenPixel)};
-}
-
-void GameViewport::handlePathPress(const QMouseEvent* event) {
-    const core::Vector2 cursor = worldPositionAt(event);
-    const std::optional<hmi::PathHit> hit =
-        hmi::designatePathAt(cursor, _draft.platformConfigs(), _draft.moverConfigs(),
-                             _pathGesture.selected, selectedPathHandles());
-    if (!hit) {
-        _pathGesture.selected.reset();
-        _pathGesture.phase = hmi::PathGesturePhase::Idle;
-        emit pathSelectionChanged(_pathGesture.selected);
-        // Un danger temporise n'a pas de trajectoire, donc jamais de PathHit : sans ce cas, ses
-        // reglages de timing resteraient inatteignables depuis l'editeur. Il est designe par sa
-        // case, et sa selection exclut celle d'un parcours (et reciproquement, plus bas).
-        const core::GridPosition cell = clampedCell(event);
-        _selectedBlinkCell =
-            _draft.tileMap().inBounds(cell.column, cell.row) &&
-                    _draft.tileMap().tile(cell.column, cell.row) == core::TileType::DangerBlink
-                ? std::make_optional(cell)
-                : std::nullopt;
-        emit blinkSelectionChanged(_selectedBlinkCell);
-        return;
-    }
-    _selectedBlinkCell.reset();
-    emit blinkSelectionChanged(_selectedBlinkCell);
-    // moverStart n'a de sens que pour un danger mobile ; inoffensif sinon (le geste l'ignore).
-    const core::GridPosition moverStart =
-        hit->target.kind == hmi::PathTargetKind::Mover
-            ? _draft.moverConfigs()[hit->target.index].startPosition
-            : core::GridPosition{};
-    hmi::beginPathGesture(_pathGesture, *hit, cursor, moverStart);
-    emit pathSelectionChanged(_pathGesture.selected);
-}
-
-void GameViewport::handlePathMove(const QMouseEvent* event) {
-    if (_pathGesture.phase == hmi::PathGesturePhase::Idle) {
-        return;
-    }
-    const hmi::PathGestureAction preview =
-        hmi::updatePathGesture(_pathGesture, worldPositionAt(event));
-    _pathPreview = preview.kind == hmi::PathGestureActionKind::None ? std::nullopt
-                                                                    : std::make_optional(preview);
-    // L'apercu est un parametre de rendu, pas une mutation du brouillon : DraftRenderer le relit a
-    // chaque image, aucune reconstruction de scene n'est necessaire ici.
-}
-
-void GameViewport::handlePathRelease(const QMouseEvent* event, bool rightClick) {
-    if (rightClick) {
-        // Clic droit sur une poignee de POINT : retire ce point. Sur un milieu de segment ou dans
-        // le vide, sans effet -- il n'y a rien a retirer.
-        const std::optional<hmi::PathHandle> handle =
-            hmi::hitTestPathHandles(worldPositionAt(event), selectedPathHandles());
-        if (!handle || handle->kind != hmi::PathHandleKind::Waypoint || !_pathGesture.selected ||
-            _pathGesture.selected->kind != hmi::PathTargetKind::Platform) {
-            return;
-        }
-        _draft.removePlatformWaypoint(
-            _draft.platformConfigs()[_pathGesture.selected->index].startPosition, handle->index);
-        _dirty = true;
-        markDraftMutated();
-        emit statusMessage(statusText("status.path_waypoint_removed"));
-        return;
-    }
-
-    if (_pathGesture.phase == hmi::PathGesturePhase::Idle) {
-        return;
-    }
-    const hmi::PathGestureAction action = hmi::endPathGesture(_pathGesture, worldPositionAt(event));
-    _pathPreview.reset();
-    applyPathGestureAction(action);
-}
-
-void GameViewport::applyPathGestureAction(const hmi::PathGestureAction& action) {
-    if (action.kind == hmi::PathGestureActionKind::None) {
-        return;
-    }
-    if (action.target.kind == hmi::PathTargetKind::Mover) {
-        if (action.target.index >= _draft.moverConfigs().size()) {
-            return;
-        }
-        _draft.setMoverConfig(_draft.moverConfigs()[action.target.index].startPosition, action.axis,
-                              action.range);
-        _dirty = true;
-        markDraftMutated();
-        return;
-    }
-    if (action.target.index >= _draft.platformConfigs().size()) {
-        return;
-    }
-    const core::GridPosition start = _draft.platformConfigs()[action.target.index].startPosition;
-    switch (action.kind) {
-        case hmi::PathGestureActionKind::MoveWaypoint:
-            _draft.movePlatformWaypoint(start, action.waypointIndex, action.position);
-            break;
-        case hmi::PathGestureActionKind::InsertWaypoint:
-            _draft.insertPlatformWaypoint(start, action.waypointIndex, action.position);
-            break;
-        case hmi::PathGestureActionKind::RemoveWaypoint:
-            _draft.removePlatformWaypoint(start, action.waypointIndex);
-            break;
-        case hmi::PathGestureActionKind::None:
-        case hmi::PathGestureActionKind::SetMoverRange:
-            return;  // deja traites plus haut
-    }
-    _dirty = true;
-    markDraftMutated();
-}
-
-void GameViewport::cancelPathGesture() {
-    if (_pathGesture.phase == hmi::PathGesturePhase::Idle) {
-        return;
-    }
-    hmi::cancelPathGesture(_pathGesture);
-    _pathPreview.reset();
-}
-
 void GameViewport::selectPlane(std::optional<std::size_t> index) {
     if (index && *index >= _draft.planes().size()) {
         return;
@@ -662,66 +521,6 @@ void GameViewport::setLevelCameraFraming(core::CameraFramingConfig cameraFraming
     _dirty = true;
     markDraftMutated();
 }
-
-// Reglages du panneau « Proprietes » (LOT-67) : tous suivent le meme patron que les setters de
-// niveau ci-dessus -- muter le brouillon, marquer sale, notifier. Aucune validation ici : les
-// bornes sont posees par les widgets, et LevelDraft tolere les valeurs hors norme (EX-NFR-040).
-void GameViewport::setPlatformSpeed(core::GridPosition position, float speed) {
-    _draft.setPlatformSpeed(position, speed);
-    _dirty = true;
-    markDraftMutated();
-}
-
-void GameViewport::setPlatformPhase(core::GridPosition position, int phase) {
-    _draft.setPlatformPhase(position, phase);
-    _dirty = true;
-    markDraftMutated();
-}
-
-void GameViewport::setPlatformMode(core::GridPosition position, core::PlatformPathMode mode) {
-    _draft.setPlatformMode(position, mode);
-    _dirty = true;
-    markDraftMutated();
-}
-
-void GameViewport::setMoverConfig(core::GridPosition position, core::DangerMoverAxis axis,
-                                  int range) {
-    _draft.setMoverConfig(position, axis, range);
-    _dirty = true;
-    markDraftMutated();
-}
-
-void GameViewport::setBlinkConfig(core::GridPosition position, int period, int phase,
-                                  int activeDuration) {
-    _draft.setBlinkConfig(position, period, phase, activeDuration);
-    _dirty = true;
-    markDraftMutated();
-}
-
-void GameViewport::setLevelJumpBudget(int jumpBudget) {
-    _draft.setJumpBudget(jumpBudget);
-    _dirty = true;
-    markDraftMutated();
-}
-
-void GameViewport::setLevelDashBudget(int dashBudget) {
-    _draft.setDashBudget(dashBudget);
-    _dirty = true;
-    markDraftMutated();
-}
-
-void GameViewport::setLevelAirJumps(std::optional<int> airJumps) {
-    _draft.setAirJumps(airJumps);
-    _dirty = true;
-    markDraftMutated();
-}
-
-void GameViewport::setLevelDashCharges(std::optional<int> dashCharges) {
-    _draft.setDashCharges(dashCharges);
-    _dirty = true;
-    markDraftMutated();
-}
-
 void GameViewport::setSkinSet(const std::string& setName) {
     // Le catalogue est deja a jour (le panneau agit dessus directement) : il n'y a que le jeu
     // courant a propager, et l'image suivante montrera le resultat. Aucune scene a reconstruire.
@@ -765,12 +564,6 @@ bool GameViewport::linkExists(core::GridPosition switchPosition,
     for (const core::Mechanism& mechanism : _draft.mechanisms()) {
         if (mechanism.switchPosition == switchPosition &&
             mechanism.doorPosition == targetPosition) {
-            return true;
-        }
-    }
-    for (const core::DangerLink& dangerLink : _draft.dangerLinks()) {
-        if (dangerLink.triggerPosition == switchPosition &&
-            dangerLink.dangerPosition == targetPosition) {
             return true;
         }
     }
@@ -852,50 +645,23 @@ void GameViewport::tick(float elapsedSeconds) {
         _lastSimulationSteps = steps;  // pas consommés à cette image (LOT-62 TACHE-02).
         const float fixedDelta = _timestep.fixedDeltaSeconds();
         for (int step = 0; step < steps; ++step) {
-            // Lecture de rejeu (LOT-ANNEXE-18, TACHE-01/TACHE-02) : source de l'intention remplacee
-            // par la sequence enregistree, jamais l'entree clavier/manette -- ReplayPlayback ne
-            // connait meme pas _input. `replayEnded` distingue la sequence epuisee (nextInput() ==
-            // nullopt) d'une issue de simulation (Won/Lost), toutes deux traitees ci-dessous par un
-            // meme retour au menu (aucun enchainement, un rejeu porte sur un seul niveau).
             core::LevelOutcome outcome = core::LevelOutcome::Playing;
-            bool replayEnded = false;
             if (_session) {
-                if (_replayPlayback) {
-                    const std::optional<core::PlayerInput> replayInput =
-                        _replayPlayback->nextInput();
-                    if (replayInput) {
-                        outcome = _session->update(*replayInput, fixedDelta);
-                    } else {
-                        replayEnded = true;
-                    }
-                } else {
-                    outcome = _session->update(_input, fixedDelta);
-                }
+                outcome = _session->update(_input, fixedDelta);
             }
             // Bilan du tableau (LOT-68) : compte au PAS, pour la meme raison que les sons
-            // ci-dessous -- une mesure a l'image dependrait de la cadence de rendu. `_gameMode`
-            // exclut deja le rejeu (jamais defini simultanement, cf. startReplay).
+            // ci-dessous -- une mesure a l'image dependrait de la cadence de rendu.
             if (_session && _gameMode) {
                 accumulateStep(_runStats, _session->lastStepEvents());
             }
             // Sons de jeu (LOT-60 TACHE-03) : un evenement par pas, jamais par image de rendu --
-            // lastStepEvents() reflete exactement CE pas, celui qui vient de s'executer. Sans
-            // effet sur `replayEnded` : aucun pas n'a ete simule ce tour, l'evenement serait
-            // perime.
-            if (_session && _audioEngine && !replayEnded) {
+            // lastStepEvents() reflete exactement CE pas, celui qui vient de s'executer.
+            if (_session && _audioEngine) {
                 for (const GameEvent gameEvent : _session->lastStepEvents()) {
                     if (const std::optional<std::string> soundId = soundForEvent(gameEvent)) {
                         _audioEngine->play(*soundId);
                     }
                 }
-            }
-            if (_replayPlayback && (replayEnded || outcome == core::LevelOutcome::Won ||
-                                    outcome == core::LevelOutcome::Lost)) {
-                _input.beginFrame();
-                _replayPlayback.reset();
-                _session.reset();
-                emit exitToMenuRequested();
-                break;
             }
             if (_session && outcome == core::LevelOutcome::Won) {
                 _input.beginFrame();
@@ -932,10 +698,7 @@ void GameViewport::initialize(QRhiCommandBuffer* commandBuffer) {
     // le lot de sprites. D'ou la regle : memoriser ce qu'il faudra REMONTER avant de liberer, et
     // le remonter apres. Sans cela, l'etat affiche serait celui du brouillon d'edition et non
     // celui de la session demandee.
-    // Exclut le rejeu (LOT-ANNEXE-18) : `_replayPlayback` a sa propre branche de remontee
-    // ci-dessous, `startPlaytest()` reconstruirait une session depuis le brouillon d'edition, sans
-    // rapport avec le niveau du rejeu en cours.
-    const bool restorePlaytest = _session.has_value() && !_gameMode && !_replayPlayback;
+    const bool restorePlaytest = _session.has_value() && !_gameMode;
     // Changement d'interface (première image, ou widget passé sous une autre fenêtre de haut
     // niveau) : tout ce qui tient une texture est caduc. Ordre de libération : la session et les
     // rendus AVANT les textures qu'ils référencent.
@@ -954,12 +717,6 @@ void GameViewport::initialize(QRhiCommandBuffer* commandBuffer) {
         loadGameLevel(_gameLevel);
     } else if (restorePlaytest) {
         startPlaytest();
-    } else if (_replayPlayback) {
-        // Rejeu (LOT-ANNEXE-18) : relance startReplay() plutôt qu'un simple rechargement de niveau
-        // -- repart du DÉBUT de la séquence enregistrée (index inclus), cohérent avec le tableau
-        // qui repart lui aussi de son entrée (même convention que loadGameLevel ci-dessus) ; sans
-        // ça, la séquence reprendrait en cours sur un niveau fraîchement rechargé, désynchronisée.
-        startReplay(_replayPath);
     }
     _previousFrame = Clock::now();
 }
@@ -1026,15 +783,8 @@ void GameViewport::renderFrame(QRhiCommandBuffer* commandBuffer, float deltaSeco
         // sinon l'auteur ne sait pas ce qui est deja habille sans que ca encombre les autres
         // outils.
         const bool showTextureOverrides = _tool == hmi::EditorTool::TextureAssign;
-        // Poignees et apercu du parcours (LOT-67) : purement presentatifs, jamais ecrits dans le
-        // brouillon. L'echelle vient d'ici, seul endroit qui connaisse le zoom courant.
-        hmi::PathOverlayState pathOverlay;
-        pathOverlay.selected = _pathGesture.selected;
-        pathOverlay.preview = _pathPreview;
-        pathOverlay.worldUnitsPerScreenPixel =
-            1.0f / (hmi::Camera2D::PIXELS_PER_UNIT * _camera.zoom());
         _draftRenderer->render(_draft, _camera, _showGrid, highlight(), linkOverlay, _renderMode,
-                               showTextureOverrides, deltaSeconds, _layerVisibility, pathOverlay,
+                               showTextureOverrides, deltaSeconds, _layerVisibility,
                                _planeVisibility);
     }
     // Téléversement unique puis passe unique : c'est ici, et nulle part ailleurs, que le GPU voit
@@ -1108,13 +858,6 @@ void GameViewport::keyPressEvent(QKeyEvent* event) {
             }
             if (_gameMode) {
                 emit pauseRequested();
-            } else if (_replayPlayback) {
-                // Rejeu (LOT-ANNEXE-18) : jamais de pause (pas de rejeu navigable, decision de
-                // cadrage de l'epic) -- Échap retourne directement au menu, comme la fin normale
-                // du rejeu (tick()), plutot que stopPlaytest() (essai éditeur, hors contexte ici).
-                _replayPlayback.reset();
-                _session.reset();
-                emit exitToMenuRequested();
             } else {
                 stopPlaytest();
             }
@@ -1144,10 +887,6 @@ void GameViewport::keyPressEvent(QKeyEvent* event) {
         if (_draftRenderer) {
             _draftRenderer->invalidate();
         }
-        return;
-    }
-    if (event->key() == Qt::Key_Escape && _pathGesture.phase != hmi::PathGesturePhase::Idle) {
-        cancelPathGesture();  // meme principe pour un glisser de parcours (LOT-67)
         return;
     }
     // Annuler/refaire/enregistrer/essai/grille/recadrer/mode de rendu/copier/coller sont désormais
@@ -1414,47 +1153,6 @@ void GameViewport::loadGameLevel(std::size_t index) {
     _session->setSkins(&_skins, _skinSet);
 }
 
-bool GameViewport::startReplay(const std::filesystem::path& replayPath) {
-    const std::filesystem::path levelsDir = hmi::executableDirectory() / "Levels";
-    hmi::ReplayPlayback playback(replayPath, levelsDir);
-    if (!playback.valid()) {
-        _lastReplayError = playback.error();
-        HMI_LOG_WARNING("Rejeu : refuse (" + replayPath.string() + ") : " + _lastReplayError);
-        return false;
-    }
-    _replayPath = replayPath;
-    // Jamais simultane avec `_gameMode` (LOT-ANNEXE-18) : un rejeu ne suit ni la progression ni le
-    // bilan de tableau, et ne s'enchaine jamais vers un niveau suivant -- cf. tick().
-    _gameMode = false;
-    const std::filesystem::path levelPath = levelsDir / playback.levelPath();
-    _replayPlayback = std::move(playback);
-    HMI_LOG_INFO("Rejeu : demarrage (" + replayPath.string() + ").");
-    loadReplayLevel(levelPath);
-    return true;
-}
-
-void GameViewport::loadReplayLevel(const std::filesystem::path& levelPath) {
-    core::LevelLoadResult loaded = core::LevelLoader::loadFromFile(levelPath);
-    if (!loaded.ok()) {
-        // Deja valide par ReplayPlayback (meme fichier, empreinte deja verifiee) : ne devrait
-        // jamais se produire, mais reste recuperable plutot que de planter (EX-NFR-040).
-        HMI_LOG_WARNING("Rejeu : niveau illisible malgre validation (" + levelPath.string() + ").");
-        _replayPlayback.reset();
-        emit exitToMenuRequested();
-        return;
-    }
-    _runStats = LevelRunStats{};
-    if (_spriteBatch == nullptr) {
-        // Ressources de rendu pas encore pretes (toute premiere image) : le rejeu reste designe
-        // (_replayPlayback, _replayPath), initialize() le remonte des qu'il le peut -- meme repli
-        // que loadGameLevel ci-dessus.
-        return;
-    }
-    _session.emplace(*_spriteBatch, *_atlas, *_textureCache, pixelWidth(), pixelHeight(),
-                     std::move(*loaded.level), _gameBindings, _gamepadBindings, *_font, _loc);
-    _session->setSkins(&_skins, _skinSet);
-}
-
 void GameViewport::resizeLevel(int width, int height) {
     _draft.resize(width, height);
     _dirty = true;
@@ -1532,9 +1230,6 @@ void GameViewport::mousePressEvent(QMouseEvent* event) {
         case hmi::EditorTool::TextureAssign:
             handleTextureAssignClick(event, /*rightClick=*/false);
             break;
-        case hmi::EditorTool::Path:
-            handlePathPress(event);
-            break;
     }
 }
 
@@ -1545,14 +1240,10 @@ void GameViewport::mouseReleaseEvent(QMouseEvent* event) {
     }
     if (event->button() == Qt::RightButton) {
         // Glisser droit sans mouvement significatif = un clic : l'outil « Texture par instance »
-        // (LOT-45) y retire l'override de la case, l'outil « Parcours » y retire le point vise,
-        // les autres outils l'ignorent. Un glisser (pan) ne declenche jamais d'action d'edition.
-        if (_rightDragging && !_cameraPanned) {
-            if (_tool == hmi::EditorTool::TextureAssign) {
-                handleTextureAssignClick(event, /*rightClick=*/true);
-            } else if (_tool == hmi::EditorTool::Path) {
-                handlePathRelease(event, /*rightClick=*/true);
-            }
+        // (LOT-45) y retire l'override de la case, les autres outils l'ignorent. Un glisser (pan)
+        // ne declenche jamais d'action d'edition.
+        if (_rightDragging && !_cameraPanned && _tool == hmi::EditorTool::TextureAssign) {
+            handleTextureAssignClick(event, /*rightClick=*/true);
         }
         _rightDragging = false;
         _cameraPanned = false;
@@ -1575,9 +1266,6 @@ void GameViewport::mouseReleaseEvent(QMouseEvent* event) {
             addCameraZoneFromDrag(_dragStart, _dragCurrent);
         }
         _dragging = false;
-    }
-    if (_tool == hmi::EditorTool::Path) {
-        handlePathRelease(event, /*rightClick=*/false);
     }
     _painting = false;
 }
@@ -1616,8 +1304,6 @@ void GameViewport::mouseMoveEvent(QMouseEvent* event) {
         paintAt(event);  // glisser de peinture
     } else if (_dragging) {
         _dragCurrent = clampedCell(event);  // aperçu du rectangle/de la sélection
-    } else if (_tool == hmi::EditorTool::Path) {
-        handlePathMove(event);  // glisser d'une poignee de parcours (LOT-67)
     }
 }
 

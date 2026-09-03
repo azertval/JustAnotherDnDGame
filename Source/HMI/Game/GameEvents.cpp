@@ -20,7 +20,7 @@ std::vector<GameEvent> detectPlayerEvents(const PlayerEventState& previous,
         events.push_back(GameEvent::Landed);
     }
     // Front dash : le minuteur passe de <= 0 a > 0 exactement le pas ou le dash se declenche
-    // (CharacterPhysicsSystem::applyDash) -- jamais le pas ou il decompte vers 0.
+    // (systeme de deplacement) -- jamais le pas ou il decompte vers 0.
     if (previous.dashTimer <= 0.0F && current.dashTimer > 0.0F) {
         events.push_back(GameEvent::Dashed);
     }

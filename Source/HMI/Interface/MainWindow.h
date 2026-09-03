@@ -60,13 +60,11 @@ class PauseScreen;
 class LevelCompleteScreen;
 class LevelSelectScreen;
 class CreditsScreen;
-class AiModeScreen;
 class PalettePanel;
 class PlanesPanel;
 class LevelBrowserPanel;
 class LinkPanel;
 class TexturePanel;
-class PropertiesPanel;
 class PixelCanvas;
 class PixelHistoryPanel;
 class PixelPalettePanel;
@@ -363,24 +361,6 @@ private:
     /// de déverrouillage) et des niveaux personnels du dossier (hors séquence,
     /// `LevelFileOperations` filtrée).
     void openLevelSelect();
-    /// « Mode IA » (menu, `LOT-ANNEXE-21`) : ouvre `_aiMode` (entraînement, validation/sauvegarde,
-    /// rejeu) — remplace l'ancien `watchAiPlay` (`LOT-ANNEXE-18`), dont l'onglet Rejeu de
-    /// `_aiMode` reprend le rôle.
-    void openAiMode();
-    /// Retour au menu depuis l'écran Mode IA.
-    void closeAiMode();
-    /// @brief Demande confirmation avant de quitter l'écran Mode IA pendant un entraînement, et
-    /// arrête proprement le run si l'utilisateur confirme.
-    ///
-    /// Le travailleur d'entraînement vit sur son propre thread et **survivrait** à la fermeture de
-    /// l'écran : sans cette confirmation, un run continuerait à tourner sans plus être visible ni
-    /// interruptible depuis le jeu.
-    /// @return `true` si la navigation peut se poursuivre (aucun run actif, ou arrêt confirmé).
-    [[nodiscard]] bool confirmLeavingActiveTraining();
-    /// Un rejeu a été choisi dans `_aiMode` (aperçu en direct ou onglet Rejeu) : même chargement
-    /// que l'ancien `watchAiPlay`, signale une boîte d'erreur (rejeu invalide) sans ouvrir l'écran
-    /// de jeu, jamais de plantage (`EX-NFR-040`).
-    void playAiReplay(const QString& replayPath);
     /// Retour au menu depuis l'écran de sélection de niveau.
     void closeLevelSelect();
     /// « Crédits » (menu) : ouvre `_credits` (`LOT-60`).
@@ -429,7 +409,6 @@ private:
     CreditsScreen* _credits = nullptr;
     /// Écran Mode IA (`LOT-ANNEXE-21`) : même patron que `_levelSelectScreen`, page normale de
     /// `_stack`.
-    AiModeScreen* _aiMode = nullptr;
     GameViewport* _viewport;  ///< Surface de rendu D3D11 (possédée par le conteneur central).
     /// Contexte d'édition actif, cible d'Annuler/Refaire/Copier/Coller (`LOT-57` TACHE-04) : `
     /// _viewport` (niveau) ou `_pixelCanvas` (atelier pixel art, `LOT-54` TACHE-04), selon le
@@ -447,7 +426,6 @@ private:
     LinkPanel* _links;        ///< Liste/gestion des liaisons de mécanismes (dock Liens, LOT-37).
     TexturePanel* _textures;  ///< Habillage : jeu de skins et assignations (dock Textures, LOT-42).
     /// Réglages de gameplay de l'élément sélectionné et du tableau (dock Propriétés, `LOT-67`).
-    PropertiesPanel* _properties;
     /// Canevas de l'atelier pixel art (dock Atelier, LOT-54 TACHE-04) : seconde implémentation de
     /// `EditContextTarget`, cible d'Annuler/Refaire/Copier/Coller quand elle a le focus clavier.
     PixelCanvas* _pixelCanvas;
