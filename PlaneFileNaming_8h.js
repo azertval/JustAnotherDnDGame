@@ -1,0 +1,8 @@
+var PlaneFileNaming_8h =
+[
+    [ "hmi::PlanePixelSize", "structhmi_1_1PlanePixelSize.html", "structhmi_1_1PlanePixelSize" ],
+    [ "hmi::planePixelSize", "namespacehmi.html#ac8bacc3370bb1dd00a1f4a4fb291b771", null ],
+    [ "hmi::sanitizePlaneBaseName", "namespacehmi.html#ab15770b1b08b0c7155acb374ca5b174a", null ],
+    [ "hmi::uniquePlaneFileName", "namespacehmi.html#ad7bbf1d794a0cf9002d9b7440c5c4cf4", null ],
+    [ "hmi::PLANE_FILE_EXTENSION", "namespacehmi.html#abe6ca49f68758c7bf9ba0beffeb4619d", null ]
+];

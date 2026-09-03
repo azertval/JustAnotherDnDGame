@@ -1,0 +1,26 @@
+var searchData=
+[
+  ['3_20algorithmes_20d_20apprentissage_0',['3. Algorithmes d&apos;apprentissage',['../spec-ia.html#autotoc_md322',1,'']]],
+  ['3_20boucle_20temps_1',['3. Boucle &amp;amp; temps',['../spec-rendu-technique.html#autotoc_md343',1,'']]],
+  ['3_20conception_20lignes_20directrices_2',['3. Conception (lignes directrices)',['../spec-niveaux.html#autotoc_md338',1,'']]],
+  ['3_20coordonnées_20unités_20—_20trois_20espaces_20distincts_3',['3. Coordonnées &amp;amp; unités — trois espaces distincts',['../spec-architecture.html#autotoc_md250',1,'']]],
+  ['3_20créer_20un_20niveau_4',['3. Créer un niveau',['../manuel-partager-niveau.html#autotoc_md547',1,'']]],
+  ['3_20distribution_20collaboration_5',['3. Distribution &amp;amp; collaboration',['../spec-editeur.html#autotoc_md293',1,'']]],
+  ['3_20gestion_20des_20niveaux_6',['3. Gestion des niveaux',['../spec-interface-ihm.html#autotoc_md327',1,'']]],
+  ['3_20gravité_20et_20intégration_7',['3. Gravité et intégration',['../guide-physique.html#autotoc_md194',1,'']]],
+  ['3_20mécanismes_20de_20puzzle_8',['3. Mécanismes de puzzle',['../spec-gameplay.html#autotoc_md316',1,'']]],
+  ['3_20mise_20en_20forme_9',['3. Mise en forme',['../spec-conventions.html#autotoc_md267',1,'']]],
+  ['3_20multi_20couches_10',['LOT-04 — Format de carte `version: 3`, multi-couches',['../lot-04.html',1,'lots']]],
+  ['3_20pipeline_20photo_20→_20pixel_20art_20intégré_20à_20l_20éditeur_11',['3. Pipeline photo → pixel art (intégré à l&apos;éditeur)',['../spec-decors.html#autotoc_md287',1,'']]],
+  ['3_20qualité_20vérification_12',['3. Qualité &amp;amp; vérification',['../spec-exigences.html#autotoc_md306',1,'']]],
+  ['3_20réactivité_13',['3. Réactivité',['../spec-controles.html#autotoc_md262',1,'']]],
+  ['30_14',['Remapper les touches et boutons : &lt;a class=&quot;el&quot; href=&quot;classhmi_1_1GameKeyBindings.html&quot; title=&quot;hmi::GameKeyBindings&quot;&gt;GameKeyBindings&lt;/a&gt;/&lt;a class=&quot;el&quot; href=&quot;classhmi_1_1EditorKeyBindings.html&quot; title=&quot;hmi::EditorKeyBindings&quot;&gt;EditorKeyBindings&lt;/a&gt; (LOT-29), &lt;a class=&quot;el&quot; href=&quot;classhmi_1_1GamepadBindings.html&quot; title=&quot;hmi::GamepadBindings&quot;&gt;GamepadBindings&lt;/a&gt; (LOT-30)',['../guide-entrees.html#autotoc_md127',1,'']]],
+  ['31_15',['31',['../spec-editeur.html#autotoc_md300',1,'9. Dangers avancés (&lt;span class=&quot;tt&quot;&gt;LOT-31&lt;/span&gt;)'],['../guide-niveaux.html#autotoc_md177',1,'Dangers avancés (&lt;span class=&quot;tt&quot;&gt;LOT-31&lt;/span&gt;)'],['../spec-gameplay.html#autotoc_md312',1,'Dangers avancés (&lt;span class=&quot;tt&quot;&gt;LOT-31&lt;/span&gt;)']]],
+  ['32_16',['10. Niveaux à salles (&lt;span class=&quot;tt&quot;&gt;LOT-32&lt;/span&gt;)',['../spec-editeur.html#autotoc_md301',1,'']]],
+  ['35_17',['Éditeur : docks, palette, peinture (LOT-35)',['../guide-ihm-qt.html#autotoc_md136',1,'']]],
+  ['36_18',['Gestion des niveaux (LOT-36)',['../guide-ihm-qt.html#autotoc_md137',1,'']]],
+  ['37_19',['&lt;a class=&quot;el&quot; href=&quot;structhmi_1_1LineQuad.html&quot; title=&quot;hmi::LineQuad&quot;&gt;LineQuad&lt;/a&gt; : un segment orienté (liens de mécanismes, &lt;span class=&quot;tt&quot;&gt;LOT-37&lt;/span&gt;)',['../guide-rendu.html#autotoc_md212',1,'']]],
+  ['37_20et_20unification_20des_20menus_20lot_2038_20',['Liens de mécanismes (LOT-37) et unification des menus (LOT-38)',['../guide-ihm-qt.html#autotoc_md138',1,'']]],
+  ['37_20ex_20ihm_20030_20ex_20ihm_20031_21',['Lier des mécanismes dans l&apos;éditeur (&lt;span class=&quot;tt&quot;&gt;LOT-37&lt;/span&gt;, &lt;span class=&quot;tt&quot;&gt;EX-IHM-030&lt;/span&gt;/&lt;span class=&quot;tt&quot;&gt;EX-IHM-031&lt;/span&gt;)',['../guide-editeur.html#autotoc_md99',1,'']]],
+  ['38_22',['Liens de mécanismes (LOT-37) et unification des menus (LOT-38)',['../guide-ihm-qt.html#autotoc_md138',1,'']]]
+];

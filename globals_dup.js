@@ -1,0 +1,13 @@
+var globals_dup =
+[
+    [ "a", "globals.html", null ],
+    [ "c", "globals_c.html", null ],
+    [ "e", "globals_e.html", null ],
+    [ "g", "globals_g.html", null ],
+    [ "h", "globals_h.html", null ],
+    [ "j", "globals_j.html", null ],
+    [ "l", "globals_l.html", null ],
+    [ "m", "globals_m.html", null ],
+    [ "p", "globals_p.html", null ],
+    [ "t", "globals_t.html", null ]
+];
