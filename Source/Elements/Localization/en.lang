@@ -378,8 +378,6 @@ keybindings.action.rename = Rename
 keybindings.action.texture_tool = Texture tool
 
 # In-game head-up display (LOT-52, EX-IHM-003)
-hud.jumps_remaining = Jumps: %1
-hud.dashes_remaining = Dashes: %1
 hud.interact_prompt = Interact to pick up
 
 # In-game diagnostics overlay (LOT-62, F9, EX-NFR-001, EX-NFR-005)

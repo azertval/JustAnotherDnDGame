@@ -3,7 +3,6 @@
 
 #include "HMI/Game/GameHud.h"
 
-#include "Core/Ecs/Components/Player.h"
 #include "HMI/Localization/Localization.h"
 
 namespace hmi {
@@ -26,7 +25,7 @@ std::string formatCount(const std::string& templateText, int value) {
 }  // namespace
 
 // Lignes a afficher pour l'affichage tete haute d'un pas de simulation donne (voir en-tete).
-std::vector<std::string> gameHudLines(const core::Player& player, const std::string& levelName,
+std::vector<std::string> gameHudLines(const std::string& levelName,
                                       const Localization& localization, bool overlappingKey) {
     std::vector<std::string> lines;
 
@@ -39,16 +38,6 @@ std::vector<std::string> gameHudLines(const core::Player& player, const std::str
     // ne s'affiche tant que le personnage ne touche pas une cle.
     if (overlappingKey) {
         lines.push_back(localization.text("hud.interact_prompt"));
-    }
-
-    // Budget fini seulement (EX-GP-024) : -1 = illimite, la majorite des tableaux, pas de ligne.
-    if (player.jumpsRemaining >= 0) {
-        lines.push_back(
-            formatCount(localization.text("hud.jumps_remaining"), player.jumpsRemaining));
-    }
-    if (player.dashesRemaining >= 0) {
-        lines.push_back(
-            formatCount(localization.text("hud.dashes_remaining"), player.dashesRemaining));
     }
 
     lines.push_back(levelName);

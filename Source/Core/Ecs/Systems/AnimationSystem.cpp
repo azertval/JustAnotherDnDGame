@@ -3,10 +3,8 @@
 
 #include "Core/Ecs/Systems/AnimationSystem.h"
 
-#include <cmath>  // std::abs
-
+#include "Core/Ecs/Components/Actor.h"
 #include "Core/Ecs/Components/Animation.h"
-#include "Core/Ecs/Components/Player.h"
 #include "Core/Ecs/Components/Velocity.h"
 #include "Core/Ecs/World.h"
 
@@ -29,41 +27,17 @@ constexpr const char* PLAYER_CLIP_NAME_LAND = "land";
 constexpr const char* PLAYER_CLIP_NAME_WALLSLIDE = "wallslide";
 constexpr const char* PLAYER_CLIP_NAME_DASH = "dash";
 
-// Vrai si l'index designe l'un des clips AERIENS (saut, chute, glissade murale) : c'est depuis
-// l'un de ces trois clips qu'un contact au sol declenche la transition d'atterrissage
-// ci-dessous -- pas depuis idle/run/dash/land lui-meme (LOT-48 TACHE-02).
-bool isAirborneClip(int clipIndex) {
-    return clipIndex == PLAYER_CLIP_JUMP || clipIndex == PLAYER_CLIP_FALL ||
-           clipIndex == PLAYER_CLIP_WALLSLIDE;
-}
-
-// Determine le nom du clip cible a partir de l'etat physique courant et du clip actuellement
-// resolu (projection, cf. en-tete). Ordre de priorite EXPLICITE (LOT-48 TACHE-02), du plus fort
-// au plus faible :
-//   1. dash       -- dashTimer actif, domine tout le reste (y compris un atterrissage en cours) ;
-//   2. land       -- transition d'atterrissage : soit deja en cours (clip courant == land, on la
-//                    laisse se terminer), soit qui debute a l'instant (au sol ce pas-ci, alors
-//                    qu'un clip AERIEN etait resolu au pas precedent -- comparaison avec le pas
-//                    precedent, comme les transitions de mecanismes, LOT-47 TACHE-02) ;
-//   3. wallslide  -- contact mural en l'air (wallDirection non nul, pas au sol) ;
-//   4. fall/jump  -- en l'air, signe de la vitesse verticale (Y vers le bas : positive = chute) ;
-//   5. run/idle   -- au sol, seuil de vitesse horizontale existant, inchange depuis LOT-18.
-const char* targetClipName(const Player& player, const Velocity& velocity,
-                           const Animation& animation) {
-    if (player.dashTimer > 0.0F) {
-        return PLAYER_CLIP_NAME_DASH;
-    }
-    if (animation.clipIndex == PLAYER_CLIP_LAND ||
-        (player.grounded && isAirborneClip(animation.clipIndex))) {
-        return PLAYER_CLIP_NAME_LAND;
-    }
-    if (!player.grounded) {
-        if (player.wallDirection != 0.0F) {
-            return PLAYER_CLIP_NAME_WALLSLIDE;
-        }
-        return (velocity.value.y > 0.0F) ? PLAYER_CLIP_NAME_FALL : PLAYER_CLIP_NAME_JUMP;
-    }
-    if (std::abs(velocity.value.x) > MOVING_THRESHOLD) {
+// Determine le nom du clip cible a partir de la vitesse simulee. En vue de dessus, il n'y a plus
+// ni sol a quitter ni mur ou glisser : un acteur marche ou il ne marche pas, et c'est la NORME de
+// sa vitesse qui le dit -- les deux axes comptent pareil, marcher vers le haut n'est pas moins
+// marcher que vers la droite (EX-EXP-001).
+//
+// Les clips aeriens du platformer (jump, fall, land, wallslide, dash) restent DECLARES dans
+// playerClipSet() : les poses procedurales et les spritesheets externes s'y accrochent encore, et
+// c'est le vocabulaire de sprites RPG du LOT-08 qui refera ce jeu de clips. Plus rien ne les
+// selectionne ici, faute d'un etat qui puisse les justifier.
+const char* targetClipName(const Velocity& velocity) {
+    if (velocity.value.length() > MOVING_THRESHOLD) {
         return PLAYER_CLIP_NAME_RUN;
     }
     return PLAYER_CLIP_NAME_IDLE;
@@ -214,11 +188,9 @@ void AnimationSystem::update(World& world, float fixedDelta) {
         }
 
         bool justChanged = false;
-        if (world.hasComponent<Player>(entity) && world.hasComponent<Velocity>(entity)) {
-            const Player& player = world.getComponent<Player>(entity);
+        if (world.hasComponent<Actor>(entity) && world.hasComponent<Velocity>(entity)) {
             const Velocity& velocity = world.getComponent<Velocity>(entity);
-            justChanged = setTargetClip(animation, *animation.clips,
-                                        targetClipName(player, velocity, animation));
+            justChanged = setTargetClip(animation, *animation.clips, targetClipName(velocity));
         }
         if (justChanged) {
             return;

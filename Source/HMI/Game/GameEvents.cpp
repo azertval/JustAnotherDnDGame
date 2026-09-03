@@ -7,31 +7,6 @@
 
 namespace hmi {
 
-std::vector<GameEvent> detectPlayerEvents(const PlayerEventState& previous,
-                                          const PlayerEventState& current) {
-    std::vector<GameEvent> events;
-
-    if (current.justJumped) {
-        events.push_back(GameEvent::Jumped);
-    }
-    // Front sol : etait en l'air, est au sol -- jamais l'inverse (decoller n'est pas un
-    // "atterrissage").
-    if (!previous.grounded && current.grounded) {
-        events.push_back(GameEvent::Landed);
-    }
-    // Front dash : le minuteur passe de <= 0 a > 0 exactement le pas ou le dash se declenche
-    // (systeme de deplacement) -- jamais le pas ou il decompte vers 0.
-    if (previous.dashTimer <= 0.0F && current.dashTimer > 0.0F) {
-        events.push_back(GameEvent::Dashed);
-    }
-    // Front mur : n'etait au contact d'aucun mur, l'est desormais (direction non nulle).
-    if (previous.wallDirection == 0.0F && current.wallDirection != 0.0F) {
-        events.push_back(GameEvent::WallContactEnter);
-    }
-
-    return events;
-}
-
 std::vector<GameEvent> detectMechanismEvents(const MechanismEventState& previous,
                                              const MechanismEventState& current,
                                              const std::vector<bool>& isContinuous) {

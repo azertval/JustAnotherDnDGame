@@ -17,6 +17,7 @@ créer son fichier avec une ancre `{#spec-<nom>}` et ajouter une ligne
 - @subpage spec-controles
 - @subpage spec-rendu-technique
 - @subpage spec-niveaux
+- @subpage spec-exploration
 - @subpage spec-exigences
 - @subpage spec-editeur
 - @subpage spec-interface-ihm

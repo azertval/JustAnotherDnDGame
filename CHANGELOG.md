@@ -6,6 +6,28 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **Le jeu est de nouveau jouable : déplacement top-down en 8 directions** (`LOT-06`). Referme la
+  parenthèse ouverte par le `LOT-01`, où la physique de plateforme avait été retirée sans
+  remplaçant. `core::TopDownMovementSystem` enchaîne intention → vitesse → balayage continu →
+  position, **sans gravité** : aucun axe n'est privilégié, `x` et `y` sont traités exactement de la
+  même façon.
+  - **La diagonale n'est pas plus rapide** (`EX-EXP-001`) : l'intention est normalisée avant d'être
+    mise à l'échelle. Sans cela, aller en biais donnerait `√2 ≈ 1,41` fois la vitesse cardinale —
+    le défaut le plus courant du genre, et le plus visible en jeu. Vérifié par un test, pas par une
+    relecture.
+  - Le balayage continu déjà en place (`core::sweepAabb`) fait le reste : aucune traversée de mur à
+    vitesse absurde, glissement le long d'un obstacle pris en biais, et vitesse de l'axe bloqué
+    remise à zéro — pousser contre un mur n'accumule aucun élan (`EX-EXP-002`, `EX-EXP-003`).
+  - `core::Actor` remplace `core::Player` : **deux champs au lieu de trente**. Contact au sol,
+    coyote time, jump buffering, dash, wall jump et combos décrivaient un personnage de plateforme
+    et étaient **inertes** depuis le `LOT-01`. Restent l'orientation — un **vecteur**, parce qu'on
+    regarde dans huit directions et que le sprite (`LOT-08`), l'interaction (`LOT-10`) et l'attaque
+    (`LOT-21`) en dépendront — et la masse, seuil des plaques de pression.
+  - Conséquences assumées de cette disparition : l'animation choisit son clip d'après la **norme**
+    de la vitesse (marcher vers le haut est une marche), le HUD perd ses compteurs de sauts et de
+    dashs, et la détection d'événements perd ses transitions de personnage (saut, atterrissage,
+    glissade murale) — sans producteur, faute d'un état qui puisse les justifier.
+
 - **Modes de jeu : l'ordre des passes sort de la session** (`LOT-05`). `hmi::GameSession` mêlait
   deux rôles — **orchestrateur** du pas fixe (monde ECS, caméra, événements, HUD, `FixedTimestep`,
   interpolation) et **mode de jeu** (l'ordre des passes lui-même). Tant qu'il n'y avait qu'un genre,

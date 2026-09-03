@@ -72,7 +72,7 @@ public:
      *        touchées avec « Interagir », applique l'état des portes/portes verrouillées dans la
      *        grille de collision.
      * @param playerBox       Boîte englobante du personnage, en unités monde.
-     * @param playerMass      Masse du personnage (`core::Player::mass`, `EX-GP-019`), comparée au
+     * @param playerMass      Masse du personnage (`core::Actor::mass`, `EX-GP-019`), comparée au
      *                        seuil des plaques de pression (`MIN_TRIGGER_MASS`) ; sans effet sur
      *                        les interrupteurs classiques ou les clés. Valeur par défaut = masse
      *                        par défaut du personnage (compatibilité des appels existants).

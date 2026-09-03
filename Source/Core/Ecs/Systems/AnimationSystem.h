@@ -56,12 +56,12 @@ constexpr int PLAYER_CLIP_DASH = 6;
  *        l'état physique du personnage sur son clip cible.
  *
  * Deux responsabilités distinctes (`LOT-46` TACHE-02) :
- * - **projection**, spécifique au personnage : pour chaque entité `Player` + `Velocity` +
- *   `Animation`, détermine le clip actif par ordre de priorité **explicite** (`LOT-48` TACHE-02,
- *   aucun champ ajouté à `Player` — l'animation reste une conséquence de l'état physique
- *   existant) : dash (`dashTimer` actif) > atterrissage (transition, cf. `targetClipName`) >
- *   glissade murale (`wallDirection` non nul, en l'air) > chute/saut (en l'air, signe de la
- *   vitesse verticale) > course/repos (au sol, seuil `MOVING_THRESHOLD`, comme avant `LOT-46`) ;
+ * - **projection**, spécifique au personnage : pour chaque entité `Actor` + `Velocity` +
+ *   `Animation`, détermine le clip actif d'après la **norme** de la vitesse (`LOT-06`,
+ *   les deux axes comptant pareil) : au-delà du seuil `MOVING_THRESHOLD`, « run » ; en deçà,
+ *   « idle ». Les clips aériens du platformer restent **déclarés** — les poses procédurales et les
+ *   spritesheets externes s'y accrochent — mais plus rien ne les sélectionne, faute d'un état qui
+ *   puisse les justifier ; c'est le `LOT-08` qui refera ce vocabulaire pour le RPG ;
  * - **progression**, générale : pour **toute** entité portant `core::Animation` (personnage,
  *   tuiles animées, `LOT-46` TACHE-05), avance l'image courante selon la durée du clip résolu,
  *   boucle ou bascule sur le clip suivant en fin de clip joué une fois (`core::ClipEndMode::
@@ -71,8 +71,8 @@ constexpr int PLAYER_CLIP_DASH = 6;
  * Toute la logique vit ici ; les composants restent des **données pures** (`EX-ARCH-011`).
  * Déterministe au pas fixe (`EX-NFR-002`), testable sans GPU (`EX-NFR-010`).
  *
- * Doit s'exécuter **après** le système de déplacement dans la boucle d'un écran : il lit l'état
- * `grounded` calculé par la physique pour le **même** pas.
+ * Doit s'exécuter **après** le système de déplacement dans la boucle d'un écran : il lit la
+ * vitesse calculée par le déplacement pour le **même** pas.
  */
 class AnimationSystem : public ISystem {
 public:

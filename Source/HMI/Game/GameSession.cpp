@@ -11,12 +11,13 @@
 #include <utility>
 #include <vector>
 
+#include "Core/Ecs/Components/Actor.h"
 #include "Core/Ecs/Components/Animation.h"
 #include "Core/Ecs/Components/Collider.h"
-#include "Core/Ecs/Components/Player.h"
 #include "Core/Ecs/Components/Sprite.h"  // core::AtlasRegion, core::Color
 #include "Core/Ecs/Components/Transform.h"
 #include "Core/Ecs/Components/Velocity.h"
+#include "Core/Ecs/Systems/TopDownMovementSystem.h"
 #include "Core/Levels/LevelScene.h"
 #include "Core/Levels/TileMap.h"
 #include "Core/Levels/TileType.h"
@@ -264,7 +265,7 @@ void GameSession::spawnPlayer(core::GridPosition entry) {
         _player, core::Transform{core::playerSpawnPosition(entry.column, entry.row), size, 0.0f});
     _world.addComponent(_player, core::Velocity{});
     _world.addComponent(_player, core::Collider{size});
-    _world.addComponent(_player, core::Player{});
+    _world.addComponent(_player, core::Actor{});
     core::Animation animation;
     animation.clips = core::playerClipSet();
     animation.clipIndex = core::PLAYER_CLIP_IDLE;
@@ -380,7 +381,7 @@ std::vector<core::Aabb> GameSession::collectActiveDangerBoxes() {
     // Ecrasement par une PORTE qui se referme (EX-GP-021, LOT-65 TACHE-06) : mortel, traduit en
     // boite de danger supplementaire. Sans cela, le personnage reste encastre dans un mur sans
     // echec possible -- la « situation sans issue » que la conception des niveaux interdit.
-    if (_world.hasComponent<core::Player>(_player) && _mechanisms && _mechanisms->crushedPlayer()) {
+    if (_world.hasComponent<core::Actor>(_player) && _mechanisms && _mechanisms->crushedPlayer()) {
         const core::Transform& squishedTransform = _world.getComponent<core::Transform>(_player);
         const core::Collider& squishedCollider = _world.getComponent<core::Collider>(_player);
         boxes.push_back(
@@ -393,7 +394,7 @@ std::vector<core::Aabb> GameSession::collectActiveDangerBoxes() {
 // de Texture) + habillage Texture (spritesheet externe si chargee, LOT-48).
 void GameSession::refreshPlayerSprite() {
     const core::Animation& animation = _world.getComponent<core::Animation>(_player);
-    const core::Player& player = _world.getComponent<core::Player>(_player);
+    const core::Actor& actor = _world.getComponent<core::Actor>(_player);
     core::Sprite& sprite = _world.getComponent<core::Sprite>(_player);
     PlayerSpriteTag& tag = _world.getComponent<PlayerSpriteTag>(_player);
 
@@ -447,9 +448,11 @@ void GameSession::refreshPlayerSprite() {
     tag.usesCharacterSheet = usesCharacterSheet;
     tag.quadOffset = quad.offset;
     tag.quadSize = quad.size;
-    // Orientation (LOT-48 TACHE-03) : sens du deplacement, maintenu par la physique
-    // (core::Player::facing), sans que le rendu n'ait a le recalculer.
-    tag.flipHorizontal = player.facing < 0.0f;
+    // Orientation (LOT-48 TACHE-03) : derniere direction de marche, maintenue par le
+    // deplacement (core::Actor::facing), sans que le rendu n'ait a la recalculer. Seule sa
+    // composante horizontale se lit en miroir -- le vocabulaire de sprites RPG du LOT-08 dira quoi
+    // faire des quatre orientations.
+    tag.flipHorizontal = actor.facing.x < 0.0f;
 }
 
 // Avance l'horloge d'animation partagee des tuiles animees, au pas fixe (LOT-46 TACHE-05).
@@ -534,7 +537,7 @@ void GameSession::updateFollowCamera(float fixedDelta) {
     // affichee du personnage (PreviousPosition). Melanger les deux ici desynchroniserait le suivi
     // de la simulation qu'il est cense suivre.
     const core::Vector2 characterCenter = transform.position + collider.size * 0.5f;
-    const core::Player& player = _world.getComponent<core::Player>(_player);
+    const core::Actor& actor = _world.getComponent<core::Actor>(_player);
     const core::Rect levelBounds{
         core::Vector2{0.0f, 0.0f},
         core::Vector2{static_cast<float>(_levelWidth), static_cast<float>(_levelHeight)}};
@@ -546,7 +549,11 @@ void GameSession::updateFollowCamera(float fixedDelta) {
         static_cast<float>(
             _cameraFraming.roomHeightTiles.value_or(core::DEFAULT_ROOM_HEIGHT_TILES)) *
             0.5f};
-    _followCameraState = advanceFollowCamera(_followCameraState, characterCenter, player.facing,
+    // L'anticipation de la camera ne connait qu'un sens horizontal : elle regarde devant le
+    // personnage le long de l'axe des x. Le suivi en huit directions (anticiper aussi vers le haut
+    // et vers le bas) est une decision de cadrage, pas une consequence du deplacement -- elle
+    // appartient au lot qui refera la camera pour la vue de dessus.
+    _followCameraState = advanceFollowCamera(_followCameraState, characterCenter, actor.facing.x,
                                              levelBounds, viewHalfExtent, fixedDelta);
 }
 
@@ -648,14 +655,10 @@ void GameSession::advanceScreenShake(float fixedDelta) {
 }
 
 void GameSession::moveCharacter(const core::PlayerInput& input, float fixedDelta) {
-    // LOT-01 : le controleur de plateforme (core::CharacterPhysicsSystem) a ete retire avec le
-    // gameplay en vue de cote, et son remplacant top-down (core::TopDownMovementSystem, 8
-    // directions au-dessus de core::sweepAabb) arrive au LOT-06. Entre les deux, le personnage ne
-    // se deplace pas : la session charge, affiche et evalue un tableau, mais ne le joue pas encore.
-    // L'intention d'entree est donc lue sans etre consommee -- elle le sera telle quelle des que le
-    // systeme de deplacement existera, sans changer ni cette signature ni l'ordre des passes.
-    (void)input;
-    (void)fixedDelta;
+    // Deplacement libre en 8 directions (LOT-06), contre la grille de COLLISION du niveau
+    // (EX-LVL-016) : c'est elle, et pas le decor, qui arrete le personnage.
+    core::updateTopDownMovement(_world, _player, input, _level->tileMap(), _movementConfig,
+                                fixedDelta);
 }
 
 void GameSession::advanceAnimations(float fixedDelta) {
@@ -692,23 +695,20 @@ void GameSession::updateMechanisms(const core::PlayerInput& input) {
     // Contact interrupteurs (front) / poids sur plaque (continu) -> etat des portes. La liste de
     // poids est vide : les blocs poussables reviendront avec leur controleur top-down, seul le
     // personnage pese aujourd'hui sur une plaque.
-    const float playerMass = _world.getComponent<core::Player>(_player).mass;
+    const float playerMass = _world.getComponent<core::Actor>(_player).mass;
     _mechanisms->update(playerBox(), playerMass, input.interactPressed, {});
 }
 
 void GameSession::detectEvents() {
     // Detection d'evenements (LOT-60 TACHE-03) : mecanismes a jour, une seule fois par pas fixe
-    // (jamais par image de rendu, EX-REN-021).
-    const PlayerEventState currentPlayerEventState =
-        PlayerEventState::capture(_world.getComponent<core::Player>(_player));
+    // (jamais par image de rendu, EX-REN-021). Plus d'evenements de PERSONNAGE depuis le LOT-06 :
+    // saut, atterrissage et glissade murale etaient ceux d'un jeu de plateforme, et le deplacement
+    // en vue de dessus n'en produit aucun equivalent -- le combat (LOT-21) dira ce qui les
+    // remplace.
     const MechanismEventState currentMechanismEventState =
         MechanismEventState::capture(*_mechanisms);
     _lastStepEvents.clear();
     if (_gameEventsInitialized) {
-        const std::vector<GameEvent> playerEvents =
-            detectPlayerEvents(_previousPlayerEventState, currentPlayerEventState);
-        _lastStepEvents.insert(_lastStepEvents.end(), playerEvents.begin(), playerEvents.end());
-
         std::vector<bool> continuousMechanisms;
         continuousMechanisms.reserve(_mechanisms->mechanisms().size());
         for (std::size_t index = 0; index < _mechanisms->mechanisms().size(); ++index) {
@@ -723,7 +723,6 @@ void GameSession::detectEvents() {
         // principe que MechanismVisualState::initialized (LOT-47).
         _gameEventsInitialized = true;
     }
-    _previousPlayerEventState = currentPlayerEventState;
     _previousMechanismEventState = currentMechanismEventState;
 }
 
@@ -791,8 +790,6 @@ void GameSession::renderHud(int viewportWidth, int viewportHeight) {
     constexpr core::Color HUD_SHADOW_COLOR{0.0f, 0.0f, 0.0f, 0.75f};
     constexpr core::Color HUD_TEXT_COLOR{1.0f, 1.0f, 1.0f, 1.0f};
 
-    const core::Player& player = _world.getComponent<core::Player>(_player);
-
     // Le personnage touche-t-il une cle non ramassee (EX-GP-023, LOT-65 TACHE-07) ? La porte
     // qu'ouvre une cle reste FERMEE tant que celle-ci n'est pas ramassee : `isDoorOpen` vaut donc
     // « cle deja prise », et une cle consommee ne doit plus rien afficher.
@@ -815,7 +812,7 @@ void GameSession::renderHud(int viewportWidth, int viewportHeight) {
     }
 
     const std::vector<std::string> lines =
-        gameHudLines(player, _level->name(), *_localization, overlappingKey);
+        gameHudLines(_level->name(), *_localization, overlappingKey);
 
     _hudScene.clear();
     float lineY = HUD_MARGIN;

@@ -379,8 +379,6 @@ keybindings.action.rename = Renommer
 keybindings.action.texture_tool = Outil Texture
 
 # Affichage tete haute en jeu (LOT-52, EX-IHM-003)
-hud.jumps_remaining = Sauts : %1
-hud.dashes_remaining = Dashs : %1
 hud.interact_prompt = Interagir pour ramasser
 
 # Compteur de diagnostic en jeu (LOT-62, F9, EX-NFR-001, EX-NFR-005)
