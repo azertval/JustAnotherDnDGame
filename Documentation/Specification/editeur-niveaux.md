@@ -23,7 +23,7 @@ Permettre la **création et la modification de niveaux sans écrire de code**, a
 
 ## 2. Réutilisation & cohérence
 - \anchor EX-EDIT-010 **EX-EDIT-010** — L'éditeur doit **réutiliser le modèle de niveau et la validation de `Core`** — aucune duplication de la logique de niveau entre le jeu et l'éditeur (source unique de vérité).
-- \anchor EX-EDIT-011 **EX-EDIT-011** — Un niveau enregistré par l'éditeur doit être **directement jouable** par le jeu sans conversion, et réciproquement (round-trip fiable).
+- \anchor EX-EDIT-011 **EX-EDIT-011** — Un niveau enregistré par l'éditeur doit être **directement jouable** par le jeu sans conversion, et réciproquement (round-trip fiable). Ce qu'un éditeur ne sait pas encore modifier, il doit le **transporter** : les couches visibles, les entités et les propriétés libres d'une carte (`EX-LVL-016` à `EX-LVL-018`) traversent un cycle ouvrir/enregistrer sans perte, même avant que l'interface ne les expose — un éditeur qui efface en silence ce qu'il n'affiche pas est pire qu'un éditeur incomplet.
 
 ## 3. Distribution & collaboration
 - \anchor EX-EDIT-020 **EX-EDIT-020** — L'éditeur doit être fourni comme un **outil exécutable** que les non-codeurs lancent sans étape de build.

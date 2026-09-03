@@ -25,6 +25,7 @@ add_executable(UnitTests
     Unit/Core/Levels/test_level_loader.cpp
     Unit/Core/Levels/test_level_sequence.cpp
     Unit/Core/Levels/test_level_writer.cpp
+    Unit/Core/Levels/test_map_layers.cpp
     Unit/Core/Levels/test_level_draft.cpp
     Unit/Core/Levels/test_plane.cpp
     Unit/Core/Levels/test_level_outcome.cpp

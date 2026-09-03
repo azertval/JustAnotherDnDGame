@@ -6,6 +6,32 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **Format de carte `version: 3` : couches, entités, propriétés libres** (`LOT-04`). Une carte
+  n'est plus une grille plate unique mais **N couches typées** — sol, décor — superposées à la
+  grille de collision, plus une **liste d'entités** (PNJ, coffres, panneaux, portails,
+  déclencheurs). C'est la seule évolution de format structurante du programme, et elle précède
+  toute production de carte : une carte dessinée sur le format plat serait à refaire.
+  - **La collision reste le tableau racine `tiles`**, celui qui porte déjà l'entrée, la sortie et
+    les mécanismes ; `layers` ne décrit que les couches **visibles**, et une couche `collision`
+    déclarée est refusée avec un message qui renvoie à la racine. Deux grilles à tenir d'accord se
+    désynchronisent, et c'est celle qu'on ne voit pas qui gagne (`EX-LVL-016`).
+  - **Migration ascendante** : une carte `version: 2` se charge sans y toucher, sa grille promue en
+    couche unique `legacy` — décor **et** collision, comme avant. Réécrite, elle ressort **sans**
+    tableau `layers` : l'éditeur ne convertit pas un fichier dans le dos de son auteur.
+  - **Propriétés libres et tolérance aux champs inconnus** (`EX-LVL-018`) — le point à ne pas rater
+    du lot. Toute clé qu'une couche ou une entité porte sans que le chargeur la connaisse est
+    conservée et **réémise**. Sans cela, les besoins du combat découverts en phase D (terrain
+    difficile, couverture, hauteur) imposeraient un `version: 4` en plein milieu du programme, avec
+    migration de tout le contenu déjà produit.
+  - Le **brouillon d'édition** transporte couches, entités et propriétés sans encore savoir les
+    modifier (`LOT-11`), redimensionne toutes les couches avec la carte, et écrit la grille éditée
+    dans la couche de collision (`EX-EDIT-011`).
+  - `LevelWriter::buildJson` prend désormais l'agrégat `core::LevelData` du `LOT-03` : les couches
+    et les entités auraient porté sa liste positionnelle à onze paramètres, dont trois `vector`
+    voisins interchangeables sans erreur de compilation.
+  - `buildLevelScene` boucle sur les couches visibles et **ignore la collision** : un masque n'est
+    pas une image. Le rang de la couche ordonne les sprites, le décor par-dessus le sol.
+
 - **Agrégat `LevelData`** (`LOT-03`). Le constructeur de `core::Level` prenait ses composantes en
   **paramètres positionnels** — jusqu'à 19 avant le `LOT-01`, 11 après lui. Deux
   `std::optional<std::string>` voisins (`background`, `skinSet`) s'intervertissaient sans que le

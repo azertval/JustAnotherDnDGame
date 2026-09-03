@@ -10,7 +10,9 @@
 
 #include "Core/Levels/CameraFraming.h"
 #include "Core/Levels/GridPosition.h"
+#include "Core/Levels/MapEntity.h"
 #include "Core/Levels/Plane.h"
+#include "Core/Levels/TileLayer.h"
 #include "Core/Levels/TileMap.h"
 
 /**
@@ -79,7 +81,23 @@ struct LevelData {
     /// Nom du niveau.
     std::string name;
     /// Grille de tuiles typées. Sans défaut : voir la note ci-dessus.
+    ///
+    /// C'est la grille de **collision** de la carte — celle que consomment le balayage AABB et, au
+    /// `LOT-19`, la grille de combat tactique — et elle porte aussi l'entrée, la sortie et les
+    /// cases de mécanismes. Le format ne connaît qu'elle sur ce point : une couche `collision`
+    /// déclarée à côté est refusée au chargement, précisément pour qu'il n'existe jamais deux
+    /// grilles à tenir d'accord (`EX-LVL-016`).
     TileMap tileMap;
+    /// Couches de tuiles de la carte (`LOT-04`), dans leur ordre de superposition.
+    ///
+    /// La **première** est `tileMap` ci-dessus, promue par le chargeur : de rôle `Collision` quand
+    /// la carte déclare des couches visibles, `Legacy` quand elle n'en déclare aucune (une grille
+    /// plate `version: 2`, qui vaut alors décor **et** collision). Un consommateur boucle donc sur
+    /// `layers` sans cas particulier. Vide seulement pour un `Level` construit **directement**,
+    /// sans passer par le chargeur — le rendu retombe alors sur `tileMap`.
+    std::vector<TileLayer> layers;
+    /// Entités placées sur la carte (`LOT-04`) : PNJ, coffres, panneaux, portails, déclencheurs.
+    std::vector<MapEntity> entities;
     /// Position d'apparition (case `Entry`).
     GridPosition entry{};
     /// Position de sortie (case `Exit`).
@@ -113,6 +131,8 @@ public:
     explicit Level(LevelData data)
         : _name(std::move(data.name)),
           _tileMap(std::move(data.tileMap)),
+          _layers(std::move(data.layers)),
+          _entities(std::move(data.entities)),
           _entry(data.entry),
           _exit(data.exit),
           _mechanisms(std::move(data.mechanisms)),
@@ -131,6 +151,17 @@ public:
     /// @return La grille de tuiles du niveau.
     [[nodiscard]] const TileMap& tileMap() const noexcept {
         return _tileMap;
+    }
+
+    /// @return Les couches de tuiles de la carte (`LOT-04`), dans leur ordre de superposition,
+    /// la grille de collision en tête (voir `LevelData::layers`).
+    [[nodiscard]] const std::vector<TileLayer>& layers() const noexcept {
+        return _layers;
+    }
+
+    /// @return Les entités placées sur la carte (`LOT-04`).
+    [[nodiscard]] const std::vector<MapEntity>& entities() const noexcept {
+        return _entities;
     }
 
     /// @return La position d'apparition.
@@ -187,6 +218,8 @@ public:
 private:
     std::string _name;
     TileMap _tileMap;
+    std::vector<TileLayer> _layers;
+    std::vector<MapEntity> _entities;
     GridPosition _entry;
     GridPosition _exit;
     std::vector<Mechanism> _mechanisms;

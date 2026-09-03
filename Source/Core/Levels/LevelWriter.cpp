@@ -7,10 +7,14 @@
 #include <map>
 #include <string>
 #include <utility>
+#include <variant>
 
 #include <nlohmann/json.hpp>
 
 #include "Core/Levels/LevelLoader.h"
+#include "Core/Levels/LevelProperties.h"
+#include "Core/Levels/MapEntity.h"
+#include "Core/Levels/TileLayer.h"
 #include "Core/Levels/TileMap.h"
 #include "Core/Levels/TileType.h"
 #include "Core/Levels/TileTypeName.h"
@@ -47,12 +51,70 @@ namespace {
     return "behind";
 }
 
+// --- Couches et entites (LOT-04, format version 3) -------------------------------------------
+
+// Reemet les proprietes libres d'une couche ou d'une entite A PLAT dans son objet JSON, a cote de
+// ses champs connus (EX-LVL-018). C'est la moitie ecriture du mecanisme qui evite un version: 4 :
+// le chargeur range dans cette table toute cle qu'il ne reconnait pas, et on la lui rend telle
+// quelle. Une cle homonyme d'un champ connu ne peut pas s'y trouver -- collectProperties l'aurait
+// ecartee -- et un ecrasement est donc impossible.
+//
+// core::PropertyMap est ordonnee : l'ecriture est deterministe, deux enregistrements du meme
+// niveau produisent le meme fichier.
+void writeProperties(const PropertyMap& properties, nlohmann::json& object) {
+    for (const auto& [key, value] : properties) {
+        std::visit([&object, &key](const auto& raw) { object[key] = raw; }, value);
+    }
+}
+
+// Tuiles non vides d'une grille, au format {x, y, type}. Les cases vides sont omises (EX-LVL-003),
+// et une couche ne porte AUCUN des champs specifiques du tableau racine (id, opensWith, texture) :
+// les mecanismes et les textures par instance restent attaches a la grille racine, seule source de
+// verite des liaisons.
+[[nodiscard]] nlohmann::json layerTilesJson(const TileMap& tiles) {
+    nlohmann::json array = nlohmann::json::array();
+    for (int row = 0; row < tiles.height(); ++row) {
+        for (int column = 0; column < tiles.width(); ++column) {
+            const TileType type = tiles.tile(column, row);
+            if (type == TileType::Empty) {
+                continue;
+            }
+            nlohmann::json tile;
+            tile["x"] = column;
+            tile["y"] = row;
+            tile["type"] = tileTypeName(type);
+            array.push_back(std::move(tile));
+        }
+    }
+    return array;
+}
+
+// Vrai pour la couche que le chargeur PROMEUT depuis la grille racine (Collision, ou Legacy pour
+// une carte sans couche declaree). Elle n'est jamais reecrite dans "layers" : elle est deja le
+// tableau racine "tiles". L'ecrire dupliquerait la grille dans le fichier, et une carte version 2
+// ressortirait convertie en version 3 dans le dos de son auteur.
+[[nodiscard]] bool isPromotedRootLayer(const TileLayer& layer) {
+    return layer.kind == LayerKind::Collision || layer.kind == LayerKind::Legacy;
+}
+
 }  // namespace
 
 std::string LevelWriter::toJsonString(const Level& level) {
-    return buildJson(level.name(), level.tileMap(), level.mechanisms(), level.background(),
-                     level.skinSet(), level.textureOverrides(), level.cameraFraming(),
-                     level.planes(), level.parallaxEnabled());
+    // Recompose l'agregat a partir des accesseurs : Level ne conserve pas de LevelData, et le
+    // cout (une copie de la grille et des vecteurs) est celui d'un enregistrement de fichier, pas
+    // d'une boucle de jeu. entry/exit sont volontairement omis -- buildJson les relit de la
+    // grille, jamais du champ.
+    return buildJson(LevelData{.name = level.name(),
+                               .tileMap = level.tileMap(),
+                               .layers = level.layers(),
+                               .entities = level.entities(),
+                               .mechanisms = level.mechanisms(),
+                               .background = level.background(),
+                               .skinSet = level.skinSet(),
+                               .textureOverrides = level.textureOverrides(),
+                               .cameraFraming = level.cameraFraming(),
+                               .planes = level.planes(),
+                               .parallaxEnabled = level.parallaxEnabled()});
 }
 
 bool LevelWriter::saveToFile(const Level& level, const std::filesystem::path& path) {
@@ -65,14 +127,20 @@ bool LevelWriter::saveToFile(const Level& level, const std::filesystem::path& pa
     return file.good();
 }
 
-std::string LevelWriter::buildJson(const std::string& name, const TileMap& tileMap,
-                                   const std::vector<Mechanism>& mechanisms,
+std::string LevelWriter::buildJson(const LevelData& data) {
+    // Composantes lues sous leur nom court. Des references, jamais des copies : le seul but est
+    // que le corps ci-dessous -- inchange depuis que la signature a cesse d'etre positionnelle --
+    // se lise sans un "data." sur chaque ligne.
+    const std::string& name = data.name;
+    const TileMap& tileMap = data.tileMap;
+    const std::vector<Mechanism>& mechanisms = data.mechanisms;
+    const std::optional<std::string>& background = data.background;
+    const std::optional<std::string>& skinSet = data.skinSet;
+    const std::vector<TileTextureOverride>& textureOverrides = data.textureOverrides;
+    const CameraFramingConfig& cameraFraming = data.cameraFraming;
+    const std::vector<Plane>& planes = data.planes;
+    const bool parallaxEnabled = data.parallaxEnabled;
 
-                                   const std::optional<std::string>& background,
-                                   const std::optional<std::string>& skinSet,
-                                   const std::vector<TileTextureOverride>& textureOverrides,
-                                   const CameraFramingConfig& cameraFraming,
-                                   const std::vector<Plane>& planes, bool parallaxEnabled) {
     nlohmann::json root;
     root["version"] = LEVEL_FORMAT_VERSION;
     root["name"] = name;
@@ -180,6 +248,46 @@ std::string LevelWriter::buildJson(const std::string& name, const TileMap& tileM
         }
     }
     root["tiles"] = std::move(tiles);
+
+    // Tableau racine optionnel "layers" (EX-LVL-016, LOT-04) : les couches VISIBLES uniquement,
+    // dans leur ordre de superposition, du sol vers le decor. La grille racine, promue en couche
+    // au chargement, en est exclue -- elle est deja "tiles" ci-dessus. Rien a ecrire, pas de
+    // champ : une carte plate reste une carte plate.
+    nlohmann::json layersJson = nlohmann::json::array();
+    for (const TileLayer& layer : data.layers) {
+        if (!isPromotedRootLayer(layer)) {
+            nlohmann::json layerJson;
+            // Le nom est libre et facultatif : omis quand il est vide, comme tout champ a sa
+            // valeur par defaut. Le role, lui, est toujours ecrit -- c'est la raison d'etre de la
+            // couche, jamais du bruit.
+            if (!layer.name.empty()) {
+                layerJson["name"] = layer.name;
+            }
+            layerJson["kind"] = layerKindName(layer.kind);
+            layerJson["tiles"] = layerTilesJson(layer.tiles);
+            writeProperties(layer.properties, layerJson);
+            layersJson.push_back(std::move(layerJson));
+        }
+    }
+    if (!layersJson.empty()) {
+        root["layers"] = std::move(layersJson);
+    }
+
+    // Tableau racine optionnel "entities" (EX-LVL-017, LOT-04), omis si vide. Le type est ecrit
+    // meme vide : une entite sans type est une donnee fautive qu'il vaut mieux voir dans le
+    // fichier que faire disparaitre a l'enregistrement.
+    if (!data.entities.empty()) {
+        nlohmann::json entitiesJson = nlohmann::json::array();
+        for (const MapEntity& entity : data.entities) {
+            nlohmann::json entityJson;
+            entityJson["type"] = entity.type;
+            entityJson["x"] = entity.position.column;
+            entityJson["y"] = entity.position.row;
+            writeProperties(entity.properties, entityJson);
+            entitiesJson.push_back(std::move(entityJson));
+        }
+        root["entities"] = std::move(entitiesJson);
+    }
 
     // Tableau racine optionnel "planes" (EX-DEC-040, LOT-69), omis si vide : l'ordre du vecteur
     // est preserve (rang = superposition). Chaque champ a sa valeur par defaut est omis, comme

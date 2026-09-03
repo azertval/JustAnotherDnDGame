@@ -12,6 +12,8 @@
 #include "Core/Levels/GridPosition.h"
 #include "Core/Levels/Level.h"
 #include "Core/Levels/LevelLoader.h"
+#include "Core/Levels/MapEntity.h"
+#include "Core/Levels/TileLayer.h"
 #include "Core/Levels/TileMap.h"
 #include "Core/Levels/TileType.h"
 
@@ -307,6 +309,22 @@ public:
         return _planes;
     }
 
+    /// @return Les couches de tuiles du niveau (`LOT-04`), dans leur ordre de superposition.
+    ///
+    /// **Portees telles quelles, pas encore editables.** Le brouillon les recoit du fichier et les
+    /// rend a l'enregistrement ; c'est le `LOT-11` qui donnera a l'editeur de quoi les creer et
+    /// les peindre. Sans ce transport, ouvrir puis enregistrer une carte multi-couches les
+    /// effacerait en silence -- exactement le genre de perte qu'un editeur ne doit jamais infliger.
+    [[nodiscard]] const std::vector<TileLayer>& layers() const noexcept {
+        return _layers;
+    }
+
+    /// @return Les entites placees sur la carte (`LOT-04`). Portees telles quelles, comme
+    /// `layers()`, en attendant l'outillage d'edition du `LOT-11`.
+    [[nodiscard]] const std::vector<MapEntity>& entities() const noexcept {
+        return _entities;
+    }
+
     /// @return `true` si la parallaxe des plans est active pour ce niveau (`EX-DEC-043`).
     [[nodiscard]] bool parallaxEnabled() const noexcept {
         return _parallaxEnabled;
@@ -368,6 +386,8 @@ private:
         std::optional<GridPosition> entry;
         std::optional<GridPosition> exit;
         std::vector<Mechanism> mechanisms;
+        std::vector<TileLayer> layers;
+        std::vector<MapEntity> entities;
         std::optional<std::string> background;
         std::optional<std::string> skinSet;
         std::vector<TileTextureOverride> textureOverrides;
@@ -391,6 +411,8 @@ private:
     std::optional<GridPosition> _entry;
     std::optional<GridPosition> _exit;
     std::vector<Mechanism> _mechanisms;
+    std::vector<TileLayer> _layers;
+    std::vector<MapEntity> _entities;
     std::optional<std::string> _background;
     std::optional<std::string> _skinSet;
     std::vector<TileTextureOverride> _textureOverrides;

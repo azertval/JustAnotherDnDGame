@@ -1,6 +1,7 @@
 # LOT-04 — Format de carte `version: 3`, multi-couches {#lot-04}
 
-> Statut : **à faire**.
+> Statut : **fait** (vérification automatisée : build `/W4 /WX` sans avertissement, `ctest` à
+> 914/914, lint d'exigences, cahier de test, Doxygen et `clang-format` verts).
 > Prérequis : [LOT-03](@ref lot-03) (`LevelData` accueille les nouveaux champs sans repasser à 17
 > paramètres positionnels).
 
@@ -27,10 +28,14 @@ refaire — et c'est le genre de dette qu'on ne repaie jamais.
 
 ## Périmètre
 
-- `struct TileLayer { std::string name; LayerKind kind; TileMap tiles; int renderLayer; }` ;
-  `Level` porte un `std::vector<TileLayer>`.
-- **Migration ascendante** : le chargeur promeut une grille `version: 2` en couche unique de
-  `kind = Legacy`. Le mécanisme existe déjà — `LevelLoader.cpp` traite l'absence de champ `version`
+- `struct TileLayer { std::string name; LayerKind kind; TileMap tiles; PropertyMap properties; }` ;
+  `Level` porte un `std::vector<TileLayer>`. **Pas de champ `renderLayer`** : le rang de la couche
+  dans le vecteur *est* son ordre de superposition, un second ordre l'aurait contredit.
+- `struct MapEntity { std::string type; GridPosition position; PropertyMap properties; }` ;
+  `Level` porte un `std::vector<MapEntity>`.
+- **Migration ascendante** : le chargeur promeut la grille racine en couche de tête —
+  `kind = Collision` quand la carte déclare des couches visibles, `kind = Legacy` quand elle n'en
+  déclare aucune. Le mécanisme existe déjà — `LevelLoader.cpp` traite l'absence de champ `version`
   comme la version initiale, et refuse proprement une version qu'il ne connaît pas.
 - `TileAutotile` (raccords 16 voisinages) s'applique **par couche**, sans modification.
 - `LevelScene::buildLevelScene` boucle sur les couches.
@@ -57,3 +62,24 @@ migration de tout le contenu déjà produit. C'est le risque numéro un de ce lo
 - Une `version: 4` est refusée avec un message explicite (`EX-NFR-040`).
 - Un champ inconnu dans une couche ou une entité est **ignoré sans erreur**, et **préservé** à la
   réécriture.
+
+## Ce que la réalisation a tranché
+
+**La collision n'est pas une couche du tableau `layers` : c'est le tableau racine `tiles`.** Le
+périmètre initial la voyait comme l'une des trois couches déclarées, à égalité avec le sol et le
+décor. Elle ne peut pas l'être : la grille racine porte déjà l'entrée, la sortie et les cases de
+mécanismes, que la validation exige et qu'aucune couche ne réplique. Une carte à deux grilles se
+serait désynchronisée dès le premier aller-retour d'éditeur — l'écriture repart de la grille du
+niveau, qui aurait alors perdu son entrée. Une couche `collision` déclarée est donc **refusée**,
+avec un message qui renvoie à la racine ; le chargeur promeut la grille racine en couche de tête
+pour que les consommateurs bouclent quand même sans cas particulier.
+
+**Le brouillon d'édition transporte ce qu'il ne sait pas éditer.** L'éditeur multi-couches est le
+`LOT-11`, mais `LevelDraft` porte dès maintenant couches, entités et propriétés : sans cela, ouvrir
+puis enregistrer une carte `version: 3` l'aurait vidée en silence. Le redimensionnement emporte
+toutes les couches et abandonne les entités sorties de la grille, faute de quoi le niveau devenait
+irrécupérable à l'enregistrement.
+
+**`LevelWriter::buildJson` prend l'agrégat `LevelData`.** Les couches et les entités auraient porté
+sa liste positionnelle à onze paramètres, dont trois `std::vector` voisins interchangeables sans
+que le compilateur bronche — la dette même que le `LOT-03` venait de solder côté `Level`.
