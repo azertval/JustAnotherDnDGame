@@ -3,7 +3,11 @@
 # translated. Blank lines and lines starting with # are ignored.
 
 # Main menu
-menu.title = JustAnotherDnDGame
+# Titre AFFICHE du jeu : « Just Another D&D Game », avec espaces et esperluette.
+# A ne pas confondre avec l'identifiant technique « JustAnotherDnDGame » (cible CMake,
+# binaire, depot, prefixe de macro JADG_) : un renommage global de l'un a deja ecrase
+# l'autre une fois (LOT-01). Les deux sont distincts, et doivent le rester.
+menu.title = Just Another D&D Game
 menu.continue = Continue
 menu.new_game = New Game
 menu.select_level = Select Level
@@ -45,7 +49,7 @@ level_select.completed_suffix = (completed)
 level_select.locked_suffix = (locked)
 
 # Main window and menu bar
-window.title = JustAnotherDnDGame — Editor
+window.title = Just Another D&D Game — Editor
 menubar.main_menu = Main menu
 menubar.quit = Quit
 menubar.file = File

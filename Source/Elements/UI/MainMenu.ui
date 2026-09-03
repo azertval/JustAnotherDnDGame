@@ -9,7 +9,7 @@
     <widget class="QLabel" name="menuTitle">
      <!-- Taille/graisse posees par theme.qss (#MainMenu QLabel#menuTitle, LOT-56 TACHE-03), depuis
           l'echelle typographique des jetons, pas de propriete de police figee ici. -->
-     <property name="text"><string>JustAnotherDnDGame</string></property>
+     <property name="text"><string>Just Another D&amp;D Game</string></property>
     </widget>
    </item>
    <item>
