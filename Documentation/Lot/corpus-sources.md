@@ -172,7 +172,7 @@ Les lots [LOT-13](@ref lot-13) (fiche de personnage), [LOT-14](@ref lot-14) (inv
 **JSON** », conformément à [`EX-VIS-007`](@ref EX-VIS-007). Aucun ne dit **d'où sortent ces JSON**.
 C'est exactement le trou que ce corpus comble, et c'est le périmètre de la phase F.
 
-Dix lots, `LOT-30` à `LOT-39`. Les numéros sont, comme toujours, des identifiants stables : ils
+Treize lots, `LOT-30` à `LOT-42`. Les numéros sont, comme toujours, des identifiants stables : ils
 viennent après [LOT-29](@ref lot-29) dans la numérotation, mais plusieurs s'exécutent **avant** les
 lots qui les consomment (voir §6). Une nouvelle famille d'exigences `EX-CNT-*` les couvre, à écrire
 dans un `Documentation/Specification/contenu.md`.
@@ -183,6 +183,51 @@ parce que le projet lit déjà du JSON (`skins.json`, `sounds.json`, `palettes.j
 seule donnée réellement tabulaire et plate du corpus, le lexique du `LOT-31` : 1 200 lignes de trois
 colonnes, qu'on veut pouvoir trier, comparer et corriger dans un tableur sans passer par un éditeur
 de code. **PNG** enfin, pour les textures du `LOT-39`.
+
+### Importer tout, honorer progressivement
+
+Le périmètre est **le monde complet** : les 10 régions et leurs lieux, les 13 espèces, les 8 classes
+et leurs sous-classes, les historiques, les factions, le panthéon, le bestiaire entier. Pas de
+socle réduit, pas de tri préalable.
+
+C'est le bon choix, et il est peu coûteux : extraire dix régions ne demande pas dix fois le travail
+d'en extraire une, puisque c'est le **parseur** qui coûte, pas les données qu'il avale. Mais il
+introduit un écart qu'il faut nommer tout de suite, sous peine de le découvrir en jeu :
+
+> **Une donnée importée n'est pas une mécanique implémentée.** L'élémentaliste a sa propre liste de
+> sorts, le madwalker ses *trails*, le redeemer ses *blessings*. Importer ces classes prend une
+> après-midi ; faire que le moteur les joue correctement est un programme entier.
+
+La règle qui évite le piège est celle que le [LOT-25](@ref lot-25) pose déjà pour les sorts, étendue
+à toute la phase F : **chaque donnée déclare les mécanismes dont elle a besoin**, et le moteur
+**refuse en le disant** ce qu'il ne sait pas honorer. Une classe dont le moteur ignore la ressource
+propre se signale au chargement, elle ne se joue pas en silence comme une classe ordinaire amputée
+de ce qui la définit.
+
+Ainsi le catalogue peut être complet longtemps avant le moteur, sans jamais mentir sur ce qui est
+jouable — et l'écart entre les deux devient une liste consultable plutôt qu'une surprise.
+
+### La cible : un bac à sable dans l'univers entier
+
+Le jeu visé dans un premier temps est un **bac à sable** — le personnage parcourt les dix régions
+librement, sans intrigue directrice. Ce cadrage n'ajoute pas une contrainte à la phase F, il en
+change la nature, et pour le mieux.
+
+Un bac à sable se nourrit de contenu **systémique** : les rencontres naissent d'une table et d'un
+lieu, pas d'un script ; le stock d'un marchand se déduit de sa région ; une quête se compose à
+partir des objectifs d'une faction et de l'état du monde. Rien de tout cela ne s'écrit à la main
+région par région — et c'est précisément ce que le corpus permet d'éviter, parce que les
+**`Regional Statistics` sont déjà des réglages de bac à sable**. `Monster Presence`, `Magic Access`,
+`Economic Prosperity`, `Crime and Violence` : quatre axes notés, dix régions, et le monde se
+différencie mécaniquement sans qu'une seule valeur soit inventée.
+
+D'où trois lots supplémentaires, `LOT-40` à `LOT-42`, qui transforment l'atlas en monde parcourable :
+le terrain, son peuplement, et le voyage entre les régions.
+
+Cela ne remplace pas le [LOT-27](@ref lot-27), qui garde sa fonction : prouver que la boucle
+complète tourne — explorer, parler, déclencher, combattre, gagner — sur **un** village et **un**
+donjon. Un bac à sable est cette boucle répétée sur cent lieux ; la construire sur cent lieux avant
+de l'avoir validée sur un seul multiplierait simplement par cent le coût de chaque correction.
 
 ### `LOT-30` — Chaîne d'extraction du corpus
 
@@ -298,28 +343,34 @@ tombe silencieusement dans un cas par défaut, un test énumère le catalogue et
 
 *Prérequis : `LOT-32`. Alimente [LOT-13](@ref lot-13).*
 
-Deux niveaux, et le second n'attend que le premier.
+**Tout, en une fois.** Les 4 races, 4 classes et 6 historiques des *Basic Rules* pour le vocabulaire
+français de référence, puis l'ensemble du *Player's Guide* : ses **13 espèces** (dont cirrus,
+gloomfolk, soulborn, taii'maku), ses **4 classes inédites** (dragonblade, élémentaliste, madwalker,
+redeemer), ses **4 classes simplifiées** (brawler, mage, priest, scoundrel), sa vingtaine de
+sous-classes et ses **7 historiques**.
 
-Le **socle** : les 4 races, 4 classes et 6 historiques des *Basic Rules*, en français, suffisants
-pour jouer.
+Les **31 tables de progression** sont le vrai travail : chacune est un tableau de 20 lignes où un
+décalage d'une ligne donne à une classe les capacités du niveau voisin — faux, et faux sans rien
+casser. C'est le même piège qu'au `LOT-34`, et il se traite pareil : extraction par coordonnées,
+puis relecture.
 
-L'**extension Tanares** : les 13 espèces du *Player's Guide* (dont cirrus, gloomfolk, soulborn,
-taii'maku), ses 4 classes inédites (dragonblade, élémentaliste, madwalker, redeemer), ses 4 classes
-simplifiées, sa vingtaine de sous-classes et ses 7 historiques. Les **31 tables de progression**
-détectées sont le vrai travail : chacune est un tableau de 20 lignes à extraire sans décalage.
+Chaque classe déclare les **mécanismes** qu'elle exige (emplacements de sorts, ressource propre,
+liste de sorts dédiée, choix de sous-classe au niveau *n*). C'est cette déclaration qui permet au
+moteur de dire ce qu'il ne sait pas encore jouer, au lieu de servir une classe amputée.
 
 *Acceptation* — celle du [LOT-13](@ref lot-13), tenue par les données : trois classes chargent et
 donnent les bons modificateurs, et la progression du niveau 1 au niveau 5 ne fait intervenir aucune
 valeur codée en C++. Une table de progression extraite est comparée ligne à ligne au PDF sur au
-moins trois classes.
+moins trois classes. Toute classe exigeant un mécanisme absent du moteur est **listée au
+chargement**, jamais jouée en silence.
 
 ### `LOT-37` — Atlas du monde et graphe de cartes
 
 *Prérequis : `LOT-32`. Alimente [LOT-09](@ref lot-09), [LOT-27](@ref lot-27).*
 
-Le monde de Tanares devient l'atlas du jeu, tel quel : **10 régions**, **5 factions**, **18
-divinités**, **11 organisations**, **7 lieux du plan pénombral**, une chronologie et une économie de
-minerais rares, vers `Source/Elements/World/`.
+Le monde de Tanares devient l'atlas du jeu, en entier : **10 régions** et leurs lieux, **5
+factions**, **18 divinités**, **11 organisations**, **7 lieux du plan pénombral**, une chronologie
+et une économie de minerais rares, vers `Source/Elements/World/`.
 
 Sa vertu est d'être déjà **cohérent** : une région porte des lieux, un lieu porte des factions
 présentes et des PNJ notables, une faction porte des objectifs qui se traduisent en quêtes, un
@@ -327,16 +378,35 @@ panthéon porte des domaines qui se traduisent en capacités. C'est précisémen
 au fil de l'eau n'a jamais, et ce qui rend le [LOT-16](@ref lot-16) (quêtes) écrivable plutôt
 qu'improvisable.
 
+Chaque région suit un gabarit régulier, donc parsable : `Government`, `Faction`, `Population` (avec
+répartition par espèce en pourcentage), puis les sections `Geography`, `Politics`, `Economy`,
+`Culture and Society`, puis ses lieux nommés. Certains lieux portent même des **effets mécaniques**
+directement implémentables — les Sacred Ponds du Bak Forest doublent les PV rendus par dé de vie
+lors d'un repos court et annulent un niveau d'épuisement.
+
+Et surtout un encart **`Regional Statistics`** : sept axes notés de *Very Low* à *Very High* —
+`Citizen Freedom`, `Crime and Violence`, `Economic Prosperity`, `Government Corruption`,
+`Magic Access`, `Monster Presence`, `Political Stability`. Ce sont des **paramètres de gameplay déjà
+tabulés**, et il serait dommage de les traiter comme de la couleur : `Monster Presence` règle le
+taux de rencontre, `Magic Access` le stock d'un marchand, `Economic Prosperity` ses prix,
+`Crime and Violence` la fréquence des PNJ hostiles. Dix régions livrent ainsi dix ambiances
+mécaniquement distinctes sans qu'aucune valeur ne soit inventée.
+
 Le branchement est direct sur le [LOT-09](@ref lot-09) : une région est un nœud du graphe de cartes,
 un lieu est une carte à créer. Les cartes de régions du Sourcebook servent de référence de tracé au
 `LOT-39`.
 
-Le périmètre du *vertical slice* n'a pas besoin des dix régions : **une seule**, avec son village et
-son donjon, suffit au [LOT-27](@ref lot-27). Les neuf autres sont de la donnée qui attend, pas du
-travail à faire tout de suite.
+L'objectif étant l'**univers complet et jouable**, les dix régions doivent toutes exister en jeu, pas
+seulement en données. C'est ce qui rend les `LOT-40` et `LOT-41` nécessaires : à raison d'une dizaine
+de lieux nommés par région, on parle d'une **centaine de cartes**, un volume qui ne se dessine pas à
+la main et qui doit donc se **générer depuis cet atlas**. Le présent lot est ce qui rend cette
+génération possible : c'est lui qui fournit la matière que le `LOT-40` transformera en terrain.
 
 *Acceptation* — `check_world_graph.py` (prévu au [LOT-27](@ref lot-27)) valide l'atlas ; aucun lieu
-sans région, aucune faction référencée qui n'existe pas, aucune région inatteignable.
+sans région, aucune faction référencée qui n'existe pas, aucune région inatteignable. Les sept
+statistiques régionales sont typées, pas laissées en texte libre. Chaque région déclare un
+**descripteur de terrain** exploitable par le `LOT-40` — proportions de biomes, présence d'eau, de
+relief, de bâti — dérivé de sa section `Geography`.
 
 ### `LOT-38` — Fiche de personnage : maquette et interface
 
@@ -384,6 +454,89 @@ La distinction avec le [LOT-08](@ref lot-08) est nette : le `LOT-08` a fixé le 
 marqueur généré, et la CI **liste** les clés sans art définitif sans échouer : c'est un état
 d'avancement, pas un défaut.
 
+### `LOT-40` — Génération de terrain pilotée par l'atlas
+
+*Prérequis : `LOT-37`, [LOT-11](@ref lot-11). Alimente `LOT-41`.*
+
+Dix régions, une dizaine de lieux nommés chacune : environ **cent cartes**. Dessinées à la main dans
+l'éditeur, à raison de quelques heures pièce, c'est une année de travail pour un développeur seul —
+et la certitude que le monde ne sera jamais fini. Elles doivent donc se **générer**.
+
+La génération n'est pas un pis-aller ici, parce que la matière existe déjà. Le `LOT-37` livre pour
+chaque région un descripteur de terrain dérivé de sa section `Geography`, et le vocabulaire de
+tuiles est posé depuis le [LOT-08](@ref lot-08) : `Grass`, `Dirt`, `Sand`, `Water`, `DeepWater`,
+`Wall`, `Cliff`, `Bridge`, `Stairs`. Le Central Empire annonce « vallées fluviales, vastes
+prairies, forêt du Bak, marais, hauts plateaux du nord » ; le Freelands « landes et zones humides,
+forêts tempérées, chaînes glacées, deux mers ». Ce sont des recettes de terrain, pas de la prose
+d'ambiance.
+
+Le lot produit un générateur qui, d'un descripteur de région et d'une **graine dérivée de l'identité
+du lieu**, rend une carte au format du [LOT-04](@ref lot-04) : couches, collision, portails. La
+graine dérive du lieu et non de l'horloge — même raison qu'au [LOT-26](@ref lot-26) pour les coffres :
+une carte qui se re-tire différemment à chaque chargement n'est pas un monde, c'est un kaléidoscope.
+
+Le rapport à l'éditeur est le point à ne pas manquer : la génération **produit un niveau ordinaire**,
+que le [LOT-11](@ref lot-11) ouvre, corrige et enregistre comme n'importe quel autre. Un générateur
+dont la sortie n'est pas éditable oblige à choisir entre tout générer et tout dessiner ; celui-ci
+permet de générer les cent cartes et d'en finir dix à la main — les seules que le joueur regardera
+de près.
+
+*Acceptation* — une même graine et un même descripteur rendent deux fois la carte **identique** ;
+toute carte générée est traversable de son entrée à sa sortie, vérifié par un parcours automatique ;
+une carte générée s'ouvre dans l'éditeur, se modifie et se recharge sans perte.
+
+### `LOT-41` — Peuplement systémique des régions
+
+*Prérequis : `LOT-40`, `LOT-33`, `LOT-34`, [LOT-15](@ref lot-15), [LOT-26](@ref lot-26).*
+
+Une carte vide n'est pas un lieu. Ce lot la peuple, et il le fait **par déduction depuis les données
+de région**, jamais par placement manuel — c'est ce qui rend dix régions tenables.
+
+Les sept `Regional Statistics` deviennent des réglages effectifs :
+
+| Statistique | Ce qu'elle pilote |
+|---|---|
+| `Monster Presence` | Densité des rencontres, dangerosité des tables de la région |
+| `Magic Access` | Présence d'objets magiques chez les marchands, PNJ lanceurs de sorts |
+| `Economic Prosperity` | Prix pratiqués, richesse des étals, valeur du butin |
+| `Crime and Violence` | Fréquence des PNJ hostiles, embuscades sur les routes |
+| `Political Stability` | Présence de gardes, réaction aux actes du joueur |
+| `Government Corruption` | Disponibilité des marchés noirs et des contrats douteux |
+| `Citizen Freedom` | Ton des dialogues génériques, ce que les PNJ osent dire |
+
+S'y ajoutent la **répartition des espèces** de la région (le Freelands est à 70 % humain, 11 % elfe
+d'automne, 8 % elfe d'hiver : les PNJ générés suivent cette distribution) et les **factions
+présentes**, qui décident de qui tient les lieux et de qui accueille mal le joueur.
+
+Les quêtes se composent sur le même principe : un objectif de faction, une cible dans la région, une
+récompense tirée de sa prospérité. Le [LOT-16](@ref lot-16) fournit les drapeaux, ce lot fournit les
+gabarits qui s'en servent.
+
+*Acceptation* — deux régions aux statistiques opposées produisent des peuplements **mesurablement**
+différents (densité de rencontre, prix moyen, composition des espèces), vérifié par un test ; le
+peuplement est reproductible à graine égale ; aucun PNJ ni aucune rencontre n'est placé en dur dans
+le code.
+
+### `LOT-42` — Voyage et carte du monde
+
+*Prérequis : `LOT-41`, [LOT-09](@ref lot-09), [LOT-17](@ref lot-17).*
+
+Un univers vaste ne vaut que si l'on peut le parcourir. Ce lot livre la **carte du monde** — les dix
+régions, leurs lieux connus, la position du personnage — et le déplacement entre régions : routes,
+voyage rapide vers un lieu déjà visité, et le coût que ce voyage représente (temps, ravitaillement,
+risque de rencontre selon la `Crime and Violence` traversée).
+
+Il porte aussi la **découverte** : un lieu se révèle en y arrivant ou en l'apprenant d'un PNJ, et
+cet état de découverte entre dans la sauvegarde du [LOT-17](@ref lot-17). Sans cela, un monde de
+cent lieux s'ouvre entièrement dès la première seconde et n'a plus rien à offrir.
+
+L'IHM s'appuie sur les cartes de régions du Sourcebook, redessinées à l'échelle du jeu par le
+`LOT-39`.
+
+*Acceptation* — le joueur atteint les dix régions par le seul jeu, sans commande de débogage ; la
+carte du monde n'affiche que ce qui est découvert ; l'état de découverte survit à une sauvegarde et
+à un rechargement.
+
 ---
 
 ## 6. Ordre d'exécution recommandé
@@ -396,17 +549,27 @@ catalogue fictif finit toujours par se figer en valeurs codées en dur, exacteme
 | Quand | Lots | Pourquoi là |
 |---|---|---|
 | Tout de suite après [LOT-08](@ref lot-08) | `LOT-30`, `LOT-31`, `LOT-32` | Outillage et contrats, sans dépendance ; le plus tôt est le mieux |
-| Avec [LOT-09](@ref lot-09) | `LOT-37` (une région) | L'atlas donne au graphe de cartes de vrais nœuds à relier |
-| Avant [LOT-13](@ref lot-13) | `LOT-36` (socle) | La fiche a besoin de vraies classes pour valider sa progression |
+| Avec [LOT-09](@ref lot-09) | `LOT-37` | L'atlas donne au graphe de cartes de vrais nœuds à relier |
+| Avant [LOT-13](@ref lot-13) | `LOT-36` | La fiche a besoin de vraies classes pour valider sa progression |
 | Avant [LOT-14](@ref lot-14) | `LOT-34` | L'inventaire a besoin d'un vrai catalogue pour prouver l'absence de dérive de CA |
-| Avant [LOT-21](@ref lot-21) / [LOT-23](@ref lot-23) | `LOT-33` (les 94) | Attaques et IA ont besoin de vraies créatures |
+| Avant [LOT-21](@ref lot-21) / [LOT-23](@ref lot-23) | `LOT-33` (les 94 d'abord) | Attaques et IA ont besoin de vraies créatures |
 | Avant [LOT-25](@ref lot-25) | `LOT-35` | Les sorts sont des données avant d'être un système |
 | Après [LOT-13](@ref lot-13) | `LOT-38`, puis `LOT-39` (habillage) | La maquette suppose la fiche existante |
-| En fond, sans jalon | `LOT-33` (Tanares, MM), `LOT-36` (extension), `LOT-39` (portraits) | Volume long, sans blocage : se remplit par lots successifs |
+| Après [LOT-11](@ref lot-11) | `LOT-40` | La génération produit des niveaux que l'éditeur doit savoir rouvrir |
+| **Après [LOT-27](@ref lot-27)** | `LOT-41`, `LOT-42` | Le bac à sable généralise une boucle ; il faut l'avoir validée une fois |
+| En fond, sans jalon | `LOT-33` (Tanares, MM), `LOT-39` (portraits) | Volume long, sans blocage : se remplit par lots successifs |
 
-La dernière ligne est la plus importante du tableau. Près de 600 créatures, 31 tables de
-progression et 6 000 images ne se traitent pas d'un bloc, et rien n'y oblige : chaque gisement est
-incrémental, et le jeu tourne dès le premier.
+Deux lignes méritent qu'on s'y arrête.
+
+**La dernière** : près de 600 créatures et 6 000 images ne se traitent pas d'un bloc, et rien n'y
+oblige. Chaque gisement est incrémental, et le jeu tourne dès le premier — les 94 bêtes du SRD
+suffisent à peupler une région entière.
+
+**L'avant-dernière** : `LOT-41` et `LOT-42` sont les lots qui font le bac à sable, et ce sont les
+seuls que je placerais résolument **après** le [LOT-27](@ref lot-27). Peupler dix régions revient à
+appliquer cent fois la même recette ; si la recette est mauvaise — rencontres mal dosées, marchands
+inutiles, quêtes vides — on la découvre cent fois. Le `LOT-27` coûte un village et un donjon, et
+c'est le prix pour ne pas payer cette erreur au centuple.
 
 ---
 
@@ -427,21 +590,49 @@ Source/Elements/Rpg/
   spells/, conditions/      ← sorts et états (LOT-35)
   species/, classes/, backgrounds/   ← création de personnage (LOT-36)
 
-Source/Elements/World/      ← régions, lieux, factions, panthéon (LOT-37)
+Source/Elements/World/
+  regions/*.json            ← 10 regions : statistiques, especes, factions, terrain (LOT-37)
+  locations/*.json          ← lieux nommes, avec leurs effets mecaniques (LOT-37)
+  factions/, pantheon/, organizations/            ← (LOT-37)
+  populate/*.json           ← gabarits de peuplement et de quete (LOT-41)
 Source/Elements/Assets/
   rpg.assets.json           ← manifeste des clés d'assets (LOT-39)
   Ui/, Portraits/, Creatures/        ← textures extraites (LOT-39)
 Source/Elements/Localization/rpg.glossary.csv   ← lexique (LOT-31)
+
+Source/Core/World/
+  TerrainGenerator.{h,cpp}  ← generation pilotee par descripteur de region (LOT-40)
+  RegionPopulator.{h,cpp}   ← peuplement systemique (LOT-41)
+  WorldMap.{h,cpp}          ← voyage et decouverte (LOT-42)
 ```
 
 ---
 
-## 8. Ce qui reste à trancher
+## 8. Décisions prises et questions restantes
 
-- **Périmètre du socle jouable.** Les 4 classes des *Basic Rules* suffisent-elles au *vertical
-  slice*, ou faut-il embarquer d'emblée l'extension Tanares du `LOT-36` ?
-- **Région du *slice*.** Laquelle des dix sert de terrain au [LOT-27](@ref lot-27) ? Le choix décide
-  des cartes à dessiner et des créatures à extraire en priorité.
+### Tranché
+
+- **Périmètre : l'univers complet.** Les 10 régions et leurs lieux, les 13 espèces, les 8 classes et
+  leurs sous-classes, les historiques, les factions, le panthéon, le bestiaire entier. Pas de socle
+  réduit.
+- **Les 10 régions sont jouables**, pas seulement importées — d'où la génération de terrain du
+  `LOT-40`, qui seule rend une centaine de cartes atteignable.
+- **Le jeu est un bac à sable** dans un premier temps : contenu systémique déduit des données de
+  région, pas d'intrigue directrice.
+- **Licences en sommeil** (§3) : projet privé, dépôt privé, aucune contrainte d'usage.
+
+### À trancher
+
+- **Région de départ.** Toutes les dix seront jouables, mais l'une d'elles servira de terrain au
+  [LOT-27](@ref lot-27) et essuiera les plâtres. La **République des Freelands** est le choix que je
+  recommande, et ses propres statistiques l'argumentent : `Monster Presence` haute — les rencontres
+  se justifient d'elles-mêmes, ce que le Central Empire, noté *Low*, ne permet pas ; économie fondée
+  sur les mercenaires et les parts de monstres — le marchand et le donneur de quête n'ont rien à
+  inventer ; villes de frontière — le village à construire existe dans la fiction ; et faction
+  Allied Forces, cadre héroïque plutôt qu'oppressif pour un premier pas.
+- **Profondeur du bac à sable.** Le `LOT-41` compose des quêtes par gabarit. Faut-il en rester à ce
+  contenu déduit, ou écrire par-dessus quelques quêtes à la main dans les lieux notables ? La
+  réponse change le poids du [LOT-16](@ref lot-16), pas l'architecture.
 - **Nouvelle famille d'exigences.** `EX-CNT-*` dans un `Documentation/Specification/contenu.md`
   reste à écrire ; les lots ci-dessus la référencent par anticipation, comme le
   [LOT-13](@ref lot-13) référence déjà `EX-DND-*` qui n'existe pas encore.
