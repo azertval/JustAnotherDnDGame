@@ -50,9 +50,11 @@ enum class RenderLayer : std::int32_t {
     Shadow,
     /// Tuiles physiques du niveau — le seul calque peuplé avant `LOT-42`.
     Tile,
-    /// Objets interactifs (interrupteurs, portes, dangers) (`LOT-45`/`LOT-47`).
+    /// Objets interactifs (interrupteurs, portes, dangers) et **décor traversé** : tout ce qui
+    /// partage la profondeur du personnage (`LOT-45`/`LOT-47`, `LOT-07`).
     Object,
-    /// Personnage joueur.
+    /// Personnage joueur. Même **bande de profondeur** que `Object` depuis le `LOT-07` : les deux
+    /// s'ordonnent entre eux par le Y de leur pied, pas par leur rang de calque.
     Player,
     /// Plans picturaux **devant** le personnage (`LOT-69`, `EX-DEC-042`).
     Foreground,
@@ -61,6 +63,37 @@ enum class RenderLayer : std::int32_t {
     /// Aides d'édition : grille de repère, liens de mécanismes, aperçu de sélection.
     EditorOverlay,
 };
+
+/**
+ * @brief Le calque appartient-il à la **bande de profondeur** ?
+ *
+ * Dans une vue de dessus, « devant » et « derrière » ne se décident plus par un rang de calque
+ * fixe mais par la **position** : le personnage passe devant ce qui est au-dessus de lui à
+ * l'écran, derrière ce qui est en dessous. Les primitives d'une bande de profondeur s'ordonnent
+ * donc entre elles par leur `sortOrder` — le Y de leur pied (`hmi::depthSortOrder`) — **avant**
+ * tout regroupement de texture.
+ *
+ * C'est le prix à payer, et il est assumé : regrouper par texture d'abord ferait passer tout le
+ * décor devant le personnage, ou tout derrière, selon l'ordre d'apparition des textures. Un
+ * personnage et un arbre n'ayant jamais la même texture, il n'existe aucun ordre de calque qui
+ * rende les deux cas justes — seule la profondeur le peut, au prix de passes de dessin
+ * supplémentaires (`EX-REN-018`).
+ */
+[[nodiscard]] constexpr bool sortsByDepth(RenderLayer layer) noexcept {
+    return layer == RenderLayer::Object || layer == RenderLayer::Player;
+}
+
+/**
+ * @brief Bande de tri d'un calque : `Object` et `Player` en partagent **une seule**.
+ *
+ * Sans cela, le rang de calque trancherait avant la profondeur et le personnage passerait
+ * **toujours** devant un objet, quelle que soit sa position — exactement ce que le tri par Y doit
+ * corriger. Tous les autres calques restent leur propre bande : un plan pictural ne se mélange
+ * jamais au décor, et les aides d'édition restent au-dessus de tout (`EX-REN-014`).
+ */
+[[nodiscard]] constexpr std::int32_t renderBand(RenderLayer layer) noexcept {
+    return static_cast<std::int32_t>(sortsByDepth(layer) ? RenderLayer::Object : layer);
+}
 
 /**
  * @brief Identité **opaque** d'une texture liée, du point de vue de la composition.

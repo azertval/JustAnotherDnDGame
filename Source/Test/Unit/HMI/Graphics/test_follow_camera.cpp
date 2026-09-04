@@ -22,6 +22,11 @@ namespace {
 // le niveau soit plus etroit que le cadrage.
 const core::Rect LARGE_LEVEL{core::Vector2{0.0f, 0.0f}, core::Vector2{40.0f, 20.0f}};
 const core::Vector2 VIEW_HALF_EXTENT{12.0f, 7.0f};
+// Directions de marche des scenarios, en vecteurs depuis le LOT-07 : la camera anticipe
+// desormais sur les deux axes, pas seulement a gauche et a droite.
+const core::Vector2 RIGHT{1.0f, 0.0f};
+const core::Vector2 LEFT{-1.0f, 0.0f};
+
 constexpr float STEP = 1.0f / 60.0f;
 
 }  // namespace
@@ -41,7 +46,7 @@ TEST(FollowCameraTest, PremierAppelDemarreSurLePersonnage) {
     const hmi::FollowCameraState initial{};
     const core::Vector2 characterPosition{20.0f, 10.0f};
     const hmi::FollowCameraState result = hmi::advanceFollowCamera(
-        initial, characterPosition, 0.0f, LARGE_LEVEL, VIEW_HALF_EXTENT, STEP);
+        initial, characterPosition, core::Vector2{}, LARGE_LEVEL, VIEW_HALF_EXTENT, STEP);
 
     EXPECT_TRUE(result.initialized);
     EXPECT_FLOAT_EQ(result.center.x, characterPosition.x);
@@ -63,18 +68,20 @@ TEST(FollowCameraTest, PremierAppelDemarreSurLePersonnage) {
 TEST(FollowCameraTest, ZoneMorteImmobiliseLaCameraTantQueLePersonnageYReste) {
     const core::Vector2 start{20.0f, 10.0f};
     hmi::FollowCameraState state =
-        hmi::advanceFollowCamera({}, start, 0.0f, LARGE_LEVEL, VIEW_HALF_EXTENT, STEP);
+        hmi::advanceFollowCamera({}, start, core::Vector2{}, LARGE_LEVEL, VIEW_HALF_EXTENT, STEP);
     const core::Vector2 anchorAfterInit = state.anchor;
 
     // Deplacement interne a la zone morte (demi-largeur 1.5) : ne doit PAS deplacer l'ancre.
     const core::Vector2 smallMove{start.x + 0.5f, start.y};
-    state = hmi::advanceFollowCamera(state, smallMove, 0.0f, LARGE_LEVEL, VIEW_HALF_EXTENT, STEP);
+    state = hmi::advanceFollowCamera(state, smallMove, core::Vector2{}, LARGE_LEVEL,
+                                     VIEW_HALF_EXTENT, STEP);
     EXPECT_FLOAT_EQ(state.anchor.x, anchorAfterInit.x);
     EXPECT_FLOAT_EQ(state.anchor.y, anchorAfterInit.y);
 
     // Deplacement qui sort de la zone morte : doit deplacer l'ancre.
     const core::Vector2 bigMove{start.x + 5.0f, start.y};
-    state = hmi::advanceFollowCamera(state, bigMove, 0.0f, LARGE_LEVEL, VIEW_HALF_EXTENT, STEP);
+    state = hmi::advanceFollowCamera(state, bigMove, core::Vector2{}, LARGE_LEVEL, VIEW_HALF_EXTENT,
+                                     STEP);
     EXPECT_NE(state.anchor.x, anchorAfterInit.x);
 }
 
@@ -98,8 +105,8 @@ TEST(FollowCameraTest, BornageEmpecheDeMontrerHorsDesLimitesSurLesQuatreBords) {
     for (const core::Vector2& corner : corners) {
         hmi::FollowCameraState state{};
         for (int step = 0; step < 300; ++step) {
-            state =
-                hmi::advanceFollowCamera(state, corner, 0.0f, LARGE_LEVEL, VIEW_HALF_EXTENT, STEP);
+            state = hmi::advanceFollowCamera(state, corner, core::Vector2{}, LARGE_LEVEL,
+                                             VIEW_HALF_EXTENT, STEP);
         }
         EXPECT_GE(state.center.x, LARGE_LEVEL.position.x + VIEW_HALF_EXTENT.x - 1e-3f);
         EXPECT_LE(state.center.x,
@@ -126,7 +133,7 @@ TEST(FollowCameraTest, NiveauPlusEtroitQueLeCadrageCentreLaCameraSurCetAxe) {
     const core::Rect narrowLevel{core::Vector2{0.0f, 0.0f}, core::Vector2{10.0f, 20.0f}};
     hmi::FollowCameraState state{};
     for (int step = 0; step < 300; ++step) {
-        state = hmi::advanceFollowCamera(state, core::Vector2{0.2f, 10.0f}, -1.0f, narrowLevel,
+        state = hmi::advanceFollowCamera(state, core::Vector2{0.2f, 10.0f}, LEFT, narrowLevel,
                                          VIEW_HALF_EXTENT, STEP);
     }
     EXPECT_NEAR(state.center.x, narrowLevel.size.x * 0.5f, 1e-3f);
@@ -150,14 +157,14 @@ TEST(FollowCameraTest, AnticipationSInverseProgressivementSansDiscontinuite) {
     for (int step = 0; step < 120; ++step) {
         position.x += 0.05f;
         state =
-            hmi::advanceFollowCamera(state, position, 1.0f, LARGE_LEVEL, VIEW_HALF_EXTENT, STEP);
+            hmi::advanceFollowCamera(state, position, RIGHT, LARGE_LEVEL, VIEW_HALF_EXTENT, STEP);
     }
-    ASSERT_GT(state.anticipationSign, 0.9f);  // s'est bien etablie pres de +1
+    ASSERT_GT(state.anticipation.x, 0.9f);  // s'est bien etablie pres de +1
 
     const hmi::FollowCameraState afterReversal =
-        hmi::advanceFollowCamera(state, position, -1.0f, LARGE_LEVEL, VIEW_HALF_EXTENT, STEP);
-    EXPECT_LT(afterReversal.anticipationSign, state.anticipationSign);  // a commence a baisser
-    EXPECT_GT(afterReversal.anticipationSign, 0.0f);  // mais n'a pas saute a une valeur negative
+        hmi::advanceFollowCamera(state, position, LEFT, LARGE_LEVEL, VIEW_HALF_EXTENT, STEP);
+    EXPECT_LT(afterReversal.anticipation.x, state.anticipation.x);  // a commence a baisser
+    EXPECT_GT(afterReversal.anticipation.x, 0.0f);  // mais n'a pas saute a une valeur negative
 }
 
 /**
@@ -177,13 +184,13 @@ TEST(FollowCameraTest, ArretConserveLaDerniereAnticipation) {
     for (int step = 0; step < 120; ++step) {
         position.x += 0.05f;
         state =
-            hmi::advanceFollowCamera(state, position, 1.0f, LARGE_LEVEL, VIEW_HALF_EXTENT, STEP);
+            hmi::advanceFollowCamera(state, position, RIGHT, LARGE_LEVEL, VIEW_HALF_EXTENT, STEP);
     }
-    const float anticipationBeforeStop = state.anticipationSign;
+    const float anticipationBeforeStop = state.anticipation.x;
 
-    const hmi::FollowCameraState stopped =
-        hmi::advanceFollowCamera(state, position, 0.0f, LARGE_LEVEL, VIEW_HALF_EXTENT, STEP);
-    EXPECT_FLOAT_EQ(stopped.anticipationSign, anticipationBeforeStop);
+    const hmi::FollowCameraState stopped = hmi::advanceFollowCamera(
+        state, position, core::Vector2{}, LARGE_LEVEL, VIEW_HALF_EXTENT, STEP);
+    EXPECT_FLOAT_EQ(stopped.anticipation.x, anticipationBeforeStop);
 }
 
 /**
@@ -202,7 +209,7 @@ TEST(FollowCameraTest, MemesEntreesMemeTrajectoire) {
         core::Vector2 position{5.0f, 5.0f};
         for (int step = 0; step < 50; ++step) {
             position.x += 0.1f;
-            state = hmi::advanceFollowCamera(state, position, 1.0f, LARGE_LEVEL, VIEW_HALF_EXTENT,
+            state = hmi::advanceFollowCamera(state, position, RIGHT, LARGE_LEVEL, VIEW_HALF_EXTENT,
                                              STEP);
         }
         return state;
@@ -212,5 +219,70 @@ TEST(FollowCameraTest, MemesEntreesMemeTrajectoire) {
     const hmi::FollowCameraState second = replay();
     EXPECT_FLOAT_EQ(first.center.x, second.center.x);
     EXPECT_FLOAT_EQ(first.center.y, second.center.y);
-    EXPECT_FLOAT_EQ(first.anticipationSign, second.anticipationSign);
+    EXPECT_FLOAT_EQ(first.anticipation.x, second.anticipation.x);
+}
+
+/**
+ * @brief Le suivi est **isotrope** : marcher vers le bas décale la caméra exactement autant que
+ * marcher vers la droite (`EX-EXP-001`, `LOT-07`).
+ *
+ * La zone morte du jeu de plateforme était plus large que haute, et l'anticipation purement
+ * horizontale : deux biais qui n'ont plus lieu d'être dès lors qu'aucun axe n'est privilégié.
+ * \castest{<b>Le suivi est isotrope : haut, bas, gauche et droite se valent.</b><br/>
+ * \tcat Unitaire · Camera de suivi<br/>
+ * \tcrit Majeur<br/>
+ * \tetapes 1. Faire marcher le personnage vers la droite sur 60 pas, camera suivie.<br/>2.
+ * Recommencer vers le bas.<br/>
+ * \tattendu Les deux deplacements de camera ont la meme amplitude.
+ * }
+ */
+TEST(FollowCameraTest, SuiviIsotropeSurLesDeuxAxes) {
+    // Niveau CARRE et cadrage carre : toute asymetrie observee vient alors de la camera, pas de la
+    // geometrie du tableau ni du bornage a ses bords.
+    const core::Rect squareLevel{core::Vector2{0.0f, 0.0f}, core::Vector2{60.0f, 60.0f}};
+    const core::Vector2 squareView{12.0f, 12.0f};
+    const core::Vector2 DOWN{0.0f, 1.0f};
+    const core::Vector2 start{30.0f, 30.0f};
+
+    const auto parcourir = [&](core::Vector2 direction) {
+        hmi::FollowCameraState state =
+            hmi::advanceFollowCamera({}, start, direction, squareLevel, squareView, STEP);
+        const core::Vector2 origine = state.center;
+        for (int step = 1; step <= 60; ++step) {
+            const core::Vector2 position = start + direction * (static_cast<float>(step) * 0.1f);
+            state =
+                hmi::advanceFollowCamera(state, position, direction, squareLevel, squareView, STEP);
+        }
+        return (state.center - origine).length();
+    };
+
+    const float versLeBas = parcourir(DOWN);
+    ASSERT_GT(versLeBas, 0.0f);
+    EXPECT_NEAR(versLeBas, parcourir(RIGHT), 1e-4f);
+}
+
+/**
+ * @brief L'anticipation suit la direction de marche sur les **deux** axes : marcher vers le haut
+ * décale la caméra vers le haut (`LOT-07`).
+ * \castest{<b>L'anticipation suit la marche verticale, pas seulement l'horizontale.</b><br/>
+ * \tcat Unitaire · Camera de suivi<br/>
+ * \tcrit Majeur<br/>
+ * \tetapes 1. Faire marcher le personnage vers le haut, sans bouger, sur 60 pas.<br/>
+ * \tattendu L'anticipation verticale s'etablit vers le haut, l'horizontale reste nulle.
+ * }
+ */
+TEST(FollowCameraTest, AnticipationVerticale) {
+    const core::Vector2 UP{0.0f, -1.0f};
+    const core::Rect squareLevel{core::Vector2{0.0f, 0.0f}, core::Vector2{60.0f, 60.0f}};
+    const core::Vector2 squareView{12.0f, 12.0f};
+    const core::Vector2 position{30.0f, 30.0f};
+    hmi::FollowCameraState state =
+        hmi::advanceFollowCamera({}, position, UP, squareLevel, squareView, STEP);
+    for (int step = 0; step < 60; ++step) {
+        state = hmi::advanceFollowCamera(state, position, UP, squareLevel, squareView, STEP);
+    }
+
+    EXPECT_LT(state.anticipation.y, -0.9f);
+    EXPECT_NEAR(state.anticipation.x, 0.0f, 1e-5f);
+    EXPECT_LT(state.center.y, position.y);  // la camera regarde bien devant, vers le haut
 }

@@ -63,6 +63,30 @@ struct ComposedQuad {
 };
 
 /**
+ * @brief Sous-divisions de profondeur par unité monde, pour la quantification du tri par Y.
+ *
+ * Le rendu est du pixel art à 16 px/unité (`EX-ARCH-021`) : deux sprites dont les pieds sont
+ * distants de moins d'un pixel ne peuvent pas se départager **à l'écran**, et les départager dans
+ * le tri ne ferait que les faire scintiller au gré des arrondis flottants. Quantifier au pixel est
+ * donc à la fois suffisant et stabilisateur.
+ */
+inline constexpr float DEPTH_SUBDIVISIONS_PER_UNIT = 16.0f;
+
+/**
+ * @brief Ordre de profondeur d'une primitive, à partir du **pied** de son quad.
+ *
+ * Le pied — le bord **bas** — et non le coin haut : c'est le point de contact avec le sol qui
+ * décide de la profondeur. Deux sprites de hauteurs différentes posés sur la même case doivent
+ * s'ordonner de la même façon, ce que leur coin haut ne dit pas (`EX-REN-018`).
+ *
+ * Fonction **pure**, sans GPU. Un Y plus grand (plus bas à l'écran, `y` vers le bas) donne un
+ * ordre plus grand, donc un dessin **plus tard**, donc au-dessus.
+ * @param footWorldY Ordonnée du bord bas du quad, en unités monde.
+ * @return L'ordre de tri correspondant.
+ */
+[[nodiscard]] std::int32_t depthSortOrder(float footWorldY) noexcept;
+
+/**
  * @brief Compteurs d'une image composée, pour l'observabilité du volume soumis (`EX-NFR-005`).
  */
 struct SceneStatistics {

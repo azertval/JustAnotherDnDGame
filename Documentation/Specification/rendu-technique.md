@@ -53,6 +53,19 @@
   le décor traversable du décor physique (`EX-DEC-042`). Précisé en `LOT-40`. Les deux calques de
   décor ont été renommés **plans** en `LOT-69`, avec le système qu'ils portent — laisser un calque
   au nom d'un système retiré serait exactement la dette que cette exigence cherche à éviter.
+- \anchor EX-REN-018 **EX-REN-018** — En vue de dessus, l'ordre de dessin des acteurs et
+  du décor traversé doit venir de leur **profondeur**, et non de leur calque : une entité passe
+  devant ce qui est plus haut qu'elle à l'écran, derrière ce qui est plus bas. La profondeur se lit
+  au **pied** du sprite — le bord bas, point de contact avec le sol — et non à son coin haut, sans
+  quoi deux sprites de hauteurs différentes posés sur la même case s'ordonneraient différemment.
+  Ces calques forment une **bande de profondeur** commune, à l'intérieur de laquelle le tri par
+  profondeur passe **avant** le regroupement par texture : un personnage et un arbre n'ayant jamais
+  la même texture, aucun ordre de calque ni de texture ne peut rendre justes à la fois « derrière
+  l'arbre du bas » et « devant l'arbre du haut ». Le surcoût — des passes de dessin
+  supplémentaires — est **assumé**, et mesuré par le budget de rendu (`EX-NFR-005`). Le tri doit
+  rester **stable** et quantifié au pixel : à profondeur égale, deux sprites gardent un ordre
+  constant d'une image à l'autre, sans quoi ils scintilleraient. Hors de cette bande, l'ordre des
+  calques reste souverain (`EX-REN-014`). Concrétisé en `LOT-07`.
 - \anchor EX-REN-041 **EX-REN-041** — Le rendu doit pouvoir **charger ses textures depuis des
   fichiers image** (PNG au minimum), décodés en pixels RGBA puis créés en texture GPU, en plus
   de la génération procédurale historique. Le filtrage reste *nearest* (pixel art, `EX-ARCH-022`).

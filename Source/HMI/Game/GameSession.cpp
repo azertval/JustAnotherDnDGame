@@ -189,12 +189,18 @@ void GameSession::loadLevel(core::Level level) {
     const core::TileMap& sceneMap = levelRef.tileMap();
     core::buildLevelScene(
         _world, levelRef, [this](core::TileType type) { return regionForTile(type); },
-        [this, &sceneMap, &levelRef](core::Entity entity, core::TileType type, int column,
-                                     int row) {
+        [this, &sceneMap, &levelRef](core::Entity entity, core::LayerKind kind, core::TileType type,
+                                     int column, int row) {
             _world.addComponent(entity,
                                 TileSkinTag{type, solidNeighborMask(sceneMap, column, row),
                                             textureOverrideAt(levelRef.textureOverrides(),
                                                               core::GridPosition{column, row})});
+            // Une tuile de DECOR partage la profondeur du personnage (LOT-07) : un arbre plus bas
+            // que lui le cache, un arbre plus haut passe derriere. Le sol, lui, reste sous tout le
+            // monde -- il n'a pas de pied, on marche dessus (EX-REN-018).
+            if (kind == core::LayerKind::Decor) {
+                _world.addComponent(entity, RenderLayerTag{RenderLayer::Object});
+            }
         });
     // Mecanismes : etat interrupteurs/portes + grille de collision (portes fermees = solides).
     _mechanisms.emplace(levelRef);
@@ -549,11 +555,7 @@ void GameSession::updateFollowCamera(float fixedDelta) {
         static_cast<float>(
             _cameraFraming.roomHeightTiles.value_or(core::DEFAULT_ROOM_HEIGHT_TILES)) *
             0.5f};
-    // L'anticipation de la camera ne connait qu'un sens horizontal : elle regarde devant le
-    // personnage le long de l'axe des x. Le suivi en huit directions (anticiper aussi vers le haut
-    // et vers le bas) est une decision de cadrage, pas une consequence du deplacement -- elle
-    // appartient au lot qui refera la camera pour la vue de dessus.
-    _followCameraState = advanceFollowCamera(_followCameraState, characterCenter, actor.facing.x,
+    _followCameraState = advanceFollowCamera(_followCameraState, characterCenter, actor.facing,
                                              levelBounds, viewHalfExtent, fixedDelta);
 }
 

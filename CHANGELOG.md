@@ -6,6 +6,27 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **Tri par profondeur : le monde en vue de dessus devient crédible** (`LOT-07`). Le personnage
+  passe **devant** ce qui est au-dessus de lui à l'écran, **derrière** ce qui est en dessous.
+  - **Ce que l'epic n'avait pas vu** : alimenter le `sortOrder` existant ne suffisait pas.
+    `ComposedScene::sort()` triait par (calque, **texture**, `sortOrder`) — la texture *avant* le
+    tri fin — et un personnage n'a jamais la texture d'un arbre : le regroupement écrasait l'ordre
+    de profondeur. Pire, `Object` et `Player` étant deux calques distincts, le personnage passait
+    **toujours** devant un objet, où qu'il soit.
+  - Correctif : `Object` et `Player` forment une **bande de profondeur** commune, à l'intérieur de
+    laquelle la profondeur tranche avant la texture (`EX-REN-018`). Le surcoût — des passes de
+    dessin supplémentaires — est assumé : aucun ordre de calque ne peut rendre justes à la fois
+    « derrière l'arbre du bas » et « devant l'arbre du haut ».
+  - La profondeur se lit au **pied** du sprite, pas à son coin haut, et se quantifie au pixel
+    (16 sous-divisions par unité) : deux sprites que l'écran ne peut pas départager ne doivent pas
+    permuter au gré des arrondis flottants. Le tri restant stable, rien ne scintille.
+  - Les tuiles d'une couche de **décor** (`LOT-04`) rejoignent la bande ; le sol reste sous tout le
+    monde. `core::buildLevelScene` annonce désormais le **rôle** de la couche d'origine de chaque
+    tuile — ce qu'elle *est*, pas son rang dans une liste que l'auteur peut réordonner.
+  - **Caméra isotrope** : zone morte carrée (1,5 sur les deux axes, contre 1,5 × 1,0) et
+    anticipation **vectorielle**, qui suit la marche sur les deux axes. Anticiper seulement à
+    gauche et à droite était un reste du jeu de plateforme.
+
 - **Le jeu est de nouveau jouable : déplacement top-down en 8 directions** (`LOT-06`). Referme la
   parenthèse ouverte par le `LOT-01`, où la physique de plateforme avait été retirée sans
   remplaçant. `core::TopDownMovementSystem` enchaîne intention → vitesse → balayage continu →

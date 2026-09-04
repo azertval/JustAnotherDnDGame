@@ -112,16 +112,35 @@ bool ComposedScene::addLine(RenderLayer layer, TextureHandle texture, std::int32
     return true;
 }
 
-// Ordonne la scene (calque, puis texture, puis sortOrder), de facon stable.
+// Ordre de profondeur d'une primitive, a partir du pied de son quad (voir en-tete).
+std::int32_t depthSortOrder(float footWorldY) noexcept {
+    return static_cast<std::int32_t>(std::lround(footWorldY * DEPTH_SUBDIVISIONS_PER_UNIT));
+}
+
+// Ordonne la scene (bande, puis profondeur ou texture, puis le reste), de facon stable.
 void ComposedScene::sort() {
-    // Le calque est **prioritaire** sur la texture : regrouper par texture ne doit jamais faire
-    // passer une primitive devant une primitive d'un calque inferieur (EX-REN-014). Le tri stable
-    // preserve l'ordre de composition a cle egale, donc le rendu d'avant le lot tant qu'une seule
-    // texture et un seul calque sont en jeu.
+    // La BANDE est prioritaire sur tout : regrouper par texture ne doit jamais faire passer une
+    // primitive devant une primitive d'une bande inferieure (EX-REN-014). Le tri stable preserve
+    // l'ordre de composition a cle egale.
+    //
+    // A l'interieur d'une bande, deux regimes (LOT-07) :
+    //  - bande de PROFONDEUR (Object + Player) : le sortOrder -- le Y du pied -- tranche AVANT la
+    //    texture. C'est la seule facon qu'un personnage passe derriere un arbre plus bas et devant
+    //    un arbre plus haut, les deux n'ayant jamais la meme texture que lui (EX-REN-018) ;
+    //  - partout ailleurs : la texture regroupe d'abord (une passe de dessin par groupe), le
+    //    sortOrder ne departageant que l'interieur d'un groupe -- comportement d'avant le lot.
     std::stable_sort(_quads.begin(), _quads.end(),
                      [](const ComposedQuad& lhs, const ComposedQuad& rhs) {
-                         if (lhs.layer != rhs.layer) {
-                             return lhs.layer < rhs.layer;
+                         const std::int32_t leftBand = renderBand(lhs.layer);
+                         const std::int32_t rightBand = renderBand(rhs.layer);
+                         if (leftBand != rightBand) {
+                             return leftBand < rightBand;
+                         }
+                         if (sortsByDepth(lhs.layer)) {
+                             if (lhs.sortOrder != rhs.sortOrder) {
+                                 return lhs.sortOrder < rhs.sortOrder;
+                             }
+                             return lhs.textureRank < rhs.textureRank;
                          }
                          if (lhs.textureRank != rhs.textureRank) {
                              return lhs.textureRank < rhs.textureRank;
@@ -349,9 +368,14 @@ void composeWorldSprites(ComposedScene& scene, core::World& world, RenderMode mo
             quad.b = sprite.tint.b;
             quad.a = sprite.tint.a;
 
-            // `layer` (calcule plus haut) reste le calque de presentation ; `core::Sprite::layer`
-            // le tri fin a l'interieur de ce calque.
-            scene.addSprite(layer, texture, sprite.layer, quad);
+            // Tri fin (LOT-07). Sur la bande de PROFONDEUR, c'est le Y du PIED du quad qui
+            // decide : le personnage passe devant ce qui est au-dessus de lui a l'ecran, derriere
+            // ce qui est en dessous (EX-REN-018). Partout ailleurs -- tuiles, plans, interface --
+            // `core::Sprite::layer` conserve son role de tri fin, et le rang de couche que la
+            // projection y a ecrit (LOT-04) continue d'ordonner sol et decor.
+            const std::int32_t fineOrder =
+                sortsByDepth(layer) ? depthSortOrder(quad.y + quad.height) : sprite.layer;
+            scene.addSprite(layer, texture, fineOrder, quad);
         });
 }
 

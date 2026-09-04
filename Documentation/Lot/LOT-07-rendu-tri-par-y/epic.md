@@ -1,6 +1,9 @@
 # LOT-07 — Rendu top-down et tri par Y {#lot-07}
 
-> Statut : **à faire**.
+> Statut : **partiellement fait** — le tri par profondeur et la caméra sont livrés, les
+> sprites 4 directions restent à faire (voir « Ce que la réalisation a tranché »).
+> Vérification automatisée : build `/W4 /WX` sans avertissement, `ctest` à 921/921, lint
+> d'exigences, cahier de test, Doxygen et `clang-format` verts.
 > Prérequis : [LOT-04](@ref lot-04) (couches), [LOT-06](@ref lot-06) (un personnage qui bouge).
 
 ## Objectif

@@ -34,7 +34,7 @@ float clampAxis(float value, float levelMin, float levelSize, float viewHalfExte
 }  // namespace
 
 FollowCameraState advanceFollowCamera(const FollowCameraState& previous,
-                                      core::Vector2 characterPosition, float movementDirection,
+                                      core::Vector2 characterPosition, core::Vector2 facing,
                                       const core::Rect& levelBounds, core::Vector2 viewHalfExtent,
                                       float fixedDelta) noexcept {
     if (!previous.initialized) {
@@ -45,10 +45,8 @@ FollowCameraState advanceFollowCamera(const FollowCameraState& previous,
                                             levelBounds.size.x, viewHalfExtent.x),
                                   clampAxis(characterPosition.y, levelBounds.position.y,
                                             levelBounds.size.y, viewHalfExtent.y)};
-        return FollowCameraState{.anchor = characterPosition,
-                                 .anticipationSign = 0.0f,
-                                 .center = start,
-                                 .initialized = true};
+        return FollowCameraState{
+            .anchor = characterPosition, .anticipation = {}, .center = start, .initialized = true};
     }
 
     // Zone morte : l'ancre ne bouge que si le personnage en sort, tout juste assez pour le
@@ -65,18 +63,24 @@ FollowCameraState advanceFollowCamera(const FollowCameraState& previous,
         anchor.y = characterPosition.y - FOLLOW_DEAD_ZONE_HALF_HEIGHT_UNITS;
     }
 
-    // Anticipation : la cible s'inverse PROGRESSIVEMENT au changement de sens (son propre lissage,
-    // plus lent que le lissage principal ci-dessous) ; a l'arret, conserve le dernier sens plutot
-    // que de revenir a zero -- rien ne justifie de "regarder derriere" un personnage immobile.
-    const float desiredSign = movementDirection > 0.0f   ? 1.0f
-                              : movementDirection < 0.0f ? -1.0f
-                                                         : previous.anticipationSign;
-    const float anticipationSign =
-        exponentialApproach(previous.anticipationSign, desiredSign,
-                            FOLLOW_ANTICIPATION_TIME_CONSTANT_SECONDS, fixedDelta);
+    // Anticipation : la cible tourne PROGRESSIVEMENT avec la direction de marche (son propre
+    // lissage, plus lent que le lissage principal ci-dessous) ; a l'arret, conserve la derniere
+    // direction plutot que de revenir a zero -- rien ne justifie de "regarder derriere" un
+    // personnage immobile.
+    //
+    // Un VECTEUR depuis le LOT-07, sur les deux axes : anticiper seulement a gauche et a droite
+    // etait un reste du jeu de plateforme, ou l'on ne courait que lateralement. En vue de dessus,
+    // marcher vers le haut est un deplacement comme un autre (EX-EXP-001), et la camera doit le
+    // devancer de la meme facon.
+    const core::Vector2 desired =
+        facing.lengthSquared() > 0.0f ? facing.normalized() : previous.anticipation;
+    const core::Vector2 anticipation{
+        exponentialApproach(previous.anticipation.x, desired.x,
+                            FOLLOW_ANTICIPATION_TIME_CONSTANT_SECONDS, fixedDelta),
+        exponentialApproach(previous.anticipation.y, desired.y,
+                            FOLLOW_ANTICIPATION_TIME_CONSTANT_SECONDS, fixedDelta)};
 
-    const core::Vector2 target{anchor.x + anticipationSign * FOLLOW_ANTICIPATION_DISTANCE_UNITS,
-                               anchor.y};
+    const core::Vector2 target = anchor + anticipation * FOLLOW_ANTICIPATION_DISTANCE_UNITS;
 
     // Lissage vers la cible, cadence sur le pas fixe (EX-REN-021) : @p fixedDelta est TOUJOURS le
     // pas de simulation, jamais un delta de rendu -- sinon la caméra se comporterait différemment
@@ -91,10 +95,8 @@ FollowCameraState advanceFollowCamera(const FollowCameraState& previous,
         clampAxis(smoothed.x, levelBounds.position.x, levelBounds.size.x, viewHalfExtent.x),
         clampAxis(smoothed.y, levelBounds.position.y, levelBounds.size.y, viewHalfExtent.y)};
 
-    return FollowCameraState{.anchor = anchor,
-                             .anticipationSign = anticipationSign,
-                             .center = bounded,
-                             .initialized = true};
+    return FollowCameraState{
+        .anchor = anchor, .anticipation = anticipation, .center = bounded, .initialized = true};
 }
 
 }  // namespace hmi
