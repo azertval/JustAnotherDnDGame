@@ -35,6 +35,7 @@ c'est un identifiant stable, jamais réordonné.
 - @subpage lot-06
 - @subpage lot-07
 - @subpage lot-08
+- @subpage lot-77
 
 ## Feuille de route
 
@@ -58,8 +59,8 @@ tactique au d20 » — reste le jalon qui prouve la boucle avant qu'on la géné
 | E — Contenu et finition | `LOT-25` → `LOT-29` | Sorts, économie, contenu du slice, audio et version `0.2.0`, groupe de quatre personnages |
 | F — Filière contenu | `LOT-30` → `LOT-84` | Préconditions (spécification RPG, numéros, chargement de données), extraction du corpus, catalogues, monde et peuplement, une classe par lot, refonte IHM, mécaniques manquantes |
 
-La phase F compte **51 lots** — quatre numéros (`LOT-31`, `LOT-48`, `LOT-71`, `LOT-73`) ayant été
-retirés par fusion et n'étant pas réattribués. Elle **ne suit pas** les précédentes : elle
+La phase F compte **50 lots à venir** — quatre numéros (`LOT-31`, `LOT-48`, `LOT-71`, `LOT-73`)
+ayant été retirés par fusion et n'étant pas réattribués, et le `LOT-77` étant livré. Elle **ne suit pas** les précédentes : elle
 s'entrelace avec B à E, chacun de ses lots servant un lot des phases antérieures qui, sans lui, se
 bâtirait sur un catalogue fictif. L'ordre d'exécution recommandé, le chemin critique jusqu'au
 `LOT-27` et le graphe complet des dépendances sont donnés par la

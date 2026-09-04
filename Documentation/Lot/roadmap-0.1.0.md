@@ -205,10 +205,11 @@ Les lots [LOT-13](@ref lot-13) (fiche de personnage), [LOT-14](@ref lot-14) (inv
 **JSON** », conformément à [`EX-VIS-007`](@ref EX-VIS-007). Aucun ne dit **d'où sortent ces JSON**.
 C'est exactement le trou que ce corpus comble, et c'est le périmètre de cette filière.
 
-Cinquante et un lots, `LOT-30` à `LOT-84`, quatre numéros ayant été **retirés** par fusion
-(`LOT-31`, `LOT-48`, `LOT-71`, `LOT-73` : voir l'encart en fin de section). Les numéros sont, comme
-toujours, des identifiants stables : ils viennent après [LOT-29](@ref lot-29) dans la numérotation,
-mais plusieurs s'exécutent **avant** les lots qui les consomment (voir §6). Une nouvelle famille d'exigences `EX-CNT-*` les couvre, à écrire
+Cinquante lots, `LOT-30` à `LOT-84`. Quatre numéros ont été **retirés** par fusion (`LOT-31`,
+`LOT-48`, `LOT-71`, `LOT-73` : voir l'encart en fin de section), et le [LOT-77](@ref lot-77) a été
+**livré** — il a donc quitté cette page pour son dossier, comme tout lot livré. Les numéros sont,
+comme toujours, des identifiants stables : ils viennent après [LOT-29](@ref lot-29) dans la
+numérotation, mais plusieurs s'exécutent **avant** les lots qui les consomment (voir §6). Une nouvelle famille d'exigences `EX-CNT-*` les couvre, à écrire
 dans un `Documentation/Specification/contenu.md`.
 
 > **État de l'audit.** Cette page a été confrontée à l'état réel du dépôt, puis à elle-même. Six
@@ -280,6 +281,8 @@ de l'avoir validée sur un seul multiplierait simplement par cent le coût de ch
 
 *Prérequis : `LOT-77`. Prérequis de tous les autres lots de la filière.*
 
+*Exigences couvertes : `EX-CNT-020`, `EX-CNT-021`, `EX-CNT-022`, `EX-CNT-023`.*
+
 > **Fusionné à l'audit.** Ce lot a absorbé l'ancien `LOT-31` (lexique bilingue). Celui-ci livrait
 > deux fichiers — un CSV et un script — soit un ordre de grandeur sous l'étalon, et le lexique est
 > la **première sortie** de la chaîne d'extraction : il la valide autant qu'il en dépend. Le numéro
@@ -314,6 +317,8 @@ emploie un terme absent du lexique ou en contredit la traduction.
 ### `LOT-32` — Schémas de données RPG {#lot-32}
 
 *Prérequis : `LOT-30`, `LOT-79`. Prérequis de `LOT-33` à `LOT-37`, `LOT-43`, `LOT-84`.*
+
+*Exigences couvertes : `EX-CNT-001`, `EX-CNT-002`, `EX-CNT-010`, `EX-CNT-011`, `EX-CNT-032`.*
 
 Le contrat avant les données. Un JSON Schema par famille — créature, objet, arme, armure, sort,
 espèce, classe, historique, état, type de dégâts — sous `Source/Elements/Rpg/schema/`, et
@@ -357,6 +362,8 @@ de puissance, dégâts de l'attaque principale) contre des valeurs recopiées à
 *Prérequis : `LOT-32`. Alimente [LOT-14](@ref lot-14), [LOT-26](@ref lot-26),
 [LOT-27](@ref lot-27).*
 
+*Exigences couvertes : `EX-INV-001`, `EX-INV-010`, `EX-INV-011`, `EX-INV-041`.*
+
 Les tables d'équipement des *Basic Rules* vers `Source/Elements/Rpg/items/` : armes (dégâts, poids,
 prix, propriétés), armures (CA, exigence de Force, discrétion), matériel, outils, montures,
 marchandises, services. Puis le **chapitre 10 du Sourcebook** — les objets magiques — qui donne au
@@ -374,6 +381,8 @@ calcul manuel.
 
 *Prérequis : `LOT-32`. Alimente [LOT-25](@ref lot-25).*
 
+*Exigences couvertes : `EX-RPG-050`, `EX-RPG-051`.*
+
 Les sorts et l'appendice des états des *Basic Rules* vers `spells/` et `conditions/`, complétés par
 les sorts propres au *Player's Guide* (liste de l'élémentaliste, descriptions du ch. 4).
 
@@ -389,6 +398,8 @@ tombe silencieusement dans un cas par défaut, un test énumère le catalogue et
 ### `LOT-36` — Espèces, historiques et classes provisoires {#lot-36}
 
 *Prérequis : `LOT-32`, `LOT-43`. Alimente [LOT-13](@ref lot-13), [LOT-27](@ref lot-27).*
+
+*Exigences couvertes : `EX-CNT-030`, `EX-CNT-031`, `EX-RPG-010`, `EX-RPG-011`.*
 
 De quoi construire un personnage jouable au plus tôt, en trois apports :
 
@@ -488,6 +499,8 @@ explicite de champs hors périmètre. Un champ simplement oublié n'est pas un a
 
 *Prérequis : `LOT-33`, `LOT-34`, `LOT-37`. Alimente [LOT-11](@ref lot-11),
 [LOT-27](@ref lot-27), `LOT-38`.*
+
+*Exigences couvertes : `EX-CNT-040`, `EX-CNT-041`.*
 
 > **Scindé à l'audit.** Ce lot portait aussi l'extraction de l'habillage d'interface, ce qui faisait
 > dépendre la charte visuelle (`LOT-66`) de tout le pipeline de données. Or l'habillage n'a besoin
@@ -607,6 +620,8 @@ carte du monde n'affiche que ce qui est découvert ; l'état de découverte surv
 
 *Prérequis : `LOT-32`. Alimente [LOT-13](@ref lot-13), `LOT-36`.*
 
+*Exigences couvertes : `EX-DND-012`, `EX-RPG-040`, `EX-RPG-041`, `EX-RPG-042`.*
+
 Quatre catalogues oubliés du premier découpage, tous présents dans le corpus et tous exigés par la
 fiche de personnage :
 
@@ -707,6 +722,8 @@ contre le PDF.
 
 *Prérequis : `LOT-36`, `LOT-43`, `LOT-84`.*
 
+*Exigences couvertes : `EX-RPG-021`, `EX-RPG-022`, `EX-RPG-023`, `EX-RPG-052`.*
+
 > **Découpé à l'audit, et allégé d'une dépendance.** Ce lot portait aussi l'**extraction des 31
 > tables de progression** — de la donnée, relue ligne à ligne, qui appartient à la filière contenu
 > et n'a aucune raison d'attendre le socle : elle part au `LOT-84`. Et il déclarait le `LOT-49` en
@@ -742,6 +759,8 @@ existant hors l'ajout de sa mécanique propre.
 ### `LOT-49` — Contrôle de cohérence du contenu {#lot-49}
 
 *Prérequis : `LOT-33`, `LOT-34`.*
+
+*Exigences couvertes : `EX-CNT-050`.*
 
 Le `LOT-32` valide la **structure** : un fichier bien formé, des champs présents, des énumérations
 connues. Il ne dit rien de la **plausibilité**. Un loup à CA 47, une épée à 3 pièces d'or au lieu de
@@ -1033,6 +1052,8 @@ l'identique, panneau de textures compris.
 *Prérequis : [LOT-13](@ref lot-13). **Débloque `LOT-51`→`LOT-65`, [LOT-25](@ref lot-25),
 `LOT-75` et `LOT-42`.***
 
+*Exigences couvertes : `EX-DND-030`, `EX-DND-032`.*
+
 > **Fusionné à l'audit.** Ce lot a absorbé l'ancien `LOT-71` (repos court et long). L'horloge n'a
 > **aucun consommateur** hors du repos et du campement : livrée seule, elle ne produit rien
 > d'observable, et le §6 les traitait déjà comme une paire indissociable. Le numéro `LOT-71` est
@@ -1064,6 +1085,8 @@ pendant un combat ; elle survit à une sauvegarde et à un rechargement.
 
 *Prérequis : [LOT-12](@ref lot-12), [LOT-21](@ref lot-21), `LOT-35`.*
 
+*Exigences couvertes : `EX-DND-040`, `EX-DND-041`, `EX-CBT-040`, `EX-CBT-041`, `EX-CBT-042`.*
+
 > **Fusionné à l'audit.** Ce lot a absorbé l'ancien `LOT-73` (agonie et mort). Les jets de
 > sauvegarde contre la mort sont une **application** du système de conditions — inconscient,
 > stabilisé — et les traiter à part faisait rouvrir par le second les fichiers du premier. Le numéro
@@ -1094,6 +1117,8 @@ le compteur ; mourir en exploration a un effet défini, et ce n'est pas « redé
 ### `LOT-74` — Expérience et progression {#lot-74}
 
 *Prérequis : [LOT-13](@ref lot-13), [LOT-20](@ref lot-20), [LOT-16](@ref lot-16).*
+
+*Exigences couvertes : `EX-RPG-030`, `EX-RPG-031`, `EX-RPG-032`.*
 
 **Les sources** d'expérience, qui manquent entièrement : victoire au combat selon le facteur de
 puissance des adversaires, achèvement de quête, découverte de lieu — cette dernière propre au bac à
@@ -1141,38 +1166,6 @@ demande aucun arbitrage humain.
 *Acceptation* — les éléments extraits s'intègrent aux jetons de la charte du `LOT-66` ;
 `scripts/check_design_tokens.py` reste vert ; aucune image n'est tirée par extraction de flux brut.
 
-### `LOT-77` — La moitié RPG de la spécification {#lot-77}
-
-*Prérequis : aucun. **Prérequis de toute la filière**, à commencer par le `LOT-30`.*
-
-> **Créé à l'audit.** Cette précondition était signalée trois fois — aux §5, §6 et §8 — et rangée
-> dans « à trancher », c'est-à-dire nulle part. Vingt lots pointent vers des familles d'exigences
-> qui n'existent pas ; tant que personne n'en répond, la dette grossit à chaque lot livré.
-
-Cinq familles d'exigences sont **fantômes** : `EX-CNT-*`, `EX-DND-*`, `EX-RPG-*`, `EX-CBT-*` et
-`EX-INV-*`. Les quatre documents censés les porter n'existent pas. Ce lot les écrit :
-
-| Document | Famille | Ce qu'il fixe |
-|---|---|---|
-| `Specification/contenu.md` | `EX-CNT-*` | Le contrat de la filière données : provenance, schémas, clés d'assets, marquage du provisoire, refus explicite d'un mécanisme non honoré |
-| `Specification/regles-dnd.md` | `EX-DND-*` | Les règles d20 maison : jets, avantage, maîtrise, caractéristiques, repos, conditions, facteur de puissance |
-| `Specification/combat.md` | `EX-CBT-*` | Le combat tactique : initiative, action/action bonus/réaction, portée, ligne de vue, dégâts, mort |
-| `Specification/rpg.md` | `EX-RPG-*` | Le personnage : espèces, classes, ressources de classe, progression, expérience |
-| `Specification/inventaire.md` | `EX-INV-*` | Inventaire, encombrement, équipement, monnaie, commerce |
-
-Le travail n'est pas d'inventer : le cadrage acté avant le [LOT-01](@ref lot-01) — règles d20 maison,
-compatibles SRD dans leur structure, sans en dépendre — et le corpus donnent la matière. Il est de
-**décider ce que le moteur promet**, en identifiants stables, pour que les vingt lots qui les citent
-cessent de pointer dans le vide.
-
-C'est aussi ce lot qui **éteint l'échec volontaire du lint** (§9.1) : tant qu'il n'est pas livré,
-`scripts/lint_exigences.py` doit continuer d'échouer sur les cinq familles. Un lint désarmé « en
-attendant » ne se réarme jamais.
-
-*Acceptation* — `python scripts/lint_exigences.py` passe au vert sans liste d'exceptions ajoutée ;
-chaque lot de la filière peut renseigner sa rubrique « Exigences couvertes » ; aucune exigence
-nouvelle ne décrit un mécanisme que le §5 déclare hors périmètre.
-
 ### `LOT-78` — Désambiguïsation des numéros de lots hérités {#lot-78}
 
 *Prérequis : aucun. **Prérequis du démarrage de tout lot de la filière.***
@@ -1206,6 +1199,8 @@ double avec l'archive.
 ### `LOT-79` — Socle de chargement de données {#lot-79}
 
 *Prérequis : aucun. Prérequis de `LOT-32`.*
+
+*Exigences couvertes : `EX-CNT-012`.*
 
 > **Créé à l'audit.** Le §10 attribuait la brique de chargement JSON au `LOT-32` — mais son
 > périmètre ne livre que des schémas, un script Python et un test d'énumérations : **personne ne
@@ -1271,6 +1266,8 @@ correspond à un type de tuile existant ; deux régions distinctes ne portent pa
 *Prérequis : `LOT-41`, `LOT-34`, `LOT-44`, `LOT-80`, [LOT-15](@ref lot-15), [LOT-26](@ref lot-26).
 Alimente `LOT-45`, `LOT-42`.*
 
+*Exigences couvertes : `EX-INV-030`, `EX-INV-031`.*
+
 Détaché du `LOT-41` à l'audit : le versant **non hostile** du peuplement, dérivé des quatre autres
 `Regional Statistics`.
 
@@ -1313,6 +1310,8 @@ diégétique, et non un écran de mort.
 ### `LOT-84` — Les 31 tables de progression de classe {#lot-84}
 
 *Prérequis : `LOT-32`. Prérequis de `LOT-47`.*
+
+*Exigences couvertes : `EX-RPG-020`.*
 
 Détaché du `LOT-47` à l'audit : c'est de la **donnée**, extraite et relue, et elle appartient à la
 filière contenu aux côtés des `LOT-36` et `LOT-43`. Rien ne justifiait qu'elle attende le socle de
@@ -1364,7 +1363,7 @@ exactement ce que [`EX-VIS-007`](@ref EX-VIS-007) interdit. D'où « filière »
 
 | Quand | Lots | Pourquoi là |
 |---|---|---|
-| **Avant tout le reste** | `LOT-77`, `LOT-78`, `LOT-79` | Trois préconditions sans aucun prérequis : les exigences, les numéros, la brique de chargement |
+| **Avant tout le reste** | `LOT-78`, `LOT-79` | Deux préconditions sans aucun prérequis : les numéros, la brique de chargement. La troisième, le [LOT-77](@ref lot-77), est livrée |
 | **Démarrables maintenant** — le [LOT-08](@ref lot-08) est livré | `LOT-30`, puis `LOT-32` | Outillage et contrats ; le plus tôt est le mieux |
 | **Démarrables maintenant** | `LOT-66`, `LOT-67`, `LOT-68`, `LOT-76` | La charte ne dépend que des PDF, et elle conditionne tous les écrans à venir |
 | Avec [LOT-09](@ref lot-09) | `LOT-37`, puis `LOT-80` | L'atlas donne au graphe de cartes de vrais nœuds à relier |
@@ -1386,12 +1385,13 @@ exactement ce que [`EX-VIS-007`](@ref EX-VIS-007) interdit. D'où « filière »
 
 Quatre lignes méritent qu'on s'y arrête.
 
-**La première.** Ces trois préconditions ne dépendent de rien et bloquent tout — et le
-[LOT-08](@ref lot-08) étant livré, elles sont ce qu'il y a à faire **tout de suite** : le `LOT-77` écrit
-les exigences que vingt lots citent sans qu'elles existent, le `LOT-78` désambiguïse 208 renvois de
-numéros avant que le premier dossier au-delà de `LOT-29` ne fige l'ambiguïté, le `LOT-79` factorise
-six lecteurs JSON avant que la filière n'en ajoute quinze. Aucune n'est un préalable de confort :
-chacune coûte deux à trois fois plus cher un an plus tard.
+**La première.** Ces préconditions ne dépendent de rien et bloquent tout. La première des trois,
+le [LOT-77](@ref lot-77), est **livrée** : les cinq documents de spécification RPG existent, les cinq
+familles `EX-*` fantômes sont réelles, et le lint d'exigences est repassé au vert. Restent le
+`LOT-78`, qui désambiguïse 208 renvois de numéros avant que le premier dossier au-delà de `LOT-29`
+ne fige l'ambiguïté, et le `LOT-79`, qui factorise six lecteurs JSON avant que la filière n'en
+ajoute quinze. Ni l'un ni l'autre n'est un préalable de confort : chacun coûte deux à trois fois
+plus cher un an plus tard.
 
 **L'avant-avant-dernière** : les lots qui font le bac à sable sont les seuls que je placerais
 résolument **après** le [LOT-27](@ref lot-27). Peupler dix régions revient à appliquer cent fois la
@@ -1517,7 +1517,6 @@ eux-mêmes.
 | `LOT-74` | Expérience et progression | `LOT-13`, `LOT-16`, `LOT-20` | `LOT-83` |
 | `LOT-75` | Campement et repos dans le monde | `LOT-41`, `LOT-42`, `LOT-70` | — |
 | `LOT-76` | Habillage d'interface extrait des livres | `LOT-30`, `LOT-66` | `LOT-15`, `LOT-24`, `LOT-38` |
-| `LOT-77` | La moitié RPG de la spécification | — | `LOT-30` |
 | `LOT-78` | Désambiguïsation des numéros de lots hérités | — | — |
 | `LOT-79` | Socle de chargement de données | — | `LOT-32` |
 | `LOT-80` | Factions, panthéon et organisations | `LOT-37` | `LOT-16`, `LOT-82` |
@@ -1624,10 +1623,10 @@ Documentation/Specification/
   construire existe dans la fiction ; faction Allied Forces, cadre héroïque plutôt qu'oppressif. Et
   surtout : c'est là que siège la **Guilde des Aventuriers**, donc la boucle du `LOT-45`.
 
-- **Trois préconditions sont devenues des lots.** Écrire la moitié RPG de la spécification
-  (`LOT-77`), désambiguïser les numéros hérités (`LOT-78`) et factoriser le chargement de données
-  (`LOT-79`) étaient signalés comme préalables et portés par personne. Un préalable sans porteur
-  n'est pas un préalable, c'est une dette.
+- **Trois préconditions sont devenues des lots**, et la première est livrée. Écrire la moitié RPG
+  de la spécification ([LOT-77](@ref lot-77)), désambiguïser les numéros hérités (`LOT-78`) et
+  factoriser le chargement de données (`LOT-79`) étaient signalés comme préalables et portés par
+  personne. Un préalable sans porteur n'est pas un préalable, c'est une dette.
 - **Le découpage suit une règle unique : le code d'un côté, la donnée de l'autre.** C'est ce qui a
   scindé `LOT-37`/`LOT-80`, `LOT-40`/`LOT-81`, `LOT-41`/`LOT-82`, `LOT-45`/`LOT-83` et
   `LOT-47`/`LOT-84`. Les deux moitiés n'ont ni le même métier, ni le même critère d'acceptation, ni
@@ -1669,11 +1668,15 @@ référence, et que la CI passait au vert sur cinq familles inexistantes. Une se
 `FAMILY_REF_RE = re.compile(r'EX-([A-Z]+)-\*')`, capte désormais les références de famille entière
 et le lint **échoue** sur les cinq.
 
-Cet échec est **voulu et il doit le rester** jusqu'à ce que les documents existent : c'est le seul
-mécanisme qui empêche la dette de grossir en silence. Il s'éteint au `LOT-77`, et pas avant.
+Cet échec était **voulu**, et c'était le seul mécanisme empêchant la dette de grossir en silence.
+Il est **éteint** : le [LOT-77](@ref lot-77) a écrit `regles-dnd.md`, `rpg.md`, `combat.md`,
+`inventaire.md` et `contenu.md`, soit **69 exigences** qui portent les cinq familles, et a posé la
+rubrique « Exigences couvertes » sur les 25 lots qui les implémentent. Le lint compte désormais
+**339 exigences déclarées et 339 référencées**, sans aucune entrée ajoutée à la liste des
+exceptions.
 
-Écrire la **moitié RPG de la spécification** est donc le vrai chantier de fond, celui dont dépend
-tout le reste — d'où un lot dédié plutôt qu'une ligne dans « à trancher ».
+Écrire la moitié RPG de la spécification était le vrai chantier de fond, celui dont dépendait tout
+le reste — d'où un lot dédié plutôt qu'une ligne dans « à trancher ».
 
 ### 9.2 Six mécaniques étaient consommées sans être produites
 
@@ -1959,6 +1962,7 @@ reprise.
 
 > Statut : **à faire**.
 > Prérequis : **aucun**. Pur `Core`, zéro dépendance — **parallélisable dès le `LOT-01`**.
+> Exigences couvertes : `EX-DND-002`, `EX-DND-003`, `EX-DND-021`.
 
 #### Objectif
 
@@ -2006,6 +2010,7 @@ Catégorie `EX-DND-*`, déclarée par ce lot dans `Documentation/Specification/r
 
 > Statut : **à faire**.
 > Prérequis : [LOT-12](@ref lot-12).
+> Exigences couvertes : `EX-DND-010`, `EX-DND-011`, `EX-RPG-001`.
 
 #### Objectif
 
@@ -2047,6 +2052,7 @@ RPG n'est pas jouable.
 
 > Statut : **à faire**.
 > Prérequis : [LOT-13](@ref lot-13).
+> Exigences couvertes : `EX-INV-020`.
 
 #### Objectif
 
@@ -2210,6 +2216,7 @@ reconstruire — un format qui casse lui fait perdre sa partie.
 > Statut : **à faire**.
 > Prérequis : [LOT-05](@ref lot-05) (modes de jeu), [LOT-10](@ref lot-10) (déclencheurs),
 > [LOT-13](@ref lot-13) (fiches des combattants).
+> Exigences couvertes : `EX-CBT-001`.
 
 #### Objectif
 
@@ -2256,6 +2263,7 @@ Catégorie `EX-CBT-*`, déclarée par ce lot dans `Documentation/Specification/c
 
 > Statut : **à faire**.
 > Prérequis : [LOT-18](@ref lot-18).
+> Exigences couvertes : `EX-CBT-020`, `EX-DND-051`.
 
 #### Objectif
 
@@ -2301,6 +2309,7 @@ petit indice de case), pas un hasard d'implémentation.
 
 > Statut : **à faire**.
 > Prérequis : [LOT-12](@ref lot-12) (jet d'initiative), [LOT-19](@ref lot-19).
+> Exigences couvertes : `EX-CBT-010`, `EX-CBT-011`, `EX-CBT-012`.
 
 #### Objectif
 
@@ -2344,6 +2353,7 @@ défauts, parce qu'il bloque le joueur sans message d'erreur.
 
 > Statut : **à faire**.
 > Prérequis : [LOT-13](@ref lot-13), [LOT-14](@ref lot-14), [LOT-20](@ref lot-20).
+> Exigences couvertes : `EX-CBT-030`, `EX-CBT-031`, `EX-CBT-032`.
 
 #### Objectif
 
@@ -2389,6 +2399,7 @@ attacher un débogueur.
 
 > Statut : **à faire**.
 > Prérequis : [LOT-19](@ref lot-19).
+> Exigences couvertes : `EX-CBT-021`, `EX-CBT-022`.
 
 #### Objectif
 
@@ -2430,6 +2441,7 @@ qui ne peut pas riposter (ou l'inverse, plus rageant encore).
 
 > Statut : **à faire**.
 > Prérequis : [LOT-20](@ref lot-20), [LOT-21](@ref lot-21), [LOT-22](@ref lot-22).
+> Exigences couvertes : `EX-CBT-050`.
 
 #### Objectif
 
@@ -2559,6 +2571,7 @@ règle pas. Un sort est une **donnée** ; le C++ ne porte que les *mécanismes* 
 
 > Statut : **à faire**.
 > Prérequis : [LOT-14](@ref lot-14), [LOT-15](@ref lot-15).
+> Exigences couvertes : `EX-INV-040`.
 
 #### Objectif
 

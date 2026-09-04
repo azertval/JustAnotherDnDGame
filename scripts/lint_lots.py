@@ -17,8 +17,8 @@ Ce lint les refuse en CI. Il vérifie :
 4. tout prérequis désigne un lot **existant** ;
 5. les liens sont **symétriques** : si A déclare « Alimente B », alors B déclare A en prérequis ;
 6. chaque lot de la filière apparaît dans le **tableau d'ordre** de la section 6 ;
-7. les **numéros retirés** par fusion ne sont plus cités comme prérequis, et le tableau qui les
-   recense correspond exactement aux numéros manquants de la plage ;
+7. les **numéros manquants** de la plage sont soit retirés par fusion et recensés comme tels, soit
+   livrés et pourvus de leur dossier ; un numéro retiré n'est plus cité comme prérequis ;
 8. les **comptes annoncés en toutes lettres** correspondent au décompte réel ;
 9. aucune **exigence** n'est revendiquée en retrait par deux lots à la fois ;
 10. le **tableau récapitulatif** de la section 6 correspond au graphe déclaré ;
@@ -41,7 +41,8 @@ if hasattr(sys.stdout, 'reconfigure'):
     sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
 RACINE = Path(__file__).resolve().parent.parent
-ROADMAP = RACINE / 'Documentation' / 'Lot' / 'roadmap-0.1.0.md'
+DOSSIER_LOTS = RACINE / 'Documentation' / 'Lot'
+ROADMAP = DOSSIER_LOTS / 'roadmap-0.1.0.md'
 
 PREMIER_LOT_FILIERE = 30
 
@@ -86,6 +87,17 @@ class Rapport:
 
 def numero(n) -> str:
     return 'LOT-%s' % n
+
+
+def lots_livres():
+    """Les lots qui ont leur dossier : livrés, ils ont quitté la feuille de route."""
+    livres = set()
+    for chemin in DOSSIER_LOTS.glob('LOT-*'):
+        if chemin.is_dir():
+            m = re.match(r'LOT-(\d+)', chemin.name)
+            if m:
+                livres.add('LOT-' + m.group(1))
+    return livres
 
 
 def lire_sections(texte: str) -> dict:
@@ -180,7 +192,8 @@ def main() -> int:
     amont, aval_declare, aval, sections = graphe(texte)
 
     filiere = set(l for l in sections if int(l[4:]) >= PREMIER_LOT_FILIERE)
-    tous = set(sections) | set(numero('%02d' % n) for n in range(1, 8))
+    livres = lots_livres()
+    tous = set(sections) | livres
 
     # ---- 1, 2 : rubriques obligatoires et ancres ----
     ancres_vues: dict = {}
@@ -252,12 +265,18 @@ def main() -> int:
 
     # ---- 7 : numéros retirés ----
     presents = set(int(l[4:]) for l in filiere)
-    retires_reels = set(range(min(presents), max(presents) + 1)) - presents
+    manquants = set(range(min(presents), max(presents) + 1)) - presents
+    # Un numéro manquant est légitime de deux façons : il est retiré par fusion, ou il est livré
+    # et a donc quitté cette page pour son dossier.
+    numeros_livres = set(int(l[4:]) for l in livres)
+    retires_reels = manquants - numeros_livres
     bloc_retires = texte.split('numéros retirés.**')[1].split('---')[0]
     retires_declares = set(int(n) for n in LOT_RE.findall(bloc_retires))
     if retires_reels != retires_declares:
-        r.erreur('numéros retirés : le tableau déclare %s, la plage en manque %s'
-                 % (sorted(retires_declares), sorted(retires_reels)))
+        r.erreur('numéros retirés : le tableau déclare %s, la plage en manque %s '
+                 '(hors lots livrés %s)'
+                 % (sorted(retires_declares), sorted(retires_reels),
+                    sorted(numeros_livres & manquants)))
     for lot, deps in sorted(amont.items()):
         for d in deps:
             if int(d[4:]) in retires_reels:
@@ -306,8 +325,9 @@ def main() -> int:
             if src not in amont.get(dst, []) and dst not in aval.get(src, set()):
                 r.erreur('le diagramme (§6) trace %s → %s, que rien ne déclare' % (src, dst))
 
-    print('lots de la filière : %d (LOT-%d à LOT-%d, %d numéro(s) retiré(s))'
-          % (len(filiere), min(presents), max(presents), len(retires_reels)))
+    print('lots de la filière : %d (LOT-%d à LOT-%d ; %d retiré(s), %d livré(s) hors page)'
+          % (len(filiere), min(presents), max(presents), len(retires_reels),
+             len(numeros_livres & manquants)))
     return r.bilan()
 
 

@@ -14,6 +14,11 @@ créer son fichier avec une ancre `{#spec-<nom>}` et ajouter une ligne
 
 - @subpage spec-vision
 - @subpage spec-gameplay
+- @subpage spec-regles-dnd
+- @subpage spec-rpg
+- @subpage spec-combat
+- @subpage spec-inventaire
+- @subpage spec-contenu
 - @subpage spec-controles
 - @subpage spec-rendu-technique
 - @subpage spec-niveaux
