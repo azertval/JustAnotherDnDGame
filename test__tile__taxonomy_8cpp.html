@@ -92,11 +92,15 @@ $(function(){initNavTree('test__tile__taxonomy_8cpp.html','',''); });
   <div class="headertitle"><div class="title">test_tile_taxonomy.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;set&gt;</code><br />
+<div class="textblock"><code>#include &lt;filesystem&gt;</code><br />
+<code>#include &lt;set&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
 <code>#include &lt;vector&gt;</code><br />
 <code>#include &lt;gtest/gtest.h&gt;</code><br />
 <code>#include &quot;<a class="el" href="TileType_8h_source.html">Core/Levels/TileType.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="TaxonomyLabels_8h_source.html">HMI/Editor/TaxonomyLabels.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="TileTaxonomy_8h_source.html">HMI/Editor/TileTaxonomy.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="Localization_8h_source.html">HMI/Localization/Localization.h</a>&quot;</code><br />
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
@@ -104,10 +108,12 @@ Functions</h2></td></tr>
 <tr class="memdesc:a8869bf84f7bf9f3ef130f5355eb298d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Chaque type de tuile figure exactement une fois dans la taxonomie : aucun doublon, aucun oubli.  <br /></td></tr>
 <tr class="memitem:a177c33858097ed44da8cc183d0002603" id="r_a177c33858097ed44da8cc183d0002603"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a177c33858097ed44da8cc183d0002603">TEST</a> (TileTaxonomy, ChaqueEntreeAUnLibelle)</td></tr>
 <tr class="memdesc:a177c33858097ed44da8cc183d0002603"><td class="mdescLeft">&#160;</td><td class="mdescRight">Toute entrée de la taxonomie — catégorie, sous-groupe et tuile — porte un libellé non vide : c'est ce texte qui s'affiche dans l'arbre de la palette, une chaîne vide y produirait une ligne muette impossible à identifier.  <br /></td></tr>
+<tr class="memitem:a6988d943a3101718f8f3d4271033e33b" id="r_a6988d943a3101718f8f3d4271033e33b"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a6988d943a3101718f8f3d4271033e33b">TEST</a> (TileTaxonomy, ChaqueLibelleEstTraduitDansLesDeuxCatalogues)</td></tr>
+<tr class="memdesc:a6988d943a3101718f8f3d4271033e33b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Chaque libellé de la palette est <b>traduit</b> dans les deux catalogues livrés : un type ajouté sans libellé s'afficherait en français dans la version anglaise, sans que rien ne l'annonce (<span class="tt">EX-REN-033</span>, <span class="tt">LOT-08</span>).  <br /></td></tr>
 </table>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
 <a id="a177c33858097ed44da8cc183d0002603" name="a177c33858097ed44da8cc183d0002603"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a177c33858097ed44da8cc183d0002603">&#9670;&#160;</a></span>TEST() <span class="overload">[1/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a177c33858097ed44da8cc183d0002603">&#9670;&#160;</a></span>TEST() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -136,8 +142,38 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a6988d943a3101718f8f3d4271033e33b" name="a6988d943a3101718f8f3d4271033e33b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6988d943a3101718f8f3d4271033e33b">&#9670;&#160;</a></span>TEST() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TEST </td>
+          <td>(</td>
+          <td class="paramtype">TileTaxonomy</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ChaqueLibelleEstTraduitDansLesDeuxCatalogues</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Chaque libellé de la palette est <b>traduit</b> dans les deux catalogues livrés : un type ajouté sans libellé s'afficherait en français dans la version anglaise, sans que rien ne l'annonce (<span class="tt">EX-REN-033</span>, <span class="tt">LOT-08</span>). </p>
+<p><b>Cas de test :</b> <b>Chaque libelle de la palette est traduit dans les deux catalogues livres.</b><br  />
+ <b>Categorie :</b> Unitaire · Taxonomie des tuiles<br  />
+ <b>Criticite :</b> Majeur<br  />
+ <b>Etapes :</b><br  />
+ 1. Charger fr.lang puis en.lang.<br  />
+2. Resoudre la cle de chaque categorie et de chaque tuile de la taxonomie.<br  />
+ <b>Resultat attendu :</b> Chaque libelle a une cle, et chaque cle resout vers un texte distinct d'elle-meme. </p>
+
+</div>
+</div>
 <a id="a8869bf84f7bf9f3ef130f5355eb298d2" name="a8869bf84f7bf9f3ef130f5355eb298d2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8869bf84f7bf9f3ef130f5355eb298d2">&#9670;&#160;</a></span>TEST() <span class="overload">[2/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a8869bf84f7bf9f3ef130f5355eb298d2">&#9670;&#160;</a></span>TEST() <span class="overload">[3/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">

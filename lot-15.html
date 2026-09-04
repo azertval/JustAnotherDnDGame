@@ -96,10 +96,10 @@ $(function(){initNavTree('lot-15.html','',''); });
 <blockquote class="doxtable">
 <p>Statut : <b>à faire</b>. Prérequis : <a class="el" href="lot-05.html" title="LOT-05 — Modes de jeu">LOT-05</a> (mode « monde gelé »), <a class="el" href="lot-10.html" title="LOT-10 — Entités de carte et interaction">LOT-10</a> (entités et interaction), <a class="el" href="lot-12.html" title="LOT-12 — Dés, caractéristiques, jets">LOT-12</a> (jets de compétence en dialogue). </p>
 </blockquote>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md446"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md447"></a>
 Objectif</h1>
 <p>Parler à un PNJ via un arbre de dialogue scripté, avec choix, conditions et jets de compétence.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md447"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md448"></a>
 Périmètre</h1>
 <ul>
 <li><span class="tt">Source/Core/Rpg/Dialogue.{h,cpp}</span> : graphe de nœuds en <b>JSON</b> — réplique, choix, condition sur drapeau, action (donner un objet, poser un drapeau, démarrer une quête), <b>jet de compétence</b> (ex. Persuasion contre difficulté 15, avec deux suites possibles).</li>
@@ -108,13 +108,13 @@ Périmètre</h1>
 <li>Widget Qt sur <span class="tt">DesignTokens</span> / <span class="tt">PixelFrameWidget</span> / <span class="tt">BitmapFont</span>.</li>
 <li>Tout le texte via <span class="tt"><a class="el" href="classhmi_1_1Localization.html" title="Catalogue de traduction (i18n) : associe des clés stables à des chaînes selon la langue active,...">hmi::Localization</a></span> — <b>aucun libellé en dur</b> (<span class="tt">EX-REN-033</span>).</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md448"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md449"></a>
 Ce qui fait la qualité de ce lot</h1>
 <p>La séparation runner pur / widget. Un dialogue doit être <b>jouable en test headless</b>, nœud par nœud, sans fenêtre : c'est ce qui permettra de vérifier des arbres de vingt nœuds sans les cliquer à la main. Le widget ne fait qu'afficher ce que le runner décide.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md449"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md450"></a>
 Exigences couvertes</h1>
 <p><span class="tt">EX-RPG-*</span> (dialogue, choix, conditions, actions), <span class="tt">EX-IHM-*</span>.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md450"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md451"></a>
 Critères d'acceptation</h1>
 <ul>
 <li>Un dialogue de dix nœuds, deux conditions et un jet de Persuasion se parcourt <b>en headless</b>.</li>

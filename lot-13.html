@@ -96,10 +96,10 @@ $(function(){initNavTree('lot-13.html','',''); });
 <blockquote class="doxtable">
 <p>Statut : <b>à faire</b>. Prérequis : <a class="el" href="lot-12.html" title="LOT-12 — Dés, caractéristiques, jets">LOT-12</a>. </p>
 </blockquote>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md436"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md437"></a>
 Objectif</h1>
 <p>Donner à toute créature — héros, PNJ, ennemi — une fiche complète : points de vie, classe d'armure, classe, niveau, maîtrise, compétences, vitesse.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md437"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md438"></a>
 Périmètre</h1>
 <ul>
 <li><span class="tt">Source/Core/Rpg/CharacterSheet.{h,cpp}</span> : caractéristiques, PV courants et maximum, CA, niveau, bonus de maîtrise, jets de sauvegarde, vitesse (en cases, dérivée de l'échelle du <span class="tt">LOT-12</span>).</li>
@@ -108,14 +108,14 @@ Périmètre</h1>
 <li>Composant ECS <span class="tt">Source/Core/Ecs/Components/RpgActor.h</span> référençant la fiche.</li>
 <li>Expérience et montée de niveau.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md438"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md439"></a>
 Deux règles à tenir</h1>
 <p><b><span class="tt">CharacterSheet</span> est un objet autonome, jamais un singleton joueur.</b> La décision de cadrage est « un héros au départ, quatre à terme » : le passage au groupe (<span class="tt">LOT-29</span>) ne doit <b>rien</b> changer à cette classe. Si une fonction prend « le personnage » implicitement, elle est mal écrite.</p>
 <p><b>Aucune valeur de règle dans le C++</b> (<span class="tt">EX-VIS-007</span>). Dé de vie, seuils d'expérience, maîtrises : tout en JSON. C'est ce qui rend l'équilibrage possible sans recompiler — et sans équilibrage, un RPG n'est pas jouable.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md439"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md440"></a>
 Exigences couvertes</h1>
 <p><span class="tt">EX-DND-*</span> : PV, CA, bonus de maîtrise par niveau, jets de sauvegarde, expérience, progression.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md440"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md441"></a>
 Critères d'acceptation</h1>
 <ul>
 <li>Trois classes définies en JSON se chargent et donnent les bons modificateurs.</li>

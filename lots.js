@@ -1,7 +1,7 @@
 var lots =
 [
-    [ "Lots", "lots.html#autotoc_md531", null ],
-    [ "Programme", "lots.html#autotoc_md532", null ],
+    [ "Lots", "lots.html#autotoc_md532", null ],
+    [ "Programme", "lots.html#autotoc_md533", null ],
     [ "LOT-01 — Fork, purge et remise à nu", "lot-01.html", [
       [ "Objectif", "lot-01.html#autotoc_md358", null ],
       [ "Pourquoi purger en premier", "lot-01.html#autotoc_md359", null ],
@@ -72,167 +72,168 @@ var lots =
       [ "Périmètre", "lot-08.html#autotoc_md409", null ],
       [ "Note de conception", "lot-08.html#autotoc_md410", null ],
       [ "Exigences couvertes", "lot-08.html#autotoc_md411", null ],
-      [ "Critères d'acceptation", "lot-08.html#autotoc_md412", null ]
+      [ "Critères d'acceptation", "lot-08.html#autotoc_md412", null ],
+      [ "Ce que la réalisation a tranché", "lot-08.html#autotoc_md413", null ]
     ] ],
     [ "LOT-09 — Graphe de cartes et transitions", "lot-09.html", [
-      [ "Objectif", "lot-09.html#autotoc_md413", null ],
-      [ "Le problème", "lot-09.html#autotoc_md414", null ],
-      [ "Périmètre", "lot-09.html#autotoc_md415", null ],
-      [ "Exigences couvertes", "lot-09.html#autotoc_md416", null ],
-      [ "Critères d'acceptation", "lot-09.html#autotoc_md417", null ]
+      [ "Objectif", "lot-09.html#autotoc_md414", null ],
+      [ "Le problème", "lot-09.html#autotoc_md415", null ],
+      [ "Périmètre", "lot-09.html#autotoc_md416", null ],
+      [ "Exigences couvertes", "lot-09.html#autotoc_md417", null ],
+      [ "Critères d'acceptation", "lot-09.html#autotoc_md418", null ]
     ] ],
     [ "LOT-10 — Entités de carte et interaction", "lot-10.html", [
-      [ "Objectif", "lot-10.html#autotoc_md418", null ],
-      [ "Pourquoi des entités et pas des tuiles", "lot-10.html#autotoc_md419", null ],
-      [ "Périmètre", "lot-10.html#autotoc_md420", null ],
-      [ "Le piège", "lot-10.html#autotoc_md421", null ],
-      [ "Exigences couvertes", "lot-10.html#autotoc_md422", null ],
-      [ "Critères d'acceptation", "lot-10.html#autotoc_md423", null ]
+      [ "Objectif", "lot-10.html#autotoc_md419", null ],
+      [ "Pourquoi des entités et pas des tuiles", "lot-10.html#autotoc_md420", null ],
+      [ "Périmètre", "lot-10.html#autotoc_md421", null ],
+      [ "Le piège", "lot-10.html#autotoc_md422", null ],
+      [ "Exigences couvertes", "lot-10.html#autotoc_md423", null ],
+      [ "Critères d'acceptation", "lot-10.html#autotoc_md424", null ]
     ] ],
     [ "LOT-11 — Éditeur multi-couches et placement d'entités", "lot-11.html", [
-      [ "Objectif", "lot-11.html#autotoc_md424", null ],
-      [ "Ce qui est déjà là", "lot-11.html#autotoc_md425", null ],
-      [ "Périmètre", "lot-11.html#autotoc_md426", null ],
-      [ "La contrainte à rendre visible ici", "lot-11.html#autotoc_md427", null ],
-      [ "Exigences couvertes", "lot-11.html#autotoc_md428", null ],
-      [ "Critères d'acceptation", "lot-11.html#autotoc_md429", null ]
+      [ "Objectif", "lot-11.html#autotoc_md425", null ],
+      [ "Ce qui est déjà là", "lot-11.html#autotoc_md426", null ],
+      [ "Périmètre", "lot-11.html#autotoc_md427", null ],
+      [ "La contrainte à rendre visible ici", "lot-11.html#autotoc_md428", null ],
+      [ "Exigences couvertes", "lot-11.html#autotoc_md429", null ],
+      [ "Critères d'acceptation", "lot-11.html#autotoc_md430", null ]
     ] ],
     [ "LOT-12 — Dés, caractéristiques, jets", "lot-12.html", [
-      [ "Objectif", "lot-12.html#autotoc_md430", null ],
-      [ "Pourquoi ce lot peut démarrer tout de suite", "lot-12.html#autotoc_md431", null ],
-      [ "Périmètre", "lot-12.html#autotoc_md432", null ],
-      [ "Le socle déterministe", "lot-12.html#autotoc_md433", null ],
-      [ "Exigences couvertes", "lot-12.html#autotoc_md434", null ],
-      [ "Critères d'acceptation", "lot-12.html#autotoc_md435", null ]
+      [ "Objectif", "lot-12.html#autotoc_md431", null ],
+      [ "Pourquoi ce lot peut démarrer tout de suite", "lot-12.html#autotoc_md432", null ],
+      [ "Périmètre", "lot-12.html#autotoc_md433", null ],
+      [ "Le socle déterministe", "lot-12.html#autotoc_md434", null ],
+      [ "Exigences couvertes", "lot-12.html#autotoc_md435", null ],
+      [ "Critères d'acceptation", "lot-12.html#autotoc_md436", null ]
     ] ],
     [ "LOT-13 — Fiche de personnage", "lot-13.html", [
-      [ "Objectif", "lot-13.html#autotoc_md436", null ],
-      [ "Périmètre", "lot-13.html#autotoc_md437", null ],
-      [ "Deux règles à tenir", "lot-13.html#autotoc_md438", null ],
-      [ "Exigences couvertes", "lot-13.html#autotoc_md439", null ],
-      [ "Critères d'acceptation", "lot-13.html#autotoc_md440", null ]
+      [ "Objectif", "lot-13.html#autotoc_md437", null ],
+      [ "Périmètre", "lot-13.html#autotoc_md438", null ],
+      [ "Deux règles à tenir", "lot-13.html#autotoc_md439", null ],
+      [ "Exigences couvertes", "lot-13.html#autotoc_md440", null ],
+      [ "Critères d'acceptation", "lot-13.html#autotoc_md441", null ]
     ] ],
     [ "LOT-14 — Inventaire et équipement", "lot-14.html", [
-      [ "Objectif", "lot-14.html#autotoc_md441", null ],
-      [ "Périmètre", "lot-14.html#autotoc_md442", null ],
-      [ "Le piège", "lot-14.html#autotoc_md443", null ],
-      [ "Exigences couvertes", "lot-14.html#autotoc_md444", null ],
-      [ "Critères d'acceptation", "lot-14.html#autotoc_md445", null ]
+      [ "Objectif", "lot-14.html#autotoc_md442", null ],
+      [ "Périmètre", "lot-14.html#autotoc_md443", null ],
+      [ "Le piège", "lot-14.html#autotoc_md444", null ],
+      [ "Exigences couvertes", "lot-14.html#autotoc_md445", null ],
+      [ "Critères d'acceptation", "lot-14.html#autotoc_md446", null ]
     ] ],
     [ "LOT-15 — PNJ et dialogues", "lot-15.html", [
-      [ "Objectif", "lot-15.html#autotoc_md446", null ],
-      [ "Périmètre", "lot-15.html#autotoc_md447", null ],
-      [ "Ce qui fait la qualité de ce lot", "lot-15.html#autotoc_md448", null ],
-      [ "Exigences couvertes", "lot-15.html#autotoc_md449", null ],
-      [ "Critères d'acceptation", "lot-15.html#autotoc_md450", null ]
+      [ "Objectif", "lot-15.html#autotoc_md447", null ],
+      [ "Périmètre", "lot-15.html#autotoc_md448", null ],
+      [ "Ce qui fait la qualité de ce lot", "lot-15.html#autotoc_md449", null ],
+      [ "Exigences couvertes", "lot-15.html#autotoc_md450", null ],
+      [ "Critères d'acceptation", "lot-15.html#autotoc_md451", null ]
     ] ],
     [ "LOT-16 — Quêtes et drapeaux de monde", "lot-16.html", [
-      [ "Objectif", "lot-16.html#autotoc_md451", null ],
-      [ "Périmètre", "lot-16.html#autotoc_md452", null ],
-      [ "Note de conception", "lot-16.html#autotoc_md453", null ],
-      [ "Exigences couvertes", "lot-16.html#autotoc_md454", null ],
-      [ "Critères d'acceptation", "lot-16.html#autotoc_md455", null ]
+      [ "Objectif", "lot-16.html#autotoc_md452", null ],
+      [ "Périmètre", "lot-16.html#autotoc_md453", null ],
+      [ "Note de conception", "lot-16.html#autotoc_md454", null ],
+      [ "Exigences couvertes", "lot-16.html#autotoc_md455", null ],
+      [ "Critères d'acceptation", "lot-16.html#autotoc_md456", null ]
     ] ],
     [ "LOT-17 — Sauvegarde riche", "lot-17.html", [
-      [ "Objectif", "lot-17.html#autotoc_md456", null ],
-      [ "Le problème", "lot-17.html#autotoc_md457", null ],
-      [ "Périmètre", "lot-17.html#autotoc_md458", null ],
-      [ "Règles de format", "lot-17.html#autotoc_md459", null ],
-      [ "Exigences couvertes", "lot-17.html#autotoc_md460", null ],
-      [ "Critères d'acceptation", "lot-17.html#autotoc_md461", null ]
+      [ "Objectif", "lot-17.html#autotoc_md457", null ],
+      [ "Le problème", "lot-17.html#autotoc_md458", null ],
+      [ "Périmètre", "lot-17.html#autotoc_md459", null ],
+      [ "Règles de format", "lot-17.html#autotoc_md460", null ],
+      [ "Exigences couvertes", "lot-17.html#autotoc_md461", null ],
+      [ "Critères d'acceptation", "lot-17.html#autotoc_md462", null ]
     ] ],
     [ "LOT-18 — Bascule exploration ↔ combat", "lot-18.html", [
-      [ "Objectif", "lot-18.html#autotoc_md462", null ],
-      [ "La décision qui structure ce lot", "lot-18.html#autotoc_md463", null ],
-      [ "Périmètre", "lot-18.html#autotoc_md464", null ],
-      [ "Le critère qui compte", "lot-18.html#autotoc_md465", null ],
-      [ "Exigences couvertes", "lot-18.html#autotoc_md466", null ],
-      [ "Critères d'acceptation", "lot-18.html#autotoc_md467", null ]
+      [ "Objectif", "lot-18.html#autotoc_md463", null ],
+      [ "La décision qui structure ce lot", "lot-18.html#autotoc_md464", null ],
+      [ "Périmètre", "lot-18.html#autotoc_md465", null ],
+      [ "Le critère qui compte", "lot-18.html#autotoc_md466", null ],
+      [ "Exigences couvertes", "lot-18.html#autotoc_md467", null ],
+      [ "Critères d'acceptation", "lot-18.html#autotoc_md468", null ]
     ] ],
     [ "LOT-19 — Grille tactique et déplacement", "lot-19.html", [
-      [ "Objectif", "lot-19.html#autotoc_md468", null ],
-      [ "Ce qui existe déjà — à ne pas réécrire", "lot-19.html#autotoc_md469", null ],
-      [ "Périmètre", "lot-19.html#autotoc_md470", null ],
-      [ "Pourquoi le déterminisme du chemin n'est pas négociable", "lot-19.html#autotoc_md471", null ],
-      [ "Exigences couvertes", "lot-19.html#autotoc_md472", null ],
-      [ "Critères d'acceptation", "lot-19.html#autotoc_md473", null ]
+      [ "Objectif", "lot-19.html#autotoc_md469", null ],
+      [ "Ce qui existe déjà — à ne pas réécrire", "lot-19.html#autotoc_md470", null ],
+      [ "Périmètre", "lot-19.html#autotoc_md471", null ],
+      [ "Pourquoi le déterminisme du chemin n'est pas négociable", "lot-19.html#autotoc_md472", null ],
+      [ "Exigences couvertes", "lot-19.html#autotoc_md473", null ],
+      [ "Critères d'acceptation", "lot-19.html#autotoc_md474", null ]
     ] ],
     [ "LOT-20 — Initiative et tour par tour", "lot-20.html", [
-      [ "Objectif", "lot-20.html#autotoc_md474", null ],
-      [ "Périmètre", "lot-20.html#autotoc_md475", null ],
-      [ "Les trois fins", "lot-20.html#autotoc_md476", null ],
-      [ "Exigences couvertes", "lot-20.html#autotoc_md477", null ],
-      [ "Critères d'acceptation", "lot-20.html#autotoc_md478", null ]
+      [ "Objectif", "lot-20.html#autotoc_md475", null ],
+      [ "Périmètre", "lot-20.html#autotoc_md476", null ],
+      [ "Les trois fins", "lot-20.html#autotoc_md477", null ],
+      [ "Exigences couvertes", "lot-20.html#autotoc_md478", null ],
+      [ "Critères d'acceptation", "lot-20.html#autotoc_md479", null ]
     ] ],
     [ "LOT-21 — Attaques, dégâts et états", "lot-21.html", [
-      [ "Objectif", "lot-21.html#autotoc_md479", null ],
-      [ "Périmètre", "lot-21.html#autotoc_md480", null ],
-      [ "Les règles à ne pas se tromper", "lot-21.html#autotoc_md481", null ],
-      [ "Le journal de combat", "lot-21.html#autotoc_md482", null ],
-      [ "Exigences couvertes", "lot-21.html#autotoc_md483", null ],
-      [ "Critères d'acceptation", "lot-21.html#autotoc_md484", null ]
+      [ "Objectif", "lot-21.html#autotoc_md480", null ],
+      [ "Périmètre", "lot-21.html#autotoc_md481", null ],
+      [ "Les règles à ne pas se tromper", "lot-21.html#autotoc_md482", null ],
+      [ "Le journal de combat", "lot-21.html#autotoc_md483", null ],
+      [ "Exigences couvertes", "lot-21.html#autotoc_md484", null ],
+      [ "Critères d'acceptation", "lot-21.html#autotoc_md485", null ]
     ] ],
     [ "LOT-22 — Portée, ligne de vue et zones d'effet", "lot-22.html", [
-      [ "Objectif", "lot-22.html#autotoc_md485", null ],
-      [ "Périmètre", "lot-22.html#autotoc_md486", null ],
-      [ "L'invariant à tester exhaustivement", "lot-22.html#autotoc_md487", null ],
-      [ "Exigences couvertes", "lot-22.html#autotoc_md488", null ],
-      [ "Critères d'acceptation", "lot-22.html#autotoc_md489", null ]
+      [ "Objectif", "lot-22.html#autotoc_md486", null ],
+      [ "Périmètre", "lot-22.html#autotoc_md487", null ],
+      [ "L'invariant à tester exhaustivement", "lot-22.html#autotoc_md488", null ],
+      [ "Exigences couvertes", "lot-22.html#autotoc_md489", null ],
+      [ "Critères d'acceptation", "lot-22.html#autotoc_md490", null ]
     ] ],
     [ "LOT-23 — IA tactique ennemie", "lot-23.html", [
-      [ "Objectif", "lot-23.html#autotoc_md490", null ],
-      [ "La décision de conception", "lot-23.html#autotoc_md491", null ],
-      [ "Périmètre", "lot-23.html#autotoc_md492", null ],
-      [ "Les deux défauts à prévenir", "lot-23.html#autotoc_md493", null ],
-      [ "Exigences couvertes", "lot-23.html#autotoc_md494", null ],
-      [ "Critères d'acceptation", "lot-23.html#autotoc_md495", null ]
+      [ "Objectif", "lot-23.html#autotoc_md491", null ],
+      [ "La décision de conception", "lot-23.html#autotoc_md492", null ],
+      [ "Périmètre", "lot-23.html#autotoc_md493", null ],
+      [ "Les deux défauts à prévenir", "lot-23.html#autotoc_md494", null ],
+      [ "Exigences couvertes", "lot-23.html#autotoc_md495", null ],
+      [ "Critères d'acceptation", "lot-23.html#autotoc_md496", null ]
     ] ],
     [ "LOT-24 — IHM de combat", "lot-24.html", [
-      [ "Objectif", "lot-24.html#autotoc_md496", null ],
-      [ "Périmètre", "lot-24.html#autotoc_md497", null ],
-      [ "Le critère qui est souvent oublié", "lot-24.html#autotoc_md498", null ],
-      [ "Exigences couvertes", "lot-24.html#autotoc_md499", null ],
-      [ "Critères d'acceptation", "lot-24.html#autotoc_md500", null ]
+      [ "Objectif", "lot-24.html#autotoc_md497", null ],
+      [ "Périmètre", "lot-24.html#autotoc_md498", null ],
+      [ "Le critère qui est souvent oublié", "lot-24.html#autotoc_md499", null ],
+      [ "Exigences couvertes", "lot-24.html#autotoc_md500", null ],
+      [ "Critères d'acceptation", "lot-24.html#autotoc_md501", null ]
     ] ],
     [ "LOT-25 — Sorts et capacités de classe", "lot-25.html", [
-      [ "Objectif", "lot-25.html#autotoc_md501", null ],
-      [ "Périmètre", "lot-25.html#autotoc_md502", null ],
-      [ "Note de conception", "lot-25.html#autotoc_md503", null ],
-      [ "Exigences couvertes", "lot-25.html#autotoc_md504", null ],
-      [ "Critères d'acceptation", "lot-25.html#autotoc_md505", null ]
+      [ "Objectif", "lot-25.html#autotoc_md502", null ],
+      [ "Périmètre", "lot-25.html#autotoc_md503", null ],
+      [ "Note de conception", "lot-25.html#autotoc_md504", null ],
+      [ "Exigences couvertes", "lot-25.html#autotoc_md505", null ],
+      [ "Critères d'acceptation", "lot-25.html#autotoc_md506", null ]
     ] ],
     [ "LOT-26 — Butin, marchands, économie", "lot-26.html", [
-      [ "Objectif", "lot-26.html#autotoc_md506", null ],
-      [ "Périmètre", "lot-26.html#autotoc_md507", null ],
-      [ "Le piège du tirage", "lot-26.html#autotoc_md508", null ],
-      [ "Exigences couvertes", "lot-26.html#autotoc_md509", null ],
-      [ "Critères d'acceptation", "lot-26.html#autotoc_md510", null ]
+      [ "Objectif", "lot-26.html#autotoc_md507", null ],
+      [ "Périmètre", "lot-26.html#autotoc_md508", null ],
+      [ "Le piège du tirage", "lot-26.html#autotoc_md509", null ],
+      [ "Exigences couvertes", "lot-26.html#autotoc_md510", null ],
+      [ "Critères d'acceptation", "lot-26.html#autotoc_md511", null ]
     ] ],
     [ "LOT-27 — Contenu du *vertical slice*", "lot-27.html", [
-      [ "Objectif", "lot-27.html#autotoc_md511", null ],
-      [ "Périmètre", "lot-27.html#autotoc_md512", null ],
-      [ "Outillage", "lot-27.html#autotoc_md513", null ],
-      [ "Exigences couvertes", "lot-27.html#autotoc_md514", null ],
-      [ "Critères d'acceptation", "lot-27.html#autotoc_md515", null ]
+      [ "Objectif", "lot-27.html#autotoc_md512", null ],
+      [ "Périmètre", "lot-27.html#autotoc_md513", null ],
+      [ "Outillage", "lot-27.html#autotoc_md514", null ],
+      [ "Exigences couvertes", "lot-27.html#autotoc_md515", null ],
+      [ "Critères d'acceptation", "lot-27.html#autotoc_md516", null ]
     ] ],
     [ "LOT-28 — Audio, effets et version `0.2.0`", "lot-28.html", [
-      [ "Objectif", "lot-28.html#autotoc_md516", null ],
-      [ "Périmètre", "lot-28.html#autotoc_md517", [
-        [ "Audio", "lot-28.html#autotoc_md518", null ],
-        [ "Effets", "lot-28.html#autotoc_md519", null ],
-        [ "Équilibrage", "lot-28.html#autotoc_md520", null ],
-        [ "Clôture", "lot-28.html#autotoc_md521", null ]
+      [ "Objectif", "lot-28.html#autotoc_md517", null ],
+      [ "Périmètre", "lot-28.html#autotoc_md518", [
+        [ "Audio", "lot-28.html#autotoc_md519", null ],
+        [ "Effets", "lot-28.html#autotoc_md520", null ],
+        [ "Équilibrage", "lot-28.html#autotoc_md521", null ],
+        [ "Clôture", "lot-28.html#autotoc_md522", null ]
       ] ],
-      [ "Note de méthode", "lot-28.html#autotoc_md522", null ],
-      [ "Exigences couvertes", "lot-28.html#autotoc_md523", null ],
-      [ "Critères d'acceptation", "lot-28.html#autotoc_md524", null ]
+      [ "Note de méthode", "lot-28.html#autotoc_md523", null ],
+      [ "Exigences couvertes", "lot-28.html#autotoc_md524", null ],
+      [ "Critères d'acceptation", "lot-28.html#autotoc_md525", null ]
     ] ],
     [ "LOT-29 — Groupe de quatre personnages", "lot-29.html", [
-      [ "Objectif", "lot-29.html#autotoc_md525", null ],
-      [ "Pourquoi ce lot est un lot d'<b>ajout</b>, pas une refonte", "lot-29.html#autotoc_md526", null ],
-      [ "Périmètre", "lot-29.html#autotoc_md527", null ],
-      [ "Le point délicat", "lot-29.html#autotoc_md528", null ],
-      [ "Exigences couvertes", "lot-29.html#autotoc_md529", null ],
-      [ "Critères d'acceptation", "lot-29.html#autotoc_md530", null ]
+      [ "Objectif", "lot-29.html#autotoc_md526", null ],
+      [ "Pourquoi ce lot est un lot d'<b>ajout</b>, pas une refonte", "lot-29.html#autotoc_md527", null ],
+      [ "Périmètre", "lot-29.html#autotoc_md528", null ],
+      [ "Le point délicat", "lot-29.html#autotoc_md529", null ],
+      [ "Exigences couvertes", "lot-29.html#autotoc_md530", null ],
+      [ "Critères d'acceptation", "lot-29.html#autotoc_md531", null ]
     ] ]
 ];

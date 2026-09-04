@@ -96,10 +96,10 @@ $(function(){initNavTree('lot-27.html','',''); });
 <blockquote class="doxtable">
 <p>Statut : <b>à faire</b>. Prérequis : phases B, C et D complètes. </p>
 </blockquote>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md511"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md512"></a>
 Objectif</h1>
 <p>Produire le contenu jouable qui démontre la boucle entière : <em>« un personnage explore une carte top-down, parle à un PNJ, déclenche une rencontre, gagne un combat tactique au d20 »</em>.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md512"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md513"></a>
 Périmètre</h1>
 <ul>
 <li>Un <b>village</b> : quelques bâtiments, trois PNJ, un marchand, un point de départ.</li>
@@ -109,7 +109,7 @@ Périmètre</h1>
 <li>Un <b>combat scénarisé</b> déclenché par un dialogue.</li>
 </ul>
 <p>Tout se produit <b>dans l'éditeur</b> (<span class="tt">LOT-11</span>), pas en écrivant du JSON à la main : c'est le test grandeur nature de l'outil, et la preuve qu'un non-développeur pourrait le faire (<span class="tt">EX-VIS-006</span>).</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md513"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md514"></a>
 Outillage</h1>
 <p><span class="tt">scripts/check_world_graph.py</span> remplace le <span class="tt">check_demo_sequence.py</span> hérité, retiré au <span class="tt">LOT-01</span>. Il valide, en CI :</p>
 <ul>
@@ -117,10 +117,10 @@ Outillage</h1>
 <li>les <b>références de dialogue et de quête</b> : chaque nœud cible, chaque drapeau, chaque récompense existe ;</li>
 <li>que chaque zone de rencontre est un <b>terrain tactique valide</b> (contrainte du <span class="tt">LOT-11</span>, née de la décision « combat sur la carte »).</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md514"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md515"></a>
 Exigences couvertes</h1>
 <p><span class="tt">EX-RPG-*</span>, <span class="tt">EX-LVL-*</span>, et concrétisation de <span class="tt">EX-VIS-001</span> à <span class="tt">EX-VIS-005</span>.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md515"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md516"></a>
 Critères d'acceptation</h1>
 <ul>
 <li>La boucle complète se joue de bout en bout.</li>

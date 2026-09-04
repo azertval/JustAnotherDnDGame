@@ -29,7 +29,7 @@ var searchData=
   ['grand_20que_20la_20fenêtre_20_3a_20fitzoom_20et_20hmi_3a_3aroomgrid_26',['Cadrer un contenu plus grand que la fenêtre : &lt;span class=&quot;tt&quot;&gt;fitZoom&lt;/span&gt; et &lt;span class=&quot;tt&quot;&gt;hmi::RoomGrid&lt;/span&gt;',['../guide-rendu.html#autotoc_md205',1,'']]],
   ['grande_20taille_20lot_2016_27',['7. Niveaux de grande taille (LOT-16)',['../spec-editeur.html#autotoc_md298',1,'']]],
   ['graphe_20de_20cartes_20et_20transitions_28',['LOT-09 — Graphe de cartes et transitions',['../lot-09.html',1,'lots']]],
-  ['graphics_20263_29',['Graphics (263)',['../cahiertest.html#autotoc_md20',1,'']]],
+  ['graphics_20264_29',['Graphics (264)',['../cahiertest.html#autotoc_md20',1,'']]],
   ['graphics_20test_5frender_5fbudget_20cpp_30',['Le test de non-régression du volume (&lt;span class=&quot;tt&quot;&gt;Source/Test/Unit/HMI/Graphics/test_render_budget.cpp&lt;/span&gt;)',['../guide-rendu.html#autotoc_md240',1,'']]],
   ['graphiques_31',['Crédits graphiques',['../md__2home_2runner_2work_2JustAnotherDnDGame_2JustAnotherDnDGame_2Source_2Elements_2Assets_2CREDITS.html',1,'']]],
   ['gravité_20_3a_20core_3a_3aloglevel_20core_3a_3aloglevel_32',['Les niveaux de gravité : &lt;a class=&quot;el&quot; href=&quot;namespacecore.html#aa9b5a444ee11933c91d5e3235aa5b5e3&quot; title=&quot;core::LogLevel&quot;&gt;core::LogLevel&lt;/a&gt;',['../guide-journalisation.html#autotoc_md143',1,'']]],

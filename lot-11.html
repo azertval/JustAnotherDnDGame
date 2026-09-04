@@ -96,14 +96,14 @@ $(function(){initNavTree('lot-11.html','',''); });
 <blockquote class="doxtable">
 <p>Statut : <b>à faire</b>. Prérequis : <a class="el" href="lot-04.html" title="LOT-04 — Format de carte `version: 3`, multi-couches">LOT-04</a>, <a class="el" href="lot-08.html" title="LOT-08 — Vocabulaire de tuiles RPG">LOT-08</a>, <a class="el" href="lot-10.html" title="LOT-10 — Entités de carte et interaction">LOT-10</a>. </p>
 </blockquote>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md424"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md425"></a>
 Objectif</h1>
 <p>Rendre l'éditeur hérité capable d'éditer les <b>trois couches</b> et de poser des <b>entités</b> avec leurs propriétés — c'est-à-dire de produire le contenu du RPG sans écrire de JSON à la main.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md425"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md426"></a>
 Ce qui est déjà là</h1>
 <p>L'éditeur du dépôt d'origine est un poste de travail complet, et il est <b>entièrement conservé</b> : peinture à la souris, outils rectangle et sélection, liaison de mécanismes, undo/redo, essai immédiat, bibliothèque d'assets à vignettes avec rechargement à chaud et détection des références avant suppression, atelier pixel art intégré. Ce lot <b>retarge</b>, il ne reconstruit pas.</p>
 <p>Le <span class="tt">LOT-01</span> a retiré l'outil « Parcours » et le panneau « Propriétés », qui ne pilotaient que des réglages de plateforme.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md426"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md427"></a>
 Périmètre</h1>
 <ul>
 <li><b>Sélecteur de couche active</b> ; visibilité et opacité par couche (voir le sol sous le décor).</li>
@@ -112,13 +112,13 @@ Périmètre</h1>
 <li>Undo/redo étendu à tout cela — l'éditeur n'a jamais eu de mutation non annulable, cette règle tient.</li>
 <li>Vue <b>graphe du monde</b> dans le navigateur de cartes.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md427"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md428"></a>
 La contrainte à rendre visible ici</h1>
 <p>Le combat se déroulant <b>sur la carte d'exploration</b> (décision de cadrage, cf. <span class="tt"><a class="el" href="vision_8md.html">Documentation/Specification/vision.md</a></span>), <em>toute carte doit être un terrain tactique valide</em>. L'éditeur doit <b>avertir</b> quand une zone est trop étroite ou trop encombrée pour y poser une rencontre. Découvrir la contrainte au <span class="tt">LOT-18</span>, une fois vingt cartes dessinées, coûterait leur reprise.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md428"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md429"></a>
 Exigences couvertes</h1>
 <p><span class="tt">EX-EDIT-*</span>.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md429"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md430"></a>
 Critères d'acceptation</h1>
 <ul>
 <li>Édition des trois couches avec undo/redo complet.</li>

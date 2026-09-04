@@ -96,10 +96,10 @@ $(function(){initNavTree('lot-20.html','',''); });
 <blockquote class="doxtable">
 <p>Statut : <b>à faire</b>. Prérequis : <a class="el" href="lot-12.html" title="LOT-12 — Dés, caractéristiques, jets">LOT-12</a> (jet d'initiative), <a class="el" href="lot-19.html" title="LOT-19 — Grille tactique et déplacement">LOT-19</a>. </p>
 </blockquote>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md474"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md475"></a>
 Objectif</h1>
 <p>Ordonnancer les combattants par initiative et structurer le tour : mouvement, action, action bonus, réaction.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md475"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md476"></a>
 Périmètre</h1>
 <ul>
 <li><span class="tt">Source/Core/Combat/TurnOrder.{h,cpp}</span> : ordre d'initiative, <b>multi-alliés dès maintenant</b> (décision de cadrage : un héros au départ, quatre à terme — l'ordre n'a aucune raison de supposer un seul allié, même si le contenu n'en propose qu'un).</li>
@@ -107,7 +107,7 @@ Périmètre</h1>
 <li>Égalités d'initiative : départage déterministe et documenté.</li>
 <li>Entrée et sortie d'un combattant <b>en cours</b> de combat (renfort, fuite).</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md476"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md477"></a>
 Les trois fins</h1>
 <p>Un combat se termine de trois façons, et les trois doivent être couvertes :</p>
 <ul>
@@ -116,10 +116,10 @@ Les trois fins</h1>
 <li><b>fuite</b> : les alliés quittent la zone.</li>
 </ul>
 <p>Une machine à états qui n'en couvre que deux laisse un combat qui ne finit jamais — le pire des défauts, parce qu'il bloque le joueur sans message d'erreur.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md477"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md478"></a>
 Exigences couvertes</h1>
 <p><span class="tt">EX-CBT-*</span> (initiative, structure du tour, conditions de fin).</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md478"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md479"></a>
 Critères d'acceptation</h1>
 <ul>
 <li>Un combat à cinq combattants se déroule <b>en headless</b> du premier round à une condition de fin.</li>

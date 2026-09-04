@@ -93,9 +93,9 @@ $(function(){initNavTree('cahiertest.html','',''); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md_CahierTest"></a></p>
-<p><b>921 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
+<p><b>927 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md5"></a>
-Tests unitaires (906)</h1>
+Tests unitaires (912)</h1>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md6"></a>
 Core</h2>
 <p><b><span class="tt"><a class="el" href="test__core_8cpp.html" title="Tests unitaires de la bibliothèque Core (amorçage).">test_core.cpp</a></span></b></p>
@@ -724,7 +724,7 @@ Vérifie que <span class="tt">reloaded.isDoorOpen(0)</span> est faux.<br  />
 Vérifie que <span class="tt">reloaded.collisionMap().isSolid(4, 1)</span> est vrai.  </td></tr>
 </table>
 <h3 class="doxsection"><a class="anchor" id="autotoc_md10"></a>
-Levels (139)</h3>
+Levels (143)</h3>
 <p><b><span class="tt"><a class="el" href="test__camera__framing_8cpp.html" title="Tests unitaires du cadrage de caméra porté par le niveau : modes, règle de repli et validation (EX-LV...">test_camera_framing.cpp</a></span></b></p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -1651,6 +1651,39 @@ Vérifie que <span class="tt">loaded.errorCode</span> vaut <span class="tt"><a c
 Vérifie que <span class="tt">loaded.errorCode</span> vaut <span class="tt"><a class="el" href="namespacecore.html#af2a63d18c9ef40479ebdc204e726e823ae41199faa7290c167f70f314c5e6c165" title="JSON malformé, champ obligatoire manquant, ou de mauvais type.">core::LevelValidationError::ParseError</a></span>.<br  />
 Vérifie que <span class="tt">core::LevelLoader::loadFromString(smaller).ok()</span> est vrai.  </td></tr>
 </table>
+<p><b><span class="tt"><a class="el" href="test__rpg__terrain_8cpp.html" title="Tests unitaires du vocabulaire de terrain du RPG (EX-EXP-005, LOT-08) : franchissabilité,...">test_rpg_terrain.cpp</a></span></b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>TerrainRpgTest.AllerRetourSurChaqueTypeDeTerrain</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__rpg__terrain_8cpp.html" title="Tests unitaires du vocabulaire de terrain du RPG (EX-EXP-005, LOT-08) : franchissabilité,...">Source/Test/Unit/Core/Levels/test_rpg_terrain.cpp</a>:50</span></sub>  </td><td class="markdownTableBodyNone">Chaque type de terrain survit a l'aller-retour de format.  </td><td class="markdownTableBodyNone">1. Pour chacun des neuf types, charger une carte qui le porte.<br  />
+2. La reserialiser puis la recharger.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">loaded.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt">loaded.level-&gt;tileMap().tile(2, 0)</span> vaut <span class="tt">type</span>.<br  />
+Vérifie que <span class="tt">reloaded.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt">reloaded.level-&gt;tileMap().tile(2, 0)</span> vaut <span class="tt">type</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>TerrainRpgTest.FranchissabiliteDeChaqueTerrain</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__rpg__terrain_8cpp.html" title="Tests unitaires du vocabulaire de terrain du RPG (EX-EXP-005, LOT-08) : franchissabilité,...">Source/Test/Unit/Core/Levels/test_rpg_terrain.cpp</a>:77</span></sub>  </td><td class="markdownTableBodyNone">La franchissabilite de chaque terrain est celle que son nom promet.  </td><td class="markdownTableBodyNone">1. Interroger isSolid sur les neuf types.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">core::isSolid(core::TileType::Wall)</span> est vrai.<br  />
+Vérifie que <span class="tt">core::isSolid(core::TileType::Cliff)</span> est vrai.<br  />
+Vérifie que <span class="tt">core::isSolid(core::TileType::DeepWater)</span> est vrai.<br  />
+Vérifie que <span class="tt">core::isSolid(core::TileType::Grass)</span> est faux.<br  />
+Vérifie que <span class="tt">core::isSolid(core::TileType::Dirt)</span> est faux.<br  />
+Vérifie que <span class="tt">core::isSolid(core::TileType::Sand)</span> est faux.<br  />
+Vérifie que <span class="tt">core::isSolid(core::TileType::Water)</span> est faux.<br  />
+Vérifie que <span class="tt">core::isSolid(core::TileType::Bridge)</span> est faux.<br  />
+Vérifie que <span class="tt">core::isSolid(core::TileType::Stairs)</span> est faux.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>TerrainRpgTest.LaRiveDistingueLesDeuxEaux</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__rpg__terrain_8cpp.html" title="Tests unitaires du vocabulaire de terrain du RPG (EX-EXP-005, LOT-08) : franchissabilité,...">Source/Test/Unit/Core/Levels/test_rpg_terrain.cpp</a>:101</span></sub>  </td><td class="markdownTableBodyNone">L'eau peu profonde se traverse, l'eau profonde non.  </td><td class="markdownTableBodyNone">1. Comparer la franchissabilite de Water et DeepWater.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">core::isSolid(core::TileType::Water)</span> diffère de <span class="tt">core::isSolid(core::TileType::DeepWater)</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>TerrainRpgTest.BorneDeLEnumerationDerivee</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__rpg__terrain_8cpp.html" title="Tests unitaires du vocabulaire de terrain du RPG (EX-EXP-005, LOT-08) : franchissabilité,...">Source/Test/Unit/Core/Levels/test_rpg_terrain.cpp</a>:115</span></sub>  </td><td class="markdownTableBodyNone">La borne de l'enumeration reste derivee du dernier type.  </td><td class="markdownTableBodyNone">1. Comparer TILE_TYPE_COUNT au dernier enumerateur.<br  />
+2. Verifier que chaque valeur jusqu'a cette borne porte un nom.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a319e1d0258052359525fdc83ee93f269" title="Nombre de valeurs de core::TileType — seule source de vérité de la fin de l&#39;énumération (LOT-74 TACHE...">core::TILE_TYPE_COUNT</a></span> vaut <span class="tt">static_cast&lt;int&gt;(<a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875a0b01cc688e1e0b5f6b70f858a1b389ae" title="Escalier : liaison verticale d&#39;une carte à l&#39;autre, traversable.">core::TileType::Stairs</a>) + 1</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a319e1d0258052359525fdc83ee93f269" title="Nombre de valeurs de core::TileType — seule source de vérité de la fin de l&#39;énumération (LOT-74 TACHE...">core::TILE_TYPE_COUNT</a></span> vaut <span class="tt">20</span>.<br  />
+Vérifie que <span class="tt">name.empty()</span> est faux.<br  />
+Vérifie que <span class="tt">std::adjacent_find(sorted.begin(), sorted.end())</span> vaut <span class="tt">sorted.end()</span>.  </td></tr>
+</table>
 <p><b><span class="tt"><a class="el" href="test__tile__texture__override_8cpp.html" title="Tests unitaires de la texture assignée par instance (LOT-45, EX-EDIT-043).">test_tile_texture_override.cpp</a></span></b></p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -2195,7 +2228,7 @@ Diagnostics (2)</h3>
 2. Executer le scenario et verifier les assertions.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a5bc539b762cfd88b17c71d8a44a1a22b" title="Assemble les messages de log en un texte (une ligne par message).">hmi::serializeSessionLog</a>({})</span> vaut <span class="tt">""</span>.  </td></tr>
 </table>
 <h3 class="doxsection"><a class="anchor" id="autotoc_md18"></a>
-Editor (158)</h3>
+Editor (159)</h3>
 <p><b><span class="tt"><a class="el" href="test__asset__file__operations_8cpp.html" title="Tests unitaires des opérations fichiers sur les assets (LOT-43 TACHE-02).">test_asset_file_operations.cpp</a></span></b></p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -3189,17 +3222,25 @@ Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a8158375fa94
 <th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>TileTaxonomy.ChaqueTypeFigureExactementUneFois</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__tile__taxonomy_8cpp.html">Source/Test/Unit/HMI/Editor/test_tile_taxonomy.cpp</a>:43</span></sub>  </td><td class="markdownTableBodyNone">Chaque type de tuile figure exactement une fois dans la taxonomie.  </td><td class="markdownTableBodyNone">1. Mettre en place le contexte du test (arrangement).<br  />
+<sub><span class="tt"><a class="el" href="test__tile__taxonomy_8cpp.html">Source/Test/Unit/HMI/Editor/test_tile_taxonomy.cpp</a>:47</span></sub>  </td><td class="markdownTableBodyNone">Chaque type de tuile figure exactement une fois dans la taxonomie.  </td><td class="markdownTableBodyNone">1. Mettre en place le contexte du test (arrangement).<br  />
 2. Executer le scenario et verifier les assertions.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">types.size()</span> vaut <span class="tt">TILE_TYPE_COUNT</span>.<br  />
 Vérifie que <span class="tt">unique.size()</span> vaut <span class="tt">types.size()</span>.<br  />
 Vérifie que <span class="tt">unique.size()</span> vaut <span class="tt">TILE_TYPE_COUNT</span>.  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>TileTaxonomy.ChaqueEntreeAUnLibelle</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__tile__taxonomy_8cpp.html">Source/Test/Unit/HMI/Editor/test_tile_taxonomy.cpp</a>:65</span></sub>  </td><td class="markdownTableBodyNone">Chaque catégorie, sous-groupe et tuile de la taxonomie porte un libellé non vide.  </td><td class="markdownTableBodyNone">1. Mettre en place le contexte du test (arrangement).<br  />
+<sub><span class="tt"><a class="el" href="test__tile__taxonomy_8cpp.html">Source/Test/Unit/HMI/Editor/test_tile_taxonomy.cpp</a>:69</span></sub>  </td><td class="markdownTableBodyNone">Chaque catégorie, sous-groupe et tuile de la taxonomie porte un libellé non vide.  </td><td class="markdownTableBodyNone">1. Mettre en place le contexte du test (arrangement).<br  />
 2. Executer le scenario et verifier les assertions.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">category.label.empty()</span> est faux.<br  />
 Vérifie que <span class="tt">entry.label.empty()</span> est faux.<br  />
 Vérifie que <span class="tt">subgroup.label.empty()</span> est faux.<br  />
 Vérifie que <span class="tt">entry.label.empty()</span> est faux.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>TileTaxonomy.ChaqueLibelleEstTraduitDansLesDeuxCatalogues</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__tile__taxonomy_8cpp.html">Source/Test/Unit/HMI/Editor/test_tile_taxonomy.cpp</a>:96</span></sub>  </td><td class="markdownTableBodyNone">Chaque libelle de la palette est traduit dans les deux catalogues livres.  </td><td class="markdownTableBodyNone">1. Charger fr.lang puis en.lang.<br  />
+2. Resoudre la cle de chaque categorie et de chaque tuile de la taxonomie.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">localization.loadDefaultLanguage(language)</span> est vrai.<br  />
+Vérifie que <span class="tt">categoryKey.empty()</span> est faux.<br  />
+Vérifie que <span class="tt">localization.text(categoryKey)</span> diffère de <span class="tt">categoryKey</span>.<br  />
+Vérifie que <span class="tt">key.empty()</span> est faux.<br  />
+Vérifie que <span class="tt">localization.text(key)</span> diffère de <span class="tt">key</span>.  </td></tr>
 </table>
 <h3 class="doxsection"><a class="anchor" id="autotoc_md19"></a>
 Game (42)</h3>
@@ -3451,7 +3492,7 @@ Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a9a410292879
 2. Interroger <span class="tt">isLevelUnlocked</span> pour un tableau loin dans la séquence.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a9a410292879939089d6bf584f60d60e6" title="Règle de déverrouillage (LOT-59 TACHE-06, EX-IHM-005) : fonction pure, seule source de vérité sur ce ...">hmi::isLevelUnlocked</a>(progression, FIVE_LEVEL_SEQUENCE, "demo-dash.json")</span> est faux.  </td></tr>
 </table>
 <h3 class="doxsection"><a class="anchor" id="autotoc_md20"></a>
-Graphics (263)</h3>
+Graphics (264)</h3>
 <p><b><span class="tt"><a class="el" href="test__animated__tiles_8cpp.html" title="Tests unitaires des tuiles animées (LOT-46 TACHE-05) : horloge partagée par asset,...">test_animated_tiles.cpp</a></span></b></p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -4418,21 +4459,26 @@ Vérifie que <span class="tt">right.height</span> vaut <span class="tt">left.hei
 <th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>ProceduralAtlasTest.DimensionsAttendues</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__procedural__atlas_8cpp.html" title="Tests unitaires de la génération procédurale de l&#39;atlas de repli (LOT-39, EX-NFR-040).">Source/Test/Unit/HMI/Graphics/test_procedural_atlas.cpp</a>:17</span></sub>  </td><td class="markdownTableBodyNone">L'image générée a les dimensions attendues (grille de tuiles + lignes de personnage).  </td><td class="markdownTableBodyNone">1. Mettre en place le contexte du test (arrangement).<br  />
+<sub><span class="tt"><a class="el" href="test__procedural__atlas_8cpp.html" title="Tests unitaires de la génération procédurale de l&#39;atlas de repli (LOT-39, EX-NFR-040).">Source/Test/Unit/HMI/Graphics/test_procedural_atlas.cpp</a>:22</span></sub>  </td><td class="markdownTableBodyNone">L'image générée a les dimensions attendues (grille de tuiles + lignes de personnage).  </td><td class="markdownTableBodyNone">1. Mettre en place le contexte du test (arrangement).<br  />
 2. Executer le scenario et verifier les assertions.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">image.width</span> vaut <span class="tt">gridSide</span>.<br  />
 Vérifie que <span class="tt">image.height</span> vaut <span class="tt">gridSide + frameRows * <a class="el" href="classhmi_1_1TextureAtlas.html#a7a54a37b7f1e32434c9dca034e03ed1a" title="Côté d&#39;une image d&#39;animation du personnage, en pixels.">hmi::TextureAtlas::PLAYER_FRAME_SIZE</a></span>.<br  />
 Vérifie que <span class="tt">image.pixels.size()</span> vaut <span class="tt">static_cast&lt;std::size_t&gt;(image.width) * static_cast&lt;std::size_t&gt;(image.height)</span>.  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>ProceduralAtlasTest.GenerationDeterministe</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__procedural__atlas_8cpp.html" title="Tests unitaires de la génération procédurale de l&#39;atlas de repli (LOT-39, EX-NFR-040).">Source/Test/Unit/HMI/Graphics/test_procedural_atlas.cpp</a>:43</span></sub>  </td><td class="markdownTableBodyNone">La génération est déterministe : deux appels produisent des pixels identiques.  </td><td class="markdownTableBodyNone">1. Mettre en place le contexte du test (arrangement).<br  />
+<sub><span class="tt"><a class="el" href="test__procedural__atlas_8cpp.html" title="Tests unitaires de la génération procédurale de l&#39;atlas de repli (LOT-39, EX-NFR-040).">Source/Test/Unit/HMI/Graphics/test_procedural_atlas.cpp</a>:48</span></sub>  </td><td class="markdownTableBodyNone">La génération est déterministe : deux appels produisent des pixels identiques.  </td><td class="markdownTableBodyNone">1. Mettre en place le contexte du test (arrangement).<br  />
 2. Executer le scenario et verifier les assertions.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">first.width</span> vaut <span class="tt">second.width</span>.<br  />
 Vérifie que <span class="tt">first.height</span> vaut <span class="tt">second.height</span>.<br  />
 Vérifie que <span class="tt">first.pixels</span> vaut <span class="tt">second.pixels</span>.  </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>ProceduralAtlasTest.DamierDeTransparenceDansLaDerniereTuile</b> (Mineur)<br  />
-<sub><span class="tt"><a class="el" href="test__procedural__atlas_8cpp.html" title="Tests unitaires de la génération procédurale de l&#39;atlas de repli (LOT-39, EX-NFR-040).">Source/Test/Unit/HMI/Graphics/test_procedural_atlas.cpp</a>:64</span></sub>  </td><td class="markdownTableBodyNone">La dernière tuile de la grille contient des pixels opaques et transparents (damier).  </td><td class="markdownTableBodyNone">1. Mettre en place le contexte du test (arrangement).<br  />
+<sub><span class="tt"><a class="el" href="test__procedural__atlas_8cpp.html" title="Tests unitaires de la génération procédurale de l&#39;atlas de repli (LOT-39, EX-NFR-040).">Source/Test/Unit/HMI/Graphics/test_procedural_atlas.cpp</a>:69</span></sub>  </td><td class="markdownTableBodyNone">La dernière tuile de la grille contient des pixels opaques et transparents (damier).  </td><td class="markdownTableBodyNone">1. Mettre en place le contexte du test (arrangement).<br  />
 2. Executer le scenario et verifier les assertions.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">sawOpaque</span> est vrai.<br  />
 Vérifie que <span class="tt">sawTransparent</span> est vrai.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>ProceduralAtlasTest.ChaqueTypeDeTuileAUneCouleurDeRepliDistincte</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__procedural__atlas_8cpp.html" title="Tests unitaires de la génération procédurale de l&#39;atlas de repli (LOT-39, EX-NFR-040).">Source/Test/Unit/HMI/Graphics/test_procedural_atlas.cpp</a>:113</span></sub>  </td><td class="markdownTableBodyNone">Chaque type de tuile a une couleur de repli visible et distincte.  </td><td class="markdownTableBodyNone">1. Generer l'atlas procedural.<br  />
+2. Echantillonner le centre de la case de chaque type de tuile, hors case vide.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">color</span> diffère de <span class="tt">0xFF000000u</span>.<br  />
+Vérifie que <span class="tt">inserted.second</span> est vrai.  </td></tr>
 </table>
 <p><b><span class="tt"><a class="el" href="test__quad__recorder_8cpp.html" title="Tests unitaires de la composition du rendu et de sa capture sans GPU (LOT-40, EX-NFR-004,...">test_quad_recorder.cpp</a></span></b></p>
 <table class="markdownTable">

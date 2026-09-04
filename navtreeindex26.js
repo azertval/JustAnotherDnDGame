@@ -1,5 +1,15 @@
 var NAVTREEINDEX26 =
 {
+"structhmi_1_1PixelPanelFocusEntry.html":[12,0,1,25],
+"structhmi_1_1PixelPanelFocusEntry.html#a3675068e93f52eca1c244dbf9500a5d6":[11,0,1,25,1],
+"structhmi_1_1PixelPanelFocusEntry.html#a3675068e93f52eca1c244dbf9500a5d6":[12,0,1,25,1],
+"structhmi_1_1PixelPanelFocusEntry.html#a6bc4bdf2e232bfeb6b7e66e6025266ed":[11,0,1,25,0],
+"structhmi_1_1PixelPanelFocusEntry.html#a6bc4bdf2e232bfeb6b7e66e6025266ed":[12,0,1,25,0],
+"structhmi_1_1PixelRegion.html":[11,0,1,33],
+"structhmi_1_1PixelRegion.html":[12,0,1,33],
+"structhmi_1_1PixelRegion.html#a13f2d51cc7d24fe3daaf1eecc76e805d":[11,0,1,33,5],
+"structhmi_1_1PixelRegion.html#a13f2d51cc7d24fe3daaf1eecc76e805d":[12,0,1,33,5],
+"structhmi_1_1PixelRegion.html#a48bddb1e470351c6f6f3f0edba73bf77":[11,0,1,33,4],
 "structhmi_1_1PixelRegion.html#a48bddb1e470351c6f6f3f0edba73bf77":[12,0,1,33,4],
 "structhmi_1_1PixelRegion.html#a56d93b164ce2ab2805861567cb97e92a":[11,0,1,33,2],
 "structhmi_1_1PixelRegion.html#a56d93b164ce2ab2805861567cb97e92a":[12,0,1,33,2],
@@ -239,15 +249,5 @@ var NAVTREEINDEX26 =
 "structhmi_1_1SizeTokens.html#afc3a0796f7aeb1a3c26dafd100c6a6f0":[12,0,1,127,6],
 "structhmi_1_1SkinCatalogResult.html":[11,0,1,101],
 "structhmi_1_1SkinCatalogResult.html":[12,0,1,101],
-"structhmi_1_1SkinCatalogResult.html#a0c6e33ded8aa170d25271efff70fdb00":[11,0,1,101,2],
-"structhmi_1_1SkinCatalogResult.html#a0c6e33ded8aa170d25271efff70fdb00":[12,0,1,101,2],
-"structhmi_1_1SkinCatalogResult.html#aa91bb8c5c5db9ec021df1bd74a2c1827":[11,0,1,101,0],
-"structhmi_1_1SkinCatalogResult.html#aa91bb8c5c5db9ec021df1bd74a2c1827":[12,0,1,101,0],
-"structhmi_1_1SkinCatalogResult.html#ae283333ab1ff8e453f27f46eb4ab3680":[11,0,1,101,3],
-"structhmi_1_1SkinCatalogResult.html#ae283333ab1ff8e453f27f46eb4ab3680":[12,0,1,101,3],
-"structhmi_1_1SkinCatalogResult.html#af1719aa7be547951dd4792e4fb62366c":[11,0,1,101,1],
-"structhmi_1_1SkinCatalogResult.html#af1719aa7be547951dd4792e4fb62366c":[12,0,1,101,1],
-"structhmi_1_1SkinEntry.html":[11,0,1,99],
-"structhmi_1_1SkinEntry.html":[12,0,1,99],
-"structhmi_1_1SkinEntry.html#a13998a108677642623f3d5575c05fe2a":[11,0,1,99,2]
+"structhmi_1_1SkinCatalogResult.html#a0c6e33ded8aa170d25271efff70fdb00":[11,0,1,101,2]
 };

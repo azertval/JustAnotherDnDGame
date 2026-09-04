@@ -96,10 +96,10 @@ $(function(){initNavTree('lot-14.html','',''); });
 <blockquote class="doxtable">
 <p>Statut : <b>à faire</b>. Prérequis : <a class="el" href="lot-13.html" title="LOT-13 — Fiche de personnage">LOT-13</a>. </p>
 </blockquote>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md441"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md442"></a>
 Objectif</h1>
 <p>Porter, équiper et consommer des objets, avec un effet <b>mesurable</b> sur la fiche.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md442"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md443"></a>
 Périmètre</h1>
 <ul>
 <li><span class="tt">Source/Core/Rpg/Item.{h,cpp}</span> : type, poids, valeur, effets. Catalogue en <b>JSON</b>.</li>
@@ -107,14 +107,14 @@ Périmètre</h1>
 <li><span class="tt">Equipment.{h,cpp}</span> : emplacements (arme principale, arme secondaire, armure, accessoires).</li>
 <li>Statistiques <b>dérivées</b> : armure → CA, arme → dés de dégâts et caractéristique d'attaque.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md443"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md444"></a>
 Le piège</h1>
 <p><b>Retirer un équipement doit annuler exactement son effet.</b> L'erreur classique est d'appliquer un bonus en additionnant à la volée (<span class="tt">ca += 2</span>) : après trois équipements et deux retraits dans le désordre, la CA a dérivé. La CA doit être <b>recalculée</b> depuis l'équipement porté, jamais accumulée.</p>
 <p>C'est un critère d'acceptation, pas une préférence de style.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md444"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md445"></a>
 Exigences couvertes</h1>
 <p><span class="tt">EX-INV-*</span>, <span class="tt">EX-DND-*</span> (statistiques dérivées).</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md445"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md446"></a>
 Critères d'acceptation</h1>
 <ul>
 <li>Équiper une armure change la CA du montant attendu ; la retirer <b>restitue exactement</b> la valeur d'origine, quel que soit l'ordre des opérations.</li>

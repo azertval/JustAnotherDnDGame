@@ -95,9 +95,13 @@ $(function(){initNavTree('test__procedural__atlas_8cpp.html','',''); });
 
 <p>Tests unitaires de la génération procédurale de l'atlas de repli (LOT-39, EX-NFR-040).  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;gtest/gtest.h&gt;</code><br />
+<div class="textblock"><code>#include &lt;map&gt;</code><br />
+<code>#include &lt;gtest/gtest.h&gt;</code><br />
+<code>#include &quot;<a class="el" href="TileType_8h_source.html">Core/Levels/TileType.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="TileTypeName_8h_source.html">Core/Levels/TileTypeName.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="ProceduralAtlas_8h_source.html">HMI/Graphics/ProceduralAtlas.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="TextureAtlas_8h_source.html">HMI/Graphics/TextureAtlas.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="TileVisuals_8h_source.html">HMI/Graphics/TileVisuals.h</a>&quot;</code><br />
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
@@ -107,12 +111,44 @@ Functions</h2></td></tr>
 <tr class="memdesc:a0885a9e15e8727c54b0e34ecf95c53c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">La génération est déterministe : deux appels produisent des pixels identiques.  <br /></td></tr>
 <tr class="memitem:a7e16769b808f400b6bdb1fe04e9dc3c0" id="r_a7e16769b808f400b6bdb1fe04e9dc3c0"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a7e16769b808f400b6bdb1fe04e9dc3c0">TEST</a> (ProceduralAtlasTest, DamierDeTransparenceDansLaDerniereTuile)</td></tr>
 <tr class="memdesc:a7e16769b808f400b6bdb1fe04e9dc3c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">La dernière tuile de la grille (damier de transparence) contient à la fois des pixels opaques et des pixels transparents, pour exercer le canal alpha du rendu.  <br /></td></tr>
+<tr class="memitem:ae5bc676cc34369db0c312fedb2665be3" id="r_ae5bc676cc34369db0c312fedb2665be3"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#ae5bc676cc34369db0c312fedb2665be3">TEST</a> (ProceduralAtlasTest, ChaqueTypeDeTuileAUneCouleurDeRepliDistincte)</td></tr>
+<tr class="memdesc:ae5bc676cc34369db0c312fedb2665be3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Chaque type de tuile a une couleur de repli <b>visible et distincte</b> dans l'atlas procédural : le jeu affiche une carte sans aucun fichier d'image (<span class="tt">EX-NFR-040</span>, <span class="tt">LOT-08</span>).  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Tests unitaires de la génération procédurale de l'atlas de repli (LOT-39, EX-NFR-040). </p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
+<a id="ae5bc676cc34369db0c312fedb2665be3" name="ae5bc676cc34369db0c312fedb2665be3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae5bc676cc34369db0c312fedb2665be3">&#9670;&#160;</a></span>TEST() <span class="overload">[1/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TEST </td>
+          <td>(</td>
+          <td class="paramtype">ProceduralAtlasTest</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ChaqueTypeDeTuileAUneCouleurDeRepliDistincte</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Chaque type de tuile a une couleur de repli <b>visible et distincte</b> dans l'atlas procédural : le jeu affiche une carte sans aucun fichier d'image (<span class="tt">EX-NFR-040</span>, <span class="tt">LOT-08</span>). </p>
+<p>C'est le garde-fou que le vocabulaire de terrain du <span class="tt">LOT-08</span> réclamait : ajouter un type sans lui peindre de repli laisserait sa case noire, indiscernable de ses voisines — une carte illisible plutôt qu'une carte laide. <b>Cas de test :</b> <b>Chaque type de tuile a une couleur de repli visible et distincte.</b><br  />
+ <b>Categorie :</b> Unitaire · Atlas procedural<br  />
+ <b>Criticite :</b> Critique<br  />
+ <b>Etapes :</b><br  />
+ 1. Generer l'atlas procedural.<br  />
+2. Echantillonner le centre de la case de chaque type de tuile, hors case vide.<br  />
+ <b>Resultat attendu :</b> Aucune couleur n'est noire, et deux types n'en partagent jamais une. </p>
+
+</div>
+</div>
 <a id="a7e16769b808f400b6bdb1fe04e9dc3c0" name="a7e16769b808f400b6bdb1fe04e9dc3c0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7e16769b808f400b6bdb1fe04e9dc3c0">&#9670;&#160;</a></span>TEST() <span class="overload">[1/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a7e16769b808f400b6bdb1fe04e9dc3c0">&#9670;&#160;</a></span>TEST() <span class="overload">[2/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -142,7 +178,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="afa0537096efe66897d8072e8debaf83e" name="afa0537096efe66897d8072e8debaf83e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afa0537096efe66897d8072e8debaf83e">&#9670;&#160;</a></span>TEST() <span class="overload">[2/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#afa0537096efe66897d8072e8debaf83e">&#9670;&#160;</a></span>TEST() <span class="overload">[3/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -172,7 +208,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a0885a9e15e8727c54b0e34ecf95c53c7" name="a0885a9e15e8727c54b0e34ecf95c53c7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0885a9e15e8727c54b0e34ecf95c53c7">&#9670;&#160;</a></span>TEST() <span class="overload">[3/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a0885a9e15e8727c54b0e34ecf95c53c7">&#9670;&#160;</a></span>TEST() <span class="overload">[4/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">

@@ -1,5 +1,15 @@
 var NAVTREEINDEX25 =
 {
+"structhmi_1_1IdentityBaseScale.html#a73d017e2011fc51e9611ed3662690cdb":[12,0,1,129,9],
+"structhmi_1_1IdentityBaseScale.html#a7eeb74218c124fd50afbfee0148ea697":[11,0,1,129,6],
+"structhmi_1_1IdentityBaseScale.html#a7eeb74218c124fd50afbfee0148ea697":[12,0,1,129,6],
+"structhmi_1_1IdentityBaseScale.html#a91315ebc578c12dbf22494abdd41b375":[11,0,1,129,7],
+"structhmi_1_1IdentityBaseScale.html#a91315ebc578c12dbf22494abdd41b375":[12,0,1,129,7],
+"structhmi_1_1IdentityBaseScale.html#ac964cb40c7b668cf6b71e394b5b0413b":[11,0,1,129,0],
+"structhmi_1_1IdentityBaseScale.html#ac964cb40c7b668cf6b71e394b5b0413b":[12,0,1,129,0],
+"structhmi_1_1IdentityBaseScale.html#accf376ca961b7275e87ed17edd5aaf87":[11,0,1,129,1],
+"structhmi_1_1IdentityBaseScale.html#accf376ca961b7275e87ed17edd5aaf87":[12,0,1,129,1],
+"structhmi_1_1IdentityBaseScale.html#aea532703597d84a7999adfa21105dc4b":[11,0,1,129,2],
 "structhmi_1_1IdentityBaseScale.html#aea532703597d84a7999adfa21105dc4b":[12,0,1,129,2],
 "structhmi_1_1KeyBindingIconEntry.html":[11,0,1,120],
 "structhmi_1_1KeyBindingIconEntry.html":[12,0,1,120],
@@ -239,15 +249,5 @@ var NAVTREEINDEX25 =
 "structhmi_1_1PixelPaletteExtractionEntry.html#ac1012273de1f92409923b4bb22732756":[12,0,1,37,0],
 "structhmi_1_1PixelPaletteExtractionEntry.html#acbd0a5b11d3ad7bfef9b7de2d4be79d9":[11,0,1,37,1],
 "structhmi_1_1PixelPaletteExtractionEntry.html#acbd0a5b11d3ad7bfef9b7de2d4be79d9":[12,0,1,37,1],
-"structhmi_1_1PixelPanelFocusEntry.html":[11,0,1,25],
-"structhmi_1_1PixelPanelFocusEntry.html":[12,0,1,25],
-"structhmi_1_1PixelPanelFocusEntry.html#a3675068e93f52eca1c244dbf9500a5d6":[11,0,1,25,1],
-"structhmi_1_1PixelPanelFocusEntry.html#a3675068e93f52eca1c244dbf9500a5d6":[12,0,1,25,1],
-"structhmi_1_1PixelPanelFocusEntry.html#a6bc4bdf2e232bfeb6b7e66e6025266ed":[11,0,1,25,0],
-"structhmi_1_1PixelPanelFocusEntry.html#a6bc4bdf2e232bfeb6b7e66e6025266ed":[12,0,1,25,0],
-"structhmi_1_1PixelRegion.html":[11,0,1,33],
-"structhmi_1_1PixelRegion.html":[12,0,1,33],
-"structhmi_1_1PixelRegion.html#a13f2d51cc7d24fe3daaf1eecc76e805d":[11,0,1,33,5],
-"structhmi_1_1PixelRegion.html#a13f2d51cc7d24fe3daaf1eecc76e805d":[12,0,1,33,5],
-"structhmi_1_1PixelRegion.html#a48bddb1e470351c6f6f3f0edba73bf77":[11,0,1,33,4]
+"structhmi_1_1PixelPanelFocusEntry.html":[11,0,1,25]
 };

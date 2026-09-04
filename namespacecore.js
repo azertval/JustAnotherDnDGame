@@ -131,7 +131,16 @@ var namespacecore =
       [ "PressurePlate", "namespacecore.html#ace99a1be913e6294e42e9ebb145eb875a4115ad497e280a49d0ae72f68dc3fc86", null ],
       [ "Block", "namespacecore.html#ace99a1be913e6294e42e9ebb145eb875ae1e4c8c9ccd9fc39c391da4bcd093fb2", null ],
       [ "Key", "namespacecore.html#ace99a1be913e6294e42e9ebb145eb875a897356954c2cd3d41b221e3f24f99bba", null ],
-      [ "LockedDoor", "namespacecore.html#ace99a1be913e6294e42e9ebb145eb875a6029de17465e002643abfb52e2cb4c97", null ]
+      [ "LockedDoor", "namespacecore.html#ace99a1be913e6294e42e9ebb145eb875a6029de17465e002643abfb52e2cb4c97", null ],
+      [ "Grass", "namespacecore.html#ace99a1be913e6294e42e9ebb145eb875aaac9a63596f76a62bb9f61a5dd7c0d25", null ],
+      [ "Dirt", "namespacecore.html#ace99a1be913e6294e42e9ebb145eb875a7cf334b79a84091f27dfc019b4b79229", null ],
+      [ "Sand", "namespacecore.html#ace99a1be913e6294e42e9ebb145eb875acec7ca178e2f7b1ae3a4600868c57aca", null ],
+      [ "Water", "namespacecore.html#ace99a1be913e6294e42e9ebb145eb875a27634ff8002b12e75d98e07ccd005d18", null ],
+      [ "DeepWater", "namespacecore.html#ace99a1be913e6294e42e9ebb145eb875ad75f2eb4f735236e2cd65c575ed5fdc3", null ],
+      [ "Wall", "namespacecore.html#ace99a1be913e6294e42e9ebb145eb875a94e8a499539d1a472f3b5dbbb85508c0", null ],
+      [ "Cliff", "namespacecore.html#ace99a1be913e6294e42e9ebb145eb875a9b3411d2812eceb6de37c13f57825a76", null ],
+      [ "Bridge", "namespacecore.html#ace99a1be913e6294e42e9ebb145eb875ade8504b73ea228d0ea9bbce69752092e", null ],
+      [ "Stairs", "namespacecore.html#ace99a1be913e6294e42e9ebb145eb875a0b01cc688e1e0b5f6b70f858a1b389ae", null ]
     ] ],
     [ "advanceAnimation", "namespacecore.html#a209ceac8415ddadd8463746b94934eed", null ],
     [ "approximatelyEqual", "namespacecore.html#a69640dd3c9f3f8778a7c7621839c3794", null ],
