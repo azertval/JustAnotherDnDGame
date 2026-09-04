@@ -49,10 +49,11 @@ c'est un identifiant stable, jamais réordonné.
 ## Matière première
 
 - @subpage corpus-sources — analyse des huit PDF de `Documentation/SourceBook/` (contenu,
-  faisabilité de l'extraction, licences en sommeil) et **programme de lots proposé**, `LOT-30` à
-  `LOT-42` : importer l'univers complet — 10 régions, 13 espèces, 8 classes, ~600 créatures — en
+  faisabilité de l'extraction, licences en sommeil) et **filière contenu proposée**, `LOT-30` à
+  `LOT-49` : importer l'univers complet — 10 régions, 13 espèces, 8 classes, ~600 créatures — en
   catalogues JSON, textures et habillage, puis le rendre parcourable en **bac à sable** par
-  génération de terrain et peuplement systémique.
+  génération de terrain, peuplement systémique et Guilde des Aventuriers. Ces lots s'entrelacent
+  avec les phases B à E ; ils ne les suivent pas.
 
 ## Programme
 

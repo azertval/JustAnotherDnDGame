@@ -165,14 +165,14 @@ sont eux qui alimenteront l'interface.
 
 ---
 
-## 5. Programme de lots proposé — phase F, contenu du monde
+## 5. Programme de lots proposé — la filière contenu
 
 Les lots [LOT-13](@ref lot-13) (fiche de personnage), [LOT-14](@ref lot-14) (inventaire),
 [LOT-25](@ref lot-25) (sorts) et [LOT-26](@ref lot-26) (économie) exigent tous un « catalogue en
 **JSON** », conformément à [`EX-VIS-007`](@ref EX-VIS-007). Aucun ne dit **d'où sortent ces JSON**.
-C'est exactement le trou que ce corpus comble, et c'est le périmètre de la phase F.
+C'est exactement le trou que ce corpus comble, et c'est le périmètre de cette filière.
 
-Treize lots, `LOT-30` à `LOT-42`. Les numéros sont, comme toujours, des identifiants stables : ils
+Vingt lots, `LOT-30` à `LOT-49`. Les numéros sont, comme toujours, des identifiants stables : ils
 viennent après [LOT-29](@ref lot-29) dans la numérotation, mais plusieurs s'exécutent **avant** les
 lots qui les consomment (voir §6). Une nouvelle famille d'exigences `EX-CNT-*` les couvre, à écrire
 dans un `Documentation/Specification/contenu.md`.
@@ -199,7 +199,7 @@ introduit un écart qu'il faut nommer tout de suite, sous peine de le découvrir
 > après-midi ; faire que le moteur les joue correctement est un programme entier.
 
 La règle qui évite le piège est celle que le [LOT-25](@ref lot-25) pose déjà pour les sorts, étendue
-à toute la phase F : **chaque donnée déclare les mécanismes dont elle a besoin**, et le moteur
+à toute la filière : **chaque donnée déclare les mécanismes dont elle a besoin**, et le moteur
 **refuse en le disant** ce qu'il ne sait pas honorer. Une classe dont le moteur ignore la ressource
 propre se signale au chargement, elle ne se joue pas en silence comme une classe ordinaire amputée
 de ce qui la définit.
@@ -210,7 +210,7 @@ jouable — et l'écart entre les deux devient une liste consultable plutôt qu'
 ### La cible : un bac à sable dans l'univers entier
 
 Le jeu visé dans un premier temps est un **bac à sable** — le personnage parcourt les dix régions
-librement, sans intrigue directrice. Ce cadrage n'ajoute pas une contrainte à la phase F, il en
+librement, sans intrigue directrice. Ce cadrage n'ajoute pas une contrainte à la filière, il en
 change la nature, et pour le mieux.
 
 Un bac à sable se nourrit de contenu **systémique** : les rencontres naissent d'une table et d'un
@@ -282,29 +282,24 @@ ne fait plus de dégâts sans que rien ne l'annonce.
 *Acceptation* — une donnée invalide fait échouer la CI avec le fichier et la ligne fautifs ; ajouter
 une valeur d'énumération d'un seul côté fait échouer un test.
 
-### `LOT-33` — Bestiaire
+### `LOT-33` — Bestiaire de base
 
 *Prérequis : `LOT-32`. Alimente [LOT-13](@ref lot-13), [LOT-21](@ref lot-21),
 [LOT-23](@ref lot-23).*
 
-Trois gisements, par ordre de coût croissant, vers `Source/Elements/Rpg/creatures/*.json` :
+Les **94 bêtes** d'`Animaux.pdf` vers `Source/Elements/Rpg/creatures/*.json`. Gabarit régulier,
+français, automatisable de bout en bout : c'est le seul gisement du corpus qui ne demande aucun
+jugement humain, et c'est pour cela qu'il est seul dans ce lot.
 
-1. les **94 bêtes** d'`Animaux.pdf` — gabarit régulier, français, automatisable de bout en bout ;
-2. les **82 blocs de Tanares** (ch. 9, 17 familles) — gabarit analogue en anglais, traduits via le
-   lexique du `LOT-31` ;
-3. les **416 blocs du *Manuel des Monstres*** — OCR bruité, donc contrôle de plausibilité
-   obligatoire sur chaque valeur numérique et relecture par lots.
+Les 82 blocs de Tanares et les 416 du *Manuel des Monstres* relèvent du `LOT-46` — pipelines
+différents, risques différents, et surtout volume sans fin qui empêcherait ce lot de se clore.
 
-Soit près de **600 profils** à terme. Le premier gisement suffit largement à démarrer : loup, ours,
-araignée géante et sanglier peuplent le donjon du [LOT-27](@ref lot-27) sans attendre.
+Livrer les 94 d'abord fait tourner tout l'aval — attaques, IA, rencontres — sur des données réelles
+pendant que le reste arrive. Loup, ours, araignée géante et sanglier peuplent le donjon du
+[LOT-27](@ref lot-27) sans attendre.
 
-L'ordre compte. Livrer les 94 d'abord fait tourner tout l'aval — attaques, IA, rencontres — sur des
-données réelles pendant que les 500 autres arrivent. L'inverse, tout extraire avant de brancher quoi
-que ce soit, revient à découvrir 600 erreurs d'un coup.
-
-*Acceptation* — les profils du gisement traité chargent ; un test rejoue dix d'entre eux (CA, PV,
-vitesse, facteur de puissance, dégâts de l'attaque principale) contre des valeurs recopiées à la
-main. Aucune valeur issue de `mm-fr` n'entre sans avoir passé le contrôle de plausibilité.
+*Acceptation* — les 94 profils chargent ; un test rejoue dix d'entre eux (CA, PV, vitesse, facteur
+de puissance, dégâts de l'attaque principale) contre des valeurs recopiées à la main du PDF.
 
 ### `LOT-34` — Équipement, monnaie, objets magiques
 
@@ -339,29 +334,26 @@ Un sort dont l'effet n'entre pas dans ces mécanismes se déclare **explicitemen
 *Acceptation* — chaque sort porte école, niveau, portée, durée, composantes, effet ; aucun sort ne
 tombe silencieusement dans un cas par défaut, un test énumère le catalogue et l'exige.
 
-### `LOT-36` — Espèces, classes, historiques
+### `LOT-36` — Espèces, historiques et classes du socle
 
 *Prérequis : `LOT-32`. Alimente [LOT-13](@ref lot-13).*
 
-**Tout, en une fois.** Les 4 races, 4 classes et 6 historiques des *Basic Rules* pour le vocabulaire
-français de référence, puis l'ensemble du *Player's Guide* : ses **13 espèces** (dont cirrus,
-gloomfolk, soulborn, taii'maku), ses **4 classes inédites** (dragonblade, élémentaliste, madwalker,
-redeemer), ses **4 classes simplifiées** (brawler, mage, priest, scoundrel), sa vingtaine de
-sous-classes et ses **7 historiques**.
+Le socle et les espèces : les 4 races, 4 classes et 6 historiques des *Basic Rules* — qui fixent
+aussi le vocabulaire français de référence — puis les **13 espèces** du *Player's Guide* (dont
+cirrus, gloomfolk, soulborn, taii'maku) et ses **7 historiques**.
 
-Les **31 tables de progression** sont le vrai travail : chacune est un tableau de 20 lignes où un
-décalage d'une ligne donne à une classe les capacités du niveau voisin — faux, et faux sans rien
-casser. C'est le même piège qu'au `LOT-34`, et il se traite pareil : extraction par coordonnées,
-puis relecture.
+Les classes de Tanares et leurs 31 tables de progression relèvent du `LOT-47` : une espèce se décrit
+en une douzaine de champs, une classe en un tableau de 20 lignes qu'il faut relire ligne à ligne.
+Mélanger les deux ferait dépendre l'arrivée des espèces d'un travail dix fois plus long.
 
-Chaque classe déclare les **mécanismes** qu'elle exige (emplacements de sorts, ressource propre,
-liste de sorts dédiée, choix de sous-classe au niveau *n*). C'est cette déclaration qui permet au
-moteur de dire ce qu'il ne sait pas encore jouer, au lieu de servir une classe amputée.
+Chaque classe et chaque espèce déclare les **mécanismes** qu'elle exige (emplacements de sorts,
+ressource propre, liste de sorts dédiée, choix de sous-classe au niveau *n*). C'est cette
+déclaration qui permet au moteur de dire ce qu'il ne sait pas encore jouer, au lieu de servir une
+classe amputée.
 
 *Acceptation* — celle du [LOT-13](@ref lot-13), tenue par les données : trois classes chargent et
 donnent les bons modificateurs, et la progression du niveau 1 au niveau 5 ne fait intervenir aucune
-valeur codée en C++. Une table de progression extraite est comparée ligne à ligne au PDF sur au
-moins trois classes. Toute classe exigeant un mécanisme absent du moteur est **listée au
+valeur codée en C++. Toute espèce ou classe exigeant un mécanisme absent du moteur est **listée au
 chargement**, jamais jouée en silence.
 
 ### `LOT-37` — Atlas du monde et graphe de cartes
@@ -425,27 +417,23 @@ explicite de champs hors périmètre. Un champ simplement oublié n'est pas un a
 *Prérequis : `LOT-33`, `LOT-34`, `LOT-37`. Alimente [LOT-11](@ref lot-11),
 [LOT-27](@ref lot-27), `LOT-38`.*
 
-Le corpus contient environ **6 000 images**, dont plus de 4 400 au-delà de 512 × 512. Trois usages,
-de difficulté croissante — et la méthode est celle du §4 : **rendu clippé, jamais extraction du flux
-brut**.
+Ce lot pose la **plomberie**, et livre le seul gisement d'images qui sort proprement sans arbitrage
+humain. Les portraits et illustrations, qui demandent un recadrage pièce par pièce, relèvent du
+`LOT-48` — mélanger les deux ferait dépendre une brique d'architecture d'un travail de découpe sans
+terme.
 
-- **L'habillage d'interface**, immédiat et le plus rentable : panneaux de parchemin, cadres,
-  bordures, pictogrammes. Ces éléments sont autonomes dans la page, sortent proprement, et habillent
-  la fiche du `LOT-38`, les boîtes de dialogue du [LOT-15](@ref lot-15) et l'IHM de combat du
-  [LOT-24](@ref lot-24).
-- **Les portraits et illustrations** — créatures, espèces, classes, PNJ. Semi-automatique : l'outil
-  propose les régions candidates triées par taille, l'humain garde et recadre, parce que l'art court
-  sous les colonnes de texte et qu'un rendu clippé embarque ce texte.
-- **Les cartes de régions**, référence de tracé pour les cartes jouables du `LOT-37` — à redessiner
-  à l'échelle de la tuile, pas à afficher telles quelles.
+La plomberie : une **clé d'asset** portée par chaque donnée (`"asset": "beast/wolf"`), jamais un
+chemin de fichier — un chemin dans une donnée de règle lie le catalogue à l'arborescence du disque,
+et tout déplacement de dossier casse alors des créatures. Un **manifeste** dérivé des catalogues
+énumère les clés attendues, leur famille et leur taille. Et toute clé sans image obtient un
+**marqueur généré** sur l'`ProceduralAtlas` existant, de sorte que le jeu tourne complet — 600
+créatures affichables — avant que la moindre découpe ne soit faite. La production graphique devient
+un remplacement progressif de marqueurs, jamais un préalable bloquant.
 
-Le lot pose par ailleurs la plomberie qui manque : une **clé d'asset** portée par chaque donnée
-(`"asset": "beast/wolf"`), jamais un chemin de fichier — un chemin dans une donnée de règle lie le
-catalogue à l'arborescence du disque, et tout déplacement de dossier casse alors des créatures. Un
-**manifeste** dérivé des catalogues énumère les clés attendues, leur famille et leur taille. Et
-toute clé sans image obtient un **marqueur généré** sur l'`ProceduralAtlas` existant, de sorte que
-le jeu tourne complet — 600 créatures affichables — avant que la découpe manuelle ne soit finie. La
-production graphique devient un remplacement progressif de marqueurs, jamais un préalable bloquant.
+L'**habillage d'interface** ensuite : panneaux de parchemin, cadres, bordures, pictogrammes. Ces
+éléments sont autonomes dans la page et sortent parfaitement par rendu clippé (méthode du §4 :
+**jamais l'extraction du flux brut**). Ils habillent la fiche du `LOT-38`, les boîtes de dialogue du
+[LOT-15](@ref lot-15) et l'IHM de combat du [LOT-24](@ref lot-24).
 
 La distinction avec le [LOT-08](@ref lot-08) est nette : le `LOT-08` a fixé le vocabulaire des
 **tuiles de terrain**, celui-ci fixe celui des **entités**.
@@ -537,6 +525,141 @@ L'IHM s'appuie sur les cartes de régions du Sourcebook, redessinées à l'éche
 carte du monde n'affiche que ce qui est découvert ; l'état de découverte survit à une sauvegarde et
 à un rechargement.
 
+### `LOT-43` — Options de personnage : dons, multiclassage, compétences, langues
+
+*Prérequis : `LOT-32`. Alimente [LOT-13](@ref lot-13), `LOT-36`.*
+
+Quatre catalogues oubliés du premier découpage, tous présents dans le corpus et tous exigés par la
+fiche de personnage :
+
+- les **dons** (*Basic Rules* p. 61, plus les *New Feats* du *Player's Guide* ch. 4) ;
+- le **multiclassage** — ses conditions de caractéristique, ses maîtrises accordées, et surtout le
+  cumul des emplacements de sorts, qui est la règle la plus facile à implémenter de travers ;
+- les **compétences** et leur caractéristique associée — Acrobaties/DEX, Athlétisme/FOR… — que le
+  [LOT-13](@ref lot-13) suppose sans jamais dire d'où elles viennent ;
+- les **langues**, courantes et exotiques, avec leur écriture et leurs espèces typiques. Elles ne
+  sont pas décoratives : chaque bloc de créature déclare ses `Langues`, chaque espèce en accorde, et
+  le [LOT-15](@ref lot-15) doit pouvoir refuser un dialogue faute de langue commune.
+
+*Acceptation* — un personnage multiclassé calcule ses emplacements de sorts conformément à la table
+du multiclassage, vérifié sur trois combinaisons ; toute langue référencée par une créature ou une
+espèce existe dans le catalogue.
+
+### `LOT-44` — Noms, tables aléatoires et contenu d'ambiance
+
+*Prérequis : `LOT-36`, `LOT-37`. Prérequis de `LOT-41`.*
+
+Un bac à sable peuple des centaines de PNJ. Il lui faut donc des **noms**, et le corpus en fournit
+par espèce et par culture : les *Basic Rules* listent noms masculins, féminins et de famille pour
+chaque race, le *Player's Guide* fait de même pour les siennes (`Male Names: A'Kole, B'Abku…` chez
+les taii'maku). Croisés avec la répartition d'espèces d'une région, ils donnent des habitants
+plausibles plutôt qu'une suite de « Villageois 1 ».
+
+S'y ajoutent les **tables aléatoires** déjà écrites : les traits, idéaux, liens et défauts en `d6`
+de chaque historique — de quoi donner une personnalité à un PNJ sans en écrire une —, la table de
+**babioles** (p. 59), et le contenu d'ambiance du chapitre 8 du Sourcebook : animaux de compagnie,
+boissons, fêtes, nourriture, jeux de taverne, mesure du temps.
+
+C'est le lot le moins spectaculaire de la filière et l'un des plus rentables : c'est lui qui fait la
+différence entre un monde peuplé et une grille d'entités.
+
+*Acceptation* — mille PNJ générés dans une région donnent une distribution d'espèces conforme à
+celle déclarée par la région, et aucun doublon de nom complet en deçà d'un seuil annoncé ; la
+génération est reproductible à graine égale.
+
+### `LOT-45` — Guilde des Aventuriers : rangs, contrats et boucle de progression
+
+*Prérequis : `LOT-41`, [LOT-16](@ref lot-16), [LOT-26](@ref lot-26).*
+
+C'est la **colonne vertébrale du bac à sable**, et elle n'est pas à inventer : le Sourcebook la
+décrit dans la République des Freelands. La Guilde enregistre les aventuriers, affiche les quêtes
+déposées par les citoyens, et applique un **classement du fer au diamant** dont l'objet explicite est
+d'« empêcher les aventuriers inexpérimentés de prendre des tâches au-dessus de leurs moyens ».
+
+Chaque rang porte sa correspondance chiffrée :
+
+| Rang | Niveau de personnage | FP des PNJ |
+|---|---|---|
+| Fer | 1 à 2 | ⅛ à ¼ |
+| Cuivre | 3 à 4 | ½ à 1 |
+| Bronze | 5 à 6 | 2 à 4 |
+| Argent | 7 à 10 | 5 à 7 |
+| Or et au-delà | 11 à 16 | 8 à 13 |
+
+C'est exactement ce qui manque à un monde ouvert : un **tableau de quêtes** diégétique où déposer le
+contenu généré par le `LOT-41`, une **échelle de difficulté** qui dit quelle créature opposer à quel
+niveau, une **raison de progresser**, et un garde-fou qui évite au joueur de niveau 2 de se faire
+étriller dans une région d'Argent sans avertissement.
+
+Les halls de guilde étant « bâtis jusqu'au-delà des Freelands », le système s'étend naturellement aux
+dix régions et donne au `LOT-42` des points d'ancrage pour le voyage.
+
+*Acceptation* — un contrat n'est proposé qu'au rang correspondant ; monter de rang change
+l'offre de contrats de façon observable ; la difficulté d'un contrat généré respecte la bande de FP
+de son rang, vérifié sur les cinq rangs.
+
+### `LOT-46` — Bestiaire étendu
+
+*Prérequis : `LOT-33`, `LOT-49`.*
+
+Les **82 blocs de Tanares** (ch. 9, 17 familles), gabarit analogue aux 94 mais en anglais, traduits
+via le lexique du `LOT-31`. Puis les **416 blocs du *Manuel des Monstres***, dont l'OCR bruité
+impose de passer chaque valeur numérique au contrôle du `LOT-49`.
+
+Volume long, sans jalon : il se remplit par lots successifs sans jamais bloquer le jeu, puisque le
+`LOT-33` a déjà livré de quoi peupler une région entière.
+
+*Acceptation* — aucune valeur issue de `mm-fr` n'entre sans avoir passé le contrôle de plausibilité ;
+chaque famille de créatures livrée est jouable en combat, pas seulement chargée.
+
+### `LOT-47` — Classes de Tanares et tables de progression
+
+*Prérequis : `LOT-36`, `LOT-43`.*
+
+Les **4 classes inédites** (dragonblade, élémentaliste, madwalker, redeemer), les **4 classes
+simplifiées** (brawler, mage, priest, scoundrel) et la vingtaine de sous-classes du *Player's Guide*.
+
+Les **31 tables de progression** sont le travail réel : chacune est un tableau de 20 lignes où un
+décalage d'une seule ligne donne à une classe les capacités du niveau voisin — faux, et faux sans
+rien casser. Même piège qu'au `LOT-34`, même traitement : extraction par coordonnées, puis relecture.
+
+*Acceptation* — une table de progression extraite est comparée ligne à ligne au PDF sur au moins
+trois classes ; toute classe exigeant un mécanisme absent du moteur est listée au chargement.
+
+### `LOT-48` — Portraits et illustrations
+
+*Prérequis : `LOT-39`.*
+
+La part semi-automatique de l'extraction d'images : portraits d'espèces, illustrations de classes,
+créatures, PNJ notables, et les cartes de régions comme référence de tracé. L'outil propose les
+régions candidates triées par taille, l'humain garde et recadre — parce que l'art court sous les
+colonnes et qu'un rendu clippé embarque le texte posé dessus (§4).
+
+Volume long, sans jalon, et sans risque : chaque image livrée remplace un marqueur généré du
+`LOT-39`, jamais une absence.
+
+*Acceptation* — chaque image livrée est référencée par une clé du manifeste ; le compte de clés
+encore servies par un marqueur décroît, et la CI le publie.
+
+### `LOT-49` — Contrôle de cohérence du contenu
+
+*Prérequis : `LOT-33`, `LOT-34`. Prérequis de `LOT-46`.*
+
+Le `LOT-32` valide la **structure** : un fichier bien formé, des champs présents, des énumérations
+connues. Il ne dit rien de la **plausibilité**, et c'est une lacune qui compte quand 600 créatures
+et 31 tableaux viennent d'un OCR et de tableaux PDF. Un loup à CA 47, une épée à 3 pièces d'or au
+lieu de 30, une créature de FP 1/8 avec 90 points de vie : tout cela franchit un schéma sans broncher.
+
+Le lot ajoute donc un contrôle **statistique** plutôt que syntaxique : pour chaque famille, les
+bornes attendues d'une valeur au regard des autres champs — PV cohérents avec le dé de vie et la
+Constitution, bonus d'attaque cohérent avec la caractéristique et le facteur de puissance, prix
+cohérent avec la rareté. Ce qui sort des bornes est **signalé, pas rejeté** : une créature
+volontairement hors norme existe, un OCR raté aussi, et seul un humain les distingue.
+
+*Acceptation* — une valeur sciemment corrompue dans un profil de test est détectée ; le rapport
+distingue l'anomalie confirmée de l'anomalie acceptée, et cette acceptation est **enregistrée dans
+la donnée** pour ne pas être re-signalée à chaque exécution.
+
 ---
 
 ## 6. Ordre d'exécution recommandé
@@ -546,30 +669,43 @@ lots qui les consomment, sans quoi ces derniers se construisent sur des catalogu
 catalogue fictif finit toujours par se figer en valeurs codées en dur, exactement ce que
 [`EX-VIS-007`](@ref EX-VIS-007) interdit.
 
+Ces vingt lots ne forment **pas une phase** qui suivrait le [LOT-29](@ref lot-29) : ils s'entrelacent
+avec les phases B à E, parce que chacun sert un lot existant qui, sans lui, se construirait sur un
+catalogue fictif — et un catalogue fictif finit toujours par se figer en valeurs codées en dur,
+exactement ce que [`EX-VIS-007`](@ref EX-VIS-007) interdit. D'où « filière » plutôt que « phase ».
+
 | Quand | Lots | Pourquoi là |
 |---|---|---|
 | Tout de suite après [LOT-08](@ref lot-08) | `LOT-30`, `LOT-31`, `LOT-32` | Outillage et contrats, sans dépendance ; le plus tôt est le mieux |
 | Avec [LOT-09](@ref lot-09) | `LOT-37` | L'atlas donne au graphe de cartes de vrais nœuds à relier |
-| Avant [LOT-13](@ref lot-13) | `LOT-36` | La fiche a besoin de vraies classes pour valider sa progression |
-| Avant [LOT-14](@ref lot-14) | `LOT-34` | L'inventaire a besoin d'un vrai catalogue pour prouver l'absence de dérive de CA |
-| Avant [LOT-21](@ref lot-21) / [LOT-23](@ref lot-23) | `LOT-33` (les 94 d'abord) | Attaques et IA ont besoin de vraies créatures |
+| Avant [LOT-13](@ref lot-13) | `LOT-36`, `LOT-43` | La fiche a besoin de vraies classes, compétences et langues |
+| Avant [LOT-14](@ref lot-14) | `LOT-34`, puis `LOT-49` | Catalogue réel, puis contrôle de ses valeurs |
+| Avant [LOT-21](@ref lot-21) / [LOT-23](@ref lot-23) | `LOT-33` | Attaques et IA ont besoin de vraies créatures |
 | Avant [LOT-25](@ref lot-25) | `LOT-35` | Les sorts sont des données avant d'être un système |
-| Après [LOT-13](@ref lot-13) | `LOT-38`, puis `LOT-39` (habillage) | La maquette suppose la fiche existante |
+| Après [LOT-13](@ref lot-13) | `LOT-38`, puis `LOT-39` | La maquette suppose la fiche ; la plomberie d'assets suit |
 | Après [LOT-11](@ref lot-11) | `LOT-40` | La génération produit des niveaux que l'éditeur doit savoir rouvrir |
-| **Après [LOT-27](@ref lot-27)** | `LOT-41`, `LOT-42` | Le bac à sable généralise une boucle ; il faut l'avoir validée une fois |
-| En fond, sans jalon | `LOT-33` (Tanares, MM), `LOT-39` (portraits) | Volume long, sans blocage : se remplit par lots successifs |
+| **Après [LOT-27](@ref lot-27)** | `LOT-44`, `LOT-41`, `LOT-45`, `LOT-42` | Le bac à sable généralise une boucle ; il faut l'avoir validée une fois |
+| En fond, sans jalon | `LOT-46`, `LOT-47`, `LOT-48` | Volume long, sans blocage : se remplit par lots successifs |
 
-Deux lignes méritent qu'on s'y arrête.
+Trois lignes méritent qu'on s'y arrête.
 
-**La dernière** : près de 600 créatures et 6 000 images ne se traitent pas d'un bloc, et rien n'y
-oblige. Chaque gisement est incrémental, et le jeu tourne dès le premier — les 94 bêtes du SRD
-suffisent à peupler une région entière.
+**La dernière** : près de 600 créatures, 31 tables de progression et 6 000 images ne se traitent pas
+d'un bloc, et rien n'y oblige. Ces trois lots n'ont pas de date de fin et ne bloquent personne — le
+`LOT-33` a déjà livré de quoi peupler une région, le `LOT-39` affiche des marqueurs pour tout le
+reste.
 
-**L'avant-dernière** : `LOT-41` et `LOT-42` sont les lots qui font le bac à sable, et ce sont les
-seuls que je placerais résolument **après** le [LOT-27](@ref lot-27). Peupler dix régions revient à
-appliquer cent fois la même recette ; si la recette est mauvaise — rencontres mal dosées, marchands
-inutiles, quêtes vides — on la découvre cent fois. Le `LOT-27` coûte un village et un donjon, et
-c'est le prix pour ne pas payer cette erreur au centuple.
+**L'avant-dernière** : les quatre lots qui font le bac à sable sont les seuls que je placerais
+résolument **après** le [LOT-27](@ref lot-27). Peupler dix régions revient à appliquer cent fois la
+même recette ; si la recette est mauvaise — rencontres mal dosées, marchands inutiles, quêtes vides
+— on la découvre cent fois. Le `LOT-27` coûte un village et un donjon, et c'est le prix pour ne pas
+payer cette erreur au centuple. Leur ordre interne compte aussi : `LOT-44` (les noms) avant
+`LOT-41` (le peuplement), sinon on peuple avec des « Villageois 1 » ; `LOT-45` (la Guilde) après,
+parce qu'elle a besoin de quêtes à afficher.
+
+**Et une précondition hors tableau** : la filière référence une famille d'exigences `EX-CNT-*` qui
+n'existe pas. Vingt lots qui pointent vers un document absent, c'est une dette qui grossit à chaque
+lot livré. Écrire `Documentation/Specification/contenu.md` **avant** le `LOT-30` coûte une
+demi-journée et l'éteint.
 
 ---
 
@@ -585,10 +721,14 @@ scripts/check_rpg_data.py, check_glossary.py
 
 Source/Elements/Rpg/
   schema/*.schema.json      ← contrats (LOT-32)
-  creatures/*.json          ← ~600 profils à terme (LOT-33)
+  creatures/*.json          ← 94 betes (LOT-33), puis ~600 profils (LOT-46)
   items/*.json              ← équipement, monnaie, objets magiques (LOT-34)
   spells/, conditions/      ← sorts et états (LOT-35)
-  species/, classes/, backgrounds/   ← création de personnage (LOT-36)
+  species/, backgrounds/    ← especes et historiques (LOT-36)
+  classes/*.json            ← socle (LOT-36), puis Tanares et progressions (LOT-47)
+  feats/, skills/, languages/        ← options de personnage (LOT-43)
+  tables/*.json             ← noms, personnalite, babioles (LOT-44)
+  guild/*.json              ← rangs et gabarits de contrat (LOT-45)
 
 Source/Elements/World/
   regions/*.json            ← 10 regions : statistiques, especes, factions, terrain (LOT-37)
@@ -621,18 +761,23 @@ Source/Core/World/
   région, pas d'intrigue directrice.
 - **Licences en sommeil** (§3) : projet privé, dépôt privé, aucune contrainte d'usage.
 
+- **Région de départ : la République des Freelands.** Ses propres statistiques l'argumentent :
+  `Monster Presence` haute — les rencontres se justifient d'elles-mêmes, ce que le Central Empire,
+  noté *Low*, ne permet pas ; économie fondée sur les mercenaires et les parts de monstres — le
+  marchand et le donneur de quête n'ont rien à inventer ; villes de frontière — le village à
+  construire existe dans la fiction ; faction Allied Forces, cadre héroïque plutôt qu'oppressif. Et
+  surtout : c'est là que siège la **Guilde des Aventuriers**, donc la boucle du `LOT-45`.
+
 ### À trancher
 
-- **Région de départ.** Toutes les dix seront jouables, mais l'une d'elles servira de terrain au
-  [LOT-27](@ref lot-27) et essuiera les plâtres. La **République des Freelands** est le choix que je
-  recommande, et ses propres statistiques l'argumentent : `Monster Presence` haute — les rencontres
-  se justifient d'elles-mêmes, ce que le Central Empire, noté *Low*, ne permet pas ; économie fondée
-  sur les mercenaires et les parts de monstres — le marchand et le donneur de quête n'ont rien à
-  inventer ; villes de frontière — le village à construire existe dans la fiction ; et faction
-  Allied Forces, cadre héroïque plutôt qu'oppressif pour un premier pas.
-- **Profondeur du bac à sable.** Le `LOT-41` compose des quêtes par gabarit. Faut-il en rester à ce
-  contenu déduit, ou écrire par-dessus quelques quêtes à la main dans les lieux notables ? La
-  réponse change le poids du [LOT-16](@ref lot-16), pas l'architecture.
-- **Nouvelle famille d'exigences.** `EX-CNT-*` dans un `Documentation/Specification/contenu.md`
-  reste à écrire ; les lots ci-dessus la référencent par anticipation, comme le
-  [LOT-13](@ref lot-13) référence déjà `EX-DND-*` qui n'existe pas encore.
+- **Écrire `contenu.md` d'abord.** La famille `EX-CNT-*` n'existe pas et vingt lots la référencent.
+  C'est une précondition, pas une question ouverte — mais elle demande une décision : quelles
+  exigences la filière contenu porte-t-elle exactement ?
+- **Profondeur du bac à sable.** Le `LOT-41` compose des quêtes par gabarit et le `LOT-45` les
+  distribue par rang. Faut-il en rester à ce contenu déduit, ou écrire par-dessus quelques quêtes à
+  la main dans les lieux notables ? La réponse change le poids du [LOT-16](@ref lot-16), pas
+  l'architecture.
+- **Sort du *Manuel des Monstres*.** Ses 416 profils doublent le bestiaire, mais son OCR bruité en
+  fait le gisement le plus coûteux du corpus. Les 94 du SRD plus les 82 de Tanares font déjà 176
+  créatures — assez pour dix régions. Le `LOT-46` peut donc s'arrêter à Tanares, et ce serait un
+  arbitrage défendable plutôt qu'un renoncement.
