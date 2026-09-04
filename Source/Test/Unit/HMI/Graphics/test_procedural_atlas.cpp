@@ -6,10 +6,15 @@
  * @brief Tests unitaires de la génération procédurale de l'atlas de repli (LOT-39, EX-NFR-040).
  */
 
+#include <map>
+
 #include <gtest/gtest.h>
 
+#include "Core/Levels/TileType.h"
+#include "Core/Levels/TileTypeName.h"
 #include "HMI/Graphics/ProceduralAtlas.h"
 #include "HMI/Graphics/TextureAtlas.h"
+#include "HMI/Graphics/TileVisuals.h"
 
 /**
  * @brief L'image générée a les dimensions attendues : la grille de tuiles, plus une ligne
@@ -96,4 +101,43 @@ TEST(ProceduralAtlasTest, DamierDeTransparenceDansLaDerniereTuile) {
     }
     EXPECT_TRUE(sawOpaque);
     EXPECT_TRUE(sawTransparent);
+}
+
+/**
+ * @brief Chaque type de tuile a une couleur de repli **visible et distincte** dans l'atlas
+ * procédural : le jeu affiche une carte sans aucun fichier d'image (`EX-NFR-040`, `LOT-08`).
+ *
+ * C'est le garde-fou que le vocabulaire de terrain du `LOT-08` réclamait : ajouter un type sans
+ * lui peindre de repli laisserait sa case noire, indiscernable de ses voisines — une carte
+ * illisible plutôt qu'une carte laide.
+ * \castest{<b>Chaque type de tuile a une couleur de repli visible et distincte.</b><br/>
+ * \tcat Unitaire · Atlas procedural<br/>
+ * \tcrit Critique<br/>
+ * \tetapes 1. Generer l'atlas procedural.<br/>2. Echantillonner le centre de la case de chaque
+ * type de tuile, hors case vide.<br/>
+ * \tattendu Aucune couleur n'est noire, et deux types n'en partagent jamais une.
+ * }
+ */
+TEST(ProceduralAtlasTest, ChaqueTypeDeTuileAUneCouleurDeRepliDistincte) {
+    const hmi::ProceduralAtlasImage image = hmi::buildProceduralAtlasImage();
+    const int tileSize = hmi::TextureAtlas::TILE_SIZE;
+
+    std::map<std::uint32_t, core::TileType> seen;
+    for (int raw = 0; raw < core::TILE_TYPE_COUNT; ++raw) {
+        const auto type = static_cast<core::TileType>(raw);
+        if (type == core::TileType::Empty) {
+            continue;  // la case vide n'est jamais dessinee : sa region est arbitraire.
+        }
+        const core::AtlasRegion region = hmi::regionForTile(type);
+        const int x = region.x + tileSize / 2;
+        const int y = region.y + tileSize / 2;
+        const std::uint32_t color =
+            image.pixels[static_cast<std::size_t>(y) * static_cast<std::size_t>(image.width) +
+                         static_cast<std::size_t>(x)];
+
+        EXPECT_NE(color, 0xFF000000u) << core::tileTypeName(type) << " : case restee noire";
+        const auto inserted = seen.emplace(color, type);
+        EXPECT_TRUE(inserted.second) << core::tileTypeName(type) << " partage sa couleur avec "
+                                     << core::tileTypeName(inserted.first->second);
+    }
 }
