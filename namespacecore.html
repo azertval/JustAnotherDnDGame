@@ -100,6 +100,10 @@ $(function(){initNavTree('namespacecore.html','',''); });
 Classes</h2></td></tr>
 <tr class="memitem:Engine" id="r_Engine"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classcore_1_1Engine.html">Engine</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fournit les informations globales du moteur.  <a href="classcore_1_1Engine.html#details">More...</a><br /></td></tr>
+<tr class="memitem:TextPosition" id="r_TextPosition"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1TextPosition.html">TextPosition</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Position d'un octet dans un texte, en <b>ligne et colonne</b> comptées à partir de 1.  <a href="structcore_1_1TextPosition.html#details">More...</a><br /></td></tr>
+<tr class="memitem:JsonDocument" id="r_JsonDocument"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1JsonDocument.html">JsonDocument</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Résultat de la lecture de l'enveloppe commune d'un document JSON.  <a href="structcore_1_1JsonDocument.html#details">More...</a><br /></td></tr>
 <tr class="memitem:ConsoleLogSink" id="r_ConsoleLogSink"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classcore_1_1ConsoleLogSink.html">ConsoleLogSink</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sink qui écrit les messages sur la sortie standard et, sous Windows, vers le débogueur.  <a href="classcore_1_1ConsoleLogSink.html#details">More...</a><br /></td></tr>
 <tr class="memitem:FileLogSink" id="r_FileLogSink"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classcore_1_1FileLogSink.html">FileLogSink</a></td></tr>
@@ -227,6 +231,16 @@ Typedefs</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-enum-members" class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
+<tr class="memitem:a3fca58c67ec139153d0204122e9c32e0" id="r_a3fca58c67ec139153d0204122e9c32e0"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#a3fca58c67ec139153d0204122e9c32e0">JsonReadError</a> { <br />
+&#160;&#160;<a class="el" href="#a3fca58c67ec139153d0204122e9c32e0a6adf97f83acf6453d4a6a4b1070f3754">None</a>
+, <a class="el" href="#a3fca58c67ec139153d0204122e9c32e0a2767828026039e8ba7b38973cbb701f2">FileNotFound</a>
+, <a class="el" href="#a3fca58c67ec139153d0204122e9c32e0ae41199faa7290c167f70f314c5e6c165">ParseError</a>
+, <a class="el" href="#a3fca58c67ec139153d0204122e9c32e0a0f89bc98e9b12bdeda0604e57bdc0518">UnsupportedVersion</a>
+, <br />
+&#160;&#160;<a class="el" href="#a3fca58c67ec139153d0204122e9c32e0aa809debdbe0cae246d363461916d924d">MalformedStructure</a>
+<br />
+ }</td></tr>
+<tr class="memdesc:a3fca58c67ec139153d0204122e9c32e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Catégorie d'échec de lecture d'un document JSON.  <a href="#a3fca58c67ec139153d0204122e9c32e0">More...</a><br /></td></tr>
 <tr class="memitem:aa9b5a444ee11933c91d5e3235aa5b5e3" id="r_aa9b5a444ee11933c91d5e3235aa5b5e3"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#aa9b5a444ee11933c91d5e3235aa5b5e3">LogLevel</a> { <a class="el" href="#aa9b5a444ee11933c91d5e3235aa5b5e3add4ec0ac4e58f7c32a01244ae91150b1">Trace</a>
 , <a class="el" href="#aa9b5a444ee11933c91d5e3235aa5b5e3a4059b0251f66a18cb56f544728796875">Info</a>
 , <a class="el" href="#aa9b5a444ee11933c91d5e3235aa5b5e3a0eaadb4fcb48a0a0ed7bc9868be9fbaa">Warning</a>
@@ -324,6 +338,12 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:a569a17f14f76ba1b657c3d43521dd3cc" id="r_a569a17f14f76ba1b657c3d43521dd3cc"><td class="memItemLeft"><a class="el" href="structcore_1_1TextPosition.html">TextPosition</a>&#160;</td><td class="memItemRight"><a class="el" href="#a569a17f14f76ba1b657c3d43521dd3cc">positionOf</a> (std::string_view text, std::size_t byteOffset)</td></tr>
+<tr class="memdesc:a569a17f14f76ba1b657c3d43521dd3cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convertit un décalage en octets en ligne et colonne.  <br /></td></tr>
+<tr class="memitem:acfecbe35ed7427415d02c52fcea70388" id="r_acfecbe35ed7427415d02c52fcea70388"><td class="memItemLeft"><a class="el" href="structcore_1_1JsonDocument.html">JsonDocument</a>&#160;</td><td class="memItemRight"><a class="el" href="#acfecbe35ed7427415d02c52fcea70388">readJsonObject</a> (std::string_view json, int supportedVersion, std::string_view origin={}, std::string_view versionField=&quot;version&quot;)</td></tr>
+<tr class="memdesc:acfecbe35ed7427415d02c52fcea70388"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lit l'enveloppe commune d'un catalogue : JSON bien formé, racine objet, garde de version.  <br /></td></tr>
+<tr class="memitem:a45b1f244e1cfa341eaae0df618418f8e" id="r_a45b1f244e1cfa341eaae0df618418f8e"><td class="memItemLeft"><a class="el" href="structcore_1_1JsonDocument.html">JsonDocument</a>&#160;</td><td class="memItemRight"><a class="el" href="#a45b1f244e1cfa341eaae0df618418f8e">readJsonObjectFromFile</a> (const std::filesystem::path &amp;path, int supportedVersion, std::string_view versionField=&quot;version&quot;)</td></tr>
+<tr class="memdesc:a45b1f244e1cfa341eaae0df618418f8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Comme <span class="tt"><a class="el" href="#acfecbe35ed7427415d02c52fcea70388" title="Lit l&#39;enveloppe commune d&#39;un catalogue : JSON bien formé, racine objet, garde de version.">readJsonObject</a></span>, en lisant d'abord le fichier.  <br /></td></tr>
 <tr class="memitem:a0b2fde01c38742c460acb176220332ff" id="r_a0b2fde01c38742c460acb176220332ff"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a0b2fde01c38742c460acb176220332ff">setAssertionHandler</a> (<a class="el" href="#af16dfcce848d49387703fb5a0b155485">AssertionHandler</a> handler)</td></tr>
 <tr class="memdesc:a0b2fde01c38742c460acb176220332ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remplace le gestionnaire d'échec d'assertion (utile pour les tests).  <br /></td></tr>
 <tr class="memitem:a7278ef05514b62dcd5241984197dfb23" id="r_a7278ef05514b62dcd5241984197dfb23"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a7278ef05514b62dcd5241984197dfb23">handleAssertionFailure</a> (const char *condition, const char *message, const char *file, int line)</td></tr>
@@ -567,6 +587,43 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a71fba78b647ce3be2a8b78f79c84f522a89d7b10cb4238977d2b523dfd9ea7745" name="a71fba78b647ce3be2a8b78f79c84f522a89d7b10cb4238977d2b523dfd9ea7745"></a>Loop&#160;</td><td class="fielddoc"><p>Revient à la première image et continue (comportement historique, <span class="tt">EX-REN-012</span>). </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a71fba78b647ce3be2a8b78f79c84f522ac7fc2ee61fad0e2bba6754efdee31481" name="a71fba78b647ce3be2a8b78f79c84f522ac7fc2ee61fad0e2bba6754efdee31481"></a>OneShot&#160;</td><td class="fielddoc"><p>S'arrête à la dernière image puis bascule sur <span class="tt"><a class="el" href="structcore_1_1AnimationClip.html#a508d5f46279f56ab33ec39cd1fceae13" title="Nom du clip suivant, consulté seulement si endMode == OneShot.">AnimationClip::nextClip</a></span> (<span class="tt">LOT-47</span>). </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="a3fca58c67ec139153d0204122e9c32e0" name="a3fca58c67ec139153d0204122e9c32e0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3fca58c67ec139153d0204122e9c32e0">&#9670;&#160;</a></span>JsonReadError</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="#a3fca58c67ec139153d0204122e9c32e0">core::JsonReadError</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Catégorie d'échec de lecture d'un document JSON. </p>
+<p>Les cinq catégories que les six lecteurs du dépôt avaient chacun redéfinies pour leur compte (<span class="tt"><a class="el" href="namespacehmi.html#ae064c48cb814db754a1228bda7b8d77d" title="Catégorie d&#39;échec de lecture d&#39;un skins.json (même esprit que core::LevelValidationError).">hmi::SkinCatalogError</a></span>, <span class="tt"><a class="el" href="namespacehmi.html#a08b7877ee84a5db1b0da3837b70c3af7" title="Catégorie d&#39;échec de lecture d&#39;un sounds.json (même patron que hmi::SkinCatalogError/hmi::AnimationCa...">hmi::SoundCatalogError</a></span>, <span class="tt"><a class="el" href="namespacehmi.html#afee4dd05bda0b2293c4a99a73cb7eb8f" title="Catégorie d&#39;échec de lecture d&#39;une description d&#39;animation (même esprit que hmi::SkinCatalogError/cor...">hmi::AnimationCatalogError</a></span>…). Elles sont ici <b>une seule fois</b> : deux définitions de « version non gérée » finissent par diverger sur ce qu'elles recouvrent. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a3fca58c67ec139153d0204122e9c32e0a6adf97f83acf6453d4a6a4b1070f3754" name="a3fca58c67ec139153d0204122e9c32e0a6adf97f83acf6453d4a6a4b1070f3754"></a>None&#160;</td><td class="fielddoc"><p>Pas d'erreur. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a3fca58c67ec139153d0204122e9c32e0a2767828026039e8ba7b38973cbb701f2" name="a3fca58c67ec139153d0204122e9c32e0a2767828026039e8ba7b38973cbb701f2"></a>FileNotFound&#160;</td><td class="fielddoc"><p>Fichier absent ou illisible. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a3fca58c67ec139153d0204122e9c32e0ae41199faa7290c167f70f314c5e6c165" name="a3fca58c67ec139153d0204122e9c32e0ae41199faa7290c167f70f314c5e6c165"></a>ParseError&#160;</td><td class="fielddoc"><p>JSON malformé, ou racine qui n'est pas un objet. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a3fca58c67ec139153d0204122e9c32e0a0f89bc98e9b12bdeda0604e57bdc0518" name="a3fca58c67ec139153d0204122e9c32e0a0f89bc98e9b12bdeda0604e57bdc0518"></a>UnsupportedVersion&#160;</td><td class="fielddoc"><p>Numéro de version supérieur à celui que le lecteur sait lire. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a3fca58c67ec139153d0204122e9c32e0aa809debdbe0cae246d363461916d924d" name="a3fca58c67ec139153d0204122e9c32e0aa809debdbe0cae246d363461916d924d"></a>MalformedStructure&#160;</td><td class="fielddoc"><p>Structure inattendue (champ absent, type incorrect…). </p>
 </td></tr>
 </table>
 
@@ -1902,6 +1959,143 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
 
 <p>Coin haut-gauche du personnage <b>centré</b> dans la tuile (<code class="param">column</code>, <code class="param">row</code>). </p>
 <p>Marges symétriques : la boîte 0,4 × 0,8 est centrée dans la tuile 1×1 (repère haut-gauche, <span class="tt">y</span> vers le bas). Évite de faire apparaître le personnage collé à un bord de la tuile. </p>
+
+</div>
+</div>
+<a id="a569a17f14f76ba1b657c3d43521dd3cc" name="a569a17f14f76ba1b657c3d43521dd3cc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a569a17f14f76ba1b657c3d43521dd3cc">&#9670;&#160;</a></span>positionOf()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structcore_1_1TextPosition.html">TextPosition</a> core::positionOf </td>
+          <td>(</td>
+          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>text</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>byteOffset</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Convertit un décalage en octets en ligne et colonne. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">text</td><td>Le texte d'origine. </td></tr>
+    <tr><td class="paramname">byteOffset</td><td>Décalage, tel que rapporté par <span class="tt">nlohmann::json::parse_error::byte</span>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>La position, ou <span class="tt">{0, 0}</span> si le décalage sort du texte. </dd></dl>
+
+</div>
+</div>
+<a id="acfecbe35ed7427415d02c52fcea70388" name="acfecbe35ed7427415d02c52fcea70388"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acfecbe35ed7427415d02c52fcea70388">&#9670;&#160;</a></span>readJsonObject()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structcore_1_1JsonDocument.html">JsonDocument</a> core::readJsonObject </td>
+          <td>(</td>
+          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>json</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>supportedVersion</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>origin</em></span><span class="paramdefsep"> = </span><span class="paramdefval">{}</span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>versionField</em></span><span class="paramdefsep"> = </span><span class="paramdefval">&quot;version&quot;</span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Lit l'enveloppe commune d'un catalogue : JSON bien formé, racine objet, garde de version. </p>
+<p>C'est la routine que les six lecteurs du dépôt réimplémentaient à l'identique. Le champ de version <b>absent vaut 1</b> — un catalogue écrit avant que le format ne se versionne reste lisible ; une version <b>supérieure</b> à <span class="tt">supportedVersion</span> est refusée explicitement, jamais lue au mieux : un fichier plus récent que le jeu contient par définition ce que le jeu ne sait pas interpréter.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">json</td><td>Contenu JSON. </td></tr>
+    <tr><td class="paramname">supportedVersion</td><td>Version la plus élevée que le lecteur sait lire. <b><span class="tt">0</span> désactive la garde</b> : l'appelant porte alors sa propre catégorie d'échec de version, ce qui est le cas du chargeur de niveaux (<span class="tt"><a class="el" href="#af2a63d18c9ef40479ebdc204e726e823a7d194788f42fea83b92833f89101a8f4" title="&quot;version&quot; du fichier supérieure à celle gérée (EX-LVL-005).">core::LevelValidationError::UnsupportedFormatVersion</a></span>). </td></tr>
+    <tr><td class="paramname">origin</td><td>Nom à faire figurer dans les messages (« sounds.json »). Facultatif. </td></tr>
+    <tr><td class="paramname">versionField</td><td>Nom du champ de version. Vaut <span class="tt">"version"</span> par défaut. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Le document, ou l'échec décrit. Ne lève jamais. </dd></dl>
+
+</div>
+</div>
+<a id="a45b1f244e1cfa341eaae0df618418f8e" name="a45b1f244e1cfa341eaae0df618418f8e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a45b1f244e1cfa341eaae0df618418f8e">&#9670;&#160;</a></span>readJsonObjectFromFile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structcore_1_1JsonDocument.html">JsonDocument</a> core::readJsonObjectFromFile </td>
+          <td>(</td>
+          <td class="paramtype">const std::filesystem::path &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>supportedVersion</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>versionField</em></span><span class="paramdefsep"> = </span><span class="paramdefval">&quot;version&quot;</span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Comme <span class="tt"><a class="el" href="#acfecbe35ed7427415d02c52fcea70388" title="Lit l&#39;enveloppe commune d&#39;un catalogue : JSON bien formé, racine objet, garde de version.">readJsonObject</a></span>, en lisant d'abord le fichier. </p>
+<p>Un fichier <b>absent</b> produit <span class="tt">FileNotFound</span> plutôt qu'un document vide : c'est à l'appelant de décider qu'un catalogue absent est un état de départ légitime, et cette décision ne peut pas être prise ici.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>Chemin du fichier. </td></tr>
+    <tr><td class="paramname">supportedVersion</td><td>Version la plus élevée que le lecteur sait lire. </td></tr>
+    <tr><td class="paramname">versionField</td><td>Nom du champ de version. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Le document, ou l'échec décrit. Ne lève jamais. </dd></dl>
 
 </div>
 </div>

@@ -11,7 +11,8 @@ var searchData=
   ['room_5fwidth_5ftiles_8',['ROOM_WIDTH_TILES',['../classhmi_1_1RoomGrid.html#a3641300883e783d130eb0d100e049ef6',1,'hmi::RoomGrid']]],
   ['roomheighttiles_9',['roomHeightTiles',['../structcore_1_1CameraFramingConfig.html#ae20fc5eef068fe3bc180bdca58cb5ddb',1,'core::CameraFramingConfig']]],
   ['roomwidthtiles_10',['roomWidthTiles',['../structcore_1_1CameraFramingConfig.html#a6d169bf7896002d862c862213d070c1f',1,'core::CameraFramingConfig']]],
-  ['rotation_11',['rotation',['../structcore_1_1Transform.html#a445458d76abe4de694e70ad88441d93f',1,'core::Transform::rotation'],['../structhmi_1_1SpriteQuad.html#a6d77667b205966d8edb35e16aa6f8b3a',1,'hmi::SpriteQuad::rotation']]],
-  ['row_12',['row',['../structcore_1_1GridPosition.html#ac6f7abc29fe595daf6d2efc341701589',1,'core::GridPosition::row'],['../structhmi_1_1RoomBounds.html#a1eacf6e3d973a83b8ed5c4f5f5ef5d62',1,'hmi::RoomBounds::row'],['../structhmi_1_1AutotileCell.html#af0563e130bf797a533e67e0991494450',1,'hmi::AutotileCell::row']]],
-  ['rows_13',['rows',['../structhmi_1_1SkinSection.html#a57e6adcbf198c9092de2a0f033c57e12',1,'hmi::SkinSection']]]
+  ['root_11',['root',['../structcore_1_1JsonDocument.html#aee2b7ee0780fca9c92445b2778a7baa1',1,'core::JsonDocument']]],
+  ['rotation_12',['rotation',['../structcore_1_1Transform.html#a445458d76abe4de694e70ad88441d93f',1,'core::Transform::rotation'],['../structhmi_1_1SpriteQuad.html#a6d77667b205966d8edb35e16aa6f8b3a',1,'hmi::SpriteQuad::rotation']]],
+  ['row_13',['row',['../structcore_1_1GridPosition.html#ac6f7abc29fe595daf6d2efc341701589',1,'core::GridPosition::row'],['../structhmi_1_1RoomBounds.html#a1eacf6e3d973a83b8ed5c4f5f5ef5d62',1,'hmi::RoomBounds::row'],['../structhmi_1_1AutotileCell.html#af0563e130bf797a533e67e0991494450',1,'hmi::AutotileCell::row']]],
+  ['rows_14',['rows',['../structhmi_1_1SkinSection.html#a57e6adcbf198c9092de2a0f033c57e12',1,'hmi::SkinSection']]]
 ];

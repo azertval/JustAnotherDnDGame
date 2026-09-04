@@ -119,6 +119,11 @@ Static Public Attributes</h2></td></tr>
 <tr class="memdesc:a2e32d9448dc4a00346eba59a2aa27e75"><td class="mdescLeft">&#160;</td><td class="mdescRight">Version du format écrite dans le fichier, et plus élevée qui soit lue (voir <span class="tt"><a class="el" href="classhmi_1_1SkinCatalog.html#ad04a32a030e2bb069c16ef4233a7d729" title="Version du format écrite dans le fichier, et plus élevée qui soit lue.">hmi::SkinCatalog::FORMAT_VERSION</a></span> pour le même choix de cadrage).  <br /></td></tr>
 <tr class="memitem:a05ffad34f350742a220ec866938c279b" id="r_a05ffad34f350742a220ec866938c279b"><td class="memItemLeft">static constexpr float&#160;</td><td class="memItemRight"><a class="el" href="#a05ffad34f350742a220ec866938c279b">DEFAULT_FRAME_DURATION_SECONDS</a> = 0.1f</td></tr>
 <tr class="memdesc:a05ffad34f350742a220ec866938c279b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Durée d'image par défaut (secondes), utilisée quand un clip omet « frameDuration ».  <br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pri-static-methods" class="groupheader"><a id="pri-static-methods" name="pri-static-methods"></a>
+Static Private Member Functions</h2></td></tr>
+<tr class="memitem:aa76b14e31e71056c0f5d1702d9bac3c7" id="r_aa76b14e31e71056c0f5d1702d9bac3c7"><td class="memItemLeft">static <a class="el" href="structhmi_1_1AnimationDescriptionResult.html">AnimationDescriptionResult</a>&#160;</td><td class="memItemRight"><a class="el" href="#aa76b14e31e71056c0f5d1702d9bac3c7">fromDocument</a> (const <a class="el" href="structcore_1_1JsonDocument.html">core::JsonDocument</a> &amp;document)</td></tr>
+<tr class="memdesc:aa76b14e31e71056c0f5d1702d9bac3c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construit le résultat depuis l'enveloppe déjà lue par <span class="tt"><a class="el" href="namespacecore.html#acfecbe35ed7427415d02c52fcea70388" title="Lit l&#39;enveloppe commune d&#39;un catalogue : JSON bien formé, racine objet, garde de version.">core::readJsonObject</a></span>.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Lecture, validation et traduction en région de texture du format <span class="tt">nom-asset.anim.json</span>. </p>
@@ -233,6 +238,34 @@ Static Public Attributes</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>La région correspondante. </dd></dl>
+
+</div>
+</div>
+<a id="aa76b14e31e71056c0f5d1702d9bac3c7" name="aa76b14e31e71056c0f5d1702d9bac3c7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa76b14e31e71056c0f5d1702d9bac3c7">&#9670;&#160;</a></span>fromDocument()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structhmi_1_1AnimationDescriptionResult.html">AnimationDescriptionResult</a> hmi::AnimationCatalog::fromDocument </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structcore_1_1JsonDocument.html">core::JsonDocument</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>document</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Construit le résultat depuis l'enveloppe déjà lue par <span class="tt"><a class="el" href="namespacecore.html#acfecbe35ed7427415d02c52fcea70388" title="Lit l&#39;enveloppe commune d&#39;un catalogue : JSON bien formé, racine objet, garde de version.">core::readJsonObject</a></span>. </p>
+<p>JSON bien formé, racine objet et garde de version sont vérifiés <b>avant</b> d'arriver ici : c'est la brique partagée du <span class="tt">LOT-79</span> (<span class="tt">EX-CNT-012</span>), et ce catalogue n'a plus à les réimplémenter pour son compte. </p>
 
 </div>
 </div>

@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['keybindingiconentry_0',['KeyBindingIconEntry',['../structhmi_1_1KeyBindingIconEntry.html',1,'hmi']]],
-  ['keybindingswidget_1',['KeybindingsWidget',['../classhmi_1_1KeybindingsWidget.html',1,'hmi']]],
-  ['keyhint_2',['KeyHint',['../structhmi_1_1KeyHint.html',1,'hmi']]]
+  ['jsondocument_0',['JsonDocument',['../structcore_1_1JsonDocument.html',1,'core']]]
 ];

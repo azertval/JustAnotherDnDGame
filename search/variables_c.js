@@ -20,6 +20,6 @@ var searchData=
   ['life_17',['life',['../structcore_1_1Particle.html#a00ca6d7cae92a4a821bbcbec4dc9dc06',1,'core::Particle']]],
   ['lifemax_18',['lifeMax',['../structcore_1_1ParticleEffect.html#aae65a2d7d727cd2137d640a61d567b86',1,'core::ParticleEffect']]],
   ['lifemin_19',['lifeMin',['../structcore_1_1ParticleEffect.html#a00edfae4d2ee1fb8d83c6e58ad092e94',1,'core::ParticleEffect']]],
-  ['line_20',['line',['../structhmi_1_1ComposedQuad.html#a7e6bffe91fa5be8be3d80bda3f408d7b',1,'hmi::ComposedQuad']]],
+  ['line_20',['line',['../structcore_1_1TextPosition.html#a212854e72aaaba608142270b46f535d0',1,'core::TextPosition::line'],['../structhmi_1_1ComposedQuad.html#a7e6bffe91fa5be8be3d80bda3f408d7b',1,'hmi::ComposedQuad::line']]],
   ['lineheight_21',['lineHeight',['../structhmi_1_1FontMetrics.html#a21973518c82f73e635cc8a8295fed43d',1,'hmi::FontMetrics']]]
 ];

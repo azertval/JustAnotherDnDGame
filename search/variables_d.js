@@ -28,7 +28,7 @@ var searchData=
   ['mechanisms_25',['mechanisms',['../structcore_1_1LevelData.html#a24e6de02644165a888f0cbdf3f16d6de',1,'core::LevelData::mechanisms'],['../structcore_1_1LevelDraft_1_1State.html#a569e0485b72f648b9dddadbd167e106d',1,'core::LevelDraft::State::mechanisms']]],
   ['medium_26',['medium',['../structhmi_1_1SpacingTokens.html#ad1e542ff64a29030f7d2a72b81f20796',1,'hmi::SpacingTokens']]],
   ['menubarvisible_27',['menuBarVisible',['../structhmi_1_1ScreenDressing.html#a0679aed35a5f2f6e12715c8f5ede91f6',1,'hmi::ScreenDressing']]],
-  ['message_28',['message',['../structcore_1_1MemoryLogSink_1_1Entry.html#aef520f464dacb8a65da8bff02af981cf',1,'core::MemoryLogSink::Entry::message'],['../structhmi_1_1AssetValidation.html#a30635bb3eaa326ad2115eca419848c52',1,'hmi::AssetValidation::message']]],
+  ['message_28',['message',['../structcore_1_1JsonDocument.html#a019a10b07e3ad2ef5e793cf5e8c471fd',1,'core::JsonDocument::message'],['../structcore_1_1MemoryLogSink_1_1Entry.html#aef520f464dacb8a65da8bff02af981cf',1,'core::MemoryLogSink::Entry::message'],['../structhmi_1_1AssetValidation.html#a30635bb3eaa326ad2115eca419848c52',1,'hmi::AssetValidation::message']]],
   ['metrics_29',['metrics',['../structhmi_1_1ProceduralFont.html#a975dd1ddaa24488748f354fc81f6806d',1,'hmi::ProceduralFont::metrics'],['../structhmi_1_1FontMetricsResult.html#abf4f14524c8a49bd905ba5c98dd6b480',1,'hmi::FontMetricsResult::metrics']]],
   ['min_30',['min',['../structcore_1_1Aabb.html#a5ac2bfbdb6dd36daa5527db035c80c1f',1,'core::Aabb']]],
   ['minimumtiles_31',['minimumTiles',['../structhmi_1_1AssetDimensionContract.html#ad50b707305c510c90580d52b1dcb50f8',1,'hmi::AssetDimensionContract']]],

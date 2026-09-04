@@ -2,6 +2,8 @@ var annotated_dup =
 [
     [ "core", "namespacecore.html", [
       [ "Engine", "classcore_1_1Engine.html", "classcore_1_1Engine" ],
+      [ "TextPosition", "structcore_1_1TextPosition.html", "structcore_1_1TextPosition" ],
+      [ "JsonDocument", "structcore_1_1JsonDocument.html", "structcore_1_1JsonDocument" ],
       [ "ConsoleLogSink", "classcore_1_1ConsoleLogSink.html", "classcore_1_1ConsoleLogSink" ],
       [ "FileLogSink", "classcore_1_1FileLogSink.html", "classcore_1_1FileLogSink" ],
       [ "ILogSink", "classcore_1_1ILogSink.html", "classcore_1_1ILogSink" ],

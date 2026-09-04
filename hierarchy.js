@@ -86,6 +86,7 @@ var hierarchy =
       [ "core::MovementSystem", "classcore_1_1MovementSystem.html", null ]
     ] ],
     [ "core::View&lt; Components &gt;::Iterator", "classcore_1_1View_1_1Iterator.html", null ],
+    [ "core::JsonDocument", "structcore_1_1JsonDocument.html", null ],
     [ "hmi::KeyBindingIconEntry", "structhmi_1_1KeyBindingIconEntry.html", null ],
     [ "hmi::KeyHint", "structhmi_1_1KeyHint.html", null ],
     [ "hmi::LayerVisibility", "classhmi_1_1LayerVisibility.html", null ],
@@ -219,6 +220,7 @@ var hierarchy =
     [ "core::SweepResult", "structcore_1_1SweepResult.html", null ],
     [ "hmi::TextAnchor", "structhmi_1_1TextAnchor.html", null ],
     [ "hmi::TextExtent", "structhmi_1_1TextExtent.html", null ],
+    [ "core::TextPosition", "structcore_1_1TextPosition.html", null ],
     [ "hmi::TextureAssignDecision", "structhmi_1_1TextureAssignDecision.html", null ],
     [ "hmi::TextureAtlas", "classhmi_1_1TextureAtlas.html", null ],
     [ "hmi::TextureCache", "classhmi_1_1TextureCache.html", null ],

@@ -93,9 +93,9 @@ $(function(){initNavTree('cahiertest.html','',''); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md_CahierTest"></a></p>
-<p><b>927 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
+<p><b>938 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md5"></a>
-Tests unitaires (912)</h1>
+Tests unitaires (923)</h1>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md6"></a>
 Core</h2>
 <p><b><span class="tt"><a class="el" href="test__core_8cpp.html" title="Tests unitaires de la bibliothèque Core (amorçage).">test_core.cpp</a></span></b></p>
@@ -108,6 +108,64 @@ Core</h2>
 2. Executer le scenario et verifier les assertions.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">engine.version().empty()</span> est faux.  </td></tr>
 </table>
 <h3 class="doxsection"><a class="anchor" id="autotoc_md7"></a>
+Data (11)</h3>
+<p><b><span class="tt"><a class="el" href="test__json__document_8cpp.html" title="Brique de lecture JSON partagée (EX-CNT-012) et premiers tests paramétrés du dépôt.">test_json_document.cpp</a></span></b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>JsonDocumentPosition.ConvertitUnDecalageEnLigneEtColonne</b> (Majeure)<br  />
+<sub><span class="tt"><a class="el" href="test__json__document_8cpp.html" title="Brique de lecture JSON partagée (EX-CNT-012) et premiers tests paramétrés du dépôt.">Source/Test/Unit/Core/Data/test_json_document.cpp</a>:35</span></sub>  </td><td class="markdownTableBodyNone">Une position d'erreur est exprimee en ligne et colonne.  </td><td class="markdownTableBodyNone">1. Convertir le decalage du premier octet de la 3e ligne d'un texte connu.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">position.line</span> vaut <span class="tt">3</span>.<br  />
+Vérifie que <span class="tt">position.column</span> vaut <span class="tt">1</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>JsonDocumentPosition.RendUnePositionInconnueHorsDuTexte</b> (Mineure)<br  />
+<sub><span class="tt"><a class="el" href="test__json__document_8cpp.html" title="Brique de lecture JSON partagée (EX-CNT-012) et premiers tests paramétrés du dépôt.">Source/Test/Unit/Core/Data/test_json_document.cpp</a>:54</span></sub>  </td><td class="markdownTableBodyNone">Un decalage aberrant ne produit pas de position fausse.  </td><td class="markdownTableBodyNone">1. Convertir un decalage superieur a la taille du texte.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">position.line</span> vaut <span class="tt">0</span>.<br  />
+Vérifie que <span class="tt">position.column</span> vaut <span class="tt">0</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>JsonDocument.LitUnObjetBienForme</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__json__document_8cpp.html" title="Brique de lecture JSON partagée (EX-CNT-012) et premiers tests paramétrés du dépôt.">Source/Test/Unit/Core/Data/test_json_document.cpp</a>:74</span></sub>  </td><td class="markdownTableBodyNone">Un document JSON valide se lit sans erreur.  </td><td class="markdownTableBodyNone">1. Lire une chaine JSON contenant une version et un champ.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">doc.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt">doc.version</span> vaut <span class="tt">1</span>.<br  />
+Vérifie que <span class="tt">doc.root.at("a").get&lt;int&gt;()</span> vaut <span class="tt">2</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>JsonDocument.VersionAbsenteVautUn</b> (Majeure)<br  />
+<sub><span class="tt"><a class="el" href="test__json__document_8cpp.html" title="Brique de lecture JSON partagée (EX-CNT-012) et premiers tests paramétrés du dépôt.">Source/Test/Unit/Core/Data/test_json_document.cpp</a>:90</span></sub>  </td><td class="markdownTableBodyNone">Un champ de version absent vaut 1.  </td><td class="markdownTableBodyNone">1. Lire un document sans champ de version, avec une version geree de 3.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">doc.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt">doc.version</span> vaut <span class="tt">1</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>JsonDocument.RefuseUneVersionPlusRecenteQueLeLecteur</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__json__document_8cpp.html" title="Brique de lecture JSON partagée (EX-CNT-012) et premiers tests paramétrés du dépôt.">Source/Test/Unit/Core/Data/test_json_document.cpp</a>:106</span></sub>  </td><td class="markdownTableBodyNone">Une version de format non geree est refusee, pas lue au mieux.  </td><td class="markdownTableBodyNone">1. Lire un document de version 4 avec une version geree de 3.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">doc.ok()</span> est faux.<br  />
+Vérifie que <span class="tt">doc.error</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a3fca58c67ec139153d0204122e9c32e0a0f89bc98e9b12bdeda0604e57bdc0518" title="Numéro de version supérieur à celui que le lecteur sait lire.">core::JsonReadError::UnsupportedVersion</a></span>.<br  />
+Vérifie que <span class="tt">doc.message.find('4')</span> diffère de <span class="tt">std::string::npos</span>.<br  />
+Vérifie que <span class="tt">doc.message.find('3')</span> diffère de <span class="tt">std::string::npos</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>JsonDocument.RefuseUneRacineQuiNEstPasUnObjet</b> (Majeure)<br  />
+<sub><span class="tt"><a class="el" href="test__json__document_8cpp.html" title="Brique de lecture JSON partagée (EX-CNT-012) et premiers tests paramétrés du dépôt.">Source/Test/Unit/Core/Data/test_json_document.cpp</a>:126</span></sub>  </td><td class="markdownTableBodyNone">Un document dont la racine est un tableau est refuse.  </td><td class="markdownTableBodyNone">1. Lire un document dont la racine est un tableau.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">doc.ok()</span> est faux.<br  />
+Vérifie que <span class="tt">doc.error</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a3fca58c67ec139153d0204122e9c32e0ae41199faa7290c167f70f314c5e6c165" title="JSON malformé, ou racine qui n&#39;est pas un objet.">core::JsonReadError::ParseError</a></span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>JsonDocument.SitueLErreurDeSyntaxeALaLigne</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__json__document_8cpp.html" title="Brique de lecture JSON partagée (EX-CNT-012) et premiers tests paramétrés du dépôt.">Source/Test/Unit/Core/Data/test_json_document.cpp</a>:142</span></sub>  </td><td class="markdownTableBodyNone">Une erreur de syntaxe nomme le fichier et la ligne.  </td><td class="markdownTableBodyNone">1. Lire un document dont la 3e ligne porte une virgule en trop, en nommant l'origine.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">doc.ok()</span> est faux.<br  />
+Vérifie que <span class="tt">doc.error</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a3fca58c67ec139153d0204122e9c32e0ae41199faa7290c167f70f314c5e6c165" title="JSON malformé, ou racine qui n&#39;est pas un objet.">core::JsonReadError::ParseError</a></span>.<br  />
+Vérifie que <span class="tt">doc.position.line</span> vaut <span class="tt">3</span>.<br  />
+Vérifie que <span class="tt">doc.message.find("essai.json:3")</span> diffère de <span class="tt">std::string::npos</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>JsonDocument.NeLevePasSurUnFichierAbsent</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__json__document_8cpp.html" title="Brique de lecture JSON partagée (EX-CNT-012) et premiers tests paramétrés du dépôt.">Source/Test/Unit/Core/Data/test_json_document.cpp</a>:163</span></sub>  </td><td class="markdownTableBodyNone">Un fichier absent est un echec decrit, pas une exception.  </td><td class="markdownTableBodyNone">1. Lire un fichier qui n'existe pas.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">doc.ok()</span> est faux.<br  />
+Vérifie que <span class="tt">doc.error</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a3fca58c67ec139153d0204122e9c32e0a2767828026039e8ba7b38973cbb701f2" title="Fichier absent ou illisible.">core::JsonReadError::FileNotFound</a></span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>JsonDocument.NommeLeFichierDansSesMessages</b> (Majeure)<br  />
+<sub><span class="tt"><a class="el" href="test__json__document_8cpp.html" title="Brique de lecture JSON partagée (EX-CNT-012) et premiers tests paramétrés du dépôt.">Source/Test/Unit/Core/Data/test_json_document.cpp</a>:180</span></sub>  </td><td class="markdownTableBodyNone">Un echec de lecture de fichier nomme ce fichier.  </td><td class="markdownTableBodyNone">1. Lire une fixture JSON tronquee depuis le disque.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">doc.ok()</span> est faux.<br  />
+Vérifie que <span class="tt">doc.message.find("tronque.json")</span> diffère de <span class="tt">std::string::npos</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>FixtureJson.ProduitLaCategorieAnnoncee</b> (Majeure)<br  />
+<sub><span class="tt"><a class="el" href="test__json__document_8cpp.html" title="Brique de lecture JSON partagée (EX-CNT-012) et premiers tests paramétrés du dépôt.">Source/Test/Unit/Core/Data/test_json_document.cpp</a>:220</span></sub>  </td><td class="markdownTableBodyNone">Chaque fixture JSON produit la categorie d'echec attendue.  </td><td class="markdownTableBodyNone">1. Lire chacune des six fixtures de Fixtures/Json.<br  />
+2. Comparer la categorie d'echec obtenue a celle annoncee par le nom du fichier.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">doc.error</span> vaut <span class="tt">attente.attendu</span>.<br  />
+Vérifie que <span class="tt">doc.message.empty()</span> est faux.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>FixtureJsonCouverture.AucuneFixtureOrpheline</b> (Mineure)<br  />
+<sub><span class="tt"><a class="el" href="test__json__document_8cpp.html" title="Brique de lecture JSON partagée (EX-CNT-012) et premiers tests paramétrés du dépôt.">Source/Test/Unit/Core/Data/test_json_document.cpp</a>:262</span></sub>  </td><td class="markdownTableBodyNone">Aucune fixture n'est presente sans etre lue par un test.  </td><td class="markdownTableBodyNone">1. Parcourir le dossier de fixtures.<br  />
+2. Verifier que chaque fichier figure dans la liste des cas instancies.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">std::filesystem::is_directory(FIXTURES)</span> est vrai.<br  />
+Vérifie que <span class="tt">std::find(couvertes.begin(), couvertes.end(), nom)</span> diffère de <span class="tt">couvertes.end()</span>.  </td></tr>
+</table>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md8"></a>
 Diagnostics (22)</h3>
 <p><b><span class="tt"><a class="el" href="test__assert_8cpp.html" title="Tests unitaires des assertions du projet.">test_assert.cpp</a></span></b></p>
 <table class="markdownTable">
@@ -281,7 +339,7 @@ Vérifie que <span class="tt">sink.entries()[1].message</span> vaut <span class=
 <sub><span class="tt"><a class="el" href="test__sinks_8cpp.html" title="Tests unitaires des sinks de journalisation.">Source/Test/Unit/Core/Diagnostics/test_sinks.cpp</a>:37</span></sub>  </td><td class="markdownTableBodyNone">clear vide les messages mémorisés.  </td><td class="markdownTableBodyNone">1. Mettre en place le contexte du test (arrangement).<br  />
 2. Executer le scenario et verifier les assertions.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">sink.entries().empty()</span> est vrai.  </td></tr>
 </table>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md8"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md9"></a>
 Ecs (54)</h3>
 <p><b><span class="tt"><a class="el" href="test__animation__clip_8cpp.html" title="Tests unitaires du modèle de clip d&#39;animation (core::AnimationClip/core::ClipSet, LOT-46 TACHE-01) : ...">test_animation_clip.cpp</a></span></b></p>
 <table class="markdownTable">
@@ -645,7 +703,7 @@ Vérifie que <span class="tt">log</span> vaut <span class="tt">(std::vector&lt;i
 2. Executer le scenario et verifier les assertions.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">visited.size()</span> vaut <span class="tt">1u</span>.<br  />
 Vérifie que <span class="tt">visited.front()</span> vaut <span class="tt">both</span>.  </td></tr>
 </table>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md9"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md10"></a>
 Gameplay (10)</h3>
 <p><b><span class="tt"><a class="el" href="test__mechanism__controller_8cpp.html" title="Tests unitaires des mécanismes interrupteur↔porte (MechanismController).">test_mechanism_controller.cpp</a></span></b></p>
 <table class="markdownTable">
@@ -723,7 +781,7 @@ Vérifie que <span class="tt">controller.collisionMap().isSolid(6, 1)</span> est
 Vérifie que <span class="tt">reloaded.isDoorOpen(0)</span> est faux.<br  />
 Vérifie que <span class="tt">reloaded.collisionMap().isSolid(4, 1)</span> est vrai.  </td></tr>
 </table>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md10"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md11"></a>
 Levels (143)</h3>
 <p><b><span class="tt"><a class="el" href="test__camera__framing_8cpp.html" title="Tests unitaires du cadrage de caméra porté par le niveau : modes, règle de repli et validation (EX-LV...">test_camera_framing.cpp</a></span></b></p>
 <table class="markdownTable">
@@ -1790,7 +1848,7 @@ Vérifie que <span class="tt">*parsed</span> vaut <span class="tt">type</span>. 
 Vérifie que <span class="tt"><a class="el" href="namespacecore.html#ad675f8ce2e7f29908cbe3e7701336ef8" title="Convertit un nom textuel en type de tuile.">core::parseTileType</a>("mur").has_value()</span> est faux.<br  />
 Vérifie que <span class="tt"><a class="el" href="namespacecore.html#ad675f8ce2e7f29908cbe3e7701336ef8" title="Convertit un nom textuel en type de tuile.">core::parseTileType</a>("Solid").has_value()</span> est faux.  </td></tr>
 </table>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md11"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md12"></a>
 Math (26)</h3>
 <p><b><span class="tt"><a class="el" href="test__deterministic__random_8cpp.html" title="Tests unitaires de core::DeterministicRandom, splitMix64 et deriveSeed (LOT-53 TACHE-01,...">test_deterministic_random.cpp</a></span></b></p>
 <table class="markdownTable">
@@ -1944,7 +2002,7 @@ Vérifie que <span class="tt">normalized</span> vaut <span class="tt"><a class="
 2. Comparer deux vecteurs distincts.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">a</span> vaut <span class="tt"><a class="el" href="structcore_1_1Vector2.html" title="Vecteur bidimensionnel en coordonnées monde (composantes float).">core::Vector2</a>(0.3f, 1.0f)</span>.<br  />
 Vérifie que <span class="tt"><a class="el" href="structcore_1_1Vector2.html" title="Vecteur bidimensionnel en coordonnées monde (composantes float).">core::Vector2</a>(0.0f, 0.0f)</span> diffère de <span class="tt"><a class="el" href="structcore_1_1Vector2.html" title="Vecteur bidimensionnel en coordonnées monde (composantes float).">core::Vector2</a>(1.0f, 0.0f)</span>.  </td></tr>
 </table>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md12"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md13"></a>
 Physics (14)</h3>
 <p><b><span class="tt"><a class="el" href="test__aabb__vs__aabb_8cpp.html" title="Tests unitaires du balayage AABB continu contre une boîte fixe unique (sweepAabbVsAabb,...">test_aabb_vs_aabb.cpp</a></span></b></p>
 <table class="markdownTable">
@@ -2045,7 +2103,7 @@ Vérifie que <span class="tt">r.normal.y</span> vaut <span class="tt">1.0f</span
 2. Balayer horizontalement le long du sol.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">r.hit</span> est faux.<br  />
 Vérifie que <span class="tt">r.position.x</span> vaut <span class="tt">3.0f</span> (comparaison flottante).  </td></tr>
 </table>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md13"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md14"></a>
 Time (7)</h3>
 <p><b><span class="tt"><a class="el" href="test__fixed__timestep_8cpp.html" title="Tests unitaires du cadenceur à pas de temps fixe.">test_fixed_timestep.cpp</a></span></b></p>
 <table class="markdownTable">
@@ -2086,7 +2144,7 @@ Vérifie que <span class="tt">timestep.advance(0.0f)</span> vaut <span class="tt
 3. Reprendre avec un petit delta, comme après réarmement de l'horloge de référence.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">timestep.advance(STEP * 3.0f)</span> vaut <span class="tt">3</span>.<br  />
 Vérifie que <span class="tt">timestep.advance(STEP)</span> vaut <span class="tt">1</span>.  </td></tr>
 </table>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md14"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md15"></a>
 World (7)</h3>
 <p><b><span class="tt"><a class="el" href="test__grid__distance__field_8cpp.html" title="Tests unitaires de core::GridDistanceField (amendement LOT-ANNEXE-08, EX-IA-023).">test_grid_distance_field.cpp</a></span></b></p>
 <table class="markdownTable">
@@ -2126,9 +2184,9 @@ Vérifie que <span class="tt">field.distance(<a class="el" href="structcore_1_1G
 <sub><span class="tt"><a class="el" href="test__grid__distance__field_8cpp.html" title="Tests unitaires de core::GridDistanceField (amendement LOT-ANNEXE-08, EX-IA-023).">Source/Test/Unit/Core/World/test_grid_distance_field.cpp</a>:136</span></sub>  </td><td class="markdownTableBodyNone">Multi-cibles : une cible invalide n'empêche pas les autres de fonctionner.  </td><td class="markdownTableBodyNone">1. Grille 5x5, case <span class="tt">(1,1)</span> solide utilisée comme première cible, <span class="tt">(4,4)</span> valide comme seconde.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">field.distance(<a class="el" href="structcore_1_1GridPosition.html" title="Position d&#39;une case dans la grille d&#39;un niveau, en coordonnées entières.">core::GridPosition</a>{4, 4})</span> vaut <span class="tt">0</span>.<br  />
 Vérifie que <span class="tt">field.distance(<a class="el" href="structcore_1_1GridPosition.html" title="Position d&#39;une case dans la grille d&#39;un niveau, en coordonnées entières.">core::GridPosition</a>{3, 4})</span> vaut <span class="tt">1</span>.  </td></tr>
 </table>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md15"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md16"></a>
 HMI</h2>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md16"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md17"></a>
 Audio (14)</h3>
 <p><b><span class="tt"><a class="el" href="test__audio__engine_8cpp.html" title="Tests unitaires du moteur audio (LOT-60, EX-REN-047, EX-NFR-040).">test_audio_engine.cpp</a></span></b></p>
 <table class="markdownTable">
@@ -2212,7 +2270,7 @@ Vérifie que <span class="tt">hmi::soundForEvent(hmi::GameEvent::PressurePlateRe
 <sub><span class="tt"><a class="el" href="test__sound__triggers_8cpp.html" title="Tests unitaires de la table événement → son (LOT-60, EX-REN-047).">Source/Test/Unit/HMI/Audio/test_sound_triggers.cpp</a>:68</span></sub>  </td><td class="markdownTableBodyNone">Des evenements sans bruitage dedie resolvent vers std::nullopt.  </td><td class="markdownTableBodyNone">1. Resoudre WallContactEnter et BlockPushed.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">hmi::soundForEvent(hmi::GameEvent::WallContactEnter)</span> vaut <span class="tt">std::nullopt</span>.<br  />
 Vérifie que <span class="tt">hmi::soundForEvent(hmi::GameEvent::BlockPushed)</span> vaut <span class="tt">std::nullopt</span>.  </td></tr>
 </table>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md17"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md18"></a>
 Diagnostics (2)</h3>
 <p><b><span class="tt"><a class="el" href="test__session__log_8cpp.html" title="Tests unitaires de la sérialisation des logs de session.">test_session_log.cpp</a></span></b></p>
 <table class="markdownTable">
@@ -2227,7 +2285,7 @@ Diagnostics (2)</h3>
 <sub><span class="tt"><a class="el" href="test__session__log_8cpp.html" title="Tests unitaires de la sérialisation des logs de session.">Source/Test/Unit/HMI/Diagnostics/test_session_log.cpp</a>:37</span></sub>  </td><td class="markdownTableBodyNone">Une session sans message produit un texte vide.  </td><td class="markdownTableBodyNone">1. Mettre en place le contexte du test (arrangement).<br  />
 2. Executer le scenario et verifier les assertions.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a5bc539b762cfd88b17c71d8a44a1a22b" title="Assemble les messages de log en un texte (une ligne par message).">hmi::serializeSessionLog</a>({})</span> vaut <span class="tt">""</span>.  </td></tr>
 </table>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md18"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md19"></a>
 Editor (159)</h3>
 <p><b><span class="tt"><a class="el" href="test__asset__file__operations_8cpp.html" title="Tests unitaires des opérations fichiers sur les assets (LOT-43 TACHE-02).">test_asset_file_operations.cpp</a></span></b></p>
 <table class="markdownTable">
@@ -3242,7 +3300,7 @@ Vérifie que <span class="tt">localization.text(categoryKey)</span> diffère de 
 Vérifie que <span class="tt">key.empty()</span> est faux.<br  />
 Vérifie que <span class="tt">localization.text(key)</span> diffère de <span class="tt">key</span>.  </td></tr>
 </table>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md19"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md20"></a>
 Game (42)</h3>
 <p><b><span class="tt"><a class="el" href="test__diagnostics__hud_8cpp.html" title="Tests unitaires de la moyenne glissante de cadence et du choix de contenu du compteur de diagnostic (...">test_diagnostics_hud.cpp</a></span></b></p>
 <table class="markdownTable">
@@ -3491,7 +3549,7 @@ Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a9a410292879
 <sub><span class="tt"><a class="el" href="test__progression_8cpp.html" title="Tests unitaires de la progression de partie persistée (LOT-59 TACHE-05, EX-LVL-014) et de la règle de...">Source/Test/Unit/HMI/Game/test_progression.cpp</a>:312</span></sub>  </td><td class="markdownTableBodyNone">Un tableau verrouillé n'est jamais jouable.  </td><td class="markdownTableBodyNone">1. Ne terminer aucun tableau.<br  />
 2. Interroger <span class="tt">isLevelUnlocked</span> pour un tableau loin dans la séquence.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a9a410292879939089d6bf584f60d60e6" title="Règle de déverrouillage (LOT-59 TACHE-06, EX-IHM-005) : fonction pure, seule source de vérité sur ce ...">hmi::isLevelUnlocked</a>(progression, FIVE_LEVEL_SEQUENCE, "demo-dash.json")</span> est faux.  </td></tr>
 </table>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md20"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md21"></a>
 Graphics (264)</h3>
 <p><b><span class="tt"><a class="el" href="test__animated__tiles_8cpp.html" title="Tests unitaires des tuiles animées (LOT-46 TACHE-05) : horloge partagée par asset,...">test_animated_tiles.cpp</a></span></b></p>
 <table class="markdownTable">
@@ -5243,7 +5301,7 @@ Vérifie que <span class="tt">textures.textureFor(appearance)</span> vaut <span 
 Vérifie que <span class="tt">textures.widthFor(broken)</span> vaut <span class="tt"><a class="el" href="namespacehmi.html#a75cfef1e5eb0b5569ebd42c004d73ce3" title="Côté, en pixels, du damier de repli généré par défaut (une case, EX-ARCH-021).">hmi::MISSING_TEXTURE_SIZE</a></span>.<br  />
 Vérifie que <span class="tt">textures.heightFor(broken)</span> vaut <span class="tt"><a class="el" href="namespacehmi.html#a75cfef1e5eb0b5569ebd42c004d73ce3" title="Côté, en pixels, du damier de repli généré par défaut (une case, EX-ARCH-021).">hmi::MISSING_TEXTURE_SIZE</a></span>.  </td></tr>
 </table>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md21"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md22"></a>
 Input (81)</h3>
 <p><b><span class="tt"><a class="el" href="test__editor__key__bindings_8cpp.html" title="Tests unitaires du remappage des touches de l&#39;éditeur (EditorKeyBindings, EX-CTRL-012).">test_editor_key_bindings.cpp</a></span></b></p>
 <table class="markdownTable">
@@ -5760,7 +5818,7 @@ Vérifie que <span class="tt">hmi::qtKeyToHmiKey(Qt::Key_Alt).has_value()</span>
 Vérifie que <span class="tt">hmi::qtKeyToHmiKey(Qt::Key_Home).has_value()</span> est faux.<br  />
 Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a1b53de392afb0dfdf5cdef4543fb672d" title="Traduit un code Qt::Key en hmi::Key.">hmi::qtKeyToHmiKey</a>(-1).has_value()</span> est faux.  </td></tr>
 </table>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md22"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md23"></a>
 Interface (57)</h3>
 <p><b><span class="tt"><a class="el" href="test__application__theme_8cpp.html" title="Tests unitaires du thème de l&#39;IHM : modèle de feuille de style (LOT-56 TACHE-02, EX-IHM-050,...">test_application_theme.cpp</a></span></b></p>
 <table class="markdownTable">
@@ -6228,7 +6286,7 @@ Vérifie que <span class="tt">theme.find(forbidden)</span> vaut <span class="tt"
 Vérifie que <span class="tt">target.empty()</span> est faux.<br  />
 Vérifie que <span class="tt">target.front()</span> vaut <span class="tt">':'</span>.  </td></tr>
 </table>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md23"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md24"></a>
 Localization (9)</h3>
 <p><b><span class="tt"><a class="el" href="test__localization_8cpp.html" title="Tests unitaires du catalogue de traduction : analyse, repli, changement de langue.">test_localization.cpp</a></span></b></p>
 <table class="markdownTable">
@@ -6286,9 +6344,9 @@ Vérifie que <span class="tt">english.count(key) &gt; 0</span> est vrai.<br  />
 Vérifie que <span class="tt">french.count(key) &gt; 0</span> est vrai.<br  />
 Vérifie que <span class="tt">french.size()</span> vaut <span class="tt">english.size()</span>.  </td></tr>
 </table>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md24"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md25"></a>
 Tests d'intégration (13)</h1>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md25"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md26"></a>
 Animation Personnage — <span class="tt">test_animation_personnage.cpp</span> (6)</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -6329,7 +6387,7 @@ Vérifie que <span class="tt">animation.elapsed</span> vaut <span class="tt">0.0
 2. Avancer le systeme dix pas.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">animation.clipIndex</span> vaut <span class="tt">0</span>.<br  />
 Vérifie que <span class="tt">animation.frameIndex</span> vaut <span class="tt">0</span>.  </td></tr>
 </table>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md26"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md27"></a>
 Boucle Simulation — <span class="tt">test_boucle_simulation.cpp</span> (2)</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -6345,7 +6403,7 @@ Vérifie que <span class="tt">position.x</span> vaut <span class="tt">6.0f * tot
 2. Executer le scenario et verifier les assertions.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">firstPosition.x</span> vaut <span class="tt">secondPosition.x</span>, à <span class="tt">TOLERANCE</span> près.<br  />
 Vérifie que <span class="tt">firstPosition.y</span> vaut <span class="tt">secondPosition.y</span>, à <span class="tt">TOLERANCE</span> près.  </td></tr>
 </table>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md27"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md28"></a>
 Ecs Mouvement — <span class="tt">test_ecs_mouvement.cpp</span> (4)</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -6372,7 +6430,7 @@ Vérifie que <span class="tt">fastPosition.y</span> vaut <span class="tt">4.0f</
 <sub><span class="tt"><a class="el" href="test__ecs__mouvement_8cpp.html" title="Tests d&#39;intégration de l&#39;ECS : entités + composants + système de mouvement assemblés dans un World,...">Source/Test/Integration/test_ecs_mouvement.cpp</a>:117</span></sub>  </td><td class="markdownTableBodyNone">Enregistré dans le World, le système s'exécute via World::update (chaîne complète).  </td><td class="markdownTableBodyNone">1. Mettre en place le contexte du test (arrangement).<br  />
 2. Executer le scenario et verifier les assertions.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">position.x</span> vaut <span class="tt">10.0f * steps * STEP</span>, à <span class="tt">TOLERANCE</span> près.  </td></tr>
 </table>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md28"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md29"></a>
 Niveau Ecs — <span class="tt">test_niveau_ecs.cpp</span> (1)</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -6387,9 +6445,9 @@ Vérifie que <span class="tt">tilesByPosition.at({0, 0})</span> vaut <span class
 Vérifie que <span class="tt">tilesByPosition.at({1, 0})</span> vaut <span class="tt">static_cast&lt;int&gt;(<a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875ae41480b6bbfbf7407974a88d3d34f4fa">core::TileType::Solid</a>)</span>.<br  />
 Vérifie que <span class="tt">tilesByPosition.at({1, 1})</span> vaut <span class="tt">static_cast&lt;int&gt;(<a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875afef46e5063ce3dc78b8ae64fa474241d">core::TileType::Exit</a>)</span>.  </td></tr>
 </table>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md29"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md30"></a>
 Tests système (2)</h1>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md30"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md31"></a>
 Éditeur de niveaux — <span class="tt">test_parcours_edition.cpp</span> (2)</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">

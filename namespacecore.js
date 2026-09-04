@@ -1,6 +1,8 @@
 var namespacecore =
 [
     [ "Engine", "classcore_1_1Engine.html", "classcore_1_1Engine" ],
+    [ "TextPosition", "structcore_1_1TextPosition.html", "structcore_1_1TextPosition" ],
+    [ "JsonDocument", "structcore_1_1JsonDocument.html", "structcore_1_1JsonDocument" ],
     [ "ConsoleLogSink", "classcore_1_1ConsoleLogSink.html", "classcore_1_1ConsoleLogSink" ],
     [ "FileLogSink", "classcore_1_1FileLogSink.html", "classcore_1_1FileLogSink" ],
     [ "ILogSink", "classcore_1_1ILogSink.html", "classcore_1_1ILogSink" ],
@@ -70,6 +72,13 @@ var namespacecore =
     [ "ClipEndMode", "namespacecore.html#a71fba78b647ce3be2a8b78f79c84f522", [
       [ "Loop", "namespacecore.html#a71fba78b647ce3be2a8b78f79c84f522a89d7b10cb4238977d2b523dfd9ea7745", null ],
       [ "OneShot", "namespacecore.html#a71fba78b647ce3be2a8b78f79c84f522ac7fc2ee61fad0e2bba6754efdee31481", null ]
+    ] ],
+    [ "JsonReadError", "namespacecore.html#a3fca58c67ec139153d0204122e9c32e0", [
+      [ "None", "namespacecore.html#a3fca58c67ec139153d0204122e9c32e0a6adf97f83acf6453d4a6a4b1070f3754", null ],
+      [ "FileNotFound", "namespacecore.html#a3fca58c67ec139153d0204122e9c32e0a2767828026039e8ba7b38973cbb701f2", null ],
+      [ "ParseError", "namespacecore.html#a3fca58c67ec139153d0204122e9c32e0ae41199faa7290c167f70f314c5e6c165", null ],
+      [ "UnsupportedVersion", "namespacecore.html#a3fca58c67ec139153d0204122e9c32e0a0f89bc98e9b12bdeda0604e57bdc0518", null ],
+      [ "MalformedStructure", "namespacecore.html#a3fca58c67ec139153d0204122e9c32e0aa809debdbe0cae246d363461916d924d", null ]
     ] ],
     [ "LayerKind", "namespacecore.html#ab0cf50b7ad0dce1357c85662e0fb7e5d", [
       [ "Ground", "namespacecore.html#ab0cf50b7ad0dce1357c85662e0fb7e5da3519d51443d41746a097cd54cd5c11cf", null ],
@@ -172,6 +181,9 @@ var namespacecore =
     [ "playerClipSet", "namespacecore.html#a15c89d2a138a59d257f395dcf95efc26", null ],
     [ "playerSize", "namespacecore.html#a6b2b8e5dc4a0b610cc1225c14e1ce5cb", null ],
     [ "playerSpawnPosition", "namespacecore.html#a478b06d0135ab7cd314b90791cfe7ba0", null ],
+    [ "positionOf", "namespacecore.html#a569a17f14f76ba1b657c3d43521dd3cc", null ],
+    [ "readJsonObject", "namespacecore.html#acfecbe35ed7427415d02c52fcea70388", null ],
+    [ "readJsonObjectFromFile", "namespacecore.html#a45b1f244e1cfa341eaae0df618418f8e", null ],
     [ "resolveCameraFraming", "namespacecore.html#ac4655b6e996ba6d305c643f5f7d8e156", null ],
     [ "setAssertionHandler", "namespacecore.html#a0b2fde01c38742c460acb176220332ff", null ],
     [ "splitMix64", "namespacecore.html#aabea08fea40eec17f439cef7c5a34e56", null ],

@@ -5,6 +5,7 @@ var classhmi_1_1SkinCatalog =
     [ "assignments", "classhmi_1_1SkinCatalog.html#a4431d43b56291b24b40adcbec80784cd", null ],
     [ "clearAssignment", "classhmi_1_1SkinCatalog.html#ae46642f5bab819040f3934c5aac39554", null ],
     [ "defaultSetName", "classhmi_1_1SkinCatalog.html#af4e709bd00f9bd7c3b2799cb94358abb", null ],
+    [ "fromDocument", "classhmi_1_1SkinCatalog.html#a0f80dae50ad545df065fab70cbb949bd", null ],
     [ "loadFromFile", "classhmi_1_1SkinCatalog.html#a8f1d179f7e5acb2da78035b13c783c0a", null ],
     [ "loadFromString", "classhmi_1_1SkinCatalog.html#abbbffe68f2623ef82157bdb2adf4153b", null ],
     [ "resolve", "classhmi_1_1SkinCatalog.html#a17df53602ea05a29c5b9ddc9e1346177", null ],
