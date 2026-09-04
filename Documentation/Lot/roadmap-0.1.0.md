@@ -1,10 +1,10 @@
 # Feuille de route 0.1.0 {#roadmap-010}
 
 Le programme complet de la version `0.1.0`, et **l'unique source de vérité** des lots à venir : les
-lots `LOT-08` à `LOT-84`, ce que le corpus `Documentation/SourceBook/` permet d'en tirer, et l'audit
+lots `LOT-09` à `LOT-84`, ce que le corpus `Documentation/SourceBook/` permet d'en tirer, et l'audit
 qui a confronté le tout à l'état réel du dépôt.
 
-Les sept lots **livrés** (`LOT-01` à `LOT-07`) gardent leur dossier et leur `epic.md` : ils portent
+Les huit lots **livrés** (`LOT-01` à `LOT-08`) gardent leur dossier et leur `epic.md` : ils portent
 ce que leur réalisation a tranché, qui est de l'histoire, pas du programme. Tout le reste vit ici,
 et un dossier se crée **au démarrage** d'un lot.
 
@@ -13,7 +13,7 @@ et les règles : huit PDF, environ 1 200 pages, 280 Mo. Les sections 1 à 4 dise
 contiennent et ce que l'extraction a appris ; la section 5 découpe le travail et la section 6 en
 donne l'ordre d'exécution, chemin critique et graphe compris ; la section 7 dessine l'arborescence
 cible et la section 8 récapitule ce qui est tranché ; les sections 9 et 10 rapportent l'audit et ce
-qu'il faut anticiper ; la section 11 porte les lots `LOT-08` à `LOT-29`.
+qu'il faut anticiper ; la section 11 porte les lots `LOT-09` à `LOT-29`.
 
 ---
 
@@ -212,9 +212,9 @@ mais plusieurs s'exécutent **avant** les lots qui les consomment (voir §6). Un
 dans un `Documentation/Specification/contenu.md`.
 
 > **État de l'audit.** Cette page a été confrontée à l'état réel du dépôt, puis à elle-même. Six
-> lots dépassaient l'étalon mesuré sur les **sept lots livrés** — `LOT-01` à `LOT-07`, soit 16 à 34
-> fichiers et 450 à 1340 lignes, le `LOT-04` marquant la borne haute à 19 fichiers pour 1337 lignes.
-> Ils ont été **découpés** : `LOT-37`/`LOT-80`, `LOT-40`/`LOT-81`, `LOT-41`/`LOT-82`,
+> lots dépassaient l'étalon mesuré sur les **huit lots livrés** — `LOT-01` à `LOT-08`, soit 16 à 34
+> fichiers et 450 à 1340 lignes : le `LOT-04` marque la borne haute à 19 fichiers pour 1337 lignes,
+> le `LOT-08` la borne basse à 16 fichiers pour 453 lignes. Ils ont été **découpés** : `LOT-37`/`LOT-80`, `LOT-40`/`LOT-81`, `LOT-41`/`LOT-82`,
 > `LOT-45`/`LOT-83`, `LOT-47`/`LOT-84`, et le `LOT-69` réduit à la suppression qu'il est réellement.
 > Le principe de coupe est le même partout : **le code d'un côté, la donnée de l'autre**, chaque
 > moitié ayant son consommateur et son critère d'acceptation.
@@ -1365,8 +1365,8 @@ exactement ce que [`EX-VIS-007`](@ref EX-VIS-007) interdit. D'où « filière »
 | Quand | Lots | Pourquoi là |
 |---|---|---|
 | **Avant tout le reste** | `LOT-77`, `LOT-78`, `LOT-79` | Trois préconditions sans aucun prérequis : les exigences, les numéros, la brique de chargement |
-| Tout de suite après [LOT-08](@ref lot-08) | `LOT-30`, puis `LOT-32` | Outillage et contrats ; le plus tôt est le mieux |
-| **Tout de suite après [LOT-08](@ref lot-08)** | `LOT-66`, `LOT-67`, `LOT-68`, `LOT-76` | La charte ne dépend que des PDF, et elle conditionne tous les écrans à venir |
+| **Démarrables maintenant** — le [LOT-08](@ref lot-08) est livré | `LOT-30`, puis `LOT-32` | Outillage et contrats ; le plus tôt est le mieux |
+| **Démarrables maintenant** | `LOT-66`, `LOT-67`, `LOT-68`, `LOT-76` | La charte ne dépend que des PDF, et elle conditionne tous les écrans à venir |
 | Avec [LOT-09](@ref lot-09) | `LOT-37`, puis `LOT-80` | L'atlas donne au graphe de cartes de vrais nœuds à relier |
 | Avant [LOT-13](@ref lot-13) | `LOT-43`, puis `LOT-36` | Compétences et langues d'abord, car les espèces s'appuient dessus ; puis les 4 classes simplifiées pour le premier combat |
 | Avant [LOT-14](@ref lot-14) | `LOT-34`, puis `LOT-49` | Catalogue réel, puis contrôle de ses valeurs |
@@ -1386,7 +1386,8 @@ exactement ce que [`EX-VIS-007`](@ref EX-VIS-007) interdit. D'où « filière »
 
 Quatre lignes méritent qu'on s'y arrête.
 
-**La première.** Ces trois préconditions ne dépendent de rien et bloquent tout : le `LOT-77` écrit
+**La première.** Ces trois préconditions ne dépendent de rien et bloquent tout — et le
+[LOT-08](@ref lot-08) étant livré, elles sont ce qu'il y a à faire **tout de suite** : le `LOT-77` écrit
 les exigences que vingt lots citent sans qu'elles existent, le `LOT-78` désambiguïse 208 renvois de
 numéros avant que le premier dossier au-delà de `LOT-29` ne fige l'ambiguïté, le `LOT-79` factorise
 six lecteurs JSON avant que la filière n'en ajoute quinze. Aucune n'est un préalable de confort :
@@ -1707,8 +1708,8 @@ programme de lots d'un autre projet, hors Doxygen. L'historique git la conserve 
 
 Ce qui est sain : **927 tests verts** sur 129 fichiers, une CI durcie (`/W4 /WX`, `clang-tidy` et
 Doxygen épinglés), un cœur déjà purgé de 63 000 lignes au [LOT-01](@ref lot-01) et déjà réorienté
-vers le RPG top-down par les `LOT-06` et `LOT-07` — le `LOT-08` reste à faire. Le format v3
-**porte déjà les entités**
+vers le RPG top-down par les `LOT-06`, `LOT-07` et `LOT-08`. Le format v3 **porte déjà les
+entités**
 (`MapEntity`), et `GridDistanceField` — un parcours en largeur sur la grille — a été explicitement
 sauvé de la purge comme « le calcul de portée de déplacement du futur combat tactique ».
 
@@ -1766,7 +1767,7 @@ la création du premier dossier au-delà de `LOT-29`.
 
 ## 10. Ce qu'il faut anticiper, tant que rien n'est construit
 
-**Sept lots sont livrés sur les quatre-vingts que compte le programme.** Presque tout ce que cette filière modifie n'existe pas
+**Huit lots sont livrés sur les quatre-vingts que compte le programme.** Presque tout ce que cette filière modifie n'existe pas
 encore : ni la fiche de personnage, ni l'inventaire, ni le combat, ni l'éditeur multi-couches, ni le
 graphe de cartes. C'est un avantage considérable et **temporaire** — chaque décision prise
 maintenant coûte une écriture ; la même, prise dans dix lots, coûte une réécriture plus la migration
@@ -1801,11 +1802,15 @@ second conteneur d'entités à côté.
 
 ---
 
-## 11. Les lots `LOT-08` à `LOT-29`
+## 11. Les lots `LOT-09` à `LOT-29`
 
-Ces vingt-deux lots avaient chacun leur dossier `LOT-NN-nom/`. Ils sont absorbés ici pour que
+Ces vingt et un lots avaient chacun leur dossier `LOT-NN-nom/`. Ils sont absorbés ici pour que
 la feuille de route ait **une seule source de vérité** : deux documents décrivant le même
 programme divergent, et l'audit a montré qu'ils avaient déjà commencé à le faire.
+
+> Le `LOT-08` a été **livré** entre-temps. Il n'est donc plus ici : comme les sept lots qui le
+> précèdent, il garde son dossier `LOT-08-tuiles-rpg/` et son `epic.md`, qui porte ce que sa
+> réalisation a tranché — de l'histoire, pas du programme.
 
 Leurs **ancres Doxygen sont conservées** (`{#lot-09}`, `{#lot-13}`…), si bien que tous les
 renvois `@ref lot-NN` des spécifications continuent de résoudre. Seuls les `@subpage` de
@@ -1814,54 +1819,6 @@ renvois `@ref lot-NN` des spécifications continuent de résoudre. Seuls les `@s
 > **Contenu d'origine, corrections signalées.** Le texte de chaque epic est repris tel quel.
 > Là où l'audit l'a contredit — l'éditeur du `LOT-11`, la mort du `LOT-21`, le repos du
 > `LOT-25` — la correction figure dans les sections 5, 9 et 10 ci-dessus, qui font foi.
-
-### LOT-08 — Vocabulaire de tuiles RPG {#lot-08}
-
-> Statut : **à faire**.
-> Prérequis : [LOT-04](@ref lot-04) (les couches donnent leur sens aux types).
-
-#### Objectif
-
-Donner à la palette les types de terrain d'un RPG en vue de dessus, là où le `LOT-01` a laissé le
-strict minimum hérité (11 types).
-
-#### Périmètre
-
-Types à ajouter dans `core::TileType`, à peu près : `Grass`, `Dirt`, `Sand`, `Water`, `DeepWater`,
-`Wall`, `Cliff`, `Bridge`, `Stairs`. La liste exacte se décide au contact du level design, pas
-d'avance.
-
-Pour **chaque** type ajouté, la chaîne complète — c'est la leçon la plus chère de l'héritage, où
-ajouter un type touchait « exactement la même chaîne de huit fichiers » :
-
-1. `TileType.h` (avant le dernier énumérateur, `TILE_TYPE_COUNT` suit tout seul) ;
-2. `TileTypeName.cpp` (le `switch` est exhaustif et sans `default` : le compilateur désigne
-   lui-même ce qu'il reste à faire) ;
-3. `Editor/TileTaxonomy.cpp` (catégorie de palette) et `TaxonomyLabels.cpp` ;
-4. libellés `fr.lang` **et** `en.lang` ;
-5. `ProceduralAtlas` : **rendu de repli déterministe**, dans le même lot, jamais « plus tard » —
-   c'est ce qui garde le jeu lançable sans aucun fichier d'image ;
-6. `TileAutotile` si le type a des raccords ;
-7. `TileSilhouette` si sa matière n'occupe pas toute la case (falaises, bords d'eau, ponts) — le
-   `LOT-01` a **conservé ce mécanisme vidé** précisément pour ce lot ;
-8. test d'aller-retour chargeur/écrivain.
-
-#### Note de conception
-
-Le `LOT-01` a supprimé les 25 types de plateforme mais gardé les 11 génériques (`Empty`, `Solid`,
-`Danger`, `Entry`, `Exit`, `Switch`, `Door`, `PressurePlate`, `Block`, `Key`, `LockedDoor`) : le
-vocabulaire de puzzle sert tel quel au RPG. Ce lot **ajoute**, il ne remplace pas.
-
-#### Exigences couvertes
-
-`EX-EXP-*`, `EX-EDIT-*`, `EX-REN-*`.
-
-#### Critères d'acceptation
-
-- Chaque nouveau type a : un libellé fr/en, une classe de palette, un rendu procédural de repli, et
-  un test d'aller-retour.
-- Le jeu se lance et affiche une carte **sans aucun fichier d'image** présent.
-- `TILE_TYPE_COUNT` reste dérivé du dernier énumérateur — aucune borne recopiée à la main.
 
 ### LOT-09 — Graphe de cartes et transitions {#lot-09}
 
