@@ -14,10 +14,16 @@ d'exigences `EX-…`.
 Contrairement aux spécifications, les lots **conservent** leur numéro (`LOT-XX`) :
 c'est un identifiant stable, jamais réordonné.
 
-> **Numérotation repartie à `LOT-01`.** Ce dépôt est dérivé de `ProjectGaming` (jeu de plateforme
-> livré en `0.1.3` après 74 lots). Son programme de lots est archivé en lecture seule sous
-> `Documentation/Heritage/Lot/` et n'est plus référencé ici : les deux ensembles ne se croisant
-> jamais, un `LOT-XX` de cette page désigne sans ambiguïté un lot du RPG.
+> **Numérotation repartie à `LOT-01`, et les deux plages se recouvrent désormais.** Ce dépôt est
+> dérivé de `ProjectGaming` (jeu de plateforme livré en `0.1.3` après 74 lots). Son programme de
+> lots est archivé en lecture seule sous `Documentation/Heritage/Lot/`.
+>
+> On a longtemps pu écrire que les deux ensembles « ne se croisaient jamais ». **Ce n'est plus
+> vrai** : la feuille de route atteint `LOT-84` et recouvre entièrement la plage héritée. Les
+> spécifications portent **208 renvois `LOT-NN` ambigus dans douze fichiers**, que ni le lint ni
+> Doxygen ne signalent. Le `LOT-78` les classe et préfixe les renvois hérités en `LOT-H-XX` ; il
+> doit précéder la création du premier dossier de lot au-delà du `LOT-29`. D'ici là, un `LOT-XX`
+> cité dans une spécification **peut désigner l'un ou l'autre programme**.
 
 ## Lots
 
@@ -32,7 +38,7 @@ c'est un identifiant stable, jamais réordonné.
 ## Feuille de route
 
 - @subpage roadmap-010 — le programme complet : ce que le corpus
-  `Documentation/SourceBook/` permet d'en tirer, les lots `LOT-08` à `LOT-76`, et l'audit qui
+  `Documentation/SourceBook/` permet d'en tirer, les lots `LOT-08` à `LOT-84`, et l'audit qui
   a confronté le tout à l'état réel du dépôt.
 
 ## Programme
@@ -49,11 +55,14 @@ tactique au d20 » — reste le jalon qui prouve la boucle avant qu'on la géné
 | C — Noyau RPG | `LOT-12` → `LOT-17` | Dés et jets d20, fiche de personnage, inventaire, PNJ et dialogues, quêtes, sauvegarde |
 | D — Combat tactique | `LOT-18` → `LOT-24` | Bascule exploration ↔ combat, grille tactique, initiative, attaques, ligne de vue, IA, IHM de combat |
 | E — Contenu et finition | `LOT-25` → `LOT-29` | Sorts, économie, contenu du slice, audio et version `0.2.0`, groupe de quatre personnages |
-| F — Filière contenu | `LOT-30` → `LOT-76` | Extraction du corpus, catalogues de données, monde et peuplement, une classe par lot, refonte IHM et éditeur, mécaniques manquantes |
+| F — Filière contenu | `LOT-30` → `LOT-84` | Préconditions (spécification RPG, numéros, chargement de données), extraction du corpus, catalogues, monde et peuplement, une classe par lot, refonte IHM, mécaniques manquantes |
 
-La phase F **ne suit pas** les précédentes : elle s'entrelace avec B à E, chacun de ses lots servant
-un lot des phases antérieures qui, sans lui, se bâtirait sur un catalogue fictif. L'ordre
-d'exécution recommandé est donné par la [feuille de route](@ref roadmap-010), §6.
+La phase F compte **51 lots** — quatre numéros (`LOT-31`, `LOT-48`, `LOT-71`, `LOT-73`) ayant été
+retirés par fusion et n'étant pas réattribués. Elle **ne suit pas** les précédentes : elle
+s'entrelace avec B à E, chacun de ses lots servant un lot des phases antérieures qui, sans lui, se
+bâtirait sur un catalogue fictif. L'ordre d'exécution recommandé, le chemin critique jusqu'au
+`LOT-27` et le graphe complet des dépendances sont donnés par la
+[feuille de route](@ref roadmap-010), §6 — et vérifiés en CI par `scripts/lint_lots.py`.
 
 Décisions de cadrage actées avant le `LOT-01` : règles **d20 maison** (compatible SRD dans sa
 structure, sans en dépendre), combat **sur la carte d'exploration** (grille dérivée de la couche

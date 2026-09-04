@@ -406,6 +406,13 @@ jobs:
       - name: Lint des identifiants d'exigences
         run: python3 scripts/lint_exigences.py
 
+      # Garde-fou de la feuille de route : elle est l'unique source de verite des lots a venir,
+      # et un document de 2 500 lignes derive. Ce lint refuse un cycle de prerequis, un lien
+      # declare d'un seul cote, un lot absent du tableau d'ordre, un compte annonce faux, une
+      # exigence revendiquee deux fois, ou un diagramme qui trace une fleche que rien ne declare.
+      - name: Lint du graphe de lots
+        run: python3 scripts/lint_lots.py
+
       - name: Version de Qt coherente CMake / CI (EX-BUILD-010)
         run: python3 scripts/check_qt_version_pin.py
 
