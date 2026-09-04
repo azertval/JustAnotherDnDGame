@@ -194,7 +194,7 @@ Les lots [LOT-13](@ref lot-13) (fiche de personnage), [LOT-14](@ref lot-14) (inv
 **JSON** », conformément à [`EX-VIS-007`](@ref EX-VIS-007). Aucun ne dit **d'où sortent ces JSON**.
 C'est exactement le trou que ce corpus comble, et c'est le périmètre de cette filière.
 
-Vingt lots, `LOT-30` à `LOT-49`. Les numéros sont, comme toujours, des identifiants stables : ils
+Quarante lots, `LOT-30` à `LOT-69`. Les numéros sont, comme toujours, des identifiants stables : ils
 viennent après [LOT-29](@ref lot-29) dans la numérotation, mais plusieurs s'exécutent **avant** les
 lots qui les consomment (voir §6). Une nouvelle famille d'exigences `EX-CNT-*` les couvre, à écrire
 dans un `Documentation/Specification/contenu.md`.
@@ -658,31 +658,37 @@ des Monstres* : 17 familles, une fin, un critère de fin.
 terme de règle traduit est conforme au lexique du `LOT-31` ; dix profils sont vérifiés à la main
 contre le PDF.
 
-### `LOT-47` — Le roster complet de classes
+### `LOT-47` — Socle de classe, et le guerrier comme preuve
 
 *Prérequis : `LOT-36`, `LOT-43`, `LOT-49`.*
 
-Les classes définitives, celles qui remplacent l'échafaudage du `LOT-36`. Trois apports :
+Non pas les seize classes, mais **ce qui leur est commun** — et une seule classe pour le démontrer.
 
-- les **12 classes de base** — 4 des *Basic Rules* (clerc, guerrier, magicien, roublard) et 8 du
-  *Manuel des Joueurs* (barbare, barde, druide, moine, paladin, rôdeur, ensorceleur, sorcier) ;
-- les **4 classes inédites** de Tanares (dragonblade, élémentaliste, madwalker, redeemer) ;
-- la **vingtaine de sous-classes** du *Player's Guide*, qui se greffent sur les 12 précédentes — et
-  qui sont la raison pour laquelle le *Manuel des Joueurs* est indispensable : sans druide, pas de
-  Cercle de la Floraison.
+Grouper seize classes dans un lot serait cacher une phase entière derrière un numéro. Une classe
+n'apporte pas des données, elle apporte une **mécanique** : la rage n'est pas la magie de pacte, la
+forme sauvage n'est pas l'attaque sournoise. Chacune se code, se teste et se règle séparément. D'où
+le découpage en `LOT-51` à `LOT-65`, **une classe par lot**.
 
-Les **31 tables de progression** sont le travail réel : chacune est un tableau de 20 lignes où un
-décalage d'une ligne donne à une classe les capacités du niveau voisin — faux, et faux sans rien
-casser. Le §4 le démontre sur la table du barbare : illisible en `-layout`, exacte en `-table`.
-L'extraction est donc faisable, mais le mode d'extraction n'est pas négociable, et la sortie passe
-au contrôle du `LOT-49` parce que les valeurs viennent d'un scan.
+Ce lot-ci pose donc le contrat commun : ce qu'une classe **déclare** (dé de vie, maîtrises,
+caractéristiques de sauvegarde, table de progression sur 20 niveaux, niveau de choix de sous-classe,
+ressources propres), comment une **ressource de classe** se décrit génériquement — quantité, cadence
+de récupération (repos court, repos long, à volonté), et ce qu'elle alimente — et comment une
+**sous-classe** se greffe sans dupliquer sa classe mère.
 
-**Le lot ne se clôt pas sur la livraison** mais sur le retrait : les quatre classes provisoires du
-`LOT-36` sont supprimées, et rien ne doit s'en apercevoir.
+Il le prouve sur le **guerrier**, la classe la plus simple : pas d'incantation, deux ressources
+seulement (Second souffle, Fougue), et l'Attaque supplémentaire qui suffit à valider la boucle
+d'attaque du [LOT-21](@ref lot-21). Si le socle ne tient pas pour le guerrier, il ne tiendra pour
+personne.
 
-*Acceptation* — une table de progression extraite est comparée ligne à ligne au PDF sur au moins
-trois classes ; toute classe exigeant un mécanisme absent du moteur est listée au chargement ; les
-fichiers marqués `"statut": "provisoire"` ont disparu et aucune référence ne pend.
+Les **31 tables de progression** sont extraites ici pour toutes les classes, même celles dont la
+mécanique viendra plus tard : le §4 le démontre sur la table du barbare, illisible en `-layout` et
+exacte en `-table`. La donnée peut précéder le code — c'est même souhaitable, cela rend le travail
+restant visible.
+
+*Acceptation* — le guerrier est jouable du niveau 1 au niveau 5, ses deux ressources se consomment
+et se récupèrent au bon repos ; les 31 tables sont extraites et trois d'entre elles comparées ligne
+à ligne au PDF ; ajouter une classe ne demande de toucher à **aucun** fichier C++ existant hors
+l'ajout de sa mécanique propre.
 
 ### `LOT-48` — Portraits et illustrations
 
@@ -722,6 +728,224 @@ volontairement hors norme existe, un OCR raté aussi, et seul un humain les dist
 *Acceptation* — une valeur sciemment corrompue dans un profil de test est détectée ; le rapport
 distingue l'anomalie confirmée de l'anomalie acceptée, et cette acceptation est **enregistrée dans
 la donnée** pour ne pas être re-signalée à chaque exécution.
+### `LOT-50` — Le Colisée : bac à sable de combat
+
+*Prérequis : [LOT-19](@ref lot-19), [LOT-20](@ref lot-20), [LOT-21](@ref lot-21), `LOT-47`.
+Prérequis de `LOT-51` à `LOT-65`.*
+
+Un lieu pour éprouver le combat, encore et encore, sans monter une partie complète à chaque essai.
+Et le corpus en fournit un qui n'est pas un outil de développement déguisé : **les Arènes de
+Tanares**, mentionnées cent fois dans le Sourcebook, sont une institution centrale du monde.
+
+Ce qu'elles apportent est presque taillé pour l'usage :
+
+- **Le combat y est non létal.** « Les Arènes opposent deux camps d'un conflit, représentés par
+  leurs Héros, pour résoudre les impasses sans recourir à la guerre ni aux morts. » La sécurité des
+  combattants tient à un rituel de **Marque Héroïque** de l'Église évolutionniste. Un affrontement
+  se rejoue donc indéfiniment, ce qui est exactement ce qu'on demande à un banc d'essai — et ici
+  c'est la fiction qui l'explique, pas une entorse aux règles.
+- **N'importe quel appariement est justifié.** La *Law of the Arena* est le mode de résolution des
+  litiges de l'Empire : la Malédiction malrokienne interdisant la guerre ouverte, les conflits entre
+  citoyens ou entre régions se tranchent en arène. Opposer un moine à trois gobelins n'a donc pas
+  besoin de prétexte.
+- **Huit rôles tabulés.** Les Marques Héroïques se déclinent en Bruiser, Brute, Commander,
+  Controller, Healer, Shooter, Tactician, Tank — une taxonomie toute faite pour vérifier que chaque
+  classe livrée remplit bien le sien.
+- **Les feats d'équipe** du *Player's Guide* (Coordinated Attack, Group Opportunity, Phalanx
+  Tactics…) s'y branchent directement, et anticipent le [LOT-29](@ref lot-29).
+
+Le lot livre l'arène comme **carte jouable** — une grille tactique dégagée, des gradins, des points
+d'entrée — plus un écran de mise en place : choisir les combattants de chaque camp, leur niveau,
+leur équipement, et lancer. Rejouable à graine fixée pour comparer deux versions d'une mécanique.
+
+Sa vertu la plus durable est de n'être **jamais du code jetable** : c'est une zone du jeu final,
+avec ses combats de gloire, sa Marque Héroïque à gagner et son statut social — le monde de Tanares
+est né du jeu de plateau *Arena: The Contest*, et l'arène y est chez elle.
+
+*Acceptation* — un affrontement se met en place, se joue et se rejoue **sans quitter le jeu** ; à
+graine et composition égales, deux exécutions donnent le même déroulé ; aucun combattant n'y meurt
+définitivement ; l'arène s'ouvre aussi comme une carte ordinaire depuis le monde
+(`LOT-42`).
+
+### `LOT-51` à `LOT-65` — une classe par lot
+
+*Prérequis de chacun : `LOT-47`, `LOT-50`.*
+
+Quinze lots sur le même patron, un par classe restante. Chacun livre : la classe complète du niveau
+1 au niveau 20, **sa mécanique propre implémentée dans le moteur**, au moins une sous-classe, et ses
+tests.
+
+Le critère d'acceptation est commun et tient en une phrase : **la classe se joue dans le Colisée
+contre un adversaire de son niveau, et sa mécanique propre s'y observe** — la rage réduit
+effectivement les dégâts subis, le châtiment divin consomme bien un emplacement, la forme sauvage
+change réellement le profil. Une classe dont la mécanique ne se voit pas en combat n'est pas livrée.
+
+| Lot | Classe | Mécanique propre | Ce qu'elle exige du moteur |
+|---|---|---|---|
+| `LOT-51` | Barbare | Rage, défense sans armure | Ressource par repos long, résistance conditionnelle, CA calculée autrement |
+| `LOT-52` | Roublard | Attaque sournoise, Ruse | Condition d'avantage ou d'allié adjacent, action bonus de déplacement |
+| `LOT-53` | Clerc | Conduit divin, sorts préparés | Emplacements, distinction préparés / connus, canal à usage limité |
+| `LOT-54` | Magicien | Grimoire, restauration arcanique | Préparation depuis un grimoire, récupération partielle d'emplacements |
+| `LOT-55` | Barde | Inspiration bardique | Dé confié à un **autre** personnage, dépensé plus tard, à distance |
+| `LOT-56` | Moine | Ki, arts martiaux | Ressource par repos **court**, progression des attaques à mains nues |
+| `LOT-57` | Paladin | Châtiment divin, auras | Conversion d'emplacement en dégâts, effet de zone permanent autour du porteur |
+| `LOT-58` | Rôdeur | Ennemi juré, explorateur | Bonus conditionnés au **type** de créature et au terrain |
+| `LOT-59` | Ensorceleur | Points de sorcellerie, métamagie | Conversion ressource ↔ emplacement, altération d'un sort à l'incantation |
+| `LOT-60` | Sorcier | Magie de pacte, manifestations occultes | **Un second système d'emplacements** : peu nombreux, toujours au niveau maximal, récupérés au repos court |
+| `LOT-61` | Druide | Forme sauvage | **Substitution complète du profil de créature** — le plus lourd du lot |
+| `LOT-62` | Élémentaliste | Éléments primordiaux, sorts de fusion | Liste de sorts dédiée, combinaison de deux sorts en un |
+| `LOT-63` | Dragonblade | Voies draconiques | Ressource liée à un dragon choisi, effets par couleur |
+| `LOT-64` | Madwalker | *Trails* aberrantes | Progression par piste plutôt que par sous-classe unique |
+| `LOT-65` | Redeemer | Bénédictions | Liste de bénédictions accordées à autrui, distincte des sorts |
+
+Deux d'entre eux méritent d'être vus venir. Le **druide** (`LOT-61`) remplace le profil entier du
+personnage par celui d'une bête pendant sa forme sauvage : c'est le seul cas où une classe touche à
+l'agrégat que le [LOT-13](@ref lot-13) suppose stable, et il vaut mieux l'aborder tard, une fois le
+reste éprouvé. Le **sorcier** (`LOT-60`) introduit un système d'emplacements parallèle : si le
+`LOT-25` a codé « les emplacements » au singulier, il faudra y revenir — autant le savoir avant.
+
+L'ordre du tableau n'est pas alphabétique : il va du plus simple au plus intrusif, pour que chaque
+lot bénéficie du précédent.
+
+**Le dernier lot livré retire l'échafaudage** : les quatre classes provisoires du `LOT-36` sont
+supprimées, et rien ne doit s'en apercevoir.
+
+### `LOT-66` — Charte visuelle : sortir de l'identité pixel art
+
+*Prérequis : `LOT-39`. Prérequis de `LOT-67`, `LOT-68`, `LOT-38`.*
+
+L'interface actuelle est celle du jeu de plateforme dont ce dépôt est issu, et elle **contredit
+désormais explicitement** le reste des décisions. Ce n'est pas une impression, c'est écrit dans la
+spécification :
+
+> `EX-IHM-070` — « Les écrans du **jeu** doivent porter une identité **pixel art** assumée : police
+> bitmap embarquée et cadres à bordure franche, rendus **sans lissage** à un facteur
+> d'agrandissement **entier**. »
+
+Cette exigence est justifiée dans le texte par « le menu d'un jeu de plateforme en pixel art ». Or le
+`LOT-38` part d'une maquette de fiche à **300 ppp** et le `LOT-39` de **panneaux de parchemin
+peints** extraits des livres. Une police bitmap non lissée et une illustration peinte à 300 ppp ne
+cohabitent pas : il faut trancher, et le trancher **avant** que cinq écrans n'inventent chacun leur
+langage visuel.
+
+Le lot livre donc :
+
+- la **nouvelle identité**, prise sur les références que tu as désignées — les feuilles de
+  personnage (`Character_Sheets_Tanares.pdf`, 2 668 × 3 418) pour la structure et la hiérarchie
+  typographique, les livres Tanares pour l'habillage : parchemin, cadres ornés, titrage à
+  empattements, illustration peinte ;
+- la **réécriture des tokens** de la portée identité (`DesignTokens`), dont les rôles « cadre pixel
+  art » disparaissent au profit de rôles de panneau, de bordure ornée et de parchemin ;
+- la **mise à jour d'`interface-ihm.md`** : `EX-IHM-070` est retirée ou refondue, et les sections
+  encore intitulées « (LOT-56) », « (LOT-57) », « (LOT-68) », « (LOT-73) » cessent de renvoyer au
+  programme **hérité** de `ProjectGaming`, dont les numéros ne veulent plus rien dire ici.
+
+Deux garde-fous à ne pas perdre au passage, parce qu'ils sont bons et indépendants de l'esthétique :
+la marque de focus explicite d'`EX-IHM-071` — une teinte seule ne se suit pas à la manette, et ne se
+voit pas du tout pour qui distingue mal les couleurs — et l'interdiction des réglages inopérants
+d'`EX-IHM-072`. La **portée éditeur** n'est pas concernée : un outil de travail garde son apparence
+d'outil de travail, et aucun parchemin ne doit se répandre dans ses tables denses.
+
+> **Attention à la collision de numéros.** `Documentation/Heritage/` est exclu de la Doxygen
+> précisément parce que ses ancres `{#lot-01}` à `{#lot-74}` entreraient en conflit avec le
+> programme courant. Une section de spécification qui dit « (LOT-68) » en désignant un lot hérité,
+> alors qu'un `LOT-68` existe désormais ici, est un piège à relecture. Ce lot le désamorce.
+
+*Acceptation* — un écran du jeu et un écran de l'éditeur placés côte à côte se distinguent
+immédiatement ; `scripts/check_design_tokens.py` passe sur les nouveaux rôles ; aucune section
+d'`interface-ihm.md` ne référence plus un numéro de lot hérité ; le focus reste signalé par une
+marque, pas par une teinte.
+
+### `LOT-67` — Menus et vocabulaire d'un RPG
+
+*Prérequis : `LOT-66`.*
+
+Les menus existants décrivent un autre jeu, littéralement. `fr.lang` porte encore
+`menu.select_level = Choisir un niveau`, `pause.restart = Recommencer le niveau`, et un
+`pause.quit_confirm_text` qui parle de « la progression du **tableau** en cours ». Un bac à sable
+ouvert n'a ni niveau à choisir, ni tableau à recommencer.
+
+Le lot refond le **menu principal** (continuer, nouvelle partie, créer un personnage, options,
+crédits), l'**écran de pause** (reprendre, fiche, inventaire, journal, carte, options, quitter) et
+migre la famille de clés `level.*`, héritée de la sélection de tableaux, vers le vocabulaire du
+monde — sans laisser de clé morte derrière elle.
+
+C'est le lot le moins spectaculaire de la refonte et celui qui se voit le plus : un joueur qui lit
+« Recommencer le niveau » dans un monde ouvert comprend en une seconde que le jeu n'a pas été
+terminé.
+
+*Acceptation* — plus aucune clé de traduction n'emploie « niveau » ou « tableau » au sens du jeu de
+plateforme ; les deux catalogues `fr.lang` et `en.lang` restent synchrones ; chaque entrée de menu
+mène à un écran qui existe (`EX-IHM-072` : pas de réglage ni d'entrée inopérants).
+
+### `LOT-68` — Le châssis des écrans RPG
+
+*Prérequis : `LOT-66`. Alimente `LOT-38`, `LOT-42`, `LOT-45`, [LOT-24](@ref lot-24).*
+
+Huit écrans manquent, et aucun n'existe même en ébauche : fiche de personnage, inventaire et
+équipement, journal de quêtes, carte du monde, dialogue, marchand, tableau de la Guilde, ATH de
+combat.
+
+Ce lot ne les **remplit** pas — c'est le travail du `LOT-38` pour la fiche, du `LOT-42` pour la
+carte, du `LOT-45` pour la guilde, du [LOT-24](@ref lot-24) pour le combat. Il livre ce qu'ils ont
+en commun et qu'aucun ne doit réinventer : le **cadre** (panneau, titre, zone de contenu, pied
+d'actions), la **navigation** (ouverture, fermeture, retour, passage d'un écran à l'autre sans
+repasser par le menu), le **parcours de focus** à la manette, et la règle de superposition — ce qui
+met le jeu en pause et ce qui se consulte en marchant.
+
+Sans ce châssis, les quatre lots qui suivent produisent quatre écrans qui s'ouvrent différemment,
+se ferment différemment et se naviguent différemment. Avec lui, ils ne produisent que du contenu.
+
+*Acceptation* — les huit écrans existent, même vides, et se naviguent entièrement à la manette ; un
+écran s'ouvre et se ferme depuis n'importe quel autre sans repasser par le menu principal ; ajouter
+un neuvième écran ne demande de toucher à aucun des huit.
+
+### `LOT-69` — L'éditeur devient le mode édition de l'arène
+
+*Prérequis : `LOT-50`, `LOT-66`. Réoriente [LOT-11](@ref lot-11) ; alimente `LOT-40`,
+[LOT-27](@ref lot-27).*
+
+L'éditeur hérité est un outil Qt séparé, conçu pour dessiner les tableaux d'un jeu de plateforme :
+navigateur de niveaux, panneaux de plans, de palette, de texture, d'historique de pixels. Deux
+choses le périment d'un coup.
+
+D'abord, le `LOT-66` supprime l'identité pixel art — et avec elle la raison d'être de l'**atelier
+pixel art** que l'`EX-IHM-073` impose aujourd'hui comme l'un des deux espaces de travail exclusifs.
+Un atelier de dessin de sprites au pixel n'a plus d'objet dans un jeu habillé de parchemin peint et
+d'illustrations à 300 ppp.
+
+Ensuite, le `LOT-50` a livré un lieu qui fait déjà tout ce qu'un éditeur doit faire : une grille
+tactique, des combattants qu'on choisit et qu'on place, une mise en place rejouable. Il ne lui
+manque que la liberté de poser autre chose que des combattants.
+
+D'où le renversement : **l'édition devient un mode de l'arène**, pas une application à côté. On
+entre en mode édition depuis le jeu, on pose librement décors, objets, coffres, PNJ et ennemis sur
+la grille, on sort du mode, et on joue immédiatement ce qu'on vient de poser. La boucle
+« modifier → constater » tombe de plusieurs minutes à quelques secondes, et c'est cette boucle qui
+décide si un outil sert vraiment.
+
+`EX-VIS-006` — « un éditeur permettant à des membres non-développeurs de créer du contenu sans
+coder » — s'en trouve mieux servi, pas abandonné : poser un PNJ dans la scène où on le verra
+demande moins d'apprentissage qu'un panneau d'entités dans un outil séparé.
+
+Ce qui est **conservé** : le format de niveau du [LOT-04](@ref lot-04), les couches, la couche de
+collision qui fait foi, les portails, et la validation du graphe. Ce qui est **retiré** : l'atelier
+pixel art, l'historique de pixels, les panneaux de texture et de palette — avec la révision
+d'`EX-IHM-073`, qui n'a plus deux espaces à rendre exclusifs.
+
+Le `LOT-40` y gagne son débouché naturel : une carte générée s'ouvre dans ce mode, se corrige à la
+main et se rejoue sur place.
+
+> Ce lot **réoriente** le [LOT-11](@ref lot-11) plutôt qu'il ne l'annule. Si le `LOT-11` est déjà
+> livré quand celui-ci démarre, il en devient une refonte ; s'il ne l'est pas encore, autant que le
+> `LOT-11` vise directement cette cible et évite de construire un outil qu'on remplacera. Cette
+> seconde branche est la moins chère, et le projet en est encore au `LOT-08`.
+
+*Acceptation* — on entre en mode édition, on place un PNJ et un coffre, on sort, et les deux sont
+immédiatement jouables **sans rechargement** ; une carte générée par le `LOT-40` s'y ouvre et s'y
+corrige ; le contenu du [LOT-27](@ref lot-27) est produit dans ce mode, pas en écrivant du JSON à la
+main ; aucun panneau de l'atelier pixel art ne subsiste.
+
 
 ---
 
@@ -732,7 +956,7 @@ lots qui les consomment, sans quoi ces derniers se construisent sur des catalogu
 catalogue fictif finit toujours par se figer en valeurs codées en dur, exactement ce que
 [`EX-VIS-007`](@ref EX-VIS-007) interdit.
 
-Ces vingt lots ne forment **pas une phase** qui suivrait le [LOT-29](@ref lot-29) : ils s'entrelacent
+Ces quarante lots ne forment **pas une phase** qui suivrait le [LOT-29](@ref lot-29) : ils s'entrelacent
 avec les phases B à E, parce que chacun sert un lot existant qui, sans lui, se construirait sur un
 catalogue fictif — et un catalogue fictif finit toujours par se figer en valeurs codées en dur,
 exactement ce que [`EX-VIS-007`](@ref EX-VIS-007) interdit. D'où « filière » plutôt que « phase ».
@@ -749,7 +973,10 @@ exactement ce que [`EX-VIS-007`](@ref EX-VIS-007) interdit. D'où « filière »
 | Après [LOT-11](@ref lot-11) | `LOT-40` | La génération produit des niveaux que l'éditeur doit savoir rouvrir |
 | **Après [LOT-27](@ref lot-27)** | `LOT-44`, `LOT-41`, `LOT-45`, `LOT-42` | Le bac à sable généralise une boucle ; il faut l'avoir validée une fois |
 | Avant `LOT-41` | `LOT-46` | Peupler dix régions demande plus que les 94 bêtes du SRD |
-| Avant [LOT-25](@ref lot-25), après [LOT-21](@ref lot-21) | `LOT-47` | Le roster définitif remplace l'échafaudage une fois le combat éprouvé |
+| Après [LOT-21](@ref lot-21) | `LOT-47`, puis `LOT-50` | Le socle de classe, puis le lieu où éprouver ce qu'on lui ajoute |
+| Un par un, après `LOT-50` | `LOT-51` → `LOT-65` | Une classe, une mécanique, un test dans l'arène ; le dernier retire l'échafaudage |
+| **Avant `LOT-38`**, après `LOT-39` | `LOT-66`, `LOT-67`, `LOT-68` | La charte gate tous les écrans ; sans elle, chacun invente son langage |
+| Avec `LOT-50`, avant [LOT-27](@ref lot-27) | `LOT-69` | L'édition dans l'arène est ce qui produira le contenu du slice |
 | En fond, sans jalon | `LOT-48` | Volume long, sans blocage : se remplit par lots successifs |
 
 Trois lignes méritent qu'on s'y arrête.
@@ -794,12 +1021,14 @@ Source/Elements/Rpg/
   items/*.json              ← équipement, monnaie, objets magiques (LOT-34)
   spells/, conditions/      ← sorts et états (LOT-35)
   species/, backgrounds/    ← especes et historiques (LOT-36)
-  classes/*.json            ← socle (LOT-36), puis Tanares et progressions (LOT-47)
+  classes/*.json            ← 4 provisoires (LOT-36), socle et 31 tables (LOT-47),
+                              puis une classe par lot (LOT-51 a LOT-65)
   feats/, skills/, languages/        ← options de personnage (LOT-43)
   tables/*.json             ← noms, personnalite, babioles (LOT-44)
   guild/*.json              ← rangs et gabarits de contrat (LOT-45)
 
 Source/Elements/World/
+  arena/*.json              ← Colisee : appariements, marques heroiques, roles (LOT-50)
   regions/*.json            ← 10 regions : statistiques, especes, factions, terrain (LOT-37)
   locations/*.json          ← lieux nommes, avec leurs effets mecaniques (LOT-37)
   factions/, pantheon/, organizations/            ← (LOT-37)
@@ -839,8 +1068,22 @@ Source/Core/World/
   greffent les sous-classes de Tanares. Son OCR se traite (§4).
 - **Les 4 classes simplifiées de Tanares sont un échafaudage.** Elles servent de socle au premier
   modèle de combat (`LOT-36`) et **seront retirées** au profit des 12 classes complètes
-  (`LOT-47`). Elles portent pour cela un `"statut": "provisoire"` en donnée, et le `LOT-47` ne se
-  clôt que sur leur suppression effective.
+  du `LOT-51` au `LOT-65`. Elles portent pour cela un `"statut": "provisoire"` en donnée, et le
+  **dernier lot de classe livré** ne se clôt que sur leur suppression effective.
+- **Une classe par lot, pas un lot pour toutes.** Une classe apporte une mécanique — rage, forme
+  sauvage, magie de pacte — qui se code, se teste et se règle séparément. Le `LOT-47` ne porte donc
+  que le socle commun et le guerrier ; les quinze autres classes ont chacune leur lot.
+- **Le Colisée est le bac à sable de combat** (`LOT-50`), et il n'est pas un outil jetable : les
+  Arènes sont une institution centrale de Tanares, leurs combats sont non létaux par la fiction
+  même, et la zone sert telle quelle dans le jeu final.
+- **La charte IHM est refondue** (`LOT-66` → `LOT-68`). L'identité **pixel art** imposée par
+  `EX-IHM-070` était celle du jeu de plateforme d'origine et contredit frontalement une maquette de
+  fiche à 300 ppp et des panneaux de parchemin peints. Références retenues : les feuilles de
+  personnage pour la structure, les livres Tanares pour l'habillage. Les menus suivent — un monde
+  ouvert n'a ni « niveau à choisir » ni « tableau à recommencer ».
+- **L'éditeur devient un mode de l'arène** (`LOT-69`) : placement libre de décors, objets et PNJ
+  depuis le jeu, sans application séparée. L'atelier pixel art est retiré, faute d'objet une fois
+  l'identité pixel art abandonnée. Réoriente le [LOT-11](@ref lot-11), qui n'est pas encore livré.
 - **Région de départ : la République des Freelands.** Ses propres statistiques l'argumentent :
   `Monster Presence` haute — les rencontres se justifient d'elles-mêmes, ce que le Central Empire,
   noté *Low*, ne permet pas ; économie fondée sur les mercenaires et les parts de monstres — le
@@ -850,7 +1093,7 @@ Source/Core/World/
 
 ### À trancher
 
-- **Écrire `contenu.md` d'abord.** La famille `EX-CNT-*` n'existe pas et vingt lots la référencent.
+- **Écrire `contenu.md` d'abord.** La famille `EX-CNT-*` n'existe pas et quarante lots la référencent.
   C'est une précondition, pas une question ouverte — mais elle demande une décision : quelles
   exigences la filière contenu porte-t-elle exactement ?
 - **Profondeur du bac à sable.** Le `LOT-41` compose des quêtes par gabarit et le `LOT-45` les

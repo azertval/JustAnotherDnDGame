@@ -50,10 +50,12 @@ c'est un identifiant stable, jamais réordonné.
 
 - @subpage corpus-sources — analyse des huit PDF de `Documentation/SourceBook/` (contenu,
   faisabilité de l'extraction, licences en sommeil) et **filière contenu proposée**, `LOT-30` à
-  `LOT-49` : importer l'univers complet — 10 régions, 13 espèces, 8 classes, ~600 créatures — en
-  catalogues JSON, textures et habillage, puis le rendre parcourable en **bac à sable** par
-  génération de terrain, peuplement systémique et Guilde des Aventuriers. Ces lots s'entrelacent
-  avec les phases B à E ; ils ne les suivent pas.
+  `LOT-69` : importer l'univers complet — 10 régions, 13 espèces, 16 classes, 176 créatures — en
+  catalogues JSON, textures et habillage ; le rendre parcourable en **bac à sable** par génération
+  de terrain, peuplement systémique et Guilde des Aventuriers ; éprouver chaque classe dans le
+  **Colisée** à raison d'un lot par classe ; et refondre la **charte IHM**, les menus et l'éditeur,
+  hérités du jeu de plateforme d'origine. Ces lots s'entrelacent avec les phases B à E ; ils ne les
+  suivent pas.
 
 ## Programme
 
