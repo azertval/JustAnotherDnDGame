@@ -12,7 +12,12 @@ Vérifie que les identifiants d'exigences forment un référentiel cohérent :
 - toute exigence **déclarée** est référencée au moins une fois quelque part (spécification
   détaillée, lot, code) — sauf si elle est explicitement qualifiée d'**invariant transverse** ou de
   **post-MVP** dans le fichier de spécification qui la déclare (LOT-66 TACHE-03) : ce silence-là est
-  documenté, pas orphelin.
+  documenté, pas orphelin ;
+- toute référence à une **famille entière** (``EX-XXX-*``) désigne une famille qui existe.
+
+Ce dernier contrôle comble un angle mort : ``ID_RE`` ne capte que ``EX-XXX-NNN``, si bien qu'un
+``EX-DND-*`` cité par une dizaine d'epics n'était **ni** une déclaration **ni** une référence — et
+passait donc au vert alors qu'aucune exigence de cette famille n'existait nulle part.
 
 Usage :
   python scripts/lint_exigences.py           # contrôle (code de sortie 1 si problème)
@@ -25,6 +30,9 @@ import sys
 ID_RE = re.compile(r'EX-[A-Z]+-[0-9]+')
 ANCHOR_RE = re.compile(r'\\anchor\s+(EX-[A-Z]+-[0-9]+)')
 SPLIT_RE = re.compile(r'(EX-[A-Z]+)-([0-9]+)')
+# Référence à une famille entière : `EX-DND-*`. Volontairement distincte d'ID_RE, qui exige des
+# chiffres — c'est cette distinction qui laissait passer les familles inexistantes.
+FAMILY_REF_RE = re.compile(r'EX-([A-Z]+)-\*')
 
 SCAN_EXTENSIONS = ('.md', '.h', '.hpp', '.cpp', '.yml', '.yaml')
 EXCLUDED_DIRS = {'.git', 'generated', 'build', 'build-release', 'out', 'External', 'bin', 'obj',
@@ -52,13 +60,15 @@ def iter_files(root):
 
 
 def collect(root):
-    """Retourne (declarations, references).
+    """Retourne (declarations, references, family_references).
 
-    declarations : dict id -> liste de (fichier, ligne) des ``\\anchor``.
-    references   : dict id -> liste de (fichier, ligne) de toutes les autres mentions.
+    declarations      : dict id -> liste de (fichier, ligne) des ``\\anchor``.
+    references        : dict id -> liste de (fichier, ligne) de toutes les autres mentions.
+    family_references : dict famille -> liste de (fichier, ligne) des ``EX-XXX-*``.
     """
     declarations = {}
     references = {}
+    family_references = {}
     for path in iter_files(root):
         rel = os.path.relpath(path, root)
         try:
@@ -74,11 +84,13 @@ def collect(root):
                 if rid in anchors_on_line:
                     continue  # le token de l'ancre n'est pas une référence
                 references.setdefault(rid, []).append((rel, number))
-    return declarations, references
+            for family in FAMILY_REF_RE.findall(line):
+                family_references.setdefault('EX-' + family, []).append((rel, number))
+    return declarations, references, family_references
 
 
 def check(root):
-    declarations, references = collect(root)
+    declarations, references, family_references = collect(root)
     errors = []
 
     for rid, places in sorted(declarations.items()):
@@ -98,19 +110,28 @@ def check(root):
                           '(a referencer, ou a qualifier d\'invariant/post-MVP dans '
                           'UNREFERENCED_ALLOWED)' % (rid, spot))
 
+    declared_families = {SPLIT_RE.match(rid).group(1) for rid in declarations}
+    for family, places in sorted(family_references.items()):
+        if family not in declared_families:
+            spots = ', '.join('%s:%d' % p for p in places[:5])
+            suffix = '' if len(places) <= 5 else ', +%d autre(s)' % (len(places) - 5)
+            errors.append('FAMILLE FANTOME : %s-* referencee %d fois mais aucune exigence de cette '
+                          'famille n\'est declaree (%s%s)'
+                          % (family, len(places), spots, suffix))
+
     if errors:
         print('Lint exigences : %d probleme(s)' % len(errors))
         for message in errors:
             print('  - ' + message)
         return 1
 
-    print('Lint exigences : OK (%d exigences declarees, %d referencees).'
-          % (len(declarations), len(references)))
+    print('Lint exigences : OK (%d exigences declarees, %d referencees, %d famille(s) citee(s)).'
+          % (len(declarations), len(references), len(family_references)))
     return 0
 
 
 def next_free(root):
-    declarations, _ = collect(root)
+    declarations, _, _ = collect(root)
     by_category = {}
     width = {}
     for rid in declarations:

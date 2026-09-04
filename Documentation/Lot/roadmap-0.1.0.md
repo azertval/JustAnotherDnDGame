@@ -1,8 +1,17 @@
-# Corpus source — analyse et programme d'exploitation {#corpus-sources}
+# Feuille de route 0.1.0 {#roadmap-010}
+
+Le programme complet de la version `0.1.0`, et **l'unique source de vérité** des lots à venir : les
+lots `LOT-08` à `LOT-76`, ce que le corpus `Documentation/SourceBook/` permet d'en tirer, et l'audit
+qui a confronté le tout à l'état réel du dépôt.
+
+Les sept lots **livrés** (`LOT-01` à `LOT-07`) gardent leur dossier et leur `epic.md` : ils portent
+ce que leur réalisation a tranché, qui est de l'histoire, pas du programme. Tout le reste vit ici,
+et un dossier se crée **au démarrage** d'un lot.
 
 `Documentation/SourceBook/` rassemble le **matériel de référence** ayant servi à construire le monde
-et les règles : huit PDF, environ 1 200 pages, 280 Mo. Cette page dit ce qu'ils contiennent, ce que
-l'extraction a appris techniquement, et découpe le travail en lots.
+et les règles : huit PDF, environ 1 200 pages, 280 Mo. Les sections 1 à 4 disent ce qu'ils
+contiennent et ce que l'extraction a appris ; la section 5 découpe le travail ; les sections 9 et 10
+rapportent l'audit et ce qu'il faut anticiper ; la section 11 porte les lots `LOT-08` à `LOT-29`.
 
 ---
 
@@ -821,7 +830,7 @@ supprimées, et rien ne doit s'en apercevoir.
 > **Corrigé à l'audit, sur deux points.** Ce lot déclarait « Prérequis : `LOT-39` », ce qui le
 > plaçait derrière tout le pipeline de données — alors que **la charte n'a rien à voir avec les
 > créatures** : ses entrées sont la feuille de personnage et les artworks, déjà là. Et il ne visait
-> qu'`EX-IHM-070` alors que **dix exigences** imposent le pixel art.
+> qu'`EX-IHM-070` alors que **neuf exigences** imposent le pixel art.
 
 L'interface actuelle est celle du jeu de plateforme dont ce dépôt est issu, et elle **contredit
 désormais explicitement** le reste des décisions. Ce n'est pas une impression, c'est écrit dans la
@@ -841,7 +850,7 @@ langage visuel.
 échantillonnage *nearest-neighbor*, zoom caméra de préférence en facteurs entiers »), que toutes les
 autres citent. Le périmètre réel est donc de **dix exigences** :
 
-`EX-ARCH-022` (racine) · `EX-DEC-003` · `EX-DEC-043` · `EX-REN-041` · `EX-REN-051` · `EX-IHM-053` ·
+`EX-ARCH-022` (racine) · `EX-DEC-003` · `EX-DEC-043` · `EX-REN-041` · `EX-IHM-053` ·
 `EX-IHM-070` · `EX-IHM-073` · `EX-EDIT-041` · `EX-EDIT-045`.
 
 Une difficulté à regarder en face : le [LOT-01](@ref lot-01) a **délibérément conservé** l'atelier
@@ -856,7 +865,7 @@ Le lot livre donc :
   empattements, illustration peinte ;
 - la **réécriture des tokens** de la portée identité (`DesignTokens`), dont les rôles « cadre pixel
   art » disparaissent au profit de rôles de panneau, de bordure ornée et de parchemin ;
-- la **refonte des dix exigences** ci-dessus, à commencer par `EX-ARCH-022`, et la mise à jour des
+- la **refonte des neuf exigences** ci-dessus, à commencer par `EX-ARCH-022`, et la mise à jour des
   sections d'`interface-ihm.md` encore intitulées « (LOT-56) », « (LOT-57) », « (LOT-68) »,
   « (LOT-73) », qui renvoient au programme **hérité** de `ProjectGaming` ;
 - la **suppression** des ~640 lignes de widgets pixel art de `Source/HMI/Interface/` (`PixelArtScale`,
@@ -1400,3 +1409,987 @@ avec un contrat explicite — « `Core` ne connaît aucune sémantique de `type`
 consommateur hors des tests : ni le rendu, ni l'ECS, ni l'éditeur. Le `LOT-10` (entités et
 interaction) est le premier à pouvoir s'y brancher, et il doit le faire plutôt que d'inventer un
 second conteneur d'entités à côté.
+
+---
+
+## 11. Les lots `LOT-08` à `LOT-29`
+
+Ces vingt-deux lots avaient chacun leur dossier `LOT-NN-nom/`. Ils sont absorbés ici pour que
+la feuille de route ait **une seule source de vérité** : deux documents décrivant le même
+programme divergent, et l'audit a montré qu'ils avaient déjà commencé à le faire.
+
+Leurs **ancres Doxygen sont conservées** (`{#lot-09}`, `{#lot-13}`…), si bien que tous les
+renvois `@ref lot-NN` des spécifications continuent de résoudre. Seuls les `@subpage` de
+`lots.md` disparaissent, faute de pages séparées.
+
+> **Contenu d'origine, corrections signalées.** Le texte de chaque epic est repris tel quel.
+> Là où l'audit l'a contredit — l'éditeur du `LOT-11`, la mort du `LOT-21`, le repos du
+> `LOT-25` — la correction figure dans les sections 5, 9 et 10 ci-dessus, qui font foi.
+
+### LOT-08 — Vocabulaire de tuiles RPG {#lot-08}
+
+> Statut : **à faire**.
+> Prérequis : [LOT-04](@ref lot-04) (les couches donnent leur sens aux types).
+
+#### Objectif
+
+Donner à la palette les types de terrain d'un RPG en vue de dessus, là où le `LOT-01` a laissé le
+strict minimum hérité (11 types).
+
+#### Périmètre
+
+Types à ajouter dans `core::TileType`, à peu près : `Grass`, `Dirt`, `Sand`, `Water`, `DeepWater`,
+`Wall`, `Cliff`, `Bridge`, `Stairs`. La liste exacte se décide au contact du level design, pas
+d'avance.
+
+Pour **chaque** type ajouté, la chaîne complète — c'est la leçon la plus chère de l'héritage, où
+ajouter un type touchait « exactement la même chaîne de huit fichiers » :
+
+1. `TileType.h` (avant le dernier énumérateur, `TILE_TYPE_COUNT` suit tout seul) ;
+2. `TileTypeName.cpp` (le `switch` est exhaustif et sans `default` : le compilateur désigne
+   lui-même ce qu'il reste à faire) ;
+3. `Editor/TileTaxonomy.cpp` (catégorie de palette) et `TaxonomyLabels.cpp` ;
+4. libellés `fr.lang` **et** `en.lang` ;
+5. `ProceduralAtlas` : **rendu de repli déterministe**, dans le même lot, jamais « plus tard » —
+   c'est ce qui garde le jeu lançable sans aucun fichier d'image ;
+6. `TileAutotile` si le type a des raccords ;
+7. `TileSilhouette` si sa matière n'occupe pas toute la case (falaises, bords d'eau, ponts) — le
+   `LOT-01` a **conservé ce mécanisme vidé** précisément pour ce lot ;
+8. test d'aller-retour chargeur/écrivain.
+
+#### Note de conception
+
+Le `LOT-01` a supprimé les 25 types de plateforme mais gardé les 11 génériques (`Empty`, `Solid`,
+`Danger`, `Entry`, `Exit`, `Switch`, `Door`, `PressurePlate`, `Block`, `Key`, `LockedDoor`) : le
+vocabulaire de puzzle sert tel quel au RPG. Ce lot **ajoute**, il ne remplace pas.
+
+#### Exigences couvertes
+
+`EX-EXP-*`, `EX-EDIT-*`, `EX-REN-*`.
+
+#### Critères d'acceptation
+
+- Chaque nouveau type a : un libellé fr/en, une classe de palette, un rendu procédural de repli, et
+  un test d'aller-retour.
+- Le jeu se lance et affiche une carte **sans aucun fichier d'image** présent.
+- `TILE_TYPE_COUNT` reste dérivé du dernier énumérateur — aucune borne recopiée à la main.
+
+### LOT-09 — Graphe de cartes et transitions {#lot-09}
+
+> Statut : **à faire**.
+> Prérequis : [LOT-04](@ref lot-04), [LOT-06](@ref lot-06).
+
+#### Objectif
+
+Remplacer la **séquence linéaire** de tableaux héritée par un **monde de cartes connectées**, où
+chaque carte a des sorties nommées vers d'autres cartes, et où l'on peut revenir sur ses pas.
+
+#### Le problème
+
+`core::LevelSequence` est une **liste ordonnée** : tableau 1, puis 2, puis 3. C'est la structure
+d'un jeu de niveaux discrets, pas d'un monde. Un RPG a besoin d'un **graphe** : un village ouvre
+sur une forêt et sur une auberge, la forêt ramène au village, le donjon a trois entrées.
+
+#### Périmètre
+
+- `Source/Core/World/WorldGraph.{h,cpp}` : cartes, portails, points d'arrivée **nommés**. Un
+  portail référence `(carte cible, nom du point d'arrivée)` — jamais des coordonnées brutes, qui
+  se désynchroniseraient au moindre redimensionnement de la carte cible.
+- Chargement de carte **à chaud**, sans repasser par un écran de sélection.
+- Transition visuelle (fondu) côté `hmi::ScreenFlow`.
+- **Validation au chargement** : un portail dont la carte ou le point d'arrivée n'existe pas est
+  une erreur explicite, pas un plantage à la traversée (`EX-NFR-040`).
+
+`LevelSequence` disparaît ou devient un cas dégénéré du graphe — à trancher à l'implémentation.
+
+#### Exigences couvertes
+
+`EX-EXP-*` (portails, points d'arrivée nommés), `EX-LVL-*` (validation du graphe).
+
+#### Critères d'acceptation
+
+- A → B → A ramène le personnage **au bon point d'arrivée**, pas à l'entrée par défaut de A.
+- Un portail orphelin (carte inconnue, point d'arrivée inconnu) est refusé au chargement avec un
+  message exploitable.
+- Test headless d'un parcours de cinq cartes, aller et retour.
+- L'état de la carte quittée (coffres ouverts, ennemis vaincus) est **conservé** au retour — c'est
+  ce qui distingue un monde d'une séquence de tableaux. Persisté au `LOT-17`.
+
+### LOT-10 — Entités de carte et interaction {#lot-10}
+
+> Statut : **à faire**.
+> Prérequis : [LOT-04](@ref lot-04) (couche `objects`), [LOT-06](@ref lot-06) (orientation du
+> personnage), [LOT-08](@ref lot-08).
+
+#### Objectif
+
+Peupler les cartes d'entités qui ne sont **pas des tuiles** — PNJ, coffres, panneaux, portails,
+déclencheurs — et permettre au joueur d'interagir avec elles.
+
+#### Pourquoi des entités et pas des tuiles
+
+Une tuile, c'est un type par case et rien d'autre : la grille ne porte aucune métadonnée. Le
+platformer avait contourné cela avec des vecteurs annexes indexés par position — le `LOT-01` en a
+retiré quatre. Un PNJ a un nom, un dialogue, un inventaire ; un coffre a un contenu et un état
+« déjà ouvert ». Cela demande une **liste d'objets à propriétés**, ce que la couche `objects` du
+format v3 fournit.
+
+#### Périmètre
+
+- Instanciation ECS depuis la couche `objects` (`LevelScene`), une entité par objet, avec ses
+  propriétés libres.
+- **Cible d'interaction** : la case devant l'orientation du personnage. `core::PlayerInput` porte
+  déjà `interactPressed/Held/Released` — rien à câbler côté entrée.
+- Invite visuelle quand une cible est à portée (le joueur doit savoir qu'il *peut* interagir).
+- Coffre : contenu, état consommé. Panneau : texte localisé.
+
+#### Le piège
+
+Un coffre ouvert deux fois ne doit donner son butin **qu'une fois**, et cet état doit survivre au
+départ puis au retour sur la carte (`LOT-09`) et à la sauvegarde (`LOT-17`). C'est un drapeau de
+monde, pas un booléen local à l'entité rechargée.
+
+#### Exigences couvertes
+
+`EX-EXP-*` (interaction, portée, priorité de cible), `EX-RPG-*` (coffre, panneau).
+
+#### Critères d'acceptation
+
+- Ouvrir un coffre deux fois ne donne le butin qu'une fois, y compris après aller-retour de carte.
+- L'interaction **ne traverse pas un mur**.
+- Quand deux cibles sont à portée, celle désignée est déterministe et prévisible (la plus proche du
+  centre de la case visée).
+
+### LOT-11 — Éditeur multi-couches et placement d'entités {#lot-11}
+
+> Statut : **à faire**.
+> Prérequis : [LOT-04](@ref lot-04), [LOT-08](@ref lot-08), [LOT-10](@ref lot-10).
+
+#### Objectif
+
+Rendre l'éditeur hérité capable d'éditer les **trois couches** et de poser des **entités** avec
+leurs propriétés — c'est-à-dire de produire le contenu du RPG sans écrire de JSON à la main.
+
+#### Ce qui est déjà là
+
+L'éditeur du dépôt d'origine est un poste de travail complet, et il est **entièrement conservé** :
+peinture à la souris, outils rectangle et sélection, liaison de mécanismes, undo/redo, essai
+immédiat, bibliothèque d'assets à vignettes avec rechargement à chaud et détection des références
+avant suppression, atelier pixel art intégré. Ce lot **retarge**, il ne reconstruit pas.
+
+Le `LOT-01` a retiré l'outil « Parcours » et le panneau « Propriétés », qui ne pilotaient que des
+réglages de plateforme.
+
+#### Périmètre
+
+- **Sélecteur de couche active** ; visibilité et opacité par couche (voir le sol sous le décor).
+- Outil **« poser entité »** et panneau de propriétés d'entité (nouveau panneau, remplaçant celui
+  retiré au `LOT-01`).
+- Pose et édition des **portails** (carte cible, point d'arrivée) et des **points d'apparition**.
+- Undo/redo étendu à tout cela — l'éditeur n'a jamais eu de mutation non annulable, cette règle
+  tient.
+- Vue **graphe du monde** dans le navigateur de cartes.
+
+#### La contrainte à rendre visible ici
+
+Le combat se déroulant **sur la carte d'exploration** (décision de cadrage, cf.
+`Documentation/Specification/vision.md`), *toute carte doit être un terrain tactique valide*.
+L'éditeur doit **avertir** quand une zone est trop étroite ou trop encombrée pour y poser une
+rencontre. Découvrir la contrainte au `LOT-18`, une fois vingt cartes dessinées, coûterait leur
+reprise.
+
+#### Exigences couvertes
+
+`EX-EDIT-*`.
+
+#### Critères d'acceptation
+
+- Édition des trois couches avec undo/redo complet.
+- Pose d'un PNJ, d'un coffre et d'un portail, avec leurs propriétés, puis essai immédiat.
+- Aucune régression sur l'édition existante (peinture, sélection, liaisons, atelier pixel art).
+- Avertissement visible quand une zone de rencontre n'est pas un terrain tactique valide.
+
+### LOT-12 — Dés, caractéristiques, jets {#lot-12}
+
+> Statut : **à faire**.
+> Prérequis : **aucun**. Pur `Core`, zéro dépendance — **parallélisable dès le `LOT-01`**.
+
+#### Objectif
+
+Implémenter le cœur chiffré du système : dés déterministes, six caractéristiques, modificateurs,
+jet d20 avec avantage et désavantage contre un degré de difficulté ou une classe d'armure.
+
+#### Pourquoi ce lot peut démarrer tout de suite
+
+Il ne dépend ni du format de carte, ni du mode de jeu, ni du rendu. C'est du **calcul pur**, dans
+`Core`, testable unitairement sans fenêtre ni GPU. C'est le meilleur candidat à une exécution en
+parallèle du socle technique.
+
+#### Périmètre
+
+- `Source/Core/Rpg/Dice.{h,cpp}` : notation `2d6+3` (parseur et évaluation).
+- `Ability.h` : les six caractéristiques, modificateur `(score - 10) / 2` **arrondi vers le bas**
+  (attention aux scores impairs inférieurs à 10 : `7 → -2`, pas `-1`).
+- `Check.{h,cpp}` : jet d20 contre difficulté, **avantage** (max de deux d20), **désavantage** (min
+  de deux d20), détection des 1 et 20 naturels.
+- Fige l'**échelle 1 case = 1,5 m** (décision de cadrage) comme constante nommée : seule source de
+  vérité des portées et vitesses, consommée par les `LOT-19` et `LOT-22`.
+
+#### Le socle déterministe
+
+`Source/Core/Math/DeterministicRandom.h` fournit déjà splitMix64 et
+`deriveSeed(baseSeed, step, entityId)`. **Il lui manque un `nextInt(min, max)`** — à ajouter ici,
+sans biais modulo.
+
+Le déterminisme n'est pas un confort : sans lui, **aucun test de combat n'est écrivable**. C'est
+`EX-NFR-002`, qui prend avec ce lot une importance qu'il n'avait pas dans le platformer.
+
+#### Exigences couvertes
+
+Catégorie `EX-DND-*`, déclarée par ce lot dans `Documentation/Specification/regles-dnd.md`.
+
+#### Critères d'acceptation
+
+- Distribution vérifiée statistiquement sur 100 000 tirages à graine fixe (uniformité, bornes).
+- **Rejouabilité stricte** : même graine → même séquence, y compris après sérialisation de l'état.
+- Avantage = max de deux d20, désavantage = min ; les deux ensemble s'annulent.
+- 1 et 20 naturels détectés et distingués d'un total de 1 ou 20.
+- Aucune dépendance ECS, Qt ou rendu : `Core/Rpg/` compile seul.
+
+### LOT-13 — Fiche de personnage {#lot-13}
+
+> Statut : **à faire**.
+> Prérequis : [LOT-12](@ref lot-12).
+
+#### Objectif
+
+Donner à toute créature — héros, PNJ, ennemi — une fiche complète : points de vie, classe
+d'armure, classe, niveau, maîtrise, compétences, vitesse.
+
+#### Périmètre
+
+- `Source/Core/Rpg/CharacterSheet.{h,cpp}` : caractéristiques, PV courants et maximum, CA, niveau,
+  bonus de maîtrise, jets de sauvegarde, vitesse (en cases, dérivée de l'échelle du `LOT-12`).
+- `ClassDefinition.{h,cpp}` : **pilotée par JSON**, jamais codée en dur. Dé de vie, maîtrises,
+  progression par niveau.
+- `Skill.h` : compétences et leur caractéristique associée.
+- Composant ECS `Source/Core/Ecs/Components/RpgActor.h` référençant la fiche.
+- Expérience et montée de niveau.
+
+#### Deux règles à tenir
+
+**`CharacterSheet` est un objet autonome, jamais un singleton joueur.** La décision de cadrage est
+« un héros au départ, quatre à terme » : le passage au groupe (`LOT-29`) ne doit **rien** changer à
+cette classe. Si une fonction prend « le personnage » implicitement, elle est mal écrite.
+
+**Aucune valeur de règle dans le C++** (`EX-VIS-007`). Dé de vie, seuils d'expérience, maîtrises :
+tout en JSON. C'est ce qui rend l'équilibrage possible sans recompiler — et sans équilibrage, un
+RPG n'est pas jouable.
+
+#### Exigences couvertes
+
+`EX-DND-*` : PV, CA, bonus de maîtrise par niveau, jets de sauvegarde, expérience, progression.
+
+#### Critères d'acceptation
+
+- Trois classes définies en JSON se chargent et donnent les bons modificateurs.
+- Montée de niveau reproductible et testée aux bornes (seuil exact, dépassement, multi-niveaux).
+- **Aucune valeur de règle codée en dur** dans le C++ — vérifiable par relecture du diff.
+- Un test construit **quatre** fiches indépendantes : rien ne suppose l'unicité.
+
+### LOT-14 — Inventaire et équipement {#lot-14}
+
+> Statut : **à faire**.
+> Prérequis : [LOT-13](@ref lot-13).
+
+#### Objectif
+
+Porter, équiper et consommer des objets, avec un effet **mesurable** sur la fiche.
+
+#### Périmètre
+
+- `Source/Core/Rpg/Item.{h,cpp}` : type, poids, valeur, effets. Catalogue en **JSON**.
+- `Inventory.{h,cpp}` : contenu, capacité de charge.
+- `Equipment.{h,cpp}` : emplacements (arme principale, arme secondaire, armure, accessoires).
+- Statistiques **dérivées** : armure → CA, arme → dés de dégâts et caractéristique d'attaque.
+
+#### Le piège
+
+**Retirer un équipement doit annuler exactement son effet.** L'erreur classique est d'appliquer un
+bonus en additionnant à la volée (`ca += 2`) : après trois équipements et deux retraits dans le
+désordre, la CA a dérivé. La CA doit être **recalculée** depuis l'équipement porté, jamais
+accumulée.
+
+C'est un critère d'acceptation, pas une préférence de style.
+
+#### Exigences couvertes
+
+`EX-INV-*`, `EX-DND-*` (statistiques dérivées).
+
+#### Critères d'acceptation
+
+- Équiper une armure change la CA du montant attendu ; la retirer **restitue exactement** la valeur
+  d'origine, quel que soit l'ordre des opérations.
+- Un test équipe et retire dans plusieurs ordres et vérifie l'absence de dérive.
+- Capacité de charge respectée, avec un comportement défini au dépassement.
+- Catalogue d'objets entièrement en données.
+
+### LOT-15 — PNJ et dialogues {#lot-15}
+
+> Statut : **à faire**.
+> Prérequis : [LOT-05](@ref lot-05) (mode « monde gelé »), [LOT-10](@ref lot-10) (entités et
+> interaction), [LOT-12](@ref lot-12) (jets de compétence en dialogue).
+
+#### Objectif
+
+Parler à un PNJ via un arbre de dialogue scripté, avec choix, conditions et jets de compétence.
+
+#### Périmètre
+
+- `Source/Core/Rpg/Dialogue.{h,cpp}` : graphe de nœuds en **JSON** — réplique, choix, condition sur
+  drapeau, action (donner un objet, poser un drapeau, démarrer une quête), **jet de compétence**
+  (ex. Persuasion contre difficulté 15, avec deux suites possibles).
+- `DialogueRunner` : machine à états **pure**, testable headless. Elle ne connaît ni Qt, ni le
+  rendu, ni le monde — elle consomme un graphe et une source de drapeaux, elle produit un nœud
+  courant et des choix.
+- `DialogueMode` (`LOT-05`) : le monde est **gelé** pendant la conversation.
+- Widget Qt sur `DesignTokens` / `PixelFrameWidget` / `BitmapFont`.
+- Tout le texte via `hmi::Localization` — **aucun libellé en dur** (`EX-REN-033`).
+
+#### Ce qui fait la qualité de ce lot
+
+La séparation runner pur / widget. Un dialogue doit être **jouable en test headless**, nœud par
+nœud, sans fenêtre : c'est ce qui permettra de vérifier des arbres de vingt nœuds sans les cliquer
+à la main. Le widget ne fait qu'afficher ce que le runner décide.
+
+#### Exigences couvertes
+
+`EX-RPG-*` (dialogue, choix, conditions, actions), `EX-IHM-*`.
+
+#### Critères d'acceptation
+
+- Un dialogue de dix nœuds, deux conditions et un jet de Persuasion se parcourt **en headless**.
+- Un graphe mal formé (nœud cible inconnu, cycle non intentionnel, choix vide) est **rejeté au
+  chargement** avec un message exploitable, pas découvert en jeu.
+- L'exploration est **gelée** pendant le dialogue : aucun pas de simulation d'exploration consommé.
+- Traduction fr/en complète, aucun texte en dur.
+
+### LOT-16 — Quêtes et drapeaux de monde {#lot-16}
+
+> Statut : **à faire**.
+> Prérequis : [LOT-15](@ref lot-15) (les dialogues déclenchent et font avancer les quêtes).
+
+#### Objectif
+
+Suivre l'avancement du joueur par des **drapeaux persistants**, et en donner une lecture dans un
+journal de quêtes.
+
+#### Périmètre
+
+- `Source/Core/Rpg/WorldFlags.{h,cpp}` : ensemble de drapeaux nommés, posés et lus par les
+  dialogues, les entités de carte et les rencontres. C'est le **substrat** : coffre déjà ouvert
+  (`LOT-10`), ennemi vaincu (`LOT-18`), PNJ déjà rencontré.
+- `Quest.{h,cpp}` : étapes, conditions d'avancement, récompenses. Défini en **JSON**.
+- Journal de quêtes (contenu ; l'écran vient au `LOT-24` ou avec l'IHM RPG).
+- Persistance dans `SaveGame` (`LOT-17`).
+
+#### Note de conception
+
+Les drapeaux de monde et les quêtes sont deux niveaux du même mécanisme : une quête **lit** des
+drapeaux pour décider de son avancement, elle n'a pas d'état propre au-delà de son étape courante.
+Cette séparation évite le piège classique où l'état du monde existe en double — une fois dans les
+entités, une fois dans les quêtes — et diverge.
+
+#### Exigences couvertes
+
+`EX-RPG-*`.
+
+#### Critères d'acceptation
+
+- Une quête à trois étapes se déclenche, progresse et se termine.
+- Elle **survit à une sauvegarde et un rechargement** à n'importe laquelle de ses étapes.
+- Un drapeau posé par un dialogue est lu par une entité de carte, et inversement.
+
+### LOT-17 — Sauvegarde riche {#lot-17}
+
+> Statut : **à faire**.
+> Prérequis : [LOT-09](@ref lot-09), [LOT-10](@ref lot-10), [LOT-13](@ref lot-13),
+> [LOT-16](@ref lot-16).
+
+#### Objectif
+
+Remplacer la progression héritée — qui ne retenait qu'un **tableau atteint** — par un état de
+partie complet et versionné.
+
+#### Le problème
+
+`hmi::Progression` stocke un identifiant de séquence, un nom de tableau courant et un ensemble de
+tableaux terminés. C'était suffisant pour un jeu de niveaux discrets ; c'est sans rapport avec un
+monde persistant où le joueur a une position, un inventaire, des quêtes en cours et un monde qui a
+gardé la trace de ses actes.
+
+#### Périmètre
+
+`Source/Core/Rpg/SaveGame.{h,cpp}` : JSON **versionné**, portant
+
+- la carte courante et la position exacte du personnage ;
+- la **liste** des personnages (décision de cadrage : un héros au départ, quatre à terme — c'est
+  une liste dès maintenant, pas un champ unique qu'on pluraliserait plus tard) ;
+- l'inventaire et l'équipement ;
+- les drapeaux de monde et les entités consommées (coffres, ennemis vaincus) ;
+- les quêtes et leur étape.
+
+`hmi::Progression` disparaît ou devient un cas dégénéré.
+
+#### Règles de format
+
+Mêmes règles que le format de carte, pour les mêmes raisons : **versionné**, **tolérant aux champs
+inconnus**, migration ascendante. Une sauvegarde est la donnée que le joueur ne peut pas
+reconstruire — un format qui casse lui fait perdre sa partie.
+
+#### Exigences couvertes
+
+`EX-RPG-*` (sauvegarde, chargement, versionnement, tolérance).
+
+#### Critères d'acceptation
+
+- Aller-retour sauvegarde → chargement **à l'identique**, sur un état riche (plusieurs quêtes en
+  cours, inventaire garni, plusieurs cartes visitées).
+- Une sauvegarde d'une version antérieure se charge avec des valeurs par défaut sensées.
+- Un champ inconnu est ignoré **et préservé** à la réécriture.
+- Testable headless.
+
+### LOT-18 — Bascule exploration ↔ combat {#lot-18}
+
+> Statut : **à faire**.
+> Prérequis : [LOT-05](@ref lot-05) (modes de jeu), [LOT-10](@ref lot-10) (déclencheurs),
+> [LOT-13](@ref lot-13) (fiches des combattants).
+
+#### Objectif
+
+Déclencher une rencontre depuis l'exploration, geler le monde, monter la grille de combat, et en
+revenir — sans que le joueur perde quoi que ce soit au passage.
+
+#### La décision qui structure ce lot
+
+Le combat se déroule **sur la carte d'exploration**, jamais dans une arène chargée à part
+(décision de cadrage, cf. `Documentation/Specification/vision.md`). La grille tactique est
+**dérivée de la couche collision** du format v3 (`LOT-04`).
+
+C'est ce qui donne la continuité visuelle d'un Chrono Trigger plutôt que la rupture d'un JRPG
+classique — et c'est ce qui justifie rétroactivement le soin mis au format de carte en phase B.
+En contrepartie, *toute carte doit être un terrain tactique valide* : contrainte de level design
+signalée dans l'éditeur dès le `LOT-11`.
+
+#### Périmètre
+
+- `CombatMode` : le second mode de `LOT-05`.
+- `Source/Core/Combat/Encounter.{h,cpp}` : définition **JSON** — ennemis, positions de départ
+  (relatives au déclencheur), conditions.
+- Déclencheurs : contact avec un ennemi de carte, zone de rencontre, action de dialogue.
+- **Sauvegarde et restauration de l'état d'exploration** : position, orientation, caméra, entités.
+
+#### Le critère qui compte
+
+Entrer puis sortir d'un combat doit restituer **exactement** l'état d'exploration — aux PV près,
+qui eux ont changé. Un ennemi vaincu est retiré de la carte **durablement** : c'est un drapeau de
+monde (`LOT-16`), persisté (`LOT-17`), pas un booléen local perdu au rechargement de la carte.
+
+#### Exigences couvertes
+
+Catégorie `EX-CBT-*`, déclarée par ce lot dans `Documentation/Specification/combat.md`.
+
+#### Critères d'acceptation
+
+- Aller-retour exploration → combat → exploration restituant l'état, PV mis à jour.
+- Un ennemi vaincu ne réapparaît pas, y compris après avoir quitté et rechargé la carte.
+- Une fuite ramène à l'exploration sans que l'ennemi soit marqué vaincu.
+- Testable headless : le montage et le démontage d'une rencontre ne demandent ni fenêtre ni GPU.
+
+### LOT-19 — Grille tactique et déplacement {#lot-19}
+
+> Statut : **à faire**.
+> Prérequis : [LOT-18](@ref lot-18).
+
+#### Objectif
+
+Poser la grille de combat, l'occupation des cases, et le calcul du déplacement par budget.
+
+#### Ce qui existe déjà — à ne pas réécrire
+
+**`core::GridDistanceField`** (`Source/Core/World/GridDistanceField.h`) : champ de distances de
+plus court chemin sur la grille, BFS 4-voisins **multi-source**, lectures `O(1)`, avec sentinelle
+d'inatteignabilité. Il vient du solveur d'IA du dépôt d'origine ; le `LOT-01` l'a **délibérément
+sauvé** de la purge et déplacé dans `Core/World/` **pour ce lot précis**.
+
+C'est exactement le calcul « quelles cases puis-je atteindre avec ce budget de déplacement ».
+
+#### Périmètre
+
+- `Source/Core/Combat/BattleGrid.{h,cpp}` : occupation des cases, terrain difficile, obstacles
+  **issus de la couche collision** du format v3 (`LOT-04`).
+- Portée de déplacement via `GridDistanceField`, budget dérivé de la vitesse de la fiche
+  (`LOT-13`), à l'échelle 1 case = 1,5 m figée au `LOT-12`.
+- `Pathfinding.{h,cpp}` : A* **déterministe**, avec départage stable des égalités.
+
+#### Pourquoi le déterminisme du chemin n'est pas négociable
+
+Deux chemins de même coût existent presque toujours sur une grille. Si le départage dépend de
+l'ordre d'itération d'un conteneur non ordonné, l'IA (`LOT-23`) devient irreproductible et
+**aucun test de combat ne tient**. Le départage doit être une règle explicite (par exemple : plus
+petit indice de case), pas un hasard d'implémentation.
+
+#### Exigences couvertes
+
+`EX-CBT-*` (grille, portée de déplacement, chemin déterministe).
+
+#### Critères d'acceptation
+
+- Même entrée → **même chemin**, systématiquement.
+- L'ensemble des cases atteignables correspond **exactement** au budget de déplacement, ni une de
+  plus ni une de moins (tests aux bornes).
+- Deux créatures ne partagent **jamais** une case.
+- Le terrain difficile double le coût, et la portée s'en trouve réduite en conséquence.
+
+### LOT-20 — Initiative et tour par tour {#lot-20}
+
+> Statut : **à faire**.
+> Prérequis : [LOT-12](@ref lot-12) (jet d'initiative), [LOT-19](@ref lot-19).
+
+#### Objectif
+
+Ordonnancer les combattants par initiative et structurer le tour : mouvement, action, action bonus,
+réaction.
+
+#### Périmètre
+
+- `Source/Core/Combat/TurnOrder.{h,cpp}` : ordre d'initiative, **multi-alliés dès maintenant**
+  (décision de cadrage : un héros au départ, quatre à terme — l'ordre n'a aucune raison de
+  supposer un seul allié, même si le contenu n'en propose qu'un).
+- `CombatState.{h,cpp}` : machine à états **explicite** — début de round, tour actif, fin de tour,
+  fin de combat. Pas de drapeaux épars : un état nommé, des transitions nommées.
+- Égalités d'initiative : départage déterministe et documenté.
+- Entrée et sortie d'un combattant **en cours** de combat (renfort, fuite).
+
+#### Les trois fins
+
+Un combat se termine de trois façons, et les trois doivent être couvertes :
+
+- **victoire** : tous les ennemis à 0 PV ;
+- **défaite** : tous les alliés à 0 PV ;
+- **fuite** : les alliés quittent la zone.
+
+Une machine à états qui n'en couvre que deux laisse un combat qui ne finit jamais — le pire des
+défauts, parce qu'il bloque le joueur sans message d'erreur.
+
+#### Exigences couvertes
+
+`EX-CBT-*` (initiative, structure du tour, conditions de fin).
+
+#### Critères d'acceptation
+
+- Un combat à cinq combattants se déroule **en headless** du premier round à une condition de fin.
+- Les **trois** conditions de fin sont couvertes par un test chacune.
+- Un test monte **quatre alliés** : rien dans l'ordre d'initiative ni dans la machine à états ne
+  suppose un héros unique.
+- Rejeu à graine fixe strictement reproductible, ordre d'initiative compris.
+
+### LOT-21 — Attaques, dégâts et états {#lot-21}
+
+> Statut : **à faire**.
+> Prérequis : [LOT-13](@ref lot-13), [LOT-14](@ref lot-14), [LOT-20](@ref lot-20).
+
+#### Objectif
+
+Résoudre une attaque au d20 contre la classe d'armure, appliquer les dégâts, gérer critiques,
+inconscience et mort.
+
+#### Périmètre
+
+- `Source/Core/Combat/Attack.{h,cpp}` : jet d'attaque = d20 + modificateur de caractéristique +
+  bonus de maîtrise, contre la CA de la cible.
+- `Damage.{h,cpp}` : types de dégâts, résistances, vulnérabilités, immunités.
+- `Condition.{h,cpp}` : à terre, entravé, empoisonné, inconscient — et leur effet sur les jets.
+- Jets de sauvegarde contre la mort.
+
+#### Les règles à ne pas se tromper
+
+- **Un 20 naturel double les dés de dégâts, pas le modificateur.** L'erreur inverse est la plus
+  répandue et fausse tout l'équilibrage.
+- **Un 1 naturel rate toujours**, quel que soit le total.
+- Les PV sont **bornés à 0** par le bas : pas de PV négatifs qui rendraient la réanimation
+  arbitraire.
+
+#### Le journal de combat
+
+Chaque jet doit être **auditable** : jet brut, modificateurs détaillés, cible, total, résultat.
+« Tu as raté » n'est pas une information ; « 7 + 3 = 10 contre CA 15 : raté » en est une. C'est ce
+qui permet au joueur de comprendre le système, et au développeur de déboguer l'équilibrage sans
+attacher un débogueur.
+
+#### Exigences couvertes
+
+`EX-DND-*` (résolution chiffrée) et `EX-CBT-*` (application en combat).
+
+#### Critères d'acceptation
+
+- Un 20 naturel double **les dés** et non le modificateur, vérifié par test.
+- Un 1 naturel rate, même avec un total supérieur à la CA.
+- PV bornés à 0 ; inconscience et jets de sauvegarde contre la mort testés aux bornes.
+- Résistances, vulnérabilités et immunités appliquées dans le bon ordre.
+- Chaque jet produit une entrée de journal complète et lisible.
+
+### LOT-22 — Portée, ligne de vue et zones d'effet {#lot-22}
+
+> Statut : **à faire**.
+> Prérequis : [LOT-19](@ref lot-19).
+
+#### Objectif
+
+Rendre la **géométrie** tactique signifiante : portée d'arme, ligne de vue bloquée, couverture,
+gabarits d'effet de zone.
+
+C'est ce lot qui fait qu'un combat se joue avec le terrain plutôt que sur une grille vide.
+
+#### Périmètre
+
+- `Source/Core/Combat/LineOfSight.{h,cpp}` : tracé sur grille, obstacles issus de la **couche
+  collision** du format v3 (`LOT-04`).
+- **Couverture** partielle et totale, traduite en bonus de CA.
+- `AreaOfEffect.{h,cpp}` : gabarits cercle, cône, ligne, carré — à l'échelle 1 case = 1,5 m figée
+  au `LOT-12`.
+- Portée d'arme et portée de sort, distinguées de la portée de déplacement.
+
+#### L'invariant à tester exhaustivement
+
+**La ligne de vue doit être symétrique** : A voit B si et seulement si B voit A. C'est le défaut
+classique des tracés sur grille — un algorithme qui part de A et s'arrête au premier obstacle ne
+donne pas le même résultat en partant de B, et le joueur découvre qu'il peut tirer sur un ennemi
+qui ne peut pas riposter (ou l'inverse, plus rageant encore).
+
+À vérifier **exhaustivement sur des grilles générées**, pas sur trois cas choisis à la main.
+
+#### Exigences couvertes
+
+`EX-CBT-*` (portée, ligne de vue, couverture, gabarits).
+
+#### Critères d'acceptation
+
+- **Symétrie de la ligne de vue** vérifiée exhaustivement sur des grilles générées.
+- Les gabarits couvrent exactement les cases attendues, figées par des cas de référence.
+- La couverture modifie la CA du montant prévu, et ne s'applique jamais deux fois.
+- Testable headless.
+
+### LOT-23 — IA tactique ennemie {#lot-23}
+
+> Statut : **à faire**.
+> Prérequis : [LOT-20](@ref lot-20), [LOT-21](@ref lot-21), [LOT-22](@ref lot-22).
+
+#### Objectif
+
+Donner aux ennemis un comportement de combat crédible, **déterministe** et testable sans GPU.
+
+#### La décision de conception
+
+**Heuristiques pondérées, pas de réseau de neurones.**
+
+Le dépôt d'origine embarquait 12 000 lignes de solveur RL (tenseurs, autodiff, réseaux,
+optimiseurs, quatre familles d'algorithmes), retirées au `LOT-01`. La tentation serait de les
+ressusciter ici : c'est le seul endroit du programme où elles auraient pu resservir.
+
+Il ne faut pas. Une IA tactique par heuristiques est **plus prévisible, plus déboguable et bien
+moins coûteuse** ; surtout, le déterminisme est ici un **critère d'acceptation**, pas une
+préférence — sans lui, aucun test de combat ne tient. Un agent entraîné rendrait chaque
+régression irreproductible.
+
+#### Périmètre
+
+- `Source/Core/Combat/EnemyAi.{h,cpp}` : évaluation de cibles pondérée (distance, PV restants,
+  menace, portée), choix de position, choix d'action.
+- **Profils de comportement en JSON** : agressif, prudent, soutien, archer. Les poids sont des
+  données, pas des constantes C++ (`EX-VIS-007`) — c'est ce qui permet d'ajuster un ennemi sans
+  recompiler.
+
+#### Les deux défauts à prévenir
+
+- **Le blocage.** Une IA qui ne trouve aucune action valide et passe son tour indéfiniment gèle le
+  combat. Un test IA contre IA doit toujours **terminer**.
+- **Le suicide.** Une IA qui ne pondère que la distance finit son tour au milieu de trois ennemis à
+  bas PV. La menace subie doit peser dans le choix de position.
+
+#### Exigences couvertes
+
+`EX-CBT-*` (choix de cible, de position et d'action).
+
+#### Critères d'acceptation
+
+- Un combat IA contre IA **se termine toujours**, sur un échantillon de configurations générées.
+- Rejeu à graine fixe strictement reproductible.
+- L'IA ne finit pas son tour à portée de trois ennemis quand une position sûre existait.
+- Tests **headless** intégralement automatisables — aucune vérification manuelle.
+
+### LOT-24 — IHM de combat {#lot-24}
+
+> Statut : **à faire**.
+> Prérequis : [LOT-21](@ref lot-21), [LOT-23](@ref lot-23).
+
+#### Objectif
+
+Rendre le combat **lisible et jouable** : bandeau d'initiative, portées surlignées, curseur de
+ciblage, prévisualisations, journal.
+
+C'est le lot qui transforme une machine à états correcte en un combat qu'on a envie de jouer.
+
+#### Périmètre
+
+- `Source/HMI/Game/CombatHud.{h,cpp}` : bandeau d'ordre d'initiative, PV, conditions actives.
+- **Surbrillance de grille** via `SpriteBatch` / `ComposedScene` — le calque `EditorOverlay` hérité
+  se réemploie tel quel pour les cases atteignables et les portées.
+- **Curseur de ciblage** clavier et manette (pas seulement souris : cf. critère ci-dessous).
+- **Prévisualisations** avant validation : chemin emprunté, cases atteintes par un gabarit,
+  probabilité de toucher.
+- **Journal de combat** défilant, alimenté par les entrées auditables du `LOT-21`.
+- Animations d'attaque via `AnimationCatalog`.
+
+#### Le critère qui est souvent oublié
+
+Un combat tactique doit se jouer **entièrement au clavier et entièrement à la manette**, pas
+seulement à la souris. Le projet hérite d'un système de remappage complet (clavier, manette XInput)
+et d'une navigation à la manette dans tous les écrans : il serait incohérent que le combat, cœur du
+jeu, soit le seul écran à exiger une souris.
+
+#### Exigences couvertes
+
+`EX-IHM-*`, `EX-REN-*`.
+
+#### Critères d'acceptation
+
+- Un combat complet se joue **entièrement au clavier** et **entièrement à la manette**.
+- Chaque jet affiché est traçable au journal.
+- `check_design_tokens.py` vert (la palette d'identité reste cohérente entre maquettes et code).
+- Traduction fr/en complète.
+- Vérification IHM manuelle par l'utilisateur, comme pour tout lot de rendu.
+
+### LOT-25 — Sorts et capacités de classe {#lot-25}
+
+> Statut : **à faire**.
+> Prérequis : [LOT-13](@ref lot-13), [LOT-21](@ref lot-21), [LOT-22](@ref lot-22).
+
+#### Objectif
+
+Ajouter les sorts — emplacements, incantation, concentration — et les capacités propres aux
+classes.
+
+#### Périmètre
+
+- `Source/Core/Rpg/Spell.{h,cpp}` : école, niveau, portée, durée, composantes, effet.
+- `SpellSlots` : emplacements par niveau, consommés à l'incantation, restaurés au repos.
+- `Concentration` : un seul sort concentré à la fois ; il tombe si le lanceur subit des dégâts
+  (jet de sauvegarde) ou en incante un autre.
+- Catalogue de sorts en **JSON** (`EX-VIS-007`).
+- Branchement sur les gabarits d'effet de zone du `LOT-22` — aucune géométrie nouvelle.
+- Effets **hors combat** aussi : un sort d'utilité en exploration passe par le même catalogue.
+
+#### Note de conception
+
+C'est le lot où la tentation d'écrire des règles en dur est la plus forte, parce que chaque sort a
+sa particularité. Y céder rend l'équilibrage impossible : un sort qui se règle en recompilant ne se
+règle pas. Un sort est une **donnée** ; le C++ ne porte que les *mécanismes* qu'elle compose
+(dégâts de zone, jet de sauvegarde, condition appliquée, durée).
+
+#### Exigences couvertes
+
+`EX-DND-*`.
+
+#### Critères d'acceptation
+
+- Un emplacement consommé est indisponible jusqu'au repos.
+- La concentration tombe au bon moment (dégâts avec échec de sauvegarde, second sort concentré),
+  et **pas** aux mauvais.
+- Un sort de zone touche exactement les cases du gabarit du `LOT-22`.
+- Aucune règle de sort codée en dur dans le C++.
+
+### LOT-26 — Butin, marchands, économie {#lot-26}
+
+> Statut : **à faire**.
+> Prérequis : [LOT-14](@ref lot-14), [LOT-15](@ref lot-15).
+
+#### Objectif
+
+Boucler la boucle économique : gagner du butin, le vendre, acheter mieux.
+
+#### Périmètre
+
+- `Source/Core/Rpg/LootTable.{h,cpp}` : tables de butin en **JSON**, tirées avec le hasard
+  déterministe du `LOT-12` — un coffre rouvert après rechargement de sauvegarde doit donner le
+  **même** contenu, sinon le joueur peut relancer jusqu'au bon tirage.
+- Or et valeur des objets.
+- `Shop.{h,cpp}` : achat, vente, marge du marchand, stock.
+- IHM marchand, sur le système de design existant.
+
+#### Le piège du tirage
+
+Un butin tiré au moment de l'ouverture, avec une graine liée à l'instant, se re-tire différemment à
+chaque chargement de sauvegarde. La graine doit dériver de l'**identité du coffre** et de l'état de
+la partie, pas de l'horloge — `deriveSeed(baseSeed, step, entityId)` existe pour cela.
+
+#### Exigences couvertes
+
+`EX-RPG-*`, `EX-INV-*`.
+
+#### Critères d'acceptation
+
+- Un coffre donne le **même** butin après sauvegarde et rechargement.
+- Vendre puis racheter un objet ne crée ni ne détruit de valeur au-delà de la marge annoncée.
+- Le stock d'un marchand se comporte de façon définie quand il est épuisé.
+
+### LOT-27 — Contenu du *vertical slice* {#lot-27}
+
+> Statut : **à faire**.
+> Prérequis : phases B, C et D complètes.
+
+#### Objectif
+
+Produire le contenu jouable qui démontre la boucle entière : *« un personnage explore une carte
+top-down, parle à un PNJ, déclenche une rencontre, gagne un combat tactique au d20 »*.
+
+#### Périmètre
+
+- Un **village** : quelques bâtiments, trois PNJ, un marchand, un point de départ.
+- Un **donjon** : trois salles, deux rencontres, un coffre gardé.
+- Une **quête principale** reliant les deux, avec dialogues à choix et au moins un jet de compétence.
+- Deux types d'**ennemis** avec des profils d'IA distincts (mêlée agressive, distance prudente).
+- Un **combat scénarisé** déclenché par un dialogue.
+
+Tout se produit **dans l'éditeur** (`LOT-11`), pas en écrivant du JSON à la main : c'est le test
+grandeur nature de l'outil, et la preuve qu'un non-développeur pourrait le faire (`EX-VIS-006`).
+
+#### Outillage
+
+`scripts/check_world_graph.py` remplace le `check_demo_sequence.py` hérité, retiré au `LOT-01`.
+Il valide, en CI :
+
+- le **graphe de cartes** : aucun portail orphelin, aucune carte inatteignable ;
+- les **références de dialogue et de quête** : chaque nœud cible, chaque drapeau, chaque
+  récompense existe ;
+- que chaque zone de rencontre est un **terrain tactique valide** (contrainte du `LOT-11`, née de
+  la décision « combat sur la carte »).
+
+#### Exigences couvertes
+
+`EX-RPG-*`, `EX-LVL-*`, et concrétisation de `EX-VIS-001` à `EX-VIS-005`.
+
+#### Critères d'acceptation
+
+- La boucle complète se joue de bout en bout.
+- Un **test système** la rejoue en headless, du départ à la victoire du combat.
+- `check_world_graph.py` vert.
+- Le contenu se recharge après sauvegarde à n'importe quel point de la boucle.
+
+### LOT-28 — Audio, effets et version `0.2.0` {#lot-28}
+
+> Statut : **à faire**.
+> Prérequis : [LOT-27](@ref lot-27).
+
+#### Objectif
+
+Donner au jeu son identité sonore et ses retours d'impact, puis clore le programme du *vertical
+slice* par une version publiable.
+
+#### Périmètre
+
+##### Audio
+
+`hmi::AudioEngine` et `SoundCatalog` sont hérités et fonctionnels — ce lot les **alimente**, il ne
+les réécrit pas :
+
+- musique de carte et thème de combat, avec bascule à l'entrée et à la sortie de rencontre ;
+- bruitages : pas, interaction, ouverture de coffre, jet de dé, coup porté, coup critique, échec,
+  fin de combat, navigation de menu.
+
+La règle héritée tient : **le jeu reste pleinement jouable en silence**, sans périphérique audio,
+et le volume est réglable et persisté.
+
+##### Effets
+
+`ParticleRenderer` et la secousse d'écran sont hérités : particules à l'impact, secousse **sur
+critique uniquement** (une secousse à chaque coup rendrait un combat tour par tour épuisant).
+
+##### Équilibrage
+
+Passe de réglage sur les données du slice : PV, CA, dégâts, seuils d'expérience, prix. Tout est en
+JSON depuis la phase C — aucune recompilation.
+
+##### Clôture
+
+- Régénération du **cahier de test** (`scripts/generate_cahier_test.py`).
+- Mise en cohérence documentaire globale : specs, guides, manuel.
+- Bump `project(VERSION 0.2.0)` dans le `CMakeLists.txt` racine — **seul endroit** où la version
+  s'écrit — puis tag `v0.2.0`.
+
+#### Note de méthode
+
+La documentation de chaque domaine est mise à jour **par le lot qui le livre**, pas ici. Ce lot ne
+fait que la cohérence d'ensemble et la régénération. Un lot fourre-tout de fin de programme n'est
+jamais fini : c'est le risque à éviter.
+
+#### Exigences couvertes
+
+`EX-REN-*` audio et effets, `EX-NFR-*` (budget de rendu mesuré, patron hérité).
+
+#### Critères d'acceptation
+
+- Le jeu est pleinement jouable **sans périphérique audio**.
+- Volume réglable et persisté ; bascule musicale exploration ↔ combat sans coupure brutale.
+- Secousse d'écran réservée aux critiques.
+- Cahier de test régénéré, tous les linters verts, version bumpée et taguée.
+
+### LOT-29 — Groupe de quatre personnages {#lot-29}
+
+> Statut : **à faire**.
+> Prérequis : [LOT-27](@ref lot-27). Vient **après** le *vertical slice*, délibérément.
+
+#### Objectif
+
+Passer d'un héros seul à un groupe de quatre — recrutement, compagnons suiveurs en exploration,
+combat tactique à quatre alliés.
+
+#### Pourquoi ce lot est un lot d'**ajout**, pas une refonte
+
+C'est la décision de cadrage n° 4, et tout le programme la prépare : **rien ne doit supposer
+l'unicité du personnage**. Concrètement, au moment d'aborder ce lot, ces précautions doivent déjà
+être en place :
+
+- `CharacterSheet` est un objet **autonome** (`LOT-13`), jamais un singleton joueur ;
+- `TurnOrder` est **multi-alliés** dès le `LOT-20`, avec un test qui monte quatre alliés ;
+- `SaveGame` stocke une **liste** de personnages dès le `LOT-17`, pas un champ unique ;
+- les écrans de fiche et d'inventaire sont conçus pour un **sélecteur de personnage**, même quand
+  ils n'en affichent qu'un.
+
+Si l'un de ces points a dérivé en chemin, ce lot redevient une refonte — c'est le signal
+d'alarme à surveiller pendant les phases C et D.
+
+#### Périmètre
+
+- **Recrutement** de compagnons (dialogue, quête).
+- **Personnages suiveurs** en exploration : ordre de marche, suivi du héros, pathing simple.
+- **Sélecteur de personnage** activé dans les écrans de fiche, d'inventaire et d'équipement.
+- Quatre alliés dans l'ordre d'initiative ; **ciblage allié** (soins, sorts de soutien).
+- Répartition de l'expérience et du butin.
+
+#### Le point délicat
+
+Le combat à quatre alliés multiplie les tours et allonge la boucle : l'IHM du `LOT-24` doit rester
+lisible avec huit combattants au bandeau d'initiative. C'est le seul endroit où ce lot peut exiger
+un vrai travail d'interface plutôt qu'un simple ajout.
+
+#### Exigences couvertes
+
+`EX-RPG-*`, `EX-CBT-*`, `EX-IHM-*`.
+
+#### Critères d'acceptation
+
+- Un combat à **4 alliés contre 4 ennemis** se déroule en headless jusqu'à une condition de fin.
+- **Aucune régression** du jeu à un personnage : le contenu du `LOT-27` reste jouable tel quel.
+- Les suiveurs ne restent pas coincés dans le décor ni ne bloquent le héros dans un passage étroit.
+- Le bandeau d'initiative reste lisible à huit combattants.

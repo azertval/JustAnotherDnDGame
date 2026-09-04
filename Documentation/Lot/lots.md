@@ -1,10 +1,15 @@
 # Lots {#lots}
 
-Le travail est découpé en **lots** (un incrément livrable par lot), chacun dans
-un sous-dossier `LOT-XX-nom/` contenant un `epic.md` (objectif, périmètre,
-critères d'acceptation) et des fichiers `tache-NN.md` (une unité de travail
-chacun). Les lots référencent les [spécifications](@ref specifications) via les
-identifiants d'exigences `EX-…`.
+Le travail est découpé en **lots** (un incrément livrable par lot). Un lot **démarré** reçoit son
+sous-dossier `LOT-XX-nom/` avec un `epic.md` (objectif, périmètre, critères d'acceptation) ; les
+lots **à venir** vivent dans la [feuille de route](@ref roadmap-010), qui est leur unique source de
+vérité. Les lots référencent les [spécifications](@ref specifications) via les identifiants
+d'exigences `EX-…`.
+
+> **Pourquoi les lots à venir n'ont pas de dossier.** Ils en avaient un, vide de tout travail et
+> écrit contre des familles d'exigences qui n'existent pas encore. Deux documents décrivant le même
+> programme divergent — ils avaient déjà commencé. Un dossier se crée désormais **au démarrage** du
+> lot, pas des années avant.
 
 Contrairement aux spécifications, les lots **conservent** leur numéro (`LOT-XX`) :
 c'est un identifiant stable, jamais réordonné.
@@ -23,53 +28,32 @@ c'est un identifiant stable, jamais réordonné.
 - @subpage lot-05
 - @subpage lot-06
 - @subpage lot-07
-- @subpage lot-08
-- @subpage lot-09
-- @subpage lot-10
-- @subpage lot-11
-- @subpage lot-12
-- @subpage lot-13
-- @subpage lot-14
-- @subpage lot-15
-- @subpage lot-16
-- @subpage lot-17
-- @subpage lot-18
-- @subpage lot-19
-- @subpage lot-20
-- @subpage lot-21
-- @subpage lot-22
-- @subpage lot-23
-- @subpage lot-24
-- @subpage lot-25
-- @subpage lot-26
-- @subpage lot-27
-- @subpage lot-28
-- @subpage lot-29
 
-## Matière première
+## Feuille de route
 
-- @subpage corpus-sources — analyse des huit PDF de `Documentation/SourceBook/` (contenu,
-  faisabilité de l'extraction, licences en sommeil) et **filière contenu proposée**, `LOT-30` à
-  `LOT-69` : importer l'univers complet — 10 régions, 13 espèces, 16 classes, 176 créatures — en
-  catalogues JSON, textures et habillage ; le rendre parcourable en **bac à sable** par génération
-  de terrain, peuplement systémique et Guilde des Aventuriers ; éprouver chaque classe dans le
-  **Colisée** à raison d'un lot par classe ; et refondre la **charte IHM**, les menus et l'éditeur,
-  hérités du jeu de plateforme d'origine. Ces lots s'entrelacent avec les phases B à E ; ils ne les
-  suivent pas.
+- @subpage roadmap-010 — le programme complet : ce que le corpus
+  `Documentation/SourceBook/` permet d'en tirer, les lots `LOT-08` à `LOT-76`, et l'audit qui
+  a confronté le tout à l'état réel du dépôt.
 
 ## Programme
 
-La feuille de route complète va du socle technique au *vertical slice* jouable — « un personnage
-explore une carte top-down, parle à un PNJ, déclenche une rencontre, gagne un combat tactique au
-d20 » — en cinq phases :
+La cible est un **bac à sable** dans l'univers complet de Tanares : dix régions jouables, treize
+espèces, seize classes, cent-soixante-seize créatures. Le *vertical slice* du `LOT-27` — « un
+personnage explore une carte top-down, parle à un PNJ, déclenche une rencontre, gagne un combat
+tactique au d20 » — reste le jalon qui prouve la boucle avant qu'on la généralise.
 
 | Phase | Lots | Objet |
 |---|---|---|
 | A — Fondation | `LOT-01` → `LOT-05` | Fork et purge, bibliothèque `HmiLib`, agrégat `LevelData`, format de niveau multi-couches, modes de jeu |
-| B — Exploration | `LOT-06` → `LOT-11` | Déplacement top-down 8 directions, tri par Y, vocabulaire de tuiles RPG, graphe de cartes, entités et interaction, éditeur multi-couches |
+| B — Exploration | `LOT-06` → `LOT-11` | Déplacement top-down 8 directions, tri par Y, vocabulaire de tuiles RPG, graphe de cartes, entités et interaction, éditeur |
 | C — Noyau RPG | `LOT-12` → `LOT-17` | Dés et jets d20, fiche de personnage, inventaire, PNJ et dialogues, quêtes, sauvegarde |
 | D — Combat tactique | `LOT-18` → `LOT-24` | Bascule exploration ↔ combat, grille tactique, initiative, attaques, ligne de vue, IA, IHM de combat |
 | E — Contenu et finition | `LOT-25` → `LOT-29` | Sorts, économie, contenu du slice, audio et version `0.2.0`, groupe de quatre personnages |
+| F — Filière contenu | `LOT-30` → `LOT-76` | Extraction du corpus, catalogues de données, monde et peuplement, une classe par lot, refonte IHM et éditeur, mécaniques manquantes |
+
+La phase F **ne suit pas** les précédentes : elle s'entrelace avec B à E, chacun de ses lots servant
+un lot des phases antérieures qui, sans lui, se bâtirait sur un catalogue fictif. L'ordre
+d'exécution recommandé est donné par la [feuille de route](@ref roadmap-010), §6.
 
 Décisions de cadrage actées avant le `LOT-01` : règles **d20 maison** (compatible SRD dans sa
 structure, sans en dépendre), combat **sur la carte d'exploration** (grille dérivée de la couche
