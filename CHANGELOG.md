@@ -6,6 +6,52 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **La moitié RPG de la spécification** (`LOT-77`). Cinq familles d'exigences étaient **fantômes** —
+  `EX-CNT`, `EX-DND`, `EX-RPG`, `EX-CBT`, `EX-INV` — citées par une vingtaine de lots sans qu'aucun
+  document ne les porte. Cinq documents les portent désormais, pour **69 exigences** :
+  `regles-dnd.md` (le jet d20, la maîtrise, le temps et le repos, les conditions), `rpg.md` (la
+  fiche comme agrégat dérivé, classes et ressources, progression, sorts), `combat.md` (tour, espace,
+  attaque, agonie), `inventaire.md` (équipement, encombrement, monnaie) et `contenu.md` (provenance,
+  contrats, extraction, ce qu'une donnée promet).
+  - **La CI était rouge à dessein** depuis la réparation du lint (`FAMILY_REF_RE` captait enfin les
+    références de famille entière, comme `EX-CNT-*`). Ce lot est ce qui la remet au vert, et c'était la
+    seule façon légitime de le faire — pas une entrée ajoutée à la liste des exceptions.
+    `lint_exigences.py` compte **339 exigences déclarées et 339 référencées**.
+  - **Trois généricités décident de la faisabilité du programme**, et sont écrites comme telles :
+    une ressource de classe est *une quantité, une cadence, ce qu'elle alimente* (`EX-RPG-021`) —
+    rage, ki et second souffle sont la même structure, faute de quoi chacun des quinze lots de
+    classes modifierait le code du repos ; ajouter une classe ne touche **aucun** fichier C++
+    existant hors sa mécanique propre (`EX-RPG-023`) ; **plusieurs systèmes d'emplacements de sorts
+    coexistent** (`EX-RPG-052`), parce que la magie de pacte en fournit un second récupéré au repos
+    court, et que coder « les emplacements » au singulier obligerait à tout reprendre.
+  - **Le catalogue sera complet avant le moteur**, et cela devait être écrit : une donnée déclare
+    les mécanismes qu'elle exige (`EX-CNT-030`) et le moteur **refuse en le disant** ce qu'il ne
+    sait pas honorer (`EX-CNT-031`). Une classe dont la ressource propre n'existe pas se signale au
+    chargement plutôt que de se jouer en silence comme une classe ordinaire amputée.
+  - La rubrique **« Exigences couvertes »** est posée sur les 25 lots qui les implémentent. Elle
+    manquait partout, faute de familles à citer.
+
+- **Audit de la feuille de route** (`0.1.0`). `roadmap-0.1.0.md` a été confrontée au dépôt et à
+  elle-même : trois affirmations sur le dépôt étaient fausses, six comptes internes incohérents, et
+  trois travaux annoncés n'avaient aucun porteur.
+  - **Le *vertical slice* n'était plus un jalon précoce** : le `LOT-69` déclarait le Colisée en
+    prérequis, ce qui plaçait le socle de classe et les seize classes **devant** le `LOT-27`, à
+    rebours de l'argument de la page elle-même. Le `LOT-69` est réduit à la suppression de l'atelier
+    pixel art ; l'édition dans la scène devient la cible du `LOT-11`, qui n'est pas commencé.
+  - **Quatre fusions** (numéros retirés, jamais réattribués) : le lexique rejoint la chaîne
+    d'extraction (`LOT-31` → `LOT-30`), le repos rejoint l'horloge (`LOT-71` → `LOT-70`), l'agonie
+    rejoint les conditions (`LOT-73` → `LOT-72`), et le `LOT-48` — « volume long, sans jalon » — est
+    dissous dans chaque lot de catalogue : la page écrivait qu'« un lot sans date de fin est un lot
+    qu'on ne finit pas », puis en gardait un.
+  - **Cinq scissions**, sur une règle unique — le code d'un côté, la donnée de l'autre :
+    `LOT-37`/`LOT-80`, `LOT-40`/`LOT-81`, `LOT-41`/`LOT-82`, `LOT-45`/`LOT-83`, `LOT-47`/`LOT-84`.
+  - **La collision de numéros est bien plus large qu'estimé** : 208 renvois `LOT-NN` ambigus dans
+    **douze** fichiers de spécification, et non « six specs ». D'où le `LOT-78`.
+  - `scripts/lint_lots.py` **refuse en CI** ce que l'audit a dû trouver à la main : cycle de
+    prérequis, lien déclaré d'un seul côté, lot absent du tableau d'ordre, compte annoncé faux,
+    exigence revendiquée par deux lots, tableau récapitulatif périmé, arête de diagramme que rien ne
+    déclare.
+
 - **Vocabulaire de terrain du RPG** (`LOT-08`). Neuf types de tuile là où le `LOT-01` avait laissé
   le strict minimum hérité : `Grass`, `Dirt`, `Sand`, `Water`, `DeepWater` (sols), `Wall`, `Cliff`
   (obstacles), `Bridge`, `Stairs` (passages). Il **ajoute** sans rien remplacer — le vocabulaire de
