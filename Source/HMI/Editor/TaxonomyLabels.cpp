@@ -26,6 +26,18 @@ std::string taxonomyLabelKey(const std::string& label) {
         {"Danger", "palette.tile.danger"},
         {"Entrée", "palette.tile.entry"},
         {"Sortie", "palette.tile.exit"},
+        {"Sol", "palette.cat.ground"},
+        {"Obstacle", "palette.cat.obstacle"},
+        {"Passage", "palette.cat.crossing"},
+        {"Herbe", "palette.tile.grass"},
+        {"Terre", "palette.tile.dirt"},
+        {"Sable", "palette.tile.sand"},
+        {"Eau", "palette.tile.water"},
+        {"Eau profonde", "palette.tile.deep_water"},
+        {"Mur", "palette.tile.wall"},
+        {"Falaise", "palette.tile.cliff"},
+        {"Pont", "palette.tile.bridge"},
+        {"Escalier", "palette.tile.stairs"},
     };
 
     const auto found = keys.find(label);

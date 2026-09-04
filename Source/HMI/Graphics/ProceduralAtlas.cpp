@@ -26,7 +26,9 @@ std::uint32_t pack(std::uint8_t red, std::uint8_t green, std::uint8_t blue, std:
 // livrés. Les cases au-delà de la colonne 4 sont
 // soit réservées (damier de transparence, toujours la DERNIÈRE case, qui se déplace donc avec la
 // grille), soit libres. Deux cases sont occupées par les mécanismes du `LOT-63`
-// (`EX-GP-023`) : `Key` (4,0) et `LockedDoor` (3,4).
+// (`EX-GP-023`) : `Key` (4,0) et `LockedDoor` (3,4), et neuf par le terrain du `LOT-08`
+// (`Grass`, `Dirt`, `Sand`, `Water`, `DeepWater`, `Wall`, `Cliff`, `Bridge`, `Stairs`), qui a
+// repris des cases restees libres apres le retrait des types de plateforme au `LOT-01`.
 std::uint32_t tileColor(int tileIndex) {
     static const std::array<std::uint32_t, 36> palette{
         // Ligne 0
@@ -42,28 +44,29 @@ std::uint32_t tileColor(int tileIndex) {
         pack(60, 200, 200, 255),
         pack(230, 140, 40, 255),
         pack(140, 40, 230, 255),
-        pack(0, 0, 0, 255),
-        pack(140, 160, 60, 255),  // (5,1) SinkingBlock : kaki, distinct du vert de Entry
+        pack(90, 170, 80, 255),   // (4,1) Grass : vert herbe, plus sourd que le vert de Entry
+        pack(140, 160, 60, 255),  // (5,1) kaki (libre depuis le LOT-01)
         // Ligne 2
         pack(120, 120, 120, 255),
         pack(80, 160, 120, 255),
         pack(160, 80, 120, 255),
         pack(120, 80, 160, 255),
-        pack(0, 0, 0, 255),
-        pack(235, 150, 170, 255),  // (5,2) FragileBlock : rose, distinct du rouge de Danger
+        pack(140, 105, 70, 255),   // (4,2) Dirt : terre battue
+        pack(235, 150, 170, 255),  // (5,2) rose (libre depuis le LOT-01)
         // Ligne 3
         pack(200, 200, 200, 255),
         pack(90, 90, 90, 255),
-        pack(0, 0, 0, 255),
-        pack(0, 0, 0, 255),
-        pack(0, 0, 0, 255),
-        pack(160, 205, 240, 255),  // (5,3) VanishingBlock : givre, distinct des gris des blocs
+        pack(225, 205, 145, 255),  // (2,3) Sand : sable
+        pack(70, 150, 220, 255),   // (3,3) Water : eau peu profonde, traversable
+        pack(25, 60, 140, 255),    // (4,3) DeepWater : eau profonde, franchement plus sombre --
+                                   // la rive doit se lire d'un coup d'oeil
+        pack(160, 205, 240, 255),  // (5,3) givre (libre depuis le LOT-01)
         // Ligne 4
-        pack(0, 0, 0, 255),
-        pack(0, 0, 0, 255),
-        pack(0, 0, 0, 255),
-        pack(110, 70, 20, 255),  // (3,4) LockedDoor : brun fonce, distinct de l'orange de Door
-        pack(0, 0, 0, 255),
+        pack(95, 85, 75, 255),     // (0,4) Wall : pierre batie, distincte du gris neutre de Solid
+        pack(70, 60, 55, 255),     // (1,4) Cliff : roche sombre
+        pack(155, 120, 75, 255),   // (2,4) Bridge : bois
+        pack(110, 70, 20, 255),    // (3,4) LockedDoor : brun fonce, distinct de l'orange de Door
+        pack(180, 175, 165, 255),  // (4,4) Stairs : pierre claire
         pack(0, 0, 0, 255),
         // Ligne 5 (nouvelle, reservee)
         pack(0, 0, 0, 255),

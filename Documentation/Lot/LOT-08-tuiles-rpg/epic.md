@@ -1,6 +1,7 @@
 # LOT-08 — Vocabulaire de tuiles RPG {#lot-08}
 
-> Statut : **à faire**.
+> Statut : **fait** (vérification automatisée : build `/W4 /WX` sans avertissement, `ctest`
+> à 927/927, lint d'exigences, cahier de test, Doxygen et `clang-format` verts).
 > Prérequis : [LOT-04](@ref lot-04) (les couches donnent leur sens aux types).
 
 ## Objectif
@@ -45,3 +46,31 @@ vocabulaire de puzzle sert tel quel au RPG. Ce lot **ajoute**, il ne remplace pa
   un test d'aller-retour.
 - Le jeu se lance et affiche une carte **sans aucun fichier d'image** présent.
 - `TILE_TYPE_COUNT` reste dérivé du dernier énumérateur — aucune borne recopiée à la main.
+
+## Ce que la réalisation a tranché
+
+**La liste retenue est exactement celle que le périmètre proposait** — `Grass`, `Dirt`, `Sand`,
+`Water`, `DeepWater`, `Wall`, `Cliff`, `Bridge`, `Stairs` — faute de level design à consulter pour
+en dévier. Elle couvre les trois questions qu'un auteur de carte se pose devant sa palette : ce qui
+se marche, ce qui arrête, ce qui fait franchir. C'est aussi le découpage de catégories retenu, à
+trois entrées, plutôt qu'une seule rubrique « Terrain » où l'on chercherait le pont parmi les sols.
+
+**L'eau profonde arrête.** Ce n'est pas de la matière, mais rien ne permet encore de la franchir.
+Le mettre dans `core::isSolid` plutôt que dans un test à part garantit que le jour où une règle de
+nage existera, il n'y aura **qu'un** endroit à changer — l'alternative, des « sauf si c'est de
+l'eau » disséminés, est exactement la dette que ce lot cherche à ne pas créer.
+
+**Aucune silhouette n'est déclarée** (point 7 du périmètre). Le mécanisme, conservé vidé par le
+`LOT-01`, découpe la matière qui n'occupe pas toute la case : il décrivait des pentes et des
+arrondis de plateforme. Un terrain vu de dessus est carré par nature — falaise, rive et pont
+occupent leur case entière, et c'est le raccord entre cases voisines (autotuilage), pas la découpe
+d'une case, qui leur donnera leur forme. Leur inventer des silhouettes serait travailler contre le
+genre ; le mécanisme reste disponible pour le jour où une tuile en aura vraiment besoin.
+
+**L'autotuilage vient sans code.** `hmi::solidNeighborMask` interroge `core::isSolid` : `Wall` et
+`Cliff` obtiennent donc leurs raccords à seize voisinages du seul fait d'arrêter le déplacement,
+sans qu'aucune liste de types n'ait à les nommer.
+
+**Les neuf types ont pris des cases restées libres** dans l'atlas procédural après le retrait des
+types de plateforme au `LOT-01` — aucune couleur déjà posée dans un niveau livré n'a bougé, ce que
+l'invariant de `tileColor` exige.
