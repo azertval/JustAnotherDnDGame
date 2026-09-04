@@ -1,5 +1,11 @@
 var NAVTREEINDEX22 =
 {
+"spec-conventions.html#autotoc_md294":[6,18,10],
+"spec-conventions.html#autotoc_md295":[6,18,11],
+"spec-decors.html":[6,17],
+"spec-decors.html#autotoc_md296":[6,17,0],
+"spec-decors.html#autotoc_md297":[6,17,1],
+"spec-decors.html#autotoc_md298":[6,17,2],
 "spec-decors.html#autotoc_md299":[6,17,3],
 "spec-decors.html#autotoc_md300":[6,17,4],
 "spec-decors.html#autotoc_md301":[6,17,6],
@@ -243,11 +249,5 @@ var NAVTREEINDEX22 =
 "structcore_1_1LevelDraft_1_1State.html#a16b9838d49f1c786323a5ae999daf0e1":[11,0,0,38,0,0],
 "structcore_1_1LevelDraft_1_1State.html#a16b9838d49f1c786323a5ae999daf0e1":[12,0,0,38,0,0],
 "structcore_1_1LevelDraft_1_1State.html#a1e45126155b556533c0115da845a20c4":[11,0,0,38,0,7],
-"structcore_1_1LevelDraft_1_1State.html#a1e45126155b556533c0115da845a20c4":[12,0,0,38,0,7],
-"structcore_1_1LevelDraft_1_1State.html#a367497155208760031726dd7562df0ed":[11,0,0,38,0,2],
-"structcore_1_1LevelDraft_1_1State.html#a367497155208760031726dd7562df0ed":[12,0,0,38,0,2],
-"structcore_1_1LevelDraft_1_1State.html#a569e0485b72f648b9dddadbd167e106d":[11,0,0,38,0,6],
-"structcore_1_1LevelDraft_1_1State.html#a569e0485b72f648b9dddadbd167e106d":[12,0,0,38,0,6],
-"structcore_1_1LevelDraft_1_1State.html#a8de69dc28bee05e4af82df1205dbd2d9":[11,0,0,38,0,11],
-"structcore_1_1LevelDraft_1_1State.html#a8de69dc28bee05e4af82df1205dbd2d9":[12,0,0,38,0,11]
+"structcore_1_1LevelDraft_1_1State.html#a1e45126155b556533c0115da845a20c4":[12,0,0,38,0,7]
 };

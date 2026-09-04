@@ -1,5 +1,11 @@
 var NAVTREEINDEX32 =
 {
+"test__texture__atlas_8cpp.html#a759c0e69440df175447cac4579928f57":[13,0,3,3,2,1,4,31,0],
+"test__texture__resolution_8cpp.html":[13,0,3,3,2,1,4,32],
+"test__texture__resolution_8cpp.html#a11c6601c8ca6faf19218f09a747a5b51":[13,0,3,3,2,1,4,32,8],
+"test__texture__resolution_8cpp.html#a2477e5b9a986bacb38e06dc71f7c94be":[13,0,3,3,2,1,4,32,15],
+"test__texture__resolution_8cpp.html#a27e7fe4c9ff5bb9d45af6c423f4280c1":[13,0,3,3,2,1,4,32,0],
+"test__texture__resolution_8cpp.html#a3a135b4969197187213ebd948dfb0d6b":[13,0,3,3,2,1,4,32,4],
 "test__texture__resolution_8cpp.html#a520534c78cd851c89c295cacb5852983":[13,0,3,3,2,1,4,32,6],
 "test__texture__resolution_8cpp.html#a550b070194f15d6615f1c3e2a9985f1d":[13,0,3,3,2,1,4,32,14],
 "test__texture__resolution_8cpp.html#a5a7091456f288e03eeaa26b14a619421":[13,0,3,3,2,1,4,32,3],

@@ -14,7 +14,7 @@ var specifications =
     ] ],
     [ "Gameplay", "spec-gameplay.html", [
       [ "1. Monde en tuiles", "spec-gameplay.html#autotoc_md325", [
-        [ "Dangers avancés (<span class=\"tt\">LOT-31</span>)", "spec-gameplay.html#autotoc_md326", null ]
+        [ "Dangers avancés (<span class=\"tt\">LOT-H-31</span>)", "spec-gameplay.html#autotoc_md326", null ]
       ] ],
       [ "2. Personnage &amp; déplacement", "spec-gameplay.html#autotoc_md327", [
         [ "Mécaniques aériennes avancées (au-delà du MVP)", "spec-gameplay.html#autotoc_md328", null ],
@@ -82,7 +82,7 @@ var specifications =
       ] ],
       [ "2. Progression", "spec-niveaux.html#autotoc_md354", null ],
       [ "3. Conception (lignes directrices)", "spec-niveaux.html#autotoc_md355", [
-        [ "Doctrine de profondeur (<span class=\"tt\">LOT-65</span> TACHE-05)", "spec-niveaux.html#autotoc_md356", null ]
+        [ "Doctrine de profondeur (<span class=\"tt\">LOT-H-65</span> TACHE-05)", "spec-niveaux.html#autotoc_md356", null ]
       ] ],
       [ "Traçabilité", "spec-niveaux.html#autotoc_md357", null ]
     ] ],
@@ -107,12 +107,12 @@ var specifications =
       [ "4. Approche d'implémentation (décidée)", "spec-editeur.html#autotoc_md306", null ],
       [ "4bis. Décors &amp; pixel art (post-MVP, intégré à l'éditeur)", "spec-editeur.html#autotoc_md307", null ],
       [ "5. Non-objectifs (éditeur, MVP)", "spec-editeur.html#autotoc_md308", null ],
-      [ "6. Robustesse et confort d'édition (LOT-15)", "spec-editeur.html#autotoc_md309", null ],
-      [ "7. Niveaux de grande taille (LOT-16)", "spec-editeur.html#autotoc_md310", null ],
-      [ "8. Palette organisée par catégories (LOT-27)", "spec-editeur.html#autotoc_md311", null ],
-      [ "9. Dangers avancés (<span class=\"tt\">LOT-31</span>)", "spec-editeur.html#autotoc_md312", null ],
-      [ "10. Niveaux à salles (<span class=\"tt\">LOT-32</span>)", "spec-editeur.html#autotoc_md313", null ],
-      [ "11. Habillage par textures et décors (<span class=\"tt\">LOT-40</span> → <span class=\"tt\">LOT-55</span>)", "spec-editeur.html#autotoc_md314", null ],
+      [ "6. Robustesse et confort d'édition (LOT-H-15)", "spec-editeur.html#autotoc_md309", null ],
+      [ "7. Niveaux de grande taille (LOT-H-16)", "spec-editeur.html#autotoc_md310", null ],
+      [ "8. Palette organisée par catégories (LOT-H-27)", "spec-editeur.html#autotoc_md311", null ],
+      [ "9. Dangers avancés (<span class=\"tt\">LOT-H-31</span>)", "spec-editeur.html#autotoc_md312", null ],
+      [ "10. Niveaux à salles (<span class=\"tt\">LOT-H-32</span>)", "spec-editeur.html#autotoc_md313", null ],
+      [ "11. Habillage par textures et décors (<span class=\"tt\">LOT-H-40</span> → <span class=\"tt\">LOT-H-55</span>)", "spec-editeur.html#autotoc_md314", null ],
       [ "Traçabilité", "spec-editeur.html#autotoc_md315", null ]
     ] ],
     [ "Interface utilisateur (IHM)", "spec-interface-ihm.html", [
@@ -121,10 +121,10 @@ var specifications =
       [ "3. Gestion des niveaux", "spec-interface-ihm.html#autotoc_md341", null ],
       [ "4. Liens de mécanismes", "spec-interface-ihm.html#autotoc_md342", null ],
       [ "5. Menus, options, unification", "spec-interface-ihm.html#autotoc_md343", null ],
-      [ "6. Système de design et habillage (LOT-56)", "spec-interface-ihm.html#autotoc_md344", null ],
-      [ "7. Architecture de l'information de l'éditeur (LOT-57)", "spec-interface-ihm.html#autotoc_md345", null ],
-      [ "8. Identité visuelle des écrans du jeu (LOT-68)", "spec-interface-ihm.html#autotoc_md346", null ],
-      [ "9. Taille, réactivité et réglages effectifs (LOT-73)", "spec-interface-ihm.html#autotoc_md347", null ],
+      [ "6. Système de design et habillage (LOT-H-56)", "spec-interface-ihm.html#autotoc_md344", null ],
+      [ "7. Architecture de l'information de l'éditeur (LOT-H-57)", "spec-interface-ihm.html#autotoc_md345", null ],
+      [ "8. Identité visuelle des écrans du jeu (LOT-H-68)", "spec-interface-ihm.html#autotoc_md346", null ],
+      [ "9. Taille, réactivité et réglages effectifs (LOT-H-73)", "spec-interface-ihm.html#autotoc_md347", null ],
       [ "Traçabilité", "spec-interface-ihm.html#autotoc_md348", null ]
     ] ],
     [ "Solveur IA", "spec-ia.html", [

@@ -8,5 +8,6 @@ var dir_7c7356e692772728ab91d19f773c60c4 =
     [ "LOT-06-deplacement-top-down", "dir_237f5dfcdbe74c60cf488649f4af7eda.html", null ],
     [ "LOT-07-rendu-tri-par-y", "dir_f8b7e8d4ca3133a56858706d968618a8.html", null ],
     [ "LOT-08-tuiles-rpg", "dir_ae0f6326bcc3735836795f204f9b206f.html", null ],
-    [ "LOT-77-specification-rpg", "dir_ef95927b7810b74dd4b1ad028f5ca330.html", null ]
+    [ "LOT-77-specification-rpg", "dir_ef95927b7810b74dd4b1ad028f5ca330.html", null ],
+    [ "LOT-78-numeros-herites", "dir_7d4f1976496a6a2058d9c70bdca36906.html", null ]
 ];

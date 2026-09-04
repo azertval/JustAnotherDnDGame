@@ -18,7 +18,7 @@ var searchData=
   ['030_20ex_20ihm_20031_15',['Lier des mécanismes dans l&apos;éditeur (&lt;span class=&quot;tt&quot;&gt;LOT-37&lt;/span&gt;, &lt;span class=&quot;tt&quot;&gt;EX-IHM-030&lt;/span&gt;/&lt;span class=&quot;tt&quot;&gt;EX-IHM-031&lt;/span&gt;)',['../guide-editeur.html#autotoc_md99',1,'']]],
   ['031_16',['Lier des mécanismes dans l&apos;éditeur (&lt;span class=&quot;tt&quot;&gt;LOT-37&lt;/span&gt;, &lt;span class=&quot;tt&quot;&gt;EX-IHM-030&lt;/span&gt;/&lt;span class=&quot;tt&quot;&gt;EX-IHM-031&lt;/span&gt;)',['../guide-editeur.html#autotoc_md99',1,'']]],
   ['04_20—_20format_20de_20carte_20version_3a_203_20multi_20couches_17',['LOT-04 — Format de carte `version: 3`, multi-couches',['../lot-04.html',1,'lots']]],
-  ['05_18',['Doctrine de profondeur (&lt;span class=&quot;tt&quot;&gt;LOT-65&lt;/span&gt; TACHE-05)',['../spec-niveaux.html#autotoc_md356',1,'']]],
+  ['05_18',['Doctrine de profondeur (&lt;span class=&quot;tt&quot;&gt;LOT-H-65&lt;/span&gt; TACHE-05)',['../spec-niveaux.html#autotoc_md356',1,'']]],
   ['05_20—_20modes_20de_20jeu_19',['LOT-05 — Modes de jeu',['../lot-05.html',1,'lots']]],
   ['05_2006_20',['Sélection de niveau et progression persistée (&lt;span class=&quot;tt&quot;&gt;LOT-59&lt;/span&gt; TACHE-05/06)',['../guide-ecrans.html#autotoc_md81',1,'']]],
   ['06_21',['Sélection de niveau et progression persistée (&lt;span class=&quot;tt&quot;&gt;LOT-59&lt;/span&gt; TACHE-05/06)',['../guide-ecrans.html#autotoc_md81',1,'']]],
@@ -26,6 +26,6 @@ var searchData=
   ['07_20—_20rendu_20top_20down_20et_20tri_20par_20y_23',['LOT-07 — Rendu top-down et tri par Y',['../lot-07.html',1,'lots']]],
   ['08_20—_20vocabulaire_20de_20tuiles_20rpg_24',['LOT-08 — Vocabulaire de tuiles RPG',['../lot-08.html',1,'lots']]],
   ['08_2012_25',['Mesures de référence, à la date du &lt;span class=&quot;tt&quot;&gt;LOT-62&lt;/span&gt; (2026-08-12)',['../guide-rendu.html#autotoc_md242',1,'']]],
-  ['09_20à_20lot_2029_26',['11. Les lots &lt;span class=&quot;tt&quot;&gt;LOT-09&lt;/span&gt; à &lt;span class=&quot;tt&quot;&gt;LOT-29&lt;/span&gt;',['../roadmap-010.html#autotoc_md483',1,'']]],
+  ['09_20à_20lot_2029_26',['11. Les lots &lt;span class=&quot;tt&quot;&gt;LOT-09&lt;/span&gt; à &lt;span class=&quot;tt&quot;&gt;LOT-29&lt;/span&gt;',['../roadmap-010.html#autotoc_md488',1,'']]],
   ['09_20—_20graphe_20de_20cartes_20et_20transitions_27',['LOT-09 — Graphe de cartes et transitions',['../roadmap-010.html#lot-09',1,'']]]
 ];

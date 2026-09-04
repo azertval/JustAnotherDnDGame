@@ -1,5 +1,11 @@
 var NAVTREEINDEX26 =
 {
+"structhmi_1_1PixelCanvasRealSize.html":[11,0,1,29],
+"structhmi_1_1PixelCanvasRealSize.html":[12,0,1,29],
+"structhmi_1_1PixelCanvasRealSize.html#a7b356bff25596d18e9efaf1905bba8b5":[11,0,1,29,0],
+"structhmi_1_1PixelCanvasRealSize.html#a7b356bff25596d18e9efaf1905bba8b5":[12,0,1,29,0],
+"structhmi_1_1PixelCanvasRealSize.html#abc80f0693238581f707e1297cc183dcc":[11,0,1,29,1],
+"structhmi_1_1PixelCanvasRealSize.html#abc80f0693238581f707e1297cc183dcc":[12,0,1,29,1],
 "structhmi_1_1PixelCanvasView.html":[11,0,1,27],
 "structhmi_1_1PixelCanvasView.html":[12,0,1,27],
 "structhmi_1_1PixelCanvasView.html#a5ec999567f513b6198eb411b3876fa04":[11,0,1,27,0],
@@ -243,11 +249,5 @@ var NAVTREEINDEX26 =
 "structhmi_1_1SceneTextures.html#a306ea6dde62238a5a85e3514cc959d92":[11,0,1,111,9],
 "structhmi_1_1SceneTextures.html#a306ea6dde62238a5a85e3514cc959d92":[12,0,1,111,9],
 "structhmi_1_1SceneTextures.html#a316efe3bb546e62e2e79d67812d4171c":[11,0,1,111,18],
-"structhmi_1_1SceneTextures.html#a316efe3bb546e62e2e79d67812d4171c":[12,0,1,111,18],
-"structhmi_1_1SceneTextures.html#a34031672bcb7354b6e3203bec45ca724":[11,0,1,111,2],
-"structhmi_1_1SceneTextures.html#a34031672bcb7354b6e3203bec45ca724":[12,0,1,111,2],
-"structhmi_1_1SceneTextures.html#a40f4f8e34b7c5fbeeeee31cf81fb9ee8":[11,0,1,111,14],
-"structhmi_1_1SceneTextures.html#a40f4f8e34b7c5fbeeeee31cf81fb9ee8":[12,0,1,111,14],
-"structhmi_1_1SceneTextures.html#a465f7f5e22a70103368698309d6959b4":[11,0,1,111,4],
-"structhmi_1_1SceneTextures.html#a465f7f5e22a70103368698309d6959b4":[12,0,1,111,4]
+"structhmi_1_1SceneTextures.html#a316efe3bb546e62e2e79d67812d4171c":[12,0,1,111,18]
 };
