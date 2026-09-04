@@ -48,9 +48,10 @@ c'est un identifiant stable, jamais réordonné.
 
 ## Matière première
 
-- @subpage corpus-sources — analyse des huit PDF de `Documentation/SourceBook/` (contenu, statut
-  juridique, faisabilité de l'extraction) et **programme de lots proposé** pour en tirer les
-  catalogues JSON qu'exigent les `LOT-13`, `LOT-14`, `LOT-25` et `LOT-26`.
+- @subpage corpus-sources — analyse des huit PDF de `Documentation/SourceBook/` (contenu,
+  faisabilité de l'extraction, licences en sommeil) et **programme de lots proposé** pour en tirer
+  les catalogues JSON qu'exigent les `LOT-13`, `LOT-14`, `LOT-25` et `LOT-26`, ainsi que les
+  textures et l'habillage d'interface.
 
 ## Programme
 
