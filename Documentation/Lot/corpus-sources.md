@@ -30,7 +30,7 @@ Deux conséquences pratiques, à retenir avant d'écrire quoi que ce soit dans c
 | `Tanares_Sourcebook.pdf` | Univers de Tanares : monde, factions, panthéon, régions, organisations, histoire, bestiaire, objets magiques | 179 | EN | natif, **double page** | **2 029** (1 806 ≥ 512²) |
 | `Players_Guide_to_Tanares_Version_20231218.pdf` | Espèces, classes, sous-classes, historiques, dons, sorts, règles optionnelles | 165 | EN | natif, **double page** | **1 710** (1 476 ≥ 512²) |
 | `Manuel-Des-Monstres.pdf` | *Monster Manual* D&D 5 en français | 354 | FR | **scan OCR bruité** | 1 424 (633 ≥ 512²) |
-| `Manuel-Des-Joueurs.pdf` | *Player's Handbook* D&D 5 en français | 320 | FR | **scan OCR bruité** | 631 (453 ≥ 512²) |
+| `Manuel-Des-Joueurs.pdf` | *Player's Handbook* D&D 5 en français — **5 races et 8 classes** absentes des *Basic Rules* | 320 | FR | scan OCR, **tables récupérables en `-table`** | 631 (453 ≥ 512²) |
 | `Basic-Rules-FR.pdf` | Règles de base D&D 5 en français (aidedd.org) | 137 | FR | natif **propre** | 175, surtout des fonds de page |
 | `Animaux.pdf` | Bêtes du SRD traduites (aidedd.org) | 32 | FR | natif **très propre** | 38, uniquement des fonds |
 | `Glossaire.pdf` | Lexique de traduction anglais → français (aidedd.org) | 22 | EN/FR | natif, 2 colonnes | 5 pictogrammes |
@@ -65,9 +65,13 @@ Deux conséquences pratiques, à retenir avant d'écrire quoi que ce soit dans c
   du corpus. **Hors périmètre** (§8) : son OCR bruité en fait aussi le plus coûteux, et les 176
   créatures des deux autres gisements suffisent à peupler dix régions. Il reste disponible si le
   besoin s'en fait sentir plus tard.
-- **`Manuel-Des-Joueurs.pdf`** — le manuel complet en français. **Hors périmètre** également :
-  redondant avec les *Basic Rules* sur les données, et affecté du même OCR. Utile en référence de
-  formulation, pas en source.
+- **`Manuel-Des-Joueurs.pdf`** — **la source française des races et classes manquantes**, et à ce
+  titre indispensable. Les *Basic Rules* ne portent que 4 races et 4 classes ; ce manuel apporte les
+  **5 races** restantes (drakéide, gnome, demi-elfe, demi-orc, tieffelin) et les **8 classes**
+  restantes (barbare, barde, druide, moine, paladin, rôdeur, ensorceleur, sorcier) — toutes
+  vérifiées présentes. Sans lui, les sous-classes Tanares pour barbare, barde, druide, moine,
+  paladin, rôdeur et ensorceleur n'auraient **aucune classe de base sur laquelle se greffer**. Son
+  OCR est bruité mais gérable : voir §4.
 - **`Character_Sheets_Tanares.pdf`** — 5 feuilles, **zéro caractère de texte** hors filigrane. Les
   planches sont en revanche disponibles en image à 2 668 × 3 418, soit environ 300 ppp : de quoi
   servir de maquette précise pour l'écran de fiche.
@@ -88,11 +92,11 @@ maintenant ce qu'il faudrait alors reprendre, plutôt que de le découvrir à ce
 |---|---|---|
 | `Basic-Rules-FR`, `Animaux`, `Glossaire` | **OGL 1.0a**, diffusion libre (aidedd.org) | Rien, hors ajout de la notice OGL et de l'attribution SRD 5.1 à `THIRD-PARTY-NOTICES.md` |
 | `Tanares_Sourcebook`, `Players_Guide` | Mécanique SRD ouverte ; lore, noms et art **réservés** (*Product Identity* : « Tanares », « Penumbral Plane », « madwalker », « taii'maku », « Golgöggoth », « Isendden », « emogum ») | Renommer le monde et ses entités, réécrire les textes, remplacer les illustrations |
-| `Manuel-Des-Joueurs`, `Manuel-Des-Monstres` | Copyright plein (Wizards of the Coast / Black Book Éditions) | Retirer intégralement les données qui en sont issues |
+| `Manuel-Des-Joueurs` (dans le périmètre), `Manuel-Des-Monstres` (hors périmètre) | Copyright plein (Wizards of the Coast / Black Book Éditions) | Retirer les données marquées `phb-fr` — soit 5 races et 8 classes, à remplacer par des créations propres |
 
 En pratique, cela suggère une seule discipline, peu coûteuse et qui garde la porte ouverte :
 **tracer la provenance**. Chaque donnée produite porte un champ `"source"` (`srd`, `tanares`,
-`original`). Un jour de publication, la question « qu'est-ce qui doit sauter ? » se répond
+`phb-fr`, `original`). Un jour de publication, la question « qu'est-ce qui doit sauter ? » se répond
 par une requête plutôt que par une relecture de tout le catalogue — et le `LOT-32` peut l'imposer par
 schéma sans effort supplémentaire.
 
@@ -149,13 +153,27 @@ Touché : 4 (1d4 + 2) dégâts tranchants.
 Un automate suffit. Les 94 entrées sont accessibles sans jugement humain, hors relecture de
 contrôle. Les 82 blocs du Sourcebook suivent un gabarit analogue en anglais.
 
-**Les deux manuels français sont des OCR bruités.** Leurs pages de crédits donnent « Cordeil » pour
-« Cordell », « )on Schindehette » pour « Jon Schindehette », « Chefde projet », « W'àyne Reynolds ».
-Sur un nom d'auteur c'est anecdotique ; sur un jet de dégâts, c'est un `1d8` devenu `ld8` que rien
-ne rattrape. Leurs 416 blocs resteraient exploitables, mais **jamais en confiance** : chaque valeur
-numérique demanderait une relecture. C'est ce constat qui a fait **écarter les deux manuels du
-périmètre** (§8) — non par difficulté technique, mais parce que le coût de la confiance y dépasse la
-valeur ajoutée quand 176 créatures fiables sont déjà disponibles ailleurs.
+**Les deux manuels français sont des OCR bruités — mais moins gravement qu'il n'y paraît.** Leurs
+pages de crédits donnent « Cordeil » pour « Cordell », « )on Schindehette », « Chefde projet »,
+« W'àyne Reynolds ». Il serait tentant d'en conclure que ces fichiers sont inexploitables ; ce
+serait généraliser depuis la page la plus bruitée du livre, et ce serait faux. Le bruit se répartit
+en **trois niveaux, de gravité très inégale** :
+
+- **La structure des lignes** — le plus dangereux, et le plus facile à corriger. En `-layout`, la
+  table du barbare désynchronise ses colonnes : le niveau 5 y reçoit « Amélioration de
+  caractéristiques » au lieu d'« Attaque supplémentaire », toute la table décalée d'un cran. En
+  `-table`, elle est **exacte**, niveau par niveau. Même règle qu'au paragraphe précédent, cette
+  fois démontrée sur un scan : **jamais `-layout` sur un tableau**.
+- **Le bruit au niveau du mot** — « Voire primitive » pour « Voie primitive », « sup plémentaire »,
+  « unjet ». Visible, non numérique, corrigé par une relecture ordinaire. Désagréable, pas
+  dangereux.
+- **Les valeurs numériques** — le risque résiduel, celui qu'aucune relecture rapide n'attrape : un
+  `1d8` devenu `ld8`, un `+3` devenu `+8`. C'est précisément la raison d'être du `LOT-49`.
+
+Conclusion : le `Manuel-Des-Joueurs.pdf` est **exploitable** avec le bon outil et une passe de
+contrôle — et il est indispensable, puisqu'il est la seule source française des 5 races et 8 classes
+absentes des *Basic Rules*. Le `Manuel-Des-Monstres.pdf` reste hors périmètre, non par impossibilité
+mais par arbitrage (§8) : 416 blocs à contrôler pour un bestiaire déjà suffisant.
 
 **L'extraction du flux brut des images est corrompue ; il faut passer par le rendu.** Tirer un objet
 image par son `xref` produit sur ce corpus des zones de bruit vert et cyan — décodage raté d'un flux
@@ -241,7 +259,7 @@ L'outillage, et rien d'autre. `scripts/sourcebook/`, sur **PyMuPDF** : extractio
 tableaux par coordonnées, d'images par rendu clippé ; gestion de la pagination en double page ;
 cache disque. Un manifeste `scripts/sourcebook/corpus.toml` enregistre par document son empreinte
 SHA-256, son nombre de pages, son décalage de pagination et sa **provenance** (`srd`, `tanares`,
-`original`) — celle-là même que chaque donnée produite reportera (§3).
+`phb-fr`) — celle-là même que chaque donnée produite reportera (§3).
 
 Le manifeste est versionné ; le corpus intermédiaire ne l'est pas, et la CI ne l'exécute pas : les
 PDF ne sont pas sur le runner. Seules les **données produites** sont validées en CI (`LOT-32`).
@@ -338,17 +356,33 @@ Un sort dont l'effet n'entre pas dans ces mécanismes se déclare **explicitemen
 *Acceptation* — chaque sort porte école, niveau, portée, durée, composantes, effet ; aucun sort ne
 tombe silencieusement dans un cas par défaut, un test énumère le catalogue et l'exige.
 
-### `LOT-36` — Espèces, historiques et classes du socle
+### `LOT-36` — Espèces, historiques et classes provisoires
 
 *Prérequis : `LOT-32`. Alimente [LOT-13](@ref lot-13).*
 
-Le socle et les espèces : les 4 races, 4 classes et 6 historiques des *Basic Rules* — qui fixent
-aussi le vocabulaire français de référence — puis les **13 espèces** du *Player's Guide* (dont
-cirrus, gloomfolk, soulborn, taii'maku) et ses **7 historiques**.
+De quoi construire un personnage jouable au plus tôt, en trois apports :
 
-Les classes de Tanares et leurs 31 tables de progression relèvent du `LOT-47` : une espèce se décrit
-en une douzaine de champs, une classe en un tableau de 20 lignes qu'il faut relire ligne à ligne.
-Mélanger les deux ferait dépendre l'arrivée des espèces d'un travail dix fois plus long.
+- **Les espèces** — les 4 races des *Basic Rules* et les 5 du *Manuel des Joueurs* (drakéide, gnome,
+  demi-elfe, demi-orc, tieffelin) pour le vocabulaire français de référence, puis les **13 espèces**
+  du *Player's Guide* (dont cirrus, gloomfolk, soulborn, taii'maku). Là où les deux se recouvrent —
+  nain, elfe, halfelin, humain, gnome, drakéide, tieffelin — **la version de Tanares fait foi** sur
+  le fond, le manuel français fournissant la formulation.
+- **Les 7 historiques** du *Player's Guide* et les 6 des *Basic Rules*.
+- **Les 4 classes simplifiées** de Tanares — brawler, mage, priest, scoundrel — comme **socle
+  provisoire du premier modèle de combat**. Leur intérêt est d'être simples : elles font tourner
+  attaques, dégâts et tours (`LOT-21`, `LOT-20`) sans exiger d'abord le système complet de
+  ressources de classe.
+
+> **Ces quatre classes sont temporaires et doivent le déclarer.** Elles seront retirées du jeu
+> final, remplacées par les 12 classes complètes du `LOT-47`. Une donnée provisoire non marquée
+> devient permanente par accident — c'est la façon la plus banale dont un échafaudage finit en mur
+> porteur. D'où un champ `"statut": "provisoire"` au schéma, la CI qui **liste** ce qui le porte, et
+> un critère de retrait écrit d'avance : le jour où les 12 classes sont livrées, supprimer ces
+> quatre fichiers ne doit casser aucune référence.
+
+Les 12 classes complètes et les 31 tables de progression relèvent du `LOT-47` : une espèce se décrit
+en une douzaine de champs, une classe en un tableau de 20 lignes à relire ligne à ligne. Mélanger
+les deux ferait dépendre l'arrivée des espèces d'un travail dix fois plus long.
 
 Chaque classe et chaque espèce déclare les **mécanismes** qu'elle exige (emplacements de sorts,
 ressource propre, liste de sorts dédiée, choix de sous-classe au niveau *n*). C'est cette
@@ -358,7 +392,8 @@ classe amputée.
 *Acceptation* — celle du [LOT-13](@ref lot-13), tenue par les données : trois classes chargent et
 donnent les bons modificateurs, et la progression du niveau 1 au niveau 5 ne fait intervenir aucune
 valeur codée en C++. Toute espèce ou classe exigeant un mécanisme absent du moteur est **listée au
-chargement**, jamais jouée en silence.
+chargement**, jamais jouée en silence. Les quatre classes provisoires portent leur marque, et un
+test vérifie qu'aucune donnée **définitive** ne les référence.
 
 ### `LOT-37` — Atlas du monde et graphe de cartes
 
@@ -623,19 +658,31 @@ des Monstres* : 17 familles, une fin, un critère de fin.
 terme de règle traduit est conforme au lexique du `LOT-31` ; dix profils sont vérifiés à la main
 contre le PDF.
 
-### `LOT-47` — Classes de Tanares et tables de progression
+### `LOT-47` — Le roster complet de classes
 
-*Prérequis : `LOT-36`, `LOT-43`.*
+*Prérequis : `LOT-36`, `LOT-43`, `LOT-49`.*
 
-Les **4 classes inédites** (dragonblade, élémentaliste, madwalker, redeemer), les **4 classes
-simplifiées** (brawler, mage, priest, scoundrel) et la vingtaine de sous-classes du *Player's Guide*.
+Les classes définitives, celles qui remplacent l'échafaudage du `LOT-36`. Trois apports :
+
+- les **12 classes de base** — 4 des *Basic Rules* (clerc, guerrier, magicien, roublard) et 8 du
+  *Manuel des Joueurs* (barbare, barde, druide, moine, paladin, rôdeur, ensorceleur, sorcier) ;
+- les **4 classes inédites** de Tanares (dragonblade, élémentaliste, madwalker, redeemer) ;
+- la **vingtaine de sous-classes** du *Player's Guide*, qui se greffent sur les 12 précédentes — et
+  qui sont la raison pour laquelle le *Manuel des Joueurs* est indispensable : sans druide, pas de
+  Cercle de la Floraison.
 
 Les **31 tables de progression** sont le travail réel : chacune est un tableau de 20 lignes où un
-décalage d'une seule ligne donne à une classe les capacités du niveau voisin — faux, et faux sans
-rien casser. Même piège qu'au `LOT-34`, même traitement : extraction par coordonnées, puis relecture.
+décalage d'une ligne donne à une classe les capacités du niveau voisin — faux, et faux sans rien
+casser. Le §4 le démontre sur la table du barbare : illisible en `-layout`, exacte en `-table`.
+L'extraction est donc faisable, mais le mode d'extraction n'est pas négociable, et la sortie passe
+au contrôle du `LOT-49` parce que les valeurs viennent d'un scan.
+
+**Le lot ne se clôt pas sur la livraison** mais sur le retrait : les quatre classes provisoires du
+`LOT-36` sont supprimées, et rien ne doit s'en apercevoir.
 
 *Acceptation* — une table de progression extraite est comparée ligne à ligne au PDF sur au moins
-trois classes ; toute classe exigeant un mécanisme absent du moteur est listée au chargement.
+trois classes ; toute classe exigeant un mécanisme absent du moteur est listée au chargement ; les
+fichiers marqués `"statut": "provisoire"` ont disparu et aucune référence ne pend.
 
 ### `LOT-48` — Portraits et illustrations
 
@@ -694,7 +741,7 @@ exactement ce que [`EX-VIS-007`](@ref EX-VIS-007) interdit. D'où « filière »
 |---|---|---|
 | Tout de suite après [LOT-08](@ref lot-08) | `LOT-30`, `LOT-31`, `LOT-32` | Outillage et contrats, sans dépendance ; le plus tôt est le mieux |
 | Avec [LOT-09](@ref lot-09) | `LOT-37` | L'atlas donne au graphe de cartes de vrais nœuds à relier |
-| Avant [LOT-13](@ref lot-13) | `LOT-36`, `LOT-43` | La fiche a besoin de vraies classes, compétences et langues |
+| Avant [LOT-13](@ref lot-13) | `LOT-36`, `LOT-43` | La fiche a besoin d'espèces, de compétences et de langues, et le premier combat des 4 classes simplifiées |
 | Avant [LOT-14](@ref lot-14) | `LOT-34`, puis `LOT-49` | Catalogue réel, puis contrôle de ses valeurs |
 | Avant [LOT-21](@ref lot-21) / [LOT-23](@ref lot-23) | `LOT-33` | Attaques et IA ont besoin de vraies créatures |
 | Avant [LOT-25](@ref lot-25) | `LOT-35` | Les sorts sont des données avant d'être un système |
@@ -702,15 +749,19 @@ exactement ce que [`EX-VIS-007`](@ref EX-VIS-007) interdit. D'où « filière »
 | Après [LOT-11](@ref lot-11) | `LOT-40` | La génération produit des niveaux que l'éditeur doit savoir rouvrir |
 | **Après [LOT-27](@ref lot-27)** | `LOT-44`, `LOT-41`, `LOT-45`, `LOT-42` | Le bac à sable généralise une boucle ; il faut l'avoir validée une fois |
 | Avant `LOT-41` | `LOT-46` | Peupler dix régions demande plus que les 94 bêtes du SRD |
-| En fond, sans jalon | `LOT-47`, `LOT-48` | Volume long, sans blocage : se remplit par lots successifs |
+| Avant [LOT-25](@ref lot-25), après [LOT-21](@ref lot-21) | `LOT-47` | Le roster définitif remplace l'échafaudage une fois le combat éprouvé |
+| En fond, sans jalon | `LOT-48` | Volume long, sans blocage : se remplit par lots successifs |
 
 Trois lignes méritent qu'on s'y arrête.
 
-**La dernière** : 31 tables de progression et 6 000 images ne se traitent pas d'un bloc, et rien n'y
-oblige. Ces deux lots n'ont pas de date de fin et ne bloquent personne — le `LOT-36` a déjà livré
-les classes du socle, le `LOT-39` affiche des marqueurs pour tout ce qui n'a pas encore d'image.
-Depuis que le *Manuel des Monstres* est hors périmètre, le `LOT-46` a quitté cette catégorie : 82
-créatures, c'est fini un jour.
+**La dernière** : 6 000 images ne se traitent pas d'un bloc, et rien n'y oblige — le `LOT-39`
+affiche un marqueur pour tout ce qui n'a pas encore d'image, et chaque illustration livrée en
+remplace un.
+
+Deux lots ont d'ailleurs **quitté** cette catégorie au fil des décisions, et c'est bon signe : le
+`LOT-46` depuis que le *Manuel des Monstres* est hors périmètre — 82 créatures, cela se termine — et
+le `LOT-47`, qui a désormais une échéance nette puisqu'il doit retirer l'échafaudage du `LOT-36`. Un
+lot sans date de fin est un lot qu'on ne finit pas.
 
 **L'avant-dernière** : les quatre lots qui font le bac à sable sont les seuls que je placerais
 résolument **après** le [LOT-27](@ref lot-27). Peupler dix régions revient à appliquer cent fois la
@@ -780,10 +831,16 @@ Source/Core/World/
 - **Licences en sommeil** (§3) : projet privé, dépôt privé, aucune contrainte d'usage.
 
 - **Bestiaire arrêté à 176 créatures** : les 94 bêtes du SRD (`LOT-33`) et les 82 de Tanares
-  (`LOT-46`). Les deux manuels français sont **hors périmètre** — leur OCR bruité imposerait de
-  relire chaque valeur numérique, pour un bestiaire déjà largement suffisant à un monde ouvert de
-  dix régions. Rien n'est fermé : le `LOT-30` sait les lire, et ils pourront être repris plus tard
-  si le besoin apparaît.
+  (`LOT-46`). Le *Manuel des Monstres* est **hors périmètre** — 416 blocs dont chaque valeur
+  numérique demanderait un contrôle, pour un bestiaire déjà largement suffisant à un monde ouvert
+  de dix régions. Rien n'est fermé : le `LOT-30` sait le lire, il pourra être repris plus tard.
+- **Le *Manuel des Joueurs* est dans le périmètre**, lui, et il est indispensable : il porte les
+  5 races et 8 classes que les *Basic Rules* n'ont pas, donc les classes de base sur lesquelles se
+  greffent les sous-classes de Tanares. Son OCR se traite (§4).
+- **Les 4 classes simplifiées de Tanares sont un échafaudage.** Elles servent de socle au premier
+  modèle de combat (`LOT-36`) et **seront retirées** au profit des 12 classes complètes
+  (`LOT-47`). Elles portent pour cela un `"statut": "provisoire"` en donnée, et le `LOT-47` ne se
+  clôt que sur leur suppression effective.
 - **Région de départ : la République des Freelands.** Ses propres statistiques l'argumentent :
   `Monster Presence` haute — les rencontres se justifient d'elles-mêmes, ce que le Central Empire,
   noté *Low*, ne permet pas ; économie fondée sur les mercenaires et les parts de monstres — le
