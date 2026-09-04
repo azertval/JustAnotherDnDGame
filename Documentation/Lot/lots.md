@@ -46,6 +46,12 @@ c'est un identifiant stable, jamais réordonné.
 - @subpage lot-28
 - @subpage lot-29
 
+## Matière première
+
+- @subpage corpus-sources — analyse des huit PDF de `Documentation/SourceBook/` (contenu, statut
+  juridique, faisabilité de l'extraction) et **programme de lots proposé** pour en tirer les
+  catalogues JSON qu'exigent les `LOT-13`, `LOT-14`, `LOT-25` et `LOT-26`.
+
 ## Programme
 
 La feuille de route complète va du socle technique au *vertical slice* jouable — « un personnage
