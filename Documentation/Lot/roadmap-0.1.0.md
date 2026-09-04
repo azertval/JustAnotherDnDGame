@@ -205,9 +205,10 @@ Les lots [LOT-13](@ref lot-13) (fiche de personnage), [LOT-14](@ref lot-14) (inv
 **JSON** », conformément à [`EX-VIS-007`](@ref EX-VIS-007). Aucun ne dit **d'où sortent ces JSON**.
 C'est exactement le trou que ce corpus comble, et c'est le périmètre de cette filière.
 
-Cinquante lots, `LOT-30` à `LOT-84`. Quatre numéros ont été **retirés** par fusion (`LOT-31`,
-`LOT-48`, `LOT-71`, `LOT-73` : voir l'encart en fin de section), et le [LOT-77](@ref lot-77) a été
-**livré** — il a donc quitté cette page pour son dossier, comme tout lot livré. Les numéros sont,
+Quarante-neuf lots, `LOT-30` à `LOT-84`. Quatre numéros ont été **retirés** par fusion
+(`LOT-31`, `LOT-48`, `LOT-71`, `LOT-73` : voir l'encart en fin de section), et deux lots ont été
+**livrés** — le [LOT-77](@ref lot-77) et le [LOT-78](@ref lot-78) — qui ont donc quitté cette page
+pour leur dossier, comme tout lot livré. Les numéros sont,
 comme toujours, des identifiants stables : ils viennent après [LOT-29](@ref lot-29) dans la
 numérotation, mais plusieurs s'exécutent **avant** les lots qui les consomment (voir §6). Une nouvelle famille d'exigences `EX-CNT-*` les couvre, à écrire
 dans un `Documentation/Specification/contenu.md`.
@@ -919,11 +920,13 @@ voit pas du tout pour qui distingue mal les couleurs — et l'interdiction des r
 d'`EX-IHM-072`. La **portée éditeur** n'est pas concernée : un outil de travail garde son apparence
 d'outil de travail, et aucun parchemin ne doit se répandre dans ses tables denses.
 
-> **La collision de numéros n'est pas traitée ici.** Les titres de sections d'`interface-ihm.md`
-> encore intitulés « (LOT-56) », « (LOT-57) », « (LOT-68) », « (LOT-73) » renvoient au programme
-> **hérité** de `ProjectGaming`. Ils ne sont que 26 des 208 renvois ambigus recensés au §9.5 : les
-> désambiguïser fichier par fichier au fil des lots produirait exactement la moitié de convention
-> qu'on cherche à éviter. Tout part au `LOT-78`, en une passe.
+> **La collision de numéros a été traitée ailleurs.** Les titres de sections d'`interface-ihm.md`
+> intitulés « (LOT-56) », « (LOT-57) », « (LOT-68) », « (LOT-73) » renvoyaient au programme
+> **hérité** de `ProjectGaming`. Ils n'étaient que 26 des 208 renvois ambigus recensés au §9.5, et
+> les désambiguïser fichier par fichier au fil des lots aurait produit exactement la moitié de
+> convention qu'on cherchait à éviter. Le [LOT-78](@ref lot-78) l'a fait en une passe : ils
+> s'écrivent désormais `LOT-H-56`, `LOT-H-57`, `LOT-H-68`, `LOT-H-73`. Ce lot-ci n'a donc plus qu'à
+> renommer ces sections pour ce qu'elles deviennent, sans avoir à trancher ce qu'elles désignaient.
 
 *Acceptation* — un écran du jeu et un écran de l'éditeur placés côte à côte se distinguent
 immédiatement ; `scripts/check_design_tokens.py` passe sur les nouveaux rôles ; le focus reste
@@ -1166,36 +1169,6 @@ demande aucun arbitrage humain.
 *Acceptation* — les éléments extraits s'intègrent aux jetons de la charte du `LOT-66` ;
 `scripts/check_design_tokens.py` reste vert ; aucune image n'est tirée par extraction de flux brut.
 
-### `LOT-78` — Désambiguïsation des numéros de lots hérités {#lot-78}
-
-*Prérequis : aucun. **Prérequis du démarrage de tout lot de la filière.***
-
-> **Créé à l'audit, et bien plus gros qu'estimé.** Le §10 chiffrait ce travail à « une
-> recherche-remplacement dans six specs ». Le décompte réel est de **208 renvois ambigus dans douze
-> fichiers** (§9.5). Ce n'est pas une passe de relecture, c'est un lot.
-
-Ce lot doit précéder la création du premier dossier de lot au-delà du `LOT-29`.
-
-Le programme hérité de `ProjectGaming` allait jusqu'à `LOT-74` ; la filière atteint `LOT-84`. Tout
-`LOT-NN` au-delà de `LOT-07` cité dans une spécification est donc **ambigu sans être cassé** : ni le
-lint ni Doxygen ne le signalent, et un lecteur ne peut pas trancher.
-
-Le lot classe les 208 renvois un par un — lot hérité ou lot courant — puis :
-
-- préfixe les renvois hérités en **`LOT-H-XX`**, avec un renvoi explicite à
-  `Documentation/Heritage/Lot/` ;
-- laisse tels quels les renvois au programme courant ;
-- ajoute au lint la règle qui empêche la reformation de l'ambiguïté : un `LOT-NN` cité dans une
-  spécification doit désigner un lot **existant** de ce programme, sans quoi il s'écrit `LOT-H-NN`.
-
-`architecture.md` illustre le piège mieux qu'un argument : son `EX-ARCH-031` dit « Concrétisé en
-`LOT-33` » en parlant d'une interpolation de rendu **déjà livrée** — alors que le `LOT-33` de ce
-programme est le bestiaire de base, et n'est pas commencé.
-
-*Acceptation* — aucun `LOT-NN` d'une spécification ne désigne un lot hérité sans préfixe `LOT-H-` ;
-le lint refuse un renvoi vers un numéro de lot inexistant ; la Doxygen ne produit aucune ancre en
-double avec l'archive.
-
 ### `LOT-79` — Socle de chargement de données {#lot-79}
 
 *Prérequis : aucun. Prérequis de `LOT-32`.*
@@ -1363,7 +1336,7 @@ exactement ce que [`EX-VIS-007`](@ref EX-VIS-007) interdit. D'où « filière »
 
 | Quand | Lots | Pourquoi là |
 |---|---|---|
-| **Avant tout le reste** | `LOT-78`, `LOT-79` | Deux préconditions sans aucun prérequis : les numéros, la brique de chargement. La troisième, le [LOT-77](@ref lot-77), est livrée |
+| **Avant tout le reste** | `LOT-79` | La dernière des trois préconditions sans prérequis : la brique de chargement. Le [LOT-77](@ref lot-77) et le [LOT-78](@ref lot-78) sont livrés |
 | **Démarrables maintenant** — le [LOT-08](@ref lot-08) est livré | `LOT-30`, puis `LOT-32` | Outillage et contrats ; le plus tôt est le mieux |
 | **Démarrables maintenant** | `LOT-66`, `LOT-67`, `LOT-68`, `LOT-76` | La charte ne dépend que des PDF, et elle conditionne tous les écrans à venir |
 | Avec [LOT-09](@ref lot-09) | `LOT-37`, puis `LOT-80` | L'atlas donne au graphe de cartes de vrais nœuds à relier |
@@ -1385,13 +1358,12 @@ exactement ce que [`EX-VIS-007`](@ref EX-VIS-007) interdit. D'où « filière »
 
 Quatre lignes méritent qu'on s'y arrête.
 
-**La première.** Ces préconditions ne dépendent de rien et bloquent tout. La première des trois,
-le [LOT-77](@ref lot-77), est **livrée** : les cinq documents de spécification RPG existent, les cinq
-familles `EX-*` fantômes sont réelles, et le lint d'exigences est repassé au vert. Restent le
-`LOT-78`, qui désambiguïse 208 renvois de numéros avant que le premier dossier au-delà de `LOT-29`
-ne fige l'ambiguïté, et le `LOT-79`, qui factorise six lecteurs JSON avant que la filière n'en
-ajoute quinze. Ni l'un ni l'autre n'est un préalable de confort : chacun coûte deux à trois fois
-plus cher un an plus tard.
+**La première.** Ces préconditions ne dépendent de rien et bloquent tout. Deux des trois sont
+**livrées** : le [LOT-77](@ref lot-77) a écrit les cinq documents de spécification RPG, rendant
+réelles les cinq familles `EX-*` fantômes ; le [LOT-78](@ref lot-78) a préfixé `LOT-H-NN` les 201
+renvois qui désignaient le programme hérité, et posé la règle de lint qui empêche l'ambiguïté de
+revenir. Reste le `LOT-79`, qui factorise six lecteurs JSON avant que la filière n'en ajoute quinze
+— ce n'est pas un préalable de confort : son prix double à chaque catalogue livré.
 
 **L'avant-avant-dernière** : les lots qui font le bac à sable sont les seuls que je placerais
 résolument **après** le [LOT-27](@ref lot-27). Peupler dix régions revient à appliquer cent fois la
@@ -1442,8 +1414,8 @@ digraph filiere {
   rankdir=LR;
   node [shape=box, style=rounded, fontsize=10];
   subgraph cluster_pre { label="Préconditions"; style=dashed;
-    L77 [label="LOT-77\nSpécification RPG"];
-    L78 [label="LOT-78\nNuméros hérités"];
+    L77 [label="LOT-77\nSpécification RPG\n(livré)", style="rounded,filled", fillcolor=grey90];
+    L78 [label="LOT-78\nNuméros hérités\n(livré)", style="rounded,filled", fillcolor=grey90];
     L79 [label="LOT-79\nChargement JSON"];
   }
   subgraph cluster_slice { label="Chemin critique du vertical slice"; style=dashed;
@@ -1517,7 +1489,6 @@ eux-mêmes.
 | `LOT-74` | Expérience et progression | `LOT-13`, `LOT-16`, `LOT-20` | `LOT-83` |
 | `LOT-75` | Campement et repos dans le monde | `LOT-41`, `LOT-42`, `LOT-70` | — |
 | `LOT-76` | Habillage d'interface extrait des livres | `LOT-30`, `LOT-66` | `LOT-15`, `LOT-24`, `LOT-38` |
-| `LOT-78` | Désambiguïsation des numéros de lots hérités | — | — |
 | `LOT-79` | Socle de chargement de données | — | `LOT-32` |
 | `LOT-80` | Factions, panthéon et organisations | `LOT-37` | `LOT-16`, `LOT-82` |
 | `LOT-81` | Descripteurs de terrain des dix régions | `LOT-37` | `LOT-40` |
@@ -1623,10 +1594,11 @@ Documentation/Specification/
   construire existe dans la fiction ; faction Allied Forces, cadre héroïque plutôt qu'oppressif. Et
   surtout : c'est là que siège la **Guilde des Aventuriers**, donc la boucle du `LOT-45`.
 
-- **Trois préconditions sont devenues des lots**, et la première est livrée. Écrire la moitié RPG
-  de la spécification ([LOT-77](@ref lot-77)), désambiguïser les numéros hérités (`LOT-78`) et
-  factoriser le chargement de données (`LOT-79`) étaient signalés comme préalables et portés par
-  personne. Un préalable sans porteur n'est pas un préalable, c'est une dette.
+- **Trois préconditions sont devenues des lots**, et deux sont livrées. Écrire la moitié RPG de la
+  spécification ([LOT-77](@ref lot-77)), désambiguïser les numéros hérités
+  ([LOT-78](@ref lot-78)) et factoriser le chargement de données (`LOT-79`) étaient signalés comme
+  préalables et portés par personne. Un préalable sans porteur n'est pas un préalable, c'est une
+  dette.
 - **Le découpage suit une règle unique : le code d'un côté, la donnée de l'autre.** C'est ce qui a
   scindé `LOT-37`/`LOT-80`, `LOT-40`/`LOT-81`, `LOT-41`/`LOT-82`, `LOT-45`/`LOT-83` et
   `LOT-47`/`LOT-84`. Les deux moitiés n'ont ni le même métier, ni le même critère d'acceptation, ni
@@ -1642,8 +1614,8 @@ Documentation/Specification/
   la main dans les lieux notables ? La réponse change le poids du [LOT-16](@ref lot-16), pas
   l'architecture.
 - **Le sort de `Documentation/Heritage/`.** 520 fichiers, 3,7 Mo, hors Doxygen, conservés par
-  l'historique git de toute façon. Le `LOT-78` rend l'archive *citable* sans ambiguïté ; il ne
-  tranche pas s'il faut la garder dans l'arbre de travail.
+  l'historique git de toute façon. Le [LOT-78](@ref lot-78) a rendu l'archive *citable* sans
+  ambiguïté ; il n'a pas tranché s'il faut la garder dans l'arbre de travail.
 
 *(Le sort du *Manuel des Monstres* est tranché : voir ci-dessus.)*
 
@@ -1760,11 +1732,17 @@ et non quatre :
 | `conventions.md` | 4 |
 | `vision.md` | 1 |
 
-Ces renvois deviennent **ambigus sans être cassés** : ni le lint ni Doxygen ne les signaleront. Et
-ce n'est pas « une recherche-remplacement dans six specs » comme l'estimait le §10 : c'est une passe
-sur 208 références dont chacune doit être **classée** — lot hérité ou lot courant — avant d'être
-préfixée `LOT-H-XX` ou laissée telle quelle. D'où un lot à part entière, le `LOT-78`, prérequis de
-la création du premier dossier au-delà de `LOT-29`.
+Ces renvois étaient **ambigus sans être cassés** : ni le lint ni Doxygen ne les signalaient. Et ce
+n'était pas « une recherche-remplacement dans six specs » comme l'estimait le §10 : chaque référence
+devait être **classée** — lot hérité ou lot courant — avant d'être préfixée ou laissée telle quelle.
+D'où un lot à part entière.
+
+**C'est fait** : le [LOT-78](@ref lot-78) a préfixé **201 renvois** en `LOT-H-NN` dans dix fichiers,
+laissé les 49 qui désignent de vrais lots courants, écrit la convention en tête de
+`specifications.md`, et ajouté à `scripts/lint_lots.py` la **règle 12**, qui refuse tout `LOT-NN` de
+spécification ne désignant pas un lot existant de ce programme. La classification s'est faite par
+couple (fichier, numéro) et non par fichier : `rendu-technique.md` cite le `LOT-07` courant et le
+`LOT-H-08` hérité à onze lignes d'écart.
 
 ---
 
@@ -1787,7 +1765,7 @@ Huit choses méritent donc d'être décidées avant, et non après.
 | **Les tests paramétrés** (`LOT-79`) | Une capacité à créer, sur une suite encore petite | À créer quand même, mais avec des dizaines de tests déjà écrits autrement |
 | **L'horloge et le repos** (`LOT-70`) | Le `LOT-13` n'existe pas : la fiche peut naître en déclarant ses ressources et leur cadence | Rétro-adapter la fiche, puis les quinze classes |
 | **Les champs `"source"` et `"statut"` au schéma** (`LOT-32`) | Une ligne, avant le premier catalogue | Une migration de tous les catalogues livrés |
-| **Désambiguïser les numéros hérités** (`LOT-78`) | 208 renvois à classer dans douze specs — un lot, pas une passe de relecture | Ambiguïté silencieuse, invisible au lint comme à Doxygen |
+| ~~**Désambiguïser les numéros hérités**~~ — fait au [LOT-78](@ref lot-78) | 201 renvois préfixés `LOT-H-NN` dans dix specs, plus la règle de lint qui l'empêche de revenir | Ambiguïté silencieuse, invisible au lint comme à Doxygen |
 
 Deux d'entre elles sont plus que des économies.
 

@@ -1,8 +1,8 @@
 # Interface utilisateur (IHM) {#spec-interface-ihm}
 
-> Statut : **livré** (`0.1.0`). Refonte de l'interface hors-jeu (programme `LOT-34` → `LOT-39`),
-> étendue par le **système de design** (section 6, `LOT-56`) et l'**architecture de l'information de
-> l'éditeur** (section 7, `LOT-57`) — toutes livrées.
+> Statut : **livré** (`0.1.0`). Refonte de l'interface hors-jeu (programme `LOT-H-34` → `LOT-H-39`),
+> étendue par le **système de design** (section 6, `LOT-H-56`) et l'**architecture de l'information de
+> l'éditeur** (section 7, `LOT-H-57`) — toutes livrées.
 > Dépend de [`rendu-technique.md`](rendu-technique.md) et [`editeur-niveaux.md`](editeur-niveaux.md).
 
 L'interface **hors-jeu** (menus, options, remappage, éditeur de niveaux) est distincte du **rendu
@@ -21,17 +21,17 @@ l'UI « maison » dessinée quad par quad. `Core` demeure indépendant de la pr�
 - \anchor EX-IHM-003 **EX-IHM-003** — Le jeu doit afficher, **dans la scène rendue**, un **affichage
   tête haute** minimal indiquant l'état dont le joueur a besoin pour décider : les **budgets de
   sauts et de dashs** restants (`EX-GP-024`) et le nom du tableau en cours. Ces informations existent
-  dans la simulation depuis `LOT-12` sans avoir jamais été rendues visibles. L'affichage passe par le
+  dans la simulation depuis `LOT-H-12` sans avoir jamais été rendues visibles. L'affichage passe par le
   catalogue de traduction (`EX-REN-033`) et n'a aucun effet sur le gameplay (`EX-ARCH-012`).
-  Concrétisé en `LOT-52`.
+  Concrétisé en `LOT-H-52`.
 - \anchor EX-IHM-004 **EX-IHM-004** — Le jeu doit offrir un **écran de pause** (suspendant réellement
   la simulation, sans consommer de pas de temps fixe) et un **écran de fin de niveau**, navigables
   au clavier, à la souris et à la manette comme le reste de l'interface, et passant par le catalogue
-  de traduction (`EX-REN-033`). Détaille `EX-REN-031` du côté de l'interface. Concrétisé en `LOT-59`.
+  de traduction (`EX-REN-033`). Détaille `EX-REN-031` du côté de l'interface. Concrétisé en `LOT-H-59`.
 - \anchor EX-IHM-005 **EX-IHM-005** — Le menu principal doit distinguer **reprendre** une partie
   (`EX-LVL-014`), en **commencer une nouvelle** et **choisir un niveau** parmi ceux déjà atteints.
   Un niveau **hors séquence** (créé dans l'éditeur) doit être jouable sans passer par l'essai de
-  l'éditeur, et sans modifier la progression de la séquence. Concrétisé en `LOT-59`.
+  l'éditeur, et sans modifier la progression de la séquence. Concrétisé en `LOT-H-59`.
 
 ## 2. Éditeur
 - \anchor EX-IHM-010 **EX-IHM-010** — L'éditeur de niveaux doit se présenter en **fenêtre à panneaux
@@ -64,8 +64,8 @@ l'UI « maison » dessinée quad par quad. `Core` demeure indépendant de la pr�
   d'UI** : la pile d'UI « maison » (écrans dessinés au `SpriteBatch`, gestion d'écrans dédiée, fenêtre
   Win32 propre) est **retirée** une fois la parité atteinte.
 
-## 6. Système de design et habillage (LOT-56)
-La refonte `LOT-34` → `LOT-39` a livré une interface Qt **fonctionnelle**, sans jamais traiter son
+## 6. Système de design et habillage (LOT-H-56)
+La refonte `LOT-H-34` → `LOT-H-39` a livré une interface Qt **fonctionnelle**, sans jamais traiter son
 apparence pour elle-même. L'application n'a jamais choisi de style Qt : elle s'exécute donc sur le
 style **natif** de la plate-forme, qui dessine la plupart des contrôles hors du contrôle de
 l'application et ignore une large part de toute feuille de style posée par-dessus. C'est la raison
@@ -111,9 +111,9 @@ et des constantes locales à chaque widget.
   état — présentées dans une **barre d'outils à icônes**, de sorte qu'une même commande placée à
   plusieurs endroits reste une seule définition (condition d'`EX-IHM-062`).
 
-## 7. Architecture de l'information de l'éditeur (LOT-57)
-L'éditeur a gagné un panneau ou un onglet à presque chaque lot du programme d'habillage (`LOT-42`,
-`LOT-43`, `LOT-45`, `LOT-50`, `LOT-51`), sans que la répartition d'ensemble soit jamais revue. Tous
+## 7. Architecture de l'information de l'éditeur (LOT-H-57)
+L'éditeur a gagné un panneau ou un onglet à presque chaque lot du programme d'habillage (`LOT-H-42`,
+`LOT-H-43`, `LOT-H-45`, `LOT-H-50`, `LOT-H-51`), sans que la répartition d'ensemble soit jamais revue. Tous
 ses panneaux restent affichés simultanément quel que soit l'outil actif, plusieurs états sont pilotés
 depuis deux endroits distincts, et l'aide de la barre d'état est une ligne unique de raccourcis
 concaténés qu'un simple message transitoire efface définitivement. À l'inverse, l'état dont l'auteur
@@ -136,8 +136,8 @@ l'application le connaît.
   clavier reste un second chemin **légitime** vers une commande, à condition d'être affiché par la
   commande elle-même plutôt que dupliqué en contrôle distinct.
 
-## 8. Identité visuelle des écrans du jeu (LOT-68)
-Le `LOT-56` a donné à l'interface un habillage cohérent, mais **générique** : la portée identité et
+## 8. Identité visuelle des écrans du jeu (LOT-H-68)
+Le `LOT-H-56` a donné à l'interface un habillage cohérent, mais **générique** : la portée identité et
 le châssis d'édition partagent la même police et la même échelle typographique, si bien que rien, à
 l'écran, ne distingue le menu d'un jeu de plateforme en pixel art du panneau d'un outil de travail.
 Les titres sont fixés à 32 pt et les entrées de menu à 16 pt quelle que soit la taille de la
@@ -183,7 +183,7 @@ souris, insuffisant à la manette, qui n'a pas de pointeur pour dire où elle en
   de chaque commande, et non décidée par le code qui peuple les barres : une répartition implicite
   ne se relit pas et dérive au premier ajout.
 
-## 9. Taille, réactivité et réglages effectifs (LOT-73)
+## 9. Taille, réactivité et réglages effectifs (LOT-H-73)
 
 Les sections précédentes ont donné à l'interface son châssis, son habillage et sa répartition de
 l'information. Aucune n'a jamais dit **qui décide de la taille de la fenêtre**. La réponse, de fait,
@@ -224,11 +224,11 @@ pendant que le `config.json` du run affirmait le contraire.
   réglage absent : il se règle, il s'enregistre dans la configuration du run, et il ment.
 
 ## Traçabilité
-Tout ceci relève de `Source/HMI` — depuis le `LOT-38`, l'unique application Qt `JustAnotherDnDGame` (rendu
+Tout ceci relève de `Source/HMI` — depuis le `LOT-H-38`, l'unique application Qt `JustAnotherDnDGame` (rendu
 de jeu Direct3D 11 + widgets Qt répartis par domaine) ; les assets Qt déclaratifs vivent dans
 `Source/Elements`. La logique testable (édition, validation, remappage) reste découplée de l'UI et
 couverte par des tests (`EX-NFR-010`, `EX-NFR-020`). Détail du séquencement : lots
-`LOT-34` à `LOT-39` pour la refonte initiale ;
-`LOT-56` (section 6) et `LOT-57` (section 7) pour la révision de
-l'apparence et de la répartition de l'information ; `LOT-73` (section 9) pour
+`LOT-H-34` à `LOT-H-39` pour la refonte initiale ;
+`LOT-H-56` (section 6) et `LOT-H-57` (section 7) pour la révision de
+l'apparence et de la répartition de l'information ; `LOT-H-73` (section 9) pour
 l'invariant de taille, les portées de thème et les réglages effectifs.

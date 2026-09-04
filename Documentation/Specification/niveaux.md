@@ -1,7 +1,7 @@
 # Niveaux & contenu {#spec-niveaux}
 
 > Statut : **livré** (`0.1.0`). Format JSON, chargement, validation, chaînage de niveaux, progression
-> persistée (`EX-LVL-014`, `LOT-59`) et couverture de mécaniques garde-fou (`EX-LVL-015`, `LOT-65`)
+> persistée (`EX-LVL-014`, `LOT-H-59`) et couverture de mécaniques garde-fou (`EX-LVL-015`, `LOT-H-65`)
 > tous en place. Dépend de [`gameplay.md`](gameplay.md).
 
 ## 1. Représentation des niveaux
@@ -12,7 +12,7 @@
   format**, afin que l'ajout de nouveaux champs (fond, jeu de skins, texture par case, décors) reste
   traçable et qu'une évolution non rétrocompatible future soit **détectée** plutôt que subie. Un
   fichier **sans** numéro de version est lu comme la version initiale, sans erreur ni avertissement :
-  la rétrocompatibilité des niveaux existants est un invariant. Concrétisé en `LOT-44`.
+  la rétrocompatibilité des niveaux existants est un invariant. Concrétisé en `LOT-H-44`.
 - \anchor EX-LVL-004 **EX-LVL-004** — Le chargement d'un niveau doit **valider** les données (positions des tuiles **dans les bornes** `width × height`, présence d'une entrée et d'une sortie, liaisons de mécanismes valides) et signaler une erreur exploitable en cas de fichier invalide (cf. politique d'erreurs des conventions).
 - \anchor EX-LVL-006 **EX-LVL-006** — Un niveau doit porter son **mode de cadrage** de caméra
   (`EX-REN-016`) comme une **donnée**, au même titre que sa géométrie : le cadrage est une décision
@@ -20,21 +20,21 @@
   personnage — et non une règle déduite des dimensions. Un fichier **sans** mode déclaré conserve
   **exactement** le comportement historique (niveau entier s'il tient dans une salle, cadrage par
   salle sinon) : la rétrocompatibilité des niveaux existants reste un invariant (`EX-LVL-005`).
-  Concrétisé en `LOT-64`.
+  Concrétisé en `LOT-H-64`.
 - \anchor EX-LVL-007 **EX-LVL-007** — En **mode par salle** (`EX-REN-015`), un niveau doit pouvoir
   porter une **liste de zones de caméra** dessinées à la main (rectangles en tuiles) plutôt que de
   subir une grille uniforme unique : la caméra retient la **première** zone de la liste couvrant la
   position du personnage, avec repli sur le **niveau entier** si aucune zone ne le couvre — ce qui
   permet de mélanger plusieurs tailles de caméra dans un même niveau, sans transitions ni
   déclencheurs, la liste étant vide par défaut (comportement de grille automatique inchangé,
-  `EX-LVL-006`). Concrétisé en `LOT-64`.
+  `EX-LVL-006`). Concrétisé en `LOT-H-64`.
 
 - \anchor EX-LVL-008 **EX-LVL-008** — Le format de niveau doit porter la **route** des plateformes
   mobiles (points de passage et mode de parcours, `EX-GP-054`) et les **capacités** du tableau
   (`EX-GP-055`), avec **repli compatible** : un fichier écrit avant le multi-points (couple
   `endX`/`endY`, aucune capacité déclarée) se charge et se joue **à l'identique**, la
   rétrocompatibilité des niveaux existants restant un invariant (`EX-LVL-005`). Concrétisé en
-  `LOT-67`.
+  `LOT-H-67`.
 - \anchor EX-LVL-016 **EX-LVL-016** — Une carte doit porter **N couches de tuiles typées**
   plutôt qu'une grille unique : un RPG en vue de dessus superpose un **sol** (herbe, dalle, eau),
   un **décor** (arbre, tonneau, tapis) et une **collision** — masque indépendant du visuel, un
@@ -70,7 +70,7 @@
   **ignoré avec un avertissement journalisé** nommant le fichier — jamais un rejet. Rejeter
   casserait tout niveau personnel existant, et convertir automatiquement un assemblage de sprites
   en surface peinte est impossible sans rastérisation, donc mentirait sur le résultat
-  (`EX-LVL-004`, `EX-LVL-005`, `EX-NFR-040`). Concrétisé en `LOT-69`.
+  (`EX-LVL-004`, `EX-LVL-005`, `EX-NFR-040`). Concrétisé en `LOT-H-69`.
 
 ### Format retenu (JSON, liste de tuiles-objets)
 Types de tuiles : `entry` (entrée), `exit` (sortie), `solid` (solide), `danger`, `switch`
@@ -168,36 +168,36 @@ d'autres mécanismes. L'exemple omet les tuiles `solid` des bords pour rester li
   synthèse (`EX-LVL-015`). Le « 3 niveaux » du MVP (déplacement/saut, danger, puzzle
   interrupteur↔porte) ne décrit plus le contenu livré depuis longtemps ; la séquence courante,
   vingt-deux tableaux couvrant l'intégralité des mécaniques du moteur, est décrite par
-  `Source/Elements/Levels/README.md`. Concrétisé en `LOT-25`, étendu en `LOT-65`.
+  `Source/Elements/Levels/README.md`. Concrétisé en `LOT-H-25`, étendu en `LOT-H-65`.
 - \anchor EX-LVL-013 **EX-LVL-013** — La **séquence** de niveaux jouée doit être une **donnée de
   contenu** (fichier de `Source/Elements/Levels`), jamais un littéral du code : réordonner, ajouter
   ou retirer un tableau ne doit demander aucune recompilation. Même exigence de validation et de
   version de format que les niveaux eux-mêmes (`EX-LVL-004`, `EX-LVL-005`) ; un niveau référencé mais
-  absent est une **erreur récupérable** (`EX-NFR-040`). Concrétisé en `LOT-59`.
+  absent est une **erreur récupérable** (`EX-NFR-040`). Concrétisé en `LOT-H-59`.
 - \anchor EX-LVL-014 **EX-LVL-014** — La **progression** du joueur (tableau atteint, tableaux
   terminés) doit être **conservée entre deux lancements**, à la granularité du **tableau** et non de
   l'instant. Elle est stockée par **nom** de niveau — de sorte qu'un réordonnancement de la séquence
   (`EX-LVL-013`) ne la rende pas fausse — et se dégrade proprement : fichier absent, vide ou
-  corrompu donne une partie neuve, sans erreur bloquante. Concrétisé en `LOT-59`.
+  corrompu donne une partie neuve, sans erreur bloquante. Concrétisé en `LOT-H-59`.
 - \anchor EX-LVL-015 **EX-LVL-015** — Le contenu livré doit **couvrir toutes les mécaniques** du
   moteur : chaque type de tuile et chaque mode de cadrage (`EX-LVL-006`) doit apparaître dans au
   moins un tableau de la séquence franchi par le test système (`EX-NFR-021`). La vérification est
   **automatique** et **dérivée des énumérations du code**, de sorte qu'ajouter une mécanique sans
   tableau qui l'emploie échoue sans qu'un inventaire ait à être tenu à la main ; les exclusions
   légitimes sont **nommées et justifiées**. Une mécanique absente de tout niveau n'est vérifiée
-  qu'en isolation, jamais dans une partie réelle. Concrétisé en `LOT-65`.
+  qu'en isolation, jamais dans une partie réelle. Concrétisé en `LOT-H-65`.
 
 ## 3. Conception (lignes directrices)
 - Introduire une mécanique à la fois ; le premier niveau sert de tutoriel implicite (sans texte).
 - Aucune situation sans issue (le joueur ne doit jamais être bloqué définitivement sans échec possible).
 - Chaque niveau doit être **franchissable** — vérifié par un test système sur les niveaux du MVP.
 
-### Doctrine de profondeur (`LOT-65` TACHE-05)
+### Doctrine de profondeur (`LOT-H-65` TACHE-05)
 
 Les trois lignes ci-dessus disent ce qu'un tableau ne doit pas être ; elles ne disent pas ce qu'il
 doit **exiger**. Un tableau peut les respecter toutes et n'enseigner rien : il suffit que sa
 mécanique soit posée à côté d'un chemin que l'on parcourt sans elle. C'est ce qui s'est produit avec
-la première séquence du `LOT-65`, dont dix tableaux sur vingt-deux se franchissaient en maintenant
+la première séquence du `LOT-H-65`, dont dix tableaux sur vingt-deux se franchissaient en maintenant
 « droite ». Les quatre règles suivantes complètent donc les précédentes et sont **vérifiées
 automatiquement** (`EX-LVL-015`, `Source/Test/Systeme`).
 
@@ -221,7 +221,7 @@ apparaît dans le fichier. La proximité au trajet réellement parcouru fait par
 ## Traçabilité
 Le chargement et la validation relèvent de `Source/Core` ; les fichiers de niveaux et l'atlas sont dans `Source/Elements`. Types de tuiles : [`gameplay.md`](gameplay.md).
 
-Le découpage d'un niveau en **salles** pour la caméra (`EX-REN-015`, `LOT-32`) est un comportement
+Le découpage d'un niveau en **salles** pour la caméra (`EX-REN-015`, `LOT-H-32`) est un comportement
 de **cadrage**, entièrement porté par `Source/HMI` : le format de fichier (`EX-LVL-003`) et la
 validation (`EX-LVL-004`, dont l'invariant « une entrée, une sortie ») n'en portent aucune trace —
 un niveau à salles reste, du point de vue de `Core`, une grille de tuiles ordinaire.

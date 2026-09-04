@@ -205,11 +205,11 @@ Ces règles sont appliquées par des outils, pas seulement par relecture :
 
 | Outil | Fichier | Rôle | Où il s'exécute |
 |-------|---------|------|------------------|
-| **clang-format** | `.clang-format` | Formatage automatique (indentation, accolades, ordre des `#include`). À exécuter avant chaque commit ; VS l'applique nativement. | Job `format` de `ci.yml` (`--dry-run --Werror`, version LLVM épinglée), sur chaque PR — **bloquant** (LOT-58). |
-| **clang-tidy** | `.clang-tidy` | Analyse statique + vérification des règles de nommage (§2). | Job `clang-tidy` de `ci.yml`, sur le diff de chaque PR — `bugprone-*` **bloquant** (ramené à zéro, LOT-58) ; `cppcoreguidelines-*`/`modernize-*`/`performance-*`/`readability-*` consignés, non bloquants (triage complet hors périmètre du lot). |
+| **clang-format** | `.clang-format` | Formatage automatique (indentation, accolades, ordre des `#include`). À exécuter avant chaque commit ; VS l'applique nativement. | Job `format` de `ci.yml` (`--dry-run --Werror`, version LLVM épinglée), sur chaque PR — **bloquant** (LOT-H-58). |
+| **clang-tidy** | `.clang-tidy` | Analyse statique + vérification des règles de nommage (§2). | Job `clang-tidy` de `ci.yml`, sur le diff de chaque PR — `bugprone-*` **bloquant** (ramené à zéro, LOT-H-58) ; `cppcoreguidelines-*`/`modernize-*`/`performance-*`/`readability-*` consignés, non bloquants (triage complet hors périmètre du lot). |
 | **EditorConfig** | `.editorconfig` | Cohérence d'édition (encodage, fins de ligne, indentation) entre postes et éditeurs. | Appliqué par l'éditeur, non vérifié en CI. |
-| **Avertissements compilateur** | `CMakeLists.txt` | `/W4 /WX` (MSVC) : avertissements au niveau élevé, **traités comme des erreurs**. Bloquant en CI. | Jobs `build-test-coverage`, `build-test-release` et `build-ninja` de `ci.yml`, sur chaque PR — Debug **et** Release depuis le LOT-58 (`build-test-release`). |
-| **AddressSanitizer** | option `ENABLE_ASAN` | Détection à l'exécution des débordements et usages après libération (`EX-NFR-003`). Activable en Debug : `cmake --preset ninja -DENABLE_ASAN=ON`. | Job `sanitize` de `ci.yml`, sur les trois exécutables de test, à chaque PR — bloquant (LOT-58). |
+| **Avertissements compilateur** | `CMakeLists.txt` | `/W4 /WX` (MSVC) : avertissements au niveau élevé, **traités comme des erreurs**. Bloquant en CI. | Jobs `build-test-coverage`, `build-test-release` et `build-ninja` de `ci.yml`, sur chaque PR — Debug **et** Release depuis le LOT-H-58 (`build-test-release`). |
+| **AddressSanitizer** | option `ENABLE_ASAN` | Détection à l'exécution des débordements et usages après libération (`EX-NFR-003`). Activable en Debug : `cmake --preset ninja -DENABLE_ASAN=ON`. | Job `sanitize` de `ci.yml`, sur les trois exécutables de test, à chaque PR — bloquant (LOT-H-58). |
 
 Le code livré compile **sans aucun avertissement**. Un avertissement légitime et inévitable est neutralisé localement et commenté (jamais désactivé globalement).
 

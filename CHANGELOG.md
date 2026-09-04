@@ -6,6 +6,26 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **Les numéros de lots ne sont plus ambigus** (`LOT-78`). Ce dépôt est dérivé de `ProjectGaming`,
+  livré après **74 lots** ; les deux numérotations repartent de `LOT-01`, et la feuille de route
+  atteignant `LOT-84`, la plage héritée était **entièrement recouverte**. `LOT-54` désignait à la
+  fois un atelier pixel art livré et le lot Magicien à faire.
+  - **201 renvois** préfixés `LOT-H-NN` dans dix fichiers de spécification ; les 49 restants
+    désignent de vrais lots de ce programme et gardent leur écriture nue. La convention est écrite
+    en tête de `specifications.md`.
+  - La classification s'est faite par couple **(fichier, numéro)**, pas fichier par fichier :
+    `rendu-technique.md` cite le `LOT-07` courant (tri par Y) et le `LOT-H-08` hérité (caméra
+    cadrant un tableau) à onze lignes d'écart. Deux signaux ont suffi, vérifiés contre les titres
+    des epics archivés : le **temps du verbe** — aucun lot RPG au-delà du `LOT-08` n'est commencé,
+    donc « Concrétisé en » ne peut désigner que l'hérité — et le **vocabulaire** (« tableau »,
+    « dash », « parallaxe » contre « région », « fiche », « d20 »).
+  - `scripts/lint_lots.py` gagne une **règle 12** : tout `LOT-NN` d'une spécification doit désigner
+    un lot existant de ce programme. Sans elle, le travail se déferait au premier renvoi ajouté de
+    mémoire, et il faudrait tout reprendre puisque rien ne dirait ce qui a déjà été classé.
+  - **Le garde-fou a d'abord échoué en silence** : la règle 12 contenait un caractère de contrôle
+    invisible dans son expression régulière, qui l'empêchait de jamais correspondre. Elle n'a été
+    tenue pour acquise qu'après avoir vu le lint refuser un `LOT-99` délibérément injecté.
+
 - **La moitié RPG de la spécification** (`LOT-77`). Cinq familles d'exigences étaient **fantômes** —
   `EX-CNT`, `EX-DND`, `EX-RPG`, `EX-CBT`, `EX-INV` — citées par une vingtaine de lots sans qu'aucun
   document ne les porte. Cinq documents les portent désormais, pour **69 exigences** :

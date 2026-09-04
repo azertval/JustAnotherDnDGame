@@ -22,7 +22,9 @@ Ce lint les refuse en CI. Il vérifie :
 8. les **comptes annoncés en toutes lettres** correspondent au décompte réel ;
 9. aucune **exigence** n'est revendiquée en retrait par deux lots à la fois ;
 10. le **tableau récapitulatif** de la section 6 correspond au graphe déclaré ;
-11. toute arête du **diagramme** de la section 6 correspond à un lien déclaré.
+11. toute arête du **diagramme** de la section 6 correspond à un lien déclaré ;
+12. tout ``LOT-NN`` cité dans une **spécification** désigne un lot **de ce programme** ; un renvoi
+    au programme hérité de ``ProjectGaming`` s'écrit ``LOT-H-NN``.
 
 Les lots livrés (``LOT-01`` à ``LOT-07``) et absorbés (``LOT-08`` à ``LOT-29``) sont exclus des
 contrôles 1, 2 et 5 : leur texte est repris tel quel de leurs epics d'origine, et les sections 5, 9
@@ -43,6 +45,11 @@ if hasattr(sys.stdout, 'reconfigure'):
 RACINE = Path(__file__).resolve().parent.parent
 DOSSIER_LOTS = RACINE / 'Documentation' / 'Lot'
 ROADMAP = DOSSIER_LOTS / 'roadmap-0.1.0.md'
+SPECIFICATIONS = RACINE / 'Documentation' / 'Specification'
+
+# Un renvoi de spécification vers le programme hérité s'écrit LOT-H-NN ; sans le préfixe, LOT-NN
+# désigne un lot de ce programme, et doit donc en désigner un qui existe.
+RENVOI_SPEC_RE = re.compile(r'(?<!H-)LOT-(\d+)')
 
 PREMIER_LOT_FILIERE = 30
 
@@ -63,6 +70,8 @@ NOMBRES_FR = {
     1: 'un', 2: 'deux', 3: 'trois', 4: 'quatre', 5: 'cinq', 6: 'six', 7: 'sept', 8: 'huit',
     9: 'neuf', 10: 'dix', 11: 'onze', 12: 'douze', 13: 'treize', 14: 'quatorze', 15: 'quinze',
     16: 'seize', 20: 'vingt', 30: 'trente', 40: 'quarante', 50: 'cinquante',
+    45: 'quarante-cinq', 46: 'quarante-six', 47: 'quarante-sept', 48: 'quarante-huit',
+    49: 'quarante-neuf',
     51: 'cinquante et un', 52: 'cinquante-deux', 53: 'cinquante-trois',
     54: 'cinquante-quatre', 55: 'cinquante-cinq',
 }
@@ -324,6 +333,18 @@ def main() -> int:
                 continue
             if src not in amont.get(dst, []) and dst not in aval.get(src, set()):
                 r.erreur('le diagramme (§6) trace %s → %s, que rien ne déclare' % (src, dst))
+
+    # ---- 12 : les renvois des spécifications désignent un lot de ce programme ----
+    connus = set(sections) | livres
+    for chemin in sorted(SPECIFICATIONS.glob('*.md')):
+        lignes = chemin.read_text(encoding='utf-8').splitlines()
+        for numero_ligne, ligne in enumerate(lignes, 1):
+            for n in RENVOI_SPEC_RE.findall(ligne):
+                lot = numero(n)
+                if lot not in connus:
+                    r.erreur("%s:%d cite %s, qui n'existe pas dans ce programme — un renvoi au "
+                             "programme hérité s'écrit LOT-H-%s"
+                             % (chemin.name, numero_ligne, lot, n))
 
     print('lots de la filière : %d (LOT-%d à LOT-%d ; %d retiré(s), %d livré(s) hors page)'
           % (len(filiere), min(presents), max(presents), len(retires_reels),

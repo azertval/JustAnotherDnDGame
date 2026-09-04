@@ -1,9 +1,9 @@
 # Éditeur de niveaux {#spec-editeur}
 
 > Statut : **édition de tuiles de base et robustesse/confort d'édition validés et livrés**
-> (LOT-14 : peinture, mécanismes, entrée/sortie, redimensionnement, undo/redo,
-> enregistrement/validation, essai immédiat ; LOT-15 : nommage, garde-fous, caméra, outils de
-> zone, découvrabilité ; LOT-16 : niveaux de grande taille, section 7 ; LOT-27 : palette organisée
+> (LOT-H-14 : peinture, mécanismes, entrée/sortie, redimensionnement, undo/redo,
+> enregistrement/validation, essai immédiat ; LOT-H-15 : nommage, garde-fous, caméra, outils de
+> zone, découvrabilité ; LOT-H-16 : niveaux de grande taille, section 7 ; LOT-H-27 : palette organisée
 > par catégories repliables, section 8).
 > Dépend de [`niveaux.md`](niveaux.md).
 
@@ -13,7 +13,7 @@ Permettre la **création et la modification de niveaux sans écrire de code**, a
 ## 1. Exigences fonctionnelles
 - \anchor EX-EDIT-001 **EX-EDIT-001** — L'éditeur doit permettre de créer et modifier un niveau **sans compétence en programmation** ni ligne de commande.
 - \anchor EX-EDIT-002 **EX-EDIT-002** — L'édition doit être **WYSIWYG** : une grille visuelle où l'on peint les tuiles (vide, solide, danger…) à la souris, depuis une **palette** de types.
-- \anchor EX-EDIT-003 **EX-EDIT-003** — L'éditeur doit permettre de placer et **relier visuellement les mécanismes** (interrupteur ↔ porte ; clé ↔ porte verrouillée et blocs poussables **dès que `Core` les implémentera côté gameplay** — absents du moteur à ce jour, donc hors périmètre de l'éditeur jusque-là, cf. `epic.md` du lot LOT-14).
+- \anchor EX-EDIT-003 **EX-EDIT-003** — L'éditeur doit permettre de placer et **relier visuellement les mécanismes** (interrupteur ↔ porte ; clé ↔ porte verrouillée et blocs poussables **dès que `Core` les implémentera côté gameplay** — absents du moteur à ce jour, donc hors périmètre de l'éditeur jusque-là, cf. `epic.md` du lot LOT-H-14).
 - \anchor EX-EDIT-004 **EX-EDIT-004** — L'éditeur doit permettre de définir l'**entrée** et la **sortie** du niveau.
 - \anchor EX-EDIT-005 **EX-EDIT-005** — L'éditeur doit permettre de **redimensionner** la grille et de gérer **annuler/refaire** (undo/redo).
 - \anchor EX-EDIT-006 **EX-EDIT-006** — L'éditeur doit **enregistrer et charger** au format JSON défini par `EX-LVL-003` (celui réellement implémenté par `LevelLoader`, pas un format hybride ASCII — l'édition texte brut n'est pas visée, cf. `EX-EDIT-001`), en produisant des fichiers **valides**.
@@ -47,17 +47,17 @@ Ces capacités sont livrées **après** l'édition de tuiles de base, mais l'arc
 ## 5. Non-objectifs (éditeur, MVP)
 - Édition collaborative en temps réel (plusieurs personnes sur le même niveau simultanément).
 - Édition des assets graphiques/sonores (l'éditeur agence des tuiles existantes, il ne dessine pas
-  les sprites) — **exception ciblée** : `LOT-54` introduit un éditeur de texture pixel art minimal
+  les sprites) — **exception ciblée** : `LOT-H-54` introduit un éditeur de texture pixel art minimal
   (peindre/modifier les fichiers d'assets eux-mêmes), sans remettre en cause ce non-objectif pour le
   reste de l'éditeur (agencement de tuiles existantes, pas de génération procédurale de sprites).
 - Sélection multiple non contiguë et historique annuler/refaire par delta (l'historique par
-  snapshots complets, retenu en LOT-14, reste adapté à la taille des niveaux du projet).
+  snapshots complets, retenu en LOT-H-14, reste adapté à la taille des niveaux du projet).
 - Palette pilotée par un fichier de configuration externe (la liste de types gérés par `Core`
   reste petite et change rarement ; une couche de données externes serait une abstraction non
   justifiée à ce stade).
 
-## 6. Robustesse et confort d'édition (LOT-15)
-Une fois l'édition de tuiles de base livrée (LOT-14), l'usage réel fait ressortir des besoins
+## 6. Robustesse et confort d'édition (LOT-H-15)
+Une fois l'édition de tuiles de base livrée (LOT-H-14), l'usage réel fait ressortir des besoins
 complémentaires pour rapprocher l'éditeur d'un outil de production : éviter la perte de travail,
 éditer confortablement des niveaux plus grands, et rendre les commandes découvrables sans dépendre
 uniquement de la documentation externe.
@@ -74,7 +74,7 @@ uniquement de la documentation externe.
 - \anchor EX-EDIT-015 **EX-EDIT-015** — L'éditeur doit exposer ses commandes de façon
   **découvrable** à l'écran : une barre d'outils pour changer d'outil, un aperçu des raccourcis
   clavier, et des libellés sur les entrées de la palette. *La barre d'outils à icônes est concrétisée
-  en `LOT-56` (`EX-IHM-055`) et l'aperçu des raccourcis en `LOT-57` — lots hérités, archivés sous
+  en `LOT-H-56` (`EX-IHM-055`) et l'aperçu des raccourcis en `LOT-H-57` — lots hérités, archivés sous
   `Documentation/Heritage/Lot/` : le
   changement d'outil passait jusqu'ici par des boutons radio empilés, et aucun aperçu des raccourcis
   n'était atteignable depuis l'application.*
@@ -82,7 +82,7 @@ uniquement de la documentation externe.
   visibles simultanément, chacune doit être **visuellement distinguable** des autres (et non une
   teinte unique partagée par toutes les liaisons).
 
-## 7. Niveaux de grande taille (LOT-16)
+## 7. Niveaux de grande taille (LOT-H-16)
 Le redimensionnement (`EX-EDIT-005`) se faisait jusqu'ici uniquement case par case (flèches),
 praticable pour de petits ajustements mais pas pour viser directement une grande taille. Aucune
 limite technique n'existe dans `Core` (`TileMap`/`LevelDraft` acceptent toute dimension positive) —
@@ -93,7 +93,7 @@ seule l'ergonomie manquait.
   généreux** (très au-delà des tailles livrées à ce jour) qui reste configurable au niveau du code,
   pas une limite arbitraire de `Core`.
 
-## 8. Palette organisée par catégories (LOT-27)
+## 8. Palette organisée par catégories (LOT-H-27)
 La palette (`EX-EDIT-002`) affichait ses types de tuiles en **liste plate** : 19 lignes, chacune
 son propre libellé, où les huit variantes de pente/arrondi et les trois tailles de bloc poussable
 noyaient les huit types simples au milieu d'orientations presque identiques visuellement. Aucun
@@ -112,7 +112,7 @@ défilement long avant de repérer le bon type.
   inaccessibles à la souris ; déplier ou replier un en-tête ne doit jamais le faire disparaître de
   la fenêtre visible.
 
-## 9. Dangers avancés (`LOT-31`)
+## 9. Dangers avancés (`LOT-H-31`)
 La catégorie « Piège » (`EX-EDIT-018`), jusqu'ici une entrée autonome à côté de « Vide » (une seule
 tuile, `Danger`), devient une catégorie repliable à part entière une fois les quatre nouvelles
 variantes ajoutées (`EX-GP-050` à `EX-GP-053`) : une feuille directe « Classique », un sous-groupe
@@ -127,11 +127,11 @@ patron d'accordéon que les catégories existantes.
 
 L'axe et la portée d'un danger mobile, ainsi que la période/le déphasage d'un danger temporisé,
 **ne sont pas** éditables par un widget dédié (cf. exclusion actée dans `Documentation/Lot/
-LOT-31-blocs-danger-avances/epic.md`) — un danger mobile peint depuis la palette garde ses valeurs
+LOT-H-31-blocs-danger-avances/epic.md`) — un danger mobile peint depuis la palette garde ses valeurs
 de conception par défaut tant qu'elles ne sont pas ajustées en modifiant directement le fichier de
 niveau.
 
-## 10. Niveaux à salles (`LOT-32`)
+## 10. Niveaux à salles (`LOT-H-32`)
 Un niveau plus grand qu'une **salle** (`EX-REN-015`) se joue avec une caméra qui cadre la salle
 courante, pas le niveau entier — un level designer doit pouvoir repérer où se trouvent les
 frontières de salles pendant l'édition, pour aligner ses couloirs inter-salles sans deviner.
@@ -142,7 +142,7 @@ frontières de salles pendant l'édition, pour aligner ses couloirs inter-salles
   repère n'affecte **pas** le cadrage caméra de l'éditeur (pan/zoom manuel sur le niveau entier,
   `EX-EDIT-013`, inchangé) : seule la caméra du **jeu** cadre par salle (`EX-REN-015`).
 
-## 11. Habillage par textures et décors (`LOT-40` → `LOT-55`)
+## 11. Habillage par textures et décors (`LOT-H-40` → `LOT-H-55`)
 Au-delà de la couleur plate par type de tuile (rendu « Physique », inchangé), le level designer doit
 pouvoir habiller le niveau avec de vraies textures — sans jamais perdre la lecture du physique
 (`EX-NFR-040`, `EX-ARCH-012` : purement visuel, aucun effet sur la simulation).
@@ -150,63 +150,63 @@ pouvoir habiller le niveau avec de vraies textures — sans jamais perdre la lec
 - \anchor EX-EDIT-042 **EX-EDIT-042** — L'éditeur doit permettre d'associer une **texture** à chaque
   type de tuile, choisie parmi des fichiers image existants (pas de saisie de chemin) — répond au
   besoin d'origine d'habiller les blocs. Chaque association déclare un **mode de rendu** : image
-  unique, ou **planche à raccords automatiques** (`EX-EDIT-025`). Concrétisé en `LOT-42`.
+  unique, ou **planche à raccords automatiques** (`EX-EDIT-025`). Concrétisé en `LOT-H-42`.
 - \anchor EX-EDIT-024 **EX-EDIT-024** — Les associations type de tuile → texture doivent être
   regroupées en **jeux de skins nommés** (ex. « forêt », « grotte »), et un niveau doit pouvoir
   désigner le jeu qu'il utilise : une seule association globale pour tout le jeu empêcherait toute
   variété d'ambiance au fil de la progression. En l'absence de désignation, le niveau utilise le jeu
-  par défaut. Concrétisé en `LOT-42` (jeux de skins) et `LOT-44` (désignation par niveau).
+  par défaut. Concrétisé en `LOT-H-42` (jeux de skins) et `LOT-H-44` (désignation par niveau).
 - \anchor EX-EDIT-025 **EX-EDIT-025** — Pour les types de tuiles **solides**, le rendu doit pouvoir
   choisir automatiquement l'image affichée en fonction des **tuiles solides voisines** (raccords de
   bords et de coins) au sein d'une **planche** fournie par l'auteur, plutôt que de répéter la même
   image partout. La règle de choix est **déterministe** et testable indépendamment du GPU.
-  Concrétisé en `LOT-42`.
+  Concrétisé en `LOT-H-42`.
 - \anchor EX-EDIT-026 **EX-EDIT-026** — L'éditeur doit permettre de **gérer les fichiers d'assets**
   sans quitter l'application : importer une image externe dans le dossier d'assets, renommer,
   dupliquer, supprimer — avec un **avertissement** lorsque l'asset visé est référencé par un niveau
   ou par un jeu de skins — et **recharger à chaud** les assets modifiés sur disque sans redémarrer.
-  Concrétisé en `LOT-43`.
+  Concrétisé en `LOT-H-43`.
 - \anchor EX-EDIT-027 **EX-EDIT-027** — La **palette de l'éditeur** doit afficher l'apparence
   réellement rendue : en mode Texture, la texture assignée au type ; en mode Physique, la couleur
-  plate. Peindre sans voir ce que l'on pose est une régression d'usage. Concrétisé en `LOT-42`.
+  plate. Peindre sans voir ce que l'on pose est une régression d'usage. Concrétisé en `LOT-H-42`.
 - \anchor EX-EDIT-028 **EX-EDIT-028** — L'éditeur doit permettre de **choisir le mode de cadrage**
   du niveau (`EX-LVL-006`) et de le **prévisualiser** dans le canevas — cadre du niveau, grille de
   salles, ou rectangle visible et zone morte pour le suivi — sans avoir à lancer l'essai. Le
   changement de mode est une opération d'édition **annulable** (`EX-EDIT-005`) et le mode courant est
   visible en permanence dans la barre d'état (`EX-IHM-062`). Sans cela, le cadrage resterait
   accessible aux seuls éditeurs de JSON, ce que l'existence même de l'éditeur (`EX-VIS-006`) exclut.
-  Concrétisé en `LOT-64`.
+  Concrétisé en `LOT-H-64`.
 - \anchor EX-EDIT-029 **EX-EDIT-029** — L'éditeur doit permettre de **dessiner et retirer** les
   zones de caméra du mode *par salle* (`EX-LVL-007`) directement sur le canevas, par un outil dédié
   au même titre que les autres outils de dessin (rectangle, sélection), avec un tableau
   récapitulatif dans la section « Cadrage ». Chaque ajout ou retrait est une opération d'édition
-  **annulable** (`EX-EDIT-005`). Concrétisé en `LOT-64`.
+  **annulable** (`EX-EDIT-005`). Concrétisé en `LOT-H-64`.
 - \anchor EX-EDIT-032 **EX-EDIT-032** — L'éditeur doit permettre de **manipuler directement au
   canevas** la trajectoire des éléments mobiles : déplacer, insérer et retirer les points de la
   route d'une plateforme mobile (`EX-GP-054`), redéfinir l'axe et la portée d'un danger mobile
   (`EX-GP-051`), au moyen de **poignées glissables** de taille écran constante. Chaque geste complet
   est **une seule** opération annulable (`EX-EDIT-005`), jamais une par position intermédiaire.
   Sans cela, ces trajectoires resteraient accessibles aux seuls éditeurs de JSON, ce que l'existence
-  même de l'éditeur (`EX-VIS-006`) exclut. Concrétisé en `LOT-67`.
+  même de l'éditeur (`EX-VIS-006`) exclut. Concrétisé en `LOT-H-67`.
 - \anchor EX-EDIT-033 **EX-EDIT-033** — L'éditeur doit exposer, dans un panneau dédié, les
   **paramètres de temporisation** des éléments mobiles (vitesse, déphasage et mode de parcours d'une
   plateforme ; axe et portée d'un danger mobile ; période, déphasage et durée active d'un danger
   temporisé) ainsi que les **règles du tableau** (budgets de `EX-GP-024` et capacités de
   `EX-GP-055`), sous une forme éditable et **annulable** (`EX-EDIT-005`). Les deux notions de règles
   doivent être présentées **distinctement**, un budget consommable ne se confondant pas avec une
-  capacité rechargée. Concrétisé en `LOT-67`.
+  capacité rechargée. Concrétisé en `LOT-H-67`.
 - \anchor EX-EDIT-043 **EX-EDIT-043** — L'éditeur doit permettre d'assigner une **texture propre à
   une case précise** (« objet interactif », ex. une porte particulière), par un geste de clic dédié,
-  prioritaire sur l'association globale (`EX-EDIT-042`) pour cette case. Concrétisé en `LOT-45`.
+  prioritaire sur l'association globale (`EX-EDIT-042`) pour cette case. Concrétisé en `LOT-H-45`.
 - \anchor EX-EDIT-044 **EX-EDIT-044** — L'éditeur doit permettre de contrôler la **visibilité de
   chaque calque** indépendamment (fond, décors, skin des tuiles, objets interactifs, personnage,
   premier plan), à des fins d'inspection : cela couvre l'affichage **isolé** d'un calque comme toute
   **combinaison** de calques — distinct de la bascule Physique/Texture en jeu (`EX-REN-046`).
-  Concrétisé en `LOT-51`.
+  Concrétisé en `LOT-H-51`.
 - \anchor EX-EDIT-045 **EX-EDIT-045** — L'éditeur doit intégrer un **outil de dessin pixel art**
   minimal (peindre/effacer, palette, zoom, annuler/refaire) pour créer/modifier directement les
   fichiers d'assets de texture, sans dépendance externe, avec un **aperçu du rendu dans le niveau**
-  pendant l'édition. Concrétisé en `LOT-54`.
+  pendant l'édition. Concrétisé en `LOT-H-54`.
 - \anchor EX-EDIT-046 **EX-EDIT-046** — L'éditeur doit offrir un **mode création** — un espace de
   travail à part entière, au même titre que l'édition de niveau et l'atelier pixel art — où le
   niveau **entier** devient une surface peignable, **plan par plan** (`EX-DEC-045`), au pixel près
@@ -218,21 +218,21 @@ pouvoir habiller le niveau avec de vraies textures — sans jamais perdre la lec
   et l'essai. L'historique du dessin est **strictement distinct** de celui de l'édition de niveau :
   annuler un coup de pinceau ne doit jamais annuler une pose de tuile. Le zoom doit descendre
   **sous** le 1:1 pour embrasser un niveau entier, en conservant des pixels **carrés**
-  (`EX-ARCH-022`). Concrétisé en `LOT-69`.
+  (`EX-ARCH-022`). Concrétisé en `LOT-H-69`.
 - \anchor EX-EDIT-047 **EX-EDIT-047** — L'éditeur doit exposer, dans un **panneau dédié**, la liste
   ordonnée des plans du niveau et leurs réglages : ajout, suppression, **réordonnancement**,
   densité, facteurs de parallaxe, opacité, profondeur et visibilité. Ajouter un plan crée son
   fichier PNG **transparent aux dimensions exactes** attendues ; changer sa densité rééchantillonne
   l'image existante plutôt que de la perdre. Le poids mémoire du niveau (`EX-NFR-043`) est visible
-  **pendant** qu'on le dépense. Concrétisé en `LOT-69`.
+  **pendant** qu'on le dépense. Concrétisé en `LOT-H-69`.
 
 ## Traçabilité
 L'éditeur s'appuie sur `Core` (modèle et validation de niveau, `niveaux.md`) et sur le rendu de
-`HMI` (`rendu-technique.md`). L'édition de tuiles de base a fait l'objet du lot **LOT-14** (terminé) ;
-la robustesse et le confort d'édition (section 6) du lot **LOT-15** (terminé) ; la saisie directe de
-grandes tailles (section 7) du lot **LOT-16** (terminé) ; la palette organisée par catégories
-(section 8) du lot **LOT-27** (terminé) ; les dangers avancés (section 9) du lot **LOT-31**
-(terminé) ; le repère visuel de salles (section 10) du lot **LOT-32** (terminé) ; l'habillage des
-tuiles par textures et les décors (section 11) des lots **LOT-40** à **LOT-55** (non commencés).
-L'édition de décors (section 4bis, `EX-EDIT-040`) est concrétisée en **LOT-50** ; la conversion
+`HMI` (`rendu-technique.md`). L'édition de tuiles de base a fait l'objet du lot **LOT-H-14** (terminé) ;
+la robustesse et le confort d'édition (section 6) du lot **LOT-H-15** (terminé) ; la saisie directe de
+grandes tailles (section 7) du lot **LOT-H-16** (terminé) ; la palette organisée par catégories
+(section 8) du lot **LOT-H-27** (terminé) ; les dangers avancés (section 9) du lot **LOT-H-31**
+(terminé) ; le repère visuel de salles (section 10) du lot **LOT-H-32** (terminé) ; l'habillage des
+tuiles par textures et les décors (section 11) des lots **LOT-H-40** à **LOT-H-55** (non commencés).
+L'édition de décors (section 4bis, `EX-EDIT-040`) est concrétisée en **LOT-H-50** ; la conversion
 photo → pixel art (`EX-EDIT-041`) reste hors du programme.

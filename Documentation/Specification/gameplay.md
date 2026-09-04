@@ -2,7 +2,7 @@
 
 > Statut : **livré** (`0.1.0`). Mécaniques du MVP (déplacement, saut, mécanismes de puzzle,
 > conditions de fin) et mécaniques aériennes avancées (double saut, wall jump, dash) toutes
-> implémentées et couvertes par la séquence de démonstration (`LOT-65`). Reste ouvert : le
+> implémentées et couvertes par la séquence de démonstration (`LOT-H-65`). Reste ouvert : le
 > **réglage fin du ressenti** (Sec. 2, valeurs marquées ⚠️ dans `Source/Core/Physics/PhysicsConfig.h`)
 > n'est pas figé — reporté au-delà de `0.1.0`, le jeu restant jouable avec les valeurs actuelles.
 > Dépend de [`vision.md`](vision.md).
@@ -31,7 +31,7 @@ Le niveau est une **grille de tuiles** de taille fixe : **16 × 16 px** par tuil
 - \anchor EX-GP-006 **EX-GP-006** — Une tuile de **pente/arrondi de plafond** (`SlopeDownRight`/`SlopeDownLeft`/`RoundedDownRight`/`RoundedDownLeft`) doit exister comme variante **miroir vertical** des pentes/arrondis de sol (`EX-GP-003`/`EX-GP-004`) : matière pleine en **haut** de la case plutôt qu'en bas. Comme ses équivalents de sol, elle n'est **jamais solide** pour la grille classique (`core::isSolid`) — sa collision est résolue par deux passes symétriques : `core::resolveCeilingSlopeFollow` (miroir de `resolveSlopeFollow`, déclenchée en **montant**, `velocityY < 0`) bloque un saut qui franchirait sa silhouette **par en dessous** (bonk précis contre le profil incliné/courbe réel, pas une case pleine uniforme) ; sa **face du haut**, toujours **plate** au sommet de la case (`core::slopeSurfaceHeight` y renvoie `0`, quel que soit `localX`), supporte normalement un personnage qui tombe dessus **par au-dessus**, via `resolveSlopeFollow` réutilisé sans modification (sans quoi il tomberait au travers). Le personnage ne **marche** en revanche jamais **latéralement** le long de sa silhouette inclinée (`core::isFollowableSurface` reste `false`).
 - \anchor EX-GP-007 **EX-GP-007** — Une tuile d'**arrondi concave** (`ConcaveUpRight`/`ConcaveUpLeft`, sol ; `ConcaveDownRight`/`ConcaveDownLeft`, plafond) doit offrir le même suivi de surface/silhouette que l'arrondi (`EX-GP-004`/`EX-GP-006`), avec une courbure **inversée** : centre du cercle du côté **plein** plutôt que du côté creux (tangente **horizontale** du côté creux, **verticale** du côté plein — l'exact inverse de l'arrondi convexe). Même rayon (une case), mêmes valeurs aux bords que l'arrondi convexe de même orientation ; seule la fonction de hauteur (`core::slopeSurfaceHeight`, `core::ceilingSlopeHeight`) change, les passes de résolution (`core::resolveSlopeFollow`/`core::resolveCeilingSlopeFollow`) sont réutilisées sans modification.
 
-### Dangers avancés (`LOT-31`)
+### Dangers avancés (`LOT-H-31`)
 > La tuile `Danger` reste le danger **classique** : case pleine, statique, mortelle sur toute sa
 > surface. Les quatre variantes ci-dessous étendent ce vocabulaire sans changer la règle de fin de
 > niveau elle-même (`EX-GP-031` : contact = échec) — seule la **géométrie** ou l'**activation** du
@@ -57,13 +57,13 @@ Le niveau est une **grille de tuiles** de taille fixe : **16 × 16 px** par tuil
   le premier en ligne droite, ce segment de fermeture faisant partie du cycle). La vitesse est
   constante sur toute la route, segment de fermeture compris, et la position reste fonction du seul
   **numéro de pas** (`EX-NFR-002`) — jamais d'accumulation. Une route vide décrit une plateforme
-  immobile, pas un niveau invalide (`EX-NFR-040`). Concrétisé en `LOT-67`.
+  immobile, pas un niveau invalide (`EX-NFR-040`). Concrétisé en `LOT-H-67`.
 - \anchor EX-GP-055 **EX-GP-055** — Un **tableau** doit pouvoir redéfinir les **capacités** de
   mobilité du personnage rechargées à chaque contact avec le sol : nombre de **sauts aériens**
   (`EX-GP-015`) et nombre de **charges de dash** (`EX-GP-017`). À distinguer strictement du
   **budget** de `EX-GP-024`, qui se consomme une fois pour toutes sur l'ensemble du tableau et n'est
   jamais rechargé. Un tableau qui n'en déclare aucune conserve les réglages du moteur, à
-  l'identique. Concrétisé en `LOT-67`.
+  l'identique. Concrétisé en `LOT-H-67`.
 - \anchor EX-GP-056 **EX-GP-056** — Le dash (`EX-GP-017`) doit pouvoir être **chargé** : maintenir
   **le bouton de dash** et la direction opposée à celle du prochain dash pendant un seuil
   configurable, puis déclencher le dash, doit produire un **dash boosté** (vitesse et/ou durée
@@ -72,26 +72,26 @@ Le niveau est une **grille de tuiles** de taille fixe : **16 × 16 px** par tuil
   intention de dasher, ne doit **jamais** amorcer de charge. Relâcher le bouton, changer de
   direction, ou atteindre le seuil sans les deux maintenus ensemble annule/empêche la charge en
   cours. Ne crée **aucune** charge de dash supplémentaire (`dashChargesRemaining`) ni budget
-  (`EX-GP-024`) : seul le dash normalement consommé est modifié. Concrétisé en `LOT-72`.
+  (`EX-GP-024`) : seul le dash normalement consommé est modifié. Concrétisé en `LOT-H-72`.
 - \anchor EX-GP-057 **EX-GP-057** — Un **bloc poussable** (`EX-GP-022`) percuté pendant un dash
   **boosté** (`EX-GP-056` — un dash normal pousse comme avant ce lot, sans régression) doit être
   repoussé de **plusieurs cases en un seul pas fixe** (au lieu d'une case par contact comme la
   poussée en marche normale), jusqu'au premier obstacle ou une distance maximale configurable, sans
-  jamais traverser d'obstacle. Concrétisé en `LOT-72`.
+  jamais traverser d'obstacle. Concrétisé en `LOT-H-72`.
 - \anchor EX-GP-058 **EX-GP-058** — Le personnage doit pouvoir déclencher, **en l'air uniquement et
   sans charge de dash disponible** (`dashChargesRemaining <= 0` — tant qu'une charge existe, la même
   combinaison reste un dash vertical normal, `EX-GP-017`, sans régression sur un usage existant), un
   **ground pound** : une chute accélérée verticale à vitesse imposée, qui se termine au contact du
   sol. N'altère pas l'interaction déjà existante avec les mécanismes sensibles au poids
   (`EX-GP-025`) ; l'atterrissage déclenche la secousse caméra déjà existante pour tout impact lourd,
-  sans code dédié. Concrétisé en `LOT-72`.
+  sans code dédié. Concrétisé en `LOT-H-72`.
 - \anchor EX-GP-060 **EX-GP-060** — Pendant un dash, la trajectoire doit **suivre les pentes et
   plafonds inclinés** (`EX-GP-003`/`EX-GP-004`/`EX-GP-006`/`EX-GP-007`) comme le déplacement normal,
   sans jamais clipper à travers leur surface. Vérifié à l'implémentation : la passe de suivi de
   pente (`core::resolveSlopeFollow`/`resolveCeilingSlopeFollow`) s'applique déjà à **chaque** pas de
   simulation, dash ou non (`CharacterPhysicsSystem::resolveCollisionAndState`, appelée
   inconditionnellement) — cette exigence documente et **teste explicitement** un comportement déjà
-  correct par construction, plutôt que d'en ajouter un nouveau. Concrétisé en `LOT-72`.
+  correct par construction, plutôt que d'en ajouter un nouveau. Concrétisé en `LOT-H-72`.
 - \anchor EX-GP-061 **EX-GP-061** — Le personnage doit disposer d'un **combo dash + saut** :
   sauter **pendant** un dash **boosté** (`EX-GP-056` — jamais un dash normal, qui continue de
   bufferiser le saut jusqu'à l'expiration du dash comme avant ce lot) doit y mettre fin
@@ -102,7 +102,7 @@ Le niveau est une **grille de tuiles** de taille fixe : **16 × 16 px** par tuil
   vitesse horizontale du bloc ; des jump-cancels rapprochés doivent cumuler un bonus de vitesse
   **plafonné**, remis à zéro au contact du sol. Le nombre d'enchaînements reste borné par les
   charges/budget de dash déjà existants (`EX-GP-055`, `EX-GP-024`) — aucune charge supplémentaire
-  n'est créée. Concrétisé en `LOT-72`.
+  n'est créée. Concrétisé en `LOT-H-72`.
 
 ## 2. Personnage & déplacement
 - \anchor EX-GP-010 **EX-GP-010** — Le personnage doit se déplacer horizontalement à vitesse constante (~3 tuiles/s en jeu, `Source/Core/Physics/PhysicsConfig.h` `moveSpeed` — ⚠️ réglage fin non figé, reporté au-delà de `0.1.0`).
@@ -122,27 +122,27 @@ Le niveau est une **grille de tuiles** de taille fixe : **16 × 16 px** par tuil
 ### Ressenti (game feel) — ⚠️ réglage fin reporté au-delà de `0.1.0`
 Cible visée, non encore atteinte : hauteur de saut ~2,5 tuiles, apex en ~0,35 s. Valeurs en jeu
 (`Source/Core/Physics/PhysicsConfig.h`) : ~2,25 tuiles, apex ~0,3 s — jouable et couvert par la
-séquence de démonstration (`LOT-65`), mais le fichier de constantes marque encore chaque valeur
+séquence de démonstration (`LOT-H-65`), mais le fichier de constantes marque encore chaque valeur
 « à affiner ». *Coyote time* (~80 ms) et *jump buffering* (~120 ms) sont en revanche **au
-paramètre visé** depuis `LOT-09`.
+paramètre visé** depuis `LOT-H-09`.
 
 ## 3. Mécanismes de puzzle
 Concrétise l'objectif produit `EX-VIS-003` (`vision.md`).
 - \anchor EX-GP-020 **EX-GP-020** — Un **interrupteur** doit changer d'état quand le personnage l'active (contact ou action dédiée).
-- \anchor EX-GP-021 **EX-GP-021** — Une **porte** liée à un interrupteur doit s'ouvrir/se fermer selon l'état de celui-ci. Une porte qui se **referme sur le personnage** provoque l'**échec** du niveau, exactement comme un écrasement sous une plateforme mobile (`EX-GP-026`) — jamais un personnage encastré dans un mur, ce qui serait une situation sans issue (`niveaux.md`, Sec. 3). Complété en `LOT-65`.
+- \anchor EX-GP-021 **EX-GP-021** — Une **porte** liée à un interrupteur doit s'ouvrir/se fermer selon l'état de celui-ci. Une porte qui se **referme sur le personnage** provoque l'**échec** du niveau, exactement comme un écrasement sous une plateforme mobile (`EX-GP-026`) — jamais un personnage encastré dans un mur, ce qui serait une situation sans issue (`niveaux.md`, Sec. 3). Complété en `LOT-H-65`.
 - \anchor EX-GP-022 **EX-GP-022** — Un **bloc poussable** doit pouvoir être déplacé horizontalement par le personnage et retomber sous gravité. Une case de pente/arrondi (`EX-GP-003`/`EX-GP-004`/`EX-GP-006`/`EX-GP-007`) est traitée comme un **obstacle simple** (comme une case solide) pour la poussée et la chute — le contrôleur de blocs n'a aucune notion de suivi de surface, contrairement au personnage.
 - \anchor EX-GP-023 **EX-GP-023** — Une **clé** collectée doit ouvrir une **porte verrouillée** correspondante. Le ramassage exige le contact **et** l'action « Interagir » (`EX-CTRL-022`) — le contact seul, suffisant pour un interrupteur (`EX-GP-020`), ne suffit pas ici. Une fois ouverte, la porte le reste **définitivement** (contrairement à la porte liée à un interrupteur, qui peut se refermer).
 - \anchor EX-GP-024 **EX-GP-024** — Un **tableau** peut **limiter** le nombre de **sauts** et/ou de **dashs** disponibles (budget de mouvements, défini par le niveau) ; à budget épuisé, l'action est **refusée**. Le budget est **réinitialisé** au (re)chargement du niveau. Contrainte de **puzzle**.
-- \anchor EX-GP-025 **EX-GP-025** — Une **plaque de pression** doit maintenir la porte liée **ouverte** tant qu'un poids suffisant y repose, et la **refermer** dès qu'il en repart — activation **continue**, à la différence de l'interrupteur à bascule (`EX-GP-020`), dont le comportement n'est pas affecté. Ce poids peut être celui du **personnage** ou celui d'un **bloc poussable** (`EX-GP-022`) : c'est ce qui rend possible de poser un poids et de **repartir**, la porte restant ouverte. Un bloc de taille réduite (`EX-GP-005`) est trop léger pour l'enfoncer, sa masse valant son facteur de taille — la distinction est **visible** dans le tableau, jamais une propriété cachée. Complété en `LOT-65`.
+- \anchor EX-GP-025 **EX-GP-025** — Une **plaque de pression** doit maintenir la porte liée **ouverte** tant qu'un poids suffisant y repose, et la **refermer** dès qu'il en repart — activation **continue**, à la différence de l'interrupteur à bascule (`EX-GP-020`), dont le comportement n'est pas affecté. Ce poids peut être celui du **personnage** ou celui d'un **bloc poussable** (`EX-GP-022`) : c'est ce qui rend possible de poser un poids et de **repartir**, la porte restant ouverte. Un bloc de taille réduite (`EX-GP-005`) est trop léger pour l'enfoncer, sa masse valant son facteur de taille — la distinction est **visible** dans le tableau, jamais une propriété cachée. Complété en `LOT-H-65`.
 - \anchor EX-GP-026 **EX-GP-026** — Une **plateforme mobile** doit parcourir un trajet à vitesse
-  constante (une **route** au sens de `EX-GP-054` depuis le `LOT-67` ; deux points jusque-là), en
+  constante (une **route** au sens de `EX-GP-054` depuis le `LOT-H-67` ; deux points jusque-là), en
   **portant** le personnage et les blocs poussables (`EX-GP-022`)
   qui reposent dessus, sans traversée (`EX-GP-014`), sans glissement cumulé ni décollement. Sa
   position est fonction du **numéro de pas** de simulation — jamais d'une accumulation ni du temps
   réel — de sorte que le déterminisme (`EX-NFR-002`) soit préservé. L'ordre de résolution dans le pas
   (déplacer les plateformes, porter les entités posées, appliquer la physique du personnage) est
   **documenté et testé** ; le cas d'écrasement contre un plafond est **mortel** (décision de cadrage
-  retenue, `LOT-63`), plutôt que de mettre la plateforme en pause.
+  retenue, `LOT-H-63`), plutôt que de mettre la plateforme en pause.
 - \anchor EX-GP-027 **EX-GP-027** — Un **bloc descendant** doit être **armé** par un contact
   quelconque du personnage (par le dessus, par le côté ou par le dessous — jamais un test de portage,
   qui obligerait à définir un seuil de « vraiment posé dessus »), puis **descendre** à vitesse
@@ -153,7 +153,7 @@ Concrétise l'objectif produit `EX-VIS-003` (`vision.md`).
   contre une case pleine et n'y repart pas si elle se libère —, et il est **retiré** du niveau s'il
   franchit le bord bas du tableau. Un personnage écrasé entre un bloc descendant et le sol provoque
   l'**échec** (`EX-GP-031`), même décision de cadrage que l'écrasement sous une plateforme mobile
-  (`LOT-63`), plutôt que de mettre le bloc en pause. Sa position est **continue** (jamais alignée sur
+  (`LOT-H-63`), plutôt que de mettre le bloc en pause. Sa position est **continue** (jamais alignée sur
   la grille) et fonction du seul **numéro de pas** écoulé depuis l'armement — jamais d'une
   accumulation (`EX-NFR-002`) ; il n'est donc **jamais solide** pour la grille classique
   (`core::isSolid`), sa collision étant résolue boîte-contre-boîte comme celle d'une plateforme
@@ -161,7 +161,7 @@ Concrétise l'objectif produit `EX-VIS-003` (`vision.md`).
   (`EX-GP-029`) et non une donnée de niveau : le constructeur de `core::Level` atteint déjà
   19 paramètres et sa surface est actée comme maximale, si bien qu'ouvrir ce réglage par tuile
   coûterait plus que ce qu'il apporte aujourd'hui. Le rendre réglable plus tard n'invalidera aucun
-  fichier existant, un champ optionnel absent valant le défaut. Concrétisé en `LOT-74`.
+  fichier existant, un champ optionnel absent valant le défaut. Concrétisé en `LOT-H-74`.
 - \anchor EX-GP-028 **EX-GP-028** — Un **bloc fragile** doit être **solide** comme une case pleine,
   et **détruit** par un **ground pound** (`EX-GP-058`) qui l'atteint **par le dessus** — par ce geste
   et par lui seul. Aucun autre contact ne le brise : ni la marche, ni le saut, ni un atterrissage
@@ -173,7 +173,7 @@ Concrétise l'objectif produit `EX-VIS-003` (`vision.md`).
   pas, de sorte que le ground pound se poursuive au travers sans s'arrêter d'un pas sur un bloc qu'il
   vient de briser. Elle est **définitive** jusqu'au rechargement du tableau, et ne modifie jamais la
   carte du niveau elle-même, seulement la grille de **collision** résolue (même infrastructure que
-  l'ouverture d'une porte, `EX-GP-021`). Concrétisé en `LOT-74`.
+  l'ouverture d'une porte, `EX-GP-021`). Concrétisé en `LOT-H-74`.
 - \anchor EX-GP-029 **EX-GP-029** — Un **bloc éphémère** doit être **solide** tant que le personnage
   repose dessus, quelle que soit la durée, puis **disparaître** après un délai fixe une fois qu'il
   l'a **quitté** — un **front** de départ (le personnage reposait dessus au pas précédent et n'y
@@ -183,7 +183,7 @@ Concrétise l'objectif produit `EX-VIS-003` (`vision.md`).
   **définitive** jusqu'au rechargement du tableau, et se résout comme celle du bloc fragile
   (`EX-GP-028`), sur la grille de collision et non sur la carte du niveau. Le risque de rendre un
   tableau **insoluble** est assumé : il relève du level design, et le garde-fou système qui relève la
-  trajectoire réelle (`EX-NFR-021`) le détecte. Concrétisé en `LOT-74`.
+  trajectoire réelle (`EX-NFR-021`) le détecte. Concrétisé en `LOT-H-74`.
 
 Chaque mécanisme est déterministe : à état d'entrée identique, comportement identique (facilite tests et rejouabilité).
 
@@ -198,7 +198,7 @@ Concrétise les objectifs `EX-VIS-002` (succès) et `EX-VIS-004` (échec/redéma
   `Pause`, `NiveauTermine`. Portés par `hmi::ScreenId` (`Menu`, `Editor`, `Game`, `Options`,
   `Pause`, `NiveauTermine`, `LevelSelect` — les trois derniers ajoutés par ce lot ; `LevelSelect`
   pour la sélection de niveau, `EX-IHM-005`), avec des transitions explicites et unidirectionnelles
-  (`EX-GP-041`). Détaillé côté interface par `EX-REN-031`. Concrétisé en `LOT-59`.
+  (`EX-GP-041`). Détaillé côté interface par `EX-REN-031`. Concrétisé en `LOT-H-59`.
 - \anchor EX-GP-041 **EX-GP-041** — Les transitions entre états doivent être explicites et unidirectionnelles à chaque événement (machine à états).
 
 ## Traçabilité
