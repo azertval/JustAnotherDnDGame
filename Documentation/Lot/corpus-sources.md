@@ -61,10 +61,13 @@ Deux conséquences pratiques, à retenir avant d'écrire quoi que ce soit dans c
 - **`Players_Guide_to_Tanares.pdf`** — 13 espèces, 4 classes inédites, 4 classes simplifiées, une
   vingtaine de sous-classes (**31 tables de progression** détectées), 7 historiques, plus **1 710
   images** — portraits d'espèces, illustrations de classes, objets.
-- **`Manuel-Des-Monstres.pdf`** — **416 blocs de statistiques** en français. Le plus gros bestiaire
-  du corpus, mais le plus coûteux à exploiter : voir §4.
-- **`Manuel-Des-Joueurs.pdf`** — le manuel complet en français ; utile surtout comme référence de
-  formulation et de vocabulaire, redondant avec les *Basic Rules* sur les données.
+- **`Manuel-Des-Monstres.pdf`** — **416 blocs de statistiques** en français, le plus gros bestiaire
+  du corpus. **Hors périmètre** (§8) : son OCR bruité en fait aussi le plus coûteux, et les 176
+  créatures des deux autres gisements suffisent à peupler dix régions. Il reste disponible si le
+  besoin s'en fait sentir plus tard.
+- **`Manuel-Des-Joueurs.pdf`** — le manuel complet en français. **Hors périmètre** également :
+  redondant avec les *Basic Rules* sur les données, et affecté du même OCR. Utile en référence de
+  formulation, pas en source.
 - **`Character_Sheets_Tanares.pdf`** — 5 feuilles, **zéro caractère de texte** hors filigrane. Les
   planches sont en revanche disponibles en image à 2 668 × 3 418, soit environ 300 ppp : de quoi
   servir de maquette précise pour l'écran de fiche.
@@ -89,8 +92,8 @@ maintenant ce qu'il faudrait alors reprendre, plutôt que de le découvrir à ce
 
 En pratique, cela suggère une seule discipline, peu coûteuse et qui garde la porte ouverte :
 **tracer la provenance**. Chaque donnée produite porte un champ `"source"` (`srd`, `tanares`,
-`mm-fr`, `original`). Un jour de publication, la question « qu'est-ce qui doit sauter ? » se répond
-par une requête plutôt que par une relecture de 600 fichiers — et le `LOT-32` peut l'imposer par
+`original`). Un jour de publication, la question « qu'est-ce qui doit sauter ? » se répond
+par une requête plutôt que par une relecture de tout le catalogue — et le `LOT-32` peut l'imposer par
 schéma sans effort supplémentaire.
 
 Cela ne change rien au cadrage acté avant le [LOT-01](@ref lot-01) — **règles d20 maison,
@@ -149,9 +152,10 @@ contrôle. Les 82 blocs du Sourcebook suivent un gabarit analogue en anglais.
 **Les deux manuels français sont des OCR bruités.** Leurs pages de crédits donnent « Cordeil » pour
 « Cordell », « )on Schindehette » pour « Jon Schindehette », « Chefde projet », « W'àyne Reynolds ».
 Sur un nom d'auteur c'est anecdotique ; sur un jet de dégâts, c'est un `1d8` devenu `ld8` que rien
-ne rattrape. Leurs 416 blocs restent exploitables, mais **jamais en confiance** : toute valeur
-numérique qui en sort doit passer un contrôle de plausibilité, et le champ `"source": "mm-fr"` sert
-aussi à savoir quoi relire en priorité.
+ne rattrape. Leurs 416 blocs resteraient exploitables, mais **jamais en confiance** : chaque valeur
+numérique demanderait une relecture. C'est ce constat qui a fait **écarter les deux manuels du
+périmètre** (§8) — non par difficulté technique, mais parce que le coût de la confiance y dépasse la
+valeur ajoutée quand 176 créatures fiables sont déjà disponibles ailleurs.
 
 **L'extraction du flux brut des images est corrompue ; il faut passer par le rendu.** Tirer un objet
 image par son `xref` produit sur ce corpus des zones de bruit vert et cyan — décodage raté d'un flux
@@ -237,7 +241,7 @@ L'outillage, et rien d'autre. `scripts/sourcebook/`, sur **PyMuPDF** : extractio
 tableaux par coordonnées, d'images par rendu clippé ; gestion de la pagination en double page ;
 cache disque. Un manifeste `scripts/sourcebook/corpus.toml` enregistre par document son empreinte
 SHA-256, son nombre de pages, son décalage de pagination et sa **provenance** (`srd`, `tanares`,
-`mm-fr`) — celle-là même que chaque donnée produite reportera (§3).
+`original`) — celle-là même que chaque donnée produite reportera (§3).
 
 Le manifeste est versionné ; le corpus intermédiaire ne l'est pas, et la CI ne l'exécute pas : les
 PDF ne sont pas sur le runner. Seules les **données produites** sont validées en CI (`LOT-32`).
@@ -291,8 +295,8 @@ Les **94 bêtes** d'`Animaux.pdf` vers `Source/Elements/Rpg/creatures/*.json`. G
 français, automatisable de bout en bout : c'est le seul gisement du corpus qui ne demande aucun
 jugement humain, et c'est pour cela qu'il est seul dans ce lot.
 
-Les 82 blocs de Tanares et les 416 du *Manuel des Monstres* relèvent du `LOT-46` — pipelines
-différents, risques différents, et surtout volume sans fin qui empêcherait ce lot de se clore.
+Les 82 blocs de Tanares relèvent du `LOT-46` : mêmes gabarits, mais en anglais, donc une étape de
+traduction qui n'a rien à faire ici.
 
 Livrer les 94 d'abord fait tourner tout l'aval — attaques, IA, rencontres — sur des données réelles
 pendant que le reste arrive. Loup, ours, araignée géante et sanglier peuplent le donjon du
@@ -426,7 +430,7 @@ La plomberie : une **clé d'asset** portée par chaque donnée (`"asset": "beast
 chemin de fichier — un chemin dans une donnée de règle lie le catalogue à l'arborescence du disque,
 et tout déplacement de dossier casse alors des créatures. Un **manifeste** dérivé des catalogues
 énumère les clés attendues, leur famille et leur taille. Et toute clé sans image obtient un
-**marqueur généré** sur l'`ProceduralAtlas` existant, de sorte que le jeu tourne complet — 600
+**marqueur généré** sur l'`ProceduralAtlas` existant, de sorte que le jeu tourne complet — 176
 créatures affichables — avant que la moindre découpe ne soit faite. La production graphique devient
 un remplacement progressif de marqueurs, jamais un préalable bloquant.
 
@@ -598,19 +602,26 @@ dix régions et donne au `LOT-42` des points d'ancrage pour le voyage.
 l'offre de contrats de façon observable ; la difficulté d'un contrat généré respecte la bande de FP
 de son rang, vérifié sur les cinq rangs.
 
-### `LOT-46` — Bestiaire étendu
+### `LOT-46` — Créatures de Tanares
 
-*Prérequis : `LOT-33`, `LOT-49`.*
+*Prérequis : `LOT-33`, `LOT-31`.*
 
-Les **82 blocs de Tanares** (ch. 9, 17 familles), gabarit analogue aux 94 mais en anglais, traduits
-via le lexique du `LOT-31`. Puis les **416 blocs du *Manuel des Monstres***, dont l'OCR bruité
-impose de passer chaque valeur numérique au contrôle du `LOT-49`.
+Les **82 blocs de Tanares** (ch. 9, 17 familles : akhu, emoguns, gloomfolk, ironhands, kemets,
+kepesh, kikoku, dragons et drakes pénombraux, ninjas spectraux, constructs taii'makian…). Gabarit
+analogue aux 94 du `LOT-33`, mais **en anglais** : c'est l'étape de traduction, via le lexique du
+`LOT-31`, qui justifie un lot séparé plutôt qu'un pipeline supplémentaire dans le précédent.
 
-Volume long, sans jalon : il se remplit par lots successifs sans jamais bloquer le jeu, puisque le
-`LOT-33` a déjà livré de quoi peupler une région entière.
+Avec les 94 du SRD, cela porte le bestiaire à **176 créatures** — et c'est le total retenu. Les 416
+blocs du *Manuel des Monstres* sont **écartés du périmètre** (voir §8) : 176 profils suffisent
+largement à peupler dix régions, et ils épargnent le seul gisement du corpus dont chaque valeur
+numérique aurait dû être relue.
 
-*Acceptation* — aucune valeur issue de `mm-fr` n'entre sans avoir passé le contrôle de plausibilité ;
-chaque famille de créatures livrée est jouable en combat, pas seulement chargée.
+Ce lot est donc **borné et achevable**, contrairement à ce qu'il était quand il portait le *Manuel
+des Monstres* : 17 familles, une fin, un critère de fin.
+
+*Acceptation* — les 82 profils chargent et sont jouables en combat, pas seulement chargés ; chaque
+terme de règle traduit est conforme au lexique du `LOT-31` ; dix profils sont vérifiés à la main
+contre le PDF.
 
 ### `LOT-47` — Classes de Tanares et tables de progression
 
@@ -643,12 +654,17 @@ encore servies par un marqueur décroît, et la CI le publie.
 
 ### `LOT-49` — Contrôle de cohérence du contenu
 
-*Prérequis : `LOT-33`, `LOT-34`. Prérequis de `LOT-46`.*
+*Prérequis : `LOT-33`, `LOT-34`. Alimente `LOT-47`.*
 
 Le `LOT-32` valide la **structure** : un fichier bien formé, des champs présents, des énumérations
-connues. Il ne dit rien de la **plausibilité**, et c'est une lacune qui compte quand 600 créatures
-et 31 tableaux viennent d'un OCR et de tableaux PDF. Un loup à CA 47, une épée à 3 pièces d'or au
-lieu de 30, une créature de FP 1/8 avec 90 points de vie : tout cela franchit un schéma sans broncher.
+connues. Il ne dit rien de la **plausibilité**. Un loup à CA 47, une épée à 3 pièces d'or au lieu de
+30, une créature de FP ⅛ avec 90 points de vie : tout cela franchit un schéma sans broncher.
+
+Écarter le *Manuel des Monstres* retire le pire des risques — l'OCR bruité — mais **pas le risque
+lui-même**, qui vient des tableaux et qui est démontré au §4 : sur la table des armes, `-layout`
+attribue le poids et le prix à l'arme de la ligne suivante. Les 31 tables de progression du `LOT-47`
+et les tables d'équipement du `LOT-34` courent exactement ce danger, et une valeur décalée d'une
+ligne ne lève aucune alerte.
 
 Le lot ajoute donc un contrôle **statistique** plutôt que syntaxique : pour chaque famille, les
 bornes attendues d'une valeur au regard des autres champs — PV cohérents avec le dé de vie et la
@@ -685,14 +701,16 @@ exactement ce que [`EX-VIS-007`](@ref EX-VIS-007) interdit. D'où « filière »
 | Après [LOT-13](@ref lot-13) | `LOT-38`, puis `LOT-39` | La maquette suppose la fiche ; la plomberie d'assets suit |
 | Après [LOT-11](@ref lot-11) | `LOT-40` | La génération produit des niveaux que l'éditeur doit savoir rouvrir |
 | **Après [LOT-27](@ref lot-27)** | `LOT-44`, `LOT-41`, `LOT-45`, `LOT-42` | Le bac à sable généralise une boucle ; il faut l'avoir validée une fois |
-| En fond, sans jalon | `LOT-46`, `LOT-47`, `LOT-48` | Volume long, sans blocage : se remplit par lots successifs |
+| Avant `LOT-41` | `LOT-46` | Peupler dix régions demande plus que les 94 bêtes du SRD |
+| En fond, sans jalon | `LOT-47`, `LOT-48` | Volume long, sans blocage : se remplit par lots successifs |
 
 Trois lignes méritent qu'on s'y arrête.
 
-**La dernière** : près de 600 créatures, 31 tables de progression et 6 000 images ne se traitent pas
-d'un bloc, et rien n'y oblige. Ces trois lots n'ont pas de date de fin et ne bloquent personne — le
-`LOT-33` a déjà livré de quoi peupler une région, le `LOT-39` affiche des marqueurs pour tout le
-reste.
+**La dernière** : 31 tables de progression et 6 000 images ne se traitent pas d'un bloc, et rien n'y
+oblige. Ces deux lots n'ont pas de date de fin et ne bloquent personne — le `LOT-36` a déjà livré
+les classes du socle, le `LOT-39` affiche des marqueurs pour tout ce qui n'a pas encore d'image.
+Depuis que le *Manuel des Monstres* est hors périmètre, le `LOT-46` a quitté cette catégorie : 82
+créatures, c'est fini un jour.
 
 **L'avant-dernière** : les quatre lots qui font le bac à sable sont les seuls que je placerais
 résolument **après** le [LOT-27](@ref lot-27). Peupler dix régions revient à appliquer cent fois la
@@ -721,7 +739,7 @@ scripts/check_rpg_data.py, check_glossary.py
 
 Source/Elements/Rpg/
   schema/*.schema.json      ← contrats (LOT-32)
-  creatures/*.json          ← 94 betes (LOT-33), puis ~600 profils (LOT-46)
+  creatures/*.json          ← 94 betes (LOT-33), puis 82 de Tanares (LOT-46)
   items/*.json              ← équipement, monnaie, objets magiques (LOT-34)
   spells/, conditions/      ← sorts et états (LOT-35)
   species/, backgrounds/    ← especes et historiques (LOT-36)
@@ -761,6 +779,11 @@ Source/Core/World/
   région, pas d'intrigue directrice.
 - **Licences en sommeil** (§3) : projet privé, dépôt privé, aucune contrainte d'usage.
 
+- **Bestiaire arrêté à 176 créatures** : les 94 bêtes du SRD (`LOT-33`) et les 82 de Tanares
+  (`LOT-46`). Les deux manuels français sont **hors périmètre** — leur OCR bruité imposerait de
+  relire chaque valeur numérique, pour un bestiaire déjà largement suffisant à un monde ouvert de
+  dix régions. Rien n'est fermé : le `LOT-30` sait les lire, et ils pourront être repris plus tard
+  si le besoin apparaît.
 - **Région de départ : la République des Freelands.** Ses propres statistiques l'argumentent :
   `Monster Presence` haute — les rencontres se justifient d'elles-mêmes, ce que le Central Empire,
   noté *Low*, ne permet pas ; économie fondée sur les mercenaires et les parts de monstres — le
@@ -777,7 +800,4 @@ Source/Core/World/
   distribue par rang. Faut-il en rester à ce contenu déduit, ou écrire par-dessus quelques quêtes à
   la main dans les lieux notables ? La réponse change le poids du [LOT-16](@ref lot-16), pas
   l'architecture.
-- **Sort du *Manuel des Monstres*.** Ses 416 profils doublent le bestiaire, mais son OCR bruité en
-  fait le gisement le plus coûteux du corpus. Les 94 du SRD plus les 82 de Tanares font déjà 176
-  créatures — assez pour dix régions. Le `LOT-46` peut donc s'arrêter à Tanares, et ce serait un
-  arbitrage défendable plutôt qu'un renoncement.
+*(Le sort du *Manuel des Monstres* est tranché : voir ci-dessus.)*
