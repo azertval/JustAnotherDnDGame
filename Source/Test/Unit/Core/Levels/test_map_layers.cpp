@@ -10,6 +10,7 @@
 #include <algorithm>
 #include <cstddef>
 #include <cstdint>
+#include <map>
 #include <string>
 #include <variant>
 #include <vector>
@@ -522,4 +523,31 @@ TEST(CouchesDeCarteTest, CoucheDeCollisionDeclareeRefusee) {
     ASSERT_FALSE(loaded.ok());
     EXPECT_EQ(loaded.errorCode, core::LevelValidationError::ParseError);
     EXPECT_NE(loaded.error.find("tiles"), std::string::npos) << loaded.error;
+}
+
+/**
+ * @brief La projection ECS annonce le **rôle** de la couche d'origine de chaque tuile : c'est ce
+ * qui permet à la présentation de poser le décor sur la bande de profondeur (`EX-REN-018`).
+ * \castest{<b>La projection ECS annonce le role de la couche de chaque tuile.</b><br/>
+ * \tcat Unitaire · Couches de carte<br/>
+ * \tcrit Majeur<br/>
+ * \tetapes 1. Projeter une carte version 3 en entites ECS en relevant le role annonce.<br/>
+ * \tattendu Les tuiles du sol sont annoncees Ground, celles du decor Decor, et aucune n'est
+ * annoncee Collision.
+ * }
+ */
+TEST(CouchesDeCarteTest, ProjectionEcsAnnonceLeRoleDeChaqueCouche) {
+    const core::LevelLoadResult loaded = core::LevelLoader::loadFromString(MAP_V3);
+    ASSERT_TRUE(loaded.ok()) << loaded.error;
+
+    core::World world;
+    std::map<core::LayerKind, int> parRole;
+    core::buildLevelScene(world, *loaded.level, anyRegion,
+                          [&parRole](core::Entity, core::LayerKind kind, core::TileType, int, int) {
+                              ++parRole[kind];
+                          });
+
+    EXPECT_EQ(parRole[core::LayerKind::Ground], 2);
+    EXPECT_EQ(parRole[core::LayerKind::Decor], 1);
+    EXPECT_EQ(parRole.count(core::LayerKind::Collision), 0u);
 }

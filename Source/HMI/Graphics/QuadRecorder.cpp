@@ -20,10 +20,13 @@ void QuadRecorder::clear() noexcept {
     _statistics = SceneStatistics{};
 }
 
-// true si aucune primitive n'est soumise avant une primitive d'un calque inferieur (EX-REN-014).
+// true si aucune primitive n'est soumise avant une primitive d'une BANDE inferieure
+// (EX-REN-014). La comparaison porte sur la bande et non sur le calque : Object et Player en
+// partagent une, et s'y entrelacent legitimement par profondeur depuis le LOT-07 (EX-REN-018) --
+// exiger un ordre de calque strict y interdirait precisement ce que le tri par Y doit produire.
 bool QuadRecorder::isLayerOrderRespected() const {
     for (std::size_t i = 1; i < _quads.size(); ++i) {
-        if (_quads[i].layer < _quads[i - 1].layer) {
+        if (renderBand(_quads[i].layer) < renderBand(_quads[i - 1].layer)) {
             return false;
         }
     }

@@ -87,7 +87,7 @@ core::World buildWorld(const core::Level& level) {
     const core::TileMap& map = level.tileMap();
     core::buildLevelScene(
         world, level, [](core::TileType type) { return hmi::regionForTile(type); },
-        [&](core::Entity entity, core::TileType type, int column, int row) {
+        [&](core::Entity entity, core::LayerKind, core::TileType type, int column, int row) {
             world.addComponent(
                 entity, hmi::TileSkinTag{type, hmi::solidNeighborMask(map, column, row),
                                          hmi::textureOverrideAt(level.textureOverrides(),

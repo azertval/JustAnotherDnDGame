@@ -66,6 +66,7 @@ add_executable(UnitTests
     Unit/HMI/Graphics/test_asset_contract.cpp
     Unit/HMI/Graphics/test_missing_texture.cpp
     Unit/HMI/Graphics/test_quad_recorder.cpp
+    Unit/HMI/Graphics/test_depth_sort.cpp
     Unit/HMI/Graphics/test_render_culling.cpp
     Unit/HMI/Graphics/test_background_fit.cpp
     Unit/HMI/Graphics/test_render_mode.cpp
