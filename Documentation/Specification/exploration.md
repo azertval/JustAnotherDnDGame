@@ -42,6 +42,16 @@ et au tour, relève de sa propre spécification.
   d'où un **vecteur**, et non le simple gauche/droite d'un jeu en vue de côté. Concrétisé en
   `LOT-06`.
 
+- \anchor EX-EXP-005 **EX-EXP-005** — Une carte doit disposer d'un vocabulaire de
+  **terrain** : des sols (herbe, terre, sable, eau), des obstacles (mur, falaise) et des passages
+  (pont, escalier). Chaque type déclare lui-même s'il **arrête** ou non — c'est ce test unique, et
+  non une liste éparpillée de cas particuliers, qui décide de la traversée (`EX-EXP-002`). L'eau
+  **profonde** arrête tant qu'aucune règle de nage n'existe : la distinction d'avec l'eau peu
+  profonde est la seule chose qui permette à une **rive** d'exister. Aucun type ne peut être
+  ajouté sans son **repli procédural** : le jeu doit afficher une carte lisible sans qu'aucun
+  fichier d'image ne soit présent (`EX-NFR-040`), et une case laissée sans couleur serait
+  indiscernable de ses voisines. Concrétisé en `LOT-08`.
+
 ## 2. Repères d'échelle
 
 Une case vaut **1,5 m** (5 ft), l'unité tactique du système d20, que la grille de combat du `LOT-19`

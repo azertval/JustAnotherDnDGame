@@ -1,13 +1,17 @@
 // SPDX-FileCopyrightText: 2026 Valentin Eloy
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+#include <filesystem>
 #include <set>
+#include <string>
 #include <vector>
 
 #include <gtest/gtest.h>
 
 #include "Core/Levels/TileType.h"
+#include "HMI/Editor/TaxonomyLabels.h"
 #include "HMI/Editor/TileTaxonomy.h"
+#include "HMI/Localization/Localization.h"
 
 namespace {
 
@@ -80,6 +84,38 @@ TEST(TileTaxonomy, ChaqueEntreeAUnLibelle) {
             EXPECT_FALSE(subgroup.label.empty());
             for (const hmi::TileEntry& entry : subgroup.tiles) {
                 EXPECT_FALSE(entry.label.empty());
+            }
+        }
+    }
+}
+
+/**
+ * @brief Chaque libellé de la palette est **traduit** dans les deux catalogues livrés : un type
+ * ajouté sans libellé s'afficherait en français dans la version anglaise, sans que rien ne
+ * l'annonce (`EX-REN-033`, `LOT-08`).
+ * \castest{<b>Chaque libelle de la palette est traduit dans les deux catalogues livres.</b><br/>
+ * \tcat Unitaire · Taxonomie des tuiles<br/>
+ * \tcrit Majeur<br/>
+ * \tetapes 1. Charger fr.lang puis en.lang.<br/>2. Resoudre la cle de chaque categorie et de
+ * chaque tuile de la taxonomie.<br/>
+ * \tattendu Chaque libelle a une cle, et chaque cle resout vers un texte distinct d'elle-meme.
+ * }
+ */
+TEST(TileTaxonomy, ChaqueLibelleEstTraduitDansLesDeuxCatalogues) {
+    const std::filesystem::path directory(JADG_LOCALIZATION_DIR);
+    for (const std::string& language : {"fr", "en"}) {
+        hmi::Localization localization(directory);
+        ASSERT_TRUE(localization.loadDefaultLanguage(language)) << language;
+
+        for (const hmi::TileCategory& category : hmi::tileTaxonomy()) {
+            const std::string categoryKey = hmi::taxonomyLabelKey(category.label);
+            ASSERT_FALSE(categoryKey.empty()) << category.label << " (" << language << ")";
+            EXPECT_NE(localization.text(categoryKey), categoryKey)
+                << categoryKey << " (" << language << ")";
+            for (const hmi::TileEntry& entry : category.tiles) {
+                const std::string key = hmi::taxonomyLabelKey(entry.label);
+                ASSERT_FALSE(key.empty()) << entry.label << " (" << language << ")";
+                EXPECT_NE(localization.text(key), key) << key << " (" << language << ")";
             }
         }
     }

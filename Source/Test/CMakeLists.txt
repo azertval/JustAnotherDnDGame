@@ -31,6 +31,7 @@ add_executable(UnitTests
     Unit/Core/Levels/test_plane.cpp
     Unit/Core/Levels/test_level_outcome.cpp
     Unit/Core/Levels/test_tile_type_name.cpp
+    Unit/Core/Levels/test_rpg_terrain.cpp
     Unit/Core/Levels/test_tile_texture_override.cpp
     Unit/Core/Physics/test_swept_collision.cpp
     Unit/Core/Physics/test_aabb_vs_aabb.cpp

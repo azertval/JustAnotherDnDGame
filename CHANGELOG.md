@@ -6,6 +6,26 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **Vocabulaire de terrain du RPG** (`LOT-08`). Neuf types de tuile là où le `LOT-01` avait laissé
+  le strict minimum hérité : `Grass`, `Dirt`, `Sand`, `Water`, `DeepWater` (sols), `Wall`, `Cliff`
+  (obstacles), `Bridge`, `Stairs` (passages). Il **ajoute** sans rien remplacer — le vocabulaire de
+  puzzle du socle sert tel quel au RPG.
+  - **La chaîne complète pour chacun**, dans le même lot : nom de format, catégorie de palette,
+    libellés `fr` **et** `en`, couleur de repli dans l'atlas procédural, franchissabilité, test
+    d'aller-retour. C'est la leçon la plus chère de l'héritage, où ajouter un type touchait
+    « exactement la même chaîne de huit fichiers » et où l'un d'eux se faisait toujours oublier.
+  - Trois garde-fous nouveaux la tiennent : chaque type a une couleur de repli **non noire et
+    distincte** (le jeu affiche une carte sans aucun fichier d'image), chaque libellé de palette
+    est **traduit dans les deux catalogues**, et la borne de l'énumération reste dérivée du dernier
+    type.
+  - **L'eau profonde arrête, l'eau peu profonde non** : c'est la seule distinction qui rende une
+    rive jouable. `core::isSolid` est le seul endroit d'où la règle de nage la sortira le jour venu
+    — plutôt que des tests « sauf si c'est de l'eau » parsemés dans le code.
+  - Aucune **silhouette** n'est déclarée : le mécanisme conservé par le `LOT-01` découpe la matière
+    qui n'occupe pas toute la case, ce qui décrivait des pentes et des arrondis. Le terrain d'une
+    vue de dessus est carré par nature ; lui inventer des découpes serait du travail contre le
+    genre.
+
 - **Tri par profondeur : le monde en vue de dessus devient crédible** (`LOT-07`). Le personnage
   passe **devant** ce qui est au-dessus de lui à l'écran, **derrière** ce qui est en dessous.
   - **Ce que l'epic n'avait pas vu** : alimenter le `sortOrder` existant ne suffisait pas.

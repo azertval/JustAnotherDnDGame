@@ -1,8 +1,8 @@
 # Cahier de test {#cahiertest}
 
-**921 cas de test**, générés depuis les blocs `\castest{...}` du code par `scripts/generate_cahier_test.py` (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de `Source/Test/` pour rester lisibles page par page.
+**927 cas de test**, générés depuis les blocs `\castest{...}` du code par `scripts/generate_cahier_test.py` (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de `Source/Test/` pour rester lisibles page par page.
 
-## Tests unitaires (906)
+## Tests unitaires (912)
 
 ### Core
 
@@ -189,7 +189,7 @@
 | **MechanismControllerTest.DeuxPairesCleEtPorteIndependantes** (Bloquant)<br/><sub>`Source/Test/Unit/Core/Gameplay/test_mechanism_controller.cpp:275`</sub> | Deux paires clé/porte verrouillée indépendantes ne s'influencent pas. | 1. Mettre en place le contexte du test (arrangement).<br/>2. Executer le scenario et verifier les assertions. | Vérifie que `controller.isDoorOpen(0)` est vrai.<br/>Vérifie que `controller.isDoorOpen(1)` est faux.<br/>Vérifie que `controller.collisionMap().isSolid(2, 1)` est faux.<br/>Vérifie que `controller.collisionMap().isSolid(6, 1)` est vrai.<br/>Vérifie que `controller.isDoorOpen(0)` est vrai.<br/>Vérifie que `controller.isDoorOpen(1)` est vrai.<br/>Vérifie que `controller.collisionMap().isSolid(6, 1)` est faux. |
 | **MechanismControllerTest.RechargementReinitialiseCleEtPorte** (Majeur)<br/><sub>`Source/Test/Unit/Core/Gameplay/test_mechanism_controller.cpp:301`</sub> | Reconstruire le contrôleur remet la clé et la porte dans leur état initial. | 1. Mettre en place le contexte du test (arrangement).<br/>2. Executer le scenario et verifier les assertions. | Vérifie que `first.isDoorOpen(0)` est vrai.<br/>Vérifie que `reloaded.isDoorOpen(0)` est faux.<br/>Vérifie que `reloaded.collisionMap().isSolid(4, 1)` est vrai. |
 
-#### Levels (139)
+#### Levels (143)
 
 **`test_camera_framing.cpp`**
 
@@ -356,6 +356,15 @@
 | **PlaneTest.DensiteInvalideRejetee** (Critique)<br/><sub>`Source/Test/Unit/Core/Levels/test_plane.cpp:445`</sub> | Une densité de plan invalide fait échouer le chargement. | 1. Mettre en place le contexte du test (arrangement).<br/>2. Executer le scenario et verifier les assertions. | Vérifie que `loaded.ok()` est faux.<br/>Vérifie que `loaded.errorCode` vaut `core::LevelValidationError::ParseError`. |
 | **PlaneTest.TropDePlansRejete** (Majeur)<br/><sub>`Source/Test/Unit/Core/Levels/test_plane.cpp:468`</sub> | Le nombre de plans est plafonné au chargement. | 1. Mettre en place le contexte du test (arrangement).<br/>2. Executer le scenario et verifier les assertions. | Vérifie que `loaded.ok()` est faux.<br/>Vérifie que `loaded.errorCode` vaut `core::LevelValidationError::ParseError`. |
 | **PlaneTest.PlanTropGrandRejete** (Majeur)<br/><sub>`Source/Test/Unit/Core/Levels/test_plane.cpp:494`</sub> | Un plan dépassant la limite de texture est refusé. | 1. Mettre en place le contexte du test (arrangement).<br/>2. Executer le scenario et verifier les assertions. | Vérifie que `loaded.ok()` est faux.<br/>Vérifie que `loaded.errorCode` vaut `core::LevelValidationError::ParseError`.<br/>Vérifie que `core::LevelLoader::loadFromString(smaller).ok()` est vrai. |
+
+**`test_rpg_terrain.cpp`**
+
+| Titre (criticité) | Brief | Étapes | Résultat attendu |
+|---|---|---|---|
+| **TerrainRpgTest.AllerRetourSurChaqueTypeDeTerrain** (Critique)<br/><sub>`Source/Test/Unit/Core/Levels/test_rpg_terrain.cpp:50`</sub> | Chaque type de terrain survit a l'aller-retour de format. | 1. Pour chacun des neuf types, charger une carte qui le porte.<br/>2. La reserialiser puis la recharger. | Vérifie que `loaded.ok()` est vrai.<br/>Vérifie que `loaded.level->tileMap().tile(2, 0)` vaut `type`.<br/>Vérifie que `reloaded.ok()` est vrai.<br/>Vérifie que `reloaded.level->tileMap().tile(2, 0)` vaut `type`. |
+| **TerrainRpgTest.FranchissabiliteDeChaqueTerrain** (Critique)<br/><sub>`Source/Test/Unit/Core/Levels/test_rpg_terrain.cpp:77`</sub> | La franchissabilite de chaque terrain est celle que son nom promet. | 1. Interroger isSolid sur les neuf types. | Vérifie que `core::isSolid(core::TileType::Wall)` est vrai.<br/>Vérifie que `core::isSolid(core::TileType::Cliff)` est vrai.<br/>Vérifie que `core::isSolid(core::TileType::DeepWater)` est vrai.<br/>Vérifie que `core::isSolid(core::TileType::Grass)` est faux.<br/>Vérifie que `core::isSolid(core::TileType::Dirt)` est faux.<br/>Vérifie que `core::isSolid(core::TileType::Sand)` est faux.<br/>Vérifie que `core::isSolid(core::TileType::Water)` est faux.<br/>Vérifie que `core::isSolid(core::TileType::Bridge)` est faux.<br/>Vérifie que `core::isSolid(core::TileType::Stairs)` est faux. |
+| **TerrainRpgTest.LaRiveDistingueLesDeuxEaux** (Majeur)<br/><sub>`Source/Test/Unit/Core/Levels/test_rpg_terrain.cpp:101`</sub> | L'eau peu profonde se traverse, l'eau profonde non. | 1. Comparer la franchissabilite de Water et DeepWater. | Vérifie que `core::isSolid(core::TileType::Water)` diffère de `core::isSolid(core::TileType::DeepWater)`. |
+| **TerrainRpgTest.BorneDeLEnumerationDerivee** (Majeur)<br/><sub>`Source/Test/Unit/Core/Levels/test_rpg_terrain.cpp:115`</sub> | La borne de l'enumeration reste derivee du dernier type. | 1. Comparer TILE_TYPE_COUNT au dernier enumerateur.<br/>2. Verifier que chaque valeur jusqu'a cette borne porte un nom. | Vérifie que `core::TILE_TYPE_COUNT` vaut `static_cast<int>(core::TileType::Stairs) + 1`.<br/>Vérifie que `core::TILE_TYPE_COUNT` vaut `20`.<br/>Vérifie que `name.empty()` est faux.<br/>Vérifie que `std::adjacent_find(sorted.begin(), sorted.end())` vaut `sorted.end()`. |
 
 **`test_tile_texture_override.cpp`**
 
@@ -529,7 +538,7 @@
 | **SessionLogTest.SerialiseUneLigneParMessage** (Majeur)<br/><sub>`Source/Test/Unit/HMI/Diagnostics/test_session_log.cpp:18`</sub> | Chaque message donne une ligne, dans l'ordre d'arrivée. | 1. Mettre en place le contexte du test (arrangement).<br/>2. Executer le scenario et verifier les assertions. | Vérifie que `hmi::serializeSessionLog(entries)` vaut `"premier message\\nsecond message\\n"`. |
 | **SessionLogTest.VideDonneChaineVide** (Majeur)<br/><sub>`Source/Test/Unit/HMI/Diagnostics/test_session_log.cpp:37`</sub> | Une session sans message produit un texte vide. | 1. Mettre en place le contexte du test (arrangement).<br/>2. Executer le scenario et verifier les assertions. | Vérifie que `hmi::serializeSessionLog({})` vaut `""`. |
 
-#### Editor (158)
+#### Editor (159)
 
 **`test_asset_file_operations.cpp`**
 
@@ -801,8 +810,9 @@
 
 | Titre (criticité) | Brief | Étapes | Résultat attendu |
 |---|---|---|---|
-| **TileTaxonomy.ChaqueTypeFigureExactementUneFois** (Majeur)<br/><sub>`Source/Test/Unit/HMI/Editor/test_tile_taxonomy.cpp:43`</sub> | Chaque type de tuile figure exactement une fois dans la taxonomie. | 1. Mettre en place le contexte du test (arrangement).<br/>2. Executer le scenario et verifier les assertions. | Vérifie que `types.size()` vaut `TILE_TYPE_COUNT`.<br/>Vérifie que `unique.size()` vaut `types.size()`.<br/>Vérifie que `unique.size()` vaut `TILE_TYPE_COUNT`. |
-| **TileTaxonomy.ChaqueEntreeAUnLibelle** (Majeur)<br/><sub>`Source/Test/Unit/HMI/Editor/test_tile_taxonomy.cpp:65`</sub> | Chaque catégorie, sous-groupe et tuile de la taxonomie porte un libellé non vide. | 1. Mettre en place le contexte du test (arrangement).<br/>2. Executer le scenario et verifier les assertions. | Vérifie que `category.label.empty()` est faux.<br/>Vérifie que `entry.label.empty()` est faux.<br/>Vérifie que `subgroup.label.empty()` est faux.<br/>Vérifie que `entry.label.empty()` est faux. |
+| **TileTaxonomy.ChaqueTypeFigureExactementUneFois** (Majeur)<br/><sub>`Source/Test/Unit/HMI/Editor/test_tile_taxonomy.cpp:47`</sub> | Chaque type de tuile figure exactement une fois dans la taxonomie. | 1. Mettre en place le contexte du test (arrangement).<br/>2. Executer le scenario et verifier les assertions. | Vérifie que `types.size()` vaut `TILE_TYPE_COUNT`.<br/>Vérifie que `unique.size()` vaut `types.size()`.<br/>Vérifie que `unique.size()` vaut `TILE_TYPE_COUNT`. |
+| **TileTaxonomy.ChaqueEntreeAUnLibelle** (Majeur)<br/><sub>`Source/Test/Unit/HMI/Editor/test_tile_taxonomy.cpp:69`</sub> | Chaque catégorie, sous-groupe et tuile de la taxonomie porte un libellé non vide. | 1. Mettre en place le contexte du test (arrangement).<br/>2. Executer le scenario et verifier les assertions. | Vérifie que `category.label.empty()` est faux.<br/>Vérifie que `entry.label.empty()` est faux.<br/>Vérifie que `subgroup.label.empty()` est faux.<br/>Vérifie que `entry.label.empty()` est faux. |
+| **TileTaxonomy.ChaqueLibelleEstTraduitDansLesDeuxCatalogues** (Majeur)<br/><sub>`Source/Test/Unit/HMI/Editor/test_tile_taxonomy.cpp:96`</sub> | Chaque libelle de la palette est traduit dans les deux catalogues livres. | 1. Charger fr.lang puis en.lang.<br/>2. Resoudre la cle de chaque categorie et de chaque tuile de la taxonomie. | Vérifie que `localization.loadDefaultLanguage(language)` est vrai.<br/>Vérifie que `categoryKey.empty()` est faux.<br/>Vérifie que `localization.text(categoryKey)` diffère de `categoryKey`.<br/>Vérifie que `key.empty()` est faux.<br/>Vérifie que `localization.text(key)` diffère de `key`. |
 
 #### Game (42)
 
@@ -878,7 +888,7 @@
 | **ProgressionUnlockTest.SequenceEntierementTermineeTousJouables** (Majeur)<br/><sub>`Source/Test/Unit/HMI/Game/test_progression.cpp:290`</sub> | Séquence entièrement terminée : tous les tableaux sont jouables. | 1. Marquer tous les tableaux de la séquence terminés.<br/>2. Interroger `isLevelUnlocked` pour chacun. | Vérifie que `hmi::isLevelUnlocked(progression, FIVE_LEVEL_SEQUENCE, level)` est vrai. |
 | **ProgressionUnlockTest.TableauVerrouilleNEstJamaisJouable** (Critique)<br/><sub>`Source/Test/Unit/HMI/Game/test_progression.cpp:312`</sub> | Un tableau verrouillé n'est jamais jouable. | 1. Ne terminer aucun tableau.<br/>2. Interroger `isLevelUnlocked` pour un tableau loin dans la séquence. | Vérifie que `hmi::isLevelUnlocked(progression, FIVE_LEVEL_SEQUENCE, "demo-dash.json")` est faux. |
 
-#### Graphics (263)
+#### Graphics (264)
 
 **`test_animated_tiles.cpp`**
 
@@ -1133,9 +1143,10 @@
 
 | Titre (criticité) | Brief | Étapes | Résultat attendu |
 |---|---|---|---|
-| **ProceduralAtlasTest.DimensionsAttendues** (Majeur)<br/><sub>`Source/Test/Unit/HMI/Graphics/test_procedural_atlas.cpp:17`</sub> | L'image générée a les dimensions attendues (grille de tuiles + lignes de personnage). | 1. Mettre en place le contexte du test (arrangement).<br/>2. Executer le scenario et verifier les assertions. | Vérifie que `image.width` vaut `gridSide`.<br/>Vérifie que `image.height` vaut `gridSide + frameRows * hmi::TextureAtlas::PLAYER_FRAME_SIZE`.<br/>Vérifie que `image.pixels.size()` vaut `static_cast<std::size_t>(image.width) * static_cast<std::size_t>(image.height)`. |
-| **ProceduralAtlasTest.GenerationDeterministe** (Majeur)<br/><sub>`Source/Test/Unit/HMI/Graphics/test_procedural_atlas.cpp:43`</sub> | La génération est déterministe : deux appels produisent des pixels identiques. | 1. Mettre en place le contexte du test (arrangement).<br/>2. Executer le scenario et verifier les assertions. | Vérifie que `first.width` vaut `second.width`.<br/>Vérifie que `first.height` vaut `second.height`.<br/>Vérifie que `first.pixels` vaut `second.pixels`. |
-| **ProceduralAtlasTest.DamierDeTransparenceDansLaDerniereTuile** (Mineur)<br/><sub>`Source/Test/Unit/HMI/Graphics/test_procedural_atlas.cpp:64`</sub> | La dernière tuile de la grille contient des pixels opaques et transparents (damier). | 1. Mettre en place le contexte du test (arrangement).<br/>2. Executer le scenario et verifier les assertions. | Vérifie que `sawOpaque` est vrai.<br/>Vérifie que `sawTransparent` est vrai. |
+| **ProceduralAtlasTest.DimensionsAttendues** (Majeur)<br/><sub>`Source/Test/Unit/HMI/Graphics/test_procedural_atlas.cpp:22`</sub> | L'image générée a les dimensions attendues (grille de tuiles + lignes de personnage). | 1. Mettre en place le contexte du test (arrangement).<br/>2. Executer le scenario et verifier les assertions. | Vérifie que `image.width` vaut `gridSide`.<br/>Vérifie que `image.height` vaut `gridSide + frameRows * hmi::TextureAtlas::PLAYER_FRAME_SIZE`.<br/>Vérifie que `image.pixels.size()` vaut `static_cast<std::size_t>(image.width) * static_cast<std::size_t>(image.height)`. |
+| **ProceduralAtlasTest.GenerationDeterministe** (Majeur)<br/><sub>`Source/Test/Unit/HMI/Graphics/test_procedural_atlas.cpp:48`</sub> | La génération est déterministe : deux appels produisent des pixels identiques. | 1. Mettre en place le contexte du test (arrangement).<br/>2. Executer le scenario et verifier les assertions. | Vérifie que `first.width` vaut `second.width`.<br/>Vérifie que `first.height` vaut `second.height`.<br/>Vérifie que `first.pixels` vaut `second.pixels`. |
+| **ProceduralAtlasTest.DamierDeTransparenceDansLaDerniereTuile** (Mineur)<br/><sub>`Source/Test/Unit/HMI/Graphics/test_procedural_atlas.cpp:69`</sub> | La dernière tuile de la grille contient des pixels opaques et transparents (damier). | 1. Mettre en place le contexte du test (arrangement).<br/>2. Executer le scenario et verifier les assertions. | Vérifie que `sawOpaque` est vrai.<br/>Vérifie que `sawTransparent` est vrai. |
+| **ProceduralAtlasTest.ChaqueTypeDeTuileAUneCouleurDeRepliDistincte** (Critique)<br/><sub>`Source/Test/Unit/HMI/Graphics/test_procedural_atlas.cpp:113`</sub> | Chaque type de tuile a une couleur de repli visible et distincte. | 1. Generer l'atlas procedural.<br/>2. Echantillonner le centre de la case de chaque type de tuile, hors case vide. | Vérifie que `color` diffère de `0xFF000000u`.<br/>Vérifie que `inserted.second` est vrai. |
 
 **`test_quad_recorder.cpp`**
 
