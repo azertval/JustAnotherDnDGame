@@ -13,7 +13,7 @@ var searchData=
   ['anchor_10',['anchor',['../structhmi_1_1FollowCameraState.html#aad1ea32f2aa02eb8b804f243ec21cff4',1,'hmi::FollowCameraState']]],
   ['animatedframe_11',['animatedFrame',['../structhmi_1_1SkinTexture.html#adb205ea88fb4f3ffa43f9e210046042c',1,'hmi::SkinTexture::animatedFrame'],['../structhmi_1_1TileSkinTag.html#a911bf19f0ce47dfffc68209f3e96581f',1,'hmi::TileSkinTag::animatedFrame']]],
   ['animation_12',['animation',['../structhmi_1_1MechanismVisualState.html#abdae420be12d1f1458b01df920774b17',1,'hmi::MechanismVisualState']]],
-  ['anticipationsign_13',['anticipationSign',['../structhmi_1_1FollowCameraState.html#af067d1290877f56aee5db5f9e063a1a3',1,'hmi::FollowCameraState']]],
+  ['anticipation_13',['anticipation',['../structhmi_1_1FollowCameraState.html#a368743e0f75536e0786770bbeb35c68c',1,'hmi::FollowCameraState']]],
   ['apexgravitymultiplier_14',['apexGravityMultiplier',['../structcore_1_1PhysicsConfig.html#ac393eb19e1428343e98922bcdd1451ab',1,'core::PhysicsConfig']]],
   ['apexthreshold_15',['apexThreshold',['../structcore_1_1PhysicsConfig.html#a7e782cd22d0d68a6e918286166fab6f4',1,'core::PhysicsConfig']]],
   ['asset_16',['asset',['../structhmi_1_1MechanismAnimationRow.html#aa97bcff049fe53bc6aa06a5919c5d5af',1,'hmi::MechanismAnimationRow::asset'],['../structhmi_1_1PaletteThumbnail.html#ad1a1ffe1d09ac17017f6936b70da06c7',1,'hmi::PaletteThumbnail::asset'],['../structhmi_1_1SkinRow.html#a8a28dc8dd09377b02f0f9bb7049f576f',1,'hmi::SkinRow::asset'],['../structhmi_1_1SkinEntry.html#a261f088f4cc42c2fc6c25396497286a9',1,'hmi::SkinEntry::asset'],['../structhmi_1_1SkinTexture.html#a5dfd71c8c1f535c7f6be96c6d66dbcf0',1,'hmi::SkinTexture::asset']]],

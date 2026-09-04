@@ -31,12 +31,12 @@ var NAVTREE =
     [ "Navigation", "index.html#autotoc_md4", null ],
     [ "Guide du développeur", "guide.html", "guide" ],
     [ "Cahier de test", "cahiertest.html", [
-      [ "Tests unitaires (896)", "cahiertest.html#autotoc_md5", [
+      [ "Tests unitaires (906)", "cahiertest.html#autotoc_md5", [
         [ "Core", "cahiertest.html#autotoc_md6", [
           [ "Diagnostics (22)", "cahiertest.html#autotoc_md7", null ],
           [ "Ecs (54)", "cahiertest.html#autotoc_md8", null ],
           [ "Gameplay (10)", "cahiertest.html#autotoc_md9", null ],
-          [ "Levels (138)", "cahiertest.html#autotoc_md10", null ],
+          [ "Levels (139)", "cahiertest.html#autotoc_md10", null ],
           [ "Math (26)", "cahiertest.html#autotoc_md11", null ],
           [ "Physics (14)", "cahiertest.html#autotoc_md12", null ],
           [ "Time (7)", "cahiertest.html#autotoc_md13", null ],
@@ -47,7 +47,7 @@ var NAVTREE =
           [ "Diagnostics (2)", "cahiertest.html#autotoc_md17", null ],
           [ "Editor (158)", "cahiertest.html#autotoc_md18", null ],
           [ "Game (42)", "cahiertest.html#autotoc_md19", null ],
-          [ "Graphics (254)", "cahiertest.html#autotoc_md20", null ],
+          [ "Graphics (263)", "cahiertest.html#autotoc_md20", null ],
           [ "Input (81)", "cahiertest.html#autotoc_md21", null ],
           [ "Interface (57)", "cahiertest.html#autotoc_md22", null ],
           [ "Localization (9)", "cahiertest.html#autotoc_md23", null ]
@@ -124,19 +124,20 @@ var NAVTREEINDEX =
 "dir_f69202b516efeab62778db608b6130e3.html",
 "guide-niveaux.html#autotoc_md162",
 "lot-23.html#autotoc_md490",
-"namespacehmi.html#a08b7877ee84a5db1b0da3837b70c3af7ae41199faa7290c167f70f314c5e6c165",
-"namespacehmi.html#a83c98e56e30eafa606048853f7962e48ae1e1d3d40573127e9ee0480caf1283d6",
-"namespacehmi.html#acf8a770950fbbb8d0ec11f73bc3a1342",
-"spec-vision.html#autotoc_md353",
-"structcore_1_1PhysicsConfig.html#a2072e171d44c396a1d3fc28e738224d0",
-"structhmi_1_1AutotileCell.html#aec8849facc712ea3a1d296b911df4250",
-"structhmi_1_1KeyBindingIconEntry.html#a9cec0e2778469f7283e1cd18a8e113c5",
-"structhmi_1_1PixelRegion.html#a6a3122cbd18f25a0d3eb3155a85f9855",
-"structhmi_1_1SkinEntry.html#a261f088f4cc42c2fc6c25396497286a9",
-"test__animation__personnage_8cpp.html#a210ee16ce8d12bbb9ac44ee4ac433a7c",
-"test__game__mode_8cpp.html#a69f14ed48a6f8ac12d798a67790004f5",
-"test__mechanism__controller_8cpp.html#ae9ab7b7422e37c4b0d09a0f17b76fb55",
-"test__render__budget_8cpp.html#acd3d73475949317c86aa34e55d7aedc5"
+"namespacehmi.html#a08b7877ee84a5db1b0da3837b70c3af7aa809debdbe0cae246d363461916d924d",
+"namespacehmi.html#a83c98e56e30eafa606048853f7962e48ab9ece18c950afbfa6b0fdbfa4ff731d3",
+"namespacehmi.html#ace704959d626f266592987f16eb2f3d5ad9e8fea9194ad4b49db82581f12a26bb",
+"spec-vision.html",
+"structcore_1_1PhysicsConfig.html#a0fdb33afff65f36642d32a0714f9a642",
+"structhmi_1_1AutotileCell.html",
+"structhmi_1_1IdentityBaseScale.html#aea532703597d84a7999adfa21105dc4b",
+"structhmi_1_1PixelRegion.html#a48bddb1e470351c6f6f3f0edba73bf77",
+"structhmi_1_1SkinEntry.html#a13998a108677642623f3d5575c05fe2a",
+"test__animation__clip_8cpp.html#ad0a2aa8e6160daaed8fb13e11c1173ac",
+"test__game__hud_8cpp.html#aa788c63e7b9ac0e9aa8e04cfb5630605",
+"test__mechanism__animation__assignments_8cpp.html",
+"test__quad__recorder_8cpp.html#ab3b33ea9c71ff42cf732ef0513a4ab69",
+"test__world_8cpp.html#aea2d3ad4592fd5085917b5c46ef7bd06"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

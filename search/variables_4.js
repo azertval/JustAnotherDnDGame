@@ -18,12 +18,13 @@ var searchData=
   ['default_5froom_5fheight_5ftiles_15',['DEFAULT_ROOM_HEIGHT_TILES',['../namespacecore.html#a27bf5fbce0dbeda08de2d7e82e64d719',1,'core']]],
   ['default_5froom_5fwidth_5ftiles_16',['DEFAULT_ROOM_WIDTH_TILES',['../namespacecore.html#a16d88a44dd10fb55af743080cdf23310',1,'core']]],
   ['depth_17',['depth',['../structcore_1_1Plane.html#a8e975ddda080972618ef18a29124f1bf',1,'core::Plane']]],
-  ['description_18',['description',['../structhmi_1_1AnimationDescriptionResult.html#a3cdcee7012ff94ee9d1035738c33edaf',1,'hmi::AnimationDescriptionResult']]],
-  ['developer_5fbuild_19',['DEVELOPER_BUILD',['../namespacecore.html#affbaf55db3c297c638c8399aa855dbfe',1,'core']]],
-  ['diagnostics_5ffps_5fwindow_5fseconds_20',['DIAGNOSTICS_FPS_WINDOW_SECONDS',['../namespacehmi.html#afe37194ec48fcceeedcad65b760773b9',1,'hmi']]],
-  ['dirty_21',['dirty',['../structhmi_1_1LevelStatusInfo.html#a9cd9b8b2b1e60de42886994d2ffb1310',1,'hmi::LevelStatusInfo::dirty'],['../structhmi_1_1PixelEditStatusInfo.html#a5e78865d03928b21b28f7801e71d96ca',1,'hmi::PixelEditStatusInfo::dirty']]],
-  ['docksvisible_22',['docksVisible',['../structhmi_1_1ScreenDressing.html#afaadcce2a4848ec507ac6584b3590205',1,'hmi::ScreenDressing']]],
-  ['dooropen_23',['doorOpen',['../structhmi_1_1MechanismEventState.html#a93b52be466073c5f1eb4b61605f36c65',1,'hmi::MechanismEventState']]],
-  ['doorposition_24',['doorPosition',['../structcore_1_1Mechanism.html#aff8f5698a02356618c67d7fafae8b2b7',1,'core::Mechanism']]],
-  ['duration_25',['duration',['../structhmi_1_1ScreenShakeState.html#a0af939241aae31f584200a4f23d21cd7',1,'hmi::ScreenShakeState']]]
+  ['depth_5fsubdivisions_5fper_5funit_18',['DEPTH_SUBDIVISIONS_PER_UNIT',['../namespacehmi.html#a0591a2b20237a29c762b324a7ce0d7db',1,'hmi']]],
+  ['description_19',['description',['../structhmi_1_1AnimationDescriptionResult.html#a3cdcee7012ff94ee9d1035738c33edaf',1,'hmi::AnimationDescriptionResult']]],
+  ['developer_5fbuild_20',['DEVELOPER_BUILD',['../namespacecore.html#affbaf55db3c297c638c8399aa855dbfe',1,'core']]],
+  ['diagnostics_5ffps_5fwindow_5fseconds_21',['DIAGNOSTICS_FPS_WINDOW_SECONDS',['../namespacehmi.html#afe37194ec48fcceeedcad65b760773b9',1,'hmi']]],
+  ['dirty_22',['dirty',['../structhmi_1_1LevelStatusInfo.html#a9cd9b8b2b1e60de42886994d2ffb1310',1,'hmi::LevelStatusInfo::dirty'],['../structhmi_1_1PixelEditStatusInfo.html#a5e78865d03928b21b28f7801e71d96ca',1,'hmi::PixelEditStatusInfo::dirty']]],
+  ['docksvisible_23',['docksVisible',['../structhmi_1_1ScreenDressing.html#afaadcce2a4848ec507ac6584b3590205',1,'hmi::ScreenDressing']]],
+  ['dooropen_24',['doorOpen',['../structhmi_1_1MechanismEventState.html#a93b52be466073c5f1eb4b61605f36c65',1,'hmi::MechanismEventState']]],
+  ['doorposition_25',['doorPosition',['../structcore_1_1Mechanism.html#aff8f5698a02356618c67d7fafae8b2b7',1,'core::Mechanism']]],
+  ['duration_26',['duration',['../structhmi_1_1ScreenShakeState.html#a0af939241aae31f584200a4f23d21cd7',1,'hmi::ScreenShakeState']]]
 ];

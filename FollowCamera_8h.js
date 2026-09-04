@@ -1,7 +1,7 @@
 var FollowCamera_8h =
 [
     [ "hmi::FollowCameraState", "structhmi_1_1FollowCameraState.html", "structhmi_1_1FollowCameraState" ],
-    [ "hmi::advanceFollowCamera", "namespacehmi.html#a1c0092eb317bd940a340ce627904dcce", null ],
+    [ "hmi::advanceFollowCamera", "namespacehmi.html#a53f7d9a0159f9a5666de47c896446251", null ],
     [ "hmi::FOLLOW_ANTICIPATION_DISTANCE_UNITS", "namespacehmi.html#a3f82a8b7a4e27aa40b14b50f8c6fa3ae", null ],
     [ "hmi::FOLLOW_ANTICIPATION_TIME_CONSTANT_SECONDS", "namespacehmi.html#a3d0007a8d58739c6d06f6452a85beb07", null ],
     [ "hmi::FOLLOW_DEAD_ZONE_HALF_HEIGHT_UNITS", "namespacehmi.html#ae22445879ea6b17b71730fc1807a40f8", null ],

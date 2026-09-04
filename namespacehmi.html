@@ -1027,6 +1027,8 @@ Functions</h2></td></tr>
 <tr class="memdesc:a5c8d96a16939fabe2248617af0ffb90b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Décalage courant d'une secousse d'écran, en pixels <b>entiers</b> (<span class="tt">EX-ARCH-022</span>).  <br /></td></tr>
 <tr class="memitem:a105226a84e7eee6e32a6d20a57502b5b" id="r_a105226a84e7eee6e32a6d20a57502b5b"><td class="memItemLeft">std::optional&lt; std::size_t &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a105226a84e7eee6e32a6d20a57502b5b">activeCameraZoneIndex</a> (const std::vector&lt; <a class="el" href="structcore_1_1CameraZone.html">core::CameraZone</a> &gt; &amp;zones, <a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a> position) noexcept</td></tr>
 <tr class="memdesc:a105226a84e7eee6e32a6d20a57502b5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Indice de la zone active de <code class="param">zones</code> à <code class="param">position</code>.  <br /></td></tr>
+<tr class="memitem:a551d45820ca5a6e720a6a89e1c70c120" id="r_a551d45820ca5a6e720a6a89e1c70c120"><td class="memItemLeft">std::int32_t&#160;</td><td class="memItemRight"><a class="el" href="#a551d45820ca5a6e720a6a89e1c70c120">depthSortOrder</a> (float footWorldY) noexcept</td></tr>
+<tr class="memdesc:a551d45820ca5a6e720a6a89e1c70c120"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ordre de profondeur d'une primitive, à partir du <b>pied</b> de son quad.  <br /></td></tr>
 <tr class="memitem:aabc578b802bb386e63d830e168140fe7" id="r_aabc578b802bb386e63d830e168140fe7"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#aabc578b802bb386e63d830e168140fe7">formatSceneStatistics</a> (const <a class="el" href="structhmi_1_1SceneStatistics.html">SceneStatistics</a> &amp;statistics)</td></tr>
 <tr class="memdesc:aabc578b802bb386e63d830e168140fe7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Résumé des compteurs d'une image, pour la journalisation de diagnostic (<span class="tt">EX-NFR-005</span>).  <br /></td></tr>
 <tr class="memitem:af7d9b42fc7c496a35a24169feddc6ab8" id="r_af7d9b42fc7c496a35a24169feddc6ab8"><td class="memItemLeft"><a class="el" href="structcore_1_1Rect.html">core::Rect</a>&#160;</td><td class="memItemRight"><a class="el" href="#af7d9b42fc7c496a35a24169feddc6ab8">spriteQuadBounds</a> (const <a class="el" href="structhmi_1_1SpriteQuad.html">SpriteQuad</a> &amp;quad) noexcept</td></tr>
@@ -1035,8 +1037,8 @@ Functions</h2></td></tr>
 <tr class="memdesc:adbdaec090bf424bf2ec812fb1587c782"><td class="mdescLeft">&#160;</td><td class="mdescRight">Boîte englobante d'un segment épais, en unités monde.  <br /></td></tr>
 <tr class="memitem:a649774d217a61e4b37f00d309fa3b60e" id="r_a649774d217a61e4b37f00d309fa3b60e"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a649774d217a61e4b37f00d309fa3b60e">composeWorldSprites</a> (<a class="el" href="classhmi_1_1ComposedScene.html">ComposedScene</a> &amp;scene, <a class="el" href="classcore_1_1World.html">core::World</a> &amp;world, <a class="el" href="#ace25c100da588ab6050fb0f486d61d54">RenderMode</a> mode, const <a class="el" href="structhmi_1_1SceneTextures.html">SceneTextures</a> &amp;textures, float interpolationAlpha, const <a class="el" href="classhmi_1_1LayerVisibility.html">LayerVisibility</a> &amp;visibility=<a class="el" href="classhmi_1_1LayerVisibility.html">LayerVisibility</a>{})</td></tr>
 <tr class="memdesc:a649774d217a61e4b37f00d309fa3b60e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compose les entités affichables d'un monde ECS en primitives.  <br /></td></tr>
-<tr class="memitem:a1c0092eb317bd940a340ce627904dcce" id="r_a1c0092eb317bd940a340ce627904dcce"><td class="memItemLeft"><a class="el" href="structhmi_1_1FollowCameraState.html">FollowCameraState</a>&#160;</td><td class="memItemRight"><a class="el" href="#a1c0092eb317bd940a340ce627904dcce">advanceFollowCamera</a> (const <a class="el" href="structhmi_1_1FollowCameraState.html">FollowCameraState</a> &amp;previous, <a class="el" href="structcore_1_1Vector2.html">core::Vector2</a> characterPosition, float movementDirection, const <a class="el" href="structcore_1_1Rect.html">core::Rect</a> &amp;levelBounds, <a class="el" href="structcore_1_1Vector2.html">core::Vector2</a> viewHalfExtent, float fixedDelta) noexcept</td></tr>
-<tr class="memdesc:a1c0092eb317bd940a340ce627904dcce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Avance la caméra de suivi d'un pas fixe.  <br /></td></tr>
+<tr class="memitem:a53f7d9a0159f9a5666de47c896446251" id="r_a53f7d9a0159f9a5666de47c896446251"><td class="memItemLeft"><a class="el" href="structhmi_1_1FollowCameraState.html">FollowCameraState</a>&#160;</td><td class="memItemRight"><a class="el" href="#a53f7d9a0159f9a5666de47c896446251">advanceFollowCamera</a> (const <a class="el" href="structhmi_1_1FollowCameraState.html">FollowCameraState</a> &amp;previous, <a class="el" href="structcore_1_1Vector2.html">core::Vector2</a> characterPosition, <a class="el" href="structcore_1_1Vector2.html">core::Vector2</a> facing, const <a class="el" href="structcore_1_1Rect.html">core::Rect</a> &amp;levelBounds, <a class="el" href="structcore_1_1Vector2.html">core::Vector2</a> viewHalfExtent, float fixedDelta) noexcept</td></tr>
+<tr class="memdesc:a53f7d9a0159f9a5666de47c896446251"><td class="mdescLeft">&#160;</td><td class="mdescRight">Avance la caméra de suivi d'un pas fixe.  <br /></td></tr>
 <tr class="memitem:aaed807c56ca3863821f035b79b34b36e" id="r_aaed807c56ca3863821f035b79b34b36e"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#aaed807c56ca3863821f035b79b34b36e">isStatefulMechanism</a> (<a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875">core::TileType</a> type) noexcept</td></tr>
 <tr class="memdesc:aaed807c56ca3863821f035b79b34b36e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Indique si un type de tuile est un <b>mécanisme à état</b>, dont l'apparence dépend d'une donnée lue en lecture seule dans <span class="tt">Core</span> (<span class="tt">EX-ARCH-012</span>).  <br /></td></tr>
 <tr class="memitem:aedfb47ad3a21cd6303a86480c769ee5c" id="r_aedfb47ad3a21cd6303a86480c769ee5c"><td class="memItemLeft">std::optional&lt; std::string &gt;&#160;</td><td class="memItemRight"><a class="el" href="#aedfb47ad3a21cd6303a86480c769ee5c">mechanismTargetClip</a> (<a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875">core::TileType</a> type, bool active) noexcept</td></tr>
@@ -1097,6 +1099,10 @@ Functions</h2></td></tr>
 <tr class="memdesc:a6770c69567bdf9f23ff11a42feb080d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lit des métriques de police depuis un fichier.  <br /></td></tr>
 <tr class="memitem:aa07f4464477c925f45c59a7c90e6054d" id="r_aa07f4464477c925f45c59a7c90e6054d"><td class="memItemLeft"><a class="el" href="structhmi_1_1AssetValidation.html">AssetValidation</a>&#160;</td><td class="memItemRight"><a class="el" href="#aa07f4464477c925f45c59a7c90e6054d">validateFontMetricsAgainstTexture</a> (const <a class="el" href="structhmi_1_1FontMetrics.html">FontMetrics</a> &amp;metrics, const std::string &amp;fileName, int textureWidth, int textureHeight)</td></tr>
 <tr class="memdesc:aa07f4464477c925f45c59a7c90e6054d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Valide la cohérence entre des métriques et les dimensions <b>décodées</b> du PNG associé.  <br /></td></tr>
+<tr class="memitem:a0f6ab0e99f196e8793e69035b8f4bf98" id="r_a0f6ab0e99f196e8793e69035b8f4bf98"><td class="memItemLeft">constexpr bool&#160;</td><td class="memItemRight"><a class="el" href="#a0f6ab0e99f196e8793e69035b8f4bf98">sortsByDepth</a> (<a class="el" href="#a9b5452f2d3a1019a3229b90a4f000919">RenderLayer</a> layer) noexcept</td></tr>
+<tr class="memdesc:a0f6ab0e99f196e8793e69035b8f4bf98"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le calque appartient-il à la <b>bande de profondeur</b> ?  <br /></td></tr>
+<tr class="memitem:a3173a03ac9ce6550a4d84437290a64dc" id="r_a3173a03ac9ce6550a4d84437290a64dc"><td class="memItemLeft">constexpr std::int32_t&#160;</td><td class="memItemRight"><a class="el" href="#a3173a03ac9ce6550a4d84437290a64dc">renderBand</a> (<a class="el" href="#a9b5452f2d3a1019a3229b90a4f000919">RenderLayer</a> layer) noexcept</td></tr>
+<tr class="memdesc:a3173a03ac9ce6550a4d84437290a64dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bande de tri d'un calque : <span class="tt">Object</span> et <span class="tt">Player</span> en partagent <b>une seule</b>.  <br /></td></tr>
 <tr class="memitem:a8b8fd5c80e500ad266167edacf261714" id="r_a8b8fd5c80e500ad266167edacf261714"><td class="memItemLeft">constexpr const char *&#160;</td><td class="memItemRight"><a class="el" href="#a8b8fd5c80e500ad266167edacf261714">renderLayerName</a> (<a class="el" href="#a9b5452f2d3a1019a3229b90a4f000919">RenderLayer</a> layer) noexcept</td></tr>
 <tr class="memdesc:a8b8fd5c80e500ad266167edacf261714"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nom lisible d'un calque, pour la journalisation et les messages d'échec de test.  <br /></td></tr>
 <tr class="memitem:a8e40b7d9a122c5304de1782b079c3637" id="r_a8e40b7d9a122c5304de1782b079c3637"><td class="memItemLeft">const char *&#160;</td><td class="memItemRight"><a class="el" href="#a8e40b7d9a122c5304de1782b079c3637">renderModeName</a> (<a class="el" href="#ace25c100da588ab6050fb0f486d61d54">RenderMode</a> mode) noexcept</td></tr>
@@ -1309,9 +1315,11 @@ Variables</h2></td></tr>
 <tr class="memdesc:ac67c57b9d29f38f461615f1e356b929f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Amplitude de la secousse à la mort du personnage : légèrement plus marquée que l'atterrissage.  <br /></td></tr>
 <tr class="memitem:aad0ce653270973d848de764b4fa308d1" id="r_aad0ce653270973d848de764b4fa308d1"><td class="memItemLeft">constexpr float&#160;</td><td class="memItemRight"><a class="el" href="#aad0ce653270973d848de764b4fa308d1">SCREEN_SHAKE_DURATION</a> = 0.2f</td></tr>
 <tr class="memdesc:aad0ce653270973d848de764b4fa308d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Durée de toute secousse d'écran, en secondes &ndash; brève par construction.  <br /></td></tr>
+<tr class="memitem:a0591a2b20237a29c762b324a7ce0d7db" id="r_a0591a2b20237a29c762b324a7ce0d7db"><td class="memItemLeft">constexpr float&#160;</td><td class="memItemRight"><a class="el" href="#a0591a2b20237a29c762b324a7ce0d7db">DEPTH_SUBDIVISIONS_PER_UNIT</a> = 16.0f</td></tr>
+<tr class="memdesc:a0591a2b20237a29c762b324a7ce0d7db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sous-divisions de profondeur par unité monde, pour la quantification du tri par Y.  <br /></td></tr>
 <tr class="memitem:a46b7ee519ab78d2253bf0c4415ab08d6" id="r_a46b7ee519ab78d2253bf0c4415ab08d6"><td class="memItemLeft">constexpr float&#160;</td><td class="memItemRight"><a class="el" href="#a46b7ee519ab78d2253bf0c4415ab08d6">FOLLOW_DEAD_ZONE_HALF_WIDTH_UNITS</a> = 1.5f</td></tr>
-<tr class="memdesc:a46b7ee519ab78d2253bf0c4415ab08d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Demi-taille de la zone morte, en unités monde : le personnage se déplace librement dans ce rectangle centré sur le point suivi sans faire bouger la caméra &ndash; ce qui supprime le tremblement permanent d'une caméra qui collerait exactement au personnage.  <br /></td></tr>
-<tr class="memitem:ae22445879ea6b17b71730fc1807a40f8" id="r_ae22445879ea6b17b71730fc1807a40f8"><td class="memItemLeft">constexpr float&#160;</td><td class="memItemRight"><a class="el" href="#ae22445879ea6b17b71730fc1807a40f8">FOLLOW_DEAD_ZONE_HALF_HEIGHT_UNITS</a> = 1.0f</td></tr>
+<tr class="memdesc:a46b7ee519ab78d2253bf0c4415ab08d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Demi-taille de la zone morte, en unités monde : le personnage se déplace librement dans ce carré centré sur le point suivi sans faire bouger la caméra &ndash; ce qui supprime le tremblement permanent d'une caméra qui collerait exactement au personnage.  <br /></td></tr>
+<tr class="memitem:ae22445879ea6b17b71730fc1807a40f8" id="r_ae22445879ea6b17b71730fc1807a40f8"><td class="memItemLeft">constexpr float&#160;</td><td class="memItemRight"><a class="el" href="#ae22445879ea6b17b71730fc1807a40f8">FOLLOW_DEAD_ZONE_HALF_HEIGHT_UNITS</a> = 1.5f</td></tr>
 <tr class="memitem:a3f82a8b7a4e27aa40b14b50f8c6fa3ae" id="r_a3f82a8b7a4e27aa40b14b50f8c6fa3ae"><td class="memItemLeft">constexpr float&#160;</td><td class="memItemRight"><a class="el" href="#a3f82a8b7a4e27aa40b14b50f8c6fa3ae">FOLLOW_ANTICIPATION_DISTANCE_UNITS</a> = 2.5f</td></tr>
 <tr class="memdesc:a3f82a8b7a4e27aa40b14b50f8c6fa3ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Distance d'anticipation dans le sens du déplacement, en unités monde.  <br /></td></tr>
 <tr class="memitem:a0d07ae389ac0afa773a4d22555a9027e" id="r_a0d07ae389ac0afa773a4d22555a9027e"><td class="memItemLeft">constexpr float&#160;</td><td class="memItemRight"><a class="el" href="#a0d07ae389ac0afa773a4d22555a9027e">FOLLOW_SMOOTHING_TIME_CONSTANT_SECONDS</a> = 0.15f</td></tr>
@@ -2563,9 +2571,10 @@ Variables</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><a id="a9b5452f2d3a1019a3229b90a4f000919ac5457c5f3cfb4da8638ce7190f8e5152" name="a9b5452f2d3a1019a3229b90a4f000919ac5457c5f3cfb4da8638ce7190f8e5152"></a>Tile&#160;</td><td class="fielddoc"><p>Tuiles physiques du niveau — le seul calque peuplé avant <span class="tt">LOT-42</span>. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a9b5452f2d3a1019a3229b90a4f000919a497031794414a552435f90151ac3b54b" name="a9b5452f2d3a1019a3229b90a4f000919a497031794414a552435f90151ac3b54b"></a>Object&#160;</td><td class="fielddoc"><p>Objets interactifs (interrupteurs, portes, dangers) (<span class="tt">LOT-45</span>/<span class="tt">LOT-47</span>). </p>
+<tr><td class="fieldname"><a id="a9b5452f2d3a1019a3229b90a4f000919a497031794414a552435f90151ac3b54b" name="a9b5452f2d3a1019a3229b90a4f000919a497031794414a552435f90151ac3b54b"></a>Object&#160;</td><td class="fielddoc"><p>Objets interactifs (interrupteurs, portes, dangers) et <b>décor traversé</b> : tout ce qui partage la profondeur du personnage (<span class="tt">LOT-45</span>/<span class="tt">LOT-47</span>, <span class="tt">LOT-07</span>). </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a9b5452f2d3a1019a3229b90a4f000919a636da1d35e805b00eae0fcd8333f9234" name="a9b5452f2d3a1019a3229b90a4f000919a636da1d35e805b00eae0fcd8333f9234"></a>Player&#160;</td><td class="fielddoc"><p>Personnage joueur. </p>
+<p>Même <b>bande de profondeur</b> que <span class="tt">Object</span> depuis le <span class="tt">LOT-07</span> : les deux s'ordonnent entre eux par le Y de leur pied, pas par leur rang de calque. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a9b5452f2d3a1019a3229b90a4f000919a45bd1d5b32931106efbf1a82fe6a732f" name="a9b5452f2d3a1019a3229b90a4f000919a45bd1d5b32931106efbf1a82fe6a732f"></a>Foreground&#160;</td><td class="fielddoc"><p>Plans picturaux <b>devant</b> le personnage (<span class="tt">LOT-69</span>, <span class="tt">EX-DEC-042</span>). </p>
 </td></tr>
@@ -2955,8 +2964,8 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a1c0092eb317bd940a340ce627904dcce" name="a1c0092eb317bd940a340ce627904dcce"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1c0092eb317bd940a340ce627904dcce">&#9670;&#160;</a></span>advanceFollowCamera()</h2>
+<a id="a53f7d9a0159f9a5666de47c896446251" name="a53f7d9a0159f9a5666de47c896446251"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a53f7d9a0159f9a5666de47c896446251">&#9670;&#160;</a></span>advanceFollowCamera()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2977,7 +2986,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>movementDirection</em></span>, </td>
+          <td class="paramtype"><a class="el" href="structcore_1_1Vector2.html">core::Vector2</a></td>          <td class="paramname"><span class="paramname"><em>facing</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -3007,7 +3016,7 @@ Variables</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">previous</td><td>État du pas précédent (<span class="tt"><a class="el" href="structhmi_1_1FollowCameraState.html" title="État déterministe de la caméra de suivi, avancé une fois par pas fixe.">FollowCameraState</a>{}</span> par défaut au premier appel après un chargement de niveau). </td></tr>
     <tr><td class="paramname">characterPosition</td><td>Position simulée du personnage (centre de sa boîte), en unités monde. </td></tr>
-    <tr><td class="paramname">movementDirection</td><td>Sens du déplacement du personnage (<span class="tt"><a class="el" href="structcore_1_1Actor.html#ada4c84a898de6c67b5d303ad876b61a0" title="Orientation courante, en vecteur unitaire du monde (y vers le bas).">core::Actor::facing</a></span>, négatif à gauche, positif à droite) ; <span class="tt">0</span> conserve la dernière anticipation (immobile, rien à réviser). </td></tr>
+    <tr><td class="paramname">facing</td><td>Direction de marche du personnage (<span class="tt"><a class="el" href="structcore_1_1Actor.html#ada4c84a898de6c67b5d303ad876b61a0" title="Orientation courante, en vecteur unitaire du monde (y vers le bas).">core::Actor::facing</a></span>), vecteur de norme au plus 1 ; le vecteur <b>nul</b> conserve la dernière anticipation (immobile, rien à réviser). </td></tr>
     <tr><td class="paramname">levelBounds</td><td>Rectangle du niveau, en unités monde (coin haut-gauche + dimensions). </td></tr>
     <tr><td class="paramname">viewHalfExtent</td><td>Demi-largeur/demi-hauteur de la zone visible par la caméra, en unités monde &ndash; détermine la marge de bornage aux limites du niveau. </td></tr>
     <tr><td class="paramname">fixedDelta</td><td>Durée du pas fixe, en secondes (<span class="tt">EX-REN-021</span>) &ndash; jamais un delta de rendu, sous peine de dépendre de la fréquence d'affichage. </td></tr>
@@ -4328,7 +4337,7 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Compose un quad par particule vivante, teinté selon la durée de vie restante et le calque de son effet. </p>
-<p>Parcourt les entités portant un <span class="tt"><a class="el" href="structcore_1_1Particle.html" title="Particule visuelle pure : position, vitesse, durée de vie – aucun effet de gameplay (EX-ARCH-012).">core::Particle</a></span> (<span class="tt">LOT-53</span> TACHE-01/02) et empile un <span class="tt"><a class="el" href="structhmi_1_1SpriteQuad.html" title="Un quad texturé à dessiner : rectangle en unités monde, région de texture (coordonnées normalisées) e...">hmi::SpriteQuad</a></span> centré sur chacune, échantillonnant une région <b>opaque unie</b> de l'atlas (<span class="tt">hmi::TextureAtlas::tile(0, 0)</span>, même patron que les segments unis de <span class="tt"><a class="el" href="classhmi_1_1DraftRenderer.html" title="Dessine la grille d&#39;un core::LevelDraft en cours d&#39;édition.">hmi::DraftRenderer</a></span>) : aucun asset dédié n'est introduit, la teinte porte entièrement l'apparence de l'effet. L'opacité vaut <span class="tt">life / maxLife</span> (<span class="tt"><a class="el" href="structcore_1_1Particle.html" title="Particule visuelle pure : position, vitesse, durée de vie – aucun effet de gameplay (EX-ARCH-012).">core::Particle</a></span>) : une particule fraîchement émise est pleine, elle s'estompe jusqu'à disparaître avec la simulation. Le calque dépend de l'effet (<span class="tt"><a class="el" href="namespacecore.html#aa6799b2e10b4cf31b2527af8a390ce2c" title="Effet visuel à l&#39;origine d&#39;une particule – tag opaque pour Core, exploité par le rendu (HMI) pour cho...">core::ParticleKind</a></span>) : une traînée de dash passe <b>derrière</b> le personnage (<span class="tt"><a class="el" href="#a9b5452f2d3a1019a3229b90a4f000919a497031794414a552435f90151ac3b54b" title="Objets interactifs (interrupteurs, portes, dangers) (LOT-45/LOT-47).">RenderLayer::Object</a></span>), une bouffée de poussière ou un éclat de mort <b>devant</b> (<span class="tt"><a class="el" href="#a9b5452f2d3a1019a3229b90a4f000919a45bd1d5b32931106efbf1a82fe6a732f" title="Plans picturaux devant le personnage (LOT-69, EX-DEC-042).">RenderLayer::Foreground</a></span>), conformément au périmètre du lot.</p>
+<p>Parcourt les entités portant un <span class="tt"><a class="el" href="structcore_1_1Particle.html" title="Particule visuelle pure : position, vitesse, durée de vie – aucun effet de gameplay (EX-ARCH-012).">core::Particle</a></span> (<span class="tt">LOT-53</span> TACHE-01/02) et empile un <span class="tt"><a class="el" href="structhmi_1_1SpriteQuad.html" title="Un quad texturé à dessiner : rectangle en unités monde, région de texture (coordonnées normalisées) e...">hmi::SpriteQuad</a></span> centré sur chacune, échantillonnant une région <b>opaque unie</b> de l'atlas (<span class="tt">hmi::TextureAtlas::tile(0, 0)</span>, même patron que les segments unis de <span class="tt"><a class="el" href="classhmi_1_1DraftRenderer.html" title="Dessine la grille d&#39;un core::LevelDraft en cours d&#39;édition.">hmi::DraftRenderer</a></span>) : aucun asset dédié n'est introduit, la teinte porte entièrement l'apparence de l'effet. L'opacité vaut <span class="tt">life / maxLife</span> (<span class="tt"><a class="el" href="structcore_1_1Particle.html" title="Particule visuelle pure : position, vitesse, durée de vie – aucun effet de gameplay (EX-ARCH-012).">core::Particle</a></span>) : une particule fraîchement émise est pleine, elle s'estompe jusqu'à disparaître avec la simulation. Le calque dépend de l'effet (<span class="tt"><a class="el" href="namespacecore.html#aa6799b2e10b4cf31b2527af8a390ce2c" title="Effet visuel à l&#39;origine d&#39;une particule – tag opaque pour Core, exploité par le rendu (HMI) pour cho...">core::ParticleKind</a></span>) : une traînée de dash passe <b>derrière</b> le personnage (<span class="tt"><a class="el" href="#a9b5452f2d3a1019a3229b90a4f000919a497031794414a552435f90151ac3b54b" title="Objets interactifs (interrupteurs, portes, dangers) et décor traversé : tout ce qui partage la profon...">RenderLayer::Object</a></span>), une bouffée de poussière ou un éclat de mort <b>devant</b> (<span class="tt"><a class="el" href="#a9b5452f2d3a1019a3229b90a4f000919a45bd1d5b32931106efbf1a82fe6a732f" title="Plans picturaux devant le personnage (LOT-69, EX-DEC-042).">RenderLayer::Foreground</a></span>), conformément au périmètre du lot.</p>
 <p>Lecture <b>seule</b> de l'ECS (<span class="tt">EX-ARCH-012</span>), sans effet en dehors de <span class="tt"><a class="el" href="#ace25c100da588ab6050fb0f486d61d54aa3e8ae43188ae76d38f414b2bdb0077b" title="Habillage par textures, construit lot après lot à partir de LOT-42.">RenderMode::Texture</a></span> (<span class="tt">EX-REN-046</span>) — le mode Physique reste la lecture nue des collisions, sans effet visuel. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">scene</td><td>Scène à remplir (non vidée : la composition peut être cumulative). </td></tr>
@@ -4960,6 +4969,41 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>L'image décodée, ou <span class="tt">std::nullopt</span> si le fichier est absent/illisible/format non supporté (erreur récupérable, <span class="tt">EX-NFR-040</span> — jamais d'exception ici). </dd></dl>
+
+</div>
+</div>
+<a id="a551d45820ca5a6e720a6a89e1c70c120" name="a551d45820ca5a6e720a6a89e1c70c120"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a551d45820ca5a6e720a6a89e1c70c120">&#9670;&#160;</a></span>depthSortOrder()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::int32_t hmi::depthSortOrder </td>
+          <td>(</td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>footWorldY</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Ordre de profondeur d'une primitive, à partir du <b>pied</b> de son quad. </p>
+<p>Le pied — le bord <b>bas</b> — et non le coin haut : c'est le point de contact avec le sol qui décide de la profondeur. Deux sprites de hauteurs différentes posés sur la même case doivent s'ordonner de la même façon, ce que leur coin haut ne dit pas (<span class="tt">EX-REN-018</span>).</p>
+<p>Fonction <b>pure</b>, sans GPU. Un Y plus grand (plus bas à l'écran, <span class="tt">y</span> vers le bas) donne un ordre plus grand, donc un dessin <b>plus tard</b>, donc au-dessus. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">footWorldY</td><td>Ordonnée du bord bas du quad, en unités monde. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>L'ordre de tri correspondant. </dd></dl>
 
 </div>
 </div>
@@ -8902,6 +8946,34 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="a3173a03ac9ce6550a4d84437290a64dc" name="a3173a03ac9ce6550a4d84437290a64dc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3173a03ac9ce6550a4d84437290a64dc">&#9670;&#160;</a></span>renderBand()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::int32_t hmi::renderBand </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a9b5452f2d3a1019a3229b90a4f000919">RenderLayer</a></td>          <td class="paramname"><span class="paramname"><em>layer</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Bande de tri d'un calque : <span class="tt">Object</span> et <span class="tt">Player</span> en partagent <b>une seule</b>. </p>
+<p>Sans cela, le rang de calque trancherait avant la profondeur et le personnage passerait <b>toujours</b> devant un objet, quelle que soit sa position — exactement ce que le tri par Y doit corriger. Tous les autres calques restent leur propre bande : un plan pictural ne se mélange jamais au décor, et les aides d'édition restent au-dessus de tout (<span class="tt">EX-REN-014</span>). </p>
+
+</div>
+</div>
 <a id="a8b8fd5c80e500ad266167edacf261714" name="a8b8fd5c80e500ad266167edacf261714"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8b8fd5c80e500ad266167edacf261714">&#9670;&#160;</a></span>renderLayerName()</h2>
 
@@ -10158,6 +10230,35 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Le masque des quatre voisins solides (combinaison de <span class="tt"><a class="el" href="#a904bd9605b7079403b098a5e97e9726e" title="Bits du masque de voisinage, un par voisin orthogonal solide.">hmi::NeighborBits</a></span>, 0 à 15). </dd></dl>
+
+</div>
+</div>
+<a id="a0f6ab0e99f196e8793e69035b8f4bf98" name="a0f6ab0e99f196e8793e69035b8f4bf98"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0f6ab0e99f196e8793e69035b8f4bf98">&#9670;&#160;</a></span>sortsByDepth()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool hmi::sortsByDepth </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a9b5452f2d3a1019a3229b90a4f000919">RenderLayer</a></td>          <td class="paramname"><span class="paramname"><em>layer</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Le calque appartient-il à la <b>bande de profondeur</b> ? </p>
+<p>Dans une vue de dessus, « devant » et « derrière » ne se décident plus par un rang de calque fixe mais par la <b>position</b> : le personnage passe devant ce qui est au-dessus de lui à l'écran, derrière ce qui est en dessous. Les primitives d'une bande de profondeur s'ordonnent donc entre elles par leur <span class="tt">sortOrder</span> — le Y de leur pied (<span class="tt"><a class="el" href="#a551d45820ca5a6e720a6a89e1c70c120" title="Ordre de profondeur d&#39;une primitive, à partir du pied de son quad.">hmi::depthSortOrder</a></span>) — <b>avant</b> tout regroupement de texture.</p>
+<p>C'est le prix à payer, et il est assumé : regrouper par texture d'abord ferait passer tout le décor devant le personnage, ou tout derrière, selon l'ordre d'apparition des textures. Un personnage et un arbre n'ayant jamais la même texture, il n'existe aucun ordre de calque qui rende les deux cas justes — seule la profondeur le peut, au prix de passes de dessin supplémentaires (<span class="tt">EX-REN-018</span>). </p>
 
 </div>
 </div>
@@ -11494,6 +11595,31 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="a0591a2b20237a29c762b324a7ce0d7db" name="a0591a2b20237a29c762b324a7ce0d7db"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0591a2b20237a29c762b324a7ce0d7db">&#9670;&#160;</a></span>DEPTH_SUBDIVISIONS_PER_UNIT</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float hmi::DEPTH_SUBDIVISIONS_PER_UNIT = 16.0f</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Sous-divisions de profondeur par unité monde, pour la quantification du tri par Y. </p>
+<p>Le rendu est du pixel art à 16 px/unité (<span class="tt">EX-ARCH-021</span>) : deux sprites dont les pieds sont distants de moins d'un pixel ne peuvent pas se départager <b>à l'écran</b>, et les départager dans le tri ne ferait que les faire scintiller au gré des arrondis flottants. Quantifier au pixel est donc à la fois suffisant et stabilisateur. </p>
+
+</div>
+</div>
 <a id="afe37194ec48fcceeedcad65b760773b9" name="afe37194ec48fcceeedcad65b760773b9"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#afe37194ec48fcceeedcad65b760773b9">&#9670;&#160;</a></span>DIAGNOSTICS_FPS_WINDOW_SECONDS</h2>
 
@@ -11674,7 +11800,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">float hmi::FOLLOW_DEAD_ZONE_HALF_HEIGHT_UNITS = 1.0f</td>
+          <td class="memname">float hmi::FOLLOW_DEAD_ZONE_HALF_HEIGHT_UNITS = 1.5f</td>
         </tr>
       </table>
   </td>
@@ -11706,8 +11832,9 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Demi-taille de la zone morte, en unités monde : le personnage se déplace librement dans ce rectangle centré sur le point suivi sans faire bouger la caméra &ndash; ce qui supprime le tremblement permanent d'une caméra qui collerait exactement au personnage. </p>
-<p>Deux constantes scalaires plutôt qu'un <span class="tt"><a class="el" href="structcore_1_1Vector2.html" title="Vecteur bidimensionnel en coordonnées monde (composantes float).">core::Vector2</a></span> : son constructeur n'est pas <span class="tt">constexpr</span>. </p>
+<p>Demi-taille de la zone morte, en unités monde : le personnage se déplace librement dans ce carré centré sur le point suivi sans faire bouger la caméra &ndash; ce qui supprime le tremblement permanent d'une caméra qui collerait exactement au personnage. </p>
+<p>Deux constantes scalaires plutôt qu'un <span class="tt"><a class="el" href="structcore_1_1Vector2.html" title="Vecteur bidimensionnel en coordonnées monde (composantes float).">core::Vector2</a></span> : son constructeur n'est pas <span class="tt">constexpr</span>.</p>
+<p><b>Carrée depuis le <span class="tt">LOT-07</span></b> (1,5 sur les deux axes, contre 1,5 × 1,0 auparavant) : un jeu de plateforme court latéralement et saute brièvement, ce qui justifiait une zone plus large que haute ; en vue de dessus, marcher vers le haut est un déplacement comme un autre (<span class="tt">EX-EXP-001</span>), et une zone morte plus courte verticalement ferait décrocher la caméra plus tôt dans cette direction — un biais visible sans qu'aucune règle ne le justifie. </p>
 
 </div>
 </div>
@@ -12777,7 +12904,7 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">                                            =</div>
 <div class="line"><span class="keyword">static_cast&lt;</span>std::size_t<span class="keyword">&gt;</span>(<a class="code hl_enumvalue" href="#a9b5452f2d3a1019a3229b90a4f000919a94f3616c83f30ab5a328e602bbb7d751">RenderLayer::EditorOverlay</a>) + 1</div>
-<div class="ttc" id="anamespacehmi_html_a9b5452f2d3a1019a3229b90a4f000919a94f3616c83f30ab5a328e602bbb7d751"><div class="ttname"><a href="#a9b5452f2d3a1019a3229b90a4f000919a94f3616c83f30ab5a328e602bbb7d751">hmi::RenderLayer::EditorOverlay</a></div><div class="ttdeci">@ EditorOverlay</div><div class="ttdoc">Aides d&#39;édition : grille de repère, liens de mécanismes, aperçu de sélection.</div><div class="ttdef"><b>Definition</b> RenderLayer.h:62</div></div>
+<div class="ttc" id="anamespacehmi_html_a9b5452f2d3a1019a3229b90a4f000919a94f3616c83f30ab5a328e602bbb7d751"><div class="ttname"><a href="#a9b5452f2d3a1019a3229b90a4f000919a94f3616c83f30ab5a328e602bbb7d751">hmi::RenderLayer::EditorOverlay</a></div><div class="ttdeci">@ EditorOverlay</div><div class="ttdoc">Aides d&#39;édition : grille de repère, liens de mécanismes, aperçu de sélection.</div><div class="ttdef"><b>Definition</b> RenderLayer.h:64</div></div>
 </div><!-- fragment -->
 <p>Nombre de valeurs de <span class="tt"><a class="el" href="#a9b5452f2d3a1019a3229b90a4f000919" title="Calques de dessin, du plus arrière au plus avant (EX-REN-014, EX-DEC-002).">hmi::RenderLayer</a></span> — dimensionne un tableau indexé par la valeur plutôt que par une liste de champs écrite à la main (voir <span class="tt"><a class="el" href="classhmi_1_1LayerVisibility.html" title="Jeu de visibilités par calque, pour le mode d&#39;inspection « définition des textures » (LOT-51).">hmi::LayerVisibility</a></span>). </p>
 

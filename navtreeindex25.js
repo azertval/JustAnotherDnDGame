@@ -1,5 +1,9 @@
 var NAVTREEINDEX25 =
 {
+"structhmi_1_1IdentityBaseScale.html#aea532703597d84a7999adfa21105dc4b":[12,0,1,129,2],
+"structhmi_1_1KeyBindingIconEntry.html":[11,0,1,120],
+"structhmi_1_1KeyBindingIconEntry.html":[12,0,1,120],
+"structhmi_1_1KeyBindingIconEntry.html#a9cec0e2778469f7283e1cd18a8e113c5":[11,0,1,120,1],
 "structhmi_1_1KeyBindingIconEntry.html#a9cec0e2778469f7283e1cd18a8e113c5":[12,0,1,120,1],
 "structhmi_1_1KeyBindingIconEntry.html#aea48399a23732011146fb79d8a533ad5":[11,0,1,120,0],
 "structhmi_1_1KeyBindingIconEntry.html#aea48399a23732011146fb79d8a533ad5":[12,0,1,120,0],
@@ -245,9 +249,5 @@ var NAVTREEINDEX25 =
 "structhmi_1_1PixelRegion.html":[12,0,1,33],
 "structhmi_1_1PixelRegion.html#a13f2d51cc7d24fe3daaf1eecc76e805d":[11,0,1,33,5],
 "structhmi_1_1PixelRegion.html#a13f2d51cc7d24fe3daaf1eecc76e805d":[12,0,1,33,5],
-"structhmi_1_1PixelRegion.html#a48bddb1e470351c6f6f3f0edba73bf77":[11,0,1,33,4],
-"structhmi_1_1PixelRegion.html#a48bddb1e470351c6f6f3f0edba73bf77":[12,0,1,33,4],
-"structhmi_1_1PixelRegion.html#a56d93b164ce2ab2805861567cb97e92a":[11,0,1,33,2],
-"structhmi_1_1PixelRegion.html#a56d93b164ce2ab2805861567cb97e92a":[12,0,1,33,2],
-"structhmi_1_1PixelRegion.html#a6a3122cbd18f25a0d3eb3155a85f9855":[11,0,1,33,1]
+"structhmi_1_1PixelRegion.html#a48bddb1e470351c6f6f3f0edba73bf77":[11,0,1,33,4]
 };

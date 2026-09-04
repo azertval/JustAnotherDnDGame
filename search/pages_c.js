@@ -29,6 +29,6 @@ var searchData=
   ['budgets_26',['Niveaux : modèle, chargement, mécanismes, budgets',['../guide-niveaux.html',1,'guide']]],
   ['buffer_27',['Vocabulaire de base : GPU, swap chain, back buffer',['../guide-rendu.html#autotoc_md201',1,'']]],
   ['build_20dépendances_28',['6. Build &amp;amp; dépendances',['../spec-exigences.html#autotoc_md309',1,'']]],
-  ['buildlevelscene_29',['De la grille aux entités : &lt;a class=&quot;el&quot; href=&quot;namespacecore.html#a671cc58bea9439fdb3ea23009b0da54b&quot; title=&quot;core::buildLevelScene&quot;&gt;buildLevelScene&lt;/a&gt;',['../guide-niveaux.html#autotoc_md170',1,'']]],
+  ['buildlevelscene_29',['De la grille aux entités : &lt;a class=&quot;el&quot; href=&quot;namespacecore.html#a69ac6b2c5ca32686a14824d1f1c04b2a&quot; title=&quot;core::buildLevelScene&quot;&gt;buildLevelScene&lt;/a&gt;',['../guide-niveaux.html#autotoc_md170',1,'']]],
   ['butin_20marchands_20économie_30',['LOT-26 — Butin, marchands, économie',['../lot-26.html',1,'lots']]]
 ];

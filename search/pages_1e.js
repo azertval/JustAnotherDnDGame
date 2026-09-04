@@ -40,7 +40,7 @@ var searchData=
   ['tests_37',['8. Tests',['../spec-conventions.html#autotoc_md279',1,'']]],
   ['tests_20d_20intégration_2013_38',['Tests d&apos;intégration (13)',['../cahiertest.html#autotoc_md24',1,'']]],
   ['tests_20système_202_39',['Tests système (2)',['../cahiertest.html#autotoc_md29',1,'']]],
-  ['tests_20unitaires_20896_40',['Tests unitaires (896)',['../cahiertest.html#autotoc_md5',1,'']]],
+  ['tests_20unitaires_20906_40',['Tests unitaires (906)',['../cahiertest.html#autotoc_md5',1,'']]],
   ['texte_20dans_20la_20scène_20_3a_20hmi_3a_3abitmapfont_20et_20hmi_3a_3atextrenderer_20lot_2052_41',['Le texte dans la scène : &lt;span class=&quot;tt&quot;&gt;hmi::BitmapFont&lt;/span&gt; et &lt;span class=&quot;tt&quot;&gt;hmi::TextRenderer&lt;/span&gt; (&lt;span class=&quot;tt&quot;&gt;LOT-52&lt;/span&gt;)',['../guide-rendu.html#autotoc_md231',1,'']]],
   ['texturé_42',['&lt;a class=&quot;el&quot; href=&quot;structhmi_1_1SpriteQuad.html&quot; title=&quot;hmi::SpriteQuad&quot;&gt;SpriteQuad&lt;/a&gt; : un rectangle texturé',['../guide-rendu.html#autotoc_md210',1,'']]],
   ['texture_20des_20plans_20lot_2069_43',['Le second axe : la mémoire de texture des plans (&lt;span class=&quot;tt&quot;&gt;LOT-69&lt;/span&gt;)',['../guide-rendu.html#autotoc_md241',1,'']]],

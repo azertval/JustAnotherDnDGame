@@ -13,6 +13,8 @@ var RenderLayer_8h =
       [ "hmi::RenderLayer::UI", "namespacehmi.html#a9b5452f2d3a1019a3229b90a4f000919a71ff71526d15db86eb50fcac245d183b", null ],
       [ "hmi::RenderLayer::EditorOverlay", "namespacehmi.html#a9b5452f2d3a1019a3229b90a4f000919a94f3616c83f30ab5a328e602bbb7d751", null ]
     ] ],
+    [ "hmi::renderBand", "namespacehmi.html#a3173a03ac9ce6550a4d84437290a64dc", null ],
     [ "hmi::renderLayerName", "namespacehmi.html#a8b8fd5c80e500ad266167edacf261714", null ],
+    [ "hmi::sortsByDepth", "namespacehmi.html#a0f6ab0e99f196e8793e69035b8f4bf98", null ],
     [ "hmi::DEFAULT_RENDER_LAYER", "namespacehmi.html#ab6e44ad3d54b0383ef13f332d290df46", null ]
 ];

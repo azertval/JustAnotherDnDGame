@@ -73,7 +73,7 @@ var guide =
         [ "Validation", "guide-niveaux.html#autotoc_md168", null ],
         [ "Cadrage de caméra (<span class=\"tt\">cameraFraming</span>, <span class=\"tt\">LOT-64</span>)", "guide-niveaux.html#autotoc_md169", null ]
       ] ],
-      [ "De la grille aux entités : <a class=\"el\" href=\"namespacecore.html#a671cc58bea9439fdb3ea23009b0da54b\" title=\"core::buildLevelScene\">buildLevelScene</a>", "guide-niveaux.html#autotoc_md170", null ],
+      [ "De la grille aux entités : <a class=\"el\" href=\"namespacecore.html#a69ac6b2c5ca32686a14824d1f1c04b2a\" title=\"core::buildLevelScene\">buildLevelScene</a>", "guide-niveaux.html#autotoc_md170", null ],
       [ "Mécanismes déclencheur ↔ porte", "guide-niveaux.html#autotoc_md171", [
         [ "Clé et porte verrouillée (<span class=\"tt\">EX-GP-023</span>, <span class=\"tt\">LOT-63</span>)", "guide-niveaux.html#autotoc_md172", null ]
       ] ],

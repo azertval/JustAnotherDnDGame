@@ -46,7 +46,7 @@ var searchData=
   ['ensuite_43',['Le canevas : la géométrie d&apos;abord, le widget ensuite',['../guide-atelier-pixel-art.html#autotoc_md35',1,'']]],
   ['entité_20_3a_20core_3a_3aentity_20core_3a_3aentity_44',['L&apos;entité : &lt;a class=&quot;el&quot; href=&quot;structcore_1_1Entity.html&quot; title=&quot;core::Entity&quot;&gt;core::Entity&lt;/a&gt;',['../guide-ecs.html#autotoc_md88',1,'']]],
   ['entités_45',['LOT-11 — Éditeur multi-couches et placement d&apos;entités',['../lot-11.html',1,'lots']]],
-  ['entités_20_3a_20core_3a_3abuildlevelscene_20buildlevelscene_46',['De la grille aux entités : &lt;a class=&quot;el&quot; href=&quot;namespacecore.html#a671cc58bea9439fdb3ea23009b0da54b&quot; title=&quot;core::buildLevelScene&quot;&gt;buildLevelScene&lt;/a&gt;',['../guide-niveaux.html#autotoc_md170',1,'']]],
+  ['entités_20_3a_20core_3a_3abuildlevelscene_20buildlevelscene_46',['De la grille aux entités : &lt;a class=&quot;el&quot; href=&quot;namespacecore.html#a69ac6b2c5ca32686a14824d1f1c04b2a&quot; title=&quot;core::buildLevelScene&quot;&gt;buildLevelScene&lt;/a&gt;',['../guide-niveaux.html#autotoc_md170',1,'']]],
   ['entités_20_3a_20ecs_47',['2. Modèle d&apos;entités : ECS',['../spec-architecture.html#autotoc_md249',1,'']]],
   ['entités_20composants_20systèmes_48',['ECS : entités, composants, systèmes',['../guide-ecs.html',1,'guide']]],
   ['entités_20de_20carte_20et_20interaction_49',['LOT-10 — Entités de carte et interaction',['../lot-10.html',1,'lots']]],

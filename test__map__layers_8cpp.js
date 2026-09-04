@@ -10,6 +10,7 @@ var test__map__layers_8cpp =
     [ "TEST", "test__map__layers_8cpp.html#a669f9e47fe053c2ddaec6cb4def3c7fe", null ],
     [ "TEST", "test__map__layers_8cpp.html#a9f54229b5e29933307d7419af2cb1f00", null ],
     [ "TEST", "test__map__layers_8cpp.html#ac076aec8081ac436640ef158dc4e3daa", null ],
+    [ "TEST", "test__map__layers_8cpp.html#a040becc383cb6aecda21497c41d4a94d", null ],
     [ "TEST", "test__map__layers_8cpp.html#acb3ad5d935568ca5b9216a808c6d6a8f", null ],
     [ "TEST", "test__map__layers_8cpp.html#acd0103d5a14c5f2a833c86fec5579379", null ],
     [ "TEST", "test__map__layers_8cpp.html#ad6d0092896513dd6ddb9380ee5f17767", null ],

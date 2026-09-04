@@ -117,12 +117,16 @@ Functions</h2></td></tr>
 <tr class="memdesc:a31fb2147e0ad98bbedd673281dd506d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">À l'arrêt (sens nul), l'anticipation conserve sa dernière valeur plutôt que de revenir à zéro.  <br /></td></tr>
 <tr class="memitem:abb6fcdc6e720dd2bb005d4715db6785c" id="r_abb6fcdc6e720dd2bb005d4715db6785c"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#abb6fcdc6e720dd2bb005d4715db6785c">TEST</a> (FollowCameraTest, MemesEntreesMemeTrajectoire)</td></tr>
 <tr class="memdesc:abb6fcdc6e720dd2bb005d4715db6785c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mêmes entrées, même trajectoire de caméra (déterminisme, <span class="tt">EX-NFR-002</span>).  <br /></td></tr>
+<tr class="memitem:a521f4662ddd6f96e5aca4bd10e7566b4" id="r_a521f4662ddd6f96e5aca4bd10e7566b4"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a521f4662ddd6f96e5aca4bd10e7566b4">TEST</a> (FollowCameraTest, SuiviIsotropeSurLesDeuxAxes)</td></tr>
+<tr class="memdesc:a521f4662ddd6f96e5aca4bd10e7566b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le suivi est <b>isotrope</b> : marcher vers le bas décale la caméra exactement autant que marcher vers la droite (<span class="tt">EX-EXP-001</span>, <span class="tt">LOT-07</span>).  <br /></td></tr>
+<tr class="memitem:a6cae9788564329f8c9a964c8f77a8f81" id="r_a6cae9788564329f8c9a964c8f77a8f81"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a6cae9788564329f8c9a964c8f77a8f81">TEST</a> (FollowCameraTest, AnticipationVerticale)</td></tr>
+<tr class="memdesc:a6cae9788564329f8c9a964c8f77a8f81"><td class="mdescLeft">&#160;</td><td class="mdescRight">L'anticipation suit la direction de marche sur les <b>deux</b> axes : marcher vers le haut décale la caméra vers le haut (<span class="tt">LOT-07</span>).  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Tests unitaires de la caméra de suivi : zone morte, anticipation, lissage, bornage (<span class="tt">EX-REN-016</span>, LOT-64 TACHE-02). </p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
 <a id="acf554680091cfc5a1f00e68e7dd01dd6" name="acf554680091cfc5a1f00e68e7dd01dd6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acf554680091cfc5a1f00e68e7dd01dd6">&#9670;&#160;</a></span>TEST() <span class="overload">[1/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#acf554680091cfc5a1f00e68e7dd01dd6">&#9670;&#160;</a></span>TEST() <span class="overload">[1/9]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -151,8 +155,37 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a6cae9788564329f8c9a964c8f77a8f81" name="a6cae9788564329f8c9a964c8f77a8f81"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6cae9788564329f8c9a964c8f77a8f81">&#9670;&#160;</a></span>TEST() <span class="overload">[2/9]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TEST </td>
+          <td>(</td>
+          <td class="paramtype">FollowCameraTest</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">AnticipationVerticale</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>L'anticipation suit la direction de marche sur les <b>deux</b> axes : marcher vers le haut décale la caméra vers le haut (<span class="tt">LOT-07</span>). </p>
+<p><b>Cas de test :</b> <b>L'anticipation suit la marche verticale, pas seulement l'horizontale.</b><br  />
+ <b>Categorie :</b> Unitaire · Camera de suivi<br  />
+ <b>Criticite :</b> Majeur<br  />
+ <b>Etapes :</b><br  />
+ 1. Faire marcher le personnage vers le haut, sans bouger, sur 60 pas.<br  />
+ <b>Resultat attendu :</b> L'anticipation verticale s'etablit vers le haut, l'horizontale reste nulle. </p>
+
+</div>
+</div>
 <a id="a31fb2147e0ad98bbedd673281dd506d5" name="a31fb2147e0ad98bbedd673281dd506d5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a31fb2147e0ad98bbedd673281dd506d5">&#9670;&#160;</a></span>TEST() <span class="overload">[2/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a31fb2147e0ad98bbedd673281dd506d5">&#9670;&#160;</a></span>TEST() <span class="overload">[3/9]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -182,7 +215,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a7cddf54160dd908d767dfaeb0f1ca744" name="a7cddf54160dd908d767dfaeb0f1ca744"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7cddf54160dd908d767dfaeb0f1ca744">&#9670;&#160;</a></span>TEST() <span class="overload">[3/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a7cddf54160dd908d767dfaeb0f1ca744">&#9670;&#160;</a></span>TEST() <span class="overload">[4/9]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -212,7 +245,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="abb6fcdc6e720dd2bb005d4715db6785c" name="abb6fcdc6e720dd2bb005d4715db6785c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abb6fcdc6e720dd2bb005d4715db6785c">&#9670;&#160;</a></span>TEST() <span class="overload">[4/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#abb6fcdc6e720dd2bb005d4715db6785c">&#9670;&#160;</a></span>TEST() <span class="overload">[5/9]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -242,7 +275,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="ae8e7df0c0f6b551fb4de9a725868093d" name="ae8e7df0c0f6b551fb4de9a725868093d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae8e7df0c0f6b551fb4de9a725868093d">&#9670;&#160;</a></span>TEST() <span class="overload">[5/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ae8e7df0c0f6b551fb4de9a725868093d">&#9670;&#160;</a></span>TEST() <span class="overload">[6/9]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -272,7 +305,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="ad0235f4c7b46de3229a13dba8f6d7aac" name="ad0235f4c7b46de3229a13dba8f6d7aac"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad0235f4c7b46de3229a13dba8f6d7aac">&#9670;&#160;</a></span>TEST() <span class="overload">[6/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ad0235f4c7b46de3229a13dba8f6d7aac">&#9670;&#160;</a></span>TEST() <span class="overload">[7/9]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -301,8 +334,38 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a521f4662ddd6f96e5aca4bd10e7566b4" name="a521f4662ddd6f96e5aca4bd10e7566b4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a521f4662ddd6f96e5aca4bd10e7566b4">&#9670;&#160;</a></span>TEST() <span class="overload">[8/9]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TEST </td>
+          <td>(</td>
+          <td class="paramtype">FollowCameraTest</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">SuiviIsotropeSurLesDeuxAxes</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Le suivi est <b>isotrope</b> : marcher vers le bas décale la caméra exactement autant que marcher vers la droite (<span class="tt">EX-EXP-001</span>, <span class="tt">LOT-07</span>). </p>
+<p>La zone morte du jeu de plateforme était plus large que haute, et l'anticipation purement horizontale : deux biais qui n'ont plus lieu d'être dès lors qu'aucun axe n'est privilégié. <b>Cas de test :</b> <b>Le suivi est isotrope : haut, bas, gauche et droite se valent.</b><br  />
+ <b>Categorie :</b> Unitaire · Camera de suivi<br  />
+ <b>Criticite :</b> Majeur<br  />
+ <b>Etapes :</b><br  />
+ 1. Faire marcher le personnage vers la droite sur 60 pas, camera suivie.<br  />
+2. Recommencer vers le bas.<br  />
+ <b>Resultat attendu :</b> Les deux deplacements de camera ont la meme amplitude. </p>
+
+</div>
+</div>
 <a id="a2bd0dc7eab4e084caec18171fb4f9d7e" name="a2bd0dc7eab4e084caec18171fb4f9d7e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2bd0dc7eab4e084caec18171fb4f9d7e">&#9670;&#160;</a></span>TEST() <span class="overload">[7/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a2bd0dc7eab4e084caec18171fb4f9d7e">&#9670;&#160;</a></span>TEST() <span class="overload">[9/9]</span></h2>
 
 <div class="memitem">
 <div class="memproto">

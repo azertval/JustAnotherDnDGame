@@ -102,8 +102,8 @@ $(function(){initNavTree('structhmi_1_1FollowCameraState.html','','structhmi_1_1
 Public Attributes</h2></td></tr>
 <tr class="memitem:aad1ea32f2aa02eb8b804f243ec21cff4" id="r_aad1ea32f2aa02eb8b804f243ec21cff4"><td class="memItemLeft"><a class="el" href="structcore_1_1Vector2.html">core::Vector2</a>&#160;</td><td class="memItemRight"><a class="el" href="#aad1ea32f2aa02eb8b804f243ec21cff4">anchor</a> {}</td></tr>
 <tr class="memdesc:aad1ea32f2aa02eb8b804f243ec21cff4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Point suivi par la zone morte (non lissé, non aligné) : ne bouge que lorsque le personnage sort du rectangle centré dessus.  <br /></td></tr>
-<tr class="memitem:af067d1290877f56aee5db5f9e063a1a3" id="r_af067d1290877f56aee5db5f9e063a1a3"><td class="memItemLeft">float&#160;</td><td class="memItemRight"><a class="el" href="#af067d1290877f56aee5db5f9e063a1a3">anticipationSign</a> = 0.0f</td></tr>
-<tr class="memdesc:af067d1290877f56aee5db5f9e063a1a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Direction d'anticipation courante, lissée dans <span class="tt">[-1, 1]</span> (0 = aucune anticipation).  <br /></td></tr>
+<tr class="memitem:a368743e0f75536e0786770bbeb35c68c" id="r_a368743e0f75536e0786770bbeb35c68c"><td class="memItemLeft"><a class="el" href="structcore_1_1Vector2.html">core::Vector2</a>&#160;</td><td class="memItemRight"><a class="el" href="#a368743e0f75536e0786770bbeb35c68c">anticipation</a> {}</td></tr>
+<tr class="memdesc:a368743e0f75536e0786770bbeb35c68c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Direction d'anticipation courante, lissée : un <b>vecteur</b> depuis le <span class="tt">LOT-07</span>, de norme au plus 1 (le vecteur nul = aucune anticipation).  <br /></td></tr>
 <tr class="memitem:a5ab4f23e086f01bf22e626878c555ed0" id="r_a5ab4f23e086f01bf22e626878c555ed0"><td class="memItemLeft"><a class="el" href="structcore_1_1Vector2.html">core::Vector2</a>&#160;</td><td class="memItemRight"><a class="el" href="#a5ab4f23e086f01bf22e626878c555ed0">center</a> {}</td></tr>
 <tr class="memdesc:a5ab4f23e086f01bf22e626878c555ed0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Centre résultant de ce pas : cible (ancre + anticipation) lissée puis bornée au niveau.  <br /></td></tr>
 <tr class="memitem:a72db7ef3af947acd7febdb8c59939480" id="r_a72db7ef3af947acd7febdb8c59939480"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a72db7ef3af947acd7febdb8c59939480">initialized</a> = false</td></tr>
@@ -129,19 +129,20 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="af067d1290877f56aee5db5f9e063a1a3" name="af067d1290877f56aee5db5f9e063a1a3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af067d1290877f56aee5db5f9e063a1a3">&#9670;&#160;</a></span>anticipationSign</h2>
+<a id="a368743e0f75536e0786770bbeb35c68c" name="a368743e0f75536e0786770bbeb35c68c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a368743e0f75536e0786770bbeb35c68c">&#9670;&#160;</a></span>anticipation</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">float hmi::FollowCameraState::anticipationSign = 0.0f</td>
+          <td class="memname"><a class="el" href="structcore_1_1Vector2.html">core::Vector2</a> hmi::FollowCameraState::anticipation {}</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Direction d'anticipation courante, lissée dans <span class="tt">[-1, 1]</span> (0 = aucune anticipation). </p>
+<p>Direction d'anticipation courante, lissée : un <b>vecteur</b> depuis le <span class="tt">LOT-07</span>, de norme au plus 1 (le vecteur nul = aucune anticipation). </p>
+<p>Un scalaire ne pouvait anticiper qu'à gauche et à droite ; en vue de dessus, on marche aussi vers le haut et vers le bas. </p>
 
 </div>
 </div>

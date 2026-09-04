@@ -99,6 +99,7 @@ $(function(){initNavTree('LevelScene_8h.html','',''); });
 <code>#include &lt;functional&gt;</code><br />
 <code>#include &quot;<a class="el" href="Sprite_8h_source.html">Core/Ecs/Components/Sprite.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="Entity_8h_source.html">Core/Ecs/Entity.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="TileLayer_8h_source.html">Core/Levels/TileLayer.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="TileType_8h_source.html">Core/Levels/TileType.h</a>&quot;</code><br />
 </div>
 <p><a href="LevelScene_8h_source.html">Go to the source code of this file.</a></p>
@@ -110,8 +111,8 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a671cc58bea9439fdb3ea23009b0da54b" id="r_a671cc58bea9439fdb3ea23009b0da54b"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="namespacecore.html#a671cc58bea9439fdb3ea23009b0da54b">core::buildLevelScene</a> (<a class="el" href="classcore_1_1World.html">World</a> &amp;world, const <a class="el" href="classcore_1_1Level.html">Level</a> &amp;level, const std::function&lt; <a class="el" href="structcore_1_1AtlasRegion.html">AtlasRegion</a>(<a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875">TileType</a>)&gt; &amp;regionForTile, const std::function&lt; void(<a class="el" href="structcore_1_1Entity.html">Entity</a>, <a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875">TileType</a>, int, int)&gt; &amp;onTileEntity={})</td></tr>
-<tr class="memdesc:a671cc58bea9439fdb3ea23009b0da54b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Peuple un <span class="tt"><a class="el" href="classcore_1_1World.html" title="Point d&#39;entrée unique de la simulation : possède les entités, les composants et les systèmes.">World</a></span> d'une <b>entité par tuile non vide</b> du niveau.  <br /></td></tr>
+<tr class="memitem:a69ac6b2c5ca32686a14824d1f1c04b2a" id="r_a69ac6b2c5ca32686a14824d1f1c04b2a"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="namespacecore.html#a69ac6b2c5ca32686a14824d1f1c04b2a">core::buildLevelScene</a> (<a class="el" href="classcore_1_1World.html">World</a> &amp;world, const <a class="el" href="classcore_1_1Level.html">Level</a> &amp;level, const std::function&lt; <a class="el" href="structcore_1_1AtlasRegion.html">AtlasRegion</a>(<a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875">TileType</a>)&gt; &amp;regionForTile, const std::function&lt; void(<a class="el" href="structcore_1_1Entity.html">Entity</a>, <a class="el" href="namespacecore.html#ab0cf50b7ad0dce1357c85662e0fb7e5d">LayerKind</a>, <a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875">TileType</a>, int, int)&gt; &amp;onTileEntity={})</td></tr>
+<tr class="memdesc:a69ac6b2c5ca32686a14824d1f1c04b2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Peuple un <span class="tt"><a class="el" href="classcore_1_1World.html" title="Point d&#39;entrée unique de la simulation : possède les entités, les composants et les systèmes.">World</a></span> d'une <b>entité par tuile non vide</b> du niveau.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Projection d'un niveau en entités ECS (une tuile non vide = un sprite). </p>

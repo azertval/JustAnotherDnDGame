@@ -347,8 +347,8 @@ Functions</h2></td></tr>
 <tr class="memitem:a29323798eff97fce936a3352846efb93" id="r_a29323798eff97fce936a3352846efb93"><td class="memItemLeft">constexpr bool&#160;</td><td class="memItemRight"><a class="el" href="#a29323798eff97fce936a3352846efb93">operator!=</a> (<a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> left, <a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> right) noexcept</td></tr>
 <tr class="memitem:a23087f4f32dfa24ad53d7a9811ae351d" id="r_a23087f4f32dfa24ad53d7a9811ae351d"><td class="memItemLeft"><a class="el" href="#a60398ec3835dd2882a7d3a9eaddb65aa">LevelOutcome</a>&#160;</td><td class="memItemRight"><a class="el" href="#a23087f4f32dfa24ad53d7a9811ae351d">evaluateOutcome</a> (const <a class="el" href="structcore_1_1Aabb.html">Aabb</a> &amp;playerBox, const <a class="el" href="classcore_1_1Level.html">Level</a> &amp;level, const std::vector&lt; <a class="el" href="structcore_1_1Aabb.html">Aabb</a> &gt; &amp;extraDangerBoxes={})</td></tr>
 <tr class="memdesc:a23087f4f32dfa24ad53d7a9811ae351d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Détermine l'issue du niveau à partir de la <b>boîte</b> du personnage.  <br /></td></tr>
-<tr class="memitem:a671cc58bea9439fdb3ea23009b0da54b" id="r_a671cc58bea9439fdb3ea23009b0da54b"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a671cc58bea9439fdb3ea23009b0da54b">buildLevelScene</a> (<a class="el" href="classcore_1_1World.html">World</a> &amp;world, const <a class="el" href="classcore_1_1Level.html">Level</a> &amp;level, const std::function&lt; <a class="el" href="structcore_1_1AtlasRegion.html">AtlasRegion</a>(<a class="el" href="#ace99a1be913e6294e42e9ebb145eb875">TileType</a>)&gt; &amp;regionForTile, const std::function&lt; void(<a class="el" href="structcore_1_1Entity.html">Entity</a>, <a class="el" href="#ace99a1be913e6294e42e9ebb145eb875">TileType</a>, int, int)&gt; &amp;onTileEntity={})</td></tr>
-<tr class="memdesc:a671cc58bea9439fdb3ea23009b0da54b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Peuple un <span class="tt"><a class="el" href="classcore_1_1World.html" title="Point d&#39;entrée unique de la simulation : possède les entités, les composants et les systèmes.">World</a></span> d'une <b>entité par tuile non vide</b> du niveau.  <br /></td></tr>
+<tr class="memitem:a69ac6b2c5ca32686a14824d1f1c04b2a" id="r_a69ac6b2c5ca32686a14824d1f1c04b2a"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a69ac6b2c5ca32686a14824d1f1c04b2a">buildLevelScene</a> (<a class="el" href="classcore_1_1World.html">World</a> &amp;world, const <a class="el" href="classcore_1_1Level.html">Level</a> &amp;level, const std::function&lt; <a class="el" href="structcore_1_1AtlasRegion.html">AtlasRegion</a>(<a class="el" href="#ace99a1be913e6294e42e9ebb145eb875">TileType</a>)&gt; &amp;regionForTile, const std::function&lt; void(<a class="el" href="structcore_1_1Entity.html">Entity</a>, <a class="el" href="#ab0cf50b7ad0dce1357c85662e0fb7e5d">LayerKind</a>, <a class="el" href="#ace99a1be913e6294e42e9ebb145eb875">TileType</a>, int, int)&gt; &amp;onTileEntity={})</td></tr>
+<tr class="memdesc:a69ac6b2c5ca32686a14824d1f1c04b2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Peuple un <span class="tt"><a class="el" href="classcore_1_1World.html" title="Point d&#39;entrée unique de la simulation : possède les entités, les composants et les systèmes.">World</a></span> d'une <b>entité par tuile non vide</b> du niveau.  <br /></td></tr>
 <tr class="memitem:a0f61acebed3678706e825f972217a233" id="r_a0f61acebed3678706e825f972217a233"><td class="memItemLeft">constexpr bool&#160;</td><td class="memItemRight"><a class="el" href="#a0f61acebed3678706e825f972217a233">isValidPlaneDensity</a> (int pixelsPerUnit) noexcept</td></tr>
 <tr class="memdesc:a0f61acebed3678706e825f972217a233"><td class="mdescLeft">&#160;</td><td class="mdescRight">Densité acceptée pour un plan (<span class="tt">EX-DEC-041</span>).  <br /></td></tr>
 <tr class="memitem:a9a1bd2ed20a557ddf1033a2c264c9bdd" id="r_a9a1bd2ed20a557ddf1033a2c264c9bdd"><td class="memItemLeft">constexpr const char *&#160;</td><td class="memItemRight"><a class="el" href="#a9a1bd2ed20a557ddf1033a2c264c9bdd">layerKindName</a> (<a class="el" href="#ab0cf50b7ad0dce1357c85662e0fb7e5d">LayerKind</a> kind) noexcept</td></tr>
@@ -935,8 +935,8 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
 
 </div>
 </div>
-<a id="a671cc58bea9439fdb3ea23009b0da54b" name="a671cc58bea9439fdb3ea23009b0da54b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a671cc58bea9439fdb3ea23009b0da54b">&#9670;&#160;</a></span>buildLevelScene()</h2>
+<a id="a69ac6b2c5ca32686a14824d1f1c04b2a" name="a69ac6b2c5ca32686a14824d1f1c04b2a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a69ac6b2c5ca32686a14824d1f1c04b2a">&#9670;&#160;</a></span>buildLevelScene()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -959,7 +959,7 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::function&lt; void(<a class="el" href="structcore_1_1Entity.html">Entity</a>, <a class="el" href="#ace99a1be913e6294e42e9ebb145eb875">TileType</a>, int, int)&gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>onTileEntity</em></span><span class="paramdefsep"> = </span><span class="paramdefval">{}</span>&#160;)</td>
+          <td class="paramtype">const std::function&lt; void(<a class="el" href="structcore_1_1Entity.html">Entity</a>, <a class="el" href="#ab0cf50b7ad0dce1357c85662e0fb7e5d">LayerKind</a>, <a class="el" href="#ace99a1be913e6294e42e9ebb145eb875">TileType</a>, int, int)&gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>onTileEntity</em></span><span class="paramdefsep"> = </span><span class="paramdefval">{}</span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -971,10 +971,11 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
     <tr><td class="paramname">world</td><td>Monde à peupler. </td></tr>
     <tr><td class="paramname">level</td><td>Niveau source. </td></tr>
     <tr><td class="paramname">regionForTile</td><td>Correspondance type de tuile → région d'atlas (dépendance de rendu injectée). </td></tr>
-    <tr><td class="paramname">onTileEntity</td><td>Rappel invoqué après la création de chaque entité tuile, avec son type et sa case. Permet à la couche de présentation d'y attacher ses <b>propres</b> composants (<span class="tt"><a class="el" href="structhmi_1_1TileSkinTag.html" title="Type de tuile et voisinage solide d&#39;une entité affichée, pour la résolution de son skin.">hmi::TileSkinTag</a></span>, <span class="tt">LOT-42</span>) sans que <span class="tt">Core</span> connaisse la notion d'habillage (<span class="tt">EX-NFR-011</span>) — même principe d'injection que <code class="param">regionForTile</code>. Vide par défaut.</td></tr>
+    <tr><td class="paramname">onTileEntity</td><td>Rappel invoqué après la création de chaque entité tuile, avec le <b>rôle de sa couche</b>, son type et sa case. Permet à la couche de présentation d'y attacher ses <b>propres</b> composants (<span class="tt"><a class="el" href="structhmi_1_1TileSkinTag.html" title="Type de tuile et voisinage solide d&#39;une entité affichée, pour la résolution de son skin.">hmi::TileSkinTag</a></span>, <span class="tt">LOT-42</span>, et depuis le <span class="tt">LOT-07</span> le calque de dessin d'une tuile de décor) sans que <span class="tt">Core</span> connaisse ni l'habillage ni les calques (<span class="tt">EX-NFR-011</span>) — même principe d'injection que <code class="param">regionForTile</code>. Vide par défaut.</td></tr>
   </table>
   </dd>
 </dl>
+<p>Le rôle est passé plutôt que l'indice de couche : ce qui décide de la présentation d'une tuile, c'est ce qu'elle <b>est</b> (un sol, un décor), pas son rang dans une liste que l'auteur de la carte peut réordonner.</p>
 <p>Ne peuple <b>que</b> les tuiles. Les plans picturaux (<span class="tt">EX-DEC-040</span>, LOT-69) qui ont remplacé les décors-sprites ne sont <b>pas</b> des entités : ce sont des données d'habillage du niveau, composées directement par <span class="tt">HMI</span> sans passer par l'ECS. </p>
 
 </div>

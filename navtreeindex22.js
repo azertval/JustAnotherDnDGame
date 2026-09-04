@@ -1,5 +1,9 @@
 var NAVTREEINDEX22 =
 {
+"spec-vision.html":[6,1],
+"spec-vision.html#autotoc_md350":[6,1,0],
+"spec-vision.html#autotoc_md351":[6,1,0,0],
+"spec-vision.html#autotoc_md352":[6,1,1],
 "spec-vision.html#autotoc_md353":[6,1,2],
 "spec-vision.html#autotoc_md354":[6,1,3],
 "spec-vision.html#autotoc_md355":[6,1,4],
@@ -245,9 +249,5 @@ var NAVTREEINDEX22 =
 "structcore_1_1PhysicsConfig.html":[12,0,0,53],
 "structcore_1_1PhysicsConfig.html#a0c37db23188588851424c06d9183bfa1":[11,0,0,53,21],
 "structcore_1_1PhysicsConfig.html#a0c37db23188588851424c06d9183bfa1":[12,0,0,53,21],
-"structcore_1_1PhysicsConfig.html#a0fdb33afff65f36642d32a0714f9a642":[11,0,0,53,23],
-"structcore_1_1PhysicsConfig.html#a0fdb33afff65f36642d32a0714f9a642":[12,0,0,53,23],
-"structcore_1_1PhysicsConfig.html#a1d917394883028f145c989fd268e876c":[11,0,0,53,15],
-"structcore_1_1PhysicsConfig.html#a1d917394883028f145c989fd268e876c":[12,0,0,53,15],
-"structcore_1_1PhysicsConfig.html#a2072e171d44c396a1d3fc28e738224d0":[11,0,0,53,18]
+"structcore_1_1PhysicsConfig.html#a0fdb33afff65f36642d32a0714f9a642":[11,0,0,53,23]
 };

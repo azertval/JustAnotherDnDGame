@@ -23,7 +23,7 @@ var searchData=
   ['advance_20',['advance',['../classcore_1_1FixedTimestep.html#af793433cb70af5284492ca1eca34d797',1,'core::FixedTimestep']]],
   ['advanceanimation_21',['advanceAnimation',['../namespacecore.html#a209ceac8415ddadd8463746b94934eed',1,'core']]],
   ['advanceanimations_22',['advanceAnimations',['../classhmi_1_1GameSession.html#a8cff6334434aeebb20fa3fefc7ea237a',1,'hmi::GameSession::advanceAnimations()'],['../classhmi_1_1IGameModePasses.html#a464b48af75a60349958fa5ab4ee89e48',1,'hmi::IGameModePasses::advanceAnimations()']]],
-  ['advancefollowcamera_23',['advanceFollowCamera',['../namespacehmi.html#a1c0092eb317bd940a340ce627904dcce',1,'hmi']]],
+  ['advancefollowcamera_23',['advanceFollowCamera',['../namespacehmi.html#a53f7d9a0159f9a5666de47c896446251',1,'hmi']]],
   ['advancemechanismvisual_24',['advanceMechanismVisual',['../namespacehmi.html#a1b3ff267d602e9a58fb61f2b5eb22ff8',1,'hmi']]],
   ['advanceparticles_25',['advanceParticles',['../classhmi_1_1GameSession.html#adf0661ac62f41290eb2b72700720473f',1,'hmi::GameSession::advanceParticles()'],['../classhmi_1_1IGameModePasses.html#a93ddbe64577dd26470bc7a982655f108',1,'hmi::IGameModePasses::advanceParticles()']]],
   ['advancescreenshake_26',['advanceScreenShake',['../classhmi_1_1GameSession.html#a23f70a9ee628a22dd5dfe3dbafe79296',1,'hmi::GameSession::advanceScreenShake()'],['../classhmi_1_1IGameModePasses.html#a324559df24ae60d975c6db973eed4f36',1,'hmi::IGameModePasses::advanceScreenShake()'],['../namespacehmi.html#a28ef61716fdead033cc97c06177e98f1',1,'hmi::advanceScreenShake(ScreenShakeState &amp;state, float fixedDelta) noexcept']]],

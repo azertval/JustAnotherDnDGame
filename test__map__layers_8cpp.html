@@ -98,6 +98,7 @@ $(function(){initNavTree('test__map__layers_8cpp.html','',''); });
 <div class="textblock"><code>#include &lt;algorithm&gt;</code><br />
 <code>#include &lt;cstddef&gt;</code><br />
 <code>#include &lt;cstdint&gt;</code><br />
+<code>#include &lt;map&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
 <code>#include &lt;variant&gt;</code><br />
 <code>#include &lt;vector&gt;</code><br />
@@ -144,12 +145,14 @@ Functions</h2></td></tr>
 <tr class="memdesc:acd0103d5a14c5f2a833c86fec5579379"><td class="mdescLeft">&#160;</td><td class="mdescRight">Redimensionner un brouillon redimensionne <b>toutes</b> ses couches et abandonne les entités sorties de la grille (<span class="tt">EX-LVL-016</span>, <span class="tt">EX-LVL-017</span>).  <br /></td></tr>
 <tr class="memitem:a669f9e47fe053c2ddaec6cb4def3c7fe" id="r_a669f9e47fe053c2ddaec6cb4def3c7fe"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a669f9e47fe053c2ddaec6cb4def3c7fe">TEST</a> (CouchesDeCarteTest, CoucheDeCollisionDeclareeRefusee)</td></tr>
 <tr class="memdesc:a669f9e47fe053c2ddaec6cb4def3c7fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une couche <span class="tt">collision</span> <b>déclarée</b> est refusée : la grille de collision d'une carte est son tableau racine <span class="tt">tiles</span> (<span class="tt">EX-LVL-016</span>).  <br /></td></tr>
+<tr class="memitem:a040becc383cb6aecda21497c41d4a94d" id="r_a040becc383cb6aecda21497c41d4a94d"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a040becc383cb6aecda21497c41d4a94d">TEST</a> (CouchesDeCarteTest, ProjectionEcsAnnonceLeRoleDeChaqueCouche)</td></tr>
+<tr class="memdesc:a040becc383cb6aecda21497c41d4a94d"><td class="mdescLeft">&#160;</td><td class="mdescRight">La projection ECS annonce le <b>rôle</b> de la couche d'origine de chaque tuile : c'est ce qui permet à la présentation de poser le décor sur la bande de profondeur (<span class="tt">EX-REN-018</span>).  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Tests unitaires du format de carte <span class="tt">version: 3</span> : couches typées, entités, propriétés libres et migration ascendante (<span class="tt">EX-LVL-016</span>, <span class="tt">EX-LVL-017</span>, <span class="tt">EX-LVL-018</span>, LOT-04). </p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
 <a id="ae345bc0bc5455c4ee845a01a354d7b98" name="ae345bc0bc5455c4ee845a01a354d7b98"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae345bc0bc5455c4ee845a01a354d7b98">&#9670;&#160;</a></span>TEST() <span class="overload">[1/15]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ae345bc0bc5455c4ee845a01a354d7b98">&#9670;&#160;</a></span>TEST() <span class="overload">[1/16]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -180,7 +183,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a8b71dd551c58a49a69b25c38900b53eb" name="a8b71dd551c58a49a69b25c38900b53eb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8b71dd551c58a49a69b25c38900b53eb">&#9670;&#160;</a></span>TEST() <span class="overload">[2/15]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a8b71dd551c58a49a69b25c38900b53eb">&#9670;&#160;</a></span>TEST() <span class="overload">[2/16]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -210,7 +213,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a01fd21f2a2e31a7dd7ac18c8d00dffa8" name="a01fd21f2a2e31a7dd7ac18c8d00dffa8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a01fd21f2a2e31a7dd7ac18c8d00dffa8">&#9670;&#160;</a></span>TEST() <span class="overload">[3/15]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a01fd21f2a2e31a7dd7ac18c8d00dffa8">&#9670;&#160;</a></span>TEST() <span class="overload">[3/16]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -240,7 +243,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a28dce15a034e30c7268da5403381fc5b" name="a28dce15a034e30c7268da5403381fc5b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a28dce15a034e30c7268da5403381fc5b">&#9670;&#160;</a></span>TEST() <span class="overload">[4/15]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a28dce15a034e30c7268da5403381fc5b">&#9670;&#160;</a></span>TEST() <span class="overload">[4/16]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -270,7 +273,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a6ce7d743db1c9b2249b1f5f23f01dea4" name="a6ce7d743db1c9b2249b1f5f23f01dea4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6ce7d743db1c9b2249b1f5f23f01dea4">&#9670;&#160;</a></span>TEST() <span class="overload">[5/15]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a6ce7d743db1c9b2249b1f5f23f01dea4">&#9670;&#160;</a></span>TEST() <span class="overload">[5/16]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -299,7 +302,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a3838e749fc1031250e9c4928aa31a612" name="a3838e749fc1031250e9c4928aa31a612"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3838e749fc1031250e9c4928aa31a612">&#9670;&#160;</a></span>TEST() <span class="overload">[6/15]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a3838e749fc1031250e9c4928aa31a612">&#9670;&#160;</a></span>TEST() <span class="overload">[6/16]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -329,7 +332,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a2c1df3ff92b4e48fe201246661fafc30" name="a2c1df3ff92b4e48fe201246661fafc30"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2c1df3ff92b4e48fe201246661fafc30">&#9670;&#160;</a></span>TEST() <span class="overload">[7/15]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a2c1df3ff92b4e48fe201246661fafc30">&#9670;&#160;</a></span>TEST() <span class="overload">[7/16]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -359,7 +362,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a669f9e47fe053c2ddaec6cb4def3c7fe" name="a669f9e47fe053c2ddaec6cb4def3c7fe"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a669f9e47fe053c2ddaec6cb4def3c7fe">&#9670;&#160;</a></span>TEST() <span class="overload">[8/15]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a669f9e47fe053c2ddaec6cb4def3c7fe">&#9670;&#160;</a></span>TEST() <span class="overload">[8/16]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -388,7 +391,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a9f54229b5e29933307d7419af2cb1f00" name="a9f54229b5e29933307d7419af2cb1f00"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9f54229b5e29933307d7419af2cb1f00">&#9670;&#160;</a></span>TEST() <span class="overload">[9/15]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a9f54229b5e29933307d7419af2cb1f00">&#9670;&#160;</a></span>TEST() <span class="overload">[9/16]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -417,7 +420,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="ac076aec8081ac436640ef158dc4e3daa" name="ac076aec8081ac436640ef158dc4e3daa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac076aec8081ac436640ef158dc4e3daa">&#9670;&#160;</a></span>TEST() <span class="overload">[10/15]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ac076aec8081ac436640ef158dc4e3daa">&#9670;&#160;</a></span>TEST() <span class="overload">[10/16]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -446,8 +449,37 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a040becc383cb6aecda21497c41d4a94d" name="a040becc383cb6aecda21497c41d4a94d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a040becc383cb6aecda21497c41d4a94d">&#9670;&#160;</a></span>TEST() <span class="overload">[11/16]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TEST </td>
+          <td>(</td>
+          <td class="paramtype">CouchesDeCarteTest</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ProjectionEcsAnnonceLeRoleDeChaqueCouche</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>La projection ECS annonce le <b>rôle</b> de la couche d'origine de chaque tuile : c'est ce qui permet à la présentation de poser le décor sur la bande de profondeur (<span class="tt">EX-REN-018</span>). </p>
+<p><b>Cas de test :</b> <b>La projection ECS annonce le role de la couche de chaque tuile.</b><br  />
+ <b>Categorie :</b> Unitaire · Couches de carte<br  />
+ <b>Criticite :</b> Majeur<br  />
+ <b>Etapes :</b><br  />
+ 1. Projeter une carte version 3 en entites ECS en relevant le role annonce.<br  />
+ <b>Resultat attendu :</b> Les tuiles du sol sont annoncees Ground, celles du decor Decor, et aucune n'est annoncee Collision. </p>
+
+</div>
+</div>
 <a id="acb3ad5d935568ca5b9216a808c6d6a8f" name="acb3ad5d935568ca5b9216a808c6d6a8f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acb3ad5d935568ca5b9216a808c6d6a8f">&#9670;&#160;</a></span>TEST() <span class="overload">[11/15]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#acb3ad5d935568ca5b9216a808c6d6a8f">&#9670;&#160;</a></span>TEST() <span class="overload">[12/16]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -477,7 +509,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="acd0103d5a14c5f2a833c86fec5579379" name="acd0103d5a14c5f2a833c86fec5579379"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acd0103d5a14c5f2a833c86fec5579379">&#9670;&#160;</a></span>TEST() <span class="overload">[12/15]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#acd0103d5a14c5f2a833c86fec5579379">&#9670;&#160;</a></span>TEST() <span class="overload">[13/16]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -507,7 +539,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="ad6d0092896513dd6ddb9380ee5f17767" name="ad6d0092896513dd6ddb9380ee5f17767"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad6d0092896513dd6ddb9380ee5f17767">&#9670;&#160;</a></span>TEST() <span class="overload">[13/15]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ad6d0092896513dd6ddb9380ee5f17767">&#9670;&#160;</a></span>TEST() <span class="overload">[14/16]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -536,7 +568,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="adf384e4fabb9fa184237bfedbc2d5108" name="adf384e4fabb9fa184237bfedbc2d5108"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adf384e4fabb9fa184237bfedbc2d5108">&#9670;&#160;</a></span>TEST() <span class="overload">[14/15]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#adf384e4fabb9fa184237bfedbc2d5108">&#9670;&#160;</a></span>TEST() <span class="overload">[15/16]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -565,7 +597,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a6bb953169842117341a12f580fac226f" name="a6bb953169842117341a12f580fac226f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6bb953169842117341a12f580fac226f">&#9670;&#160;</a></span>TEST() <span class="overload">[15/15]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a6bb953169842117341a12f580fac226f">&#9670;&#160;</a></span>TEST() <span class="overload">[16/16]</span></h2>
 
 <div class="memitem">
 <div class="memproto">

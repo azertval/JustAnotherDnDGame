@@ -133,6 +133,8 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:a551d45820ca5a6e720a6a89e1c70c120" id="r_a551d45820ca5a6e720a6a89e1c70c120"><td class="memItemLeft">std::int32_t&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#a551d45820ca5a6e720a6a89e1c70c120">hmi::depthSortOrder</a> (float footWorldY) noexcept</td></tr>
+<tr class="memdesc:a551d45820ca5a6e720a6a89e1c70c120"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ordre de profondeur d'une primitive, à partir du <b>pied</b> de son quad.  <br /></td></tr>
 <tr class="memitem:aabc578b802bb386e63d830e168140fe7" id="r_aabc578b802bb386e63d830e168140fe7"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#aabc578b802bb386e63d830e168140fe7">hmi::formatSceneStatistics</a> (const <a class="el" href="structhmi_1_1SceneStatistics.html">SceneStatistics</a> &amp;statistics)</td></tr>
 <tr class="memdesc:aabc578b802bb386e63d830e168140fe7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Résumé des compteurs d'une image, pour la journalisation de diagnostic (<span class="tt">EX-NFR-005</span>).  <br /></td></tr>
 <tr class="memitem:af7d9b42fc7c496a35a24169feddc6ab8" id="r_af7d9b42fc7c496a35a24169feddc6ab8"><td class="memItemLeft"><a class="el" href="structcore_1_1Rect.html">core::Rect</a>&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#af7d9b42fc7c496a35a24169feddc6ab8">hmi::spriteQuadBounds</a> (const <a class="el" href="structhmi_1_1SpriteQuad.html">SpriteQuad</a> &amp;quad) noexcept</td></tr>
@@ -141,6 +143,11 @@ Functions</h2></td></tr>
 <tr class="memdesc:adbdaec090bf424bf2ec812fb1587c782"><td class="mdescLeft">&#160;</td><td class="mdescRight">Boîte englobante d'un segment épais, en unités monde.  <br /></td></tr>
 <tr class="memitem:a649774d217a61e4b37f00d309fa3b60e" id="r_a649774d217a61e4b37f00d309fa3b60e"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#a649774d217a61e4b37f00d309fa3b60e">hmi::composeWorldSprites</a> (<a class="el" href="classhmi_1_1ComposedScene.html">ComposedScene</a> &amp;scene, <a class="el" href="classcore_1_1World.html">core::World</a> &amp;world, <a class="el" href="namespacehmi.html#ace25c100da588ab6050fb0f486d61d54">RenderMode</a> mode, const <a class="el" href="structhmi_1_1SceneTextures.html">SceneTextures</a> &amp;textures, float interpolationAlpha, const <a class="el" href="classhmi_1_1LayerVisibility.html">LayerVisibility</a> &amp;visibility=<a class="el" href="classhmi_1_1LayerVisibility.html">LayerVisibility</a>{})</td></tr>
 <tr class="memdesc:a649774d217a61e4b37f00d309fa3b60e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compose les entités affichables d'un monde ECS en primitives.  <br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-var-members" class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a0591a2b20237a29c762b324a7ce0d7db" id="r_a0591a2b20237a29c762b324a7ce0d7db"><td class="memItemLeft">constexpr float&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#a0591a2b20237a29c762b324a7ce0d7db">hmi::DEPTH_SUBDIVISIONS_PER_UNIT</a> = 16.0f</td></tr>
+<tr class="memdesc:a0591a2b20237a29c762b324a7ce0d7db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sous-divisions de profondeur par unité monde, pour la quantification du tri par Y.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Composition du rendu : liste ordonnée des primitives d'une image, <b>sans GPU</b> (<span class="tt">EX-NFR-004</span>, <span class="tt">EX-NFR-005</span>). </p>
