@@ -194,10 +194,18 @@ Les lots [LOT-13](@ref lot-13) (fiche de personnage), [LOT-14](@ref lot-14) (inv
 **JSON** », conformément à [`EX-VIS-007`](@ref EX-VIS-007). Aucun ne dit **d'où sortent ces JSON**.
 C'est exactement le trou que ce corpus comble, et c'est le périmètre de cette filière.
 
-Quarante lots, `LOT-30` à `LOT-69`. Les numéros sont, comme toujours, des identifiants stables : ils
+Quarante-six lots, `LOT-30` à `LOT-76`. Les numéros sont, comme toujours, des identifiants stables : ils
 viennent après [LOT-29](@ref lot-29) dans la numérotation, mais plusieurs s'exécutent **avant** les
 lots qui les consomment (voir §6). Une nouvelle famille d'exigences `EX-CNT-*` les couvre, à écrire
 dans un `Documentation/Specification/contenu.md`.
+
+> **État de l'audit.** Cette page a été confrontée à l'état réel du dépôt. Six lots restent
+> **hors gabarit** et sont à redécouper avant d'être lancés — `LOT-37`, `LOT-40`, `LOT-41`,
+> `LOT-45`, `LOT-47` et `LOT-69` — l'étalon mesuré sur les lots livrés étant de **16 à 34 fichiers
+> et 450 à 1340 lignes** (`LOT-04` : 19 fichiers / 1337 lignes ; `LOT-08` : 16 / 453). Les epics
+> réels font 33 à 89 lignes ; les sections ci-dessous en font environ 27, donc **sous-spécifiées
+> comme epics et sur-dimensionnées comme travail**. Aucune ne porte encore de rubrique « Exigences
+> couvertes », faute de familles `EX-*` existantes — voir §9.
 
 Trois formes de sortie, et le choix entre elles n'est pas cosmétique. **JSON** pour tout ce qui est
 structuré et imbriqué — une créature a des actions, une classe a une progression par niveau — et
@@ -451,15 +459,15 @@ construit sur le système de design existant, avec les panneaux de parchemin ext
 *Acceptation* — chaque champ de la maquette est soit affiché à l'écran, soit inscrit dans une liste
 explicite de champs hors périmètre. Un champ simplement oublié n'est pas un arbitrage.
 
-### `LOT-39` — Textures, habillage et catalogue d'assets
+### `LOT-39` — Plomberie des clés d'assets
 
 *Prérequis : `LOT-33`, `LOT-34`, `LOT-37`. Alimente [LOT-11](@ref lot-11),
 [LOT-27](@ref lot-27), `LOT-38`.*
 
-Ce lot pose la **plomberie**, et livre le seul gisement d'images qui sort proprement sans arbitrage
-humain. Les portraits et illustrations, qui demandent un recadrage pièce par pièce, relèvent du
-`LOT-48` — mélanger les deux ferait dépendre une brique d'architecture d'un travail de découpe sans
-terme.
+> **Scindé à l'audit.** Ce lot portait aussi l'extraction de l'habillage d'interface, ce qui faisait
+> dépendre la charte visuelle (`LOT-66`) de tout le pipeline de données. Or l'habillage n'a besoin
+> que des PDF, disponibles aujourd'hui : il part au `LOT-76` et peut démarrer immédiatement. Ne
+> reste ici que la plomberie, qui a réellement besoin des catalogues.
 
 La plomberie : une **clé d'asset** portée par chaque donnée (`"asset": "beast/wolf"`), jamais un
 chemin de fichier — un chemin dans une donnée de règle lie le catalogue à l'arborescence du disque,
@@ -468,11 +476,6 @@ et tout déplacement de dossier casse alors des créatures. Un **manifeste** dé
 **marqueur généré** sur l'`ProceduralAtlas` existant, de sorte que le jeu tourne complet — 176
 créatures affichables — avant que la moindre découpe ne soit faite. La production graphique devient
 un remplacement progressif de marqueurs, jamais un préalable bloquant.
-
-L'**habillage d'interface** ensuite : panneaux de parchemin, cadres, bordures, pictogrammes. Ces
-éléments sont autonomes dans la page et sortent parfaitement par rendu clippé (méthode du §4 :
-**jamais l'extraction du flux brut**). Ils habillent la fiche du `LOT-38`, les boîtes de dialogue du
-[LOT-15](@ref lot-15) et l'IHM de combat du [LOT-24](@ref lot-24).
 
 La distinction avec le [LOT-08](@ref lot-08) est nette : le `LOT-08` a fixé le vocabulaire des
 **tuiles de terrain**, celui-ci fixe celui des **entités**.
@@ -812,7 +815,13 @@ supprimées, et rien ne doit s'en apercevoir.
 
 ### `LOT-66` — Charte visuelle : sortir de l'identité pixel art
 
-*Prérequis : `LOT-39`. Prérequis de `LOT-67`, `LOT-68`, `LOT-38`.*
+*Prérequis : **aucun** — ses références sont disponibles aujourd'hui. Prérequis de `LOT-67`,
+`LOT-68`, `LOT-76`, `LOT-38`.*
+
+> **Corrigé à l'audit, sur deux points.** Ce lot déclarait « Prérequis : `LOT-39` », ce qui le
+> plaçait derrière tout le pipeline de données — alors que **la charte n'a rien à voir avec les
+> créatures** : ses entrées sont la feuille de personnage et les artworks, déjà là. Et il ne visait
+> qu'`EX-IHM-070` alors que **dix exigences** imposent le pixel art.
 
 L'interface actuelle est celle du jeu de plateforme dont ce dépôt est issu, et elle **contredit
 désormais explicitement** le reste des décisions. Ce n'est pas une impression, c'est écrit dans la
@@ -823,10 +832,21 @@ spécification :
 > d'agrandissement **entier**. »
 
 Cette exigence est justifiée dans le texte par « le menu d'un jeu de plateforme en pixel art ». Or le
-`LOT-38` part d'une maquette de fiche à **300 ppp** et le `LOT-39` de **panneaux de parchemin
+`LOT-38` part d'une maquette de fiche à **300 ppp** et le `LOT-76` de **panneaux de parchemin
 peints** extraits des livres. Une police bitmap non lissée et une illustration peinte à 300 ppp ne
 cohabitent pas : il faut trancher, et le trancher **avant** que cinq écrans n'inventent chacun leur
 langage visuel.
+
+**Mais `EX-IHM-070` n'est que la feuille ; la racine est `EX-ARCH-022`** (« rendu pixel art :
+échantillonnage *nearest-neighbor*, zoom caméra de préférence en facteurs entiers »), que toutes les
+autres citent. Le périmètre réel est donc de **dix exigences** :
+
+`EX-ARCH-022` (racine) · `EX-DEC-003` · `EX-DEC-043` · `EX-REN-041` · `EX-REN-051` · `EX-IHM-053` ·
+`EX-IHM-070` · `EX-IHM-073` · `EX-EDIT-041` · `EX-EDIT-045`.
+
+Une difficulté à regarder en face : le [LOT-01](@ref lot-01) a **délibérément conservé** l'atelier
+pixel art lors de la purge, et le [LOT-11](@ref lot-11) en fait un acquis à ne pas régresser. Ce lot
+revient sur cette décision ; il doit le dire, pas le faire en passant.
 
 Le lot livre donc :
 
@@ -836,9 +856,12 @@ Le lot livre donc :
   empattements, illustration peinte ;
 - la **réécriture des tokens** de la portée identité (`DesignTokens`), dont les rôles « cadre pixel
   art » disparaissent au profit de rôles de panneau, de bordure ornée et de parchemin ;
-- la **mise à jour d'`interface-ihm.md`** : `EX-IHM-070` est retirée ou refondue, et les sections
-  encore intitulées « (LOT-56) », « (LOT-57) », « (LOT-68) », « (LOT-73) » cessent de renvoyer au
-  programme **hérité** de `ProjectGaming`, dont les numéros ne veulent plus rien dire ici.
+- la **refonte des dix exigences** ci-dessus, à commencer par `EX-ARCH-022`, et la mise à jour des
+  sections d'`interface-ihm.md` encore intitulées « (LOT-56) », « (LOT-57) », « (LOT-68) »,
+  « (LOT-73) », qui renvoient au programme **hérité** de `ProjectGaming` ;
+- la **suppression** des ~640 lignes de widgets pixel art de `Source/HMI/Interface/` (`PixelArtScale`,
+  `PixelFocusCaret`, `PixelFrameGeometry`, `PixelFrameWidget`, `PixelMenuButton`), devenues sans
+  objet — l'allègement se fait ici, pas dans un lot de ménage ultérieur.
 
 Deux garde-fous à ne pas perdre au passage, parce qu'ils sont bons et indépendants de l'esthétique :
 la marque de focus explicite d'`EX-IHM-071` — une teinte seule ne se suit pas à la manette, et ne se
@@ -865,10 +888,28 @@ Les menus existants décrivent un autre jeu, littéralement. `fr.lang` porte enc
 `pause.quit_confirm_text` qui parle de « la progression du **tableau** en cours ». Un bac à sable
 ouvert n'a ni niveau à choisir, ni tableau à recommencer.
 
+> **Élargi à l'audit.** Ce lot ne prévoyait que la migration des clés `.lang` — soit un dixième du
+> travail. **Seize exigences** imposent encore une séquence de tableaux discrets, et ce sont elles
+> le vrai chantier.
+
 Le lot refond le **menu principal** (continuer, nouvelle partie, créer un personnage, options,
 crédits), l'**écran de pause** (reprendre, fiche, inventaire, journal, carte, options, quitter) et
-migre la famille de clés `level.*`, héritée de la sélection de tableaux, vers le vocabulaire du
-monde — sans laisser de clé morte derrière elle.
+migre la famille de clés `level.*` vers le vocabulaire du monde — sans laisser de clé morte.
+
+Mais il doit surtout **retirer la notion de niveau discret** de la spécification :
+
+- `EX-GP-030`/`031`/`032` — atteindre la sortie termine le niveau en succès, le danger provoque
+  l'échec, le niveau redémarre à son état initial ;
+- `EX-GP-040` — l'état `NiveauTermine` de la machine à états ;
+- `EX-LVL-010` → `EX-LVL-015` — ordre défini, enchaînement automatique au niveau suivant, **vingt-deux
+  tableaux**, progression à la granularité du tableau ;
+- `EX-IHM-003`/`004`/`005` — nom du tableau au HUD, écran de fin de niveau, sélection de niveau ;
+- `EX-NFR-021` — test système de **franchissabilité** des niveaux du MVP.
+
+D'où la suppression des écrans correspondants (`LevelSelectScreen`, `LevelCompleteScreen`, ~460
+lignes) et des deux maquettes `SelectionNiveau.dc.html` et `FinDeNiveau.dc.html`. Accessoirement,
+`Documentation/Doxyfile:10` annonce encore
+`PROJECT_BRIEF = "Jeu 2D de plateforme/puzzle en C++/DirectX"`.
 
 C'est le lot le moins spectaculaire de la refonte et celui qui se voit le plus : un joueur qui lit
 « Recommencer le niveau » dans un monde ouvert comprend en une seconde que le jeu n'a pas été
@@ -876,7 +917,8 @@ terminé.
 
 *Acceptation* — plus aucune clé de traduction n'emploie « niveau » ou « tableau » au sens du jeu de
 plateforme ; les deux catalogues `fr.lang` et `en.lang` restent synchrones ; chaque entrée de menu
-mène à un écran qui existe (`EX-IHM-072` : pas de réglage ni d'entrée inopérants).
+mène à un écran qui existe (`EX-IHM-072`) ; **aucune exigence en vigueur ne suppose plus une
+séquence ordonnée de tableaux**.
 
 ### `LOT-68` — Le châssis des écrans RPG
 
@@ -905,9 +947,19 @@ un neuvième écran ne demande de toucher à aucun des huit.
 *Prérequis : `LOT-50`, `LOT-66`. Réoriente [LOT-11](@ref lot-11) ; alimente `LOT-40`,
 [LOT-27](@ref lot-27).*
 
-L'éditeur hérité est un outil Qt séparé, conçu pour dessiner les tableaux d'un jeu de plateforme :
-navigateur de niveaux, panneaux de plans, de palette, de texture, d'historique de pixels. Deux
-choses le périment d'un coup.
+> **Prémisse corrigée à l'audit.** Ce lot affirmait que l'éditeur est « un outil Qt séparé ».
+> C'est **faux** : `EX-EDIT-030` impose déjà « un éditeur intégré à l'application (mode éditeur), et
+> **non un outil séparé** », et `EX-ARCH-090` prévoit un état `Éditeur`. Le désaccord réel est
+> ailleurs, et il est plus intéressant.
+
+L'éditeur est intégré **au binaire**, mais spécifié comme **hors-jeu** : `EX-IHM-001` le range dans
+l'interface hors-jeu, `EX-IHM-010` en fait une fenêtre à panneaux dockables **détachables**,
+`EX-IHM-050`/`054`/`082` lui donnent une portée de style **disjointe** de celle du jeu, `EX-EDIT-020`
+en fait un « outil exécutable » pour non-codeurs, et `EX-EDIT-008` fait aller le flux **de l'éditeur
+vers le jeu**. C'est ce sens-là que le lot inverse : on édite **depuis** le jeu, dans la scène.
+
+Ces sept exigences sont donc le périmètre réel de révision. Deux choses par ailleurs périment
+l'atelier de dessin.
 
 D'abord, le `LOT-66` supprime l'identité pixel art — et avec elle la raison d'être de l'**atelier
 pixel art** que l'`EX-IHM-073` impose aujourd'hui comme l'un des deux espaces de travail exclusifs.
@@ -929,9 +981,19 @@ coder » — s'en trouve mieux servi, pas abandonné : poser un PNJ dans la scè
 demande moins d'apprentissage qu'un panneau d'entités dans un outil séparé.
 
 Ce qui est **conservé** : le format de niveau du [LOT-04](@ref lot-04), les couches, la couche de
-collision qui fait foi, les portails, et la validation du graphe. Ce qui est **retiré** : l'atelier
-pixel art, l'historique de pixels, les panneaux de texture et de palette — avec la révision
-d'`EX-IHM-073`, qui n'a plus deux espaces à rendre exclusifs.
+collision qui fait foi, les portails, la validation du graphe — et le panneau de **textures**
+(`TexturePanel`), qui affecte des habillages aux types de tuiles et reste utile.
+
+Ce qui est **retiré** : l'atelier de dessin proprement dit — `PixelCanvas`, `PixelOperations`,
+`PixelHistory`, `PixelPalette`, `PixelAssetIO`, `PixelAutotilePreview` et leurs deux panneaux, soit
+**~2 975 lignes** — avec la révision d'`EX-IHM-073`, qui n'a plus deux espaces à rendre exclusifs,
+et d'`EX-EDIT-045` qui le prescrit. Le guide `Documentation/Guide/guide-atelier-pixel-art.md` et les
+huit fichiers de tests associés disparaissent avec.
+
+> **Ce retrait est un revirement, pas un oubli.** Le [LOT-01](@ref lot-01) a conservé l'atelier lors
+> de la purge, et le [LOT-11](@ref lot-11) en fait un acquis à ne pas régresser. La raison de
+> revenir dessus est que le `LOT-66` retire l'identité pixel art : un atelier de dessin au pixel
+> n'a plus de sujet. Mais c'est une décision à assumer explicitement, pas à laisser passer.
 
 Le `LOT-40` y gagne son débouché naturel : une carte générée s'ouvre dans ce mode, se corrige à la
 main et se rejoue sur place.
@@ -946,6 +1008,120 @@ immédiatement jouables **sans rechargement** ; une carte générée par le `LOT
 corrige ; le contenu du [LOT-27](@ref lot-27) est produit dans ce mode, pas en écrivant du JSON à la
 main ; aucun panneau de l'atelier pixel art ne subsiste.
 
+### `LOT-70` — Horloge de partie et cycle jour/nuit
+
+*Prérequis : aucun. Prérequis de `LOT-71`, `LOT-75`, `LOT-42`.*
+
+`core::GameClock` : un temps **de jeu**, distinct du temps réel, qui avance en exploration et se
+**gèle en combat** — un combat se compte en tours, pas en minutes. Cycle jour/nuit, calendrier
+simple.
+
+**Le piège.** Le temps de jeu ne doit jamais dériver de l'horloge système. Le [LOT-26](@ref lot-26)
+interdit déjà les graines liées à l'horloge, et pour la même raison : une sauvegarde rechargée
+décalerait tout. Le temps avance par pas de simulation, et par rien d'autre.
+
+*Acceptation* — 24 h de jeu s'écoulent en un nombre déterministe de pas ; l'horloge ne bouge pas
+pendant un combat ; elle survit à une sauvegarde et à un rechargement.
+
+### `LOT-71` — Repos court et long
+
+*Prérequis : `LOT-70`, [LOT-13](@ref lot-13). **Débloque `LOT-51`→`LOT-65` et
+[LOT-25](@ref lot-25).***
+
+Ce que restaure un repos court (1 h de jeu) et un repos long (8 h) : points de vie via les dés de
+vie, ressources de classe selon **leur** cadence, emplacements de sorts. Interruption par une
+rencontre.
+
+**Le piège.** Chaque ressource déclare sa propre cadence — repos court, repos long, à volonté — et
+`Rest` ne connaît **aucune** classe. Sans cela, chacun des quinze lots de classes à venir modifierait
+le code du repos, et la quinzième modification casserait la première.
+
+*Acceptation* — une ressource « repos court » se restaure au repos court et pas avant ; un repos
+interrompu ne restaure rien ; les quatre classes provisoires du `LOT-36` récupèrent correctement
+sans que `Rest` les connaisse.
+
+### `LOT-72` — Conditions et états
+
+*Prérequis : [LOT-12](@ref lot-12), `LOT-35`.*
+
+Le moteur d'application : poser, empiler, expirer — en tours ou en temps de jeu — et l'effet sur les
+jets : avantage, désavantage, incapacité d'agir.
+
+**Le piège.** Une condition n'est pas un booléen sur la fiche. Deux sources peuvent poser
+« empoisonné » avec deux durées différentes ; retirer l'une ne doit pas retirer l'autre. C'est le
+piège de la classe d'armure du [LOT-14](@ref lot-14), transposé : on **recalcule depuis les
+sources**, on n'accumule jamais.
+
+*Acceptation* — deux sources de la même condition, retrait de l'une, l'autre tient ; une condition
+expire au bon tour ; chaque état du catalogue `LOT-35` a un effet observable, ou est explicitement
+déclaré narratif.
+
+### `LOT-73` — Agonie et mort
+
+*Prérequis : [LOT-21](@ref lot-21), `LOT-72`.*
+
+Points de vie à 0, inconscience, jets de sauvegarde contre la mort (trois succès ou trois échecs),
+stabilisation, critique à 0 PV, dégâts massifs. Et la mort **hors combat**, aujourd'hui absente de
+tout document.
+
+**Le piège.** `gameplay.md` décrit encore la mort du jeu de plateforme : `EX-GP-031` fait du contact
+avec un danger un **échec**, et `EX-GP-032` fait **redémarrer le niveau**. Ce lot ne peut pas se
+contenter d'ajouter des règles par-dessus — il **retire** `EX-GP-030`/`031`/`032`, sans quoi deux
+définitions de la mort coexistent et c'est la plus ancienne qui gagne.
+
+*Acceptation* — trois échecs tuent, trois succès stabilisent, un soin au-dessus de 0 réinitialise le
+compteur ; mourir en exploration a un effet défini, et ce n'est pas « redémarrer le niveau ».
+
+### `LOT-74` — Expérience et progression
+
+*Prérequis : [LOT-13](@ref lot-13), [LOT-20](@ref lot-20), [LOT-16](@ref lot-16).*
+
+**Les sources** d'expérience, qui manquent entièrement : victoire au combat selon le facteur de
+puissance des adversaires, achèvement de quête, découverte de lieu — cette dernière propre au bac à
+sable. Puis les seuils, la montée de niveau, et la répartition dans un groupe
+([LOT-29](@ref lot-29)).
+
+**Le piège.** Trois lots consomment l'expérience et aucun n'en produit : le `LOT-13` fait monter de
+niveau, le `LOT-28` règle des seuils, le `LOT-29` la répartit, mais rien n'en attribue jamais. Et
+`niveaux.md` fait encore progresser **par tableau franchi** (`EX-LVL-014`), une notion qui disparaît
+avec le `LOT-67`.
+
+*Acceptation* — tuer une créature de facteur de puissance connu donne l'expérience attendue ;
+franchir un seuil monte d'un niveau, un dépassement multiple monte de plusieurs ; aucune progression
+liée au franchissement d'un tableau ne subsiste.
+
+### `LOT-75` — Campement et repos dans le monde
+
+*Prérequis : `LOT-71`, `LOT-42`, `LOT-41`.*
+
+Où et quand on peut se reposer : le campement comme action en monde ouvert, le risque de rencontre
+nocturne, l'auberge comme lieu sûr — que le [LOT-09](@ref lot-09) cite déjà comme nœud de graphe
+sans lui donner de fonction.
+
+**Le piège.** Un repos long disponible partout et sans risque annule toute gestion de ressources —
+or c'est elle qui rend le repos intéressant. La contrainte doit venir des **données de région**
+(`Crime and Violence`, `Monster Presence` du `LOT-41`), jamais d'une règle codée : c'est ainsi que
+dix régions donnent dix rapports au repos sans qu'une ligne de C++ les distingue.
+
+*Acceptation* — se reposer en zone dangereuse déclenche des rencontres à une fréquence dérivée de la
+région ; une auberge garantit un repos non interrompu ; l'horloge avance du montant attendu.
+
+### `LOT-76` — Habillage d'interface extrait des livres
+
+*Prérequis : `LOT-30`, `LOT-66`. Alimente `LOT-38`, [LOT-15](@ref lot-15),
+[LOT-24](@ref lot-24).*
+
+Détaché du `LOT-39` à l'audit, parce qu'il n'a besoin que des PDF : panneaux de parchemin, cadres,
+bordures, pictogrammes. Ces éléments sont autonomes dans la page et sortent parfaitement par **rendu
+clippé** (méthode du §4 — jamais l'extraction du flux brut).
+
+Ils habillent la fiche du `LOT-38`, les boîtes de dialogue du [LOT-15](@ref lot-15) et l'IHM de
+combat du [LOT-24](@ref lot-24). C'est le premier gisement d'images exploitable, et le seul qui ne
+demande aucun arbitrage humain.
+
+*Acceptation* — les éléments extraits s'intègrent aux jetons de la charte du `LOT-66` ;
+`scripts/check_design_tokens.py` reste vert ; aucune image n'est tirée par extraction de flux brut.
+
 
 ---
 
@@ -956,7 +1132,7 @@ lots qui les consomment, sans quoi ces derniers se construisent sur des catalogu
 catalogue fictif finit toujours par se figer en valeurs codées en dur, exactement ce que
 [`EX-VIS-007`](@ref EX-VIS-007) interdit.
 
-Ces quarante lots ne forment **pas une phase** qui suivrait le [LOT-29](@ref lot-29) : ils s'entrelacent
+Ces quarante-six lots ne forment **pas une phase** qui suivrait le [LOT-29](@ref lot-29) : ils s'entrelacent
 avec les phases B à E, parce que chacun sert un lot existant qui, sans lui, se construirait sur un
 catalogue fictif — et un catalogue fictif finit toujours par se figer en valeurs codées en dur,
 exactement ce que [`EX-VIS-007`](@ref EX-VIS-007) interdit. D'où « filière » plutôt que « phase ».
@@ -975,7 +1151,11 @@ exactement ce que [`EX-VIS-007`](@ref EX-VIS-007) interdit. D'où « filière »
 | Avant `LOT-41` | `LOT-46` | Peupler dix régions demande plus que les 94 bêtes du SRD |
 | Après [LOT-21](@ref lot-21) | `LOT-47`, puis `LOT-50` | Le socle de classe, puis le lieu où éprouver ce qu'on lui ajoute |
 | Un par un, après `LOT-50` | `LOT-51` → `LOT-65` | Une classe, une mécanique, un test dans l'arène ; le dernier retire l'échafaudage |
-| **Avant `LOT-38`**, après `LOT-39` | `LOT-66`, `LOT-67`, `LOT-68` | La charte gate tous les écrans ; sans elle, chacun invente son langage |
+| **Tout de suite après [LOT-08](@ref lot-08)** | `LOT-66`, `LOT-67`, `LOT-68`, `LOT-76` | La charte ne dépend que des PDF, et elle conditionne tous les écrans à venir |
+| Avant les lots de classes et avant [LOT-25](@ref lot-25) | `LOT-70`, `LOT-71` | Deux petits lots qui en débloquent quinze |
+| Avec [LOT-21](@ref lot-21) | `LOT-72`, `LOT-73` | Conditions et mort appartiennent au combat |
+| Avec [LOT-20](@ref lot-20) | `LOT-74` | L'expérience se gagne à la fin d'un combat |
+| Avec `LOT-42` | `LOT-75` | Le campement suppose le voyage et le peuplement |
 | Avec `LOT-50`, avant [LOT-27](@ref lot-27) | `LOT-69` | L'édition dans l'arène est ce qui produira le contenu du slice |
 | En fond, sans jalon | `LOT-48` | Volume long, sans blocage : se remplit par lots successifs |
 
@@ -1093,7 +1273,7 @@ Source/Core/World/
 
 ### À trancher
 
-- **Écrire `contenu.md` d'abord.** La famille `EX-CNT-*` n'existe pas et quarante lots la référencent.
+- **Écrire `contenu.md` d'abord.** La famille `EX-CNT-*` n'existe pas, non plus que `EX-DND-*`, `EX-RPG-*`, `EX-INV-*` et `EX-CBT-*` — voir §9.
   C'est une précondition, pas une question ouverte — mais elle demande une décision : quelles
   exigences la filière contenu porte-t-elle exactement ?
 - **Profondeur du bac à sable.** Le `LOT-41` compose des quêtes par gabarit et le `LOT-45` les
@@ -1101,3 +1281,122 @@ Source/Core/World/
   la main dans les lieux notables ? La réponse change le poids du [LOT-16](@ref lot-16), pas
   l'architecture.
 *(Le sort du *Manuel des Monstres* est tranché : voir ci-dessus.)*
+
+---
+
+## 9. Ce que l'audit a révélé sur l'état du dépôt
+
+Cette page a été confrontée à l'état réel du code et des spécifications. Quatre constats la
+dépassent et conditionnent son exécution.
+
+### 9.1 Cinq familles d'exigences sont fantômes, et le lint ne les voit pas
+
+Le dépôt compte **13 familles réelles pour 269 exigences**. Cinq autres sont référencées par une
+vingtaine d'epics et **n'existent pas** : `EX-DND-*`, `EX-RPG-*`, `EX-INV-*`, `EX-CBT-*` et
+`EX-CNT-*`. Les documents censés les porter — `regles-dnd.md`, `combat.md`, `rpg.md`, `contenu.md`
+— sont absents.
+
+**Le garde-fou ne les attrape pas** : `scripts/lint_exigences.py` filtre sur `EX-[A-Z]+-[0-9]+`, si
+bien que la forme `EX-DND-*` n'est jamais captée et que la CI passe au vert. C'est un défaut de
+l'outil, pas seulement une dette de rédaction — et il faut le corriger avant que la filière
+n'ajoute une sixième famille au même endroit.
+
+Écrire la **moitié RPG de la spécification** est donc le vrai chantier de fond, celui dont dépend
+tout le reste.
+
+### 9.2 Six mécaniques étaient consommées sans être produites
+
+Le repos était **invoqué par six lots et livré par aucun**. Le temps de jeu et le campement
+n'existaient nulle part. Les conditions, l'agonie et l'expérience étaient mentionnées dans un
+périmètre sans être ni spécifiées ni testées — et **aucune source d'expérience** n'était définie,
+alors que trois lots en consomment.
+
+D'où les `LOT-70` à `LOT-75`. Les rattacher au périmètre de lots existants aurait reproduit
+exactement la cause du trou.
+
+### 9.3 L'allègement est le geste à plus fort levier du programme
+
+Les décisions prises rendent mort un volume de code supérieur à ce que les cinq lots suivants
+ajouteront :
+
+| Élément | Poids | Retiré par |
+|---|---|---|
+| Atelier de dessin pixel art (`Source/HMI/Editor/Pixel*`) | ~2 975 lignes | `LOT-69` |
+| Widgets pixel art (`Source/HMI/Interface/Pixel*`) | ~640 lignes | `LOT-66` |
+| Écrans de plateforme (`LevelSelectScreen`, `LevelCompleteScreen`) | ~460 lignes | `LOT-67` |
+| Maquettes `SelectionNiveau`, `FinDeNiveau` + clés `level.*` | — | `LOT-67` |
+
+Soit **plus de 4 000 lignes**. Chaque suppression est portée par le lot qui la rend possible,
+**jamais reportée** à un lot de ménage : du code mort qu'on garde « pour plus tard » se remet à
+coûter dès la première refactorisation qui le traverse.
+
+À décider à part : `Documentation/Heritage/` pèse **520 fichiers et 3,7 Mo** — l'archive du
+programme de lots d'un autre projet, hors Doxygen. L'historique git la conserve de toute façon.
+
+### 9.4 Le socle technique tient, mais trois préconditions manquent
+
+Ce qui est sain : **927 tests verts** sur 129 fichiers, une CI durcie (`/W4 /WX`, `clang-tidy` et
+Doxygen épinglés), un cœur déjà purgé de 63 000 lignes au [LOT-01](@ref lot-01) et déjà réorienté
+vers le RPG top-down par les `LOT-06`/`07`/`08`. Le format v3 **porte déjà les entités**
+(`MapEntity`), et `GridDistanceField` — un parcours en largeur sur la grille — a été explicitement
+sauvé de la purge comme « le calcul de portée de déplacement du futur combat tactique ».
+
+Ce qui manque avant d'ajouter des dizaines de catalogues :
+
+- **Aucune brique de chargement JSON partagée.** Six réimplémentations identiques de `loadFromFile`
+  (`SkinCatalog`, `AnimationCatalog`, `SoundCatalog`, `PixelPalette`, `LevelLoader`,
+  `LevelSequence`), validation écrite à la main champ par champ, **aucun schéma**. Le `LOT-32` doit
+  factoriser ce patron, sinon la filière le duplique dix fois de plus.
+- **Aucun test paramétré** dans tout `Source/Test/` — ni `TEST_P`, ni parcours de dossier de
+  fixtures. Les lots de données en ont besoin : c'est une capacité à créer, pas à réutiliser.
+- **`Source/Elements/Levels/` est vide.** Le jeu n'a aucune carte à charger ; `loadDeliveredLevel`
+  (`test_render_budget.cpp`) est du code mort et la fixture `rejeu-test-deplacement.json` est
+  orpheline depuis la purge.
+
+### 9.5 La collision de numéros devient bloquante
+
+Le programme hérité allait jusqu'à `LOT-74`. En atteignant `LOT-76`, la filière **recouvre
+entièrement** cette plage. Or les spécifications citent encore des lots hérités dans le corps de
+leurs exigences — `gameplay.md` (« Complété en `LOT-65` »), `niveaux.md` (« `LOT-25`, étendu en
+`LOT-65` »), `editeur-niveaux.md` (« `LOT-54` introduit un éditeur de texture »), et les titres de
+sections d'`interface-ihm.md`.
+
+Ces renvois deviennent **ambigus sans être cassés** : ni le lint ni Doxygen ne les signaleront. La
+désambiguïsation — préfixe `LOT-H-XX`, ou renvoi explicite à l'archive — doit précéder la création
+du premier dossier au-delà de `LOT-29`.
+
+---
+
+## 10. Ce qu'il faut anticiper, tant que rien n'est construit
+
+**Sept lots sont intégrés sur vingt-neuf.** Presque tout ce que cette filière modifie n'existe pas
+encore : ni la fiche de personnage, ni l'inventaire, ni le combat, ni l'éditeur multi-couches, ni le
+graphe de cartes. C'est un avantage considérable et **temporaire** — chaque décision prise
+maintenant coûte une écriture ; la même, prise dans dix lots, coûte une réécriture plus la migration
+de ce qui s'est construit dessus.
+
+Huit choses méritent donc d'être décidées avant, et non après.
+
+| À anticiper | Coût aujourd'hui | Coût si on attend |
+|---|---|---|
+| **Retirer les exigences de plateforme** (`EX-GP-030/031/032`, `EX-LVL-010`→`015`, `EX-IHM-003/004/005`) | Une passe de rédaction : elles ne décrivent **rien de construit** pour le RPG | Les `LOT-09`→`17` se bâtissent dessus, puis il faut les défaire |
+| **La charte visuelle** (`LOT-66`) | Seuls les écrans hérités existent | Chaque écran RPG livré entre-temps est à refaire |
+| **Viser directement le mode édition dans l'arène** (`LOT-69`) au lieu de le refondre | Le `LOT-11` n'est pas commencé : il suffit qu'il vise cette cible | Construire l'éditeur multi-couches, puis le remplacer |
+| **La brique de chargement JSON** (`LOT-32`) | Six lecteurs à factoriser | Vingt et plus, chacun avec sa validation manuscrite |
+| **Les tests paramétrés** | Une capacité à créer, sur une suite encore petite | À créer quand même, mais avec des dizaines de tests déjà écrits autrement |
+| **L'horloge et le repos** (`LOT-70`, `LOT-71`) | Le `LOT-13` n'existe pas : la fiche peut naître en déclarant ses ressources et leur cadence | Rétro-adapter la fiche, puis les quinze classes |
+| **Les champs `"source"` et `"statut"` au schéma** | Une ligne, avant le premier catalogue | Une migration de tous les catalogues livrés |
+| **Désambiguïser les numéros hérités** | Une recherche-remplacement dans six specs | Ambiguïté silencieuse, invisible au lint comme à Doxygen |
+
+Deux d'entre elles sont plus que des économies.
+
+**Le `LOT-11` ne doit pas être construit puis refondu.** Le `LOT-69` est écrit comme une refonte
+parce qu'il a été conçu après ; mais l'éditeur multi-couches n'étant pas commencé, la bonne décision
+est que le `LOT-11` **vise d'emblée** l'édition dans la scène. Le `LOT-69` se réduit alors au retrait
+de l'atelier de dessin, qui est une suppression, pas une réécriture.
+
+**`MapEntity` existe déjà et n'alimente rien.** Le format v3 porte `{ type, position, properties }`
+avec un contrat explicite — « `Core` ne connaît aucune sémantique de `type` » — mais aucun
+consommateur hors des tests : ni le rendu, ni l'ECS, ni l'éditeur. Le `LOT-10` (entités et
+interaction) est le premier à pouvoir s'y brancher, et il doit le faire plutôt que d'inventer un
+second conteneur d'entités à côté.
