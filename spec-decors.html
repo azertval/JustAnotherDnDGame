@@ -96,11 +96,11 @@ $(function(){initNavTree('spec-decors.html','',''); });
 <blockquote class="doxtable">
 <p>Statut : <b>livré</b> (<span class="tt">LOT-69</span>). Le système de <b>décors-sprites</b> (<span class="tt">LOT-49</span>/<span class="tt">LOT-50</span>) est <b>retiré</b> et remplacé par des <b>plans picturaux</b> : un décor n'est plus un objet posé, c'est une surface peinte à l'échelle du niveau. Les exigences retirées sont conservées en fin de page (section <a class="el" href="#dec-retirees" title="Exigences retirées">Exigences retirées</a>), leur texte intact, pour que les documents des lots déjà livrés qui s'y réfèrent restent lisibles. Le <b>pipeline photo → pixel art</b> (section 3) reste <b>post-MVP</b>. </p>
 </blockquote>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md284"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md296"></a>
 Vision</h1>
 <p>Le décor d'un niveau est <b>peint</b>, plan par plan, à l'intérieur même de l'éditeur, et se superpose en profondeur pour donner de la <b>parallaxe 2D</b>. Concrétise l'objectif produit <span class="tt">EX-VIS-007</span> (<span class="tt"><a class="el" href="vision_8md.html">vision.md</a></span>).</p>
 <p>Ce que le <span class="tt">LOT-69</span> corrige : composer un habillage en posant des images ne permet pas de <em>dessiner</em> un décor. Trois couches figées, des facteurs de défilement codés en dur et aucun outil de peinture à l'échelle du niveau — le level designer devait sortir de l'outil pour obtenir un fond, puis le découper en objets.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md285"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md297"></a>
 1. Plans</h1>
 <ul>
 <li><a class="anchor" id="EX-DEC-040"></a><b>EX-DEC-040</b> — Un <b>plan</b> est une image couvrant le <b>niveau entier</b>, stockée dans son <b>propre fichier PNG</b> à côté du niveau et référencée par nom. Un niveau porte une <b>liste ordonnée</b> de plans, de nombre <b>libre</b> ; l'<b>ordre est significatif</b> : il détermine la superposition. Le rendu reste <b>net</b> (<span class="tt">EX-DEC-003</span>).</li>
@@ -111,12 +111,12 @@ Vision</h1>
 <li><a class="anchor" id="EX-DEC-003"></a><b>EX-DEC-003</b> — Rendu <b>pixel art net</b> (nearest-neighbor) — cf. <span class="tt">EX-ARCH-022</span>. Inchangée depuis <span class="tt">LOT-49</span> : elle vaut pour les plans comme elle valait pour les décors.</li>
 </ul>
 <p>Les plans sont <b>traversables</b> : ils ne participent jamais aux collisions. Un plan est un décor, jamais une géométrie de jeu.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md286"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md298"></a>
 2. Édition</h1>
 <ul>
 <li><a class="anchor" id="EX-DEC-045"></a><b>EX-DEC-045</b> — Les plans se peignent <b>dans l'éditeur</b>, au pixel près et à l'échelle du niveau, avec les tuiles physiques visibles en référence. Concrétisé par <span class="tt">EX-EDIT-046</span> (mode création) et <span class="tt">EX-EDIT-047</span> (panneau « Plans »).</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md287"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md299"></a>
 3. Pipeline photo → pixel art (intégré à l'éditeur)</h1>
 <ul>
 <li><a class="anchor" id="EX-DEC-030"></a><b>EX-DEC-030</b> — L'éditeur permet de <b>charger une photo</b> et de la <b>convertir en pixel art</b> (pixellisation, réduction de palette) — traitement <b>intégré à l'outil</b>.</li>
@@ -126,7 +126,7 @@ Vision</h1>
 <blockquote class="doxtable">
 <p>Dépendance déjà levée : le chargement et l'encodage d'images existent depuis <span class="tt">LOT-39</span>/<span class="tt">LOT-54</span> (<span class="tt"><a class="el" href="namespacehmi.html#a22c3bcff9f77b4c4df7938a08c036dfd" title="Décode un fichier image (PNG au minimum) en pixels RGBA.">hmi::decodeImageFile</a></span>, <span class="tt"><a class="el" href="namespacehmi.html#ae4e98112a456615557383e9b5d0d6252" title="Écrit un fichier PNG depuis des pixels RGBA déjà en mémoire — symétrique de decodeImageFile.">hmi::encodeImageFile</a></span>). </p>
 </blockquote>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md288"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md300"></a>
 4. Périmètre &amp; séquencement</h1>
 <ul>
 <li>Le <span class="tt">LOT-69</span> livre les plans, leur parallaxe et le mode création. Le pipeline photo (section 3) reste <b>post-MVP</b>.</li>
@@ -147,7 +147,7 @@ Exigences retirées</h1>
 <li><a class="anchor" id="EX-DEC-020"></a><b>EX-DEC-020</b> <em>(retirée en <span class="tt">LOT-69</span>)</em> — Le joueur peut <b>manipuler en temps réel</b> les décors marqués manipulables. Motif : la mécanique n'a jamais été livrée et n'a plus d'objet — on ne déplace pas une fresque peinte.</li>
 <li><a class="anchor" id="EX-DEC-021"></a><b>EX-DEC-021</b> <em>(retirée en <span class="tt">LOT-69</span>)</em> — La manipulation en jeu reste <b>déterministe</b>. Retirée avec <span class="tt">EX-DEC-020</span>, dont elle était le corollaire.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md289"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md301"></a>
 Traçabilité</h1>
 <p>S'appuie sur <a class="el" href="spec-architecture.html#md_Specification_2architecture" title="Specification/architecture.md"><span class="tt">architecture.md</span></a>, <a class="el" href="spec-rendu-technique.html#md_Specification_2rendu-technique" title="Specification/rendu-technique.md"><span class="tt">rendu-technique.md</span></a> (ordonnancement des calques, <span class="tt">EX-REN-049</span>), <a class="el" href="spec-niveaux.html#md_Specification_2niveaux" title="Specification/niveaux.md"><span class="tt">niveaux.md</span></a> (format, <span class="tt">EX-LVL-009</span>), <a class="el" href="spec-editeur.html#md_Specification_2editeur-niveaux" title="Specification/editeur-niveaux.md"><span class="tt">editeur-niveaux.md</span></a> (mode création, <span class="tt">EX-EDIT-046</span>/<span class="tt">EX-EDIT-047</span>) et <a class="el" href="spec-vision.html#md_Specification_2vision" title="Specification/vision.md"><span class="tt">vision.md</span></a>. </p>
 </div></div><!-- contents -->
