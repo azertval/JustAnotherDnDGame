@@ -6,6 +6,32 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **Une seule routine de lecture JSON, et des tests paramétrés** (`LOT-79`). Le dépôt comptait
+  **six** réimplémentations de `loadFromFile` — `SkinCatalog`, `AnimationCatalog`, `SoundCatalog`,
+  `PixelPalette`, `LevelLoader`, `LevelSequenceLoader` — répétant la même séquence (`accept()` puis
+  `parse()`, racine objet, version absente valant 1, version supérieure refusée), dont quatre
+  redéfinissaient les **mêmes cinq catégories d'échec** sous quatre noms. La filière contenu
+  s'apprêtait à en ajouter quinze.
+  - `core::JsonDocument` porte l'enveloppe commune une fois pour toutes, et ne lève jamais
+    (`EX-NFR-040`). Les six lecteurs y passent ; chacun garde son énumération publique et traduit
+    depuis la catégorie partagée par un `switch` **exhaustif et sans `default`**, si bien
+    qu'ajouter une catégorie d'un côté fait échouer la compilation.
+  - **Un échec dit désormais où.** `nlohmann` ne rapporte qu'un décalage en octets, que les six
+    lecteurs jetaient : le message était « JSON malformé », devant un catalogue de mille lignes.
+    Il s'annonce maintenant `sounds.json:12:5 : …` (`EX-CNT-010`). C'est la seule différence qui se
+    voit à l'usage, et c'est celle qui compte.
+  - **Premiers tests paramétrés du dépôt.** `Source/Test/` ne comptait aucun `TEST_P` ni aucun
+    parcours de dossier de fixtures. `Source/Test/Fixtures/Json/` en porte six — valide, tronqué,
+    virgule en trop, racine tableau, version future, version non entière — et un test vérifie
+    qu'aucune fixture du dossier n'est **orpheline** : un fichier qu'aucun test ne lit ne protège
+    de rien. C'est la capacité qui compte plus que ces six cas : un bestiaire de 176 créatures se
+    teste en balayant un dossier, pas en écrivant 176 `TEST`.
+  - `nlohmann_json` devient une dépendance **PUBLIC** de `Core` : `JsonDocument.h` expose l'arbre
+    parsé, donc la bibliothèque fait partie de l'interface et non de l'implémentation. L'éviter
+    aurait demandé une façade typée par-dessus `nlohmann`, soit un second modèle d'arbre à
+    maintenir pour ne rien gagner d'observable.
+  - `ctest` passe de 927 à **943** cas, tous verts.
+
 - **Les numéros de lots ne sont plus ambigus** (`LOT-78`). Ce dépôt est dérivé de `ProjectGaming`,
   livré après **74 lots** ; les deux numérotations repartent de `LOT-01`, et la feuille de route
   atteignant `LOT-84`, la plage héritée était **entièrement recouverte**. `LOT-54` désignait à la

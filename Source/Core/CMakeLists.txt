@@ -4,6 +4,7 @@
 # Bibliothèque Core : logique et moteur du jeu.
 add_library(Core STATIC
     Core.cpp
+    Data/JsonDocument.cpp
     Math/Vector2.cpp
     Math/Rect.cpp
     Ecs/EntityManager.cpp
@@ -43,7 +44,13 @@ target_include_directories(Core PUBLIC ${PROJECT_SOURCE_DIR}/Source)
 # dépendants à connaître un répertoire d'inclusion supplémentaire pour une seule chaîne.
 target_compile_definitions(Core PRIVATE JADG_VERSION="${PROJECT_VERSION}")
 
-target_link_libraries(Core PRIVATE project_warnings project_options nlohmann_json::nlohmann_json)
+# `nlohmann_json` est PUBLIC depuis le LOT-79 : `Core/Data/JsonDocument.h` expose l'arbre parse a
+# ses appelants, donc la bibliotheque fait partie de l'interface de Core et non de son
+# implementation. C'est le prix -- assume -- d'une brique de lecture unique : la seule facon de
+# l'eviter serait de reecrire une facade typee par-dessus nlohmann, soit un second modele d'arbre
+# a maintenir pour ne rien gagner d'observable.
+target_link_libraries(Core PUBLIC nlohmann_json::nlohmann_json)
+target_link_libraries(Core PRIVATE project_warnings project_options)
 
 if(ENABLE_PCH)
     target_precompile_headers(Core PRIVATE ${PROJECT_SOURCE_DIR}/Source/pch.h)

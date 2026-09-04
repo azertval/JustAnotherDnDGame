@@ -14,6 +14,7 @@
 
 #include <nlohmann/json.hpp>
 
+#include "Core/Data/JsonDocument.h"
 #include "HMI/HmiLog.h"
 
 namespace hmi {
@@ -110,12 +111,15 @@ std::optional<PixelPaletteEntry> parseColorEntry(const nlohmann::json& entryJson
 
 PixelPalette PixelPalette::loadFromString(std::string_view json) {
     PixelPalette palette;
-    if (!nlohmann::json::accept(json)) {
-        HMI_LOG_WARNING("palettes.json : JSON malforme, palette vide.");
+    // Enveloppe commune : brique partagee du LOT-79 (EX-CNT-012). Ce lecteur n'a pas de champ de
+    // version, d'ou la garde desactivee (0).
+    const core::JsonDocument document = core::readJsonObject(json, 0, "palettes.json");
+    if (!document.ok()) {
+        HMI_LOG_WARNING(document.message + " Palette vide.");
         return palette;
     }
-    const nlohmann::json root = nlohmann::json::parse(json, nullptr, false);
-    if (!root.is_object() || !root.contains(FIELD_COLORS) || !root[FIELD_COLORS].is_array()) {
+    const nlohmann::json& root = document.root;
+    if (!root.contains(FIELD_COLORS) || !root[FIELD_COLORS].is_array()) {
         HMI_LOG_WARNING("palettes.json : structure inattendue, palette vide.");
         return palette;
     }

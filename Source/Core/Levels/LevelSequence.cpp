@@ -9,6 +9,7 @@
 
 #include <nlohmann/json.hpp>
 
+#include "Core/Data/JsonDocument.h"
 #include "Core/Levels/LevelsLog.h"
 
 namespace core {
@@ -26,24 +27,23 @@ namespace {
 }  // namespace
 
 LevelSequenceLoadResult LevelSequenceLoader::loadFromString(std::string_view json) {
+    // Enveloppe commune (JSON bien forme, racine objet, garde de version) : brique partagee du
+    // LOT-79 (EX-CNT-012). Elle situe en outre l'erreur de syntaxe a la ligne, ce que ce lecteur
+    // ne savait pas faire.
+    const JsonDocument document =
+        readJsonObject(json, LEVEL_SEQUENCE_FORMAT_VERSION, "sequence de niveaux");
+    if (!document.ok()) {
+        return failure(document.message, document.error == JsonReadError::UnsupportedVersion
+                                             ? LevelSequenceError::UnsupportedFormatVersion
+                                             : LevelSequenceError::ParseError);
+    }
+    const nlohmann::json& root = document.root;
     try {
-        const nlohmann::json root = nlohmann::json::parse(json);
-
         if (!root.contains("levels")) {
             return failure("Champ obligatoire manquant ('levels')", LevelSequenceError::ParseError);
         }
         if (!root.at("levels").is_array()) {
             return failure("Le champ 'levels' doit etre une liste", LevelSequenceError::ParseError);
-        }
-
-        // Version du format (EX-LVL-005) : absente = version initiale (0), même
-        // rétrocompatibilité que LevelLoader.
-        const int version = root.value("version", 0);
-        if (version > LEVEL_SEQUENCE_FORMAT_VERSION) {
-            return failure("Version de format non geree : " + std::to_string(version) +
-                               " (maximum gere : " + std::to_string(LEVEL_SEQUENCE_FORMAT_VERSION) +
-                               ")",
-                           LevelSequenceError::UnsupportedFormatVersion);
         }
 
         LevelSequence result;

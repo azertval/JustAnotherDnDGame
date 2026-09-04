@@ -10,6 +10,8 @@
 
 #include <nlohmann/json.hpp>
 
+#include "Core/Data/JsonDocument.h"
+
 namespace hmi {
 
 namespace {
@@ -29,6 +31,25 @@ constexpr const char* FIELD_NEXT = "next";
 // absent (cas par defaut, silencieux) et le fichier invalide (anomalie) empruntent tous deux ce
 // chemin -- c'est a l'appelant (hmi::TextureCache) de decider, a partir du code d'erreur, s'il doit
 // journaliser (EX-NFR-040).
+// Traduction de la categorie partagee (LOT-79) vers celle, documentee, de ce catalogue. Le
+// `switch` est exhaustif et sans `default` : ajouter une categorie d'un cote fait echouer la
+// compilation plutot que de tomber silencieusement dans un cas par defaut.
+[[nodiscard]] AnimationCatalogError mapError(core::JsonReadError code) {
+    switch (code) {
+        case core::JsonReadError::None:
+            return AnimationCatalogError::None;
+        case core::JsonReadError::FileNotFound:
+            return AnimationCatalogError::FileNotFound;
+        case core::JsonReadError::ParseError:
+            return AnimationCatalogError::ParseError;
+        case core::JsonReadError::UnsupportedVersion:
+            return AnimationCatalogError::UnsupportedVersion;
+        case core::JsonReadError::MalformedStructure:
+            return AnimationCatalogError::MalformedStructure;
+    }
+    return AnimationCatalogError::ParseError;
+}
+
 [[nodiscard]] AnimationDescriptionResult failure(std::string message, AnimationCatalogError code) {
     return AnimationDescriptionResult{
         .description = std::nullopt, .error = std::move(message), .errorCode = code};
@@ -109,31 +130,14 @@ struct ClipParseResult {
 }  // namespace
 
 AnimationDescriptionResult AnimationCatalog::loadFromString(std::string_view json) {
-    // accept() puis parse(..., allow_exceptions=false) : aucune exception ne doit franchir cette
-    // frontiere (EX-NFR-040), meme patron que hmi::SkinCatalog::loadFromString.
-    if (!nlohmann::json::accept(json)) {
-        return failure("JSON malforme.", AnimationCatalogError::ParseError);
-    }
-    const nlohmann::json root = nlohmann::json::parse(json, nullptr, false);
-    if (!root.is_object()) {
-        return failure("La racine du document n'est pas un objet.",
-                       AnimationCatalogError::ParseError);
-    }
+    return fromDocument(core::readJsonObject(json, FORMAT_VERSION, "*.anim.json", FIELD_VERSION));
+}
 
-    int version = FORMAT_VERSION;
-    if (root.contains(FIELD_VERSION)) {
-        if (!root[FIELD_VERSION].is_number_integer()) {
-            return failure("Le champ « version » n'est pas un entier.",
-                           AnimationCatalogError::MalformedStructure);
-        }
-        version = root[FIELD_VERSION].get<int>();
+AnimationDescriptionResult AnimationCatalog::fromDocument(const core::JsonDocument& document) {
+    if (!document.ok()) {
+        return failure(document.message, mapError(document.error));
     }
-    if (version > FORMAT_VERSION) {
-        return failure("Version de format " + std::to_string(version) +
-                           " non geree (cette version du jeu lit jusqu'a " +
-                           std::to_string(FORMAT_VERSION) + ").",
-                       AnimationCatalogError::UnsupportedVersion);
-    }
+    const nlohmann::json& root = document.root;
 
     if (!root.contains(FIELD_FRAME_WIDTH) || !root[FIELD_FRAME_WIDTH].is_number_integer() ||
         !root.contains(FIELD_FRAME_HEIGHT) || !root[FIELD_FRAME_HEIGHT].is_number_integer()) {
@@ -186,14 +190,7 @@ AnimationDescriptionResult AnimationCatalog::loadFromString(std::string_view jso
 }
 
 AnimationDescriptionResult AnimationCatalog::loadFromFile(const std::filesystem::path& path) {
-    std::ifstream file(path);
-    if (!file) {
-        return failure("Fichier introuvable ou illisible : " + path.string(),
-                       AnimationCatalogError::FileNotFound);
-    }
-    std::ostringstream contents;
-    contents << file.rdbuf();
-    return loadFromString(contents.str());
+    return fromDocument(core::readJsonObjectFromFile(path, FORMAT_VERSION, FIELD_VERSION));
 }
 
 std::string AnimationCatalog::descriptorFileName(std::string_view assetFileName) {

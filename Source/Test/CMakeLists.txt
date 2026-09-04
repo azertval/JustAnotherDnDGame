@@ -21,6 +21,7 @@ add_executable(UnitTests
     Unit/Core/Ecs/test_particle_system.cpp
     Unit/Core/Ecs/test_top_down_movement.cpp
     Unit/Core/Ecs/test_particle_triggers.cpp
+    Unit/Core/Data/test_json_document.cpp
     Unit/Core/Levels/test_level.cpp
     Unit/Core/Levels/test_camera_framing.cpp
     Unit/Core/Levels/test_level_loader.cpp
@@ -194,13 +195,16 @@ target_link_libraries(UnitTests PRIVATE
     project_warnings
     project_options
     # GameKeyBindings.cpp/EditorKeyBindings.cpp (ci-dessus) sont compiles directement dans cette
-    # cible (comme PlayerInputMapper.cpp) et persistent en JSON : besoin direct de nlohmann_json,
-    # que Core ne propage pas (lien PRIVATE cote Core).
+    # cible (comme PlayerInputMapper.cpp) et persistent en JSON. Core le propage depuis le LOT-79,
+    # mais la dependance reste declaree ici : ces fichiers en dependent pour leur compte.
     nlohmann_json::nlohmann_json
 )
 
 # Chemins (source) des assets, pour vérifier que le contenu livré (niveaux, catalogues) se charge.
 target_compile_definitions(UnitTests PRIVATE
+    # Dossier de fixtures parcouru par les tests parametres (LOT-79) : un catalogue se teste en
+    # balayant un dossier, pas en ecrivant un test par entree.
+    JADG_TEST_FIXTURES_DIR="${CMAKE_CURRENT_SOURCE_DIR}/Fixtures"
     JADG_LEVELS_DIR="${PROJECT_SOURCE_DIR}/Source/Elements/Levels"
     JADG_LOCALIZATION_DIR="${PROJECT_SOURCE_DIR}/Source/Elements/Localization"
     JADG_ASSETS_DIR="${PROJECT_SOURCE_DIR}/Source/Elements/Assets"

@@ -18,6 +18,8 @@
  *        (`EX-EDIT-042`, `EX-EDIT-024`).
  */
 
+#include "Core/Data/JsonDocument.h"
+
 namespace hmi {
 
 /**
@@ -124,6 +126,17 @@ public:
      */
     [[nodiscard]] static SkinCatalogResult loadFromFile(const std::filesystem::path& path);
 
+private:
+    /**
+     * @brief Construit le résultat depuis l'enveloppe déjà lue par `core::readJsonObject`.
+     *
+     * JSON bien formé, racine objet et garde de version sont vérifiés **avant** d'arriver ici :
+     * c'est la brique partagée du `LOT-79` (`EX-CNT-012`), et ce catalogue n'a plus à les
+     * réimplémenter pour son compte.
+     */
+    [[nodiscard]] static SkinCatalogResult fromDocument(const core::JsonDocument& document);
+
+public:
     /// @return La représentation JSON du catalogue, relisible par `loadFromString`.
     [[nodiscard]] std::string toJsonString() const;
 

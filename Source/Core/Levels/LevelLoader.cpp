@@ -14,6 +14,7 @@
 
 #include <nlohmann/json.hpp>
 
+#include "Core/Data/JsonDocument.h"
 #include "Core/Levels/CameraFraming.h"
 #include "Core/Levels/LevelsLog.h"
 #include "Core/Levels/MapEntity.h"
@@ -480,9 +481,14 @@ void warnOnObsoleteDecors(const nlohmann::json& root, const std::string& levelNa
 
 // Charge un niveau depuis une chaine JSON.
 LevelLoadResult LevelLoader::loadFromString(std::string_view json) {
+    // Enveloppe commune : brique partagee du LOT-79 (EX-CNT-012). La garde de version est
+    // desactivee (0) parce que `parseHeader` porte la sienne, avec sa propre categorie d'echec.
+    const JsonDocument document = readJsonObject(json, 0, "niveau");
+    if (!document.ok()) {
+        return failure(document.message, LevelValidationError::ParseError);
+    }
+    const nlohmann::json& root = document.root;
     try {
-        const nlohmann::json root = nlohmann::json::parse(json);
-
         int width = 0;
         int height = 0;
         if (std::optional<LevelLoadResult> headerError = parseHeader(root, width, height)) {

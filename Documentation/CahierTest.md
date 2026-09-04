@@ -1,8 +1,8 @@
 # Cahier de test {#cahiertest}
 
-**927 cas de test**, générés depuis les blocs `\castest{...}` du code par `scripts/generate_cahier_test.py` (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de `Source/Test/` pour rester lisibles page par page.
+**938 cas de test**, générés depuis les blocs `\castest{...}` du code par `scripts/generate_cahier_test.py` (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de `Source/Test/` pour rester lisibles page par page.
 
-## Tests unitaires (912)
+## Tests unitaires (923)
 
 ### Core
 
@@ -11,6 +11,24 @@
 | Titre (criticité) | Brief | Étapes | Résultat attendu |
 |---|---|---|---|
 | **EngineTest.VersionNonVide** (Majeur)<br/><sub>`Source/Test/Unit/Core/test_core.cpp:15`</sub> | Vérifie que la version du moteur n'est pas vide. | 1. Mettre en place le contexte du test (arrangement).<br/>2. Executer le scenario et verifier les assertions. | Vérifie que `engine.version().empty()` est faux. |
+
+#### Data (11)
+
+**`test_json_document.cpp`**
+
+| Titre (criticité) | Brief | Étapes | Résultat attendu |
+|---|---|---|---|
+| **JsonDocumentPosition.ConvertitUnDecalageEnLigneEtColonne** (Majeure)<br/><sub>`Source/Test/Unit/Core/Data/test_json_document.cpp:35`</sub> | Une position d'erreur est exprimee en ligne et colonne. | 1. Convertir le decalage du premier octet de la 3e ligne d'un texte connu. | Vérifie que `position.line` vaut `3`.<br/>Vérifie que `position.column` vaut `1`. |
+| **JsonDocumentPosition.RendUnePositionInconnueHorsDuTexte** (Mineure)<br/><sub>`Source/Test/Unit/Core/Data/test_json_document.cpp:54`</sub> | Un decalage aberrant ne produit pas de position fausse. | 1. Convertir un decalage superieur a la taille du texte. | Vérifie que `position.line` vaut `0`.<br/>Vérifie que `position.column` vaut `0`. |
+| **JsonDocument.LitUnObjetBienForme** (Critique)<br/><sub>`Source/Test/Unit/Core/Data/test_json_document.cpp:74`</sub> | Un document JSON valide se lit sans erreur. | 1. Lire une chaine JSON contenant une version et un champ. | Vérifie que `doc.ok()` est vrai.<br/>Vérifie que `doc.version` vaut `1`.<br/>Vérifie que `doc.root.at("a").get<int>()` vaut `2`. |
+| **JsonDocument.VersionAbsenteVautUn** (Majeure)<br/><sub>`Source/Test/Unit/Core/Data/test_json_document.cpp:90`</sub> | Un champ de version absent vaut 1. | 1. Lire un document sans champ de version, avec une version geree de 3. | Vérifie que `doc.ok()` est vrai.<br/>Vérifie que `doc.version` vaut `1`. |
+| **JsonDocument.RefuseUneVersionPlusRecenteQueLeLecteur** (Critique)<br/><sub>`Source/Test/Unit/Core/Data/test_json_document.cpp:106`</sub> | Une version de format non geree est refusee, pas lue au mieux. | 1. Lire un document de version 4 avec une version geree de 3. | Vérifie que `doc.ok()` est faux.<br/>Vérifie que `doc.error` vaut `core::JsonReadError::UnsupportedVersion`.<br/>Vérifie que `doc.message.find('4')` diffère de `std::string::npos`.<br/>Vérifie que `doc.message.find('3')` diffère de `std::string::npos`. |
+| **JsonDocument.RefuseUneRacineQuiNEstPasUnObjet** (Majeure)<br/><sub>`Source/Test/Unit/Core/Data/test_json_document.cpp:126`</sub> | Un document dont la racine est un tableau est refuse. | 1. Lire un document dont la racine est un tableau. | Vérifie que `doc.ok()` est faux.<br/>Vérifie que `doc.error` vaut `core::JsonReadError::ParseError`. |
+| **JsonDocument.SitueLErreurDeSyntaxeALaLigne** (Critique)<br/><sub>`Source/Test/Unit/Core/Data/test_json_document.cpp:142`</sub> | Une erreur de syntaxe nomme le fichier et la ligne. | 1. Lire un document dont la 3e ligne porte une virgule en trop, en nommant l'origine. | Vérifie que `doc.ok()` est faux.<br/>Vérifie que `doc.error` vaut `core::JsonReadError::ParseError`.<br/>Vérifie que `doc.position.line` vaut `3`.<br/>Vérifie que `doc.message.find("essai.json:3")` diffère de `std::string::npos`. |
+| **JsonDocument.NeLevePasSurUnFichierAbsent** (Critique)<br/><sub>`Source/Test/Unit/Core/Data/test_json_document.cpp:163`</sub> | Un fichier absent est un echec decrit, pas une exception. | 1. Lire un fichier qui n'existe pas. | Vérifie que `doc.ok()` est faux.<br/>Vérifie que `doc.error` vaut `core::JsonReadError::FileNotFound`. |
+| **JsonDocument.NommeLeFichierDansSesMessages** (Majeure)<br/><sub>`Source/Test/Unit/Core/Data/test_json_document.cpp:180`</sub> | Un echec de lecture de fichier nomme ce fichier. | 1. Lire une fixture JSON tronquee depuis le disque. | Vérifie que `doc.ok()` est faux.<br/>Vérifie que `doc.message.find("tronque.json")` diffère de `std::string::npos`. |
+| **FixtureJson.ProduitLaCategorieAnnoncee** (Majeure)<br/><sub>`Source/Test/Unit/Core/Data/test_json_document.cpp:220`</sub> | Chaque fixture JSON produit la categorie d'echec attendue. | 1. Lire chacune des six fixtures de Fixtures/Json.<br/>2. Comparer la categorie d'echec obtenue a celle annoncee par le nom du fichier. | Vérifie que `doc.error` vaut `attente.attendu`.<br/>Vérifie que `doc.message.empty()` est faux. |
+| **FixtureJsonCouverture.AucuneFixtureOrpheline** (Mineure)<br/><sub>`Source/Test/Unit/Core/Data/test_json_document.cpp:262`</sub> | Aucune fixture n'est presente sans etre lue par un test. | 1. Parcourir le dossier de fixtures.<br/>2. Verifier que chaque fichier figure dans la liste des cas instancies. | Vérifie que `std::filesystem::is_directory(FIXTURES)` est vrai.<br/>Vérifie que `std::find(couvertes.begin(), couvertes.end(), nom)` diffère de `couvertes.end()`. |
 
 #### Diagnostics (22)
 

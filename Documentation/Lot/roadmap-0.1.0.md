@@ -205,10 +205,10 @@ Les lots [LOT-13](@ref lot-13) (fiche de personnage), [LOT-14](@ref lot-14) (inv
 **JSON** », conformément à [`EX-VIS-007`](@ref EX-VIS-007). Aucun ne dit **d'où sortent ces JSON**.
 C'est exactement le trou que ce corpus comble, et c'est le périmètre de cette filière.
 
-Quarante-neuf lots, `LOT-30` à `LOT-84`. Quatre numéros ont été **retirés** par fusion
-(`LOT-31`, `LOT-48`, `LOT-71`, `LOT-73` : voir l'encart en fin de section), et deux lots ont été
-**livrés** — le [LOT-77](@ref lot-77) et le [LOT-78](@ref lot-78) — qui ont donc quitté cette page
-pour leur dossier, comme tout lot livré. Les numéros sont,
+Quarante-huit lots, `LOT-30` à `LOT-84`. Quatre numéros ont été **retirés** par fusion
+(`LOT-31`, `LOT-48`, `LOT-71`, `LOT-73` : voir l'encart en fin de section), et les trois
+préconditions ont été **livrées** — [LOT-77](@ref lot-77), [LOT-78](@ref lot-78) et
+[LOT-79](@ref lot-79) — qui ont donc quitté cette page pour leur dossier, comme tout lot livré. Les numéros sont,
 comme toujours, des identifiants stables : ils viennent après [LOT-29](@ref lot-29) dans la
 numérotation, mais plusieurs s'exécutent **avant** les lots qui les consomment (voir §6). Une nouvelle famille d'exigences `EX-CNT-*` les couvre, à écrire
 dans un `Documentation/Specification/contenu.md`.
@@ -1169,37 +1169,6 @@ demande aucun arbitrage humain.
 *Acceptation* — les éléments extraits s'intègrent aux jetons de la charte du `LOT-66` ;
 `scripts/check_design_tokens.py` reste vert ; aucune image n'est tirée par extraction de flux brut.
 
-### `LOT-79` — Socle de chargement de données {#lot-79}
-
-*Prérequis : aucun. Prérequis de `LOT-32`.*
-
-*Exigences couvertes : `EX-CNT-012`.*
-
-> **Créé à l'audit.** Le §10 attribuait la brique de chargement JSON au `LOT-32` — mais son
-> périmètre ne livre que des schémas, un script Python et un test d'énumérations : **personne ne
-> portait le travail C++**. Les tests paramétrés n'étaient dans aucun lot du tout.
-
-Le dépôt compte **six réimplémentations** de `loadFromFile` — `SkinCatalog`, `AnimationCatalog`,
-`SoundCatalog`, `PixelPalette`, `LevelLoader`, `LevelSequence` — chacune avec sa validation écrite à
-la main, champ par champ, et aucun schéma. La filière s'apprête à en ajouter une quinzaine.
-
-Le lot livre donc, avant tout catalogue :
-
-- une **brique de lecture** unique : ouverture, parsage, report d'erreur avec fichier et ligne,
-  validation contre un schéma, conversion vers un agrégat typé ;
-- la **migration des six lecteurs existants** dessus — c'est la migration qui prouve la brique, pas
-  un septième lecteur écrit à côté ;
-- la capacité de **test paramétré** absente de tout `Source/Test/` : ni `TEST_P`, ni parcours de
-  dossier de fixtures. Les lots de données en vivent : un catalogue se teste en balayant un dossier,
-  pas en écrivant un test par entrée.
-
-C'est le lot dont l'absence coûte le plus cher, parce que son prix **double à chaque catalogue
-livré** : le faire maintenant, c'est six lecteurs à reprendre ; le faire dans dix lots, c'est vingt.
-
-*Acceptation* — les six lecteurs existants passent par la brique et leurs tests restent verts ; une
-donnée invalide produit un message portant le fichier et la ligne ; un test paramétré balaie un
-dossier de fixtures et échoue en nommant l'entrée fautive.
-
 ### `LOT-80` — Factions, panthéon et organisations {#lot-80}
 
 *Prérequis : `LOT-37`. Alimente [LOT-16](@ref lot-16), `LOT-82`.*
@@ -1336,7 +1305,6 @@ exactement ce que [`EX-VIS-007`](@ref EX-VIS-007) interdit. D'où « filière »
 
 | Quand | Lots | Pourquoi là |
 |---|---|---|
-| **Avant tout le reste** | `LOT-79` | La dernière des trois préconditions sans prérequis : la brique de chargement. Le [LOT-77](@ref lot-77) et le [LOT-78](@ref lot-78) sont livrés |
 | **Démarrables maintenant** — le [LOT-08](@ref lot-08) est livré | `LOT-30`, puis `LOT-32` | Outillage et contrats ; le plus tôt est le mieux |
 | **Démarrables maintenant** | `LOT-66`, `LOT-67`, `LOT-68`, `LOT-76` | La charte ne dépend que des PDF, et elle conditionne tous les écrans à venir |
 | Avec [LOT-09](@ref lot-09) | `LOT-37`, puis `LOT-80` | L'atlas donne au graphe de cartes de vrais nœuds à relier |
@@ -1358,12 +1326,14 @@ exactement ce que [`EX-VIS-007`](@ref EX-VIS-007) interdit. D'où « filière »
 
 Quatre lignes méritent qu'on s'y arrête.
 
-**La première.** Ces préconditions ne dépendent de rien et bloquent tout. Deux des trois sont
-**livrées** : le [LOT-77](@ref lot-77) a écrit les cinq documents de spécification RPG, rendant
-réelles les cinq familles `EX-*` fantômes ; le [LOT-78](@ref lot-78) a préfixé `LOT-H-NN` les 201
+**La première.** Les trois préconditions qui ne dépendaient de rien et bloquaient tout sont
+**livrées**. Le [LOT-77](@ref lot-77) a écrit les cinq documents de spécification RPG, rendant
+réelles les cinq familles `EX-*` fantômes. Le [LOT-78](@ref lot-78) a préfixé `LOT-H-NN` les 201
 renvois qui désignaient le programme hérité, et posé la règle de lint qui empêche l'ambiguïté de
-revenir. Reste le `LOT-79`, qui factorise six lecteurs JSON avant que la filière n'en ajoute quinze
-— ce n'est pas un préalable de confort : son prix double à chaque catalogue livré.
+revenir. Le [LOT-79](@ref lot-79) a factorisé les six lecteurs JSON avant que la filière n'en ajoute
+quinze, et créé la capacité de test paramétré qui manquait.
+
+**La filière peut donc démarrer** : le `LOT-30` n'attend plus rien.
 
 **L'avant-avant-dernière** : les lots qui font le bac à sable sont les seuls que je placerais
 résolument **après** le [LOT-27](@ref lot-27). Peupler dix régions revient à appliquer cent fois la
@@ -1416,7 +1386,7 @@ digraph filiere {
   subgraph cluster_pre { label="Préconditions"; style=dashed;
     L77 [label="LOT-77\nSpécification RPG\n(livré)", style="rounded,filled", fillcolor=grey90];
     L78 [label="LOT-78\nNuméros hérités\n(livré)", style="rounded,filled", fillcolor=grey90];
-    L79 [label="LOT-79\nChargement JSON"];
+    L79 [label="LOT-79\nChargement JSON\n(livré)", style="rounded,filled", fillcolor=grey90];
   }
   subgraph cluster_slice { label="Chemin critique du vertical slice"; style=dashed;
     L30 [label="LOT-30\nExtraction + lexique"];
@@ -1489,7 +1459,6 @@ eux-mêmes.
 | `LOT-74` | Expérience et progression | `LOT-13`, `LOT-16`, `LOT-20` | `LOT-83` |
 | `LOT-75` | Campement et repos dans le monde | `LOT-41`, `LOT-42`, `LOT-70` | — |
 | `LOT-76` | Habillage d'interface extrait des livres | `LOT-30`, `LOT-66` | `LOT-15`, `LOT-24`, `LOT-38` |
-| `LOT-79` | Socle de chargement de données | — | `LOT-32` |
 | `LOT-80` | Factions, panthéon et organisations | `LOT-37` | `LOT-16`, `LOT-82` |
 | `LOT-81` | Descripteurs de terrain des dix régions | `LOT-37` | `LOT-40` |
 | `LOT-82` | Peuplement civil : PNJ, marchands et quêtes | `LOT-15`, `LOT-26`, `LOT-34`, `LOT-41`, `LOT-44`, `LOT-80` | `LOT-42`, `LOT-45` |
@@ -1535,7 +1504,7 @@ Source/Elements/Assets/
 Source/Elements/Localization/rpg.glossary.csv   ← lexique (LOT-30)
 
 Source/Core/Data/
-  JsonDocument.{h,cpp}      ← brique de lecture unique, validation par schema (LOT-79)
+  JsonDocument.{h,cpp}      ← brique de lecture unique, position ligne/colonne (LOT-79)
 Source/Core/World/
   TerrainGenerator.{h,cpp}  ← generation pilotee par descripteur de region (LOT-40)
   RegionPopulator.{h,cpp}   ← peuplement systemique (LOT-41, LOT-82)
@@ -1594,11 +1563,11 @@ Documentation/Specification/
   construire existe dans la fiction ; faction Allied Forces, cadre héroïque plutôt qu'oppressif. Et
   surtout : c'est là que siège la **Guilde des Aventuriers**, donc la boucle du `LOT-45`.
 
-- **Trois préconditions sont devenues des lots**, et deux sont livrées. Écrire la moitié RPG de la
-  spécification ([LOT-77](@ref lot-77)), désambiguïser les numéros hérités
-  ([LOT-78](@ref lot-78)) et factoriser le chargement de données (`LOT-79`) étaient signalés comme
-  préalables et portés par personne. Un préalable sans porteur n'est pas un préalable, c'est une
-  dette.
+- **Trois préconditions sont devenues des lots, et les trois sont livrées.** Écrire la moitié RPG
+  de la spécification ([LOT-77](@ref lot-77)), désambiguïser les numéros hérités
+  ([LOT-78](@ref lot-78)) et factoriser le chargement de données ([LOT-79](@ref lot-79)) étaient
+  signalés comme préalables et portés par personne. Un préalable sans porteur n'est pas un
+  préalable, c'est une dette.
 - **Le découpage suit une règle unique : le code d'un côté, la donnée de l'autre.** C'est ce qui a
   scindé `LOT-37`/`LOT-80`, `LOT-40`/`LOT-81`, `LOT-41`/`LOT-82`, `LOT-45`/`LOT-83` et
   `LOT-47`/`LOT-84`. Les deux moitiés n'ont ni le même métier, ni le même critère d'acceptation, ni
@@ -1690,16 +1659,17 @@ sauvé de la purge comme « le calcul de portée de déplacement du futur combat
 
 Ce qui manque avant d'ajouter des dizaines de catalogues :
 
-- **Aucune brique de chargement JSON partagée.** Six réimplémentations identiques de `loadFromFile`
-  (`SkinCatalog`, `AnimationCatalog`, `SoundCatalog`, `PixelPalette`, `LevelLoader`,
-  `LevelSequence`), validation écrite à la main champ par champ, **aucun schéma**. Il faut
-  factoriser ce patron, sinon la filière le duplique dix fois de plus.
-- **Aucun test paramétré** dans tout `Source/Test/` — ni `TEST_P`, ni parcours de dossier de
-  fixtures. Les lots de données en ont besoin : c'est une capacité à créer, pas à réutiliser.
+- ~~**Aucune brique de chargement JSON partagée.**~~ Six réimplémentations identiques de
+  `loadFromFile` (`SkinCatalog`, `AnimationCatalog`, `SoundCatalog`, `PixelPalette`, `LevelLoader`,
+  `LevelSequence`), validation écrite à la main champ par champ. **Corrigé au
+  [LOT-79](@ref lot-79)** : les six passent par `core::JsonDocument`, et un échec nomme désormais
+  le fichier **et la ligne**.
+- ~~**Aucun test paramétré**~~ dans tout `Source/Test/` — ni `TEST_P`, ni parcours de dossier de
+  fixtures. **Créé au [LOT-79](@ref lot-79)**, avec `Source/Test/Fixtures/Json/`.
 
   Ces deux manques étaient attribués au `LOT-32` par le tableau du §10, mais **absents de son
   périmètre**, qui ne livre que des schémas, un script Python et un test d'énumérations : personne
-  ne portait le travail C++. C'est l'objet du `LOT-79`, désormais prérequis du `LOT-32`.
+  ne portait le travail C++. C'est l'audit qui l'a trouvé.
 - **`Source/Elements/Levels/` est vide.** Le jeu n'a aucune carte à charger ; `loadDeliveredLevel`
   (`test_render_budget.cpp`) est du code mort et la fixture `rejeu-test-deplacement.json` est
   orpheline depuis la purge.
@@ -1761,8 +1731,8 @@ Huit choses méritent donc d'être décidées avant, et non après.
 | **Retirer les exigences de plateforme** (`EX-GP-030/031/032`, `EX-LVL-010`→`015`, `EX-IHM-003/004/005`) — porté par le `LOT-67` | Une passe de rédaction : elles ne décrivent **rien de construit** pour le RPG | Les `LOT-09`→`17` se bâtissent dessus, puis il faut les défaire |
 | **La charte visuelle** (`LOT-66`) | Seuls les écrans hérités existent | Chaque écran RPG livré entre-temps est à refaire |
 | **Viser directement l'édition dans la scène** au `LOT-11` au lieu de la refondre au `LOT-69` | Le `LOT-11` n'est pas commencé : il suffit qu'il vise cette cible | Construire l'éditeur multi-couches, puis le remplacer |
-| **La brique de chargement JSON** (`LOT-79`) | Six lecteurs à factoriser | Vingt et plus, chacun avec sa validation manuscrite |
-| **Les tests paramétrés** (`LOT-79`) | Une capacité à créer, sur une suite encore petite | À créer quand même, mais avec des dizaines de tests déjà écrits autrement |
+| ~~**La brique de chargement JSON**~~ — fait au [LOT-79](@ref lot-79) | Six lecteurs factorisés, et un échec qui nomme le fichier et la ligne | Vingt et plus, chacun avec sa validation manuscrite |
+| ~~**Les tests paramétrés**~~ — fait au [LOT-79](@ref lot-79) | Capacité créée sur une suite encore petite | À créer quand même, mais avec des dizaines de tests déjà écrits autrement |
 | **L'horloge et le repos** (`LOT-70`) | Le `LOT-13` n'existe pas : la fiche peut naître en déclarant ses ressources et leur cadence | Rétro-adapter la fiche, puis les quinze classes |
 | **Les champs `"source"` et `"statut"` au schéma** (`LOT-32`) | Une ligne, avant le premier catalogue | Une migration de tous les catalogues livrés |
 | ~~**Désambiguïser les numéros hérités**~~ — fait au [LOT-78](@ref lot-78) | 201 renvois préfixés `LOT-H-NN` dans dix specs, plus la règle de lint qui l'empêche de revenir | Ambiguïté silencieuse, invisible au lint comme à Doxygen |

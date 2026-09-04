@@ -10,6 +10,8 @@
 #include <string_view>
 #include <vector>
 
+#include "Core/Data/JsonDocument.h"
+
 /**
  * @file HMI/Audio/SoundCatalog.h
  * @brief Association nom logique d'événement → fichier de son (`EX-REN-047`).
@@ -66,6 +68,17 @@ public:
      */
     [[nodiscard]] static SoundCatalogResult loadFromFile(const std::filesystem::path& path);
 
+private:
+    /**
+     * @brief Construit le catalogue depuis l'enveloppe déjà lue par `core::readJsonObject`.
+     *
+     * Le JSON bien formé, la racine objet et la garde de version sont vérifiés **avant** d'arriver
+     * ici : c'est la brique partagée du `LOT-79` qui s'en charge (`EX-CNT-012`), et ce catalogue
+     * n'a plus à les réimplémenter pour son compte.
+     */
+    [[nodiscard]] static SoundCatalogResult fromDocument(const core::JsonDocument& document);
+
+public:
     /**
      * @brief Résout le fichier assigné à un événement.
      * @param eventId Identifiant logique de l'événement (ex. "saut").

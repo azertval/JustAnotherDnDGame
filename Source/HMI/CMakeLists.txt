@@ -131,7 +131,8 @@ target_include_directories(HmiLib PUBLIC ${PROJECT_SOURCE_DIR}/Source)
 target_link_libraries(HmiLib
     PUBLIC Core
     PRIVATE project_warnings project_options
-    # Les *KeyBindings et les catalogues persistent en JSON ; Core ne le propage pas (lien PRIVATE).
+    # Les *KeyBindings et les catalogues persistent en JSON. Core le propage depuis le LOT-79,
+    # mais HmiLib le redemande explicitement : ses en-tetes en dependent pour leur compte.
     PUBLIC nlohmann_json::nlohmann_json)
 
 target_compile_definitions(HmiLib PUBLIC WIN32_LEAN_AND_MEAN NOMINMAX UNICODE _UNICODE)
