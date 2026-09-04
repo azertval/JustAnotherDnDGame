@@ -176,10 +176,18 @@ Les lots [LOT-13](@ref lot-13) (fiche de personnage), [LOT-14](@ref lot-14) (inv
 **JSON** », conformément à [`EX-VIS-007`](@ref EX-VIS-007). Aucun ne dit **d'où sortent ces JSON**.
 C'est exactement le trou que ce corpus comble, et c'est le périmètre de la phase F.
 
-Neuf lots, `LOT-30` à `LOT-38`. Les numéros sont, comme toujours, des identifiants stables : ils
+Dix lots, `LOT-30` à `LOT-39`. Les numéros sont, comme toujours, des identifiants stables : ils
 viennent après [LOT-29](@ref lot-29) dans la numérotation, mais plusieurs s'exécutent **avant** les
 lots qui les consomment (voir §6). Une nouvelle famille d'exigences `EX-CNT-*` les couvre, à écrire
 dans un `Documentation/Specification/contenu.md`.
+
+Trois formes de sortie, et le choix entre elles n'est pas cosmétique. **JSON** pour tout ce qui est
+structuré et imbriqué — une créature a des actions, une classe a une progression par niveau — et
+parce que le projet lit déjà du JSON (`skins.json`, `sounds.json`, `palettes.json`). **CSV** pour la
+seule donnée réellement tabulaire et plate du corpus, le lexique du `LOT-31` : 1 200 lignes de trois
+colonnes, qu'on veut pouvoir trier, comparer et corriger dans un tableur sans passer par un éditeur
+de code. **Textures** enfin, traitées au `LOT-39` — et la réponse y est moins évidente qu'il n'y
+paraît, parce qu'aucun pixel du corpus n'est utilisable.
 
 ### `LOT-30` — Chaîne d'extraction du corpus
 
@@ -329,6 +337,38 @@ L'écran se construit sur le système de design existant.
 *Acceptation* — chaque champ de la maquette est soit affiché à l'écran, soit inscrit dans une liste
 explicite de champs hors périmètre. Un champ simplement oublié n'est pas un arbitrage.
 
+### `LOT-39` — Catalogue d'assets et vocabulaire visuel
+
+*Prérequis : `LOT-33`, `LOT-34`, `LOT-37`. Alimente [LOT-11](@ref lot-11), [LOT-27](@ref lot-27).*
+
+**Aucune illustration du corpus n'est extraite.** L'art de Tanares est nommément réservé par Dragori
+Games, celui des manuels français l'est par Wizards of the Coast, et même les cartes du Sourcebook
+— faites sous Dungeondraft et Inkarnate — restent leur propriété. Sur la question des textures, le
+corpus ne fournit donc **aucun fichier**. Il fournit autre chose, et c'est ce lot qui en tire parti :
+la **liste de ce qu'il faut dessiner**.
+
+Une fois les lots `LOT-33`, `LOT-34` et `LOT-37` livrés, le jeu connaît 94 créatures, un catalogue
+d'équipement et un atlas de lieux. Chacune de ces entrées réclame une représentation, et personne
+n'a encore écrit laquelle. Le lot produit :
+
+- une **clé d'asset** portée par chaque donnée (`"asset": "beast/wolf"`), jamais un chemin de
+  fichier — un chemin dans une donnée de règle lie le catalogue à l'arborescence du disque, et tout
+  déplacement de dossier casse alors des créatures ;
+- un **manifeste d'assets** dérivé des catalogues, qui énumère les clés attendues, leur famille
+  (créature, objet, tuile, portrait de PNJ), leur taille et leur nombre de directions ;
+- la **génération de remplacement** pour toute clé sans fichier réel, sur l'`ProceduralAtlas` et les
+  `scripts/generate_test_*.py` existants.
+
+Ce dernier point est le cœur du lot. Il permet au jeu de tourner **complet** — 94 créatures
+affichables, tout l'équipement visible — avant qu'un seul pixel définitif n'existe, et il transforme
+la production graphique en remplacement progressif de marqueurs plutôt qu'en préalable bloquant. La
+distinction avec le `LOT-08` est nette : le `LOT-08` a fixé le vocabulaire des **tuiles de terrain**,
+celui-ci fixe celui des **entités**.
+
+*Acceptation* — aucune clé d'asset orpheline dans les catalogues ; toute clé sans fichier réel obtient
+un remplacement généré, et la CI **liste** les clés sans art définitif sans échouer pour autant :
+c'est un état d'avancement, pas un défaut.
+
 ---
 
 ## 6. Ordre d'exécution recommandé
@@ -347,6 +387,7 @@ catalogue fictif finit toujours par se figer en valeurs codées en dur, exacteme
 | Avant [LOT-21](@ref lot-21) / [LOT-23](@ref lot-23) | `LOT-33` | Attaques et IA ont besoin de vraies créatures |
 | Avant [LOT-25](@ref lot-25) | `LOT-35` | Les sorts sont des données avant d'être un système |
 | Après [LOT-13](@ref lot-13) | `LOT-38` | La maquette suppose la fiche existante |
+| Après `LOT-33`, `LOT-34`, `LOT-37` | `LOT-39` | On ne liste les assets qu'une fois les catalogues connus |
 
 ---
 
@@ -369,6 +410,7 @@ Source/Elements/Rpg/
 
 Source/Elements/World/      ← régions, lieux, factions, panthéon (LOT-37)
 Source/Elements/Localization/rpg.glossary.csv   ← lexique (LOT-31)
+Source/Elements/Assets/rpg.assets.json          ← manifeste des clés d'assets (LOT-39)
 ```
 
 ---
@@ -379,6 +421,10 @@ Source/Elements/Localization/rpg.glossary.csv   ← lexique (LOT-31)
   distingue « inspiré de Tanares » de « portage de Tanares ».
 - **Périmètre du socle jouable.** Les 4 classes des *Basic Rules* suffisent-elles au *vertical
   slice*, ou faut-il en concevoir dès le `LOT-36` ?
+- **Origine des textures définitives.** Le `LOT-39` garantit que le jeu tourne avec des marqueurs
+  générés, mais il ne dit pas d'où viendra l'art réel : banques sous licence libre, commande, ou
+  production maison. La réponse change la forme du manifeste (une clé peut alors porter une
+  attribution), pas le principe.
 - **Nouvelle famille d'exigences.** `EX-CNT-*` dans un `Documentation/Specification/contenu.md`
   reste à écrire ; les lots ci-dessus la référencent par anticipation, comme le
   [LOT-13](@ref lot-13) référence déjà `EX-DND-*` qui n'existe pas encore.
