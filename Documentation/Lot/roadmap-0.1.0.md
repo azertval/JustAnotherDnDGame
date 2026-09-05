@@ -4,16 +4,112 @@ Le programme complet de la version `0.1.0`, et **l'unique source de vérité** d
 lots `LOT-09` à `LOT-84`, ce que le corpus `Documentation/SourceBook/` permet d'en tirer, et l'audit
 qui a confronté le tout à l'état réel du dépôt.
 
-Les huit lots **livrés** (`LOT-01` à `LOT-08`) gardent leur dossier et leur `epic.md` : ils portent
-ce que leur réalisation a tranché, qui est de l'histoire, pas du programme. Tout le reste vit ici,
-et un dossier se crée **au démarrage** d'un lot.
+Les lots **livrés** gardent leur dossier et leur `epic.md` : ils portent ce que leur réalisation a
+tranché, qui est de l'histoire, pas du programme. Tout le reste vit ici, et un dossier se crée
+**au démarrage** d'un lot.
+
+**Par où commencer.** L'[état d'avancement](@ref roadmap-avancement) ci-dessous donne, en un
+tableau, ce qui reste à faire et dans quel ordre — c'est la réponse à « et maintenant ? ». Le reste
+de la page dit pourquoi.
 
 `Documentation/SourceBook/` rassemble le **matériel de référence** ayant servi à construire le monde
 et les règles : huit PDF, environ 1 200 pages, 280 Mo. Les sections 1 à 4 disent ce qu'ils
-contiennent et ce que l'extraction a appris ; la section 5 découpe le travail et la section 6 en
-donne l'ordre d'exécution, chemin critique et graphe compris ; la section 7 dessine l'arborescence
-cible et la section 8 récapitule ce qui est tranché ; les sections 9 et 10 rapportent l'audit et ce
-qu'il faut anticiper ; la section 11 porte les lots `LOT-09` à `LOT-29`.
+contiennent et ce que l'extraction a appris ; la section 5 découpe le travail et la section 6
+donne la **règle d'ordre** qui produit le tableau d'avancement, le chemin critique et le graphe ;
+la section 7 dessine l'arborescence cible et la section 8 récapitule ce qui est tranché ; les
+sections 9 et 10 rapportent l'audit et ce qu'il faut anticiper ; la section 11 porte les lots
+`LOT-09` à `LOT-29`.
+
+---
+
+## État d'avancement {#roadmap-avancement}
+
+**Onze lots livrés, soixante-neuf restants.** Le prochain est le `LOT-30`.
+
+Livrés : `LOT-01` à `LOT-08` (le socle : fork et purge, `HmiLib`, `LevelData`, format de carte
+version 3, modes de jeu, déplacement top-down, tri par profondeur, tuiles RPG), puis `LOT-77`,
+`LOT-78` et `LOT-79` (les trois préconditions). Chacun garde son dossier et son `epic.md`.
+
+**Quelle date pour la `0.1.0` ?** Aucune n'est annoncée ici, et ce n'est pas une prudence de
+principe : les onze lots livrés l'ont été entre le 3 et le 4 septembre 2026, soit une cadence
+observée qui, prise au pied de la lettre, placerait la version dans deux semaines. Cette
+extrapolation est fausse, et il vaut mieux l'écrire que la laisser deviner : les lots livrés sont
+des lots de **socle**, dont le périmètre tient dans quelques fichiers. Ceux qui restent portent des
+catalogues — 176 créatures, 31 tables de progression, dix régions — et un volume de données ne se
+livre pas à la vitesse d'un refactoring. La cadence sera mesurable après les cinq premiers lots de
+la filière contenu ; d'ici là, ce tableau donne le **reste à faire**, pas une date.
+
+L'ordre ci-dessous n'est pas arbitré : il est **calculé** depuis le graphe de dépendances, par la
+règle de la **section 6** — *à chaque pas, parmi les lots dont tous les prérequis sont faits,
+celui qui en débloque le plus* — et vérifié en intégration continue par `scripts/lint_lots.py`.
+Le détail de chaque lot est en section 5 (filière contenu) et en section 11 (lots absorbés) ; ce
+tableau n'en porte volontairement aucun.
+
+| # | Lot | Objet | Débloque | Statut |
+|---|---|---|---|---|
+| 1 | `LOT-30` | Chaîne d'extraction du corpus et lexique bilingue | 49 | **prochain** |
+| 2 | `LOT-32` | Schémas de données RPG | 46 | en attente |
+| 3 | `LOT-43` | Options de personnage : dons, multiclassage, compétences, langues | 34 | en attente |
+| 4 | `LOT-12` | Dés, caractéristiques, jets | 33 | prêt |
+| 5 | `LOT-33` | Bestiaire de base | 33 | en attente |
+| 6 | `LOT-36` | Espèces, historiques et classes provisoires | 33 | en attente |
+| 7 | `LOT-13` | Fiche de personnage | 30 | en attente |
+| 8 | `LOT-10` | Entités de carte et interaction | 25 | prêt |
+| 9 | `LOT-34` | Équipement, monnaie, objets magiques | 23 | en attente |
+| 10 | `LOT-66` | Charte visuelle : sortir de l'identité pixel art | 23 | prêt |
+| 11 | `LOT-37` | Atlas des régions et graphe de cartes | 20 | en attente |
+| 12 | `LOT-76` | Habillage d'interface extrait des livres | 20 | en attente |
+| 13 | `LOT-68` | Le châssis des écrans RPG | 15 | en attente |
+| 14 | `LOT-38` | Fiche de personnage : maquette et interface | 14 | en attente |
+| 15 | `LOT-14` | Inventaire et équipement | 13 | en attente |
+| 16 | `LOT-18` | Bascule exploration ↔ combat | 12 | en attente |
+| 17 | `LOT-39` | Plomberie des clés d'assets | 12 | en attente |
+| 18 | `LOT-19` | Grille tactique et déplacement | 11 | en attente |
+| 19 | `LOT-15` | PNJ et dialogues | 9 | en attente |
+| 20 | `LOT-20` | Initiative et tour par tour | 9 | en attente |
+| 21 | `LOT-11` | Éditeur multi-couches et placement d'entités | 8 | en attente |
+| 22 | `LOT-27` | Contenu du *vertical slice* | 8 | en attente |
+| 23 | `LOT-80` | Factions, panthéon et organisations | 8 | en attente |
+| 24 | `LOT-81` | Descripteurs de terrain des dix régions | 7 | en attente |
+| 25 | `LOT-16` | Quêtes et drapeaux de monde | 6 | en attente |
+| 26 | `LOT-21` | Attaques, dégâts et états | 6 | en attente |
+| 27 | `LOT-40` | Générateur de terrain | 6 | en attente |
+| 28 | `LOT-44` | Noms, tables aléatoires et contenu d'ambiance | 6 | en attente |
+| 29 | `LOT-46` | Créatures de Tanares | 6 | en attente |
+| 30 | `LOT-26` | Butin, marchands, économie | 5 | en attente |
+| 31 | `LOT-41` | Peuplement : rencontres et créatures | 5 | en attente |
+| 32 | `LOT-70` | Horloge de partie et cycle jour/nuit | 4 | en attente |
+| 33 | `LOT-82` | Peuplement civil : PNJ, marchands et quêtes | 4 | en attente |
+| 34 | `LOT-09` | Graphe de cartes et transitions | 3 | en attente |
+| 35 | `LOT-22` | Portée, ligne de vue et zones d'effet | 3 | en attente |
+| 36 | `LOT-84` | Les 31 tables de progression de classe | 3 | en attente |
+| 37 | `LOT-17` | Sauvegarde riche | 2 | en attente |
+| 38 | `LOT-35` | Sorts et états | 2 | en attente |
+| 39 | `LOT-47` | Socle de classe, et le guerrier comme preuve | 2 | en attente |
+| 40 | `LOT-23` | IA tactique ennemie | 1 | en attente |
+| 41 | `LOT-42` | Voyage et carte du monde | 1 | en attente |
+| 42 | `LOT-45` | Guilde des Aventuriers : rangs et contrats | 1 | en attente |
+| 43 | `LOT-50` | Le Colisée : bac à sable de combat | 1 | en attente |
+| 44 | `LOT-74` | Expérience et progression | 1 | en attente |
+| 45 | `LOT-24` | IHM de combat | 0 | en attente |
+| 46 | `LOT-25` | Sorts et capacités de classe | 0 | en attente |
+| 47 | `LOT-28` | Audio, effets et version `0.2.0` | 0 | en attente |
+| 48 | `LOT-29` | Groupe de quatre personnages | 0 | en attente |
+| 49 | `LOT-49` | Contrôle de cohérence du contenu | 0 | en attente |
+| 50 | `LOT-51` → `LOT-65` | une classe par lot | 0 | en attente |
+| 51 | `LOT-67` | Menus et vocabulaire d'un RPG | 0 | en attente |
+| 52 | `LOT-69` | Retrait de l'atelier pixel art | 0 | en attente |
+| 53 | `LOT-72` | Conditions, agonie et mort | 0 | en attente |
+| 54 | `LOT-75` | Campement et repos dans le monde | 0 | en attente |
+| 55 | `LOT-83` | Boucle de progression de la Guilde | 0 | en attente |
+
+**Débloque** — combien de lots restants dépendent de celui-ci, directement ou en cascade. C'est le
+critère de priorité, et il se relit sur la ligne.
+
+- **prochain** — le lot à démarrer.
+- **prêt** — tous ses prérequis sont livrés ; il pourrait démarrer aujourd'hui, la règle lui
+  préfère seulement un lot qui débloque davantage.
+- **en attente** — il attend au moins un lot non livré.
 
 ---
 
@@ -485,21 +581,21 @@ statistiques régionales sont typées, pas laissées en texte libre.
 
 ### `LOT-38` — Fiche de personnage : maquette et interface {#lot-38}
 
-*Prérequis : [LOT-13](@ref lot-13), `LOT-68`, `LOT-39`, `LOT-76`. Alimente
-[LOT-24](@ref lot-24).*
+*Prérequis : [LOT-13](@ref lot-13), `LOT-68`, `LOT-76`. Alimente [LOT-24](@ref lot-24),
+`LOT-39`.*
 
 `Character_Sheets_Tanares.pdf` fournit ses 5 planches en image à environ 300 ppp (2 668 × 3 418) :
 une maquette précise de l'écran de fiche — quels champs, groupés en quels blocs (identité,
 caractéristiques, compétences, combat, équipement, sorts), dans quel ordre de lecture. L'écran se
-construit sur le système de design existant, avec les panneaux de parchemin extraits au `LOT-39`.
+construit sur le système de design existant, avec les panneaux de parchemin extraits au `LOT-76`.
 
 *Acceptation* — chaque champ de la maquette est soit affiché à l'écran, soit inscrit dans une liste
 explicite de champs hors périmètre. Un champ simplement oublié n'est pas un arbitrage.
 
 ### `LOT-39` — Plomberie des clés d'assets {#lot-39}
 
-*Prérequis : `LOT-33`, `LOT-34`, `LOT-37`. Alimente [LOT-11](@ref lot-11),
-[LOT-27](@ref lot-27), `LOT-38`.*
+*Prérequis : `LOT-33`, `LOT-34`, `LOT-37`, `LOT-38`. Alimente [LOT-11](@ref lot-11),
+[LOT-27](@ref lot-27).*
 
 *Exigences couvertes : `EX-CNT-040`, `EX-CNT-041`.*
 
@@ -518,6 +614,15 @@ un remplacement progressif de marqueurs, jamais un préalable bloquant.
 
 La distinction avec le [LOT-08](@ref lot-08) est nette : le `LOT-08` a fixé le vocabulaire des
 **tuiles de terrain**, celui-ci fixe celui des **entités**.
+
+> **Le lien avec le `LOT-38` était déclaré à l'envers.** Ce lot se disait prérequis de la maquette
+> de fiche, au motif qu'elle emploierait ses panneaux de parchemin — mais ces panneaux sont partis
+> au `LOT-76` lors du même audit qui a scindé ce lot, et la ligne n'a pas suivi. L'ordre réel est
+> **`LOT-38` puis `LOT-39`** : on dessine la maquette, *puis* on nomme les clés de ce qu'elle
+> affiche. Nommer d'abord reviendrait à inventer les clés d'un écran qui n'existe pas, et à les
+> renommer une fois l'écran dessiné. La section 6 l'écrivait déjà — « la maquette suppose la
+> fiche ; la plomberie d'assets suit » — mais la ligne « Prérequis » disait le contraire, et c'est
+> elle que le graphe lit.
 
 *Acceptation* — aucune clé d'asset orpheline dans les catalogues ; toute clé sans image obtient un
 marqueur généré, et la CI **liste** les clés sans art définitif sans échouer : c'est un état
@@ -1290,18 +1395,79 @@ non acceptée.
 
 
 ---
+## 6. Ordre d'exécution
 
-## 6. Ordre d'exécution recommandé
+**Les numéros ne sont pas un ordre.** Ils datent de l'écriture de cette page, où la filière
+contenu a été numérotée après les lots de moteur. Les suivre tels quels construirait le graphe de
+cartes du [LOT-09](@ref lot-09) avant l'atlas du `LOT-37` qui lui donne de vrais nœuds à relier,
+et la fiche de personnage du [LOT-13](@ref lot-13) avant les espèces qu'elle affiche. Mais les
+ignorer ne vaut pas mieux : l'ordre retombe alors sur un arbitrage, et un arbitrage se refait à
+chaque lot — sans jamais donner deux fois la même réponse.
 
-Les numéros suivent [LOT-29](@ref lot-29), l'exécution non. Les lots de données doivent précéder les
-lots qui les consomment, sans quoi ces derniers se construisent sur des catalogues fictifs — et un
-catalogue fictif finit toujours par se figer en valeurs codées en dur, exactement ce que
-[`EX-VIS-007`](@ref EX-VIS-007) interdit.
+Cette section donne donc **une suite unique**, et la règle qui la produit.
 
-Ces cinquante et un lots ne forment **pas une phase** qui suivrait le [LOT-29](@ref lot-29) : ils s'entrelacent
-avec les phases B à E, parce que chacun sert un lot existant qui, sans lui, se construirait sur un
-catalogue fictif — et un catalogue fictif finit toujours par se figer en valeurs codées en dur,
-exactement ce que [`EX-VIS-007`](@ref EX-VIS-007) interdit. D'où « filière » plutôt que « phase ».
+### La règle
+
+> **À chaque pas, on prend, parmi les lots dont tous les prérequis sont faits, celui qui en
+> débloque le plus.** À égalité, le plus petit numéro.
+
+« Débloque » se compte : c'est le nombre de lots restants qui dépendent de celui-ci, directement
+ou en cascade. Le `LOT-30` en débloque **quarante-neuf** sur soixante-neuf, le `LOT-10` vingt-cinq,
+le `LOT-49` aucun. « Outillage et contrats ; le plus tôt est le mieux » cesse ainsi d'être un avis
+éditorial : c'est ce que le graphe dit, et le chiffre est dans le tableau.
+
+Le critère a d'abord été le **plus petit numéro**. Il donnait une suite déterministe, mais bête :
+elle plaçait le `LOT-10` et le `LOT-12` devant le `LOT-30`, c'est-à-dire deux lots de moteur devant
+la chaîne qui leur fournira leurs catalogues. Le numéro ne dit rien de l'utilité d'un lot ; il ne
+sert plus qu'à départager, et il faut un départage — sans lui, deux lots de même portée sortiraient
+dans un ordre qui changerait d'une exécution à l'autre.
+
+Quatre propriétés en découlent, et ce sont elles qui justifient de préférer une règle à un choix :
+
+- elle est **déterministe** — deux lecteurs retrouvent la même suite, et personne n'a à trancher ;
+- elle est **calculée, jamais tenue à jour à la main**. `scripts/lint_lots.py` la recalcule depuis
+  les lignes « Prérequis » des sections 5 et 11, et refuse le tableau d'avancement s'il en diverge
+  (règle 13). Un tableau d'ordre écrit à la main est faux dès le premier lot livré, et il l'est en
+  silence ;
+- elle **n'invente aucune dépendance** : ce qu'aucune ligne ne déclare ne contraint rien. Un ordre
+  qui semble mauvais se corrige donc en corrigeant un prérequis, pas en réécrivant un tableau ;
+- elle **ne promet pas d'être optimale**. Elle ne raccourcit pas le programme et ne minimise aucune
+  durée — rien ici ne mesure la durée d'un lot. Elle maximise, à chaque pas, le nombre de lots qui
+  deviennent démarrables : elle repousse le plus tard possible le moment où il ne reste qu'un seul
+  chemin.
+
+Un lien se déclare **des deux côtés** : soit un lot cite ce qu'il attend, soit un lot amont
+déclare ce qu'il alimente. Les deux comptent. C'est ce qui place le [LOT-27](@ref lot-27) au rang
+20, et non parmi les tout premiers : il ne déclare **aucun** prérequis — son texte est repris tel
+quel de son epic d'origine, qui ignorait la filière — alors que cinq lots de contenu déclarent
+l'alimenter. Le *vertical slice* se jouerait sinon sur des catalogues vides.
+
+### Où lire la suite
+
+La suite calculée par cette règle est le **tableau d'avancement en tête de page**
+([État d'avancement](@ref roadmap-avancement)) : c'est la première chose qu'on lit en ouvrant ce
+document, et c'est là qu'elle sert. Elle n'est pas recopiée ici — deux tableaux décrivant le
+même ordre divergeraient, et cette page a déjà payé ce prix une fois.
+
+Ce qui reste dans cette section explique **pourquoi** la suite est celle-là : le regroupement
+d'intention dont elle est issue, ce que le calcul a révélé, le chemin critique qu'il faut tenir
+court, et le graphe dont tout est tiré.
+
+### Le regroupement d'intention
+
+Le tableau ci-dessous **ne donne pas l'ordre** — celui d'en-tête le donne. Il donne la *raison* de
+chaque placement, et c'est la seule chose qu'un calcul ne saura jamais produire : un graphe dit
+qu'un lot en attend un autre, il ne dit pas pourquoi on a voulu ce lien. Les deux tableaux ne se
+contredisent donc pas, ils ne répondent pas à la même question — et chacun a son garde-fou : le
+lint vérifie qu'aucun lot de la filière ne manque à celui-ci (règle 6), comme il vérifie que celui
+d'en-tête est bien la suite calculée (règle 13).
+
+Ces cinquante et un lots ne forment **pas une phase** qui suivrait le [LOT-29](@ref lot-29) : ils
+s'entrelacent avec les phases B à E, parce que chacun sert un lot existant qui, sans lui, se
+construirait sur un catalogue fictif — et un catalogue fictif finit toujours par se figer en
+valeurs codées en dur, exactement ce que [`EX-VIS-007`](@ref EX-VIS-007) interdit. D'où
+« filière » plutôt que « phase ».
+
 
 | Quand | Lots | Pourquoi là |
 |---|---|---|
@@ -1320,28 +1486,34 @@ exactement ce que [`EX-VIS-007`](@ref EX-VIS-007) interdit. D'où « filière »
 | Avec [LOT-20](@ref lot-20) | `LOT-74` | L'expérience se gagne à la fin d'un combat |
 | Avant `LOT-47` | `LOT-84` | Les 31 tables sont de la donnée : elles précèdent le socle qui les lit |
 | Après [LOT-21](@ref lot-21) | `LOT-47`, puis `LOT-50` | Le socle de classe, puis le lieu où éprouver ce qu'on lui ajoute |
-| **Après [LOT-27](@ref lot-27)** | `LOT-44`, `LOT-46`, `LOT-41`, `LOT-82`, `LOT-45`, `LOT-83`, `LOT-42` | Le bac à sable généralise une boucle ; il faut l'avoir validée une fois |
-| Avec `LOT-42` | `LOT-75` | Le campement suppose le voyage et le peuplement |
-| Un par un, après `LOT-50` | `LOT-51` → `LOT-65` | Une classe, une mécanique, un test dans l'arène ; le dernier retire l'échafaudage |
 
-Quatre lignes méritent qu'on s'y arrête.
+### Ce que l'ordre a révélé
 
-**La première.** Les trois préconditions qui ne dépendaient de rien et bloquaient tout sont
-**livrées**. Le [LOT-77](@ref lot-77) a écrit les cinq documents de spécification RPG, rendant
-réelles les cinq familles `EX-*` fantômes. Le [LOT-78](@ref lot-78) a préfixé `LOT-H-NN` les 201
-renvois qui désignaient le programme hérité, et posé la règle de lint qui empêche l'ambiguïté de
-revenir. Le [LOT-79](@ref lot-79) a factorisé les six lecteurs JSON avant que la filière n'en ajoute
-quinze, et créé la capacité de test paramétré qui manquait.
+Quatre points méritent qu'on s'y arrête.
 
-**La filière peut donc démarrer** : le `LOT-30` n'attend plus rien.
+**Le `LOT-09` n'est pas le prochain lot, alors qu'il en porte le plus petit numéro.** À ne lire que
+sa ligne « Prérequis », il n'attend que des lots livrés. Mais le `LOT-37` déclare l'alimenter : le
+graphe de cartes attend l'atlas des régions, faute de quoi il relierait des nœuds inventés. Il
+tombe au rang 33. La version précédente de cette page portait l'information — « Avec `LOT-09` :
+`LOT-37` » — mais « avec » n'est pas un ordre, et rien n'obligeait à la lire comme tel. C'est le
+`LOT-30` qui sort premier, et pour une raison chiffrée : il débloque quarante-neuf des
+soixante-neuf lots restants.
 
-**L'avant-avant-dernière** : les lots qui font le bac à sable sont les seuls que je placerais
-résolument **après** le [LOT-27](@ref lot-27). Peupler dix régions revient à appliquer cent fois la
-même recette ; si la recette est mauvaise — rencontres mal dosées, marchands inutiles, quêtes vides
-— on la découvre cent fois. Le `LOT-27` coûte un village et un donjon, et c'est le prix pour ne pas
-payer cette erreur au centuple. Leur ordre interne compte aussi : `LOT-44` (les noms) avant
-`LOT-41` (le peuplement), sinon on peuple avec des « Villageois 1 » ; `LOT-45` (la Guilde) après le
-`LOT-82`, parce qu'elle a besoin de quêtes à afficher.
+**Les trois préconditions sont livrées, et la filière contenu remonte en tête.** Le
+[LOT-77](@ref lot-77) a écrit les cinq documents de spécification RPG, rendant réelles les cinq
+familles `EX-*` fantômes. Le [LOT-78](@ref lot-78) a préfixé `LOT-H-NN` les 201 renvois qui
+désignaient le programme hérité, et posé la règle de lint qui empêche l'ambiguïté de revenir. Le
+[LOT-79](@ref lot-79) a factorisé les six lecteurs JSON avant que la filière n'en ajoute quinze.
+Le `LOT-30` n'attend donc plus rien, et sort **premier** — devant tous les lots de moteur que
+ses catalogues alimentent.
+
+**Les lots du bac à sable restent résolument après le [LOT-27](@ref lot-27).** Peupler dix régions
+revient à appliquer cent fois la même recette ; si la recette est mauvaise — rencontres mal dosées,
+marchands inutiles, quêtes vides — on la découvre cent fois. Le `LOT-27` coûte un village et un
+donjon, et c'est le prix pour ne pas payer cette erreur au centuple. Leur ordre interne compte
+aussi, et la règle le produit sans qu'on ait à l'imposer : `LOT-44` (les noms) avant `LOT-41` (le
+peuplement), sinon on peuple avec des « Villageois 1 » ; `LOT-45` (la Guilde) après le `LOT-82`,
+parce qu'elle a besoin de quêtes à afficher.
 
 **Le volume d'images n'est plus un lot.** 6 000 images ne se traitent pas d'un bloc, et rien n'y
 oblige — le `LOT-39` affiche un marqueur pour tout ce qui n'a pas encore d'image, et chaque
@@ -1361,13 +1533,27 @@ socle de classe, cela plaçait `LOT-84 → LOT-47 → LOT-50 → LOT-69` — les
 le mode édition — **devant** le slice. Vingt-six des lots de la filière se retrouvaient ainsi en
 amont d'un jalon censé arriver tôt. La correction est au `LOT-69`, réduit à une suppression.
 
-Le chemin critique restant est celui des **catalogues, pas des systèmes** :
+Le chemin critique restant compte **huit lots**, et c'est la plus longue chaîne de prérequis qui
+mène au slice :
 
-`LOT-77` → `LOT-79` → `LOT-30` → `LOT-32` → { `LOT-33`, `LOT-34`, `LOT-43` → `LOT-36`,
-`LOT-37` } → [LOT-27](@ref lot-27)
+`LOT-30` → `LOT-32` → `LOT-43` → `LOT-36` → [LOT-13](@ref lot-13) → `LOT-38` → `LOT-39` →
+[LOT-27](@ref lot-27)
 
 Tout le reste — classes, Colisée, peuplement, voyage, guilde — vient **après**. La règle à tenir
 tient en une phrase : *un lot n'entre dans ce chemin que si le slice ne peut pas se jouer sans lui.*
+
+**Ce chemin s'est allongé de trois lots** quand le lien `LOT-38` / `LOT-39` a été remis à l'endroit.
+Il passait auparavant par les seuls catalogues — cinq lots, `LOT-30` → `LOT-32` → `LOT-43` →
+`LOT-36` → `LOT-27` — parce que le `LOT-39` était déclaré *avant* le `LOT-38`. Dans le bon sens, le
+slice attend les clés d'assets, qui attendent la maquette de fiche, qui attend la fiche : la
+[fiche de personnage](@ref lot-13) et sa maquette sont **sur le chemin critique**, ce qu'aucune
+version de cette page n'avait dit.
+
+C'est la conséquence à surveiller, et la seule question qui vaille est : *le slice a-t-il vraiment
+besoin du `LOT-39` ?* Oui — c'est le `LOT-39` qui produit le **marqueur généré** pour toute clé
+sans image, donc ce qui permet au jeu de tourner complet avant qu'une seule illustration ne soit
+découpée. Sans lui, le slice n'aurait rien à afficher pour ses créatures. Le chemin est long parce
+qu'il est réel, pas parce qu'il a dérivé.
 
 ### Le graphe des dépendances
 
@@ -1437,8 +1623,8 @@ eux-mêmes.
 | `LOT-35` | Sorts et états | `LOT-32` | `LOT-25`, `LOT-72` |
 | `LOT-36` | Espèces, historiques et classes provisoires | `LOT-32`, `LOT-43` | `LOT-13`, `LOT-27`, `LOT-44`, `LOT-47` |
 | `LOT-37` | Atlas des régions et graphe de cartes | `LOT-32` | `LOT-09`, `LOT-27`, `LOT-39`, `LOT-44`, `LOT-80`, `LOT-81` |
-| `LOT-38` | Fiche de personnage : maquette et interface | `LOT-13`, `LOT-39`, `LOT-68`, `LOT-76` | `LOT-24` |
-| `LOT-39` | Plomberie des clés d'assets | `LOT-33`, `LOT-34`, `LOT-37` | `LOT-11`, `LOT-27`, `LOT-38` |
+| `LOT-38` | Fiche de personnage : maquette et interface | `LOT-13`, `LOT-68`, `LOT-76` | `LOT-24`, `LOT-39` |
+| `LOT-39` | Plomberie des clés d'assets | `LOT-33`, `LOT-34`, `LOT-37`, `LOT-38` | `LOT-11`, `LOT-27` |
 | `LOT-40` | Générateur de terrain | `LOT-11`, `LOT-81` | `LOT-41` |
 | `LOT-41` | Peuplement : rencontres et créatures | `LOT-27`, `LOT-33`, `LOT-40`, `LOT-44`, `LOT-46` | `LOT-75`, `LOT-82` |
 | `LOT-42` | Voyage et carte du monde | `LOT-09`, `LOT-17`, `LOT-68`, `LOT-70`, `LOT-82` | `LOT-75` |

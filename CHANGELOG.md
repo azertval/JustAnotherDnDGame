@@ -6,6 +6,58 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **La feuille de route dit enfin par quoi commencer.** Elle portait un « ordre d'exécution
+  recommandé » en cinq lignes de *quand* flous — « démarrables maintenant », « avec `LOT-09` »,
+  « avant `LOT-13` » — dont aucune ne désignait un premier lot. La question « et maintenant ? » se
+  répondait donc par une relecture de 2 500 lignes, et deux relectures ne donnaient pas forcément
+  la même réponse.
+  - **Une règle, à la place d'un avis** : *à chaque pas, parmi les lots dont tous les prérequis
+    sont faits, celui qui en débloque le plus* — à égalité, le plus petit numéro. « Débloque » se
+    compte : le `LOT-30` débloque quarante-neuf des soixante-neuf lots restants, le `LOT-49` aucun.
+    « Outillage et contrats ; le plus tôt est le mieux » cesse ainsi d'être un avis éditorial pour
+    devenir ce que le graphe dit, chiffre à l'appui. Un premier essai avait pris le **plus petit
+    numéro** comme critère : déterministe, mais bête — il plaçait deux lots de moteur devant la
+    chaîne qui doit leur fournir leurs catalogues.
+  - **Un tableau d'avancement en tête de page**, calculé et non écrit : les soixante-neuf lots
+    restants dans l'ordre, avec ce que chacun débloque et son statut — `prochain`, `prêt` (tous
+    ses prérequis livrés), `en attente`. `scripts/lint_lots.py` gagne une **règle 13** qui le
+    recalcule et le refuse s'il diverge d'une ligne. Le tableau ne figure qu'à un endroit : le
+    recopier en section 6 aurait recréé les deux documents divergents que cette page combat.
+  - **Le regroupement d'intention est conservé** en section 6, sous son propre titre. Il ne donne
+    pas l'ordre — le tableau d'en-tête le donne — mais la *raison* de chaque placement, et c'est
+    la seule chose qu'un calcul ne produira jamais : un graphe dit qu'un lot en attend un autre,
+    il ne dit pas pourquoi on a voulu ce lien.
+  - **Le lint ne voyait pas la moitié du graphe.** Les vingt et un lots absorbés (`LOT-09` à
+    `LOT-29`) écrivent leurs prérequis dans un bloc de citation, `> Prérequis : …`, quand les lots
+    de la filière les écrivent en italique ; le lint ne lisait que la seconde forme. Ni le contrôle
+    d'acyclicité ni celui des prérequis existants ne les avait donc jamais examinés.
+  - **Ce que le calcul a révélé** : le `LOT-09`, plus petit numéro restant, n'attend que des lots
+    livrés à la lecture de sa seule ligne « Prérequis » — mais le `LOT-37` déclare l'alimenter, le
+    graphe de cartes attendant l'atlas des régions sans quoi il relierait des nœuds inventés. Il
+    tombe au rang 33. Un prérequis compte quel que soit le côté où il est déclaré, et c'est aussi
+    ce qui repousse le `LOT-27` au rang 20 : il ne déclare rien, cinq lots de contenu déclarent
+    l'alimenter.
+  - **Le lien `LOT-38` / `LOT-39` était déclaré à l'envers**, et le calcul l'a rendu visible : la
+    plomberie des clés d'assets se disait prérequis de la maquette de fiche, au motif qu'elle lui
+    fournirait ses panneaux de parchemin — mais ces panneaux étaient partis au `LOT-76` lors du
+    même audit, et la ligne « Prérequis » n'avait pas suivi. L'ordre réel est `LOT-38` puis
+    `LOT-39` : on dessine la maquette, *puis* on nomme les clés de ce qu'elle affiche. La section 6
+    l'écrivait déjà en toutes lettres ; c'est la ligne « Prérequis », celle que le graphe lit, qui
+    disait le contraire.
+  - **Conséquence, et elle n'est pas anodine** : le chemin critique jusqu'au *vertical slice* passe
+    de cinq à **huit lots**, et la fiche de personnage y entre — `LOT-30` → `LOT-32` → `LOT-43` →
+    `LOT-36` → `LOT-13` → `LOT-38` → `LOT-39` → `LOT-27`. Aucune version de cette page ne disait
+    que la fiche et sa maquette étaient sur le chemin critique. Le chemin est long parce qu'il est
+    réel : le `LOT-39` produit le marqueur généré sans lequel le slice n'a rien à afficher.
+  - **`lint_lots.py --regenerer`** réécrit les deux tableaux calculés. Les règles 10 et 13 savaient
+    refuser un tableau qui a dérivé ; sans cette option, corriger une ligne « Prérequis » obligeait
+    à recopier jusqu'à cinquante lignes à la main — le geste même qui réintroduit l'erreur qu'on
+    vient de corriger.
+  - **Pas de date pour la `0.1.0`, et la raison est écrite.** La cadence observée — onze lots en
+    deux jours — placerait la version dans deux semaines si on l'extrapolait ; les lots livrés sont
+    des lots de socle, ceux qui restent portent des catalogues de plusieurs centaines d'entrées.
+    L'extrapolation est fausse, et la page le dit plutôt que de laisser le lecteur la faire.
+
 - **Une seule routine de lecture JSON, et des tests paramétrés** (`LOT-79`). Le dépôt comptait
   **six** réimplémentations de `loadFromFile` — `SkinCatalog`, `AnimationCatalog`, `SoundCatalog`,
   `PixelPalette`, `LevelLoader`, `LevelSequenceLoader` — répétant la même séquence (`accept()` puis

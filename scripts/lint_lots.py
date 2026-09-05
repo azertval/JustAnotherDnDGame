@@ -16,7 +16,7 @@ Ce lint les refuse en CI. Il vérifie :
 3. le graphe de prérequis est **acyclique** ;
 4. tout prérequis désigne un lot **existant** ;
 5. les liens sont **symétriques** : si A déclare « Alimente B », alors B déclare A en prérequis ;
-6. chaque lot de la filière apparaît dans le **tableau d'ordre** de la section 6 ;
+6. chaque lot de la filière apparaît dans le **regroupement d'intention** de la section 6 ;
 7. les **numéros manquants** de la plage sont soit retirés par fusion et recensés comme tels, soit
    livrés et pourvus de leur dossier ; un numéro retiré n'est plus cité comme prérequis ;
 8. les **comptes annoncés en toutes lettres** correspondent au décompte réel ;
@@ -24,7 +24,10 @@ Ce lint les refuse en CI. Il vérifie :
 10. le **tableau récapitulatif** de la section 6 correspond au graphe déclaré ;
 11. toute arête du **diagramme** de la section 6 correspond à un lien déclaré ;
 12. tout ``LOT-NN`` cité dans une **spécification** désigne un lot **de ce programme** ; un renvoi
-    au programme hérité de ``ProjectGaming`` s'écrit ``LOT-H-NN``.
+    au programme hérité de ``ProjectGaming`` s'écrit ``LOT-H-NN`` ;
+13. le **tableau d'avancement** en tête de feuille de route est exactement la suite que produit la
+    règle d'ordre — *à chaque pas, parmi les lots dont tous les prérequis sont faits, celui qui en
+    débloque le plus*.
 
 Les lots livrés (``LOT-01`` à ``LOT-07``) et absorbés (``LOT-08`` à ``LOT-29``) sont exclus des
 contrôles 1, 2 et 5 : leur texte est repris tel quel de leurs epics d'origine, et les sections 5, 9
@@ -135,8 +138,19 @@ def lire_sections(texte: str) -> dict:
 
 
 def bloc_prerequis(corps: str):
-    """Le paragraphe « Prérequis », qui peut courir sur plusieurs lignes."""
+    """Le paragraphe « Prérequis », qui peut courir sur plusieurs lignes.
+
+    Deux écritures coexistent, et le lint doit lire les deux. Les lots de la filière (§5)
+    l'écrivent en italique, ``*Prérequis : …*`` ; les lots absorbés (§11) l'écrivent dans leur
+    bloc de citation, ``> Prérequis : …``, parce que leur texte est repris tel quel de leurs
+    epics d'origine. Ne lire que la première forme laissait **les vingt et un lots absorbés sans
+    aucun prérequis connu du lint** : ni le contrôle d'acyclicité ni celui des prérequis
+    existants ne les voyait, et l'ordre d'exécution s'en serait trouvé faux.
+    """
     m = re.search(r'^\*Prérequis[^\n]*(?:\n(?!\n)[^\n]*)*', corps, re.M)
+    if m:
+        return m.group(0)
+    m = re.search(r'^> Prérequis[^\n]*(?:\n> [^\n]*)*', corps, re.M)
     return m.group(0) if m else None
 
 
@@ -171,6 +185,143 @@ def graphe(texte: str):
     for lot, cibles in aval_declare.items():
         aval.setdefault(lot, set()).update(cibles)
     return amont, aval_declare, aval, sections
+
+
+def porteur_de(sections: dict, lot: str) -> str:
+    """Le lot qui porte la section de ``lot`` — lui-même, ou la plage qui le couvre."""
+    return sections.get(lot, {}).get('couvert_par', lot)
+
+
+def prerequis_effectifs(amont: dict, aval_declare: dict, sections: dict) -> dict:
+    """Ce que chaque lot attend réellement, les deux sens de déclaration réunis.
+
+    Un lien de dépendance s'écrit **d'un côté ou de l'autre** dans cette page : soit le lot aval
+    le déclare en prérequis, soit le lot amont déclare l'alimenter. Le contrôle de symétrie
+    (règle 5) impose déjà que les deux se correspondent **entre lots de la filière** ; il ne peut
+    rien imposer aux lots absorbés, dont le texte est repris tel quel et ne connaît pas la
+    filière. Le `LOT-27` en est le cas d'espèce : il ne déclare aucun prérequis, alors que cinq
+    lots de contenu déclarent l'alimenter. Ne lire que l'amont le placerait avant eux, et le
+    *vertical slice* se jouerait sur des catalogues vides.
+    """
+    effectifs = {lot: set(porteur_de(sections, d) for d in deps) for lot, deps in amont.items()}
+    for source, cibles in aval_declare.items():
+        for cible in cibles:
+            porteur = porteur_de(sections, cible)
+            if porteur in effectifs:
+                effectifs[porteur].add(porteur_de(sections, source))
+    for lot in effectifs:
+        effectifs[lot].discard(lot)
+    return effectifs
+
+
+def descendants(lot: str, enfants: dict, restants: set) -> set:
+    """Les lots restants qu'un lot débloque, directement ou en cascade."""
+    vus: set = set()
+    pile = [lot]
+    while pile:
+        for enfant in enfants.get(pile.pop(), ()):
+            if enfant in restants and enfant not in vus:
+                vus.add(enfant)
+                pile.append(enfant)
+    return vus
+
+
+def ordre_execution(texte: str):
+    """La suite d'exécution des lots restants, ce que chacun attend et ce qu'il débloque.
+
+    **La règle, en une phrase :** à chaque pas, on prend, parmi les lots dont tous les prérequis
+    sont faits, **celui qui en débloque le plus** — à égalité, le plus petit numéro.
+
+    Le critère n'est pas le numéro. Il l'a été un temps, et il donnait une suite déterministe mais
+    bête : elle plaçait le `LOT-10` et le `LOT-12` devant le `LOT-30`, alors que ce dernier
+    débloque à lui seul quarante-neuf des lots restants et que les deux premiers n'en débloquent
+    que vingt-cinq chacun. « Outillage et contrats ; le plus tôt est le mieux » cesse ainsi d'être
+    un avis éditorial pour devenir ce que le graphe dit — le `LOT-30` sort premier parce qu'il
+    débloque le plus, pas parce qu'on l'a décidé.
+
+    Ce que la règle **ne fait pas** : elle ne raccourcit pas le programme, et ne prétend pas
+    minimiser une durée que rien ne mesure. Elle maximise, à chaque pas, le nombre de lots qui
+    deviennent démarrables — c'est-à-dire qu'elle repousse le plus tard possible le moment où il
+    ne reste qu'un seul chemin.
+
+    Le numéro ne sert qu'à départager, et il faut un départage : sans lui, deux lots de même
+    portée sortiraient dans l'ordre du dictionnaire Python, et la suite changerait d'une exécution
+    à l'autre.
+
+    Renvoie ``(suite, effectifs, portees, sections)``.
+    """
+    amont, aval_declare, _, sections = graphe(texte)
+    effectifs = prerequis_effectifs(amont, aval_declare, sections)
+
+    couverts_par: dict = {}
+    for lot, s in sections.items():
+        porteur = s.get('couvert_par')
+        if porteur:
+            couverts_par.setdefault(porteur, []).append(lot)
+
+    enfants: dict = {lot: set() for lot in effectifs}
+    for lot, deps in effectifs.items():
+        for dep in deps:
+            if dep in enfants:
+                enfants[dep].add(lot)
+
+    faits = set(lots_livres())
+    restants = set(effectifs)
+    suite: list = []
+    portees: dict = {}
+    while restants:
+        prets = [lot for lot in restants if effectifs[lot] <= faits]
+        if not prets:
+            # Un blocage ici est un cycle, que la règle 3 signale déjà, ou un prérequis vers un
+            # lot inexistant, que signale la règle 4. On rend la suite partielle : le lint
+            # rapporte la cause exacte, pas ce symptôme.
+            break
+        portee = {lot: len(descendants(lot, enfants, restants)) for lot in prets}
+        lot = max(prets, key=lambda x: (portee[x], -int(x[4:])))
+        suite.append(lot)
+        portees[lot] = portee[lot]
+        faits.add(lot)
+        faits.update(couverts_par.get(lot, []))
+        restants.discard(lot)
+    return suite, effectifs, portees, sections
+
+
+def tableau_ordre(texte: str) -> str:
+    """Le tableau d'avancement en tête de page, dérivé du graphe comme le récapitulatif.
+
+    Une ligne par lot restant, dans l'ordre d'exécution, avec son statut :
+
+    - ``prochain`` — le premier de la suite, celui à démarrer ;
+    - ``prêt`` — tous ses prérequis sont **livrés**, il pourrait démarrer aujourd'hui ; la règle
+      lui préfère seulement un lot qui débloque davantage ;
+    - ``en attente`` — il attend au moins un lot non livré.
+
+    Le statut est la seule colonne qui bouge sans que la page change : livrer un lot en fait
+    passer d'autres de « en attente » à « prêt ». C'est la raison pour laquelle ce tableau est
+    calculé et non écrit.
+    """
+    suite, effectifs, portees, sections = ordre_execution(texte)
+    livres = lots_livres()
+
+    def titre(lot: str) -> str:
+        m = TITRE_RE.search(sections[lot]['titre'])
+        return m.group(1) if m else ''
+
+    def nom(lot: str) -> str:
+        couverts = [l for l, s in sections.items() if s.get('couvert_par') == lot]
+        if not couverts:
+            return '`%s`' % lot
+        return '`%s` → `%s`' % (lot, max(couverts, key=lambda x: int(x[4:])))
+
+    def statut(rang: int, lot: str) -> str:
+        if rang == 1:
+            return '**prochain**'
+        return 'prêt' if effectifs[lot] <= livres else 'en attente'
+
+    return '\n'.join(
+        '| %d | %s | %s | %d | %s |'
+        % (rang, nom(lot), titre(lot), portees[lot], statut(rang, lot))
+        for rang, lot in enumerate(suite, 1))
 
 
 def tableau_recapitulatif(texte: str) -> str:
@@ -257,9 +408,9 @@ def main() -> int:
                 r.erreur('%s déclare alimenter %s, mais %s ne le cite pas en prérequis'
                          % (lot, cible, porteur))
 
-    # ---- 6 : présence au tableau d'ordre de la section 6 ----
+    # ---- 6 : présence au tableau d'avancement en tête de page ----
     au_tableau = set()
-    bloc6 = texte.split('## 6. Ordre')[1].split('Quatre lignes méritent')[0]
+    bloc6 = texte.split("## État d'avancement")[1].split('## 1. Le corpus')[0]
     for ligne in bloc6.split('\n'):
         if ligne.startswith('|') and 'Pourquoi' not in ligne:
             cellules = ligne.split('|')
@@ -270,7 +421,8 @@ def main() -> int:
                 au_tableau |= set(numero(n) for n in nums)
     for lot in sorted(filiere):
         if lot not in au_tableau:
-            r.erreur("%s n'apparaît dans aucune ligne du tableau d'ordre (§6)" % lot)
+            r.erreur("%s n'apparaît dans aucune ligne du tableau d'avancement "
+                     "(en tête de page)" % lot)
 
     # ---- 7 : numéros retirés ----
     presents = set(int(l[4:]) for l in filiere)
@@ -334,6 +486,20 @@ def main() -> int:
             if src not in amont.get(dst, []) and dst not in aval.get(src, set()):
                 r.erreur('le diagramme (§6) trace %s → %s, que rien ne déclare' % (src, dst))
 
+    # ---- 13 : le tableau d'avancement est bien la suite que la règle produit ----
+    # Le tableau d'ordre était jusqu'ici écrit à la main, en cinq lignes de « quand » flous
+    # (« démarrables maintenant », « avec LOT-09 », « avant LOT-13 ») dont aucune ne disait par
+    # quoi commencer. Il est désormais calculé ; ce contrôle est ce qui l'empêche de redevenir un
+    # avis. Il subsume la règle 6, qu'on garde parce qu'elle nomme le lot manquant.
+    attendu_ordre = tableau_ordre(texte)
+    if attendu_ordre not in texte:
+        lignes_attendues = attendu_ordre.splitlines()
+        manquantes = [l for l in lignes_attendues if l not in texte]
+        r.erreur("le tableau d'avancement (en tête de page) n'est pas la suite que produit la "
+                 "règle d'ordre (§6) ; %d ligne(s) à corriger, à commencer par : %s"
+                 % (len(manquantes) or 1,
+                    manquantes[0] if manquantes else "(l'ordre des lignes)"))
+
     # ---- 12 : les renvois des spécifications désignent un lot de ce programme ----
     connus = set(sections) | livres
     for chemin in sorted(SPECIFICATIONS.glob('*.md')):
@@ -352,5 +518,40 @@ def main() -> int:
     return r.bilan()
 
 
+def regenerer() -> int:
+    """Réécrit dans la feuille de route les deux tableaux que ce lint calcule.
+
+    Les règles 10 et 13 refusent un tableau qui a dérivé, mais refuser ne suffit pas : sans cette
+    option, corriger une seule ligne « Prérequis » oblige à recopier à la main jusqu'à cinquante
+    lignes de tableau, et c'est exactement le geste qui réintroduit l'erreur qu'on venait de
+    corriger. Le lint sait produire les deux tableaux ; il doit donc savoir les poser.
+
+    Ne touche à rien d'autre — ni au regroupement d'intention, ni au diagramme, ni au texte.
+    """
+    texte = ROADMAP.read_text(encoding='utf-8')
+    corrige = texte
+    for entete, generateur in (
+        ('| # | Lot | Objet | Débloque | Statut |\n|---|---|---|---|---|\n', tableau_ordre),
+        ('| Lot | Objet | Prérequis | Alimente |\n|---|---|---|---|\n', tableau_recapitulatif),
+    ):
+        if entete not in corrige:
+            print("regeneration impossible : en-tete de tableau introuvable —\n%s" % entete)
+            return 1
+        debut = corrige.index(entete) + len(entete)
+        fin = corrige.index('\n\n', debut)
+        # Le tableau est toujours recalculé depuis le texte D'ORIGINE : régénérer le premier ne
+        # doit pas changer ce que le second lit.
+        corrige = corrige[:debut] + generateur(texte) + corrige[fin:]
+
+    if corrige == texte:
+        print('lint_lots --regenerer : les deux tableaux etaient deja a jour.')
+        return 0
+    ROADMAP.write_text(corrige, encoding='utf-8')
+    print('lint_lots --regenerer : tableau d\'avancement et recapitulatif reecrits.')
+    return 0
+
+
 if __name__ == '__main__':
+    if '--regenerer' in sys.argv[1:]:
+        sys.exit(regenerer())
     sys.exit(main())
