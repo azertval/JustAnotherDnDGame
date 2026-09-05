@@ -426,6 +426,13 @@ jobs:
       - name: Palette d'identite coherente maquettes / code (EX-IHM-070)
         run: python3 scripts/check_design_tokens.py
 
+      # Table d'autorite des termes de regle (LOT-30). Le lexique est une donnee VERSIONNEE ; les
+      # PDF dont il sort ne le sont pas (EX-CNT-023), donc le runner n'a rien a extraire. Le
+      # script s'auto-teste avant de se prononcer : aucune cle de regle n'existe encore, et un
+      # controle vert par vacuite ne prouve rien -- c'est la panne du LOT-78.
+      - name: Lexique de regles respecte par les catalogues de traduction
+        run: python3 scripts/check_glossary.py
+
   docs:
     # Génère la documentation Doxygen (garde-fou WARN_AS_ERROR) pour valider la
     # doc dès la PR, avec la même version de Doxygen que le déploiement (docs.yml).

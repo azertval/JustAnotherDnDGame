@@ -6,6 +6,46 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **La chaîne d'extraction du corpus, et le lexique bilingue** (`LOT-30`). Premier lot de la
+  filière contenu : l'outillage qui tirera des huit PDF de `Documentation/SourceBook/` les 176
+  créatures, l'équipement, les sorts, les espèces et les dix régions du jeu — puis sa première
+  sortie, qui l'éprouve.
+  - **`scripts/sourcebook/`, sur PyMuPDF** : manifeste des huit documents (empreinte SHA-256,
+    pagination, provenance), texte, tableaux **par coordonnée**, images **par rendu clippé**, cache
+    indexé par empreinte, et une ligne de commande — `info`, `verifier`, `texte`, `tableau`,
+    `image`, `regions`, `stats`, `glossaire`.
+  - **La double page est confirmée** : la page PDF 50 des deux livres Tanares porte les pages
+    imprimées 100 et 101. Les six autres décalages ont été relevés un par un, et deux ne valent pas
+    zéro. Une empreinte qui ne correspond plus **arrête** l'extraction (`EX-CNT-020`) : poursuivre
+    produirait des données décalées sans qu'aucun message ne le dise.
+  - **Le tableau par coordonnée tient sur un scan.** La table de progression du barbare du
+    `Manuel-Des-Joueurs`, en OCR, donne bien « Attaque supplémentaire » au **niveau 5**, là où un
+    rendu en flux décale toute la colonne d'un cran (`EX-CNT-021`). C'était l'affirmation la plus
+    risquée de l'analyse du corpus.
+  - **Le lexique : 2 084 entrées**, et non « environ 1 200 » comme l'annonçait la feuille de route
+    — une estimation à l'œil, fausse de 74 %. La page est corrigée.
+  - **Le glossaire porte de vrais homonymes**, ce qui a changé la clé d'unicité : `light` vaut
+    « légère » comme propriété d'arme et « Lumière » comme sort, `bane` « Fléau / Imprécation »
+    comme sort et « Baine » comme divinité. Dédupliquer sur l'anglais seul en écrasait un des deux
+    en silence — et faisait traduire un sort par un adjectif d'arme. La clé est le couple
+    **(anglais, catégorie)**.
+  - **Le complément des *Basic Rules* est attesté, pas saisi.** Les huit écoles de magie, la
+    propriété `special` et la quinzième condition (`exhaustion`) manquaient ou n'étaient pas
+    catégorisées. Chaque ajout déclare la page où il est attesté, et la construction échoue si le
+    terme ne s'y trouve pas — un complément tapé de mémoire est une donnée inventée qui a
+    l'apparence d'une donnée extraite. Au passage, le lexique fige un faux ami : l'école
+    `conjuration` se dit **« invocation »**.
+  - **`scripts/check_glossary.py`, en CI, s'auto-teste avant de se prononcer.** Aucune clé de règle
+    n'existe encore : le contrôle serait vert par vacuité, et personne ne saurait s'il fonctionne —
+    la panne exacte du `LOT-78`. Six catalogues fictifs le mettent à l'épreuve à chaque appel. La
+    comparaison des traductions ignore la casse mais **pas les accents** : une table d'autorité
+    française qui accepte « etourdi » pour « étourdi » n'impose plus rien.
+  - **Le corpus n'était pas exclu du dépôt**, contrairement à ce que la feuille de route affirmait
+    depuis son écriture : la règle `.gitignore` vivait comme modification locale non commitée sur un
+    seul poste, et un `git add -A` sur un clone neuf embarquait les 280 Mo. Elle est commitée, avec
+    le cache d'extraction et les worktrees d'agent (1,6 Go), et `check_glossary.py` vérifie
+    désormais l'exclusion (`EX-CNT-023`).
+
 - **La feuille de route dit enfin par quoi commencer.** Elle portait un « ordre d'exécution
   recommandé » en cinq lignes de *quand* flous — « démarrables maintenant », « avec `LOT-09` »,
   « avant `LOT-13` » — dont aucune ne désignait un premier lot. La question « et maintenant ? » se

@@ -1,0 +1,131 @@
+# Manifeste du corpus source de JustAnotherDnDGame (LOT-30).
+#
+# Ce fichier est VERSIONNÉ ; les PDF qu'il décrit ne le sont pas — `Documentation/SourceBook/`
+# est exclu en entier par le `.gitignore` (280 Mo de binaires, dont un fichier de 83 Mo). Le
+# manifeste vit donc ici, avec l'outil qui le lit, et non à côté des documents qu'il décrit.
+#
+# Il porte quatre informations par document, et chacune répond à une panne observée :
+#
+#   `sha256`     — l'extraction refuse de tourner sur un document qui n'est plus celui-ci
+#                  (EX-CNT-020). Sans cette empreinte, remplacer un PDF par une autre édition
+#                  décale toutes les pages sans qu'aucun message ne le dise.
+#   `pages`      — le nombre de pages PDF, second garde-fou, lisible par un humain.
+#   `pagination` / `decalage`
+#                — la correspondance « page imprimée → page PDF ». Les deux livres Tanares sont
+#                  paginés en DOUBLE PAGE : une page PDF en porte deux côte à côte, et un
+#                  sommaire qui annonce « p. 100 » désigne la page PDF 50. Ignorer ce facteur 2
+#                  vise systématiquement le mauvais chapitre.
+#   `provenance` — reportée telle quelle dans le champ `source` de chaque donnée produite
+#                  (EX-CNT-001) : `srd`, `tanares`, `phb-fr`. Le jour d'une publication, la
+#                  question « qu'est-ce qui doit sauter ? » se répond par une requête.
+#
+# Les empreintes ont été relevées le 2026-09-05. Régénérer ce bloc :
+#     python scripts/sourcebook verifier --regenerer
+
+version = 1
+
+# ---------------------------------------------------------------------------------------------
+# Documents natifs, propres — le gisement le plus rentable du corpus.
+# ---------------------------------------------------------------------------------------------
+
+[documents.animaux]
+fichier = "Animaux.pdf"
+sha256 = "2a4593b66c85639e3e66f57b8210c267d10faece39ddf88a51835353b7176e7d"
+pages = 32
+pagination = "simple"
+decalage = -1            # page PDF 5 (0-indexée) porte la page imprimée 4
+provenance = "srd"
+langue = "fr"
+ocr = false
+resume = "94 blocs de statistiques de bêtes du SRD, traduits, au gabarit le plus régulier du corpus"
+
+[documents.basic-rules]
+fichier = "Basic-Rules-FR.pdf"
+sha256 = "c9c7d46db293f7486ba82b1d2e5cacdc6c71f01b2271e8f08f2d6d37811b853b"
+pages = 137
+pagination = "simple"
+decalage = -1
+provenance = "srd"
+langue = "fr"
+ocr = false
+resume = "socle jouable : 4 races, 4 classes, 6 historiques, tables d'équipement, sorts, états ; référence terminologique française du projet"
+
+[documents.glossaire]
+fichier = "Glossaire.pdf"
+sha256 = "063e84ecdbf59262ea2a41bd0b868adef7c74343bb4a95163669857526f3ca7f"
+pages = 22
+pagination = "simple"
+decalage = 1             # page PDF 0 porte la mention « Page 1 »
+provenance = "srd"
+langue = "en-fr"
+ocr = false
+resume = "table d'autorité de traduction anglais → français, catégorie comprise"
+
+# ---------------------------------------------------------------------------------------------
+# Livres Tanares — natifs, en anglais, paginés en DOUBLE PAGE.
+# ---------------------------------------------------------------------------------------------
+
+[documents.tanares-sourcebook]
+fichier = "Tanares_Sourcebook.pdf"
+sha256 = "ac13d88caa950561081fcad795cccbb37b3712b24d476ee15a0df3b1aa0e1d48"
+pages = 179
+pagination = "double"
+decalage = 0             # page PDF 50 porte les pages imprimées 100 et 101
+provenance = "tanares"
+langue = "en"
+ocr = false
+resume = "10 régions, 5 factions, 18 divinités, 11 organisations, 82 blocs de statistiques, objets magiques, 2 029 images"
+
+[documents.players-guide]
+fichier = "Players_Guide_to_Tanares_Version_20231218.pdf"
+sha256 = "8e987ede15d024ae0f022dbd45efaedd4e5b40f0d925f65c1c18d15aa0bc948c"
+pages = 165
+pagination = "double"
+decalage = 0
+provenance = "tanares"
+langue = "en"
+ocr = false
+resume = "13 espèces, 8 classes, 31 tables de progression, 7 historiques, dons, sorts, 1 710 images"
+
+# ---------------------------------------------------------------------------------------------
+# Manuels français — scans OCR. Bruités, exploitables avec le bon outil (§4 de la feuille de
+# route) : jamais de tableau en flux de texte, et une passe de contrôle sur les valeurs.
+# ---------------------------------------------------------------------------------------------
+
+[documents.manuel-des-joueurs]
+fichier = "Manuel-Des-Joueurs.pdf"
+sha256 = "5f079ea01702994b57619ed9f013f8b43006ea4d377087ccc31af55f9665e86a"
+pages = 320
+pagination = "simple"
+decalage = 1             # page PDF 10 ouvre le chapitre 1, imprimé page 11
+provenance = "phb-fr"
+langue = "fr"
+ocr = true
+resume = "seule source française des 5 races et 8 classes absentes des Basic Rules"
+
+[documents.manuel-des-monstres]
+fichier = "Manuel-Des-Monstres.pdf"
+sha256 = "97274255ca15027b130f487fa2f8a1938fc20f626952f5d2441ad3d741ac9daa"
+pages = 354
+pagination = "simple"
+decalage = 0             # page PDF 200 porte la page imprimée 200
+provenance = "phb-fr"
+langue = "fr"
+ocr = true
+hors_perimetre = true    # arbitrage §8 : 416 blocs à contrôler pour un bestiaire déjà suffisant
+resume = "416 blocs de statistiques en français ; hors périmètre, gardé disponible"
+
+# ---------------------------------------------------------------------------------------------
+# Planches vectorielles — zéro caractère de texte, uniquement du rendu d'image.
+# ---------------------------------------------------------------------------------------------
+
+[documents.character-sheets]
+fichier = "Character_Sheets_Tanares.pdf"
+sha256 = "d209ca8dfc85c5fbb953d7cd4c4399c312381a4d320b6985f5df333e574bf68c"
+pages = 5
+pagination = "aucune"
+decalage = 0
+provenance = "tanares"
+langue = "en"
+ocr = false
+resume = "5 feuilles de personnage, sans texte extractible ; maquette à ~300 ppp pour l'écran de fiche"
