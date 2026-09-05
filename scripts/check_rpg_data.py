@@ -72,6 +72,11 @@ FAMILLES = {
     'backgrounds': 'background',
     'conditions': 'condition',
     'damage-types': 'damage-type',
+    # Options de personnage (LOT-43).
+    'skills': 'skill',
+    'languages': 'language',
+    'feats': 'feat',
+    'rules': 'multiclassing',
 }
 
 # Énumération fermée d'un schéma ↔ catégorie du lexique. `equivalence` exige l'égalité des deux
@@ -199,6 +204,39 @@ def valider_dossier(schemas: dict, racine: Path) -> tuple[list[str], list[str], 
     return violations, provisoires, lus
 
 
+def controler_references(racine: Path) -> list[str]:
+    """Toute langue citée par une créature ou une espèce existe au catalogue (`LOT-43`).
+
+    Le schéma vérifie qu'une langue est une *chaîne* ; il ne peut pas vérifier qu'elle **existe**.
+    Sans ce contrôle, une créature déclarant parler le « draconien » — pour « draconique » —
+    passerait, et le [LOT-15](@ref lot-15) refuserait un dialogue pour une langue qui n'existe
+    pas, ce qui est indiscernable d'un bogue de dialogue.
+
+    La comparaison se fait sur le nom **français** aussi bien que sur l'identifiant : les blocs de
+    créature du corpus écrivent « nain », pas « dwarvish ».
+    """
+    dossier = racine / 'languages'
+    if not dossier.is_dir():
+        return []
+    connues = set()
+    for chemin in sorted(dossier.glob('*.json')):
+        donnee = json.loads(chemin.read_text(encoding='utf-8'))
+        connues.add(normaliser_cle(donnee.get('id', '')))
+        connues.add(normaliser_cle(donnee.get('name', '')))
+
+    violations = []
+    for famille in ('creatures', 'species'):
+        for chemin in sorted((racine / famille).glob('*.json')):
+            donnee = json.loads(chemin.read_text(encoding='utf-8'))
+            for citee in donnee.get('languages', []):
+                if normaliser_cle(citee) not in connues:
+                    violations.append(
+                        "%s : la langue « %s » ne figure pas au catalogue. Une langue inventée "
+                        'fait refuser un dialogue sans que rien ne dise pourquoi.'
+                        % (chemin.relative_to(RACINE).as_posix(), citee))
+    return violations
+
+
 def controler_enumerations(schemas: dict) -> list[str]:
     """Les énumérations fermées des schémas coïncident avec les catégories du lexique (LOT-30)."""
     if not LEXIQUE.is_file():
@@ -284,11 +322,19 @@ def main() -> int:
     violations = controler_enumerations(schemas)
     donnees, provisoires, lus = valider_dossier(schemas, RPG)
     violations += donnees
+    violations += controler_references(RPG)
 
     if provisoires:
-        print('Données provisoires (EX-CNT-032) — état d\'avancement, pas une faute :')
-        for p in provisoires:
-            print('  · ' + p)
+        # Groupées par motif : quarante-deux lignes identiques ne se lisent pas, et la question
+        # qu'on se pose devant cette liste est « combien, et pourquoi », pas « lesquelles ».
+        par_motif: dict = {}
+        for entree in provisoires:
+            chemin, _, motif = entree.partition(' — ')
+            par_motif.setdefault(motif, []).append(chemin)
+        print("Données provisoires (EX-CNT-032) — état d'avancement, pas une faute :")
+        for motif, chemins in sorted(par_motif.items()):
+            print('  · %d entrée(s) : %s' % (len(chemins), motif))
+            print('    %s%s' % (', '.join(chemins[:3]), ', …' if len(chemins) > 3 else ''))
         print()
 
     if violations:

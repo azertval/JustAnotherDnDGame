@@ -17,6 +17,7 @@ add_library(Core STATIC
     World/GridDistanceField.cpp
     Gameplay/MechanismController.cpp
     Rpg/RpgEnumNames.cpp
+    Rpg/Multiclassing.cpp
     Levels/TileMap.cpp
     Levels/TileTypeName.cpp
     Levels/CameraFraming.cpp

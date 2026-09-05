@@ -6,6 +6,39 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **Les options de personnage : dons, multiclassage, compétences, langues** (`LOT-43`). Quatre
+  catalogues oubliés du premier découpage, que la fiche de personnage suppose sans jamais dire d'où
+  ils viennent : **18 compétences**, **16 langues**, **42 dons** et la règle du multiclassage — 77
+  fichiers de données, quatre schémas, et le mécanisme C++ qui cumule les emplacements de sorts.
+  - **Le multiclassage vient du *Manuel des Joueurs***, seule source complète : les *Basic Rules*
+    n'en portent ni les prérequis ni les maîtrises et renvoient au chapitre 6. Les douze prérequis
+    de caractéristique et les douze lignes de maîtrises en sortent proprement.
+  - **Sa table d'emplacements est recoupée**, et il le fallait : l'OCR y efface les cellules valant
+    `1`, onze lignes sur vingt amputées. La donnée est prise sur la progression du magicien des
+    *Basic Rules* — identique et en texte natif — puis confrontée cellule à cellule au *Manuel* :
+    **26 cellules rétablies**, annoncées à chaque génération. Une divergence qui ne serait pas un
+    `1` manquant **arrête** la génération.
+  - **Les deux sources françaises ne traduisent pas les mêmes dons pareil** : « Adepte des
+    éléments » contre « Adepte élémentaire », « Ritualiste » contre « Magie rituelle » — douze dons
+    sur quarante-deux. Le lexique fait autorité, la graphie du livre est conservée en `variantes`.
+    Les noms viennent d'ailleurs du lexique et non du livre, dont les titres sont des scans
+    mutilés : `DouÉ`, `E(PLOR.) __ TEUR DE DONJONS_`.
+  - **« Sorcier » n'est pas *sorcerer***. Le *Manuel* appelle ainsi la classe que le lexique nomme
+    « occultiste » (*warlock*), alors que l'**ensorceleur** est deux lignes plus haut dans la même
+    table. Un rapprochement par ressemblance aurait interverti leurs prérequis en silence ; l'alias
+    est déclaré, avec la raison.
+  - **Le meilleur test du multiclassage est celui du livre** : *« ce rôdeur 4/magicien 3 […] quatre
+    emplacements de niveau 1, trois de niveau 2 et deux de niveau 3 »*. Le test le reproduit et lit
+    la table **livrée** — c'est le livre qui vérifie l'implémentation. Deux pièges sont couverts :
+    l'arrondi se fait **par classe** (paladin 3/rôdeur 3 donne 2, pas 3) et la **magie de pacte est
+    exclue** de la somme (`EX-RPG-052`).
+  - **Les 42 dons sont livrés `narratif` et `provisoire`**, critère de retrait écrit d'avance
+    (`EX-CNT-032`) : aucun mécanisme de don n'existe encore, et un don qui se présenterait comme
+    jouable coûterait plus cher à diagnostiquer qu'un don déclaré non joué.
+  - **Toute langue citée par une créature ou une espèce doit exister au catalogue** — nouveau
+    contrôle en CI, vérifié par injection d'une créature parlant le « draconien ».
+  - `ctest` passe de 948 à **954** cas, tous verts.
+
 - **L'OCR ne corrompt pas seulement les nombres, il en supprime** (constat de préparation du
   `LOT-43`). Sur la table du multiclassage du `Manuel-Des-Joueurs`, l'extraction **efface toute
   cellule valant `1`** : onze lignes sur vingt amputées, et un magicien de niveau 20 y perd ses
