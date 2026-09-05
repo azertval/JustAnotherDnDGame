@@ -215,6 +215,14 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Résultat d'un balayage : où la boîte s'arrête et sur quels axes elle a été bloquée.  <a href="structcore_1_1SweepResult.html#details">More...</a><br /></td></tr>
 <tr class="memitem:TopDownConfig" id="r_TopDownConfig"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1TopDownConfig.html">TopDownConfig</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Paramètres réglables du déplacement top-down, regroupés pour faciliter le <em>tuning</em>.  <a href="structcore_1_1TopDownConfig.html#details">More...</a><br /></td></tr>
+<tr class="memitem:Modifier" id="r_Modifier"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1Modifier.html">Modifier</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un modificateur, avec <b>son origine</b> — sans quoi le jet n'est pas restituable.  <a href="structcore_1_1Modifier.html#details">More...</a><br /></td></tr>
+<tr class="memitem:CheckResult" id="r_CheckResult"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1CheckResult.html">CheckResult</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le résultat complet d'un jet, et de quoi le reconstituer (<span class="tt">EX-DND-003</span>).  <a href="structcore_1_1CheckResult.html#details">More...</a><br /></td></tr>
+<tr class="memitem:Dice" id="r_Dice"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1Dice.html">Dice</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une expression de dés analysée : <span class="tt">2d6+3</span>, <span class="tt">1d8</span>, <span class="tt">4</span>.  <a href="structcore_1_1Dice.html#details">More...</a><br /></td></tr>
+<tr class="memitem:DiceRoll" id="r_DiceRoll"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1DiceRoll.html">DiceRoll</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le détail d'un lancer, pour que le joueur puisse le reconstituer (<span class="tt">EX-DND-003</span>).  <a href="structcore_1_1DiceRoll.html#details">More...</a><br /></td></tr>
 <tr class="memitem:ClassLevel" id="r_ClassLevel"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1ClassLevel.html">ClassLevel</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un niveau pris dans une classe, et ce que cette classe apporte au niveau de lanceur.  <a href="structcore_1_1ClassLevel.html#details">More...</a><br /></td></tr>
 <tr class="memitem:FixedTimestep" id="r_FixedTimestep"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classcore_1_1FixedTimestep.html">FixedTimestep</a></td></tr>
@@ -337,6 +345,22 @@ Enumerations</h2></td></tr>
 <br />
  }</td></tr>
 <tr class="memdesc:ace99a1be913e6294e42e9ebb145eb875"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type d'une tuile de la grille d'une carte (<span class="tt">EX-GP-001</span>).  <a href="#ace99a1be913e6294e42e9ebb145eb875">More...</a><br /></td></tr>
+<tr class="memitem:a97f31c7914a6cfc54cc026a77da58fd1" id="r_a97f31c7914a6cfc54cc026a77da58fd1"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#a97f31c7914a6cfc54cc026a77da58fd1">Ability</a> { <br />
+&#160;&#160;<a class="el" href="#a97f31c7914a6cfc54cc026a77da58fd1a5a455a612047a34ede7a6c564fa67c0a">Strength</a>
+, <a class="el" href="#a97f31c7914a6cfc54cc026a77da58fd1aa8747f5acdc2352d39f455bdd1689273">Dexterity</a>
+, <a class="el" href="#a97f31c7914a6cfc54cc026a77da58fd1aae93e52a3c1f3bbcefbc805331fca9e9">Constitution</a>
+, <a class="el" href="#a97f31c7914a6cfc54cc026a77da58fd1a8f7ba58961e0fe40cfda61b412537fba">Intelligence</a>
+, <br />
+&#160;&#160;<a class="el" href="#a97f31c7914a6cfc54cc026a77da58fd1a646f0a01b685558b975b5cd3f5b36241">Wisdom</a>
+, <a class="el" href="#a97f31c7914a6cfc54cc026a77da58fd1aa47211f258a8e0172523525035c743af">Charisma</a>
+<br />
+ }</td></tr>
+<tr class="memdesc:a97f31c7914a6cfc54cc026a77da58fd1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une des six caractéristiques d'un personnage ou d'une créature (<span class="tt">EX-DND-010</span>).  <a href="#a97f31c7914a6cfc54cc026a77da58fd1">More...</a><br /></td></tr>
+<tr class="memitem:aff494cc4070ea4489c3d5ee57178f7c9" id="r_aff494cc4070ea4489c3d5ee57178f7c9"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#aff494cc4070ea4489c3d5ee57178f7c9">RollStance</a> { <a class="el" href="#aff494cc4070ea4489c3d5ee57178f7c9a960b44c579bc2f6818d2daaf9e4c16f0">Normal</a>
+, <a class="el" href="#aff494cc4070ea4489c3d5ee57178f7c9a1b2430d20c750dada9aaaed48b4eb8f1">Advantage</a>
+, <a class="el" href="#aff494cc4070ea4489c3d5ee57178f7c9ae755d083f9085a585ef791919be5a004">Disadvantage</a>
+ }</td></tr>
+<tr class="memdesc:aff494cc4070ea4489c3d5ee57178f7c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Comment le d20 est lancé.  <a href="#aff494cc4070ea4489c3d5ee57178f7c9">More...</a><br /></td></tr>
 <tr class="memitem:ab1c6c3303c34c417c9a3b6ac3ddb066d" id="r_ab1c6c3303c34c417c9a3b6ac3ddb066d"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#ab1c6c3303c34c417c9a3b6ac3ddb066d">CasterProgression</a> { <br />
 &#160;&#160;<a class="el" href="#ab1c6c3303c34c417c9a3b6ac3ddb066da6adf97f83acf6453d4a6a4b1070f3754">None</a>
 , <a class="el" href="#ab1c6c3303c34c417c9a3b6ac3ddb066da168909c0b6f1dfbd48f679d47059c1d6">Third</a>
@@ -479,12 +503,36 @@ Functions</h2></td></tr>
 <tr class="memdesc:a478b06d0135ab7cd314b90791cfe7ba0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Coin haut-gauche du personnage <b>centré</b> dans la tuile (<code class="param">column</code>, <code class="param">row</code>).  <br /></td></tr>
 <tr class="memitem:a4ca635df367666624247837feb2af5a5" id="r_a4ca635df367666624247837feb2af5a5"><td class="memItemLeft"><a class="el" href="structcore_1_1SweepResult.html">SweepResult</a>&#160;</td><td class="memItemRight"><a class="el" href="#a4ca635df367666624247837feb2af5a5">sweepAabb</a> (const <a class="el" href="structcore_1_1Aabb.html">Aabb</a> &amp;box, const <a class="el" href="structcore_1_1Vector2.html">Vector2</a> &amp;delta, const <a class="el" href="classcore_1_1TileMap.html">TileMap</a> &amp;tiles)</td></tr>
 <tr class="memdesc:a4ca635df367666624247837feb2af5a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Déplace <code class="param">box</code> de <code class="param">delta</code> en s'arrêtant au premier contact avec une tuile <b>solide</b>, puis en <b>glissant</b> le long de la surface pour le déplacement résiduel.  <br /></td></tr>
+<tr class="memitem:ad539e41d55b3f90675658586d0d0b77e" id="r_ad539e41d55b3f90675658586d0d0b77e"><td class="memItemLeft">std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#ad539e41d55b3f90675658586d0d0b77e">abilityName</a> (<a class="el" href="#a97f31c7914a6cfc54cc026a77da58fd1">Ability</a> ability) noexcept</td></tr>
+<tr class="memdesc:ad539e41d55b3f90675658586d0d0b77e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nom textuel d'une caractéristique, tel que les données l'écrivent.  <br /></td></tr>
+<tr class="memitem:a6faed4224d505ed620516937e3a019dd" id="r_a6faed4224d505ed620516937e3a019dd"><td class="memItemLeft">std::optional&lt; <a class="el" href="#a97f31c7914a6cfc54cc026a77da58fd1">Ability</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a6faed4224d505ed620516937e3a019dd">parseAbility</a> (std::string_view name) noexcept</td></tr>
+<tr class="memdesc:a6faed4224d505ed620516937e3a019dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inverse d'<span class="tt"><a class="el" href="#ad539e41d55b3f90675658586d0d0b77e" title="Nom textuel d&#39;une caractéristique, tel que les données l&#39;écrivent.">abilityName</a></span>. <span class="tt">std::nullopt</span> si le nom est inconnu — jamais deviné.  <br /></td></tr>
+<tr class="memitem:a309ca7d25e940cb02037278fe41109d1" id="r_a309ca7d25e940cb02037278fe41109d1"><td class="memItemLeft">std::span&lt; const <a class="el" href="#a97f31c7914a6cfc54cc026a77da58fd1">Ability</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a309ca7d25e940cb02037278fe41109d1">allAbilities</a> () noexcept</td></tr>
+<tr class="memdesc:a309ca7d25e940cb02037278fe41109d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les six caractéristiques, dans l'ordre de la fiche.  <br /></td></tr>
+<tr class="memitem:ab1f3cc471902daa6c652cd68eee0bcef" id="r_ab1f3cc471902daa6c652cd68eee0bcef"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#ab1f3cc471902daa6c652cd68eee0bcef">abilityModifier</a> (int score) noexcept</td></tr>
+<tr class="memdesc:ab1f3cc471902daa6c652cd68eee0bcef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Modificateur d'une valeur de caractéristique : <span class="tt">(score - 10) / 2</span>, <b>arrondi vers le bas</b>.  <br /></td></tr>
+<tr class="memitem:a0cca681f3d6c00074710ceecdddab6f7" id="r_a0cca681f3d6c00074710ceecdddab6f7"><td class="memItemLeft"><a class="el" href="structcore_1_1CheckResult.html">CheckResult</a>&#160;</td><td class="memItemRight"><a class="el" href="#a0cca681f3d6c00074710ceecdddab6f7">rollCheck</a> (int target, std::span&lt; const <a class="el" href="structcore_1_1Modifier.html">Modifier</a> &gt; modifiers, <a class="el" href="#aff494cc4070ea4489c3d5ee57178f7c9">RollStance</a> stance, <a class="el" href="classcore_1_1DeterministicRandom.html">DeterministicRandom</a> &amp;random)</td></tr>
+<tr class="memdesc:a0cca681f3d6c00074710ceecdddab6f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lance un d20 contre un seuil.  <br /></td></tr>
+<tr class="memitem:aa60bb21d8cc45167ae840ea21c3b844c" id="r_aa60bb21d8cc45167ae840ea21c3b844c"><td class="memItemLeft">std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#aa60bb21d8cc45167ae840ea21c3b844c">rollStanceName</a> (<a class="el" href="#aff494cc4070ea4489c3d5ee57178f7c9">RollStance</a> stance) noexcept</td></tr>
+<tr class="memdesc:aa60bb21d8cc45167ae840ea21c3b844c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nom textuel d'une posture, pour les journaux et la restitution.  <br /></td></tr>
+<tr class="memitem:ac2a445eb023b8dc4823076b19427e5c9" id="r_ac2a445eb023b8dc4823076b19427e5c9"><td class="memItemLeft">constexpr <a class="el" href="#aff494cc4070ea4489c3d5ee57178f7c9">RollStance</a>&#160;</td><td class="memItemRight"><a class="el" href="#ac2a445eb023b8dc4823076b19427e5c9">rollStance</a> (int advantageSources, int disadvantageSources) noexcept</td></tr>
+<tr class="memdesc:ac2a445eb023b8dc4823076b19427e5c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Détermine la posture depuis le <b>nombre de sources</b> de chaque type (<span class="tt">EX-DND-002</span>).  <br /></td></tr>
+<tr class="memitem:a76e3cf52c7e664a785fc4cabad9e571a" id="r_a76e3cf52c7e664a785fc4cabad9e571a"><td class="memItemLeft">std::optional&lt; <a class="el" href="structcore_1_1Dice.html">Dice</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a76e3cf52c7e664a785fc4cabad9e571a">parseDice</a> (std::string_view notation)</td></tr>
+<tr class="memdesc:a76e3cf52c7e664a785fc4cabad9e571a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Analyse une notation <span class="tt">NdF</span>, <span class="tt">NdF+M</span>, <span class="tt">NdF-M</span> ou une valeur fixe.  <br /></td></tr>
+<tr class="memitem:a58d791281d7fcab412851036c03c94bd" id="r_a58d791281d7fcab412851036c03c94bd"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a58d791281d7fcab412851036c03c94bd">formatDice</a> (const <a class="el" href="structcore_1_1Dice.html">Dice</a> &amp;dice)</td></tr>
+<tr class="memdesc:a58d791281d7fcab412851036c03c94bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Réécrit une expression en notation canonique (<span class="tt">2d6+3</span>, <span class="tt">1d8</span>, <span class="tt">4</span>).  <br /></td></tr>
+<tr class="memitem:a0284eca0c4fcac886302e934a7e0aeb2" id="r_a0284eca0c4fcac886302e934a7e0aeb2"><td class="memItemLeft"><a class="el" href="structcore_1_1DiceRoll.html">DiceRoll</a>&#160;</td><td class="memItemRight"><a class="el" href="#a0284eca0c4fcac886302e934a7e0aeb2">rollDice</a> (const <a class="el" href="structcore_1_1Dice.html">Dice</a> &amp;dice, <a class="el" href="classcore_1_1DeterministicRandom.html">DeterministicRandom</a> &amp;random)</td></tr>
+<tr class="memdesc:a0284eca0c4fcac886302e934a7e0aeb2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lance une expression avec un générateur <b>déterministe</b>.  <br /></td></tr>
 <tr class="memitem:a5efe1ddb8ab76545ac60552ba2c43a32" id="r_a5efe1ddb8ab76545ac60552ba2c43a32"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a5efe1ddb8ab76545ac60552ba2c43a32">multiclassCasterLevel</a> (std::span&lt; const <a class="el" href="structcore_1_1ClassLevel.html">ClassLevel</a> &gt; classes)</td></tr>
 <tr class="memdesc:a5efe1ddb8ab76545ac60552ba2c43a32"><td class="mdescLeft">&#160;</td><td class="mdescRight">Niveau de lanceur cumulé d'un personnage multiclassé.  <br /></td></tr>
 <tr class="memitem:aedf7842b8c8c84ef5f6445c731072dfc" id="r_aedf7842b8c8c84ef5f6445c731072dfc"><td class="memItemLeft">std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#aedf7842b8c8c84ef5f6445c731072dfc">casterProgressionName</a> (<a class="el" href="#ab1c6c3303c34c417c9a3b6ac3ddb066d">CasterProgression</a> progression)</td></tr>
 <tr class="memdesc:aedf7842b8c8c84ef5f6445c731072dfc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nom textuel d'une progression, tel que <span class="tt">multiclassing.json</span> l'écrit.  <br /></td></tr>
 <tr class="memitem:a6d334261c72e5b0735a542f53aac9131" id="r_a6d334261c72e5b0735a542f53aac9131"><td class="memItemLeft">std::optional&lt; <a class="el" href="#ab1c6c3303c34c417c9a3b6ac3ddb066d">CasterProgression</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a6d334261c72e5b0735a542f53aac9131">parseCasterProgression</a> (std::string_view name)</td></tr>
 <tr class="memdesc:a6d334261c72e5b0735a542f53aac9131"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convertit le nom d'une progression, tel que la donnée l'écrit, en valeur.  <br /></td></tr>
+<tr class="memitem:a918b595ef74492bed349a6bbf82a9f64" id="r_a918b595ef74492bed349a6bbf82a9f64"><td class="memItemLeft">constexpr float&#160;</td><td class="memItemRight"><a class="el" href="#a918b595ef74492bed349a6bbf82a9f64">tilesFromMeters</a> (float meters) noexcept</td></tr>
+<tr class="memdesc:a918b595ef74492bed349a6bbf82a9f64"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convertit une distance en mètres — telle que le corpus l'écrit — en nombre de cases.  <br /></td></tr>
+<tr class="memitem:a3bc1fb9934614684210eff9159619222" id="r_a3bc1fb9934614684210eff9159619222"><td class="memItemLeft">constexpr float&#160;</td><td class="memItemRight"><a class="el" href="#a3bc1fb9934614684210eff9159619222">metersFromTiles</a> (float tiles) noexcept</td></tr>
+<tr class="memdesc:a3bc1fb9934614684210eff9159619222"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convertit un nombre de cases en mètres, pour l'affichage et les infobulles.  <br /></td></tr>
 <tr id="func-members-0" class="groupHeader"><td colspan="2"><div class="groupHeader">Noms textuels</div></td></tr>
 <tr><td colspan="2" class="ititle"><div class="groupText"><p>Point unique de vérité de la correspondance valeur ↔ nom, partagé par les catalogues de données (<span class="tt">Source/Elements/Rpg/</span>), leurs schémas JSON et le moteur.</p>
 <p>Deux tables distinctes divergeraient au premier type ajouté — et le scénario qu'<span class="tt">EX-CNT-011</span> décrit se produirait : la donnée déclare un type que le moteur ne connaît pas, la valeur tombe dans un cas par défaut, et le sort cesse de faire des dégâts sans que rien ne l'annonce.</p>
@@ -567,6 +615,10 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
 <tr class="memdesc:a841ea8f763991419331d87ffd89758a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Largeur du personnage, en unités monde (une tuile = 1 unité).  <br /></td></tr>
 <tr class="memitem:a3e638fa357e74af32512b3eb91a6fcf6" id="r_a3e638fa357e74af32512b3eb91a6fcf6"><td class="memItemLeft">constexpr float&#160;</td><td class="memItemRight"><a class="el" href="#a3e638fa357e74af32512b3eb91a6fcf6">PLAYER_HEIGHT</a> = 0.8f</td></tr>
 <tr class="memdesc:a3e638fa357e74af32512b3eb91a6fcf6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hauteur du personnage, en unités monde.  <br /></td></tr>
+<tr class="memitem:a42b6dd302d4b68da1f4bdd439884b338" id="r_a42b6dd302d4b68da1f4bdd439884b338"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#a42b6dd302d4b68da1f4bdd439884b338">D20_FACES</a> = 20</td></tr>
+<tr class="memdesc:a42b6dd302d4b68da1f4bdd439884b338"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nombre de faces du dé de résolution. Le d20 est la mécanique centrale du jeu.  <br /></td></tr>
+<tr class="memitem:a511d502baab5befb28a3742b65ee1e61" id="r_a511d502baab5befb28a3742b65ee1e61"><td class="memItemLeft">constexpr float&#160;</td><td class="memItemRight"><a class="el" href="#a511d502baab5befb28a3742b65ee1e61">METERS_PER_TILE</a> = 1.5f</td></tr>
+<tr class="memdesc:a511d502baab5befb28a3742b65ee1e61"><td class="mdescLeft">&#160;</td><td class="mdescRight">Côté d'une case de la grille tactique, en mètres.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Espace de noms du moteur et de la logique de jeu. </p>
@@ -626,6 +678,39 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
 </div>
 </div>
 <a name="doc-enum-members" id="doc-enum-members"></a><h2 id="header-doc-enum-members" class="groupheader">Enumeration Type Documentation</h2>
+<a id="a97f31c7914a6cfc54cc026a77da58fd1" name="a97f31c7914a6cfc54cc026a77da58fd1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a97f31c7914a6cfc54cc026a77da58fd1">&#9670;&#160;</a></span>Ability</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="#a97f31c7914a6cfc54cc026a77da58fd1">core::Ability</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Une des six caractéristiques d'un personnage ou d'une créature (<span class="tt">EX-DND-010</span>). </p>
+<p>Ensemble <b>fermé</b> : six valeurs, fixées par les règles. Les noms textuels sont ceux du lexique (<span class="tt">LOT-30</span>) et de <span class="tt">common.schema.json</span>, et <span class="tt">scripts/check_rpg_data.py</span> vérifie que les trois listes coïncident. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a97f31c7914a6cfc54cc026a77da58fd1a5a455a612047a34ede7a6c564fa67c0a" name="a97f31c7914a6cfc54cc026a77da58fd1a5a455a612047a34ede7a6c564fa67c0a"></a>Strength&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a97f31c7914a6cfc54cc026a77da58fd1aa8747f5acdc2352d39f455bdd1689273" name="a97f31c7914a6cfc54cc026a77da58fd1aa8747f5acdc2352d39f455bdd1689273"></a>Dexterity&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a97f31c7914a6cfc54cc026a77da58fd1aae93e52a3c1f3bbcefbc805331fca9e9" name="a97f31c7914a6cfc54cc026a77da58fd1aae93e52a3c1f3bbcefbc805331fca9e9"></a>Constitution&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a97f31c7914a6cfc54cc026a77da58fd1a8f7ba58961e0fe40cfda61b412537fba" name="a97f31c7914a6cfc54cc026a77da58fd1a8f7ba58961e0fe40cfda61b412537fba"></a>Intelligence&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a97f31c7914a6cfc54cc026a77da58fd1a646f0a01b685558b975b5cd3f5b36241" name="a97f31c7914a6cfc54cc026a77da58fd1a646f0a01b685558b975b5cd3f5b36241"></a>Wisdom&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a97f31c7914a6cfc54cc026a77da58fd1aa47211f258a8e0172523525035c743af" name="a97f31c7914a6cfc54cc026a77da58fd1aa47211f258a8e0172523525035c743af"></a>Charisma&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
 <a id="a5c6444096b9bc21a78b1f1157e9070b6" name="a5c6444096b9bc21a78b1f1157e9070b6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5c6444096b9bc21a78b1f1157e9070b6">&#9670;&#160;</a></span>CameraFramingMode</h2>
 
@@ -1140,6 +1225,36 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
 
 </div>
 </div>
+<a id="aff494cc4070ea4489c3d5ee57178f7c9" name="aff494cc4070ea4489c3d5ee57178f7c9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aff494cc4070ea4489c3d5ee57178f7c9">&#9670;&#160;</a></span>RollStance</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="#aff494cc4070ea4489c3d5ee57178f7c9">core::RollStance</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Comment le d20 est lancé. </p>
+<p><span class="tt">Advantage</span> et <span class="tt">Disadvantage</span> <b>ne se cumulent pas</b> (<span class="tt">EX-DND-002</span>) : plusieurs sources d'avantage donnent un avantage, et une source de chaque s'annule entièrement. C'est <span class="tt"><a class="el" href="#ac2a445eb023b8dc4823076b19427e5c9" title="Détermine la posture depuis le nombre de sources de chaque type (EX-DND-002).">rollStance</a></span> qui applique cette règle, à partir du décompte des sources — jamais l'appelant, qui aurait à arbitrer une pile de bonus contre toutes les autres à chaque capacité ajoutée. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="aff494cc4070ea4489c3d5ee57178f7c9a960b44c579bc2f6818d2daaf9e4c16f0" name="aff494cc4070ea4489c3d5ee57178f7c9a960b44c579bc2f6818d2daaf9e4c16f0"></a>Normal&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aff494cc4070ea4489c3d5ee57178f7c9a1b2430d20c750dada9aaaed48b4eb8f1" name="aff494cc4070ea4489c3d5ee57178f7c9a1b2430d20c750dada9aaaed48b4eb8f1"></a>Advantage&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aff494cc4070ea4489c3d5ee57178f7c9ae755d083f9085a585ef791919be5a004" name="aff494cc4070ea4489c3d5ee57178f7c9ae755d083f9085a585ef791919be5a004"></a>Disadvantage&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
 <a id="ace99a1be913e6294e42e9ebb145eb875" name="ace99a1be913e6294e42e9ebb145eb875"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ace99a1be913e6294e42e9ebb145eb875">&#9670;&#160;</a></span>TileType</h2>
 
@@ -1201,6 +1316,69 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
 </div>
 </div>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
+<a id="ab1f3cc471902daa6c652cd68eee0bcef" name="ab1f3cc471902daa6c652cd68eee0bcef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab1f3cc471902daa6c652cd68eee0bcef">&#9670;&#160;</a></span>abilityModifier()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int core::abilityModifier </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>score</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Modificateur d'une valeur de caractéristique : <span class="tt">(score - 10) / 2</span>, <b>arrondi vers le bas</b>. </p>
+<p>L'arrondi est le piège de cette fonction, et il ne se voit que sur les scores <b>impairs inférieurs à 10</b>. En C++, la division entière tronque <b>vers zéro</b> : <span class="tt">(7 - 10) / 2</span> vaut <span class="tt">-1</span>, alors que la règle donne <span class="tt">-2</span>. Un personnage avec 7 en Force serait donc moins pénalisé qu'il ne doit l'être, sur chacun de ses jets, pendant toute la partie — et le défaut est invisible à la lecture puisque la formule <em>a l'air</em> juste.</p>
+<p>L'implémentation décale donc de 1 vers le bas avant de diviser, ce qui revient au plancher pour les valeurs négatives comme positives.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">score</td><td>Valeur de caractéristique, typiquement dans <span class="tt">[1, 30]</span>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Le modificateur : <span class="tt">-5</span> pour 1, <span class="tt">0</span> pour 10 et 11, <span class="tt">+5</span> pour 20. </dd></dl>
+
+</div>
+</div>
+<a id="ad539e41d55b3f90675658586d0d0b77e" name="ad539e41d55b3f90675658586d0d0b77e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad539e41d55b3f90675658586d0d0b77e">&#9670;&#160;</a></span>abilityName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string_view core::abilityName </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a97f31c7914a6cfc54cc026a77da58fd1">Ability</a></td>          <td class="paramname"><span class="paramname"><em>ability</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Nom textuel d'une caractéristique, tel que les données l'écrivent. </p>
+
+</div>
+</div>
 <a id="a209ceac8415ddadd8463746b94934eed" name="a209ceac8415ddadd8463746b94934eed"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a209ceac8415ddadd8463746b94934eed">&#9670;&#160;</a></span>advanceAnimation()</h2>
 
@@ -1228,6 +1406,33 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="a309ca7d25e940cb02037278fe41109d1" name="a309ca7d25e940cb02037278fe41109d1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a309ca7d25e940cb02037278fe41109d1">&#9670;&#160;</a></span>allAbilities()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::span&lt; const <a class="el" href="#a97f31c7914a6cfc54cc026a77da58fd1">Ability</a> &gt; core::allAbilities </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Les six caractéristiques, dans l'ordre de la fiche. </p>
 
 </div>
 </div>
@@ -1683,6 +1888,33 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
 
 </div>
 </div>
+<a id="a58d791281d7fcab412851036c03c94bd" name="a58d791281d7fcab412851036c03c94bd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a58d791281d7fcab412851036c03c94bd">&#9670;&#160;</a></span>formatDice()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string core::formatDice </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structcore_1_1Dice.html">Dice</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>dice</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Réécrit une expression en notation canonique (<span class="tt">2d6+3</span>, <span class="tt">1d8</span>, <span class="tt">4</span>). </p>
+
+</div>
+</div>
 <a id="aafa85d91ee91c84b123fff01f147615e" name="aafa85d91ee91c84b123fff01f147615e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aafa85d91ee91c84b123fff01f147615e">&#9670;&#160;</a></span>formatLogLine()</h2>
 
@@ -1909,6 +2141,33 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3bc1fb9934614684210eff9159619222" name="a3bc1fb9934614684210eff9159619222"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3bc1fb9934614684210eff9159619222">&#9670;&#160;</a></span>metersFromTiles()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float core::metersFromTiles </td>
+          <td>(</td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>tiles</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Convertit un nombre de cases en mètres, pour l'affichage et les infobulles. </p>
 
 </div>
 </div>
@@ -2250,6 +2509,33 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
 
 </div>
 </div>
+<a id="a6faed4224d505ed620516937e3a019dd" name="a6faed4224d505ed620516937e3a019dd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6faed4224d505ed620516937e3a019dd">&#9670;&#160;</a></span>parseAbility()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::optional&lt; <a class="el" href="#a97f31c7914a6cfc54cc026a77da58fd1">Ability</a> &gt; core::parseAbility </td>
+          <td>(</td>
+          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>name</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Inverse d'<span class="tt"><a class="el" href="#ad539e41d55b3f90675658586d0d0b77e" title="Nom textuel d&#39;une caractéristique, tel que les données l&#39;écrivent.">abilityName</a></span>. <span class="tt">std::nullopt</span> si le nom est inconnu — jamais deviné. </p>
+
+</div>
+</div>
 <a id="acae8699b6c75742b88007ea470bf54ea" name="acae8699b6c75742b88007ea470bf54ea"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#acae8699b6c75742b88007ea470bf54ea">&#9670;&#160;</a></span>parseCameraFramingMode()</h2>
 
@@ -2352,6 +2638,40 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="a76e3cf52c7e664a785fc4cabad9e571a" name="a76e3cf52c7e664a785fc4cabad9e571a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a76e3cf52c7e664a785fc4cabad9e571a">&#9670;&#160;</a></span>parseDice()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::optional&lt; <a class="el" href="structcore_1_1Dice.html">Dice</a> &gt; core::parseDice </td>
+          <td>(</td>
+          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>notation</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Analyse une notation <span class="tt">NdF</span>, <span class="tt">NdF+M</span>, <span class="tt">NdF-M</span> ou une valeur fixe. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">notation</td><td>La notation, sans espace. La casse du <span class="tt">d</span> est indifférente. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>L'expression, ou <span class="tt">std::nullopt</span> si la notation est mal formée — jamais une expression devinée : une notation illisible est une donnée invalide à signaler. </dd></dl>
 
 </div>
 </div>
@@ -2717,6 +3037,148 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
 
 </div>
 </div>
+<a id="a0cca681f3d6c00074710ceecdddab6f7" name="a0cca681f3d6c00074710ceecdddab6f7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0cca681f3d6c00074710ceecdddab6f7">&#9670;&#160;</a></span>rollCheck()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structcore_1_1CheckResult.html">CheckResult</a> core::rollCheck </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>target</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::span&lt; const <a class="el" href="structcore_1_1Modifier.html">Modifier</a> &gt;</td>          <td class="paramname"><span class="paramname"><em>modifiers</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#aff494cc4070ea4489c3d5ee57178f7c9">RollStance</a></td>          <td class="paramname"><span class="paramname"><em>stance</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classcore_1_1DeterministicRandom.html">DeterministicRandom</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>random</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Lance un d20 contre un seuil. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">target</td><td>Seuil visé : un degré de difficulté (<span class="tt">Source/Elements/Rpg/rules/difficulty.json</span>) ou une classe d'armure. <b>Jamais un littéral dans le code appelant</b> (<span class="tt">EX-DND-021</span>) : un nombre nu dans un <span class="tt">if</span> ne dit pas ce qu'il représente, et régler l'équilibre du jeu ne doit pas demander de recompiler. </td></tr>
+    <tr><td class="paramname">modifiers</td><td>Les modificateurs, <b>avec leur origine</b>. </td></tr>
+    <tr><td class="paramname">stance</td><td>Avantage, désavantage, ou ni l'un ni l'autre — voir <span class="tt"><a class="el" href="#ac2a445eb023b8dc4823076b19427e5c9" title="Détermine la posture depuis le nombre de sources de chaque type (EX-DND-002).">rollStance</a></span>. </td></tr>
+    <tr><td class="paramname">random</td><td>Générateur déterministe (<span class="tt">EX-NFR-002</span>). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Le résultat complet, restituable. </dd></dl>
+
+</div>
+</div>
+<a id="a0284eca0c4fcac886302e934a7e0aeb2" name="a0284eca0c4fcac886302e934a7e0aeb2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0284eca0c4fcac886302e934a7e0aeb2">&#9670;&#160;</a></span>rollDice()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structcore_1_1DiceRoll.html">DiceRoll</a> core::rollDice </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structcore_1_1Dice.html">Dice</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>dice</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classcore_1_1DeterministicRandom.html">DeterministicRandom</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>random</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Lance une expression avec un générateur <b>déterministe</b>. </p>
+<p>Le déterminisme n'est pas un confort : sans lui, <b>aucun test de combat n'est écrivable</b> (<span class="tt">EX-NFR-002</span>). Le générateur est passé par référence et jamais créé ici, pour que l'appelant reste maître de la graine et de la position dans la suite. </p>
+
+</div>
+</div>
+<a id="ac2a445eb023b8dc4823076b19427e5c9" name="ac2a445eb023b8dc4823076b19427e5c9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac2a445eb023b8dc4823076b19427e5c9">&#9670;&#160;</a></span>rollStance()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#aff494cc4070ea4489c3d5ee57178f7c9">RollStance</a> core::rollStance </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>advantageSources</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>disadvantageSources</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Détermine la posture depuis le <b>nombre de sources</b> de chaque type (<span class="tt">EX-DND-002</span>). </p>
+<p>Deux avantages et un désavantage donnent <span class="tt">Normal</span>, pas <span class="tt">Advantage</span> : la règle annule, elle ne compte pas. C'est contre-intuitif la première fois, et c'est précisément pour cela que la décision vit ici, à un seul endroit. </p>
+
+</div>
+</div>
+<a id="aa60bb21d8cc45167ae840ea21c3b844c" name="aa60bb21d8cc45167ae840ea21c3b844c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa60bb21d8cc45167ae840ea21c3b844c">&#9670;&#160;</a></span>rollStanceName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string_view core::rollStanceName </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#aff494cc4070ea4489c3d5ee57178f7c9">RollStance</a></td>          <td class="paramname"><span class="paramname"><em>stance</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Nom textuel d'une posture, pour les journaux et la restitution. </p>
+
+</div>
+</div>
 <a id="a0b2fde01c38742c460acb176220332ff" name="a0b2fde01c38742c460acb176220332ff"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0b2fde01c38742c460acb176220332ff">&#9670;&#160;</a></span>setAssertionHandler()</h2>
 
@@ -2868,6 +3330,33 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>La position finale, l'indicateur de blocage par axe et l'occurrence d'un contact — même structure <span class="tt"><a class="el" href="structcore_1_1SweepResult.html" title="Résultat d&#39;un balayage : où la boîte s&#39;arrête et sur quels axes elle a été bloquée.">core::SweepResult</a></span> que <span class="tt"><a class="el" href="#a4ca635df367666624247837feb2af5a5" title="Déplace box de delta en s&#39;arrêtant au premier contact avec une tuile solide, puis en glissant le long...">sweepAabb</a></span>, pour une composition directe côté appelant. </dd></dl>
+
+</div>
+</div>
+<a id="a918b595ef74492bed349a6bbf82a9f64" name="a918b595ef74492bed349a6bbf82a9f64"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a918b595ef74492bed349a6bbf82a9f64">&#9670;&#160;</a></span>tilesFromMeters()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float core::tilesFromMeters </td>
+          <td>(</td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>meters</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Convertit une distance en mètres — telle que le corpus l'écrit — en nombre de cases. </p>
 
 </div>
 </div>
@@ -3066,6 +3555,30 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
 
 <p>Tolérance géométrique des routines de balayage, en unités monde. </p>
 <p>Empêche qu'un simple <b>effleurement</b> de frontière — un bord exactement posé sur une limite de case — compte comme un chevauchement. Partagée par <span class="tt">sweepX</span>/<span class="tt">sweepY</span> (<span class="tt">SweptCollision</span>) et par la résolution AABB/AABB : les deux doivent s'accorder sur ce qu'est un contact, sans quoi une même position serait bloquante pour l'une et libre pour l'autre. Ce n'est pas un réglage de ressenti, d'où sa place ici et non dans <span class="tt"><a class="el" href="structcore_1_1PhysicsConfig.html" title="Paramètres réglables de la physique du personnage, regroupés pour faciliter le tuning.">PhysicsConfig</a></span> : la modifier ne change pas le jeu, elle change la définition du contact. </p>
+
+</div>
+</div>
+<a id="a42b6dd302d4b68da1f4bdd439884b338" name="a42b6dd302d4b68da1f4bdd439884b338"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a42b6dd302d4b68da1f4bdd439884b338">&#9670;&#160;</a></span>D20_FACES</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int core::D20_FACES = 20</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Nombre de faces du dé de résolution. Le d20 est la mécanique centrale du jeu. </p>
 
 </div>
 </div>
@@ -3455,6 +3968,33 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
 </div><div class="memdoc">
 
 <p>Nombre maximal de plans par niveau (<span class="tt">EX-DEC-044</span>) : borne le coût dans le <b>format</b>, plutôt que de le laisser à l'usage. </p>
+
+</div>
+</div>
+<a id="a511d502baab5befb28a3742b65ee1e61" name="a511d502baab5befb28a3742b65ee1e61"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a511d502baab5befb28a3742b65ee1e61">&#9670;&#160;</a></span>METERS_PER_TILE</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float core::METERS_PER_TILE = 1.5f</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Côté d'une case de la grille tactique, en mètres. </p>
+<p><b>Décision de cadrage, figée ici et nulle part ailleurs.</b> Toutes les portées et vitesses du corpus sont exprimées en mètres — « allonge 1,50 m », « vitesse 9 m », « portée 6 m/18 m » — et la grille tactique du <span class="tt">LOT-19</span> compte en cases. La conversion se fait donc <em>quelque part</em>, et le seul choix ouvert est : à un endroit, ou à trente.</p>
+<p>À trente endroits, il suffit qu'un seul emploie 1,5 quand un autre emploie 1,52 (les cinq pieds d'origine) pour qu'une portée de six cases devienne cinq à un endroit du jeu et six ailleurs — et c'est le genre d'écart qu'on ne diagnostique qu'après l'avoir cherché longtemps.</p>
+<p>Consommée par les <span class="tt">LOT-19</span> (déplacement) et <span class="tt">LOT-22</span> (portée, ligne de vue, zones d'effet). </p>
 
 </div>
 </div>

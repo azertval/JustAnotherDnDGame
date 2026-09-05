@@ -105,6 +105,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ae8b6c9a8b84c113d3e881e825ce1ca38" id="r_ae8b6c9a8b84c113d3e881e825ce1ca38"><td class="memItemLeft">float&#160;</td><td class="memItemRight"><a class="el" href="#ae8b6c9a8b84c113d3e881e825ce1ca38">nextFloat01</a> () noexcept</td></tr>
 <tr class="memitem:a1d65be30928e57da0961a462bb1086a3" id="r_a1d65be30928e57da0961a462bb1086a3"><td class="memItemLeft">float&#160;</td><td class="memItemRight"><a class="el" href="#a1d65be30928e57da0961a462bb1086a3">nextRange</a> (float min, float max) noexcept</td></tr>
 <tr class="memdesc:a1d65be30928e57da0961a462bb1086a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prochain flottant dans [min, max].  <br /></td></tr>
+<tr class="memitem:afe4493bdfa8004e44caf24489f5f3861" id="r_afe4493bdfa8004e44caf24489f5f3861"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#afe4493bdfa8004e44caf24489f5f3861">nextInt</a> (int min, int max) noexcept</td></tr>
+<tr class="memdesc:afe4493bdfa8004e44caf24489f5f3861"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prochain entier dans <b>[min, max]</b>, bornes comprises, <b>sans biais modulo</b>.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-attribs" class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -169,6 +171,47 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>Le prochain flottant dans [0, 1[. </dd></dl>
+
+</div>
+</div>
+<a id="afe4493bdfa8004e44caf24489f5f3861" name="afe4493bdfa8004e44caf24489f5f3861"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe4493bdfa8004e44caf24489f5f3861">&#9670;&#160;</a></span>nextInt()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int core::DeterministicRandom::nextInt </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>min</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>max</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Prochain entier dans <b>[min, max]</b>, bornes comprises, <b>sans biais modulo</b>. </p>
+<p><span class="tt"><a class="el" href="#ad1df942da4dba2bfcc231873164d7bd0">nextUInt32()</a> % n</span> est la forme évidente, et elle est fausse : 2³² n'est pas un multiple de <span class="tt">n</span>, si bien que les <span class="tt">2³² mod n</span> premières valeurs sortent une fois de plus que les autres. Sur un d20 le biais est d'environ un dix-millionième — négligeable —, mais il est <em>systématique</em> et va toujours dans le même sens, et il rendrait indéfendable toute mesure de distribution faite sur ce générateur. Le corriger coûte une boucle qui ne tourne pratiquement jamais.</p>
+<p>La méthode est celle du <b>rejet</b> : on écarte la queue de l'intervalle qui dépasse le dernier multiple complet de <span class="tt">n</span>. Le nombre d'itérations est fini avec probabilité 1, et sa moyenne est inférieure à 2 pour tout <span class="tt">n</span> réaliste.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">min</td><td>Borne inférieure, comprise. </td></tr>
+    <tr><td class="paramname">max</td><td>Borne supérieure, <b>comprise</b>. Si <span class="tt">max &lt;= min</span>, renvoie <span class="tt">min</span> sans tirer — un intervalle vide n'est pas une erreur, c'est une valeur fixe. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>L'entier tiré. </dd></dl>
 
 </div>
 </div>

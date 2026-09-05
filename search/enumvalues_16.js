@@ -6,5 +6,6 @@ var searchData=
   ['warning_3',['Warning',['../namespacecore.html#aa9b5a444ee11933c91d5e3235aa5b5e3a0eaadb4fcb48a0a0ed7bc9868be9fbaa',1,'core']]],
   ['water_4',['Water',['../namespacecore.html#ace99a1be913e6294e42e9ebb145eb875a27634ff8002b12e75d98e07ccd005d18',1,'core']]],
   ['wholelevel_5',['WholeLevel',['../namespacecore.html#a5c6444096b9bc21a78b1f1157e9070b6a3080b25e8fedb44c9a9a494d7278490e',1,'core']]],
-  ['won_6',['Won',['../namespacecore.html#a60398ec3835dd2882a7d3a9eaddb65aaa19abd416eb9fe03ae7400a22446956a5',1,'core']]]
+  ['wisdom_6',['Wisdom',['../namespacecore.html#a97f31c7914a6cfc54cc026a77da58fd1a646f0a01b685558b975b5cd3f5b36241',1,'core']]],
+  ['won_7',['Won',['../namespacecore.html#a60398ec3835dd2882a7d3a9eaddb65aaa19abd416eb9fe03ae7400a22446956a5',1,'core']]]
 ];

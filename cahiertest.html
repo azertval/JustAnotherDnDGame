@@ -93,9 +93,9 @@ $(function(){initNavTree('cahiertest.html','',''); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md_CahierTest"></a></p>
-<p><b>949 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
+<p><b>963 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md5"></a>
-Tests unitaires (934)</h1>
+Tests unitaires (948)</h1>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md6"></a>
 Core</h2>
 <p><b><span class="tt"><a class="el" href="test__core_8cpp.html" title="Tests unitaires de la bibliothèque Core (amorçage).">test_core.cpp</a></span></b></p>
@@ -2104,7 +2104,136 @@ Vérifie que <span class="tt">r.normal.y</span> vaut <span class="tt">1.0f</span
 Vérifie que <span class="tt">r.position.x</span> vaut <span class="tt">3.0f</span> (comparaison flottante).  </td></tr>
 </table>
 <h3 class="doxsection"><a class="anchor" id="autotoc_md14"></a>
-Rpg (11)</h3>
+Rpg (25)</h3>
+<p><b><span class="tt"><a class="el" href="test__check_8cpp.html" title="Tests du jet de d20 : avantage, seuil, restitution (LOT-12, EX-DND-002, EX-DND-003).">test_check.cpp</a></span></b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>CheckTest.AvantageEtDesavantageGardentLeBonDe</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__check_8cpp.html" title="Tests du jet de d20 : avantage, seuil, restitution (LOT-12, EX-DND-002, EX-DND-003).">Source/Test/Unit/Core/Rpg/test_check.cpp</a>:47</span></sub>  </td><td class="markdownTableBodyNone">L'avantage garde le meilleur de deux des, le desavantage le pire.  </td><td class="markdownTableBodyNone">1. Lancer mille jets avec avantage, puis mille avec desavantage.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">avantage.dice.size()</span> vaut <span class="tt">2U</span>.<br  />
+Vérifie que <span class="tt">avantage.keptDie</span> vaut <span class="tt">std::max(avantage.dice[0], avantage.dice[1])</span>.<br  />
+Vérifie que <span class="tt">desavantage.dice.size()</span> vaut <span class="tt">2U</span>.<br  />
+Vérifie que <span class="tt">desavantage.keptDie</span> vaut <span class="tt">std::min(desavantage.dice[0], desavantage.dice[1])</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>CheckTest.AvantageEtDesavantageSAnnulent</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__check_8cpp.html" title="Tests du jet de d20 : avantage, seuil, restitution (LOT-12, EX-DND-002, EX-DND-003).">Source/Test/Unit/Core/Rpg/test_check.cpp</a>:72</span></sub>  </td><td class="markdownTableBodyNone">Avantage et desavantage s'annulent entierement, et ne se cumulent jamais.  </td><td class="markdownTableBodyNone">1. Determiner la posture pour 0/0, 1/0, 0/1, 1/1 et 2/1 sources.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">core::rollStance(0, 0)</span> vaut <span class="tt"><a class="el" href="namespacecore.html#aff494cc4070ea4489c3d5ee57178f7c9a960b44c579bc2f6818d2daaf9e4c16f0">core::RollStance::Normal</a></span>.<br  />
+Vérifie que <span class="tt">core::rollStance(1, 0)</span> vaut <span class="tt"><a class="el" href="namespacecore.html#aff494cc4070ea4489c3d5ee57178f7c9a1b2430d20c750dada9aaaed48b4eb8f1">core::RollStance::Advantage</a></span>.<br  />
+Vérifie que <span class="tt">core::rollStance(0, 1)</span> vaut <span class="tt"><a class="el" href="namespacecore.html#aff494cc4070ea4489c3d5ee57178f7c9ae755d083f9085a585ef791919be5a004">core::RollStance::Disadvantage</a></span>.<br  />
+Vérifie que <span class="tt">core::rollStance(1, 1)</span> vaut <span class="tt"><a class="el" href="namespacecore.html#aff494cc4070ea4489c3d5ee57178f7c9a960b44c579bc2f6818d2daaf9e4c16f0">core::RollStance::Normal</a></span>.<br  />
+Vérifie que <span class="tt">core::rollStance(2, 1)</span> vaut <span class="tt"><a class="el" href="namespacecore.html#aff494cc4070ea4489c3d5ee57178f7c9a960b44c579bc2f6818d2daaf9e4c16f0">core::RollStance::Normal</a></span>.<br  />
+Vérifie que <span class="tt">core::rollStance(1, 3)</span> vaut <span class="tt"><a class="el" href="namespacecore.html#aff494cc4070ea4489c3d5ee57178f7c9a960b44c579bc2f6818d2daaf9e4c16f0">core::RollStance::Normal</a></span>.<br  />
+Vérifie que <span class="tt">core::rollStance(3, 0)</span> vaut <span class="tt"><a class="el" href="namespacecore.html#aff494cc4070ea4489c3d5ee57178f7c9a1b2430d20c750dada9aaaed48b4eb8f1">core::RollStance::Advantage</a></span>.<br  />
+Vérifie que <span class="tt">resultat.dice.size()</span> vaut <span class="tt">1U</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>CheckTest.NaturelsDistinguesDuTotal</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__check_8cpp.html" title="Tests du jet de d20 : avantage, seuil, restitution (LOT-12, EX-DND-002, EX-DND-003).">Source/Test/Unit/Core/Rpg/test_check.cpp</a>:99</span></sub>  </td><td class="markdownTableBodyNone">Un 1 ou 20 naturel se distingue d'un total de 1 ou 20.  </td><td class="markdownTableBodyNone">1. Lancer jusqu'a obtenir un 20 naturel et un 1 naturel.<br  />
+ 2. Construire un resultat de total 20 obtenu avec un de de 8.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">resultat.isNaturalTwenty()</span> est vrai.<br  />
+Vérifie que <span class="tt">resultat.isNaturalOne()</span> est faux.<br  />
+Vérifie que <span class="tt">resultat.isNaturalOne()</span> est vrai.<br  />
+Vérifie que <span class="tt">resultat.isNaturalTwenty()</span> est faux.<br  />
+Vérifie que <span class="tt">vingtVu</span> est vrai.<br  />
+Vérifie que <span class="tt">unVu</span> est vrai.<br  />
+Vérifie que <span class="tt">total20.isNaturalTwenty()</span> est faux.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>CheckTest.ModificateursEtRestitution</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__check_8cpp.html" title="Tests du jet de d20 : avantage, seuil, restitution (LOT-12, EX-DND-002, EX-DND-003).">Source/Test/Unit/Core/Rpg/test_check.cpp</a>:139</span></sub>  </td><td class="markdownTableBodyNone">Les modificateurs d'un jet s'appliquent et conservent leur origine.  </td><td class="markdownTableBodyNone">1. Lancer un jet avec +3 de Dexterite et +2 de maitrise.<br  />
+ 2. Lire la restitution.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">cible</span> vaut <span class="tt">15</span>.<br  />
+Vérifie que <span class="tt">resultat.total</span> vaut <span class="tt">resultat.keptDie + 5</span>.<br  />
+Vérifie que <span class="tt">resultat.target</span> vaut <span class="tt">cible</span>.<br  />
+Vérifie que <span class="tt">resultat.succeeded()</span> vaut <span class="tt">resultat.total &gt;= cible</span>.<br  />
+Vérifie que <span class="tt">restitution.find("Dexterite")</span> diffère de <span class="tt">std::string::npos</span>.<br  />
+Vérifie que <span class="tt">restitution.find("maitrise")</span> diffère de <span class="tt">std::string::npos</span>.<br  />
+Vérifie que <span class="tt">restitution.find(std::to_string(cible))</span> diffère de <span class="tt">std::string::npos</span>.<br  />
+Vérifie que <span class="tt">restitution.find(std::to_string(resultat.total))</span> diffère de <span class="tt">std::string::npos</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>CheckTest.EchelleDeDifficulteEnDonnee</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__check_8cpp.html" title="Tests du jet de d20 : avantage, seuil, restitution (LOT-12, EX-DND-002, EX-DND-003).">Source/Test/Unit/Core/Rpg/test_check.cpp</a>:173</span></sub>  </td><td class="markdownTableBodyNone">L'echelle de difficulte est une donnee complete et croissante.  </td><td class="markdownTableBodyNone">1. Lire les paliers de difficulty.json.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">document.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt">paliers.size()</span> vaut <span class="tt">6U</span>.<br  />
+Vérifie que <span class="tt">dc</span> est strictement supérieur à <span class="tt">precedent</span>.<br  />
+Vérifie que <span class="tt">seuil("tres-facile")</span> vaut <span class="tt">5</span>.<br  />
+Vérifie que <span class="tt">seuil("quasi-impossible")</span> vaut <span class="tt">30</span>.  </td></tr>
+</table>
+<p><b><span class="tt"><a class="el" href="test__dice_8cpp.html" title="Tests des des, des caracteristiques et de l&#39;echelle (LOT-12, EX-NFR-002).">test_dice.cpp</a></span></b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>DiceTest.AnalyseDesTroisFormes</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__dice_8cpp.html" title="Tests des des, des caracteristiques et de l&#39;echelle (LOT-12, EX-NFR-002).">Source/Test/Unit/Core/Rpg/test_dice.cpp</a>:30</span></sub>  </td><td class="markdownTableBodyNone">La notation de des est analysee sous ses trois formes.  </td><td class="markdownTableBodyNone">1. Analyser &lt;&lt; 2d6+3 &gt;&gt;, &lt;&lt; 1d8 &gt;&gt;, &lt;&lt; 4 &gt;&gt; et &lt;&lt; 1d4-1 &gt;&gt;.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">avecModificateur.has_value()</span> est vrai.<br  />
+Vérifie que <span class="tt">avecModificateur-&gt;count</span> vaut <span class="tt">2</span>.<br  />
+Vérifie que <span class="tt">avecModificateur-&gt;faces</span> vaut <span class="tt">6</span>.<br  />
+Vérifie que <span class="tt">avecModificateur-&gt;modifier</span> vaut <span class="tt">3</span>.<br  />
+Vérifie que <span class="tt">simple.has_value()</span> est vrai.<br  />
+Vérifie que <span class="tt">*simple</span> vaut <span class="tt">(<a class="el" href="structcore_1_1Dice.html" title="Une expression de dés analysée : 2d6+3, 1d8, 4.">core::Dice</a>{1, 8, 0})</span>.<br  />
+Vérifie que <span class="tt">fixe.has_value()</span> est vrai.<br  />
+Vérifie que <span class="tt">*fixe</span> vaut <span class="tt">(<a class="el" href="structcore_1_1Dice.html" title="Une expression de dés analysée : 2d6+3, 1d8, 4.">core::Dice</a>{0, 0, 4})</span>.<br  />
+Vérifie que <span class="tt">negatif.has_value()</span> est vrai.<br  />
+Vérifie que <span class="tt">negatif-&gt;modifier</span> vaut <span class="tt">-1</span>.<br  />
+Vérifie que <span class="tt">core::formatDice(*avecModificateur)</span> vaut <span class="tt">"2d6+3"</span>.<br  />
+Vérifie que <span class="tt">core::formatDice(*negatif)</span> vaut <span class="tt">"1d4-1"</span>.<br  />
+Vérifie que <span class="tt">core::formatDice(*fixe)</span> vaut <span class="tt">"4"</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>DiceTest.UneNotationMalFormeeEstRefusee</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__dice_8cpp.html" title="Tests des des, des caracteristiques et de l&#39;echelle (LOT-12, EX-NFR-002).">Source/Test/Unit/Core/Rpg/test_dice.cpp</a>:63</span></sub>  </td><td class="markdownTableBodyNone">Une notation de des mal formee est refusee au lieu d'etre devinee.  </td><td class="markdownTableBodyNone">1. Analyser &lt;&lt; ld8 &gt;&gt; (faute d'OCR), une chaine vide, &lt;&lt; 1d &gt;&gt;, &lt;&lt; d6 &gt;&gt; et &lt;&lt; 1d6+2x &gt;&gt;.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a76e3cf52c7e664a785fc4cabad9e571a" title="Analyse une notation NdF, NdF+M, NdF-M ou une valeur fixe.">core::parseDice</a>("ld8").has_value()</span> est faux.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a76e3cf52c7e664a785fc4cabad9e571a" title="Analyse une notation NdF, NdF+M, NdF-M ou une valeur fixe.">core::parseDice</a>("").has_value()</span> est faux.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a76e3cf52c7e664a785fc4cabad9e571a" title="Analyse une notation NdF, NdF+M, NdF-M ou une valeur fixe.">core::parseDice</a>("1d").has_value()</span> est faux.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a76e3cf52c7e664a785fc4cabad9e571a" title="Analyse une notation NdF, NdF+M, NdF-M ou une valeur fixe.">core::parseDice</a>("d6").has_value()</span> est faux.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a76e3cf52c7e664a785fc4cabad9e571a" title="Analyse une notation NdF, NdF+M, NdF-M ou une valeur fixe.">core::parseDice</a>("1d6+2x").has_value()</span> est faux.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a76e3cf52c7e664a785fc4cabad9e571a" title="Analyse une notation NdF, NdF+M, NdF-M ou une valeur fixe.">core::parseDice</a>("0d6").has_value()</span> est faux.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a76e3cf52c7e664a785fc4cabad9e571a" title="Analyse une notation NdF, NdF+M, NdF-M ou une valeur fixe.">core::parseDice</a>("1d0").has_value()</span> est faux.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>DiceTest.UnLancerResteDansSesBornes</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__dice_8cpp.html" title="Tests des des, des caracteristiques et de l&#39;echelle (LOT-12, EX-NFR-002).">Source/Test/Unit/Core/Rpg/test_dice.cpp</a>:85</span></sub>  </td><td class="markdownTableBodyNone">Un lancer de des reste dans ses bornes et conserve le detail de chaque de.  </td><td class="markdownTableBodyNone">1. Lancer 2d6+3 mille fois a graine fixe.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">roll.faces.size()</span> vaut <span class="tt">2U</span>.<br  />
+Vérifie que <span class="tt">face</span> est supérieur ou égal à <span class="tt">1</span>.<br  />
+Vérifie que <span class="tt">face</span> est inférieur ou égal à <span class="tt">6</span>.<br  />
+Vérifie que <span class="tt">roll.total</span> est supérieur ou égal à <span class="tt">dice.minimum()</span>.<br  />
+Vérifie que <span class="tt">roll.total</span> est inférieur ou égal à <span class="tt">dice.maximum()</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>DiceTest.RejouabiliteStricte</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__dice_8cpp.html" title="Tests des des, des caracteristiques et de l&#39;echelle (LOT-12, EX-NFR-002).">Source/Test/Unit/Core/Rpg/test_dice.cpp</a>:109</span></sub>  </td><td class="markdownTableBodyNone">Deux generateurs de meme graine produisent exactement la meme suite de des.  </td><td class="markdownTableBodyNone">1. Lancer cent fois 3d8 avec deux generateurs de meme graine.<br  />
+ 2. Recommencer avec une graine differente.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">suiteA</span> vaut <span class="tt">suiteB</span>.<br  />
+Vérifie que <span class="tt">suiteA</span> diffère de <span class="tt">suiteAutre</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>DiceTest.DistributionUniformeSurCentMilleTirages</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__dice_8cpp.html" title="Tests des des, des caracteristiques et de l&#39;echelle (LOT-12, EX-NFR-002).">Source/Test/Unit/Core/Rpg/test_dice.cpp</a>:139</span></sub>  </td><td class="markdownTableBodyNone">La distribution d'un d20 est uniforme sur cent mille tirages a graine fixe.  </td><td class="markdownTableBodyNone">1. Tirer cent mille d20 a graine fixe et compter chaque face.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">effectifs.size()</span> vaut <span class="tt">static_cast&lt;std::size_t&gt;(FACES)</span>.<br  />
+Vérifie que <span class="tt">face</span> est supérieur ou égal à <span class="tt">1</span>.<br  />
+Vérifie que <span class="tt">face</span> est inférieur ou égal à <span class="tt">FACES</span>.<br  />
+Vérifie que <span class="tt">static_cast&lt;double&gt;(compte)</span> vaut <span class="tt">attendu</span>, à <span class="tt">attendu * 0.10</span> près.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>DiceTest.BornesDuTirageEntier</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__dice_8cpp.html" title="Tests des des, des caracteristiques et de l&#39;echelle (LOT-12, EX-NFR-002).">Source/Test/Unit/Core/Rpg/test_dice.cpp</a>:171</span></sub>  </td><td class="markdownTableBodyNone">Le tirage entier respecte ses bornes, y compris quand elles sont egales.  </td><td class="markdownTableBodyNone">1. Tirer dix mille fois dans [3, 3], puis dans [-5, 5].  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">random.nextInt(3, 3)</span> vaut <span class="tt">3</span>.<br  />
+Vérifie que <span class="tt">valeur</span> est supérieur ou égal à <span class="tt">-5</span>.<br  />
+Vérifie que <span class="tt">valeur</span> est inférieur ou égal à <span class="tt">5</span>.<br  />
+Vérifie que <span class="tt">minAtteint</span> est vrai.<br  />
+Vérifie que <span class="tt">maxAtteint</span> est vrai.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>DiceTest.ModificateurArrondiVersLeBas</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__dice_8cpp.html" title="Tests des des, des caracteristiques et de l&#39;echelle (LOT-12, EX-NFR-002).">Source/Test/Unit/Core/Rpg/test_dice.cpp</a>:200</span></sub>  </td><td class="markdownTableBodyNone">Le modificateur de caracteristique s'arrondit vers le bas, y compris en negatif.  </td><td class="markdownTableBodyNone">1. Calculer le modificateur pour 1, 7, 8, 9, 10, 11, 15 et 20.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">core::abilityModifier(1)</span> vaut <span class="tt">-5</span>.<br  />
+Vérifie que <span class="tt">core::abilityModifier(3)</span> vaut <span class="tt">-4</span>.<br  />
+Vérifie que <span class="tt">core::abilityModifier(7)</span> vaut <span class="tt">-2</span>.<br  />
+Vérifie que <span class="tt">core::abilityModifier(8)</span> vaut <span class="tt">-1</span>.<br  />
+Vérifie que <span class="tt">core::abilityModifier(9)</span> vaut <span class="tt">-1</span>.<br  />
+Vérifie que <span class="tt">core::abilityModifier(10)</span> vaut <span class="tt">0</span>.<br  />
+Vérifie que <span class="tt">core::abilityModifier(11)</span> vaut <span class="tt">0</span>.<br  />
+Vérifie que <span class="tt">core::abilityModifier(15)</span> vaut <span class="tt">2</span>.<br  />
+Vérifie que <span class="tt">core::abilityModifier(20)</span> vaut <span class="tt">5</span>.<br  />
+Vérifie que <span class="tt">core::abilityModifier(30)</span> vaut <span class="tt">10</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>DiceTest.AllerRetourDesCaracteristiques</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__dice_8cpp.html" title="Tests des des, des caracteristiques et de l&#39;echelle (LOT-12, EX-NFR-002).">Source/Test/Unit/Core/Rpg/test_dice.cpp</a>:225</span></sub>  </td><td class="markdownTableBodyNone">Les six caracteristiques font l'aller-retour par leur nom sans perte.  </td><td class="markdownTableBodyNone">1. Convertir chaque caracteristique en nom, puis le nom en caracteristique.<br  />
+ 2. Analyser un nom francais.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a309ca7d25e940cb02037278fe41109d1" title="Les six caractéristiques, dans l&#39;ordre de la fiche.">core::allAbilities()</a>.size()</span> vaut <span class="tt">6U</span>.<br  />
+Vérifie que <span class="tt">nom.empty()</span> est faux.<br  />
+Vérifie que <span class="tt">relu.has_value()</span> est vrai.<br  />
+Vérifie que <span class="tt">*relu</span> vaut <span class="tt">ability</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a6faed4224d505ed620516937e3a019dd" title="Inverse d&#39;abilityName. std::nullopt si le nom est inconnu — jamais deviné.">core::parseAbility</a>("force").has_value()</span> est faux.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>DiceTest.EchelleDuMonde</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__dice_8cpp.html" title="Tests des des, des caracteristiques et de l&#39;echelle (LOT-12, EX-NFR-002).">Source/Test/Unit/Core/Rpg/test_dice.cpp</a>:248</span></sub>  </td><td class="markdownTableBodyNone">L'echelle du monde convertit metres et cases dans les deux sens.  </td><td class="markdownTableBodyNone">1. Convertir 9 metres en cases, puis 6 cases en metres.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a511d502baab5befb28a3742b65ee1e61" title="Côté d&#39;une case de la grille tactique, en mètres.">core::METERS_PER_TILE</a></span> vaut <span class="tt">1.5f</span> (comparaison flottante).<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a918b595ef74492bed349a6bbf82a9f64" title="Convertit une distance en mètres — telle que le corpus l&#39;écrit — en nombre de cases.">core::tilesFromMeters</a>(9.0f)</span> vaut <span class="tt">6.0f</span> (comparaison flottante).<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a3bc1fb9934614684210eff9159619222" title="Convertit un nombre de cases en mètres, pour l&#39;affichage et les infobulles.">core::metersFromTiles</a>(6.0f)</span> vaut <span class="tt">9.0f</span> (comparaison flottante).<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a918b595ef74492bed349a6bbf82a9f64" title="Convertit une distance en mètres — telle que le corpus l&#39;écrit — en nombre de cases.">core::tilesFromMeters</a>(<a class="el" href="namespacecore.html#a3bc1fb9934614684210eff9159619222" title="Convertit un nombre de cases en mètres, pour l&#39;affichage et les infobulles.">core::metersFromTiles</a>(4.0f))</span> vaut <span class="tt">4.0f</span> (comparaison flottante).  </td></tr>
+</table>
 <p><b><span class="tt"><a class="el" href="test__multiclassing_8cpp.html" title="Tests du cumul des emplacements de sorts multiclasses (LOT-43, EX-RPG-041).">test_multiclassing.cpp</a></span></b></p>
 <table class="markdownTable">
 <tr class="markdownTableHead">

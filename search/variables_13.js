@@ -24,7 +24,7 @@ var searchData=
   ['skinset_21',['skinSet',['../structcore_1_1LevelData.html#a17461cbdb9c1fe321a6611eb6d66cd57',1,'core::LevelData::skinSet'],['../structcore_1_1LevelDraft_1_1State.html#ac6c4d0bd41537d66e602a3bcf839f45b',1,'core::LevelDraft::State::skinSet'],['../structhmi_1_1SceneTextures.html#a1a7d49eb5842bb0fd960fe53cb4159e5',1,'hmi::SceneTextures::skinSet']]],
   ['small_22',['small',['../structhmi_1_1SpacingTokens.html#a49320e3cd44ad0e33eccda2946045e8d',1,'hmi::SpacingTokens']]],
   ['sortorder_23',['sortOrder',['../structhmi_1_1ComposedQuad.html#af4241edce3e12e76a2b398e81dae9954',1,'hmi::ComposedQuad']]],
-  ['source_24',['source',['../structhmi_1_1PaletteThumbnail.html#a96bfe025c3c44818cd830950ccfdd6dc',1,'hmi::PaletteThumbnail::source'],['../structhmi_1_1TileAppearance.html#a6e0cf1961a31c1fc6ba9ca5e73088f5f',1,'hmi::TileAppearance::source']]],
+  ['source_24',['source',['../structcore_1_1Modifier.html#a062def5cf1e0a9394baeb57c80828eb5',1,'core::Modifier::source'],['../structhmi_1_1PaletteThumbnail.html#a96bfe025c3c44818cd830950ccfdd6dc',1,'hmi::PaletteThumbnail::source'],['../structhmi_1_1TileAppearance.html#a6e0cf1961a31c1fc6ba9ca5e73088f5f',1,'hmi::TileAppearance::source']]],
   ['spaceextralarge_25',['spaceExtraLarge',['../structhmi_1_1IdentityBaseScale.html#a7eeb74218c124fd50afbfee0148ea697',1,'hmi::IdentityBaseScale']]],
   ['spacelarge_26',['spaceLarge',['../structhmi_1_1IdentityBaseScale.html#a91315ebc578c12dbf22494abdd41b375',1,'hmi::IdentityBaseScale']]],
   ['spacemedium_27',['spaceMedium',['../structhmi_1_1IdentityBaseScale.html#a3c425bec8d7fd1536b919fecf65be60b',1,'hmi::IdentityBaseScale']]],
@@ -34,11 +34,12 @@ var searchData=
   ['speedmin_31',['speedMin',['../structcore_1_1ParticleEffect.html#a6b49e87f5ea53d592351bb37b408e9af',1,'core::ParticleEffect']]],
   ['spreadradians_32',['spreadRadians',['../structcore_1_1ParticleEffect.html#a9aa22795454ec7fa0aceca7a0245c77e',1,'core::ParticleEffect']]],
   ['sprite_33',['sprite',['../structhmi_1_1ComposedQuad.html#a4f3a165eb195336d970a2193706e2a05',1,'hmi::ComposedQuad']]],
-  ['strokes_34',['strokes',['../structhmi_1_1IconGeometry.html#a238ebbaf9e0b32d32e08110c73526a8c',1,'hmi::IconGeometry']]],
-  ['subgroups_35',['subgroups',['../structhmi_1_1TileCategory.html#a2c1d9c40e11d8b462c3e24de19f49406',1,'hmi::TileCategory']]],
-  ['submitted_36',['submitted',['../structhmi_1_1SceneStatistics.html#ab6da0ac15fcd9fb0e99f694ca5ba9753',1,'hmi::SceneStatistics']]],
-  ['succeeded_37',['succeeded',['../structhmi_1_1FileOperationResult.html#ad059749c338126e1310a43e6c07f08c8',1,'hmi::FileOperationResult']]],
-  ['surface_38',['surface',['../structhmi_1_1EditorActionSpec.html#a0a64c72075a449a6e6fa0dd613b9f7b5',1,'hmi::EditorActionSpec::surface'],['../structhmi_1_1ColorTokens.html#a3f568f4e9ea50087da9b69cee87853dd',1,'hmi::ColorTokens::surface']]],
-  ['surfacealt_39',['surfaceAlt',['../structhmi_1_1ColorTokens.html#aadd697ac0c19bcbc6ebd49e4b900e0bd',1,'hmi::ColorTokens']]],
-  ['switchposition_40',['switchPosition',['../structcore_1_1Mechanism.html#a5dd9b9cdb7f5f631367af20f9abbf545',1,'core::Mechanism::switchPosition'],['../structhmi_1_1LinkGestureDecision.html#ad132f71711d40ac61d3369a5fc4cae11',1,'hmi::LinkGestureDecision::switchPosition']]]
+  ['stance_34',['stance',['../structcore_1_1CheckResult.html#a02f0ef9fa92d345a09c99040c18e811d',1,'core::CheckResult']]],
+  ['strokes_35',['strokes',['../structhmi_1_1IconGeometry.html#a238ebbaf9e0b32d32e08110c73526a8c',1,'hmi::IconGeometry']]],
+  ['subgroups_36',['subgroups',['../structhmi_1_1TileCategory.html#a2c1d9c40e11d8b462c3e24de19f49406',1,'hmi::TileCategory']]],
+  ['submitted_37',['submitted',['../structhmi_1_1SceneStatistics.html#ab6da0ac15fcd9fb0e99f694ca5ba9753',1,'hmi::SceneStatistics']]],
+  ['succeeded_38',['succeeded',['../structhmi_1_1FileOperationResult.html#ad059749c338126e1310a43e6c07f08c8',1,'hmi::FileOperationResult']]],
+  ['surface_39',['surface',['../structhmi_1_1EditorActionSpec.html#a0a64c72075a449a6e6fa0dd613b9f7b5',1,'hmi::EditorActionSpec::surface'],['../structhmi_1_1ColorTokens.html#a3f568f4e9ea50087da9b69cee87853dd',1,'hmi::ColorTokens::surface']]],
+  ['surfacealt_40',['surfaceAlt',['../structhmi_1_1ColorTokens.html#aadd697ac0c19bcbc6ebd49e4b900e0bd',1,'hmi::ColorTokens']]],
+  ['switchposition_41',['switchPosition',['../structcore_1_1Mechanism.html#a5dd9b9cdb7f5f631367af20f9abbf545',1,'core::Mechanism::switchPosition'],['../structhmi_1_1LinkGestureDecision.html#ad132f71711d40ac61d3369a5fc4cae11',1,'hmi::LinkGestureDecision::switchPosition']]]
 ];

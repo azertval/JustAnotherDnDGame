@@ -156,11 +156,12 @@ var searchData=
   ['submit_153',['submit',['../classhmi_1_1SpriteBatch.html#a7e2fa26a9366aeb8105586a2939ee4b6',1,'hmi::SpriteBatch']]],
   ['submitcomposedscene_154',['submitComposedScene',['../namespacehmi.html#a533df804a658915efda4f8f6c918496e',1,'hmi']]],
   ['substitutestylesheettemplate_155',['substituteStyleSheetTemplate',['../namespacehmi.html#a109a8b01a44769d182894f833e7cb054',1,'hmi']]],
-  ['success_156',['success',['../structhmi_1_1FileOperationResult.html#a8c76db36950ab2804e91c61733071b04',1,'hmi::FileOperationResult']]],
-  ['sweepaabb_157',['sweepAabb',['../namespacecore.html#a4ca635df367666624247837feb2af5a5',1,'core']]],
-  ['sweepaabbvsaabb_158',['sweepAabbVsAabb',['../namespacecore.html#a0019562e8e9658def020086ee4d49425',1,'core']]],
-  ['switchtoworkspace_159',['switchToWorkspace',['../classhmi_1_1MainWindow.html#a59c679aa42691272befe551088c8b4e3',1,'hmi::MainWindow']]],
-  ['syncpalettetocanvas_160',['syncPaletteToCanvas',['../classhmi_1_1MainWindow.html#a995770117dd47f09b9d2754a0216e9bb',1,'hmi::MainWindow']]],
-  ['systemcount_161',['systemCount',['../classcore_1_1World.html#ad3b759b0967b0ca1a82f3462281a278d',1,'core::World']]],
-  ['systemprefersdarktheme_162',['systemPrefersDarkTheme',['../namespacehmi.html#a4a093e625bf2462100c49cb1803a35a9',1,'hmi']]]
+  ['succeeded_156',['succeeded',['../structcore_1_1CheckResult.html#a01fa3dd1982f4844c42a1e2b9e7b9325',1,'core::CheckResult']]],
+  ['success_157',['success',['../structhmi_1_1FileOperationResult.html#a8c76db36950ab2804e91c61733071b04',1,'hmi::FileOperationResult']]],
+  ['sweepaabb_158',['sweepAabb',['../namespacecore.html#a4ca635df367666624247837feb2af5a5',1,'core']]],
+  ['sweepaabbvsaabb_159',['sweepAabbVsAabb',['../namespacecore.html#a0019562e8e9658def020086ee4d49425',1,'core']]],
+  ['switchtoworkspace_160',['switchToWorkspace',['../classhmi_1_1MainWindow.html#a59c679aa42691272befe551088c8b4e3',1,'hmi::MainWindow']]],
+  ['syncpalettetocanvas_161',['syncPaletteToCanvas',['../classhmi_1_1MainWindow.html#a995770117dd47f09b9d2754a0216e9bb',1,'hmi::MainWindow']]],
+  ['systemcount_162',['systemCount',['../classcore_1_1World.html#ad3b759b0967b0ca1a82f3462281a278d',1,'core::World']]],
+  ['systemprefersdarktheme_163',['systemPrefersDarkTheme',['../namespacehmi.html#a4a093e625bf2462100c49cb1803a35a9',1,'hmi']]]
 ];

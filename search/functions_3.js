@@ -11,7 +11,7 @@ var searchData=
   ['depthchangerequested_8',['depthChangeRequested',['../classhmi_1_1PlanesPanel.html#ad19b57c599d7954b725092ef82826da5',1,'hmi::PlanesPanel']]],
   ['depthsortorder_9',['depthSortOrder',['../namespacehmi.html#a551d45820ca5a6e720a6a89e1c70c120',1,'hmi']]],
   ['deriveseed_10',['deriveSeed',['../namespacecore.html#a743d1073227b83fb7f8a727a4e0829ae',1,'core']]],
-  ['describe_11',['describe',['../classhmi_1_1QuadRecorder.html#af96b37a9440c9b0bb60437cbbdc30732',1,'hmi::QuadRecorder']]],
+  ['describe_11',['describe',['../structcore_1_1CheckResult.html#a6a87d200ae59fcdd179e04eca64d3548',1,'core::CheckResult::describe()'],['../structcore_1_1DiceRoll.html#abb413dae8fede7bb738e1867829dce9b',1,'core::DiceRoll::describe()'],['../classhmi_1_1QuadRecorder.html#af96b37a9440c9b0bb60437cbbdc30732',1,'hmi::QuadRecorder::describe()']]],
   ['describecontract_12',['describeContract',['../namespacehmi.html#aa04b1535f9fb0ceb7138c6b6c58c15a9',1,'hmi']]],
   ['describereferences_13',['describeReferences',['../namespacehmi.html#a5788fed057d46145b1fcb3d9ed9c2ec1',1,'hmi']]],
   ['descriptorfilename_14',['descriptorFileName',['../classhmi_1_1AnimationCatalog.html#a3c11b9e7acf4752079f89e2d21c4949a',1,'hmi::AnimationCatalog']]],

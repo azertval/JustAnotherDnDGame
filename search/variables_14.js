@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['target_0',['target',['../structhmi_1_1LinkRow.html#a98d23366fd703c30065ab65735b12808',1,'hmi::LinkRow']]],
+  ['target_0',['target',['../structcore_1_1CheckResult.html#a47c50b167b36e54dd2dc7190d7e27bfc',1,'core::CheckResult::target'],['../structhmi_1_1LinkRow.html#a98d23366fd703c30065ab65735b12808',1,'hmi::LinkRow::target']]],
   ['targetposition_1',['targetPosition',['../structhmi_1_1LinkGestureDecision.html#a3ad9aa3ddf5ba1b555df0a74e9868f22',1,'hmi::LinkGestureDecision']]],
   ['text_2',['text',['../structhmi_1_1ColorTokens.html#aec46ebdcef4690658cf60d873af98a7f',1,'hmi::ColorTokens::text'],['../structhmi_1_1StyleSheetSubstitutionResult.html#a268fa380fcd6280e1b7fb507e2b8d07f',1,'hmi::StyleSheetSubstitutionResult::text']]],
   ['textmuted_3',['textMuted',['../structhmi_1_1ColorTokens.html#acf7220f0fec104b7dce4adf5eee0b9b4',1,'hmi::ColorTokens']]],
@@ -21,9 +21,10 @@ var searchData=
   ['tool_18',['tool',['../structhmi_1_1LevelStatusInfo.html#a34fa72e0a84dd03ff663f512a161111d',1,'hmi::LevelStatusInfo::tool'],['../structhmi_1_1PixelEditStatusInfo.html#a957595d3dba27a17569c54ad50e0d7a6',1,'hmi::PixelEditStatusInfo::tool'],['../structhmi_1_1PanelFocusEntry.html#ac00480fe8ec2557681ad7fd897bbaa80',1,'hmi::PanelFocusEntry::tool'],['../structhmi_1_1PixelPanelFocusEntry.html#a3675068e93f52eca1c244dbf9500a5d6',1,'hmi::PixelPanelFocusEntry::tool']]],
   ['toolbar_5fcommand_5fbudget_19',['TOOLBAR_COMMAND_BUDGET',['../namespacehmi.html#a5ebc32fedafb3df6472a578a8faf7596',1,'hmi']]],
   ['toolbarvisible_20',['toolBarVisible',['../structhmi_1_1ScreenDressing.html#aa4b3bb237b2f0c4c94e1cf7457eb9ba7',1,'hmi::ScreenDressing']]],
-  ['trigger_21',['trigger',['../structhmi_1_1LinkRow.html#a93d02effe5cbd921e51baa5b4700076a',1,'hmi::LinkRow']]],
-  ['type_22',['type',['../structcore_1_1MapEntity.html#a0585fa6522c09d42c879ed8bd9c32550',1,'core::MapEntity::type'],['../structhmi_1_1MechanismAnimationRow.html#a40938cd8c8ca322f13335109639fda81',1,'hmi::MechanismAnimationRow::type'],['../structhmi_1_1SkinRow.html#aab2e46edc96113bb33a3e70e451507e1',1,'hmi::SkinRow::type'],['../structhmi_1_1TileEntry.html#a9c1d5d345916c39548749b802bd7deb9',1,'hmi::TileEntry::type'],['../structhmi_1_1TileSkinTag.html#af27ab75e03393c0fd46707ed7306232d',1,'hmi::TileSkinTag::type']]],
-  ['typelabel_23',['typeLabel',['../structhmi_1_1MechanismAnimationRow.html#ae46764178a55be9dd1ba03002ce4efdc',1,'hmi::MechanismAnimationRow::typeLabel'],['../structhmi_1_1SkinRow.html#a770046b5c0e30e8b55f7f69705d8dde4',1,'hmi::SkinRow::typeLabel']]],
-  ['typename_24',['typeName',['../structhmi_1_1AssetReference.html#a636c024ee797ff2d5a226207884b7845',1,'hmi::AssetReference']]],
-  ['typography_25',['typography',['../structhmi_1_1DesignTokens.html#afcae229bb7d27beb197c18bb50b31be0',1,'hmi::DesignTokens']]]
+  ['total_21',['total',['../structcore_1_1CheckResult.html#aeccd3c788287a31f2cb00c03248ab824',1,'core::CheckResult::total'],['../structcore_1_1DiceRoll.html#a9d7e48e2e230e7d26da02fc527c93232',1,'core::DiceRoll::total']]],
+  ['trigger_22',['trigger',['../structhmi_1_1LinkRow.html#a93d02effe5cbd921e51baa5b4700076a',1,'hmi::LinkRow']]],
+  ['type_23',['type',['../structcore_1_1MapEntity.html#a0585fa6522c09d42c879ed8bd9c32550',1,'core::MapEntity::type'],['../structhmi_1_1MechanismAnimationRow.html#a40938cd8c8ca322f13335109639fda81',1,'hmi::MechanismAnimationRow::type'],['../structhmi_1_1SkinRow.html#aab2e46edc96113bb33a3e70e451507e1',1,'hmi::SkinRow::type'],['../structhmi_1_1TileEntry.html#a9c1d5d345916c39548749b802bd7deb9',1,'hmi::TileEntry::type'],['../structhmi_1_1TileSkinTag.html#af27ab75e03393c0fd46707ed7306232d',1,'hmi::TileSkinTag::type']]],
+  ['typelabel_24',['typeLabel',['../structhmi_1_1MechanismAnimationRow.html#ae46764178a55be9dd1ba03002ce4efdc',1,'hmi::MechanismAnimationRow::typeLabel'],['../structhmi_1_1SkinRow.html#a770046b5c0e30e8b55f7f69705d8dde4',1,'hmi::SkinRow::typeLabel']]],
+  ['typename_25',['typeName',['../structhmi_1_1AssetReference.html#a636c024ee797ff2d5a226207884b7845',1,'hmi::AssetReference']]],
+  ['typography_26',['typography',['../structhmi_1_1DesignTokens.html#afcae229bb7d27beb197c18bb50b31be0',1,'hmi::DesignTokens']]]
 ];

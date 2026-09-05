@@ -15,13 +15,14 @@ var searchData=
   ['floodfill_12',['floodFill',['../namespacehmi.html#a76e3283d122f8e9b31c1b98d3db8f59f',1,'hmi']]],
   ['focusdefaultaction_13',['focusDefaultAction',['../classhmi_1_1CreditsScreen.html#a04ddb75605ede228b4f689a54e1faa49',1,'hmi::CreditsScreen::focusDefaultAction()'],['../classhmi_1_1LevelCompleteScreen.html#a192b543eda90ad7ec314a10e08602b40',1,'hmi::LevelCompleteScreen::focusDefaultAction()'],['../classhmi_1_1LevelSelectScreen.html#a5be00e3f7d405dfc9b29d51cb1a1abb6',1,'hmi::LevelSelectScreen::focusDefaultAction()'],['../classhmi_1_1PauseScreen.html#a8448455d33afc14068fac4cc58500dbb',1,'hmi::PauseScreen::focusDefaultAction()']]],
   ['follow_14',['follow',['../classhmi_1_1PixelFocusCaret.html#a955238575a0444a45acf512a040a116f',1,'hmi::PixelFocusCaret']]],
-  ['formatelapsed_15',['formatElapsed',['../namespacehmi.html#abd29a70dbe17218e0dc84beb9f69e056',1,'hmi']]],
-  ['formatlogline_16',['formatLogLine',['../namespacecore.html#aafa85d91ee91c84b123fff01f147615e',1,'core']]],
-  ['formatscenestatistics_17',['formatSceneStatistics',['../namespacehmi.html#aabc578b802bb386e63d830e168140fe7',1,'hmi']]],
-  ['frameregion_18',['frameRegion',['../classhmi_1_1AnimationCatalog.html#ab4d62573855d3bc8e915704f51d54cbf',1,'hmi::AnimationCatalog']]],
-  ['framespersecond_19',['framesPerSecond',['../classhmi_1_1FrameRateAverage.html#a5ead75e1aa711777bf9d12eb4e24484c',1,'hmi::FrameRateAverage']]],
-  ['fromdocument_20',['fromDocument',['../classhmi_1_1SoundCatalog.html#a69ab1e64b2a8a96ddc73df9fa3da2d85',1,'hmi::SoundCatalog::fromDocument()'],['../classhmi_1_1AnimationCatalog.html#aa76b14e31e71056c0f5d1702d9bac3c7',1,'hmi::AnimationCatalog::fromDocument()'],['../classhmi_1_1SkinCatalog.html#a0f80dae50ad545df065fab70cbb949bd',1,'hmi::SkinCatalog::fromDocument()']]],
-  ['fromlevel_21',['fromLevel',['../classcore_1_1LevelDraft.html#a481be057c3f8c05cfe5e19a89d93231c',1,'core::LevelDraft']]],
-  ['fromtopleftsize_22',['fromTopLeftSize',['../structcore_1_1Aabb.html#a966b1b2360e090262a2f4c690dc7972e',1,'core::Aabb']]],
-  ['fullscreenrequested_23',['fullscreenRequested',['../classhmi_1_1OptionsPage.html#aea889b2f7ac2f5ae67da6bf2a1ffbdae',1,'hmi::OptionsPage']]]
+  ['formatdice_15',['formatDice',['../namespacecore.html#a58d791281d7fcab412851036c03c94bd',1,'core']]],
+  ['formatelapsed_16',['formatElapsed',['../namespacehmi.html#abd29a70dbe17218e0dc84beb9f69e056',1,'hmi']]],
+  ['formatlogline_17',['formatLogLine',['../namespacecore.html#aafa85d91ee91c84b123fff01f147615e',1,'core']]],
+  ['formatscenestatistics_18',['formatSceneStatistics',['../namespacehmi.html#aabc578b802bb386e63d830e168140fe7',1,'hmi']]],
+  ['frameregion_19',['frameRegion',['../classhmi_1_1AnimationCatalog.html#ab4d62573855d3bc8e915704f51d54cbf',1,'hmi::AnimationCatalog']]],
+  ['framespersecond_20',['framesPerSecond',['../classhmi_1_1FrameRateAverage.html#a5ead75e1aa711777bf9d12eb4e24484c',1,'hmi::FrameRateAverage']]],
+  ['fromdocument_21',['fromDocument',['../classhmi_1_1SoundCatalog.html#a69ab1e64b2a8a96ddc73df9fa3da2d85',1,'hmi::SoundCatalog::fromDocument()'],['../classhmi_1_1AnimationCatalog.html#aa76b14e31e71056c0f5d1702d9bac3c7',1,'hmi::AnimationCatalog::fromDocument()'],['../classhmi_1_1SkinCatalog.html#a0f80dae50ad545df065fab70cbb949bd',1,'hmi::SkinCatalog::fromDocument()']]],
+  ['fromlevel_22',['fromLevel',['../classcore_1_1LevelDraft.html#a481be057c3f8c05cfe5e19a89d93231c',1,'core::LevelDraft']]],
+  ['fromtopleftsize_23',['fromTopLeftSize',['../structcore_1_1Aabb.html#a966b1b2360e090262a2f4c690dc7972e',1,'core::Aabb']]],
+  ['fullscreenrequested_24',['fullscreenRequested',['../classhmi_1_1OptionsPage.html#aea889b2f7ac2f5ae67da6bf2a1ffbdae',1,'hmi::OptionsPage']]]
 ];

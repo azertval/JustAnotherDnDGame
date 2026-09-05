@@ -6,6 +6,8 @@ var searchData=
   ['deterministicrandom_2eh_3',['DeterministicRandom.h',['../DeterministicRandom_8h.html',1,'']]],
   ['diagnosticshud_2ecpp_4',['DiagnosticsHud.cpp',['../DiagnosticsHud_8cpp.html',1,'']]],
   ['diagnosticshud_2eh_5',['DiagnosticsHud.h',['../DiagnosticsHud_8h.html',1,'']]],
-  ['draftrenderer_2ecpp_6',['DraftRenderer.cpp',['../DraftRenderer_8cpp.html',1,'']]],
-  ['draftrenderer_2eh_7',['DraftRenderer.h',['../DraftRenderer_8h.html',1,'']]]
+  ['dice_2ecpp_6',['Dice.cpp',['../Dice_8cpp.html',1,'']]],
+  ['dice_2eh_7',['Dice.h',['../Dice_8h.html',1,'']]],
+  ['draftrenderer_2ecpp_8',['DraftRenderer.cpp',['../DraftRenderer_8cpp.html',1,'']]],
+  ['draftrenderer_2eh_9',['DraftRenderer.h',['../DraftRenderer_8h.html',1,'']]]
 ];

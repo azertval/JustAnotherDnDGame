@@ -21,7 +21,7 @@ var searchData=
   ['combowindowtime_18',['comboWindowTime',['../structcore_1_1PhysicsConfig.html#a21695f04fc946511f5f4e1b802475a55',1,'core::PhysicsConfig']]],
   ['considered_19',['considered',['../structhmi_1_1SceneStatistics.html#acd46778c69e1a9ae0093a0701d426976',1,'hmi::SceneStatistics']]],
   ['controlminwidth_20',['controlMinWidth',['../structhmi_1_1SizeTokens.html#ae19213d66c31d01cdd23368a4afde150',1,'hmi::SizeTokens']]],
-  ['count_21',['count',['../structcore_1_1ParticleEffect.html#a767dd83c16b7b0072422769da07eb5e4',1,'core::ParticleEffect::count'],['../structhmi_1_1PixelPaletteExtractionEntry.html#acbd0a5b11d3ad7bfef9b7de2d4be79d9',1,'hmi::PixelPaletteExtractionEntry::count']]],
+  ['count_21',['count',['../structcore_1_1ParticleEffect.html#a767dd83c16b7b0072422769da07eb5e4',1,'core::ParticleEffect::count'],['../structcore_1_1Dice.html#a5de7f803131238fd195b63e8c6fa59c6',1,'core::Dice::count'],['../structhmi_1_1PixelPaletteExtractionEntry.html#acbd0a5b11d3ad7bfef9b7de2d4be79d9',1,'hmi::PixelPaletteExtractionEntry::count']]],
   ['coyotetime_22',['coyoteTime',['../structcore_1_1PhysicsConfig.html#ac73ce3de3e423e272cad5f348e524bbe',1,'core::PhysicsConfig']]],
   ['culled_23',['culled',['../structhmi_1_1SceneStatistics.html#a944649e434a4fab1f0a72e0fbf23f1cf',1,'hmi::SceneStatistics']]],
   ['culling_5fmargin_5funits_24',['CULLING_MARGIN_UNITS',['../classhmi_1_1ComposedScene.html#ad8dd91b7cee4c5d987aae7b22fac4d7e',1,'hmi::ComposedScene']]],
