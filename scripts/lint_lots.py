@@ -16,7 +16,7 @@ Ce lint les refuse en CI. Il vérifie :
 3. le graphe de prérequis est **acyclique** ;
 4. tout prérequis désigne un lot **existant** ;
 5. les liens sont **symétriques** : si A déclare « Alimente B », alors B déclare A en prérequis ;
-6. chaque lot de la filière apparaît dans le **tableau d'ordre** de la section 6 ;
+6. chaque lot de la filière apparaît dans le **regroupement d'intention** de la section 6 ;
 7. les **numéros manquants** de la plage sont soit retirés par fusion et recensés comme tels, soit
    livrés et pourvus de leur dossier ; un numéro retiré n'est plus cité comme prérequis ;
 8. les **comptes annoncés en toutes lettres** correspondent au décompte réel ;
@@ -26,7 +26,8 @@ Ce lint les refuse en CI. Il vérifie :
 12. tout ``LOT-NN`` cité dans une **spécification** désigne un lot **de ce programme** ; un renvoi
     au programme hérité de ``ProjectGaming`` s'écrit ``LOT-H-NN`` ;
 13. le **tableau d'avancement** en tête de feuille de route est exactement la suite que produit la
-    règle d'ordre — *à chaque pas, le plus petit numéro dont tous les prérequis sont faits*.
+    règle d'ordre — *à chaque pas, parmi les lots dont tous les prérequis sont faits, celui qui en
+    débloque le plus*.
 
 Les lots livrés (``LOT-01`` à ``LOT-07``) et absorbés (``LOT-08`` à ``LOT-29``) sont exclus des
 contrôles 1, 2 et 5 : leur texte est repris tel quel de leurs epics d'origine, et les sections 5, 9
@@ -213,15 +214,41 @@ def prerequis_effectifs(amont: dict, aval_declare: dict, sections: dict) -> dict
     return effectifs
 
 
+def descendants(lot: str, enfants: dict, restants: set) -> set:
+    """Les lots restants qu'un lot débloque, directement ou en cascade."""
+    vus: set = set()
+    pile = [lot]
+    while pile:
+        for enfant in enfants.get(pile.pop(), ()):
+            if enfant in restants and enfant not in vus:
+                vus.add(enfant)
+                pile.append(enfant)
+    return vus
+
+
 def ordre_execution(texte: str):
-    """La suite d'exécution des lots restants, et ce que chacun attend.
+    """La suite d'exécution des lots restants, ce que chacun attend et ce qu'il débloque.
 
-    **La règle, en une phrase :** à chaque pas, on prend le **plus petit numéro** dont tous les
-    prérequis sont déjà faits. Le numéro n'est qu'un départage ; c'est la dépendance qui commande.
-    La suite est donc entièrement déterminée par le graphe — personne ne l'arbitre, et deux
-    lecteurs la retrouvent identique.
+    **La règle, en une phrase :** à chaque pas, on prend, parmi les lots dont tous les prérequis
+    sont faits, **celui qui en débloque le plus** — à égalité, le plus petit numéro.
 
-    Renvoie ``(suite, effectifs, sections)`` où ``suite`` est la liste ordonnée des lots.
+    Le critère n'est pas le numéro. Il l'a été un temps, et il donnait une suite déterministe mais
+    bête : elle plaçait le `LOT-10` et le `LOT-12` devant le `LOT-30`, alors que ce dernier
+    débloque à lui seul quarante-neuf des lots restants et que les deux premiers n'en débloquent
+    que vingt-cinq chacun. « Outillage et contrats ; le plus tôt est le mieux » cesse ainsi d'être
+    un avis éditorial pour devenir ce que le graphe dit — le `LOT-30` sort premier parce qu'il
+    débloque le plus, pas parce qu'on l'a décidé.
+
+    Ce que la règle **ne fait pas** : elle ne raccourcit pas le programme, et ne prétend pas
+    minimiser une durée que rien ne mesure. Elle maximise, à chaque pas, le nombre de lots qui
+    deviennent démarrables — c'est-à-dire qu'elle repousse le plus tard possible le moment où il
+    ne reste qu'un seul chemin.
+
+    Le numéro ne sert qu'à départager, et il faut un départage : sans lui, deux lots de même
+    portée sortiraient dans l'ordre du dictionnaire Python, et la suite changerait d'une exécution
+    à l'autre.
+
+    Renvoie ``(suite, effectifs, portees, sections)``.
     """
     amont, aval_declare, _, sections = graphe(texte)
     effectifs = prerequis_effectifs(amont, aval_declare, sections)
@@ -232,23 +259,31 @@ def ordre_execution(texte: str):
         if porteur:
             couverts_par.setdefault(porteur, []).append(lot)
 
+    enfants: dict = {lot: set() for lot in effectifs}
+    for lot, deps in effectifs.items():
+        for dep in deps:
+            if dep in enfants:
+                enfants[dep].add(lot)
+
     faits = set(lots_livres())
     restants = set(effectifs)
     suite: list = []
+    portees: dict = {}
     while restants:
-        prets = [lot for lot in sorted(restants, key=lambda x: int(x[4:]))
-                 if effectifs[lot] <= faits]
+        prets = [lot for lot in restants if effectifs[lot] <= faits]
         if not prets:
             # Un blocage ici est un cycle, que la règle 3 signale déjà, ou un prérequis vers un
             # lot inexistant, que signale la règle 4. On rend la suite partielle : le lint
             # rapporte la cause exacte, pas ce symptôme.
             break
-        lot = prets[0]
+        portee = {lot: len(descendants(lot, enfants, restants)) for lot in prets}
+        lot = max(prets, key=lambda x: (portee[x], -int(x[4:])))
         suite.append(lot)
+        portees[lot] = portee[lot]
         faits.add(lot)
         faits.update(couverts_par.get(lot, []))
         restants.discard(lot)
-    return suite, effectifs, sections
+    return suite, effectifs, portees, sections
 
 
 def tableau_ordre(texte: str) -> str:
@@ -258,14 +293,14 @@ def tableau_ordre(texte: str) -> str:
 
     - ``prochain`` — le premier de la suite, celui à démarrer ;
     - ``prêt`` — tous ses prérequis sont **livrés**, il pourrait démarrer aujourd'hui ; la règle
-      lui préfère seulement un numéro plus petit, tout aussi prêt ;
+      lui préfère seulement un lot qui débloque davantage ;
     - ``en attente`` — il attend au moins un lot non livré.
 
     Le statut est la seule colonne qui bouge sans que la page change : livrer un lot en fait
     passer d'autres de « en attente » à « prêt ». C'est la raison pour laquelle ce tableau est
     calculé et non écrit.
     """
-    suite, effectifs, sections = ordre_execution(texte)
+    suite, effectifs, portees, sections = ordre_execution(texte)
     livres = lots_livres()
 
     def titre(lot: str) -> str:
@@ -284,7 +319,8 @@ def tableau_ordre(texte: str) -> str:
         return 'prêt' if effectifs[lot] <= livres else 'en attente'
 
     return '\n'.join(
-        '| %d | %s | %s | %s |' % (rang, nom(lot), titre(lot), statut(rang, lot))
+        '| %d | %s | %s | %d | %s |'
+        % (rang, nom(lot), titre(lot), portees[lot], statut(rang, lot))
         for rang, lot in enumerate(suite, 1))
 
 
