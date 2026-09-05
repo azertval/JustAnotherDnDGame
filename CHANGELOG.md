@@ -6,6 +6,16 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **L'OCR ne corrompt pas seulement les nombres, il en supprime** (constat de préparation du
+  `LOT-43`). Sur la table du multiclassage du `Manuel-Des-Joueurs`, l'extraction **efface toute
+  cellule valant `1`** : onze lignes sur vingt amputées, et un magicien de niveau 20 y perd ses
+  emplacements de niveau 8 et 9. Une valeur fausse finit par se voir ; une valeur absente ressemble
+  à une case vide légitime, et cette table en contient de vraies — aucune relecture ne pouvait
+  l'attraper. Le défaut a été révélé par **recoupement** avec la table du magicien, identique et en
+  texte natif propre dans les *Basic Rules*. La §4 de la feuille de route porte désormais ce
+  quatrième niveau de bruit, et la règle qui en découle : *une table numérique tirée d'un scan se
+  recoupe contre une seconde source ou contre un invariant.*
+
 - **Les schémas de données RPG** (`LOT-32`). Le contrat **avant** les données : onze schémas JSON,
   un validateur en CI et trois énumérations C++, livrés alors qu'aucune donnée n'existe encore.
   C'est l'ordre qui compte — un contrat écrit après coup se contente de décrire ce qui a déjà été

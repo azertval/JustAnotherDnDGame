@@ -282,6 +282,24 @@ en **trois niveaux, de gravité très inégale** :
   dangereux.
 - **Les valeurs numériques** — le risque résiduel, celui qu'aucune relecture rapide n'attrape : un
   `1d8` devenu `ld8`, un `+3` devenu `+8`. C'est précisément la raison d'être du `LOT-49`.
+- **Les valeurs numériques *absentes*** — pire que le précédent, et découvert en préparant le
+  `LOT-43`. Sur la table du multiclassage (`Manuel-Des-Joueurs`, p. 166), l'extraction **supprime
+  purement et simplement toute cellule valant `1`** : le chiffre est trop fin pour que l'OCR le
+  retienne, et il ne laisse rien derrière lui. **Onze lignes sur vingt** sont amputées d'une à
+  quatre cellules, et un magicien de niveau 20 y perd ses deux emplacements de niveau 8 et 9.
+
+  Ce défaut n'est pas de la même famille que les précédents : une valeur *fausse* finit par se
+  voir, une valeur *absente* ressemble à une case vide légitime — et cette table en contient de
+  vraies. Aucune relecture du texte extrait ne peut le détecter, parce qu'il n'y a rien à relire.
+
+  Ce qui l'a révélé n'est pas une relecture mais un **recoupement** : la table du multiclassage est
+  identique à la table de progression du magicien, laquelle figure en **texte natif propre** dans
+  les *Basic Rules* (p. 31). Les vingt lignes comparées cellule à cellule donnent onze divergences,
+  et **toutes** sont un `1` manquant côté OCR.
+
+  La règle qui en découle vaut pour toute la filière : *une table numérique tirée d'un scan doit
+  être recoupée contre une seconde source, ou contre un invariant.* Sans quoi le `LOT-49` cherchera
+  des valeurs fausses, et ne trouvera pas les valeurs manquantes.
 
 Conclusion : le `Manuel-Des-Joueurs.pdf` est **exploitable** avec le bon outil et une passe de
 contrôle — et il est indispensable, puisqu'il est la seule source française des 5 races et 8 classes
