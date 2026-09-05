@@ -33,10 +33,12 @@ if __package__ in (None, ''):  # pragma: no cover - dépend du mode d'invocation
     from sourcebook.corpus import Corpus, CorpusError
     from sourcebook.extraction import PPP_DEFAUT, ExtractionError, Extracteur
     from sourcebook import glossaire as mod_glossaire
+    from sourcebook import options as mod_options
 else:
     from .corpus import Corpus, CorpusError
     from .extraction import PPP_DEFAUT, ExtractionError, Extracteur
     from . import glossaire as mod_glossaire
+    from . import options as mod_options
 
 if hasattr(sys.stdout, 'reconfigure'):
     sys.stdout.reconfigure(encoding='utf-8', errors='replace')
@@ -110,6 +112,10 @@ def analyser(argv) -> argparse.Namespace:
 
     p = commande('stats', 'pages, caractères et images par document')
     p.add_argument('document', nargs='?')
+
+    p = commande('options', "produire les catalogues d'options de personnage (LOT-43)")
+    p.add_argument('-o', '--sortie', type=Path, default=None,
+                   help='défaut : ' + mod_options.SORTIE_RPG)
 
     p = commande('glossaire', 'produire le lexique bilingue')
     p.add_argument('-o', '--sortie', type=Path, default=None,
@@ -201,6 +207,25 @@ def commande_glossaire(corpus: Corpus, args) -> int:
     return 0
 
 
+def commande_options(corpus: Corpus, args) -> int:
+    lexique = mod_glossaire.lire_csv(
+        (RACINE / mod_glossaire.SORTIE).read_text(encoding='utf-8'))
+    racine = args.sortie or (RACINE / mod_options.SORTIE_RPG)
+    ecrits, pertes = mod_options.produire(corpus, lexique, racine, cache=args.cache)
+    print('%d fichier(s) écrit(s) sous %s' % (len(ecrits), racine))
+    if pertes:
+        # Ce n'est pas une faute : c'est le rapport du recoupement, et il doit se voir. Le jour
+        # où ce nombre change, le corpus ou la région d'extraction a bougé.
+        print("%d cellule(s) de la table du multiclassage escamotées par l'OCR du Manuel des "
+              'Joueurs, rétablies depuis la progression du magicien des Basic Rules :'
+              % len(pertes))
+        for perte in pertes[:5]:
+            print('  · ' + perte)
+        if len(pertes) > 5:
+            print('  · … et %d autres' % (len(pertes) - 5))
+    return 0
+
+
 def main(argv=None) -> int:
     args = analyser(sys.argv[1:] if argv is None else argv)
     try:
@@ -214,6 +239,8 @@ def main(argv=None) -> int:
             return commande_stats(corpus, args)
         if args.commande == 'glossaire':
             return commande_glossaire(corpus, args)
+        if args.commande == 'options':
+            return commande_options(corpus, args)
 
         document = corpus[args.document]
         with Extracteur(document, cache=args.cache) as extracteur:
@@ -244,7 +271,8 @@ def main(argv=None) -> int:
                          if imprimees else '', len(candidates)))
                 for region in candidates:
                     print('  ' + str(region))
-    except (CorpusError, ExtractionError, mod_glossaire.GlossaireError) as erreur:
+    except (CorpusError, ExtractionError, mod_glossaire.GlossaireError,
+            mod_options.OptionsError) as erreur:
         print('%s' % erreur, file=sys.stderr)
         return 1
     return 0

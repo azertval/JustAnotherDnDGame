@@ -1,8 +1,8 @@
 # Cahier de test {#cahiertest}
 
-**943 cas de test**, générés depuis les blocs `\castest{...}` du code par `scripts/generate_cahier_test.py` (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de `Source/Test/` pour rester lisibles page par page.
+**949 cas de test**, générés depuis les blocs `\castest{...}` du code par `scripts/generate_cahier_test.py` (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de `Source/Test/` pour rester lisibles page par page.
 
-## Tests unitaires (928)
+## Tests unitaires (934)
 
 ### Core
 
@@ -486,7 +486,18 @@
 | **SweptCollisionTest.ButeePlafond** (Majeur)<br/><sub>`Source/Test/Unit/Core/Physics/test_swept_collision.cpp:154`</sub> | Balayage : butée verticale (plafond) | 1. Plafond solide au-dessus.<br/>2. Balayer la boîte vers le haut. | Vérifie que `r.hit` est vrai.<br/>Vérifie que `r.position.y` vaut `3.0f` (comparaison flottante).<br/>Vérifie que `r.normal.y` vaut `1.0f` (comparaison flottante). |
 | **SweptCollisionTest.MarcheSurLeSolSansBlocageHorizontal** (Majeur)<br/><sub>`Source/Test/Unit/Core/Physics/test_swept_collision.cpp:174`</sub> | Balayage : marcher sur un sol sans blocage horizontal | 1. Sol continu ; boîte posée dessus.<br/>2. Balayer horizontalement le long du sol. | Vérifie que `r.hit` est faux.<br/>Vérifie que `r.position.x` vaut `3.0f` (comparaison flottante). |
 
-#### Rpg (5)
+#### Rpg (11)
+
+**`test_multiclassing.cpp`**
+
+| Titre (criticité) | Brief | Étapes | Résultat attendu |
+|---|---|---|---|
+| **MulticlassingTest.ExempleTravailleDuManuelDesJoueurs** (Critique)<br/><sub>`Source/Test/Unit/Core/Rpg/test_multiclassing.cpp:59`</sub> | L'exemple de multiclassage du Manuel des Joueurs est reproduit a l'identique. | 1. Calculer le niveau de lanceur d'un rodeur 4 / magicien 3.<br/> 2. Lire les emplacements correspondants dans la table livree. | Vérifie que `niveau` vaut `5`.<br/>Vérifie que `table.size()` est strictement supérieur à `static_cast<std::size_t>(niveau)`.<br/>Vérifie que `table[static_cast<std::size_t>(niveau)][0]` vaut `4`.<br/>Vérifie que `table[static_cast<std::size_t>(niveau)][1]` vaut `3`.<br/>Vérifie que `table[static_cast<std::size_t>(niveau)][2]` vaut `2`. |
+| **MulticlassingTest.LArrondiSeFaitParClasse** (Critique)<br/><sub>`Source/Test/Unit/Core/Rpg/test_multiclassing.cpp:89`</sub> | L'arrondi du niveau de lanceur se fait par classe, jamais sur le total. | 1. Calculer le niveau de lanceur d'un paladin 3 / rodeur 3.<br/> 2. Calculer celui d'un guerrier 5 / roublard 5 sous archetype. | Vérifie que `core::multiclassCasterLevel(paladinRodeur)` vaut `2`.<br/>Vérifie que `core::multiclassCasterLevel(guerrierRoublard)` vaut `2`. |
+| **MulticlassingTest.LaMagieDePacteEstCompteeAPart** (Critique)<br/><sub>`Source/Test/Unit/Core/Rpg/test_multiclassing.cpp:110`</sub> | Les emplacements de magie de pacte n'entrent pas dans le cumul multiclasse. | 1. Calculer le niveau de lanceur d'un sorcier 5 / magicien 3. | Vérifie que `core::multiclassCasterLevel(sorcierMagicien)` vaut `3`. |
+| **MulticlassingTest.ClassesSansIncantationEtBorneSuperieure** (Majeur)<br/><sub>`Source/Test/Unit/Core/Rpg/test_multiclassing.cpp:128`</sub> | Une classe sans incantation n'apporte rien au niveau de lanceur, borne a 20. | 1. Calculer le niveau d'un barbare 10 seul, puis d'un magicien 20 / clerc 20. | Vérifie que `core::multiclassCasterLevel(barbare)` vaut `0`.<br/>Vérifie que `core::multiclassCasterLevel(impossible)` vaut `20`. |
+| **MulticlassingTest.AllerRetourDesNomsDeProgression** (Majeur)<br/><sub>`Source/Test/Unit/Core/Rpg/test_multiclassing.cpp:145`</sub> | Les noms de progression de lanceur font l'aller-retour sans perte. | 1. Convertir chaque progression en nom, puis le nom en progression.<br/> 2. Analyser un nom inconnu. | Vérifie que `nom.empty()` est faux.<br/>Vérifie que `relu.has_value()` est vrai.<br/>Vérifie que `*relu` vaut `progression`.<br/>Vérifie que `core::parseCasterProgression("plein").has_value()` est faux.<br/>Vérifie que `core::parseCasterProgression("").has_value()` est faux. |
+| **MulticlassingTest.LesProgressionsDeLaDonneeSontConnuesDuMoteur** (Critique)<br/><sub>`Source/Test/Unit/Core/Rpg/test_multiclassing.cpp:171`</sub> | Les progressions de lanceur de la donnee sont toutes connues du moteur. | 1. Lire `casterProgression` de multiclassing.json.<br/> 2. Analyser chaque valeur avec `parseCasterProgression`. | Vérifie que `document.ok()` est vrai.<br/>Vérifie que `progressions.size()` vaut `12U`.<br/>Vérifie que `core::parseCasterProgression(nom).has_value()` est vrai. |
 
 **`test_rpg_enums.cpp`**
 

@@ -33,6 +33,7 @@ add_executable(UnitTests
     Unit/Core/Levels/test_level_outcome.cpp
     Unit/Core/Levels/test_tile_type_name.cpp
     Unit/Core/Rpg/test_rpg_enums.cpp
+    Unit/Core/Rpg/test_multiclassing.cpp
     Unit/Core/Levels/test_rpg_terrain.cpp
     Unit/Core/Levels/test_tile_texture_override.cpp
     Unit/Core/Physics/test_swept_collision.cpp
@@ -212,6 +213,9 @@ target_compile_definitions(UnitTests PRIVATE
     # copie divergerait, et le test cesserait de prouver quoi que ce soit exactement quand il
     # compterait (EX-CNT-011).
     JADG_RPG_SCHEMA_DIR="${PROJECT_SOURCE_DIR}/Source/Elements/Rpg/schema"
+    # Regles RPG livrees (LOT-43) : le test du multiclassage lit la table
+    # d'emplacements REELLE, celle que le jeu chargera.
+    JADG_RPG_RULES_DIR="${PROJECT_SOURCE_DIR}/Source/Elements/Rpg/rules"
     JADG_ASSETS_DIR="${PROJECT_SOURCE_DIR}/Source/Elements/Assets"
     JADG_AUDIO_DIR="${PROJECT_SOURCE_DIR}/Source/Elements/Audio"
     # Deux portees depuis le LOT-73 (EX-IHM-082) : les tests de theme lisent les DEUX, pour que
