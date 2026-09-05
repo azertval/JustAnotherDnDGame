@@ -156,16 +156,27 @@ class Extracteur:
 
     # -- Texte -----------------------------------------------------------------------------
 
-    def texte(self, index: int, moitie: str | None = None, region: tuple | None = None) -> str:
+    def texte(
+        self,
+        index: int,
+        moitie: str | None = None,
+        region: tuple | None = None,
+        tri: bool = True,
+    ) -> str:
         """Texte d'une page, d'une moitié de page ou d'une région, en ordre de lecture.
 
         Convient au corps de texte. **Jamais à un tableau** : voir ``tableau()``.
+
+        ``tri=False`` rend le texte dans l'ordre du document plutôt que par coordonnée. C'est ce
+        qu'il faut sur une page à **deux colonnes** : le tri par ordonnée entrelace les colonnes,
+        et un lexique alphabétique en sortirait alterné une entrée sur deux. Le tri, lui, rattrape
+        les pages dont l'ordre interne est incohérent — la majorité de ce corpus.
         """
-        cle = self._cle_cache('texte', index, moitie, region)
+        cle = self._cle_cache('texte' if tri else 'texte-brut', index, moitie, region)
         if (cachee := self._lire_cache(cle, '.txt')) is not None:
             return cachee.decode('utf-8')
         rect = self.rectangle(index, moitie, region)
-        brut = self._page(index).get_text('text', clip=rect, sort=True)
+        brut = self._page(index).get_text('text', clip=rect, sort=tri)
         self._ecrire_cache(cle, '.txt', brut.encode('utf-8'))
         return brut
 

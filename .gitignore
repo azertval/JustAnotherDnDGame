@@ -62,6 +62,25 @@ coverage-html/
 # --- Sorties d'entraînement IA (générées, programme Lot-Annexe) ---
 /TrainingRuns/
 
+# --- Corpus source (LOT-30, EX-CNT-023) ---
+# Les huit PDF de référence : environ 1 200 pages, 280 Mo, dont un fichier de 83 Mo. Git les
+# versionne mal — chaque clone les traîne, et aucune de leurs révisions ne se compresse. Ils se
+# déposent à la main sur le poste qui en a besoin ; `scripts/sourcebook/corpus.toml` en porte
+# l'empreinte, et c'est LUI qui est versionné, avec l'outil qui le lit.
+# Rien de ce dossier n'est versionné, pas même un fichier texte : ne rien y écrire d'unique.
+Documentation/SourceBook/
+
+# Le corpus texte intermédiaire produit par l'extraction n'est pas versionné non plus : il se
+# régénère à la demande depuis les PDF locaux. Ce sont les DONNÉES FINALES qui entrent dans le
+# dépôt. Emplacement conventionnel du cache de `python scripts/sourcebook --cache …`.
+/.cache/
+
+# --- Outillage d'agent (worktrees et sessions, hors du dépôt) ---
+# `.claude/worktrees/` porte des copies complètes du dépôt : 1,6 Go sur ce poste. Les réglages
+# éventuels de `.claude/` restent versionnables, eux.
+/.claude/worktrees/
+/.claude/jobs/
+
 # --- Divers ---
 *.log
 *.tmp
