@@ -16,6 +16,7 @@ add_library(Core STATIC
     Ecs/Systems/ParticleSystem.cpp
     World/GridDistanceField.cpp
     Gameplay/MechanismController.cpp
+    Rpg/RpgEnumNames.cpp
     Levels/TileMap.cpp
     Levels/TileTypeName.cpp
     Levels/CameraFraming.cpp

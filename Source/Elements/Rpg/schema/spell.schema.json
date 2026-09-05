@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://justanotherdndgame.local/rpg/spell.schema.json",
+  "title": "Sort",
+  "description": "Un sort est une COMBINAISON DECLAREE de mecanismes existants, jamais une fonction (EX-RPG-050). Un sort dont l'effet n'entre dans aucun mecanisme porte `narratif: true` (EX-RPG-051) : le catalogue reste enumerable, et aucun sort ne tombe en silence dans un cas par defaut.",
+  "allOf": [
+    {
+      "$ref": "https://justanotherdndgame.local/rpg/common.schema.json#/$defs/entree"
+    }
+  ],
+  "type": "object",
+  "properties": {
+    "id": true,
+    "name": true,
+    "source": true,
+    "status": true,
+    "asset": true,
+    "mecanismesRequis": true,
+    "narratif": true,
+    "level": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9,
+      "description": "0 = sort mineur (cantrip)."
+    },
+    "school": {
+      "$ref": "https://justanotherdndgame.local/rpg/common.schema.json#/$defs/magicSchool"
+    },
+    "castingTime": {
+      "type": "string",
+      "minLength": 1
+    },
+    "range": {
+      "type": "string",
+      "minLength": 1
+    },
+    "components": {
+      "type": "object",
+      "properties": {
+        "verbal": {
+          "type": "boolean"
+        },
+        "somatic": {
+          "type": "boolean"
+        },
+        "material": {
+          "type": "boolean"
+        },
+        "materialText": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "verbal",
+        "somatic",
+        "material"
+      ],
+      "additionalProperties": false
+    },
+    "duration": {
+      "type": "string",
+      "minLength": 1
+    },
+    "concentration": {
+      "type": "boolean"
+    },
+    "ritual": {
+      "type": "boolean"
+    },
+    "damage": {
+      "$ref": "https://justanotherdndgame.local/rpg/common.schema.json#/$defs/des"
+    },
+    "damageType": {
+      "$ref": "https://justanotherdndgame.local/rpg/common.schema.json#/$defs/damageType"
+    },
+    "savingThrow": {
+      "$ref": "https://justanotherdndgame.local/rpg/common.schema.json#/$defs/ability"
+    },
+    "appliesCondition": {
+      "$ref": "https://justanotherdndgame.local/rpg/common.schema.json#/$defs/conditionRef"
+    },
+    "text": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "source",
+    "level",
+    "school",
+    "castingTime",
+    "range",
+    "duration",
+    "text"
+  ],
+  "additionalProperties": false
+}

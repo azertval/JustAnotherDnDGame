@@ -1,8 +1,8 @@
 # Cahier de test {#cahiertest}
 
-**938 cas de test**, générés depuis les blocs `\castest{...}` du code par `scripts/generate_cahier_test.py` (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de `Source/Test/` pour rester lisibles page par page.
+**943 cas de test**, générés depuis les blocs `\castest{...}` du code par `scripts/generate_cahier_test.py` (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de `Source/Test/` pour rester lisibles page par page.
 
-## Tests unitaires (923)
+## Tests unitaires (928)
 
 ### Core
 
@@ -485,6 +485,18 @@
 | **SweptCollisionTest.ButeeGauche** (Majeur)<br/><sub>`Source/Test/Unit/Core/Physics/test_swept_collision.cpp:135`</sub> | Balayage : butée horizontale (mur à gauche) | 1. Mur solide à gauche.<br/>2. Balayer la boîte vers la gauche. | Vérifie que `r.hit` est vrai.<br/>Vérifie que `r.position.x` vaut `3.0f` (comparaison flottante).<br/>Vérifie que `r.normal.x` vaut `1.0f` (comparaison flottante). |
 | **SweptCollisionTest.ButeePlafond** (Majeur)<br/><sub>`Source/Test/Unit/Core/Physics/test_swept_collision.cpp:154`</sub> | Balayage : butée verticale (plafond) | 1. Plafond solide au-dessus.<br/>2. Balayer la boîte vers le haut. | Vérifie que `r.hit` est vrai.<br/>Vérifie que `r.position.y` vaut `3.0f` (comparaison flottante).<br/>Vérifie que `r.normal.y` vaut `1.0f` (comparaison flottante). |
 | **SweptCollisionTest.MarcheSurLeSolSansBlocageHorizontal** (Majeur)<br/><sub>`Source/Test/Unit/Core/Physics/test_swept_collision.cpp:174`</sub> | Balayage : marcher sur un sol sans blocage horizontal | 1. Sol continu ; boîte posée dessus.<br/>2. Balayer horizontalement le long du sol. | Vérifie que `r.hit` est faux.<br/>Vérifie que `r.position.x` vaut `3.0f` (comparaison flottante). |
+
+#### Rpg (5)
+
+**`test_rpg_enums.cpp`**
+
+| Titre (criticité) | Brief | Étapes | Résultat attendu |
+|---|---|---|---|
+| **RpgEnumsTest.AllerRetourSurToutesLesValeurs** (Critique)<br/><sub>`Source/Test/Unit/Core/Rpg/test_rpg_enums.cpp:67`</sub> | Chaque valeur des enumerations RPG fait l'aller-retour par son nom sans perte. | 1. Pour chaque type de degats, condition et ecole de magie, convertir en nom puis reconvertir en valeur. | Vérifie que `nom.empty()` est faux.<br/>Vérifie que `relu.has_value()` est vrai.<br/>Vérifie que `*relu` vaut `type`.<br/>Vérifie que `nom.empty()` est faux.<br/>Vérifie que `relu.has_value()` est vrai.<br/>Vérifie que `*relu` vaut `condition`.<br/>Vérifie que `nom.empty()` est faux.<br/>Vérifie que `relu.has_value()` est vrai.<br/>Vérifie que `*relu` vaut `school`. |
+| **RpgEnumsTest.LesNomsSontUniques** (Critique)<br/><sub>`Source/Test/Unit/Core/Rpg/test_rpg_enums.cpp:102`</sub> | Deux valeurs distinctes d'une enumeration RPG ne portent jamais le meme nom. | 1. Collecter les noms de chaque enumeration dans un ensemble. | Vérifie que `nomsDuMoteur(core::allDamageTypes(), core::damageTypeName).size()` vaut `core::allDamageTypes().size()`.<br/>Vérifie que `nomsDuMoteur(core::allConditions(), core::conditionName).size()` vaut `core::allConditions().size()`.<br/>Vérifie que `nomsDuMoteur(core::allMagicSchools(), core::magicSchoolName).size()` vaut `core::allMagicSchools().size()`. |
+| **RpgEnumsTest.UnNomInconnuEstRefuse** (Majeur)<br/><sub>`Source/Test/Unit/Core/Rpg/test_rpg_enums.cpp:120`</sub> | Un nom d'enumeration RPG inconnu est refuse au lieu d'etre devine. | 1. Analyser une chaine vide, un terme francais, et un nom de casse differente. | Vérifie que `core::parseDamageType("").has_value()` est faux.<br/>Vérifie que `core::parseDamageType("psychique").has_value()` est faux.<br/>Vérifie que `core::parseDamageType("Psychic").has_value()` est faux.<br/>Vérifie que `core::parseCondition("empoisonne").has_value()` est faux.<br/>Vérifie que `core::parseMagicSchool("invocation").has_value()` est faux. |
+| **RpgEnumsTest.LesEnumerationsCoincidentAvecLesSchemas** (Critique)<br/><sub>`Source/Test/Unit/Core/Rpg/test_rpg_enums.cpp:139`</sub> | Les enumerations partagees entre le C++ et les schemas JSON sont identiques. | 1. Lire les enumerations `damageType`, `conditionRef` et `magicSchool` de `common.schema.json`.<br/> 2. Les comparer aux noms produits par `core::DamageType`, `core::Condition` et `core::MagicSchool`. | Vérifie que `nomsDuMoteur(core::allDamageTypes(), core::damageTypeName)` vaut `enumDuSchema("damageType")`.<br/>Vérifie que `nomsDuMoteur(core::allConditions(), core::conditionName)` vaut `enumDuSchema("conditionRef")`.<br/>Vérifie que `nomsDuMoteur(core::allMagicSchools(), core::magicSchoolName)` vaut `enumDuSchema("magicSchool")`. |
+| **RpgEnumsTest.LesEnsemblesFermesOntLeurCardinal** (Majeur)<br/><sub>`Source/Test/Unit/Core/Rpg/test_rpg_enums.cpp:167`</sub> | Les enumerations fermees du RPG ont le nombre de valeurs fixe par les regles. | 1. Compter les types de degats, les conditions et les ecoles de magie. | Vérifie que `core::allDamageTypes().size()` vaut `13U`.<br/>Vérifie que `core::allConditions().size()` vaut `15U`.<br/>Vérifie que `core::allMagicSchools().size()` vaut `8U`. |
 
 #### Time (7)
 

@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://justanotherdndgame.local/rpg/weapon.schema.json",
+  "title": "Arme",
+  "description": "Une ligne de la table des armes. C'est le tableau sur lequel un rendu en flux de texte attribue le poids et le prix a l'arme de la LIGNE SUIVANTE (EX-CNT-021) : ses valeurs sont extraites par coordonnee, et ce schema est ce qui rend visible une erreur residuelle.",
+  "allOf": [
+    {
+      "$ref": "https://justanotherdndgame.local/rpg/common.schema.json#/$defs/entree"
+    }
+  ],
+  "type": "object",
+  "properties": {
+    "id": true,
+    "name": true,
+    "source": true,
+    "status": true,
+    "asset": true,
+    "mecanismesRequis": true,
+    "narratif": true,
+    "category": {
+      "type": "string",
+      "enum": [
+        "simple",
+        "martial"
+      ]
+    },
+    "ranged": {
+      "type": "boolean"
+    },
+    "damage": {
+      "$ref": "https://justanotherdndgame.local/rpg/common.schema.json#/$defs/des"
+    },
+    "damageType": {
+      "$ref": "https://justanotherdndgame.local/rpg/common.schema.json#/$defs/damageType"
+    },
+    "versatileDamage": {
+      "allOf": [
+        {
+          "$ref": "https://justanotherdndgame.local/rpg/common.schema.json#/$defs/des"
+        }
+      ],
+      "description": "Degats a deux mains d'une arme polyvalente. Absent si l'arme ne l'est pas."
+    },
+    "properties": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "ammunition",
+          "finesse",
+          "heavy",
+          "light",
+          "loading",
+          "reach",
+          "special",
+          "thrown",
+          "two-handed",
+          "versatile"
+        ]
+      },
+      "description": "Les dix proprietes d'arme, telles que le lexique du LOT-30 les porte sous la categorie `propriete`."
+    },
+    "rangeNormal": {
+      "type": "number",
+      "minimum": 0
+    },
+    "rangeLong": {
+      "type": "number",
+      "minimum": 0
+    },
+    "price": {
+      "$ref": "https://justanotherdndgame.local/rpg/common.schema.json#/$defs/money"
+    },
+    "weightGrams": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "text": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "source",
+    "category",
+    "damage",
+    "damageType",
+    "price",
+    "weightGrams"
+  ],
+  "additionalProperties": false
+}
