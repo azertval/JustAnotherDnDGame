@@ -49,44 +49,44 @@ tableau n'en porte volontairement aucun.
 |---|---|---|---|---|
 | 1 | `LOT-30` | Chaîne d'extraction du corpus et lexique bilingue | 49 | **prochain** |
 | 2 | `LOT-32` | Schémas de données RPG | 46 | en attente |
-| 3 | `LOT-33` | Bestiaire de base | 33 | en attente |
-| 4 | `LOT-43` | Options de personnage : dons, multiclassage, compétences, langues | 30 | en attente |
-| 5 | `LOT-36` | Espèces, historiques et classes provisoires | 29 | en attente |
-| 6 | `LOT-10` | Entités de carte et interaction | 25 | prêt |
-| 7 | `LOT-12` | Dés, caractéristiques, jets | 25 | prêt |
-| 8 | `LOT-34` | Équipement, monnaie, objets magiques | 24 | en attente |
-| 9 | `LOT-13` | Fiche de personnage | 22 | en attente |
-| 10 | `LOT-37` | Atlas des régions et graphe de cartes | 22 | en attente |
-| 11 | `LOT-66` | Charte visuelle : sortir de l'identité pixel art | 16 | prêt |
-| 12 | `LOT-39` | Plomberie des clés d'assets | 14 | en attente |
-| 13 | `LOT-14` | Inventaire et équipement | 13 | en attente |
-| 14 | `LOT-18` | Bascule exploration ↔ combat | 12 | en attente |
-| 15 | `LOT-76` | Habillage d'interface extrait des livres | 12 | en attente |
-| 16 | `LOT-19` | Grille tactique et déplacement | 11 | en attente |
-| 17 | `LOT-15` | PNJ et dialogues | 9 | en attente |
-| 18 | `LOT-20` | Initiative et tour par tour | 9 | en attente |
-| 19 | `LOT-11` | Éditeur multi-couches et placement d'entités | 8 | en attente |
-| 20 | `LOT-27` | Contenu du *vertical slice* | 8 | en attente |
-| 21 | `LOT-80` | Factions, panthéon et organisations | 8 | en attente |
-| 22 | `LOT-81` | Descripteurs de terrain des dix régions | 7 | en attente |
-| 23 | `LOT-16` | Quêtes et drapeaux de monde | 6 | en attente |
-| 24 | `LOT-21` | Attaques, dégâts et états | 6 | en attente |
-| 25 | `LOT-40` | Générateur de terrain | 6 | en attente |
-| 26 | `LOT-44` | Noms, tables aléatoires et contenu d'ambiance | 6 | en attente |
-| 27 | `LOT-46` | Créatures de Tanares | 6 | en attente |
-| 28 | `LOT-68` | Le châssis des écrans RPG | 6 | en attente |
-| 29 | `LOT-26` | Butin, marchands, économie | 5 | en attente |
-| 30 | `LOT-41` | Peuplement : rencontres et créatures | 5 | en attente |
-| 31 | `LOT-70` | Horloge de partie et cycle jour/nuit | 4 | en attente |
-| 32 | `LOT-82` | Peuplement civil : PNJ, marchands et quêtes | 4 | en attente |
-| 33 | `LOT-09` | Graphe de cartes et transitions | 3 | en attente |
-| 34 | `LOT-22` | Portée, ligne de vue et zones d'effet | 3 | en attente |
-| 35 | `LOT-84` | Les 31 tables de progression de classe | 3 | en attente |
-| 36 | `LOT-17` | Sauvegarde riche | 2 | en attente |
-| 37 | `LOT-35` | Sorts et états | 2 | en attente |
-| 38 | `LOT-47` | Socle de classe, et le guerrier comme preuve | 2 | en attente |
-| 39 | `LOT-23` | IA tactique ennemie | 1 | en attente |
-| 40 | `LOT-38` | Fiche de personnage : maquette et interface | 1 | en attente |
+| 3 | `LOT-43` | Options de personnage : dons, multiclassage, compétences, langues | 34 | en attente |
+| 4 | `LOT-12` | Dés, caractéristiques, jets | 33 | prêt |
+| 5 | `LOT-33` | Bestiaire de base | 33 | en attente |
+| 6 | `LOT-36` | Espèces, historiques et classes provisoires | 33 | en attente |
+| 7 | `LOT-13` | Fiche de personnage | 30 | en attente |
+| 8 | `LOT-10` | Entités de carte et interaction | 25 | prêt |
+| 9 | `LOT-34` | Équipement, monnaie, objets magiques | 23 | en attente |
+| 10 | `LOT-66` | Charte visuelle : sortir de l'identité pixel art | 23 | prêt |
+| 11 | `LOT-37` | Atlas des régions et graphe de cartes | 20 | en attente |
+| 12 | `LOT-76` | Habillage d'interface extrait des livres | 20 | en attente |
+| 13 | `LOT-68` | Le châssis des écrans RPG | 15 | en attente |
+| 14 | `LOT-38` | Fiche de personnage : maquette et interface | 14 | en attente |
+| 15 | `LOT-14` | Inventaire et équipement | 13 | en attente |
+| 16 | `LOT-18` | Bascule exploration ↔ combat | 12 | en attente |
+| 17 | `LOT-39` | Plomberie des clés d'assets | 12 | en attente |
+| 18 | `LOT-19` | Grille tactique et déplacement | 11 | en attente |
+| 19 | `LOT-15` | PNJ et dialogues | 9 | en attente |
+| 20 | `LOT-20` | Initiative et tour par tour | 9 | en attente |
+| 21 | `LOT-11` | Éditeur multi-couches et placement d'entités | 8 | en attente |
+| 22 | `LOT-27` | Contenu du *vertical slice* | 8 | en attente |
+| 23 | `LOT-80` | Factions, panthéon et organisations | 8 | en attente |
+| 24 | `LOT-81` | Descripteurs de terrain des dix régions | 7 | en attente |
+| 25 | `LOT-16` | Quêtes et drapeaux de monde | 6 | en attente |
+| 26 | `LOT-21` | Attaques, dégâts et états | 6 | en attente |
+| 27 | `LOT-40` | Générateur de terrain | 6 | en attente |
+| 28 | `LOT-44` | Noms, tables aléatoires et contenu d'ambiance | 6 | en attente |
+| 29 | `LOT-46` | Créatures de Tanares | 6 | en attente |
+| 30 | `LOT-26` | Butin, marchands, économie | 5 | en attente |
+| 31 | `LOT-41` | Peuplement : rencontres et créatures | 5 | en attente |
+| 32 | `LOT-70` | Horloge de partie et cycle jour/nuit | 4 | en attente |
+| 33 | `LOT-82` | Peuplement civil : PNJ, marchands et quêtes | 4 | en attente |
+| 34 | `LOT-09` | Graphe de cartes et transitions | 3 | en attente |
+| 35 | `LOT-22` | Portée, ligne de vue et zones d'effet | 3 | en attente |
+| 36 | `LOT-84` | Les 31 tables de progression de classe | 3 | en attente |
+| 37 | `LOT-17` | Sauvegarde riche | 2 | en attente |
+| 38 | `LOT-35` | Sorts et états | 2 | en attente |
+| 39 | `LOT-47` | Socle de classe, et le guerrier comme preuve | 2 | en attente |
+| 40 | `LOT-23` | IA tactique ennemie | 1 | en attente |
 | 41 | `LOT-42` | Voyage et carte du monde | 1 | en attente |
 | 42 | `LOT-45` | Guilde des Aventuriers : rangs et contrats | 1 | en attente |
 | 43 | `LOT-50` | Le Colisée : bac à sable de combat | 1 | en attente |
@@ -581,21 +581,21 @@ statistiques régionales sont typées, pas laissées en texte libre.
 
 ### `LOT-38` — Fiche de personnage : maquette et interface {#lot-38}
 
-*Prérequis : [LOT-13](@ref lot-13), `LOT-68`, `LOT-39`, `LOT-76`. Alimente
-[LOT-24](@ref lot-24).*
+*Prérequis : [LOT-13](@ref lot-13), `LOT-68`, `LOT-76`. Alimente [LOT-24](@ref lot-24),
+`LOT-39`.*
 
 `Character_Sheets_Tanares.pdf` fournit ses 5 planches en image à environ 300 ppp (2 668 × 3 418) :
 une maquette précise de l'écran de fiche — quels champs, groupés en quels blocs (identité,
 caractéristiques, compétences, combat, équipement, sorts), dans quel ordre de lecture. L'écran se
-construit sur le système de design existant, avec les panneaux de parchemin extraits au `LOT-39`.
+construit sur le système de design existant, avec les panneaux de parchemin extraits au `LOT-76`.
 
 *Acceptation* — chaque champ de la maquette est soit affiché à l'écran, soit inscrit dans une liste
 explicite de champs hors périmètre. Un champ simplement oublié n'est pas un arbitrage.
 
 ### `LOT-39` — Plomberie des clés d'assets {#lot-39}
 
-*Prérequis : `LOT-33`, `LOT-34`, `LOT-37`. Alimente [LOT-11](@ref lot-11),
-[LOT-27](@ref lot-27), `LOT-38`.*
+*Prérequis : `LOT-33`, `LOT-34`, `LOT-37`, `LOT-38`. Alimente [LOT-11](@ref lot-11),
+[LOT-27](@ref lot-27).*
 
 *Exigences couvertes : `EX-CNT-040`, `EX-CNT-041`.*
 
@@ -614,6 +614,15 @@ un remplacement progressif de marqueurs, jamais un préalable bloquant.
 
 La distinction avec le [LOT-08](@ref lot-08) est nette : le `LOT-08` a fixé le vocabulaire des
 **tuiles de terrain**, celui-ci fixe celui des **entités**.
+
+> **Le lien avec le `LOT-38` était déclaré à l'envers.** Ce lot se disait prérequis de la maquette
+> de fiche, au motif qu'elle emploierait ses panneaux de parchemin — mais ces panneaux sont partis
+> au `LOT-76` lors du même audit qui a scindé ce lot, et la ligne n'a pas suivi. L'ordre réel est
+> **`LOT-38` puis `LOT-39`** : on dessine la maquette, *puis* on nomme les clés de ce qu'elle
+> affiche. Nommer d'abord reviendrait à inventer les clés d'un écran qui n'existe pas, et à les
+> renommer une fois l'écran dessiné. La section 6 l'écrivait déjà — « la maquette suppose la
+> fiche ; la plomberie d'assets suit » — mais la ligne « Prérequis » disait le contraire, et c'est
+> elle que le graphe lit.
 
 *Acceptation* — aucune clé d'asset orpheline dans les catalogues ; toute clé sans image obtient un
 marqueur généré, et la CI **liste** les clés sans art définitif sans échouer : c'est un état
@@ -1524,13 +1533,27 @@ socle de classe, cela plaçait `LOT-84 → LOT-47 → LOT-50 → LOT-69` — les
 le mode édition — **devant** le slice. Vingt-six des lots de la filière se retrouvaient ainsi en
 amont d'un jalon censé arriver tôt. La correction est au `LOT-69`, réduit à une suppression.
 
-Le chemin critique restant est celui des **catalogues, pas des systèmes** :
+Le chemin critique restant compte **huit lots**, et c'est la plus longue chaîne de prérequis qui
+mène au slice :
 
-`LOT-77` → `LOT-79` → `LOT-30` → `LOT-32` → { `LOT-33`, `LOT-34`, `LOT-43` → `LOT-36`,
-`LOT-37` } → [LOT-27](@ref lot-27)
+`LOT-30` → `LOT-32` → `LOT-43` → `LOT-36` → [LOT-13](@ref lot-13) → `LOT-38` → `LOT-39` →
+[LOT-27](@ref lot-27)
 
 Tout le reste — classes, Colisée, peuplement, voyage, guilde — vient **après**. La règle à tenir
 tient en une phrase : *un lot n'entre dans ce chemin que si le slice ne peut pas se jouer sans lui.*
+
+**Ce chemin s'est allongé de trois lots** quand le lien `LOT-38` / `LOT-39` a été remis à l'endroit.
+Il passait auparavant par les seuls catalogues — cinq lots, `LOT-30` → `LOT-32` → `LOT-43` →
+`LOT-36` → `LOT-27` — parce que le `LOT-39` était déclaré *avant* le `LOT-38`. Dans le bon sens, le
+slice attend les clés d'assets, qui attendent la maquette de fiche, qui attend la fiche : la
+[fiche de personnage](@ref lot-13) et sa maquette sont **sur le chemin critique**, ce qu'aucune
+version de cette page n'avait dit.
+
+C'est la conséquence à surveiller, et la seule question qui vaille est : *le slice a-t-il vraiment
+besoin du `LOT-39` ?* Oui — c'est le `LOT-39` qui produit le **marqueur généré** pour toute clé
+sans image, donc ce qui permet au jeu de tourner complet avant qu'une seule illustration ne soit
+découpée. Sans lui, le slice n'aurait rien à afficher pour ses créatures. Le chemin est long parce
+qu'il est réel, pas parce qu'il a dérivé.
 
 ### Le graphe des dépendances
 
@@ -1600,8 +1623,8 @@ eux-mêmes.
 | `LOT-35` | Sorts et états | `LOT-32` | `LOT-25`, `LOT-72` |
 | `LOT-36` | Espèces, historiques et classes provisoires | `LOT-32`, `LOT-43` | `LOT-13`, `LOT-27`, `LOT-44`, `LOT-47` |
 | `LOT-37` | Atlas des régions et graphe de cartes | `LOT-32` | `LOT-09`, `LOT-27`, `LOT-39`, `LOT-44`, `LOT-80`, `LOT-81` |
-| `LOT-38` | Fiche de personnage : maquette et interface | `LOT-13`, `LOT-39`, `LOT-68`, `LOT-76` | `LOT-24` |
-| `LOT-39` | Plomberie des clés d'assets | `LOT-33`, `LOT-34`, `LOT-37` | `LOT-11`, `LOT-27`, `LOT-38` |
+| `LOT-38` | Fiche de personnage : maquette et interface | `LOT-13`, `LOT-68`, `LOT-76` | `LOT-24`, `LOT-39` |
+| `LOT-39` | Plomberie des clés d'assets | `LOT-33`, `LOT-34`, `LOT-37`, `LOT-38` | `LOT-11`, `LOT-27` |
 | `LOT-40` | Générateur de terrain | `LOT-11`, `LOT-81` | `LOT-41` |
 | `LOT-41` | Peuplement : rencontres et créatures | `LOT-27`, `LOT-33`, `LOT-40`, `LOT-44`, `LOT-46` | `LOT-75`, `LOT-82` |
 | `LOT-42` | Voyage et carte du monde | `LOT-09`, `LOT-17`, `LOT-68`, `LOT-70`, `LOT-82` | `LOT-75` |

@@ -37,6 +37,22 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
     tombe au rang 33. Un prérequis compte quel que soit le côté où il est déclaré, et c'est aussi
     ce qui repousse le `LOT-27` au rang 20 : il ne déclare rien, cinq lots de contenu déclarent
     l'alimenter.
+  - **Le lien `LOT-38` / `LOT-39` était déclaré à l'envers**, et le calcul l'a rendu visible : la
+    plomberie des clés d'assets se disait prérequis de la maquette de fiche, au motif qu'elle lui
+    fournirait ses panneaux de parchemin — mais ces panneaux étaient partis au `LOT-76` lors du
+    même audit, et la ligne « Prérequis » n'avait pas suivi. L'ordre réel est `LOT-38` puis
+    `LOT-39` : on dessine la maquette, *puis* on nomme les clés de ce qu'elle affiche. La section 6
+    l'écrivait déjà en toutes lettres ; c'est la ligne « Prérequis », celle que le graphe lit, qui
+    disait le contraire.
+  - **Conséquence, et elle n'est pas anodine** : le chemin critique jusqu'au *vertical slice* passe
+    de cinq à **huit lots**, et la fiche de personnage y entre — `LOT-30` → `LOT-32` → `LOT-43` →
+    `LOT-36` → `LOT-13` → `LOT-38` → `LOT-39` → `LOT-27`. Aucune version de cette page ne disait
+    que la fiche et sa maquette étaient sur le chemin critique. Le chemin est long parce qu'il est
+    réel : le `LOT-39` produit le marqueur généré sans lequel le slice n'a rien à afficher.
+  - **`lint_lots.py --regenerer`** réécrit les deux tableaux calculés. Les règles 10 et 13 savaient
+    refuser un tableau qui a dérivé ; sans cette option, corriger une ligne « Prérequis » obligeait
+    à recopier jusqu'à cinquante lignes à la main — le geste même qui réintroduit l'erreur qu'on
+    vient de corriger.
   - **Pas de date pour la `0.1.0`, et la raison est écrite.** La cadence observée — onze lots en
     deux jours — placerait la version dans deux semaines si on l'extrapolait ; les lots livrés sont
     des lots de socle, ceux qui restent portent des catalogues de plusieurs centaines d'entrées.

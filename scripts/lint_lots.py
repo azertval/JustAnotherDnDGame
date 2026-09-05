@@ -518,5 +518,40 @@ def main() -> int:
     return r.bilan()
 
 
+def regenerer() -> int:
+    """Réécrit dans la feuille de route les deux tableaux que ce lint calcule.
+
+    Les règles 10 et 13 refusent un tableau qui a dérivé, mais refuser ne suffit pas : sans cette
+    option, corriger une seule ligne « Prérequis » oblige à recopier à la main jusqu'à cinquante
+    lignes de tableau, et c'est exactement le geste qui réintroduit l'erreur qu'on venait de
+    corriger. Le lint sait produire les deux tableaux ; il doit donc savoir les poser.
+
+    Ne touche à rien d'autre — ni au regroupement d'intention, ni au diagramme, ni au texte.
+    """
+    texte = ROADMAP.read_text(encoding='utf-8')
+    corrige = texte
+    for entete, generateur in (
+        ('| # | Lot | Objet | Débloque | Statut |\n|---|---|---|---|---|\n', tableau_ordre),
+        ('| Lot | Objet | Prérequis | Alimente |\n|---|---|---|---|\n', tableau_recapitulatif),
+    ):
+        if entete not in corrige:
+            print("regeneration impossible : en-tete de tableau introuvable —\n%s" % entete)
+            return 1
+        debut = corrige.index(entete) + len(entete)
+        fin = corrige.index('\n\n', debut)
+        # Le tableau est toujours recalculé depuis le texte D'ORIGINE : régénérer le premier ne
+        # doit pas changer ce que le second lit.
+        corrige = corrige[:debut] + generateur(texte) + corrige[fin:]
+
+    if corrige == texte:
+        print('lint_lots --regenerer : les deux tableaux etaient deja a jour.')
+        return 0
+    ROADMAP.write_text(corrige, encoding='utf-8')
+    print('lint_lots --regenerer : tableau d\'avancement et recapitulatif reecrits.')
+    return 0
+
+
 if __name__ == '__main__':
+    if '--regenerer' in sys.argv[1:]:
+        sys.exit(regenerer())
     sys.exit(main())
