@@ -69,6 +69,12 @@ CARACTERISTIQUES = {
 PAGE_LANGUES = 38
 REGION_LANGUES = (300, 130, 570, 420)
 
+# -- Degres de difficulte -------------------------------------------------------------------------
+# Basic Rules p. 64, table << Tache / DD >>. EX-DND-021 interdit qu'un nombre de difficulte
+# apparaisse litteralement dans le code : ces six paliers sont une donnee, extraite comme le reste.
+PAGE_DIFFICULTE = 64
+REGION_DIFFICULTE = (85, 500, 240, 600)
+
 # -- Multiclassage -------------------------------------------------------------------------------
 # Toutes ces constantes sont des pages IMPRIMÉES, converties par `Document.index_pdf` : le
 # Manuel des Joueurs est décalé de 1 et les confondre vise la page voisine, silencieusement.
@@ -310,6 +316,12 @@ def dons(corpus: Corpus, lexique: list, cache=None) -> Catalogue:
     return Catalogue('feats', sorted(entrees, key=lambda e: e['id']))
 
 
+# -- Degres de difficulte -------------------------------------------------------------------------
+# Basic Rules p. 64, table << Tache / DD >>. EX-DND-021 interdit qu'un nombre de difficulte
+# apparaisse litteralement dans le code : ces six paliers sont une donnee, extraite comme le reste.
+PAGE_DIFFICULTE = 64
+REGION_DIFFICULTE = (85, 500, 240, 600)
+
 # -- Multiclassage -------------------------------------------------------------------------------
 
 def _table_magicien(corpus: Corpus, cache=None) -> dict:
@@ -495,6 +507,38 @@ def _verifier_progressions(corpus: Corpus, cache=None) -> None:
             % (', '.join(absentes), PAGE_MULTICLASSAGE_MAITRISES))
 
 
+def difficulte(corpus: Corpus, cache=None) -> dict:
+    """Les six degres de difficulte nommes, de « tres facile » a « quasi impossible »."""
+    document = corpus['basic-rules']
+    with Extracteur(document, cache=cache) as extracteur:
+        lignes = extracteur.tableau(document.index_pdf(PAGE_DIFFICULTE),
+                                    region=REGION_DIFFICULTE)
+
+    paliers = []
+    for ligne in lignes:
+        nom, valeur = (normaliser(c) for c in (list(ligne) + ['', ''])[:2])
+        if not valeur.isdigit():
+            continue  # en-tete « Tache | DD »
+        paliers.append({'id': identifiant(nom), 'name': nom, 'dc': int(valeur)})
+
+    if len(paliers) != 6:
+        raise OptionsError(
+            "difficulte : %d paliers extraits page %d des Basic Rules, 6 attendus. Une echelle "
+            'amputee ferait retomber les seuils manquants sur une valeur ecrite en dur, ce que '
+            "EX-DND-021 interdit." % (len(paliers), PAGE_DIFFICULTE))
+    if [p['dc'] for p in paliers] != sorted(p['dc'] for p in paliers):
+        raise OptionsError(
+            'difficulte : les paliers ne sont pas croissants — %s. '
+            "L'ordre du tableau est significatif." % [p['dc'] for p in paliers])
+
+    return {
+        'id': 'difficulty',
+        'name': 'Degres de difficulte',
+        'source': 'srd',
+        'tiers': paliers,
+    }
+
+
 # -- Production ------------------------------------------------------------------------------
 
 def produire(corpus: Corpus, lexique: list, racine, cache=None) -> tuple[list, list[str]]:
@@ -518,11 +562,14 @@ def produire(corpus: Corpus, lexique: list, racine, cache=None) -> tuple[list, l
                               encoding='utf-8')
             ecrits.append(chemin)
 
-    regle, pertes = multiclassage(corpus, lexique, cache)
     dossier = racine / 'rules'
     dossier.mkdir(parents=True, exist_ok=True)
-    chemin = dossier / 'multiclassing.json'
-    chemin.write_text(json.dumps(regle, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
-    ecrits.append(chemin)
+
+    regle, pertes = multiclassage(corpus, lexique, cache)
+    for nom, contenu in (('multiclassing', regle), ('difficulty', difficulte(corpus, cache))):
+        chemin = dossier / ('%s.json' % nom)
+        chemin.write_text(json.dumps(contenu, ensure_ascii=False, indent=2) + '\n',
+                          encoding='utf-8')
+        ecrits.append(chemin)
 
     return ecrits, pertes

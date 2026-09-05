@@ -16,6 +16,9 @@ add_library(Core STATIC
     Ecs/Systems/ParticleSystem.cpp
     World/GridDistanceField.cpp
     Gameplay/MechanismController.cpp
+    Rpg/Ability.cpp
+    Rpg/Check.cpp
+    Rpg/Dice.cpp
     Rpg/RpgEnumNames.cpp
     Rpg/Multiclassing.cpp
     Levels/TileMap.cpp
