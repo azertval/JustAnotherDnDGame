@@ -6,6 +6,34 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **La feuille de route dit enfin par quoi commencer.** Elle portait un « ordre d'exécution
+  recommandé » en cinq lignes de *quand* flous — « démarrables maintenant », « avec `LOT-09` »,
+  « avant `LOT-13` » — dont aucune ne désignait un premier lot. La question « et maintenant ? » se
+  répondait donc par une relecture de 2 500 lignes, et deux relectures ne donnaient pas forcément
+  la même réponse.
+  - **Une règle, à la place d'un avis** : *à chaque pas, le plus petit numéro dont tous les
+    prérequis sont faits.* La dépendance commande, le numéro départage. La suite qui en sort est
+    déterministe, et personne n'a à l'arbitrer.
+  - **Un tableau d'avancement en tête de page**, calculé et non écrit : les soixante-neuf lots
+    restants dans l'ordre, avec leur statut — `prochain`, `prêt` (tous ses prérequis livrés),
+    `en attente`. `scripts/lint_lots.py` gagne une **règle 13** qui le recalcule et le refuse s'il
+    diverge d'une ligne. Le tableau ne figure qu'à un endroit : le recopier en section 6 aurait
+    recréé les deux documents divergents que cette page combat.
+  - **Le lint ne voyait pas la moitié du graphe.** Les vingt et un lots absorbés (`LOT-09` à
+    `LOT-29`) écrivent leurs prérequis dans un bloc de citation, `> Prérequis : …`, quand les lots
+    de la filière les écrivent en italique ; le lint ne lisait que la seconde forme. Ni le contrôle
+    d'acyclicité ni celui des prérequis existants ne les avait donc jamais examinés.
+  - **Ce que le calcul a révélé** : le prochain lot est le `LOT-10`, **pas** le `LOT-09`. Les deux
+    n'attendent que des lots livrés à la lecture de leur seule ligne « Prérequis », mais le
+    `LOT-37` déclare alimenter le `LOT-09` — le graphe de cartes attend l'atlas des régions, sans
+    quoi il relierait des nœuds inventés. Le `LOT-09` tombe au rang 9. Un prérequis compte quel que
+    soit le côté où il est déclaré, et c'est aussi ce qui remonte le `LOT-27` du rang 3 au rang 22 :
+    il ne déclare rien, cinq lots de contenu déclarent l'alimenter.
+  - **Pas de date pour la `0.1.0`, et la raison est écrite.** La cadence observée — onze lots en
+    deux jours — placerait la version dans deux semaines si on l'extrapolait ; les lots livrés sont
+    des lots de socle, ceux qui restent portent des catalogues de plusieurs centaines d'entrées.
+    L'extrapolation est fausse, et la page le dit plutôt que de laisser le lecteur la faire.
+
 - **Une seule routine de lecture JSON, et des tests paramétrés** (`LOT-79`). Le dépôt comptait
   **six** réimplémentations de `loadFromFile` — `SkinCatalog`, `AnimationCatalog`, `SoundCatalog`,
   `PixelPalette`, `LevelLoader`, `LevelSequenceLoader` — répétant la même séquence (`accept()` puis
