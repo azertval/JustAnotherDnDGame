@@ -32,6 +32,8 @@ add_executable(UnitTests
     Unit/Core/Levels/test_plane.cpp
     Unit/Core/Levels/test_level_outcome.cpp
     Unit/Core/Levels/test_tile_type_name.cpp
+    Unit/Core/Rpg/test_check.cpp
+    Unit/Core/Rpg/test_dice.cpp
     Unit/Core/Rpg/test_rpg_enums.cpp
     Unit/Core/Rpg/test_multiclassing.cpp
     Unit/Core/Levels/test_rpg_terrain.cpp

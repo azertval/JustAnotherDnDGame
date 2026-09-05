@@ -84,6 +84,47 @@ public:
         return min + nextFloat01() * (max - min);
     }
 
+    /**
+     * @brief Prochain entier dans **[min, max]**, bornes comprises, **sans biais modulo**.
+     *
+     * `nextUInt32() % n` est la forme évidente, et elle est fausse : 2³² n'est pas un multiple de
+     * `n`, si bien que les `2³² mod n` premières valeurs sortent une fois de plus que les autres.
+     * Sur un d20 le biais est d'environ un dix-millionième — négligeable —, mais il est
+     * *systématique* et va toujours dans le même sens, et il rendrait indéfendable toute mesure de
+     * distribution faite sur ce générateur. Le corriger coûte une boucle qui ne tourne
+     * pratiquement jamais.
+     *
+     * La méthode est celle du **rejet** : on écarte la queue de l'intervalle qui dépasse le
+     * dernier multiple complet de `n`. Le nombre d'itérations est fini avec probabilité 1, et sa
+     * moyenne est inférieure à 2 pour tout `n` réaliste.
+     *
+     * @param min Borne inférieure, comprise.
+     * @param max Borne supérieure, **comprise**. Si `max <= min`, renvoie `min` sans tirer — un
+     *            intervalle vide n'est pas une erreur, c'est une valeur fixe.
+     * @return L'entier tiré.
+     */
+    [[nodiscard]] int nextInt(int min, int max) noexcept {
+        if (max <= min) {
+            return min;
+        }
+        const std::uint32_t etendue = static_cast<std::uint32_t>(max - min) + 1U;
+        // `2^32 mod etendue` : le nombre de valeurs en trop, celles qui n'ont pas de contrepartie
+        // sur tout l'intervalle. On rejette la queue BASSE, `[0, reste[`, et non la haute.
+        //
+        // Rejeter la queue haute serait plus naturel à lire — « au-delà du dernier multiple
+        // complet » — mais ce seuil vaut `2^32` quand `etendue` divise `2^32`, et `2^32` ne tient
+        // pas dans un `std::uint32_t` : il retombe à 0, la condition devient toujours vraie, et la
+        // boucle ne se termine jamais. Le défaut ne se voit que sur les **puissances de deux** :
+        // un d6 et un d20 passent, un d8 bloque. C'est un test de rejouabilité sur 3d8 qui l'a
+        // trouvé, pas une relecture.
+        const std::uint32_t reste = (std::uint32_t{0} - etendue) % etendue;
+        std::uint32_t tirage = nextUInt32();
+        while (tirage < reste) {
+            tirage = nextUInt32();
+        }
+        return min + static_cast<int>(tirage % etendue);
+    }
+
 private:
     std::uint64_t _state;
 };

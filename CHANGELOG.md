@@ -6,6 +6,33 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **Le cœur chiffré : dés, caractéristiques, jet de d20** (`LOT-12`). Du calcul pur dans `Core`,
+  sans fenêtre ni GPU : la notation `NdF±M`, les six caractéristiques, le d20 avec avantage et
+  désavantage, et les six degrés de difficulté en **donnée**.
+  - **Le défaut que les tests ont trouvé et que la relecture n'aurait pas vu.** `nextInt` rejette
+    la queue de l'intervalle pour éviter le biais modulo ; la formulation naturelle — rejeter
+    au-delà du dernier multiple complet — donne un seuil de 2³² quand l'étendue divise 2³², qui ne
+    tient pas dans un `uint32` et retombe à **0** : boucle infinie. Le défaut ne se voit que sur
+    les **puissances de deux** — un d6 et un d20 passent, un d8 gèle. C'est le test de
+    rejouabilité, écrit sur 3d8, qui l'a attrapé. La version retenue rejette la queue basse, vide
+    dans ce cas.
+  - **Deux arrondis qui ne se voient pas.** `(score - 10) / 2` tronque vers zéro en C++ : un score
+    de 7 donnerait `-1` au lieu de `-2`, et le personnage serait moins pénalisé qu'il ne doit
+    l'être sur chacun de ses jets, pendant toute la partie. Et avantage plus désavantage
+    **s'annulent** (`EX-DND-002`), y compris à deux contre un — la règle annule, elle ne compte
+    pas. Les deux ont leur cas de test explicite.
+  - **Un 20 naturel n'est pas un total de 20** : `isNaturalTwenty()` regarde le dé retenu. Les
+    confondre rendrait critique un jet sur deux à haut niveau, et passerait pour de l'équilibrage.
+  - **La restitution est une exigence, pas un journal** (`EX-DND-003`) : les **deux** dés sont
+    conservés en cas d'avantage, et chaque modificateur porte son origine —
+    `d20 (avantage : 7, 14) = 14 + 3 (Dexterite) + 2 (maitrise) = 19 >= 15 : reussite`.
+  - **Les degrés de difficulté sont une donnée** (`EX-DND-021`), extraits de la table « Tâche / DD »
+    des *Basic Rules* : six paliers de 5 à 30. Le test lui-même lit le seuil dans le fichier plutôt
+    que d'écrire `15`.
+  - **Une case vaut 1,5 m**, figé dans une constante nommée. La conversion mètres ↔ cases existe
+    forcément quelque part ; le seul choix ouvert était *à un endroit, ou à trente*.
+  - `ctest` passe de 954 à **968** cas, tous verts.
+
 - **Les options de personnage : dons, multiclassage, compétences, langues** (`LOT-43`). Quatre
   catalogues oubliés du premier découpage, que la fiche de personnage suppose sans jamais dire d'où
   ils viennent : **18 compétences**, **16 langues**, **42 dons** et la règle du multiclassage — 77

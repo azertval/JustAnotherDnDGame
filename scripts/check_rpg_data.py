@@ -76,7 +76,13 @@ FAMILLES = {
     'skills': 'skill',
     'languages': 'language',
     'feats': 'feat',
-    'rules': 'multiclassing',
+}
+
+# `rules/` porte des REGLES, pas une collection d'entrees semblables : chaque fichier y a son
+# propre schema, resolu par son nom. Un dossier par regle serait un dossier a un fichier.
+REGLES = {
+    'multiclassing': 'multiclassing',
+    'difficulty': 'difficulty',
 }
 
 # Énumération fermée d'un schéma ↔ catégorie du lexique. `equivalence` exige l'égalité des deux
@@ -157,7 +163,8 @@ def valider_dossier(schemas: dict, racine: Path) -> tuple[list[str], list[str], 
     for chemin in sorted(racine.rglob('*.json')):
         if SCHEMAS in chemin.parents or chemin.parent == SCHEMAS:
             continue
-        famille = FAMILLES.get(chemin.parent.name)
+        famille = (REGLES.get(chemin.stem) if chemin.parent.name == 'rules'
+                   else FAMILLES.get(chemin.parent.name))
         if famille is None:
             violations.append(
                 '%s : dossier « %s » sans famille déclarée. La famille se déclare dans '
