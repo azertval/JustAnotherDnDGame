@@ -96,10 +96,10 @@ $(function(){initNavTree('spec-editeur.html','',''); });
 <blockquote class="doxtable">
 <p>Statut : <b>édition de tuiles de base et robustesse/confort d'édition validés et livrés</b> (LOT-H-14 : peinture, mécanismes, entrée/sortie, redimensionnement, undo/redo, enregistrement/validation, essai immédiat ; LOT-H-15 : nommage, garde-fous, caméra, outils de zone, découvrabilité ; LOT-H-16 : niveaux de grande taille, section 7 ; LOT-H-27 : palette organisée par catégories repliables, section 8). Dépend de <a class="el" href="spec-niveaux.html#md_Specification_2niveaux" title="Specification/niveaux.md"><span class="tt">niveaux.md</span></a>. </p>
 </blockquote>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md303"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md304"></a>
 Objectif</h1>
 <p>Permettre la <b>création et la modification de niveaux sans écrire de code</b>, afin que des membres de l'équipe <b>non-développeurs</b> (game design, level design) contribuent directement au contenu du jeu.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md304"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md305"></a>
 1. Exigences fonctionnelles</h1>
 <ul>
 <li><a class="anchor" id="EX-EDIT-001"></a><b>EX-EDIT-001</b> — L'éditeur doit permettre de créer et modifier un niveau <b>sans compétence en programmation</b> ni ligne de commande.</li>
@@ -112,20 +112,20 @@ Objectif</h1>
 <li><a class="anchor" id="EX-EDIT-008"></a><b>EX-EDIT-008</b> — L'éditeur doit permettre de <b>tester le niveau</b> immédiatement (le lancer dans le jeu depuis l'éditeur), pour un cycle création → essai rapide.</li>
 <li><a class="anchor" id="EX-EDIT-009"></a><b>EX-EDIT-009</b> — L'éditeur doit permettre de <b>nommer</b> un niveau à sa création et de le <b>renommer</b>, et <b>avertir avant d'écraser</b> un fichier existant différent du niveau en cours d'édition lors de l'enregistrement.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md305"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md306"></a>
 2. Réutilisation &amp; cohérence</h1>
 <ul>
 <li><a class="anchor" id="EX-EDIT-010"></a><b>EX-EDIT-010</b> — L'éditeur doit <b>réutiliser le modèle de niveau et la validation de <span class="tt">Core</span></b> — aucune duplication de la logique de niveau entre le jeu et l'éditeur (source unique de vérité).</li>
 <li><a class="anchor" id="EX-EDIT-011"></a><b>EX-EDIT-011</b> — Un niveau enregistré par l'éditeur doit être <b>directement jouable</b> par le jeu sans conversion, et réciproquement (round-trip fiable). Ce qu'un éditeur ne sait pas encore modifier, il doit le <b>transporter</b> : les couches visibles, les entités et les propriétés libres d'une carte (<span class="tt">EX-LVL-016</span> à <span class="tt">EX-LVL-018</span>) traversent un cycle ouvrir/enregistrer sans perte, même avant que l'interface ne les expose — un éditeur qui efface en silence ce qu'il n'affiche pas est pire qu'un éditeur incomplet.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md306"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md307"></a>
 3. Distribution &amp; collaboration</h1>
 <ul>
 <li><a class="anchor" id="EX-EDIT-020"></a><b>EX-EDIT-020</b> — L'éditeur doit être fourni comme un <b>outil exécutable</b> que les non-codeurs lancent sans étape de build.</li>
 <li><a class="anchor" id="EX-EDIT-021"></a><b>EX-EDIT-021</b> — Les niveaux sont des <b>fichiers</b> rangés dans <span class="tt">Source/Elements</span> et versionnés ; l'éditeur enregistre directement à cet emplacement.</li>
 <li><a class="anchor" id="EX-EDIT-022"></a><b>EX-EDIT-022</b> — Le partage des niveaux passe par <b>Git via une interface graphique</b> (type GitHub Desktop) : les niveaux sont versionnés dans le dépôt au même titre que le reste du projet. Le level designer publie et récupère les niveaux en quelques clics, <b>sans ligne de commande</b>. Un court guide d'utilisation (installation + flux publier/mettre à jour) doit être fourni dans <span class="tt">Documentation/</span> à destination des non-codeurs.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md307"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md308"></a>
 4. Approche d'implémentation (décidée)</h1>
 <p><b>Option retenue : éditeur intégré.</b> L'édition est un <b>mode de l'application</b> de jeu, réutilisant le rendu Direct3D 11 et le modèle de niveau de <span class="tt">Core</span>.</p>
 <ul>
@@ -133,14 +133,14 @@ Objectif</h1>
 <li><a class="anchor" id="EX-EDIT-031"></a><b>EX-EDIT-031</b> — Le mode éditeur réutilise le <b>rendu D3D11</b> de <span class="tt">HMI</span> et le <b>modèle/validation de niveau</b> de <span class="tt">Core</span> (pas de duplication).</li>
 </ul>
 <p>Justification : un seul codebase, un rendu identique au jeu, un cycle <b>création → essai</b> immédiat et un round-trip garanti avec le format de niveau. <em>(Repli documenté si le temps manque : l'éditeur libre Tiled avec une couche d'import vers notre format — non retenu par défaut.)</em></p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md308"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md309"></a>
 4bis. Décors &amp; pixel art (post-MVP, intégré à l'éditeur)</h1>
 <ul>
 <li><a class="anchor" id="EX-EDIT-040"></a><b>EX-EDIT-040</b> — L'éditeur doit permettre de <b>placer et transformer des décors</b> (position, échelle, superposition par couches) — cf. <a class="el" href="spec-decors.html#md_Specification_2decors" title="Specification/decors.md"><span class="tt">decors.md</span></a>.</li>
 <li><a class="anchor" id="EX-EDIT-041"></a><b>EX-EDIT-041</b> — L'éditeur doit intégrer la <b>conversion photo → pixel art</b> (chargement d'une photo, pixellisation, réduction de palette, paramètres ajustables) et enregistrer l'asset résultant dans <span class="tt">Source/Elements</span> — cf. <span class="tt">EX-DEC-030/031/032</span>.</li>
 </ul>
 <p>Ces capacités sont livrées <b>après</b> l'édition de tuiles de base, mais l'architecture les accommode dès le départ (cf. <a class="el" href="spec-architecture.html#md_Specification_2architecture" title="Specification/architecture.md"><span class="tt">architecture.md</span></a>).</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md309"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md310"></a>
 5. Non-objectifs (éditeur, MVP)</h1>
 <ul>
 <li>Édition collaborative en temps réel (plusieurs personnes sur le même niveau simultanément).</li>
@@ -148,7 +148,7 @@ Objectif</h1>
 <li>Sélection multiple non contiguë et historique annuler/refaire par delta (l'historique par snapshots complets, retenu en LOT-H-14, reste adapté à la taille des niveaux du projet).</li>
 <li>Palette pilotée par un fichier de configuration externe (la liste de types gérés par <span class="tt">Core</span> reste petite et change rarement ; une couche de données externes serait une abstraction non justifiée à ce stade).</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md310"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md311"></a>
 6. Robustesse et confort d'édition (LOT-H-15)</h1>
 <p>Une fois l'édition de tuiles de base livrée (LOT-H-14), l'usage réel fait ressortir des besoins complémentaires pour rapprocher l'éditeur d'un outil de production : éviter la perte de travail, éditer confortablement des niveaux plus grands, et rendre les commandes découvrables sans dépendre uniquement de la documentation externe.</p>
 <ul>
@@ -158,19 +158,19 @@ Objectif</h1>
 <li><a class="anchor" id="EX-EDIT-015"></a><b>EX-EDIT-015</b> — L'éditeur doit exposer ses commandes de façon <b>découvrable</b> à l'écran : une barre d'outils pour changer d'outil, un aperçu des raccourcis clavier, et des libellés sur les entrées de la palette. <em>La barre d'outils à icônes est concrétisée en <span class="tt">LOT-H-56</span> (<span class="tt">EX-IHM-055</span>) et l'aperçu des raccourcis en <span class="tt">LOT-H-57</span> — lots hérités, archivés sous <span class="tt">Documentation/Heritage/Lot/</span> : le changement d'outil passait jusqu'ici par des boutons radio empilés, et aucun aperçu des raccourcis n'était atteignable depuis l'application.</em></li>
 <li><a class="anchor" id="EX-EDIT-016"></a><b>EX-EDIT-016</b> — Lorsque plusieurs liaisons interrupteur ↔ porte sont visibles simultanément, chacune doit être <b>visuellement distinguable</b> des autres (et non une teinte unique partagée par toutes les liaisons).</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md311"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md312"></a>
 7. Niveaux de grande taille (LOT-H-16)</h1>
 <p>Le redimensionnement (<span class="tt">EX-EDIT-005</span>) se faisait jusqu'ici uniquement case par case (flèches), praticable pour de petits ajustements mais pas pour viser directement une grande taille. Aucune limite technique n'existe dans <span class="tt">Core</span> (<span class="tt">TileMap</span>/<span class="tt">LevelDraft</span> acceptent toute dimension positive) — seule l'ergonomie manquait.</p>
 <ul>
 <li><a class="anchor" id="EX-EDIT-017"></a><b>EX-EDIT-017</b> — L'éditeur doit permettre de <b>saisir directement</b> une largeur et une hauteur cibles (plutôt que d'incrémenter case par case), sous un <b>plafond généreux</b> (très au-delà des tailles livrées à ce jour) qui reste configurable au niveau du code, pas une limite arbitraire de <span class="tt">Core</span>.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md312"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md313"></a>
 8. Palette organisée par catégories (LOT-H-27)</h1>
 <p>La palette (<span class="tt">EX-EDIT-002</span>) affichait ses types de tuiles en <b>liste plate</b> : 19 lignes, chacune son propre libellé, où les huit variantes de pente/arrondi et les trois tailles de bloc poussable noyaient les huit types simples au milieu d'orientations presque identiques visuellement. Aucun souci de compréhension du type lui-même (chaque icône reste le rendu réel de la tuile), mais un défilement long avant de repérer le bon type.</p>
 <ul>
 <li><a class="anchor" id="EX-EDIT-018"></a><b>EX-EDIT-018</b> — La palette doit regrouper les types de tuiles en <b>catégories repliables</b> plutôt qu'en liste plate : quatre catégories (Tuile, Interactif, Piège, Jalon) plus une entrée autonome (Vide), chacune dépliable indépendamment sans jamais recouvrir le canevas d'édition. Une famille regroupant <b>plusieurs formes ou tailles d'un même type d'usage</b> (Pente, Arrondi, Bloc poussable) doit être elle-même un <b>sous-groupe repliable</b> imbriqué dans sa catégorie — trois niveaux d'accordéon au maximum jusqu'à une variante précise, plutôt qu'une seconde liste plate cachée sous la première. Si tout déplier en même temps dépasse la hauteur de fenêtre disponible, la palette doit rester entièrement accessible par <b>défilement</b> (molette, barre de défilement) plutôt que de rendre ses dernières entrées inaccessibles à la souris ; déplier ou replier un en-tête ne doit jamais le faire disparaître de la fenêtre visible.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md313"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md314"></a>
 9. Dangers avancés (<span class="tt">LOT-H-31</span>)</h1>
 <p>La catégorie « Piège » (<span class="tt">EX-EDIT-018</span>), jusqu'ici une entrée autonome à côté de « Vide » (une seule tuile, <span class="tt">Danger</span>), devient une catégorie repliable à part entière une fois les quatre nouvelles variantes ajoutées (<span class="tt">EX-GP-050</span> à <span class="tt">EX-GP-053</span>) : une feuille directe « Classique », un sous-groupe « Directionnel » (quatre bords) et trois feuilles directes (Mobile, Commuté, Clignotant) — même patron d'accordéon que les catégories existantes.</p>
 <ul>
@@ -178,13 +178,13 @@ Objectif</h1>
 </ul>
 <p>L'axe et la portée d'un danger mobile, ainsi que la période/le déphasage d'un danger temporisé, <b>ne sont pas</b> éditables par un widget dédié (cf. exclusion actée dans <span class="tt">Documentation/Lot/
 LOT-H-31-blocs-danger-avances/epic.md</span>) — un danger mobile peint depuis la palette garde ses valeurs de conception par défaut tant qu'elles ne sont pas ajustées en modifiant directement le fichier de niveau.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md314"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md315"></a>
 10. Niveaux à salles (<span class="tt">LOT-H-32</span>)</h1>
 <p>Un niveau plus grand qu'une <b>salle</b> (<span class="tt">EX-REN-015</span>) se joue avec une caméra qui cadre la salle courante, pas le niveau entier — un level designer doit pouvoir repérer où se trouvent les frontières de salles pendant l'édition, pour aligner ses couloirs inter-salles sans deviner.</p>
 <ul>
 <li><a class="anchor" id="EX-EDIT-023"></a><b>EX-EDIT-023</b> — L'éditeur doit afficher, en superposition de la grille de tuiles, un <b>quadrillage des frontières de salles</b> (bascule <span class="tt">F10</span>, même commande que le quadrillage de repère case par case, <span class="tt">EX-EDIT-015</span>), distinguable visuellement de ce dernier. Ce repère n'affecte <b>pas</b> le cadrage caméra de l'éditeur (pan/zoom manuel sur le niveau entier, <span class="tt">EX-EDIT-013</span>, inchangé) : seule la caméra du <b>jeu</b> cadre par salle (<span class="tt">EX-REN-015</span>).</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md315"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md316"></a>
 11. Habillage par textures et décors (<span class="tt">LOT-H-40</span> → <span class="tt">LOT-H-55</span>)</h1>
 <p>Au-delà de la couleur plate par type de tuile (rendu « Physique », inchangé), le level designer doit pouvoir habiller le niveau avec de vraies textures — sans jamais perdre la lecture du physique (<span class="tt">EX-NFR-040</span>, <span class="tt">EX-ARCH-012</span> : purement visuel, aucun effet sur la simulation).</p>
 <ul>
@@ -203,7 +203,7 @@ LOT-H-31-blocs-danger-avances/epic.md</span>) — un danger mobile peint depuis 
 <li><a class="anchor" id="EX-EDIT-046"></a><b>EX-EDIT-046</b> — L'éditeur doit offrir un <b>mode création</b> — un espace de travail à part entière, au même titre que l'édition de niveau et l'atelier pixel art — où le niveau <b>entier</b> devient une surface peignable, <b>plan par plan</b> (<span class="tt">EX-DEC-045</span>), au pixel près et à l'échelle <b>1:1</b> (un pixel du plan = un pixel du jeu). Le plan actif est peint avec les outils de l'atelier (<span class="tt">EX-EDIT-045</span>), qui sont <b>réutilisés et non redéveloppés</b> ; les tuiles physiques et les autres plans sont composés en <b>référence atténuée</b> (« pelure d'oignon »), et tout plan peut être <b>isolé</b> ou masqué le temps du travail. Le repère est <b>géométrique</b> : il n'a ni raccords automatiques, ni skins, ni animations — l'aperçu fidèle reste le rendu du niveau et l'essai. L'historique du dessin est <b>strictement distinct</b> de celui de l'édition de niveau : annuler un coup de pinceau ne doit jamais annuler une pose de tuile. Le zoom doit descendre <b>sous</b> le 1:1 pour embrasser un niveau entier, en conservant des pixels <b>carrés</b> (<span class="tt">EX-ARCH-022</span>). Concrétisé en <span class="tt">LOT-H-69</span>.</li>
 <li><a class="anchor" id="EX-EDIT-047"></a><b>EX-EDIT-047</b> — L'éditeur doit exposer, dans un <b>panneau dédié</b>, la liste ordonnée des plans du niveau et leurs réglages : ajout, suppression, <b>réordonnancement</b>, densité, facteurs de parallaxe, opacité, profondeur et visibilité. Ajouter un plan crée son fichier PNG <b>transparent aux dimensions exactes</b> attendues ; changer sa densité rééchantillonne l'image existante plutôt que de la perdre. Le poids mémoire du niveau (<span class="tt">EX-NFR-043</span>) est visible <b>pendant</b> qu'on le dépense. Concrétisé en <span class="tt">LOT-H-69</span>.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md316"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md317"></a>
 Traçabilité</h1>
 <p>L'éditeur s'appuie sur <span class="tt">Core</span> (modèle et validation de niveau, <span class="tt"><a class="el" href="niveaux_8md.html">niveaux.md</a></span>) et sur le rendu de <span class="tt">HMI</span> (<span class="tt"><a class="el" href="rendu-technique_8md.html">rendu-technique.md</a></span>). L'édition de tuiles de base a fait l'objet du lot <b>LOT-H-14</b> (terminé) ; la robustesse et le confort d'édition (section 6) du lot <b>LOT-H-15</b> (terminé) ; la saisie directe de grandes tailles (section 7) du lot <b>LOT-H-16</b> (terminé) ; la palette organisée par catégories (section 8) du lot <b>LOT-H-27</b> (terminé) ; les dangers avancés (section 9) du lot <b>LOT-H-31</b> (terminé) ; le repère visuel de salles (section 10) du lot <b>LOT-H-32</b> (terminé) ; l'habillage des tuiles par textures et les décors (section 11) des lots <b>LOT-H-40</b> à <b>LOT-H-55</b> (non commencés). L'édition de décors (section 4bis, <span class="tt">EX-EDIT-040</span>) est concrétisée en <b>LOT-H-50</b> ; la conversion photo → pixel art (<span class="tt">EX-EDIT-041</span>) reste hors du programme. </p>
 </div></div><!-- contents -->

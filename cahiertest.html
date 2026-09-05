@@ -93,9 +93,9 @@ $(function(){initNavTree('cahiertest.html','',''); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md_CahierTest"></a></p>
-<p><b>938 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
+<p><b>943 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md5"></a>
-Tests unitaires (923)</h1>
+Tests unitaires (928)</h1>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md6"></a>
 Core</h2>
 <p><b><span class="tt"><a class="el" href="test__core_8cpp.html" title="Tests unitaires de la bibliothèque Core (amorçage).">test_core.cpp</a></span></b></p>
@@ -2104,6 +2104,47 @@ Vérifie que <span class="tt">r.normal.y</span> vaut <span class="tt">1.0f</span
 Vérifie que <span class="tt">r.position.x</span> vaut <span class="tt">3.0f</span> (comparaison flottante).  </td></tr>
 </table>
 <h3 class="doxsection"><a class="anchor" id="autotoc_md14"></a>
+Rpg (5)</h3>
+<p><b><span class="tt"><a class="el" href="test__rpg__enums_8cpp.html" title="Tests des enumerations RPG et de leur coincidence avec les schemas (LOT-32, EX-CNT-011).">test_rpg_enums.cpp</a></span></b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>RpgEnumsTest.AllerRetourSurToutesLesValeurs</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__rpg__enums_8cpp.html" title="Tests des enumerations RPG et de leur coincidence avec les schemas (LOT-32, EX-CNT-011).">Source/Test/Unit/Core/Rpg/test_rpg_enums.cpp</a>:67</span></sub>  </td><td class="markdownTableBodyNone">Chaque valeur des enumerations RPG fait l'aller-retour par son nom sans perte.  </td><td class="markdownTableBodyNone">1. Pour chaque type de degats, condition et ecole de magie, convertir en nom puis reconvertir en valeur.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">nom.empty()</span> est faux.<br  />
+Vérifie que <span class="tt">relu.has_value()</span> est vrai.<br  />
+Vérifie que <span class="tt">*relu</span> vaut <span class="tt">type</span>.<br  />
+Vérifie que <span class="tt">nom.empty()</span> est faux.<br  />
+Vérifie que <span class="tt">relu.has_value()</span> est vrai.<br  />
+Vérifie que <span class="tt">*relu</span> vaut <span class="tt">condition</span>.<br  />
+Vérifie que <span class="tt">nom.empty()</span> est faux.<br  />
+Vérifie que <span class="tt">relu.has_value()</span> est vrai.<br  />
+Vérifie que <span class="tt">*relu</span> vaut <span class="tt">school</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>RpgEnumsTest.LesNomsSontUniques</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__rpg__enums_8cpp.html" title="Tests des enumerations RPG et de leur coincidence avec les schemas (LOT-32, EX-CNT-011).">Source/Test/Unit/Core/Rpg/test_rpg_enums.cpp</a>:102</span></sub>  </td><td class="markdownTableBodyNone">Deux valeurs distinctes d'une enumeration RPG ne portent jamais le meme nom.  </td><td class="markdownTableBodyNone">1. Collecter les noms de chaque enumeration dans un ensemble.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">nomsDuMoteur(core::allDamageTypes(), core::damageTypeName).size()</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ab77f2b5d3dc27e52a6907fdc09f6daa4">core::allDamageTypes()</a>.size()</span>.<br  />
+Vérifie que <span class="tt">nomsDuMoteur(core::allConditions(), core::conditionName).size()</span> vaut <span class="tt"><a class="el" href="namespacecore.html#aff7f41bc814d9fd4f6c0bc0f8e85e93f">core::allConditions()</a>.size()</span>.<br  />
+Vérifie que <span class="tt">nomsDuMoteur(core::allMagicSchools(), core::magicSchoolName).size()</span> vaut <span class="tt"><a class="el" href="namespacecore.html#aada0fb2093fbbb75a0f9c75e28336c8d">core::allMagicSchools()</a>.size()</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>RpgEnumsTest.UnNomInconnuEstRefuse</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__rpg__enums_8cpp.html" title="Tests des enumerations RPG et de leur coincidence avec les schemas (LOT-32, EX-CNT-011).">Source/Test/Unit/Core/Rpg/test_rpg_enums.cpp</a>:120</span></sub>  </td><td class="markdownTableBodyNone">Un nom d'enumeration RPG inconnu est refuse au lieu d'etre devine.  </td><td class="markdownTableBodyNone">1. Analyser une chaine vide, un terme francais, et un nom de casse differente.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a1d12176ad6df004421e6685f2cb36e93">core::parseDamageType</a>("").has_value()</span> est faux.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a1d12176ad6df004421e6685f2cb36e93">core::parseDamageType</a>("psychique").has_value()</span> est faux.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a1d12176ad6df004421e6685f2cb36e93">core::parseDamageType</a>("Psychic").has_value()</span> est faux.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#adefe86c619e88b6cf8ede8c2c5da65d5">core::parseCondition</a>("empoisonne").has_value()</span> est faux.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a41deb28480aa298e63a75479bde92d2d">core::parseMagicSchool</a>("invocation").has_value()</span> est faux.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>RpgEnumsTest.LesEnumerationsCoincidentAvecLesSchemas</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__rpg__enums_8cpp.html" title="Tests des enumerations RPG et de leur coincidence avec les schemas (LOT-32, EX-CNT-011).">Source/Test/Unit/Core/Rpg/test_rpg_enums.cpp</a>:139</span></sub>  </td><td class="markdownTableBodyNone">Les enumerations partagees entre le C++ et les schemas JSON sont identiques.  </td><td class="markdownTableBodyNone">1. Lire les enumerations <span class="tt">damageType</span>, <span class="tt">conditionRef</span> et <span class="tt">magicSchool</span> de <span class="tt">common.schema.json</span>.<br  />
+ 2. Les comparer aux noms produits par <span class="tt"><a class="el" href="namespacecore.html#aae5ed49bedbf68049f008e4efac2edfd" title="Type de dégâts infligés (EX-CBT-032, EX-CNT-011).">core::DamageType</a></span>, <span class="tt"><a class="el" href="namespacecore.html#aae82873d6c7bd0b4db085354c50e1493" title="État affectant une créature (EX-DND-040, EX-CNT-011).">core::Condition</a></span> et <span class="tt"><a class="el" href="namespacecore.html#acb09396acc95973b3ca488c497bbddb2" title="École de magie d&#39;un sort (EX-CNT-011).">core::MagicSchool</a></span>.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">nomsDuMoteur(core::allDamageTypes(), core::damageTypeName)</span> vaut <span class="tt">enumDuSchema("damageType")</span>.<br  />
+Vérifie que <span class="tt">nomsDuMoteur(core::allConditions(), core::conditionName)</span> vaut <span class="tt">enumDuSchema("conditionRef")</span>.<br  />
+Vérifie que <span class="tt">nomsDuMoteur(core::allMagicSchools(), core::magicSchoolName)</span> vaut <span class="tt">enumDuSchema("magicSchool")</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>RpgEnumsTest.LesEnsemblesFermesOntLeurCardinal</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__rpg__enums_8cpp.html" title="Tests des enumerations RPG et de leur coincidence avec les schemas (LOT-32, EX-CNT-011).">Source/Test/Unit/Core/Rpg/test_rpg_enums.cpp</a>:167</span></sub>  </td><td class="markdownTableBodyNone">Les enumerations fermees du RPG ont le nombre de valeurs fixe par les regles.  </td><td class="markdownTableBodyNone">1. Compter les types de degats, les conditions et les ecoles de magie.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacecore.html#ab77f2b5d3dc27e52a6907fdc09f6daa4">core::allDamageTypes()</a>.size()</span> vaut <span class="tt">13U</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#aff7f41bc814d9fd4f6c0bc0f8e85e93f">core::allConditions()</a>.size()</span> vaut <span class="tt">15U</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#aada0fb2093fbbb75a0f9c75e28336c8d">core::allMagicSchools()</a>.size()</span> vaut <span class="tt">8U</span>.  </td></tr>
+</table>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md15"></a>
 Time (7)</h3>
 <p><b><span class="tt"><a class="el" href="test__fixed__timestep_8cpp.html" title="Tests unitaires du cadenceur à pas de temps fixe.">test_fixed_timestep.cpp</a></span></b></p>
 <table class="markdownTable">
@@ -2144,7 +2185,7 @@ Vérifie que <span class="tt">timestep.advance(0.0f)</span> vaut <span class="tt
 3. Reprendre avec un petit delta, comme après réarmement de l'horloge de référence.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">timestep.advance(STEP * 3.0f)</span> vaut <span class="tt">3</span>.<br  />
 Vérifie que <span class="tt">timestep.advance(STEP)</span> vaut <span class="tt">1</span>.  </td></tr>
 </table>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md15"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md16"></a>
 World (7)</h3>
 <p><b><span class="tt"><a class="el" href="test__grid__distance__field_8cpp.html" title="Tests unitaires de core::GridDistanceField (amendement LOT-ANNEXE-08, EX-IA-023).">test_grid_distance_field.cpp</a></span></b></p>
 <table class="markdownTable">
@@ -2184,9 +2225,9 @@ Vérifie que <span class="tt">field.distance(<a class="el" href="structcore_1_1G
 <sub><span class="tt"><a class="el" href="test__grid__distance__field_8cpp.html" title="Tests unitaires de core::GridDistanceField (amendement LOT-ANNEXE-08, EX-IA-023).">Source/Test/Unit/Core/World/test_grid_distance_field.cpp</a>:136</span></sub>  </td><td class="markdownTableBodyNone">Multi-cibles : une cible invalide n'empêche pas les autres de fonctionner.  </td><td class="markdownTableBodyNone">1. Grille 5x5, case <span class="tt">(1,1)</span> solide utilisée comme première cible, <span class="tt">(4,4)</span> valide comme seconde.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">field.distance(<a class="el" href="structcore_1_1GridPosition.html" title="Position d&#39;une case dans la grille d&#39;un niveau, en coordonnées entières.">core::GridPosition</a>{4, 4})</span> vaut <span class="tt">0</span>.<br  />
 Vérifie que <span class="tt">field.distance(<a class="el" href="structcore_1_1GridPosition.html" title="Position d&#39;une case dans la grille d&#39;un niveau, en coordonnées entières.">core::GridPosition</a>{3, 4})</span> vaut <span class="tt">1</span>.  </td></tr>
 </table>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md16"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md17"></a>
 HMI</h2>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md17"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md18"></a>
 Audio (14)</h3>
 <p><b><span class="tt"><a class="el" href="test__audio__engine_8cpp.html" title="Tests unitaires du moteur audio (LOT-60, EX-REN-047, EX-NFR-040).">test_audio_engine.cpp</a></span></b></p>
 <table class="markdownTable">
@@ -2270,7 +2311,7 @@ Vérifie que <span class="tt">hmi::soundForEvent(hmi::GameEvent::PressurePlateRe
 <sub><span class="tt"><a class="el" href="test__sound__triggers_8cpp.html" title="Tests unitaires de la table événement → son (LOT-60, EX-REN-047).">Source/Test/Unit/HMI/Audio/test_sound_triggers.cpp</a>:68</span></sub>  </td><td class="markdownTableBodyNone">Des evenements sans bruitage dedie resolvent vers std::nullopt.  </td><td class="markdownTableBodyNone">1. Resoudre WallContactEnter et BlockPushed.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">hmi::soundForEvent(hmi::GameEvent::WallContactEnter)</span> vaut <span class="tt">std::nullopt</span>.<br  />
 Vérifie que <span class="tt">hmi::soundForEvent(hmi::GameEvent::BlockPushed)</span> vaut <span class="tt">std::nullopt</span>.  </td></tr>
 </table>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md18"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md19"></a>
 Diagnostics (2)</h3>
 <p><b><span class="tt"><a class="el" href="test__session__log_8cpp.html" title="Tests unitaires de la sérialisation des logs de session.">test_session_log.cpp</a></span></b></p>
 <table class="markdownTable">
@@ -2285,7 +2326,7 @@ Diagnostics (2)</h3>
 <sub><span class="tt"><a class="el" href="test__session__log_8cpp.html" title="Tests unitaires de la sérialisation des logs de session.">Source/Test/Unit/HMI/Diagnostics/test_session_log.cpp</a>:37</span></sub>  </td><td class="markdownTableBodyNone">Une session sans message produit un texte vide.  </td><td class="markdownTableBodyNone">1. Mettre en place le contexte du test (arrangement).<br  />
 2. Executer le scenario et verifier les assertions.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a5bc539b762cfd88b17c71d8a44a1a22b" title="Assemble les messages de log en un texte (une ligne par message).">hmi::serializeSessionLog</a>({})</span> vaut <span class="tt">""</span>.  </td></tr>
 </table>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md19"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md20"></a>
 Editor (159)</h3>
 <p><b><span class="tt"><a class="el" href="test__asset__file__operations_8cpp.html" title="Tests unitaires des opérations fichiers sur les assets (LOT-43 TACHE-02).">test_asset_file_operations.cpp</a></span></b></p>
 <table class="markdownTable">
@@ -3300,7 +3341,7 @@ Vérifie que <span class="tt">localization.text(categoryKey)</span> diffère de 
 Vérifie que <span class="tt">key.empty()</span> est faux.<br  />
 Vérifie que <span class="tt">localization.text(key)</span> diffère de <span class="tt">key</span>.  </td></tr>
 </table>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md20"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md21"></a>
 Game (42)</h3>
 <p><b><span class="tt"><a class="el" href="test__diagnostics__hud_8cpp.html" title="Tests unitaires de la moyenne glissante de cadence et du choix de contenu du compteur de diagnostic (...">test_diagnostics_hud.cpp</a></span></b></p>
 <table class="markdownTable">
@@ -3549,7 +3590,7 @@ Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a9a410292879
 <sub><span class="tt"><a class="el" href="test__progression_8cpp.html" title="Tests unitaires de la progression de partie persistée (LOT-59 TACHE-05, EX-LVL-014) et de la règle de...">Source/Test/Unit/HMI/Game/test_progression.cpp</a>:312</span></sub>  </td><td class="markdownTableBodyNone">Un tableau verrouillé n'est jamais jouable.  </td><td class="markdownTableBodyNone">1. Ne terminer aucun tableau.<br  />
 2. Interroger <span class="tt">isLevelUnlocked</span> pour un tableau loin dans la séquence.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a9a410292879939089d6bf584f60d60e6" title="Règle de déverrouillage (LOT-59 TACHE-06, EX-IHM-005) : fonction pure, seule source de vérité sur ce ...">hmi::isLevelUnlocked</a>(progression, FIVE_LEVEL_SEQUENCE, "demo-dash.json")</span> est faux.  </td></tr>
 </table>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md21"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md22"></a>
 Graphics (264)</h3>
 <p><b><span class="tt"><a class="el" href="test__animated__tiles_8cpp.html" title="Tests unitaires des tuiles animées (LOT-46 TACHE-05) : horloge partagée par asset,...">test_animated_tiles.cpp</a></span></b></p>
 <table class="markdownTable">
@@ -5301,7 +5342,7 @@ Vérifie que <span class="tt">textures.textureFor(appearance)</span> vaut <span 
 Vérifie que <span class="tt">textures.widthFor(broken)</span> vaut <span class="tt"><a class="el" href="namespacehmi.html#a75cfef1e5eb0b5569ebd42c004d73ce3" title="Côté, en pixels, du damier de repli généré par défaut (une case, EX-ARCH-021).">hmi::MISSING_TEXTURE_SIZE</a></span>.<br  />
 Vérifie que <span class="tt">textures.heightFor(broken)</span> vaut <span class="tt"><a class="el" href="namespacehmi.html#a75cfef1e5eb0b5569ebd42c004d73ce3" title="Côté, en pixels, du damier de repli généré par défaut (une case, EX-ARCH-021).">hmi::MISSING_TEXTURE_SIZE</a></span>.  </td></tr>
 </table>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md22"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md23"></a>
 Input (81)</h3>
 <p><b><span class="tt"><a class="el" href="test__editor__key__bindings_8cpp.html" title="Tests unitaires du remappage des touches de l&#39;éditeur (EditorKeyBindings, EX-CTRL-012).">test_editor_key_bindings.cpp</a></span></b></p>
 <table class="markdownTable">
@@ -5818,7 +5859,7 @@ Vérifie que <span class="tt">hmi::qtKeyToHmiKey(Qt::Key_Alt).has_value()</span>
 Vérifie que <span class="tt">hmi::qtKeyToHmiKey(Qt::Key_Home).has_value()</span> est faux.<br  />
 Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a1b53de392afb0dfdf5cdef4543fb672d" title="Traduit un code Qt::Key en hmi::Key.">hmi::qtKeyToHmiKey</a>(-1).has_value()</span> est faux.  </td></tr>
 </table>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md23"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md24"></a>
 Interface (57)</h3>
 <p><b><span class="tt"><a class="el" href="test__application__theme_8cpp.html" title="Tests unitaires du thème de l&#39;IHM : modèle de feuille de style (LOT-56 TACHE-02, EX-IHM-050,...">test_application_theme.cpp</a></span></b></p>
 <table class="markdownTable">
@@ -6286,7 +6327,7 @@ Vérifie que <span class="tt">theme.find(forbidden)</span> vaut <span class="tt"
 Vérifie que <span class="tt">target.empty()</span> est faux.<br  />
 Vérifie que <span class="tt">target.front()</span> vaut <span class="tt">':'</span>.  </td></tr>
 </table>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md24"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md25"></a>
 Localization (9)</h3>
 <p><b><span class="tt"><a class="el" href="test__localization_8cpp.html" title="Tests unitaires du catalogue de traduction : analyse, repli, changement de langue.">test_localization.cpp</a></span></b></p>
 <table class="markdownTable">
@@ -6344,9 +6385,9 @@ Vérifie que <span class="tt">english.count(key) &gt; 0</span> est vrai.<br  />
 Vérifie que <span class="tt">french.count(key) &gt; 0</span> est vrai.<br  />
 Vérifie que <span class="tt">french.size()</span> vaut <span class="tt">english.size()</span>.  </td></tr>
 </table>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md25"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md26"></a>
 Tests d'intégration (13)</h1>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md26"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md27"></a>
 Animation Personnage — <span class="tt">test_animation_personnage.cpp</span> (6)</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -6387,7 +6428,7 @@ Vérifie que <span class="tt">animation.elapsed</span> vaut <span class="tt">0.0
 2. Avancer le systeme dix pas.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">animation.clipIndex</span> vaut <span class="tt">0</span>.<br  />
 Vérifie que <span class="tt">animation.frameIndex</span> vaut <span class="tt">0</span>.  </td></tr>
 </table>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md27"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md28"></a>
 Boucle Simulation — <span class="tt">test_boucle_simulation.cpp</span> (2)</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -6403,7 +6444,7 @@ Vérifie que <span class="tt">position.x</span> vaut <span class="tt">6.0f * tot
 2. Executer le scenario et verifier les assertions.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">firstPosition.x</span> vaut <span class="tt">secondPosition.x</span>, à <span class="tt">TOLERANCE</span> près.<br  />
 Vérifie que <span class="tt">firstPosition.y</span> vaut <span class="tt">secondPosition.y</span>, à <span class="tt">TOLERANCE</span> près.  </td></tr>
 </table>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md28"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md29"></a>
 Ecs Mouvement — <span class="tt">test_ecs_mouvement.cpp</span> (4)</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -6430,7 +6471,7 @@ Vérifie que <span class="tt">fastPosition.y</span> vaut <span class="tt">4.0f</
 <sub><span class="tt"><a class="el" href="test__ecs__mouvement_8cpp.html" title="Tests d&#39;intégration de l&#39;ECS : entités + composants + système de mouvement assemblés dans un World,...">Source/Test/Integration/test_ecs_mouvement.cpp</a>:117</span></sub>  </td><td class="markdownTableBodyNone">Enregistré dans le World, le système s'exécute via World::update (chaîne complète).  </td><td class="markdownTableBodyNone">1. Mettre en place le contexte du test (arrangement).<br  />
 2. Executer le scenario et verifier les assertions.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">position.x</span> vaut <span class="tt">10.0f * steps * STEP</span>, à <span class="tt">TOLERANCE</span> près.  </td></tr>
 </table>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md29"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md30"></a>
 Niveau Ecs — <span class="tt">test_niveau_ecs.cpp</span> (1)</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -6445,9 +6486,9 @@ Vérifie que <span class="tt">tilesByPosition.at({0, 0})</span> vaut <span class
 Vérifie que <span class="tt">tilesByPosition.at({1, 0})</span> vaut <span class="tt">static_cast&lt;int&gt;(<a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875ae41480b6bbfbf7407974a88d3d34f4fa">core::TileType::Solid</a>)</span>.<br  />
 Vérifie que <span class="tt">tilesByPosition.at({1, 1})</span> vaut <span class="tt">static_cast&lt;int&gt;(<a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875afef46e5063ce3dc78b8ae64fa474241d">core::TileType::Exit</a>)</span>.  </td></tr>
 </table>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md30"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md31"></a>
 Tests système (2)</h1>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md31"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md32"></a>
 Éditeur de niveaux — <span class="tt">test_parcours_edition.cpp</span> (2)</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">

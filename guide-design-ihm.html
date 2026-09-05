@@ -96,11 +96,11 @@ $(function(){initNavTree('guide-design-ihm.html','',''); });
 <blockquote class="doxtable">
 <p>Statut : <b>livré</b> (<span class="tt">LOT-56</span>, <span class="tt">EX-IHM-050</span> → <span class="tt">EX-IHM-055</span> ; <span class="tt">LOT-57</span>, <span class="tt">EX-IHM-060</span> → <span class="tt">EX-IHM-062</span>). Cette page décrit <b>comment l'IHM Qt se présente et se répartit</b> : les jetons de design et leur application, puis la distribution de l'information dans l'éditeur. Le socle applicatif (fenêtre, viewport, boucle) est en <a class="el" href="guide-ihm-qt.html" title="IHM Qt (refonte) — socle applicatif &amp; viewport Direct3D 11">IHM Qt (refonte) — socle applicatif &amp; viewport Direct3D 11</a>. </p>
 </blockquote>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md59"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md60"></a>
 Pourquoi un système de design</h1>
 <p>De <span class="tt">LOT-34</span> à <span class="tt">LOT-52</span>, l'interface a gagné des panneaux, des menus, des grilles et des inspecteurs — sans qu'aucun lot ne traite jamais son <b>apparence</b>. La cause racine était unique et invisible : l'application n'appelait jamais <span class="tt">setStyle</span> et tournait donc sur le style <b>natif</b> de la plate-forme, qui ignore une grande partie de toute feuille de style posée par-dessus. C'est pourquoi <span class="tt">theme.qss</span> avait dû être restreint par <span class="tt">objectName</span> au menu principal et à la page Options, au lieu d'être étendu : ailleurs, il n'avait tout simplement pas d'effet fiable.</p>
 <p>Ni <span class="tt">QPalette</span>, ni <span class="tt">QToolBar</span>, ni <span class="tt">QActionGroup</span>, ni <span class="tt">QFontDatabase</span>, ni <span class="tt">QStyleHints</span> n'étaient utilisés ; <span class="tt">devicePixelRatio</span> n'était pris en compte que par le viewport Direct3D 11, si bien que les vignettes de la palette et des grilles d'assets étaient floues dès que l'affichage était mis à l'échelle.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md60"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md61"></a>
 Les jetons : une seule source, deux portées étanches</h1>
 <p><a class="el" href="structhmi_1_1DesignTokens.html" title="hmi::DesignTokens">DesignTokens</a> (<span class="tt"><a class="el" href="DesignTokens_8h.html" title="Jetons de design de l&#39;IHM Qt (LOT-56, EX-IHM-050, EX-IHM-051) : source unique des couleurs,...">HMI/Interface/DesignTokens.h</a></span>) est la source unique des couleurs, espacements, tailles et niveaux typographiques. Logique <b>pure</b>, sans Qt ni GPU (<span class="tt">EX-NFR-010</span>), compilée à la fois dans l'application et directement dans <span class="tt">UnitTests</span>.</p>
 <p>Deux traits méritent l'attention.</p>
@@ -114,7 +114,7 @@ Les jetons : une seule source, deux portées étanches</h1>
 <blockquote class="doxtable">
 <p>Piège de plate-forme consigné dans l'en-tête : <span class="tt">&lt;Windows.h&gt;</span> définit une macro <span class="tt">small</span>, qui casserait silencieusement <span class="tt">SpacingTokens::small</span>. Le fichier la neutralise — garde conservée après le portage QRhi, l'en-tête pouvant encore être tiré indirectement. </p>
 </blockquote>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md61"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md62"></a>
 De jetons purs à une application habillée</h1>
 <p><span class="tt"><a class="el" href="ApplicationTheme_8h.html" title="Application du système de design de l&#39;IHM Qt (LOT-56) : style, palettes et thème.">HMI/Interface/ApplicationTheme.h</a></span> est la couche Qt au-dessus des jetons. Elle fait, dans cet ordre :</p>
 <ol type="1">
@@ -126,40 +126,40 @@ De jetons purs à une application habillée</h1>
 <blockquote class="doxtable">
 <p><b>Invariant à ne pas casser.</b> Ne jamais poser <span class="tt">titlebar-close-icon</span> ou <span class="tt">titlebar-normal-icon: none</span> sur un <span class="tt">QDockWidget</span> dans <span class="tt">theme-editor.qss</span> : ces propriétés ont provoqué un plantage intermittent à la fermeture depuis l'éditeur pendant le <span class="tt">LOT-56</span>. Masquer un bouton de barre de titre se fait par les <span class="tt">features</span> du dock, pas par la feuille de style. </p>
 </blockquote>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md62"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md63"></a>
 Typographie : une police embarquée, un repli qui n'invente rien</h1>
 <p>La police <b>Inter</b> est embarquée (<span class="tt">Assets/Fonts/Inter-{Regular,Bold}.ttf</span>, licence SIL OFL 1.1). <a class="el" href="namespacehmi.html#ab6fc3cb9d2aa0cca7d624c1f3700e859" title="hmi::resolveFontFamily">resolveFontFamily</a> décide de la famille effective : la police enregistrée si elle l'est, sinon une famille <b>générique</b> — jamais un second nom de police codé en dur, qui ne serait qu'un pari sur ce qui est installé chez l'utilisateur. Les tailles et marges figées dans les fichiers <span class="tt">.ui</span> ont été retirées au profit des jetons.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md63"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md64"></a>
 Les commandes : une définition, trois surfaces</h1>
 <p><a class="el" href="namespacehmi.html#a31529e361028e2fae2f4d12dc1d5b8d1" title="hmi::editorActionCatalog">editorActionCatalog</a> (<span class="tt"><a class="el" href="ActionCatalog_8h.html" title="Catalogue des actions de l&#39;éditeur : outils et commandes principales (LOT-56 TACHE-04,...">HMI/Interface/ActionCatalog.h</a></span>) est une <b>table pure</b> décrivant les outils et les commandes de l'éditeur (<span class="tt"><a class="el" href="structhmi_1_1EditorActionSpec.html" title="Description d&#39;une action, indépendante de Qt : de quoi construire un QAction complet (icône,...">hmi::EditorActionSpec</a></span>, groupés par <span class="tt"><a class="el" href="namespacehmi.html#af951fa0fccb19bed92c122562085977a" title="Groupe d&#39;exclusivité d&#39;une action : les outils d&#39;édition forment un groupe exclusif (un seul actif à ...">hmi::EditorActionGroup</a></span>). <span class="tt"><a class="el" href="classhmi_1_1EditorActions.html" title="Construit et possède les QAction du catalogue (HMI/Interface/ActionCatalog.h) : chaque outil et chaqu...">hmi::EditorActions</a></span> construit les <span class="tt">QAction</span> depuis cette table, et ces mêmes objets alimentent simultanément le menu, la barre d'outils et le raccourci clavier (<span class="tt">EX-IHM-055</span>). C'est ce qui remplace les boutons radio empilés de l'ancien panneau Outils — et, surtout, ce qui supprime la double définition : avant, une commande présente au menu et dans une barre existait deux fois, et pouvait diverger.</p>
 <p>Les icônes sont <b>dessinées par code</b> : <a class="el" href="namespacehmi.html#a209dabae621c4b379079647002f4c080" title="hmi::iconGeometry">iconGeometry</a> décide <em>quoi</em> dessiner (géométrie pure, testable), <span class="tt"><a class="el" href="namespacehmi.html#a3126473350fe705bf2fac20bc6194c62" title="Peint une icône à la taille demandée, recolorée depuis les jetons.">hmi::themeIcon</a></span> décide <em>comment</em> le peindre avec <span class="tt">QPainter</span>, recoloré depuis les jetons. Même découpage que <span class="tt"><a class="el" href="namespacehmi.html#a588a6cab9c35f77c19c1f0e3a5ee6d20" title="Lignes à afficher pour l&#39;affichage tête haute d&#39;un pas de simulation donné.">hmi::gameHudLines</a></span> (<span class="tt">LOT-52</span>). Aucun fichier d'icône à livrer, et un changement de thème recolore tout sans réexporter d'assets.</p>
 <p><a class="el" href="classhmi_1_1EditorActions.html#a15651f937c395ecf4bc082bc5c79f455" title="hmi::EditorActions::applyShortcuts">EditorActions::applyShortcuts</a> synchronise le raccourci <b>effectif</b> de chaque action depuis les touches remappées, y compris après un remappage à chaud. C'est ce qui a permis, au <span class="tt">LOT-57</span>, de rendre réellement remappables dix actions d'éditeur dont neuf n'étaient jamais lues : leurs raccourcis étaient interceptés en dur, et Copier/Coller au clavier contournait même complètement <span class="tt">EditorKeyBindings</span>.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md64"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md65"></a>
 Netteté à toute échelle d'affichage</h1>
 <p><a class="el" href="namespacehmi.html#a8158375fa940021f6bb346e7c2b09247" title="hmi::thumbnailPixelSize">thumbnailPixelSize</a> (fonction pure) donne la taille en pixels <b>réels</b> d'une vignette à partir de sa taille logique et du facteur d'échelle de l'écran. Les vignettes de la palette, des grilles d'assets et des lignes du panneau Textures sont rendues à cette taille, et régénérées lors d'un changement d'écran : nettes à 100 %, 125 % et 150 %. Le canevas de l'atelier pixel art (<a class="el" href="guide-atelier-pixel-art.html" title="Atelier pixel art intégré">Atelier pixel art intégré</a>) réutilise cette même fonction plutôt que de redéfinir sa propre règle.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md65"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md66"></a>
 Thème clair/sombre</h1>
 <p><a class="el" href="namespacehmi.html#a00629522279a61cffd0c68ae26c3fca0" title="hmi::resolveEffectiveEditorTheme">resolveEffectiveEditorTheme</a> traduit un <b>réglage</b> (<span class="tt">EditorThemeSetting</span> : Système, Clair, Sombre) et l'indication du système d'exploitation en un <b>mode</b> effectif (<span class="tt">EditorThemeMode</span> : Clair ou Sombre). La séparation compte : le réglage est ce que l'utilisateur a choisi et qu'on persiste, le mode est ce qu'on applique. « Système » n'est pas une troisième apparence, c'est une délégation.</p>
 <p>Le thème s'applique à chaud — palette, feuille de style, icônes — sans redémarrage. Le contraste texte/fond est vérifié par test pour les deux thèmes (seuils WCAG ⧉).</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md66"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md67"></a>
 Architecture de l'information : ce qui informe reste, ce qui commande est unique</h1>
 <p>Le <span class="tt">LOT-57</span> part d'un constat de terrain : l'éditeur affichait son aide dans une <b>ligne unique</b> de barre d'état, figée à l'entrée en mode éditeur et définitivement effacée par le premier message transitoire. Passé la première minute, la barre d'état ne disait plus rien.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md67"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md68"></a>
 Une barre d'état structurée</h2>
 <p><a class="el" href="namespacehmi.html#a8a9b5847205047e29cd377960c0ff15c" title="hmi::editorStatusLines">editorStatusLines</a> (<span class="tt"><a class="el" href="EditorStatus_8h.html" title="Choix du contenu de la barre d&#39;état de l&#39;éditeur : zones permanentes et aide contextuelle à l&#39;outil a...">HMI/Editor/EditorStatus.h</a></span>) est une <b>fonction pure</b> — même patron que <span class="tt"><a class="el" href="namespacehmi.html#a588a6cab9c35f77c19c1f0e3a5ee6d20" title="Lignes à afficher pour l&#39;affichage tête haute d&#39;un pas de simulation donné.">hmi::gameHudLines</a></span> (<span class="tt">LOT-52</span>) — qui décide du contenu de zones <b>permanentes</b> : niveau ouvert, modifications non enregistrées, outil actif, case survolée, zoom, et une sixième zone (couleur courante) quand le contexte est l'atelier pixel art (<span class="tt">PixelEditStatusInfo</span>). Ces zones sont ajoutées par <span class="tt">addPermanentWidget</span> : un message transitoire ne peut donc plus les recouvrir. L'aide contextuelle à l'outil actif se restaure automatiquement à l'expiration du message (<span class="tt">MainWindow::refreshStatusHelp</span>, minuteur unique).</p>
 <p>Le viewport expose pour cela <span class="tt">hoveredCell()</span> et <span class="tt">zoom()</span>, avec des signaux émis <b>seulement sur changement réel</b> — sinon la barre d'état se reconstruirait à chaque mouvement de souris.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md68"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md69"></a>
 Des panneaux groupés, et qui suivent l'outil</h2>
 <p>Les panneaux sont regroupés en onglets par défaut (<span class="tt">tabifyDockWidget</span>), chacun restant individuellement déplaçable, détachable et refermable. <a class="el" href="namespacehmi.html#a581615846aad015aff0e0a17e4f997c4" title="hmi::panelForTool">panelForTool</a> est une table pure — même patron que le catalogue d'actions — qui dit quel panneau mettre en avant pour un outil donné ; <span class="tt">panelForPixelTool</span> fait de même pour les outils du canevas.</p>
 <p>La règle de mise en avant a deux garde-fous : elle <b>n'est jamais un masquage</b> (on met en avant, on ne cache rien), et elle <b>cède dès que l'utilisateur a imposé son choix</b> (onglet sélectionné à la main, panneau déplacé). Une interface qui réorganise les panneaux malgré l'utilisateur devient vite un adversaire.</p>
 <blockquote class="doxtable">
 <p>La disposition des panneaux est persistée et <b>versionnée</b> (<span class="tt">LAYOUT_VERSION</span>). Chaque redistribution incrémente la version, ce qui invalide les dispositions antérieures : sans cela, une disposition enregistrée avant le changement rouvrirait des panneaux dans un agencement qui n'a plus de sens. </p>
 </blockquote>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md69"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md70"></a>
 Un état, un contrôle</h2>
 <p><span class="tt">EX-IHM-062</span> interdit qu'un même état ou une même commande soit exposé à deux endroits. Les conséquences concrètes : la bascule Physique/Texture est devenue une entrée unique du menu Affichage ; l'onglet Calques a quitté le panneau Textures pour ce même menu, une entrée par calque dans l'ordre de dessin ; et Annuler/Refaire/Copier/Coller dispatchent via <a class="el" href="classhmi_1_1EditContextTarget.html" title="hmi::EditContextTarget">EditContextTarget</a>, interface qu'implémentent <span class="tt"><a class="el" href="classhmi_1_1GameViewport.html" title="Widget de rendu (QRhiWidget) où la scène est dessinée, composé avec le reste de l&#39;interface.">hmi::GameViewport</a></span> puis, au <span class="tt">LOT-54</span>, <span class="tt"><a class="el" href="classhmi_1_1PixelCanvas.html" title="Widget affichant l&#39;image en cours d&#39;édition et transformant les gestes de souris en appels aux opérat...">hmi::PixelCanvas</a></span>. C'est ce seuil de dispatch qui a permis à l'atelier pixel art d'avoir son propre historique sans réécrire une seule ligne du dispatch existant.</p>
 <p>Tout doublon apparent n'en est pas un : les deux sélecteurs de couche de décor avaient été <b>conservés</b> au <span class="tt">LOT-57</span>, parce qu'ils ciblaient des états distincts — la couche du prochain décor posé, et celle du décor sélectionné existant — puis renommés et rassemblés dans le panneau Décors, l'ambiguïté se levant à l'écran plutôt que dans la documentation. Le <span class="tt">LOT-69</span> a retiré les deux avec le système de décors : un plan pictural n'est pas posé, et sa profondeur est un réglage de la liste, pas un mode de pose.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md70"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md71"></a>
 Une feuille par portée, et pourquoi (LOT-73)</h1>
 <p>Les deux portées ci-dessus étaient deux <b>sections d'un même fichier</b>, appliqué à l'application entière. Rien ne l'interdisait tant que l'habillage ne changeait pas en cours d'exécution.</p>
 <p>Le <span class="tt">LOT-68</span> a changé cela : les grandeurs de la portée identité sont multipliées par un facteur qui suit la hauteur de la fenêtre. Or reposer la feuille de style de l'<b>application</b> repolit <em>tous</em> ses widgets — 862 sur celle-ci — et la re-polish leur recalcule métriques, tailles et dispositions. Mesure en configuration Debug : <b>cinq secondes par appel</b>, pour une préoccupation qui ne touche que les quelques dizaines de widgets des écrans du jeu.</p>
@@ -175,11 +175,11 @@ Une feuille par portée, et pourquoi (LOT-73)</h1>
 </table>
 <p>Le coût d'un changement redevient proportionnel à ce qui change réellement, et il n'y a plus rien à différer : le facteur s'applique <b>dans</b> le redimensionnement, là où l'utilisateur l'attend.</p>
 <p>Les deux feuilles sont <b>disjointes</b>, et un test le vérifie (<span class="tt">ApplicationThemeTest.LesDeuxPorteesSontDansDeuxFichiersDisjoints</span>) : une seule règle d'identité replacée dans la feuille du châssis ramènerait le rejeu applicatif complet, sans que rien ne le signale.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md71"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md72"></a>
 Le Mode IA : enveloppe d'identité, contenu d'outil</h2>
 <p><span class="tt">#AiModeScreen</span> appartient à la portée identité, et c'est le seul de ses écrans à n'être pas un écran de <b>joueur</b> : vingt-six lignes de formulaire, une table à huit colonnes, un graphique. Habillé comme un menu, il héritait de la police bitmap et du facteur d'agrandissement — d'où une hauteur minimale de plus de deux mille pixels, et des données denses rendues dans une police conçue pour sept mots à l'écran.</p>
 <p>Il garde donc son <b>enveloppe</b> — fond, titre, cadre à bordure franche, bouton de retour — et son <b>contenu</b> passe à la densité d'un outil. Le mécanisme tient en une omission : la règle de l'écran ne déclare ni <span class="tt">font-family</span> ni <span class="tt">font-size</span>, ce qui laisse la police par défaut de l'application s'appliquer aux descendants ; et les rembourrages du contenu viennent de <span class="tt">tokens.spacing.*</span>, jamais multipliés. Les <b>couleurs</b>, elles, restent celles du jeu : les emprunter au châssis ferait basculer le contenu en clair au milieu d'un écran sombre.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md72"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md73"></a>
 Deux identités, deux règles d'échelle (LOT-68)</h1>
 <p>Le <span class="tt">LOT-56</span> avait donné aux deux portées la <b>même</b> échelle typographique. C'était cohérent tant qu'aucune des deux ne cherchait à être autre chose qu'un habillage correct ; ça ne l'est plus dès que les écrans du jeu revendiquent une identité <b>pixel art</b>.</p>
 <p>La règle tient en une phrase : <b>le châssis d'édition suit les réglages du système, les écrans du jeu sont une image agrandie d'un facteur entier.</b></p>
@@ -189,7 +189,7 @@ Deux identités, deux règles d'échelle (LOT-68)</h1>
 <p>Piège évité : multiplier les jetons <b>partagés</b> paraissait plus simple. Ils valent déjà 32 pt pour un titre — les doubler aurait donné 64 pt à 720p, soit l'excès inverse du problème de départ. </p>
 </blockquote>
 <p><b>Et le facteur se borne à l'écran, pas à la fenêtre</b> (<span class="tt">EX-IHM-081</span>, <a class="el" href="namespacehmi.html#afdfb0571ff0707ca3bd0731ffa4bdf73" title="hmi::pixelArtScaleForDisplay">pixelArtScaleForDisplay</a>). Dériver le facteur de la seule hauteur de fenêtre en faisait une boucle sans point fixe : le facteur grossit les grandeurs d'habillage, qui grossissent la taille minimale des écrans, qui grossit la fenêtre — laquelle relance le calcul un cran plus haut, sans que rien ne redescende jamais, une fenêtre ne pouvant pas passer sous son propre minimum. La zone d'affichage disponible, elle, ne dépend d'aucune décision de l'application : c'est ce qui ferme la boucle.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md73"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md74"></a>
 Ce qu'une feuille de style ne sait pas faire</h2>
 <p>Deux éléments du pixel art échappent à <span class="tt">theme.qss</span>, et c'est pourquoi ils sont <b>peints</b> :</p>
 <ul>
@@ -197,7 +197,7 @@ Ce qu'une feuille de style ne sait pas faire</h2>
 <li>la <b>marque de focus</b> (<a class="el" href="classhmi_1_1PixelMenuButton.html" title="hmi::PixelMenuButton">PixelMenuButton</a>) : une feuille de style change une teinte, elle n'ajoute pas de contenu. Or la teinte seule ne dit pas où l'on en est à la manette, faute de pointeur, et ne dit rien du tout à qui distingue mal les couleurs (<span class="tt">EX-IHM-071</span>).</li>
 </ul>
 <p>Les deux suivent le patron des icônes du <span class="tt">LOT-56</span> : une géométrie <b>pure et testable</b> décide <em>quoi</em> dessiner, un peintre Qt décide <em>comment</em>. Aucun fichier d'image n'est livré — un cadre en PNG figerait ses couleurs hors des jetons et devrait être réexporté à chaque changement de palette.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md74"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md75"></a>
 Hiérarchie des surfaces, et espaces de travail (LOT-68)</h1>
 <p>Le <span class="tt">LOT-57</span> avait supprimé les <b>doubles définitions</b> ; il restait la <b>saturation</b>, qui est un problème distinct. Une commande peut n'exister qu'une fois en code et rester exposée à trois endroits à l'écran : <span class="tt">ToggleRenderMode</span> figurait en barre d'outils, au menu Niveau <b>et</b> au menu Affichage.</p>
 <p>Deux arbitrages en découlent.</p>
@@ -207,7 +207,7 @@ Hiérarchie des surfaces, et espaces de travail (LOT-68)</h1>
 <p>À ne pas confondre avec la mise en avant d'<span class="tt">EX-IHM-061</span>, qui reste une suggestion et ne masque jamais rien. Changer d'espace est un acte explicite de l'utilisateur : c'est ce qui rend le masquage légitime ici, et lui seul. </p>
 </blockquote>
 <p>Sélectionner un outil bascule sur son espace (<span class="tt">workspaceForTool</span>). Sans cela, l'outil devient actif dans un espace qui ne montre ni son canevas ni ses panneaux, et rien à l'écran ne dit pourquoi il ne répond pas.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md75"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md76"></a>
 Voir aussi</h1>
 <ul>
 <li><a class="el" href="guide-ihm-qt.html" title="IHM Qt (refonte) — socle applicatif &amp; viewport Direct3D 11">IHM Qt (refonte) — socle applicatif &amp; viewport Direct3D 11</a> — le socle applicatif Qt, le viewport Direct3D 11, la boucle et les entrées.</li>

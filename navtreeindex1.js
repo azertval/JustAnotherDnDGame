@@ -230,6 +230,11 @@ var NAVTREEINDEX1 =
 "RoomGrid_8cpp.html":[13,0,3,2,4,49],
 "RoomGrid_8h.html":[13,0,3,2,4,50],
 "RoomGrid_8h_source.html":[13,0,3,2,4,50],
+"RpgEnumNames_8cpp.html":[13,0,3,0,7,0],
+"RpgEnumNames_8h.html":[13,0,3,0,7,1],
+"RpgEnumNames_8h_source.html":[13,0,3,0,7,1],
+"RpgEnums_8h.html":[13,0,3,0,7,2],
+"RpgEnums_8h_source.html":[13,0,3,0,7,2],
 "ScopedLogLevel_8h.html":[13,0,3,0,1,15],
 "ScopedLogLevel_8h_source.html":[13,0,3,0,1,15],
 "ScreenFlow_8cpp.html":[13,0,3,2,6,48],
@@ -244,10 +249,5 @@ var NAVTREEINDEX1 =
 "ShadowRenderer_8cpp.html":[13,0,3,2,4,51],
 "ShadowRenderer_8h.html":[13,0,3,2,4,52],
 "ShadowRenderer_8h_source.html":[13,0,3,2,4,52],
-"SkinAssignments_8cpp.html":[13,0,3,2,2,58],
-"SkinAssignments_8h.html":[13,0,3,2,2,59],
-"SkinAssignments_8h_source.html":[13,0,3,2,2,59],
-"SkinCatalog_8cpp.html":[13,0,3,2,4,53],
-"SkinCatalog_8h.html":[13,0,3,2,4,54],
-"SkinCatalog_8h_source.html":[13,0,3,2,4,54]
+"SkinAssignments_8cpp.html":[13,0,3,2,2,58]
 };

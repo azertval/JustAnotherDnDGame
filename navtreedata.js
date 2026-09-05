@@ -31,7 +31,7 @@ var NAVTREE =
     [ "Navigation", "index.html#autotoc_md4", null ],
     [ "Guide du développeur", "guide.html", "guide" ],
     [ "Cahier de test", "cahiertest.html", [
-      [ "Tests unitaires (923)", "cahiertest.html#autotoc_md5", [
+      [ "Tests unitaires (928)", "cahiertest.html#autotoc_md5", [
         [ "Core", "cahiertest.html#autotoc_md6", [
           [ "Data (11)", "cahiertest.html#autotoc_md7", null ],
           [ "Diagnostics (22)", "cahiertest.html#autotoc_md8", null ],
@@ -40,28 +40,29 @@ var NAVTREE =
           [ "Levels (143)", "cahiertest.html#autotoc_md11", null ],
           [ "Math (26)", "cahiertest.html#autotoc_md12", null ],
           [ "Physics (14)", "cahiertest.html#autotoc_md13", null ],
-          [ "Time (7)", "cahiertest.html#autotoc_md14", null ],
-          [ "World (7)", "cahiertest.html#autotoc_md15", null ]
+          [ "Rpg (5)", "cahiertest.html#autotoc_md14", null ],
+          [ "Time (7)", "cahiertest.html#autotoc_md15", null ],
+          [ "World (7)", "cahiertest.html#autotoc_md16", null ]
         ] ],
-        [ "HMI", "cahiertest.html#autotoc_md16", [
-          [ "Audio (14)", "cahiertest.html#autotoc_md17", null ],
-          [ "Diagnostics (2)", "cahiertest.html#autotoc_md18", null ],
-          [ "Editor (159)", "cahiertest.html#autotoc_md19", null ],
-          [ "Game (42)", "cahiertest.html#autotoc_md20", null ],
-          [ "Graphics (264)", "cahiertest.html#autotoc_md21", null ],
-          [ "Input (81)", "cahiertest.html#autotoc_md22", null ],
-          [ "Interface (57)", "cahiertest.html#autotoc_md23", null ],
-          [ "Localization (9)", "cahiertest.html#autotoc_md24", null ]
+        [ "HMI", "cahiertest.html#autotoc_md17", [
+          [ "Audio (14)", "cahiertest.html#autotoc_md18", null ],
+          [ "Diagnostics (2)", "cahiertest.html#autotoc_md19", null ],
+          [ "Editor (159)", "cahiertest.html#autotoc_md20", null ],
+          [ "Game (42)", "cahiertest.html#autotoc_md21", null ],
+          [ "Graphics (264)", "cahiertest.html#autotoc_md22", null ],
+          [ "Input (81)", "cahiertest.html#autotoc_md23", null ],
+          [ "Interface (57)", "cahiertest.html#autotoc_md24", null ],
+          [ "Localization (9)", "cahiertest.html#autotoc_md25", null ]
         ] ]
       ] ],
-      [ "Tests d'intégration (13)", "cahiertest.html#autotoc_md25", [
-        [ "Animation Personnage — <span class=\"tt\">test_animation_personnage.cpp</span> (6)", "cahiertest.html#autotoc_md26", null ],
-        [ "Boucle Simulation — <span class=\"tt\">test_boucle_simulation.cpp</span> (2)", "cahiertest.html#autotoc_md27", null ],
-        [ "Ecs Mouvement — <span class=\"tt\">test_ecs_mouvement.cpp</span> (4)", "cahiertest.html#autotoc_md28", null ],
-        [ "Niveau Ecs — <span class=\"tt\">test_niveau_ecs.cpp</span> (1)", "cahiertest.html#autotoc_md29", null ]
+      [ "Tests d'intégration (13)", "cahiertest.html#autotoc_md26", [
+        [ "Animation Personnage — <span class=\"tt\">test_animation_personnage.cpp</span> (6)", "cahiertest.html#autotoc_md27", null ],
+        [ "Boucle Simulation — <span class=\"tt\">test_boucle_simulation.cpp</span> (2)", "cahiertest.html#autotoc_md28", null ],
+        [ "Ecs Mouvement — <span class=\"tt\">test_ecs_mouvement.cpp</span> (4)", "cahiertest.html#autotoc_md29", null ],
+        [ "Niveau Ecs — <span class=\"tt\">test_niveau_ecs.cpp</span> (1)", "cahiertest.html#autotoc_md30", null ]
       ] ],
-      [ "Tests système (2)", "cahiertest.html#autotoc_md30", [
-        [ "Éditeur de niveaux — <span class=\"tt\">test_parcours_edition.cpp</span> (2)", "cahiertest.html#autotoc_md31", null ]
+      [ "Tests système (2)", "cahiertest.html#autotoc_md31", [
+        [ "Éditeur de niveaux — <span class=\"tt\">test_parcours_edition.cpp</span> (2)", "cahiertest.html#autotoc_md32", null ]
       ] ]
     ] ],
     [ "Spécifications", "specifications.html", "specifications" ],
@@ -108,37 +109,37 @@ var NAVTREEINDEX =
 [
 "AabbVsAabb_8cpp.html",
 "LevelNameValidation_8cpp.html",
-"SoundCatalog_8cpp.html",
-"classcore_1_1GridDistanceField.html#aa0b7fd04da8d60f9017fe0ada4f81fa6",
-"classcore_1_1Logger.html#a3f0cbd4596e47500c6da1463ca6fda6f",
-"classhmi_1_1AssetPaths.html#a666907237fced2f867f1e3e3475c5e80",
-"classhmi_1_1CreditsScreen.html#af4fb0f3f4b357dbc4d9e96b9582c38af",
-"classhmi_1_1GameSession.html#a51f9e105074974f6c8d3f8f1242f90ce",
-"classhmi_1_1GameViewport.html#a5f1055b69e7ae6b225e46936159184af",
-"classhmi_1_1GamepadBindings.html#a296a85cfbc3cbcf97273a63ae76b4b44",
-"classhmi_1_1LevelBrowserPanel.html#a3185bc4090e8ab36b6c79f479cb42267",
-"classhmi_1_1MainWindow.html#a3b786cda76b1c4b3c58cfe1d926711c2",
-"classhmi_1_1OptionsPage.html#a95412ed8125d875a12ad360eea7bdd17",
-"classhmi_1_1PixelCanvas.html#af4eed2cd20aaaaebf737dd068dfee492",
-"classhmi_1_1Progression.html#ab6e6e4fdbb451b8fe379e1539ade140d",
-"classhmi_1_1TextureAtlas.html#a7a54a37b7f1e32434c9dca034e03ed1a",
-"files.html",
-"guide-niveaux.html#autotoc_md168",
-"namespacecore.html#a2b3cb5d42063608aa724d3b47aab0a6e",
-"namespacehmi.html#a3a61aed1c8e95c289c829398d48488dead686e9ef2eb30c76874d445ae35bccc2",
-"namespacehmi.html#aa4f5968d7b564d555f29fdc5d2fc9585a77bfa926518159e75c2c4b508a81f19e",
-"namespacemembers_func_g.html",
-"spec-architecture.html#autotoc_md257",
-"structcore_1_1GridPosition.html#ab0574e45a221418d1a0ea6e1b67c6bc0",
-"structcore_1_1Rect.html#a492b3f92664cc6d42eed5aab8a7ac2a8",
-"structhmi_1_1DesignColor.html#a11066469840e73a295603a9d705ada81",
-"structhmi_1_1LinkSegment.html#a9307545bf4cb20bd20329c21a3abd9bb",
-"structhmi_1_1ProceduralAtlasImage.html#a9793e61a5644666b4d997ae64dde340b",
-"structhmi_1_1SpriteQuad.html#a047688b8ecad613da27164c6f84725a4",
-"test__camera2d_8cpp.html#a00d50b67f81e6de6a8cc1364b9ec2f8c",
-"test__level__draft_8cpp.html#a0f751e0f64c9544fe37368732d3593f5",
-"test__pixel__canvas__geometry_8cpp.html#aa7eea6580f3eec11274a124bf6dc4e4d",
-"test__skin__catalog_8cpp.html#a1867a632c8e9335aa9ea9ac9b9f0673b"
+"SkinAssignments_8h.html",
+"classcore_1_1GridDistanceField.html#a22a95109c04f066e43a13ed412e0c373",
+"classcore_1_1Logger.html#a14d080b7aea34be62b6bd98897378e97",
+"classhmi_1_1AssetPaths.html",
+"classhmi_1_1CreditsScreen.html#a18b71e9467d98b22e8648aa6ad4c9f2b",
+"classhmi_1_1GameSession.html#a4a9b995c4a2d996892cab9da455532c9",
+"classhmi_1_1GameViewport.html#a5c63edbd4f0ca7e0b77ee7f7b211c2c7",
+"classhmi_1_1GamepadBindings.html#a0825a2d9042cb4a629a2877e9b2dd691",
+"classhmi_1_1LevelBrowserPanel.html",
+"classhmi_1_1MainWindow.html#a36d71bc9d8b83de33fdead9b658943fb",
+"classhmi_1_1OptionsPage.html#a7807405c2da69c2a5410951631e9d3ed",
+"classhmi_1_1PixelCanvas.html#ae53a0e06b6f6915b8c575b380cd22d8b",
+"classhmi_1_1Progression.html#a8e868a89a51f89b4c9bf68b791952f61",
+"classhmi_1_1TextureAtlas.html#a4d1a9e1cfc71dd6c1b319ce0dab8a6d7",
+"dir_e91345e58f28b18d59c87d2e81de3f4a.html",
+"guide-maths.html#autotoc_md161",
+"namespacecore.html#a11710ea83ff0491921176355c55fa4bba6adf97f83acf6453d4a6a4b1070f3754",
+"namespacehmi.html#a1b919a4e580b1f50237b939b6dad2437",
+"namespacehmi.html#a960f7854347fb7ddaff2811de796f3fe",
+"namespacehmi.html#ae4e98112a456615557383e9b5d0d6252",
+"roadmap-010.html#autotoc_md632",
+"structcore_1_1AtlasRegion.html#a3a0cb4b401af97afdc18eda1ad766069",
+"structcore_1_1PhysicsConfig.html#abca056c01e3263ccc8d5e3adbd174e91",
+"structhmi_1_1BackgroundFit.html#afbf72738060e360416acf9b4ac386cdd",
+"structhmi_1_1LevelStatusInfo.html#a82fc1304ab3c156e416019ad6c75a4c2",
+"structhmi_1_1PlaneEditStatusInfo.html#ad0f4abfe0c33aa6f2514b169437a267b",
+"structhmi_1_1SkinTexture.html#a53c67da5bb3274996e0523bfa844b429",
+"test__asset__contract_8cpp.html#adb675a6a6e7dbadb3c84f048d5f5c299",
+"test__gamepad__button__name_8cpp.html#a50cfb580655c8cee6deae9a1e4eda756",
+"test__palette__appearance_8cpp.html#a54b755311eea73a59a8c392f0ba9781d",
+"test__render__mode_8cpp.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

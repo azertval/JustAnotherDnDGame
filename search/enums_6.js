@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['iconcolorrole_0',['IconColorRole',['../namespacehmi.html#acaf7f33926fae2f8294ef4ee5d24ba52',1,'hmi']]],
-  ['iconid_1',['IconId',['../namespacehmi.html#ab269aabb94611e449a8e7427969874f5',1,'hmi']]]
+  ['gameaction_0',['GameAction',['../namespacehmi.html#a133516ef8002bd9e4d870db9494f5867',1,'hmi']]],
+  ['gameevent_1',['GameEvent',['../namespacehmi.html#a3a61aed1c8e95c289c829398d48488de',1,'hmi']]],
+  ['gamepadbutton_2',['GamepadButton',['../namespacehmi.html#a7bd1f14c12b142d5227ad2560e7c5e88',1,'hmi']]]
 ];

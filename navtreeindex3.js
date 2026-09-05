@@ -1,5 +1,11 @@
 var NAVTREEINDEX3 =
 {
+"classcore_1_1GridDistanceField.html#a22a95109c04f066e43a13ed412e0c373":[11,0,0,60,5],
+"classcore_1_1GridDistanceField.html#a22a95109c04f066e43a13ed412e0c373":[12,0,0,60,5],
+"classcore_1_1GridDistanceField.html#a245d40a95b030c7829ad54d5ced42c4b":[11,0,0,60,7],
+"classcore_1_1GridDistanceField.html#a245d40a95b030c7829ad54d5ced42c4b":[12,0,0,60,7],
+"classcore_1_1GridDistanceField.html#a829e1a6b073cfd129f0c5f30749ef137":[11,0,0,60,2],
+"classcore_1_1GridDistanceField.html#a829e1a6b073cfd129f0c5f30749ef137":[12,0,0,60,2],
 "classcore_1_1GridDistanceField.html#aa0b7fd04da8d60f9017fe0ada4f81fa6":[11,0,0,60,0],
 "classcore_1_1GridDistanceField.html#aa0b7fd04da8d60f9017fe0ada4f81fa6":[12,0,0,60,0],
 "classcore_1_1GridDistanceField.html#ab912a545dae807922fa5a0fc74685338":[11,0,0,60,1],
@@ -243,11 +249,5 @@ var NAVTREEINDEX3 =
 "classcore_1_1LevelWriter.html#af8378a93386f208796483bc21092c3e0":[11,0,0,46,0],
 "classcore_1_1LevelWriter.html#af8378a93386f208796483bc21092c3e0":[12,0,0,46,0],
 "classcore_1_1Logger.html":[11,0,0,6],
-"classcore_1_1Logger.html":[12,0,0,6],
-"classcore_1_1Logger.html#a14d080b7aea34be62b6bd98897378e97":[11,0,0,6,4],
-"classcore_1_1Logger.html#a14d080b7aea34be62b6bd98897378e97":[12,0,0,6,4],
-"classcore_1_1Logger.html#a1aeae4c7813133be7e1dc64490839bf2":[11,0,0,6,7],
-"classcore_1_1Logger.html#a1aeae4c7813133be7e1dc64490839bf2":[12,0,0,6,7],
-"classcore_1_1Logger.html#a2dd1f2eba4895d6077958a9e7295ec62":[11,0,0,6,2],
-"classcore_1_1Logger.html#a2dd1f2eba4895d6077958a9e7295ec62":[12,0,0,6,2]
+"classcore_1_1Logger.html":[12,0,0,6]
 };

@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['neighborbits_0',['NeighborBits',['../namespacehmi.html#a904bd9605b7079403b098a5e97e9726e',1,'hmi']]]
+  ['magicschool_0',['MagicSchool',['../namespacecore.html#acb09396acc95973b3ca488c497bbddb2',1,'core']]],
+  ['mousebutton_1',['MouseButton',['../namespacehmi.html#a4180e6c308353c9965d695855746d982',1,'hmi']]]
 ];

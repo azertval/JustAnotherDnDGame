@@ -1,5 +1,11 @@
 var NAVTREEINDEX4 =
 {
+"classcore_1_1Logger.html#a14d080b7aea34be62b6bd98897378e97":[11,0,0,6,4],
+"classcore_1_1Logger.html#a14d080b7aea34be62b6bd98897378e97":[12,0,0,6,4],
+"classcore_1_1Logger.html#a1aeae4c7813133be7e1dc64490839bf2":[11,0,0,6,7],
+"classcore_1_1Logger.html#a1aeae4c7813133be7e1dc64490839bf2":[12,0,0,6,7],
+"classcore_1_1Logger.html#a2dd1f2eba4895d6077958a9e7295ec62":[11,0,0,6,2],
+"classcore_1_1Logger.html#a2dd1f2eba4895d6077958a9e7295ec62":[12,0,0,6,2],
 "classcore_1_1Logger.html#a3f0cbd4596e47500c6da1463ca6fda6f":[11,0,0,6,3],
 "classcore_1_1Logger.html#a3f0cbd4596e47500c6da1463ca6fda6f":[12,0,0,6,3],
 "classcore_1_1Logger.html#a42b5979c9d78e520e0e6d684e329ba26":[11,0,0,6,6],
@@ -243,11 +249,5 @@ var NAVTREEINDEX4 =
 "classhmi_1_1AssetFileOperations.html#aee2c24b4377ee00fe1141bad6a8e38a3":[12,0,1,3,7],
 "classhmi_1_1AssetFileOperations.html#afc8297281c4227d3e0314fbf50bb9724":[11,0,1,3,6],
 "classhmi_1_1AssetFileOperations.html#afc8297281c4227d3e0314fbf50bb9724":[12,0,1,3,6],
-"classhmi_1_1AssetPaths.html":[11,0,1,64],
-"classhmi_1_1AssetPaths.html":[12,0,1,64],
-"classhmi_1_1AssetPaths.html#a03a95267511103f4a1f0b67a2624b5e3":[11,0,1,64,2],
-"classhmi_1_1AssetPaths.html#a03a95267511103f4a1f0b67a2624b5e3":[12,0,1,64,2],
-"classhmi_1_1AssetPaths.html#a1047d2422f1096398a8fbbc63be7e81b":[11,0,1,64,3],
-"classhmi_1_1AssetPaths.html#a1047d2422f1096398a8fbbc63be7e81b":[12,0,1,64,3],
-"classhmi_1_1AssetPaths.html#a666907237fced2f867f1e3e3475c5e80":[11,0,1,64,0]
+"classhmi_1_1AssetPaths.html":[11,0,1,64]
 };
