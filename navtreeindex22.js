@@ -1,5 +1,13 @@
 var NAVTREEINDEX22 =
 {
+"spec-architecture.html#autotoc_md257":[6,16,8],
+"spec-architecture.html#autotoc_md258":[6,16,9],
+"spec-architecture.html#autotoc_md259":[6,16,10],
+"spec-architecture.html#autotoc_md260":[6,16,11],
+"spec-combat.html":[6,5],
+"spec-combat.html#autotoc_md261":[6,5,0],
+"spec-combat.html#autotoc_md262":[6,5,1],
+"spec-combat.html#autotoc_md263":[6,5,2],
 "spec-combat.html#autotoc_md264":[6,5,3],
 "spec-combat.html#autotoc_md265":[6,5,4],
 "spec-combat.html#autotoc_md266":[6,5,5],
@@ -241,13 +249,5 @@ var NAVTREEINDEX22 =
 "structcore_1_1Entity.html#a9e7053bba3d45fb33819fc95e9a82989":[12,0,0,22,1],
 "structcore_1_1GridPosition.html":[11,0,0,35],
 "structcore_1_1GridPosition.html":[12,0,0,35],
-"structcore_1_1GridPosition.html#ab0574e45a221418d1a0ea6e1b67c6bc0":[11,0,0,35,0],
-"structcore_1_1GridPosition.html#ab0574e45a221418d1a0ea6e1b67c6bc0":[12,0,0,35,0],
-"structcore_1_1GridPosition.html#ac6f7abc29fe595daf6d2efc341701589":[11,0,0,35,1],
-"structcore_1_1GridPosition.html#ac6f7abc29fe595daf6d2efc341701589":[12,0,0,35,1],
-"structcore_1_1JsonDocument.html":[11,0,0,2],
-"structcore_1_1JsonDocument.html":[12,0,0,2],
-"structcore_1_1JsonDocument.html#a019a10b07e3ad2ef5e793cf5e8c471fd":[11,0,0,2,2],
-"structcore_1_1JsonDocument.html#a019a10b07e3ad2ef5e793cf5e8c471fd":[12,0,0,2,2],
-"structcore_1_1JsonDocument.html#a5718d18985ba735dc2791403a901bac1":[11,0,0,2,3]
+"structcore_1_1GridPosition.html#ab0574e45a221418d1a0ea6e1b67c6bc0":[11,0,0,35,0]
 };

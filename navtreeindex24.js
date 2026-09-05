@@ -1,5 +1,13 @@
 var NAVTREEINDEX24 =
 {
+"structcore_1_1Rect.html#a492b3f92664cc6d42eed5aab8a7ac2a8":[12,0,0,52,6],
+"structcore_1_1Rect.html#a66741d6015494a3fe71f8e293bb2a416":[11,0,0,52,7],
+"structcore_1_1Rect.html#a66741d6015494a3fe71f8e293bb2a416":[12,0,0,52,7],
+"structcore_1_1Rect.html#a6a76a493f43a69284836f6d078aca2f4":[11,0,0,52,2],
+"structcore_1_1Rect.html#a6a76a493f43a69284836f6d078aca2f4":[12,0,0,52,2],
+"structcore_1_1Rect.html#aa80907b79b8c68b4b6cb2ad6600ff1d3":[11,0,0,52,8],
+"structcore_1_1Rect.html#aa80907b79b8c68b4b6cb2ad6600ff1d3":[12,0,0,52,8],
+"structcore_1_1Rect.html#af2fe91e439799d0aa9dccc32296e8e3e":[11,0,0,52,4],
 "structcore_1_1Rect.html#af2fe91e439799d0aa9dccc32296e8e3e":[12,0,0,52,4],
 "structcore_1_1Rect.html#af4677180f48fd136bc50d3e98cd99169":[11,0,0,52,5],
 "structcore_1_1Rect.html#af4677180f48fd136bc50d3e98cd99169":[12,0,0,52,5],
@@ -241,13 +249,5 @@ var NAVTREEINDEX24 =
 "structhmi_1_1DesignColor.html":[12,0,1,122],
 "structhmi_1_1DesignColor.html#a0eba99c55f71ef2f0b9657feda2edcb2":[11,0,1,122,4],
 "structhmi_1_1DesignColor.html#a0eba99c55f71ef2f0b9657feda2edcb2":[12,0,1,122,4],
-"structhmi_1_1DesignColor.html#a11066469840e73a295603a9d705ada81":[11,0,1,122,2],
-"structhmi_1_1DesignColor.html#a11066469840e73a295603a9d705ada81":[12,0,1,122,2],
-"structhmi_1_1DesignColor.html#a3e35b6ff46cc921e546a765273e91545":[11,0,1,122,0],
-"structhmi_1_1DesignColor.html#a3e35b6ff46cc921e546a765273e91545":[12,0,1,122,0],
-"structhmi_1_1DesignColor.html#a8ff4862309915a6306ce61fbfc7e3de8":[11,0,1,122,3],
-"structhmi_1_1DesignColor.html#a8ff4862309915a6306ce61fbfc7e3de8":[12,0,1,122,3],
-"structhmi_1_1DesignColor.html#ae63707ef5eec4c92aa74c883fab32ee7":[11,0,1,122,1],
-"structhmi_1_1DesignColor.html#ae63707ef5eec4c92aa74c883fab32ee7":[12,0,1,122,1],
-"structhmi_1_1DesignTokens.html":[11,0,1,128]
+"structhmi_1_1DesignColor.html#a11066469840e73a295603a9d705ada81":[11,0,1,122,2]
 };

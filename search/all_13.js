@@ -92,7 +92,7 @@ var searchData=
   ['hmilib_89',['LOT-02 — Bibliothèque `HmiLib`',['../lot-02.html',1,'lots']]],
   ['hmilib_20»_90',['Le découpage retenu — et pourquoi il n&apos;est pas « une seule &lt;span class=&quot;tt&quot;&gt;HmiLib&lt;/span&gt; »',['../lot-02.html#autotoc_md398',1,'']]],
   ['hmilog_2eh_91',['HmiLog.h',['../HmiLog_8h.html',1,'']]],
-  ['honorer_20progressivement_92',['Importer tout, honorer progressivement',['../roadmap-010.html#autotoc_md471',1,'']]],
+  ['honorer_20progressivement_92',['Importer tout, honorer progressivement',['../roadmap-010.html#autotoc_md478',1,'']]],
   ['horizontal_93',['horizontal',['../structhmi_1_1TextAnchor.html#abd9f11b551aab6d6def90fda59a10b47',1,'hmi::TextAnchor::horizontal'],['../guide-physique.html#autotoc_md193',1,'Le piège du mur adjacent (correction du balayage horizontal)']]],
   ['horloge_20de_20partie_20et_20cycle_20jour_20nuit_94',['&lt;span class=&quot;tt&quot;&gt;LOT-70&lt;/span&gt; — Horloge de partie et cycle jour/nuit',['../roadmap-010.html#lot-70',1,'']]],
   ['hors_20code_95',['IHM Qt : le moins de code possible, la mise en page hors code',['../spec-conventions.html#autotoc_md285',1,'']]],

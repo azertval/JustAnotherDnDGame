@@ -1,5 +1,6 @@
 var NAVTREEINDEX16 =
 {
+"files.html":[13,0],
 "functions.html":[12,3,0],
 "functions.html":[12,3,0,0],
 "functions_a.html":[12,3,0,1],
@@ -248,6 +249,5 @@ var NAVTREEINDEX16 =
 "guide-niveaux.html#autotoc_md164":[4,7,0,1],
 "guide-niveaux.html#autotoc_md165":[4,7,0,2],
 "guide-niveaux.html#autotoc_md166":[4,7,0,3],
-"guide-niveaux.html#autotoc_md167":[4,7,1],
-"guide-niveaux.html#autotoc_md168":[4,7,1,0]
+"guide-niveaux.html#autotoc_md167":[4,7,1]
 };
