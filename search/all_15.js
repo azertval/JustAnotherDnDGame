@@ -19,7 +19,7 @@ var searchData=
   ['jetons_20purs_20à_20une_20application_20habillée_16',['De jetons purs à une application habillée',['../guide-design-ihm.html#autotoc_md61',1,'']]],
   ['jets_17',['LOT-12 — Dés, caractéristiques, jets',['../roadmap-010.html#lot-12',1,'']]],
   ['jets_20trois_20usages_18',['3. Trois jets, trois usages',['../spec-regles-dnd.html#autotoc_md361',1,'']]],
-  ['jeu_19',['jeu',['../guide-ecrans.html',1,'Écrans, navigation et boucle de jeu'],['../spec-gameplay.html#autotoc_md333',1,'5. États de jeu'],['../manuel-jouer.html#autotoc_md614',1,'Contrôles en jeu'],['../guide-ecrans.html#autotoc_md79',1,'Le viewport partagé : éditeur &lt;b&gt;et&lt;/b&gt; jeu'],['../lot-05.html',1,'LOT-05 — Modes de jeu'],['../guide-boucle.html#autotoc_md49',1,'Qu&apos;est-ce qu&apos;une boucle de jeu ?'],['../manuel-telecharger.html',1,'Télécharger et lancer le jeu']]],
+  ['jeu_19',['jeu',['../guide-ecrans.html',1,'Écrans, navigation et boucle de jeu'],['../spec-gameplay.html#autotoc_md333',1,'5. États de jeu'],['../manuel-jouer.html#autotoc_md619',1,'Contrôles en jeu'],['../guide-ecrans.html#autotoc_md79',1,'Le viewport partagé : éditeur &lt;b&gt;et&lt;/b&gt; jeu'],['../lot-05.html',1,'LOT-05 — Modes de jeu'],['../guide-boucle.html#autotoc_md49',1,'Qu&apos;est-ce qu&apos;une boucle de jeu ?'],['../manuel-telecharger.html',1,'Télécharger et lancer le jeu']]],
   ['jeu_20et_20observabilité_20',['2. Pont avec le jeu et observabilité',['../spec-ia.html#autotoc_md336',1,'']]],
   ['jeu_20et_20outillage_21',['5. Intégration au jeu et outillage',['../spec-ia.html#autotoc_md339',1,'']]],
   ['jeu_20et_20pas_20de_20temps_20fixe_22',['Boucle de jeu et pas de temps fixe',['../guide-boucle.html',1,'guide']]],
@@ -32,9 +32,9 @@ var searchData=
   ['jouer_20sans_20quitter_20l_20éditeur_29',['Essai immédiat : jouer sans quitter l&apos;éditeur',['../guide-editeur.html#autotoc_md108',1,'']]],
   ['jouer_20un_20niveau_20_3a_20hmi_3a_3agamesession_20réutilisée_30',['Jouer un niveau : &lt;span class=&quot;tt&quot;&gt;hmi::GameSession&lt;/span&gt; réutilisée',['../guide-ihm-qt.html#autotoc_md136',1,'']]],
   ['jouer_2emd_31',['jouer.md',['../jouer_8md.html',1,'']]],
-  ['joueur_32',['Choisir comment la caméra suit le joueur',['../manuel-partager-niveau.html#autotoc_md634',1,'']]],
+  ['joueur_32',['Choisir comment la caméra suit le joueur',['../manuel-partager-niveau.html#autotoc_md639',1,'']]],
   ['jour_20nuit_33',['&lt;span class=&quot;tt&quot;&gt;LOT-70&lt;/span&gt; — Horloge de partie et cycle jour/nuit',['../roadmap-010.html#lot-70',1,'']]],
-  ['journal_20de_20combat_34',['Le journal de combat',['../roadmap-010.html#autotoc_md564',1,'']]],
+  ['journal_20de_20combat_34',['Le journal de combat',['../roadmap-010.html#autotoc_md569',1,'']]],
   ['journalisation_35',['10. Assertions &amp;amp; journalisation',['../spec-conventions.html#autotoc_md294',1,'']]],
   ['journalisation_20et_20assertions_36',['Journalisation et assertions',['../guide-journalisation.html',1,'guide']]],
   ['journalisation_20par_20catégorie_37',['Les macros de journalisation, par catégorie',['../guide-journalisation.html#autotoc_md147',1,'']]],
@@ -57,6 +57,6 @@ var searchData=
   ['jumps_54',['jumps',['../structhmi_1_1LevelRunStats.html#abb7c8be3e1ac667a987a0d209186b540',1,'hmi::LevelRunStats']]],
   ['jumpspeed_55',['jumpSpeed',['../structcore_1_1PhysicsConfig.html#a0c37db23188588851424c06d9183bfa1',1,'core::PhysicsConfig']]],
   ['jumpto_56',['jumpTo',['../classhmi_1_1PixelHistory.html#a7b852d4e2ec5be8ce02fe8eb811f7ed2',1,'hmi::PixelHistory']]],
-  ['jusqu_20au_20vertical_20slice_57',['Le chemin critique jusqu&apos;au &lt;em&gt;vertical slice&lt;/em&gt;',['../roadmap-010.html#autotoc_md475',1,'']]],
+  ['jusqu_20au_20vertical_20slice_57',['Le chemin critique jusqu&apos;au &lt;em&gt;vertical slice&lt;/em&gt;',['../roadmap-010.html#autotoc_md480',1,'']]],
   ['justanotherdndgame_58',['JustAnotherDnDGame',['../index.html',1,'']]]
 ];

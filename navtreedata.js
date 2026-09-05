@@ -128,17 +128,17 @@ var NAVTREEINDEX =
 "namespacehmi.html#a3b48baec87107f7a4aec638550bdb941",
 "namespacehmi.html#aa9ca31cc2ce141fdfbdd11b14d1df228adb3e3f51c9107e26c9bccf9a188ce2ed",
 "namespacemembers_func_q.html",
-"spec-contenu.html#autotoc_md268",
-"structcore_1_1JsonDocument.html#aee2b7ee0780fca9c92445b2778a7baa1",
-"structcore_1_1Sprite.html#a6388caacbea8c28cb9e8956cd46e9b2c",
-"structhmi_1_1DesignTokens.html#aaf69264bfc62979df7342c5347cbdeb4",
-"structhmi_1_1MechanismAnimationRow.html",
-"structhmi_1_1ProceduralFontImage.html#a5d844d3be6b91d7fee4ac4e225a0e403",
-"structhmi_1_1SpriteQuad.html#aa5c6523969fab44f779387543dc3365a",
-"test__camera__framing_8cpp.html#aa92cbb1ac7fef314b12e8f447b6b5d44",
-"test__level__draft_8cpp.html#a50e24e0a572521ce23cb4ec000cae245",
-"test__pixel__history_8cpp.html#a19c1e4d6de1e1059b1294816b573ed0f",
-"test__skin__catalog_8cpp.html#ae2d1129a4f906bfde44271b94a1b32db"
+"spec-combat.html#autotoc_md264",
+"structcore_1_1JsonDocument.html#a5718d18985ba735dc2791403a901bac1",
+"structcore_1_1Rect.html#af2fe91e439799d0aa9dccc32296e8e3e",
+"structhmi_1_1DesignTokens.html",
+"structhmi_1_1LoadedTexture.html#a60bd4aa4803c4c3a7806fab906be9803",
+"structhmi_1_1ProceduralFont.html#a975dd1ddaa24488748f354fc81f6806d",
+"structhmi_1_1SpriteQuad.html#a7f473f58edf9e7c97b268324b914cfaf",
+"test__camera2d_8cpp.html#ae2179c844b3f7524cff7b02e0cad488d",
+"test__level__draft_8cpp.html#a399d3c283c1ace5b25f7a14299ba2fd9",
+"test__pixel__frame__geometry_8cpp.html#a51bd42ba4379e171674063d368acce0e",
+"test__skin__catalog_8cpp.html#a850aa84ac39a7b91ca15d0f2415839c9"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

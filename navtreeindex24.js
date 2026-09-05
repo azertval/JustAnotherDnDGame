@@ -1,5 +1,10 @@
 var NAVTREEINDEX24 =
 {
+"structcore_1_1Rect.html#af2fe91e439799d0aa9dccc32296e8e3e":[12,0,0,52,4],
+"structcore_1_1Rect.html#af4677180f48fd136bc50d3e98cd99169":[11,0,0,52,5],
+"structcore_1_1Rect.html#af4677180f48fd136bc50d3e98cd99169":[12,0,0,52,5],
+"structcore_1_1Sprite.html":[11,0,0,19],
+"structcore_1_1Sprite.html":[12,0,0,19],
 "structcore_1_1Sprite.html#a6388caacbea8c28cb9e8956cd46e9b2c":[11,0,0,19,1],
 "structcore_1_1Sprite.html#a6388caacbea8c28cb9e8956cd46e9b2c":[12,0,0,19,1],
 "structcore_1_1Sprite.html#aa14509186966df68f09f59dfda0e2318":[11,0,0,19,2],
@@ -244,10 +249,5 @@ var NAVTREEINDEX24 =
 "structhmi_1_1DesignColor.html#a8ff4862309915a6306ce61fbfc7e3de8":[12,0,1,122,3],
 "structhmi_1_1DesignColor.html#ae63707ef5eec4c92aa74c883fab32ee7":[11,0,1,122,1],
 "structhmi_1_1DesignColor.html#ae63707ef5eec4c92aa74c883fab32ee7":[12,0,1,122,1],
-"structhmi_1_1DesignTokens.html":[11,0,1,128],
-"structhmi_1_1DesignTokens.html":[12,0,1,128],
-"structhmi_1_1DesignTokens.html#a66674a1a3f52b505504517a8ffbfb54c":[11,0,1,128,2],
-"structhmi_1_1DesignTokens.html#a66674a1a3f52b505504517a8ffbfb54c":[12,0,1,128,2],
-"structhmi_1_1DesignTokens.html#a9c566739822df5c520961167a36192ca":[11,0,1,128,1],
-"structhmi_1_1DesignTokens.html#a9c566739822df5c520961167a36192ca":[12,0,1,128,1]
+"structhmi_1_1DesignTokens.html":[11,0,1,128]
 };

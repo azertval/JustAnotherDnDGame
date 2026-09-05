@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['bac_20à_20sable_20dans_20l_20univers_20entier_0',['La cible : un bac à sable dans l&apos;univers entier',['../roadmap-010.html#autotoc_md471',1,'']]],
+  ['bac_20à_20sable_20dans_20l_20univers_20entier_0',['La cible : un bac à sable dans l&apos;univers entier',['../roadmap-010.html#autotoc_md472',1,'']]],
   ['bac_20à_20sable_20de_20combat_1',['&lt;span class=&quot;tt&quot;&gt;LOT-50&lt;/span&gt; — Le Colisée : bac à sable de combat',['../roadmap-010.html#lot-50',1,'']]],
   ['back_20buffer_2',['Vocabulaire de base : GPU, swap chain, back buffer',['../guide-rendu.html#autotoc_md202',1,'']]],
   ['balayage_20continu_20swept_20aabb_3',['1. Collision par balayage continu (swept AABB)',['../guide-physique.html#autotoc_md184',1,'']]],
@@ -14,11 +14,11 @@ var searchData=
   ['batcher_20»_20plutôt_20que_20dessiner_20un_20sprite_20à_20la_20fois_11',['Pourquoi « batcher » plutôt que dessiner un sprite à la fois',['../guide-rendu.html#autotoc_md210',1,'']]],
   ['bestiaire_20de_20base_12',['&lt;span class=&quot;tt&quot;&gt;LOT-33&lt;/span&gt; — Bestiaire de base',['../roadmap-010.html#lot-33',1,'']]],
   ['bibliothèque_20hmilib_13',['LOT-02 — Bibliothèque `HmiLib`',['../lot-02.html',1,'lots']]],
-  ['bien_20plus_20large_20qu_20estimé_14',['9.5 La collision de numéros est bloquante, et bien plus large qu&apos;estimé',['../roadmap-010.html#autotoc_md490',1,'']]],
+  ['bien_20plus_20large_20qu_20estimé_14',['9.5 La collision de numéros est bloquante, et bien plus large qu&apos;estimé',['../roadmap-010.html#autotoc_md495',1,'']]],
   ['bilingue_15',['&lt;span class=&quot;tt&quot;&gt;LOT-30&lt;/span&gt; — Chaîne d&apos;extraction du corpus et lexique bilingue',['../roadmap-010.html#lot-30',1,'']]],
   ['blocs_20à_20taille_20réduite_20×0_205_20×0_2025_16',['Blocs à taille réduite (&lt;span class=&quot;tt&quot;&gt;×0.5&lt;/span&gt;/&lt;span class=&quot;tt&quot;&gt;×0.25&lt;/span&gt;)',['../guide-niveaux.html#autotoc_md175',1,'']]],
   ['blocs_20poussables_17',['Blocs poussables',['../guide-niveaux.html#autotoc_md174',1,'']]],
-  ['bloquante_20et_20bien_20plus_20large_20qu_20estimé_18',['9.5 La collision de numéros est bloquante, et bien plus large qu&apos;estimé',['../roadmap-010.html#autotoc_md490',1,'']]],
+  ['bloquante_20et_20bien_20plus_20large_20qu_20estimé_18',['9.5 La collision de numéros est bloquante, et bien plus large qu&apos;estimé',['../roadmap-010.html#autotoc_md495',1,'']]],
   ['boîte_20englobante_20alignée_20aux_20axes_19',['&lt;a class=&quot;el&quot; href=&quot;structcore_1_1Aabb.html&quot; title=&quot;core::Aabb&quot;&gt;Aabb&lt;/a&gt; : la boîte englobante alignée aux axes',['../guide-maths.html#autotoc_md158',1,'']]],
   ['bonnes_20pratiques_20',['7. Bonnes pratiques',['../spec-conventions.html#autotoc_md291',1,'']]],
   ['bootstrap_20réel_20_3a_20sinks_20différents_20en_20développement_20et_20en_20release_21',['Bootstrap réel : sinks différents en développement et en Release',['../guide-journalisation.html#autotoc_md152',1,'']]],
