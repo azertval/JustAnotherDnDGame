@@ -26,10 +26,15 @@ constexpr int NIVEAU_MAXIMAL = 20;
             return classe.level / 2;
         case CasterProgression::Third:
             return classe.level / 3;
+        // Deux raisons differentes de ne rien apporter, une seule valeur : les etiquettes sont
+        // groupees parce qu'un `return 0;` ecrit deux fois est un doublon (bugprone-branch-clone),
+        // pas parce que les deux cas seraient le meme.
+        //
+        //   Pact -- la magie de pacte n'entre pas dans CETTE somme (EX-RPG-052) : ses emplacements
+        //           existent, mais sont comptes a part, peu nombreux, toujours au niveau maximal,
+        //           et recuperes au repos COURT.
+        //   None -- la classe n'accorde aucune incantation (barbare, moine).
         case CasterProgression::Pact:
-            // La magie de pacte n'entre pas dans cette somme (EX-RPG-052) : ses emplacements sont
-            // peu nombreux, toujours au niveau maximal, et recuperes au repos COURT.
-            return 0;
         case CasterProgression::None:
             return 0;
     }
