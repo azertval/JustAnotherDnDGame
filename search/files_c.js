@@ -21,5 +21,7 @@ var searchData=
   ['missingtexture_2eh_18',['MissingTexture.h',['../MissingTexture_8h.html',1,'']]],
   ['mode_2dia_2emd_19',['mode-ia.md',['../mode-ia_8md.html',1,'']]],
   ['movementsystem_2ecpp_20',['MovementSystem.cpp',['../MovementSystem_8cpp.html',1,'']]],
-  ['movementsystem_2eh_21',['MovementSystem.h',['../MovementSystem_8h.html',1,'']]]
+  ['movementsystem_2eh_21',['MovementSystem.h',['../MovementSystem_8h.html',1,'']]],
+  ['multiclassing_2ecpp_22',['Multiclassing.cpp',['../Multiclassing_8cpp.html',1,'']]],
+  ['multiclassing_2eh_23',['Multiclassing.h',['../Multiclassing_8h.html',1,'']]]
 ];

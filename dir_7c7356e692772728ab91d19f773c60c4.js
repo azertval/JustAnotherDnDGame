@@ -10,6 +10,7 @@ var dir_7c7356e692772728ab91d19f773c60c4 =
     [ "LOT-08-tuiles-rpg", "dir_ae0f6326bcc3735836795f204f9b206f.html", null ],
     [ "LOT-30-chaine-extraction-corpus", "dir_1a572379fa9a8d4a5955449e90cfed1b.html", null ],
     [ "LOT-32-schemas-donnees-rpg", "dir_42f5d2e71022fc997214f45730d4f996.html", null ],
+    [ "LOT-43-options-de-personnage", "dir_91a1717ccebb1cc2aff1d37999f0b3a5.html", null ],
     [ "LOT-77-specification-rpg", "dir_ef95927b7810b74dd4b1ad028f5ca330.html", null ],
     [ "LOT-78-numeros-herites", "dir_7d4f1976496a6a2058d9c70bdca36906.html", null ],
     [ "LOT-79-socle-chargement-donnees", "dir_97d7630938bc94e9facb9909756450a5.html", null ]

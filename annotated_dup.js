@@ -60,6 +60,7 @@ var annotated_dup =
       [ "PlayerInput", "structcore_1_1PlayerInput.html", "structcore_1_1PlayerInput" ],
       [ "SweepResult", "structcore_1_1SweepResult.html", "structcore_1_1SweepResult" ],
       [ "TopDownConfig", "structcore_1_1TopDownConfig.html", "structcore_1_1TopDownConfig" ],
+      [ "ClassLevel", "structcore_1_1ClassLevel.html", "structcore_1_1ClassLevel" ],
       [ "FixedTimestep", "classcore_1_1FixedTimestep.html", "classcore_1_1FixedTimestep" ],
       [ "GridDistanceField", "classcore_1_1GridDistanceField.html", "classcore_1_1GridDistanceField" ]
     ] ],

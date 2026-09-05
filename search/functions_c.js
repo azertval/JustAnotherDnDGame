@@ -42,5 +42,6 @@ var searchData=
   ['moveplanetofront_39',['movePlaneToFront',['../classcore_1_1LevelDraft.html#abf3838beed68b04528a0ae57f3bdb25a',1,'core::LevelDraft']]],
   ['moveregion_40',['moveRegion',['../namespacehmi.html#af4491efde1190c3d2d164fd659e75fdf',1,'hmi']]],
   ['moverequested_41',['moveRequested',['../classhmi_1_1PixelPalettePanel.html#a2494c18686e526bdd0d3d8b172a61605',1,'hmi::PixelPalettePanel']]],
-  ['muted_42',['muted',['../classhmi_1_1AudioEngine.html#a5a6bbf74aac123458634ed6676ba961a',1,'hmi::AudioEngine']]]
+  ['multiclasscasterlevel_42',['multiclassCasterLevel',['../namespacecore.html#a5efe1ddb8ab76545ac60552ba2c43a32',1,'core']]],
+  ['muted_43',['muted',['../classhmi_1_1AudioEngine.html#a5a6bbf74aac123458634ed6676ba961a',1,'hmi::AudioEngine']]]
 ];

@@ -1,5 +1,8 @@
 var NAVTREEINDEX5 =
 {
+"classhmi_1_1AssetFileOperations.html#afc8297281c4227d3e0314fbf50bb9724":[11,0,1,3,6],
+"classhmi_1_1AssetFileOperations.html#afc8297281c4227d3e0314fbf50bb9724":[12,0,1,3,6],
+"classhmi_1_1AssetPaths.html":[11,0,1,64],
 "classhmi_1_1AssetPaths.html":[12,0,1,64],
 "classhmi_1_1AssetPaths.html#a03a95267511103f4a1f0b67a2624b5e3":[11,0,1,64,2],
 "classhmi_1_1AssetPaths.html#a03a95267511103f4a1f0b67a2624b5e3":[12,0,1,64,2],
@@ -246,8 +249,5 @@ var NAVTREEINDEX5 =
 "classhmi_1_1ComposedScene.html#afb4cfa43e95789169254a69f528de9a7":[11,0,1,73,2],
 "classhmi_1_1ComposedScene.html#afb4cfa43e95789169254a69f528de9a7":[12,0,1,73,2],
 "classhmi_1_1CreditsScreen.html":[11,0,1,121],
-"classhmi_1_1CreditsScreen.html":[12,0,1,121],
-"classhmi_1_1CreditsScreen.html#a04ddb75605ede228b4f689a54e1faa49":[11,0,1,121,3],
-"classhmi_1_1CreditsScreen.html#a04ddb75605ede228b4f689a54e1faa49":[12,0,1,121,3],
-"classhmi_1_1CreditsScreen.html#a18b71e9467d98b22e8648aa6ad4c9f2b":[11,0,1,121,1]
+"classhmi_1_1CreditsScreen.html":[12,0,1,121]
 };

@@ -68,7 +68,7 @@ var searchData=
   ['hmi_3a_3atoplayerinput_20hmi_3a_3atoplayerinput_65',['Traduire l&apos;état en intention : &lt;a class=&quot;el&quot; href=&quot;namespacehmi.html#a2c3341857c60f0bef0a01a6cd10ce5f7&quot; title=&quot;hmi::toPlayerInput&quot;&gt;hmi::toPlayerInput&lt;/a&gt;',['../guide-entrees.html#autotoc_md126',1,'']]],
   ['hmilib_66',['LOT-02 — Bibliothèque `HmiLib`',['../lot-02.html',1,'lots']]],
   ['hmilib_20»_67',['Le découpage retenu — et pourquoi il n&apos;est pas « une seule &lt;span class=&quot;tt&quot;&gt;HmiLib&lt;/span&gt; »',['../lot-02.html#autotoc_md399',1,'']]],
-  ['honorer_20progressivement_68',['Importer tout, honorer progressivement',['../roadmap-010.html#autotoc_md486',1,'']]],
+  ['honorer_20progressivement_68',['Importer tout, honorer progressivement',['../roadmap-010.html#autotoc_md494',1,'']]],
   ['horizontal_69',['Le piège du mur adjacent (correction du balayage horizontal)',['../guide-physique.html#autotoc_md194',1,'']]],
   ['horloge_20de_20partie_20et_20cycle_20jour_20nuit_70',['&lt;span class=&quot;tt&quot;&gt;LOT-70&lt;/span&gt; — Horloge de partie et cycle jour/nuit',['../roadmap-010.html#lot-70',1,'']]],
   ['hors_20code_71',['IHM Qt : le moins de code possible, la mise en page hors code',['../spec-conventions.html#autotoc_md286',1,'']]],

@@ -12,7 +12,7 @@ var searchData=
   ['layer_5fkind_5fcount_9',['LAYER_KIND_COUNT',['../namespacecore.html#a1639bde29cbf10d2ed8629a0fe495374',1,'core']]],
   ['layers_10',['layers',['../structcore_1_1LevelData.html#a346a7cadd4d3753fa7e86a323db66a1f',1,'core::LevelData::layers'],['../structcore_1_1LevelDraft_1_1State.html#a09352d444a7a0a4a7150a20777fcbf9c',1,'core::LevelDraft::State::layers']]],
   ['left_11',['left',['../structhmi_1_1ArrowHead.html#adeefbfafc4079bba7d3525acf6342194',1,'hmi::ArrowHead']]],
-  ['level_12',['level',['../structcore_1_1MemoryLogSink_1_1Entry.html#ab2a140504bc9e377d32147b8cddc7055',1,'core::MemoryLogSink::Entry::level'],['../structcore_1_1LevelLoadResult.html#acd73f8d045b0de9992c2a35920b35324',1,'core::LevelLoadResult::level'],['../structhmi_1_1EditorStatusContext.html#aea257e9e8350f1ad30ba34e410fee502',1,'hmi::EditorStatusContext::level']]],
+  ['level_12',['level',['../structcore_1_1MemoryLogSink_1_1Entry.html#ab2a140504bc9e377d32147b8cddc7055',1,'core::MemoryLogSink::Entry::level'],['../structcore_1_1LevelLoadResult.html#acd73f8d045b0de9992c2a35920b35324',1,'core::LevelLoadResult::level'],['../structcore_1_1ClassLevel.html#a6a9d17c484c7c83840fde08953db8168',1,'core::ClassLevel::level'],['../structhmi_1_1EditorStatusContext.html#aea257e9e8350f1ad30ba34e410fee502',1,'hmi::EditorStatusContext::level']]],
   ['level_5fformat_5fversion_13',['LEVEL_FORMAT_VERSION',['../namespacecore.html#a29f56cd5e629fb74668126bbf151066e',1,'core']]],
   ['level_5fsequence_5fformat_5fversion_14',['LEVEL_SEQUENCE_FORMAT_VERSION',['../namespacecore.html#aa2bda549f4b3a6da7d1947bdb5d82bc5',1,'core']]],
   ['levels_15',['levels',['../structcore_1_1LevelSequence.html#aa0434fd93b1c7018b0357d06857f6000',1,'core::LevelSequence']]],

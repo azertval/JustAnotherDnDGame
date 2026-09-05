@@ -59,6 +59,7 @@ var namespacecore =
     [ "PlayerInput", "structcore_1_1PlayerInput.html", "structcore_1_1PlayerInput" ],
     [ "SweepResult", "structcore_1_1SweepResult.html", "structcore_1_1SweepResult" ],
     [ "TopDownConfig", "structcore_1_1TopDownConfig.html", "structcore_1_1TopDownConfig" ],
+    [ "ClassLevel", "structcore_1_1ClassLevel.html", "structcore_1_1ClassLevel" ],
     [ "FixedTimestep", "classcore_1_1FixedTimestep.html", "classcore_1_1FixedTimestep" ],
     [ "GridDistanceField", "classcore_1_1GridDistanceField.html", "classcore_1_1GridDistanceField" ],
     [ "AssertionHandler", "namespacecore.html#af16dfcce848d49387703fb5a0b155485", null ],
@@ -68,6 +69,13 @@ var namespacecore =
       [ "WholeLevel", "namespacecore.html#a5c6444096b9bc21a78b1f1157e9070b6a3080b25e8fedb44c9a9a494d7278490e", null ],
       [ "PerRoom", "namespacecore.html#a5c6444096b9bc21a78b1f1157e9070b6a593d6561f5fc067ac08ebb78b33217ad", null ],
       [ "Follow", "namespacecore.html#a5c6444096b9bc21a78b1f1157e9070b6a3903aab323863bd2e9b68218a7a65ebd", null ]
+    ] ],
+    [ "CasterProgression", "namespacecore.html#ab1c6c3303c34c417c9a3b6ac3ddb066d", [
+      [ "None", "namespacecore.html#ab1c6c3303c34c417c9a3b6ac3ddb066da6adf97f83acf6453d4a6a4b1070f3754", null ],
+      [ "Third", "namespacecore.html#ab1c6c3303c34c417c9a3b6ac3ddb066da168909c0b6f1dfbd48f679d47059c1d6", null ],
+      [ "Half", "namespacecore.html#ab1c6c3303c34c417c9a3b6ac3ddb066dac48615a1bc4197056d522af276aa5a85", null ],
+      [ "Full", "namespacecore.html#ab1c6c3303c34c417c9a3b6ac3ddb066dabbd47109890259c0127154db1af26c75", null ],
+      [ "Pact", "namespacecore.html#ab1c6c3303c34c417c9a3b6ac3ddb066dac84677e99721f89f0b5430df9f431a1d", null ]
     ] ],
     [ "ClipEndMode", "namespacecore.html#a71fba78b647ce3be2a8b78f79c84f522", [
       [ "Loop", "namespacecore.html#a71fba78b647ce3be2a8b78f79c84f522a89d7b10cb4238977d2b523dfd9ea7745", null ],
@@ -200,6 +208,7 @@ var namespacecore =
     [ "approximatelyEqual", "namespacecore.html#a69640dd3c9f3f8778a7c7621839c3794", null ],
     [ "buildLevelScene", "namespacecore.html#a69ac6b2c5ca32686a14824d1f1c04b2a", null ],
     [ "cameraFramingModeName", "namespacecore.html#a0d231b385924c096dc5f94d17639e679", null ],
+    [ "casterProgressionName", "namespacecore.html#aedf7842b8c8c84ef5f6445c731072dfc", null ],
     [ "conditionName", "namespacecore.html#a987d60e4787ed087f78661162334cbdf", null ],
     [ "currentTimestamp", "namespacecore.html#a485afe76bcf660ec5db7d91f924f87a4", null ],
     [ "damageTypeName", "namespacecore.html#ae3cc32ad05d30271f4d457dcb84dff88", null ],
@@ -213,6 +222,7 @@ var namespacecore =
     [ "isValidPlaneDensity", "namespacecore.html#a0f61acebed3678706e825f972217a233", null ],
     [ "layerKindName", "namespacecore.html#a9a1bd2ed20a557ddf1033a2c264c9bdd", null ],
     [ "magicSchoolName", "namespacecore.html#aa8d6d02cb4e8204a0ae9e6a14b5bbc2e", null ],
+    [ "multiclassCasterLevel", "namespacecore.html#a5efe1ddb8ab76545ac60552ba2c43a32", null ],
     [ "operator!=", "namespacecore.html#a197b5bff2c73896fbfb05df9ea6419b9", null ],
     [ "operator!=", "namespacecore.html#a29323798eff97fce936a3352846efb93", null ],
     [ "operator*", "namespacecore.html#ab422b18bf5b03f40421c9391b725dcd0", null ],
@@ -224,6 +234,7 @@ var namespacecore =
     [ "operator==", "namespacecore.html#a78fa4a986a900f73517454f7c1eff774", null ],
     [ "operator==", "namespacecore.html#a02b4ac39e4a1c16efbe9ff53132d9a95", null ],
     [ "parseCameraFramingMode", "namespacecore.html#acae8699b6c75742b88007ea470bf54ea", null ],
+    [ "parseCasterProgression", "namespacecore.html#a6d334261c72e5b0735a542f53aac9131", null ],
     [ "parseCondition", "namespacecore.html#adefe86c619e88b6cf8ede8c2c5da65d5", null ],
     [ "parseDamageType", "namespacecore.html#a1d12176ad6df004421e6685f2cb36e93", null ],
     [ "parseLogLevel", "namespacecore.html#ae8ce294afb9bbebacf6676020a0e223a", null ],

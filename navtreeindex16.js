@@ -1,10 +1,14 @@
 var NAVTREEINDEX16 =
 {
+"dir_de25d93b7b4ef75f45504127491f58b5.html":[13,0,3,0,7],
+"dir_de30a5e97846502980314378552e8c47.html":[13,0,3,3,2,1,5],
+"dir_e603d07e027ebb67c21222d66f955c38.html":[13,0,3,3,2,1,3],
+"dir_e63fac7525d4addf9f5e759ec10d14ef.html":[13,0,3,2,3],
 "dir_e91345e58f28b18d59c87d2e81de3f4a.html":[13,0,3,2,8],
 "dir_e9bc3547f945e106b199f4f7c7c6d92f.html":[13,0,3,0,4],
 "dir_eb79fe5178d7fc2870e7466b17886675.html":[13,0,0],
 "dir_ecd1618553a8a213b1a536d7bd626c5a.html":[13,0,3,3,2,0,5],
-"dir_ef95927b7810b74dd4b1ad028f5ca330.html":[13,0,1,10],
+"dir_ef95927b7810b74dd4b1ad028f5ca330.html":[13,0,1,11],
 "dir_f18162a3491e1099b27e24681bdccd3d.html":[13,0,3,2,7],
 "dir_f69202b516efeab62778db608b6130e3.html":[13,0,3,0,2,0],
 "dir_f8b7e8d4ca3133a56858706d968618a8.html":[13,0,1,6],
@@ -245,9 +249,5 @@ var NAVTREEINDEX16 =
 "guide-journalisation.html#autotoc_md154":[4,10,7],
 "guide-journalisation.html#autotoc_md155":[4,10,8],
 "guide-maths.html":[4,5],
-"guide-maths.html#autotoc_md156":[4,5,0],
-"guide-maths.html#autotoc_md157":[4,5,0,0],
-"guide-maths.html#autotoc_md158":[4,5,0,1],
-"guide-maths.html#autotoc_md159":[4,5,1],
-"guide-maths.html#autotoc_md160":[4,5,2]
+"guide-maths.html#autotoc_md156":[4,5,0]
 };

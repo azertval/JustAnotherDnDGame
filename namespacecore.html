@@ -215,6 +215,8 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Résultat d'un balayage : où la boîte s'arrête et sur quels axes elle a été bloquée.  <a href="structcore_1_1SweepResult.html#details">More...</a><br /></td></tr>
 <tr class="memitem:TopDownConfig" id="r_TopDownConfig"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1TopDownConfig.html">TopDownConfig</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Paramètres réglables du déplacement top-down, regroupés pour faciliter le <em>tuning</em>.  <a href="structcore_1_1TopDownConfig.html#details">More...</a><br /></td></tr>
+<tr class="memitem:ClassLevel" id="r_ClassLevel"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1ClassLevel.html">ClassLevel</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un niveau pris dans une classe, et ce que cette classe apporte au niveau de lanceur.  <a href="structcore_1_1ClassLevel.html#details">More...</a><br /></td></tr>
 <tr class="memitem:FixedTimestep" id="r_FixedTimestep"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classcore_1_1FixedTimestep.html">FixedTimestep</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convertit un temps réel écoulé variable en un nombre de pas de simulation fixes.  <a href="classcore_1_1FixedTimestep.html#details">More...</a><br /></td></tr>
 <tr class="memitem:GridDistanceField" id="r_GridDistanceField"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classcore_1_1GridDistanceField.html">GridDistanceField</a></td></tr>
@@ -335,6 +337,16 @@ Enumerations</h2></td></tr>
 <br />
  }</td></tr>
 <tr class="memdesc:ace99a1be913e6294e42e9ebb145eb875"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type d'une tuile de la grille d'une carte (<span class="tt">EX-GP-001</span>).  <a href="#ace99a1be913e6294e42e9ebb145eb875">More...</a><br /></td></tr>
+<tr class="memitem:ab1c6c3303c34c417c9a3b6ac3ddb066d" id="r_ab1c6c3303c34c417c9a3b6ac3ddb066d"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#ab1c6c3303c34c417c9a3b6ac3ddb066d">CasterProgression</a> { <br />
+&#160;&#160;<a class="el" href="#ab1c6c3303c34c417c9a3b6ac3ddb066da6adf97f83acf6453d4a6a4b1070f3754">None</a>
+, <a class="el" href="#ab1c6c3303c34c417c9a3b6ac3ddb066da168909c0b6f1dfbd48f679d47059c1d6">Third</a>
+, <a class="el" href="#ab1c6c3303c34c417c9a3b6ac3ddb066dac48615a1bc4197056d522af276aa5a85">Half</a>
+, <a class="el" href="#ab1c6c3303c34c417c9a3b6ac3ddb066dabbd47109890259c0127154db1af26c75">Full</a>
+, <br />
+&#160;&#160;<a class="el" href="#ab1c6c3303c34c417c9a3b6ac3ddb066dac84677e99721f89f0b5430df9f431a1d">Pact</a>
+<br />
+ }</td></tr>
+<tr class="memdesc:ab1c6c3303c34c417c9a3b6ac3ddb066d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rythme auquel une classe fait progresser le niveau de lanceur.  <a href="#ab1c6c3303c34c417c9a3b6ac3ddb066d">More...</a><br /></td></tr>
 <tr class="memitem:aae5ed49bedbf68049f008e4efac2edfd" id="r_aae5ed49bedbf68049f008e4efac2edfd"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#aae5ed49bedbf68049f008e4efac2edfd">DamageType</a> { <br />
 &#160;&#160;<a class="el" href="#aae5ed49bedbf68049f008e4efac2edfdaed84f0285a129390ef34774e525b9b9e">Acid</a>
 , <a class="el" href="#aae5ed49bedbf68049f008e4efac2edfda8c92f858070d9bb44fb8e3fa1b7224ed">Bludgeoning</a>
@@ -467,6 +479,12 @@ Functions</h2></td></tr>
 <tr class="memdesc:a478b06d0135ab7cd314b90791cfe7ba0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Coin haut-gauche du personnage <b>centré</b> dans la tuile (<code class="param">column</code>, <code class="param">row</code>).  <br /></td></tr>
 <tr class="memitem:a4ca635df367666624247837feb2af5a5" id="r_a4ca635df367666624247837feb2af5a5"><td class="memItemLeft"><a class="el" href="structcore_1_1SweepResult.html">SweepResult</a>&#160;</td><td class="memItemRight"><a class="el" href="#a4ca635df367666624247837feb2af5a5">sweepAabb</a> (const <a class="el" href="structcore_1_1Aabb.html">Aabb</a> &amp;box, const <a class="el" href="structcore_1_1Vector2.html">Vector2</a> &amp;delta, const <a class="el" href="classcore_1_1TileMap.html">TileMap</a> &amp;tiles)</td></tr>
 <tr class="memdesc:a4ca635df367666624247837feb2af5a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Déplace <code class="param">box</code> de <code class="param">delta</code> en s'arrêtant au premier contact avec une tuile <b>solide</b>, puis en <b>glissant</b> le long de la surface pour le déplacement résiduel.  <br /></td></tr>
+<tr class="memitem:a5efe1ddb8ab76545ac60552ba2c43a32" id="r_a5efe1ddb8ab76545ac60552ba2c43a32"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a5efe1ddb8ab76545ac60552ba2c43a32">multiclassCasterLevel</a> (std::span&lt; const <a class="el" href="structcore_1_1ClassLevel.html">ClassLevel</a> &gt; classes)</td></tr>
+<tr class="memdesc:a5efe1ddb8ab76545ac60552ba2c43a32"><td class="mdescLeft">&#160;</td><td class="mdescRight">Niveau de lanceur cumulé d'un personnage multiclassé.  <br /></td></tr>
+<tr class="memitem:aedf7842b8c8c84ef5f6445c731072dfc" id="r_aedf7842b8c8c84ef5f6445c731072dfc"><td class="memItemLeft">std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#aedf7842b8c8c84ef5f6445c731072dfc">casterProgressionName</a> (<a class="el" href="#ab1c6c3303c34c417c9a3b6ac3ddb066d">CasterProgression</a> progression)</td></tr>
+<tr class="memdesc:aedf7842b8c8c84ef5f6445c731072dfc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nom textuel d'une progression, tel que <span class="tt">multiclassing.json</span> l'écrit.  <br /></td></tr>
+<tr class="memitem:a6d334261c72e5b0735a542f53aac9131" id="r_a6d334261c72e5b0735a542f53aac9131"><td class="memItemLeft">std::optional&lt; <a class="el" href="#ab1c6c3303c34c417c9a3b6ac3ddb066d">CasterProgression</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a6d334261c72e5b0735a542f53aac9131">parseCasterProgression</a> (std::string_view name)</td></tr>
+<tr class="memdesc:a6d334261c72e5b0735a542f53aac9131"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convertit le nom d'une progression, tel que la donnée l'écrit, en valeur.  <br /></td></tr>
 <tr id="func-members-0" class="groupHeader"><td colspan="2"><div class="groupHeader">Noms textuels</div></td></tr>
 <tr><td colspan="2" class="ititle"><div class="groupText"><p>Point unique de vérité de la correspondance valeur ↔ nom, partagé par les catalogues de données (<span class="tt">Source/Elements/Rpg/</span>), leurs schémas JSON et le moteur.</p>
 <p>Deux tables distinctes divergeraient au premier type ajouté — et le scénario qu'<span class="tt">EX-CNT-011</span> décrit se produirait : la donnée déclare un type que le moteur ne connaît pas, la valeur tombe dans un cas par défaut, et le sort cesse de faire des dégâts sans que rien ne l'annonce.</p>
@@ -635,6 +653,44 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
 <tr><td class="fieldname"><a id="a5c6444096b9bc21a78b1f1157e9070b6a593d6561f5fc067ac08ebb78b33217ad" name="a5c6444096b9bc21a78b1f1157e9070b6a593d6561f5fc067ac08ebb78b33217ad"></a>PerRoom&#160;</td><td class="fielddoc"><p>Cadrage salle par salle, coupure nette au franchissement (<span class="tt">EX-REN-015</span>). </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a5c6444096b9bc21a78b1f1157e9070b6a3903aab323863bd2e9b68218a7a65ebd" name="a5c6444096b9bc21a78b1f1157e9070b6a3903aab323863bd2e9b68218a7a65ebd"></a>Follow&#160;</td><td class="fielddoc"><p>Caméra de suivi du personnage (zone morte, anticipation, bornage). </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="ab1c6c3303c34c417c9a3b6ac3ddb066d" name="ab1c6c3303c34c417c9a3b6ac3ddb066d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab1c6c3303c34c417c9a3b6ac3ddb066d">&#9670;&#160;</a></span>CasterProgression</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="#ab1c6c3303c34c417c9a3b6ac3ddb066d">core::CasterProgression</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Rythme auquel une classe fait progresser le niveau de lanceur. </p>
+<p>Les valeurs viennent d'une phrase du <em>Manuel des Joueurs</em> (p. 166), citée mot pour mot dans <span class="tt">scripts/sourcebook/options.py</span> : <em>« additionnez tous les niveaux dans vos classes de barde, de druide, de clerc, d'ensorceleur et de magicien, la moitié de vos niveaux (arrondis à l'entier inférieur) dans les classes de paladin et rôdeur, et un tiers de vos niveaux de guerrier et de roublard (arrondis à l'entier inférieur) si vous avez choisi l'archétype de chevalier occulte ou d'arnaqueur arcanique. »</em></p>
+<p>La correspondance classe → progression est une <b>donnée</b> (<span class="tt">Source/Elements/Rpg/rules/multiclassing.json</span>) ; ce type n'en porte que le vocabulaire. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ab1c6c3303c34c417c9a3b6ac3ddb066da6adf97f83acf6453d4a6a4b1070f3754" name="ab1c6c3303c34c417c9a3b6ac3ddb066da6adf97f83acf6453d4a6a4b1070f3754"></a>None&#160;</td><td class="fielddoc"><p>La classe n'apporte rien au niveau de lanceur — barbare, moine. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ab1c6c3303c34c417c9a3b6ac3ddb066da168909c0b6f1dfbd48f679d47059c1d6" name="ab1c6c3303c34c417c9a3b6ac3ddb066da168909c0b6f1dfbd48f679d47059c1d6"></a>Third&#160;</td><td class="fielddoc"><p>Un tiers des niveaux, arrondi à l'inférieur — guerrier et roublard, sous archétype. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ab1c6c3303c34c417c9a3b6ac3ddb066dac48615a1bc4197056d522af276aa5a85" name="ab1c6c3303c34c417c9a3b6ac3ddb066dac48615a1bc4197056d522af276aa5a85"></a>Half&#160;</td><td class="fielddoc"><p>La moitié des niveaux, arrondie à l'inférieur — paladin, rôdeur. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ab1c6c3303c34c417c9a3b6ac3ddb066dabbd47109890259c0127154db1af26c75" name="ab1c6c3303c34c417c9a3b6ac3ddb066dabbd47109890259c0127154db1af26c75"></a>Full&#160;</td><td class="fielddoc"><p>La totalité des niveaux — barde, clerc, druide, ensorceleur, magicien. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ab1c6c3303c34c417c9a3b6ac3ddb066dac84677e99721f89f0b5430df9f431a1d" name="ab1c6c3303c34c417c9a3b6ac3ddb066dac84677e99721f89f0b5430df9f431a1d"></a>Pact&#160;</td><td class="fielddoc"><p><b>Magie de pacte</b> : n'entre pas dans la somme (<span class="tt">EX-RPG-052</span>). </p>
 </td></tr>
 </table>
 
@@ -1368,6 +1424,33 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
 
 </div>
 </div>
+<a id="aedf7842b8c8c84ef5f6445c731072dfc" name="aedf7842b8c8c84ef5f6445c731072dfc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aedf7842b8c8c84ef5f6445c731072dfc">&#9670;&#160;</a></span>casterProgressionName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string_view core::casterProgressionName </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#ab1c6c3303c34c417c9a3b6ac3ddb066d">CasterProgression</a></td>          <td class="paramname"><span class="paramname"><em>progression</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Nom textuel d'une progression, tel que <span class="tt">multiclassing.json</span> l'écrit. </p>
+
+</div>
+</div>
 <a id="a987d60e4787ed087f78661162334cbdf" name="a987d60e4787ed087f78661162334cbdf"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a987d60e4787ed087f78661162334cbdf">&#9670;&#160;</a></span>conditionName()</h2>
 
@@ -1829,6 +1912,46 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
 
 </div>
 </div>
+<a id="a5efe1ddb8ab76545ac60552ba2c43a32" name="a5efe1ddb8ab76545ac60552ba2c43a32"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5efe1ddb8ab76545ac60552ba2c43a32">&#9670;&#160;</a></span>multiclassCasterLevel()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int core::multiclassCasterLevel </td>
+          <td>(</td>
+          <td class="paramtype">std::span&lt; const <a class="el" href="structcore_1_1ClassLevel.html">ClassLevel</a> &gt;</td>          <td class="paramname"><span class="paramname"><em>classes</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Niveau de lanceur cumulé d'un personnage multiclassé. </p>
+<p><b>La règle qu'il est le plus facile d'implémenter de travers</b> (<span class="tt">EX-RPG-041</span>), pour deux raisons qui se cumulent :</p>
+<ol type="1">
+<li><b>L'arrondi se fait par classe, jamais sur le total.</b> Un paladin 3/rôdeur 3 donne <span class="tt">1 + 1 = 2</span>, et non <span class="tt">⌊6/2⌋ = 3</span>. Sommer d'abord et diviser ensuite donne un emplacement de trop, à un niveau où c'en est un tiers de plus.</li>
+<li><b>La magie de pacte est exclue.</b> Le sorcier (occultiste) obtient ses emplacements par une voie distincte — peu nombreux, toujours au niveau maximal, récupérés au repos <b>court</b>. Les additionner double la puissance du personnage sans que rien ne le signale.</li>
+</ol>
+<p>Un lanceur multiclassé mal calculé <b>reste jouable, simplement faux</b> : c'est pourquoi cette fonction est vérifiée contre l'exemple travaillé du livre lui-même — un rôdeur 4/magicien 3 est « considéré comme un personnage de niveau 5 ».</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">classes</td><td>Les niveaux pris dans chaque classe. Une classe absente n'apporte rien. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Le niveau de lanceur, dans <span class="tt">[0, 20]</span>. <span class="tt">0</span> signifie qu'aucun emplacement n'est accordé par cette voie — ce qui n'interdit pas la magie de pacte, comptée à part. </dd></dl>
+
+</div>
+</div>
 <a id="a197b5bff2c73896fbfb05df9ea6419b9" name="a197b5bff2c73896fbfb05df9ea6419b9"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a197b5bff2c73896fbfb05df9ea6419b9">&#9670;&#160;</a></span>operator!=() <span class="overload">[1/2]</span></h2>
 
@@ -2151,6 +2274,34 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
 </div><div class="memdoc">
 
 <p>Reconnaît le nom JSON d'un mode ; <span class="tt">std::nullopt</span> si non reconnu (mode inconnu, <span class="tt">EX-LVL-004</span>). </p>
+
+</div>
+</div>
+<a id="a6d334261c72e5b0735a542f53aac9131" name="a6d334261c72e5b0735a542f53aac9131"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6d334261c72e5b0735a542f53aac9131">&#9670;&#160;</a></span>parseCasterProgression()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::optional&lt; <a class="el" href="#ab1c6c3303c34c417c9a3b6ac3ddb066d">CasterProgression</a> &gt; core::parseCasterProgression </td>
+          <td>(</td>
+          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>name</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Convertit le nom d'une progression, tel que la donnée l'écrit, en valeur. </p>
+<p>Inverse de <span class="tt"><a class="el" href="#aedf7842b8c8c84ef5f6445c731072dfc" title="Nom textuel d&#39;une progression, tel que multiclassing.json l&#39;écrit.">casterProgressionName</a></span>. Un nom inconnu renvoie <span class="tt">std::nullopt</span> : c'est une donnée invalide à signaler, jamais une progression devinée — deviner <span class="tt">None</span> ferait taire un lanceur. </p>
 
 </div>
 </div>

@@ -25,6 +25,7 @@ var hierarchy =
     [ "hmi::Camera2D", "classhmi_1_1Camera2D.html", null ],
     [ "core::CameraFramingConfig", "structcore_1_1CameraFramingConfig.html", null ],
     [ "core::CameraZone", "structcore_1_1CameraZone.html", null ],
+    [ "core::ClassLevel", "structcore_1_1ClassLevel.html", null ],
     [ "core::ClipSet", "classcore_1_1ClipSet.html", null ],
     [ "core::Collider", "structcore_1_1Collider.html", null ],
     [ "core::Color", "structcore_1_1Color.html", null ],

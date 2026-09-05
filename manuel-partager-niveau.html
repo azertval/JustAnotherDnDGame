@@ -94,17 +94,17 @@ $(function(){initNavTree('manuel-partager-niveau.html','',''); });
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md_Manuel_2partager-un-niveau"></a></p>
 <p>Ce guide s'adresse aux <b>créateurs de niveaux</b> (level design) sans connaissance en programmation. Il explique comment créer un niveau dans l'éditeur intégré, puis le partager avec le reste de l'équipe via une interface Git graphique — <b>jamais de ligne de commande</b>.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md651"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md659"></a>
 1. Récupérer le projet</h1>
 <ol type="1">
 <li>Installer <a href="https://desktop.github.com/">GitHub Desktop</a> (gratuit).</li>
 <li>Ouvrir GitHub Desktop, se connecter avec un compte GitHub (en créer un si besoin — gratuit).</li>
 <li><b>File → Clone repository</b>, choisir <span class="tt">azertval/JustAnotherDnDGame</span>, puis un dossier sur votre ordinateur. Le bouton <b>Clone</b> télécharge tout le projet.</li>
 </ol>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md652"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md660"></a>
 2. Lancer l'éditeur</h1>
 <p>Récupérez l'exécutable du jeu (<span class="tt">JustAnotherDnDGame.exe</span>) — voir <a class="el" href="manuel-telecharger.html" title="Télécharger et lancer le jeu">Télécharger et lancer le jeu</a> si vous n'avez pas encore compilé le projet vous-même. Depuis le menu principal, choisissez <b>Mode Édition</b>.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md653"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md661"></a>
 3. Créer un niveau</h1>
 <p>À l'ouverture de l'éditeur, une liste apparaît : <b>Nouveau niveau</b>, ou l'un des niveaux déjà enregistrés. Naviguez avec les flèches <b>↑</b>/**↓**, validez avec <b>Entrée</b>.</p>
 <p>En choisissant <b>Nouveau niveau</b>, un champ vous demande un <b>nom</b> : tapez-le puis validez avec <b>Entrée</b> (<b>Échap</b> annule et revient à la liste). Un nom ne doit pas être vide, ni contenir d'antislash, de barre oblique, de deux-points, d'astérisque, de point d'interrogation, de guillemet droit, de chevron ou de barre verticale (caractères interdits par Windows dans un nom de fichier) — le champ vous le signale si besoin.</p>
@@ -155,7 +155,7 @@ $(function(){initNavTree('manuel-partager-niveau.html','',''); });
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">Quitter l'éditeur  </td><td class="markdownTableBodyNone"><b>Échap</b> (hors essai immédiat) — retour au menu. Si des modifications ne sont pas encore enregistrées, une confirmation est demandée avant de les perdre.  </td></tr>
 </table>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md654"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md662"></a>
 Choisir comment la caméra suit le joueur</h2>
 <p>Onglet <b>Cadrage</b> du panneau <b>Textures</b> : choisissez comment la caméra du jeu cadre votre tableau — ce réglage ne change rien à l'affichage dans l'éditeur (qui montre toujours tout le niveau), seulement à ce que verra le joueur en jeu ou pendant un essai (<b>P</b>). Trois choix, avec un aperçu immédiat dans le canevas (un cadre en pointillés de couleur) :</p>
 <ul>
@@ -164,7 +164,7 @@ Choisir comment la caméra suit le joueur</h2>
 <li><b>Suivi du personnage</b> — la caméra accompagne le joueur en continu, comme dans la plupart des jeux de plateforme. Convient à un tableau <b>long et linéaire</b> (une course, un couloir), où montrer tout d'un coup n'aurait pas de sens. Un champ <b>Taille de la caméra</b> (largeur/hauteur en cases) permet de régler ce qu'elle montre autour du joueur ; laissé vide, la taille par défaut s'applique.</li>
 </ul>
 <p>Un niveau créé avant l'existence de ce réglage se comporte <b>exactement comme avant</b> (niveau entier ou par salle selon sa taille) : rien à faire pour les niveaux déjà publiés.</p>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md655"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md663"></a>
 Mélanger plusieurs tailles de caméra dans un même niveau (mode « Par salle »)</h3>
 <p>Le quadrillage automatique du mode <b>Par salle</b> impose une seule taille de « salle » pour tout le tableau. Pour mélanger des tailles différentes — par exemple une grande pièce d'ensemble et un couloir étroit dans le même niveau — dessinez vos propres zones de caméra :</p>
 <ol type="1">
@@ -175,7 +175,7 @@ Mélanger plusieurs tailles de caméra dans un même niveau (mode « Par salle �
 </ol>
 <p>Chaque geste (dessiner une zone, en retirer une) s'annule normalement avec <b>Ctrl+Z</b>. Si deux zones se chevauchent, c'est celle dessinée <b>en premier</b> qui l'emporte à cet endroit. Tant qu'aucune zone n'est dessinée, le quadrillage automatique décrit ci-dessus reste inchangé — dessiner des zones est une option, pas une obligation.</p>
 <p>Le niveau est enregistré à côté de l'exécutable, dans le dossier <span class="tt">Levels</span>. Dans l'<b>éditeur</b>, quelle que soit sa taille, un niveau reste <b>entièrement visible</b> à l'ouverture (la caméra dézoome automatiquement si besoin) — c'est le cadrage choisi ci-dessus qui s'applique <b>en jeu</b>.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md656"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md664"></a>
 4. Publier votre niveau</h1>
 <ol type="1">
 <li>Copiez le fichier de votre niveau (<span class="tt">Levels\&lt;nom&gt;.json</span>, à côté de <span class="tt">JustAnotherDnDGame.exe</span>) dans le dossier <span class="tt">Source/Elements/Levels/</span> de votre copie du projet (celle clonée à l'étape 1).</li>
@@ -183,10 +183,10 @@ Mélanger plusieurs tailles de caméra dans un même niveau (mode « Par salle �
 <li>En bas à gauche, donnez un court résumé (ex. « Ajout du niveau Foret-1 ») et cliquez <b>Commit to main</b>.</li>
 <li>Cliquez <b>Push origin</b> (en haut) : votre niveau est envoyé sur GitHub, visible par toute l'équipe.</li>
 </ol>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md657"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md665"></a>
 5. Récupérer les niveaux des autres</h1>
 <p>Dans GitHub Desktop, cliquez <b>Fetch origin</b> puis <b>Pull origin</b> : les niveaux ajoutés par d'autres membres de l'équipe apparaissent dans votre dossier <span class="tt">Source/Elements/Levels/</span>, prêts à être ouverts dans l'éditeur.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md658"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md666"></a>
 En cas de problème</h1>
 <ul>
 <li><b>L'enregistrement affiche un message d'erreur</b> : le niveau n'a pas encore d'entrée et/ou de sortie, ou une porte n'est pas correctement reliée — le message précise le problème. Corrigez et recommencez <b>Ctrl+S</b>.</li>

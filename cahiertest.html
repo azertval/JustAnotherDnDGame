@@ -93,9 +93,9 @@ $(function(){initNavTree('cahiertest.html','',''); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md_CahierTest"></a></p>
-<p><b>943 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
+<p><b>949 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md5"></a>
-Tests unitaires (928)</h1>
+Tests unitaires (934)</h1>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md6"></a>
 Core</h2>
 <p><b><span class="tt"><a class="el" href="test__core_8cpp.html" title="Tests unitaires de la bibliothèque Core (amorçage).">test_core.cpp</a></span></b></p>
@@ -2104,7 +2104,46 @@ Vérifie que <span class="tt">r.normal.y</span> vaut <span class="tt">1.0f</span
 Vérifie que <span class="tt">r.position.x</span> vaut <span class="tt">3.0f</span> (comparaison flottante).  </td></tr>
 </table>
 <h3 class="doxsection"><a class="anchor" id="autotoc_md14"></a>
-Rpg (5)</h3>
+Rpg (11)</h3>
+<p><b><span class="tt"><a class="el" href="test__multiclassing_8cpp.html" title="Tests du cumul des emplacements de sorts multiclasses (LOT-43, EX-RPG-041).">test_multiclassing.cpp</a></span></b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>MulticlassingTest.ExempleTravailleDuManuelDesJoueurs</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__multiclassing_8cpp.html" title="Tests du cumul des emplacements de sorts multiclasses (LOT-43, EX-RPG-041).">Source/Test/Unit/Core/Rpg/test_multiclassing.cpp</a>:59</span></sub>  </td><td class="markdownTableBodyNone">L'exemple de multiclassage du Manuel des Joueurs est reproduit a l'identique.  </td><td class="markdownTableBodyNone">1. Calculer le niveau de lanceur d'un rodeur 4 / magicien 3.<br  />
+ 2. Lire les emplacements correspondants dans la table livree.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">niveau</span> vaut <span class="tt">5</span>.<br  />
+Vérifie que <span class="tt">table.size()</span> est strictement supérieur à <span class="tt">static_cast&lt;std::size_t&gt;(niveau)</span>.<br  />
+Vérifie que <span class="tt">table[static_cast&lt;std::size_t&gt;(niveau)][0]</span> vaut <span class="tt">4</span>.<br  />
+Vérifie que <span class="tt">table[static_cast&lt;std::size_t&gt;(niveau)][1]</span> vaut <span class="tt">3</span>.<br  />
+Vérifie que <span class="tt">table[static_cast&lt;std::size_t&gt;(niveau)][2]</span> vaut <span class="tt">2</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>MulticlassingTest.LArrondiSeFaitParClasse</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__multiclassing_8cpp.html" title="Tests du cumul des emplacements de sorts multiclasses (LOT-43, EX-RPG-041).">Source/Test/Unit/Core/Rpg/test_multiclassing.cpp</a>:89</span></sub>  </td><td class="markdownTableBodyNone">L'arrondi du niveau de lanceur se fait par classe, jamais sur le total.  </td><td class="markdownTableBodyNone">1. Calculer le niveau de lanceur d'un paladin 3 / rodeur 3.<br  />
+ 2. Calculer celui d'un guerrier 5 / roublard 5 sous archetype.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">core::multiclassCasterLevel(paladinRodeur)</span> vaut <span class="tt">2</span>.<br  />
+Vérifie que <span class="tt">core::multiclassCasterLevel(guerrierRoublard)</span> vaut <span class="tt">2</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>MulticlassingTest.LaMagieDePacteEstCompteeAPart</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__multiclassing_8cpp.html" title="Tests du cumul des emplacements de sorts multiclasses (LOT-43, EX-RPG-041).">Source/Test/Unit/Core/Rpg/test_multiclassing.cpp</a>:110</span></sub>  </td><td class="markdownTableBodyNone">Les emplacements de magie de pacte n'entrent pas dans le cumul multiclasse.  </td><td class="markdownTableBodyNone">1. Calculer le niveau de lanceur d'un sorcier 5 / magicien 3.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">core::multiclassCasterLevel(sorcierMagicien)</span> vaut <span class="tt">3</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>MulticlassingTest.ClassesSansIncantationEtBorneSuperieure</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__multiclassing_8cpp.html" title="Tests du cumul des emplacements de sorts multiclasses (LOT-43, EX-RPG-041).">Source/Test/Unit/Core/Rpg/test_multiclassing.cpp</a>:128</span></sub>  </td><td class="markdownTableBodyNone">Une classe sans incantation n'apporte rien au niveau de lanceur, borne a 20.  </td><td class="markdownTableBodyNone">1. Calculer le niveau d'un barbare 10 seul, puis d'un magicien 20 / clerc 20.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">core::multiclassCasterLevel(barbare)</span> vaut <span class="tt">0</span>.<br  />
+Vérifie que <span class="tt">core::multiclassCasterLevel(impossible)</span> vaut <span class="tt">20</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>MulticlassingTest.AllerRetourDesNomsDeProgression</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__multiclassing_8cpp.html" title="Tests du cumul des emplacements de sorts multiclasses (LOT-43, EX-RPG-041).">Source/Test/Unit/Core/Rpg/test_multiclassing.cpp</a>:145</span></sub>  </td><td class="markdownTableBodyNone">Les noms de progression de lanceur font l'aller-retour sans perte.  </td><td class="markdownTableBodyNone">1. Convertir chaque progression en nom, puis le nom en progression.<br  />
+ 2. Analyser un nom inconnu.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">nom.empty()</span> est faux.<br  />
+Vérifie que <span class="tt">relu.has_value()</span> est vrai.<br  />
+Vérifie que <span class="tt">*relu</span> vaut <span class="tt">progression</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a6d334261c72e5b0735a542f53aac9131" title="Convertit le nom d&#39;une progression, tel que la donnée l&#39;écrit, en valeur.">core::parseCasterProgression</a>("plein").has_value()</span> est faux.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a6d334261c72e5b0735a542f53aac9131" title="Convertit le nom d&#39;une progression, tel que la donnée l&#39;écrit, en valeur.">core::parseCasterProgression</a>("").has_value()</span> est faux.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>MulticlassingTest.LesProgressionsDeLaDonneeSontConnuesDuMoteur</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__multiclassing_8cpp.html" title="Tests du cumul des emplacements de sorts multiclasses (LOT-43, EX-RPG-041).">Source/Test/Unit/Core/Rpg/test_multiclassing.cpp</a>:171</span></sub>  </td><td class="markdownTableBodyNone">Les progressions de lanceur de la donnee sont toutes connues du moteur.  </td><td class="markdownTableBodyNone">1. Lire <span class="tt">casterProgression</span> de multiclassing.json.<br  />
+ 2. Analyser chaque valeur avec <span class="tt">parseCasterProgression</span>.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">document.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt">progressions.size()</span> vaut <span class="tt">12U</span>.<br  />
+Vérifie que <span class="tt">core::parseCasterProgression(nom).has_value()</span> est vrai.  </td></tr>
+</table>
 <p><b><span class="tt"><a class="el" href="test__rpg__enums_8cpp.html" title="Tests des enumerations RPG et de leur coincidence avec les schemas (LOT-32, EX-CNT-011).">test_rpg_enums.cpp</a></span></b></p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
