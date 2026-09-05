@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://justanotherdndgame.local/rpg/species.schema.json",
+  "title": "Espece",
+  "description": "Les 4 races des Basic Rules, les 5 du Manuel des Joueurs et les 13 du Player's Guide (LOT-36). Les augmentations de caracteristique sont une TABLE et non une phrase : c'est la seule forme que le moteur puisse appliquer.",
+  "allOf": [
+    {
+      "$ref": "https://justanotherdndgame.local/rpg/common.schema.json#/$defs/entree"
+    }
+  ],
+  "type": "object",
+  "properties": {
+    "id": true,
+    "name": true,
+    "source": true,
+    "status": true,
+    "asset": true,
+    "mecanismesRequis": true,
+    "narratif": true,
+    "size": {
+      "$ref": "https://justanotherdndgame.local/rpg/common.schema.json#/$defs/size"
+    },
+    "speed": {
+      "type": "number",
+      "minimum": 0
+    },
+    "abilityScoreIncrease": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": -2,
+        "maximum": 4
+      },
+      "propertyNames": {
+        "$ref": "https://justanotherdndgame.local/rpg/common.schema.json#/$defs/ability"
+      }
+    },
+    "languages": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "traits": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "text": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "name",
+          "text"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "parentSpecies": {
+      "allOf": [
+        {
+          "$ref": "https://justanotherdndgame.local/rpg/common.schema.json#/$defs/id"
+        }
+      ],
+      "description": "Sous-race : l'espece dont celle-ci derive."
+    },
+    "text": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "source",
+    "size",
+    "speed"
+  ],
+  "additionalProperties": false
+}

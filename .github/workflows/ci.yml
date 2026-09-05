@@ -42,6 +42,10 @@ env:
   # Version d'OpenCppCoverage épinglée, même raison que Doxygen/LLVM ci-dessus : le workflow
   # l'installait jusqu'ici sans version fixée (LOT-58).
   OPENCPPCOVERAGE_VERSION: 0.9.9.0
+  # Version de jsonschema epinglee (LOT-32), meme esprit que les autres outils de ce fichier :
+  # les messages de diagnostic et la stricte conformite d'un validateur evoluent d'une version a
+  # l'autre, et un controle qui ne predit pas le resultat local ne sert qu'a agacer.
+  JSONSCHEMA_VERSION: 4.26.0
   # Seuil de couverture (LOT-58, TACHE-05) : cliquet anti-régression, pas un objectif. Mesuré
   # localement le 2026-08-10 (build Ninja Debug, UnitTests+IntegrationTests+SystemTests fusionnés) :
   # 93.66 % (8602/9184 lignes). Seuil calé avec une marge explicite de ~8.5 points — voir
@@ -432,6 +436,17 @@ jobs:
       # controle vert par vacuite ne prouve rien -- c'est la panne du LOT-78.
       - name: Lexique de regles respecte par les catalogues de traduction
         run: python3 scripts/check_glossary.py
+
+      # Contrats des catalogues RPG (LOT-32). jsonschema est la seule dependance externe de la
+      # filiere contenu ; elle est EPINGLEE, meme raison que Qt, Doxygen et LLVM ailleurs dans ce
+      # fichier : un validateur qui change de version sans qu'on le decide ne predit plus le
+      # resultat local. Le script s'auto-teste sur scripts/fixtures/rpg/ avant de se prononcer --
+      # aucun catalogue n'existe encore, et un validateur qui n'a rien valide ne prouve rien.
+      - name: Installer jsonschema ${{ env.JSONSCHEMA_VERSION }}
+        run: pip install "jsonschema==${{ env.JSONSCHEMA_VERSION }}"
+
+      - name: Catalogues RPG valides contre leurs schemas (EX-CNT-010)
+        run: python3 scripts/check_rpg_data.py
 
   docs:
     # Génère la documentation Doxygen (garde-fou WARN_AS_ERROR) pour valider la

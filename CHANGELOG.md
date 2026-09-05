@@ -6,6 +6,39 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **Les schémas de données RPG** (`LOT-32`). Le contrat **avant** les données : onze schémas JSON,
+  un validateur en CI et trois énumérations C++, livrés alors qu'aucune donnée n'existe encore.
+  C'est l'ordre qui compte — un contrat écrit après coup se contente de décrire ce qui a déjà été
+  produit, défauts compris.
+  - **Onze schémas** sous `Source/Elements/Rpg/schema/` : les dix familles annoncées — créature,
+    objet, arme, armure, sort, espèce, classe, historique, état, type de dégâts — plus
+    `common.schema.json`, qui porte ce que toutes réutilisent. Le champ `source` y est obligatoire
+    (`EX-CNT-001`, `EX-CNT-002`), et `additionalProperties: false` partout : sans lui,
+    `weigthGrams` au lieu de `weightGrams` passe sans un mot et l'arme pèse zéro.
+  - **Un triangle, trois artefacts, deux contrôles.** Le moteur (`core::DamageType`), le contrat
+    (`common.schema.json`) et la table de traduction (`rpg.glossary.csv`) nomment les mêmes choses.
+    `test_rpg_enums.cpp` compare le C++ au schéma **livré** ; `check_rpg_data.py` compare le schéma
+    au lexique. La troisième arête n'est **pas** contrôlée, par transitivité : un troisième contrôle
+    serait bruyant, et le jour où deux des trois échouent ensemble on ne saurait plus lequel dit
+    vrai. Vérifié par injection — ajouter `"sonic"` au seul schéma fait échouer les deux, chacun
+    avec son message.
+  - **Les trois énumérations fermées** : `core::DamageType` (13), `core::Condition` (15),
+    `core::MagicSchool` (8), avec `switch` exhaustif sans `default`, sur le patron de
+    `core::tileTypeName`. Leurs cardinaux sont écrits dans un test : le test de coïncidence
+    resterait vert si les deux côtés perdaient la même valeur, celui-ci non.
+  - **Le validateur s'auto-teste**, faute de données à valider : trois fixtures valides à accepter,
+    **dix invalides à refuser**, chacune nommée d'après son défaut — provenance absente, type de
+    dégâts en français, `ld8` au lieu de `1d8`, caractéristique manquante, champ mal orthographié,
+    donnée provisoire sans critère de retrait, JSON tronqué… Chacune produit **exactement une**
+    violation, située au fichier et à la ligne (`EX-CNT-010`).
+  - **Deux unités internes uniques** : prix en pièces de **cuivre**, poids en **grammes**, entiers.
+    Le corpus mélange « 500 g » et « 2 kg », « 2 pa » et « 25 po » ; convertir à l'entrée évite les
+    arrondis là où l'encombrement se calcule par somme.
+  - **Le formalisme des dés est contraint par expression régulière** — c'est la parade au risque
+    résiduel que le `LOT-30` avait laissé ouvert : un `1d8` devenu `ld8` à l'OCR est invisible à la
+    relecture et fatal à l'exécution.
+  - `ctest` passe de 943 à **948** cas, tous verts.
+
 - **La chaîne d'extraction du corpus, et le lexique bilingue** (`LOT-30`). Premier lot de la
   filière contenu : l'outillage qui tirera des huit PDF de `Documentation/SourceBook/` les 176
   créatures, l'équipement, les sorts, les espèces et les dix régions du jeu — puis sa première
