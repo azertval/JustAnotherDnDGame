@@ -6,11 +6,11 @@
 
   "$defs": {
     "id": {
-      "description": "Identifiant stable d'une entree, en kebab-case ASCII. C'est la cle par laquelle une donnee en designe une autre ; elle ne change jamais, y compris si le nom affiche change.",
+      "description": "Identifiant stable d'une entree, en kebab-case ASCII. C'est la cle par laquelle une donnee en designe une autre ; elle ne change jamais, y compris si le nom affiche change. La borne haute a ete portee de 64 a 96 au LOT-37 : un identifiant de lieu COMPOSE (region + nom du lieu) depasse 64 des que le livre nomme longuement, et tronquer une cle pour tenir dans un chiffre rond la rend illisible sans rien garantir de plus.",
       "type": "string",
       "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
       "minLength": 2,
-      "maxLength": 64
+      "maxLength": 96
     },
 
     "source": {

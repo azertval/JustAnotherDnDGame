@@ -38,6 +38,7 @@ add_executable(UnitTests
     Unit/Core/Rpg/test_rpg_enums.cpp
     Unit/Core/Rpg/test_multiclassing.cpp
     Unit/Core/Rpg/test_bestiary.cpp
+    Unit/Core/World/test_atlas.cpp
     Unit/Core/Rpg/test_character_options.cpp
     Unit/Core/Rpg/test_character_sheet.cpp
     Unit/Core/Levels/test_rpg_terrain.cpp
@@ -231,6 +232,10 @@ target_compile_definitions(UnitTests PRIVATE
     # historiques et classes, ET balaie tout l'arbre pour verifier qu'aucune donnee definitive ne
     # reference une classe provisoire.
     JADG_RPG_DIR="${PROJECT_SOURCE_DIR}/Source/Elements/Rpg"
+    # Atlas livre (LOT-37) : le test des regions lit les 13 regions et 94 lieux REELS, ceux que le
+    # jeu chargera. Une fixture serait une copie, et une copie ne prouve plus rien le jour ou
+    # l'extraction change.
+    JADG_WORLD_DIR="${PROJECT_SOURCE_DIR}/Source/Elements/World"
     JADG_ASSETS_DIR="${PROJECT_SOURCE_DIR}/Source/Elements/Assets"
     JADG_AUDIO_DIR="${PROJECT_SOURCE_DIR}/Source/Elements/Audio"
     # Deux portees depuis le LOT-73 (EX-IHM-082) : les tests de theme lisent les DEUX, pour que

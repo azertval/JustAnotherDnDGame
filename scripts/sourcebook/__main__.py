@@ -37,6 +37,7 @@ if __package__ in (None, ''):  # pragma: no cover - dépend du mode d'invocation
     from sourcebook import bestiaire as mod_bestiaire
     from sourcebook import personnage as mod_personnage
     from sourcebook import equipement as mod_equipement
+    from sourcebook import atlas as mod_atlas
 else:
     from .corpus import Corpus, CorpusError
     from .extraction import PPP_DEFAUT, ExtractionError, Extracteur
@@ -45,6 +46,7 @@ else:
     from . import bestiaire as mod_bestiaire
     from . import personnage as mod_personnage
     from . import equipement as mod_equipement
+    from . import atlas as mod_atlas
 
 if hasattr(sys.stdout, 'reconfigure'):
     sys.stdout.reconfigure(encoding='utf-8', errors='replace')
@@ -134,6 +136,10 @@ def analyser(argv) -> argparse.Namespace:
     p = commande('equipement', 'produire armes et armures (LOT-34)')
     p.add_argument('-o', '--sortie', type=Path, default=None,
                    help='défaut : ' + mod_equipement.SORTIE_RPG)
+
+    p = commande('atlas', "produire les régions et les lieux de Tanares (LOT-37)")
+    p.add_argument('-o', '--sortie', type=Path, default=None,
+                   help='défaut : ' + mod_atlas.SORTIE_MONDE)
 
     p = commande('glossaire', 'produire le lexique bilingue')
     p.add_argument('-o', '--sortie', type=Path, default=None,
@@ -283,6 +289,14 @@ def commande_equipement(corpus: Corpus, args) -> int:
     return 0
 
 
+def commande_atlas(corpus: Corpus, args) -> int:
+    racine = args.sortie or (RACINE / mod_atlas.SORTIE_MONDE)
+    compte = mod_atlas.produire(corpus, racine, cache=args.cache)
+    print('%d région(s) et %d lieu(x) écrits sous %s (%d espèce(s) citée(s))'
+          % (compte['regions'], compte['lieux'], racine, compte['especes']))
+    return 0
+
+
 def main(argv=None) -> int:
     args = analyser(sys.argv[1:] if argv is None else argv)
     try:
@@ -304,6 +318,8 @@ def main(argv=None) -> int:
             return commande_personnage(corpus, args)
         if args.commande == 'equipement':
             return commande_equipement(corpus, args)
+        if args.commande == 'atlas':
+            return commande_atlas(corpus, args)
 
         document = corpus[args.document]
         with Extracteur(document, cache=args.cache) as extracteur:
@@ -337,7 +353,7 @@ def main(argv=None) -> int:
     except (CorpusError, ExtractionError, mod_glossaire.GlossaireError,
             mod_options.OptionsError, mod_bestiaire.BestiaireError,
             mod_personnage.PersonnageError,
-            mod_equipement.EquipementError) as erreur:
+            mod_equipement.EquipementError, mod_atlas.AtlasError) as erreur:
         print('%s' % erreur, file=sys.stderr)
         return 1
     return 0
