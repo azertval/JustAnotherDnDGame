@@ -44,6 +44,7 @@ add_executable(UnitTests
     Unit/Core/Physics/test_swept_collision.cpp
     Unit/Core/Physics/test_aabb_vs_aabb.cpp
     Unit/Core/World/test_grid_distance_field.cpp
+    Unit/Core/Gameplay/test_interaction.cpp
     Unit/Core/Gameplay/test_mechanism_controller.cpp
     Unit/Core/Time/test_fixed_timestep.cpp
     Unit/Core/Diagnostics/test_logger.cpp

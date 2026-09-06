@@ -15,7 +15,10 @@ add_library(Core STATIC
     Ecs/Systems/AnimationSystem.cpp
     Ecs/Systems/ParticleSystem.cpp
     World/GridDistanceField.cpp
+    Gameplay/Interaction.cpp
+    Gameplay/MapEntitySpawner.cpp
     Gameplay/MechanismController.cpp
+    Gameplay/WorldFlags.cpp
     Rpg/Ability.cpp
     Rpg/Bestiary.cpp
     Rpg/CharacterOptions.cpp
