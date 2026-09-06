@@ -93,9 +93,9 @@ $(function(){initNavTree('cahiertest.html','',''); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md_CahierTest"></a></p>
-<p><b>963 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
+<p><b>969 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md5"></a>
-Tests unitaires (948)</h1>
+Tests unitaires (954)</h1>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md6"></a>
 Core</h2>
 <p><b><span class="tt"><a class="el" href="test__core_8cpp.html" title="Tests unitaires de la bibliothèque Core (amorçage).">test_core.cpp</a></span></b></p>
@@ -2104,7 +2104,53 @@ Vérifie que <span class="tt">r.normal.y</span> vaut <span class="tt">1.0f</span
 Vérifie que <span class="tt">r.position.x</span> vaut <span class="tt">3.0f</span> (comparaison flottante).  </td></tr>
 </table>
 <h3 class="doxsection"><a class="anchor" id="autotoc_md14"></a>
-Rpg (25)</h3>
+Rpg (31)</h3>
+<p><b><span class="tt"><a class="el" href="test__bestiary_8cpp.html" title="Tests du bestiaire de base (LOT-33) : les 94 profils chargent, et dix sont rejoues contre des valeurs...">test_bestiary.cpp</a></span></b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>BestiaryTest.LesQuatreVingtQuatorzeProfilsChargent</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__bestiary_8cpp.html" title="Tests du bestiaire de base (LOT-33) : les 94 profils chargent, et dix sont rejoues contre des valeurs...">Source/Test/Unit/Core/Rpg/test_bestiary.cpp</a>:98</span></sub>  </td><td class="markdownTableBodyNone">Les 94 creatures du bestiaire de base se chargent toutes.  </td><td class="markdownTableBodyNone">1. Charger Source/Elements/Rpg/creatures.<br  />
+ 2. Compter les creatures chargees et les erreurs rapportees.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">catalogue.creatures.size()</span> vaut <span class="tt">BETES_DU_SRD</span>.<br  />
+Vérifie que <span class="tt">identifiants.insert(creature.id).second</span> est vrai.<br  />
+Vérifie que <span class="tt">creature.name.empty()</span> est faux.<br  />
+Vérifie que <span class="tt">creature.source</span> vaut <span class="tt">"srd"</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>BestiaryTest.DixProfilsConcordentAvecLeLivre</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__bestiary_8cpp.html" title="Tests du bestiaire de base (LOT-33) : les 94 profils chargent, et dix sont rejoues contre des valeurs...">Source/Test/Unit/Core/Rpg/test_bestiary.cpp</a>:125</span></sub>  </td><td class="markdownTableBodyNone">Dix blocs de statistiques du bestiaire concordent avec le livre.  </td><td class="markdownTableBodyNone">1. Pour douze creatures, comparer classe d'armure, points de vie, vitesse de marche, facteur de puissance et degats de l'attaque principale aux valeurs lues sur Animaux.pdf.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">creature</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">creature-&gt;armorClass</span> vaut <span class="tt">attendu.armorClass</span>.<br  />
+Vérifie que <span class="tt">creature-&gt;hitPoints</span> vaut <span class="tt">attendu.hitPoints</span>.<br  />
+Vérifie que <span class="tt">creature-&gt;speed.walk</span> vaut <span class="tt">attendu.walk</span> (comparaison flottante).<br  />
+Vérifie que <span class="tt">creature-&gt;challengeRating</span> vaut <span class="tt">attendu.challengeRating</span> (comparaison flottante).<br  />
+Vérifie que <span class="tt">action</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">action-&gt;damage.has_value()</span> est vrai.<br  />
+Vérifie que <span class="tt">des.has_value()</span> est vrai.<br  />
+Vérifie que <span class="tt">*action-&gt;damage</span> vaut <span class="tt">*des</span>.<br  />
+Vérifie que <span class="tt">action-&gt;damageType.has_value()</span> est vrai.<br  />
+Vérifie que <span class="tt">*action-&gt;damageType</span> vaut <span class="tt">attendu.damageType</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>BestiaryTest.ChaqueProfilEstComplet</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__bestiary_8cpp.html" title="Tests du bestiaire de base (LOT-33) : les 94 profils chargent, et dix sont rejoues contre des valeurs...">Source/Test/Unit/Core/Rpg/test_bestiary.cpp</a>:165</span></sub>  </td><td class="markdownTableBodyNone">Aucun profil du bestiaire n'a de caracteristique ni de vitesse manquante.  </td><td class="markdownTableBodyNone">1. Pour chaque creature, verifier que les six caracteristiques sont dans [1, 30].<br  />
+ 2. Verifier que la vitesse de marche est renseignee, meme nulle.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">valeur</span> est supérieur ou égal à <span class="tt">1</span>.<br  />
+Vérifie que <span class="tt">valeur</span> est inférieur ou égal à <span class="tt">30</span>.<br  />
+Vérifie que <span class="tt">creature.speed.walk</span> est supérieur ou égal à <span class="tt">0.0F</span>.<br  />
+Vérifie que <span class="tt">creature.hitPoints</span> est strictement supérieur à <span class="tt">0</span>.<br  />
+Vérifie que <span class="tt">creature.armorClass</span> est strictement supérieur à <span class="tt">0</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>BestiaryTest.UneVitesseNulleSignifieUnAutreDeplacement</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__bestiary_8cpp.html" title="Tests du bestiaire de base (LOT-33) : les 94 profils chargent, et dix sont rejoues contre des valeurs...">Source/Test/Unit/Core/Rpg/test_bestiary.cpp</a>:189</span></sub>  </td><td class="markdownTableBodyNone">Une creature sans vitesse de marche possede un autre mode de deplacement.  </td><td class="markdownTableBodyNone">1. Relever les creatures dont <span class="tt">walk</span> vaut 0.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">autrement</span> est vrai.<br  />
+Vérifie que <span class="tt">immobiles</span> est strictement supérieur à <span class="tt">0U</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>BestiaryTest.LesMecanismesExigesSontAnnonces</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__bestiary_8cpp.html" title="Tests du bestiaire de base (LOT-33) : les 94 profils chargent, et dix sont rejoues contre des valeurs...">Source/Test/Unit/Core/Rpg/test_bestiary.cpp</a>:217</span></sub>  </td><td class="markdownTableBodyNone">Le bestiaire annonce les mecanismes que les creatures exigent du moteur.  </td><td class="markdownTableBodyNone">1. Collecter les <span class="tt">mecanismesRequis</span> de toutes les creatures chargees.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">std::ranges::find(mecanismes, "resistance-conditionnelle")</span> diffère de <span class="tt">mecanismes.end()</span>.<br  />
+Vérifie que <span class="tt">std::ranges::find(mecanismes, "langue-comprise-non-parlee")</span> diffère de <span class="tt">mecanismes.end()</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>BestiaryTest.UnDossierAbsentEstSignale</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__bestiary_8cpp.html" title="Tests du bestiaire de base (LOT-33) : les 94 profils chargent, et dix sont rejoues contre des valeurs...">Source/Test/Unit/Core/Rpg/test_bestiary.cpp</a>:238</span></sub>  </td><td class="markdownTableBodyNone">Charger un dossier de creatures inexistant produit une erreur nommee.  </td><td class="markdownTableBodyNone">1. Charger un chemin qui n'existe pas.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">vide.creatures.empty()</span> est vrai.<br  />
+Vérifie que <span class="tt">vide.errors.size()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">vide.errors.front().find("dossier-inexistant")</span> diffère de <span class="tt">std::string::npos</span>.  </td></tr>
+</table>
 <p><b><span class="tt"><a class="el" href="test__check_8cpp.html" title="Tests du jet de d20 : avantage, seuil, restitution (LOT-12, EX-DND-002, EX-DND-003).">test_check.cpp</a></span></b></p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -2287,30 +2333,38 @@ Vérifie que <span class="tt">relu.has_value()</span> est vrai.<br  />
 Vérifie que <span class="tt">*relu</span> vaut <span class="tt">condition</span>.<br  />
 Vérifie que <span class="tt">nom.empty()</span> est faux.<br  />
 Vérifie que <span class="tt">relu.has_value()</span> est vrai.<br  />
-Vérifie que <span class="tt">*relu</span> vaut <span class="tt">school</span>.  </td></tr>
+Vérifie que <span class="tt">*relu</span> vaut <span class="tt">school</span>.<br  />
+Vérifie que <span class="tt">nom.empty()</span> est faux.<br  />
+Vérifie que <span class="tt">relu.has_value()</span> est vrai.<br  />
+Vérifie que <span class="tt">*relu</span> vaut <span class="tt">size</span>.  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>RpgEnumsTest.LesNomsSontUniques</b> (Critique)<br  />
-<sub><span class="tt"><a class="el" href="test__rpg__enums_8cpp.html" title="Tests des enumerations RPG et de leur coincidence avec les schemas (LOT-32, EX-CNT-011).">Source/Test/Unit/Core/Rpg/test_rpg_enums.cpp</a>:102</span></sub>  </td><td class="markdownTableBodyNone">Deux valeurs distinctes d'une enumeration RPG ne portent jamais le meme nom.  </td><td class="markdownTableBodyNone">1. Collecter les noms de chaque enumeration dans un ensemble.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">nomsDuMoteur(core::allDamageTypes(), core::damageTypeName).size()</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ab77f2b5d3dc27e52a6907fdc09f6daa4">core::allDamageTypes()</a>.size()</span>.<br  />
+<sub><span class="tt"><a class="el" href="test__rpg__enums_8cpp.html" title="Tests des enumerations RPG et de leur coincidence avec les schemas (LOT-32, EX-CNT-011).">Source/Test/Unit/Core/Rpg/test_rpg_enums.cpp</a>:109</span></sub>  </td><td class="markdownTableBodyNone">Deux valeurs distinctes d'une enumeration RPG ne portent jamais le meme nom.  </td><td class="markdownTableBodyNone">1. Collecter les noms de chaque enumeration dans un ensemble.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">nomsDuMoteur(core::allDamageTypes(), core::damageTypeName).size()</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ab77f2b5d3dc27e52a6907fdc09f6daa4">core::allDamageTypes()</a>.size()</span>.<br  />
 Vérifie que <span class="tt">nomsDuMoteur(core::allConditions(), core::conditionName).size()</span> vaut <span class="tt"><a class="el" href="namespacecore.html#aff7f41bc814d9fd4f6c0bc0f8e85e93f">core::allConditions()</a>.size()</span>.<br  />
-Vérifie que <span class="tt">nomsDuMoteur(core::allMagicSchools(), core::magicSchoolName).size()</span> vaut <span class="tt"><a class="el" href="namespacecore.html#aada0fb2093fbbb75a0f9c75e28336c8d">core::allMagicSchools()</a>.size()</span>.  </td></tr>
+Vérifie que <span class="tt">nomsDuMoteur(core::allMagicSchools(), core::magicSchoolName).size()</span> vaut <span class="tt"><a class="el" href="namespacecore.html#aada0fb2093fbbb75a0f9c75e28336c8d">core::allMagicSchools()</a>.size()</span>.<br  />
+Vérifie que <span class="tt">nomsDuMoteur(core::allCreatureSizes(), core::creatureSizeName).size()</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a9bf4bb53c75f4f7231a48236c2190c33">core::allCreatureSizes()</a>.size()</span>.  </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>RpgEnumsTest.UnNomInconnuEstRefuse</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__rpg__enums_8cpp.html" title="Tests des enumerations RPG et de leur coincidence avec les schemas (LOT-32, EX-CNT-011).">Source/Test/Unit/Core/Rpg/test_rpg_enums.cpp</a>:120</span></sub>  </td><td class="markdownTableBodyNone">Un nom d'enumeration RPG inconnu est refuse au lieu d'etre devine.  </td><td class="markdownTableBodyNone">1. Analyser une chaine vide, un terme francais, et un nom de casse differente.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a1d12176ad6df004421e6685f2cb36e93">core::parseDamageType</a>("").has_value()</span> est faux.<br  />
+<sub><span class="tt"><a class="el" href="test__rpg__enums_8cpp.html" title="Tests des enumerations RPG et de leur coincidence avec les schemas (LOT-32, EX-CNT-011).">Source/Test/Unit/Core/Rpg/test_rpg_enums.cpp</a>:129</span></sub>  </td><td class="markdownTableBodyNone">Un nom d'enumeration RPG inconnu est refuse au lieu d'etre devine.  </td><td class="markdownTableBodyNone">1. Analyser une chaine vide, un terme francais, et un nom de casse differente.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a1d12176ad6df004421e6685f2cb36e93">core::parseDamageType</a>("").has_value()</span> est faux.<br  />
 Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a1d12176ad6df004421e6685f2cb36e93">core::parseDamageType</a>("psychique").has_value()</span> est faux.<br  />
 Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a1d12176ad6df004421e6685f2cb36e93">core::parseDamageType</a>("Psychic").has_value()</span> est faux.<br  />
 Vérifie que <span class="tt"><a class="el" href="namespacecore.html#adefe86c619e88b6cf8ede8c2c5da65d5">core::parseCondition</a>("empoisonne").has_value()</span> est faux.<br  />
-Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a41deb28480aa298e63a75479bde92d2d">core::parseMagicSchool</a>("invocation").has_value()</span> est faux.  </td></tr>
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a41deb28480aa298e63a75479bde92d2d">core::parseMagicSchool</a>("invocation").has_value()</span> est faux.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a103e367d143e73c5d7ba0a5fe71126df">core::parseCreatureSize</a>("P").has_value()</span> est faux.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a103e367d143e73c5d7ba0a5fe71126df">core::parseCreatureSize</a>("moyenne").has_value()</span> est faux.  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>RpgEnumsTest.LesEnumerationsCoincidentAvecLesSchemas</b> (Critique)<br  />
-<sub><span class="tt"><a class="el" href="test__rpg__enums_8cpp.html" title="Tests des enumerations RPG et de leur coincidence avec les schemas (LOT-32, EX-CNT-011).">Source/Test/Unit/Core/Rpg/test_rpg_enums.cpp</a>:139</span></sub>  </td><td class="markdownTableBodyNone">Les enumerations partagees entre le C++ et les schemas JSON sont identiques.  </td><td class="markdownTableBodyNone">1. Lire les enumerations <span class="tt">damageType</span>, <span class="tt">conditionRef</span> et <span class="tt">magicSchool</span> de <span class="tt">common.schema.json</span>.<br  />
+<sub><span class="tt"><a class="el" href="test__rpg__enums_8cpp.html" title="Tests des enumerations RPG et de leur coincidence avec les schemas (LOT-32, EX-CNT-011).">Source/Test/Unit/Core/Rpg/test_rpg_enums.cpp</a>:152</span></sub>  </td><td class="markdownTableBodyNone">Les enumerations partagees entre le C++ et les schemas JSON sont identiques.  </td><td class="markdownTableBodyNone">1. Lire les enumerations <span class="tt">damageType</span>, <span class="tt">conditionRef</span> et <span class="tt">magicSchool</span> de <span class="tt">common.schema.json</span>.<br  />
  2. Les comparer aux noms produits par <span class="tt"><a class="el" href="namespacecore.html#aae5ed49bedbf68049f008e4efac2edfd" title="Type de dégâts infligés (EX-CBT-032, EX-CNT-011).">core::DamageType</a></span>, <span class="tt"><a class="el" href="namespacecore.html#aae82873d6c7bd0b4db085354c50e1493" title="État affectant une créature (EX-DND-040, EX-CNT-011).">core::Condition</a></span> et <span class="tt"><a class="el" href="namespacecore.html#acb09396acc95973b3ca488c497bbddb2" title="École de magie d&#39;un sort (EX-CNT-011).">core::MagicSchool</a></span>.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">nomsDuMoteur(core::allDamageTypes(), core::damageTypeName)</span> vaut <span class="tt">enumDuSchema("damageType")</span>.<br  />
 Vérifie que <span class="tt">nomsDuMoteur(core::allConditions(), core::conditionName)</span> vaut <span class="tt">enumDuSchema("conditionRef")</span>.<br  />
-Vérifie que <span class="tt">nomsDuMoteur(core::allMagicSchools(), core::magicSchoolName)</span> vaut <span class="tt">enumDuSchema("magicSchool")</span>.  </td></tr>
+Vérifie que <span class="tt">nomsDuMoteur(core::allMagicSchools(), core::magicSchoolName)</span> vaut <span class="tt">enumDuSchema("magicSchool")</span>.<br  />
+Vérifie que <span class="tt">nomsDuMoteur(core::allCreatureSizes(), core::creatureSizeName)</span> vaut <span class="tt">enumDuSchema("size")</span>.  </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>RpgEnumsTest.LesEnsemblesFermesOntLeurCardinal</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__rpg__enums_8cpp.html" title="Tests des enumerations RPG et de leur coincidence avec les schemas (LOT-32, EX-CNT-011).">Source/Test/Unit/Core/Rpg/test_rpg_enums.cpp</a>:167</span></sub>  </td><td class="markdownTableBodyNone">Les enumerations fermees du RPG ont le nombre de valeurs fixe par les regles.  </td><td class="markdownTableBodyNone">1. Compter les types de degats, les conditions et les ecoles de magie.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacecore.html#ab77f2b5d3dc27e52a6907fdc09f6daa4">core::allDamageTypes()</a>.size()</span> vaut <span class="tt">13U</span>.<br  />
+<sub><span class="tt"><a class="el" href="test__rpg__enums_8cpp.html" title="Tests des enumerations RPG et de leur coincidence avec les schemas (LOT-32, EX-CNT-011).">Source/Test/Unit/Core/Rpg/test_rpg_enums.cpp</a>:185</span></sub>  </td><td class="markdownTableBodyNone">Les enumerations fermees du RPG ont le nombre de valeurs fixe par les regles.  </td><td class="markdownTableBodyNone">1. Compter les types de degats, les conditions et les ecoles de magie.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacecore.html#ab77f2b5d3dc27e52a6907fdc09f6daa4">core::allDamageTypes()</a>.size()</span> vaut <span class="tt">13U</span>.<br  />
 Vérifie que <span class="tt"><a class="el" href="namespacecore.html#aff7f41bc814d9fd4f6c0bc0f8e85e93f">core::allConditions()</a>.size()</span> vaut <span class="tt">15U</span>.<br  />
-Vérifie que <span class="tt"><a class="el" href="namespacecore.html#aada0fb2093fbbb75a0f9c75e28336c8d">core::allMagicSchools()</a>.size()</span> vaut <span class="tt">8U</span>.  </td></tr>
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#aada0fb2093fbbb75a0f9c75e28336c8d">core::allMagicSchools()</a>.size()</span> vaut <span class="tt">8U</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a9bf4bb53c75f4f7231a48236c2190c33">core::allCreatureSizes()</a>.size()</span> vaut <span class="tt">6U</span>.  </td></tr>
 </table>
 <h3 class="doxsection"><a class="anchor" id="autotoc_md15"></a>
 Time (7)</h3>

@@ -1,5 +1,8 @@
 var NAVTREEINDEX1 =
 {
+"LevelCompleteScreen_8cpp.html":[13,0,3,2,6,24],
+"LevelCompleteScreen_8h.html":[13,0,3,2,6,25],
+"LevelCompleteScreen_8h_source.html":[13,0,3,2,6,25],
 "LevelDraft_8cpp.html":[13,0,3,0,4,4],
 "LevelDraft_8h.html":[13,0,3,0,4,5],
 "LevelDraft_8h_source.html":[13,0,3,0,4,5],
@@ -101,9 +104,9 @@ var NAVTREEINDEX1 =
 "MovementSystem_8cpp.html":[13,0,3,0,2,1,2],
 "MovementSystem_8h.html":[13,0,3,0,2,1,3],
 "MovementSystem_8h_source.html":[13,0,3,0,2,1,3],
-"Multiclassing_8cpp.html":[13,0,3,0,7,6],
-"Multiclassing_8h.html":[13,0,3,0,7,7],
-"Multiclassing_8h_source.html":[13,0,3,0,7,7],
+"Multiclassing_8cpp.html":[13,0,3,0,7,8],
+"Multiclassing_8h.html":[13,0,3,0,7,9],
+"Multiclassing_8h_source.html":[13,0,3,0,7,9],
 "OptionsPage_8cpp.html":[13,0,3,2,6,34],
 "OptionsPage_8h.html":[13,0,3,2,6,35],
 "OptionsPage_8h_source.html":[13,0,3,2,6,35],
@@ -242,12 +245,9 @@ var NAVTREEINDEX1 =
 "RoomGrid_8cpp.html":[13,0,3,2,4,49],
 "RoomGrid_8h.html":[13,0,3,2,4,50],
 "RoomGrid_8h_source.html":[13,0,3,2,4,50],
-"RpgEnumNames_8cpp.html":[13,0,3,0,7,8],
-"RpgEnumNames_8h.html":[13,0,3,0,7,9],
-"RpgEnumNames_8h_source.html":[13,0,3,0,7,9],
-"RpgEnums_8h.html":[13,0,3,0,7,10],
-"RpgEnums_8h_source.html":[13,0,3,0,7,10],
-"Scale_8h.html":[13,0,3,0,7,11],
-"Scale_8h_source.html":[13,0,3,0,7,11],
-"ScopedLogLevel_8h.html":[13,0,3,0,1,15]
+"RpgEnumNames_8cpp.html":[13,0,3,0,7,10],
+"RpgEnumNames_8h.html":[13,0,3,0,7,11],
+"RpgEnumNames_8h_source.html":[13,0,3,0,7,11],
+"RpgEnums_8h.html":[13,0,3,0,7,12],
+"RpgEnums_8h_source.html":[13,0,3,0,7,12]
 };

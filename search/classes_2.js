@@ -16,5 +16,9 @@ var searchData=
   ['composedquad_13',['ComposedQuad',['../structhmi_1_1ComposedQuad.html',1,'hmi']]],
   ['composedscene_14',['ComposedScene',['../classhmi_1_1ComposedScene.html',1,'hmi']]],
   ['consolelogsink_15',['ConsoleLogSink',['../classcore_1_1ConsoleLogSink.html',1,'core']]],
-  ['creditsscreen_16',['CreditsScreen',['../classhmi_1_1CreditsScreen.html',1,'hmi']]]
+  ['creature_16',['Creature',['../structcore_1_1Creature.html',1,'core']]],
+  ['creatureaction_17',['CreatureAction',['../structcore_1_1CreatureAction.html',1,'core']]],
+  ['creaturespeed_18',['CreatureSpeed',['../structcore_1_1CreatureSpeed.html',1,'core']]],
+  ['creaturetrait_19',['CreatureTrait',['../structcore_1_1CreatureTrait.html',1,'core']]],
+  ['creditsscreen_20',['CreditsScreen',['../classhmi_1_1CreditsScreen.html',1,'hmi']]]
 ];

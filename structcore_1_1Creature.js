@@ -1,0 +1,28 @@
+var structcore_1_1Creature =
+[
+    [ "ability", "structcore_1_1Creature.html#a7862251798afea359503fcd3b299d9ed", null ],
+    [ "action", "structcore_1_1Creature.html#a68b8469e19a311563fa060efd23d00a7", null ],
+    [ "abilities", "structcore_1_1Creature.html#a160ed96d7a28bd8a97302753278ccfd0", null ],
+    [ "actions", "structcore_1_1Creature.html#a1110a88139ff4efdf089b4032e498b21", null ],
+    [ "alignment", "structcore_1_1Creature.html#a0590b9078fdba523d54be4a3a42ee01b", null ],
+    [ "armorClass", "structcore_1_1Creature.html#a393bdfddf7a3e3228810b10312f662fe", null ],
+    [ "challengeRating", "structcore_1_1Creature.html#abe55bc737b98ac06e53084067ed013bd", null ],
+    [ "conditionImmunities", "structcore_1_1Creature.html#a7280fb956645baecf016045e75adcd14", null ],
+    [ "creatureType", "structcore_1_1Creature.html#af273a69103daae5d3c8b983a18047c8e", null ],
+    [ "damageImmunities", "structcore_1_1Creature.html#ae30a746afcc3f9d62188927021df7911", null ],
+    [ "damageResistances", "structcore_1_1Creature.html#a470e93d56d3285a1ea03927074ad2bb7", null ],
+    [ "damageVulnerabilities", "structcore_1_1Creature.html#acac145766c13d365497d4c06ae9a46cb", null ],
+    [ "description", "structcore_1_1Creature.html#acf8f08feebb317942a935a6227430569", null ],
+    [ "hitDice", "structcore_1_1Creature.html#a61e0193ade889479b1b2eb0b9506a4a4", null ],
+    [ "hitPoints", "structcore_1_1Creature.html#a7a0d61688b76d8555a09defbf43a13d9", null ],
+    [ "id", "structcore_1_1Creature.html#ac02c4b54b93237c6cdf6176fec061e2c", null ],
+    [ "languages", "structcore_1_1Creature.html#a6297613a530c3798ee46006e8107fa8f", null ],
+    [ "name", "structcore_1_1Creature.html#ae5bc2270dad918f11a40bd2e4148ccf1", null ],
+    [ "requiredMechanisms", "structcore_1_1Creature.html#ace09660f1aa10b5cbdb5e3fa5ea3f5aa", null ],
+    [ "senses", "structcore_1_1Creature.html#a725c53cfefd07ad0e63f34bd4834f7f3", null ],
+    [ "size", "structcore_1_1Creature.html#a6759a1b49b024b5a720b24c9744967d6", null ],
+    [ "skills", "structcore_1_1Creature.html#a6f1222825640093ec41817483949cc1c", null ],
+    [ "source", "structcore_1_1Creature.html#adb9ed009c75c430434456fff0078b5ae", null ],
+    [ "speed", "structcore_1_1Creature.html#aeb43d72ad992d6359bf80fa3949f61e0", null ],
+    [ "traits", "structcore_1_1Creature.html#ae81870fee06f8b00c38a40f812728721", null ]
+];

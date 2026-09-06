@@ -17,6 +17,14 @@ var RpgEnums_8h =
       [ "core::Condition::Stunned", "namespacecore.html#aae82873d6c7bd0b4db085354c50e1493aeb8ab7d98634514cc61c2b0a0c8d93a2", null ],
       [ "core::Condition::Unconscious", "namespacecore.html#aae82873d6c7bd0b4db085354c50e1493acb6b56b0daf97dc9660af8977785a0e8", null ]
     ] ],
+    [ "core::CreatureSize", "namespacecore.html#ae6c6faeaa28aa7b90280f4dc39237204", [
+      [ "core::CreatureSize::Tiny", "namespacecore.html#ae6c6faeaa28aa7b90280f4dc39237204a383c05bda6f030a44990d354b24f3338", null ],
+      [ "core::CreatureSize::Small", "namespacecore.html#ae6c6faeaa28aa7b90280f4dc39237204a2660064e68655415da2628c2ae2f7592", null ],
+      [ "core::CreatureSize::Medium", "namespacecore.html#ae6c6faeaa28aa7b90280f4dc39237204a87f8a6ab85c9ced3702b4ea641ad4bb5", null ],
+      [ "core::CreatureSize::Large", "namespacecore.html#ae6c6faeaa28aa7b90280f4dc39237204a3a69b34ce86dacb205936a8094f6c743", null ],
+      [ "core::CreatureSize::Huge", "namespacecore.html#ae6c6faeaa28aa7b90280f4dc39237204aa2ad65f28a717b0fd2be860a0d8e5c3e", null ],
+      [ "core::CreatureSize::Gargantuan", "namespacecore.html#ae6c6faeaa28aa7b90280f4dc39237204a15c00858f0c61bab56fc244aaeb165d0", null ]
+    ] ],
     [ "core::DamageType", "namespacecore.html#aae5ed49bedbf68049f008e4efac2edfd", [
       [ "core::DamageType::Acid", "namespacecore.html#aae5ed49bedbf68049f008e4efac2edfdaed84f0285a129390ef34774e525b9b9e", null ],
       [ "core::DamageType::Bludgeoning", "namespacecore.html#aae5ed49bedbf68049f008e4efac2edfda8c92f858070d9bb44fb8e3fa1b7224ed", null ],

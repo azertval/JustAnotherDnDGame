@@ -12,7 +12,8 @@ var searchData=
   ['body_9',['body',['../structhmi_1_1TypographyTokens.html#a4ef65536c7fe503983922d5a4769fcee',1,'hmi::TypographyTokens::body'],['../structhmi_1_1IdentityBaseScale.html#accf376ca961b7275e87ed17edd5aaf87',1,'hmi::IdentityBaseScale::body']]],
   ['border_10',['border',['../structhmi_1_1ColorTokens.html#a241a0c3b5c0ac06b32bc6c8a8931144a',1,'hmi::ColorTokens']]],
   ['box_11',['box',['../structcore_1_1TriggerWeight.html#ab974e361606ec4249ab88f8e305c2480',1,'core::TriggerWeight']]],
-  ['button_5fcount_12',['BUTTON_COUNT',['../classhmi_1_1InputState.html#a692a4d893cae9b15948b3d1081bbafeb',1,'hmi::InputState']]],
-  ['bx_13',['bx',['../structhmi_1_1LineQuad.html#a203b268e3040f841fa7089fc58391d22',1,'hmi::LineQuad']]],
-  ['by_14',['by',['../structhmi_1_1LineQuad.html#aea263b042537c77e3ffbebe64b772a27',1,'hmi::LineQuad']]]
+  ['burrow_12',['burrow',['../structcore_1_1CreatureSpeed.html#a279a2e0ca9c7dacec5321ca51777d61d',1,'core::CreatureSpeed']]],
+  ['button_5fcount_13',['BUTTON_COUNT',['../classhmi_1_1InputState.html#a692a4d893cae9b15948b3d1081bbafeb',1,'hmi::InputState']]],
+  ['bx_14',['bx',['../structhmi_1_1LineQuad.html#a203b268e3040f841fa7089fc58391d22',1,'hmi::LineQuad']]],
+  ['by_15',['by',['../structhmi_1_1LineQuad.html#aea263b042537c77e3ffbebe64b772a27',1,'hmi::LineQuad']]]
 ];
