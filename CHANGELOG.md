@@ -6,6 +6,40 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **Charte visuelle : sortir de l'identité pixel art** (`LOT-66`). L'interface héritée du jeu de
+  plateforme laisse place à l'identité du **parchemin de Tanares** — parchemin, encre sépia, filets
+  et cabochons dorés, titrage à empattements.
+  - **La palette est relevée, pas choisie.** Chaque teinte vient de l'histogramme quantifié des
+    pages rendues de `Character_Sheets_Tanares.pdf`. C'est la règle du corpus transposée à la
+    couleur : une couleur inventée ressemble à la source sans en venir, et rien ne le dit jamais.
+    Un seul rôle n'est pas attesté — `error`, une feuille de personnage n'ayant pas d'état d'erreur
+    à montrer — et il est **signalé comme tel dans le code** plutôt que glissé dans la liste.
+  - **Les rôles de cadre changent de nom, et c'est le cœur du lot.** `outline`, `bevelLight`,
+    `bevelDark` nommaient un **biseau** : une lumière venue d'en haut à gauche. Le parchemin n'a pas
+    de relief à simuler. Garder ces noms en peignant un encadrement plat aurait produit du code
+    juste dont les noms décrivent autre chose. Ils deviennent `frameEdge`, `frameOrnament`,
+    `frameShadow`.
+  - **Ce qui fait un encadrement, c'est la réserve.** Un trait d'encre, une **réserve de
+    parchemin**, un filet doré : sans la réserve du milieu, les deux traits se touchent et
+    l'ensemble devient une bordure épaisse de deux tons — sans qu'aucune erreur ne soit levée,
+    toutes les bandes étant toujours là. Un test relève donc le rôle **visible** à mi-hauteur et
+    exige d'y trouver du parchemin.
+  - **Le facteur d'agrandissement reste entier, pour une autre raison.** Le filtrage au plus proche
+    voisin ne le justifie plus ; les longueurs de la feuille de style, elles, sont des entiers de
+    pixels, et à 1,5× le trait et le filet s'arrondissent à la même épaisseur — la réserve
+    disparaît. Une échelle fractionnaire ne serait pas *floue*, elle serait **fausse**.
+  - **641 lignes de widgets pixel art supprimées** de `Source/HMI/Interface/`. Quatre des cinq
+    modules disparaissent ; `PixelArtScale` est **renommé** `IdentityScale` parce qu'`EX-IHM-081`,
+    que le lot ne touche pas, est écrite en fonction de ce facteur — le supprimer laisserait une
+    exigence sans mise en œuvre.
+  - **Le focus n'est jamais perdu de vue.** `EX-IHM-071` et `EX-IHM-072` sont tenues sans
+    changement. Le curseur en escalier devient un **fleuron** anticrénelé, tracé **une seule fois**
+    et appelé des deux côtés : deux tracés séparés dériveraient l'un de l'autre, et le joueur
+    croirait à deux états différents.
+  - **Onze exigences refondues**, à commencer par la racine `EX-ARCH-022` — dont dix tenaient
+    d'elle leur justification.
+  - `ctest` reste à **1009** cas, tous verts.
+
 - **Équipement : armes, armures et matériel** (`LOT-34`). Les tables des *Basic Rules* vers
   `Source/Elements/Rpg/` — **37 armes**, **13 armures** et **125 objets** (matériel, outils,
   montures et véhicules).

@@ -1,5 +1,5 @@
-<title>Écrans du jeu en pixel art</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Press+Start+2P&family=Pixelify+Sans:wght@400;600;700&display=swap">
+<title>Écrans du jeu — parchemin de Tanares</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Cinzel:wght@500;600&family=EB+Garamond:wght@400;500;600&display=swap">
 <style>
   /* ===================================================================
      Chrome de la page : volontairement FROID et sobre, pour que l'ambre
@@ -147,17 +147,17 @@
      =================================================================== */
   .screen {
     width: 1280px; height: 720px; position: relative; overflow: hidden;
-    background: #12161f;
-    font-family: 'Pixelify Sans', 'Courier New', monospace;
-    color: #f2f2ff;
-    --accent: #ffd133;
-    --ink: #0a0d13;
-    --surface: #1e2531;
-    --surfaceAlt: #262f3e;
-    --bevelHi: #46536b;
-    --bevelLo: #10141c;
-    --muted: #8b93a7;
-    --dim: #4c5468;
+    background: #d0c0a0;
+    font-family: 'EB Garamond', Georgia, 'Times New Roman', serif;
+    color: #302000;
+    --accent: #c0a060;
+    --edge: #302000;
+    --surface: #e0d0b0;
+    --surfaceAlt: #f0e0d0;
+    --ornament: #907030;
+    --shadow: #705020;
+    --muted: #705020;
+    --dim: #907030;
   }
   .grid-bg {
     position: absolute; inset: 0; pointer-events: none;
@@ -170,23 +170,26 @@
     position: absolute; inset: 0; pointer-events: none;
     background: radial-gradient(120% 90% at 50% 40%, transparent 45%, rgba(0,0,0,.55) 100%);
   }
+  /* Encadrement de parchemin : un trait d'encre a l'exterieur, une reserve de parchemin, un
+     filet ornemental en retrait. Les quatre cotes portent la MEME valeur -- il n'y a plus de
+     lumiere venue d'en haut a gauche a simuler, donc plus de biseau clair et sombre. */
   .frame {
     position: relative; background: var(--surface);
     box-shadow:
-      0 -4px 0 var(--ink), 0 4px 0 var(--ink), -4px 0 0 var(--ink), 4px 0 0 var(--ink),
-      inset 0 4px 0 var(--bevelHi), inset 4px 0 0 var(--bevelHi),
-      inset 0 -4px 0 var(--bevelLo), inset -4px 0 0 var(--bevelLo);
+      0 0 0 3px var(--edge),
+      inset 0 0 0 3px var(--surface),
+      inset 0 0 0 5px var(--ornament);
   }
   .frame--accent {
     box-shadow:
-      0 -4px 0 var(--ink), 0 4px 0 var(--ink), -4px 0 0 var(--ink), 4px 0 0 var(--ink),
-      inset 0 4px 0 var(--accent), inset 4px 0 0 var(--accent),
-      inset 0 -4px 0 #8a6a00, inset -4px 0 0 #8a6a00;
+      0 0 0 3px var(--edge),
+      inset 0 0 0 3px var(--surface),
+      inset 0 0 0 5px var(--accent);
   }
   .title {
-    font-family: 'Press Start 2P', 'Courier New', monospace;
-    color: var(--accent); line-height: 1.35;
-    text-shadow: 4px 4px 0 var(--ink);
+    font-family: 'Cinzel', 'EB Garamond', Georgia, serif;
+    color: var(--edge); line-height: 1.35;
+    letter-spacing: .06em; font-weight: 600;
   }
   .row {
     display: flex; align-items: center; gap: 16px;
@@ -194,9 +197,11 @@
     font-size: 28px; font-weight: 600; letter-spacing: 1px;
   }
   .row .caret { visibility: hidden; color: var(--accent); flex: none; }
+  /* La marque de focus est le FLEURON de `.caret`, jamais cette teinte seule : une nuance ne se
+     suit pas a la manette et ne dit rien a qui distingue mal les couleurs (EX-IHM-071). */
   .row--focus {
-    color: var(--accent); background: rgba(255,209,51,.10);
-    box-shadow: inset 0 0 0 4px rgba(255,209,51,.30);
+    color: var(--edge); background: rgba(192,160,96,.22);
+    box-shadow: inset 0 0 0 2px var(--ornament);
   }
   .row--focus .caret { visibility: visible; }
   .row--off { color: var(--dim); }
@@ -205,23 +210,22 @@
     font-size: 17px; color: var(--dim); letter-spacing: 1px;
   }
   .key {
-    font-family: 'Press Start 2P', monospace; font-size: 11px; color: var(--muted);
-    padding: 6px 8px; background: var(--surfaceAlt);
-    box-shadow: 0 -2px 0 var(--ink), 0 2px 0 var(--ink), -2px 0 0 var(--ink), 2px 0 0 var(--ink),
-                inset 0 2px 0 var(--bevelHi), inset 0 -2px 0 var(--bevelLo);
+    font-family: 'EB Garamond', Georgia, serif; font-size: 14px; color: var(--edge);
+    padding: 4px 9px; background: var(--surfaceAlt);
+    box-shadow: 0 0 0 2px var(--ornament);
   }
 </style>
 
 <div class="wrap">
 <header>
   <div class="eyebrow">Refonte IHM · Partie B · maquettes</div>
-  <h1>Écrans du jeu en pixel art</h1>
-  <p class="lede">Les six écrans joueur, redessinés en <strong>pixel art assumé</strong> et à une échelle enfin lisible. Rien de ce qui suit ne touche au châssis de l'éditeur : les deux portées de jetons restent étanches, comme aujourd'hui.</p>
-  <p class="lede" style="font-size: 16px; margin-top: 14px;">Révision 3 — commentaires intégrés, direction <strong>A — Ambre nuit</strong> retenue. Le détail est <a href="#suite">en bas de page</a>.</p>
+  <h1>Écrans du jeu — parchemin de Tanares</h1>
+  <p class="lede">Les six écrans joueur, habillés du <strong>parchemin des feuilles de personnage de Tanares</strong> — teintes relevées sur le corpus, jamais choisies à vue (<code>LOT-66</code>). Rien de ce qui suit ne touche au châssis de l'éditeur : les deux portées de jetons restent étanches, comme aujourd'hui.</p>
+  <p class="lede" style="font-size: 16px; margin-top: 14px;">Révision 4 — direction <strong>parchemin de Tanares</strong> retenue (<code>LOT-66</code>), la direction pixel art « Ambre nuit » est abandonnée. Le détail est <a href="#suite">en bas de page</a>.</p>
   <dl class="facts">
-    <div class="fact"><dt>Direction</dt><dd>Pixel art assumé</dd></div>
-    <div class="fact"><dt>Familles</dt><dd>Press Start 2P · Pixelify Sans</dd></div>
+    <div class="fact"><dt>Direction</dt><dd>Parchemin de Tanares</dd></div>
+    <div class="fact"><dt>Familles</dt><dd>Cinzel · EB Garamond</dd></div>
     <div class="fact"><dt>Échelle</dt><dd>Entière, ×2 / ×3</dd></div>
-    <div class="fact"><dt>Palette</dt><dd>A — Ambre nuit</dd></div>
+    <div class="fact"><dt>Palette</dt><dd>Parchemin, encre sépia, or</dd></div>
   </dl>
 </header>

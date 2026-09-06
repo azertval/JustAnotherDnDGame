@@ -111,7 +111,7 @@ clavier contournait même complètement `EditorKeyBindings`.
 **réels** d'une vignette à partir de sa taille logique et du facteur d'échelle de l'écran. Les
 vignettes de la palette, des grilles d'assets et des lignes du panneau Textures sont rendues à
 cette taille, et régénérées lors d'un changement d'écran : nettes à 100 %, 125 % et 150 %. Le
-canevas de l'atelier pixel art (@ref guide-atelier-pixel-art) réutilise cette même fonction plutôt
+canevas de l'atelier de dessin d'assets (@ref guide-atelier-pixel-art) réutilise cette même fonction plutôt
 que de redéfinir sa propre règle.
 
 ## Thème clair/sombre
@@ -136,7 +136,7 @@ transitoire. Passé la première minute, la barre d'état ne disait plus rien.
 \ref hmi::editorStatusLines "editorStatusLines" (`HMI/Editor/EditorStatus.h`) est une **fonction
 pure** — même patron que `hmi::gameHudLines` (`LOT-52`) — qui décide du contenu de zones
 **permanentes** : niveau ouvert, modifications non enregistrées, outil actif, case survolée, zoom,
-et une sixième zone (couleur courante) quand le contexte est l'atelier pixel art
+et une sixième zone (couleur courante) quand le contexte est l'atelier de dessin d'assets
 (`PixelEditStatusInfo`). Ces zones sont ajoutées par `addPermanentWidget` : un message transitoire
 ne peut donc plus les recouvrir. L'aide contextuelle à l'outil actif se restaure automatiquement à
 l'expiration du message (`MainWindow::refreshStatusHelp`, minuteur unique).
@@ -213,7 +213,7 @@ signale.
 
 `#AiModeScreen` appartient à la portée identité, et c'est le seul de ses écrans à n'être pas un écran
 de **joueur** : vingt-six lignes de formulaire, une table à huit colonnes, un graphique. Habillé
-comme un menu, il héritait de la police bitmap et du facteur d'agrandissement — d'où une hauteur
+comme un menu, il héritait de la police de titrage et du facteur d'agrandissement — d'où une hauteur
 minimale de plus de deux mille pixels, et des données denses rendues dans une police conçue pour
 sept mots à l'écran.
 
@@ -224,16 +224,16 @@ s'appliquer aux descendants ; et les rembourrages du contenu viennent de `tokens
 multipliés. Les **couleurs**, elles, restent celles du jeu : les emprunter au châssis ferait basculer
 le contenu en clair au milieu d'un écran sombre.
 
-## Deux identités, deux règles d'échelle (LOT-68)
+## Deux identités, deux règles d'échelle (LOT-66)
 
 Le `LOT-56` avait donné aux deux portées la **même** échelle typographique. C'était cohérent tant
 qu'aucune des deux ne cherchait à être autre chose qu'un habillage correct ; ça ne l'est plus dès
-que les écrans du jeu revendiquent une identité **pixel art**.
+que les écrans du jeu revendiquent l'identité du **parchemin de Tanares** (`LOT-66`).
 
 La règle tient en une phrase : **le châssis d'édition suit les réglages du système, les écrans du
 jeu sont une image agrandie d'un facteur entier.**
 
-\ref hmi::pixelArtScale "pixelArtScale" décide de ce facteur depuis la hauteur **logique** de la
+\ref hmi::identityScaleFor "identityScaleFor" décide de ce facteur depuis la hauteur **logique** de la
 fenêtre — jamais la hauteur réelle : Qt applique la mise à l'échelle du système par-dessus, et
 multiplier une seconde fois donnerait une interface deux fois trop grande sur un écran réglé à
 200 %. La division est entière et non arrondie : une fenêtre de 700 px passerait sinon à l'échelle 2,
@@ -248,23 +248,38 @@ rien d'entier.
 > un titre — les doubler aurait donné 64 pt à 720p, soit l'excès inverse du problème de départ.
 
 **Et le facteur se borne à l'écran, pas à la fenêtre** (`EX-IHM-081`,
-\ref hmi::pixelArtScaleForDisplay "pixelArtScaleForDisplay"). Dériver le facteur de la seule
+\ref hmi::identityScaleForDisplay "identityScaleForDisplay"). Dériver le facteur de la seule
 hauteur de fenêtre en faisait une boucle sans point fixe : le facteur grossit les grandeurs
 d'habillage, qui grossissent la taille minimale des écrans, qui grossit la fenêtre — laquelle
 relance le calcul un cran plus haut, sans que rien ne redescende jamais, une fenêtre ne pouvant
 pas passer sous son propre minimum. La zone d'affichage disponible, elle, ne dépend d'aucune
 décision de l'application : c'est ce qui ferme la boucle.
 
+### Pourquoi le facteur reste entier après la sortie du pixel art
+
+Le `LOT-68` l'exigeait parce que le filtrage au plus proche voisin ne sait pas rendre une bordure
+d'un pixel et demi. Cette raison a disparu avec la charte parchemin, qui peint anticrénelé. Le
+facteur reste pourtant entier, pour une **seconde** raison, elle intacte : les longueurs de la
+feuille de style sont des **entiers de pixels**. À 1,5×, le trait d'une unité et le filet d'une
+unité s'arrondissent tous deux à 2 px — la réserve de parchemin qui les sépare disparaît, et
+l'encadrement se lit comme une bordure épaisse. Une échelle fractionnaire ne serait donc pas
+*floue* : elle serait **fausse**, et silencieuse.
+
 ### Ce qu'une feuille de style ne sait pas faire
 
-Deux éléments du pixel art échappent à `theme.qss`, et c'est pourquoi ils sont **peints** :
+Deux éléments de la charte échappent à `theme.qss`, et c'est pourquoi ils sont **peints** :
 
-- le **cadre à coins entaillés** (\ref hmi::PixelFrameWidget "PixelFrameWidget") : une bordure QSS
-  ne peut pas évider ses quatre angles, et c'est cette entaille — pas l'épaisseur du trait — qui
-  distingue un cadre pixel art d'un rectangle ;
-- la **marque de focus** (\ref hmi::PixelMenuButton "PixelMenuButton") : une feuille de style change
-  une teinte, elle n'ajoute pas de contenu. Or la teinte seule ne dit pas où l'on en est à la
-  manette, faute de pointeur, et ne dit rien du tout à qui distingue mal les couleurs (`EX-IHM-071`).
+- l'**encadrement à cabochons d'angle** (\ref hmi::ParchmentPanel "ParchmentPanel") : une bordure
+  QSS ne peut pas poser un pavé par-dessus son propre trait, et ce sont ces cabochons — pas
+  l'épaisseur du trait — qui distinguent l'encadrement d'une feuille de personnage d'un rectangle
+  tracé ;
+- la **marque de focus** (\ref hmi::MenuEntryButton "MenuEntryButton", \ref hmi::FocusMarker
+  "FocusMarker") : une feuille de style change une teinte, elle n'ajoute pas de contenu. Or la
+  teinte seule ne dit pas où l'on en est à la manette, faute de pointeur, et ne dit rien du tout à
+  qui distingue mal les couleurs (`EX-IHM-071`). Le fleuron est tracé **une seule fois**
+  (\ref hmi::paintFocusFleuron "paintFocusFleuron") et appelé des deux côtés : deux tracés séparés
+  dériveraient l'un de l'autre à la première retouche, et le joueur verrait deux marques
+  différentes là où l'exigence en demande une.
 
 Les deux suivent le patron des icônes du `LOT-56` : une géométrie **pure et testable** décide *quoi*
 dessiner, un peintre Qt décide *comment*. Aucun fichier d'image n'est livré — un cadre en PNG

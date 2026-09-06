@@ -24,7 +24,7 @@ sections 9 et 10 rapportent l'audit et ce qu'il faut anticiper ; la section 11 p
 
 ## État d'avancement {#roadmap-avancement}
 
-**Vingt lots livrés, soixante restants.** Le prochain est le `LOT-66`.
+**Vingt et un lots livrés, cinquante-neuf restants.** Le prochain est le `LOT-37`.
 
 Livrés : `LOT-01` à `LOT-08` (le socle : fork et purge, `HmiLib`, `LevelData`, format de carte
 version 3, modes de jeu, déplacement top-down, tri par profondeur, tuiles RPG), `LOT-77`, `LOT-78`
@@ -35,11 +35,11 @@ filière contenu —, le [LOT-12](@ref lot-12) (dés, caractéristiques, jet de 
 noyau RPG, le [LOT-33](@ref lot-33) (les 94 bêtes du SRD), premier catalogue rempli, et le
 [LOT-36](@ref lot-36) (22 espèces, 13 historiques, 4 classes provisoires), enfin le
 [LOT-13](@ref lot-13) (la fiche de personnage, qui les assemble) et le [LOT-10](@ref lot-10)
-(entités de carte et interaction) et le [LOT-34](@ref lot-34) (armes, armures et équipement).
+(entités de carte et interaction), le [LOT-34](@ref lot-34) (armes, armures et équipement) et le [LOT-66](@ref lot-66) (charte visuelle).
 Chacun garde son dossier et son `epic.md`.
 
 **Quelle date pour la `0.1.0` ?** Aucune n'est annoncée ici, et ce n'est pas une prudence de
-principe : les vingt lots livrés l'ont été entre le 3 et le 6 septembre 2026, soit une cadence
+principe : les vingt et un lots livrés l'ont été entre le 3 et le 6 septembre 2026, soit une cadence
 observée qui, prise au pied de la lettre, placerait la version dans deux semaines. Cette
 extrapolation est fausse, et il vaut mieux l'écrire que la laisser deviner : les lots livrés sont
 des lots de **socle**, dont le périmètre tient dans quelques fichiers. Ceux qui restent portent des
@@ -55,52 +55,51 @@ tableau n'en porte volontairement aucun.
 
 | # | Lot | Objet | Débloque | Statut |
 |---|---|---|---|---|
-| 1 | `LOT-66` | Charte visuelle : sortir de l'identité pixel art | 23 | **prochain** |
-| 2 | `LOT-37` | Atlas des régions et graphe de cartes | 20 | prêt |
-| 3 | `LOT-76` | Habillage d'interface extrait des livres | 20 | en attente |
-| 4 | `LOT-68` | Le châssis des écrans RPG | 15 | en attente |
-| 5 | `LOT-38` | Fiche de personnage : maquette et interface | 14 | en attente |
-| 6 | `LOT-14` | Inventaire et équipement | 13 | prêt |
-| 7 | `LOT-18` | Bascule exploration ↔ combat | 12 | prêt |
-| 8 | `LOT-39` | Plomberie des clés d'assets | 12 | en attente |
-| 9 | `LOT-19` | Grille tactique et déplacement | 11 | en attente |
-| 10 | `LOT-15` | PNJ et dialogues | 9 | en attente |
-| 11 | `LOT-20` | Initiative et tour par tour | 9 | en attente |
-| 12 | `LOT-11` | Éditeur multi-couches et placement d'entités | 8 | en attente |
-| 13 | `LOT-27` | Contenu du *vertical slice* | 8 | en attente |
-| 14 | `LOT-80` | Factions, panthéon et organisations | 8 | en attente |
-| 15 | `LOT-81` | Descripteurs de terrain des dix régions | 7 | en attente |
-| 16 | `LOT-16` | Quêtes et drapeaux de monde | 6 | en attente |
-| 17 | `LOT-21` | Attaques, dégâts et états | 6 | en attente |
-| 18 | `LOT-40` | Générateur de terrain | 6 | en attente |
-| 19 | `LOT-44` | Noms, tables aléatoires et contenu d'ambiance | 6 | en attente |
-| 20 | `LOT-46` | Créatures de Tanares | 6 | prêt |
-| 21 | `LOT-26` | Butin, marchands, économie | 5 | en attente |
-| 22 | `LOT-41` | Peuplement : rencontres et créatures | 5 | en attente |
-| 23 | `LOT-70` | Horloge de partie et cycle jour/nuit | 4 | prêt |
-| 24 | `LOT-82` | Peuplement civil : PNJ, marchands et quêtes | 4 | en attente |
-| 25 | `LOT-09` | Graphe de cartes et transitions | 3 | en attente |
-| 26 | `LOT-22` | Portée, ligne de vue et zones d'effet | 3 | en attente |
-| 27 | `LOT-84` | Les 31 tables de progression de classe | 3 | prêt |
-| 28 | `LOT-17` | Sauvegarde riche | 2 | en attente |
-| 29 | `LOT-35` | Sorts et états | 2 | prêt |
-| 30 | `LOT-47` | Socle de classe, et le guerrier comme preuve | 2 | en attente |
-| 31 | `LOT-23` | IA tactique ennemie | 1 | en attente |
-| 32 | `LOT-42` | Voyage et carte du monde | 1 | en attente |
-| 33 | `LOT-45` | Guilde des Aventuriers : rangs et contrats | 1 | en attente |
-| 34 | `LOT-50` | Le Colisée : bac à sable de combat | 1 | en attente |
-| 35 | `LOT-74` | Expérience et progression | 1 | en attente |
-| 36 | `LOT-24` | IHM de combat | 0 | en attente |
-| 37 | `LOT-25` | Sorts et capacités de classe | 0 | en attente |
-| 38 | `LOT-28` | Audio, effets et version `0.2.0` | 0 | en attente |
-| 39 | `LOT-29` | Groupe de quatre personnages | 0 | en attente |
-| 40 | `LOT-49` | Contrôle de cohérence du contenu | 0 | prêt |
-| 41 | `LOT-51` → `LOT-65` | une classe par lot | 0 | en attente |
-| 42 | `LOT-67` | Menus et vocabulaire d'un RPG | 0 | en attente |
-| 43 | `LOT-69` | Retrait de l'atelier pixel art | 0 | en attente |
-| 44 | `LOT-72` | Conditions, agonie et mort | 0 | en attente |
-| 45 | `LOT-75` | Campement et repos dans le monde | 0 | en attente |
-| 46 | `LOT-83` | Boucle de progression de la Guilde | 0 | en attente |
+| 1 | `LOT-37` | Atlas des régions et graphe de cartes | 20 | **prochain** |
+| 2 | `LOT-76` | Habillage d'interface extrait des livres | 20 | prêt |
+| 3 | `LOT-68` | Le châssis des écrans RPG | 15 | prêt |
+| 4 | `LOT-38` | Fiche de personnage : maquette et interface | 14 | en attente |
+| 5 | `LOT-14` | Inventaire et équipement | 13 | prêt |
+| 6 | `LOT-18` | Bascule exploration ↔ combat | 12 | prêt |
+| 7 | `LOT-39` | Plomberie des clés d'assets | 12 | en attente |
+| 8 | `LOT-19` | Grille tactique et déplacement | 11 | en attente |
+| 9 | `LOT-15` | PNJ et dialogues | 9 | en attente |
+| 10 | `LOT-20` | Initiative et tour par tour | 9 | en attente |
+| 11 | `LOT-11` | Éditeur multi-couches et placement d'entités | 8 | en attente |
+| 12 | `LOT-27` | Contenu du *vertical slice* | 8 | en attente |
+| 13 | `LOT-80` | Factions, panthéon et organisations | 8 | en attente |
+| 14 | `LOT-81` | Descripteurs de terrain des dix régions | 7 | en attente |
+| 15 | `LOT-16` | Quêtes et drapeaux de monde | 6 | en attente |
+| 16 | `LOT-21` | Attaques, dégâts et états | 6 | en attente |
+| 17 | `LOT-40` | Générateur de terrain | 6 | en attente |
+| 18 | `LOT-44` | Noms, tables aléatoires et contenu d'ambiance | 6 | en attente |
+| 19 | `LOT-46` | Créatures de Tanares | 6 | prêt |
+| 20 | `LOT-26` | Butin, marchands, économie | 5 | en attente |
+| 21 | `LOT-41` | Peuplement : rencontres et créatures | 5 | en attente |
+| 22 | `LOT-70` | Horloge de partie et cycle jour/nuit | 4 | prêt |
+| 23 | `LOT-82` | Peuplement civil : PNJ, marchands et quêtes | 4 | en attente |
+| 24 | `LOT-09` | Graphe de cartes et transitions | 3 | en attente |
+| 25 | `LOT-22` | Portée, ligne de vue et zones d'effet | 3 | en attente |
+| 26 | `LOT-84` | Les 31 tables de progression de classe | 3 | prêt |
+| 27 | `LOT-17` | Sauvegarde riche | 2 | en attente |
+| 28 | `LOT-35` | Sorts et états | 2 | prêt |
+| 29 | `LOT-47` | Socle de classe, et le guerrier comme preuve | 2 | en attente |
+| 30 | `LOT-23` | IA tactique ennemie | 1 | en attente |
+| 31 | `LOT-42` | Voyage et carte du monde | 1 | en attente |
+| 32 | `LOT-45` | Guilde des Aventuriers : rangs et contrats | 1 | en attente |
+| 33 | `LOT-50` | Le Colisée : bac à sable de combat | 1 | en attente |
+| 34 | `LOT-74` | Expérience et progression | 1 | en attente |
+| 35 | `LOT-24` | IHM de combat | 0 | en attente |
+| 36 | `LOT-25` | Sorts et capacités de classe | 0 | en attente |
+| 37 | `LOT-28` | Audio, effets et version `0.2.0` | 0 | en attente |
+| 38 | `LOT-29` | Groupe de quatre personnages | 0 | en attente |
+| 39 | `LOT-49` | Contrôle de cohérence du contenu | 0 | prêt |
+| 40 | `LOT-51` → `LOT-65` | une classe par lot | 0 | en attente |
+| 41 | `LOT-67` | Menus et vocabulaire d'un RPG | 0 | prêt |
+| 42 | `LOT-69` | Retrait de l'atelier pixel art | 0 | en attente |
+| 43 | `LOT-72` | Conditions, agonie et mort | 0 | en attente |
+| 44 | `LOT-75` | Campement et repos dans le monde | 0 | en attente |
+| 45 | `LOT-83` | Boucle de progression de la Guilde | 0 | en attente |
 
 **Débloque** — combien de lots restants dépendent de celui-ci, directement ou en cascade. C'est le
 critère de priorité, et il se relit sur la ligne.
@@ -480,7 +479,7 @@ explicite de champs hors périmètre. Un champ simplement oublié n'est pas un a
 *Exigences couvertes : `EX-CNT-040`, `EX-CNT-041`.*
 
 > **Scindé à l'audit.** Ce lot portait aussi l'extraction de l'habillage d'interface, ce qui faisait
-> dépendre la charte visuelle (`LOT-66`) de tout le pipeline de données. Or l'habillage n'a besoin
+> dépendre la charte visuelle ([LOT-66](@ref lot-66)) de tout le pipeline de données. Or l'habillage n'a besoin
 > que des PDF, disponibles aujourd'hui : il part au `LOT-76` et peut démarrer immédiatement. Ne
 > reste ici que la plomberie, qui a réellement besoin des catalogues.
 
@@ -827,77 +826,9 @@ lot bénéficie du précédent.
 **Le dernier lot livré retire l'échafaudage** : les quatre classes provisoires du `LOT-36` sont
 supprimées, et rien ne doit s'en apercevoir.
 
-### `LOT-66` — Charte visuelle : sortir de l'identité pixel art {#lot-66}
-
-*Prérequis : **aucun** — ses références sont disponibles aujourd'hui. Prérequis de `LOT-67`,
-`LOT-68`, `LOT-69`, `LOT-76`.*
-
-> **Corrigé à l'audit, sur deux points.** Ce lot déclarait « Prérequis : `LOT-39` », ce qui le
-> plaçait derrière tout le pipeline de données — alors que **la charte n'a rien à voir avec les
-> créatures** : ses entrées sont la feuille de personnage et les artworks, déjà là. Et il ne visait
-> qu'`EX-IHM-070` alors que **onze exigences** imposent le pixel art.
-
-L'interface actuelle est celle du jeu de plateforme dont ce dépôt est issu, et elle **contredit
-désormais explicitement** le reste des décisions. Ce n'est pas une impression, c'est écrit dans la
-spécification :
-
-> `EX-IHM-070` — « Les écrans du **jeu** doivent porter une identité **pixel art** assumée : police
-> bitmap embarquée et cadres à bordure franche, rendus **sans lissage** à un facteur
-> d'agrandissement **entier**. »
-
-Cette exigence est justifiée dans le texte par « le menu d'un jeu de plateforme en pixel art ». Or le
-`LOT-38` part d'une maquette de fiche à **300 ppp** et le `LOT-76` de **panneaux de parchemin
-peints** extraits des livres. Une police bitmap non lissée et une illustration peinte à 300 ppp ne
-cohabitent pas : il faut trancher, et le trancher **avant** que cinq écrans n'inventent chacun leur
-langage visuel.
-
-**Mais `EX-IHM-070` n'est que la feuille ; la racine est `EX-ARCH-022`** (« rendu pixel art :
-échantillonnage *nearest-neighbor*, zoom caméra de préférence en facteurs entiers »), que toutes les
-autres citent. Le périmètre réel est de **onze exigences** — la liste en annonçait dix et n'en
-donnait que neuf ; `EX-DEC-032` (l'image pixel art enregistrée comme fichier) et `EX-REN-032` (la
-police **bitmap**) manquaient :
-
-`EX-ARCH-022` (racine) · `EX-DEC-003` · `EX-DEC-032` · `EX-DEC-043` · `EX-REN-032` · `EX-REN-041` ·
-`EX-IHM-053` · `EX-IHM-070` · `EX-IHM-073` · `EX-EDIT-041` · `EX-EDIT-045`.
-
-Une difficulté à regarder en face : le [LOT-01](@ref lot-01) a **délibérément conservé** l'atelier
-pixel art lors de la purge, et le [LOT-11](@ref lot-11) en fait un acquis à ne pas régresser. Ce lot
-revient sur cette décision ; il doit le dire, pas le faire en passant.
-
-Le lot livre donc :
-
-- la **nouvelle identité**, prise sur les références que tu as désignées — les feuilles de
-  personnage (`Character_Sheets_Tanares.pdf`, 2 668 × 3 418) pour la structure et la hiérarchie
-  typographique, les livres Tanares pour l'habillage : parchemin, cadres ornés, titrage à
-  empattements, illustration peinte ;
-- la **réécriture des tokens** de la portée identité (`DesignTokens`), dont les rôles « cadre pixel
-  art » disparaissent au profit de rôles de panneau, de bordure ornée et de parchemin ;
-- la **refonte des onze exigences** ci-dessus, à commencer par `EX-ARCH-022` ;
-- la **suppression** des ~640 lignes de widgets pixel art de `Source/HMI/Interface/` (`PixelArtScale`,
-  `PixelFocusCaret`, `PixelFrameGeometry`, `PixelFrameWidget`, `PixelMenuButton`), devenues sans
-  objet — l'allègement se fait ici, pas dans un lot de ménage ultérieur.
-
-Deux garde-fous à ne pas perdre au passage, parce qu'ils sont bons et indépendants de l'esthétique :
-la marque de focus explicite d'`EX-IHM-071` — une teinte seule ne se suit pas à la manette, et ne se
-voit pas du tout pour qui distingue mal les couleurs — et l'interdiction des réglages inopérants
-d'`EX-IHM-072`. La **portée éditeur** n'est pas concernée : un outil de travail garde son apparence
-d'outil de travail, et aucun parchemin ne doit se répandre dans ses tables denses.
-
-> **La collision de numéros a été traitée ailleurs.** Les titres de sections d'`interface-ihm.md`
-> intitulés « (LOT-56) », « (LOT-57) », « (LOT-68) », « (LOT-73) » renvoyaient au programme
-> **hérité** de `ProjectGaming`. Ils n'étaient que 26 des 208 renvois ambigus recensés au §9.5, et
-> les désambiguïser fichier par fichier au fil des lots aurait produit exactement la moitié de
-> convention qu'on cherchait à éviter. Le [LOT-78](@ref lot-78) l'a fait en une passe : ils
-> s'écrivent désormais `LOT-H-56`, `LOT-H-57`, `LOT-H-68`, `LOT-H-73`. Ce lot-ci n'a donc plus qu'à
-> renommer ces sections pour ce qu'elles deviennent, sans avoir à trancher ce qu'elles désignaient.
-
-*Acceptation* — un écran du jeu et un écran de l'éditeur placés côte à côte se distinguent
-immédiatement ; `scripts/check_design_tokens.py` passe sur les nouveaux rôles ; le focus reste
-signalé par une marque, pas par une teinte.
-
 ### `LOT-67` — Menus et vocabulaire d'un RPG {#lot-67}
 
-*Prérequis : `LOT-66`.*
+*Prérequis : [LOT-66](@ref lot-66).*
 
 Les menus existants décrivent un autre jeu, littéralement. `fr.lang` porte encore
 `menu.select_level = Choisir un niveau`, `pause.restart = Recommencer le niveau`, et un
@@ -938,7 +869,7 @@ séquence ordonnée de tableaux**.
 
 ### `LOT-68` — Le châssis des écrans RPG {#lot-68}
 
-*Prérequis : `LOT-66`. Alimente `LOT-38`, `LOT-42`, `LOT-45`, [LOT-24](@ref lot-24).*
+*Prérequis : [LOT-66](@ref lot-66). Alimente `LOT-38`, `LOT-42`, `LOT-45`, [LOT-24](@ref lot-24).*
 
 Huit écrans manquent, et aucun n'existe même en ébauche : fiche de personnage, inventaire et
 équipement, journal de quêtes, carte du monde, dialogue, marchand, tableau de la Guilde, ATH de
@@ -960,7 +891,7 @@ un neuvième écran ne demande de toucher à aucun des huit.
 
 ### `LOT-69` — Retrait de l'atelier pixel art {#lot-69}
 
-*Prérequis : [LOT-11](@ref lot-11), `LOT-66`.*
+*Prérequis : [LOT-11](@ref lot-11), [LOT-66](@ref lot-66).*
 
 > **Deux fois corrigé à l'audit.** D'abord la prémisse : ce lot affirmait que l'éditeur est « un
 > outil Qt séparé », ce qui est **faux** — `EX-EDIT-030` impose déjà « un éditeur intégré à
@@ -975,7 +906,7 @@ un neuvième écran ne demande de toucher à aucun des huit.
 > cahier des charges du `LOT-11`, et il ne reste à ce lot que la **suppression** de l'atelier de
 > dessin — qui n'a besoin ni du Colisée ni des classes.
 
-Le `LOT-66` supprime l'identité pixel art — et avec elle la raison d'être de l'**atelier pixel
+Le [LOT-66](@ref lot-66) supprime l'identité pixel art — et avec elle la raison d'être de l'**atelier pixel
 art** que l'`EX-IHM-073` impose aujourd'hui comme l'un des deux espaces de travail exclusifs. Un
 atelier de dessin de sprites au pixel n'a plus d'objet dans un jeu habillé de parchemin peint et
 d'illustrations à 300 ppp. C'est tout le sujet de ce lot.
@@ -1006,7 +937,7 @@ huit fichiers de tests associés disparaissent avec.
 
 > **Ce retrait est un revirement, pas un oubli.** Le [LOT-01](@ref lot-01) a conservé l'atelier lors
 > de la purge, et le [LOT-11](@ref lot-11) en fait un acquis à ne pas régresser. La raison de
-> revenir dessus est que le `LOT-66` retire l'identité pixel art : un atelier de dessin au pixel
+> revenir dessus est que le [LOT-66](@ref lot-66) retire l'identité pixel art : un atelier de dessin au pixel
 > n'a plus de sujet. Mais c'est une décision à assumer explicitement, pas à laisser passer.
 
 *Acceptation* — aucun panneau, aucun fichier ni aucun test de l'atelier pixel art ne subsiste ;
@@ -1118,7 +1049,7 @@ région ; une auberge garantit un repos non interrompu ; l'horloge avance du mon
 
 ### `LOT-76` — Habillage d'interface extrait des livres {#lot-76}
 
-*Prérequis : `LOT-30`, `LOT-66`. Alimente `LOT-38`, [LOT-15](@ref lot-15),
+*Prérequis : `LOT-30`, [LOT-66](@ref lot-66). Alimente `LOT-38`, [LOT-15](@ref lot-15),
 [LOT-24](@ref lot-24).*
 
 Détaché du `LOT-39` à l'audit, parce qu'il n'a besoin que des PDF : panneaux de parchemin, cadres,
@@ -1129,7 +1060,7 @@ Ils habillent la fiche du `LOT-38`, les boîtes de dialogue du [LOT-15](@ref lot
 combat du [LOT-24](@ref lot-24). C'est le premier gisement d'images exploitable, et le seul qui ne
 demande aucun arbitrage humain.
 
-*Acceptation* — les éléments extraits s'intègrent aux jetons de la charte du `LOT-66` ;
+*Acceptation* — les éléments extraits s'intègrent aux jetons de la charte du [LOT-66](@ref lot-66) ;
 `scripts/check_design_tokens.py` reste vert ; aucune image n'est tirée par extraction de flux brut.
 
 ### `LOT-80` — Factions, panthéon et organisations {#lot-80}
@@ -1333,7 +1264,7 @@ valeurs codées en dur, exactement ce que [`EX-VIS-007`](@ref EX-VIS-007) interd
 | Quand | Lots | Pourquoi là |
 |---|---|---|
 | **Démarrables maintenant** — le [LOT-08](@ref lot-08) est livré | `LOT-30`, puis `LOT-32` | Outillage et contrats ; le plus tôt est le mieux |
-| **Démarrables maintenant** | `LOT-66`, `LOT-67`, `LOT-68`, `LOT-76` | La charte ne dépend que des PDF, et elle conditionne tous les écrans à venir |
+| **Démarrables maintenant** | `LOT-67`, `LOT-68`, `LOT-76` | La charte du `LOT-66` est livrée, et elle conditionnait tous les écrans à venir |
 | Avec [LOT-09](@ref lot-09) | `LOT-37`, puis `LOT-80` | L'atlas donne au graphe de cartes de vrais nœuds à relier |
 | Avant [LOT-13](@ref lot-13) | `LOT-43`, puis `LOT-36` | Compétences et langues d'abord, car les espèces s'appuient dessus ; puis les 4 classes simplifiées pour le premier combat |
 | Avant [LOT-14](@ref lot-14) | `LOT-34`, puis `LOT-49` | Catalogue réel, puis contrôle de ses valeurs |
@@ -1458,7 +1389,7 @@ digraph filiere {
   L37 -> L80; L37 -> L81 -> L40 -> L41 -> L82 -> L45 -> L83;
   L80 -> L82; L82 -> L42;
   L27 -> L41 [style=dotted, label="valide la recette"];
-  L66 [label="LOT-66\nCharte visuelle"];
+  L66 [label="LOT-66\nCharte visuelle\n(livré)", style="rounded,filled", fillcolor=grey90];
   L66 -> L67 [label=""]; L67 [label="LOT-67\nMenus RPG"];
   L66 -> L68 [label=""]; L68 [label="LOT-68\nChâssis écrans"];
   L66 -> L69 [label=""]; L69 [label="LOT-69\nRetrait atelier"];
@@ -1489,7 +1420,6 @@ eux-mêmes.
 | `LOT-49` | Contrôle de cohérence du contenu | `LOT-33`, `LOT-34` | — |
 | `LOT-50` | Le Colisée : bac à sable de combat | `LOT-19`, `LOT-20`, `LOT-21`, `LOT-47` | `LOT-51`, `LOT-65` |
 | `LOT-51` | une classe par lot | `LOT-47`, `LOT-50`, `LOT-70` | — |
-| `LOT-66` | Charte visuelle : sortir de l'identité pixel art | — | `LOT-67`, `LOT-68`, `LOT-69`, `LOT-76` |
 | `LOT-67` | Menus et vocabulaire d'un RPG | `LOT-66` | — |
 | `LOT-68` | Le châssis des écrans RPG | `LOT-66` | `LOT-24`, `LOT-38`, `LOT-42`, `LOT-45` |
 | `LOT-69` | Retrait de l'atelier pixel art | `LOT-11`, `LOT-66` | — |
@@ -1587,7 +1517,7 @@ Documentation/Specification/
 - **Le Colisée est le bac à sable de combat** (`LOT-50`), et il n'est pas un outil jetable : les
   Arènes sont une institution centrale de Tanares, leurs combats sont non létaux par la fiction
   même, et la zone sert telle quelle dans le jeu final.
-- **La charte IHM est refondue** (`LOT-66` → `LOT-68`). L'identité **pixel art** imposée par
+- **La charte IHM est refondue** ([LOT-66](@ref lot-66) → `LOT-68`). L'identité **pixel art** imposée par
   `EX-IHM-070` était celle du jeu de plateforme d'origine et contredit frontalement une maquette de
   fiche à 300 ppp et des panneaux de parchemin peints. Références retenues : les feuilles de
   personnage pour la structure, les livres Tanares pour l'habillage. Les menus suivent — un monde

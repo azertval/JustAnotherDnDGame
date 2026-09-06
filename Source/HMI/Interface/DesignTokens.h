@@ -56,13 +56,14 @@ struct ColorTokens {
     DesignColor accent;       ///< Couleur d'accent (sélection, focus, contrôle actif).
     DesignColor accentHover;  ///< Couleur d'accent au survol.
     DesignColor error;        ///< Signalement d'erreur/d'échec.
-    // Rôles du cadre pixel art (LOT-68, EX-IHM-070). Ajoutés aux DEUX portées : la structure est
-    // commune par construction, ce qui garantit qu'un rôle ajouté à l'une existe dans l'autre.
-    // Le châssis d'édition les définit sans les dessiner en cadre — il s'en sert pour ses bordures
-    // et ses séparateurs, où ils tenaient déjà lieu de `border` éclairci/assombri.
-    DesignColor outline;     ///< Contour extérieur d'un cadre : la valeur la plus sombre.
-    DesignColor bevelLight;  ///< Biseau haut/gauche (la lumière vient d'en haut à gauche).
-    DesignColor bevelDark;   ///< Biseau bas/droite.
+    // Rôles du cadre de parchemin (`LOT-66`, `EX-IHM-070`). Ajoutés aux DEUX portées : la
+    // structure est commune par construction, ce qui garantit qu'un rôle ajouté à l'une existe
+    // dans l'autre. Le châssis d'édition les définit sans dessiner d'encadrement — il s'en sert
+    // pour ses bordures et ses séparateurs, où ils tenaient déjà lieu de `border` éclairci ou
+    // assombri.
+    DesignColor frameEdge;      ///< Trait extérieur de l'encadrement : la valeur la plus sombre.
+    DesignColor frameOrnament;  ///< Filet ornemental posé en retrait du trait extérieur.
+    DesignColor frameShadow;    ///< Ombre portée de l'encadrement sur le fond.
 };
 
 // Neutralise la macro Windows `small` (`rpcndr.h`, incluse via <Windows.h> dans toute unite de
@@ -155,7 +156,7 @@ struct IdentityBaseScale {
     int spaceLarge = 8;
     int spaceExtraLarge = 12;
 
-    int frameThickness = 1;  ///< Contour et biseau d'un cadre : un pixel de maquette chacun.
+    int frameThickness = 1;  ///< Trait et filet d'un encadrement : une unité de maquette chacun.
 
     [[nodiscard]] friend bool operator==(const IdentityBaseScale&,
                                          const IdentityBaseScale&) noexcept = default;
@@ -170,8 +171,8 @@ struct IdentityBaseScale {
 [[nodiscard]] DesignColor mixColor(DesignColor from, DesignColor to, float ratio) noexcept;
 
 /// @return Le mot-clé de famille **générique** CSS correspondant à @p role (`monospace` pour
-/// l'identité pixel art, `sans-serif` pour le châssis d'édition). C'est le repli de la feuille de
-/// style quand aucune police embarquée n'a pu être enregistrée : un mot-clé générique, jamais un
+/// l'identité à empattements, `sans-serif` pour le châssis d'édition). C'est le repli de la feuille
+/// de style quand aucune police embarquée n'a pu être enregistrée : un mot-clé générique, jamais un
 /// second nom de police codé en dur (`EX-IHM-052`).
 [[nodiscard]] const char* genericCssFamily(FontRole role) noexcept;
 

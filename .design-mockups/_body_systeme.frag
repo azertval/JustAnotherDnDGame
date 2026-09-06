@@ -12,7 +12,7 @@
       <div style="font-size: 17px; letter-spacing: 2px; color: var(--accent);">PALETTE — 12 RÔLES, PAS DE DÉGRADÉ</div>
       <div style="height: 14px;"></div>
       <div style="display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px;">
-        <div><div style="height: 60px; background: #12161f; box-shadow: inset 0 0 0 2px var(--bevelHi);"></div><div style="font-size: 15px; padding-top: 8px;">background</div><div style="font-size: 14px; color: var(--dim);">#12161f</div></div>
+        <div><div style="height: 60px; background: #12161f; box-shadow: inset 0 0 0 2px var(--ornament);"></div><div style="font-size: 15px; padding-top: 8px;">background</div><div style="font-size: 14px; color: var(--dim);">#12161f</div></div>
         <div><div style="height: 60px; background: #1e2531;"></div><div style="font-size: 15px; padding-top: 8px;">surface</div><div style="font-size: 14px; color: var(--dim);">#1e2531</div></div>
         <div><div style="height: 60px; background: #262f3e;"></div><div style="font-size: 15px; padding-top: 8px;">surfaceAlt</div><div style="font-size: 14px; color: var(--dim);">#262f3e</div></div>
         <div><div style="height: 60px; background: #46536b;"></div><div style="font-size: 15px; padding-top: 8px;">biseau clair</div><div style="font-size: 14px; color: var(--dim);">#46536b</div></div>
@@ -48,7 +48,7 @@
             <div style="font-size: 14px; color: var(--dim);">caption · Pixelify Sans 400 · 17 px</div>
             <div style="font-size: 17px; color: var(--muted); padding-top: 6px;">licence CC0 1.0 Universal</div>
           </div>
-          <div style="font-size: 16px; color: var(--muted); line-height: 1.6; border-top: 2px solid var(--bevelHi); padding-top: 14px;">Contrainte dure : accents français couverts (É À È Ç Û Œ). C'est ce qui élimine la plupart des polices pixel populaires, arrêtées à l'ASCII.</div>
+          <div style="font-size: 16px; color: var(--muted); line-height: 1.6; border-top: 2px solid var(--ornament); padding-top: 14px;">Contrainte dure : accents français couverts (É À È Ç Û Œ). C'est ce qui élimine la plupart des polices pixel populaires, arrêtées à l'ASCII.</div>
         </div>
       </div>
 
@@ -57,7 +57,7 @@
         <div style="height: 14px;"></div>
         <div class="frame" style="padding: 24px 28px;">
           <div style="display: flex; align-items: center; gap: 26px;">
-            <div style="width: 132px; height: 132px; flex: none; background: var(--surfaceAlt); box-shadow: 0 -12px 0 var(--ink), 0 12px 0 var(--ink), -12px 0 0 var(--ink), 12px 0 0 var(--ink), inset 0 12px 0 var(--bevelHi), inset 12px 0 0 var(--bevelHi), inset 0 -12px 0 var(--bevelLo), inset -12px 0 0 var(--bevelLo);"></div>
+            <div style="width: 132px; height: 132px; flex: none; background: var(--surfaceAlt); box-shadow: 0 -12px 0 var(--edge), 0 12px 0 var(--edge), -12px 0 0 var(--edge), 12px 0 0 var(--edge), inset 0 12px 0 var(--ornament), inset 12px 0 0 var(--ornament), inset 0 -12px 0 var(--shadow), inset -12px 0 0 var(--shadow);"></div>
             <div style="font-size: 16px; line-height: 1.8; color: var(--muted);">
               <div><span style="color: #f2f2ff;">1 px</span> contour</div>
               <div><span style="color: #f2f2ff;">1 px</span> biseau haut-gauche</div>
@@ -67,7 +67,7 @@
             </div>
           </div>
           <div style="height: 18px;"></div>
-          <div style="font-size: 16px; color: var(--muted); line-height: 1.6; border-top: 2px solid var(--bevelHi); padding-top: 14px;">Aucun PNG livré : la géométrie est pure et testable, peinte depuis les jetons — même patron que les icônes de l'éditeur.</div>
+          <div style="font-size: 16px; color: var(--muted); line-height: 1.6; border-top: 2px solid var(--ornament); padding-top: 14px;">Aucun PNG livré : la géométrie est pure et testable, peinte depuis les jetons — même patron que les icônes de l'éditeur.</div>
         </div>
       </div>
     </div>
@@ -89,7 +89,7 @@
             <div style="width: 150px; flex: none; font-size: 15px; color: var(--accent);">×3 — plein écran 1440p</div>
             <div style="font-size: 42px; font-weight: 600;">Nouvelle partie</div>
           </div>
-          <div style="font-size: 16px; color: var(--muted); line-height: 1.6; border-top: 2px solid var(--bevelHi); padding-top: 14px;">Le facteur est <span style="color: #f2f2ff;">toujours entier</span> et dérivé de la hauteur de fenêtre. Fractionnaire, le pixel art bave — c'est une raison technique, pas une préférence.</div>
+          <div style="font-size: 16px; color: var(--muted); line-height: 1.6; border-top: 2px solid var(--ornament); padding-top: 14px;">Le facteur est <span style="color: #f2f2ff;">toujours entier</span> et dérivé de la hauteur de fenêtre. Fractionnaire, le pixel art bave — c'est une raison technique, pas une préférence.</div>
         </div>
       </div>
 
@@ -102,7 +102,7 @@
           <div class="row row--off" style="font-size: 23px;">@CARET@<span>Indisponible</span></div>
           <div style="padding: 0 18px;">
             <div style="height: 14px;"></div>
-            <div style="font-size: 16px; color: var(--muted); line-height: 1.6; border-top: 2px solid var(--bevelHi); padding-top: 14px;">Le curseur est la marque de focus, pas la teinte seule : à la manette, il n'y a pas de pointeur pour dire où l'on en est.</div>
+            <div style="font-size: 16px; color: var(--muted); line-height: 1.6; border-top: 2px solid var(--ornament); padding-top: 14px;">Le curseur est la marque de focus, pas la teinte seule : à la manette, il n'y a pas de pointeur pour dire où l'on en est.</div>
           </div>
         </div>
       </div>

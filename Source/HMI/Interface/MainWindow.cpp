@@ -83,12 +83,12 @@
 #include "HMI/Interface/DesignTokens.h"
 #include "HMI/Interface/EditorActions.h"
 #include "HMI/Interface/EditorWorkspace.h"
+#include "HMI/Interface/IdentityScale.h"
 #include "HMI/Interface/LevelCompleteScreen.h"
 #include "HMI/Interface/LevelSelectScreen.h"
 #include "HMI/Interface/MainMenu.h"
 #include "HMI/Interface/OptionsPage.h"
 #include "HMI/Interface/PauseScreen.h"
-#include "HMI/Interface/PixelArtScale.h"
 #include "HMI/Interface/ScreenPageHost.h"
 #include "HMI/Platform/ExecutableDirectory.h"
 #include "ui_MainWindow.h"
@@ -964,7 +964,7 @@ void MainWindow::applyIdentityScale(bool beforeFirstShow) {
     // cran plus haut, sans que rien ne redescende jamais. La zone disponible, elle, ne depend
     // d'aucune decision de l'application : c'est ce qui ferme la boucle.
     const bool scaleChanged =
-        hmi::setIdentityScale(hmi::pixelArtScaleForDisplay(height(), availableLogicalHeight()));
+        hmi::setIdentityScale(hmi::identityScaleForDisplay(height(), availableLogicalHeight()));
     // A la CONSTRUCTION, la feuille est posee meme si le facteur n'a pas bouge : la pile d'ecrans
     // n'en porte encore aucune, et la portee identite ne vit plus dans la feuille applicative
     // depuis le LOT-73. Sans cette exception, une fenetre ouvrant au facteur 1 -- la valeur

@@ -74,7 +74,7 @@
    </item>
    <item>
     <layout class="QHBoxLayout" name="bottomLayout">
-     <item><widget class="hmi::PixelMenuButton" name="backButton"><property name="text"><string>Retour</string></property></widget></item>
+     <item><widget class="hmi::MenuEntryButton" name="backButton"><property name="text"><string>Retour</string></property></widget></item>
      <item>
       <spacer name="backSpacer">
        <property name="orientation"><enum>Qt::Horizontal</enum></property>
@@ -94,9 +94,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>hmi::PixelMenuButton</class>
+   <class>hmi::MenuEntryButton</class>
    <extends>QPushButton</extends>
-   <header>HMI/Interface/PixelMenuButton.h</header>
+   <header>HMI/Interface/MenuEntryButton.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

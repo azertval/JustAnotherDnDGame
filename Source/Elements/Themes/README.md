@@ -14,7 +14,7 @@ préoccupation ne touchant que les écrans du jeu.
   `#PauseScreen`, `#LevelSelectScreen`, `#LevelCompleteScreen`, `#CreditsScreen`).
   **Invariante** : jamais affectée par le thème clair/sombre de l'éditeur (`EX-IHM-054`). Ses
   grandeurs `identity.size.*` / `identity.space.*` sont multipliées par le facteur entier de
-  `hmi::pixelArtScale`. Posée par `MainWindow` sur la **pile d'écrans**, jamais sur l'application.
+  `hmi::identityScaleFor`. Posée par `MainWindow` sur la **pile d'écrans**, jamais sur l'application.
 - `theme-editor.qss` — **châssis d'édition** : fenêtre, panneaux dockables, barres, arbres, tables,
   contrôles, boîtes de dialogue. **Variable** : suit le thème clair/sombre. Ses grandeurs `tokens.*`
   ne sont jamais multipliées — le châssis est un outil de travail dont les tailles suivent les

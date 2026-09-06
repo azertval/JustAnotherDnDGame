@@ -31,20 +31,20 @@
     .frame {
       position: relative; background: var(--surface);
       box-shadow:
-        0 -4px 0 var(--ink), 0 4px 0 var(--ink), -4px 0 0 var(--ink), 4px 0 0 var(--ink),
-        inset 0 4px 0 var(--bevelHi), inset 4px 0 0 var(--bevelHi),
-        inset 0 -4px 0 var(--bevelLo), inset -4px 0 0 var(--bevelLo);
+        0 -4px 0 var(--edge), 0 4px 0 var(--edge), -4px 0 0 var(--edge), 4px 0 0 var(--edge),
+        inset 0 4px 0 var(--ornament), inset 4px 0 0 var(--ornament),
+        inset 0 -4px 0 var(--shadow), inset -4px 0 0 var(--shadow);
     }
     .frame--accent {
       box-shadow:
-        0 -4px 0 var(--ink), 0 4px 0 var(--ink), -4px 0 0 var(--ink), 4px 0 0 var(--ink),
+        0 -4px 0 var(--edge), 0 4px 0 var(--edge), -4px 0 0 var(--edge), 4px 0 0 var(--edge),
         inset 0 4px 0 var(--accent), inset 4px 0 0 var(--accent),
         inset 0 -4px 0 #8a6a00, inset -4px 0 0 #8a6a00;
     }
     .title {
       font-family: 'Press Start 2P', 'Courier New', monospace;
       color: var(--accent); line-height: 1.35;
-      text-shadow: 4px 4px 0 var(--ink);
+      text-shadow: 4px 4px 0 var(--edge);
     }
     .row {
       display: flex; align-items: center; gap: 16px;
@@ -63,8 +63,8 @@
     .key {
       font-family: 'Press Start 2P', monospace; font-size: 11px; color: var(--muted);
       padding: 6px 8px; background: var(--surfaceAlt);
-      box-shadow: 0 -2px 0 var(--ink), 0 2px 0 var(--ink), -2px 0 0 var(--ink), 2px 0 0 var(--ink),
-                  inset 0 2px 0 var(--bevelHi), inset 0 -2px 0 var(--bevelLo);
+      box-shadow: 0 -2px 0 var(--edge), 0 2px 0 var(--edge), -2px 0 0 var(--edge), 2px 0 0 var(--edge),
+                  inset 0 2px 0 var(--ornament), inset 0 -2px 0 var(--shadow);
     }
   </style>
 </helmet>

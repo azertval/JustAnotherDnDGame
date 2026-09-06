@@ -35,24 +35,34 @@ constexpr SizeTokens SHARED_SIZE{};
 // (fond sombre, accent ambre), désormais nommées par rôle plutôt qu'éparpillées en littéraux.
 [[nodiscard]] DesignTokens buildIdentityTokens() noexcept {
     DesignTokens tokens;
-    tokens.color.background = DesignColor{.r = 0x12, .g = 0x16, .b = 0x1f};
-    tokens.color.surface = DesignColor{.r = 0x1e, .g = 0x25, .b = 0x31};
-    tokens.color.surfaceAlt = DesignColor{.r = 0x26, .g = 0x2f, .b = 0x3e};
-    tokens.color.border = DesignColor{.r = 0x46, .g = 0x53, .b = 0x6b};
-    tokens.color.text = DesignColor{.r = 0xf2, .g = 0xf2, .b = 0xff};
-    tokens.color.textMuted = DesignColor{.r = 0x8b, .g = 0x93, .b = 0xa7};
-    tokens.color.accent = DesignColor{.r = 0xff, .g = 0xd1, .b = 0x33};
-    tokens.color.accentHover = DesignColor{.r = 0xff, .g = 0xdb, .b = 0x5c};
-    tokens.color.error = DesignColor{.r = 0xff, .g = 0x5c, .b = 0x5c};
-    // Cadre pixel art : contour tres sombre, biseau clair au-dessus du fond de surface, biseau
-    // sombre entre les deux. L'ecart entre les trois doit rester LISIBLE a un pixel d'epaisseur --
-    // c'est ce qui donne le relief, un cadre monochrome ne se lit pas.
-    tokens.color.outline = DesignColor{.r = 0x0a, .g = 0x0d, .b = 0x13};
-    tokens.color.bevelLight = DesignColor{.r = 0x46, .g = 0x53, .b = 0x6b};
-    tokens.color.bevelDark = DesignColor{.r = 0x10, .g = 0x14, .b = 0x1c};
+    // Palette du PARCHEMIN DE TANARES (LOT-66, EX-IHM-070). Chaque teinte est RELEVEE sur
+    // `Documentation/SourceBook/Character_Sheets_Tanares.pdf` -- histogramme quantifie par paliers
+    // de 16 des pages rendues -- et non choisie a vue. La raison est la meme que pour les regles
+    // chiffrees (EX-CNT-020) : une couleur inventee ressemble a la source sans en venir, et rien
+    // ne le dit jamais. Les valeurs ci-dessous sont les teintes DOMINANTES de ces pages.
+    tokens.color.background = DesignColor{.r = 0xd0, .g = 0xc0, .b = 0xa0};  // parchemin vieilli
+    tokens.color.surface = DesignColor{.r = 0xe0, .g = 0xd0, .b = 0xb0};     // champ de la feuille
+    tokens.color.surfaceAlt = DesignColor{.r = 0xf0, .g = 0xe0, .b = 0xd0};  // encadre clair
+    tokens.color.border = DesignColor{.r = 0x90, .g = 0x70, .b = 0x30};      // brun dore
+    tokens.color.text = DesignColor{.r = 0x30, .g = 0x20, .b = 0x00};        // encre sepia
+    tokens.color.textMuted = DesignColor{.r = 0x70, .g = 0x50, .b = 0x20};   // encre delavee
+    tokens.color.accent = DesignColor{.r = 0xc0, .g = 0xa0, .b = 0x60};      // or des filets
+    tokens.color.accentHover = DesignColor{.r = 0xc0, .g = 0xb0, .b = 0x80};
+    // `error` est le SEUL role qui ne vienne pas des feuilles : une feuille de personnage n'a pas
+    // d'etat d'erreur a montrer. Rouge de garance assombri, choisi pour tenir le contraste sur le
+    // parchemin -- et signale ici comme non atteste plutot que passe sous silence.
+    tokens.color.error = DesignColor{.r = 0x8a, .g = 0x2f, .b = 0x20};
+    // Cadre de parchemin : un trait exterieur d'encre, un filet ornemental dore en retrait, et
+    // l'ombre que le cadre porte sur le fond. Ce ne sont plus des biseaux : la lumiere ne vient
+    // plus d'en haut a gauche, il n'y a plus de relief a simuler. Ce qui doit rester LISIBLE,
+    // c'est l'ecart entre le trait et le filet -- deux traits de meme valeur ne composent pas un
+    // encadrement, ils composent une bordure epaisse.
+    tokens.color.frameEdge = DesignColor{.r = 0x30, .g = 0x20, .b = 0x00};
+    tokens.color.frameOrnament = DesignColor{.r = 0x90, .g = 0x70, .b = 0x30};
+    tokens.color.frameShadow = DesignColor{.r = 0x70, .g = 0x50, .b = 0x20};
     tokens.spacing = SHARED_SPACING;
     tokens.typography = sharedTypography();
-    tokens.typography.family = FontRole::Identity;  // police bitmap (LOT-68).
+    tokens.typography.family = FontRole::Identity;  // titrage a empattements (LOT-68).
     tokens.size = SHARED_SIZE;
     return tokens;
 }
@@ -71,11 +81,11 @@ constexpr SizeTokens SHARED_SIZE{};
     tokens.color.accent = DesignColor{.r = 0xff, .g = 0xd1, .b = 0x33};
     tokens.color.accentHover = DesignColor{.r = 0xff, .g = 0xdb, .b = 0x5c};
     tokens.color.error = DesignColor{.r = 0xff, .g = 0x6b, .b = 0x6b};
-    // Le chassis ne dessine pas de cadre pixel art : ces trois roles y servent de bordure
-    // eclaircie/assombrie, deja necessaires aux separateurs et aux barres de titre de dock.
-    tokens.color.outline = DesignColor{.r = 0x14, .g = 0x17, .b = 0x1e};
-    tokens.color.bevelLight = DesignColor{.r = 0x4a, .g = 0x52, .b = 0x63};
-    tokens.color.bevelDark = DesignColor{.r = 0x1a, .g = 0x1e, .b = 0x26};
+    // Le chassis ne dessine aucun cadre : ces trois roles y servent de bordure eclaircie /
+    // assombrie, deja necessaires aux separateurs et aux barres de titre de dock.
+    tokens.color.frameEdge = DesignColor{.r = 0x14, .g = 0x17, .b = 0x1e};
+    tokens.color.frameOrnament = DesignColor{.r = 0x4a, .g = 0x52, .b = 0x63};
+    tokens.color.frameShadow = DesignColor{.r = 0x1a, .g = 0x1e, .b = 0x26};
     tokens.spacing = SHARED_SPACING;
     tokens.typography = sharedTypography();
     tokens.size = SHARED_SIZE;
@@ -99,9 +109,9 @@ constexpr SizeTokens SHARED_SIZE{};
     // Theme clair : le biseau "clair" est plus SOMBRE que la surface (une surface blanche n'a pas
     // de plus clair qu'elle) -- inverser mecaniquement le theme sombre produirait deux biseaux
     // invisibles.
-    tokens.color.outline = DesignColor{.r = 0x9d, .g = 0xa4, .b = 0xb0};
-    tokens.color.bevelLight = DesignColor{.r = 0xe1, .g = 0xe5, .b = 0xeb};
-    tokens.color.bevelDark = DesignColor{.r = 0xb5, .g = 0xbc, .b = 0xc6};
+    tokens.color.frameEdge = DesignColor{.r = 0x9d, .g = 0xa4, .b = 0xb0};
+    tokens.color.frameOrnament = DesignColor{.r = 0xe1, .g = 0xe5, .b = 0xeb};
+    tokens.color.frameShadow = DesignColor{.r = 0xb5, .g = 0xbc, .b = 0xc6};
     tokens.spacing = SHARED_SPACING;
     tokens.typography = sharedTypography();
     tokens.size = SHARED_SIZE;
@@ -121,9 +131,9 @@ void addColorValues(std::unordered_map<std::string, std::string>& values, const 
     values[prefix + ".accent"] = toCssColor(color.accent);
     values[prefix + ".accentHover"] = toCssColor(color.accentHover);
     values[prefix + ".error"] = toCssColor(color.error);
-    values[prefix + ".outline"] = toCssColor(color.outline);
-    values[prefix + ".bevelLight"] = toCssColor(color.bevelLight);
-    values[prefix + ".bevelDark"] = toCssColor(color.bevelDark);
+    values[prefix + ".frameEdge"] = toCssColor(color.frameEdge);
+    values[prefix + ".frameOrnament"] = toCssColor(color.frameOrnament);
+    values[prefix + ".frameShadow"] = toCssColor(color.frameShadow);
 }
 
 }  // namespace
@@ -151,7 +161,8 @@ const IdentityBaseScale& identityBaseScale() noexcept {
 const char* genericCssFamily(FontRole role) noexcept {
     switch (role) {
         case FontRole::Identity:
-            // Le pixel art se rapproche davantage d'une chasse fixe que d'une lineale : si la
+            // Le titrage a empattements se rapproche davantage d'une chasse fixe que d'une
+            // lineale, pour le repli generique : si la
             // police embarquee manque, autant que le repli garde des colonnes alignees.
             return "monospace";
         case FontRole::Ui:

@@ -16,7 +16,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="hmi::PixelMenuButton" name="backButton">
+      <widget class="hmi::MenuEntryButton" name="backButton">
        <property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property>
        <property name="text"><string>Retour</string></property>
        <property name="flat"><bool>true</bool></property>
@@ -55,9 +55,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>hmi::PixelMenuButton</class>
+   <class>hmi::MenuEntryButton</class>
    <extends>QPushButton</extends>
-   <header>HMI/Interface/PixelMenuButton.h</header>
+   <header>HMI/Interface/MenuEntryButton.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

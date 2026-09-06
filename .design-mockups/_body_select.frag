@@ -9,8 +9,8 @@
     <div style="height: 30px;"></div>
 
     <div style="display: flex; gap: 8px;">
-      <div style="padding: 14px 26px; font-size: 21px; font-weight: 600; color: #12161f; background: var(--accent); box-shadow: 0 -4px 0 var(--ink), -4px 0 0 var(--ink), 4px 0 0 var(--ink), inset 0 4px 0 rgba(255,255,255,.35);">Séquence</div>
-      <div style="padding: 14px 26px; font-size: 21px; font-weight: 600; color: var(--muted); background: var(--surfaceAlt); box-shadow: 0 -4px 0 var(--ink), -4px 0 0 var(--ink), 4px 0 0 var(--ink), inset 0 4px 0 var(--bevelHi);">Niveaux personnels</div>
+      <div style="padding: 14px 26px; font-size: 21px; font-weight: 600; color: #12161f; background: var(--accent); box-shadow: 0 -4px 0 var(--edge), -4px 0 0 var(--edge), 4px 0 0 var(--edge), inset 0 4px 0 rgba(255,255,255,.35);">Séquence</div>
+      <div style="padding: 14px 26px; font-size: 21px; font-weight: 600; color: var(--muted); background: var(--surfaceAlt); box-shadow: 0 -4px 0 var(--edge), -4px 0 0 var(--edge), 4px 0 0 var(--edge), inset 0 4px 0 var(--ornament);">Niveaux personnels</div>
     </div>
 
     <div class="frame" style="flex-grow: 1; padding: 24px 0; display: flex; flex-direction: column;">

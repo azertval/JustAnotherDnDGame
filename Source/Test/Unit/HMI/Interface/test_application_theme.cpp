@@ -141,9 +141,9 @@ TEST(ApplicationThemeTest, EtancheiteDesPortees) {
         editorTokens.color.accent = uniform;
         editorTokens.color.accentHover = uniform;
         editorTokens.color.error = uniform;
-        editorTokens.color.outline = uniform;
-        editorTokens.color.bevelLight = uniform;
-        editorTokens.color.bevelDark = uniform;
+        editorTokens.color.frameEdge = uniform;
+        editorTokens.color.frameOrnament = uniform;
+        editorTokens.color.frameShadow = uniform;
         return hmi::buildStyleSheetValues(editorTokens);
     };
 

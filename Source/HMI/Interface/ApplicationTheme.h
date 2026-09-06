@@ -75,8 +75,8 @@ void applyFont();
 /// titre très typée serait illisible en corps de texte.
 [[nodiscard]] std::string resolvedIdentityTitleFamily();
 
-/// Fixe le facteur d'agrandissement **entier** des écrans du jeu (`hmi::pixelArtScale`), relu par
-/// `applyStyleSheet` (`LOT-68`, `EX-IHM-070`). Un réglage, pas un calcul : c'est la fenêtre qui
+/// Fixe le facteur d'agrandissement **entier** des écrans du jeu (`hmi::identityScaleFor`), relu
+/// par `applyStyleSheet` (`LOT-68`, `EX-IHM-070`). Un réglage, pas un calcul : c'est la fenêtre qui
 /// connaît sa hauteur, et elle seule.
 /// @return `true` si la valeur a changé — l'appelant sait alors qu'il doit rejouer le thème.
 bool setIdentityScale(int scale);

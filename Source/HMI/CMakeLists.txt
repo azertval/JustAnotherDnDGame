@@ -115,9 +115,9 @@ add_library(HmiLib STATIC
     Interface/FontResolution.cpp
     Interface/ThemeResolution.cpp
     Interface/IconGeometry.cpp
-    Interface/PixelArtScale.cpp
+    Interface/IdentityScale.cpp
     Interface/EditorWorkspace.cpp
-    Interface/PixelFrameGeometry.cpp
+    Interface/ParchmentFrame.cpp
     Interface/MenuBackdropGeometry.cpp
     Interface/KeyHintText.cpp
     Interface/ActionCatalog.cpp
@@ -293,9 +293,9 @@ add_executable(JustAnotherDnDGame
     # dans UnitTests (cf. Source/Test/CMakeLists.txt).
     # Widgets Qt de l'habillage pixel art (LOT-68) : peintres au-dessus de la geometrie pure
     # ci-dessus, promus dans les .ui. Non compiles dans UnitTests (dependent de Qt).
-    Interface/PixelFrameWidget.cpp
-    Interface/PixelFocusCaret.cpp
-    Interface/PixelMenuButton.cpp
+    Interface/ParchmentPanel.cpp
+    Interface/FocusMarker.cpp
+    Interface/MenuEntryButton.cpp
     Interface/ThemeIcons.cpp
     Interface/EditorActions.cpp
     # Enveloppe defilante de toute page d ecran (LOT-73, EX-IHM-080) : aucun ecran ne
