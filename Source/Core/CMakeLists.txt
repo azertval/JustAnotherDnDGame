@@ -26,6 +26,7 @@ add_library(Core STATIC
     Rpg/Skill.cpp
     Rpg/Check.cpp
     Rpg/Dice.cpp
+    Rpg/Equipment.cpp
     Rpg/RpgEnumNames.cpp
     Rpg/Multiclassing.cpp
     Levels/TileMap.cpp

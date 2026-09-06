@@ -6,6 +6,38 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **Équipement : armes, armures et matériel** (`LOT-34`). Les tables des *Basic Rules* vers
+  `Source/Elements/Rpg/` — **37 armes**, **13 armures** et **125 objets** (matériel, outils,
+  montures et véhicules).
+  - **C'est le lot où le §4 se paie.** « Un tableau ne s'extrait pas en flux de texte » est une
+    règle du projet depuis le `LOT-30` ; nulle part sa conséquence n'est aussi silencieuse qu'ici :
+    une valeur de prix décalée d'une ligne ne casse rien, ne lève aucune alerte, et déséquilibre
+    l'économie sans que personne ne comprenne pourquoi.
+  - **Le groupe d'une arme n'est pas dans sa rangée.** Ce sont les intertitres du livre — « Armes
+    courantes de corps à corps », « Armes de guerre à distance » — et eux seuls qui disent qu'une
+    arme est courante ou de guerre. Une extraction qui ne lirait que les rangées produirait
+    trente-sept armes sans catégorie, et `category` est requis au schéma sans que rien ne dise
+    qu'il est **juste**. Le défaut s'est manifesté à la première exécution : la bande d'ordonnées
+    commençait après le premier intertitre, et dix armes sortaient sans catégorie — c'est le
+    contrôle de cardinal, 27 au lieu de 37, qui l'a dit.
+  - **Les trois formes de la colonne CA disent trois règles.** `11 + Mod.Dex` sans plafond,
+    `14 + Mod.Dex (max +2)` plafonné, `18` sans Dextérité du tout. Les réduire à leur premier
+    nombre appliquerait la Dextérité au harnois — ce qui rend le personnage **plus** résistant,
+    jamais moins, ne provoque aucune erreur et passe pour de l'équilibrage. Le test choisit une
+    Dextérité de +4 précisément pour que l'écart se voie.
+  - **Trois cas que le livre écrit et qu'un schéma refusait.** Le **filet** n'inflige aucun dégât —
+    il entrave — et `damage` est devenu facultatif plutôt que de lui inventer des dés ; la
+    **fronde** n'a pas de poids, et le tiret du livre vaut *absent*, jamais zéro ; le **bouclier**
+    n'est pas une armure, il ajoute au lieu de remplacer, et le traiter comme telle donnerait une
+    CA de 2 à un personnage en bouclier seul.
+  - **La table du matériel est composée en deux sous-tables côte à côte** : une rangée y porte six
+    cellules, donc deux objets. Les lire d'un bloc donnerait un objet pesant
+    « 500 g Billes de fronde (20) ».
+  - **Deux unités converties une seule fois.** Le livre mêle kilogrammes et grammes dans la même
+    table, et compte en pièces d'or, d'argent et de cuivre ; les catalogues ne connaissent que les
+    grammes et les pièces de cuivre.
+  - `ctest` passe de 1001 à **1008** cas, tous verts.
+
 - **Entités de carte et interaction** (`LOT-10`). Les cartes se peuplent d'entités qui ne sont
   **pas des tuiles** — coffres, panneaux, et demain PNJ et portails — et le joueur peut interagir
   avec elles.

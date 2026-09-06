@@ -28,6 +28,8 @@
       "type": "boolean"
     },
     "damage": {
+      "description": "Des de degats. FACULTATIF depuis le LOT-34 : le FILET des Basic Rules n'inflige aucun degat -- il entrave. Exiger `damage` obligerait a lui en inventer, et une arme a 0 degat se joue comme une arme qui touche pour rien, ce qui est faux. Une arme sans degats est une arme dont l'effet est ailleurs, et son `text` le dit.",
+      
       "$ref": "https://justanotherdndgame.local/rpg/common.schema.json#/$defs/des"
     },
     "damageType": {
@@ -86,8 +88,6 @@
     "name",
     "source",
     "category",
-    "damage",
-    "damageType",
     "price",
     "weightGrams"
   ],
