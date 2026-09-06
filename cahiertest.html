@@ -93,9 +93,9 @@ $(function(){initNavTree('cahiertest.html','',''); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md_CahierTest"></a></p>
-<p><b>996 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
+<p><b>1003 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md5"></a>
-Tests unitaires (981)</h1>
+Tests unitaires (988)</h1>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md6"></a>
 Core</h2>
 <p><b><span class="tt"><a class="el" href="test__core_8cpp.html" title="Tests unitaires de la bibliothèque Core (amorçage).">test_core.cpp</a></span></b></p>
@@ -2177,7 +2177,7 @@ Vérifie que <span class="tt">r.normal.y</span> vaut <span class="tt">1.0f</span
 Vérifie que <span class="tt">r.position.x</span> vaut <span class="tt">3.0f</span> (comparaison flottante).  </td></tr>
 </table>
 <h3 class="doxsection"><a class="anchor" id="autotoc_md14"></a>
-Rpg (49)</h3>
+Rpg (56)</h3>
 <p><b><span class="tt"><a class="el" href="test__bestiary_8cpp.html" title="Tests du bestiaire de base (LOT-33) : les 94 profils chargent, et dix sont rejoues contre des valeurs...">test_bestiary.cpp</a></span></b></p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -2507,6 +2507,72 @@ Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a6faed4224d
 Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a918b595ef74492bed349a6bbf82a9f64" title="Convertit une distance en mètres — telle que le corpus l&#39;écrit — en nombre de cases.">core::tilesFromMeters</a>(9.0f)</span> vaut <span class="tt">6.0f</span> (comparaison flottante).<br  />
 Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a3bc1fb9934614684210eff9159619222" title="Convertit un nombre de cases en mètres, pour l&#39;affichage et les infobulles.">core::metersFromTiles</a>(6.0f)</span> vaut <span class="tt">9.0f</span> (comparaison flottante).<br  />
 Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a918b595ef74492bed349a6bbf82a9f64" title="Convertit une distance en mètres — telle que le corpus l&#39;écrit — en nombre de cases.">core::tilesFromMeters</a>(<a class="el" href="namespacecore.html#a3bc1fb9934614684210eff9159619222" title="Convertit un nombre de cases en mètres, pour l&#39;affichage et les infobulles.">core::metersFromTiles</a>(4.0f))</span> vaut <span class="tt">4.0f</span> (comparaison flottante).  </td></tr>
+</table>
+<p><b><span class="tt"><a class="el" href="test__equipment_8cpp.html" title="Tests des armes et des armures (LOT-34).">test_equipment.cpp</a></span></b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>EquipmentTest.LesDeuxCataloguesSeChargent</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__equipment_8cpp.html" title="Tests des armes et des armures (LOT-34).">Source/Test/Unit/Core/Rpg/test_equipment.cpp</a>:87</span></sub>  </td><td class="markdownTableBodyNone">Les armes et les armures livrees se chargent toutes.  </td><td class="markdownTableBodyNone">1. Charger weapons/ et armors/.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">lus.weapons.size()</span> vaut <span class="tt">37U</span>.<br  />
+Vérifie que <span class="tt">lus.armors.size()</span> vaut <span class="tt">ARMURES.size()</span>.<br  />
+Vérifie que <span class="tt">regles().ok()</span> est vrai.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>EquipmentTest.LesTreizeArmuresPortentLesValeursDuLivre</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__equipment_8cpp.html" title="Tests des armes et des armures (LOT-34).">Source/Test/Unit/Core/Rpg/test_equipment.cpp</a>:107</span></sub>  </td><td class="markdownTableBodyNone">Chaque armure du catalogue porte la CA, le poids et le prix du livre.  </td><td class="markdownTableBodyNone">1. Pour les 13 rangees de la table p. 50, comparer categorie, CA de base, plafond de Dexterite, Force exigee, discretion, poids et prix aux valeurs recopiees a la main.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">armure</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a8f90cc0f92ab13611bbb2c2730e4efdd" title="Nom textuel d&#39;une catégorie d&#39;armure, tel que la donnée l&#39;écrit.">core::armorCategoryName</a>(armure-&gt;category)</span> vaut <span class="tt">attendue.categorie</span>.<br  />
+Vérifie que <span class="tt">armure-&gt;baseArmorClass</span> vaut <span class="tt">attendue.base</span>.<br  />
+Vérifie que <span class="tt">armure-&gt;weightGrams</span> vaut <span class="tt">attendue.poidsGrammes</span>.<br  />
+Vérifie que <span class="tt">armure-&gt;price</span> vaut <span class="tt">attendue.prixCuivre</span>.<br  />
+Vérifie que <span class="tt">armure-&gt;stealthDisadvantage</span> vaut <span class="tt">attendue.discretion</span>.<br  />
+Vérifie que <span class="tt">armure-&gt;dexterityBonus</span> est faux.<br  />
+Vérifie que <span class="tt">armure-&gt;dexterityBonus</span> est vrai.<br  />
+Vérifie que <span class="tt">armure-&gt;dexterityBonusMax.has_value()</span> est faux.<br  />
+Vérifie que <span class="tt">armure-&gt;dexterityBonusMax.has_value()</span> est vrai.<br  />
+Vérifie que <span class="tt">*armure-&gt;dexterityBonusMax</span> vaut <span class="tt">attendue.dexMax</span>.<br  />
+Vérifie que <span class="tt">armure-&gt;strengthRequired.has_value()</span> est faux.<br  />
+Vérifie que <span class="tt">armure-&gt;strengthRequired.has_value()</span> est vrai.<br  />
+Vérifie que <span class="tt">*armure-&gt;strengthRequired</span> vaut <span class="tt">attendue.forceExigee</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>EquipmentTest.LaCaCalculeeEgaleLaColonneDuLivre</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__equipment_8cpp.html" title="Tests des armes et des armures (LOT-34).">Source/Test/Unit/Core/Rpg/test_equipment.cpp</a>:149</span></sub>  </td><td class="markdownTableBodyNone">La classe d'armure calculee pour chaque armure egale la colonne CA du livre.  </td><td class="markdownTableBodyNone">1. Avec une Dexterite de 18 (modificateur +4), calculer la CA de chaque armure.<br  />
+ 2. La comparer a la formule de la colonne CA, appliquee a la main.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">dexterite</span> vaut <span class="tt">4</span>.<br  />
+Vérifie que <span class="tt">armure</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">core::armorClassFor(fiche, regles(), armure, nullptr)</span> vaut <span class="tt">attendu</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>EquipmentTest.LeBouclierAjouteIlNeRemplacePas</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__equipment_8cpp.html" title="Tests des armes et des armures (LOT-34).">Source/Test/Unit/Core/Rpg/test_equipment.cpp</a>:188</span></sub>  </td><td class="markdownTableBodyNone">Un bouclier ajoute son bonus a la classe d'armure, seul ou avec une armure.  </td><td class="markdownTableBodyNone">1. Calculer la CA d'un personnage en bouclier seul, puis en harnois et bouclier.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">bouclier</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">harnois</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">core::armorClassFor(fiche, regles(), bouclier, nullptr)</span> vaut <span class="tt">regles().unarmoredArmorClass + fiche.modifier(core::Ability::Dexterity)</span>.<br  />
+Vérifie que <span class="tt">core::armorClassFor(fiche, regles(), nullptr, bouclier)</span> vaut <span class="tt">regles().unarmoredArmorClass + fiche.modifier(core::Ability::Dexterity) + bouclier-&gt;baseArmorClass</span>.<br  />
+Vérifie que <span class="tt">core::armorClassFor(fiche, regles(), harnois, bouclier)</span> vaut <span class="tt">harnois-&gt;baseArmorClass + bouclier-&gt;baseArmorClass</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>EquipmentTest.LePoidsDUnInventaireDeDepartCorrespondAuCalculManuel</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__equipment_8cpp.html" title="Tests des armes et des armures (LOT-34).">Source/Test/Unit/Core/Rpg/test_equipment.cpp</a>:216</span></sub>  </td><td class="markdownTableBodyNone">Le poids total d'un inventaire de depart egale la somme calculee a la main.  </td><td class="markdownTableBodyNone">1. Composer l'inventaire d'un guerrier : cotte de mailles, epee longue, bouclier et deux javelines.<br  />
+ 2. Comparer le total au calcul fait a la main depuis les poids du livre.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">cotte</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">bouclier</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">epee</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">javeline</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">core::totalWeightGrams(sac)</span> vaut <span class="tt">TOTAL_ATTENDU_GRAMMES</span>.<br  />
+Vérifie que <span class="tt">core::totalWeightGrams(avecVides)</span> vaut <span class="tt">cotte-&gt;weightGrams</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#aed30b768048177bf363d9c058c5a0e1d" title="Le poids total d&#39;un inventaire, en grammes.">core::totalWeightGrams</a>({})</span> vaut <span class="tt">0</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>EquipmentTest.LeFiletNInfligeAucunDegat</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__equipment_8cpp.html" title="Tests des armes et des armures (LOT-34).">Source/Test/Unit/Core/Rpg/test_equipment.cpp</a>:255</span></sub>  </td><td class="markdownTableBodyNone">Une arme sans degats est chargee sans que des lui soient inventes.  </td><td class="markdownTableBodyNone">1. Charger le filet et une arme ordinaire.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">filet</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">filet-&gt;damage.has_value()</span> est faux.<br  />
+Vérifie que <span class="tt">filet-&gt;damageType.has_value()</span> est faux.<br  />
+Vérifie que <span class="tt">filet-&gt;text.empty()</span> est faux.<br  />
+Vérifie que <span class="tt">dague</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">dague-&gt;damage.has_value()</span> est vrai.<br  />
+Vérifie que <span class="tt">dague-&gt;damage-&gt;count</span> vaut <span class="tt">1</span>.<br  />
+Vérifie que <span class="tt">dague-&gt;damage-&gt;faces</span> vaut <span class="tt">4</span>.<br  />
+Vérifie que <span class="tt">dague-&gt;damageType.has_value()</span> est vrai.<br  />
+Vérifie que <span class="tt">*dague-&gt;damageType</span> vaut <span class="tt"><a class="el" href="namespacecore.html#aae5ed49bedbf68049f008e4efac2edfda71b82d588f8ca5360dd8f79f4452f61a">core::DamageType::Piercing</a></span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>EquipmentTest.LesArmesPortentLeurCategorieEtLeurPortee</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__equipment_8cpp.html" title="Tests des armes et des armures (LOT-34).">Source/Test/Unit/Core/Rpg/test_equipment.cpp</a>:282</span></sub>  </td><td class="markdownTableBodyNone">Chaque arme porte la categorie et la portee de son intertitre.  </td><td class="markdownTableBodyNone">1. Verifier la categorie et la portee de quatre armes, une par groupe du livre.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">arme</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">arme-&gt;category</span> vaut <span class="tt">cas.categorie</span>.<br  />
+Vérifie que <span class="tt">arme-&gt;ranged</span> vaut <span class="tt">cas.distance</span>.  </td></tr>
 </table>
 <p><b><span class="tt"><a class="el" href="test__multiclassing_8cpp.html" title="Tests du cumul des emplacements de sorts multiclasses (LOT-43, EX-RPG-041).">test_multiclassing.cpp</a></span></b></p>
 <table class="markdownTable">

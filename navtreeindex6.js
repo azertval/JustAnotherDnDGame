@@ -1,5 +1,8 @@
 var NAVTREEINDEX6 =
 {
+"classhmi_1_1Camera2D.html#adfbd3dc1e9d3a0840f9fed36c57d47a6":[12,0,1,70,15],
+"classhmi_1_1Camera2D.html#ae4d184982026b7f61e3507c0d264321b":[11,0,1,70,3],
+"classhmi_1_1Camera2D.html#ae4d184982026b7f61e3507c0d264321b":[12,0,1,70,3],
 "classhmi_1_1Camera2D.html#aea18d5858adba920f73a1a252c3be08d":[11,0,1,70,5],
 "classhmi_1_1Camera2D.html#aea18d5858adba920f73a1a252c3be08d":[12,0,1,70,5],
 "classhmi_1_1Camera2D.html#aed94ae02f2ca33bdda4d93f19ffa5cbb":[11,0,1,70,1],
@@ -246,8 +249,5 @@ var NAVTREEINDEX6 =
 "classhmi_1_1GameKeyBindings.html#a598a666a329ac0f1d438b0cc2a7e3cf3":[12,0,1,115,2],
 "classhmi_1_1GameKeyBindings.html#a7a7f7df56c93f41636cc5734c44f108a":[11,0,1,115,7],
 "classhmi_1_1GameKeyBindings.html#a7a7f7df56c93f41636cc5734c44f108a":[12,0,1,115,7],
-"classhmi_1_1GameKeyBindings.html#a824abc78720652ff4fa0b24573b5b807":[11,0,1,115,4],
-"classhmi_1_1GameKeyBindings.html#a824abc78720652ff4fa0b24573b5b807":[12,0,1,115,4],
-"classhmi_1_1GameKeyBindings.html#ad0730747c26c0da49543e3e837bec7cd":[11,0,1,115,3],
-"classhmi_1_1GameKeyBindings.html#ad0730747c26c0da49543e3e837bec7cd":[12,0,1,115,3]
+"classhmi_1_1GameKeyBindings.html#a824abc78720652ff4fa0b24573b5b807":[11,0,1,115,4]
 };

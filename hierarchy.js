@@ -7,6 +7,7 @@ var hierarchy =
     [ "core::AnimationClip", "structcore_1_1AnimationClip.html", null ],
     [ "hmi::AnimationDescription", "structhmi_1_1AnimationDescription.html", null ],
     [ "hmi::AnimationDescriptionResult", "structhmi_1_1AnimationDescriptionResult.html", null ],
+    [ "core::Armor", "structcore_1_1Armor.html", null ],
     [ "hmi::ArrowHead", "structhmi_1_1ArrowHead.html", null ],
     [ "hmi::AssetDimensionContract", "structhmi_1_1AssetDimensionContract.html", null ],
     [ "hmi::AssetFileOperations", "classhmi_1_1AssetFileOperations.html", null ],
@@ -62,6 +63,7 @@ var hierarchy =
     [ "core::Entity", "structcore_1_1Entity.html", null ],
     [ "core::EntityManager", "classcore_1_1EntityManager.html", null ],
     [ "core::MemoryLogSink::Entry", "structcore_1_1MemoryLogSink_1_1Entry.html", null ],
+    [ "core::EquipmentCatalog", "structcore_1_1EquipmentCatalog.html", null ],
     [ "core::ExperienceLevel", "structcore_1_1ExperienceLevel.html", null ],
     [ "core::ExperienceTable", "structcore_1_1ExperienceTable.html", null ],
     [ "hmi::FileOperationResult", "structhmi_1_1FileOperationResult.html", null ],
@@ -101,6 +103,7 @@ var hierarchy =
     [ "core::InteractionCandidate", "structcore_1_1InteractionCandidate.html", null ],
     [ "core::InteractionOutcome", "structcore_1_1InteractionOutcome.html", null ],
     [ "core::InteractionTarget", "structcore_1_1InteractionTarget.html", null ],
+    [ "core::InventoryEntry", "structcore_1_1InventoryEntry.html", null ],
     [ "core::ISystem", "classcore_1_1ISystem.html", [
       [ "core::AnimationSystem", "classcore_1_1AnimationSystem.html", null ],
       [ "core::MovementSystem", "classcore_1_1MovementSystem.html", null ]
@@ -271,6 +274,7 @@ var hierarchy =
     [ "core::Velocity", "structcore_1_1Velocity.html", null ],
     [ "hmi::SpriteBatch::Vertex", "structhmi_1_1SpriteBatch_1_1Vertex.html", null ],
     [ "core::View&lt; Components &gt;", "classcore_1_1View.html", null ],
+    [ "core::Weapon", "structcore_1_1Weapon.html", null ],
     [ "hmi::WorkspaceDressing", "structhmi_1_1WorkspaceDressing.html", null ],
     [ "core::World", "classcore_1_1World.html", null ],
     [ "core::WorldFlags", "classcore_1_1WorldFlags.html", null ]

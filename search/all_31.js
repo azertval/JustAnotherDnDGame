@@ -1,6 +1,8 @@
 var searchData=
 [
-  ['↔_20combat_0',['LOT-18 — Bascule exploration ↔ combat',['../roadmap-010.html#lot-18',1,'']]],
-  ['↔_20porte_1',['Mécanismes déclencheur ↔ porte',['../guide-niveaux.html#autotoc_md173',1,'']]],
-  ['↔_20rendu_2',['4. Frontière simulation ↔ rendu',['../spec-architecture.html#autotoc_md253',1,'']]]
+  ['→_20écran_0',['&lt;a class=&quot;el&quot; href=&quot;classhmi_1_1SpriteRenderer.html&quot; title=&quot;hmi::SpriteRenderer&quot;&gt;hmi::SpriteRenderer&lt;/a&gt; : le pont ECS → écran',['../guide-rendu.html#autotoc_md221',1,'']]],
+  ['→_20hmi_3a_3akey_20key_20_3a_20hmi_3a_3aqtkeytohmikey_20qtkeytohmikey_1',['Le pont Qt → &lt;a class=&quot;el&quot; href=&quot;namespacehmi.html#a83c98e56e30eafa606048853f7962e48&quot; title=&quot;hmi::Key&quot;&gt;Key&lt;/a&gt; : &lt;a class=&quot;el&quot; href=&quot;namespacehmi.html#a1b53de392afb0dfdf5cdef4543fb672d&quot; title=&quot;hmi::qtKeyToHmiKey&quot;&gt;qtKeyToHmiKey&lt;/a&gt;',['../guide-entrees.html#autotoc_md125',1,'']]],
+  ['→_20lot_2055_2',['Le programme d&apos;habillage, livré (&lt;span class=&quot;tt&quot;&gt;LOT-40&lt;/span&gt; → &lt;span class=&quot;tt&quot;&gt;LOT-55&lt;/span&gt;)',['../guide-rendu.html#autotoc_md240',1,'']]],
+  ['→_20lot_20h_2055_3',['11. Habillage par textures et décors (&lt;span class=&quot;tt&quot;&gt;LOT-H-40&lt;/span&gt; → &lt;span class=&quot;tt&quot;&gt;LOT-H-55&lt;/span&gt;)',['../spec-editeur.html#autotoc_md316',1,'']]],
+  ['→_20pixel_20art_20intégré_20à_20l_20éditeur_4',['3. Pipeline photo → pixel art (intégré à l&apos;éditeur)',['../spec-decors.html#autotoc_md301',1,'']]]
 ];

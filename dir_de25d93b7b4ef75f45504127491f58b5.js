@@ -12,6 +12,8 @@ var dir_de25d93b7b4ef75f45504127491f58b5 =
     [ "Check.h", "Check_8h.html", "Check_8h" ],
     [ "Dice.cpp", "Dice_8cpp.html", "Dice_8cpp" ],
     [ "Dice.h", "Dice_8h.html", "Dice_8h" ],
+    [ "Equipment.cpp", "Equipment_8cpp.html", "Equipment_8cpp" ],
+    [ "Equipment.h", "Equipment_8h.html", "Equipment_8h" ],
     [ "Multiclassing.cpp", "Multiclassing_8cpp.html", "Multiclassing_8cpp" ],
     [ "Multiclassing.h", "Multiclassing_8h.html", "Multiclassing_8h" ],
     [ "RpgEnumNames.cpp", "RpgEnumNames_8cpp.html", "RpgEnumNames_8cpp" ],

@@ -14,6 +14,7 @@ var searchData=
   ['interactioncandidate_11',['InteractionCandidate',['../structcore_1_1InteractionCandidate.html',1,'core']]],
   ['interactionoutcome_12',['InteractionOutcome',['../structcore_1_1InteractionOutcome.html',1,'core']]],
   ['interactiontarget_13',['InteractionTarget',['../structcore_1_1InteractionTarget.html',1,'core']]],
-  ['isystem_14',['ISystem',['../classcore_1_1ISystem.html',1,'core']]],
-  ['iterator_15',['Iterator',['../classcore_1_1View_1_1Iterator.html',1,'core::View']]]
+  ['inventoryentry_14',['InventoryEntry',['../structcore_1_1InventoryEntry.html',1,'core']]],
+  ['isystem_15',['ISystem',['../classcore_1_1ISystem.html',1,'core']]],
+  ['iterator_16',['Iterator',['../classcore_1_1View_1_1Iterator.html',1,'core::View']]]
 ];

@@ -1,5 +1,8 @@
 var NAVTREEINDEX14 =
 {
+"classhmi_1_1PlanesPanel.html#a0f194d8364574ef70e6f3be2e4608dbe":[12,0,1,41,2],
+"classhmi_1_1PlanesPanel.html#a1f3e62d3b023bdd1e081983184091778":[11,0,1,41,4],
+"classhmi_1_1PlanesPanel.html#a1f3e62d3b023bdd1e081983184091778":[12,0,1,41,4],
 "classhmi_1_1PlanesPanel.html#a253c95590ab5679953c1180b166f870b":[11,0,1,41,21],
 "classhmi_1_1PlanesPanel.html#a253c95590ab5679953c1180b166f870b":[12,0,1,41,21],
 "classhmi_1_1PlanesPanel.html#a36dbab4227c2a4b2a8dba0c109d3eb73":[11,0,1,41,16],
@@ -246,8 +249,5 @@ var NAVTREEINDEX14 =
 "classhmi_1_1SpriteBatch.html#aac9e3e6a4b2e84a4b24b617d6b4ce58d":[12,0,1,102,11],
 "classhmi_1_1SpriteBatch.html#ab303eefccbd3bb329f936d2200a38f6c":[11,0,1,102,23],
 "classhmi_1_1SpriteBatch.html#ab303eefccbd3bb329f936d2200a38f6c":[12,0,1,102,23],
-"classhmi_1_1SpriteBatch.html#ab45c9014b548b8282baec8a22a2d32db":[11,0,1,102,21],
-"classhmi_1_1SpriteBatch.html#ab45c9014b548b8282baec8a22a2d32db":[12,0,1,102,21],
-"classhmi_1_1SpriteBatch.html#ab55b02a4ffd9e4000d63693f62690c98":[11,0,1,102,19],
-"classhmi_1_1SpriteBatch.html#ab55b02a4ffd9e4000d63693f62690c98":[12,0,1,102,19]
+"classhmi_1_1SpriteBatch.html#ab45c9014b548b8282baec8a22a2d32db":[11,0,1,102,21]
 };

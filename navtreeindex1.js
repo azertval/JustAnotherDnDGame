@@ -1,5 +1,8 @@
 var NAVTREEINDEX1 =
 {
+"KeyHintText_8cpp.html":[13,0,3,2,6,22],
+"KeyHintText_8h.html":[13,0,3,2,6,23],
+"KeyHintText_8h_source.html":[13,0,3,2,6,23],
 "KeyName_8cpp.html":[13,0,3,2,5,13],
 "KeyName_8h.html":[13,0,3,2,5,14],
 "KeyName_8h_source.html":[13,0,3,2,5,14],
@@ -118,9 +121,9 @@ var NAVTREEINDEX1 =
 "MovementSystem_8cpp.html":[13,0,3,0,2,1,2],
 "MovementSystem_8h.html":[13,0,3,0,2,1,3],
 "MovementSystem_8h_source.html":[13,0,3,0,2,1,3],
-"Multiclassing_8cpp.html":[13,0,3,0,7,12],
-"Multiclassing_8h.html":[13,0,3,0,7,13],
-"Multiclassing_8h_source.html":[13,0,3,0,7,13],
+"Multiclassing_8cpp.html":[13,0,3,0,7,14],
+"Multiclassing_8h.html":[13,0,3,0,7,15],
+"Multiclassing_8h_source.html":[13,0,3,0,7,15],
 "OptionsPage_8cpp.html":[13,0,3,2,6,34],
 "OptionsPage_8h.html":[13,0,3,2,6,35],
 "OptionsPage_8h_source.html":[13,0,3,2,6,35],
@@ -246,8 +249,5 @@ var NAVTREEINDEX1 =
 "QuadRecorder_8h_source.html":[13,0,3,2,4,44],
 "Quad_8h.html":[13,0,3,2,4,42],
 "Quad_8h_source.html":[13,0,3,2,4,42],
-"Rect_8cpp.html":[13,0,3,0,5,2],
-"Rect_8h.html":[13,0,3,0,5,3],
-"Rect_8h_source.html":[13,0,3,0,5,3],
-"RenderLayer_8h.html":[13,0,3,2,4,45]
+"Rect_8cpp.html":[13,0,3,0,5,2]
 };

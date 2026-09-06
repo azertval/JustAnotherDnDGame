@@ -273,6 +273,14 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une expression de dés analysée : <span class="tt">2d6+3</span>, <span class="tt">1d8</span>, <span class="tt">4</span>.  <a href="structcore_1_1Dice.html#details">More...</a><br /></td></tr>
 <tr class="memitem:DiceRoll" id="r_DiceRoll"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1DiceRoll.html">DiceRoll</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le détail d'un lancer, pour que le joueur puisse le reconstituer (<span class="tt">EX-DND-003</span>).  <a href="structcore_1_1DiceRoll.html#details">More...</a><br /></td></tr>
+<tr class="memitem:Armor" id="r_Armor"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1Armor.html">Armor</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une armure ou un bouclier du catalogue.  <a href="structcore_1_1Armor.html#details">More...</a><br /></td></tr>
+<tr class="memitem:Weapon" id="r_Weapon"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1Weapon.html">Weapon</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une arme du catalogue.  <a href="structcore_1_1Weapon.html#details">More...</a><br /></td></tr>
+<tr class="memitem:EquipmentCatalog" id="r_EquipmentCatalog"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1EquipmentCatalog.html">EquipmentCatalog</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les deux catalogues chargés, et ce qui n'a pas pu l'être.  <a href="structcore_1_1EquipmentCatalog.html#details">More...</a><br /></td></tr>
+<tr class="memitem:InventoryEntry" id="r_InventoryEntry"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1InventoryEntry.html">InventoryEntry</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une ligne d'inventaire : un objet et sa quantité.  <a href="structcore_1_1InventoryEntry.html#details">More...</a><br /></td></tr>
 <tr class="memitem:SkillDefinition" id="r_SkillDefinition"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1SkillDefinition.html">SkillDefinition</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une compétence et la caractéristique dont elle dépend.  <a href="structcore_1_1SkillDefinition.html#details">More...</a><br /></td></tr>
 <tr class="memitem:SkillCatalog" id="r_SkillCatalog"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1SkillCatalog.html">SkillCatalog</a></td></tr>
@@ -413,6 +421,12 @@ Enumerations</h2></td></tr>
 , <a class="el" href="#aff494cc4070ea4489c3d5ee57178f7c9ae755d083f9085a585ef791919be5a004">Disadvantage</a>
  }</td></tr>
 <tr class="memdesc:aff494cc4070ea4489c3d5ee57178f7c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Comment le d20 est lancé.  <a href="#aff494cc4070ea4489c3d5ee57178f7c9">More...</a><br /></td></tr>
+<tr class="memitem:a7ad0450d2b476419d40745fbfa9ac105" id="r_a7ad0450d2b476419d40745fbfa9ac105"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#a7ad0450d2b476419d40745fbfa9ac105">ArmorCategory</a> { <a class="el" href="#a7ad0450d2b476419d40745fbfa9ac105a9914a0ce04a7b7b6a8e39bec55064b82">Light</a>
+, <a class="el" href="#a7ad0450d2b476419d40745fbfa9ac105a87f8a6ab85c9ced3702b4ea641ad4bb5">Medium</a>
+, <a class="el" href="#a7ad0450d2b476419d40745fbfa9ac105af9ffe67a20da9cbff56b420fca4bd491">Heavy</a>
+, <a class="el" href="#a7ad0450d2b476419d40745fbfa9ac105a970da5f1f2e32aeb9e488dd017160ab4">Shield</a>
+ }</td></tr>
+<tr class="memdesc:a7ad0450d2b476419d40745fbfa9ac105"><td class="mdescLeft">&#160;</td><td class="mdescRight">Catégorie d'armure. Ensemble <b>fermé</b> : le livre n'en connaît pas d'autre.  <a href="#a7ad0450d2b476419d40745fbfa9ac105">More...</a><br /></td></tr>
 <tr class="memitem:ab1c6c3303c34c417c9a3b6ac3ddb066d" id="r_ab1c6c3303c34c417c9a3b6ac3ddb066d"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#ab1c6c3303c34c417c9a3b6ac3ddb066d">CasterProgression</a> { <br />
 &#160;&#160;<a class="el" href="#ab1c6c3303c34c417c9a3b6ac3ddb066da6adf97f83acf6453d4a6a4b1070f3754">None</a>
 , <a class="el" href="#ab1c6c3303c34c417c9a3b6ac3ddb066da168909c0b6f1dfbd48f679d47059c1d6">Third</a>
@@ -619,6 +633,16 @@ Functions</h2></td></tr>
 <tr class="memdesc:a58d791281d7fcab412851036c03c94bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Réécrit une expression en notation canonique (<span class="tt">2d6+3</span>, <span class="tt">1d8</span>, <span class="tt">4</span>).  <br /></td></tr>
 <tr class="memitem:a0284eca0c4fcac886302e934a7e0aeb2" id="r_a0284eca0c4fcac886302e934a7e0aeb2"><td class="memItemLeft"><a class="el" href="structcore_1_1DiceRoll.html">DiceRoll</a>&#160;</td><td class="memItemRight"><a class="el" href="#a0284eca0c4fcac886302e934a7e0aeb2">rollDice</a> (const <a class="el" href="structcore_1_1Dice.html">Dice</a> &amp;dice, <a class="el" href="classcore_1_1DeterministicRandom.html">DeterministicRandom</a> &amp;random)</td></tr>
 <tr class="memdesc:a0284eca0c4fcac886302e934a7e0aeb2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lance une expression avec un générateur <b>déterministe</b>.  <br /></td></tr>
+<tr class="memitem:a8f90cc0f92ab13611bbb2c2730e4efdd" id="r_a8f90cc0f92ab13611bbb2c2730e4efdd"><td class="memItemLeft">std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#a8f90cc0f92ab13611bbb2c2730e4efdd">armorCategoryName</a> (<a class="el" href="#a7ad0450d2b476419d40745fbfa9ac105">ArmorCategory</a> category)</td></tr>
+<tr class="memdesc:a8f90cc0f92ab13611bbb2c2730e4efdd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nom textuel d'une catégorie d'armure, tel que la donnée l'écrit.  <br /></td></tr>
+<tr class="memitem:ac58652f079d9fa10658f52da30750d24" id="r_ac58652f079d9fa10658f52da30750d24"><td class="memItemLeft">std::optional&lt; <a class="el" href="#a7ad0450d2b476419d40745fbfa9ac105">ArmorCategory</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#ac58652f079d9fa10658f52da30750d24">parseArmorCategory</a> (std::string_view name)</td></tr>
+<tr class="memdesc:ac58652f079d9fa10658f52da30750d24"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inverse d'<span class="tt"><a class="el" href="#a8f90cc0f92ab13611bbb2c2730e4efdd" title="Nom textuel d&#39;une catégorie d&#39;armure, tel que la donnée l&#39;écrit.">armorCategoryName</a></span>. <span class="tt">std::nullopt</span> si le nom est inconnu — jamais deviné.  <br /></td></tr>
+<tr class="memitem:a06839f5ee0eea764bdcd5f6b865f194c" id="r_a06839f5ee0eea764bdcd5f6b865f194c"><td class="memItemLeft"><a class="el" href="structcore_1_1EquipmentCatalog.html">EquipmentCatalog</a>&#160;</td><td class="memItemRight"><a class="el" href="#a06839f5ee0eea764bdcd5f6b865f194c">loadEquipment</a> (const std::filesystem::path &amp;weaponsDir, const std::filesystem::path &amp;armorsDir)</td></tr>
+<tr class="memdesc:a06839f5ee0eea764bdcd5f6b865f194c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Charge les armes et les armures depuis leurs dossiers.  <br /></td></tr>
+<tr class="memitem:aec44b80878262388830e480b169c6b70" id="r_aec44b80878262388830e480b169c6b70"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#aec44b80878262388830e480b169c6b70">armorClassFor</a> (const <a class="el" href="structcore_1_1CharacterSheet.html">CharacterSheet</a> &amp;sheet, const <a class="el" href="structcore_1_1CharacterCreationRules.html">CharacterCreationRules</a> &amp;rules, const <a class="el" href="structcore_1_1Armor.html">Armor</a> *armor, const <a class="el" href="structcore_1_1Armor.html">Armor</a> *shield)</td></tr>
+<tr class="memdesc:aec44b80878262388830e480b169c6b70"><td class="mdescLeft">&#160;</td><td class="mdescRight">La classe d'armure d'un personnage, armure et bouclier compris.  <br /></td></tr>
+<tr class="memitem:aed30b768048177bf363d9c058c5a0e1d" id="r_aed30b768048177bf363d9c058c5a0e1d"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#aed30b768048177bf363d9c058c5a0e1d">totalWeightGrams</a> (const std::vector&lt; <a class="el" href="structcore_1_1InventoryEntry.html">InventoryEntry</a> &gt; &amp;entries)</td></tr>
+<tr class="memdesc:aed30b768048177bf363d9c058c5a0e1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le poids total d'un inventaire, en <b>grammes</b>.  <br /></td></tr>
 <tr class="memitem:a5efe1ddb8ab76545ac60552ba2c43a32" id="r_a5efe1ddb8ab76545ac60552ba2c43a32"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a5efe1ddb8ab76545ac60552ba2c43a32">multiclassCasterLevel</a> (std::span&lt; const <a class="el" href="structcore_1_1ClassLevel.html">ClassLevel</a> &gt; classes)</td></tr>
 <tr class="memdesc:a5efe1ddb8ab76545ac60552ba2c43a32"><td class="mdescLeft">&#160;</td><td class="mdescRight">Niveau de lanceur cumulé d'un personnage multiclassé.  <br /></td></tr>
 <tr class="memitem:aedf7842b8c8c84ef5f6445c731072dfc" id="r_aedf7842b8c8c84ef5f6445c731072dfc"><td class="memItemLeft">std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#aedf7842b8c8c84ef5f6445c731072dfc">casterProgressionName</a> (<a class="el" href="#ab1c6c3303c34c417c9a3b6ac3ddb066d">CasterProgression</a> progression)</td></tr>
@@ -808,6 +832,38 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
 <tr><td class="fieldname"><a id="a97f31c7914a6cfc54cc026a77da58fd1a8f7ba58961e0fe40cfda61b412537fba" name="a97f31c7914a6cfc54cc026a77da58fd1a8f7ba58961e0fe40cfda61b412537fba"></a>Intelligence&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a97f31c7914a6cfc54cc026a77da58fd1a646f0a01b685558b975b5cd3f5b36241" name="a97f31c7914a6cfc54cc026a77da58fd1a646f0a01b685558b975b5cd3f5b36241"></a>Wisdom&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a97f31c7914a6cfc54cc026a77da58fd1aa47211f258a8e0172523525035c743af" name="a97f31c7914a6cfc54cc026a77da58fd1aa47211f258a8e0172523525035c743af"></a>Charisma&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+<a id="a7ad0450d2b476419d40745fbfa9ac105" name="a7ad0450d2b476419d40745fbfa9ac105"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7ad0450d2b476419d40745fbfa9ac105">&#9670;&#160;</a></span>ArmorCategory</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="#a7ad0450d2b476419d40745fbfa9ac105">core::ArmorCategory</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Catégorie d'armure. Ensemble <b>fermé</b> : le livre n'en connaît pas d'autre. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a7ad0450d2b476419d40745fbfa9ac105a9914a0ce04a7b7b6a8e39bec55064b82" name="a7ad0450d2b476419d40745fbfa9ac105a9914a0ce04a7b7b6a8e39bec55064b82"></a>Light&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a7ad0450d2b476419d40745fbfa9ac105a87f8a6ab85c9ced3702b4ea641ad4bb5" name="a7ad0450d2b476419d40745fbfa9ac105a87f8a6ab85c9ced3702b4ea641ad4bb5"></a>Medium&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a7ad0450d2b476419d40745fbfa9ac105af9ffe67a20da9cbff56b420fca4bd491" name="a7ad0450d2b476419d40745fbfa9ac105af9ffe67a20da9cbff56b420fca4bd491"></a>Heavy&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a7ad0450d2b476419d40745fbfa9ac105a970da5f1f2e32aeb9e488dd017160ab4" name="a7ad0450d2b476419d40745fbfa9ac105a970da5f1f2e32aeb9e488dd017160ab4"></a>Shield&#160;</td><td class="fielddoc"><p>Le bouclier n'est <b>pas</b> une armure : il <em>ajoute</em> à la classe d'armure au lieu de la remplacer. </p>
+<p>Le ranger dans la même énumération vient du livre, qui le met dans la même table ; les confondre dans le calcul donnerait un personnage en bouclier seul avec une CA de 2. </p>
+</td></tr>
 </table>
 
 </div>
@@ -1793,6 +1849,91 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
 
 </div>
 </div>
+<a id="a8f90cc0f92ab13611bbb2c2730e4efdd" name="a8f90cc0f92ab13611bbb2c2730e4efdd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8f90cc0f92ab13611bbb2c2730e4efdd">&#9670;&#160;</a></span>armorCategoryName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string_view core::armorCategoryName </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a7ad0450d2b476419d40745fbfa9ac105">ArmorCategory</a></td>          <td class="paramname"><span class="paramname"><em>category</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Nom textuel d'une catégorie d'armure, tel que la donnée l'écrit. </p>
+
+</div>
+</div>
+<a id="aec44b80878262388830e480b169c6b70" name="aec44b80878262388830e480b169c6b70"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aec44b80878262388830e480b169c6b70">&#9670;&#160;</a></span>armorClassFor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int core::armorClassFor </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structcore_1_1CharacterSheet.html">CharacterSheet</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>sheet</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structcore_1_1CharacterCreationRules.html">CharacterCreationRules</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>rules</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structcore_1_1Armor.html">Armor</a> *</td>          <td class="paramname"><span class="paramname"><em>armor</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structcore_1_1Armor.html">Armor</a> *</td>          <td class="paramname"><span class="paramname"><em>shield</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>La classe d'armure d'un personnage, armure et bouclier compris. </p>
+<p><b>Les trois formes de la table du livre disent trois règles différentes</b>, et les réduire à leur premier nombre est la faute qui ne se voit pas :</p>
+<ul>
+<li><span class="tt">11 + Mod.Dex</span> — le modificateur de Dextérité s'ajoute <b>sans plafond</b> (armures légères) ;</li>
+<li><span class="tt">14 + Mod.Dex (max +2)</span> — il s'ajoute <b>plafonné à 2</b> (armures intermédiaires) ;</li>
+<li><span class="tt">18</span> — il ne s'ajoute <b>pas du tout</b> (armures lourdes).</li>
+</ul>
+<p>Appliquer la Dextérité au harnois rendrait le personnage plus résistant, jamais moins : le défaut ne provoque aucune erreur et passe pour de l'équilibrage.</p>
+<p>Sans armure, la base vient de la <b>donnée</b> (<span class="tt">rules/character-creation.json</span>, <span class="tt">LOT-13</span>) et non d'un <span class="tt">10</span> écrit ici (<span class="tt">EX-VIS-007</span>).</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sheet</td><td>La fiche, pour son modificateur de Dextérité. </td></tr>
+    <tr><td class="paramname">rules</td><td>Les constantes de création, pour la base sans armure. </td></tr>
+    <tr><td class="paramname">armor</td><td>L'armure portée, ou <span class="tt">nullptr</span>. </td></tr>
+    <tr><td class="paramname">shield</td><td>Le bouclier porté, ou <span class="tt">nullptr</span>. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="ae5471fabe4f247c99a3c50293f59f91e" name="ae5471fabe4f247c99a3c50293f59f91e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae5471fabe4f247c99a3c50293f59f91e">&#9670;&#160;</a></span>buildCharacterSheet()</h2>
 
@@ -2759,6 +2900,37 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
 
 </div>
 </div>
+<a id="a06839f5ee0eea764bdcd5f6b865f194c" name="a06839f5ee0eea764bdcd5f6b865f194c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a06839f5ee0eea764bdcd5f6b865f194c">&#9670;&#160;</a></span>loadEquipment()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structcore_1_1EquipmentCatalog.html">EquipmentCatalog</a> core::loadEquipment </td>
+          <td>(</td>
+          <td class="paramtype">const std::filesystem::path &amp;</td>          <td class="paramname"><span class="paramname"><em>weaponsDir</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::filesystem::path &amp;</td>          <td class="paramname"><span class="paramname"><em>armorsDir</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Charge les armes et les armures depuis leurs dossiers. </p>
+
+</div>
+</div>
 <a id="a00be15bd9376cf46d81dedf0bc0f7d54" name="a00be15bd9376cf46d81dedf0bc0f7d54"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a00be15bd9376cf46d81dedf0bc0f7d54">&#9670;&#160;</a></span>loadExperienceTable()</h2>
 
@@ -3280,6 +3452,33 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
 </div><div class="memdoc">
 
 <p>Inverse d'<span class="tt"><a class="el" href="#ad539e41d55b3f90675658586d0d0b77e" title="Nom textuel d&#39;une caractéristique, tel que les données l&#39;écrivent.">abilityName</a></span>. <span class="tt">std::nullopt</span> si le nom est inconnu — jamais deviné. </p>
+
+</div>
+</div>
+<a id="ac58652f079d9fa10658f52da30750d24" name="ac58652f079d9fa10658f52da30750d24"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac58652f079d9fa10658f52da30750d24">&#9670;&#160;</a></span>parseArmorCategory()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::optional&lt; <a class="el" href="#a7ad0450d2b476419d40745fbfa9ac105">ArmorCategory</a> &gt; core::parseArmorCategory </td>
+          <td>(</td>
+          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>name</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Inverse d'<span class="tt"><a class="el" href="#a8f90cc0f92ab13611bbb2c2730e4efdd" title="Nom textuel d&#39;une catégorie d&#39;armure, tel que la donnée l&#39;écrit.">armorCategoryName</a></span>. <span class="tt">std::nullopt</span> si le nom est inconnu — jamais deviné. </p>
 
 </div>
 </div>
@@ -4349,6 +4548,34 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Libellé constant ("TRACE", "INFO", "WARNING", "ERROR"). </dd></dl>
+
+</div>
+</div>
+<a id="aed30b768048177bf363d9c058c5a0e1d" name="aed30b768048177bf363d9c058c5a0e1d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aed30b768048177bf363d9c058c5a0e1d">&#9670;&#160;</a></span>totalWeightGrams()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int core::totalWeightGrams </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="structcore_1_1InventoryEntry.html">InventoryEntry</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>entries</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Le poids total d'un inventaire, en <b>grammes</b>. </p>
+<p>Une seule unité, et c'est la raison d'être de cette fonction : le livre écrit des kilogrammes et des grammes dans la même table — « 6,5 kg », « 500 g » —, et mélanger les deux dans un total donnerait un sac de cinq cents kilos pour une poignée de fléchettes. La conversion est faite à l'extraction ; ici tout est déjà en grammes. </p>
 
 </div>
 </div>

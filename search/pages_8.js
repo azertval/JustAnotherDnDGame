@@ -1,7 +1,7 @@
 var searchData=
 [
   ['8_20communication_20inter_20systèmes_0',['8. Communication inter-systèmes',['../spec-architecture.html#autotoc_md257',1,'']]],
-  ['8_20décisions_20prises_20et_20questions_20restantes_1',['8. Décisions prises et questions restantes',['../roadmap-010.html#autotoc_md557',1,'']]],
+  ['8_20décisions_20prises_20et_20questions_20restantes_1',['8. Décisions prises et questions restantes',['../roadmap-010.html#autotoc_md567',1,'']]],
   ['8_20directions_2',['8 directions',['../guide-physique.html#autotoc_md199',1,'5. Dash 8 directions'],['../lot-06.html',1,'LOT-06 — Déplacement top-down 8 directions']]],
   ['8_20identité_20visuelle_20des_20écrans_20du_20jeu_20lot_20h_2068_3',['8. Identité visuelle des écrans du jeu (LOT-H-68)',['../spec-interface-ihm.html#autotoc_md348',1,'']]],
   ['8_20palette_20organisée_20par_20catégories_20lot_20h_2027_4',['8. Palette organisée par catégories (LOT-H-27)',['../spec-editeur.html#autotoc_md313',1,'']]],

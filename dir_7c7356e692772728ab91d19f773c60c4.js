@@ -14,6 +14,7 @@ var dir_7c7356e692772728ab91d19f773c60c4 =
     [ "LOT-30-chaine-extraction-corpus", "dir_1a572379fa9a8d4a5955449e90cfed1b.html", null ],
     [ "LOT-32-schemas-donnees-rpg", "dir_42f5d2e71022fc997214f45730d4f996.html", null ],
     [ "LOT-33-bestiaire-de-base", "dir_d099c8ae0edc1c87bb187eaf82af2103.html", null ],
+    [ "LOT-34-equipement", "dir_de43284f6ad4b149fcb7a1db64da7d09.html", null ],
     [ "LOT-36-especes-historiques-classes", "dir_1490155920c87f44fbd9e1f90804d2cb.html", null ],
     [ "LOT-43-options-de-personnage", "dir_91a1717ccebb1cc2aff1d37999f0b3a5.html", null ],
     [ "LOT-77-specification-rpg", "dir_ef95927b7810b74dd4b1ad028f5ca330.html", null ],

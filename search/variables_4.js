@@ -1,10 +1,10 @@
 var searchData=
 [
   ['d20_5ffaces_0',['D20_FACES',['../namespacecore.html#a42b6dd302d4b68da1f4bdd439884b338',1,'core']]],
-  ['damage_1',['damage',['../structcore_1_1CreatureAction.html#a2d614ee79e5d776ba6f490f6e20aedc7',1,'core::CreatureAction']]],
+  ['damage_1',['damage',['../structcore_1_1CreatureAction.html#a2d614ee79e5d776ba6f490f6e20aedc7',1,'core::CreatureAction::damage'],['../structcore_1_1Weapon.html#a68520b1a13724b2da2d55c0cc056c472',1,'core::Weapon::damage']]],
   ['damageimmunities_2',['damageImmunities',['../structcore_1_1Creature.html#ae30a746afcc3f9d62188927021df7911',1,'core::Creature']]],
   ['damageresistances_3',['damageResistances',['../structcore_1_1Creature.html#a470e93d56d3285a1ea03927074ad2bb7',1,'core::Creature']]],
-  ['damagetype_4',['damageType',['../structcore_1_1CreatureAction.html#a5005f47d27307a316d49daaab2f871e1',1,'core::CreatureAction']]],
+  ['damagetype_4',['damageType',['../structcore_1_1CreatureAction.html#a5005f47d27307a316d49daaab2f871e1',1,'core::CreatureAction::damageType'],['../structcore_1_1Weapon.html#a7858e37c1bb97bc58cec8c049950e520',1,'core::Weapon::damageType']]],
   ['damagevulnerabilities_5',['damageVulnerabilities',['../structcore_1_1Creature.html#acac145766c13d365497d4c06ae9a46cb',1,'core::Creature']]],
   ['dashboostdurationmultiplier_6',['dashBoostDurationMultiplier',['../structcore_1_1PhysicsConfig.html#a50d640b82357ddb159a267f95c3b82c2',1,'core::PhysicsConfig']]],
   ['dashboostspeedmultiplier_7',['dashBoostSpeedMultiplier',['../structcore_1_1PhysicsConfig.html#af9c979cdc5ab514345c870c41935328b',1,'core::PhysicsConfig']]],
@@ -27,11 +27,13 @@ var searchData=
   ['depth_5fsubdivisions_5fper_5funit_24',['DEPTH_SUBDIVISIONS_PER_UNIT',['../namespacehmi.html#a0591a2b20237a29c762b324a7ce0d7db',1,'hmi']]],
   ['description_25',['description',['../structcore_1_1Creature.html#acf8f08feebb317942a935a6227430569',1,'core::Creature::description'],['../structhmi_1_1AnimationDescriptionResult.html#a3cdcee7012ff94ee9d1035738c33edaf',1,'hmi::AnimationDescriptionResult::description']]],
   ['developer_5fbuild_26',['DEVELOPER_BUILD',['../namespacecore.html#affbaf55db3c297c638c8399aa855dbfe',1,'core']]],
-  ['diagnostics_5ffps_5fwindow_5fseconds_27',['DIAGNOSTICS_FPS_WINDOW_SECONDS',['../namespacehmi.html#afe37194ec48fcceeedcad65b760773b9',1,'hmi']]],
-  ['dice_28',['dice',['../structcore_1_1CheckResult.html#a07d1bf1f684a7a240509419925514011',1,'core::CheckResult::dice'],['../structcore_1_1DiceRoll.html#aa7aaa78f3af486c500fae7e77e2b5b6b',1,'core::DiceRoll::dice']]],
-  ['dirty_29',['dirty',['../structhmi_1_1LevelStatusInfo.html#a9cd9b8b2b1e60de42886994d2ffb1310',1,'hmi::LevelStatusInfo::dirty'],['../structhmi_1_1PixelEditStatusInfo.html#a5e78865d03928b21b28f7801e71d96ca',1,'hmi::PixelEditStatusInfo::dirty']]],
-  ['docksvisible_30',['docksVisible',['../structhmi_1_1ScreenDressing.html#afaadcce2a4848ec507ac6584b3590205',1,'hmi::ScreenDressing']]],
-  ['dooropen_31',['doorOpen',['../structhmi_1_1MechanismEventState.html#a93b52be466073c5f1eb4b61605f36c65',1,'hmi::MechanismEventState']]],
-  ['doorposition_32',['doorPosition',['../structcore_1_1Mechanism.html#aff8f5698a02356618c67d7fafae8b2b7',1,'core::Mechanism']]],
-  ['duration_33',['duration',['../structhmi_1_1ScreenShakeState.html#a0af939241aae31f584200a4f23d21cd7',1,'hmi::ScreenShakeState']]]
+  ['dexteritybonus_27',['dexterityBonus',['../structcore_1_1Armor.html#a2c6bc3b29c5d46addce60c3a75db0ae3',1,'core::Armor']]],
+  ['dexteritybonusmax_28',['dexterityBonusMax',['../structcore_1_1Armor.html#a85302f29d0dc9ffb9baacc68a4164970',1,'core::Armor']]],
+  ['diagnostics_5ffps_5fwindow_5fseconds_29',['DIAGNOSTICS_FPS_WINDOW_SECONDS',['../namespacehmi.html#afe37194ec48fcceeedcad65b760773b9',1,'hmi']]],
+  ['dice_30',['dice',['../structcore_1_1CheckResult.html#a07d1bf1f684a7a240509419925514011',1,'core::CheckResult::dice'],['../structcore_1_1DiceRoll.html#aa7aaa78f3af486c500fae7e77e2b5b6b',1,'core::DiceRoll::dice']]],
+  ['dirty_31',['dirty',['../structhmi_1_1LevelStatusInfo.html#a9cd9b8b2b1e60de42886994d2ffb1310',1,'hmi::LevelStatusInfo::dirty'],['../structhmi_1_1PixelEditStatusInfo.html#a5e78865d03928b21b28f7801e71d96ca',1,'hmi::PixelEditStatusInfo::dirty']]],
+  ['docksvisible_32',['docksVisible',['../structhmi_1_1ScreenDressing.html#afaadcce2a4848ec507ac6584b3590205',1,'hmi::ScreenDressing']]],
+  ['dooropen_33',['doorOpen',['../structhmi_1_1MechanismEventState.html#a93b52be466073c5f1eb4b61605f36c65',1,'hmi::MechanismEventState']]],
+  ['doorposition_34',['doorPosition',['../structcore_1_1Mechanism.html#aff8f5698a02356618c67d7fafae8b2b7',1,'core::Mechanism']]],
+  ['duration_35',['duration',['../structhmi_1_1ScreenShakeState.html#a0af939241aae31f584200a4f23d21cd7',1,'hmi::ScreenShakeState']]]
 ];
