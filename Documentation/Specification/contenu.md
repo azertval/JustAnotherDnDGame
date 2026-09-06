@@ -129,3 +129,26 @@ créature de facteur ⅛ avec quatre-vingt-dix points de vie franchissent un sch
   norme existe, une extraction ratée aussi, et seul un humain les distingue. Une anomalie **acceptée**
   est enregistrée **dans la donnée** pour ne pas être re-signalée à chaque exécution : un
   avertissement qu'on réapprend à ignorer ne protège plus de rien.
+
+## 7. Atlas du monde
+
+Les catalogues précédents décrivent des **choses** — une créature, une arme, un don. L'atlas
+décrit un **espace**, et un espace a une propriété qu'aucune liste n'a : on peut s'y perdre, ou
+plutôt, un morceau peut devenir inaccessible sans que rien ne le dise.
+
+- \anchor EX-CNT-060 **EX-CNT-060** — Les **statistiques régionales** doivent être **typées** :
+  une note prise dans une énumération fermée et ordonnée, jamais du texte libre. Ce sont des
+  paramètres de jeu — présence de monstres, accès à la magie, prospérité — et un moteur qui doit
+  comparer `« Very High »` à `« High »` par une comparaison de chaînes le fera dans l'ordre
+  alphabétique, où *High* précède *Very High* mais aussi *Low*.
+
+- \anchor EX-CNT-061 **EX-CNT-061** — Une statistique régionale doit pouvoir porter **plusieurs
+  appréciations avec leur portée**. La source distingue le nord du sud, la surface du souterrain ;
+  aplatir ces cas sur une valeur unique **invente** une donnée, et les laisser en texte libre viole
+  l'`EX-CNT-060`. Une région uniforme n'en porte qu'une, sans portée — le cas courant reste simple.
+
+- \anchor EX-CNT-062 **EX-CNT-062** — Le graphe des régions doit être **connexe** et son voisinage
+  **symétrique**, et les deux doivent être vérifiés en intégration continue sur la **donnée
+  livrée**, pas seulement par l'outil qui l'a produite. Une région injoignable est du contenu que
+  personne ne verra jamais : le jeu se lance, la région existe, elle est simplement au bout d'aucun
+  trajet — il n'y a **aucun symptôme** à observer.

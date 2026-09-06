@@ -55,6 +55,10 @@ if hasattr(sys.stdout, 'reconfigure'):
     sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
 RPG = RACINE / 'Source' / 'Elements' / 'Rpg'
+# L'atlas du LOT-37 vit a cote des catalogues RPG, mais partage LEUR dossier de schemas : le socle
+# commun (`source`, `status`, `id`) y est deja, et un second dossier de contrats en donnerait deux
+# versions qui divergeraient. Une region n'est pas une regle de jeu, son contrat l'est.
+MONDE = RACINE / 'Source' / 'Elements' / 'World'
 SCHEMAS = RPG / 'schema'
 LEXIQUE = RACINE / 'Source' / 'Elements' / 'Localization' / 'rpg.glossary.csv'
 FIXTURES = RACINE / 'scripts' / 'fixtures' / 'rpg'
@@ -76,6 +80,9 @@ FAMILLES = {
     'skills': 'skill',
     'languages': 'language',
     'feats': 'feat',
+    # Atlas (LOT-37).
+    'regions': 'region',
+    'locations': 'location',
 }
 
 # `rules/` porte des REGLES, pas une collection d'entrees semblables : chaque fichier y a son
@@ -246,6 +253,59 @@ def controler_references(racine: Path) -> list[str]:
     return violations
 
 
+def controler_atlas(racine: Path) -> list[str]:
+    """L'acceptation du LOT-37 (`EX-CNT-062`), verifiee sur les donnees ECRITES.
+
+    Le module d'extraction controle deja ces trois points, mais il ne tourne qu'a la demande et
+    exige les PDF du corpus, absents du depot. Les donnees, elles, sont versionnees : une edition
+    a la main qui casserait le graphe ne rencontrerait sinon aucun garde-fou jusqu'au jeu.
+    """
+    regions_dir, lieux_dir = racine / 'regions', racine / 'locations'
+    if not regions_dir.is_dir():
+        return []
+    regions = {}
+    for chemin in sorted(regions_dir.glob('*.json')):
+        donnee = json.loads(chemin.read_text(encoding='utf-8'))
+        regions[donnee['id']] = donnee
+
+    violations = []
+    for chemin in sorted(lieux_dir.glob('*.json')):
+        lieu = json.loads(chemin.read_text(encoding='utf-8'))
+        if lieu['region'] not in regions:
+            violations.append(
+                "%s : region « %s » inconnue. Un lieu sans region n'est atteignable par aucun "
+                'trajet.' % (chemin.relative_to(RACINE).as_posix(), lieu['region']))
+        elif lieu['id'] not in regions[lieu['region']]['locations']:
+            violations.append(
+                '%s : la region « %s » ne le cite pas en retour.'
+                % (chemin.relative_to(RACINE).as_posix(), lieu['region']))
+
+    for identifiant, region in regions.items():
+        for voisin in region['neighbors']:
+            if voisin not in regions:
+                violations.append('regions/%s.json : voisin « %s » inconnu.'
+                                  % (identifiant, voisin))
+            elif identifiant not in regions[voisin]['neighbors']:
+                violations.append(
+                    'regions/%s.json : voisinage non symetrique avec « %s ». Une arete a sens '
+                    'unique laisse une region sans retour.' % (identifiant, voisin))
+
+    if regions:
+        depart = sorted(regions)[0]
+        vus, pile = {depart}, [depart]
+        while pile:
+            for voisin in regions[pile.pop()]['neighbors']:
+                if voisin in regions and voisin not in vus:
+                    vus.add(voisin)
+                    pile.append(voisin)
+        isolees = sorted(set(regions) - vus)
+        if isolees:
+            violations.append(
+                'regions : %s inatteignable(s) depuis « %s ». Une region injoignable est du '
+                'contenu qui ne sera jamais vu.' % (', '.join(isolees), depart))
+    return violations
+
+
 def controler_enumerations(schemas: dict) -> list[str]:
     """Les énumérations fermées des schémas coïncident avec les catégories du lexique (LOT-30)."""
     if not LEXIQUE.is_file():
@@ -332,6 +392,12 @@ def main() -> int:
     donnees, provisoires, lus = valider_dossier(schemas, RPG)
     violations += donnees
     violations += controler_references(RPG)
+
+    monde, provisoires_monde, lus_monde = valider_dossier(schemas, MONDE)
+    violations += monde
+    violations += controler_atlas(MONDE)
+    provisoires += provisoires_monde
+    lus += lus_monde
 
     if provisoires:
         # Groupées par motif : quarante-deux lignes identiques ne se lisent pas, et la question
