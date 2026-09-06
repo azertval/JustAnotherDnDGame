@@ -19,6 +19,8 @@ add_library(Core STATIC
     Rpg/Ability.cpp
     Rpg/Bestiary.cpp
     Rpg/CharacterOptions.cpp
+    Rpg/CharacterSheet.cpp
+    Rpg/Skill.cpp
     Rpg/Check.cpp
     Rpg/Dice.cpp
     Rpg/RpgEnumNames.cpp
