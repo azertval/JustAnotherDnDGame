@@ -22,6 +22,7 @@
 #include <gtest/gtest.h>
 
 #include "Core/Rpg/CharacterOptions.h"
+#include "Core/Rpg/CharacterSheet.h"
 #include "Core/Rpg/RpgEnumNames.h"
 
 namespace {
@@ -144,10 +145,17 @@ TEST(CharacterOptionsTest, LesEspecesConcordentAvecLesLivres) {
 TEST(CharacterOptionsTest, LAugmentationSAppliqueEtResteBornee) {
     const core::Species* nain = options().findSpecies("nain");
     ASSERT_NE(nain, nullptr);
-    EXPECT_EQ(core::abilityScoreWith(*nain, core::Ability::Constitution, 14), 16);
-    EXPECT_EQ(core::abilityScoreWith(*nain, core::Ability::Constitution, 19), 20)
-        << "une augmentation raciale ne franchit pas le plafond de 20";
-    EXPECT_EQ(core::abilityScoreWith(*nain, core::Ability::Charisma, 14), 14)
+    // Le plafond vient de la DONNEE (LOT-13), pas d'une constante : le test le lit la ou le
+    // moteur le lira, sinon il verifierait sa propre copie de la regle.
+    const core::CharacterCreationRules regles =
+        core::loadCharacterCreationRules(RPG / "rules" / "character-creation.json");
+    ASSERT_TRUE(regles.ok());
+    const int plafond = regles.maximumAbilityScore;
+    EXPECT_EQ(core::abilityScoreWith(*nain, core::Ability::Constitution, 14, plafond), 16);
+    EXPECT_EQ(core::abilityScoreWith(*nain, core::Ability::Constitution, plafond - 1, plafond),
+              plafond)
+        << "une augmentation d'espece ne franchit pas le plafond";
+    EXPECT_EQ(core::abilityScoreWith(*nain, core::Ability::Charisma, 14, plafond), 14)
         << "le nain n'augmente pas le Charisme";
 }
 

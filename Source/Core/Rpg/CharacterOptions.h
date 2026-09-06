@@ -147,10 +147,15 @@ struct CharacterOptions {
  * @brief Applique les augmentations d'une espèce à une valeur de caractéristique.
  *
  * La seule opération que le moteur ait à faire sur une espèce, et elle est ici pour ne pas être
- * réécrite à chaque écran qui affiche une fiche. La valeur reste bornée à 20 : c'est le plafond
- * qu'une augmentation raciale ne franchit pas.
+ * réécrite à chaque écran qui affiche une fiche.
+ *
+ * `maximumScore` est **un paramètre et non une constante** (`EX-VIS-007`) : le plafond vient de
+ * `rules/character-creation.json`, où il est extrait de la phrase qui l'atteste — *« Vous ne
+ * pouvez pas augmenter une valeur de caractéristique au-delà de 20 »*, *Basic Rules* p. 11. Écrit
+ * ici, il ferait d'un ajustement d'équilibrage une recompilation.
  */
-[[nodiscard]] int abilityScoreWith(const Species& species, Ability which, int baseScore);
+[[nodiscard]] int abilityScoreWith(const Species& species, Ability which, int baseScore,
+                                   int maximumScore);
 
 /**
  * @brief Charge les trois catalogues depuis leurs dossiers.

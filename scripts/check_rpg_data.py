@@ -83,6 +83,8 @@ FAMILLES = {
 REGLES = {
     'multiclassing': 'multiclassing',
     'difficulty': 'difficulty',
+    'experience': 'experience',
+    'character-creation': 'character-creation',
 }
 
 # Énumération fermée d'un schéma ↔ catégorie du lexique. `equivalence` exige l'égalité des deux

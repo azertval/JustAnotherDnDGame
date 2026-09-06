@@ -44,6 +44,7 @@ from dataclasses import dataclass, field
 from .corpus import Corpus
 from .extraction import Extracteur
 from .glossaire import lire_csv, normaliser, normaliser_cle
+from .mise_en_page import colonnes_de_page
 
 SORTIE_RPG = 'Source/Elements/Rpg'
 
@@ -322,6 +323,26 @@ def dons(corpus: Corpus, lexique: list, cache=None) -> Catalogue:
 PAGE_DIFFICULTE = 64
 REGION_DIFFICULTE = (85, 500, 240, 600)
 
+# -- Creation de personnage ----------------------------------------------------------------------
+# Les deux constantes de regle qu'une fiche emploie, avec la page IMPRIMEE et le motif de la phrase
+# qui les atteste. Le motif capture le nombre LUI-MEME : sans cela, la valeur serait ecrite ici, et
+# une constante ecrite dans le module d'extraction n'est pas plus extraite qu'une constante ecrite
+# dans le C++.
+CONSTANTES_DE_CREATION = (
+    ('unarmoredArmorClass', 10,
+     r"Sans armure[^.]{0,40}la CA de votre personnage est [ée]gale [àa] (\d+)[^.]{0,60}\."),
+    ('maximumAbilityScore', 11,
+     r"Vous ne pouvez pas augmenter une valeur de\s+caract[ée]ristique au-del[àa] de (\d+)\."),
+)
+
+# -- Experience --------------------------------------------------------------------------------
+# Basic Rules p. 11, table << Points d'experience / Niveau / Bonus de maitrise >>, colonne droite.
+# La region exclut l'en-tete (y < 200) : ses cellules ne sont pas des nombres et brouilleraient le
+# controle de cardinal.
+PAGE_EXPERIENCE = 11
+REGION_EXPERIENCE = (320, 200, 560, 460)
+NIVEAU_MAXIMAL = 20
+
 # -- Multiclassage -------------------------------------------------------------------------------
 
 def _table_magicien(corpus: Corpus, cache=None) -> dict:
@@ -566,10 +587,111 @@ def produire(corpus: Corpus, lexique: list, racine, cache=None) -> tuple[list, l
     dossier.mkdir(parents=True, exist_ok=True)
 
     regle, pertes = multiclassage(corpus, lexique, cache)
-    for nom, contenu in (('multiclassing', regle), ('difficulty', difficulte(corpus, cache))):
+    for nom, contenu in (('multiclassing', regle), ('difficulty', difficulte(corpus, cache)),
+                         ('experience', experience(corpus, cache)),
+                         ('character-creation', creation_de_personnage(corpus, cache))):
         chemin = dossier / ('%s.json' % nom)
         chemin.write_text(json.dumps(contenu, ensure_ascii=False, indent=2) + '\n',
                           encoding='utf-8')
         ecrits.append(chemin)
 
     return ecrits, pertes
+
+
+def experience(corpus: Corpus, cache=None) -> dict:
+    """La table d'expérience : seuil de PX et bonus de maîtrise, du niveau 1 au niveau 20.
+
+    `EX-VIS-007` interdit qu'une valeur de règle vive dans le C++, et celle-ci est la plus tentante
+    de toutes : vingt seuils et vingt bonus qu'on écrirait en trois lignes de code, et qui
+    demanderaient alors une recompilation à chaque ajustement d'équilibrage. Sans équilibrage, un
+    RPG n'est pas jouable.
+
+    Le tableau est lu **par coordonnée** (`EX-CNT-021`) : ses trois colonnes n'ont ni filet ni
+    séparateur, et un mode en flux y mêlerait les seuils aux numéros de niveau.
+
+    Deux contrôles, parce que cette table a deux façons silencieuses de se tromper :
+
+    - les vingt niveaux doivent être présents **et dans l'ordre** — une table amputée ne se voit
+      qu'au niveau où elle manque, c'est-à-dire tard et en cours de partie ;
+    - les seuils doivent être **strictement croissants** — deux seuils inversés rendraient une
+      montée de niveau impossible à franchir, ou franchissable deux fois.
+    """
+    document = corpus['basic-rules']
+    with Extracteur(document, cache=cache) as extracteur:
+        lignes = extracteur.tableau(document.index_pdf(PAGE_EXPERIENCE),
+                                    region=REGION_EXPERIENCE)
+
+    niveaux = []
+    for ligne in lignes:
+        cellules = [normaliser(c) for c in (list(ligne) + ['', '', ''])[:3]]
+        # Le livre separe les milliers par une espace fine -- << 2 700 >>, << 355 000 >>. La
+        # retirer est sans risque : aucune cellule de cette table ne porte deux nombres.
+        px, niveau, bonus = (c.replace(' ', '') for c in cellules)
+        if not px.isdigit() or not niveau.isdigit():
+            continue  # en-tete << Points d'experience | Niveau | Bonus de maitrise >>
+        niveaux.append({'level': int(niveau), 'experience': int(px),
+                        'proficiencyBonus': int(bonus.lstrip('+'))})
+
+    if [n['level'] for n in niveaux] != list(range(1, NIVEAU_MAXIMAL + 1)):
+        raise OptionsError(
+            'experience : les niveaux extraits page %d des Basic Rules sont %s, 1 a %d attendus. '
+            'Une table amputee ne se voit qu\'au niveau ou elle manque -- en cours de partie.'
+            % (PAGE_EXPERIENCE, [n['level'] for n in niveaux], NIVEAU_MAXIMAL))
+    seuils = [n['experience'] for n in niveaux]
+    if seuils != sorted(set(seuils)):
+        raise OptionsError(
+            'experience : les seuils ne sont pas strictement croissants — %s. Deux seuils '
+            'inverses rendent une montee de niveau infranchissable, ou franchissable deux fois.'
+            % seuils)
+    bonus = [n['proficiencyBonus'] for n in niveaux]
+    if bonus != sorted(bonus):
+        raise OptionsError(
+            'experience : le bonus de maitrise decroit quelque part — %s.' % bonus)
+
+    return {
+        'id': 'experience',
+        'name': "Table d'experience",
+        'source': 'srd',
+        'levels': niveaux,
+    }
+
+
+def creation_de_personnage(corpus: Corpus, cache=None) -> dict:
+    """Les deux constantes de règle que la construction d'une fiche emploie (`LOT-13`).
+
+    La classe d'armure sans armure et le plafond d'une valeur de caractéristique. Deux nombres, et
+    ils valaient d'être extraits : un `10` nu dans un calcul de CA ne dit pas ce qu'il représente,
+    et un `20` écrit dans le C++ ferait qu'ajuster le plafond d'un personnage demanderait une
+    recompilation (`EX-VIS-007`).
+
+    Chacun est **cherché dans la phrase qui l'atteste**, et la phrase est écrite dans la donnée
+    produite. C'est ce qui distingue une constante extraite d'une constante tapée de mémoire : la
+    seconde a l'air de la première, et rien ne les sépare une fois écrites.
+    """
+    document = corpus['basic-rules']
+    with Extracteur(document, cache=cache) as extracteur:
+        attestations = {}
+        valeurs = {}
+        for champ, page, motif in CONSTANTES_DE_CREATION:
+            index = document.index_pdf(page)
+            texte = normaliser(' '.join(
+                extracteur.texte(index, region=region)
+                for region in colonnes_de_page(extracteur, index)))
+            trouve = re.search(motif, texte)
+            if not trouve:
+                raise OptionsError(
+                    "creation de personnage : la phrase qui atteste « %s » est introuvable page "
+                    '%d des Basic Rules. Sans elle, la valeur serait tapée de mémoire, ce qui a '
+                    "l'air d'une extraction et n'en est pas une." % (champ, page))
+            valeurs[champ] = int(trouve.group(1))
+            attestations[champ] = {'page': page,
+                                   'text': normaliser(trouve.group(0))}
+
+    return {
+        'id': 'character-creation',
+        'name': 'Creation de personnage',
+        'source': 'srd',
+        'unarmoredArmorClass': valeurs['unarmoredArmorClass'],
+        'maximumAbilityScore': valeurs['maximumAbilityScore'],
+        'attestations': attestations,
+    }

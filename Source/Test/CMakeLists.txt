@@ -38,6 +38,7 @@ add_executable(UnitTests
     Unit/Core/Rpg/test_multiclassing.cpp
     Unit/Core/Rpg/test_bestiary.cpp
     Unit/Core/Rpg/test_character_options.cpp
+    Unit/Core/Rpg/test_character_sheet.cpp
     Unit/Core/Levels/test_rpg_terrain.cpp
     Unit/Core/Levels/test_tile_texture_override.cpp
     Unit/Core/Physics/test_swept_collision.cpp

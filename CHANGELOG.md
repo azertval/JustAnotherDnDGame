@@ -6,6 +6,47 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **La fiche de personnage** (`LOT-13`). Toute créature — héros, PNJ, ennemi — a désormais une
+  fiche complète : caractéristiques, points de vie, classe d'armure, niveau, bonus de maîtrise,
+  jets de sauvegarde, compétences, vitesse. Et elle **monte de niveau**.
+  - **« Aucune valeur de règle dans le C++ » se vérifie sur le diff, pas sur l'intention.** C'est le
+    critère le plus facile à croire tenu : une valeur de règle a l'air d'une constante
+    d'implémentation, et rien ne les distingue une fois écrites. Ce lot en a trouvé **trois**.
+  - **La table d'expérience est une donnée** : vingt seuils et vingt bonus de maîtrise, extraits de
+    la table des *Basic Rules* p. 11 et lus **par coordonnée** — ses trois colonnes n'ont ni filet
+    ni séparateur. Elle tiendrait en trois lignes de C++, et c'est ce qui la rend dangereuse :
+    équilibrer la progression demanderait alors une recompilation à chaque essai. Deux contrôles
+    arrêtent la génération — les vingt niveaux présents **et dans l'ordre**, les seuils
+    **strictement croissants** : deux seuils inversés rendent une montée infranchissable, ou
+    franchissable deux fois.
+  - **Deux constantes extraites avec la phrase qui les atteste.** La classe d'armure sans armure et
+    le plafond d'une caractéristique — 10 et 20 — sont cherchés dans leur phrase du livre, et la
+    phrase est écrite dans la donnée produite. C'est ce qui distingue une constante extraite d'une
+    constante tapée de mémoire : la seconde a l'air de la première.
+  - **Le `20` que le `LOT-36` avait codé en dur est parti.** `abilityScoreWith()` bornait une
+    augmentation d'espèce à une constante ; le plafond est désormais un paramètre lu dans la
+    donnée, et le test du `LOT-36` a été repris pour le lire **au même endroit que le moteur** —
+    sinon il vérifierait sa propre copie de la règle.
+  - **La fiche est un objet autonome, jamais un singleton joueur.** Le test construit **quatre**
+    fiches, en blesse une, en fait monter une autre de deux niveaux, et vérifie que les deux
+    dernières n'ont pas bougé : si `CharacterSheet` devenait un singleton, ce cas tomberait le
+    premier. Le bonus de maîtrise n'y est d'ailleurs pas stocké — il se lit dans la table au niveau
+    courant, sans quoi une montée de niveau laisserait un personnage avec le bonus de l'ancien.
+  - **Le composant ECS ne porte pas la fiche, il la désigne.** Une fiche n'appartient pas à une
+    entité : un personnage garde la sienne quand il change de carte et que son entité est détruite
+    puis recréée. `INDICE_ABSENT` distingue une entité **sans** fiche d'une entité liée à la
+    première du registre — les confondre ferait attaquer un tonneau avec les caractéristiques du
+    héros.
+  - **Trois décisions de règle, écrites là où on les lit.** Les points de vie sont
+    **déterministes** (le livre laisse le choix ; des PV tirés au dé rendraient une partie
+    irrejouable) ; monter de niveau **n'est pas un soin**, les PV courants montent du gain et non
+    jusqu'au maximum ; et **perdre de l'expérience n'est pas une règle de ce jeu**, un gain négatif
+    est ignoré plutôt que d'aboutir à une descente de niveau silencieuse.
+  - **Le lot n'a pas écrit de `ClassDefinition`** : le `LOT-36` l'avait déjà livrée sous le nom de
+    `PlayableClass`. Un second type pour la même chose aurait créé deux vérités sur ce qu'est une
+    classe.
+  - `ctest` passe de 983 à **992** cas, tous verts.
+
 - **Espèces, historiques et classes provisoires** (`LOT-36`). De quoi construire un personnage
   jouable au plus tôt : **22 espèces**, **13 historiques** et les **4 classes simplifiées** qui
   serviront de socle au premier modèle de combat — 39 fichiers tirés de **trois documents et deux

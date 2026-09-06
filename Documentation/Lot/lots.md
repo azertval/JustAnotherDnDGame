@@ -44,6 +44,7 @@ c'est un identifiant stable, jamais réordonné.
 - @subpage lot-43
 - @subpage lot-33
 - @subpage lot-36
+- @subpage lot-13
 
 ## Feuille de route
 

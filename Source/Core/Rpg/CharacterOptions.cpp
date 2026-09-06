@@ -18,10 +18,6 @@ namespace {
 // documents de format. `0` desactive la garde de version, comme pour le bestiaire (LOT-33).
 constexpr int SANS_GARDE_DE_VERSION = 0;
 
-// Plafond d'une valeur de caracteristique apres augmentation raciale. La regle ne le franchit
-// jamais, et l'ecrire ici evite qu'un score de 22 sorte d'une addition sans que rien ne le dise.
-constexpr int VALEUR_MAXIMALE = 20;
-
 [[nodiscard]] std::string lireTexte(const nlohmann::json& objet, const char* champ) {
     const auto trouve = objet.find(champ);
     return (trouve != objet.end() && trouve->is_string()) ? trouve->get<std::string>()
@@ -157,8 +153,8 @@ std::vector<std::string> CharacterOptions::provisionalClassIds() const {
     return identifiants;
 }
 
-int abilityScoreWith(const Species& species, Ability which, int baseScore) {
-    return std::min(baseScore + species.increase(which), VALEUR_MAXIMALE);
+int abilityScoreWith(const Species& species, Ability which, int baseScore, int maximumScore) {
+    return std::min(baseScore + species.increase(which), maximumScore);
 }
 
 CharacterOptions loadCharacterOptions(const std::filesystem::path& speciesDir,
