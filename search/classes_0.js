@@ -16,7 +16,8 @@ var searchData=
   ['assetreference_13',['AssetReference',['../structhmi_1_1AssetReference.html',1,'hmi']]],
   ['assetthumbnailview_14',['AssetThumbnailView',['../classhmi_1_1AssetThumbnailView.html',1,'hmi']]],
   ['assetvalidation_15',['AssetValidation',['../structhmi_1_1AssetValidation.html',1,'hmi']]],
-  ['atlasregion_16',['AtlasRegion',['../structcore_1_1AtlasRegion.html',1,'core']]],
-  ['audioengine_17',['AudioEngine',['../classhmi_1_1AudioEngine.html',1,'hmi']]],
-  ['autotilecell_18',['AutotileCell',['../structhmi_1_1AutotileCell.html',1,'hmi']]]
+  ['atlas_16',['Atlas',['../structcore_1_1Atlas.html',1,'core']]],
+  ['atlasregion_17',['AtlasRegion',['../structcore_1_1AtlasRegion.html',1,'core']]],
+  ['audioengine_18',['AudioEngine',['../classhmi_1_1AudioEngine.html',1,'hmi']]],
+  ['autotilecell_19',['AutotileCell',['../structhmi_1_1AutotileCell.html',1,'hmi']]]
 ];

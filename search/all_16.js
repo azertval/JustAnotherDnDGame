@@ -26,5 +26,7 @@ var searchData=
   ['keyreleased_23',['keyReleased',['../classhmi_1_1InputState.html#ae58b5ee926c82c8f62bf57ee7e446ac4',1,'hmi::InputState']]],
   ['keyreleaseevent_24',['keyReleaseEvent',['../classhmi_1_1GameViewport.html#aeab73386d2f7ed680a6bee08b923d1c9',1,'hmi::GameViewport']]],
   ['kind_25',['kind',['../structcore_1_1Particle.html#a4b703b7dc374a14eddc5c80c83b14b9b',1,'core::Particle::kind'],['../structcore_1_1TileLayer.html#a83a055dac4d8a85c67cb9106cfbfba11',1,'core::TileLayer::kind'],['../structhmi_1_1LinkRow.html#a94244c8504c1e369911da965056b39c9',1,'hmi::LinkRow::kind'],['../structhmi_1_1PixelHistoryEntry.html#a0bca112b1e07f1c110b91a978303bea2',1,'hmi::PixelHistoryEntry::kind'],['../structhmi_1_1ComposedQuad.html#a11f80072d43177fd77c938bb6efaab02',1,'hmi::ComposedQuad::kind']]],
-  ['knowninteractablekinds_26',['knownInteractableKinds',['../namespacecore.html#a07f40df9fbe2a910d1e99b9756220fea',1,'core']]]
+  ['knowninteractablekinds_26',['knownInteractableKinds',['../namespacecore.html#a07f40df9fbe2a910d1e99b9756220fea',1,'core']]],
+  ['kregionaxiscount_27',['kRegionAxisCount',['../namespacecore.html#abc767d4db86670c1b2d325f75023ca6c',1,'core']]],
+  ['kregiongradecount_28',['kRegionGradeCount',['../namespacecore.html#a29a08c23095e20f5b90a5799fb05f24a',1,'core']]]
 ];

@@ -1,5 +1,8 @@
 var NAVTREEINDEX2 =
 {
+"Quad_8h.html":[13,0,3,2,4,42],
+"Quad_8h_source.html":[13,0,3,2,4,42],
+"Rect_8cpp.html":[13,0,3,0,5,2],
 "Rect_8h.html":[13,0,3,0,5,3],
 "Rect_8h_source.html":[13,0,3,0,5,3],
 "RenderLayer_8h.html":[13,0,3,2,4,45],
@@ -246,8 +249,5 @@ var NAVTREEINDEX2 =
 "classcore_1_1Engine.html#a80c1e60da14c218b7846ff3201a325a6":[12,0,0,0,0],
 "classcore_1_1EntityManager.html":[11,0,0,25],
 "classcore_1_1EntityManager.html":[12,0,0,25],
-"classcore_1_1EntityManager.html#a0bca45ea981b44ee62f9272b593c92a5":[11,0,0,25,7],
-"classcore_1_1EntityManager.html#a0bca45ea981b44ee62f9272b593c92a5":[12,0,0,25,7],
-"classcore_1_1EntityManager.html#a2ebfce98756ffb74f312b2f80a66d806":[11,0,0,25,1],
-"classcore_1_1EntityManager.html#a2ebfce98756ffb74f312b2f80a66d806":[12,0,0,25,1]
+"classcore_1_1EntityManager.html#a0bca45ea981b44ee62f9272b593c92a5":[11,0,0,25,7]
 };

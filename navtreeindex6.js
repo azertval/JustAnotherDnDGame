@@ -1,5 +1,8 @@
 var NAVTREEINDEX6 =
 {
+"classhmi_1_1Camera2D.html#ab11e9713f8b1ccad4cb98a5c2807a410":[11,0,1,70,13],
+"classhmi_1_1Camera2D.html#ab11e9713f8b1ccad4cb98a5c2807a410":[12,0,1,70,13],
+"classhmi_1_1Camera2D.html#adfbd3dc1e9d3a0840f9fed36c57d47a6":[11,0,1,70,15],
 "classhmi_1_1Camera2D.html#adfbd3dc1e9d3a0840f9fed36c57d47a6":[12,0,1,70,15],
 "classhmi_1_1Camera2D.html#ae4d184982026b7f61e3507c0d264321b":[11,0,1,70,3],
 "classhmi_1_1Camera2D.html#ae4d184982026b7f61e3507c0d264321b":[12,0,1,70,3],
@@ -246,8 +249,5 @@ var NAVTREEINDEX6 =
 "classhmi_1_1FrameRateAverage.html#aaa017999c295d9d10e75553c9aa392f1":[11,0,1,49,0],
 "classhmi_1_1FrameRateAverage.html#aaa017999c295d9d10e75553c9aa392f1":[12,0,1,49,0],
 "classhmi_1_1FrameRateAverage.html#ad12514ef0167b240b78bd237d4066724":[11,0,1,49,4],
-"classhmi_1_1FrameRateAverage.html#ad12514ef0167b240b78bd237d4066724":[12,0,1,49,4],
-"classhmi_1_1FrameRateAverage.html#ad263b33841646013a503fb2e4d7e47ca":[11,0,1,49,2],
-"classhmi_1_1FrameRateAverage.html#ad263b33841646013a503fb2e4d7e47ca":[12,0,1,49,2],
-"classhmi_1_1GameKeyBindings.html":[11,0,1,115]
+"classhmi_1_1FrameRateAverage.html#ad12514ef0167b240b78bd237d4066724":[12,0,1,49,4]
 };

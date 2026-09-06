@@ -39,9 +39,10 @@ var searchData=
   ['playtest_36',['Playtest',['../namespacehmi.html#aa4f5968d7b564d555f29fdc5d2fc9585ab13fc91e5d02ea9e1f1a538504213bea',1,'hmi::Playtest'],['../namespacehmi.html#ab269aabb94611e449a8e7427969874f5ab13fc91e5d02ea9e1f1a538504213bea',1,'hmi::Playtest']]],
   ['poison_37',['Poison',['../namespacecore.html#aae5ed49bedbf68049f008e4efac2edfda3a9d1818d0d7f5646e63465baf7d366f',1,'core']]],
   ['poisoned_38',['Poisoned',['../namespacecore.html#aae82873d6c7bd0b4db085354c50e1493aa3bdbf2434870a6548df06309bb536b1',1,'core']]],
-  ['pressureplate_39',['PressurePlate',['../namespacecore.html#ace99a1be913e6294e42e9ebb145eb875a4115ad497e280a49d0ae72f68dc3fc86',1,'core']]],
-  ['pressureplatepressed_40',['PressurePlatePressed',['../namespacehmi.html#a3a61aed1c8e95c289c829398d48488deaf05c732743513b5ae2ec57800427605c',1,'hmi']]],
-  ['pressureplatereleased_41',['PressurePlateReleased',['../namespacehmi.html#a3a61aed1c8e95c289c829398d48488dea1dcbd75ed42921b33c5894d72929b5c4',1,'hmi']]],
-  ['prone_42',['Prone',['../namespacecore.html#aae82873d6c7bd0b4db085354c50e1493a0d7fa52c0200c09318ddc6c0d7a377ec',1,'core']]],
-  ['psychic_43',['Psychic',['../namespacecore.html#aae5ed49bedbf68049f008e4efac2edfda1a0d4dfdb97302cb8ac802fd459ea37a',1,'core']]]
+  ['politicalstability_39',['PoliticalStability',['../namespacecore.html#a1471b5a70feb139829909360f5b07940aa312dfd218c383fbed721ddb5c4247ce',1,'core']]],
+  ['pressureplate_40',['PressurePlate',['../namespacecore.html#ace99a1be913e6294e42e9ebb145eb875a4115ad497e280a49d0ae72f68dc3fc86',1,'core']]],
+  ['pressureplatepressed_41',['PressurePlatePressed',['../namespacehmi.html#a3a61aed1c8e95c289c829398d48488deaf05c732743513b5ae2ec57800427605c',1,'hmi']]],
+  ['pressureplatereleased_42',['PressurePlateReleased',['../namespacehmi.html#a3a61aed1c8e95c289c829398d48488dea1dcbd75ed42921b33c5894d72929b5c4',1,'hmi']]],
+  ['prone_43',['Prone',['../namespacecore.html#aae82873d6c7bd0b4db085354c50e1493a0d7fa52c0200c09318ddc6c0d7a377ec',1,'core']]],
+  ['psychic_44',['Psychic',['../namespacecore.html#aae5ed49bedbf68049f008e4efac2edfda1a0d4dfdb97302cb8ac802fd459ea37a',1,'core']]]
 ];

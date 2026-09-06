@@ -25,5 +25,6 @@ var searchData=
   ['linksegment_22',['LinkSegment',['../structhmi_1_1LinkSegment.html',1,'hmi']]],
   ['loadedtexture_23',['LoadedTexture',['../structhmi_1_1LoadedTexture.html',1,'hmi']]],
   ['localization_24',['Localization',['../classhmi_1_1Localization.html',1,'hmi']]],
-  ['logger_25',['Logger',['../classcore_1_1Logger.html',1,'core']]]
+  ['location_25',['Location',['../structcore_1_1Location.html',1,'core']]],
+  ['logger_26',['Logger',['../classcore_1_1Logger.html',1,'core']]]
 ];

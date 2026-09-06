@@ -287,6 +287,20 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les compétences chargées, et ce qui n'a pas pu l'être.  <a href="structcore_1_1SkillCatalog.html#details">More...</a><br /></td></tr>
 <tr class="memitem:FixedTimestep" id="r_FixedTimestep"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classcore_1_1FixedTimestep.html">FixedTimestep</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convertit un temps réel écoulé variable en un nombre de pas de simulation fixes.  <a href="classcore_1_1FixedTimestep.html#details">More...</a><br /></td></tr>
+<tr class="memitem:RegionAppraisal" id="r_RegionAppraisal"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1RegionAppraisal.html">RegionAppraisal</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une appréciation d'un axe : une note, et la portée où elle vaut.  <a href="structcore_1_1RegionAppraisal.html#details">More...</a><br /></td></tr>
+<tr class="memitem:RegionStatistic" id="r_RegionStatistic"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1RegionStatistic.html">RegionStatistic</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un axe de statistique régionale : une ou plusieurs appréciations (<span class="tt">EX-CNT-061</span>).  <a href="structcore_1_1RegionStatistic.html#details">More...</a><br /></td></tr>
+<tr class="memitem:RegionSpeciesShare" id="r_RegionSpeciesShare"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1RegionSpeciesShare.html">RegionSpeciesShare</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">La part d'une espèce dans la population d'une région.  <a href="structcore_1_1RegionSpeciesShare.html#details">More...</a><br /></td></tr>
+<tr class="memitem:RegionPopulation" id="r_RegionPopulation"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1RegionPopulation.html">RegionPopulation</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">La population d'une région.  <a href="structcore_1_1RegionPopulation.html#details">More...</a><br /></td></tr>
+<tr class="memitem:Location" id="r_Location"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1Location.html">Location</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un lieu nommé d'une région : un nœud terminal du graphe, une carte à créer.  <a href="structcore_1_1Location.html#details">More...</a><br /></td></tr>
+<tr class="memitem:Region" id="r_Region"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1Region.html">Region</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une région : un nœud du graphe de cartes.  <a href="structcore_1_1Region.html#details">More...</a><br /></td></tr>
+<tr class="memitem:Atlas" id="r_Atlas"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1Atlas.html">Atlas</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">L'atlas chargé, et ce qui n'a pas pu l'être.  <a href="structcore_1_1Atlas.html#details">More...</a><br /></td></tr>
 <tr class="memitem:GridDistanceField" id="r_GridDistanceField"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classcore_1_1GridDistanceField.html">GridDistanceField</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Distance de plus court chemin en nombre de cases (4-connexité, respectant les cases statiquement solides d'un <span class="tt"><a class="el" href="classcore_1_1TileMap.html" title="Grille dense de tuiles typées (EX-GP-001), origine haut-gauche.">core::TileMap</a></span>), pré-calculée une fois par BFS multi-source depuis une case cible.  <a href="classcore_1_1GridDistanceField.html#details">More...</a><br /></td></tr>
 </table><table class="memberdecls">
@@ -503,6 +517,28 @@ Enumerations</h2></td></tr>
 <br />
  }</td></tr>
 <tr class="memdesc:ae6c6faeaa28aa7b90280f4dc39237204"><td class="mdescLeft">&#160;</td><td class="mdescRight">Catégorie de taille d'une créature (<span class="tt">EX-CNT-011</span>).  <a href="#ae6c6faeaa28aa7b90280f4dc39237204">More...</a><br /></td></tr>
+<tr class="memitem:aee1e9954e6e76342687aaa9dcf3cbc5a" id="r_aee1e9954e6e76342687aaa9dcf3cbc5a"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#aee1e9954e6e76342687aaa9dcf3cbc5a">RegionGrade</a> : std::uint8_t { <br />
+&#160;&#160;<a class="el" href="#aee1e9954e6e76342687aaa9dcf3cbc5aa89655e31f5f56a0f7860c4a85b7e9752">VeryLow</a> = 0
+, <a class="el" href="#aee1e9954e6e76342687aaa9dcf3cbc5aa28d0edd045e05cf5af64e35ae0c4c6ef">Low</a>
+, <a class="el" href="#aee1e9954e6e76342687aaa9dcf3cbc5aa960b44c579bc2f6818d2daaf9e4c16f0">Normal</a>
+, <a class="el" href="#aee1e9954e6e76342687aaa9dcf3cbc5aa655d20c1ca69519ca647684edbb2db35">High</a>
+, <br />
+&#160;&#160;<a class="el" href="#aee1e9954e6e76342687aaa9dcf3cbc5aaf0b44f10edcd3bdee6720430ac4111cd">VeryHigh</a>
+<br />
+ }</td></tr>
+<tr class="memdesc:aee1e9954e6e76342687aaa9dcf3cbc5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les cinq notes de l'encart « Regional Statistics » (<span class="tt">EX-CNT-060</span>).  <a href="#aee1e9954e6e76342687aaa9dcf3cbc5a">More...</a><br /></td></tr>
+<tr class="memitem:a1471b5a70feb139829909360f5b07940" id="r_a1471b5a70feb139829909360f5b07940"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#a1471b5a70feb139829909360f5b07940">RegionAxis</a> : std::uint8_t { <br />
+&#160;&#160;<a class="el" href="#a1471b5a70feb139829909360f5b07940ad0c9cc5815cd00065cd71899a4e59cec">CitizenFreedom</a> = 0
+, <a class="el" href="#a1471b5a70feb139829909360f5b07940a1ac8b82da41e7a78301dfa6e47b6bb23">CrimeAndViolence</a>
+, <a class="el" href="#a1471b5a70feb139829909360f5b07940a039bf742724aaeaf524d260c5ea676c1">EconomicProsperity</a>
+, <a class="el" href="#a1471b5a70feb139829909360f5b07940ab581cd8e9b61b71e5f3d39c384a643b8">GovernmentCorruption</a>
+, <br />
+&#160;&#160;<a class="el" href="#a1471b5a70feb139829909360f5b07940a97c5c90f2b32eff62e6cf14f437133e0">MagicAccess</a>
+, <a class="el" href="#a1471b5a70feb139829909360f5b07940a60f27ec0b99545971fffccb1d416957b">MonsterPresence</a>
+, <a class="el" href="#a1471b5a70feb139829909360f5b07940aa312dfd218c383fbed721ddb5c4247ce">PoliticalStability</a>
+<br />
+ }</td></tr>
+<tr class="memdesc:a1471b5a70feb139829909360f5b07940"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les sept axes, dans l'ordre où le livre les imprime.  <a href="#a1471b5a70feb139829909360f5b07940">More...</a><br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
@@ -655,6 +691,14 @@ Functions</h2></td></tr>
 <tr class="memdesc:a3bc1fb9934614684210eff9159619222"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convertit un nombre de cases en mètres, pour l'affichage et les infobulles.  <br /></td></tr>
 <tr class="memitem:a42f5d87d7c735cf39527f76c7dda44da" id="r_a42f5d87d7c735cf39527f76c7dda44da"><td class="memItemLeft"><a class="el" href="structcore_1_1SkillCatalog.html">SkillCatalog</a>&#160;</td><td class="memItemRight"><a class="el" href="#a42f5d87d7c735cf39527f76c7dda44da">loadSkills</a> (const std::filesystem::path &amp;directory)</td></tr>
 <tr class="memdesc:a42f5d87d7c735cf39527f76c7dda44da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Charge le catalogue des compétences depuis son dossier.  <br /></td></tr>
+<tr class="memitem:ab4aa0ab49f1c6aa68a857e65576a2832" id="r_ab4aa0ab49f1c6aa68a857e65576a2832"><td class="memItemLeft">std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#ab4aa0ab49f1c6aa68a857e65576a2832">regionGradeName</a> (<a class="el" href="#aee1e9954e6e76342687aaa9dcf3cbc5a">RegionGrade</a> grade)</td></tr>
+<tr class="memdesc:ab4aa0ab49f1c6aa68a857e65576a2832"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le nom d'une note, tel que le schéma l'écrit (<span class="tt">veryLow</span>, <span class="tt">normal</span>, …).  <br /></td></tr>
+<tr class="memitem:ae11b18a52cca73be017c8bd2989a79b9" id="r_ae11b18a52cca73be017c8bd2989a79b9"><td class="memItemLeft">std::optional&lt; <a class="el" href="#aee1e9954e6e76342687aaa9dcf3cbc5a">RegionGrade</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#ae11b18a52cca73be017c8bd2989a79b9">regionGradeFromName</a> (std::string_view name)</td></tr>
+<tr class="memdesc:ae11b18a52cca73be017c8bd2989a79b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">La note portant ce nom de schéma, ou <span class="tt">std::nullopt</span>.  <br /></td></tr>
+<tr class="memitem:a3cb4f147c529e897b3d66b33d07db7fd" id="r_a3cb4f147c529e897b3d66b33d07db7fd"><td class="memItemLeft">std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#a3cb4f147c529e897b3d66b33d07db7fd">regionAxisName</a> (<a class="el" href="#a1471b5a70feb139829909360f5b07940">RegionAxis</a> axis)</td></tr>
+<tr class="memdesc:a3cb4f147c529e897b3d66b33d07db7fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le nom d'un axe, tel que le schéma l'écrit (<span class="tt">citizenFreedom</span>, …).  <br /></td></tr>
+<tr class="memitem:a4a28b9f58a274691d57f2f961c7909e7" id="r_a4a28b9f58a274691d57f2f961c7909e7"><td class="memItemLeft"><a class="el" href="structcore_1_1Atlas.html">Atlas</a>&#160;</td><td class="memItemRight"><a class="el" href="#a4a28b9f58a274691d57f2f961c7909e7">loadAtlas</a> (const std::filesystem::path &amp;directory)</td></tr>
+<tr class="memdesc:a4a28b9f58a274691d57f2f961c7909e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Charge l'atlas — <span class="tt">regions/</span> et <span class="tt">locations/</span> sous le dossier donné.  <br /></td></tr>
 <tr id="func-members-0" class="groupHeader"><td colspan="2"><div class="groupHeader">Noms textuels</div></td></tr>
 <tr><td colspan="2" class="ititle"><div class="groupText"><p>Point unique de vérité de la correspondance valeur ↔ nom, partagé par les catalogues de données (<span class="tt">Source/Elements/Rpg/</span>), leurs schémas JSON et le moteur.</p>
 <p>Deux tables distinctes divergeraient au premier type ajouté — et le scénario qu'<span class="tt">EX-CNT-011</span> décrit se produirait : la donnée déclare un type que le moteur ne connaît pas, la valeur tombe dans un cas par défaut, et le sort cesse de faire des dégâts sans que rien ne l'annonce.</p>
@@ -744,6 +788,10 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
 <tr class="memdesc:a42b6dd302d4b68da1f4bdd439884b338"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nombre de faces du dé de résolution. Le d20 est la mécanique centrale du jeu.  <br /></td></tr>
 <tr class="memitem:a511d502baab5befb28a3742b65ee1e61" id="r_a511d502baab5befb28a3742b65ee1e61"><td class="memItemLeft">constexpr float&#160;</td><td class="memItemRight"><a class="el" href="#a511d502baab5befb28a3742b65ee1e61">METERS_PER_TILE</a> = 1.5f</td></tr>
 <tr class="memdesc:a511d502baab5befb28a3742b65ee1e61"><td class="mdescLeft">&#160;</td><td class="mdescRight">Côté d'une case de la grille tactique, en mètres.  <br /></td></tr>
+<tr class="memitem:a29a08c23095e20f5b90a5799fb05f24a" id="r_a29a08c23095e20f5b90a5799fb05f24a"><td class="memItemLeft">constexpr std::size_t&#160;</td><td class="memItemRight"><a class="el" href="#a29a08c23095e20f5b90a5799fb05f24a">kRegionGradeCount</a> = 5</td></tr>
+<tr class="memdesc:a29a08c23095e20f5b90a5799fb05f24a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nombre de notes — pour les parcours exhaustifs et les contrôles de couverture.  <br /></td></tr>
+<tr class="memitem:abc767d4db86670c1b2d325f75023ca6c" id="r_abc767d4db86670c1b2d325f75023ca6c"><td class="memItemLeft">constexpr std::size_t&#160;</td><td class="memItemRight"><a class="el" href="#abc767d4db86670c1b2d325f75023ca6c">kRegionAxisCount</a> = 7</td></tr>
+<tr class="memdesc:abc767d4db86670c1b2d325f75023ca6c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nombre d'axes.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Espace de noms du moteur et de la logique de jeu. </p>
@@ -1412,6 +1460,72 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
 </td></tr>
 <tr><td class="fieldname"><a id="a6dc89438a55a80980ab04f7da513f731a5835bab1ade0060909e31a06af2e2cde" name="a6dc89438a55a80980ab04f7da513f731a5835bab1ade0060909e31a06af2e2cde"></a>Front&#160;</td><td class="fielddoc"><p>Devant le personnage (<span class="tt">EX-DEC-042</span>) : c'est le moyen de lecture qui distingue d'un coup d'œil le décor traversable du décor physique. </p>
 </td></tr>
+</table>
+
+</div>
+</div>
+<a id="a1471b5a70feb139829909360f5b07940" name="a1471b5a70feb139829909360f5b07940"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1471b5a70feb139829909360f5b07940">&#9670;&#160;</a></span>RegionAxis</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="#a1471b5a70feb139829909360f5b07940">core::RegionAxis</a> : std::uint8_t</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Les sept axes, dans l'ordre où le livre les imprime. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a1471b5a70feb139829909360f5b07940ad0c9cc5815cd00065cd71899a4e59cec" name="a1471b5a70feb139829909360f5b07940ad0c9cc5815cd00065cd71899a4e59cec"></a>CitizenFreedom&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a1471b5a70feb139829909360f5b07940a1ac8b82da41e7a78301dfa6e47b6bb23" name="a1471b5a70feb139829909360f5b07940a1ac8b82da41e7a78301dfa6e47b6bb23"></a>CrimeAndViolence&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a1471b5a70feb139829909360f5b07940a039bf742724aaeaf524d260c5ea676c1" name="a1471b5a70feb139829909360f5b07940a039bf742724aaeaf524d260c5ea676c1"></a>EconomicProsperity&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a1471b5a70feb139829909360f5b07940ab581cd8e9b61b71e5f3d39c384a643b8" name="a1471b5a70feb139829909360f5b07940ab581cd8e9b61b71e5f3d39c384a643b8"></a>GovernmentCorruption&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a1471b5a70feb139829909360f5b07940a97c5c90f2b32eff62e6cf14f437133e0" name="a1471b5a70feb139829909360f5b07940a97c5c90f2b32eff62e6cf14f437133e0"></a>MagicAccess&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a1471b5a70feb139829909360f5b07940a60f27ec0b99545971fffccb1d416957b" name="a1471b5a70feb139829909360f5b07940a60f27ec0b99545971fffccb1d416957b"></a>MonsterPresence&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a1471b5a70feb139829909360f5b07940aa312dfd218c383fbed721ddb5c4247ce" name="a1471b5a70feb139829909360f5b07940aa312dfd218c383fbed721ddb5c4247ce"></a>PoliticalStability&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+<a id="aee1e9954e6e76342687aaa9dcf3cbc5a" name="aee1e9954e6e76342687aaa9dcf3cbc5a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aee1e9954e6e76342687aaa9dcf3cbc5a">&#9670;&#160;</a></span>RegionGrade</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="#aee1e9954e6e76342687aaa9dcf3cbc5a">core::RegionGrade</a> : std::uint8_t</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Les cinq notes de l'encart « Regional Statistics » (<span class="tt">EX-CNT-060</span>). </p>
+<p>Fermée, et <b>ordonnée du plus bas au plus haut</b> : une note se compare, et c'est tout l'intérêt de la typer. <span class="tt">monsterPresence &gt;= <a class="el" href="#aee1e9954e6e76342687aaa9dcf3cbc5aa655d20c1ca69519ca647684edbb2db35">RegionGrade::High</a></span> doit vouloir dire quelque chose, sinon autant garder la chaîne du livre.</p>
+<p>Les valeurs coïncident avec l'énumération de <span class="tt">region.schema.json</span> ; <span class="tt"><a class="el" href="test__atlas_8cpp.html" title="Tests de l&#39;atlas des régions (LOT-37) : les treize régions chargent, le graphe tient,...">test_atlas.cpp</a></span> le vérifie (<span class="tt">EX-CNT-011</span>). </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="aee1e9954e6e76342687aaa9dcf3cbc5aa89655e31f5f56a0f7860c4a85b7e9752" name="aee1e9954e6e76342687aaa9dcf3cbc5aa89655e31f5f56a0f7860c4a85b7e9752"></a>VeryLow&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aee1e9954e6e76342687aaa9dcf3cbc5aa28d0edd045e05cf5af64e35ae0c4c6ef" name="aee1e9954e6e76342687aaa9dcf3cbc5aa28d0edd045e05cf5af64e35ae0c4c6ef"></a>Low&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aee1e9954e6e76342687aaa9dcf3cbc5aa960b44c579bc2f6818d2daaf9e4c16f0" name="aee1e9954e6e76342687aaa9dcf3cbc5aa960b44c579bc2f6818d2daaf9e4c16f0"></a>Normal&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aee1e9954e6e76342687aaa9dcf3cbc5aa655d20c1ca69519ca647684edbb2db35" name="aee1e9954e6e76342687aaa9dcf3cbc5aa655d20c1ca69519ca647684edbb2db35"></a>High&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aee1e9954e6e76342687aaa9dcf3cbc5aaf0b44f10edcd3bdee6720430ac4111cd" name="aee1e9954e6e76342687aaa9dcf3cbc5aaf0b44f10edcd3bdee6720430ac4111cd"></a>VeryHigh&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
 </div>
@@ -2791,6 +2905,42 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
 
 </div>
 </div>
+<a id="a4a28b9f58a274691d57f2f961c7909e7" name="a4a28b9f58a274691d57f2f961c7909e7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4a28b9f58a274691d57f2f961c7909e7">&#9670;&#160;</a></span>loadAtlas()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structcore_1_1Atlas.html">Atlas</a> core::loadAtlas </td>
+          <td>(</td>
+          <td class="paramtype">const std::filesystem::path &amp;</td>          <td class="paramname"><span class="paramname"><em>directory</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Charge l'atlas — <span class="tt">regions/</span> et <span class="tt">locations/</span> sous le dossier donné. </p>
+<p>Les deux dossiers sont <b>balayés</b>, jamais énumérés dans le code : le <span class="tt">LOT-80</span> ajoutera des lieux, et une liste écrite ici les rendrait invisibles.</p>
+<dl class="section note"><dt>Note</dt><dd><b>Les clés d'espèce sont en anglais</b> et ne pointent pas vers le catalogue d'espèces du <span class="tt">LOT-36</span>, qui est en français et n'en couvre que la moitié — ni géant, ni gobelinoïde, ni kemet, ni merfolk, ni orc, ni soulborn n'y existent. La correspondance est le travail du <span class="tt">LOT-39</span> ; la fabriquer à moitié ici donnerait un champ vrai une fois sur deux, ce qui est pire qu'un champ dont on sait qu'il ne pointe nulle part.</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">directory</td><td>Dossier de l'atlas (<span class="tt">Source/Elements/World</span>). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>L'atlas et la liste des échecs. Ne lève jamais (<span class="tt">EX-NFR-040</span>). Un dossier absent produit une erreur, pas un atlas vide : un monde vide se confondrait avec un monde non installé. </dd></dl>
+
+</div>
+</div>
 <a id="a83d3373cdbf5d435e75c8d6a944e1e2b" name="a83d3373cdbf5d435e75c8d6a944e1e2b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a83d3373cdbf5d435e75c8d6a944e1e2b">&#9670;&#160;</a></span>loadBestiary()</h2>
 
@@ -3994,6 +4144,87 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
 
 </div>
 </div>
+<a id="a3cb4f147c529e897b3d66b33d07db7fd" name="a3cb4f147c529e897b3d66b33d07db7fd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3cb4f147c529e897b3d66b33d07db7fd">&#9670;&#160;</a></span>regionAxisName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string_view core::regionAxisName </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a1471b5a70feb139829909360f5b07940">RegionAxis</a></td>          <td class="paramname"><span class="paramname"><em>axis</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Le nom d'un axe, tel que le schéma l'écrit (<span class="tt">citizenFreedom</span>, …). </p>
+
+</div>
+</div>
+<a id="ae11b18a52cca73be017c8bd2989a79b9" name="ae11b18a52cca73be017c8bd2989a79b9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae11b18a52cca73be017c8bd2989a79b9">&#9670;&#160;</a></span>regionGradeFromName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::optional&lt; <a class="el" href="#aee1e9954e6e76342687aaa9dcf3cbc5a">RegionGrade</a> &gt; core::regionGradeFromName </td>
+          <td>(</td>
+          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>name</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>La note portant ce nom de schéma, ou <span class="tt">std::nullopt</span>. </p>
+
+</div>
+</div>
+<a id="ab4aa0ab49f1c6aa68a857e65576a2832" name="ab4aa0ab49f1c6aa68a857e65576a2832"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab4aa0ab49f1c6aa68a857e65576a2832">&#9670;&#160;</a></span>regionGradeName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string_view core::regionGradeName </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#aee1e9954e6e76342687aaa9dcf3cbc5a">RegionGrade</a></td>          <td class="paramname"><span class="paramname"><em>grade</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Le nom d'une note, tel que le schéma l'écrit (<span class="tt">veryLow</span>, <span class="tt">normal</span>, …). </p>
+
+</div>
+</div>
 <a id="ac4655b6e996ba6d305c643f5f7d8e156" name="ac4655b6e996ba6d305c643f5f7d8e156"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac4655b6e996ba6d305c643f5f7d8e156">&#9670;&#160;</a></span>resolveCameraFraming()</h2>
 
@@ -4873,6 +5104,54 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
 </div><div class="memdoc">
 
 <p>Entité invalide conventionnelle : ne désigne jamais une entité vivante. </p>
+
+</div>
+</div>
+<a id="abc767d4db86670c1b2d325f75023ca6c" name="abc767d4db86670c1b2d325f75023ca6c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abc767d4db86670c1b2d325f75023ca6c">&#9670;&#160;</a></span>kRegionAxisCount</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::size_t core::kRegionAxisCount = 7</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Nombre d'axes. </p>
+
+</div>
+</div>
+<a id="a29a08c23095e20f5b90a5799fb05f24a" name="a29a08c23095e20f5b90a5799fb05f24a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a29a08c23095e20f5b90a5799fb05f24a">&#9670;&#160;</a></span>kRegionGradeCount</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::size_t core::kRegionGradeCount = 5</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Nombre de notes — pour les parcours exhaustifs et les contrôles de couverture. </p>
 
 </div>
 </div>

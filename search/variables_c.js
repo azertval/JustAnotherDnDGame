@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['label_0',['label',['../structhmi_1_1SkinSection.html#ab16dff57581a7dd9fb24540406be0a0c',1,'hmi::SkinSection::label'],['../structhmi_1_1TileEntry.html#a588d2f9ba853175b5b29b4bf8754a5f9',1,'hmi::TileEntry::label'],['../structhmi_1_1TileSubgroup.html#a2ceb670ced226a1fe69209e82c5926cb',1,'hmi::TileSubgroup::label'],['../structhmi_1_1TileCategory.html#ac51882a42b8b57b51e7184bc8cf7fa13',1,'hmi::TileCategory::label']]],
+  ['label_0',['label',['../structcore_1_1RegionSpeciesShare.html#ae422c8474f9184f1d286186359ddbbd8',1,'core::RegionSpeciesShare::label'],['../structhmi_1_1SkinSection.html#ab16dff57581a7dd9fb24540406be0a0c',1,'hmi::SkinSection::label'],['../structhmi_1_1TileEntry.html#a588d2f9ba853175b5b29b4bf8754a5f9',1,'hmi::TileEntry::label'],['../structhmi_1_1TileSubgroup.html#a2ceb670ced226a1fe69209e82c5926cb',1,'hmi::TileSubgroup::label'],['../structhmi_1_1TileCategory.html#ac51882a42b8b57b51e7184bc8cf7fa13',1,'hmi::TileCategory::label']]],
   ['labelkey_1',['labelKey',['../structhmi_1_1EditorActionSpec.html#affc2dfeea5c3939150e2df41b3d4aee8',1,'hmi::EditorActionSpec']]],
   ['landing_5fdust_5fmax_5fcount_2',['LANDING_DUST_MAX_COUNT',['../namespacecore.html#a44e318ce9f22d51c4119883030e4f60b',1,'core']]],
   ['landing_5fdust_5fmin_5fcount_3',['LANDING_DUST_MIN_COUNT',['../namespacecore.html#aba5e54d19d0541ded5d32fd4b613b923',1,'core']]],
@@ -23,5 +23,6 @@ var searchData=
   ['lifemax_20',['lifeMax',['../structcore_1_1ParticleEffect.html#aae65a2d7d727cd2137d640a61d567b86',1,'core::ParticleEffect']]],
   ['lifemin_21',['lifeMin',['../structcore_1_1ParticleEffect.html#a00edfae4d2ee1fb8d83c6e58ad092e94',1,'core::ParticleEffect']]],
   ['line_22',['line',['../structcore_1_1TextPosition.html#a212854e72aaaba608142270b46f535d0',1,'core::TextPosition::line'],['../structhmi_1_1ComposedQuad.html#a7e6bffe91fa5be8be3d80bda3f408d7b',1,'hmi::ComposedQuad::line']]],
-  ['lineheight_23',['lineHeight',['../structhmi_1_1FontMetrics.html#a21973518c82f73e635cc8a8295fed43d',1,'hmi::FontMetrics']]]
+  ['lineheight_23',['lineHeight',['../structhmi_1_1FontMetrics.html#a21973518c82f73e635cc8a8295fed43d',1,'hmi::FontMetrics']]],
+  ['locations_24',['locations',['../structcore_1_1Region.html#aae7d6f162d8fbf1ac4be15fec2aac0bc',1,'core::Region::locations'],['../structcore_1_1Atlas.html#a00ee928f799e8c7ed2dd1de25133d482',1,'core::Atlas::locations']]]
 ];

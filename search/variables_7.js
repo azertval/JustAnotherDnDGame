@@ -8,7 +8,9 @@ var searchData=
   ['gamepadnavigationactive_5',['gamepadNavigationActive',['../structhmi_1_1ScreenDressing.html#ab0e80ccc728954e6f7f559caef0f8a8e',1,'hmi::ScreenDressing']]],
   ['generation_6',['generation',['../structcore_1_1Entity.html#a2ad1b664955eb77c38cef28d6978cf7b',1,'core::Entity']]],
   ['glyphs_7',['glyphs',['../structhmi_1_1FontMetrics.html#af8edf913ecf02975f75b9d41f9acff65',1,'hmi::FontMetrics']]],
-  ['gravity_8',['gravity',['../structcore_1_1PhysicsConfig.html#abca056c01e3263ccc8d5e3adbd174e91',1,'core::PhysicsConfig']]],
-  ['groundpoundspeed_9',['groundPoundSpeed',['../structcore_1_1PhysicsConfig.html#a2072e171d44c396a1d3fc28e738224d0',1,'core::PhysicsConfig']]],
-  ['group_10',['group',['../structhmi_1_1EditorActionSpec.html#a8a67cad23c73abe7095578e00c818b81',1,'hmi::EditorActionSpec']]]
+  ['government_8',['government',['../structcore_1_1Region.html#ab2fcfb2827210b97d085a810023d1196',1,'core::Region']]],
+  ['grade_9',['grade',['../structcore_1_1RegionAppraisal.html#a9cea16e7edc28da4c20902d603d19cf6',1,'core::RegionAppraisal']]],
+  ['gravity_10',['gravity',['../structcore_1_1PhysicsConfig.html#abca056c01e3263ccc8d5e3adbd174e91',1,'core::PhysicsConfig']]],
+  ['groundpoundspeed_11',['groundPoundSpeed',['../structcore_1_1PhysicsConfig.html#a2072e171d44c396a1d3fc28e738224d0',1,'core::PhysicsConfig']]],
+  ['group_12',['group',['../structhmi_1_1EditorActionSpec.html#a8a67cad23c73abe7095578e00c818b81',1,'hmi::EditorActionSpec']]]
 ];

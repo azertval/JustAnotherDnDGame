@@ -1,5 +1,8 @@
 var NAVTREEINDEX7 =
 {
+"classhmi_1_1FrameRateAverage.html#ad263b33841646013a503fb2e4d7e47ca":[11,0,1,49,2],
+"classhmi_1_1FrameRateAverage.html#ad263b33841646013a503fb2e4d7e47ca":[12,0,1,49,2],
+"classhmi_1_1GameKeyBindings.html":[11,0,1,115],
 "classhmi_1_1GameKeyBindings.html":[12,0,1,115],
 "classhmi_1_1GameKeyBindings.html#a3432600dde80046479c098693a7fe3a1":[11,0,1,115,0],
 "classhmi_1_1GameKeyBindings.html#a3432600dde80046479c098693a7fe3a1":[12,0,1,115,0],
@@ -246,8 +249,5 @@ var NAVTREEINDEX7 =
 "classhmi_1_1GameViewport.html#a273e2da0d67c189ea53d4a7325d06c56":[11,0,1,54,85],
 "classhmi_1_1GameViewport.html#a273e2da0d67c189ea53d4a7325d06c56":[12,0,1,54,85],
 "classhmi_1_1GameViewport.html#a2782bf43e96eb616154febf6f247267b":[11,0,1,54,136],
-"classhmi_1_1GameViewport.html#a2782bf43e96eb616154febf6f247267b":[12,0,1,54,136],
-"classhmi_1_1GameViewport.html#a2d14e7a7931f33399764e36e182c83b7":[11,0,1,54,72],
-"classhmi_1_1GameViewport.html#a2d14e7a7931f33399764e36e182c83b7":[12,0,1,54,72],
-"classhmi_1_1GameViewport.html#a2dbee9d7bfe00fea7038cd764ae27bc2":[11,0,1,54,93]
+"classhmi_1_1GameViewport.html#a2782bf43e96eb616154febf6f247267b":[12,0,1,54,136]
 };

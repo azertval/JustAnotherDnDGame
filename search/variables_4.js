@@ -25,7 +25,7 @@ var searchData=
   ['default_5froom_5fwidth_5ftiles_22',['DEFAULT_ROOM_WIDTH_TILES',['../namespacecore.html#a16d88a44dd10fb55af743080cdf23310',1,'core']]],
   ['depth_23',['depth',['../structcore_1_1Plane.html#a8e975ddda080972618ef18a29124f1bf',1,'core::Plane']]],
   ['depth_5fsubdivisions_5fper_5funit_24',['DEPTH_SUBDIVISIONS_PER_UNIT',['../namespacehmi.html#a0591a2b20237a29c762b324a7ce0d7db',1,'hmi']]],
-  ['description_25',['description',['../structcore_1_1Creature.html#acf8f08feebb317942a935a6227430569',1,'core::Creature::description'],['../structhmi_1_1AnimationDescriptionResult.html#a3cdcee7012ff94ee9d1035738c33edaf',1,'hmi::AnimationDescriptionResult::description']]],
+  ['description_25',['description',['../structcore_1_1Creature.html#acf8f08feebb317942a935a6227430569',1,'core::Creature::description'],['../structcore_1_1Location.html#af82580580fcf327bd9a3286244d96f29',1,'core::Location::description'],['../structhmi_1_1AnimationDescriptionResult.html#a3cdcee7012ff94ee9d1035738c33edaf',1,'hmi::AnimationDescriptionResult::description']]],
   ['developer_5fbuild_26',['DEVELOPER_BUILD',['../namespacecore.html#affbaf55db3c297c638c8399aa855dbfe',1,'core']]],
   ['dexteritybonus_27',['dexterityBonus',['../structcore_1_1Armor.html#a2c6bc3b29c5d46addce60c3a75db0ae3',1,'core::Armor']]],
   ['dexteritybonusmax_28',['dexterityBonusMax',['../structcore_1_1Armor.html#a85302f29d0dc9ffb9baacc68a4164970',1,'core::Armor']]],

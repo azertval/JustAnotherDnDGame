@@ -96,6 +96,13 @@ var annotated_dup =
       [ "SkillDefinition", "structcore_1_1SkillDefinition.html", "structcore_1_1SkillDefinition" ],
       [ "SkillCatalog", "structcore_1_1SkillCatalog.html", "structcore_1_1SkillCatalog" ],
       [ "FixedTimestep", "classcore_1_1FixedTimestep.html", "classcore_1_1FixedTimestep" ],
+      [ "RegionAppraisal", "structcore_1_1RegionAppraisal.html", "structcore_1_1RegionAppraisal" ],
+      [ "RegionStatistic", "structcore_1_1RegionStatistic.html", "structcore_1_1RegionStatistic" ],
+      [ "RegionSpeciesShare", "structcore_1_1RegionSpeciesShare.html", "structcore_1_1RegionSpeciesShare" ],
+      [ "RegionPopulation", "structcore_1_1RegionPopulation.html", "structcore_1_1RegionPopulation" ],
+      [ "Location", "structcore_1_1Location.html", "structcore_1_1Location" ],
+      [ "Region", "structcore_1_1Region.html", "structcore_1_1Region" ],
+      [ "Atlas", "structcore_1_1Atlas.html", "structcore_1_1Atlas" ],
       [ "GridDistanceField", "classcore_1_1GridDistanceField.html", "classcore_1_1GridDistanceField" ]
     ] ],
     [ "hmi", "namespacehmi.html", [

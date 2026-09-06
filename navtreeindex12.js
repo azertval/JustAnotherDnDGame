@@ -1,5 +1,8 @@
 var NAVTREEINDEX12 =
 {
+"classhmi_1_1MainWindow.html#ace98668ce84ee3ba4f9a9ae17ff17a67":[11,0,1,144,86],
+"classhmi_1_1MainWindow.html#ace98668ce84ee3ba4f9a9ae17ff17a67":[12,0,1,144,86],
+"classhmi_1_1MainWindow.html#acf7d0c1b8c6c9f77858c847276140b68":[11,0,1,144,120],
 "classhmi_1_1MainWindow.html#acf7d0c1b8c6c9f77858c847276140b68":[12,0,1,144,120],
 "classhmi_1_1MainWindow.html#acfd88f3e6576c175480e4eeac406ea93":[11,0,1,144,61],
 "classhmi_1_1MainWindow.html#acfd88f3e6576c175480e4eeac406ea93":[12,0,1,144,61],
@@ -246,8 +249,5 @@ var NAVTREEINDEX12 =
 "classhmi_1_1PixelCanvas.html#a70f81aef57ea852a3929830b12b6cd6a":[11,0,1,26,39],
 "classhmi_1_1PixelCanvas.html#a70f81aef57ea852a3929830b12b6cd6a":[12,0,1,26,39],
 "classhmi_1_1PixelCanvas.html#a7930a3c832ecdfd99d45f77fa0605582":[11,0,1,26,23],
-"classhmi_1_1PixelCanvas.html#a7930a3c832ecdfd99d45f77fa0605582":[12,0,1,26,23],
-"classhmi_1_1PixelCanvas.html#a7cd48f58c08fb2cb572805a4bbf0504b":[11,0,1,26,78],
-"classhmi_1_1PixelCanvas.html#a7cd48f58c08fb2cb572805a4bbf0504b":[12,0,1,26,78],
-"classhmi_1_1PixelCanvas.html#a7ea4d88436b205459e797d3b91b474f1":[11,0,1,26,79]
+"classhmi_1_1PixelCanvas.html#a7930a3c832ecdfd99d45f77fa0605582":[12,0,1,26,23]
 };

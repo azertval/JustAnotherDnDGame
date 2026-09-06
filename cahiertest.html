@@ -93,9 +93,9 @@ $(function(){initNavTree('cahiertest.html','',''); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md_CahierTest"></a></p>
-<p><b>1004 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
+<p><b>1016 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md5"></a>
-Tests unitaires (989)</h1>
+Tests unitaires (1001)</h1>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md6"></a>
 Core</h2>
 <p><b><span class="tt"><a class="el" href="test__core_8cpp.html" title="Tests unitaires de la bibliothèque Core (amorçage).">test_core.cpp</a></span></b></p>
@@ -2702,7 +2702,92 @@ Vérifie que <span class="tt">timestep.advance(0.0f)</span> vaut <span class="tt
 Vérifie que <span class="tt">timestep.advance(STEP)</span> vaut <span class="tt">1</span>.  </td></tr>
 </table>
 <h3 class="doxsection"><a class="anchor" id="autotoc_md16"></a>
-World (7)</h3>
+World (19)</h3>
+<p><b><span class="tt"><a class="el" href="test__atlas_8cpp.html" title="Tests de l&#39;atlas des régions (LOT-37) : les treize régions chargent, le graphe tient,...">test_atlas.cpp</a></span></b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>AtlasTest.LesTreizeRegionsEtLeursLieuxChargentSansErreur</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__atlas_8cpp.html" title="Tests de l&#39;atlas des régions (LOT-37) : les treize régions chargent, le graphe tient,...">Source/Test/Unit/Core/World/test_atlas.cpp</a>:56</span></sub>  </td><td class="markdownTableBodyNone">Les treize regions et leurs quatre-vingt-quatorze lieux se chargent tous.  </td><td class="markdownTableBodyNone">1. Charger Source/Elements/World.<br  />
+ 2. Compter les regions, les lieux et les erreurs rapportees.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">atlas().errors.empty()</span> est vrai.<br  />
+Vérifie que <span class="tt">atlas().regions.size()</span> vaut <span class="tt">REGIONS_DU_LIVRE</span>.<br  />
+Vérifie que <span class="tt">atlas().locations.size()</span> vaut <span class="tt">LIEUX_DU_LIVRE</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>AtlasTest.ChaqueRegionPorteSesSeptAxes</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__atlas_8cpp.html" title="Tests de l&#39;atlas des régions (LOT-37) : les treize régions chargent, le graphe tient,...">Source/Test/Unit/Core/World/test_atlas.cpp</a>:73</span></sub>  </td><td class="markdownTableBodyNone">Chaque region porte les sept statistiques regionales.  </td><td class="markdownTableBodyNone">1. Pour chaque region, lire les sept axes de l'encart.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">axe.appraisals.empty()</span> est faux.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>AtlasTest.LEncartDeLEmpireCentralEstRejoueDepuisLeLivre</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__atlas_8cpp.html" title="Tests de l&#39;atlas des régions (LOT-37) : les treize régions chargent, le graphe tient,...">Source/Test/Unit/Core/World/test_atlas.cpp</a>:95</span></sub>  </td><td class="markdownTableBodyNone">L'encart de l'Empire central concorde avec le Sourcebook.  </td><td class="markdownTableBodyNone">1. Comparer les sept notes de l'Empire central aux valeurs lues sur la page imprimee 90.<br  />
+ 2. Comparer l'effectif et la part de la premiere espece au bloc d'introduction.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">empire</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">empire-&gt;statistic(note.axis).grade()</span> vaut <span class="tt">note.grade</span>.<br  />
+Vérifie que <span class="tt">empire-&gt;statistic(note.axis).varies()</span> est faux.<br  />
+Vérifie que <span class="tt">empire-&gt;population.total.has_value()</span> est vrai.<br  />
+Vérifie que <span class="tt">*empire-&gt;population.total</span> vaut <span class="tt">2300000</span>.<br  />
+Vérifie que <span class="tt">empire-&gt;population.species.empty()</span> est faux.<br  />
+Vérifie que <span class="tt">empire-&gt;population.species.front().species</span> vaut <span class="tt">"human"</span>.<br  />
+Vérifie que <span class="tt">empire-&gt;population.species.front().percent</span> vaut <span class="tt">84</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>AtlasTest.UneRegionNonUniformePorteSesDeuxAppreciations</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__atlas_8cpp.html" title="Tests de l&#39;atlas des régions (LOT-37) : les treize régions chargent, le graphe tient,...">Source/Test/Unit/Core/World/test_atlas.cpp</a>:135</span></sub>  </td><td class="markdownTableBodyNone">Une region non uniforme porte ses deux appreciations avec leur portee.  </td><td class="markdownTableBodyNone">1. Lire la liberte civique du Benenet imperial et la criminalite des Domaines straviens.<br  />
+ 2. Verifier les deux notes et les deux portees de chacune.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">benenet</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">liberte.appraisals.size()</span> vaut <span class="tt">2U</span>.<br  />
+Vérifie que <span class="tt">liberte.varies()</span> est vrai.<br  />
+Vérifie que <span class="tt">liberte.appraisals[0].grade</span> vaut <span class="tt"><a class="el" href="namespacecore.html#aee1e9954e6e76342687aaa9dcf3cbc5aa28d0edd045e05cf5af64e35ae0c4c6ef">core::RegionGrade::Low</a></span>.<br  />
+Vérifie que <span class="tt">liberte.appraisals[0].scope</span> vaut <span class="tt">"south"</span>.<br  />
+Vérifie que <span class="tt">liberte.appraisals[1].grade</span> vaut <span class="tt"><a class="el" href="namespacecore.html#aee1e9954e6e76342687aaa9dcf3cbc5aa655d20c1ca69519ca647684edbb2db35">core::RegionGrade::High</a></span>.<br  />
+Vérifie que <span class="tt">liberte.appraisals[1].scope</span> vaut <span class="tt">"north"</span>.<br  />
+Vérifie que <span class="tt">stravian</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">crime.appraisals.size()</span> vaut <span class="tt">2U</span>.<br  />
+Vérifie que <span class="tt">crime.appraisals[0].grade</span> vaut <span class="tt"><a class="el" href="namespacecore.html#aee1e9954e6e76342687aaa9dcf3cbc5aa28d0edd045e05cf5af64e35ae0c4c6ef">core::RegionGrade::Low</a></span>.<br  />
+Vérifie que <span class="tt">crime.appraisals[0].scope</span> vaut <span class="tt">"underground"</span>.<br  />
+Vérifie que <span class="tt">crime.appraisals[1].grade</span> vaut <span class="tt"><a class="el" href="namespacecore.html#aee1e9954e6e76342687aaa9dcf3cbc5aa655d20c1ca69519ca647684edbb2db35">core::RegionGrade::High</a></span>.<br  />
+Vérifie que <span class="tt">crime.appraisals[1].scope</span> vaut <span class="tt">"surface"</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>AtlasTest.UneRegionUniformeNePorteAucunePortee</b> (Mineur)<br  />
+<sub><span class="tt"><a class="el" href="test__atlas_8cpp.html" title="Tests de l&#39;atlas des régions (LOT-37) : les treize régions chargent, le graphe tient,...">Source/Test/Unit/Core/World/test_atlas.cpp</a>:172</span></sub>  </td><td class="markdownTableBodyNone">Une region uniforme ne nomme aucune portee.  </td><td class="markdownTableBodyNone">1. Pour chaque axe ne portant qu'une appreciation, lire sa portee.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">axe.appraisals.front().scope.empty()</span> est vrai.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>AtlasTest.AucunLieuSansRegion</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__atlas_8cpp.html" title="Tests de l&#39;atlas des régions (LOT-37) : les treize régions chargent, le graphe tient,...">Source/Test/Unit/Core/World/test_atlas.cpp</a>:194</span></sub>  </td><td class="markdownTableBodyNone">Aucun lieu n'est orphelin de region.  </td><td class="markdownTableBodyNone">1. Pour chaque lieu, resoudre la region qu'il declare.<br  />
+ 2. Verifier que cette region le cite en retour.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">region</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">std::ranges::find(region-&gt;locations, lieu.id)</span> diffère de <span class="tt">region-&gt;locations.end()</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>AtlasTest.ToutLieuCiteParUneRegionExiste</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__atlas_8cpp.html" title="Tests de l&#39;atlas des régions (LOT-37) : les treize régions chargent, le graphe tient,...">Source/Test/Unit/Core/World/test_atlas.cpp</a>:213</span></sub>  </td><td class="markdownTableBodyNone">Toute region ne cite que des lieux existants.  </td><td class="markdownTableBodyNone">1. Pour chaque region, resoudre chacun des lieux qu'elle cite.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">atlas().findLocation(identifiant)</span> diffère de <span class="tt">nullptr</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>AtlasTest.LeVoisinageEstSymetriqueEtLeGrapheConnexe</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__atlas_8cpp.html" title="Tests de l&#39;atlas des régions (LOT-37) : les treize régions chargent, le graphe tient,...">Source/Test/Unit/Core/World/test_atlas.cpp</a>:231</span></sub>  </td><td class="markdownTableBodyNone">Le voisinage des regions est symetrique et le graphe connexe.  </td><td class="markdownTableBodyNone">1. Pour chaque arete, verifier que la region voisine declare la reciproque.<br  />
+ 2. Parcourir le graphe depuis la premiere region.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">autre</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">std::ranges::find(autre-&gt;neighbors, region.id)</span> diffère de <span class="tt">autre-&gt;neighbors.end()</span>.<br  />
+Vérifie que <span class="tt">atlas().regions.empty()</span> est faux.<br  />
+Vérifie que <span class="tt">atlas().unreachableFrom(atlas().regions.front().id).empty()</span> est vrai.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>AtlasTest.UneRegionCoupeeDuGrapheEstSignalee</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__atlas_8cpp.html" title="Tests de l&#39;atlas des régions (LOT-37) : les treize régions chargent, le graphe tient,...">Source/Test/Unit/Core/World/test_atlas.cpp</a>:256</span></sub>  </td><td class="markdownTableBodyNone">Le controle de connexite sait echouer.  </td><td class="markdownTableBodyNone">1. Retirer les aretes de Yama, dans une copie de l'atlas.<br  />
+ 2. Relancer le parcours depuis une autre region.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">ampute.regions.size()</span> est supérieur ou égal à <span class="tt">2U</span>.<br  />
+Vérifie que <span class="tt">cible</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">depart</span> diffère de <span class="tt">isolee</span>.<br  />
+Vérifie que <span class="tt">std::ranges::find(perdues, isolee)</span> diffère de <span class="tt">perdues.end()</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>AtlasTest.LesNotesDuMoteurCoincidentAvecCellesDuSchema</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__atlas_8cpp.html" title="Tests de l&#39;atlas des régions (LOT-37) : les treize régions chargent, le graphe tient,...">Source/Test/Unit/Core/World/test_atlas.cpp</a>:295</span></sub>  </td><td class="markdownTableBodyNone">Les notes et les axes du moteur coincident avec region.schema.json.  </td><td class="markdownTableBodyNone">1. Lire le schema LIVRE.<br  />
+ 2. Y chercher les cinq notes et les sept axes que le moteur nomme.<br  />
+ 3. Verifier qu'une note hors des cinq est refusee.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">flux.is_open()</span> est vrai.<br  />
+Vérifie que <span class="tt">schema.find('"' + std::string{nom} + '"')</span> diffère de <span class="tt">std::string::npos</span>.<br  />
+Vérifie que <span class="tt">core::regionGradeFromName(nom)</span> vaut <span class="tt">std::optional&lt;<a class="el" href="namespacecore.html#aee1e9954e6e76342687aaa9dcf3cbc5a" title="Les cinq notes de l&#39;encart « Regional Statistics » (EX-CNT-060).">core::RegionGrade</a>&gt;{static_cast&lt;<a class="el" href="namespacecore.html#aee1e9954e6e76342687aaa9dcf3cbc5a" title="Les cinq notes de l&#39;encart « Regional Statistics » (EX-CNT-060).">core::RegionGrade</a>&gt;(rang)}</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#ae11b18a52cca73be017c8bd2989a79b9" title="La note portant ce nom de schéma, ou std::nullopt.">core::regionGradeFromName</a>("average").has_value()</span> est faux.<br  />
+Vérifie que <span class="tt">schema.find('"' + std::string{nom} + '"')</span> diffère de <span class="tt">std::string::npos</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>AtlasTest.UnDossierAbsentEstUneErreurPasUnMondeVide</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__atlas_8cpp.html" title="Tests de l&#39;atlas des régions (LOT-37) : les treize régions chargent, le graphe tient,...">Source/Test/Unit/Core/World/test_atlas.cpp</a>:333</span></sub>  </td><td class="markdownTableBodyNone">Un dossier d'atlas absent produit une erreur, pas un monde vide.  </td><td class="markdownTableBodyNone">1. Charger un dossier qui n'existe pas.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">absent.regions.empty()</span> est vrai.<br  />
+Vérifie que <span class="tt">absent.errors.empty()</span> est faux.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>AtlasTest.LesPartsDePopulationRestentPlausibles</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__atlas_8cpp.html" title="Tests de l&#39;atlas des régions (LOT-37) : les treize régions chargent, le graphe tient,...">Source/Test/Unit/Core/World/test_atlas.cpp</a>:349</span></sub>  </td><td class="markdownTableBodyNone">Les parts de population de chaque region somment a 100 % a l'arrondi pres.  </td><td class="markdownTableBodyNone">1. Pour chaque region, sommer les parts d'espece et la part &lt;&lt; others &gt;&gt;.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">part.percent</span> est strictement supérieur à <span class="tt">0</span>.<br  />
+Vérifie que <span class="tt">part.species.empty()</span> est faux.<br  />
+Vérifie que <span class="tt">somme</span> est supérieur ou égal à <span class="tt">97</span>.<br  />
+Vérifie que <span class="tt">somme</span> est inférieur ou égal à <span class="tt">103</span>.  </td></tr>
+</table>
 <p><b><span class="tt"><a class="el" href="test__grid__distance__field_8cpp.html" title="Tests unitaires de core::GridDistanceField (amendement LOT-ANNEXE-08, EX-IA-023).">test_grid_distance_field.cpp</a></span></b></p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
