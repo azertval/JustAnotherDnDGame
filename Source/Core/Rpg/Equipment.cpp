@@ -1,0 +1,206 @@
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: GPL-3.0-or-later
+
+#include "Core/Rpg/Equipment.h"
+
+#include <algorithm>
+#include <system_error>
+
+#include "Core/Data/JsonDocument.h"
+#include "Core/Rpg/CharacterSheet.h"
+#include "Core/Rpg/RpgEnumNames.h"
+
+namespace core {
+
+namespace {
+
+// Les entrees de catalogue ne portent pas de champ `version` : ce sont des donnees, pas des
+// documents de format.
+constexpr int SANS_GARDE_DE_VERSION = 0;
+
+[[nodiscard]] std::string lireTexte(const nlohmann::json& objet, const char* champ) {
+    const auto trouve = objet.find(champ);
+    return (trouve != objet.end() && trouve->is_string()) ? trouve->get<std::string>()
+                                                          : std::string{};
+}
+
+[[nodiscard]] int lireEntier(const nlohmann::json& objet, const char* champ, int defaut = 0) {
+    const auto trouve = objet.find(champ);
+    return (trouve != objet.end() && trouve->is_number_integer()) ? trouve->get<int>() : defaut;
+}
+
+[[nodiscard]] bool lireBooleen(const nlohmann::json& objet, const char* champ) {
+    const auto trouve = objet.find(champ);
+    return trouve != objet.end() && trouve->is_boolean() && trouve->get<bool>();
+}
+
+template <typename Lecteur>
+void balayer(const std::filesystem::path& dossier, std::vector<std::string>& erreurs,
+             Lecteur lecteur) {
+    std::error_code code;
+    if (!std::filesystem::is_directory(dossier, code)) {
+        erreurs.push_back(dossier.string() + " : dossier absent ou illisible.");
+        return;
+    }
+    std::vector<std::filesystem::path> fichiers;
+    for (const auto& entree : std::filesystem::directory_iterator(dossier, code)) {
+        if (entree.is_regular_file(code) && entree.path().extension() == ".json") {
+            fichiers.push_back(entree.path());
+        }
+    }
+    std::ranges::sort(fichiers);
+    for (const std::filesystem::path& chemin : fichiers) {
+        const JsonDocument document = readJsonObjectFromFile(chemin, SANS_GARDE_DE_VERSION);
+        if (!document.ok()) {
+            erreurs.push_back(document.message);
+            continue;
+        }
+        lecteur(document.root, chemin.filename().string());
+    }
+}
+
+}  // namespace
+
+std::string_view armorCategoryName(ArmorCategory category) {
+    // switch exhaustif sans default : une categorie ajoutee sans nom casse la compilation.
+    switch (category) {
+        case ArmorCategory::Light:
+            return "light";
+        case ArmorCategory::Medium:
+            return "medium";
+        case ArmorCategory::Heavy:
+            return "heavy";
+        case ArmorCategory::Shield:
+            return "shield";
+    }
+    return {};
+}
+
+std::optional<ArmorCategory> parseArmorCategory(std::string_view name) {
+    for (const ArmorCategory categorie : {ArmorCategory::Light, ArmorCategory::Medium,
+                                          ArmorCategory::Heavy, ArmorCategory::Shield}) {
+        if (armorCategoryName(categorie) == name) {
+            return categorie;
+        }
+    }
+    return std::nullopt;
+}
+
+const Weapon* EquipmentCatalog::findWeapon(std::string_view id) const {
+    const auto trouve = std::ranges::find(weapons, id, &Weapon::id);
+    return trouve == weapons.end() ? nullptr : &*trouve;
+}
+
+const Armor* EquipmentCatalog::findArmor(std::string_view id) const {
+    const auto trouve = std::ranges::find(armors, id, &Armor::id);
+    return trouve == armors.end() ? nullptr : &*trouve;
+}
+
+EquipmentCatalog loadEquipment(const std::filesystem::path& weaponsDir,
+                               const std::filesystem::path& armorsDir) {
+    EquipmentCatalog catalogue;
+
+    balayer(weaponsDir, catalogue.errors,
+            [&catalogue](const nlohmann::json& racine, const std::string& fichier) {
+                Weapon arme;
+                arme.id = lireTexte(racine, "id");
+                arme.name = lireTexte(racine, "name");
+                arme.source = lireTexte(racine, "source");
+                arme.category = lireTexte(racine, "category");
+                arme.ranged = lireBooleen(racine, "ranged");
+                arme.price = lireEntier(racine, "price");
+                arme.weightGrams = lireEntier(racine, "weightGrams");
+                arme.text = lireTexte(racine, "text");
+                const std::string des = lireTexte(racine, "damage");
+                if (!des.empty()) {
+                    arme.damage = parseDice(des);
+                    if (!arme.damage.has_value()) {
+                        catalogue.errors.push_back(fichier + " : notation de des illisible ('" +
+                                                   des + "').");
+                    }
+                }
+                const std::string type = lireTexte(racine, "damageType");
+                if (!type.empty()) {
+                    arme.damageType = parseDamageType(type);
+                    if (!arme.damageType.has_value()) {
+                        catalogue.errors.push_back(fichier + " : type de degats '" + type +
+                                                   "' inconnu du moteur.");
+                    }
+                }
+                catalogue.weapons.push_back(std::move(arme));
+            });
+
+    balayer(armorsDir, catalogue.errors,
+            [&catalogue](const nlohmann::json& racine, const std::string& fichier) {
+                Armor armure;
+                armure.id = lireTexte(racine, "id");
+                armure.name = lireTexte(racine, "name");
+                armure.source = lireTexte(racine, "source");
+                const std::optional<ArmorCategory> categorie =
+                    parseArmorCategory(lireTexte(racine, "category"));
+                if (!categorie.has_value()) {
+                    catalogue.errors.push_back(fichier + " : categorie d'armure inconnue.");
+                    return;
+                }
+                armure.category = *categorie;
+                armure.baseArmorClass = lireEntier(racine, "baseArmorClass");
+                armure.dexterityBonus = lireBooleen(racine, "dexterityBonus");
+                if (const auto plafond = racine.find("dexterityBonusMax");
+                    plafond != racine.end() && plafond->is_number_integer()) {
+                    armure.dexterityBonusMax = plafond->get<int>();
+                }
+                if (const auto force = racine.find("strengthRequired");
+                    force != racine.end() && force->is_number_integer()) {
+                    armure.strengthRequired = force->get<int>();
+                }
+                armure.stealthDisadvantage = lireBooleen(racine, "stealthDisadvantage");
+                armure.price = lireEntier(racine, "price");
+                armure.weightGrams = lireEntier(racine, "weightGrams");
+                catalogue.armors.push_back(std::move(armure));
+            });
+
+    std::ranges::sort(catalogue.weapons, {}, &Weapon::id);
+    std::ranges::sort(catalogue.armors, {}, &Armor::id);
+    return catalogue;
+}
+
+int armorClassFor(const CharacterSheet& sheet, const CharacterCreationRules& rules,
+                  const Armor* armor, const Armor* shield) {
+    const int dexterite = sheet.modifier(Ability::Dexterity);
+
+    int total = 0;
+    if (armor == nullptr || armor->category == ArmorCategory::Shield) {
+        // Sans armure : la base vient de la DONNEE, jamais d'un 10 ecrit ici (EX-VIS-007). Un
+        // bouclier passe en `armor` n'est pas une armure : il ajoute, il ne remplace pas, et le
+        // traiter comme tel donnerait une CA de 2 a un personnage en bouclier seul.
+        total = rules.unarmoredArmorClass + dexterite;
+    } else {
+        total = armor->baseArmorClass;
+        if (armor->dexterityBonus) {
+            // `11 + Mod.Dex` sans plafond, `14 + Mod.Dex (max +2)` avec. Une armure lourde n'a pas
+            // `dexterityBonus` du tout : lui appliquer la Dexterite rendrait le personnage plus
+            // resistant, jamais moins, et le defaut passerait pour de l'equilibrage.
+            total += armor->dexterityBonusMax.has_value()
+                         ? std::min(dexterite, *armor->dexterityBonusMax)
+                         : dexterite;
+        }
+    }
+
+    if (shield != nullptr && shield->category == ArmorCategory::Shield) {
+        total += shield->baseArmorClass;
+    }
+    return total;
+}
+
+int totalWeightGrams(const std::vector<InventoryEntry>& entries) {
+    int total = 0;
+    for (const InventoryEntry& ligne : entries) {
+        if (ligne.quantity <= 0) {
+            continue;
+        }
+        total += ligne.weightGrams * ligne.quantity;
+    }
+    return total;
+}
+
+}  // namespace core

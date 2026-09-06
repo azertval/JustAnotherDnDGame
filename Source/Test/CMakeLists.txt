@@ -34,6 +34,7 @@ add_executable(UnitTests
     Unit/Core/Levels/test_tile_type_name.cpp
     Unit/Core/Rpg/test_check.cpp
     Unit/Core/Rpg/test_dice.cpp
+    Unit/Core/Rpg/test_equipment.cpp
     Unit/Core/Rpg/test_rpg_enums.cpp
     Unit/Core/Rpg/test_multiclassing.cpp
     Unit/Core/Rpg/test_bestiary.cpp
