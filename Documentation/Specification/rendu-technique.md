@@ -68,8 +68,10 @@
   calques reste souverain (`EX-REN-014`). Concrétisé en `LOT-07`.
 - \anchor EX-REN-041 **EX-REN-041** — Le rendu doit pouvoir **charger ses textures depuis des
   fichiers image** (PNG au minimum), décodés en pixels RGBA puis créés en texture GPU, en plus
-  de la génération procédurale historique. Le filtrage reste *nearest* (pixel art, `EX-ARCH-022`).
-  Concrétisé en `LOT-H-39`.
+  de la génération procédurale historique. Le filtrage suit la **nature de l'asset** (`EX-ARCH-022`)
+  et non plus systématiquement *nearest* — **refondu au `LOT-66`** : figer le plus proche voisin
+  dans le chargeur aurait rendu crénelée toute illustration peinte chargée par la même voie, sans
+  qu'aucun réglage ne permette de l'éviter. Concrétisé en `LOT-H-39`.
 - \anchor EX-REN-042 **EX-REN-042** — Les **assets graphiques** (atlas de tuiles) doivent être
   **externalisés en fichiers éditables hors code** (remplacer le fichier suffit à changer l'apparence),
   copiés à côté de l'exécutable comme les niveaux et la localisation, avec **repli procédural** si un
@@ -136,7 +138,7 @@
   fixe) et un écran de **fin de niveau**/**fin de séquence** à la réussite d'un tableau
   (Continuer/Rejouer, ou retour au menu après le dernier). Détaillé côté interface par
   `EX-IHM-004`. Concrétisé en `LOT-H-59`.
-- \anchor EX-REN-032 **EX-REN-032** — Le jeu doit afficher du **texte** (titres, indications) via une police bitmap ou vectorielle. Le texte de l'**interface hors-jeu** (menus, options, éditeur) est rendu par Qt depuis `LOT-H-38`, qui a retiré la police bitmap historique. Le texte **dans la scène rendue** — ancré au jeu, hors de portée des widgets Qt — reste à rétablir : concrétisé en `LOT-H-52`.
+- \anchor EX-REN-032 **EX-REN-032** — Le jeu doit afficher du **texte** (titres, indications) via une police **vectorielle embarquée** — un titrage à empattements et un corps de lecture, conformes à la charte du `LOT-66`. La police **bitmap** n'est plus une option : **refondue au `LOT-66`**, l'exigence l'admettait, et l'admettre revenait à laisser rentrer par le rendu de scène l'identité pixel art que l'interface venait d'abandonner — deux typographies contradictoires dans la même image, sans qu'aucune règle ne les départage. Le texte de l'**interface hors-jeu** (menus, options, éditeur) est rendu par Qt depuis `LOT-H-38`, qui a retiré la police bitmap historique. Le texte **dans la scène rendue** — ancré au jeu, hors de portée des widgets Qt — reste à rétablir : concrétisé en `LOT-H-52`.
 - \anchor EX-REN-033 **EX-REN-033** — Tout **texte affiché** doit passer par un **catalogue de traduction** : le code référence des **clés** stables, résolues vers une chaîne selon la **langue active**, chargée depuis un **fichier par langue** (français par défaut). Aucun libellé d'interface n'est codé en dur, afin de rendre l'ajout d'une langue trivial (un fichier de plus, sans modification du code). Une clé ou un fichier de langue manquant est traité comme une **erreur récupérable** (repli déterministe), cf. `EX-NFR-040`.
 
 ## 5. Audio

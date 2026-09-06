@@ -112,9 +112,9 @@ add_executable(UnitTests
     Unit/HMI/Interface/test_theme_teardown_guards.cpp
     Unit/HMI/Interface/test_editor_actions.cpp
     Unit/HMI/Interface/test_screen_flow.cpp
-    Unit/HMI/Interface/test_pixel_art_scale.cpp
+    Unit/HMI/Interface/test_identity_scale.cpp
     Unit/HMI/Interface/test_editor_workspace.cpp
-    Unit/HMI/Interface/test_pixel_frame_geometry.cpp
+    Unit/HMI/Interface/test_parchment_frame.cpp
     Unit/HMI/Editor/test_thumbnail_geometry.cpp
     Unit/HMI/Editor/test_level_name_validation.cpp
     Unit/HMI/Editor/test_tile_taxonomy.cpp

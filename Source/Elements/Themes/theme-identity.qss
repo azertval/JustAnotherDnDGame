@@ -10,7 +10,7 @@
 
    Cette feuille est posee sur la PILE D'ECRANS, jamais sur l'application (LOT-73, EX-IHM-082).
    La raison est mesurable : les grandeurs identity.size.* / identity.space.* ci-dessous sont
-   multipliees par le facteur d'agrandissement entier de hmi::pixelArtScale, qui change avec la
+   multipliees par le facteur d'agrandissement entier de hmi::identityScaleFor, qui change avec la
    hauteur de la fenetre. Reposer pour autant la feuille de style de l'APPLICATION repolissait ses
    862 widgets -- cinq secondes par redimensionnement en Debug -- alors que le facteur ne concerne
    que les quelques dizaines de widgets des ecrans du jeu. Une preoccupation d'ecran ne doit pas
@@ -21,19 +21,20 @@
 
 /* ===== Identite du jeu : les SIX ecrans joueur (INVARIANTE) =====
 
-   Portee cadree par objectName, et rien d'autre : c'est ce cadrage, et lui seul, qui empeche la
-   police pixel et les cadres a bordure franche de se repandre dans les tables et les arbres denses
-   de l'editeur, ou ils seraient illisibles (LOT-68, EX-IHM-070).
+   Portee cadree par objectName, et rien d'autre : c'est ce cadrage, et lui seul, qui empeche le
+   parchemin et le titrage a empattements de se repandre dans les tables et les arbres denses de
+   l'editeur, ou ils seraient illisibles (LOT-66, EX-IHM-070).
 
    Toutes les grandeurs viennent des marqueurs identity.size.* / identity.space.* /
-   identity.frame.thickness, DEJA MULTIPLIES par le facteur entier de hmi::pixelArtScale. Les
+   identity.frame.thickness, DEJA MULTIPLIES par le facteur entier de hmi::identityScaleFor. Les
    marqueurs tokens.* de la section suivante ne sont jamais multiplies : le chassis d'edition est un
    outil de travail dont les tailles suivent les reglages du systeme, les ecrans du jeu sont une
    image agrandie.
 
    En pixels et jamais en points : un point vaut une fraction variable de pixel selon l'ecran, et le
-   facteur entier n'aurait alors plus rien d'entier. Aucun border-radius nulle part : un coin
-   arrondi produit un degrade d'anticrenelage que le filtrage au plus proche voisin ne rend pas. */
+   facteur entier n'aurait alors plus rien d'entier. Aucun border-radius nulle part : le parchemin
+   des feuilles de Tanares est encadre de filets a angles VIFS, et un coin arrondi les ferait lire
+   comme une carte d'interface moderne -- exactement ce dont la charte sort (LOT-66). */
 
 #MainMenu, #OptionsPage, #PauseScreen, #LevelSelectScreen, #LevelCompleteScreen, #CreditsScreen {
     background-color: ${identity.color.background};
@@ -46,7 +47,7 @@
 
    Cet ecran est le seul de la portee a n'etre pas un ecran de JOUEUR : c'est un poste de travail,
    avec vingt-six lignes de formulaire, une table a huit colonnes et un graphique. Habille comme le
-   menu, il heritait de la police bitmap et des grandeurs multipliees par le facteur
+   menu, il heritait de la police de titrage et des grandeurs multipliees par le facteur
    d'agrandissement (jusqu'a 3x) -- d'ou une hauteur minimale de plus de deux mille pixels, et des
    donnees denses rendues dans une police concue pour sept mots a l'ecran.
 
@@ -74,24 +75,26 @@
     font-weight: bold;
 }
 
-/* ---- Cartes des recouvrements : cadre pixel, contour puis biseaux ----
-   Les coins ne sont pas entailles ici (une feuille de style ne sait pas les evider) : les cadres a
-   coins entailles sont peints par hmi::PixelFrameWidget, promu dans les .ui. Cette regle habille
-   les conteneurs ordinaires qui n'ont pas besoin d'un cadre a part entiere. */
+/* ---- Cartes des recouvrements : encadrement de parchemin, trait puis filet ----
+   Les cabochons d'angle manquent ici : une feuille de style ne sait pas poser un pave par-dessus sa
+   propre bordure. Les encadrements complets sont peints par hmi::ParchmentPanel, promu dans les
+   .ui. Cette regle habille les conteneurs ordinaires qui n'ont pas besoin d'un cadre a part
+   entiere -- le trait exterieur et le filet suffisent a les rattacher a la charte. */
 #PauseScreen QWidget#menuCard,
 #LevelCompleteScreen QWidget#menuCard {
     background-color: ${identity.color.surface};
-    border: ${identity.frame.thickness}px solid ${identity.color.outline};
-    border-top-color: ${identity.color.bevelLight};
-    border-left-color: ${identity.color.bevelLight};
-    border-bottom-color: ${identity.color.bevelDark};
-    border-right-color: ${identity.color.bevelDark};
+    border: ${identity.frame.thickness}px solid ${identity.color.frameEdge};
+    border-top-color: ${identity.color.frameOrnament};
+    border-left-color: ${identity.color.frameOrnament};
+    border-bottom-color: ${identity.color.frameShadow};
+    border-right-color: ${identity.color.frameShadow};
     padding: ${identity.space.extraLarge}px;
 }
 
 /* ---- Entrees de menu ----
-   La marque de focus est le CURSEUR peint par hmi::PixelMenuButton, pas cette teinte : une feuille
-   de style ne peut pas ajouter de contenu, et la couleur seule est insuffisante a la manette. */
+   La marque de focus est le FLEURON peint par hmi::MenuEntryButton, pas cette teinte : une feuille
+   de style ne peut pas ajouter de contenu, et la couleur seule est insuffisante a la manette
+   (EX-IHM-071). */
 #MainMenu QPushButton,
 #PauseScreen QPushButton,
 #LevelCompleteScreen QPushButton,
@@ -122,7 +125,7 @@
 /* ---- Listes de niveaux ---- */
 #LevelSelectScreen QListWidget {
     background: ${identity.color.surface};
-    border: ${identity.frame.thickness}px solid ${identity.color.outline};
+    border: ${identity.frame.thickness}px solid ${identity.color.frameEdge};
     border-radius: 0;
     font-size: ${identity.size.sectionTitle}px;
     outline: none;
@@ -165,7 +168,7 @@
 /* ---- Onglets ---- */
 #OptionsPage QTabWidget::pane,
 #LevelSelectScreen QTabWidget::pane {
-    border: ${identity.frame.thickness}px solid ${identity.color.outline};
+    border: ${identity.frame.thickness}px solid ${identity.color.frameEdge};
     background: ${identity.color.surface};
     border-radius: 0;
 }
@@ -173,7 +176,7 @@
 #LevelSelectScreen QTabBar::tab {
     background: ${identity.color.surfaceAlt};
     color: ${identity.color.textMuted};
-    border: ${identity.frame.thickness}px solid ${identity.color.outline};
+    border: ${identity.frame.thickness}px solid ${identity.color.frameEdge};
     border-bottom: none;
     border-radius: 0;
     padding: ${identity.space.small}px ${identity.space.large}px;
@@ -213,7 +216,7 @@
 #OptionsPage QCheckBox::indicator {
     width: ${identity.size.body}px;
     height: ${identity.size.body}px;
-    border: ${identity.frame.thickness}px solid ${identity.color.outline};
+    border: ${identity.frame.thickness}px solid ${identity.color.frameEdge};
     background: ${identity.color.surfaceAlt};
     border-radius: 0;
 }
@@ -222,13 +225,13 @@
 }
 #OptionsPage QComboBox {
     background: ${identity.color.surfaceAlt};
-    border: ${identity.frame.thickness}px solid ${identity.color.outline};
+    border: ${identity.frame.thickness}px solid ${identity.color.frameEdge};
     border-radius: 0;
     padding: ${identity.space.small}px ${identity.space.medium}px;
 }
 #OptionsPage QSlider::groove:horizontal {
     background: ${identity.color.surfaceAlt};
-    border: ${identity.frame.thickness}px solid ${identity.color.outline};
+    border: ${identity.frame.thickness}px solid ${identity.color.frameEdge};
     height: ${identity.space.medium}px;
 }
 #OptionsPage QSlider::sub-page:horizontal {
@@ -236,14 +239,14 @@
 }
 #OptionsPage QSlider::handle:horizontal {
     background: ${identity.color.text};
-    border: ${identity.frame.thickness}px solid ${identity.color.outline};
+    border: ${identity.frame.thickness}px solid ${identity.color.frameEdge};
     width: ${identity.space.medium}px;
     margin: -${identity.space.small}px 0;
 }
 #OptionsPage QPushButton {
     color: ${identity.color.background};
     background: ${identity.color.accent};
-    border: ${identity.frame.thickness}px solid ${identity.color.outline};
+    border: ${identity.frame.thickness}px solid ${identity.color.frameEdge};
     border-radius: 0;
     text-align: center;
     padding: ${identity.space.small}px ${identity.space.large}px;
@@ -263,7 +266,7 @@
    lire comme celles du menu principal, pas comme un bouton plein d'action juste au-dessus.
    Le selecteur vise la classe promue : Qt remplace "::" par "--" dans le nom de type QSS, et cette
    regle l'emporte sur la precedente parce qu'elle est plus specifique. */
-#OptionsPage hmi--PixelMenuButton {
+#OptionsPage hmi--MenuEntryButton {
     color: ${identity.color.textMuted};
     background: transparent;
     border: none;
@@ -272,8 +275,8 @@
     font-size: ${identity.size.sectionTitle}px;
     font-weight: bold;
 }
-#OptionsPage hmi--PixelMenuButton:hover,
-#OptionsPage hmi--PixelMenuButton:focus {
+#OptionsPage hmi--MenuEntryButton:hover,
+#OptionsPage hmi--MenuEntryButton:focus {
     color: ${identity.color.accent};
     background: transparent;
 }

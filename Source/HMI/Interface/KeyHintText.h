@@ -38,8 +38,8 @@ struct KeyHint {
  * @param hints  Rappels à afficher, dans l'ordre. Une liste vide produit une chaîne vide, jamais
  *               un cadre orphelin.
  * @param tokens Jetons de la portée à employer (identité pour les écrans du jeu).
- * @param scale  Facteur d'agrandissement entier (`hmi::pixelArtScale`), appliqué au rembourrage et
- *               à la taille du texte.
+ * @param scale  Facteur d'agrandissement entier (`hmi::identityScaleFor`), appliqué au rembourrage
+ * et à la taille du texte.
  * @return Le fragment HTML à poser dans un libellé.
  */
 [[nodiscard]] std::string keyHintText(const std::vector<KeyHint>& hints, const DesignTokens& tokens,

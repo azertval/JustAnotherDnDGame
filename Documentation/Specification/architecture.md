@@ -37,7 +37,8 @@ Choix retenu : **ECS complet**, hébergé dans `Core`. Assumé plus lourd, justi
 
 - \anchor EX-ARCH-020 **EX-ARCH-020** — Unité monde = **1 tuile**, positions en **float**, origine **haut-gauche**, axe **Y vers le bas**.
 - \anchor EX-ARCH-021 **EX-ARCH-021** — Un facteur **pixels-par-unité** (16) régit la conversion monde → écran ; les conversions sont centralisées (pas de constantes éparpillées).
-- \anchor EX-ARCH-022 **EX-ARCH-022** — Rendu **pixel art** : échantillonnage *nearest-neighbor*, zoom caméra de préférence en **facteurs entiers** (netteté).
+- \anchor EX-ARCH-022 **EX-ARCH-022** — Rendu **fidèle à la nature de l'asset** : l'échantillonnage se choisit par asset — *nearest* pour une image dont les pixels sont signifiants (les tuiles héritées), **interpolé** pour une illustration peinte, qui n'a pas de grille à préserver et que le plus proche voisin rendrait crénelée. Le zoom caméra n'est plus contraint aux facteurs entiers : cette contrainte n'a jamais servi qu'à ne pas casser la grille du pixel art.
+  > **Refondue au `LOT-66`.** Elle imposait « rendu **pixel art** : *nearest-neighbor*, zoom de préférence en facteurs entiers », et c'est d'elle que **dix autres exigences** tenaient leur justification — la racine devait tomber la première, sans quoi chaque feuille aurait pu citer une règle abandonnée sans que rien ne le signale. La scène, elle, filtre encore en *nearest* : c'est correct pour les tuiles héritées, qui sont ses seuls assets aujourd'hui, et le basculement suit l'arrivée des plans peints ([LOT-76](@ref lot-76)).
 - La grille de tuiles (gameplay/collisions) et les décors libres **coexistent** dans le même espace monde ; les décors ne sont pas calés sur la grille.
 
 ## 4. Frontière simulation ↔ rendu

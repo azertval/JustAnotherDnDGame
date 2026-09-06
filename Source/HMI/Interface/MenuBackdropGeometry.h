@@ -10,9 +10,9 @@
  * @brief Décor du menu principal, en pavés (`LOT-68`, `EX-IHM-070`).
  *
  * Logique **pure** (aucune dépendance Qt/GPU), testable hors instance d'application
- * (`EX-NFR-010`) — même patron que `hmi::iconGeometry` et `hmi::pixelFrameQuads` : cette fonction
- * décide *quoi* dessiner, `hmi::MainMenu` décide *comment* le peindre en résolvant chaque rôle
- * depuis les jetons de la portée identité.
+ * (`EX-NFR-010`) — même patron que `hmi::iconGeometry` et `hmi::parchmentFrameStrokes` : cette
+ * fonction décide *quoi* dessiner, `hmi::MainMenu` décide *comment* le peindre en résolvant chaque
+ * rôle depuis les jetons de la portée identité.
  *
  * Aucune image livrée, pour la même raison que le cadre : un décor en PNG figerait ses couleurs
  * hors des jetons (`EX-IHM-051`) et ne suivrait ni le facteur d'agrandissement ni la taille de la
@@ -56,8 +56,10 @@ struct BackdropQuad {
 /// Part de la largeur couverte par le voile de lisibilité, sous le titre et les entrées de menu.
 inline constexpr float BACKDROP_VEIL_WIDTH_RATIO = 0.55f;
 
-/// Nombre de bandes du voile. Un **dégradé** serait plus doux, mais le pixel art ne s'accommode
-/// pas d'une transition continue : des paliers francs tiennent la grille.
+/// Nombre de bandes du voile. Un **dégradé** serait plus doux, mais la charte du `LOT-66` pose ses
+/// lavis en passes plates, à la manière des feuilles de Tanares : des paliers francs. La raison
+/// invoquée jusque-là — le pixel art ne s'accommode pas d'une transition continue — est tombée
+/// avec l'identité pixel art ; le choix, lui, reste celui de la charte.
 inline constexpr int BACKDROP_VEIL_STEPS = 6;
 
 /**
@@ -69,7 +71,7 @@ inline constexpr int BACKDROP_VEIL_STEPS = 6;
  *
  * @param width  Largeur de la surface, en pixels.
  * @param height Hauteur de la surface, en pixels.
- * @param scale  Facteur d'agrandissement entier (`hmi::pixelArtScale`).
+ * @param scale  Facteur d'agrandissement entier (`hmi::identityScaleFor`).
  * @return Les pavés à peindre ; vide si la surface est trop petite pour porter un décor.
  */
 [[nodiscard]] std::vector<BackdropQuad> menuBackdropQuads(int width, int height, int scale);

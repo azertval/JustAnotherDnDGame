@@ -47,7 +47,7 @@ std::string keyHintText(const std::vector<KeyHint>& hints, const DesignTokens& t
     const std::string capSize = std::to_string(base.caption * factor);
 
     const std::string capBackground = toCssColor(tokens.color.surfaceAlt);
-    const std::string capBorder = toCssColor(tokens.color.outline);
+    const std::string capBorder = toCssColor(tokens.color.frameEdge);
     const std::string capText = toCssColor(tokens.color.text);
     const std::string actionText = toCssColor(tokens.color.textMuted);
 

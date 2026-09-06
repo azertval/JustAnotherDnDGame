@@ -169,7 +169,7 @@ def main() -> None:
 
     parts.append((HERE / "_page_tail.html").read_text(encoding="utf-8"))
 
-    out = HERE / "ecrans-jeu-pixel-art.html"
+    out = HERE / "ecrans-jeu-parchemin.html"
     out.write_text("".join(parts), encoding="utf-8")
     print(f"{out.name} : {out.stat().st_size} octets")
 

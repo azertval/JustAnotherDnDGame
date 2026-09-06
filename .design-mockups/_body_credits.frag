@@ -12,7 +12,7 @@
         <div style="font-size: 25px;">Valentin Eloy</div>
       </div>
 
-      <div style="height: 2px; background: var(--bevelHi); opacity: .5;"></div>
+      <div style="height: 2px; background: var(--ornament); opacity: .5;"></div>
 
       <div>
         <div style="font-size: 18px; letter-spacing: 2px; color: var(--accent);">MUSIQUE ET BRUITAGES</div>
@@ -22,7 +22,7 @@
         <div style="font-size: 19px; color: var(--muted); line-height: 1.6;">Digital Audio · Impact Sounds · RPG Audio · Interface Sounds<br>licence CC0 1.0 Universal (domaine public)</div>
       </div>
 
-      <div style="height: 2px; background: var(--bevelHi); opacity: .5;"></div>
+      <div style="height: 2px; background: var(--ornament); opacity: .5;"></div>
 
       <div>
         <div style="font-size: 18px; letter-spacing: 2px; color: var(--accent);">GRAPHISMES</div>

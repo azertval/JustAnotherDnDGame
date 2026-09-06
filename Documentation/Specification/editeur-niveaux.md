@@ -40,7 +40,7 @@ Justification : un seul codebase, un rendu identique au jeu, un cycle **créatio
 
 ## 4bis. Décors & pixel art (post-MVP, intégré à l'éditeur)
 - \anchor EX-EDIT-040 **EX-EDIT-040** — L'éditeur doit permettre de **placer et transformer des décors** (position, échelle, superposition par couches) — cf. [`decors.md`](decors.md).
-- \anchor EX-EDIT-041 **EX-EDIT-041** — L'éditeur doit intégrer la **conversion photo → pixel art** (chargement d'une photo, pixellisation, réduction de palette, paramètres ajustables) et enregistrer l'asset résultant dans `Source/Elements` — cf. `EX-DEC-030/031/032`.
+- \anchor EX-EDIT-041 **EX-EDIT-041** — L'éditeur doit intégrer la **conversion d'une photo en asset de décor** (chargement, redimensionnement, réduction de palette, paramètres ajustables) et enregistrer l'asset résultant dans `Source/Elements` — cf. `EX-DEC-030/031/032`. La **pixellisation** n'est plus qu'un des traitements possibles, et non la finalité : **refondue au `LOT-66`**, l'exigence n'admettait que la sortie pixel art, si bien qu'un décor peint importé tel quel n'aurait eu aucun chemin légitime vers `Source/Elements`.
 
 Ces capacités sont livrées **après** l'édition de tuiles de base, mais l'architecture les accommode dès le départ (cf. [`architecture.md`](architecture.md)).
 
@@ -203,10 +203,14 @@ pouvoir habiller le niveau avec de vraies textures — sans jamais perdre la lec
   premier plan), à des fins d'inspection : cela couvre l'affichage **isolé** d'un calque comme toute
   **combinaison** de calques — distinct de la bascule Physique/Texture en jeu (`EX-REN-046`).
   Concrétisé en `LOT-H-51`.
-- \anchor EX-EDIT-045 **EX-EDIT-045** — L'éditeur doit intégrer un **outil de dessin pixel art**
+- \anchor EX-EDIT-045 **EX-EDIT-045** — L'éditeur doit intégrer un **outil de dessin d'assets**
   minimal (peindre/effacer, palette, zoom, annuler/refaire) pour créer/modifier directement les
   fichiers d'assets de texture, sans dépendance externe, avec un **aperçu du rendu dans le niveau**
   pendant l'édition. Concrétisé en `LOT-H-54`.
+  > **Refondue au `LOT-66`.** L'outil s'appelait « atelier **pixel art** », et l'exigence en faisait
+  > le seul moyen de produire un asset. C'est un **outil de travail**, pas une esthétique : il reste
+  > tel quel — la portée éditeur n'est pas concernée par la charte — mais il cesse d'imposer sa
+  > sortie au reste du jeu. Sa suppression éventuelle est le [LOT-69](@ref lot-69), pas celui-ci.
 - \anchor EX-EDIT-046 **EX-EDIT-046** — L'éditeur doit offrir un **mode création** — un espace de
   travail à part entière, au même titre que l'édition de niveau et l'atelier pixel art — où le
   niveau **entier** devient une surface peignable, **plan par plan** (`EX-DEC-045`), au pixel près

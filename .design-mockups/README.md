@@ -6,7 +6,7 @@ que les décisions d'habillage restent traçables au même titre que les exigenc
 
 ## Ce qui est livré
 
-`ecrans-jeu-pixel-art.html` — page autonome présentant les neuf planches. Généré, jamais édité à la
+`ecrans-jeu-parchemin.html` — page autonome présentant les neuf planches. Généré, jamais édité à la
 main :
 
 ```bash

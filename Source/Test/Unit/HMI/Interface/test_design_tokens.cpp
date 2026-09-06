@@ -137,12 +137,13 @@ TEST(DesignTokensTest, LesRolesDuCadreSontDistinctsDansChaquePortee) {
     for (const hmi::DesignTokens* tokens :
          {&hmi::identityTokens(), &hmi::editorDarkTokens(), &hmi::editorLightTokens()}) {
         const hmi::ColorTokens& color = tokens->color;
-        EXPECT_FALSE(color.outline == color.bevelLight);
-        EXPECT_FALSE(color.outline == color.bevelDark);
-        EXPECT_FALSE(color.bevelLight == color.bevelDark);
-        EXPECT_LT(hmi::relativeLuminance(color.outline), hmi::relativeLuminance(color.surface))
+        EXPECT_FALSE(color.frameEdge == color.frameOrnament);
+        EXPECT_FALSE(color.frameEdge == color.frameShadow);
+        EXPECT_FALSE(color.frameOrnament == color.frameShadow);
+        EXPECT_LT(hmi::relativeLuminance(color.frameEdge), hmi::relativeLuminance(color.surface))
             << "le contour doit ancrer le cadre : plus clair que sa surface, il disparait";
-        EXPECT_GT(hmi::relativeLuminance(color.bevelLight), hmi::relativeLuminance(color.bevelDark))
+        EXPECT_GT(hmi::relativeLuminance(color.frameOrnament),
+                  hmi::relativeLuminance(color.frameShadow))
             << "biseaux inverses : le cadre se lirait en creux";
     }
 }

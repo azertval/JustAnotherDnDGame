@@ -12,9 +12,9 @@
 
     <!-- Trois onglets, ceux du .ui. L'actif est un aplat accent, comme dans Options. -->
     <div style="display: flex; gap: 8px;">
-      <div style="padding: 14px 26px; font-size: 21px; font-weight: 600; color: #12161f; background: var(--accent); box-shadow: 0 -4px 0 var(--ink), -4px 0 0 var(--ink), 4px 0 0 var(--ink), inset 0 4px 0 rgba(255,255,255,.35);">Entraînement</div>
-      <div style="padding: 14px 26px; font-size: 21px; font-weight: 600; color: var(--muted); background: var(--surfaceAlt); box-shadow: 0 -4px 0 var(--ink), -4px 0 0 var(--ink), 4px 0 0 var(--ink), inset 0 4px 0 var(--bevelHi);">Validation &amp; sauvegarde</div>
-      <div style="padding: 14px 26px; font-size: 21px; font-weight: 600; color: var(--muted); background: var(--surfaceAlt); box-shadow: 0 -4px 0 var(--ink), -4px 0 0 var(--ink), 4px 0 0 var(--ink), inset 0 4px 0 var(--bevelHi);">Rejeu</div>
+      <div style="padding: 14px 26px; font-size: 21px; font-weight: 600; color: #12161f; background: var(--accent); box-shadow: 0 -4px 0 var(--edge), -4px 0 0 var(--edge), 4px 0 0 var(--edge), inset 0 4px 0 rgba(255,255,255,.35);">Entraînement</div>
+      <div style="padding: 14px 26px; font-size: 21px; font-weight: 600; color: var(--muted); background: var(--surfaceAlt); box-shadow: 0 -4px 0 var(--edge), -4px 0 0 var(--edge), 4px 0 0 var(--edge), inset 0 4px 0 var(--ornament);">Validation &amp; sauvegarde</div>
+      <div style="padding: 14px 26px; font-size: 21px; font-weight: 600; color: var(--muted); background: var(--surfaceAlt); box-shadow: 0 -4px 0 var(--edge), -4px 0 0 var(--edge), 4px 0 0 var(--edge), inset 0 4px 0 var(--ornament);">Rejeu</div>
     </div>
 
     <!-- Cadre a bordure franche autour du contenu (EX-IHM-070) : c'est ce que la planche
@@ -28,7 +28,7 @@
         <div style="display: flex; align-items: center; gap: 20px; padding: 6px 14px; margin: -6px -14px; background: rgba(255,209,51,.10); box-shadow: inset 0 0 0 4px rgba(255,209,51,.30);">
           <div style="width: 34px; flex: none; color: var(--accent);">@CARET@</div>
           <div style="width: 260px; font-size: 22px; color: var(--accent);">Niveau</div>
-          <div style="flex-grow: 1; padding: 6px 12px; font-size: 20px; color: #f2f2ff; background: var(--surfaceAlt); box-shadow: 0 -4px 0 var(--ink), 0 4px 0 var(--ink), -4px 0 0 var(--ink), 4px 0 0 var(--ink);">demo-final</div>
+          <div style="flex-grow: 1; padding: 6px 12px; font-size: 20px; color: #f2f2ff; background: var(--surfaceAlt); box-shadow: 0 -4px 0 var(--edge), 0 4px 0 var(--edge), -4px 0 0 var(--edge), 4px 0 0 var(--edge);">demo-final</div>
         </div>
 
         <div style="display: flex; align-items: center; gap: 20px;">
@@ -42,39 +42,39 @@
         <div style="display: flex; align-items: center; gap: 20px;">
           <div style="width: 34px; flex: none;"></div>
           <div style="width: 260px; font-size: 22px;">Taille de population</div>
-          <div style="width: 120px; padding: 6px 12px; font-size: 20px; color: #f2f2ff; background: var(--surfaceAlt); box-shadow: 0 -4px 0 var(--ink), 0 4px 0 var(--ink), -4px 0 0 var(--ink), 4px 0 0 var(--ink);">64</div>
+          <div style="width: 120px; padding: 6px 12px; font-size: 20px; color: #f2f2ff; background: var(--surfaceAlt); box-shadow: 0 -4px 0 var(--edge), 0 4px 0 var(--edge), -4px 0 0 var(--edge), 4px 0 0 var(--edge);">64</div>
         </div>
 
         <div style="display: flex; align-items: center; gap: 20px;">
           <div style="width: 34px; flex: none;"></div>
           <div style="width: 260px; font-size: 22px;">Taux de mutation</div>
-          <div style="width: 120px; padding: 6px 12px; font-size: 20px; color: #f2f2ff; background: var(--surfaceAlt); box-shadow: 0 -4px 0 var(--ink), 0 4px 0 var(--ink), -4px 0 0 var(--ink), 4px 0 0 var(--ink);">0,080</div>
+          <div style="width: 120px; padding: 6px 12px; font-size: 20px; color: #f2f2ff; background: var(--surfaceAlt); box-shadow: 0 -4px 0 var(--edge), 0 4px 0 var(--edge), -4px 0 0 var(--edge), 4px 0 0 var(--edge);">0,080</div>
         </div>
 
         <div style="display: flex; align-items: center; gap: 20px;">
           <div style="width: 34px; flex: none;"></div>
           <div style="width: 260px; font-size: 22px;">Épisodes / générations max</div>
-          <div style="width: 120px; padding: 6px 12px; font-size: 20px; color: #f2f2ff; background: var(--surfaceAlt); box-shadow: 0 -4px 0 var(--ink), 0 4px 0 var(--ink), -4px 0 0 var(--ink), 4px 0 0 var(--ink);">300</div>
+          <div style="width: 120px; padding: 6px 12px; font-size: 20px; color: #f2f2ff; background: var(--surfaceAlt); box-shadow: 0 -4px 0 var(--edge), 0 4px 0 var(--edge), -4px 0 0 var(--edge), 4px 0 0 var(--edge);">300</div>
         </div>
 
         <div style="display: flex; align-items: center; gap: 20px;">
           <div style="width: 34px; flex: none;"></div>
           <div style="width: 260px; font-size: 22px;">Graine</div>
-          <div style="width: 120px; padding: 6px 12px; font-size: 20px; color: #f2f2ff; background: var(--surfaceAlt); box-shadow: 0 -4px 0 var(--ink), 0 4px 0 var(--ink), -4px 0 0 var(--ink), 4px 0 0 var(--ink);">7777</div>
+          <div style="width: 120px; padding: 6px 12px; font-size: 20px; color: #f2f2ff; background: var(--surfaceAlt); box-shadow: 0 -4px 0 var(--edge), 0 4px 0 var(--edge), -4px 0 0 var(--edge), 4px 0 0 var(--edge);">7777</div>
         </div>
 
         <div style="flex-grow: 1;"></div>
         <!-- Boutons d'action : aplat accent, contour franc. Le curseur de focus se pose a leur
              gauche, hors du bouton, comme sur les lignes ci-dessus. -->
         <div style="display: flex; gap: 16px;">
-          <div style="padding: 12px 28px; font-size: 20px; color: #12161f; background: var(--accent); box-shadow: 0 -4px 0 var(--ink), 0 4px 0 var(--ink), -4px 0 0 var(--ink), 4px 0 0 var(--ink);">Lancer l'entraînement</div>
-          <div style="padding: 12px 28px; font-size: 20px; color: var(--muted); background: var(--surfaceAlt); box-shadow: 0 -4px 0 var(--ink), 0 4px 0 var(--ink), -4px 0 0 var(--ink), 4px 0 0 var(--ink);">Arrêter l'entraînement</div>
+          <div style="padding: 12px 28px; font-size: 20px; color: #12161f; background: var(--accent); box-shadow: 0 -4px 0 var(--edge), 0 4px 0 var(--edge), -4px 0 0 var(--edge), 4px 0 0 var(--edge);">Lancer l'entraînement</div>
+          <div style="padding: 12px 28px; font-size: 20px; color: var(--muted); background: var(--surfaceAlt); box-shadow: 0 -4px 0 var(--edge), 0 4px 0 var(--edge), -4px 0 0 var(--edge), 4px 0 0 var(--edge);">Arrêter l'entraînement</div>
         </div>
       </div>
 
       <!-- Colonne droite : le tableau des generations, qui se remplit pendant le run. -->
       <div style="flex-grow: 1; display: flex; flex-direction: column;">
-        <div style="display: flex; font-size: 17px; color: var(--muted); letter-spacing: 1px; background: var(--surfaceAlt); box-shadow: 0 4px 0 var(--ink);">
+        <div style="display: flex; font-size: 17px; color: var(--muted); letter-spacing: 1px; background: var(--surfaceAlt); box-shadow: 0 4px 0 var(--edge);">
           <div style="flex: 1; padding: 10px 8px;">GÉNÉRATION</div>
           <div style="flex: 1.4; padding: 10px 8px;">MEILLEURE RÉCOMPENSE</div>
           <div style="flex: 1.3; padding: 10px 8px;">RÉCOMPENSE MOYENNE</div>
@@ -89,7 +89,7 @@
         <div style="display: flex; align-items: center; gap: 16px;">
           <div style="font-size: 19px; color: var(--dim);">Génération 15 / 300</div>
           <div style="flex-grow: 1;"></div>
-          <div style="padding: 12px 28px; font-size: 20px; color: #12161f; background: var(--accent); box-shadow: 0 -4px 0 var(--ink), 0 4px 0 var(--ink), -4px 0 0 var(--ink), 4px 0 0 var(--ink);">Voir en jeu</div>
+          <div style="padding: 12px 28px; font-size: 20px; color: #12161f; background: var(--accent); box-shadow: 0 -4px 0 var(--edge), 0 4px 0 var(--edge), -4px 0 0 var(--edge), 4px 0 0 var(--edge);">Voir en jeu</div>
         </div>
       </div>
 

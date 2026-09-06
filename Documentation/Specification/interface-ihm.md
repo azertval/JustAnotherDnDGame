@@ -96,9 +96,14 @@ et des constantes locales à chaque widget.
   **police embarquée avec l'application**, avec **repli** sur une famille générique si elle est
   absente — l'interface ne doit dépendre d'aucune police installée sur le système hôte.
 - \anchor EX-IHM-053 **EX-IHM-053** — Les **icônes et vignettes** de l'interface doivent rester
-  **nettes à toute échelle d'affichage** (facteur de mise à l'échelle du système), sans lissage : les
-  vignettes représentent du pixel art rendu en filtrage *nearest* (`EX-ARCH-022`), et un
-  agrandissement interpolé en trahit le contenu.
+  **nettes à toute échelle d'affichage** (facteur de mise à l'échelle du système) : les **icônes**
+  sont vectorielles et se retracent à la taille demandée (`LOT-H-56`), et une **vignette** d'asset
+  est agrandie selon la nature de l'image qu'elle représente (`EX-ARCH-022`) — au plus proche
+  voisin pour une tuile pixellisée, interpolée pour une illustration peinte.
+  > **Refondue au `LOT-66`.** Elle imposait l'absence de lissage *pour toutes* les vignettes, au
+  > motif qu'elles représentent du pixel art. Une vignette de panneau peint ([LOT-76](@ref lot-76))
+  > agrandie au plus proche voisin serait crénelée, et la bibliothèque d'assets montrerait alors
+  > une image que le jeu ne rend pas ainsi — la vignette cesserait d'être un aperçu.
 - \anchor EX-IHM-054 **EX-IHM-054** — L'**éditeur** doit proposer un thème **clair et sombre**, suivant
   par défaut le réglage du système, modifiable par l'utilisateur et **persisté** entre deux sessions ;
   le changement s'applique sans redémarrage. Ce réglage est **strictement limité au châssis
@@ -145,14 +150,26 @@ fenêtre, ce qui donne une interface visiblement petite dès qu'on dépasse la d
 ordinateur portable. Et le focus n'est signalé que par un changement de teinte — suffisant à la
 souris, insuffisant à la manette, qui n'a pas de pointeur pour dire où elle en est.
 
-- \anchor EX-IHM-070 **EX-IHM-070** — Les écrans du **jeu** doivent porter une identité **pixel
-  art** assumée : police bitmap **embarquée** avec l'application (repli sur une famille générique si
-  elle est absente, `EX-IHM-052`) et cadres à **bordure franche**, rendus **sans lissage** à un
-  facteur d'agrandissement **entier** dérivé de la taille de la fenêtre (`EX-IHM-053`). Un facteur
-  fractionnaire rend une bordure d'un pixel tantôt sur un pixel, tantôt sur deux : la contrainte est
-  technique, pas esthétique. Cette identité est **bornée aux écrans du jeu** — le châssis d'édition
-  conserve son apparence d'outil de travail et ses thèmes clair/sombre (`EX-IHM-054`), et aucune
-  police bitmap ne se répand dans ses tables et ses arbres denses.
+- \anchor EX-IHM-070 **EX-IHM-070** — Les écrans du **jeu** doivent porter l'identité du **parchemin
+  de Tanares** : fond de parchemin, encre sépia, filets et cabochons dorés, titrage à empattements
+  dans une police **embarquée** avec l'application (repli sur une famille générique si elle est
+  absente, `EX-IHM-052`). Les **teintes de cette palette sont relevées sur le corpus** — les feuilles
+  de personnage et les livres Tanares — et jamais choisies à vue : une couleur inventée ressemble à
+  la source sans en venir, et rien ne le dit jamais.
+  Les grandeurs de l'habillage suivent un facteur d'agrandissement **entier** dérivé de la taille de
+  la fenêtre. Le facteur reste entier pour une raison qui n'est plus celle du filtrage : les
+  longueurs de la feuille de style sont des **entiers de pixels**, et à 1,5× le trait et le filet
+  d'un encadrement s'arrondissent tous deux à la même épaisseur — la réserve de parchemin qui les
+  sépare disparaît, et l'encadrement se lit comme une bordure épaisse, sans qu'aucune erreur ne
+  soit levée.
+  Cette identité est **bornée aux écrans du jeu** — le châssis d'édition conserve son apparence
+  d'outil de travail et ses thèmes clair/sombre (`EX-IHM-054`), et aucun parchemin ne se répand dans
+  ses tables et ses arbres denses.
+  > **Refondue au `LOT-66`.** Elle imposait une identité **pixel art** — police bitmap, bordures
+  > franches, aucun lissage — héritée du jeu de plateforme dont ce dépôt est issu. Elle entrait en
+  > contradiction frontale avec les références du jeu visé : une police bitmap non lissée et une
+  > illustration peinte à 300 ppp ne cohabitent pas. Le [LOT-01](@ref lot-01) avait délibérément
+  > conservé l'atelier pixel art ; ce renversement est assumé, pas subi.
 - \anchor EX-IHM-071 **EX-IHM-071** — L'élément **focalisé** d'un écran du jeu doit être signalé par
   une **marque explicite** (curseur), et non par la seule teinte : la navigation à la manette
   (`EX-IHM-040`) repose entièrement sur le parcours de focus, qu'une simple nuance de couleur rend
@@ -165,7 +182,7 @@ souris, insuffisant à la manette, qui n'a pas de pointeur pour dire où elle en
   en faire un **second** état (`EX-IHM-062`).
 
 - \anchor EX-IHM-073 **EX-IHM-073** — L'éditeur doit se présenter en **espaces de travail
-  exclusifs** (édition de niveau, atelier pixel art) : seuls les panneaux, la barre d'outils et les
+  exclusifs** (édition de niveau, atelier de dessin d'assets) : seuls les panneaux, la barre d'outils et les
   menus de l'espace **actif** sont affichés, la disposition de chaque espace est persistée
   séparément (`EX-IHM-011`), et sélectionner un outil bascule sur l'espace auquel il appartient.
   Afficher les deux ensemble laissait en permanence à l'écran une trentaine de contrôles dont les

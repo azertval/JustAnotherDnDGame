@@ -7,12 +7,12 @@
 
     <!-- Onglets : 3 declares dans le .ui + 3 ajoutes en code (remappages). -->
     <div style="display: flex; gap: 8px;">
-      <div style="padding: 14px 26px; font-size: 21px; font-weight: 600; color: #12161f; background: var(--accent); box-shadow: 0 -4px 0 var(--ink), -4px 0 0 var(--ink), 4px 0 0 var(--ink), inset 0 4px 0 rgba(255,255,255,.35);">Vidéo</div>
-      <div style="padding: 14px 26px; font-size: 21px; font-weight: 600; color: var(--muted); background: var(--surfaceAlt); box-shadow: 0 -4px 0 var(--ink), -4px 0 0 var(--ink), 4px 0 0 var(--ink), inset 0 4px 0 var(--bevelHi);">Audio</div>
-      <div style="padding: 14px 26px; font-size: 21px; font-weight: 600; color: var(--muted); background: var(--surfaceAlt); box-shadow: 0 -4px 0 var(--ink), -4px 0 0 var(--ink), 4px 0 0 var(--ink), inset 0 4px 0 var(--bevelHi);">Général</div>
-      <div style="padding: 14px 26px; font-size: 21px; font-weight: 600; color: var(--muted); background: var(--surfaceAlt); box-shadow: 0 -4px 0 var(--ink), -4px 0 0 var(--ink), 4px 0 0 var(--ink), inset 0 4px 0 var(--bevelHi);">Clavier</div>
-      <div style="padding: 14px 26px; font-size: 21px; font-weight: 600; color: var(--muted); background: var(--surfaceAlt); box-shadow: 0 -4px 0 var(--ink), -4px 0 0 var(--ink), 4px 0 0 var(--ink), inset 0 4px 0 var(--bevelHi);">Éditeur</div>
-      <div style="padding: 14px 26px; font-size: 21px; font-weight: 600; color: var(--muted); background: var(--surfaceAlt); box-shadow: 0 -4px 0 var(--ink), -4px 0 0 var(--ink), 4px 0 0 var(--ink), inset 0 4px 0 var(--bevelHi);">Manette</div>
+      <div style="padding: 14px 26px; font-size: 21px; font-weight: 600; color: #12161f; background: var(--accent); box-shadow: 0 -4px 0 var(--edge), -4px 0 0 var(--edge), 4px 0 0 var(--edge), inset 0 4px 0 rgba(255,255,255,.35);">Vidéo</div>
+      <div style="padding: 14px 26px; font-size: 21px; font-weight: 600; color: var(--muted); background: var(--surfaceAlt); box-shadow: 0 -4px 0 var(--edge), -4px 0 0 var(--edge), 4px 0 0 var(--edge), inset 0 4px 0 var(--ornament);">Audio</div>
+      <div style="padding: 14px 26px; font-size: 21px; font-weight: 600; color: var(--muted); background: var(--surfaceAlt); box-shadow: 0 -4px 0 var(--edge), -4px 0 0 var(--edge), 4px 0 0 var(--edge), inset 0 4px 0 var(--ornament);">Général</div>
+      <div style="padding: 14px 26px; font-size: 21px; font-weight: 600; color: var(--muted); background: var(--surfaceAlt); box-shadow: 0 -4px 0 var(--edge), -4px 0 0 var(--edge), 4px 0 0 var(--edge), inset 0 4px 0 var(--ornament);">Clavier</div>
+      <div style="padding: 14px 26px; font-size: 21px; font-weight: 600; color: var(--muted); background: var(--surfaceAlt); box-shadow: 0 -4px 0 var(--edge), -4px 0 0 var(--edge), 4px 0 0 var(--edge), inset 0 4px 0 var(--ornament);">Éditeur</div>
+      <div style="padding: 14px 26px; font-size: 21px; font-weight: 600; color: var(--muted); background: var(--surfaceAlt); box-shadow: 0 -4px 0 var(--edge), -4px 0 0 var(--edge), 4px 0 0 var(--edge), inset 0 4px 0 var(--ornament);">Manette</div>
     </div>
 
     <div class="frame" style="flex-grow: 1; padding: 34px 48px; display: flex; flex-direction: column; gap: 26px;">
@@ -20,7 +20,7 @@
       <div style="display: flex; align-items: center; gap: 32px; padding: 8px 16px; margin: -8px -16px; background: rgba(255,209,51,.10); box-shadow: inset 0 0 0 4px rgba(255,209,51,.30);">
         <div style="width: 34px; flex: none; color: var(--accent);">@CARET@</div>
         <div style="width: 420px; font-size: 25px; color: var(--accent);">Synchronisation verticale</div>
-        <div style="width: 32px; height: 32px; background: var(--surfaceAlt); position: relative; box-shadow: 0 -4px 0 var(--ink), 0 4px 0 var(--ink), -4px 0 0 var(--ink), 4px 0 0 var(--ink), inset 0 4px 0 var(--bevelHi), inset 0 -4px 0 var(--bevelLo);">
+        <div style="width: 32px; height: 32px; background: var(--surfaceAlt); position: relative; box-shadow: 0 -4px 0 var(--edge), 0 4px 0 var(--edge), -4px 0 0 var(--edge), 4px 0 0 var(--edge), inset 0 4px 0 var(--ornament), inset 0 -4px 0 var(--shadow);">
           <div style="position: absolute; inset: 8px; background: var(--accent);"></div>
         </div>
         <div style="font-size: 21px; color: var(--muted);">Activée</div>
@@ -30,7 +30,7 @@
       <div style="display: flex; align-items: center; gap: 32px;">
         <div style="width: 34px; flex: none;"></div>
         <div style="width: 420px; font-size: 25px;">Affichage</div>
-        <div style="width: 32px; height: 32px; background: var(--surfaceAlt); box-shadow: 0 -4px 0 var(--ink), 0 4px 0 var(--ink), -4px 0 0 var(--ink), 4px 0 0 var(--ink), inset 0 4px 0 var(--bevelHi), inset 0 -4px 0 var(--bevelLo);"></div>
+        <div style="width: 32px; height: 32px; background: var(--surfaceAlt); box-shadow: 0 -4px 0 var(--edge), 0 4px 0 var(--edge), -4px 0 0 var(--edge), 4px 0 0 var(--edge), inset 0 4px 0 var(--ornament), inset 0 -4px 0 var(--shadow);"></div>
         <div style="font-size: 21px; color: var(--muted);">Plein écran</div>
       </div>
 
@@ -40,7 +40,7 @@
       <div style="display: flex; align-items: center; gap: 32px;">
         <div style="width: 34px; flex: none;"></div>
         <div style="width: 420px; font-size: 25px;">Compteur d'images/s</div>
-        <div style="width: 32px; height: 32px; background: var(--surfaceAlt); position: relative; box-shadow: 0 -4px 0 var(--ink), 0 4px 0 var(--ink), -4px 0 0 var(--ink), 4px 0 0 var(--ink), inset 0 4px 0 var(--bevelHi), inset 0 -4px 0 var(--bevelLo);">
+        <div style="width: 32px; height: 32px; background: var(--surfaceAlt); position: relative; box-shadow: 0 -4px 0 var(--edge), 0 4px 0 var(--edge), -4px 0 0 var(--edge), 4px 0 0 var(--edge), inset 0 4px 0 var(--ornament), inset 0 -4px 0 var(--shadow);">
           <div style="position: absolute; inset: 8px; background: var(--accent);"></div>
         </div>
         <div style="font-size: 21px; color: var(--muted);">Afficher en haut à droite</div>
@@ -50,9 +50,9 @@
       <div style="display: flex; align-items: center; gap: 32px;">
         <div style="width: 34px; flex: none;"></div>
         <div style="width: 420px; font-size: 25px;">Volume</div>
-        <div style="width: 320px; height: 20px; background: var(--surfaceAlt); position: relative; box-shadow: 0 -4px 0 var(--ink), 0 4px 0 var(--ink), -4px 0 0 var(--ink), 4px 0 0 var(--ink);">
+        <div style="width: 320px; height: 20px; background: var(--surfaceAlt); position: relative; box-shadow: 0 -4px 0 var(--edge), 0 4px 0 var(--edge), -4px 0 0 var(--edge), 4px 0 0 var(--edge);">
           <div style="position: absolute; left: 0; top: 0; bottom: 0; width: 224px; background: var(--accent);"></div>
-          <div style="position: absolute; left: 208px; top: -10px; width: 24px; height: 40px; background: #f2f2ff; box-shadow: 0 -4px 0 var(--ink), 0 4px 0 var(--ink), -4px 0 0 var(--ink), 4px 0 0 var(--ink), inset 0 -6px 0 #9aa1b0;"></div>
+          <div style="position: absolute; left: 208px; top: -10px; width: 24px; height: 40px; background: #f2f2ff; box-shadow: 0 -4px 0 var(--edge), 0 4px 0 var(--edge), -4px 0 0 var(--edge), 4px 0 0 var(--edge), inset 0 -6px 0 #9aa1b0;"></div>
         </div>
         <div style="font-size: 21px; color: var(--muted);">70 %</div>
       </div>
@@ -61,7 +61,7 @@
       <div style="display: flex; align-items: center; gap: 32px;">
         <div style="width: 34px; flex: none;"></div>
         <div style="width: 420px; font-size: 25px;">Langue</div>
-        <div style="width: 240px; display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; background: var(--surfaceAlt); font-size: 21px; box-shadow: 0 -4px 0 var(--ink), 0 4px 0 var(--ink), -4px 0 0 var(--ink), 4px 0 0 var(--ink), inset 0 4px 0 var(--bevelHi), inset 0 -4px 0 var(--bevelLo);">
+        <div style="width: 240px; display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; background: var(--surfaceAlt); font-size: 21px; box-shadow: 0 -4px 0 var(--edge), 0 4px 0 var(--edge), -4px 0 0 var(--edge), 4px 0 0 var(--edge), inset 0 4px 0 var(--ornament), inset 0 -4px 0 var(--shadow);">
           <span>Français</span>
           <svg viewBox="0 0 8 5" width="20" height="13" shape-rendering="crispEdges" aria-hidden="true">
             <rect x="0" y="0" width="8" height="1" fill="#8b93a7"></rect>
@@ -76,7 +76,7 @@
       <div style="display: flex; align-items: center; gap: 32px;">
         <div style="width: 34px; flex: none;"></div>
         <div style="width: 420px; font-size: 25px;">Journaux</div>
-        <div style="padding: 12px 24px; font-size: 21px; font-weight: 600; color: #12161f; background: var(--accent); box-shadow: 0 -4px 0 var(--ink), 0 4px 0 var(--ink), -4px 0 0 var(--ink), 4px 0 0 var(--ink), inset 0 4px 0 rgba(255,255,255,.4), inset 0 -6px 0 #a87f00;">Enregistrer les journaux de session</div>
+        <div style="padding: 12px 24px; font-size: 21px; font-weight: 600; color: #12161f; background: var(--accent); box-shadow: 0 -4px 0 var(--edge), 0 4px 0 var(--edge), -4px 0 0 var(--edge), 4px 0 0 var(--edge), inset 0 4px 0 rgba(255,255,255,.4), inset 0 -6px 0 #a87f00;">Enregistrer les journaux de session</div>
       </div>
     </div>
 

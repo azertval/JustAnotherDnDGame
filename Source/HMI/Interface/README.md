@@ -8,7 +8,7 @@ et le thème dans `Elements/Themes/` (une feuille par portée : `theme-identity.
 - `MainWindow` — fenêtre principale : `QStackedWidget` (menu / options / éditeur) et panneaux
   dockables (`QDockWidget`) autour du viewport central. Depuis le `LOT-68`, ces panneaux sont
   répartis en **deux espaces de travail exclusifs** (`EditorWorkspace`, `EX-IHM-073`) : édition de
-  niveau ou atelier pixel art, chacun persistant **sa** disposition (`EX-IHM-011`). Lance aussi la
+  niveau ou atelier de dessin d'assets, chacun persistant **sa** disposition (`EX-IHM-011`). Lance aussi la
   séquence de jeu (`startGame`).
 - `EditorWorkspace` — table **pure** de la répartition panneaux/barres/menus entre les deux espaces.
 - `ActionCatalog` / `EditorActions` — les commandes de l'éditeur comme actions réutilisables
@@ -22,9 +22,9 @@ et le thème dans `Elements/Themes/` (une feuille par portée : `theme-identity.
   clavier/manette (onglets ajoutés en code). Les sélecteurs de résolution et de limite d'images/s
   ont été **retirés** au `LOT-68` : grisés et non branchés, ils promettaient un réglage inexistant
   (`EX-IHM-072`). Émet `languageChanged`/`saveLogsRequested` vers `MainWindow`.
-- `PixelArtScale`, `PixelFrameGeometry`, `MenuBackdropGeometry`, `KeyHintText` — géométries et
-  textes **purs** de l'habillage pixel art des écrans du jeu (`EX-IHM-070`), peints par
-  `PixelFrameWidget`, `PixelMenuButton` et `MainMenu`. Même découpage que les icônes du `LOT-56` :
+- `IdentityScale`, `ParchmentFrame`, `MenuBackdropGeometry`, `KeyHintText` — géométries et
+  textes **purs** de l'habillage parchemin des écrans du jeu (`EX-IHM-070`), peints par
+  `ParchmentPanel`, `MenuEntryButton` et `MainMenu`. Même découpage que les icônes du `LOT-56` :
   une fonction pure décide *quoi* dessiner, un peintre Qt décide *comment*.
 - `KeybindingsWidget` / `GamepadBindingsWidget` — capture et affichage du remappage des touches et
   des boutons de manette (délèguent à `hmi::GameKeyBindings` / `EditorKeyBindings` /

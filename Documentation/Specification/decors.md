@@ -36,15 +36,22 @@ découper en objets.
 - \anchor EX-DEC-043 **EX-DEC-043** — Chaque plan porte un **facteur de défilement** (parallaxe)
   **par axe**, appliqué au rendu et **purement visuel** (`EX-ARCH-012`). Le niveau décide **si** la
   parallaxe s'applique. La parallaxe est une **translation** : la taille du plan n'est jamais mise
-  à l'échelle, sous peine de casser le 1:1 pixel (`EX-ARCH-022`). La translation est **bornée** de
+  à l'échelle : un plan qui grandit en défilant se lit comme une caméra qui avance, jamais comme de
+  la profondeur (`EX-ARCH-022` — **motif refondu au `LOT-66`** : la raison invoquée était la
+  rupture du 1:1 pixel, qui n'existe plus ; l'interdiction, elle, tient toujours). La translation
+  est **bornée** de
   sorte que le plan couvre toujours le cadrage — sans quoi une bande vide apparaîtrait au bord.
 - \anchor EX-DEC-044 **EX-DEC-044** — Le chargement **borne le coût** d'un niveau : nombre de plans
   plafonné, dimension de texture refusée au-delà de la limite du matériel, et **avertissement
   journalisé** quand le total dépasse le seuil raisonnable. Le garde-fou est dans le **format**, pas
   laissé à l'usage : rien n'empêcherait autrement seize plans à densité native sur un grand niveau.
-- \anchor EX-DEC-003 **EX-DEC-003** — Rendu **pixel art net** (nearest-neighbor) — cf.
-  `EX-ARCH-022`. Inchangée depuis `LOT-H-49` : elle vaut pour les plans comme elle valait pour les
-  décors.
+- \anchor EX-DEC-003 **EX-DEC-003** — Rendu **fidèle à l'asset** : un plan est affiché sans
+  rééchantillonnage qui en trahirait la facture — cf. `EX-ARCH-022`, qui dit lequel selon la
+  nature de l'image. Elle vaut pour les plans comme elle valait pour les décors.
+  > **Refondue au `LOT-66`.** Elle disait « rendu **pixel art net** (nearest-neighbor) », ce qui
+  > présumait que tout décor est du pixel art — présomption que les panneaux peints du
+  > [LOT-76](@ref lot-76) contredisent, et qui aurait fait rendre une illustration à 300 ppp au
+  > plus proche voisin sans qu'aucune règle ne s'en plaigne.
 
 Les plans sont **traversables** : ils ne participent jamais aux collisions. Un plan est un décor,
 jamais une géométrie de jeu.
@@ -60,8 +67,12 @@ jamais une géométrie de jeu.
   en pixel art** (pixellisation, réduction de palette) — traitement **intégré à l'outil**.
 - \anchor EX-DEC-031 **EX-DEC-031** — Les **paramètres de conversion** sont ajustables (taille de
   pixel / résolution cible, palette). **Post-MVP**, non planifié.
-- \anchor EX-DEC-032 **EX-DEC-032** — L'image pixel art résultante est enregistrée comme fichier et
+- \anchor EX-DEC-032 **EX-DEC-032** — L'image résultante est enregistrée comme fichier et
   **référencée par un plan** (`EX-DEC-040`), ou collée dans un plan depuis l'atelier.
+  > **Refondue au `LOT-66`.** Le mot « pixel art » y qualifiait la sortie de l'atelier, et non le
+  > format d'enregistrement : un plan référence un fichier image, quelle que soit la façon dont
+  > il a été produit. Le laisser aurait fait de l'atelier le seul producteur légitime de plans,
+  > alors que le [LOT-76](@ref lot-76) en apporte de peints.
 
 > Dépendance déjà levée : le chargement et l'encodage d'images existent depuis `LOT-H-39`/`LOT-H-54`
 > (`hmi::decodeImageFile`, `hmi::encodeImageFile`).

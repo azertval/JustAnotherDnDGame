@@ -35,9 +35,9 @@ CSS_VARIABLE_BY_ROLE = {
     "accent": "accent",
     "surface": "surface",
     "surfaceAlt": "surfaceAlt",
-    "outline": "ink",
-    "bevelLight": "bevelHi",
-    "bevelDark": "bevelLo",
+    "frameEdge": "edge",
+    "frameOrnament": "ornament",
+    "frameShadow": "shadow",
     "textMuted": "muted",
 }
 

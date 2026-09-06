@@ -19,7 +19,7 @@
    <!-- Contenu dans un cadre pixel (LOT-68) : la maquette pose les trois sections sur une carte,
         pas a nu sur le fond. -->
    <item>
-    <widget class="hmi::PixelFrameWidget" name="creditsCard">
+    <widget class="hmi::ParchmentPanel" name="creditsCard">
      <layout class="QVBoxLayout" name="cardLayout">
        <item>
         <widget class="QLabel" name="developmentLabel">
@@ -152,7 +152,7 @@
    </item>
    <item>
     <layout class="QHBoxLayout" name="bottomLayout">
-     <item><widget class="hmi::PixelMenuButton" name="backButton"><property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property><property name="text"><string>Retour</string></property></widget></item>
+     <item><widget class="hmi::MenuEntryButton" name="backButton"><property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property><property name="text"><string>Retour</string></property></widget></item>
      <item>
       <spacer name="backSpacer">
        <property name="orientation"><enum>Qt::Horizontal</enum></property>
@@ -172,15 +172,15 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>hmi::PixelFrameWidget</class>
+   <class>hmi::ParchmentPanel</class>
    <extends>QWidget</extends>
-   <header>HMI/Interface/PixelFrameWidget.h</header>
+   <header>HMI/Interface/ParchmentPanel.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>hmi::PixelMenuButton</class>
+   <class>hmi::MenuEntryButton</class>
    <extends>QPushButton</extends>
-   <header>HMI/Interface/PixelMenuButton.h</header>
+   <header>HMI/Interface/MenuEntryButton.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

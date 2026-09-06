@@ -19,7 +19,7 @@
     </spacer>
    </item>
    <item>
-    <widget class="hmi::PixelMenuButton" name="continueButton">
+    <widget class="hmi::MenuEntryButton" name="continueButton">
      <!-- Grise sans progression (MainMenu::setContinueEnabled, LOT-59 TACHE-06) : pas de
           "enabled" fige ici, l'etat depend de Progression::currentLevel a l'execution. -->
      <property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property>
@@ -28,42 +28,42 @@
     </widget>
    </item>
    <item>
-    <widget class="hmi::PixelMenuButton" name="newGameButton">
+    <widget class="hmi::MenuEntryButton" name="newGameButton">
      <property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property>
      <property name="text"><string>Nouvelle partie</string></property>
      <property name="flat"><bool>true</bool></property>
     </widget>
    </item>
    <item>
-    <widget class="hmi::PixelMenuButton" name="selectLevelButton">
+    <widget class="hmi::MenuEntryButton" name="selectLevelButton">
      <property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property>
      <property name="text"><string>Choisir un niveau</string></property>
      <property name="flat"><bool>true</bool></property>
     </widget>
    </item>
    <item>
-    <widget class="hmi::PixelMenuButton" name="editorButton">
+    <widget class="hmi::MenuEntryButton" name="editorButton">
      <property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property>
      <property name="text"><string>Éditeur de niveaux</string></property>
      <property name="flat"><bool>true</bool></property>
     </widget>
    </item>
    <item>
-    <widget class="hmi::PixelMenuButton" name="optionsButton">
+    <widget class="hmi::MenuEntryButton" name="optionsButton">
      <property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property>
      <property name="text"><string>Options</string></property>
      <property name="flat"><bool>true</bool></property>
     </widget>
    </item>
    <item>
-    <widget class="hmi::PixelMenuButton" name="creditsButton">
+    <widget class="hmi::MenuEntryButton" name="creditsButton">
      <property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property>
      <property name="text"><string>Crédits</string></property>
      <property name="flat"><bool>true</bool></property>
     </widget>
    </item>
    <item>
-    <widget class="hmi::PixelMenuButton" name="quitButton">
+    <widget class="hmi::MenuEntryButton" name="quitButton">
      <property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property>
      <property name="text"><string>Quitter</string></property>
      <property name="flat"><bool>true</bool></property>
@@ -88,9 +88,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>hmi::PixelMenuButton</class>
+   <class>hmi::MenuEntryButton</class>
    <extends>QPushButton</extends>
-   <header>HMI/Interface/PixelMenuButton.h</header>
+   <header>HMI/Interface/MenuEntryButton.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
