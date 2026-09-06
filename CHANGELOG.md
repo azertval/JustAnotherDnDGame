@@ -6,6 +6,55 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **Espèces, historiques et classes provisoires** (`LOT-36`). De quoi construire un personnage
+  jouable au plus tôt : **22 espèces**, **13 historiques** et les **4 classes simplifiées** qui
+  serviront de socle au premier modèle de combat — 39 fichiers tirés de **trois documents et deux
+  langues**, et c'est ce mélange qui fait la difficulté du lot.
+  - **Le *Manuel des Joueurs* est un scan, et sa graisse ment.** La méthode du `LOT-33` — la
+    graisse porte la structure — n'y tient pas : « Vitesse. » ne porte aucune graisse, « Âge. » en
+    porte sur deux fragments non contigus, et les titres sont mutilés (`TaiJJe`,
+    `Vision dans Je noir`, `tliaumaturgie`). Deux parades : les mécaniques se lisent par **leur
+    phrase** et non par leur titre, et les noms de traits viennent du **lexique**, qui les porte
+    proprement — la parade que le `LOT-43` employait déjà pour les dons.
+  - **Le recoupement a servi dès la première exécution.** Les augmentations de caractéristique
+    figurent deux fois dans le *Manuel* : dans le bloc de la race et dans la table de la page 12.
+    L'OCR a **entièrement effacé** la ligne d'augmentation du demi-elfe — son bloc commence au
+    milieu d'une phrase — et c'est la table qui la restitue. Une valeur présente des deux côtés et
+    différente **arrête** la génération ; une valeur présente d'un seul côté est une ligne
+    escamotée, rapportée et non fatale.
+  - **Quatre corruptions d'OCR déclarées une par une** : `!'ore` pour « l'orc » (le `l` ressort en
+    point d'exclamation, le `c` en `e`), `commwi` pour « commun », `(+l)` pour `(+1)` sur toute la
+    table. Sans les deux premières, le demi-orc ne parle que le commun et le tieffelin pas du tout.
+    Une substitution non déclarée serait indiscernable d'une règle du jeu.
+  - **La gouttière du *Manuel* bouge d'une page à l'autre** — `[288, 309]` p. 41, `[272, 296]`
+    p. 42, rien du tout p. 44. Un blanc figé y couperait tantôt dans une colonne, tantôt dans
+    l'autre. La coupe est désormais **mesurée** page par page.
+  - **Le *Player's Guide* dessine ses titres deux fois**, à la coordonnée exacte : un titre
+    contourné, dont le remplissage et le trait forment deux passes. Invisible à l'écran, et cela
+    double tout ce qui se compte — les douze espèces du chapitre 1 s'y relèvent vingt-quatre fois.
+  - **Ce que le schéma ne peut pas dire n'est ni jeté ni inventé.** Les espèces de Tanares laissent
+    une augmentation **au choix du joueur** : la partie fixe entre dans la table, le mécanisme est
+    déclaré (`EX-CNT-030`) et listé au chargement (`EX-CNT-031`). Le **soulborn**, lui, hérite sa
+    taille et sa vitesse des parents du personnage et n'en a donc aucune ; le schéma les exige, et
+    l'espèce est **écartée en le disant** plutôt que dotée de valeurs inventées.
+  - **Le corpus dit douze espèces de Tanares, pas treize**, et son chapitre des historiques en
+    annonce six pour en porter sept — le sommaire fait foi, il indexe ce que le livre contient.
+    Tanares ne porte d'ailleurs **aucune mécanique** pour les huit espèces classiques : le fond
+    narratif vient de lui, la mécanique des livres français.
+  - **Les quatre classes sont provisoires et le déclarent**, avec un critère de retrait écrit
+    d'avance et à un seul endroit. Un test balaie tout `Source/Elements/Rpg/` et vérifie qu'aucune
+    donnée définitive ne les référence : le jour du retrait, supprimer ces fichiers ne cassera rien.
+  - **La progression du niveau 1 au niveau 5 vient de la donnée.** La formule générale donnerait le
+    même résultat, et c'est le piège : l'écrire en C++ ferait cesser de lire la table, et la
+    première classe dont la progression sort de l'ordinaire passerait inaperçue.
+  - **Un seuil de corps se pose sous la valeur mesurée, jamais dessus.** Le corps rendu par un PDF
+    est un flottant : 16 s'y lit 15,999998. Un seuil à l'égalité laissait passer le titre de
+    chapitre et ratait les quatre races — sans erreur, sans message, avec un catalogue à une entrée.
+  - Trois modules partagés sortent de ce que le `LOT-33` avait écrit pour lui seul — la grille à
+    deux colonnes, la relecture des catalogues livrés, la déduplication des lignes surimprimées ;
+    le bestiaire est reposé dessus et produit une sortie **identique à l'octet près**.
+  - `ctest` passe de 974 à **983** cas, tous verts.
+
 - **Le bestiaire de base : les 94 bêtes du SRD** (`LOT-33`). `Animaux.pdf` vers
   `Source/Elements/Rpg/creatures/` — 94 fichiers, 136 traits, 135 actions dont 115 portent des
   dégâts typés. Le premier catalogue rempli du projet, et le premier que le moteur charge.

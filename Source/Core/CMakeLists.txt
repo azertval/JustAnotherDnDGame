@@ -18,6 +18,7 @@ add_library(Core STATIC
     Gameplay/MechanismController.cpp
     Rpg/Ability.cpp
     Rpg/Bestiary.cpp
+    Rpg/CharacterOptions.cpp
     Rpg/Check.cpp
     Rpg/Dice.cpp
     Rpg/RpgEnumNames.cpp

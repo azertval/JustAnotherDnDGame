@@ -37,6 +37,7 @@ add_executable(UnitTests
     Unit/Core/Rpg/test_rpg_enums.cpp
     Unit/Core/Rpg/test_multiclassing.cpp
     Unit/Core/Rpg/test_bestiary.cpp
+    Unit/Core/Rpg/test_character_options.cpp
     Unit/Core/Levels/test_rpg_terrain.cpp
     Unit/Core/Levels/test_tile_texture_override.cpp
     Unit/Core/Physics/test_swept_collision.cpp
@@ -223,6 +224,10 @@ target_compile_definitions(UnitTests PRIVATE
     # du PDF. Il lit les 94 fichiers REELS -- une fixture serait une copie, et une copie ne prouve
     # plus rien le jour ou la generation change.
     JADG_RPG_CREATURES_DIR="${PROJECT_SOURCE_DIR}/Source/Elements/Rpg/creatures"
+    # Racine des catalogues RPG (LOT-36) : le test des options de personnage lit especes,
+    # historiques et classes, ET balaie tout l'arbre pour verifier qu'aucune donnee definitive ne
+    # reference une classe provisoire.
+    JADG_RPG_DIR="${PROJECT_SOURCE_DIR}/Source/Elements/Rpg"
     JADG_ASSETS_DIR="${PROJECT_SOURCE_DIR}/Source/Elements/Assets"
     JADG_AUDIO_DIR="${PROJECT_SOURCE_DIR}/Source/Elements/Audio"
     # Deux portees depuis le LOT-73 (EX-IHM-082) : les tests de theme lisent les DEUX, pour que

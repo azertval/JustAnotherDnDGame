@@ -43,6 +43,7 @@ c'est un identifiant stable, jamais réordonné.
 - @subpage lot-12
 - @subpage lot-43
 - @subpage lot-33
+- @subpage lot-36
 
 ## Feuille de route
 

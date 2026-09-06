@@ -33,9 +33,9 @@ les petites capitales du titre ont perdue.
 
 **La gouttière est mesurée, puis vérifiée à chaque exécution.** Les pages sont à deux colonnes ;
 lire une page entière entrelace les deux et attribue une action à la créature voisine. Le blanc
-central occupe `[287, 309]` sur les trente pages du document, ce que ``verifier_gouttiere()``
-recontrôle : le jour où une édition le déplace, la coupe échoue au lieu de produire des blocs
-mélangés.
+central occupe `[287, 309]` sur les trente pages du document, ce que
+``mise_en_page.verifier_gouttiere()`` recontrôle : le jour où une édition le déplace, la coupe
+échoue au lieu de produire des blocs mélangés.
 
 Quatre défauts du lexique mis au jour par les 94 noms
 -----------------------------------------------------
@@ -88,10 +88,11 @@ import re
 import unicodedata
 from dataclasses import dataclass, field
 
+from .catalogues import catalogue_francais, identifiant, index_avec_lexique
 from .corpus import Corpus
 from .extraction import Extracteur
 from .glossaire import normaliser, normaliser_cle
-from .options import ALIAS_DU_LIVRE
+from .mise_en_page import colonnes, paragraphes, verifier_gouttiere
 
 SORTIE_RPG = 'Source/Elements/Rpg'
 DOSSIER = 'creatures'
@@ -102,14 +103,6 @@ PROVENANCE = 'srd'
 # aucun bloc, et les inclure ferait passer le titre de couverture pour un nom de créature.
 PAGE_SOMMAIRE = 2
 PAGES_BLOCS = range(3, 32)
-
-# Coupe des deux colonnes, en points PDF. Mesurée par projection horizontale : le blanc central
-# occupe [287, 309] sur les trente pages. La valeur de coupe est au milieu de cette bande, et
-# `verifier_gouttiere` recontrôle la bande elle-même à chaque exécution.
-GOUTTIERE = 298.0
-BANDE_GOUTTIERE = (287.0, 309.0)
-LARGEUR_PAGE = 596.0
-HAUTEUR_UTILE = 900.0
 
 # Corps du titre d'un bloc, et sa police. Les deux ensemble : `DnDMr.Eaves` sert aussi aux
 # en-têtes de section, à un corps plus petit.
@@ -134,12 +127,6 @@ SECTION_ACTIONS = 'ACTIONS'
 # Titre de la section qui suit les 88 bêtes. Ce n'est pas une créature, mais il est composé dans la
 # même police et au même corps qu'un nom de bloc.
 SECTION_AUTRES = 'AUTRES CRÉATURES'
-
-# Interligne : 11,2 pt dans un paragraphe, 15,2 pt et plus entre deux (mesuré sur les 1 258
-# intervalles du document ; aucune valeur entre 11,3 et 15,2). Le seuil sépare une ligne de
-# continuation d'un paragraphe neuf — c'est ce qui distingue la suite d'une action du paragraphe
-# d'ambiance qui clôt le bloc.
-INTERLIGNE_PARAGRAPHE = 13.0
 
 # Les douze étiquettes du profil, dans l'ordre du livre. Fermée : un fragment gras qui n'y figure
 # pas est un nom de trait ou d'action. La liste est vérifiée à l'extraction — les sept premières
@@ -230,12 +217,6 @@ class Bloc:
 
 # -- Découpe du document -------------------------------------------------------------------------
 
-def colonnes() -> tuple:
-    """Les deux régions de colonne, de part et d'autre de la gouttière."""
-    return ((0.0, 0.0, GOUTTIERE, HAUTEUR_UTILE),
-            (GOUTTIERE, 0.0, LARGEUR_PAGE, HAUTEUR_UTILE))
-
-
 def est_du_bloc(fragment) -> bool:
     """Vrai si le fragment appartient au bloc de statistiques ou à son texte d'ambiance.
 
@@ -246,28 +227,6 @@ def est_du_bloc(fragment) -> bool:
     if fragment.police.startswith(POLICES_BLOC):
         return True
     return fragment.police.startswith(POLICE_AMBIANCE) and fragment.corps >= CORPS_AMBIANCE
-
-
-def verifier_gouttiere(extracteur: Extracteur) -> None:
-    """Contrôle que le blanc central est bien là où la coupe le suppose, sur chaque page.
-
-    Sans ce contrôle, une édition dont la mise en page a bougé produirait des blocs dont la moitié
-    des actions appartient à la créature voisine — une donnée fausse, complète et muette. La
-    projection est celle qui a servi à mesurer la bande : les abscisses que ne couvre aucun mot.
-    """
-    for index in PAGES_BLOCS:
-        couvert = [False] * int(LARGEUR_PAGE)
-        for mot in extracteur.mots(index):
-            for abscisse in range(int(mot[0]), min(int(LARGEUR_PAGE), int(mot[2]) + 1)):
-                couvert[abscisse] = True
-        blanc = all(not couvert[x] for x in range(int(BANDE_GOUTTIERE[0]),
-                                                  int(BANDE_GOUTTIERE[1])))
-        if not blanc:
-            raise BestiaireError(
-                'animaux page %d : la gouttière %s n\'est plus blanche. La coupe en deux colonnes '
-                'suppose ce blanc ; sans lui, les deux colonnes s\'entrelacent et une action se '
-                'retrouve attribuée à la créature voisine, sans autre signe.'
-                % (index, '%.0f–%.0f' % BANDE_GOUTTIERE))
 
 
 def lire_sommaire(extracteur: Extracteur) -> list[str]:
@@ -313,25 +272,6 @@ def decouper(extracteur: Extracteur) -> list[Bloc]:
 
 
 # -- Lecture d'un bloc ---------------------------------------------------------------------------
-
-def paragraphes(lignes: list) -> list[list]:
-    """Regroupe les lignes d'un bloc en paragraphes, par interligne et par segment.
-
-    Un changement de colonne ouvre un paragraphe : c'est faux dans le cas — inexistant ici — d'une
-    phrase coupée par la colonne, et c'est la seule lecture possible d'ordonnées qui repartent de
-    zéro. Le contrôle du nombre de traits et d'actions par créature signalerait la différence.
-    """
-    groupes: list[list] = []
-    precedent = None
-    for segment, ligne in lignes:
-        neuf = (precedent is None or precedent[0] != segment
-                or ligne.y - precedent[1] >= INTERLIGNE_PARAGRAPHE)
-        if neuf:
-            groupes.append([])
-        groupes[-1].append(ligne)
-        precedent = (segment, ligne.y)
-    return groupes
-
 
 def etiquette_de(ligne) -> str | None:
     """L'étiquette de profil qui ouvre la ligne, ou ``None`` si elle n'en porte pas."""
@@ -626,56 +566,6 @@ def index_noms(lexique: list) -> dict:
     return index
 
 
-def identifiant(anglais: str) -> str:
-    """Un nom anglais en identifiant kebab-case ASCII : « Giant Eagle » → ``giant-eagle``."""
-    sans_accent = unicodedata.normalize('NFD', anglais)
-    sans_accent = ''.join(c for c in sans_accent if unicodedata.category(c) != 'Mn')
-    return re.sub(r'-+', '-', re.sub(r'[^a-z0-9]+', '-', sans_accent.lower())).strip('-')
-
-
-def catalogue_francais(racine, dossier: str) -> dict:
-    """Un catalogue déjà livré, indexé par son nom français : « discrétion » → ``stealth``.
-
-    Les noms du `LOT-43` héritent des variantes du lexique — « Tromperie / Supercherie » — et le
-    livre n'en emploie qu'une. Chacune indexe l'entrée : sans quoi le diablotin, qui a
-    « Tromperie +4 », désignerait une compétence introuvable.
-    """
-    index = {}
-    for chemin in sorted((racine / dossier).glob('*.json')):
-        donnee = json.loads(chemin.read_text(encoding='utf-8'))
-        for variante in donnee['name'].split('/'):
-            index.setdefault(normaliser_cle(variante).strip(), donnee['id'])
-        index.setdefault(normaliser_cle(donnee['id']), donnee['id'])
-    return index
-
-
-# -- Assemblage ----------------------------------------------------------------------------------
-
-def index_langues(racine, lexique: list) -> dict:
-    """Les seize langues, indexées par toutes les graphies françaises que le corpus emploie.
-
-    Le nom du catalogue ne suffit pas. Le lexique — table d'autorité du `LOT-30` — nomme la langue
-    des elfes « **elfe** », là où la table des *Basic Rules* p. 38 et les blocs de créature
-    écrivent « **elfique** ». Le `LOT-43` avait déjà buté dessus et l'a tranché dans
-    ``options.ALIAS_DU_LIVRE`` ; cette table est **réutilisée** plutôt que recopiée. Deux copies
-    d'une correspondance divergent, et celle-ci ne se manifesterait que par une chouette géante
-    muette en elfique — ce qu'aucun contrôle ne signale.
-    """
-    index = catalogue_francais(racine, 'languages')
-    par_anglais = {normaliser_cle(identifiant(i)): i for i in set(index.values())}
-    for entree in lexique:
-        cible = par_anglais.get(normaliser_cle(identifiant(entree.anglais)))
-        if cible is None:
-            continue
-        for variante in entree.francais.split('/'):
-            index.setdefault(normaliser_cle(variante).strip(), cible)
-    for forme, anglais in ALIAS_DU_LIVRE.items():
-        cible = par_anglais.get(normaliser_cle(identifiant(anglais)))
-        if cible is not None:
-            index.setdefault(normaliser_cle(forme), cible)
-    return index
-
-
 def analyser(bloc: Bloc, nom: str, tables: dict) -> tuple[dict, list[str]]:
     """Un bloc du document en une entrée de catalogue. Renvoie (créature, signalements)."""
     groupes = paragraphes(bloc.lignes)
@@ -815,11 +705,11 @@ def produire(corpus: Corpus, lexique: list, racine, cache=None) -> tuple[list, l
         'etats': index_lexique(lexique, 'état'),
         'noms': index_noms(lexique),
         'competences': catalogue_francais(racine, 'skills'),
-        'langues': index_langues(racine, lexique),
+        'langues': index_avec_lexique(racine, 'languages', lexique),
     }
 
     with Extracteur(corpus[DOCUMENT], cache=cache) as extracteur:
-        verifier_gouttiere(extracteur)
+        verifier_gouttiere(extracteur, PAGES_BLOCS)
         attendus = lire_sommaire(extracteur)
         blocs = decouper(extracteur)
 

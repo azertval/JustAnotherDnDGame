@@ -357,6 +357,14 @@ class Extracteur:
         à ordonnée égale) : l'ordre interne des blocs de ce corpus ne l'est pas, et une ligne de
         séparation invisible s'y intercale régulièrement avant la ligne qu'elle suit à l'écran.
         Les fragments vides sont écartés — le corpus en sème à chaque changement de police.
+
+        **Une ligne dessinée deux fois au même endroit n'est rendue qu'une fois.** Les titres du
+        *Player's Guide* sont composés en double, à la coordonnée exacte, à la police exacte, au
+        texte exact — un titre contourné, dont le remplissage et le trait forment deux passes de
+        dessin. La superposition est invisible à l'écran et double tout ce qui se compte : les
+        treize espèces du chapitre 1 s'y relèvent vingt-six fois. Le critère est volontairement
+        strict — même ordonnée, même abscisse, même police, même texte : aucun document ne pose
+        deux fois la même chaîne au même point pour deux raisons différentes.
         """
         cle = self._cle_cache('lignes', index, moitie, region)
         if (cachee := self._lire_cache(cle, '.json')) is not None:
@@ -377,12 +385,21 @@ class Extracteur:
             ]
             brut = [l for l in brut if l['fragments']]
             self._ecrire_cache(cle, '.json', json.dumps(brut).encode('utf-8'))
-        return sorted(
+        lignes = sorted(
             (Ligne(l['y'], tuple(sorted((Fragment(**f) for f in l['fragments']),
                                         key=lambda f: f.x0)))
              for l in brut),
             key=lambda l: (round(l.y, 1), l.fragments[0].x0),
         )
+        uniques: list[Ligne] = []
+        vues: set = set()
+        for ligne in lignes:
+            empreinte = (round(ligne.y, 3),
+                         tuple((f.texte, f.police, round(f.x0, 3)) for f in ligne.fragments))
+            if empreinte not in vues:
+                vues.add(empreinte)
+                uniques.append(ligne)
+        return uniques
 
     # -- Images ----------------------------------------------------------------------------
 

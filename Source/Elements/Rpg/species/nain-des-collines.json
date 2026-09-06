@@ -1,0 +1,17 @@
+{
+  "id": "nain-des-collines",
+  "name": "Nain des collines",
+  "source": "srd",
+  "parentSpecies": "nain",
+  "size": "medium",
+  "speed": 7.5,
+  "abilityScoreIncrease": {
+    "wisdom": 1
+  },
+  "traits": [
+    {
+      "name": "Ténacité naine",
+      "text": "Votre maximum de points de vie augmente de 1 à chaque niveau."
+    }
+  ]
+}
