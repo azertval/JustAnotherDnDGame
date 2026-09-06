@@ -130,6 +130,8 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">État d'animation courant d'une entité : quel jeu de clips, quel clip, quelle image, depuis combien de temps.  <a href="structcore_1_1Animation.html#details">More...</a><br /></td></tr>
 <tr class="memitem:Collider" id="r_Collider"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1Collider.html">Collider</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Étendue physique d'une entité pour la collision : une boîte <b>alignée aux axes</b> (AABB).  <a href="structcore_1_1Collider.html#details">More...</a><br /></td></tr>
+<tr class="memitem:Interactable" id="r_Interactable"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1Interactable.html">Interactable</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Marque une entité comme <b>cible d'interaction</b> et porte de quoi la désigner.  <a href="structcore_1_1Interactable.html#details">More...</a><br /></td></tr>
 <tr class="memitem:Particle" id="r_Particle"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1Particle.html">Particle</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Particule visuelle pure : position, vitesse, durée de vie &ndash; aucun effet de gameplay (<span class="tt">EX-ARCH-012</span>).  <a href="structcore_1_1Particle.html#details">More...</a><br /></td></tr>
 <tr class="memitem:RpgActor" id="r_RpgActor"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1RpgActor.html">RpgActor</a></td></tr>
@@ -162,10 +164,20 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sélection en lecture-écriture des entités possédant tous les composants demandés.  <a href="classcore_1_1View.html#details">More...</a><br /></td></tr>
 <tr class="memitem:World" id="r_World"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classcore_1_1World.html">World</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Point d'entrée unique de la simulation : possède les entités, les composants et les systèmes.  <a href="classcore_1_1World.html#details">More...</a><br /></td></tr>
+<tr class="memitem:InteractionCandidate" id="r_InteractionCandidate"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1InteractionCandidate.html">InteractionCandidate</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une cible candidate : son composant et l'entité qui la porte.  <a href="structcore_1_1InteractionCandidate.html#details">More...</a><br /></td></tr>
+<tr class="memitem:InteractionTarget" id="r_InteractionTarget"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1InteractionTarget.html">InteractionTarget</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ce que la désignation a trouvé.  <a href="structcore_1_1InteractionTarget.html#details">More...</a><br /></td></tr>
+<tr class="memitem:InteractionOutcome" id="r_InteractionOutcome"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1InteractionOutcome.html">InteractionOutcome</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ce qu'une interaction a produit.  <a href="structcore_1_1InteractionOutcome.html#details">More...</a><br /></td></tr>
+<tr class="memitem:InteractableKind" id="r_InteractableKind"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1InteractableKind.html">InteractableKind</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les types d'entité que ce lot sait rendre <b>interactifs</b>, et ce qu'ils consomment.  <a href="structcore_1_1InteractableKind.html#details">More...</a><br /></td></tr>
 <tr class="memitem:TriggerWeight" id="r_TriggerWeight"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1TriggerWeight.html">TriggerWeight</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Poids posé sur un déclencheur par autre chose que le personnage (<span class="tt">EX-GP-025</span>, <span class="tt">LOT-65</span> TACHE-06).  <a href="structcore_1_1TriggerWeight.html#details">More...</a><br /></td></tr>
 <tr class="memitem:MechanismController" id="r_MechanismController"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classcore_1_1MechanismController.html">MechanismController</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fait vivre les mécanismes <b>interrupteur/plaque ↔ porte</b> d'un niveau (<span class="tt">EX-GP-020</span>, <span class="tt">EX-GP-021</span>, <span class="tt">EX-GP-025</span>).  <a href="classcore_1_1MechanismController.html#details">More...</a><br /></td></tr>
+<tr class="memitem:WorldFlags" id="r_WorldFlags"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classcore_1_1WorldFlags.html">WorldFlags</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">L'ensemble des faits <b>acquis</b> d'une partie : coffres ouverts, quêtes franchies, portes déverrouillées.  <a href="classcore_1_1WorldFlags.html#details">More...</a><br /></td></tr>
 <tr class="memitem:CameraZone" id="r_CameraZone"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1CameraZone.html">CameraZone</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rectangle de caméra dessiné à la main par le level designer (mode <em>par salle</em>), en cases.  <a href="structcore_1_1CameraZone.html#details">More...</a><br /></td></tr>
 <tr class="memitem:CameraFramingConfig" id="r_CameraFramingConfig"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1CameraFramingConfig.html">CameraFramingConfig</a></td></tr>
@@ -508,6 +520,18 @@ Functions</h2></td></tr>
 <tr class="memdesc:a209ceac8415ddadd8463746b94934eed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fait progresser une seule animation d'un pas fixe (image courante, bouclage/bascule).  <br /></td></tr>
 <tr class="memitem:afb50f723166a2e99225a878005f990bc" id="r_afb50f723166a2e99225a878005f990bc"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#afb50f723166a2e99225a878005f990bc">updateTopDownMovement</a> (<a class="el" href="classcore_1_1World.html">World</a> &amp;world, <a class="el" href="structcore_1_1Entity.html">Entity</a> actor, const <a class="el" href="structcore_1_1PlayerInput.html">PlayerInput</a> &amp;input, const <a class="el" href="classcore_1_1TileMap.html">TileMap</a> &amp;collision, const <a class="el" href="structcore_1_1TopDownConfig.html">TopDownConfig</a> &amp;config, float fixedDelta)</td></tr>
 <tr class="memdesc:afb50f723166a2e99225a878005f990bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Avance un acteur d'un pas fixe : intention → vitesse → balayage → position.  <br /></td></tr>
+<tr class="memitem:a241c2143642b12472d6bddb921dac0fa" id="r_a241c2143642b12472d6bddb921dac0fa"><td class="memItemLeft"><a class="el" href="structcore_1_1GridPosition.html">GridPosition</a>&#160;</td><td class="memItemRight"><a class="el" href="#a241c2143642b12472d6bddb921dac0fa">aimedCell</a> (<a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> from, <a class="el" href="structcore_1_1Vector2.html">Vector2</a> facing)</td></tr>
+<tr class="memdesc:a241c2143642b12472d6bddb921dac0fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">La case que vise un personnage, d'après son orientation.  <br /></td></tr>
+<tr class="memitem:a9d8c1764c03821f2f58f75d0e5795e7a" id="r_a9d8c1764c03821f2f58f75d0e5795e7a"><td class="memItemLeft"><a class="el" href="structcore_1_1InteractionTarget.html">InteractionTarget</a>&#160;</td><td class="memItemRight"><a class="el" href="#a9d8c1764c03821f2f58f75d0e5795e7a">findInteractionTarget</a> (<a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> from, <a class="el" href="structcore_1_1Vector2.html">Vector2</a> facing, const <a class="el" href="classcore_1_1TileMap.html">TileMap</a> &amp;map, const std::vector&lt; <a class="el" href="structcore_1_1InteractionCandidate.html">InteractionCandidate</a> &gt; &amp;candidates, const <a class="el" href="classcore_1_1WorldFlags.html">WorldFlags</a> &amp;flags)</td></tr>
+<tr class="memdesc:a9d8c1764c03821f2f58f75d0e5795e7a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Désigne la cible d'interaction d'un personnage.  <br /></td></tr>
+<tr class="memitem:ade4da2a70cde1d986371a29343746637" id="r_ade4da2a70cde1d986371a29343746637"><td class="memItemLeft"><a class="el" href="structcore_1_1InteractionOutcome.html">InteractionOutcome</a>&#160;</td><td class="memItemRight"><a class="el" href="#ade4da2a70cde1d986371a29343746637">interact</a> (const <a class="el" href="structcore_1_1InteractionTarget.html">InteractionTarget</a> &amp;target, <a class="el" href="classcore_1_1WorldFlags.html">WorldFlags</a> &amp;flags)</td></tr>
+<tr class="memdesc:ade4da2a70cde1d986371a29343746637"><td class="mdescLeft">&#160;</td><td class="mdescRight">Résout une interaction sur une cible désignée, en levant son drapeau s'il y a lieu.  <br /></td></tr>
+<tr class="memitem:a07f40df9fbe2a910d1e99b9756220fea" id="r_a07f40df9fbe2a910d1e99b9756220fea"><td class="memItemLeft">const std::vector&lt; <a class="el" href="structcore_1_1InteractableKind.html">InteractableKind</a> &gt; &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a07f40df9fbe2a910d1e99b9756220fea">knownInteractableKinds</a> ()</td></tr>
+<tr class="memdesc:a07f40df9fbe2a910d1e99b9756220fea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les familles connues de ce lot. Le <span class="tt">LOT-15</span> et le <span class="tt">LOT-09</span> en ajouteront.  <br /></td></tr>
+<tr class="memitem:adb2706947c6f0111c0cdd008fde5779e" id="r_adb2706947c6f0111c0cdd008fde5779e"><td class="memItemLeft">std::size_t&#160;</td><td class="memItemRight"><a class="el" href="#adb2706947c6f0111c0cdd008fde5779e">spawnMapEntities</a> (<a class="el" href="classcore_1_1World.html">World</a> &amp;world, const <a class="el" href="classcore_1_1Level.html">Level</a> &amp;level, std::string_view mapName, const std::function&lt; void(<a class="el" href="structcore_1_1Entity.html">Entity</a>, const <a class="el" href="structcore_1_1MapEntity.html">MapEntity</a> &amp;)&gt; &amp;onEntity={})</td></tr>
+<tr class="memdesc:adb2706947c6f0111c0cdd008fde5779e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Peuple un <span class="tt"><a class="el" href="classcore_1_1World.html" title="Point d&#39;entrée unique de la simulation : possède les entités, les composants et les systèmes.">World</a></span> d'une <b>entité par objet</b> de la couche <span class="tt">objects</span>.  <br /></td></tr>
+<tr class="memitem:a1a6b22027beb38aaf525b6dff5d3d2b8" id="r_a1a6b22027beb38aaf525b6dff5d3d2b8"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a1a6b22027beb38aaf525b6dff5d3d2b8">keyForEntity</a> (std::string_view mapName, std::string_view entityType, int column, int row)</td></tr>
+<tr class="memdesc:a1a6b22027beb38aaf525b6dff5d3d2b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">La clé de drapeau d'une entité de carte : <span class="tt">"&lt;carte&gt;/&lt;type&gt;@&lt;colonne&gt;,&lt;ligne&gt;"</span>.  <br /></td></tr>
 <tr class="memitem:a0d231b385924c096dc5f94d17639e679" id="r_a0d231b385924c096dc5f94d17639e679"><td class="memItemLeft">std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#a0d231b385924c096dc5f94d17639e679">cameraFramingModeName</a> (<a class="el" href="#a5c6444096b9bc21a78b1f1157e9070b6">CameraFramingMode</a> mode) noexcept</td></tr>
 <tr class="memdesc:a0d231b385924c096dc5f94d17639e679"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nom JSON du mode (symétrique à <span class="tt"><a class="el" href="#acae8699b6c75742b88007ea470bf54ea" title="Reconnaît le nom JSON d&#39;un mode ; std::nullopt si non reconnu (mode inconnu, EX-LVL-004).">parseCameraFramingMode</a></span>), pour la sérialisation.  <br /></td></tr>
 <tr class="memitem:acae8699b6c75742b88007ea470bf54ea" id="r_acae8699b6c75742b88007ea470bf54ea"><td class="memItemLeft">std::optional&lt; <a class="el" href="#a5c6444096b9bc21a78b1f1157e9070b6">CameraFramingMode</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#acae8699b6c75742b88007ea470bf54ea">parseCameraFramingMode</a> (std::string_view name) noexcept</td></tr>
@@ -1563,6 +1587,39 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
 
 </div>
 </div>
+<a id="a241c2143642b12472d6bddb921dac0fa" name="a241c2143642b12472d6bddb921dac0fa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a241c2143642b12472d6bddb921dac0fa">&#9670;&#160;</a></span>aimedCell()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> core::aimedCell </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcore_1_1GridPosition.html">GridPosition</a></td>          <td class="paramname"><span class="paramname"><em>from</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcore_1_1Vector2.html">Vector2</a></td>          <td class="paramname"><span class="paramname"><em>facing</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>La case que vise un personnage, d'après son orientation. </p>
+<p>L'orientation est un vecteur libre (<span class="tt"><a class="el" href="structcore_1_1Actor.html#ada4c84a898de6c67b5d303ad876b61a0" title="Orientation courante, en vecteur unitaire du monde (y vers le bas).">core::Actor::facing</a></span>) et la case visée est <b>la voisine</b> dans la direction dominante — jamais une diagonale. Un personnage qui regarde à 30° vise la case de droite, pas celle du coin : viser en diagonale rendrait la cible imprévisible sur une manette analogique, alors que le joueur doit savoir ce qu'il désigne avant d'appuyer.</p>
+<p>Une orientation nulle ne vise rien et renvoie la case du personnage lui-même : c'est le cas d'un <span class="tt">facing</span> non initialisé, et rendre une voisine arbitraire ferait ouvrir un coffre que le joueur ne regarde pas. </p>
+
+</div>
+</div>
 <a id="a309ca7d25e940cb02037278fe41109d1" name="a309ca7d25e940cb02037278fe41109d1"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a309ca7d25e940cb02037278fe41109d1">&#9670;&#160;</a></span>allAbilities()</h2>
 
@@ -2161,6 +2218,69 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
 
 </div>
 </div>
+<a id="a9d8c1764c03821f2f58f75d0e5795e7a" name="a9d8c1764c03821f2f58f75d0e5795e7a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9d8c1764c03821f2f58f75d0e5795e7a">&#9670;&#160;</a></span>findInteractionTarget()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structcore_1_1InteractionTarget.html">InteractionTarget</a> core::findInteractionTarget </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcore_1_1GridPosition.html">GridPosition</a></td>          <td class="paramname"><span class="paramname"><em>from</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcore_1_1Vector2.html">Vector2</a></td>          <td class="paramname"><span class="paramname"><em>facing</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classcore_1_1TileMap.html">TileMap</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>map</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="structcore_1_1InteractionCandidate.html">InteractionCandidate</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>candidates</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classcore_1_1WorldFlags.html">WorldFlags</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>flags</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Désigne la cible d'interaction d'un personnage. </p>
+<p>Trois règles, et chacune répond à un critère d'acceptation du lot :</p>
+<ol type="1">
+<li><b>La cible est sur la case visée</b>, celle devant l'orientation.</li>
+<li><b>L'interaction ne traverse pas un mur</b> : si la case visée est de la matière pleine (<span class="tt"><a class="el" href="#a105a7f2ca0f25e01231a9bc1bbc36ebb" title="Indique si un type de tuile bloque le déplacement de manière statique.">core::isSolid</a></span>), il n'y a pas de cible. Un coffre derrière un mur se voit et ne s'ouvre pas — sans cette règle, un joueur ouvrirait à travers une cloison, ce qui se joue et ne se diagnostique pas.</li>
+<li><b>À plusieurs candidats, le choix est déterministe</b> : la plus proche du <b>centre</b> de la case visée, et à distance égale le plus petit indice. Sans départage, deux coffres empilés donneraient tantôt l'un tantôt l'autre selon l'ordre de parcours de l'ECS, qui n'est pas stable.</li>
+</ol>
+<p>Une cible dont le drapeau de consommation est déjà levé n'est <b>pas</b> retenue : un coffre vidé n'est plus une cible, et continuer à l'afficher comme telle promettrait au joueur quelque chose qui n'arrivera pas.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">from</td><td>Case du personnage. </td></tr>
+    <tr><td class="paramname">facing</td><td>Orientation du personnage. </td></tr>
+    <tr><td class="paramname">map</td><td>La carte, pour la règle du mur. </td></tr>
+    <tr><td class="paramname">candidates</td><td>Les entités interactives de la carte. </td></tr>
+    <tr><td class="paramname">flags</td><td>Les drapeaux de monde, pour écarter ce qui est déjà consommé. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a58d791281d7fcab412851036c03c94bd" name="a58d791281d7fcab412851036c03c94bd"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a58d791281d7fcab412851036c03c94bd">&#9670;&#160;</a></span>formatDice()</h2>
 
@@ -2337,6 +2457,30 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
 
 </div>
 </div>
+<a id="ade4da2a70cde1d986371a29343746637" name="ade4da2a70cde1d986371a29343746637"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ade4da2a70cde1d986371a29343746637">&#9670;&#160;</a></span>interact()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structcore_1_1InteractionOutcome.html">InteractionOutcome</a> core::interact </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structcore_1_1InteractionTarget.html">InteractionTarget</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>target</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classcore_1_1WorldFlags.html">WorldFlags</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>flags</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Résout une interaction sur une cible désignée, en levant son drapeau s'il y a lieu. </p>
+<p><b>C'est ici que « deux fois ne donne qu'une fois » se joue.</b> Le drapeau est levé et sa valeur de retour dit s'il était neuf ; l'appelant n'a pas à demander d'abord puis à écrire ensuite, séquence dans laquelle un second appel pourrait se glisser. </p>
+
+</div>
+</div>
 <a id="a105a7f2ca0f25e01231a9bc1bbc36ebb" name="a105a7f2ca0f25e01231a9bc1bbc36ebb"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a105a7f2ca0f25e01231a9bc1bbc36ebb">&#9670;&#160;</a></span>isSolid()</h2>
 
@@ -2405,6 +2549,76 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><span class="tt">true</span> si la densité vaut 4, 8 ou 16. </dd></dl>
+
+</div>
+</div>
+<a id="a1a6b22027beb38aaf525b6dff5d3d2b8" name="a1a6b22027beb38aaf525b6dff5d3d2b8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1a6b22027beb38aaf525b6dff5d3d2b8">&#9670;&#160;</a></span>keyForEntity()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string core::keyForEntity </td>
+          <td>(</td>
+          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>mapName</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>entityType</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>column</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>row</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>La clé de drapeau d'une entité de carte : <span class="tt">"&lt;carte&gt;/&lt;type&gt;@&lt;colonne&gt;,&lt;ligne&gt;"</span>. </p>
+<p><b>Fabriquée, jamais écrite à la main.</b> Deux coffres d'une même carte se distinguent par leur case ; deux cartes différentes ne se marchent pas dessus parce que le nom de carte ouvre la clé. Laisser l'auteur de la carte nommer le drapeau produirait tôt ou tard deux coffres partageant la même clé — et le second serait vide dès sa première ouverture, sans que rien ne l'explique.</p>
+<p>La <b>position</b> sert d'identité parce que c'est la seule chose qu'une entité de carte possède en propre et qui ne bouge pas. Corollaire assumé : déplacer un coffre dans l'éditeur le remet à neuf pour une partie déjà commencée. C'est le bon compromis — l'inverse demanderait un identifiant stable écrit dans le fichier de carte, que le <span class="tt">LOT-11</span> devrait générer et maintenir unique. </p>
+
+</div>
+</div>
+<a id="a07f40df9fbe2a910d1e99b9756220fea" name="a07f40df9fbe2a910d1e99b9756220fea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07f40df9fbe2a910d1e99b9756220fea">&#9670;&#160;</a></span>knownInteractableKinds()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::vector&lt; <a class="el" href="structcore_1_1InteractableKind.html">InteractableKind</a> &gt; &amp; core::knownInteractableKinds </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Les familles connues de ce lot. Le <span class="tt">LOT-15</span> et le <span class="tt">LOT-09</span> en ajouteront. </p>
 
 </div>
 </div>
@@ -3865,6 +4079,51 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="adb2706947c6f0111c0cdd008fde5779e" name="adb2706947c6f0111c0cdd008fde5779e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adb2706947c6f0111c0cdd008fde5779e">&#9670;&#160;</a></span>spawnMapEntities()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::size_t core::spawnMapEntities </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classcore_1_1World.html">World</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>world</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classcore_1_1Level.html">Level</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>level</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>mapName</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::function&lt; void(<a class="el" href="structcore_1_1Entity.html">Entity</a>, const <a class="el" href="structcore_1_1MapEntity.html">MapEntity</a> &amp;)&gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>onEntity</em></span><span class="paramdefsep"> = </span><span class="paramdefval">{}</span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Peuple un <span class="tt"><a class="el" href="classcore_1_1World.html" title="Point d&#39;entrée unique de la simulation : possède les entités, les composants et les systèmes.">World</a></span> d'une <b>entité par objet</b> de la couche <span class="tt">objects</span>. </p>
+<p>Chaque <span class="tt"><a class="el" href="structcore_1_1MapEntity.html" title="Une entité de carte — ce qui n&#39;est pas une tuile.">core::MapEntity</a></span> devient une entité portant un <span class="tt"><a class="el" href="structcore_1_1Transform.html" title="Position, échelle et rotation d&#39;une entité, en unités monde (EX-ARCH-020).">Transform</a></span> (sa case, en unités monde) et, si son type est connu, un <span class="tt"><a class="el" href="structcore_1_1Interactable.html" title="Marque une entité comme cible d&#39;interaction et porte de quoi la désigner.">Interactable</a></span>. Un type <b>inconnu</b> produit tout de même une entité : c'est une erreur de conception tolérée, pas une carte invalide (<span class="tt">EX-NFR-040</span>), et la refuser ferait disparaître un objet de la carte sans que l'auteur comprenne pourquoi.</p>
+<p>Le nom de carte entre dans la <b>clé de drapeau</b> de chaque entité consommable : deux cartes peuvent porter un coffre à la même case sans se marcher dessus.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">world</td><td>Monde à peupler. </td></tr>
+    <tr><td class="paramname">level</td><td>Niveau source. </td></tr>
+    <tr><td class="paramname">mapName</td><td>Nom de la carte, pour les clés de drapeau. </td></tr>
+    <tr><td class="paramname">onEntity</td><td>Rappel invoqué après chaque création, avec l'entité et l'objet dont elle vient. Permet à la présentation d'y attacher ses propres composants sans que <span class="tt">Core</span> connaisse l'habillage (<span class="tt">EX-NFR-011</span>) — même principe d'injection que <span class="tt"><a class="el" href="#a69ac6b2c5ca32686a14824d1f1c04b2a" title="Peuple un World d&#39;une entité par tuile non vide du niveau.">buildLevelScene</a></span>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Le nombre d'entités créées. </dd></dl>
 
 </div>
 </div>

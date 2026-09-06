@@ -9,6 +9,11 @@ var searchData=
   ['igamemodepasses_6',['IGameModePasses',['../classhmi_1_1IGameModePasses.html',1,'hmi']]],
   ['ilogsink_7',['ILogSink',['../classcore_1_1ILogSink.html',1,'core']]],
   ['inputstate_8',['InputState',['../classhmi_1_1InputState.html',1,'hmi']]],
-  ['isystem_9',['ISystem',['../classcore_1_1ISystem.html',1,'core']]],
-  ['iterator_10',['Iterator',['../classcore_1_1View_1_1Iterator.html',1,'core::View']]]
+  ['interactable_9',['Interactable',['../structcore_1_1Interactable.html',1,'core']]],
+  ['interactablekind_10',['InteractableKind',['../structcore_1_1InteractableKind.html',1,'core']]],
+  ['interactioncandidate_11',['InteractionCandidate',['../structcore_1_1InteractionCandidate.html',1,'core']]],
+  ['interactionoutcome_12',['InteractionOutcome',['../structcore_1_1InteractionOutcome.html',1,'core']]],
+  ['interactiontarget_13',['InteractionTarget',['../structcore_1_1InteractionTarget.html',1,'core']]],
+  ['isystem_14',['ISystem',['../classcore_1_1ISystem.html',1,'core']]],
+  ['iterator_15',['Iterator',['../classcore_1_1View_1_1Iterator.html',1,'core::View']]]
 ];

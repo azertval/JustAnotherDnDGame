@@ -96,6 +96,11 @@ var hierarchy =
       [ "core::MemoryLogSink", "classcore_1_1MemoryLogSink.html", null ]
     ] ],
     [ "hmi::InputState", "classhmi_1_1InputState.html", null ],
+    [ "core::Interactable", "structcore_1_1Interactable.html", null ],
+    [ "core::InteractableKind", "structcore_1_1InteractableKind.html", null ],
+    [ "core::InteractionCandidate", "structcore_1_1InteractionCandidate.html", null ],
+    [ "core::InteractionOutcome", "structcore_1_1InteractionOutcome.html", null ],
+    [ "core::InteractionTarget", "structcore_1_1InteractionTarget.html", null ],
     [ "core::ISystem", "classcore_1_1ISystem.html", [
       [ "core::AnimationSystem", "classcore_1_1AnimationSystem.html", null ],
       [ "core::MovementSystem", "classcore_1_1MovementSystem.html", null ]
@@ -267,5 +272,6 @@ var hierarchy =
     [ "hmi::SpriteBatch::Vertex", "structhmi_1_1SpriteBatch_1_1Vertex.html", null ],
     [ "core::View&lt; Components &gt;", "classcore_1_1View.html", null ],
     [ "hmi::WorkspaceDressing", "structhmi_1_1WorkspaceDressing.html", null ],
-    [ "core::World", "classcore_1_1World.html", null ]
+    [ "core::World", "classcore_1_1World.html", null ],
+    [ "core::WorldFlags", "classcore_1_1WorldFlags.html", null ]
 ];

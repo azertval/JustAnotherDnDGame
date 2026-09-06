@@ -93,9 +93,9 @@ $(function(){initNavTree('cahiertest.html','',''); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md_CahierTest"></a></p>
-<p><b>987 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
+<p><b>996 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md5"></a>
-Tests unitaires (972)</h1>
+Tests unitaires (981)</h1>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md6"></a>
 Core</h2>
 <p><b><span class="tt"><a class="el" href="test__core_8cpp.html" title="Tests unitaires de la bibliothèque Core (amorçage).">test_core.cpp</a></span></b></p>
@@ -704,7 +704,80 @@ Vérifie que <span class="tt">log</span> vaut <span class="tt">(std::vector&lt;i
 Vérifie que <span class="tt">visited.front()</span> vaut <span class="tt">both</span>.  </td></tr>
 </table>
 <h3 class="doxsection"><a class="anchor" id="autotoc_md10"></a>
-Gameplay (10)</h3>
+Gameplay (19)</h3>
+<p><b><span class="tt"><a class="el" href="test__interaction_8cpp.html" title="Tests des entites de carte et de l&#39;interaction (LOT-10).">test_interaction.cpp</a></span></b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>InteractionTest.LaCaseViseeSuitLaDirectionDominante</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__interaction_8cpp.html" title="Tests des entites de carte et de l&#39;interaction (LOT-10).">Source/Test/Unit/Core/Gameplay/test_interaction.cpp</a>:69</span></sub>  </td><td class="markdownTableBodyNone">La case visee suit la direction dominante de l'orientation.  </td><td class="markdownTableBodyNone">1. Viser avec quatre orientations cardinales, puis une orientation a 30 degres.<br  />
+ 2. Viser avec une orientation nulle.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a241c2143642b12472d6bddb921dac0fa" title="La case que vise un personnage, d&#39;après son orientation.">core::aimedCell</a>(depart, {1.0F, 0.0F})</span> vaut <span class="tt">(<a class="el" href="structcore_1_1GridPosition.html" title="Position d&#39;une case dans la grille d&#39;un niveau, en coordonnées entières.">core::GridPosition</a>{3, 2})</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a241c2143642b12472d6bddb921dac0fa" title="La case que vise un personnage, d&#39;après son orientation.">core::aimedCell</a>(depart, {-1.0F, 0.0F})</span> vaut <span class="tt">(<a class="el" href="structcore_1_1GridPosition.html" title="Position d&#39;une case dans la grille d&#39;un niveau, en coordonnées entières.">core::GridPosition</a>{1, 2})</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a241c2143642b12472d6bddb921dac0fa" title="La case que vise un personnage, d&#39;après son orientation.">core::aimedCell</a>(depart, {0.0F, 1.0F})</span> vaut <span class="tt">(<a class="el" href="structcore_1_1GridPosition.html" title="Position d&#39;une case dans la grille d&#39;un niveau, en coordonnées entières.">core::GridPosition</a>{2, 3})</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a241c2143642b12472d6bddb921dac0fa" title="La case que vise un personnage, d&#39;après son orientation.">core::aimedCell</a>(depart, {0.0F, -1.0F})</span> vaut <span class="tt">(<a class="el" href="structcore_1_1GridPosition.html" title="Position d&#39;une case dans la grille d&#39;un niveau, en coordonnées entières.">core::GridPosition</a>{2, 1})</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a241c2143642b12472d6bddb921dac0fa" title="La case que vise un personnage, d&#39;après son orientation.">core::aimedCell</a>(depart, {0.866F, 0.5F})</span> vaut <span class="tt">(<a class="el" href="structcore_1_1GridPosition.html" title="Position d&#39;une case dans la grille d&#39;un niveau, en coordonnées entières.">core::GridPosition</a>{3, 2})</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a241c2143642b12472d6bddb921dac0fa" title="La case que vise un personnage, d&#39;après son orientation.">core::aimedCell</a>(depart, {0.5F, 0.866F})</span> vaut <span class="tt">(<a class="el" href="structcore_1_1GridPosition.html" title="Position d&#39;une case dans la grille d&#39;un niveau, en coordonnées entières.">core::GridPosition</a>{2, 3})</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a241c2143642b12472d6bddb921dac0fa" title="La case que vise un personnage, d&#39;après son orientation.">core::aimedCell</a>(depart, {0.0F, 0.0F})</span> vaut <span class="tt">depart</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>InteractionTest.UnCoffreNeDonneSonButinQuUneFois</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__interaction_8cpp.html" title="Tests des entites de carte et de l&#39;interaction (LOT-10).">Source/Test/Unit/Core/Gameplay/test_interaction.cpp</a>:97</span></sub>  </td><td class="markdownTableBodyNone">Un coffre ne donne son butin qu'a la premiere ouverture.  </td><td class="markdownTableBodyNone">1. Interagir deux fois avec le meme coffre.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">premiere.found()</span> est vrai.<br  />
+Vérifie que <span class="tt">butin.happened</span> est vrai.<br  />
+Vérifie que <span class="tt">butin.consumed</span> est vrai.<br  />
+Vérifie que <span class="tt">butin.type</span> vaut <span class="tt">"chest"</span>.<br  />
+Vérifie que <span class="tt">seconde.found()</span> est faux.<br  />
+Vérifie que <span class="tt">rien.happened</span> est faux.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>InteractionTest.LEtatDUnCoffreSurvitAUnAllerRetourDeCarte</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__interaction_8cpp.html" title="Tests des entites de carte et de l&#39;interaction (LOT-10).">Source/Test/Unit/Core/Gameplay/test_interaction.cpp</a>:128</span></sub>  </td><td class="markdownTableBodyNone">Un coffre ouvert le reste apres avoir quitte la carte et y etre revenu.  </td><td class="markdownTableBodyNone">1. Ouvrir un coffre, puis DETRUIRE les entites de la carte et les recreer depuis la couche objects, comme le fait un changement de carte.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacecore.html#adb2706947c6f0111c0cdd008fde5779e" title="Peuple un World d&#39;une entité par objet de la couche objects.">core::spawnMapEntities</a>(monde, niveau, niveau.name())</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">objets.size()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">cible.found()</span> est vrai.<br  />
+Vérifie que <span class="tt">core::interact(cible, drapeaux).consumed</span> est vrai.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#adb2706947c6f0111c0cdd008fde5779e" title="Peuple un World d&#39;une entité par objet de la couche objects.">core::spawnMapEntities</a>(monde, niveau, niveau.name())</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">objets.size()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">cible.found()</span> est faux.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>InteractionTest.LInteractionNeTraversePasUnMur</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__interaction_8cpp.html" title="Tests des entites de carte et de l&#39;interaction (LOT-10).">Source/Test/Unit/Core/Gameplay/test_interaction.cpp</a>:184</span></sub>  </td><td class="markdownTableBodyNone">Un objet place sur une case pleine n'est pas atteignable.  </td><td class="markdownTableBodyNone">1. Poser un coffre sur une case, puis rendre cette case pleine.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a9d8c1764c03821f2f58f75d0e5795e7a" title="Désigne la cible d&#39;interaction d&#39;un personnage.">core::findInteractionTarget</a>({2, 2}, {1.0F, 0.0F}, carte, candidats(objets), drapeaux) .found()</span> est vrai.<br  />
+Vérifie que <span class="tt">derriereLeMur.found()</span> est faux.<br  />
+Vérifie que <span class="tt">derriereLeMur.aimedCell</span> vaut <span class="tt">(<a class="el" href="structcore_1_1GridPosition.html" title="Position d&#39;une case dans la grille d&#39;un niveau, en coordonnées entières.">core::GridPosition</a>{3, 2})</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>InteractionTest.LaCibleEstDeterministeAEgalite</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__interaction_8cpp.html" title="Tests des entites de carte et de l&#39;interaction (LOT-10).">Source/Test/Unit/Core/Gameplay/test_interaction.cpp</a>:211</span></sub>  </td><td class="markdownTableBodyNone">Deux objets sur la meme case designent toujours le meme.  </td><td class="markdownTableBodyNone">1. Poser deux objets sur la case visee et designer la cible dix fois.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">cible.found()</span> est vrai.<br  />
+Vérifie que <span class="tt">cible.index</span> vaut <span class="tt">0U</span>.<br  />
+Vérifie que <span class="tt">cible.interactable-&gt;type</span> vaut <span class="tt">"chest"</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>InteractionTest.UnPanneauSeRelitIndefiniment</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__interaction_8cpp.html" title="Tests des entites de carte et de l&#39;interaction (LOT-10).">Source/Test/Unit/Core/Gameplay/test_interaction.cpp</a>:236</span></sub>  </td><td class="markdownTableBodyNone">Une entite non consommable reste une cible apres interaction.  </td><td class="markdownTableBodyNone">1. Interagir trois fois avec un panneau.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">cible.found()</span> est vrai.<br  />
+Vérifie que <span class="tt">lecture.happened</span> est vrai.<br  />
+Vérifie que <span class="tt">lecture.consumed</span> est faux.<br  />
+Vérifie que <span class="tt">lecture.promptKey</span> vaut <span class="tt">"interaction.sign"</span>.<br  />
+Vérifie que <span class="tt">drapeaux.size()</span> vaut <span class="tt">0U</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>InteractionTest.DeuxCartesNeSeMarchentPasDessus</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__interaction_8cpp.html" title="Tests des entites de carte et de l&#39;interaction (LOT-10).">Source/Test/Unit/Core/Gameplay/test_interaction.cpp</a>:262</span></sub>  </td><td class="markdownTableBodyNone">Deux coffres de cartes differentes a la meme case ont des drapeaux distincts.  </td><td class="markdownTableBodyNone">1. Fabriquer la cle de deux coffres a la case (3, 2), sur deux cartes.<br  />
+ 2. Ouvrir le premier.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">cleVillage</span> diffère de <span class="tt">cleDonjon</span>.<br  />
+Vérifie que <span class="tt">cible.found()</span> est vrai.<br  />
+Vérifie que <span class="tt">core::interact(cible, drapeaux).consumed</span> est vrai.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a9d8c1764c03821f2f58f75d0e5795e7a" title="Désigne la cible d&#39;interaction d&#39;un personnage.">core::findInteractionTarget</a>({2, 2}, {1.0F, 0.0F}, carte, candidats(auDonjon), drapeaux) .found()</span> est vrai.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>InteractionTest.UnTypeInconnuProduitUneEntiteNonInteractive</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__interaction_8cpp.html" title="Tests des entites de carte et de l&#39;interaction (LOT-10).">Source/Test/Unit/Core/Gameplay/test_interaction.cpp</a>:294</span></sub>  </td><td class="markdownTableBodyNone">Un objet de type inconnu apparait sur la carte sans etre interactif.  </td><td class="markdownTableBodyNone">1. Peupler un monde depuis une couche objects portant un type inconnu.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacecore.html#adb2706947c6f0111c0cdd008fde5779e" title="Peuple un World d&#39;une entité par objet de la couche objects.">core::spawnMapEntities</a>(monde, niveau, niveau.name())</span> vaut <span class="tt">2U</span>.<br  />
+Vérifie que <span class="tt">interactif.type</span> vaut <span class="tt">"chest"</span>.<br  />
+Vérifie que <span class="tt">interactifs</span> vaut <span class="tt">1U</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>InteractionTest.LesDrapeauxSeRelisentTries</b> (Mineur)<br  />
+<sub><span class="tt"><a class="el" href="test__interaction_8cpp.html" title="Tests des entites de carte et de l&#39;interaction (LOT-10).">Source/Test/Unit/Core/Gameplay/test_interaction.cpp</a>:322</span></sub>  </td><td class="markdownTableBodyNone">Les drapeaux acquis se relisent dans un ordre stable.  </td><td class="markdownTableBodyNone">1. Lever trois drapeaux dans le desordre, puis les relire.<br  />
+ 2. Lever deux fois le meme.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">drapeaux.set("village/chest@3,2")</span> est vrai.<br  />
+Vérifie que <span class="tt">drapeaux.set("donjon/chest@1,1")</span> est vrai.<br  />
+Vérifie que <span class="tt">drapeaux.set("village/chest@0,0")</span> est vrai.<br  />
+Vérifie que <span class="tt">drapeaux.set("village/chest@3,2")</span> est faux.<br  />
+Vérifie que <span class="tt">drapeaux.size()</span> vaut <span class="tt">3U</span>.<br  />
+Vérifie que <span class="tt">tous.size()</span> vaut <span class="tt">3U</span>.<br  />
+Vérifie que <span class="tt">std::is_sorted(tous.begin(), tous.end())</span> est vrai.<br  />
+Vérifie que <span class="tt">drapeaux.isSet("donjon/chest@1,1")</span> est faux.<br  />
+Vérifie que <span class="tt">drapeaux.size()</span> vaut <span class="tt">2U</span>.  </td></tr>
+</table>
 <p><b><span class="tt"><a class="el" href="test__mechanism__controller_8cpp.html" title="Tests unitaires des mécanismes interrupteur↔porte (MechanismController).">test_mechanism_controller.cpp</a></span></b></p>
 <table class="markdownTable">
 <tr class="markdownTableHead">

@@ -38,10 +38,13 @@ var searchData=
   ['world_207_35',['World (7)',['../cahiertest.html#autotoc_md16',1,'']]],
   ['world_2ecpp_36',['World.cpp',['../World_8cpp.html',1,'']]],
   ['world_2eh_37',['World.h',['../World_8h.html',1,'']]],
-  ['worldpositionat_38',['worldPositionAt',['../classhmi_1_1GameViewport.html#ac71069276d05341fffe54f5d071ef5d1',1,'hmi::GameViewport']]],
-  ['worldtoscreen_39',['worldToScreen',['../classhmi_1_1Camera2D.html#a2f872fc80538490f888f3eef52498dfb',1,'hmi::Camera2D']]],
-  ['wouldresizedrop_40',['wouldResizeDrop',['../classhmi_1_1GameViewport.html#aca00d4e9745dab6b1f0139407b78bd62',1,'hmi::GameViewport']]],
-  ['wouldresizedropcontent_41',['wouldResizeDropContent',['../classcore_1_1LevelDraft.html#a7bb1c529de03797c0e158a1f13b39084',1,'core::LevelDraft']]],
-  ['write_42',['write',['../classcore_1_1ConsoleLogSink.html#a832f603dba5ba9ecaa75b1314ed6b84d',1,'core::ConsoleLogSink::write()'],['../classcore_1_1FileLogSink.html#a5edba3663d5a45d0e7de1ddf5a9caf03',1,'core::FileLogSink::write()'],['../classcore_1_1ILogSink.html#ab0e09a7994cb3ee96744c6ebb1755585',1,'core::ILogSink::write()'],['../classcore_1_1MemoryLogSink.html#a7e1c23f28325a73a36c7b837759c0c05',1,'core::MemoryLogSink::write()']]],
-  ['writeregion_43',['writeRegion',['../namespacehmi.html#a5c0696a5aefa22650536ad018edc2d72',1,'hmi']]]
+  ['worldflags_38',['WorldFlags',['../classcore_1_1WorldFlags.html',1,'core']]],
+  ['worldflags_2ecpp_39',['WorldFlags.cpp',['../WorldFlags_8cpp.html',1,'']]],
+  ['worldflags_2eh_40',['WorldFlags.h',['../WorldFlags_8h.html',1,'']]],
+  ['worldpositionat_41',['worldPositionAt',['../classhmi_1_1GameViewport.html#ac71069276d05341fffe54f5d071ef5d1',1,'hmi::GameViewport']]],
+  ['worldtoscreen_42',['worldToScreen',['../classhmi_1_1Camera2D.html#a2f872fc80538490f888f3eef52498dfb',1,'hmi::Camera2D']]],
+  ['wouldresizedrop_43',['wouldResizeDrop',['../classhmi_1_1GameViewport.html#aca00d4e9745dab6b1f0139407b78bd62',1,'hmi::GameViewport']]],
+  ['wouldresizedropcontent_44',['wouldResizeDropContent',['../classcore_1_1LevelDraft.html#a7bb1c529de03797c0e158a1f13b39084',1,'core::LevelDraft']]],
+  ['write_45',['write',['../classcore_1_1ConsoleLogSink.html#a832f603dba5ba9ecaa75b1314ed6b84d',1,'core::ConsoleLogSink::write()'],['../classcore_1_1FileLogSink.html#a5edba3663d5a45d0e7de1ddf5a9caf03',1,'core::FileLogSink::write()'],['../classcore_1_1ILogSink.html#ab0e09a7994cb3ee96744c6ebb1755585',1,'core::ILogSink::write()'],['../classcore_1_1MemoryLogSink.html#a7e1c23f28325a73a36c7b837759c0c05',1,'core::MemoryLogSink::write()']]],
+  ['writeregion_46',['writeRegion',['../namespacehmi.html#a5c0696a5aefa22650536ad018edc2d72',1,'hmi']]]
 ];

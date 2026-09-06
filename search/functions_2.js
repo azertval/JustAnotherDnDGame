@@ -24,7 +24,7 @@ var searchData=
   ['clampedcell_21',['clampedCell',['../classhmi_1_1GameViewport.html#a078cc498875632716eaea7c6383171d0',1,'hmi::GameViewport']]],
   ['clamppixelcanvaszoom_22',['clampPixelCanvasZoom',['../namespacehmi.html#a072a077fce13e73032619656dbe577b0',1,'hmi']]],
   ['clampplaneoffset_23',['clampPlaneOffset',['../namespacehmi.html#a45c11c424da11f9afd18672900fa718a',1,'hmi']]],
-  ['clear_24',['clear',['../classcore_1_1MemoryLogSink.html#a9bfb2629320e9647a66759b94bbf3e55',1,'core::MemoryLogSink::clear()'],['../classcore_1_1ParticleSystem.html#abe39a5b8ec999489486f79aba89b3583',1,'core::ParticleSystem::clear()'],['../classhmi_1_1ComposedScene.html#ab51e478d9d4ad48ceeaac4f1e384d1ae',1,'hmi::ComposedScene::clear()'],['../classhmi_1_1QuadRecorder.html#a137be42ad209fbb4f105582f2a9955e3',1,'hmi::QuadRecorder::clear()']]],
+  ['clear_24',['clear',['../classcore_1_1MemoryLogSink.html#a9bfb2629320e9647a66759b94bbf3e55',1,'core::MemoryLogSink::clear()'],['../classcore_1_1ParticleSystem.html#abe39a5b8ec999489486f79aba89b3583',1,'core::ParticleSystem::clear()'],['../classcore_1_1WorldFlags.html#a47a2402515448a7113fbfb9792a75556',1,'core::WorldFlags::clear()'],['../classhmi_1_1ComposedScene.html#ab51e478d9d4ad48ceeaac4f1e384d1ae',1,'hmi::ComposedScene::clear()'],['../classhmi_1_1QuadRecorder.html#a137be42ad209fbb4f105582f2a9955e3',1,'hmi::QuadRecorder::clear()']]],
   ['clearassignment_25',['clearAssignment',['../classhmi_1_1SkinCatalog.html#ae46642f5bab819040f3934c5aac39554',1,'hmi::SkinCatalog']]],
   ['clearcache_26',['clearCache',['../classhmi_1_1AssetThumbnailView.html#a75510601d7c608bd13ce33ab360679a8',1,'hmi::AssetThumbnailView']]],
   ['clearsinks_27',['clearSinks',['../classcore_1_1Logger.html#a14d080b7aea34be62b6bd98897378e97',1,'core::Logger']]],
