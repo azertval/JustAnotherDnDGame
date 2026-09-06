@@ -4,6 +4,8 @@ var dir_de25d93b7b4ef75f45504127491f58b5 =
     [ "Ability.h", "Ability_8h.html", "Ability_8h" ],
     [ "Bestiary.cpp", "Bestiary_8cpp.html", "Bestiary_8cpp" ],
     [ "Bestiary.h", "Bestiary_8h.html", "Bestiary_8h" ],
+    [ "CharacterOptions.cpp", "CharacterOptions_8cpp.html", "CharacterOptions_8cpp" ],
+    [ "CharacterOptions.h", "CharacterOptions_8h.html", "CharacterOptions_8h" ],
     [ "Check.cpp", "Check_8cpp.html", "Check_8cpp" ],
     [ "Check.h", "Check_8h.html", "Check_8h" ],
     [ "Dice.cpp", "Dice_8cpp.html", "Dice_8cpp" ],

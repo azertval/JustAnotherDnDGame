@@ -93,6 +93,7 @@ var searchData=
   ['proceduralplayerclipnames_90',['proceduralPlayerClipNames',['../namespacehmi.html#ad9d86326e8a24c761d2b3c04e378a0a1',1,'hmi']]],
   ['progression_91',['Progression',['../classhmi_1_1Progression.html#aabc23a60b62e92dcc21b029751472847',1,'hmi::Progression']]],
   ['projectionmatrix_92',['projectionMatrix',['../classhmi_1_1Camera2D.html#ae4d184982026b7f61e3507c0d264321b',1,'hmi::Camera2D']]],
-  ['push_93',['push',['../classhmi_1_1PixelHistory.html#a7770d08d847df91ee22e4e9100cadff8',1,'hmi::PixelHistory']]],
-  ['pushundo_94',['pushUndo',['../classcore_1_1LevelDraft.html#a949cfb0148244f0ba05257d4f523f51d',1,'core::LevelDraft']]]
+  ['provisionalclassids_93',['provisionalClassIds',['../structcore_1_1CharacterOptions.html#a73428d368e617da75c42c0959af697b4',1,'core::CharacterOptions']]],
+  ['push_94',['push',['../classhmi_1_1PixelHistory.html#a7770d08d847df91ee22e4e9100cadff8',1,'hmi::PixelHistory']]],
+  ['pushundo_95',['pushUndo',['../classcore_1_1LevelDraft.html#a949cfb0148244f0ba05257d4f523f51d',1,'core::LevelDraft']]]
 ];

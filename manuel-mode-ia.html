@@ -95,12 +95,12 @@ $(function(){initNavTree('manuel-mode-ia.html','',''); });
 <div class="textblock"><p><a class="anchor" id="md_Manuel_2mode-ia"></a></p>
 <p>Le jeu embarque une <b>IA capable d'apprendre à terminer un niveau toute seule</b>. Elle n'a rien d'un robot programmé à l'avance : elle commence en appuyant sur les touches au hasard, et s'améliore uniquement en constatant ce qui la rapproche de la sortie.</p>
 <p>Cette page s'adresse aux joueurs curieux — aucune connaissance en programmation n'est nécessaire. L'écran s'ouvre depuis l'entrée <b>Mode IA</b> du menu principal.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md660"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md673"></a>
 Ce que fait l'IA, en une phrase</h1>
 <p>Elle rejoue le même niveau des milliers de fois, garde ce qui marche, et recommence. Rien n'est calculé pendant que vous regardez : ce que vous voyez à la fin est l'<b>enregistrement</b> d'une partie qu'elle a réellement réussie, rejoué touche par touche.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md661"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md674"></a>
 Les trois onglets</h1>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md662"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md675"></a>
 Entraînement</h2>
 <p>Vous choisissez un <b>niveau</b> et un <b>algorithme</b>, puis vous lancez. Un tableau se remplit au fur et à mesure : chaque ligne est une étape de l'apprentissage, avec le meilleur score obtenu, la moyenne, et le pourcentage de tentatives réussies.</p>
 <p>Les quatre algorithmes disponibles n'apprennent pas de la même façon :</p>
@@ -119,7 +119,7 @@ Entraînement</h2>
 <p>L'entraînement peut durer longtemps. Le bouton <b>Arrêter</b> l'interrompt proprement à la fin de l'étape en cours : le meilleur résultat obtenu jusque-là reste sauvegardé.</p>
 <p><b>Voir en jeu</b> rejoue dans la scène du niveau la meilleure tentative du moment. C'est le moyen le plus parlant de constater les progrès : au début l'IA meurt tout de suite, puis elle apprend à sauter, puis à contourner, puis à finir.</p>
 <p>À la fin d'un entraînement, un bouton <b>Ouvrir le dossier du run</b> donne accès aux fichiers produits (le modèle entraîné, l'historique complet en CSV, la configuration effectivement utilisée).</p>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md663"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md676"></a>
 Les réglages de l'onglet Entraînement</h3>
 <p>L'écran n'affiche que les réglages utiles à l'algorithme choisi — sélectionner <b>DQN</b> fait apparaître son propre groupe de réglages avancés, par exemple, invisible pour les trois autres algorithmes.</p>
 <table class="markdownTable">
@@ -172,30 +172,30 @@ Les réglages de l'onglet Entraînement</h3>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">Groupe DQN avancé  </td><td class="markdownTableBodyNone">DQN uniquement  </td><td class="markdownTableBodyNone">Réglages de la mémoire des parties passées que DQN rejoue mentalement (capacité, taille des lots, rythme des mises à jour) et de son exploration (probabilité de tenter un mouvement au hasard plutôt que celui qu'elle croit le meilleur, décroissante au fil de l'entraînement).  </td></tr>
 </table>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md664"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md677"></a>
 Comment fonctionne la population (algorithme Évolutif)</h3>
 <p>À chaque étape, la population entière (sa taille est le réglage ci-dessus) rejoue le niveau une fois chacune. Le meilleur joueur de l'étape est conservé tel quel pour l'étape suivante — il ne peut jamais être perdu. Le reste de la population suivante est reconstitué en tirant au sort des « parents » parmi les meilleurs de l'étape (les plus mauvais ont moins de chances d'être choisis), en mélangeant leurs réflexes, puis en y appliquant le taux et la force de mutation ci-dessus. L'étape suivante rejoue alors avec cette nouvelle population, et ainsi de suite jusqu'à ce qu'un joueur termine le niveau de façon stable pendant le nombre d'étapes exigé, ou jusqu'au plafond de générations — deux réglages de l'écran.</p>
 <p>Pendant l'entraînement, l'indicateur <b>Générations stables</b> montre où en est cette série (par exemple « 3 / 5 »), et une estimation du <b>temps restant</b> s'affiche sous la barre de progression. Pour l'algorithme DQN, l'indicateur <b>Epsilon courant</b> montre la probabilité, décroissante, que l'IA tente encore un mouvement au hasard.</p>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md665"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md678"></a>
 Enregistrer et réutiliser des réglages</h3>
 <p>Trois boutons, sous les réglages : <b>Enregistrer la configuration</b> écrit tous les réglages dans un fichier ; <b>Charger une configuration</b> les relit ; <b>Réinitialiser aux défauts</b> revient aux valeurs d'origine. C'est le même format de fichier que celui déposé dans chaque dossier de run — donc l'onglet Validation propose aussi <b>Reprendre les réglages de ce run</b>, qui recharge dans l'onglet Entraînement les réglages exacts d'un entraînement passé, pour le relancer à l'identique ou n'en faire varier qu'un seul.</p>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md666"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md679"></a>
 Le fichier <span class="tt">stats.csv</span></h3>
 <p>Chaque étape écrit une ligne dans un fichier <span class="tt">stats.csv</span> (une ligne par étape, jamais par joueur individuel) : c'est ce qui alimente le tableau et le graphique de suivi pendant l'entraînement, et ce qui reste consultable après coup depuis le dossier du run. Ce fichier est toujours écrit — son coût ne dépend pas de la taille de la population (une population de 500 ne produit pas plus de lignes qu'une population de 32, seulement plus de calcul par étape).</p>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md667"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md680"></a>
 Traces du moteur pendant l'entraînement</h3>
 <p>Séparément de ce fichier <span class="tt">stats.csv</span>, le moteur du jeu journalise lui-même certains événements (chargement de niveau, déclenchement d'un mécanisme…) — utile pendant une partie normale, mais chaque tentative d'un individu pendant l'entraînement rejoue le niveau depuis le début, ce qui produisait auparavant une trace par tentative, sans rapport avec une partie réellement jouée, et ralentissait l'entraînement pour une grande population. Ceci est désormais automatique : le jeu réduit lui-même ces traces le temps d'un entraînement ou d'une évaluation, sans réglage à faire.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md668"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md681"></a>
 Validation &amp; sauvegarde</h2>
 <p>Reprend un entraînement passé et mesure ce qu'il vaut vraiment, en le faisant rejouer plusieurs fois d'affilée. On y lit le taux de réussite et le nombre de pas moyen — un modèle qui gagne une fois sur deux n'est pas un modèle qui a compris le niveau.</p>
 <p>La mesure tourne en arrière-plan : la fenêtre reste utilisable, une barre montre l'avancement, et le bouton <b>Annuler</b> l'interrompt à la fin de la répétition en cours (les répétitions déjà jouées restent comptées).</p>
 <p>Choisir un entraînement dans la liste remplit le modèle et le niveau, mais <b>rien n'oblige à les garder</b> : mesurer un modèle sur un <em>autre</em> niveau que celui qui l'a entraîné dit s'il a compris quelque chose de général ou seulement appris un tableau par cœur. Un modèle sauvegardé ailleurs peut aussi être ouvert directement.</p>
 <p>Les réglages de mesure sont le nombre de <b>répétitions</b>, le <b>budget de pas</b> au-delà duquel un essai est abandonné, la <b>graine</b> (même graine, mêmes essais), et le <b>mode de décodage</b> : <em>argmax</em> joue toujours le coup jugé le meilleur, <em>stochastic</em> tire au sort selon les préférences du modèle. <b>Exporter le rapport CSV</b> enregistre le résultat pour le comparer ailleurs.</p>
 <p><b>Exporter comme rejeu publié</b> refait jouer le modèle et enregistre la partie dans <span class="tt">Elements/Replays/</span>, d'où l'onglet Rejeu la relit. Un rejeu publié ne peut être qu'une réussite : si le modèle ne termine pas le niveau, le jeu vous le dit et n'écrit rien.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md669"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md682"></a>
 Rejeu</h2>
 <p>Liste les parties enregistrées livrées avec le jeu, et les rejoue. Un enregistrement est lié au niveau exact sur lequel il a été produit : si ce niveau a été modifié depuis, le jeu <b>refuse</b> de le rejouer plutôt que de vous montrer une partie qui déraille au bout de dix secondes.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md670"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md683"></a>
 Questions fréquentes</h1>
 <p><b>L'IA triche-t-elle ?</b> Non. Elle joue avec les mêmes touches que vous, dans le même moteur, à la même cadence. Elle voit ce qui l'entoure sur quelques cases, sa propre vitesse, et l'état des mécanismes proches — pas le plan du niveau.</p>
 <p><b>Pourquoi l'entraînement est-il lent ?</b> Parce qu'elle apprend en essayant. Les premiers milliers de tentatives servent surtout à découvrir que tomber dans le vide est une mauvaise idée.</p>

@@ -1,5 +1,8 @@
 var NAVTREEINDEX10 =
 {
+"classhmi_1_1KeybindingsWidget.html#abbbf90c29c119c04185ede57315bd7db":[12,0,1,138,4],
+"classhmi_1_1KeybindingsWidget.html#ac1abe98752f61be32fa6f294f68d524f":[11,0,1,138,8],
+"classhmi_1_1KeybindingsWidget.html#ac1abe98752f61be32fa6f294f68d524f":[12,0,1,138,8],
 "classhmi_1_1KeybindingsWidget.html#adfb3f1bc4826280f3de23a4ad75de2f6":[11,0,1,138,1],
 "classhmi_1_1KeybindingsWidget.html#adfb3f1bc4826280f3de23a4ad75de2f6":[12,0,1,138,1],
 "classhmi_1_1KeybindingsWidget.html#adfd1eefdf57570e76886ba515b64035a":[11,0,1,138,6],
@@ -246,8 +249,5 @@ var NAVTREEINDEX10 =
 "classhmi_1_1MainWindow.html#a1ed419815e2ff1739411e9b7597f6734":[12,0,1,143,55],
 "classhmi_1_1MainWindow.html#a1ed57ff25b1be1c311886896b1ae444f":[11,0,1,143,137],
 "classhmi_1_1MainWindow.html#a1ed57ff25b1be1c311886896b1ae444f":[12,0,1,143,137],
-"classhmi_1_1MainWindow.html#a23d7033f2e1cfe842e9d3c9f6f6f6db8":[11,0,1,143,72],
-"classhmi_1_1MainWindow.html#a23d7033f2e1cfe842e9d3c9f6f6f6db8":[12,0,1,143,72],
-"classhmi_1_1MainWindow.html#a248bb07772661a43ec5d61884a90ffa3":[11,0,1,143,34],
-"classhmi_1_1MainWindow.html#a248bb07772661a43ec5d61884a90ffa3":[12,0,1,143,34]
+"classhmi_1_1MainWindow.html#a23d7033f2e1cfe842e9d3c9f6f6f6db8":[11,0,1,143,72]
 };

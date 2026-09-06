@@ -5,8 +5,9 @@ var searchData=
   ['help_2',['help',['../structhmi_1_1EditorStatusLines.html#ac1eb6b916b73804d2c799e8265f7316a',1,'hmi::EditorStatusLines']]],
   ['hit_3',['hit',['../structcore_1_1SweepResult.html#a426d60d4069a7ad7e138dc80171a4762',1,'core::SweepResult']]],
   ['hitdice_4',['hitDice',['../structcore_1_1Creature.html#a61e0193ade889479b1b2eb0b9506a4a4',1,'core::Creature']]],
-  ['hitpoints_5',['hitPoints',['../structcore_1_1Creature.html#a7a0d61688b76d8555a09defbf43a13d9',1,'core::Creature']]],
-  ['horizontal_6',['horizontal',['../structhmi_1_1TextAnchor.html#abd9f11b551aab6d6def90fda59a10b47',1,'hmi::TextAnchor']]],
-  ['hoveredcell_7',['hoveredCell',['../structhmi_1_1LevelStatusInfo.html#ae31b27e74cbacf3e320a2e9f5467c414',1,'hmi::LevelStatusInfo::hoveredCell'],['../structhmi_1_1LinkOverlayState.html#ae885874a0e6c75282eaa852fe2610b3d',1,'hmi::LinkOverlayState::hoveredCell']]],
-  ['hoveredpixel_8',['hoveredPixel',['../structhmi_1_1PixelEditStatusInfo.html#a9e9bdb903e4e24550b4aeea678fd4e0d',1,'hmi::PixelEditStatusInfo']]]
+  ['hitdie_5',['hitDie',['../structcore_1_1PlayableClass.html#a9f2304ce7895d59e0793f29cb3644a24',1,'core::PlayableClass']]],
+  ['hitpoints_6',['hitPoints',['../structcore_1_1Creature.html#a7a0d61688b76d8555a09defbf43a13d9',1,'core::Creature']]],
+  ['horizontal_7',['horizontal',['../structhmi_1_1TextAnchor.html#abd9f11b551aab6d6def90fda59a10b47',1,'hmi::TextAnchor']]],
+  ['hoveredcell_8',['hoveredCell',['../structhmi_1_1LevelStatusInfo.html#ae31b27e74cbacf3e320a2e9f5467c414',1,'hmi::LevelStatusInfo::hoveredCell'],['../structhmi_1_1LinkOverlayState.html#ae885874a0e6c75282eaa852fe2610b3d',1,'hmi::LinkOverlayState::hoveredCell']]],
+  ['hoveredpixel_9',['hoveredPixel',['../structhmi_1_1PixelEditStatusInfo.html#a9e9bdb903e4e24550b4aeea678fd4e0d',1,'hmi::PixelEditStatusInfo']]]
 ];

@@ -1,5 +1,8 @@
 var NAVTREEINDEX4 =
 {
+"classcore_1_1LevelLoader.html":[11,0,0,42],
+"classcore_1_1LevelLoader.html":[12,0,0,42],
+"classcore_1_1LevelLoader.html#a4976f03515627ad9fc7bb6f29445df89":[11,0,0,42,1],
 "classcore_1_1LevelLoader.html#a4976f03515627ad9fc7bb6f29445df89":[12,0,0,42,1],
 "classcore_1_1LevelLoader.html#a49dba279ed545b7230ceeb8752e63543":[11,0,0,42,0],
 "classcore_1_1LevelLoader.html#a49dba279ed545b7230ceeb8752e63543":[12,0,0,42,0],
@@ -246,8 +249,5 @@ var NAVTREEINDEX4 =
 "classhmi_1_1AnimationCatalog.html#aa76b14e31e71056c0f5d1702d9bac3c7":[12,0,1,61,3],
 "classhmi_1_1AnimationCatalog.html#ab4d62573855d3bc8e915704f51d54cbf":[11,0,1,61,2],
 "classhmi_1_1AnimationCatalog.html#ab4d62573855d3bc8e915704f51d54cbf":[12,0,1,61,2],
-"classhmi_1_1AnimationCatalog.html#acaa3b6c738038d1eac95c8267c0e8979":[11,0,1,61,0],
-"classhmi_1_1AnimationCatalog.html#acaa3b6c738038d1eac95c8267c0e8979":[12,0,1,61,0],
-"classhmi_1_1AnimationCatalog.html#ad010d712eef036db50679497eb373974":[11,0,1,61,6],
-"classhmi_1_1AnimationCatalog.html#ad010d712eef036db50679497eb373974":[12,0,1,61,6]
+"classhmi_1_1AnimationCatalog.html#acaa3b6c738038d1eac95c8267c0e8979":[11,0,1,61,0]
 };
