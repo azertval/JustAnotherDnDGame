@@ -33,7 +33,7 @@ var searchData=
   ['ensuresparsesize_30',['ensureSparseSize',['../classcore_1_1ComponentPool.html#a1b7f696c8e40313dc60b16c0970b68ad',1,'core::ComponentPool']]],
   ['ensureuniformcapacity_31',['ensureUniformCapacity',['../classhmi_1_1SpriteBatch.html#a2ea59c094fa5a5ba279f22667bfc46a6',1,'hmi::SpriteBatch']]],
   ['ensurevertexcapacity_32',['ensureVertexCapacity',['../classhmi_1_1SpriteBatch.html#ae6d118ec18752d51ceb6e4ed428925dd',1,'hmi::SpriteBatch']]],
-  ['enterevent_33',['enterEvent',['../classhmi_1_1PixelMenuButton.html#add6dd66542defcdca9d6048807e863af',1,'hmi::PixelMenuButton']]],
+  ['enterevent_33',['enterEvent',['../classhmi_1_1MenuEntryButton.html#a27ba92da2b2d1a418bc9c39da691148e',1,'hmi::MenuEntryButton']]],
   ['entities_34',['entities',['../classcore_1_1ComponentPool.html#a79bfb21e11d5240cca2e36e86aebf356',1,'core::ComponentPool::entities()'],['../classcore_1_1Level.html#aded8699b4838ee38e10891c9b7aecc58',1,'core::Level::entities()'],['../classcore_1_1LevelDraft.html#a74e03f07db273bcdd42544044ac78e8f',1,'core::LevelDraft::entities()']]],
   ['entries_35',['entries',['../classcore_1_1MemoryLogSink.html#a34745d0fc5199fe9680d70e545232b17',1,'core::MemoryLogSink::entries()'],['../classhmi_1_1PixelPalette.html#a4a8647f4cdafebee24859cc4d524465a',1,'hmi::PixelPalette::entries()']]],
   ['entry_36',['entry',['../classcore_1_1Level.html#a08c4420372462d6e7991956902906da5',1,'core::Level::entry()'],['../classcore_1_1LevelDraft.html#a7614f7f0cdaea145907831e56781182b',1,'core::LevelDraft::entry()']]],

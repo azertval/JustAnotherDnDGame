@@ -17,6 +17,7 @@ var dir_7c7356e692772728ab91d19f773c60c4 =
     [ "LOT-34-equipement", "dir_de43284f6ad4b149fcb7a1db64da7d09.html", null ],
     [ "LOT-36-especes-historiques-classes", "dir_1490155920c87f44fbd9e1f90804d2cb.html", null ],
     [ "LOT-43-options-de-personnage", "dir_91a1717ccebb1cc2aff1d37999f0b3a5.html", null ],
+    [ "LOT-66-charte-visuelle", "dir_29a1f51c54cbfc88d7c530899ae7368b.html", null ],
     [ "LOT-77-specification-rpg", "dir_ef95927b7810b74dd4b1ad028f5ca330.html", null ],
     [ "LOT-78-numeros-herites", "dir_7d4f1976496a6a2058d9c70bdca36906.html", null ],
     [ "LOT-79-socle-chargement-donnees", "dir_97d7630938bc94e9facb9909756450a5.html", null ]

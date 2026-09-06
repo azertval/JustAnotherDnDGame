@@ -6,7 +6,7 @@ var searchData=
   ['selection_3',['Selection',['../namespacehmi.html#a02048ad8ad69a87a10e8307ac2bd68dda6ff9dd0d34f65181173c1e4bc39939de',1,'hmi::Selection'],['../namespacehmi.html#a9cb51e9b7642963a83312d94737fe571a6ff9dd0d34f65181173c1e4bc39939de',1,'hmi::Selection']]],
   ['sequencecompleted_4',['SequenceCompleted',['../namespacehmi.html#a3a61aed1c8e95c289c829398d48488dea567a1ba73d183dc7f9b7c047a7da7e40',1,'hmi']]],
   ['setpending_5',['SetPending',['../namespacehmi.html#ace704959d626f266592987f16eb2f3d5ad9e8fea9194ad4b49db82581f12a26bb',1,'hmi']]],
-  ['shadow_6',['Shadow',['../namespacehmi.html#a9b5452f2d3a1019a3229b90a4f000919a3f39588bb19e28051d9aedfbb170025c',1,'hmi']]],
+  ['shadow_6',['Shadow',['../namespacehmi.html#a9b5452f2d3a1019a3229b90a4f000919a3f39588bb19e28051d9aedfbb170025c',1,'hmi::Shadow'],['../namespacehmi.html#ae32ec83f939d20ebd5cf00137de659f4a3f39588bb19e28051d9aedfbb170025c',1,'hmi::Shadow']]],
   ['shield_7',['Shield',['../namespacecore.html#a7ad0450d2b476419d40745fbfa9ac105a970da5f1f2e32aeb9e488dd017160ab4',1,'core']]],
   ['shift_8',['Shift',['../namespacehmi.html#a83c98e56e30eafa606048853f7962e48a825a3d98017bab11815ad2817201324c',1,'hmi']]],
   ['shortcutsoverview_9',['ShortcutsOverview',['../namespacehmi.html#ab269aabb94611e449a8e7427969874f5a2583b92d245a881127917f19531ccf3b',1,'hmi']]],

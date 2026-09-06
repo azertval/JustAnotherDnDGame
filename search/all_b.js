@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['_5faccented_0',['_accented',['../classhmi_1_1PixelFrameWidget.html#a1ff3ab15f26f859d77822f99abf76c83',1,'hmi::PixelFrameWidget']]],
+  ['_5faccented_0',['_accented',['../classhmi_1_1ParchmentPanel.html#aa23ea022e3c3a0f7f2c622abf975c8b4',1,'hmi::ParchmentPanel']]],
   ['_5faccumulatedseconds_1',['_accumulatedSeconds',['../classhmi_1_1FrameRateAverage.html#a96de9e27c29e37fbf080dff2aa2e7162',1,'hmi::FrameRateAverage']]],
   ['_5faccumulator_2',['_accumulator',['../classcore_1_1FixedTimestep.html#af35da011c6ca18c32a61a645ae61cefa',1,'core::FixedTimestep']]],
   ['_5factfollowactivetool_3',['_actFollowActiveTool',['../classhmi_1_1MainWindow.html#a5ef79dfc7f245f466e3b459838b93d23',1,'hmi::MainWindow']]],

@@ -144,6 +144,8 @@ var hierarchy =
     [ "core::NamedTrait", "structcore_1_1NamedTrait.html", null ],
     [ "hmi::PaletteThumbnail", "structhmi_1_1PaletteThumbnail.html", null ],
     [ "hmi::PanelFocusEntry", "structhmi_1_1PanelFocusEntry.html", null ],
+    [ "hmi::ParchmentPoint", "structhmi_1_1ParchmentPoint.html", null ],
+    [ "hmi::ParchmentStroke", "structhmi_1_1ParchmentStroke.html", null ],
     [ "core::Particle", "structcore_1_1Particle.html", null ],
     [ "core::ParticleEffect", "structcore_1_1ParticleEffect.html", null ],
     [ "core::ParticleSystem", "classcore_1_1ParticleSystem.html", null ],
@@ -153,7 +155,6 @@ var hierarchy =
     [ "hmi::PixelCanvasView", "structhmi_1_1PixelCanvasView.html", null ],
     [ "hmi::PixelClipboard", "structhmi_1_1PixelClipboard.html", null ],
     [ "hmi::PixelEditStatusInfo", "structhmi_1_1PixelEditStatusInfo.html", null ],
-    [ "hmi::PixelFrameQuad", "structhmi_1_1PixelFrameQuad.html", null ],
     [ "hmi::PixelHistory", "classhmi_1_1PixelHistory.html", null ],
     [ "hmi::PixelHistoryEntry", "structhmi_1_1PixelHistoryEntry.html", null ],
     [ "hmi::PixelPalette", "classhmi_1_1PixelPalette.html", null ],
@@ -186,7 +187,7 @@ var hierarchy =
       [ "hmi::EditorActions", "classhmi_1_1EditorActions.html", null ]
     ] ],
     [ "QPushButton", null, [
-      [ "hmi::PixelMenuButton", "classhmi_1_1PixelMenuButton.html", null ]
+      [ "hmi::MenuEntryButton", "classhmi_1_1MenuEntryButton.html", null ]
     ] ],
     [ "QRhiWidget", null, [
       [ "hmi::GameViewport", "classhmi_1_1GameViewport.html", null ]
@@ -199,6 +200,7 @@ var hierarchy =
       [ "hmi::AssetThumbnailView", "classhmi_1_1AssetThumbnailView.html", null ],
       [ "hmi::CreditsScreen", "classhmi_1_1CreditsScreen.html", null ],
       [ "hmi::EditorKeybindingsWidget", "classhmi_1_1EditorKeybindingsWidget.html", null ],
+      [ "hmi::FocusMarker", "classhmi_1_1FocusMarker.html", null ],
       [ "hmi::GamepadBindingsWidget", "classhmi_1_1GamepadBindingsWidget.html", null ],
       [ "hmi::KeybindingsWidget", "classhmi_1_1KeybindingsWidget.html", null ],
       [ "hmi::LevelBrowserPanel", "classhmi_1_1LevelBrowserPanel.html", null ],
@@ -208,10 +210,9 @@ var hierarchy =
       [ "hmi::MainMenu", "classhmi_1_1MainMenu.html", null ],
       [ "hmi::OptionsPage", "classhmi_1_1OptionsPage.html", null ],
       [ "hmi::PalettePanel", "classhmi_1_1PalettePanel.html", null ],
+      [ "hmi::ParchmentPanel", "classhmi_1_1ParchmentPanel.html", null ],
       [ "hmi::PauseScreen", "classhmi_1_1PauseScreen.html", null ],
       [ "hmi::PixelCanvas", "classhmi_1_1PixelCanvas.html", null ],
-      [ "hmi::PixelFocusCaret", "classhmi_1_1PixelFocusCaret.html", null ],
-      [ "hmi::PixelFrameWidget", "classhmi_1_1PixelFrameWidget.html", null ],
       [ "hmi::PixelHistoryPanel", "classhmi_1_1PixelHistoryPanel.html", null ],
       [ "hmi::PixelPalettePanel", "classhmi_1_1PixelPalettePanel.html", null ],
       [ "hmi::PlanesPanel", "classhmi_1_1PlanesPanel.html", null ],

@@ -6,7 +6,6 @@ var searchData=
   ['ok_3',['ok',['../structhmi_1_1StyleSheetSubstitutionResult.html#ada2f1e28c45938501b1603cc752099df',1,'hmi::StyleSheetSubstitutionResult']]],
   ['opacity_4',['opacity',['../structcore_1_1Plane.html#a590f0ac17bcd5ffc323d567a79806908',1,'core::Plane::opacity'],['../structhmi_1_1PlaneLayer.html#a579366d10f9b54d5de1b7b551b2eeec8',1,'hmi::PlaneLayer::opacity']]],
   ['optionsreturnto_5',['optionsReturnTo',['../structhmi_1_1ScreenState.html#a1120d4bbb5ce909eea650a2ae5a7ae29',1,'hmi::ScreenState']]],
-  ['outline_6',['outline',['../structhmi_1_1ColorTokens.html#a762c597271ed9dac7a9cd60e56ffbc56',1,'hmi::ColorTokens']]],
-  ['overlayvisible_7',['overlayVisible',['../structhmi_1_1ScreenDressing.html#a5b89bab07391119fa56909676c604031',1,'hmi::ScreenDressing']]],
-  ['overrideasset_8',['overrideAsset',['../structhmi_1_1TileSkinTag.html#a6449615c56d78758cfd1ced852b902ca',1,'hmi::TileSkinTag']]]
+  ['overlayvisible_6',['overlayVisible',['../structhmi_1_1ScreenDressing.html#a5b89bab07391119fa56909676c604031',1,'hmi::ScreenDressing']]],
+  ['overrideasset_7',['overrideAsset',['../structhmi_1_1TileSkinTag.html#a6449615c56d78758cfd1ced852b902ca',1,'hmi::TileSkinTag']]]
 ];

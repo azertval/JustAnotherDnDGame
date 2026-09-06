@@ -33,7 +33,7 @@ var searchData=
   ['sequencelevelchosen_30',['sequenceLevelChosen',['../classhmi_1_1LevelSelectScreen.html#aee1738b278aff10365ad6b8b62ab13d5',1,'hmi::LevelSelectScreen']]],
   ['serializesessionlog_31',['serializeSessionLog',['../namespacehmi.html#a5bc539b762cfd88b17c71d8a44a1a22b',1,'hmi']]],
   ['set_32',['set',['../classcore_1_1WorldFlags.html#ae2ec8ea0bd594024949a120cbb2eba0e',1,'core::WorldFlags']]],
-  ['setaccented_33',['setAccented',['../classhmi_1_1PixelFrameWidget.html#af657f4e61ed25cb62fc1f6882375dabb',1,'hmi::PixelFrameWidget']]],
+  ['setaccented_33',['setAccented',['../classhmi_1_1ParchmentPanel.html#a00ddcf484bf3768a45ae75541c19145f',1,'hmi::ParchmentPanel']]],
   ['setactivecatalog_34',['setActiveCatalog',['../classhmi_1_1Localization.html#a9612fcf1c743d947e02ef916e652a44c',1,'hmi::Localization']]],
   ['setactivepixeltool_35',['setActivePixelTool',['../classhmi_1_1EditorActions.html#a9b3e60e5dfa7e66f645d6884ecc440a5',1,'hmi::EditorActions']]],
   ['setactivetextureasset_36',['setActiveTextureAsset',['../classhmi_1_1GameViewport.html#ab2fd09e359b451414074b6b00ddd4c25',1,'hmi::GameViewport']]],

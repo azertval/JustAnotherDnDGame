@@ -11,7 +11,7 @@ var searchData=
   ['requiredmechanisms_8',['requiredMechanisms',['../structcore_1_1Creature.html#ace09660f1aa10b5cbdb5e3fa5ea3f5aa',1,'core::Creature::requiredMechanisms'],['../structcore_1_1Species.html#a4ab4a90ee00916567663a6c456bb1d7d',1,'core::Species::requiredMechanisms']]],
   ['rhi_9',['rhi',['../structhmi_1_1RhiContext.html#a07d6fe0b31c50e6573bb261c369120ab',1,'hmi::RhiContext']]],
   ['right_10',['right',['../structhmi_1_1ArrowHead.html#a3547b3c1f02184707c825f80db42074c',1,'hmi::ArrowHead']]],
-  ['role_11',['role',['../structhmi_1_1BackdropQuad.html#aff11ab08c33fd72fba9c7fcb23498c59',1,'hmi::BackdropQuad::role'],['../structhmi_1_1PixelFrameQuad.html#a7cf046488d4d06ac9d32fdcd6fbf054d',1,'hmi::PixelFrameQuad::role']]],
+  ['role_11',['role',['../structhmi_1_1BackdropQuad.html#aff11ab08c33fd72fba9c7fcb23498c59',1,'hmi::BackdropQuad::role'],['../structhmi_1_1ParchmentStroke.html#af4eff1a8d0d221158d07d2bff44e4bf3',1,'hmi::ParchmentStroke::role']]],
   ['room_5fheight_5ftiles_12',['ROOM_HEIGHT_TILES',['../classhmi_1_1RoomGrid.html#a0b955c9993b7ea1652cec0f9c8cae916',1,'hmi::RoomGrid']]],
   ['room_5fwidth_5ftiles_13',['ROOM_WIDTH_TILES',['../classhmi_1_1RoomGrid.html#a3641300883e783d130eb0d100e049ef6',1,'hmi::RoomGrid']]],
   ['roomheighttiles_14',['roomHeightTiles',['../structcore_1_1CameraFramingConfig.html#ae20fc5eef068fe3bc180bdca58cb5ddb',1,'core::CameraFramingConfig']]],
