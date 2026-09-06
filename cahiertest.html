@@ -93,9 +93,9 @@ $(function(){initNavTree('cahiertest.html','',''); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md_CahierTest"></a></p>
-<p><b>978 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
+<p><b>987 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md5"></a>
-Tests unitaires (963)</h1>
+Tests unitaires (972)</h1>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md6"></a>
 Core</h2>
 <p><b><span class="tt"><a class="el" href="test__core_8cpp.html" title="Tests unitaires de la bibliothèque Core (amorçage).">test_core.cpp</a></span></b></p>
@@ -2104,7 +2104,7 @@ Vérifie que <span class="tt">r.normal.y</span> vaut <span class="tt">1.0f</span
 Vérifie que <span class="tt">r.position.x</span> vaut <span class="tt">3.0f</span> (comparaison flottante).  </td></tr>
 </table>
 <h3 class="doxsection"><a class="anchor" id="autotoc_md14"></a>
-Rpg (40)</h3>
+Rpg (49)</h3>
 <p><b><span class="tt"><a class="el" href="test__bestiary_8cpp.html" title="Tests du bestiaire de base (LOT-33) : les 94 profils chargent, et dix sont rejoues contre des valeurs...">test_bestiary.cpp</a></span></b></p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -2157,7 +2157,7 @@ Vérifie que <span class="tt">vide.errors.front().find("dossier-inexistant")</sp
 <th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>CharacterOptionsTest.LesTroisCataloguesChargent</b> (Critique)<br  />
-<sub><span class="tt"><a class="el" href="test__character__options_8cpp.html" title="Tests des especes, historiques et classes provisoires (LOT-36).">Source/Test/Unit/Core/Rpg/test_character_options.cpp</a>:88</span></sub>  </td><td class="markdownTableBodyNone">Les especes, historiques et classes livres se chargent tous.  </td><td class="markdownTableBodyNone">1. Charger species/, backgrounds/ et classes/.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">lues.species.empty()</span> est faux.<br  />
+<sub><span class="tt"><a class="el" href="test__character__options_8cpp.html" title="Tests des especes, historiques et classes provisoires (LOT-36).">Source/Test/Unit/Core/Rpg/test_character_options.cpp</a>:89</span></sub>  </td><td class="markdownTableBodyNone">Les especes, historiques et classes livres se chargent tous.  </td><td class="markdownTableBodyNone">1. Charger species/, backgrounds/ et classes/.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">lues.species.empty()</span> est faux.<br  />
 Vérifie que <span class="tt">lues.backgrounds.empty()</span> est faux.<br  />
 Vérifie que <span class="tt">lues.classes.size()</span> vaut <span class="tt">CLASSES.size()</span>.<br  />
 Vérifie que <span class="tt">identifiants.insert(espece.id).second</span> est vrai.<br  />
@@ -2165,20 +2165,21 @@ Vérifie que <span class="tt">espece.name.empty()</span> est faux.<br  />
 Vérifie que <span class="tt">espece.speed</span> est strictement supérieur à <span class="tt">0.0F</span>.  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>CharacterOptionsTest.LesEspecesConcordentAvecLesLivres</b> (Critique)<br  />
-<sub><span class="tt"><a class="el" href="test__character__options_8cpp.html" title="Tests des especes, historiques et classes provisoires (LOT-36).">Source/Test/Unit/Core/Rpg/test_character_options.cpp</a>:114</span></sub>  </td><td class="markdownTableBodyNone">Les especes livrees portent les valeurs des livres dont elles sont tirees.  </td><td class="markdownTableBodyNone">1. Pour sept especes des trois livres, comparer provenance, taille, vitesse et augmentation de caracteristique aux valeurs lues sur les documents.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">espece</span> diffère de <span class="tt">nullptr</span>.<br  />
+<sub><span class="tt"><a class="el" href="test__character__options_8cpp.html" title="Tests des especes, historiques et classes provisoires (LOT-36).">Source/Test/Unit/Core/Rpg/test_character_options.cpp</a>:115</span></sub>  </td><td class="markdownTableBodyNone">Les especes livrees portent les valeurs des livres dont elles sont tirees.  </td><td class="markdownTableBodyNone">1. Pour sept especes des trois livres, comparer provenance, taille, vitesse et augmentation de caracteristique aux valeurs lues sur les documents.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">espece</span> diffère de <span class="tt">nullptr</span>.<br  />
 Vérifie que <span class="tt">espece-&gt;source</span> vaut <span class="tt">attendue.source</span>.<br  />
 Vérifie que <span class="tt">espece-&gt;size</span> vaut <span class="tt">attendue.size</span>.<br  />
 Vérifie que <span class="tt">espece-&gt;speed</span> vaut <span class="tt">attendue.speed</span> (comparaison flottante).<br  />
 Vérifie que <span class="tt">espece-&gt;increase(attendue.augmentee)</span> vaut <span class="tt">attendue.augmentation</span>.  </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>CharacterOptionsTest.LAugmentationSAppliqueEtResteBornee</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__character__options_8cpp.html" title="Tests des especes, historiques et classes provisoires (LOT-36).">Source/Test/Unit/Core/Rpg/test_character_options.cpp</a>:137</span></sub>  </td><td class="markdownTableBodyNone">L'augmentation d'une espece s'applique et reste bornee a 20.  </td><td class="markdownTableBodyNone">1. Appliquer l'augmentation du nain a une Constitution de 14, puis de 19.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">nain</span> diffère de <span class="tt">nullptr</span>.<br  />
-Vérifie que <span class="tt">core::abilityScoreWith(*nain, core::Ability::Constitution, 14)</span> vaut <span class="tt">16</span>.<br  />
-Vérifie que <span class="tt">core::abilityScoreWith(*nain, core::Ability::Constitution, 19)</span> vaut <span class="tt">20</span>.<br  />
-Vérifie que <span class="tt">core::abilityScoreWith(*nain, core::Ability::Charisma, 14)</span> vaut <span class="tt">14</span>.  </td></tr>
+<sub><span class="tt"><a class="el" href="test__character__options_8cpp.html" title="Tests des especes, historiques et classes provisoires (LOT-36).">Source/Test/Unit/Core/Rpg/test_character_options.cpp</a>:138</span></sub>  </td><td class="markdownTableBodyNone">L'augmentation d'une espece s'applique et reste bornee a 20.  </td><td class="markdownTableBodyNone">1. Appliquer l'augmentation du nain a une Constitution de 14, puis de 19.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">nain</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">regles.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt">core::abilityScoreWith(*nain, core::Ability::Constitution, 14, plafond)</span> vaut <span class="tt">16</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a94f7b2f3a63555d1eb113d01619edf1a" title="Applique les augmentations d&#39;une espèce à une valeur de caractéristique.">core::abilityScoreWith</a>(*nain, <a class="el" href="namespacecore.html#a97f31c7914a6cfc54cc026a77da58fd1aae93e52a3c1f3bbcefbc805331fca9e9">core::Ability::Constitution</a>, plafond - 1, plafond)</span> vaut <span class="tt">plafond</span>.<br  />
+Vérifie que <span class="tt">core::abilityScoreWith(*nain, core::Ability::Charisma, 14, plafond)</span> vaut <span class="tt">14</span>.  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>CharacterOptionsTest.LesClassesConcordentAvecLeLivre</b> (Critique)<br  />
-<sub><span class="tt"><a class="el" href="test__character__options_8cpp.html" title="Tests des especes, historiques et classes provisoires (LOT-36).">Source/Test/Unit/Core/Rpg/test_character_options.cpp</a>:156</span></sub>  </td><td class="markdownTableBodyNone">Les classes simplifiees portent le de de vie et les sauvegardes du livre.  </td><td class="markdownTableBodyNone">1. Pour les quatre classes, comparer de de vie, caracteristique principale et jets de sauvegarde a la table &lt;&lt; New Simplified Classes &gt;&gt; de la page 57.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">classe</span> diffère de <span class="tt">nullptr</span>.<br  />
+<sub><span class="tt"><a class="el" href="test__character__options_8cpp.html" title="Tests des especes, historiques et classes provisoires (LOT-36).">Source/Test/Unit/Core/Rpg/test_character_options.cpp</a>:164</span></sub>  </td><td class="markdownTableBodyNone">Les classes simplifiees portent le de de vie et les sauvegardes du livre.  </td><td class="markdownTableBodyNone">1. Pour les quatre classes, comparer de de vie, caracteristique principale et jets de sauvegarde a la table &lt;&lt; New Simplified Classes &gt;&gt; de la page 57.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">classe</span> diffère de <span class="tt">nullptr</span>.<br  />
 Vérifie que <span class="tt">classe-&gt;hitDie</span> vaut <span class="tt">attendue.hitDie</span>.<br  />
 Vérifie que <span class="tt">classe-&gt;primaryAbility.empty()</span> est faux.<br  />
 Vérifie que <span class="tt">classe-&gt;primaryAbility.front()</span> vaut <span class="tt">attendue.primaire</span>.<br  />
@@ -2187,7 +2188,7 @@ Vérifie que <span class="tt">classe-&gt;savingThrowProficiencies[0]</span> vaut
 Vérifie que <span class="tt">classe-&gt;savingThrowProficiencies[1]</span> vaut <span class="tt">attendue.sauvegarde2</span>.  </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>CharacterOptionsTest.LaProgressionVientDeLaDonnee</b> (Critique)<br  />
-<sub><span class="tt"><a class="el" href="test__character__options_8cpp.html" title="Tests des especes, historiques et classes provisoires (LOT-36).">Source/Test/Unit/Core/Rpg/test_character_options.cpp</a>:181</span></sub>  </td><td class="markdownTableBodyNone">Le bonus de maitrise des niveaux 1 a 5 est lu dans la table livree.  </td><td class="markdownTableBodyNone">1. Lire le bonus de maitrise des niveaux 1 a 5 de chaque classe dans sa table.<br  />
+<sub><span class="tt"><a class="el" href="test__character__options_8cpp.html" title="Tests des especes, historiques et classes provisoires (LOT-36).">Source/Test/Unit/Core/Rpg/test_character_options.cpp</a>:189</span></sub>  </td><td class="markdownTableBodyNone">Le bonus de maitrise des niveaux 1 a 5 est lu dans la table livree.  </td><td class="markdownTableBodyNone">1. Lire le bonus de maitrise des niveaux 1 a 5 de chaque classe dans sa table.<br  />
  2. Le comparer aux valeurs de la table du livre.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">classe</span> diffère de <span class="tt">nullptr</span>.<br  />
 Vérifie que <span class="tt">classe-&gt;progression.size()</span> vaut <span class="tt">20U</span>.<br  />
 Vérifie que <span class="tt">ligne</span> diffère de <span class="tt">nullptr</span>.<br  />
@@ -2196,25 +2197,114 @@ Vérifie que <span class="tt">ligne-&gt;features.empty()</span> est faux.<br  />
 Vérifie que <span class="tt">classe-&gt;progression[i].level</span> vaut <span class="tt">static_cast&lt;int&gt;(i) + 1</span>.  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>CharacterOptionsTest.LesMecanismesExigesSontAnnonces</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__character__options_8cpp.html" title="Tests des especes, historiques et classes provisoires (LOT-36).">Source/Test/Unit/Core/Rpg/test_character_options.cpp</a>:217</span></sub>  </td><td class="markdownTableBodyNone">Une espece qui exige un mecanisme absent le declare au chargement.  </td><td class="markdownTableBodyNone">1. Collecter les <span class="tt">mecanismesRequis</span> des especes chargees.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">std::ranges::find(mecanismes, "augmentation-de-caracteristique-au-choix")</span> diffère de <span class="tt">mecanismes.end()</span>.  </td></tr>
+<sub><span class="tt"><a class="el" href="test__character__options_8cpp.html" title="Tests des especes, historiques et classes provisoires (LOT-36).">Source/Test/Unit/Core/Rpg/test_character_options.cpp</a>:225</span></sub>  </td><td class="markdownTableBodyNone">Une espece qui exige un mecanisme absent le declare au chargement.  </td><td class="markdownTableBodyNone">1. Collecter les <span class="tt">mecanismesRequis</span> des especes chargees.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">std::ranges::find(mecanismes, "augmentation-de-caracteristique-au-choix")</span> diffère de <span class="tt">mecanismes.end()</span>.  </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>CharacterOptionsTest.LesClassesProvisoiresNeSontReferenceesParRien</b> (Critique)<br  />
-<sub><span class="tt"><a class="el" href="test__character__options_8cpp.html" title="Tests des especes, historiques et classes provisoires (LOT-36).">Source/Test/Unit/Core/Rpg/test_character_options.cpp</a>:235</span></sub>  </td><td class="markdownTableBodyNone">Les classes provisoires portent leur marque et ne sont referencees par aucune donnee definitive.  </td><td class="markdownTableBodyNone">1. Verifier que les quatre classes portent <span class="tt">status.provisoire</span> et un critere de retrait.<br  />
+<sub><span class="tt"><a class="el" href="test__character__options_8cpp.html" title="Tests des especes, historiques et classes provisoires (LOT-36).">Source/Test/Unit/Core/Rpg/test_character_options.cpp</a>:243</span></sub>  </td><td class="markdownTableBodyNone">Les classes provisoires portent leur marque et ne sont referencees par aucune donnee definitive.  </td><td class="markdownTableBodyNone">1. Verifier que les quatre classes portent <span class="tt">status.provisoire</span> et un critere de retrait.<br  />
  2. Balayer tous les fichiers de <span class="tt">Source/Elements/Rpg/</span> et chercher leur identifiant.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">provisoires.size()</span> vaut <span class="tt">CLASSES.size()</span>.<br  />
 Vérifie que <span class="tt">classe.status.provisional</span> est vrai.<br  />
 Vérifie que <span class="tt">classe.status.removalCriterion.empty()</span> est faux.<br  />
 Vérifie que <span class="tt">contenu.find('"' + identifiant + '"')</span> vaut <span class="tt">std::string::npos</span>.  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>CharacterOptionsTest.UnDossierAbsentEstSignale</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__character__options_8cpp.html" title="Tests des especes, historiques et classes provisoires (LOT-36).">Source/Test/Unit/Core/Rpg/test_character_options.cpp</a>:283</span></sub>  </td><td class="markdownTableBodyNone">Charger un dossier d'options inexistant produit une erreur nommee.  </td><td class="markdownTableBodyNone">1. Charger trois chemins qui n'existent pas.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">vides.species.empty()</span> est vrai.<br  />
+<sub><span class="tt"><a class="el" href="test__character__options_8cpp.html" title="Tests des especes, historiques et classes provisoires (LOT-36).">Source/Test/Unit/Core/Rpg/test_character_options.cpp</a>:291</span></sub>  </td><td class="markdownTableBodyNone">Charger un dossier d'options inexistant produit une erreur nommee.  </td><td class="markdownTableBodyNone">1. Charger trois chemins qui n'existent pas.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">vides.species.empty()</span> est vrai.<br  />
 Vérifie que <span class="tt">vides.backgrounds.empty()</span> est vrai.<br  />
 Vérifie que <span class="tt">vides.classes.empty()</span> est vrai.<br  />
 Vérifie que <span class="tt">vides.errors.size()</span> vaut <span class="tt">3U</span>.  </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>CharacterOptionsTest.LesHistoriquesCitentDesCompetencesQuiExistent</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__character__options_8cpp.html" title="Tests des especes, historiques et classes provisoires (LOT-36).">Source/Test/Unit/Core/Rpg/test_character_options.cpp</a>:301</span></sub>  </td><td class="markdownTableBodyNone">Les competences citees par un historique existent au catalogue.  </td><td class="markdownTableBodyNone">1. Pour chaque historique, verifier que le fichier de chaque competence citee existe dans <span class="tt">Source/Elements/Rpg/skills/</span>.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">historique.skillProficiencies.empty()</span> est faux.<br  />
+<sub><span class="tt"><a class="el" href="test__character__options_8cpp.html" title="Tests des especes, historiques et classes provisoires (LOT-36).">Source/Test/Unit/Core/Rpg/test_character_options.cpp</a>:309</span></sub>  </td><td class="markdownTableBodyNone">Les competences citees par un historique existent au catalogue.  </td><td class="markdownTableBodyNone">1. Pour chaque historique, verifier que le fichier de chaque competence citee existe dans <span class="tt">Source/Elements/Rpg/skills/</span>.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">historique.skillProficiencies.empty()</span> est faux.<br  />
 Vérifie que <span class="tt">std::filesystem::exists(chemin)</span> est vrai.<br  />
 Vérifie que <span class="tt">historique.languageCount</span> est supérieur ou égal à <span class="tt">0</span>.  </td></tr>
+</table>
+<p><b><span class="tt"><a class="el" href="test__character__sheet_8cpp.html" title="Tests de la fiche de personnage (LOT-13).">test_character_sheet.cpp</a></span></b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>CharacterSheetTest.LesTablesDeReglesSeChargent</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__character__sheet_8cpp.html" title="Tests de la fiche de personnage (LOT-13).">Source/Test/Unit/Core/Rpg/test_character_sheet.cpp</a>:67</span></sub>  </td><td class="markdownTableBodyNone">La table d'experience et les constantes de creation se chargent depuis la donnee.  </td><td class="markdownTableBodyNone">1. Charger rules/experience.json et rules/character-creation.json.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">lus.experience.levels.size()</span> vaut <span class="tt">20U</span>.<br  />
+Vérifie que <span class="tt">lus.experience.maximumLevel()</span> vaut <span class="tt">20</span>.<br  />
+Vérifie que <span class="tt">lus.experience.levels[i].experience</span> est strictement supérieur à <span class="tt">lus.experience.levels[i - 1].experience</span>.<br  />
+Vérifie que <span class="tt">lus.experience.levels[i].proficiencyBonus</span> est supérieur ou égal à <span class="tt">lus.experience.levels[i - 1].proficiencyBonus</span>.<br  />
+Vérifie que <span class="tt">lus.rules.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt">lus.skills.skills.empty()</span> est faux.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>CharacterSheetTest.QuatreFichesIndependantes</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__character__sheet_8cpp.html" title="Tests de la fiche de personnage (LOT-13).">Source/Test/Unit/Core/Rpg/test_character_sheet.cpp</a>:98</span></sub>  </td><td class="markdownTableBodyNone">Quatre fiches de personnage coexistent, chacune avec ses propres valeurs.  </td><td class="markdownTableBodyNone">1. Construire quatre fiches d'especes et de classes differentes.<br  />
+ 2. Modifier les points de vie de la premiere et faire monter la deuxieme de niveau.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">groupe.size()</span> vaut <span class="tt">4U</span>.<br  />
+Vérifie que <span class="tt">personnage.speciesId.empty()</span> est faux.<br  />
+Vérifie que <span class="tt">personnage.classId.empty()</span> est faux.<br  />
+Vérifie que <span class="tt">personnage.backgroundId.empty()</span> est faux.<br  />
+Vérifie que <span class="tt">personnage.maximumHitPoints</span> est strictement supérieur à <span class="tt">0</span>.<br  />
+Vérifie que <span class="tt">personnage.speedMeters</span> est strictement supérieur à <span class="tt">0.0F</span>.<br  />
+Vérifie que <span class="tt">groupe[0].maximumHitPoints</span> vaut <span class="tt">pvAvant</span>.<br  />
+Vérifie que <span class="tt">groupe[0].level</span> vaut <span class="tt">niveauAvant</span>.<br  />
+Vérifie que <span class="tt">groupe[1].level</span> vaut <span class="tt">3</span>.<br  />
+Vérifie que <span class="tt">groupe[2].level</span> vaut <span class="tt">1</span>.<br  />
+Vérifie que <span class="tt">groupe[3].level</span> vaut <span class="tt">1</span>.<br  />
+Vérifie que <span class="tt">groupe[0].currentHitPoints</span> diffère de <span class="tt">groupe[0].maximumHitPoints</span>.<br  />
+Vérifie que <span class="tt">groupe[2].currentHitPoints</span> vaut <span class="tt">groupe[2].maximumHitPoints</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>CharacterSheetTest.TroisClassesDonnentLesBonsModificateurs</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__character__sheet_8cpp.html" title="Tests de la fiche de personnage (LOT-13).">Source/Test/Unit/Core/Rpg/test_character_sheet.cpp</a>:143</span></sub>  </td><td class="markdownTableBodyNone">Trois classes chargees depuis JSON produisent les bons points de vie et jets de sauvegarde.  </td><td class="markdownTableBodyNone">1. Construire une fiche pour le brawler (d12), le mage (d6) et le priest (d8).<br  />
+ 2. Comparer points de vie et modificateurs de sauvegarde au calcul du livre.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">classe</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">personnage.modifier(core::Ability::Constitution)</span> vaut <span class="tt">modificateurAttendu</span>.<br  />
+Vérifie que <span class="tt">personnage.maximumHitPoints</span> vaut <span class="tt">classe-&gt;hitDie + modificateurAttendu</span>.<br  />
+Vérifie que <span class="tt">personnage.currentHitPoints</span> vaut <span class="tt">personnage.maximumHitPoints</span>.<br  />
+Vérifie que <span class="tt">maitrise</span> vaut <span class="tt">lus.experience.proficiencyBonusAt(1)</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a5f742da51af4901d06af8def76937d57" title="Le modificateur d&#39;un jet de sauvegarde : caractéristique, plus la maîtrise si elle s&#39;applique.">core::savingThrowModifier</a>(personnage, lus.experience, caracteristique)</span> vaut <span class="tt">personnage.modifier(caracteristique) + maitrise</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a5f742da51af4901d06af8def76937d57" title="Le modificateur d&#39;un jet de sauvegarde : caractéristique, plus la maîtrise si elle s&#39;applique.">core::savingThrowModifier</a>(personnage, lus.experience, caracteristique)</span> vaut <span class="tt">personnage.modifier(caracteristique)</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>CharacterSheetTest.LaMonteeDeNiveauEstTesteeAuxBornes</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__character__sheet_8cpp.html" title="Tests de la fiche de personnage (LOT-13).">Source/Test/Unit/Core/Rpg/test_character_sheet.cpp</a>:194</span></sub>  </td><td class="markdownTableBodyNone">La montee de niveau franchit le seuil exact, le depassement et plusieurs niveaux d'un coup.  </td><td class="markdownTableBodyNone">1. Donner exactement le seuil du niveau 2, puis un point de moins, puis le seuil du niveau 5 d'un coup.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">classe</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">seuil2</span> est strictement supérieur à <span class="tt">0</span>.<br  />
+Vérifie que <span class="tt">seuil5</span> est strictement supérieur à <span class="tt">seuil2</span>.<br  />
+Vérifie que <span class="tt">montee.gainedLevel()</span> est vrai.<br  />
+Vérifie que <span class="tt">montee.previousLevel</span> vaut <span class="tt">1</span>.<br  />
+Vérifie que <span class="tt">montee.newLevel</span> vaut <span class="tt">2</span>.<br  />
+Vérifie que <span class="tt">montee.hitPointsGained</span> est strictement supérieur à <span class="tt">0</span>.<br  />
+Vérifie que <span class="tt">sansMontee.gainedLevel()</span> est faux.<br  />
+Vérifie que <span class="tt">presque.level</span> vaut <span class="tt">1</span>.<br  />
+Vérifie que <span class="tt">sansMontee.hitPointsGained</span> vaut <span class="tt">0</span>.<br  />
+Vérifie que <span class="tt">saut.newLevel</span> vaut <span class="tt">5</span>.<br  />
+Vérifie que <span class="tt">bond.level</span> vaut <span class="tt">5</span>.<br  />
+Vérifie que <span class="tt">saut.newProficiencyBonus</span> est strictement supérieur à <span class="tt">saut.previousProficiencyBonus</span>.<br  />
+Vérifie que <span class="tt">bond.maximumHitPoints</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ae73047aa52884ecfd7eebb21af3990bb" title="Les points de vie d&#39;un niveau, selon la règle du livre.">core::maximumHitPointsFor</a>(classe-&gt;hitDie, 5, bond.modifier(core::Ability::Constitution))</span>.<br  />
+Vérifie que <span class="tt">rien.gainedLevel()</span> est faux.<br  />
+Vérifie que <span class="tt">stable.experiencePoints</span> vaut <span class="tt">seuil5</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>CharacterSheetTest.LaMonteeDeNiveauEstReproductible</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__character__sheet_8cpp.html" title="Tests de la fiche de personnage (LOT-13).">Source/Test/Unit/Core/Rpg/test_character_sheet.cpp</a>:253</span></sub>  </td><td class="markdownTableBodyNone">La montee de niveau est reproductible : le chemin ne change pas le resultat.  </td><td class="markdownTableBodyNone">1. Donner le seuil du niveau 5 en une fois a une fiche, en deux fois a une autre.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">classe</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">enUneFois.level</span> vaut <span class="tt">enDeuxFois.level</span>.<br  />
+Vérifie que <span class="tt">enUneFois.maximumHitPoints</span> vaut <span class="tt">enDeuxFois.maximumHitPoints</span>.<br  />
+Vérifie que <span class="tt">enUneFois.experiencePoints</span> vaut <span class="tt">enDeuxFois.experiencePoints</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>CharacterSheetTest.LeModificateurDeCompetenceVientDuCatalogue</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__character__sheet_8cpp.html" title="Tests de la fiche de personnage (LOT-13).">Source/Test/Unit/Core/Rpg/test_character_sheet.cpp</a>:280</span></sub>  </td><td class="markdownTableBodyNone">Un jet de competence emploie la caracteristique que le catalogue lui donne.  </td><td class="markdownTableBodyNone">1. Calculer le modificateur d'une competence maitrisee et d'une autre non maitrisee.<br  />
+ 2. Demander une competence inconnue du catalogue.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">moine.skillProficiencies.empty()</span> est faux.<br  />
+Vérifie que <span class="tt">competence</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">calcul.found</span> est vrai.<br  />
+Vérifie que <span class="tt">calcul.proficient</span> est vrai.<br  />
+Vérifie que <span class="tt">calcul.value</span> vaut <span class="tt">moine.modifier(competence-&gt;ability) + <a class="el" href="namespacecore.html#ab3286191c0a02de9afbc9e711ec799d1" title="Le bonus de maîtrise de la fiche, lu dans la table au niveau courant.">core::proficiencyBonus</a>(moine, lus.experience)</span>.<br  />
+Vérifie que <span class="tt">inconnue.found</span> est faux.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>CharacterSheetTest.LaVitesseSeLitEnCases</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__character__sheet_8cpp.html" title="Tests de la fiche de personnage (LOT-13).">Source/Test/Unit/Core/Rpg/test_character_sheet.cpp</a>:315</span></sub>  </td><td class="markdownTableBodyNone">La vitesse d'un personnage se lit en cases via l'echelle unique du projet.  </td><td class="markdownTableBodyNone">1. Convertir la vitesse d'un nain (7,50 m) et d'un humain (9 m) en cases.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">nain.speedInTiles()</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a918b595ef74492bed349a6bbf82a9f64" title="Convertit une distance en mètres — telle que le corpus l&#39;écrit — en nombre de cases.">core::tilesFromMeters</a>(nain.speedMeters)</span> (comparaison flottante).<br  />
+Vérifie que <span class="tt">humain.speedInTiles()</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a918b595ef74492bed349a6bbf82a9f64" title="Convertit une distance en mètres — telle que le corpus l&#39;écrit — en nombre de cases.">core::tilesFromMeters</a>(humain.speedMeters)</span> (comparaison flottante).<br  />
+Vérifie que <span class="tt">nain.speedInTiles()</span> vaut <span class="tt">5.0F</span> (comparaison flottante).<br  />
+Vérifie que <span class="tt">humain.speedInTiles()</span> vaut <span class="tt">6.0F</span> (comparaison flottante).  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>CharacterSheetTest.LeComposantDistingueLAbsenceDeFiche</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__character__sheet_8cpp.html" title="Tests de la fiche de personnage (LOT-13).">Source/Test/Unit/Core/Rpg/test_character_sheet.cpp</a>:334</span></sub>  </td><td class="markdownTableBodyNone">Une entite sans fiche ne se confond pas avec une entite liee a la fiche zero.  </td><td class="markdownTableBodyNone">1. Construire un RpgActor par defaut, puis un lie a l'indice 0.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">sansFiche.hasSheet()</span> est faux.<br  />
+Vérifie que <span class="tt">premiere.hasSheet()</span> est vrai.<br  />
+Vérifie que <span class="tt">premiere.sheetIndex</span> vaut <span class="tt">0U</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>CharacterSheetTest.AucuneValeurDeRegleNEstEcriteDansLeCpp</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__character__sheet_8cpp.html" title="Tests de la fiche de personnage (LOT-13).">Source/Test/Unit/Core/Rpg/test_character_sheet.cpp</a>:354</span></sub>  </td><td class="markdownTableBodyNone">La classe d'armure sans armure et le plafond de caracteristique viennent de la donnee.  </td><td class="markdownTableBodyNone">1. Lire les deux constantes dans rules/character-creation.json.<br  />
+ 2. Verifier que la CA d'une fiche sans armure vaut la constante lue plus le modificateur de Dexterite.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">lus.rules.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt">personnage.armorClass</span> vaut <span class="tt">lus.rules.unarmoredArmorClass + personnage.modifier(core::Ability::Dexterity)</span>.<br  />
+Vérifie que <span class="tt">personnage.ability(caracteristique)</span> est inférieur ou égal à <span class="tt">lus.rules.maximumAbilityScore</span>.  </td></tr>
 </table>
 <p><b><span class="tt"><a class="el" href="test__check_8cpp.html" title="Tests du jet de d20 : avantage, seuil, restitution (LOT-12, EX-DND-002, EX-DND-003).">test_check.cpp</a></span></b></p>
 <table class="markdownTable">

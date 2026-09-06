@@ -6,6 +6,8 @@ var dir_de25d93b7b4ef75f45504127491f58b5 =
     [ "Bestiary.h", "Bestiary_8h.html", "Bestiary_8h" ],
     [ "CharacterOptions.cpp", "CharacterOptions_8cpp.html", "CharacterOptions_8cpp" ],
     [ "CharacterOptions.h", "CharacterOptions_8h.html", "CharacterOptions_8h" ],
+    [ "CharacterSheet.cpp", "CharacterSheet_8cpp.html", "CharacterSheet_8cpp" ],
+    [ "CharacterSheet.h", "CharacterSheet_8h.html", "CharacterSheet_8h" ],
     [ "Check.cpp", "Check_8cpp.html", "Check_8cpp" ],
     [ "Check.h", "Check_8h.html", "Check_8h" ],
     [ "Dice.cpp", "Dice_8cpp.html", "Dice_8cpp" ],
@@ -15,5 +17,7 @@ var dir_de25d93b7b4ef75f45504127491f58b5 =
     [ "RpgEnumNames.cpp", "RpgEnumNames_8cpp.html", "RpgEnumNames_8cpp" ],
     [ "RpgEnumNames.h", "RpgEnumNames_8h.html", "RpgEnumNames_8h" ],
     [ "RpgEnums.h", "RpgEnums_8h.html", "RpgEnums_8h" ],
-    [ "Scale.h", "Scale_8h.html", "Scale_8h" ]
+    [ "Scale.h", "Scale_8h.html", "Scale_8h" ],
+    [ "Skill.cpp", "Skill_8cpp.html", "Skill_8cpp" ],
+    [ "Skill.h", "Skill_8h.html", "Skill_8h" ]
 ];

@@ -132,6 +132,8 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Étendue physique d'une entité pour la collision : une boîte <b>alignée aux axes</b> (AABB).  <a href="structcore_1_1Collider.html#details">More...</a><br /></td></tr>
 <tr class="memitem:Particle" id="r_Particle"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1Particle.html">Particle</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Particule visuelle pure : position, vitesse, durée de vie &ndash; aucun effet de gameplay (<span class="tt">EX-ARCH-012</span>).  <a href="structcore_1_1Particle.html#details">More...</a><br /></td></tr>
+<tr class="memitem:RpgActor" id="r_RpgActor"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1RpgActor.html">RpgActor</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Marque une entité comme <b>acteur de jeu de rôle</b> et la relie à sa fiche.  <a href="structcore_1_1RpgActor.html#details">More...</a><br /></td></tr>
 <tr class="memitem:AtlasRegion" id="r_AtlasRegion"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1AtlasRegion.html">AtlasRegion</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Région source dans l'atlas de textures, en <b>pixels</b> (origine haut-gauche).  <a href="structcore_1_1AtlasRegion.html#details">More...</a><br /></td></tr>
 <tr class="memitem:Color" id="r_Color"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1Color.html">Color</a></td></tr>
@@ -239,6 +241,18 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une classe jouable et sa table de progression.  <a href="structcore_1_1PlayableClass.html#details">More...</a><br /></td></tr>
 <tr class="memitem:CharacterOptions" id="r_CharacterOptions"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1CharacterOptions.html">CharacterOptions</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les trois catalogues chargés, et ce qui n'a pas pu l'être.  <a href="structcore_1_1CharacterOptions.html#details">More...</a><br /></td></tr>
+<tr class="memitem:ExperienceLevel" id="r_ExperienceLevel"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1ExperienceLevel.html">ExperienceLevel</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une ligne de la table d'expérience : le seuil d'un niveau et son bonus de maîtrise.  <a href="structcore_1_1ExperienceLevel.html#details">More...</a><br /></td></tr>
+<tr class="memitem:ExperienceTable" id="r_ExperienceTable"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1ExperienceTable.html">ExperienceTable</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">La table d'expérience, du niveau 1 au niveau 20.  <a href="structcore_1_1ExperienceTable.html#details">More...</a><br /></td></tr>
+<tr class="memitem:CharacterCreationRules" id="r_CharacterCreationRules"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1CharacterCreationRules.html">CharacterCreationRules</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les deux constantes de règle qu'une fiche emploie, lues dans la donnée.  <a href="structcore_1_1CharacterCreationRules.html#details">More...</a><br /></td></tr>
+<tr class="memitem:CharacterSheet" id="r_CharacterSheet"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1CharacterSheet.html">CharacterSheet</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">La fiche d'une créature jouable ou non : héros, PNJ, ennemi.  <a href="structcore_1_1CharacterSheet.html#details">More...</a><br /></td></tr>
+<tr class="memitem:LevelUpResult" id="r_LevelUpResult"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1LevelUpResult.html">LevelUpResult</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ce qu'une montée de niveau a produit — de quoi le dire au joueur (<span class="tt">EX-DND-003</span>).  <a href="structcore_1_1LevelUpResult.html#details">More...</a><br /></td></tr>
+<tr class="memitem:SkillCheckModifier" id="r_SkillCheckModifier"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1SkillCheckModifier.html">SkillCheckModifier</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le modificateur d'un jet de compétence.  <a href="structcore_1_1SkillCheckModifier.html#details">More...</a><br /></td></tr>
 <tr class="memitem:Modifier" id="r_Modifier"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1Modifier.html">Modifier</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un modificateur, avec <b>son origine</b> — sans quoi le jet n'est pas restituable.  <a href="structcore_1_1Modifier.html#details">More...</a><br /></td></tr>
 <tr class="memitem:CheckResult" id="r_CheckResult"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1CheckResult.html">CheckResult</a></td></tr>
@@ -247,6 +261,10 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une expression de dés analysée : <span class="tt">2d6+3</span>, <span class="tt">1d8</span>, <span class="tt">4</span>.  <a href="structcore_1_1Dice.html#details">More...</a><br /></td></tr>
 <tr class="memitem:DiceRoll" id="r_DiceRoll"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1DiceRoll.html">DiceRoll</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le détail d'un lancer, pour que le joueur puisse le reconstituer (<span class="tt">EX-DND-003</span>).  <a href="structcore_1_1DiceRoll.html#details">More...</a><br /></td></tr>
+<tr class="memitem:SkillDefinition" id="r_SkillDefinition"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1SkillDefinition.html">SkillDefinition</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une compétence et la caractéristique dont elle dépend.  <a href="structcore_1_1SkillDefinition.html#details">More...</a><br /></td></tr>
+<tr class="memitem:SkillCatalog" id="r_SkillCatalog"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1SkillCatalog.html">SkillCatalog</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les compétences chargées, et ce qui n'a pas pu l'être.  <a href="structcore_1_1SkillCatalog.html#details">More...</a><br /></td></tr>
 <tr class="memitem:FixedTimestep" id="r_FixedTimestep"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classcore_1_1FixedTimestep.html">FixedTimestep</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convertit un temps réel écoulé variable en un nombre de pas de simulation fixes.  <a href="classcore_1_1FixedTimestep.html#details">More...</a><br /></td></tr>
 <tr class="memitem:GridDistanceField" id="r_GridDistanceField"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classcore_1_1GridDistanceField.html">GridDistanceField</a></td></tr>
@@ -546,10 +564,25 @@ Functions</h2></td></tr>
 <tr class="memdesc:ab1f3cc471902daa6c652cd68eee0bcef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Modificateur d'une valeur de caractéristique : <span class="tt">(score - 10) / 2</span>, <b>arrondi vers le bas</b>.  <br /></td></tr>
 <tr class="memitem:a83d3373cdbf5d435e75c8d6a944e1e2b" id="r_a83d3373cdbf5d435e75c8d6a944e1e2b"><td class="memItemLeft"><a class="el" href="structcore_1_1Bestiary.html">Bestiary</a>&#160;</td><td class="memItemRight"><a class="el" href="#a83d3373cdbf5d435e75c8d6a944e1e2b">loadBestiary</a> (const std::filesystem::path &amp;directory)</td></tr>
 <tr class="memdesc:a83d3373cdbf5d435e75c8d6a944e1e2b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Charge toutes les créatures d'un dossier — un fichier JSON par créature.  <br /></td></tr>
-<tr class="memitem:a54476371da6169a686821533d0f76ea5" id="r_a54476371da6169a686821533d0f76ea5"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a54476371da6169a686821533d0f76ea5">abilityScoreWith</a> (const <a class="el" href="structcore_1_1Species.html">Species</a> &amp;species, <a class="el" href="#a97f31c7914a6cfc54cc026a77da58fd1">Ability</a> which, int baseScore)</td></tr>
-<tr class="memdesc:a54476371da6169a686821533d0f76ea5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Applique les augmentations d'une espèce à une valeur de caractéristique.  <br /></td></tr>
+<tr class="memitem:a94f7b2f3a63555d1eb113d01619edf1a" id="r_a94f7b2f3a63555d1eb113d01619edf1a"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a94f7b2f3a63555d1eb113d01619edf1a">abilityScoreWith</a> (const <a class="el" href="structcore_1_1Species.html">Species</a> &amp;species, <a class="el" href="#a97f31c7914a6cfc54cc026a77da58fd1">Ability</a> which, int baseScore, int maximumScore)</td></tr>
+<tr class="memdesc:a94f7b2f3a63555d1eb113d01619edf1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Applique les augmentations d'une espèce à une valeur de caractéristique.  <br /></td></tr>
 <tr class="memitem:a36cbf1bb7067b2cd672cfc8de2727737" id="r_a36cbf1bb7067b2cd672cfc8de2727737"><td class="memItemLeft"><a class="el" href="structcore_1_1CharacterOptions.html">CharacterOptions</a>&#160;</td><td class="memItemRight"><a class="el" href="#a36cbf1bb7067b2cd672cfc8de2727737">loadCharacterOptions</a> (const std::filesystem::path &amp;speciesDir, const std::filesystem::path &amp;backgroundsDir, const std::filesystem::path &amp;classesDir)</td></tr>
 <tr class="memdesc:a36cbf1bb7067b2cd672cfc8de2727737"><td class="mdescLeft">&#160;</td><td class="mdescRight">Charge les trois catalogues depuis leurs dossiers.  <br /></td></tr>
+<tr class="memitem:aed30bfa90cc61678be84164457f76dab" id="r_aed30bfa90cc61678be84164457f76dab"><td class="memItemLeft"><a class="el" href="structcore_1_1CharacterCreationRules.html">CharacterCreationRules</a>&#160;</td><td class="memItemRight"><a class="el" href="#aed30bfa90cc61678be84164457f76dab">loadCharacterCreationRules</a> (const std::filesystem::path &amp;path)</td></tr>
+<tr class="memdesc:aed30bfa90cc61678be84164457f76dab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Charge les constantes depuis <span class="tt">Source/Elements/Rpg/rules/character-creation.json</span>.  <br /></td></tr>
+<tr class="memitem:a00be15bd9376cf46d81dedf0bc0f7d54" id="r_a00be15bd9376cf46d81dedf0bc0f7d54"><td class="memItemLeft"><a class="el" href="structcore_1_1ExperienceTable.html">ExperienceTable</a>&#160;</td><td class="memItemRight"><a class="el" href="#a00be15bd9376cf46d81dedf0bc0f7d54">loadExperienceTable</a> (const std::filesystem::path &amp;path)</td></tr>
+<tr class="memdesc:a00be15bd9376cf46d81dedf0bc0f7d54"><td class="mdescLeft">&#160;</td><td class="mdescRight">Charge la table d'expérience depuis <span class="tt">Source/Elements/Rpg/rules/experience.json</span>.  <br /></td></tr>
+<tr class="memitem:ab3286191c0a02de9afbc9e711ec799d1" id="r_ab3286191c0a02de9afbc9e711ec799d1"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#ab3286191c0a02de9afbc9e711ec799d1">proficiencyBonus</a> (const <a class="el" href="structcore_1_1CharacterSheet.html">CharacterSheet</a> &amp;sheet, const <a class="el" href="structcore_1_1ExperienceTable.html">ExperienceTable</a> &amp;table)</td></tr>
+<tr class="memdesc:ab3286191c0a02de9afbc9e711ec799d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le bonus de maîtrise de la fiche, <b>lu dans la table</b> au niveau courant.  <br /></td></tr>
+<tr class="memitem:a5f742da51af4901d06af8def76937d57" id="r_a5f742da51af4901d06af8def76937d57"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a5f742da51af4901d06af8def76937d57">savingThrowModifier</a> (const <a class="el" href="structcore_1_1CharacterSheet.html">CharacterSheet</a> &amp;sheet, const <a class="el" href="structcore_1_1ExperienceTable.html">ExperienceTable</a> &amp;table, <a class="el" href="#a97f31c7914a6cfc54cc026a77da58fd1">Ability</a> which)</td></tr>
+<tr class="memdesc:a5f742da51af4901d06af8def76937d57"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le modificateur d'un jet de sauvegarde : caractéristique, plus la maîtrise si elle s'applique.  <br /></td></tr>
+<tr class="memitem:a29026a1c7235970e3f432ac5d08229ad" id="r_a29026a1c7235970e3f432ac5d08229ad"><td class="memItemLeft"><a class="el" href="structcore_1_1SkillCheckModifier.html">SkillCheckModifier</a>&#160;</td><td class="memItemRight"><a class="el" href="#a29026a1c7235970e3f432ac5d08229ad">skillModifier</a> (const <a class="el" href="structcore_1_1CharacterSheet.html">CharacterSheet</a> &amp;sheet, const <a class="el" href="structcore_1_1ExperienceTable.html">ExperienceTable</a> &amp;table, const <a class="el" href="structcore_1_1SkillCatalog.html">SkillCatalog</a> &amp;catalog, std::string_view skillId)</td></tr>
+<tr class="memitem:ae73047aa52884ecfd7eebb21af3990bb" id="r_ae73047aa52884ecfd7eebb21af3990bb"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#ae73047aa52884ecfd7eebb21af3990bb">maximumHitPointsFor</a> (int hitDie, int level, int constitutionModifier)</td></tr>
+<tr class="memdesc:ae73047aa52884ecfd7eebb21af3990bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les points de vie d'un niveau, selon la règle du livre.  <br /></td></tr>
+<tr class="memitem:a7cfff9a8cfc89ebc9d4074d1db13eacd" id="r_a7cfff9a8cfc89ebc9d4074d1db13eacd"><td class="memItemLeft"><a class="el" href="structcore_1_1LevelUpResult.html">LevelUpResult</a>&#160;</td><td class="memItemRight"><a class="el" href="#a7cfff9a8cfc89ebc9d4074d1db13eacd">gainExperience</a> (<a class="el" href="structcore_1_1CharacterSheet.html">CharacterSheet</a> &amp;sheet, const <a class="el" href="structcore_1_1ExperienceTable.html">ExperienceTable</a> &amp;table, int hitDie, int amount)</td></tr>
+<tr class="memdesc:a7cfff9a8cfc89ebc9d4074d1db13eacd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ajoute des points d'expérience et applique la montée de niveau qui en découle.  <br /></td></tr>
+<tr class="memitem:ae5471fabe4f247c99a3c50293f59f91e" id="r_ae5471fabe4f247c99a3c50293f59f91e"><td class="memItemLeft"><a class="el" href="structcore_1_1CharacterSheet.html">CharacterSheet</a>&#160;</td><td class="memItemRight"><a class="el" href="#ae5471fabe4f247c99a3c50293f59f91e">buildCharacterSheet</a> (std::string name, const std::array&lt; int, 6 &gt; &amp;baseAbilities, const <a class="el" href="structcore_1_1Species.html">Species</a> *species, const <a class="el" href="structcore_1_1PlayableClass.html">PlayableClass</a> *playableClass, const <a class="el" href="structcore_1_1Background.html">Background</a> *background, const <a class="el" href="structcore_1_1CharacterCreationRules.html">CharacterCreationRules</a> &amp;rules, const <a class="el" href="structcore_1_1ExperienceTable.html">ExperienceTable</a> &amp;table)</td></tr>
+<tr class="memdesc:ae5471fabe4f247c99a3c50293f59f91e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construit une fiche depuis une espèce, une classe et un historique.  <br /></td></tr>
 <tr class="memitem:a0cca681f3d6c00074710ceecdddab6f7" id="r_a0cca681f3d6c00074710ceecdddab6f7"><td class="memItemLeft"><a class="el" href="structcore_1_1CheckResult.html">CheckResult</a>&#160;</td><td class="memItemRight"><a class="el" href="#a0cca681f3d6c00074710ceecdddab6f7">rollCheck</a> (int target, std::span&lt; const <a class="el" href="structcore_1_1Modifier.html">Modifier</a> &gt; modifiers, <a class="el" href="#aff494cc4070ea4489c3d5ee57178f7c9">RollStance</a> stance, <a class="el" href="classcore_1_1DeterministicRandom.html">DeterministicRandom</a> &amp;random)</td></tr>
 <tr class="memdesc:a0cca681f3d6c00074710ceecdddab6f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lance un d20 contre un seuil.  <br /></td></tr>
 <tr class="memitem:aa60bb21d8cc45167ae840ea21c3b844c" id="r_aa60bb21d8cc45167ae840ea21c3b844c"><td class="memItemLeft">std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#aa60bb21d8cc45167ae840ea21c3b844c">rollStanceName</a> (<a class="el" href="#aff494cc4070ea4489c3d5ee57178f7c9">RollStance</a> stance) noexcept</td></tr>
@@ -572,6 +605,8 @@ Functions</h2></td></tr>
 <tr class="memdesc:a918b595ef74492bed349a6bbf82a9f64"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convertit une distance en mètres — telle que le corpus l'écrit — en nombre de cases.  <br /></td></tr>
 <tr class="memitem:a3bc1fb9934614684210eff9159619222" id="r_a3bc1fb9934614684210eff9159619222"><td class="memItemLeft">constexpr float&#160;</td><td class="memItemRight"><a class="el" href="#a3bc1fb9934614684210eff9159619222">metersFromTiles</a> (float tiles) noexcept</td></tr>
 <tr class="memdesc:a3bc1fb9934614684210eff9159619222"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convertit un nombre de cases en mètres, pour l'affichage et les infobulles.  <br /></td></tr>
+<tr class="memitem:a42f5d87d7c735cf39527f76c7dda44da" id="r_a42f5d87d7c735cf39527f76c7dda44da"><td class="memItemLeft"><a class="el" href="structcore_1_1SkillCatalog.html">SkillCatalog</a>&#160;</td><td class="memItemRight"><a class="el" href="#a42f5d87d7c735cf39527f76c7dda44da">loadSkills</a> (const std::filesystem::path &amp;directory)</td></tr>
+<tr class="memdesc:a42f5d87d7c735cf39527f76c7dda44da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Charge le catalogue des compétences depuis son dossier.  <br /></td></tr>
 <tr id="func-members-0" class="groupHeader"><td colspan="2"><div class="groupHeader">Noms textuels</div></td></tr>
 <tr><td colspan="2" class="ititle"><div class="groupText"><p>Point unique de vérité de la correspondance valeur ↔ nom, partagé par les catalogues de données (<span class="tt">Source/Elements/Rpg/</span>), leurs schémas JSON et le moteur.</p>
 <p>Deux tables distinctes divergeraient au premier type ajouté — et le scénario qu'<span class="tt">EX-CNT-011</span> décrit se produirait : la donnée déclare un type que le moteur ne connaît pas, la valeur tombe dans un cas par défaut, et le sort cesse de faire des dégâts sans que rien ne l'annonce.</p>
@@ -1455,8 +1490,8 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
 
 </div>
 </div>
-<a id="a54476371da6169a686821533d0f76ea5" name="a54476371da6169a686821533d0f76ea5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a54476371da6169a686821533d0f76ea5">&#9670;&#160;</a></span>abilityScoreWith()</h2>
+<a id="a94f7b2f3a63555d1eb113d01619edf1a" name="a94f7b2f3a63555d1eb113d01619edf1a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a94f7b2f3a63555d1eb113d01619edf1a">&#9670;&#160;</a></span>abilityScoreWith()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1477,7 +1512,12 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>baseScore</em></span>&#160;)</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>baseScore</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>maximumScore</em></span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -1488,7 +1528,8 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
 </div><div class="memdoc">
 
 <p>Applique les augmentations d'une espèce à une valeur de caractéristique. </p>
-<p>La seule opération que le moteur ait à faire sur une espèce, et elle est ici pour ne pas être réécrite à chaque écran qui affiche une fiche. La valeur reste bornée à 20 : c'est le plafond qu'une augmentation raciale ne franchit pas. </p>
+<p>La seule opération que le moteur ait à faire sur une espèce, et elle est ici pour ne pas être réécrite à chaque écran qui affiche une fiche.</p>
+<p><span class="tt">maximumScore</span> est <b>un paramètre et non une constante</b> (<span class="tt">EX-VIS-007</span>) : le plafond vient de <span class="tt">rules/character-creation.json</span>, où il est extrait de la phrase qui l'atteste — <em>« Vous ne pouvez pas augmenter une valeur de caractéristique au-delà de 20 »</em>, <em>Basic Rules</em> p. 11. Écrit ici, il ferait d'un ajustement d'équilibrage une recompilation. </p>
 
 </div>
 </div>
@@ -1692,6 +1733,75 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><span class="tt">true</span> si les deux valeurs sont égales à la tolérance près. </dd></dl>
+
+</div>
+</div>
+<a id="ae5471fabe4f247c99a3c50293f59f91e" name="ae5471fabe4f247c99a3c50293f59f91e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae5471fabe4f247c99a3c50293f59f91e">&#9670;&#160;</a></span>buildCharacterSheet()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structcore_1_1CharacterSheet.html">CharacterSheet</a> core::buildCharacterSheet </td>
+          <td>(</td>
+          <td class="paramtype">std::string</td>          <td class="paramname"><span class="paramname"><em>name</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::array&lt; int, 6 &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>baseAbilities</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structcore_1_1Species.html">Species</a> *</td>          <td class="paramname"><span class="paramname"><em>species</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structcore_1_1PlayableClass.html">PlayableClass</a> *</td>          <td class="paramname"><span class="paramname"><em>playableClass</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structcore_1_1Background.html">Background</a> *</td>          <td class="paramname"><span class="paramname"><em>background</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structcore_1_1CharacterCreationRules.html">CharacterCreationRules</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>rules</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structcore_1_1ExperienceTable.html">ExperienceTable</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>table</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Construit une fiche depuis une espèce, une classe et un historique. </p>
+<p>Les trois catalogues du <span class="tt">LOT-36</span> deviennent ici une fiche jouable : les augmentations de l'espèce s'appliquent aux valeurs de base, la classe donne le dé de vie et les jets de sauvegarde, l'historique les compétences maîtrisées.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>Le nom du personnage, tel qu'il s'affichera. </td></tr>
+    <tr><td class="paramname">baseAbilities</td><td>Les six valeurs <b>avant</b> augmentation d'espèce, dans l'ordre de <span class="tt"><a class="el" href="#a97f31c7914a6cfc54cc026a77da58fd1" title="Une des six caractéristiques d&#39;un personnage ou d&#39;une créature (EX-DND-010).">core::Ability</a></span>. </td></tr>
+    <tr><td class="paramname">species</td><td>Peut être <span class="tt">nullptr</span> — une créature sans espèce est légitime. </td></tr>
+    <tr><td class="paramname">playableClass</td><td>Peut être <span class="tt">nullptr</span>, auquel cause la fiche n'a ni dé de vie ni sauvegardes. </td></tr>
+    <tr><td class="paramname">background</td><td>Peut être <span class="tt">nullptr</span>. </td></tr>
+    <tr><td class="paramname">rules</td><td>Les constantes de création, lues dans la donnée. </td></tr>
+    <tr><td class="paramname">table</td><td>La table d'expérience, pour le seuil du niveau de départ. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -2141,6 +2251,50 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
 
 </div>
 </div>
+<a id="a7cfff9a8cfc89ebc9d4074d1db13eacd" name="a7cfff9a8cfc89ebc9d4074d1db13eacd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7cfff9a8cfc89ebc9d4074d1db13eacd">&#9670;&#160;</a></span>gainExperience()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structcore_1_1LevelUpResult.html">LevelUpResult</a> core::gainExperience </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcore_1_1CharacterSheet.html">CharacterSheet</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>sheet</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structcore_1_1ExperienceTable.html">ExperienceTable</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>table</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>hitDie</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>amount</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Ajoute des points d'expérience et applique la montée de niveau qui en découle. </p>
+<p><b>Reproductible</b> : aucune part de hasard, et le résultat ne dépend que de la fiche, de la table et du montant. Le franchissement de plusieurs seuils d'un coup est traité comme le livre le décrit — le personnage atteint le niveau que son total lui donne, pas le suivant.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sheet</td><td>La fiche, modifiée sur place. </td></tr>
+    <tr><td class="paramname">table</td><td>La table d'expérience. </td></tr>
+    <tr><td class="paramname">hitDie</td><td>Le dé de vie de la classe, pour recalculer les points de vie. </td></tr>
+    <tr><td class="paramname">amount</td><td>Les points gagnés. Un montant négatif est ignoré : perdre de l'expérience n'est pas une règle de ce jeu, et l'accepter en silence ferait descendre un personnage de niveau sans que rien ne l'annonce. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Ce que la montée a produit, niveau par niveau. </dd></dl>
+
+</div>
+</div>
 <a id="a7278ef05514b62dcd5241984197dfb23" name="a7278ef05514b62dcd5241984197dfb23"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7278ef05514b62dcd5241984197dfb23">&#9670;&#160;</a></span>handleAssertionFailure()</h2>
 
@@ -2318,6 +2472,33 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
 
 </div>
 </div>
+<a id="aed30bfa90cc61678be84164457f76dab" name="aed30bfa90cc61678be84164457f76dab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aed30bfa90cc61678be84164457f76dab">&#9670;&#160;</a></span>loadCharacterCreationRules()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structcore_1_1CharacterCreationRules.html">CharacterCreationRules</a> core::loadCharacterCreationRules </td>
+          <td>(</td>
+          <td class="paramtype">const std::filesystem::path &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Charge les constantes depuis <span class="tt">Source/Elements/Rpg/rules/character-creation.json</span>. </p>
+
+</div>
+</div>
 <a id="a36cbf1bb7067b2cd672cfc8de2727737" name="a36cbf1bb7067b2cd672cfc8de2727737"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a36cbf1bb7067b2cd672cfc8de2727737">&#9670;&#160;</a></span>loadCharacterOptions()</h2>
 
@@ -2364,6 +2545,67 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
 
 </div>
 </div>
+<a id="a00be15bd9376cf46d81dedf0bc0f7d54" name="a00be15bd9376cf46d81dedf0bc0f7d54"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a00be15bd9376cf46d81dedf0bc0f7d54">&#9670;&#160;</a></span>loadExperienceTable()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structcore_1_1ExperienceTable.html">ExperienceTable</a> core::loadExperienceTable </td>
+          <td>(</td>
+          <td class="paramtype">const std::filesystem::path &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Charge la table d'expérience depuis <span class="tt">Source/Elements/Rpg/rules/experience.json</span>. </p>
+
+</div>
+</div>
+<a id="a42f5d87d7c735cf39527f76c7dda44da" name="a42f5d87d7c735cf39527f76c7dda44da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a42f5d87d7c735cf39527f76c7dda44da">&#9670;&#160;</a></span>loadSkills()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structcore_1_1SkillCatalog.html">SkillCatalog</a> core::loadSkills </td>
+          <td>(</td>
+          <td class="paramtype">const std::filesystem::path &amp;</td>          <td class="paramname"><span class="paramname"><em>directory</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Charge le catalogue des compétences depuis son dossier. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">directory</td><td><span class="tt">Source/Elements/Rpg/skills</span>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Le catalogue et la liste des échecs. Ne lève jamais (<span class="tt">EX-NFR-040</span>). </dd></dl>
+
+</div>
+</div>
 <a id="aa8d6d02cb4e8204a0ae9e6a14b5bbc2e" name="aa8d6d02cb4e8204a0ae9e6a14b5bbc2e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa8d6d02cb4e8204a0ae9e6a14b5bbc2e">&#9670;&#160;</a></span>magicSchoolName()</h2>
 
@@ -2386,6 +2628,52 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae73047aa52884ecfd7eebb21af3990bb" name="ae73047aa52884ecfd7eebb21af3990bb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae73047aa52884ecfd7eebb21af3990bb">&#9670;&#160;</a></span>maximumHitPointsFor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int core::maximumHitPointsFor </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>hitDie</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>level</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>constitutionModifier</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Les points de vie d'un niveau, selon la règle du livre. </p>
+<p><em>« Vous pouvez aussi choisir d'utiliser la valeur fixe indiquée dans la description de votre classe, qui se trouve être la valeur moyenne (arrondie au supérieur) du dé »</em> — <em>Basic Rules</em> p. 11. C'est la voie <b>déterministe</b>, et c'est celle que le moteur emploie : des points de vie tirés au dé rendraient une partie irrejouable, ce qu'<span class="tt">EX-NFR-002</span> interdit.</p>
+<p>Le niveau 1 reçoit le <b>maximum</b> du dé ; chaque niveau suivant sa moyenne arrondie au supérieur. Le modificateur de Constitution s'ajoute <b>à chaque niveau</b>, et le gain d'un niveau vaut au minimum 1 : un personnage à la Constitution désastreuse gagne peu de points de vie, il n'en perd pas.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">hitDie</td><td>Le dé de vie de la classe, <b>lu dans sa donnée</b> (<span class="tt">hitDie</span> du catalogue). </td></tr>
+    <tr><td class="paramname">level</td><td>Le niveau atteint, à partir de 1. </td></tr>
+    <tr><td class="paramname">constitutionModifier</td><td>Le modificateur de Constitution. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -3164,6 +3452,37 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
 
 </div>
 </div>
+<a id="ab3286191c0a02de9afbc9e711ec799d1" name="ab3286191c0a02de9afbc9e711ec799d1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab3286191c0a02de9afbc9e711ec799d1">&#9670;&#160;</a></span>proficiencyBonus()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int core::proficiencyBonus </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structcore_1_1CharacterSheet.html">CharacterSheet</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>sheet</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structcore_1_1ExperienceTable.html">ExperienceTable</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>table</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Le bonus de maîtrise de la fiche, <b>lu dans la table</b> au niveau courant. </p>
+
+</div>
+</div>
 <a id="acfecbe35ed7427415d02c52fcea70388" name="acfecbe35ed7427415d02c52fcea70388"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#acfecbe35ed7427415d02c52fcea70388">&#9670;&#160;</a></span>readJsonObject()</h2>
 
@@ -3449,6 +3768,42 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
 
 </div>
 </div>
+<a id="a5f742da51af4901d06af8def76937d57" name="a5f742da51af4901d06af8def76937d57"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5f742da51af4901d06af8def76937d57">&#9670;&#160;</a></span>savingThrowModifier()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int core::savingThrowModifier </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structcore_1_1CharacterSheet.html">CharacterSheet</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>sheet</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structcore_1_1ExperienceTable.html">ExperienceTable</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>table</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#a97f31c7914a6cfc54cc026a77da58fd1">Ability</a></td>          <td class="paramname"><span class="paramname"><em>which</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Le modificateur d'un jet de sauvegarde : caractéristique, plus la maîtrise si elle s'applique. </p>
+
+</div>
+</div>
 <a id="a0b2fde01c38742c460acb176220332ff" name="a0b2fde01c38742c460acb176220332ff"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0b2fde01c38742c460acb176220332ff">&#9670;&#160;</a></span>setAssertionHandler()</h2>
 
@@ -3471,6 +3826,45 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="a29026a1c7235970e3f432ac5d08229ad" name="a29026a1c7235970e3f432ac5d08229ad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a29026a1c7235970e3f432ac5d08229ad">&#9670;&#160;</a></span>skillModifier()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structcore_1_1SkillCheckModifier.html">SkillCheckModifier</a> core::skillModifier </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structcore_1_1CharacterSheet.html">CharacterSheet</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>sheet</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structcore_1_1ExperienceTable.html">ExperienceTable</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>table</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structcore_1_1SkillCatalog.html">SkillCatalog</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>catalog</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>skillId</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 </div>
 </div>

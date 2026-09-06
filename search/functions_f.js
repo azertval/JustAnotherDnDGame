@@ -91,9 +91,11 @@ var searchData=
   ['positionof_88',['positionOf',['../namespacecore.html#a569a17f14f76ba1b657c3d43521dd3cc',1,'core']]],
   ['preload_89',['preload',['../classhmi_1_1AudioEngine.html#a930bcb518d0819c6d8d357282c1aca30',1,'hmi::AudioEngine']]],
   ['proceduralplayerclipnames_90',['proceduralPlayerClipNames',['../namespacehmi.html#ad9d86326e8a24c761d2b3c04e378a0a1',1,'hmi']]],
-  ['progression_91',['Progression',['../classhmi_1_1Progression.html#aabc23a60b62e92dcc21b029751472847',1,'hmi::Progression']]],
-  ['projectionmatrix_92',['projectionMatrix',['../classhmi_1_1Camera2D.html#ae4d184982026b7f61e3507c0d264321b',1,'hmi::Camera2D']]],
-  ['provisionalclassids_93',['provisionalClassIds',['../structcore_1_1CharacterOptions.html#a73428d368e617da75c42c0959af697b4',1,'core::CharacterOptions']]],
-  ['push_94',['push',['../classhmi_1_1PixelHistory.html#a7770d08d847df91ee22e4e9100cadff8',1,'hmi::PixelHistory']]],
-  ['pushundo_95',['pushUndo',['../classcore_1_1LevelDraft.html#a949cfb0148244f0ba05257d4f523f51d',1,'core::LevelDraft']]]
+  ['proficiencybonus_91',['proficiencyBonus',['../namespacecore.html#ab3286191c0a02de9afbc9e711ec799d1',1,'core']]],
+  ['proficiencybonusat_92',['proficiencyBonusAt',['../structcore_1_1ExperienceTable.html#afa97dc8b533b171aa3e2d18478e56709',1,'core::ExperienceTable']]],
+  ['progression_93',['Progression',['../classhmi_1_1Progression.html#aabc23a60b62e92dcc21b029751472847',1,'hmi::Progression']]],
+  ['projectionmatrix_94',['projectionMatrix',['../classhmi_1_1Camera2D.html#ae4d184982026b7f61e3507c0d264321b',1,'hmi::Camera2D']]],
+  ['provisionalclassids_95',['provisionalClassIds',['../structcore_1_1CharacterOptions.html#a73428d368e617da75c42c0959af697b4',1,'core::CharacterOptions']]],
+  ['push_96',['push',['../classhmi_1_1PixelHistory.html#a7770d08d847df91ee22e4e9100cadff8',1,'hmi::PixelHistory']]],
+  ['pushundo_97',['pushUndo',['../classcore_1_1LevelDraft.html#a949cfb0148244f0ba05257d4f523f51d',1,'core::LevelDraft']]]
 ];

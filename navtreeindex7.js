@@ -1,5 +1,13 @@
 var NAVTREEINDEX7 =
 {
+"classhmi_1_1GameSession.html#a17ea5dde3cb91b218706bcb004238688":[12,0,1,53,40],
+"classhmi_1_1GameSession.html#a1a9c65f70ce2a208b5c39277c78424a7":[11,0,1,53,44],
+"classhmi_1_1GameSession.html#a1a9c65f70ce2a208b5c39277c78424a7":[12,0,1,53,44],
+"classhmi_1_1GameSession.html#a23f70a9ee628a22dd5dfe3dbafe79296":[11,0,1,53,3],
+"classhmi_1_1GameSession.html#a23f70a9ee628a22dd5dfe3dbafe79296":[12,0,1,53,3],
+"classhmi_1_1GameSession.html#a24dd6fafb4f13659c541081bb3894e76":[11,0,1,53,61],
+"classhmi_1_1GameSession.html#a24dd6fafb4f13659c541081bb3894e76":[12,0,1,53,61],
+"classhmi_1_1GameSession.html#a26dc0fafe6519dee52b2e27800ae82f9":[11,0,1,53,80],
 "classhmi_1_1GameSession.html#a26dc0fafe6519dee52b2e27800ae82f9":[12,0,1,53,80],
 "classhmi_1_1GameSession.html#a27c40698b1b5387000408d0f7a1c6458":[11,0,1,53,4],
 "classhmi_1_1GameSession.html#a27c40698b1b5387000408d0f7a1c6458":[12,0,1,53,4],
@@ -241,13 +249,5 @@ var NAVTREEINDEX7 =
 "classhmi_1_1GameViewport.html#a429e3a6ba571a469b45d3dc1e4662991":[12,0,1,54,74],
 "classhmi_1_1GameViewport.html#a447c144c52c54657cb29e4b7473e8f3b":[11,0,1,54,34],
 "classhmi_1_1GameViewport.html#a447c144c52c54657cb29e4b7473e8f3b":[12,0,1,54,34],
-"classhmi_1_1GameViewport.html#a44c4f8a4d887b32d8cdd25efc7d9cf1d":[11,0,1,54,66],
-"classhmi_1_1GameViewport.html#a44c4f8a4d887b32d8cdd25efc7d9cf1d":[12,0,1,54,66],
-"classhmi_1_1GameViewport.html#a47134978f9ee32fd613ddd132006835a":[11,0,1,54,31],
-"classhmi_1_1GameViewport.html#a47134978f9ee32fd613ddd132006835a":[12,0,1,54,31],
-"classhmi_1_1GameViewport.html#a4a31de0d35b6fce76afb749e27539d35":[11,0,1,54,33],
-"classhmi_1_1GameViewport.html#a4a31de0d35b6fce76afb749e27539d35":[12,0,1,54,33],
-"classhmi_1_1GameViewport.html#a4d1767ffe75ae9a601c7d211410f86b7":[11,0,1,54,40],
-"classhmi_1_1GameViewport.html#a4d1767ffe75ae9a601c7d211410f86b7":[12,0,1,54,40],
-"classhmi_1_1GameViewport.html#a4e56de8b6d247c368e7ae8d37b7cf9b8":[11,0,1,54,77]
+"classhmi_1_1GameViewport.html#a44c4f8a4d887b32d8cdd25efc7d9cf1d":[11,0,1,54,66]
 };

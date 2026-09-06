@@ -1,9 +1,9 @@
 var searchData=
 [
-  ['ability_0',['ability',['../structcore_1_1Creature.html#a7862251798afea359503fcd3b299d9ed',1,'core::Creature']]],
+  ['ability_0',['ability',['../structcore_1_1Creature.html#a7862251798afea359503fcd3b299d9ed',1,'core::Creature::ability()'],['../structcore_1_1CharacterSheet.html#a108c1b3e24bb31cb5a940dcb3ef17ea1',1,'core::CharacterSheet::ability()']]],
   ['abilitymodifier_1',['abilityModifier',['../namespacecore.html#ab1f3cc471902daa6c652cd68eee0bcef',1,'core']]],
   ['abilityname_2',['abilityName',['../namespacecore.html#ad539e41d55b3f90675658586d0d0b77e',1,'core']]],
-  ['abilityscorewith_3',['abilityScoreWith',['../namespacecore.html#a54476371da6169a686821533d0f76ea5',1,'core']]],
+  ['abilityscorewith_3',['abilityScoreWith',['../namespacecore.html#a94f7b2f3a63555d1eb113d01619edf1a',1,'core']]],
   ['accumulatestep_4',['accumulateStep',['../namespacehmi.html#a7ad0c5959af0b793d8833b2c517a2a37',1,'hmi']]],
   ['action_5',['action',['../structcore_1_1Creature.html#a68b8469e19a311563fa060efd23d00a7',1,'core::Creature::action()'],['../classhmi_1_1EditorActions.html#a0cf45b53c8671c5d791a9408cba20a11',1,'hmi::EditorActions::action()']]],
   ['activecamerazoneindex_6',['activeCameraZoneIndex',['../namespacehmi.html#a105226a84e7eee6e32a6d20a57502b5b',1,'hmi']]],

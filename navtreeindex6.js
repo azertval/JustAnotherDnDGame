@@ -1,5 +1,13 @@
 var NAVTREEINDEX6 =
 {
+"classhmi_1_1ComposedScene.html#a84dc1784abf8931b638de5929894ad54":[12,0,1,73,0],
+"classhmi_1_1ComposedScene.html#a86ce48e065a3f0541ae541f897b2fedd":[11,0,1,73,14],
+"classhmi_1_1ComposedScene.html#a86ce48e065a3f0541ae541f897b2fedd":[12,0,1,73,14],
+"classhmi_1_1ComposedScene.html#a9f92fa8a1772a76be02f5cbd06310cf3":[11,0,1,73,18],
+"classhmi_1_1ComposedScene.html#a9f92fa8a1772a76be02f5cbd06310cf3":[12,0,1,73,18],
+"classhmi_1_1ComposedScene.html#aa7224733eaa8db633223dd7e172acb5b":[11,0,1,73,16],
+"classhmi_1_1ComposedScene.html#aa7224733eaa8db633223dd7e172acb5b":[12,0,1,73,16],
+"classhmi_1_1ComposedScene.html#aa885de2ea8ce9908fe077a7b2bbfa65a":[11,0,1,73,19],
 "classhmi_1_1ComposedScene.html#aa885de2ea8ce9908fe077a7b2bbfa65a":[12,0,1,73,19],
 "classhmi_1_1ComposedScene.html#aaa9c9c3f70b554c719bcb6a3a5547e00":[11,0,1,73,17],
 "classhmi_1_1ComposedScene.html#aaa9c9c3f70b554c719bcb6a3a5547e00":[12,0,1,73,17],
@@ -241,13 +249,5 @@ var NAVTREEINDEX6 =
 "classhmi_1_1GameSession.html#a14e4923728f4e0066b3454d84d8cfd8d":[12,0,1,53,51],
 "classhmi_1_1GameSession.html#a169676ab1d215fce41c83e0a5904ea80":[11,0,1,53,57],
 "classhmi_1_1GameSession.html#a169676ab1d215fce41c83e0a5904ea80":[12,0,1,53,57],
-"classhmi_1_1GameSession.html#a17ea5dde3cb91b218706bcb004238688":[11,0,1,53,40],
-"classhmi_1_1GameSession.html#a17ea5dde3cb91b218706bcb004238688":[12,0,1,53,40],
-"classhmi_1_1GameSession.html#a1a9c65f70ce2a208b5c39277c78424a7":[11,0,1,53,44],
-"classhmi_1_1GameSession.html#a1a9c65f70ce2a208b5c39277c78424a7":[12,0,1,53,44],
-"classhmi_1_1GameSession.html#a23f70a9ee628a22dd5dfe3dbafe79296":[11,0,1,53,3],
-"classhmi_1_1GameSession.html#a23f70a9ee628a22dd5dfe3dbafe79296":[12,0,1,53,3],
-"classhmi_1_1GameSession.html#a24dd6fafb4f13659c541081bb3894e76":[11,0,1,53,61],
-"classhmi_1_1GameSession.html#a24dd6fafb4f13659c541081bb3894e76":[12,0,1,53,61],
-"classhmi_1_1GameSession.html#a26dc0fafe6519dee52b2e27800ae82f9":[11,0,1,53,80]
+"classhmi_1_1GameSession.html#a17ea5dde3cb91b218706bcb004238688":[11,0,1,53,40]
 };

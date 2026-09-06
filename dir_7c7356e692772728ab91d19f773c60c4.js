@@ -9,6 +9,7 @@ var dir_7c7356e692772728ab91d19f773c60c4 =
     [ "LOT-07-rendu-tri-par-y", "dir_f8b7e8d4ca3133a56858706d968618a8.html", null ],
     [ "LOT-08-tuiles-rpg", "dir_ae0f6326bcc3735836795f204f9b206f.html", null ],
     [ "LOT-12-des-caracteristiques-jets", "dir_27a68e08a72146ed4a04cb6cd5a2797d.html", null ],
+    [ "LOT-13-fiche-de-personnage", "dir_6ec51d3329454be19df7ee64d07756ef.html", null ],
     [ "LOT-30-chaine-extraction-corpus", "dir_1a572379fa9a8d4a5955449e90cfed1b.html", null ],
     [ "LOT-32-schemas-donnees-rpg", "dir_42f5d2e71022fc997214f45730d4f996.html", null ],
     [ "LOT-33-bestiaire-de-base", "dir_d099c8ae0edc1c87bb187eaf82af2103.html", null ],

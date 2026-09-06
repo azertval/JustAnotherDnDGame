@@ -1,5 +1,13 @@
 var NAVTREEINDEX12 =
 {
+"classhmi_1_1MainWindow.html#aef651eacf7d4b0696a0ec0bfbc1d0483":[12,0,1,143,74],
+"classhmi_1_1MainWindow.html#aef77702f265c861ebec3ef8c62c9cbf9":[11,0,1,143,53],
+"classhmi_1_1MainWindow.html#aef77702f265c861ebec3ef8c62c9cbf9":[12,0,1,143,53],
+"classhmi_1_1MainWindow.html#af1127880bfad8cb9a4e49eb5c072ca08":[11,0,1,143,103],
+"classhmi_1_1MainWindow.html#af1127880bfad8cb9a4e49eb5c072ca08":[12,0,1,143,103],
+"classhmi_1_1MainWindow.html#af1529048d81c811d567b00408037cde0":[11,0,1,143,20],
+"classhmi_1_1MainWindow.html#af1529048d81c811d567b00408037cde0":[12,0,1,143,20],
+"classhmi_1_1MainWindow.html#af157ea12f5ce284911d9b598b9564c73":[11,0,1,143,115],
 "classhmi_1_1MainWindow.html#af157ea12f5ce284911d9b598b9564c73":[12,0,1,143,115],
 "classhmi_1_1MainWindow.html#af383ac40d93b51725b361d72e2342292":[11,0,1,143,128],
 "classhmi_1_1MainWindow.html#af383ac40d93b51725b361d72e2342292":[12,0,1,143,128],
@@ -241,13 +249,5 @@ var NAVTREEINDEX12 =
 "classhmi_1_1PixelCanvas.html#abcf456cfd0051d6625ec924e7837a946":[12,0,1,26,36],
 "classhmi_1_1PixelCanvas.html#abfa9533a8232cb6750a94d683be4e3fd":[11,0,1,26,21],
 "classhmi_1_1PixelCanvas.html#abfa9533a8232cb6750a94d683be4e3fd":[12,0,1,26,21],
-"classhmi_1_1PixelCanvas.html#ac22ae6d5813bb2e8a4a6c4519b9a6a57":[11,0,1,26,43],
-"classhmi_1_1PixelCanvas.html#ac22ae6d5813bb2e8a4a6c4519b9a6a57":[12,0,1,26,43],
-"classhmi_1_1PixelCanvas.html#ac5e99a00563e3f35a5c4a6e6024a1c02":[11,0,1,26,44],
-"classhmi_1_1PixelCanvas.html#ac5e99a00563e3f35a5c4a6e6024a1c02":[12,0,1,26,44],
-"classhmi_1_1PixelCanvas.html#ac72a37aea3e457ecccda6912d6987920":[11,0,1,26,81],
-"classhmi_1_1PixelCanvas.html#ac72a37aea3e457ecccda6912d6987920":[12,0,1,26,81],
-"classhmi_1_1PixelCanvas.html#acb0d735d026ec5e1a4fddcfb2f18322b":[11,0,1,26,38],
-"classhmi_1_1PixelCanvas.html#acb0d735d026ec5e1a4fddcfb2f18322b":[12,0,1,26,38],
-"classhmi_1_1PixelCanvas.html#acc86c29c021d725cef9d92a53bdeb711":[11,0,1,26,52]
+"classhmi_1_1PixelCanvas.html#ac22ae6d5813bb2e8a4a6c4519b9a6a57":[11,0,1,26,43]
 };

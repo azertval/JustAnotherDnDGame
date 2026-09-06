@@ -12,7 +12,8 @@ var searchData=
   ['roomgrid_2ecpp_9',['RoomGrid.cpp',['../RoomGrid_8cpp.html',1,'']]],
   ['roomgrid_2eh_10',['RoomGrid.h',['../RoomGrid_8h.html',1,'']]],
   ['rpg_2emd_11',['rpg.md',['../rpg_8md.html',1,'']]],
-  ['rpgenumnames_2ecpp_12',['RpgEnumNames.cpp',['../RpgEnumNames_8cpp.html',1,'']]],
-  ['rpgenumnames_2eh_13',['RpgEnumNames.h',['../RpgEnumNames_8h.html',1,'']]],
-  ['rpgenums_2eh_14',['RpgEnums.h',['../RpgEnums_8h.html',1,'']]]
+  ['rpgactor_2eh_12',['RpgActor.h',['../RpgActor_8h.html',1,'']]],
+  ['rpgenumnames_2ecpp_13',['RpgEnumNames.cpp',['../RpgEnumNames_8cpp.html',1,'']]],
+  ['rpgenumnames_2eh_14',['RpgEnumNames.h',['../RpgEnumNames_8h.html',1,'']]],
+  ['rpgenums_2eh_15',['RpgEnums.h',['../RpgEnums_8h.html',1,'']]]
 ];

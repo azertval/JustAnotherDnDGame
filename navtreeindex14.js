@@ -1,5 +1,13 @@
 var NAVTREEINDEX14 =
 {
+"classhmi_1_1PlanesPanel.html#ab40ebbb834c9d848a2c8919dcb7f14b1":[12,0,1,41,19],
+"classhmi_1_1PlanesPanel.html#ac431441e30ca8a7acf8864fa2fc00783":[11,0,1,41,15],
+"classhmi_1_1PlanesPanel.html#ac431441e30ca8a7acf8864fa2fc00783":[12,0,1,41,15],
+"classhmi_1_1PlanesPanel.html#ac77909059605187b95ba3680908be4cf":[11,0,1,41,18],
+"classhmi_1_1PlanesPanel.html#ac77909059605187b95ba3680908be4cf":[12,0,1,41,18],
+"classhmi_1_1PlanesPanel.html#ad19b57c599d7954b725092ef82826da5":[11,0,1,41,5],
+"classhmi_1_1PlanesPanel.html#ad19b57c599d7954b725092ef82826da5":[12,0,1,41,5],
+"classhmi_1_1PlanesPanel.html#ad8ceb8e18645fa670c9048a7db08ac30":[11,0,1,41,14],
 "classhmi_1_1PlanesPanel.html#ad8ceb8e18645fa670c9048a7db08ac30":[12,0,1,41,14],
 "classhmi_1_1PlanesPanel.html#ada2956a24b91589ec330707fdd5929f9":[11,0,1,41,3],
 "classhmi_1_1PlanesPanel.html#ada2956a24b91589ec330707fdd5929f9":[12,0,1,41,3],
@@ -241,13 +249,5 @@ var NAVTREEINDEX14 =
 "classhmi_1_1SpriteRenderer.html#a1b630d6b7944ad90bccc3fda0bfbd947":[12,0,1,103,12],
 "classhmi_1_1SpriteRenderer.html#a3713ab82000ed036e519adbcee39604d":[11,0,1,103,7],
 "classhmi_1_1SpriteRenderer.html#a3713ab82000ed036e519adbcee39604d":[12,0,1,103,7],
-"classhmi_1_1SpriteRenderer.html#a53acb5abdc7ce0f58489ab13524a0ee6":[11,0,1,103,1],
-"classhmi_1_1SpriteRenderer.html#a53acb5abdc7ce0f58489ab13524a0ee6":[12,0,1,103,1],
-"classhmi_1_1SpriteRenderer.html#a602b47dbb5998673ed6dd935f1b2dbce":[11,0,1,103,8],
-"classhmi_1_1SpriteRenderer.html#a602b47dbb5998673ed6dd935f1b2dbce":[12,0,1,103,8],
-"classhmi_1_1SpriteRenderer.html#a796e552b16b1c726e9bd44016c965783":[11,0,1,103,2],
-"classhmi_1_1SpriteRenderer.html#a796e552b16b1c726e9bd44016c965783":[12,0,1,103,2],
-"classhmi_1_1SpriteRenderer.html#a79dd0aea00f6f48dac8924fbe3257f16":[11,0,1,103,3],
-"classhmi_1_1SpriteRenderer.html#a79dd0aea00f6f48dac8924fbe3257f16":[12,0,1,103,3],
-"classhmi_1_1SpriteRenderer.html#a80280a51830068380f867a58686317d9":[11,0,1,103,0]
+"classhmi_1_1SpriteRenderer.html#a53acb5abdc7ce0f58489ab13524a0ee6":[11,0,1,103,1]
 };

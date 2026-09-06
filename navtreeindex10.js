@@ -1,5 +1,13 @@
 var NAVTREEINDEX10 =
 {
+"classhmi_1_1KeybindingsWidget.html#a31331d913be099ded46dd03868ed2bf3":[12,0,1,138,10],
+"classhmi_1_1KeybindingsWidget.html#a45506940cff9777b9b491a70b8044a34":[11,0,1,138,5],
+"classhmi_1_1KeybindingsWidget.html#a45506940cff9777b9b491a70b8044a34":[12,0,1,138,5],
+"classhmi_1_1KeybindingsWidget.html#a5d8d25f05b557c6aeb51393597951dbb":[11,0,1,138,7],
+"classhmi_1_1KeybindingsWidget.html#a5d8d25f05b557c6aeb51393597951dbb":[12,0,1,138,7],
+"classhmi_1_1KeybindingsWidget.html#a6b72491520a44497ec27dab3d9d28a60":[11,0,1,138,3],
+"classhmi_1_1KeybindingsWidget.html#a6b72491520a44497ec27dab3d9d28a60":[12,0,1,138,3],
+"classhmi_1_1KeybindingsWidget.html#abbbf90c29c119c04185ede57315bd7db":[11,0,1,138,4],
 "classhmi_1_1KeybindingsWidget.html#abbbf90c29c119c04185ede57315bd7db":[12,0,1,138,4],
 "classhmi_1_1KeybindingsWidget.html#ac1abe98752f61be32fa6f294f68d524f":[11,0,1,138,8],
 "classhmi_1_1KeybindingsWidget.html#ac1abe98752f61be32fa6f294f68d524f":[12,0,1,138,8],
@@ -241,13 +249,5 @@ var NAVTREEINDEX10 =
 "classhmi_1_1MainWindow.html#a07b944975d592b5ec452733b50827789":[12,0,1,143,41],
 "classhmi_1_1MainWindow.html#a0c0f25275caa45e3ab0fdab1575520f0":[11,0,1,143,39],
 "classhmi_1_1MainWindow.html#a0c0f25275caa45e3ab0fdab1575520f0":[12,0,1,143,39],
-"classhmi_1_1MainWindow.html#a0c2030c04ec61b66dcf517d9d337049f":[11,0,1,143,40],
-"classhmi_1_1MainWindow.html#a0c2030c04ec61b66dcf517d9d337049f":[12,0,1,143,40],
-"classhmi_1_1MainWindow.html#a0c75214acd44c6e1bef12db335abd37f":[11,0,1,143,51],
-"classhmi_1_1MainWindow.html#a0c75214acd44c6e1bef12db335abd37f":[12,0,1,143,51],
-"classhmi_1_1MainWindow.html#a1ed419815e2ff1739411e9b7597f6734":[11,0,1,143,55],
-"classhmi_1_1MainWindow.html#a1ed419815e2ff1739411e9b7597f6734":[12,0,1,143,55],
-"classhmi_1_1MainWindow.html#a1ed57ff25b1be1c311886896b1ae444f":[11,0,1,143,137],
-"classhmi_1_1MainWindow.html#a1ed57ff25b1be1c311886896b1ae444f":[12,0,1,143,137],
-"classhmi_1_1MainWindow.html#a23d7033f2e1cfe842e9d3c9f6f6f6db8":[11,0,1,143,72]
+"classhmi_1_1MainWindow.html#a0c2030c04ec61b66dcf517d9d337049f":[11,0,1,143,40]
 };

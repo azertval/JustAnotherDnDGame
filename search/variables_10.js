@@ -55,10 +55,13 @@ var searchData=
   ['pointsize_52',['pointSize',['../structhmi_1_1TypographyLevel.html#a97b1f662877b54dc7eb22c8dec9f51d1',1,'hmi::TypographyLevel']]],
   ['position_53',['position',['../structcore_1_1JsonDocument.html#a5718d18985ba735dc2791403a901bac1',1,'core::JsonDocument::position'],['../structcore_1_1Particle.html#a4a1e501affd688369653dff8ad9afec1',1,'core::Particle::position'],['../structcore_1_1Transform.html#a95083539c843b0577d8f8c324c4e6b27',1,'core::Transform::position'],['../structcore_1_1TileTextureOverride.html#a03a135f3977d8006b699cb8e352af176',1,'core::TileTextureOverride::position'],['../structcore_1_1MapEntity.html#a3e295d3994994b3a15733b8377a25695',1,'core::MapEntity::position'],['../structcore_1_1Rect.html#aa80907b79b8c68b4b6cb2ad6600ff1d3',1,'core::Rect::position'],['../structcore_1_1SweepResult.html#a9f874ecc7effce266633af49e4da07f0',1,'core::SweepResult::position']]],
   ['previousactive_54',['previousActive',['../structhmi_1_1MechanismVisualState.html#a638ee6429d408f4770bf09dcc712611c',1,'hmi::MechanismVisualState']]],
-  ['primaryability_55',['primaryAbility',['../structcore_1_1PlayableClass.html#a6e95af878f45c713788f4f6631837751',1,'core::PlayableClass']]],
-  ['proficiencybonus_56',['proficiencyBonus',['../structcore_1_1ClassLevel.html#a0c2b7eb60cca0c8f6c5877622923ff2d',1,'core::ClassLevel']]],
-  ['progression_57',['progression',['../structcore_1_1PlayableClass.html#a028057f581a62cc7bbaccba44edb81d2',1,'core::PlayableClass::progression'],['../structcore_1_1ClassLevel.html#a729a086773af573c5c025e12589e5f9e',1,'core::ClassLevel::progression']]],
-  ['properties_58',['properties',['../structcore_1_1MapEntity.html#a8e85ab253ba2e9b4e70fcdce5e1bff0f',1,'core::MapEntity::properties'],['../structcore_1_1TileLayer.html#acfa350d1bf9ee7cf8495b4cd760224cb',1,'core::TileLayer::properties']]],
-  ['provisional_59',['provisional',['../structcore_1_1ProvisionalStatus.html#a3cb7e2c151216ab1e8f0a2c403fafdfb',1,'core::ProvisionalStatus']]],
-  ['pushmomentumwindowtime_60',['pushMomentumWindowTime',['../structcore_1_1PhysicsConfig.html#a8bce708b0e3cf525d14827731eea05ba',1,'core::PhysicsConfig']]]
+  ['previouslevel_55',['previousLevel',['../structcore_1_1LevelUpResult.html#a39f0583b4e1e9b8901a41ee9dff52b9e',1,'core::LevelUpResult']]],
+  ['previousproficiencybonus_56',['previousProficiencyBonus',['../structcore_1_1LevelUpResult.html#a31534678202e3fe14179cd571f7ee505',1,'core::LevelUpResult']]],
+  ['primaryability_57',['primaryAbility',['../structcore_1_1PlayableClass.html#a6e95af878f45c713788f4f6631837751',1,'core::PlayableClass']]],
+  ['proficiencybonus_58',['proficiencyBonus',['../structcore_1_1ClassLevel.html#a0c2b7eb60cca0c8f6c5877622923ff2d',1,'core::ClassLevel::proficiencyBonus'],['../structcore_1_1ExperienceLevel.html#a92272e583843efa1be6caffd40c4ebbe',1,'core::ExperienceLevel::proficiencyBonus']]],
+  ['proficient_59',['proficient',['../structcore_1_1SkillCheckModifier.html#a0031e06d33916dfdb6a653c8ac9e76b5',1,'core::SkillCheckModifier']]],
+  ['progression_60',['progression',['../structcore_1_1PlayableClass.html#a028057f581a62cc7bbaccba44edb81d2',1,'core::PlayableClass::progression'],['../structcore_1_1ClassLevel.html#a729a086773af573c5c025e12589e5f9e',1,'core::ClassLevel::progression']]],
+  ['properties_61',['properties',['../structcore_1_1MapEntity.html#a8e85ab253ba2e9b4e70fcdce5e1bff0f',1,'core::MapEntity::properties'],['../structcore_1_1TileLayer.html#acfa350d1bf9ee7cf8495b4cd760224cb',1,'core::TileLayer::properties']]],
+  ['provisional_62',['provisional',['../structcore_1_1ProvisionalStatus.html#a3cb7e2c151216ab1e8f0a2c403fafdfb',1,'core::ProvisionalStatus']]],
+  ['pushmomentumwindowtime_63',['pushMomentumWindowTime',['../structcore_1_1PhysicsConfig.html#a8bce708b0e3cf525d14827731eea05ba',1,'core::PhysicsConfig']]]
 ];

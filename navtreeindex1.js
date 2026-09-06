@@ -1,5 +1,8 @@
 var NAVTREEINDEX1 =
 {
+"KeybindingsWidget_8h_source.html":[13,0,3,2,6,21],
+"LayerVisibility_8h.html":[13,0,3,2,4,22],
+"LayerVisibility_8h_source.html":[13,0,3,2,4,22],
 "LevelBrowserPanel_8cpp.html":[13,0,3,2,2,13],
 "LevelBrowserPanel_8h.html":[13,0,3,2,2,14],
 "LevelBrowserPanel_8h_source.html":[13,0,3,2,2,14],
@@ -107,9 +110,9 @@ var NAVTREEINDEX1 =
 "MovementSystem_8cpp.html":[13,0,3,0,2,1,2],
 "MovementSystem_8h.html":[13,0,3,0,2,1,3],
 "MovementSystem_8h_source.html":[13,0,3,0,2,1,3],
-"Multiclassing_8cpp.html":[13,0,3,0,7,10],
-"Multiclassing_8h.html":[13,0,3,0,7,11],
-"Multiclassing_8h_source.html":[13,0,3,0,7,11],
+"Multiclassing_8cpp.html":[13,0,3,0,7,12],
+"Multiclassing_8h.html":[13,0,3,0,7,13],
+"Multiclassing_8h_source.html":[13,0,3,0,7,13],
 "OptionsPage_8cpp.html":[13,0,3,2,6,34],
 "OptionsPage_8h.html":[13,0,3,2,6,35],
 "OptionsPage_8h_source.html":[13,0,3,2,6,35],
@@ -246,8 +249,5 @@ var NAVTREEINDEX1 =
 "RhiContext_8h.html":[13,0,3,2,4,48],
 "RhiContext_8h_source.html":[13,0,3,2,4,48],
 "RoomGrid_8cpp.html":[13,0,3,2,4,49],
-"RoomGrid_8h.html":[13,0,3,2,4,50],
-"RoomGrid_8h_source.html":[13,0,3,2,4,50],
-"RpgEnumNames_8cpp.html":[13,0,3,0,7,12],
-"RpgEnumNames_8h.html":[13,0,3,0,7,13]
+"RoomGrid_8h.html":[13,0,3,2,4,50]
 };

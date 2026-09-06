@@ -26,6 +26,6 @@ var searchData=
   ['07_20—_20rendu_20top_20down_20et_20tri_20par_20y_23',['LOT-07 — Rendu top-down et tri par Y',['../lot-07.html',1,'lots']]],
   ['08_20—_20vocabulaire_20de_20tuiles_20rpg_24',['LOT-08 — Vocabulaire de tuiles RPG',['../lot-08.html',1,'lots']]],
   ['08_2012_25',['Mesures de référence, à la date du &lt;span class=&quot;tt&quot;&gt;LOT-62&lt;/span&gt; (2026-08-12)',['../guide-rendu.html#autotoc_md244',1,'']]],
-  ['09_20à_20lot_2029_26',['11. Les lots &lt;span class=&quot;tt&quot;&gt;LOT-09&lt;/span&gt; à &lt;span class=&quot;tt&quot;&gt;LOT-29&lt;/span&gt;',['../roadmap-010.html#autotoc_md553',1,'']]],
+  ['09_20à_20lot_2029_26',['11. Les lots &lt;span class=&quot;tt&quot;&gt;LOT-09&lt;/span&gt; à &lt;span class=&quot;tt&quot;&gt;LOT-29&lt;/span&gt;',['../roadmap-010.html#autotoc_md562',1,'']]],
   ['09_20—_20graphe_20de_20cartes_20et_20transitions_27',['LOT-09 — Graphe de cartes et transitions',['../roadmap-010.html#lot-09',1,'']]]
 ];
