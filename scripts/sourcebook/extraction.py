@@ -34,6 +34,7 @@ donne accès aux coordonnées de mots dont ``tableau()`` dépend.
 from __future__ import annotations
 
 import hashlib
+import json
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -85,6 +86,44 @@ class Region:
             f'{self.x0:.0f},{self.y0:.0f},{self.x1:.0f},{self.y1:.0f} '
             f'[{self.largeur:.0f}×{self.hauteur:.0f}]{marque}'
         )
+
+
+@dataclass(frozen=True)
+class Fragment:
+    """Un morceau de ligne d'une seule police — le grain que rend ``lignes()``."""
+
+    texte: str
+    police: str
+    corps: float
+    x0: float
+    x1: float
+
+    @property
+    def gras(self) -> bool:
+        """Vrai si la police est une graisse grasse.
+
+        Le nom de police est le seul indice fiable de ce corpus : les documents natifs y écrivent
+        `ScalySans-Bold`, `Arial-BoldMT`. Le drapeau ``flags`` de PyMuPDF, lui, ne distingue pas
+        une graisse réelle d'une police dont le nom contient « Black ».
+        """
+        return 'bold' in self.police.lower()
+
+
+@dataclass(frozen=True)
+class Ligne:
+    """Une ligne de texte et ses fragments, ordonnés de gauche à droite."""
+
+    y: float
+    fragments: tuple
+
+    @property
+    def texte(self) -> str:
+        return ''.join(f.texte for f in self.fragments)
+
+    @property
+    def corps(self) -> float:
+        """Corps du fragment le plus long — le corps de la ligne, au sens où on l'entend."""
+        return max(self.fragments, key=lambda f: len(f.texte), default=None).corps             if self.fragments else 0.0
 
 
 class Extracteur:
@@ -290,6 +329,60 @@ class Extracteur:
             if centre <= fin:
                 return indice
         return len(colonnes) - 1
+
+    # -- Typographie -----------------------------------------------------------------------
+
+    def lignes(
+        self, index: int, moitie: str | None = None, region: tuple | None = None
+    ) -> list:
+        """Lignes d'une région **avec leur typographie** : police, corps, graisse.
+
+        Le mode texte de ``texte()`` rend une chaîne plate ; c'est ce qu'il faut pour du corps de
+        texte, et insuffisant partout où la **mise en forme porte la structure**. Deux constats du
+        corpus, tous deux vérifiés sur ``Animaux.pdf`` :
+
+        **Un titre en gras est une donnée.** Un bloc de statistiques n'a ni balise ni ponctuation
+        qui sépare le nom d'un trait de sa description : seule la graisse le fait — « **Vue
+        aiguisée**. L'aigle a un avantage… ». Découper sur le premier point produit « Attaque au
+        corps à corps avec une arme : +4 au toucher, allonge 1,50 m » comme nom d'action, et
+        « Recharge 5-6 » ou « 1,50 m » comme fin de nom partout ailleurs.
+
+        **Le mode texte perd des espaces que le mode fragment conserve.** Sur ce corpus, les
+        titres de traits en sortent collés — `Vueaiguisée`, `Sens dela toile`,
+        `Déplacementsur la toile`, `Tactiquedegroupe` —, faute qu'aucun contrôle ne rattrape et
+        qu'aucune relecture de la donnée produite ne signale. Le fragment, lui, porte le texte de
+        la police tel que le document l'écrit, espaces compris.
+
+        Les lignes sont rendues **en ordre de lecture** (ordonnée croissante, abscisse croissante
+        à ordonnée égale) : l'ordre interne des blocs de ce corpus ne l'est pas, et une ligne de
+        séparation invisible s'y intercale régulièrement avant la ligne qu'elle suit à l'écran.
+        Les fragments vides sont écartés — le corpus en sème à chaque changement de police.
+        """
+        cle = self._cle_cache('lignes', index, moitie, region)
+        if (cachee := self._lire_cache(cle, '.json')) is not None:
+            brut = json.loads(cachee.decode('utf-8'))
+        else:
+            rect = self.rectangle(index, moitie, region)
+            dictionnaire = self._page(index).get_text('dict', clip=rect)
+            brut = [
+                {
+                    'y': ligne['bbox'][1],
+                    'fragments': [
+                        {'texte': f['text'], 'police': f['font'], 'corps': f['size'],
+                         'x0': f['bbox'][0], 'x1': f['bbox'][2]}
+                        for f in ligne['spans'] if f['text'].strip()
+                    ],
+                }
+                for bloc in dictionnaire['blocks'] for ligne in bloc.get('lines', [])
+            ]
+            brut = [l for l in brut if l['fragments']]
+            self._ecrire_cache(cle, '.json', json.dumps(brut).encode('utf-8'))
+        return sorted(
+            (Ligne(l['y'], tuple(sorted((Fragment(**f) for f in l['fragments']),
+                                        key=lambda f: f.x0)))
+             for l in brut),
+            key=lambda l: (round(l.y, 1), l.fragments[0].x0),
+        )
 
     # -- Images ----------------------------------------------------------------------------
 

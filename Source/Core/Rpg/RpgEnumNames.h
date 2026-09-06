@@ -36,6 +36,7 @@ namespace core {
 [[nodiscard]] std::string damageTypeName(DamageType type);
 [[nodiscard]] std::string conditionName(Condition condition);
 [[nodiscard]] std::string magicSchoolName(MagicSchool school);
+[[nodiscard]] std::string creatureSizeName(CreatureSize size);
 /** @} */
 
 /**
@@ -49,6 +50,7 @@ namespace core {
 [[nodiscard]] std::optional<DamageType> parseDamageType(std::string_view name);
 [[nodiscard]] std::optional<Condition> parseCondition(std::string_view name);
 [[nodiscard]] std::optional<MagicSchool> parseMagicSchool(std::string_view name);
+[[nodiscard]] std::optional<CreatureSize> parseCreatureSize(std::string_view name);
 /** @} */
 
 /**
@@ -63,6 +65,7 @@ namespace core {
 [[nodiscard]] std::span<const DamageType> allDamageTypes();
 [[nodiscard]] std::span<const Condition> allConditions();
 [[nodiscard]] std::span<const MagicSchool> allMagicSchools();
+[[nodiscard]] std::span<const CreatureSize> allCreatureSizes();
 /** @} */
 
 }  // namespace core

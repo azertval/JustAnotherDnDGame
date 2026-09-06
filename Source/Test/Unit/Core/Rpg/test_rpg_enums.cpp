@@ -95,6 +95,13 @@ TEST(RpgEnumsTest, AllerRetourSurToutesLesValeurs) {
         ASSERT_TRUE(relu.has_value()) << "nom non relu : " << nom;
         EXPECT_EQ(*relu, school) << "aller-retour incorrect pour " << nom;
     }
+    for (const core::CreatureSize size : core::allCreatureSizes()) {
+        const std::string nom = core::creatureSizeName(size);
+        ASSERT_FALSE(nom.empty()) << "taille sans nom";
+        const std::optional<core::CreatureSize> relu = core::parseCreatureSize(nom);
+        ASSERT_TRUE(relu.has_value()) << "nom non relu : " << nom;
+        EXPECT_EQ(*relu, size) << "aller-retour incorrect pour " << nom;
+    }
 }
 
 /**
@@ -113,6 +120,8 @@ TEST(RpgEnumsTest, LesNomsSontUniques) {
               core::allConditions().size());
     EXPECT_EQ(nomsDuMoteur(core::allMagicSchools(), core::magicSchoolName).size(),
               core::allMagicSchools().size());
+    EXPECT_EQ(nomsDuMoteur(core::allCreatureSizes(), core::creatureSizeName).size(),
+              core::allCreatureSizes().size());
 }
 
 /**
@@ -132,6 +141,10 @@ TEST(RpgEnumsTest, UnNomInconnuEstRefuse) {
     EXPECT_FALSE(core::parseDamageType("Psychic").has_value());
     EXPECT_FALSE(core::parseCondition("empoisonne").has_value());
     EXPECT_FALSE(core::parseMagicSchool("invocation").has_value());
+    // Le livre ecrit la taille en ABREGE -- << Bete de taille P >>. L'abreviation est une notation
+    // du corpus, traduite a l'extraction ; le moteur, lui, ne connait que la valeur du schema.
+    EXPECT_FALSE(core::parseCreatureSize("P").has_value());
+    EXPECT_FALSE(core::parseCreatureSize("moyenne").has_value());
 }
 
 /**
@@ -160,6 +173,11 @@ TEST(RpgEnumsTest, LesEnumerationsCoincidentAvecLesSchemas) {
     EXPECT_EQ(nomsDuMoteur(core::allMagicSchools(), core::magicSchoolName),
               enumDuSchema("magicSchool"))
         << "core::MagicSchool et common.schema.json/$defs/magicSchool divergent";
+    // La taille se confronte au SCHEMA et non au lexique : le lexique n'en porte que cinq sous la
+    // categorie << taille >>, << Moyenne >> ayant echappe a l'extraction du glossaire. Le schema,
+    // lui, porte bien les six.
+    EXPECT_EQ(nomsDuMoteur(core::allCreatureSizes(), core::creatureSizeName), enumDuSchema("size"))
+        << "core::CreatureSize et common.schema.json/$defs/size divergent";
 }
 
 /**
@@ -180,4 +198,5 @@ TEST(RpgEnumsTest, LesEnsemblesFermesOntLeurCardinal) {
     EXPECT_EQ(core::allDamageTypes().size(), 13U);
     EXPECT_EQ(core::allConditions().size(), 15U);
     EXPECT_EQ(core::allMagicSchools().size(), 8U);
+    EXPECT_EQ(core::allCreatureSizes().size(), 6U);
 }
