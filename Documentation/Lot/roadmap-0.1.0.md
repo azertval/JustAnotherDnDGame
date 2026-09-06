@@ -24,7 +24,7 @@ sections 9 et 10 rapportent l'audit et ce qu'il faut anticiper ; la section 11 p
 
 ## État d'avancement {#roadmap-avancement}
 
-**Dix-huit lots livrés, soixante-deux restants.** Le prochain est le `LOT-10`.
+**Dix-neuf lots livrés, soixante et un restants.** Le prochain est le `LOT-34`.
 
 Livrés : `LOT-01` à `LOT-08` (le socle : fork et purge, `HmiLib`, `LevelData`, format de carte
 version 3, modes de jeu, déplacement top-down, tri par profondeur, tuiles RPG), `LOT-77`, `LOT-78`
@@ -34,11 +34,11 @@ corpus et le lexique bilingue), le [LOT-32](@ref lot-32) (les schémas de donné
 filière contenu —, le [LOT-12](@ref lot-12) (dés, caractéristiques, jet de d20), premier lot du
 noyau RPG, le [LOT-33](@ref lot-33) (les 94 bêtes du SRD), premier catalogue rempli, et le
 [LOT-36](@ref lot-36) (22 espèces, 13 historiques, 4 classes provisoires), enfin le
-[LOT-13](@ref lot-13) (la fiche de personnage, qui les assemble). Chacun garde son dossier et son
-`epic.md`.
+[LOT-13](@ref lot-13) (la fiche de personnage, qui les assemble) et le [LOT-10](@ref lot-10)
+(entités de carte et interaction). Chacun garde son dossier et son `epic.md`.
 
 **Quelle date pour la `0.1.0` ?** Aucune n'est annoncée ici, et ce n'est pas une prudence de
-principe : les dix-huit lots livrés l'ont été entre le 3 et le 6 septembre 2026, soit une cadence
+principe : les dix-neuf lots livrés l'ont été entre le 3 et le 6 septembre 2026, soit une cadence
 observée qui, prise au pied de la lettre, placerait la version dans deux semaines. Cette
 extrapolation est fausse, et il vaut mieux l'écrire que la laisser deviner : les lots livrés sont
 des lots de **socle**, dont le périmètre tient dans quelques fichiers. Ceux qui restent portent des
@@ -54,54 +54,53 @@ tableau n'en porte volontairement aucun.
 
 | # | Lot | Objet | Débloque | Statut |
 |---|---|---|---|---|
-| 1 | `LOT-10` | Entités de carte et interaction | 25 | **prochain** |
-| 2 | `LOT-34` | Équipement, monnaie, objets magiques | 23 | prêt |
-| 3 | `LOT-66` | Charte visuelle : sortir de l'identité pixel art | 23 | prêt |
-| 4 | `LOT-37` | Atlas des régions et graphe de cartes | 20 | prêt |
-| 5 | `LOT-76` | Habillage d'interface extrait des livres | 20 | en attente |
-| 6 | `LOT-68` | Le châssis des écrans RPG | 15 | en attente |
-| 7 | `LOT-38` | Fiche de personnage : maquette et interface | 14 | en attente |
-| 8 | `LOT-14` | Inventaire et équipement | 13 | en attente |
-| 9 | `LOT-18` | Bascule exploration ↔ combat | 12 | en attente |
-| 10 | `LOT-39` | Plomberie des clés d'assets | 12 | en attente |
-| 11 | `LOT-19` | Grille tactique et déplacement | 11 | en attente |
-| 12 | `LOT-15` | PNJ et dialogues | 9 | en attente |
-| 13 | `LOT-20` | Initiative et tour par tour | 9 | en attente |
-| 14 | `LOT-11` | Éditeur multi-couches et placement d'entités | 8 | en attente |
-| 15 | `LOT-27` | Contenu du *vertical slice* | 8 | en attente |
-| 16 | `LOT-80` | Factions, panthéon et organisations | 8 | en attente |
-| 17 | `LOT-81` | Descripteurs de terrain des dix régions | 7 | en attente |
-| 18 | `LOT-16` | Quêtes et drapeaux de monde | 6 | en attente |
-| 19 | `LOT-21` | Attaques, dégâts et états | 6 | en attente |
-| 20 | `LOT-40` | Générateur de terrain | 6 | en attente |
-| 21 | `LOT-44` | Noms, tables aléatoires et contenu d'ambiance | 6 | en attente |
-| 22 | `LOT-46` | Créatures de Tanares | 6 | prêt |
-| 23 | `LOT-26` | Butin, marchands, économie | 5 | en attente |
-| 24 | `LOT-41` | Peuplement : rencontres et créatures | 5 | en attente |
-| 25 | `LOT-70` | Horloge de partie et cycle jour/nuit | 4 | prêt |
-| 26 | `LOT-82` | Peuplement civil : PNJ, marchands et quêtes | 4 | en attente |
-| 27 | `LOT-09` | Graphe de cartes et transitions | 3 | en attente |
-| 28 | `LOT-22` | Portée, ligne de vue et zones d'effet | 3 | en attente |
-| 29 | `LOT-84` | Les 31 tables de progression de classe | 3 | prêt |
-| 30 | `LOT-17` | Sauvegarde riche | 2 | en attente |
-| 31 | `LOT-35` | Sorts et états | 2 | prêt |
-| 32 | `LOT-47` | Socle de classe, et le guerrier comme preuve | 2 | en attente |
-| 33 | `LOT-23` | IA tactique ennemie | 1 | en attente |
-| 34 | `LOT-42` | Voyage et carte du monde | 1 | en attente |
-| 35 | `LOT-45` | Guilde des Aventuriers : rangs et contrats | 1 | en attente |
-| 36 | `LOT-50` | Le Colisée : bac à sable de combat | 1 | en attente |
-| 37 | `LOT-74` | Expérience et progression | 1 | en attente |
-| 38 | `LOT-24` | IHM de combat | 0 | en attente |
-| 39 | `LOT-25` | Sorts et capacités de classe | 0 | en attente |
-| 40 | `LOT-28` | Audio, effets et version `0.2.0` | 0 | en attente |
-| 41 | `LOT-29` | Groupe de quatre personnages | 0 | en attente |
-| 42 | `LOT-49` | Contrôle de cohérence du contenu | 0 | en attente |
-| 43 | `LOT-51` → `LOT-65` | une classe par lot | 0 | en attente |
-| 44 | `LOT-67` | Menus et vocabulaire d'un RPG | 0 | en attente |
-| 45 | `LOT-69` | Retrait de l'atelier pixel art | 0 | en attente |
-| 46 | `LOT-72` | Conditions, agonie et mort | 0 | en attente |
-| 47 | `LOT-75` | Campement et repos dans le monde | 0 | en attente |
-| 48 | `LOT-83` | Boucle de progression de la Guilde | 0 | en attente |
+| 1 | `LOT-34` | Équipement, monnaie, objets magiques | 23 | **prochain** |
+| 2 | `LOT-66` | Charte visuelle : sortir de l'identité pixel art | 23 | prêt |
+| 3 | `LOT-37` | Atlas des régions et graphe de cartes | 20 | prêt |
+| 4 | `LOT-76` | Habillage d'interface extrait des livres | 20 | en attente |
+| 5 | `LOT-68` | Le châssis des écrans RPG | 15 | en attente |
+| 6 | `LOT-38` | Fiche de personnage : maquette et interface | 14 | en attente |
+| 7 | `LOT-14` | Inventaire et équipement | 13 | en attente |
+| 8 | `LOT-18` | Bascule exploration ↔ combat | 12 | prêt |
+| 9 | `LOT-39` | Plomberie des clés d'assets | 12 | en attente |
+| 10 | `LOT-19` | Grille tactique et déplacement | 11 | en attente |
+| 11 | `LOT-15` | PNJ et dialogues | 9 | en attente |
+| 12 | `LOT-20` | Initiative et tour par tour | 9 | en attente |
+| 13 | `LOT-11` | Éditeur multi-couches et placement d'entités | 8 | en attente |
+| 14 | `LOT-27` | Contenu du *vertical slice* | 8 | en attente |
+| 15 | `LOT-80` | Factions, panthéon et organisations | 8 | en attente |
+| 16 | `LOT-81` | Descripteurs de terrain des dix régions | 7 | en attente |
+| 17 | `LOT-16` | Quêtes et drapeaux de monde | 6 | en attente |
+| 18 | `LOT-21` | Attaques, dégâts et états | 6 | en attente |
+| 19 | `LOT-40` | Générateur de terrain | 6 | en attente |
+| 20 | `LOT-44` | Noms, tables aléatoires et contenu d'ambiance | 6 | en attente |
+| 21 | `LOT-46` | Créatures de Tanares | 6 | prêt |
+| 22 | `LOT-26` | Butin, marchands, économie | 5 | en attente |
+| 23 | `LOT-41` | Peuplement : rencontres et créatures | 5 | en attente |
+| 24 | `LOT-70` | Horloge de partie et cycle jour/nuit | 4 | prêt |
+| 25 | `LOT-82` | Peuplement civil : PNJ, marchands et quêtes | 4 | en attente |
+| 26 | `LOT-09` | Graphe de cartes et transitions | 3 | en attente |
+| 27 | `LOT-22` | Portée, ligne de vue et zones d'effet | 3 | en attente |
+| 28 | `LOT-84` | Les 31 tables de progression de classe | 3 | prêt |
+| 29 | `LOT-17` | Sauvegarde riche | 2 | en attente |
+| 30 | `LOT-35` | Sorts et états | 2 | prêt |
+| 31 | `LOT-47` | Socle de classe, et le guerrier comme preuve | 2 | en attente |
+| 32 | `LOT-23` | IA tactique ennemie | 1 | en attente |
+| 33 | `LOT-42` | Voyage et carte du monde | 1 | en attente |
+| 34 | `LOT-45` | Guilde des Aventuriers : rangs et contrats | 1 | en attente |
+| 35 | `LOT-50` | Le Colisée : bac à sable de combat | 1 | en attente |
+| 36 | `LOT-74` | Expérience et progression | 1 | en attente |
+| 37 | `LOT-24` | IHM de combat | 0 | en attente |
+| 38 | `LOT-25` | Sorts et capacités de classe | 0 | en attente |
+| 39 | `LOT-28` | Audio, effets et version `0.2.0` | 0 | en attente |
+| 40 | `LOT-29` | Groupe de quatre personnages | 0 | en attente |
+| 41 | `LOT-49` | Contrôle de cohérence du contenu | 0 | en attente |
+| 42 | `LOT-51` → `LOT-65` | une classe par lot | 0 | en attente |
+| 43 | `LOT-67` | Menus et vocabulaire d'un RPG | 0 | en attente |
+| 44 | `LOT-69` | Retrait de l'atelier pixel art | 0 | en attente |
+| 45 | `LOT-72` | Conditions, agonie et mort | 0 | en attente |
+| 46 | `LOT-75` | Campement et repos dans le monde | 0 | en attente |
+| 47 | `LOT-83` | Boucle de progression de la Guilde | 0 | en attente |
 
 **Débloque** — combien de lots restants dépendent de celui-ci, directement ou en cascade. C'est le
 critère de priorité, et il se relit sur la ligne.
@@ -1872,51 +1871,6 @@ sur une forêt et sur une auberge, la forêt ramène au village, le donjon a tro
 - Test headless d'un parcours de cinq cartes, aller et retour.
 - L'état de la carte quittée (coffres ouverts, ennemis vaincus) est **conservé** au retour — c'est
   ce qui distingue un monde d'une séquence de tableaux. Persisté au `LOT-17`.
-
-### LOT-10 — Entités de carte et interaction {#lot-10}
-
-> Statut : **à faire**.
-> Prérequis : [LOT-04](@ref lot-04) (couche `objects`), [LOT-06](@ref lot-06) (orientation du
-> personnage), [LOT-08](@ref lot-08).
-
-#### Objectif
-
-Peupler les cartes d'entités qui ne sont **pas des tuiles** — PNJ, coffres, panneaux, portails,
-déclencheurs — et permettre au joueur d'interagir avec elles.
-
-#### Pourquoi des entités et pas des tuiles
-
-Une tuile, c'est un type par case et rien d'autre : la grille ne porte aucune métadonnée. Le
-platformer avait contourné cela avec des vecteurs annexes indexés par position — le `LOT-01` en a
-retiré quatre. Un PNJ a un nom, un dialogue, un inventaire ; un coffre a un contenu et un état
-« déjà ouvert ». Cela demande une **liste d'objets à propriétés**, ce que la couche `objects` du
-format v3 fournit.
-
-#### Périmètre
-
-- Instanciation ECS depuis la couche `objects` (`LevelScene`), une entité par objet, avec ses
-  propriétés libres.
-- **Cible d'interaction** : la case devant l'orientation du personnage. `core::PlayerInput` porte
-  déjà `interactPressed/Held/Released` — rien à câbler côté entrée.
-- Invite visuelle quand une cible est à portée (le joueur doit savoir qu'il *peut* interagir).
-- Coffre : contenu, état consommé. Panneau : texte localisé.
-
-#### Le piège
-
-Un coffre ouvert deux fois ne doit donner son butin **qu'une fois**, et cet état doit survivre au
-départ puis au retour sur la carte (`LOT-09`) et à la sauvegarde (`LOT-17`). C'est un drapeau de
-monde, pas un booléen local à l'entité rechargée.
-
-#### Exigences couvertes
-
-`EX-EXP-*` (interaction, portée, priorité de cible), `EX-RPG-*` (coffre, panneau).
-
-#### Critères d'acceptation
-
-- Ouvrir un coffre deux fois ne donne le butin qu'une fois, y compris après aller-retour de carte.
-- L'interaction **ne traverse pas un mur**.
-- Quand deux cibles sont à portée, celle désignée est déterministe et prévisible (la plus proche du
-  centre de la case visée).
 
 ### LOT-11 — Éditeur multi-couches et placement d'entités {#lot-11}
 

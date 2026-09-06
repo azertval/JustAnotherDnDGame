@@ -6,6 +6,38 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **Entités de carte et interaction** (`LOT-10`). Les cartes se peuplent d'entités qui ne sont
+  **pas des tuiles** — coffres, panneaux, et demain PNJ et portails — et le joueur peut interagir
+  avec elles.
+  - **Le piège du lot est un coffre ouvert deux fois.** Le critère est facile à énoncer et facile à
+    rater : *y compris après un aller-retour de carte*. C'est cette moitié de phrase qui décide de
+    la conception — quand le joueur revient, l'entité du coffre est **recréée depuis le fichier de
+    niveau**, qui ne sait rien de ce qui s'est passé. Un booléen porté par l'entité disparaîtrait
+    avec elle, et le coffre redonnerait son butin à chaque passage : un défaut qui ne casse rien,
+    ne lève aucune alerte, et se confond avec de la générosité de conception. L'état vit donc dans
+    `core::WorldFlags`, à côté des entités. **Le test détruit le monde et le reconstruit** pour le
+    vérifier.
+  - **La clé de drapeau est fabriquée, jamais écrite à la main** : `<carte>/<type>@<colonne>,<ligne>`.
+    Deux coffres d'une carte se distinguent par leur case, et le nom de carte empêche que vider un
+    coffre au village en vide un autre au donjon. Corollaire assumé : déplacer un coffre dans
+    l'éditeur le remet à neuf pour une partie en cours — l'inverse demanderait un identifiant
+    stable que le `LOT-11` devrait générer et maintenir unique.
+  - **Un coffre vidé n'est plus une cible du tout**, et pas seulement une cible qui ne fait rien :
+    continuer à l'afficher promettrait au joueur quelque chose qui n'arrivera pas.
+  - **La case visée suit la direction dominante, jamais une diagonale.** Un personnage qui regarde
+    à 30° vise la case de droite : viser en diagonale rendrait la cible imprévisible à la manette
+    analogique, alors que le joueur doit savoir ce qu'il désigne **avant** d'appuyer. Une
+    orientation nulle ne vise rien.
+  - **L'interaction ne traverse pas un mur**, et **à plusieurs candidats le choix est
+    déterministe** — le plus proche du centre de la case visée, puis le plus petit indice. Sans
+    départage, deux objets sur la même case donneraient tantôt l'un tantôt l'autre selon l'ordre de
+    parcours de l'ECS, qui n'est pas stable.
+  - **Un type d'entité inconnu produit tout de même une entité**, sans composant interactif : la
+    refuser ferait disparaître un objet de la carte sans que son auteur comprenne pourquoi
+    (`EX-NFR-040`). Les familles connues sont une table, non un `if` par cas — le `LOT-15` et le
+    `LOT-09` en ajouteront sans retoucher la fonction.
+  - `ctest` passe de 992 à **1001** cas, tous verts.
+
 - **La fiche de personnage** (`LOT-13`). Toute créature — héros, PNJ, ennemi — a désormais une
   fiche complète : caractéristiques, points de vie, classe d'armure, niveau, bonus de maîtrise,
   jets de sauvegarde, compétences, vitesse. Et elle **monte de niveau**.
