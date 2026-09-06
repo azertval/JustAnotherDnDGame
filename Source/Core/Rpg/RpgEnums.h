@@ -5,7 +5,7 @@
 
 /**
  * @file Core/Rpg/RpgEnums.h
- * @brief Les trois énumérations **fermées** du RPG : dégâts, conditions, écoles de magie.
+ * @brief Les quatre énumérations **fermées** du RPG : dégâts, conditions, écoles, tailles.
  */
 
 namespace core {
@@ -84,6 +84,27 @@ enum class MagicSchool {
     Illusion,
     Necromancy,
     Transmutation,
+};
+
+/**
+ * @brief Catégorie de taille d'une créature (`EX-CNT-011`).
+ *
+ * Ensemble **fermé** : six valeurs, fixées par les règles. Ce n'est pas une donnée décorative —
+ * la taille détermine l'emprise sur la grille tactique (`LOT-19`) et ce qu'une créature peut
+ * agripper ou engloutir.
+ *
+ * @note Le lexique du `LOT-30` n'en porte que **cinq** sous la catégorie *taille* : « Moyenne »
+ *       manque à l'extraction du glossaire. C'est pourquoi la coïncidence de cette énumération se
+ *       vérifie contre `common.schema.json`, qui les porte toutes les six, et non contre le
+ *       lexique comme les trois autres.
+ */
+enum class CreatureSize {
+    Tiny,
+    Small,
+    Medium,
+    Large,
+    Huge,
+    Gargantuan,
 };
 
 }  // namespace core

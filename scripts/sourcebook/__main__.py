@@ -34,11 +34,13 @@ if __package__ in (None, ''):  # pragma: no cover - dépend du mode d'invocation
     from sourcebook.extraction import PPP_DEFAUT, ExtractionError, Extracteur
     from sourcebook import glossaire as mod_glossaire
     from sourcebook import options as mod_options
+    from sourcebook import bestiaire as mod_bestiaire
 else:
     from .corpus import Corpus, CorpusError
     from .extraction import PPP_DEFAUT, ExtractionError, Extracteur
     from . import glossaire as mod_glossaire
     from . import options as mod_options
+    from . import bestiaire as mod_bestiaire
 
 if hasattr(sys.stdout, 'reconfigure'):
     sys.stdout.reconfigure(encoding='utf-8', errors='replace')
@@ -116,6 +118,10 @@ def analyser(argv) -> argparse.Namespace:
     p = commande('options', "produire les catalogues d'options de personnage (LOT-43)")
     p.add_argument('-o', '--sortie', type=Path, default=None,
                    help='défaut : ' + mod_options.SORTIE_RPG)
+
+    p = commande('bestiaire', "produire les 94 betes d'Animaux.pdf (LOT-33)")
+    p.add_argument('-o', '--sortie', type=Path, default=None,
+                   help='défaut : ' + mod_bestiaire.SORTIE_RPG)
 
     p = commande('glossaire', 'produire le lexique bilingue')
     p.add_argument('-o', '--sortie', type=Path, default=None,
@@ -226,6 +232,19 @@ def commande_options(corpus: Corpus, args) -> int:
     return 0
 
 
+def commande_bestiaire(corpus: Corpus, args) -> int:
+    lexique = mod_glossaire.lire_csv(
+        (RACINE / mod_glossaire.SORTIE).read_text(encoding='utf-8'))
+    racine = args.sortie or (RACINE / mod_bestiaire.SORTIE_RPG)
+    ecrits, signalements = mod_bestiaire.produire(corpus, lexique, racine, cache=args.cache)
+    print('%d créature(s) écrite(s) sous %s' % (len(ecrits), racine / mod_bestiaire.DOSSIER))
+    for signalement in signalements:
+        # Ce n'est pas une faute : c'est ce que le livre dit et que le catalogue ne sait pas
+        # porter. Le taire reviendrait à choisir à la place du lecteur.
+        print('  · ' + signalement)
+    return 0
+
+
 def main(argv=None) -> int:
     args = analyser(sys.argv[1:] if argv is None else argv)
     try:
@@ -241,6 +260,8 @@ def main(argv=None) -> int:
             return commande_glossaire(corpus, args)
         if args.commande == 'options':
             return commande_options(corpus, args)
+        if args.commande == 'bestiaire':
+            return commande_bestiaire(corpus, args)
 
         document = corpus[args.document]
         with Extracteur(document, cache=args.cache) as extracteur:
@@ -272,7 +293,7 @@ def main(argv=None) -> int:
                 for region in candidates:
                     print('  ' + str(region))
     except (CorpusError, ExtractionError, mod_glossaire.GlossaireError,
-            mod_options.OptionsError) as erreur:
+            mod_options.OptionsError, mod_bestiaire.BestiaireError) as erreur:
         print('%s' % erreur, file=sys.stderr)
         return 1
     return 0

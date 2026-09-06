@@ -6,6 +6,54 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **Le bestiaire de base : les 94 bêtes du SRD** (`LOT-33`). `Animaux.pdf` vers
+  `Source/Elements/Rpg/creatures/` — 94 fichiers, 136 traits, 135 actions dont 115 portent des
+  dégâts typés. Le premier catalogue rempli du projet, et le premier que le moteur charge.
+  - **L'extraction se fait sur la typographie, pas sur des expressions régulières.** Un bloc de
+    statistiques n'a ni balise ni ponctuation qui sépare le nom d'un trait de sa description :
+    seule la graisse le fait — « **Vue aiguisée**. L'aigle a un avantage… ». Découper au premier
+    point donne « Attaque au corps à corps avec une arme : +4 au toucher, allonge 1,50 m » comme
+    nom d'action. `Extracteur.lignes()` rend désormais police, corps et graisse, et sept
+    discriminants **mesurés** — pas devinés — découpent le document : le corps du titre, la police
+    du paragraphe d'ambiance, celle des encadrés « Variante », l'interligne. Le document ne porte
+    aucun interligne entre 11,3 et 15,2 pt ; le seuil tombe dans ce vide.
+  - **Le mode texte perd des espaces, et la faute est indétectable en aval.** Les titres de traits
+    en sortent collés — `Vueaiguisée`, `Sens dela toile`, `Tactiquedegroupe`. Aucun contrôle ne la
+    rattrape et aucune relecture de la donnée produite ne la signale, puisque la donnée produite
+    *est* la faute. Le fragment de police, lui, porte le texte tel que le document l'écrit.
+  - **Le sommaire est le point d'attestation.** 94 entrées page 2, 94 titres dans le corps, et les
+    deux listes doivent coïncider nom pour nom : c'est le seul contrôle qui détecte un bloc sauté,
+    panne qui ne laisse aucune autre trace — un catalogue de 93 créatures se charge, se valide et
+    se joue exactement comme un de 94. La gouttière des deux colonnes, elle, est re-vérifiée page
+    par page : si elle bouge, la coupe **échoue** au lieu de mélanger deux créatures.
+  - **Ce que le schéma ne peut pas dire n'est ni jeté, ni élargi en silence.** « Résistance aux
+    dégâts contondants provenant d'attaques **non magiques** » : mettre `bludgeoning` dans
+    `damageResistances` rendrait le diablotin résistant à une masse d'armes ordinaire. La clause
+    qualifiée reste dans un trait, et la créature **déclare** le mécanisme
+    `resistance-conditionnelle` (`EX-CNT-030`). Même traitement pour « comprend le commun mais ne
+    peut pas le parler ». Et « l'**aérien** », que l'aigle géant comprend, n'est ni au catalogue
+    des seize langues ni à la table des *Basic Rules* p. 38 : le rapprocher du primordial serait un
+    élargissement muet, la génération le **signale** et ne l'écrit pas.
+  - **Cinq défauts du lexique mis au jour par les 94 noms.** Les variantes séparées par `/`
+    (« Bec de hache / Autrache ») — défaut qui se propage aux catalogues livrés, où
+    « Tromperie / Supercherie » faisait désigner au diablotin une compétence introuvable ; « Zombi
+    Objets magiques D&D 5 », un titre de section happé ; « Tigre à dents de **sabe** », une
+    coquille ; l'entrée « Tigre » dont le côté **anglais** est resté en français, qui sortait un
+    identifiant `tigre` au milieu de quatre-vingt-treize identifiants anglais ; et la langue des
+    elfes nommée « elfe » quand le livre écrit « **elfique** ». Ce dernier était déjà tranché par
+    le `LOT-43` : sa table d'alias est **réutilisée**, pas recopiée. Le quatrième ne se détecte pas
+    mécaniquement — « Quasit = Quasit » est identique des deux côtés et juste — et c'est une
+    relecture des 94 identifiants qui l'a trouvé.
+  - **Le test lit le livre, pas la génération.** Douze profils sont rejoués contre des valeurs
+    recopiées à la main du PDF, chacun avec sa page imprimée. Un test qui comparerait la sortie de
+    la génération à elle-même passerait quelle que soit la faute d'extraction.
+  - **Un champ `description` au schéma de créature** : 21 blocs se terminent par un paragraphe
+    d'ambiance qui ne porte aucune règle et qui est pourtant ce que le bestiaire affichera. Le
+    premier remplissage d'une famille est le moment où le contrat rencontre la réalité.
+  - `core::CreatureSize` rejoint les énumérations fermées, confrontée au **schéma** et non au
+    lexique : celui-ci n'en porte que cinq, « Moyenne » ayant échappé à l'extraction du glossaire.
+  - `ctest` passe de 968 à **974** cas, tous verts.
+
 - **Le cœur chiffré : dés, caractéristiques, jet de d20** (`LOT-12`). Du calcul pur dans `Core`,
   sans fenêtre ni GPU : la notation `NdF±M`, les six caractéristiques, le d20 avec avantage et
   désavantage, et les six degrés de difficulté en **donnée**.

@@ -17,6 +17,7 @@ add_library(Core STATIC
     World/GridDistanceField.cpp
     Gameplay/MechanismController.cpp
     Rpg/Ability.cpp
+    Rpg/Bestiary.cpp
     Rpg/Check.cpp
     Rpg/Dice.cpp
     Rpg/RpgEnumNames.cpp

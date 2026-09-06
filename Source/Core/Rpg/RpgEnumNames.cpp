@@ -67,6 +67,11 @@ constexpr std::array MAGIC_SCHOOLS = {
     MagicSchool::Necromancy,  MagicSchool::Transmutation,
 };
 
+constexpr std::array CREATURE_SIZES = {
+    CreatureSize::Tiny,  CreatureSize::Small, CreatureSize::Medium,
+    CreatureSize::Large, CreatureSize::Huge,  CreatureSize::Gargantuan,
+};
+
 }  // namespace
 
 std::string damageTypeName(DamageType type) {
@@ -161,6 +166,24 @@ std::string magicSchoolName(MagicSchool school) {
     return {};
 }
 
+std::string creatureSizeName(CreatureSize size) {
+    switch (size) {
+        case CreatureSize::Tiny:
+            return "tiny";
+        case CreatureSize::Small:
+            return "small";
+        case CreatureSize::Medium:
+            return "medium";
+        case CreatureSize::Large:
+            return "large";
+        case CreatureSize::Huge:
+            return "huge";
+        case CreatureSize::Gargantuan:
+            return "gargantuan";
+    }
+    return {};
+}
+
 std::optional<DamageType> parseDamageType(std::string_view name) {
     return parseAvec<DamageType>(allDamageTypes(), damageTypeName, name);
 }
@@ -173,6 +196,10 @@ std::optional<MagicSchool> parseMagicSchool(std::string_view name) {
     return parseAvec<MagicSchool>(allMagicSchools(), magicSchoolName, name);
 }
 
+std::optional<CreatureSize> parseCreatureSize(std::string_view name) {
+    return parseAvec<CreatureSize>(allCreatureSizes(), creatureSizeName, name);
+}
+
 std::span<const DamageType> allDamageTypes() {
     return DAMAGE_TYPES;
 }
@@ -183,6 +210,10 @@ std::span<const Condition> allConditions() {
 
 std::span<const MagicSchool> allMagicSchools() {
     return MAGIC_SCHOOLS;
+}
+
+std::span<const CreatureSize> allCreatureSizes() {
+    return CREATURE_SIZES;
 }
 
 }  // namespace core

@@ -36,6 +36,7 @@ add_executable(UnitTests
     Unit/Core/Rpg/test_dice.cpp
     Unit/Core/Rpg/test_rpg_enums.cpp
     Unit/Core/Rpg/test_multiclassing.cpp
+    Unit/Core/Rpg/test_bestiary.cpp
     Unit/Core/Levels/test_rpg_terrain.cpp
     Unit/Core/Levels/test_tile_texture_override.cpp
     Unit/Core/Physics/test_swept_collision.cpp
@@ -218,6 +219,10 @@ target_compile_definitions(UnitTests PRIVATE
     # Regles RPG livrees (LOT-43) : le test du multiclassage lit la table
     # d'emplacements REELLE, celle que le jeu chargera.
     JADG_RPG_RULES_DIR="${PROJECT_SOURCE_DIR}/Source/Elements/Rpg/rules"
+    # Creatures livrees (LOT-33) : le test rejoue dix blocs contre des valeurs recopiees a la main
+    # du PDF. Il lit les 94 fichiers REELS -- une fixture serait une copie, et une copie ne prouve
+    # plus rien le jour ou la generation change.
+    JADG_RPG_CREATURES_DIR="${PROJECT_SOURCE_DIR}/Source/Elements/Rpg/creatures"
     JADG_ASSETS_DIR="${PROJECT_SOURCE_DIR}/Source/Elements/Assets"
     JADG_AUDIO_DIR="${PROJECT_SOURCE_DIR}/Source/Elements/Audio"
     # Deux portees depuis le LOT-73 (EX-IHM-082) : les tests de theme lisent les DEUX, pour que
