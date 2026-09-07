@@ -68,6 +68,12 @@ EXCLUSIONS_REQUISES = ('Documentation/SourceBook/', '/.cache/')
 # termes du lexique : ne l'y mettre que si c'est vrai.
 NAMESPACES_DE_REGLE = (
     'condition.',
+    # Ajoutes au LOT-38 : la fiche de personnage affiche les dix-huit competences et les six
+    # caracteristiques, et ce sont des TERMES de regle -- « Escamotage », pas « Tour de main ».
+    # Les ecrire une seconde fois dans un catalogue d'interface, sans lien avec le lexique, etait
+    # exactement le defaut que ce controle existe pour empecher.
+    'rpg.skill.',
+    'rpg.ability.',
     'damage.',
     'school.',
     'weapon_property.',

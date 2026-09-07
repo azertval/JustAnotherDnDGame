@@ -53,6 +53,7 @@
 #include <vector>
 
 #include "Core/Diagnostics/MemoryLogSink.h"
+#include "Core/Rpg/CharacterSheet.h"
 #include "HMI/Audio/SoundTriggers.h"
 #include "HMI/Diagnostics/SessionLog.h"
 #include "HMI/Editor/AssetReferences.h"
@@ -78,6 +79,7 @@
 #include "HMI/HmiLog.h"
 #include "HMI/Input/GamepadButton.h"
 #include "HMI/Interface/ApplicationTheme.h"
+#include "HMI/Interface/CharacterSheetValues.h"
 #include "HMI/Interface/CreditsScreen.h"
 #include "HMI/Interface/DesignTokens.h"
 #include "HMI/Interface/EditorActions.h"
@@ -122,6 +124,11 @@ constexpr char WORKSPACE_KEY[] = "mainWindow/workspace";
 constexpr float PLANE_REFERENCE_OPACITY = 0.45f;
 // Reglage "contraindre a la palette" de l'atelier pixel art (LOT-54 TACHE-07).
 constexpr char CONSTRAIN_TO_PALETTE_KEY[] = "pixelEditor/constrainToPalette";
+
+// Personnage de demonstration affiche par l'ecran de fiche (LOT-38). Un seul litteral, et il est
+// PROVISOIRE : le groupe du LOT-29 et la sauvegarde du LOT-17 diront quel personnage la fiche
+// montre, et cette constante disparaitra avec eux. La nommer ici rend ce provisoire visible.
+constexpr char DEMONSTRATION_CHARACTER_FILE[] = "demonstration-brenna.json";
 
 }  // namespace
 
@@ -414,7 +421,8 @@ MainWindow::MainWindow(core::MemoryLogSink* sessionLog)
     // Contrainte de taille imposee par les ecrans, verifiee une fois au demarrage (EX-IHM-080).
     warnIfScreensConstrainWindow();
 
-    showMenu();  // l'application démarre sur le menu principal.
+    loadDemonstrationCharacter();  // LOT-38 : l'ecran de fiche a une fiche a afficher.
+    showMenu();                    // l'application démarre sur le menu principal.
 }
 
 void MainWindow::setDocksVisible(bool visible) {
@@ -1033,6 +1041,38 @@ void MainWindow::newGame() {
     // qu'aucun chemin n'atteint ne se relisent pas, ne se naviguent pas et ne se valident pas. La
     // ligne a remplacer le jour ou il y aura une carte est CELLE-CI, et elle est seule.
     openRpgScreen(hmi::RpgScreenId::CharacterSheet);
+}
+
+void MainWindow::loadDemonstrationCharacter() {
+    // ECHAFAUDAGE, et il est ecrit comme tel. La fiche affichee est celle d'un personnage de
+    // DEMONSTRATION livre en donnee (Rpg/characters/) : il n'y a ni groupe (LOT-29) ni sauvegarde
+    // (LOT-17) d'ou tirer un personnage reel, et un ecran de fiche qui n'affiche aucune fiche ne
+    // se relit pas. Le jour ou une partie en fournira un, c'est la SOURCE qui change ici, pas
+    // l'ecran : il consomme des valeurs indexees, d'ou qu'elles viennent.
+    const std::filesystem::path rpg = hmi::executableDirectory() / "Rpg";
+
+    const core::CharacterOptions options =
+        core::loadCharacterOptions(rpg / "species", rpg / "backgrounds", rpg / "classes");
+    const core::SkillCatalog competences = core::loadSkills(rpg / "skills");
+    const core::ExperienceTable experience =
+        core::loadExperienceTable(rpg / "rules" / "experience.json");
+    const core::CharacterCreationRules regles =
+        core::loadCharacterCreationRules(rpg / "rules" / "character-creation.json");
+
+    const core::LoadedCharacterSheet fiche = core::loadCharacterSheet(
+        rpg / "characters" / DEMONSTRATION_CHARACTER_FILE, options, regles, experience);
+    for (const std::string& erreur : fiche.errors) {
+        // Journalise et poursuit : une fiche partielle vaut mieux qu'un ecran vide, et l'erreur
+        // nomme son fichier (EX-CNT-010).
+        HMI_LOG_WARNING(("Fiche de demonstration : " + erreur).c_str());
+    }
+
+    _rpgScreens->setValues(hmi::RpgScreenId::CharacterSheet,
+                           hmi::characterSheetValues({.sheet = &fiche.sheet,
+                                                      .options = &options,
+                                                      .experience = &experience,
+                                                      .skills = &competences,
+                                                      .emptyMark = _loc.text("rpg.empty")}));
 }
 
 void MainWindow::openRpgScreen(hmi::RpgScreenId screen) {

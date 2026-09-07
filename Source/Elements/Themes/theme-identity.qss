@@ -358,3 +358,90 @@
     color: ${identity.color.accent};
     background: transparent;
 }
+
+/* ===== La planche GRAVEE de la fiche de personnage (LOT-38) =====
+
+   L'ecran ne compose plus la feuille en widgets : il DESSINE la planche du livre
+   (Assets/UI/character-sheet-plate.svg, gravure du corpus debarrassee de son lettrage anglais) et
+   ecrit dessus. Ces roles n'habillent donc plus des cadres -- la gravure les porte deja -- ils ne
+   reglent que l'ENCRE : couleur, graisse, casse.
+
+   Ces regles ne portent que la COULEUR, et c'est delibere. La police -- famille, graisse et
+   taille -- est posee en code, depuis les memes jetons de charte : le TITRAGE pour ce qui a la
+   place de le porter (le nom, les bandeaux, les cadrans), le CORPS partout ailleurs, la face de
+   titrage etant trop large pour les dix-huit lignes de competences comme pour
+   << Bonus de maitrise >>.
+   La raison de ce partage est mecanique : la TAILLE ne peut pas etre ecrite ici, puisqu'elle suit
+   la planche et non l'ecran -- un intitule grave occupe une place fixe sur la feuille, et
+   CharacterSheetPage la calcule depuis la hauteur de son rectangle. Or une feuille de style qui
+   fixe la famille reprend la main sur la police entiere et ecrase cette taille : les deux doivent
+   donc etre posees du meme cote.
+
+   Le fond reste TRANSPARENT partout : ce qui est derriere est la gravure, et un fond opaque la
+   masquerait. Les rares cartouches dont le fond doit etre repeint le sont par le widget, sous
+   l'etiquette, a partir des rectangles `cover` de la table. */
+#CharacterSheetPage {
+    background: transparent;
+}
+#CharacterSheetPage QLabel {
+    background: transparent;
+    border: none;
+    padding: 0;
+}
+/* Le nom du personnage, dans le grand cartouche du haut : la seule ligne de la planche qui se lit
+   avant tout le reste. */
+#CharacterSheetPage QLabel[rpgRole="plateName"] {
+    color: ${identity.color.text};
+    font-family: ${identity.font.title};
+    font-weight: bold;
+}
+/* Un intitule REPOSE la ou la gravure portait le sien : meme place, meme role, autre langue. Il
+   garde l'encre delavee des legendes du livre, plus claire que les valeurs qu'il annonce. */
+#CharacterSheetPage QLabel[rpgRole="plateCaption"] {
+    color: ${identity.color.textMuted};
+    font-family: ${identity.font.body};
+    font-weight: bold;
+}
+/* Les intitules graves DANS un cartouche -- plaques de la roue, onglets de sauvegarde, bandeaux
+   de prose : ils sont sertis dans l'ornement, et se lisent donc a l'encre pleine. */
+#CharacterSheetPage QLabel[rpgRole="plateEngraved"] {
+    color: ${identity.color.text};
+    font-family: ${identity.font.body};
+    font-weight: bold;
+}
+/* Les bandeaux de section (Competences, Jets de sauvegarde, Attaques) : lettres d'or sur le
+   bandeau grave, comme les bandeaux de titre du LOT-76. */
+#CharacterSheetPage QLabel[rpgRole="plateBanner"] {
+    color: ${identity.color.border};
+    font-family: ${identity.font.body};
+    font-weight: bold;
+}
+#CharacterSheetPage QLabel[rpgRole="plateValue"] {
+    color: ${identity.color.text};
+}
+/* Le nom d'une competence, sur sa ligne du livre : c'est un intitule, mais il se lit en continu
+   avec dix-sept autres, donc sans la graisse des titres. */
+#CharacterSheetPage QLabel[rpgRole="plateSkill"] {
+    color: ${identity.color.text};
+}
+/* Les grandeurs qu'on relit a chaque jet -- bonus de maitrise, initiative, classe d'armure -- au
+   centre de leur cadran grave. */
+#CharacterSheetPage QLabel[rpgRole="plateDial"] {
+    color: ${identity.color.text};
+    font-family: ${identity.font.title};
+    font-weight: bold;
+}
+/* Le modificateur, au centre du grand anneau de la roue : la valeur qu'on lance. */
+#CharacterSheetPage QLabel[rpgRole="plateAbility"] {
+    color: ${identity.color.text};
+    font-family: ${identity.font.title};
+    font-weight: bold;
+}
+/* La valeur de caracteristique, dans le petit disque accole a l'anneau. */
+#CharacterSheetPage QLabel[rpgRole="plateScore"] {
+    color: ${identity.color.text};
+    font-weight: bold;
+}
+#CharacterSheetPage QLabel[rpgRole="plateProse"] {
+    color: ${identity.color.textMuted};
+}

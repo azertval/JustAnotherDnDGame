@@ -6,6 +6,57 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **Fiche de personnage : maquette et interface** (`LOT-38`). Le `LOT-68` avait livré neuf écrans
+  vides ; celui-ci en **remplit un**, relevé sur les cinq feuilles Tanares **vierges** du corpus et
+  alimenté par un personnage réel.
+  - **Un champ affiché, ou écrit comme non alimenté** — et cette liste n'est pas un document à
+    côté, elle est **dans la table** : chaque ligne de l'ossature porte un identifiant de valeur,
+    ou une chaîne vide qui dit « ce champ existe, rien ne l'alimente encore ». Il reste au tiret
+    cadratin, jamais à zéro : un « 0 » se lirait comme un état du jeu et mentirait. La colonne des
+    identifiants vides **est** le périmètre restant — agonie (`LOT-72`), inventaire (`LOT-14`),
+    dons (`LOT-47`), sorts (`LOT-35`), Guilde (`LOT-45`).
+  - **La cinquième planche est une feuille d'ÉQUIPE, pas une fiche** : blason, quartier général,
+    mécénat. Elle a donc son écran — le **neuvième** — et c'est la preuve de ce que le `LOT-68`
+    affirmait : il s'ajoute par une entrée de table et ses clés de traduction, sans qu'aucun des
+    huit autres, ni la feuille de style, ni le châssis, n'aient été touchés (`EX-IHM-090`).
+  - **Les valeurs sont calculées par la règle, pas recopiées** : modificateurs signés, maîtrises
+    marquées, points de vie lus contre leur maximum, Perception passive dérivée. Le tout dans une
+    fonction **pure**, vérifiable sans ouvrir de fenêtre — et un test tient le seul contrat qui
+    relie les deux côtés, l'identifiant de valeur.
+  - **Le personnage affiché est une donnée**, `Rpg/characters/demonstration-brenna.json`, avec son
+    schéma et sa validation en CI. Elle ne porte que des **choix** — espèce, classe, historique,
+    caractéristiques de base, niveau : le reste est dérivé par le moteur, et le niveau s'atteint
+    par gain d'expérience, le chemin qu'une partie empruntera. Déclarée **provisoire** avec son
+    critère de retrait : elle disparaît quand une partie fournira un personnage réel (`LOT-29`,
+    `LOT-17`).
+  - **Le lexique tient maintenant les compétences et les caractéristiques.** Les dix-huit
+    compétences et les six caractéristiques s'affichent, donc s'écrivent dans le catalogue de
+    traduction — et ce sont des termes de règle, « Escamotage » et non « Tour de main ». Deux
+    espaces de noms de plus sous `check_glossary.py`, qui passe de 0 à **24 clés de règle
+    contrôlées**.
+  - **Reprise : l'écran ne ressemble plus à la planche, il *est* la planche.** La première version
+    recomposait la feuille en widgets — cartouches peints, roue tracée au pinceau, encadrements de
+    parchemin. Elle en avait l'allure sans en venir : l'arc des six caractéristiques était réglé à
+    la main, les bandeaux étaient des rectangles, et les rinceaux, la rose des vents et les
+    cabochons n'existaient pas. La planche a été **vectorisée** depuis le corpus ; l'écran la
+    **dessine** désormais et se contente d'écrire dessus. `hmi::AbilityWheel` a disparu — la roue
+    est gravée, elle n'est plus peinte — et le `.ui` avec elle : une gravure se repère en
+    coordonnées de maquette, pas en dispositions imbriquées.
+  - **Le lettrage est à nous, l'ornement est au livre.** La gravure du corpus porte ses intitulés
+    **en anglais**, et les livrer tels quels aurait rendu l'écran anglais dans les deux langues —
+    le jour même où le lexique venait de les traduire. `scripts/build_character_sheet_plate.py`
+    retire donc le lettrage du tracé, sous-chemin par sous-chemin, et l'écran repose les intitulés
+    traduits **aux mêmes rectangles**. Une seule table (`character-sheet-plate.json`) décrit les
+    deux moitiés : il est impossible d'effacer un intitulé sans le reposer, ni d'en reposer un sur
+    une gravure restée en place.
+  - **La planche est livrée en masque d'encre, et non en SVG** — non par confort, mais parce que
+    Qt ne sait pas la rendre : `QSvgHandler` rejette tout `<path>` de plus de 32768 éléments, et ce
+    tracé en demande **seize fois et demie**. Le découper ne marche pas davantage : un remplissage
+    se calcule sur l'ensemble des contours d'un même chemin, et séparer deux contours qui se
+    recouvrent change ce qui est plein et ce qui est vide — trois découpes essayées, trois images
+    fausses. Le PNG ne perd rien : la planche est monochrome, son alpha est intact, et l'écran la
+    teinte au jeton d'encre exactement comme il aurait teinté le SVG.
+
 - **Le châssis des écrans du RPG** (`LOT-68`). Huit écrans manquaient au jeu, et aucun n'existait
   même en ébauche : fiche de personnage, inventaire et équipement, journal de quêtes, carte du
   monde, dialogue, marchand, tableau de la Guilde, ATH de combat. Ce lot ne les **remplit** pas —

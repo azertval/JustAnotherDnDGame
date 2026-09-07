@@ -111,6 +111,8 @@ add_executable(UnitTests
     Unit/HMI/Interface/test_editor_actions.cpp
     Unit/HMI/Interface/test_screen_flow.cpp
     Unit/HMI/Interface/test_rpg_screens.cpp
+    Unit/HMI/Interface/test_character_sheet_values.cpp
+    Unit/HMI/Interface/test_character_sheet_plate.cpp
     Unit/HMI/Interface/test_identity_scale.cpp
     Unit/HMI/Interface/test_editor_workspace.cpp
     Unit/HMI/Interface/test_parchment_frame.cpp
@@ -245,6 +247,9 @@ target_compile_definitions(UnitTests PRIVATE
     JADG_OPTIONS_PAGE_UI_PATH="${PROJECT_SOURCE_DIR}/Source/Elements/UI/OptionsPage.ui"
     JADG_FR_LANG_PATH="${PROJECT_SOURCE_DIR}/Source/Elements/Localization/fr.lang"
     JADG_EN_LANG_PATH="${PROJECT_SOURCE_DIR}/Source/Elements/Localization/en.lang")
+# La planche de la fiche (LOT-38) se lit desormais sous JADG_ASSETS_DIR : depuis la reprise, sa mise
+# en page n'est plus un `.ui` mais la TABLE que l'ecran et le script de gravure partagent
+# (Assets/UI/character-sheet-plate.json). Plus de chemin dedie, donc : c'est un asset livre.
 
 # Tests d'intégration : plusieurs briques assemblées collaborant de bout en bout.
 add_executable(IntegrationTests
