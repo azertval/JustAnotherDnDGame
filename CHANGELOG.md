@@ -6,6 +6,38 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **Le châssis des écrans du RPG** (`LOT-68`). Huit écrans manquaient au jeu, et aucun n'existait
+  même en ébauche : fiche de personnage, inventaire et équipement, journal de quêtes, carte du
+  monde, dialogue, marchand, tableau de la Guilde, ATH de combat. Ce lot ne les **remplit** pas —
+  c'est le travail des `LOT-38`, `LOT-42`, `LOT-45` et `LOT-24` — il livre ce qu'ils ont en commun
+  et qu'aucun ne doit réinventer.
+  - **L'ossature est une table, et c'est tout le lot.** Le critère de la feuille de route disait :
+    *ajouter un neuvième écran ne demande de toucher à aucun des huit*. Il ne se tient pas avec huit
+    fichiers d'interface, fussent-ils bien écrits — le premier pied de page à corriger le serait
+    huit fois. `hmi::rpgScreens()` décrit donc chaque écran en **données pures** (blocs, genres,
+    libellés, `EX-IHM-090`), et le châssis Qt ne connaît **aucun** écran par son nom. Même règle
+    pour la feuille de style, qui habille par **rôle** et jamais par nom d'objet.
+  - **Les champs annoncés sont relevés sur les modèles déjà livrés** — `core::CharacterSheet`,
+    `core::Ability`, `core::Equipment`. Une ossature qui annonce des champs que le modèle ne porte
+    pas promet ce que le jeu ne pourra pas tenir. Les valeurs, elles, sont des **tirets** : ce lot
+    livre le cadre, et une valeur d'exemple se lirait comme un état du jeu (`EX-IHM-072`).
+  - **La règle de superposition appartient à l'écran, pas à l'appelant** (`EX-IHM-091`). La carte du
+    monde et l'ATH de combat se consultent **en marchant** — on ouvre une carte pour savoir où l'on
+    va sans s'arrêter ; les six autres suspendent la simulation. Décidée au point d'appel, cette
+    règle se contredirait d'un appel à l'autre sans que rien ne le signale.
+  - **« Nouvelle partie » ouvre le châssis, et c'est un échafaudage assumé.** Cette entrée n'a
+    aucune carte à charger — `demo-deplacement.json` n'existe pas, le `LOT-67` l'avait écrit — et
+    huit écrans qu'aucun chemin n'atteint ne se relisent ni ne se valident. La ligne à rendre à son
+    usage le jour où le `LOT-27` livrera une carte est **une seule**, et elle le dit. En attendant,
+    l'écran de jeu et celui de pause ne sont plus atteignables depuis le menu ; la table de
+    transitions déclare et teste déjà l'ouverture d'un écran du RPG depuis l'un et l'autre.
+  - **Trois défauts d'agencement, trouvés en ouvrant l'application** et invisibles dans le code : le
+    pied d'actions passait sous la ligne de flottaison (une seconde zone défilante borne désormais
+    le contenu seul, le pied reste posé au bas du cadre) ; le bandeau de titre débordait de la
+    fenêtre à la taille des titres d'écran, sortant la colonne de droite du cadre sans qu'aucune
+    erreur ne soit levée ; et les rappels de touches imposaient leur largeur — une aide ne décide
+    pas de la largeur d'une fenêtre.
+
 - **Menus et vocabulaire d'un RPG** (`LOT-67`). Le jeu décrivait un autre jeu : « Choisir un
   niveau » au menu, « Recommencer le niveau » en pause, et un avertissement de sortie qui parlait
   de « la progression du **tableau** en cours ». Ce lot retire la **notion de niveau discret** —

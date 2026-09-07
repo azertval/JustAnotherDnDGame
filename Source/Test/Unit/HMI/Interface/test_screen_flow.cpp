@@ -59,6 +59,11 @@ TEST(ScreenFlowTest, TransitionsAutoriseesMenentALEcranAttendu) {
     EXPECT_EQ(resolveTransition(pause, ScreenEvent::QuitPauseToMenu)->screen, ScreenId::Menu);
     EXPECT_EQ(resolveTransition(menu, ScreenEvent::OpenCredits)->screen, ScreenId::Credits);
     EXPECT_EQ(resolveTransition(credits, ScreenEvent::CloseCredits)->screen, ScreenId::Menu);
+    // Ecrans du RPG (LOT-68) : atteignables depuis le menu (echafaudage de « Nouvelle partie »),
+    // depuis le jeu et depuis la pause.
+    EXPECT_EQ(resolveTransition(menu, ScreenEvent::OpenRpgScreen)->screen, ScreenId::RpgScreen);
+    EXPECT_EQ(resolveTransition(game, ScreenEvent::OpenRpgScreen)->screen, ScreenId::RpgScreen);
+    EXPECT_EQ(resolveTransition(pause, ScreenEvent::OpenRpgScreen)->screen, ScreenId::RpgScreen);
     // Aperçu en direct / onglet Rejeu (LOT-ANNEXE-21) : ramène au Menu une fois la lecture
     // terminée (même convention que l'ancien "Regarder l'IA jouer", LOT-ANNEXE-18).
 }
@@ -115,6 +120,36 @@ TEST(ScreenFlowTest, TransitionInterditeEstRefusee) {
     EXPECT_EQ(resolveTransition(editor, ScreenEvent::OpenCredits), std::nullopt);
     EXPECT_EQ(resolveTransition(game, ScreenEvent::OpenCredits), std::nullopt);
     // Mode IA (LOT-ANNEXE-21) : même règle, atteignable seulement depuis le menu.
+    // Ecrans du RPG (LOT-68) : l'editeur n'y mene pas -- ce sont des ecrans de JOUEUR.
+    EXPECT_EQ(resolveTransition(editor, ScreenEvent::OpenRpgScreen), std::nullopt);
+    EXPECT_EQ(resolveTransition(menu, ScreenEvent::CloseRpgScreen), std::nullopt);
+}
+
+/**
+ * @brief Un écran du RPG revient vers l'écran d'où il a été ouvert -- menu, jeu ou pause -- porté
+ *        par l'état, comme la provenance d'Options (`LOT-68`, `EX-IHM-090`).
+ * \castest{<b>Un ecran du RPG revient vers son ecran d'origine (Menu, Game ou Pause).</b><br/>
+ * 	cat Unitaire · Machine à états des écrans<br/>
+ * 	crit Critique<br/>
+ * 	etapes 1. Ouvrir un ecran du RPG depuis le menu, le jeu puis la pause.<br/>2. Le fermer a
+ * chaque fois et verifier l'ecran atteint.<br/>
+ * 	attendu Chaque fermeture revient a l'ecran d'origine respectif.
+ * }
+ */
+TEST(ScreenFlowTest, EcranDuRpgRevientVersSonEcranDOrigine) {
+    const ScreenState menu{.screen = ScreenId::Menu, .optionsReturnTo = ScreenId::Menu};
+    const ScreenState game{.screen = ScreenId::Game, .optionsReturnTo = ScreenId::Menu};
+    const ScreenState pause{.screen = ScreenId::Pause, .optionsReturnTo = ScreenId::Menu};
+
+    for (const auto& [origin, expected] :
+         {std::pair{menu, ScreenId::Menu}, std::pair{game, ScreenId::Game},
+          std::pair{pause, ScreenId::Pause}}) {
+        const std::optional<ScreenState> opened =
+            resolveTransition(origin, ScreenEvent::OpenRpgScreen);
+        ASSERT_TRUE(opened.has_value());
+        EXPECT_EQ(opened->rpgReturnTo, expected);
+        EXPECT_EQ(resolveTransition(*opened, ScreenEvent::CloseRpgScreen)->screen, expected);
+    }
 }
 
 /**
@@ -164,6 +199,15 @@ TEST(ScreenFlowTest, HabillageDeFenetreEstCeluiAttenduParEcran) {
     EXPECT_FALSE(options.editingCommandsEnabled);
     EXPECT_TRUE(options.gamepadNavigationActive);
     EXPECT_FALSE(options.overlayVisible);
+
+    // Les ecrans du RPG (LOT-68) sont des PAGES de la pile, comme Options et Credits : le
+    // recouvrement viendra avec la scene qu'il aura a laisser voir derriere lui.
+    const ScreenDressing rpg = dressingFor(ScreenId::RpgScreen);
+    EXPECT_FALSE(rpg.docksVisible);
+    EXPECT_FALSE(rpg.menuBarVisible);
+    EXPECT_FALSE(rpg.editingCommandsEnabled);
+    EXPECT_TRUE(rpg.gamepadNavigationActive);
+    EXPECT_FALSE(rpg.overlayVisible);
 
     const ScreenDressing credits = dressingFor(ScreenId::Credits);
     EXPECT_FALSE(credits.docksVisible);

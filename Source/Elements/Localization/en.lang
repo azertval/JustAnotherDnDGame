@@ -414,6 +414,8 @@ hint.back = Back
 hint.tab = Tab
 hint.play = Play
 hint.resume = Resume
+key.shoulders = LB/RB
+hint.change_screen = Switch screen
 
 # "Planes" panel (LOT-69 TACHE-08)
 planes.column_file = File
@@ -451,3 +453,82 @@ planes.discard_text = The current plane has unsaved changes. Save them before co
 dock.planes = Planes
 
 # AI mode
+
+# --- RPG screens: the LOT-68 chassis ----------------------------------------------------------
+# The eight screens exist, and are EMPTY: this lot delivers their frame, not their content (sheet
+# in LOT-38, map in LOT-42, guild in LOT-45, combat in LOT-24). The labels below name SLOTS, never
+# values -- every displayed value is the dash of `rpg.empty`.
+rpg.empty = —
+rpg.chassis.close = Close
+rpg.chassis.previous_screen = Previous Screen
+rpg.chassis.next_screen = Next Screen
+
+rpg.character_sheet.title = Character Sheet
+rpg.inventory.title = Inventory and Equipment
+rpg.journal.title = Quest Journal
+rpg.world_map.title = World Map
+rpg.dialogue.title = Dialogue
+rpg.merchant.title = Merchant
+rpg.guild_board.title = Guild Board
+rpg.combat_hud.title = Combat
+
+rpg.block.identity = Identity
+rpg.block.progression = Progression
+rpg.block.abilities = Abilities
+rpg.block.combat = Combat
+rpg.block.saving_throws = Saving Throws
+rpg.block.skills = Skills
+rpg.block.equipment = Equipment
+rpg.block.bag = Backpack
+rpg.block.load = Load
+rpg.block.quests = Quests
+rpg.block.quest_detail = Details
+rpg.block.objectives = Objectives
+rpg.block.regions = Regions
+rpg.block.map = Map
+rpg.block.place = Location
+rpg.block.speaker = Speaker
+rpg.block.line = Line
+rpg.block.replies = Replies
+rpg.block.goods = Goods
+rpg.block.your_bag = Your Backpack
+rpg.block.purse = Purse
+rpg.block.contracts = Contracts
+rpg.block.contract = Contract
+rpg.block.initiative = Initiative Order
+rpg.block.target = Target
+rpg.block.actions = Actions
+
+# Fields taken from core::CharacterSheet (LOT-13) and core::Equipment (LOT-34). "Level" here is a
+# CHARACTER level (LOT-74), not the platformer stage retired in LOT-67.
+rpg.field.name = Name
+rpg.field.species = Species
+rpg.field.class = Class
+rpg.field.background = Background
+rpg.field.level = Level
+rpg.field.experience = Experience
+rpg.field.hit_points = Hit Points
+rpg.field.armor_class = Armor Class
+rpg.field.initiative = Initiative
+rpg.field.speed = Speed
+rpg.field.proficiency_bonus = Proficiency Bonus
+rpg.field.carried = Carried Weight
+rpg.field.capacity = Capacity
+rpg.field.gold = Gold Pieces
+rpg.field.region = Region
+rpg.field.place_type = Location Type
+rpg.field.danger = Danger
+rpg.field.attitude = Attitude
+rpg.field.giver = Patron
+rpg.field.rank = Rank
+rpg.field.reward = Reward
+rpg.field.conditions = Conditions
+
+rpg.slot.head = Head
+rpg.slot.torso = Torso
+rpg.slot.hands = Hands
+rpg.slot.feet = Feet
+rpg.slot.main_hand = Main Hand
+rpg.slot.off_hand = Off Hand
+rpg.slot.amulet = Amulet
+rpg.slot.ring = Ring

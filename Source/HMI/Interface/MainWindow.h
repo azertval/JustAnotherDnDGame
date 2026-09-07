@@ -23,6 +23,7 @@
 #include "HMI/Input/GamepadPoller.h"
 #include "HMI/Input/InputState.h"
 #include "HMI/Interface/EditorWorkspace.h"
+#include "HMI/Interface/RpgScreens.h"
 #include "HMI/Interface/ScreenFlow.h"
 #include "HMI/Localization/Localization.h"
 
@@ -56,6 +57,7 @@ class MainMenu;
 class OptionsPage;
 class PauseScreen;
 class CreditsScreen;
+class RpgScreenHost;
 class PalettePanel;
 class PlanesPanel;
 class LevelBrowserPanel;
@@ -323,6 +325,16 @@ private:
     /// elle protégeait une progression de campagne qui n'existe plus, et reviendra avec la
     /// sauvegarde du `LOT-17`, qui aura quelque chose à écraser.
     void newGame();
+    /// Ouvre le châssis des écrans du RPG sur @p screen (`LOT-68`, `EX-IHM-090`). Applique la
+    /// règle de superposition de l'écran ouvert (`hmi::pausesGame`, `EX-IHM-091`) : la simulation
+    /// est suspendue par la fiche ou un dialogue, laissée courir par la carte.
+    void openRpgScreen(hmi::RpgScreenId screen);
+    /// Ferme le châssis des écrans du RPG et revient à l'écran d'où il a été ouvert
+    /// (`ScreenState::rpgReturnTo`), en reprenant la simulation si elle avait été suspendue.
+    void closeRpgScreen();
+    /// Applique la règle de superposition de @p screen à la simulation, sans changer d'écran :
+    /// appelé aussi lors du **passage** d'un écran du RPG à un autre, où la règle peut changer.
+    void applyRpgSuperposition(hmi::RpgScreenId screen);
     /// « Crédits » (menu) : ouvre `_credits` (`LOT-60`).
     void openCredits();
     /// Retour au menu depuis l'écran de crédits.
@@ -352,6 +364,10 @@ private:
     /// Écran de crédits (`LOT-60`) : une page normale de `_stack`, jamais un recouvrement —
     /// atteint depuis le menu, pas en jeu, contrairement au précédent.
     CreditsScreen* _credits = nullptr;
+    /// Les huit écrans du RPG et la navigation entre eux (`LOT-68`) : **une** page de `_stack`,
+    /// jamais huit -- c'est ce qui permet d'aller de la fiche au journal sans que la machine à
+    /// états d'écrans ait à connaître les huit.
+    RpgScreenHost* _rpgScreens = nullptr;
     /// Écran Mode IA (`LOT-ANNEXE-21`) : même patron que `_levelSelectScreen`, page normale de
     /// `_stack`.
     GameViewport* _viewport;  ///< Surface de rendu D3D11 (possédée par le conteneur central).

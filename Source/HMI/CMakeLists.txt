@@ -108,6 +108,7 @@ add_library(HmiLib STATIC
     Editor/PixelAutotilePreview.cpp
     # Interface : logique d'écrans et de thème, sans widget.
     Interface/ScreenFlow.cpp
+    Interface/RpgScreens.cpp
     Interface/DesignTokens.cpp
     Interface/StyleSheetTemplate.cpp
     Interface/FontResolution.cpp
@@ -306,6 +307,8 @@ add_executable(JustAnotherDnDGame
     Interface/MainMenu.cpp
     Interface/PauseScreen.cpp
     Interface/CreditsScreen.cpp
+    Interface/RpgScreenFrame.cpp
+    Interface/RpgScreenHost.cpp
     Interface/OptionsPage.cpp
     Interface/KeybindingsWidget.cpp
     Interface/EditorKeybindingsWidget.cpp

@@ -33,8 +33,14 @@ ScreenDressing dressingFor(ScreenId screen) noexcept {
                                   .overlayVisible = false};
         case ScreenId::Options:
         case ScreenId::Credits:
-            // Même habillage que Menu : page du QStackedWidget, jamais un recouvrement -- ces deux
-            // écrans sont atteints depuis le menu, pas en jeu.
+        case ScreenId::RpgScreen:
+            // Même habillage que Menu : page du QStackedWidget, jamais un recouvrement.
+            //
+            // Les écrans du RPG (LOT-68) partagent ce cas, et c'est une DECISION, pas un
+            // rangement : ceux qui se consultent en marchant (EX-IHM-091) mériteront un
+            // recouvrement le jour où il y aura une scène à laisser voir derrière eux. Tant que
+            // « Nouvelle partie » n'a pas de carte à charger, ce recouvrement se peindrait sur du
+            // vide -- on l'écrira avec le contenu du LOT-27, qui pourra le montrer.
             return ScreenDressing{.docksVisible = false,
                                   .menuBarVisible = false,
                                   .toolBarVisible = false,
@@ -75,6 +81,13 @@ std::optional<ScreenState> resolveTransition(const ScreenState& current,
                 case ScreenEvent::OpenCredits:
                     return ScreenState{.screen = ScreenId::Credits,
                                        .optionsReturnTo = ScreenId::Menu};
+                // Depuis le menu, les écrans du RPG s'ouvrent en ECHAFAUDAGE (LOT-68) : « Nouvelle
+                // partie » n'a pas de carte à charger tant que le LOT-27 n'en livre pas une, et
+                // huit écrans qu'on ne peut pas atteindre ne se valident pas.
+                case ScreenEvent::OpenRpgScreen:
+                    return ScreenState{.screen = ScreenId::RpgScreen,
+                                       .optionsReturnTo = ScreenId::Menu,
+                                       .rpgReturnTo = ScreenId::Menu};
                 default:
                     return std::nullopt;
             }
@@ -99,6 +112,13 @@ std::optional<ScreenState> resolveTransition(const ScreenState& current,
                 case ScreenEvent::OpenPause:
                     return ScreenState{.screen = ScreenId::Pause,
                                        .optionsReturnTo = ScreenId::Menu};
+                // Depuis le jeu : la fiche, l'inventaire ou la carte s'ouvrent et se referment sur
+                // la partie en cours. C'est `hmi::pausesGame` qui dit lequel suspend la simulation
+                // (EX-IHM-091), pas cette table -- elle ne connaît pas les huit écrans.
+                case ScreenEvent::OpenRpgScreen:
+                    return ScreenState{.screen = ScreenId::RpgScreen,
+                                       .optionsReturnTo = ScreenId::Menu,
+                                       .rpgReturnTo = ScreenId::Game};
                 default:
                     return std::nullopt;
             }
@@ -119,6 +139,23 @@ std::optional<ScreenState> resolveTransition(const ScreenState& current,
                 case ScreenEvent::OpenOptions:
                     return ScreenState{.screen = ScreenId::Options,
                                        .optionsReturnTo = ScreenId::Pause};
+                case ScreenEvent::OpenRpgScreen:
+                    return ScreenState{.screen = ScreenId::RpgScreen,
+                                       .optionsReturnTo = ScreenId::Menu,
+                                       .rpgReturnTo = ScreenId::Pause};
+                default:
+                    return std::nullopt;
+            }
+        case ScreenId::RpgScreen:
+            switch (event) {
+                // Un seul retour, vers l'écran d'où l'on vient. Le PASSAGE d'un écran du RPG à un
+                // autre n'est pas une transition de cette machine : les huit vivent sur une seule
+                // page (`hmi::RpgScreenHost`), et c'est ce qui permet d'aller de la fiche au
+                // journal sans repasser par le menu (EX-IHM-090).
+                case ScreenEvent::CloseRpgScreen:
+                    return ScreenState{.screen = current.rpgReturnTo,
+                                       .optionsReturnTo = ScreenId::Menu,
+                                       .rpgReturnTo = ScreenId::Menu};
                 default:
                     return std::nullopt;
             }

@@ -416,6 +416,8 @@ hint.back = Retour
 hint.tab = Onglet
 hint.play = Jouer
 hint.resume = Reprendre
+key.shoulders = LB/RB
+hint.change_screen = Changer d'écran
 
 # Panneau « Plans » (LOT-69 TACHE-08)
 planes.column_file = Fichier
@@ -453,3 +455,82 @@ planes.discard_text = Le plan en cours contient des modifications non enregistr�
 dock.planes = Plans
 
 # Mode IA
+
+# --- Ecrans du RPG : le chassis du LOT-68 -----------------------------------------------------
+# Les huit ecrans existent, et sont VIDES : ce lot livre leur cadre, pas leur contenu (fiche au
+# LOT-38, carte au LOT-42, guilde au LOT-45, combat au LOT-24). Les libelles ci-dessous nomment
+# donc des EMPLACEMENTS, jamais des valeurs -- toute valeur affichee est le tiret de `rpg.empty`.
+rpg.empty = —
+rpg.chassis.close = Fermer
+rpg.chassis.previous_screen = Écran précédent
+rpg.chassis.next_screen = Écran suivant
+
+rpg.character_sheet.title = Fiche de personnage
+rpg.inventory.title = Inventaire et équipement
+rpg.journal.title = Journal de quêtes
+rpg.world_map.title = Carte du monde
+rpg.dialogue.title = Dialogue
+rpg.merchant.title = Marchand
+rpg.guild_board.title = Tableau de la Guilde
+rpg.combat_hud.title = Combat
+
+rpg.block.identity = Identité
+rpg.block.progression = Progression
+rpg.block.abilities = Caractéristiques
+rpg.block.combat = Combat
+rpg.block.saving_throws = Jets de sauvegarde
+rpg.block.skills = Compétences
+rpg.block.equipment = Équipement
+rpg.block.bag = Sac
+rpg.block.load = Charge
+rpg.block.quests = Quêtes
+rpg.block.quest_detail = Détail
+rpg.block.objectives = Objectifs
+rpg.block.regions = Régions
+rpg.block.map = Carte
+rpg.block.place = Lieu
+rpg.block.speaker = Interlocuteur
+rpg.block.line = Réplique
+rpg.block.replies = Réponses
+rpg.block.goods = Marchandises
+rpg.block.your_bag = Votre sac
+rpg.block.purse = Bourse
+rpg.block.contracts = Contrats
+rpg.block.contract = Contrat
+rpg.block.initiative = Ordre d'initiative
+rpg.block.target = Cible
+rpg.block.actions = Actions
+
+# Champs releves sur core::CharacterSheet (LOT-13) et core::Equipment (LOT-34). « Niveau » est ici
+# celui d'un PERSONNAGE (LOT-74), a ne pas confondre avec le niveau-tableau retire au LOT-67.
+rpg.field.name = Nom
+rpg.field.species = Espèce
+rpg.field.class = Classe
+rpg.field.background = Historique
+rpg.field.level = Niveau
+rpg.field.experience = Expérience
+rpg.field.hit_points = Points de vie
+rpg.field.armor_class = Classe d'armure
+rpg.field.initiative = Initiative
+rpg.field.speed = Vitesse
+rpg.field.proficiency_bonus = Bonus de maîtrise
+rpg.field.carried = Poids porté
+rpg.field.capacity = Capacité
+rpg.field.gold = Pièces d'or
+rpg.field.region = Région
+rpg.field.place_type = Type de lieu
+rpg.field.danger = Danger
+rpg.field.attitude = Attitude
+rpg.field.giver = Commanditaire
+rpg.field.rank = Rang
+rpg.field.reward = Récompense
+rpg.field.conditions = États
+
+rpg.slot.head = Tête
+rpg.slot.torso = Torse
+rpg.slot.hands = Mains
+rpg.slot.feet = Pieds
+rpg.slot.main_hand = Main directrice
+rpg.slot.off_hand = Main secondaire
+rpg.slot.amulet = Amulette
+rpg.slot.ring = Anneau

@@ -86,6 +86,7 @@
 #include "HMI/Interface/MainMenu.h"
 #include "HMI/Interface/OptionsPage.h"
 #include "HMI/Interface/PauseScreen.h"
+#include "HMI/Interface/RpgScreenHost.h"
 #include "HMI/Interface/ScreenPageHost.h"
 #include "HMI/Platform/ExecutableDirectory.h"
 #include "ui_MainWindow.h"
@@ -121,11 +122,6 @@ constexpr char WORKSPACE_KEY[] = "mainWindow/workspace";
 constexpr float PLANE_REFERENCE_OPACITY = 0.45f;
 // Reglage "contraindre a la palette" de l'atelier pixel art (LOT-54 TACHE-07).
 constexpr char CONSTRAIN_TO_PALETTE_KEY[] = "pixelEditor/constrainToPalette";
-
-// Carte de depart d'une nouvelle partie (LOT-67). Un seul litteral, et il est PROVISOIRE : le
-// graphe de cartes du LOT-09 dira ou une partie commence, et cette constante disparaitra avec lui.
-// La nommer ici plutot que de la laisser au fil du code rend ce provisoire visible.
-constexpr char STARTING_MAP_FILE[] = "demo-deplacement.json";
 
 }  // namespace
 
@@ -190,6 +186,7 @@ MainWindow::MainWindow(core::MemoryLogSink* sessionLog)
     _options = new OptionsPage(_viewport, &_audio,
                                hmi::executableDirectory() / "Settings" / "keybindings.json");
     _credits = new CreditsScreen();
+    _rpgScreens = new RpgScreenHost();
     _stack = new QStackedWidget(this);
     // Chaque ecran passe par une enveloppe defilante (LOT-73, EX-IHM-080) : sa taille minimale ne
     // remonte plus jusqu'a la fenetre. Le VIEWPORT en est exclu -- surface de rendu QRhi, il
@@ -197,9 +194,15 @@ MainWindow::MainWindow(core::MemoryLogSink* sessionLog)
     addScreenPage(_menu);
     addScreenPage(_options);
     addScreenPage(_credits);
+    addScreenPage(_rpgScreens);
     _stack->addWidget(_viewport);
     setCentralWidget(_stack);
     connect(_credits, &CreditsScreen::backRequested, this, &MainWindow::closeCredits);
+    connect(_rpgScreens, &RpgScreenHost::closeRequested, this, &MainWindow::closeRpgScreen);
+    // Le passage d'un ecran du RPG a un autre peut CHANGER la regle de superposition -- passer de
+    // la carte (qui se consulte en marchant) a la fiche (qui suspend) doit suspendre. La regle est
+    // donc appliquee a chaque changement d'ecran, pas seulement a l'ouverture (EX-IHM-091).
+    connect(_rpgScreens, &RpgScreenHost::screenChanged, this, &MainWindow::applyRpgSuperposition);
 
     // Recouvrement de pause (LOT-59 TACHE-02) : widget ENFANT ORDINAIRE du viewport depuis le
     // LOT-69 TACHE-02. Il avait dû devenir une fenêtre de haut niveau (Qt::Dialog) parce qu'un
@@ -475,6 +478,9 @@ void MainWindow::applyScreenDressing(ScreenId screen) {
         case ScreenId::Credits:
             showScreenPage(_credits);
             break;
+        case ScreenId::RpgScreen:
+            showScreenPage(_rpgScreens);
+            break;
         case ScreenId::Editor:
         case ScreenId::Game:
         case ScreenId::Pause:
@@ -504,6 +510,8 @@ void MainWindow::applyScreenDressing(ScreenId screen) {
         _viewport->setFocus();
     } else if (screen == ScreenId::Credits) {
         _credits->focusDefaultAction();
+    } else if (screen == ScreenId::RpgScreen) {
+        _rpgScreens->focusDefaultAction();
     }
 
     const ScreenDressing dressing = hmi::dressingFor(screen);
@@ -1014,18 +1022,52 @@ void MainWindow::showEditor() {
 }
 
 void MainWindow::newGame() {
-    if (!transitionScreen(ScreenEvent::OpenGame)) {
+    // ECHAFAUDAGE ASSUME (LOT-68). Cette entree devrait ouvrir une carte, et elle le fera : la
+    // carte de depart arrive avec le contenu du LOT-27. Elle n'en a AUCUNE aujourd'hui -- le
+    // LOT-01 a purge les niveaux du jeu de plateforme, et `demo-deplacement.json` n'existe pas.
+    // Elle chargeait donc un fichier absent, et le LOT-67 l'a ecrit plutot que de le laisser
+    // decouvrir.
+    //
+    // Elle ouvre en attendant le CHASSIS des ecrans du RPG, sur la fiche de personnage. Ce n'est
+    // pas un pis-aller : les huit ecrans de ce lot sont vides par construction, et huit ecrans
+    // qu'aucun chemin n'atteint ne se relisent pas, ne se naviguent pas et ne se valident pas. La
+    // ligne a remplacer le jour ou il y aura une carte est CELLE-CI, et elle est seule.
+    openRpgScreen(hmi::RpgScreenId::CharacterSheet);
+}
+
+void MainWindow::openRpgScreen(hmi::RpgScreenId screen) {
+    if (!transitionScreen(ScreenEvent::OpenRpgScreen)) {
         return;
     }
-    HMI_LOG_INFO("Navigation : nouvelle partie.");
-    // Une CARTE, et non plus une sequence (LOT-67). Il n'y a ni ordre de tableaux, ni tableau
-    // suivant : le bac a sable vise n'en a pas. L'enchainement d'une carte a l'autre reviendra
-    // avec le graphe de cartes du LOT-09, declenche par une transition posee dans le monde.
-    //
-    // Et il n'y a plus de confirmation d'ecrasement : elle protegeait une progression de campagne
-    // qui n'existe plus. Elle reviendra avec la sauvegarde du LOT-17, qui aura quelque chose a
-    // ecraser.
-    _viewport->startGame(hmi::executableDirectory() / "Levels" / STARTING_MAP_FILE);
+    HMI_LOG_INFO("Navigation : ecran du RPG.");
+    _rpgScreens->showScreen(screen);
+}
+
+void MainWindow::applyRpgSuperposition(hmi::RpgScreenId screen) {
+    // Regle de superposition (EX-IHM-091) : la fiche, l'inventaire, le journal, le dialogue, le
+    // marchand et le tableau de la Guilde suspendent la simulation ; la carte et l'ATH de combat
+    // se consultent en marchant. La table le dit, ce code l'applique -- il ne redecide rien.
+    if (_screenState.rpgReturnTo != ScreenId::Game && _screenState.rpgReturnTo != ScreenId::Pause) {
+        return;  // ouvert depuis le menu : aucune simulation a suspendre.
+    }
+    if (hmi::pausesGame(screen)) {
+        _viewport->pauseSimulation();
+    } else {
+        _viewport->resumeSimulation();
+    }
+}
+
+void MainWindow::closeRpgScreen() {
+    const ScreenId returnTo = _screenState.rpgReturnTo;
+    if (!transitionScreen(ScreenEvent::CloseRpgScreen)) {
+        return;
+    }
+    HMI_LOG_INFO("Navigation : fermeture d'un ecran du RPG.");
+    // La simulation reprend si l'ecran ferme l'avait suspendue -- et SEULEMENT si l'on revient au
+    // jeu : revenir a la pause doit laisser la scene figee, c'est tout son objet.
+    if (returnTo == ScreenId::Game) {
+        _viewport->resumeSimulation();
+    }
 }
 
 void MainWindow::openCredits() {
@@ -1841,6 +1883,20 @@ void MainWindow::pollMenuGamepad() {
         post(Qt::Key_Return, Qt::NoModifier);
         playInterfaceSound(GameEvent::MenuConfirm);
     }
+    // Epaules : passage d'un ecran du RPG a l'autre (LOT-68). C'est le pendant manette du bouton
+    // du pied de page, et la raison pour laquelle le rappel de touches annonce LB/RB : un rappel
+    // qui nomme une touche inerte est pire que pas de rappel du tout (EX-IHM-072).
+    if (_screenState.screen == ScreenId::RpgScreen) {
+        if (_menuPadInput.gamepadButtonPressed(GamepadButton::RightShoulder)) {
+            _rpgScreens->showNextScreen();
+            playInterfaceSound(GameEvent::MenuNavigate);
+        }
+        if (_menuPadInput.gamepadButtonPressed(GamepadButton::LeftShoulder)) {
+            _rpgScreens->showPreviousScreen();
+            playInterfaceSound(GameEvent::MenuNavigate);
+        }
+    }
+
     // B : retour contextuel (depuis Options vers son écran d'origine, ou reprise depuis la pause
     // -- LOT-59 TACHE-02), sans quitter depuis le menu principal.
     if (_menuPadInput.gamepadButtonPressed(GamepadButton::B)) {
@@ -1850,6 +1906,8 @@ void MainWindow::pollMenuGamepad() {
             resumeFromPause();
         } else if (_screenState.screen == ScreenId::Credits) {
             closeCredits();
+        } else if (_screenState.screen == ScreenId::RpgScreen) {
+            closeRpgScreen();
         }
     }
 
@@ -2271,6 +2329,7 @@ void MainWindow::retranslateUi() {
     _menu->retranslateUi(_loc);
     _pauseScreen->retranslateUi(_loc);
     _credits->retranslateUi(_loc);
+    _rpgScreens->retranslateUi(_loc);
     _options->retranslateUi(_loc);
     _palette->retranslateUi(_loc);
     _planes->retranslateUi(_loc);

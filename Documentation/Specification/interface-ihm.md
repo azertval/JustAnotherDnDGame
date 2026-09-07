@@ -298,6 +298,32 @@ pendant que le `config.json` du run affirmait le contraire.
   corollaire `IHM ⊇ CLI` du `LOT-ANNEXE-22` (hérité). Un réglage inerte est pire qu'un
   réglage absent : il se règle, il s'enregistre dans la configuration du run, et il ment.
 
+## 10. Le châssis des écrans du RPG (LOT-68)
+
+Huit écrans manquent au jeu — fiche de personnage, inventaire et équipement, journal de quêtes,
+carte du monde, dialogue, marchand, tableau de la Guilde, affichage tête haute de combat — et
+quatre lots à venir les remplissent chacun de leur côté (`LOT-38`, `LOT-42`, `LOT-45`,
+`LOT-24`). Sans règle commune, ces quatre lots produiraient quatre écrans qui s'ouvrent
+différemment, se ferment différemment et se naviguent différemment : le défaut ne se voit sur aucun
+d'eux pris isolément, et sur les quatre ensemble il n'est plus rattrapable sans les refaire.
+
+- \anchor EX-IHM-090 **EX-IHM-090** — Les écrans du **RPG** doivent partager un **châssis** unique :
+  le même cadre (panneau, titre, zone de contenu, pied d'actions), la même ouverture et la même
+  fermeture, le même passage d'un écran à l'autre **sans repasser par le menu**, et le même parcours
+  de focus à la manette (`EX-IHM-071`). L'**ossature** de chaque écran — ses blocs, leurs genres,
+  leurs libellés — doit être portée par une **description en données**, non par du code d'interface
+  écrit écran par écran : ajouter un écran ne doit demander de toucher à **aucun** des autres, ni
+  dans le code, ni dans la feuille de style. Une convention à réappliquer à chaque écran se reperd
+  au premier ajout — c'est la leçon qu'`EX-IHM-080` a déjà tirée pour la taille des écrans.
+  Corollaire : les libellés de cette description passent par le catalogue de traduction
+  (`EX-REN-033`) comme tout autre texte, et rien ne les y rattachant qu'une table, leur présence
+  dans **les deux** catalogues doit être vérifiée automatiquement.
+- \anchor EX-IHM-091 **EX-IHM-091** — Chaque écran du RPG doit déclarer sa **règle de
+  superposition** : suspend-il la simulation, ou se consulte-t-il en marchant ? Cette règle
+  appartient à la **description** de l'écran, jamais au code qui l'ouvre : ouvert depuis la pause,
+  depuis le jeu ou depuis une touche, un même écran doit se comporter de la même façon, et une règle
+  décidée au point d'appel se contredit d'un appel à l'autre sans que rien ne le signale.
+
 ## Traçabilité
 Tout ceci relève de `Source/HMI` — depuis le `LOT-H-38`, l'unique application Qt `JustAnotherDnDGame` (rendu
 de jeu Direct3D 11 + widgets Qt répartis par domaine) ; les assets Qt déclaratifs vivent dans
@@ -306,4 +332,5 @@ couverte par des tests (`EX-NFR-010`, `EX-NFR-020`). Détail du séquencement : 
 `LOT-H-34` à `LOT-H-39` pour la refonte initiale ;
 `LOT-H-56` (section 6) et `LOT-H-57` (section 7) pour la révision de
 l'apparence et de la répartition de l'information ; `LOT-H-73` (section 9) pour
-l'invariant de taille, les portées de thème et les réglages effectifs.
+l'invariant de taille, les portées de thème et les réglages effectifs ; `LOT-68` (section 10)
+pour le châssis des écrans du RPG.

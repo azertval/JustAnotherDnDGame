@@ -110,6 +110,7 @@ add_executable(UnitTests
     Unit/HMI/Interface/test_theme_teardown_guards.cpp
     Unit/HMI/Interface/test_editor_actions.cpp
     Unit/HMI/Interface/test_screen_flow.cpp
+    Unit/HMI/Interface/test_rpg_screens.cpp
     Unit/HMI/Interface/test_identity_scale.cpp
     Unit/HMI/Interface/test_editor_workspace.cpp
     Unit/HMI/Interface/test_parchment_frame.cpp
