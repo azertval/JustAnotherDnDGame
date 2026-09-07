@@ -4,6 +4,8 @@
 #pragma once
 
 #include <QWidget>
+#include <map>
+#include <string>
 #include <vector>
 
 #include "HMI/Interface/RpgScreens.h"
@@ -45,9 +47,40 @@ public:
     /// @param parent     Parent Qt.
     explicit RpgScreenFrame(const RpgScreenDescriptor& descriptor, QWidget* parent = nullptr);
 
+    /**
+     * @brief Variante à **contenu fourni** : le cadre, le titre et le pied d'actions restent ceux
+     *        du châssis, mais le corps est le widget donné plutôt que l'ossature de la table.
+     *
+     * C'est ce qui permet à la fiche de personnage d'être la **planche gravée** du livre
+     * (`hmi::CharacterSheetPage`, `LOT-38`) sans sortir du châssis : elle s'ouvre, se ferme et se
+     * navigue exactement comme les huit autres écrans, et c'était tout l'objet du `LOT-68`.
+     *
+     * Un écran garde le rendu générique tant qu'aucune maquette n'existe pour lui ; il reçoit une
+     * planche le jour où il en a une. Les deux voies partagent le même cadre, jamais deux.
+     *
+     * @param descriptor Écran à peindre.
+     * @param content    Corps de l'écran. Le châssis en prend possession.
+     * @param parent     Parent Qt.
+     */
+    RpgScreenFrame(const RpgScreenDescriptor& descriptor, QWidget* content, QWidget* parent);
+
     /// Applique la langue active à tous les libellés : titre d'écran, titres de blocs, libellés de
     /// champs, boutons et rappels de touches.
     void retranslateUi(const Localization& loc);
+
+    /**
+     * @brief Remplit les valeurs de l'écran (`LOT-38`).
+     *
+     * @param values Identifiant de valeur (`hmi::RpgField::valueId`) → texte déjà **formaté et
+     *               traduit** par l'appelant. Une entrée dont l'identifiant n'est pas à l'écran
+     *               est ignorée en silence : les valeurs sont produites par écran, et une fiche
+     *               qui en porterait une de trop n'est pas une erreur.
+     *
+     * Ce qu'aucune entrée ne nomme **reste au tiret cadratin**. C'est ce qui distingue « ce champ
+     * n'a pas de source » de « ce champ vaut zéro », et les confondre ferait lire un personnage
+     * sans sorts comme un personnage dont les sorts sont épuisés.
+     */
+    void setValues(const std::map<std::string, std::string>& values);
 
     /// Donne le focus clavier à la première entrée du pied d'actions — porte d'entrée du parcours
     /// de focus à la manette (`EX-IHM-071`), même patron que `PauseScreen::focusDefaultAction`.
@@ -79,6 +112,10 @@ private:
         const char* key = "";
     };
 
+    /// Construit le cadre commun (titre, corps défilant, pied d'actions) autour de @p content.
+    /// @p content vaut `nullptr` pour un écran rendu depuis la table.
+    void buildChrome(QWidget* content);
+
     /// Construit les widgets d'un bloc et les ajoute à @p column.
     void buildBlock(QVBoxLayout* column, const RpgContentBlock& block);
     /// Construit une colonne de blocs ; @return le conteneur, ou `nullptr` si la colonne est vide.
@@ -92,9 +129,13 @@ private:
     QLabel* _hints = nullptr;
     /// Étiquettes traduisibles de l'ossature (titres de blocs, libellés de champs).
     std::vector<TranslatedLabel> _translated;
-    /// Étiquettes de **valeur** : elles ne portent aucune donnée à ce lot et affichent le tiret
-    /// cadratin du catalogue. Retenues à part parce qu'elles partagent toutes la même clé.
-    std::vector<QLabel*> _placeholders;
+    /// Étiquettes de **valeur**, et l'identifiant sous lequel `setValues` les remplit. Un
+    /// identifiant vide dit que rien n'alimente encore ce champ : l'étiquette garde alors le tiret
+    /// cadratin, quoi qu'on lui passe.
+    std::vector<TranslatedLabel> _values;
+    /// Les dernières valeurs reçues, rejouées après un changement de langue (`retranslateUi`
+    /// repasse tout au tiret avant de les reposer).
+    std::map<std::string, std::string> _lastValues;
 };
 
 }  // namespace hmi

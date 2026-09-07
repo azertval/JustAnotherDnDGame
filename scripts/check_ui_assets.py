@@ -38,14 +38,37 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 UI = ROOT / "Source" / "Elements" / "Assets" / "UI"
 MANIFEST = UI / "illustrations.json"
-# Seul endroit du code ou un nom de fichier d'illustration est ecrit.
-NAMING_SOURCE = ROOT / "Source" / "HMI" / "Interface" / "MainMenu.h"
+# Les SEULS endroits du code ou un nom de fichier d'illustration est ecrit. Une liste, et non un
+# fichier unique, depuis que la fiche de personnage nomme son portrait (LOT-38) : un ecran qui
+# nomme une image sans figurer ici sortirait du recoupement, et l'image se retrouverait declaree
+# mais << nommee par aucun code >>.
+NAMING_SOURCES = (
+    ROOT / "Source" / "HMI" / "Interface" / "MainMenu.h",
+    ROOT / "Source" / "HMI" / "Interface" / "CharacterSheetPage.h",
+)
+
+PNG_SIGNATURE = bytes([0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A])
 
 errors: list[str] = []
 
 
 def fail(message: str) -> None:
     errors.append(message)
+
+
+def png_size(data: bytes) -> tuple[int, int]:
+    """Largeur et hauteur d'un PNG, lues dans son bloc IHDR : a decalage FIXE, contrairement au
+    JPEG. Huit octets de signature, puis un bloc dont les deux premiers entiers sont les
+    dimensions."""
+    if data[:8] != PNG_SIGNATURE:
+        raise ValueError("signature PNG absente")
+    width, height = struct.unpack(">II", data[16:24])
+    return width, height
+
+
+def image_size(name: str, data: bytes) -> tuple[int, int]:
+    """Dimensions d'une image, selon son extension."""
+    return png_size(data) if name.lower().endswith(".png") else jpeg_size(data)
 
 
 def jpeg_size(data: bytes) -> tuple[int, int]:
@@ -101,9 +124,9 @@ def check_illustrations(manifest: dict) -> set[str]:
         if len(data) != entry["bytes"]:
             fail(f"`{identifier}` : {len(data)} octets, {entry['bytes']} annonces")
         try:
-            width, height = jpeg_size(data)
+            width, height = image_size(entry["file"], data)
         except (ValueError, struct.error) as error:
-            fail(f"`{identifier}` : {entry['file']} n'est pas un JPEG lisible ({error})")
+            fail(f"`{identifier}` : {entry['file']} n'est pas une image lisible ({error})")
             continue
         if [width, height] != entry["size"]:
             fail(f"`{identifier}` : {width}x{height}, {entry['size']} annonces")
@@ -127,14 +150,16 @@ def check_orphan_files(declared_files: set[str]) -> None:
 
 def check_code_keys(declared_files: set[str]) -> None:
     """Les noms de fichiers cites par le C++ et ceux du manifeste sont les memes, dans les deux sens."""
-    if not NAMING_SOURCE.is_file():
-        fail(f"{NAMING_SOURCE.relative_to(ROOT)} absent : plus rien ne relie les images au code")
-        return
-    used = set(
-        re.findall(r'"([A-Za-z0-9_-]+\.(?:jpe?g|png))"', NAMING_SOURCE.read_text(encoding="utf-8"))
-    )
+    used: set[str] = set()
+    for source in NAMING_SOURCES:
+        if not source.is_file():
+            fail(f"{source.relative_to(ROOT)} absent : plus rien ne relie ses images au code")
+            continue
+        used |= set(
+            re.findall(r'"([A-Za-z0-9_-]+\.(?:jpe?g|png))"', source.read_text(encoding="utf-8"))
+        )
     if not used:
-        fail(f"aucun nom d'illustration dans {NAMING_SOURCE.relative_to(ROOT)} (lecture cassee ?)")
+        fail("aucun nom d'illustration dans les sources de nommage (lecture cassee ?)")
         return
     for name in sorted(used - declared_files):
         fail(f"`{name}` nomme par le code, absent du manifeste")

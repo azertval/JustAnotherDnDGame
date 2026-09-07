@@ -5,6 +5,8 @@
 
 #include <QHash>
 #include <QWidget>
+#include <map>
+#include <string>
 
 #include "HMI/Interface/RpgScreens.h"
 
@@ -17,6 +19,7 @@ class QStackedWidget;
 
 namespace hmi {
 
+class CharacterSheetPage;
 class Localization;
 class RpgScreenFrame;
 
@@ -40,6 +43,10 @@ public:
 
     /// Applique la langue active aux huit écrans.
     void retranslateUi(const Localization& loc);
+
+    /// Pose les valeurs de @p screen (`hmi::RpgScreenFrame::setValues`, `LOT-38`). Sans effet si
+    /// cet écran n'est pas dans la table -- rien à remplir n'est pas une erreur.
+    void setValues(RpgScreenId screen, const std::map<std::string, std::string>& values);
 
     /// Affiche @p screen et lui donne le focus clavier.
     void showScreen(RpgScreenId screen);
@@ -65,9 +72,14 @@ signals:
     void screenChanged(RpgScreenId screen);
 
 private:
+    /// La planche de la fiche de personnage (`LOT-38`), quand l'écran en a une. Les autres
+    /// écrans n'en ont pas : leur corps est rendu depuis la table du `LOT-68`.
+    CharacterSheetPage* _sheetPage = nullptr;
     QStackedWidget* _stack = nullptr;
     QHash<int, RpgScreenFrame*> _frames;  ///< `RpgScreenId` (en entier) -> châssis construit.
     RpgScreenId _current = RpgScreenId::CharacterSheet;
+    /// Dernières valeurs de la fiche, rejouées après un changement de langue.
+    std::map<std::string, std::string> _sheetValues;
 };
 
 }  // namespace hmi

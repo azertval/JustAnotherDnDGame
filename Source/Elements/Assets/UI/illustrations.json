@@ -22,6 +22,34 @@
       "bytes": 710136,
       "sha256": "209757713a21409a8b755efb56531be1c923f9e26bfeb99f379af523e404f644",
       "note": "carte du monde de Tanares (pages imprimees 88-89), les treize regions de l'atlas"
+    },
+    {
+      "id": "portrait-demonstration",
+      "file": "portrait-demonstration.png",
+      "kind": "file",
+      "document": "VTT/Tokens VTT PNG/Token 40.png",
+      "provenance": "tanares",
+      "size": [
+        354,
+        354
+      ],
+      "bytes": 247814,
+      "sha256": "0984037af3bb8555526c1685a1c6aeee558bd366eb3a1f0e5ab3dabc733638c3",
+      "note": "jeton rond de table virtuelle, servant de portrait au centre de la roue des caracteristiques de la fiche (LOT-38). Livre TEL QUEL : un jeton est deja detoure et rond, il ne se recadre pas"
+    },
+    {
+      "id": "character-sheet-plate",
+      "file": "character-sheet-plate.png",
+      "kind": "derived",
+      "document": "Character_Sheets_Tanares.svg",
+      "provenance": "tanares",
+      "size": [
+        2448,
+        3168
+      ],
+      "bytes": 2087077,
+      "sha256": "022e3f53388a8862271f6d36a80b37ca6ff28f0272a2d3b77bc1d7b16823aa1b",
+      "note": "planche 1 de la feuille de personnage : le trait du livre, vectorise depuis le corpus puis DEBARRASSE de son lettrage anglais, et rasterise en masque d'encre par scripts/build_character_sheet_plate.py. Ne pas retoucher a la main : le trait et les rectangles de character-sheet-plate.json doivent rester d'accord"
     }
   ]
 }

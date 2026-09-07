@@ -332,6 +332,11 @@ private:
     /// Ferme le châssis des écrans du RPG et revient à l'écran d'où il a été ouvert
     /// (`ScreenState::rpgReturnTo`), en reprenant la simulation si elle avait été suspendue.
     void closeRpgScreen();
+    /// Charge les catalogues RPG et le personnage de démonstration, puis pose ses valeurs sur
+    /// l'écran de fiche (`LOT-38`). Sans effet visible si les données manquent : l'écran garde ses
+    /// tirets, ce qui est la vérité (`EX-NFR-040`).
+    void loadDemonstrationCharacter();
+
     /// Applique la règle de superposition de @p screen à la simulation, sans changer d'écran :
     /// appelé aussi lors du **passage** d'un écran du RPG à un autre, où la règle peut changer.
     void applyRpgSuperposition(hmi::RpgScreenId screen);
