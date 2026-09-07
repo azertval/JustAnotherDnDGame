@@ -1,5 +1,9 @@
 var NAVTREEINDEX33 =
 {
+"test__editor__status_8cpp.html":[13,0,3,3,2,1,2,3],
+"test__editor__status_8cpp.html#a03dc8ffa97f99fc9e20911fa5ae19ce1":[13,0,3,3,2,1,2,3,10],
+"test__editor__status_8cpp.html#a2be95ffdfc8af4d31d5c07de70b93484":[13,0,3,3,2,1,2,3,2],
+"test__editor__status_8cpp.html#a2cef0e6a8023b218c6dc61ffbc0b58a6":[13,0,3,3,2,1,2,3,6],
 "test__editor__status_8cpp.html#a35e2e274bd20391917e5df51851f9979":[13,0,3,3,2,1,2,3,4],
 "test__editor__status_8cpp.html#a3c4ee13d1a20fd2780b861bcd327e41d":[13,0,3,3,2,1,2,3,9],
 "test__editor__status_8cpp.html#a3ed1cc3deb395e72ce7f2725226fe874":[13,0,3,3,2,1,2,3,7],
@@ -60,7 +64,7 @@ var NAVTREEINDEX33 =
 "test__game__events_8cpp.html#a4a8e45e31e6d53fc12abfcdad82345e2":[13,0,3,3,2,1,3,1,1],
 "test__game__events_8cpp.html#a6a2e21ec076ed5c42368240fa001909c":[13,0,3,3,2,1,3,1,4],
 "test__game__events_8cpp.html#a88d302c9c2608f36a8a5a2773d6a6f37":[13,0,3,3,2,1,3,1,7],
-"test__game__events_8cpp.html#ad5a96ff3ac3ee2c42fdf6e9abc91493f":[13,0,3,3,2,1,3,1,2],
+"test__game__events_8cpp.html#ac5cbff88968d3629d2fbac35c5d27524":[13,0,3,3,2,1,3,1,2],
 "test__game__events_8cpp.html#ad6ca46bcce535797b0f7a6e0ccfec3e5":[13,0,3,3,2,1,3,1,3],
 "test__game__events_8cpp.html#ae25df282aafd92deea9c8e25189625f3":[13,0,3,3,2,1,3,1,0],
 "test__game__events_8cpp.html#ae9c95d919fc2e0f69537a62943e3e06b":[13,0,3,3,2,1,3,1,8],
@@ -245,9 +249,5 @@ var NAVTREEINDEX33 =
 "test__level__outcome_8cpp.html":[13,0,3,3,2,0,4,4],
 "test__level__outcome_8cpp.html#a0fdf7d150af009648f173e0f0b3e0968":[13,0,3,3,2,0,4,4,6],
 "test__level__outcome_8cpp.html#a8a21d561b930118c86b939c05a1353c7":[13,0,3,3,2,0,4,4,5],
-"test__level__outcome_8cpp.html#a949c5e26a2d082b81f8ca72c83f952d9":[13,0,3,3,2,0,4,4,1],
-"test__level__outcome_8cpp.html#a9a9baf4f2e515acf5de516d647f12eb8":[13,0,3,3,2,0,4,4,4],
-"test__level__outcome_8cpp.html#ab917a3a2e7b3221965411b3bd8ef6ecc":[13,0,3,3,2,0,4,4,2],
-"test__level__outcome_8cpp.html#ac1fa73965f43804daeb3f29b9aeeeb08":[13,0,3,3,2,0,4,4,3],
-"test__level__outcome_8cpp.html#ac677ad99925828753726fd4a97a7de4a":[13,0,3,3,2,0,4,4,0]
+"test__level__outcome_8cpp.html#a949c5e26a2d082b81f8ca72c83f952d9":[13,0,3,3,2,0,4,4,1]
 };

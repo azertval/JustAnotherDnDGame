@@ -28,7 +28,7 @@
   <td id="projectalign">
    <div id="projectname">JustAnotherDnDGame<span id="projectnumber">&#160;0.1.0</span>
    </div>
-   <div id="projectbrief">Jeu 2D de plateforme/puzzle en C++/DirectX</div>
+   <div id="projectbrief">Jeu de rôle tactique au d20, vue de dessus, en C++/Qt</div>
   </td>
  </tr>
  </tbody>
@@ -97,61 +97,61 @@ $(function(){initNavTree('MainMenu_8h_source.html','',''); });
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#pragma once</span></div>
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;QWidget&gt;</span></div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span></div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceUi.html">Ui</a> {</div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="keyword">class </span>MainMenu;</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>}</div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacehmi.html">hmi</a> {</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="keyword">class </span><a class="code hl_class" href="classhmi_1_1Localization.html">Localization</a>;</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span></div>
-<div class="foldopen" id="foldopen00031" data-start="{" data-end="};">
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno"><a class="line" href="classhmi_1_1MainMenu.html">   31</a></span><span class="keyword">class </span><a class="code hl_function" href="classhmi_1_1MainMenu.html#aa6ec7e441fc34e25766e6f8d9fe3f24b">MainMenu</a> : <span class="keyword">public</span> QWidget {</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    Q_OBJECT</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    <span class="keyword">explicit</span> <a class="code hl_function" href="classhmi_1_1MainMenu.html#aa6ec7e441fc34e25766e6f8d9fe3f24b">MainMenu</a>(QWidget* parent = <span class="keyword">nullptr</span>);</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno"><a class="line" href="classhmi_1_1MainMenu.html#a14456d1cc71348647b0dcfccea2e4e3d">   36</a></span>    <a class="code hl_function" href="classhmi_1_1MainMenu.html#a14456d1cc71348647b0dcfccea2e4e3d">~MainMenu</a>() <span class="keyword">override</span>;</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span></div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classhmi_1_1MainMenu.html#a6ea568ee837e5b07a5bbb69824421183">retranslateUi</a>(<span class="keyword">const</span> <a class="code hl_class" href="classhmi_1_1Localization.html">Localization</a>&amp; loc);</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span></div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classhmi_1_1MainMenu.html#a04db267a3cb26f734247a30dae4f85bf">setContinueEnabled</a>(<span class="keywordtype">bool</span> enabled);</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>signals:</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno"><a class="line" href="classhmi_1_1MainMenu.html#af19574a481b96164af18dee2f3e7cea6">   47</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="classhmi_1_1MainMenu.html#af19574a481b96164af18dee2f3e7cea6">continueRequested</a>();</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno"><a class="line" href="classhmi_1_1MainMenu.html#a7f6d8d9f2f4ea765750d97949760ceb4">   48</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="classhmi_1_1MainMenu.html#a7f6d8d9f2f4ea765750d97949760ceb4">newGameRequested</a>();</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno"><a class="line" href="classhmi_1_1MainMenu.html#a412d6af7eb35e8a587ac1e996a1429fb">   49</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="classhmi_1_1MainMenu.html#a412d6af7eb35e8a587ac1e996a1429fb">selectLevelRequested</a>();</div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno"><a class="line" href="classhmi_1_1MainMenu.html#a4c98f77783af20fb0bb7c163bc58f87e">   50</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="classhmi_1_1MainMenu.html#a4c98f77783af20fb0bb7c163bc58f87e">editorRequested</a>();</div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno"><a class="line" href="classhmi_1_1MainMenu.html#afe28566f3472f5af7ea7e39e868fdb86">   51</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="classhmi_1_1MainMenu.html#afe28566f3472f5af7ea7e39e868fdb86">optionsRequested</a>();</div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno"><a class="line" href="classhmi_1_1MainMenu.html#a609f3532ab323667d568a8ce1775336a">   52</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="classhmi_1_1MainMenu.html#a609f3532ab323667d568a8ce1775336a">creditsRequested</a>();</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno"><a class="line" href="classhmi_1_1MainMenu.html#a613231f169c10a6c80de6f3edd5b470b">   53</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="classhmi_1_1MainMenu.html#a613231f169c10a6c80de6f3edd5b470b">quitRequested</a>();</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="keyword">protected</span>:</div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classhmi_1_1MainMenu.html#a116d066889196acb482c00b43612b788">paintEvent</a>(QPaintEvent* event) <span class="keyword">override</span>;</div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="keyword">private</span>:</div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno"><a class="line" href="classhmi_1_1MainMenu.html#adc9e611b8598b3fc549533691e14ce43">   62</a></span>    std::unique_ptr&lt;Ui::MainMenu&gt; <a class="code hl_variable" href="classhmi_1_1MainMenu.html#adc9e611b8598b3fc549533691e14ce43">_ui</a>;</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>};</div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;QPixmap&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;QWidget&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceUi.html">Ui</a> {</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="keyword">class </span>MainMenu;</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>}</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacehmi.html">hmi</a> {</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="keyword">class </span><a class="code hl_class" href="classhmi_1_1Localization.html">Localization</a>;</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span></div>
+<div class="foldopen" id="foldopen00032" data-start="{" data-end="};">
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="classhmi_1_1MainMenu.html">   32</a></span><span class="keyword">class </span><a class="code hl_function" href="classhmi_1_1MainMenu.html#aa6ec7e441fc34e25766e6f8d9fe3f24b">MainMenu</a> : <span class="keyword">public</span> QWidget {</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    Q_OBJECT</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno"><a class="line" href="classhmi_1_1MainMenu.html#a25947bb98847dc155578161beff20c32">   40</a></span>    <span class="keyword">static</span> <span class="keyword">constexpr</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code hl_variable" href="classhmi_1_1MainMenu.html#a25947bb98847dc155578161beff20c32">BACKDROP_FILE</a> = <span class="stringliteral">&quot;world-map.jpg&quot;</span>;</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    <span class="keyword">explicit</span> <a class="code hl_function" href="classhmi_1_1MainMenu.html#aa6ec7e441fc34e25766e6f8d9fe3f24b">MainMenu</a>(QWidget* parent = <span class="keyword">nullptr</span>);</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno"><a class="line" href="classhmi_1_1MainMenu.html#a14456d1cc71348647b0dcfccea2e4e3d">   43</a></span>    <a class="code hl_function" href="classhmi_1_1MainMenu.html#a14456d1cc71348647b0dcfccea2e4e3d">~MainMenu</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span></div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classhmi_1_1MainMenu.html#a6ea568ee837e5b07a5bbb69824421183">retranslateUi</a>(<span class="keyword">const</span> <a class="code hl_class" href="classhmi_1_1Localization.html">Localization</a>&amp; loc);</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span></div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>signals:</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno"><a class="line" href="classhmi_1_1MainMenu.html#a7f6d8d9f2f4ea765750d97949760ceb4">   52</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="classhmi_1_1MainMenu.html#a7f6d8d9f2f4ea765750d97949760ceb4">newGameRequested</a>();</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno"><a class="line" href="classhmi_1_1MainMenu.html#a4c98f77783af20fb0bb7c163bc58f87e">   53</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="classhmi_1_1MainMenu.html#a4c98f77783af20fb0bb7c163bc58f87e">editorRequested</a>();</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno"><a class="line" href="classhmi_1_1MainMenu.html#afe28566f3472f5af7ea7e39e868fdb86">   54</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="classhmi_1_1MainMenu.html#afe28566f3472f5af7ea7e39e868fdb86">optionsRequested</a>();</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno"><a class="line" href="classhmi_1_1MainMenu.html#a609f3532ab323667d568a8ce1775336a">   55</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="classhmi_1_1MainMenu.html#a609f3532ab323667d568a8ce1775336a">creditsRequested</a>();</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno"><a class="line" href="classhmi_1_1MainMenu.html#a613231f169c10a6c80de6f3edd5b470b">   56</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="classhmi_1_1MainMenu.html#a613231f169c10a6c80de6f3edd5b470b">quitRequested</a>();</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="keyword">protected</span>:</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classhmi_1_1MainMenu.html#a116d066889196acb482c00b43612b788">paintEvent</a>(QPaintEvent* event) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno"><a class="line" href="classhmi_1_1MainMenu.html#a6d8f353090352afc389714b48ec6eb1f">   68</a></span>    QPixmap <a class="code hl_variable" href="classhmi_1_1MainMenu.html#a6d8f353090352afc389714b48ec6eb1f">_backdrop</a>;</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno"><a class="line" href="classhmi_1_1MainMenu.html#adc9e611b8598b3fc549533691e14ce43">   69</a></span>    std::unique_ptr&lt;Ui::MainMenu&gt; <a class="code hl_variable" href="classhmi_1_1MainMenu.html#adc9e611b8598b3fc549533691e14ce43">_ui</a>;</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>};</div>
 </div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span> </div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>}  <span class="comment">// namespace hmi</span></div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span> </div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>}  <span class="comment">// namespace hmi</span></div>
 <div class="ttc" id="aclasshmi_1_1Localization_html"><div class="ttname"><a href="classhmi_1_1Localization.html">hmi::Localization</a></div><div class="ttdoc">Catalogue de traduction (i18n) : associe des clés stables à des chaînes selon la langue active,...</div><div class="ttdef"><b>Definition</b> Localization.h:29</div></div>
-<div class="ttc" id="aclasshmi_1_1MainMenu_html_a04db267a3cb26f734247a30dae4f85bf"><div class="ttname"><a href="classhmi_1_1MainMenu.html#a04db267a3cb26f734247a30dae4f85bf">hmi::MainMenu::setContinueEnabled</a></div><div class="ttdeci">void setContinueEnabled(bool enabled)</div><div class="ttdoc">Active/désactive « Continuer » (LOT-59 TACHE-06) : grisé sans progression, seul bouton dont l&#39;état dé...</div><div class="ttdef"><b>Definition</b> MainMenu.cpp:66</div></div>
-<div class="ttc" id="aclasshmi_1_1MainMenu_html_a116d066889196acb482c00b43612b788"><div class="ttname"><a href="classhmi_1_1MainMenu.html#a116d066889196acb482c00b43612b788">hmi::MainMenu::paintEvent</a></div><div class="ttdeci">void paintEvent(QPaintEvent *event) override</div><div class="ttdoc">Peint le décor pixel art du menu (LOT-68, EX-IHM-070) derrière les enfants : ciel en bandes,...</div><div class="ttdef"><b>Definition</b> MainMenu.cpp:70</div></div>
+<div class="ttc" id="aclasshmi_1_1MainMenu_html_a116d066889196acb482c00b43612b788"><div class="ttname"><a href="classhmi_1_1MainMenu.html#a116d066889196acb482c00b43612b788">hmi::MainMenu::paintEvent</a></div><div class="ttdeci">void paintEvent(QPaintEvent *event) override</div><div class="ttdoc">Peint le décor pixel art du menu (LOT-68, EX-IHM-070) derrière les enfants : ciel en bandes,...</div><div class="ttdef"><b>Definition</b> MainMenu.cpp:73</div></div>
 <div class="ttc" id="aclasshmi_1_1MainMenu_html_a14456d1cc71348647b0dcfccea2e4e3d"><div class="ttname"><a href="classhmi_1_1MainMenu.html#a14456d1cc71348647b0dcfccea2e4e3d">hmi::MainMenu::~MainMenu</a></div><div class="ttdeci">~MainMenu() override</div></div>
-<div class="ttc" id="aclasshmi_1_1MainMenu_html_a412d6af7eb35e8a587ac1e996a1429fb"><div class="ttname"><a href="classhmi_1_1MainMenu.html#a412d6af7eb35e8a587ac1e996a1429fb">hmi::MainMenu::selectLevelRequested</a></div><div class="ttdeci">void selectLevelRequested()</div></div>
+<div class="ttc" id="aclasshmi_1_1MainMenu_html_a25947bb98847dc155578161beff20c32"><div class="ttname"><a href="classhmi_1_1MainMenu.html#a25947bb98847dc155578161beff20c32">hmi::MainMenu::BACKDROP_FILE</a></div><div class="ttdeci">static constexpr const char * BACKDROP_FILE</div><div class="ttdoc">Nom de fichier du fond de menu, sous Assets/UI/.</div><div class="ttdef"><b>Definition</b> MainMenu.h:40</div></div>
 <div class="ttc" id="aclasshmi_1_1MainMenu_html_a4c98f77783af20fb0bb7c163bc58f87e"><div class="ttname"><a href="classhmi_1_1MainMenu.html#a4c98f77783af20fb0bb7c163bc58f87e">hmi::MainMenu::editorRequested</a></div><div class="ttdeci">void editorRequested()</div></div>
 <div class="ttc" id="aclasshmi_1_1MainMenu_html_a609f3532ab323667d568a8ce1775336a"><div class="ttname"><a href="classhmi_1_1MainMenu.html#a609f3532ab323667d568a8ce1775336a">hmi::MainMenu::creditsRequested</a></div><div class="ttdeci">void creditsRequested()</div></div>
 <div class="ttc" id="aclasshmi_1_1MainMenu_html_a613231f169c10a6c80de6f3edd5b470b"><div class="ttname"><a href="classhmi_1_1MainMenu.html#a613231f169c10a6c80de6f3edd5b470b">hmi::MainMenu::quitRequested</a></div><div class="ttdeci">void quitRequested()</div></div>
-<div class="ttc" id="aclasshmi_1_1MainMenu_html_a6ea568ee837e5b07a5bbb69824421183"><div class="ttname"><a href="classhmi_1_1MainMenu.html#a6ea568ee837e5b07a5bbb69824421183">hmi::MainMenu::retranslateUi</a></div><div class="ttdeci">void retranslateUi(const Localization &amp;loc)</div><div class="ttdoc">Applique la langue active aux libellés (titre et boutons).</div><div class="ttdef"><b>Definition</b> MainMenu.cpp:49</div></div>
-<div class="ttc" id="aclasshmi_1_1MainMenu_html_a7f6d8d9f2f4ea765750d97949760ceb4"><div class="ttname"><a href="classhmi_1_1MainMenu.html#a7f6d8d9f2f4ea765750d97949760ceb4">hmi::MainMenu::newGameRequested</a></div><div class="ttdeci">void newGameRequested()</div></div>
-<div class="ttc" id="aclasshmi_1_1MainMenu_html_aa6ec7e441fc34e25766e6f8d9fe3f24b"><div class="ttname"><a href="classhmi_1_1MainMenu.html#aa6ec7e441fc34e25766e6f8d9fe3f24b">hmi::MainMenu::MainMenu</a></div><div class="ttdeci">MainMenu(QWidget *parent=nullptr)</div><div class="ttdef"><b>Definition</b> MainMenu.cpp:19</div></div>
-<div class="ttc" id="aclasshmi_1_1MainMenu_html_adc9e611b8598b3fc549533691e14ce43"><div class="ttname"><a href="classhmi_1_1MainMenu.html#adc9e611b8598b3fc549533691e14ce43">hmi::MainMenu::_ui</a></div><div class="ttdeci">std::unique_ptr&lt; Ui::MainMenu &gt; _ui</div><div class="ttdef"><b>Definition</b> MainMenu.h:62</div></div>
-<div class="ttc" id="aclasshmi_1_1MainMenu_html_af19574a481b96164af18dee2f3e7cea6"><div class="ttname"><a href="classhmi_1_1MainMenu.html#af19574a481b96164af18dee2f3e7cea6">hmi::MainMenu::continueRequested</a></div><div class="ttdeci">void continueRequested()</div></div>
+<div class="ttc" id="aclasshmi_1_1MainMenu_html_a6d8f353090352afc389714b48ec6eb1f"><div class="ttname"><a href="classhmi_1_1MainMenu.html#a6d8f353090352afc389714b48ec6eb1f">hmi::MainMenu::_backdrop</a></div><div class="ttdeci">QPixmap _backdrop</div><div class="ttdoc">Carte du monde de Tanares, fond du menu (LOT-67).</div><div class="ttdef"><b>Definition</b> MainMenu.h:68</div></div>
+<div class="ttc" id="aclasshmi_1_1MainMenu_html_a6ea568ee837e5b07a5bbb69824421183"><div class="ttname"><a href="classhmi_1_1MainMenu.html#a6ea568ee837e5b07a5bbb69824421183">hmi::MainMenu::retranslateUi</a></div><div class="ttdeci">void retranslateUi(const Localization &amp;loc)</div><div class="ttdoc">Applique la langue active aux libellés (titre et boutons).</div><div class="ttdef"><b>Definition</b> MainMenu.cpp:59</div></div>
+<div class="ttc" id="aclasshmi_1_1MainMenu_html_a7f6d8d9f2f4ea765750d97949760ceb4"><div class="ttname"><a href="classhmi_1_1MainMenu.html#a7f6d8d9f2f4ea765750d97949760ceb4">hmi::MainMenu::newGameRequested</a></div><div class="ttdeci">void newGameRequested()</div><div class="ttdoc">Active/désactive « Continuer » (LOT-59 TACHE-06) : grisé sans progression, seul bouton dont l&#39;état dé...</div></div>
+<div class="ttc" id="aclasshmi_1_1MainMenu_html_aa6ec7e441fc34e25766e6f8d9fe3f24b"><div class="ttname"><a href="classhmi_1_1MainMenu.html#aa6ec7e441fc34e25766e6f8d9fe3f24b">hmi::MainMenu::MainMenu</a></div><div class="ttdeci">MainMenu(QWidget *parent=nullptr)</div><div class="ttdef"><b>Definition</b> MainMenu.cpp:24</div></div>
+<div class="ttc" id="aclasshmi_1_1MainMenu_html_adc9e611b8598b3fc549533691e14ce43"><div class="ttname"><a href="classhmi_1_1MainMenu.html#adc9e611b8598b3fc549533691e14ce43">hmi::MainMenu::_ui</a></div><div class="ttdeci">std::unique_ptr&lt; Ui::MainMenu &gt; _ui</div><div class="ttdef"><b>Definition</b> MainMenu.h:69</div></div>
 <div class="ttc" id="aclasshmi_1_1MainMenu_html_afe28566f3472f5af7ea7e39e868fdb86"><div class="ttname"><a href="classhmi_1_1MainMenu.html#afe28566f3472f5af7ea7e39e868fdb86">hmi::MainMenu::optionsRequested</a></div><div class="ttdeci">void optionsRequested()</div></div>
 <div class="ttc" id="anamespaceUi_html"><div class="ttname"><a href="namespaceUi.html">Ui</a></div><div class="ttdef"><b>Definition</b> AssetThumbnailView.h:26</div></div>
 <div class="ttc" id="anamespacehmi_html"><div class="ttname"><a href="namespacehmi.html">hmi</a></div><div class="ttdef"><b>Definition</b> AudioEngine.cpp:15</div></div>

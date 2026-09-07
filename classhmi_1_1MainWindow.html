@@ -28,7 +28,7 @@
   <td id="projectalign">
    <div id="projectname">JustAnotherDnDGame<span id="projectnumber">&#160;0.1.0</span>
    </div>
-   <div id="projectbrief">Jeu 2D de plateforme/puzzle en C++/DirectX</div>
+   <div id="projectbrief">Jeu de rôle tactique au d20, vue de dessus, en C++/Qt</div>
   </td>
  </tr>
  </tbody>
@@ -114,7 +114,7 @@ Protected Member Functions</h2></td></tr>
 <tr class="memitem:a6dab05769a6e7f213d8e55d9a6b2d446" id="r_a6dab05769a6e7f213d8e55d9a6b2d446"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a6dab05769a6e7f213d8e55d9a6b2d446">closeEvent</a> (QCloseEvent *event) override</td></tr>
 <tr class="memdesc:a6dab05769a6e7f213d8e55d9a6b2d446"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sauvegarde la disposition avant fermeture.  <br /></td></tr>
 <tr class="memitem:a0c75214acd44c6e1bef12db335abd37f" id="r_a0c75214acd44c6e1bef12db335abd37f"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a0c75214acd44c6e1bef12db335abd37f">resizeEvent</a> (QResizeEvent *event) override</td></tr>
-<tr class="memdesc:a0c75214acd44c6e1bef12db335abd37f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resynchronise la géométrie des recouvrements d'écran (<span class="tt"><a class="el" href="#ac65d1b4ea7fccdd8969abcdf83254cd8" title="Recouvrement de pause (LOT-59 TACHE-02) : widget enfant ordinaire du viewport depuis le LOT-69 TACHE-...">_pauseScreen</a></span>/<span class="tt"><a class="el" href="#a7afaff28276c2b437ddf7323c924ed23" title="Recouvrement de fin de niveau/séquence (LOT-59 TACHE-03) : même patron que _pauseScreen ci-dessus (fe...">_levelCompleteScreen</a></span>, <span class="tt">LOT-59</span> TACHE-02/03) &ndash; fenêtres de haut niveau positionnées à la main, jamais redimensionnées automatiquement par <span class="tt"><a class="el" href="#a408483202779acb367aee2733d8b28c7" title="Central : empile menu principal, options et viewport.">_stack</a></span>.  <br /></td></tr>
+<tr class="memdesc:a0c75214acd44c6e1bef12db335abd37f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resynchronise la géométrie des recouvrements d'écran (<span class="tt"><a class="el" href="#ac65d1b4ea7fccdd8969abcdf83254cd8" title="Recouvrement de pause (LOT-59 TACHE-02) : widget enfant ordinaire du viewport depuis le LOT-69 TACHE-...">_pauseScreen</a></span>/<span class="tt">_levelCompleteScreen</span>, <span class="tt">LOT-59</span> TACHE-02/03) &ndash; fenêtres de haut niveau positionnées à la main, jamais redimensionnées automatiquement par <span class="tt"><a class="el" href="#a408483202779acb367aee2733d8b28c7" title="Central : empile menu principal, options et viewport.">_stack</a></span>.  <br /></td></tr>
 <tr class="memitem:af3defdc7ff75aacc8de0b7b9beb7cb92" id="r_af3defdc7ff75aacc8de0b7b9beb7cb92"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#af3defdc7ff75aacc8de0b7b9beb7cb92">applyIdentityScale</a> (bool beforeFirstShow=false)</td></tr>
 <tr class="memdesc:af3defdc7ff75aacc8de0b7b9beb7cb92"><td class="mdescLeft">&#160;</td><td class="mdescRight">Recalcule le facteur d'agrandissement des écrans du jeu depuis la hauteur courante, <b>borné par la zone d'affichage disponible</b> (<span class="tt">LOT-68</span>/<span class="tt">LOT-73</span>, <span class="tt">EX-IHM-070</span>, <span class="tt">EX-IHM-081</span>), et rejoue le thème s'il a changé.  <br /></td></tr>
 <tr class="memitem:a660a7efd703ab6d0df79f76af1b2c6ed" id="r_a660a7efd703ab6d0df79f76af1b2c6ed"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a660a7efd703ab6d0df79f76af1b2c6ed">applyIdentityStyleSheet</a> ()</td></tr>
@@ -196,7 +196,7 @@ Private Member Functions</h2></td></tr>
 <tr class="memitem:a23d7033f2e1cfe842e9d3c9f6f6f6db8" id="r_a23d7033f2e1cfe842e9d3c9f6f6f6db8"><td class="memItemLeft">QString&#160;</td><td class="memItemRight"><a class="el" href="#a23d7033f2e1cfe842e9d3c9f6f6f6db8">text</a> (const char *key) const</td></tr>
 <tr class="memdesc:a23d7033f2e1cfe842e9d3c9f6f6f6db8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Raccourci : texte localisé d'une clé, en <span class="tt">QString</span>.  <br /></td></tr>
 <tr class="memitem:a586400052467d0dabf9477e35dd589a9" id="r_a586400052467d0dabf9477e35dd589a9"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a586400052467d0dabf9477e35dd589a9">showMenu</a> ()</td></tr>
-<tr class="memdesc:a586400052467d0dabf9477e35dd589a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Affiche le menu principal (docks et barre de menu masqués) ; rafraîchit l'état de « Continuer » (<span class="tt"><a class="el" href="classhmi_1_1MainMenu.html#a04db267a3cb26f734247a30dae4f85bf" title="Active/désactive « Continuer » (LOT-59 TACHE-06) : grisé sans progression, seul bouton dont l&#39;état dé...">MainMenu::setContinueEnabled</a></span>, <span class="tt">LOT-59</span> TACHE-06) à chaque affichage &ndash; seule voie de mise à jour, jamais suivi à part.  <br /></td></tr>
+<tr class="memdesc:a586400052467d0dabf9477e35dd589a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Affiche le menu principal (docks et barre de menu masqués) ; rafraîchit l'état de « Continuer » (<span class="tt">MainMenu::setContinueEnabled</span>, <span class="tt">LOT-59</span> TACHE-06) à chaque affichage &ndash; seule voie de mise à jour, jamais suivi à part.  <br /></td></tr>
 <tr class="memitem:a841fbf5b4353177a821eeb443c9ea55b" id="r_a841fbf5b4353177a821eeb443c9ea55b"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a841fbf5b4353177a821eeb443c9ea55b">showEditor</a> ()</td></tr>
 <tr class="memdesc:a841fbf5b4353177a821eeb443c9ea55b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Affiche l'éditeur (viewport + docks + barre de menu).  <br /></td></tr>
 <tr class="memitem:a42431bb3cd9ba91917581a776860aa89" id="r_a42431bb3cd9ba91917581a776860aa89"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a42431bb3cd9ba91917581a776860aa89">showOptions</a> ()</td></tr>
@@ -222,40 +222,22 @@ optionsReturnTo</span>) &ndash; remplace l'ancien retour direct et systématique
 <tr class="memdesc:a248bb07772661a43ec5d61884a90ffa3"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">Échap</span>/bouton manette B en jeu réel (<span class="tt"><a class="el" href="classhmi_1_1GameViewport.html#a1e8798e90caf3cfb3c033f29b4bd55e6" title="Échap (ou le bouton B manette) en mode jeu réel, hors pause : demande l&#39;ouverture de l&#39;écran de pause...">GameViewport::pauseRequested</a></span>) : ouvre la pause.  <br /></td></tr>
 <tr class="memitem:ab94899e24af6068fa65b14f017637d24" id="r_ab94899e24af6068fa65b14f017637d24"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ab94899e24af6068fa65b14f017637d24">resumeFromPause</a> ()</td></tr>
 <tr class="memdesc:ab94899e24af6068fa65b14f017637d24"><td class="mdescLeft">&#160;</td><td class="mdescRight">« Reprendre » (bouton, <span class="tt">Échap</span>, ou B manette depuis la pause) : reprend la simulation.  <br /></td></tr>
-<tr class="memitem:aef279fdecd9d472d3ae773b0494fe867" id="r_aef279fdecd9d472d3ae773b0494fe867"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aef279fdecd9d472d3ae773b0494fe867">restartFromPause</a> ()</td></tr>
-<tr class="memdesc:aef279fdecd9d472d3ae773b0494fe867"><td class="mdescLeft">&#160;</td><td class="mdescRight">« Recommencer le niveau » depuis la pause : même chemin que le redémarrage après échec.  <br /></td></tr>
 <tr class="memitem:a898b017b5296a241af2ee595685c49f6" id="r_a898b017b5296a241af2ee595685c49f6"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a898b017b5296a241af2ee595685c49f6">quitPauseToMenu</a> ()</td></tr>
-<tr class="memdesc:a898b017b5296a241af2ee595685c49f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">« Quitter vers le menu » depuis la pause : demande confirmation (perd la progression du tableau en cours), puis abandonne la partie si confirmé.  <br /></td></tr>
+<tr class="memdesc:a898b017b5296a241af2ee595685c49f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">« Quitter vers le menu » depuis la pause : demande confirmation (la partie en cours est perdue), puis abandonne la partie si confirmé.  <br /></td></tr>
 <tr class="memitem:a2b36a89653f47498553ff68af07c8de2" id="r_a2b36a89653f47498553ff68af07c8de2"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a2b36a89653f47498553ff68af07c8de2">playInterfaceSound</a> (<a class="el" href="namespacehmi.html#a3a61aed1c8e95c289c829398d48488de">GameEvent</a> event)</td></tr>
 <tr class="memdesc:a2b36a89653f47498553ff68af07c8de2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Joue le son associé à <code class="param">event</code> (<span class="tt">hmi::SoundTriggers</span>), sans effet si aucun son ne lui est associé (<span class="tt">LOT-60</span> TACHE-03) &ndash; point d'appel unique pour tous les sons d'interface.  <br /></td></tr>
-<tr class="memitem:a80702adfe62ceb213bca4fbc40a2684a" id="r_a80702adfe62ceb213bca4fbc40a2684a"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a80702adfe62ceb213bca4fbc40a2684a">openLevelComplete</a> ()</td></tr>
-<tr class="memdesc:a80702adfe62ceb213bca4fbc40a2684a"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt"><a class="el" href="classhmi_1_1GameViewport.html#a9e96b864c23c15765cd8f529a54208de" title="Le tableau courant vient d&#39;être réussi, en partie réelle (LOT-59 TACHE-03) : la simulation est déjà f...">GameViewport::levelSucceeded</a></span> : configure <span class="tt"><a class="el" href="#a7afaff28276c2b437ddf7323c924ed23" title="Recouvrement de fin de niveau/séquence (LOT-59 TACHE-03) : même patron que _pauseScreen ci-dessus (fe...">_levelCompleteScreen</a></span> (nom du tableau, variante fin de séquence via <span class="tt"><a class="el" href="classhmi_1_1GameViewport.html#a20df02fa3115b15ed910cf81019174ee">GameViewport::isLastGameLevel</a></span>) puis ouvre l'écran.  <br /></td></tr>
-<tr class="memitem:a8103c637bedd715efc425b6f4d00be70" id="r_a8103c637bedd715efc425b6f4d00be70"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a8103c637bedd715efc425b6f4d00be70">continueFromLevelComplete</a> ()</td></tr>
-<tr class="memdesc:a8103c637bedd715efc425b6f4d00be70"><td class="mdescLeft">&#160;</td><td class="mdescRight">« Continuer » : charge le tableau suivant de la séquence.  <br /></td></tr>
-<tr class="memitem:a770085fca61251558339061b44ef50ce" id="r_a770085fca61251558339061b44ef50ce"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a770085fca61251558339061b44ef50ce">replayFromLevelComplete</a> ()</td></tr>
-<tr class="memdesc:a770085fca61251558339061b44ef50ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">« Rejouer » : recharge le tableau qui vient d'être terminé (même chemin que le redémarrage après échec/depuis la pause).  <br /></td></tr>
-<tr class="memitem:aa1b27ae3d3192a3a829307b88ef4d9d4" id="r_aa1b27ae3d3192a3a829307b88ef4d9d4"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aa1b27ae3d3192a3a829307b88ef4d9d4">returnToMenuFromLevelComplete</a> ()</td></tr>
-<tr class="memdesc:aa1b27ae3d3192a3a829307b88ef4d9d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">« Retour au menu » depuis l'écran de fin de niveau ou de fin de séquence : abandonne la partie, sans confirmation (contrairement à la pause : le tableau vient d'être réussi, rien n'est perdu).  <br /></td></tr>
-<tr class="memitem:a7c2f3d372add79dedfd143ba16d2f0c2" id="r_a7c2f3d372add79dedfd143ba16d2f0c2"><td class="memItemLeft">std::optional&lt; <a class="el" href="structcore_1_1LevelSequence.html">core::LevelSequence</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a7c2f3d372add79dedfd143ba16d2f0c2">loadDemoSequenceOrWarn</a> ()</td></tr>
-<tr class="memdesc:a7c2f3d372add79dedfd143ba16d2f0c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Charge <span class="tt">sequence-demo.json</span> (<span class="tt">DEMO_SEQUENCE_FILE</span>), affiche une boîte d'erreur et.  <br /></td></tr>
-<tr class="memitem:a4092aab536a137d4d39a8ef2352541ee" id="r_a4092aab536a137d4d39a8ef2352541ee"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a4092aab536a137d4d39a8ef2352541ee">startSequence</a> (const std::string &amp;startLevelName, <a class="el" href="namespacehmi.html#a964211f19cf43757eaaa80c3c29b0e90">hmi::ScreenEvent</a> transitionEvent)</td></tr>
-<tr class="memdesc:a4092aab536a137d4d39a8ef2352541ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Charge la séquence, résout l'indice de départ (nom de <code class="param">startLevelName</code> dans la séquence ; premier tableau si vide ou introuvable &ndash; séquence modifiée depuis, <span class="tt">EX-NFR-040</span>), applique <code class="param">transitionEvent</code> (<span class="tt">OpenGame</span> depuis le menu, <span class="tt">LevelChosen</span> depuis l'écran de sélection), puis démarre <span class="tt"><a class="el" href="#a1ed57ff25b1be1c311886896b1ae444f" title="Écran Mode IA (LOT-ANNEXE-21) : même patron que _levelSelectScreen, page normale de _stack.">_viewport</a></span> en mode séquence (<span class="tt"><a class="el" href="#a92acbd1b47b193acf174eb084459efd8" title="true si la partie en cours suit la séquence démo (Continuer/Nouvelle partie/tableau de séquence chois...">_gameTracksProgression</a> = true</span>).  <br /></td></tr>
-<tr class="memitem:ab7594c29a118a2f53cc81910891a7d58" id="r_ab7594c29a118a2f53cc81910891a7d58"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ab7594c29a118a2f53cc81910891a7d58">continueGame</a> ()</td></tr>
-<tr class="memdesc:ab7594c29a118a2f53cc81910891a7d58"><td class="mdescLeft">&#160;</td><td class="mdescRight">« Continuer » (menu) : reprend au tableau atteint (<span class="tt"><a class="el" href="classhmi_1_1Progression.html#a3e89eaef88420921b419e42b7bf8afd6">Progression::currentLevel</a></span>) ; sans effet si aucune progression (le bouton est alors grisé, <span class="tt"><a class="el" href="classhmi_1_1MainMenu.html#a04db267a3cb26f734247a30dae4f85bf" title="Active/désactive « Continuer » (LOT-59 TACHE-06) : grisé sans progression, seul bouton dont l&#39;état dé...">MainMenu::setContinueEnabled</a></span>).  <br /></td></tr>
 <tr class="memitem:a703c568cb80ba0012846c8baf1a05b72" id="r_a703c568cb80ba0012846c8baf1a05b72"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a703c568cb80ba0012846c8baf1a05b72">newGame</a> ()</td></tr>
-<tr class="memdesc:a703c568cb80ba0012846c8baf1a05b72"><td class="mdescLeft">&#160;</td><td class="mdescRight">« Nouvelle partie » (menu) : confirmation si une progression existe (elle serait perdue), puis efface la progression et recommence au premier tableau.  <br /></td></tr>
-<tr class="memitem:ab0630b94a956d5864fc8a29474b635d8" id="r_ab0630b94a956d5864fc8a29474b635d8"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ab0630b94a956d5864fc8a29474b635d8">openLevelSelect</a> ()</td></tr>
-<tr class="memdesc:ab0630b94a956d5864fc8a29474b635d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">« Choisir un niveau » (menu) : ouvre <span class="tt"><a class="el" href="#aab0f9b0c9990d3496d32ab706c488519" title="Écran de sélection de niveau (LOT-59 TACHE-06) : une page normale de _stack (jamais un recouvrement –...">_levelSelectScreen</a></span>, peuplé de la séquence (avec état de déverrouillage) et des niveaux personnels du dossier (hors séquence, <span class="tt"><a class="el" href="classhmi_1_1LevelFileOperations.html" title="Opérations sur les fichiers de niveaux d&#39;un dossier, sans dépendance Qt/GPU.">LevelFileOperations</a></span> filtrée).  <br /></td></tr>
-<tr class="memitem:ad55a250e14a07d8fe97ce263e78b6e5a" id="r_ad55a250e14a07d8fe97ce263e78b6e5a"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ad55a250e14a07d8fe97ce263e78b6e5a">closeLevelSelect</a> ()</td></tr>
-<tr class="memdesc:ad55a250e14a07d8fe97ce263e78b6e5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retour au menu depuis l'écran de sélection de niveau.  <br /></td></tr>
+<tr class="memdesc:a703c568cb80ba0012846c8baf1a05b72"><td class="mdescLeft">&#160;</td><td class="mdescRight">« Nouvelle partie » (menu) : ouvre la carte de départ.  <br /></td></tr>
+<tr class="memitem:a5dd487946d8539b0a3a306e550675bc0" id="r_a5dd487946d8539b0a3a306e550675bc0"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a5dd487946d8539b0a3a306e550675bc0">openRpgScreen</a> (<a class="el" href="namespacehmi.html#a86e4ce6097c7a029c683096302528e72">hmi::RpgScreenId</a> screen)</td></tr>
+<tr class="memdesc:a5dd487946d8539b0a3a306e550675bc0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ouvre le châssis des écrans du RPG sur <code class="param">screen</code> (<span class="tt">LOT-68</span>, <span class="tt">EX-IHM-090</span>).  <br /></td></tr>
+<tr class="memitem:ac7e52d77711429e28eb1a9fa1f752d11" id="r_ac7e52d77711429e28eb1a9fa1f752d11"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ac7e52d77711429e28eb1a9fa1f752d11">closeRpgScreen</a> ()</td></tr>
+<tr class="memdesc:ac7e52d77711429e28eb1a9fa1f752d11"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ferme le châssis des écrans du RPG et revient à l'écran d'où il a été ouvert (<span class="tt"><a class="el" href="structhmi_1_1ScreenState.html#a35d36781ddd45df8818932eb54d7a616" title="Écran vers lequel CloseRpgScreen revient (Menu, Game ou Pause, selon l&#39;origine).">ScreenState::rpgReturnTo</a></span>), en reprenant la simulation si elle avait été suspendue.  <br /></td></tr>
+<tr class="memitem:ad762935b8251e6fc558fc020ab4c1fa6" id="r_ad762935b8251e6fc558fc020ab4c1fa6"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ad762935b8251e6fc558fc020ab4c1fa6">applyRpgSuperposition</a> (<a class="el" href="namespacehmi.html#a86e4ce6097c7a029c683096302528e72">hmi::RpgScreenId</a> screen)</td></tr>
+<tr class="memdesc:ad762935b8251e6fc558fc020ab4c1fa6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Applique la règle de superposition de <code class="param">screen</code> à la simulation, sans changer d'écran : appelé aussi lors du <b>passage</b> d'un écran du RPG à un autre, où la règle peut changer.  <br /></td></tr>
 <tr class="memitem:ad0160f504de7ad658481fd2480488831" id="r_ad0160f504de7ad658481fd2480488831"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ad0160f504de7ad658481fd2480488831">openCredits</a> ()</td></tr>
-<tr class="memdesc:ad0160f504de7ad658481fd2480488831"><td class="mdescLeft">&#160;</td><td class="mdescRight">« Crédits » (menu) : ouvre <span class="tt"><a class="el" href="#ab8058881976138d4ce9d4b5c724b8a11" title="Écran de crédits (LOT-60) : même patron que _levelSelectScreen, page normale de _stack.">_credits</a></span> (<span class="tt">LOT-60</span>).  <br /></td></tr>
+<tr class="memdesc:ad0160f504de7ad658481fd2480488831"><td class="mdescLeft">&#160;</td><td class="mdescRight">« Crédits » (menu) : ouvre <span class="tt"><a class="el" href="#ab8058881976138d4ce9d4b5c724b8a11" title="Écran de crédits (LOT-60) : une page normale de _stack, jamais un recouvrement — atteint depuis le me...">_credits</a></span> (<span class="tt">LOT-60</span>).  <br /></td></tr>
 <tr class="memitem:a0555e840dd5a6b482a701e423d3f4e14" id="r_a0555e840dd5a6b482a701e423d3f4e14"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a0555e840dd5a6b482a701e423d3f4e14">closeCredits</a> ()</td></tr>
 <tr class="memdesc:a0555e840dd5a6b482a701e423d3f4e14"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retour au menu depuis l'écran de crédits.  <br /></td></tr>
-<tr class="memitem:a61ba9347fd24263431b87c6f849c76ac" id="r_a61ba9347fd24263431b87c6f849c76ac"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a61ba9347fd24263431b87c6f849c76ac">chooseSequenceLevel</a> (const QString &amp;levelName)</td></tr>
-<tr class="memdesc:a61ba9347fd24263431b87c6f849c76ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un tableau de séquence a été choisi dans <span class="tt"><a class="el" href="#aab0f9b0c9990d3496d32ab706c488519" title="Écran de sélection de niveau (LOT-59 TACHE-06) : une page normale de _stack (jamais un recouvrement –...">_levelSelectScreen</a></span> : <b>revalidé</b> via <span class="tt"><a class="el" href="namespacehmi.html#a5b07931e9a29f7bcbffef65e91c124b0" title="Variante utilisée par l&#39;IHM (affichage de l&#39;écran de sélection ET garde au lancement,...">hmi::isLevelPlayable</a></span> avant tout lancement (défense en profondeur, <span class="tt">EX-IHM-005</span>) &ndash; jamais lancé verrouillé, même si l'écran l'a par erreur laissé passer (sauf en build de développement, où tout est jouable, <span class="tt">LOT-70</span>).  <br /></td></tr>
-<tr class="memitem:a7c35e4571d48b624e337a667fb8db6e1" id="r_a7c35e4571d48b624e337a667fb8db6e1"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a7c35e4571d48b624e337a667fb8db6e1">playPersonalLevel</a> (const QString &amp;path)</td></tr>
-<tr class="memdesc:a7c35e4571d48b624e337a667fb8db6e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un niveau <b>personnel</b> a été choisi (hors séquence) : lancé seul (<span class="tt"><a class="el" href="#a92acbd1b47b193acf174eb084459efd8" title="true si la partie en cours suit la séquence démo (Continuer/Nouvelle partie/tableau de séquence chois...">_gameTracksProgression</a> = false</span>), ne touche jamais la progression de la séquence.  <br /></td></tr>
 <tr class="memitem:aafc60968307486a4eb8b64b2254e7c9b" id="r_aafc60968307486a4eb8b64b2254e7c9b"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aafc60968307486a4eb8b64b2254e7c9b">pollMenuGamepad</a> ()</td></tr>
 <tr class="memdesc:aafc60968307486a4eb8b64b2254e7c9b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Traduit la manette en navigation de focus Qt (menus/options) : appelé par <span class="tt"><a class="el" href="#ad41040f5be4a9ff6498547f88c00f35a">_menuNavTimer</a></span>.  <br /></td></tr>
 <tr class="memitem:abc4f7778f8b77b1299e9793cdd205944" id="r_abc4f7778f8b77b1299e9793cdd205944"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#abc4f7778f8b77b1299e9793cdd205944">setMenuGamepadActive</a> (bool active)</td></tr>
@@ -283,14 +265,12 @@ Private Attributes</h2></td></tr>
 <tr class="memdesc:a8e52b387114f4dc268ea8f00c67c73da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Page Options à onglets.  <br /></td></tr>
 <tr class="memitem:ac65d1b4ea7fccdd8969abcdf83254cd8" id="r_ac65d1b4ea7fccdd8969abcdf83254cd8"><td class="memItemLeft"><a class="el" href="classhmi_1_1PauseScreen.html">PauseScreen</a> *&#160;</td><td class="memItemRight"><a class="el" href="#ac65d1b4ea7fccdd8969abcdf83254cd8">_pauseScreen</a> = nullptr</td></tr>
 <tr class="memdesc:ac65d1b4ea7fccdd8969abcdf83254cd8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Recouvrement de pause (<span class="tt">LOT-59</span> TACHE-02) : <b>widget enfant ordinaire</b> du viewport depuis le <span class="tt">LOT-69</span> TACHE-02.  <br /></td></tr>
-<tr class="memitem:a7afaff28276c2b437ddf7323c924ed23" id="r_a7afaff28276c2b437ddf7323c924ed23"><td class="memItemLeft"><a class="el" href="classhmi_1_1LevelCompleteScreen.html">LevelCompleteScreen</a> *&#160;</td><td class="memItemRight"><a class="el" href="#a7afaff28276c2b437ddf7323c924ed23">_levelCompleteScreen</a> = nullptr</td></tr>
-<tr class="memdesc:a7afaff28276c2b437ddf7323c924ed23"><td class="mdescLeft">&#160;</td><td class="mdescRight">Recouvrement de fin de niveau/séquence (<span class="tt">LOT-59</span> TACHE-03) : même patron que <span class="tt"><a class="el" href="#ac65d1b4ea7fccdd8969abcdf83254cd8" title="Recouvrement de pause (LOT-59 TACHE-02) : widget enfant ordinaire du viewport depuis le LOT-69 TACHE-...">_pauseScreen</a></span> ci-dessus (fenêtre de haut niveau, pas un enfant de <span class="tt"><a class="el" href="#a408483202779acb367aee2733d8b28c7" title="Central : empile menu principal, options et viewport.">_stack</a></span>).  <br /></td></tr>
-<tr class="memitem:aab0f9b0c9990d3496d32ab706c488519" id="r_aab0f9b0c9990d3496d32ab706c488519"><td class="memItemLeft"><a class="el" href="classhmi_1_1LevelSelectScreen.html">LevelSelectScreen</a> *&#160;</td><td class="memItemRight"><a class="el" href="#aab0f9b0c9990d3496d32ab706c488519">_levelSelectScreen</a> = nullptr</td></tr>
-<tr class="memdesc:aab0f9b0c9990d3496d32ab706c488519"><td class="mdescLeft">&#160;</td><td class="mdescRight">Écran de sélection de niveau (<span class="tt">LOT-59</span> TACHE-06) : une page normale de <span class="tt"><a class="el" href="#a408483202779acb367aee2733d8b28c7" title="Central : empile menu principal, options et viewport.">_stack</a></span> (jamais un recouvrement &ndash; atteint depuis le menu, pas en jeu, contrairement aux deux précédents).  <br /></td></tr>
 <tr class="memitem:ab8058881976138d4ce9d4b5c724b8a11" id="r_ab8058881976138d4ce9d4b5c724b8a11"><td class="memItemLeft"><a class="el" href="classhmi_1_1CreditsScreen.html">CreditsScreen</a> *&#160;</td><td class="memItemRight"><a class="el" href="#ab8058881976138d4ce9d4b5c724b8a11">_credits</a> = nullptr</td></tr>
-<tr class="memdesc:ab8058881976138d4ce9d4b5c724b8a11"><td class="mdescLeft">&#160;</td><td class="mdescRight">Écran de crédits (<span class="tt">LOT-60</span>) : même patron que <span class="tt"><a class="el" href="#aab0f9b0c9990d3496d32ab706c488519" title="Écran de sélection de niveau (LOT-59 TACHE-06) : une page normale de _stack (jamais un recouvrement –...">_levelSelectScreen</a></span>, page normale de <span class="tt"><a class="el" href="#a408483202779acb367aee2733d8b28c7" title="Central : empile menu principal, options et viewport.">_stack</a></span>.  <br /></td></tr>
+<tr class="memdesc:ab8058881976138d4ce9d4b5c724b8a11"><td class="mdescLeft">&#160;</td><td class="mdescRight">Écran de crédits (<span class="tt">LOT-60</span>) : une page normale de <span class="tt"><a class="el" href="#a408483202779acb367aee2733d8b28c7" title="Central : empile menu principal, options et viewport.">_stack</a></span>, jamais un recouvrement — atteint depuis le menu, pas en jeu, contrairement au précédent.  <br /></td></tr>
+<tr class="memitem:adc51699eeaf3291c0548cbf6550bfdbc" id="r_adc51699eeaf3291c0548cbf6550bfdbc"><td class="memItemLeft"><a class="el" href="classhmi_1_1RpgScreenHost.html">RpgScreenHost</a> *&#160;</td><td class="memItemRight"><a class="el" href="#adc51699eeaf3291c0548cbf6550bfdbc">_rpgScreens</a> = nullptr</td></tr>
+<tr class="memdesc:adc51699eeaf3291c0548cbf6550bfdbc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les huit écrans du RPG et la navigation entre eux (<span class="tt">LOT-68</span>) : <b>une</b> page de <span class="tt"><a class="el" href="#a408483202779acb367aee2733d8b28c7" title="Central : empile menu principal, options et viewport.">_stack</a></span>, jamais huit &ndash; c'est ce qui permet d'aller de la fiche au journal sans que la machine à états d'écrans ait à connaître les huit.  <br /></td></tr>
 <tr class="memitem:a1ed57ff25b1be1c311886896b1ae444f" id="r_a1ed57ff25b1be1c311886896b1ae444f"><td class="memItemLeft"><a class="el" href="classhmi_1_1GameViewport.html">GameViewport</a> *&#160;</td><td class="memItemRight"><a class="el" href="#a1ed57ff25b1be1c311886896b1ae444f">_viewport</a></td></tr>
-<tr class="memdesc:a1ed57ff25b1be1c311886896b1ae444f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Écran Mode IA (<span class="tt">LOT-ANNEXE-21</span>) : même patron que <span class="tt"><a class="el" href="#aab0f9b0c9990d3496d32ab706c488519" title="Écran de sélection de niveau (LOT-59 TACHE-06) : une page normale de _stack (jamais un recouvrement –...">_levelSelectScreen</a></span>, page normale de <span class="tt"><a class="el" href="#a408483202779acb367aee2733d8b28c7" title="Central : empile menu principal, options et viewport.">_stack</a></span>.  <br /></td></tr>
+<tr class="memdesc:a1ed57ff25b1be1c311886896b1ae444f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Écran Mode IA (<span class="tt">LOT-ANNEXE-21</span>) : même patron que <span class="tt">_levelSelectScreen</span>, page normale de <span class="tt"><a class="el" href="#a408483202779acb367aee2733d8b28c7" title="Central : empile menu principal, options et viewport.">_stack</a></span>.  <br /></td></tr>
 <tr class="memitem:acdb82ee8e5a56236705ceec1908982ff" id="r_acdb82ee8e5a56236705ceec1908982ff"><td class="memItemLeft"><a class="el" href="classhmi_1_1EditContextTarget.html">EditContextTarget</a> *&#160;</td><td class="memItemRight"><a class="el" href="#acdb82ee8e5a56236705ceec1908982ff">_editContext</a> = nullptr</td></tr>
 <tr class="memdesc:acdb82ee8e5a56236705ceec1908982ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contexte d'édition actif, cible d'Annuler/Refaire/Copier/Coller (<span class="tt">LOT-57</span> TACHE-04) : <span class="tt">
 <a class="el" href="#a1ed57ff25b1be1c311886896b1ae444f" title="Écran Mode IA (LOT-ANNEXE-21) : même patron que _levelSelectScreen, page normale de _stack.">_viewport</a></span> (niveau) ou <span class="tt"><a class="el" href="#a82d3a9dc41ae7d2ec973430715219e5e" title="Réglages de gameplay de l&#39;élément sélectionné et du tableau (dock Propriétés, LOT-67).">_pixelCanvas</a></span> (atelier pixel art, <span class="tt">LOT-54</span> TACHE-04), selon le widget qui a le focus clavier (<span class="tt"><a class="el" href="#aef651eacf7d4b0696a0ec0bfbc1d0483" title="Réassigne le contexte d&#39;édition actif (_editContext) et le contexte de la barre d&#39;état selon le widge...">updateActiveEditContext</a></span>) — le dispatch lui-même ne change jamais.  <br /></td></tr>
@@ -363,10 +343,6 @@ Private Attributes</h2></td></tr>
 <tr class="memdesc:acae74ad8bf6c06ab8aec868ab0de3b22"><td class="mdescLeft">&#160;</td><td class="mdescRight">Catalogue de sons (<span class="tt">LOT-60</span> TACHE-02), lu une fois au démarrage depuis <span class="tt">Audio/sounds.json</span> et entièrement préchargé dans <span class="tt"><a class="el" href="#a7faaac5cfddbb72f2302f76fbb2abe44" title="Moteur audio (LOT-60) : ouvert au démarrage (EX-REN-047), dégrade en silence sans périphérique (EX-NF...">_audio</a></span>.  <br /></td></tr>
 <tr class="memitem:a48ba153acc890d6de84fe2847b5162a9" id="r_a48ba153acc890d6de84fe2847b5162a9"><td class="memItemLeft"><a class="el" href="classcore_1_1MemoryLogSink.html">core::MemoryLogSink</a> *&#160;</td><td class="memItemRight"><a class="el" href="#a48ba153acc890d6de84fe2847b5162a9">_sessionLog</a></td></tr>
 <tr class="memdesc:a48ba153acc890d6de84fe2847b5162a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sink mémoire des logs (nul en Release).  <br /></td></tr>
-<tr class="memitem:aeb7a7620f7198817fcc5f6549d35d7b9" id="r_aeb7a7620f7198817fcc5f6549d35d7b9"><td class="memItemLeft"><a class="el" href="classhmi_1_1Progression.html">hmi::Progression</a>&#160;</td><td class="memItemRight"><a class="el" href="#aeb7a7620f7198817fcc5f6549d35d7b9">_progression</a></td></tr>
-<tr class="memdesc:aeb7a7620f7198817fcc5f6549d35d7b9"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classhmi_1_1Progression.html" title="Progression dans une séquence de niveaux : tableaux terminés et tableau atteint (celui où reprendre),...">Progression</a> de partie persistée (<span class="tt">LOT-59</span> TACHE-05, <span class="tt">EX-LVL-014</span>) : chargée une fois à la construction, marquée/écrite à chaque réussite de tableau (<span class="tt"><a class="el" href="#a80702adfe62ceb213bca4fbc40a2684a" title="GameViewport::levelSucceeded : configure _levelCompleteScreen (nom du tableau, variante fin de séquen...">openLevelComplete</a></span>) &ndash; jamais ailleurs (pas d'écriture par image ni par pas).  <br /></td></tr>
-<tr class="memitem:a92acbd1b47b193acf174eb084459efd8" id="r_a92acbd1b47b193acf174eb084459efd8"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a92acbd1b47b193acf174eb084459efd8">_gameTracksProgression</a> = false</td></tr>
-<tr class="memdesc:a92acbd1b47b193acf174eb084459efd8"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">true</span> si la partie en cours suit la séquence démo (Continuer/Nouvelle partie/tableau de séquence choisi) &ndash; <span class="tt">false</span> pour un niveau <b>personnel</b> lancé hors séquence (<span class="tt">LOT-59</span> TACHE-06) : <span class="tt"><a class="el" href="#a80702adfe62ceb213bca4fbc40a2684a" title="GameViewport::levelSucceeded : configure _levelCompleteScreen (nom du tableau, variante fin de séquen...">openLevelComplete</a></span> ne touche <span class="tt"><a class="el" href="#aeb7a7620f7198817fcc5f6549d35d7b9" title="Progression de partie persistée (LOT-59 TACHE-05, EX-LVL-014) : chargée une fois à la construction,...">_progression</a></span> que si vrai, sinon un niveau d'essai personnel « débloquerait » la campagne.  <br /></td></tr>
 <tr class="memitem:a645fa5e1171cbc190ee6da8b7c42ecaa" id="r_a645fa5e1171cbc190ee6da8b7c42ecaa"><td class="memItemLeft"><a class="el" href="classhmi_1_1GamepadPoller.html">GamepadPoller</a>&#160;</td><td class="memItemRight"><a class="el" href="#a645fa5e1171cbc190ee6da8b7c42ecaa">_menuPad</a></td></tr>
 <tr class="memitem:a8a12ebfadd04a44cae8419004b537f26" id="r_a8a12ebfadd04a44cae8419004b537f26"><td class="memItemLeft"><a class="el" href="classhmi_1_1InputState.html">InputState</a>&#160;</td><td class="memItemRight"><a class="el" href="#a8a12ebfadd04a44cae8419004b537f26">_menuPadInput</a></td></tr>
 <tr class="memitem:ad41040f5be4a9ff6498547f88c00f35a" id="r_ad41040f5be4a9ff6498547f88c00f35a"><td class="memItemLeft">QTimer *&#160;</td><td class="memItemRight"><a class="el" href="#ad41040f5be4a9ff6498547f88c00f35a">_menuNavTimer</a> = nullptr</td></tr>
@@ -577,6 +553,33 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="ad762935b8251e6fc558fc020ab4c1fa6" name="ad762935b8251e6fc558fc020ab4c1fa6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad762935b8251e6fc558fc020ab4c1fa6">&#9670;&#160;</a></span>applyRpgSuperposition()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::MainWindow::applyRpgSuperposition </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacehmi.html#a86e4ce6097c7a029c683096302528e72">hmi::RpgScreenId</a></td>          <td class="paramname"><span class="paramname"><em>screen</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Applique la règle de superposition de <code class="param">screen</code> à la simulation, sans changer d'écran : appelé aussi lors du <b>passage</b> d'un écran du RPG à un autre, où la règle peut changer. </p>
+
+</div>
+</div>
 <a id="a69da7b7ed0aefd517ac564bd227ad5db" name="a69da7b7ed0aefd517ac564bd227ad5db"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a69da7b7ed0aefd517ac564bd227ad5db">&#9670;&#160;</a></span>applyScreenDressing()</h2>
 
@@ -744,33 +747,6 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a61ba9347fd24263431b87c6f849c76ac" name="a61ba9347fd24263431b87c6f849c76ac"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a61ba9347fd24263431b87c6f849c76ac">&#9670;&#160;</a></span>chooseSequenceLevel()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hmi::MainWindow::chooseSequenceLevel </td>
-          <td>(</td>
-          <td class="paramtype">const QString &amp;</td>          <td class="paramname"><span class="paramname"><em>levelName</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Un tableau de séquence a été choisi dans <span class="tt"><a class="el" href="#aab0f9b0c9990d3496d32ab706c488519" title="Écran de sélection de niveau (LOT-59 TACHE-06) : une page normale de _stack (jamais un recouvrement –...">_levelSelectScreen</a></span> : <b>revalidé</b> via <span class="tt"><a class="el" href="namespacehmi.html#a5b07931e9a29f7bcbffef65e91c124b0" title="Variante utilisée par l&#39;IHM (affichage de l&#39;écran de sélection ET garde au lancement,...">hmi::isLevelPlayable</a></span> avant tout lancement (défense en profondeur, <span class="tt">EX-IHM-005</span>) &ndash; jamais lancé verrouillé, même si l'écran l'a par erreur laissé passer (sauf en build de développement, où tout est jouable, <span class="tt">LOT-70</span>). </p>
-
-</div>
-</div>
 <a id="a0555e840dd5a6b482a701e423d3f4e14" name="a0555e840dd5a6b482a701e423d3f4e14"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0555e840dd5a6b482a701e423d3f4e14">&#9670;&#160;</a></span>closeCredits()</h2>
 
@@ -822,33 +798,6 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Sauvegarde la disposition avant fermeture. </p>
-
-</div>
-</div>
-<a id="ad55a250e14a07d8fe97ce263e78b6e5a" name="ad55a250e14a07d8fe97ce263e78b6e5a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad55a250e14a07d8fe97ce263e78b6e5a">&#9670;&#160;</a></span>closeLevelSelect()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hmi::MainWindow::closeLevelSelect </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Retour au menu depuis l'écran de sélection de niveau. </p>
 
 </div>
 </div>
@@ -904,6 +853,33 @@ optionsReturnTo</span>) &ndash; remplace l'ancien retour direct et systématique
 </div><div class="memdoc">
 
 <p>Vide le canevas de son plan et retire les repères — l'atelier pixel art retrouve alors son comportement du <span class="tt">LOT-54</span>, sans repère hérité du mode création. </p>
+
+</div>
+</div>
+<a id="ac7e52d77711429e28eb1a9fa1f752d11" name="ac7e52d77711429e28eb1a9fa1f752d11"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac7e52d77711429e28eb1a9fa1f752d11">&#9670;&#160;</a></span>closeRpgScreen()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::MainWindow::closeRpgScreen </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Ferme le châssis des écrans du RPG et revient à l'écran d'où il a été ouvert (<span class="tt"><a class="el" href="structhmi_1_1ScreenState.html#a35d36781ddd45df8818932eb54d7a616" title="Écran vers lequel CloseRpgScreen revient (Menu, Game ou Pause, selon l&#39;origine).">ScreenState::rpgReturnTo</a></span>), en reprenant la simulation si elle avait été suspendue. </p>
 
 </div>
 </div>
@@ -983,61 +959,6 @@ optionsReturnTo</span>) &ndash; remplace l'ancien retour direct et systématique
 </div><div class="memdoc">
 
 <p>Branche le panneau « Plans » (<span class="tt">LOT-69</span> TACHE-08) : il demande, le viewport applique. </p>
-
-</div>
-</div>
-<a id="a8103c637bedd715efc425b6f4d00be70" name="a8103c637bedd715efc425b6f4d00be70"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8103c637bedd715efc425b6f4d00be70">&#9670;&#160;</a></span>continueFromLevelComplete()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hmi::MainWindow::continueFromLevelComplete </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>« Continuer » : charge le tableau suivant de la séquence. </p>
-<p>Absent (bouton masqué) en fin de séquence &ndash; jamais atteint sur le dernier tableau. </p>
-
-</div>
-</div>
-<a id="ab7594c29a118a2f53cc81910891a7d58" name="ab7594c29a118a2f53cc81910891a7d58"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab7594c29a118a2f53cc81910891a7d58">&#9670;&#160;</a></span>continueGame()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hmi::MainWindow::continueGame </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>« Continuer » (menu) : reprend au tableau atteint (<span class="tt"><a class="el" href="classhmi_1_1Progression.html#a3e89eaef88420921b419e42b7bf8afd6">Progression::currentLevel</a></span>) ; sans effet si aucune progression (le bouton est alors grisé, <span class="tt"><a class="el" href="classhmi_1_1MainMenu.html#a04db267a3cb26f734247a30dae4f85bf" title="Active/désactive « Continuer » (LOT-59 TACHE-06) : grisé sans progression, seul bouton dont l&#39;état dé...">MainMenu::setContinueEnabled</a></span>). </p>
 
 </div>
 </div>
@@ -1126,34 +1047,6 @@ optionsReturnTo</span>) &ndash; remplace l'ancien retour direct et systématique
 
 </div>
 </div>
-<a id="a7c2f3d372add79dedfd143ba16d2f0c2" name="a7c2f3d372add79dedfd143ba16d2f0c2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7c2f3d372add79dedfd143ba16d2f0c2">&#9670;&#160;</a></span>loadDemoSequenceOrWarn()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::optional&lt; <a class="el" href="structcore_1_1LevelSequence.html">core::LevelSequence</a> &gt; hmi::MainWindow::loadDemoSequenceOrWarn </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Charge <span class="tt">sequence-demo.json</span> (<span class="tt">DEMO_SEQUENCE_FILE</span>), affiche une boîte d'erreur et. </p>
-<dl class="section return"><dt>Returns</dt><dd><span class="tt">std::nullopt</span> en cas d'échec (fichier absent/invalide, <span class="tt">EX-NFR-040</span>) &ndash; factorisé entre tous les points d'entrée dans le jeu (Continuer/Nouvelle partie/Choisir un niveau/ouverture de l'écran de sélection). </dd></dl>
-
-</div>
-</div>
 <a id="ae2b6d081350501e8eff3e2915235dc08" name="ae2b6d081350501e8eff3e2915235dc08"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae2b6d081350501e8eff3e2915235dc08">&#9670;&#160;</a></span>loadPlaneIntoCanvas()</h2>
 
@@ -1230,7 +1123,8 @@ optionsReturnTo</span>) &ndash; remplace l'ancien retour direct et systématique
 </table>
 </div><div class="memdoc">
 
-<p>« Nouvelle partie » (menu) : confirmation si une progression existe (elle serait perdue), puis efface la progression et recommence au premier tableau. </p>
+<p>« Nouvelle partie » (menu) : ouvre la carte de départ. </p>
+<p>Aucune confirmation d'écrasement — elle protégeait une progression de campagne qui n'existe plus, et reviendra avec la sauvegarde du <span class="tt">LOT-17</span>, qui aura quelque chose à écraser. </p>
 
 </div>
 </div>
@@ -1257,61 +1151,7 @@ optionsReturnTo</span>) &ndash; remplace l'ancien retour direct et systématique
 </table>
 </div><div class="memdoc">
 
-<p>« Crédits » (menu) : ouvre <span class="tt"><a class="el" href="#ab8058881976138d4ce9d4b5c724b8a11" title="Écran de crédits (LOT-60) : même patron que _levelSelectScreen, page normale de _stack.">_credits</a></span> (<span class="tt">LOT-60</span>). </p>
-
-</div>
-</div>
-<a id="a80702adfe62ceb213bca4fbc40a2684a" name="a80702adfe62ceb213bca4fbc40a2684a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a80702adfe62ceb213bca4fbc40a2684a">&#9670;&#160;</a></span>openLevelComplete()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hmi::MainWindow::openLevelComplete </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p><span class="tt"><a class="el" href="classhmi_1_1GameViewport.html#a9e96b864c23c15765cd8f529a54208de" title="Le tableau courant vient d&#39;être réussi, en partie réelle (LOT-59 TACHE-03) : la simulation est déjà f...">GameViewport::levelSucceeded</a></span> : configure <span class="tt"><a class="el" href="#a7afaff28276c2b437ddf7323c924ed23" title="Recouvrement de fin de niveau/séquence (LOT-59 TACHE-03) : même patron que _pauseScreen ci-dessus (fe...">_levelCompleteScreen</a></span> (nom du tableau, variante fin de séquence via <span class="tt"><a class="el" href="classhmi_1_1GameViewport.html#a20df02fa3115b15ed910cf81019174ee">GameViewport::isLastGameLevel</a></span>) puis ouvre l'écran. </p>
-
-</div>
-</div>
-<a id="ab0630b94a956d5864fc8a29474b635d8" name="ab0630b94a956d5864fc8a29474b635d8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab0630b94a956d5864fc8a29474b635d8">&#9670;&#160;</a></span>openLevelSelect()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hmi::MainWindow::openLevelSelect </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>« Choisir un niveau » (menu) : ouvre <span class="tt"><a class="el" href="#aab0f9b0c9990d3496d32ab706c488519" title="Écran de sélection de niveau (LOT-59 TACHE-06) : une page normale de _stack (jamais un recouvrement –...">_levelSelectScreen</a></span>, peuplé de la séquence (avec état de déverrouillage) et des niveaux personnels du dossier (hors séquence, <span class="tt"><a class="el" href="classhmi_1_1LevelFileOperations.html" title="Opérations sur les fichiers de niveaux d&#39;un dossier, sans dépendance Qt/GPU.">LevelFileOperations</a></span> filtrée). </p>
+<p>« Crédits » (menu) : ouvre <span class="tt"><a class="el" href="#ab8058881976138d4ce9d4b5c724b8a11" title="Écran de crédits (LOT-60) : une page normale de _stack, jamais un recouvrement — atteint depuis le me...">_credits</a></span> (<span class="tt">LOT-60</span>). </p>
 
 </div>
 </div>
@@ -1450,6 +1290,34 @@ optionsReturnTo</span>) &ndash; remplace l'ancien retour direct et systématique
 
 </div>
 </div>
+<a id="a5dd487946d8539b0a3a306e550675bc0" name="a5dd487946d8539b0a3a306e550675bc0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5dd487946d8539b0a3a306e550675bc0">&#9670;&#160;</a></span>openRpgScreen()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::MainWindow::openRpgScreen </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacehmi.html#a86e4ce6097c7a029c683096302528e72">hmi::RpgScreenId</a></td>          <td class="paramname"><span class="paramname"><em>screen</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Ouvre le châssis des écrans du RPG sur <code class="param">screen</code> (<span class="tt">LOT-68</span>, <span class="tt">EX-IHM-090</span>). </p>
+<p>Applique la règle de superposition de l'écran ouvert (<span class="tt"><a class="el" href="namespacehmi.html#af90277096862529748e78023af0d654e">hmi::pausesGame</a></span>, <span class="tt">EX-IHM-091</span>) : la simulation est suspendue par la fiche ou un dialogue, laissée courir par la carte. </p>
+
+</div>
+</div>
 <a id="a0c0f25275caa45e3ab0fdab1575520f0" name="a0c0f25275caa45e3ab0fdab1575520f0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0c0f25275caa45e3ab0fdab1575520f0">&#9670;&#160;</a></span>openShortcutsDialog()</h2>
 
@@ -1585,33 +1453,6 @@ optionsReturnTo</span>) &ndash; remplace l'ancien retour direct et systématique
 
 </div>
 </div>
-<a id="a7c35e4571d48b624e337a667fb8db6e1" name="a7c35e4571d48b624e337a667fb8db6e1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7c35e4571d48b624e337a667fb8db6e1">&#9670;&#160;</a></span>playPersonalLevel()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hmi::MainWindow::playPersonalLevel </td>
-          <td>(</td>
-          <td class="paramtype">const QString &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Un niveau <b>personnel</b> a été choisi (hors séquence) : lancé seul (<span class="tt"><a class="el" href="#a92acbd1b47b193acf174eb084459efd8" title="true si la partie en cours suit la séquence démo (Continuer/Nouvelle partie/tableau de séquence chois...">_gameTracksProgression</a> = false</span>), ne touche jamais la progression de la séquence. </p>
-
-</div>
-</div>
 <a id="aafc60968307486a4eb8b64b2254e7c9b" name="aafc60968307486a4eb8b64b2254e7c9b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aafc60968307486a4eb8b64b2254e7c9b">&#9670;&#160;</a></span>pollMenuGamepad()</h2>
 
@@ -1662,7 +1503,7 @@ optionsReturnTo</span>) &ndash; remplace l'ancien retour direct et systématique
 </table>
 </div><div class="memdoc">
 
-<p>« Quitter vers le menu » depuis la pause : demande confirmation (perd la progression du tableau en cours), puis abandonne la partie si confirmé. </p>
+<p>« Quitter vers le menu » depuis la pause : demande confirmation (la partie en cours est perdue), puis abandonne la partie si confirmé. </p>
 
 </div>
 </div>
@@ -1747,33 +1588,6 @@ optionsReturnTo</span>) &ndash; remplace l'ancien retour direct et systématique
 
 </div>
 </div>
-<a id="a770085fca61251558339061b44ef50ce" name="a770085fca61251558339061b44ef50ce"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a770085fca61251558339061b44ef50ce">&#9670;&#160;</a></span>replayFromLevelComplete()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hmi::MainWindow::replayFromLevelComplete </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>« Rejouer » : recharge le tableau qui vient d'être terminé (même chemin que le redémarrage après échec/depuis la pause). </p>
-
-</div>
-</div>
 <a id="a0c75214acd44c6e1bef12db335abd37f" name="a0c75214acd44c6e1bef12db335abd37f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0c75214acd44c6e1bef12db335abd37f">&#9670;&#160;</a></span>resizeEvent()</h2>
 
@@ -1797,34 +1611,7 @@ optionsReturnTo</span>) &ndash; remplace l'ancien retour direct et systématique
 </table>
 </div><div class="memdoc">
 
-<p>Resynchronise la géométrie des recouvrements d'écran (<span class="tt"><a class="el" href="#ac65d1b4ea7fccdd8969abcdf83254cd8" title="Recouvrement de pause (LOT-59 TACHE-02) : widget enfant ordinaire du viewport depuis le LOT-69 TACHE-...">_pauseScreen</a></span>/<span class="tt"><a class="el" href="#a7afaff28276c2b437ddf7323c924ed23" title="Recouvrement de fin de niveau/séquence (LOT-59 TACHE-03) : même patron que _pauseScreen ci-dessus (fe...">_levelCompleteScreen</a></span>, <span class="tt">LOT-59</span> TACHE-02/03) &ndash; fenêtres de haut niveau positionnées à la main, jamais redimensionnées automatiquement par <span class="tt"><a class="el" href="#a408483202779acb367aee2733d8b28c7" title="Central : empile menu principal, options et viewport.">_stack</a></span>. </p>
-
-</div>
-</div>
-<a id="aef279fdecd9d472d3ae773b0494fe867" name="aef279fdecd9d472d3ae773b0494fe867"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aef279fdecd9d472d3ae773b0494fe867">&#9670;&#160;</a></span>restartFromPause()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hmi::MainWindow::restartFromPause </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>« Recommencer le niveau » depuis la pause : même chemin que le redémarrage après échec. </p>
+<p>Resynchronise la géométrie des recouvrements d'écran (<span class="tt"><a class="el" href="#ac65d1b4ea7fccdd8969abcdf83254cd8" title="Recouvrement de pause (LOT-59 TACHE-02) : widget enfant ordinaire du viewport depuis le LOT-69 TACHE-...">_pauseScreen</a></span>/<span class="tt">_levelCompleteScreen</span>, <span class="tt">LOT-59</span> TACHE-02/03) &ndash; fenêtres de haut niveau positionnées à la main, jamais redimensionnées automatiquement par <span class="tt"><a class="el" href="#a408483202779acb367aee2733d8b28c7" title="Central : empile menu principal, options et viewport.">_stack</a></span>. </p>
 
 </div>
 </div>
@@ -1904,33 +1691,6 @@ optionsReturnTo</span>) &ndash; remplace l'ancien retour direct et systématique
 </div><div class="memdoc">
 
 <p>Applique la langue active à tous les textes de l'IHM (fenêtre, menus, docks, panneaux). </p>
-
-</div>
-</div>
-<a id="aa1b27ae3d3192a3a829307b88ef4d9d4" name="aa1b27ae3d3192a3a829307b88ef4d9d4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa1b27ae3d3192a3a829307b88ef4d9d4">&#9670;&#160;</a></span>returnToMenuFromLevelComplete()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hmi::MainWindow::returnToMenuFromLevelComplete </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>« Retour au menu » depuis l'écran de fin de niveau ou de fin de séquence : abandonne la partie, sans confirmation (contrairement à la pause : le tableau vient d'être réussi, rien n'est perdu). </p>
 
 </div>
 </div>
@@ -2173,7 +1933,7 @@ optionsReturnTo</span>) &ndash; remplace l'ancien retour direct et systématique
 </table>
 </div><div class="memdoc">
 
-<p>Affiche le menu principal (docks et barre de menu masqués) ; rafraîchit l'état de « Continuer » (<span class="tt"><a class="el" href="classhmi_1_1MainMenu.html#a04db267a3cb26f734247a30dae4f85bf" title="Active/désactive « Continuer » (LOT-59 TACHE-06) : grisé sans progression, seul bouton dont l&#39;état dé...">MainMenu::setContinueEnabled</a></span>, <span class="tt">LOT-59</span> TACHE-06) à chaque affichage &ndash; seule voie de mise à jour, jamais suivi à part. </p>
+<p>Affiche le menu principal (docks et barre de menu masqués) ; rafraîchit l'état de « Continuer » (<span class="tt">MainMenu::setContinueEnabled</span>, <span class="tt">LOT-59</span> TACHE-06) à chaque affichage &ndash; seule voie de mise à jour, jamais suivi à part. </p>
 
 </div>
 </div>
@@ -2260,37 +2020,6 @@ optionsReturnTo</span>) &ndash; remplace l'ancien retour direct et systématique
 
 <p>Affiche <code class="param">message</code> pour <code class="param">timeoutMs</code> dans la barre d'état, puis restaure l'aide contextuelle (<span class="tt"><a class="el" href="#ace1ef846c7704477a23af655b4f78e74" title="Recalcule et réaffiche la barre d&#39;état (zones permanentes + aide contextuelle) depuis l&#39;état courant ...">refreshStatusHelp</a></span>). </p>
 <p>La barre d'état n'est jamais laissée vide : à l'expiration d'un message transitoire, elle reprend l'aide du contexte courant. C'est pourquoi le minuteur est porté ici et non délégué à <span class="tt">QStatusBar::showMessage</span>, dont l'expiration ne rappelle rien. </p>
-
-</div>
-</div>
-<a id="a4092aab536a137d4d39a8ef2352541ee" name="a4092aab536a137d4d39a8ef2352541ee"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4092aab536a137d4d39a8ef2352541ee">&#9670;&#160;</a></span>startSequence()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hmi::MainWindow::startSequence </td>
-          <td>(</td>
-          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>startLevelName</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="namespacehmi.html#a964211f19cf43757eaaa80c3c29b0e90">hmi::ScreenEvent</a></td>          <td class="paramname"><span class="paramname"><em>transitionEvent</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Charge la séquence, résout l'indice de départ (nom de <code class="param">startLevelName</code> dans la séquence ; premier tableau si vide ou introuvable &ndash; séquence modifiée depuis, <span class="tt">EX-NFR-040</span>), applique <code class="param">transitionEvent</code> (<span class="tt">OpenGame</span> depuis le menu, <span class="tt">LevelChosen</span> depuis l'écran de sélection), puis démarre <span class="tt"><a class="el" href="#a1ed57ff25b1be1c311886896b1ae444f" title="Écran Mode IA (LOT-ANNEXE-21) : même patron que _levelSelectScreen, page normale de _stack.">_viewport</a></span> en mode séquence (<span class="tt"><a class="el" href="#a92acbd1b47b193acf174eb084459efd8" title="true si la partie en cours suit la séquence démo (Continuer/Nouvelle partie/tableau de séquence chois...">_gameTracksProgression</a> = true</span>). </p>
 
 </div>
 </div>
@@ -2758,7 +2487,7 @@ optionsReturnTo</span>) &ndash; remplace l'ancien retour direct et systématique
 </table>
 </div><div class="memdoc">
 
-<p>Écran de crédits (<span class="tt">LOT-60</span>) : même patron que <span class="tt"><a class="el" href="#aab0f9b0c9990d3496d32ab706c488519" title="Écran de sélection de niveau (LOT-59 TACHE-06) : une page normale de _stack (jamais un recouvrement –...">_levelSelectScreen</a></span>, page normale de <span class="tt"><a class="el" href="#a408483202779acb367aee2733d8b28c7" title="Central : empile menu principal, options et viewport.">_stack</a></span>. </p>
+<p>Écran de crédits (<span class="tt">LOT-60</span>) : une page normale de <span class="tt"><a class="el" href="#a408483202779acb367aee2733d8b28c7" title="Central : empile menu principal, options et viewport.">_stack</a></span>, jamais un recouvrement — atteint depuis le menu, pas en jeu, contrairement au précédent. </p>
 
 </div>
 </div>
@@ -2811,30 +2540,6 @@ optionsReturnTo</span>) &ndash; remplace l'ancien retour direct et systématique
 
 </div>
 </div>
-<a id="a92acbd1b47b193acf174eb084459efd8" name="a92acbd1b47b193acf174eb084459efd8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a92acbd1b47b193acf174eb084459efd8">&#9670;&#160;</a></span>_gameTracksProgression</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool hmi::MainWindow::_gameTracksProgression = false</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p><span class="tt">true</span> si la partie en cours suit la séquence démo (Continuer/Nouvelle partie/tableau de séquence choisi) &ndash; <span class="tt">false</span> pour un niveau <b>personnel</b> lancé hors séquence (<span class="tt">LOT-59</span> TACHE-06) : <span class="tt"><a class="el" href="#a80702adfe62ceb213bca4fbc40a2684a" title="GameViewport::levelSucceeded : configure _levelCompleteScreen (nom du tableau, variante fin de séquen...">openLevelComplete</a></span> ne touche <span class="tt"><a class="el" href="#aeb7a7620f7198817fcc5f6549d35d7b9" title="Progression de partie persistée (LOT-59 TACHE-05, EX-LVL-014) : chargée une fois à la construction,...">_progression</a></span> que si vrai, sinon un niveau d'essai personnel « débloquerait » la campagne. </p>
-
-</div>
-</div>
 <a id="aff2cc741a88013d0821f5ed556409b71" name="aff2cc741a88013d0821f5ed556409b71"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aff2cc741a88013d0821f5ed556409b71">&#9670;&#160;</a></span>_layerVisibilityActions</h2>
 
@@ -2854,30 +2559,6 @@ optionsReturnTo</span>) &ndash; remplace l'ancien retour direct et systématique
   </tr>
 </table>
 </div><div class="memdoc">
-
-</div>
-</div>
-<a id="a7afaff28276c2b437ddf7323c924ed23" name="a7afaff28276c2b437ddf7323c924ed23"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7afaff28276c2b437ddf7323c924ed23">&#9670;&#160;</a></span>_levelCompleteScreen</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classhmi_1_1LevelCompleteScreen.html">LevelCompleteScreen</a>* hmi::MainWindow::_levelCompleteScreen = nullptr</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Recouvrement de fin de niveau/séquence (<span class="tt">LOT-59</span> TACHE-03) : même patron que <span class="tt"><a class="el" href="#ac65d1b4ea7fccdd8969abcdf83254cd8" title="Recouvrement de pause (LOT-59 TACHE-02) : widget enfant ordinaire du viewport depuis le LOT-69 TACHE-...">_pauseScreen</a></span> ci-dessus (fenêtre de haut niveau, pas un enfant de <span class="tt"><a class="el" href="#a408483202779acb367aee2733d8b28c7" title="Central : empile menu principal, options et viewport.">_stack</a></span>). </p>
 
 </div>
 </div>
@@ -2902,30 +2583,6 @@ optionsReturnTo</span>) &ndash; remplace l'ancien retour direct et systématique
 </div><div class="memdoc">
 
 <p>Liste/gestion des fichiers de niveaux (contenu du dock Niveaux). </p>
-
-</div>
-</div>
-<a id="aab0f9b0c9990d3496d32ab706c488519" name="aab0f9b0c9990d3496d32ab706c488519"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aab0f9b0c9990d3496d32ab706c488519">&#9670;&#160;</a></span>_levelSelectScreen</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classhmi_1_1LevelSelectScreen.html">LevelSelectScreen</a>* hmi::MainWindow::_levelSelectScreen = nullptr</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Écran de sélection de niveau (<span class="tt">LOT-59</span> TACHE-06) : une page normale de <span class="tt"><a class="el" href="#a408483202779acb367aee2733d8b28c7" title="Central : empile menu principal, options et viewport.">_stack</a></span> (jamais un recouvrement &ndash; atteint depuis le menu, pas en jeu, contrairement aux deux précédents). </p>
 
 </div>
 </div>
@@ -3389,8 +3046,8 @@ optionsReturnTo</span>) &ndash; remplace l'ancien retour direct et systématique
 
 </div>
 </div>
-<a id="aeb7a7620f7198817fcc5f6549d35d7b9" name="aeb7a7620f7198817fcc5f6549d35d7b9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aeb7a7620f7198817fcc5f6549d35d7b9">&#9670;&#160;</a></span>_progression</h2>
+<a id="adc51699eeaf3291c0548cbf6550bfdbc" name="adc51699eeaf3291c0548cbf6550bfdbc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adc51699eeaf3291c0548cbf6550bfdbc">&#9670;&#160;</a></span>_rpgScreens</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -3399,7 +3056,7 @@ optionsReturnTo</span>) &ndash; remplace l'ancien retour direct et systématique
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classhmi_1_1Progression.html">hmi::Progression</a> hmi::MainWindow::_progression</td>
+          <td class="memname"><a class="el" href="classhmi_1_1RpgScreenHost.html">RpgScreenHost</a>* hmi::MainWindow::_rpgScreens = nullptr</td>
         </tr>
       </table>
   </td>
@@ -3409,7 +3066,7 @@ optionsReturnTo</span>) &ndash; remplace l'ancien retour direct et systématique
 </table>
 </div><div class="memdoc">
 
-<p><a class="el" href="classhmi_1_1Progression.html" title="Progression dans une séquence de niveaux : tableaux terminés et tableau atteint (celui où reprendre),...">Progression</a> de partie persistée (<span class="tt">LOT-59</span> TACHE-05, <span class="tt">EX-LVL-014</span>) : chargée une fois à la construction, marquée/écrite à chaque réussite de tableau (<span class="tt"><a class="el" href="#a80702adfe62ceb213bca4fbc40a2684a" title="GameViewport::levelSucceeded : configure _levelCompleteScreen (nom du tableau, variante fin de séquen...">openLevelComplete</a></span>) &ndash; jamais ailleurs (pas d'écriture par image ni par pas). </p>
+<p>Les huit écrans du RPG et la navigation entre eux (<span class="tt">LOT-68</span>) : <b>une</b> page de <span class="tt"><a class="el" href="#a408483202779acb367aee2733d8b28c7" title="Central : empile menu principal, options et viewport.">_stack</a></span>, jamais huit &ndash; c'est ce qui permet d'aller de la fiche au journal sans que la machine à états d'écrans ait à connaître les huit. </p>
 
 </div>
 </div>
@@ -3947,7 +3604,7 @@ optionsReturnTo</span>) &ndash; remplace l'ancien retour direct et systématique
 </table>
 </div><div class="memdoc">
 
-<p>Écran Mode IA (<span class="tt">LOT-ANNEXE-21</span>) : même patron que <span class="tt"><a class="el" href="#aab0f9b0c9990d3496d32ab706c488519" title="Écran de sélection de niveau (LOT-59 TACHE-06) : une page normale de _stack (jamais un recouvrement –...">_levelSelectScreen</a></span>, page normale de <span class="tt"><a class="el" href="#a408483202779acb367aee2733d8b28c7" title="Central : empile menu principal, options et viewport.">_stack</a></span>. </p>
+<p>Écran Mode IA (<span class="tt">LOT-ANNEXE-21</span>) : même patron que <span class="tt">_levelSelectScreen</span>, page normale de <span class="tt"><a class="el" href="#a408483202779acb367aee2733d8b28c7" title="Central : empile menu principal, options et viewport.">_stack</a></span>. </p>
 <p>Surface de rendu D3D11 (possédée par le conteneur central). </p>
 
 </div>

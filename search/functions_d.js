@@ -5,10 +5,11 @@ var searchData=
   ['newgame_2',['newGame',['../classhmi_1_1MainWindow.html#a703c568cb80ba0012846c8baf1a05b72',1,'hmi::MainWindow']]],
   ['newgamerequested_3',['newGameRequested',['../classhmi_1_1MainMenu.html#a7f6d8d9f2f4ea765750d97949760ceb4',1,'hmi::MainMenu']]],
   ['nextfloat01_4',['nextFloat01',['../classcore_1_1DeterministicRandom.html#ae8b6c9a8b84c113d3e881e825ce1ca38',1,'core::DeterministicRandom']]],
-  ['nextgamelevelname_5',['nextGameLevelName',['../classhmi_1_1GameViewport.html#aa74d719d358d5dc85f90439efd4ce3f7',1,'hmi::GameViewport']]],
-  ['nextint_6',['nextInt',['../classcore_1_1DeterministicRandom.html#afe4493bdfa8004e44caf24489f5f3861',1,'core::DeterministicRandom']]],
-  ['nextrange_7',['nextRange',['../classcore_1_1DeterministicRandom.html#a1d65be30928e57da0961a462bb1086a3',1,'core::DeterministicRandom']]],
-  ['nextuint32_8',['nextUInt32',['../classcore_1_1DeterministicRandom.html#ad1df942da4dba2bfcc231873164d7bd0',1,'core::DeterministicRandom']]],
-  ['nextutf8codepoint_9',['nextUtf8CodePoint',['../namespacehmi.html#a91e9f8bb5e7b91ae4e2c77d2c09fefd7',1,'hmi']]],
-  ['normalized_10',['normalized',['../structcore_1_1Vector2.html#af3240f0ac96a586d8990e385f180fb60',1,'core::Vector2']]]
+  ['nextint_5',['nextInt',['../classcore_1_1DeterministicRandom.html#afe4493bdfa8004e44caf24489f5f3861',1,'core::DeterministicRandom']]],
+  ['nextrange_6',['nextRange',['../classcore_1_1DeterministicRandom.html#a1d65be30928e57da0961a462bb1086a3',1,'core::DeterministicRandom']]],
+  ['nextrpgscreen_7',['nextRpgScreen',['../namespacehmi.html#a9eed4f2ad079e39eb5f17daf66defe91',1,'hmi']]],
+  ['nextscreenrequested_8',['nextScreenRequested',['../classhmi_1_1RpgScreenFrame.html#aa2950af1dcb3bda145d827e8ec7c41ad',1,'hmi::RpgScreenFrame']]],
+  ['nextuint32_9',['nextUInt32',['../classcore_1_1DeterministicRandom.html#ad1df942da4dba2bfcc231873164d7bd0',1,'core::DeterministicRandom']]],
+  ['nextutf8codepoint_10',['nextUtf8CodePoint',['../namespacehmi.html#a91e9f8bb5e7b91ae4e2c77d2c09fefd7',1,'hmi']]],
+  ['normalized_11',['normalized',['../structcore_1_1Vector2.html#af3240f0ac96a586d8990e385f180fb60',1,'core::Vector2']]]
 ];

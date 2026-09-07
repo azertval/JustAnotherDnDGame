@@ -15,9 +15,11 @@ var searchData=
   ['tileskintag_12',['TileSkinTag',['../structhmi_1_1TileSkinTag.html',1,'hmi']]],
   ['tilesubgroup_13',['TileSubgroup',['../structhmi_1_1TileSubgroup.html',1,'hmi']]],
   ['tiletextureoverride_14',['TileTextureOverride',['../structcore_1_1TileTextureOverride.html',1,'core']]],
-  ['topdownconfig_15',['TopDownConfig',['../structcore_1_1TopDownConfig.html',1,'core']]],
-  ['transform_16',['Transform',['../structcore_1_1Transform.html',1,'core']]],
-  ['triggerweight_17',['TriggerWeight',['../structcore_1_1TriggerWeight.html',1,'core']]],
-  ['typographylevel_18',['TypographyLevel',['../structhmi_1_1TypographyLevel.html',1,'hmi']]],
-  ['typographytokens_19',['TypographyTokens',['../structhmi_1_1TypographyTokens.html',1,'hmi']]]
+  ['titlebanner_15',['TitleBanner',['../classhmi_1_1TitleBanner.html',1,'hmi']]],
+  ['topdownconfig_16',['TopDownConfig',['../structcore_1_1TopDownConfig.html',1,'core']]],
+  ['transform_17',['Transform',['../structcore_1_1Transform.html',1,'core']]],
+  ['translatedlabel_18',['TranslatedLabel',['../structhmi_1_1RpgScreenFrame_1_1TranslatedLabel.html',1,'hmi::RpgScreenFrame']]],
+  ['triggerweight_19',['TriggerWeight',['../structcore_1_1TriggerWeight.html',1,'core']]],
+  ['typographylevel_20',['TypographyLevel',['../structhmi_1_1TypographyLevel.html',1,'hmi']]],
+  ['typographytokens_21',['TypographyTokens',['../structhmi_1_1TypographyTokens.html',1,'hmi']]]
 ];

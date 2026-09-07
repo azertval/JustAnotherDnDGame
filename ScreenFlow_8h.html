@@ -28,7 +28,7 @@
   <td id="projectalign">
    <div id="projectname">JustAnotherDnDGame<span id="projectnumber">&#160;0.1.0</span>
    </div>
-   <div id="projectbrief">Jeu 2D de plateforme/puzzle en C++/DirectX</div>
+   <div id="projectbrief">Jeu de rôle tactique au d20, vue de dessus, en C++/Qt</div>
   </td>
  </tr>
  </tbody>
@@ -119,9 +119,8 @@ Enumerations</h2></td></tr>
 , <a class="el" href="namespacehmi.html#a168b24f798c2e6d06beb9472a071528dadae8ace18bdcbcc6ae5aece263e14fe8">hmi::Options</a>
 , <br />
 &#160;&#160;<a class="el" href="namespacehmi.html#a168b24f798c2e6d06beb9472a071528da105b296a83f9c105355403f3332af50f">hmi::Pause</a>
-, <a class="el" href="namespacehmi.html#a168b24f798c2e6d06beb9472a071528dafadd249ca99ec988612da6329ccc7ffc">hmi::LevelComplete</a>
-, <a class="el" href="namespacehmi.html#a168b24f798c2e6d06beb9472a071528daab6c96d1fa3464b353f8da4213d53569">hmi::LevelSelect</a>
 , <a class="el" href="namespacehmi.html#a168b24f798c2e6d06beb9472a071528da948a2e3548aaf7f9941a3192fa607d51">hmi::Credits</a>
+, <a class="el" href="namespacehmi.html#a168b24f798c2e6d06beb9472a071528da74f7bb96f40b089d24eea4863b269139">hmi::RpgScreen</a>
 <br />
  }</td></tr>
 <tr class="memdesc:a168b24f798c2e6d06beb9472a071528d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Écran actuellement affiché par la fenêtre principale.  <a href="namespacehmi.html#a168b24f798c2e6d06beb9472a071528d">More...</a><br /></td></tr>
@@ -134,20 +133,12 @@ Enumerations</h2></td></tr>
 &#160;&#160;<a class="el" href="namespacehmi.html#a964211f19cf43757eaaa80c3c29b0e90af2716483b5771d31e4a519c28698c1bc">hmi::CloseOptions</a>
 , <a class="el" href="namespacehmi.html#a964211f19cf43757eaaa80c3c29b0e90af0a5454dd6871865bf5bf5b7821b9f0b">hmi::OpenPause</a>
 , <a class="el" href="namespacehmi.html#a964211f19cf43757eaaa80c3c29b0e90a6fcb6d479b0eff2ecd8ae8ddb68ee698">hmi::ResumePause</a>
-, <a class="el" href="namespacehmi.html#a964211f19cf43757eaaa80c3c29b0e90a47885a6c92dfdbb5094ec2c6387f036c">hmi::RestartFromPause</a>
-, <br />
-&#160;&#160;<a class="el" href="namespacehmi.html#a964211f19cf43757eaaa80c3c29b0e90a43f174deff25b40c0b1cce8de97adc45">hmi::QuitPauseToMenu</a>
-, <a class="el" href="namespacehmi.html#a964211f19cf43757eaaa80c3c29b0e90a2ed691b2dc2baf642829bfedaf122303">hmi::LevelSucceeded</a>
-, <a class="el" href="namespacehmi.html#a964211f19cf43757eaaa80c3c29b0e90a62ddadfd957f264328ee5967d3253e84">hmi::ContinueAfterLevel</a>
-, <a class="el" href="namespacehmi.html#a964211f19cf43757eaaa80c3c29b0e90a186777586b8dd797a18e30e07979d53c">hmi::ReplayLevel</a>
-, <br />
-&#160;&#160;<a class="el" href="namespacehmi.html#a964211f19cf43757eaaa80c3c29b0e90a9c75b658e80869557fd79c3384167d4a">hmi::ReturnToMenuFromLevelComplete</a>
-, <a class="el" href="namespacehmi.html#a964211f19cf43757eaaa80c3c29b0e90a9c9c573d9ed480bd96f863bfedcf5e08">hmi::OpenLevelSelect</a>
-, <a class="el" href="namespacehmi.html#a964211f19cf43757eaaa80c3c29b0e90ab8d67e3fbaeb7b592150799fe3c63921">hmi::CloseLevelSelect</a>
-, <a class="el" href="namespacehmi.html#a964211f19cf43757eaaa80c3c29b0e90acf7b8208a0c2708351e67f4ac50d96d5">hmi::LevelChosen</a>
+, <a class="el" href="namespacehmi.html#a964211f19cf43757eaaa80c3c29b0e90a43f174deff25b40c0b1cce8de97adc45">hmi::QuitPauseToMenu</a>
 , <br />
 &#160;&#160;<a class="el" href="namespacehmi.html#a964211f19cf43757eaaa80c3c29b0e90a2a1540e25ac6f65503d2539901c3eb7c">hmi::OpenCredits</a>
 , <a class="el" href="namespacehmi.html#a964211f19cf43757eaaa80c3c29b0e90a64b9ec7c728085981f7746660948ed17">hmi::CloseCredits</a>
+, <a class="el" href="namespacehmi.html#a964211f19cf43757eaaa80c3c29b0e90adb28cc1642bf3c7166e5556e54c9752b">hmi::OpenRpgScreen</a>
+, <a class="el" href="namespacehmi.html#a964211f19cf43757eaaa80c3c29b0e90a41a0a091b97ea443ec61e2b5fd660d32">hmi::CloseRpgScreen</a>
 <br />
  }</td></tr>
 <tr class="memdesc:a964211f19cf43757eaaa80c3c29b0e90"><td class="mdescLeft">&#160;</td><td class="mdescRight">Événement pouvant déclencher une transition d'écran.  <a href="namespacehmi.html#a964211f19cf43757eaaa80c3c29b0e90">More...</a><br /></td></tr>

@@ -28,7 +28,7 @@
   <td id="projectalign">
    <div id="projectname">JustAnotherDnDGame<span id="projectnumber">&#160;0.1.0</span>
    </div>
-   <div id="projectbrief">Jeu 2D de plateforme/puzzle en C++/DirectX</div>
+   <div id="projectbrief">Jeu de rôle tactique au d20, vue de dessus, en C++/Qt</div>
   </td>
  </tr>
  </tbody>
@@ -96,11 +96,11 @@ $(function(){initNavTree('spec-decors.html','',''); });
 <blockquote class="doxtable">
 <p>Statut : <b>livré</b> (<span class="tt">LOT-H-69</span>). Le système de <b>décors-sprites</b> (<span class="tt">LOT-H-49</span>/<span class="tt">LOT-H-50</span>) est <b>retiré</b> et remplacé par des <b>plans picturaux</b> : un décor n'est plus un objet posé, c'est une surface peinte à l'échelle du niveau. Les exigences retirées sont conservées en fin de page (section <a class="el" href="#dec-retirees" title="Exigences retirées">Exigences retirées</a>), leur texte intact, pour que les documents des lots déjà livrés qui s'y réfèrent restent lisibles. Le <b>pipeline photo → pixel art</b> (section 3) reste <b>post-MVP</b>. </p>
 </blockquote>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md300"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md294"></a>
 Vision</h1>
 <p>Le décor d'un niveau est <b>peint</b>, plan par plan, à l'intérieur même de l'éditeur, et se superpose en profondeur pour donner de la <b>parallaxe 2D</b>. Concrétise l'objectif produit <span class="tt">EX-VIS-007</span> (<span class="tt"><a class="el" href="vision_8md.html">vision.md</a></span>).</p>
 <p>Ce que le <span class="tt">LOT-H-69</span> corrige : composer un habillage en posant des images ne permet pas de <em>dessiner</em> un décor. Trois couches figées, des facteurs de défilement codés en dur et aucun outil de peinture à l'échelle du niveau — le level designer devait sortir de l'outil pour obtenir un fond, puis le découper en objets.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md301"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md295"></a>
 1. Plans</h1>
 <ul>
 <li><a class="anchor" id="EX-DEC-040"></a><b>EX-DEC-040</b> — Un <b>plan</b> est une image couvrant le <b>niveau entier</b>, stockée dans son <b>propre fichier PNG</b> à côté du niveau et référencée par nom. Un niveau porte une <b>liste ordonnée</b> de plans, de nombre <b>libre</b> ; l'<b>ordre est significatif</b> : il détermine la superposition. Le rendu reste <b>net</b> (<span class="tt">EX-DEC-003</span>).</li>
@@ -109,30 +109,30 @@ Vision</h1>
 <li><a class="anchor" id="EX-DEC-043"></a><b>EX-DEC-043</b> — Chaque plan porte un <b>facteur de défilement</b> (parallaxe) <b>par axe</b>, appliqué au rendu et <b>purement visuel</b> (<span class="tt">EX-ARCH-012</span>). Le niveau décide <b>si</b> la parallaxe s'applique. La parallaxe est une <b>translation</b> : la taille du plan n'est jamais mise à l'échelle : un plan qui grandit en défilant se lit comme une caméra qui avance, jamais comme de la profondeur (<span class="tt">EX-ARCH-022</span> — <b>motif refondu au <span class="tt">LOT-66</span></b> : la raison invoquée était la rupture du 1:1 pixel, qui n'existe plus ; l'interdiction, elle, tient toujours). La translation est <b>bornée</b> de sorte que le plan couvre toujours le cadrage — sans quoi une bande vide apparaîtrait au bord.</li>
 <li><a class="anchor" id="EX-DEC-044"></a><b>EX-DEC-044</b> — Le chargement <b>borne le coût</b> d'un niveau : nombre de plans plafonné, dimension de texture refusée au-delà de la limite du matériel, et <b>avertissement journalisé</b> quand le total dépasse le seuil raisonnable. Le garde-fou est dans le <b>format</b>, pas laissé à l'usage : rien n'empêcherait autrement seize plans à densité native sur un grand niveau.</li>
 <li><a class="anchor" id="EX-DEC-003"></a><b>EX-DEC-003</b> — Rendu <b>fidèle à l'asset</b> : un plan est affiché sans rééchantillonnage qui en trahirait la facture — cf. <span class="tt">EX-ARCH-022</span>, qui dit lequel selon la nature de l'image. Elle vaut pour les plans comme elle valait pour les décors. <blockquote class="doxtable">
-<p><b>Refondue au <span class="tt">LOT-66</span>.</b> Elle disait « rendu <b>pixel art net</b> (nearest-neighbor) », ce qui présumait que tout décor est du pixel art — présomption que les panneaux peints du <a class="el" href="roadmap-010.html#lot-76" title="&lt;tt&gt;LOT-76&lt;/tt&gt; — Habillage d&#39;interface extrait des livres">LOT-76</a> contredisent, et qui aurait fait rendre une illustration à 300 ppp au plus proche voisin sans qu'aucune règle ne s'en plaigne. </p>
+<p><b>Refondue au <span class="tt">LOT-66</span>.</b> Elle disait « rendu <b>pixel art net</b> (nearest-neighbor) », ce qui présumait que tout décor est du pixel art — présomption que les panneaux peints du <a class="el" href="lot-76.html" title="LOT-76 — Habillage d&#39;interface extrait des livres">LOT-76</a> contredisent, et qui aurait fait rendre une illustration à 300 ppp au plus proche voisin sans qu'aucune règle ne s'en plaigne. </p>
 </blockquote>
 </li>
 </ul>
 <p>Les plans sont <b>traversables</b> : ils ne participent jamais aux collisions. Un plan est un décor, jamais une géométrie de jeu.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md302"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md296"></a>
 2. Édition</h1>
 <ul>
 <li><a class="anchor" id="EX-DEC-045"></a><b>EX-DEC-045</b> — Les plans se peignent <b>dans l'éditeur</b>, au pixel près et à l'échelle du niveau, avec les tuiles physiques visibles en référence. Concrétisé par <span class="tt">EX-EDIT-046</span> (mode création) et <span class="tt">EX-EDIT-047</span> (panneau « Plans »).</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md303"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md297"></a>
 3. Pipeline photo → pixel art (intégré à l'éditeur)</h1>
 <ul>
 <li><a class="anchor" id="EX-DEC-030"></a><b>EX-DEC-030</b> — L'éditeur permet de <b>charger une photo</b> et de la <b>convertir en pixel art</b> (pixellisation, réduction de palette) — traitement <b>intégré à l'outil</b>.</li>
 <li><a class="anchor" id="EX-DEC-031"></a><b>EX-DEC-031</b> — Les <b>paramètres de conversion</b> sont ajustables (taille de pixel / résolution cible, palette). <b>Post-MVP</b>, non planifié.</li>
 <li><a class="anchor" id="EX-DEC-032"></a><b>EX-DEC-032</b> — L'image résultante est enregistrée comme fichier et <b>référencée par un plan</b> (<span class="tt">EX-DEC-040</span>), ou collée dans un plan depuis l'atelier. <blockquote class="doxtable">
-<p><b>Refondue au <span class="tt">LOT-66</span>.</b> Le mot « pixel art » y qualifiait la sortie de l'atelier, et non le format d'enregistrement : un plan référence un fichier image, quelle que soit la façon dont il a été produit. Le laisser aurait fait de l'atelier le seul producteur légitime de plans, alors que le <a class="el" href="roadmap-010.html#lot-76" title="&lt;tt&gt;LOT-76&lt;/tt&gt; — Habillage d&#39;interface extrait des livres">LOT-76</a> en apporte de peints. </p>
+<p><b>Refondue au <span class="tt">LOT-66</span>.</b> Le mot « pixel art » y qualifiait la sortie de l'atelier, et non le format d'enregistrement : un plan référence un fichier image, quelle que soit la façon dont il a été produit. Le laisser aurait fait de l'atelier le seul producteur légitime de plans, alors que le <a class="el" href="lot-76.html" title="LOT-76 — Habillage d&#39;interface extrait des livres">LOT-76</a> en apporte de peints. </p>
 </blockquote>
 </li>
 </ul>
 <blockquote class="doxtable">
 <p>Dépendance déjà levée : le chargement et l'encodage d'images existent depuis <span class="tt">LOT-H-39</span>/<span class="tt">LOT-H-54</span> (<span class="tt"><a class="el" href="namespacehmi.html#a22c3bcff9f77b4c4df7938a08c036dfd" title="Décode un fichier image (PNG au minimum) en pixels RGBA.">hmi::decodeImageFile</a></span>, <span class="tt"><a class="el" href="namespacehmi.html#ae4e98112a456615557383e9b5d0d6252" title="Écrit un fichier PNG depuis des pixels RGBA déjà en mémoire — symétrique de decodeImageFile.">hmi::encodeImageFile</a></span>). </p>
 </blockquote>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md304"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md298"></a>
 4. Périmètre &amp; séquencement</h1>
 <ul>
 <li>Le <span class="tt">LOT-H-69</span> livre les plans, leur parallaxe et le mode création. Le pipeline photo (section 3) reste <b>post-MVP</b>.</li>
@@ -153,7 +153,7 @@ Exigences retirées</h1>
 <li><a class="anchor" id="EX-DEC-020"></a><b>EX-DEC-020</b> <em>(retirée en <span class="tt">LOT-H-69</span>)</em> — Le joueur peut <b>manipuler en temps réel</b> les décors marqués manipulables. Motif : la mécanique n'a jamais été livrée et n'a plus d'objet — on ne déplace pas une fresque peinte.</li>
 <li><a class="anchor" id="EX-DEC-021"></a><b>EX-DEC-021</b> <em>(retirée en <span class="tt">LOT-H-69</span>)</em> — La manipulation en jeu reste <b>déterministe</b>. Retirée avec <span class="tt">EX-DEC-020</span>, dont elle était le corollaire.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md305"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md299"></a>
 Traçabilité</h1>
 <p>S'appuie sur <a class="el" href="spec-architecture.html#md_Specification_2architecture" title="Specification/architecture.md"><span class="tt">architecture.md</span></a>, <a class="el" href="spec-rendu-technique.html#md_Specification_2rendu-technique" title="Specification/rendu-technique.md"><span class="tt">rendu-technique.md</span></a> (ordonnancement des calques, <span class="tt">EX-REN-049</span>), <a class="el" href="spec-niveaux.html#md_Specification_2niveaux" title="Specification/niveaux.md"><span class="tt">niveaux.md</span></a> (format, <span class="tt">EX-LVL-009</span>), <a class="el" href="spec-editeur.html#md_Specification_2editeur-niveaux" title="Specification/editeur-niveaux.md"><span class="tt">editeur-niveaux.md</span></a> (mode création, <span class="tt">EX-EDIT-046</span>/<span class="tt">EX-EDIT-047</span>) et <a class="el" href="spec-vision.html#md_Specification_2vision" title="Specification/vision.md"><span class="tt">vision.md</span></a>. </p>
 </div></div><!-- contents -->

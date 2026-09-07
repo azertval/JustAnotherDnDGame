@@ -8,6 +8,8 @@ var structhmi_1_1ColorTokens =
     [ "frameEdge", "structhmi_1_1ColorTokens.html#a83711b180228eedc438687779c8c25f5", null ],
     [ "frameOrnament", "structhmi_1_1ColorTokens.html#a2d0861bd2d9e51948b7be1a4c270fc69", null ],
     [ "frameShadow", "structhmi_1_1ColorTokens.html#a564bcc840855b014c3e50ed7858ab865", null ],
+    [ "gem", "structhmi_1_1ColorTokens.html#a71ae29d623e422e880fa15f08031a7ef", null ],
+    [ "gemShadow", "structhmi_1_1ColorTokens.html#a64a1076313c930d9e730ce559f271c18", null ],
     [ "surface", "structhmi_1_1ColorTokens.html#a3f568f4e9ea50087da9b69cee87853dd", null ],
     [ "surfaceAlt", "structhmi_1_1ColorTokens.html#aadd697ac0c19bcbc6ebd49e4b900e0bd", null ],
     [ "text", "structhmi_1_1ColorTokens.html#aec46ebdcef4690658cf60d873af98a7f", null ],

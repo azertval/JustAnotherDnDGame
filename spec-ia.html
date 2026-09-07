@@ -28,7 +28,7 @@
   <td id="projectalign">
    <div id="projectname">JustAnotherDnDGame<span id="projectnumber">&#160;0.1.0</span>
    </div>
-   <div id="projectbrief">Jeu 2D de plateforme/puzzle en C++/DirectX</div>
+   <div id="projectbrief">Jeu de rôle tactique au d20, vue de dessus, en C++/Qt</div>
   </td>
  </tr>
  </tbody>
@@ -97,7 +97,7 @@ $(function(){initNavTree('spec-ia.html','',''); });
 <p>Statut : <b>livré</b> (<span class="tt">0.1.2</span>). Une IA maison capable de terminer un niveau de façon autonome, développée <b>sans framework d'apprentissage automatique</b> et rejouée en jeu sous forme d'une séquence d'actions déterministe. Dépend de <a class="el" href="spec-gameplay.html#md_Specification_2gameplay" title="Specification/gameplay.md"><span class="tt">gameplay.md</span></a> (conditions de victoire/echec) et de <a class="el" href="spec-controles.html#md_Specification_2controles" title="Specification/controles.md"><span class="tt">controles.md</span></a> (actions logiques que l'agent produit). </p>
 </blockquote>
 <p>Le découpage de travail correspondant est le programme <span class="tt">LOT-ANNEXE-*</span>, archivé sous <span class="tt">Documentation/Heritage/Lot-Annexe/</span>, dont chaque épic référence les exigences ci-dessous.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md338"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md331"></a>
 1. Fondations numériques</h1>
 <p>Bibliothèques de calcul écrites en interne, sans dépendance à un framework d'apprentissage automatique tiers.</p>
 <ul>
@@ -106,7 +106,7 @@ $(function(){initNavTree('spec-ia.html','',''); });
 <li><a class="anchor" id="EX-IA-003"></a><b>EX-IA-003</b> — Le programme d'IA doit disposer d'une bibliothèque de réseaux de neurones <b>implémentée en interne</b> (couche dense, activations différentiables, opérations différentiables complémentaires, composition en réseau, initialisation Xavier/He, sérialisation versionnée des poids), sans dépendance à un framework de calcul numérique ou d'apprentissage automatique tiers.</li>
 <li><a class="anchor" id="EX-IA-004"></a><b>EX-IA-004</b> — Le programme d'IA doit disposer d'optimiseurs de descente de gradient <b>implémentés en interne</b> (SGD avec inertie optionnelle, Adam), appliqués aux gradients accumulés par le moteur d'autodiff maison sur les paramètres d'un réseau, avec une vérification de convergence sur fonctions jouets bloquante avant tout usage réel.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md339"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md332"></a>
 2. Pont avec le jeu et observabilité</h1>
 <p>Rendre le jeu jouable et mesurable par une machine, sur la base de <span class="tt">Core</span> sans le modifier.</p>
 <ul>
@@ -118,7 +118,7 @@ $(function(){initNavTree('spec-ia.html','',''); });
 <li><a class="anchor" id="EX-IA-023"></a><b>EX-IA-023</b> — La récompense de progression doit se baser sur une distance de plus court chemin sur la grille (respectant les murs statiques), jamais une distance euclidienne en ligne droite, pour qu'un pas de détour nécessaire autour d'un mur ne reçoive jamais une récompense de progression négative alors qu'il rapproche réellement le personnage de la sortie.</li>
 <li><a class="anchor" id="EX-IA-010"></a><b>EX-IA-010</b> — Tout algorithme d'entraînement doit journaliser, au fil de l'entraînement et par génération/épisode, un jeu de statistiques standard (récompenses meilleure/moyenne/pire, écart-type, pas du meilleur, taux de réussite, moyenne mobile et delta sur une fenêtre récente) dans un fichier CSV unique par run, au format identique quel que soit l'algorithme, pour permettre de détecter un plateau sans attendre la fin de l'entraînement.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md340"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md333"></a>
 3. Algorithmes d'apprentissage</h1>
 <p>Un agent évolutionniste comme ligne de base, puis l'apprentissage par gradient.</p>
 <ul>
@@ -128,14 +128,14 @@ $(function(){initNavTree('spec-ia.html','',''); });
 <li><a class="anchor" id="EX-IA-014"></a><b>EX-IA-014</b> — L'agent doit disposer d'un mécanisme de réduction de variance du gradient de policy gradient (acteur-critique) : un réseau critique estime la valeur d'état, et l'avantage (<span class="tt">retour − valeur estimée</span>) remplace le retour brut dans la perte de politique de <span class="tt">EX-IA-013</span>, avec mesure chiffrée de l'amélioration de convergence par rapport à REINFORCE brut.</li>
 <li><a class="anchor" id="EX-IA-015"></a><b>EX-IA-015</b> — L'agent doit disposer d'un algorithme d'apprentissage par gradient avancé (PPO ou DQN maison, le choix étant tranché à l'ouverture du lot sur la base de mesures chiffrées), intégré au harnais d'entraînement existant et comparé chiffres à l'appui à la génération 2 (évolutionniste) et au reste de la génération 3 (REINFORCE, acteur-critique).</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md341"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md334"></a>
 4. Évaluation et robustesse</h1>
 <p>Mesurer ce que valent ces agents, et hors de leur niveau d'origine.</p>
 <ul>
 <li><a class="anchor" id="EX-IA-016"></a><b>EX-IA-016</b> — Un harnais de benchmark générique, indépendant de la famille d'algorithme, doit permettre d'exécuter <b>de façon répétée</b> (<span class="tt">N</span> répétitions) un modèle déjà entraîné sur son niveau d'origine via <span class="tt">HeadlessLevelEnvironment</span>, de mesurer le taux de réussite, le nombre de pas moyen et la variance associés, de produire un rapport comparatif au format CSV par niveau × algorithme, et de mesurer la robustesse de la politique à un bruit léger de l'observation perçue, sans jamais modifier l'état réel simulé, le modèle évalué, ni la logique d'entraînement qui l'a produit.</li>
 <li><a class="anchor" id="EX-IA-017"></a><b>EX-IA-017</b> — Le taux de réussite d'un modèle entraîné sur un niveau donné doit pouvoir être mesuré, par simple réutilisation du harnais de benchmark existant, lorsqu'il est exécuté sur un niveau différent de celui qui l'a produit ; ce résultat est une mesure de référence sur la nature de l'apprentissage réalisé, jamais un objectif d'entraînement ni un critère de qualité d'un algorithme.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md342"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md335"></a>
 5. Intégration au jeu et outillage</h1>
 <p>Ce que le joueur et le développeur en voient.</p>
 <ul>

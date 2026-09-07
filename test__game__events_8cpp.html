@@ -28,7 +28,7 @@
   <td id="projectalign">
    <div id="projectname">JustAnotherDnDGame<span id="projectnumber">&#160;0.1.0</span>
    </div>
-   <div id="projectbrief">Jeu 2D de plateforme/puzzle en C++/DirectX</div>
+   <div id="projectbrief">Jeu de rôle tactique au d20, vue de dessus, en C++/Qt</div>
   </td>
  </tr>
  </tbody>
@@ -117,8 +117,8 @@ Functions</h2></td></tr>
 <tr class="memdesc:ae9c95d919fc2e0f69537a62943e3e06b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une taille incoherente entre les vecteurs ignore l'index en trop sans planter.  <br /></td></tr>
 <tr class="memitem:a4a8e45e31e6d53fc12abfcdad82345e2" id="r_a4a8e45e31e6d53fc12abfcdad82345e2"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a4a8e45e31e6d53fc12abfcdad82345e2">TEST</a> (GameEventsTest, IssueEnCoursNeProduitRien)</td></tr>
 <tr class="memdesc:a4a8e45e31e6d53fc12abfcdad82345e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">L'issue Playing ne produit aucun evenement.  <br /></td></tr>
-<tr class="memitem:ad5a96ff3ac3ee2c42fdf6e9abc91493f" id="r_ad5a96ff3ac3ee2c42fdf6e9abc91493f"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#ad5a96ff3ac3ee2c42fdf6e9abc91493f">TEST</a> (GameEventsTest, IssueGagneeProduitLevelCompleted)</td></tr>
-<tr class="memdesc:ad5a96ff3ac3ee2c42fdf6e9abc91493f"><td class="mdescLeft">&#160;</td><td class="mdescRight">L'issue Won produit LevelCompleted.  <br /></td></tr>
+<tr class="memitem:ac5cbff88968d3629d2fbac35c5d27524" id="r_ac5cbff88968d3629d2fbac35c5d27524"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#ac5cbff88968d3629d2fbac35c5d27524">TEST</a> (GameEventsTest, IssueGagneeProduitExitReached)</td></tr>
+<tr class="memdesc:ac5cbff88968d3629d2fbac35c5d27524"><td class="mdescLeft">&#160;</td><td class="mdescRight">L'issue Won produit ExitReached.  <br /></td></tr>
 <tr class="memitem:ad6ca46bcce535797b0f7a6e0ccfec3e5" id="r_ad6ca46bcce535797b0f7a6e0ccfec3e5"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#ad6ca46bcce535797b0f7a6e0ccfec3e5">TEST</a> (GameEventsTest, IssuePerdueProduitDied)</td></tr>
 <tr class="memdesc:ad6ca46bcce535797b0f7a6e0ccfec3e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">L'issue Lost produit Died.  <br /></td></tr>
 </table>
@@ -183,8 +183,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ad5a96ff3ac3ee2c42fdf6e9abc91493f" name="ad5a96ff3ac3ee2c42fdf6e9abc91493f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad5a96ff3ac3ee2c42fdf6e9abc91493f">&#9670;&#160;</a></span>TEST() <span class="overload">[3/9]</span></h2>
+<a id="ac5cbff88968d3629d2fbac35c5d27524" name="ac5cbff88968d3629d2fbac35c5d27524"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac5cbff88968d3629d2fbac35c5d27524">&#9670;&#160;</a></span>TEST() <span class="overload">[3/9]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -197,18 +197,18 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">IssueGagneeProduitLevelCompleted</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+          <td class="paramtype">IssueGagneeProduitExitReached</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>L'issue Won produit LevelCompleted. </p>
-<p><b>Cas de test :</b> <b>Une issue gagnee produit l'evenement LevelCompleted.</b><br  />
+<p>L'issue Won produit ExitReached. </p>
+<p><b>Cas de test :</b> <b>Une issue gagnee produit l'evenement ExitReached.</b><br  />
  <b>Categorie :</b> Unitaire · Detection d'evenements<br  />
  <b>Criticite :</b> Critique<br  />
  <b>Etapes :</b><br  />
  1. Traduire <a class="el" href="namespacecore.html#a60398ec3835dd2882a7d3a9eaddb65aaa19abd416eb9fe03ae7400a22446956a5" title="Le personnage a atteint la sortie (EX-GP-030).">core::LevelOutcome::Won</a>.<br  />
- <b>Resultat attendu :</b> GameEvent::LevelCompleted. </p>
+ <b>Resultat attendu :</b> GameEvent::ExitReached. </p>
 
 </div>
 </div>

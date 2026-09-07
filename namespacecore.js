@@ -50,9 +50,6 @@ var namespacecore =
     [ "LevelDraft", "classcore_1_1LevelDraft.html", "classcore_1_1LevelDraft" ],
     [ "LevelLoadResult", "structcore_1_1LevelLoadResult.html", "structcore_1_1LevelLoadResult" ],
     [ "LevelLoader", "classcore_1_1LevelLoader.html", "classcore_1_1LevelLoader" ],
-    [ "LevelSequence", "structcore_1_1LevelSequence.html", "structcore_1_1LevelSequence" ],
-    [ "LevelSequenceLoadResult", "structcore_1_1LevelSequenceLoadResult.html", "structcore_1_1LevelSequenceLoadResult" ],
-    [ "LevelSequenceLoader", "classcore_1_1LevelSequenceLoader.html", "classcore_1_1LevelSequenceLoader" ],
     [ "LevelWriter", "classcore_1_1LevelWriter.html", "classcore_1_1LevelWriter" ],
     [ "MapEntity", "structcore_1_1MapEntity.html", "structcore_1_1MapEntity" ],
     [ "Plane", "structcore_1_1Plane.html", "structcore_1_1Plane" ],
@@ -193,14 +190,6 @@ var namespacecore =
       [ "Playing", "namespacecore.html#a60398ec3835dd2882a7d3a9eaddb65aaac9dbb2b7c84159b632d71e512eba8428", null ],
       [ "Won", "namespacecore.html#a60398ec3835dd2882a7d3a9eaddb65aaa19abd416eb9fe03ae7400a22446956a5", null ],
       [ "Lost", "namespacecore.html#a60398ec3835dd2882a7d3a9eaddb65aaab578b733cbb788fc6ad208314d2c4c2b", null ]
-    ] ],
-    [ "LevelSequenceError", "namespacecore.html#a11710ea83ff0491921176355c55fa4bb", [
-      [ "None", "namespacecore.html#a11710ea83ff0491921176355c55fa4bba6adf97f83acf6453d4a6a4b1070f3754", null ],
-      [ "FileNotFound", "namespacecore.html#a11710ea83ff0491921176355c55fa4bba2767828026039e8ba7b38973cbb701f2", null ],
-      [ "ParseError", "namespacecore.html#a11710ea83ff0491921176355c55fa4bbae41199faa7290c167f70f314c5e6c165", null ],
-      [ "EmptySequence", "namespacecore.html#a11710ea83ff0491921176355c55fa4bba0631bdbb0897b80acac1a294b8d82c2f", null ],
-      [ "MissingLevelFile", "namespacecore.html#a11710ea83ff0491921176355c55fa4bbaba35c21b69d8dc6ba93ac503fed3a3ee", null ],
-      [ "UnsupportedFormatVersion", "namespacecore.html#a11710ea83ff0491921176355c55fa4bba7d194788f42fea83b92833f89101a8f4", null ]
     ] ],
     [ "LevelValidationError", "namespacecore.html#af2a63d18c9ef40479ebdc204e726e823", [
       [ "None", "namespacecore.html#af2a63d18c9ef40479ebdc204e726e823a6adf97f83acf6453d4a6a4b1070f3754", null ],
@@ -397,7 +386,6 @@ var namespacecore =
     [ "LANDING_MIN_IMPACT_SPEED", "namespacecore.html#a4436c8349be20efa9139c98f7101a87d", null ],
     [ "LAYER_KIND_COUNT", "namespacecore.html#a1639bde29cbf10d2ed8629a0fe495374", null ],
     [ "LEVEL_FORMAT_VERSION", "namespacecore.html#a29f56cd5e629fb74668126bbf151066e", null ],
-    [ "LEVEL_SEQUENCE_FORMAT_VERSION", "namespacecore.html#aa2bda549f4b3a6da7d1947bdb5d82bc5", null ],
     [ "MAX_PARTICLES", "namespacecore.html#a111487c1e65133a09f9f0aeb582b7e17", null ],
     [ "MAX_PLANE_TEXTURE_EXTENT", "namespacecore.html#a2b0b5578c096a53cc778a39c41f18f72", null ],
     [ "MAX_PLANES_PER_LEVEL", "namespacecore.html#aba31765307efa0a613fd06d8bcecc203", null ],

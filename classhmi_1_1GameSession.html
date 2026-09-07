@@ -28,7 +28,7 @@
   <td id="projectalign">
    <div id="projectname">JustAnotherDnDGame<span id="projectnumber">&#160;0.1.0</span>
    </div>
-   <div id="projectbrief">Jeu 2D de plateforme/puzzle en C++/DirectX</div>
+   <div id="projectbrief">Jeu de rôle tactique au d20, vue de dessus, en C++/Qt</div>
   </td>
  </tr>
  </tbody>
@@ -711,7 +711,7 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Événements de jeu détectés lors du <b>dernier</b> appel à <span class="tt"><a class="el" href="#a890870ab22ce42a6b1d67f20e7209aa2" title="Simule le niveau d&#39;un pas fixe (mécanismes, blocs, physique, animation, dangers).">update()</a></span> (<span class="tt">LOT-60 TACHE-03</span>). </p>
-<p>Transitions du personnage et des mécanismes, plus l'issue du pas (<span class="tt">Died</span>/<span class="tt">LevelCompleted</span>). Vide si aucune transition, ou lors du tout premier pas après un chargement (état initial, rien à signaler — même principe que <span class="tt"><a class="el" href="structhmi_1_1MechanismVisualState.html#a76732eae8559e530eb7671cc13933192">MechanismVisualState::initialized</a></span>). Présentation pure : ne modifie jamais la simulation (<span class="tt">EX-ARCH-012</span>), à consommer par l'appelant pour déclencher des sons (<span class="tt">hmi::SoundTriggers</span>) ou, plus tard, des particules (<span class="tt">LOT-53</span>). </p>
+<p>Transitions du personnage et des mécanismes, plus l'issue du pas (<span class="tt">Died</span>/<span class="tt">ExitReached</span>). Vide si aucune transition, ou lors du tout premier pas après un chargement (état initial, rien à signaler — même principe que <span class="tt"><a class="el" href="structhmi_1_1MechanismVisualState.html#a76732eae8559e530eb7671cc13933192">MechanismVisualState::initialized</a></span>). Présentation pure : ne modifie jamais la simulation (<span class="tt">EX-ARCH-012</span>), à consommer par l'appelant pour déclencher des sons (<span class="tt">hmi::SoundTriggers</span>) ou, plus tard, des particules (<span class="tt">LOT-53</span>). </p>
 
 </div>
 </div>

@@ -28,7 +28,7 @@
   <td id="projectalign">
    <div id="projectname">JustAnotherDnDGame<span id="projectnumber">&#160;0.1.0</span>
    </div>
-   <div id="projectbrief">Jeu 2D de plateforme/puzzle en C++/DirectX</div>
+   <div id="projectbrief">Jeu de rôle tactique au d20, vue de dessus, en C++/Qt</div>
   </td>
  </tr>
  </tbody>
@@ -123,6 +123,8 @@ Enumerations</h2></td></tr>
 Functions</h2></td></tr>
 <tr class="memitem:addf3903688875c48beebeda82ec7daf5" id="r_addf3903688875c48beebeda82ec7daf5"><td class="memItemLeft">std::vector&lt; <a class="el" href="structhmi_1_1ParchmentStroke.html">ParchmentStroke</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#addf3903688875c48beebeda82ec7daf5">hmi::parchmentFrameStrokes</a> (int width, int height, int scale)</td></tr>
 <tr class="memdesc:addf3903688875c48beebeda82ec7daf5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bandes composant un encadrement, dans l'<b>ordre de dessin</b> (les dernières recouvrent les premières).  <br /></td></tr>
+<tr class="memitem:a45ffc40cf32dc17c3c53721ff78b1d90" id="r_a45ffc40cf32dc17c3c53721ff78b1d90"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#a45ffc40cf32dc17c3c53721ff78b1d90">hmi::parchmentFrameCorner</a> (int width, int height, int scale)</td></tr>
+<tr class="memdesc:a45ffc40cf32dc17c3c53721ff78b1d90"><td class="mdescLeft">&#160;</td><td class="mdescRight">Côté du <b>cabochon d'angle</b> d'un encadrement de <code class="param">width</code> × <code class="param">height</code>, en pixels.  <br /></td></tr>
 <tr class="memitem:a55b861e9c4e75fd753ec919a062940fc" id="r_a55b861e9c4e75fd753ec919a062940fc"><td class="memItemLeft">std::vector&lt; <a class="el" href="structhmi_1_1ParchmentPoint.html">ParchmentPoint</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#a55b861e9c4e75fd753ec919a062940fc">hmi::focusFleuronPoints</a> (int size)</td></tr>
 <tr class="memdesc:a55b861e9c4e75fd753ec919a062940fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sommets du <b>fleuron de focus</b> — une pointe pleine tournée vers la droite, inscrite dans un carré de côté <code class="param">size</code> (<span class="tt">LOT-66</span>, <span class="tt">EX-IHM-071</span>).  <br /></td></tr>
 </table><table class="memberdecls">
@@ -130,6 +132,8 @@ Functions</h2></td></tr>
 Variables</h2></td></tr>
 <tr class="memitem:ae9ed7690d4c8521dfcb82be2d3389860" id="r_ae9ed7690d4c8521dfcb82be2d3389860"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#ae9ed7690d4c8521dfcb82be2d3389860">hmi::PARCHMENT_FRAME_UNITS</a> = 3</td></tr>
 <tr class="memdesc:ae9ed7690d4c8521dfcb82be2d3389860"><td class="mdescLeft">&#160;</td><td class="mdescRight">Épaisseur totale de l'encadrement, en <b>unités de maquette</b> : trait, réserve de parchemin, filet.  <br /></td></tr>
+<tr class="memitem:af1ae6f7ec7bfe9e7b3f8198180717c5c" id="r_af1ae6f7ec7bfe9e7b3f8198180717c5c"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#af1ae6f7ec7bfe9e7b3f8198180717c5c">hmi::PARCHMENT_CABOCHON_FACTOR</a> = 2</td></tr>
+<tr class="memdesc:af1ae6f7ec7bfe9e7b3f8198180717c5c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Facteur de débord du <b>cabochon</b> sur le carré d'angle qu'il habille (<span class="tt">LOT-76</span>).  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Géométrie de l'encadrement de parchemin des écrans du jeu (<span class="tt">LOT-66</span>, <span class="tt">EX-IHM-070</span>). </p>

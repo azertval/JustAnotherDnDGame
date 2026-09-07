@@ -28,7 +28,7 @@
   <td id="projectalign">
    <div id="projectname">JustAnotherDnDGame<span id="projectnumber">&#160;0.1.0</span>
    </div>
-   <div id="projectbrief">Jeu 2D de plateforme/puzzle en C++/DirectX</div>
+   <div id="projectbrief">Jeu de rôle tactique au d20, vue de dessus, en C++/Qt</div>
   </td>
  </tr>
  </tbody>
@@ -209,10 +209,6 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les passes d'un pas fixe, telles que l'orchestrateur les offre à un mode de jeu.  <a href="classhmi_1_1IGameModePasses.html#details">More...</a><br /></td></tr>
 <tr class="memitem:IGameMode" id="r_IGameMode"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1IGameMode.html">IGameMode</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un <b>mode de jeu</b> : l'ordre dans lequel les passes d'un pas fixe s'enchaînent.  <a href="classhmi_1_1IGameMode.html#details">More...</a><br /></td></tr>
-<tr class="memitem:LevelRunStats" id="r_LevelRunStats"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1LevelRunStats.html">LevelRunStats</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compteurs d'un tableau, remis à zéro à chaque entrée dans le tableau (y compris en rejouant).  <a href="structhmi_1_1LevelRunStats.html#details">More...</a><br /></td></tr>
-<tr class="memitem:Progression" id="r_Progression"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1Progression.html">Progression</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classhmi_1_1Progression.html" title="Progression dans une séquence de niveaux : tableaux terminés et tableau atteint (celui où reprendre),...">Progression</a> dans une séquence de niveaux : tableaux <b>terminés</b> et tableau <b>atteint</b> (celui où reprendre), identifiés par <b>nom de fichier</b>, jamais par indice.  <a href="classhmi_1_1Progression.html#details">More...</a><br /></td></tr>
 <tr class="memitem:AnimationDescription" id="r_AnimationDescription"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1AnimationDescription.html">AnimationDescription</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Description d'animation d'un asset : disposition de sa spritesheet et ses clips.  <a href="structhmi_1_1AnimationDescription.html#details">More...</a><br /></td></tr>
 <tr class="memitem:AnimationDescriptionResult" id="r_AnimationDescriptionResult"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1AnimationDescriptionResult.html">AnimationDescriptionResult</a></td></tr>
@@ -377,10 +373,6 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Widget de remappage des <b>touches de jeu</b> (<span class="tt"><a class="el" href="classhmi_1_1GameKeyBindings.html" title="Association action de jeu -&gt; touche, avec persistance JSON (EX-CTRL-012, LOT-29).">GameKeyBindings</a></span>), destiné à l'onglet « Commande clavier » de la page Options.  <a href="classhmi_1_1KeybindingsWidget.html#details">More...</a><br /></td></tr>
 <tr class="memitem:KeyHint" id="r_KeyHint"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1KeyHint.html">KeyHint</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une paire touche → action, déjà <b>traduite</b> par l'appelant (<span class="tt">EX-REN-033</span>).  <a href="structhmi_1_1KeyHint.html#details">More...</a><br /></td></tr>
-<tr class="memitem:LevelCompleteScreen" id="r_LevelCompleteScreen"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1LevelCompleteScreen.html">LevelCompleteScreen</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Recouvrement affiché à la réussite d'un tableau (<span class="tt">EX-GP-030</span>), même patron de superposition que <span class="tt"><a class="el" href="classhmi_1_1PauseScreen.html" title="Recouvrement de pause affiché par-dessus la scène de jeu figée (EX-GP-041).">PauseScreen</a></span> (widget frère de <span class="tt">MainWindow::_editorContainer</span>, jamais une page du <span class="tt">QStackedWidget</span>).  <a href="classhmi_1_1LevelCompleteScreen.html#details">More...</a><br /></td></tr>
-<tr class="memitem:LevelSelectScreen" id="r_LevelSelectScreen"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1LevelSelectScreen.html">LevelSelectScreen</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Écran (page du <span class="tt">QStackedWidget</span>, pas un recouvrement &ndash; atteint depuis le menu, jamais en jeu) listant les tableaux de la séquence démo avec leur état, plus les niveaux <b>personnels</b> du dossier (créés dans l'éditeur, hors séquence et hors progression).  <a href="classhmi_1_1LevelSelectScreen.html#details">More...</a><br /></td></tr>
 <tr class="memitem:MainMenu" id="r_MainMenu"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1MainMenu.html">MainMenu</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Menu principal : point d'entrée de l'application Qt (<span class="tt">EX-IHM-040</span>).  <a href="classhmi_1_1MainMenu.html#details">More...</a><br /></td></tr>
 <tr class="memitem:MainWindow" id="r_MainWindow"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1MainWindow.html">MainWindow</a></td></tr>
@@ -394,9 +386,23 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une bande pleine, en pixels, relative au coin haut-gauche du widget.  <a href="structhmi_1_1ParchmentStroke.html#details">More...</a><br /></td></tr>
 <tr class="memitem:ParchmentPoint" id="r_ParchmentPoint"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1ParchmentPoint.html">ParchmentPoint</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un sommet, en pixels, relatif au coin haut-gauche du carré englobant.  <a href="structhmi_1_1ParchmentPoint.html#details">More...</a><br /></td></tr>
+<tr class="memitem:OrnamentPoint" id="r_OrnamentPoint"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1OrnamentPoint.html">OrnamentPoint</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un sommet, en pixels, relatif au coin haut-gauche de la forme.  <a href="structhmi_1_1OrnamentPoint.html#details">More...</a><br /></td></tr>
+<tr class="memitem:OrnamentShape" id="r_OrnamentShape"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1OrnamentShape.html">OrnamentShape</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une forme d'ornement : un polygone fermé, rempli ou tracé, d'un seul rôle.  <a href="structhmi_1_1OrnamentShape.html#details">More...</a><br /></td></tr>
 <tr class="memitem:ParchmentPanel" id="r_ParchmentPanel"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1ParchmentPanel.html">ParchmentPanel</a></td></tr>
 <tr class="memitem:PauseScreen" id="r_PauseScreen"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1PauseScreen.html">PauseScreen</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Recouvrement de pause affiché par-dessus la scène de jeu figée (<span class="tt">EX-GP-041</span>).  <a href="classhmi_1_1PauseScreen.html#details">More...</a><br /></td></tr>
+<tr class="memitem:RpgScreenFrame" id="r_RpgScreenFrame"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1RpgScreenFrame.html">RpgScreenFrame</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le <b>cadre</b> que les huit écrans du RPG partagent : panneau, titre, zone de contenu, pied d'actions.  <a href="classhmi_1_1RpgScreenFrame.html#details">More...</a><br /></td></tr>
+<tr class="memitem:RpgScreenHost" id="r_RpgScreenHost"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1RpgScreenHost.html">RpgScreenHost</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Héberge les écrans du RPG et fait passer de l'un à l'autre <b>sans repasser par le menu</b>.  <a href="classhmi_1_1RpgScreenHost.html#details">More...</a><br /></td></tr>
+<tr class="memitem:RpgContentBlock" id="r_RpgContentBlock"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1RpgContentBlock.html">RpgContentBlock</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un bloc de l'ossature d'un écran.  <a href="structhmi_1_1RpgContentBlock.html#details">More...</a><br /></td></tr>
+<tr class="memitem:RpgScreenLayout" id="r_RpgScreenLayout"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1RpgScreenLayout.html">RpgScreenLayout</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ossature d'un écran : deux colonnes de blocs.  <a href="structhmi_1_1RpgScreenLayout.html#details">More...</a><br /></td></tr>
+<tr class="memitem:RpgScreenDescriptor" id="r_RpgScreenDescriptor"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1RpgScreenDescriptor.html">RpgScreenDescriptor</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Description complète d'un écran du RPG.  <a href="structhmi_1_1RpgScreenDescriptor.html#details">More...</a><br /></td></tr>
 <tr class="memitem:ScreenDressing" id="r_ScreenDressing"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1ScreenDressing.html">ScreenDressing</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Habillage de fenêtre associé à un écran : ce que chaque <span class="tt">showXxx()</span> répétait à la main (bascule du <span class="tt">QStackedWidget</span>, docks, barre de menu, barres d'outils, navigation manette).  <a href="structhmi_1_1ScreenDressing.html#details">More...</a><br /></td></tr>
 <tr class="memitem:ScreenState" id="r_ScreenState"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1ScreenState.html">ScreenState</a></td></tr>
@@ -405,6 +411,7 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Conteneur défilant par lequel passe <b>toute</b> page ajoutée à la pile d'écrans.  <a href="classhmi_1_1ScreenPageHost.html#details">More...</a><br /></td></tr>
 <tr class="memitem:StyleSheetSubstitutionResult" id="r_StyleSheetSubstitutionResult"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1StyleSheetSubstitutionResult.html">StyleSheetSubstitutionResult</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Résultat d'une substitution : succès et texte produit, ou échec et message d'erreur — jamais un résultat produit silencieusement avec un trou (marqueur inconnu non substitué).  <a href="structhmi_1_1StyleSheetSubstitutionResult.html#details">More...</a><br /></td></tr>
+<tr class="memitem:TitleBanner" id="r_TitleBanner"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1TitleBanner.html">TitleBanner</a></td></tr>
 <tr class="memitem:Localization" id="r_Localization"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1Localization.html">Localization</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Catalogue de traduction (i18n) : associe des <b>clés</b> stables à des chaînes selon la <b>langue active</b>, avec repli sur la langue par défaut.  <a href="classhmi_1_1Localization.html#details">More...</a><br /></td></tr>
 </table><table class="memberdecls">
@@ -513,14 +520,12 @@ Enumerations</h2></td></tr>
 &#160;&#160;<a class="el" href="#a3a61aed1c8e95c289c829398d48488dea1dcbd75ed42921b33c5894d72929b5c4">PressurePlateReleased</a>
 , <a class="el" href="#a3a61aed1c8e95c289c829398d48488dea00f3be69446cf709343350f087ad6bc3">BlockPushed</a>
 , <a class="el" href="#a3a61aed1c8e95c289c829398d48488deab4ee54591aaa4862bf37f75f6839b514">Died</a>
-, <a class="el" href="#a3a61aed1c8e95c289c829398d48488deaf3f8a8d70e59a2f75919906f9429e8c2">LevelCompleted</a>
+, <a class="el" href="#a3a61aed1c8e95c289c829398d48488deab76a553b4ac780a1cb3a18dbc27099e7">ExitReached</a>
 , <br />
 &#160;&#160;<a class="el" href="#a3a61aed1c8e95c289c829398d48488deafd86c459659a739b791b3acf8590136e">MenuNavigate</a>
 , <a class="el" href="#a3a61aed1c8e95c289c829398d48488deae6154a82aac2fc1033c897088faff888">MenuConfirm</a>
 , <a class="el" href="#a3a61aed1c8e95c289c829398d48488dea5a7251d0a3e040de33dc48e78d49c010">MenuBack</a>
 , <a class="el" href="#a3a61aed1c8e95c289c829398d48488dea99db5176aa7f82eeb3e4dff344934eeb">PauseOpened</a>
-, <br />
-&#160;&#160;<a class="el" href="#a3a61aed1c8e95c289c829398d48488dea567a1ba73d183dc7f9b7c047a7da7e40">SequenceCompleted</a>
 <br />
  }</td></tr>
 <tr class="memdesc:a3a61aed1c8e95c289c829398d48488de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Événement discret survenu sur un pas de simulation ou une action d'interface.  <a href="#a3a61aed1c8e95c289c829398d48488de">More...</a><br /></td></tr>
@@ -773,11 +778,6 @@ Enumerations</h2></td></tr>
 , <a class="el" href="#acaf7f33926fae2f8294ef4ee5d24ba52ac900e1bd8e22771d610bd2a5861b544f">Accent</a>
  }</td></tr>
 <tr class="memdesc:acaf7f33926fae2f8294ef4ee5d24ba52"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rôle de couleur d'un trait, résolu depuis les jetons de design au moment du rendu (recoloration automatique avec le thème, y compris après une bascule TACHE-06).  <a href="#acaf7f33926fae2f8294ef4ee5d24ba52">More...</a><br /></td></tr>
-<tr class="memitem:a9b98e769ab5ebdffe34a30c4b431ff7c" id="r_a9b98e769ab5ebdffe34a30c4b431ff7c"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#a9b98e769ab5ebdffe34a30c4b431ff7c">LevelSelectState</a> { <a class="el" href="#a9b98e769ab5ebdffe34a30c4b431ff7ca07ca5050e697392c9ed47e6453f1453f">Completed</a>
-, <a class="el" href="#a9b98e769ab5ebdffe34a30c4b431ff7ca222a267cc5778206b253be35ee3ddab5">Current</a>
-, <a class="el" href="#a9b98e769ab5ebdffe34a30c4b431ff7cad0f2e5376298c880665077b565ffd7dd">Locked</a>
- }</td></tr>
-<tr class="memdesc:a9b98e769ab5ebdffe34a30c4b431ff7c"><td class="mdescLeft">&#160;</td><td class="mdescRight">État d'un tableau de séquence dans la liste (<span class="tt"><a class="el" href="classhmi_1_1LevelSelectScreen.html#ae1a3504c3144a05d08cf8805e91b5a8a" title="Remplit l&#39;onglet Séquence : une ligne par tableau de sequence, dans l&#39;ordre, avec son état (hmi::isLe...">LevelSelectScreen::setSequenceLevels</a></span>) &ndash; résolu une fois par <span class="tt"><a class="el" href="#a5b07931e9a29f7bcbffef65e91c124b0" title="Variante utilisée par l&#39;IHM (affichage de l&#39;écran de sélection ET garde au lancement,...">hmi::isLevelPlayable</a></span>/<span class="tt"><a class="el" href="classhmi_1_1Progression.html#a8e868a89a51f89b4c9bf68b791952f61">Progression::isCompleted</a></span>, jamais recalculé par ce widget (qui ne connaît ni <span class="tt"><a class="el" href="classhmi_1_1Progression.html" title="Progression dans une séquence de niveaux : tableaux terminés et tableau atteint (celui où reprendre),...">Progression</a></span> ni la règle de déverrouillage).  <a href="#a9b98e769ab5ebdffe34a30c4b431ff7c">More...</a><br /></td></tr>
 <tr class="memitem:aaa18c515c21f28af61bd057d2c1df415" id="r_aaa18c515c21f28af61bd057d2c1df415"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#aaa18c515c21f28af61bd057d2c1df415">BackdropRole</a> { <br />
 &#160;&#160;<a class="el" href="#aaa18c515c21f28af61bd057d2c1df415a8cf626d46ed9b651ba701d7f032ccec0">SkyHigh</a>
 , <a class="el" href="#aaa18c515c21f28af61bd057d2c1df415adeda56df39da60ff81bfee718b51861e">SkyMid</a>
@@ -802,6 +802,45 @@ Enumerations</h2></td></tr>
 , <a class="el" href="#ae32ec83f939d20ebd5cf00137de659f4a3f39588bb19e28051d9aedfbb170025c">Shadow</a>
  }</td></tr>
 <tr class="memdesc:ae32ec83f939d20ebd5cf00137de659f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rôle de couleur d'une bande, résolu depuis les jetons au moment du rendu.  <a href="#ae32ec83f939d20ebd5cf00137de659f4">More...</a><br /></td></tr>
+<tr class="memitem:a369c89ce919372e6e2647a9e0c6ea5e0" id="r_a369c89ce919372e6e2647a9e0c6ea5e0"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#a369c89ce919372e6e2647a9e0c6ea5e0">OrnamentRole</a> { <br />
+&#160;&#160;<a class="el" href="#a369c89ce919372e6e2647a9e0c6ea5e0ae4a297a0f76119a442c2595ac040673e">Edge</a>
+, <a class="el" href="#a369c89ce919372e6e2647a9e0c6ea5e0ae4d7e2fff97ef663babce3cf0e3108a3">Ornament</a>
+, <a class="el" href="#a369c89ce919372e6e2647a9e0c6ea5e0a97246e79b82f4fb4d7595a80b91f3f9f">OrnamentLight</a>
+, <a class="el" href="#a369c89ce919372e6e2647a9e0c6ea5e0a65ce9d2fa1e9c3598206e6f2ec1d7a95">Gem</a>
+, <br />
+&#160;&#160;<a class="el" href="#a369c89ce919372e6e2647a9e0c6ea5e0ae2a97f1c4ef478e33be5d7829ce54de4">GemShadow</a>
+<br />
+ }</td></tr>
+<tr class="memdesc:a369c89ce919372e6e2647a9e0c6ea5e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rôle de couleur d'une forme, résolu depuis les jetons de la portée identité au moment du rendu.  <a href="#a369c89ce919372e6e2647a9e0c6ea5e0">More...</a><br /></td></tr>
+<tr class="memitem:a86e4ce6097c7a029c683096302528e72" id="r_a86e4ce6097c7a029c683096302528e72"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#a86e4ce6097c7a029c683096302528e72">RpgScreenId</a> { <br />
+&#160;&#160;<a class="el" href="#a86e4ce6097c7a029c683096302528e72aeb7e99d2187282628ef8b4c20cf7a714">CharacterSheet</a>
+, <a class="el" href="#a86e4ce6097c7a029c683096302528e72a4d604dd8f008145471dc845683399189">Inventory</a>
+, <a class="el" href="#a86e4ce6097c7a029c683096302528e72aafebbeedc0c1e6ef23639958ccfc4e93">QuestJournal</a>
+, <a class="el" href="#a86e4ce6097c7a029c683096302528e72ade45fe3bb002bd16009ebd8331e35146">WorldMap</a>
+, <br />
+&#160;&#160;<a class="el" href="#a86e4ce6097c7a029c683096302528e72a359928afdf6c973ee869e1698023a812">Dialogue</a>
+, <a class="el" href="#a86e4ce6097c7a029c683096302528e72a896890bfb700eac98300d639ca970f2b">Merchant</a>
+, <a class="el" href="#a86e4ce6097c7a029c683096302528e72ab45d4262677771f2c5e9a59301287d99">GuildBoard</a>
+, <a class="el" href="#a86e4ce6097c7a029c683096302528e72a24a64995097c2618f6232d44c3b135ff">CombatHud</a>
+<br />
+ }</td></tr>
+<tr class="memdesc:a86e4ce6097c7a029c683096302528e72"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les huit écrans du RPG.  <a href="#a86e4ce6097c7a029c683096302528e72">More...</a><br /></td></tr>
+<tr class="memitem:a3222e3cf5f453d3a55c104456a615430" id="r_a3222e3cf5f453d3a55c104456a615430"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#a3222e3cf5f453d3a55c104456a615430">RpgSuperposition</a> { <a class="el" href="#a3222e3cf5f453d3a55c104456a615430aeeed228a1530b74c9d193195034781e9">PausesGame</a>
+, <a class="el" href="#a3222e3cf5f453d3a55c104456a615430a56876e48dbe57b9eb2e66e54c6576eaf">WhileWalking</a>
+ }</td></tr>
+<tr class="memdesc:a3222e3cf5f453d3a55c104456a615430"><td class="mdescLeft">&#160;</td><td class="mdescRight">Règle de <b>superposition</b> d'un écran (<span class="tt">EX-IHM-091</span>) : ce qui met le jeu en pause et ce qui se consulte en marchant.  <a href="#a3222e3cf5f453d3a55c104456a615430">More...</a><br /></td></tr>
+<tr class="memitem:a0076ce0092efe8d8df165966481a5830" id="r_a0076ce0092efe8d8df165966481a5830"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#a0076ce0092efe8d8df165966481a5830">RpgBlockKind</a> { <br />
+&#160;&#160;<a class="el" href="#a0076ce0092efe8d8df165966481a5830aa4ca5edd20d0b5d502ebece575681f58">Fields</a>
+, <a class="el" href="#a0076ce0092efe8d8df165966481a5830a5174d1309f275ba6f275db3af9eb3e18">Grid</a>
+, <a class="el" href="#a0076ce0092efe8d8df165966481a5830a4ee29ca12c7d126654bd0e5275de6135">List</a>
+, <a class="el" href="#a0076ce0092efe8d8df165966481a5830a3e2ad77ed860b43505ddc4ee592c3122">Prose</a>
+, <br />
+&#160;&#160;<a class="el" href="#a0076ce0092efe8d8df165966481a5830a1c7444be9626d149ab598fb79b639f96">Portrait</a>
+, <a class="el" href="#a0076ce0092efe8d8df165966481a5830a92ea731d3af6677905303c88689f5d55">Track</a>
+, <a class="el" href="#a0076ce0092efe8d8df165966481a5830af5b62b875edf01a271e9dd5b199bad64">ActionBar</a>
+<br />
+ }</td></tr>
+<tr class="memdesc:a0076ce0092efe8d8df165966481a5830"><td class="mdescLeft">&#160;</td><td class="mdescRight">Genres de blocs que le châssis sait peindre.  <a href="#a0076ce0092efe8d8df165966481a5830">More...</a><br /></td></tr>
 <tr class="memitem:a168b24f798c2e6d06beb9472a071528d" id="r_a168b24f798c2e6d06beb9472a071528d"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#a168b24f798c2e6d06beb9472a071528d">ScreenId</a> { <br />
 &#160;&#160;<a class="el" href="#a168b24f798c2e6d06beb9472a071528dab61541208db7fa7dba42c85224405911">Menu</a>
 , <a class="el" href="#a168b24f798c2e6d06beb9472a071528da344a7f427fb765610ef96eb7bce95257">Editor</a>
@@ -809,9 +848,8 @@ Enumerations</h2></td></tr>
 , <a class="el" href="#a168b24f798c2e6d06beb9472a071528dadae8ace18bdcbcc6ae5aece263e14fe8">Options</a>
 , <br />
 &#160;&#160;<a class="el" href="#a168b24f798c2e6d06beb9472a071528da105b296a83f9c105355403f3332af50f">Pause</a>
-, <a class="el" href="#a168b24f798c2e6d06beb9472a071528dafadd249ca99ec988612da6329ccc7ffc">LevelComplete</a>
-, <a class="el" href="#a168b24f798c2e6d06beb9472a071528daab6c96d1fa3464b353f8da4213d53569">LevelSelect</a>
 , <a class="el" href="#a168b24f798c2e6d06beb9472a071528da948a2e3548aaf7f9941a3192fa607d51">Credits</a>
+, <a class="el" href="#a168b24f798c2e6d06beb9472a071528da74f7bb96f40b089d24eea4863b269139">RpgScreen</a>
 <br />
  }</td></tr>
 <tr class="memdesc:a168b24f798c2e6d06beb9472a071528d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Écran actuellement affiché par la fenêtre principale.  <a href="#a168b24f798c2e6d06beb9472a071528d">More...</a><br /></td></tr>
@@ -824,20 +862,12 @@ Enumerations</h2></td></tr>
 &#160;&#160;<a class="el" href="#a964211f19cf43757eaaa80c3c29b0e90af2716483b5771d31e4a519c28698c1bc">CloseOptions</a>
 , <a class="el" href="#a964211f19cf43757eaaa80c3c29b0e90af0a5454dd6871865bf5bf5b7821b9f0b">OpenPause</a>
 , <a class="el" href="#a964211f19cf43757eaaa80c3c29b0e90a6fcb6d479b0eff2ecd8ae8ddb68ee698">ResumePause</a>
-, <a class="el" href="#a964211f19cf43757eaaa80c3c29b0e90a47885a6c92dfdbb5094ec2c6387f036c">RestartFromPause</a>
-, <br />
-&#160;&#160;<a class="el" href="#a964211f19cf43757eaaa80c3c29b0e90a43f174deff25b40c0b1cce8de97adc45">QuitPauseToMenu</a>
-, <a class="el" href="#a964211f19cf43757eaaa80c3c29b0e90a2ed691b2dc2baf642829bfedaf122303">LevelSucceeded</a>
-, <a class="el" href="#a964211f19cf43757eaaa80c3c29b0e90a62ddadfd957f264328ee5967d3253e84">ContinueAfterLevel</a>
-, <a class="el" href="#a964211f19cf43757eaaa80c3c29b0e90a186777586b8dd797a18e30e07979d53c">ReplayLevel</a>
-, <br />
-&#160;&#160;<a class="el" href="#a964211f19cf43757eaaa80c3c29b0e90a9c75b658e80869557fd79c3384167d4a">ReturnToMenuFromLevelComplete</a>
-, <a class="el" href="#a964211f19cf43757eaaa80c3c29b0e90a9c9c573d9ed480bd96f863bfedcf5e08">OpenLevelSelect</a>
-, <a class="el" href="#a964211f19cf43757eaaa80c3c29b0e90ab8d67e3fbaeb7b592150799fe3c63921">CloseLevelSelect</a>
-, <a class="el" href="#a964211f19cf43757eaaa80c3c29b0e90acf7b8208a0c2708351e67f4ac50d96d5">LevelChosen</a>
+, <a class="el" href="#a964211f19cf43757eaaa80c3c29b0e90a43f174deff25b40c0b1cce8de97adc45">QuitPauseToMenu</a>
 , <br />
 &#160;&#160;<a class="el" href="#a964211f19cf43757eaaa80c3c29b0e90a2a1540e25ac6f65503d2539901c3eb7c">OpenCredits</a>
 , <a class="el" href="#a964211f19cf43757eaaa80c3c29b0e90a64b9ec7c728085981f7746660948ed17">CloseCredits</a>
+, <a class="el" href="#a964211f19cf43757eaaa80c3c29b0e90adb28cc1642bf3c7166e5556e54c9752b">OpenRpgScreen</a>
+, <a class="el" href="#a964211f19cf43757eaaa80c3c29b0e90a41a0a091b97ea443ec61e2b5fd660d32">CloseRpgScreen</a>
 <br />
  }</td></tr>
 <tr class="memdesc:a964211f19cf43757eaaa80c3c29b0e90"><td class="mdescLeft">&#160;</td><td class="mdescRight">Événement pouvant déclencher une transition d'écran.  <a href="#a964211f19cf43757eaaa80c3c29b0e90">More...</a><br /></td></tr>
@@ -999,16 +1029,6 @@ Functions</h2></td></tr>
 <tr class="memdesc:a89b12465488e01b1f3b8bfaa0e7bf26a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Traduit l'issue d'un pas de simulation en événement.  <br /></td></tr>
 <tr class="memitem:a588a6cab9c35f77c19c1f0e3a5ee6d20" id="r_a588a6cab9c35f77c19c1f0e3a5ee6d20"><td class="memItemLeft">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a588a6cab9c35f77c19c1f0e3a5ee6d20">gameHudLines</a> (const std::string &amp;levelName, const <a class="el" href="classhmi_1_1Localization.html">Localization</a> &amp;localization, bool overlappingKey=false)</td></tr>
 <tr class="memdesc:a588a6cab9c35f77c19c1f0e3a5ee6d20"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lignes à afficher pour l'affichage tête haute d'un pas de simulation donné.  <br /></td></tr>
-<tr class="memitem:a7ad0c5959af0b793d8833b2c517a2a37" id="r_a7ad0c5959af0b793d8833b2c517a2a37"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a7ad0c5959af0b793d8833b2c517a2a37">accumulateStep</a> (<a class="el" href="structhmi_1_1LevelRunStats.html">LevelRunStats</a> &amp;stats, const std::vector&lt; <a class="el" href="#a3a61aed1c8e95c289c829398d48488de">GameEvent</a> &gt; &amp;stepEvents)</td></tr>
-<tr class="memdesc:a7ad0c5959af0b793d8833b2c517a2a37"><td class="mdescLeft">&#160;</td><td class="mdescRight">Comptabilise <b>un</b> pas de simulation et les évènements qu'il a produits.  <br /></td></tr>
-<tr class="memitem:ac3f6e20f88982fbb59a80f9a1b67dfdd" id="r_ac3f6e20f88982fbb59a80f9a1b67dfdd"><td class="memItemLeft">float&#160;</td><td class="memItemRight"><a class="el" href="#ac3f6e20f88982fbb59a80f9a1b67dfdd">elapsedSeconds</a> (const <a class="el" href="structhmi_1_1LevelRunStats.html">LevelRunStats</a> &amp;stats, float fixedDeltaSeconds) noexcept</td></tr>
-<tr class="memdesc:ac3f6e20f88982fbb59a80f9a1b67dfdd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Durée écoulée, en secondes.  <br /></td></tr>
-<tr class="memitem:abd29a70dbe17218e0dc84beb9f69e056" id="r_abd29a70dbe17218e0dc84beb9f69e056"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#abd29a70dbe17218e0dc84beb9f69e056">formatElapsed</a> (float seconds)</td></tr>
-<tr class="memdesc:abd29a70dbe17218e0dc84beb9f69e056"><td class="mdescLeft">&#160;</td><td class="mdescRight">Met une durée en forme <span class="tt">m:ss</span>, ou <span class="tt">h:mm:ss</span> au-delà de l'heure.  <br /></td></tr>
-<tr class="memitem:a9a410292879939089d6bf584f60d60e6" id="r_a9a410292879939089d6bf584f60d60e6"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a9a410292879939089d6bf584f60d60e6">isLevelUnlocked</a> (const <a class="el" href="classhmi_1_1Progression.html">Progression</a> &amp;progression, const std::vector&lt; std::string &gt; &amp;sequence, const std::string &amp;levelName)</td></tr>
-<tr class="memdesc:a9a410292879939089d6bf584f60d60e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Règle de déverrouillage (<span class="tt">LOT-59</span> TACHE-06, <span class="tt">EX-IHM-005</span>) : fonction <b>pure</b>, seule source de vérité sur ce qui est jouable &ndash; un écran ne fait que l'afficher, jamais sa propre condition.  <br /></td></tr>
-<tr class="memitem:a5b07931e9a29f7bcbffef65e91c124b0" id="r_a5b07931e9a29f7bcbffef65e91c124b0"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a5b07931e9a29f7bcbffef65e91c124b0">isLevelPlayable</a> (const <a class="el" href="classhmi_1_1Progression.html">Progression</a> &amp;progression, const std::vector&lt; std::string &gt; &amp;sequence, const std::string &amp;levelName)</td></tr>
-<tr class="memdesc:a5b07931e9a29f7bcbffef65e91c124b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Variante utilisée par l'IHM (affichage de l'écran de sélection ET garde au lancement, <span class="tt">LOT-70</span>) : identique à <span class="tt"><a class="el" href="#a9a410292879939089d6bf584f60d60e6" title="Règle de déverrouillage (LOT-59 TACHE-06, EX-IHM-005) : fonction pure, seule source de vérité sur ce ...">isLevelUnlocked</a></span>, sauf en build de <b>développement</b> (<span class="tt"><a class="el" href="namespacecore.html#affbaf55db3c297c638c8399aa855dbfe" title="Vrai dans les builds de développement (Debug), faux en Release.">core::DEVELOPER_BUILD</a></span>, <span class="tt"><a class="el" href="BuildConfig_8h.html" title="Indicateurs de configuration de build (développement vs release).">Core/BuildConfig.h</a></span>) où elle retourne toujours vrai &ndash; pour tester un tableau donné sans rejouer toute la séquence depuis le début à chaque lancement.  <br /></td></tr>
 <tr class="memitem:ab940bcb1480c0e6616726dd361be3c1d" id="r_ab940bcb1480c0e6616726dd361be3c1d"><td class="memItemLeft">const char *&#160;</td><td class="memItemRight"><a class="el" href="#ab940bcb1480c0e6616726dd361be3c1d">assetFamilyName</a> (<a class="el" href="#a0030e1768b551f6d1bc0a9fa566d2003">AssetFamily</a> family) noexcept</td></tr>
 <tr class="memdesc:ab940bcb1480c0e6616726dd361be3c1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nom lisible d'une famille d'assets, utilisé dans les messages de journalisation.  <br /></td></tr>
 <tr class="memitem:a842c2e980bf7c8686d4a549d583d6866" id="r_a842c2e980bf7c8686d4a549d583d6866"><td class="memItemLeft"><a class="el" href="structhmi_1_1AssetDimensionContract.html">AssetDimensionContract</a>&#160;</td><td class="memItemRight"><a class="el" href="#a842c2e980bf7c8686d4a549d583d6866">assetDimensionContract</a> (<a class="el" href="#a0030e1768b551f6d1bc0a9fa566d2003">AssetFamily</a> family) noexcept</td></tr>
@@ -1258,10 +1278,25 @@ Functions</h2></td></tr>
 <tr class="memdesc:ad5bcff7f69e584df822fc896a9a979cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compose la ligne de rappels en texte enrichi.  <br /></td></tr>
 <tr class="memitem:a1ebed041b4b817775b645ae6d51ea778" id="r_a1ebed041b4b817775b645ae6d51ea778"><td class="memItemLeft">std::vector&lt; <a class="el" href="structhmi_1_1BackdropQuad.html">BackdropQuad</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a1ebed041b4b817775b645ae6d51ea778">menuBackdropQuads</a> (int width, int height, int scale)</td></tr>
 <tr class="memdesc:a1ebed041b4b817775b645ae6d51ea778"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pavés du décor, dans l'<b>ordre de dessin</b> (les derniers recouvrent les premiers).  <br /></td></tr>
+<tr class="memitem:afb15abd558357b81975c9f1b10473f38" id="r_afb15abd558357b81975c9f1b10473f38"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#afb15abd558357b81975c9f1b10473f38">paintOrnaments</a> (QPainter &amp;painter, const std::vector&lt; <a class="el" href="structhmi_1_1OrnamentShape.html">OrnamentShape</a> &gt; &amp;shapes, const QPoint &amp;origin)</td></tr>
+<tr class="memdesc:afb15abd558357b81975c9f1b10473f38"><td class="mdescLeft">&#160;</td><td class="mdescRight">Peint les formes de <code class="param">shapes</code>, translatées de <code class="param">origin</code>.  <br /></td></tr>
+<tr class="memitem:a45ffc40cf32dc17c3c53721ff78b1d90" id="r_a45ffc40cf32dc17c3c53721ff78b1d90"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a45ffc40cf32dc17c3c53721ff78b1d90">parchmentFrameCorner</a> (int width, int height, int scale)</td></tr>
+<tr class="memdesc:a45ffc40cf32dc17c3c53721ff78b1d90"><td class="mdescLeft">&#160;</td><td class="mdescRight">Côté du <b>cabochon d'angle</b> d'un encadrement de <code class="param">width</code> × <code class="param">height</code>, en pixels.  <br /></td></tr>
 <tr class="memitem:addf3903688875c48beebeda82ec7daf5" id="r_addf3903688875c48beebeda82ec7daf5"><td class="memItemLeft">std::vector&lt; <a class="el" href="structhmi_1_1ParchmentStroke.html">ParchmentStroke</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#addf3903688875c48beebeda82ec7daf5">parchmentFrameStrokes</a> (int width, int height, int scale)</td></tr>
 <tr class="memdesc:addf3903688875c48beebeda82ec7daf5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bandes composant un encadrement, dans l'<b>ordre de dessin</b> (les dernières recouvrent les premières).  <br /></td></tr>
 <tr class="memitem:a55b861e9c4e75fd753ec919a062940fc" id="r_a55b861e9c4e75fd753ec919a062940fc"><td class="memItemLeft">std::vector&lt; <a class="el" href="structhmi_1_1ParchmentPoint.html">ParchmentPoint</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a55b861e9c4e75fd753ec919a062940fc">focusFleuronPoints</a> (int size)</td></tr>
 <tr class="memdesc:a55b861e9c4e75fd753ec919a062940fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sommets du <b>fleuron de focus</b> — une pointe pleine tournée vers la droite, inscrite dans un carré de côté <code class="param">size</code> (<span class="tt">LOT-66</span>, <span class="tt">EX-IHM-071</span>).  <br /></td></tr>
+<tr class="memitem:a0d244a21dbfe1f90cb0df09f356e933e" id="r_a0d244a21dbfe1f90cb0df09f356e933e"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a0d244a21dbfe1f90cb0df09f356e933e">bannerWingSpan</a> (int height)</td></tr>
+<tr class="memdesc:a0d244a21dbfe1f90cb0df09f356e933e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Envergure d'une aile pour un bandeau de <code class="param">height</code> pixels de haut — exposée pour que la mise en page réserve la place du titre <b>entre</b> les ailes plutôt que par-dessus.  <br /></td></tr>
+<tr class="memitem:a533707d1b488af487db2d8ba55917e23" id="r_a533707d1b488af487db2d8ba55917e23"><td class="memItemLeft">std::vector&lt; <a class="el" href="structhmi_1_1OrnamentShape.html">OrnamentShape</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a533707d1b488af487db2d8ba55917e23">cabochonShapes</a> (int size)</td></tr>
+<tr class="memdesc:a533707d1b488af487db2d8ba55917e23"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cabochon d'angle : un grenat taillé, serti d'or, inscrit dans un carré de côté <code class="param">size</code>.  <br /></td></tr>
+<tr class="memitem:ad064e631e040400bdf725766b3dabd4c" id="r_ad064e631e040400bdf725766b3dabd4c"><td class="memItemLeft">std::vector&lt; <a class="el" href="structhmi_1_1OrnamentShape.html">OrnamentShape</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#ad064e631e040400bdf725766b3dabd4c">titleBannerShapes</a> (int width, int height)</td></tr>
+<tr class="memdesc:ad064e631e040400bdf725766b3dabd4c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bandeau de titre : une plaque de grenat à chevrons, entre deux ailes d'or.  <br /></td></tr>
+<tr class="memitem:a74752c1a9d7b1d3e8da19eec82c397be" id="r_a74752c1a9d7b1d3e8da19eec82c397be"><td class="memItemLeft">std::span&lt; const <a class="el" href="structhmi_1_1RpgScreenDescriptor.html">RpgScreenDescriptor</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a74752c1a9d7b1d3e8da19eec82c397be">rpgScreens</a> () noexcept</td></tr>
+<tr class="memitem:aadabcaf08acb48c29dc437f3bd2f47ce" id="r_aadabcaf08acb48c29dc437f3bd2f47ce"><td class="memItemLeft">const <a class="el" href="structhmi_1_1RpgScreenDescriptor.html">RpgScreenDescriptor</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#aadabcaf08acb48c29dc437f3bd2f47ce">rpgScreenDescriptor</a> (<a class="el" href="#a86e4ce6097c7a029c683096302528e72">RpgScreenId</a> screen) noexcept</td></tr>
+<tr class="memitem:a9eed4f2ad079e39eb5f17daf66defe91" id="r_a9eed4f2ad079e39eb5f17daf66defe91"><td class="memItemLeft"><a class="el" href="#a86e4ce6097c7a029c683096302528e72">RpgScreenId</a>&#160;</td><td class="memItemRight"><a class="el" href="#a9eed4f2ad079e39eb5f17daf66defe91">nextRpgScreen</a> (<a class="el" href="#a86e4ce6097c7a029c683096302528e72">RpgScreenId</a> screen) noexcept</td></tr>
+<tr class="memitem:ad41bb1dd00388cd216ed0adc326d0e5e" id="r_ad41bb1dd00388cd216ed0adc326d0e5e"><td class="memItemLeft"><a class="el" href="#a86e4ce6097c7a029c683096302528e72">RpgScreenId</a>&#160;</td><td class="memItemRight"><a class="el" href="#ad41bb1dd00388cd216ed0adc326d0e5e">previousRpgScreen</a> (<a class="el" href="#a86e4ce6097c7a029c683096302528e72">RpgScreenId</a> screen) noexcept</td></tr>
+<tr class="memitem:af90277096862529748e78023af0d654e" id="r_af90277096862529748e78023af0d654e"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#af90277096862529748e78023af0d654e">pausesGame</a> (<a class="el" href="#a86e4ce6097c7a029c683096302528e72">RpgScreenId</a> screen) noexcept</td></tr>
 <tr class="memitem:a7e42ffeba1ac86e0a292c24dc3b99f94" id="r_a7e42ffeba1ac86e0a292c24dc3b99f94"><td class="memItemLeft"><a class="el" href="structhmi_1_1ScreenDressing.html">ScreenDressing</a>&#160;</td><td class="memItemRight"><a class="el" href="#a7e42ffeba1ac86e0a292c24dc3b99f94">dressingFor</a> (<a class="el" href="#a168b24f798c2e6d06beb9472a071528d">ScreenId</a> screen) noexcept</td></tr>
 <tr class="memitem:adbeed25b15bad59211fcea357825feec" id="r_adbeed25b15bad59211fcea357825feec"><td class="memItemLeft">std::optional&lt; <a class="el" href="structhmi_1_1ScreenState.html">ScreenState</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#adbeed25b15bad59211fcea357825feec">resolveTransition</a> (const <a class="el" href="structhmi_1_1ScreenState.html">ScreenState</a> &amp;current, <a class="el" href="#a964211f19cf43757eaaa80c3c29b0e90">ScreenEvent</a> event) noexcept</td></tr>
 <tr class="memdesc:adbeed25b15bad59211fcea357825feec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Résout une transition d'écran à partir de l'état courant et d'un événement.  <br /></td></tr>
@@ -1309,7 +1344,7 @@ Variables</h2></td></tr>
 <tr class="memdesc:abe6ca49f68758c7bf9ba0beffeb4619d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extension des fichiers de plan. Un plan est une image, toujours écrite en PNG.  <br /></td></tr>
 <tr class="memitem:afe37194ec48fcceeedcad65b760773b9" id="r_afe37194ec48fcceeedcad65b760773b9"><td class="memItemLeft">constexpr float&#160;</td><td class="memItemRight"><a class="el" href="#afe37194ec48fcceeedcad65b760773b9">DIAGNOSTICS_FPS_WINDOW_SECONDS</a> = 0.5f</td></tr>
 <tr class="memdesc:afe37194ec48fcceeedcad65b760773b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fenêtre de la moyenne glissante de cadence, en secondes : assez courte pour rester réactive à une vraie dégradation, assez longue pour lisser le bruit d'une image à l'autre.  <br /></td></tr>
-<tr class="memitem:aab9ebfc2ebacc5718532a560bfd830ea" id="r_aab9ebfc2ebacc5718532a560bfd830ea"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#aab9ebfc2ebacc5718532a560bfd830ea">GAME_EVENT_COUNT</a> = static_cast&lt;int&gt;(<a class="el" href="#a3a61aed1c8e95c289c829398d48488dea567a1ba73d183dc7f9b7c047a7da7e40">GameEvent::SequenceCompleted</a>) + 1</td></tr>
+<tr class="memitem:aab9ebfc2ebacc5718532a560bfd830ea" id="r_aab9ebfc2ebacc5718532a560bfd830ea"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#aab9ebfc2ebacc5718532a560bfd830ea">GAME_EVENT_COUNT</a> = static_cast&lt;int&gt;(<a class="el" href="#a3a61aed1c8e95c289c829398d48488dea99db5176aa7f82eeb3e4dff344934eeb">GameEvent::PauseOpened</a>) + 1</td></tr>
 <tr class="memdesc:aab9ebfc2ebacc5718532a560bfd830ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nombre de valeurs de <span class="tt"><a class="el" href="#a3a61aed1c8e95c289c829398d48488de" title="Événement discret survenu sur un pas de simulation ou une action d&#39;interface.">GameEvent</a></span> — pour les tests d'exhaustivité (parcours de l'énumération).  <br /></td></tr>
 <tr class="memitem:a5d007c47b6f8696b0b71cf94afe65d18" id="r_a5d007c47b6f8696b0b71cf94afe65d18"><td class="memItemLeft">const std::string&#160;</td><td class="memItemRight"><a class="el" href="#a5d007c47b6f8696b0b71cf94afe65d18">FONTS_SUBDIRECTORY</a> = &quot;Fonts/&quot;</td></tr>
 <tr class="memdesc:a5d007c47b6f8696b0b71cf94afe65d18"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sous-dossier des assets de police, relatif au dossier d'assets (<span class="tt">LOT-52</span>).  <br /></td></tr>
@@ -1418,6 +1453,12 @@ Variables</h2></td></tr>
 <tr class="memdesc:a6c2bbdc696241bb46c4baf26759c5314"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nombre de bandes du voile.  <br /></td></tr>
 <tr class="memitem:ae9ed7690d4c8521dfcb82be2d3389860" id="r_ae9ed7690d4c8521dfcb82be2d3389860"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#ae9ed7690d4c8521dfcb82be2d3389860">PARCHMENT_FRAME_UNITS</a> = 3</td></tr>
 <tr class="memdesc:ae9ed7690d4c8521dfcb82be2d3389860"><td class="mdescLeft">&#160;</td><td class="mdescRight">Épaisseur totale de l'encadrement, en <b>unités de maquette</b> : trait, réserve de parchemin, filet.  <br /></td></tr>
+<tr class="memitem:af1ae6f7ec7bfe9e7b3f8198180717c5c" id="r_af1ae6f7ec7bfe9e7b3f8198180717c5c"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#af1ae6f7ec7bfe9e7b3f8198180717c5c">PARCHMENT_CABOCHON_FACTOR</a> = 2</td></tr>
+<tr class="memdesc:af1ae6f7ec7bfe9e7b3f8198180717c5c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Facteur de débord du <b>cabochon</b> sur le carré d'angle qu'il habille (<span class="tt">LOT-76</span>).  <br /></td></tr>
+<tr class="memitem:a9c1595bc09ef4f786e40bc32c594a1fc" id="r_a9c1595bc09ef4f786e40bc32c594a1fc"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#a9c1595bc09ef4f786e40bc32c594a1fc">ORNAMENT_MINIMUM_SIZE</a> = 8</td></tr>
+<tr class="memdesc:a9c1595bc09ef4f786e40bc32c594a1fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Côté minimal, en pixels, sous lequel un cabochon n'est plus qu'une tache.  <br /></td></tr>
+<tr class="memitem:a93db3bafe6aeaebee6e483836f313055" id="r_a93db3bafe6aeaebee6e483836f313055"><td class="memItemLeft">constexpr std::size_t&#160;</td><td class="memItemRight"><a class="el" href="#a93db3bafe6aeaebee6e483836f313055">RPG_SCREEN_COUNT</a> = 8</td></tr>
+<tr class="memdesc:a93db3bafe6aeaebee6e483836f313055"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nombre d'écrans du catalogue. Dérivé de la table, jamais écrit deux fois.  <br /></td></tr>
 </table>
 <a name="doc-typedef-members" id="doc-typedef-members"></a><h2 id="header-doc-typedef-members" class="groupheader">Typedef Documentation</h2>
 <a id="ab8a3c6d8e00f86576f71c0b2a4e494d4" name="ab8a3c6d8e00f86576f71c0b2a4e494d4"></a>
@@ -1975,12 +2016,13 @@ Variables</h2></td></tr>
 <tr><td class="fieldname"><a id="a3a61aed1c8e95c289c829398d48488dea1dcbd75ed42921b33c5894d72929b5c4" name="a3a61aed1c8e95c289c829398d48488dea1dcbd75ed42921b33c5894d72929b5c4"></a>PressurePlateReleased&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a3a61aed1c8e95c289c829398d48488dea00f3be69446cf709343350f087ad6bc3" name="a3a61aed1c8e95c289c829398d48488dea00f3be69446cf709343350f087ad6bc3"></a>BlockPushed&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a3a61aed1c8e95c289c829398d48488deab4ee54591aaa4862bf37f75f6839b514" name="a3a61aed1c8e95c289c829398d48488deab4ee54591aaa4862bf37f75f6839b514"></a>Died&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a3a61aed1c8e95c289c829398d48488deaf3f8a8d70e59a2f75919906f9429e8c2" name="a3a61aed1c8e95c289c829398d48488deaf3f8a8d70e59a2f75919906f9429e8c2"></a>LevelCompleted&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a3a61aed1c8e95c289c829398d48488deab76a553b4ac780a1cb3a18dbc27099e7" name="a3a61aed1c8e95c289c829398d48488deab76a553b4ac780a1cb3a18dbc27099e7"></a>ExitReached&#160;</td><td class="fielddoc"><p>La sortie de la carte a été atteinte. </p>
+<p><b>Ne termine plus rien</b> depuis le <span class="tt">LOT-67</span> : le bac à sable n'a pas de tableau à finir. Elle redeviendra une transition vers la carte que le graphe du <span class="tt">LOT-09</span> désignera. </p>
+</td></tr>
 <tr><td class="fieldname"><a id="a3a61aed1c8e95c289c829398d48488deafd86c459659a739b791b3acf8590136e" name="a3a61aed1c8e95c289c829398d48488deafd86c459659a739b791b3acf8590136e"></a>MenuNavigate&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a3a61aed1c8e95c289c829398d48488deae6154a82aac2fc1033c897088faff888" name="a3a61aed1c8e95c289c829398d48488deae6154a82aac2fc1033c897088faff888"></a>MenuConfirm&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a3a61aed1c8e95c289c829398d48488dea5a7251d0a3e040de33dc48e78d49c010" name="a3a61aed1c8e95c289c829398d48488dea5a7251d0a3e040de33dc48e78d49c010"></a>MenuBack&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a3a61aed1c8e95c289c829398d48488dea99db5176aa7f82eeb3e4dff344934eeb" name="a3a61aed1c8e95c289c829398d48488dea99db5176aa7f82eeb3e4dff344934eeb"></a>PauseOpened&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a3a61aed1c8e95c289c829398d48488dea567a1ba73d183dc7f9b7c047a7da7e40" name="a3a61aed1c8e95c289c829398d48488dea567a1ba73d183dc7f9b7c047a7da7e40"></a>SequenceCompleted&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
 </div>
@@ -2161,36 +2203,6 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a9b98e769ab5ebdffe34a30c4b431ff7c" name="a9b98e769ab5ebdffe34a30c4b431ff7c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9b98e769ab5ebdffe34a30c4b431ff7c">&#9670;&#160;</a></span>LevelSelectState</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum class <a class="el" href="#a9b98e769ab5ebdffe34a30c4b431ff7c">hmi::LevelSelectState</a></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>État d'un tableau de séquence dans la liste (<span class="tt"><a class="el" href="classhmi_1_1LevelSelectScreen.html#ae1a3504c3144a05d08cf8805e91b5a8a" title="Remplit l&#39;onglet Séquence : une ligne par tableau de sequence, dans l&#39;ordre, avec son état (hmi::isLe...">LevelSelectScreen::setSequenceLevels</a></span>) &ndash; résolu une fois par <span class="tt"><a class="el" href="#a5b07931e9a29f7bcbffef65e91c124b0" title="Variante utilisée par l&#39;IHM (affichage de l&#39;écran de sélection ET garde au lancement,...">hmi::isLevelPlayable</a></span>/<span class="tt"><a class="el" href="classhmi_1_1Progression.html#a8e868a89a51f89b4c9bf68b791952f61">Progression::isCompleted</a></span>, jamais recalculé par ce widget (qui ne connaît ni <span class="tt"><a class="el" href="classhmi_1_1Progression.html" title="Progression dans une séquence de niveaux : tableaux terminés et tableau atteint (celui où reprendre),...">Progression</a></span> ni la règle de déverrouillage). </p>
-<table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a9b98e769ab5ebdffe34a30c4b431ff7ca07ca5050e697392c9ed47e6453f1453f" name="a9b98e769ab5ebdffe34a30c4b431ff7ca07ca5050e697392c9ed47e6453f1453f"></a>Completed&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a9b98e769ab5ebdffe34a30c4b431ff7ca222a267cc5778206b253be35ee3ddab5" name="a9b98e769ab5ebdffe34a30c4b431ff7ca222a267cc5778206b253be35ee3ddab5"></a>Current&#160;</td><td class="fielddoc"><p>Jouable, pas encore terminé (le tableau atteint). </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a9b98e769ab5ebdffe34a30c4b431ff7cad0f2e5376298c880665077b565ffd7dd" name="a9b98e769ab5ebdffe34a30c4b431ff7cad0f2e5376298c880665077b565ffd7dd"></a>Locked&#160;</td><td class="fielddoc"></td></tr>
-</table>
-
-</div>
-</div>
 <a id="ace704959d626f266592987f16eb2f3d5" name="ace704959d626f266592987f16eb2f3d5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ace704959d626f266592987f16eb2f3d5">&#9670;&#160;</a></span>LinkGestureAction</h2>
 
@@ -2307,6 +2319,42 @@ Variables</h2></td></tr>
 <tr><td class="fieldname"><a id="a904bd9605b7079403b098a5e97e9726eacb74c4b7fffb91a3bb82742c2f5383b4" name="a904bd9605b7079403b098a5e97e9726eacb74c4b7fffb91a3bb82742c2f5383b4"></a>NEIGHBOR_DOWN&#160;</td><td class="fielddoc"><p>Voisin du dessous solide. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a904bd9605b7079403b098a5e97e9726ea68f6464eef6db912e7119136d0434a4e" name="a904bd9605b7079403b098a5e97e9726ea68f6464eef6db912e7119136d0434a4e"></a>NEIGHBOR_LEFT&#160;</td><td class="fielddoc"><p>Voisin de gauche solide. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="a369c89ce919372e6e2647a9e0c6ea5e0" name="a369c89ce919372e6e2647a9e0c6ea5e0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a369c89ce919372e6e2647a9e0c6ea5e0">&#9670;&#160;</a></span>OrnamentRole</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="#a369c89ce919372e6e2647a9e0c6ea5e0">hmi::OrnamentRole</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Rôle de couleur d'une forme, résolu depuis les jetons de la portée identité au moment du rendu. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a369c89ce919372e6e2647a9e0c6ea5e0ae4a297a0f76119a442c2595ac040673e" name="a369c89ce919372e6e2647a9e0c6ea5e0ae4a297a0f76119a442c2595ac040673e"></a>Edge&#160;</td><td class="fielddoc"><p>Trait extérieur d'encre (<span class="tt">frameEdge</span>). </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a369c89ce919372e6e2647a9e0c6ea5e0ae4d7e2fff97ef663babce3cf0e3108a3" name="a369c89ce919372e6e2647a9e0c6ea5e0ae4d7e2fff97ef663babce3cf0e3108a3"></a>Ornament&#160;</td><td class="fielddoc"><p>Or du serti, des filets et des ailes (<span class="tt">frameOrnament</span>). </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a369c89ce919372e6e2647a9e0c6ea5e0a97246e79b82f4fb4d7595a80b91f3f9f" name="a369c89ce919372e6e2647a9e0c6ea5e0a97246e79b82f4fb4d7595a80b91f3f9f"></a>OrnamentLight&#160;</td><td class="fielddoc"><p>Éclat d'or : facette éclairée, reflet (<span class="tt">accentHover</span>). </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a369c89ce919372e6e2647a9e0c6ea5e0a65ce9d2fa1e9c3598206e6f2ec1d7a95" name="a369c89ce919372e6e2647a9e0c6ea5e0a65ce9d2fa1e9c3598206e6f2ec1d7a95"></a>Gem&#160;</td><td class="fielddoc"><p>Facette éclairée de la gemme (<span class="tt">gem</span>). </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a369c89ce919372e6e2647a9e0c6ea5e0ae2a97f1c4ef478e33be5d7829ce54de4" name="a369c89ce919372e6e2647a9e0c6ea5e0ae2a97f1c4ef478e33be5d7829ce54de4"></a>GemShadow&#160;</td><td class="fielddoc"><p>Facette en profondeur, fond de plaque (<span class="tt">gemShadow</span>). </p>
 </td></tr>
 </table>
 
@@ -2624,6 +2672,121 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="a0076ce0092efe8d8df165966481a5830" name="a0076ce0092efe8d8df165966481a5830"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0076ce0092efe8d8df165966481a5830">&#9670;&#160;</a></span>RpgBlockKind</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="#a0076ce0092efe8d8df165966481a5830">hmi::RpgBlockKind</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Genres de blocs que le châssis sait peindre. </p>
+<p>Volontairement peu nombreux : sept formes suffisent aux huit écrans, et un genre ajouté pour un seul écran est le premier pas vers huit écrans écrits à la main. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a0076ce0092efe8d8df165966481a5830aa4ca5edd20d0b5d502ebece575681f58" name="a0076ce0092efe8d8df165966481a5830aa4ca5edd20d0b5d502ebece575681f58"></a>Fields&#160;</td><td class="fielddoc"><p>Lignes « libellé → valeur ». <span class="tt">labelKeys</span> en donne les libellés. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a0076ce0092efe8d8df165966481a5830a5174d1309f275ba6f275db3af9eb3e18" name="a0076ce0092efe8d8df165966481a5830a5174d1309f275ba6f275db3af9eb3e18"></a>Grid&#160;</td><td class="fielddoc"><p>Grille de cases vides (sac, caractéristiques) : <span class="tt">columns</span> x <span class="tt">rows</span>. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a0076ce0092efe8d8df165966481a5830a4ee29ca12c7d126654bd0e5275de6135" name="a0076ce0092efe8d8df165966481a5830a4ee29ca12c7d126654bd0e5275de6135"></a>List&#160;</td><td class="fielddoc"><p>Liste d'entrées vides (quêtes, marchandises) : <span class="tt">rows</span> lignes. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a0076ce0092efe8d8df165966481a5830a3e2ad77ed860b43505ddc4ee592c3122" name="a0076ce0092efe8d8df165966481a5830a3e2ad77ed860b43505ddc4ee592c3122"></a>Prose&#160;</td><td class="fielddoc"><p>Bloc de texte suivi (réplique, description de contrat). </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a0076ce0092efe8d8df165966481a5830a1c7444be9626d149ab598fb79b639f96" name="a0076ce0092efe8d8df165966481a5830a1c7444be9626d149ab598fb79b639f96"></a>Portrait&#160;</td><td class="fielddoc"><p>Cadre d'illustration carré (interlocuteur, blason). </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a0076ce0092efe8d8df165966481a5830a92ea731d3af6677905303c88689f5d55" name="a0076ce0092efe8d8df165966481a5830a92ea731d3af6677905303c88689f5d55"></a>Track&#160;</td><td class="fielddoc"><p>Suite horizontale de jetons (ordre d'initiative) : <span class="tt">columns</span> jetons. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a0076ce0092efe8d8df165966481a5830af5b62b875edf01a271e9dd5b199bad64" name="a0076ce0092efe8d8df165966481a5830af5b62b875edf01a271e9dd5b199bad64"></a>ActionBar&#160;</td><td class="fielddoc"><p>Barre d'actions : <span class="tt">columns</span> cases larges, alignées en bas. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="a86e4ce6097c7a029c683096302528e72" name="a86e4ce6097c7a029c683096302528e72"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a86e4ce6097c7a029c683096302528e72">&#9670;&#160;</a></span>RpgScreenId</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="#a86e4ce6097c7a029c683096302528e72">hmi::RpgScreenId</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Les huit écrans du RPG. </p>
+<p>L'ordre est celui du <b>cycle</b> de navigation (<span class="tt"><a class="el" href="#a9eed4f2ad079e39eb5f17daf66defe91">nextRpgScreen</a></span>/<span class="tt"><a class="el" href="#ad41bb1dd00388cd216ed0adc326d0e5e">previousRpgScreen</a></span>) et celui de la table de <span class="tt"><a class="el" href="#a74752c1a9d7b1d3e8da19eec82c397be">rpgScreens()</a></span>. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a86e4ce6097c7a029c683096302528e72aeb7e99d2187282628ef8b4c20cf7a714" name="a86e4ce6097c7a029c683096302528e72aeb7e99d2187282628ef8b4c20cf7a714"></a>CharacterSheet&#160;</td><td class="fielddoc"><p>Fiche de personnage (remplie par le <span class="tt">LOT-38</span>). </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a86e4ce6097c7a029c683096302528e72a4d604dd8f008145471dc845683399189" name="a86e4ce6097c7a029c683096302528e72a4d604dd8f008145471dc845683399189"></a>Inventory&#160;</td><td class="fielddoc"><p>Inventaire et équipement (<span class="tt">LOT-14</span>). </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a86e4ce6097c7a029c683096302528e72aafebbeedc0c1e6ef23639958ccfc4e93" name="a86e4ce6097c7a029c683096302528e72aafebbeedc0c1e6ef23639958ccfc4e93"></a>QuestJournal&#160;</td><td class="fielddoc"><p>Journal de quêtes (<span class="tt">LOT-16</span>). </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a86e4ce6097c7a029c683096302528e72ade45fe3bb002bd16009ebd8331e35146" name="a86e4ce6097c7a029c683096302528e72ade45fe3bb002bd16009ebd8331e35146"></a>WorldMap&#160;</td><td class="fielddoc"><p>Carte du monde (<span class="tt">LOT-42</span>). </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a86e4ce6097c7a029c683096302528e72a359928afdf6c973ee869e1698023a812" name="a86e4ce6097c7a029c683096302528e72a359928afdf6c973ee869e1698023a812"></a>Dialogue&#160;</td><td class="fielddoc"><p>Dialogue avec un PNJ (<span class="tt">LOT-15</span>). </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a86e4ce6097c7a029c683096302528e72a896890bfb700eac98300d639ca970f2b" name="a86e4ce6097c7a029c683096302528e72a896890bfb700eac98300d639ca970f2b"></a>Merchant&#160;</td><td class="fielddoc"><p>Marchand (<span class="tt">LOT-26</span>). </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a86e4ce6097c7a029c683096302528e72ab45d4262677771f2c5e9a59301287d99" name="a86e4ce6097c7a029c683096302528e72ab45d4262677771f2c5e9a59301287d99"></a>GuildBoard&#160;</td><td class="fielddoc"><p>Tableau de la Guilde des Aventuriers (<span class="tt">LOT-45</span>). </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a86e4ce6097c7a029c683096302528e72a24a64995097c2618f6232d44c3b135ff" name="a86e4ce6097c7a029c683096302528e72a24a64995097c2618f6232d44c3b135ff"></a>CombatHud&#160;</td><td class="fielddoc"><p>Affichage tête haute de combat (<span class="tt">LOT-24</span>). </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="a3222e3cf5f453d3a55c104456a615430" name="a3222e3cf5f453d3a55c104456a615430"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3222e3cf5f453d3a55c104456a615430">&#9670;&#160;</a></span>RpgSuperposition</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="#a3222e3cf5f453d3a55c104456a615430">hmi::RpgSuperposition</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Règle de <b>superposition</b> d'un écran (<span class="tt">EX-IHM-091</span>) : ce qui met le jeu en pause et ce qui se consulte en marchant. </p>
+<p>Portée par la <b>description</b> de l'écran, jamais par le code qui l'ouvre : une règle décidée à l'ouverture se contredit d'un point d'appel à l'autre, et personne ne peut la relire d'un coup d'œil. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a3222e3cf5f453d3a55c104456a615430aeeed228a1530b74c9d193195034781e9" name="a3222e3cf5f453d3a55c104456a615430aeeed228a1530b74c9d193195034781e9"></a>PausesGame&#160;</td><td class="fielddoc"><p>La simulation est <b>suspendue</b> tant que l'écran est ouvert : on ne lit pas sa fiche en esquivant un gobelin. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a3222e3cf5f453d3a55c104456a615430a56876e48dbe57b9eb2e66e54c6576eaf" name="a3222e3cf5f453d3a55c104456a615430a56876e48dbe57b9eb2e66e54c6576eaf"></a>WhileWalking&#160;</td><td class="fielddoc"><p>L'écran se consulte <b>en marchant</b> : la simulation continue derrière lui. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
 <a id="a964211f19cf43757eaaa80c3c29b0e90" name="a964211f19cf43757eaaa80c3c29b0e90"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a964211f19cf43757eaaa80c3c29b0e90">&#9670;&#160;</a></span>ScreenEvent</h2>
 
@@ -2654,17 +2817,13 @@ Variables</h2></td></tr>
 <tr><td class="fieldname"><a id="a964211f19cf43757eaaa80c3c29b0e90af2716483b5771d31e4a519c28698c1bc" name="a964211f19cf43757eaaa80c3c29b0e90af2716483b5771d31e4a519c28698c1bc"></a>CloseOptions&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a964211f19cf43757eaaa80c3c29b0e90af0a5454dd6871865bf5bf5b7821b9f0b" name="a964211f19cf43757eaaa80c3c29b0e90af0a5454dd6871865bf5bf5b7821b9f0b"></a>OpenPause&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a964211f19cf43757eaaa80c3c29b0e90a6fcb6d479b0eff2ecd8ae8ddb68ee698" name="a964211f19cf43757eaaa80c3c29b0e90a6fcb6d479b0eff2ecd8ae8ddb68ee698"></a>ResumePause&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a964211f19cf43757eaaa80c3c29b0e90a47885a6c92dfdbb5094ec2c6387f036c" name="a964211f19cf43757eaaa80c3c29b0e90a47885a6c92dfdbb5094ec2c6387f036c"></a>RestartFromPause&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a964211f19cf43757eaaa80c3c29b0e90a43f174deff25b40c0b1cce8de97adc45" name="a964211f19cf43757eaaa80c3c29b0e90a43f174deff25b40c0b1cce8de97adc45"></a>QuitPauseToMenu&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a964211f19cf43757eaaa80c3c29b0e90a2ed691b2dc2baf642829bfedaf122303" name="a964211f19cf43757eaaa80c3c29b0e90a2ed691b2dc2baf642829bfedaf122303"></a>LevelSucceeded&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a964211f19cf43757eaaa80c3c29b0e90a62ddadfd957f264328ee5967d3253e84" name="a964211f19cf43757eaaa80c3c29b0e90a62ddadfd957f264328ee5967d3253e84"></a>ContinueAfterLevel&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a964211f19cf43757eaaa80c3c29b0e90a186777586b8dd797a18e30e07979d53c" name="a964211f19cf43757eaaa80c3c29b0e90a186777586b8dd797a18e30e07979d53c"></a>ReplayLevel&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a964211f19cf43757eaaa80c3c29b0e90a9c75b658e80869557fd79c3384167d4a" name="a964211f19cf43757eaaa80c3c29b0e90a9c75b658e80869557fd79c3384167d4a"></a>ReturnToMenuFromLevelComplete&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a964211f19cf43757eaaa80c3c29b0e90a9c9c573d9ed480bd96f863bfedcf5e08" name="a964211f19cf43757eaaa80c3c29b0e90a9c9c573d9ed480bd96f863bfedcf5e08"></a>OpenLevelSelect&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a964211f19cf43757eaaa80c3c29b0e90ab8d67e3fbaeb7b592150799fe3c63921" name="a964211f19cf43757eaaa80c3c29b0e90ab8d67e3fbaeb7b592150799fe3c63921"></a>CloseLevelSelect&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a964211f19cf43757eaaa80c3c29b0e90acf7b8208a0c2708351e67f4ac50d96d5" name="a964211f19cf43757eaaa80c3c29b0e90acf7b8208a0c2708351e67f4ac50d96d5"></a>LevelChosen&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a964211f19cf43757eaaa80c3c29b0e90a2a1540e25ac6f65503d2539901c3eb7c" name="a964211f19cf43757eaaa80c3c29b0e90a2a1540e25ac6f65503d2539901c3eb7c"></a>OpenCredits&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a964211f19cf43757eaaa80c3c29b0e90a64b9ec7c728085981f7746660948ed17" name="a964211f19cf43757eaaa80c3c29b0e90a64b9ec7c728085981f7746660948ed17"></a>CloseCredits&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a964211f19cf43757eaaa80c3c29b0e90adb28cc1642bf3c7166e5556e54c9752b" name="a964211f19cf43757eaaa80c3c29b0e90adb28cc1642bf3c7166e5556e54c9752b"></a>OpenRpgScreen&#160;</td><td class="fielddoc"><p>Ouvre un écran du RPG. </p>
+<p>Un seul événement pour les huit, et depuis trois écrans (Menu, Game, Pause) : c'est <span class="tt"><a class="el" href="structhmi_1_1ScreenState.html#a35d36781ddd45df8818932eb54d7a616" title="Écran vers lequel CloseRpgScreen revient (Menu, Game ou Pause, selon l&#39;origine).">ScreenState::rpgReturnTo</a></span> qui porte la différence, comme <span class="tt">optionsReturnTo</span> le fait pour Options. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a964211f19cf43757eaaa80c3c29b0e90a41a0a091b97ea443ec61e2b5fd660d32" name="a964211f19cf43757eaaa80c3c29b0e90a41a0a091b97ea443ec61e2b5fd660d32"></a>CloseRpgScreen&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
 </div>
@@ -2696,9 +2855,10 @@ Variables</h2></td></tr>
 <tr><td class="fieldname"><a id="a168b24f798c2e6d06beb9472a071528da63d72051e901c069f8aa1b32aa0c43bb" name="a168b24f798c2e6d06beb9472a071528da63d72051e901c069f8aa1b32aa0c43bb"></a>Game&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a168b24f798c2e6d06beb9472a071528dadae8ace18bdcbcc6ae5aece263e14fe8" name="a168b24f798c2e6d06beb9472a071528dadae8ace18bdcbcc6ae5aece263e14fe8"></a>Options&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a168b24f798c2e6d06beb9472a071528da105b296a83f9c105355403f3332af50f" name="a168b24f798c2e6d06beb9472a071528da105b296a83f9c105355403f3332af50f"></a>Pause&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a168b24f798c2e6d06beb9472a071528dafadd249ca99ec988612da6329ccc7ffc" name="a168b24f798c2e6d06beb9472a071528dafadd249ca99ec988612da6329ccc7ffc"></a>LevelComplete&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a168b24f798c2e6d06beb9472a071528daab6c96d1fa3464b353f8da4213d53569" name="a168b24f798c2e6d06beb9472a071528daab6c96d1fa3464b353f8da4213d53569"></a>LevelSelect&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a168b24f798c2e6d06beb9472a071528da948a2e3548aaf7f9941a3192fa607d51" name="a168b24f798c2e6d06beb9472a071528da948a2e3548aaf7f9941a3192fa607d51"></a>Credits&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a168b24f798c2e6d06beb9472a071528da74f7bb96f40b089d24eea4863b269139" name="a168b24f798c2e6d06beb9472a071528da74f7bb96f40b089d24eea4863b269139"></a>RpgScreen&#160;</td><td class="fielddoc"><p><b>Un</b> écran du RPG est ouvert (<span class="tt">LOT-68</span>, <span class="tt">EX-IHM-090</span>). </p>
+<p>Lequel des huit n'est pas la question de cette table : c'est celle de <span class="tt"><a class="el" href="classhmi_1_1RpgScreenHost.html" title="Héberge les écrans du RPG et fait passer de l&#39;un à l&#39;autre sans repasser par le menu.">hmi::RpgScreenHost</a></span>, qui les héberge tous sur une seule page. Les y déclarer un par un aurait multiplié par huit les transitions à écrire pour n'exprimer, huit fois, que la même règle. </p>
+</td></tr>
 </table>
 
 </div>
@@ -2900,37 +3060,6 @@ Variables</h2></td></tr>
 </div>
 </div>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
-<a id="a7ad0c5959af0b793d8833b2c517a2a37" name="a7ad0c5959af0b793d8833b2c517a2a37"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7ad0c5959af0b793d8833b2c517a2a37">&#9670;&#160;</a></span>accumulateStep()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hmi::accumulateStep </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="structhmi_1_1LevelRunStats.html">LevelRunStats</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>stats</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="#a3a61aed1c8e95c289c829398d48488de">GameEvent</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>stepEvents</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Comptabilise <b>un</b> pas de simulation et les évènements qu'il a produits. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">stats</td><td>Compteurs à mettre à jour. </td></tr>
-    <tr><td class="paramname">stepEvents</td><td>Évènements du pas qui vient de s'exécuter (<span class="tt"><a class="el" href="classhmi_1_1GameSession.html#ab137daa44dbc47ccae327bd8cf3efa12" title="Événements de jeu détectés lors du dernier appel à update() (LOT-60 TACHE-03).">GameSession::lastStepEvents</a></span>).</td></tr>
-  </table>
-  </dd>
-</dl>
-<p>Appelée une fois par pas, jamais par image de rendu : les deux cadences divergent dès que le rendu dépasse ou rattrape le pas fixe, et compter par image rendrait le bilan dépendant de la machine. </p>
-
-</div>
-</div>
 <a id="a105226a84e7eee6e32a6d20a57502b5b" name="a105226a84e7eee6e32a6d20a57502b5b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a105226a84e7eee6e32a6d20a57502b5b">&#9670;&#160;</a></span>activeCameraZoneIndex()</h2>
 
@@ -3679,6 +3808,33 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="a0d244a21dbfe1f90cb0df09f356e933e" name="a0d244a21dbfe1f90cb0df09f356e933e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0d244a21dbfe1f90cb0df09f356e933e">&#9670;&#160;</a></span>bannerWingSpan()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int hmi::bannerWingSpan </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>height</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Envergure d'une aile pour un bandeau de <code class="param">height</code> pixels de haut — exposée pour que la mise en page réserve la place du titre <b>entre</b> les ailes plutôt que par-dessus. </p>
+
+</div>
+</div>
 <a id="a4e0bb7068f67524a92030a9f89870b0e" name="a4e0bb7068f67524a92030a9f89870b0e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4e0bb7068f67524a92030a9f89870b0e">&#9670;&#160;</a></span>bitmaskCellAtPixel()</h2>
 
@@ -4076,6 +4232,41 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>L'image du repère, vide si <code class="param">pixelsPerUnit</code> est invalide ou la grille dégénérée. </dd></dl>
+
+</div>
+</div>
+<a id="a533707d1b488af487db2d8ba55917e23" name="a533707d1b488af487db2d8ba55917e23"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a533707d1b488af487db2d8ba55917e23">&#9670;&#160;</a></span>cabochonShapes()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; <a class="el" href="structhmi_1_1OrnamentShape.html">OrnamentShape</a> &gt; hmi::cabochonShapes </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>size</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Cabochon d'angle : un grenat taillé, serti d'or, inscrit dans un carré de côté <code class="param">size</code>. </p>
+<p>C'est l'ornement que les feuilles posent aux quatre angles de chaque panneau. Il remplace le carré d'or plein du <a class="el" href="lot-66.html" title="LOT-66 — Charte visuelle : sortir de l&#39;identité pixel art">LOT-66</a> — qui n'était pas faux, seulement muet : un aplat de trois unités ne dit pas qu'il y a une pierre.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">size</td><td>Côté du carré englobant, en pixels. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Les formes, dans l'<b>ordre de dessin</b> (les dernières recouvrent) ; vide sous <span class="tt"><a class="el" href="#a9c1595bc09ef4f786e40bc32c594a1fc" title="Côté minimal, en pixels, sous lequel un cabochon n&#39;est plus qu&#39;une tache.">ORNAMENT_MINIMUM_SIZE</a></span>. </dd></dl>
 
 </div>
 </div>
@@ -5155,7 +5346,7 @@ Variables</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd><span class="tt">Died</span> pour <span class="tt">Lost</span>, <span class="tt">LevelCompleted</span> pour <span class="tt">Won</span>, <span class="tt">std::nullopt</span> pour <span class="tt">Playing</span>. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd><span class="tt">Died</span> pour <span class="tt">Lost</span>, <span class="tt">ExitReached</span> pour <span class="tt">Won</span>, <span class="tt">std::nullopt</span> pour <span class="tt">Playing</span>. </dd></dl>
 
 </div>
 </div>
@@ -5538,44 +5729,6 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>Le réglage de thème persisté (<span class="tt">QSettings</span>), <span class="tt">Système</span> par défaut. </dd></dl>
-
-</div>
-</div>
-<a id="ac3f6e20f88982fbb59a80f9a1b67dfdd" name="ac3f6e20f88982fbb59a80f9a1b67dfdd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac3f6e20f88982fbb59a80f9a1b67dfdd">&#9670;&#160;</a></span>elapsedSeconds()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">float hmi::elapsedSeconds </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="structhmi_1_1LevelRunStats.html">LevelRunStats</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>stats</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>fixedDeltaSeconds</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Durée écoulée, en secondes. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">stats</td><td>Compteurs du tableau. </td></tr>
-    <tr><td class="paramname">fixedDeltaSeconds</td><td>Durée d'un pas de simulation (<span class="tt"><a class="el" href="classcore_1_1FixedTimestep.html" title="Convertit un temps réel écoulé variable en un nombre de pas de simulation fixes.">core::FixedTimestep</a></span>). </td></tr>
-  </table>
-  </dd>
-</dl>
 
 </div>
 </div>
@@ -6029,34 +6182,6 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Les sommets, dans l'ordre du tracé, relatifs au coin haut-gauche du carré. </dd></dl>
-
-</div>
-</div>
-<a id="abd29a70dbe17218e0dc84beb9f69e056" name="abd29a70dbe17218e0dc84beb9f69e056"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abd29a70dbe17218e0dc84beb9f69e056">&#9670;&#160;</a></span>formatElapsed()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string hmi::formatElapsed </td>
-          <td>(</td>
-          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>seconds</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Met une durée en forme <span class="tt">m:ss</span>, ou <span class="tt">h:mm:ss</span> au-delà de l'heure. </p>
-<p>Les secondes sont <b>tronquées</b> et non arrondies : afficher <span class="tt">2:00</span> pour une partie de 1 min 59,7 s laisserait croire qu'on a atteint la minute ronde. Une durée négative est traitée comme nulle. </p>
 
 </div>
 </div>
@@ -6669,88 +6794,6 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><span class="tt">true</span> si le pixel est dans la matière. Un type <b>sans</b> silhouette remplit toute la case : la réponse est alors toujours <span class="tt">true</span>. </dd></dl>
-
-</div>
-</div>
-<a id="a5b07931e9a29f7bcbffef65e91c124b0" name="a5b07931e9a29f7bcbffef65e91c124b0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5b07931e9a29f7bcbffef65e91c124b0">&#9670;&#160;</a></span>isLevelPlayable()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool hmi::isLevelPlayable </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="classhmi_1_1Progression.html">Progression</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>progression</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>sequence</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>levelName</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Variante utilisée par l'IHM (affichage de l'écran de sélection ET garde au lancement, <span class="tt">LOT-70</span>) : identique à <span class="tt"><a class="el" href="#a9a410292879939089d6bf584f60d60e6" title="Règle de déverrouillage (LOT-59 TACHE-06, EX-IHM-005) : fonction pure, seule source de vérité sur ce ...">isLevelUnlocked</a></span>, sauf en build de <b>développement</b> (<span class="tt"><a class="el" href="namespacecore.html#affbaf55db3c297c638c8399aa855dbfe" title="Vrai dans les builds de développement (Debug), faux en Release.">core::DEVELOPER_BUILD</a></span>, <span class="tt"><a class="el" href="BuildConfig_8h.html" title="Indicateurs de configuration de build (développement vs release).">Core/BuildConfig.h</a></span>) où elle retourne toujours vrai &ndash; pour tester un tableau donné sans rejouer toute la séquence depuis le début à chaque lancement. </p>
-<p><span class="tt"><a class="el" href="#a9a410292879939089d6bf584f60d60e6" title="Règle de déverrouillage (LOT-59 TACHE-06, EX-IHM-005) : fonction pure, seule source de vérité sur ce ...">isLevelUnlocked</a></span> elle-même reste inchangée (ses tests couvrent la règle de progression indépendamment du type de build) ; en Release les deux fonctions coïncident. </p>
-
-</div>
-</div>
-<a id="a9a410292879939089d6bf584f60d60e6" name="a9a410292879939089d6bf584f60d60e6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9a410292879939089d6bf584f60d60e6">&#9670;&#160;</a></span>isLevelUnlocked()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool hmi::isLevelUnlocked </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="classhmi_1_1Progression.html">Progression</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>progression</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>sequence</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>levelName</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Règle de déverrouillage (<span class="tt">LOT-59</span> TACHE-06, <span class="tt">EX-IHM-005</span>) : fonction <b>pure</b>, seule source de vérité sur ce qui est jouable &ndash; un écran ne fait que l'afficher, jamais sa propre condition. </p>
-<p>Jouable : tout tableau déjà <b>terminé</b> (<span class="tt">progression.isCompleted</span>), plus le <b>premier</b> tableau non terminé de <code class="param">sequence</code>, dans son ordre. Les suivants restent verrouillés &ndash; sinon la progression ne signifierait rien. Une <code class="param">sequence</code> entièrement terminée rend tout jouable (aucun tableau non terminé à borner).</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">progression</td><td><a class="el" href="classhmi_1_1Progression.html" title="Progression dans une séquence de niveaux : tableaux terminés et tableau atteint (celui où reprendre),...">Progression</a> courante (tableaux terminés). </td></tr>
-    <tr><td class="paramname">sequence</td><td>Séquence de niveaux, dans son ordre de jeu. </td></tr>
-    <tr><td class="paramname">levelName</td><td>Nom de fichier (jamais un indice, comme le reste de la progression). </td></tr>
-  </table>
-  </dd>
-</dl>
 
 </div>
 </div>
@@ -7749,6 +7792,32 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="a9eed4f2ad079e39eb5f17daf66defe91" name="a9eed4f2ad079e39eb5f17daf66defe91"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9eed4f2ad079e39eb5f17daf66defe91">&#9670;&#160;</a></span>nextRpgScreen()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a86e4ce6097c7a029c683096302528e72">RpgScreenId</a> hmi::nextRpgScreen </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a86e4ce6097c7a029c683096302528e72">RpgScreenId</a></td>          <td class="paramname"><span class="paramname"><em>screen</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>L'écran suivant dans le cycle ; du dernier on revient au premier. C'est ce qui permet d'atteindre n'importe quel écran depuis n'importe quel autre sans repasser par le menu (<span class="tt">EX-IHM-090</span>). </dd></dl>
+
+</div>
+</div>
 <a id="a91e9f8bb5e7b91ae4e2c77d2c09fefd7" name="a91e9f8bb5e7b91ae4e2c77d2c09fefd7"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a91e9f8bb5e7b91ae4e2c77d2c09fefd7">&#9670;&#160;</a></span>nextUtf8CodePoint()</h2>
 
@@ -7816,6 +7885,36 @@ Variables</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="afb15abd558357b81975c9f1b10473f38" name="afb15abd558357b81975c9f1b10473f38"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afb15abd558357b81975c9f1b10473f38">&#9670;&#160;</a></span>paintOrnaments()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::paintOrnaments </td>
+          <td>(</td>
+          <td class="paramtype">QPainter &amp;</td>          <td class="paramname"><span class="paramname"><em>painter</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="structhmi_1_1OrnamentShape.html">OrnamentShape</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>shapes</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QPoint &amp;</td>          <td class="paramname"><span class="paramname"><em>origin</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Peint les formes de <code class="param">shapes</code>, translatées de <code class="param">origin</code>. </p>
+<p>L'anticrénelage est <b>actif</b> : toutes ces formes sont obliques — facettes de gemme, doigts d'aile, chevrons — et sont les seules de l'habillage à ne pas suivre la grille de pixels. Sans lui, elles redeviendraient l'escalier du pixel art dont la charte est sortie. C'est l'inverse du choix fait pour les bandes de <span class="tt"><a class="el" href="classhmi_1_1ParchmentPanel.html">hmi::ParchmentPanel</a></span>, qui sont toutes alignées sur la grille et qu'un anticrénelage coudrait d'une demi-teinte claire à chaque jointure.</p>
+<p>Les réglages du <code class="param">painter</code> (crayon, brosse, indices de rendu) sont <b>restaurés</b> à la sortie : ce peintre est appelé au milieu du <span class="tt">paintEvent</span> d'autrui. </p>
 
 </div>
 </div>
@@ -8048,6 +8147,44 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="a45ffc40cf32dc17c3c53721ff78b1d90" name="a45ffc40cf32dc17c3c53721ff78b1d90"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a45ffc40cf32dc17c3c53721ff78b1d90">&#9670;&#160;</a></span>parchmentFrameCorner()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int hmi::parchmentFrameCorner </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>width</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>height</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>scale</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Côté du <b>cabochon d'angle</b> d'un encadrement de <code class="param">width</code> × <code class="param">height</code>, en pixels. </p>
+<p>Exposé pour que le peintre pose au même endroit, et à la même taille, l'ornement tracé du <span class="tt">LOT-76</span> (<span class="tt"><a class="el" href="#a533707d1b488af487db2d8ba55917e23" title="Cabochon d&#39;angle : un grenat taillé, serti d&#39;or, inscrit dans un carré de côté size.">hmi::cabochonShapes</a></span>). Le déduire de l'ordre des bandes rendues par <span class="tt"><a class="el" href="#addf3903688875c48beebeda82ec7daf5" title="Bandes composant un encadrement, dans l&#39;ordre de dessin (les dernières recouvrent les premières).">parchmentFrameStrokes</a></span> marcherait aujourd'hui et casserait à la première bande ajoutée, sans qu'aucune erreur ne le dise : le cabochon se poserait ailleurs que le carré qu'il habille.</p>
+<dl class="section return"><dt>Returns</dt><dd>Le côté du carré d'angle ; <b>zéro</b> quand le cadre est trop petit pour porter un encadrement, cas où <span class="tt"><a class="el" href="#addf3903688875c48beebeda82ec7daf5" title="Bandes composant un encadrement, dans l&#39;ordre de dessin (les dernières recouvrent les premières).">parchmentFrameStrokes</a></span> ne rend que son champ. </dd></dl>
+
+</div>
+</div>
 <a id="addf3903688875c48beebeda82ec7daf5" name="addf3903688875c48beebeda82ec7daf5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#addf3903688875c48beebeda82ec7daf5">&#9670;&#160;</a></span>parchmentFrameStrokes()</h2>
 
@@ -8135,6 +8272,32 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>La région effectivement écrite (peut être plus petite que <code class="param">clipboard</code> si tronquée). </dd></dl>
+
+</div>
+</div>
+<a id="af90277096862529748e78023af0d654e" name="af90277096862529748e78023af0d654e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af90277096862529748e78023af0d654e">&#9670;&#160;</a></span>pausesGame()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool hmi::pausesGame </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a86e4ce6097c7a029c683096302528e72">RpgScreenId</a></td>          <td class="paramname"><span class="paramname"><em>screen</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd><span class="tt">true</span> si <code class="param">screen</code> suspend la simulation (<span class="tt">EX-IHM-091</span>). </dd></dl>
 
 </div>
 </div>
@@ -8805,6 +8968,32 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Son poids en octets ; <span class="tt">0</span> si la densité ou les dimensions sont hors format. </dd></dl>
+
+</div>
+</div>
+<a id="ad41bb1dd00388cd216ed0adc326d0e5e" name="ad41bb1dd00388cd216ed0adc326d0e5e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad41bb1dd00388cd216ed0adc326d0e5e">&#9670;&#160;</a></span>previousRpgScreen()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a86e4ce6097c7a029c683096302528e72">RpgScreenId</a> hmi::previousRpgScreen </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a86e4ce6097c7a029c683096302528e72">RpgScreenId</a></td>          <td class="paramname"><span class="paramname"><em>screen</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>L'écran précédent dans le cycle ; du premier on revient au dernier. </dd></dl>
 
 </div>
 </div>
@@ -9768,6 +9957,58 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>La position arrondie au pixel écran entier le plus proche. </dd></dl>
+
+</div>
+</div>
+<a id="aadabcaf08acb48c29dc437f3bd2f47ce" name="aadabcaf08acb48c29dc437f3bd2f47ce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aadabcaf08acb48c29dc437f3bd2f47ce">&#9670;&#160;</a></span>rpgScreenDescriptor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="structhmi_1_1RpgScreenDescriptor.html">RpgScreenDescriptor</a> &amp; hmi::rpgScreenDescriptor </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a86e4ce6097c7a029c683096302528e72">RpgScreenId</a></td>          <td class="paramname"><span class="paramname"><em>screen</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>La description de <code class="param">screen</code>. </dd></dl>
+
+</div>
+</div>
+<a id="a74752c1a9d7b1d3e8da19eec82c397be" name="a74752c1a9d7b1d3e8da19eec82c397be"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a74752c1a9d7b1d3e8da19eec82c397be">&#9670;&#160;</a></span>rpgScreens()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::span&lt; const <a class="el" href="structhmi_1_1RpgScreenDescriptor.html">RpgScreenDescriptor</a> &gt; hmi::rpgScreens </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>La table des écrans, dans l'ordre du cycle de navigation. </dd></dl>
 
 </div>
 </div>
@@ -10830,6 +11071,47 @@ Variables</h2></td></tr>
 
 <p>Taxonomie complète des types de tuiles peignables, en catégories/sous-groupes. </p>
 <p>Logique <b>pure</b> (aucune dépendance Qt/GPU), testable (<span class="tt">EX-NFR-010</span>) : sert de source unique à la palette <span class="tt">QTreeView</span> de l'éditeur (<span class="tt">EX-EDIT-018</span>, <span class="tt">EX-IHM-010</span>). <b>Chaque</b> <span class="tt"><a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875" title="Type d&#39;une tuile de la grille d&#39;une carte (EX-GP-001).">core::TileType</a></span> y figure <b>exactement une fois</b>, dans un ordre déterministe (invariant vérifié par les tests). Reprend l'organisation de la palette historique (<span class="tt">LOT-27</span>). </p>
+
+</div>
+</div>
+<a id="ad064e631e040400bdf725766b3dabd4c" name="ad064e631e040400bdf725766b3dabd4c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad064e631e040400bdf725766b3dabd4c">&#9670;&#160;</a></span>titleBannerShapes()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; <a class="el" href="structhmi_1_1OrnamentShape.html">OrnamentShape</a> &gt; hmi::titleBannerShapes </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>width</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>height</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Bandeau de titre : une plaque de grenat à chevrons, entre deux ailes d'or. </p>
+<p>Les ailes ne s'étirent <b>pas</b> avec la largeur : leur envergure suit la <b>hauteur</b> du bandeau, comme dans le livre, et c'est le seul point où l'on peut se tromper en le traçant. Un bandeau deux fois plus long doit porter une plaque deux fois plus longue et les mêmes ailes ; les faire grandir avec la largeur donne, sur un titre long, deux ailes de chauve-souris démesurées de part et d'autre d'une plaque restée fine.</p>
+<p>Quand la largeur ne suffit plus à porter les deux ailes et une plaque lisible, ce sont les <b>ailes</b> qui cèdent — d'abord en se réduisant, puis, sous <span class="tt"><a class="el" href="#a9c1595bc09ef4f786e40bc32c594a1fc" title="Côté minimal, en pixels, sous lequel un cabochon n&#39;est plus qu&#39;une tache.">ORNAMENT_MINIMUM_SIZE</a></span>, en disparaissant. Jamais la plaque : c'est elle qui porte le titre, et un titre rogné pour loger des ailes entières n'a plus de raison d'avoir un bandeau. Un moignon de six pixels, lui, ne se lit pas comme une aile mais comme une bavure.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">width</td><td>Largeur totale du bandeau, en pixels. </td></tr>
+    <tr><td class="paramname">height</td><td>Hauteur totale, en pixels. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Les formes, dans l'ordre de dessin ; vide si le bandeau est dégénéré. </dd></dl>
 
 </div>
 </div>
@@ -11981,7 +12263,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">int hmi::GAME_EVENT_COUNT = static_cast&lt;int&gt;(<a class="el" href="#a3a61aed1c8e95c289c829398d48488dea567a1ba73d183dc7f9b7c047a7da7e40">GameEvent::SequenceCompleted</a>) + 1</td>
+          <td class="memname">int hmi::GAME_EVENT_COUNT = static_cast&lt;int&gt;(<a class="el" href="#a3a61aed1c8e95c289c829398d48488dea99db5176aa7f82eeb3e4dff344934eeb">GameEvent::PauseOpened</a>) + 1</td>
         </tr>
       </table>
   </td>
@@ -12512,6 +12794,31 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="a9c1595bc09ef4f786e40bc32c594a1fc" name="a9c1595bc09ef4f786e40bc32c594a1fc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9c1595bc09ef4f786e40bc32c594a1fc">&#9670;&#160;</a></span>ORNAMENT_MINIMUM_SIZE</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int hmi::ORNAMENT_MINIMUM_SIZE = 8</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Côté minimal, en pixels, sous lequel un cabochon n'est plus qu'une tache. </p>
+<p>Six sommets d'octogone dans moins de huit pixels ne dessinent plus un serti, et une marque qu'on ne reconnaît pas ne désigne rien — même raison que le plancher du fleuron de focus (<span class="tt"><a class="el" href="#a55b861e9c4e75fd753ec919a062940fc" title="Sommets du fleuron de focus — une pointe pleine tournée vers la droite, inscrite dans un carré de côt...">hmi::focusFleuronPoints</a></span>). </p>
+
+</div>
+</div>
 <a id="af04ce56b73b71704b41ee6d8cfe4e2e2" name="af04ce56b73b71704b41ee6d8cfe4e2e2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af04ce56b73b71704b41ee6d8cfe4e2e2">&#9670;&#160;</a></span>PANEL_COUNT</h2>
 
@@ -12582,6 +12889,31 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Facteur <b>neutre</b> : le contenu est solidaire du niveau et ne subit aucun décalage. </p>
+
+</div>
+</div>
+<a id="af1ae6f7ec7bfe9e7b3f8198180717c5c" name="af1ae6f7ec7bfe9e7b3f8198180717c5c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af1ae6f7ec7bfe9e7b3f8198180717c5c">&#9670;&#160;</a></span>PARCHMENT_CABOCHON_FACTOR</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int hmi::PARCHMENT_CABOCHON_FACTOR = 2</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Facteur de débord du <b>cabochon</b> sur le carré d'angle qu'il habille (<span class="tt">LOT-76</span>). </p>
+<p>Un cabochon exactement à la taille du carré disparaît : il fait alors l'épaisseur de l'encadrement, et son octogone se confond avec le filet qui le borde. Sur les feuilles du corpus, la pierre mesure plus du double du filet — elle est <em>posée sur</em> l'angle, pas <em>encastrée dedans</em>. Deux fois, donc, et pas trois : au-delà elle mordrait sur le champ. </p>
 
 </div>
 </div>
@@ -12969,6 +13301,30 @@ Variables</h2></td></tr>
 <div class="ttc" id="anamespacehmi_html_a9b5452f2d3a1019a3229b90a4f000919a94f3616c83f30ab5a328e602bbb7d751"><div class="ttname"><a href="#a9b5452f2d3a1019a3229b90a4f000919a94f3616c83f30ab5a328e602bbb7d751">hmi::RenderLayer::EditorOverlay</a></div><div class="ttdeci">@ EditorOverlay</div><div class="ttdoc">Aides d&#39;édition : grille de repère, liens de mécanismes, aperçu de sélection.</div><div class="ttdef"><b>Definition</b> RenderLayer.h:64</div></div>
 </div><!-- fragment -->
 <p>Nombre de valeurs de <span class="tt"><a class="el" href="#a9b5452f2d3a1019a3229b90a4f000919" title="Calques de dessin, du plus arrière au plus avant (EX-REN-014, EX-DEC-002).">hmi::RenderLayer</a></span> — dimensionne un tableau indexé par la valeur plutôt que par une liste de champs écrite à la main (voir <span class="tt"><a class="el" href="classhmi_1_1LayerVisibility.html" title="Jeu de visibilités par calque, pour le mode d&#39;inspection « définition des textures » (LOT-51).">hmi::LayerVisibility</a></span>). </p>
+
+</div>
+</div>
+<a id="a93db3bafe6aeaebee6e483836f313055" name="a93db3bafe6aeaebee6e483836f313055"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a93db3bafe6aeaebee6e483836f313055">&#9670;&#160;</a></span>RPG_SCREEN_COUNT</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::size_t hmi::RPG_SCREEN_COUNT = 8</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Nombre d'écrans du catalogue. Dérivé de la table, jamais écrit deux fois. </p>
 
 </div>
 </div>

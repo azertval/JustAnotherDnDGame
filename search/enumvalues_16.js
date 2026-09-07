@@ -5,7 +5,9 @@ var searchData=
   ['wallcontactenter_2',['WallContactEnter',['../namespacehmi.html#a3a61aed1c8e95c289c829398d48488deae164c7e6f4e61a4633466ea5d59a3f97',1,'hmi']]],
   ['warning_3',['Warning',['../namespacecore.html#aa9b5a444ee11933c91d5e3235aa5b5e3a0eaadb4fcb48a0a0ed7bc9868be9fbaa',1,'core']]],
   ['water_4',['Water',['../namespacecore.html#ace99a1be913e6294e42e9ebb145eb875a27634ff8002b12e75d98e07ccd005d18',1,'core']]],
-  ['wholelevel_5',['WholeLevel',['../namespacecore.html#a5c6444096b9bc21a78b1f1157e9070b6a3080b25e8fedb44c9a9a494d7278490e',1,'core']]],
-  ['wisdom_6',['Wisdom',['../namespacecore.html#a97f31c7914a6cfc54cc026a77da58fd1a646f0a01b685558b975b5cd3f5b36241',1,'core']]],
-  ['won_7',['Won',['../namespacecore.html#a60398ec3835dd2882a7d3a9eaddb65aaa19abd416eb9fe03ae7400a22446956a5',1,'core']]]
+  ['whilewalking_5',['WhileWalking',['../namespacehmi.html#a3222e3cf5f453d3a55c104456a615430a56876e48dbe57b9eb2e66e54c6576eaf',1,'hmi']]],
+  ['wholelevel_6',['WholeLevel',['../namespacecore.html#a5c6444096b9bc21a78b1f1157e9070b6a3080b25e8fedb44c9a9a494d7278490e',1,'core']]],
+  ['wisdom_7',['Wisdom',['../namespacecore.html#a97f31c7914a6cfc54cc026a77da58fd1a646f0a01b685558b975b5cd3f5b36241',1,'core']]],
+  ['won_8',['Won',['../namespacecore.html#a60398ec3835dd2882a7d3a9eaddb65aaa19abd416eb9fe03ae7400a22446956a5',1,'core']]],
+  ['worldmap_9',['WorldMap',['../namespacehmi.html#a86e4ce6097c7a029c683096302528e72ade45fe3bb002bd16009ebd8331e35146',1,'hmi']]]
 ];

@@ -1,11 +1,4 @@
 var searchData=
 [
-  ['palettethumbnailsource_0',['PaletteThumbnailSource',['../namespacehmi.html#a484fc821d307ce050da2a61ed1760a8d',1,'hmi']]],
-  ['panelid_1',['PanelId',['../namespacehmi.html#aaa32928dac1bf321cd65435b9a0b0726',1,'hmi']]],
-  ['parchmentrole_2',['ParchmentRole',['../namespacehmi.html#ae32ec83f939d20ebd5cf00137de659f4',1,'hmi']]],
-  ['particlekind_3',['ParticleKind',['../namespacecore.html#aa6799b2e10b4cf31b2527af8a390ce2c',1,'core']]],
-  ['pixeloperationkind_4',['PixelOperationKind',['../namespacehmi.html#a5889df12c254317504ef5777d27d9b0e',1,'hmi']]],
-  ['pixeltool_5',['PixelTool',['../namespacehmi.html#a9cb51e9b7642963a83312d94737fe571',1,'hmi']]],
-  ['planedepth_6',['PlaneDepth',['../namespacecore.html#a6dc89438a55a80980ab04f7da513f731',1,'core']]],
-  ['playerclipkind_7',['PlayerClipKind',['../namespacehmi.html#a01d3aca49804e2e7ac13786499fe7bf4',1,'hmi']]]
+  ['ornamentrole_0',['OrnamentRole',['../namespacehmi.html#a369c89ce919372e6e2647a9e0c6ea5e0',1,'hmi']]]
 ];

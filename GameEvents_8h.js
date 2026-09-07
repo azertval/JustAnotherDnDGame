@@ -13,12 +13,11 @@ var GameEvents_8h =
       [ "hmi::GameEvent::PressurePlateReleased", "namespacehmi.html#a3a61aed1c8e95c289c829398d48488dea1dcbd75ed42921b33c5894d72929b5c4", null ],
       [ "hmi::GameEvent::BlockPushed", "namespacehmi.html#a3a61aed1c8e95c289c829398d48488dea00f3be69446cf709343350f087ad6bc3", null ],
       [ "hmi::GameEvent::Died", "namespacehmi.html#a3a61aed1c8e95c289c829398d48488deab4ee54591aaa4862bf37f75f6839b514", null ],
-      [ "hmi::GameEvent::LevelCompleted", "namespacehmi.html#a3a61aed1c8e95c289c829398d48488deaf3f8a8d70e59a2f75919906f9429e8c2", null ],
+      [ "hmi::GameEvent::ExitReached", "namespacehmi.html#a3a61aed1c8e95c289c829398d48488deab76a553b4ac780a1cb3a18dbc27099e7", null ],
       [ "hmi::GameEvent::MenuNavigate", "namespacehmi.html#a3a61aed1c8e95c289c829398d48488deafd86c459659a739b791b3acf8590136e", null ],
       [ "hmi::GameEvent::MenuConfirm", "namespacehmi.html#a3a61aed1c8e95c289c829398d48488deae6154a82aac2fc1033c897088faff888", null ],
       [ "hmi::GameEvent::MenuBack", "namespacehmi.html#a3a61aed1c8e95c289c829398d48488dea5a7251d0a3e040de33dc48e78d49c010", null ],
-      [ "hmi::GameEvent::PauseOpened", "namespacehmi.html#a3a61aed1c8e95c289c829398d48488dea99db5176aa7f82eeb3e4dff344934eeb", null ],
-      [ "hmi::GameEvent::SequenceCompleted", "namespacehmi.html#a3a61aed1c8e95c289c829398d48488dea567a1ba73d183dc7f9b7c047a7da7e40", null ]
+      [ "hmi::GameEvent::PauseOpened", "namespacehmi.html#a3a61aed1c8e95c289c829398d48488dea99db5176aa7f82eeb3e4dff344934eeb", null ]
     ] ],
     [ "hmi::detectMechanismEvents", "namespacehmi.html#afb9ffef4971f7aeeea19cfa0a2cddbb9", null ],
     [ "hmi::detectOutcomeEvent", "namespacehmi.html#a89b12465488e01b1f3b8bfaa0e7bf26a", null ],

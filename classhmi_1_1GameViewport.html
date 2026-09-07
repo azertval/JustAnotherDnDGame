@@ -28,7 +28,7 @@
   <td id="projectalign">
    <div id="projectname">JustAnotherDnDGame<span id="projectnumber">&#160;0.1.0</span>
    </div>
-   <div id="projectbrief">Jeu 2D de plateforme/puzzle en C++/DirectX</div>
+   <div id="projectbrief">Jeu de rôle tactique au d20, vue de dessus, en C++/Qt</div>
   </td>
  </tr>
  </tbody>
@@ -115,8 +115,6 @@ Signals</h2></td></tr>
 <tr class="memdesc:a02acfb1387ff9e966f73e33f0e666894"><td class="mdescLeft">&#160;</td><td class="mdescRight">Demande de retour au menu principal (fin de la séquence de niveaux &ndash; plus depuis <span class="tt">LOT-59</span> TACHE-02 sur <span class="tt">Échap</span> en mode jeu, qui ouvre désormais la pause via <span class="tt"><a class="el" href="#a1e8798e90caf3cfb3c033f29b4bd55e6" title="Échap (ou le bouton B manette) en mode jeu réel, hors pause : demande l&#39;ouverture de l&#39;écran de pause...">pauseRequested</a></span>).  <br /></td></tr>
 <tr class="memitem:a1e8798e90caf3cfb3c033f29b4bd55e6" id="r_a1e8798e90caf3cfb3c033f29b4bd55e6"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a1e8798e90caf3cfb3c033f29b4bd55e6">pauseRequested</a> ()</td></tr>
 <tr class="memdesc:a1e8798e90caf3cfb3c033f29b4bd55e6"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">Échap</span> (ou le bouton <span class="tt">B</span> manette) en mode jeu réel, hors pause : demande l'ouverture de l'écran de pause (<span class="tt">LOT-59</span> TACHE-02, <span class="tt">EX-GP-041</span>) &ndash; jamais en essai depuis l'éditeur (<span class="tt"><a class="el" href="#ae0c7a5dd8a430f39cbc0fbd1e200a574" title="Termine l&#39;essai et restitue l&#39;éditeur (brouillon intact).">stopPlaytest</a></span> garde son propre chemin, inchangé).  <br /></td></tr>
-<tr class="memitem:a9e96b864c23c15765cd8f529a54208de" id="r_a9e96b864c23c15765cd8f529a54208de"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a9e96b864c23c15765cd8f529a54208de">levelSucceeded</a> ()</td></tr>
-<tr class="memdesc:a9e96b864c23c15765cd8f529a54208de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le tableau courant vient d'être réussi, en partie réelle (<span class="tt">LOT-59</span> TACHE-03) : la simulation est déjà figée (<span class="tt"><a class="el" href="#afe2eacdf273a7c4a371040605e8ab9ea" title="Suspend la simulation (écran de pause, LOT-59 TACHE-02) : tick() cesse d&#39;alimenter l&#39;accumulateur de ...">pauseSimulation</a></span>) quand ce signal part &ndash; c'est l'écran de fin de niveau qui décide de la suite (<span class="tt"><a class="el" href="#a20df02fa3115b15ed910cf81019174ee">isLastGameLevel</a></span> choisit son habillage).  <br /></td></tr>
 <tr class="memitem:a3646e1f1bc4d4ee8ab7c45af7410f56e" id="r_a3646e1f1bc4d4ee8ab7c45af7410f56e"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a3646e1f1bc4d4ee8ab7c45af7410f56e">draftChanged</a> ()</td></tr>
 <tr class="memdesc:a3646e1f1bc4d4ee8ab7c45af7410f56e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le brouillon vient d'être modifié (peinture, undo/redo, chargement, lien…) — le panneau « Liens » se resynchronise dessus (<span class="tt">refresh</span>).  <br /></td></tr>
 <tr class="memitem:afff694683060b7d90ea17722220f8e33" id="r_afff694683060b7d90ea17722220f8e33"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#afff694683060b7d90ea17722220f8e33">renderModeChanged</a> (<a class="el" href="namespacehmi.html#ace25c100da588ab6050fb0f486d61d54">RenderMode</a> mode)</td></tr>
@@ -183,27 +181,18 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a724dc8e925c0167dbac0224249d6f3fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bascule le mode de rendu Physique/Texture (<span class="tt">F8</span>, <span class="tt">EX-REN-046</span>) ; actif en édition, en essai et en jeu réel (LOT-56 TACHE-04 : seule commande jamais désactivée par le mode courant).  <br /></td></tr>
 <tr class="memitem:adf120d3bee60d68392dc6c1d3bd1e626" id="r_adf120d3bee60d68392dc6c1d3bd1e626"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#adf120d3bee60d68392dc6c1d3bd1e626">toggleDiagnosticsOverlay</a> () noexcept</td></tr>
 <tr class="memdesc:adf120d3bee60d68392dc6c1d3bd1e626"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bascule le compteur de diagnostic (cadence, primitives, passes, pas de simulation ; <span class="tt">F9</span>, <span class="tt">LOT-62</span> TACHE-02, <span class="tt">EX-NFR-001</span>/<span class="tt">EX-NFR-005</span>).  <br /></td></tr>
-<tr class="memitem:acdda2286544c6a23c80cb4eac33533fe" id="r_acdda2286544c6a23c80cb4eac33533fe"><td class="memItemLeft">const <a class="el" href="structhmi_1_1LevelRunStats.html">LevelRunStats</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#acdda2286544c6a23c80cb4eac33533fe">runStats</a> () const noexcept</td></tr>
-<tr class="memitem:a69d649a67d7737177678f4765480b4b7" id="r_a69d649a67d7737177678f4765480b4b7"><td class="memItemLeft">float&#160;</td><td class="memItemRight"><a class="el" href="#a69d649a67d7737177678f4765480b4b7">fixedDeltaSeconds</a> () const noexcept</td></tr>
 <tr class="memitem:a78cf5397cf9519bbc6f93d878bc7c598" id="r_a78cf5397cf9519bbc6f93d878bc7c598"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a78cf5397cf9519bbc6f93d878bc7c598">diagnosticsOverlayEnabled</a> () const noexcept</td></tr>
 <tr class="memitem:aab134b8878fb7e9bac927dd1068ba875" id="r_aab134b8878fb7e9bac927dd1068ba875"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aab134b8878fb7e9bac927dd1068ba875">setDiagnosticsOverlayEnabled</a> (bool enabled) noexcept</td></tr>
 <tr class="memdesc:aab134b8878fb7e9bac927dd1068ba875"><td class="mdescLeft">&#160;</td><td class="mdescRight">Affiche ou masque le compteur de diagnostic.  <br /></td></tr>
-<tr class="memitem:a9f91ee29d551621f64b5cc826d41db57" id="r_a9f91ee29d551621f64b5cc826d41db57"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a9f91ee29d551621f64b5cc826d41db57">startGame</a> (std::vector&lt; std::filesystem::path &gt; levels, std::size_t startIndex=0)</td></tr>
-<tr class="memdesc:a9f91ee29d551621f64b5cc826d41db57"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lance le <b>jeu</b> : joue la séquence de niveaux <code class="param">levels</code>, à partir de <code class="param">startIndex</code> (0 = depuis le début ; « Continuer »/sélection de niveau, <span class="tt">LOT-59</span> TACHE-06, reprennent plus loin).  <br /></td></tr>
+<tr class="memitem:ad133a7d2904ff0da8853570ed8bdfcb5" id="r_ad133a7d2904ff0da8853570ed8bdfcb5"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ad133a7d2904ff0da8853570ed8bdfcb5">startGame</a> (std::filesystem::path map)</td></tr>
+<tr class="memdesc:ad133a7d2904ff0da8853570ed8bdfcb5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lance le <b>jeu</b> sur la carte <code class="param">map</code>.  <br /></td></tr>
 <tr class="memitem:afe2eacdf273a7c4a371040605e8ab9ea" id="r_afe2eacdf273a7c4a371040605e8ab9ea"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#afe2eacdf273a7c4a371040605e8ab9ea">pauseSimulation</a> () noexcept</td></tr>
 <tr class="memdesc:afe2eacdf273a7c4a371040605e8ab9ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Suspend la simulation (écran de pause, <span class="tt">LOT-59</span> TACHE-02) : <span class="tt"><a class="el" href="#a0c668d277f3854cf4a91b8ffe2053597" title="Avance la simulation d&#39;une image (entrées, pas fixes, sons) — sans rien dessiner.">tick()</a></span> cesse d'alimenter l'accumulateur de pas fixe &ndash; aucun pas n'est consommé pendant la pause (<span class="tt">EX-GP-041</span>).  <br /></td></tr>
 <tr class="memitem:a961e7d6ffebba90148177c1569ae1c02" id="r_a961e7d6ffebba90148177c1569ae1c02"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a961e7d6ffebba90148177c1569ae1c02">resumeSimulation</a> ()</td></tr>
 <tr class="memdesc:a961e7d6ffebba90148177c1569ae1c02"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reprend la simulation après <span class="tt"><a class="el" href="#afe2eacdf273a7c4a371040605e8ab9ea" title="Suspend la simulation (écran de pause, LOT-59 TACHE-02) : tick() cesse d&#39;alimenter l&#39;accumulateur de ...">pauseSimulation()</a></span> : réarme l'horloge de référence (<span class="tt"><a class="el" href="#a3fc8dc73d01e346896da05e3e0644750">_previousFrame</a></span>) sur l'instant courant, faute de quoi le temps passé en pause serait rattrapé d'un coup au pas suivant (piège documenté par TACHE-02).  <br /></td></tr>
 <tr class="memitem:a950f514e76ffef7f6227b1d6aea3c01d" id="r_a950f514e76ffef7f6227b1d6aea3c01d"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a950f514e76ffef7f6227b1d6aea3c01d">simulationPaused</a> () const noexcept</td></tr>
-<tr class="memitem:a1bb9bdd02f61de519088e3616a70d83c" id="r_a1bb9bdd02f61de519088e3616a70d83c"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a1bb9bdd02f61de519088e3616a70d83c">restartCurrentLevel</a> ()</td></tr>
-<tr class="memdesc:a1bb9bdd02f61de519088e3616a70d83c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Recharge le niveau en cours (personnage à l'entrée, mécanismes et budgets remis) &ndash; même chemin que le redémarrage après échec (<span class="tt">EX-GP-032</span>, <span class="tt"><a class="el" href="classhmi_1_1GameSession.html#acb992fe3f9402a56c9546fb62c450a0c" title="Recharge le niveau courant (personnage à l&#39;entrée, mécanismes et budgets remis).">GameSession::reload</a></span>), jamais un second.  <br /></td></tr>
 <tr class="memitem:ab903903f2e084b16adb26372d414ae9e" id="r_ab903903f2e084b16adb26372d414ae9e"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ab903903f2e084b16adb26372d414ae9e">quitGame</a> () noexcept</td></tr>
 <tr class="memdesc:ab903903f2e084b16adb26372d414ae9e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Abandonne la partie en cours (« Quitter vers le menu » depuis la pause, <span class="tt">LOT-59</span> TACHE-02, après confirmation côté appelant) : même nettoyage que l'ancienne sortie directe par <span class="tt">Échap</span>, désormais déclenchée par l'écran de pause plutôt que par la touche elle-même.  <br /></td></tr>
-<tr class="memitem:a20df02fa3115b15ed910cf81019174ee" id="r_a20df02fa3115b15ed910cf81019174ee"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a20df02fa3115b15ed910cf81019174ee">isLastGameLevel</a> () const noexcept</td></tr>
-<tr class="memitem:aeec3860cb0502393027e03493158a0a1" id="r_aeec3860cb0502393027e03493158a0a1"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#aeec3860cb0502393027e03493158a0a1">currentGameLevelName</a> () const</td></tr>
-<tr class="memitem:aa74d719d358d5dc85f90439efd4ce3f7" id="r_aa74d719d358d5dc85f90439efd4ce3f7"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#aa74d719d358d5dc85f90439efd4ce3f7">nextGameLevelName</a> () const</td></tr>
-<tr class="memitem:a740ca50280f0c84fc19c74151408e1da" id="r_a740ca50280f0c84fc19c74151408e1da"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a740ca50280f0c84fc19c74151408e1da">advanceToNextLevel</a> ()</td></tr>
-<tr class="memdesc:a740ca50280f0c84fc19c74151408e1da"><td class="mdescLeft">&#160;</td><td class="mdescRight">« Continuer » depuis l'écran de fin de niveau (<span class="tt">LOT-59</span> TACHE-03) : charge le tableau suivant de la séquence &ndash; reprend l'ancien enchaînement automatique sur réussite, mais sur validation du joueur plutôt qu'immédiatement.  <br /></td></tr>
 <tr class="memitem:aa0c06ebd183a129d84615ec54d511db7" id="r_aa0c06ebd183a129d84615ec54d511db7"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aa0c06ebd183a129d84615ec54d511db7">setVSync</a> (bool enabled) noexcept</td></tr>
 <tr class="memdesc:aa0c06ebd183a129d84615ec54d511db7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Active/désactive la synchronisation verticale (<span class="tt">EX-REN-022</span>).  <br /></td></tr>
 <tr class="memitem:afc6cd76360f0150625ee748f25ddd98f" id="r_afc6cd76360f0150625ee748f25ddd98f"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#afc6cd76360f0150625ee748f25ddd98f">vsyncEnabled</a> () const noexcept</td></tr>
@@ -304,7 +293,7 @@ Private Types</h2></td></tr>
 Private Member Functions</h2></td></tr>
 <tr class="memitem:ad80bbcaacca07a11747eea2ad8566b39" id="r_ad80bbcaacca07a11747eea2ad8566b39"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ad80bbcaacca07a11747eea2ad8566b39">createResources</a> ()</td></tr>
 <tr class="memdesc:ad80bbcaacca07a11747eea2ad8566b39"><td class="mdescLeft">&#160;</td><td class="mdescRight">Crée l'atlas, la police, le cache de textures et le pipeline de dessin sur l'interface de rendu courante, puis ouvre le brouillon de départ.  <br /></td></tr>
-<tr class="memitem:a0c668d277f3854cf4a91b8ffe2053597" id="r_a0c668d277f3854cf4a91b8ffe2053597"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a0c668d277f3854cf4a91b8ffe2053597">tick</a> (float <a class="el" href="namespacehmi.html#ac3f6e20f88982fbb59a80f9a1b67dfdd">elapsedSeconds</a>)</td></tr>
+<tr class="memitem:a0c668d277f3854cf4a91b8ffe2053597" id="r_a0c668d277f3854cf4a91b8ffe2053597"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a0c668d277f3854cf4a91b8ffe2053597">tick</a> (float elapsedSeconds)</td></tr>
 <tr class="memdesc:a0c668d277f3854cf4a91b8ffe2053597"><td class="mdescLeft">&#160;</td><td class="mdescRight">Avance la simulation d'une image (entrées, pas fixes, sons) — sans rien dessiner.  <br /></td></tr>
 <tr class="memitem:a429e3a6ba571a469b45d3dc1e4662991" id="r_a429e3a6ba571a469b45d3dc1e4662991"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a429e3a6ba571a469b45d3dc1e4662991">renderFrame</a> (QRhiCommandBuffer *commandBuffer, float deltaSeconds)</td></tr>
 <tr class="memdesc:a429e3a6ba571a469b45d3dc1e4662991"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compose et soumet une image sur <code class="param">commandBuffer</code>.  <br /></td></tr>
@@ -312,8 +301,8 @@ Private Member Functions</h2></td></tr>
 <tr class="memdesc:a740b15fef3dea457881dafea9e533187"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compose et soumet le compteur de diagnostic (<span class="tt">LOT-62</span> TACHE-02), coin haut-droit de l'écran &ndash; sans effet si désactivé, hors session, ou avant que la localisation ne soit chargée (<span class="tt">EX-NFR-040</span>, coût nul quand éteint : rien n'est calculé au-delà du test d'entrée).  <br /></td></tr>
 <tr class="memitem:ae0c7a5dd8a430f39cbc0fbd1e200a574" id="r_ae0c7a5dd8a430f39cbc0fbd1e200a574"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ae0c7a5dd8a430f39cbc0fbd1e200a574">stopPlaytest</a> ()</td></tr>
 <tr class="memdesc:ae0c7a5dd8a430f39cbc0fbd1e200a574"><td class="mdescLeft">&#160;</td><td class="mdescRight">Termine l'essai et restitue l'éditeur (brouillon intact).  <br /></td></tr>
-<tr class="memitem:ae1a38ed54a427056246e325402516f72" id="r_ae1a38ed54a427056246e325402516f72"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ae1a38ed54a427056246e325402516f72">loadGameLevel</a> (std::size_t index)</td></tr>
-<tr class="memdesc:ae1a38ed54a427056246e325402516f72"><td class="mdescLeft">&#160;</td><td class="mdescRight">Charge le niveau <code class="param">index</code> de la séquence de jeu.  <br /></td></tr>
+<tr class="memitem:a1b521af3d2cefdc9919d05225a5163cd" id="r_a1b521af3d2cefdc9919d05225a5163cd"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a1b521af3d2cefdc9919d05225a5163cd">loadGameMap</a> ()</td></tr>
+<tr class="memdesc:a1b521af3d2cefdc9919d05225a5163cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Charge <span class="tt"><a class="el" href="#ae1c496e476c3078dda4f2b2607ebfbc4" title="Carte jouée par le mode jeu (LOT-67 : une, pas une séquence).">_gameMap</a></span> et arme la session de jeu.  <br /></td></tr>
 <tr class="memitem:ab2638f80f14726b02741409d6ff1f960" id="r_ab2638f80f14726b02741409d6ff1f960"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ab2638f80f14726b02741409d6ff1f960">updateMousePosition</a> (const QMouseEvent *<a class="el" href="#a5d3760d8afacd89cccc12dff1f843a9b">event</a>)</td></tr>
 <tr class="memitem:a751bc28ce93fe7547fafd85eeae90feb" id="r_a751bc28ce93fe7547fafd85eeae90feb"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a751bc28ce93fe7547fafd85eeae90feb">updateEditCamera</a> ()</td></tr>
 <tr class="memdesc:a751bc28ce93fe7547fafd85eeae90feb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Recale la caméra d'édition : cadrage automatique sur le niveau entier, sauf pan/zoom manuel actif (molette/glisser bouton droit), auquel cas la caméra manuelle est réappliquée.  <br /></td></tr>
@@ -374,11 +363,10 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:a801d3afa491e3af6eabdb4cb62e2fc0b" id="r_a801d3afa491e3af6eabdb4cb62e2fc0b"><td class="memItemLeft"><a class="el" href="classcore_1_1FixedTimestep.html">core::FixedTimestep</a>&#160;</td><td class="memItemRight"><a class="el" href="#a801d3afa491e3af6eabdb4cb62e2fc0b">_timestep</a></td></tr>
 <tr class="memitem:a3fc8dc73d01e346896da05e3e0644750" id="r_a3fc8dc73d01e346896da05e3e0644750"><td class="memItemLeft">Clock::time_point&#160;</td><td class="memItemRight"><a class="el" href="#a3fc8dc73d01e346896da05e3e0644750">_previousFrame</a></td></tr>
 <tr class="memitem:a0ca76db775aeffb827ad59bbffae05c9" id="r_a0ca76db775aeffb827ad59bbffae05c9"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a0ca76db775aeffb827ad59bbffae05c9">_loopStarted</a> = false</td></tr>
-<tr class="memitem:ad7195f397abe99b9e3d0716906429de9" id="r_ad7195f397abe99b9e3d0716906429de9"><td class="memItemLeft"><a class="el" href="structhmi_1_1LevelRunStats.html">LevelRunStats</a>&#160;</td><td class="memItemRight"><a class="el" href="#ad7195f397abe99b9e3d0716906429de9">_runStats</a></td></tr>
-<tr class="memdesc:ad7195f397abe99b9e3d0716906429de9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compteur de diagnostic (<span class="tt">F9</span>, <span class="tt">LOT-62</span> TACHE-02) : désactivé par défaut (<span class="tt">EX-NFR-040</span>, point de départ sans effet visuel ni coût).  <br /></td></tr>
 <tr class="memitem:a0c50142a61c2823731332c95c587e3ae" id="r_a0c50142a61c2823731332c95c587e3ae"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a0c50142a61c2823731332c95c587e3ae">_diagnosticsEnabled</a> = false</td></tr>
+<tr class="memdesc:a0c50142a61c2823731332c95c587e3ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compteur de diagnostic (<span class="tt">F9</span>, <span class="tt">LOT-62</span> TACHE-02) : désactivé par défaut (<span class="tt">EX-NFR-040</span>, point de départ sans effet visuel ni coût).  <br /></td></tr>
 <tr class="memitem:ae7cbee33340359aeea915deb28375c38" id="r_ae7cbee33340359aeea915deb28375c38"><td class="memItemLeft"><a class="el" href="classhmi_1_1FrameRateAverage.html">hmi::FrameRateAverage</a>&#160;</td><td class="memItemRight"><a class="el" href="#ae7cbee33340359aeea915deb28375c38">_frameRateAverage</a></td></tr>
-<tr class="memdesc:ae7cbee33340359aeea915deb28375c38"><td class="mdescLeft">&#160;</td><td class="mdescRight">Moyenne glissante de la cadence de rendu, alimentée uniquement quand <span class="tt"><a class="el" href="#a0c50142a61c2823731332c95c587e3ae">_diagnosticsEnabled</a></span> est vrai (rien n'est calculé quand l'affichage est éteint).  <br /></td></tr>
+<tr class="memdesc:ae7cbee33340359aeea915deb28375c38"><td class="mdescLeft">&#160;</td><td class="mdescRight">Moyenne glissante de la cadence de rendu, alimentée uniquement quand <span class="tt"><a class="el" href="#a0c50142a61c2823731332c95c587e3ae" title="Compteur de diagnostic (F9, LOT-62 TACHE-02) : désactivé par défaut (EX-NFR-040, point de départ sans...">_diagnosticsEnabled</a></span> est vrai (rien n'est calculé quand l'affichage est éteint).  <br /></td></tr>
 <tr class="memitem:a9f45d7a136c288d135d46834cbe9f2c9" id="r_a9f45d7a136c288d135d46834cbe9f2c9"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a9f45d7a136c288d135d46834cbe9f2c9">_lastSimulationSteps</a> = 0</td></tr>
 <tr class="memdesc:a9f45d7a136c288d135d46834cbe9f2c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nombre de pas de simulation consommés au dernier <span class="tt"><a class="el" href="#a0c668d277f3854cf4a91b8ffe2053597" title="Avance la simulation d&#39;une image (entrées, pas fixes, sons) — sans rien dessiner.">tick()</a></span> &ndash; distinct de la cadence de rendu depuis le <span class="tt">LOT-33</span> (<span class="tt"><a class="el" href="structhmi_1_1DiagnosticsMeasurements.html#a0676efd9a3bc7443d2ff90d30e376225" title="Nombre de pas de simulation consommés à la dernière image (core::FixedTimestep::advance) : révèle imm...">hmi::DiagnosticsMeasurements::simulationSteps</a></span>).  <br /></td></tr>
 <tr class="memitem:abdcf9746af0d898a6ee2d585037af537" id="r_abdcf9746af0d898a6ee2d585037af537"><td class="memItemLeft"><a class="el" href="classhmi_1_1ComposedScene.html">hmi::ComposedScene</a>&#160;</td><td class="memItemRight"><a class="el" href="#abdcf9746af0d898a6ee2d585037af537">_diagnosticsScene</a></td></tr>
@@ -448,10 +436,8 @@ Private Attributes</h2></td></tr>
 <tr class="memdesc:af93b0170b51e3476671c5e9b5f6178f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">La session courante est une <b>partie</b> (menu Jouer) et non un essai depuis l'éditeur (enchaînement/retour menu).  <br /></td></tr>
 <tr class="memitem:a566ceb125e2c7e196eea38c0f19623e7" id="r_a566ceb125e2c7e196eea38c0f19623e7"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a566ceb125e2c7e196eea38c0f19623e7">_paused</a> = false</td></tr>
 <tr class="memdesc:a566ceb125e2c7e196eea38c0f19623e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Écran de pause affiché (<span class="tt">LOT-59</span> TACHE-02) : <span class="tt"><a class="el" href="#a0c668d277f3854cf4a91b8ffe2053597" title="Avance la simulation d&#39;une image (entrées, pas fixes, sons) — sans rien dessiner.">tick()</a></span> n'avance plus l'accumulateur de pas fixe tant que c'est vrai &ndash; le rendu, lui, continue.  <br /></td></tr>
-<tr class="memitem:ae419f03e1eb9fb6705b9d6301ddb471d" id="r_ae419f03e1eb9fb6705b9d6301ddb471d"><td class="memItemLeft">std::vector&lt; std::filesystem::path &gt;&#160;</td><td class="memItemRight"><a class="el" href="#ae419f03e1eb9fb6705b9d6301ddb471d">_gameLevels</a></td></tr>
-<tr class="memdesc:ae419f03e1eb9fb6705b9d6301ddb471d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Séquence de niveaux du mode jeu.  <br /></td></tr>
-<tr class="memitem:ae0609d50a53bd511ee96019f0b585d78" id="r_ae0609d50a53bd511ee96019f0b585d78"><td class="memItemLeft">std::size_t&#160;</td><td class="memItemRight"><a class="el" href="#ae0609d50a53bd511ee96019f0b585d78">_gameLevel</a> = 0</td></tr>
-<tr class="memdesc:ae0609d50a53bd511ee96019f0b585d78"><td class="mdescLeft">&#160;</td><td class="mdescRight">Indice du niveau courant dans la séquence.  <br /></td></tr>
+<tr class="memitem:ae1c496e476c3078dda4f2b2607ebfbc4" id="r_ae1c496e476c3078dda4f2b2607ebfbc4"><td class="memItemLeft">std::filesystem::path&#160;</td><td class="memItemRight"><a class="el" href="#ae1c496e476c3078dda4f2b2607ebfbc4">_gameMap</a></td></tr>
+<tr class="memdesc:ae1c496e476c3078dda4f2b2607ebfbc4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Carte jouée par le mode jeu (<span class="tt">LOT-67</span> : une, pas une séquence).  <br /></td></tr>
 <tr class="memitem:aff4b0205eeb55f40afa51e0b0788ba08" id="r_aff4b0205eeb55f40afa51e0b0788ba08"><td class="memItemLeft">std::optional&lt; <a class="el" href="classhmi_1_1GameSession.html">hmi::GameSession</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#aff4b0205eeb55f40afa51e0b0788ba08">_session</a></td></tr>
 <tr class="memdesc:aff4b0205eeb55f40afa51e0b0788ba08"><td class="mdescLeft">&#160;</td><td class="mdescRight">Session de jeu de l'essai immédiat ; nulle en mode édition (essai ajouté au LOT-35 TACHE-04).  <br /></td></tr>
 </table>
@@ -635,26 +621,6 @@ paintTile</span>) ; <span class="tt">Ctrl+Z</span>/<span class="tt">Ctrl+Y</span
 </div><div class="memdoc">
 
 <p>Ajoute <code class="param">plane</code> à la fin de la liste et le sélectionne. </p>
-
-</div>
-</div>
-<a id="a740ca50280f0c84fc19c74151408e1da" name="a740ca50280f0c84fc19c74151408e1da"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a740ca50280f0c84fc19c74151408e1da">&#9670;&#160;</a></span>advanceToNextLevel()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hmi::GameViewport::advanceToNextLevel </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>« Continuer » depuis l'écran de fin de niveau (<span class="tt">LOT-59</span> TACHE-03) : charge le tableau suivant de la séquence &ndash; reprend l'ancien enchaînement automatique sur réussite, mais sur validation du joueur plutôt qu'immédiatement. </p>
-<p>Sans effet si le tableau réussi était déjà le dernier (<span class="tt"><a class="el" href="#a20df02fa3115b15ed910cf81019174ee">isLastGameLevel</a></span>) : l'écran ne propose alors pas ce bouton. </p>
 
 </div>
 </div>
@@ -939,32 +905,6 @@ paintTile</span>) ; <span class="tt">Ctrl+Z</span>/<span class="tt">Ctrl+Y</span
 
 </div>
 </div>
-<a id="aeec3860cb0502393027e03493158a0a1" name="aeec3860cb0502393027e03493158a0a1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aeec3860cb0502393027e03493158a0a1">&#9670;&#160;</a></span>currentGameLevelName()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string hmi::GameViewport::currentGameLevelName </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>Le nom de fichier <b>complet</b> (extension comprise, comme dans <span class="tt"><a class="el" href="structcore_1_1LevelSequence.html#aa0434fd93b1c7018b0357d06857f6000" title="Noms de fichiers de niveaux, dans l&#39;ordre de jeu.">core::LevelSequence::levels</a></span>) du tableau qui vient d'être réussi &ndash; sert à la fois d'affichage à l'écran de fin de niveau et d'identifiant de progression (<span class="tt"><a class="el" href="classhmi_1_1Progression.html" title="Progression dans une séquence de niveaux : tableaux terminés et tableau atteint (celui où reprendre),...">hmi::Progression</a></span>, <span class="tt">LOT-59</span> TACHE-05/06 : doit rester dans le même format que la séquence, sous peine de ne plus jamais correspondre). Chaîne vide hors partie réelle. </dd></dl>
-
-</div>
-</div>
 <a id="a78cf5397cf9519bbc6f93d878bc7c598" name="a78cf5397cf9519bbc6f93d878bc7c598"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a78cf5397cf9519bbc6f93d878bc7c598">&#9670;&#160;</a></span>diagnosticsOverlayEnabled()</h2>
 
@@ -987,7 +927,9 @@ paintTile</span>) ; <span class="tt">Ctrl+Z</span>/<span class="tt">Ctrl+Y</span
   </tr>
 </table>
 </div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd><span class="tt">true</span> si le compteur de diagnostic est actuellement affiché. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Le bilan du tableau en cours (<span class="tt">LOT-68</span>) : pas de simulation, morts, sauts. Remis à</dd>
+<dd>
+<span class="tt">true</span> si le compteur de diagnostic est actuellement affiché. </dd></dl>
 
 </div>
 </div>
@@ -1120,32 +1062,6 @@ paintTile</span>) ; <span class="tt">Ctrl+Z</span>/<span class="tt">Ctrl+Y</span
 </div><div class="memdoc">
 
 <p>Demande de retour au menu principal (fin de la séquence de niveaux &ndash; plus depuis <span class="tt">LOT-59</span> TACHE-02 sur <span class="tt">Échap</span> en mode jeu, qui ouvre désormais la pause via <span class="tt"><a class="el" href="#a1e8798e90caf3cfb3c033f29b4bd55e6" title="Échap (ou le bouton B manette) en mode jeu réel, hors pause : demande l&#39;ouverture de l&#39;écran de pause...">pauseRequested</a></span>). </p>
-
-</div>
-</div>
-<a id="a69d649a67d7737177678f4765480b4b7" name="a69d649a67d7737177678f4765480b4b7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a69d649a67d7737177678f4765480b4b7">&#9670;&#160;</a></span>fixedDeltaSeconds()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">float hmi::GameViewport::fixedDeltaSeconds </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>La durée d'un pas de simulation, pour convertir <span class="tt"><a class="el" href="#acdda2286544c6a23c80cb4eac33533fe">runStats()</a></span> en secondes. </dd></dl>
 
 </div>
 </div>
@@ -1419,32 +1335,6 @@ paintTile</span>) ; <span class="tt">Ctrl+Z</span>/<span class="tt">Ctrl+Y</span
 
 </div>
 </div>
-<a id="a20df02fa3115b15ed910cf81019174ee" name="a20df02fa3115b15ed910cf81019174ee"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a20df02fa3115b15ed910cf81019174ee">&#9670;&#160;</a></span>isLastGameLevel()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool hmi::GameViewport::isLastGameLevel </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>true si le tableau qui vient d'être réussi (<span class="tt"><a class="el" href="#a9e96b864c23c15765cd8f529a54208de" title="Le tableau courant vient d&#39;être réussi, en partie réelle (LOT-59 TACHE-03) : la simulation est déjà f...">levelSucceeded</a></span>) est le <b>dernier</b> de la séquence &ndash; choisit l'habillage de l'écran de fin de niveau (<span class="tt">LOT-59</span> TACHE-03) : fin de tableau (Continuer/Rejouer) ou fin de séquence (retour menu). </dd></dl>
-
-</div>
-</div>
 <a id="ac3bad1f6d1f1e5f61bbb4e35283ad308" name="ac3bad1f6d1f1e5f61bbb4e35283ad308"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac3bad1f6d1f1e5f61bbb4e35283ad308">&#9670;&#160;</a></span>keyPressEvent()</h2>
 
@@ -1548,34 +1438,6 @@ paintTile</span>) ; <span class="tt">Ctrl+Z</span>/<span class="tt">Ctrl+Y</span
 
 </div>
 </div>
-<a id="a9e96b864c23c15765cd8f529a54208de" name="a9e96b864c23c15765cd8f529a54208de"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9e96b864c23c15765cd8f529a54208de">&#9670;&#160;</a></span>levelSucceeded</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hmi::GameViewport::levelSucceeded </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel signal">signal</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Le tableau courant vient d'être réussi, en partie réelle (<span class="tt">LOT-59</span> TACHE-03) : la simulation est déjà figée (<span class="tt"><a class="el" href="#afe2eacdf273a7c4a371040605e8ab9ea" title="Suspend la simulation (écran de pause, LOT-59 TACHE-02) : tick() cesse d&#39;alimenter l&#39;accumulateur de ...">pauseSimulation</a></span>) quand ce signal part &ndash; c'est l'écran de fin de niveau qui décide de la suite (<span class="tt"><a class="el" href="#a20df02fa3115b15ed910cf81019174ee">isLastGameLevel</a></span> choisit son habillage). </p>
-<p>Jamais émis en essai depuis l'éditeur (<span class="tt"><a class="el" href="#ae0c7a5dd8a430f39cbc0fbd1e200a574" title="Termine l&#39;essai et restitue l&#39;éditeur (brouillon intact).">stopPlaytest</a></span> garde son propre chemin, inchangé). </p>
-
-</div>
-</div>
 <a id="a5721c31351cdb4eef28bd9856ff6216d" name="a5721c31351cdb4eef28bd9856ff6216d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5721c31351cdb4eef28bd9856ff6216d">&#9670;&#160;</a></span>levelWidth()</h2>
 
@@ -1632,8 +1494,8 @@ paintTile</span>) ; <span class="tt">Ctrl+Z</span>/<span class="tt">Ctrl+Y</span
 
 </div>
 </div>
-<a id="ae1a38ed54a427056246e325402516f72" name="ae1a38ed54a427056246e325402516f72"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae1a38ed54a427056246e325402516f72">&#9670;&#160;</a></span>loadGameLevel()</h2>
+<a id="a1b521af3d2cefdc9919d05225a5163cd" name="a1b521af3d2cefdc9919d05225a5163cd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1b521af3d2cefdc9919d05225a5163cd">&#9670;&#160;</a></span>loadGameMap()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1642,9 +1504,9 @@ paintTile</span>) ; <span class="tt">Ctrl+Z</span>/<span class="tt">Ctrl+Y</span
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void hmi::GameViewport::loadGameLevel </td>
+          <td class="memname">void hmi::GameViewport::loadGameMap </td>
           <td>(</td>
-          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>index</em></span></td><td>)</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -1655,7 +1517,7 @@ paintTile</span>) ; <span class="tt">Ctrl+Z</span>/<span class="tt">Ctrl+Y</span
 </table>
 </div><div class="memdoc">
 
-<p>Charge le niveau <code class="param">index</code> de la séquence de jeu. </p>
+<p>Charge <span class="tt"><a class="el" href="#ae1c496e476c3078dda4f2b2607ebfbc4" title="Carte jouée par le mode jeu (LOT-67 : une, pas une séquence).">_gameMap</a></span> et arme la session de jeu. </p>
 
 </div>
 </div>
@@ -1833,32 +1695,6 @@ paintTile</span>) ; <span class="tt">Ctrl+Z</span>/<span class="tt">Ctrl+Y</span
 </div><div class="memdoc">
 
 <p>Déplace le plan <code class="param">index</code> d'un rang ; <code class="param">forward</code> le rapproche du dessus de la liste. </p>
-
-</div>
-</div>
-<a id="aa74d719d358d5dc85f90439efd4ce3f7" name="aa74d719d358d5dc85f90439efd4ce3f7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa74d719d358d5dc85f90439efd4ce3f7">&#9670;&#160;</a></span>nextGameLevelName()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string hmi::GameViewport::nextGameLevelName </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>Le nom de fichier <b>complet</b> du tableau <b>suivant</b> celui qui vient d'être réussi &ndash; le tableau où reprendre (<span class="tt"><a class="el" href="classhmi_1_1Progression.html#a3e89eaef88420921b419e42b7bf8afd6">hmi::Progression::currentLevel</a></span>, <span class="tt">LOT-59</span> TACHE-05). Chaîne vide en fin de séquence (<span class="tt"><a class="el" href="#a20df02fa3115b15ed910cf81019174ee">isLastGameLevel</a></span>) ou hors partie réelle. </dd></dl>
 
 </div>
 </div>
@@ -2561,26 +2397,6 @@ paintTile</span>) ; <span class="tt">Ctrl+Z</span>/<span class="tt">Ctrl+Y</span
 
 </div>
 </div>
-<a id="a1bb9bdd02f61de519088e3616a70d83c" name="a1bb9bdd02f61de519088e3616a70d83c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1bb9bdd02f61de519088e3616a70d83c">&#9670;&#160;</a></span>restartCurrentLevel()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hmi::GameViewport::restartCurrentLevel </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Recharge le niveau en cours (personnage à l'entrée, mécanismes et budgets remis) &ndash; même chemin que le redémarrage après échec (<span class="tt">EX-GP-032</span>, <span class="tt"><a class="el" href="classhmi_1_1GameSession.html#acb992fe3f9402a56c9546fb62c450a0c" title="Recharge le niveau courant (personnage à l&#39;entrée, mécanismes et budgets remis).">GameSession::reload</a></span>), jamais un second. </p>
-<p>Sans effet hors partie/essai (aucune session active). </p>
-
-</div>
-</div>
 <a id="a961e7d6ffebba90148177c1569ae1c02" name="a961e7d6ffebba90148177c1569ae1c02"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a961e7d6ffebba90148177c1569ae1c02">&#9670;&#160;</a></span>resumeSimulation()</h2>
 
@@ -2597,32 +2413,6 @@ paintTile</span>) ; <span class="tt">Ctrl+Z</span>/<span class="tt">Ctrl+Y</span
 </div><div class="memdoc">
 
 <p>Reprend la simulation après <span class="tt"><a class="el" href="#afe2eacdf273a7c4a371040605e8ab9ea" title="Suspend la simulation (écran de pause, LOT-59 TACHE-02) : tick() cesse d&#39;alimenter l&#39;accumulateur de ...">pauseSimulation()</a></span> : réarme l'horloge de référence (<span class="tt"><a class="el" href="#a3fc8dc73d01e346896da05e3e0644750">_previousFrame</a></span>) sur l'instant courant, faute de quoi le temps passé en pause serait rattrapé d'un coup au pas suivant (piège documenté par TACHE-02). </p>
-
-</div>
-</div>
-<a id="acdda2286544c6a23c80cb4eac33533fe" name="acdda2286544c6a23c80cb4eac33533fe"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acdda2286544c6a23c80cb4eac33533fe">&#9670;&#160;</a></span>runStats()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const <a class="el" href="structhmi_1_1LevelRunStats.html">LevelRunStats</a> &amp; hmi::GameViewport::runStats </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>Le bilan du tableau en cours (<span class="tt">LOT-68</span>) : pas de simulation, morts, sauts. Remis à zéro à chaque entrée dans un tableau, en rejouant comme en avançant. </dd></dl>
 
 </div>
 </div>
@@ -3341,8 +3131,8 @@ paintTile</span>) ; <span class="tt">Ctrl+Z</span>/<span class="tt">Ctrl+Y</span
 
 </div>
 </div>
-<a id="a9f91ee29d551621f64b5cc826d41db57" name="a9f91ee29d551621f64b5cc826d41db57"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9f91ee29d551621f64b5cc826d41db57">&#9670;&#160;</a></span>startGame()</h2>
+<a id="ad133a7d2904ff0da8853570ed8bdfcb5" name="ad133a7d2904ff0da8853570ed8bdfcb5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad133a7d2904ff0da8853570ed8bdfcb5">&#9670;&#160;</a></span>startGame()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -3350,18 +3140,15 @@ paintTile</span>) ; <span class="tt">Ctrl+Z</span>/<span class="tt">Ctrl+Y</span
         <tr>
           <td class="memname">void hmi::GameViewport::startGame </td>
           <td>(</td>
-          <td class="paramtype">std::vector&lt; std::filesystem::path &gt;</td>          <td class="paramname"><span class="paramname"><em>levels</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramtype">std::filesystem::path</td>          <td class="paramname"><span class="paramname"><em>map</em></span></td><td>)</td>
           <td></td>
-          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>startIndex</em></span><span class="paramdefsep"> = </span><span class="paramdefval">0</span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Lance le <b>jeu</b> : joue la séquence de niveaux <code class="param">levels</code>, à partir de <code class="param">startIndex</code> (0 = depuis le début ; « Continuer »/sélection de niveau, <span class="tt">LOT-59</span> TACHE-06, reprennent plus loin). </p>
-<p><span class="tt">Échap</span> ou la fin de la séquence émet <span class="tt"><a class="el" href="#a02acfb1387ff9e966f73e33f0e666894" title="Demande de retour au menu principal (fin de la séquence de niveaux – plus depuis LOT-59 TACHE-02 sur ...">exitToMenuRequested</a></span>. </p>
+<p>Lance le <b>jeu</b> sur la carte <code class="param">map</code>. </p>
+<p><span class="tt">Échap</span> ouvre la pause, dont « Quitter vers le menu » émet <span class="tt"><a class="el" href="#a02acfb1387ff9e966f73e33f0e666894" title="Demande de retour au menu principal (fin de la séquence de niveaux – plus depuis LOT-59 TACHE-02 sur ...">exitToMenuRequested</a></span>.</p>
+<p><b>Une carte, et non plus une séquence</b> (<span class="tt">LOT-67</span>). Le jeu visé est un bac à sable : il n'a ni ordre de tableaux, ni tableau suivant. L'enchaînement d'une carte à l'autre reviendra avec le <b>graphe de cartes</b> du <span class="tt">LOT-09</span>, et il sera déclenché par une transition placée dans le monde, pas par la fin d'une liste. </p>
 
 </div>
 </div>
@@ -4041,6 +3828,9 @@ paintTile</span>) ; <span class="tt">Ctrl+Z</span>/<span class="tt">Ctrl+Y</span
 </table>
 </div><div class="memdoc">
 
+<p>Compteur de diagnostic (<span class="tt">F9</span>, <span class="tt">LOT-62</span> TACHE-02) : désactivé par défaut (<span class="tt">EX-NFR-040</span>, point de départ sans effet visuel ni coût). </p>
+<p>Bilan du tableau en cours (LOT-68) : alimenté au PAS, jamais à l'image de rendu. </p>
+
 </div>
 </div>
 <a id="abdcf9746af0d898a6ee2d585037af537" name="abdcf9746af0d898a6ee2d585037af537"></a>
@@ -4277,7 +4067,7 @@ paintTile</span>) ; <span class="tt">Ctrl+Z</span>/<span class="tt">Ctrl+Y</span
 </table>
 </div><div class="memdoc">
 
-<p>Moyenne glissante de la cadence de rendu, alimentée uniquement quand <span class="tt"><a class="el" href="#a0c50142a61c2823731332c95c587e3ae">_diagnosticsEnabled</a></span> est vrai (rien n'est calculé quand l'affichage est éteint). </p>
+<p>Moyenne glissante de la cadence de rendu, alimentée uniquement quand <span class="tt"><a class="el" href="#a0c50142a61c2823731332c95c587e3ae" title="Compteur de diagnostic (F9, LOT-62 TACHE-02) : désactivé par défaut (EX-NFR-040, point de départ sans...">_diagnosticsEnabled</a></span> est vrai (rien n'est calculé quand l'affichage est éteint). </p>
 
 </div>
 </div>
@@ -4303,8 +4093,8 @@ paintTile</span>) ; <span class="tt">Ctrl+Z</span>/<span class="tt">Ctrl+Y</span
 
 </div>
 </div>
-<a id="ae0609d50a53bd511ee96019f0b585d78" name="ae0609d50a53bd511ee96019f0b585d78"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae0609d50a53bd511ee96019f0b585d78">&#9670;&#160;</a></span>_gameLevel</h2>
+<a id="ae1c496e476c3078dda4f2b2607ebfbc4" name="ae1c496e476c3078dda4f2b2607ebfbc4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae1c496e476c3078dda4f2b2607ebfbc4">&#9670;&#160;</a></span>_gameMap</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -4313,7 +4103,7 @@ paintTile</span>) ; <span class="tt">Ctrl+Z</span>/<span class="tt">Ctrl+Y</span
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::size_t hmi::GameViewport::_gameLevel = 0</td>
+          <td class="memname">std::filesystem::path hmi::GameViewport::_gameMap</td>
         </tr>
       </table>
   </td>
@@ -4323,31 +4113,7 @@ paintTile</span>) ; <span class="tt">Ctrl+Z</span>/<span class="tt">Ctrl+Y</span
 </table>
 </div><div class="memdoc">
 
-<p>Indice du niveau courant dans la séquence. </p>
-
-</div>
-</div>
-<a id="ae419f03e1eb9fb6705b9d6301ddb471d" name="ae419f03e1eb9fb6705b9d6301ddb471d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae419f03e1eb9fb6705b9d6301ddb471d">&#9670;&#160;</a></span>_gameLevels</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::vector&lt;std::filesystem::path&gt; hmi::GameViewport::_gameLevels</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Séquence de niveaux du mode jeu. </p>
+<p>Carte jouée par le mode jeu (<span class="tt">LOT-67</span> : une, pas une séquence). </p>
 
 </div>
 </div>
@@ -4895,31 +4661,6 @@ paintTile</span>) ; <span class="tt">Ctrl+Z</span>/<span class="tt">Ctrl+Y</span
 </div><div class="memdoc">
 
 <p>Dernière position écran du glisser droit en cours. </p>
-
-</div>
-</div>
-<a id="ad7195f397abe99b9e3d0716906429de9" name="ad7195f397abe99b9e3d0716906429de9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad7195f397abe99b9e3d0716906429de9">&#9670;&#160;</a></span>_runStats</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="structhmi_1_1LevelRunStats.html">LevelRunStats</a> hmi::GameViewport::_runStats</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Compteur de diagnostic (<span class="tt">F9</span>, <span class="tt">LOT-62</span> TACHE-02) : désactivé par défaut (<span class="tt">EX-NFR-040</span>, point de départ sans effet visuel ni coût). </p>
-<p>Bilan du tableau en cours (LOT-68) : alimenté au PAS, jamais à l'image de rendu. </p>
 
 </div>
 </div>

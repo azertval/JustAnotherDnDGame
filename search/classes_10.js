@@ -10,5 +10,10 @@ var searchData=
   ['rhicontext_7',['RhiContext',['../structhmi_1_1RhiContext.html',1,'hmi']]],
   ['roombounds_8',['RoomBounds',['../structhmi_1_1RoomBounds.html',1,'hmi']]],
   ['roomgrid_9',['RoomGrid',['../classhmi_1_1RoomGrid.html',1,'hmi']]],
-  ['rpgactor_10',['RpgActor',['../structcore_1_1RpgActor.html',1,'core']]]
+  ['rpgactor_10',['RpgActor',['../structcore_1_1RpgActor.html',1,'core']]],
+  ['rpgcontentblock_11',['RpgContentBlock',['../structhmi_1_1RpgContentBlock.html',1,'hmi']]],
+  ['rpgscreendescriptor_12',['RpgScreenDescriptor',['../structhmi_1_1RpgScreenDescriptor.html',1,'hmi']]],
+  ['rpgscreenframe_13',['RpgScreenFrame',['../classhmi_1_1RpgScreenFrame.html',1,'hmi']]],
+  ['rpgscreenhost_14',['RpgScreenHost',['../classhmi_1_1RpgScreenHost.html',1,'hmi']]],
+  ['rpgscreenlayout_15',['RpgScreenLayout',['../structhmi_1_1RpgScreenLayout.html',1,'hmi']]]
 ];

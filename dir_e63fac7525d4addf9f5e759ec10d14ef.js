@@ -12,9 +12,5 @@ var dir_e63fac7525d4addf9f5e759ec10d14ef =
     [ "GameSession.h", "GameSession_8h.html", "GameSession_8h" ],
     [ "GameViewport.cpp", "GameViewport_8cpp.html", null ],
     [ "GameViewport.h", "GameViewport_8h.html", "GameViewport_8h" ],
-    [ "IGameMode.h", "IGameMode_8h.html", "IGameMode_8h" ],
-    [ "LevelRunStats.cpp", "LevelRunStats_8cpp.html", "LevelRunStats_8cpp" ],
-    [ "LevelRunStats.h", "LevelRunStats_8h.html", "LevelRunStats_8h" ],
-    [ "Progression.cpp", "Progression_8cpp.html", "Progression_8cpp" ],
-    [ "Progression.h", "Progression_8h.html", "Progression_8h" ]
+    [ "IGameMode.h", "IGameMode_8h.html", "IGameMode_8h" ]
 ];
