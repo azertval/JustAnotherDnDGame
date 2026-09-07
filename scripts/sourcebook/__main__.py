@@ -182,7 +182,7 @@ def commande_verifier(corpus: Corpus, args) -> int:
     echecs = 0
     for document in documents:
         if args.regenerer:
-            if not document.chemin.is_file():
+            if not document.existe():
                 print('%-22s ABSENT   %s' % (document.cle, document.chemin))
                 echecs += 1
                 continue

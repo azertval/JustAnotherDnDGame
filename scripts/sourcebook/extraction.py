@@ -141,9 +141,18 @@ class Extracteur:
                 f'({_IMPORT_ERREUR}).'
             )
         self.document = document
+        # Un extracteur ouvre un PDF, et rien d'autre. Les planches et les collections déclarées
+        # au manifeste depuis le LOT-38 (cartes, jetons) se lisent avec un outil d'image : le dire
+        # ici évite une pile d'erreurs PyMuPDF illisible sur un dossier de PNG.
+        if document.type != 'pdf':
+            raise ExtractionError(
+                f'{document.cle} : document de type « {document.type} », pas un PDF. '
+                f"L'extracteur ne lit que des PDF ; ce document se prend tel quel "
+                f'({document.chemin}).'
+            )
         if verifier:
             document.verifier()
-        elif not document.chemin.is_file():
+        elif not document.existe():
             raise CorpusError(f'{document.cle} : document absent — {document.chemin}.')
         self._pdf = pymupdf.open(document.chemin)
         if self._pdf.page_count != document.pages:

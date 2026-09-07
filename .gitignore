@@ -63,8 +63,9 @@ coverage-html/
 /TrainingRuns/
 
 # --- Corpus source (LOT-30, EX-CNT-023) ---
-# Les huit PDF de référence : environ 1 200 pages, 280 Mo, dont un fichier de 83 Mo. Git les
-# versionne mal — chaque clone les traîne, et aucune de leurs révisions ne se compresse. Ils se
+# Les huit PDF de référence, plus les neuf ressources de table virtuelle ajoutées le 2026-09-07
+# (cartes, jetons, compendium) : environ 1 600 pages et 785 Mo, dont deux images de plus de 100 Mo.
+# Git les versionne mal — chaque clone les traîne, et aucune révision ne se compresse. Ils se
 # déposent à la main sur le poste qui en a besoin ; `scripts/sourcebook/corpus.toml` en porte
 # l'empreinte, et c'est LUI qui est versionné, avec l'outil qui le lit.
 # Rien de ce dossier n'est versionné, pas même un fichier texte : ne rien y écrire d'unique.

@@ -115,8 +115,10 @@ critère de priorité, et il se relit sur la ligne.
 ## 1. Le corpus n'est pas versionné
 
 `Documentation/SourceBook/` est exclu **en entier** par le `.gitignore`. La raison est désormais la
-taille : 280 Mo de binaires, dont un fichier de 83 Mo, que git versionne mal — chaque clone les
-traîne, et aucune de leurs révisions ne se compresse.
+taille : **785 Mo** de binaires, dont deux images de plus de 100 Mo, que git versionne mal —
+chaque clone les traîne, et aucune de leurs révisions ne se compresse. (280 Mo jusqu'au 7 septembre
+2026 ; les neuf ressources de table virtuelle du §2 ont presque triplé le volume, ce qui ne change
+pas la règle mais en renforce le motif.)
 
 > **Cette phrase a été fausse jusqu'au [LOT-30](@ref lot-30).** La règle d'exclusion n'était pas
 > dans le `.gitignore` du dépôt : elle vivait comme modification locale non commitée, sur un seul
@@ -147,6 +149,48 @@ Deux conséquences pratiques, à retenir avant d'écrire quoi que ce soit dans c
 | `Animaux.pdf` | Bêtes du SRD traduites (aidedd.org) | 32 | FR | natif **très propre** | 38, uniquement des fonds |
 | `Glossaire.pdf` | Lexique de traduction anglais → français (aidedd.org) | 22 | EN/FR | natif, 2 colonnes | 5 pictogrammes |
 | `Character_Sheets_Tanares.pdf` | Feuilles de personnage | 5 | EN | **aucun** (vectoriel) | 6, jusqu'à 2 668 × 3 418 |
+
+### Les ressources de table virtuelle (ajoutées le 7 septembre 2026)
+
+Neuf ressources se sont ajoutées au corpus **après** les huit PDF ci-dessus. Elles ne viennent pas
+d'un autre livre : ce sont les fichiers distribués avec Tanares pour **jouer sur table virtuelle**.
+Leur intérêt tient exactement à ce que les PDF de règles n'ont pas — des cartes vues **de dessus**,
+des jetons **déjà détourés**, une carte du monde sans double page ni filigrane, et une feuille de
+personnage **vierge**, c'est-à-dire une maquette et non un exemple rempli.
+
+| Ressource | Nature | Volume | Texte | Ce qu'elle alimente |
+|---|---|---|---|---|
+| `VTT/Character Compendium - Low.pdf` | PNJ et créatures de Tanares : bloc de statistiques complet et portrait pleine page | 169 pages | **natif, 608 000 car.** | `LOT-46`, `LOT-82` |
+| `VTT/Character Compendium - High.pdf` | le même, à haute définition (83 Mo) | 169 pages | identique | extraction d'illustrations |
+| `VTT/Adventure Map Grids.pdf` | **31 cartes tactiques peintes, vues de dessus, alignées sur une grille** | 31 planches | aucun | `LOT-19`, `LOT-27`, `LOT-40` |
+| `VTT/Adventure Hunt for Azymor.pdf` | module d'aventure complet : intrigue, PNJ nommés, lieux, rencontres | 15 pages, **double** | natif, 97 000 car. | `LOT-27`, `LOT-16` |
+| `VTT/Map - World.jpg` | la carte du monde, **9 933 × 7 016**, sans filigrane | 1 planche | aucun | `LOT-42` |
+| `VTT/Map - Capital.jpg` | plan de la capitale, rue par rue, 9 933 × 7 016 | 1 planche | aucun | `LOT-42`, `LOT-82` |
+| `VTT/Blank Sheets RPG (1).pdf` | les 5 feuilles de personnage **vierges** | 5 planches | aucun (vectoriel) | `LOT-38` |
+| `VTT/RPG Sheets - BW print (2).pdf` | les mêmes en noir et blanc | 5 planches | aucun | `LOT-38` |
+| `VTT/Tokens VTT PNG/` | **172 jetons ronds détourés**, 354 × 354, canal alpha | 172 fichiers | — | `LOT-38`, `LOT-15`, `LOT-24`, `LOT-82` |
+
+Trois d'entre elles changent un arbitrage déjà pris, et il vaut mieux l'écrire ici que le laisser
+découvrir au lot concerné :
+
+- **Le compendium de personnages est un second gisement de blocs de statistiques**, en texte
+  **natif** et non en scan. Le §8 écartait les 416 blocs du *Manuel des Monstres* parce que son OCR
+  bruité rendait chaque valeur suspecte ; cet argument ne vaut pas ici. Ce que le `LOT-46` en
+  retiendra reste à arbitrer **dans ce lot** — le total de 176 créatures était un choix de
+  périmètre, pas une limite de matière.
+- **Les cartes tactiques sont la seule matière du corpus qui montre le jeu sous l'angle où il se
+  joue.** Tout le reste est en vue de côté, en portrait ou en carte régionale ; ces 31 planches sont
+  vues de dessus et alignées sur une grille, comme les cartes du `LOT-04`.
+- **Les jetons épargnent un détourage.** 172 portraits ronds à fond transparent, prêts à poser dans
+  une fiche, une réplique de dialogue ou une piste d'initiative — un travail d'image que le projet
+  n'aurait pas fait à la main.
+
+Comme les huit premiers, ces fichiers **ne sont pas versionnés** (§1) : ils sont déclarés dans
+`scripts/sourcebook/corpus.toml`, avec leur empreinte, et c'est ce manifeste qui est versionné. Il
+sait depuis leur arrivée décrire autre chose qu'un PDF — une **planche** seule, ou une
+**collection** de fichiers, dont l'empreinte porte sur la liste triée de ses membres : un jeton
+retiré, ajouté ou retouché la change, et 172 lignes de manifeste n'ont pas eu à être écrites pour un
+jeu qu'on prend ou qu'on laisse entier.
 
 ### Ce que chaque document apporte, chiffré
 
@@ -420,10 +464,18 @@ tombe silencieusement dans un cas par défaut, un test énumère le catalogue et
 *Prérequis : [LOT-13](@ref lot-13), [LOT-68](@ref lot-68), [LOT-76](@ref lot-76). Alimente [LOT-24](@ref lot-24),
 `LOT-39`.*
 
-`Character_Sheets_Tanares.pdf` fournit ses 5 planches en image à environ 300 ppp (2 668 × 3 418) :
-une maquette précise de l'écran de fiche — quels champs, groupés en quels blocs (identité,
-caractéristiques, compétences, combat, équipement, sorts), dans quel ordre de lecture. L'écran se
-construit sur le système de design existant, avec les panneaux de parchemin extraits au `LOT-76`.
+La maquette est **`VTT/Blank Sheets RPG (1).pdf`** : les cinq feuilles **vierges**, en image à
+environ 300 ppp. Elles disent quels champs existent, groupés en quels blocs (identité,
+caractéristiques, compétences et jets de sauvegarde, combat et attaques, traits de personnalité),
+et dans quel ordre on les lit. `Character_Sheets_Tanares.pdf` porte les mêmes feuilles **remplies** :
+utile pour voir ce qu'un champ reçoit, trompeur pour relever une mise en page — un exemple rempli
+cache ses propres cadres. Et `VTT/RPG Sheets - BW print (2).pdf` en donne la **structure** à plat,
+sans l'habillage qui la masque.
+
+L'écran ne part pas de rien : le châssis du [LOT-68](@ref lot-68) porte déjà son cadre, sa
+navigation et une **ossature** relevée sur `core::CharacterSheet`. Ce lot la confronte à la
+maquette, la corrige, et la **remplit** — c'est le premier écran du RPG à porter de vraies valeurs.
+Les **jetons du `VTT/Tokens VTT PNG/`** fournissent le portrait, déjà détouré.
 
 *Acceptation* — chaque champ de la maquette est soit affiché à l'écran, soit inscrit dans une liste
 explicite de champs hors périmètre. Un champ simplement oublié n'est pas un arbitrage.
@@ -504,6 +556,11 @@ dont la sortie n'est pas éditable oblige à choisir entre tout générer et tou
 permet de générer les cent cartes et d'en finir dix à la main — les seules que le joueur regardera
 de près.
 
+Les **31 cartes tactiques** de `VTT/Adventure Map Grids.pdf` (§2) donnent au générateur ce qui lui
+manquait : un **étalon**. Elles sont peintes vues de dessus et alignées sur une grille, c'est-à-dire
+sous l'angle exact où ce lot produit — ce qu'aucune autre matière du corpus ne montre. Une carte
+générée qui ne soutient pas la comparaison avec l'une d'elles n'est pas une carte finie.
+
 *Acceptation* — une même graine et un même descripteur rendent deux fois la carte **identique** ;
 toute carte générée est traversable de son entrée à sa sortie, vérifié par un parcours automatique ;
 une carte générée s'ouvre dans l'éditeur, se modifie et se recharge sans perte. Le générateur se
@@ -552,7 +609,11 @@ cet état de découverte entre dans la sauvegarde du [LOT-17](@ref lot-17). Sans
 cent lieux s'ouvre entièrement dès la première seconde et n'a plus rien à offrir.
 
 L'IHM s'appuie sur les cartes de régions du Sourcebook, redessinées à l'échelle du jeu par le
-`LOT-39`.
+`LOT-39` — et surtout sur **`VTT/Map - World.jpg`**, la carte du monde à 9 933 × 7 016 **sans
+filigrane et hors double page**, là où le fond de menu du [LOT-67](@ref lot-67) se contentait de
+96 ppp parce qu'il n'était qu'un décor. Un écran qu'on consulte demande de lire les toponymes ;
+celui-ci le permet. **`VTT/Map - Capital.jpg`** donne la capitale rue par rue, à la même
+définition.
 
 *Acceptation* — le joueur atteint les dix régions par le seul jeu, sans commande de débogage ; la
 carte du monde n'affiche que ce qui est découvert ; l'état de découverte survit à une sauvegarde et
@@ -630,6 +691,11 @@ Avec les 94 du SRD, cela porte le bestiaire à **176 créatures** — et c'est l
 blocs du *Manuel des Monstres* sont **écartés du périmètre** (voir §8) : 176 profils suffisent
 largement à peupler dix régions, et ils épargnent le seul gisement du corpus dont chaque valeur
 numérique aurait dû être relue.
+
+> **À réexaminer dans ce lot** : le `VTT/Character Compendium` (§2), arrivé après cet arbitrage,
+> porte 169 pages de PNJ et de créatures en texte **natif** — l'argument de l'OCR bruité qui
+> écartait le *Manuel des Monstres* ne s'y applique pas. Le total de 176 était un choix de
+> périmètre, pas une limite de matière : c'est ici qu'il se rediscute, chiffres en main.
 
 Ce lot est donc **borné et achevable**, contrairement à ce qu'il était quand il portait le *Manuel
 des Monstres* : 17 familles, une fin, un critère de fin.
