@@ -25,7 +25,6 @@ add_executable(UnitTests
     Unit/Core/Levels/test_level.cpp
     Unit/Core/Levels/test_camera_framing.cpp
     Unit/Core/Levels/test_level_loader.cpp
-    Unit/Core/Levels/test_level_sequence.cpp
     Unit/Core/Levels/test_level_writer.cpp
     Unit/Core/Levels/test_map_layers.cpp
     Unit/Core/Levels/test_level_draft.cpp
@@ -100,10 +99,8 @@ add_executable(UnitTests
     Unit/HMI/Graphics/test_screen_shake.cpp
     Unit/HMI/Game/test_game_hud.cpp
     Unit/HMI/Game/test_diagnostics_hud.cpp
-    Unit/HMI/Game/test_progression.cpp
     Unit/HMI/Game/test_game_mode.cpp
     Unit/HMI/Game/test_game_events.cpp
-    Unit/HMI/Game/test_level_run_stats.cpp
     Unit/HMI/Audio/test_sound_triggers.cpp
     Unit/HMI/Localization/test_localization.cpp
     Unit/HMI/Diagnostics/test_session_log.cpp
@@ -113,9 +110,11 @@ add_executable(UnitTests
     Unit/HMI/Interface/test_theme_teardown_guards.cpp
     Unit/HMI/Interface/test_editor_actions.cpp
     Unit/HMI/Interface/test_screen_flow.cpp
+    Unit/HMI/Interface/test_rpg_screens.cpp
     Unit/HMI/Interface/test_identity_scale.cpp
     Unit/HMI/Interface/test_editor_workspace.cpp
     Unit/HMI/Interface/test_parchment_frame.cpp
+    Unit/HMI/Interface/test_parchment_ornaments.cpp
     Unit/HMI/Editor/test_thumbnail_geometry.cpp
     Unit/HMI/Editor/test_level_name_validation.cpp
     Unit/HMI/Editor/test_tile_taxonomy.cpp

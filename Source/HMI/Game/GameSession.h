@@ -143,7 +143,7 @@ public:
     /**
      * @brief Événements de jeu détectés lors du **dernier** appel à `update()` (`LOT-60 TACHE-03`).
      *
-     * Transitions du personnage et des mécanismes, plus l'issue du pas (`Died`/`LevelCompleted`).
+     * Transitions du personnage et des mécanismes, plus l'issue du pas (`Died`/`ExitReached`).
      * Vide si aucune transition, ou lors du tout premier pas après un chargement (état initial,
      * rien à signaler — même principe que `MechanismVisualState::initialized`). Présentation pure :
      * ne modifie jamais la simulation (`EX-ARCH-012`), à consommer par l'appelant pour déclencher

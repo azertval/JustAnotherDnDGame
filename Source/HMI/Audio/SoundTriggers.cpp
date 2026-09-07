@@ -30,8 +30,8 @@ std::optional<std::string> soundForEvent(GameEvent event) {
             return std::nullopt;  // aucun bruitage dedie dans ce lot.
         case GameEvent::Died:
             return std::string{"mort"};
-        case GameEvent::LevelCompleted:
-            return std::string{"victoire_tableau"};
+        case GameEvent::ExitReached:
+            return std::string{"sortie_atteinte"};
         // Navigation et retour partagent le meme son (meme raison que porte/plaque ci-dessus).
         case GameEvent::MenuNavigate:
         case GameEvent::MenuBack:
@@ -40,8 +40,6 @@ std::optional<std::string> soundForEvent(GameEvent event) {
             return std::string{"menu_validation"};
         case GameEvent::PauseOpened:
             return std::nullopt;  // pas dans le perimetre sonore de l'epic (Inclus).
-        case GameEvent::SequenceCompleted:
-            return std::string{"fin_sequence"};
     }
     return std::nullopt;  // inatteignable : le switch couvre tout l'enum.
 }

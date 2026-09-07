@@ -7,7 +7,7 @@ PROJECT_NAME           = "JustAnotherDnDGame"
 # du CMakeLists.txt racine (source unique de vérité), sur l'entrée standard de Doxygen. Lancer
 # `doxygen Doxyfile` directement (sans passer par le script) produit un numéro vide, pas périmé.
 PROJECT_NUMBER         =
-PROJECT_BRIEF          = "Jeu 2D de plateforme/puzzle en C++/DirectX"
+PROJECT_BRIEF          = "Jeu de rôle tactique au d20, vue de dessus, en C++/Qt"
 
 OUTPUT_DIRECTORY       = generated
 CREATE_SUBDIRS         = NO

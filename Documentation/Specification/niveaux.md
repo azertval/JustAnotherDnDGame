@@ -160,37 +160,10 @@ Coordonnées `x` = colonne, `y` = ligne, origine **haut-gauche** ; toute tuile h
 (un `switch` porte un `id`, une `door` le référence via `opensWith`), schéma extensible à
 d'autres mécanismes. L'exemple omet les tuiles `solid` des bords pour rester lisible.
 
-## 2. Progression
-- \anchor EX-LVL-010 **EX-LVL-010** — Le jeu doit charger les niveaux dans un **ordre défini** (liste ordonnée).
-- \anchor EX-LVL-011 **EX-LVL-011** — À la réussite d'un niveau, le jeu doit charger automatiquement le suivant ; après le dernier, revenir au menu (ou écran de fin).
-- \anchor EX-LVL-012 **EX-LVL-012** — Le jeu doit fournir des niveaux de démonstration à
-  **difficulté croissante**, une mécanique introduite à la fois puis combinée dans des tableaux de
-  synthèse (`EX-LVL-015`). Le « 3 niveaux » du MVP (déplacement/saut, danger, puzzle
-  interrupteur↔porte) ne décrit plus le contenu livré depuis longtemps ; la séquence courante,
-  vingt-deux tableaux couvrant l'intégralité des mécaniques du moteur, est décrite par
-  `Source/Elements/Levels/README.md`. Concrétisé en `LOT-H-25`, étendu en `LOT-H-65`.
-- \anchor EX-LVL-013 **EX-LVL-013** — La **séquence** de niveaux jouée doit être une **donnée de
-  contenu** (fichier de `Source/Elements/Levels`), jamais un littéral du code : réordonner, ajouter
-  ou retirer un tableau ne doit demander aucune recompilation. Même exigence de validation et de
-  version de format que les niveaux eux-mêmes (`EX-LVL-004`, `EX-LVL-005`) ; un niveau référencé mais
-  absent est une **erreur récupérable** (`EX-NFR-040`). Concrétisé en `LOT-H-59`.
-- \anchor EX-LVL-014 **EX-LVL-014** — La **progression** du joueur (tableau atteint, tableaux
-  terminés) doit être **conservée entre deux lancements**, à la granularité du **tableau** et non de
-  l'instant. Elle est stockée par **nom** de niveau — de sorte qu'un réordonnancement de la séquence
-  (`EX-LVL-013`) ne la rende pas fausse — et se dégrade proprement : fichier absent, vide ou
-  corrompu donne une partie neuve, sans erreur bloquante. Concrétisé en `LOT-H-59`.
-- \anchor EX-LVL-015 **EX-LVL-015** — Le contenu livré doit **couvrir toutes les mécaniques** du
-  moteur : chaque type de tuile et chaque mode de cadrage (`EX-LVL-006`) doit apparaître dans au
-  moins un tableau de la séquence franchi par le test système (`EX-NFR-021`). La vérification est
-  **automatique** et **dérivée des énumérations du code**, de sorte qu'ajouter une mécanique sans
-  tableau qui l'emploie échoue sans qu'un inventaire ait à être tenu à la main ; les exclusions
-  légitimes sont **nommées et justifiées**. Une mécanique absente de tout niveau n'est vérifiée
-  qu'en isolation, jamais dans une partie réelle. Concrétisé en `LOT-H-65`.
-
-## 3. Conception (lignes directrices)
+## 2. Conception (lignes directrices)
 - Introduire une mécanique à la fois ; le premier niveau sert de tutoriel implicite (sans texte).
 - Aucune situation sans issue (le joueur ne doit jamais être bloqué définitivement sans échec possible).
-- Chaque niveau doit être **franchissable** — vérifié par un test système sur les niveaux du MVP.
+- Chaque carte doit être **franchissable** : aucune zone jouable ne doit être inatteignable.
 
 ### Doctrine de profondeur (`LOT-H-65` TACHE-05)
 
@@ -217,6 +190,46 @@ automatiquement** (`EX-LVL-015`, `Source/Test/Systeme`).
 Corollaire pour les mécaniques de **plafond** et de **danger** : une tuile posée hors de portée du
 personnage (un saut simple monte d'environ 2,4 tuiles) ne démontre rien, quand bien même elle
 apparaît dans le fichier. La proximité au trajet réellement parcouru fait partie du contrôle.
+
+## Exigences retirées {#lvl-retirees}
+
+> Retirées par le `LOT-67`, qui retire du programme la notion de **séquence ordonnée de tableaux**.
+> Les ancres sont **conservées** — jamais renumérotées, jamais supprimées : les lots hérités s'y
+> réfèrent, et réécrire un lot livré falsifierait son histoire (règle de [`lots.md`](@ref lots)).
+> Le texte ci-dessous est celui d'origine ; il décrit ce qui **a été** livré, pas ce qui est attendu
+> aujourd'hui.
+>
+> Ces six-là décrivaient une **campagne** : un ordre, un enchaînement, un compte de tableaux, une
+> progression qui avance de l'un à l'autre. Le jeu visé est un bac à sable — dix régions, une
+> centaine de lieux, aucun ordre imposé. Ce qui les remplace n'est pas une autre liste : c'est le
+> **graphe de cartes** du `LOT-09`, où l'on va où l'on veut, et la **sauvegarde riche** du `LOT-17`,
+> qui retient un état de monde plutôt qu'un rang dans une file.
+
+- \anchor EX-LVL-010 **EX-LVL-010** *(retirée en `LOT-67`)* — Le jeu doit charger les niveaux dans un **ordre défini** (liste ordonnée).
+- \anchor EX-LVL-011 **EX-LVL-011** *(retirée en `LOT-67`)* — À la réussite d'un niveau, le jeu doit charger automatiquement le suivant ; après le dernier, revenir au menu (ou écran de fin).
+- \anchor EX-LVL-012 **EX-LVL-012** *(retirée en `LOT-67`)* — Le jeu doit fournir des niveaux de démonstration à
+  **difficulté croissante**, une mécanique introduite à la fois puis combinée dans des tableaux de
+  synthèse (`EX-LVL-015`). Le « 3 niveaux » du MVP (déplacement/saut, danger, puzzle
+  interrupteur↔porte) ne décrit plus le contenu livré depuis longtemps ; la séquence courante,
+  vingt-deux tableaux couvrant l'intégralité des mécaniques du moteur, est décrite par
+  `Source/Elements/Levels/README.md`. Concrétisé en `LOT-H-25`, étendu en `LOT-H-65`.
+- \anchor EX-LVL-013 **EX-LVL-013** *(retirée en `LOT-67`)* — La **séquence** de niveaux jouée doit être une **donnée de
+  contenu** (fichier de `Source/Elements/Levels`), jamais un littéral du code : réordonner, ajouter
+  ou retirer un tableau ne doit demander aucune recompilation. Même exigence de validation et de
+  version de format que les niveaux eux-mêmes (`EX-LVL-004`, `EX-LVL-005`) ; un niveau référencé mais
+  absent est une **erreur récupérable** (`EX-NFR-040`). Concrétisé en `LOT-H-59`.
+- \anchor EX-LVL-014 **EX-LVL-014** *(retirée en `LOT-67`, remplacée par la sauvegarde du `LOT-17`)* — La **progression** du joueur (tableau atteint, tableaux
+  terminés) doit être **conservée entre deux lancements**, à la granularité du **tableau** et non de
+  l'instant. Elle est stockée par **nom** de niveau — de sorte qu'un réordonnancement de la séquence
+  (`EX-LVL-013`) ne la rende pas fausse — et se dégrade proprement : fichier absent, vide ou
+  corrompu donne une partie neuve, sans erreur bloquante. Concrétisé en `LOT-H-59`.
+- \anchor EX-LVL-015 **EX-LVL-015** *(retirée en `LOT-67`, reprise par le `LOT-49`)* — Le contenu livré doit **couvrir toutes les mécaniques** du
+  moteur : chaque type de tuile et chaque mode de cadrage (`EX-LVL-006`) doit apparaître dans au
+  moins un tableau de la séquence franchi par le test système (`EX-NFR-021`). La vérification est
+  **automatique** et **dérivée des énumérations du code**, de sorte qu'ajouter une mécanique sans
+  tableau qui l'emploie échoue sans qu'un inventaire ait à être tenu à la main ; les exclusions
+  légitimes sont **nommées et justifiées**. Une mécanique absente de tout niveau n'est vérifiée
+  qu'en isolation, jamais dans une partie réelle. Concrétisé en `LOT-H-65`.
 
 ## Traçabilité
 Le chargement et la validation relèvent de `Source/Core` ; les fichiers de niveaux et l'atlas sont dans `Source/Elements`. Types de tuiles : [`gameplay.md`](gameplay.md).

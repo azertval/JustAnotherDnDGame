@@ -36,7 +36,7 @@
    des feuilles de Tanares est encadre de filets a angles VIFS, et un coin arrondi les ferait lire
    comme une carte d'interface moderne -- exactement ce dont la charte sort (LOT-66). */
 
-#MainMenu, #OptionsPage, #PauseScreen, #LevelSelectScreen, #LevelCompleteScreen, #CreditsScreen {
+#MainMenu, #OptionsPage, #PauseScreen, #CreditsScreen {
     background-color: ${identity.color.background};
     font-family: ${identity.font.body};
     font-size: ${identity.size.body}px;
@@ -58,18 +58,28 @@
 
 /* Recouvrements (pause, fin de niveau) : fond translucide pose en code, pas ici -- la couleur de
    fond opaque ci-dessus les rendrait opaques et cacherait la scene figee derriere. */
-#PauseScreen, #LevelCompleteScreen {
+#PauseScreen {
     background-color: transparent;
 }
 
-/* ---- Titres d'ecran : seconde famille, tres typee, reservee a ce seul usage ---- */
-#MainMenu QLabel#menuTitle,
+/* ---- Titres d'ecran : seconde famille, tres typee, reservee a ce seul usage ----
+
+   Depuis le LOT-76, ces labels sont des hmi::TitleBanner : ils peignent sous eux la plaque de
+   grenat et ses deux ailes (EX-IHM-075). Les selecteurs restent ecrits QLabel#nom -- un selecteur
+   de type Qt s'applique aux SOUS-CLASSES, et les renommer n'aurait fait que decrire la classe au
+   lieu du role.
+
+   Le MENU PRINCIPAL n'en a plus (LOT-67) : son fond EST la carte du monde, et un bandeau pose
+   dessus repetait en lettres ce que l'image dit deja. Les ecrans qui restent, eux, n'ont pas
+   d'image a eux : sans titre, on ne saurait pas ou l'on est.
+
+   La couleur, elle, change : l'or des filets (accent) tenait sur du parchemin, et disparait sur le
+   grenat de la plaque. Le titre prend l'or PALE des reflets -- la meme valeur qui eclaire la
+   facette du cabochon, pour que le dore du bandeau soit UN dore et non deux. */
 #OptionsPage QLabel#optionsTitle,
 #PauseScreen QLabel#pauseTitle,
-#LevelSelectScreen QLabel#titleLabel,
-#LevelCompleteScreen QLabel#titleLabel,
 #CreditsScreen QLabel#creditsTitle {
-    color: ${identity.color.accent};
+    color: ${identity.color.accentHover};
     font-family: ${identity.font.title};
     font-size: ${identity.size.screenTitle}px;
     font-weight: bold;
@@ -80,8 +90,7 @@
    propre bordure. Les encadrements complets sont peints par hmi::ParchmentPanel, promu dans les
    .ui. Cette regle habille les conteneurs ordinaires qui n'ont pas besoin d'un cadre a part
    entiere -- le trait exterieur et le filet suffisent a les rattacher a la charte. */
-#PauseScreen QWidget#menuCard,
-#LevelCompleteScreen QWidget#menuCard {
+#PauseScreen QWidget#menuCard {
     background-color: ${identity.color.surface};
     border: ${identity.frame.thickness}px solid ${identity.color.frameEdge};
     border-top-color: ${identity.color.frameOrnament};
@@ -97,8 +106,6 @@
    (EX-IHM-071). */
 #MainMenu QPushButton,
 #PauseScreen QPushButton,
-#LevelCompleteScreen QPushButton,
-#LevelSelectScreen QPushButton,
 #CreditsScreen QPushButton {
     color: ${identity.color.textMuted};
     background: transparent;
@@ -111,42 +118,12 @@
 }
 #MainMenu QPushButton:hover, #MainMenu QPushButton:focus,
 #PauseScreen QPushButton:hover, #PauseScreen QPushButton:focus,
-#LevelCompleteScreen QPushButton:hover, #LevelCompleteScreen QPushButton:focus,
-#LevelSelectScreen QPushButton:hover, #LevelSelectScreen QPushButton:focus,
 #CreditsScreen QPushButton:hover, #CreditsScreen QPushButton:focus {
     color: ${identity.color.accent};
 }
 #MainMenu QPushButton:disabled,
-#PauseScreen QPushButton:disabled,
-#LevelCompleteScreen QPushButton:disabled {
+#PauseScreen QPushButton:disabled {
     color: ${identity.color.border};
-}
-
-/* ---- Listes de niveaux ---- */
-#LevelSelectScreen QListWidget {
-    background: ${identity.color.surface};
-    border: ${identity.frame.thickness}px solid ${identity.color.frameEdge};
-    border-radius: 0;
-    font-size: ${identity.size.sectionTitle}px;
-    outline: none;
-}
-#LevelSelectScreen QListWidget::item {
-    padding: ${identity.space.small}px ${identity.space.medium}px;
-    color: ${identity.color.textMuted};
-}
-#LevelSelectScreen QListWidget::item:selected,
-#LevelSelectScreen QListWidget::item:hover {
-    color: ${identity.color.accent};
-    background: ${identity.color.surfaceAlt};
-}
-
-/* Bilan de fin de tableau : taille de LEGENDE, en retrait. Il informe apres coup, il ne doit ni
-   concurrencer le titre ni elargir la carte -- les deux recouvrements (pause, fin de niveau)
-   doivent occuper la meme place. */
-#LevelCompleteScreen QLabel#summaryLabel {
-    color: ${identity.color.textMuted};
-    font-size: ${identity.size.caption}px;
-    padding: ${identity.space.small}px 0;
 }
 
 /* ---- Credits : hierarchie en-tete / ligne de credit ----
@@ -166,14 +143,12 @@
 }
 
 /* ---- Onglets ---- */
-#OptionsPage QTabWidget::pane,
-#LevelSelectScreen QTabWidget::pane {
+#OptionsPage QTabWidget::pane {
     border: ${identity.frame.thickness}px solid ${identity.color.frameEdge};
     background: ${identity.color.surface};
     border-radius: 0;
 }
-#OptionsPage QTabBar::tab,
-#LevelSelectScreen QTabBar::tab {
+#OptionsPage QTabBar::tab {
     background: ${identity.color.surfaceAlt};
     color: ${identity.color.textMuted};
     border: ${identity.frame.thickness}px solid ${identity.color.frameEdge};
@@ -183,8 +158,7 @@
     font-size: ${identity.size.body}px;
     font-weight: bold;
 }
-#OptionsPage QTabBar::tab:selected,
-#LevelSelectScreen QTabBar::tab:selected {
+#OptionsPage QTabBar::tab:selected {
     color: ${identity.color.background};
     background: ${identity.color.accent};
 }
@@ -277,6 +251,110 @@
 }
 #OptionsPage hmi--MenuEntryButton:hover,
 #OptionsPage hmi--MenuEntryButton:focus {
+    color: ${identity.color.accent};
+    background: transparent;
+}
+
+/* ===== Ecrans du RPG : le chassis du LOT-68 (EX-IHM-090) =====
+
+   Une seule portee pour les huit ecrans -- #RpgScreenHost les heberge tous -- et une selection par
+   ROLE (propriete dynamique `rpgRole`), jamais par nom d'objet. La raison est celle des credits au
+   LOT-66, et elle pese plus lourd ici : l'ossature de ces ecrans est construite a partir d'une
+   TABLE (hmi::rpgScreenLayout), et tenir dans cette feuille la liste des blocs qu'elle decrit
+   ferait diverger les deux au premier ecran ajoute. Un role se pose sur le widget au moment ou on
+   l'ecrit ; une liste de noms se met a jour ailleurs, ou pas du tout.
+
+   Les nom d'objets par ecran (#RpgCharacterSheetScreen, ...) restent disponibles pour le jour ou
+   un ecran demandera une regle a lui : ce jour-la, elle s'ecrira sans toucher aux sept autres. */
+#RpgScreenHost {
+    background-color: ${identity.color.background};
+    font-family: ${identity.font.body};
+    font-size: ${identity.size.body}px;
+    color: ${identity.color.text};
+}
+
+/* La zone defilante du contenu ne doit rien ajouter a l'image : le parchemin des blocs se peint
+   au travers. Le second selecteur vise le VIEWPORT de la zone, que Qt remplit sinon de la couleur
+   de fond de la palette systeme. */
+#RpgScreenHost QScrollArea,
+#RpgScreenHost QScrollArea > QWidget > QWidget {
+    background: transparent;
+    border: none;
+}
+
+/* Le bandeau de titre prend ici la taille des TITRES DE SECTION, la seule de la portee a laisser
+   tenir « Inventaire et equipement » dans une fenetre de 1280. A la taille des titres d'ecran, le
+   bandeau et ses deux ailes reclamaient a eux seuls plus que la largeur de la fenetre -- et
+   comme la taille minimale d'un ecran ne contraint pas la fenetre (EX-IHM-080), c'est la colonne
+   de droite qui sortait du cadre, sans qu'aucune erreur ne soit levee. Les titres des autres
+   ecrans du jeu tiennent en un ou deux mots ; ceux-ci en comptent jusqu'a trois. */
+#RpgScreenHost QLabel#rpgTitle {
+    color: ${identity.color.accentHover};
+    font-family: ${identity.font.title};
+    font-size: ${identity.size.sectionTitle}px;
+    font-weight: bold;
+}
+
+/* Titre de bloc : la meme hierarchie que les sections des credits -- accent, gras, taille du
+   corps. Un bloc titre a la taille d'un titre d'ecran ferait huit titres par ecran. */
+#RpgScreenHost QLabel[rpgRole="block"] {
+    color: ${identity.color.accent};
+    font-size: ${identity.size.body}px;
+    font-weight: bold;
+}
+/* Libelle d'un champ, et la valeur qu'il annonce. Le libelle est en retrait, la valeur en pleine
+   encre : c'est la valeur qu'on lit, le libelle ne fait que la nommer. */
+#RpgScreenHost QLabel[rpgRole="field"] {
+    color: ${identity.color.textMuted};
+    font-size: ${identity.size.caption}px;
+}
+#RpgScreenHost QLabel[rpgRole="value"] {
+    color: ${identity.color.text};
+    font-size: ${identity.size.body}px;
+}
+#RpgScreenHost QLabel[rpgRole="prose"] {
+    color: ${identity.color.textMuted};
+    font-size: ${identity.size.body}px;
+}
+
+/* Cases, jetons d'initiative, actions et cadre d'illustration : des EMPLACEMENTS vides, et ils
+   doivent se lire comme tels. Un fond alterne cerne d'un trait dit « il y a une place ici » ;
+   laisser le parchemin nu dirait « il n'y a rien », ce qui est faux -- il y aura quelque chose. */
+#RpgScreenHost QFrame[rpgRole="cell"],
+#RpgScreenHost QFrame[rpgRole="chip"],
+#RpgScreenHost QFrame[rpgRole="action"],
+#RpgScreenHost QFrame[rpgRole="illustration"] {
+    background: ${identity.color.surfaceAlt};
+    border: ${identity.frame.thickness}px solid ${identity.color.frameEdge};
+    border-radius: 0;
+}
+/* Ligne de liste : un filet en pied, jamais un encadrement complet -- huit lignes encadrees se
+   lisent comme huit boutons. */
+#RpgScreenHost QFrame[rpgRole="row"] {
+    background: transparent;
+    border: none;
+    border-bottom: ${identity.frame.thickness}px solid ${identity.color.border};
+    border-radius: 0;
+}
+
+/* Pied d'actions : des ENTREES DE MENU, comme le retour de l'ecran Options -- fermer un ecran et
+   passer au suivant sont des deplacements, pas des commandes.
+
+   A la taille des TITRES DE SECTION, en revanche, ces trois entrees mesuraient a elles seules plus
+   que la largeur de la fenetre, et poussaient la colonne de droite hors du cadre. Elles prennent
+   donc la taille du corps : ce sont trois entrees permanentes en pied de page, pas le menu
+   principal. */
+#RpgScreenHost hmi--MenuEntryButton {
+    color: ${identity.color.textMuted};
+    background: transparent;
+    border: none;
+    text-align: left;
+    padding: ${identity.space.small}px ${identity.space.medium}px;
+    font-size: ${identity.size.body}px;
+    font-weight: bold;
+}
+#RpgScreenHost hmi--MenuEntryButton:hover,
+#RpgScreenHost hmi--MenuEntryButton:focus {
     color: ${identity.color.accent};
     background: transparent;
 }

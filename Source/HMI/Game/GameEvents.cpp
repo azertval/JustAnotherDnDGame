@@ -39,7 +39,7 @@ std::optional<GameEvent> detectOutcomeEvent(core::LevelOutcome outcome) {
         case core::LevelOutcome::Playing:
             return std::nullopt;
         case core::LevelOutcome::Won:
-            return GameEvent::LevelCompleted;
+            return GameEvent::ExitReached;
         case core::LevelOutcome::Lost:
             return GameEvent::Died;
     }

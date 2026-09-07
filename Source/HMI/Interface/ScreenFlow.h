@@ -25,9 +25,12 @@ enum class ScreenId {
     Game,
     Options,
     Pause,
-    LevelComplete,
-    LevelSelect,
     Credits,
+    /// **Un** écran du RPG est ouvert (`LOT-68`, `EX-IHM-090`). Lequel des huit n'est pas la
+    /// question de cette table : c'est celle de `hmi::RpgScreenHost`, qui les héberge tous sur une
+    /// seule page. Les y déclarer un par un aurait multiplié par huit les transitions à écrire
+    /// pour n'exprimer, huit fois, que la même règle.
+    RpgScreen,
 };
 
 /// Événement pouvant déclencher une transition d'écran. Un seul événement `OpenOptions`/
@@ -41,25 +44,21 @@ enum class ScreenEvent {
     CloseOptions,
     OpenPause,
     ResumePause,
-    RestartFromPause,
     QuitPauseToMenu,
-    LevelSucceeded,
-    ContinueAfterLevel,
-    ReplayLevel,
-    ReturnToMenuFromLevelComplete,
-    OpenLevelSelect,
-    CloseLevelSelect,
-    LevelChosen,
     OpenCredits,
     CloseCredits,
+    /// Ouvre un écran du RPG. Un seul événement pour les huit, et depuis trois écrans (Menu, Game,
+    /// Pause) : c'est `ScreenState::rpgReturnTo` qui porte la différence, comme
+    /// `optionsReturnTo` le fait pour Options.
+    OpenRpgScreen,
+    CloseRpgScreen,
 };
 
 /// Habillage de fenêtre associé à un écran : ce que chaque `showXxx()` répétait à la main
 /// (bascule du `QStackedWidget`, docks, barre de menu, barres d'outils, navigation manette). Le
 /// choix de la page du `QStackedWidget` reste dans `MainWindow` (pointeurs de widgets Qt, hors de
-/// portée d'une table pure) ; `Pause`/`LevelComplete` ne basculent d'ailleurs aucune page -- ce
-/// sont des recouvrements par-dessus `Game` (`overlayVisible`), pour que la scène reste dessinée
-/// derrière (`TACHE-02`).
+/// portée d'une table pure) ; `Pause` ne bascule d'ailleurs aucune page -- c'est un recouvrement
+/// par-dessus `Game` (`overlayVisible`), pour que la scène reste dessinée derrière.
 struct ScreenDressing {
     bool docksVisible = false;
     bool menuBarVisible = false;
@@ -82,6 +81,10 @@ struct ScreenDressing {
 struct ScreenState {
     ScreenId screen = ScreenId::Menu;
     ScreenId optionsReturnTo = ScreenId::Menu;
+    /// Écran vers lequel `CloseRpgScreen` revient (`Menu`, `Game` ou `Pause`, selon l'origine).
+    /// Même patron, et même raison, qu'`optionsReturnTo` : la provenance est un attribut de
+    /// l'état, jamais une variable « écran précédent » posée à côté de la machine.
+    ScreenId rpgReturnTo = ScreenId::Menu;
 
     friend bool operator==(const ScreenState&, const ScreenState&) = default;
 };

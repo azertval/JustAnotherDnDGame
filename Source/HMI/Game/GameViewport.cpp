@@ -651,9 +651,7 @@ void GameViewport::tick(float elapsedSeconds) {
             }
             // Bilan du tableau (LOT-68) : compte au PAS, pour la meme raison que les sons
             // ci-dessous -- une mesure a l'image dependrait de la cadence de rendu.
-            if (_session && _gameMode) {
-                accumulateStep(_runStats, _session->lastStepEvents());
-            }
+            if (_session && _gameMode) {}
             // Sons de jeu (LOT-60 TACHE-03) : un evenement par pas, jamais par image de rendu --
             // lastStepEvents() reflete exactement CE pas, celui qui vient de s'executer.
             if (_session && _audioEngine) {
@@ -666,12 +664,17 @@ void GameViewport::tick(float elapsedSeconds) {
             if (_session && outcome == core::LevelOutcome::Won) {
                 _input.beginFrame();
                 if (_gameMode) {
-                    // Fige la scène et signale la réussite : c'est l'écran de fin de niveau qui
-                    // décide (Continuer/Rejouer), le joueur valide -- plus d'enchaînement
-                    // automatique (LOT-59 TACHE-03). `break` immédiat : ne pas avancer les pas
-                    // restants de ce tick sur un niveau déjà gagné.
-                    pauseSimulation();
-                    emit levelSucceeded();
+                    // La sortie de la carte ne TERMINE plus rien (LOT-67) : il n'y a ni tableau
+                    // suivant, ni ecran de fin. Elle ramene au menu, faute de destination -- et
+                    // c'est un provisoire assume : la sortie redeviendra une TRANSITION, vers la
+                    // carte que le graphe du LOT-09 designera. Y laisser un ecran de fin de
+                    // sequence aurait ete plus spectaculaire et plus faux.
+                    HMI_LOG_INFO(
+                        "Jeu : sortie atteinte ; sans graphe de cartes (LOT-09), retour "
+                        "au menu.");
+                    _gameMode = false;
+                    _session.reset();
+                    emit exitToMenuRequested();
                 } else {
                     stopPlaytest();  // essai éditeur : retour à l'édition
                 }
@@ -714,7 +717,7 @@ void GameViewport::initialize(QRhiCommandBuffer* commandBuffer) {
     // de serialiser toute la simulation pour un cas qui ne se produit qu'a la premiere image ou
     // au changement d'interface de rendu.
     if (_gameMode) {
-        loadGameLevel(_gameLevel);
+        loadGameMap();
     } else if (restorePlaytest) {
         startPlaytest();
     }
@@ -1072,78 +1075,35 @@ void GameViewport::resumeSimulation() {
     _previousFrame = Clock::now();
 }
 
-void GameViewport::restartCurrentLevel() {
-    if (_session) {
-        _session->reload();
-    }
-}
-
 void GameViewport::quitGame() noexcept {
     _gameMode = false;
     _paused = false;
     _session.reset();
 }
 
-bool GameViewport::isLastGameLevel() const noexcept {
-    return _gameLevel + 1 >= _gameLevels.size();
-}
-
-std::string GameViewport::currentGameLevelName() const {
-    if (!_gameMode || _gameLevel >= _gameLevels.size()) {
-        return {};
-    }
-    // Nom de fichier COMPLET, extension comprise : ce nom sert d'identifiant de progression
-    // (`hmi::Progression`/`hmi::isLevelUnlocked`) et se compare aux entrées de
-    // `core::LevelSequence::levels`, qui portent l'extension. Un `.stem()` ici produirait un
-    // identifiant qui ne correspondrait a aucune entree de la séquence, sans erreur visible.
-    return _gameLevels[_gameLevel].filename().string();
-}
-
-std::string GameViewport::nextGameLevelName() const {
-    if (!_gameMode || _gameLevel + 1 >= _gameLevels.size()) {
-        return {};
-    }
-    return _gameLevels[_gameLevel + 1].filename().string();  // cf. currentGameLevelName().
-}
-
-void GameViewport::advanceToNextLevel() {
-    loadGameLevel(_gameLevel + 1);
-}
-
-void GameViewport::startGame(std::vector<std::filesystem::path> levels, std::size_t startIndex) {
-    _gameLevels = std::move(levels);
+void GameViewport::startGame(std::filesystem::path map) {
+    _gameMap = std::move(map);
     _gameMode = true;
-    HMI_LOG_INFO("Jeu : demarrage de la sequence (" + std::to_string(_gameLevels.size()) +
-                 " niveaux, indice de depart " + std::to_string(startIndex) + ").");
-    loadGameLevel(startIndex);
+    HMI_LOG_INFO("Jeu : demarrage sur la carte " + _gameMap.filename().string() + ".");
+    loadGameMap();
 }
 
-void GameViewport::loadGameLevel(std::size_t index) {
-    if (index >= _gameLevels.size()) {
-        // Séquence terminée : retour au menu.
+void GameViewport::loadGameMap() {
+    core::LevelLoadResult loaded = core::LevelLoader::loadFromFile(_gameMap);
+    if (!loaded.ok()) {
+        // Plus de « passer a la carte suivante » : il n'y en a pas. Une carte illisible ramene au
+        // menu en le disant (EX-NFR-040), plutot que d'ouvrir un ecran de jeu sans rien a jouer.
+        HMI_LOG_WARNING("Jeu : carte illisible (" + _gameMap.string() + ") : " + loaded.error);
         _gameMode = false;
         _session.reset();
-        HMI_LOG_INFO("Jeu : sequence terminee, retour au menu.");
         emit exitToMenuRequested();
         return;
     }
-    core::LevelLoadResult loaded = core::LevelLoader::loadFromFile(_gameLevels[index]);
-    if (!loaded.ok()) {
-        HMI_LOG_WARNING("Jeu : niveau illisible ignore (" + _gameLevels[index].string() +
-                        ") : " + loaded.error);
-        loadGameLevel(index + 1);  // niveau illisible : passe au suivant (robustesse)
-        return;
-    }
-    _gameLevel = index;
-    // Bilan remis a zero A CHAQUE entree dans un tableau, rejeu compris : c'est le bilan DE CE
-    // passage, pas un cumul de la session.
-    _runStats = LevelRunStats{};
-    HMI_LOG_INFO("Jeu : niveau " + std::to_string(index) +
-                 " charge : " + _gameLevels[index].filename().string());
+    HMI_LOG_INFO("Jeu : carte chargee : " + _gameMap.filename().string());
     if (_spriteBatch == nullptr) {
         // Les ressources de rendu n'existent pas encore : QRhiWidget ne les cree qu'a la premiere
         // image, et le viewport n'est peint qu'une fois affiche -- donc APRES ce chemin quand on
-        // lance une partie depuis le menu. Le tableau reste designe (`_gameMode`, `_gameLevel`) et
+        // lance une partie depuis le menu. La carte reste designee (`_gameMode`, `_gameMap`) et
         // `initialize()` remonte la session des qu'il le peut. Emplacer ici lierait une reference
         // a un lot de sprites nul.
         return;

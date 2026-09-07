@@ -51,7 +51,6 @@ protected:
 
 signals:
     void resumeRequested();
-    void restartRequested();
     void optionsRequested();
     void quitToMenuRequested();
 

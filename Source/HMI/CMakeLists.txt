@@ -81,8 +81,6 @@ add_library(HmiLib STATIC
     Game/ExplorationMode.cpp
     Game/GameHud.cpp
     Game/DiagnosticsHud.cpp
-    Game/Progression.cpp
-    Game/LevelRunStats.cpp
     # Éditeur : validation, taxonomie, gestes et géométrie, bibliothèque d'assets, atelier pixel.
     Editor/LevelNameValidation.cpp
     Editor/TileTaxonomy.cpp
@@ -110,6 +108,7 @@ add_library(HmiLib STATIC
     Editor/PixelAutotilePreview.cpp
     # Interface : logique d'écrans et de thème, sans widget.
     Interface/ScreenFlow.cpp
+    Interface/RpgScreens.cpp
     Interface/DesignTokens.cpp
     Interface/StyleSheetTemplate.cpp
     Interface/FontResolution.cpp
@@ -118,6 +117,7 @@ add_library(HmiLib STATIC
     Interface/IdentityScale.cpp
     Interface/EditorWorkspace.cpp
     Interface/ParchmentFrame.cpp
+    Interface/ParchmentOrnaments.cpp
     Interface/MenuBackdropGeometry.cpp
     Interface/KeyHintText.cpp
     Interface/ActionCatalog.cpp
@@ -294,6 +294,8 @@ add_executable(JustAnotherDnDGame
     # Widgets Qt de l'habillage pixel art (LOT-68) : peintres au-dessus de la geometrie pure
     # ci-dessus, promus dans les .ui. Non compiles dans UnitTests (dependent de Qt).
     Interface/ParchmentPanel.cpp
+    Interface/OrnamentPainter.cpp
+    Interface/TitleBanner.cpp
     Interface/FocusMarker.cpp
     Interface/MenuEntryButton.cpp
     Interface/ThemeIcons.cpp
@@ -304,9 +306,9 @@ add_executable(JustAnotherDnDGame
     Interface/MainWindow.cpp
     Interface/MainMenu.cpp
     Interface/PauseScreen.cpp
-    Interface/LevelCompleteScreen.cpp
-    Interface/LevelSelectScreen.cpp
     Interface/CreditsScreen.cpp
+    Interface/RpgScreenFrame.cpp
+    Interface/RpgScreenHost.cpp
     Interface/OptionsPage.cpp
     Interface/KeybindingsWidget.cpp
     Interface/EditorKeybindingsWidget.cpp
@@ -327,8 +329,6 @@ add_executable(JustAnotherDnDGame
     ${ELEMENTS_UI}/MainWindow.ui
     ${ELEMENTS_UI}/MainMenu.ui
     ${ELEMENTS_UI}/PauseScreen.ui
-    ${ELEMENTS_UI}/LevelCompleteScreen.ui
-    ${ELEMENTS_UI}/LevelSelectScreen.ui
     ${ELEMENTS_UI}/CreditsScreen.ui
     ${ELEMENTS_UI}/OptionsPage.ui
     ${ELEMENTS_UI}/TexturePanel.ui

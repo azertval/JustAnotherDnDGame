@@ -34,6 +34,17 @@ PROVENANCES = ('srd', 'tanares', 'phb-fr')
 
 PAGINATIONS = ('simple', 'double', 'aucune')
 
+# Nature de l'entrée. Le manifeste n'a décrit que des PDF jusqu'au LOT-38 ; les ressources de
+# table virtuelle (VTT) en ont ajouté deux formes que le modèle « un PDF, N pages » ne sait pas
+# porter, et qu'il fallait pourtant garder sous le même garde-fou d'empreinte (EX-CNT-020) :
+#
+#   `image`      — une planche unique, hors de tout PDF (les deux cartes 9 933 x 7 016).
+#   `collection` — un DOSSIER de fichiers de même nature (les 172 jetons ronds). L'empreinte y
+#                  porte sur la LISTE des fichiers et de leurs empreintes, jamais sur un fichier :
+#                  déclarer 172 lignes de manifeste pour un jeu qu'on prend ou qu'on laisse en
+#                  entier aurait coûté 172 lignes à maintenir pour une seule décision.
+TYPES = ('pdf', 'image', 'collection')
+
 VERSION_MANIFESTE = 1
 
 
@@ -52,6 +63,7 @@ class Document:
     cle: str
     fichier: str
     sha256: str
+    type: str
     pages: int
     pagination: str
     decalage: int
@@ -60,6 +72,10 @@ class Document:
     ocr: bool
     resume: str
     hors_perimetre: bool
+    # Collections seulement : nombre de fichiers attendus (0 ailleurs) et motif qui les
+    # désigne dans le dossier.
+    nombre: int
+    motif: str
     racine: Path
 
     @property
@@ -68,20 +84,55 @@ class Document:
 
     # -- Vérification ---------------------------------------------------------------------
 
-    def empreinte_reelle(self) -> str:
-        """SHA-256 du fichier présent, lu par blocs (le plus gros pèse 83 Mo)."""
+    @property
+    def collection(self) -> bool:
+        return self.type == 'collection'
+
+    def fichiers(self) -> list[Path]:
+        """Fichiers d'une collection, triés par nom. Vide pour les autres types."""
+        if not self.collection:
+            return []
+        return sorted(self.chemin.glob(self.motif))
+
+    def existe(self) -> bool:
+        return self.chemin.is_dir() if self.collection else self.chemin.is_file()
+
+    @staticmethod
+    def _empreinte_fichier(chemin: Path) -> str:
         digest = hashlib.sha256()
-        with self.chemin.open('rb') as flux:
+        with chemin.open('rb') as flux:
             for bloc in iter(lambda: flux.read(1 << 20), b''):
                 digest.update(bloc)
         return digest.hexdigest()
 
+    def empreinte_reelle(self) -> str:
+        """SHA-256 du document présent, lu par blocs (le plus gros pèse 134 Mo).
+
+        Pour une **collection**, l'empreinte porte sur la liste « nom:empreinte » des fichiers,
+        triée : un jeton retiré, ajouté ou retouché la change, et un jeton simplement déplacé sur
+        le disque ne la change pas. C'est exactement ce qu'on veut savoir d'un jeu qu'on prend
+        entier.
+        """
+        if not self.collection:
+            return self._empreinte_fichier(self.chemin)
+        digest = hashlib.sha256()
+        for fichier in self.fichiers():
+            ligne = '%s:%s' % (fichier.name, self._empreinte_fichier(fichier))
+            digest.update((ligne + chr(10)).encode('utf-8'))
+        return digest.hexdigest()
+
     def verifier(self) -> None:
         """Lève ``CorpusError`` si le document présent n'est pas celui du manifeste."""
-        if not self.chemin.is_file():
+        if not self.existe():
             raise CorpusError(
                 f"{self.cle} : document absent — {self.chemin}. Le corpus n'est pas versionné "
                 f"(EX-CNT-023) : déposer les PDF dans {self.racine}, ou passer --corpus-root."
+            )
+        if self.collection and len(self.fichiers()) != self.nombre:
+            raise CorpusError(
+                f'{self.cle} : {len(self.fichiers())} fichier(s) présents, {self.nombre} '
+                f'déclarés dans le manifeste ({self.chemin}). Un jeu incomplet produirait des '
+                f'données silencieusement lacunaires (EX-CNT-020).'
             )
         reelle = self.empreinte_reelle()
         if reelle != self.sha256:
@@ -168,6 +219,12 @@ class Corpus:
                 raise CorpusError(f'{manifeste} : {cle} — champ « {champ} » manquant.')
             return entree[champ]
 
+        type_entree = entree.get('type', 'pdf')
+        if type_entree not in TYPES:
+            raise CorpusError(
+                f'{manifeste} : {cle} — type {type_entree!r} inconnu '
+                f'(admis : {", ".join(TYPES)}).'
+            )
         pagination = requis('pagination')
         if pagination not in PAGINATIONS:
             raise CorpusError(
@@ -181,11 +238,23 @@ class Corpus:
                 f'(admises : {", ".join(PROVENANCES)}). Elle est reportée telle quelle dans le '
                 f'champ `source` des données produites (EX-CNT-001).'
             )
+        # `pages` ne se demande qu'aux PDF : une planche n'en a qu'une, et un dossier de jetons
+        # n'en a pas du tout — c'est `nombre` qui le mesure.
+        if type_entree == 'pdf':
+            pages = int(requis('pages'))
+        else:
+            pages = int(entree.get('pages', 1))
+        if type_entree == 'collection' and 'nombre' not in entree:
+            raise CorpusError(
+                f'{manifeste} : {cle} — champ « nombre » manquant. Une collection se vérifie par '
+                f'son compte autant que par son empreinte : sans lui, un jeu amputé passerait.'
+            )
         return Document(
             cle=cle,
             fichier=requis('fichier'),
             sha256=requis('sha256'),
-            pages=int(requis('pages')),
+            type=type_entree,
+            pages=pages,
             pagination=pagination,
             decalage=int(requis('decalage')),
             provenance=provenance,
@@ -193,6 +262,8 @@ class Corpus:
             ocr=bool(entree.get('ocr', False)),
             resume=entree.get('resume', ''),
             hors_perimetre=bool(entree.get('hors_perimetre', False)),
+            nombre=int(entree.get('nombre', 0)),
+            motif=entree.get('motif', '*'),
             racine=racine,
         )
 

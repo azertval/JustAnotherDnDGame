@@ -437,6 +437,21 @@ jobs:
       - name: Lexique de regles respecte par les catalogues de traduction
         run: python3 scripts/check_glossary.py
 
+      # Manifeste du corpus (LOT-30, etendu aux ressources VTT au LOT-38). Les PDF ne sont pas sur
+      # le runner et ne le seront pas (EX-CNT-023) : ce controle ne verifie donc PAS les empreintes
+      # -- c'est la charge de `python scripts/sourcebook verifier`, sur un poste qui a le corpus.
+      # Il verifie ce qui EST versionne : que le manifeste se charge, que ses champs sont admis, et
+      # que la logique d'empreinte fonctionne, eprouvee sur un corpus fictif ecrit en temporaire.
+      - name: Manifeste du corpus bien forme (EX-CNT-020)
+        run: python3 scripts/check_corpus_manifest.py
+
+      # Illustrations extraites du corpus (LOT-67). Le corpus n'est pas sur le runner et ne le
+      # sera pas (EX-CNT-023) : rien ici ne peut rejouer l'extraction. Ce controle porte donc sur
+      # ce qui EST versionne -- les images, leur manifeste, et le lien entre les deux et le code
+      # qui les nomme. Sans dependance : hashlib et une lecture d'en-tete JPEG.
+      - name: Illustrations conformes a leur manifeste (EX-IHM-076)
+        run: python3 scripts/check_ui_assets.py
+
       # Contrats des catalogues RPG (LOT-32). jsonschema est la seule dependance externe de la
       # filiere contenu ; elle est EPINGLEE, meme raison que Qt, Doxygen et LLVM ailleurs dans ce
       # fichier : un validateur qui change de version sans qu'on le decide ne predit plus le

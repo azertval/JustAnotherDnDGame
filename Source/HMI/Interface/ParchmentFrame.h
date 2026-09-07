@@ -79,6 +79,27 @@ inline constexpr int PARCHMENT_FRAME_UNITS = 3;
 [[nodiscard]] std::vector<ParchmentStroke> parchmentFrameStrokes(int width, int height, int scale);
 
 /**
+ * @brief Côté du **cabochon d'angle** d'un encadrement de @p width × @p height, en pixels.
+ *
+ * Exposé pour que le peintre pose au même endroit, et à la même taille, l'ornement tracé du
+ * `LOT-76` (`hmi::cabochonShapes`). Le déduire de l'ordre des bandes rendues par
+ * `parchmentFrameStrokes` marcherait aujourd'hui et casserait à la première bande ajoutée, sans
+ * qu'aucune erreur ne le dise : le cabochon se poserait ailleurs que le carré qu'il habille.
+ *
+ * @return Le côté du carré d'angle ; **zéro** quand le cadre est trop petit pour porter un
+ *         encadrement, cas où `parchmentFrameStrokes` ne rend que son champ.
+ */
+[[nodiscard]] int parchmentFrameCorner(int width, int height, int scale);
+
+/// Facteur de débord du **cabochon** sur le carré d'angle qu'il habille (`LOT-76`).
+///
+/// Un cabochon exactement à la taille du carré disparaît : il fait alors l'épaisseur de
+/// l'encadrement, et son octogone se confond avec le filet qui le borde. Sur les feuilles du
+/// corpus, la pierre mesure plus du double du filet — elle est *posée sur* l'angle, pas
+/// *encastrée dedans*. Deux fois, donc, et pas trois : au-delà elle mordrait sur le champ.
+inline constexpr int PARCHMENT_CABOCHON_FACTOR = 2;
+
+/**
  * @brief Sommets du **fleuron de focus** — une pointe pleine tournée vers la droite, inscrite dans
  *        un carré de côté @p size (`LOT-66`, `EX-IHM-071`).
  *

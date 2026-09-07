@@ -60,6 +60,16 @@ constexpr SizeTokens SHARED_SIZE{};
     tokens.color.frameEdge = DesignColor{.r = 0x30, .g = 0x20, .b = 0x00};
     tokens.color.frameOrnament = DesignColor{.r = 0x90, .g = 0x70, .b = 0x30};
     tokens.color.frameShadow = DesignColor{.r = 0x70, .g = 0x50, .b = 0x20};
+    // Grenat des cabochons et de la plaque du bandeau (LOT-76). RELEVE, comme le reste de cette
+    // palette : dominante quantifiee des pixels franchement rouges du cabochon de la planche 3,
+    // mesuree separement sur DEUX angles opposes -- qui donnent la meme valeur. Le grenat profond
+    // est celui du fond de la plaque du bandeau de titre, sur la meme feuille.
+    //
+    // Ces deux-la repondent au seul reproche que le LOT-66 se faisait a lui-meme : `error` restait
+    // la seule teinte inventee, faute d'etat d'erreur sur une feuille de personnage. Le rouge, lui,
+    // y est -- il n'etait simplement pas la ou on le cherchait.
+    tokens.color.gem = DesignColor{.r = 0x70, .g = 0x10, .b = 0x10};
+    tokens.color.gemShadow = DesignColor{.r = 0x40, .g = 0x00, .b = 0x00};
     tokens.spacing = SHARED_SPACING;
     tokens.typography = sharedTypography();
     tokens.typography.family = FontRole::Identity;  // titrage a empattements (LOT-68).
@@ -86,6 +96,13 @@ constexpr SizeTokens SHARED_SIZE{};
     tokens.color.frameEdge = DesignColor{.r = 0x14, .g = 0x17, .b = 0x1e};
     tokens.color.frameOrnament = DesignColor{.r = 0x4a, .g = 0x52, .b = 0x63};
     tokens.color.frameShadow = DesignColor{.r = 0x1a, .g = 0x1e, .b = 0x26};
+    // Le chassis ne dessine aucune gemme : ces deux roles n'y ont pas d'ornement a peindre. Ils
+    // existent parce que la structure est COMMUNE par construction -- c'est ce qui garantit qu'un
+    // role ajoute a une portee existe dans l'autre. Ils y prennent le rouge d'alerte de la portee,
+    // en clair et en profond, pour qu'un widget partage qui les lirait par erreur reste lisible
+    // plutot que d'y trouver un grenat de parchemin.
+    tokens.color.gem = DesignColor{.r = 0xff, .g = 0x6b, .b = 0x6b};
+    tokens.color.gemShadow = DesignColor{.r = 0x8a, .g = 0x2b, .b = 0x2b};
     tokens.spacing = SHARED_SPACING;
     tokens.typography = sharedTypography();
     tokens.size = SHARED_SIZE;
@@ -112,14 +129,17 @@ constexpr SizeTokens SHARED_SIZE{};
     tokens.color.frameEdge = DesignColor{.r = 0x9d, .g = 0xa4, .b = 0xb0};
     tokens.color.frameOrnament = DesignColor{.r = 0xe1, .g = 0xe5, .b = 0xeb};
     tokens.color.frameShadow = DesignColor{.r = 0xb5, .g = 0xbc, .b = 0xc6};
+    // Meme raison que dans le theme sombre : aucune gemme peinte, mais le role existe.
+    tokens.color.gem = DesignColor{.r = 0xc0, .g = 0x26, .b = 0x26};
+    tokens.color.gemShadow = DesignColor{.r = 0x81, .g = 0x1a, .b = 0x1a};
     tokens.spacing = SHARED_SPACING;
     tokens.typography = sharedTypography();
     tokens.size = SHARED_SIZE;
     return tokens;
 }
 
-// Ajoute les douze roles de couleur d'une portee au tableau de substitution, sous le prefixe donne
-// (ex. "identity.color.background" -> "#1a1f29").
+// Ajoute les quatorze roles de couleur d'une portee au tableau de substitution, sous le prefixe
+// donne (ex. "identity.color.background" -> "#1a1f29").
 void addColorValues(std::unordered_map<std::string, std::string>& values, const std::string& prefix,
                     const ColorTokens& color) {
     values[prefix + ".background"] = toCssColor(color.background);
@@ -131,6 +151,8 @@ void addColorValues(std::unordered_map<std::string, std::string>& values, const 
     values[prefix + ".accent"] = toCssColor(color.accent);
     values[prefix + ".accentHover"] = toCssColor(color.accentHover);
     values[prefix + ".error"] = toCssColor(color.error);
+    values[prefix + ".gem"] = toCssColor(color.gem);
+    values[prefix + ".gemShadow"] = toCssColor(color.gemShadow);
     values[prefix + ".frameEdge"] = toCssColor(color.frameEdge);
     values[prefix + ".frameOrnament"] = toCssColor(color.frameOrnament);
     values[prefix + ".frameShadow"] = toCssColor(color.frameShadow);

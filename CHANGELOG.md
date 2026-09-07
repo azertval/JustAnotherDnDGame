@@ -6,6 +6,108 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **Le châssis des écrans du RPG** (`LOT-68`). Huit écrans manquaient au jeu, et aucun n'existait
+  même en ébauche : fiche de personnage, inventaire et équipement, journal de quêtes, carte du
+  monde, dialogue, marchand, tableau de la Guilde, ATH de combat. Ce lot ne les **remplit** pas —
+  c'est le travail des `LOT-38`, `LOT-42`, `LOT-45` et `LOT-24` — il livre ce qu'ils ont en commun
+  et qu'aucun ne doit réinventer.
+  - **L'ossature est une table, et c'est tout le lot.** Le critère de la feuille de route disait :
+    *ajouter un neuvième écran ne demande de toucher à aucun des huit*. Il ne se tient pas avec huit
+    fichiers d'interface, fussent-ils bien écrits — le premier pied de page à corriger le serait
+    huit fois. `hmi::rpgScreens()` décrit donc chaque écran en **données pures** (blocs, genres,
+    libellés, `EX-IHM-090`), et le châssis Qt ne connaît **aucun** écran par son nom. Même règle
+    pour la feuille de style, qui habille par **rôle** et jamais par nom d'objet.
+  - **Les champs annoncés sont relevés sur les modèles déjà livrés** — `core::CharacterSheet`,
+    `core::Ability`, `core::Equipment`. Une ossature qui annonce des champs que le modèle ne porte
+    pas promet ce que le jeu ne pourra pas tenir. Les valeurs, elles, sont des **tirets** : ce lot
+    livre le cadre, et une valeur d'exemple se lirait comme un état du jeu (`EX-IHM-072`).
+  - **La règle de superposition appartient à l'écran, pas à l'appelant** (`EX-IHM-091`). La carte du
+    monde et l'ATH de combat se consultent **en marchant** — on ouvre une carte pour savoir où l'on
+    va sans s'arrêter ; les six autres suspendent la simulation. Décidée au point d'appel, cette
+    règle se contredirait d'un appel à l'autre sans que rien ne le signale.
+  - **« Nouvelle partie » ouvre le châssis, et c'est un échafaudage assumé.** Cette entrée n'a
+    aucune carte à charger — `demo-deplacement.json` n'existe pas, le `LOT-67` l'avait écrit — et
+    huit écrans qu'aucun chemin n'atteint ne se relisent ni ne se valident. La ligne à rendre à son
+    usage le jour où le `LOT-27` livrera une carte est **une seule**, et elle le dit. En attendant,
+    l'écran de jeu et celui de pause ne sont plus atteignables depuis le menu ; la table de
+    transitions déclare et teste déjà l'ouverture d'un écran du RPG depuis l'un et l'autre.
+  - **Trois défauts d'agencement, trouvés en ouvrant l'application** et invisibles dans le code : le
+    pied d'actions passait sous la ligne de flottaison (une seconde zone défilante borne désormais
+    le contenu seul, le pied reste posé au bas du cadre) ; le bandeau de titre débordait de la
+    fenêtre à la taille des titres d'écran, sortant la colonne de droite du cadre sans qu'aucune
+    erreur ne soit levée ; et les rappels de touches imposaient leur largeur — une aide ne décide
+    pas de la largeur d'une fenêtre.
+
+- **Menus et vocabulaire d'un RPG** (`LOT-67`). Le jeu décrivait un autre jeu : « Choisir un
+  niveau » au menu, « Recommencer le niveau » en pause, et un avertissement de sortie qui parlait
+  de « la progression du **tableau** en cours ». Ce lot retire la **notion de niveau discret** —
+  des écrans, du code, du vocabulaire et des exigences — et remplace le décor du menu principal par
+  la **carte du monde de Tanares**.
+  - **Le menu principal perd deux entrées, parce qu'elles ne menaient plus nulle part.**
+    « Continuer » reposait sur une progression au tableau, « Choisir un niveau » sur une séquence :
+    les deux sont retirées. Les griser aurait coûté plus de confiance qu'elles n'apportaient
+    d'information (`EX-IHM-072`). « Continuer » revient avec la sauvegarde du `LOT-17`, les entrées
+    RPG de la pause avec les écrans du `LOT-68`.
+  - **Il perd aussi son titre** : le fond *est* la carte du monde, et un bandeau posé dessus
+    répétait en lettres ce que l'image dit déjà. Les autres écrans gardent le leur — sans image à
+    eux, on ne saurait pas où l'on est.
+  - **La carte du monde trace la frontière que le `LOT-76` avait ouverte.** Ce lot-là concluait que
+    l'habillage se **trace** (`EX-IHM-075`) ; celui-ci livre une image, et c'est la même frontière
+    prise de l'autre côté (`EX-IHM-076`) : un ornement se trace parce qu'il doit se redimensionner
+    et suivre les jetons, une carte peinte ne le peut pas. Mêmes garde-fous — région déclarée,
+    manifeste recoupé en CI avec les fichiers et le code, repli si l'image manque.
+  - **Du JPEG, seul du dépôt, et c'est délibéré** : le PNG de cette carte pèse 4,4 Mo, son JPEG
+    0,7, pour une différence que personne ne voit sous un voile. Le poids du dépôt est un sujet du
+    corpus depuis le début (`EX-CNT-023`). Le filigrane d'achat est **recadré**, jamais effacé :
+    l'effacer demanderait de repeindre ce qu'il recouvre.
+  - **~1 300 lignes retirées** : deux écrans (sélection de niveau, fin de niveau), deux modèles
+    (`Progression`, `LevelSequence`), un bilan de partie (`LevelRunStats`), deux maquettes. C'étaient
+    les mises en œuvre des exigences retirées ; les garder aurait laissé du code que plus aucune
+    exigence ne justifie.
+  - **Seize exigences traitées : douze retirées, trois refondues, une conservée.** `EX-GP-040`,
+    `EX-IHM-003` et `EX-IHM-004` avaient un objet **au-delà** du niveau discret — le jeu a toujours
+    des états, un ATH et un écran de pause — et les retirer aurait laissé leur mise en œuvre
+    orpheline. Les douze autres sont **retirées, pas supprimées** : leurs ancres restent, avec le
+    texte d'origine et le motif, comme le `LOT-H-69` l'avait fait pour les décors-sprites — une
+    vingtaine de lots hérités s'y réfèrent.
+  - **« niveau » devient « carte », partout**, y compris côté éditeur où la famille de clés
+    `level.*` devient `map.*` : l'éditeur n'édite pas des niveaux, il édite les cartes du monde.
+    Les deux catalogues restent synchrones, 376 clés de chaque côté. L'événement `LevelCompleted`
+    devient `ExitReached`, et `SequenceCompleted` disparaît avec son bruitage.
+  - **Ce que le lot ne rend pas jouable, et le dit** : « Nouvelle partie » ouvre
+    `demo-deplacement.json`, qui **n'existe pas** — le `LOT-01` a purgé les niveaux du jeu de
+    plateforme et aucun lot n'en a livré depuis. Le constat est antérieur à ce lot (la « Nouvelle
+    partie » d'avant chargeait une séquence tout aussi absente) mais il devient visible.
+
+- **Habillage d'interface extrait des livres** (`LOT-76`). Les écrans du jeu portent enfin ce qui
+  fait reconnaître une page de Tanares en une seconde : la **pierre sertie** à l'angle des panneaux
+  et le **bandeau de titre à ailes**. Tous deux **tracés**, donc nets à tout facteur
+  d'agrandissement et pilotés par les jetons de la charte.
+  - **Le découpage d'images a été construit, puis abandonné.** Vingt et une planches PNG à 300 ppp,
+    leur manifeste et leur lint d'intégrité existaient ; c'est l'écran qui a tranché. Un cabochon de
+    108 pixels sur un panneau haut de 340 mangeait le tiers de sa hauteur, et le bandeau demandait
+    l'impossible à un découpage en tranches — une plaque qui s'allonge avec le titre, des ailes qui
+    n'en font rien. À ce point-là, on ne redimensionnait plus une image, on la redessinait mal.
+  - **Ce que le corpus donne reste entier : la mesure, pas la matière.** Le grenat des cabochons
+    (`#701010`) est la dominante quantifiée des pixels rouges d'un cabochon, mesurée **séparément
+    sur deux angles opposés** de la planche — même méthode que la palette du `LOT-66`, même
+    vérification croisée. Le grenat profond des plaques (`#400000`) vient du bandeau du livre.
+  - **`error` n'est plus le seul rôle inventé.** Le `LOT-66` le signalait comme non attesté, « une
+    feuille de personnage n'ayant pas d'état d'erreur à montrer ». C'était vrai d'un état d'erreur
+    et faux du rouge : il est dans les gemmes. Deux jetons neufs, `gem` et `gemShadow`, relevés.
+  - **L'invariant du bandeau : l'envergure des ailes suit la hauteur, jamais la largeur.** Un titre
+    long allonge la plaque et rien d'autre — ce qu'une image étirée ne sait pas faire. Quand la
+    largeur manque, ce sont les ailes qui cèdent, puis disparaissent ; jamais la plaque, qui porte
+    le titre.
+  - **La variante accentuée garde ses angles nus.** Son filet passe à la couleur d'accent pour
+    signaler un écran superposé ; une pierre par-dessus rendrait ce signal illisible.
+  - **Les six titres d'écran deviennent des bandeaux.** Le texte tient **entre** les ailes par les
+    marges de contenu, et non par un décalage au moment de peindre — sinon l'élision décide sur la
+    mauvaise largeur, et le mot coupé n'apparaît que sur le titre le plus long. Sa couleur passe à
+    l'or pâle : l'or des filets tenait sur du parchemin, il disparaît sur le grenat.
+  - Exigence ajoutée : `EX-IHM-075` — l'habillage ornemental se **trace**, il ne se livre pas en
+    image. `EX-IHM-070` imposait de relever les **couleurs** ; rien n'était écrit des **formes**.
+
 - **Charte visuelle : sortir de l'identité pixel art** (`LOT-66`). L'interface héritée du jeu de
   plateforme laisse place à l'identité du **parchemin de Tanares** — parchemin, encre sépia, filets
   et cabochons dorés, titrage à empattements.

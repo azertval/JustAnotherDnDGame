@@ -64,6 +64,12 @@ struct ColorTokens {
     DesignColor frameEdge;      ///< Trait extérieur de l'encadrement : la valeur la plus sombre.
     DesignColor frameOrnament;  ///< Filet ornemental posé en retrait du trait extérieur.
     DesignColor frameShadow;    ///< Ombre portée de l'encadrement sur le fond.
+    // Rôles de la GEMME des ornements (`LOT-76`, `EX-IHM-075`). Le cabochon d'angle et la plaque
+    // du bandeau de titre sont, dans les feuilles de personnage, un grenat serti d'or — la seule
+    // couleur froide-chaude de l'habillage, et la seule qui ne soit ni du parchemin ni de l'encre.
+    // Ajoutés aux DEUX portées, la structure étant commune par construction.
+    DesignColor gem;        ///< Facette éclairée de la gemme.
+    DesignColor gemShadow;  ///< Facette en profondeur, et fond de la plaque de bandeau.
 };
 
 // Neutralise la macro Windows `small` (`rpcndr.h`, incluse via <Windows.h> dans toute unite de

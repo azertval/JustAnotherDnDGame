@@ -15,11 +15,15 @@
 #                  paginés en DOUBLE PAGE : une page PDF en porte deux côte à côte, et un
 #                  sommaire qui annonce « p. 100 » désigne la page PDF 50. Ignorer ce facteur 2
 #                  vise systématiquement le mauvais chapitre.
+#   `type`       — `pdf` (par défaut), `image` (une planche seule) ou `collection` (un dossier de
+#                  fichiers de même nature). Les ressources de table virtuelle (VTT) ajoutées au
+#                  `LOT-38` ne sont pas toutes des PDF, et l'empreinte doit les couvrir aussi.
 #   `provenance` — reportée telle quelle dans le champ `source` de chaque donnée produite
 #                  (EX-CNT-001) : `srd`, `tanares`, `phb-fr`. Le jour d'une publication, la
 #                  question « qu'est-ce qui doit sauter ? » se répond par une requête.
 #
-# Les empreintes ont été relevées le 2026-09-05. Régénérer ce bloc :
+# Les empreintes ont été relevées les 2026-09-05 (les huit premiers documents) et 2026-09-07 (les
+# neuf ressources VTT). Régénérer ce bloc :
 #     python scripts/sourcebook verifier --regenerer
 
 version = 1
@@ -129,3 +133,130 @@ provenance = "tanares"
 langue = "en"
 ocr = false
 resume = "5 feuilles de personnage, sans texte extractible ; maquette à ~300 ppp pour l'écran de fiche"
+
+# ---------------------------------------------------------------------------------------------
+# Ressources de table virtuelle (VTT) — ajoutées le 2026-09-07, avant le `LOT-38`.
+#
+# Elles ne viennent pas d'un autre livre : ce sont les fichiers de jeu distribués avec Tanares
+# pour jouer sur table virtuelle. Leur intérêt tient à ce que les PDF de règles n'ont pas — des
+# **cartes tactiques vues de dessus**, des **jetons ronds détourés**, une carte du monde à
+# 9 933 x 7 016, et une feuille de personnage **vierge**, c'est-à-dire une maquette et non un
+# exemple rempli.
+#
+# Ce qu'elles alimentent est écrit ici plutôt que découvert au lot suivant : c'est la seule façon
+# qu'un lot les trouve sans les redécouvrir, et la raison pour laquelle elles sont déclarées
+# AVANT d'être consommées.
+# ---------------------------------------------------------------------------------------------
+
+[documents.blank-sheets]
+fichier = "VTT/Blank Sheets RPG (1).pdf"
+sha256 = "86f51b45844031dcb9251d6df193a04e8ee14fa0a1fe4369b5376173f2667300"
+pages = 5
+pagination = "aucune"
+decalage = 0
+provenance = "tanares"
+langue = "en"
+ocr = false
+resume = "les 5 feuilles de personnage VIERGES, sans texte extractible : la maquette de l'écran de fiche du LOT-38, là où character-sheets porte les mêmes feuilles remplies"
+
+[documents.rpg-sheets-bw]
+fichier = "VTT/RPG Sheets - BW print (2).pdf"
+sha256 = "1ead29a8197fff130d88af8f2e5ecbe4eac3b2981130fa1c58db7f243b429a00"
+pages = 5
+pagination = "aucune"
+decalage = 0
+provenance = "tanares"
+langue = "en"
+ocr = false
+resume = "les mêmes feuilles en noir et blanc : lisibles à plat, elles donnent la STRUCTURE de la mise en page là où la version couleur donne l'habillage (LOT-38)"
+
+# Texte natif, propre, et en volume : 608 000 caractères sur 169 pages. Le plus gros gisement de
+# blocs de statistiques du corpus après le Manuel des Monstres — et lui, contrairement au manuel,
+# n'est pas un scan.
+#
+# ATTENTION à la pagination : la page PDF est une DOUBLE PAGE physique (1 224 x 792), mais elle
+# est numérotée comme UNE seule page. La pagination est donc `simple`, contrairement aux deux
+# livres Tanares qu'elle ressemble à s'y méprendre. S'y tromper vise une page sur deux.
+[documents.character-compendium]
+fichier = "VTT/Character Compendium - Low.pdf"
+sha256 = "754d73579ad581a94eef869c07a174a87f44e3b1efc21285006e6127b61276d6"
+pages = 169
+pagination = "simple"
+decalage = 1             # page PDF 40 porte la page imprimée 41
+provenance = "tanares"
+langue = "en"
+ocr = false
+resume = "PNJ et créatures de Tanares : blocs de statistiques complets et portrait pleine page, texte natif (LOT-46, LOT-82)"
+
+[documents.character-compendium-hd]
+fichier = "VTT/Character Compendium - High.pdf"
+sha256 = "7ad4d4fb152752a14a03e17c10858a7b38dac75dd6c074ef36b68ef37975df74"
+pages = 169
+pagination = "simple"
+decalage = 1
+provenance = "tanares"
+langue = "en"
+ocr = false
+resume = "le même compendium à haute définition (83 Mo contre 24) : à n'ouvrir que pour EXTRAIRE une illustration, jamais pour lire du texte — les deux portent exactement les mêmes 608 000 caractères"
+
+# Deux pages de couverture simples, puis treize doubles pages : d'où le décalage de -2. Les
+# vérifier a évité de viser une page sur deux dès la première extraction.
+[documents.aventure-azymor]
+fichier = "VTT/Adventure Hunt for Azymor.pdf"
+sha256 = "c3e85c7f4c444b596d0dde665b2af6d9cdafca1d4d26ff70f35723bea95452ac"
+pages = 15
+pagination = "double"
+decalage = -2            # page PDF 4 porte les pages imprimées 6 et 7
+provenance = "tanares"
+langue = "en"
+ocr = false
+resume = "module d'aventure complet : intrigue, PNJ nommés, lieux et rencontres, texte natif — matière du vertical slice (LOT-27) et de ses quêtes (LOT-16)"
+
+[documents.cartes-tactiques]
+fichier = "VTT/Adventure Map Grids.pdf"
+sha256 = "a82f3318fdf5a79741dadcb6c16a2e6e5f7aba3f0b45347337ee6b5c521b19a0"
+pages = 31
+pagination = "aucune"
+decalage = 0
+provenance = "tanares"
+langue = "en"
+ocr = false
+resume = "31 cartes tactiques peintes VUES DE DESSUS et alignées sur une grille : la seule matière du corpus qui montre le jeu sous l'angle où il se joue (LOT-19, LOT-27, LOT-40)"
+
+[documents.carte-monde-hd]
+fichier = "VTT/Map - World.jpg"
+type = "image"
+sha256 = "7754a3910b26f8c31a8b4281aa00edf6430f89d8e4bca68a4d0358a6987a81b6"
+pagination = "aucune"
+decalage = 0
+provenance = "tanares"
+langue = "en"
+ocr = false
+resume = "la carte du monde à 9 933 x 7 016, sans filigrane ni double page : la source de l'écran de carte du LOT-42, là où le fond de menu du LOT-67 se contente de 96 ppp"
+
+[documents.carte-capitale]
+fichier = "VTT/Map - Capital.jpg"
+type = "image"
+sha256 = "ecc90068b09b1dc00bdf94487232e17fed478f091cd4bd467b0a846968de83a9"
+pagination = "aucune"
+decalage = 0
+provenance = "tanares"
+langue = "en"
+ocr = false
+resume = "plan de la capitale à 9 933 x 7 016 : une ville entière, rue par rue (LOT-42, LOT-82)"
+
+# Un dossier, une ligne de manifeste. L'empreinte porte sur la liste triée « nom:empreinte » de
+# ses 172 fichiers : un jeton retiré, ajouté ou retouché la change. Déclarer 172 entrées pour un
+# jeu qu'on prend ou qu'on laisse entier aurait coûté 172 lignes pour une seule décision.
+[documents.jetons-vtt]
+fichier = "VTT/Tokens VTT PNG"
+type = "collection"
+motif = "*.png"
+nombre = 172
+sha256 = "d73820f2a3654078323ea5436f0212636c9b8460d39cb515545440369c48c124"
+pagination = "aucune"
+decalage = 0
+provenance = "tanares"
+langue = "en"
+ocr = false
+resume = "172 jetons ronds détourés (354 x 354, alpha) : PNJ, aventuriers et créatures, prêts à servir de portrait (LOT-38, LOT-15, LOT-24) sans aucun détourage à faire"

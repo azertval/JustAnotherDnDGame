@@ -39,6 +39,8 @@ CSS_VARIABLE_BY_ROLE = {
     "frameOrnament": "ornament",
     "frameShadow": "shadow",
     "textMuted": "muted",
+    "gem": "gem",
+    "gemShadow": "gemShadow",
 }
 
 

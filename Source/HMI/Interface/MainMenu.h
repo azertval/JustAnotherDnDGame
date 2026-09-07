@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <QPixmap>
 #include <QWidget>
 #include <memory>
 
@@ -32,6 +33,12 @@ class MainMenu : public QWidget {
     Q_OBJECT
 
 public:
+    /// Nom de fichier du fond de menu, sous `Assets/UI/`. **Unique** endroit du code où il est
+    /// écrit : `scripts/check_ui_assets.py` le recoupe avec le manifeste des illustrations dans
+    /// les deux sens — un fond nommé ici mais absent du manifeste, et une illustration livrée que
+    /// plus personne ne nomme, sont l'une et l'autre une erreur.
+    static constexpr const char* BACKDROP_FILE = "world-map.jpg";
+
     explicit MainMenu(QWidget* parent = nullptr);
     ~MainMenu() override;
 
@@ -40,13 +47,9 @@ public:
 
     /// Active/désactive « Continuer » (`LOT-59` TACHE-06) : grisé sans progression, seul bouton
     /// dont l'état dépend d'autre chose que la langue -- appelé par `MainWindow` à chaque retour
-    /// au menu (source de vérité : `Progression::currentLevel`, jamais suivi ici).
-    void setContinueEnabled(bool enabled);
 
 signals:
-    void continueRequested();
     void newGameRequested();
-    void selectLevelRequested();
     void editorRequested();
     void optionsRequested();
     void creditsRequested();
@@ -59,6 +62,10 @@ protected:
     void paintEvent(QPaintEvent* event) override;
 
 private:
+    /// Carte du monde de Tanares, fond du menu (`LOT-67`). **Nulle** si l'illustration est absente
+    /// — cas attendu (`EX-NFR-040`), jamais une panne : le décor tracé de
+    /// `hmi::menuBackdropQuads` reprend alors la main.
+    QPixmap _backdrop;
     std::unique_ptr<Ui::MainMenu> _ui;
 };
 

@@ -37,10 +37,6 @@ TEST(ScreenFlowTest, TransitionsAutoriseesMenentALEcranAttendu) {
     const ScreenState editor{.screen = ScreenId::Editor, .optionsReturnTo = ScreenId::Menu};
     const ScreenState game{.screen = ScreenId::Game, .optionsReturnTo = ScreenId::Menu};
     const ScreenState pause{.screen = ScreenId::Pause, .optionsReturnTo = ScreenId::Menu};
-    const ScreenState niveauTermine{.screen = ScreenId::LevelComplete,
-                                    .optionsReturnTo = ScreenId::Menu};
-    const ScreenState levelSelect{.screen = ScreenId::LevelSelect,
-                                  .optionsReturnTo = ScreenId::Menu};
     const ScreenState credits{.screen = ScreenId::Credits, .optionsReturnTo = ScreenId::Menu};
     const ScreenState optionsFromMenu{.screen = ScreenId::Options,
                                       .optionsReturnTo = ScreenId::Menu};
@@ -53,27 +49,21 @@ TEST(ScreenFlowTest, TransitionsAutoriseesMenentALEcranAttendu) {
     EXPECT_EQ(resolveTransition(editor, ScreenEvent::OpenMenu)->screen, ScreenId::Menu);
     EXPECT_EQ(resolveTransition(game, ScreenEvent::OpenMenu)->screen, ScreenId::Menu);
     EXPECT_EQ(resolveTransition(game, ScreenEvent::OpenPause)->screen, ScreenId::Pause);
-    EXPECT_EQ(resolveTransition(game, ScreenEvent::LevelSucceeded)->screen,
-              ScreenId::LevelComplete);
     EXPECT_EQ(resolveTransition(pause, ScreenEvent::ResumePause)->screen, ScreenId::Game);
-    EXPECT_EQ(resolveTransition(pause, ScreenEvent::RestartFromPause)->screen, ScreenId::Game);
     EXPECT_EQ(resolveTransition(pause, ScreenEvent::QuitPauseToMenu)->screen, ScreenId::Menu);
     EXPECT_EQ(resolveTransition(pause, ScreenEvent::OpenOptions)->screen, ScreenId::Options);
     EXPECT_EQ(resolveTransition(optionsFromMenu, ScreenEvent::CloseOptions)->screen,
               ScreenId::Menu);
     EXPECT_EQ(resolveTransition(optionsFromPause, ScreenEvent::CloseOptions)->screen,
               ScreenId::Pause);
-    EXPECT_EQ(resolveTransition(niveauTermine, ScreenEvent::ContinueAfterLevel)->screen,
-              ScreenId::Game);
-    EXPECT_EQ(resolveTransition(niveauTermine, ScreenEvent::ReplayLevel)->screen, ScreenId::Game);
-    EXPECT_EQ(resolveTransition(niveauTermine, ScreenEvent::ReturnToMenuFromLevelComplete)->screen,
-              ScreenId::Menu);
-    EXPECT_EQ(resolveTransition(menu, ScreenEvent::OpenLevelSelect)->screen, ScreenId::LevelSelect);
-    EXPECT_EQ(resolveTransition(levelSelect, ScreenEvent::LevelChosen)->screen, ScreenId::Game);
-    EXPECT_EQ(resolveTransition(levelSelect, ScreenEvent::CloseLevelSelect)->screen,
-              ScreenId::Menu);
+    EXPECT_EQ(resolveTransition(pause, ScreenEvent::QuitPauseToMenu)->screen, ScreenId::Menu);
     EXPECT_EQ(resolveTransition(menu, ScreenEvent::OpenCredits)->screen, ScreenId::Credits);
     EXPECT_EQ(resolveTransition(credits, ScreenEvent::CloseCredits)->screen, ScreenId::Menu);
+    // Ecrans du RPG (LOT-68) : atteignables depuis le menu (echafaudage de « Nouvelle partie »),
+    // depuis le jeu et depuis la pause.
+    EXPECT_EQ(resolveTransition(menu, ScreenEvent::OpenRpgScreen)->screen, ScreenId::RpgScreen);
+    EXPECT_EQ(resolveTransition(game, ScreenEvent::OpenRpgScreen)->screen, ScreenId::RpgScreen);
+    EXPECT_EQ(resolveTransition(pause, ScreenEvent::OpenRpgScreen)->screen, ScreenId::RpgScreen);
     // Aperçu en direct / onglet Rejeu (LOT-ANNEXE-21) : ramène au Menu une fois la lecture
     // terminée (même convention que l'ancien "Regarder l'IA jouer", LOT-ANNEXE-18).
 }
@@ -108,7 +98,7 @@ TEST(ScreenFlowTest, OptionsRevientVersSonEcranDOrigine) {
 
 /**
  * @brief Une transition interdite est refusée (std::nullopt), notamment Editor -> Pause et
- *        Menu -> LevelComplete (exemples cités par TACHE-01).
+ *        Menu -> Pause.
  * \castest{<b>Une transition interdite est refusée.</b><br/>
  * \tcat Unitaire · Machine à états des écrans<br/>
  * \tcrit Critique<br/>
@@ -123,18 +113,43 @@ TEST(ScreenFlowTest, TransitionInterditeEstRefusee) {
     const ScreenState game{.screen = ScreenId::Game, .optionsReturnTo = ScreenId::Menu};
 
     EXPECT_EQ(resolveTransition(editor, ScreenEvent::OpenPause), std::nullopt);
-    EXPECT_EQ(resolveTransition(menu, ScreenEvent::LevelSucceeded), std::nullopt);
     EXPECT_EQ(resolveTransition(menu, ScreenEvent::OpenPause), std::nullopt);
     EXPECT_EQ(resolveTransition(menu, ScreenEvent::ResumePause), std::nullopt);
     EXPECT_EQ(resolveTransition(editor, ScreenEvent::OpenOptions), std::nullopt);
-    // Sélection de niveau (LOT-59 TACHE-06) : atteignable seulement depuis le menu, jamais en jeu
-    // ni en édition.
-    EXPECT_EQ(resolveTransition(editor, ScreenEvent::OpenLevelSelect), std::nullopt);
-    EXPECT_EQ(resolveTransition(game, ScreenEvent::OpenLevelSelect), std::nullopt);
     // Crédits (LOT-60) : même règle, atteignable seulement depuis le menu.
     EXPECT_EQ(resolveTransition(editor, ScreenEvent::OpenCredits), std::nullopt);
     EXPECT_EQ(resolveTransition(game, ScreenEvent::OpenCredits), std::nullopt);
     // Mode IA (LOT-ANNEXE-21) : même règle, atteignable seulement depuis le menu.
+    // Ecrans du RPG (LOT-68) : l'editeur n'y mene pas -- ce sont des ecrans de JOUEUR.
+    EXPECT_EQ(resolveTransition(editor, ScreenEvent::OpenRpgScreen), std::nullopt);
+    EXPECT_EQ(resolveTransition(menu, ScreenEvent::CloseRpgScreen), std::nullopt);
+}
+
+/**
+ * @brief Un écran du RPG revient vers l'écran d'où il a été ouvert -- menu, jeu ou pause -- porté
+ *        par l'état, comme la provenance d'Options (`LOT-68`, `EX-IHM-090`).
+ * \castest{<b>Un ecran du RPG revient vers son ecran d'origine (Menu, Game ou Pause).</b><br/>
+ * 	cat Unitaire · Machine à états des écrans<br/>
+ * 	crit Critique<br/>
+ * 	etapes 1. Ouvrir un ecran du RPG depuis le menu, le jeu puis la pause.<br/>2. Le fermer a
+ * chaque fois et verifier l'ecran atteint.<br/>
+ * 	attendu Chaque fermeture revient a l'ecran d'origine respectif.
+ * }
+ */
+TEST(ScreenFlowTest, EcranDuRpgRevientVersSonEcranDOrigine) {
+    const ScreenState menu{.screen = ScreenId::Menu, .optionsReturnTo = ScreenId::Menu};
+    const ScreenState game{.screen = ScreenId::Game, .optionsReturnTo = ScreenId::Menu};
+    const ScreenState pause{.screen = ScreenId::Pause, .optionsReturnTo = ScreenId::Menu};
+
+    for (const auto& [origin, expected] :
+         {std::pair{menu, ScreenId::Menu}, std::pair{game, ScreenId::Game},
+          std::pair{pause, ScreenId::Pause}}) {
+        const std::optional<ScreenState> opened =
+            resolveTransition(origin, ScreenEvent::OpenRpgScreen);
+        ASSERT_TRUE(opened.has_value());
+        EXPECT_EQ(opened->rpgReturnTo, expected);
+        EXPECT_EQ(resolveTransition(*opened, ScreenEvent::CloseRpgScreen)->screen, expected);
+    }
 }
 
 /**
@@ -185,14 +200,14 @@ TEST(ScreenFlowTest, HabillageDeFenetreEstCeluiAttenduParEcran) {
     EXPECT_TRUE(options.gamepadNavigationActive);
     EXPECT_FALSE(options.overlayVisible);
 
-    const ScreenDressing levelSelect = dressingFor(ScreenId::LevelSelect);
-    EXPECT_FALSE(levelSelect.docksVisible);
-    EXPECT_FALSE(levelSelect.menuBarVisible);
-    EXPECT_FALSE(levelSelect.toolBarVisible);
-    EXPECT_FALSE(levelSelect.pixelToolBarVisible);
-    EXPECT_FALSE(levelSelect.editingCommandsEnabled);
-    EXPECT_TRUE(levelSelect.gamepadNavigationActive);
-    EXPECT_FALSE(levelSelect.overlayVisible);
+    // Les ecrans du RPG (LOT-68) sont des PAGES de la pile, comme Options et Credits : le
+    // recouvrement viendra avec la scene qu'il aura a laisser voir derriere lui.
+    const ScreenDressing rpg = dressingFor(ScreenId::RpgScreen);
+    EXPECT_FALSE(rpg.docksVisible);
+    EXPECT_FALSE(rpg.menuBarVisible);
+    EXPECT_FALSE(rpg.editingCommandsEnabled);
+    EXPECT_TRUE(rpg.gamepadNavigationActive);
+    EXPECT_FALSE(rpg.overlayVisible);
 
     const ScreenDressing credits = dressingFor(ScreenId::Credits);
     EXPECT_FALSE(credits.docksVisible);
@@ -203,34 +218,14 @@ TEST(ScreenFlowTest, HabillageDeFenetreEstCeluiAttenduParEcran) {
     EXPECT_TRUE(credits.gamepadNavigationActive);
     EXPECT_FALSE(credits.overlayVisible);
 
-    for (const ScreenId overlayScreen : {ScreenId::Pause, ScreenId::LevelComplete}) {
-        const ScreenDressing overlay = dressingFor(overlayScreen);
-        EXPECT_FALSE(overlay.docksVisible) << static_cast<int>(overlayScreen);
-        EXPECT_FALSE(overlay.menuBarVisible) << static_cast<int>(overlayScreen);
-        EXPECT_FALSE(overlay.toolBarVisible) << static_cast<int>(overlayScreen);
-        EXPECT_FALSE(overlay.pixelToolBarVisible) << static_cast<int>(overlayScreen);
-        EXPECT_FALSE(overlay.editingCommandsEnabled) << static_cast<int>(overlayScreen);
-        EXPECT_TRUE(overlay.gamepadNavigationActive) << static_cast<int>(overlayScreen);
-        EXPECT_TRUE(overlay.overlayVisible) << static_cast<int>(overlayScreen);
-    }
-}
-
-/**
- * @brief Rejouer ou continuer depuis l'écran de fin de niveau ramène toujours à Game -- jamais
- *        directement à un autre écran (le contenu réel du niveau suivant est décidé ailleurs,
- *        hors de la responsabilité de la machine à états).
- * \castest{<b>Continuer/Rejouer depuis LevelComplete ramène à Game.</b><br/>
- * \tcat Unitaire · Machine à états des écrans<br/>
- * \tcrit Majeur<br/>
- * \tetapes 1. Résoudre ContinueAfterLevel depuis LevelComplete.<br/>2. Résoudre ReplayLevel depuis
- * LevelComplete.<br/>
- * \tattendu Les deux transitions mènent à Game.
- * }
- */
-TEST(ScreenFlowTest, ContinuerOuRejouerDepuisLevelCompleteRameneAGame) {
-    const ScreenState niveauTermine{.screen = ScreenId::LevelComplete,
-                                    .optionsReturnTo = ScreenId::Menu};
-    EXPECT_EQ(resolveTransition(niveauTermine, ScreenEvent::ContinueAfterLevel)->screen,
-              ScreenId::Game);
-    EXPECT_EQ(resolveTransition(niveauTermine, ScreenEvent::ReplayLevel)->screen, ScreenId::Game);
+    // La pause est le SEUL recouvrement depuis le LOT-67 : l'ecran de fin de niveau etait
+    // l'autre, et le bac a sable n'a pas de niveau a terminer.
+    const ScreenDressing overlay = dressingFor(ScreenId::Pause);
+    EXPECT_FALSE(overlay.docksVisible);
+    EXPECT_FALSE(overlay.menuBarVisible);
+    EXPECT_FALSE(overlay.toolBarVisible);
+    EXPECT_FALSE(overlay.pixelToolBarVisible);
+    EXPECT_FALSE(overlay.editingCommandsEnabled);
+    EXPECT_TRUE(overlay.gamepadNavigationActive);
+    EXPECT_TRUE(overlay.overlayVisible);
 }

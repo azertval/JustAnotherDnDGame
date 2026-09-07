@@ -7,46 +7,21 @@
 # A ne pas confondre avec l'identifiant technique « JustAnotherDnDGame » (cible CMake,
 # binaire, depot, prefixe de macro JADG_) : un renommage global de l'un a deja ecrase
 # l'autre une fois (LOT-01). Les deux sont distincts, et doivent le rester.
-menu.title = Just Another D&D Game
-menu.continue = Continue
 menu.new_game = New Game
-menu.select_level = Select Level
 menu.edit_mode = Edit Mode
 menu.options = Options
 menu.credits = Credits
 menu.quit = Quit
-menu.new_game_confirm_title = New game?
-menu.new_game_confirm_text = Current progress will be erased. Start a new game?
 
-# Pause screen (LOT-59 TACHE-02)
+# Pause screen. "Restart" is gone since LOT-67: an open world has no stage to replay from its
+# start. The RPG entries -- sheet, inventory, journal, map -- come with the LOT-68 screens: a menu
+# entry that leads nowhere costs more trust than it carries information (EX-IHM-072).
 pause.title = Pause
 pause.resume = Resume
-pause.restart = Restart Level
 pause.options = Options
 pause.quit_to_menu = Quit to Menu
 pause.quit_confirm_title = Quit to menu?
-pause.quit_confirm_text = Progress on the current level will be lost. Quit to menu?
-
-# Level complete and sequence complete screen (LOT-59 TACHE-03)
-level_complete.title_level = Level complete: %1
-level_complete.title_sequence = Sequence complete!
-level_complete.continue = Continue
-level_complete.replay = Replay
-level_complete.return_to_menu = Return to Menu
-level_complete.summary = Time %1 · Deaths %2 · Jumps %3
-
-# Level sequence (LOT-59 TACHE-04)
-sequence.demo.title = Demo Sequence
-game.sequence_failed_title = Sequence Unreadable
-game.sequence_failed_text = Could not load the level sequence: %1
-
-# Level select screen (LOT-59 TACHE-06)
-level_select.title = Select Level
-level_select.tab_sequence = Sequence
-level_select.tab_personal = Personal Levels
-level_select.back = Back
-level_select.completed_suffix = (completed)
-level_select.locked_suffix = (locked)
+pause.quit_confirm_text = The current game will be lost. Quit to menu?
 
 # Main window and menu bar
 window.title = Just Another D&D Game — Editor
@@ -58,10 +33,10 @@ menubar.help = Help
 menubar.layers = Layers
 menubar.panels = Panels
 menubar.workspace = Workspace
-menubar.workspace_level = Level editing
+menubar.workspace_level = Map editing
 menubar.workspace_planes = Creation mode
 menubar.workspace_pixel_art = Pixel art workshop
-menubar.level = Level
+menubar.level = Map
 menubar.resize = Resize…
 menubar.view = View
 menubar.theme = Theme
@@ -83,7 +58,7 @@ menubar.reset_layout = Reset layout
 
 # Dock panels
 dock.palette = Palette
-dock.levels = Levels
+dock.levels = Maps
 dock.links = Links
 dock.textures = Textures
 dock.pixel_canvas = Workshop
@@ -92,7 +67,7 @@ dock.pixel_palette = Palette
 
 # Textures panel (LOT-42)
 textures.skin_set = Skin set
-textures.skin_set_tooltip = Skin set for the editing session, distinct from the level's (see "Background" section).
+textures.skin_set_tooltip = Skin set for the editing session, distinct from the map's (see "Background" section).
 textures.section_skins = Skins
 textures.column_type = Tile type
 textures.column_asset = File
@@ -107,8 +82,8 @@ textures.reload_done = Textures reloaded.
 textures.section_background = Background
 textures.background_mode_hint = Background rendering requires Texture mode (F8).
 textures.background_label = Background
-textures.level_skin_set = Level skin set
-textures.level_skin_set_tooltip = Skin set used by THIS level, distinct from the "Skin set" selector above (current editing set).
+textures.level_skin_set = Map skin set
+textures.level_skin_set_tooltip = Skin set used by THIS map, distinct from the "Skin set" selector above (current editing set).
 textures.default_set = (default set)
 
 # "Camera framing" section of the Textures panel (LOT-64)
@@ -117,7 +92,7 @@ textures.camera_framing_mode = Framing mode
 textures.camera_framing_room_width = View width
 textures.camera_framing_room_height = View height
 textures.camera_framing_room_default = Default
-camera_framing.whole_level = Whole level
+camera_framing.whole_level = Whole map
 camera_framing.per_room = Per room
 camera_framing.follow = Follow character
 textures.camera_framing_zones_hint = Drag on the canvas with the "Camera zone" tool to add one.
@@ -130,7 +105,7 @@ textures.camera_framing_zones_column_height = Height
 # "Objects" section of the Textures panel (LOT-45)
 textures.section_objects = Objects
 textures.objects_asset_label = Asset to assign
-textures.objects_list_label = Level overrides
+textures.objects_list_label = Map overrides
 textures.objects_remove = Remove
 textures.objects_column_position = Position
 textures.objects_column_asset = File
@@ -157,7 +132,7 @@ assets.references_warning = “%1” is used by: %2
 assets.operation_failed = Operation failed
 
 # Status bar and dialogs
-status.zone.level = Level: %1
+status.zone.level = Map: %1
 status.zone.asset = Asset: %1
 status.zone.dirty = Modified
 status.zone.hover = (%1, %2)
@@ -184,8 +159,8 @@ status.texture_assigned = Texture assigned: %1
 status.texture_removed = Texture removed.
 status.texture_no_asset_selected = No asset selected: pick one in the "Objects" tab of the Textures panel.
 dialog.unsaved_title = Unsaved changes
-dialog.unsaved_text = The current level has unsaved changes. Quit anyway?
-dialog.resize_title = Resize level
+dialog.unsaved_text = The current map has unsaved changes. Quit anyway?
+dialog.resize_title = Resize map
 dialog.resize_drop = Shrinking to %1 × %2 will remove content (entry, exit or links). Continue?
 dialog.width = Width (cells)
 dialog.height = Height (cells)
@@ -198,7 +173,7 @@ tool.link = Link
 tool.texture_assign = Texture
 tool.camera_zone = Camera zone
 
-# Pixel art canvas tools (LOT-54 TACHE-04): exclusive group distinct from the level tools above,
+# Pixel art canvas tools (LOT-54 TACHE-04): exclusive group distinct from the map tools above,
 # also reused as the short label in the status bar (hmi::EditorStatus).
 pixel_tool.brush = Brush
 pixel_tool.eraser = Eraser
@@ -282,18 +257,18 @@ link.delete_button = Delete
 link.type.mechanism = Mechanism
 link.type.danger = Switched danger
 
-# Level browser
-level.new = New
-level.rename = Rename
-level.duplicate = Duplicate
-level.delete = Delete
-level.search = Search…
-level.new_title = New level
-level.name_prompt = Level name:
-level.rename_prompt = New name:
-level.delete_title = Delete
-level.delete_confirm = Permanently delete “%1”?
-level.operation_failed = Operation failed
+# Map browser
+map.new = New
+map.rename = Rename
+map.duplicate = Duplicate
+map.delete = Delete
+map.search = Search…
+map.new_title = New map
+map.name_prompt = Map name:
+map.rename_prompt = New name:
+map.delete_title = Delete
+map.delete_confirm = Permanently delete “%1”?
+map.operation_failed = Operation failed
 
 # Options page: tabs and labels
 tab.video = Video
@@ -338,17 +313,17 @@ credits.license = License
 status.region_copied = Region copied (%1 × %2).
 status.region_pasted = Region pasted.
 status.save_failed = Cannot save: %1
-status.level_saved = Level saved: %1
+status.level_saved = Map saved: %1
 status.write_failed = Failed to write file.
 status.open_failed = Cannot open: %1
-status.level_opened = Level opened: %1
+status.level_opened = Map opened: %1
 status.playtest_failed = Cannot playtest: %1
 status.playtesting = Playtesting — Esc to return to editing.
 status.back_to_edit = Back to editing.
-status.level_resized = Level resized: %1 × %2
-status.rename_failed = Invalid level name.
+status.level_resized = Map resized: %1 × %2
+status.rename_failed = Invalid map name.
 status.rename_failed_reason = Rename failed: %1
-status.level_renamed = Level renamed: %1
+status.level_renamed = Map renamed: %1
 
 # Keybinding remapping (LOT-29/LOT-30, EX-CTRL-012, EX-CTRL-002)
 keybindings.game_title = Game keybindings
@@ -415,7 +390,7 @@ palette.tile.danger = Danger
 palette.tile.entry = Entry
 palette.tile.exit = Exit
 
-# Pixel art workshop (LOT-54) : canvas history operation names, distinct from the level's history
+# Pixel art workshop (LOT-54) : canvas history operation names, distinct from the map's history
 # (EX-IHM-062, TACHE-02).
 pixel_editor.operation.brush = brush
 pixel_editor.operation.eraser = eraser
@@ -439,6 +414,8 @@ hint.back = Back
 hint.tab = Tab
 hint.play = Play
 hint.resume = Resume
+key.shoulders = LB/RB
+hint.change_screen = Switch screen
 
 # "Planes" panel (LOT-69 TACHE-08)
 planes.column_file = File
@@ -461,13 +438,13 @@ planes.depth_front = In front of the character
 planes.parallax_x = Parallax X
 planes.parallax_y = Parallax Y
 planes.opacity = Opacity
-planes.level_group = Level
+planes.level_group = Map
 planes.parallax_enabled = Parallax enabled
-planes.parallax_whole_level_hint = No effect with whole-level framing: the camera does not scroll, so the offset would only be a constant misalignment.
+planes.parallax_whole_level_hint = No effect with whole-map framing: the camera does not scroll, so the offset would only be a constant misalignment.
 planes.added = Plane added: %1
 planes.removed = Plane removed from the list. The file itself is kept.
 planes.create_failed = Could not create the plane: check the planes folder.
-planes.paint_failed = This plane cannot be painted: its density or the level size is out of format.
+planes.paint_failed = This plane cannot be painted: its density or the map size is out of format.
 planes.saved = Plane saved: %1
 planes.save_failed = Could not save the plane: check the planes folder.
 planes.none_selected = No plane selected: pick one in the "Planes" panel, or add one.
@@ -476,3 +453,82 @@ planes.discard_text = The current plane has unsaved changes. Save them before co
 dock.planes = Planes
 
 # AI mode
+
+# --- RPG screens: the LOT-68 chassis ----------------------------------------------------------
+# The eight screens exist, and are EMPTY: this lot delivers their frame, not their content (sheet
+# in LOT-38, map in LOT-42, guild in LOT-45, combat in LOT-24). The labels below name SLOTS, never
+# values -- every displayed value is the dash of `rpg.empty`.
+rpg.empty = —
+rpg.chassis.close = Close
+rpg.chassis.previous_screen = Previous Screen
+rpg.chassis.next_screen = Next Screen
+
+rpg.character_sheet.title = Character Sheet
+rpg.inventory.title = Inventory and Equipment
+rpg.journal.title = Quest Journal
+rpg.world_map.title = World Map
+rpg.dialogue.title = Dialogue
+rpg.merchant.title = Merchant
+rpg.guild_board.title = Guild Board
+rpg.combat_hud.title = Combat
+
+rpg.block.identity = Identity
+rpg.block.progression = Progression
+rpg.block.abilities = Abilities
+rpg.block.combat = Combat
+rpg.block.saving_throws = Saving Throws
+rpg.block.skills = Skills
+rpg.block.equipment = Equipment
+rpg.block.bag = Backpack
+rpg.block.load = Load
+rpg.block.quests = Quests
+rpg.block.quest_detail = Details
+rpg.block.objectives = Objectives
+rpg.block.regions = Regions
+rpg.block.map = Map
+rpg.block.place = Location
+rpg.block.speaker = Speaker
+rpg.block.line = Line
+rpg.block.replies = Replies
+rpg.block.goods = Goods
+rpg.block.your_bag = Your Backpack
+rpg.block.purse = Purse
+rpg.block.contracts = Contracts
+rpg.block.contract = Contract
+rpg.block.initiative = Initiative Order
+rpg.block.target = Target
+rpg.block.actions = Actions
+
+# Fields taken from core::CharacterSheet (LOT-13) and core::Equipment (LOT-34). "Level" here is a
+# CHARACTER level (LOT-74), not the platformer stage retired in LOT-67.
+rpg.field.name = Name
+rpg.field.species = Species
+rpg.field.class = Class
+rpg.field.background = Background
+rpg.field.level = Level
+rpg.field.experience = Experience
+rpg.field.hit_points = Hit Points
+rpg.field.armor_class = Armor Class
+rpg.field.initiative = Initiative
+rpg.field.speed = Speed
+rpg.field.proficiency_bonus = Proficiency Bonus
+rpg.field.carried = Carried Weight
+rpg.field.capacity = Capacity
+rpg.field.gold = Gold Pieces
+rpg.field.region = Region
+rpg.field.place_type = Location Type
+rpg.field.danger = Danger
+rpg.field.attitude = Attitude
+rpg.field.giver = Patron
+rpg.field.rank = Rank
+rpg.field.reward = Reward
+rpg.field.conditions = Conditions
+
+rpg.slot.head = Head
+rpg.slot.torso = Torso
+rpg.slot.hands = Hands
+rpg.slot.feet = Feet
+rpg.slot.main_hand = Main Hand
+rpg.slot.off_hand = Off Hand
+rpg.slot.amulet = Amulet
+rpg.slot.ring = Ring

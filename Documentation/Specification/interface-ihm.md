@@ -18,20 +18,24 @@ l'UI « maison » dessinée quad par quad. `Core` demeure indépendant de la pr�
   viewport Qt** (surface native), sans processus séparé ni duplication du pipeline de rendu ; le
   déterminisme de la simulation (`EX-NFR-002`) et la latence d'entrée (`EX-CTRL-020`/`EX-CTRL-021`)
   sont préservés.
-- \anchor EX-IHM-003 **EX-IHM-003** — Le jeu doit afficher, **dans la scène rendue**, un **affichage
-  tête haute** minimal indiquant l'état dont le joueur a besoin pour décider : les **budgets de
-  sauts et de dashs** restants (`EX-GP-024`) et le nom du tableau en cours. Ces informations existent
-  dans la simulation depuis `LOT-H-12` sans avoir jamais été rendues visibles. L'affichage passe par le
-  catalogue de traduction (`EX-REN-033`) et n'a aucun effet sur le gameplay (`EX-ARCH-012`).
-  Concrétisé en `LOT-H-52`.
-- \anchor EX-IHM-004 **EX-IHM-004** — Le jeu doit offrir un **écran de pause** (suspendant réellement
-  la simulation, sans consommer de pas de temps fixe) et un **écran de fin de niveau**, navigables
-  au clavier, à la souris et à la manette comme le reste de l'interface, et passant par le catalogue
-  de traduction (`EX-REN-033`). Détaille `EX-REN-031` du côté de l'interface. Concrétisé en `LOT-H-59`.
-- \anchor EX-IHM-005 **EX-IHM-005** — Le menu principal doit distinguer **reprendre** une partie
-  (`EX-LVL-014`), en **commencer une nouvelle** et **choisir un niveau** parmi ceux déjà atteints.
-  Un niveau **hors séquence** (créé dans l'éditeur) doit être jouable sans passer par l'essai de
-  l'éditeur, et sans modifier la progression de la séquence. Concrétisé en `LOT-H-59`.
+- \anchor EX-IHM-003 **EX-IHM-003** — Le jeu doit afficher, **dans la scène rendue**, un
+  **affichage tête haute** minimal indiquant l'état dont le joueur a besoin pour décider, et lui
+  seul. L'affichage passe par le catalogue de traduction (`EX-REN-033`) et n'a aucun effet sur le
+  gameplay (`EX-ARCH-012`).
+  > **Refondue au `LOT-67`.** Elle **énumérait** ce contenu — budgets de sauts et de dashs, nom du
+  > tableau en cours — c'est-à-dire l'état d'un jeu de plateforme. Ce que doit y lire un joueur de
+  > RPG (points de vie, initiative, actions restantes) est le sujet de l'IHM de combat du
+  > `LOT-24` ; l'exigence garde donc son critère — *ce dont le joueur a besoin pour décider* — et
+  > cesse d'en fixer la liste, que chaque lot ajusterait sinon en la contredisant.
+- \anchor EX-IHM-004 **EX-IHM-004** — Le jeu doit offrir un **écran de pause** suspendant
+  réellement la simulation, sans consommer de pas de temps fixe, navigable au clavier, à la souris
+  et à la manette comme le reste de l'interface, et passant par le catalogue de traduction
+  (`EX-REN-033`). Détaille `EX-REN-031` du côté de l'interface.
+  > **Refondue au `LOT-67`.** Elle exigeait aussi un **écran de fin de niveau**, qui n'a plus
+  > d'objet : un bac à sable n'a pas de tableau à terminer. L'écran de pause, lui, reste — et
+  > s'étoffera des entrées du RPG (fiche, inventaire, journal, carte) avec le châssis du `LOT-68`,
+  > pas avant : une entrée de menu qui ne mène nulle part coûte plus de confiance qu'elle
+  > n'apporte d'information (`EX-IHM-072`).
 
 ## 2. Éditeur
 - \anchor EX-IHM-010 **EX-IHM-010** — L'éditeur de niveaux doit se présenter en **fenêtre à panneaux
@@ -200,6 +204,60 @@ souris, insuffisant à la manette, qui n'a pas de pointeur pour dire où elle en
   de chaque commande, et non décidée par le code qui peuple les barres : une répartition implicite
   ne se relit pas et dérive au premier ajout.
 
+- \anchor EX-IHM-075 **EX-IHM-075** — L'habillage ornemental des écrans du jeu — encadrements,
+  cabochons, bandeaux de titre — doit être **tracé par le code**, jamais livré en image. C'est le
+  prolongement d'`EX-IHM-070`, et la raison n'est pas la place que prendraient ces fichiers :
+  - **une image ne s'étire pas honnêtement.** Un cabochon posé sur un panneau bas s'ovalise ou
+    mange le tiers de sa hauteur ; un bandeau étiré déforme ses ailes. Un ornement tracé se
+    *redessine* à la taille demandée, et ses ailes peuvent suivre la **hauteur** quand sa plaque
+    suit la **largeur** — ce qu'aucun découpage en tranches ne sait faire ;
+  - **une image fige ses couleurs hors des jetons** (`EX-IHM-051`) et devrait être réexportée à
+    chaque retouche de palette. Une forme tracée porte un **rôle**, jamais une teinte ;
+  - **une image ne suit pas le facteur d'agrandissement** (`EX-IHM-081`) : elle est nette à un seul
+    facteur, un tracé l'est à tous.
+
+  Ce que le corpus apporte n'est donc pas de la matière mais de la **mesure** : les proportions et
+  les teintes de ces ornements sont **relevées** sur `Documentation/SourceBook/`, jamais choisies à
+  vue — même règle qu'`EX-IHM-070` pour la palette, et même raison. Un ornement inventé ressemble à
+  la source sans en venir, et rien ne le dit jamais.
+  > **Ajoutée au `LOT-76`.** `EX-IHM-070` imposait déjà de relever les couleurs sur le corpus, mais
+  > rien n'était écrit des **formes** : le `LOT-66` avait donc pu conclure, à juste titre pour son
+  > périmètre mais sans que rien ne le garantisse au-delà, qu'aucun fichier d'image ne serait livré.
+  > Cette exigence tranche l'autre moitié de la question, et écarte explicitement la voie du
+  > découpage d'images — essayée, puis abandonnée au `LOT-76`.
+
+- \anchor EX-IHM-076 **EX-IHM-076** — Une **illustration** d'interface — fond d'écran, carte,
+  portrait — doit être **extraite du corpus** et livrée telle quelle, jamais redessinée. C'est le
+  pendant d'`EX-IHM-075`, et la frontière entre les deux est nette : un **ornement** se trace parce
+  qu'il doit se redimensionner et suivre les jetons ; une **illustration** ne le peut pas — une
+  carte du monde peinte ne se trace pas, elle se prend ou elle n'existe pas.
+  Trois obligations en découlent :
+  - la région extraite est **déclarée** (document, page, rectangle) et l'extraction se rejoue à
+    l'identique (`EX-CNT-020`), par **rendu de région** (`EX-CNT-022`) ;
+  - ce qui est livré est décrit par un **manifeste** — dimensions, empreinte, provenance — que
+    l'intégration continue recoupe avec les fichiers **et avec le code qui les nomme**. Le corpus
+    étant absent du runner, rien d'autre ne peut dire d'où une image vient ;
+  - une illustration **absente** est un cas attendu (`EX-NFR-040`) : l'écran retombe sur son décor
+    tracé. Aucun écran ne doit dépendre d'un binaire pour s'afficher.
+  Un **filigrane** ou un folio présent sur la page source se **recadre**, jamais ne s'efface :
+  l'effacer demanderait de repeindre ce qu'il recouvre, c'est-à-dire d'inventer des pixels.
+
+## Exigences retirées {#ihm-retirees}
+
+> Retirées par le `LOT-67`, qui retire du programme la notion de **niveau discret**. Les ancres
+> sont **conservées** — jamais renumérotées, jamais supprimées : les lots hérités s'y réfèrent, et
+> réécrire un lot livré falsifierait son histoire (règle de [`lots.md`](@ref lots)). Le texte
+> ci-dessous est celui d'origine ; il décrit ce qui **a été** livré, pas ce qui est attendu
+> aujourd'hui.
+
+- \anchor EX-IHM-005 **EX-IHM-005** *(retirée en `LOT-67`)* — Le menu principal doit distinguer
+  **reprendre** une partie (`EX-LVL-014`), en **commencer une nouvelle** et **choisir un niveau**
+  parmi ceux déjà atteints. Un niveau **hors séquence** (créé dans l'éditeur) doit être jouable
+  sans passer par l'essai de l'éditeur, et sans modifier la progression de la séquence. Motif :
+  les trois entrées reposaient sur une séquence et sur une progression au tableau, l'une et
+  l'autre retirées. « Reprendre » reviendra avec la sauvegarde du `LOT-17` — quand il y aura
+  quelque chose à reprendre.
+
 ## 9. Taille, réactivité et réglages effectifs (LOT-H-73)
 
 Les sections précédentes ont donné à l'interface son châssis, son habillage et sa répartition de
@@ -240,6 +298,32 @@ pendant que le `config.json` du run affirmait le contraire.
   corollaire `IHM ⊇ CLI` du `LOT-ANNEXE-22` (hérité). Un réglage inerte est pire qu'un
   réglage absent : il se règle, il s'enregistre dans la configuration du run, et il ment.
 
+## 10. Le châssis des écrans du RPG (LOT-68)
+
+Huit écrans manquent au jeu — fiche de personnage, inventaire et équipement, journal de quêtes,
+carte du monde, dialogue, marchand, tableau de la Guilde, affichage tête haute de combat — et
+quatre lots à venir les remplissent chacun de leur côté (`LOT-38`, `LOT-42`, `LOT-45`,
+`LOT-24`). Sans règle commune, ces quatre lots produiraient quatre écrans qui s'ouvrent
+différemment, se ferment différemment et se naviguent différemment : le défaut ne se voit sur aucun
+d'eux pris isolément, et sur les quatre ensemble il n'est plus rattrapable sans les refaire.
+
+- \anchor EX-IHM-090 **EX-IHM-090** — Les écrans du **RPG** doivent partager un **châssis** unique :
+  le même cadre (panneau, titre, zone de contenu, pied d'actions), la même ouverture et la même
+  fermeture, le même passage d'un écran à l'autre **sans repasser par le menu**, et le même parcours
+  de focus à la manette (`EX-IHM-071`). L'**ossature** de chaque écran — ses blocs, leurs genres,
+  leurs libellés — doit être portée par une **description en données**, non par du code d'interface
+  écrit écran par écran : ajouter un écran ne doit demander de toucher à **aucun** des autres, ni
+  dans le code, ni dans la feuille de style. Une convention à réappliquer à chaque écran se reperd
+  au premier ajout — c'est la leçon qu'`EX-IHM-080` a déjà tirée pour la taille des écrans.
+  Corollaire : les libellés de cette description passent par le catalogue de traduction
+  (`EX-REN-033`) comme tout autre texte, et rien ne les y rattachant qu'une table, leur présence
+  dans **les deux** catalogues doit être vérifiée automatiquement.
+- \anchor EX-IHM-091 **EX-IHM-091** — Chaque écran du RPG doit déclarer sa **règle de
+  superposition** : suspend-il la simulation, ou se consulte-t-il en marchant ? Cette règle
+  appartient à la **description** de l'écran, jamais au code qui l'ouvre : ouvert depuis la pause,
+  depuis le jeu ou depuis une touche, un même écran doit se comporter de la même façon, et une règle
+  décidée au point d'appel se contredit d'un appel à l'autre sans que rien ne le signale.
+
 ## Traçabilité
 Tout ceci relève de `Source/HMI` — depuis le `LOT-H-38`, l'unique application Qt `JustAnotherDnDGame` (rendu
 de jeu Direct3D 11 + widgets Qt répartis par domaine) ; les assets Qt déclaratifs vivent dans
@@ -248,4 +332,5 @@ couverte par des tests (`EX-NFR-010`, `EX-NFR-020`). Détail du séquencement : 
 `LOT-H-34` à `LOT-H-39` pour la refonte initiale ;
 `LOT-H-56` (section 6) et `LOT-H-57` (section 7) pour la révision de
 l'apparence et de la répartition de l'information ; `LOT-H-73` (section 9) pour
-l'invariant de taille, les portées de thème et les réglages effectifs.
+l'invariant de taille, les portées de thème et les réglages effectifs ; `LOT-68` (section 10)
+pour le châssis des écrans du RPG.

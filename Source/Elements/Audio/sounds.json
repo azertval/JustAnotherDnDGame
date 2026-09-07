@@ -9,8 +9,7 @@
     "plaque_pression": "plaque_pression.wav",
     "ramassage": "ramassage.wav",
     "mort": "mort.wav",
-    "victoire_tableau": "victoire_tableau.wav",
-    "fin_sequence": "fin_sequence.wav",
+    "sortie_atteinte": "sortie_atteinte.wav",
     "menu_deplacement": "menu_deplacement.wav",
     "menu_validation": "menu_validation.wav"
   }

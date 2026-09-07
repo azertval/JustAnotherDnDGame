@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "illustrations": [
+    {
+      "id": "world-map",
+      "file": "world-map.jpg",
+      "document": "Tanares_Sourcebook.pdf",
+      "provenance": "tanares",
+      "page": 44,
+      "region": [
+        8.0,
+        6.0,
+        1216.0,
+        748.0
+      ],
+      "size": [
+        1612,
+        990
+      ],
+      "dpi": 96,
+      "quality": 88,
+      "bytes": 710136,
+      "sha256": "209757713a21409a8b755efb56531be1c923f9e26bfeb99f379af523e404f644",
+      "note": "carte du monde de Tanares (pages imprimees 88-89), les treize regions de l'atlas"
+    }
+  ]
+}

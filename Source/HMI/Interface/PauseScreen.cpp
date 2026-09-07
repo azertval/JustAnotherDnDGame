@@ -30,7 +30,6 @@ PauseScreen::PauseScreen(QWidget* parent)
                        "#menuCard QLabel, #menuCard QPushButton { color: white; }"));
 
     connect(_ui->resumeButton, &QPushButton::clicked, this, &PauseScreen::resumeRequested);
-    connect(_ui->restartButton, &QPushButton::clicked, this, &PauseScreen::restartRequested);
     connect(_ui->optionsButton, &QPushButton::clicked, this, &PauseScreen::optionsRequested);
     connect(_ui->quitButton, &QPushButton::clicked, this, &PauseScreen::quitToMenuRequested);
 
@@ -60,7 +59,6 @@ void PauseScreen::focusDefaultAction() {
 void PauseScreen::retranslateUi(const Localization& loc) {
     _ui->pauseTitle->setText(QString::fromStdString(loc.text("pause.title")));
     _ui->resumeButton->setText(QString::fromStdString(loc.text("pause.resume")));
-    _ui->restartButton->setText(QString::fromStdString(loc.text("pause.restart")));
     _ui->optionsButton->setText(QString::fromStdString(loc.text("pause.options")));
     _ui->quitButton->setText(QString::fromStdString(loc.text("pause.quit_to_menu")));
     // Rappels de touches (LOT-68) : la navigation a la manette repose sur le

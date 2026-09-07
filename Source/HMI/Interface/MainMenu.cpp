@@ -4,14 +4,19 @@
 #include "HMI/Interface/MainMenu.h"
 
 #include <QColor>
+#include <QLinearGradient>
 #include <QPainter>
+#include <QPoint>
 #include <QPushButton>
+#include <QRect>
+#include <QSize>
 
 #include "HMI/Interface/ApplicationTheme.h"
 #include "HMI/Interface/DesignTokens.h"
 #include "HMI/Interface/KeyHintText.h"
 #include "HMI/Interface/MenuBackdropGeometry.h"
 #include "HMI/Localization/Localization.h"
+#include "HMI/Platform/ExecutableDirectory.h"
 #include "ui_MainMenu.h"
 
 namespace hmi {
@@ -27,13 +32,18 @@ MainMenu::MainMenu(QWidget* parent) : QWidget(parent), _ui(std::make_unique<Ui::
     _ui->verticalLayout->setContentsMargins(spacing.extraLarge * 3, spacing.extraLarge * 3,
                                             spacing.extraLarge * 2, spacing.extraLarge * 2);
 
-    connect(_ui->continueButton, &QPushButton::clicked, this, &MainMenu::continueRequested);
     connect(_ui->newGameButton, &QPushButton::clicked, this, &MainMenu::newGameRequested);
-    connect(_ui->selectLevelButton, &QPushButton::clicked, this, &MainMenu::selectLevelRequested);
     connect(_ui->editorButton, &QPushButton::clicked, this, &MainMenu::editorRequested);
     connect(_ui->optionsButton, &QPushButton::clicked, this, &MainMenu::optionsRequested);
     connect(_ui->creditsButton, &QPushButton::clicked, this, &MainMenu::creditsRequested);
     connect(_ui->quitButton, &QPushButton::clicked, this, &MainMenu::quitRequested);
+
+    // Carte du monde en fond (LOT-67). Chargee UNE FOIS, ici : un `QPixmap::load` par paintEvent
+    // relirait 700 Ko de JPEG a chaque image. Membre du widget et non statique -- il meurt avec le
+    // menu, donc avant QGuiApplication, et n'expose pas le depot a la panne de fermeture que les
+    // garde-fous de `test_theme_teardown_guards` documentent.
+    static_cast<void>(_backdrop.load(QString::fromStdString(
+        (hmi::executableDirectory() / "Assets" / "UI" / BACKDROP_FILE).string())));
 
     // Qt n'active `autoDefault` que sur un bouton dont un ancêtre est un vrai QDialog. Ces
     // écrans n'en sont pas (même affichés comme fenêtre `Qt::Dialog`), et sans ce réglage
@@ -47,10 +57,7 @@ MainMenu::MainMenu(QWidget* parent) : QWidget(parent), _ui(std::make_unique<Ui::
 MainMenu::~MainMenu() = default;
 
 void MainMenu::retranslateUi(const Localization& loc) {
-    _ui->menuTitle->setText(QString::fromStdString(loc.text("menu.title")));
-    _ui->continueButton->setText(QString::fromStdString(loc.text("menu.continue")));
     _ui->newGameButton->setText(QString::fromStdString(loc.text("menu.new_game")));
-    _ui->selectLevelButton->setText(QString::fromStdString(loc.text("menu.select_level")));
     _ui->editorButton->setText(QString::fromStdString(loc.text("menu.edit_mode")));
     _ui->optionsButton->setText(QString::fromStdString(loc.text("menu.options")));
     _ui->creditsButton->setText(QString::fromStdString(loc.text("menu.credits")));
@@ -61,10 +68,6 @@ void MainMenu::retranslateUi(const Localization& loc) {
             {.key = loc.text("key.confirm"), .action = loc.text("hint.confirm")},
         },
         hmi::identityTokens(), hmi::identityScale())));
-}
-
-void MainMenu::setContinueEnabled(bool enabled) {
-    _ui->continueButton->setEnabled(enabled);
 }
 
 void MainMenu::paintEvent(QPaintEvent* event) {
@@ -80,7 +83,40 @@ void MainMenu::paintEvent(QPaintEvent* event) {
     };
 
     QPainter painter(this);
+
+    // La carte du monde, si elle est la. Recadree en COUVERTURE : le rapport d'aspect est
+    // preserve et le debord est rogne, jamais deforme -- une carte etiree se voit immediatement,
+    // les cotes ayant des formes que le joueur reconnait.
+    const bool hasBackdrop = !_backdrop.isNull();
+    if (hasBackdrop) {
+        painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
+        const QSize scaled = _backdrop.size().scaled(size(), Qt::KeepAspectRatioByExpanding);
+        painter.drawPixmap(
+            QRect(QPoint((width() - scaled.width()) / 2, (height() - scaled.height()) / 2), scaled),
+            _backdrop);
+
+        // Voile de lisibilite, en DEGRADE CONTINU et non en paliers. Le decor trace, lui, se voile
+        // par bandes superposees -- c'est correct sur des aplats, qui n'ont pas de detail a
+        // trahir. Sur une carte peinte, chaque palier se lit comme une bande verticale claire en
+        // travers du relief : le procede se voit, et c'est tout ce qu'on voit.
+        //
+        // Il ne couvre que la GAUCHE, ou vivent les entrees du menu. Assombrir l'image entiere
+        // rendrait le texte lisible en effacant ce qu'on vient de mettre derriere.
+        QLinearGradient veil(0.0, 0.0, width() * 0.55, 0.0);
+        const DesignColor& ground = color.background;
+        veil.setColorAt(0.0, QColor(ground.r, ground.g, ground.b, 225));
+        veil.setColorAt(0.45, QColor(ground.r, ground.g, ground.b, 150));
+        veil.setColorAt(1.0, QColor(ground.r, ground.g, ground.b, 0));
+        painter.fillRect(rect(), veil);
+    }
+
     painter.setRenderHint(QPainter::Antialiasing, false);  // EX-IHM-053 : aucun bord adouci.
+    if (hasBackdrop) {
+        // Le decor trace est le REPLI, pas un complement : avec la carte, il ne peint plus rien.
+        // Son voile a deja ete remplace ci-dessus par un degrade, et repeindre son ciel et ses
+        // collines effacerait la carte que l'on vient de poser.
+        return;
+    }
     for (const BackdropQuad& quad : menuBackdropQuads(width(), height(), identityScale())) {
         DesignColor fill{};
         switch (quad.role) {

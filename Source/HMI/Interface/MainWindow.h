@@ -12,7 +12,6 @@
 #include <optional>
 #include <string>
 
-#include "Core/Levels/LevelSequence.h"
 #include "HMI/Audio/AudioEngine.h"
 #include "HMI/Audio/SoundCatalog.h"
 #include "HMI/Editor/EditContextTarget.h"
@@ -21,10 +20,10 @@
 #include "HMI/Editor/PixelPalette.h"
 #include "HMI/Editor/PixelTool.h"
 #include "HMI/Game/GameEvents.h"
-#include "HMI/Game/Progression.h"
 #include "HMI/Input/GamepadPoller.h"
 #include "HMI/Input/InputState.h"
 #include "HMI/Interface/EditorWorkspace.h"
+#include "HMI/Interface/RpgScreens.h"
 #include "HMI/Interface/ScreenFlow.h"
 #include "HMI/Localization/Localization.h"
 
@@ -57,9 +56,8 @@ class GameViewport;
 class MainMenu;
 class OptionsPage;
 class PauseScreen;
-class LevelCompleteScreen;
-class LevelSelectScreen;
 class CreditsScreen;
+class RpgScreenHost;
 class PalettePanel;
 class PlanesPanel;
 class LevelBrowserPanel;
@@ -315,67 +313,32 @@ private:
     void openPause();
     /// « Reprendre » (bouton, `Échap`, ou B manette depuis la pause) : reprend la simulation.
     void resumeFromPause();
-    /// « Recommencer le niveau » depuis la pause : même chemin que le redémarrage après échec.
-    void restartFromPause();
-    /// « Quitter vers le menu » depuis la pause : demande confirmation (perd la progression du
-    /// tableau en cours), puis abandonne la partie si confirmé.
+    /// « Quitter vers le menu » depuis la pause : demande confirmation (la partie en cours est
+    /// perdue), puis abandonne la partie si confirmé.
     void quitPauseToMenu();
 
     /// Joue le son associé à @p event (`hmi::SoundTriggers`), sans effet si aucun son ne lui est
     /// associé (`LOT-60` TACHE-03) -- point d'appel unique pour tous les sons d'interface.
     void playInterfaceSound(GameEvent event);
 
-    // Écran de fin de niveau et de fin de séquence (LOT-59 TACHE-03).
-    /// `GameViewport::levelSucceeded` : configure `_levelCompleteScreen` (nom du tableau, variante
-    /// fin de séquence via `GameViewport::isLastGameLevel`) puis ouvre l'écran.
-    void openLevelComplete();
-    /// « Continuer » : charge le tableau suivant de la séquence. Absent (bouton masqué) en fin de
-    /// séquence -- jamais atteint sur le dernier tableau.
-    void continueFromLevelComplete();
-    /// « Rejouer » : recharge le tableau qui vient d'être terminé (même chemin que le redémarrage
-    /// après échec/depuis la pause).
-    void replayFromLevelComplete();
-    /// « Retour au menu » depuis l'écran de fin de niveau ou de fin de séquence : abandonne la
-    /// partie, sans confirmation (contrairement à la pause : le tableau vient d'être réussi, rien
-    /// n'est perdu).
-    void returnToMenuFromLevelComplete();
-
-    // Sélection de niveau côté joueur (LOT-59 TACHE-06, EX-IHM-005).
-    /// Charge `sequence-demo.json` (`DEMO_SEQUENCE_FILE`), affiche une boîte d'erreur et @return
-    /// `std::nullopt` en cas d'échec (fichier absent/invalide, `EX-NFR-040`) -- factorisé entre
-    /// tous les points d'entrée dans le jeu (Continuer/Nouvelle partie/Choisir un
-    /// niveau/ouverture de l'écran de sélection).
-    [[nodiscard]] std::optional<core::LevelSequence> loadDemoSequenceOrWarn();
-    /// Charge la séquence, résout l'indice de départ (nom de @p startLevelName dans la séquence ;
-    /// premier tableau si vide ou introuvable -- séquence modifiée depuis, `EX-NFR-040`), applique
-    /// @p transitionEvent (`OpenGame` depuis le menu, `LevelChosen` depuis l'écran de sélection),
-    /// puis démarre `_viewport` en mode séquence (`_gameTracksProgression = true`).
-    void startSequence(const std::string& startLevelName, hmi::ScreenEvent transitionEvent);
-    /// « Continuer » (menu) : reprend au tableau atteint (`Progression::currentLevel`) ; sans
-    /// effet si aucune progression (le bouton est alors grisé, `MainMenu::setContinueEnabled`).
-    void continueGame();
-    /// « Nouvelle partie » (menu) : confirmation si une progression existe (elle serait perdue),
-    /// puis efface la progression et recommence au premier tableau.
+    /// « Nouvelle partie » (menu) : ouvre la carte de départ. Aucune confirmation d'écrasement —
+    /// elle protégeait une progression de campagne qui n'existe plus, et reviendra avec la
+    /// sauvegarde du `LOT-17`, qui aura quelque chose à écraser.
     void newGame();
-    /// « Choisir un niveau » (menu) : ouvre `_levelSelectScreen`, peuplé de la séquence (avec état
-    /// de déverrouillage) et des niveaux personnels du dossier (hors séquence,
-    /// `LevelFileOperations` filtrée).
-    void openLevelSelect();
-    /// Retour au menu depuis l'écran de sélection de niveau.
-    void closeLevelSelect();
+    /// Ouvre le châssis des écrans du RPG sur @p screen (`LOT-68`, `EX-IHM-090`). Applique la
+    /// règle de superposition de l'écran ouvert (`hmi::pausesGame`, `EX-IHM-091`) : la simulation
+    /// est suspendue par la fiche ou un dialogue, laissée courir par la carte.
+    void openRpgScreen(hmi::RpgScreenId screen);
+    /// Ferme le châssis des écrans du RPG et revient à l'écran d'où il a été ouvert
+    /// (`ScreenState::rpgReturnTo`), en reprenant la simulation si elle avait été suspendue.
+    void closeRpgScreen();
+    /// Applique la règle de superposition de @p screen à la simulation, sans changer d'écran :
+    /// appelé aussi lors du **passage** d'un écran du RPG à un autre, où la règle peut changer.
+    void applyRpgSuperposition(hmi::RpgScreenId screen);
     /// « Crédits » (menu) : ouvre `_credits` (`LOT-60`).
     void openCredits();
     /// Retour au menu depuis l'écran de crédits.
     void closeCredits();
-    /// Un tableau de séquence a été choisi dans `_levelSelectScreen` : **revalidé** via
-    /// `hmi::isLevelPlayable` avant tout lancement (défense en profondeur, `EX-IHM-005`) -- jamais
-    /// lancé verrouillé, même si l'écran l'a par erreur laissé passer (sauf en build de
-    /// développement, où tout est jouable, `LOT-70`).
-    void chooseSequenceLevel(const QString& levelName);
-    /// Un niveau **personnel** a été choisi (hors séquence) : lancé seul
-    /// (`_gameTracksProgression = false`), ne touche jamais la progression de la séquence.
-    void playPersonalLevel(const QString& path);
-
     /// Traduit la manette en navigation de focus Qt (menus/options) : appelé par `_menuNavTimer`.
     void pollMenuGamepad();
     /// Active/désactive la navigation manette des menus (inactive en jeu/édition).
@@ -398,15 +361,13 @@ private:
     /// elle la géométrie synchronisée en coordonnées écran. Visibilité pilotée par
     /// `applyScreenDressing`, géométrie suivie par le filtre d'événements posé sur le viewport.
     PauseScreen* _pauseScreen = nullptr;
-    /// Recouvrement de fin de niveau/séquence (`LOT-59` TACHE-03) : même patron que
-    /// `_pauseScreen` ci-dessus (fenêtre de haut niveau, pas un enfant de `_stack`).
-    LevelCompleteScreen* _levelCompleteScreen = nullptr;
-    /// Écran de sélection de niveau (`LOT-59` TACHE-06) : une page normale de `_stack` (jamais un
-    /// recouvrement -- atteint depuis le menu, pas en jeu, contrairement aux deux précédents).
-    LevelSelectScreen* _levelSelectScreen = nullptr;
-    /// Écran de crédits (`LOT-60`) : même patron que `_levelSelectScreen`, page normale de
-    /// `_stack`.
+    /// Écran de crédits (`LOT-60`) : une page normale de `_stack`, jamais un recouvrement —
+    /// atteint depuis le menu, pas en jeu, contrairement au précédent.
     CreditsScreen* _credits = nullptr;
+    /// Les huit écrans du RPG et la navigation entre eux (`LOT-68`) : **une** page de `_stack`,
+    /// jamais huit -- c'est ce qui permet d'aller de la fiche au journal sans que la machine à
+    /// états d'écrans ait à connaître les huit.
+    RpgScreenHost* _rpgScreens = nullptr;
     /// Écran Mode IA (`LOT-ANNEXE-21`) : même patron que `_levelSelectScreen`, page normale de
     /// `_stack`.
     GameViewport* _viewport;  ///< Surface de rendu D3D11 (possédée par le conteneur central).
@@ -505,15 +466,6 @@ private:
     /// et entièrement préchargé dans `_audio`.
     hmi::SoundCatalog _sounds;
     core::MemoryLogSink* _sessionLog;  ///< Sink mémoire des logs (nul en Release).
-    /// Progression de partie persistée (`LOT-59` TACHE-05, `EX-LVL-014`) : chargée une fois à la
-    /// construction, marquée/écrite à chaque réussite de tableau (`openLevelComplete`) -- jamais
-    /// ailleurs (pas d'écriture par image ni par pas).
-    hmi::Progression _progression;
-    /// `true` si la partie en cours suit la séquence démo (Continuer/Nouvelle partie/tableau de
-    /// séquence choisi) -- `false` pour un niveau **personnel** lancé hors séquence (`LOT-59`
-    /// TACHE-06) : `openLevelComplete` ne touche `_progression` que si vrai, sinon un niveau
-    /// d'essai personnel « débloquerait » la campagne.
-    bool _gameTracksProgression = false;
 
     // Navigation manette des menus (hors jeu) : sondage périodique -> événements clavier Qt.
     GamepadPoller _menuPad;

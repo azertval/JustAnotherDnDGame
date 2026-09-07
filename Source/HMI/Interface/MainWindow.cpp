@@ -53,7 +53,6 @@
 #include <vector>
 
 #include "Core/Diagnostics/MemoryLogSink.h"
-#include "Core/Levels/LevelSequence.h"
 #include "HMI/Audio/SoundTriggers.h"
 #include "HMI/Diagnostics/SessionLog.h"
 #include "HMI/Editor/AssetReferences.h"
@@ -84,11 +83,10 @@
 #include "HMI/Interface/EditorActions.h"
 #include "HMI/Interface/EditorWorkspace.h"
 #include "HMI/Interface/IdentityScale.h"
-#include "HMI/Interface/LevelCompleteScreen.h"
-#include "HMI/Interface/LevelSelectScreen.h"
 #include "HMI/Interface/MainMenu.h"
 #include "HMI/Interface/OptionsPage.h"
 #include "HMI/Interface/PauseScreen.h"
+#include "HMI/Interface/RpgScreenHost.h"
 #include "HMI/Interface/ScreenPageHost.h"
 #include "HMI/Platform/ExecutableDirectory.h"
 #include "ui_MainWindow.h"
@@ -125,11 +123,6 @@ constexpr float PLANE_REFERENCE_OPACITY = 0.45f;
 // Reglage "contraindre a la palette" de l'atelier pixel art (LOT-54 TACHE-07).
 constexpr char CONSTRAIN_TO_PALETTE_KEY[] = "pixelEditor/constrainToPalette";
 
-// Nom du fichier de séquence jouée (LOT-59 TACHE-04, EX-LVL-013), à côté des niveaux -- identifie
-// aussi la progression (LOT-59 TACHE-05) : un seul littéral, partagé entre showGame (chargement)
-// et openLevelComplete (marquage), plutôt que deux occurrences à faire dériver.
-constexpr char DEMO_SEQUENCE_FILE[] = "sequence-demo.json";
-
 }  // namespace
 
 MainWindow::MainWindow(core::MemoryLogSink* sessionLog)
@@ -153,9 +146,7 @@ MainWindow::MainWindow(core::MemoryLogSink* sessionLog)
       _themeLightAction(nullptr),
       _themeDarkAction(nullptr),
       _loc(hmi::executableDirectory() / "Localization"),
-      _sessionLog(sessionLog),
-      _progression(
-          hmi::Progression::load(hmi::executableDirectory() / "Settings" / "progression.json")) {
+      _sessionLog(sessionLog) {
     _ui->setupUi(this);  // barre de menus + docks (coquilles) depuis MainWindow.ui.
 
     // Catalogue de traduction : français par défaut (repli), langue active depuis les réglages.
@@ -194,25 +185,24 @@ MainWindow::MainWindow(core::MemoryLogSink* sessionLog)
     _menu = new MainMenu();
     _options = new OptionsPage(_viewport, &_audio,
                                hmi::executableDirectory() / "Settings" / "keybindings.json");
-    _levelSelectScreen = new LevelSelectScreen();
     _credits = new CreditsScreen();
+    _rpgScreens = new RpgScreenHost();
     _stack = new QStackedWidget(this);
     // Chaque ecran passe par une enveloppe defilante (LOT-73, EX-IHM-080) : sa taille minimale ne
     // remonte plus jusqu'a la fenetre. Le VIEWPORT en est exclu -- surface de rendu QRhi, il
     // remplit la page sans jamais defiler, et son minimum (320x240) tient sur tout ecran.
     addScreenPage(_menu);
     addScreenPage(_options);
-    addScreenPage(_levelSelectScreen);
     addScreenPage(_credits);
+    addScreenPage(_rpgScreens);
     _stack->addWidget(_viewport);
     setCentralWidget(_stack);
-    connect(_levelSelectScreen, &LevelSelectScreen::backRequested, this,
-            &MainWindow::closeLevelSelect);
-    connect(_levelSelectScreen, &LevelSelectScreen::sequenceLevelChosen, this,
-            &MainWindow::chooseSequenceLevel);
-    connect(_levelSelectScreen, &LevelSelectScreen::personalLevelChosen, this,
-            &MainWindow::playPersonalLevel);
     connect(_credits, &CreditsScreen::backRequested, this, &MainWindow::closeCredits);
+    connect(_rpgScreens, &RpgScreenHost::closeRequested, this, &MainWindow::closeRpgScreen);
+    // Le passage d'un ecran du RPG a un autre peut CHANGER la regle de superposition -- passer de
+    // la carte (qui se consulte en marchant) a la fiche (qui suspend) doit suspendre. La regle est
+    // donc appliquee a chaque changement d'ecran, pas seulement a l'ouverture (EX-IHM-091).
+    connect(_rpgScreens, &RpgScreenHost::screenChanged, this, &MainWindow::applyRpgSuperposition);
 
     // Recouvrement de pause (LOT-59 TACHE-02) : widget ENFANT ORDINAIRE du viewport depuis le
     // LOT-69 TACHE-02. Il avait dû devenir une fenêtre de haut niveau (Qt::Dialog) parce qu'un
@@ -226,23 +216,9 @@ MainWindow::MainWindow(core::MemoryLogSink* sessionLog)
     _pauseScreen->setAttribute(Qt::WA_TranslucentBackground);
     _pauseScreen->hide();
     connect(_pauseScreen, &PauseScreen::resumeRequested, this, &MainWindow::resumeFromPause);
-    connect(_pauseScreen, &PauseScreen::restartRequested, this, &MainWindow::restartFromPause);
     connect(_pauseScreen, &PauseScreen::optionsRequested, this, &MainWindow::showOptions);
     connect(_pauseScreen, &PauseScreen::quitToMenuRequested, this, &MainWindow::quitPauseToMenu);
     connect(_viewport, &GameViewport::pauseRequested, this, &MainWindow::openPause);
-
-    // Recouvrement de fin de niveau/séquence (LOT-59 TACHE-03) : même patron que _pauseScreen
-    // ci-dessus (enfant du viewport).
-    _levelCompleteScreen = new LevelCompleteScreen(_viewport);
-    _levelCompleteScreen->setAttribute(Qt::WA_TranslucentBackground);
-    _levelCompleteScreen->hide();
-    connect(_levelCompleteScreen, &LevelCompleteScreen::continueRequested, this,
-            &MainWindow::continueFromLevelComplete);
-    connect(_levelCompleteScreen, &LevelCompleteScreen::replayRequested, this,
-            &MainWindow::replayFromLevelComplete);
-    connect(_levelCompleteScreen, &LevelCompleteScreen::returnToMenuRequested, this,
-            &MainWindow::returnToMenuFromLevelComplete);
-    connect(_viewport, &GameViewport::levelSucceeded, this, &MainWindow::openLevelComplete);
 
     buildUi();  // contenu des docks (panneaux) + branchement des actions de la barre de menus.
 
@@ -386,9 +362,7 @@ MainWindow::MainWindow(core::MemoryLogSink* sessionLog)
     // Navigation depuis le menu principal.
     connect(_menu, &MainMenu::editorRequested, this, &MainWindow::showEditor);
     // Jouer (LOT-59 TACHE-06) : trois intentions distinctes remplacent l'ancien "Jouer" unique.
-    connect(_menu, &MainMenu::continueRequested, this, &MainWindow::continueGame);
     connect(_menu, &MainMenu::newGameRequested, this, &MainWindow::newGame);
-    connect(_menu, &MainMenu::selectLevelRequested, this, &MainWindow::openLevelSelect);
     connect(_menu, &MainMenu::optionsRequested, this, &MainWindow::showOptions);
     connect(_menu, &MainMenu::creditsRequested, this, &MainWindow::openCredits);
     connect(_menu, &MainMenu::quitRequested, this, &MainWindow::close);
@@ -492,32 +466,24 @@ bool MainWindow::transitionScreen(ScreenEvent event) {
 
 void MainWindow::applyScreenDressing(ScreenId screen) {
     // Choix de la page du QStackedWidget : seule part propre a Qt (pointeurs de widgets), hors de
-    // portee d'une table pure (hmi::ScreenDressing). Pause/LevelComplete recouvrent Game (meme
-    // page) : leurs widgets d'ecran (TACHE-02/03) se dessinent PAR-DESSUS, la scene reste visible
-    // derriere.
+    // portee d'une table pure (hmi::ScreenDressing). Pause recouvre Game (meme page) : son widget
+    // se dessine PAR-DESSUS, la scene reste visible derriere.
     switch (screen) {
         case ScreenId::Menu:
             showScreenPage(_menu);
-            // Rafraîchi ICI plutôt que dans showMenu() : la plupart des retours au menu ne passent
-            // PAS par cette méthode -- returnToMenuFromLevelComplete/quitPauseToMenu/
-            // closeLevelSelect résolvent chacun leur PROPRE ScreenEvent directement. Poser le
-            // rafraîchissement ici couvre TOUTE transition qui atterrit sur Menu, quel que soit
-            // l'événement, sans avoir à le dupliquer dans chaque poignée de retour.
-            _menu->setContinueEnabled(!_progression.currentLevel().empty());
             break;
         case ScreenId::Options:
             showScreenPage(_options);
             break;
-        case ScreenId::LevelSelect:
-            showScreenPage(_levelSelectScreen);
-            break;
         case ScreenId::Credits:
             showScreenPage(_credits);
+            break;
+        case ScreenId::RpgScreen:
+            showScreenPage(_rpgScreens);
             break;
         case ScreenId::Editor:
         case ScreenId::Game:
         case ScreenId::Pause:
-        case ScreenId::LevelComplete:
             _stack->setCurrentWidget(_viewport);
             break;
     }
@@ -526,7 +492,7 @@ void MainWindow::applyScreenDressing(ScreenId screen) {
     // écran -- jamais une page de _stack (la scène doit rester dessinée derrière, cf. le
     // commentaire de construction de _pauseScreen). Ne touche jamais à l'état de pause du
     // viewport lui-même (GameViewport::pauseSimulation/resumeSimulation) : c'est le rôle exclusif
-    // de openPause/resumeFromPause/restartFromPause/quitPauseToMenu, jamais un effet de bord de
+    // de openPause/resumeFromPause/quitPauseToMenu, jamais un effet de bord de
     // l'affichage -- une visite par Options (Pause -> Options -> Pause) ne doit pas reprendre puis
     // re-suspendre la simulation.
     const bool showPauseOverlay = screen == ScreenId::Pause;
@@ -540,24 +506,12 @@ void MainWindow::applyScreenDressing(ScreenId screen) {
         _pauseScreen->focusDefaultAction();
     }
 
-    // Recouvrement de fin de niveau/séquence (LOT-59 TACHE-03) : même règle que _pauseScreen
-    // ci-dessus -- `openLevelComplete` a déjà appelé `_levelCompleteScreen->configure(...)` avant
-    // cette transition, ici on ne fait que (dé)montrer.
-    const bool showLevelCompleteOverlay = screen == ScreenId::LevelComplete;
-    _levelCompleteScreen->setVisible(showLevelCompleteOverlay);
-    if (showLevelCompleteOverlay) {
-        _levelCompleteScreen->setGeometry(_viewport->rect());
-        _levelCompleteScreen->raise();
-        _levelCompleteScreen->focusDefaultAction();
-    }
-
-    if (!showPauseOverlay && !showLevelCompleteOverlay &&
-        (screen == ScreenId::Editor || screen == ScreenId::Game)) {
+    if (!showPauseOverlay && (screen == ScreenId::Editor || screen == ScreenId::Game)) {
         _viewport->setFocus();
-    } else if (screen == ScreenId::LevelSelect) {
-        _levelSelectScreen->focusDefaultAction();
     } else if (screen == ScreenId::Credits) {
         _credits->focusDefaultAction();
+    } else if (screen == ScreenId::RpgScreen) {
+        _rpgScreens->focusDefaultAction();
     }
 
     const ScreenDressing dressing = hmi::dressingFor(screen);
@@ -1012,9 +966,6 @@ bool MainWindow::eventFilter(QObject* watched, QEvent* event) {
         if (_pauseScreen != nullptr && _pauseScreen->isVisible()) {
             _pauseScreen->setGeometry(_viewport->rect());
         }
-        if (_levelCompleteScreen != nullptr && _levelCompleteScreen->isVisible()) {
-            _levelCompleteScreen->setGeometry(_viewport->rect());
-        }
     }
     return QMainWindow::eventFilter(watched, event);
 }
@@ -1041,15 +992,6 @@ void MainWindow::resumeFromPause() {
     _viewport->resumeSimulation();
 }
 
-void MainWindow::restartFromPause() {
-    if (!transitionScreen(ScreenEvent::RestartFromPause)) {
-        return;
-    }
-    HMI_LOG_INFO("Navigation : niveau redemarre depuis la pause.");
-    _viewport->resumeSimulation();
-    _viewport->restartCurrentLevel();
-}
-
 void MainWindow::quitPauseToMenu() {
     const QMessageBox::StandardButton answer = QMessageBox::question(
         this, text("pause.quit_confirm_title"), text("pause.quit_confirm_text"));
@@ -1060,88 +1002,6 @@ void MainWindow::quitPauseToMenu() {
         return;
     }
     HMI_LOG_INFO("Navigation : partie abandonnee depuis la pause, retour au menu.");
-    _viewport->quitGame();
-}
-
-void MainWindow::openLevelComplete() {
-    // Configure AVANT la transition (`applyScreenDressing` ne fait que montrer/masquer l'écran
-    // déjà configuré) : le nom du tableau et la variante dépendent du tableau qui vient d'être
-    // réussi, interrogé pendant qu'il est encore courant (GameViewport::_gameLevel n'avance qu'à
-    // `advanceToNextLevel`/`replayFromLevelComplete`).
-    const bool sequenceComplete = _viewport->isLastGameLevel();
-    const std::string finishedLevel = _viewport->currentGameLevelName();
-    const std::string nextLevel = _viewport->nextGameLevelName();
-    // `finishedLevel` (extension comprise) est l'identifiant de progression, comparé tel quel aux
-    // entrées de core::LevelSequence -- ne jamais le tronquer. Le titre affiché, lui, s'en passe
-    // pour rester lisible (ex. « Tableau terminé : demo-saut », pas « ...demo-saut.json »).
-    const QString displayName =
-        QString::fromStdString(std::filesystem::path(finishedLevel).stem().string());
-    _levelCompleteScreen->configure(sequenceComplete, displayName);
-    // Bilan du tableau (LOT-68) : lu AVANT toute transition d'ecran, tant que le viewport porte
-    // encore les compteurs du tableau qui vient d'etre termine.
-    const hmi::LevelRunStats& stats = _viewport->runStats();
-    _levelCompleteScreen->setRunSummary(
-        QString::fromStdString(
-            hmi::formatElapsed(hmi::elapsedSeconds(stats, _viewport->fixedDeltaSeconds()))),
-        stats.deaths, stats.jumps);
-    if (!transitionScreen(ScreenEvent::LevelSucceeded)) {
-        return;
-    }
-    HMI_LOG_INFO("Navigation : tableau reussi.");
-    // Son de victoire (LOT-60 TACHE-03) : fin de sequence prime sur simple fin de tableau -- un
-    // seul son, jamais les deux superposes pour la meme reussite.
-    playInterfaceSound(sequenceComplete ? GameEvent::SequenceCompleted : GameEvent::LevelCompleted);
-
-    // Progression persistée (LOT-59 TACHE-05, EX-LVL-014) : marquée ICI, une seule fois par
-    // réussite, avant tout chargement du tableau suivant -- point d'écriture unique (ni
-    // Continuer/Rejouer/Retour ne réécrivent). `nextLevel` est vide en fin de séquence :
-    // `currentLevel` reste alors au dernier tableau atteint. Un niveau **personnel** (`LOT-59`
-    // TACHE-06, `_gameTracksProgression == false`) ne touche jamais la progression -- sinon
-    // l'essayer « débloquerait » la campagne.
-    if (_gameTracksProgression) {
-        // `alreadyCompleted` distingue une PREMIÈRE réussite (avance le tableau atteint) d'une
-        // rejouée -- rejouer un tableau déjà terminé plus ancien que le tableau atteint (via
-        // « Choisir un niveau », TACHE-06 : les tableaux terminés restent tous jouables) ne doit
-        // JAMAIS faire reculer `currentLevel` vers ce tableau plus ancien.
-        const bool alreadyCompleted = _progression.isCompleted(finishedLevel);
-        _progression.setSequenceId(DEMO_SEQUENCE_FILE);
-        _progression.markCompleted(finishedLevel);
-        if (!alreadyCompleted && !nextLevel.empty()) {
-            _progression.setCurrentLevel(nextLevel);
-        }
-        if (!_progression.save(hmi::executableDirectory() / "Settings" / "progression.json")) {
-            HMI_LOG_WARNING("Progression : echec de l'ecriture (Settings/progression.json).");
-        }
-    }
-}
-
-void MainWindow::continueFromLevelComplete() {
-    if (!transitionScreen(ScreenEvent::ContinueAfterLevel)) {
-        return;
-    }
-    HMI_LOG_INFO("Navigation : tableau suivant.");
-    // `openLevelComplete` a fige la simulation (GameViewport::pauseSimulation) pour figer la scene
-    // derriere l'ecran -- la reprendre avant de charger le tableau suivant, sinon _paused reste
-    // vrai et tick() ne fait plus jamais avancer la nouvelle session (meme piege que
-    // restartFromPause, TACHE-02).
-    _viewport->resumeSimulation();
-    _viewport->advanceToNextLevel();
-}
-
-void MainWindow::replayFromLevelComplete() {
-    if (!transitionScreen(ScreenEvent::ReplayLevel)) {
-        return;
-    }
-    HMI_LOG_INFO("Navigation : tableau rejoue depuis l'ecran de fin de niveau.");
-    _viewport->resumeSimulation();  // cf. continueFromLevelComplete : meme necessite de reprise.
-    _viewport->restartCurrentLevel();
-}
-
-void MainWindow::returnToMenuFromLevelComplete() {
-    if (!transitionScreen(ScreenEvent::ReturnToMenuFromLevelComplete)) {
-        return;
-    }
-    HMI_LOG_INFO("Navigation : retour au menu depuis l'ecran de fin de niveau/sequence.");
     _viewport->quitGame();
 }
 
@@ -1161,108 +1021,53 @@ void MainWindow::showEditor() {
     HMI_LOG_INFO("Navigation : editeur.");
 }
 
-std::optional<core::LevelSequence> MainWindow::loadDemoSequenceOrWarn() {
-    // Séquence de niveaux en donnée de contenu (LOT-59 TACHE-04, EX-LVL-013) : plus aucun nom de
-    // niveau écrit dans Source/HMI. Un fichier de séquence absent/invalide est une erreur
-    // récupérable (EX-NFR-040) -- l'appelant reste sur son écran courant plutôt que d'ouvrir un
-    // écran de jeu sans rien à jouer.
-    const std::filesystem::path levelsDir = hmi::executableDirectory() / "Levels";
-    core::LevelSequenceLoadResult sequenceLoad =
-        core::LevelSequenceLoader::loadFromFile(levelsDir / DEMO_SEQUENCE_FILE);
-    if (!sequenceLoad.ok()) {
-        HMI_LOG_WARNING("Jeu : sequence illisible : " + sequenceLoad.error);
-        QMessageBox::warning(
-            this, text("game.sequence_failed_title"),
-            text("game.sequence_failed_text").arg(QString::fromStdString(sequenceLoad.error)));
-        return std::nullopt;
-    }
-    return std::move(*sequenceLoad.sequence);
-}
-
-void MainWindow::startSequence(const std::string& startLevelName, ScreenEvent transitionEvent) {
-    const std::optional<core::LevelSequence> sequence = loadDemoSequenceOrWarn();
-    if (!sequence) {
-        return;
-    }
-
-    std::size_t startIndex = 0;
-    if (!startLevelName.empty()) {
-        const auto found = std::ranges::find(sequence->levels, startLevelName);
-        if (found != sequence->levels.end()) {
-            startIndex = static_cast<std::size_t>(std::distance(sequence->levels.begin(), found));
-        }
-        // Sinon (nom introuvable -- séquence modifiée depuis, EX-NFR-040) : reprend au premier
-        // tableau plutôt que d'échouer, startIndex reste à 0.
-    }
-
-    if (!transitionScreen(transitionEvent)) {
-        return;
-    }
-    HMI_LOG_INFO("Navigation : jeu.");
-
-    const std::filesystem::path levelsDir = hmi::executableDirectory() / "Levels";
-    std::vector<std::filesystem::path> levelPaths;
-    levelPaths.reserve(sequence->levels.size());
-    for (const std::string& levelName : sequence->levels) {
-        levelPaths.push_back(levelsDir / levelName);
-    }
-    _gameTracksProgression = true;
-    _viewport->startGame(std::move(levelPaths), startIndex);
-}
-
-void MainWindow::continueGame() {
-    if (_progression.currentLevel().empty()) {
-        return;  // "Continuer" est grise dans ce cas (garde ici aussi : clavier/manette).
-    }
-    startSequence(_progression.currentLevel(), ScreenEvent::OpenGame);
-}
-
 void MainWindow::newGame() {
-    const bool hasProgression =
-        !_progression.completedLevels().empty() || !_progression.currentLevel().empty();
-    if (hasProgression) {
-        const QMessageBox::StandardButton answer = QMessageBox::question(
-            this, text("menu.new_game_confirm_title"), text("menu.new_game_confirm_text"));
-        if (answer != QMessageBox::Yes) {
-            return;
-        }
-        _progression.reset();
-        if (!_progression.save(hmi::executableDirectory() / "Settings" / "progression.json")) {
-            HMI_LOG_WARNING("Progression : echec de l'ecriture (Settings/progression.json).");
-        }
-    }
-    startSequence({}, ScreenEvent::OpenGame);
+    // ECHAFAUDAGE ASSUME (LOT-68). Cette entree devrait ouvrir une carte, et elle le fera : la
+    // carte de depart arrive avec le contenu du LOT-27. Elle n'en a AUCUNE aujourd'hui -- le
+    // LOT-01 a purge les niveaux du jeu de plateforme, et `demo-deplacement.json` n'existe pas.
+    // Elle chargeait donc un fichier absent, et le LOT-67 l'a ecrit plutot que de le laisser
+    // decouvrir.
+    //
+    // Elle ouvre en attendant le CHASSIS des ecrans du RPG, sur la fiche de personnage. Ce n'est
+    // pas un pis-aller : les huit ecrans de ce lot sont vides par construction, et huit ecrans
+    // qu'aucun chemin n'atteint ne se relisent pas, ne se naviguent pas et ne se valident pas. La
+    // ligne a remplacer le jour ou il y aura une carte est CELLE-CI, et elle est seule.
+    openRpgScreen(hmi::RpgScreenId::CharacterSheet);
 }
 
-void MainWindow::openLevelSelect() {
-    const std::optional<core::LevelSequence> sequence = loadDemoSequenceOrWarn();
-    if (!sequence) {
+void MainWindow::openRpgScreen(hmi::RpgScreenId screen) {
+    if (!transitionScreen(ScreenEvent::OpenRpgScreen)) {
         return;
     }
-    if (!transitionScreen(ScreenEvent::OpenLevelSelect)) {
-        return;
-    }
-    HMI_LOG_INFO("Navigation : selection de niveau.");
-
-    _levelSelectScreen->setSequenceLevels(sequence->levels, _progression);
-
-    // Niveaux personnels : tout le dossier (hmi::LevelFileOperations, deja reutilise par le
-    // panneau Niveaux de l'editeur), MOINS les tableaux de la sequence demo -- sans ce filtre, un
-    // tableau verrouille serait lancable en clair depuis cet onglet (EX-IHM-005, "hors sequence").
-    const hmi::LevelFileOperations levelOps(hmi::executableDirectory() / "Levels");
-    std::vector<std::filesystem::path> personalLevels = levelOps.list();
-    std::erase_if(personalLevels, [&sequence](const std::filesystem::path& path) {
-        return std::ranges::find(sequence->levels, path.filename().string()) !=
-               sequence->levels.end();
-    });
-    _levelSelectScreen->setPersonalLevels(personalLevels);
+    HMI_LOG_INFO("Navigation : ecran du RPG.");
+    _rpgScreens->showScreen(screen);
 }
 
-void MainWindow::closeLevelSelect() {
-    if (!transitionScreen(ScreenEvent::CloseLevelSelect)) {
+void MainWindow::applyRpgSuperposition(hmi::RpgScreenId screen) {
+    // Regle de superposition (EX-IHM-091) : la fiche, l'inventaire, le journal, le dialogue, le
+    // marchand et le tableau de la Guilde suspendent la simulation ; la carte et l'ATH de combat
+    // se consultent en marchant. La table le dit, ce code l'applique -- il ne redecide rien.
+    if (_screenState.rpgReturnTo != ScreenId::Game && _screenState.rpgReturnTo != ScreenId::Pause) {
+        return;  // ouvert depuis le menu : aucune simulation a suspendre.
+    }
+    if (hmi::pausesGame(screen)) {
+        _viewport->pauseSimulation();
+    } else {
+        _viewport->resumeSimulation();
+    }
+}
+
+void MainWindow::closeRpgScreen() {
+    const ScreenId returnTo = _screenState.rpgReturnTo;
+    if (!transitionScreen(ScreenEvent::CloseRpgScreen)) {
         return;
     }
-    HMI_LOG_INFO("Navigation : retour au menu depuis la selection de niveau.");
+    HMI_LOG_INFO("Navigation : fermeture d'un ecran du RPG.");
+    // La simulation reprend si l'ecran ferme l'avait suspendue -- et SEULEMENT si l'on revient au
+    // jeu : revenir a la pause doit laisser la scene figee, c'est tout son objet.
+    if (returnTo == ScreenId::Game) {
+        _viewport->resumeSimulation();
+    }
 }
 
 void MainWindow::openCredits() {
@@ -1277,32 +1082,6 @@ void MainWindow::closeCredits() {
         return;
     }
     HMI_LOG_INFO("Navigation : retour au menu depuis les credits.");
-}
-
-void MainWindow::chooseSequenceLevel(const QString& levelName) {
-    const std::string name = levelName.toStdString();
-    // Revalidation (défense en profondeur, EX-IHM-005) : l'écran grise déjà les tableaux
-    // verrouillés, mais n'est pas l'unique garde -- jamais lancé verrouillé, même par un chemin
-    // qui contournerait l'affichage (manette, focus forcé).
-    const std::optional<core::LevelSequence> sequence = loadDemoSequenceOrWarn();
-    if (!sequence) {
-        return;
-    }
-    if (!isLevelPlayable(_progression, sequence->levels, name)) {
-        HMI_LOG_WARNING("Selection de niveau : tableau verrouille ignore (" + name + ").");
-        return;
-    }
-    startSequence(name, ScreenEvent::LevelChosen);
-}
-
-void MainWindow::playPersonalLevel(const QString& path) {
-    if (!transitionScreen(ScreenEvent::LevelChosen)) {
-        return;
-    }
-    HMI_LOG_INFO("Navigation : jeu (niveau personnel).");
-    // Hors séquence : ne doit jamais toucher à la progression de la campagne (EX-IHM-005).
-    _gameTracksProgression = false;
-    _viewport->startGame({std::filesystem::path(path.toStdString())});
 }
 
 void MainWindow::showOptions() {
@@ -1621,7 +1400,7 @@ void MainWindow::buildUi() {
     connect(_actions->action(hmi::IconId::Rename), &QAction::triggered, this, [this] {
         bool accepted = false;
         const QString name = QInputDialog::getText(
-            this, text("level.rename"), text("level.rename_prompt"), QLineEdit::Normal,
+            this, text("map.rename"), text("map.rename_prompt"), QLineEdit::Normal,
             QString::fromStdString(_viewport->draft().name()), &accepted);
         if (!accepted || name.isEmpty()) {
             return;
@@ -2104,6 +1883,20 @@ void MainWindow::pollMenuGamepad() {
         post(Qt::Key_Return, Qt::NoModifier);
         playInterfaceSound(GameEvent::MenuConfirm);
     }
+    // Epaules : passage d'un ecran du RPG a l'autre (LOT-68). C'est le pendant manette du bouton
+    // du pied de page, et la raison pour laquelle le rappel de touches annonce LB/RB : un rappel
+    // qui nomme une touche inerte est pire que pas de rappel du tout (EX-IHM-072).
+    if (_screenState.screen == ScreenId::RpgScreen) {
+        if (_menuPadInput.gamepadButtonPressed(GamepadButton::RightShoulder)) {
+            _rpgScreens->showNextScreen();
+            playInterfaceSound(GameEvent::MenuNavigate);
+        }
+        if (_menuPadInput.gamepadButtonPressed(GamepadButton::LeftShoulder)) {
+            _rpgScreens->showPreviousScreen();
+            playInterfaceSound(GameEvent::MenuNavigate);
+        }
+    }
+
     // B : retour contextuel (depuis Options vers son écran d'origine, ou reprise depuis la pause
     // -- LOT-59 TACHE-02), sans quitter depuis le menu principal.
     if (_menuPadInput.gamepadButtonPressed(GamepadButton::B)) {
@@ -2111,10 +1904,10 @@ void MainWindow::pollMenuGamepad() {
             closeOptions();
         } else if (_screenState.screen == ScreenId::Pause) {
             resumeFromPause();
-        } else if (_screenState.screen == ScreenId::LevelSelect) {
-            closeLevelSelect();
         } else if (_screenState.screen == ScreenId::Credits) {
             closeCredits();
+        } else if (_screenState.screen == ScreenId::RpgScreen) {
+            closeRpgScreen();
         }
     }
 
@@ -2535,9 +2328,8 @@ void MainWindow::retranslateUi() {
     // Panneaux et pages (chacun retraduit son propre contenu depuis le catalogue).
     _menu->retranslateUi(_loc);
     _pauseScreen->retranslateUi(_loc);
-    _levelCompleteScreen->retranslateUi(_loc);
-    _levelSelectScreen->retranslateUi(_loc);
     _credits->retranslateUi(_loc);
+    _rpgScreens->retranslateUi(_loc);
     _options->retranslateUi(_loc);
     _palette->retranslateUi(_loc);
     _planes->retranslateUi(_loc);

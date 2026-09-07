@@ -29,9 +29,9 @@ Chaque case de la grille a l'un de ces types :
 |------|------|
 | `Empty` | Case traversable, par défaut (aucun contenu). |
 | `Solid` | Bloque le déplacement en toute circonstance — un mur ou le sol. |
-| `Danger` | Traversable, mais son contact déclenche l'échec du niveau (`EX-GP-031`). |
+| `Danger` | Traversable, mais son contact est mortel. Ce que devient la mort d'un personnage — agonie, jets de sauvegarde — est le sujet du `LOT-72`. |
 | `Entry` | Position d'apparition du personnage au chargement du niveau. |
-| `Exit` | Recouvrir cette case déclenche la réussite du niveau (`EX-GP-030`). |
+| `Exit` | Sortie de la carte. Ne termine plus rien depuis le `LOT-67` ; redeviendra une transition vers une autre carte au `LOT-09`. |
 | `Switch` | Interrupteur : son activation **bascule** l'état d'une `Door` liée (voir §« Mécanismes »). |
 | `PressurePlate` | Plaque de pression : ouvre une `Door` liée **tant qu'un poids y repose** (`EX-GP-025`) — activation **continue**, pas de bascule. |
 | `Door` | Porte : solide **fermée**, franchissable **ouverte** — son état dépend du `Switch`/`PressurePlate` lié. |
@@ -409,7 +409,7 @@ moment où le personnage apparaît (spawn). Ensuite :
 ## Dangers avancés (`LOT-31`)
 
 Quatre variantes étendent le danger classique (`TileType::Danger`, case pleine et statique) sans
-toucher à la règle de fin de niveau elle-même (`EX-GP-031`) — seules la **géométrie** ou
+toucher à la règle de contact mortel elle-même — seules la **géométrie** ou
 l'**activation** varient. Chacune vit dans une couche différente, selon que sa mortalité est
 **géométrique** (résolue directement par `Core/Levels`, sans état) ou **temporelle** (résolue par
 un contrôleur de `Core/Gameplay`, qui possède un état à faire vivre chaque pas fixe) :
@@ -480,114 +480,29 @@ L'ordre de classement est **déterministe et volontaire** : si, au même pas, le
 l'**échec l'emporte sur le succès** — une règle simple et prévisible plutôt que dépendante de
 l'ordre de test interne.
 
-Cette fonction ne fait que **classer** l'état ; c'est côté présentation que la transition a
-réellement lieu. Le viewport de jeu (`hmi::GameViewport`, alimenté par la liste résolue depuis
-`core::LevelSequence`, ci-dessous) gère l'**ordre** des niveaux d'une session. Depuis `LOT-59`,
-une issue `Won` ne charge plus le niveau suivant directement : elle **fige** la simulation
-(`pauseSimulation`) et signale la réussite (`GameViewport::levelSucceeded`) — c'est l'écran de fin
-de niveau qui avance ensuite, sur validation du joueur (@ref guide-ecrans détaille l'écran ;
-`EX-LVL-010`/`EX-LVL-011` restent respectées : l'**ordre** est inchangé, seul le passage par un
-écran plutôt qu'un enchaînement instantané a changé).
+Cette fonction ne fait que **classer** l'état ; c'est côté présentation qu'il a un effet. Et depuis
+le `LOT-67`, cet effet est volontairement **minimal** : une issue `Won` en partie ne termine plus
+rien — il n'y a ni tableau suivant, ni écran de fin — elle ramène au menu, faute de destination.
 
-## Séquence de niveaux (donnée de contenu, `LOT-59`)
+C'est un provisoire, et il est assumé plutôt que déguisé : la sortie reste dessinée dans les cartes
+et redeviendra une **transition** vers la carte que le graphe du `LOT-09` désignera. Y laisser un
+écran de fin de séquence aurait été plus spectaculaire et plus faux.
 
-La **séquence jouée** (quel fichier après quel autre) est elle-même une donnée de contenu
-(`EX-LVL-013`), au même titre qu'un niveau — jamais un littéral C++. `core::LevelSequenceLoader`
-(`Core/Levels/LevelSequence.h`) suit exactement le patron de `core::LevelLoader` ci-dessus : lecture
-JSON **non lançante** (`try`/`catch` sur `nlohmann::json::exception`), résultat catégorisé
-(`core::LevelSequenceLoadResult`, même forme que `LevelLoadResult`), version de format indépendante
-(`core::kLevelSequenceFormatVersion`).
+## Ce que le `LOT-67` a retiré
 
-Format (`Source/Elements/Levels/sequence-demo.json`) :
+Ce guide décrivait ici deux mécanismes de plus : la **séquence de niveaux** comme donnée de contenu
+et le **garde-fou de couverture des mécaniques**, qui vérifiait que chaque type de tuile
+apparaissait dans un tableau franchi par le test système. Les deux supposaient une séquence
+ordonnée, retirée avec la notion de niveau discret (`EX-LVL-010` → `EX-LVL-015`, consignées
+« retirées » dans [`niveaux.md`](@ref spec-niveaux) plutôt que supprimées).
 
-```json
-{
-  "version": 1,
-  "titleKey": "sequence.demo.title",
-  "levels": ["demo-deplacement.json", "demo-saut.json", "…"]
-}
-```
-
-`levels` contient des **noms de fichiers**, résolus par l'appelant relativement au dossier de
-niveaux (`hmi::executableDirectory() / "Levels"`) — `Core` ignore ce dossier (`EX-NFR-011`), mais
-`loadFromFile` vérifie tout de même que chaque niveau référencé existe **à côté du fichier de
-séquence lui-même** (c'est là que vivent les niveaux) : un nom mal orthographié est une erreur
-récupérable et **nommée** (`EX-NFR-040`), jamais un chargement hors bornes différé au premier
-niveau joué. Cette même contrainte impose un préfixe de nom de fichier **réservé**, `sequence-`,
-dans `Source/Elements/Levels` : un fichier de séquence n'est pas un niveau, et
-`hmi::LevelFileOperations::list()` (panneau Niveaux de l'éditeur, @ref guide-editeur) l'exclut
-explicitement de ce qu'il propose d'ouvrir.
-
-`scripts/check_demo_sequence.py` (CI) vérifie que `sequence-demo.json` reste identique, dans le
-même ordre, à la liste rejouée par le test système `Source/Test/Systeme/test_parcours_complet.cpp`
-— un décalage entre les deux est précisément le défaut qui a déclenché `LOT-25`.
-
-## Garde-fou de couverture des mécaniques (`EX-LVL-015`, `LOT-65`)
-
-`scripts/check_demo_sequence.py` protège l'**ordre** de la séquence ; il ne dit rien de sa
-**couverture** : rien n'empêchait, avant ce lot, qu'un type de tuile livré et testé unitairement
-n'apparaisse dans **aucun** tableau réellement joué. `Source/Test/Systeme/
-test_couverture_mecaniques.cpp` comble ce trou.
-
-**Ce qu'il vérifie exactement — et ce qu'il ne vérifie pas.** Le garde-fou parcourt la séquence
-livrée (`sequence-demo.json`) et relève, pour chaque tableau chargé avec succès, les types de
-`core::TileType` présents dans sa `TileMap`, le mode de `core::CameraFramingMode` résolu, et cinq
-variantes significatives portées par des champs plutôt que par le type (danger temporisé
-**déphasé**, danger mobile **vertical**, budget de mouvements **borné**, texture assignée **par
-instance**, plan pictural de **premier plan**, parallaxe de plan **réglée**). Le test échoue, en nommant précisément ce qui manque, si un
-type, un mode ou une variante livrés n'apparaît dans aucun tableau. C'est une vérification de
-**présence**, pas de **franchissabilité** : une mécanique posée dans un coin inaccessible du
-tableau serait « couverte » sans jamais être jouée — c'est le test système
-(`ParcoursCompletSysteme.FranchitTouteLaSequence`, `EX-NFR-021`) qui vérifie que chaque tableau se
-termine réellement. Les deux sont nécessaires et complémentaires.
-
-**Dérivé de l'énumération, jamais recopié.** L'inventaire des types (`allContentTileTypes` dans le
-fichier de test) parcourt `core::TileType` par entier (`0` à `MovingPlatform`, sa dernière valeur)
-— même technique que `core::parseTileType` (`Core/Levels/TileTypeName.cpp`). Ajouter un type **avant**
-`MovingPlatform` dans l'énumération est pris en compte sans aucune modification du garde-fou ; en
-ajouter un **après** exige de bouger cette borne, mais c'est déjà le cas pour `parseTileType`
-lui-même — ce n'est pas une limite propre à ce garde-fou. Les modes de cadrage, eux, restent une
-liste explicite (trois valeurs, jamais recopiées ailleurs dans ce module) : un petit `enum` stable
-n'a pas besoin de la même précaution.
-
-**Exclusions.** Une mécanique légitimement impossible à couvrir figurerait dans
-`excludedTileTypes()`, nommée et commentée — aujourd'hui cette liste est **vide** : chaque type de
-`core::TileType` correspond à un contenu plaçable dans un tableau de démonstration. Si une
-exclusion devient un jour nécessaire, c'est l'emplacement où l'ajouter, jamais un contournement
-ailleurs dans le test.
-
-### De la couverture à la profondeur (second temps du `LOT-65`)
-
-Le garde-fou ci-dessus, écrit en `TACHE-01`, avait lui-même annoncé sa limite (« couvert ≠
-franchi ») sans la combler. Il est devenu **vert** sur un contenu où onze tableaux sur vingt-deux ne
-demandaient rien au joueur, où chaque mécanique n'existait qu'en **un** exemplaire, et où treize
-tuiles de mécanique étaient **hors d'atteinte** du personnage — dont l'interrupteur d'un danger
-commuté, qui ne pouvait donc jamais être commuté. Trois contrôles supplémentaires ont été ajoutés,
-et le premier a été durci. Ils mesurent tous l'**usage**, non la présence :
-
-| Contrôle | Où | Ce qu'il refuse |
-|---|---|---|
-| **Profondeur** | `test_couverture_mecaniques.cpp` | Un type de tuile posé moins de `MIN_OCCURRENCES` (trois) fois dans toute la séquence. Une occurrence unique prouve qu'un type se *charge*, pas qu'il se *joue*. |
-| **Budgets séparés** | idem | Une séquence sans budget de sauts, **ou** sans budget de dashs. Le « ou » d'origine laissait passer une séquence entière sans le moindre `dashBudget`. |
-| **Variantes de cadrage** | idem | Une séquence sans zone de caméra dessinée (`EX-LVL-007`) ou sans taille de salle choisie par un niveau (`EX-REN-017`) — invisibles d'un contrôle portant sur le seul `mode`. |
-| **Anti-couloir** | `test_parcours_complet.cpp` | Un tableau franchi en maintenant simplement « droite », hors exclusion nommée (`corridorExemptLevels`). |
-| **Proximité au trajet** | idem | Une tuile de mécanique hors de portée d'un saut (`REACH_TILES`) du chemin réellement parcouru, relevé pendant le rejeu. |
-
-Le seuil de proximité est calibré sur un saut **simple** et non sur un double saut : une mécanique
-qu'il faut déjà savoir enchaîner deux sauts pour effleurer n'est pas sur le chemin. La marge
-au-delà laisse passer le hors-chemin volontaire (un secret facultatif reste légitime) ; ce qui est
-refusé, c'est l'**inatteignable**.
-
-La doctrine de conception que ces contrôles rendent vérifiable — chemin critique, répétition,
-contrainte de capacité, introduction avant emploi — est écrite dans
-`Documentation/Specification/niveaux.md`, Sec. 3.
+Ce qui les remplace n'est pas encore écrit : le **graphe de cartes** du `LOT-09` dira comment on
+passe d'une carte à l'autre, et le **contrôle de cohérence du contenu** du `LOT-49` reprendra la
+question de la couverture — sur un catalogue de cartes, pas sur une file.
 
 ## Voir aussi
 - `core::Level`, `core::TileMap`, `core::TileType`, `core::LevelLoader`, `core::LevelLoadResult`.
-- `core::LevelSequence`, `core::LevelSequenceLoader`, `core::LevelSequenceLoadResult`.
 - `core::buildLevelScene`, `core::MechanismController`, `core::BlockController`, `core::DangerController`, `core::PlatformController`, `core::dangerHitbox`, `core::evaluateOutcome`, `hmi::GameSession`.
-- @ref guide-ecrans — l'écran de fin de niveau qui décide de la suite depuis `LOT-59`, et la
-  progression persistée entre deux lancements.
+- @ref guide-ecrans — la machine à états des écrans, et ce que le `LOT-67` en a retiré.
 - @ref guide-physique — comment le balayage consomme `isSolid`/`collisionMap()`.
 - @ref guide-ecs — le composant `core::Player` qui porte les compteurs de budget.
-- `Source/Test/Systeme/test_couverture_mecaniques.cpp` — le garde-fou de couverture (`EX-LVL-015`).

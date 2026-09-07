@@ -6,38 +6,15 @@
    <!-- Marges posees en code (MainMenu::MainMenu, LOT-56) depuis l'echelle d'espacement des
         jetons, pas de nombre fige ici. -->
    <item>
-    <widget class="QLabel" name="menuTitle">
-     <!-- Taille/graisse posees par theme.qss (#MainMenu QLabel#menuTitle, LOT-56 TACHE-03), depuis
-          l'echelle typographique des jetons, pas de propriete de police figee ici. -->
-     <property name="text"><string>Just Another D&amp;D Game</string></property>
-    </widget>
-   </item>
-   <item>
     <spacer name="titleSpacer">
      <property name="orientation"><enum>Qt::Vertical</enum></property>
      <property name="sizeHint" stdset="0"><size><width>0</width><height>0</height></size></property>
     </spacer>
    </item>
    <item>
-    <widget class="hmi::MenuEntryButton" name="continueButton">
-     <!-- Grise sans progression (MainMenu::setContinueEnabled, LOT-59 TACHE-06) : pas de
-          "enabled" fige ici, l'etat depend de Progression::currentLevel a l'execution. -->
-     <property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property>
-     <property name="text"><string>Continuer</string></property>
-     <property name="flat"><bool>true</bool></property>
-    </widget>
-   </item>
-   <item>
     <widget class="hmi::MenuEntryButton" name="newGameButton">
      <property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property>
      <property name="text"><string>Nouvelle partie</string></property>
-     <property name="flat"><bool>true</bool></property>
-    </widget>
-   </item>
-   <item>
-    <widget class="hmi::MenuEntryButton" name="selectLevelButton">
-     <property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property>
-     <property name="text"><string>Choisir un niveau</string></property>
      <property name="flat"><bool>true</bool></property>
     </widget>
    </item>

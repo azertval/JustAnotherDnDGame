@@ -20,7 +20,22 @@ void addRing(std::vector<ParchmentStroke>& strokes, ParchmentRole role, int widt
     strokes.push_back({role, width - inset - thickness, inset, thickness, height - (2 * inset)});
 }
 
+/// Cote d'une unite de maquette, en pixels, pour un cadre donne. Jamais assez large pour que les
+/// deux bords opposes se chevauchent : au-dela, `width - 2 * inset` deviendrait negatif et les
+/// bandes sortiraient du widget au lieu de s'y reduire.
+[[nodiscard]] int frameUnit(int width, int height, int scale) {
+    if (width <= 0 || height <= 0) {
+        return 0;
+    }
+    const int maximumUnit = std::min(width, height) / (2 * PARCHMENT_FRAME_UNITS);
+    return std::min(std::max(scale, 1), maximumUnit);
+}
+
 }  // namespace
+
+int parchmentFrameCorner(int width, int height, int scale) {
+    return PARCHMENT_FRAME_UNITS * std::max(0, frameUnit(width, height, scale));
+}
 
 std::vector<ParchmentStroke> parchmentFrameStrokes(int width, int height, int scale) {
     if (width <= 0 || height <= 0) {
@@ -33,11 +48,7 @@ std::vector<ParchmentStroke> parchmentFrameStrokes(int width, int height, int sc
     // peints -- que Qt rendrait par ce qui se trouve derriere, jamais par du parchemin.
     strokes.push_back({ParchmentRole::Field, 0, 0, width, height});
 
-    // Une unite d'au moins un pixel, et jamais assez large pour que les deux bords opposes se
-    // chevauchent : au-dela, `width - 2 * inset` deviendrait negatif et les bandes sortiraient du
-    // widget au lieu de s'y reduire.
-    const int maximumUnit = std::min(width, height) / (2 * PARCHMENT_FRAME_UNITS);
-    const int unit = std::min(std::max(scale, 1), maximumUnit);
+    const int unit = frameUnit(width, height, scale);
     if (unit <= 0) {
         // Trop petit pour un encadrement honnete : un champ nu, pas un cadre ecrase.
         return strokes;

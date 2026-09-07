@@ -21,8 +21,8 @@ pure**, sans dépendance Qt — testable hors instance d'application (`EX-NFR-01
   d'outils, commandes d'édition, navigation manette) — ce que chaque ancien `showXxx()` répétait à
   la main.
 
-`hmi::ScreenId` compte sept écrans : `Menu`, `Editor`, `Game`, `Options`, `Pause`, `NiveauTermine`,
-`LevelSelect`. `MainWindow::transitionScreen(event)` est l'**unique** point d'entrée : il résout la
+`hmi::ScreenId` compte six écrans : `Menu`, `Editor`, `Game`, `Options`, `Pause`, `Credits`.
+`MainWindow::transitionScreen(event)` est l'**unique** point d'entrée : il résout la
 transition, puis applique l'habillage (`applyScreenDressing`) — aucun code ne bascule d'écran
 autrement.
 
@@ -32,13 +32,12 @@ autrement.
 tous n'y vivent pas de la même façon :
 
 - **Pages normales** (une par écran hors jeu) : `Menu` (`hmi::MainMenu`), `Options`
-  (`hmi::OptionsPage`), `LevelSelect` (`hmi::LevelSelectScreen`, `LOT-59` TACHE-06), et le
-  **conteneur du viewport** partagé par `Editor`/`Game` (`hmi::GameViewport`). Ajoutées via
-  `QStackedWidget::addWidget`, Qt gère leur taille.
-- **Recouvrements** (`Pause`, `NiveauTermine`) : `hmi::PauseScreen` et `hmi::LevelCompleteScreen`
-  ne sont **jamais** des pages de la pile — `applyScreenDressing` laisse le conteneur du viewport
-  affiché derrière eux, ce qui permet à la **scène de rester visible** (figée) derrière l'écran de
-  pause ou de fin de niveau. Ce sont des **fenêtres de haut niveau** propres (`Qt::Dialog |
+  (`hmi::OptionsPage`), `Credits` (`hmi::CreditsScreen`), et le **conteneur du viewport** partagé
+  par `Editor`/`Game` (`hmi::GameViewport`). Ajoutées via `QStackedWidget::addWidget`, Qt gère leur
+  taille.
+- **Recouvrement** (`Pause`) : `hmi::PauseScreen` n'est **jamais** une page de la pile —
+  `applyScreenDressing` laisse le conteneur du viewport affiché derrière lui, ce qui permet à la
+  **scène de rester visible** (figée) derrière l'écran de pause. Ce sont des **fenêtres de haut niveau** propres (`Qt::Dialog |
   Qt::FramelessWindowHint`, fond translucide, possédées par `MainWindow`), positionnées en
   coordonnées **écran** sur le rectangle de `_editorContainer` (`MainWindow::syncOverlayGeometry`,
   resynchronisé à chaque déplacement **et** redimensionnement de la fenêtre principale — un
@@ -53,7 +52,7 @@ tous n'y vivent pas de la même façon :
   ne répond à **Entrée** que si `QPushButton::autoDefault` vaut vrai — vrai par défaut seulement
   si un ancêtre **C++** du bouton est un vrai `QDialog` (`qobject_cast`, indépendant de l'indicateur
   de fenêtre) : posé explicitement (`setAutoDefault(true)`) sur chaque bouton de ces écrans **et**
-  de `hmi::MainMenu`/`hmi::LevelSelectScreen`, qui partagent le même défaut.
+  de `hmi::MainMenu`, qui partage le même défaut.
 
   **Ce n'était pas la première tentative.** La première version faisait de ces écrans de simples
   widgets Qt **frères** du conteneur du viewport (même parent, `_stack`), sur la foi d'un patron cru
@@ -67,7 +66,7 @@ tous n'y vivent pas de la même façon :
   descendant vs frère, c'est une limitation de superposition **au sein d'une même fenêtre native**.
   Seule une fenêtre de haut niveau **distincte** s'en affranchit, d'où la conception actuelle.
 
-`LevelSelect`, à l'inverse, est une page normale : atteint depuis le **menu**, jamais en cours de
+`Credits`, à l'inverse, est une page normale : atteint depuis le **menu**, jamais en cours de
 partie, il n'a aucune scène à laisser visible derrière lui.
 
 ## Qui déclenche les transitions : les signaux
@@ -78,16 +77,15 @@ ainsi **testable/éditable en isolation** (il émet ses signaux sans rien conna�
 ajouter un écran revient à ajouter une page/un recouvrement à la pile et un `connect` — sans
 toucher aux écrans existants.
 
-Le menu principal (`hmi::MainMenu`) expose six signaux depuis `LOT-59` (l'ancien `playRequested`
-unique est devenu trois intentions distinctes, TACHE-06) :
+Le menu principal (`hmi::MainMenu`) expose cinq signaux — un par entrée, et rien de plus. Le
+`LOT-67` en a retiré deux : « Continuer » et « Choisir un niveau » n'avaient plus d'écran où mener.
 
 ```cpp
-connect(_menu, &MainMenu::continueRequested,   this, &MainWindow::continueGame);
-connect(_menu, &MainMenu::newGameRequested,    this, &MainWindow::newGame);
-connect(_menu, &MainMenu::selectLevelRequested,this, &MainWindow::openLevelSelect);
-connect(_menu, &MainMenu::editorRequested,     this, &MainWindow::showEditor);
-connect(_menu, &MainMenu::optionsRequested,    this, &MainWindow::showOptions);
-connect(_menu, &MainMenu::quitRequested,       this, &QWidget::close);
+connect(_menu, &MainMenu::newGameRequested, this, &MainWindow::newGame);
+connect(_menu, &MainMenu::editorRequested,  this, &MainWindow::showEditor);
+connect(_menu, &MainMenu::optionsRequested, this, &MainWindow::showOptions);
+connect(_menu, &MainMenu::creditsRequested, this, &MainWindow::openCredits);
+connect(_menu, &MainMenu::quitRequested,    this, &QWidget::close);
 ```
 
 ## Le viewport partagé : éditeur **et** jeu
@@ -154,64 +152,20 @@ correction : `GameViewport::tick()` continue d'appeler `hmi::InputState::beginFr
 image même en pause (juste hors de la boucle de pas), pour que la ligne de base des fronts reste à
 jour et qu'un bouton simplement *tenu* ne soit jamais relu comme *pressé* à la reprise.
 
-## Fin de niveau et fin de séquence
+## Ce que le `LOT-67` a retiré
 
-Une issue `Won` (`core::evaluateOutcome`, @ref guide-niveaux) ne charge plus directement le niveau
-suivant depuis `LOT-59` : `GameViewport::tick()` **fige** la simulation (`pauseSimulation` — même
-suspension que la pause manuelle) et émet `levelSucceeded()`. `MainWindow::openLevelComplete()`
-configure `hmi::LevelCompleteScreen` (même patron de recouvrement que la pause) avec le nom du
-tableau et la variante — fin de **tableau** (*Continuer*/*Rejouer*/retour) si un tableau suivant
-existe, fin de **séquence** (retour seul) sinon (`GameViewport::isLastGameLevel`) — puis ouvre
-l'écran. *Continuer* et *Rejouer* **reprennent** la simulation (`resumeSimulation`, même réarmement
-d'horloge que ci-dessus) avant de charger le tableau voulu — sans cette reprise, `_paused` resterait
-vrai et la nouvelle session ne serait jamais avancée.
+Ce guide décrivait, jusqu'au `LOT-67`, trois mécanismes de plus : un **écran de fin de niveau**,
+une **sélection de niveau** et une **progression persistée** au tableau. Les trois supposaient une
+séquence ordonnée de tableaux, que le jeu visé n'a pas — et ils ont été retirés avec elle, code,
+écrans et exigences (`EX-LVL-010` → `EX-LVL-015`, `EX-IHM-005`, `EX-GP-030` → `EX-GP-032`, toutes
+consignées « retirées » dans leur spécification plutôt que supprimées ; `EX-GP-040`, `EX-IHM-003`
+et `EX-IHM-004`, elles, sont **refondues** — elles avaient un objet au-delà du niveau discret).
 
-C'est aussi le point unique où la **progression** est marquée (ci-dessous).
-
-## Sélection de niveau et progression persistée (`LOT-59` TACHE-05/06)
-
-### Le modèle : `hmi::Progression`
-
-`hmi::Progression` (`Source/HMI/Game/Progression.h`) est de la logique **pure**, sans Qt (comme
-`core::LevelSequence`) : identifiant de séquence, tableau **atteint** (où reprendre), et
-**ensemble** des tableaux terminés — le tout par **nom de fichier**, jamais par indice, pour
-qu'un réordonnancement ou un ajout de tableau (`EX-LVL-013`) ne rende pas la progression fausse.
-Persistée dans `Settings/progression.json` (à côté de `Settings/keybindings.json`), même patron
-de lecture **tolérante** que `hmi::GameKeyBindings` (fichier absent/vide/malformé → partie neuve,
-jamais bloquant, `EX-NFR-040`), mais avec une **écriture atomique** — fichier temporaire puis
-`std::filesystem::rename`, comme `hmi::encodeImageFile` (`LOT-54`) — pour qu'une fermeture brutale
-ne laisse jamais un fichier à demi écrit.
-
-`MainWindow` la charge une fois à la construction et l'écrit à un **unique** point :
-`openLevelComplete`, une fois par réussite, **avant** tout chargement du tableau suivant — jamais
-par image ni par pas. Un tableau rejoué qui était **déjà** terminé (via *Rejouer*, ou en choisissant
-un ancien tableau depuis l'écran de sélection) ne fait **pas** reculer le tableau atteint : seule
-une **première** réussite l'avance.
-
-### La règle de déverrouillage : `hmi::isLevelUnlocked`
-
-Fonction **pure**, seule autorité sur ce qui est jouable — un écran ne fait que l'afficher, jamais
-sa propre condition : un tableau est jouable s'il est déjà **terminé**, ou s'il est le **premier**
-tableau **non terminé** de la séquence dans son ordre. Tous les suivants restent verrouillés.
-`hmi::LevelSelectScreen` grise les entrées verrouillées (`Qt::ItemIsEnabled` retiré, ce qui les
-exclut aussi de la navigation clavier/manette standard de Qt) ; `MainWindow::chooseSequenceLevel`
-**revalide** quand même via cette fonction avant tout lancement — défense en profondeur, jamais un
-tableau verrouillé lancé même par un chemin qui contournerait l'affichage.
-
-### Le menu : trois intentions
-
-*Continuer* (grisé sans progression, `MainMenu::setContinueEnabled`) reprend au tableau atteint.
-*Nouvelle partie* efface la progression (confirmation si elle existe) et recommence au premier
-tableau. *Choisir un niveau* ouvre `hmi::LevelSelectScreen` — une page normale (pas un
-recouvrement, atteint depuis le menu) à deux onglets :
-
-- **Séquence** : les tableaux, avec leur état (terminé/atteint/verrouillé).
-- **Niveaux personnels** : tout le dossier de niveaux (`hmi::LevelFileOperations::list()`, déjà
-  réutilisé par le panneau Niveaux de l'éditeur, @ref guide-editeur) **moins** les tableaux qui
-  appartiennent à la séquence démo — sans ce second filtre, un tableau verrouillé serait apparu
-  librement lançable dans cet onglet, contournant la règle de déverrouillage. Un niveau personnel
-  se lance **seul** (`_gameTracksProgression = false` côté `MainWindow`) et ne touche **jamais** la
-  progression de la séquence, même s'il est terminé.
+Ce qui les remplace n'est pas écrit ici, parce que ce n'est pas encore écrit du tout : le **graphe
+de cartes** du `LOT-09` dira comment on passe d'une carte à l'autre, et la **sauvegarde riche** du
+`LOT-17` ce qu'on retrouve en revenant. « Continuer » reviendra au menu avec elle — pas avant : une
+entrée de menu qui ne mène nulle part coûte plus de confiance qu'elle n'apporte d'information
+(`EX-IHM-072`).
 
 ## Où ça s'insère dans la boucle
 
@@ -226,11 +180,9 @@ guide-ihm-qt.
 ## Voir aussi
 - `hmi::MainWindow`, `hmi::MainMenu`, `hmi::OptionsPage`, `hmi::GameViewport`, `hmi::GameSession`.
 - `hmi::ScreenFlow`, `hmi::ScreenId`, `hmi::ScreenEvent`, `hmi::ScreenState`, `hmi::ScreenDressing`.
-- `hmi::PauseScreen`, `hmi::LevelCompleteScreen`, `hmi::LevelSelectScreen`.
-- `hmi::Progression`, `hmi::isLevelUnlocked`, `core::LevelSequence`, `core::LevelSequenceLoader`.
+- `hmi::PauseScreen`, `hmi::CreditsScreen`.
 - @ref guide-ihm-qt — le socle Qt : viewport Direct3D 11 embarqué, boucle et entrées Qt.
 - @ref guide-entrees — `hmi::MainMenu` et `hmi::OptionsPage`, deux écrans concrets et le remappage.
 - @ref guide-niveaux, @ref guide-editeur — ce que le jeu et l'éditeur font une fois actifs, le
-  format de la séquence de niveaux, et comment l'éditeur réutilise `hmi::GameSession` pour l'essai
-  immédiat.
+  format des cartes, et comment l'éditeur réutilise `hmi::GameSession` pour l'essai immédiat.
 - @ref guide-boucle — l'accumulateur à pas fixe suspendu pendant la pause.
