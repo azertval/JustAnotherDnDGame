@@ -118,6 +118,7 @@ add_library(HmiLib STATIC
     Interface/IdentityScale.cpp
     Interface/EditorWorkspace.cpp
     Interface/ParchmentFrame.cpp
+    Interface/ParchmentOrnaments.cpp
     Interface/MenuBackdropGeometry.cpp
     Interface/KeyHintText.cpp
     Interface/ActionCatalog.cpp
@@ -294,6 +295,8 @@ add_executable(JustAnotherDnDGame
     # Widgets Qt de l'habillage pixel art (LOT-68) : peintres au-dessus de la geometrie pure
     # ci-dessus, promus dans les .ui. Non compiles dans UnitTests (dependent de Qt).
     Interface/ParchmentPanel.cpp
+    Interface/OrnamentPainter.cpp
+    Interface/TitleBanner.cpp
     Interface/FocusMarker.cpp
     Interface/MenuEntryButton.cpp
     Interface/ThemeIcons.cpp

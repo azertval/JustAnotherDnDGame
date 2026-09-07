@@ -22,10 +22,16 @@ et le thème dans `Elements/Themes/` (une feuille par portée : `theme-identity.
   clavier/manette (onglets ajoutés en code). Les sélecteurs de résolution et de limite d'images/s
   ont été **retirés** au `LOT-68` : grisés et non branchés, ils promettaient un réglage inexistant
   (`EX-IHM-072`). Émet `languageChanged`/`saveLogsRequested` vers `MainWindow`.
-- `IdentityScale`, `ParchmentFrame`, `MenuBackdropGeometry`, `KeyHintText` — géométries et
-  textes **purs** de l'habillage parchemin des écrans du jeu (`EX-IHM-070`), peints par
-  `ParchmentPanel`, `MenuEntryButton` et `MainMenu`. Même découpage que les icônes du `LOT-56` :
-  une fonction pure décide *quoi* dessiner, un peintre Qt décide *comment*.
+- `IdentityScale`, `ParchmentFrame`, `ParchmentOrnaments`, `MenuBackdropGeometry`, `KeyHintText` —
+  géométries et textes **purs** de l'habillage parchemin des écrans du jeu (`EX-IHM-070`,
+  `EX-IHM-075`), peints par `ParchmentPanel`, `TitleBanner`, `MenuEntryButton` et `MainMenu`. Même
+  découpage que les icônes du `LOT-56` : une fonction pure décide *quoi* dessiner, un peintre Qt
+  décide *comment*.
+  `ParchmentFrame` porte l'encadrement à bandes du `LOT-66` ; `ParchmentOrnaments` les formes
+  obliques du `LOT-76` — cabochon d'angle, bandeau de titre — que `OrnamentPainter` peint pour
+  **tous** ses appelants. Un seul peintre, pour la raison qui a valu au fleuron de focus d'être
+  tracé une seule fois : deux peintres dérivent l'un de l'autre à la première retouche, et le
+  joueur voit deux ornements différents sur deux écrans sans comprendre pourquoi.
 - `KeybindingsWidget` / `GamepadBindingsWidget` — capture et affichage du remappage des touches et
   des boutons de manette (délèguent à `hmi::GameKeyBindings` / `EditorKeyBindings` /
   `GamepadBindings`, logique pure testée). Le remappage manette affiche aussi l'**état de connexion**

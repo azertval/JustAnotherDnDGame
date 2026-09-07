@@ -6,7 +6,7 @@
    <!-- Marges posees en code (MainMenu::MainMenu, LOT-56) depuis l'echelle d'espacement des
         jetons, pas de nombre fige ici. -->
    <item>
-    <widget class="QLabel" name="menuTitle">
+    <widget class="hmi::TitleBanner" name="menuTitle">
      <!-- Taille/graisse posees par theme.qss (#MainMenu QLabel#menuTitle, LOT-56 TACHE-03), depuis
           l'echelle typographique des jetons, pas de propriete de police figee ici. -->
      <property name="text"><string>Just Another D&amp;D Game</string></property>
@@ -87,6 +87,11 @@
   </layout>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>hmi::TitleBanner</class>
+   <extends>QLabel</extends>
+   <header>HMI/Interface/TitleBanner.h</header>
+  </customwidget>
   <customwidget>
    <class>hmi::MenuEntryButton</class>
    <extends>QPushButton</extends>

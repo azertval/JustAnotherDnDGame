@@ -62,14 +62,23 @@
     background-color: transparent;
 }
 
-/* ---- Titres d'ecran : seconde famille, tres typee, reservee a ce seul usage ---- */
+/* ---- Titres d'ecran : seconde famille, tres typee, reservee a ce seul usage ----
+
+   Depuis le LOT-76, ces six labels sont des hmi::TitleBanner : ils peignent sous eux la plaque de
+   grenat et ses deux ailes (EX-IHM-075). Les selecteurs restent ecrits QLabel#nom -- un selecteur
+   de type Qt s'applique aux SOUS-CLASSES, et les renommer n'aurait fait que decrire la classe au
+   lieu du role.
+
+   La couleur, elle, change : l'or des filets (accent) tenait sur du parchemin, et disparait sur le
+   grenat de la plaque. Le titre prend l'or PALE des reflets -- la meme valeur qui eclaire la
+   facette du cabochon, pour que le dore du bandeau soit UN dore et non deux. */
 #MainMenu QLabel#menuTitle,
 #OptionsPage QLabel#optionsTitle,
 #PauseScreen QLabel#pauseTitle,
 #LevelSelectScreen QLabel#titleLabel,
 #LevelCompleteScreen QLabel#titleLabel,
 #CreditsScreen QLabel#creditsTitle {
-    color: ${identity.color.accent};
+    color: ${identity.color.accentHover};
     font-family: ${identity.font.title};
     font-size: ${identity.size.screenTitle}px;
     font-weight: bold;

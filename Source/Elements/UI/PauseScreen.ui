@@ -22,7 +22,7 @@
       <widget class="hmi::ParchmentPanel" name="menuCard">
        <layout class="QVBoxLayout" name="cardLayout">
         <item>
-         <widget class="QLabel" name="pauseTitle">
+         <widget class="hmi::TitleBanner" name="pauseTitle">
           <property name="text"><string>Pause</string></property>
          </widget>
         </item>
@@ -87,6 +87,11 @@
   </layout>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>hmi::TitleBanner</class>
+   <extends>QLabel</extends>
+   <header>HMI/Interface/TitleBanner.h</header>
+  </customwidget>
   <customwidget>
    <class>hmi::ParchmentPanel</class>
    <extends>QWidget</extends>

@@ -5,10 +5,15 @@
 
 #include <QColor>
 #include <QPainter>
+#include <QPoint>
+#include <algorithm>
+#include <vector>
 
 #include "HMI/Interface/ApplicationTheme.h"
 #include "HMI/Interface/DesignTokens.h"
+#include "HMI/Interface/OrnamentPainter.h"
 #include "HMI/Interface/ParchmentFrame.h"
+#include "HMI/Interface/ParchmentOrnaments.h"
 
 namespace hmi {
 
@@ -70,6 +75,30 @@ void ParchmentPanel::paintEvent(QPaintEvent* event) {
                 break;
         }
         painter.fillRect(stroke.x, stroke.y, stroke.width, stroke.height, fill);
+    }
+
+    // Les cabochons d'angle, par-dessus tout le reste (LOT-76). Le carre dore que les bandes
+    // viennent de poser reste le SERTI : l'octogone du cabochon s'y inscrit, et les quatre
+    // triangles qui depassent sont de la meme couleur -- le carre ne se voit donc pas, il porte.
+    //
+    // La variante accentuee garde ses carres nus : son filet passe a la couleur d'accent pour
+    // signaler un ecran superpose, et une gemme dessinee par-dessus rendrait ce signal illisible.
+    if (_accented) {
+        return;
+    }
+    const int corner = parchmentFrameCorner(width(), height(), identityScale());
+    if (corner <= 0) {
+        return;
+    }
+    // La pierre deborde du carre d'angle (PARCHMENT_CABOCHON_FACTOR), mais reste ancree AU COIN et
+    // jamais centree dessus : centree, elle sortirait du panneau d'une demi-largeur, et Qt la
+    // rognerait -- une pierre coupee en deux a chaque angle, sans qu'aucune erreur ne le dise.
+    const int stone = std::min(corner * PARCHMENT_CABOCHON_FACTOR, std::min(width(), height()) / 2);
+    const std::vector<OrnamentShape> cabochon = cabochonShapes(stone);
+    for (const int x : {0, width() - stone}) {
+        for (const int y : {0, height() - stone}) {
+            paintOrnaments(painter, cabochon, QPoint(x, y));
+        }
     }
 }
 

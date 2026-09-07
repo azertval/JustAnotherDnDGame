@@ -6,6 +6,35 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **Habillage d'interface extrait des livres** (`LOT-76`). Les écrans du jeu portent enfin ce qui
+  fait reconnaître une page de Tanares en une seconde : la **pierre sertie** à l'angle des panneaux
+  et le **bandeau de titre à ailes**. Tous deux **tracés**, donc nets à tout facteur
+  d'agrandissement et pilotés par les jetons de la charte.
+  - **Le découpage d'images a été construit, puis abandonné.** Vingt et une planches PNG à 300 ppp,
+    leur manifeste et leur lint d'intégrité existaient ; c'est l'écran qui a tranché. Un cabochon de
+    108 pixels sur un panneau haut de 340 mangeait le tiers de sa hauteur, et le bandeau demandait
+    l'impossible à un découpage en tranches — une plaque qui s'allonge avec le titre, des ailes qui
+    n'en font rien. À ce point-là, on ne redimensionnait plus une image, on la redessinait mal.
+  - **Ce que le corpus donne reste entier : la mesure, pas la matière.** Le grenat des cabochons
+    (`#701010`) est la dominante quantifiée des pixels rouges d'un cabochon, mesurée **séparément
+    sur deux angles opposés** de la planche — même méthode que la palette du `LOT-66`, même
+    vérification croisée. Le grenat profond des plaques (`#400000`) vient du bandeau du livre.
+  - **`error` n'est plus le seul rôle inventé.** Le `LOT-66` le signalait comme non attesté, « une
+    feuille de personnage n'ayant pas d'état d'erreur à montrer ». C'était vrai d'un état d'erreur
+    et faux du rouge : il est dans les gemmes. Deux jetons neufs, `gem` et `gemShadow`, relevés.
+  - **L'invariant du bandeau : l'envergure des ailes suit la hauteur, jamais la largeur.** Un titre
+    long allonge la plaque et rien d'autre — ce qu'une image étirée ne sait pas faire. Quand la
+    largeur manque, ce sont les ailes qui cèdent, puis disparaissent ; jamais la plaque, qui porte
+    le titre.
+  - **La variante accentuée garde ses angles nus.** Son filet passe à la couleur d'accent pour
+    signaler un écran superposé ; une pierre par-dessus rendrait ce signal illisible.
+  - **Les six titres d'écran deviennent des bandeaux.** Le texte tient **entre** les ailes par les
+    marges de contenu, et non par un décalage au moment de peindre — sinon l'élision décide sur la
+    mauvaise largeur, et le mot coupé n'apparaît que sur le titre le plus long. Sa couleur passe à
+    l'or pâle : l'or des filets tenait sur du parchemin, il disparaît sur le grenat.
+  - Exigence ajoutée : `EX-IHM-075` — l'habillage ornemental se **trace**, il ne se livre pas en
+    image. `EX-IHM-070` imposait de relever les **couleurs** ; rien n'était écrit des **formes**.
+
 - **Charte visuelle : sortir de l'identité pixel art** (`LOT-66`). L'interface héritée du jeu de
   plateforme laisse place à l'identité du **parchemin de Tanares** — parchemin, encre sépia, filets
   et cabochons dorés, titrage à empattements.

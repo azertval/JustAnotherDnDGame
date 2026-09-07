@@ -116,6 +116,7 @@ add_executable(UnitTests
     Unit/HMI/Interface/test_identity_scale.cpp
     Unit/HMI/Interface/test_editor_workspace.cpp
     Unit/HMI/Interface/test_parchment_frame.cpp
+    Unit/HMI/Interface/test_parchment_ornaments.cpp
     Unit/HMI/Editor/test_thumbnail_geometry.cpp
     Unit/HMI/Editor/test_level_name_validation.cpp
     Unit/HMI/Editor/test_tile_taxonomy.cpp

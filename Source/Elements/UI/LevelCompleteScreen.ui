@@ -23,7 +23,7 @@
       <widget class="hmi::ParchmentPanel" name="menuCard">
        <layout class="QVBoxLayout" name="cardLayout">
         <item>
-         <widget class="QLabel" name="titleLabel">
+         <widget class="hmi::TitleBanner" name="titleLabel">
           <property name="text"><string>Tableau termine</string></property>
          </widget>
         </item>
@@ -81,6 +81,11 @@
   </layout>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>hmi::TitleBanner</class>
+   <extends>QLabel</extends>
+   <header>HMI/Interface/TitleBanner.h</header>
+  </customwidget>
   <customwidget>
    <class>hmi::ParchmentPanel</class>
    <extends>QWidget</extends>

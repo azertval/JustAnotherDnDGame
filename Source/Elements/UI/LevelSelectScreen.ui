@@ -6,7 +6,7 @@
    <item>
     <layout class="QHBoxLayout" name="headerRow">
      <item>
-      <widget class="QLabel" name="titleLabel">
+      <widget class="hmi::TitleBanner" name="titleLabel">
        <property name="text"><string>Choisir un niveau</string></property>
       </widget>
      </item>
@@ -54,6 +54,11 @@
   </layout>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>hmi::TitleBanner</class>
+   <extends>QLabel</extends>
+   <header>HMI/Interface/TitleBanner.h</header>
+  </customwidget>
   <customwidget>
    <class>hmi::MenuEntryButton</class>
    <extends>QPushButton</extends>

@@ -200,6 +200,28 @@ souris, insuffisant à la manette, qui n'a pas de pointeur pour dire où elle en
   de chaque commande, et non décidée par le code qui peuple les barres : une répartition implicite
   ne se relit pas et dérive au premier ajout.
 
+- \anchor EX-IHM-075 **EX-IHM-075** — L'habillage ornemental des écrans du jeu — encadrements,
+  cabochons, bandeaux de titre — doit être **tracé par le code**, jamais livré en image. C'est le
+  prolongement d'`EX-IHM-070`, et la raison n'est pas la place que prendraient ces fichiers :
+  - **une image ne s'étire pas honnêtement.** Un cabochon posé sur un panneau bas s'ovalise ou
+    mange le tiers de sa hauteur ; un bandeau étiré déforme ses ailes. Un ornement tracé se
+    *redessine* à la taille demandée, et ses ailes peuvent suivre la **hauteur** quand sa plaque
+    suit la **largeur** — ce qu'aucun découpage en tranches ne sait faire ;
+  - **une image fige ses couleurs hors des jetons** (`EX-IHM-051`) et devrait être réexportée à
+    chaque retouche de palette. Une forme tracée porte un **rôle**, jamais une teinte ;
+  - **une image ne suit pas le facteur d'agrandissement** (`EX-IHM-081`) : elle est nette à un seul
+    facteur, un tracé l'est à tous.
+
+  Ce que le corpus apporte n'est donc pas de la matière mais de la **mesure** : les proportions et
+  les teintes de ces ornements sont **relevées** sur `Documentation/SourceBook/`, jamais choisies à
+  vue — même règle qu'`EX-IHM-070` pour la palette, et même raison. Un ornement inventé ressemble à
+  la source sans en venir, et rien ne le dit jamais.
+  > **Ajoutée au `LOT-76`.** `EX-IHM-070` imposait déjà de relever les couleurs sur le corpus, mais
+  > rien n'était écrit des **formes** : le `LOT-66` avait donc pu conclure, à juste titre pour son
+  > périmètre mais sans que rien ne le garantisse au-delà, qu'aucun fichier d'image ne serait livré.
+  > Cette exigence tranche l'autre moitié de la question, et écarte explicitement la voie du
+  > découpage d'images — essayée, puis abandonnée au `LOT-76`.
+
 ## 9. Taille, réactivité et réglages effectifs (LOT-H-73)
 
 Les sections précédentes ont donné à l'interface son châssis, son habillage et sa répartition de

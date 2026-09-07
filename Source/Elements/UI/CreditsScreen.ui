@@ -6,7 +6,7 @@
    <!-- Marges posees en code (CreditsScreen::CreditsScreen, LOT-56) depuis l'echelle d'espacement
         des jetons, pas de nombre fige ici. -->
    <item>
-    <widget class="QLabel" name="creditsTitle">
+    <widget class="hmi::TitleBanner" name="creditsTitle">
      <property name="text"><string>Crédits</string></property>
     </widget>
    </item>
@@ -171,6 +171,11 @@
   </layout>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>hmi::TitleBanner</class>
+   <extends>QLabel</extends>
+   <header>HMI/Interface/TitleBanner.h</header>
+  </customwidget>
   <customwidget>
    <class>hmi::ParchmentPanel</class>
    <extends>QWidget</extends>
