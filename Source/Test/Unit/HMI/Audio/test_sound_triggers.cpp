@@ -35,9 +35,9 @@ TEST(SoundTriggersTest, TableExhaustive) {
  * \castest{<b>Les evenements de personnage resolvent les bons identifiants de son.</b><br/>
  * \tcat Unitaire · Declencheurs de son<br/>
  * \tcrit Critique<br/>
- * \tetapes 1. Resoudre Jumped, Landed, Dashed, Died, LevelCompleted.<br/>
+ * \tetapes 1. Resoudre Jumped, Landed, Dashed, Died, ExitReached.<br/>
  * \tattendu Chacun resout l'identifiant attendu (saut, atterrissage, dash, mort,
- * victoire_tableau).
+ * sortie_atteinte).
  * }
  */
 TEST(SoundTriggersTest, EvenementsDePersonnageResolvent) {
@@ -45,7 +45,7 @@ TEST(SoundTriggersTest, EvenementsDePersonnageResolvent) {
     EXPECT_EQ(hmi::soundForEvent(hmi::GameEvent::Landed), "atterrissage");
     EXPECT_EQ(hmi::soundForEvent(hmi::GameEvent::Dashed), "dash");
     EXPECT_EQ(hmi::soundForEvent(hmi::GameEvent::Died), "mort");
-    EXPECT_EQ(hmi::soundForEvent(hmi::GameEvent::LevelCompleted), "victoire_tableau");
+    EXPECT_EQ(hmi::soundForEvent(hmi::GameEvent::ExitReached), "sortie_atteinte");
 }
 
 /**

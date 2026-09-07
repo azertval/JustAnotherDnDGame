@@ -34,7 +34,6 @@
 
 ## 3. Qualité & vérification
 - \anchor EX-NFR-020 **EX-NFR-020** — Toute logique de gameplay livrée dans `Core` doit être couverte par des **tests unitaires** (GoogleTest).
-- \anchor EX-NFR-021 **EX-NFR-021** — Les niveaux du MVP doivent être couverts par un **test système** vérifiant leur franchissabilité.
 - \anchor EX-NFR-022 **EX-NFR-022** — La **CI** doit exécuter build, tests et couverture à chaque push/PR et rester verte pour merger. La couverture agrège `UnitTests`, `IntegrationTests` et `SystemTests` (job `build-test-coverage` de `ci.yml`, LOT-H-58) ; une chute sous le seuil consigné (`COVERAGE_THRESHOLD_PERCENT`) fait échouer la CI.
 - \anchor EX-NFR-023 **EX-NFR-023** — La configuration **Release** doit être construite et testée en
   CI, sur **chaque PR** — avant tout tag, jamais découverte après. Vérifiée par le job
@@ -82,6 +81,18 @@
   version publiée ne sait pas installer Qt ≥ 6.11 — la source est épinglée à une **révision
   précise** (jamais une branche mobile), et le motif du détour ainsi que sa condition de sortie
   sont écrits à l'endroit où il est déclaré.
+
+## Exigences retirées {#nfr-retirees}
+
+> Retirée par le `LOT-67`, qui retire du programme la notion de **niveau discret**. L'ancre est
+> **conservée** — jamais renumérotée, jamais supprimée : les lots hérités s'y réfèrent, et réécrire
+> un lot livré falsifierait son histoire (règle de [`lots.md`](@ref lots)).
+
+- \anchor EX-NFR-021 **EX-NFR-021** *(retirée en `LOT-67`)* — Les niveaux du MVP doivent être
+  couverts par un **test système** vérifiant leur franchissabilité. Motif : « franchir » un niveau
+  suppose une sortie qui le termine (`EX-GP-030`, retirée). Ce qu'un bac à sable doit vérifier est
+  autre chose — qu'aucune zone jouable n'est inatteignable — et cela se contrôle sur la **carte**,
+  pas sur une trajectoire de bout en bout.
 
 ## Traçabilité
 Ces exigences transverses conditionnent l'acceptation de chaque lot. Depuis le `LOT-H-58`, elles

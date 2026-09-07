@@ -25,8 +25,6 @@ enum class ScreenId {
     Game,
     Options,
     Pause,
-    LevelComplete,
-    LevelSelect,
     Credits,
 };
 
@@ -41,15 +39,7 @@ enum class ScreenEvent {
     CloseOptions,
     OpenPause,
     ResumePause,
-    RestartFromPause,
     QuitPauseToMenu,
-    LevelSucceeded,
-    ContinueAfterLevel,
-    ReplayLevel,
-    ReturnToMenuFromLevelComplete,
-    OpenLevelSelect,
-    CloseLevelSelect,
-    LevelChosen,
     OpenCredits,
     CloseCredits,
 };
@@ -57,9 +47,8 @@ enum class ScreenEvent {
 /// Habillage de fenêtre associé à un écran : ce que chaque `showXxx()` répétait à la main
 /// (bascule du `QStackedWidget`, docks, barre de menu, barres d'outils, navigation manette). Le
 /// choix de la page du `QStackedWidget` reste dans `MainWindow` (pointeurs de widgets Qt, hors de
-/// portée d'une table pure) ; `Pause`/`LevelComplete` ne basculent d'ailleurs aucune page -- ce
-/// sont des recouvrements par-dessus `Game` (`overlayVisible`), pour que la scène reste dessinée
-/// derrière (`TACHE-02`).
+/// portée d'une table pure) ; `Pause` ne bascule d'ailleurs aucune page -- c'est un recouvrement
+/// par-dessus `Game` (`overlayVisible`), pour que la scène reste dessinée derrière.
 struct ScreenDressing {
     bool docksVisible = false;
     bool menuBarVisible = false;

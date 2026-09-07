@@ -40,13 +40,6 @@
          </widget>
         </item>
         <item>
-         <widget class="hmi::MenuEntryButton" name="restartButton">
-          <property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property>
-          <property name="text"><string>Recommencer le niveau</string></property>
-          <property name="flat"><bool>true</bool></property>
-         </widget>
-        </item>
-        <item>
          <widget class="hmi::MenuEntryButton" name="optionsButton">
           <property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property>
           <property name="text"><string>Options</string></property>

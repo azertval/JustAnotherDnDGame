@@ -9,6 +9,7 @@
                                                   --bornes 140,215,260,300
     python scripts/sourcebook image tanares-sourcebook --page 50 --moitie gauche -o carte.png
     python scripts/sourcebook regions tanares-sourcebook --page 50
+    python scripts/sourcebook illustrations
     python scripts/sourcebook glossaire
 
 **Rien ici ne tourne en intégration continue** : les PDF ne sont pas sur le runner, et ne le seront
@@ -38,6 +39,7 @@ if __package__ in (None, ''):  # pragma: no cover - dépend du mode d'invocation
     from sourcebook import personnage as mod_personnage
     from sourcebook import equipement as mod_equipement
     from sourcebook import atlas as mod_atlas
+    from sourcebook import illustrations as mod_illustrations
 else:
     from .corpus import Corpus, CorpusError
     from .extraction import PPP_DEFAUT, ExtractionError, Extracteur
@@ -47,6 +49,7 @@ else:
     from . import personnage as mod_personnage
     from . import equipement as mod_equipement
     from . import atlas as mod_atlas
+    from . import illustrations as mod_illustrations
 
 if hasattr(sys.stdout, 'reconfigure'):
     sys.stdout.reconfigure(encoding='utf-8', errors='replace')
@@ -141,6 +144,10 @@ def analyser(argv) -> argparse.Namespace:
     p.add_argument('-o', '--sortie', type=Path, default=None,
                    help='défaut : ' + mod_atlas.SORTIE_MONDE)
 
+    p = commande('illustrations', "produire les illustrations d'interface (LOT-67)")
+    p.add_argument('-o', '--sortie', type=Path, default=None,
+                   help='défaut : ' + mod_illustrations.SORTIE_UI)
+
     p = commande('glossaire', 'produire le lexique bilingue')
     p.add_argument('-o', '--sortie', type=Path, default=None,
                    help='défaut : ' + mod_glossaire.SORTIE)
@@ -201,6 +208,14 @@ def commande_stats(corpus: Corpus, args) -> int:
         print('%-22s %4d pages  %8d caractères (%5d/page)  %5d images dont %5d ≥ 512²'
               % (document.cle, s['pages'], s['caracteres'], s['caracteres_par_page'],
                  s['images'], s['images_512']))
+    return 0
+
+
+def commande_illustrations(corpus: Corpus, args) -> int:
+    racine = args.sortie or (RACINE / mod_illustrations.SORTIE_UI)
+    resume = mod_illustrations.produire(corpus, racine, cache=args.cache)
+    print('%d illustration(s) ecrite(s) sous %s (%.0f Ko)'
+          % (resume['illustrations'], racine, resume['octets'] / 1024))
     return 0
 
 
@@ -308,6 +323,8 @@ def main(argv=None) -> int:
             return commande_verifier(corpus, args)
         if args.commande == 'stats':
             return commande_stats(corpus, args)
+        if args.commande == 'illustrations':
+            return commande_illustrations(corpus, args)
         if args.commande == 'glossaire':
             return commande_glossaire(corpus, args)
         if args.commande == 'options':
@@ -353,7 +370,8 @@ def main(argv=None) -> int:
     except (CorpusError, ExtractionError, mod_glossaire.GlossaireError,
             mod_options.OptionsError, mod_bestiaire.BestiaireError,
             mod_personnage.PersonnageError,
-            mod_equipement.EquipementError, mod_atlas.AtlasError) as erreur:
+            mod_equipement.EquipementError, mod_atlas.AtlasError,
+            mod_illustrations.IllustrationsError) as erreur:
         print('%s' % erreur, file=sys.stderr)
         return 1
     return 0

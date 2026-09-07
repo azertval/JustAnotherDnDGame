@@ -50,6 +50,7 @@ c'est un identifiant stable, jamais réordonné.
 - @subpage lot-66
 - @subpage lot-37
 - @subpage lot-76
+- @subpage lot-67
 
 ## Feuille de route
 

@@ -36,7 +36,7 @@
    des feuilles de Tanares est encadre de filets a angles VIFS, et un coin arrondi les ferait lire
    comme une carte d'interface moderne -- exactement ce dont la charte sort (LOT-66). */
 
-#MainMenu, #OptionsPage, #PauseScreen, #LevelSelectScreen, #LevelCompleteScreen, #CreditsScreen {
+#MainMenu, #OptionsPage, #PauseScreen, #CreditsScreen {
     background-color: ${identity.color.background};
     font-family: ${identity.font.body};
     font-size: ${identity.size.body}px;
@@ -58,25 +58,26 @@
 
 /* Recouvrements (pause, fin de niveau) : fond translucide pose en code, pas ici -- la couleur de
    fond opaque ci-dessus les rendrait opaques et cacherait la scene figee derriere. */
-#PauseScreen, #LevelCompleteScreen {
+#PauseScreen {
     background-color: transparent;
 }
 
 /* ---- Titres d'ecran : seconde famille, tres typee, reservee a ce seul usage ----
 
-   Depuis le LOT-76, ces six labels sont des hmi::TitleBanner : ils peignent sous eux la plaque de
+   Depuis le LOT-76, ces labels sont des hmi::TitleBanner : ils peignent sous eux la plaque de
    grenat et ses deux ailes (EX-IHM-075). Les selecteurs restent ecrits QLabel#nom -- un selecteur
    de type Qt s'applique aux SOUS-CLASSES, et les renommer n'aurait fait que decrire la classe au
    lieu du role.
 
+   Le MENU PRINCIPAL n'en a plus (LOT-67) : son fond EST la carte du monde, et un bandeau pose
+   dessus repetait en lettres ce que l'image dit deja. Les ecrans qui restent, eux, n'ont pas
+   d'image a eux : sans titre, on ne saurait pas ou l'on est.
+
    La couleur, elle, change : l'or des filets (accent) tenait sur du parchemin, et disparait sur le
    grenat de la plaque. Le titre prend l'or PALE des reflets -- la meme valeur qui eclaire la
    facette du cabochon, pour que le dore du bandeau soit UN dore et non deux. */
-#MainMenu QLabel#menuTitle,
 #OptionsPage QLabel#optionsTitle,
 #PauseScreen QLabel#pauseTitle,
-#LevelSelectScreen QLabel#titleLabel,
-#LevelCompleteScreen QLabel#titleLabel,
 #CreditsScreen QLabel#creditsTitle {
     color: ${identity.color.accentHover};
     font-family: ${identity.font.title};
@@ -89,8 +90,7 @@
    propre bordure. Les encadrements complets sont peints par hmi::ParchmentPanel, promu dans les
    .ui. Cette regle habille les conteneurs ordinaires qui n'ont pas besoin d'un cadre a part
    entiere -- le trait exterieur et le filet suffisent a les rattacher a la charte. */
-#PauseScreen QWidget#menuCard,
-#LevelCompleteScreen QWidget#menuCard {
+#PauseScreen QWidget#menuCard {
     background-color: ${identity.color.surface};
     border: ${identity.frame.thickness}px solid ${identity.color.frameEdge};
     border-top-color: ${identity.color.frameOrnament};
@@ -106,8 +106,6 @@
    (EX-IHM-071). */
 #MainMenu QPushButton,
 #PauseScreen QPushButton,
-#LevelCompleteScreen QPushButton,
-#LevelSelectScreen QPushButton,
 #CreditsScreen QPushButton {
     color: ${identity.color.textMuted};
     background: transparent;
@@ -120,42 +118,12 @@
 }
 #MainMenu QPushButton:hover, #MainMenu QPushButton:focus,
 #PauseScreen QPushButton:hover, #PauseScreen QPushButton:focus,
-#LevelCompleteScreen QPushButton:hover, #LevelCompleteScreen QPushButton:focus,
-#LevelSelectScreen QPushButton:hover, #LevelSelectScreen QPushButton:focus,
 #CreditsScreen QPushButton:hover, #CreditsScreen QPushButton:focus {
     color: ${identity.color.accent};
 }
 #MainMenu QPushButton:disabled,
-#PauseScreen QPushButton:disabled,
-#LevelCompleteScreen QPushButton:disabled {
+#PauseScreen QPushButton:disabled {
     color: ${identity.color.border};
-}
-
-/* ---- Listes de niveaux ---- */
-#LevelSelectScreen QListWidget {
-    background: ${identity.color.surface};
-    border: ${identity.frame.thickness}px solid ${identity.color.frameEdge};
-    border-radius: 0;
-    font-size: ${identity.size.sectionTitle}px;
-    outline: none;
-}
-#LevelSelectScreen QListWidget::item {
-    padding: ${identity.space.small}px ${identity.space.medium}px;
-    color: ${identity.color.textMuted};
-}
-#LevelSelectScreen QListWidget::item:selected,
-#LevelSelectScreen QListWidget::item:hover {
-    color: ${identity.color.accent};
-    background: ${identity.color.surfaceAlt};
-}
-
-/* Bilan de fin de tableau : taille de LEGENDE, en retrait. Il informe apres coup, il ne doit ni
-   concurrencer le titre ni elargir la carte -- les deux recouvrements (pause, fin de niveau)
-   doivent occuper la meme place. */
-#LevelCompleteScreen QLabel#summaryLabel {
-    color: ${identity.color.textMuted};
-    font-size: ${identity.size.caption}px;
-    padding: ${identity.space.small}px 0;
 }
 
 /* ---- Credits : hierarchie en-tete / ligne de credit ----
@@ -175,14 +143,12 @@
 }
 
 /* ---- Onglets ---- */
-#OptionsPage QTabWidget::pane,
-#LevelSelectScreen QTabWidget::pane {
+#OptionsPage QTabWidget::pane {
     border: ${identity.frame.thickness}px solid ${identity.color.frameEdge};
     background: ${identity.color.surface};
     border-radius: 0;
 }
-#OptionsPage QTabBar::tab,
-#LevelSelectScreen QTabBar::tab {
+#OptionsPage QTabBar::tab {
     background: ${identity.color.surfaceAlt};
     color: ${identity.color.textMuted};
     border: ${identity.frame.thickness}px solid ${identity.color.frameEdge};
@@ -192,8 +158,7 @@
     font-size: ${identity.size.body}px;
     font-weight: bold;
 }
-#OptionsPage QTabBar::tab:selected,
-#LevelSelectScreen QTabBar::tab:selected {
+#OptionsPage QTabBar::tab:selected {
     color: ${identity.color.background};
     background: ${identity.color.accent};
 }

@@ -187,19 +187,41 @@ Concrétise l'objectif produit `EX-VIS-003` (`vision.md`).
 
 Chaque mécanisme est déterministe : à état d'entrée identique, comportement identique (facilite tests et rejouabilité).
 
-## 4. Conditions de fin de niveau
-Concrétise les objectifs `EX-VIS-002` (succès) et `EX-VIS-004` (échec/redémarrage), `vision.md`.
-- \anchor EX-GP-030 **EX-GP-030** — Atteindre la tuile de **sortie** termine le niveau en **succès**.
-- \anchor EX-GP-031 **EX-GP-031** — Le contact avec un **danger** ou la sortie des limites basses du niveau provoque l'**échec**.
-- \anchor EX-GP-032 **EX-GP-032** — En cas d'échec, le niveau doit **redémarrer** à son état initial sans quitter le jeu.
-
-## 5. États de jeu
+## 4. États de jeu
 - \anchor EX-GP-040 **EX-GP-040** — Le jeu doit gérer des états distincts : `Menu`, `EnJeu`,
-  `Pause`, `NiveauTermine`. Portés par `hmi::ScreenId` (`Menu`, `Editor`, `Game`, `Options`,
-  `Pause`, `NiveauTermine`, `LevelSelect` — les trois derniers ajoutés par ce lot ; `LevelSelect`
-  pour la sélection de niveau, `EX-IHM-005`), avec des transitions explicites et unidirectionnelles
-  (`EX-GP-041`). Détaillé côté interface par `EX-REN-031`. Concrétisé en `LOT-H-59`.
+  `Pause`. Portés par `hmi::ScreenId` (`Menu`, `Editor`, `Game`, `Options`, `Pause`, `Credits`),
+  avec des transitions explicites et unidirectionnelles (`EX-GP-041`). Détaillé côté interface par
+  `EX-REN-031`.
+  > **Refondue au `LOT-67`.** Elle portait deux états de plus, `NiveauTermine` et `LevelSelect`,
+  > qui n'ont plus d'objet dans un bac à sable : il n'y a ni tableau à terminer, ni liste de
+  > tableaux où choisir. Les écrans du RPG — fiche, inventaire, journal, carte — s'y ajouteront
+  > avec le châssis du `LOT-68`.
 - \anchor EX-GP-041 **EX-GP-041** — Les transitions entre états doivent être explicites et unidirectionnelles à chaque événement (machine à états).
+
+## Exigences retirées {#gp-retirees}
+
+> Retirées par le `LOT-67`, qui retire du programme la notion de **niveau discret**. Les ancres
+> sont **conservées** — jamais renumérotées, jamais supprimées : les lots hérités s'y réfèrent, et
+> réécrire un lot livré falsifierait son histoire (règle de [`lots.md`](@ref lots)). Le texte
+> ci-dessous est celui d'origine ; il décrit ce qui **a été** livré, pas ce qui est attendu
+> aujourd'hui.
+>
+> Ces trois-là formaient un tout : une sortie qui gagne, un danger qui fait perdre, un niveau qui
+> recommence. C'est la boucle d'un jeu de plateforme, et elle ne se transpose pas — un monde ouvert
+> ne se gagne pas, et la mort d'un personnage y a des conséquences plutôt qu'un redémarrage.
+
+- \anchor EX-GP-030 **EX-GP-030** *(retirée en `LOT-67`)* — Atteindre la tuile de **sortie**
+  termine le niveau en **succès**. Motif : il n'y a plus de niveau à terminer. La sortie reste
+  dessinée dans les cartes et redeviendra une **transition** vers la carte que le graphe du
+  `LOT-09` désignera ; en attendant, l'atteindre ramène au menu.
+- \anchor EX-GP-031 **EX-GP-031** *(retirée en `LOT-67`)* — Le contact avec un **danger** ou la
+  sortie des limites basses du niveau provoque l'**échec**. Motif : « échec » suppose une partie
+  qu'on recommence. Ce que devient la mort d'un personnage — agonie, jets de sauvegarde, séquelles
+  — est le sujet du `LOT-72`, et ce n'est pas la même mécanique.
+- \anchor EX-GP-032 **EX-GP-032** *(retirée en `LOT-67`)* — En cas d'échec, le niveau doit
+  **redémarrer** à son état initial sans quitter le jeu. Retirée avec `EX-GP-031`, dont elle était
+  le corollaire. Ce qui la remplace est la **sauvegarde** du `LOT-17` : on reprend où l'on était,
+  pas au début d'un tableau.
 
 ## Traçabilité
 Contrôles associés : [`controles.md`](controles.md). Format des niveaux : [`niveaux.md`](niveaux.md). Ces exigences seront couvertes par des tests unitaires (`Core`) et système.

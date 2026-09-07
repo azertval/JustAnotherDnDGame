@@ -6,6 +6,47 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **Menus et vocabulaire d'un RPG** (`LOT-67`). Le jeu décrivait un autre jeu : « Choisir un
+  niveau » au menu, « Recommencer le niveau » en pause, et un avertissement de sortie qui parlait
+  de « la progression du **tableau** en cours ». Ce lot retire la **notion de niveau discret** —
+  des écrans, du code, du vocabulaire et des exigences — et remplace le décor du menu principal par
+  la **carte du monde de Tanares**.
+  - **Le menu principal perd deux entrées, parce qu'elles ne menaient plus nulle part.**
+    « Continuer » reposait sur une progression au tableau, « Choisir un niveau » sur une séquence :
+    les deux sont retirées. Les griser aurait coûté plus de confiance qu'elles n'apportaient
+    d'information (`EX-IHM-072`). « Continuer » revient avec la sauvegarde du `LOT-17`, les entrées
+    RPG de la pause avec les écrans du `LOT-68`.
+  - **Il perd aussi son titre** : le fond *est* la carte du monde, et un bandeau posé dessus
+    répétait en lettres ce que l'image dit déjà. Les autres écrans gardent le leur — sans image à
+    eux, on ne saurait pas où l'on est.
+  - **La carte du monde trace la frontière que le `LOT-76` avait ouverte.** Ce lot-là concluait que
+    l'habillage se **trace** (`EX-IHM-075`) ; celui-ci livre une image, et c'est la même frontière
+    prise de l'autre côté (`EX-IHM-076`) : un ornement se trace parce qu'il doit se redimensionner
+    et suivre les jetons, une carte peinte ne le peut pas. Mêmes garde-fous — région déclarée,
+    manifeste recoupé en CI avec les fichiers et le code, repli si l'image manque.
+  - **Du JPEG, seul du dépôt, et c'est délibéré** : le PNG de cette carte pèse 4,4 Mo, son JPEG
+    0,7, pour une différence que personne ne voit sous un voile. Le poids du dépôt est un sujet du
+    corpus depuis le début (`EX-CNT-023`). Le filigrane d'achat est **recadré**, jamais effacé :
+    l'effacer demanderait de repeindre ce qu'il recouvre.
+  - **~1 300 lignes retirées** : deux écrans (sélection de niveau, fin de niveau), deux modèles
+    (`Progression`, `LevelSequence`), un bilan de partie (`LevelRunStats`), deux maquettes. C'étaient
+    les mises en œuvre des exigences retirées ; les garder aurait laissé du code que plus aucune
+    exigence ne justifie.
+  - **Seize exigences traitées : douze retirées, trois refondues, une conservée.** `EX-GP-040`,
+    `EX-IHM-003` et `EX-IHM-004` avaient un objet **au-delà** du niveau discret — le jeu a toujours
+    des états, un ATH et un écran de pause — et les retirer aurait laissé leur mise en œuvre
+    orpheline. Les douze autres sont **retirées, pas supprimées** : leurs ancres restent, avec le
+    texte d'origine et le motif, comme le `LOT-H-69` l'avait fait pour les décors-sprites — une
+    vingtaine de lots hérités s'y réfèrent.
+  - **« niveau » devient « carte », partout**, y compris côté éditeur où la famille de clés
+    `level.*` devient `map.*` : l'éditeur n'édite pas des niveaux, il édite les cartes du monde.
+    Les deux catalogues restent synchrones, 376 clés de chaque côté. L'événement `LevelCompleted`
+    devient `ExitReached`, et `SequenceCompleted` disparaît avec son bruitage.
+  - **Ce que le lot ne rend pas jouable, et le dit** : « Nouvelle partie » ouvre
+    `demo-deplacement.json`, qui **n'existe pas** — le `LOT-01` a purgé les niveaux du jeu de
+    plateforme et aucun lot n'en a livré depuis. Le constat est antérieur à ce lot (la « Nouvelle
+    partie » d'avant chargeait une séquence tout aussi absente) mais il devient visible.
+
 - **Habillage d'interface extrait des livres** (`LOT-76`). Les écrans du jeu portent enfin ce qui
   fait reconnaître une page de Tanares en une seconde : la **pierre sertie** à l'angle des panneaux
   et le **bandeau de titre à ailes**. Tous deux **tracés**, donc nets à tout facteur

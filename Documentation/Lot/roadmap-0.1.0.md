@@ -24,7 +24,7 @@ sections 9 et 10 rapportent l'audit et ce qu'il faut anticiper ; la section 11 p
 
 ## État d'avancement {#roadmap-avancement}
 
-**Vingt-trois lots livrés, cinquante-sept restants.** Le prochain est le `LOT-68`.
+**Vingt-quatre lots livrés, cinquante-six restants.** Le prochain est le `LOT-68`.
 
 Livrés : `LOT-01` à `LOT-08` (le socle : fork et purge, `HmiLib`, `LevelData`, format de carte
 version 3, modes de jeu, déplacement top-down, tri par profondeur, tuiles RPG), `LOT-77`, `LOT-78`
@@ -38,11 +38,12 @@ noyau RPG, le [LOT-33](@ref lot-33) (les 94 bêtes du SRD), premier catalogue re
 (entités de carte et interaction), le [LOT-34](@ref lot-34) (armes, armures et équipement), le
 [LOT-66](@ref lot-66) (charte visuelle), le [LOT-37](@ref lot-37) (l'atlas des treize régions et
 de leurs 94 lieux) et le [LOT-76](@ref lot-76) (les vingt et une planches d'habillage extraites des
-feuilles de personnage).
+feuilles de personnage) et le [LOT-67](@ref lot-67) (les menus et le vocabulaire d'un RPG, qui
+retire du programme la notion de niveau discret).
 Chacun garde son dossier et son `epic.md`.
 
 **Quelle date pour la `0.1.0` ?** Aucune n'est annoncée ici, et ce n'est pas une prudence de
-principe : les vingt-trois lots livrés l'ont été entre le 3 et le 7 septembre 2026, soit une cadence
+principe : les vingt-quatre lots livrés l'ont été entre le 3 et le 7 septembre 2026, soit une cadence
 observée qui, prise au pied de la lettre, placerait la version dans deux semaines. Cette
 extrapolation est fausse, et il vaut mieux l'écrire que la laisser deviner : les lots livrés sont
 des lots de **socle**, dont le périmètre tient dans quelques fichiers. Ceux qui restent portent des
@@ -96,11 +97,10 @@ tableau n'en porte volontairement aucun.
 | 36 | `LOT-29` | Groupe de quatre personnages | 0 | en attente |
 | 37 | `LOT-49` | Contrôle de cohérence du contenu | 0 | prêt |
 | 38 | `LOT-51` → `LOT-65` | une classe par lot | 0 | en attente |
-| 39 | `LOT-67` | Menus et vocabulaire d'un RPG | 0 | prêt |
-| 40 | `LOT-69` | Retrait de l'atelier pixel art | 0 | en attente |
-| 41 | `LOT-72` | Conditions, agonie et mort | 0 | en attente |
-| 42 | `LOT-75` | Campement et repos dans le monde | 0 | en attente |
-| 43 | `LOT-83` | Boucle de progression de la Guilde | 0 | en attente |
+| 39 | `LOT-69` | Retrait de l'atelier pixel art | 0 | en attente |
+| 40 | `LOT-72` | Conditions, agonie et mort | 0 | en attente |
+| 41 | `LOT-75` | Campement et repos dans le monde | 0 | en attente |
+| 42 | `LOT-83` | Boucle de progression de la Guilde | 0 | en attente |
 
 **Débloque** — combien de lots restants dépendent de celui-ci, directement ou en cascade. C'est le
 critère de priorité, et il se relit sur la ligne.
@@ -324,7 +324,7 @@ Les lots [LOT-13](@ref lot-13) (fiche de personnage), [LOT-14](@ref lot-14) (inv
 **JSON** », conformément à [`EX-VIS-007`](@ref EX-VIS-007). Aucun ne dit **d'où sortent ces JSON**.
 C'est exactement le trou que ce corpus comble, et c'est le périmètre de cette filière.
 
-Trente-neuf lots, `LOT-35` à `LOT-84`. Quatre numéros ont été **retirés** par fusion
+Trente-huit lots, `LOT-35` à `LOT-84`. Quatre numéros ont été **retirés** par fusion
 (`LOT-31`, `LOT-48`, `LOT-71`, `LOT-73` : voir l'encart en fin de section), et les trois
 préconditions ont été **livrées** — [LOT-77](@ref lot-77), [LOT-78](@ref lot-78) et
 [LOT-79](@ref lot-79) — qui ont donc quitté cette page pour leur dossier, comme tout lot livré. Les numéros sont,
@@ -783,47 +783,6 @@ lot bénéficie du précédent.
 **Le dernier lot livré retire l'échafaudage** : les quatre classes provisoires du `LOT-36` sont
 supprimées, et rien ne doit s'en apercevoir.
 
-### `LOT-67` — Menus et vocabulaire d'un RPG {#lot-67}
-
-*Prérequis : [LOT-66](@ref lot-66).*
-
-Les menus existants décrivent un autre jeu, littéralement. `fr.lang` porte encore
-`menu.select_level = Choisir un niveau`, `pause.restart = Recommencer le niveau`, et un
-`pause.quit_confirm_text` qui parle de « la progression du **tableau** en cours ». Un bac à sable
-ouvert n'a ni niveau à choisir, ni tableau à recommencer.
-
-> **Élargi à l'audit.** Ce lot ne prévoyait que la migration des clés `.lang` — soit un dixième du
-> travail. **Seize exigences** imposent encore une séquence de tableaux discrets, et ce sont elles
-> le vrai chantier.
-
-Le lot refond le **menu principal** (continuer, nouvelle partie, créer un personnage, options,
-crédits), l'**écran de pause** (reprendre, fiche, inventaire, journal, carte, options, quitter) et
-migre la famille de clés `level.*` vers le vocabulaire du monde — sans laisser de clé morte.
-
-Mais il doit surtout **retirer la notion de niveau discret** de la spécification :
-
-- `EX-GP-030`/`031`/`032` — atteindre la sortie termine le niveau en succès, le danger provoque
-  l'échec, le niveau redémarre à son état initial ;
-- `EX-GP-040` — l'état `NiveauTermine` de la machine à états ;
-- `EX-LVL-010` → `EX-LVL-015` — ordre défini, enchaînement automatique au niveau suivant, **vingt-deux
-  tableaux**, progression à la granularité du tableau ;
-- `EX-IHM-003`/`004`/`005` — nom du tableau au HUD, écran de fin de niveau, sélection de niveau ;
-- `EX-NFR-021` — test système de **franchissabilité** des niveaux du MVP.
-
-D'où la suppression des écrans correspondants (`LevelSelectScreen`, `LevelCompleteScreen`, ~460
-lignes) et des deux maquettes `SelectionNiveau.dc.html` et `FinDeNiveau.dc.html`. Accessoirement,
-`Documentation/Doxyfile:10` annonce encore
-`PROJECT_BRIEF = "Jeu 2D de plateforme/puzzle en C++/DirectX"`.
-
-C'est le lot le moins spectaculaire de la refonte et celui qui se voit le plus : un joueur qui lit
-« Recommencer le niveau » dans un monde ouvert comprend en une seconde que le jeu n'a pas été
-terminé.
-
-*Acceptation* — plus aucune clé de traduction n'emploie « niveau » ou « tableau » au sens du jeu de
-plateforme ; les deux catalogues `fr.lang` et `en.lang` restent synchrones ; chaque entrée de menu
-mène à un écran qui existe (`EX-IHM-072`) ; **aucune exigence en vigueur ne suppose plus une
-séquence ordonnée de tableaux**.
-
 ### `LOT-68` — Le châssis des écrans RPG {#lot-68}
 
 *Prérequis : [LOT-66](@ref lot-66). Alimente `LOT-38`, `LOT-42`, `LOT-45`, [LOT-24](@ref lot-24).*
@@ -1205,7 +1164,7 @@ valeurs codées en dur, exactement ce que [`EX-VIS-007`](@ref EX-VIS-007) interd
 | Quand | Lots | Pourquoi là |
 |---|---|---|
 | **Démarrables maintenant** — le [LOT-08](@ref lot-08) est livré | `LOT-30`, puis `LOT-32` | Outillage et contrats ; le plus tôt est le mieux |
-| **Démarrables maintenant** | `LOT-67`, puis `LOT-68` | La charte du `LOT-66` et les planches du `LOT-76` sont livrées : les écrans à venir ont leur palette et leur matière |
+| **Démarrables maintenant** | `LOT-68` | La charte du `LOT-66`, les ornements du `LOT-76` et les menus du `LOT-67` sont livrés : les écrans à venir ont leur palette, leur matière et leur vocabulaire |
 | Avec [LOT-09](@ref lot-09) | `LOT-80` | L'atlas du `LOT-37` est livré : le graphe de cartes a ses nœuds, il lui manque les entités transverses |
 | Avant [LOT-13](@ref lot-13) | `LOT-43`, puis `LOT-36` | Compétences et langues d'abord, car les espèces s'appuient dessus ; puis les 4 classes simplifiées pour le premier combat |
 | Avant [LOT-14](@ref lot-14) | `LOT-34`, puis `LOT-49` | Catalogue réel, puis contrôle de ses valeurs |
@@ -1329,7 +1288,6 @@ digraph filiere {
   L80 -> L82; L82 -> L42;
   L27 -> L41 [style=dotted, label="valide la recette"];
   L66 [label="LOT-66\nCharte visuelle\n(livré)", style="rounded,filled", fillcolor=grey90];
-  L66 -> L67 [label=""]; L67 [label="LOT-67\nMenus RPG"];
   L66 -> L68 [label=""]; L68 [label="LOT-68\nChâssis écrans"];
   L66 -> L69 [label=""]; L69 [label="LOT-69\nRetrait atelier"];
 }
@@ -1358,7 +1316,6 @@ eux-mêmes.
 | `LOT-49` | Contrôle de cohérence du contenu | `LOT-33`, `LOT-34` | — |
 | `LOT-50` | Le Colisée : bac à sable de combat | `LOT-19`, `LOT-20`, `LOT-21`, `LOT-47` | `LOT-51`, `LOT-65` |
 | `LOT-51` | une classe par lot | `LOT-47`, `LOT-50`, `LOT-70` | — |
-| `LOT-67` | Menus et vocabulaire d'un RPG | `LOT-66` | — |
 | `LOT-68` | Le châssis des écrans RPG | `LOT-66` | `LOT-24`, `LOT-38`, `LOT-42`, `LOT-45` |
 | `LOT-69` | Retrait de l'atelier pixel art | `LOT-11`, `LOT-66` | — |
 | `LOT-70` | Horloge de partie et cycle jour/nuit | `LOT-13` | `LOT-25`, `LOT-42`, `LOT-51`, `LOT-65`, `LOT-75` |

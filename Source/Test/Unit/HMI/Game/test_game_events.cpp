@@ -148,16 +148,16 @@ TEST(GameEventsTest, IssueEnCoursNeProduitRien) {
 }
 
 /**
- * @brief L'issue Won produit LevelCompleted.
- * \castest{<b>Une issue gagnee produit l'evenement LevelCompleted.</b><br/>
+ * @brief L'issue Won produit ExitReached.
+ * \castest{<b>Une issue gagnee produit l'evenement ExitReached.</b><br/>
  * \tcat Unitaire · Detection d'evenements<br/>
  * \tcrit Critique<br/>
  * \tetapes 1. Traduire core::LevelOutcome::Won.<br/>
- * \tattendu GameEvent::LevelCompleted.
+ * \tattendu GameEvent::ExitReached.
  * }
  */
-TEST(GameEventsTest, IssueGagneeProduitLevelCompleted) {
-    EXPECT_EQ(hmi::detectOutcomeEvent(core::LevelOutcome::Won), GameEvent::LevelCompleted);
+TEST(GameEventsTest, IssueGagneeProduitExitReached) {
+    EXPECT_EQ(hmi::detectOutcomeEvent(core::LevelOutcome::Won), GameEvent::ExitReached);
 }
 
 /**

@@ -81,8 +81,6 @@ add_library(HmiLib STATIC
     Game/ExplorationMode.cpp
     Game/GameHud.cpp
     Game/DiagnosticsHud.cpp
-    Game/Progression.cpp
-    Game/LevelRunStats.cpp
     # Éditeur : validation, taxonomie, gestes et géométrie, bibliothèque d'assets, atelier pixel.
     Editor/LevelNameValidation.cpp
     Editor/TileTaxonomy.cpp
@@ -307,8 +305,6 @@ add_executable(JustAnotherDnDGame
     Interface/MainWindow.cpp
     Interface/MainMenu.cpp
     Interface/PauseScreen.cpp
-    Interface/LevelCompleteScreen.cpp
-    Interface/LevelSelectScreen.cpp
     Interface/CreditsScreen.cpp
     Interface/OptionsPage.cpp
     Interface/KeybindingsWidget.cpp
@@ -330,8 +326,6 @@ add_executable(JustAnotherDnDGame
     ${ELEMENTS_UI}/MainWindow.ui
     ${ELEMENTS_UI}/MainMenu.ui
     ${ELEMENTS_UI}/PauseScreen.ui
-    ${ELEMENTS_UI}/LevelCompleteScreen.ui
-    ${ELEMENTS_UI}/LevelSelectScreen.ui
     ${ELEMENTS_UI}/CreditsScreen.ui
     ${ELEMENTS_UI}/OptionsPage.ui
     ${ELEMENTS_UI}/TexturePanel.ui

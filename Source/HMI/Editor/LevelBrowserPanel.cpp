@@ -93,7 +93,7 @@ std::filesystem::path LevelBrowserPanel::selectedPath() const {
 void LevelBrowserPanel::onNew() {
     bool accepted = false;
     const QString name =
-        QInputDialog::getText(this, t(_loc, "level.new_title"), t(_loc, "level.name_prompt"),
+        QInputDialog::getText(this, t(_loc, "map.new_title"), t(_loc, "map.name_prompt"),
                               QLineEdit::Normal, QString(), &accepted);
     if (!accepted || name.isEmpty()) {
         return;
@@ -103,7 +103,7 @@ void LevelBrowserPanel::onNew() {
     if (result.ok()) {
         HMI_LOG_INFO("Niveaux : cree « " + name.toStdString() + " ».");
     }
-    reportIfError(this, t(_loc, "level.operation_failed"), result);
+    reportIfError(this, t(_loc, "map.operation_failed"), result);
     refresh();
 }
 
@@ -114,7 +114,7 @@ void LevelBrowserPanel::onRename() {
     }
     bool accepted = false;
     const QString name = QInputDialog::getText(
-        this, t(_loc, "level.rename"), t(_loc, "level.rename_prompt"), QLineEdit::Normal,
+        this, t(_loc, "map.rename"), t(_loc, "map.rename_prompt"), QLineEdit::Normal,
         QString::fromStdString(path.stem().string()), &accepted);
     if (!accepted || name.isEmpty()) {
         return;
@@ -122,7 +122,7 @@ void LevelBrowserPanel::onRename() {
     const LevelFileOperations ops(_dir);
     HMI_LOG_INFO("Niveaux : renommage de « " + path.stem().string() + " » en « " +
                  name.toStdString() + " ».");
-    reportIfError(this, t(_loc, "level.operation_failed"), ops.rename(path, name.toStdString()));
+    reportIfError(this, t(_loc, "map.operation_failed"), ops.rename(path, name.toStdString()));
     refresh();
 }
 
@@ -133,7 +133,7 @@ void LevelBrowserPanel::onDuplicate() {
     }
     const LevelFileOperations ops(_dir);
     HMI_LOG_INFO("Niveaux : duplication de « " + path.stem().string() + " ».");
-    reportIfError(this, t(_loc, "level.operation_failed"), ops.duplicate(path));
+    reportIfError(this, t(_loc, "map.operation_failed"), ops.duplicate(path));
     refresh();
 }
 
@@ -143,24 +143,24 @@ void LevelBrowserPanel::onDelete() {
         return;
     }
     const QMessageBox::StandardButton answer = QMessageBox::question(
-        this, t(_loc, "level.delete_title"),
-        t(_loc, "level.delete_confirm").arg(QString::fromStdString(path.stem().string())));
+        this, t(_loc, "map.delete_title"),
+        t(_loc, "map.delete_confirm").arg(QString::fromStdString(path.stem().string())));
     if (answer != QMessageBox::Yes) {
         return;
     }
     const LevelFileOperations ops(_dir);
     HMI_LOG_INFO("Niveaux : suppression de « " + path.stem().string() + " ».");
-    reportIfError(this, t(_loc, "level.operation_failed"), ops.remove(path));
+    reportIfError(this, t(_loc, "map.operation_failed"), ops.remove(path));
     refresh();
 }
 
 void LevelBrowserPanel::retranslateUi(const Localization& loc) {
     _loc = &loc;
-    _ui->searchField->setPlaceholderText(t(_loc, "level.search"));
-    _ui->newButton->setText(t(_loc, "level.new"));
-    _ui->renameButton->setText(t(_loc, "level.rename"));
-    _ui->duplicateButton->setText(t(_loc, "level.duplicate"));
-    _ui->deleteButton->setText(t(_loc, "level.delete"));
+    _ui->searchField->setPlaceholderText(t(_loc, "map.search"));
+    _ui->newButton->setText(t(_loc, "map.new"));
+    _ui->renameButton->setText(t(_loc, "map.rename"));
+    _ui->duplicateButton->setText(t(_loc, "map.duplicate"));
+    _ui->deleteButton->setText(t(_loc, "map.delete"));
 }
 
 void LevelBrowserPanel::onActivated(const QModelIndex& index) {

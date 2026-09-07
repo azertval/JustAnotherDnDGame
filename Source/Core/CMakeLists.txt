@@ -34,7 +34,6 @@ add_library(Core STATIC
     Levels/TileTypeName.cpp
     Levels/CameraFraming.cpp
     Levels/LevelLoader.cpp
-    Levels/LevelSequence.cpp
     Levels/LevelWriter.cpp
     Levels/LevelDraft.cpp
     Levels/LevelScene.cpp

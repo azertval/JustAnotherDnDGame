@@ -4,6 +4,10 @@
 > l'implémentent). Dépend de [`regles-dnd.md`](@ref spec-regles-dnd) (le jet, les conditions) et de
 > [`exploration.md`](@ref spec-exploration) (la couche de collision, l'orientation).
 
+Ce document concrétise [`EX-VIS-004`](@ref EX-VIS-004) — « résoudre un combat tactique complet au
+tour par tour » — dont il détaille chaque terme : l'initiative, la portée, le jet d'attaque et la
+fin de rencontre.
+
 Le combat est la moitié « au tour par tour » du jeu. Il se déroule **sur la carte d'exploration**,
 sur une grille dérivée de la couche de collision — décision de cadrage actée avant le `LOT-01` : pas
 d'écran de combat séparé, pas de transition vers une arène abstraite. Ce qui change à la bascule,

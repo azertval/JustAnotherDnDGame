@@ -21,7 +21,6 @@
 #include "HMI/Editor/EditorTool.h"
 #include "HMI/Game/DiagnosticsHud.h"
 #include "HMI/Game/GameSession.h"
-#include "HMI/Game/LevelRunStats.h"
 #include "HMI/Graphics/Camera2D.h"
 #include "HMI/Graphics/LayerVisibility.h"
 #include "HMI/Graphics/PlaneVisibility.h"
@@ -219,15 +218,6 @@ public:
     void toggleDiagnosticsOverlay() noexcept;
 
     /// @return Le bilan du tableau en cours (`LOT-68`) : pas de simulation, morts, sauts. Remis à
-    /// zéro à chaque entrée dans un tableau, en rejouant comme en avançant.
-    [[nodiscard]] const LevelRunStats& runStats() const noexcept {
-        return _runStats;
-    }
-
-    /// @return La durée d'un pas de simulation, pour convertir `runStats()` en secondes.
-    [[nodiscard]] float fixedDeltaSeconds() const noexcept {
-        return _timestep.fixedDeltaSeconds();
-    }
 
     /// @return `true` si le compteur de diagnostic est actuellement affiché.
     [[nodiscard]] bool diagnosticsOverlayEnabled() const noexcept {
@@ -239,10 +229,14 @@ public:
     /// réglages qui pourraient diverger.
     void setDiagnosticsOverlayEnabled(bool enabled) noexcept;
 
-    /// Lance le **jeu** : joue la séquence de niveaux @p levels, à partir de @p startIndex
-    /// (0 = depuis le début ; « Continuer »/sélection de niveau, `LOT-59` TACHE-06, reprennent
-    /// plus loin). `Échap` ou la fin de la séquence émet `exitToMenuRequested`.
-    void startGame(std::vector<std::filesystem::path> levels, std::size_t startIndex = 0);
+    /// Lance le **jeu** sur la carte @p map. `Échap` ouvre la pause, dont « Quitter vers le menu »
+    /// émet `exitToMenuRequested`.
+    ///
+    /// **Une carte, et non plus une séquence** (`LOT-67`). Le jeu visé est un bac à sable : il n'a
+    /// ni ordre de tableaux, ni tableau suivant. L'enchaînement d'une carte à l'autre reviendra
+    /// avec le **graphe de cartes** du `LOT-09`, et il sera déclenché par une transition placée
+    /// dans le monde, pas par la fin d'une liste.
+    void startGame(std::filesystem::path map);
 
     /// Suspend la simulation (écran de pause, `LOT-59` TACHE-02) : `tick()` cesse d'alimenter
     /// l'accumulateur de pas fixe -- aucun pas n'est consommé pendant la pause (`EX-GP-041`). Le
@@ -256,34 +250,10 @@ public:
     [[nodiscard]] bool simulationPaused() const noexcept {
         return _paused;
     }
-    /// Recharge le niveau en cours (personnage à l'entrée, mécanismes et budgets remis) -- même
-    /// chemin que le redémarrage après échec (`EX-GP-032`, `GameSession::reload`), jamais un
-    /// second. Sans effet hors partie/essai (aucune session active).
-    void restartCurrentLevel();
     /// Abandonne la partie en cours (« Quitter vers le menu » depuis la pause, `LOT-59` TACHE-02,
     /// après confirmation côté appelant) : même nettoyage que l'ancienne sortie directe par
     /// `Échap`, désormais déclenchée par l'écran de pause plutôt que par la touche elle-même.
     void quitGame() noexcept;
-    /// @return true si le tableau qui vient d'être réussi (`levelSucceeded`) est le **dernier**
-    ///         de la séquence -- choisit l'habillage de l'écran de fin de niveau (`LOT-59`
-    ///         TACHE-03) : fin de tableau (Continuer/Rejouer) ou fin de séquence (retour menu).
-    [[nodiscard]] bool isLastGameLevel() const noexcept;
-    /// @return Le nom de fichier **complet** (extension comprise, comme dans
-    ///         `core::LevelSequence::levels`) du tableau qui vient d'être réussi -- sert à la fois
-    ///         d'affichage à l'écran de fin de niveau et d'identifiant de progression
-    ///         (`hmi::Progression`, `LOT-59` TACHE-05/06 : doit rester dans le même format que la
-    ///         séquence, sous peine de ne plus jamais correspondre). Chaîne vide hors partie
-    ///         réelle.
-    [[nodiscard]] std::string currentGameLevelName() const;
-    /// @return Le nom de fichier **complet** du tableau **suivant** celui qui vient d'être réussi
-    ///         -- le tableau où reprendre (`hmi::Progression::currentLevel`, `LOT-59` TACHE-05).
-    ///         Chaîne vide en fin de séquence (`isLastGameLevel`) ou hors partie réelle.
-    [[nodiscard]] std::string nextGameLevelName() const;
-    /// « Continuer » depuis l'écran de fin de niveau (`LOT-59` TACHE-03) : charge le tableau
-    /// suivant de la séquence -- reprend l'ancien enchaînement automatique sur réussite, mais sur
-    /// validation du joueur plutôt qu'immédiatement. Sans effet si le tableau réussi était déjà
-    /// le dernier (`isLastGameLevel`) : l'écran ne propose alors pas ce bouton.
-    void advanceToNextLevel();
 
     /// Active/désactive la synchronisation verticale (`EX-REN-022`). Depuis le portage QRhi, la
     /// présentation appartient au compositeur de Qt : le réglage est conservé et rapporté, mais
@@ -502,11 +472,6 @@ signals:
     /// l'écran de pause (`LOT-59` TACHE-02, `EX-GP-041`) -- jamais en essai depuis l'éditeur
     /// (`stopPlaytest` garde son propre chemin, inchangé).
     void pauseRequested();
-    /// Le tableau courant vient d'être réussi, en partie réelle (`LOT-59` TACHE-03) : la
-    /// simulation est déjà figée (`pauseSimulation`) quand ce signal part -- c'est l'écran de fin
-    /// de niveau qui décide de la suite (`isLastGameLevel` choisit son habillage). Jamais émis en
-    /// essai depuis l'éditeur (`stopPlaytest` garde son propre chemin, inchangé).
-    void levelSucceeded();
     /// Le brouillon vient d'être modifié (peinture, undo/redo, chargement, lien…) — le panneau
     /// « Liens » se resynchronise dessus (`refresh`).
     void draftChanged();
@@ -566,7 +531,7 @@ private:
     /// (`EX-NFR-040`, coût nul quand éteint : rien n'est calculé au-delà du test d'entrée).
     void renderDiagnosticsOverlay(int viewportWidth, int viewportHeight);
     void stopPlaytest();  ///< Termine l'essai et restitue l'éditeur (brouillon intact).
-    void loadGameLevel(std::size_t index);  ///< Charge le niveau @p index de la séquence de jeu.
+    void loadGameMap();   ///< Charge `_gameMap` et arme la session de jeu.
     void updateMousePosition(const QMouseEvent* event);
 
     /// Recale la caméra d'édition : cadrage automatique sur le niveau entier, sauf pan/zoom manuel
@@ -652,7 +617,6 @@ private:
     /// Compteur de diagnostic (`F9`, `LOT-62` TACHE-02) : désactivé par défaut (`EX-NFR-040`,
     /// point de départ sans effet visuel ni coût).
     /// Bilan du tableau en cours (LOT-68) : alimenté au PAS, jamais à l'image de rendu.
-    LevelRunStats _runStats;
     bool _diagnosticsEnabled = false;
     /// Moyenne glissante de la cadence de rendu, alimentée uniquement quand `_diagnosticsEnabled`
     /// est vrai (rien n'est calculé quand l'affichage est éteint).
@@ -727,8 +691,8 @@ private:
     /// Écran de pause affiché (`LOT-59` TACHE-02) : `tick()` n'avance plus l'accumulateur de pas
     /// fixe tant que c'est vrai -- le rendu, lui, continue.
     bool _paused = false;
-    std::vector<std::filesystem::path> _gameLevels;  ///< Séquence de niveaux du mode jeu.
-    std::size_t _gameLevel = 0;                      ///< Indice du niveau courant dans la séquence.
+    std::filesystem::path _gameMap;  ///< Carte jouée par le mode jeu (`LOT-67` : une, pas une
+                                     ///< séquence).
 
     /// Session de jeu de l'essai immédiat ; nulle en mode édition (essai ajouté au LOT-35
     /// TACHE-04).

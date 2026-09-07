@@ -29,7 +29,7 @@ enum class GameEvent {
     // Personnage. **Sans producteur depuis le `LOT-06`** : ces quatre transitions étaient celles
     // d'un personnage de plateforme, et le déplacement en vue de dessus n'a ni saut, ni
     // atterrissage, ni glissade murale. Les valeurs restent déclarées — la table de sons
-    // (`hmi::soundForEvent`) et les statistiques d'essai (`hmi::LevelRunStats`) s'y accrochent, et
+    // (`hmi::soundForEvent`) s'y accroche, et
     // c'est le combat (`LOT-21`) puis l'audio (`LOT-28`) qui diront ce que le RPG met à leur place.
     Jumped,
     Landed,
@@ -42,20 +42,22 @@ enum class GameEvent {
     PressurePlatePressed,
     PressurePlateReleased,
     BlockPushed,
-    // Issue du tableau (détecté par `detectOutcomeEvent`, depuis `core::LevelOutcome`).
+    // Issue du pas (détecté par `detectOutcomeEvent`, depuis `core::LevelOutcome`).
     Died,
-    LevelCompleted,
+    /// La sortie de la carte a été atteinte. **Ne termine plus rien** depuis le `LOT-67` : le bac
+    /// à sable n'a pas de tableau à finir. Elle redeviendra une transition vers la carte que le
+    /// graphe du `LOT-09` désignera.
+    ExitReached,
     // Interface (`LOT-59`) : raisés directement aux points de signal Qt existants, pas par
     // diffusion d'état — la table de sons ci-dessous les couvre malgré tout, pour l'uniformité.
     MenuNavigate,
     MenuConfirm,
     MenuBack,
     PauseOpened,
-    SequenceCompleted,
 };
 
 /// Nombre de valeurs de `GameEvent` — pour les tests d'exhaustivité (parcours de l'énumération).
-inline constexpr int GAME_EVENT_COUNT = static_cast<int>(GameEvent::SequenceCompleted) + 1;
+inline constexpr int GAME_EVENT_COUNT = static_cast<int>(GameEvent::PauseOpened) + 1;
 
 /// État « porte ouverte » de chaque mécanisme, même index que
 /// `core::MechanismController::mechanisms()`.
@@ -93,7 +95,7 @@ struct MechanismEventState {
 /**
  * @brief Traduit l'issue d'un pas de simulation en événement.
  * @param outcome Issue renvoyée par `core::evaluateOutcome` / `core::GameSession::update`.
- * @return `Died` pour `Lost`, `LevelCompleted` pour `Won`, `std::nullopt` pour `Playing`.
+ * @return `Died` pour `Lost`, `ExitReached` pour `Won`, `std::nullopt` pour `Playing`.
  */
 [[nodiscard]] std::optional<GameEvent> detectOutcomeEvent(core::LevelOutcome outcome);
 
