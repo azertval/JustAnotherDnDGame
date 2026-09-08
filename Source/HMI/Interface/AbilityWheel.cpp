@@ -102,15 +102,10 @@ QSize AbilityWheel::minimumSizeHint() const {
     return {ABILITY_WHEEL_MINIMUM_SIZE, ABILITY_WHEEL_MINIMUM_SIZE};
 }
 
-bool AbilityWheel::hasHeightForWidth() const {
-    return true;
-}
-
-int AbilityWheel::heightForWidth(int width) const {
-    return width;  // La roue est carrée : son arc n'a de sens que dans un carré.
-}
-
 void AbilityWheel::paintEvent(QPaintEvent* /*event*/) {
+    // Le cote est le PLUS PETIT des deux : la roue est ronde, et se carre elle-meme dans la boite
+    // qu'on lui donne. Imposer `heightForWidth` a la disposition la ferait au contraire negocier
+    // avec ses voisins, et deux panneaux extensibles gagnent toujours cette negociation.
     const int side = std::min(width(), height());
     const AbilityWheelLayout layout = abilityWheelLayout(side);
     if (!layout.valid) {

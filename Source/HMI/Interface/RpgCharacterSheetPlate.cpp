@@ -8,6 +8,8 @@
 #include <QLabel>
 #include <QPixmap>
 #include <QPushButton>
+#include <QScrollArea>
+#include <QSizePolicy>
 #include <QStringList>
 #include <QVBoxLayout>
 #include <array>
@@ -66,6 +68,36 @@ RpgCharacterSheetPlate::RpgCharacterSheetPlate(const RpgScreenDescriptor& descri
     // quand le focus est sur un bouton qui ne gère pas cette touche.
     setFocusPolicy(Qt::StrongFocus);
     _ui->setupUi(this);
+
+    // Ni la zone defilante ni les rappels de touches ne doivent contraindre la fenetre : la
+    // planche est plus grande qu'un 1280x720 et le restera, mais un ecran ne decide pas de la
+    // taille de la fenetre (EX-IHM-080). Meme reglage que RpgScreenFrame, et pour la meme raison
+    // -- sans lui, la fenetre ne peut plus retrecir sous la taille de la roue et de ses panneaux.
+    _ui->bodyScroll->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+    _ui->hintsLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Preferred);
+
+    // Le bandeau ne s'etire PAS en hauteur : ses ailes suivent sa hauteur (LOT-76), et un bandeau
+    // etire sur la hauteur libre de la fenetre devient deux ailes d'or demesurees de part et
+    // d'autre d'une plaque restee fine. Le defaut se voit tout de suite, et seulement a l'ecran.
+    _ui->rpgTitle->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+
+    // La roue prend la place qu'on lui donne. Sans ceci, les deux panneaux extensibles se
+    // partagent toute la largeur, la roue tombe sous son plancher de lisibilite et ne peint
+    // RIEN -- l'ecran parait alors vide en son centre, sans qu'aucune erreur ne soit levee.
+    _ui->abilityWheel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+
+    // Les poids de repartition, en code : la propriete `stretch` d'un `.ui` produit un appel que
+    // uic ne sait pas ecrire pour un QBoxLayout.
+    //
+    // En hauteur, TOUT l'espace libre va au corps (indice 1) : sinon l'en-tete se l'approprie et
+    // le bandeau s'etire. En largeur, 4 / 7 / 4 -- les proportions de la maquette, 320 / 560 / 320
+    // dans un 1280.
+    _ui->plateLayout->setStretch(0, 0);
+    _ui->plateLayout->setStretch(1, 1);
+    _ui->plateLayout->setStretch(2, 0);
+    _ui->bodyRow->setStretch(0, 4);
+    _ui->bodyRow->setStretch(1, 7);
+    _ui->bodyRow->setStretch(2, 4);
 
     buildColumns();
 
