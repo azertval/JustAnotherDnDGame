@@ -1,0 +1,32 @@
+{
+  "pages": [
+    { "id": "page-1", "name": "Écrans" },
+    { "id": "page-2", "name": "Système et assets" }
+  ],
+  "artboards": [
+    { "file": "Main.dc.html",     "title": "Fiche de personnage",  "page": "page-1", "x": 0,    "y": 0, "w": 1280, "h": 720 },
+    { "file": "Dotation.dc.html", "title": "Inventaire",           "page": "page-1", "x": 1400, "y": 0, "w": 1280, "h": 720 },
+    { "file": "Combat.dc.html",   "title": "Combat",               "page": "page-1", "x": 2800, "y": 0, "w": 1280, "h": 720 },
+    { "file": "Systeme.dc.html",  "title": "Grammaire des écrans", "page": "page-2", "x": 0,    "y": 0, "w": 1280, "h": 1290 },
+    { "file": "Assets.dc.html",   "title": "Ce qu'il faut illustrer", "page": "page-2", "x": 1400, "y": 0, "w": 1280, "h": 1620 }
+  ],
+  "annotations": [
+    {
+      "id": "brief-ecrans",
+      "page": "page-1",
+      "x": 0,
+      "y": -230,
+      "w": 900,
+      "text": "Direction : les papiers d'un mercenaire.\nChaque écran de consultation est un feuillet détaché d'un registre — souche perforée, en-tête de bureau, matricule, portrait à coins de montage, tampon encré, contreseing, cachet de cire. Le combat fait exception : il ne suspend pas le jeu, donc ce sont des bandeaux posés sur la carte tactique.\n\nPalette, typographie et recette d'encadrement sont celles de hmi::identityTokens() au pixel près. Les libellés sont ceux de fr.lang, mot pour mot. Les valeurs sont dérivées des vraies données de Brenna Vaugris."
+    },
+    {
+      "id": "brief-assets",
+      "page": "page-2",
+      "x": 0,
+      "y": -230,
+      "w": 900,
+      "text": "À gauche : la grammaire — ce qui fait qu'un écran lit comme un document, et les trois règles qui ne se négocient pas.\nÀ droite : l'état des lieux des illustrations — les 308 clés déjà attendues, les six familles que cette direction ajoute, et la liste de ce qui restera tracé par le code plutôt que livré en fichier."
+    }
+  ],
+  "launch": { "view": "canvas", "page": "page-1" }
+}

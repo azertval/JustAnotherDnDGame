@@ -1,0 +1,183 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=EB+Garamond:wght@400;500;600&display=swap">
+  <style>
+    body { margin: 0; }
+    a { color: #907030; } a:hover { color: #302000; }
+  </style>
+</helmet>
+
+<div style="width: 1280px; height: 1620px; position: relative; overflow: hidden; background: #d0c0a0; font-family: 'EB Garamond', Georgia, 'Times New Roman', serif; color: #302000; box-sizing: border-box; padding: 34px 40px;">
+
+  <div style="position: absolute; inset: 0; pointer-events: none; background-image: repeating-linear-gradient(90deg, rgba(48,32,0,.022) 0 1px, transparent 1px 4px), repeating-linear-gradient(0deg, rgba(48,32,0,.016) 0 1px, transparent 1px 7px);"></div>
+
+  <div style="position: relative; display: flex; flex-direction: column; gap: 22px;">
+
+    <!-- ---------- Titre ---------- -->
+    <div style="border-bottom: 3px solid #302000; padding-bottom: 12px; display: flex; align-items: flex-end; justify-content: space-between; gap: 24px;">
+      <div>
+        <div style="font-family: 'Cinzel', Georgia, serif; font-size: 30px; font-weight: 700; letter-spacing: .1em;">CE QU'IL FAUT ILLUSTRER</div>
+        <div style="font-size: 17px; color: #705020; margin-top: 3px; max-width: 78ch;">Une donnée désigne son illustration par une <b>clé</b> — <span style="font-family: 'Cinzel', Georgia, serif;">beast/wolf</span> — jamais par un chemin de fichier, et le manifeste n'est écrit nulle part : il est dérivé des catalogues à chaque appel. Cette planche n'est donc pas le manifeste, c'est l'<b>état des lieux</b> : ce que la donnée attend, ce que la direction « papiers de mercenaire » ajoute, et ce qui ne sera jamais un fichier.</div>
+      </div>
+      <div style="text-align: right; flex: none;">
+        <div style="font-family: 'Cinzel', Georgia, serif; font-size: 11px; letter-spacing: .16em; color: #705020;">CLÉS ATTENDUES</div>
+        <div style="font-family: 'Cinzel', Georgia, serif; font-size: 40px; font-weight: 700; line-height: 1;">308</div>
+        <div style="font-size: 15px; color: #705020;">dont <b>0</b> illustrée &mdash; les 308 sont servies par un marqueur</div>
+      </div>
+    </div>
+
+    <!-- ================= SECTION 1 ================= -->
+    <div style="display: flex; flex-direction: column; gap: 9px;">
+      <div style="font-family: 'Cinzel', Georgia, serif; font-size: 16px; font-weight: 700; letter-spacing: .16em;">I. LES SEPT FAMILLES DÉJÀ DÉCLARÉES <span style="font-weight: 500; color: #705020; letter-spacing: .04em;">— dans <span style="font-size: 14px;">Assets/Entities/families.json</span>, donc modifiables sans recompiler</span></div>
+
+      <div style="display: grid; grid-template-columns: 138px 96px 84px 1fr 296px; gap: 0; background: #907030; box-shadow: 0 0 0 2px #302000;">
+        <div style="background: #302000; color: #f0e0d0; font-family: 'Cinzel', Georgia, serif; font-size: 11px; letter-spacing: .14em; padding: 7px 10px;">FAMILLE</div>
+        <div style="background: #302000; color: #f0e0d0; font-family: 'Cinzel', Georgia, serif; font-size: 11px; letter-spacing: .14em; padding: 7px 10px;">TAILLE</div>
+        <div style="background: #302000; color: #f0e0d0; font-family: 'Cinzel', Georgia, serif; font-size: 11px; letter-spacing: .14em; padding: 7px 10px;">NOMBRE</div>
+        <div style="background: #302000; color: #f0e0d0; font-family: 'Cinzel', Georgia, serif; font-size: 11px; letter-spacing: .14em; padding: 7px 10px;">CE QUE C'EST, ET OÙ ON LE VOIT</div>
+        <div style="background: #302000; color: #f0e0d0; font-family: 'Cinzel', Georgia, serif; font-size: 11px; letter-spacing: .14em; padding: 7px 10px;">GISEMENT AU CORPUS</div>
+
+        <div style="background: #e0d0b0; padding: 8px 10px; font-family: 'Cinzel', Georgia, serif; font-size: 15px; font-weight: 600; margin-bottom: 1px;">beast</div>
+        <div style="background: #e0d0b0; padding: 8px 10px; font-size: 16px; margin-bottom: 1px;">96 × 96</div>
+        <div style="background: #e0d0b0; padding: 8px 10px; font-size: 16px; font-weight: 600; margin-bottom: 1px;">94</div>
+        <div style="background: #e0d0b0; padding: 8px 10px; font-size: 16px; margin-bottom: 1px;">Jeton rond de table virtuelle, la créature vue de dessus. Sur la carte tactique et dans le panneau de cible.</div>
+        <div style="background: #e0d0b0; padding: 8px 10px; font-size: 15px; color: #705020; margin-bottom: 1px;"><b style="color: #302000;">Character Compendium</b> — 172 jetons ronds à fond transparent, le détourage est épargné.</div>
+
+        <div style="background: #e0d0b0; padding: 8px 10px; font-family: 'Cinzel', Georgia, serif; font-size: 15px; font-weight: 600; margin-bottom: 1px;">item</div>
+        <div style="background: #e0d0b0; padding: 8px 10px; font-size: 16px; margin-bottom: 1px;">48 × 48</div>
+        <div style="background: #e0d0b0; padding: 8px 10px; font-size: 16px; font-weight: 600; margin-bottom: 1px;">125</div>
+        <div style="background: #e0d0b0; padding: 8px 10px; font-size: 16px; margin-bottom: 1px;">Icône d'inventaire, sur la case du sac et dans le détail en marge du bordereau.</div>
+        <div style="background: #e0d0b0; padding: 8px 10px; font-size: 15px; color: #705020; margin-bottom: 1px;"><b style="color: #302000;">Sourcebook</b> — l'art court sous les colonnes : extraction semi-automatique.</div>
+
+        <div style="background: #e0d0b0; padding: 8px 10px; font-family: 'Cinzel', Georgia, serif; font-size: 15px; font-weight: 600; margin-bottom: 1px;">weapon</div>
+        <div style="background: #e0d0b0; padding: 8px 10px; font-size: 16px; margin-bottom: 1px;">48 × 48</div>
+        <div style="background: #e0d0b0; padding: 8px 10px; font-size: 16px; font-weight: 600; margin-bottom: 1px;">37</div>
+        <div style="background: #e0d0b0; padding: 8px 10px; font-size: 16px; margin-bottom: 1px;">Même contrat que l'objet ; famille distincte parce que le catalogue l'est. Emplacements de main.</div>
+        <div style="background: #e0d0b0; padding: 8px 10px; font-size: 15px; color: #705020; margin-bottom: 1px;"><b style="color: #302000;">Sourcebook</b>, planches d'équipement.</div>
+
+        <div style="background: #e0d0b0; padding: 8px 10px; font-family: 'Cinzel', Georgia, serif; font-size: 15px; font-weight: 600; margin-bottom: 1px;">armor</div>
+        <div style="background: #e0d0b0; padding: 8px 10px; font-size: 16px; margin-bottom: 1px;">48 × 48</div>
+        <div style="background: #e0d0b0; padding: 8px 10px; font-size: 16px; font-weight: 600; margin-bottom: 1px;">13</div>
+        <div style="background: #e0d0b0; padding: 8px 10px; font-size: 16px; margin-bottom: 1px;">Icône d'inventaire. Emplacements de tête, torse, mains, pieds.</div>
+        <div style="background: #e0d0b0; padding: 8px 10px; font-size: 15px; color: #705020; margin-bottom: 1px;"><b style="color: #302000;">Sourcebook</b>, planches d'équipement.</div>
+
+        <div style="background: #e0d0b0; padding: 8px 10px; font-family: 'Cinzel', Georgia, serif; font-size: 15px; font-weight: 600; margin-bottom: 1px;">species</div>
+        <div style="background: #e0d0b0; padding: 8px 10px; font-size: 16px; margin-bottom: 1px;">128 × 128</div>
+        <div style="background: #e0d0b0; padding: 8px 10px; font-size: 16px; font-weight: 600; margin-bottom: 1px;">22</div>
+        <div style="background: #e0d0b0; padding: 8px 10px; font-size: 16px; margin-bottom: 1px;">Portrait d'espèce, à la création de personnage.</div>
+        <div style="background: #e0d0b0; padding: 8px 10px; font-size: 15px; color: #705020; margin-bottom: 1px;"><b style="color: #302000;">Players Guide</b> — planches à 300 ppp.</div>
+
+        <div style="background: #e0d0b0; padding: 8px 10px; font-family: 'Cinzel', Georgia, serif; font-size: 15px; font-weight: 600; margin-bottom: 1px;">background</div>
+        <div style="background: #e0d0b0; padding: 8px 10px; font-size: 16px; margin-bottom: 1px;">128 × 128</div>
+        <div style="background: #e0d0b0; padding: 8px 10px; font-size: 16px; font-weight: 600; margin-bottom: 1px;">13</div>
+        <div style="background: #e0d0b0; padding: 8px 10px; font-size: 16px; margin-bottom: 1px;">Emblème d'historique. Sur le feuillet, il tamponne la ligne « Historique ».</div>
+        <div style="background: #e0d0b0; padding: 8px 10px; font-size: 15px; color: #705020; margin-bottom: 1px;"><b style="color: #302000;">Players Guide</b>.</div>
+
+        <div style="background: #e0d0b0; padding: 8px 10px; font-family: 'Cinzel', Georgia, serif; font-size: 15px; font-weight: 600;">class</div>
+        <div style="background: #e0d0b0; padding: 8px 10px; font-size: 16px;">128 × 128</div>
+        <div style="background: #e0d0b0; padding: 8px 10px; font-size: 16px; font-weight: 600;">4</div>
+        <div style="background: #e0d0b0; padding: 8px 10px; font-size: 16px;">Emblème de classe. Les quatre sont <b>provisoires</b> : leurs emblèmes le sont aussi.</div>
+        <div style="background: #e0d0b0; padding: 8px 10px; font-size: 15px; color: #705020;"><b style="color: #302000;">Players Guide</b>.</div>
+      </div>
+    </div>
+
+    <!-- ================= SECTION 2 ================= -->
+    <div style="display: flex; flex-direction: column; gap: 9px;">
+      <div style="font-family: 'Cinzel', Georgia, serif; font-size: 16px; font-weight: 700; letter-spacing: .16em;">II. CE QUE LES PAPIERS DE MERCENAIRE RÉCLAMENT EN PLUS <span style="font-weight: 500; color: #705020; letter-spacing: .04em;">— familles à déclarer, une ligne de JSON chacune</span></div>
+
+      <div style="display: grid; grid-template-columns: 138px 96px 84px 1fr 296px; gap: 0; background: #907030; box-shadow: 0 0 0 2px #302000;">
+        <div style="background: #302000; color: #f0e0d0; font-family: 'Cinzel', Georgia, serif; font-size: 11px; letter-spacing: .14em; padding: 7px 10px;">FAMILLE</div>
+        <div style="background: #302000; color: #f0e0d0; font-family: 'Cinzel', Georgia, serif; font-size: 11px; letter-spacing: .14em; padding: 7px 10px;">TAILLE</div>
+        <div style="background: #302000; color: #f0e0d0; font-family: 'Cinzel', Georgia, serif; font-size: 11px; letter-spacing: .14em; padding: 7px 10px;">NOMBRE</div>
+        <div style="background: #302000; color: #f0e0d0; font-family: 'Cinzel', Georgia, serif; font-size: 11px; letter-spacing: .14em; padding: 7px 10px;">POURQUOI LA DIRECTION L'EXIGE</div>
+        <div style="background: #302000; color: #f0e0d0; font-family: 'Cinzel', Georgia, serif; font-size: 11px; letter-spacing: .14em; padding: 7px 10px;">GISEMENT AU CORPUS</div>
+
+        <div style="background: #f0e0d0; padding: 8px 10px; font-family: 'Cinzel', Georgia, serif; font-size: 15px; font-weight: 600; margin-bottom: 1px;">character</div>
+        <div style="background: #f0e0d0; padding: 8px 10px; font-size: 16px; margin-bottom: 1px;">256 × 320</div>
+        <div style="background: #f0e0d0; padding: 8px 10px; font-size: 16px; font-weight: 600; margin-bottom: 1px;">1 →&nbsp;n</div>
+        <div style="background: #f0e0d0; padding: 8px 10px; font-size: 16px; margin-bottom: 1px;">Le <b>portrait d'enrôlement</b>. C'est la pièce qui fait du feuillet une pièce d'identité : sans lui, ce n'est qu'un tableau de nombres. Format vertical, cadrage buste, fond neutre — une photographie d'identité, pas une illustration de couverture.</div>
+        <div style="background: #f0e0d0; padding: 8px 10px; font-size: 15px; color: #705020; margin-bottom: 1px;"><b style="color: #302000;">Character Compendium — High</b>, portrait pleine page. Une par personnage du groupe.</div>
+
+        <div style="background: #f0e0d0; padding: 8px 10px; font-family: 'Cinzel', Georgia, serif; font-size: 15px; font-weight: 600; margin-bottom: 1px;">npc</div>
+        <div style="background: #f0e0d0; padding: 8px 10px; font-size: 16px; margin-bottom: 1px;">256 × 320</div>
+        <div style="background: #f0e0d0; padding: 8px 10px; font-size: 16px; font-weight: 600; margin-bottom: 1px;">~172</div>
+        <div style="background: #f0e0d0; padding: 8px 10px; font-size: 16px; margin-bottom: 1px;">L'interlocuteur du dialogue, et le commanditaire d'un contrat. Même contrat que le portrait d'enrôlement : c'est la même pièce, montée sur un autre feuillet.</div>
+        <div style="background: #f0e0d0; padding: 8px 10px; font-size: 15px; color: #705020; margin-bottom: 1px;"><b style="color: #302000;">Character Compendium</b>, 169 pages, bloc de stats + portrait.</div>
+
+        <div style="background: #f0e0d0; padding: 8px 10px; font-family: 'Cinzel', Georgia, serif; font-size: 15px; font-weight: 600; margin-bottom: 1px;">battlemap</div>
+        <div style="background: #f0e0d0; padding: 8px 10px; font-size: 16px; margin-bottom: 1px;">72 px&nbsp;/&nbsp;case</div>
+        <div style="background: #f0e0d0; padding: 8px 10px; font-size: 16px; font-weight: 600; margin-bottom: 1px;">31</div>
+        <div style="background: #f0e0d0; padding: 8px 10px; font-size: 16px; margin-bottom: 1px;">Le sol du combat. C'est le <b>seul</b> gisement du corpus déjà en vue de dessus, donc le seul directement jouable — tout le reste est en vue de côté ou en carte régionale.</div>
+        <div style="background: #f0e0d0; padding: 8px 10px; font-size: 15px; color: #705020; margin-bottom: 1px;"><b style="color: #302000;">Adventure Map Grids</b> — 31 planches peintes, déjà alignées sur une grille.</div>
+
+        <div style="background: #f0e0d0; padding: 8px 10px; font-family: 'Cinzel', Georgia, serif; font-size: 15px; font-weight: 600; margin-bottom: 1px;">worldmap</div>
+        <div style="background: #f0e0d0; padding: 8px 10px; font-size: 16px; margin-bottom: 1px;">9933 × 7016</div>
+        <div style="background: #f0e0d0; padding: 8px 10px; font-size: 16px; font-weight: 600; margin-bottom: 1px;">2</div>
+        <div style="background: #f0e0d0; padding: 8px 10px; font-size: 16px; margin-bottom: 1px;">La carte du monde et le plan de la capitale, découpés en tuiles pour l'écran de carte. Sans filigrane, utilisables tels quels.</div>
+        <div style="background: #f0e0d0; padding: 8px 10px; font-size: 15px; color: #705020; margin-bottom: 1px;"><b style="color: #302000;">Map - World.jpg</b>, <b style="color: #302000;">Map - Capital.jpg</b>.</div>
+
+        <div style="background: #f0e0d0; padding: 8px 10px; font-family: 'Cinzel', Georgia, serif; font-size: 15px; font-weight: 600; margin-bottom: 1px;">condition</div>
+        <div style="background: #f0e0d0; padding: 8px 10px; font-size: 16px; margin-bottom: 1px;">32 × 32</div>
+        <div style="background: #f0e0d0; padding: 8px 10px; font-size: 16px; font-weight: 600; margin-bottom: 1px;">&mdash;</div>
+        <div style="background: #f0e0d0; padding: 8px 10px; font-size: 16px; margin-bottom: 1px;">Les états portés par une cible — « Effrayé » sur la planche de combat. <b>Aucun catalogue d'états n'existe à ce jour</b> : le nombre reste au tiret jusqu'à ce qu'un lot en pose un. Une icône est ici préférable à un mot, parce qu'elle doit tenir sur un jeton.</div>
+        <div style="background: #f0e0d0; padding: 8px 10px; font-size: 15px; color: #705020; margin-bottom: 1px;">Aucun. À dessiner, ou à tracer comme les ornements.</div>
+
+        <div style="background: #f0e0d0; padding: 8px 10px; font-family: 'Cinzel', Georgia, serif; font-size: 15px; font-weight: 600;">action</div>
+        <div style="background: #f0e0d0; padding: 8px 10px; font-size: 16px;">48 × 48</div>
+        <div style="background: #f0e0d0; padding: 8px 10px; font-size: 16px; font-weight: 600;">&mdash;</div>
+        <div style="background: #f0e0d0; padding: 8px 10px; font-size: 16px;">Les six emplacements de la barre d'actions. Le compte suit le lot de combat, pas celui-ci — le déclarer maintenant reviendrait à promettre des actions qu'aucune règle ne porte.</div>
+        <div style="background: #f0e0d0; padding: 8px 10px; font-size: 15px; color: #705020;">Aucun.</div>
+      </div>
+    </div>
+
+    <!-- ================= SECTION 3 ================= -->
+    <div style="display: flex; flex-direction: column; gap: 9px;">
+      <div style="font-family: 'Cinzel', Georgia, serif; font-size: 16px; font-weight: 700; letter-spacing: .16em;">III. CE QUI NE SERA JAMAIS UN FICHIER <span style="font-weight: 500; color: #705020; letter-spacing: .04em;">— tracé par le code, donc recolorable, redimensionnable, et jamais à re-livrer</span></div>
+
+      <div style="background: #e0d0b0; box-shadow: 0 0 0 2px #302000, inset 0 0 0 2px #e0d0b0, inset 0 0 0 4px #907030; padding: 16px 18px; display: flex; flex-direction: column; gap: 13px;">
+        <div style="font-size: 16px; line-height: 1.45; max-width: 104ch;">La feuille du corpus a été vectorisée puis essayée comme fond d'écran, et la piste a été refermée : un fond monolithique n'est pas un asset — on ne peut ni déplacer un cartouche, ni réutiliser un anneau, ni changer un ornement sans rejouer toute la chaîne depuis le corpus. Ce qui suit est donc <b>peint</b>, à partir des jetons de couleur, et ne coûte aucun octet livré.</div>
+        <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px 26px;">
+          <div style="display: flex; gap: 10px; align-items: baseline;"><span style="font-family: 'Cinzel', Georgia, serif; font-size: 14px; font-weight: 600; white-space: nowrap;">Encadrement</span><span style="font-size: 15px; color: #705020;">trait, réserve, filet</span></div>
+          <div style="display: flex; gap: 10px; align-items: baseline;"><span style="font-family: 'Cinzel', Georgia, serif; font-size: 14px; font-weight: 600; white-space: nowrap;">Cabochon</span><span style="font-size: 15px; color: #705020;">le modificateur, le niveau</span></div>
+          <div style="display: flex; gap: 10px; align-items: baseline;"><span style="font-family: 'Cinzel', Georgia, serif; font-size: 14px; font-weight: 600; white-space: nowrap;">Cachet de cire</span><span style="font-size: 15px; color: #705020;">le contreseing</span></div>
+          <div style="display: flex; gap: 10px; align-items: baseline;"><span style="font-family: 'Cinzel', Georgia, serif; font-size: 14px; font-weight: 600; white-space: nowrap;">Tampon encré</span><span style="font-size: 15px; color: #705020;">« ENRÔLÉ », en travers</span></div>
+          <div style="display: flex; gap: 10px; align-items: baseline;"><span style="font-family: 'Cinzel', Georgia, serif; font-size: 14px; font-weight: 600; white-space: nowrap;">Coins de montage</span><span style="font-size: 15px; color: #705020;">autour du portrait</span></div>
+          <div style="display: flex; gap: 10px; align-items: baseline;"><span style="font-family: 'Cinzel', Georgia, serif; font-size: 14px; font-weight: 600; white-space: nowrap;">Souche perforée</span><span style="font-size: 15px; color: #705020;">le bord gauche du feuillet</span></div>
+          <div style="display: flex; gap: 10px; align-items: baseline;"><span style="font-family: 'Cinzel', Georgia, serif; font-size: 14px; font-weight: 600; white-space: nowrap;">Fleuron de focus</span><span style="font-size: 15px; color: #705020;">déjà tracé une seule fois</span></div>
+          <div style="display: flex; gap: 10px; align-items: baseline;"><span style="font-family: 'Cinzel', Georgia, serif; font-size: 14px; font-weight: 600; white-space: nowrap;">Ailes de titre</span><span style="font-size: 15px; color: #705020;">filet et losange</span></div>
+          <div style="display: flex; gap: 10px; align-items: baseline;"><span style="font-family: 'Cinzel', Georgia, serif; font-size: 14px; font-weight: 600; white-space: nowrap;">Écu de la CA</span><span style="font-size: 15px; color: #705020;">un contour, deux traits</span></div>
+          <div style="display: flex; gap: 10px; align-items: baseline;"><span style="font-family: 'Cinzel', Georgia, serif; font-size: 14px; font-weight: 600; white-space: nowrap;">Jauges</span><span style="font-size: 15px; color: #705020;">vie, expérience, charge</span></div>
+          <div style="display: flex; gap: 10px; align-items: baseline;"><span style="font-family: 'Cinzel', Georgia, serif; font-size: 14px; font-weight: 600; white-space: nowrap;">Icônes d'emplacement</span><span style="font-size: 15px; color: #705020;">les huit, au trait</span></div>
+          <div style="display: flex; gap: 10px; align-items: baseline;"><span style="font-family: 'Cinzel', Georgia, serif; font-size: 14px; font-weight: 600; white-space: nowrap;">Marqueur d'attente</span><span style="font-size: 15px; color: #705020;">deux diagonales, teinte hachée</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= PIED ================= -->
+    <div style="display: flex; gap: 16px; border-top: 3px solid #302000; padding-top: 15px;">
+      <div style="flex: 1 1 0; background: #e0d0b0; box-shadow: inset 0 0 0 2px #907030; padding: 13px 16px;">
+        <div style="font-family: 'Cinzel', Georgia, serif; font-size: 14px; font-weight: 700; letter-spacing: .1em;">L'ORDRE DE PRODUCTION</div>
+        <div style="font-size: 15px; color: #705020; line-height: 1.42; margin-top: 4px;">D'abord ce qui se voit le plus souvent et se détoure le moins : les <b>94 jetons</b> (déjà ronds et détourés au corpus), puis le <b>portrait d'enrôlement</b> — une seule image qui change tout l'écran —, puis les <b>31 cartes tactiques</b>. Les 175 icônes d'inventaire viennent en dernier : ce sont les plus nombreuses et les moins visibles.</div>
+      </div>
+      <div style="flex: 1 1 0; background: #e0d0b0; box-shadow: inset 0 0 0 2px #907030; padding: 13px 16px;">
+        <div style="font-family: 'Cinzel', Georgia, serif; font-size: 14px; font-weight: 700; letter-spacing: .1em;">RIEN DE CECI N'EST BLOQUANT</div>
+        <div style="font-size: 15px; color: #705020; line-height: 1.42; margin-top: 4px;">Les 308 clés sont déjà servies par un marqueur déterministe. Le lint <b>échoue</b> sur une clé orpheline et sur une image que rien n'attend ; il se contente de <b>lister</b> les clés encore au marqueur. Une clé sans image est un état d'avancement, pas un défaut — c'est ce qui rend la production graphique progressive au lieu de bloquante.</div>
+      </div>
+      <div style="flex: 1 1 0; background: #e0d0b0; box-shadow: inset 0 0 0 2px #907030; padding: 13px 16px;">
+        <div style="font-family: 'Cinzel', Georgia, serif; font-size: 14px; font-weight: 700; letter-spacing: .1em;">LE POINT À GARDER EN TÊTE</div>
+        <div style="font-size: 15px; color: #705020; line-height: 1.42; margin-top: 4px;">Les gisements ci-dessus sont du <b>lore et de l'art réservés</b> par leur éditeur. Le projet est privé et sans diffusion, donc rien n'y fait obstacle aujourd'hui ; le jour où il sortirait, ce sont exactement ces colonnes-là qu'il faudrait remplacer, et cette planche dit lesquelles.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

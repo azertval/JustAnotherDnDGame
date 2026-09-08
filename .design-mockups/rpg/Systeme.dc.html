@@ -1,0 +1,189 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=EB+Garamond:wght@400;500;600&display=swap">
+  <style>
+    body { margin: 0; }
+    a { color: #907030; } a:hover { color: #302000; }
+  </style>
+</helmet>
+
+<div style="width: 1280px; height: 1290px; position: relative; overflow: hidden; background: #d0c0a0; font-family: 'EB Garamond', Georgia, 'Times New Roman', serif; color: #302000; box-sizing: border-box; padding: 34px 40px;">
+
+  <div style="position: absolute; inset: 0; pointer-events: none; background-image: repeating-linear-gradient(90deg, rgba(48,32,0,.022) 0 1px, transparent 1px 4px), repeating-linear-gradient(0deg, rgba(48,32,0,.016) 0 1px, transparent 1px 7px);"></div>
+
+  <div style="position: relative; display: flex; flex-direction: column; gap: 26px;">
+
+    <!-- ---------- Titre ---------- -->
+    <div style="border-bottom: 3px solid #302000; padding-bottom: 12px;">
+      <div style="font-family: 'Cinzel', Georgia, serif; font-size: 30px; font-weight: 700; letter-spacing: .1em;">GRAMMAIRE DES ÉCRANS</div>
+      <div style="font-size: 17px; color: #705020; margin-top: 3px;">Les écrans du RPG se lisent comme les papiers d'un mercenaire : un feuillet détaché d'un registre, rempli par un bureau, contresigné et cacheté. Tout ce qui suit sert cette lecture — et rien de ce qui suit n'est inventé : les neuf teintes sont celles de <span style="font-family: 'Cinzel', Georgia, serif;">hmi::identityTokens()</span>, relevées sur le corpus au LOT-66.</div>
+    </div>
+
+    <!-- ---------- Palette ---------- -->
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+      <div style="font-family: 'Cinzel', Georgia, serif; font-size: 16px; font-weight: 700; letter-spacing: .16em;">PALETTE &mdash; NEUF RÔLES ATTESTÉS, UN NON ATTESTÉ</div>
+      <div style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px;">
+        <div><div style="height: 56px; background: #d0c0a0; box-shadow: 0 0 0 2px #302000;"></div><div style="font-family: 'Cinzel', Georgia, serif; font-size: 13px; font-weight: 600; margin-top: 5px;">background</div><div style="font-size: 14px; color: #705020;">#d0c0a0 &middot; le bord de la feuille</div></div>
+        <div><div style="height: 56px; background: #e0d0b0; box-shadow: 0 0 0 2px #302000;"></div><div style="font-family: 'Cinzel', Georgia, serif; font-size: 13px; font-weight: 600; margin-top: 5px;">surface</div><div style="font-size: 14px; color: #705020;">#e0d0b0 &middot; le feuillet</div></div>
+        <div><div style="height: 56px; background: #f0e0d0; box-shadow: 0 0 0 2px #302000;"></div><div style="font-family: 'Cinzel', Georgia, serif; font-size: 13px; font-weight: 600; margin-top: 5px;">surfaceAlt</div><div style="font-size: 14px; color: #705020;">#f0e0d0 &middot; la case remplie</div></div>
+        <div><div style="height: 56px; background: #302000; box-shadow: 0 0 0 2px #302000;"></div><div style="font-family: 'Cinzel', Georgia, serif; font-size: 13px; font-weight: 600; margin-top: 5px;">text / frameEdge</div><div style="font-size: 14px; color: #705020;">#302000 &middot; l'encre</div></div>
+        <div><div style="height: 56px; background: #705020; box-shadow: 0 0 0 2px #302000;"></div><div style="font-family: 'Cinzel', Georgia, serif; font-size: 13px; font-weight: 600; margin-top: 5px;">textMuted / frameShadow</div><div style="font-size: 14px; color: #705020;">#705020 &middot; l'encre délavée</div></div>
+        <div><div style="height: 56px; background: #907030; box-shadow: 0 0 0 2px #302000;"></div><div style="font-family: 'Cinzel', Georgia, serif; font-size: 13px; font-weight: 600; margin-top: 5px;">frameOrnament</div><div style="font-size: 14px; color: #705020;">#907030 &middot; le filet</div></div>
+        <div><div style="height: 56px; background: #c0a060; box-shadow: 0 0 0 2px #302000;"></div><div style="font-family: 'Cinzel', Georgia, serif; font-size: 13px; font-weight: 600; margin-top: 5px;">accent</div><div style="font-size: 14px; color: #705020;">#c0a060 &middot; l'or, le focus</div></div>
+        <div><div style="height: 56px; background: #701010; box-shadow: 0 0 0 2px #302000;"></div><div style="font-family: 'Cinzel', Georgia, serif; font-size: 13px; font-weight: 600; margin-top: 5px;">gem</div><div style="font-size: 14px; color: #705020;">#701010 &middot; la cire, les PV</div></div>
+        <div><div style="height: 56px; background: #400000; box-shadow: 0 0 0 2px #302000;"></div><div style="font-family: 'Cinzel', Georgia, serif; font-size: 13px; font-weight: 600; margin-top: 5px;">gemShadow</div><div style="font-size: 14px; color: #705020;">#400000 &middot; le creux du sceau</div></div>
+        <div><div style="height: 56px; background: #8a2f20; box-shadow: 0 0 0 2px #302000;"></div><div style="font-family: 'Cinzel', Georgia, serif; font-size: 13px; font-weight: 600; margin-top: 5px;">error <span style="color: #8a2f20;">&#9679;</span></div><div style="font-size: 14px; color: #705020;">#8a2f20 &middot; <b>non attesté</b> : une feuille n'a pas d'état d'erreur</div></div>
+      </div>
+    </div>
+
+    <!-- ---------- Typographie ---------- -->
+    <div style="display: flex; gap: 34px; align-items: flex-start;">
+      <div style="flex: 1 1 auto; display: flex; flex-direction: column; gap: 10px;">
+        <div style="font-family: 'Cinzel', Georgia, serif; font-size: 16px; font-weight: 700; letter-spacing: .16em;">DEUX FAMILLES, ET CE QU'ELLES DISENT</div>
+        <div style="background: #e0d0b0; box-shadow: inset 0 0 0 2px #907030; padding: 14px 18px; display: flex; flex-direction: column; gap: 9px;">
+          <div>
+            <div style="font-family: 'Cinzel', Georgia, serif; font-size: 12px; letter-spacing: .15em; color: #705020;">CINZEL &mdash; CE QUE LE BUREAU A IMPRIMÉ</div>
+            <div style="font-family: 'Cinzel', Georgia, serif; font-size: 29px; font-weight: 700; letter-spacing: .07em;">REGISTRE DES MERCENAIRES</div>
+            <div style="font-size: 15px; color: #705020;">Titres d'écran, intitulés de rubrique, matricule, chiffres d'aptitude. Toujours en capitales, toujours interlettré : c'est de la gravure, pas de l'écriture.</div>
+          </div>
+          <div style="border-top: 1px solid #907030; padding-top: 9px;">
+            <div style="font-family: 'Cinzel', Georgia, serif; font-size: 12px; letter-spacing: .15em; color: #705020;">EB GARAMOND &mdash; CE QU'ON A ÉCRIT DESSUS</div>
+            <div style="font-size: 26px;">Brenna Vaugris, demi-elfe</div>
+            <div style="font-size: 15px; color: #705020;">Valeurs, listes, prose, mentions en marge. C'est la main du greffier sur le formulaire imprimé.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recette d'encadrement : c'est la reserve du milieu qui fait le cadre. -->
+      <div style="width: 396px; flex: none; display: flex; flex-direction: column; gap: 10px;">
+        <div style="font-family: 'Cinzel', Georgia, serif; font-size: 16px; font-weight: 700; letter-spacing: .16em;">L'ENCADREMENT</div>
+        <div style="background: #e0d0b0; box-shadow: 0 0 0 3px #302000, inset 0 0 0 3px #e0d0b0, inset 0 0 0 5px #907030; padding: 16px;">
+          <div style="font-size: 16px; line-height: 1.45;">Un trait d'encre, <b>une réserve de parchemin</b>, un filet ornemental. C'est la réserve du milieu — et rien d'autre — qui fait lire les deux traits comme un cadre : sans elle ils se touchent, et l'ensemble devient une bordure épaisse de deux tons.</div>
+          <div style="font-family: 'Cinzel', Georgia, serif; font-size: 13px; color: #705020; margin-top: 10px; letter-spacing: .04em;">3 px encre &nbsp;/&nbsp; 3 px réserve &nbsp;/&nbsp; 2 px filet</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ---------- Les pieces du document ---------- -->
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <div style="font-family: 'Cinzel', Georgia, serif; font-size: 16px; font-weight: 700; letter-spacing: .16em;">LES PIÈCES DU DOCUMENT &mdash; TOUTES TRACÉES, AUCUN FICHIER</div>
+      <div style="display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 14px;">
+
+        <div style="background: #e0d0b0; box-shadow: inset 0 0 0 2px #907030; padding: 12px; display: flex; flex-direction: column; align-items: center; gap: 9px; text-align: center;">
+          <svg width="62" height="62" viewBox="0 0 62 62"><path d="M31 1 L38 6 L46 4 L50 11 L58 14 L58 23 L61 31 L58 39 L58 48 L50 51 L46 58 L38 56 L31 61 L24 56 L16 58 L12 51 L4 48 L4 39 L1 31 L4 23 L4 14 L12 11 L16 4 L24 6 Z" fill="#701010" stroke="#400000" stroke-width="1.5"/><circle cx="31" cy="31" r="20" fill="none" stroke="#400000" stroke-width="1.4" opacity=".8"/><path d="M31 19 L36 29 L31 43 L26 29 Z" fill="#400000" opacity=".55"/><path d="M20 31 H42" stroke="#400000" stroke-width="2" opacity=".55"/></svg>
+          <div><div style="font-family: 'Cinzel', Georgia, serif; font-size: 12px; font-weight: 700; letter-spacing: .1em;">CACHET DE CIRE</div><div style="font-size: 13px; color: #705020;">Le seul rouge, le seul relief. Il valide.</div></div>
+        </div>
+
+        <div style="background: #e0d0b0; box-shadow: inset 0 0 0 2px #907030; padding: 12px; display: flex; flex-direction: column; align-items: center; gap: 9px; text-align: center;">
+          <div style="height: 62px; display: flex; align-items: center;"><div style="transform: rotate(-11deg); border: 3px double #701010; color: #701010; opacity: .7; padding: 4px 10px; font-family: 'Cinzel', Georgia, serif; font-size: 15px; font-weight: 700; letter-spacing: .19em;">ENRÔLÉ</div></div>
+          <div><div style="font-family: 'Cinzel', Georgia, serif; font-size: 12px; font-weight: 700; letter-spacing: .1em;">TAMPON ENCRÉ</div><div style="font-size: 13px; color: #705020;">Mord sur ce qu'il tamponne. Jamais droit.</div></div>
+        </div>
+
+        <div style="background: #e0d0b0; box-shadow: inset 0 0 0 2px #907030; padding: 12px; display: flex; flex-direction: column; align-items: center; gap: 9px; text-align: center;">
+          <div style="height: 62px; display: flex; align-items: center;">
+            <div style="position: relative; width: 54px; height: 60px; background: #c4ae8c; box-shadow: 0 0 0 2px #302000;">
+              <svg width="54" height="60" viewBox="0 0 54 60" style="position: absolute; inset: 0;"><path d="M0 0 H16 L0 16 Z M54 0 H38 L54 16 Z M0 60 H16 L0 44 Z M54 60 H38 L54 44 Z" fill="#907030"/></svg>
+            </div>
+          </div>
+          <div><div style="font-family: 'Cinzel', Georgia, serif; font-size: 12px; font-weight: 700; letter-spacing: .1em;">COINS DE MONTAGE</div><div style="font-size: 13px; color: #705020;">Le portrait est collé, pas imprimé.</div></div>
+        </div>
+
+        <div style="background: #e0d0b0; box-shadow: inset 0 0 0 2px #907030; padding: 12px; display: flex; flex-direction: column; align-items: center; gap: 9px; text-align: center;">
+          <div style="height: 62px; display: flex; align-items: center; gap: 12px;">
+            <div style="display: flex; flex-direction: column; gap: 7px;">
+              <span style="width: 10px; height: 10px; border-radius: 50%; background: #d0c0a0; box-shadow: inset 0 1px 2px rgba(48,32,0,.55);"></span>
+              <span style="width: 10px; height: 10px; border-radius: 50%; background: #d0c0a0; box-shadow: inset 0 1px 2px rgba(48,32,0,.55);"></span>
+              <span style="width: 10px; height: 10px; border-radius: 50%; background: #d0c0a0; box-shadow: inset 0 1px 2px rgba(48,32,0,.55);"></span>
+            </div>
+            <div style="height: 54px; border-left: 2px dashed #907030;"></div>
+          </div>
+          <div><div style="font-family: 'Cinzel', Georgia, serif; font-size: 12px; font-weight: 700; letter-spacing: .1em;">SOUCHE PERFORÉE</div><div style="font-size: 13px; color: #705020;">Le feuillet vient d'un registre.</div></div>
+        </div>
+
+        <div style="background: #e0d0b0; box-shadow: inset 0 0 0 2px #907030; padding: 12px; display: flex; flex-direction: column; align-items: center; gap: 9px; text-align: center;">
+          <div style="height: 62px; display: flex; align-items: center;"><div style="width: 56px; height: 34px; background: radial-gradient(circle at 40% 28%, #d8bc80, #c0a060 60%, #907030); box-shadow: 0 0 0 3px #302000; display: flex; align-items: center; justify-content: center; font-family: 'Cinzel', Georgia, serif; font-size: 20px; font-weight: 700;">+2</div></div>
+          <div><div style="font-family: 'Cinzel', Georgia, serif; font-size: 12px; font-weight: 700; letter-spacing: .1em;">CABOCHON</div><div style="font-size: 13px; color: #705020;">Posé à cheval sur le cadre, jamais dedans.</div></div>
+        </div>
+
+        <div style="background: #e0d0b0; box-shadow: inset 0 0 0 2px #907030; padding: 12px; display: flex; flex-direction: column; align-items: center; gap: 9px; text-align: center;">
+          <div style="height: 62px; display: flex; align-items: center;"><svg width="44" height="44" viewBox="0 0 18 18" style="color: #c0a060;"><path d="M1 3 L5 9 L1 15 L16 9 Z" fill="currentColor" stroke="#302000" stroke-width="1.2"/></svg></div>
+          <div><div style="font-family: 'Cinzel', Georgia, serif; font-size: 12px; font-weight: 700; letter-spacing: .1em;">FLEURON DE FOCUS</div><div style="font-size: 13px; color: #705020;">Échancré à l'arrière, pour ne pas se lire comme un curseur de saisie.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ---------- Composants ---------- -->
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <div style="font-family: 'Cinzel', Georgia, serif; font-size: 16px; font-weight: 700; letter-spacing: .16em;">LES CINQ CONTENANTS</div>
+      <div style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 14px; align-items: start;">
+
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <div style="background: #f0e0d0; box-shadow: inset 0 0 0 2px #907030; padding: 6px 11px;">
+            <div style="font-family: 'Cinzel', Georgia, serif; font-size: 11px; letter-spacing: .12em; color: #705020;">INITIATIVE</div>
+            <div style="font-size: 22px; font-weight: 600; line-height: 1.15;">+1</div>
+          </div>
+          <div style="font-size: 14px; color: #705020;"><b style="color: #302000;">Cartouche de valeur.</b> Un intitulé gravé, une valeur écrite. Rien qui n'est pas alimenté n'affiche zéro : le tiret cadratin dit « on ne sait pas encore ».</div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <div style="position: relative; background: #f0e0d0; box-shadow: 0 0 0 2px #302000, inset 0 0 0 2px #f0e0d0, inset 0 0 0 3px #907030; padding: 7px 6px 18px; text-align: center;">
+            <div style="font-family: 'Cinzel', Georgia, serif; font-size: 11px; letter-spacing: .1em; color: #705020;">FORCE</div>
+            <div style="font-family: 'Cinzel', Georgia, serif; font-size: 34px; font-weight: 700; line-height: 1.2;">15</div>
+            <div style="position: absolute; left: 50%; bottom: -13px; transform: translateX(-50%); width: 48px; height: 27px; background: radial-gradient(circle at 40% 28%, #d8bc80, #c0a060 60%, #907030); box-shadow: 0 0 0 2px #302000; display: flex; align-items: center; justify-content: center; font-family: 'Cinzel', Georgia, serif; font-size: 16px; font-weight: 700;">+2</div>
+          </div>
+          <div style="font-size: 14px; color: #705020; margin-top: 8px;"><b style="color: #302000;">Tuile d'aptitude.</b> La valeur relevée gravée, le modificateur sur un cabochon débordant : deux nombres sur une même ligne se confondraient.</div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <div style="display: flex; flex-direction: column; gap: 5px;">
+            <div style="display: flex; align-items: baseline; justify-content: space-between;"><span style="font-family: 'Cinzel', Georgia, serif; font-size: 11px; letter-spacing: .13em; color: #705020;">POINTS DE VIE</span><span style="font-size: 18px; font-weight: 600;">27&thinsp;/&thinsp;32</span></div>
+            <div style="position: relative; height: 18px; background: #d0c0a0; box-shadow: 0 0 0 2px #302000, inset 0 0 0 2px #907030;"><div style="position: absolute; left: 2px; top: 2px; bottom: 2px; width: 84%; background: linear-gradient(180deg, #8a2020, #701010 55%, #400000);"></div></div>
+          </div>
+          <div style="font-size: 14px; color: #705020;"><b style="color: #302000;">Jauge.</b> La barre pour l'allure, le nombre pour le fait. Une barre seule ne se lit pas au point de vie près.</div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <div style="display: flex; gap: 8px;">
+            <div style="width: 54px; height: 54px; background: #f0e0d0; box-shadow: 0 0 0 2px #302000, inset 0 0 0 2px #c0a060; display: flex; align-items: center; justify-content: center;"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#302000" stroke-width="1.6"><path d="M12 3l8 2.5v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10v-6z"/></svg></div>
+            <div style="width: 54px; height: 54px; background: #d0c0a0; box-shadow: inset 0 0 0 2px #907030;"></div>
+          </div>
+          <div style="font-size: 14px; color: #705020;"><b style="color: #302000;">Case.</b> Pleine : fond clair, filet doré. Vide : fond de parchemin, filet brun, aucun trait d'encre — une case vide n'est pas un objet.</div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <div style="position: relative; width: 62px; height: 62px;">
+            <svg width="62" height="62" viewBox="0 0 62 62"><circle cx="31" cy="31" r="29" fill="#c4ae8c" stroke="#302000" stroke-width="3"/><circle cx="31" cy="31" r="24" fill="none" stroke="#c0a060" stroke-width="2"/><path d="M10 10 L52 52 M52 10 L10 52" stroke="#907030" stroke-width="1.4" opacity=".45"/></svg>
+          </div>
+          <div style="font-size: 14px; color: #705020;"><b style="color: #302000;">Jeton.</b> Rond, cerclé d'encre. Sa teinte vient du hachage de la clé, donc la même clé donne toujours le même jeton — les deux diagonales disent qu'il attend son illustration.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ---------- Trois regles ---------- -->
+    <div style="display: flex; gap: 16px; border-top: 3px solid #302000; padding-top: 16px;">
+      <div style="flex: 1 1 0; background: #e0d0b0; box-shadow: inset 0 0 0 2px #907030; padding: 13px 16px;">
+        <div style="font-family: 'Cinzel', Georgia, serif; font-size: 14px; font-weight: 700; letter-spacing: .1em;">LE FOCUS EST UNE FORME</div>
+        <div style="font-size: 15px; color: #705020; line-height: 1.4; margin-top: 4px;">Jamais une teinte seule : une nuance ne se suit pas à la manette et ne dit rien à qui distingue mal les couleurs. Le fleuron est borné à sa gouttière, pour que les lignes ne bougent pas quand on les parcourt.</div>
+      </div>
+      <div style="flex: 1 1 0; background: #e0d0b0; box-shadow: inset 0 0 0 2px #907030; padding: 13px 16px;">
+        <div style="font-family: 'Cinzel', Georgia, serif; font-size: 14px; font-weight: 700; letter-spacing: .1em;">L'ÉCHELLE RESTE ENTIÈRE</div>
+        <div style="font-size: 15px; color: #705020; line-height: 1.4; margin-top: 4px;">À 1,5×, le trait d'une unité et le filet d'une unité s'arrondissent tous deux à 2 px : la réserve disparaît et le cadre se lit comme une bordure épaisse. Une échelle fractionnaire ne serait pas floue, elle serait fausse.</div>
+      </div>
+      <div style="flex: 1 1 0; background: #e0d0b0; box-shadow: inset 0 0 0 2px #907030; padding: 13px 16px;">
+        <div style="font-family: 'Cinzel', Georgia, serif; font-size: 14px; font-weight: 700; letter-spacing: .1em;">LE TIRET N'EST PAS UN ZÉRO</div>
+        <div style="font-size: 15px; color: #705020; line-height: 1.4; margin-top: 4px;">Un « 0 » se lirait comme un état du jeu — une classe d'armure nulle — et mentirait. Le tiret cadratin dit « rien ne l'alimente encore », ce qui est la vérité, et la colonne des tirets est le périmètre restant.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

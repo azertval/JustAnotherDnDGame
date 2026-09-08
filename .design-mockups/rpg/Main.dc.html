@@ -1,0 +1,303 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=EB+Garamond:wght@400;500;600&display=swap">
+  <style>
+    body { margin: 0; }
+    a { color: #907030; } a:hover { color: #302000; }
+  </style>
+</helmet>
+
+<div style="width: 1280px; height: 720px; position: relative; overflow: hidden; background: #d0c0a0; font-family: 'EB Garamond', Georgia, 'Times New Roman', serif; color: #302000; box-sizing: border-box;">
+
+  <!-- Grain de parchemin : deux trames croisees tres faibles, jamais un degrade. -->
+  <div style="position: absolute; inset: 0; pointer-events: none; background-image: repeating-linear-gradient(90deg, rgba(48,32,0,.022) 0 1px, transparent 1px 4px), repeating-linear-gradient(0deg, rgba(48,32,0,.016) 0 1px, transparent 1px 7px);"></div>
+
+  <!-- ============ BANDEAU DE TITRE DU CHASSIS ============ -->
+  <!-- Le titre reste celui de fr.lang, mot pour mot : c'est le chassis du LOT-68. Le registre
+       de mercenaire commence SOUS lui, dans le document. -->
+  <div style="position: relative; height: 58px; display: flex; align-items: center; justify-content: center; gap: 18px; padding: 0 24px; box-sizing: border-box;">
+    <svg width="330" height="14" viewBox="0 0 330 14" style="flex: none;">
+      <path d="M0 7 H274" stroke="#907030" stroke-width="2" fill="none"/>
+      <path d="M282 7 L291 2 L300 7 L291 12 Z" fill="#c0a060" stroke="#302000" stroke-width="1.4"/>
+      <path d="M306 7 H330" stroke="#907030" stroke-width="2" fill="none"/>
+    </svg>
+    <div style="font-family: 'Cinzel', 'EB Garamond', Georgia, serif; font-size: 29px; font-weight: 600; letter-spacing: .07em; white-space: nowrap;">Fiche de personnage</div>
+    <svg width="330" height="14" viewBox="0 0 330 14" style="flex: none; transform: scaleX(-1);">
+      <path d="M0 7 H274" stroke="#907030" stroke-width="2" fill="none"/>
+      <path d="M282 7 L291 2 L300 7 L291 12 Z" fill="#c0a060" stroke="#302000" stroke-width="1.4"/>
+      <path d="M306 7 H330" stroke="#907030" stroke-width="2" fill="none"/>
+    </svg>
+  </div>
+
+  <!-- ============ LE DOCUMENT ============ -->
+  <div style="position: absolute; left: 20px; right: 20px; top: 58px; bottom: 66px; background: #e0d0b0; box-shadow: 0 0 0 3px #302000, inset 0 0 0 3px #e0d0b0, inset 0 0 0 5px #907030; box-sizing: border-box; padding: 14px 18px 12px 44px; display: flex; flex-direction: column; gap: 10px;">
+
+    <!-- Souche perforee : le bord gauche d'un feuillet detache d'un registre. -->
+    <div style="position: absolute; left: 26px; top: 14px; bottom: 12px; width: 1px; border-left: 2px dashed #907030;"></div>
+    <div style="position: absolute; left: 11px; top: 26px; bottom: 24px; width: 12px; display: flex; flex-direction: column; justify-content: space-between; align-items: center;">
+      <span style="width: 10px; height: 10px; border-radius: 50%; background: #d0c0a0; box-shadow: inset 0 1px 2px rgba(48,32,0,.55);"></span>
+      <span style="width: 10px; height: 10px; border-radius: 50%; background: #d0c0a0; box-shadow: inset 0 1px 2px rgba(48,32,0,.55);"></span>
+      <span style="width: 10px; height: 10px; border-radius: 50%; background: #d0c0a0; box-shadow: inset 0 1px 2px rgba(48,32,0,.55);"></span>
+      <span style="width: 10px; height: 10px; border-radius: 50%; background: #d0c0a0; box-shadow: inset 0 1px 2px rgba(48,32,0,.55);"></span>
+      <span style="width: 10px; height: 10px; border-radius: 50%; background: #d0c0a0; box-shadow: inset 0 1px 2px rgba(48,32,0,.55);"></span>
+    </div>
+
+    <!-- ---------- EN-TETE DE REGISTRE ---------- -->
+    <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; border-bottom: 2px solid #302000; padding-bottom: 8px;">
+      <div style="display: flex; flex-direction: column; gap: 1px;">
+        <div style="font-family: 'Cinzel', Georgia, serif; font-size: 19px; font-weight: 700; letter-spacing: .17em;">REGISTRE DES MERCENAIRES</div>
+        <div style="font-size: 15px; color: #705020; letter-spacing: .09em;">Bureau des contrats de la Guilde &nbsp;·&nbsp; feuillet d'enrôlement</div>
+      </div>
+      <div style="display: flex; align-items: flex-end; gap: 22px;">
+        <div style="text-align: right;">
+          <div style="font-family: 'Cinzel', Georgia, serif; font-size: 11px; letter-spacing: .16em; color: #705020;">MATRICULE</div>
+          <div style="font-family: 'Cinzel', Georgia, serif; font-size: 21px; font-weight: 700; letter-spacing: .07em;">M-3-0417</div>
+        </div>
+        <div style="text-align: right;">
+          <div style="font-family: 'Cinzel', Georgia, serif; font-size: 11px; letter-spacing: .16em; color: #705020;">RANG</div>
+          <div style="font-family: 'Cinzel', Georgia, serif; font-size: 21px; font-weight: 700; letter-spacing: .07em;">III</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ---------- CORPS DU FEUILLET ---------- -->
+    <div style="display: flex; gap: 16px; flex: 1 1 auto; min-height: 0;">
+
+      <!-- ===== Colonne 1 : le porteur ===== -->
+      <div style="width: 336px; flex: none; display: flex; flex-direction: column; gap: 10px;">
+
+        <div style="display: flex; gap: 12px;">
+          <!-- Portrait d'enrolement : cadre d'identite, coins de montage, cachet a cheval. -->
+          <div style="position: relative; width: 150px; height: 186px; flex: none; background: #d0c0a0; box-shadow: 0 0 0 2px #302000;">
+            <svg width="150" height="186" viewBox="0 0 150 186" style="position: absolute; inset: 0;">
+              <rect x="0" y="0" width="150" height="186" fill="#c4ae8c"/>
+              <path d="M0 0 L150 186 M150 0 L0 186" stroke="#907030" stroke-width="1.4" opacity=".5"/>
+            </svg>
+            <div style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); font-family: 'Cinzel', Georgia, serif; font-size: 11px; letter-spacing: .13em; color: #705020; background: #e0d0b0; padding: 4px 8px; box-shadow: 0 0 0 2px #907030; white-space: nowrap;">character/brenna</div>
+            <!-- Quatre coins de montage, comme une photographie collee sur le feuillet. -->
+            <svg width="150" height="186" viewBox="0 0 150 186" style="position: absolute; inset: 0; pointer-events: none;">
+              <path d="M0 0 H26 L0 26 Z" fill="#907030"/>
+              <path d="M150 0 H124 L150 26 Z" fill="#907030"/>
+              <path d="M0 186 H26 L0 160 Z" fill="#907030"/>
+              <path d="M150 186 H124 L150 160 Z" fill="#907030"/>
+            </svg>
+            <!-- Le cachet mord sur le portrait : c'est ce qui empeche de le remplacer. -->
+            <div style="position: absolute; right: -30px; bottom: -14px; transform: rotate(-11deg); border: 3px double #701010; color: #701010; opacity: .68; padding: 4px 10px; font-family: 'Cinzel', Georgia, serif; font-size: 15px; font-weight: 700; letter-spacing: .19em; white-space: nowrap;">ENRÔLÉ</div>
+          </div>
+
+          <!-- Etat civil : le releve, en lignes pointillees comme un formulaire. -->
+          <div style="flex: 1 1 auto; display: flex; flex-direction: column; gap: 7px; padding-top: 2px;">
+            <div>
+              <div style="font-family: 'Cinzel', Georgia, serif; font-size: 11px; letter-spacing: .15em; color: #705020;">NOM</div>
+              <div style="font-size: 22px; font-weight: 600; line-height: 1.2; border-bottom: 1px dotted #907030;">Brenna Vaugris</div>
+            </div>
+            <div>
+              <div style="font-family: 'Cinzel', Georgia, serif; font-size: 11px; letter-spacing: .15em; color: #705020;">ESPÈCE</div>
+              <div style="font-size: 19px; line-height: 1.25; border-bottom: 1px dotted #907030;">Demi-elfe</div>
+            </div>
+            <div>
+              <div style="font-family: 'Cinzel', Georgia, serif; font-size: 11px; letter-spacing: .15em; color: #705020;">CLASSE</div>
+              <div style="font-size: 19px; line-height: 1.25; border-bottom: 1px dotted #907030;">Brawler</div>
+            </div>
+            <div>
+              <div style="font-family: 'Cinzel', Georgia, serif; font-size: 11px; letter-spacing: .15em; color: #705020;">HISTORIQUE</div>
+              <div style="font-size: 19px; line-height: 1.25; border-bottom: 1px dotted #907030;">Cartographer</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Etat de service : niveau et experience, en registre plutot qu'en jauge nue. -->
+        <div style="background: #f0e0d0; box-shadow: inset 0 0 0 2px #907030; padding: 8px 11px; display: flex; flex-direction: column; gap: 7px;">
+          <div style="display: flex; align-items: baseline; justify-content: space-between;">
+            <span style="font-family: 'Cinzel', Georgia, serif; font-size: 12px; letter-spacing: .15em; color: #705020;">NIVEAU</span>
+            <span style="font-size: 20px; font-weight: 600;">3</span>
+          </div>
+          <div style="display: flex; align-items: baseline; justify-content: space-between;">
+            <span style="font-family: 'Cinzel', Georgia, serif; font-size: 12px; letter-spacing: .15em; color: #705020;">EXPÉRIENCE</span>
+            <span style="font-size: 20px; font-weight: 600;">900&thinsp;/&thinsp;2&thinsp;700</span>
+          </div>
+          <div style="position: relative; height: 11px; background: #d0c0a0; box-shadow: 0 0 0 2px #302000;">
+            <div style="position: absolute; left: 2px; top: 2px; bottom: 2px; width: 33%; background: #c0a060;"></div>
+          </div>
+        </div>
+
+        <!-- Etat physique : ce que le bureau relit avant de confier un contrat. -->
+        <div style="display: flex; flex-direction: column; gap: 5px;">
+          <div style="display: flex; align-items: baseline; justify-content: space-between;">
+            <span style="font-family: 'Cinzel', Georgia, serif; font-size: 12px; letter-spacing: .15em; color: #705020;">POINTS DE VIE</span>
+            <span style="font-size: 21px; font-weight: 600;">27&thinsp;/&thinsp;32</span>
+          </div>
+          <div style="position: relative; height: 18px; background: #d0c0a0; box-shadow: 0 0 0 2px #302000, inset 0 0 0 2px #907030;">
+            <div style="position: absolute; left: 2px; top: 2px; bottom: 2px; width: 84%; background: linear-gradient(180deg, #8a2020, #701010 55%, #400000);"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== Colonne 2 : aptitudes relevees ===== -->
+      <div style="width: 288px; flex: none; display: flex; flex-direction: column; gap: 8px;">
+        <div style="font-family: 'Cinzel', Georgia, serif; font-size: 14px; font-weight: 700; letter-spacing: .15em; border-bottom: 2px solid #907030; padding-bottom: 4px;">APTITUDES RELEVÉES</div>
+        <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 12px; flex: 1 1 auto;">
+
+          <div style="position: relative; background: #f0e0d0; box-shadow: 0 0 0 2px #302000, inset 0 0 0 2px #f0e0d0, inset 0 0 0 3px #907030; padding: 7px 6px 18px; text-align: center;">
+            <div style="font-family: 'Cinzel', Georgia, serif; font-size: 11px; letter-spacing: .1em; color: #705020;">FORCE</div>
+            <div style="font-family: 'Cinzel', Georgia, serif; font-size: 34px; font-weight: 700; line-height: 1.2;">15</div>
+            <div style="position: absolute; left: 50%; bottom: -13px; transform: translateX(-50%); width: 48px; height: 27px; background: radial-gradient(circle at 40% 28%, #d8bc80, #c0a060 60%, #907030); box-shadow: 0 0 0 2px #302000; display: flex; align-items: center; justify-content: center; font-family: 'Cinzel', Georgia, serif; font-size: 16px; font-weight: 700;">+2</div>
+          </div>
+
+          <div style="position: relative; background: #f0e0d0; box-shadow: 0 0 0 2px #302000, inset 0 0 0 2px #f0e0d0, inset 0 0 0 3px #907030; padding: 7px 6px 18px; text-align: center;">
+            <div style="font-family: 'Cinzel', Georgia, serif; font-size: 11px; letter-spacing: .1em; color: #705020;">DEXTÉRITÉ</div>
+            <div style="font-family: 'Cinzel', Georgia, serif; font-size: 34px; font-weight: 700; line-height: 1.2;">13</div>
+            <div style="position: absolute; left: 50%; bottom: -13px; transform: translateX(-50%); width: 48px; height: 27px; background: radial-gradient(circle at 40% 28%, #d8bc80, #c0a060 60%, #907030); box-shadow: 0 0 0 2px #302000; display: flex; align-items: center; justify-content: center; font-family: 'Cinzel', Georgia, serif; font-size: 16px; font-weight: 700;">+1</div>
+          </div>
+
+          <div style="position: relative; background: #f0e0d0; box-shadow: 0 0 0 2px #302000, inset 0 0 0 2px #f0e0d0, inset 0 0 0 3px #907030; padding: 7px 6px 18px; text-align: center;">
+            <div style="font-family: 'Cinzel', Georgia, serif; font-size: 11px; letter-spacing: .1em; color: #705020;">CONSTITUTION</div>
+            <div style="font-family: 'Cinzel', Georgia, serif; font-size: 34px; font-weight: 700; line-height: 1.2;">14</div>
+            <div style="position: absolute; left: 50%; bottom: -13px; transform: translateX(-50%); width: 48px; height: 27px; background: radial-gradient(circle at 40% 28%, #d8bc80, #c0a060 60%, #907030); box-shadow: 0 0 0 2px #302000; display: flex; align-items: center; justify-content: center; font-family: 'Cinzel', Georgia, serif; font-size: 16px; font-weight: 700;">+2</div>
+          </div>
+
+          <div style="position: relative; background: #f0e0d0; box-shadow: 0 0 0 2px #302000, inset 0 0 0 2px #f0e0d0, inset 0 0 0 3px #907030; padding: 7px 6px 18px; text-align: center;">
+            <div style="font-family: 'Cinzel', Georgia, serif; font-size: 11px; letter-spacing: .1em; color: #705020;">INTELLIGENCE</div>
+            <div style="font-family: 'Cinzel', Georgia, serif; font-size: 34px; font-weight: 700; line-height: 1.2;">10</div>
+            <div style="position: absolute; left: 50%; bottom: -13px; transform: translateX(-50%); width: 48px; height: 27px; background: radial-gradient(circle at 40% 28%, #d8bc80, #c0a060 60%, #907030); box-shadow: 0 0 0 2px #302000; display: flex; align-items: center; justify-content: center; font-family: 'Cinzel', Georgia, serif; font-size: 16px; font-weight: 700;">+0</div>
+          </div>
+
+          <div style="position: relative; background: #f0e0d0; box-shadow: 0 0 0 2px #302000, inset 0 0 0 2px #f0e0d0, inset 0 0 0 3px #907030; padding: 7px 6px 18px; text-align: center;">
+            <div style="font-family: 'Cinzel', Georgia, serif; font-size: 11px; letter-spacing: .1em; color: #705020;">SAGESSE</div>
+            <div style="font-family: 'Cinzel', Georgia, serif; font-size: 34px; font-weight: 700; line-height: 1.2;">12</div>
+            <div style="position: absolute; left: 50%; bottom: -13px; transform: translateX(-50%); width: 48px; height: 27px; background: radial-gradient(circle at 40% 28%, #d8bc80, #c0a060 60%, #907030); box-shadow: 0 0 0 2px #302000; display: flex; align-items: center; justify-content: center; font-family: 'Cinzel', Georgia, serif; font-size: 16px; font-weight: 700;">+1</div>
+          </div>
+
+          <div style="position: relative; background: #f0e0d0; box-shadow: 0 0 0 2px #302000, inset 0 0 0 2px #f0e0d0, inset 0 0 0 3px #907030; padding: 7px 6px 18px; text-align: center;">
+            <div style="font-family: 'Cinzel', Georgia, serif; font-size: 11px; letter-spacing: .1em; color: #705020;">CHARISME</div>
+            <div style="font-family: 'Cinzel', Georgia, serif; font-size: 34px; font-weight: 700; line-height: 1.2;">10</div>
+            <div style="position: absolute; left: 50%; bottom: -13px; transform: translateX(-50%); width: 48px; height: 27px; background: radial-gradient(circle at 40% 28%, #d8bc80, #c0a060 60%, #907030); box-shadow: 0 0 0 2px #302000; display: flex; align-items: center; justify-content: center; font-family: 'Cinzel', Georgia, serif; font-size: 16px; font-weight: 700;">+0</div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ===== Colonne 3 : aptitude au service et attestations ===== -->
+      <div style="flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 10px;">
+
+        <div style="font-family: 'Cinzel', Georgia, serif; font-size: 14px; font-weight: 700; letter-spacing: .15em; border-bottom: 2px solid #907030; padding-bottom: 4px;">APTITUDE AU SERVICE</div>
+        <div style="display: flex; gap: 11px; align-items: stretch;">
+          <div style="position: relative; width: 88px; flex: none;">
+            <svg width="88" height="100" viewBox="0 0 88 100">
+              <path d="M44 3 L85 15 V53 C85 77 66 91 44 98 C22 91 3 77 3 53 V15 Z" fill="#f0e0d0" stroke="#302000" stroke-width="2.5"/>
+              <path d="M44 10 L79 20 V53 C79 73 62 85 44 91 C26 85 9 73 9 53 V20 Z" fill="none" stroke="#907030" stroke-width="1.8"/>
+            </svg>
+            <div style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; padding-bottom: 7px;">
+              <div style="font-family: 'Cinzel', Georgia, serif; font-size: 10px; letter-spacing: .1em; color: #705020;">ARMURE</div>
+              <div style="font-family: 'Cinzel', Georgia, serif; font-size: 33px; font-weight: 700; line-height: 1.1;">15</div>
+            </div>
+          </div>
+          <div style="flex: 1 1 auto; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px;">
+            <div style="background: #f0e0d0; padding: 5px 10px; box-shadow: inset 0 0 0 2px #907030;">
+              <div style="font-family: 'Cinzel', Georgia, serif; font-size: 11px; letter-spacing: .11em; color: #705020;">INITIATIVE</div>
+              <div style="font-size: 21px; font-weight: 600; line-height: 1.15;">+1</div>
+            </div>
+            <div style="background: #f0e0d0; padding: 5px 10px; box-shadow: inset 0 0 0 2px #907030;">
+              <div style="font-family: 'Cinzel', Georgia, serif; font-size: 11px; letter-spacing: .11em; color: #705020;">VITESSE</div>
+              <div style="font-size: 21px; font-weight: 600; line-height: 1.15;">9 m</div>
+            </div>
+            <div style="background: #f0e0d0; padding: 5px 10px; box-shadow: inset 0 0 0 2px #907030;">
+              <div style="font-family: 'Cinzel', Georgia, serif; font-size: 11px; letter-spacing: .11em; color: #705020;">BONUS DE MAÎTRISE</div>
+              <div style="font-size: 21px; font-weight: 600; line-height: 1.15;">+2</div>
+            </div>
+            <div style="background: #f0e0d0; padding: 5px 10px; box-shadow: inset 0 0 0 2px #907030;">
+              <div style="font-family: 'Cinzel', Georgia, serif; font-size: 11px; letter-spacing: .11em; color: #705020;">PERCEPTION PASSIVE</div>
+              <div style="font-size: 21px; font-weight: 600; line-height: 1.15;">13</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sauvegardes et competences : la pastille pleine est le SCEAU d'attestation du bureau. -->
+        <div style="display: flex; gap: 18px; flex: 1 1 auto; min-height: 0;">
+
+          <div style="width: 190px; flex: none; display: flex; flex-direction: column; gap: 5px;">
+            <div style="font-family: 'Cinzel', Georgia, serif; font-size: 13px; font-weight: 700; letter-spacing: .13em; border-bottom: 2px solid #907030; padding-bottom: 3px;">SAUVEGARDES</div>
+            <div style="display: flex; align-items: center; gap: 8px; font-size: 17px;"><span style="width: 11px; height: 11px; border-radius: 50%; background: #701010; box-shadow: 0 0 0 2px #302000; flex: none;"></span><span style="flex: 1 1 auto;">Force</span><span style="font-weight: 600;">+4</span></div>
+            <div style="display: flex; align-items: center; gap: 8px; font-size: 17px;"><span style="width: 11px; height: 11px; border-radius: 50%; background: #d0c0a0; box-shadow: 0 0 0 2px #907030; flex: none;"></span><span style="flex: 1 1 auto;">Dextérité</span><span style="font-weight: 600;">+1</span></div>
+            <div style="display: flex; align-items: center; gap: 8px; font-size: 17px;"><span style="width: 11px; height: 11px; border-radius: 50%; background: #701010; box-shadow: 0 0 0 2px #302000; flex: none;"></span><span style="flex: 1 1 auto;">Constitution</span><span style="font-weight: 600;">+4</span></div>
+            <div style="display: flex; align-items: center; gap: 8px; font-size: 17px;"><span style="width: 11px; height: 11px; border-radius: 50%; background: #d0c0a0; box-shadow: 0 0 0 2px #907030; flex: none;"></span><span style="flex: 1 1 auto;">Intelligence</span><span style="font-weight: 600;">+0</span></div>
+            <div style="display: flex; align-items: center; gap: 8px; font-size: 17px;"><span style="width: 11px; height: 11px; border-radius: 50%; background: #d0c0a0; box-shadow: 0 0 0 2px #907030; flex: none;"></span><span style="flex: 1 1 auto;">Sagesse</span><span style="font-weight: 600;">+1</span></div>
+            <div style="display: flex; align-items: center; gap: 8px; font-size: 17px;"><span style="width: 11px; height: 11px; border-radius: 50%; background: #d0c0a0; box-shadow: 0 0 0 2px #907030; flex: none;"></span><span style="flex: 1 1 auto;">Charisme</span><span style="font-weight: 600;">+0</span></div>
+          </div>
+
+          <div style="flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 5px;">
+            <div style="display: flex; align-items: baseline; justify-content: space-between; border-bottom: 2px solid #907030; padding-bottom: 3px;">
+              <span style="font-family: 'Cinzel', Georgia, serif; font-size: 13px; font-weight: 700; letter-spacing: .13em;">COMPÉTENCES ATTESTÉES</span>
+              <span style="font-size: 13px; color: #907030;">8 sur 18</span>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px 16px;">
+              <div style="display: flex; align-items: center; gap: 8px; font-size: 17px; color: #705020;"><span style="width: 11px; height: 11px; border-radius: 50%; background: #d0c0a0; box-shadow: 0 0 0 2px #907030; flex: none;"></span><span style="flex: 1 1 auto;">Acrobaties</span><span style="font-weight: 600;">+1</span></div>
+              <div style="display: flex; align-items: center; gap: 8px; font-size: 17px; color: #705020;"><span style="width: 11px; height: 11px; border-radius: 50%; background: #d0c0a0; box-shadow: 0 0 0 2px #907030; flex: none;"></span><span style="flex: 1 1 auto;">Dressage</span><span style="font-weight: 600;">+1</span></div>
+              <div style="display: flex; align-items: center; gap: 8px; font-size: 17px; color: #705020;"><span style="width: 11px; height: 11px; border-radius: 50%; background: #d0c0a0; box-shadow: 0 0 0 2px #907030; flex: none;"></span><span style="flex: 1 1 auto;">Arcanes</span><span style="font-weight: 600;">+0</span></div>
+              <div style="display: flex; align-items: center; gap: 8px; font-size: 17px; color: #705020;"><span style="width: 11px; height: 11px; border-radius: 50%; background: #d0c0a0; box-shadow: 0 0 0 2px #907030; flex: none;"></span><span style="flex: 1 1 auto;">Escamotage</span><span style="font-weight: 600;">+1</span></div>
+              <!-- Ligne au focus : le fleuron, jamais la teinte seule (EX-IHM-071). -->
+              <div style="display: flex; align-items: center; gap: 8px; font-size: 17px; background: rgba(192,160,96,.24); box-shadow: inset 0 0 0 2px #907030; margin: 0 -5px; padding: 1px 5px;">
+                <svg width="13" height="13" viewBox="0 0 18 18" style="flex: none; color: #c0a060;"><path d="M1 3 L5 9 L1 15 L16 9 Z" fill="currentColor" stroke="#302000" stroke-width="1.2"/></svg>
+                <span style="width: 11px; height: 11px; border-radius: 50%; background: #701010; box-shadow: 0 0 0 2px #302000; flex: none;"></span><span style="flex: 1 1 auto; font-weight: 600;">Athlétisme</span><span style="font-weight: 600;">+4</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 8px; font-size: 17px; color: #705020;"><span style="width: 11px; height: 11px; border-radius: 50%; background: #d0c0a0; box-shadow: 0 0 0 2px #907030; flex: none;"></span><span style="flex: 1 1 auto;">Histoire</span><span style="font-weight: 600;">+0</span></div>
+              <div style="display: flex; align-items: center; gap: 8px; font-size: 17px; color: #705020;"><span style="width: 11px; height: 11px; border-radius: 50%; background: #d0c0a0; box-shadow: 0 0 0 2px #907030; flex: none;"></span><span style="flex: 1 1 auto;">Discrétion</span><span style="font-weight: 600;">+1</span></div>
+              <div style="display: flex; align-items: center; gap: 8px; font-size: 17px; color: #705020;"><span style="width: 11px; height: 11px; border-radius: 50%; background: #d0c0a0; box-shadow: 0 0 0 2px #907030; flex: none;"></span><span style="flex: 1 1 auto;">Intimidation</span><span style="font-weight: 600;">+0</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ---------- CONTRESEING ---------- -->
+    <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; border-top: 2px solid #302000; padding-top: 7px;">
+      <div style="display: flex; align-items: flex-end; gap: 28px; flex: 1 1 auto; min-width: 0;">
+        <div style="flex: 1 1 auto; min-width: 0;">
+          <div style="font-family: 'Cinzel', Georgia, serif; font-size: 10px; letter-spacing: .15em; color: #705020;">CONTRESIGNÉ PAR LE BUREAU DES CONTRATS</div>
+          <div style="height: 20px; border-bottom: 1px solid #907030;"></div>
+        </div>
+        <div style="width: 190px; flex: none;">
+          <div style="font-family: 'Cinzel', Georgia, serif; font-size: 10px; letter-spacing: .15em; color: #705020;">DATE D'ENRÔLEMENT</div>
+          <div style="height: 20px; border-bottom: 1px solid #907030; font-size: 17px;">&mdash;</div>
+        </div>
+      </div>
+      <!-- Cachet de cire : le seul element en relief du feuillet, et le seul rouge. -->
+      <div style="position: relative; width: 62px; height: 62px; flex: none; margin-bottom: -4px;">
+        <svg width="62" height="62" viewBox="0 0 62 62">
+          <path d="M31 1 L38 6 L46 4 L50 11 L58 14 L58 23 L61 31 L58 39 L58 48 L50 51 L46 58 L38 56 L31 61 L24 56 L16 58 L12 51 L4 48 L4 39 L1 31 L4 23 L4 14 L12 11 L16 4 L24 6 Z" fill="#701010" stroke="#400000" stroke-width="1.5"/>
+          <circle cx="31" cy="31" r="20" fill="none" stroke="#400000" stroke-width="1.4" opacity=".8"/>
+          <path d="M31 19 L36 29 L31 43 L26 29 Z" fill="#400000" opacity=".55"/>
+          <path d="M20 31 H42" stroke="#400000" stroke-width="2" opacity=".55"/>
+        </svg>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ============ PIED DU CHASSIS ============ -->
+  <div style="position: absolute; left: 0; right: 0; bottom: 0; height: 62px; display: flex; align-items: center; gap: 24px; padding: 0 24px; background: #cab896; border-top: 3px solid #302000; box-sizing: border-box;">
+    <div style="display: flex; align-items: center; gap: 9px; font-size: 19px;">
+      <svg width="14" height="14" viewBox="0 0 18 18" style="flex: none; color: #c0a060;"><path d="M1 3 L5 9 L1 15 L16 9 Z" fill="currentColor" stroke="#302000" stroke-width="1.2"/></svg>
+      Fermer
+    </div>
+    <div style="font-size: 19px; color: #705020;">Écran précédent</div>
+    <div style="font-size: 19px; color: #705020;">Écran suivant</div>
+    <div style="flex: 1 1 auto;"></div>
+    <div style="display: flex; align-items: center; gap: 16px; font-size: 15px; color: #907030; letter-spacing: .05em;">
+      <span style="display: flex; align-items: center; gap: 6px;"><span style="font-size: 13px; color: #302000; padding: 3px 7px; background: #f0e0d0; box-shadow: 0 0 0 2px #907030;">LB</span><span style="font-size: 13px; color: #302000; padding: 3px 7px; background: #f0e0d0; box-shadow: 0 0 0 2px #907030;">RB</span> Changer d'écran</span>
+      <span style="display: flex; align-items: center; gap: 6px;"><span style="font-size: 13px; color: #302000; padding: 3px 7px; background: #f0e0d0; box-shadow: 0 0 0 2px #907030;">A</span> Valider</span>
+      <span style="display: flex; align-items: center; gap: 6px;"><span style="font-size: 13px; color: #302000; padding: 3px 7px; background: #f0e0d0; box-shadow: 0 0 0 2px #907030;">ÉCHAP</span> Revenir</span>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+</body>
+</html>
