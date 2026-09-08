@@ -1,31 +1,46 @@
 {
   "pages": [
-    { "id": "page-1", "name": "Écrans" },
-    { "id": "page-2", "name": "Système et assets" }
+    { "id": "page-1", "name": "Fiche de personnage" },
+    { "id": "page-2", "name": "Autres écrans" },
+    { "id": "page-3", "name": "Système et assets" }
   ],
   "artboards": [
-    { "file": "Main.dc.html",     "title": "Fiche de personnage",  "page": "page-1", "x": 0,    "y": 0, "w": 1280, "h": 720 },
-    { "file": "Dotation.dc.html", "title": "Inventaire",           "page": "page-1", "x": 1400, "y": 0, "w": 1280, "h": 720 },
-    { "file": "Combat.dc.html",   "title": "Combat",               "page": "page-1", "x": 2800, "y": 0, "w": 1280, "h": 720 },
-    { "file": "Systeme.dc.html",  "title": "Grammaire des écrans", "page": "page-2", "x": 0,    "y": 0, "w": 1280, "h": 1290 },
-    { "file": "Assets.dc.html",   "title": "Ce qu'il faut illustrer", "page": "page-2", "x": 1400, "y": 0, "w": 1280, "h": 1620 }
+    { "file": "Main.dc.html",       "title": "1 · Caractéristiques", "page": "page-1", "x": 0,    "y": 0, "w": 1280, "h": 720 },
+    { "file": "Equipement.dc.html", "title": "2 · Équipement",       "page": "page-1", "x": 1400, "y": 0, "w": 1280, "h": 720 },
+    { "file": "Traits.dc.html",     "title": "3 · Dons et traits",   "page": "page-1", "x": 2800, "y": 0, "w": 1280, "h": 720 },
+    { "file": "Sorts.dc.html",      "title": "4 · Incantation",      "page": "page-1", "x": 4200, "y": 0, "w": 1280, "h": 720 },
+
+    { "file": "Equipe.dc.html",   "title": "Feuille d'équipe",              "page": "page-2", "x": 0,    "y": 0, "w": 1280, "h": 720 },
+    { "file": "Dotation.dc.html", "title": "Inventaire — à reprendre",      "page": "page-2", "x": 1400, "y": 0, "w": 1280, "h": 720 },
+    { "file": "Combat.dc.html",   "title": "Combat — à reprendre",          "page": "page-2", "x": 2800, "y": 0, "w": 1280, "h": 720 },
+
+    { "file": "Systeme.dc.html", "title": "Grammaire des écrans",    "page": "page-3", "x": 0,    "y": 0, "w": 1280, "h": 1290 },
+    { "file": "Assets.dc.html",  "title": "Ce qu'il faut illustrer", "page": "page-3", "x": 1400, "y": 0, "w": 1280, "h": 1620 }
   ],
   "annotations": [
     {
-      "id": "brief-ecrans",
+      "id": "brief-fiche",
       "page": "page-1",
       "x": 0,
-      "y": -230,
-      "w": 900,
-      "text": "Direction : les papiers d'un mercenaire.\nChaque écran de consultation est un feuillet détaché d'un registre — souche perforée, en-tête de bureau, matricule, portrait à coins de montage, tampon encré, contreseing, cachet de cire. Le combat fait exception : il ne suspend pas le jeu, donc ce sont des bandeaux posés sur la carte tactique.\n\nPalette, typographie et recette d'encadrement sont celles de hmi::identityTokens() au pixel près. Les libellés sont ceux de fr.lang, mot pour mot. Les valeurs sont dérivées des vraies données de Brenna Vaugris."
+      "y": -250,
+      "w": 1000,
+      "text": "Les quatre planches de la feuille de personnage, devenues quatre ONGLETS d'un même écran — c'est la forme moderne de ce que le livre résolvait en tournant la page.\n\nChacune est relevée sur la planche vierge du corpus. Les deux premières sont radiales parce que l'original l'est : un portrait au centre et les six caractéristiques en arc pour la première, un bouclier à entrelacs et les emplacements de part et d'autre pour la seconde.\n\nCe qui est rempli vient des données réelles de Brenna Vaugris ; ce que rien n'alimente reste au tiret cadratin. Deux manques que les planches rendent visibles : les aptitudes de classe n'ont ni libellé ni texte au catalogue, et le trait Polyvalence traîne un bloc de roman avalé par l'océrisation."
+    },
+    {
+      "id": "brief-autres",
+      "page": "page-2",
+      "x": 0,
+      "y": -250,
+      "w": 1000,
+      "text": "La cinquième planche du corpus n'est pas la fiche d'un personnage mais celle de son équipe : elle a donc son propre écran, sans onglets.\n\nLes deux écrans suivants — inventaire et combat — datent du premier jet et gardent l'ancienne forme (feuillet à souche, cartouches carrés). Ils sont à reprendre dans le vocabulaire des quatre planches ci-contre : panneaux francs, médaillons ronds, fioritures relevées."
     },
     {
       "id": "brief-assets",
-      "page": "page-2",
+      "page": "page-3",
       "x": 0,
-      "y": -230,
+      "y": -250,
       "w": 900,
-      "text": "À gauche : la grammaire — ce qui fait qu'un écran lit comme un document, et les trois règles qui ne se négocient pas.\nÀ droite : l'état des lieux des illustrations — les 308 clés déjà attendues, les six familles que cette direction ajoute, et la liste de ce qui restera tracé par le code plutôt que livré en fichier."
+      "text": "À gauche : la grammaire — ce qui fait qu'un écran lit comme un document, et les trois règles qui ne se négocient pas. Elle décrit encore le vocabulaire du premier jet et n'a pas été remise à jour.\nÀ droite : l'état des lieux des illustrations — les 308 clés déjà attendues, les six familles que cette direction ajoute, et ce qui restera tracé par le code plutôt que livré en fichier."
     }
   ],
   "launch": { "view": "canvas", "page": "page-1" }

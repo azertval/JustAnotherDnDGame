@@ -1,0 +1,211 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=EB+Garamond:wght@400;500;600&display=swap">
+  <style>
+    body { margin: 0; }
+    a { color: #907030; } a:hover { color: #302000; }
+  </style>
+</helmet>
+
+<div style="width: 1280px; height: 720px; position: relative; overflow: hidden; background: #d0c0a0; font-family: 'EB Garamond', Georgia, 'Times New Roman', serif; color: #302000; box-sizing: border-box;">
+
+  <div style="position: absolute; inset: 0; pointer-events: none; background-image: repeating-linear-gradient(90deg, rgba(48,32,0,.020) 0 1px, transparent 1px 4px), repeating-linear-gradient(0deg, rgba(48,32,0,.014) 0 1px, transparent 1px 7px);"></div>
+
+  <!-- ============ BANDEAU ============ -->
+  <div style="position: relative; height: 58px; display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 0 24px 0 40px; box-sizing: border-box;">
+    <div style="display: flex; align-items: baseline; gap: 14px;">
+      <div style="font-family: 'Cinzel', Georgia, serif; font-size: 22px; font-weight: 600; letter-spacing: .13em;">Fiche de personnage</div>
+      <div style="font-family: 'Cinzel', Georgia, serif; font-size: 12px; color: #907030; letter-spacing: .17em;">REGISTRE DES MERCENAIRES &nbsp;·&nbsp; BUREAU DES CONTRATS</div>
+    </div>
+    <div style="display: flex; align-items: baseline; gap: 26px;">
+      <div style="display: flex; align-items: baseline; gap: 9px;"><span style="font-family: 'Cinzel', Georgia, serif; font-size: 11px; letter-spacing: .17em; color: #907030;">MATRICULE</span><span style="font-family: 'Cinzel', Georgia, serif; font-size: 17px; font-weight: 600; letter-spacing: .07em;">M-3-0417</span></div>
+      <div style="display: flex; align-items: baseline; gap: 9px;"><span style="font-family: 'Cinzel', Georgia, serif; font-size: 11px; letter-spacing: .17em; color: #907030;">RANG</span><span style="font-family: 'Cinzel', Georgia, serif; font-size: 17px; font-weight: 600; letter-spacing: .07em;">III</span></div>
+    </div>
+  </div>
+  <div style="position: absolute; left: 40px; right: 24px; top: 58px; height: 2px; background: #907030;"></div>
+
+  <div style="position: absolute; left: 26px; top: 76px; bottom: 76px; width: 1px; border-left: 2px dashed #907030;"></div>
+  <div style="position: absolute; left: 8px; top: 92px; bottom: 92px; width: 12px; display: flex; flex-direction: column; justify-content: space-between; align-items: center;">
+    <span style="width: 11px; height: 11px; border-radius: 50%; background: #c1b090; box-shadow: inset 0 1px 2px rgba(48,32,0,.6);"></span>
+    <span style="width: 11px; height: 11px; border-radius: 50%; background: #c1b090; box-shadow: inset 0 1px 2px rgba(48,32,0,.6);"></span>
+    <span style="width: 11px; height: 11px; border-radius: 50%; background: #c1b090; box-shadow: inset 0 1px 2px rgba(48,32,0,.6);"></span>
+    <span style="width: 11px; height: 11px; border-radius: 50%; background: #c1b090; box-shadow: inset 0 1px 2px rgba(48,32,0,.6);"></span>
+    <span style="width: 11px; height: 11px; border-radius: 50%; background: #c1b090; box-shadow: inset 0 1px 2px rgba(48,32,0,.6);"></span>
+  </div>
+
+  <!-- ============ ONGLETS ============ -->
+  <div style="position: relative; height: 44px; display: flex; align-items: stretch; gap: 6px; padding: 0 24px 0 40px; box-sizing: border-box;">
+    <div style="display: flex; align-items: center; padding: 0 18px; color: #907030;"><span style="font-family: 'Cinzel', Georgia, serif; font-size: 15px; letter-spacing: .09em;">Caractéristiques</span></div>
+    <div style="display: flex; align-items: center; padding: 0 18px; color: #907030;"><span style="font-family: 'Cinzel', Georgia, serif; font-size: 15px; letter-spacing: .09em;">Équipement</span></div>
+    <div style="display: flex; align-items: center; padding: 0 18px; color: #907030;"><span style="font-family: 'Cinzel', Georgia, serif; font-size: 15px; letter-spacing: .09em;">Dons et traits</span></div>
+    <div style="display: flex; align-items: center; gap: 9px; padding: 0 18px; background: #e0d0b0; box-shadow: inset 0 3px 0 #302000, inset 3px 0 0 #302000, inset -3px 0 0 #302000, inset 0 -3px 0 #c0a060;">
+      <svg width="12" height="12" viewBox="0 0 18 18" style="flex: none; color: #c0a060;"><path d="M1 3 L5 9 L1 15 L16 9 Z" fill="currentColor" stroke="#302000" stroke-width="1.2"/></svg>
+      <span style="font-family: 'Cinzel', Georgia, serif; font-size: 15px; font-weight: 600; letter-spacing: .09em;">Incantation</span>
+    </div>
+  </div>
+
+  <!-- ============ CORPS ============ -->
+  <div style="position: relative; display: flex; flex-direction: column; gap: 12px; padding: 14px 24px 0 40px; height: 556px; box-sizing: border-box;">
+
+    <!-- ---------- L'état, dit franchement, en haut ---------- -->
+    <div style="display: flex; align-items: stretch; gap: 8px; flex: none;">
+      <div style="flex: 1 1 auto; background: #e0d0b0; box-shadow: 0 0 0 3px #302000, inset 0 0 0 3px #e0d0b0, inset 0 0 0 5px #907030; padding: 12px 18px; display: flex; align-items: center; gap: 16px;">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#8a2f20" stroke-width="2" style="flex: none;"><path d="M12 3l9 16H3z"/><path d="M12 9v5"/><path d="M12 16.5v.5"/></svg>
+        <div style="min-width: 0;">
+          <div style="font-family: 'Cinzel', Georgia, serif; font-size: 16px; font-weight: 600; letter-spacing: .04em;">Brenna Vaugris n'incante pas.</div>
+          <div style="font-size: 16px; color: #705020; line-height: 1.35;">Sa classe, <b>Brawler</b>, ne porte aucune aptitude à l'incantation. La page reste ouverte et montre ce qu'elle contiendrait — la cacher ferait croire que l'écran ne la porte pas.</div>
+        </div>
+      </div>
+      <div style="width: 396px; flex: none; background: #e0d0b0; box-shadow: 0 0 0 3px #302000, inset 0 0 0 3px #e0d0b0, inset 0 0 0 5px #907030; padding: 12px 18px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 18px;">
+        <div><div style="font-family: 'Cinzel', Georgia, serif; font-size: 10px; letter-spacing: .15em; color: #907030;">CLASSE D'INCANTATION</div><div style="font-size: 18px; color: #907030;">&mdash;</div></div>
+        <div><div style="font-family: 'Cinzel', Georgia, serif; font-size: 10px; letter-spacing: .15em; color: #907030;">CARACTÉRISTIQUE</div><div style="font-size: 18px; color: #907030;">&mdash;</div></div>
+        <div><div style="font-family: 'Cinzel', Georgia, serif; font-size: 10px; letter-spacing: .15em; color: #907030;">DD DE SAUVEGARDE</div><div style="font-size: 18px; color: #907030;">&mdash;</div></div>
+        <div><div style="font-family: 'Cinzel', Georgia, serif; font-size: 10px; letter-spacing: .15em; color: #907030;">BONUS D'ATTAQUE</div><div style="font-size: 18px; color: #907030;">&mdash;</div></div>
+      </div>
+    </div>
+
+    <!-- ---------- Les dix niveaux, en trois colonnes ---------- -->
+    <div style="display: flex; gap: 8px; flex: 1 1 auto; min-height: 0;">
+
+      <!-- Colonne 1 : sorts mineurs, niveaux 1 et 2 -->
+      <div style="width: 400px; flex: none; background: #e0d0b0; box-shadow: 0 0 0 3px #302000, inset 0 0 0 3px #e0d0b0, inset 0 0 0 5px #907030; padding: 14px 16px; box-sizing: border-box; display: flex; flex-direction: column; gap: 12px;">
+
+        <div style="display: flex; flex-direction: column; gap: 7px;">
+          <div style="display: flex; align-items: center; gap: 11px; border-bottom: 1px solid #c0a060; padding-bottom: 6px;">
+            <div style="width: 32px; height: 32px; flex: none; border-radius: 50%; background: #302000; color: #f0e0d0; display: flex; align-items: center; justify-content: center; font-family: 'Cinzel', Georgia, serif; font-size: 16px; font-weight: 700; box-shadow: 0 0 0 2px #c0a060;">0</div>
+            <div style="font-family: 'Cinzel', Georgia, serif; font-size: 13px; font-weight: 600; letter-spacing: .13em; flex: 1 1 auto;">SORTS MINEURS</div>
+            <div style="font-size: 15px; color: #907030;">à volonté</div>
+          </div>
+          <div style="border-bottom: 1px dotted #907030; height: 21px;"></div>
+          <div style="border-bottom: 1px dotted #907030; height: 21px;"></div>
+          <div style="border-bottom: 1px dotted #907030; height: 21px;"></div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 7px;">
+          <div style="display: flex; align-items: center; gap: 11px; border-bottom: 1px solid #c0a060; padding-bottom: 6px;">
+            <div style="width: 32px; height: 32px; flex: none; border-radius: 50%; background: #302000; color: #f0e0d0; display: flex; align-items: center; justify-content: center; font-family: 'Cinzel', Georgia, serif; font-size: 16px; font-weight: 700; box-shadow: 0 0 0 2px #c0a060;">1</div>
+            <div style="font-family: 'Cinzel', Georgia, serif; font-size: 13px; font-weight: 600; letter-spacing: .13em; flex: 1 1 auto;">NIVEAU 1</div>
+            <div style="display: flex; gap: 5px;"><span style="width: 11px; height: 11px; border-radius: 50%; box-shadow: inset 0 0 0 2px #c0a060;"></span><span style="width: 11px; height: 11px; border-radius: 50%; box-shadow: inset 0 0 0 2px #c0a060;"></span><span style="width: 11px; height: 11px; border-radius: 50%; box-shadow: inset 0 0 0 2px #c0a060;"></span><span style="width: 11px; height: 11px; border-radius: 50%; box-shadow: inset 0 0 0 2px #c0a060;"></span></div>
+          </div>
+          <div style="border-bottom: 1px dotted #907030; height: 21px;"></div>
+          <div style="border-bottom: 1px dotted #907030; height: 21px;"></div>
+          <div style="border-bottom: 1px dotted #907030; height: 21px;"></div>
+          <div style="border-bottom: 1px dotted #907030; height: 21px;"></div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 7px;">
+          <div style="display: flex; align-items: center; gap: 11px; border-bottom: 1px solid #c0a060; padding-bottom: 6px;">
+            <div style="width: 32px; height: 32px; flex: none; border-radius: 50%; background: #302000; color: #f0e0d0; display: flex; align-items: center; justify-content: center; font-family: 'Cinzel', Georgia, serif; font-size: 16px; font-weight: 700; box-shadow: 0 0 0 2px #c0a060;">2</div>
+            <div style="font-family: 'Cinzel', Georgia, serif; font-size: 13px; font-weight: 600; letter-spacing: .13em; flex: 1 1 auto;">NIVEAU 2</div>
+            <div style="display: flex; gap: 5px;"><span style="width: 11px; height: 11px; border-radius: 50%; box-shadow: inset 0 0 0 2px #c0a060;"></span><span style="width: 11px; height: 11px; border-radius: 50%; box-shadow: inset 0 0 0 2px #c0a060;"></span><span style="width: 11px; height: 11px; border-radius: 50%; box-shadow: inset 0 0 0 2px #c0a060;"></span></div>
+          </div>
+          <div style="border-bottom: 1px dotted #907030; height: 21px;"></div>
+          <div style="border-bottom: 1px dotted #907030; height: 21px;"></div>
+          <div style="border-bottom: 1px dotted #907030; height: 21px;"></div>
+        </div>
+      </div>
+
+      <!-- Colonne 2 : niveaux 3, 4, 5 -->
+      <div style="width: 400px; flex: none; background: #e0d0b0; box-shadow: 0 0 0 3px #302000, inset 0 0 0 3px #e0d0b0, inset 0 0 0 5px #907030; padding: 14px 16px; box-sizing: border-box; display: flex; flex-direction: column; gap: 12px;">
+        <div style="display: flex; flex-direction: column; gap: 7px;">
+          <div style="display: flex; align-items: center; gap: 11px; border-bottom: 1px solid #c0a060; padding-bottom: 6px;">
+            <div style="width: 32px; height: 32px; flex: none; border-radius: 50%; background: #302000; color: #f0e0d0; display: flex; align-items: center; justify-content: center; font-family: 'Cinzel', Georgia, serif; font-size: 16px; font-weight: 700; box-shadow: 0 0 0 2px #c0a060;">3</div>
+            <div style="font-family: 'Cinzel', Georgia, serif; font-size: 13px; font-weight: 600; letter-spacing: .13em; flex: 1 1 auto;">NIVEAU 3</div>
+            <div style="display: flex; gap: 5px;"><span style="width: 11px; height: 11px; border-radius: 50%; box-shadow: inset 0 0 0 2px #c0a060;"></span><span style="width: 11px; height: 11px; border-radius: 50%; box-shadow: inset 0 0 0 2px #c0a060;"></span><span style="width: 11px; height: 11px; border-radius: 50%; box-shadow: inset 0 0 0 2px #c0a060;"></span></div>
+          </div>
+          <div style="border-bottom: 1px dotted #907030; height: 21px;"></div>
+          <div style="border-bottom: 1px dotted #907030; height: 21px;"></div>
+          <div style="border-bottom: 1px dotted #907030; height: 21px;"></div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 7px;">
+          <div style="display: flex; align-items: center; gap: 11px; border-bottom: 1px solid #c0a060; padding-bottom: 6px;">
+            <div style="width: 32px; height: 32px; flex: none; border-radius: 50%; background: #302000; color: #f0e0d0; display: flex; align-items: center; justify-content: center; font-family: 'Cinzel', Georgia, serif; font-size: 16px; font-weight: 700; box-shadow: 0 0 0 2px #c0a060;">4</div>
+            <div style="font-family: 'Cinzel', Georgia, serif; font-size: 13px; font-weight: 600; letter-spacing: .13em; flex: 1 1 auto;">NIVEAU 4</div>
+            <div style="display: flex; gap: 5px;"><span style="width: 11px; height: 11px; border-radius: 50%; box-shadow: inset 0 0 0 2px #c0a060;"></span><span style="width: 11px; height: 11px; border-radius: 50%; box-shadow: inset 0 0 0 2px #c0a060;"></span><span style="width: 11px; height: 11px; border-radius: 50%; box-shadow: inset 0 0 0 2px #c0a060;"></span></div>
+          </div>
+          <div style="border-bottom: 1px dotted #907030; height: 21px;"></div>
+          <div style="border-bottom: 1px dotted #907030; height: 21px;"></div>
+          <div style="border-bottom: 1px dotted #907030; height: 21px;"></div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 7px;">
+          <div style="display: flex; align-items: center; gap: 11px; border-bottom: 1px solid #c0a060; padding-bottom: 6px;">
+            <div style="width: 32px; height: 32px; flex: none; border-radius: 50%; background: #302000; color: #f0e0d0; display: flex; align-items: center; justify-content: center; font-family: 'Cinzel', Georgia, serif; font-size: 16px; font-weight: 700; box-shadow: 0 0 0 2px #c0a060;">5</div>
+            <div style="font-family: 'Cinzel', Georgia, serif; font-size: 13px; font-weight: 600; letter-spacing: .13em; flex: 1 1 auto;">NIVEAU 5</div>
+            <div style="display: flex; gap: 5px;"><span style="width: 11px; height: 11px; border-radius: 50%; box-shadow: inset 0 0 0 2px #c0a060;"></span><span style="width: 11px; height: 11px; border-radius: 50%; box-shadow: inset 0 0 0 2px #c0a060;"></span></div>
+          </div>
+          <div style="border-bottom: 1px dotted #907030; height: 21px;"></div>
+          <div style="border-bottom: 1px dotted #907030; height: 21px;"></div>
+          <div style="border-bottom: 1px dotted #907030; height: 21px;"></div>
+        </div>
+      </div>
+
+      <!-- Colonne 3 : niveaux 6 à 9, un emplacement chacun -->
+      <div style="width: 400px; flex: none; background: #e0d0b0; box-shadow: 0 0 0 3px #302000, inset 0 0 0 3px #e0d0b0, inset 0 0 0 5px #907030; padding: 14px 16px; box-sizing: border-box; display: flex; flex-direction: column; gap: 12px;">
+        <div style="display: flex; flex-direction: column; gap: 7px;">
+          <div style="display: flex; align-items: center; gap: 11px; border-bottom: 1px solid #c0a060; padding-bottom: 6px;">
+            <div style="width: 32px; height: 32px; flex: none; border-radius: 50%; background: #302000; color: #f0e0d0; display: flex; align-items: center; justify-content: center; font-family: 'Cinzel', Georgia, serif; font-size: 16px; font-weight: 700; box-shadow: 0 0 0 2px #c0a060;">6</div>
+            <div style="font-family: 'Cinzel', Georgia, serif; font-size: 13px; font-weight: 600; letter-spacing: .13em; flex: 1 1 auto;">NIVEAU 6</div>
+            <div style="display: flex; gap: 5px;"><span style="width: 11px; height: 11px; border-radius: 50%; box-shadow: inset 0 0 0 2px #c0a060;"></span></div>
+          </div>
+          <div style="border-bottom: 1px dotted #907030; height: 21px;"></div>
+          <div style="border-bottom: 1px dotted #907030; height: 21px;"></div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 7px;">
+          <div style="display: flex; align-items: center; gap: 11px; border-bottom: 1px solid #c0a060; padding-bottom: 6px;">
+            <div style="width: 32px; height: 32px; flex: none; border-radius: 50%; background: #302000; color: #f0e0d0; display: flex; align-items: center; justify-content: center; font-family: 'Cinzel', Georgia, serif; font-size: 16px; font-weight: 700; box-shadow: 0 0 0 2px #c0a060;">7</div>
+            <div style="font-family: 'Cinzel', Georgia, serif; font-size: 13px; font-weight: 600; letter-spacing: .13em; flex: 1 1 auto;">NIVEAU 7</div>
+            <div style="display: flex; gap: 5px;"><span style="width: 11px; height: 11px; border-radius: 50%; box-shadow: inset 0 0 0 2px #c0a060;"></span></div>
+          </div>
+          <div style="border-bottom: 1px dotted #907030; height: 21px;"></div>
+          <div style="border-bottom: 1px dotted #907030; height: 21px;"></div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 7px;">
+          <div style="display: flex; align-items: center; gap: 11px; border-bottom: 1px solid #c0a060; padding-bottom: 6px;">
+            <div style="width: 32px; height: 32px; flex: none; border-radius: 50%; background: #302000; color: #f0e0d0; display: flex; align-items: center; justify-content: center; font-family: 'Cinzel', Georgia, serif; font-size: 16px; font-weight: 700; box-shadow: 0 0 0 2px #c0a060;">8</div>
+            <div style="font-family: 'Cinzel', Georgia, serif; font-size: 13px; font-weight: 600; letter-spacing: .13em; flex: 1 1 auto;">NIVEAU 8</div>
+            <div style="display: flex; gap: 5px;"><span style="width: 11px; height: 11px; border-radius: 50%; box-shadow: inset 0 0 0 2px #c0a060;"></span></div>
+          </div>
+          <div style="border-bottom: 1px dotted #907030; height: 21px;"></div>
+          <div style="border-bottom: 1px dotted #907030; height: 21px;"></div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 7px;">
+          <div style="display: flex; align-items: center; gap: 11px; border-bottom: 1px solid #c0a060; padding-bottom: 6px;">
+            <div style="width: 32px; height: 32px; flex: none; border-radius: 50%; background: #302000; color: #f0e0d0; display: flex; align-items: center; justify-content: center; font-family: 'Cinzel', Georgia, serif; font-size: 16px; font-weight: 700; box-shadow: 0 0 0 2px #c0a060;">9</div>
+            <div style="font-family: 'Cinzel', Georgia, serif; font-size: 13px; font-weight: 600; letter-spacing: .13em; flex: 1 1 auto;">NIVEAU 9</div>
+            <div style="display: flex; gap: 5px;"><span style="width: 11px; height: 11px; border-radius: 50%; box-shadow: inset 0 0 0 2px #c0a060;"></span></div>
+          </div>
+          <div style="border-bottom: 1px dotted #907030; height: 21px;"></div>
+          <div style="border-bottom: 1px dotted #907030; height: 21px;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ PIED ============ -->
+  <div style="position: absolute; left: 40px; right: 24px; bottom: 62px; height: 2px; background: #907030;"></div>
+  <div style="position: absolute; left: 0; right: 0; bottom: 0; height: 62px; display: flex; align-items: center; gap: 26px; padding: 0 24px 0 40px; box-sizing: border-box;">
+    <div style="font-size: 19px; color: #705020;">Fermer</div>
+    <div style="display: flex; align-items: center; gap: 9px; font-size: 19px;">
+      <svg width="14" height="14" viewBox="0 0 18 18" style="flex: none; color: #c0a060;"><path d="M1 3 L5 9 L1 15 L16 9 Z" fill="currentColor" stroke="#302000" stroke-width="1.2"/></svg>
+      Écran précédent
+    </div>
+    <div style="font-size: 19px; color: #705020;">Écran suivant</div>
+    <div style="flex: 1 1 auto;"></div>
+    <div style="display: flex; align-items: center; gap: 16px; font-size: 15px; color: #907030; letter-spacing: .05em;">
+      <span style="display: flex; align-items: center; gap: 6px;"><span style="font-size: 13px; color: #302000; padding: 3px 7px; background: #f0e0d0; box-shadow: 0 0 0 2px #907030;">LB</span><span style="font-size: 13px; color: #302000; padding: 3px 7px; background: #f0e0d0; box-shadow: 0 0 0 2px #907030;">RB</span> Changer d'écran</span>
+      <span style="display: flex; align-items: center; gap: 6px;"><span style="font-size: 13px; color: #302000; padding: 3px 7px; background: #f0e0d0; box-shadow: 0 0 0 2px #907030;">A</span> Valider</span>
+      <span style="display: flex; align-items: center; gap: 6px;"><span style="font-size: 13px; color: #302000; padding: 3px 7px; background: #f0e0d0; box-shadow: 0 0 0 2px #907030;">ÉCHAP</span> Revenir</span>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+</body>
+</html>
