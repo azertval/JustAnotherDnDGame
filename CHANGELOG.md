@@ -6,6 +6,32 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **Plomberie des clés d'assets** (`LOT-39`). Le jeu tourne **complet** — 308 entrées affichables —
+  avant qu'une seule illustration ne soit produite.
+  - **Une clé, jamais un chemin** (`EX-CNT-040`) : une donnée désigne son illustration par
+    `beast/wolf`, pas par `Assets/Entities/beast/wolf.png`. Un chemin lierait le catalogue à
+    l'arborescence du disque, et tout déplacement de dossier casserait des créatures. Ce qui
+    ressemble à un chemin est explicitement refusé — y compris `beast/wolf/token`, chemin déguisé en
+    clé à trois segments — avec **la même expression** que le schéma JSON.
+  - **La clé se déduit ; `asset` sert à déroger.** Trois cents entrées auraient sinon porté trois
+    cents lignes recopiées, et la première faute de frappe aurait donné une créature sans image sans
+    que rien ne l'explique. Le contrôle d'unicité ne porte donc que sur les clés *dérivées* : deux
+    dérogations vers la même image sont légitimes.
+  - **Le manifeste est dérivé, jamais commité** : un manifeste tenu à la main divergerait du
+    catalogue au premier ajout de créature. Les **dimensions**, elles, sont de la donnée
+    (`families.json`) — un `96` nu dans un calcul de découpe ne dit pas ce qu'il représente
+    (`EX-VIS-007`) — et les familles y sont lues, jamais énumérées en C++.
+  - **Le marqueur est déterministe**, et c'est le point (`EX-CNT-041`) : la même clé donne toujours
+    le même. Tiré au hasard, il changerait à chaque lancement — le loup ne serait plus
+    reconnaissable d'une partie à l'autre, et aucun test ne pourrait rien en dire. Le hachage est
+    **écrit dans le projet** plutôt qu'emprunté à `std::hash`, dont la valeur n'est pas garantie
+    d'une plateforme à l'autre. Deux diagonales le barrent : un marqueur doit se voir *comme* un
+    marqueur.
+  - **Le lint fait deux choses de nature différente** : il **échoue** sur une clé orpheline, et se
+    contente de **lister** les clés encore servies par un marqueur. Le faire échouer là-dessus
+    rendrait le dépôt rouge jusqu'à la dernière illustration livrée, et plus personne ne lirait sa
+    sortie.
+
 - **Bascule exploration ↔ combat** (`LOT-18`). Déclencher une rencontre, geler le monde, monter les
   combattants, et en revenir **sans que le joueur perde quoi que ce soit au passage**.
   - **L'aller-retour est PUR**, et c'est ce qui le rend vérifiable : `core::ExplorationSnapshot`,
