@@ -59,13 +59,14 @@ var searchData=
   ['previousactive_56',['previousActive',['../structhmi_1_1MechanismVisualState.html#a638ee6429d408f4770bf09dcc712611c',1,'hmi::MechanismVisualState']]],
   ['previouslevel_57',['previousLevel',['../structcore_1_1LevelUpResult.html#a39f0583b4e1e9b8901a41ee9dff52b9e',1,'core::LevelUpResult']]],
   ['previousproficiencybonus_58',['previousProficiencyBonus',['../structcore_1_1LevelUpResult.html#a31534678202e3fe14179cd571f7ee505',1,'core::LevelUpResult']]],
-  ['price_59',['price',['../structcore_1_1Armor.html#a38f98cdc5c0fa98e199993a06b8faf4d',1,'core::Armor::price'],['../structcore_1_1Weapon.html#a3cdec223de84b5b9b5157dc189bd6779',1,'core::Weapon::price']]],
+  ['price_59',['price',['../structcore_1_1Armor.html#a38f98cdc5c0fa98e199993a06b8faf4d',1,'core::Armor::price'],['../structcore_1_1Weapon.html#a3cdec223de84b5b9b5157dc189bd6779',1,'core::Weapon::price'],['../structcore_1_1Item.html#ab48a2bf1cf330ff560b9ef686cd600ce',1,'core::Item::price']]],
   ['primaryability_60',['primaryAbility',['../structcore_1_1PlayableClass.html#a6e95af878f45c713788f4f6631837751',1,'core::PlayableClass']]],
   ['proficiencybonus_61',['proficiencyBonus',['../structcore_1_1ClassLevel.html#a0c2b7eb60cca0c8f6c5877622923ff2d',1,'core::ClassLevel::proficiencyBonus'],['../structcore_1_1ExperienceLevel.html#a92272e583843efa1be6caffd40c4ebbe',1,'core::ExperienceLevel::proficiencyBonus']]],
   ['proficient_62',['proficient',['../structcore_1_1SkillCheckModifier.html#a0031e06d33916dfdb6a653c8ac9e76b5',1,'core::SkillCheckModifier']]],
   ['progression_63',['progression',['../structcore_1_1PlayableClass.html#a028057f581a62cc7bbaccba44edb81d2',1,'core::PlayableClass::progression'],['../structcore_1_1ClassLevel.html#a729a086773af573c5c025e12589e5f9e',1,'core::ClassLevel::progression']]],
   ['promptkey_64',['promptKey',['../structcore_1_1Interactable.html#a85a53fade82c3733a8c742fc9577b734',1,'core::Interactable::promptKey'],['../structcore_1_1InteractionOutcome.html#ab0d5fadf1bd27ba744086c91552899be',1,'core::InteractionOutcome::promptKey'],['../structcore_1_1InteractableKind.html#a559845071c0c02560f227150bf389f8a',1,'core::InteractableKind::promptKey']]],
-  ['properties_65',['properties',['../structcore_1_1MapEntity.html#a8e85ab253ba2e9b4e70fcdce5e1bff0f',1,'core::MapEntity::properties'],['../structcore_1_1TileLayer.html#acfa350d1bf9ee7cf8495b4cd760224cb',1,'core::TileLayer::properties']]],
+  ['properties_65',['properties',['../structcore_1_1MapEntity.html#a8e85ab253ba2e9b4e70fcdce5e1bff0f',1,'core::MapEntity::properties'],['../structcore_1_1TileLayer.html#acfa350d1bf9ee7cf8495b4cd760224cb',1,'core::TileLayer::properties'],['../structcore_1_1Weapon.html#a9986cbc0168902014d9325354732679e',1,'core::Weapon::properties']]],
   ['provisional_66',['provisional',['../structcore_1_1ProvisionalStatus.html#a3cb7e2c151216ab1e8f0a2c403fafdfb',1,'core::ProvisionalStatus']]],
-  ['pushmomentumwindowtime_67',['pushMomentumWindowTime',['../structcore_1_1PhysicsConfig.html#a8bce708b0e3cf525d14827731eea05ba',1,'core::PhysicsConfig']]]
+  ['pursecopper_67',['purseCopper',['../structcore_1_1Inventory.html#a120cf3f2b69a7f317f5b0dcefd773c0e',1,'core::Inventory']]],
+  ['pushmomentumwindowtime_68',['pushMomentumWindowTime',['../structcore_1_1PhysicsConfig.html#a8bce708b0e3cf525d14827731eea05ba',1,'core::PhysicsConfig']]]
 ];

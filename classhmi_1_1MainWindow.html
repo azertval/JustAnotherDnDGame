@@ -232,6 +232,8 @@ optionsReturnTo</span>) &ndash; remplace l'ancien retour direct et systématique
 <tr class="memdesc:a5dd487946d8539b0a3a306e550675bc0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ouvre le châssis des écrans du RPG sur <code class="param">screen</code> (<span class="tt">LOT-68</span>, <span class="tt">EX-IHM-090</span>).  <br /></td></tr>
 <tr class="memitem:ac7e52d77711429e28eb1a9fa1f752d11" id="r_ac7e52d77711429e28eb1a9fa1f752d11"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ac7e52d77711429e28eb1a9fa1f752d11">closeRpgScreen</a> ()</td></tr>
 <tr class="memdesc:ac7e52d77711429e28eb1a9fa1f752d11"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ferme le châssis des écrans du RPG et revient à l'écran d'où il a été ouvert (<span class="tt"><a class="el" href="structhmi_1_1ScreenState.html#a35d36781ddd45df8818932eb54d7a616" title="Écran vers lequel CloseRpgScreen revient (Menu, Game ou Pause, selon l&#39;origine).">ScreenState::rpgReturnTo</a></span>), en reprenant la simulation si elle avait été suspendue.  <br /></td></tr>
+<tr class="memitem:a0be2077be61b8fc7f05a208b7a3caac9" id="r_a0be2077be61b8fc7f05a208b7a3caac9"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a0be2077be61b8fc7f05a208b7a3caac9">loadDemonstrationCharacter</a> ()</td></tr>
+<tr class="memdesc:a0be2077be61b8fc7f05a208b7a3caac9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Charge les catalogues RPG et le personnage de démonstration, puis pose ses valeurs sur l'écran de fiche (<span class="tt">LOT-38</span>).  <br /></td></tr>
 <tr class="memitem:ad762935b8251e6fc558fc020ab4c1fa6" id="r_ad762935b8251e6fc558fc020ab4c1fa6"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ad762935b8251e6fc558fc020ab4c1fa6">applyRpgSuperposition</a> (<a class="el" href="namespacehmi.html#a86e4ce6097c7a029c683096302528e72">hmi::RpgScreenId</a> screen)</td></tr>
 <tr class="memdesc:ad762935b8251e6fc558fc020ab4c1fa6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Applique la règle de superposition de <code class="param">screen</code> à la simulation, sans changer d'écran : appelé aussi lors du <b>passage</b> d'un écran du RPG à un autre, où la règle peut changer.  <br /></td></tr>
 <tr class="memitem:ad0160f504de7ad658481fd2480488831" id="r_ad0160f504de7ad658481fd2480488831"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ad0160f504de7ad658481fd2480488831">openCredits</a> ()</td></tr>
@@ -1044,6 +1046,34 @@ optionsReturnTo</span>) &ndash; remplace l'ancien retour direct et systématique
 </table>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>La clé <span class="tt">QSettings</span> de la disposition de <code class="param">workspace</code>. Chaque espace persiste la sienne : une disposition unique rouvrirait les docks de l'atelier par-dessus l'édition. </dd></dl>
+
+</div>
+</div>
+<a id="a0be2077be61b8fc7f05a208b7a3caac9" name="a0be2077be61b8fc7f05a208b7a3caac9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0be2077be61b8fc7f05a208b7a3caac9">&#9670;&#160;</a></span>loadDemonstrationCharacter()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::MainWindow::loadDemonstrationCharacter </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Charge les catalogues RPG et le personnage de démonstration, puis pose ses valeurs sur l'écran de fiche (<span class="tt">LOT-38</span>). </p>
+<p>Sans effet visible si les données manquent : l'écran garde ses tirets, ce qui est la vérité (<span class="tt">EX-NFR-040</span>). </p>
 
 </div>
 </div>

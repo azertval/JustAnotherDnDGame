@@ -93,7 +93,7 @@ $(function(){initNavTree('structhmi_1_1RpgScreenDescriptor.html','','structhmi_1
 </div><!--header-->
 <div class="contents">
 
-<p>Description complète d'un écran du RPG.  
+<p>Comment un écran est <b>rendu</b> (<span class="tt">LOT-38</span>).  
  <a href="#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="RpgScreens_8h_source.html">RpgScreens.h</a>&gt;</code></p>
@@ -107,9 +107,12 @@ Public Attributes</h2></td></tr>
 <tr class="memdesc:a9e60e639e6f6ff799c954c267dd3dc3c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clé du titre de l'écran (catalogue de traduction).  <br /></td></tr>
 <tr class="memitem:a918ddd7d80088a12cda7cf51dd9fccfb" id="r_a918ddd7d80088a12cda7cf51dd9fccfb"><td class="memItemLeft"><a class="el" href="namespacehmi.html#a3222e3cf5f453d3a55c104456a615430">RpgSuperposition</a>&#160;</td><td class="memItemRight"><a class="el" href="#a918ddd7d80088a12cda7cf51dd9fccfb">superposition</a> = <a class="el" href="namespacehmi.html#a3222e3cf5f453d3a55c104456a615430aeeed228a1530b74c9d193195034781e9">RpgSuperposition::PausesGame</a></td></tr>
 <tr class="memitem:a0bc72a48e3335c5ec1c6f1e3e3577650" id="r_a0bc72a48e3335c5ec1c6f1e3e3577650"><td class="memItemLeft"><a class="el" href="structhmi_1_1RpgScreenLayout.html">RpgScreenLayout</a>&#160;</td><td class="memItemRight"><a class="el" href="#a0bc72a48e3335c5ec1c6f1e3e3577650">layout</a> {}</td></tr>
+<tr class="memdesc:a0bc72a48e3335c5ec1c6f1e3e3577650"><td class="mdescLeft">&#160;</td><td class="mdescRight">L'ossature de l'écran : ce que <span class="tt"><a class="el" href="classhmi_1_1RpgScreenFrame.html" title="Le cadre que les huit écrans du RPG partagent : panneau, titre, zone de contenu, pied d&#39;actions.">hmi::RpgScreenFrame</a></span> en peint.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Description complète d'un écran du RPG. </p>
+<div class="textblock"><p>Comment un écran est <b>rendu</b> (<span class="tt">LOT-38</span>). </p>
+<p>Le <span class="tt">LOT-68</span> n'avait qu'une voie : une ossature en données, peinte par un rendu générique. C'était le bon outil pour huit écrans dont aucune maquette n'existe. Un écran qui <b>a</b> une maquette gravée — la fiche de personnage et ses cinq planches — mérite mieux qu'un résumé en deux colonnes : il reçoit sa planche, décrite en Qt Designer, et garde le même cadre, la même navigation et le même pied d'actions que les autres.</p>
+<p>Le champ est ici, dans la table, et non deviné par le code qui construit les écrans : c'est la description de l'écran qui dit comment il se rend, exactement comme elle dit s'il suspend la simulation. Description complète d'un écran du RPG. </p>
 </div><a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Member Data Documentation</h2>
 <a id="a899568b7bb78ad6a24adc41f117a2ce7" name="a899568b7bb78ad6a24adc41f117a2ce7"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a899568b7bb78ad6a24adc41f117a2ce7">&#9670;&#160;</a></span>id</h2>
@@ -136,6 +139,8 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>L'ossature de l'écran : ce que <span class="tt"><a class="el" href="classhmi_1_1RpgScreenFrame.html" title="Le cadre que les huit écrans du RPG partagent : panneau, titre, zone de contenu, pied d&#39;actions.">hmi::RpgScreenFrame</a></span> en peint. </p>
 
 </div>
 </div>

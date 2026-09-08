@@ -25,6 +25,7 @@ var classhmi_1_1MainWindow =
     [ "createPlane", "classhmi_1_1MainWindow.html#ac0d13c9ba2e418481dad5e0f6d3fc107", null ],
     [ "eventFilter", "classhmi_1_1MainWindow.html#a2d1f33de682c39a3c520bfc344b5ab59", null ],
     [ "layoutKeyFor", "classhmi_1_1MainWindow.html#aaed7c2d32c2c0fcfd68f9bdf62c7b4bb", null ],
+    [ "loadDemonstrationCharacter", "classhmi_1_1MainWindow.html#a0be2077be61b8fc7f05a208b7a3caac9", null ],
     [ "loadPlaneIntoCanvas", "classhmi_1_1MainWindow.html#ae2b6d081350501e8eff3e2915235dc08", null ],
     [ "moveEvent", "classhmi_1_1MainWindow.html#a8f4ec20153d8d14d3ab9a602f56a466b", null ],
     [ "newGame", "classhmi_1_1MainWindow.html#a703c568cb80ba0012846c8baf1a05b72", null ],

@@ -1,0 +1,46 @@
+var Inventory_8h =
+[
+    [ "core::Item", "structcore_1_1Item.html", "structcore_1_1Item" ],
+    [ "core::ItemCatalog", "structcore_1_1ItemCatalog.html", "structcore_1_1ItemCatalog" ],
+    [ "core::EncumbranceRules", "structcore_1_1EncumbranceRules.html", "structcore_1_1EncumbranceRules" ],
+    [ "core::InventoryStack", "structcore_1_1InventoryStack.html", "structcore_1_1InventoryStack" ],
+    [ "core::Inventory", "structcore_1_1Inventory.html", "structcore_1_1Inventory" ],
+    [ "core::ItemLookup", "structcore_1_1ItemLookup.html", "structcore_1_1ItemLookup" ],
+    [ "core::DerivedStats", "structcore_1_1DerivedStats.html", "structcore_1_1DerivedStats" ],
+    [ "core::EncumbranceLevel", "namespacecore.html#ad77756d2c98fad50a0b353e7924843a5", [
+      [ "core::EncumbranceLevel::Unencumbered", "namespacecore.html#ad77756d2c98fad50a0b353e7924843a5ae0c8631adc840f2dc3d7ad58f3353734", null ],
+      [ "core::EncumbranceLevel::Encumbered", "namespacecore.html#ad77756d2c98fad50a0b353e7924843a5a3352f503cd5d323c5d6588fab6b4d9ae", null ],
+      [ "core::EncumbranceLevel::HeavilyEncumbered", "namespacecore.html#ad77756d2c98fad50a0b353e7924843a5a2d24ecea1c4b912db6e8aa635d5d9825", null ],
+      [ "core::EncumbranceLevel::OverCapacity", "namespacecore.html#ad77756d2c98fad50a0b353e7924843a5a4fcf3e94521b7db24bd0c3bd6e9201af", null ]
+    ] ],
+    [ "core::EquipmentSlot", "namespacecore.html#af71085608729d9857e7ee3fd17be6cd6", [
+      [ "core::EquipmentSlot::Head", "namespacecore.html#af71085608729d9857e7ee3fd17be6cd6a98921133d10fbdb0fb6dbb7b2648befe", null ],
+      [ "core::EquipmentSlot::Neck", "namespacecore.html#af71085608729d9857e7ee3fd17be6cd6a6833e5c3ce1911011c2bb97d48a0a24b", null ],
+      [ "core::EquipmentSlot::Cloak", "namespacecore.html#af71085608729d9857e7ee3fd17be6cd6a2cbd779a6d41d9715d259a5d7e8bb93d", null ],
+      [ "core::EquipmentSlot::Torso", "namespacecore.html#af71085608729d9857e7ee3fd17be6cd6a94b1fe49b616aa3862defa8922c7493d", null ],
+      [ "core::EquipmentSlot::Belt", "namespacecore.html#af71085608729d9857e7ee3fd17be6cd6ad1d0518303e6170ce9bb8bc1bd54248c", null ],
+      [ "core::EquipmentSlot::Hands", "namespacecore.html#af71085608729d9857e7ee3fd17be6cd6ac0de26eacdb0be95995bddc8d719bc4b", null ],
+      [ "core::EquipmentSlot::RingLeft", "namespacecore.html#af71085608729d9857e7ee3fd17be6cd6a40cfe9b834ee37afb1bb5543c11666c1", null ],
+      [ "core::EquipmentSlot::RingRight", "namespacecore.html#af71085608729d9857e7ee3fd17be6cd6a2390e3a8317e0d192cdbaebaaa54a716", null ],
+      [ "core::EquipmentSlot::MainHand", "namespacecore.html#af71085608729d9857e7ee3fd17be6cd6a1f9cdfca2d19bbc92349db7eb1544434", null ],
+      [ "core::EquipmentSlot::OffHand", "namespacecore.html#af71085608729d9857e7ee3fd17be6cd6a2cc539207caf1a7e1e986b92e4462d7c", null ],
+      [ "core::EquipmentSlot::Ranged", "namespacecore.html#af71085608729d9857e7ee3fd17be6cd6ac2f329a17c18a701dbe1e96e03858728", null ],
+      [ "core::EquipmentSlot::Ammunition", "namespacecore.html#af71085608729d9857e7ee3fd17be6cd6a18c5b5c7381f5d9eecaa5b06a6bb4960", null ],
+      [ "core::EquipmentSlot::Feet", "namespacecore.html#af71085608729d9857e7ee3fd17be6cd6a0f2e8e047e38898ec859c631576985e7", null ],
+      [ "core::EquipmentSlot::Bracers", "namespacecore.html#af71085608729d9857e7ee3fd17be6cd6af1df96a16d18cc71cfd4bc442556bf46", null ],
+      [ "core::EquipmentSlot::Pouch", "namespacecore.html#af71085608729d9857e7ee3fd17be6cd6a4bcdcbebd685f9bc46f03d2c71ae3837", null ],
+      [ "core::EquipmentSlot::Trinket", "namespacecore.html#af71085608729d9857e7ee3fd17be6cd6a9ee4ab45b4b030348971997e4b6a4c37", null ]
+    ] ],
+    [ "core::addToBackpack", "namespacecore.html#a6f489a122d9d233c3bdbe93d7e8469a7", null ],
+    [ "core::carriedWeightGrams", "namespacecore.html#acdf25cd5af39e26e10f832898b4f011b", null ],
+    [ "core::derivedStatsFor", "namespacecore.html#a9a5cbcc72fe725bdada14f1b5a38e3d1", null ],
+    [ "core::equip", "namespacecore.html#a4ba622b6ecedd0e50fd24d0d5b81ebde", null ],
+    [ "core::equipmentSlotName", "namespacecore.html#a6f31013a1f37d04e5e8f8748f7799219", null ],
+    [ "core::loadEncumbranceRules", "namespacecore.html#a6784f5e1367401de1a0d7d087d7c16a4", null ],
+    [ "core::loadItems", "namespacecore.html#a00edce76b901663b3187437ecea2da10", null ],
+    [ "core::parseEquipmentSlot", "namespacecore.html#a3c6126ca45164ee5761518aa0ae58ccd", null ],
+    [ "core::removeFromBackpack", "namespacecore.html#a8ddb5a787feab8431b23b406bf78fb07", null ],
+    [ "core::unequip", "namespacecore.html#a98be44354174d01b7cd1e67bdae8fab5", null ],
+    [ "core::unknownIds", "namespacecore.html#a35b74fe1ec1287f70d0076ad28812c81", null ],
+    [ "core::EQUIPMENT_SLOT_COUNT", "namespacecore.html#ab6f6a87729df10e41e9fa1e5f74c4d76", null ]
+];

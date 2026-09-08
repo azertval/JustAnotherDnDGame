@@ -333,6 +333,8 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Description d'une action, indépendante de Qt : de quoi construire un <span class="tt">QAction</span> complet (icône, libellé, raccourci, caractère cochable) sans dupliquer sa définition ailleurs.  <a href="structhmi_1_1EditorActionSpec.html#details">More...</a><br /></td></tr>
 <tr class="memitem:KeyBindingIconEntry" id="r_KeyBindingIconEntry"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1KeyBindingIconEntry.html">KeyBindingIconEntry</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Correspondance entre une action d'éditeur remappable (<span class="tt"><a class="el" href="#aa4f5968d7b564d555f29fdc5d2fc9585" title="Action d&#39;éditeur logique, remappable indépendamment de la touche physique.">hmi::EditorAction</a></span>, <span class="tt"><a class="el" href="EditorKeyBindings_8h.html" title="Association remappable action d&#39;éditeur -&gt; touche clavier, avec persistance (EX-CTRL-012).">EditorKeyBindings.h</a></span>) et l'identifiant d'action du catalogue qui la rend effective (<span class="tt">LOT-57</span> TACHE-04, <span class="tt">EX-IHM-062</span>).  <a href="structhmi_1_1KeyBindingIconEntry.html#details">More...</a><br /></td></tr>
+<tr class="memitem:CharacterSheetContext" id="r_CharacterSheetContext"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1CharacterSheetContext.html">CharacterSheetContext</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Traduit une fiche de personnage en <b>valeurs affichables</b>, indexées par l'identifiant que l'ossature de l'écran déclare (<span class="tt"><a class="el" href="structhmi_1_1RpgField.html#adaf2f6e27991d43d9b19180ed7a8fe69">hmi::RpgField::valueId</a></span>).  <a href="structhmi_1_1CharacterSheetContext.html#details">More...</a><br /></td></tr>
 <tr class="memitem:CreditsScreen" id="r_CreditsScreen"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1CreditsScreen.html">CreditsScreen</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Écran de crédits (développement, bruitages) atteint depuis le menu principal.  <a href="classhmi_1_1CreditsScreen.html#details">More...</a><br /></td></tr>
 <tr class="memitem:DesignColor" id="r_DesignColor"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1DesignColor.html">DesignColor</a></td></tr>
@@ -369,6 +371,8 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un trait de l'icône : polyligne ouverte, ou polygone fermé (éventuellement rempli), d'une seule couleur.  <a href="structhmi_1_1IconStroke.html#details">More...</a><br /></td></tr>
 <tr class="memitem:IconGeometry" id="r_IconGeometry"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1IconGeometry.html">IconGeometry</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Géométrie complète d'une icône : liste ordonnée de traits.  <a href="structhmi_1_1IconGeometry.html#details">More...</a><br /></td></tr>
+<tr class="memitem:InventoryContext" id="r_InventoryContext"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1InventoryContext.html">InventoryContext</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Traduit un inventaire en <b>valeurs affichables</b>, indexées par l'identifiant que la table de la planche 2 déclare (<span class="tt">hmi::PlateField::valueId</span>).  <a href="structhmi_1_1InventoryContext.html#details">More...</a><br /></td></tr>
 <tr class="memitem:KeybindingsWidget" id="r_KeybindingsWidget"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1KeybindingsWidget.html">KeybindingsWidget</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Widget de remappage des <b>touches de jeu</b> (<span class="tt"><a class="el" href="classhmi_1_1GameKeyBindings.html" title="Association action de jeu -&gt; touche, avec persistance JSON (EX-CTRL-012, LOT-29).">GameKeyBindings</a></span>), destiné à l'onglet « Commande clavier » de la page Options.  <a href="classhmi_1_1KeybindingsWidget.html#details">More...</a><br /></td></tr>
 <tr class="memitem:KeyHint" id="r_KeyHint"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1KeyHint.html">KeyHint</a></td></tr>
@@ -397,12 +401,14 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le <b>cadre</b> que les huit écrans du RPG partagent : panneau, titre, zone de contenu, pied d'actions.  <a href="classhmi_1_1RpgScreenFrame.html#details">More...</a><br /></td></tr>
 <tr class="memitem:RpgScreenHost" id="r_RpgScreenHost"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1RpgScreenHost.html">RpgScreenHost</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Héberge les écrans du RPG et fait passer de l'un à l'autre <b>sans repasser par le menu</b>.  <a href="classhmi_1_1RpgScreenHost.html#details">More...</a><br /></td></tr>
+<tr class="memitem:RpgField" id="r_RpgField"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1RpgField.html">RpgField</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une ligne « libellé → valeur » d'un bloc <span class="tt">Fields</span>.  <a href="structhmi_1_1RpgField.html#details">More...</a><br /></td></tr>
 <tr class="memitem:RpgContentBlock" id="r_RpgContentBlock"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1RpgContentBlock.html">RpgContentBlock</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un bloc de l'ossature d'un écran.  <a href="structhmi_1_1RpgContentBlock.html#details">More...</a><br /></td></tr>
 <tr class="memitem:RpgScreenLayout" id="r_RpgScreenLayout"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1RpgScreenLayout.html">RpgScreenLayout</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ossature d'un écran : deux colonnes de blocs.  <a href="structhmi_1_1RpgScreenLayout.html#details">More...</a><br /></td></tr>
 <tr class="memitem:RpgScreenDescriptor" id="r_RpgScreenDescriptor"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1RpgScreenDescriptor.html">RpgScreenDescriptor</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Description complète d'un écran du RPG.  <a href="structhmi_1_1RpgScreenDescriptor.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Comment un écran est <b>rendu</b> (<span class="tt">LOT-38</span>).  <a href="structhmi_1_1RpgScreenDescriptor.html#details">More...</a><br /></td></tr>
 <tr class="memitem:ScreenDressing" id="r_ScreenDressing"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1ScreenDressing.html">ScreenDressing</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Habillage de fenêtre associé à un écran : ce que chaque <span class="tt">showXxx()</span> répétait à la main (bascule du <span class="tt">QStackedWidget</span>, docks, barre de menu, barres d'outils, navigation manette).  <a href="structhmi_1_1ScreenDressing.html#details">More...</a><br /></td></tr>
 <tr class="memitem:ScreenState" id="r_ScreenState"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1ScreenState.html">ScreenState</a></td></tr>
@@ -822,6 +828,8 @@ Enumerations</h2></td></tr>
 , <a class="el" href="#a86e4ce6097c7a029c683096302528e72a896890bfb700eac98300d639ca970f2b">Merchant</a>
 , <a class="el" href="#a86e4ce6097c7a029c683096302528e72ab45d4262677771f2c5e9a59301287d99">GuildBoard</a>
 , <a class="el" href="#a86e4ce6097c7a029c683096302528e72a24a64995097c2618f6232d44c3b135ff">CombatHud</a>
+, <br />
+&#160;&#160;<a class="el" href="#a86e4ce6097c7a029c683096302528e72abb3574dbe048a2115f7793abf6fa9c08">TeamSheet</a>
 <br />
  }</td></tr>
 <tr class="memdesc:a86e4ce6097c7a029c683096302528e72"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les huit écrans du RPG.  <a href="#a86e4ce6097c7a029c683096302528e72">More...</a><br /></td></tr>
@@ -880,6 +888,8 @@ Enumerations</h2></td></tr>
 , <a class="el" href="#a57dcf8ac7fd26c90a8741e698c896580aa18366b217ebf811ad1886e4f4f865b2">Dark</a>
  }</td></tr>
 <tr class="memdesc:a57dcf8ac7fd26c90a8741e698c896580"><td class="mdescLeft">&#160;</td><td class="mdescRight">Thème effectivement appliqué au châssis d'édition.  <a href="#a57dcf8ac7fd26c90a8741e698c896580">More...</a><br /></td></tr>
+<tr class="memitem:a97f31c7914a6cfc54cc026a77da58fd1" id="r_a97f31c7914a6cfc54cc026a77da58fd1"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#a97f31c7914a6cfc54cc026a77da58fd1">Ability</a> </td></tr>
+<tr class="memdesc:a97f31c7914a6cfc54cc026a77da58fd1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une des six caractéristiques d'un personnage ou d'une créature (<span class="tt">EX-DND-010</span>).  <a href="#a97f31c7914a6cfc54cc026a77da58fd1">More...</a><br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
@@ -1236,6 +1246,7 @@ Functions</h2></td></tr>
 <tr class="memdesc:a21903bad18cb9cb682fe83b340418c1e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Applique le thème complet du châssis d'édition (portée <b>variable</b>) : police, palette puis feuille de style, tous dérivés des jetons <b>actuellement effectifs</b> (<span class="tt"><a class="el" href="#a26a0827c46d5301e7690c51a9e6fc159">currentEditorTokens()</a></span>).  <br /></td></tr>
 <tr class="memitem:a4dbd77c54104dd2723bba59437d00bd5" id="r_a4dbd77c54104dd2723bba59437d00bd5"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a4dbd77c54104dd2723bba59437d00bd5">reapplyEditorTheme</a> ()</td></tr>
 <tr class="memdesc:a4dbd77c54104dd2723bba59437d00bd5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Réapplique la palette et la feuille de style (mais pas la police, inchangée par le thème) depuis <span class="tt"><a class="el" href="#a26a0827c46d5301e7690c51a9e6fc159">currentEditorTokens()</a></span> — bascule à chaud (<span class="tt">LOT-56</span> TACHE-06), sans reconstruire les widgets.  <br /></td></tr>
+<tr class="memitem:ad2b3435349dd004d6768a14a49f5dacc" id="r_ad2b3435349dd004d6768a14a49f5dacc"><td class="memItemLeft">std::map&lt; std::string, std::string &gt;&#160;</td><td class="memItemRight"><a class="el" href="#ad2b3435349dd004d6768a14a49f5dacc">characterSheetValues</a> (const <a class="el" href="structhmi_1_1CharacterSheetContext.html">CharacterSheetContext</a> &amp;context)</td></tr>
 <tr class="memitem:a5933ff4f4fc07147fb21070522d05085" id="r_a5933ff4f4fc07147fb21070522d05085"><td class="memItemLeft"><a class="el" href="structhmi_1_1DesignColor.html">DesignColor</a>&#160;</td><td class="memItemRight"><a class="el" href="#a5933ff4f4fc07147fb21070522d05085">mixColor</a> (<a class="el" href="structhmi_1_1DesignColor.html">DesignColor</a> from, <a class="el" href="structhmi_1_1DesignColor.html">DesignColor</a> to, float ratio) noexcept</td></tr>
 <tr class="memitem:a419a1dbd1f08cf22d2d00cb975f974d2" id="r_a419a1dbd1f08cf22d2d00cb975f974d2"><td class="memItemLeft">const <a class="el" href="structhmi_1_1IdentityBaseScale.html">IdentityBaseScale</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a419a1dbd1f08cf22d2d00cb975f974d2">identityBaseScale</a> () noexcept</td></tr>
 <tr class="memitem:ac930d13be4162410e795052307cd59e0" id="r_ac930d13be4162410e795052307cd59e0"><td class="memItemLeft">const char *&#160;</td><td class="memItemRight"><a class="el" href="#ac930d13be4162410e795052307cd59e0">genericCssFamily</a> (<a class="el" href="#acd4bd1bd5a7edb4000f6de915686c897">FontRole</a> role) noexcept</td></tr>
@@ -1274,6 +1285,9 @@ Functions</h2></td></tr>
 <tr class="memdesc:a680c72595996170b489d85e44e9fbc5c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Facteur d'agrandissement des écrans du jeu pour une hauteur de fenêtre donnée.  <br /></td></tr>
 <tr class="memitem:a749862bc7ec43967d584189840299747" id="r_a749862bc7ec43967d584189840299747"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a749862bc7ec43967d584189840299747">identityScaleForDisplay</a> (int windowLogicalHeight, int availableLogicalHeight) noexcept</td></tr>
 <tr class="memdesc:a749862bc7ec43967d584189840299747"><td class="mdescLeft">&#160;</td><td class="mdescRight">Facteur d'agrandissement <b>borné par la zone d'affichage réellement disponible</b> (<span class="tt">EX-IHM-081</span>).  <br /></td></tr>
+<tr class="memitem:ac55c820a6756a17715732892e7af95e0" id="r_ac55c820a6756a17715732892e7af95e0"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ac55c820a6756a17715732892e7af95e0">splitPurse</a> (int copper, int &amp;gold, int &amp;silver, int &amp;rest)</td></tr>
+<tr class="memdesc:ac55c820a6756a17715732892e7af95e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Répartit une somme en <b>pièces de cuivre</b> entre or, argent et cuivre.  <br /></td></tr>
+<tr class="memitem:a4810fe71383c48ab7f7c445521b954d4" id="r_a4810fe71383c48ab7f7c445521b954d4"><td class="memItemLeft">std::map&lt; std::string, std::string &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a4810fe71383c48ab7f7c445521b954d4">inventoryValues</a> (const <a class="el" href="structhmi_1_1InventoryContext.html">InventoryContext</a> &amp;context)</td></tr>
 <tr class="memitem:ad5bcff7f69e584df822fc896a9a979cd" id="r_ad5bcff7f69e584df822fc896a9a979cd"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#ad5bcff7f69e584df822fc896a9a979cd">keyHintText</a> (const std::vector&lt; <a class="el" href="structhmi_1_1KeyHint.html">KeyHint</a> &gt; &amp;hints, const <a class="el" href="structhmi_1_1DesignTokens.html">DesignTokens</a> &amp;tokens, int scale)</td></tr>
 <tr class="memdesc:ad5bcff7f69e584df822fc896a9a979cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compose la ligne de rappels en texte enrichi.  <br /></td></tr>
 <tr class="memitem:a1ebed041b4b817775b645ae6d51ea778" id="r_a1ebed041b4b817775b645ae6d51ea778"><td class="memItemLeft">std::vector&lt; <a class="el" href="structhmi_1_1BackdropQuad.html">BackdropQuad</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a1ebed041b4b817775b645ae6d51ea778">menuBackdropQuads</a> (int width, int height, int scale)</td></tr>
@@ -1457,8 +1471,8 @@ Variables</h2></td></tr>
 <tr class="memdesc:af1ae6f7ec7bfe9e7b3f8198180717c5c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Facteur de débord du <b>cabochon</b> sur le carré d'angle qu'il habille (<span class="tt">LOT-76</span>).  <br /></td></tr>
 <tr class="memitem:a9c1595bc09ef4f786e40bc32c594a1fc" id="r_a9c1595bc09ef4f786e40bc32c594a1fc"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#a9c1595bc09ef4f786e40bc32c594a1fc">ORNAMENT_MINIMUM_SIZE</a> = 8</td></tr>
 <tr class="memdesc:a9c1595bc09ef4f786e40bc32c594a1fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Côté minimal, en pixels, sous lequel un cabochon n'est plus qu'une tache.  <br /></td></tr>
-<tr class="memitem:a93db3bafe6aeaebee6e483836f313055" id="r_a93db3bafe6aeaebee6e483836f313055"><td class="memItemLeft">constexpr std::size_t&#160;</td><td class="memItemRight"><a class="el" href="#a93db3bafe6aeaebee6e483836f313055">RPG_SCREEN_COUNT</a> = 8</td></tr>
-<tr class="memdesc:a93db3bafe6aeaebee6e483836f313055"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nombre d'écrans du catalogue. Dérivé de la table, jamais écrit deux fois.  <br /></td></tr>
+<tr class="memitem:a93db3bafe6aeaebee6e483836f313055" id="r_a93db3bafe6aeaebee6e483836f313055"><td class="memItemLeft">constexpr std::size_t&#160;</td><td class="memItemRight"><a class="el" href="#a93db3bafe6aeaebee6e483836f313055">RPG_SCREEN_COUNT</a> = 9</td></tr>
+<tr class="memdesc:a93db3bafe6aeaebee6e483836f313055"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nombre d'écrans du catalogue.  <br /></td></tr>
 </table>
 <a name="doc-typedef-members" id="doc-typedef-members"></a><h2 id="header-doc-typedef-members" class="groupheader">Typedef Documentation</h2>
 <a id="ab8a3c6d8e00f86576f71c0b2a4e494d4" name="ab8a3c6d8e00f86576f71c0b2a4e494d4"></a>
@@ -1495,6 +1509,31 @@ Variables</h2></td></tr>
 </div>
 </div>
 <a name="doc-enum-members" id="doc-enum-members"></a><h2 id="header-doc-enum-members" class="groupheader">Enumeration Type Documentation</h2>
+<a id="a97f31c7914a6cfc54cc026a77da58fd1" name="a97f31c7914a6cfc54cc026a77da58fd1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a97f31c7914a6cfc54cc026a77da58fd1">&#9670;&#160;</a></span>Ability</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="namespacecore.html#a97f31c7914a6cfc54cc026a77da58fd1">core::Ability</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Une des six caractéristiques d'un personnage ou d'une créature (<span class="tt">EX-DND-010</span>). </p>
+<p>Ensemble <b>fermé</b> : six valeurs, fixées par les règles. Les noms textuels sont ceux du lexique (<span class="tt">LOT-30</span>) et de <span class="tt">common.schema.json</span>, et <span class="tt">scripts/check_rpg_data.py</span> vérifie que les trois listes coïncident. </p>
+
+</div>
+</div>
 <a id="a2a7c152b5b5451602bbf4e4f416b402b" name="a2a7c152b5b5451602bbf4e4f416b402b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2a7c152b5b5451602bbf4e4f416b402b">&#9670;&#160;</a></span>ActionSurface</h2>
 
@@ -2751,6 +2790,9 @@ Variables</h2></td></tr>
 <tr><td class="fieldname"><a id="a86e4ce6097c7a029c683096302528e72ab45d4262677771f2c5e9a59301287d99" name="a86e4ce6097c7a029c683096302528e72ab45d4262677771f2c5e9a59301287d99"></a>GuildBoard&#160;</td><td class="fielddoc"><p>Tableau de la Guilde des Aventuriers (<span class="tt">LOT-45</span>). </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a86e4ce6097c7a029c683096302528e72a24a64995097c2618f6232d44c3b135ff" name="a86e4ce6097c7a029c683096302528e72a24a64995097c2618f6232d44c3b135ff"></a>CombatHud&#160;</td><td class="fielddoc"><p>Affichage tête haute de combat (<span class="tt">LOT-24</span>). </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a86e4ce6097c7a029c683096302528e72abb3574dbe048a2115f7793abf6fa9c08" name="a86e4ce6097c7a029c683096302528e72abb3574dbe048a2115f7793abf6fa9c08"></a>TeamSheet&#160;</td><td class="fielddoc"><p>Feuille d'<b>équipe</b> (planche 5 de la maquette Tanares, <span class="tt">LOT-38</span>) : renommée, blason, quartier général. </p>
+<p>Remplie par la Guilde (<span class="tt">LOT-45</span>, <span class="tt">LOT-83</span>). </p>
 </td></tr>
 </table>
 
@@ -4336,6 +4378,32 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>La touche capturée, ou <span class="tt">std::nullopt</span> si aucune touche assignable n'est pressée. </dd></dl>
+
+</div>
+</div>
+<a id="ad2b3435349dd004d6768a14a49f5dacc" name="ad2b3435349dd004d6768a14a49f5dacc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad2b3435349dd004d6768a14a49f5dacc">&#9670;&#160;</a></span>characterSheetValues()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::map&lt; std::string, std::string &gt; hmi::characterSheetValues </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structhmi_1_1CharacterSheetContext.html">CharacterSheetContext</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>context</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>Les valeurs de la fiche, prêtes à être posées par <span class="tt"><a class="el" href="classhmi_1_1RpgScreenFrame.html#ab291c53e878299247ec021e73722f4eb" title="Remplit les valeurs de l&#39;écran (LOT-38).">hmi::RpgScreenFrame::setValues</a></span>. Un contexte incomplet (fiche absente) rend une table <b>vide</b>, jamais des zéros : l'écran garde alors ses tirets, ce qui est la vérité. </dd></dl>
 
 </div>
 </div>
@@ -6705,6 +6773,32 @@ Variables</h2></td></tr>
 
 <p>Rectangle écran du pixel image <span class="tt">(x, y)</span>, au zoom et décalage de vue donnés. </p>
 <p>Fonction <b>pure</b> : ne dépend que de <code class="param">view</code>, jamais des bornes de l'image — c'est elle qui garantit que la grille, le pixel survolé et le tracé de sélection (TACHE-06) s'accordent toujours exactement, puisqu'ils l'appellent tous. </p>
+
+</div>
+</div>
+<a id="a4810fe71383c48ab7f7c445521b954d4" name="a4810fe71383c48ab7f7c445521b954d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4810fe71383c48ab7f7c445521b954d4">&#9670;&#160;</a></span>inventoryValues()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::map&lt; std::string, std::string &gt; hmi::inventoryValues </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structhmi_1_1InventoryContext.html">InventoryContext</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>context</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>Les valeurs de l'inventaire, prêtes pour <span class="tt"><a class="el" href="classhmi_1_1RpgScreenFrame.html#ab291c53e878299247ec021e73722f4eb" title="Remplit les valeurs de l&#39;écran (LOT-38).">hmi::RpgScreenFrame::setValues</a></span>. Un contexte sans inventaire rend une table <b>vide</b> : l'écran garde alors ses tirets. </dd></dl>
 
 </div>
 </div>
@@ -10574,6 +10668,49 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="ac55c820a6756a17715732892e7af95e0" name="ac55c820a6756a17715732892e7af95e0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac55c820a6756a17715732892e7af95e0">&#9670;&#160;</a></span>splitPurse()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::splitPurse </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>copper</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int &amp;</td>          <td class="paramname"><span class="paramname"><em>gold</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int &amp;</td>          <td class="paramname"><span class="paramname"><em>silver</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int &amp;</td>          <td class="paramname"><span class="paramname"><em>rest</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Répartit une somme en <b>pièces de cuivre</b> entre or, argent et cuivre. </p>
+<p>Le modèle ne connaît qu'une unité — le cuivre — parce qu'une seule unité interne supprime les conversions dispersées (<span class="tt">LOT-32</span>). La feuille, elle, a <b>trois</b> médaillons de monnaie gravés : la répartition est donc une règle d'affichage, et elle vit ici plutôt que dans le modèle.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">copper</td><td>Somme totale, en pièces de cuivre. </td></tr>
+    <tr><td class="paramname">gold</td><td>Reçoit le nombre de pièces d'or. </td></tr>
+    <tr><td class="paramname">silver</td><td>Reçoit le nombre de pièces d'argent. </td></tr>
+    <tr><td class="paramname">rest</td><td>Reçoit ce qui demeure, en pièces de cuivre. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="af7d9b42fc7c496a35a24169feddc6ab8" name="af7d9b42fc7c496a35a24169feddc6ab8"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af7d9b42fc7c496a35a24169feddc6ab8">&#9670;&#160;</a></span>spriteQuadBounds()</h2>
 
@@ -13314,7 +13451,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::size_t hmi::RPG_SCREEN_COUNT = 8</td>
+          <td class="memname">std::size_t hmi::RPG_SCREEN_COUNT = 9</td>
         </tr>
       </table>
   </td>
@@ -13324,7 +13461,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Nombre d'écrans du catalogue. Dérivé de la table, jamais écrit deux fois. </p>
+<p>Nombre d'écrans du catalogue. </p>
 
 </div>
 </div>

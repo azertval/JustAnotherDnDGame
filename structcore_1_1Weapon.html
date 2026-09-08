@@ -112,7 +112,9 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a3cdec223de84b5b9b5157dc189bd6779" id="r_a3cdec223de84b5b9b5157dc189bd6779"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a3cdec223de84b5b9b5157dc189bd6779">price</a> = 0</td></tr>
 <tr class="memitem:aef8513fda1d2ec89e5aa319cd10269a5" id="r_aef8513fda1d2ec89e5aa319cd10269a5"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#aef8513fda1d2ec89e5aa319cd10269a5">weightGrams</a> = 0</td></tr>
 <tr class="memitem:ac62202bd71942549c7ac157a6d5f8a29" id="r_ac62202bd71942549c7ac157a6d5f8a29"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#ac62202bd71942549c7ac157a6d5f8a29">text</a></td></tr>
-<tr class="memdesc:ac62202bd71942549c7ac157a6d5f8a29"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les propriétés, telles que le livre les écrit.  <br /></td></tr>
+<tr class="memdesc:ac62202bd71942549c7ac157a6d5f8a29"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les propriétés, telles que le livre les écrit — en toutes lettres, et en français.  <br /></td></tr>
+<tr class="memitem:a9986cbc0168902014d9325354732679e" id="r_a9986cbc0168902014d9325354732679e"><td class="memItemLeft">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a9986cbc0168902014d9325354732679e">properties</a></td></tr>
+<tr class="memdesc:a9986cbc0168902014d9325354732679e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les mêmes, <b>structurées</b> (<span class="tt">finesse</span>, <span class="tt">light</span>, <span class="tt">thrown</span>...).  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Une arme du catalogue. </p>
@@ -205,6 +207,23 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a9986cbc0168902014d9325354732679e" name="a9986cbc0168902014d9325354732679e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9986cbc0168902014d9325354732679e">&#9670;&#160;</a></span>properties</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;std::string&gt; core::Weapon::properties</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Les mêmes, <b>structurées</b> (<span class="tt">finesse</span>, <span class="tt">light</span>, <span class="tt">thrown</span>...). </p>
+<p>Le schéma les prévoit ; aucune arme du catalogue ne les porte encore, et c'est le <span class="tt">LOT-49</span> qui les remplira. Les lire dès maintenant évite qu'une règle qui en dépend — la caractéristique d'attaque d'une arme de finesse — soit écrite en analysant la prose de <span class="tt"><a class="el" href="#ac62202bd71942549c7ac157a6d5f8a29" title="Les propriétés, telles que le livre les écrit — en toutes lettres, et en français.">text</a></span>. </p>
+
+</div>
+</div>
 <a id="acede503f77d6dabcdc129a8516521ab8" name="acede503f77d6dabcdc129a8516521ab8"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#acede503f77d6dabcdc129a8516521ab8">&#9670;&#160;</a></span>ranged</h2>
 
@@ -245,7 +264,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Les propriétés, telles que le livre les écrit. </p>
+<p>Les propriétés, telles que le livre les écrit — en toutes lettres, et en français. </p>
 
 </div>
 </div>

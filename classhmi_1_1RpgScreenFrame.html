@@ -123,6 +123,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a02a4c3c4a84e0aa6a06b6515e32ca136" id="r_a02a4c3c4a84e0aa6a06b6515e32ca136"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a02a4c3c4a84e0aa6a06b6515e32ca136">RpgScreenFrame</a> (const <a class="el" href="structhmi_1_1RpgScreenDescriptor.html">RpgScreenDescriptor</a> &amp;descriptor, QWidget *parent=nullptr)</td></tr>
 <tr class="memitem:ac535300de6b3729098d67baf541f256d" id="r_ac535300de6b3729098d67baf541f256d"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ac535300de6b3729098d67baf541f256d">retranslateUi</a> (const <a class="el" href="classhmi_1_1Localization.html">Localization</a> &amp;loc)</td></tr>
 <tr class="memdesc:ac535300de6b3729098d67baf541f256d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Applique la langue active à tous les libellés : titre d'écran, titres de blocs, libellés de champs, boutons et rappels de touches.  <br /></td></tr>
+<tr class="memitem:ab291c53e878299247ec021e73722f4eb" id="r_ab291c53e878299247ec021e73722f4eb"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ab291c53e878299247ec021e73722f4eb">setValues</a> (const std::map&lt; std::string, std::string &gt; &amp;values)</td></tr>
+<tr class="memdesc:ab291c53e878299247ec021e73722f4eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remplit les valeurs de l'écran (<span class="tt">LOT-38</span>).  <br /></td></tr>
 <tr class="memitem:ad498833a154555cffb7c37d3ac92de66" id="r_ad498833a154555cffb7c37d3ac92de66"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ad498833a154555cffb7c37d3ac92de66">focusDefaultAction</a> ()</td></tr>
 <tr class="memdesc:ad498833a154555cffb7c37d3ac92de66"><td class="mdescLeft">&#160;</td><td class="mdescRight">Donne le focus clavier à la première entrée du pied d'actions — porte d'entrée du parcours de focus à la manette (<span class="tt">EX-IHM-071</span>), même patron que <span class="tt"><a class="el" href="classhmi_1_1PauseScreen.html#a8448455d33afc14068fac4cc58500dbb" title="Donne le focus clavier au premier bouton (« Reprendre ») : Tab navigue ensuite entre les boutons,...">PauseScreen::focusDefaultAction</a></span>.  <br /></td></tr>
 <tr class="memitem:abe8f38f7c84886c429a59551766c65c8" id="r_abe8f38f7c84886c429a59551766c65c8"><td class="memItemLeft"><a class="el" href="namespacehmi.html#a86e4ce6097c7a029c683096302528e72">RpgScreenId</a>&#160;</td><td class="memItemRight"><a class="el" href="#abe8f38f7c84886c429a59551766c65c8">screen</a> () const</td></tr>
@@ -134,6 +136,8 @@ Protected Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-methods" class="groupheader"><a id="pri-methods" name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
+<tr class="memitem:a640a611c23326d1f391a29f148bc99de" id="r_a640a611c23326d1f391a29f148bc99de"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a640a611c23326d1f391a29f148bc99de">buildChrome</a> ()</td></tr>
+<tr class="memdesc:a640a611c23326d1f391a29f148bc99de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construit le cadre commun : titre, corps défilant, pied d'actions.  <br /></td></tr>
 <tr class="memitem:a4aa72289b197c75140e27d8de0cf038a" id="r_a4aa72289b197c75140e27d8de0cf038a"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a4aa72289b197c75140e27d8de0cf038a">buildBlock</a> (QVBoxLayout *column, const <a class="el" href="structhmi_1_1RpgContentBlock.html">RpgContentBlock</a> &amp;block)</td></tr>
 <tr class="memdesc:a4aa72289b197c75140e27d8de0cf038a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construit les widgets d'un bloc et les ajoute à <code class="param">column</code>.  <br /></td></tr>
 <tr class="memitem:ae01f48c6ec7f3270c799804a69dc5eba" id="r_ae01f48c6ec7f3270c799804a69dc5eba"><td class="memItemLeft">QWidget *&#160;</td><td class="memItemRight"><a class="el" href="#ae01f48c6ec7f3270c799804a69dc5eba">buildColumn</a> (std::span&lt; const <a class="el" href="structhmi_1_1RpgContentBlock.html">RpgContentBlock</a> &gt; blocks)</td></tr>
@@ -149,12 +153,14 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:aaa2bd37742de82976153d62d3ed35e04" id="r_aaa2bd37742de82976153d62d3ed35e04"><td class="memItemLeft">QLabel *&#160;</td><td class="memItemRight"><a class="el" href="#aaa2bd37742de82976153d62d3ed35e04">_hints</a> = nullptr</td></tr>
 <tr class="memitem:af9c25fcedba8353d04dc43e361eece1e" id="r_af9c25fcedba8353d04dc43e361eece1e"><td class="memItemLeft">std::vector&lt; <a class="el" href="structhmi_1_1RpgScreenFrame_1_1TranslatedLabel.html">TranslatedLabel</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#af9c25fcedba8353d04dc43e361eece1e">_translated</a></td></tr>
 <tr class="memdesc:af9c25fcedba8353d04dc43e361eece1e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Étiquettes traduisibles de l'ossature (titres de blocs, libellés de champs).  <br /></td></tr>
-<tr class="memitem:a26aba3e9f8d6da3570419cc027553e1f" id="r_a26aba3e9f8d6da3570419cc027553e1f"><td class="memItemLeft">std::vector&lt; QLabel * &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a26aba3e9f8d6da3570419cc027553e1f">_placeholders</a></td></tr>
-<tr class="memdesc:a26aba3e9f8d6da3570419cc027553e1f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Étiquettes de <b>valeur</b> : elles ne portent aucune donnée à ce lot et affichent le tiret cadratin du catalogue.  <br /></td></tr>
+<tr class="memitem:af85904b572ca46da655ac3420f4af259" id="r_af85904b572ca46da655ac3420f4af259"><td class="memItemLeft">std::vector&lt; <a class="el" href="structhmi_1_1RpgScreenFrame_1_1TranslatedLabel.html">TranslatedLabel</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#af85904b572ca46da655ac3420f4af259">_values</a></td></tr>
+<tr class="memdesc:af85904b572ca46da655ac3420f4af259"><td class="mdescLeft">&#160;</td><td class="mdescRight">Étiquettes de <b>valeur</b>, et l'identifiant sous lequel <span class="tt"><a class="el" href="#ab291c53e878299247ec021e73722f4eb" title="Remplit les valeurs de l&#39;écran (LOT-38).">setValues</a></span> les remplit.  <br /></td></tr>
+<tr class="memitem:a49a74ce977ae35c68481ba2d81bd21fe" id="r_a49a74ce977ae35c68481ba2d81bd21fe"><td class="memItemLeft">std::map&lt; std::string, std::string &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a49a74ce977ae35c68481ba2d81bd21fe">_lastValues</a></td></tr>
+<tr class="memdesc:a49a74ce977ae35c68481ba2d81bd21fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les dernières valeurs reçues, rejouées après un changement de langue (<span class="tt"><a class="el" href="#ac535300de6b3729098d67baf541f256d" title="Applique la langue active à tous les libellés : titre d&#39;écran, titres de blocs, libellés de champs,...">retranslateUi</a></span> repasse tout au tiret avant de les reposer).  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Le <b>cadre</b> que les huit écrans du RPG partagent : panneau, titre, zone de contenu, pied d'actions. </p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md754"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md771"></a>
 Pas de <span class="tt">.ui</span>, et c'est le sujet du lot</h2>
 <p>Tous les autres écrans du jeu décrivent leur mise en page dans un fichier Qt Designer, et c'est la convention du projet. Celui-ci ne le peut pas : huit <span class="tt">.ui</span> presque identiques seraient huit endroits où corriger un pied de page, et le neuvième écran en ferait neuf — exactement ce qu'<span class="tt">EX-IHM-090</span> interdit. La mise en page reste néanmoins <b>déclarative</b> : elle vit dans <span class="tt">hmi::rpgScreenLayout</span> (données pures), et ce fichier n'est que le peintre qui la rend.</p>
 <p>Ce châssis ne connaît <b>aucun</b> écran par son nom. Il reçoit un descripteur, en peint l'ossature, et n'émet que des intentions — <span class="tt"><a class="el" href="classhmi_1_1RpgScreenHost.html" title="Héberge les écrans du RPG et fait passer de l&#39;un à l&#39;autre sans repasser par le menu.">hmi::RpgScreenHost</a></span> décide où elles mènent. </p>
@@ -224,6 +230,33 @@ Pas de <span class="tt">.ui</span>, et c'est le sujet du lot</h2>
 </div><div class="memdoc">
 
 <p>Construit les widgets d'un bloc et les ajoute à <code class="param">column</code>. </p>
+
+</div>
+</div>
+<a id="a640a611c23326d1f391a29f148bc99de" name="a640a611c23326d1f391a29f148bc99de"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a640a611c23326d1f391a29f148bc99de">&#9670;&#160;</a></span>buildChrome()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::RpgScreenFrame::buildChrome </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Construit le cadre commun : titre, corps défilant, pied d'actions. </p>
 
 </div>
 </div>
@@ -427,6 +460,32 @@ Pas de <span class="tt">.ui</span>, et c'est le sujet du lot</h2>
 
 </div>
 </div>
+<a id="ab291c53e878299247ec021e73722f4eb" name="ab291c53e878299247ec021e73722f4eb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab291c53e878299247ec021e73722f4eb">&#9670;&#160;</a></span>setValues()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::RpgScreenFrame::setValues </td>
+          <td>(</td>
+          <td class="paramtype">const std::map&lt; std::string, std::string &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>values</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Remplit les valeurs de l'écran (<span class="tt">LOT-38</span>). </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">values</td><td>Identifiant de valeur (<span class="tt"><a class="el" href="structhmi_1_1RpgField.html#adaf2f6e27991d43d9b19180ed7a8fe69">hmi::RpgField::valueId</a></span>) → texte déjà <b>formaté et traduit</b> par l'appelant. Une entrée dont l'identifiant n'est pas à l'écran est ignorée en silence : les valeurs sont produites par écran, et une fiche qui en porterait une de trop n'est pas une erreur.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Ce qu'aucune entrée ne nomme <b>reste au tiret cadratin</b>. C'est ce qui distingue « ce champ n'a pas de source » de « ce champ vaut zéro », et les confondre ferait lire un personnage sans sorts comme un personnage dont les sorts sont épuisés. </p>
+
+</div>
+</div>
 <a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Member Data Documentation</h2>
 <a id="a1a3eee9cedf1a303e525a9b5e1473aed" name="a1a3eee9cedf1a303e525a9b5e1473aed"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1a3eee9cedf1a303e525a9b5e1473aed">&#9670;&#160;</a></span>_closeButton</h2>
@@ -494,6 +553,30 @@ Pas de <span class="tt">.ui</span>, et c'est le sujet du lot</h2>
 
 </div>
 </div>
+<a id="a49a74ce977ae35c68481ba2d81bd21fe" name="a49a74ce977ae35c68481ba2d81bd21fe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a49a74ce977ae35c68481ba2d81bd21fe">&#9670;&#160;</a></span>_lastValues</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::map&lt;std::string, std::string&gt; hmi::RpgScreenFrame::_lastValues</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Les dernières valeurs reçues, rejouées après un changement de langue (<span class="tt"><a class="el" href="#ac535300de6b3729098d67baf541f256d" title="Applique la langue active à tous les libellés : titre d&#39;écran, titres de blocs, libellés de champs,...">retranslateUi</a></span> repasse tout au tiret avant de les reposer). </p>
+
+</div>
+</div>
 <a id="a2bb051ae90aa999d44746b484f946224" name="a2bb051ae90aa999d44746b484f946224"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2bb051ae90aa999d44746b484f946224">&#9670;&#160;</a></span>_nextButton</h2>
 
@@ -513,31 +596,6 @@ Pas de <span class="tt">.ui</span>, et c'est le sujet du lot</h2>
   </tr>
 </table>
 </div><div class="memdoc">
-
-</div>
-</div>
-<a id="a26aba3e9f8d6da3570419cc027553e1f" name="a26aba3e9f8d6da3570419cc027553e1f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a26aba3e9f8d6da3570419cc027553e1f">&#9670;&#160;</a></span>_placeholders</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::vector&lt;QLabel*&gt; hmi::RpgScreenFrame::_placeholders</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Étiquettes de <b>valeur</b> : elles ne portent aucune donnée à ce lot et affichent le tiret cadratin du catalogue. </p>
-<p>Retenues à part parce qu'elles partagent toutes la même clé. </p>
 
 </div>
 </div>
@@ -606,6 +664,31 @@ Pas de <span class="tt">.ui</span>, et c'est le sujet du lot</h2>
 </div><div class="memdoc">
 
 <p>Étiquettes traduisibles de l'ossature (titres de blocs, libellés de champs). </p>
+
+</div>
+</div>
+<a id="af85904b572ca46da655ac3420f4af259" name="af85904b572ca46da655ac3420f4af259"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af85904b572ca46da655ac3420f4af259">&#9670;&#160;</a></span>_values</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;<a class="el" href="structhmi_1_1RpgScreenFrame_1_1TranslatedLabel.html">TranslatedLabel</a>&gt; hmi::RpgScreenFrame::_values</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Étiquettes de <b>valeur</b>, et l'identifiant sous lequel <span class="tt"><a class="el" href="#ab291c53e878299247ec021e73722f4eb" title="Remplit les valeurs de l&#39;écran (LOT-38).">setValues</a></span> les remplit. </p>
+<p>Un identifiant vide dit que rien n'alimente encore ce champ : l'étiquette garde alors le tiret cadratin, quoi qu'on lui passe. </p>
 
 </div>
 </div>

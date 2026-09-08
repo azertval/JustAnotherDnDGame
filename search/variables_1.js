@@ -23,7 +23,7 @@ var searchData=
   ['apexgravitymultiplier_20',['apexGravityMultiplier',['../structcore_1_1PhysicsConfig.html#ac393eb19e1428343e98922bcdd1451ab',1,'core::PhysicsConfig']]],
   ['apexthreshold_21',['apexThreshold',['../structcore_1_1PhysicsConfig.html#a7e782cd22d0d68a6e918286166fab6f4',1,'core::PhysicsConfig']]],
   ['appraisals_22',['appraisals',['../structcore_1_1RegionStatistic.html#a0b90743cbb7ee9c66d2c43e4dfb4fe5d',1,'core::RegionStatistic']]],
-  ['armorclass_23',['armorClass',['../structcore_1_1Creature.html#a393bdfddf7a3e3228810b10312f662fe',1,'core::Creature::armorClass'],['../structcore_1_1CharacterSheet.html#ab92e71f78ebaed0cd98af3b48cf3a495',1,'core::CharacterSheet::armorClass']]],
+  ['armorclass_23',['armorClass',['../structcore_1_1Creature.html#a393bdfddf7a3e3228810b10312f662fe',1,'core::Creature::armorClass'],['../structcore_1_1CharacterSheet.html#ab92e71f78ebaed0cd98af3b48cf3a495',1,'core::CharacterSheet::armorClass'],['../structcore_1_1DerivedStats.html#abdbaa82fa4aa60cbc2ab3fa591c4999d',1,'core::DerivedStats::armorClass']]],
   ['armors_24',['armors',['../structcore_1_1EquipmentCatalog.html#af2ff0e7cf7e8d531789852a50a28eb5c',1,'core::EquipmentCatalog']]],
   ['asset_25',['asset',['../structhmi_1_1MechanismAnimationRow.html#aa97bcff049fe53bc6aa06a5919c5d5af',1,'hmi::MechanismAnimationRow::asset'],['../structhmi_1_1PaletteThumbnail.html#ad1a1ffe1d09ac17017f6936b70da06c7',1,'hmi::PaletteThumbnail::asset'],['../structhmi_1_1SkinRow.html#a8a28dc8dd09377b02f0f9bb7049f576f',1,'hmi::SkinRow::asset'],['../structhmi_1_1SkinEntry.html#a261f088f4cc42c2fc6c25396497286a9',1,'hmi::SkinEntry::asset'],['../structhmi_1_1SkinTexture.html#a5dfd71c8c1f535c7f6be96c6d66dbcf0',1,'hmi::SkinTexture::asset']]],
   ['assetname_26',['assetName',['../structcore_1_1TileTextureOverride.html#a3c6992f18eb4035141f8137b11986202',1,'core::TileTextureOverride::assetName'],['../structhmi_1_1PixelEditStatusInfo.html#a319a7c26d15a0d9e00a56bc543dae575',1,'hmi::PixelEditStatusInfo::assetName'],['../structhmi_1_1TextureAssignDecision.html#a4d7e3de398c84f4406967d0055d3a247',1,'hmi::TextureAssignDecision::assetName']]],
@@ -32,9 +32,10 @@ var searchData=
   ['atlas_5ffile_5fname_29',['ATLAS_FILE_NAME',['../classhmi_1_1TextureAtlas.html#a27912d71b5e37b2c6b1b1e0594020755',1,'hmi::TextureAtlas']]],
   ['atlasheight_30',['atlasHeight',['../structhmi_1_1SceneTextures.html#a61f67ca5c6c9cc001366ffbbe462471b',1,'hmi::SceneTextures']]],
   ['atlaswidth_31',['atlasWidth',['../structhmi_1_1SceneTextures.html#a306ea6dde62238a5a85e3514cc959d92',1,'hmi::SceneTextures']]],
-  ['attackbonus_32',['attackBonus',['../structcore_1_1CreatureAction.html#a49afbead69aff36c76a198c5e6aa26b0',1,'core::CreatureAction']]],
-  ['autotile_5fconfiguration_5fcount_33',['AUTOTILE_CONFIGURATION_COUNT',['../namespacehmi.html#a58aec3b5e8b7ff780934f969eb35febb',1,'hmi']]],
-  ['autotile_5fsheet_5fside_34',['AUTOTILE_SHEET_SIDE',['../namespacehmi.html#a645fa51fe9636c77f3b67558bb094d23',1,'hmi']]],
-  ['ax_35',['ax',['../structhmi_1_1LineQuad.html#ab5c2f6803c2cdae87e0b50d4eb8589c1',1,'hmi::LineQuad']]],
-  ['ay_36',['ay',['../structhmi_1_1LineQuad.html#aa9e7c817ab1c5e01364faed685182a69',1,'hmi::LineQuad']]]
+  ['attackability_32',['attackAbility',['../structcore_1_1DerivedStats.html#a032674d22be164e28116e6c3eab974f6',1,'core::DerivedStats']]],
+  ['attackbonus_33',['attackBonus',['../structcore_1_1CreatureAction.html#a49afbead69aff36c76a198c5e6aa26b0',1,'core::CreatureAction']]],
+  ['autotile_5fconfiguration_5fcount_34',['AUTOTILE_CONFIGURATION_COUNT',['../namespacehmi.html#a58aec3b5e8b7ff780934f969eb35febb',1,'hmi']]],
+  ['autotile_5fsheet_5fside_35',['AUTOTILE_SHEET_SIDE',['../namespacehmi.html#a645fa51fe9636c77f3b67558bb094d23',1,'hmi']]],
+  ['ax_36',['ax',['../structhmi_1_1LineQuad.html#ab5c2f6803c2cdae87e0b50d4eb8589c1',1,'hmi::LineQuad']]],
+  ['ay_37',['ay',['../structhmi_1_1LineQuad.html#aa9e7c817ab1c5e01364faed685182a69',1,'hmi::LineQuad']]]
 ];

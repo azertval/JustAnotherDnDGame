@@ -66,10 +66,11 @@ var searchData=
   ['hmi_3a_3atoplayerinput_20hmi_3a_3atoplayerinput_63',['Traduire l&apos;état en intention : &lt;a class=&quot;el&quot; href=&quot;namespacehmi.html#a2c3341857c60f0bef0a01a6cd10ce5f7&quot; title=&quot;hmi::toPlayerInput&quot;&gt;hmi::toPlayerInput&lt;/a&gt;',['../guide-entrees.html#autotoc_md123',1,'']]],
   ['hmilib_64',['LOT-02 — Bibliothèque `HmiLib`',['../lot-02.html',1,'lots']]],
   ['hmilib_20»_65',['Le découpage retenu — et pourquoi il n&apos;est pas « une seule &lt;span class=&quot;tt&quot;&gt;HmiLib&lt;/span&gt; »',['../lot-02.html#autotoc_md394',1,'']]],
-  ['honorer_20progressivement_66',['Importer tout, honorer progressivement',['../roadmap-010.html#autotoc_md592',1,'']]],
+  ['honorer_20progressivement_66',['Importer tout, honorer progressivement',['../roadmap-010.html#autotoc_md611',1,'']]],
   ['horizontal_67',['Le piège du mur adjacent (correction du balayage horizontal)',['../guide-physique.html#autotoc_md189',1,'']]],
   ['horloge_20de_20partie_20et_20cycle_20jour_20nuit_68',['&lt;span class=&quot;tt&quot;&gt;LOT-70&lt;/span&gt; — Horloge de partie et cycle jour/nuit',['../roadmap-010.html#lot-70',1,'']]],
   ['hors_20code_69',['IHM Qt : le moins de code possible, la mise en page hors code',['../spec-conventions.html#autotoc_md282',1,'']]],
   ['hors_20périmètre_20vertical_20slice_70',['Hors périmètre (&lt;em&gt;vertical slice&lt;/em&gt;)',['../spec-vision.html#autotoc_md379',1,'']]],
-  ['huit_20écrans_20écrits_20à_20la_20main_71',['Une table, et non huit écrans écrits à la main',['../RpgScreens_8h.html#autotoc_md755',1,'']]]
+  ['hui_71',['Ce que l&apos;écran est donc aujourd&apos;hui',['../lot-38.html#autotoc_md532',1,'']]],
+  ['huit_20écrans_20écrits_20à_20la_20main_72',['Une table, et non huit écrans écrits à la main',['../RpgScreens_8h.html#autotoc_md772',1,'']]]
 ];

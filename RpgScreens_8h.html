@@ -102,12 +102,14 @@ $(function(){initNavTree('RpgScreens_8h.html','',''); });
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
+<tr class="memitem:hmi_3A_3ARpgField" id="r_hmi_3A_3ARpgField"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1RpgField.html">hmi::RpgField</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une ligne « libellé → valeur » d'un bloc <span class="tt">Fields</span>.  <a href="structhmi_1_1RpgField.html#details">More...</a><br /></td></tr>
 <tr class="memitem:hmi_3A_3ARpgContentBlock" id="r_hmi_3A_3ARpgContentBlock"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1RpgContentBlock.html">hmi::RpgContentBlock</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un bloc de l'ossature d'un écran.  <a href="structhmi_1_1RpgContentBlock.html#details">More...</a><br /></td></tr>
 <tr class="memitem:hmi_3A_3ARpgScreenLayout" id="r_hmi_3A_3ARpgScreenLayout"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1RpgScreenLayout.html">hmi::RpgScreenLayout</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ossature d'un écran : deux colonnes de blocs.  <a href="structhmi_1_1RpgScreenLayout.html#details">More...</a><br /></td></tr>
 <tr class="memitem:hmi_3A_3ARpgScreenDescriptor" id="r_hmi_3A_3ARpgScreenDescriptor"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1RpgScreenDescriptor.html">hmi::RpgScreenDescriptor</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Description complète d'un écran du RPG.  <a href="structhmi_1_1RpgScreenDescriptor.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Comment un écran est <b>rendu</b> (<span class="tt">LOT-38</span>).  <a href="structhmi_1_1RpgScreenDescriptor.html#details">More...</a><br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-namespaces" class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
@@ -125,6 +127,8 @@ Enumerations</h2></td></tr>
 , <a class="el" href="namespacehmi.html#a86e4ce6097c7a029c683096302528e72a896890bfb700eac98300d639ca970f2b">hmi::Merchant</a>
 , <a class="el" href="namespacehmi.html#a86e4ce6097c7a029c683096302528e72ab45d4262677771f2c5e9a59301287d99">hmi::GuildBoard</a>
 , <a class="el" href="namespacehmi.html#a86e4ce6097c7a029c683096302528e72a24a64995097c2618f6232d44c3b135ff">hmi::CombatHud</a>
+, <br />
+&#160;&#160;<a class="el" href="namespacehmi.html#a86e4ce6097c7a029c683096302528e72abb3574dbe048a2115f7793abf6fa9c08">hmi::TeamSheet</a>
 <br />
  }</td></tr>
 <tr class="memdesc:a86e4ce6097c7a029c683096302528e72"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les huit écrans du RPG.  <a href="namespacehmi.html#a86e4ce6097c7a029c683096302528e72">More...</a><br /></td></tr>
@@ -155,13 +159,13 @@ Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-var-members" class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:a93db3bafe6aeaebee6e483836f313055" id="r_a93db3bafe6aeaebee6e483836f313055"><td class="memItemLeft">constexpr std::size_t&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#a93db3bafe6aeaebee6e483836f313055">hmi::RPG_SCREEN_COUNT</a> = 8</td></tr>
-<tr class="memdesc:a93db3bafe6aeaebee6e483836f313055"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nombre d'écrans du catalogue. Dérivé de la table, jamais écrit deux fois.  <br /></td></tr>
+<tr class="memitem:a93db3bafe6aeaebee6e483836f313055" id="r_a93db3bafe6aeaebee6e483836f313055"><td class="memItemLeft">constexpr std::size_t&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#a93db3bafe6aeaebee6e483836f313055">hmi::RPG_SCREEN_COUNT</a> = 9</td></tr>
+<tr class="memdesc:a93db3bafe6aeaebee6e483836f313055"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nombre d'écrans du catalogue.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Catalogue des écrans du RPG et <b>ossature</b> de leur contenu (<span class="tt">LOT-68</span>, <span class="tt">EX-IHM-090</span>, <span class="tt">EX-IHM-091</span>). </p>
 <p>Logique <b>pure</b> (aucune dépendance Qt), testable hors instance d'application (<span class="tt">EX-NFR-010</span>) &ndash; même patron que <span class="tt"><a class="el" href="ScreenFlow_8h.html" title="Machine à états des écrans de la fenêtre principale (LOT-59 TACHE-01, EX-GP-041).">HMI/Interface/ScreenFlow.h</a></span> et <span class="tt"><a class="el" href="ActionCatalog_8h.html" title="Catalogue des actions de l&#39;éditeur : outils et commandes principales (LOT-56 TACHE-04,...">HMI/Interface/ActionCatalog.h</a></span>.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md755"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md772"></a>
 Une table, et non huit écrans écrits à la main</h2>
 <p>Les huit écrans que le RPG doit à terme porter &ndash; fiche, inventaire, journal, carte, dialogue, marchand, tableau de la Guilde, ATH de combat &ndash; n'ont, à ce lot, aucun contenu à afficher : les données viendront des lots qui les remplissent (<span class="tt">LOT-38</span>, <span class="tt">LOT-42</span>, <span class="tt">LOT-45</span>, <span class="tt">LOT-24</span>). Ce qui est livré ici est ce qu'ils ont <b>en commun</b> : leur cadre, leur navigation, leur parcours de focus, et leur <b>ossature</b>.</p>
 <p>Cette ossature est décrite en <b>données</b> plutôt qu'en code d'interface, pour la raison qu'écrit <span class="tt">EX-IHM-090</span> : un neuvième écran doit coûter une <b>ligne de table</b>, jamais une retouche des huit autres. Le rendu Qt (<span class="tt"><a class="el" href="classhmi_1_1RpgScreenFrame.html" title="Le cadre que les huit écrans du RPG partagent : panneau, titre, zone de contenu, pied d&#39;actions.">hmi::RpgScreenFrame</a></span>) sait peindre les sept genres de blocs ci-dessous et rien de plus ; il n'a aucune connaissance d'un écran en particulier. </p>

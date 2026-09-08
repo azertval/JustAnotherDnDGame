@@ -93,9 +93,9 @@ $(function(){initNavTree('cahiertest.html','',''); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md_CahierTest"></a></p>
-<p><b>1009 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
+<p><b>1029 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md5"></a>
-Tests unitaires (994)</h1>
+Tests unitaires (1014)</h1>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md6"></a>
 Core</h2>
 <p><b><span class="tt"><a class="el" href="test__core_8cpp.html" title="Tests unitaires de la bibliothèque Core (amorçage).">test_core.cpp</a></span></b></p>
@@ -2126,7 +2126,7 @@ Vérifie que <span class="tt">r.normal.y</span> vaut <span class="tt">1.0f</span
 Vérifie que <span class="tt">r.position.x</span> vaut <span class="tt">3.0f</span> (comparaison flottante).  </td></tr>
 </table>
 <h3 class="doxsection"><a class="anchor" id="autotoc_md14"></a>
-Rpg (56)</h3>
+Rpg (69)</h3>
 <p><b><span class="tt"><a class="el" href="test__bestiary_8cpp.html" title="Tests du bestiaire de base (LOT-33) : les 94 profils chargent, et dix sont rejoues contre des valeurs...">test_bestiary.cpp</a></span></b></p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -2229,13 +2229,13 @@ Vérifie que <span class="tt">classe.status.removalCriterion.empty()</span> est 
 Vérifie que <span class="tt">contenu.find('"' + identifiant + '"')</span> vaut <span class="tt">std::string::npos</span>.  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>CharacterOptionsTest.UnDossierAbsentEstSignale</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__character__options_8cpp.html" title="Tests des especes, historiques et classes provisoires (LOT-36).">Source/Test/Unit/Core/Rpg/test_character_options.cpp</a>:291</span></sub>  </td><td class="markdownTableBodyNone">Charger un dossier d'options inexistant produit une erreur nommee.  </td><td class="markdownTableBodyNone">1. Charger trois chemins qui n'existent pas.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">vides.species.empty()</span> est vrai.<br  />
+<sub><span class="tt"><a class="el" href="test__character__options_8cpp.html" title="Tests des especes, historiques et classes provisoires (LOT-36).">Source/Test/Unit/Core/Rpg/test_character_options.cpp</a>:299</span></sub>  </td><td class="markdownTableBodyNone">Charger un dossier d'options inexistant produit une erreur nommee.  </td><td class="markdownTableBodyNone">1. Charger trois chemins qui n'existent pas.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">vides.species.empty()</span> est vrai.<br  />
 Vérifie que <span class="tt">vides.backgrounds.empty()</span> est vrai.<br  />
 Vérifie que <span class="tt">vides.classes.empty()</span> est vrai.<br  />
 Vérifie que <span class="tt">vides.errors.size()</span> vaut <span class="tt">3U</span>.  </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>CharacterOptionsTest.LesHistoriquesCitentDesCompetencesQuiExistent</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__character__options_8cpp.html" title="Tests des especes, historiques et classes provisoires (LOT-36).">Source/Test/Unit/Core/Rpg/test_character_options.cpp</a>:309</span></sub>  </td><td class="markdownTableBodyNone">Les competences citees par un historique existent au catalogue.  </td><td class="markdownTableBodyNone">1. Pour chaque historique, verifier que le fichier de chaque competence citee existe dans <span class="tt">Source/Elements/Rpg/skills/</span>.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">historique.skillProficiencies.empty()</span> est faux.<br  />
+<sub><span class="tt"><a class="el" href="test__character__options_8cpp.html" title="Tests des especes, historiques et classes provisoires (LOT-36).">Source/Test/Unit/Core/Rpg/test_character_options.cpp</a>:317</span></sub>  </td><td class="markdownTableBodyNone">Les competences citees par un historique existent au catalogue.  </td><td class="markdownTableBodyNone">1. Pour chaque historique, verifier que le fichier de chaque competence citee existe dans <span class="tt">Source/Elements/Rpg/skills/</span>.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">historique.skillProficiencies.empty()</span> est faux.<br  />
 Vérifie que <span class="tt">std::filesystem::exists(chemin)</span> est vrai.<br  />
 Vérifie que <span class="tt">historique.languageCount</span> est supérieur ou égal à <span class="tt">0</span>.  </td></tr>
 </table>
@@ -2522,6 +2522,93 @@ Vérifie que <span class="tt">*dague-&gt;damageType</span> vaut <span class="tt"
 <sub><span class="tt"><a class="el" href="test__equipment_8cpp.html" title="Tests des armes et des armures (LOT-34).">Source/Test/Unit/Core/Rpg/test_equipment.cpp</a>:282</span></sub>  </td><td class="markdownTableBodyNone">Chaque arme porte la categorie et la portee de son intertitre.  </td><td class="markdownTableBodyNone">1. Verifier la categorie et la portee de quatre armes, une par groupe du livre.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">arme</span> diffère de <span class="tt">nullptr</span>.<br  />
 Vérifie que <span class="tt">arme-&gt;category</span> vaut <span class="tt">cas.categorie</span>.<br  />
 Vérifie que <span class="tt">arme-&gt;ranged</span> vaut <span class="tt">cas.distance</span>.  </td></tr>
+</table>
+<p><b><span class="tt"><a class="el" href="test__inventory_8cpp.html" title="Tests de l&#39;inventaire, des emplacements d&#39;équipement et des statistiques dérivées (LOT-14,...">test_inventory.cpp</a></span></b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>InventoryTest.LaClasseDArmureNeDerivePasAvecLOrdre</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__inventory_8cpp.html" title="Tests de l&#39;inventaire, des emplacements d&#39;équipement et des statistiques dérivées (LOT-14,...">Source/Test/Unit/Core/Rpg/test_inventory.cpp</a>:119</span></sub>  </td><td class="markdownTableBodyNone">La classe d'armure ne derive pas avec l'ordre des equipements.  </td><td class="markdownTableBodyNone">1. Relever la CA sans equipement.<br  />
+2. Jouer six ordres d'equipement et de retrait d'une armure et d'un bouclier.<br  />
+3. Relever la CA apres chaque sequence complete.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">depart</span> vaut <span class="tt">12</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a9a5cbcc72fe725bdada14f1b5a38e3d1" title="Calcule tout ce que l&#39;équipement porté produit, depuis la fiche et les catalogues.">core::derivedStatsFor</a>(personnage, sac, catalogues, regles(), charge()).armorClass</span> vaut <span class="tt">depart</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>InventoryTest.ChaqueCategorieDArmureAppliqueSaRegle</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__inventory_8cpp.html" title="Tests de l&#39;inventaire, des emplacements d&#39;équipement et des statistiques dérivées (LOT-14,...">Source/Test/Unit/Core/Rpg/test_inventory.cpp</a>:185</span></sub>  </td><td class="markdownTableBodyNone">Chaque categorie d'armure applique sa propre regle de Dexterite.  </td><td class="markdownTableBodyNone">1. Equiper une armure legere, puis une intermediaire, avec une Dexterite de 18.<br  />
+ 2. Ajouter un bouclier.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a9a5cbcc72fe725bdada14f1b5a38e3d1" title="Calcule tout ce que l&#39;équipement porté produit, depuis la fiche et les catalogues.">core::derivedStatsFor</a>(personnage, sac, catalogues, regles(), charge()).armorClass</span> vaut <span class="tt">15</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a9a5cbcc72fe725bdada14f1b5a38e3d1" title="Calcule tout ce que l&#39;équipement porté produit, depuis la fiche et les catalogues.">core::derivedStatsFor</a>(personnage, sac, catalogues, regles(), charge()).armorClass</span> vaut <span class="tt">17</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a9a5cbcc72fe725bdada14f1b5a38e3d1" title="Calcule tout ce que l&#39;équipement porté produit, depuis la fiche et les catalogues.">core::derivedStatsFor</a>(personnage, sac, catalogues, regles(), charge()).armorClass</span> vaut <span class="tt">19</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>InventoryTest.UnEmplacementRendCeQuIlPortait</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__inventory_8cpp.html" title="Tests de l&#39;inventaire, des emplacements d&#39;équipement et des statistiques dérivées (LOT-14,...">Source/Test/Unit/Core/Rpg/test_inventory.cpp</a>:214</span></sub>  </td><td class="markdownTableBodyNone">Un emplacement ne porte jamais deux pieces, et ce qui en sort est rendu.  </td><td class="markdownTableBodyNone">1. Equiper une armure, puis une autre au meme emplacement.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a4ba622b6ecedd0e50fd24d0d5b81ebde" title="Équipe itemId à slot, et rend ce que l&#39;emplacement portait.">core::equip</a>(sac, EquipmentSlot::Torso, "cuir")</span> vaut <span class="tt">""</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a4ba622b6ecedd0e50fd24d0d5b81ebde" title="Équipe itemId à slot, et rend ce que l&#39;emplacement portait.">core::equip</a>(sac, EquipmentSlot::Torso, "demi-plate")</span> vaut <span class="tt">"cuir"</span>.<br  />
+Vérifie que <span class="tt">sac.at(EquipmentSlot::Torso)</span> vaut <span class="tt">"demi-plate"</span>.<br  />
+Vérifie que <span class="tt">core::unequip(sac, EquipmentSlot::Torso)</span> vaut <span class="tt">"demi-plate"</span>.<br  />
+Vérifie que <span class="tt">sac.isEquipped(EquipmentSlot::Torso)</span> est faux.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>InventoryTest.LeSacEmpileEtSeVide</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__inventory_8cpp.html" title="Tests de l&#39;inventaire, des emplacements d&#39;équipement et des statistiques dérivées (LOT-14,...">Source/Test/Unit/Core/Rpg/test_inventory.cpp</a>:232</span></sub>  </td><td class="markdownTableBodyNone">Le sac empile, et une ligne videe disparait.  </td><td class="markdownTableBodyNone">1. Ajouter deux fois le meme objet.<br  />
+2. En retirer plus qu'il n'y en a.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">sac.backpack.size()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">sac.backpack.front().quantity</span> vaut <span class="tt">5</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a8ddb5a787feab8431b23b406bf78fb07" title="Retire quantity exemplaires de itemId.">core::removeFromBackpack</a>(sac, "torche", 10)</span> vaut <span class="tt">5</span>.<br  />
+Vérifie que <span class="tt">sac.backpack.empty()</span> est vrai.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a8ddb5a787feab8431b23b406bf78fb07" title="Retire quantity exemplaires de itemId.">core::removeFromBackpack</a>(sac, "torche", 1)</span> vaut <span class="tt">0</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>InventoryTest.LePoidsPorteCompteLeSacEtLEquipement</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__inventory_8cpp.html" title="Tests de l&#39;inventaire, des emplacements d&#39;équipement et des statistiques dérivées (LOT-14,...">Source/Test/Unit/Core/Rpg/test_inventory.cpp</a>:254</span></sub>  </td><td class="markdownTableBodyNone">Le poids porte compte le sac et l'equipement.  </td><td class="markdownTableBodyNone">1. Equiper une armure et une arme.<br  />
+2. Ajouter des objets au sac.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">core::carriedWeightGrams(sac, catalogues)</span> vaut <span class="tt">5000 + 1500 + 2000 + 5000</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>InventoryTest.UnIdentifiantInconnuEstSignale</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__inventory_8cpp.html" title="Tests de l&#39;inventaire, des emplacements d&#39;équipement et des statistiques dérivées (LOT-14,...">Source/Test/Unit/Core/Rpg/test_inventory.cpp</a>:278</span></sub>  </td><td class="markdownTableBodyNone">Un identifiant inconnu des catalogues est signale.  </td><td class="markdownTableBodyNone">1. Mettre au sac un identifiant absent des catalogues.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">inconnus</span> vaut <span class="tt">(std::vector&lt;std::string&gt;{"bidule-inexistant", "heaume-fantome"})</span>.<br  />
+Vérifie que <span class="tt">core::carriedWeightGrams(sac, catalogues)</span> vaut <span class="tt">0</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>InventoryTest.LaChargeFranchitSesSeuils</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__inventory_8cpp.html" title="Tests de l&#39;inventaire, des emplacements d&#39;équipement et des statistiques dérivées (LOT-14,...">Source/Test/Unit/Core/Rpg/test_inventory.cpp</a>:301</span></sub>  </td><td class="markdownTableBodyNone">La charge franchit ses trois seuils et definit le depassement.  </td><td class="markdownTableBodyNone">1. Charger un personnage de Force 10 en dessous du premier seuil, puis entre les deux, puis au-dela du second, puis au-dela de la capacite.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">leger.encumbrance</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ad77756d2c98fad50a0b353e7924843a5ae0c8631adc840f2dc3d7ad58f3353734" title="Rien ne le ralentit.">core::EncumbranceLevel::Unencumbered</a></span>.<br  />
+Vérifie que <span class="tt">leger.speedMeters</span> vaut <span class="tt">9.0F</span> (comparaison flottante).<br  />
+Vérifie que <span class="tt">leger.carryingCapacityGrams</span> vaut <span class="tt">75000</span>.<br  />
+Vérifie que <span class="tt">encombre.encumbrance</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ad77756d2c98fad50a0b353e7924843a5a3352f503cd5d323c5d6588fab6b4d9ae" title="Au-delà du premier seuil : vitesse diminuée.">core::EncumbranceLevel::Encumbered</a></span>.<br  />
+Vérifie que <span class="tt">encombre.speedMeters</span> vaut <span class="tt">6.0F</span> (comparaison flottante).<br  />
+Vérifie que <span class="tt">lourd.encumbrance</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ad77756d2c98fad50a0b353e7924843a5a2d24ecea1c4b912db6e8aa635d5d9825" title="Au-delà du second : vitesse diminuée davantage, et désavantage.">core::EncumbranceLevel::HeavilyEncumbered</a></span>.<br  />
+Vérifie que <span class="tt">lourd.speedMeters</span> vaut <span class="tt">3.0F</span> (comparaison flottante).<br  />
+Vérifie que <span class="tt">trop.encumbrance</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ad77756d2c98fad50a0b353e7924843a5a4fcf3e94521b7db24bd0c3bd6e9201af" title="Au-delà de la capacité de charge : il ne peut plus porter.">core::EncumbranceLevel::OverCapacity</a></span>.<br  />
+Vérifie que <span class="tt">trop.speedMeters</span> vaut <span class="tt">0.0F</span> (comparaison flottante).  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>InventoryTest.SansRegleDeChargeAucunEncombrementNEstAffirme</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__inventory_8cpp.html" title="Tests de l&#39;inventaire, des emplacements d&#39;équipement et des statistiques dérivées (LOT-14,...">Source/Test/Unit/Core/Rpg/test_inventory.cpp</a>:342</span></sub>  </td><td class="markdownTableBodyNone">Sans regle de charge, aucun encombrement n'est affirme.  </td><td class="markdownTableBodyNone">1. Deriver les statistiques avec des bornes de charge non chargees.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">derivees.encumbrance</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ad77756d2c98fad50a0b353e7924843a5ae0c8631adc840f2dc3d7ad58f3353734" title="Rien ne le ralentit.">core::EncumbranceLevel::Unencumbered</a></span>.<br  />
+Vérifie que <span class="tt">derivees.carryingCapacityGrams</span> vaut <span class="tt">0</span>.<br  />
+Vérifie que <span class="tt">derivees.speedMeters</span> vaut <span class="tt">9.0F</span> (comparaison flottante).  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>InventoryTest.LaCaracteristiqueDAttaqueSuitLArme</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__inventory_8cpp.html" title="Tests de l&#39;inventaire, des emplacements d&#39;équipement et des statistiques dérivées (LOT-14,...">Source/Test/Unit/Core/Rpg/test_inventory.cpp</a>:366</span></sub>  </td><td class="markdownTableBodyNone">La caracteristique d'attaque suit l'arme portee.  </td><td class="markdownTableBodyNone">1. Equiper une arme de melee, puis une arme a distance, puis une arme de finesse, avec une Dexterite superieure a la Force.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">derivees.attackAbility</span> vaut <span class="tt">Ability::Strength</span>.<br  />
+Vérifie que <span class="tt">derivees.damage.has_value()</span> est vrai.<br  />
+Vérifie que <span class="tt">derivees.damage-&gt;faces</span> vaut <span class="tt">8</span>.<br  />
+Vérifie que <span class="tt">derivees.attackAbility</span> vaut <span class="tt">Ability::Dexterity</span>.<br  />
+Vérifie que <span class="tt">derivees.attackAbility</span> vaut <span class="tt">Ability::Dexterity</span>.<br  />
+Vérifie que <span class="tt">derivees.damage.has_value()</span> est faux.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>InventoryTest.LaCategorieDecideAvantLEmplacement</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__inventory_8cpp.html" title="Tests de l&#39;inventaire, des emplacements d&#39;équipement et des statistiques dérivées (LOT-14,...">Source/Test/Unit/Core/Rpg/test_inventory.cpp</a>:402</span></sub>  </td><td class="markdownTableBodyNone">C'est la categorie qui dit comment une piece compte, pas l'emplacement.  </td><td class="markdownTableBodyNone">1. Ranger un bouclier a l'emplacement du torse.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a9a5cbcc72fe725bdada14f1b5a38e3d1" title="Calcule tout ce que l&#39;équipement porté produit, depuis la fiche et les catalogues.">core::derivedStatsFor</a>(personnage, sac, catalogues, regles(), charge()).armorClass</span> vaut <span class="tt">14</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>InventoryTest.LesEmplacementsSeNommentEtSeRelisent</b> (Mineur)<br  />
+<sub><span class="tt"><a class="el" href="test__inventory_8cpp.html" title="Tests de l&#39;inventaire, des emplacements d&#39;équipement et des statistiques dérivées (LOT-14,...">Source/Test/Unit/Core/Rpg/test_inventory.cpp</a>:422</span></sub>  </td><td class="markdownTableBodyNone">Les seize emplacements se nomment et se relisent.  </td><td class="markdownTableBodyNone">1. Convertir chaque emplacement en nom, puis le nom en emplacement.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">nom.empty()</span> est faux.<br  />
+Vérifie que <span class="tt">core::parseEquipmentSlot(nom)</span> vaut <span class="tt">emplacement</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a3c6126ca45164ee5761518aa0ae58ccd" title="Inverse d&#39;equipmentSlotName. std::nullopt si le nom est inconnu — jamais deviné.">core::parseEquipmentSlot</a>("chapeau-de-paille").has_value()</span> est faux.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>InventoryTest.LeCatalogueLivreSeCharge</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__inventory_8cpp.html" title="Tests de l&#39;inventaire, des emplacements d&#39;équipement et des statistiques dérivées (LOT-14,...">Source/Test/Unit/Core/Rpg/test_inventory.cpp</a>:441</span></sub>  </td><td class="markdownTableBodyNone">Le catalogue d'objets livre se charge.  </td><td class="markdownTableBodyNone">1. Charger Source/Elements/Rpg/items.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">catalogue.errors.empty()</span> est vrai.<br  />
+Vérifie que <span class="tt">catalogue.items.size()</span> est strictement supérieur à <span class="tt">100U</span>.<br  />
+Vérifie que <span class="tt">objet.id.empty()</span> est faux.<br  />
+Vérifie que <span class="tt">objet.name.empty()</span> est faux.<br  />
+Vérifie que <span class="tt">objet.weightGrams</span> est supérieur ou égal à <span class="tt">0</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>InventoryTest.LesBornesDeChargeLivreesSontCellesDuLivre</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__inventory_8cpp.html" title="Tests de l&#39;inventaire, des emplacements d&#39;équipement et des statistiques dérivées (LOT-14,...">Source/Test/Unit/Core/Rpg/test_inventory.cpp</a>:463</span></sub>  </td><td class="markdownTableBodyNone">Les bornes de charge livrees portent les valeurs du livre.  </td><td class="markdownTableBodyNone">1. Charger Source/Elements/Rpg/rules/encumbrance.json.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">regles.isLoaded()</span> est vrai.<br  />
+Vérifie que <span class="tt">regles.carryingCapacityGramsPerStrength</span> vaut <span class="tt">7500</span>.<br  />
+Vérifie que <span class="tt">regles.encumberedGramsPerStrength</span> vaut <span class="tt">2500</span>.<br  />
+Vérifie que <span class="tt">regles.heavilyEncumberedGramsPerStrength</span> vaut <span class="tt">5000</span>.<br  />
+Vérifie que <span class="tt">regles.encumberedSpeedPenaltyMeters</span> vaut <span class="tt">3.0F</span> (comparaison flottante).<br  />
+Vérifie que <span class="tt">regles.heavilyEncumberedSpeedPenaltyMeters</span> vaut <span class="tt">6.0F</span> (comparaison flottante).  </td></tr>
 </table>
 <p><b><span class="tt"><a class="el" href="test__multiclassing_8cpp.html" title="Tests du cumul des emplacements de sorts multiclasses (LOT-43, EX-RPG-041).">test_multiclassing.cpp</a></span></b></p>
 <table class="markdownTable">
@@ -6298,7 +6385,7 @@ Vérifie que <span class="tt">hmi::qtKeyToHmiKey(Qt::Key_Home).has_value()</span
 Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a1b53de392afb0dfdf5cdef4543fb672d" title="Traduit un code Qt::Key en hmi::Key.">hmi::qtKeyToHmiKey</a>(-1).has_value()</span> est faux.  </td></tr>
 </table>
 <h3 class="doxsection"><a class="anchor" id="autotoc_md24"></a>
-Interface (75)</h3>
+Interface (82)</h3>
 <p><b><span class="tt"><a class="el" href="test__application__theme_8cpp.html" title="Tests unitaires du thème de l&#39;IHM : modèle de feuille de style (LOT-56 TACHE-02, EX-IHM-050,...">test_application_theme.cpp</a></span></b></p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -6368,6 +6455,41 @@ Vérifie que <span class="tt">editorDark.text</span> diffère de <span class="tt
 Vérifie que <span class="tt">editorRules.empty()</span> est faux.<br  />
 Vérifie que <span class="tt">identityRules.find("editor.color.")</span> vaut <span class="tt">std::string::npos</span>.<br  />
 Vérifie que <span class="tt">editorRules.find("identity.")</span> vaut <span class="tt">std::string::npos</span>.  </td></tr>
+</table>
+<p><b><span class="tt"><a class="el" href="test__character__sheet__values_8cpp.html" title="Tests unitaires des valeurs affichées par l&#39;écran de fiche (LOT-38).">test_character_sheet_values.cpp</a></span></b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>CharacterSheetValuesTest.LesModificateursSAffichentAvecLeurSigne</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__character__sheet__values_8cpp.html" title="Tests unitaires des valeurs affichées par l&#39;écran de fiche (LOT-38).">Source/Test/Unit/HMI/Interface/test_character_sheet_values.cpp</a>:104</span></sub>  </td><td class="markdownTableBodyNone">Les modificateurs s'affichent signes, les caracteristiques avec leur modificateur.  </td><td class="markdownTableBodyNone">1. Produire les valeurs d'une fiche de Force 16 et de Charisme 8.<br  />
+2. Lire les deux lignes de caracteristique.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">valeurs.at("sheet.ability.strength")</span> vaut <span class="tt">"16 (+3)"</span>.<br  />
+Vérifie que <span class="tt">valeurs.at("sheet.ability.charisma")</span> vaut <span class="tt">"8 (-1)"</span>.<br  />
+Vérifie que <span class="tt">valeurs.at("sheet.initiative")</span> vaut <span class="tt">"+1"</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>CharacterSheetValuesTest.LeJetDeSauvegardeMaitriseComptteLaMaitrise</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__character__sheet__values_8cpp.html" title="Tests unitaires des valeurs affichées par l&#39;écran de fiche (LOT-38).">Source/Test/Unit/HMI/Interface/test_character_sheet_values.cpp</a>:127</span></sub>  </td><td class="markdownTableBodyNone">Un jet de sauvegarde maitrise porte le bonus de maitrise.  </td><td class="markdownTableBodyNone">1. Produire les valeurs d'une fiche maitrisant la sauvegarde de Force.<br  />
+2. Comparer les lignes de Force et de Dexterite.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">valeurs.at("sheet.proficiency_bonus")</span> vaut <span class="tt">"+2"</span>.<br  />
+Vérifie que <span class="tt">valeurs.at("sheet.save.strength")</span> vaut <span class="tt">"+5"</span>.<br  />
+Vérifie que <span class="tt">valeurs.at("sheet.save.dexterity")</span> vaut <span class="tt">"+1"</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>CharacterSheetValuesTest.LaCompetenceMaitriseeSeSignaleEtLaPerceptionPassiveEnDerive</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__character__sheet__values_8cpp.html" title="Tests unitaires des valeurs affichées par l&#39;écran de fiche (LOT-38).">Source/Test/Unit/HMI/Interface/test_character_sheet_values.cpp</a>:149</span></sub>  </td><td class="markdownTableBodyNone">Une competence maitrisee se signale, et la Perception passive en derive.  </td><td class="markdownTableBodyNone">1. Produire les valeurs d'une fiche maitrisant l'Athletisme.<br  />
+2. Lire Athletisme, Discretion et la Perception passive.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">valeurs.at("sheet.skill.athletics")</span> vaut <span class="tt">"+5 •"</span>.<br  />
+Vérifie que <span class="tt">valeurs.at("sheet.skill.stealth")</span> vaut <span class="tt">"+1"</span>.<br  />
+Vérifie que <span class="tt">valeurs.at("sheet.passive_perception")</span> vaut <span class="tt">"11"</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>CharacterSheetValuesTest.LesPointsDeVieSeLisentContreLeurMaximum</b> (Mineur)<br  />
+<sub><span class="tt"><a class="el" href="test__character__sheet__values_8cpp.html" title="Tests unitaires des valeurs affichées par l&#39;écran de fiche (LOT-38).">Source/Test/Unit/HMI/Interface/test_character_sheet_values.cpp</a>:172</span></sub>  </td><td class="markdownTableBodyNone">Les points de vie se lisent contre leur maximum.  </td><td class="markdownTableBodyNone">1. Produire les valeurs d'une fiche a 25 points de vie sur 30.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">valeurs.at("sheet.hit_points")</span> vaut <span class="tt">"25 / 30"</span>.<br  />
+Vérifie que <span class="tt">valeurs.at("sheet.hit_points_max")</span> vaut <span class="tt">"30"</span>.<br  />
+Vérifie que <span class="tt">valeurs.at("sheet.speed")</span> vaut <span class="tt">"9 m"</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>CharacterSheetValuesTest.SansFicheAucuneValeurNEstProduite</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__character__sheet__values_8cpp.html" title="Tests unitaires des valeurs affichées par l&#39;écran de fiche (LOT-38).">Source/Test/Unit/HMI/Interface/test_character_sheet_values.cpp</a>:194</span></sub>  </td><td class="markdownTableBodyNone">Sans fiche, aucune valeur n'est produite.  </td><td class="markdownTableBodyNone">1. Produire les valeurs d'un contexte sans fiche.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#ad2b3435349dd004d6768a14a49f5dacc">hmi::characterSheetValues</a>({}).empty()</span> est vrai.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>CharacterSheetValuesTest.ChaqueChampDeLaFicheEstAlimente</b> (?)<br  />
+<sub><span class="tt"><a class="el" href="test__character__sheet__values_8cpp.html" title="Tests unitaires des valeurs affichées par l&#39;écran de fiche (LOT-38).">Source/Test/Unit/HMI/Interface/test_character_sheet_values.cpp</a>:213</span></sub>  </td><td class="markdownTableBodyNone">Chaque champ de la fiche declarant une source est rempli. cat Unitaire · Fiche de personnage crit Critique etapes 1. Lire les identifiants de valeur declares par l'ossature de la fiche. 2. Produire les valeurs d'une fiche complete. 3. Verifier que chaque identifiant declare est produit. attendu Aucun champ de la fiche ne reste sans source.  </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">Vérifie que <span class="tt">valeurs.count(champ.valueId) &gt; 0</span> est vrai.<br  />
+Vérifie que <span class="tt">declares</span> est strictement supérieur à <span class="tt">10</span>.  </td></tr>
 </table>
 <p><b><span class="tt"><a class="el" href="test__design__tokens_8cpp.html" title="Tests unitaires des jetons de design de l&#39;IHM (LOT-56 TACHE-01, EX-IHM-050, EX-IHM-051).">test_design_tokens.cpp</a></span></b></p>
 <table class="markdownTable">
@@ -6742,10 +6864,10 @@ Vérifie que <span class="tt">shapes[i].filled</span> est vrai.  </td></tr>
 <tr class="markdownTableHead">
 <th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><b>RpgScreensTest.LeCycleTraverseLesHuitEcrans</b> (Critique)<br  />
-<sub><span class="tt"><a class="el" href="test__rpg__screens_8cpp.html" title="Tests unitaires du catalogue des écrans du RPG et de leur ossature (LOT-68, EX-IHM-090,...">Source/Test/Unit/HMI/Interface/test_rpg_screens.cpp</a>:43</span></sub>  </td><td class="markdownTableBodyNone">Le cycle de navigation traverse les huit ecrans et revient au premier.  </td><td class="markdownTableBodyNone">1. Partir du premier ecran.<br  />
-2. Appeler nextRpgScreen huit fois en notant chaque ecran atteint.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">rpgScreens().size()</span> vaut <span class="tt"><a class="el" href="namespacehmi.html#a93db3bafe6aeaebee6e483836f313055" title="Nombre d&#39;écrans du catalogue. Dérivé de la table, jamais écrit deux fois.">hmi::RPG_SCREEN_COUNT</a></span>.<br  />
-Vérifie que <span class="tt">visited.size()</span> vaut <span class="tt"><a class="el" href="namespacehmi.html#a93db3bafe6aeaebee6e483836f313055" title="Nombre d&#39;écrans du catalogue. Dérivé de la table, jamais écrit deux fois.">hmi::RPG_SCREEN_COUNT</a></span>.<br  />
+<td class="markdownTableBodyNone"><b>RpgScreensTest.LeCycleTraverseLesNeufEcrans</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__rpg__screens_8cpp.html" title="Tests unitaires du catalogue des écrans du RPG et de leur ossature (LOT-68, EX-IHM-090,...">Source/Test/Unit/HMI/Interface/test_rpg_screens.cpp</a>:43</span></sub>  </td><td class="markdownTableBodyNone">Le cycle de navigation traverse les neuf ecrans et revient au premier.  </td><td class="markdownTableBodyNone">1. Partir du premier ecran.<br  />
+2. Appeler nextRpgScreen neuf fois en notant chaque ecran atteint.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">rpgScreens().size()</span> vaut <span class="tt"><a class="el" href="namespacehmi.html#a93db3bafe6aeaebee6e483836f313055" title="Nombre d&#39;écrans du catalogue.">hmi::RPG_SCREEN_COUNT</a></span>.<br  />
+Vérifie que <span class="tt">visited.size()</span> vaut <span class="tt"><a class="el" href="namespacehmi.html#a93db3bafe6aeaebee6e483836f313055" title="Nombre d&#39;écrans du catalogue.">hmi::RPG_SCREEN_COUNT</a></span>.<br  />
 Vérifie que <span class="tt">screen</span> vaut <span class="tt">first</span>.  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>RpgScreensTest.LePasArriereEstLInverseDuPasAvant</b> (Majeur)<br  />
@@ -6755,36 +6877,42 @@ Vérifie que <span class="tt">nextRpgScreen(previousRpgScreen(descriptor.id))</s
 Vérifie que <span class="tt">previousRpgScreen(rpgScreens().front().id)</span> vaut <span class="tt">rpgScreens().back().id</span>.  </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>RpgScreensTest.LaRegleDeSuperpositionEstCelleAttendue</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__rpg__screens_8cpp.html" title="Tests unitaires du catalogue des écrans du RPG et de leur ossature (LOT-68, EX-IHM-090,...">Source/Test/Unit/HMI/Interface/test_rpg_screens.cpp</a>:87</span></sub>  </td><td class="markdownTableBodyNone">La regle de superposition est celle attendue pour chacun des huit ecrans.  </td><td class="markdownTableBodyNone">1. Interroger pausesGame pour chacun des huit ecrans.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">pausesGame(RpgScreenId::CharacterSheet)</span> est vrai.<br  />
+<sub><span class="tt"><a class="el" href="test__rpg__screens_8cpp.html" title="Tests unitaires du catalogue des écrans du RPG et de leur ossature (LOT-68, EX-IHM-090,...">Source/Test/Unit/HMI/Interface/test_rpg_screens.cpp</a>:87</span></sub>  </td><td class="markdownTableBodyNone">La regle de superposition est celle attendue pour chacun des neuf ecrans.  </td><td class="markdownTableBodyNone">1. Interroger pausesGame pour chacun des neuf ecrans.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">pausesGame(RpgScreenId::CharacterSheet)</span> est vrai.<br  />
 Vérifie que <span class="tt">pausesGame(RpgScreenId::Inventory)</span> est vrai.<br  />
 Vérifie que <span class="tt">pausesGame(RpgScreenId::QuestJournal)</span> est vrai.<br  />
 Vérifie que <span class="tt">pausesGame(RpgScreenId::Dialogue)</span> est vrai.<br  />
 Vérifie que <span class="tt">pausesGame(RpgScreenId::Merchant)</span> est vrai.<br  />
 Vérifie que <span class="tt">pausesGame(RpgScreenId::GuildBoard)</span> est vrai.<br  />
+Vérifie que <span class="tt">pausesGame(RpgScreenId::TeamSheet)</span> est vrai.<br  />
 Vérifie que <span class="tt">pausesGame(RpgScreenId::WorldMap)</span> est faux.<br  />
 Vérifie que <span class="tt">pausesGame(RpgScreenId::CombatHud)</span> est faux.  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>RpgScreensTest.ChaqueEcranEstIdentifiableEtNonVide</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__rpg__screens_8cpp.html" title="Tests unitaires du catalogue des écrans du RPG et de leur ossature (LOT-68, EX-IHM-090,...">Source/Test/Unit/HMI/Interface/test_rpg_screens.cpp</a>:112</span></sub>  </td><td class="markdownTableBodyNone">Chaque ecran a un nom d'objet unique, un titre unique et une ossature non vide.  </td><td class="markdownTableBodyNone">1. Collecter noms d'objets et cles de titre.<br  />
+<sub><span class="tt"><a class="el" href="test__rpg__screens_8cpp.html" title="Tests unitaires du catalogue des écrans du RPG et de leur ossature (LOT-68, EX-IHM-090,...">Source/Test/Unit/HMI/Interface/test_rpg_screens.cpp</a>:114</span></sub>  </td><td class="markdownTableBodyNone">Chaque ecran a un nom d'objet unique, un titre unique et une ossature non vide.  </td><td class="markdownTableBodyNone">1. Collecter noms d'objets et cles de titre.<br  />
 2. Verifier leur unicite et la presence d'au moins un bloc par ecran.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">objectNames.insert(descriptor.objectName).second</span> est vrai.<br  />
 Vérifie que <span class="tt">titleKeys.insert(descriptor.titleKey).second</span> est vrai.<br  />
 Vérifie que <span class="tt">descriptor.layout.leftColumn.empty()</span> est faux.<br  />
 Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#aadabcaf08acb48c29dc437f3bd2f47ce">hmi::rpgScreenDescriptor</a>(descriptor.id).id</span> vaut <span class="tt">descriptor.id</span>.  </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>RpgScreensTest.ChaqueBlocEstCoherentAvecSonGenre</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__rpg__screens_8cpp.html" title="Tests unitaires du catalogue des écrans du RPG et de leur ossature (LOT-68, EX-IHM-090,...">Source/Test/Unit/HMI/Interface/test_rpg_screens.cpp</a>:140</span></sub>  </td><td class="markdownTableBodyNone">Chaque bloc de l'ossature est coherent avec son genre.  </td><td class="markdownTableBodyNone">1. Parcourir les blocs des deux colonnes de chaque ecran.<br  />
-2. Verifier les dimensions et libelles exiges par chaque genre.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">block.labelKeys.empty()</span> est faux.<br  />
+<sub><span class="tt"><a class="el" href="test__rpg__screens_8cpp.html" title="Tests unitaires du catalogue des écrans du RPG et de leur ossature (LOT-68, EX-IHM-090,...">Source/Test/Unit/HMI/Interface/test_rpg_screens.cpp</a>:144</span></sub>  </td><td class="markdownTableBodyNone">Chaque bloc de l'ossature est coherent avec son genre.  </td><td class="markdownTableBodyNone">1. Parcourir les blocs des deux colonnes de chaque ecran.<br  />
+2. Verifier les dimensions et libelles exiges par chaque genre.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">block.fields.empty()</span> est faux.<br  />
+Vérifie que <span class="tt">field.labelKey[0]</span> diffère de <span class="tt">'\\0'</span>.<br  />
 Vérifie que <span class="tt">block.columns</span> est strictement supérieur à <span class="tt">0</span>.<br  />
 Vérifie que <span class="tt">block.rows</span> est strictement supérieur à <span class="tt">0</span>.<br  />
-Vérifie que <span class="tt">block.rows</span> est strictement supérieur à <span class="tt">0</span>.<br  />
+Vérifie que <span class="tt">block.rows &gt; 0 \|\| !block.valueIds.empty()</span> est vrai.<br  />
 Vérifie que <span class="tt">block.columns</span> est strictement supérieur à <span class="tt">0</span>.  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>RpgScreensTest.ChaqueCleDeLOssatureExisteDansLesDeuxLangues</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__rpg__screens_8cpp.html" title="Tests unitaires du catalogue des écrans du RPG et de leur ossature (LOT-68, EX-IHM-090,...">Source/Test/Unit/HMI/Interface/test_rpg_screens.cpp</a>:188</span></sub>  </td><td class="markdownTableBodyNone">Chaque cle de l'ossature des ecrans du RPG existe en francais et en anglais.  </td><td class="markdownTableBodyNone">1. Lire fr.lang et en.lang.<br  />
+<sub><span class="tt"><a class="el" href="test__rpg__screens_8cpp.html" title="Tests unitaires du catalogue des écrans du RPG et de leur ossature (LOT-68, EX-IHM-090,...">Source/Test/Unit/HMI/Interface/test_rpg_screens.cpp</a>:198</span></sub>  </td><td class="markdownTableBodyNone">Chaque cle de l'ossature des ecrans du RPG existe en francais et en anglais.  </td><td class="markdownTableBodyNone">1. Lire fr.lang et en.lang.<br  />
 2. Verifier chaque cle de titre, de bloc et de champ, plus les cles du pied d'actions.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">fr.empty()</span> est faux.<br  />
 Vérifie que <span class="tt">en.empty()</span> est faux.<br  />
 Vérifie que <span class="tt">fr.count(key) &gt; 0</span> est vrai.<br  />
 Vérifie que <span class="tt">en.count(key) &gt; 0</span> est vrai.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>RpgScreensTest.LesIdentifiantsDeValeurSontUniquesParEcran</b> (?)<br  />
+<sub><span class="tt"><a class="el" href="test__rpg__screens_8cpp.html" title="Tests unitaires du catalogue des écrans du RPG et de leur ossature (LOT-68, EX-IHM-090,...">Source/Test/Unit/HMI/Interface/test_rpg_screens.cpp</a>:253</span></sub>  </td><td class="markdownTableBodyNone">Les identifiants de valeur sont uniques a l'interieur d'un ecran. cat Unitaire · Ecrans du RPG crit Majeur etapes 1. Collecter les identifiants de valeur de chaque ecran. 2. Verifier qu'aucun ne se repete dans un meme ecran. attendu Aucun identifiant duplique.  </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">Vérifie que <span class="tt">vus.insert(field.valueId).second</span> est vrai.<br  />
+Vérifie que <span class="tt">vus.insert(id).second</span> est vrai.  </td></tr>
 </table>
 <p><b><span class="tt"><a class="el" href="test__screen__flow_8cpp.html" title="Tests unitaires de la machine à états des écrans (LOT-59 TACHE-01, EX-GP-041).">test_screen_flow.cpp</a></span></b></p>
 <table class="markdownTable">

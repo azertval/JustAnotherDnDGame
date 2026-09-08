@@ -106,9 +106,11 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:acf0a652111f9810d64ccd47132d5c620" id="r_acf0a652111f9810d64ccd47132d5c620"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#acf0a652111f9810d64ccd47132d5c620">columns</a> = 0</td></tr>
 <tr class="memdesc:acf0a652111f9810d64ccd47132d5c620"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">Grid</span>, <span class="tt">Track</span>, <span class="tt">ActionBar</span> : nombre de colonnes/jetons.  <br /></td></tr>
 <tr class="memitem:a0b2ec16652fe9f2435fafdb5ff9a23f2" id="r_a0b2ec16652fe9f2435fafdb5ff9a23f2"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a0b2ec16652fe9f2435fafdb5ff9a23f2">rows</a> = 0</td></tr>
-<tr class="memdesc:a0b2ec16652fe9f2435fafdb5ff9a23f2"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">Grid</span>, <span class="tt">List</span> : nombre de lignes.  <br /></td></tr>
-<tr class="memitem:a4be34cd0b576cfefae3ae9701c4844ec" id="r_a4be34cd0b576cfefae3ae9701c4844ec"><td class="memItemLeft">std::span&lt; const char *const  &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a4be34cd0b576cfefae3ae9701c4844ec">labelKeys</a> {}</td></tr>
-<tr class="memdesc:a4be34cd0b576cfefae3ae9701c4844ec"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">Fields</span> : une clé de libellé par ligne. Vide pour les autres genres.  <br /></td></tr>
+<tr class="memdesc:a0b2ec16652fe9f2435fafdb5ff9a23f2"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">Grid</span> : nombre de lignes.  <br /></td></tr>
+<tr class="memitem:ab28543c9c5eabad936ecf84a38088b21" id="r_ab28543c9c5eabad936ecf84a38088b21"><td class="memItemLeft">std::span&lt; const <a class="el" href="structhmi_1_1RpgField.html">RpgField</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#ab28543c9c5eabad936ecf84a38088b21">fields</a> {}</td></tr>
+<tr class="memdesc:ab28543c9c5eabad936ecf84a38088b21"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">Fields</span> : une ligne par entrée. Vide pour les autres genres.  <br /></td></tr>
+<tr class="memitem:a0c78fa83a0e8267273061a53ee0919a1" id="r_a0c78fa83a0e8267273061a53ee0919a1"><td class="memItemLeft">std::span&lt; const char *const  &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a0c78fa83a0e8267273061a53ee0919a1">valueIds</a> {}</td></tr>
+<tr class="memdesc:a0c78fa83a0e8267273061a53ee0919a1"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">List</span> et <span class="tt">Prose</span> : l'identifiant de valeur de chaque ligne (<span class="tt">List</span>) ou du paragraphe (<span class="tt">Prose</span>).  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Un bloc de l'ossature d'un écran. </p>
@@ -129,6 +131,22 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="ab28543c9c5eabad936ecf84a38088b21" name="ab28543c9c5eabad936ecf84a38088b21"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab28543c9c5eabad936ecf84a38088b21">&#9670;&#160;</a></span>fields</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::span&lt;const <a class="el" href="structhmi_1_1RpgField.html">RpgField</a>&gt; hmi::RpgContentBlock::fields {}</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><span class="tt">Fields</span> : une ligne par entrée. Vide pour les autres genres. </p>
+
+</div>
+</div>
 <a id="a3ebbd21e78818f4742a1c08975664798" name="a3ebbd21e78818f4742a1c08975664798"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3ebbd21e78818f4742a1c08975664798">&#9670;&#160;</a></span>kind</h2>
 
@@ -140,22 +158,6 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-</div>
-</div>
-<a id="a4be34cd0b576cfefae3ae9701c4844ec" name="a4be34cd0b576cfefae3ae9701c4844ec"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4be34cd0b576cfefae3ae9701c4844ec">&#9670;&#160;</a></span>labelKeys</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::span&lt;const char* const&gt; hmi::RpgContentBlock::labelKeys {}</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><span class="tt">Fields</span> : une clé de libellé par ligne. Vide pour les autres genres. </p>
 
 </div>
 </div>
@@ -171,7 +173,8 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p><span class="tt">Grid</span>, <span class="tt">List</span> : nombre de lignes. </p>
+<p><span class="tt">Grid</span> : nombre de lignes. </p>
+<p><span class="tt">List</span> : nombre de lignes <b>quand</b> <span class="tt"><a class="el" href="#a0c78fa83a0e8267273061a53ee0919a1" title="List et Prose : l&#39;identifiant de valeur de chaque ligne (List) ou du paragraphe (Prose).">valueIds</a></span> est vide ; sinon c'est la longueur de <span class="tt"><a class="el" href="#a0c78fa83a0e8267273061a53ee0919a1" title="List et Prose : l&#39;identifiant de valeur de chaque ligne (List) ou du paragraphe (Prose).">valueIds</a></span> qui décide, pour que les deux ne puissent pas diverger. </p>
 
 </div>
 </div>
@@ -188,6 +191,23 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Clé du titre du bloc ; vide pour un bloc sans titre. </p>
+
+</div>
+</div>
+<a id="a0c78fa83a0e8267273061a53ee0919a1" name="a0c78fa83a0e8267273061a53ee0919a1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0c78fa83a0e8267273061a53ee0919a1">&#9670;&#160;</a></span>valueIds</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::span&lt;const char* const&gt; hmi::RpgContentBlock::valueIds {}</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><span class="tt">List</span> et <span class="tt">Prose</span> : l'identifiant de valeur de chaque ligne (<span class="tt">List</span>) ou du paragraphe (<span class="tt">Prose</span>). </p>
+<p>Vide tant que rien ne les alimente. </p>
 
 </div>
 </div>

@@ -7,7 +7,7 @@ var searchData=
   ['6_20contrôle_20de_20plausibilité_4',['6. Contrôle de plausibilité',['../spec-contenu.html#autotoc_md268',1,'']]],
   ['6_20documentation_20doxygen_5',['6. Documentation Doxygen',['../spec-conventions.html#autotoc_md285',1,'']]],
   ['6_20l_20adversaire_6',['6. L&apos;adversaire',['../spec-combat.html#autotoc_md262',1,'']]],
-  ['6_20ordre_20d_20exécution_7',['6. Ordre d&apos;exécution',['../roadmap-010.html#autotoc_md596',1,'']]],
+  ['6_20ordre_20d_20exécution_7',['6. Ordre d&apos;exécution',['../roadmap-010.html#autotoc_md615',1,'']]],
   ['6_20robustesse_20et_20confort_20d_20édition_20lot_20h_2015_8',['6. Robustesse et confort d&apos;édition (LOT-H-15)',['../spec-editeur.html#autotoc_md307',1,'']]],
   ['6_20sorts_9',['6. Sorts',['../spec-rpg.html#autotoc_md372',1,'']]],
   ['6_20système_20de_20design_20et_20habillage_20lot_20h_2056_10',['6. Système de design et habillage (LOT-H-56)',['../spec-interface-ihm.html#autotoc_md341',1,'']]],
@@ -24,6 +24,6 @@ var searchData=
   ['67_20a_20retiré_21',['67 a retiré',['../guide-ecrans.html#autotoc_md83',1,'Ce que le &lt;span class=&quot;tt&quot;&gt;LOT-67&lt;/span&gt; a retiré'],['../guide-niveaux.html#autotoc_md178',1,'Ce que le &lt;span class=&quot;tt&quot;&gt;LOT-67&lt;/span&gt; a retiré']]],
   ['68_22',['68',['../spec-interface-ihm.html#autotoc_md345',1,'10. Le châssis des écrans du RPG (LOT-68)'],['../spec-interface-ihm.html#autotoc_md343',1,'8. Identité visuelle des écrans du jeu (LOT-H-68)'],['../guide-design-ihm.html#autotoc_md76',1,'Hiérarchie des surfaces, et espaces de travail (LOT-68)']]],
   ['68_20—_20le_20châssis_20des_20écrans_20du_20rpg_23',['LOT-68 — Le châssis des écrans du RPG',['../lot-68.html',1,'lots']]],
-  ['69_24',['69',['../guide-editeur.html#autotoc_md111',1,'Le mode création : peindre le décor du niveau (&lt;span class=&quot;tt&quot;&gt;LOT-69&lt;/span&gt;)'],['../guide-rendu.html#autotoc_md238',1,'Le second axe : la mémoire de texture des plans (&lt;span class=&quot;tt&quot;&gt;LOT-69&lt;/span&gt;)'],['../guide-rendu.html#autotoc_md221',1,'Plans picturaux et parallaxe (&lt;span class=&quot;tt&quot;&gt;LOT-69&lt;/span&gt;)']]],
+  ['69_24',['69',['../guide-editeur.html#autotoc_md111',1,'Le mode création : peindre le décor du niveau (&lt;span class=&quot;tt&quot;&gt;LOT-69&lt;/span&gt;)'],['../guide-rendu.html#autotoc_md238',1,'Le second axe : la mémoire de texture des plans (&lt;span class=&quot;tt&quot;&gt;LOT-69&lt;/span&gt;)'],['../guide-rendu.html#autotoc_md221',1,'Plans picturaux et parallaxe (&lt;span class=&quot;tt&quot;&gt;LOT-69&lt;/span&gt;)'],['../cahiertest.html#autotoc_md14',1,'Rpg (69)']]],
   ['69_20—_20retrait_20de_20l_20atelier_20pixel_20art_25',['&lt;span class=&quot;tt&quot;&gt;LOT-69&lt;/span&gt; — Retrait de l&apos;atelier pixel art',['../roadmap-010.html#lot-69',1,'']]]
 ];

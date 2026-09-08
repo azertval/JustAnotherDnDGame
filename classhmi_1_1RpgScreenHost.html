@@ -116,6 +116,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ac780d70c6ba4bd40249f0d83b9072328" id="r_ac780d70c6ba4bd40249f0d83b9072328"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#ac780d70c6ba4bd40249f0d83b9072328">RpgScreenHost</a> (QWidget *parent=nullptr)</td></tr>
 <tr class="memitem:adb0ad115702613b3c319d5778e87ae59" id="r_adb0ad115702613b3c319d5778e87ae59"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#adb0ad115702613b3c319d5778e87ae59">retranslateUi</a> (const <a class="el" href="classhmi_1_1Localization.html">Localization</a> &amp;loc)</td></tr>
 <tr class="memdesc:adb0ad115702613b3c319d5778e87ae59"><td class="mdescLeft">&#160;</td><td class="mdescRight">Applique la langue active aux huit écrans.  <br /></td></tr>
+<tr class="memitem:a1af27019ecd7258ca1abc0fd48d3ab24" id="r_a1af27019ecd7258ca1abc0fd48d3ab24"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a1af27019ecd7258ca1abc0fd48d3ab24">setValues</a> (<a class="el" href="namespacehmi.html#a86e4ce6097c7a029c683096302528e72">RpgScreenId</a> screen, const std::map&lt; std::string, std::string &gt; &amp;values)</td></tr>
+<tr class="memdesc:a1af27019ecd7258ca1abc0fd48d3ab24"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pose les valeurs de <code class="param">screen</code> (<span class="tt"><a class="el" href="classhmi_1_1RpgScreenFrame.html#ab291c53e878299247ec021e73722f4eb" title="Remplit les valeurs de l&#39;écran (LOT-38).">hmi::RpgScreenFrame::setValues</a></span>, <span class="tt">LOT-38</span>).  <br /></td></tr>
 <tr class="memitem:a47b641b4236275e7f02e605d05c9e9a9" id="r_a47b641b4236275e7f02e605d05c9e9a9"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a47b641b4236275e7f02e605d05c9e9a9">showScreen</a> (<a class="el" href="namespacehmi.html#a86e4ce6097c7a029c683096302528e72">RpgScreenId</a> screen)</td></tr>
 <tr class="memdesc:a47b641b4236275e7f02e605d05c9e9a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Affiche <code class="param">screen</code> et lui donne le focus clavier.  <br /></td></tr>
 <tr class="memitem:ae671c29db0152ee8a79d61ebe2a9334f" id="r_ae671c29db0152ee8a79d61ebe2a9334f"><td class="memItemLeft"><a class="el" href="namespacehmi.html#a86e4ce6097c7a029c683096302528e72">RpgScreenId</a>&#160;</td><td class="memItemRight"><a class="el" href="#ae671c29db0152ee8a79d61ebe2a9334f">currentScreen</a> () const</td></tr>
@@ -132,6 +134,8 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:a39b3e89e1338609ffe1874656bfb0517" id="r_a39b3e89e1338609ffe1874656bfb0517"><td class="memItemLeft">QHash&lt; int, <a class="el" href="classhmi_1_1RpgScreenFrame.html">RpgScreenFrame</a> * &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a39b3e89e1338609ffe1874656bfb0517">_frames</a></td></tr>
 <tr class="memdesc:a39b3e89e1338609ffe1874656bfb0517"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt"><a class="el" href="namespacehmi.html#a86e4ce6097c7a029c683096302528e72" title="Les huit écrans du RPG.">RpgScreenId</a></span> (en entier) -&gt; châssis construit.  <br /></td></tr>
 <tr class="memitem:a5d798873c918f8853d099fe85643670a" id="r_a5d798873c918f8853d099fe85643670a"><td class="memItemLeft"><a class="el" href="namespacehmi.html#a86e4ce6097c7a029c683096302528e72">RpgScreenId</a>&#160;</td><td class="memItemRight"><a class="el" href="#a5d798873c918f8853d099fe85643670a">_current</a> = <a class="el" href="namespacehmi.html#a86e4ce6097c7a029c683096302528e72aeb7e99d2187282628ef8b4c20cf7a714">RpgScreenId::CharacterSheet</a></td></tr>
+<tr class="memitem:a4788065c52158b3ca2524d373a0fa1d7" id="r_a4788065c52158b3ca2524d373a0fa1d7"><td class="memItemLeft">QHash&lt; int, std::map&lt; std::string, std::string &gt; &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a4788065c52158b3ca2524d373a0fa1d7">_screenValues</a></td></tr>
+<tr class="memdesc:a4788065c52158b3ca2524d373a0fa1d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dernières valeurs de chaque écran, rejouées après un changement de langue : sans elles, changer de langue viderait une fiche remplie.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Héberge les écrans du RPG et fait passer de l'un à l'autre <b>sans repasser par le menu</b>. </p>
@@ -282,6 +286,30 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a1af27019ecd7258ca1abc0fd48d3ab24" name="a1af27019ecd7258ca1abc0fd48d3ab24"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1af27019ecd7258ca1abc0fd48d3ab24">&#9670;&#160;</a></span>setValues()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::RpgScreenHost::setValues </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacehmi.html#a86e4ce6097c7a029c683096302528e72">RpgScreenId</a></td>          <td class="paramname"><span class="paramname"><em>screen</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::map&lt; std::string, std::string &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>values</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Pose les valeurs de <code class="param">screen</code> (<span class="tt"><a class="el" href="classhmi_1_1RpgScreenFrame.html#ab291c53e878299247ec021e73722f4eb" title="Remplit les valeurs de l&#39;écran (LOT-38).">hmi::RpgScreenFrame::setValues</a></span>, <span class="tt">LOT-38</span>). </p>
+<p>Sans effet si cet écran n'est pas dans la table &ndash; rien à remplir n'est pas une erreur. </p>
+
+</div>
+</div>
 <a id="a686137692ef20ac3d78324fdc65abdb1" name="a686137692ef20ac3d78324fdc65abdb1"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a686137692ef20ac3d78324fdc65abdb1">&#9670;&#160;</a></span>showNextScreen()</h2>
 
@@ -383,6 +411,30 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p><span class="tt"><a class="el" href="namespacehmi.html#a86e4ce6097c7a029c683096302528e72" title="Les huit écrans du RPG.">RpgScreenId</a></span> (en entier) -&gt; châssis construit. </p>
+
+</div>
+</div>
+<a id="a4788065c52158b3ca2524d373a0fa1d7" name="a4788065c52158b3ca2524d373a0fa1d7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4788065c52158b3ca2524d373a0fa1d7">&#9670;&#160;</a></span>_screenValues</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QHash&lt;int, std::map&lt;std::string, std::string&gt; &gt; hmi::RpgScreenHost::_screenValues</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Dernières valeurs de chaque écran, rejouées après un changement de langue : sans elles, changer de langue viderait une fiche remplie. </p>
 
 </div>
 </div>

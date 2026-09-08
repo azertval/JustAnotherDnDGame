@@ -5,5 +5,7 @@ var searchData=
   ['editorthememode_2',['EditorThemeMode',['../namespacehmi.html#a57dcf8ac7fd26c90a8741e698c896580',1,'hmi']]],
   ['editorthemesetting_3',['EditorThemeSetting',['../namespacehmi.html#a796b5dfcf1d9de2fb2552d51af677646',1,'hmi']]],
   ['editortool_4',['EditorTool',['../namespacehmi.html#a02048ad8ad69a87a10e8307ac2bd68dd',1,'hmi']]],
-  ['editorworkspace_5',['EditorWorkspace',['../namespacehmi.html#afc2e687c85989440c76b94c012a1b91d',1,'hmi']]]
+  ['editorworkspace_5',['EditorWorkspace',['../namespacehmi.html#afc2e687c85989440c76b94c012a1b91d',1,'hmi']]],
+  ['encumbrancelevel_6',['EncumbranceLevel',['../namespacecore.html#ad77756d2c98fad50a0b353e7924843a5',1,'core']]],
+  ['equipmentslot_7',['EquipmentSlot',['../namespacecore.html#af71085608729d9857e7ee3fd17be6cd6',1,'core']]]
 ];
