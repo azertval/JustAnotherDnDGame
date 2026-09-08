@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['g_0',['g',['../structcore_1_1Color.html#a174b0688edeaa14b34a69404f2e771b3',1,'core::Color::g'],['../structhmi_1_1SpriteQuad.html#af6ffdbfd89d0a7c964e9a99574ac5b4d',1,'hmi::SpriteQuad::g'],['../structhmi_1_1LineQuad.html#aefba068b1c39d1610195001056375563',1,'hmi::LineQuad::g'],['../structhmi_1_1SpriteBatch_1_1Vertex.html#a159fa9be9305ea7dcf1e051c61649762',1,'hmi::SpriteBatch::Vertex::g'],['../structhmi_1_1DesignColor.html#a8ff4862309915a6306ce61fbfc7e3de8',1,'hmi::DesignColor::g']]],
+  ['g_0',['g',['../structcore_1_1Color.html#a174b0688edeaa14b34a69404f2e771b3',1,'core::Color::g'],['../structcore_1_1MarkerColor.html#a30cd1228d2002689cd99aabbcda60160',1,'core::MarkerColor::g'],['../structhmi_1_1SpriteQuad.html#af6ffdbfd89d0a7c964e9a99574ac5b4d',1,'hmi::SpriteQuad::g'],['../structhmi_1_1LineQuad.html#aefba068b1c39d1610195001056375563',1,'hmi::LineQuad::g'],['../structhmi_1_1SpriteBatch_1_1Vertex.html#a159fa9be9305ea7dcf1e051c61649762',1,'hmi::SpriteBatch::Vertex::g'],['../structhmi_1_1DesignColor.html#a8ff4862309915a6306ce61fbfc7e3de8',1,'hmi::DesignColor::g']]],
   ['game_5faction_5fcount_1',['GAME_ACTION_COUNT',['../namespacehmi.html#ab42b3bed825ef5b3664995a516c4eb8d',1,'hmi']]],
   ['game_5fevent_5fcount_2',['GAME_EVENT_COUNT',['../namespacehmi.html#aab9ebfc2ebacc5718532a560bfd830ea',1,'hmi']]],
   ['gamepad_5fbutton_5fcount_3',['GAMEPAD_BUTTON_COUNT',['../namespacehmi.html#aab59d64d595ba17a55cc07311285ba14',1,'hmi']]],

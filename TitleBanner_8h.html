@@ -110,13 +110,13 @@ Namespaces</h2></td></tr>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Titre d'écran posé sur son bandeau de grenat (<span class="tt">LOT-76</span>, <span class="tt">EX-IHM-075</span>). </p>
 <p>Couche <b>Qt</b> au-dessus de <span class="tt"><a class="el" href="namespacehmi.html#ad064e631e040400bdf725766b3dabd4c" title="Bandeau de titre : une plaque de grenat à chevrons, entre deux ailes d&#39;or.">hmi::titleBannerShapes</a></span> : la géométrie décide <em>quoi</em> dessiner, cette classe décide <em>comment</em> le peindre et <b>où le texte tient</b>.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md773"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md793"></a>
 Un <span class="tt">QLabel</span>, et pas un conteneur</h2>
 <p>Le titre était déjà un <span class="tt">QLabel</span> nommé sur chacun des six écrans du jeu, et la feuille de style l'atteint par cet objectName. En dériver plutôt que d'envelopper garde ces règles valides — un sélecteur de type Qt s'applique aux sous-classes — et évite d'ajouter un niveau de disposition à six <span class="tt">.ui</span> pour un ornement.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md774"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md794"></a>
 Le texte tient entre les ailes, pas par-dessus</h2>
 <p><span class="tt">minimumSizeHint</span>/<span class="tt">sizeHint</span> réservent l'envergure des deux ailes en plus de la largeur du texte, et <span class="tt">contentsMargins</span> l'y maintient. Sans cela, un titre long déborderait sur les ailes et les mots seraient coupés par des doigts d'or — un défaut que l'on ne voit que sur le titre le plus long, c'est-à-dire jamais pendant qu'on le règle.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md775"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md795"></a>
 Une seule couleur de texte, et elle vient des jetons</h2>
 <p>La plaque est un grenat sombre : l'encre sépia des écrans y serait illisible. Le titre passe donc à <span class="tt">accentHover</span>, l'or pâle des reflets — la même valeur qui éclaire la facette du cabochon, pour que le doré du bandeau soit <b>un</b> doré et non deux. La règle est posée par la feuille de style (<span class="tt">EX-IHM-051</span>), jamais en dur ici. </p>
 </div></div><!-- contents -->

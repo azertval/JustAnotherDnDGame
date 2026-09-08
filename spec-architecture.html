@@ -96,14 +96,14 @@ $(function(){initNavTree('spec-architecture.html','',''); });
 <blockquote class="doxtable">
 <p>Statut : <b>livré</b> (<span class="tt">0.1.0</span>). Décisions <b>structurantes</b>, tenues depuis <span class="tt">LOT-01</span> (sens des dépendances, ECS, frontière simulation ↔ rendu) et confirmées jusqu'à la refonte Qt de l'IHM hors-jeu (<span class="tt">LOT-H-34</span> → <span class="tt">LOT-H-39</span>, voir Traçabilité ci-dessous). Aucune n'a été remise en cause par le programme <span class="tt">0.1.0</span>. Transverse à toutes les specs. </p>
 </blockquote>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md245"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md247"></a>
 1. Modules &amp; dépendances</h1>
 <ul>
 <li><span class="tt">Core</span> (simulation, indépendant du système), <span class="tt">HMI</span> (fenêtre, rendu, entrées, éditeur), <span class="tt">Elements</span> (assets), <span class="tt">Test</span>.</li>
 <li><a class="anchor" id="EX-ARCH-001"></a><b>EX-ARCH-001</b> — Le sens des dépendances est <span class="tt">HMI → Core</span>, jamais l'inverse. <span class="tt">Core</span> est testable sans fenêtre ni GPU.</li>
 <li><a class="anchor" id="EX-ARCH-002"></a><b>EX-ARCH-002</b> — L'<b>ordre des passes</b> d'un pas fixe est une donnée du <b>mode de jeu</b>, jamais de l'orchestrateur. Un RPG en a au moins trois — exploration (déplacement, animation, caméra, mécanismes, issue), dialogue (monde gelé, seul le runner de dialogue avance), combat (initiative, tour actif, résolution d'action) — et les entasser en <span class="tt">if</span> dans la boucle de session ferait grossir sans fin une fonction déjà longue. L'orchestrateur garde ce qui ne dépend pas du mode (monde ECS, caméra, événements, HUD, pas fixe, interpolation) et <b>offre</b> ses passes ; le mode décide seul de leur enchaînement, et la sélection se fait par <b>polymorphisme</b>, jamais par un test de type. L'interface des passes ne parle que de <span class="tt">Core</span> : un mode se vérifie donc sans fenêtre, quand son orchestrateur, lui, exige un GPU. Concrétisé en <span class="tt">LOT-05</span>.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md246"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md248"></a>
 2. Modèle d'entités : ECS</h1>
 <p>Choix retenu : <b>ECS complet</b>, hébergé dans <span class="tt">Core</span>. Assumé plus lourd, justifié par le grand nombre de types d'objets manipulables visés (dont décors dynamiques, cf. §11).</p>
 <ul>
@@ -113,7 +113,7 @@ $(function(){initNavTree('spec-architecture.html','',''); });
 <li>Composants pressentis (indicatif) : <span class="tt">Transform</span> (position/échelle/rotation en unités monde), <span class="tt">Velocity</span>, <span class="tt">Collider</span>, <span class="tt">Sprite</span>, <span class="tt">Animation</span>, <span class="tt">Layer</span>.</li>
 <li>Systèmes pressentis : mouvement/physique, collisions, animation (<span class="tt">Core</span>) ; rendu (lecture, <span class="tt">HMI</span>).</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md247"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md249"></a>
 3. Coordonnées &amp; unités — trois espaces distincts</h1>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -134,49 +134,49 @@ $(function(){initNavTree('spec-architecture.html','',''); });
 </li>
 <li>La grille de tuiles (gameplay/collisions) et les décors libres <b>coexistent</b> dans le même espace monde ; les décors ne sont pas calés sur la grille.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md248"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md250"></a>
 4. Frontière simulation ↔ rendu</h1>
 <ul>
 <li><a class="anchor" id="EX-ARCH-030"></a><b>EX-ARCH-030</b> — <span class="tt">Core</span> met à jour la simulation à <b>pas de temps fixe</b> ; <span class="tt">HMI</span> produit l'image en <b>lisant</b> l'état.</li>
 <li><a class="anchor" id="EX-ARCH-031"></a><b>EX-ARCH-031</b> — Un <b>facteur d'interpolation</b> <span class="tt">[0,1]</span> entre le pas précédent et le pas courant est fourni au rendu pour lisser le mouvement (prévu dès le départ). <b>Concrétisé en <span class="tt">LOT-H-33</span></b> : <span class="tt"><a class="el" href="classcore_1_1FixedTimestep.html#ab7f7f880eef11df91ab7bc647e19bf56" title="Fraction de pas restant dans l&#39;accumulateur, pour l&#39;interpolation du rendu.">core::FixedTimestep::interpolationAlpha</a></span> est passé au rendu par <span class="tt"><a class="el" href="classhmi_1_1GameSession.html#a8c26c9a8cbd1841bd091a5eb2299017a" title="Dessine la scène du niveau (rien si le chargement a échoué).">hmi::GameSession::render</a></span>, et <span class="tt"><a class="el" href="classhmi_1_1SpriteRenderer.html" title="Pont ECS → écran : dessine chaque entité affichable, triée par calque puis par texture.">hmi::SpriteRenderer</a></span> dessine chaque entité mobile à <span class="tt">lerp(position précédente, position courante, alpha)</span> via le composant de présentation <span class="tt"><a class="el" href="structhmi_1_1PreviousPosition.html" title="Position d&#39;une entité au pas de simulation précédent, pour l&#39;interpolation de rendu (EX-ARCH-031).">hmi::PreviousPosition</a></span> — sans jamais modifier l'état simulé (<span class="tt">EX-ARCH-012</span>).</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md249"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md251"></a>
 5. Mathématiques dans Core</h1>
 <ul>
 <li><a class="anchor" id="EX-ARCH-040"></a><b>EX-ARCH-040</b> — <span class="tt">Core</span> définit <b>ses propres types</b> mathématiques (<span class="tt">Vector2</span>, <span class="tt">Rect</span>, …), <b>sans dépendance DirectX</b>. La conversion vers <span class="tt">DirectXMath</span> a lieu uniquement à la frontière de rendu (<span class="tt">HMI</span>).</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md250"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md252"></a>
 6. Abstraction de rendu</h1>
 <ul>
 <li><a class="anchor" id="EX-ARCH-050"></a><b>EX-ARCH-050</b> — Le rendu est un <b>wrapper mince</b> au-dessus de Direct3D 11 (sprite batch). Pas de couche d'abstraction multi-backend (DirectX-only est acté).</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md251"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md253"></a>
 7. Modèle de threading</h1>
 <ul>
 <li><a class="anchor" id="EX-ARCH-060"></a><b>EX-ARCH-060</b> — Boucle <b>mono-thread</b> au MVP. Un éventuel chargement asynchrone sera isolé plus tard, sans remettre en cause la simulation déterministe.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md252"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md254"></a>
 8. Communication inter-systèmes</h1>
 <ul>
 <li><a class="anchor" id="EX-ARCH-070"></a><b>EX-ARCH-070</b> — Communication par <b>appels directs / observateur simple</b>. Pas de bus d'événements tant que le couplage reste faible (réévalué si nécessaire).</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md253"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md255"></a>
 9. Gestion des ressources</h1>
 <ul>
 <li><a class="anchor" id="EX-ARCH-080"></a><b>EX-ARCH-080</b> — Les ressources sont gérées par <b>nom logique</b>, avec chargement <b>à la demande</b> et mise en cache. La gestion vit <b>du côté qui possède la ressource</b> : les <b>textures</b> relèvent de <span class="tt">HMI</span> (registre construit sur le décodage d'image et Direct3D 11, <span class="tt">LOT-H-40</span>), car <span class="tt">Core</span> ne doit connaître aucune ressource graphique (<span class="tt">EX-NFR-010</span>, <span class="tt">EX-ARCH-010</span>) ; les <b>niveaux</b> et les <b>décors</b> restent des données de <span class="tt">Core</span>, chargées et validées par leur propre chargeur (<span class="tt">EX-LVL-004</span>). Il n'existe donc <b>pas</b> de gestionnaire de ressources unique dans <span class="tt">Core</span> — la formulation initiale, antérieure à la séparation <span class="tt">Core</span>/<span class="tt">HMI</span> telle qu'elle est aujourd'hui appliquée, l'aurait obligé à dépendre de la présentation. Le <b>rechargement à chaud</b> des assets graphiques, écarté au MVP, est concrétisé en <span class="tt">LOT-H-43</span>.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md254"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md256"></a>
 10. Contrainte « éditeur intégré »</h1>
 <ul>
 <li><a class="anchor" id="EX-ARCH-090"></a><b>EX-ARCH-090</b> — Le modèle de niveau <b>et les décors</b> constituent un <b>état ECS mutable et sérialisable</b> ; le rendu de <span class="tt">HMI</span> est utilisable <b>hors mode jeu</b> ; les états de jeu incluent un état <b>Éditeur</b>. (Respecté tôt = cheap ; rajouté tard = cher.)</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md255"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md257"></a>
 11. Décors dynamiques (accommodation dimensionnante)</h1>
 <p>Les décors (cf. <a class="el" href="spec-decors.html#md_Specification_2decors" title="Specification/decors.md"><span class="tt">decors.md</span></a>) sont manipulables <b>à la conception (éditeur)</b> et <b>à terme en jeu par le joueur</b> (mécanique). Conséquence structurante :</p>
 <ul>
 <li><a class="anchor" id="EX-ARCH-100"></a><b>EX-ARCH-100</b> — Les décors sont des <b>entités de la simulation</b> (<span class="tt">Core</span>), et non de simples éléments de rendu, afin d'être manipulables de façon <b>déterministe</b> et <b>sérialisable</b>.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md256"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md258"></a>
 Traçabilité</h1>
 <p>Ces décisions conditionnent tous les lots. Détail des décors et du pipeline pixel art : <a class="el" href="spec-decors.html#md_Specification_2decors" title="Specification/decors.md"><span class="tt">decors.md</span></a>. Exigences non fonctionnelles associées : <a class="el" href="spec-exigences.html#md_Specification_2exigences-non-fonctionnelles" title="Specification/exigences-non-fonctionnelles.md"><span class="tt">exigences-non-fonctionnelles.md</span></a>.</p>
 <p><span class="tt">EX-ARCH-001</span>, <span class="tt">EX-ARCH-060</span> et <span class="tt">EX-ARCH-070</span> sont des <b>invariants transverses</b> : chaque lot les respecte par construction (sens des dépendances, boucle mono-thread, communication directe) sans avoir besoin de les citer nommément dans son « Exigences couvertes ». Qu'ils n'apparaissent dans aucun lot n'est donc pas une exigence orpheline (<span class="tt">LOT-H-66</span>).</p>

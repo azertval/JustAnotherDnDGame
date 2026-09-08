@@ -103,7 +103,8 @@ Inheritance diagram for hmi::IGameMode:</div>
  <div class="center">
   <img src="classhmi_1_1IGameMode.png" usemap="#hmi_3A_3AIGameMode_map" alt=""/>
   <map id="hmi_3A_3AIGameMode_map" name="hmi_3A_3AIGameMode_map">
-<area href="classhmi_1_1ExplorationMode.html" title="Le mode par défaut : le personnage parcourt la carte, les mécanismes répondent, la caméra suit,..." alt="hmi::ExplorationMode" shape="rect" coords="0,56,132,80"/>
+<area href="classhmi_1_1CombatMode.html" title="Le second mode de jeu : le combat se déroule sur la carte d&#39;exploration, mais l&#39;exploration,..." alt="hmi::CombatMode" shape="rect" coords="0,56,132,80"/>
+<area href="classhmi_1_1ExplorationMode.html" title="Le mode par défaut : le personnage parcourt la carte, les mécanismes répondent, la caméra suit,..." alt="hmi::ExplorationMode" shape="rect" coords="142,56,274,80"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -255,7 +256,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>Le nom du mode, pour les diagnostics et les journaux. </dd></dl>
 
-<p>Implemented in <a class="el" href="classhmi_1_1ExplorationMode.html#a7481676c44dfcdc013b32050b2b798ad">hmi::ExplorationMode</a>.</p>
+<p>Implemented in <a class="el" href="classhmi_1_1CombatMode.html#aff9b21ad64e1f6a4fb11f8a9082946f5">hmi::CombatMode</a>, and <a class="el" href="classhmi_1_1ExplorationMode.html#a7481676c44dfcdc013b32050b2b798ad">hmi::ExplorationMode</a>.</p>
 
 </div>
 </div>
@@ -284,7 +285,7 @@ Public Member Functions</h2></td></tr>
 
 <p>Appelé quand le mode devient actif, une fois le niveau chargé. </p>
 
-<p>Implemented in <a class="el" href="classhmi_1_1ExplorationMode.html#a9fdef42ac4d272e5062f361246673c7a">hmi::ExplorationMode</a>.</p>
+<p>Implemented in <a class="el" href="classhmi_1_1CombatMode.html#afe91fef9cc7571acdf6089320f059387">hmi::CombatMode</a>, and <a class="el" href="classhmi_1_1ExplorationMode.html#a9fdef42ac4d272e5062f361246673c7a">hmi::ExplorationMode</a>.</p>
 
 </div>
 </div>
@@ -313,7 +314,7 @@ Public Member Functions</h2></td></tr>
 
 <p>Appelé quand le mode cesse d'être actif (bascule vers un autre mode, ou fin de session). </p>
 
-<p>Implemented in <a class="el" href="classhmi_1_1ExplorationMode.html#a6519712009332d3c2272b6c2f95ee049">hmi::ExplorationMode</a>.</p>
+<p>Implemented in <a class="el" href="classhmi_1_1CombatMode.html#afe98d75fbf5ce41a3457e360c54b0e79">hmi::CombatMode</a>, and <a class="el" href="classhmi_1_1ExplorationMode.html#a6519712009332d3c2272b6c2f95ee049">hmi::ExplorationMode</a>.</p>
 
 </div>
 </div>
@@ -393,7 +394,7 @@ Public Member Functions</h2></td></tr>
 <p>L'ordre des passes que <span class="tt"><a class="el" href="#aa6fb8ceb4fcf8fe026b66c8d99b1cccc" title="Avance d&#39;un pas fixe, en enchaînant les passes dans l&#39;ordre propre au mode.">step()</a></span> enchaîne, nommées, pour les diagnostics. </p>
 <p>Documentation <b>exécutable</b> : un test compare cette liste à la séquence réellement appelée, de sorte qu'un ordre modifié sans mettre la liste à jour échoue au lieu de mentir. </p>
 
-<p>Implemented in <a class="el" href="classhmi_1_1ExplorationMode.html#a51915c96de965ce3781447b0c7419b00">hmi::ExplorationMode</a>.</p>
+<p>Implemented in <a class="el" href="classhmi_1_1CombatMode.html#a0b84a64f8d26d099014d1113ad67c627">hmi::CombatMode</a>, and <a class="el" href="classhmi_1_1ExplorationMode.html#a51915c96de965ce3781447b0c7419b00">hmi::ExplorationMode</a>.</p>
 
 </div>
 </div>
@@ -440,7 +441,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>L'issue du niveau à l'issue du pas. </dd></dl>
 
-<p>Implemented in <a class="el" href="classhmi_1_1ExplorationMode.html#a87b69900caabb558060c135b7db8b935">hmi::ExplorationMode</a>.</p>
+<p>Implemented in <a class="el" href="classhmi_1_1CombatMode.html#a72e6c2a0c35c1124a13bbd088a606084">hmi::CombatMode</a>, and <a class="el" href="classhmi_1_1ExplorationMode.html#a87b69900caabb558060c135b7db8b935">hmi::ExplorationMode</a>.</p>
 
 </div>
 </div>

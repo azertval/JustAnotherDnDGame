@@ -97,7 +97,7 @@ $(function(){initNavTree('spec-interface-ihm.html','',''); });
 <p>Statut : <b>livré</b> (<span class="tt">0.1.0</span>). Refonte de l'interface hors-jeu (programme <span class="tt">LOT-H-34</span> → <span class="tt">LOT-H-39</span>), étendue par le <b>système de design</b> (section 6, <span class="tt">LOT-H-56</span>) et l'<b>architecture de l'information de l'éditeur</b> (section 7, <span class="tt">LOT-H-57</span>) — toutes livrées. Dépend de <a class="el" href="spec-rendu-technique.html#md_Specification_2rendu-technique" title="Specification/rendu-technique.md"><span class="tt">rendu-technique.md</span></a> et <a class="el" href="spec-editeur.html#md_Specification_2editeur-niveaux" title="Specification/editeur-niveaux.md"><span class="tt">editeur-niveaux.md</span></a>. </p>
 </blockquote>
 <p>L'interface <b>hors-jeu</b> (menus, options, remappage, éditeur de niveaux) est distincte du <b>rendu in-game</b>. Ce dernier reste en Direct3D 11 (<span class="tt">EX-REN-002</span>) ; l'interface, elle, repose sur un <b>framework d'UI dédié (Qt)</b>, pour une application maintenable, à fenêtres réglables, remplaçant l'UI « maison » dessinée quad par quad. <span class="tt">Core</span> demeure indépendant de la présentation (<span class="tt">EX-NFR-010</span>).</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md336"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md338"></a>
 1. Socle applicatif</h1>
 <ul>
 <li><a class="anchor" id="EX-IHM-001"></a><b>EX-IHM-001</b> — Toute l'<b>interface hors-jeu</b> (menus, options, remappage, éditeur) doit reposer sur le framework <b>Qt</b> ; seul le <b>rendu in-game</b> reste en Direct3D 11.</li>
@@ -110,31 +110,31 @@ $(function(){initNavTree('spec-interface-ihm.html','',''); });
 </blockquote>
 </li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md337"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md339"></a>
 2. Éditeur</h1>
 <ul>
 <li><a class="anchor" id="EX-IHM-010"></a><b>EX-IHM-010</b> — L'éditeur de niveaux doit se présenter en <b>fenêtre à panneaux dockables</b> (palette, outils, niveaux, liens, viewport central) : panneaux <b>déplaçables, redimensionnables, détachables</b>.</li>
 <li><a class="anchor" id="EX-IHM-011"></a><b>EX-IHM-011</b> — La <b>disposition</b> des panneaux doit être <b>persistée hors code</b> (sauvegardée et restaurée entre deux sessions), et réinitialisable à une disposition par défaut.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md338"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md340"></a>
 3. Gestion des niveaux</h1>
 <ul>
 <li><a class="anchor" id="EX-IHM-020"></a><b>EX-IHM-020</b> — L'éditeur doit offrir un <b>panneau de gestion des niveaux</b> listant les fichiers du dossier des niveaux, avec <b>recherche/filtre</b>, restant lisible quel que soit le nombre de niveaux.</li>
 <li><a class="anchor" id="EX-IHM-021"></a><b>EX-IHM-021</b> — Ce panneau doit permettre de <b>créer, renommer, dupliquer et supprimer</b> un niveau, avec <b>validation de nom</b> (<span class="tt">EX-EDIT-006</span>) et <b>confirmation</b> des actions destructrices ; aucune modification non enregistrée ne doit être perdue silencieusement.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md339"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md341"></a>
 4. Liens de mécanismes</h1>
 <ul>
 <li><a class="anchor" id="EX-IHM-030"></a><b>EX-IHM-030</b> — Les <b>liaisons</b> déclencheur → cible (interrupteur/plaque → porte, déclencheur → danger commuté, <span class="tt">EX-EDIT-003</span>) doivent être rendues par des <b>traits/flèches explicites</b> dans le viewport, en remplacement de l'indication par teinte de case.</li>
 <li><a class="anchor" id="EX-IHM-031"></a><b>EX-IHM-031</b> — Un <b>panneau « Liens »</b> doit <b>lister</b> les liaisons du niveau, mettre en <b>surbrillance</b> la liaison sélectionnée et permettre d'en <b>supprimer</b>.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md340"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md342"></a>
 5. Menus, options, unification</h1>
 <ul>
 <li><a class="anchor" id="EX-IHM-040"></a><b>EX-IHM-040</b> — Le <b>menu principal</b>, l'écran <b>Options</b> (V-Sync <span class="tt">EX-REN-022</span>, langue <span class="tt">EX-REN-033</span>) et les écrans de <b>remappage</b> (jeu, éditeur <span class="tt">EX-CTRL-012</span>, manette) doivent être fournis en Qt, fonctionnellement équivalents aux écrans historiques.</li>
 <li><a class="anchor" id="EX-IHM-041"></a><b>EX-IHM-041</b> — L'interface hors-jeu doit reposer sur <b>une seule technologie d'UI</b> : la pile d'UI « maison » (écrans dessinés au <span class="tt">SpriteBatch</span>, gestion d'écrans dédiée, fenêtre Win32 propre) est <b>retirée</b> une fois la parité atteinte.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md341"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md343"></a>
 6. Système de design et habillage (LOT-H-56)</h1>
 <p>La refonte <span class="tt">LOT-H-34</span> → <span class="tt">LOT-H-39</span> a livré une interface Qt <b>fonctionnelle</b>, sans jamais traiter son apparence pour elle-même. L'application n'a jamais choisi de style Qt : elle s'exécute donc sur le style <b>natif</b> de la plate-forme, qui dessine la plupart des contrôles hors du contrôle de l'application et ignore une large part de toute feuille de style posée par-dessus. C'est la raison pour laquelle le thème existant a dû être <b>restreint</b> au menu principal et à la page Options (portée par <span class="tt">objectName</span>) au lieu d'être étendu : l'étendre ne produisait pas un résultat homogène. Il en résulte deux apparences dans la même fenêtre — écrans thématisés d'un côté, panneaux de l'éditeur au rendu natif de l'autre — et des grandeurs d'habillage (couleurs, marges, tailles de vignettes, largeurs) éparpillées entre la feuille de style, les fichiers de description d'interface et des constantes locales à chaque widget.</p>
 <ul>
@@ -147,7 +147,7 @@ $(function(){initNavTree('spec-interface-ihm.html','',''); });
 -<a class="anchor" id="EX-IHM-054"></a><b>EX-IHM-054</b> — L'<b>éditeur</b> doit proposer un thème <b>clair et sombre</b>, suivant par défaut le réglage du système, modifiable par l'utilisateur et <b>persisté</b> entre deux sessions ; le changement s'applique sans redémarrage. Ce réglage est <b>strictement limité au châssis d'édition</b> : le <b>menu principal, l'écran Options et le jeu conservent en toute circonstance l'identité visuelle sombre du jeu</b>, qui n'est pas un thème mais une composante de son apparence. L'éditeur est un <b>outil de travail</b>, utilisé de jour et pendant de longues sessions, et c'est à ce titre — et à ce titre seul — qu'il suit les préférences d'affichage de son utilisateur.</li>
 <li><a class="anchor" id="EX-IHM-055"></a><b>EX-IHM-055</b> — Les <b>commandes de l'éditeur</b> doivent être exposées comme des <b>actions réutilisables</b> — porteuses de leur libellé, de leur icône, de leur raccourci et de leur état — présentées dans une <b>barre d'outils à icônes</b>, de sorte qu'une même commande placée à plusieurs endroits reste une seule définition (condition d'<span class="tt">EX-IHM-062</span>).</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md342"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md344"></a>
 7. Architecture de l'information de l'éditeur (LOT-H-57)</h1>
 <p>L'éditeur a gagné un panneau ou un onglet à presque chaque lot du programme d'habillage (<span class="tt">LOT-H-42</span>, <span class="tt">LOT-H-43</span>, <span class="tt">LOT-H-45</span>, <span class="tt">LOT-H-50</span>, <span class="tt">LOT-H-51</span>), sans que la répartition d'ensemble soit jamais revue. Tous ses panneaux restent affichés simultanément quel que soit l'outil actif, plusieurs états sont pilotés depuis deux endroits distincts, et l'aide de la barre d'état est une ligne unique de raccourcis concaténés qu'un simple message transitoire efface définitivement. À l'inverse, l'état dont l'auteur d'un niveau a besoin en permanence — quel niveau est ouvert, s'il comporte des modifications non enregistrées, quel outil est actif, quelle case est survolée — n'est affiché nulle part, alors que l'application le connaît.</p>
 <ul>
@@ -155,7 +155,7 @@ $(function(){initNavTree('spec-interface-ihm.html','',''); });
 <li><a class="anchor" id="EX-IHM-061"></a><b>EX-IHM-061</b> — Les panneaux de l'éditeur doivent être <b>groupés</b> plutôt que tous déployés simultanément, le panneau pertinent étant mis en avant selon l'outil actif. Cette mise en avant est une <b>suggestion</b> : un panneau que l'utilisateur a ouvert explicitement n'est jamais masqué automatiquement, et la disposition reste réglable et persistée (<span class="tt">EX-IHM-010</span>, <span class="tt">EX-IHM-011</span>).</li>
 <li><a class="anchor" id="EX-IHM-062"></a><b>EX-IHM-062</b> — Un même <b>état</b> ou une même <b>commande</b> ne doit être exposé qu'à <b>un seul endroit</b> de l'interface, <b>raccourci clavier compris</b> : deux contrôles pilotant la même valeur peuvent diverger et obligent l'utilisateur à deviner lequel fait autorité. Un raccourci clavier reste un second chemin <b>légitime</b> vers une commande, à condition d'être affiché par la commande elle-même plutôt que dupliqué en contrôle distinct.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md343"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md345"></a>
 8. Identité visuelle des écrans du jeu (LOT-H-68)</h1>
 <p>Le <span class="tt">LOT-H-56</span> a donné à l'interface un habillage cohérent, mais <b>générique</b> : la portée identité et le châssis d'édition partagent la même police et la même échelle typographique, si bien que rien, à l'écran, ne distingue le menu d'un jeu de plateforme en pixel art du panneau d'un outil de travail. Les titres sont fixés à 32 pt et les entrées de menu à 16 pt quelle que soit la taille de la fenêtre, ce qui donne une interface visiblement petite dès qu'on dépasse la définition d'un ordinateur portable. Et le focus n'est signalé que par un changement de teinte — suffisant à la souris, insuffisant à la manette, qui n'a pas de pointeur pour dire où elle en est.</p>
 <ul>
@@ -192,7 +192,7 @@ Exigences retirées</h1>
 <ul>
 <li><a class="anchor" id="EX-IHM-005"></a><b>EX-IHM-005</b> <em>(retirée en <span class="tt">LOT-67</span>)</em> — Le menu principal doit distinguer <b>reprendre</b> une partie (<span class="tt">EX-LVL-014</span>), en <b>commencer une nouvelle</b> et <b>choisir un niveau</b> parmi ceux déjà atteints. Un niveau <b>hors séquence</b> (créé dans l'éditeur) doit être jouable sans passer par l'essai de l'éditeur, et sans modifier la progression de la séquence. Motif : les trois entrées reposaient sur une séquence et sur une progression au tableau, l'une et l'autre retirées. « Reprendre » reviendra avec la sauvegarde du <span class="tt">LOT-17</span> — quand il y aura quelque chose à reprendre.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md344"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md346"></a>
 9. Taille, réactivité et réglages effectifs (LOT-H-73)</h1>
 <p>Les sections précédentes ont donné à l'interface son châssis, son habillage et sa répartition de l'information. Aucune n'a jamais dit <b>qui décide de la taille de la fenêtre</b>. La réponse, de fait, était : le plus dense des écrans. <span class="tt">QStackedWidget::minimumSizeHint</span> valant le maximum sur <em>toutes</em> ses pages — y compris celles qu'on ne regarde pas — un seul écran chargé fixait le plancher de la fenêtre entière ; et ce plancher était multiplié par le facteur d'agrandissement d'<span class="tt">EX-IHM-070</span>, lui-même dérivé de la hauteur de la fenêtre. La boucle se refermait sur elle-même, sans que rien ne la borne : la fenêtre grandissait, le facteur montait, le plancher montait, la fenêtre grandissait. Windows finissait par refuser la géométrie, et l'interface débordait sous la barre des tâches en rognant son contenu, sans rien dire. Le défaut s'est produit trois fois, et a été corrigé deux fois écran par écran.</p>
 <p>Symétriquement, deux préoccupations vivaient à une portée plus large que la leur. Le facteur d'agrandissement, qui ne concerne que les écrans du jeu, était substitué dans la feuille de style de l'<b>application</b> : en changer repolissait ses 862 widgets, cinq secondes durant en configuration Debug. Et l'onglet Entraînement du Mode IA lisait neuf réglages que rien ne transmettait au moteur, pendant que le <span class="tt">config.json</span> du run affirmait le contraire.</p>
@@ -202,14 +202,14 @@ Exigences retirées</h1>
 <li><a class="anchor" id="EX-IHM-082"></a><b>EX-IHM-082</b> — Une préoccupation limitée à une <b>portée</b> ne doit jamais provoquer un rejeu de style d'une portée <b>plus large</b>. Les deux portées d'<span class="tt">EX-IHM-050</span> (identité du jeu, châssis d'édition) sont donc deux feuilles <b>disjointes</b>, appliquées chacune là où elle porte : l'identité sur la pile d'écrans, le châssis sur l'application. Le coût d'un changement d'habillage doit rester proportionnel à ce qui change réellement.</li>
 <li><a class="anchor" id="EX-IHM-083"></a><b>EX-IHM-083</b> — Tout <b>réglage exposé</b> par un écran doit <b>atteindre</b> le moteur, ou ne pas être exposé ; et l'écran doit <b>ouvrir sur les valeurs par défaut du moteur</b>, jamais sur une seconde liste de valeurs inscrite dans sa description. Généralise à toute l'IHM le corollaire <span class="tt">IHM ⊇ CLI</span> du <span class="tt">LOT-ANNEXE-22</span> (hérité). Un réglage inerte est pire qu'un réglage absent : il se règle, il s'enregistre dans la configuration du run, et il ment.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md345"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md347"></a>
 10. Le châssis des écrans du RPG (LOT-68)</h1>
 <p>Huit écrans manquent au jeu — fiche de personnage, inventaire et équipement, journal de quêtes, carte du monde, dialogue, marchand, tableau de la Guilde, affichage tête haute de combat — et quatre lots à venir les remplissent chacun de leur côté (<span class="tt">LOT-38</span>, <span class="tt">LOT-42</span>, <span class="tt">LOT-45</span>, <span class="tt">LOT-24</span>). Sans règle commune, ces quatre lots produiraient quatre écrans qui s'ouvrent différemment, se ferment différemment et se naviguent différemment : le défaut ne se voit sur aucun d'eux pris isolément, et sur les quatre ensemble il n'est plus rattrapable sans les refaire.</p>
 <ul>
 <li><a class="anchor" id="EX-IHM-090"></a><b>EX-IHM-090</b> — Les écrans du <b>RPG</b> doivent partager un <b>châssis</b> unique : le même cadre (panneau, titre, zone de contenu, pied d'actions), la même ouverture et la même fermeture, le même passage d'un écran à l'autre <b>sans repasser par le menu</b>, et le même parcours de focus à la manette (<span class="tt">EX-IHM-071</span>). L'<b>ossature</b> de chaque écran — ses blocs, leurs genres, leurs libellés — doit être portée par une <b>description en données</b>, non par du code d'interface écrit écran par écran : ajouter un écran ne doit demander de toucher à <b>aucun</b> des autres, ni dans le code, ni dans la feuille de style. Une convention à réappliquer à chaque écran se reperd au premier ajout — c'est la leçon qu'<span class="tt">EX-IHM-080</span> a déjà tirée pour la taille des écrans. Corollaire : les libellés de cette description passent par le catalogue de traduction (<span class="tt">EX-REN-033</span>) comme tout autre texte, et rien ne les y rattachant qu'une table, leur présence dans <b>les deux</b> catalogues doit être vérifiée automatiquement.</li>
 <li><a class="anchor" id="EX-IHM-091"></a><b>EX-IHM-091</b> — Chaque écran du RPG doit déclarer sa <b>règle de superposition</b> : suspend-il la simulation, ou se consulte-t-il en marchant ? Cette règle appartient à la <b>description</b> de l'écran, jamais au code qui l'ouvre : ouvert depuis la pause, depuis le jeu ou depuis une touche, un même écran doit se comporter de la même façon, et une règle décidée au point d'appel se contredit d'un appel à l'autre sans que rien ne le signale.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md346"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md348"></a>
 Traçabilité</h1>
 <p>Tout ceci relève de <span class="tt">Source/HMI</span> — depuis le <span class="tt">LOT-H-38</span>, l'unique application Qt <span class="tt">JustAnotherDnDGame</span> (rendu de jeu Direct3D 11 + widgets Qt répartis par domaine) ; les assets Qt déclaratifs vivent dans <span class="tt">Source/Elements</span>. La logique testable (édition, validation, remappage) reste découplée de l'UI et couverte par des tests (<span class="tt">EX-NFR-010</span>, <span class="tt">EX-NFR-020</span>). Détail du séquencement : lots <span class="tt">LOT-H-34</span> à <span class="tt">LOT-H-39</span> pour la refonte initiale ; <span class="tt">LOT-H-56</span> (section 6) et <span class="tt">LOT-H-57</span> (section 7) pour la révision de l'apparence et de la répartition de l'information ; <span class="tt">LOT-H-73</span> (section 9) pour l'invariant de taille, les portées de thème et les réglages effectifs ; <span class="tt">LOT-68</span> (section 10) pour le châssis des écrans du RPG. </p>
 </div></div><!-- contents -->

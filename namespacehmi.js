@@ -49,6 +49,7 @@ var namespacehmi =
     [ "TileEntry", "structhmi_1_1TileEntry.html", "structhmi_1_1TileEntry" ],
     [ "TileSubgroup", "structhmi_1_1TileSubgroup.html", "structhmi_1_1TileSubgroup" ],
     [ "TileCategory", "structhmi_1_1TileCategory.html", "structhmi_1_1TileCategory" ],
+    [ "CombatMode", "classhmi_1_1CombatMode.html", "classhmi_1_1CombatMode" ],
     [ "FrameRateAverage", "classhmi_1_1FrameRateAverage.html", "classhmi_1_1FrameRateAverage" ],
     [ "DiagnosticsMeasurements", "structhmi_1_1DiagnosticsMeasurements.html", "structhmi_1_1DiagnosticsMeasurements" ],
     [ "ExplorationMode", "classhmi_1_1ExplorationMode.html", "classhmi_1_1ExplorationMode" ],

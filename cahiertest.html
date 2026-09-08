@@ -93,9 +93,9 @@ $(function(){initNavTree('cahiertest.html','',''); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md_CahierTest"></a></p>
-<p><b>1029 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
+<p><b>1051 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md5"></a>
-Tests unitaires (1014)</h1>
+Tests unitaires (1036)</h1>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md6"></a>
 Core</h2>
 <p><b><span class="tt"><a class="el" href="test__core_8cpp.html" title="Tests unitaires de la bibliothèque Core (amorçage).">test_core.cpp</a></span></b></p>
@@ -108,6 +108,84 @@ Core</h2>
 2. Executer le scenario et verifier les assertions.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">engine.version().empty()</span> est faux.  </td></tr>
 </table>
 <h3 class="doxsection"><a class="anchor" id="autotoc_md7"></a>
+Combat (11)</h3>
+<p><b><span class="tt"><a class="el" href="test__encounter_8cpp.html" title="Tests de l&#39;aller-retour exploration ↔ combat (LOT-18, EX-CBT-001).">test_encounter.cpp</a></span></b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>EncounterTest.UnAllerRetourRestitueLEtatDExploration</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__encounter_8cpp.html" title="Tests de l&#39;aller-retour exploration ↔ combat (LOT-18, EX-CBT-001).">Source/Test/Unit/Core/Combat/test_encounter.cpp</a>:52</span></sub>  </td><td class="markdownTableBodyNone">Un aller-retour exploration -&gt; combat -&gt; exploration restitue l'etat.  </td><td class="markdownTableBodyNone">1. Relever un etat d'exploration.<br  />
+2. Engager une rencontre.<br  />
+3. La terminer par une victoire.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">apres.captured</span> est vrai.<br  />
+Vérifie que <span class="tt">apres.playerPosition.x</span> vaut <span class="tt">avant.playerPosition.x</span> (comparaison flottante).<br  />
+Vérifie que <span class="tt">apres.playerPosition.y</span> vaut <span class="tt">avant.playerPosition.y</span> (comparaison flottante).<br  />
+Vérifie que <span class="tt">apres.playerFacing.x</span> vaut <span class="tt">avant.playerFacing.x</span> (comparaison flottante).<br  />
+Vérifie que <span class="tt">apres.playerFacing.y</span> vaut <span class="tt">avant.playerFacing.y</span> (comparaison flottante).<br  />
+Vérifie que <span class="tt">apres.cameraPosition.x</span> vaut <span class="tt">avant.cameraPosition.x</span> (comparaison flottante).<br  />
+Vérifie que <span class="tt">apres.cameraPosition.y</span> vaut <span class="tt">avant.cameraPosition.y</span> (comparaison flottante).  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>EncounterTest.UnEnnemiVaincuNeReapparaitPas</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__encounter_8cpp.html" title="Tests de l&#39;aller-retour exploration ↔ combat (LOT-18, EX-CBT-001).">Source/Test/Unit/Core/Combat/test_encounter.cpp</a>:80</span></sub>  </td><td class="markdownTableBodyNone">Un ennemi vaincu ne reapparait pas.  </td><td class="markdownTableBodyNone">1. Gagner une rencontre portant une cle de drapeau.<br  />
+2. Interroger les drapeaux.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">core::encounterAlreadyCleared(drapeaux, cle)</span> est faux.<br  />
+Vérifie que <span class="tt">drapeaux.isSet(cle)</span> est vrai.<br  />
+Vérifie que <span class="tt">core::encounterAlreadyCleared(drapeaux, cle)</span> est vrai.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>EncounterTest.UneFuiteNeMarquePasLEnnemiVaincu</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__encounter_8cpp.html" title="Tests de l&#39;aller-retour exploration ↔ combat (LOT-18, EX-CBT-001).">Source/Test/Unit/Core/Combat/test_encounter.cpp</a>:104</span></sub>  </td><td class="markdownTableBodyNone">Une fuite ne marque pas l'ennemi vaincu.  </td><td class="markdownTableBodyNone">1. Engager une rencontre portant une cle de drapeau.<br  />
+2. La terminer par une fuite, puis par une defaite.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">drapeaux.isSet(cle)</span> est faux.<br  />
+Vérifie que <span class="tt">apresFuite.captured</span> est vrai.<br  />
+Vérifie que <span class="tt">drapeaux.isSet(cle)</span> est faux.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>EncounterTest.UneRencontreSansCleSeRedeclenche</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__encounter_8cpp.html" title="Tests de l&#39;aller-retour exploration ↔ combat (LOT-18, EX-CBT-001).">Source/Test/Unit/Core/Combat/test_encounter.cpp</a>:129</span></sub>  </td><td class="markdownTableBodyNone">Une rencontre sans cle de drapeau se redeclenche.  </td><td class="markdownTableBodyNone">1. Gagner une rencontre sans cle de drapeau.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacecore.html#ab401913553c656a65288561b547c7d92" title="Vrai si cette rencontre a déjà été gagnée, et ne doit donc pas se redéclencher.">core::encounterAlreadyCleared</a>(drapeaux, "")</span> est faux.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>EncounterTest.LesCombattantsSePlacentRelativementAuDeclencheur</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__encounter_8cpp.html" title="Tests de l&#39;aller-retour exploration ↔ combat (LOT-18, EX-CBT-001).">Source/Test/Unit/Core/Combat/test_encounter.cpp</a>:149</span></sub>  </td><td class="markdownTableBodyNone">Les combattants se placent relativement au declencheur.  </td><td class="markdownTableBodyNone">1. Placer la meme rencontre a deux endroits differents.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">ici.size()</span> vaut <span class="tt">2U</span>.<br  />
+Vérifie que <span class="tt">ici[0].position.column</span> vaut <span class="tt">10</span>.<br  />
+Vérifie que <span class="tt">ici[0].position.row</span> vaut <span class="tt">9</span>.<br  />
+Vérifie que <span class="tt">ici[1].position.column</span> vaut <span class="tt">12</span>.<br  />
+Vérifie que <span class="tt">ici[1].position.row</span> vaut <span class="tt">11</span>.<br  />
+Vérifie que <span class="tt">ailleurs.size()</span> vaut <span class="tt">2U</span>.<br  />
+Vérifie que <span class="tt">ailleurs[rang].creatureId</span> vaut <span class="tt">ici[rang].creatureId</span>.<br  />
+Vérifie que <span class="tt">ailleurs[rang].position.column - ici[rang].position.column</span> vaut <span class="tt">30</span>.<br  />
+Vérifie que <span class="tt">ailleurs[rang].position.row - ici[rang].position.row</span> vaut <span class="tt">-8</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>EncounterTest.UneRencontreNonFuyableLeDeclare</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__encounter_8cpp.html" title="Tests de l&#39;aller-retour exploration ↔ combat (LOT-18, EX-CBT-001).">Source/Test/Unit/Core/Combat/test_encounter.cpp</a>:179</span></sub>  </td><td class="markdownTableBodyNone">Une rencontre non fuyable le declare.  </td><td class="markdownTableBodyNone">1. Engager une rencontre declaree non fuyable.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a8ae810130a331e928f30b4c78f4c5768" title="Engage encounter au point trigger, en mettant exploration de côté.">core::beginEncounter</a>(rencontre(true), exploration(), {}, "").escapable</span> est vrai.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a8ae810130a331e928f30b4c78f4c5768" title="Engage encounter au point trigger, en mettant exploration de côté.">core::beginEncounter</a>(rencontre(false), exploration(), {}, "").escapable</span> est faux.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>EncounterTest.LeCatalogueLivreSeCharge</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__encounter_8cpp.html" title="Tests de l&#39;aller-retour exploration ↔ combat (LOT-18, EX-CBT-001).">Source/Test/Unit/Core/Combat/test_encounter.cpp</a>:195</span></sub>  </td><td class="markdownTableBodyNone">Le catalogue de rencontres livre se charge.  </td><td class="markdownTableBodyNone">1. Charger Source/Elements/Rpg/encounters.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">catalogue.errors.empty()</span> est vrai.<br  />
+Vérifie que <span class="tt">catalogue.encounters.empty()</span> est faux.<br  />
+Vérifie que <span class="tt">combat.id.empty()</span> est faux.<br  />
+Vérifie que <span class="tt">combat.name.empty()</span> est faux.<br  />
+Vérifie que <span class="tt">combat.combatants.empty()</span> est faux.<br  />
+Vérifie que <span class="tt">combattant.creatureId.empty()</span> est faux.<br  />
+Vérifie que <span class="tt">catalogue.find("nuee-de-rats")</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">catalogue.find("rencontre-qui-n-existe-pas")</span> vaut <span class="tt">nullptr</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>EncounterTest.UnInstantaneNonReleveSeDistingueDeLOrigine</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__encounter_8cpp.html" title="Tests de l&#39;aller-retour exploration ↔ combat (LOT-18, EX-CBT-001).">Source/Test/Unit/Core/Combat/test_encounter.cpp</a>:223</span></sub>  </td><td class="markdownTableBodyNone">Un instantane non releve se distingue de l'origine.  </td><td class="markdownTableBodyNone">1. Construire un instantane par defaut.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">vide.captured</span> est faux.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>EncounterTest.UnEnnemiPosePorteUneCleUneZoneNonN</b> (?)<br  />
+<sub><span class="tt"><a class="el" href="test__encounter_8cpp.html" title="Tests de l&#39;aller-retour exploration ↔ combat (LOT-18, EX-CBT-001).">Source/Test/Unit/Core/Combat/test_encounter.cpp</a>:239</span></sub>  </td><td class="markdownTableBodyNone">Un ennemi pose porte une cle, une zone n'en porte pas. cat Unitaire · Combat crit Critique etapes 1. Lire une entite de rencontre posee. 2. Lire la meme avec respawns. attendu La premiere porte une cle fabriquee, la seconde aucune.  </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">Vérifie que <span class="tt">declencheur.has_value()</span> est vrai.<br  />
+Vérifie que <span class="tt">declencheur-&gt;encounterId</span> vaut <span class="tt">"nuee-de-rats"</span>.<br  />
+Vérifie que <span class="tt">declencheur-&gt;position.column</span> vaut <span class="tt">5</span>.<br  />
+Vérifie que <span class="tt">declencheur-&gt;defeatFlagKey.empty()</span> est faux.<br  />
+Vérifie que <span class="tt">declencheurZone.has_value()</span> est vrai.<br  />
+Vérifie que <span class="tt">declencheurZone-&gt;defeatFlagKey.empty()</span> est vrai.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>EncounterTest.DeuxDeclencheursNePartagentJamaisLeurCle</b> (?)<br  />
+<sub><span class="tt"><a class="el" href="test__encounter_8cpp.html" title="Tests de l&#39;aller-retour exploration ↔ combat (LOT-18, EX-CBT-001).">Source/Test/Unit/Core/Combat/test_encounter.cpp</a>:270</span></sub>  </td><td class="markdownTableBodyNone">Deux declencheurs ne partagent jamais leur cle. cat Unitaire · Combat crit Critique etapes 1. Lire deux entites de rencontre a des cases differentes de la meme carte. 2. Lire la meme case sur deux cartes differentes. attendu Les cles different dans les deux cas.  </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">Vérifie que <span class="tt">a &amp;&amp; b &amp;&amp; ailleurs</span> est vrai.<br  />
+Vérifie que <span class="tt">a-&gt;defeatFlagKey</span> diffère de <span class="tt">b-&gt;defeatFlagKey</span>.<br  />
+Vérifie que <span class="tt">a-&gt;defeatFlagKey</span> diffère de <span class="tt">ailleurs-&gt;defeatFlagKey</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>EncounterTest.CeQuiNEstPasUnDeclencheurNEnDevientPasUn</b> (?)<br  />
+<sub><span class="tt"><a class="el" href="test__encounter_8cpp.html" title="Tests de l&#39;aller-retour exploration ↔ combat (LOT-18, EX-CBT-001).">Source/Test/Unit/Core/Combat/test_encounter.cpp</a>:296</span></sub>  </td><td class="markdownTableBodyNone">Ce qui n'est pas un declencheur n'en devient pas un. cat Unitaire · Combat crit Majeur etapes 1. Lire une entite d'un autre type. 2. Lire une entite de rencontre sans encounterId. attendu Aucun declencheur dans les deux cas.  </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a930b849a4d1c903dd56b8f5fe14d26ca" title="Lit entity comme un déclencheur de rencontre, s&#39;il en est un.">core::encounterTriggerFor</a>(coffre, "grotte").has_value()</span> est faux.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a930b849a4d1c903dd56b8f5fe14d26ca" title="Lit entity comme un déclencheur de rencontre, s&#39;il en est un.">core::encounterTriggerFor</a>(sansRencontre, "grotte").has_value()</span> est faux.  </td></tr>
+</table>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md8"></a>
 Data (11)</h3>
 <p><b><span class="tt"><a class="el" href="test__json__document_8cpp.html" title="Brique de lecture JSON partagée (EX-CNT-012) et premiers tests paramétrés du dépôt.">test_json_document.cpp</a></span></b></p>
 <table class="markdownTable">
@@ -165,7 +243,7 @@ Vérifie que <span class="tt">doc.message.empty()</span> est faux.  </td></tr>
 2. Verifier que chaque fichier figure dans la liste des cas instancies.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">std::filesystem::is_directory(FIXTURES)</span> est vrai.<br  />
 Vérifie que <span class="tt">std::find(couvertes.begin(), couvertes.end(), nom)</span> diffère de <span class="tt">couvertes.end()</span>.  </td></tr>
 </table>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md8"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md9"></a>
 Diagnostics (22)</h3>
 <p><b><span class="tt"><a class="el" href="test__assert_8cpp.html" title="Tests unitaires des assertions du projet.">test_assert.cpp</a></span></b></p>
 <table class="markdownTable">
@@ -339,7 +417,7 @@ Vérifie que <span class="tt">sink.entries()[1].message</span> vaut <span class=
 <sub><span class="tt"><a class="el" href="test__sinks_8cpp.html" title="Tests unitaires des sinks de journalisation.">Source/Test/Unit/Core/Diagnostics/test_sinks.cpp</a>:37</span></sub>  </td><td class="markdownTableBodyNone">clear vide les messages mémorisés.  </td><td class="markdownTableBodyNone">1. Mettre en place le contexte du test (arrangement).<br  />
 2. Executer le scenario et verifier les assertions.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">sink.entries().empty()</span> est vrai.  </td></tr>
 </table>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md9"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md10"></a>
 Ecs (54)</h3>
 <p><b><span class="tt"><a class="el" href="test__animation__clip_8cpp.html" title="Tests unitaires du modèle de clip d&#39;animation (core::AnimationClip/core::ClipSet, LOT-46 TACHE-01) : ...">test_animation_clip.cpp</a></span></b></p>
 <table class="markdownTable">
@@ -703,7 +781,7 @@ Vérifie que <span class="tt">log</span> vaut <span class="tt">(std::vector&lt;i
 2. Executer le scenario et verifier les assertions.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">visited.size()</span> vaut <span class="tt">1u</span>.<br  />
 Vérifie que <span class="tt">visited.front()</span> vaut <span class="tt">both</span>.  </td></tr>
 </table>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md10"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md11"></a>
 Gameplay (19)</h3>
 <p><b><span class="tt"><a class="el" href="test__interaction_8cpp.html" title="Tests des entites de carte et de l&#39;interaction (LOT-10).">test_interaction.cpp</a></span></b></p>
 <table class="markdownTable">
@@ -854,7 +932,7 @@ Vérifie que <span class="tt">controller.collisionMap().isSolid(6, 1)</span> est
 Vérifie que <span class="tt">reloaded.isDoorOpen(0)</span> est faux.<br  />
 Vérifie que <span class="tt">reloaded.collisionMap().isSolid(4, 1)</span> est vrai.  </td></tr>
 </table>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md11"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md12"></a>
 Levels (135)</h3>
 <p><b><span class="tt"><a class="el" href="test__camera__framing_8cpp.html" title="Tests unitaires du cadrage de caméra porté par le niveau : modes, règle de repli et validation (EX-LV...">test_camera_framing.cpp</a></span></b></p>
 <table class="markdownTable">
@@ -1870,7 +1948,7 @@ Vérifie que <span class="tt">*parsed</span> vaut <span class="tt">type</span>. 
 Vérifie que <span class="tt"><a class="el" href="namespacecore.html#ad675f8ce2e7f29908cbe3e7701336ef8" title="Convertit un nom textuel en type de tuile.">core::parseTileType</a>("mur").has_value()</span> est faux.<br  />
 Vérifie que <span class="tt"><a class="el" href="namespacecore.html#ad675f8ce2e7f29908cbe3e7701336ef8" title="Convertit un nom textuel en type de tuile.">core::parseTileType</a>("Solid").has_value()</span> est faux.  </td></tr>
 </table>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md12"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md13"></a>
 Math (26)</h3>
 <p><b><span class="tt"><a class="el" href="test__deterministic__random_8cpp.html" title="Tests unitaires de core::DeterministicRandom, splitMix64 et deriveSeed (LOT-53 TACHE-01,...">test_deterministic_random.cpp</a></span></b></p>
 <table class="markdownTable">
@@ -2024,7 +2102,7 @@ Vérifie que <span class="tt">normalized</span> vaut <span class="tt"><a class="
 2. Comparer deux vecteurs distincts.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">a</span> vaut <span class="tt"><a class="el" href="structcore_1_1Vector2.html" title="Vecteur bidimensionnel en coordonnées monde (composantes float).">core::Vector2</a>(0.3f, 1.0f)</span>.<br  />
 Vérifie que <span class="tt"><a class="el" href="structcore_1_1Vector2.html" title="Vecteur bidimensionnel en coordonnées monde (composantes float).">core::Vector2</a>(0.0f, 0.0f)</span> diffère de <span class="tt"><a class="el" href="structcore_1_1Vector2.html" title="Vecteur bidimensionnel en coordonnées monde (composantes float).">core::Vector2</a>(1.0f, 0.0f)</span>.  </td></tr>
 </table>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md13"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md14"></a>
 Physics (14)</h3>
 <p><b><span class="tt"><a class="el" href="test__aabb__vs__aabb_8cpp.html" title="Tests unitaires du balayage AABB continu contre une boîte fixe unique (sweepAabbVsAabb,...">test_aabb_vs_aabb.cpp</a></span></b></p>
 <table class="markdownTable">
@@ -2125,7 +2203,93 @@ Vérifie que <span class="tt">r.normal.y</span> vaut <span class="tt">1.0f</span
 2. Balayer horizontalement le long du sol.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">r.hit</span> est faux.<br  />
 Vérifie que <span class="tt">r.position.x</span> vaut <span class="tt">3.0f</span> (comparaison flottante).  </td></tr>
 </table>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md14"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md15"></a>
+Resources (9)</h3>
+<p><b><span class="tt"><a class="el" href="test__asset__keys_8cpp.html" title="Tests des clés d&#39;assets d&#39;entité et de leurs marqueurs (LOT-39, EX-CNT-040, EX-CNT-041).">test_asset_keys.cpp</a></span></b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>AssetKeyTest.UneCleNEstJamaisUnCheminDeFichier</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__asset__keys_8cpp.html" title="Tests des clés d&#39;assets d&#39;entité et de leurs marqueurs (LOT-39, EX-CNT-040, EX-CNT-041).">Source/Test/Unit/Core/Resources/test_asset_keys.cpp</a>:40</span></sub>  </td><td class="markdownTableBodyNone">Une cle d'asset n'est jamais un chemin de fichier.  </td><td class="markdownTableBodyNone">1. Valider des cles bien formees.<br  />
+2. Valider des chemins et des cles malformees.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacecore.html#af313492482f82ad2391f0da874bfe2a7" title="Vrai si key respecte la syntaxe d&#39;une clé d&#39;asset.">core::isValidAssetKey</a>("beast/wolf")</span> est vrai.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#af313492482f82ad2391f0da874bfe2a7" title="Vrai si key respecte la syntaxe d&#39;une clé d&#39;asset.">core::isValidAssetKey</a>("item/corde-en-chanvre-15-m")</span> est vrai.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#af313492482f82ad2391f0da874bfe2a7" title="Vrai si key respecte la syntaxe d&#39;une clé d&#39;asset.">core::isValidAssetKey</a>("weapon/epee-longue")</span> est vrai.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#af313492482f82ad2391f0da874bfe2a7" title="Vrai si key respecte la syntaxe d&#39;une clé d&#39;asset.">core::isValidAssetKey</a>("Assets/Entities/wolf.png")</span> est faux.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#af313492482f82ad2391f0da874bfe2a7" title="Vrai si key respecte la syntaxe d&#39;une clé d&#39;asset.">core::isValidAssetKey</a>("beast/wolf/token")</span> est faux.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#af313492482f82ad2391f0da874bfe2a7" title="Vrai si key respecte la syntaxe d&#39;une clé d&#39;asset.">core::isValidAssetKey</a>("beast/wolf.png")</span> est faux.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#af313492482f82ad2391f0da874bfe2a7" title="Vrai si key respecte la syntaxe d&#39;une clé d&#39;asset.">core::isValidAssetKey</a>("../beast/wolf")</span> est faux.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#af313492482f82ad2391f0da874bfe2a7" title="Vrai si key respecte la syntaxe d&#39;une clé d&#39;asset.">core::isValidAssetKey</a>("wolf")</span> est faux.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#af313492482f82ad2391f0da874bfe2a7" title="Vrai si key respecte la syntaxe d&#39;une clé d&#39;asset.">core::isValidAssetKey</a>("Beast/wolf")</span> est faux.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#af313492482f82ad2391f0da874bfe2a7" title="Vrai si key respecte la syntaxe d&#39;une clé d&#39;asset.">core::isValidAssetKey</a>("beast/")</span> est faux.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#af313492482f82ad2391f0da874bfe2a7" title="Vrai si key respecte la syntaxe d&#39;une clé d&#39;asset.">core::isValidAssetKey</a>("beast/-wolf")</span> est faux.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#af313492482f82ad2391f0da874bfe2a7" title="Vrai si key respecte la syntaxe d&#39;une clé d&#39;asset.">core::isValidAssetKey</a>("beast/wolf-")</span> est faux.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#af313492482f82ad2391f0da874bfe2a7" title="Vrai si key respecte la syntaxe d&#39;une clé d&#39;asset.">core::isValidAssetKey</a>("beast/gris--loup")</span> est faux.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#af313492482f82ad2391f0da874bfe2a7" title="Vrai si key respecte la syntaxe d&#39;une clé d&#39;asset.">core::isValidAssetKey</a>("")</span> est faux.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>AssetKeyTest.UneCleSeDecomposeEtSeRecompose</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__asset__keys_8cpp.html" title="Tests des clés d&#39;assets d&#39;entité et de leurs marqueurs (LOT-39, EX-CNT-040, EX-CNT-041).">Source/Test/Unit/Core/Resources/test_asset_keys.cpp</a>:72</span></sub>  </td><td class="markdownTableBodyNone">Une cle se decompose et se recompose sans perte.  </td><td class="markdownTableBodyNone">1. Decomposer une cle valide.<br  />
+2. La reformer depuis ses deux morceaux.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">decomposee.has_value()</span> est vrai.<br  />
+Vérifie que <span class="tt">decomposee-&gt;family</span> vaut <span class="tt">"beast"</span>.<br  />
+Vérifie que <span class="tt">decomposee-&gt;id</span> vaut <span class="tt">"giant-rat"</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a511cc1f309ea0831c8af98b2df46b08a" title="La clé par défaut d&#39;une entrée : famille/identifiant.">core::defaultAssetKeyFor</a>(decomposee-&gt;family, decomposee-&gt;id)</span> vaut <span class="tt">"beast/giant-rat"</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a7982d3072b1c46a8e83aaf501b9ec7c2" title="Décompose key. std::nullopt si elle est malformée — jamais devinée.">core::parseAssetKey</a>("pas une cle").has_value()</span> est faux.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a511cc1f309ea0831c8af98b2df46b08a" title="La clé par défaut d&#39;une entrée : famille/identifiant.">core::defaultAssetKeyFor</a>("beast", "Loup").empty()</span> est vrai.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>AssetKeyTest.LaTableDesFamillesLivreeSeCharge</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__asset__keys_8cpp.html" title="Tests des clés d&#39;assets d&#39;entité et de leurs marqueurs (LOT-39, EX-CNT-040, EX-CNT-041).">Source/Test/Unit/Core/Resources/test_asset_keys.cpp</a>:92</span></sub>  </td><td class="markdownTableBodyNone">La table des familles livree se charge.  </td><td class="markdownTableBodyNone">1. Charger Assets/Entities/families.json.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">familles().ok()</span> est vrai.<br  />
+Vérifie que <span class="tt">famille.name.empty()</span> est faux.<br  />
+Vérifie que <span class="tt">famille.width</span> est strictement supérieur à <span class="tt">0</span>.<br  />
+Vérifie que <span class="tt">famille.height</span> est strictement supérieur à <span class="tt">0</span>.<br  />
+Vérifie que <span class="tt">famille.catalogues.empty()</span> est faux.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#af313492482f82ad2391f0da874bfe2a7" title="Vrai si key respecte la syntaxe d&#39;une clé d&#39;asset.">core::isValidAssetKey</a>(famille.name + "/essai")</span> est vrai.<br  />
+Vérifie que <span class="tt">familles().find("beast")</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">familles().find("famille-inexistante")</span> vaut <span class="tt">nullptr</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>AssetKeyTest.AucuneCleOrphelineDansLesCataloguesLivres</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__asset__keys_8cpp.html" title="Tests des clés d&#39;assets d&#39;entité et de leurs marqueurs (LOT-39, EX-CNT-040, EX-CNT-041).">Source/Test/Unit/Core/Resources/test_asset_keys.cpp</a>:116</span></sub>  </td><td class="markdownTableBodyNone">Aucune cle d'asset orpheline dans les catalogues livres.  </td><td class="markdownTableBodyNone">1. Deriver le manifeste des catalogues reels.<br  />
+2. Relever les erreurs.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">erreurs.empty()</span> est vrai.<br  />
+Vérifie que <span class="tt">attendues.size()</span> est strictement supérieur à <span class="tt">300U</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>AssetKeyTest.LeManifesteDeriveNAPasDeDoublon</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__asset__keys_8cpp.html" title="Tests des clés d&#39;assets d&#39;entité et de leurs marqueurs (LOT-39, EX-CNT-040, EX-CNT-041).">Source/Test/Unit/Core/Resources/test_asset_keys.cpp</a>:135</span></sub>  </td><td class="markdownTableBodyNone">Le manifeste derive n'a aucun doublon et chaque cle est bien formee.  </td><td class="markdownTableBodyNone">1. Deriver le manifeste.<br  />
+2. Verifier l'unicite et la syntaxe de chaque cle.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">attendues.empty()</span> est faux.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#af313492482f82ad2391f0da874bfe2a7" title="Vrai si key respecte la syntaxe d&#39;une clé d&#39;asset.">core::isValidAssetKey</a>(attendue.key)</span> est vrai.<br  />
+Vérifie que <span class="tt">familles().find(attendue.family)</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">vues.insert(attendue.key).second</span> est vrai.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>AssetMarkerTest.UnMarqueurEstDeterministe</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__asset__keys_8cpp.html" title="Tests des clés d&#39;assets d&#39;entité et de leurs marqueurs (LOT-39, EX-CNT-040, EX-CNT-041).">Source/Test/Unit/Core/Resources/test_asset_keys.cpp</a>:163</span></sub>  </td><td class="markdownTableBodyNone">Un marqueur est deterministe.  </td><td class="markdownTableBodyNone">1. Peindre deux fois le marqueur d'une meme cle.<br  />
+2. Peindre celui d'une autre cle.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">premier.isEmpty()</span> est faux.<br  />
+Vérifie que <span class="tt">premier.pixels</span> vaut <span class="tt">second.pixels</span>.<br  />
+Vérifie que <span class="tt">autre.isEmpty()</span> est faux.<br  />
+Vérifie que <span class="tt">premier.pixels</span> diffère de <span class="tt">autre.pixels</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a22e0e2c24dd3236fe3a81f89f795fee2" title="Le hachage stable dont assetMarker tire sa teinte.">core::stableAssetHash</a>("beast/wolf")</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a22e0e2c24dd3236fe3a81f89f795fee2" title="Le hachage stable dont assetMarker tire sa teinte.">core::stableAssetHash</a>("beast/wolf")</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a22e0e2c24dd3236fe3a81f89f795fee2" title="Le hachage stable dont assetMarker tire sa teinte.">core::stableAssetHash</a>("beast/wolf")</span> diffère de <span class="tt"><a class="el" href="namespacecore.html#a22e0e2c24dd3236fe3a81f89f795fee2" title="Le hachage stable dont assetMarker tire sa teinte.">core::stableAssetHash</a>("beast/wolt")</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>AssetMarkerTest.UnMarqueurRespecteSesDimensionsEtSeVoit</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__asset__keys_8cpp.html" title="Tests des clés d&#39;assets d&#39;entité et de leurs marqueurs (LOT-39, EX-CNT-040, EX-CNT-041).">Source/Test/Unit/Core/Resources/test_asset_keys.cpp</a>:191</span></sub>  </td><td class="markdownTableBodyNone">Un marqueur respecte ses dimensions et se voit comme un marqueur.  </td><td class="markdownTableBodyNone">1. Peindre un marqueur aux dimensions d'une famille.<br  />
+2. Comparer un pixel de la diagonale a un pixel de coin.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">marqueur.isEmpty()</span> est faux.<br  />
+Vérifie que <span class="tt">marqueur.width</span> vaut <span class="tt">128</span>.<br  />
+Vérifie que <span class="tt">marqueur.height</span> vaut <span class="tt">128</span>.<br  />
+Vérifie que <span class="tt">marqueur.pixels.size()</span> vaut <span class="tt">128U * 128U</span>.<br  />
+Vérifie que <span class="tt">centre</span> diffère de <span class="tt">bord</span>.<br  />
+Vérifie que <span class="tt">centre.a</span> vaut <span class="tt">255</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>AssetMarkerTest.UneCleMalformeeNeRecoitPasDeMarqueur</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__asset__keys_8cpp.html" title="Tests des clés d&#39;assets d&#39;entité et de leurs marqueurs (LOT-39, EX-CNT-040, EX-CNT-041).">Source/Test/Unit/Core/Resources/test_asset_keys.cpp</a>:215</span></sub>  </td><td class="markdownTableBodyNone">Une cle malformee ne recoit pas de marqueur.  </td><td class="markdownTableBodyNone">1. Demander le marqueur d'une cle malformee, puis de dimensions nulles.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacecore.html#ac6ae670b019f78f94c6c8354d01794bc" title="Peint le marqueur d&#39;une clé d&#39;asset.">core::assetMarker</a>("Assets/wolf.png", 96, 96).isEmpty()</span> est vrai.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#ac6ae670b019f78f94c6c8354d01794bc" title="Peint le marqueur d&#39;une clé d&#39;asset.">core::assetMarker</a>("beast/wolf", 0, 96).isEmpty()</span> est vrai.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#ac6ae670b019f78f94c6c8354d01794bc" title="Peint le marqueur d&#39;une clé d&#39;asset.">core::assetMarker</a>("beast/wolf", 96, -1).isEmpty()</span> est vrai.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>AssetMarkerTest.TouteCleAttendueObtientUnMarqueur</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__asset__keys_8cpp.html" title="Tests des clés d&#39;assets d&#39;entité et de leurs marqueurs (LOT-39, EX-CNT-040, EX-CNT-041).">Source/Test/Unit/Core/Resources/test_asset_keys.cpp</a>:231</span></sub>  </td><td class="markdownTableBodyNone">Toute cle attendue obtient un marqueur.  </td><td class="markdownTableBodyNone">1. Deriver le manifeste des catalogues reels.<br  />
+2. Peindre le marqueur de chaque cle aux dimensions de sa famille.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">attendues.empty()</span> est faux.<br  />
+Vérifie que <span class="tt">famille</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">marqueur.isEmpty()</span> est faux.<br  />
+Vérifie que <span class="tt">marqueur.width</span> vaut <span class="tt">famille-&gt;width</span>.<br  />
+Vérifie que <span class="tt">peints</span> vaut <span class="tt">static_cast&lt;int&gt;(attendues.size())</span>.  </td></tr>
+</table>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md16"></a>
 Rpg (69)</h3>
 <p><b><span class="tt"><a class="el" href="test__bestiary_8cpp.html" title="Tests du bestiaire de base (LOT-33) : les 94 profils chargent, et dix sont rejoues contre des valeurs...">test_bestiary.cpp</a></span></b></p>
 <table class="markdownTable">
@@ -2696,7 +2860,7 @@ Vérifie que <span class="tt"><a class="el" href="namespacecore.html#aff7f41bc81
 Vérifie que <span class="tt"><a class="el" href="namespacecore.html#aada0fb2093fbbb75a0f9c75e28336c8d">core::allMagicSchools()</a>.size()</span> vaut <span class="tt">8U</span>.<br  />
 Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a9bf4bb53c75f4f7231a48236c2190c33">core::allCreatureSizes()</a>.size()</span> vaut <span class="tt">6U</span>.  </td></tr>
 </table>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md15"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md17"></a>
 Time (7)</h3>
 <p><b><span class="tt"><a class="el" href="test__fixed__timestep_8cpp.html" title="Tests unitaires du cadenceur à pas de temps fixe.">test_fixed_timestep.cpp</a></span></b></p>
 <table class="markdownTable">
@@ -2737,7 +2901,7 @@ Vérifie que <span class="tt">timestep.advance(0.0f)</span> vaut <span class="tt
 3. Reprendre avec un petit delta, comme après réarmement de l'horloge de référence.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">timestep.advance(STEP * 3.0f)</span> vaut <span class="tt">3</span>.<br  />
 Vérifie que <span class="tt">timestep.advance(STEP)</span> vaut <span class="tt">1</span>.  </td></tr>
 </table>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md16"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md18"></a>
 World (19)</h3>
 <p><b><span class="tt"><a class="el" href="test__atlas_8cpp.html" title="Tests de l&#39;atlas des régions (LOT-37) : les treize régions chargent, le graphe tient,...">test_atlas.cpp</a></span></b></p>
 <table class="markdownTable">
@@ -2862,9 +3026,9 @@ Vérifie que <span class="tt">field.distance(<a class="el" href="structcore_1_1G
 <sub><span class="tt"><a class="el" href="test__grid__distance__field_8cpp.html" title="Tests unitaires de core::GridDistanceField (amendement LOT-ANNEXE-08, EX-IA-023).">Source/Test/Unit/Core/World/test_grid_distance_field.cpp</a>:136</span></sub>  </td><td class="markdownTableBodyNone">Multi-cibles : une cible invalide n'empêche pas les autres de fonctionner.  </td><td class="markdownTableBodyNone">1. Grille 5x5, case <span class="tt">(1,1)</span> solide utilisée comme première cible, <span class="tt">(4,4)</span> valide comme seconde.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">field.distance(<a class="el" href="structcore_1_1GridPosition.html" title="Position d&#39;une case dans la grille d&#39;un niveau, en coordonnées entières.">core::GridPosition</a>{4, 4})</span> vaut <span class="tt">0</span>.<br  />
 Vérifie que <span class="tt">field.distance(<a class="el" href="structcore_1_1GridPosition.html" title="Position d&#39;une case dans la grille d&#39;un niveau, en coordonnées entières.">core::GridPosition</a>{3, 4})</span> vaut <span class="tt">1</span>.  </td></tr>
 </table>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md17"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md19"></a>
 HMI</h2>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md18"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md20"></a>
 Audio (14)</h3>
 <p><b><span class="tt"><a class="el" href="test__audio__engine_8cpp.html" title="Tests unitaires du moteur audio (LOT-60, EX-REN-047, EX-NFR-040).">test_audio_engine.cpp</a></span></b></p>
 <table class="markdownTable">
@@ -2948,7 +3112,7 @@ Vérifie que <span class="tt">hmi::soundForEvent(hmi::GameEvent::PressurePlateRe
 <sub><span class="tt"><a class="el" href="test__sound__triggers_8cpp.html" title="Tests unitaires de la table événement → son (LOT-60, EX-REN-047).">Source/Test/Unit/HMI/Audio/test_sound_triggers.cpp</a>:68</span></sub>  </td><td class="markdownTableBodyNone">Des evenements sans bruitage dedie resolvent vers std::nullopt.  </td><td class="markdownTableBodyNone">1. Resoudre WallContactEnter et BlockPushed.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">hmi::soundForEvent(hmi::GameEvent::WallContactEnter)</span> vaut <span class="tt">std::nullopt</span>.<br  />
 Vérifie que <span class="tt">hmi::soundForEvent(hmi::GameEvent::BlockPushed)</span> vaut <span class="tt">std::nullopt</span>.  </td></tr>
 </table>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md19"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md21"></a>
 Diagnostics (2)</h3>
 <p><b><span class="tt"><a class="el" href="test__session__log_8cpp.html" title="Tests unitaires de la sérialisation des logs de session.">test_session_log.cpp</a></span></b></p>
 <table class="markdownTable">
@@ -2963,7 +3127,7 @@ Diagnostics (2)</h3>
 <sub><span class="tt"><a class="el" href="test__session__log_8cpp.html" title="Tests unitaires de la sérialisation des logs de session.">Source/Test/Unit/HMI/Diagnostics/test_session_log.cpp</a>:37</span></sub>  </td><td class="markdownTableBodyNone">Une session sans message produit un texte vide.  </td><td class="markdownTableBodyNone">1. Mettre en place le contexte du test (arrangement).<br  />
 2. Executer le scenario et verifier les assertions.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a5bc539b762cfd88b17c71d8a44a1a22b" title="Assemble les messages de log en un texte (une ligne par message).">hmi::serializeSessionLog</a>({})</span> vaut <span class="tt">""</span>.  </td></tr>
 </table>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md20"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md22"></a>
 Editor (159)</h3>
 <p><b><span class="tt"><a class="el" href="test__asset__file__operations_8cpp.html" title="Tests unitaires des opérations fichiers sur les assets (LOT-43 TACHE-02).">test_asset_file_operations.cpp</a></span></b></p>
 <table class="markdownTable">
@@ -3978,8 +4142,8 @@ Vérifie que <span class="tt">localization.text(categoryKey)</span> diffère de 
 Vérifie que <span class="tt">key.empty()</span> est faux.<br  />
 Vérifie que <span class="tt">localization.text(key)</span> diffère de <span class="tt">key</span>.  </td></tr>
 </table>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md21"></a>
-Game (26)</h3>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md23"></a>
+Game (28)</h3>
 <p><b><span class="tt"><a class="el" href="test__diagnostics__hud_8cpp.html" title="Tests unitaires de la moyenne glissante de cadence et du choix de contenu du compteur de diagnostic (...">test_diagnostics_hud.cpp</a></span></b></p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -4093,29 +4257,39 @@ Vérifie que <span class="tt">surUneCle[1]</span> vaut <span class="tt">"Cle"</s
 <th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>ModeDeJeuTest.OrdreAppeleIdentiqueALOrdreAnnonce</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__game__mode_8cpp.html" title="Tests unitaires du mode de jeu : l&#39;ordre des passes du pas fixe (EX-ARCH-002, LOT-05).">Source/Test/Unit/HMI/Game/test_game_mode.cpp</a>:96</span></sub>  </td><td class="markdownTableBodyNone">L'ordre des passes appele est celui annonce.  </td><td class="markdownTableBodyNone">1. Avancer le mode d'exploration d'un pas fixe sur des passes qui enregistrent leurs appels.<br  />
+<sub><span class="tt"><a class="el" href="test__game__mode_8cpp.html" title="Tests unitaires du mode de jeu : l&#39;ordre des passes du pas fixe (EX-ARCH-002, LOT-05).">Source/Test/Unit/HMI/Game/test_game_mode.cpp</a>:98</span></sub>  </td><td class="markdownTableBodyNone">L'ordre des passes appele est celui annonce.  </td><td class="markdownTableBodyNone">1. Avancer le mode d'exploration d'un pas fixe sur des passes qui enregistrent leurs appels.<br  />
 2. Comparer la sequence enregistree a passOrder().  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">outcome</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a60398ec3835dd2882a7d3a9eaddb65aaac9dbb2b7c84159b632d71e512eba8428" title="Partie en cours.">core::LevelOutcome::Playing</a></span>.<br  />
 Vérifie que <span class="tt">passes.calls()</span> vaut <span class="tt">announcedOrder(mode)</span>.  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>ModeDeJeuTest.SequenceStableSur600Pas</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__game__mode_8cpp.html" title="Tests unitaires du mode de jeu : l&#39;ordre des passes du pas fixe (EX-ARCH-002, LOT-05).">Source/Test/Unit/HMI/Game/test_game_mode.cpp</a>:117</span></sub>  </td><td class="markdownTableBodyNone">600 pas produisent 600 fois la meme sequence de passes.  </td><td class="markdownTableBodyNone">1. Avancer le mode de 600 pas fixes, avec une intention qui change a chaque pas.<br  />
+<sub><span class="tt"><a class="el" href="test__game__mode_8cpp.html" title="Tests unitaires du mode de jeu : l&#39;ordre des passes du pas fixe (EX-ARCH-002, LOT-05).">Source/Test/Unit/HMI/Game/test_game_mode.cpp</a>:119</span></sub>  </td><td class="markdownTableBodyNone">600 pas produisent 600 fois la meme sequence de passes.  </td><td class="markdownTableBodyNone">1. Avancer le mode de 600 pas fixes, avec une intention qui change a chaque pas.<br  />
 2. Comparer la sequence de chaque pas a celle du premier.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">passes.calls()</span> vaut <span class="tt">expected</span>.  </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>ModeDeJeuTest.EchecDeclencheSesConsequencesApresLEvaluation</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__game__mode_8cpp.html" title="Tests unitaires du mode de jeu : l&#39;ordre des passes du pas fixe (EX-ARCH-002, LOT-05).">Source/Test/Unit/HMI/Game/test_game_mode.cpp</a>:142</span></sub>  </td><td class="markdownTableBodyNone">Un echec declenche ses consequences apres l'evaluation.  </td><td class="markdownTableBodyNone">1. Avancer le mode d'un pas sur des passes qui repondent Lost a l'evaluation.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">outcome</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a60398ec3835dd2882a7d3a9eaddb65aaab578b733cbb788fc6ad208314d2c4c2b" title="Le personnage a touché un danger ou est sorti par le bas (EX-GP-031).">core::LevelOutcome::Lost</a></span>.<br  />
+<sub><span class="tt"><a class="el" href="test__game__mode_8cpp.html" title="Tests unitaires du mode de jeu : l&#39;ordre des passes du pas fixe (EX-ARCH-002, LOT-05).">Source/Test/Unit/HMI/Game/test_game_mode.cpp</a>:144</span></sub>  </td><td class="markdownTableBodyNone">Un echec declenche ses consequences apres l'evaluation.  </td><td class="markdownTableBodyNone">1. Avancer le mode d'un pas sur des passes qui repondent Lost a l'evaluation.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">outcome</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a60398ec3835dd2882a7d3a9eaddb65aaab578b733cbb788fc6ad208314d2c4c2b" title="Le personnage a touché un danger ou est sorti par le bas (EX-GP-031).">core::LevelOutcome::Lost</a></span>.<br  />
 Vérifie que <span class="tt">passes.calls().size()</span> est supérieur ou égal à <span class="tt">2u</span>.<br  />
 Vérifie que <span class="tt">passes.calls().back()</span> vaut <span class="tt">"onLevelLost"</span>.<br  />
 Vérifie que <span class="tt">passes.calls()[passes.calls().size() - 2]</span> vaut <span class="tt">"evaluateOutcome"</span>.  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>ModeDeJeuTest.ReussiteNeDeclenchePasLesConsequencesDUnEchec</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__game__mode_8cpp.html" title="Tests unitaires du mode de jeu : l&#39;ordre des passes du pas fixe (EX-ARCH-002, LOT-05).">Source/Test/Unit/HMI/Game/test_game_mode.cpp</a>:164</span></sub>  </td><td class="markdownTableBodyNone">Une reussite ne declenche pas les consequences d'un echec.  </td><td class="markdownTableBodyNone">1. Avancer le mode d'un pas sur des passes qui repondent Won a l'evaluation.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">outcome</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a60398ec3835dd2882a7d3a9eaddb65aaa19abd416eb9fe03ae7400a22446956a5" title="Le personnage a atteint la sortie (EX-GP-030).">core::LevelOutcome::Won</a></span>.<br  />
+<sub><span class="tt"><a class="el" href="test__game__mode_8cpp.html" title="Tests unitaires du mode de jeu : l&#39;ordre des passes du pas fixe (EX-ARCH-002, LOT-05).">Source/Test/Unit/HMI/Game/test_game_mode.cpp</a>:166</span></sub>  </td><td class="markdownTableBodyNone">Une reussite ne declenche pas les consequences d'un echec.  </td><td class="markdownTableBodyNone">1. Avancer le mode d'un pas sur des passes qui repondent Won a l'evaluation.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">outcome</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a60398ec3835dd2882a7d3a9eaddb65aaa19abd416eb9fe03ae7400a22446956a5" title="Le personnage a atteint la sortie (EX-GP-030).">core::LevelOutcome::Won</a></span>.<br  />
 Vérifie que <span class="tt">passes.calls()</span> vaut <span class="tt">announcedOrder(mode)</span>.  </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>ModeDeJeuTest.ModeSansEtatEtNomme</b> (Mineur)<br  />
-<sub><span class="tt"><a class="el" href="test__game__mode_8cpp.html" title="Tests unitaires du mode de jeu : l&#39;ordre des passes du pas fixe (EX-ARCH-002, LOT-05).">Source/Test/Unit/HMI/Game/test_game_mode.cpp</a>:184</span></sub>  </td><td class="markdownTableBodyNone">Le mode d'exploration est sans etat et se nomme.  </td><td class="markdownTableBodyNone">1. Charger puis decharger le mode.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">passes.calls().empty()</span> est vrai.<br  />
+<sub><span class="tt"><a class="el" href="test__game__mode_8cpp.html" title="Tests unitaires du mode de jeu : l&#39;ordre des passes du pas fixe (EX-ARCH-002, LOT-05).">Source/Test/Unit/HMI/Game/test_game_mode.cpp</a>:186</span></sub>  </td><td class="markdownTableBodyNone">Le mode d'exploration est sans etat et se nomme.  </td><td class="markdownTableBodyNone">1. Charger puis decharger le mode.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">passes.calls().empty()</span> est vrai.<br  />
 Vérifie que <span class="tt">mode.name()</span> vaut <span class="tt">"exploration"</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>ModeDeJeuTest.LeModeCombatGeleLeMonde</b> (?)<br  />
+<sub><span class="tt"><a class="el" href="test__game__mode_8cpp.html" title="Tests unitaires du mode de jeu : l&#39;ordre des passes du pas fixe (EX-ARCH-002, LOT-05).">Source/Test/Unit/HMI/Game/test_game_mode.cpp</a>:207</span></sub>  </td><td class="markdownTableBodyNone">Le mode combat gele le monde. cat Unitaire · Mode de jeu crit Critique etapes 1. Avancer le mode combat d'un pas fixe sur des passes qui enregistrent leurs appels. 2. Comparer la sequence a passOrder(). 3. Verifier l'absence des passes d'exploration. attendu moveCharacter, updateMechanisms, detectEvents et evaluateOutcome ne sont jamais appeles, et l'issue rendue est Playing.  </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">Vérifie que <span class="tt">passes.calls()</span> vaut <span class="tt">announcedOrder(mode)</span>.<br  />
+Vérifie que <span class="tt">issue</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a60398ec3835dd2882a7d3a9eaddb65aaac9dbb2b7c84159b632d71e512eba8428" title="Partie en cours.">core::LevelOutcome::Playing</a></span>.<br  />
+Vérifie que <span class="tt">std::ranges::find(passes.calls(), gelee)</span> vaut <span class="tt">passes.calls().end()</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>ModeDeJeuTest.LeModeCombatEstNommeEtSansEtat</b> (?)<br  />
+<sub><span class="tt"><a class="el" href="test__game__mode_8cpp.html" title="Tests unitaires du mode de jeu : l&#39;ordre des passes du pas fixe (EX-ARCH-002, LOT-05).">Source/Test/Unit/HMI/Game/test_game_mode.cpp</a>:235</span></sub>  </td><td class="markdownTableBodyNone">Le mode combat est nomme et sans etat. cat Unitaire · Mode de jeu crit Mineur etapes 1. Avancer deux instances distinctes du mode d'un meme pas. attendu Les deux produisent la meme sequence, et le mode porte un nom distinct de l'exploration.  </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">Vérifie que <span class="tt">premier.name()</span> vaut <span class="tt">"combat"</span>.<br  />
+Vérifie que <span class="tt">premier.name()</span> diffère de <span class="tt"><a class="el" href="classhmi_1_1ExplorationMode.html" title="Le mode par défaut : le personnage parcourt la carte, les mécanismes répondent, la caméra suit,...">hmi::ExplorationMode</a>{}.name()</span>.<br  />
+Vérifie que <span class="tt">passesA.calls()</span> vaut <span class="tt">passesB.calls()</span>.  </td></tr>
 </table>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md22"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md24"></a>
 Graphics (264)</h3>
 <p><b><span class="tt"><a class="el" href="test__animated__tiles_8cpp.html" title="Tests unitaires des tuiles animées (LOT-46 TACHE-05) : horloge partagée par asset,...">test_animated_tiles.cpp</a></span></b></p>
 <table class="markdownTable">
@@ -5867,7 +6041,7 @@ Vérifie que <span class="tt">textures.textureFor(appearance)</span> vaut <span 
 Vérifie que <span class="tt">textures.widthFor(broken)</span> vaut <span class="tt"><a class="el" href="namespacehmi.html#a75cfef1e5eb0b5569ebd42c004d73ce3" title="Côté, en pixels, du damier de repli généré par défaut (une case, EX-ARCH-021).">hmi::MISSING_TEXTURE_SIZE</a></span>.<br  />
 Vérifie que <span class="tt">textures.heightFor(broken)</span> vaut <span class="tt"><a class="el" href="namespacehmi.html#a75cfef1e5eb0b5569ebd42c004d73ce3" title="Côté, en pixels, du damier de repli généré par défaut (une case, EX-ARCH-021).">hmi::MISSING_TEXTURE_SIZE</a></span>.  </td></tr>
 </table>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md23"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md25"></a>
 Input (81)</h3>
 <p><b><span class="tt"><a class="el" href="test__editor__key__bindings_8cpp.html" title="Tests unitaires du remappage des touches de l&#39;éditeur (EditorKeyBindings, EX-CTRL-012).">test_editor_key_bindings.cpp</a></span></b></p>
 <table class="markdownTable">
@@ -6384,7 +6558,7 @@ Vérifie que <span class="tt">hmi::qtKeyToHmiKey(Qt::Key_Alt).has_value()</span>
 Vérifie que <span class="tt">hmi::qtKeyToHmiKey(Qt::Key_Home).has_value()</span> est faux.<br  />
 Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a1b53de392afb0dfdf5cdef4543fb672d" title="Traduit un code Qt::Key en hmi::Key.">hmi::qtKeyToHmiKey</a>(-1).has_value()</span> est faux.  </td></tr>
 </table>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md24"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md26"></a>
 Interface (82)</h3>
 <p><b><span class="tt"><a class="el" href="test__application__theme_8cpp.html" title="Tests unitaires du thème de l&#39;IHM : modèle de feuille de style (LOT-56 TACHE-02, EX-IHM-050,...">test_application_theme.cpp</a></span></b></p>
 <table class="markdownTable">
@@ -7029,7 +7203,7 @@ Vérifie que <span class="tt">theme.find(forbidden)</span> vaut <span class="tt"
 Vérifie que <span class="tt">target.empty()</span> est faux.<br  />
 Vérifie que <span class="tt">target.front()</span> vaut <span class="tt">':'</span>.  </td></tr>
 </table>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md25"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md27"></a>
 Localization (9)</h3>
 <p><b><span class="tt"><a class="el" href="test__localization_8cpp.html" title="Tests unitaires du catalogue de traduction : analyse, repli, changement de langue.">test_localization.cpp</a></span></b></p>
 <table class="markdownTable">
@@ -7087,9 +7261,9 @@ Vérifie que <span class="tt">english.count(key) &gt; 0</span> est vrai.<br  />
 Vérifie que <span class="tt">french.count(key) &gt; 0</span> est vrai.<br  />
 Vérifie que <span class="tt">french.size()</span> vaut <span class="tt">english.size()</span>.  </td></tr>
 </table>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md26"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md28"></a>
 Tests d'intégration (13)</h1>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md27"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md29"></a>
 Animation Personnage — <span class="tt">test_animation_personnage.cpp</span> (6)</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -7130,7 +7304,7 @@ Vérifie que <span class="tt">animation.elapsed</span> vaut <span class="tt">0.0
 2. Avancer le systeme dix pas.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">animation.clipIndex</span> vaut <span class="tt">0</span>.<br  />
 Vérifie que <span class="tt">animation.frameIndex</span> vaut <span class="tt">0</span>.  </td></tr>
 </table>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md28"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md30"></a>
 Boucle Simulation — <span class="tt">test_boucle_simulation.cpp</span> (2)</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -7146,7 +7320,7 @@ Vérifie que <span class="tt">position.x</span> vaut <span class="tt">6.0f * tot
 2. Executer le scenario et verifier les assertions.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">firstPosition.x</span> vaut <span class="tt">secondPosition.x</span>, à <span class="tt">TOLERANCE</span> près.<br  />
 Vérifie que <span class="tt">firstPosition.y</span> vaut <span class="tt">secondPosition.y</span>, à <span class="tt">TOLERANCE</span> près.  </td></tr>
 </table>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md29"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md31"></a>
 Ecs Mouvement — <span class="tt">test_ecs_mouvement.cpp</span> (4)</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -7173,7 +7347,7 @@ Vérifie que <span class="tt">fastPosition.y</span> vaut <span class="tt">4.0f</
 <sub><span class="tt"><a class="el" href="test__ecs__mouvement_8cpp.html" title="Tests d&#39;intégration de l&#39;ECS : entités + composants + système de mouvement assemblés dans un World,...">Source/Test/Integration/test_ecs_mouvement.cpp</a>:117</span></sub>  </td><td class="markdownTableBodyNone">Enregistré dans le World, le système s'exécute via World::update (chaîne complète).  </td><td class="markdownTableBodyNone">1. Mettre en place le contexte du test (arrangement).<br  />
 2. Executer le scenario et verifier les assertions.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">position.x</span> vaut <span class="tt">10.0f * steps * STEP</span>, à <span class="tt">TOLERANCE</span> près.  </td></tr>
 </table>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md30"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md32"></a>
 Niveau Ecs — <span class="tt">test_niveau_ecs.cpp</span> (1)</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -7188,9 +7362,9 @@ Vérifie que <span class="tt">tilesByPosition.at({0, 0})</span> vaut <span class
 Vérifie que <span class="tt">tilesByPosition.at({1, 0})</span> vaut <span class="tt">static_cast&lt;int&gt;(<a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875ae41480b6bbfbf7407974a88d3d34f4fa">core::TileType::Solid</a>)</span>.<br  />
 Vérifie que <span class="tt">tilesByPosition.at({1, 1})</span> vaut <span class="tt">static_cast&lt;int&gt;(<a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875afef46e5063ce3dc78b8ae64fa474241d">core::TileType::Exit</a>)</span>.  </td></tr>
 </table>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md31"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md33"></a>
 Tests système (2)</h1>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md32"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md34"></a>
 Éditeur de niveaux — <span class="tt">test_parcours_edition.cpp</span> (2)</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">

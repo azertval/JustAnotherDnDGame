@@ -1,5 +1,7 @@
 var dir_e63fac7525d4addf9f5e759ec10d14ef =
 [
+    [ "CombatMode.cpp", "CombatMode_8cpp.html", null ],
+    [ "CombatMode.h", "CombatMode_8h.html", "CombatMode_8h" ],
     [ "DiagnosticsHud.cpp", "DiagnosticsHud_8cpp.html", "DiagnosticsHud_8cpp" ],
     [ "DiagnosticsHud.h", "DiagnosticsHud_8h.html", "DiagnosticsHud_8h" ],
     [ "ExplorationMode.cpp", "ExplorationMode_8cpp.html", null ],

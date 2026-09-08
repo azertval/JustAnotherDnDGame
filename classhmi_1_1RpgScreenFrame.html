@@ -160,7 +160,7 @@ Private Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Le <b>cadre</b> que les huit écrans du RPG partagent : panneau, titre, zone de contenu, pied d'actions. </p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md771"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md791"></a>
 Pas de <span class="tt">.ui</span>, et c'est le sujet du lot</h2>
 <p>Tous les autres écrans du jeu décrivent leur mise en page dans un fichier Qt Designer, et c'est la convention du projet. Celui-ci ne le peut pas : huit <span class="tt">.ui</span> presque identiques seraient huit endroits où corriger un pied de page, et le neuvième écran en ferait neuf — exactement ce qu'<span class="tt">EX-IHM-090</span> interdit. La mise en page reste néanmoins <b>déclarative</b> : elle vit dans <span class="tt">hmi::rpgScreenLayout</span> (données pures), et ce fichier n'est que le peintre qui la rend.</p>
 <p>Ce châssis ne connaît <b>aucun</b> écran par son nom. Il reçoit un descripteur, en peint l'ossature, et n'émet que des intentions — <span class="tt"><a class="el" href="classhmi_1_1RpgScreenHost.html" title="Héberge les écrans du RPG et fait passer de l&#39;un à l&#39;autre sans repasser par le menu.">hmi::RpgScreenHost</a></span> décide où elles mènent. </p>

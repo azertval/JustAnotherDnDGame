@@ -1,6 +1,8 @@
 var test__game__mode_8cpp =
 [
     [ "TEST", "test__game__mode_8cpp.html#aabd48f3dbfd71ad4b836130ff9fae0d8", null ],
+    [ "TEST", "test__game__mode_8cpp.html#a4fca7b7ffa4ed48e7eee3163aac42d22", null ],
+    [ "TEST", "test__game__mode_8cpp.html#a7901a711cd504600ac7fd2ef3822127f", null ],
     [ "TEST", "test__game__mode_8cpp.html#a2bc58a8ce882c49b887ae4513a94be05", null ],
     [ "TEST", "test__game__mode_8cpp.html#a69f14ed48a6f8ac12d798a67790004f5", null ],
     [ "TEST", "test__game__mode_8cpp.html#acd8285613e24fd14d3db5a515a44e1a1", null ],

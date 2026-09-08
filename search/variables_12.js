@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['r_0',['r',['../structcore_1_1Color.html#a6661129aae38ea85f938acfd130a888d',1,'core::Color::r'],['../structhmi_1_1SpriteQuad.html#ab8e8494560e6c855471cfab0f735ac48',1,'hmi::SpriteQuad::r'],['../structhmi_1_1LineQuad.html#ae8956cc31b9497667597dc2cec9e99eb',1,'hmi::LineQuad::r'],['../structhmi_1_1SpriteBatch_1_1Vertex.html#ad0468112a8605e4ea04c7796474a2e0c',1,'hmi::SpriteBatch::Vertex::r'],['../structhmi_1_1DesignColor.html#a0eba99c55f71ef2f0b9657feda2edcb2',1,'hmi::DesignColor::r']]],
+  ['r_0',['r',['../structcore_1_1Color.html#a6661129aae38ea85f938acfd130a888d',1,'core::Color::r'],['../structcore_1_1MarkerColor.html#ae4e749d64a1b1b414e8089833fff34e4',1,'core::MarkerColor::r'],['../structhmi_1_1SpriteQuad.html#ab8e8494560e6c855471cfab0f735ac48',1,'hmi::SpriteQuad::r'],['../structhmi_1_1LineQuad.html#ae8956cc31b9497667597dc2cec9e99eb',1,'hmi::LineQuad::r'],['../structhmi_1_1SpriteBatch_1_1Vertex.html#ad0468112a8605e4ea04c7796474a2e0c',1,'hmi::SpriteBatch::Vertex::r'],['../structhmi_1_1DesignColor.html#a0eba99c55f71ef2f0b9657feda2edcb2',1,'hmi::DesignColor::r']]],
   ['ranged_1',['ranged',['../structcore_1_1Weapon.html#acede503f77d6dabcdc129a8516521ab8',1,'core::Weapon']]],
   ['rarity_2',['rarity',['../structcore_1_1Item.html#a5e31bf112f66c60ee7e5fc482c645d64',1,'core::Item']]],
   ['reach_3',['reach',['../structcore_1_1CreatureAction.html#a5af039def3d9ab141b9314d23697a52b',1,'core::CreatureAction']]],
@@ -23,7 +23,8 @@ var searchData=
   ['root_20',['root',['../structcore_1_1JsonDocument.html#aee2b7ee0780fca9c92445b2778a7baa1',1,'core::JsonDocument']]],
   ['rotation_21',['rotation',['../structcore_1_1Transform.html#a445458d76abe4de694e70ad88441d93f',1,'core::Transform::rotation'],['../structhmi_1_1SpriteQuad.html#a6d77667b205966d8edb35e16aa6f8b3a',1,'hmi::SpriteQuad::rotation']]],
   ['row_22',['row',['../structcore_1_1GridPosition.html#ac6f7abc29fe595daf6d2efc341701589',1,'core::GridPosition::row'],['../structhmi_1_1RoomBounds.html#a1eacf6e3d973a83b8ed5c4f5f5ef5d62',1,'hmi::RoomBounds::row'],['../structhmi_1_1AutotileCell.html#af0563e130bf797a533e67e0991494450',1,'hmi::AutotileCell::row']]],
-  ['rows_23',['rows',['../structhmi_1_1SkinSection.html#a57e6adcbf198c9092de2a0f033c57e12',1,'hmi::SkinSection::rows'],['../structhmi_1_1RpgContentBlock.html#a0b2ec16652fe9f2435fafdb5ff9a23f2',1,'hmi::RpgContentBlock::rows']]],
-  ['rpg_5fscreen_5fcount_24',['RPG_SCREEN_COUNT',['../namespacehmi.html#a93db3bafe6aeaebee6e483836f313055',1,'hmi']]],
-  ['rpgreturnto_25',['rpgReturnTo',['../structhmi_1_1ScreenState.html#a35d36781ddd45df8818932eb54d7a616',1,'hmi::ScreenState']]]
+  ['rowoffset_23',['rowOffset',['../structcore_1_1EncounterCombatant.html#adee00c242215fb6f4bccfc875b6f583d',1,'core::EncounterCombatant']]],
+  ['rows_24',['rows',['../structhmi_1_1SkinSection.html#a57e6adcbf198c9092de2a0f033c57e12',1,'hmi::SkinSection::rows'],['../structhmi_1_1RpgContentBlock.html#a0b2ec16652fe9f2435fafdb5ff9a23f2',1,'hmi::RpgContentBlock::rows']]],
+  ['rpg_5fscreen_5fcount_25',['RPG_SCREEN_COUNT',['../namespacehmi.html#a93db3bafe6aeaebee6e483836f313055',1,'hmi']]],
+  ['rpgreturnto_26',['rpgReturnTo',['../structhmi_1_1ScreenState.html#a35d36781ddd45df8818932eb54d7a616',1,'hmi::ScreenState']]]
 ];
