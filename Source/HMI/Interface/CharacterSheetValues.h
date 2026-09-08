@@ -53,6 +53,11 @@ struct CharacterSheetContext {
     /// siennes — un personnage sans inventaire n'est pas un personnage sans armure, c'est un
     /// personnage dont on ne sait pas ce qu'il porte.
     const core::DerivedStats* derived = nullptr;
+    /// Identifiant du personnage dans son catalogue (`Rpg/characters/<id>.json`). Il ne vit pas
+    /// sur la fiche : `core::CharacterSheet` porte un **nom**, qui peut changer, alors qu'une clé
+    /// d'asset ne le doit pas (`LOT-39`). Vide, aucun portrait n'est nommé, et la roue rend le
+    /// marqueur -- ce qui est la vérité, et non une panne.
+    std::string characterId;
     /// Texte affiché lorsqu'une valeur existe mais est vide (nom d'espèce inconnu du catalogue,
     /// par exemple). Le même tiret cadratin que le châssis pose sur un champ sans source : à
     /// l'écran, « inconnu » et « pas encore alimenté » se ressemblent, et rien ne gagne à les

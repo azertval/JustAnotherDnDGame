@@ -79,12 +79,20 @@ std::map<std::string, std::string> characterSheetValues(const CharacterSheetCont
         valeurs["sheet.class_and_level"] = classe->second + " " + std::to_string(fiche.level);
     }
     valeurs["sheet.experience"] = std::to_string(fiche.experiencePoints);
+    if (!context.characterId.empty()) {
+        // La CLE, jamais un chemin (EX-CNT-040) : le jour ou l'on range les illustrations
+        // autrement, c'est un dossier qui bouge, pas une fiche qui casse.
+        valeurs["sheet.portrait"] = "character/" + context.characterId;
+    }
     valeurs["sheet.armor_class"] = std::to_string(fiche.armorClass);
     valeurs["sheet.hit_points_max"] = std::to_string(fiche.maximumHitPoints);
     // Les points de vie courants se lisent CONTRE leur maximum : « 12 » seul ne dit pas si le
     // personnage va bien.
     valeurs["sheet.hit_points"] =
         std::to_string(fiche.currentHitPoints) + " / " + std::to_string(fiche.maximumHitPoints);
+    // Et les courants A PART. Une jauge a besoin d'un rapport, pas d'une phrase : lui faire
+    // redecouper « 27 / 32 » serait defaire ici ce qu'on vient de faire deux lignes plus haut.
+    valeurs["sheet.hit_points_current"] = std::to_string(fiche.currentHitPoints);
     valeurs["sheet.speed"] = metres(fiche.speedMeters);
 
     // La classe d'armure et la vitesse dependent de ce qui est PORTE (LOT-14), et la fiche les a
@@ -110,6 +118,11 @@ std::map<std::string, std::string> characterSheetValues(const CharacterSheetCont
     if (context.experience != nullptr) {
         valeurs["sheet.proficiency_bonus"] =
             signe(core::proficiencyBonus(fiche, *context.experience));
+        // Le seuil du niveau SUIVANT : une jauge de progression sans borne haute ne progresse vers
+        // rien. Au dernier niveau le seuil ne bouge plus et la jauge est pleine, ce qui est exact
+        // -- il n'y a alors plus rien a atteindre.
+        valeurs["sheet.experience_next"] =
+            std::to_string(context.experience->thresholdAt(fiche.level + 1));
         for (const auto& [caracteristique, suffixe] : ABILITIES) {
             valeurs[std::string("sheet.save.") + suffixe] =
                 signe(core::savingThrowModifier(fiche, *context.experience, caracteristique));
@@ -125,8 +138,12 @@ std::map<std::string, std::string> characterSheetValues(const CharacterSheetCont
             }
             // La maîtrise se voit : c'est l'information que la pastille cochée porte sur la
             // feuille, et le seul moyen de la rendre dans une ligne de texte.
-            valeurs[std::string("sheet.skill.") + competence.id] =
-                signe(modificateur.value) + (modificateur.proficient ? " •" : "");
+            const std::string racine = std::string("sheet.skill.") + competence.id;
+            valeurs[racine] = signe(modificateur.value) + (modificateur.proficient ? " •" : "");
+            // La maitrise, EN PLUS, sous forme de drapeau. La pastille de la planche est une
+            // forme, pas un caractere : lui faire chercher un point dans une chaine reviendrait a
+            // reparser ce que l'on vient d'ecrire, et le premier changement de signe la casserait.
+            valeurs[racine + ".proficient"] = modificateur.proficient ? "1" : "";
         }
         // Perception passive : 10 + le modificateur de Perception, la règle du livre. Elle est
         // dérivée, jamais stockée -- deux valeurs qui doivent s'accorder finissent par diverger.

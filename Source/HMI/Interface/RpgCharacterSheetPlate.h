@@ -110,6 +110,10 @@ private:
     /// Dernières valeurs reçues : la roue est repeinte après un changement de langue, et sans
     /// elles une fiche remplie se viderait en changeant de langue.
     std::map<std::string, std::string> _lastValues;
+    /// La derniere cle de portrait chargee. Retenue pour ne pas relire le fichier a chaque pose de
+    /// valeurs : `setValues` est rejoue a chaque changement de langue, et une image se relit alors
+    /// sans que rien n'ait change.
+    QString _loadedPortraitKey;
 };
 
 }  // namespace hmi

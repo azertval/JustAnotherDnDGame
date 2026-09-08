@@ -13,6 +13,7 @@
 #include <QStringList>
 #include <QVBoxLayout>
 #include <array>
+#include <filesystem>
 #include <string_view>
 
 #include "HMI/Interface/AbilityWheel.h"
@@ -21,6 +22,7 @@
 #include "HMI/Interface/MenuEntryButton.h"
 #include "HMI/Interface/TitleBanner.h"
 #include "HMI/Localization/Localization.h"
+#include "HMI/Platform/ExecutableDirectory.h"
 #include "ui_RpgCharacterSheetPlate.h"
 
 namespace hmi {
@@ -235,6 +237,24 @@ void RpgCharacterSheetPlate::applyWheelValues() {
         }
     }
     wheel->setIdentity(name.isEmpty() ? EMPTY_VALUE : name, parts.join(QString::fromUtf8("  ·  ")));
+
+    // Le portrait est designe par une CLE d'asset (`character/<id>`, LOT-39), jamais par un
+    // chemin : la fiche ne sait pas ou les illustrations sont rangees, et n'a pas a le savoir.
+    // C'est ici, au bord de l'interface, que la cle devient un fichier.
+    const QString portraitKey = valueOr(_lastValues, "sheet.portrait");
+    if (portraitKey != _loadedPortraitKey) {
+        _loadedPortraitKey = portraitKey;
+        QPixmap portrait;
+        if (!portraitKey.isEmpty()) {
+            const std::filesystem::path file = hmi::executableDirectory() / "Assets" / "Entities" /
+                                               (portraitKey.toStdString() + ".png");
+            // Un chargement rate laisse le pixmap NUL, et la roue rend alors le marqueur du
+            // LOT-39. C'est exactement ce qu'il faut : une illustration absente est un etat
+            // d'avancement, pas une panne, et elle doit se lire comme tel.
+            portrait.load(QString::fromStdString(file.string()));
+        }
+        wheel->setPortrait(portrait);
+    }
 
     for (std::size_t index = 0; index < ABILITY_SEAT_COUNT; ++index) {
         const std::string root = "sheet.ability." + std::string(ABILITY_SUFFIXES.at(index));

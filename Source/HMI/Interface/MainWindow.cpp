@@ -1097,12 +1097,20 @@ void MainWindow::loadDemonstrationCharacter() {
     // La fiche est alimentee APRES l'inventaire, parce qu'elle en depend : sa classe d'armure et
     // sa vitesse viennent de ce qui est porte, pas de la construction.
     _rpgScreens->setValues(hmi::RpgScreenId::CharacterSheet,
-                           hmi::characterSheetValues({.sheet = &fiche.sheet,
-                                                      .options = &options,
-                                                      .experience = &experience,
-                                                      .skills = &competences,
-                                                      .derived = &derivees,
-                                                      .emptyMark = _loc.text("rpg.empty")}));
+                           hmi::characterSheetValues(
+                               {.sheet = &fiche.sheet,
+                                .options = &options,
+                                .experience = &experience,
+                                .skills = &competences,
+                                .derived = &derivees,
+                                // L'identifiant du fichier, sans son extension : c'est lui qui
+                                // nomme la cle d'asset du portrait (`character/<id>`, LOT-39). La
+                                // fiche, elle, ne porte qu'un NOM -- qui peut changer, alors
+                                // qu'une cle d'asset ne le doit pas.
+                                .characterId = std::filesystem::path(DEMONSTRATION_CHARACTER_FILE)
+                                                   .stem()
+                                                   .string(),
+                                .emptyMark = _loc.text("rpg.empty")}));
 }
 
 void MainWindow::openRpgScreen(hmi::RpgScreenId screen) {
