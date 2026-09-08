@@ -96,11 +96,11 @@ tableau n'en porte volontairement aucun.
 | 30 | `LOT-28` | Audio, effets et version `0.2.0` | 0 | en attente |
 | 31 | `LOT-29` | Groupe de quatre personnages | 0 | en attente |
 | 32 | `LOT-49` | Contrôle de cohérence du contenu | 0 | prêt |
-| 33 | `LOT-51` → `LOT-65` | une classe par lot | 0 | en attente |
-| 34 | `LOT-69` | Retrait de l'atelier pixel art | 0 | en attente |
-| 35 | `LOT-72` | Conditions, agonie et mort | 0 | en attente |
-| 36 | `LOT-75` | Campement et repos dans le monde | 0 | en attente |
-| 37 | `LOT-83` | Boucle de progression de la Guilde | 0 | en attente |
+| 33 | `LOT-69` | Retrait de l'atelier pixel art | 0 | en attente |
+| 34 | `LOT-72` | Conditions, agonie et mort | 0 | en attente |
+| 35 | `LOT-75` | Campement et repos dans le monde | 0 | en attente |
+| 36 | `LOT-83` | Boucle de progression de la Guilde | 0 | en attente |
+| 37 | `LOT-51` → `LOT-65` | une classe par lot | 0 | en attente |
 
 **Débloque** — combien de lots restants dépendent de celui-ci, directement ou en cascade. C'est le
 critère de priorité, et il se relit sur la ligne.
