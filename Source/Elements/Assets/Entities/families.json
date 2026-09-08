@@ -50,6 +50,13 @@
       "height": 128,
       "catalogues": ["classes"],
       "note": "Embleme de classe, a la creation de personnage."
+    },
+    {
+      "name": "character",
+      "width": 256,
+      "height": 256,
+      "catalogues": ["characters"],
+      "note": "Portrait d'enrolement, au centre de la fiche. CARRE et non en buste : la fiche le pose dans un rond, et un portrait vertical y perdrait ses epaules. C'est aussi le format des jetons de table virtuelle du corpus, deja detoures -- la premiere illustration livree n'a donc rien coute a produire."
     }
   ]
 }

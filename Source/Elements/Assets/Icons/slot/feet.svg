@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SPDX-FileCopyrightText: 2026 Valentin Eloy
+     SPDX-License-Identifier: GPL-3.0-or-later
+
+     rpg.slot.feet : une botte de profil, semelle vers la droite.
+
+     GENERE par scripts/generate_slot_icons.py -- ne pas retoucher a la main. La retouche serait
+     perdue a la prochaine execution, et l'icone divergerait des sept autres.
+
+     Le trait est `currentColor` : le chargeur y substitue le role demande de la portee identite
+     (EX-IHM-051). Rendue telle quelle, l'icone sort en NOIR -- une panne qui se voit, et non une
+     teinte plausible qui ment. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
+     fill="none" stroke="currentColor" stroke-width="1.6"
+     stroke-linecap="round" stroke-linejoin="round">
+  <path d="M7 3v9c0 2 1 3 3 3h7a2 2 0 0 1 2 2v3H7z"/>
+  <path d="M7 12h5"/>
+</svg>

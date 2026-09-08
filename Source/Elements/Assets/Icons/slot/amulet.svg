@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SPDX-FileCopyrightText: 2026 Valentin Eloy
+     SPDX-License-Identifier: GPL-3.0-or-later
+
+     rpg.slot.amulet : une chaine ouverte et son pendentif rond.
+
+     GENERE par scripts/generate_slot_icons.py -- ne pas retoucher a la main. La retouche serait
+     perdue a la prochaine execution, et l'icone divergerait des sept autres.
+
+     Le trait est `currentColor` : le chargeur y substitue le role demande de la portee identite
+     (EX-IHM-051). Rendue telle quelle, l'icone sort en NOIR -- une panne qui se voit, et non une
+     teinte plausible qui ment. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
+     fill="none" stroke="currentColor" stroke-width="1.6"
+     stroke-linecap="round" stroke-linejoin="round">
+  <path d="M6 3c1 5 3 7 6 7s5-2 6-7"/>
+  <path d="M12 10v2"/>
+  <circle cx="12" cy="16" r="4.5"/>
+</svg>
