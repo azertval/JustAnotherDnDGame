@@ -532,3 +532,115 @@ rpg.slot.main_hand = Main Hand
 rpg.slot.off_hand = Off Hand
 rpg.slot.amulet = Amulet
 rpg.slot.ring = Ring
+
+# --- Character sheet: the LOT-38 mock-up ------------------------------------------------------
+# Labels taken from the five BLANK plates of `VTT/Blank Sheets RPG (1).pdf`. Skill and ability
+# names are the LEXICON's (rpg.glossary.csv), not synonyms: `check_glossary.py` guards these two
+# namespaces the way it already guards conditions.
+rpg.team_sheet.title = Team Sheet
+
+rpg.ability.strength = Strength
+rpg.ability.dexterity = Dexterity
+rpg.ability.constitution = Constitution
+rpg.ability.intelligence = Intelligence
+rpg.ability.wisdom = Wisdom
+rpg.ability.charisma = Charisma
+
+rpg.skill.acrobatics = Acrobatics
+rpg.skill.animal_handling = Animal Handling
+rpg.skill.arcana = Arcana
+rpg.skill.athletics = Athletics
+rpg.skill.deception = Deception
+rpg.skill.history = History
+rpg.skill.insight = Insight
+rpg.skill.intimidation = Intimidation
+rpg.skill.investigation = Investigation
+rpg.skill.medicine = Medicine
+rpg.skill.nature = Nature
+rpg.skill.perception = Perception
+rpg.skill.performance = Performance
+rpg.skill.persuasion = Persuasion
+rpg.skill.religion = Religion
+rpg.skill.sleight_of_hand = Sleight of Hand
+rpg.skill.stealth = Stealth
+rpg.skill.survival = Survival
+
+rpg.block.attacks = Attacks
+rpg.block.other_proficiencies = Other Proficiencies
+rpg.block.appearance = Appearance
+rpg.block.personality = Personality
+rpg.block.features = Features and Traits
+rpg.block.powers = Powers
+rpg.block.spellcasting = Spellcasting
+rpg.block.spell_slots = Spell Slots
+rpg.block.languages = Languages
+rpg.block.backstory = Character Backstory
+rpg.block.team = Team
+rpg.block.team_members = Team Members
+rpg.block.relations = Relations
+rpg.block.coat_of_arms = Coat of Arms
+rpg.block.dream = Dream
+rpg.block.hidden_agenda = Hidden Agenda
+rpg.block.legendary_rewards = Legendary Rewards
+rpg.block.headquarters = Team Headquarters
+
+rpg.field.alignment = Alignment
+rpg.field.player = Player Name
+rpg.field.inspiration = Inspiration
+rpg.field.passive_perception = Passive Perception
+rpg.field.hit_dice = Hit Dice
+rpg.field.hit_points_max = Hit Point Maximum
+rpg.field.hit_points_temp = Temporary Hit Points
+rpg.field.death_saves = Death Saves
+rpg.field.age = Age
+rpg.field.height = Height
+rpg.field.weight = Weight
+rpg.field.eyes = Eyes
+rpg.field.skin = Skin
+rpg.field.hair = Hair
+rpg.field.traits = Personality Traits
+rpg.field.ideals = Ideals
+rpg.field.bonds = Bonds
+rpg.field.flaws = Flaws
+rpg.field.spellcasting_class = Spellcasting Class
+rpg.field.spellcasting_ability = Spellcasting Ability
+rpg.field.spell_save_dc = Spell Save DC
+rpg.field.spell_attack_bonus = Spell Attack Bonus
+rpg.field.cantrips = Cantrips
+rpg.field.spell_level_1 = Level 1 Spells
+rpg.field.spell_level_2 = Level 2 Spells
+rpg.field.spell_level_3 = Level 3 Spells
+rpg.field.spell_level_4 = Level 4 Spells
+rpg.field.spell_level_5 = Level 5 Spells
+rpg.field.spell_level_6 = Level 6 Spells
+rpg.field.spell_level_7 = Level 7 Spells
+rpg.field.spell_level_8 = Level 8 Spells
+rpg.field.spell_level_9 = Level 9 Spells
+rpg.field.class_and_level = Class & Level
+rpg.field.hand = Hand
+rpg.field.bonus = Bonus
+rpg.field.damage = Damage
+rpg.field.team_name = Team Name
+rpg.field.career_points = Career Points
+rpg.field.fame = Fame
+rpg.field.prestige = Prestige
+rpg.field.beneficiary = Beneficiary
+rpg.field.style = Style
+rpg.field.special_class_skills = Special Class Skills
+rpg.field.specialization = Specialization
+
+# these keys put it back -- translated. The `rpg.ability_short.` abbreviations are the ones on the
+# saving-throw TABS, where the plate offers three letters of height; they deliberately do not live
+# under `rpg.ability.`, a rule namespace cross-checked against the glossary.
+
+# Les seize emplacements d'equipement du noyau (LOT-14, core::EquipmentSlot).
+rpg.slot.neck = Neck
+rpg.slot.cloak = Cloak
+rpg.slot.belt = Belt
+rpg.slot.ring_left = Ring (left)
+rpg.slot.ring_right = Ring (right)
+rpg.slot.ranged = Ranged Weapon
+rpg.slot.ammunition = Ammunition
+rpg.slot.bracers = Bracers
+rpg.slot.pouch = Pouch
+rpg.slot.trinket = Trinket

@@ -41,10 +41,13 @@ enum class RpgScreenId {
     Merchant,        ///< Marchand (`LOT-26`).
     GuildBoard,      ///< Tableau de la Guilde des Aventuriers (`LOT-45`).
     CombatHud,       ///< Affichage tête haute de combat (`LOT-24`).
+    /// Feuille d'**équipe** (planche 5 de la maquette Tanares, `LOT-38`) : renommée, blason,
+    /// quartier général. Remplie par la Guilde (`LOT-45`, `LOT-83`).
+    TeamSheet,
 };
 
-/// Nombre d'écrans du catalogue. Dérivé de la table, jamais écrit deux fois.
-inline constexpr std::size_t RPG_SCREEN_COUNT = 8;
+/// Nombre d'écrans du catalogue.
+inline constexpr std::size_t RPG_SCREEN_COUNT = 9;
 
 /**
  * @brief Règle de **superposition** d'un écran (`EX-IHM-091`) : ce qui met le jeu en pause et ce
@@ -75,14 +78,36 @@ enum class RpgBlockKind {
     ActionBar,  ///< Barre d'actions : `columns` cases larges, alignées en bas.
 };
 
+/**
+ * @brief Une ligne « libellé → valeur » d'un bloc `Fields`.
+ *
+ * L'**identifiant de valeur** est ce par quoi un écran se remplit (`LOT-38`) : le châssis pose le
+ * libellé traduit à gauche, et attend une valeur à droite, sous cet identifiant. Un identifiant
+ * vide dit « ce champ n'a pas encore de source » — il reste au tiret cadratin, et c'est une
+ * information, pas un oubli : la liste de ces champs est le périmètre restant, lisible d'un coup
+ * d'œil dans la table.
+ *
+ * Un identifiant, jamais la clé de traduction : « Nom » se dit sur la fiche, dans un dialogue et
+ * sur une cible de combat, et ces trois-là ne valent pas la même chose.
+ */
+struct RpgField {
+    const char* labelKey = "";
+    const char* valueId = "";
+};
+
 /// Un bloc de l'ossature d'un écran.
 struct RpgContentBlock {
     const char* titleKey = "";  ///< Clé du titre du bloc ; vide pour un bloc sans titre.
     RpgBlockKind kind = RpgBlockKind::Fields;
     int columns = 0;  ///< `Grid`, `Track`, `ActionBar` : nombre de colonnes/jetons.
-    int rows = 0;     ///< `Grid`, `List` : nombre de lignes.
-    /// `Fields` : une clé de libellé par ligne. Vide pour les autres genres.
-    std::span<const char* const> labelKeys{};
+    /// `Grid` : nombre de lignes. `List` : nombre de lignes **quand** `valueIds` est vide ; sinon
+    /// c'est la longueur de `valueIds` qui décide, pour que les deux ne puissent pas diverger.
+    int rows = 0;
+    /// `Fields` : une ligne par entrée. Vide pour les autres genres.
+    std::span<const RpgField> fields{};
+    /// `List` et `Prose` : l'identifiant de valeur de chaque ligne (`List`) ou du paragraphe
+    /// (`Prose`). Vide tant que rien ne les alimente.
+    std::span<const char* const> valueIds{};
 };
 
 /// Ossature d'un écran : deux colonnes de blocs. La colonne droite peut être vide -- l'écran
@@ -92,6 +117,19 @@ struct RpgScreenLayout {
     std::span<const RpgContentBlock> rightColumn{};
 };
 
+/**
+ * @brief Comment un écran est **rendu** (`LOT-38`).
+ *
+ * Le `LOT-68` n'avait qu'une voie : une ossature en données, peinte par un rendu générique. C'était
+ * le bon outil pour huit écrans dont aucune maquette n'existe. Un écran qui **a** une maquette
+ * gravée — la fiche de personnage et ses cinq planches — mérite mieux qu'un résumé en deux
+ * colonnes : il reçoit sa planche, décrite en Qt Designer, et garde le même cadre, la même
+ * navigation et le même pied d'actions que les autres.
+ *
+ * Le champ est ici, dans la table, et non deviné par le code qui construit les écrans : c'est la
+ * description de l'écran qui dit comment il se rend, exactement comme elle dit s'il suspend la
+ * simulation.
+ */
 /// Description complète d'un écran du RPG.
 struct RpgScreenDescriptor {
     RpgScreenId id = RpgScreenId::CharacterSheet;
@@ -100,6 +138,7 @@ struct RpgScreenDescriptor {
     const char* objectName = "";
     const char* titleKey = "";  ///< Clé du titre de l'écran (catalogue de traduction).
     RpgSuperposition superposition = RpgSuperposition::PausesGame;
+    /// L'ossature de l'écran : ce que `hmi::RpgScreenFrame` en peint.
     RpgScreenLayout layout{};
 };
 

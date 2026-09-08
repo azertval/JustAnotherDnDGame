@@ -68,8 +68,13 @@ struct Weapon {
     std::optional<DamageType> damageType;
     int price = 0;
     int weightGrams = 0;
-    /// Les propriétés, telles que le livre les écrit.
+    /// Les propriétés, telles que le livre les écrit — en toutes lettres, et en français.
     std::string text;
+    /// Les mêmes, **structurées** (`finesse`, `light`, `thrown`...). Le schéma les prévoit ; aucune
+    /// arme du catalogue ne les porte encore, et c'est le `LOT-49` qui les remplira. Les lire dès
+    /// maintenant évite qu'une règle qui en dépend — la caractéristique d'attaque d'une arme de
+    /// finesse — soit écrite en analysant la prose de `text`.
+    std::vector<std::string> properties;
 };
 
 /// @brief Les deux catalogues chargés, et ce qui n'a pas pu l'être.

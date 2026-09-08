@@ -108,6 +108,135 @@ ExperienceTable loadExperienceTable(const std::filesystem::path& path) {
     return table;
 }
 
+LoadedCharacterSheet loadCharacterSheet(const std::filesystem::path& path,
+                                        const CharacterOptions& options,
+                                        const CharacterCreationRules& rules,
+                                        const ExperienceTable& table) {
+    LoadedCharacterSheet resultat;
+    const JsonDocument document = readJsonObjectFromFile(path, SANS_GARDE_DE_VERSION);
+    if (!document.ok()) {
+        resultat.errors.push_back(document.message);
+        return resultat;
+    }
+
+    const auto texte = [&document](const char* champ) {
+        const auto trouve = document.root.find(champ);
+        return (trouve != document.root.end() && trouve->is_string()) ? trouve->get<std::string>()
+                                                                      : std::string{};
+    };
+
+    // Les six valeurs de BASE, avant augmentation d'espece. Les six sont exigees : une fiche a
+    // cinq caracteristiques n'existe pas, et laisser la sixieme a zero donnerait un modificateur
+    // de -5 que rien ne signalerait.
+    std::array<int, 6> base{};
+    const auto caracteristiques = document.root.find("baseAbilities");
+    if (caracteristiques == document.root.end() || !caracteristiques->is_object()) {
+        resultat.errors.push_back(path.string() + " : champ 'baseAbilities' absent ou non objet.");
+    } else {
+        for (const Ability caracteristique : allAbilities()) {
+            const std::string nom{abilityName(caracteristique)};
+            const auto valeur = caracteristiques->find(nom);
+            if (valeur == caracteristiques->end() || !valeur->is_number_integer()) {
+                resultat.errors.push_back(path.string() + " : caracteristique '" + nom +
+                                          "' absente.");
+                continue;
+            }
+            base[static_cast<std::size_t>(caracteristique)] = valeur->get<int>();
+        }
+    }
+
+    // Les trois choix sont resolus DANS LE CATALOGUE, et un identifiant inconnu est signale : une
+    // fiche qui reference une espece absente s'afficherait sans vitesse ni augmentation, ce qui
+    // ressemble a un personnage faible et non a une donnee fausse.
+    const std::string especeId = texte("speciesId");
+    const std::string classeId = texte("classId");
+    const std::string historiqueId = texte("backgroundId");
+    const Species* const espece = options.findSpecies(especeId);
+    const PlayableClass* const classe = options.findClass(classeId);
+    const Background* const historique = options.findBackground(historiqueId);
+    if (espece == nullptr) {
+        resultat.errors.push_back(path.string() + " : espece inconnue '" + especeId + "'.");
+    }
+    if (classe == nullptr) {
+        resultat.errors.push_back(path.string() + " : classe inconnue '" + classeId + "'.");
+    }
+    if (historique == nullptr) {
+        resultat.errors.push_back(path.string() + " : historique inconnu '" + historiqueId + "'.");
+    }
+
+    // La fiche est CONSTRUITE, jamais recopiee : points de vie, classe d'armure, valeurs finales
+    // et seuil d'experience sont derives par la regle (LOT-13). Les ecrire dans le fichier en
+    // ferait une seconde source, qui differerait de la premiere au premier ajustement de regle.
+    resultat.sheet =
+        buildCharacterSheet(texte("name"), base, espece, classe, historique, rules, table);
+
+    const auto niveau = document.root.find("level");
+    if (niveau != document.root.end() && niveau->is_number_integer() && classe != nullptr) {
+        // Monter par l'EXPERIENCE, et non en posant le niveau : c'est le meme chemin que celui
+        // qu'une partie empruntera, donc les memes points de vie et le meme bonus de maitrise.
+        const int cible = niveau->get<int>();
+        const int seuil = table.thresholdAt(cible);
+        if (seuil > resultat.sheet.experiencePoints) {
+            gainExperience(resultat.sheet, table, classe->hitDie,
+                           seuil - resultat.sheet.experiencePoints);
+        }
+    }
+
+    const auto competences = document.root.find("skillProficiencies");
+    if (competences != document.root.end() && competences->is_array()) {
+        for (const auto& element : *competences) {
+            if (element.is_string()) {
+                resultat.sheet.skillProficiencies.insert(element.get<std::string>());
+            }
+        }
+    }
+
+    // Ce que le personnage PORTE (LOT-14). Rien n'en est derive ici : ni classe d'armure, ni poids
+    // total, ni encombrement. `core::derivedStatsFor` les recalcule depuis ce contenu a chaque
+    // lecture, et c'est ce qui les empeche de deriver.
+    const auto inventaire = document.root.find("inventory");
+    if (inventaire != document.root.end() && inventaire->is_object()) {
+        if (const auto portes = inventaire->find("equipped");
+            portes != inventaire->end() && portes->is_object()) {
+            for (const auto& [nom, valeur] : portes->items()) {
+                const std::optional<EquipmentSlot> emplacement = parseEquipmentSlot(nom);
+                if (!emplacement.has_value()) {
+                    resultat.errors.push_back(path.string() + " : emplacement d'equipement '" +
+                                              nom + "' inconnu du moteur.");
+                    continue;
+                }
+                if (valeur.is_string()) {
+                    static_cast<void>(
+                        equip(resultat.inventory, *emplacement, valeur.get<std::string>()));
+                }
+            }
+        }
+        if (const auto sac = inventaire->find("backpack");
+            sac != inventaire->end() && sac->is_array()) {
+            for (const auto& ligne : *sac) {
+                if (!ligne.is_object()) {
+                    continue;
+                }
+                const auto identifiant = ligne.find("itemId");
+                if (identifiant == ligne.end() || !identifiant->is_string()) {
+                    continue;
+                }
+                const auto quantite = ligne.find("quantity");
+                addToBackpack(resultat.inventory, identifiant->get<std::string>(),
+                              (quantite != ligne.end() && quantite->is_number_integer())
+                                  ? quantite->get<int>()
+                                  : 1);
+            }
+        }
+        if (const auto bourse = inventaire->find("purseCopper");
+            bourse != inventaire->end() && bourse->is_number_integer()) {
+            resultat.inventory.purseCopper = bourse->get<int>();
+        }
+    }
+
+    return resultat;
+}
+
 // -- Fiche ---------------------------------------------------------------------------------------
 
 float CharacterSheet::speedInTiles() const {

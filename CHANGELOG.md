@@ -6,6 +6,75 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **Inventaire et équipement** (`LOT-14`). Porter, équiper et consommer des objets, avec un effet
+  **mesurable** sur la fiche.
+  - **Aucune statistique n'est stockée, et c'est tout le lot.** `core::Inventory` ne porte ni classe
+    d'armure, ni poids total, ni encombrement : toutes sont des **fonctions** de ce qu'il contient,
+    recalculées à chaque lecture. Le défaut classique — appliquer un bonus à la volée (`ca += 2`) et
+    le retrancher au retrait — fait **dériver** la CA après trois équipements et deux retraits dans
+    le désordre, sans que rien ne le signale. Une valeur qu'on ne stocke pas ne peut pas dériver ;
+    un test joue quand même six ordres différents pour que la propriété le reste.
+  - **La règle est relevée sur le livre**, pas devinée : `rules/encumbrance.json` porte la capacité
+    de charge (7,5 kg par point de Force), les deux seuils d'encombrement et les pénalités de
+    vitesse, chacun avec la **phrase du corpus** qui l'atteste (page 68). Tout est en **grammes** —
+    le livre écrit des kilogrammes, les catalogues donnent des grammes, et mêler les deux dans une
+    somme donnerait un sac de cinq cents kilos pour une poignée de fléchettes.
+  - **C'est la catégorie qui décide, pas l'emplacement** : un bouclier rangé au torse compte comme
+    un bouclier — il *ajoute* à la CA au lieu de la remplacer. Les confondre donnerait un personnage
+    en bouclier seul avec une CA de 2.
+  - **La classe d'armure de la fiche vient de l'équipement porté** : elle est calculée à la
+    construction, sans rien savoir de l'armure endossée depuis. Le personnage de démonstration passe
+    de 11 à 15 dès qu'il porte son cuir clouté et son bouclier — le critère du lot, visible à
+    l'écran.
+  - **La finesse attend sa donnée** : la branche existe, mais aucune arme ne déclare encore la
+    propriété autrement qu'en toutes lettres dans son texte français, et lire une règle dans de la
+    prose est ce que ce projet évite. `Weapon` lit désormais le tableau `properties` que le schéma
+    prévoyait déjà.
+
+- **Fiche de personnage : maquette et interface** (`LOT-38`). Le `LOT-68` avait livré neuf écrans
+  vides ; celui-ci en **remplit un**, relevé sur les cinq feuilles Tanares **vierges** du corpus et
+  alimenté par un personnage réel.
+  - **Un champ affiché, ou écrit comme non alimenté** — et cette liste n'est pas un document à
+    côté, elle est **dans la table** : chaque ligne de l'ossature porte un identifiant de valeur,
+    ou une chaîne vide qui dit « ce champ existe, rien ne l'alimente encore ». Il reste au tiret
+    cadratin, jamais à zéro : un « 0 » se lirait comme un état du jeu et mentirait. La colonne des
+    identifiants vides **est** le périmètre restant — agonie (`LOT-72`), inventaire (`LOT-14`),
+    dons (`LOT-47`), sorts (`LOT-35`), Guilde (`LOT-45`).
+  - **La cinquième planche est une feuille d'ÉQUIPE, pas une fiche** : blason, quartier général,
+    mécénat. Elle a donc son écran — le **neuvième** — et c'est la preuve de ce que le `LOT-68`
+    affirmait : il s'ajoute par une entrée de table et ses clés de traduction, sans qu'aucun des
+    huit autres, ni la feuille de style, ni le châssis, n'aient été touchés (`EX-IHM-090`).
+  - **Les valeurs sont calculées par la règle, pas recopiées** : modificateurs signés, maîtrises
+    marquées, points de vie lus contre leur maximum, Perception passive dérivée. Le tout dans une
+    fonction **pure**, vérifiable sans ouvrir de fenêtre — et un test tient le seul contrat qui
+    relie les deux côtés, l'identifiant de valeur.
+  - **Le personnage affiché est une donnée**, `Rpg/characters/demonstration-brenna.json`, avec son
+    schéma et sa validation en CI. Elle ne porte que des **choix** — espèce, classe, historique,
+    caractéristiques de base, niveau : le reste est dérivé par le moteur, et le niveau s'atteint
+    par gain d'expérience, le chemin qu'une partie empruntera. Déclarée **provisoire** avec son
+    critère de retrait : elle disparaît quand une partie fournira un personnage réel (`LOT-29`,
+    `LOT-17`).
+  - **Le lexique tient maintenant les compétences et les caractéristiques.** Les dix-huit
+    compétences et les six caractéristiques s'affichent, donc s'écrivent dans le catalogue de
+    traduction — et ce sont des termes de règle, « Escamotage » et non « Tour de main ». Deux
+    espaces de noms de plus sous `check_glossary.py`, qui passe de 0 à **24 clés de règle
+    contrôlées**.
+  - **La planche gravée a été essayée, puis écartée** — et la raison est écrite plutôt que perdue.
+    La feuille du corpus a été vectorisée, son lettrage anglais retiré du tracé (2 565 sous-chemins
+    sur 21 906) et les intitulés traduits reposés aux mêmes rectangles : cela fonctionnait. Ce qui
+    l'a arrêtée est en deux temps. **Qt ne sait pas rendre ce tracé** : `QSvgHandler` rejette tout
+    `<path>` de plus de 32 768 éléments — sans le dire, `isValid()` reste vrai et le rendu est vide
+    — et celui-ci en demande 540 094. Le **découper** ne marche pas davantage : un remplissage se
+    calcule sur l'ensemble des contours d'un même chemin, et le contour du cadre de page fait à lui
+    seul 24 535 points en enveloppant toute la feuille — trois découpes essayées, trois images
+    fausses. Restait le masque d'encre en PNG, qui marchait ; mais **un fond monolithique n'est pas
+    un asset** : on ne peut ni déplacer un cartouche, ni réutiliser un anneau sans rejouer toute la
+    chaîne. La feuille reviendra en assets **unitaires**.
+  - **L'écran est donc l'ossature du `LOT-68`, remplie** : identité, progression, six
+    caractéristiques avec leur modificateur, combat, six jets de sauvegarde, dix-huit compétences.
+    La table des écrans reste la seule description de la fiche — le jour des assets unitaires, ce
+    sont les widgets qui changeront, pas ce qu'ils affichent.
+
 - **Le châssis des écrans du RPG** (`LOT-68`). Huit écrans manquaient au jeu, et aucun n'existait
   même en ébauche : fiche de personnage, inventaire et équipement, journal de quêtes, carte du
   monde, dialogue, marchand, tableau de la Guilde, ATH de combat. Ce lot ne les **remplit** pas —

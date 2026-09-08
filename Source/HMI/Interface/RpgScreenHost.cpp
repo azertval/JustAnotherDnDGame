@@ -7,6 +7,7 @@
 #include <QVBoxLayout>
 
 #include "HMI/Interface/RpgScreenFrame.h"
+#include "HMI/Localization/Localization.h"
 
 namespace hmi {
 
@@ -37,6 +38,23 @@ void RpgScreenHost::retranslateUi(const Localization& loc) {
     for (RpgScreenFrame* const frame : _frames) {
         frame->retranslateUi(loc);
     }
+    // Les valeurs sont reposées après la langue : `retranslateUi` remet tout au tiret cadratin,
+    // et sans ce rejeu un changement de langue viderait une fiche remplie.
+    for (auto entree = _screenValues.constBegin(); entree != _screenValues.constEnd(); ++entree) {
+        if (RpgScreenFrame* const frame = _frames.value(entree.key(), nullptr); frame != nullptr) {
+            frame->setValues(entree.value());
+        }
+    }
+}
+
+void RpgScreenHost::setValues(RpgScreenId screen,
+                              const std::map<std::string, std::string>& values) {
+    if (RpgScreenFrame* const frame = _frames.value(static_cast<int>(screen), nullptr);
+        frame != nullptr) {
+        frame->setValues(values);
+    }
+    // Retenues, parce qu'un changement de langue les rejoue (`retranslateUi`).
+    _screenValues.insert(static_cast<int>(screen), values);
 }
 
 void RpgScreenHost::showScreen(RpgScreenId screen) {

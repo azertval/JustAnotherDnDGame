@@ -44,7 +44,11 @@ void setRole(QWidget* widget, const char* role) {
 
 RpgScreenFrame::RpgScreenFrame(const RpgScreenDescriptor& descriptor, QWidget* parent)
     : QWidget(parent), _descriptor(descriptor) {
-    setObjectName(QString::fromLatin1(descriptor.objectName));
+    buildChrome();
+}
+
+void RpgScreenFrame::buildChrome() {
+    setObjectName(QString::fromLatin1(_descriptor.objectName));
     setAttribute(Qt::WA_StyledBackground, true);
     // Le châssis reçoit le clavier lui-même : sans cela, `Échap` n'atteint jamais keyPressEvent
     // quand le focus est sur un bouton qui ne gère pas cette touche.
@@ -73,10 +77,10 @@ RpgScreenFrame::RpgScreenFrame(const RpgScreenDescriptor& descriptor, QWidget* p
     auto* const body = new QHBoxLayout(bodyHost);
     body->setContentsMargins(0, 0, 0, 0);
     body->setSpacing(spacing.large * scale);
-    if (QWidget* const left = buildColumn(descriptor.layout.leftColumn); left != nullptr) {
+    if (QWidget* const left = buildColumn(_descriptor.layout.leftColumn); left != nullptr) {
         body->addWidget(left, 1);
     }
-    if (QWidget* const right = buildColumn(descriptor.layout.rightColumn); right != nullptr) {
+    if (QWidget* const right = buildColumn(_descriptor.layout.rightColumn); right != nullptr) {
         body->addWidget(right, 1);
     }
     auto* const bodyScroll = new QScrollArea(this);
@@ -92,9 +96,9 @@ RpgScreenFrame::RpgScreenFrame(const RpgScreenDescriptor& descriptor, QWidget* p
     bodyScroll->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
     page->addWidget(bodyScroll, 1);
 
-    // Pied d'actions : les trois mêmes intentions sur les huit écrans, au même endroit. C'est la
-    // moitié de ce que le lot livre -- un écran qui se ferme autrement que son voisin oblige à
-    // réapprendre à chaque écran.
+    // Pied d'actions : les trois mêmes intentions sur tous les écrans, au même endroit. C'est la
+    // moitié de ce que le LOT-68 livrait -- un écran qui se ferme autrement que son voisin oblige
+    // à réapprendre à chaque écran.
     auto* const footer = new QHBoxLayout();
     footer->setSpacing(spacing.medium * scale);
     _closeButton = new MenuEntryButton(this);
@@ -161,10 +165,12 @@ void RpgScreenFrame::buildBlock(QVBoxLayout* column, const RpgContentBlock& bloc
         _translated.push_back({.label = title, .key = block.titleKey});
     }
 
-    const auto addPlaceholder = [this](QWidget* host) {
+    // Une étiquette de valeur, et l'identifiant sous lequel `setValues` la remplira. Identifiant
+    // vide : rien n'alimente ce champ, et elle gardera son tiret.
+    const auto addValue = [this](QWidget* host, const char* valueId) {
         auto* const value = new QLabel(host);
         setRole(value, "value");
-        _placeholders.push_back(value);
+        _values.push_back({.label = value, .key = valueId});
         return value;
     };
 
@@ -174,12 +180,12 @@ void RpgScreenFrame::buildBlock(QVBoxLayout* column, const RpgContentBlock& bloc
             grid->setHorizontalSpacing(spacing.large * scale);
             grid->setVerticalSpacing(spacing.small * scale);
             int row = 0;
-            for (const char* const key : block.labelKeys) {
+            for (const RpgField& field : block.fields) {
                 auto* const label = new QLabel(panel);
                 setRole(label, "field");
                 grid->addWidget(label, row, 0);
-                grid->addWidget(addPlaceholder(panel), row, 1);
-                _translated.push_back({.label = label, .key = key});
+                grid->addWidget(addValue(panel, field.valueId), row, 1);
+                _translated.push_back({.label = label, .key = field.labelKey});
                 ++row;
             }
             grid->setColumnStretch(1, 1);
@@ -206,19 +212,25 @@ void RpgScreenFrame::buildBlock(QVBoxLayout* column, const RpgContentBlock& bloc
             break;
         }
         case RpgBlockKind::List: {
-            for (int row = 0; row < block.rows; ++row) {
+            // Le nombre de lignes vient des identifiants quand il y en a, de `rows` sinon : deux
+            // sources qui pourraient dire deux nombres différents n'en font qu'une.
+            const std::size_t lignes = block.valueIds.empty() ? static_cast<std::size_t>(block.rows)
+                                                              : block.valueIds.size();
+            for (std::size_t row = 0; row < lignes; ++row) {
                 auto* const line = new QFrame(panel);
                 setRole(line, "row");
                 auto* const lineLayout = new QHBoxLayout(line);
                 lineLayout->setContentsMargins(spacing.small * scale, spacing.extraSmall * scale,
                                                spacing.small * scale, spacing.extraSmall * scale);
-                lineLayout->addWidget(addPlaceholder(line));
+                lineLayout->addWidget(
+                    addValue(line, block.valueIds.empty() ? "" : block.valueIds[row]));
                 inner->addWidget(line);
             }
             break;
         }
         case RpgBlockKind::Prose: {
-            auto* const prose = addPlaceholder(panel);
+            auto* const prose =
+                addValue(panel, block.valueIds.empty() ? "" : block.valueIds.front());
             setRole(prose, "prose");
             prose->setWordWrap(true);
             prose->setMinimumHeight(cellSide());
@@ -272,11 +284,14 @@ void RpgScreenFrame::retranslateUi(const Localization& loc) {
     for (const TranslatedLabel& entry : _translated) {
         entry.label->setText(t(entry.key));
     }
-    // Un tiret cadratin, et non une valeur d'exemple : ce lot livre le châssis, pas le contenu.
+    // Toutes les valeurs repassent au tiret, puis celles qu'on connaît sont reposées : un
+    // changement de langue ne doit pas vider une fiche remplie, et laisser les anciennes valeurs
+    // en place ne conviendrait pas non plus -- certaines sont traduites.
     const QString empty = t("rpg.empty");
-    for (QLabel* const placeholder : _placeholders) {
-        placeholder->setText(empty);
+    for (const TranslatedLabel& value : _values) {
+        value.label->setText(empty);
     }
+    setValues(_lastValues);
     _closeButton->setText(t("rpg.chassis.close"));
     _previousButton->setText(t("rpg.chassis.previous_screen"));
     _nextButton->setText(t("rpg.chassis.next_screen"));
@@ -287,6 +302,19 @@ void RpgScreenFrame::retranslateUi(const Localization& loc) {
             {.key = loc.text("key.escape"), .action = loc.text("hint.back")},
         },
         hmi::identityTokens(), hmi::identityScale())));
+}
+
+void RpgScreenFrame::setValues(const std::map<std::string, std::string>& values) {
+    _lastValues = values;
+    for (const TranslatedLabel& value : _values) {
+        if (value.key[0] == '\0') {
+            continue;  // aucun identifiant : ce champ n'a pas de source, il garde son tiret.
+        }
+        const auto trouve = values.find(value.key);
+        if (trouve != values.end()) {
+            value.label->setText(QString::fromStdString(trouve->second));
+        }
+    }
 }
 
 void RpgScreenFrame::focusDefaultAction() {

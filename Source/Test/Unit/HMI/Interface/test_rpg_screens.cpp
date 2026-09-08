@@ -39,16 +39,16 @@ using hmi::rpgScreens;
 }  // namespace
 
 /**
- * @brief Les huit écrans sont déclarés, et le cycle les traverse tous avant de revenir au premier.
- * \castest{<b>Le cycle de navigation traverse les huit ecrans et revient au premier.</b><br/>
+ * @brief Les neuf écrans sont déclarés, et le cycle les traverse tous avant de revenir au premier.
+ * \castest{<b>Le cycle de navigation traverse les neuf ecrans et revient au premier.</b><br/>
  * \tcat Unitaire · Ecrans du RPG<br/>
  * \tcrit Critique<br/>
- * \tetapes 1. Partir du premier ecran.<br/>2. Appeler nextRpgScreen huit fois en notant chaque
+ * \tetapes 1. Partir du premier ecran.<br/>2. Appeler nextRpgScreen neuf fois en notant chaque
  * ecran atteint.<br/>
- * \tattendu Les huit ecrans sont atteints une fois chacun, et le huitieme pas ramene au premier.
+ * \tattendu Les neuf ecrans sont atteints une fois chacun, et le neuvieme pas ramene au premier.
  * }
  */
-TEST(RpgScreensTest, LeCycleTraverseLesHuitEcrans) {
+TEST(RpgScreensTest, LeCycleTraverseLesNeufEcrans) {
     ASSERT_EQ(rpgScreens().size(), hmi::RPG_SCREEN_COUNT);
 
     const RpgScreenId first = rpgScreens().front().id;
@@ -83,12 +83,12 @@ TEST(RpgScreensTest, LePasArriereEstLInverseDuPasAvant) {
 
 /**
  * @brief La règle de superposition est celle décidée par le lot : la carte et l'ATH de combat se
- *        consultent en marchant, les six autres écrans suspendent la simulation (`EX-IHM-091`).
- * \castest{<b>La regle de superposition est celle attendue pour chacun des huit ecrans.</b><br/>
+ *        consultent en marchant, les sept autres écrans suspendent la simulation (`EX-IHM-091`).
+ * \castest{<b>La regle de superposition est celle attendue pour chacun des neuf ecrans.</b><br/>
  * \tcat Unitaire · Ecrans du RPG<br/>
  * \tcrit Majeur<br/>
- * \tetapes 1. Interroger pausesGame pour chacun des huit ecrans.<br/>
- * \tattendu La carte du monde et l'ATH de combat ne suspendent pas ; les six autres suspendent.
+ * \tetapes 1. Interroger pausesGame pour chacun des neuf ecrans.<br/>
+ * \tattendu La carte du monde et l'ATH de combat ne suspendent pas ; les sept autres suspendent.
  * }
  */
 TEST(RpgScreensTest, LaRegleDeSuperpositionEstCelleAttendue) {
@@ -98,6 +98,8 @@ TEST(RpgScreensTest, LaRegleDeSuperpositionEstCelleAttendue) {
     EXPECT_TRUE(pausesGame(RpgScreenId::Dialogue));
     EXPECT_TRUE(pausesGame(RpgScreenId::Merchant));
     EXPECT_TRUE(pausesGame(RpgScreenId::GuildBoard));
+    // La feuille d'equipe (LOT-38) : on la consulte a l'arret, comme une fiche.
+    EXPECT_TRUE(pausesGame(RpgScreenId::TeamSheet));
 
     // On ouvre une carte pour savoir ou l'on va sans s'arreter ; et l'ATH de combat EST le jeu
     // pendant un combat, il ne se superpose a rien.
@@ -126,8 +128,10 @@ TEST(RpgScreensTest, ChaqueEcranEstIdentifiableEtNonVide) {
             << "nom d'objet duplique : " << descriptor.objectName;
         EXPECT_TRUE(titleKeys.insert(descriptor.titleKey).second)
             << "cle de titre dupliquee : " << descriptor.titleKey;
+        // Tous les écrans sont rendus depuis leur ossature : une colonne gauche vide ouvrirait
+        // donc l'écran sur du vide.
         EXPECT_FALSE(descriptor.layout.leftColumn.empty())
-            << "ossature vide : " << descriptor.objectName;
+            << descriptor.objectName << " : ossature vide, l'ecran s'ouvrirait sur du vide";
         EXPECT_EQ(hmi::rpgScreenDescriptor(descriptor.id).id, descriptor.id);
     }
 }
@@ -149,14 +153,20 @@ TEST(RpgScreensTest, ChaqueBlocEstCoherentAvecSonGenre) {
     const auto check = [](const RpgContentBlock& block) {
         switch (block.kind) {
             case RpgBlockKind::Fields:
-                EXPECT_FALSE(block.labelKeys.empty()) << "bloc de champs sans libelle";
+                EXPECT_FALSE(block.fields.empty()) << "bloc de champs sans libelle";
+                for (const hmi::RpgField& field : block.fields) {
+                    EXPECT_NE(field.labelKey[0], '\0') << "champ sans cle de libelle";
+                }
                 break;
             case RpgBlockKind::Grid:
                 EXPECT_GT(block.columns, 0);
                 EXPECT_GT(block.rows, 0);
                 break;
             case RpgBlockKind::List:
-                EXPECT_GT(block.rows, 0);
+                // Les lignes viennent des identifiants de valeur quand il y en a, de `rows`
+                // sinon : l'une des deux sources doit etre renseignee, jamais aucune.
+                EXPECT_TRUE(block.rows > 0 || !block.valueIds.empty())
+                    << "liste sans ligne ni identifiant";
                 break;
             case RpgBlockKind::Track:
             case RpgBlockKind::ActionBar:
@@ -209,8 +219,8 @@ TEST(RpgScreensTest, ChaqueCleDeLOssatureExisteDansLesDeuxLangues) {
         if (block.titleKey[0] != '\0') {
             expectKey(block.titleKey);
         }
-        for (const char* const label : block.labelKeys) {
-            expectKey(label);
+        for (const hmi::RpgField& field : block.fields) {
+            expectKey(field.labelKey);
         }
     };
 
@@ -230,5 +240,46 @@ TEST(RpgScreensTest, ChaqueCleDeLOssatureExisteDansLesDeuxLangues) {
          {"rpg.empty", "rpg.chassis.close", "rpg.chassis.previous_screen",
           "rpg.chassis.next_screen", "key.shoulders", "hint.change_screen"}) {
         expectKey(key);
+    }
+}
+
+/**
+ * @brief Les identifiants de valeur sont **uniques dans un écran** (`LOT-38`).
+ *
+ * Deux champs qui portent le même identifiant reçoivent la même valeur : la fiche afficherait le
+ * même nombre à deux endroits, ce qui se lit comme une coïncidence et non comme un défaut. Le
+ * contrôle est par écran et non global, parce qu'un identifiant est résolu par l'écran qui le
+ * porte -- deux écrans ont le droit d'afficher chacun leur « nom ».
+ * \castest{<b>Les identifiants de valeur sont uniques a l'interieur d'un ecran.</b><br/>
+ * 	cat Unitaire · Ecrans du RPG<br/>
+ * 	crit Majeur<br/>
+ * 	etapes 1. Collecter les identifiants de valeur de chaque ecran.<br/>2. Verifier qu'aucun ne
+ * se repete dans un meme ecran.<br/>
+ * 	attendu Aucun identifiant duplique.
+ * }
+ */
+TEST(RpgScreensTest, LesIdentifiantsDeValeurSontUniquesParEcran) {
+    for (const RpgScreenDescriptor& descriptor : rpgScreens()) {
+        std::set<std::string> vus;
+        const auto collecter = [&vus, &descriptor](const RpgContentBlock& block) {
+            for (const hmi::RpgField& field : block.fields) {
+                if (field.valueId[0] != '\0') {
+                    EXPECT_TRUE(vus.insert(field.valueId).second)
+                        << descriptor.objectName << " : identifiant duplique " << field.valueId;
+                }
+            }
+            for (const char* const id : block.valueIds) {
+                if (id[0] != '\0') {
+                    EXPECT_TRUE(vus.insert(id).second)
+                        << descriptor.objectName << " : identifiant duplique " << id;
+                }
+            }
+        };
+        for (const RpgContentBlock& block : descriptor.layout.leftColumn) {
+            collecter(block);
+        }
+        for (const RpgContentBlock& block : descriptor.layout.rightColumn) {
+            collecter(block);
+        }
     }
 }

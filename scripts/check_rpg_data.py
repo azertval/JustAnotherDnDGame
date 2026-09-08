@@ -83,6 +83,11 @@ FAMILLES = {
     # Atlas (LOT-37).
     'regions': 'region',
     'locations': 'location',
+    # Fiches de personnage (LOT-38). Seule famille de ce dossier a decrire une INSTANCE et non un
+    # catalogue : une espece est un modele dont on tire des personnages, une fiche EST un
+    # personnage. Elle passe par le meme controle que les autres -- une fiche de demonstration mal
+    # formee est un ecran vide qu'on met une heure a expliquer.
+    'characters': 'character',
 }
 
 # `rules/` porte des REGLES, pas une collection d'entrees semblables : chaque fichier y a son
@@ -92,6 +97,7 @@ REGLES = {
     'difficulty': 'difficulty',
     'experience': 'experience',
     'character-creation': 'character-creation',
+    'encumbrance': 'encumbrance',
 }
 
 # Énumération fermée d'un schéma ↔ catégorie du lexique. `equivalence` exige l'égalité des deux

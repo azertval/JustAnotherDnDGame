@@ -109,6 +109,8 @@ add_library(HmiLib STATIC
     # Interface : logique d'écrans et de thème, sans widget.
     Interface/ScreenFlow.cpp
     Interface/RpgScreens.cpp
+    Interface/CharacterSheetValues.cpp
+    Interface/InventoryValues.cpp
     Interface/DesignTokens.cpp
     Interface/StyleSheetTemplate.cpp
     Interface/FontResolution.cpp
@@ -404,7 +406,13 @@ add_custom_target(CopyGameData ALL
     COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${PROJECT_SOURCE_DIR}/Source/Elements/Audio
         $<TARGET_FILE_DIR:JustAnotherDnDGame>/Audio
-    COMMENT "Copie des données de jeu (traductions, cartes, assets, audio)")
+    # Catalogues RPG (LOT-38) : especes, classes, historiques, competences, regles et fiches. Le
+    # premier consommateur a l'execution est l'ecran de fiche ; jusque-la, ces donnees ne vivaient
+    # que pour les tests, qui les lisent dans l'arborescence source.
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${PROJECT_SOURCE_DIR}/Source/Elements/Rpg
+        $<TARGET_FILE_DIR:JustAnotherDnDGame>/Rpg
+    COMMENT "Copie des données de jeu (traductions, cartes, assets, audio, catalogues RPG)")
 add_dependencies(JustAnotherDnDGame CopyGameData)
 
 # Déploiement Qt : copie les DLL Qt (plateforme, styles) à côté de l'exécutable pour que

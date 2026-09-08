@@ -278,6 +278,14 @@ TEST(CharacterOptionsTest, LesClassesProvisoiresNeSontReferenceesParRien) {
         std::ifstream fichier(entree.path());
         const std::string contenu((std::istreambuf_iterator<char>(fichier)),
                                   std::istreambuf_iterator<char>());
+        // Une donnee elle-meme PROVISOIRE a le droit d'en citer une autre : elle porte son propre
+        // critere de retrait (EX-CNT-032), et disparait donc avec ce qu'elle reference. C'est le
+        // cas du personnage de demonstration du LOT-38, dont la classe est forcement l'une des
+        // quatre provisoires -- ce sont les seules qui existent. Le controle garde tout son sens
+        // pour les donnees DEFINITIVES, qui sont son sujet.
+        if (contenu.find("\"provisoire\": true") != std::string::npos) {
+            continue;
+        }
         for (const std::string& identifiant : provisoires) {
             EXPECT_EQ(contenu.find('"' + identifiant + '"'), std::string::npos)
                 << entree.path().filename().string() << " reference la classe provisoire '"

@@ -534,3 +534,116 @@ rpg.slot.main_hand = Main directrice
 rpg.slot.off_hand = Main secondaire
 rpg.slot.amulet = Amulette
 rpg.slot.ring = Anneau
+
+# --- Fiche de personnage : la maquette du LOT-38 ----------------------------------------------
+# Libelles releves sur les cinq planches VIERGES de `VTT/Blank Sheets RPG (1).pdf`. Les noms de
+# competences et de caracteristiques sont ceux du LEXIQUE (rpg.glossary.csv) et non des synonymes :
+# `check_glossary.py` controle ces deux espaces de noms, comme il controle deja les etats.
+rpg.team_sheet.title = Feuille d'équipe
+
+rpg.ability.strength = Force
+rpg.ability.dexterity = Dextérité
+rpg.ability.constitution = Constitution
+rpg.ability.intelligence = Intelligence
+rpg.ability.wisdom = Sagesse
+rpg.ability.charisma = Charisme
+
+rpg.skill.acrobatics = Acrobaties
+rpg.skill.animal_handling = Dressage
+rpg.skill.arcana = Arcanes
+rpg.skill.athletics = Athlétisme
+rpg.skill.deception = Tromperie
+rpg.skill.history = Histoire
+rpg.skill.insight = Intuition
+rpg.skill.intimidation = Intimidation
+rpg.skill.investigation = Investigation
+rpg.skill.medicine = Médecine
+rpg.skill.nature = Nature
+rpg.skill.perception = Perception
+rpg.skill.performance = Représentation
+rpg.skill.persuasion = Persuasion
+rpg.skill.religion = Religion
+rpg.skill.sleight_of_hand = Escamotage
+rpg.skill.stealth = Discrétion
+rpg.skill.survival = Survie
+
+rpg.block.attacks = Attaques
+rpg.block.other_proficiencies = Autres maîtrises
+rpg.block.appearance = Apparence
+rpg.block.personality = Personnalité
+rpg.block.features = Dons et traits
+rpg.block.powers = Pouvoirs
+rpg.block.spellcasting = Incantation
+rpg.block.spell_slots = Emplacements de sorts
+rpg.block.languages = Langues
+rpg.block.backstory = Histoire du personnage
+rpg.block.team = Équipe
+rpg.block.team_members = Membres
+rpg.block.relations = Relations
+rpg.block.coat_of_arms = Blason
+rpg.block.dream = Rêve
+rpg.block.hidden_agenda = Dessein caché
+rpg.block.legendary_rewards = Récompenses légendaires
+rpg.block.headquarters = Quartier général
+
+rpg.field.alignment = Alignement
+rpg.field.player = Joueur
+rpg.field.inspiration = Inspiration
+rpg.field.passive_perception = Perception passive
+rpg.field.hit_dice = Dés de vie
+rpg.field.hit_points_max = Points de vie maximum
+rpg.field.hit_points_temp = Points de vie temporaires
+rpg.field.death_saves = Jets contre la mort
+rpg.field.age = Âge
+rpg.field.height = Taille
+rpg.field.weight = Poids
+rpg.field.eyes = Yeux
+rpg.field.skin = Peau
+rpg.field.hair = Cheveux
+rpg.field.traits = Traits de personnalité
+rpg.field.ideals = Idéaux
+rpg.field.bonds = Liens
+rpg.field.flaws = Défauts
+rpg.field.spellcasting_class = Classe d'incantation
+rpg.field.spellcasting_ability = Caractéristique d'incantation
+rpg.field.spell_save_dc = DD de sauvegarde des sorts
+rpg.field.spell_attack_bonus = Bonus d'attaque des sorts
+rpg.field.cantrips = Sorts mineurs
+rpg.field.spell_level_1 = Sorts de niveau 1
+rpg.field.spell_level_2 = Sorts de niveau 2
+rpg.field.spell_level_3 = Sorts de niveau 3
+rpg.field.spell_level_4 = Sorts de niveau 4
+rpg.field.spell_level_5 = Sorts de niveau 5
+rpg.field.spell_level_6 = Sorts de niveau 6
+rpg.field.spell_level_7 = Sorts de niveau 7
+rpg.field.spell_level_8 = Sorts de niveau 8
+rpg.field.spell_level_9 = Sorts de niveau 9
+rpg.field.class_and_level = Classe et niveau
+rpg.field.hand = Main
+rpg.field.bonus = Bonus
+rpg.field.damage = Dégâts
+rpg.field.team_name = Nom de l'équipe
+rpg.field.career_points = Points de carrière
+rpg.field.fame = Renommée
+rpg.field.prestige = Prestige
+rpg.field.beneficiary = Bénéficiaire
+rpg.field.style = Style
+rpg.field.special_class_skills = Aptitudes de classe
+rpg.field.specialization = Spécialisation
+
+# ces cles le remplacent. Les abreviations `rpg.ability_short.` sont celles des ONGLETS de jets de
+# sauvegarde, ou la planche n'offre que trois lettres en hauteur ; elles ne vivent PAS sous
+# `rpg.ability.`, qui est un espace de noms de regle recoupe avec le lexique -- « FOR » n'est pas
+# un terme du lexique, c'est une abreviation d'affichage.
+
+# Les seize emplacements d'equipement du noyau (LOT-14, core::EquipmentSlot).
+rpg.slot.neck = Cou
+rpg.slot.cloak = Cape
+rpg.slot.belt = Ceinture
+rpg.slot.ring_left = Anneau (gauche)
+rpg.slot.ring_right = Anneau (droit)
+rpg.slot.ranged = Arme à distance
+rpg.slot.ammunition = Munitions
+rpg.slot.bracers = Brassards
+rpg.slot.pouch = Bourse
+rpg.slot.trinket = Babiole

@@ -18,6 +18,7 @@
 
 #include "Core/Rpg/Ability.h"
 #include "Core/Rpg/CharacterOptions.h"
+#include "Core/Rpg/Inventory.h"
 #include "Core/Rpg/Skill.h"
 
 namespace core {
@@ -156,6 +157,48 @@ struct LevelUpResult {
         return newLevel > previousLevel;
     }
 };
+
+/**
+ * @brief Une fiche chargée depuis un fichier, et ce qui n'a pas pu l'être.
+ *
+ * Les erreurs voyagent **avec** la donnée, jamais à sa place (`EX-CNT-010`) : une fiche dont un
+ * champ est illisible reste affichable, et la refuser en bloc laisserait un écran vide sans dire
+ * pourquoi.
+ */
+struct LoadedCharacterSheet {
+    CharacterSheet sheet;
+    /// Ce que le personnage PORTE (`LOT-14`), lu dans le même fichier. Vide si le fichier n'en
+    /// déclare pas : un personnage sans inventaire est un personnage les mains vides, pas une
+    /// erreur.
+    Inventory inventory;
+    std::vector<std::string> errors;
+
+    [[nodiscard]] bool ok() const {
+        return errors.empty();
+    }
+};
+
+/**
+ * @brief Charge un personnage depuis son fichier JSON (`Source/Elements/Rpg/characters/`, schéma
+ *        `character.schema.json`) et **construit** sa fiche.
+ *
+ * Le fichier ne porte que des **choix** — espèce, classe, historique, valeurs de caractéristique
+ * avant augmentation, niveau visé. Tout le reste est dérivé ici par `buildCharacterSheet` et par
+ * la montée en expérience : points de vie, classe d'armure, valeurs finales, bonus de maîtrise.
+ * Écrire ces valeurs dans le fichier en ferait une **seconde source**, qui différerait de la
+ * première au premier ajustement de règle — et personne ne saurait laquelle croit.
+ *
+ * Le niveau s'atteint par **gain d'expérience**, le même chemin qu'une partie empruntera : donc
+ * les mêmes points de vie qu'un personnage monté en jouant, et non une variante propre au
+ * chargement.
+ *
+ * Ne lève jamais (`EX-NFR-040`) : un fichier absent, mal formé ou référençant un identifiant
+ * inconnu rend une fiche partielle **et** une erreur nommée (`EX-CNT-010`).
+ */
+[[nodiscard]] LoadedCharacterSheet loadCharacterSheet(const std::filesystem::path& path,
+                                                      const CharacterOptions& options,
+                                                      const CharacterCreationRules& rules,
+                                                      const ExperienceTable& table);
 
 /// @brief Le bonus de maîtrise de la fiche, **lu dans la table** au niveau courant.
 [[nodiscard]] int proficiencyBonus(const CharacterSheet& sheet, const ExperienceTable& table);

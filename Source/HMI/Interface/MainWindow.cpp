@@ -53,6 +53,7 @@
 #include <vector>
 
 #include "Core/Diagnostics/MemoryLogSink.h"
+#include "Core/Rpg/CharacterSheet.h"
 #include "HMI/Audio/SoundTriggers.h"
 #include "HMI/Diagnostics/SessionLog.h"
 #include "HMI/Editor/AssetReferences.h"
@@ -78,11 +79,13 @@
 #include "HMI/HmiLog.h"
 #include "HMI/Input/GamepadButton.h"
 #include "HMI/Interface/ApplicationTheme.h"
+#include "HMI/Interface/CharacterSheetValues.h"
 #include "HMI/Interface/CreditsScreen.h"
 #include "HMI/Interface/DesignTokens.h"
 #include "HMI/Interface/EditorActions.h"
 #include "HMI/Interface/EditorWorkspace.h"
 #include "HMI/Interface/IdentityScale.h"
+#include "HMI/Interface/InventoryValues.h"
 #include "HMI/Interface/MainMenu.h"
 #include "HMI/Interface/OptionsPage.h"
 #include "HMI/Interface/PauseScreen.h"
@@ -122,6 +125,11 @@ constexpr char WORKSPACE_KEY[] = "mainWindow/workspace";
 constexpr float PLANE_REFERENCE_OPACITY = 0.45f;
 // Reglage "contraindre a la palette" de l'atelier pixel art (LOT-54 TACHE-07).
 constexpr char CONSTRAIN_TO_PALETTE_KEY[] = "pixelEditor/constrainToPalette";
+
+// Personnage de demonstration affiche par l'ecran de fiche (LOT-38). Un seul litteral, et il est
+// PROVISOIRE : le groupe du LOT-29 et la sauvegarde du LOT-17 diront quel personnage la fiche
+// montre, et cette constante disparaitra avec eux. La nommer ici rend ce provisoire visible.
+constexpr char DEMONSTRATION_CHARACTER_FILE[] = "demonstration-brenna.json";
 
 }  // namespace
 
@@ -414,7 +422,8 @@ MainWindow::MainWindow(core::MemoryLogSink* sessionLog)
     // Contrainte de taille imposee par les ecrans, verifiee une fois au demarrage (EX-IHM-080).
     warnIfScreensConstrainWindow();
 
-    showMenu();  // l'application démarre sur le menu principal.
+    loadDemonstrationCharacter();  // LOT-38 : l'ecran de fiche a une fiche a afficher.
+    showMenu();                    // l'application démarre sur le menu principal.
 }
 
 void MainWindow::setDocksVisible(bool visible) {
@@ -1033,6 +1042,67 @@ void MainWindow::newGame() {
     // qu'aucun chemin n'atteint ne se relisent pas, ne se naviguent pas et ne se valident pas. La
     // ligne a remplacer le jour ou il y aura une carte est CELLE-CI, et elle est seule.
     openRpgScreen(hmi::RpgScreenId::CharacterSheet);
+}
+
+void MainWindow::loadDemonstrationCharacter() {
+    // ECHAFAUDAGE, et il est ecrit comme tel. La fiche affichee est celle d'un personnage de
+    // DEMONSTRATION livre en donnee (Rpg/characters/) : il n'y a ni groupe (LOT-29) ni sauvegarde
+    // (LOT-17) d'ou tirer un personnage reel, et un ecran de fiche qui n'affiche aucune fiche ne
+    // se relit pas. Le jour ou une partie en fournira un, c'est la SOURCE qui change ici, pas
+    // l'ecran : il consomme des valeurs indexees, d'ou qu'elles viennent.
+    const std::filesystem::path rpg = hmi::executableDirectory() / "Rpg";
+
+    const core::CharacterOptions options =
+        core::loadCharacterOptions(rpg / "species", rpg / "backgrounds", rpg / "classes");
+    const core::SkillCatalog competences = core::loadSkills(rpg / "skills");
+    const core::ExperienceTable experience =
+        core::loadExperienceTable(rpg / "rules" / "experience.json");
+    const core::CharacterCreationRules regles =
+        core::loadCharacterCreationRules(rpg / "rules" / "character-creation.json");
+
+    const core::LoadedCharacterSheet fiche = core::loadCharacterSheet(
+        rpg / "characters" / DEMONSTRATION_CHARACTER_FILE, options, regles, experience);
+    for (const std::string& erreur : fiche.errors) {
+        // Journalise et poursuit : une fiche partielle vaut mieux qu'un ecran vide, et l'erreur
+        // nomme son fichier (EX-CNT-010).
+        HMI_LOG_WARNING(("Fiche de demonstration : " + erreur).c_str());
+    }
+
+    // Ce que le personnage PORTE (LOT-14). Les catalogues ne vivent que le temps de produire les
+    // valeurs : l'ecran ne consomme que du texte deja resolu, et n'a donc aucune duree de vie a
+    // partager avec eux.
+    const core::ItemCatalog objets = core::loadItems(rpg / "items");
+    const core::EquipmentCatalog equipement = core::loadEquipment(rpg / "weapons", rpg / "armors");
+    const core::EncumbranceRules charge =
+        core::loadEncumbranceRules(rpg / "rules" / "encumbrance.json");
+    for (const std::string& erreur : objets.errors) {
+        HMI_LOG_WARNING(("Catalogue d'objets : " + erreur).c_str());
+    }
+    const core::ItemLookup catalogues{.items = &objets, .equipment = &equipement};
+    for (const std::string& inconnu : core::unknownIds(fiche.inventory, catalogues)) {
+        // Un identifiant que rien ne porte ne pese rien et s'affiche tel quel : le dire vaut mieux
+        // que de peser faux en silence (EX-CNT-010).
+        HMI_LOG_WARNING(("Inventaire de demonstration : objet inconnu '" + inconnu + "'.").c_str());
+    }
+    // Les statistiques derivees sont RECALCULEES ici, jamais retenues : c'est ce qui les empeche
+    // de deriver quand on equipe et retire dans le desordre (LOT-14).
+    const core::DerivedStats derivees =
+        core::derivedStatsFor(fiche.sheet, fiche.inventory, catalogues, regles, charge);
+    _rpgScreens->setValues(hmi::RpgScreenId::Inventory,
+                           hmi::inventoryValues({.inventory = &fiche.inventory,
+                                                 .lookup = catalogues,
+                                                 .derived = derivees,
+                                                 .emptyMark = _loc.text("rpg.empty")}));
+
+    // La fiche est alimentee APRES l'inventaire, parce qu'elle en depend : sa classe d'armure et
+    // sa vitesse viennent de ce qui est porte, pas de la construction.
+    _rpgScreens->setValues(hmi::RpgScreenId::CharacterSheet,
+                           hmi::characterSheetValues({.sheet = &fiche.sheet,
+                                                      .options = &options,
+                                                      .experience = &experience,
+                                                      .skills = &competences,
+                                                      .derived = &derivees,
+                                                      .emptyMark = _loc.text("rpg.empty")}));
 }
 
 void MainWindow::openRpgScreen(hmi::RpgScreenId screen) {
