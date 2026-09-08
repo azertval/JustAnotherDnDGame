@@ -97,6 +97,7 @@ REGLES = {
     'difficulty': 'difficulty',
     'experience': 'experience',
     'character-creation': 'character-creation',
+    'encumbrance': 'encumbrance',
 }
 
 # Énumération fermée d'un schéma ↔ catégorie du lexique. `equivalence` exige l'égalité des deux

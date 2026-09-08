@@ -47,23 +47,6 @@ public:
     /// @param parent     Parent Qt.
     explicit RpgScreenFrame(const RpgScreenDescriptor& descriptor, QWidget* parent = nullptr);
 
-    /**
-     * @brief Variante à **contenu fourni** : le cadre, le titre et le pied d'actions restent ceux
-     *        du châssis, mais le corps est le widget donné plutôt que l'ossature de la table.
-     *
-     * C'est ce qui permet à la fiche de personnage d'être la **planche gravée** du livre
-     * (`hmi::CharacterSheetPage`, `LOT-38`) sans sortir du châssis : elle s'ouvre, se ferme et se
-     * navigue exactement comme les huit autres écrans, et c'était tout l'objet du `LOT-68`.
-     *
-     * Un écran garde le rendu générique tant qu'aucune maquette n'existe pour lui ; il reçoit une
-     * planche le jour où il en a une. Les deux voies partagent le même cadre, jamais deux.
-     *
-     * @param descriptor Écran à peindre.
-     * @param content    Corps de l'écran. Le châssis en prend possession.
-     * @param parent     Parent Qt.
-     */
-    RpgScreenFrame(const RpgScreenDescriptor& descriptor, QWidget* content, QWidget* parent);
-
     /// Applique la langue active à tous les libellés : titre d'écran, titres de blocs, libellés de
     /// champs, boutons et rappels de touches.
     void retranslateUi(const Localization& loc);
@@ -112,9 +95,8 @@ private:
         const char* key = "";
     };
 
-    /// Construit le cadre commun (titre, corps défilant, pied d'actions) autour de @p content.
-    /// @p content vaut `nullptr` pour un écran rendu depuis la table.
-    void buildChrome(QWidget* content);
+    /// Construit le cadre commun : titre, corps défilant, pied d'actions.
+    void buildChrome();
 
     /// Construit les widgets d'un bloc et les ajoute à @p column.
     void buildBlock(QVBoxLayout* column, const RpgContentBlock& block);

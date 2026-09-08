@@ -130,13 +130,6 @@ struct RpgScreenLayout {
  * description de l'écran qui dit comment il se rend, exactement comme elle dit s'il suspend la
  * simulation.
  */
-enum class RpgRendering {
-    /// Ossature en données, rendue par `hmi::RpgScreenFrame`.
-    Table,
-    /// Planche décrite en Qt Designer, accueillie par le même châssis.
-    Plate,
-};
-
 /// Description complète d'un écran du RPG.
 struct RpgScreenDescriptor {
     RpgScreenId id = RpgScreenId::CharacterSheet;
@@ -145,9 +138,7 @@ struct RpgScreenDescriptor {
     const char* objectName = "";
     const char* titleKey = "";  ///< Clé du titre de l'écran (catalogue de traduction).
     RpgSuperposition superposition = RpgSuperposition::PausesGame;
-    RpgRendering rendering = RpgRendering::Table;
-    /// L'ossature, quand l'écran est rendu depuis la table. **Vide** pour un écran à planche : sa
-    /// mise en page vit alors dans son `.ui`, et deux descriptions d'un même écran divergeraient.
+    /// L'ossature de l'écran : ce que `hmi::RpgScreenFrame` en peint.
     RpgScreenLayout layout{};
 };
 

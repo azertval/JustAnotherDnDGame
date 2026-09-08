@@ -15,8 +15,8 @@
 
 #include <gtest/gtest.h>
 
-#include "HMI/Interface/CharacterSheetPlate.h"
 #include "HMI/Interface/CharacterSheetValues.h"
+#include "HMI/Interface/RpgScreens.h"
 
 namespace {
 
@@ -203,35 +203,23 @@ TEST(CharacterSheetValuesTest, SansFicheAucuneValeurNEstProduite) {
 }
 
 /**
- * @brief Tout champ de la planche qui déclare une source est **effectivement rempli** par le
- *        présentateur — la planche étant lue dans la table qu'elle et la gravure partagent.
+ * @brief Tout champ de l'écran qui déclare une source est **effectivement rempli** par le
+ *        présentateur.
  *
- * C'est le seul lien entre les deux côtés : la table déclare ses `valueId`, le présentateur produit
- * des valeurs sous ces mêmes identifiants, et rien d'autre ne les rapproche. Une faute de frappe
- * d'un côté ne se verrait qu'à l'écran, sous la forme d'un champ resté au tiret au milieu de champs
- * remplis — c'est-à-dire pas du tout.
- *
- * La table lue est celle que le jeu charge (`Assets/UI/character-sheet-plate.json`), et c'est aussi
- * celle que `scripts/build_character_sheet_plate.py` a suivie pour retirer le lettrage anglais de
- * la gravure. Un champ déplacé y déplace donc à la fois l'effacement et l'écriture.
- * \castest{<b>Chaque champ de la planche declarant une source est rempli.</b><br/>
+ * C'est le seul lien entre les deux côtés : l'ossature (`hmi::rpgScreens`) déclare ses `valueId`,
+ * le présentateur produit des valeurs sous ces mêmes identifiants, et rien d'autre ne les
+ * rapproche. Une faute de frappe d'un côté ne se verrait qu'à l'écran, sous la forme d'un champ
+ * resté au tiret cadratin au milieu de champs remplis — c'est-à-dire pas du tout.
+ * \castest{<b>Chaque champ de la fiche declarant une source est rempli.</b><br/>
  * 	cat Unitaire · Fiche de personnage<br/>
  * 	crit Critique<br/>
- * 	etapes 1. Lire les identifiants de valeur declares par la table de la planche gravee.<br/>2.
+ * 	etapes 1. Lire les identifiants de valeur declares par l'ossature de la fiche.<br/>2.
  * Produire les valeurs d'une fiche complete.<br/>3. Verifier que chaque identifiant declare est
  * produit.<br/>
- * 	attendu Aucun champ de la planche ne reste sans source.
+ * 	attendu Aucun champ de la fiche ne reste sans source.
  * }
  */
-TEST(CharacterSheetValuesTest, ChaqueChampDeLaPlancheEstAlimente) {
-    std::ifstream fichier(std::filesystem::path(JADG_ASSETS_DIR) / "UI" /
-                          "character-sheet-plate.json");
-    ASSERT_TRUE(fichier.is_open()) << "table de la planche introuvable";
-    const std::string contenu((std::istreambuf_iterator<char>(fichier)),
-                              std::istreambuf_iterator<char>());
-    const hmi::CharacterSheetPlateLayout planche = hmi::parseCharacterSheetPlate(contenu);
-    ASSERT_TRUE(planche.isValid());
-
+TEST(CharacterSheetValuesTest, ChaqueChampDeLaFicheEstAlimente) {
     const core::CharacterSheet personnage = fiche();
     const core::CharacterOptions options = catalogues();
     const core::ExperienceTable table = tableDExperience();
@@ -239,18 +227,27 @@ TEST(CharacterSheetValuesTest, ChaqueChampDeLaPlancheEstAlimente) {
     const std::map<std::string, std::string> valeurs = hmi::characterSheetValues(
         {.sheet = &personnage, .options = &options, .experience = &table, .skills = &competences});
 
-    // Le sens qui attrape le vrai defaut : un champ de la planche que RIEN ne remplit. Une faute
-    // de frappe dans un identifiant -- d'un cote comme de l'autre -- le laisse au tiret cadratin
-    // au milieu de champs remplis, et personne ne le remarque.
+    const hmi::RpgScreenDescriptor& ecran =
+        hmi::rpgScreenDescriptor(hmi::RpgScreenId::CharacterSheet);
+    int declares = 0;
+    // Le sens qui attrape le vrai defaut : un champ de l'ecran que RIEN ne remplit. Une faute de
+    // frappe dans un identifiant -- d'un cote comme de l'autre -- le laisse au tiret cadratin au
+    // milieu de champs remplis, et personne ne le remarque.
     //
     // Le sens inverse n'est pas une erreur : le presentateur produit des valeurs que d'autres
-    // ecrans afficheront (le nom et les points de vie servent aussi a la cible de combat), et
-    // exiger que la planche les porte toutes lui imposerait le contenu des autres.
-    for (const hmi::PlateField& champ : planche.fields) {
-        if (champ.valueId.empty()) {
-            continue;  // champ declare SANS source : il garde son tiret, et c'est voulu.
+    // ecrans afficheront, et exiger que la fiche les porte toutes lui imposerait leur contenu.
+    for (std::span<const hmi::RpgContentBlock> colonne :
+         {ecran.layout.leftColumn, ecran.layout.rightColumn}) {
+        for (const hmi::RpgContentBlock& bloc : colonne) {
+            for (const hmi::RpgField& champ : bloc.fields) {
+                if (champ.valueId == nullptr || *champ.valueId == char{}) {
+                    continue;  // champ declare SANS source : il garde son tiret, et c'est voulu.
+                }
+                ++declares;
+                EXPECT_TRUE(valeurs.count(champ.valueId) > 0)
+                    << "champ de la fiche que rien ne remplit : " << champ.valueId;
+            }
         }
-        EXPECT_TRUE(valeurs.count(champ.valueId) > 0)
-            << "champ de la planche que rien ne remplit : " << champ.id << " -> " << champ.valueId;
     }
+    EXPECT_GT(declares, 10) << "lecture cassee : l'ossature ne declare presque aucune valeur";
 }

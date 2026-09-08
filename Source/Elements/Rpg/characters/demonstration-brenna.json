@@ -22,5 +22,33 @@
   "skillProficiencies": [
     "athletics",
     "perception"
-  ]
+  ],
+  "inventory": {
+    "equipped": {
+      "torso": "cuir-cloute",
+      "main-hand": "epee-longue",
+      "off-hand": "bouclier",
+      "neck": "amulette",
+      "pouch": "sac-a-dos"
+    },
+    "backpack": [
+      {
+        "itemId": "torche",
+        "quantity": 5
+      },
+      {
+        "itemId": "corde-en-chanvre-15-m",
+        "quantity": 1
+      },
+      {
+        "itemId": "rations-1-jour",
+        "quantity": 4
+      },
+      {
+        "itemId": "gourde-pleine",
+        "quantity": 1
+      }
+    ],
+    "purseCopper": 4275
+  }
 }

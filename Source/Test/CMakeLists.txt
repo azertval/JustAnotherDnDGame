@@ -34,6 +34,7 @@ add_executable(UnitTests
     Unit/Core/Rpg/test_check.cpp
     Unit/Core/Rpg/test_dice.cpp
     Unit/Core/Rpg/test_equipment.cpp
+    Unit/Core/Rpg/test_inventory.cpp
     Unit/Core/Rpg/test_rpg_enums.cpp
     Unit/Core/Rpg/test_multiclassing.cpp
     Unit/Core/Rpg/test_bestiary.cpp
@@ -112,7 +113,6 @@ add_executable(UnitTests
     Unit/HMI/Interface/test_screen_flow.cpp
     Unit/HMI/Interface/test_rpg_screens.cpp
     Unit/HMI/Interface/test_character_sheet_values.cpp
-    Unit/HMI/Interface/test_character_sheet_plate.cpp
     Unit/HMI/Interface/test_identity_scale.cpp
     Unit/HMI/Interface/test_editor_workspace.cpp
     Unit/HMI/Interface/test_parchment_frame.cpp

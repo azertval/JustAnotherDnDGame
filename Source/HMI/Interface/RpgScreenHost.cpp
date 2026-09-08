@@ -6,7 +6,6 @@
 #include <QStackedWidget>
 #include <QVBoxLayout>
 
-#include "HMI/Interface/CharacterSheetPage.h"
 #include "HMI/Interface/RpgScreenFrame.h"
 #include "HMI/Localization/Localization.h"
 
@@ -24,20 +23,7 @@ RpgScreenHost::RpgScreenHost(QWidget* parent) : QWidget(parent) {
     // La table décide, pas ce code : aucun écran n'est nommé ici, et un neuvième descripteur
     // suffirait à le voir apparaître dans la pile et dans le cycle (EX-IHM-090).
     for (const RpgScreenDescriptor& descriptor : rpgScreens()) {
-        // Un écran qui déclare une PLANCHE (LOT-38) reçoit sa mise en page Qt Designer ; les
-        // autres gardent le rendu générique de leur ossature (LOT-68). C'est la TABLE qui le dit,
-        // pas ce code : il ne connaît toujours aucun écran par son nom.
-        //
-        // Une seule planche existe à ce jour, celle de la fiche : `_sheetPage` la retient pour
-        // pouvoir lui passer ses valeurs. La deuxième demandera de retenir laquelle est laquelle,
-        // et ce sera le moment de le faire -- pas avant.
-        QWidget* planche = nullptr;
-        if (descriptor.rendering == RpgRendering::Plate) {
-            _sheetPage = new CharacterSheetPage();
-            planche = _sheetPage;
-        }
-        auto* const frame = planche != nullptr ? new RpgScreenFrame(descriptor, planche, _stack)
-                                               : new RpgScreenFrame(descriptor, _stack);
+        auto* const frame = new RpgScreenFrame(descriptor, _stack);
         connect(frame, &RpgScreenFrame::closeRequested, this, &RpgScreenHost::closeRequested);
         connect(frame, &RpgScreenFrame::nextScreenRequested, this, &RpgScreenHost::showNextScreen);
         connect(frame, &RpgScreenFrame::previousScreenRequested, this,
@@ -52,11 +38,12 @@ void RpgScreenHost::retranslateUi(const Localization& loc) {
     for (RpgScreenFrame* const frame : _frames) {
         frame->retranslateUi(loc);
     }
-    if (_sheetPage != nullptr) {
-        _sheetPage->retranslateUi(loc);
-        // La planche repasse ses valeurs après la langue : `retranslateUi` réécrit les intitulés,
-        // et rejouer les valeurs évite qu'un changement de langue vide une fiche remplie.
-        _sheetPage->applyValues(_sheetValues, loc.text("rpg.empty"));
+    // Les valeurs sont reposées après la langue : `retranslateUi` remet tout au tiret cadratin,
+    // et sans ce rejeu un changement de langue viderait une fiche remplie.
+    for (auto entree = _screenValues.constBegin(); entree != _screenValues.constEnd(); ++entree) {
+        if (RpgScreenFrame* const frame = _frames.value(entree.key(), nullptr); frame != nullptr) {
+            frame->setValues(entree.value());
+        }
     }
 }
 
@@ -66,13 +53,8 @@ void RpgScreenHost::setValues(RpgScreenId screen,
         frame != nullptr) {
         frame->setValues(values);
     }
-    if (screen == RpgScreenId::CharacterSheet) {
-        // Retenues, parce qu'un changement de langue les rejoue (`retranslateUi`).
-        _sheetValues = values;
-        if (_sheetPage != nullptr) {
-            _sheetPage->applyValues(values, "—");
-        }
-    }
+    // Retenues, parce qu'un changement de langue les rejoue (`retranslateUi`).
+    _screenValues.insert(static_cast<int>(screen), values);
 }
 
 void RpgScreenHost::showScreen(RpgScreenId screen) {

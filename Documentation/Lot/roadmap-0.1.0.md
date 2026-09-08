@@ -24,7 +24,7 @@ sections 9 et 10 rapportent l'audit et ce qu'il faut anticiper ; la section 11 p
 
 ## État d'avancement {#roadmap-avancement}
 
-**Vingt-six lots livrés, cinquante-quatre restants.** Le prochain est le [LOT-14](@ref lot-14).
+**Vingt-sept lots livrés, cinquante-trois restants.** Le prochain est le [LOT-18](@ref lot-18).
 
 Livrés : `LOT-01` à `LOT-08` (le socle : fork et purge, `HmiLib`, `LevelData`, format de carte
 version 3, modes de jeu, déplacement top-down, tri par profondeur, tuiles RPG), `LOT-77`, `LOT-78`
@@ -41,7 +41,8 @@ de leurs 94 lieux) et le [LOT-76](@ref lot-76) (les vingt et une planches d'habi
 feuilles de personnage) et le [LOT-67](@ref lot-67) (les menus et le vocabulaire d'un RPG, qui
 retire du programme la notion de niveau discret) et le [LOT-68](@ref lot-68) (le châssis des huit
 écrans du RPG, décrits par une table plutôt qu'écrits un par un) et le
-[LOT-38](@ref lot-38) (la fiche de personnage, calquée sur la planche du corpus).
+[LOT-38](@ref lot-38) (la fiche de personnage, calquée sur la planche du corpus) et le
+[LOT-14](@ref lot-14) (inventaire, équipement et statistiques dérivées).
 Chacun garde son dossier et son `epic.md`.
 
 **Quelle date pour la `0.1.0` ?** Aucune n'est annoncée ici, et ce n'est pas une prudence de
@@ -61,46 +62,45 @@ tableau n'en porte volontairement aucun.
 
 | # | Lot | Objet | Débloque | Statut |
 |---|---|---|---|---|
-| 1 | `LOT-14` | Inventaire et équipement | 13 | **prochain** |
-| 2 | `LOT-18` | Bascule exploration ↔ combat | 12 | prêt |
-| 3 | `LOT-39` | Plomberie des clés d'assets | 12 | prêt |
-| 4 | `LOT-19` | Grille tactique et déplacement | 11 | en attente |
-| 5 | `LOT-15` | PNJ et dialogues | 9 | prêt |
-| 6 | `LOT-20` | Initiative et tour par tour | 9 | en attente |
-| 7 | `LOT-11` | Éditeur multi-couches et placement d'entités | 8 | en attente |
-| 8 | `LOT-27` | Contenu du *vertical slice* | 8 | en attente |
-| 9 | `LOT-80` | Factions, panthéon et organisations | 8 | prêt |
-| 10 | `LOT-81` | Descripteurs de terrain des dix régions | 7 | prêt |
-| 11 | `LOT-16` | Quêtes et drapeaux de monde | 6 | en attente |
-| 12 | `LOT-21` | Attaques, dégâts et états | 6 | en attente |
-| 13 | `LOT-40` | Générateur de terrain | 6 | en attente |
-| 14 | `LOT-44` | Noms, tables aléatoires et contenu d'ambiance | 6 | prêt |
-| 15 | `LOT-46` | Créatures de Tanares | 6 | prêt |
-| 16 | `LOT-26` | Butin, marchands, économie | 5 | en attente |
-| 17 | `LOT-41` | Peuplement : rencontres et créatures | 5 | en attente |
-| 18 | `LOT-70` | Horloge de partie et cycle jour/nuit | 4 | prêt |
-| 19 | `LOT-82` | Peuplement civil : PNJ, marchands et quêtes | 4 | en attente |
-| 20 | `LOT-09` | Graphe de cartes et transitions | 3 | prêt |
-| 21 | `LOT-22` | Portée, ligne de vue et zones d'effet | 3 | en attente |
-| 22 | `LOT-84` | Les 31 tables de progression de classe | 3 | prêt |
-| 23 | `LOT-17` | Sauvegarde riche | 2 | en attente |
-| 24 | `LOT-35` | Sorts et états | 2 | prêt |
-| 25 | `LOT-47` | Socle de classe, et le guerrier comme preuve | 2 | en attente |
-| 26 | `LOT-23` | IA tactique ennemie | 1 | en attente |
-| 27 | `LOT-42` | Voyage et carte du monde | 1 | en attente |
-| 28 | `LOT-45` | Guilde des Aventuriers : rangs et contrats | 1 | en attente |
-| 29 | `LOT-50` | Le Colisée : bac à sable de combat | 1 | en attente |
-| 30 | `LOT-74` | Expérience et progression | 1 | en attente |
-| 31 | `LOT-24` | IHM de combat | 0 | en attente |
-| 32 | `LOT-25` | Sorts et capacités de classe | 0 | en attente |
-| 33 | `LOT-28` | Audio, effets et version `0.2.0` | 0 | en attente |
-| 34 | `LOT-29` | Groupe de quatre personnages | 0 | en attente |
-| 35 | `LOT-49` | Contrôle de cohérence du contenu | 0 | prêt |
-| 36 | `LOT-51` → `LOT-65` | une classe par lot | 0 | en attente |
-| 37 | `LOT-69` | Retrait de l'atelier pixel art | 0 | en attente |
-| 38 | `LOT-72` | Conditions, agonie et mort | 0 | en attente |
-| 39 | `LOT-75` | Campement et repos dans le monde | 0 | en attente |
-| 40 | `LOT-83` | Boucle de progression de la Guilde | 0 | en attente |
+| 1 | `LOT-18` | Bascule exploration ↔ combat | 12 | **prochain** |
+| 2 | `LOT-39` | Plomberie des clés d'assets | 12 | prêt |
+| 3 | `LOT-19` | Grille tactique et déplacement | 11 | en attente |
+| 4 | `LOT-15` | PNJ et dialogues | 9 | prêt |
+| 5 | `LOT-20` | Initiative et tour par tour | 9 | en attente |
+| 6 | `LOT-11` | Éditeur multi-couches et placement d'entités | 8 | en attente |
+| 7 | `LOT-27` | Contenu du *vertical slice* | 8 | en attente |
+| 8 | `LOT-80` | Factions, panthéon et organisations | 8 | prêt |
+| 9 | `LOT-81` | Descripteurs de terrain des dix régions | 7 | prêt |
+| 10 | `LOT-16` | Quêtes et drapeaux de monde | 6 | en attente |
+| 11 | `LOT-21` | Attaques, dégâts et états | 6 | en attente |
+| 12 | `LOT-40` | Générateur de terrain | 6 | en attente |
+| 13 | `LOT-44` | Noms, tables aléatoires et contenu d'ambiance | 6 | prêt |
+| 14 | `LOT-46` | Créatures de Tanares | 6 | prêt |
+| 15 | `LOT-26` | Butin, marchands, économie | 5 | en attente |
+| 16 | `LOT-41` | Peuplement : rencontres et créatures | 5 | en attente |
+| 17 | `LOT-70` | Horloge de partie et cycle jour/nuit | 4 | prêt |
+| 18 | `LOT-82` | Peuplement civil : PNJ, marchands et quêtes | 4 | en attente |
+| 19 | `LOT-09` | Graphe de cartes et transitions | 3 | prêt |
+| 20 | `LOT-22` | Portée, ligne de vue et zones d'effet | 3 | en attente |
+| 21 | `LOT-84` | Les 31 tables de progression de classe | 3 | prêt |
+| 22 | `LOT-17` | Sauvegarde riche | 2 | en attente |
+| 23 | `LOT-35` | Sorts et états | 2 | prêt |
+| 24 | `LOT-47` | Socle de classe, et le guerrier comme preuve | 2 | en attente |
+| 25 | `LOT-23` | IA tactique ennemie | 1 | en attente |
+| 26 | `LOT-42` | Voyage et carte du monde | 1 | en attente |
+| 27 | `LOT-45` | Guilde des Aventuriers : rangs et contrats | 1 | en attente |
+| 28 | `LOT-50` | Le Colisée : bac à sable de combat | 1 | en attente |
+| 29 | `LOT-74` | Expérience et progression | 1 | en attente |
+| 30 | `LOT-24` | IHM de combat | 0 | en attente |
+| 31 | `LOT-25` | Sorts et capacités de classe | 0 | en attente |
+| 32 | `LOT-28` | Audio, effets et version `0.2.0` | 0 | en attente |
+| 33 | `LOT-29` | Groupe de quatre personnages | 0 | en attente |
+| 34 | `LOT-49` | Contrôle de cohérence du contenu | 0 | prêt |
+| 35 | `LOT-51` → `LOT-65` | une classe par lot | 0 | en attente |
+| 36 | `LOT-69` | Retrait de l'atelier pixel art | 0 | en attente |
+| 37 | `LOT-72` | Conditions, agonie et mort | 0 | en attente |
+| 38 | `LOT-75` | Campement et repos dans le monde | 0 | en attente |
+| 39 | `LOT-83` | Boucle de progression de la Guilde | 0 | en attente |
 
 **Débloque** — combien de lots restants dépendent de celui-ci, directement ou en cascade. C'est le
 critère de priorité, et il se relit sur la ligne.
@@ -1187,7 +1187,7 @@ valeurs codées en dur, exactement ce que [`EX-VIS-007`](@ref EX-VIS-007) interd
 | Quand | Lots | Pourquoi là |
 |---|---|---|
 | **Démarrables maintenant** — le [LOT-08](@ref lot-08) est livré | `LOT-30`, puis `LOT-32` | Outillage et contrats ; le plus tôt est le mieux |
-| **Démarrables maintenant** | [LOT-14](@ref lot-14) | La fiche du [LOT-38](@ref lot-38) affiche déjà les emplacements d'équipement : il leur manque ce qu'on y range |
+| **Démarrables maintenant** | [LOT-18](@ref lot-18) | La bascule exploration ↔ combat : le socle des modes est livré |
 | Avec [LOT-09](@ref lot-09) | `LOT-80` | L'atlas du `LOT-37` est livré : le graphe de cartes a ses nœuds, il lui manque les entités transverses |
 | Avant [LOT-13](@ref lot-13) | `LOT-43`, puis `LOT-36` | Compétences et langues d'abord, car les espèces s'appuient dessus ; puis les 4 classes simplifiées pour le premier combat |
 | Avant [LOT-14](@ref lot-14) | `LOT-34`, puis `LOT-49` | Catalogue réel, puis contrôle de ses valeurs |
@@ -1743,44 +1743,6 @@ reprise.
 - Pose d'un PNJ, d'un coffre et d'un portail, avec leurs propriétés, puis essai immédiat.
 - Aucune régression sur l'édition existante (peinture, sélection, liaisons, atelier pixel art).
 - Avertissement visible quand une zone de rencontre n'est pas un terrain tactique valide.
-
-### LOT-14 — Inventaire et équipement {#lot-14}
-
-> Statut : **à faire**.
-> Prérequis : [LOT-13](@ref lot-13).
-> Exigences couvertes : `EX-INV-020`.
-
-#### Objectif
-
-Porter, équiper et consommer des objets, avec un effet **mesurable** sur la fiche.
-
-#### Périmètre
-
-- `Source/Core/Rpg/Item.{h,cpp}` : type, poids, valeur, effets. Catalogue en **JSON**.
-- `Inventory.{h,cpp}` : contenu, capacité de charge.
-- `Equipment.{h,cpp}` : emplacements (arme principale, arme secondaire, armure, accessoires).
-- Statistiques **dérivées** : armure → CA, arme → dés de dégâts et caractéristique d'attaque.
-
-#### Le piège
-
-**Retirer un équipement doit annuler exactement son effet.** L'erreur classique est d'appliquer un
-bonus en additionnant à la volée (`ca += 2`) : après trois équipements et deux retraits dans le
-désordre, la CA a dérivé. La CA doit être **recalculée** depuis l'équipement porté, jamais
-accumulée.
-
-C'est un critère d'acceptation, pas une préférence de style.
-
-#### Exigences couvertes
-
-`EX-INV-*`, `EX-DND-*` (statistiques dérivées).
-
-#### Critères d'acceptation
-
-- Équiper une armure change la CA du montant attendu ; la retirer **restitue exactement** la valeur
-  d'origine, quel que soit l'ordre des opérations.
-- Un test équipe et retire dans plusieurs ordres et vérifie l'absence de dérive.
-- Capacité de charge respectée, avec un comportement défini au dépassement.
-- Catalogue d'objets entièrement en données.
 
 ### LOT-15 — PNJ et dialogues {#lot-15}
 

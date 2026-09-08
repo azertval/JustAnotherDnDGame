@@ -128,12 +128,10 @@ TEST(RpgScreensTest, ChaqueEcranEstIdentifiableEtNonVide) {
             << "nom d'objet duplique : " << descriptor.objectName;
         EXPECT_TRUE(titleKeys.insert(descriptor.titleKey).second)
             << "cle de titre dupliquee : " << descriptor.titleKey;
-        // Une ossature vide n'est admise que pour un écran à PLANCHE : sa mise en page vit alors
-        // dans son `.ui` (LOT-38). Un écran rendu depuis la table, lui, s'ouvrirait sur du vide.
-        EXPECT_EQ(descriptor.layout.leftColumn.empty(),
-                  descriptor.rendering == hmi::RpgRendering::Plate)
-            << descriptor.objectName
-            << " : une ossature vide et un rendu par table ne vont pas ensemble";
+        // Tous les écrans sont rendus depuis leur ossature : une colonne gauche vide ouvrirait
+        // donc l'écran sur du vide.
+        EXPECT_FALSE(descriptor.layout.leftColumn.empty())
+            << descriptor.objectName << " : ossature vide, l'ecran s'ouvrirait sur du vide";
         EXPECT_EQ(hmi::rpgScreenDescriptor(descriptor.id).id, descriptor.id);
     }
 }

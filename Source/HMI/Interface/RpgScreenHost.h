@@ -19,7 +19,6 @@ class QStackedWidget;
 
 namespace hmi {
 
-class CharacterSheetPage;
 class Localization;
 class RpgScreenFrame;
 
@@ -72,14 +71,12 @@ signals:
     void screenChanged(RpgScreenId screen);
 
 private:
-    /// La planche de la fiche de personnage (`LOT-38`), quand l'écran en a une. Les autres
-    /// écrans n'en ont pas : leur corps est rendu depuis la table du `LOT-68`.
-    CharacterSheetPage* _sheetPage = nullptr;
     QStackedWidget* _stack = nullptr;
     QHash<int, RpgScreenFrame*> _frames;  ///< `RpgScreenId` (en entier) -> châssis construit.
     RpgScreenId _current = RpgScreenId::CharacterSheet;
-    /// Dernières valeurs de la fiche, rejouées après un changement de langue.
-    std::map<std::string, std::string> _sheetValues;
+    /// Dernières valeurs de chaque écran, rejouées après un changement de langue : sans elles,
+    /// changer de langue viderait une fiche remplie.
+    QHash<int, std::map<std::string, std::string>> _screenValues;
 };
 
 }  // namespace hmi

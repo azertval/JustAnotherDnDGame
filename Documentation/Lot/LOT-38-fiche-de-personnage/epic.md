@@ -1,11 +1,8 @@
 # LOT-38 — Fiche de personnage : maquette et interface {#lot-38}
 
 > Statut : **fait** (vérification automatisée : build `/W4 /WX` sans avertissement, `ctest` à
-> 1028/1028, `clang-format`, les huit lints, cahier de test et Doxygen verts ; vérification
+> 1034/1034, `clang-format`, les huit lints, cahier de test et Doxygen verts ; vérification
 > manuelle : la fiche ouverte, remplie et parcourue dans l'application).
->
-> **Repris** depuis : la feuille n'est plus recomposée en widgets, elle est la **planche gravée** du
-> livre, relettrée dans la langue active (voir « Reprise » plus bas).
 > Prérequis : [LOT-13](@ref lot-13) (fiche de personnage), [LOT-68](@ref lot-68) (châssis des
 > écrans), [LOT-76](@ref lot-76) (ornements tracés).
 >
@@ -70,76 +67,57 @@ Ce que rien n'alimente aujourd'hui, et pourquoi :
 sans emplacement de sort disponible, une CA nulle — et mentirait. Le tiret dit « on ne sait pas
 encore », ce qui est la vérité.
 
-## Reprise : la planche gravée, et non son imitation
+## La planche gravée : une piste ouverte, puis refermée
 
-La première version de cet écran **recomposait** la feuille en widgets Qt — cartouches peints, roue
-des caractéristiques tracée au pinceau, encadrements de parchemin. Elle en avait l'allure sans en
-venir : l'arc des six cadrans était réglé à la main, les bandeaux étaient des rectangles, et les
-rinceaux, la rose des vents et les cabochons n'existaient pas. C'était le mieux qu'on pouvait faire
-d'une maquette qu'on ne pouvait que **regarder**.
+La feuille du corpus a été **vectorisée** et essayée comme fond d'écran : l'idée était que la fiche
+cesse de *ressembler* à la planche du livre pour en **être** le trait, avec les intitulés traduits
+reposés dessus. Elle a fonctionné, et elle a été abandonnée. Ce qu'elle a appris mérite d'être écrit
+ici, parce que le chemin est tentant et que rien n'en signale le bout avant d'y être.
 
-La planche 1 a depuis été **vectorisée** (`Character_Sheets_Tanares.svg`, corpus). L'écran ne la
-réinvente donc plus : il la **dessine**, et se contente d'écrire dessus. Ce qui était approché est
-exact. `hmi::AbilityWheel` a disparu — la roue est gravée, elle n'est plus peinte — et
-`CharacterSheetPage.ui` avec elle : une gravure se repère en **coordonnées de maquette**, pas en
-dispositions imbriquées.
+### Ce qui marchait
 
-### Le lettrage est à nous, l'ornement est au livre
+Le lettrage d'un tracé **se retire**. Le fichier du corpus est un calque d'encre — un unique chemin
+noir de 21 906 sous-chemins, sans balise `<text>` ni calque à masquer, où une lettre est un
+sous-chemin comme un filet de cadre. Ce qui les distingue est leur **étendue** : une lettre tient
+dans le rectangle de son intitulé, un filet de cadre le traverse de part en part. Retirer les
+sous-chemins entièrement contenus dans une liste de rectangles enlevait 2 565 lettres et gardait
+19 341 traits d'ornement, proprement.
 
-La gravure porte tout, y compris **son lettrage, en anglais**. La livrer telle quelle aurait figé
-« Acrobatics » et « BACKGROUND » dans l'image, donc dans les deux langues à la fois — et l'écran
-serait redevenu anglais le jour même où le lexique du [LOT-30](@ref lot-30) venait de le traduire.
+Et une **seule table** décrivait les deux moitiés — ce qui est effacé, ce qui est reposé —, si bien
+qu'il devenait impossible d'effacer un intitulé sans le reposer, ou d'en reposer un sur une gravure
+restée en place.
 
-`scripts/build_character_sheet_plate.py` retire donc le lettrage du tracé. Le fichier est un
-**calque d'encre** : un unique chemin noir de 21 906 sous-chemins, sans balise `<text>` à supprimer
-ni calque à masquer — une lettre y est un sous-chemin comme un filet de cadre. Ce qui les distingue
-est leur **étendue** : une lettre tient dans le rectangle de son intitulé, un filet de cadre le
-traverse de part en part. Le script retire les sous-chemins **entièrement contenus** dans l'un des
-rectangles de la table, et garde tous les autres — 2 565 retirés, 19 341 conservés.
+### Ce qui l'a arrêtée
 
-### Une seule table pour les deux moitiés
+**Qt ne sait pas rendre ce tracé.** `QSvgHandler` rejette tout `<path>` de plus de 32 768 éléments —
+il ne le tronque pas malgré son message, il le **jette** : `isValid()` reste vrai, la taille est
+correcte, et le rendu est vide. La panne ressemble donc à un asset manquant, pas à une limite. Ce
+tracé en demande 540 094, seize fois et demie la limite.
 
-Les rectangles ne sont écrits ni dans le script ni dans le C++ : ils vivent dans
-`character-sheet-plate.json`, que le script lit pour **effacer** et que l'écran lit pour **reposer**.
-Une seule source, donc, et une propriété qui en découle : il est impossible d'effacer un intitulé
-sans le reposer, ni d'en reposer un sur une gravure restée en place. Un rectangle déplacé déplace
-les deux.
-
-C'est la même idée que la colonne des identifiants vides — le périmètre est **dans la table**, pas
-dans un document tenu à côté.
-
-### Deux échappatoires, et pourquoi elles existent
-
-Deux cas ne se laissent pas découper au rectangle, et ils sont nommés plutôt que rattrapés en
-silence :
-
-- **Un lettrage évidé dans son propre fond.** Sur une poignée de cartouches — les jets de
-  sauvegarde, la perception passive — les lettres sont un trou *dans* le fond du cartouche : les
-  retirer le **bouche** au lieu de les effacer. Ces cartouches portent donc un rectangle `cover`,
-  que l'écran repeint en parchemin avant d'écrire. Le fond y étant plat, la reprise est invisible.
-- **Un onglet plus haut que large.** Les six onglets de sauvegarde portent leur abréviation tournée
-  d'un quart de tour ; treize unités de large ne reçoivent rien d'horizontal. Une étiquette Qt ne
-  tourne pas : ces trois lettres sont **peintes**, et c'est le seul texte de la planche qui le soit.
-
-### La planche est un masque d'encre, et non un SVG
-
-Ce n'est pas un choix de confort : **Qt ne sait pas rendre ce tracé.** `QSvgHandler` rejette tout
-`<path>` de plus de 32 768 éléments — il ne le tronque pas malgré son message, il le jette, et la
-planche s'affiche entièrement vide. Ce tracé en demande 540 094, seize fois et demie la limite.
-
-Le découper en plusieurs chemins ne marche pas davantage, et c'est le point intéressant : un
-remplissage — non-nul comme pair-impair — se calcule sur l'**ensemble** des contours d'un même
-chemin. Le blanc d'un cartouche, le trou d'un anneau, l'intérieur du cadre de page n'existent que
-parce qu'un autre contour du même chemin y annule le premier. Trois découpes ont été essayées —
-dans l'ordre du fichier, par arbre quaternaire sur le centre, puis en mariant chaque forme aux
-contours qu'elle contient — et les trois rendent la même image fausse. La raison est visible dans
+Le découper en plusieurs chemins ne marche pas davantage, et c'est le point qui n'était pas
+prévisible : un remplissage — non-nul comme pair-impair — se calcule sur l'**ensemble** des contours
+d'un même chemin. Le blanc d'un cartouche, le trou d'un anneau, l'intérieur du cadre de page
+n'existent que parce qu'un autre contour du même chemin y annule le premier. Trois découpes ont été
+essayées — dans l'ordre du fichier, par arbre quaternaire sur le centre, puis en mariant chaque
+forme aux contours qu'elle contient — et les trois rendent la même image fausse. La raison est dans
 la donnée : le contour du **cadre de page** fait à lui seul 24 535 points, 75 % du budget d'un
-chemin, et il enveloppe toute la feuille. Aucune coupe ne peut le laisser du même côté que tout ce
-qu'il contient.
+chemin, et il enveloppe toute la feuille. Aucune coupe ne peut le laisser du même côté que ce qu'il
+contient.
 
-La planche est donc rendue **une fois** en PNG, à trois fois la taille de la maquette. Elle n'y perd
-rien : elle est monochrome, son alpha est intact, et l'écran la teinte au jeton d'encre exactement
-comme il aurait teinté le SVG — la reprise suit donc le thème, comme le reste des écrans du jeu.
+Restait le masque d'encre en PNG, qui fonctionnait. Mais un fond monolithique n'est pas un asset :
+on ne peut ni déplacer un cartouche, ni réutiliser un anneau, ni changer un ornement sans rejouer
+toute la chaîne depuis le corpus. **C'est cette raison-là, et non la limite de Qt, qui a fermé la
+piste** : la feuille sera reprise en assets **unitaires** — un cartouche, un anneau, un bandeau à la
+fois —, et c'est à ce moment que l'écran cessera d'être une ossature pour devenir une planche.
+
+### Ce que l'écran est donc aujourd'hui
+
+L'ossature en données du [LOT-68](@ref lot-68), **remplie**. C'est le rendu générique, celui des huit
+autres écrans, et il porte les vraies valeurs : identité, progression, six caractéristiques avec
+leur modificateur, combat, six jets de sauvegarde, dix-huit compétences. La table des écrans reste
+donc la seule description de la fiche, et le jour des assets unitaires elle restera le contrat — ce
+sont les *widgets* qui changeront, pas ce qu'ils affichent.
+
 
 ## Ce que la fiche calcule, et où
 
@@ -215,6 +193,8 @@ ci-dessus.
   points de vie, Perception passive, bonus de maîtrise. ✔
 - **Le personnage affiché est une donnée validée** contre son schéma, provisoire et datée de son
   critère de retrait. ✔
-- `ctest` : **1028/1028**. ✔
-- **La planche affichée est la gravure du livre**, débarrassée de son lettrage anglais et
-  relettrée dans la langue active — et la table qui efface est celle qui repose. ✔
+- `ctest` : **1034/1034**. ✔
+- **L'habillage sur planche gravée a été essayé, puis écarté** — et la raison est écrite plutôt
+  que perdue : `QSvgHandler` plafonne un chemin à 32 768 éléments, le tracé en demande seize fois
+  plus, et le découper change ce qui est plein et ce qui est vide. La feuille reviendra en assets
+  **unitaires**. ✔
