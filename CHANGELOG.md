@@ -6,6 +6,30 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **Bascule exploration ↔ combat** (`LOT-18`). Déclencher une rencontre, geler le monde, monter les
+  combattants, et en revenir **sans que le joueur perde quoi que ce soit au passage**.
+  - **L'aller-retour est PUR**, et c'est ce qui le rend vérifiable : `core::ExplorationSnapshot`,
+    `core::EncounterRun`, `beginEncounter` / `endEncounter` — aucun widget, aucune entité, aucun
+    pointeur de monde. `hmi::CombatMode` ne fait qu'**ordonner des passes**, et ne retient rien de la
+    rencontre : lui confier l'état aurait rendu l'aller-retour invérifiable sans fenêtre.
+  - **L'instantané ne porte pas les points de vie**, et c'est délibéré : ils sont précisément ce que
+    le combat a changé, et les remettre à leur valeur d'avant annulerait le combat. Il porte en
+    revanche l'**orientation** — un personnage qui revient d'un combat regarde là où il regardait.
+  - **Un ennemi vaincu est un drapeau de monde, pas un booléen** : l'entité est détruite et recréée
+    au rechargement de la carte, et un booléen porté par elle disparaîtrait avec elle — l'ennemi
+    réapparaîtrait à chaque passage, ce qui se confond avec une carte peuplée. La clé est
+    **fabriquée** (`core::keyForEntity`), jamais écrite à la main.
+  - **Seule une victoire l'acquiert.** Fuir ou tomber ne marque rien : poser le drapeau à toute
+    sortie aurait fait de la fuite un moyen de nettoyer une carte, et la carte se serait vidée — ce
+    qui ressemble à une progression.
+  - **Une rencontre dit QUI, jamais OÙ** : les positions sont relatives au déclencheur, si bien
+    qu'une même rencontre se joue partout. Des coordonnées absolues feraient apparaître les mêmes
+    ennemis au même endroit — ou hors de la carte.
+  - **Trois passes disparaissent en combat**, chacune pour une raison nommée : `moveCharacter` (le
+    déplacement suivra le budget du tour), `updateMechanisms` (une plaque de pression au milieu d'un
+    tour ne relève d'aucune règle) et `evaluateOutcome` (tomber à zéro est une issue du **combat**,
+    pas du niveau — l'évaluer rechargerait le niveau au lieu d'ouvrir l'agonie).
+
 - **Inventaire et équipement** (`LOT-14`). Porter, équiper et consommer des objets, avec un effet
   **mesurable** sur la fiche.
   - **Aucune statistique n'est stockée, et c'est tout le lot.** `core::Inventory` ne porte ni classe

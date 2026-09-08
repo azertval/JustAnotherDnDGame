@@ -24,7 +24,7 @@ sections 9 et 10 rapportent l'audit et ce qu'il faut anticiper ; la section 11 p
 
 ## État d'avancement {#roadmap-avancement}
 
-**Vingt-sept lots livrés, cinquante-trois restants.** Le prochain est le [LOT-18](@ref lot-18).
+**Vingt-huit lots livrés, cinquante-deux restants.** Le prochain est le [LOT-39](@ref lot-39).
 
 Livrés : `LOT-01` à `LOT-08` (le socle : fork et purge, `HmiLib`, `LevelData`, format de carte
 version 3, modes de jeu, déplacement top-down, tri par profondeur, tuiles RPG), `LOT-77`, `LOT-78`
@@ -42,7 +42,8 @@ feuilles de personnage) et le [LOT-67](@ref lot-67) (les menus et le vocabulaire
 retire du programme la notion de niveau discret) et le [LOT-68](@ref lot-68) (le châssis des huit
 écrans du RPG, décrits par une table plutôt qu'écrits un par un) et le
 [LOT-38](@ref lot-38) (la fiche de personnage, calquée sur la planche du corpus) et le
-[LOT-14](@ref lot-14) (inventaire, équipement et statistiques dérivées).
+[LOT-14](@ref lot-14) (inventaire, équipement et statistiques dérivées) et le
+[LOT-18](@ref lot-18) (la bascule exploration ↔ combat).
 Chacun garde son dossier et son `epic.md`.
 
 **Quelle date pour la `0.1.0` ?** Aucune n'est annoncée ici, et ce n'est pas une prudence de
@@ -62,45 +63,44 @@ tableau n'en porte volontairement aucun.
 
 | # | Lot | Objet | Débloque | Statut |
 |---|---|---|---|---|
-| 1 | `LOT-18` | Bascule exploration ↔ combat | 12 | **prochain** |
-| 2 | `LOT-39` | Plomberie des clés d'assets | 12 | prêt |
-| 3 | `LOT-19` | Grille tactique et déplacement | 11 | en attente |
-| 4 | `LOT-15` | PNJ et dialogues | 9 | prêt |
-| 5 | `LOT-20` | Initiative et tour par tour | 9 | en attente |
-| 6 | `LOT-11` | Éditeur multi-couches et placement d'entités | 8 | en attente |
-| 7 | `LOT-27` | Contenu du *vertical slice* | 8 | en attente |
-| 8 | `LOT-80` | Factions, panthéon et organisations | 8 | prêt |
-| 9 | `LOT-81` | Descripteurs de terrain des dix régions | 7 | prêt |
-| 10 | `LOT-16` | Quêtes et drapeaux de monde | 6 | en attente |
-| 11 | `LOT-21` | Attaques, dégâts et états | 6 | en attente |
-| 12 | `LOT-40` | Générateur de terrain | 6 | en attente |
-| 13 | `LOT-44` | Noms, tables aléatoires et contenu d'ambiance | 6 | prêt |
-| 14 | `LOT-46` | Créatures de Tanares | 6 | prêt |
-| 15 | `LOT-26` | Butin, marchands, économie | 5 | en attente |
-| 16 | `LOT-41` | Peuplement : rencontres et créatures | 5 | en attente |
-| 17 | `LOT-70` | Horloge de partie et cycle jour/nuit | 4 | prêt |
-| 18 | `LOT-82` | Peuplement civil : PNJ, marchands et quêtes | 4 | en attente |
-| 19 | `LOT-09` | Graphe de cartes et transitions | 3 | prêt |
-| 20 | `LOT-22` | Portée, ligne de vue et zones d'effet | 3 | en attente |
-| 21 | `LOT-84` | Les 31 tables de progression de classe | 3 | prêt |
-| 22 | `LOT-17` | Sauvegarde riche | 2 | en attente |
-| 23 | `LOT-35` | Sorts et états | 2 | prêt |
-| 24 | `LOT-47` | Socle de classe, et le guerrier comme preuve | 2 | en attente |
-| 25 | `LOT-23` | IA tactique ennemie | 1 | en attente |
-| 26 | `LOT-42` | Voyage et carte du monde | 1 | en attente |
-| 27 | `LOT-45` | Guilde des Aventuriers : rangs et contrats | 1 | en attente |
-| 28 | `LOT-50` | Le Colisée : bac à sable de combat | 1 | en attente |
-| 29 | `LOT-74` | Expérience et progression | 1 | en attente |
-| 30 | `LOT-24` | IHM de combat | 0 | en attente |
-| 31 | `LOT-25` | Sorts et capacités de classe | 0 | en attente |
-| 32 | `LOT-28` | Audio, effets et version `0.2.0` | 0 | en attente |
-| 33 | `LOT-29` | Groupe de quatre personnages | 0 | en attente |
-| 34 | `LOT-49` | Contrôle de cohérence du contenu | 0 | prêt |
-| 35 | `LOT-51` → `LOT-65` | une classe par lot | 0 | en attente |
-| 36 | `LOT-69` | Retrait de l'atelier pixel art | 0 | en attente |
-| 37 | `LOT-72` | Conditions, agonie et mort | 0 | en attente |
-| 38 | `LOT-75` | Campement et repos dans le monde | 0 | en attente |
-| 39 | `LOT-83` | Boucle de progression de la Guilde | 0 | en attente |
+| 1 | `LOT-39` | Plomberie des clés d'assets | 12 | **prochain** |
+| 2 | `LOT-19` | Grille tactique et déplacement | 11 | prêt |
+| 3 | `LOT-15` | PNJ et dialogues | 9 | prêt |
+| 4 | `LOT-20` | Initiative et tour par tour | 9 | en attente |
+| 5 | `LOT-11` | Éditeur multi-couches et placement d'entités | 8 | en attente |
+| 6 | `LOT-27` | Contenu du *vertical slice* | 8 | en attente |
+| 7 | `LOT-80` | Factions, panthéon et organisations | 8 | prêt |
+| 8 | `LOT-81` | Descripteurs de terrain des dix régions | 7 | prêt |
+| 9 | `LOT-16` | Quêtes et drapeaux de monde | 6 | en attente |
+| 10 | `LOT-21` | Attaques, dégâts et états | 6 | en attente |
+| 11 | `LOT-40` | Générateur de terrain | 6 | en attente |
+| 12 | `LOT-44` | Noms, tables aléatoires et contenu d'ambiance | 6 | prêt |
+| 13 | `LOT-46` | Créatures de Tanares | 6 | prêt |
+| 14 | `LOT-26` | Butin, marchands, économie | 5 | en attente |
+| 15 | `LOT-41` | Peuplement : rencontres et créatures | 5 | en attente |
+| 16 | `LOT-70` | Horloge de partie et cycle jour/nuit | 4 | prêt |
+| 17 | `LOT-82` | Peuplement civil : PNJ, marchands et quêtes | 4 | en attente |
+| 18 | `LOT-09` | Graphe de cartes et transitions | 3 | prêt |
+| 19 | `LOT-22` | Portée, ligne de vue et zones d'effet | 3 | en attente |
+| 20 | `LOT-84` | Les 31 tables de progression de classe | 3 | prêt |
+| 21 | `LOT-17` | Sauvegarde riche | 2 | en attente |
+| 22 | `LOT-35` | Sorts et états | 2 | prêt |
+| 23 | `LOT-47` | Socle de classe, et le guerrier comme preuve | 2 | en attente |
+| 24 | `LOT-23` | IA tactique ennemie | 1 | en attente |
+| 25 | `LOT-42` | Voyage et carte du monde | 1 | en attente |
+| 26 | `LOT-45` | Guilde des Aventuriers : rangs et contrats | 1 | en attente |
+| 27 | `LOT-50` | Le Colisée : bac à sable de combat | 1 | en attente |
+| 28 | `LOT-74` | Expérience et progression | 1 | en attente |
+| 29 | `LOT-24` | IHM de combat | 0 | en attente |
+| 30 | `LOT-25` | Sorts et capacités de classe | 0 | en attente |
+| 31 | `LOT-28` | Audio, effets et version `0.2.0` | 0 | en attente |
+| 32 | `LOT-29` | Groupe de quatre personnages | 0 | en attente |
+| 33 | `LOT-49` | Contrôle de cohérence du contenu | 0 | prêt |
+| 34 | `LOT-51` → `LOT-65` | une classe par lot | 0 | en attente |
+| 35 | `LOT-69` | Retrait de l'atelier pixel art | 0 | en attente |
+| 36 | `LOT-72` | Conditions, agonie et mort | 0 | en attente |
+| 37 | `LOT-75` | Campement et repos dans le monde | 0 | en attente |
+| 38 | `LOT-83` | Boucle de progression de la Guilde | 0 | en attente |
 
 **Débloque** — combien de lots restants dépendent de celui-ci, directement ou en cascade. C'est le
 critère de priorité, et il se relit sur la ligne.
@@ -1187,7 +1187,7 @@ valeurs codées en dur, exactement ce que [`EX-VIS-007`](@ref EX-VIS-007) interd
 | Quand | Lots | Pourquoi là |
 |---|---|---|
 | **Démarrables maintenant** — le [LOT-08](@ref lot-08) est livré | `LOT-30`, puis `LOT-32` | Outillage et contrats ; le plus tôt est le mieux |
-| **Démarrables maintenant** | [LOT-18](@ref lot-18) | La bascule exploration ↔ combat : le socle des modes est livré |
+| **Démarrables maintenant** | [LOT-39](@ref lot-39) | La plomberie des clés d'assets : rien ne la bloque |
 | Avec [LOT-09](@ref lot-09) | `LOT-80` | L'atlas du `LOT-37` est livré : le graphe de cartes a ses nœuds, il lui manque les entités transverses |
 | Avant [LOT-13](@ref lot-13) | `LOT-43`, puis `LOT-36` | Compétences et langues d'abord, car les espèces s'appuient dessus ; puis les 4 classes simplifiées pour le premier combat |
 | Avant [LOT-14](@ref lot-14) | `LOT-34`, puis `LOT-49` | Catalogue réel, puis contrôle de ses valeurs |
@@ -1868,54 +1868,6 @@ reconstruire — un format qui casse lui fait perdre sa partie.
 - Une sauvegarde d'une version antérieure se charge avec des valeurs par défaut sensées.
 - Un champ inconnu est ignoré **et préservé** à la réécriture.
 - Testable headless.
-
-### LOT-18 — Bascule exploration ↔ combat {#lot-18}
-
-> Statut : **à faire**.
-> Prérequis : [LOT-05](@ref lot-05) (modes de jeu), [LOT-10](@ref lot-10) (déclencheurs),
-> [LOT-13](@ref lot-13) (fiches des combattants).
-> Exigences couvertes : `EX-CBT-001`.
-
-#### Objectif
-
-Déclencher une rencontre depuis l'exploration, geler le monde, monter la grille de combat, et en
-revenir — sans que le joueur perde quoi que ce soit au passage.
-
-#### La décision qui structure ce lot
-
-Le combat se déroule **sur la carte d'exploration**, jamais dans une arène chargée à part
-(décision de cadrage, cf. `Documentation/Specification/vision.md`). La grille tactique est
-**dérivée de la couche collision** du format v3 (`LOT-04`).
-
-C'est ce qui donne la continuité visuelle d'un Chrono Trigger plutôt que la rupture d'un JRPG
-classique — et c'est ce qui justifie rétroactivement le soin mis au format de carte en phase B.
-En contrepartie, *toute carte doit être un terrain tactique valide* : contrainte de level design
-signalée dans l'éditeur dès le `LOT-11`.
-
-#### Périmètre
-
-- `CombatMode` : le second mode de `LOT-05`.
-- `Source/Core/Combat/Encounter.{h,cpp}` : définition **JSON** — ennemis, positions de départ
-  (relatives au déclencheur), conditions.
-- Déclencheurs : contact avec un ennemi de carte, zone de rencontre, action de dialogue.
-- **Sauvegarde et restauration de l'état d'exploration** : position, orientation, caméra, entités.
-
-#### Le critère qui compte
-
-Entrer puis sortir d'un combat doit restituer **exactement** l'état d'exploration — aux PV près,
-qui eux ont changé. Un ennemi vaincu est retiré de la carte **durablement** : c'est un drapeau de
-monde (`LOT-16`), persisté (`LOT-17`), pas un booléen local perdu au rechargement de la carte.
-
-#### Exigences couvertes
-
-Catégorie `EX-CBT-*`, déclarée par ce lot dans `Documentation/Specification/combat.md`.
-
-#### Critères d'acceptation
-
-- Aller-retour exploration → combat → exploration restituant l'état, PV mis à jour.
-- Un ennemi vaincu ne réapparaît pas, y compris après avoir quitté et rechargé la carte.
-- Une fuite ramène à l'exploration sans que l'ennemi soit marqué vaincu.
-- Testable headless : le montage et le démontage d'une rencontre ne demandent ni fenêtre ni GPU.
 
 ### LOT-19 — Grille tactique et déplacement {#lot-19}
 

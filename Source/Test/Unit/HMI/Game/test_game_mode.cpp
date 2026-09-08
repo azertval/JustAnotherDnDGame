@@ -11,6 +11,7 @@
  * d'essai qui enregistre la séquence des appels sans rien simuler.
  */
 
+#include <algorithm>
 #include <string>
 #include <vector>
 
@@ -18,6 +19,7 @@
 
 #include "Core/Levels/LevelOutcome.h"
 #include "Core/Physics/PlayerInput.h"
+#include "HMI/Game/CombatMode.h"
 #include "HMI/Game/ExplorationMode.h"
 #include "HMI/Game/IGameMode.h"
 
@@ -197,4 +199,58 @@ TEST(ModeDeJeuTest, ModeSansEtatEtNomme) {
 
     EXPECT_TRUE(passes.calls().empty());
     EXPECT_EQ(mode.name(), "exploration");
+}
+
+/**
+ * @brief Le mode combat **gèle** le monde : ni déplacement libre, ni mécanismes, ni évaluation
+ *        d'issue de niveau — et l'ordre appelé reste celui qu'il annonce.
+ * \castest{<b>Le mode combat gele le monde.</b><br/>
+ * 	cat Unitaire · Mode de jeu<br/>
+ * 	crit Critique<br/>
+ * 	etapes 1. Avancer le mode combat d'un pas fixe sur des passes qui enregistrent leurs
+ * appels.<br/>2. Comparer la sequence a passOrder().<br/>3. Verifier l'absence des passes
+ * d'exploration.<br/>
+ * 	attendu moveCharacter, updateMechanisms, detectEvents et evaluateOutcome ne sont jamais
+ * appeles, et l'issue rendue est Playing.
+ * }
+ */
+TEST(ModeDeJeuTest, LeModeCombatGeleLeMonde) {
+    hmi::CombatMode mode;
+    RecordingPasses passes;
+    const core::LevelOutcome issue = mode.step(passes, core::PlayerInput{}, FIXED_DELTA);
+
+    EXPECT_EQ(passes.calls(), announcedOrder(mode));
+    EXPECT_EQ(issue, core::LevelOutcome::Playing)
+        << "tomber a zero point de vie est une issue du COMBAT, pas du niveau";
+
+    for (const char* gelee : {"moveCharacter", "updateMechanisms", "detectEvents",
+                              "updateMechanismVisuals", "evaluateOutcome", "onLevelLost"}) {
+        EXPECT_EQ(std::ranges::find(passes.calls(), gelee), passes.calls().end())
+            << "passe d'exploration jouee pendant un combat : " << gelee;
+    }
+}
+
+/**
+ * @brief Le mode combat se nomme, et ne garde aucun état d'un pas à l'autre.
+ * \castest{<b>Le mode combat est nomme et sans etat.</b><br/>
+ * 	cat Unitaire · Mode de jeu<br/>
+ * 	crit Mineur<br/>
+ * 	etapes 1. Avancer deux instances distinctes du mode d'un meme pas.<br/>
+ * 	attendu Les deux produisent la meme sequence, et le mode porte un nom distinct de
+ * l'exploration.
+ * }
+ */
+TEST(ModeDeJeuTest, LeModeCombatEstNommeEtSansEtat) {
+    hmi::CombatMode premier;
+    hmi::CombatMode second;
+    EXPECT_EQ(premier.name(), "combat");
+    EXPECT_NE(premier.name(), hmi::ExplorationMode{}.name());
+
+    RecordingPasses passesA;
+    RecordingPasses passesB;
+    static_cast<void>(premier.step(passesA, core::PlayerInput{}, FIXED_DELTA));
+    static_cast<void>(premier.step(passesA, core::PlayerInput{}, FIXED_DELTA));
+    static_cast<void>(second.step(passesB, core::PlayerInput{}, FIXED_DELTA));
+    static_cast<void>(second.step(passesB, core::PlayerInput{}, FIXED_DELTA));
+    EXPECT_EQ(passesA.calls(), passesB.calls());
 }
