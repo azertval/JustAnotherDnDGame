@@ -121,6 +121,7 @@ add_library(HmiLib STATIC
     Interface/EditorWorkspace.cpp
     Interface/ParchmentFrame.cpp
     Interface/ParchmentOrnaments.cpp
+    Interface/AbilityWheelGeometry.cpp
     Interface/MenuBackdropGeometry.cpp
     Interface/KeyHintText.cpp
     Interface/ActionCatalog.cpp
