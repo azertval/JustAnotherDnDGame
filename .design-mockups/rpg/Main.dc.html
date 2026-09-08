@@ -20,10 +20,10 @@
   <div style="position: absolute; inset: 0; pointer-events: none; background-image: repeating-linear-gradient(90deg, rgba(48,32,0,.020) 0 1px, transparent 1px 4px), repeating-linear-gradient(0deg, rgba(48,32,0,.014) 0 1px, transparent 1px 7px);"></div>
 
   <!-- ============ BANDEAU DE TITRE ============ -->
-  <div style="position: relative; height: 58px; display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 0 28px; box-sizing: border-box;">
+  <div style="position: relative; height: 58px; display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 0 24px 0 40px; box-sizing: border-box;">
     <div style="display: flex; align-items: baseline; gap: 14px;">
       <div style="font-family: 'Cinzel', Georgia, serif; font-size: 22px; font-weight: 600; letter-spacing: .13em;">Fiche de personnage</div>
-      <div style="font-size: 15px; color: #907030; letter-spacing: .1em;">Registre des mercenaires</div>
+      <div style="font-family: 'Cinzel', Georgia, serif; font-size: 12px; color: #907030; letter-spacing: .17em;">REGISTRE DES MERCENAIRES &nbsp;·&nbsp; BUREAU DES CONTRATS</div>
     </div>
     <div style="display: flex; align-items: baseline; gap: 26px;">
       <div style="display: flex; align-items: baseline; gap: 9px;">
@@ -36,10 +36,20 @@
       </div>
     </div>
   </div>
-  <div style="position: absolute; left: 28px; right: 28px; top: 58px; height: 2px; background: #907030;"></div>
+  <div style="position: absolute; left: 40px; right: 24px; top: 58px; height: 2px; background: #907030;"></div>
 
   <!-- ============ CORPS ============ -->
-  <div style="position: relative; display: flex; gap: 12px; padding: 18px 28px 0; height: 600px; box-sizing: border-box;">
+  <!-- Souche perforée : le feuillet est détaché d'un registre, et son bord gauche le dit. -->
+  <div style="position: absolute; left: 26px; top: 76px; bottom: 76px; width: 1px; border-left: 2px dashed #907030;"></div>
+  <div style="position: absolute; left: 8px; top: 92px; bottom: 92px; width: 12px; display: flex; flex-direction: column; justify-content: space-between; align-items: center;">
+    <span style="width: 11px; height: 11px; border-radius: 50%; background: #c1b090; box-shadow: inset 0 1px 2px rgba(48,32,0,.6);"></span>
+    <span style="width: 11px; height: 11px; border-radius: 50%; background: #c1b090; box-shadow: inset 0 1px 2px rgba(48,32,0,.6);"></span>
+    <span style="width: 11px; height: 11px; border-radius: 50%; background: #c1b090; box-shadow: inset 0 1px 2px rgba(48,32,0,.6);"></span>
+    <span style="width: 11px; height: 11px; border-radius: 50%; background: #c1b090; box-shadow: inset 0 1px 2px rgba(48,32,0,.6);"></span>
+    <span style="width: 11px; height: 11px; border-radius: 50%; background: #c1b090; box-shadow: inset 0 1px 2px rgba(48,32,0,.6);"></span>
+  </div>
+
+  <div style="position: relative; display: flex; gap: 8px; padding: 18px 24px 0 40px; height: 600px; box-sizing: border-box;">
 
     <!-- ---------- COLONNE GAUCHE ---------- -->
     <!-- Un panneau encadré : trait d'encre, réserve de parchemin, filet ornemental. La FORME est
@@ -88,6 +98,27 @@
         <div style="display: flex; align-items: center; gap: 11px; font-size: 18px; color: #705020;"><span style="width: 9px; height: 9px; border-radius: 50%; box-shadow: inset 0 0 0 2px #c0a060; flex: none;"></span><span style="flex: 1 1 auto;">Sagesse</span><span style="font-family: 'Cinzel', Georgia, serif; font-weight: 600;">+1</span></div>
         <div style="display: flex; align-items: center; gap: 11px; font-size: 18px; color: #705020;"><span style="width: 9px; height: 9px; border-radius: 50%; box-shadow: inset 0 0 0 2px #c0a060; flex: none;"></span><span style="flex: 1 1 auto;">Charisme</span><span style="font-family: 'Cinzel', Georgia, serif; font-weight: 600;">+0</span></div>
       </div>
+
+      <!-- ===== Le contreseing : ce qui fait du feuillet une pièce, et non une fiche ===== -->
+      <div style="margin-top: auto; display: flex; align-items: flex-end; gap: 14px;">
+        <div style="flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 11px;">
+          <div>
+            <div style="font-family: 'Cinzel', Georgia, serif; font-size: 10px; letter-spacing: .16em; color: #907030;">ENRÔLÉE LE</div>
+            <div style="height: 21px; border-bottom: 1px dotted #907030; font-size: 17px; color: #705020;">&mdash;</div>
+          </div>
+          <div>
+            <div style="font-family: 'Cinzel', Georgia, serif; font-size: 10px; letter-spacing: .16em; color: #907030;">CONTRESIGNÉ PAR LE BUREAU</div>
+            <div style="height: 21px; border-bottom: 1px dotted #907030;"></div>
+          </div>
+        </div>
+        <!-- Cachet de cire : le seul relief du feuillet, et le seul rouge avec les points de vie. -->
+        <svg width="66" height="66" viewBox="0 0 62 62" style="flex: none; margin-bottom: -3px;">
+          <path d="M31 1 L38 6 L46 4 L50 11 L58 14 L58 23 L61 31 L58 39 L58 48 L50 51 L46 58 L38 56 L31 61 L24 56 L16 58 L12 51 L4 48 L4 39 L1 31 L4 23 L4 14 L12 11 L16 4 L24 6 Z" fill="#701010" stroke="#400000" stroke-width="1.5"/>
+          <circle cx="31" cy="31" r="20" fill="none" stroke="#400000" stroke-width="1.4" opacity=".8"/>
+          <path d="M31 19 L36 29 L31 43 L26 29 Z" fill="#400000" opacity=".55"/>
+          <path d="M20 31 H42" stroke="#400000" stroke-width="2" opacity=".55"/>
+        </svg>
+      </div>
     </div>
 
     <!-- ---------- CENTRE : LE PORTRAIT, ET LES SIX AUTOUR ---------- -->
@@ -122,12 +153,25 @@
         <!-- Anneau d'entrelacs autour du portrait : deux filets, l'un continu, l'autre rompu. -->
         <circle cx="280" cy="250" r="131" fill="none" stroke="#907030" stroke-width="1.2" opacity=".7"/>
         <circle cx="280" cy="250" r="124" fill="none" stroke="#c0a060" stroke-width="2.5" stroke-dasharray="13 9" opacity=".9"/>
+
+        <!-- Quatre rivets de montage : le portrait est FIXÉ sur le feuillet, pas imprimé avec lui.
+             C'est ce que faisaient les coins de montage sur un portrait rectangulaire. -->
+        <g fill="#c0a060" stroke="#302000" stroke-width="1.4">
+          <circle cx="187.4" cy="157.4" r="5.5"/>
+          <circle cx="372.6" cy="157.4" r="5.5"/>
+          <circle cx="187.4" cy="342.6" r="5.5"/>
+          <circle cx="372.6" cy="342.6" r="5.5"/>
+        </g>
       </svg>
 
       <!-- Le portrait rond. Jeton du corpus, en attendant celui du personnage. -->
       <div style="position: absolute; left: 165px; top: 135px; width: 230px; height: 230px; border-radius: 50%; overflow: hidden; background: #c4ae8c; box-shadow: 0 0 0 3px #302000;">
         <img src="portrait-defaut.png" alt="" style="width: 100%; height: 100%; object-fit: cover; display: block;">
       </div>
+
+      <!-- Le tampon mord sur le portrait : c'est ce qui empêche de le remplacer, et c'est le geste
+           qui fait d'une image encadrée une pièce d'identité. -->
+      <div style="position: absolute; left: 232px; top: 336px; transform: rotate(-11deg); border: 3px double #701010; color: #701010; opacity: .72; padding: 4px 11px; font-family: 'Cinzel', Georgia, serif; font-size: 16px; font-weight: 700; letter-spacing: .2em; white-space: nowrap;">ENRÔLÉ</div>
 
       <!-- ===== Les six médaillons, dans l'ordre de la planche d'origine ===== -->
 
@@ -199,11 +243,25 @@
             </div>
           </div>
 
-          <div style="flex: 1 1 auto; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 14px;">
-            <div><div style="font-family: 'Cinzel', Georgia, serif; font-size: 10px; letter-spacing: .14em; color: #907030;">INITIATIVE</div><div style="font-family: 'Cinzel', Georgia, serif; font-size: 22px; font-weight: 600; line-height: 1.2;">+1</div></div>
-            <div><div style="font-family: 'Cinzel', Georgia, serif; font-size: 10px; letter-spacing: .14em; color: #907030;">VITESSE</div><div style="font-family: 'Cinzel', Georgia, serif; font-size: 22px; font-weight: 600; line-height: 1.2;">9 m</div></div>
-            <div><div style="font-family: 'Cinzel', Georgia, serif; font-size: 10px; letter-spacing: .14em; color: #907030;">MAÎTRISE</div><div style="font-family: 'Cinzel', Georgia, serif; font-size: 22px; font-weight: 600; line-height: 1.2;">+2</div></div>
-            <div><div style="font-family: 'Cinzel', Georgia, serif; font-size: 10px; letter-spacing: .14em; color: #907030;">PERC. PASSIVE</div><div style="font-family: 'Cinzel', Georgia, serif; font-size: 22px; font-weight: 600; line-height: 1.2;">13</div></div>
+          <!-- Quatre petits médaillons, comme le groupe maîtrise / inspiration / initiative de la
+               planche d'origine : c'est le même vocabulaire rond que les six caractéristiques. -->
+          <div style="flex: 1 1 auto; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 10px; justify-items: center;">
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 5px;">
+              <div style="width: 58px; height: 58px; border-radius: 50%; background: #f0e0d0; box-shadow: 0 0 0 2px #302000, inset 0 0 0 2px #f0e0d0, inset 0 0 0 3px #c0a060; display: flex; align-items: center; justify-content: center; font-family: 'Cinzel', Georgia, serif; font-size: 21px; font-weight: 700;">+1</div>
+              <div style="font-family: 'Cinzel', Georgia, serif; font-size: 9px; letter-spacing: .13em; color: #907030;">INITIATIVE</div>
+            </div>
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 5px;">
+              <div style="width: 58px; height: 58px; border-radius: 50%; background: #f0e0d0; box-shadow: 0 0 0 2px #302000, inset 0 0 0 2px #f0e0d0, inset 0 0 0 3px #c0a060; display: flex; align-items: center; justify-content: center; font-family: 'Cinzel', Georgia, serif; font-size: 19px; font-weight: 700;">9 m</div>
+              <div style="font-family: 'Cinzel', Georgia, serif; font-size: 9px; letter-spacing: .13em; color: #907030;">VITESSE</div>
+            </div>
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 5px;">
+              <div style="width: 58px; height: 58px; border-radius: 50%; background: #f0e0d0; box-shadow: 0 0 0 2px #302000, inset 0 0 0 2px #f0e0d0, inset 0 0 0 3px #c0a060; display: flex; align-items: center; justify-content: center; font-family: 'Cinzel', Georgia, serif; font-size: 21px; font-weight: 700;">+2</div>
+              <div style="font-family: 'Cinzel', Georgia, serif; font-size: 9px; letter-spacing: .13em; color: #907030;">MAÎTRISE</div>
+            </div>
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 5px;">
+              <div style="width: 58px; height: 58px; border-radius: 50%; background: #f0e0d0; box-shadow: 0 0 0 2px #302000, inset 0 0 0 2px #f0e0d0, inset 0 0 0 3px #c0a060; display: flex; align-items: center; justify-content: center; font-family: 'Cinzel', Georgia, serif; font-size: 21px; font-weight: 700;">13</div>
+              <div style="font-family: 'Cinzel', Georgia, serif; font-size: 9px; letter-spacing: .13em; color: #907030;">PERC. PASSIVE</div>
+            </div>
           </div>
         </div>
       </div>
@@ -232,8 +290,8 @@
   </div>
 
   <!-- ============ PIED ============ -->
-  <div style="position: absolute; left: 28px; right: 28px; bottom: 62px; height: 2px; background: #907030;"></div>
-  <div style="position: absolute; left: 0; right: 0; bottom: 0; height: 62px; display: flex; align-items: center; gap: 26px; padding: 0 28px; box-sizing: border-box;">
+  <div style="position: absolute; left: 40px; right: 24px; bottom: 62px; height: 2px; background: #907030;"></div>
+  <div style="position: absolute; left: 0; right: 0; bottom: 0; height: 62px; display: flex; align-items: center; gap: 26px; padding: 0 24px 0 40px; box-sizing: border-box;">
     <div style="display: flex; align-items: center; gap: 9px; font-size: 19px;">
       <svg width="14" height="14" viewBox="0 0 18 18" style="flex: none; color: #c0a060;"><path d="M1 3 L5 9 L1 15 L16 9 Z" fill="currentColor" stroke="#302000" stroke-width="1.2"/></svg>
       Fermer
