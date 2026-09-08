@@ -29,6 +29,10 @@ add_library(Core STATIC
     Rpg/Dice.cpp
     Rpg/Equipment.cpp
     Rpg/Inventory.cpp
+    Combat/Encounter.cpp
+    Resources/AssetKey.cpp
+    Resources/AssetMarker.cpp
+    Combat/CombatTransition.cpp
     Rpg/RpgEnumNames.cpp
     Rpg/Multiclassing.cpp
     Levels/TileMap.cpp
