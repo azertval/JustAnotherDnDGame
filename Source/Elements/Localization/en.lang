@@ -463,6 +463,11 @@ rpg.chassis.close = Close
 
 # Masthead of the character sheet plate (LOT-38): the office that issues the sheet.
 rpg.plate.registry = Mercenary Register · Bureau of Contracts
+rpg.plate.matricule = Service number
+rpg.plate.rank = Rank
+rpg.plate.enlisted_on = Enlisted on
+rpg.plate.countersigned = Countersigned by the bureau
+rpg.plate.enlisted_stamp = Enlisted
 rpg.chassis.previous_screen = Previous Screen
 rpg.chassis.next_screen = Next Screen
 

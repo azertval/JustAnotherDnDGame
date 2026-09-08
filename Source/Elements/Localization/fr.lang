@@ -466,6 +466,11 @@ rpg.chassis.close = Fermer
 # Bandeau de la planche de la fiche (LOT-38) : le bureau qui delivre le feuillet. C'est ce qui
 # fait lire la fiche comme une piece d'identite et non comme un tableau de nombres.
 rpg.plate.registry = Registre des mercenaires · Bureau des contrats
+rpg.plate.matricule = Matricule
+rpg.plate.rank = Rang
+rpg.plate.enlisted_on = Enrôlée le
+rpg.plate.countersigned = Contresigné par le bureau
+rpg.plate.enlisted_stamp = Enrôlé
 rpg.chassis.previous_screen = Écran précédent
 rpg.chassis.next_screen = Écran suivant
 

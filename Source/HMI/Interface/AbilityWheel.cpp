@@ -89,6 +89,11 @@ void AbilityWheel::setPortrait(const QPixmap& portrait) {
     update();
 }
 
+void AbilityWheel::setStamp(const QString& stamp) {
+    _stamp = stamp;
+    update();
+}
+
 QSize AbilityWheel::sizeHint() const {
     // Deux fois le plancher : c'est la taille à laquelle la roue est confortable, et la valeur que
     // la disposition doit préférer quand la place le permet.
@@ -127,6 +132,7 @@ void AbilityWheel::paintEvent(QPaintEvent* /*event*/) {
     const QColor ink = toColor(color.text);
     const QColor muted = toColor(color.textMuted);
 
+    const QFont base = font();
     const float seatRadius = layout.seats.front().radius;
     const float edgePen = std::max(1.0F, seatRadius * EDGE_PEN_RATIO);
     const float innerPen = std::max(1.0F, seatRadius * INNER_PEN_RATIO);
@@ -190,8 +196,49 @@ void AbilityWheel::paintEvent(QPaintEvent* /*event*/) {
     painter.setPen(QPen(edge, edgePen));
     painter.drawEllipse(portraitBox);
 
+    // Quatre rivets de montage, aux quarts obliques du cercle. Ils remplacent les coins de montage
+    // d'un portrait rectangulaire, qui n'ont pas de sens sur un rond -- mais le message est le
+    // meme : le portrait est FIXE sur le feuillet, il n'y est pas imprime.
+    const float rivetRadius = std::max(2.0F, seatRadius * 0.13F);
+    const float rivetSpan = layout.portrait.radius + (edgePen * 0.5F);
+    const float diagonal = rivetSpan * 0.7071F;  // cos(45 degres)
+    painter.setBrush(accent);
+    painter.setPen(QPen(edge, innerPen));
+    for (const QPointF& offset : {QPointF(-diagonal, -diagonal), QPointF(diagonal, -diagonal),
+                                  QPointF(-diagonal, diagonal), QPointF(diagonal, diagonal)}) {
+        painter.drawEllipse(
+            QPointF(layout.portrait.centerX + offset.x(), layout.portrait.centerY + offset.y()),
+            rivetRadius, rivetRadius);
+    }
+
+    // Le tampon, en travers du bas du portrait. Incline : un cachet droit se lit comme une
+    // etiquette, un cachet penche se lit comme un geste.
+    if (!_stamp.isEmpty()) {
+        painter.save();
+        painter.translate(layout.portrait.centerX,
+                          layout.portrait.centerY + (layout.portrait.radius * 0.62F));
+        painter.rotate(-11.0);
+        const QFont stampFont = scaledFont(base, seatRadius * 0.52F, true);
+        const QFontMetrics stampMetrics(stampFont);
+        const int textWidth = stampMetrics.horizontalAdvance(_stamp);
+        const int padding = static_cast<int>(std::lround(seatRadius * 0.22F));
+        const QRectF box(-(textWidth / 2.0) - padding,
+                         -(stampMetrics.height() / 2.0) - (padding / 2.0),
+                         textWidth + (2.0 * padding), stampMetrics.height() + padding);
+        QColor stampInk = toColor(color.gem);
+        stampInk.setAlphaF(0.72F);
+        painter.setBrush(Qt::NoBrush);
+        painter.setPen(QPen(stampInk, std::max(1.0F, innerPen)));
+        painter.drawRect(box);
+        painter.drawRect(
+            box.adjusted(innerPen * 1.6, innerPen * 1.6, -innerPen * 1.6, -innerPen * 1.6));
+        painter.setFont(stampFont);
+        painter.setPen(stampInk);
+        painter.drawText(box, Qt::AlignCenter, _stamp);
+        painter.restore();
+    }
+
     // --- Les six médaillons --------------------------------------------------------------------
-    const QFont base = font();
     const QFont scoreFont = scaledFont(base, seatRadius * SCORE_TEXT_RATIO, true);
     const QFont modifierFont = scaledFont(base, seatRadius * MODIFIER_TEXT_RATIO, true);
     const QFont labelFont = scaledFont(base, seatRadius * LABEL_TEXT_RATIO, true);

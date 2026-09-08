@@ -124,8 +124,16 @@ std::map<std::string, std::string> characterSheetValues(const CharacterSheetCont
         valeurs["sheet.experience_next"] =
             std::to_string(context.experience->thresholdAt(fiche.level + 1));
         for (const auto& [caracteristique, suffixe] : ABILITIES) {
-            valeurs[std::string("sheet.save.") + suffixe] =
-                signe(core::savingThrowModifier(fiche, *context.experience, caracteristique));
+            const int sauvegarde =
+                core::savingThrowModifier(fiche, *context.experience, caracteristique);
+            valeurs[std::string("sheet.save.") + suffixe] = signe(sauvegarde);
+            // La maitrise SE VOIT sur la planche, sous forme de pastille pleine. Elle se lit ici a
+            // l'ecart entre la sauvegarde et le modificateur nu : une sauvegarde maitrisee ajoute
+            // le bonus de maitrise, une autre ne l'ajoute pas. Le jour ou un don ajoutera un autre
+            // bonus a une sauvegarde, cet ecart cessera de signifier la maitrise -- et c'est alors
+            // la REGLE qui devra la publier, pas cette soustraction.
+            valeurs[std::string("sheet.save.") + suffixe + ".proficient"] =
+                (sauvegarde != fiche.modifier(caracteristique)) ? "1" : "";
         }
     }
 

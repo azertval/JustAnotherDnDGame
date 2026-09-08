@@ -312,6 +312,34 @@
     color: ${identity.color.text};
     font-size: ${identity.size.body}px;
 }
+
+/* Trois roles propres a la PLANCHE de la fiche (LOT-38). Ils vivent ici et non dans le peintre
+   pour la meme raison que les autres : une taille ecrite en dur dans un widget ne suit plus le
+   theme, et il faut alors se souvenir de deux endroits. */
+
+/* Le niveau, en grand. C'est la seule valeur de la planche que l'on lit de loin -- elle repond a
+   « ou en est ce personnage » avant meme qu'on lise le reste. */
+#RpgScreenHost QLabel[rpgRole="bigValue"] {
+    color: ${identity.color.text};
+    font-family: ${identity.font.title};
+    font-size: ${identity.size.sectionTitle}px;
+    font-weight: bold;
+}
+
+/* Le filet d'or qui separe deux sections d'un panneau. Un QFrame en ligne horizontale prend
+   sinon la couleur de la palette systeme, qui n'est d'aucune portee. */
+#RpgScreenHost QFrame[rpgRole="hairline"] {
+    background-color: ${identity.color.accent};
+    border: none;
+}
+
+/* La ligne de signature du contreseing : de l'encre delavee, sur un filet pointille. Elle attend
+   une main, pas une valeur -- d'ou le tiret cadratin qu'elle porte. */
+#RpgScreenHost QLabel[rpgRole="signature"] {
+    color: ${identity.color.textMuted};
+    font-size: ${identity.size.body}px;
+    border-bottom: 1px dotted ${identity.color.frameOrnament};
+}
 #RpgScreenHost QLabel[rpgRole="prose"] {
     color: ${identity.color.textMuted};
     font-size: ${identity.size.body}px;

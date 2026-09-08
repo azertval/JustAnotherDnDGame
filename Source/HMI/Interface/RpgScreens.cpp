@@ -114,16 +114,30 @@ constexpr std::array TARGET_FIELDS = {
     RpgField{.labelKey = "rpg.field.conditions"},
 };
 
-// Les dix-huit competences du catalogue (LOT-43), dans son ordre. Leur INTITULE vient du lexique
-// et se pose par le presentateur : la liste ne porte donc que les identifiants de valeur, et
-// `hmi::characterSheetValues` produit un texte deja assemble -- << Acrobaties  +3 * >>.
-constexpr std::array SKILL_VALUE_IDS = {
-    "sheet.skill.acrobatics",      "sheet.skill.animal-handling", "sheet.skill.arcana",
-    "sheet.skill.athletics",       "sheet.skill.deception",       "sheet.skill.history",
-    "sheet.skill.insight",         "sheet.skill.intimidation",    "sheet.skill.investigation",
-    "sheet.skill.medicine",        "sheet.skill.nature",          "sheet.skill.perception",
-    "sheet.skill.performance",     "sheet.skill.persuasion",      "sheet.skill.religion",
-    "sheet.skill.sleight-of-hand", "sheet.skill.stealth",         "sheet.skill.survival",
+// Les dix-huit competences, LIBELLE COMPRIS. Le bloc ne portait que des identifiants de
+// valeur, et les lignes s'affichaient donc sans nom. Deduire le libelle de l'identifiant
+// aurait demande une transformation (`sleight-of-hand` -> `sleight_of_hand`) : une
+// correspondance devinee par manipulation de chaine, qui casse en silence a la premiere
+// competence dont l'identifiant ne suit pas la regle. La table les apparie, une fois.
+constexpr std::array SKILL_FIELDS = {
+    RpgField{.labelKey = "rpg.skill.acrobatics", .valueId = "sheet.skill.acrobatics"},
+    RpgField{.labelKey = "rpg.skill.animal_handling", .valueId = "sheet.skill.animal-handling"},
+    RpgField{.labelKey = "rpg.skill.arcana", .valueId = "sheet.skill.arcana"},
+    RpgField{.labelKey = "rpg.skill.athletics", .valueId = "sheet.skill.athletics"},
+    RpgField{.labelKey = "rpg.skill.deception", .valueId = "sheet.skill.deception"},
+    RpgField{.labelKey = "rpg.skill.history", .valueId = "sheet.skill.history"},
+    RpgField{.labelKey = "rpg.skill.insight", .valueId = "sheet.skill.insight"},
+    RpgField{.labelKey = "rpg.skill.intimidation", .valueId = "sheet.skill.intimidation"},
+    RpgField{.labelKey = "rpg.skill.investigation", .valueId = "sheet.skill.investigation"},
+    RpgField{.labelKey = "rpg.skill.medicine", .valueId = "sheet.skill.medicine"},
+    RpgField{.labelKey = "rpg.skill.nature", .valueId = "sheet.skill.nature"},
+    RpgField{.labelKey = "rpg.skill.perception", .valueId = "sheet.skill.perception"},
+    RpgField{.labelKey = "rpg.skill.performance", .valueId = "sheet.skill.performance"},
+    RpgField{.labelKey = "rpg.skill.persuasion", .valueId = "sheet.skill.persuasion"},
+    RpgField{.labelKey = "rpg.skill.religion", .valueId = "sheet.skill.religion"},
+    RpgField{.labelKey = "rpg.skill.sleight_of_hand", .valueId = "sheet.skill.sleight-of-hand"},
+    RpgField{.labelKey = "rpg.skill.stealth", .valueId = "sheet.skill.stealth"},
+    RpgField{.labelKey = "rpg.skill.survival", .valueId = "sheet.skill.survival"},
 };
 
 constexpr std::array CHARACTER_SHEET_LEFT = {
@@ -143,7 +157,7 @@ constexpr std::array CHARACTER_SHEET_RIGHT = {
                     .fields = SAVING_THROW_FIELDS},
     // Le catalogue en porte dix-huit (LOT-43) ; l'ossature les montre toutes, et défile.
     RpgContentBlock{
-        .titleKey = "rpg.block.skills", .kind = RpgBlockKind::List, .valueIds = SKILL_VALUE_IDS},
+        .titleKey = "rpg.block.skills", .kind = RpgBlockKind::Fields, .fields = SKILL_FIELDS},
 };
 
 constexpr std::array INVENTORY_LEFT = {

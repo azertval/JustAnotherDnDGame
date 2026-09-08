@@ -65,6 +65,15 @@ public:
     /// Pose le portrait. Un pixmap nul rend le marqueur du `LOT-39`.
     void setPortrait(const QPixmap& portrait);
 
+    /**
+     * @brief Pose le **tampon** posé en travers du portrait — « Enrôlé », déjà traduit.
+     *
+     * Il mord sur le portrait, et c'est tout son propos : un cachet qui chevauche la photographie
+     * est ce qui empêche de la remplacer, et ce qui fait d'une image encadrée une pièce d'identité
+     * plutôt qu'une illustration. Vide, aucun tampon n'est peint.
+     */
+    void setStamp(const QString& stamp);
+
     [[nodiscard]] QSize sizeHint() const override;
     [[nodiscard]] QSize minimumSizeHint() const override;
 
@@ -84,6 +93,7 @@ private:
     std::array<SeatText, ABILITY_SEAT_COUNT> _seats{};
     QString _name;
     QString _subtitle;
+    QString _stamp;
     QPixmap _portrait;
 };
 

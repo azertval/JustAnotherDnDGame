@@ -301,6 +301,7 @@ add_executable(JustAnotherDnDGame
     Interface/OrnamentPainter.cpp
     Interface/TitleBanner.cpp
     Interface/AbilityWheel.cpp
+    Interface/SheetWidgets.cpp
     Interface/RpgCharacterSheetPlate.cpp
     Interface/FocusMarker.cpp
     Interface/MenuEntryButton.cpp

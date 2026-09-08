@@ -3,15 +3,20 @@
 
 #include "HMI/Interface/RpgCharacterSheetPlate.h"
 
+#include <QFrame>
 #include <QGridLayout>
+#include <QHBoxLayout>
 #include <QKeyEvent>
 #include <QLabel>
+#include <QPainter>
+#include <QPen>
 #include <QPixmap>
 #include <QPushButton>
 #include <QScrollArea>
 #include <QSizePolicy>
 #include <QStringList>
 #include <QVBoxLayout>
+#include <algorithm>
 #include <array>
 #include <filesystem>
 #include <string_view>
@@ -20,6 +25,7 @@
 #include "HMI/Interface/ApplicationTheme.h"
 #include "HMI/Interface/KeyHintText.h"
 #include "HMI/Interface/MenuEntryButton.h"
+#include "HMI/Interface/SheetWidgets.h"
 #include "HMI/Interface/TitleBanner.h"
 #include "HMI/Localization/Localization.h"
 #include "HMI/Platform/ExecutableDirectory.h"
@@ -28,24 +34,34 @@
 namespace hmi {
 namespace {
 
-/// Le tiret cadratin, seul contenu d'un champ que rien n'alimente.
+/// Le tiret cadratin, seul contenu d'un champ que rien n'alimente. Jamais un zéro.
 const QString EMPTY_VALUE = QString::fromUtf8("—");
 
-/// Les deux blocs de l'ossature que la **roue** reprend, désignés par leur clé de titre. Les
-/// nommer ici et non par leur position : insérer un bloc dans la table ne doit pas déplacer ce que
-/// la planche rend autrement.
-constexpr std::string_view IDENTITY_BLOCK = "rpg.block.identity";
-constexpr std::string_view ABILITIES_BLOCK = "rpg.block.abilities";
-
-/// Les six caractéristiques, dans l'ordre des sièges de la roue -- qui est celui de la planche, et
-/// celui de `core::Ability`. La correspondance est positionnelle et le reste : la table des champs
-/// (`ABILITY_FIELDS`) suit le même ordre, et un test du `LOT-68` le tient.
+/// Les six caractéristiques, dans l'ordre des sièges de la roue — celui de la planche, et celui de
+/// `core::Ability`. Le même ordre sert aux six sauvegardes.
 constexpr std::array<std::string_view, ABILITY_SEAT_COUNT> ABILITY_SUFFIXES = {
     "strength", "dexterity", "constitution", "intelligence", "wisdom", "charisma"};
 
 constexpr std::array<const char*, ABILITY_SEAT_COUNT> ABILITY_LABEL_KEYS = {
     "rpg.ability.strength",     "rpg.ability.dexterity", "rpg.ability.constitution",
     "rpg.ability.intelligence", "rpg.ability.wisdom",    "rpg.ability.charisma"};
+
+/// Un médaillon de combat : son intitulé et son identifiant de valeur. Les identifiants sont ceux
+/// de `COMBAT_FIELDS` dans la table, mot pour mot — la planche n'en invente aucun.
+struct CombatDial {
+    const char* labelKey;
+    const char* valueId;
+};
+constexpr std::array<CombatDial, 4> COMBAT_DIALS = {{
+    {"rpg.field.initiative", "sheet.initiative"},
+    {"rpg.field.speed", "sheet.speed"},
+    {"rpg.field.proficiency_bonus", "sheet.proficiency_bonus"},
+    {"rpg.field.passive_perception", "sheet.passive_perception"},
+}};
+
+/// Clé de titre du bloc des compétences : la planche y prend l'ordre et les libellés des dix-huit
+/// lignes, plutôt que de tenir sa propre liste — qui divergerait de la table au premier ajout.
+constexpr std::string_view SKILLS_BLOCK = "rpg.block.skills";
 
 void setRole(QWidget* widget, const char* role) {
     widget->setProperty("rpgRole", QString::fromLatin1(role));
@@ -57,6 +73,20 @@ void setRole(QWidget* widget, const char* role) {
     return found == values.end() ? QString() : QString::fromStdString(found->second);
 }
 
+/// @return Le rapport @p numerator / @p denominator, ou 0 si l'un manque ou ne se lit pas. Jamais
+///         une jauge pleine par défaut : une barre pleine affirme quelque chose.
+[[nodiscard]] double ratioOf(const std::map<std::string, std::string>& values,
+                             const std::string& numerator, const std::string& denominator) {
+    bool numeratorOk = false;
+    bool denominatorOk = false;
+    const double top = valueOr(values, numerator).toDouble(&numeratorOk);
+    const double bottom = valueOr(values, denominator).toDouble(&denominatorOk);
+    if (!numeratorOk || !denominatorOk || bottom <= 0.0) {
+        return 0.0;
+    }
+    return top / bottom;
+}
+
 }  // namespace
 
 RpgCharacterSheetPlate::RpgCharacterSheetPlate(const RpgScreenDescriptor& descriptor,
@@ -66,34 +96,45 @@ RpgCharacterSheetPlate::RpgCharacterSheetPlate(const RpgScreenDescriptor& descri
       _descriptor(descriptor) {
     setObjectName(QString::fromLatin1(_descriptor.objectName));
     setAttribute(Qt::WA_StyledBackground, true);
-    // La planche reçoit le clavier elle-même : sans cela, `Échap` n'atteint jamais keyPressEvent
-    // quand le focus est sur un bouton qui ne gère pas cette touche.
     setFocusPolicy(Qt::StrongFocus);
     _ui->setupUi(this);
 
-    // Ni la zone defilante ni les rappels de touches ne doivent contraindre la fenetre : la
-    // planche est plus grande qu'un 1280x720 et le restera, mais un ecran ne decide pas de la
-    // taille de la fenetre (EX-IHM-080). Meme reglage que RpgScreenFrame, et pour la meme raison
-    // -- sans lui, la fenetre ne peut plus retrecir sous la taille de la roue et de ses panneaux.
+    const SpacingTokens& spacing = identityTokens().spacing;
+    const int scale = identityScale();
+    // La marge gauche est plus large que les trois autres : c'est la place de la souche perforée,
+    // le bord par lequel le feuillet a quitté son registre.
+    _ui->plateLayout->setContentsMargins(spacing.extraLarge * scale, spacing.medium * scale,
+                                         spacing.large * scale, spacing.medium * scale);
+
+    // Ni la zone défilante ni les rappels de touches ne contraignent la fenêtre (EX-IHM-080).
     _ui->bodyScroll->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
     _ui->hintsLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Preferred);
-
-    // Le bandeau ne s'etire PAS en hauteur : ses ailes suivent sa hauteur (LOT-76), et un bandeau
-    // etire sur la hauteur libre de la fenetre devient deux ailes d'or demesurees de part et
-    // d'autre d'une plaque restee fine. Le defaut se voit tout de suite, et seulement a l'ecran.
+    // Le bandeau ne s'étire pas : ses ailes suivent sa hauteur, et étiré il devient deux ailes
+    // démesurées autour d'une plaque restée fine.
     _ui->rpgTitle->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
-
-    // La roue prend la place qu'on lui donne. Sans ceci, les deux panneaux extensibles se
-    // partagent toute la largeur, la roue tombe sous son plancher de lisibilite et ne peint
-    // RIEN -- l'ecran parait alors vide en son centre, sans qu'aucune erreur ne soit levee.
     _ui->abilityWheel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
-    // Les poids de repartition, en code : la propriete `stretch` d'un `.ui` produit un appel que
-    // uic ne sait pas ecrire pour un QBoxLayout.
-    //
-    // En hauteur, TOUT l'espace libre va au corps (indice 1) : sinon l'en-tete se l'approprie et
-    // le bandeau s'etire. En largeur, 4 / 7 / 4 -- les proportions de la maquette, 320 / 560 / 320
-    // dans un 1280.
+    // Le matricule et le rang, à droite du bandeau. Le matricule est tiré à la création du
+    // personnage, le rang viendra de la Guilde (`LOT-45`) : ni l'un ni l'autre n'a de source
+    // aujourd'hui, et tous deux restent au tiret cadratin. Un « M-3-0417 » d'exemple se lirait
+    // comme un état du jeu et mentirait.
+    _ui->headerRow->setSpacing(spacing.large * scale);
+    auto* const stamps = new QHBoxLayout();
+    stamps->setSpacing(spacing.extraLarge * scale);
+    for (QLabel** slot : {&_matricule, &_rank}) {
+        auto* const caption = new QLabel(this);
+        setRole(caption, "field");
+        auto* const value = new QLabel(EMPTY_VALUE, this);
+        setRole(value, "value");
+        auto* const pair = new QHBoxLayout();
+        pair->setSpacing(spacing.small * scale);
+        pair->addWidget(caption);
+        pair->addWidget(value);
+        stamps->addLayout(pair);
+        *slot = caption;
+    }
+    _ui->headerRow->addLayout(stamps);
+
     _ui->plateLayout->setStretch(0, 0);
     _ui->plateLayout->setStretch(1, 1);
     _ui->plateLayout->setStretch(2, 0);
@@ -101,11 +142,10 @@ RpgCharacterSheetPlate::RpgCharacterSheetPlate(const RpgScreenDescriptor& descri
     _ui->bodyRow->setStretch(1, 7);
     _ui->bodyRow->setStretch(2, 4);
 
-    buildColumns();
+    buildLeftColumn();
+    buildRightColumn();
 
     connect(_ui->closeButton, &QPushButton::clicked, this, &RpgCharacterSheetPlate::closeRequested);
-    // Qt n'active `autoDefault` que sous un vrai QDialog. Sans ce réglage, un bouton qui a le
-    // focus ne répond qu'à Espace, jamais à Entrée -- même correctif que sur les écrans de menu.
     _ui->closeButton->setAutoDefault(true);
 }
 
@@ -115,72 +155,129 @@ QWidget* RpgCharacterSheetPlate::widget() {
     return this;
 }
 
-void RpgCharacterSheetPlate::buildColumns() {
-    for (const RpgContentBlock& block : _descriptor.layout.leftColumn) {
-        buildBlock(block, _ui->leftColumnLayout);
-    }
-    for (const RpgContentBlock& block : _descriptor.layout.rightColumn) {
-        buildBlock(block, _ui->rightColumnLayout);
-    }
-    _ui->leftColumnLayout->addStretch(1);
-    _ui->rightColumnLayout->addStretch(1);
+QLabel* RpgCharacterSheetPlate::addHeading(QVBoxLayout* column, const char* key) {
+    auto* const heading = new QLabel(this);
+    setRole(heading, "block");
+    column->addWidget(heading);
+    _translated.push_back({.label = heading, .key = key});
+    return heading;
 }
 
-void RpgCharacterSheetPlate::buildBlock(const RpgContentBlock& block, QVBoxLayout* column) {
-    const std::string_view title = block.titleKey;
-    if (title == IDENTITY_BLOCK || title == ABILITIES_BLOCK) {
-        return;  // La roue les porte : les rendre aussi en lignes les afficherait deux fois.
+void RpgCharacterSheetPlate::addHairline(QVBoxLayout* column) {
+    auto* const line = new QFrame(this);
+    line->setFrameShape(QFrame::HLine);
+    line->setFrameShadow(QFrame::Plain);
+    line->setFixedHeight(std::max(1, identityScale()));
+    setRole(line, "hairline");
+    column->addWidget(line);
+}
+
+void RpgCharacterSheetPlate::buildLeftColumn() {
+    const SpacingTokens& spacing = identityTokens().spacing;
+    const int scale = identityScale();
+    QVBoxLayout* const column = _ui->leftColumnLayout;
+    column->setSpacing(spacing.small * scale);
+
+    addHeading(column, "rpg.block.progression");
+
+    // Le niveau en grand, l'expérience en jauge à côté : la composition de la planche, qui dit d'un
+    // coup d'œil où l'on en est sans demander de comparer deux nombres.
+    auto* const progression = new QHBoxLayout();
+    progression->setSpacing(spacing.large * scale);
+    auto* const levelBlock = new QVBoxLayout();
+    levelBlock->setSpacing(0);
+    // Le bloc du niveau reclame sa largeur : sans elle, la jauge d'experience -- extensible --
+    // prend tout, et le chiffre du niveau se retrouve rogne a mi-hauteur.
+    levelBlock->setContentsMargins(0, 0, spacing.small * scale, 0);
+    auto* const levelCaption = new QLabel(this);
+    setRole(levelCaption, "field");
+    _levelValue = new QLabel(EMPTY_VALUE, this);
+    setRole(_levelValue, "bigValue");
+    _levelValue->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    _levelValue->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
+    levelBlock->addWidget(levelCaption);
+    levelBlock->addWidget(_levelValue);
+    _translated.push_back({.label = levelCaption, .key = "rpg.field.level"});
+    progression->addLayout(levelBlock);
+
+    _experienceGauge = new SheetGauge(SheetGauge::Tone::Progress, this);
+    progression->addWidget(_experienceGauge, 1);
+    column->addLayout(progression);
+
+    _vitalityGauge = new SheetGauge(SheetGauge::Tone::Vitality, this);
+    column->addWidget(_vitalityGauge);
+
+    addHairline(column);
+    addHeading(column, "rpg.block.saving_throws");
+    for (PipRow*& row : _saves) {
+        row = new PipRow(this);
+        column->addWidget(row);
     }
 
-    if (block.titleKey[0] != '\0') {
-        auto* const heading = new QLabel(this);
-        setRole(heading, "block");
-        column->addWidget(heading);
-        _translated.push_back({.label = heading, .key = block.titleKey});
-    }
+    column->addStretch(1);
 
-    switch (block.kind) {
-        case RpgBlockKind::Fields: {
-            auto* const grid = new QGridLayout();
-            int row = 0;
-            for (const RpgField& field : block.fields) {
-                auto* const label = new QLabel(this);
-                setRole(label, "field");
-                auto* const value = new QLabel(EMPTY_VALUE, this);
-                setRole(value, "value");
-                grid->addWidget(label, row, 0);
-                grid->addWidget(value, row, 1);
-                _translated.push_back({.label = label, .key = field.labelKey});
-                if (field.valueId[0] != '\0') {
-                    _values.push_back({.label = value, .valueId = field.valueId});
-                }
-                ++row;
-            }
-            grid->setColumnStretch(1, 1);
-            column->addLayout(grid);
-            break;
-        }
-        case RpgBlockKind::List: {
-            for (const char* const valueId : block.valueIds) {
-                auto* const value = new QLabel(EMPTY_VALUE, this);
-                setRole(value, "value");
-                column->addWidget(value);
-                if (valueId[0] != '\0') {
-                    _values.push_back({.label = value, .valueId = valueId});
-                }
-            }
-            break;
-        }
-        case RpgBlockKind::Grid:
-        case RpgBlockKind::Prose:
-        case RpgBlockKind::Portrait:
-        case RpgBlockKind::Track:
-        case RpgBlockKind::ActionBar:
-            // Aucun de ces genres n'est sur la fiche. Les rendre « au cas où » poserait des cases
-            // vides qu'aucune donnée ne remplirait, et le prochain lecteur les prendrait pour un
-            // manque plutôt que pour du code sans emploi.
-            break;
+    // Le contreseing ferme le panneau : c'est ce qui fait du feuillet une pièce délivrée plutôt
+    // qu'une fiche imprimée. Les deux lignes restent au tiret — rien ne les alimente.
+    addHairline(column);
+    auto* const countersign = new QHBoxLayout();
+    countersign->setSpacing(spacing.medium * scale);
+    auto* const lines = new QVBoxLayout();
+    lines->setSpacing(spacing.small * scale);
+    for (QLabel** slot : {&_enlistedOn, &_countersigned}) {
+        auto* const caption = new QLabel(this);
+        setRole(caption, "field");
+        auto* const rule = new QLabel(EMPTY_VALUE, this);
+        setRole(rule, "signature");
+        lines->addWidget(caption);
+        lines->addWidget(rule);
+        *slot = caption;
     }
+    countersign->addLayout(lines, 1);
+    countersign->addWidget(new WaxSeal(this), 0, Qt::AlignBottom);
+    column->addLayout(countersign);
+}
+
+void RpgCharacterSheetPlate::buildRightColumn() {
+    const SpacingTokens& spacing = identityTokens().spacing;
+    const int scale = identityScale();
+    QVBoxLayout* const column = _ui->rightColumnLayout;
+    column->setSpacing(spacing.small * scale);
+
+    addHeading(column, "rpg.block.combat");
+
+    // L'écu porte la classe d'armure, les quatre médaillons portent le reste. Les points de vie
+    // sont passés à GAUCHE, en jauge : c'est la seule valeur de combat qui change en jouant, et
+    // une jauge la donne d'un coup d'œil là où un nombre demande une comparaison.
+    auto* const defence = new QHBoxLayout();
+    defence->setSpacing(spacing.medium * scale);
+    _armorClass = new ShieldValue(this);
+    defence->addWidget(_armorClass, 0, Qt::AlignTop);
+
+    auto* const dials = new QGridLayout();
+    dials->setSpacing(spacing.small * scale);
+    for (std::size_t index = 0; index < COMBAT_DIALS.size(); ++index) {
+        auto* const dial = new StatMedallion(this);
+        dials->addWidget(dial, static_cast<int>(index / 2), static_cast<int>(index % 2));
+        _combat.at(index) = dial;
+    }
+    defence->addLayout(dials, 1);
+    column->addLayout(defence);
+
+    addHairline(column);
+    addHeading(column, "rpg.block.skills");
+
+    // Les dix-huit lignes viennent de la TABLE, avec leur libellé : la planche n'en devine aucune.
+    for (const RpgContentBlock& block : _descriptor.layout.rightColumn) {
+        if (std::string_view(block.titleKey) != SKILLS_BLOCK) {
+            continue;
+        }
+        for ([[maybe_unused]] const RpgField& field : block.fields) {
+            auto* const row = new PipRow(this);
+            column->addWidget(row);
+            _skills.push_back(row);
+        }
+    }
+    column->addStretch(1);
 }
 
 void RpgCharacterSheetPlate::retranslateUi(const Localization& loc) {
@@ -188,6 +285,7 @@ void RpgCharacterSheetPlate::retranslateUi(const Localization& loc) {
 
     _ui->rpgTitle->setText(t(_descriptor.titleKey));
     _ui->registryLabel->setText(t("rpg.plate.registry"));
+    _ui->abilityWheel->setStamp(t("rpg.plate.enlisted_stamp"));
     _ui->closeButton->setText(t("rpg.chassis.close"));
     _ui->hintsLabel->setText(QString::fromStdString(hmi::keyHintText(
         {
@@ -197,29 +295,88 @@ void RpgCharacterSheetPlate::retranslateUi(const Localization& loc) {
         },
         hmi::identityTokens(), hmi::identityScale())));
 
+    _matricule->setText(t("rpg.plate.matricule"));
+    _rank->setText(t("rpg.plate.rank"));
+    _enlistedOn->setText(t("rpg.plate.enlisted_on"));
+    _countersigned->setText(t("rpg.plate.countersigned"));
+
     for (const TranslatedLabel& entry : _translated) {
         entry.label->setText(t(entry.key));
     }
 
-    // Les libellés des six sièges sont PEINTS par la roue, pas portés par des étiquettes : ils ne
-    // peuvent pas passer par `_translated`, et doivent être retenus pour être repassés à chaque
-    // changement de valeurs.
+    _experienceGauge->setLabel(t("rpg.field.experience"));
+    _vitalityGauge->setLabel(t("rpg.field.hit_points"));
+    _armorClass->setCaption(t("rpg.field.armor_class"));
+    for (std::size_t index = 0; index < COMBAT_DIALS.size(); ++index) {
+        _combat.at(index)->setCaption(t(COMBAT_DIALS.at(index).labelKey));
+    }
     for (std::size_t index = 0; index < ABILITY_SEAT_COUNT; ++index) {
         _abilityLabels.at(index) = t(ABILITY_LABEL_KEYS.at(index));
+        _saves.at(index)->setLabel(_abilityLabels.at(index));
     }
 
-    // Les libellés des six sièges vivent sur la roue, qui les peint : elle doit donc être
-    // repassée après un changement de langue, avec ses valeurs.
+    std::size_t skillIndex = 0;
+    for (const RpgContentBlock& block : _descriptor.layout.rightColumn) {
+        if (std::string_view(block.titleKey) != SKILLS_BLOCK) {
+            continue;
+        }
+        for (const RpgField& field : block.fields) {
+            if (skillIndex < _skills.size()) {
+                _skills.at(skillIndex)->setLabel(t(field.labelKey));
+            }
+            ++skillIndex;
+        }
+    }
+
     applyWheelValues();
 }
 
 void RpgCharacterSheetPlate::setValues(const std::map<std::string, std::string>& values) {
     _lastValues = values;
-    for (const ValueLabel& entry : _values) {
-        const auto found = values.find(entry.valueId);
-        entry.label->setText(found == values.end() ? EMPTY_VALUE
-                                                   : QString::fromStdString(found->second));
+
+    const QString level = valueOr(values, "sheet.level");
+    _levelValue->setText(level.isEmpty() ? EMPTY_VALUE : level);
+
+    // La jauge d'expérience se remplit vers le SEUIL DU NIVEAU SUIVANT, jamais vers un maximum
+    // absolu : c'est ce que « progresser » veut dire ici.
+    _experienceGauge->setValue(valueOr(values, "sheet.experience") + " / " +
+                               valueOr(values, "sheet.experience_next"));
+    _experienceGauge->setFill(ratioOf(values, "sheet.experience", "sheet.experience_next"));
+
+    _vitalityGauge->setValue(valueOr(values, "sheet.hit_points"));
+    _vitalityGauge->setFill(ratioOf(values, "sheet.hit_points_current", "sheet.hit_points_max"));
+
+    _armorClass->setValue(valueOr(values, "sheet.armor_class"));
+    for (std::size_t index = 0; index < COMBAT_DIALS.size(); ++index) {
+        _combat.at(index)->setValue(valueOr(values, COMBAT_DIALS.at(index).valueId));
     }
+
+    for (std::size_t index = 0; index < ABILITY_SEAT_COUNT; ++index) {
+        const std::string root = "sheet.save." + std::string(ABILITY_SUFFIXES.at(index));
+        _saves.at(index)->setValue(valueOr(values, root));
+        _saves.at(index)->setProficient(!valueOr(values, root + ".proficient").isEmpty());
+    }
+
+    std::size_t skillIndex = 0;
+    for (const RpgContentBlock& block : _descriptor.layout.rightColumn) {
+        if (std::string_view(block.titleKey) != SKILLS_BLOCK) {
+            continue;
+        }
+        for (const RpgField& field : block.fields) {
+            if (skillIndex < _skills.size()) {
+                const std::string id = field.valueId;
+                // La valeur de texte porte encore la maîtrise en caractère (« +4 • ») pour les
+                // écrans qui l'affichent en liste. La planche, elle, lit le DRAPEAU et dessine la
+                // forme : le caractère ferait doublon avec la pastille peinte.
+                const QString reading = valueOr(values, id).split(QString::fromUtf8(" •")).first();
+                _skills.at(skillIndex)->setValue(reading);
+                _skills.at(skillIndex)
+                    ->setProficient(!valueOr(values, id + ".proficient").isEmpty());
+            }
+            ++skillIndex;
+        }
+    }
+
     applyWheelValues();
 }
 
@@ -227,20 +384,18 @@ void RpgCharacterSheetPlate::applyWheelValues() {
     AbilityWheel* const wheel = _ui->abilityWheel;
 
     const QString name = valueOr(_lastValues, "sheet.name");
-    const QString species = valueOr(_lastValues, "sheet.species");
-    const QString characterClass = valueOr(_lastValues, "sheet.class");
-    const QString background = valueOr(_lastValues, "sheet.background");
     QStringList parts;
-    for (const QString& part : {species, characterClass, background}) {
+    for (const QString& part :
+         {valueOr(_lastValues, "sheet.species"), valueOr(_lastValues, "sheet.class"),
+          valueOr(_lastValues, "sheet.background")}) {
         if (!part.isEmpty() && part != EMPTY_VALUE) {
             parts << part;
         }
     }
     wheel->setIdentity(name.isEmpty() ? EMPTY_VALUE : name, parts.join(QString::fromUtf8("  ·  ")));
 
-    // Le portrait est designe par une CLE d'asset (`character/<id>`, LOT-39), jamais par un
-    // chemin : la fiche ne sait pas ou les illustrations sont rangees, et n'a pas a le savoir.
-    // C'est ici, au bord de l'interface, que la cle devient un fichier.
+    // Le portrait est désigné par une CLÉ d'asset (`character/<id>`, `LOT-39`), jamais par un
+    // chemin : la fiche ne sait pas où les illustrations sont rangées, et n'a pas à le savoir.
     const QString portraitKey = valueOr(_lastValues, "sheet.portrait");
     if (portraitKey != _loadedPortraitKey) {
         _loadedPortraitKey = portraitKey;
@@ -248,9 +403,8 @@ void RpgCharacterSheetPlate::applyWheelValues() {
         if (!portraitKey.isEmpty()) {
             const std::filesystem::path file = hmi::executableDirectory() / "Assets" / "Entities" /
                                                (portraitKey.toStdString() + ".png");
-            // Un chargement rate laisse le pixmap NUL, et la roue rend alors le marqueur du
-            // LOT-39. C'est exactement ce qu'il faut : une illustration absente est un etat
-            // d'avancement, pas une panne, et elle doit se lire comme tel.
+            // Un chargement raté laisse le pixmap NUL, et la roue rend alors le marqueur du
+            // `LOT-39` : une illustration absente est un état d'avancement, pas une panne.
             portrait.load(QString::fromStdString(file.string()));
         }
         wheel->setPortrait(portrait);
@@ -261,6 +415,44 @@ void RpgCharacterSheetPlate::applyWheelValues() {
         wheel->setSeat(wheelSeatAt(index), _abilityLabels.at(index),
                        valueOr(_lastValues, root + ".score"),
                        valueOr(_lastValues, root + ".modifier"));
+    }
+}
+
+void RpgCharacterSheetPlate::paintEvent(QPaintEvent* event) {
+    QWidget::paintEvent(event);
+
+    QPainter painter(this);
+    painter.setRenderHint(QPainter::Antialiasing, true);
+    const ColorTokens& color = identityTokens().color;
+    const int scale = identityScale();
+    const QColor ornament(color.frameOrnament.r, color.frameOrnament.g, color.frameOrnament.b);
+    const QColor ground(color.background.r, color.background.g, color.background.b);
+
+    const QRect body = _ui->bodyScroll->geometry();
+    const int gap = identityTokens().spacing.small * scale;
+
+    // Les deux filets d'or, sous l'en-tête et au-dessus du pied. Ils tiennent les trois zones
+    // ensemble : sans eux, le titre et le pied flottent sur le parchemin.
+    painter.setPen(QPen(ornament, std::max(1, scale)));
+    painter.drawLine(body.left(), body.top() - gap, body.right(), body.top() - gap);
+    painter.drawLine(body.left(), body.bottom() + gap, body.right(), body.bottom() + gap);
+
+    // La souche perforée : le bord par lequel le feuillet a quitté son registre. Un trait rompu,
+    // et cinq trous en creux.
+    const int dashX = identityTokens().spacing.medium * scale;
+    QPen dashed(ornament, std::max(1, scale));
+    dashed.setDashPattern({3.0, 3.0});
+    painter.setPen(dashed);
+    painter.drawLine(dashX, body.top(), dashX, body.bottom());
+
+    const int holeSide = 4 * scale;
+    const int holeX = dashX - (holeSide + (2 * scale));
+    constexpr int HOLE_COUNT = 5;
+    painter.setPen(Qt::NoPen);
+    painter.setBrush(ground.darker(112));
+    for (int index = 0; index < HOLE_COUNT; ++index) {
+        const int y = body.top() + ((body.height() * (index + 1)) / (HOLE_COUNT + 1));
+        painter.drawEllipse(QRect(holeX, y - (holeSide / 2), holeSide, holeSide));
     }
 }
 
