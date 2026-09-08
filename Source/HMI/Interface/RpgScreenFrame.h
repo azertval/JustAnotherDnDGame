@@ -8,6 +8,7 @@
 #include <string>
 #include <vector>
 
+#include "HMI/Interface/RpgScreenSurface.h"
 #include "HMI/Interface/RpgScreens.h"
 
 /**
@@ -39,7 +40,7 @@ class TitleBanner;
  * Ce châssis ne connaît **aucun** écran par son nom. Il reçoit un descripteur, en peint l'ossature,
  * et n'émet que des intentions — `hmi::RpgScreenHost` décide où elles mènent.
  */
-class RpgScreenFrame : public QWidget {
+class RpgScreenFrame : public QWidget, public RpgScreenSurface {
     Q_OBJECT
 
 public:
@@ -49,7 +50,7 @@ public:
 
     /// Applique la langue active à tous les libellés : titre d'écran, titres de blocs, libellés de
     /// champs, boutons et rappels de touches.
-    void retranslateUi(const Localization& loc);
+    void retranslateUi(const Localization& loc) override;
 
     /**
      * @brief Remplit les valeurs de l'écran (`LOT-38`).
@@ -63,11 +64,16 @@ public:
      * n'a pas de source » de « ce champ vaut zéro », et les confondre ferait lire un personnage
      * sans sorts comme un personnage dont les sorts sont épuisés.
      */
-    void setValues(const std::map<std::string, std::string>& values);
+    void setValues(const std::map<std::string, std::string>& values) override;
 
     /// Donne le focus clavier à la première entrée du pied d'actions — porte d'entrée du parcours
     /// de focus à la manette (`EX-IHM-071`), même patron que `PauseScreen::focusDefaultAction`.
-    void focusDefaultAction();
+    void focusDefaultAction() override;
+
+    /// @return Ce widget : le chassis EST la surface (`hmi::RpgScreenSurface`).
+    [[nodiscard]] QWidget* widget() override {
+        return this;
+    }
 
     /// @return L'écran peint par ce châssis.
     [[nodiscard]] RpgScreenId screen() const {

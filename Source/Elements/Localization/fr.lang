@@ -462,6 +462,10 @@ dock.planes = Plans
 # donc des EMPLACEMENTS, jamais des valeurs -- toute valeur affichee est le tiret de `rpg.empty`.
 rpg.empty = —
 rpg.chassis.close = Fermer
+
+# Bandeau de la planche de la fiche (LOT-38) : le bureau qui delivre le feuillet. C'est ce qui
+# fait lire la fiche comme une piece d'identite et non comme un tableau de nombres.
+rpg.plate.registry = Registre des mercenaires · Bureau des contrats
 rpg.chassis.previous_screen = Écran précédent
 rpg.chassis.next_screen = Écran suivant
 

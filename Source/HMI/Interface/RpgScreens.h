@@ -130,9 +130,22 @@ struct RpgScreenLayout {
  * description de l'écran qui dit comment il se rend, exactement comme elle dit s'il suspend la
  * simulation.
  */
+enum class RpgRendering {
+    /// L'ossature en deux colonnes, peinte par `hmi::RpgScreenFrame`. Le défaut, et ce qui permet
+    /// à un neuvième écran de ne coûter qu'une ligne de table.
+    GenericSkeleton,
+    /// Une **planche** décrite en Qt Designer, pour l'écran qui a une maquette gravée. Le châssis,
+    /// la navigation et le pied d'actions restent ceux des autres.
+    DesignerPlate,
+};
+
 /// Description complète d'un écran du RPG.
 struct RpgScreenDescriptor {
     RpgScreenId id = RpgScreenId::CharacterSheet;
+    /// Comment cet écran se rend. Dans la **table**, et non deviné par le code qui construit les
+    /// écrans : c'est la description de l'écran qui le dit, exactement comme elle dit s'il suspend
+    /// la simulation.
+    RpgRendering rendering = RpgRendering::GenericSkeleton;
     /// `objectName` du widget, **ciblé par le thème** (`theme-identity.qss`). Un nom, jamais un
     /// indice : insérer un écran dans l'énumération ne doit pas déplacer l'habillage d'un autre.
     const char* objectName = "";

@@ -252,7 +252,12 @@ constexpr std::array TEAM_SHEET_RIGHT = {
 // C'est ELLE, et rien d'autre, qu'un neuvième écran vient allonger (EX-IHM-090) : le châssis Qt ne
 // connaît aucun écran par son nom, il peint ce que cette table décrit.
 constexpr std::array<RpgScreenDescriptor, RPG_SCREEN_COUNT> SCREENS = {{
+    // Le seul écran qui a une maquette gravée -- les cinq planches de la feuille du corpus -- et
+    // le seul, donc, à recevoir sa planche plutôt que l'ossature en deux colonnes. Son ossature
+    // reste néanmoins décrite ici : elle nomme les champs, et c'est elle qui dit ce que la planche
+    // doit afficher. Les deux ne se contredisent pas, elles répondent à deux questions.
     {.id = RpgScreenId::CharacterSheet,
+     .rendering = RpgRendering::DesignerPlate,
      .objectName = "RpgCharacterSheetScreen",
      .titleKey = "rpg.character_sheet.title",
      .superposition = RpgSuperposition::PausesGame,

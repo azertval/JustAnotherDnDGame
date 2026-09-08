@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>RpgCharacterSheetPlate</class>
+ <widget class="QWidget" name="RpgCharacterSheetPlate">
+  <layout class="QVBoxLayout" name="plateLayout">
+   <!-- La planche de la fiche de personnage (LOT-38, EX-IHM-090).
+
+        Ce fichier ne porte que la STRUCTURE : l'en-tete, les trois colonnes, le pied. Les lignes
+        de champs, elles, viennent de la table des ecrans (hmi::rpgScreens) et sont construites par
+        RpgCharacterSheetPlate. Les ecrire ici les dupliquerait, et un champ ajoute a la table
+        n'apparaitrait pas — le defaut exact que le chassis du LOT-68 existe pour eviter. -->
+   <item>
+    <layout class="QHBoxLayout" name="headerRow">
+     <item>
+      <widget class="hmi::TitleBanner" name="rpgTitle">
+       <property name="text"><string/></property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="headerSpacer">
+       <property name="orientation"><enum>Qt::Horizontal</enum></property>
+      </spacer>
+     </item>
+     <item>
+      <!-- Le registre qui delivre le feuillet. Vide ici : retranslateUi le remplit. -->
+      <widget class="QLabel" name="registryLabel">
+       <property name="text"><string/></property>
+       <property name="alignment"><set>Qt::AlignRight|Qt::AlignVCenter</set></property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+
+   <item>
+    <layout class="QHBoxLayout" name="bodyRow">
+     <item>
+      <!-- Colonne gauche : les blocs de la colonne gauche de la table, moins les caracteristiques
+           que la roue reprend. -->
+      <widget class="hmi::ParchmentPanel" name="leftPanel">
+       <layout class="QVBoxLayout" name="leftColumnLayout"/>
+      </widget>
+     </item>
+     <item>
+      <!-- La roue porte le portrait, les six caracteristiques ET le nom : l'ouverture de son arc
+           existe pour lui, et l'en sortir le decrocherait au premier changement de taille. -->
+      <widget class="hmi::AbilityWheel" name="abilityWheel"/>
+     </item>
+     <item>
+      <widget class="hmi::ParchmentPanel" name="rightPanel">
+       <layout class="QVBoxLayout" name="rightColumnLayout"/>
+      </widget>
+     </item>
+    </layout>
+   </item>
+
+   <item>
+    <layout class="QHBoxLayout" name="footerRow">
+     <item>
+      <!-- Une seule entree permanente : « Fermer ». Les deux boutons d'ecran precedent/suivant ont
+           quitte le pied — la navigation entre ecrans se fait par les rappels de touches, et deux
+           chemins pour le meme deplacement obligent a se demander lequel fait quoi. -->
+      <widget class="hmi::MenuEntryButton" name="closeButton">
+       <property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property>
+       <property name="text"><string/></property>
+       <property name="flat"><bool>true</bool></property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="footerSpacer">
+       <property name="orientation"><enum>Qt::Horizontal</enum></property>
+      </spacer>
+     </item>
+     <item>
+      <!-- Rappels de touches : texte enrichi compose en code depuis les jetons (hmi::keyHintText).
+           Ils ne contraignent pas la largeur — une aide ne decide pas de la taille d'une fenetre,
+           elle s'efface quand la place manque (LOT-68). -->
+      <widget class="QLabel" name="hintsLabel">
+       <property name="text"><string/></property>
+       <property name="textFormat"><enum>Qt::RichText</enum></property>
+       <property name="alignment"><set>Qt::AlignRight|Qt::AlignVCenter</set></property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>hmi::TitleBanner</class>
+   <extends>QLabel</extends>
+   <header>HMI/Interface/TitleBanner.h</header>
+  </customwidget>
+  <customwidget>
+   <class>hmi::ParchmentPanel</class>
+   <extends>QWidget</extends>
+   <header>HMI/Interface/ParchmentPanel.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>hmi::MenuEntryButton</class>
+   <extends>QPushButton</extends>
+   <header>HMI/Interface/MenuEntryButton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>hmi::AbilityWheel</class>
+   <extends>QWidget</extends>
+   <header>HMI/Interface/AbilityWheel.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

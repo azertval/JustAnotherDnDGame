@@ -6,6 +6,7 @@
 #include <QStackedWidget>
 #include <QVBoxLayout>
 
+#include "HMI/Interface/RpgCharacterSheetPlate.h"
 #include "HMI/Interface/RpgScreenFrame.h"
 #include "HMI/Localization/Localization.h"
 
@@ -23,48 +24,63 @@ RpgScreenHost::RpgScreenHost(QWidget* parent) : QWidget(parent) {
     // La table décide, pas ce code : aucun écran n'est nommé ici, et un neuvième descripteur
     // suffirait à le voir apparaître dans la pile et dans le cycle (EX-IHM-090).
     for (const RpgScreenDescriptor& descriptor : rpgScreens()) {
-        auto* const frame = new RpgScreenFrame(descriptor, _stack);
-        connect(frame, &RpgScreenFrame::closeRequested, this, &RpgScreenHost::closeRequested);
-        connect(frame, &RpgScreenFrame::nextScreenRequested, this, &RpgScreenHost::showNextScreen);
-        connect(frame, &RpgScreenFrame::previousScreenRequested, this,
-                &RpgScreenHost::showPreviousScreen);
-        _frames.insert(static_cast<int>(descriptor.id), frame);
-        _stack->addWidget(frame);
+        // Le genre de rendu est lu dans la TABLE, et le branchement se fait ici -- une seule fois.
+        // Le reste de cet hote ne manipule que des `RpgScreenSurface` : sans cela, il faudrait
+        // brancher sur le genre a la traduction, aux valeurs, au focus et a l'affichage, et le
+        // cinquieme endroit serait oublie le jour d'une seconde planche.
+        RpgScreenSurface* surface = nullptr;
+        if (descriptor.rendering == RpgRendering::DesignerPlate) {
+            auto* const plate = new RpgCharacterSheetPlate(descriptor, _stack);
+            connect(plate, &RpgCharacterSheetPlate::closeRequested, this,
+                    &RpgScreenHost::closeRequested);
+            surface = plate;
+        } else {
+            auto* const frame = new RpgScreenFrame(descriptor, _stack);
+            connect(frame, &RpgScreenFrame::closeRequested, this, &RpgScreenHost::closeRequested);
+            connect(frame, &RpgScreenFrame::nextScreenRequested, this,
+                    &RpgScreenHost::showNextScreen);
+            connect(frame, &RpgScreenFrame::previousScreenRequested, this,
+                    &RpgScreenHost::showPreviousScreen);
+            surface = frame;
+        }
+        _frames.insert(static_cast<int>(descriptor.id), surface);
+        _stack->addWidget(surface->widget());
     }
     _current = rpgScreens().front().id;
 }
 
 void RpgScreenHost::retranslateUi(const Localization& loc) {
-    for (RpgScreenFrame* const frame : _frames) {
-        frame->retranslateUi(loc);
+    for (RpgScreenSurface* const surface : _frames) {
+        surface->retranslateUi(loc);
     }
     // Les valeurs sont reposées après la langue : `retranslateUi` remet tout au tiret cadratin,
     // et sans ce rejeu un changement de langue viderait une fiche remplie.
     for (auto entree = _screenValues.constBegin(); entree != _screenValues.constEnd(); ++entree) {
-        if (RpgScreenFrame* const frame = _frames.value(entree.key(), nullptr); frame != nullptr) {
-            frame->setValues(entree.value());
+        if (RpgScreenSurface* const surface = _frames.value(entree.key(), nullptr);
+            surface != nullptr) {
+            surface->setValues(entree.value());
         }
     }
 }
 
 void RpgScreenHost::setValues(RpgScreenId screen,
                               const std::map<std::string, std::string>& values) {
-    if (RpgScreenFrame* const frame = _frames.value(static_cast<int>(screen), nullptr);
-        frame != nullptr) {
-        frame->setValues(values);
+    if (RpgScreenSurface* const surface = _frames.value(static_cast<int>(screen), nullptr);
+        surface != nullptr) {
+        surface->setValues(values);
     }
     // Retenues, parce qu'un changement de langue les rejoue (`retranslateUi`).
     _screenValues.insert(static_cast<int>(screen), values);
 }
 
 void RpgScreenHost::showScreen(RpgScreenId screen) {
-    RpgScreenFrame* const frame = _frames.value(static_cast<int>(screen), nullptr);
-    if (frame == nullptr) {
+    RpgScreenSurface* const surface = _frames.value(static_cast<int>(screen), nullptr);
+    if (surface == nullptr) {
         return;
     }
     _current = screen;
-    _stack->setCurrentWidget(frame);
-    frame->focusDefaultAction();
+    _stack->setCurrentWidget(surface->widget());
+    surface->focusDefaultAction();
     emit screenChanged(screen);
 }
 
@@ -77,9 +93,9 @@ void RpgScreenHost::showPreviousScreen() {
 }
 
 void RpgScreenHost::focusDefaultAction() {
-    if (RpgScreenFrame* const frame = _frames.value(static_cast<int>(_current), nullptr);
-        frame != nullptr) {
-        frame->focusDefaultAction();
+    if (RpgScreenSurface* const surface = _frames.value(static_cast<int>(_current), nullptr);
+        surface != nullptr) {
+        surface->focusDefaultAction();
     }
 }
 

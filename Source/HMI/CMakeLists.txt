@@ -301,6 +301,7 @@ add_executable(JustAnotherDnDGame
     Interface/OrnamentPainter.cpp
     Interface/TitleBanner.cpp
     Interface/AbilityWheel.cpp
+    Interface/RpgCharacterSheetPlate.cpp
     Interface/FocusMarker.cpp
     Interface/MenuEntryButton.cpp
     Interface/ThemeIcons.cpp
@@ -334,6 +335,7 @@ add_executable(JustAnotherDnDGame
     ${ELEMENTS_UI}/MainWindow.ui
     ${ELEMENTS_UI}/MainMenu.ui
     ${ELEMENTS_UI}/PauseScreen.ui
+    ${ELEMENTS_UI}/RpgCharacterSheetPlate.ui
     ${ELEMENTS_UI}/CreditsScreen.ui
     ${ELEMENTS_UI}/OptionsPage.ui
     ${ELEMENTS_UI}/TexturePanel.ui

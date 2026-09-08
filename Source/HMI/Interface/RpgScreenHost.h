@@ -21,6 +21,7 @@ namespace hmi {
 
 class Localization;
 class RpgScreenFrame;
+class RpgScreenSurface;
 
 /**
  * @brief Héberge les écrans du RPG et fait passer de l'un à l'autre **sans repasser par le menu**.
@@ -72,7 +73,9 @@ signals:
 
 private:
     QStackedWidget* _stack = nullptr;
-    QHash<int, RpgScreenFrame*> _frames;  ///< `RpgScreenId` (en entier) -> châssis construit.
+    /// `RpgScreenId` (en entier) -> la surface construite, chassis generique ou planche. L'hote
+    /// ne sait pas laquelle il tient, et c'est le but.
+    QHash<int, RpgScreenSurface*> _frames;
     RpgScreenId _current = RpgScreenId::CharacterSheet;
     /// Dernières valeurs de chaque écran, rejouées après un changement de langue : sans elles,
     /// changer de langue viderait une fiche remplie.
