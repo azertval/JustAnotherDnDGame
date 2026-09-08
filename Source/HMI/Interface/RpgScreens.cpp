@@ -8,34 +8,84 @@
 namespace hmi {
 namespace {
 
-// --- La FICHE DE PERSONNAGE n'a pas d'ossature : elle a une PLANCHE (LOT-38) ------------------
+// --- Ossature des neuf écrans (LOT-68) ---------------------------------------------------------
 //
-// Ses champs, leur place et leurs intitulés vivent dans la table
-// `Source/Elements/Assets/UI/character-sheet-plate.json`, relevée sur la GRAVURE de la planche du
-// livre — la même table qui a servi à retirer de cette gravure son lettrage anglais, pour que
-// l'écran puisse le reposer traduit.
+// Chaque écran est décrit ICI, en données pures, et `hmi::RpgScreenFrame` en peint l'ossature sans
+// connaître aucun écran par son nom (`EX-IHM-090`).
 //
-// Rien n'est donc décrit deux fois. Une ossature laissée ici « pour mémoire » aurait été une
-// seconde description du même écran, et c'est toujours la copie oubliée qu'on lit six mois plus
-// tard.
+// Un champ porte l'identifiant sous lequel sa valeur arrive, ou une chaîne vide. **Vide** veut
+// dire : ce champ est à l'écran, et rien ne l'alimente encore — il garde son tiret cadratin,
+// jamais un zéro, qui se lirait comme un état du jeu et mentirait. La colonne des identifiants
+// vides EST le périmètre restant.
 
-// --- Ossature des sept autres écrans (LOT-68) -------------------------------------------------
-//
-// Aucun ne porte de DONNÉE : ce lot-là livrait le châssis, pas le contenu (LOT-42 pour la carte,
-// LOT-45 pour la guilde, LOT-24 pour le combat). Leurs identifiants de valeur restent donc vides,
-// et leurs cases au tiret cadratin.
-
-constexpr std::array LOAD_FIELDS = {
-    RpgField{.labelKey = "rpg.field.carried"},
-    RpgField{.labelKey = "rpg.field.capacity"},
-    RpgField{.labelKey = "rpg.field.gold"},
+constexpr std::array IDENTITY_FIELDS = {
+    RpgField{.labelKey = "rpg.field.name", .valueId = "sheet.name"},
+    RpgField{.labelKey = "rpg.field.species", .valueId = "sheet.species"},
+    RpgField{.labelKey = "rpg.field.class", .valueId = "sheet.class"},
+    RpgField{.labelKey = "rpg.field.background", .valueId = "sheet.background"},
 };
 
+constexpr std::array PROGRESSION_FIELDS = {
+    RpgField{.labelKey = "rpg.field.level", .valueId = "sheet.level"},
+    RpgField{.labelKey = "rpg.field.experience", .valueId = "sheet.experience"},
+};
+
+constexpr std::array COMBAT_FIELDS = {
+    RpgField{.labelKey = "rpg.field.hit_points", .valueId = "sheet.hit_points"},
+    RpgField{.labelKey = "rpg.field.armor_class", .valueId = "sheet.armor_class"},
+    RpgField{.labelKey = "rpg.field.initiative", .valueId = "sheet.initiative"},
+    RpgField{.labelKey = "rpg.field.speed", .valueId = "sheet.speed"},
+    RpgField{.labelKey = "rpg.field.proficiency_bonus", .valueId = "sheet.proficiency_bonus"},
+    RpgField{.labelKey = "rpg.field.hit_dice", .valueId = "sheet.hit_dice"},
+    RpgField{.labelKey = "rpg.field.passive_perception", .valueId = "sheet.passive_perception"},
+};
+
+constexpr std::array ABILITY_FIELDS = {
+    RpgField{.labelKey = "rpg.ability.strength", .valueId = "sheet.ability.strength"},
+    RpgField{.labelKey = "rpg.ability.dexterity", .valueId = "sheet.ability.dexterity"},
+    RpgField{.labelKey = "rpg.ability.constitution", .valueId = "sheet.ability.constitution"},
+    RpgField{.labelKey = "rpg.ability.intelligence", .valueId = "sheet.ability.intelligence"},
+    RpgField{.labelKey = "rpg.ability.wisdom", .valueId = "sheet.ability.wisdom"},
+    RpgField{.labelKey = "rpg.ability.charisma", .valueId = "sheet.ability.charisma"},
+};
+
+constexpr std::array SAVING_THROW_FIELDS = {
+    RpgField{.labelKey = "rpg.ability.strength", .valueId = "sheet.save.strength"},
+    RpgField{.labelKey = "rpg.ability.dexterity", .valueId = "sheet.save.dexterity"},
+    RpgField{.labelKey = "rpg.ability.constitution", .valueId = "sheet.save.constitution"},
+    RpgField{.labelKey = "rpg.ability.intelligence", .valueId = "sheet.save.intelligence"},
+    RpgField{.labelKey = "rpg.ability.wisdom", .valueId = "sheet.save.wisdom"},
+    RpgField{.labelKey = "rpg.ability.charisma", .valueId = "sheet.save.charisma"},
+};
+
+// La charge est calculée par le noyau du `LOT-14` (`core::derivedStatsFor`) : poids porté,
+// capacité, et la bourse. Rien n'est accumulé — tout est relu depuis ce qui est porté.
+constexpr std::array LOAD_FIELDS = {
+    RpgField{.labelKey = "rpg.field.carried", .valueId = "inventory.carried"},
+    RpgField{.labelKey = "rpg.field.capacity", .valueId = "inventory.capacity"},
+    RpgField{.labelKey = "rpg.field.gold", .valueId = "inventory.purse"},
+};
+
+// Les seize emplacements du noyau (`core::EquipmentSlot`), dans son ordre. Les intitulés sont ceux
+// du lexique, et les identifiants ceux que `hmi::inventoryValues` produit : une seule liste, et un
+// test vérifie que les deux côtés ne divergent pas.
 constexpr std::array EQUIPMENT_SLOTS = {
-    RpgField{.labelKey = "rpg.slot.head"},      RpgField{.labelKey = "rpg.slot.torso"},
-    RpgField{.labelKey = "rpg.slot.hands"},     RpgField{.labelKey = "rpg.slot.feet"},
-    RpgField{.labelKey = "rpg.slot.main_hand"}, RpgField{.labelKey = "rpg.slot.off_hand"},
-    RpgField{.labelKey = "rpg.slot.amulet"},    RpgField{.labelKey = "rpg.slot.ring"},
+    RpgField{.labelKey = "rpg.slot.head", .valueId = "inventory.slot.head"},
+    RpgField{.labelKey = "rpg.slot.neck", .valueId = "inventory.slot.neck"},
+    RpgField{.labelKey = "rpg.slot.cloak", .valueId = "inventory.slot.cloak"},
+    RpgField{.labelKey = "rpg.slot.torso", .valueId = "inventory.slot.torso"},
+    RpgField{.labelKey = "rpg.slot.belt", .valueId = "inventory.slot.belt"},
+    RpgField{.labelKey = "rpg.slot.hands", .valueId = "inventory.slot.hands"},
+    RpgField{.labelKey = "rpg.slot.ring_left", .valueId = "inventory.slot.ring-left"},
+    RpgField{.labelKey = "rpg.slot.ring_right", .valueId = "inventory.slot.ring-right"},
+    RpgField{.labelKey = "rpg.slot.main_hand", .valueId = "inventory.slot.main-hand"},
+    RpgField{.labelKey = "rpg.slot.off_hand", .valueId = "inventory.slot.off-hand"},
+    RpgField{.labelKey = "rpg.slot.ranged", .valueId = "inventory.slot.ranged"},
+    RpgField{.labelKey = "rpg.slot.ammunition", .valueId = "inventory.slot.ammunition"},
+    RpgField{.labelKey = "rpg.slot.feet", .valueId = "inventory.slot.feet"},
+    RpgField{.labelKey = "rpg.slot.bracers", .valueId = "inventory.slot.bracers"},
+    RpgField{.labelKey = "rpg.slot.pouch", .valueId = "inventory.slot.pouch"},
+    RpgField{.labelKey = "rpg.slot.trinket", .valueId = "inventory.slot.trinket"},
 };
 
 constexpr std::array PLACE_FIELDS = {
@@ -64,15 +114,51 @@ constexpr std::array TARGET_FIELDS = {
     RpgField{.labelKey = "rpg.field.conditions"},
 };
 
+// Les dix-huit competences du catalogue (LOT-43), dans son ordre. Leur INTITULE vient du lexique
+// et se pose par le presentateur : la liste ne porte donc que les identifiants de valeur, et
+// `hmi::characterSheetValues` produit un texte deja assemble -- << Acrobaties  +3 * >>.
+constexpr std::array SKILL_VALUE_IDS = {
+    "sheet.skill.acrobatics",      "sheet.skill.animal-handling", "sheet.skill.arcana",
+    "sheet.skill.athletics",       "sheet.skill.deception",       "sheet.skill.history",
+    "sheet.skill.insight",         "sheet.skill.intimidation",    "sheet.skill.investigation",
+    "sheet.skill.medicine",        "sheet.skill.nature",          "sheet.skill.perception",
+    "sheet.skill.performance",     "sheet.skill.persuasion",      "sheet.skill.religion",
+    "sheet.skill.sleight-of-hand", "sheet.skill.stealth",         "sheet.skill.survival",
+};
+
+constexpr std::array CHARACTER_SHEET_LEFT = {
+    RpgContentBlock{
+        .titleKey = "rpg.block.identity", .kind = RpgBlockKind::Fields, .fields = IDENTITY_FIELDS},
+    RpgContentBlock{.titleKey = "rpg.block.progression",
+                    .kind = RpgBlockKind::Fields,
+                    .fields = PROGRESSION_FIELDS},
+    RpgContentBlock{
+        .titleKey = "rpg.block.abilities", .kind = RpgBlockKind::Fields, .fields = ABILITY_FIELDS},
+};
+constexpr std::array CHARACTER_SHEET_RIGHT = {
+    RpgContentBlock{
+        .titleKey = "rpg.block.combat", .kind = RpgBlockKind::Fields, .fields = COMBAT_FIELDS},
+    RpgContentBlock{.titleKey = "rpg.block.saving_throws",
+                    .kind = RpgBlockKind::Fields,
+                    .fields = SAVING_THROW_FIELDS},
+    // Le catalogue en porte dix-huit (LOT-43) ; l'ossature les montre toutes, et défile.
+    RpgContentBlock{
+        .titleKey = "rpg.block.skills", .kind = RpgBlockKind::List, .valueIds = SKILL_VALUE_IDS},
+};
+
 constexpr std::array INVENTORY_LEFT = {
     RpgContentBlock{
         .titleKey = "rpg.block.equipment", .kind = RpgBlockKind::Fields, .fields = EQUIPMENT_SLOTS},
     RpgContentBlock{
         .titleKey = "rpg.block.load", .kind = RpgBlockKind::Fields, .fields = LOAD_FIELDS},
 };
+// Le sac est une LISTE, et non la grille de cases du LOT-68 : un inventaire de jeu de role se lit
+// ligne a ligne, avec le nom et la quantite, la ou une grille de cases suppose des objets de meme
+// encombrement -- ce que le modele ne dit nulle part.
+constexpr std::array BACKPACK_VALUE_IDS = {"inventory.backpack"};
 constexpr std::array INVENTORY_RIGHT = {
     RpgContentBlock{
-        .titleKey = "rpg.block.bag", .kind = RpgBlockKind::Grid, .columns = 6, .rows = 5},
+        .titleKey = "rpg.block.bag", .kind = RpgBlockKind::Prose, .valueIds = BACKPACK_VALUE_IDS},
 };
 
 constexpr std::array JOURNAL_LEFT = {
@@ -170,7 +256,7 @@ constexpr std::array<RpgScreenDescriptor, RPG_SCREEN_COUNT> SCREENS = {{
      .objectName = "RpgCharacterSheetScreen",
      .titleKey = "rpg.character_sheet.title",
      .superposition = RpgSuperposition::PausesGame,
-     .rendering = RpgRendering::Plate},
+     .layout = {.leftColumn = CHARACTER_SHEET_LEFT, .rightColumn = CHARACTER_SHEET_RIGHT}},
     {.id = RpgScreenId::Inventory,
      .objectName = "RpgInventoryScreen",
      .titleKey = "rpg.inventory.title",

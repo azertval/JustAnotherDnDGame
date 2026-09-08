@@ -44,16 +44,10 @@ void setRole(QWidget* widget, const char* role) {
 
 RpgScreenFrame::RpgScreenFrame(const RpgScreenDescriptor& descriptor, QWidget* parent)
     : QWidget(parent), _descriptor(descriptor) {
-    buildChrome(nullptr);
+    buildChrome();
 }
 
-RpgScreenFrame::RpgScreenFrame(const RpgScreenDescriptor& descriptor, QWidget* content,
-                               QWidget* parent)
-    : QWidget(parent), _descriptor(descriptor) {
-    buildChrome(content);
-}
-
-void RpgScreenFrame::buildChrome(QWidget* content) {
+void RpgScreenFrame::buildChrome() {
     setObjectName(QString::fromLatin1(_descriptor.objectName));
     setAttribute(Qt::WA_StyledBackground, true);
     // Le châssis reçoit le clavier lui-même : sans cela, `Échap` n'atteint jamais keyPressEvent
@@ -79,19 +73,15 @@ void RpgScreenFrame::buildChrome(QWidget* content) {
     // personnage haute de deux mille pixels y poussait « Fermer » et « Ecran suivant » sous la
     // ligne de flottaison, c'est-a-dire hors de vue de qui vient d'ouvrir l'ecran. Une seconde
     // zone defilante, interieure au chassis, borne la hauteur du CONTENU seul.
-    QWidget* bodyHost = content;
-    if (bodyHost == nullptr) {
-        // Aucune planche fournie : le corps est rendu depuis la table (LOT-68).
-        bodyHost = new QWidget(this);
-        auto* const body = new QHBoxLayout(bodyHost);
-        body->setContentsMargins(0, 0, 0, 0);
-        body->setSpacing(spacing.large * scale);
-        if (QWidget* const left = buildColumn(_descriptor.layout.leftColumn); left != nullptr) {
-            body->addWidget(left, 1);
-        }
-        if (QWidget* const right = buildColumn(_descriptor.layout.rightColumn); right != nullptr) {
-            body->addWidget(right, 1);
-        }
+    auto* const bodyHost = new QWidget(this);
+    auto* const body = new QHBoxLayout(bodyHost);
+    body->setContentsMargins(0, 0, 0, 0);
+    body->setSpacing(spacing.large * scale);
+    if (QWidget* const left = buildColumn(_descriptor.layout.leftColumn); left != nullptr) {
+        body->addWidget(left, 1);
+    }
+    if (QWidget* const right = buildColumn(_descriptor.layout.rightColumn); right != nullptr) {
+        body->addWidget(right, 1);
     }
     auto* const bodyScroll = new QScrollArea(this);
     bodyScroll->setWidgetResizable(true);

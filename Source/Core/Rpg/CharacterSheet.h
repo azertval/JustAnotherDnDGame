@@ -18,6 +18,7 @@
 
 #include "Core/Rpg/Ability.h"
 #include "Core/Rpg/CharacterOptions.h"
+#include "Core/Rpg/Inventory.h"
 #include "Core/Rpg/Skill.h"
 
 namespace core {
@@ -166,6 +167,10 @@ struct LevelUpResult {
  */
 struct LoadedCharacterSheet {
     CharacterSheet sheet;
+    /// Ce que le personnage PORTE (`LOT-14`), lu dans le même fichier. Vide si le fichier n'en
+    /// déclare pas : un personnage sans inventaire est un personnage les mains vides, pas une
+    /// erreur.
+    Inventory inventory;
     std::vector<std::string> errors;
 
     [[nodiscard]] bool ok() const {

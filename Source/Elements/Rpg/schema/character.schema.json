@@ -41,6 +41,47 @@
     "baseAbilities": {
       "$ref": "https://justanotherdndgame.local/rpg/common.schema.json#/$defs/abilityScores",
       "description": "Les six valeurs AVANT augmentation d'espece. L'espece les augmente au chargement, dans la limite lue dans rules/character-creation.json."
+    },
+    "inventory": {
+      "type": "object",
+      "description": "Ce que le personnage PORTE (LOT-14) : ses seize emplacements d'equipement, son sac et sa bourse. Aucune statistique derivee ici -- ni classe d'armure, ni poids total, ni encombrement : elles se RECALCULENT depuis ce contenu (core::derivedStatsFor), et les ecrire serait une seconde source qui divergerait au premier objet retire.",
+      "properties": {
+        "equipped": {
+          "type": "object",
+          "description": "Emplacement -> identifiant de catalogue (arme, armure ou objet). Les noms d'emplacement sont ceux du noyau : head, neck, cloak, torso, belt, hands, ring-left, ring-right, main-hand, off-hand, ranged, ammunition, feet, bracers, pouch, trinket.",
+          "additionalProperties": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "backpack": {
+          "type": "array",
+          "description": "Le sac, une entree par pile.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "itemId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "quantity": {
+                "type": "integer",
+                "minimum": 1
+              }
+            },
+            "required": [
+              "itemId"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "purseCopper": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Bourse, en pieces de CUIVRE -- la meme unite que les prix du catalogue. La repartition en or, argent et cuivre est une regle d'AFFICHAGE, et vit dans l'ecran."
+        }
+      },
+      "additionalProperties": false
     }
   },
   "required": [

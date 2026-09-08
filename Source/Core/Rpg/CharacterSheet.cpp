@@ -191,6 +191,49 @@ LoadedCharacterSheet loadCharacterSheet(const std::filesystem::path& path,
         }
     }
 
+    // Ce que le personnage PORTE (LOT-14). Rien n'en est derive ici : ni classe d'armure, ni poids
+    // total, ni encombrement. `core::derivedStatsFor` les recalcule depuis ce contenu a chaque
+    // lecture, et c'est ce qui les empeche de deriver.
+    const auto inventaire = document.root.find("inventory");
+    if (inventaire != document.root.end() && inventaire->is_object()) {
+        if (const auto portes = inventaire->find("equipped");
+            portes != inventaire->end() && portes->is_object()) {
+            for (const auto& [nom, valeur] : portes->items()) {
+                const std::optional<EquipmentSlot> emplacement = parseEquipmentSlot(nom);
+                if (!emplacement.has_value()) {
+                    resultat.errors.push_back(path.string() + " : emplacement d'equipement '" +
+                                              nom + "' inconnu du moteur.");
+                    continue;
+                }
+                if (valeur.is_string()) {
+                    static_cast<void>(
+                        equip(resultat.inventory, *emplacement, valeur.get<std::string>()));
+                }
+            }
+        }
+        if (const auto sac = inventaire->find("backpack");
+            sac != inventaire->end() && sac->is_array()) {
+            for (const auto& ligne : *sac) {
+                if (!ligne.is_object()) {
+                    continue;
+                }
+                const auto identifiant = ligne.find("itemId");
+                if (identifiant == ligne.end() || !identifiant->is_string()) {
+                    continue;
+                }
+                const auto quantite = ligne.find("quantity");
+                addToBackpack(resultat.inventory, identifiant->get<std::string>(),
+                              (quantite != ligne.end() && quantite->is_number_integer())
+                                  ? quantite->get<int>()
+                                  : 1);
+            }
+        }
+        if (const auto bourse = inventaire->find("purseCopper");
+            bourse != inventaire->end() && bourse->is_number_integer()) {
+            resultat.inventory.purseCopper = bourse->get<int>();
+        }
+    }
+
     return resultat;
 }
 

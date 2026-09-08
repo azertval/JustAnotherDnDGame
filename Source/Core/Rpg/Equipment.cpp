@@ -111,6 +111,14 @@ EquipmentCatalog loadEquipment(const std::filesystem::path& weaponsDir,
                 arme.price = lireEntier(racine, "price");
                 arme.weightGrams = lireEntier(racine, "weightGrams");
                 arme.text = lireTexte(racine, "text");
+                if (const auto proprietes = racine.find("properties");
+                    proprietes != racine.end() && proprietes->is_array()) {
+                    for (const nlohmann::json& propriete : *proprietes) {
+                        if (propriete.is_string()) {
+                            arme.properties.push_back(propriete.get<std::string>());
+                        }
+                    }
+                }
                 const std::string des = lireTexte(racine, "damage");
                 if (!des.empty()) {
                     arme.damage = parseDice(des);

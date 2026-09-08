@@ -85,6 +85,7 @@
 #include "HMI/Interface/EditorActions.h"
 #include "HMI/Interface/EditorWorkspace.h"
 #include "HMI/Interface/IdentityScale.h"
+#include "HMI/Interface/InventoryValues.h"
 #include "HMI/Interface/MainMenu.h"
 #include "HMI/Interface/OptionsPage.h"
 #include "HMI/Interface/PauseScreen.h"
@@ -1067,11 +1068,40 @@ void MainWindow::loadDemonstrationCharacter() {
         HMI_LOG_WARNING(("Fiche de demonstration : " + erreur).c_str());
     }
 
+    // Ce que le personnage PORTE (LOT-14). Les catalogues ne vivent que le temps de produire les
+    // valeurs : l'ecran ne consomme que du texte deja resolu, et n'a donc aucune duree de vie a
+    // partager avec eux.
+    const core::ItemCatalog objets = core::loadItems(rpg / "items");
+    const core::EquipmentCatalog equipement = core::loadEquipment(rpg / "weapons", rpg / "armors");
+    const core::EncumbranceRules charge =
+        core::loadEncumbranceRules(rpg / "rules" / "encumbrance.json");
+    for (const std::string& erreur : objets.errors) {
+        HMI_LOG_WARNING(("Catalogue d'objets : " + erreur).c_str());
+    }
+    const core::ItemLookup catalogues{.items = &objets, .equipment = &equipement};
+    for (const std::string& inconnu : core::unknownIds(fiche.inventory, catalogues)) {
+        // Un identifiant que rien ne porte ne pese rien et s'affiche tel quel : le dire vaut mieux
+        // que de peser faux en silence (EX-CNT-010).
+        HMI_LOG_WARNING(("Inventaire de demonstration : objet inconnu '" + inconnu + "'.").c_str());
+    }
+    // Les statistiques derivees sont RECALCULEES ici, jamais retenues : c'est ce qui les empeche
+    // de deriver quand on equipe et retire dans le desordre (LOT-14).
+    const core::DerivedStats derivees =
+        core::derivedStatsFor(fiche.sheet, fiche.inventory, catalogues, regles, charge);
+    _rpgScreens->setValues(hmi::RpgScreenId::Inventory,
+                           hmi::inventoryValues({.inventory = &fiche.inventory,
+                                                 .lookup = catalogues,
+                                                 .derived = derivees,
+                                                 .emptyMark = _loc.text("rpg.empty")}));
+
+    // La fiche est alimentee APRES l'inventaire, parce qu'elle en depend : sa classe d'armure et
+    // sa vitesse viennent de ce qui est porte, pas de la construction.
     _rpgScreens->setValues(hmi::RpgScreenId::CharacterSheet,
                            hmi::characterSheetValues({.sheet = &fiche.sheet,
                                                       .options = &options,
                                                       .experience = &experience,
                                                       .skills = &competences,
+                                                      .derived = &derivees,
                                                       .emptyMark = _loc.text("rpg.empty")}));
 }
 

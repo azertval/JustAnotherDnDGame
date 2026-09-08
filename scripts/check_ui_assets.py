@@ -38,13 +38,11 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 UI = ROOT / "Source" / "Elements" / "Assets" / "UI"
 MANIFEST = UI / "illustrations.json"
-# Les SEULS endroits du code ou un nom de fichier d'illustration est ecrit. Une liste, et non un
-# fichier unique, depuis que la fiche de personnage nomme son portrait (LOT-38) : un ecran qui
-# nomme une image sans figurer ici sortirait du recoupement, et l'image se retrouverait declaree
-# mais << nommee par aucun code >>.
+# Les SEULS endroits du code ou un nom de fichier d'illustration est ecrit. Une LISTE, et non un
+# fichier unique : un ecran qui nomme une image sans figurer ici sortirait du recoupement, et
+# l'image se retrouverait declaree mais << nommee par aucun code >>.
 NAMING_SOURCES = (
     ROOT / "Source" / "HMI" / "Interface" / "MainMenu.h",
-    ROOT / "Source" / "HMI" / "Interface" / "CharacterSheetPage.h",
 )
 
 PNG_SIGNATURE = bytes([0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A])

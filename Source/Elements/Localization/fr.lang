@@ -619,7 +619,6 @@ rpg.field.spell_level_7 = Sorts de niveau 7
 rpg.field.spell_level_8 = Sorts de niveau 8
 rpg.field.spell_level_9 = Sorts de niveau 9
 rpg.field.class_and_level = Classe et niveau
-rpg.field.special_class_skills = Aptitudes de classe
 rpg.field.hand = Main
 rpg.field.bonus = Bonus
 rpg.field.damage = Dégâts
@@ -629,24 +628,22 @@ rpg.field.fame = Renommée
 rpg.field.prestige = Prestige
 rpg.field.beneficiary = Bénéficiaire
 rpg.field.style = Style
+rpg.field.special_class_skills = Aptitudes de classe
 rpg.field.specialization = Spécialisation
 
-# Reprise LOT-38 : la planche gravee (character-sheet-plate.svg) a perdu son lettrage anglais, et
 # ces cles le remplacent. Les abreviations `rpg.ability_short.` sont celles des ONGLETS de jets de
 # sauvegarde, ou la planche n'offre que trois lettres en hauteur ; elles ne vivent PAS sous
 # `rpg.ability.`, qui est un espace de noms de regle recoupe avec le lexique -- « FOR » n'est pas
 # un terme du lexique, c'est une abreviation d'affichage.
-rpg.ability_short.strength = FOR
-rpg.ability_short.dexterity = DEX
-rpg.ability_short.constitution = CON
-rpg.ability_short.intelligence = INT
-rpg.ability_short.wisdom = SAG
-rpg.ability_short.charisma = CHA
 
-rpg.field.weapon_or_spell = Arme / Sort
-rpg.field.attack_type = Type
-rpg.field.range = Portée
-rpg.field.special = Spécial
-rpg.field.death_save_successes = Réussites
-rpg.field.death_save_failures = Échecs
-rpg.field.heroic_mark = Marque héroïque
+# Les seize emplacements d'equipement du noyau (LOT-14, core::EquipmentSlot).
+rpg.slot.neck = Cou
+rpg.slot.cloak = Cape
+rpg.slot.belt = Ceinture
+rpg.slot.ring_left = Anneau (gauche)
+rpg.slot.ring_right = Anneau (droit)
+rpg.slot.ranged = Arme à distance
+rpg.slot.ammunition = Munitions
+rpg.slot.bracers = Brassards
+rpg.slot.pouch = Bourse
+rpg.slot.trinket = Babiole

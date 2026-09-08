@@ -86,6 +86,14 @@ std::map<std::string, std::string> characterSheetValues(const CharacterSheetCont
     valeurs["sheet.hit_points"] =
         std::to_string(fiche.currentHitPoints) + " / " + std::to_string(fiche.maximumHitPoints);
     valeurs["sheet.speed"] = metres(fiche.speedMeters);
+
+    // La classe d'armure et la vitesse dependent de ce qui est PORTE (LOT-14), et la fiche les a
+    // calculees avant d'avoir un inventaire. Elles sont donc reprises des statistiques derivees
+    // quand on en fournit -- recalculees depuis l'equipement, jamais accumulees.
+    if (context.derived != nullptr) {
+        valeurs["sheet.armor_class"] = std::to_string(context.derived->armorClass);
+        valeurs["sheet.speed"] = metres(context.derived->speedMeters);
+    }
     valeurs["sheet.initiative"] = signe(fiche.modifier(Ability::Dexterity));
 
     for (const auto& [caracteristique, suffixe] : ABILITIES) {

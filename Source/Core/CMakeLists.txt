@@ -28,6 +28,7 @@ add_library(Core STATIC
     Rpg/Check.cpp
     Rpg/Dice.cpp
     Rpg/Equipment.cpp
+    Rpg/Inventory.cpp
     Rpg/RpgEnumNames.cpp
     Rpg/Multiclassing.cpp
     Levels/TileMap.cpp

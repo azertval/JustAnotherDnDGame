@@ -110,7 +110,7 @@ add_library(HmiLib STATIC
     Interface/ScreenFlow.cpp
     Interface/RpgScreens.cpp
     Interface/CharacterSheetValues.cpp
-    Interface/CharacterSheetPlate.cpp
+    Interface/InventoryValues.cpp
     Interface/DesignTokens.cpp
     Interface/StyleSheetTemplate.cpp
     Interface/FontResolution.cpp
@@ -310,7 +310,6 @@ add_executable(JustAnotherDnDGame
     Interface/PauseScreen.cpp
     Interface/CreditsScreen.cpp
     Interface/RpgScreenFrame.cpp
-    Interface/CharacterSheetPage.cpp
     Interface/RpgScreenHost.cpp
     Interface/OptionsPage.cpp
     Interface/KeybindingsWidget.cpp

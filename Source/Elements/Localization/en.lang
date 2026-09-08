@@ -617,7 +617,6 @@ rpg.field.spell_level_7 = Level 7 Spells
 rpg.field.spell_level_8 = Level 8 Spells
 rpg.field.spell_level_9 = Level 9 Spells
 rpg.field.class_and_level = Class & Level
-rpg.field.special_class_skills = Special Class Skills
 rpg.field.hand = Hand
 rpg.field.bonus = Bonus
 rpg.field.damage = Damage
@@ -627,23 +626,21 @@ rpg.field.fame = Fame
 rpg.field.prestige = Prestige
 rpg.field.beneficiary = Beneficiary
 rpg.field.style = Style
+rpg.field.special_class_skills = Special Class Skills
 rpg.field.specialization = Specialization
 
-# LOT-38 rework: the engraved plate (character-sheet-plate.svg) lost its English lettering, and
 # these keys put it back -- translated. The `rpg.ability_short.` abbreviations are the ones on the
 # saving-throw TABS, where the plate offers three letters of height; they deliberately do not live
 # under `rpg.ability.`, a rule namespace cross-checked against the glossary.
-rpg.ability_short.strength = STR
-rpg.ability_short.dexterity = DEX
-rpg.ability_short.constitution = CON
-rpg.ability_short.intelligence = INT
-rpg.ability_short.wisdom = WIS
-rpg.ability_short.charisma = CHA
 
-rpg.field.weapon_or_spell = Weapon / Spell
-rpg.field.attack_type = Type
-rpg.field.range = Range
-rpg.field.special = Special
-rpg.field.death_save_successes = Successes
-rpg.field.death_save_failures = Failures
-rpg.field.heroic_mark = Heroic Mark
+# Les seize emplacements d'equipement du noyau (LOT-14, core::EquipmentSlot).
+rpg.slot.neck = Neck
+rpg.slot.cloak = Cloak
+rpg.slot.belt = Belt
+rpg.slot.ring_left = Ring (left)
+rpg.slot.ring_right = Ring (right)
+rpg.slot.ranged = Ranged Weapon
+rpg.slot.ammunition = Ammunition
+rpg.slot.bracers = Bracers
+rpg.slot.pouch = Pouch
+rpg.slot.trinket = Trinket
