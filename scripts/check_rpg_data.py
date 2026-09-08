@@ -88,6 +88,7 @@ FAMILLES = {
     # personnage. Elle passe par le meme controle que les autres -- une fiche de demonstration mal
     # formee est un ecran vide qu'on met une heure a expliquer.
     'characters': 'character',
+    'encounters': 'encounter',
 }
 
 # `rules/` porte des REGLES, pas une collection d'entrees semblables : chaque fichier y a son
