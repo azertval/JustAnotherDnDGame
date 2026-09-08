@@ -1,7 +1,7 @@
 {
   "pages": [
     { "id": "page-1", "name": "Fiche de personnage" },
-    { "id": "page-2", "name": "Autres écrans" },
+    { "id": "page-2", "name": "Combat" },
     { "id": "page-3", "name": "Système et assets" }
   ],
   "artboards": [
@@ -9,10 +9,9 @@
     { "file": "Equipement.dc.html", "title": "2 · Équipement",       "page": "page-1", "x": 1400, "y": 0, "w": 1280, "h": 720 },
     { "file": "Traits.dc.html",     "title": "3 · Dons et traits",   "page": "page-1", "x": 2800, "y": 0, "w": 1280, "h": 720 },
     { "file": "Sorts.dc.html",      "title": "4 · Incantation",      "page": "page-1", "x": 4200, "y": 0, "w": 1280, "h": 720 },
+    { "file": "Equipe.dc.html",     "title": "5 · Équipe",           "page": "page-1", "x": 5600, "y": 0, "w": 1280, "h": 720 },
 
-    { "file": "Equipe.dc.html",   "title": "Feuille d'équipe",              "page": "page-2", "x": 0,    "y": 0, "w": 1280, "h": 720 },
-    { "file": "Dotation.dc.html", "title": "Inventaire — à reprendre",      "page": "page-2", "x": 1400, "y": 0, "w": 1280, "h": 720 },
-    { "file": "Combat.dc.html",   "title": "Combat — à reprendre",          "page": "page-2", "x": 2800, "y": 0, "w": 1280, "h": 720 },
+    { "file": "Combat.dc.html", "title": "Combat — à reprendre", "page": "page-2", "x": 0, "y": 0, "w": 1280, "h": 720 },
 
     { "file": "Systeme.dc.html", "title": "Grammaire des écrans",    "page": "page-3", "x": 0,    "y": 0, "w": 1280, "h": 1290 },
     { "file": "Assets.dc.html",  "title": "Ce qu'il faut illustrer", "page": "page-3", "x": 1400, "y": 0, "w": 1280, "h": 1620 }
@@ -22,23 +21,23 @@
       "id": "brief-fiche",
       "page": "page-1",
       "x": 0,
-      "y": -250,
-      "w": 1000,
-      "text": "Les quatre planches de la feuille de personnage, devenues quatre ONGLETS d'un même écran — c'est la forme moderne de ce que le livre résolvait en tournant la page.\n\nChacune est relevée sur la planche vierge du corpus. Les deux premières sont radiales parce que l'original l'est : un portrait au centre et les six caractéristiques en arc pour la première, un bouclier à entrelacs et les emplacements de part et d'autre pour la seconde.\n\nCe qui est rempli vient des données réelles de Brenna Vaugris ; ce que rien n'alimente reste au tiret cadratin. Deux manques que les planches rendent visibles : les aptitudes de classe n'ont ni libellé ni texte au catalogue, et le trait Polyvalence traîne un bloc de roman avalé par l'océrisation."
+      "y": -260,
+      "w": 1100,
+      "text": "Un seul écran, cinq onglets. La compagnie fait partie de l'identité du mercenaire : sa feuille n'est donc plus un écran à part, c'est le cinquième onglet.\n\nL'écran d'inventaire a été supprimé — l'onglet Équipement portait déjà tout ce qu'il montrait.\n\nPlus de boutons « écran précédent » et « écran suivant » en pied : la navigation se fait par les onglets, et les rappels de touches le disent. Seul « Fermer » reste.\n\nLe quartier général a quitté l'onglet Équipe : la gestion des installations relèvera d'une interface qui lui est propre. Ce qui reste sur la fiche, c'est ce qui tient de l'identité — la compagnie, le blason, le dessein.\n\nCe qui est rempli vient des données réelles de Brenna Vaugris ; ce que rien n'alimente reste au tiret cadratin."
     },
     {
-      "id": "brief-autres",
+      "id": "brief-combat",
       "page": "page-2",
       "x": 0,
-      "y": -250,
-      "w": 1000,
-      "text": "La cinquième planche du corpus n'est pas la fiche d'un personnage mais celle de son équipe : elle a donc son propre écran, sans onglets.\n\nLes deux écrans suivants — inventaire et combat — datent du premier jet et gardent l'ancienne forme (feuillet à souche, cartouches carrés). Ils sont à reprendre dans le vocabulaire des quatre planches ci-contre : panneaux francs, médaillons ronds, fioritures relevées."
+      "y": -230,
+      "w": 900,
+      "text": "L'affichage tête haute de combat est le seul écran qui ne suspend pas le jeu : ce sont des bandeaux posés sur la carte tactique, pas un feuillet qu'on lit à l'arrêt.\n\nIl date du premier jet et garde l'ancienne forme — cartouches carrés, cadres épais. À reprendre dans le vocabulaire des cinq onglets : panneaux francs, médaillons ronds, fioritures relevées."
     },
     {
       "id": "brief-assets",
       "page": "page-3",
       "x": 0,
-      "y": -250,
+      "y": -230,
       "w": 900,
       "text": "À gauche : la grammaire — ce qui fait qu'un écran lit comme un document, et les trois règles qui ne se négocient pas. Elle décrit encore le vocabulaire du premier jet et n'a pas été remise à jour.\nÀ droite : l'état des lieux des illustrations — les 308 clés déjà attendues, les six familles que cette direction ajoute, et ce qui restera tracé par le code plutôt que livré en fichier."
     }

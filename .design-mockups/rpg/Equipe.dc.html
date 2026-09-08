@@ -19,15 +19,16 @@
   <div style="position: absolute; inset: 0; pointer-events: none; background-image: repeating-linear-gradient(90deg, rgba(48,32,0,.020) 0 1px, transparent 1px 4px), repeating-linear-gradient(0deg, rgba(48,32,0,.014) 0 1px, transparent 1px 7px);"></div>
 
   <!-- ============ BANDEAU ============ -->
-  <!-- La cinquième planche n'est pas la fiche d'un personnage : c'est celle de son équipe. Elle a
-       donc son propre écran, et pas d'onglets — les quatre onglets appartiennent à la fiche. -->
+  <!-- La compagnie fait partie de l'identité du mercenaire : sa feuille n'est donc pas un écran
+       à part, c'est le cinquième onglet de la fiche. Le bandeau est celui de la fiche. -->
   <div style="position: relative; height: 58px; display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 0 24px 0 40px; box-sizing: border-box;">
     <div style="display: flex; align-items: baseline; gap: 14px;">
-      <div style="font-family: 'Cinzel', Georgia, serif; font-size: 22px; font-weight: 600; letter-spacing: .13em;">Feuille d'équipe</div>
-      <div style="font-family: 'Cinzel', Georgia, serif; font-size: 12px; color: #907030; letter-spacing: .17em;">REGISTRE DES COMPAGNIES &nbsp;·&nbsp; BUREAU DES CONTRATS</div>
+      <div style="font-family: 'Cinzel', Georgia, serif; font-size: 22px; font-weight: 600; letter-spacing: .13em;">Fiche de personnage</div>
+      <div style="font-family: 'Cinzel', Georgia, serif; font-size: 12px; color: #907030; letter-spacing: .17em;">REGISTRE DES MERCENAIRES &nbsp;·&nbsp; BUREAU DES CONTRATS</div>
     </div>
     <div style="display: flex; align-items: baseline; gap: 26px;">
-      <div style="display: flex; align-items: baseline; gap: 9px;"><span style="font-family: 'Cinzel', Georgia, serif; font-size: 11px; letter-spacing: .17em; color: #907030;">IMMATRICULATION</span><span style="font-family: 'Cinzel', Georgia, serif; font-size: 17px; font-weight: 600; color: #907030;">&mdash;</span></div>
+      <div style="display: flex; align-items: baseline; gap: 9px;"><span style="font-family: 'Cinzel', Georgia, serif; font-size: 11px; letter-spacing: .17em; color: #907030;">MATRICULE</span><span style="font-family: 'Cinzel', Georgia, serif; font-size: 17px; font-weight: 600; letter-spacing: .07em;">M-3-0417</span></div>
+      <div style="display: flex; align-items: baseline; gap: 9px;"><span style="font-family: 'Cinzel', Georgia, serif; font-size: 11px; letter-spacing: .17em; color: #907030;">RANG</span><span style="font-family: 'Cinzel', Georgia, serif; font-size: 17px; font-weight: 600; letter-spacing: .07em;">III</span></div>
     </div>
   </div>
   <div style="position: absolute; left: 40px; right: 24px; top: 58px; height: 2px; background: #907030;"></div>
@@ -41,10 +42,22 @@
     <span style="width: 11px; height: 11px; border-radius: 50%; background: #c1b090; box-shadow: inset 0 1px 2px rgba(48,32,0,.6);"></span>
   </div>
 
-  <!-- ============ CORPS ============ -->
-  <div style="position: relative; display: flex; flex-direction: column; gap: 8px; padding: 14px 24px 0 40px; height: 600px; box-sizing: border-box;">
+  <!-- ============ ONGLETS ============ -->
+  <div style="position: relative; height: 44px; display: flex; align-items: stretch; gap: 6px; padding: 0 24px 0 40px; box-sizing: border-box;">
+    <div style="display: flex; align-items: center; padding: 0 18px; color: #907030;"><span style="font-family: 'Cinzel', Georgia, serif; font-size: 15px; letter-spacing: .09em;">Caractéristiques</span></div>
+    <div style="display: flex; align-items: center; padding: 0 18px; color: #907030;"><span style="font-family: 'Cinzel', Georgia, serif; font-size: 15px; letter-spacing: .09em;">Équipement</span></div>
+    <div style="display: flex; align-items: center; padding: 0 18px; color: #907030;"><span style="font-family: 'Cinzel', Georgia, serif; font-size: 15px; letter-spacing: .09em;">Dons et traits</span></div>
+    <div style="display: flex; align-items: center; padding: 0 18px; color: #907030;"><span style="font-family: 'Cinzel', Georgia, serif; font-size: 15px; letter-spacing: .09em;">Incantation</span></div>
+    <div style="display: flex; align-items: center; gap: 9px; padding: 0 18px; background: #e0d0b0; box-shadow: inset 0 3px 0 #302000, inset 3px 0 0 #302000, inset -3px 0 0 #302000, inset 0 -3px 0 #c0a060;">
+      <svg width="12" height="12" viewBox="0 0 18 18" style="flex: none; color: #c0a060;"><path d="M1 3 L5 9 L1 15 L16 9 Z" fill="currentColor" stroke="#302000" stroke-width="1.2"/></svg>
+      <span style="font-family: 'Cinzel', Georgia, serif; font-size: 15px; font-weight: 600; letter-spacing: .09em;">Équipe</span>
+    </div>
+  </div>
 
-    <div style="display: flex; gap: 8px; height: 268px; flex: none;">
+  <!-- ============ CORPS ============ -->
+  <div style="position: relative; display: flex; flex-direction: column; gap: 10px; padding: 14px 24px 0 40px; height: 556px; box-sizing: border-box;">
+
+    <div style="display: flex; gap: 8px; flex: 1 1 auto; min-height: 0;">
 
       <!-- ---------- L'ÉQUIPE ---------- -->
       <div style="width: 400px; flex: none; background: #e0d0b0; box-shadow: 0 0 0 3px #302000, inset 0 0 0 3px #e0d0b0, inset 0 0 0 5px #907030; padding: 16px 18px; box-sizing: border-box; display: flex; flex-direction: column; gap: 13px;">
@@ -143,57 +156,13 @@
       </div>
     </div>
 
-    <!-- ---------- QUARTIER GÉNÉRAL ---------- -->
-    <div style="flex: 1 1 auto; min-height: 0; background: #e0d0b0; box-shadow: 0 0 0 3px #302000, inset 0 0 0 3px #e0d0b0, inset 0 0 0 5px #907030; padding: 14px 18px; box-sizing: border-box; display: flex; flex-direction: column; gap: 11px;">
-      <div style="display: flex; align-items: baseline; gap: 20px;">
-        <div style="font-family: 'Cinzel', Georgia, serif; font-size: 13px; font-weight: 700; letter-spacing: .19em; color: #907030;">QUARTIER GÉNÉRAL</div>
-        <div style="display: flex; align-items: baseline; gap: 8px;"><span style="font-family: 'Cinzel', Georgia, serif; font-size: 10px; letter-spacing: .15em; color: #907030;">NOM</span><span style="font-size: 17px; color: #907030; border-bottom: 1px dotted #907030; min-width: 140px;">&mdash;</span></div>
-        <div style="display: flex; align-items: baseline; gap: 8px;"><span style="font-family: 'Cinzel', Georgia, serif; font-size: 10px; letter-spacing: .15em; color: #907030;">LIEU</span><span style="font-size: 17px; color: #907030; border-bottom: 1px dotted #907030; min-width: 140px;">&mdash;</span></div>
-        <div style="flex: 1 1 auto;"></div>
-        <div style="font-size: 14px; color: #907030;">4 installations sur 8</div>
-      </div>
 
-      <!-- Chaque installation porte trois crans de progression : c'est ce que la planche d'origine
-           dessine en trois pastilles, et c'est ce qui se remplira au fil des contrats. -->
-      <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; flex: 1 1 auto;">
-        <div style="background: #f0e0d0; box-shadow: inset 0 0 0 2px #907030; padding: 10px 12px; display: flex; flex-direction: column; gap: 7px;">
-          <div style="display: flex; align-items: center; justify-content: space-between;">
-            <span style="font-family: 'Cinzel', Georgia, serif; font-size: 14px; font-weight: 600;">Grand-salle</span>
-            <span style="display: flex; gap: 4px;"><span style="width: 10px; height: 10px; border-radius: 50%; background: #701010;"></span><span style="width: 10px; height: 10px; border-radius: 50%; box-shadow: inset 0 0 0 2px #c0a060;"></span><span style="width: 10px; height: 10px; border-radius: 50%; box-shadow: inset 0 0 0 2px #c0a060;"></span></span>
-          </div>
-          <div style="height: 1px; background: #c0a060;"></div>
-          <div><div style="font-family: 'Cinzel', Georgia, serif; font-size: 9px; letter-spacing: .15em; color: #907030;">PERSONNEL</div><div style="font-size: 16px; color: #907030;">&mdash;</div></div>
-        </div>
-        <div style="background: #f0e0d0; box-shadow: inset 0 0 0 2px #907030; padding: 10px 12px; display: flex; flex-direction: column; gap: 7px;">
-          <div style="display: flex; align-items: center; justify-content: space-between;">
-            <span style="font-family: 'Cinzel', Georgia, serif; font-size: 14px; font-weight: 600; color: #907030;">&mdash;</span>
-            <span style="display: flex; gap: 4px;"><span style="width: 10px; height: 10px; border-radius: 50%; box-shadow: inset 0 0 0 2px #c0a060;"></span><span style="width: 10px; height: 10px; border-radius: 50%; box-shadow: inset 0 0 0 2px #c0a060;"></span><span style="width: 10px; height: 10px; border-radius: 50%; box-shadow: inset 0 0 0 2px #c0a060;"></span></span>
-          </div>
-          <div style="height: 1px; background: #c0a060;"></div>
-          <div><div style="font-family: 'Cinzel', Georgia, serif; font-size: 9px; letter-spacing: .15em; color: #907030;">PERSONNEL</div><div style="font-size: 16px; color: #907030;">&mdash;</div></div>
-        </div>
-        <div style="background: #f0e0d0; box-shadow: inset 0 0 0 2px #907030; padding: 10px 12px; display: flex; flex-direction: column; gap: 7px;">
-          <div style="display: flex; align-items: center; justify-content: space-between;">
-            <span style="font-family: 'Cinzel', Georgia, serif; font-size: 14px; font-weight: 600; color: #907030;">&mdash;</span>
-            <span style="display: flex; gap: 4px;"><span style="width: 10px; height: 10px; border-radius: 50%; box-shadow: inset 0 0 0 2px #c0a060;"></span><span style="width: 10px; height: 10px; border-radius: 50%; box-shadow: inset 0 0 0 2px #c0a060;"></span><span style="width: 10px; height: 10px; border-radius: 50%; box-shadow: inset 0 0 0 2px #c0a060;"></span></span>
-          </div>
-          <div style="height: 1px; background: #c0a060;"></div>
-          <div><div style="font-family: 'Cinzel', Georgia, serif; font-size: 9px; letter-spacing: .15em; color: #907030;">PERSONNEL</div><div style="font-size: 16px; color: #907030;">&mdash;</div></div>
-        </div>
-        <div style="background: #f0e0d0; box-shadow: inset 0 0 0 2px #907030; padding: 10px 12px; display: flex; flex-direction: column; gap: 7px;">
-          <div style="display: flex; align-items: center; justify-content: space-between;">
-            <span style="font-family: 'Cinzel', Georgia, serif; font-size: 14px; font-weight: 600; color: #907030;">&mdash;</span>
-            <span style="display: flex; gap: 4px;"><span style="width: 10px; height: 10px; border-radius: 50%; box-shadow: inset 0 0 0 2px #c0a060;"></span><span style="width: 10px; height: 10px; border-radius: 50%; box-shadow: inset 0 0 0 2px #c0a060;"></span><span style="width: 10px; height: 10px; border-radius: 50%; box-shadow: inset 0 0 0 2px #c0a060;"></span></span>
-          </div>
-          <div style="height: 1px; background: #c0a060;"></div>
-          <div><div style="font-family: 'Cinzel', Georgia, serif; font-size: 9px; letter-spacing: .15em; color: #907030;">PERSONNEL</div><div style="font-size: 16px; color: #907030;">&mdash;</div></div>
-        </div>
-      </div>
-
-      <div style="display: flex; align-items: flex-start; gap: 9px; background: #f0e0d0; box-shadow: inset 0 0 0 2px #c0a060; padding: 8px 11px;">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8a2f20" stroke-width="2" style="flex: none; margin-top: 2px;"><path d="M12 3l9 16H3z"/><path d="M12 9v5"/><path d="M12 16.5v.5"/></svg>
-        <div style="font-size: 14px; line-height: 1.35; color: #705020;">Aucune donnée d'équipe n'existe encore : ni compagnie, ni blason, ni installation. Tout ce que montre cet écran est son <b>ossature</b>, et la colonne de tirets est exactement ce qui reste à écrire.</div>
-      </div>
+    <!-- Le quartier général de la planche d'origine ne figure pas ici : la gestion des
+         installations relèvera d'une interface qui lui est propre. Ce qui reste sur la fiche,
+         c'est ce qui tient de l'identité du mercenaire — sa compagnie, son blason, son dessein. -->
+    <div style="flex: none; display: flex; align-items: flex-start; gap: 9px; background: #e0d0b0; box-shadow: 0 0 0 3px #302000, inset 0 0 0 3px #e0d0b0, inset 0 0 0 5px #907030; padding: 10px 16px;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8a2f20" stroke-width="2" style="flex: none; margin-top: 3px;"><path d="M12 3l9 16H3z"/><path d="M12 9v5"/><path d="M12 16.5v.5"/></svg>
+      <div style="font-size: 15px; line-height: 1.4; color: #705020;">Aucune donnée de compagnie n'existe encore : ni nom, ni blason, ni membre autre que Brenna. Tout ce que montre cet onglet est son <b>ossature</b>, et la colonne de tirets est exactement ce qui reste à écrire.</div>
     </div>
   </div>
 
@@ -204,11 +173,9 @@
       <svg width="14" height="14" viewBox="0 0 18 18" style="flex: none; color: #c0a060;"><path d="M1 3 L5 9 L1 15 L16 9 Z" fill="currentColor" stroke="#302000" stroke-width="1.2"/></svg>
       Fermer
     </div>
-    <div style="font-size: 19px; color: #705020;">Écran précédent</div>
-    <div style="font-size: 19px; color: #705020;">Écran suivant</div>
     <div style="flex: 1 1 auto;"></div>
     <div style="display: flex; align-items: center; gap: 16px; font-size: 15px; color: #907030; letter-spacing: .05em;">
-      <span style="display: flex; align-items: center; gap: 6px;"><span style="font-size: 13px; color: #302000; padding: 3px 7px; background: #f0e0d0; box-shadow: 0 0 0 2px #907030;">LB</span><span style="font-size: 13px; color: #302000; padding: 3px 7px; background: #f0e0d0; box-shadow: 0 0 0 2px #907030;">RB</span> Changer d'écran</span>
+      <span style="display: flex; align-items: center; gap: 6px;"><span style="font-size: 13px; color: #302000; padding: 3px 7px; background: #f0e0d0; box-shadow: 0 0 0 2px #907030;">LB</span><span style="font-size: 13px; color: #302000; padding: 3px 7px; background: #f0e0d0; box-shadow: 0 0 0 2px #907030;">RB</span> Changer d'onglet</span>
       <span style="display: flex; align-items: center; gap: 6px;"><span style="font-size: 13px; color: #302000; padding: 3px 7px; background: #f0e0d0; box-shadow: 0 0 0 2px #907030;">A</span> Valider</span>
       <span style="display: flex; align-items: center; gap: 6px;"><span style="font-size: 13px; color: #302000; padding: 3px 7px; background: #f0e0d0; box-shadow: 0 0 0 2px #907030;">ÉCHAP</span> Revenir</span>
     </div>
