@@ -300,6 +300,7 @@ add_executable(JustAnotherDnDGame
     Interface/ParchmentPanel.cpp
     Interface/OrnamentPainter.cpp
     Interface/TitleBanner.cpp
+    Interface/AbilityWheel.cpp
     Interface/FocusMarker.cpp
     Interface/MenuEntryButton.cpp
     Interface/ThemeIcons.cpp

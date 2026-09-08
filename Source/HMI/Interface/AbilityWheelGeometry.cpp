@@ -28,6 +28,10 @@ constexpr float SEAT_RADIUS_RATIO = 0.082142857F;
 constexpr float PORTRAIT_RADIUS_RATIO = 0.205357143F;
 /// Rayon de l'anneau d'entrelacs, entre le portrait et les médaillons.
 constexpr float RING_RADIUS_RATIO = 0.221428571F;
+/// Taille d'un fleuron intercalaire, **rapportée au médaillon** et non au côté : c'est au
+/// médaillon qu'il doit rester subordonné. Le lier au côté le ferait grossir plus vite que ce
+/// qu'il accompagne, et l'ornement finirait par disputer la valeur qu'il encadre.
+constexpr float FLEURON_RADIUS_RATIO = 0.185F;
 
 /// Premier siège, en degrés depuis le haut, sens horaire. Négatif : à gauche du sommet.
 constexpr float ARC_START_DEGREES = -125.0F;
@@ -69,6 +73,18 @@ AbilityWheelLayout abilityWheelLayout(int side) noexcept {
         layout.seats.at(index) =
             WheelDisc{centerX + layout.arcRadius * std::sin(angle),
                       centerY - layout.arcRadius * std::cos(angle), seatRadius};
+    }
+
+    // Les fleurons occupent le MILIEU de chaque intervalle, sur le même arc que les sièges. Un
+    // demi-pas, donc, et non une position choisie : c'est ce qui les garde à égale distance de
+    // leurs deux voisins quand l'arc change d'ouverture.
+    const float fleuronRadius = seatRadius * FLEURON_RADIUS_RATIO;
+    for (std::size_t index = 0; index + 1 < ABILITY_SEAT_COUNT; ++index) {
+        const float angle =
+            toRadians(ARC_START_DEGREES + SEAT_STEP_DEGREES * (static_cast<float>(index) + 0.5F));
+        layout.fleurons.at(index) =
+            WheelDisc{centerX + layout.arcRadius * std::sin(angle),
+                      centerY - layout.arcRadius * std::cos(angle), fleuronRadius};
     }
 
     layout.valid = true;

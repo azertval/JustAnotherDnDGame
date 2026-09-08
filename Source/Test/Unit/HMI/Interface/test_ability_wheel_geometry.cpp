@@ -157,6 +157,44 @@ TEST(AbilityWheelGeometry, LesMedaillonsVoisinsNeSeRecouvrentPas) {
     }
 }
 
+// -- Les fleurons intercalaires -----------------------------------------------------------------
+
+/**
+ * @brief Les cinq fleurons sont sur l'arc, à mi-chemin de leurs deux voisins, et plus petits
+ *        qu'eux.
+ *
+ * Un ornement placé à vue dans le peintre dériverait le jour où l'arc change d'ouverture, sans que
+ * rien ne le signale : l'arc et l'ornement ne se parlent pas. Les tenir dans la même table les
+ * oblige à bouger ensemble.
+ *
+ * Le fleuron reste **subordonné** au médaillon : le lier au côté de la roue plutôt qu'au médaillon
+ * le ferait grossir plus vite que ce qu'il accompagne, et l'ornement finirait par disputer la
+ * valeur qu'il encadre.
+ */
+TEST(AbilityWheelGeometry, LesFleuronsSontEntreLesMedaillonsSurLArc) {
+    for (const int side : SIZES) {
+        const AbilityWheelLayout layout = abilityWheelLayout(side);
+        ASSERT_TRUE(layout.valid) << "cote " << side;
+        for (std::size_t index = 0; index + 1 < ABILITY_SEAT_COUNT; ++index) {
+            const WheelDisc& fleuron = layout.fleurons.at(index);
+            const float radius =
+                distance(fleuron, layout.portrait.centerX, layout.portrait.centerY);
+            EXPECT_NEAR(radius, layout.arcRadius, 0.1F)
+                << "cote " << side << ", fleuron " << index << " hors de l'arc";
+
+            // A mi-chemin : les deux distances aux voisins sont egales.
+            const WheelDisc& before = layout.seats.at(index);
+            const WheelDisc& after = layout.seats.at(index + 1);
+            EXPECT_NEAR(distance(fleuron, before.centerX, before.centerY),
+                        distance(fleuron, after.centerX, after.centerY), 0.1F)
+                << "cote " << side << ", fleuron " << index << " decentre";
+
+            EXPECT_LT(fleuron.radius, before.radius)
+                << "cote " << side << ", fleuron " << index << " dispute son medaillon";
+        }
+    }
+}
+
 // -- La roue tient dans son carré ---------------------------------------------------------------
 
 /**

@@ -88,6 +88,10 @@ struct AbilityWheelLayout {
     WheelDisc portrait{};
     /// Les six médaillons, indexés par `WheelSeat`.
     std::array<WheelDisc, ABILITY_SEAT_COUNT> seats{};
+    /// Les fleurons posés **entre** deux médaillons voisins, sur le même arc : cinq intervalles
+    /// pour six sièges. Ils sont ici et non dans le peintre parce qu'un ornement placé à vue
+    /// dérive du jour où l'arc bouge, et que rien ne le signale — les deux ne se parlent pas.
+    std::array<WheelDisc, ABILITY_SEAT_COUNT - 1> fleurons{};
     /// Rayon de l'anneau d'entrelacs, entre le portrait et les médaillons.
     float ringRadius = 0.0F;
     /// Rayon de l'arc qui relie les six sièges : celui sur lequel leurs centres sont posés.
