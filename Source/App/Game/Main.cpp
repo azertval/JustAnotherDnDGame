@@ -77,6 +77,19 @@ int main(int argc, char** argv) {
     registerIdentityFonts();
 
     QQmlApplicationEngine engine;
+
+    // Éditer un écran sans rien reconstruire (EX-IHM-100). Par défaut, les .qml sont lus dans la
+    // ressource embarquée -- c'est ce qu'il faut pour un binaire livré. Avec
+    // JADG_QML_FROM_SOURCE=1, on place en tête des chemins d'import un module dont le qmldir
+    // désigne les fichiers SOURCES : le programme lit alors Source/Ui directement, et relancer
+    // suffit à voir la retouche.
+    //
+    // `addImportPath` insère en tête : le module sur disque l'emporte donc sur celui de la
+    // ressource, sans qu'il faille retirer ce dernier.
+    if (qEnvironmentVariable("JADG_QML_FROM_SOURCE") == QLatin1String("1")) {
+        engine.addImportPath(QStringLiteral(JADG_QML_DEV_IMPORT_PATH));
+        HMI_LOG_INFO("Interface lue depuis les sources : " JADG_QML_DEV_IMPORT_PATH);
+    }
     // Les erreurs de l'engine vont, par defaut, sur la sortie d'erreur de Qt -- que personne ne
     // lit apres coup, et qui n'existe pas dans un binaire livre. On les verse dans le journal de
     // session : un ecran QML casse doit se diagnostiquer depuis Logs/, comme tout le reste.

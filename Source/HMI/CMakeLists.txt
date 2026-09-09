@@ -389,6 +389,11 @@ set(JADG_QML_FILES
     Main.qml
     Theme/Tokens.qml
 )
+# Les singletons, dans une liste a part : elle sert DEUX fois ci-dessous (propriete de source, et
+# qmldir de developpement). Une seule liste, donc rien a resynchroniser en ajoutant un ecran.
+set(JADG_QML_SINGLETONS
+    Theme/Tokens.qml
+)
 foreach(_qml ${JADG_QML_FILES})
     set_source_files_properties(${UI_DIR}/${_qml} PROPERTIES QT_RESOURCE_ALIAS ${_qml})
     list(APPEND JADG_QML_ABSOLUTE ${UI_DIR}/${_qml})
@@ -399,7 +404,39 @@ endforeach()
 # comme un type ordinaire — chaque `import` en construirait une instance neuve, et le facteur
 # d'agrandissement posé par la fenêtre ne serait vu par aucun écran. La panne serait visuelle et
 # muette, jamais une erreur.
-set_source_files_properties(${UI_DIR}/Theme/Tokens.qml PROPERTIES QT_QML_SINGLETON_TYPE TRUE)
+foreach(_qml ${JADG_QML_SINGLETONS})
+    set_source_files_properties(${UI_DIR}/${_qml} PROPERTIES QT_QML_SINGLETON_TYPE TRUE)
+endforeach()
+
+# --- Éditer un écran sans rien reconstruire (EX-IHM-100) --------------------------------------
+#
+# `qt_add_qml_module` embarque les .qml dans la ressource : la moindre retouche de mise en page
+# demanderait sinon de repasser par le build, ce qui vide l'objectif du lot de sa substance.
+#
+# On écrit donc un second `qmldir` — engendré depuis LA MÊME liste que la ressource, jamais tenu à
+# la main — dont les chemins désignent les fichiers SOURCES. Lancer le jeu avec
+# `JADG_QML_FROM_SOURCE=1` place ce répertoire en tête des chemins d'import : le programme lit
+# alors Source/Ui directement, et relancer suffit à voir le changement.
+#
+# Écrit à la configuration, pas à la construction : il ne dépend que de la liste, jamais du contenu
+# des fichiers.
+set(JADG_QML_DEV_DIR ${CMAKE_CURRENT_BINARY_DIR}/qml-source)
+set(_dev_module_dir ${JADG_QML_DEV_DIR}/Jadg/Ui)
+file(MAKE_DIRECTORY ${_dev_module_dir})
+set(_dev_qmldir "module Jadg.Ui
+")
+foreach(_qml ${JADG_QML_FILES})
+    get_filename_component(_qml_type ${_qml} NAME_WE)
+    file(RELATIVE_PATH _qml_rel ${_dev_module_dir} ${UI_DIR}/${_qml})
+    if(${_qml} IN_LIST JADG_QML_SINGLETONS)
+        string(APPEND _dev_qmldir "singleton ${_qml_type} 1.0 ${_qml_rel}
+")
+    else()
+        string(APPEND _dev_qmldir "${_qml_type} 1.0 ${_qml_rel}
+")
+    endif()
+endforeach()
+file(WRITE ${_dev_module_dir}/qmldir "${_dev_qmldir}")
 
 # RESOURCE_PREFIX explicite. Sans lui, le module est embarque sous « :/Jadg/Ui », alors que
 # l'engine QML ne cherche ses modules que sous « :/qt/qml » -- il repondrait « Module Jadg.Ui
@@ -438,6 +475,9 @@ foreach(_app JustAnotherDnDGame LevelEditor)
     target_include_directories(${_app} PRIVATE ${PROJECT_SOURCE_DIR}/Source)
     # Réduit la surface de Windows.h, évite les macros min/max, API Unicode.
     target_compile_definitions(${_app} PRIVATE WIN32_LEAN_AND_MEAN NOMINMAX UNICODE _UNICODE)
+    if(_app STREQUAL "JustAnotherDnDGame")
+        target_compile_definitions(${_app} PRIVATE JADG_QML_DEV_IMPORT_PATH="${JADG_QML_DEV_DIR}")
+    endif()
     if(ENABLE_PCH)
         target_precompile_headers(${_app} PRIVATE ${PROJECT_SOURCE_DIR}/Source/pch.h)
     endif()
