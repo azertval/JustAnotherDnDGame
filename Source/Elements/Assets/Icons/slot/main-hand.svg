@@ -2,10 +2,10 @@
 <!-- SPDX-FileCopyrightText: 2026 Valentin Eloy
      SPDX-License-Identifier: GPL-3.0-or-later
 
-     rpg.slot.main_hand : une epee en diagonale, garde en bas a droite.
+     Emplacement `main-hand` (core::equipmentSlotName) : une epee en diagonale, garde en bas a droite.
 
      GENERE par scripts/generate_slot_icons.py -- ne pas retoucher a la main. La retouche serait
-     perdue a la prochaine execution, et l'icone divergerait des sept autres.
+     perdue a la prochaine execution, et l'icone divergerait des quinze autres.
 
      Le trait est `currentColor` : le chargeur y substitue le role demande de la portee identite
      (EX-IHM-051). Rendue telle quelle, l'icone sort en NOIR -- une panne qui se voit, et non une

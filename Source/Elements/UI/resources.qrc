@@ -10,18 +10,29 @@
     <file alias="resources/theme-identity.qss">../Themes/theme-identity.qss</file>
     <file alias="resources/theme-editor.qss">../Themes/theme-editor.qss</file>
 
-    <!-- Icônes d'emplacement d'équipement (Elements/Assets/Icons/slot), générées par
-         `scripts/generate_slot_icons.py`. Embarquées et non lues sur le disque, pour la raison qui
-         vaut déjà aux feuilles de style : une icône manquante à l'installation ne doit pas donner
-         un emplacement vide qu'on prendrait pour « rien d'équipé ».
-         Leur trait est `currentColor` — le chargeur y substitue le rôle demandé (EX-IHM-051). -->
-    <file alias="resources/icons/slot/head.svg">../Assets/Icons/slot/head.svg</file>
-    <file alias="resources/icons/slot/torso.svg">../Assets/Icons/slot/torso.svg</file>
-    <file alias="resources/icons/slot/hands.svg">../Assets/Icons/slot/hands.svg</file>
+    <!-- Icones d'emplacement d'equipement (Elements/Assets/Icons/slot), une par emplacement de
+         `core::EquipmentSlot`. Generees par `scripts/generate_slot_icons.py`, dont la table est
+         la seule liste : cette enumeration la SUIT, elle ne la remplace pas.
+         Embarquees et non lues sur le disque, pour la raison qui vaut deja aux feuilles de
+         style : une icone manquante a l'installation donnerait un emplacement vide, qu'on
+         prendrait pour << rien d'equipe >>.
+         Leur trait est `currentColor` — le chargeur y substitue le role demande
+         (EX-IHM-051). -->
+    <file alias="resources/icons/slot/ammunition.svg">../Assets/Icons/slot/ammunition.svg</file>
+    <file alias="resources/icons/slot/belt.svg">../Assets/Icons/slot/belt.svg</file>
+    <file alias="resources/icons/slot/bracers.svg">../Assets/Icons/slot/bracers.svg</file>
+    <file alias="resources/icons/slot/cloak.svg">../Assets/Icons/slot/cloak.svg</file>
     <file alias="resources/icons/slot/feet.svg">../Assets/Icons/slot/feet.svg</file>
+    <file alias="resources/icons/slot/hands.svg">../Assets/Icons/slot/hands.svg</file>
+    <file alias="resources/icons/slot/head.svg">../Assets/Icons/slot/head.svg</file>
     <file alias="resources/icons/slot/main-hand.svg">../Assets/Icons/slot/main-hand.svg</file>
+    <file alias="resources/icons/slot/neck.svg">../Assets/Icons/slot/neck.svg</file>
     <file alias="resources/icons/slot/off-hand.svg">../Assets/Icons/slot/off-hand.svg</file>
-    <file alias="resources/icons/slot/amulet.svg">../Assets/Icons/slot/amulet.svg</file>
-    <file alias="resources/icons/slot/ring.svg">../Assets/Icons/slot/ring.svg</file>
+    <file alias="resources/icons/slot/pouch.svg">../Assets/Icons/slot/pouch.svg</file>
+    <file alias="resources/icons/slot/ranged.svg">../Assets/Icons/slot/ranged.svg</file>
+    <file alias="resources/icons/slot/ring-left.svg">../Assets/Icons/slot/ring-left.svg</file>
+    <file alias="resources/icons/slot/ring-right.svg">../Assets/Icons/slot/ring-right.svg</file>
+    <file alias="resources/icons/slot/torso.svg">../Assets/Icons/slot/torso.svg</file>
+    <file alias="resources/icons/slot/trinket.svg">../Assets/Icons/slot/trinket.svg</file>
   </qresource>
 </RCC>

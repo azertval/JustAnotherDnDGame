@@ -1,18 +1,25 @@
 # SPDX-FileCopyrightText: 2026 Valentin Eloy
 # SPDX-License-Identifier: GPL-3.0-or-later
-"""Genere les huit icones d'emplacement d'equipement, en SVG.
+"""Genere les seize icones d'emplacement d'equipement, en SVG.
 
-Les huit emplacements sont ceux de `core::Equipment` (`LOT-34`) et de la table du chassis
-(`hmi::EQUIPMENT_SLOTS`, `LOT-68`) : tete, torse, mains, pieds, main directrice, main secondaire,
-amulette, anneau. Un neuvieme emplacement se declare ICI et nulle part ailleurs -- la table
-ci-dessous est la seule liste, et le fichier qu'elle produit porte le nom de sa cle de traduction.
+Les seize emplacements sont ceux de `core::EquipmentSlot` (`LOT-34`), et chaque fichier porte le
+nom que `core::equipmentSlotName` leur donne : `ring-left.svg` pour `EquipmentSlot::RingLeft`. Le
+lien entre le code et le fichier ne se devine donc pas, il se LIT -- une correspondance obtenue par
+transformation de chaine casse en silence au premier emplacement hors regle.
 
-## Pourquoi un generateur, et pas huit fichiers ecrits a la main
+Un dix-septieme emplacement se declare ICI et nulle part ailleurs : la table ci-dessous est la
+seule liste.
 
-Les huit icones partagent leur grille (24 x 24), leur epaisseur de trait et leurs terminaisons.
-Ecrites a la main, elles divergent a la premiere retouche : une devient plus epaisse que les sept
-autres, et personne ne voit pourquoi la ligne « Mains » pese plus lourd que la ligne « Pieds ». Le
-trace propre a chaque emplacement est la SEULE chose qui varie, et la seule que la table ecrit.
+## Pourquoi un generateur, et pas seize fichiers ecrits a la main
+
+Les seize icones partagent leur grille (24 x 24), leur epaisseur de trait et leurs terminaisons.
+Ecrites a la main, elles divergent a la premiere retouche : une devient plus epaisse que les
+quinze autres, et personne ne voit pourquoi la ligne << Mains >> pese plus lourd que << Pieds >>.
+Le trace propre a chaque emplacement est la SEULE chose qui varie, et la seule que la table ecrit.
+
+Deux emplacements -- les deux anneaux -- partagent leur trace : un anneau gauche et un anneau droit
+se dessinent pareil. La table le dit explicitement plutot que de laisser un fichier en copier un
+autre, et les deux fichiers restent produits, parce que le code les demande par leur nom.
 
 ## Pourquoi `currentColor`, et pas la teinte
 
@@ -43,34 +50,49 @@ RACINE = pathlib.Path(__file__).resolve().parent.parent
 DESTINATION = RACINE / "Source" / "Elements" / "Assets" / "Icons" / "slot"
 
 # La grille est celle des icones de l'habillage : 24 unites de cote, trait d'une unite et demie,
-# terminaisons et jointures arrondies. Ces trois valeurs valent pour les huit -- c'est ce qui fait
+# terminaisons et jointures arrondies. Ces trois valeurs valent pour les seize -- c'est ce qui fait
 # qu'elles se lisent comme une famille.
 COTE = 24
 EPAISSEUR = "1.6"
 
-# Cle de traduction -> (nom de fichier, ce que l'icone montre, traces, cercles).
+# Traces partages, nommes pour que la table dise qu'ils le sont.
+ANNEAU = (
+    "un anneau surmonte de son chaton",
+    ["M9 7l3-3 3 3"],
+    [("12", "14", "6")],
+)
+
+# Nom d'emplacement (`core::equipmentSlotName`) -> (description, traces, cercles).
 #
-# Le nom de fichier est celui de la cle, sans son espace de noms : `rpg.slot.main_hand` donne
-# `main-hand.svg`. Le lien entre les deux ne se devine donc pas, il se lit.
-#
-# Deux emplacements portent un cercle en plus de leurs traces : un pendentif et un anneau se
-# dessinent rond, et un arc de cercle en `<path>` serait ici moins lisible que le cercle qu'il
-# imite.
+# L'ordre est celui du modele. Les cercles sont a part parce qu'un arc de cercle en `<path>` serait
+# ici moins lisible que le cercle qu'il imite.
 EMPLACEMENTS = {
-    "rpg.slot.head": (
-        "head",
+    "head": (
         "un heaume ferme, vu de face, avec sa fente de vue",
         ["M4 13a8 8 0 0 1 16 0v6H4z", "M4 13h16", "M12 13v6"],
         [],
     ),
-    "rpg.slot.torso": (
-        "torso",
+    "neck": (
+        "une chaine ouverte et son pendentif rond",
+        ["M6 3c1 5 3 7 6 7s5-2 6-7", "M12 10v2"],
+        [("12", "16", "4.5")],
+    ),
+    "cloak": (
+        "une cape agrafee au col, retombant en deux pans",
+        ["M8 4l4 2 4-2", "M8 4C5 6 4 11 4 20h6l1-9", "M16 4c3 2 4 7 4 16h-6l-1-9"],
+        [],
+    ),
+    "torso": (
         "une cuirasse a epaulieres, echancree au col",
         ["M8 3l4 3 4-3 4 3v6l-2 1v8H6v-8l-2-1V6z", "M9 12h6"],
         [],
     ),
-    "rpg.slot.hands": (
-        "hands",
+    "belt": (
+        "une ceinture et sa boucle carree",
+        ["M2 10h7", "M15 10h7", "M2 14h7", "M15 14h7", "M9 8h6v8H9z", "M12 10v4"],
+        [],
+    ),
+    "hands": (
         "un gantelet, quatre doigts et le pouce",
         [
             "M7 11V5a1.5 1.5 0 0 1 3 0v6",
@@ -80,35 +102,47 @@ EMPLACEMENTS = {
         ],
         [],
     ),
-    "rpg.slot.feet": (
-        "feet",
-        "une botte de profil, semelle vers la droite",
-        ["M7 3v9c0 2 1 3 3 3h7a2 2 0 0 1 2 2v3H7z", "M7 12h5"],
-        [],
-    ),
-    "rpg.slot.main_hand": (
-        "main-hand",
+    "ring-left": ANNEAU,
+    "ring-right": ANNEAU,
+    "main-hand": (
         "une epee en diagonale, garde en bas a droite",
         ["M4 20l3-3", "M6 18l11-11 3-3v3l-3 3-8 8z", "M15 6l3 3"],
         [],
     ),
-    "rpg.slot.off_hand": (
-        "off-hand",
+    "off-hand": (
         "un ecu, avec sa bande verticale",
         ["M12 3l8 2.5v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10v-6z", "M12 7v10"],
         [],
     ),
-    "rpg.slot.amulet": (
-        "amulet",
-        "une chaine ouverte et son pendentif rond",
-        ["M6 3c1 5 3 7 6 7s5-2 6-7", "M12 10v2"],
-        [("12", "16", "4.5")],
+    "ranged": (
+        "un arc bande, fleche encochee",
+        ["M7 3a16 16 0 0 1 0 18", "M7 4l0 16", "M4 12h16", "M16 9l4 3-4 3"],
+        [],
     ),
-    "rpg.slot.ring": (
-        "ring",
-        "un anneau surmonte de son chaton",
-        ["M9 7l3-3 3 3"],
-        [("12", "14", "6")],
+    "ammunition": (
+        "trois fleches dans leur carquois",
+        ["M8 3v9", "M12 2v10", "M16 3v9", "M6 12h12l-1 9H7z", "M6 16h12"],
+        [],
+    ),
+    "feet": (
+        "une botte de profil, semelle vers la droite",
+        ["M7 3v9c0 2 1 3 3 3h7a2 2 0 0 1 2 2v3H7z", "M7 12h5"],
+        [],
+    ),
+    "bracers": (
+        "un brassard lace sur l'avant-bras",
+        ["M7 4h10l-1 16H8z", "M9 8h6", "M9 12h6", "M9 16h6"],
+        [],
+    ),
+    "pouch": (
+        "une bourse fermee par son cordon",
+        ["M9 3l-1 4", "M15 3l1 4", "M8 7h8c2 3 3 6 3 9a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4c0-3 1-6 3-9z"],
+        [],
+    ),
+    "trinket": (
+        "un talisman a trois branches, suspendu",
+        ["M12 3v4", "M12 11l4 7H8z"],
+        [("12", "9", "2.4")],
     ),
 }
 
@@ -116,10 +150,10 @@ GABARIT = """<?xml version="1.0" encoding="UTF-8"?>
 <!-- SPDX-FileCopyrightText: 2026 Valentin Eloy
      SPDX-License-Identifier: GPL-3.0-or-later
 
-     {libelle} : {description}.
+     Emplacement `{nom}` (core::equipmentSlotName) : {description}.
 
      GENERE par scripts/generate_slot_icons.py -- ne pas retoucher a la main. La retouche serait
-     perdue a la prochaine execution, et l'icone divergerait des sept autres.
+     perdue a la prochaine execution, et l'icone divergerait des quinze autres.
 
      Le trait est `currentColor` : le chargeur y substitue le role demande de la portee identite
      (EX-IHM-051). Rendue telle quelle, l'icone sort en NOIR -- une panne qui se voit, et non une
@@ -136,12 +170,12 @@ def ecrire() -> int:
     DESTINATION.mkdir(parents=True, exist_ok=True)
     attendus = set()
 
-    for cle, (nom, description, traces, cercles) in EMPLACEMENTS.items():
+    for nom, (description, traces, cercles) in EMPLACEMENTS.items():
         lignes = [f'  <path d="{d}"/>' for d in traces]
         lignes += [f'  <circle cx="{cx}" cy="{cy}" r="{r}"/>' for cx, cy, r in cercles]
 
         contenu = GABARIT.format(
-            libelle=cle,
+            nom=nom,
             description=description,
             cote=COTE,
             epaisseur=EPAISSEUR,
@@ -156,8 +190,11 @@ def ecrire() -> int:
     # l'on n'a pas ecrit est une decision qui appartient a celui qui l'a depose.
     restes = {p.name for p in DESTINATION.glob("*.svg")} - attendus
     if restes:
-        print(f"generate_slot_icons : icones sans entree dans la table : {', '.join(sorted(restes))}",
-              file=sys.stderr)
+        print(
+            "generate_slot_icons : icones sans entree dans la table : "
+            + ", ".join(sorted(restes)),
+            file=sys.stderr,
+        )
         return 1
 
     print(f"{len(attendus)} icones d'emplacement ecrites dans {DESTINATION.relative_to(RACINE)}")

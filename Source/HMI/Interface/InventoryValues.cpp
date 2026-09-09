@@ -84,6 +84,12 @@ std::map<std::string, std::string> inventoryValues(const InventoryContext& conte
     // La charge : ce que le personnage porte, contre ce qu'il PEUT porter. Les deux en kilogrammes
     // à l'écran, alors que le modèle compte en grammes -- un sac de 12 450 g ne se lit pas.
     valeurs["inventory.carried"] = kilogrammes(context.derived.carriedWeightGrams);
+    // Et les deux poids BRUTS, en grammes. Une jauge de charge a besoin d'un rapport, pas de deux
+    // phrases : lui faire redecouper « 23,5 kg » serait defaire ici ce qu'on vient d'ecrire, et le
+    // premier changement d'unite la casserait.
+    valeurs["inventory.carried_grams"] = std::to_string(context.derived.carriedWeightGrams);
+    valeurs["inventory.capacity_grams"] =
+        std::to_string(context.derived.carryingCapacityGrams);
     valeurs["inventory.capacity"] = context.derived.carryingCapacityGrams > 0
                                         ? kilogrammes(context.derived.carryingCapacityGrams)
                                         : context.emptyMark;

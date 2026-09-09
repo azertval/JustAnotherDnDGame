@@ -2,7 +2,7 @@
 <!-- SPDX-FileCopyrightText: 2026 Valentin Eloy
      SPDX-License-Identifier: GPL-3.0-or-later
 
-     Emplacement `off-hand` (core::equipmentSlotName) : un ecu, avec sa bande verticale.
+     Emplacement `pouch` (core::equipmentSlotName) : une bourse fermee par son cordon.
 
      GENERE par scripts/generate_slot_icons.py -- ne pas retoucher a la main. La retouche serait
      perdue a la prochaine execution, et l'icone divergerait des quinze autres.
@@ -13,6 +13,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
      fill="none" stroke="currentColor" stroke-width="1.6"
      stroke-linecap="round" stroke-linejoin="round">
-  <path d="M12 3l8 2.5v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10v-6z"/>
-  <path d="M12 7v10"/>
+  <path d="M9 3l-1 4"/>
+  <path d="M15 3l1 4"/>
+  <path d="M8 7h8c2 3 3 6 3 9a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4c0-3 1-6 3-9z"/>
 </svg>

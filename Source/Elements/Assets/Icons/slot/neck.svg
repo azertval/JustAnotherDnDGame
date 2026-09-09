@@ -2,7 +2,7 @@
 <!-- SPDX-FileCopyrightText: 2026 Valentin Eloy
      SPDX-License-Identifier: GPL-3.0-or-later
 
-     Emplacement `off-hand` (core::equipmentSlotName) : un ecu, avec sa bande verticale.
+     Emplacement `neck` (core::equipmentSlotName) : une chaine ouverte et son pendentif rond.
 
      GENERE par scripts/generate_slot_icons.py -- ne pas retoucher a la main. La retouche serait
      perdue a la prochaine execution, et l'icone divergerait des quinze autres.
@@ -13,6 +13,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
      fill="none" stroke="currentColor" stroke-width="1.6"
      stroke-linecap="round" stroke-linejoin="round">
-  <path d="M12 3l8 2.5v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10v-6z"/>
-  <path d="M12 7v10"/>
+  <path d="M6 3c1 5 3 7 6 7s5-2 6-7"/>
+  <path d="M12 10v2"/>
+  <circle cx="12" cy="16" r="4.5"/>
 </svg>

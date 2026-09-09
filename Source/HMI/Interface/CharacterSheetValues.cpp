@@ -71,6 +71,27 @@ std::map<std::string, std::string> characterSheetValues(const CharacterSheetCont
             valeurs["sheet.hit_dice"] =
                 std::to_string(fiche.level) + "d" + std::to_string(classe->hitDie);
         }
+
+        // Les langues viennent de l'ESPECE. Elles sortent avec l'identifiant que porte le
+        // catalogue -- « common », « elvish » -- comme le nom d'espece sort avec le sien : les
+        // catalogues sont en anglais, et les traduire est le sujet du lexique, pas de cet ecran.
+        if (espece != nullptr && !espece->languages.empty()) {
+            std::string langues;
+            for (const std::string& langue : espece->languages) {
+                if (!langues.empty()) {
+                    langues += ", ";
+                }
+                langues += langue;
+            }
+            valeurs["sheet.languages"] = langues;
+        }
+
+        // Le don d'historique : son nom et son texte, separement. Une seule chaine obligerait la
+        // planche a la redecouper pour mettre le nom en titre.
+        if (historique != nullptr && historique->feature.has_value()) {
+            valeurs["sheet.background_feature"] = historique->feature->name;
+            valeurs["sheet.background_feature_text"] = historique->feature->text;
+        }
     }
 
     valeurs["sheet.level"] = std::to_string(fiche.level);
