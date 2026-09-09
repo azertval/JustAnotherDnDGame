@@ -7,12 +7,12 @@
 #include <span>
 
 /**
- * @file HMI/Interface/RpgScreens.h
+ * @file HMI/Presentation/RpgScreens.h
  * @brief Catalogue des écrans du RPG et **ossature** de leur contenu (`LOT-68`, `EX-IHM-090`,
  *        `EX-IHM-091`).
  *
  * Logique **pure** (aucune dépendance Qt), testable hors instance d'application (`EX-NFR-010`) --
- * même patron que `HMI/Interface/ScreenFlow.h` et `HMI/Interface/ActionCatalog.h`.
+ * même patron que `HMI/Presentation/ScreenFlow.h` et `HMI/Interface/ActionCatalog.h`.
  *
  * ## Une table, et non huit écrans écrits à la main
  *

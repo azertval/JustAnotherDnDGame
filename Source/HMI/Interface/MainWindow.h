@@ -23,8 +23,8 @@
 #include "HMI/Input/GamepadPoller.h"
 #include "HMI/Input/InputState.h"
 #include "HMI/Interface/EditorWorkspace.h"
-#include "HMI/Interface/RpgScreens.h"
-#include "HMI/Interface/ScreenFlow.h"
+#include "HMI/Presentation/RpgScreens.h"
+#include "HMI/Presentation/ScreenFlow.h"
 #include "HMI/Localization/Localization.h"
 
 /**

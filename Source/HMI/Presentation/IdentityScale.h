@@ -4,7 +4,7 @@
 #pragma once
 
 /**
- * @file HMI/Interface/IdentityScale.h
+ * @file HMI/Presentation/IdentityScale.h
  * @brief Facteur d'agrandissement **entier** des écrans du jeu (`LOT-66`, `EX-IHM-070`).
  *
  * Logique **pure** (aucune dépendance Qt/GPU), testable hors instance d'application

@@ -1,7 +1,7 @@
 // SPDX-FileCopyrightText: 2026 Valentin Eloy
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include "HMI/Interface/IdentityScale.h"
+#include "HMI/Presentation/IdentityScale.h"
 
 #include <algorithm>
 

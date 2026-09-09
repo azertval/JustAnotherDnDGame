@@ -1,7 +1,7 @@
 // SPDX-FileCopyrightText: 2026 Valentin Eloy
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include "HMI/Interface/CharacterSheetValues.h"
+#include "HMI/Presentation/CharacterSheetValues.h"
 
 #include <array>
 #include <string>

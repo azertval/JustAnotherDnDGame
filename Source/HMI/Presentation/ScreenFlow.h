@@ -6,7 +6,7 @@
 #include <optional>
 
 /**
- * @file HMI/Interface/ScreenFlow.h
+ * @file HMI/Presentation/ScreenFlow.h
  * @brief Machine à états des écrans de la fenêtre principale (`LOT-59` TACHE-01, `EX-GP-041`).
  *
  * Logique **pure** (aucune dépendance Qt), testable hors instance d'application (`EX-NFR-010`) —

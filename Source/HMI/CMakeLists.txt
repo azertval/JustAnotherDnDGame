@@ -107,16 +107,16 @@ add_library(HmiLib STATIC
     Editor/PixelPalette.cpp
     Editor/PixelAutotilePreview.cpp
     # Interface : logique d'écrans et de thème, sans widget.
-    Interface/ScreenFlow.cpp
-    Interface/RpgScreens.cpp
-    Interface/CharacterSheetValues.cpp
-    Interface/InventoryValues.cpp
+    Presentation/ScreenFlow.cpp
+    Presentation/RpgScreens.cpp
+    Presentation/CharacterSheetValues.cpp
+    Presentation/InventoryValues.cpp
     Interface/DesignTokens.cpp
     Interface/StyleSheetTemplate.cpp
     Interface/FontResolution.cpp
     Interface/ThemeResolution.cpp
     Interface/IconGeometry.cpp
-    Interface/IdentityScale.cpp
+    Presentation/IdentityScale.cpp
     Interface/EditorWorkspace.cpp
     Interface/ParchmentFrame.cpp
     Interface/ParchmentOrnaments.cpp
@@ -380,6 +380,12 @@ target_link_libraries(LevelEditor PRIVATE
 add_executable(JustAnotherDnDGame
     ${APP_DIR}/Game/Main.cpp
     ${APP_DIR}/Common/Bootstrap.cpp
+    # Vues-modèles : ce que le jeu SAIT DIRE, exposé au QML en propriétés et en modèles de liste.
+    # Elles ne connaissent ni QML, ni asset, ni feuille de style, et ne lient que Qt6::Qml — jamais
+    # Quick ni Widgets. `scripts/check_ui_layers.py` le vérifie (EX-IHM-101), parce qu'un include
+    # de trop ne se voit pas à la relecture et ne casse rien avant longtemps.
+    Presentation/SheetRowModel.cpp
+    Presentation/CharacterSheetModel.cpp
 )
 
 # Les fichiers QML vivent dans Source/Ui — le territoire de la conception, hors de Source/HMI.
@@ -389,6 +395,11 @@ add_executable(JustAnotherDnDGame
 set(JADG_QML_FILES
     Main.qml
     Theme/Tokens.qml
+    # Contrôles : les briques que la conception réutilise d'un écran à l'autre.
+    Controls/SheetLine.ui.qml
+    # Écrans : un FORMULAIRE `.ui.qml` (conception) et son jumeau `.qml` (câblage) par écran.
+    Screens/CharacterSheetForm.ui.qml
+    Screens/CharacterSheet.qml
 )
 # Les singletons, dans une liste a part : elle sert DEUX fois ci-dessous (propriete de source, et
 # qmldir de developpement). Une seule liste, donc rien a resynchroniser en ajoutant un ecran.
@@ -450,6 +461,22 @@ qt_add_qml_module(JustAnotherDnDGame
     RESOURCE_PREFIX "/qt/qml"
     QML_FILES ${JADG_QML_ABSOLUTE}
 )
+
+# Le fichier d'enregistrement des types QML est ENGENDRÉ, et il inclut les en-têtes par NOM DE
+# BASE (`#if __has_include(<CharacterSheetModel.h>)`), pas par le chemin « HMI/… » qu'emploie tout
+# le reste du projet. Sans ce répertoire dans les chemins d'inclusion, le `__has_include` échoue
+# **en silence**, l'en-tête n'est pas inclus, et la compilation du fichier engendré échoue sur un
+# « identificateur non déclaré » qui ne désigne aucun fichier écrit à la main.
+target_include_directories(JustAnotherDnDGame PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/Presentation)
+
+# `qmlcachegen` compile le QML A L'AVANCE en C++, et ce C++ ENGENDRÉ déclenche C4702 (« code
+# inatteignable ») depuis les en-têtes de Qt eux-mêmes. `/external:W0` ne l'attrape pas : la
+# construction fautive est instanciée dans l'unité engendrée, pas dans l'en-tête. `/WX` en fait
+# alors une erreur, sur du code que le projet n'écrit pas et ne peut pas corriger.
+#
+# Neutralisé pour CETTE cible seulement, jamais pour le dépôt : `/W4 /WX` reste la règle
+# (EX-NFR-013), et C4702 continue d'être une erreur partout ailleurs, y compris dans l'éditeur.
+target_compile_options(JustAnotherDnDGame PRIVATE /wd4702)
 
 # Fichier de configuration du serveur de langage QML : ce qui donne complétion et diagnostics dans
 # un éditeur, sans que la conception ait à décrire les chemins d'import à la main.

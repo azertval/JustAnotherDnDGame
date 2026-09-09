@@ -12,7 +12,7 @@
 #include "Core/Rpg/Skill.h"
 
 /**
- * @file HMI/Interface/CharacterSheetValues.h
+ * @file HMI/Presentation/CharacterSheetValues.h
  * @brief Ce que l'écran de fiche affiche, calculé hors de tout widget (`LOT-38`, `EX-IHM-090`).
  */
 

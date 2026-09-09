@@ -9,7 +9,7 @@
 #include "Core/Rpg/Inventory.h"
 
 /**
- * @file HMI/Interface/InventoryValues.h
+ * @file HMI/Presentation/InventoryValues.h
  * @brief Ce que l'écran d'inventaire affiche, calculé hors de tout widget (`LOT-14`).
  */
 
