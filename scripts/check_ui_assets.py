@@ -20,7 +20,7 @@ donnee, celui-la protege le LIEN entre la donnee et le code, qui est ce qui lach
 un fichier sans y penser.
 
 Aucune dependance : l'empreinte est du hashlib, et les dimensions se lisent dans l'en-tete du
-fichier. Meme motif que `check_design_tokens.py`.
+fichier. Meme motif que `check_qt_version_pin.py`.
 
 Usage :
     python scripts/check_ui_assets.py     # code de sortie non nul si divergence

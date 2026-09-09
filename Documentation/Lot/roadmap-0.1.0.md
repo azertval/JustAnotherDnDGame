@@ -2182,7 +2182,8 @@ jeu, soit le seul écran à exiger une souris.
 
 - Un combat complet se joue **entièrement au clavier** et **entièrement à la manette**.
 - Chaque jet affiché est traçable au journal.
-- `check_design_tokens.py` vert (la palette d'identité reste cohérente entre maquettes et code).
+- `check_ui_layers.py` vert (aucune couleur en dur hors de `Source/Ui/Theme/` : la palette
+  d'identité n'a qu'une source, il n'y a plus deux copies à faire coïncider).
 - Traduction fr/en complète.
 - Vérification IHM manuelle par l'utilisateur, comme pour tout lot de rendu.
 
