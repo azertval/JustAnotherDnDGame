@@ -89,3 +89,8 @@ Thumbs.db
 Desktop.ini
 __pycache__/
 *.pyc
+
+# Module QML de developpement, ENGENDRE a la configuration (LOT-86). Il rend Source/Ui importable
+# tel quel -- c'est ce qui permet au .qmlproject de l'artiste de resoudre Jadg.Ui sans connaitre
+# le repertoire de construction. Engendre depuis la meme liste que la ressource, jamais edite.
+/Source/Ui/Jadg/

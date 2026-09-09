@@ -432,7 +432,11 @@ endforeach()
 #
 # Écrit à la configuration, pas à la construction : il ne dépend que de la liste, jamais du contenu
 # des fichiers.
-set(JADG_QML_DEV_DIR ${CMAKE_CURRENT_BINARY_DIR}/qml-source)
+# Écrit SOUS Source/Ui (et ignoré par git), et non dans le répertoire de construction : c'est ce
+# qui permet au `.qmlproject` de l'artiste de déclarer `importPaths: ["."]` et de résoudre
+# `Jadg.Ui` tout seul. Un chemin vers `build/…` dans un fichier de conception serait à la fois
+# fragile et incompréhensible pour qui ne construit pas le projet.
+set(JADG_QML_DEV_DIR ${UI_DIR})
 set(_dev_module_dir ${JADG_QML_DEV_DIR}/Jadg/Ui)
 file(MAKE_DIRECTORY ${_dev_module_dir})
 set(_dev_qmldir "module Jadg.Ui
