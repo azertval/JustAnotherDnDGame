@@ -386,6 +386,8 @@ add_executable(JustAnotherDnDGame
     # de trop ne se voit pas à la relecture et ne casse rien avant longtemps.
     Presentation/SheetRowModel.cpp
     Presentation/CharacterSheetModel.cpp
+    # L'ancre des ecrans dessines mais pas encore alimentes (LOT-86).
+    Presentation/PendingData.cpp
 )
 
 # Les fichiers QML vivent dans Source/Ui — le territoire de la conception, hors de Source/HMI.
@@ -397,9 +399,34 @@ set(JADG_QML_FILES
     Theme/Tokens.qml
     # Contrôles : les briques que la conception réutilise d'un écran à l'autre.
     Controls/SheetLine.ui.qml
+    Controls/SheetBlock.ui.qml
+    Controls/SheetList.ui.qml
+    Controls/SheetProse.ui.qml
+    Controls/SheetPortrait.ui.qml
+    Controls/SheetTrack.ui.qml
+    Controls/SheetActionBar.ui.qml
+    Controls/RpgScreenFrame.ui.qml
     # Écrans : un FORMULAIRE `.ui.qml` (conception) et son jumeau `.qml` (câblage) par écran.
+    # Sept d'entre eux sont dessinés mais pas encore alimentés : leur jumeau relie chaque champ à
+    # une clé nommée qui aboutit à `hmi::PendingData`. Le jour où le lot fonctionnel arrive, seul
+    # le jumeau change — la mise en page décidée aujourd'hui est conservée telle quelle.
+    # `python scripts/list_pending_bindings.py` en donne l'inventaire, dérivé du QML.
     Screens/CharacterSheetForm.ui.qml
     Screens/CharacterSheet.qml
+    Screens/JournalForm.ui.qml
+    Screens/Journal.qml
+    Screens/WorldMapForm.ui.qml
+    Screens/WorldMap.qml
+    Screens/DialogueForm.ui.qml
+    Screens/Dialogue.qml
+    Screens/MerchantForm.ui.qml
+    Screens/Merchant.qml
+    Screens/GuildBoardForm.ui.qml
+    Screens/GuildBoard.qml
+    Screens/CombatHudForm.ui.qml
+    Screens/CombatHud.qml
+    Screens/TeamSheetForm.ui.qml
+    Screens/TeamSheet.qml
 )
 # Les singletons, dans une liste a part : elle sert DEUX fois ci-dessous (propriete de source, et
 # qmldir de developpement). Une seule liste, donc rien a resynchroniser en ajoutant un ecran.

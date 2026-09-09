@@ -26,7 +26,22 @@ Window {
     // temporairement, jamais l'apparence.
     onHeightChanged: Tokens.scale = Math.max(1, Math.min(3, Math.floor(root.height / 360)))
 
-    CharacterSheet {
+    /*!
+        Écran affiché au lancement. Posé par l'application depuis `--screen=<Nom>`, et valant la
+        fiche de personnage par défaut.
+
+        Il n'y a pas encore de navigation : `hmi::ScreenRouter` viendra avec les écrans hors-jeu.
+        En attendant, pouvoir ouvrir un écran précis est ce qui rend sa vérification visuelle
+        possible — les sept écrans dessinés mais pas encore alimentés ne sont atteignables par
+        aucun autre chemin.
+    */
+    // `startScreen` et non `screen` : `Window` porte deja une propriete `screen`, qui designe
+    // l'ECRAN PHYSIQUE. La masquer aurait rendu la vraie inatteignable, et une liaison qui
+    // aurait voulu la definition de l'affichage aurait recu un nom d'ecran de jeu.
+    property string startScreen: "CharacterSheet"
+
+    Loader {
         anchors.fill: parent
+        source: "Screens/" + root.startScreen + ".qml"
     }
 }

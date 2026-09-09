@@ -66,6 +66,29 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
     des écrans devient reproductible au lieu de dépendre d'un œil devant l'écran au bon moment.
   - `scripts/build.ps1` accepte `-Target` : le contrôle QML se lance localement comme en CI, sans
     contourner l'environnement MSVC que ce script existe pour établir.
+  - **Les sept écrans sans données sont dessinés, et leur travail est mis à l'abri.** Journal,
+    carte, dialogue, marchand, tableau de la Guilde, ATH de combat et feuille d'équipe existent
+    comme formulaires `.ui.qml`, fidèles aux blocs que la table décrivait et aux libellés de
+    `fr.lang`, mot pour mot. Chacun de leurs **41 champs** porte une **clé d'attribution** nommée
+    qui aboutit à l'ancre `hmi::PendingData`. Le jour où un lot fonctionnel livre sa donnée, il
+    remplace `PendingData` par sa vraie vue-modèle dans le fichier de **câblage** : le formulaire
+    ne bouge pas. `python scripts/list_pending_bindings.py` en donne l'inventaire — **dérivé du
+    QML**, donc toujours exact, là où une liste écrite à côté aurait cessé d'être vraie au premier
+    écran branché.
+  - **Des tirets cadratins, jamais de fausses données.** Un écran rempli de valeurs plausibles se
+    prend pour un écran fini : il passe les relectures, on l'oublie, et un jour quelqu'un s'étonne
+    que le marchand vende toujours les mêmes trois objets. Le pied de l'écran l'avoue en outre —
+    « Écran dessiné, données à brancher ». Les **valeurs d'exemple**, elles, vivent dans les
+    formulaires : Qt Design Studio les affiche, la conception juge sa mise en page dessus, et le
+    jeu ne les voit jamais.
+  - **Le châssis fait défiler ce qui ne tient pas**, sur le chemin commun et non écran par écran.
+    C'est la leçon payée trois fois du côté des widgets, où le même débordement fut corrigé deux
+    fois écran par écran avant qu'on ne comprenne qu'une règle à réappliquer se reperd au premier
+    écran ajouté.
+  - Quatre défauts trouvés par `qmllint`, dont deux propres à Qt Design Studio et donc invisibles
+    autrement : `screen` redéfinissait une propriété de `Window` (l'écran **physique**), et deux
+    identifiants trop génériques dans des `.ui.qml` que le designer ne sait pas garantir. Plus un
+    délégué qui lisait la portée de son fichier par un mécanisme que QML ne garantit plus.
 
 - **Inventaire et équipement** (`LOT-14`). Porter, équiper et consommer des objets, avec un effet
   **mesurable** sur la fiche.

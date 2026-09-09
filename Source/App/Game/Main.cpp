@@ -146,6 +146,16 @@ int main(int argc, char** argv) {
         });
     }
 
+    // Écran d'ouverture (--screen=<Nom>). `setInitialProperties` pose la propriété AVANT que la
+    // racine ne soit construite : l'affecter après aurait fait afficher l'écran par défaut le
+    // temps d'une image, puis le bon -- un clignement visible sur une capture.
+    if (const std::optional<std::string_view> screen =
+            app::commandLineOption(argc, argv, "--screen=")) {
+        engine.setInitialProperties(
+            {{QStringLiteral("startScreen"),
+              QString::fromUtf8(screen->data(), static_cast<qsizetype>(screen->size()))}});
+    }
+
     engine.loadFromModule("Jadg.Ui", "Main");
 
     const int code = QGuiApplication::exec();

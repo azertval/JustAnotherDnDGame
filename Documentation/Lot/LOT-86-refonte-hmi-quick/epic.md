@@ -112,6 +112,21 @@ Qt, vrai depuis le `LOT-01` et qu'un seul `QString` suffirait à rendre faux.
 complète — vue-modèle, formulaire `.ui.qml`, écran affichant les vraies données du personnage de
 démonstration. Et les six garde-fous, dont chacun a été vérifié **en mordant**.
 
+**Les sept écrans sans données sont dessinés, et leur travail est mis à l'abri.** Journal, carte,
+dialogue, marchand, tableau de la Guilde, ATH de combat et feuille d'équipe existent comme
+formulaires `.ui.qml`, fidèles aux blocs que la table décrivait et aux libellés de `fr.lang`, mot
+pour mot. Chacun de leurs 41 champs porte une **clé d'attribution** nommée qui aboutit à l'ancre
+`hmi::PendingData`.
+
+Le jour où un lot fonctionnel livre sa donnée, il remplace `PendingData` par sa vraie vue-modèle
+dans le **fichier de câblage** de l'écran et retire `pending: true` : le formulaire ne bouge pas, et
+la mise en page décidée aujourd'hui est conservée telle quelle. C'est précisément ce que la
+séparation achète, et c'est la première fois qu'on peut le montrer.
+
+En attendant, ces écrans affichent des tirets cadratins — jamais de fausses valeurs, qui se
+prendraient pour un écran fini et passeraient les relectures — et leur pied l'avoue :
+« Écran dessiné, données à brancher ».
+
 **Reste à faire.**
 
 - **L'inventaire**, seul autre écran du RPG qui possède de vraies données (`hmi::inventoryValues`).
@@ -119,12 +134,8 @@ démonstration. Et les six garde-fous, dont chacun a été vérifié **en mordan
 - Les **quatre écrans hors-jeu** (menu principal, options, pause, crédits). Ils demandent d'abord
   la navigation — `hmi::ScreenRouter` au-dessus de `ScreenFlow`, dont la table de transitions pure
   et testée est déjà déplacée dans `Presentation`.
-- Les **sept autres écrans du RPG** — journal, carte, dialogue, marchand, guilde, HUD de combat,
-  compagnie. **Ils n'ont aucune donnée** : dans l'ancienne interface, seuls la fiche et l'inventaire
-  recevaient des valeurs ; les sept autres étaient des ossatures engendrées par une table, vides.
-  Les porter aujourd'hui reviendrait à traduire du vide d'une technologie vers une autre. Ils
-  s'écriront quand leur contenu existera — et ce sera alors un `.ui.qml` de plus, sans toucher au
-  reste.
+- **Brancher les sept écrans dessinés.** Ils existent (voir ci-dessous) mais n'ont pas de source :
+  `python scripts/list_pending_bindings.py` donne les 41 clés à relier, écran par écran.
 - Le portage du viewport sur `QQuickRhiItem`. Reporté sciemment : c'est le morceau le plus risqué —
   `QQuickRhiItem` rend sur un **fil séparé** là où `QRhiWidget` est mono-fil, et la simulation doit
   rester sur le fil graphique en passant sa `ComposedScene` au renderer, ce qui suppose de séparer
