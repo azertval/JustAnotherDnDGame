@@ -5,25 +5,16 @@
 
 #include <QVector>
 #include <array>
-#include <filesystem>
 #include <string>
 
 #include "Core/Rpg/Ability.h"
-#include "Core/Rpg/CharacterOptions.h"
-#include "Core/Rpg/CharacterSheet.h"
-#include "Core/Rpg/Equipment.h"
-#include "Core/Rpg/Inventory.h"
-#include "Core/Rpg/Skill.h"
 #include "HMI/HmiLog.h"
 #include "HMI/Localization/Localization.h"
 #include "HMI/Platform/ExecutableDirectory.h"
-#include "HMI/Presentation/CharacterSheetValues.h"
+#include "HMI/Presentation/DemonstrationCharacter.h"
 
 namespace hmi {
 namespace {
-
-/// Fichier du personnage de démonstration, dans `Rpg/characters/`.
-constexpr const char* DEMONSTRATION_CHARACTER_FILE = "demonstration-brenna.json";
 
 /// Tiret cadratin : à l'écran, « inconnu » et « pas encore alimenté » se ressemblent, et rien ne
 /// gagne à les distinguer par deux signes différents.
@@ -60,57 +51,24 @@ QString CharacterSheetModel::value(const char* key) const {
 }
 
 void CharacterSheetModel::loadDemonstrationCharacter() {
-    const std::filesystem::path rpg = executableDirectory() / "Rpg";
+    // Le chargement est PARTAGE avec l'inventaire : les deux ecrans decrivent le meme personnage,
+    // et deux chargements separes auraient pu ne pas voir le meme equipement -- alors que la
+    // classe d'armure de la fiche vient de ce que l'inventaire contient.
+    const DemonstrationCharacter loaded = loadDemonstrationValues();
+    _values = loaded.sheet;
 
-    // Les noms français des six caractéristiques sont une DONNÉE, pas une constante de code : ils
-    // viennent du lexique des règles (`rpg.glossary.csv`), qui garantit une seule traduction par
-    // terme dans tout le jeu. Les écrire ici en dur aurait créé un deuxième vocabulaire, et c'est
-    // exactement ce que le lexique existe pour empêcher.
+    // Les noms francais des six caracteristiques sont une DONNEE, pas une constante de code : ils
+    // viennent du lexique des regles (`rpg.glossary.csv`), qui garantit une seule traduction par
+    // terme dans tout le jeu. Les ecrire ici en dur aurait cree un deuxieme vocabulaire, et c'est
+    // exactement ce que le lexique existe pour empecher.
     Localization labels(executableDirectory() / "Localization");
     if (!labels.loadDefaultLanguage("fr")) {
-        // Non bloquant, mais loin d'être anodin : sans catalogue, `text()` rend la CLÉ, et l'écran
-        // afficherait « rpg.ability.strength » là où on attend « Force ». Le dire vaut mieux que
-        // de laisser chercher d'où vient un libellé technique (EX-NFR-040).
+        // Non bloquant, mais loin d'etre anodin : sans catalogue, `text()` rend la CLE, et l'ecran
+        // afficherait « rpg.ability.strength » la ou on attend « Force ».
         HMI_LOG_WARNING(
             "Catalogue de traduction introuvable : les libelles de la fiche resteront techniques.");
     }
 
-    const core::CharacterOptions options =
-        core::loadCharacterOptions(rpg / "species", rpg / "backgrounds", rpg / "classes");
-    const core::SkillCatalog skills = core::loadSkills(rpg / "skills");
-    const core::ExperienceTable experience =
-        core::loadExperienceTable(rpg / "rules" / "experience.json");
-    const core::CharacterCreationRules rules =
-        core::loadCharacterCreationRules(rpg / "rules" / "character-creation.json");
-
-    const core::LoadedCharacterSheet loaded = core::loadCharacterSheet(
-        rpg / "characters" / DEMONSTRATION_CHARACTER_FILE, options, rules, experience);
-    for (const std::string& error : loaded.errors) {
-        // Journalise et poursuit : une fiche partielle vaut mieux qu'un écran vide, et l'erreur
-        // nomme son fichier (EX-CNT-010).
-        HMI_LOG_WARNING("Fiche de demonstration : " + error);
-    }
-
-    // Ce que le personnage PORTE (LOT-14) : la classe d'armure et la vitesse en dépendent, et
-    // elles sont RECALCULÉES ici plutôt que retenues — c'est ce qui les empêche de dériver quand
-    // on équipe et retire dans le désordre.
-    const core::ItemCatalog items = core::loadItems(rpg / "items");
-    const core::EquipmentCatalog equipment = core::loadEquipment(rpg / "weapons", rpg / "armors");
-    const core::EncumbranceRules encumbrance =
-        core::loadEncumbranceRules(rpg / "rules" / "encumbrance.json");
-    const core::ItemLookup lookupTables{.items = &items, .equipment = &equipment};
-    const core::DerivedStats derived =
-        core::derivedStatsFor(loaded.sheet, loaded.inventory, lookupTables, rules, encumbrance);
-
-    _values = characterSheetValues({.sheet = &loaded.sheet,
-                                    .options = &options,
-                                    .experience = &experience,
-                                    .skills = &skills,
-                                    .derived = &derived,
-                                    .emptyMark = EMPTY_MARK});
-
-    // Les trois listes répétitives. Leurs libellés viennent des catalogues de règles, jamais d'une
-    // table écrite ici : un nom de compétence a déjà une source de vérité, en donnée.
     QVector<SheetRow> abilityRows;
     QVector<SheetRow> saveRows;
     abilityRows.reserve(static_cast<qsizetype>(ABILITIES.size()));
@@ -126,12 +84,12 @@ void CharacterSheetModel::loadDemonstrationCharacter() {
     _abilities.setRows(std::move(abilityRows));
     _savingThrows.setRows(std::move(saveRows));
 
+    // Les libelles des competences viennent du catalogue de REGLES, jamais d'une table ecrite ici.
     QVector<SheetRow> skillRows;
-    skillRows.reserve(static_cast<qsizetype>(skills.skills.size()));
-    for (const core::SkillDefinition& skill : skills.skills) {
-        skillRows.append(SheetRow{.id = toQt(skill.id),
-                                  .label = toQt(skill.name),
-                                  .value = lookup(_values, "sheet.skill." + skill.id)});
+    skillRows.reserve(static_cast<qsizetype>(loaded.skills.size()));
+    for (const auto& [id, name] : loaded.skills) {
+        skillRows.append(SheetRow{
+            .id = toQt(id), .label = toQt(name), .value = lookup(_values, "sheet.skill." + id)});
     }
     _skills.setRows(std::move(skillRows));
 

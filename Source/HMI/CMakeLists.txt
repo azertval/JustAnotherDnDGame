@@ -385,6 +385,9 @@ add_executable(JustAnotherDnDGame
     # Quick ni Widgets. `scripts/check_ui_layers.py` le vérifie (EX-IHM-101), parce qu'un include
     # de trop ne se voit pas à la relecture et ne casse rien avant longtemps.
     Presentation/SheetRowModel.cpp
+    # Chargement PARTAGE par la fiche et l'inventaire : ils decrivent le meme personnage.
+    Presentation/DemonstrationCharacter.cpp
+    Presentation/InventoryModel.cpp
     Presentation/CharacterSheetModel.cpp
     # L'ancre des ecrans dessines mais pas encore alimentes (LOT-86).
     Presentation/PendingData.cpp
@@ -413,6 +416,8 @@ set(JADG_QML_FILES
     # `python scripts/list_pending_bindings.py` en donne l'inventaire, dérivé du QML.
     Screens/CharacterSheetForm.ui.qml
     Screens/CharacterSheet.qml
+    Screens/InventoryForm.ui.qml
+    Screens/Inventory.qml
     Screens/JournalForm.ui.qml
     Screens/Journal.qml
     Screens/WorldMapForm.ui.qml
