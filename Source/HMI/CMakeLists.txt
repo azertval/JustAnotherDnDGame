@@ -300,6 +300,7 @@ add_executable(LevelEditor
     # Rendu 2D sur QRhi (LOT-69 TACHE-02) — cible Direct3D 11 sous Windows (EX-REN-002),
     # atteinte au travers de QRhi plutôt qu'en appelant l'API directement.
     Graphics/SpriteBatch.cpp
+    Graphics/SceneResources.cpp
     Graphics/TextureLoader.cpp
     Graphics/TextureAtlas.cpp
     Graphics/TextureCache.cpp
