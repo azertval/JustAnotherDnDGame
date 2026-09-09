@@ -50,8 +50,22 @@ public:
         Vitality,  ///< Points de vie : le grenat du cachet, la seule autre encre rouge de l'écran.
         Progress,  ///< Expérience : l'or des filets.
     };
+    // Déclaré au méta-objet pour que Qt Designer offre le ton dans son inspecteur de propriétés
+    // (`LOT-85`) : sans cela, la seule façon de choisir l'encre d'une jauge serait de la
+    // construire en code, et la jauge cesserait d'être posable depuis la boîte à outils.
+    Q_ENUM(Tone)
+    Q_PROPERTY(Tone tone READ tone WRITE setTone)
 
-    explicit SheetGauge(Tone tone, QWidget* parent = nullptr);
+    /// Le parent SEUL, et rien d'autre : c'est ce que `uic` et Qt Designer savent appeler
+    /// (`EX-IHM-006`), et un premier parametre obligatoire suffisait a rendre la jauge
+    /// impossible a poser dans un `.ui`. Le ton se choisit ensuite -- par `setTone` en code, ou
+    /// dans l'inspecteur de proprietes de Designer.
+    explicit SheetGauge(QWidget* parent = nullptr);
+
+    [[nodiscard]] Tone tone() const {
+        return _tone;
+    }
+    void setTone(Tone tone);
 
     /// @param label Intitulé traduit. @param value Valeur déjà formatée, affichée à droite.
     void setLabel(const QString& label);
@@ -67,7 +81,7 @@ protected:
     void paintEvent(QPaintEvent* event) override;
 
 private:
-    Tone _tone;
+    Tone _tone = Tone::Vitality;
     QString _label;
     QString _value;
     double _fill = 0.0;

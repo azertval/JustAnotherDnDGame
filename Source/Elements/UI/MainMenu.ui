@@ -2,9 +2,34 @@
 <ui version="4.0">
  <class>MainMenu</class>
  <widget class="QWidget" name="MainMenu">
+  <property name="styleSheet">
+   <string notr="true">#MainMenu {
+    background-color: #d0c0a0;
+    font-family: "Pixelify Sans", monospace;
+    font-size: 20px;
+    color: #302000;
+}
+
+#MainMenu QPushButton {
+    color: #705020;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    text-align: left;
+    padding: 8px 12px;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+#MainMenu QPushButton:hover, #MainMenu QPushButton:focus {
+    color: #c0a060;
+}
+
+#MainMenu QPushButton:disabled {
+    color: #907030;
+}</string>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
-   <!-- Marges posees en code (MainMenu::MainMenu, LOT-56) depuis l'echelle d'espacement des
-        jetons, pas de nombre fige ici. -->
    <item>
     <spacer name="titleSpacer">
      <property name="orientation"><enum>Qt::Vertical</enum></property>
@@ -48,8 +73,6 @@
    </item>
    <item>
     <widget class="QLabel" name="hintsLabel">
-     <!-- Rappels de touches (LOT-68) : texte enrichi compose en code depuis les jetons
-          (hmi::keyHintText). Vide ici : retranslateUi le remplit. -->
      <property name="text"><string/></property>
      <property name="textFormat"><enum>Qt::RichText</enum></property>
      <property name="alignment"><set>Qt::AlignLeft|Qt::AlignVCenter</set></property>

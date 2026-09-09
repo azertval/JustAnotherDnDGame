@@ -267,6 +267,44 @@ set(CMAKE_AUTORCC ON)
 # Assets Qt déclaratifs (hors code) : mises en page Designer + ressource embarquée, dans Elements.
 set(ELEMENTS_UI ${PROJECT_SOURCE_DIR}/Source/Elements/UI)
 
+# --- Peintres promus dans les .ui (LOT-85, EX-IHM-006) ---
+# Les widgets que les .ui promeuvent, et RIEN d'autre : ils sont liés par l'application ET par le
+# plugin Qt Designer (`Source/Tools/DesignerPlugin`), qui doit les instancier dans le processus de
+# Designer pour que les planches s'y peignent au lieu d'y rester grises.
+#
+# La coupure est celle des dépendances, et elle tient : ces fichiers ne connaissent que les jetons
+# de design, la géométrie pure de HmiLib et Qt Widgets. Rien du jeu, de la fenêtre, ni de la
+# localisation -- sans quoi charger Designer chargerait le moteur.
+#
+# `resources.qrc` n'est PAS ici : une ressource Qt portée par une bibliothèque STATIQUE n'est pas
+# initialisée de façon fiable (l'éditeur de liens écarte l'objet que personne ne nomme). Chaque
+# binaire compile donc la sienne -- l'application ci-dessous, le plugin de son côté.
+add_library(IdentityWidgetsLib STATIC
+    Interface/ApplicationTheme.cpp
+    Interface/ParchmentPanel.cpp
+    Interface/OrnamentPainter.cpp
+    Interface/TitleBanner.cpp
+    Interface/AbilityWheel.cpp
+    Interface/SheetWidgets.cpp
+    Interface/FocusMarker.cpp
+    Interface/MenuEntryButton.cpp
+)
+
+# PUBLIC : l'application comme le plugin manipulent ces widgets et incluent leurs en-têtes.
+target_link_libraries(IdentityWidgetsLib
+    PUBLIC HmiLib Qt6::Widgets Qt6::Gui Qt6::Svg
+    PRIVATE project_warnings project_options)
+
+target_compile_definitions(IdentityWidgetsLib PUBLIC WIN32_LEAN_AND_MEAN NOMINMAX UNICODE _UNICODE)
+
+# Le plugin est une bibliothèque PARTAGÉE : ce qu'elle absorbe doit être compilé en code
+# indépendant de la position.
+set_target_properties(IdentityWidgetsLib PROPERTIES POSITION_INDEPENDENT_CODE ON)
+
+if(ENABLE_PCH)
+    target_precompile_headers(IdentityWidgetsLib PRIVATE ${PROJECT_SOURCE_DIR}/Source/pch.h)
+endif()
+
 add_executable(JustAnotherDnDGame
     Main.cpp
     # Plateforme
@@ -292,19 +330,15 @@ add_executable(JustAnotherDnDGame
     Audio/AudioEngine.cpp
     # Diagnostics (enregistrement des journaux de session)
     # Interface (fenêtre, menu, options, remappage)
-    Interface/ApplicationTheme.cpp
-    # Habillage pixel art des ecrans du jeu (LOT-68) : logique pure, compilee aussi
-    # dans UnitTests (cf. Source/Test/CMakeLists.txt).
-    # Widgets Qt de l'habillage pixel art (LOT-68) : peintres au-dessus de la geometrie pure
-    # ci-dessus, promus dans les .ui. Non compiles dans UnitTests (dependent de Qt).
-    Interface/ParchmentPanel.cpp
-    Interface/OrnamentPainter.cpp
-    Interface/TitleBanner.cpp
-    Interface/AbilityWheel.cpp
-    Interface/SheetWidgets.cpp
+    # ApplicationTheme et les sept peintres promus dans les .ui sont passes dans
+    # IdentityWidgetsLib (ci-dessus, LOT-85) : le plugin Qt Designer les lie AUSSI, et une source
+    # compilee dans l'executable ne peut pas l'etre par une bibliotheque partagee.
+    # La planche, elle, reste ici : elle n'est pas un widget promu mais un ECRAN, qui connait la
+    # table des ecrans et le catalogue de traduction.
     Interface/RpgCharacterSheetPlate.cpp
-    Interface/FocusMarker.cpp
-    Interface/MenuEntryButton.cpp
+    # Le comportement commun des huit ecrans DECRITS par leur .ui (LOT-85). Une seule classe :
+    # ce qui les distingue est entierement dans leur planche.
+    Interface/RpgUiScreen.cpp
     Interface/ThemeIcons.cpp
     Interface/EditorActions.cpp
     # Enveloppe defilante de toute page d ecran (LOT-73, EX-IHM-080) : aucun ecran ne
@@ -337,6 +371,14 @@ add_executable(JustAnotherDnDGame
     ${ELEMENTS_UI}/MainMenu.ui
     ${ELEMENTS_UI}/PauseScreen.ui
     ${ELEMENTS_UI}/RpgCharacterSheetPlate.ui
+    ${ELEMENTS_UI}/RpgInventoryScreen.ui
+    ${ELEMENTS_UI}/RpgJournalScreen.ui
+    ${ELEMENTS_UI}/RpgWorldMapScreen.ui
+    ${ELEMENTS_UI}/RpgDialogueScreen.ui
+    ${ELEMENTS_UI}/RpgMerchantScreen.ui
+    ${ELEMENTS_UI}/RpgGuildBoardScreen.ui
+    ${ELEMENTS_UI}/RpgCombatHudScreen.ui
+    ${ELEMENTS_UI}/RpgTeamSheetScreen.ui
     ${ELEMENTS_UI}/CreditsScreen.ui
     ${ELEMENTS_UI}/OptionsPage.ui
     ${ELEMENTS_UI}/TexturePanel.ui
@@ -367,6 +409,10 @@ target_link_libraries(JustAnotherDnDGame PRIVATE
     # La couche sans Qt Widgets (LOT-02) : elle propage Core, la racine d'inclusion Source/ et
     # nlohmann_json, que l'application n'a donc plus à redemander.
     HmiLib
+    # Les peintres promus dans les .ui (LOT-85). Elle propage HmiLib et Qt6::Widgets/Gui/Svg ;
+    # ceux-ci restent nommés ci-dessous parce que le reste de l'application en dépend pour son
+    # compte, et non par transitivité.
+    IdentityWidgetsLib
     Qt6::Widgets
     Qt6::Gui
     # Les icones d'emplacement sont des SVG, rendues a la
@@ -463,3 +509,14 @@ else()
     message(STATUS "JustAnotherDnDGame : windeployqt introuvable, DLL Qt non déployées "
         "automatiquement (exécution possible depuis un environnement Qt).")
 endif()
+
+# --- Outillage de conception (LOT-85) ---
+# Déclaré ici, et non depuis `Source/CMakeLists.txt` : Qt6 est découvert dans CE fichier, et
+# `find_package` ne remonte pas au répertoire parent. Le plugin a besoin de Qt6::Widgets et de
+# IdentityWidgetsLib, tous deux définis au-dessus.
+add_subdirectory(${PROJECT_SOURCE_DIR}/Source/Tools/DesignerPlugin
+                 ${CMAKE_CURRENT_BINARY_DIR}/Tools/DesignerPlugin)
+add_subdirectory(${PROJECT_SOURCE_DIR}/Source/Tools/IdentityQss
+                 ${CMAKE_CURRENT_BINARY_DIR}/Tools/IdentityQss)
+add_subdirectory(${PROJECT_SOURCE_DIR}/Source/Tools/RpgScreenUi
+                 ${CMAKE_CURRENT_BINARY_DIR}/Tools/RpgScreenUi)

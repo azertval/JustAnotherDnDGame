@@ -2,10 +2,55 @@
 <ui version="4.0">
  <class>PauseScreen</class>
  <widget class="QWidget" name="PauseScreen">
+  <property name="styleSheet">
+   <string notr="true">#PauseScreen {
+    background-color: #d0c0a0;
+    font-family: "Pixelify Sans", monospace;
+    font-size: 20px;
+    color: #302000;
+}
+
+#PauseScreen {
+    background-color: transparent;
+}
+
+#PauseScreen QLabel#pauseTitle {
+    color: #c0b080;
+    font-family: "Press Start 2P", monospace;
+    font-size: 46px;
+    font-weight: bold;
+}
+
+#PauseScreen QWidget#menuCard {
+    background-color: #e0d0b0;
+    border: 2px solid #302000;
+    border-top-color: #907030;
+    border-left-color: #907030;
+    border-bottom-color: #705020;
+    border-right-color: #705020;
+    padding: 24px;
+}
+
+#PauseScreen QPushButton {
+    color: #705020;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    text-align: left;
+    padding: 8px 12px;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+#PauseScreen QPushButton:hover, #PauseScreen QPushButton:focus {
+    color: #c0a060;
+}
+
+#PauseScreen QPushButton:disabled {
+    color: #907030;
+}</string>
+  </property>
   <layout class="QVBoxLayout" name="outerLayout">
-   <!-- Recouvrement plein cadre (LOT-59 TACHE-02) : le menu est centre par les extenseurs
-        haut/bas, sur un fond translucide pose en code (PauseScreen::PauseScreen) qui laisse
-        deviner la scene figee derriere. -->
    <item>
     <spacer name="topSpacer">
      <property name="orientation"><enum>Qt::Vertical</enum></property>
@@ -55,8 +100,6 @@
         </item>
         <item>
          <widget class="QLabel" name="hintsLabel">
-          <!-- Rappels de touches (LOT-68) : texte enrichi compose en code depuis les jetons
-               (hmi::keyHintText). Vide ici : retranslateUi le remplit. -->
           <property name="text"><string/></property>
           <property name="textFormat"><enum>Qt::RichText</enum></property>
           <property name="alignment"><set>Qt::AlignCenter</set></property>

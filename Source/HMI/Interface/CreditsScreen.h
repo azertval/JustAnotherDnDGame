@@ -24,6 +24,30 @@ class Localization;
  *
  * Simple page du `QStackedWidget` (comme `MainMenu`/`OptionsPage`), pas un recouvrement : pas de
  * scène de jeu à laisser visible derrière. N'émet que l'intention de retour.
+ *
+ * ## Ce que la mise en page porte, et que le `.ui` ne dit plus lui-meme
+ *
+ * Le `.ui` de cet ecran est un fichier **produit par Qt Designer** (`EX-IHM-006`) : Designer
+ * efface les commentaires XML a chaque enregistrement, et la justification de la mise en
+ * page vit donc ici, ou elle survit a l'edition.
+ *
+ * - La racine — Les marges sont posees en code (`CreditsScreen::CreditsScreen`, `LOT-56`) depuis
+ *   l'echelle d'espacement des jetons.
+ * - `creditsCard` — Le contenu tient dans un cadre pixel (`LOT-68`) : la maquette pose les trois
+ *   sections sur une carte, pas a nu sur le fond.
+ * - `developmentCredit` — Nom propre : **jamais traduit**, cf. `CreditsScreen::retranslateUi`.
+ * - `audioCredit` — Noms propres et licence : jamais traduits. Detail fichier par fichier dans
+ *   `Source/Elements/Audio/CREDITS.md`.
+ * - `graphicsCredit` — Noms propres et licence : jamais traduits. Detail fichier par fichier dans
+ *   `Source/Elements/Assets/CREDITS.md`.
+ * - `fontsCredit` — Noms propres et licence : jamais traduits. La **SIL OFL EXIGE** que sa notice
+ *   accompagne les polices partout ou elles sont redistribuees ; les fichiers de licence vivent
+ *   dans `Source/Elements/Assets/Fonts/`.
+ * - `librariesCredit` — Mention **EXIGEE par la LGPLv3** : l'usage de Qt et sa licence doivent etre
+ *   indiques, et le lien reste dynamique pour que l'utilisateur puisse substituer sa propre
+ *   version. Detail dans `THIRD-PARTY-NOTICES.md`.
+ * - `licenseCredit` — La licence du **jeu**, distincte des precedentes : les ressources restent
+ *   sous CC0 et SIL OFL, Qt sous LGPLv3. Le dire evite de laisser croire que tout est GPL.
  */
 class CreditsScreen : public QWidget {
     Q_OBJECT

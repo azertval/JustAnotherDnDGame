@@ -2,13 +2,122 @@
 <ui version="4.0">
  <class>OptionsPage</class>
  <widget class="QWidget" name="OptionsPage">
+  <property name="styleSheet">
+   <string notr="true">#OptionsPage {
+    background-color: #d0c0a0;
+    font-family: "Pixelify Sans", monospace;
+    font-size: 20px;
+    color: #302000;
+}
+
+#OptionsPage QLabel#optionsTitle {
+    color: #c0b080;
+    font-family: "Press Start 2P", monospace;
+    font-size: 46px;
+    font-weight: bold;
+}
+
+#OptionsPage QTabWidget::pane {
+    border: 2px solid #302000;
+    background: #e0d0b0;
+    border-radius: 0;
+}
+
+#OptionsPage QTabBar::tab {
+    background: #f0e0d0;
+    color: #705020;
+    border: 2px solid #302000;
+    border-bottom: none;
+    border-radius: 0;
+    padding: 8px 16px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+#OptionsPage QTabBar::tab:selected {
+    color: #d0c0a0;
+    background: #c0a060;
+}
+
+#OptionsPage QLabel, #OptionsPage QCheckBox, #OptionsPage QComboBox {
+    color: #302000;
+    font-size: 20px;
+}
+
+#OptionsPage QCheckBox::indicator {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #302000;
+    background: #f0e0d0;
+    border-radius: 0;
+}
+
+#OptionsPage QCheckBox::indicator:checked {
+    background: #c0a060;
+}
+
+#OptionsPage QComboBox {
+    background: #f0e0d0;
+    border: 2px solid #302000;
+    border-radius: 0;
+    padding: 8px 12px;
+}
+
+#OptionsPage QSlider::groove:horizontal {
+    background: #f0e0d0;
+    border: 2px solid #302000;
+    height: 12px;
+}
+
+#OptionsPage QSlider::sub-page:horizontal {
+    background: #c0a060;
+}
+
+#OptionsPage QSlider::handle:horizontal {
+    background: #302000;
+    border: 2px solid #302000;
+    width: 12px;
+    margin: -8px 0;
+}
+
+#OptionsPage QPushButton {
+    color: #d0c0a0;
+    background: #c0a060;
+    border: 2px solid #302000;
+    border-radius: 0;
+    text-align: center;
+    padding: 8px 16px;
+    font-size: 20px;
+}
+
+#OptionsPage QPushButton:hover, #OptionsPage QPushButton:focus {
+    background: #c0b080;
+}
+
+#OptionsPage QPushButton:disabled {
+    background: #f0e0d0;
+    color: #705020;
+    border-color: #907030;
+}
+
+#OptionsPage hmi--MenuEntryButton {
+    color: #705020;
+    background: transparent;
+    border: none;
+    text-align: left;
+    padding: 8px 12px;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+#OptionsPage hmi--MenuEntryButton:hover, #OptionsPage hmi--MenuEntryButton:focus {
+    color: #c0a060;
+    background: transparent;
+}</string>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
-   <!-- Marges posees en code (OptionsPage::OptionsPage, LOT-56) depuis l'echelle d'espacement des
-        jetons, pas de nombre fige ici. -->
    <item>
     <widget class="hmi::TitleBanner" name="optionsTitle">
-     <!-- Taille/graisse posees par theme.qss (#OptionsPage QLabel#optionsTitle, LOT-56 TACHE-03),
-          depuis l'echelle typographique des jetons, pas de propriete de police figee ici. -->
      <property name="text"><string>Options</string></property>
     </widget>
    </item>
@@ -28,9 +137,6 @@
        <item row="0" column="1"><widget class="QCheckBox" name="vsyncCheck"><property name="text"><string>Activée</string></property></widget></item>
        <item row="1" column="0"><widget class="QLabel" name="displayLabel"><property name="text"><string>Affichage</string></property></widget></item>
        <item row="1" column="1"><widget class="QCheckBox" name="fullscreenCheck"><property name="text"><string>Plein écran</string></property></widget></item>
-       <!-- Les selecteurs de resolution et de limite d'images/s ont ete RETIRES au LOT-68
-            (EX-IHM-072) : grises et non branches depuis leur creation, ils promettaient un
-            reglage inexistant. A leur place, une bascule qui, elle, agit reellement. -->
        <item row="2" column="0"><widget class="QLabel" name="diagnosticsLabel"><property name="text"><string>Compteur de diagnostic</string></property></widget></item>
        <item row="2" column="1"><widget class="QCheckBox" name="diagnosticsCheck"><property name="text"><string>Afficher en haut à droite</string></property></widget></item>
       </layout>

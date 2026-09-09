@@ -1,0 +1,404 @@
+/* GENERE — ne pas editer a la main.
+   Produit par Source/Tools/IdentityQss (LOT-85, EX-IHM-006) :
+       powershell -File scripts/designer.ps1
+
+   Cette feuille est la resolution de theme-identity.qss au facteur x2, celui des
+   maquettes. Elle est destinee a Qt Designer, et a lui SEUL : le jeu recalcule son
+   facteur avec la hauteur de la fenetre, et l'ecran efface cette feuille aussitot
+   apres setupUi.
+
+   Les empreintes ci-dessous rendent sa peremption detectable sans compilateur —
+   scripts/check_ui_designer.py les recoupe, sur un runner qui n'a pas Qt.
+   identity-scale: 2
+   source-template: eb9985c4cdc050dcbdc77ec0e9bfd43e4395ca7400e9efe16e6493a0dc260d36
+   source-tokens: 8e204b7e1bae480c4575c20cc82a1efb5195336b410e4c2ccf392548cb2c857f
+*/
+
+/* Modele de feuille de style Qt de la portee IDENTITE DU JEU (LOT-56 TACHE-02, LOT-73).
+   Produit au chargement par substitution de marqueurs (syntaxe dollar-accolade, cf.
+   hmi::substituteStyleSheetTemplate -- non repetee ici en toutes lettres pour ne pas etre lue
+   comme un marqueur reel par le scanner, non conscient des commentaires) avec les valeurs des
+   jetons de design (HMI/Interface/DesignTokens.h). Aucune couleur litterale : chaque couleur
+   passe par un marqueur.
+
+   PORTEE : les ecrans du jeu, cadres par objectName. INVARIANTE -- jamais affectee par le theme
+   clair/sombre de l'editeur (EX-IHM-054).
+
+   Cette feuille est posee sur la PILE D'ECRANS, jamais sur l'application (LOT-73, EX-IHM-082).
+   La raison est mesurable : les grandeurs identity.size.* / identity.space.* ci-dessous sont
+   multipliees par le facteur d'agrandissement entier de hmi::identityScaleFor, qui change avec la
+   hauteur de la fenetre. Reposer pour autant la feuille de style de l'APPLICATION repolissait ses
+   862 widgets -- cinq secondes par redimensionnement en Debug -- alors que le facteur ne concerne
+   que les quelques dizaines de widgets des ecrans du jeu. Une preoccupation d'ecran ne doit pas
+   coûter un rejeu applicatif.
+
+   En pixels et jamais en points : un point vaut une fraction variable de pixel selon l'ecran, et
+   le facteur entier n'aurait alors plus rien d'entier. */
+
+/* ===== Identite du jeu : les SIX ecrans joueur (INVARIANTE) =====
+
+   Portee cadree par objectName, et rien d'autre : c'est ce cadrage, et lui seul, qui empeche le
+   parchemin et le titrage a empattements de se repandre dans les tables et les arbres denses de
+   l'editeur, ou ils seraient illisibles (LOT-66, EX-IHM-070).
+
+   Toutes les grandeurs viennent des marqueurs identity.size.* / identity.space.* /
+   identity.frame.thickness, DEJA MULTIPLIES par le facteur entier de hmi::identityScaleFor. Les
+   marqueurs tokens.* de la section suivante ne sont jamais multiplies : le chassis d'edition est un
+   outil de travail dont les tailles suivent les reglages du systeme, les ecrans du jeu sont une
+   image agrandie.
+
+   En pixels et jamais en points : un point vaut une fraction variable de pixel selon l'ecran, et le
+   facteur entier n'aurait alors plus rien d'entier. Aucun border-radius nulle part : le parchemin
+   des feuilles de Tanares est encadre de filets a angles VIFS, et un coin arrondi les ferait lire
+   comme une carte d'interface moderne -- exactement ce dont la charte sort (LOT-66). */
+
+#MainMenu, #OptionsPage, #PauseScreen, #CreditsScreen {
+    background-color: #d0c0a0;
+    font-family: "Pixelify Sans", monospace;
+    font-size: 20px;
+    color: #302000;
+}
+
+/* ---- Mode IA : ENVELOPPE en identite, CONTENU en outil (LOT-73) ----
+
+   Cet ecran est le seul de la portee a n'etre pas un ecran de JOUEUR : c'est un poste de travail,
+   avec vingt-six lignes de formulaire, une table a huit colonnes et un graphique. Habille comme le
+   menu, il heritait de la police de titrage et des grandeurs multipliees par le facteur
+   d'agrandissement (jusqu'a 3x) -- d'ou une hauteur minimale de plus de deux mille pixels, et des
+   donnees denses rendues dans une police concue pour sept mots a l'ecran.
+
+   Il garde donc son ENVELOPPE (fond, titre, cadre a bordure franche, bouton de retour), qui le
+   rattache visiblement au jeu, et laisse son CONTENU suivre le chassis d'edition : police d'outil,
+   densite normale, themes clair/sombre (EX-IHM-054). Aucune font-family ici : ne pas en nommer,
+   c'est laisser la police PAR DEFAUT de l'application s'appliquer aux descendants. */
+
+/* Recouvrements (pause, fin de niveau) : fond translucide pose en code, pas ici -- la couleur de
+   fond opaque ci-dessus les rendrait opaques et cacherait la scene figee derriere. */
+#PauseScreen {
+    background-color: transparent;
+}
+
+/* ---- Titres d'ecran : seconde famille, tres typee, reservee a ce seul usage ----
+
+   Depuis le LOT-76, ces labels sont des hmi::TitleBanner : ils peignent sous eux la plaque de
+   grenat et ses deux ailes (EX-IHM-075). Les selecteurs restent ecrits QLabel#nom -- un selecteur
+   de type Qt s'applique aux SOUS-CLASSES, et les renommer n'aurait fait que decrire la classe au
+   lieu du role.
+
+   Le MENU PRINCIPAL n'en a plus (LOT-67) : son fond EST la carte du monde, et un bandeau pose
+   dessus repetait en lettres ce que l'image dit deja. Les ecrans qui restent, eux, n'ont pas
+   d'image a eux : sans titre, on ne saurait pas ou l'on est.
+
+   La couleur, elle, change : l'or des filets (accent) tenait sur du parchemin, et disparait sur le
+   grenat de la plaque. Le titre prend l'or PALE des reflets -- la meme valeur qui eclaire la
+   facette du cabochon, pour que le dore du bandeau soit UN dore et non deux. */
+#OptionsPage QLabel#optionsTitle,
+#PauseScreen QLabel#pauseTitle,
+#CreditsScreen QLabel#creditsTitle {
+    color: #c0b080;
+    font-family: "Press Start 2P", monospace;
+    font-size: 46px;
+    font-weight: bold;
+}
+
+/* ---- Cartes des recouvrements : encadrement de parchemin, trait puis filet ----
+   Les cabochons d'angle manquent ici : une feuille de style ne sait pas poser un pave par-dessus sa
+   propre bordure. Les encadrements complets sont peints par hmi::ParchmentPanel, promu dans les
+   .ui. Cette regle habille les conteneurs ordinaires qui n'ont pas besoin d'un cadre a part
+   entiere -- le trait exterieur et le filet suffisent a les rattacher a la charte. */
+#PauseScreen QWidget#menuCard {
+    background-color: #e0d0b0;
+    border: 2px solid #302000;
+    border-top-color: #907030;
+    border-left-color: #907030;
+    border-bottom-color: #705020;
+    border-right-color: #705020;
+    padding: 24px;
+}
+
+/* ---- Entrees de menu ----
+   La marque de focus est le FLEURON peint par hmi::MenuEntryButton, pas cette teinte : une feuille
+   de style ne peut pas ajouter de contenu, et la couleur seule est insuffisante a la manette
+   (EX-IHM-071). */
+#MainMenu QPushButton,
+#PauseScreen QPushButton,
+#CreditsScreen QPushButton {
+    color: #705020;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    text-align: left;
+    padding: 8px 12px;
+    font-size: 28px;
+    font-weight: bold;
+}
+#MainMenu QPushButton:hover, #MainMenu QPushButton:focus,
+#PauseScreen QPushButton:hover, #PauseScreen QPushButton:focus,
+#CreditsScreen QPushButton:hover, #CreditsScreen QPushButton:focus {
+    color: #c0a060;
+}
+#MainMenu QPushButton:disabled,
+#PauseScreen QPushButton:disabled {
+    color: #907030;
+}
+
+/* ---- Credits : hierarchie en-tete / ligne de credit ----
+   Selection par ROLE (propriete dynamique `creditsRole` posee dans CreditsScreen.ui), jamais par
+   nom d'objet : trois sections ajoutees apres coup -- polices, bibliotheques, licence -- n'avaient
+   jamais ete ajoutees a la liste des noms, et s'affichaient donc dans la fonte du corps de page au
+   milieu de sections en accentue. Un role se pose sur le widget au moment ou on l'ecrit ; une liste
+   de noms se met a jour ailleurs, ou pas du tout. */
+#CreditsScreen QLabel[creditsRole="section"] {
+    color: #c0a060;
+    font-size: 20px;
+    font-weight: bold;
+}
+#CreditsScreen QLabel[creditsRole="entry"] {
+    color: #705020;
+    font-size: 16px;
+}
+
+/* ---- Onglets ---- */
+#OptionsPage QTabWidget::pane {
+    border: 2px solid #302000;
+    background: #e0d0b0;
+    border-radius: 0;
+}
+#OptionsPage QTabBar::tab {
+    background: #f0e0d0;
+    color: #705020;
+    border: 2px solid #302000;
+    border-bottom: none;
+    border-radius: 0;
+    padding: 8px 16px;
+    font-size: 20px;
+    font-weight: bold;
+}
+#OptionsPage QTabBar::tab:selected {
+    color: #d0c0a0;
+    background: #c0a060;
+}
+
+/* ---- Controles de l'ecran Options ---- */
+#OptionsPage QLabel,
+#OptionsPage QCheckBox,
+#OptionsPage QComboBox {
+    color: #302000;
+    font-size: 20px;
+}
+/* ---- Mode IA : controles du CONTENU (LOT-73) ----
+
+   Couleurs du JEU, densite d'OUTIL. Les couleurs restent celles de l'identite pour que le contenu
+   ne jure pas avec le cadre qui l'entoure -- et parce qu'elles sont invariantes, la ou un contenu
+   habille par le chassis basculerait en clair au milieu d'un ecran sombre.
+
+   Ce qui change, c'est la DENSITE : aucune font-family (la police par defaut de l'application
+   s'applique), aucune font-size (la taille par defaut aussi), et des rembourrages pris dans
+   tokens.spacing.*, qui ne sont JAMAIS multiplies par le facteur d'agrandissement. Les grandeurs
+   identity.size.* / identity.space.*, elles, le sont : c'est par elles que vingt-six lignes de
+   formulaire reclamaient plus de deux mille pixels de hauteur. */
+
+/* Zones defilantes du Mode IA : le cadre pixel doit rester visible AU TRAVERS.
+   Une QScrollArea peint par defaut un fond opaque de la palette systeme, qui poserait un
+   rectangle gris au milieu de la carte. Elle n'est la que pour empecher la colonne de reglages
+   d'imposer sa hauteur a la fenetre -- elle ne doit rien ajouter a l'image. */
+
+#OptionsPage QCheckBox::indicator {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #302000;
+    background: #f0e0d0;
+    border-radius: 0;
+}
+#OptionsPage QCheckBox::indicator:checked {
+    background: #c0a060;
+}
+#OptionsPage QComboBox {
+    background: #f0e0d0;
+    border: 2px solid #302000;
+    border-radius: 0;
+    padding: 8px 12px;
+}
+#OptionsPage QSlider::groove:horizontal {
+    background: #f0e0d0;
+    border: 2px solid #302000;
+    height: 12px;
+}
+#OptionsPage QSlider::sub-page:horizontal {
+    background: #c0a060;
+}
+#OptionsPage QSlider::handle:horizontal {
+    background: #302000;
+    border: 2px solid #302000;
+    width: 12px;
+    margin: -8px 0;
+}
+#OptionsPage QPushButton {
+    color: #d0c0a0;
+    background: #c0a060;
+    border: 2px solid #302000;
+    border-radius: 0;
+    text-align: center;
+    padding: 8px 16px;
+    font-size: 20px;
+}
+#OptionsPage QPushButton:hover,
+#OptionsPage QPushButton:focus {
+    background: #c0b080;
+}
+#OptionsPage QPushButton:disabled {
+    background: #f0e0d0;
+    color: #705020;
+    border-color: #907030;
+}
+
+/* Retour de l'ecran Options : c'est une ENTREE DE MENU, pas une commande — elle doit se
+   lire comme celles du menu principal, pas comme un bouton plein d'action juste au-dessus.
+   Le selecteur vise la classe promue : Qt remplace "::" par "--" dans le nom de type QSS, et cette
+   regle l'emporte sur la precedente parce qu'elle est plus specifique. */
+#OptionsPage hmi--MenuEntryButton {
+    color: #705020;
+    background: transparent;
+    border: none;
+    text-align: left;
+    padding: 8px 12px;
+    font-size: 28px;
+    font-weight: bold;
+}
+#OptionsPage hmi--MenuEntryButton:hover,
+#OptionsPage hmi--MenuEntryButton:focus {
+    color: #c0a060;
+    background: transparent;
+}
+
+/* ===== Ecrans du RPG : le chassis du LOT-68 (EX-IHM-090) =====
+
+   Une seule portee pour les huit ecrans -- #RpgScreenHost les heberge tous -- et une selection par
+   ROLE (propriete dynamique `rpgRole`), jamais par nom d'objet. La raison est celle des credits au
+   LOT-66, et elle pese plus lourd ici : l'ossature de ces ecrans est construite a partir d'une
+   TABLE (hmi::rpgScreenLayout), et tenir dans cette feuille la liste des blocs qu'elle decrit
+   ferait diverger les deux au premier ecran ajoute. Un role se pose sur le widget au moment ou on
+   l'ecrit ; une liste de noms se met a jour ailleurs, ou pas du tout.
+
+   Les nom d'objets par ecran (#RpgCharacterSheetScreen, ...) restent disponibles pour le jour ou
+   un ecran demandera une regle a lui : ce jour-la, elle s'ecrira sans toucher aux sept autres. */
+#RpgScreenHost {
+    background-color: #d0c0a0;
+    font-family: "Pixelify Sans", monospace;
+    font-size: 20px;
+    color: #302000;
+}
+
+/* La zone defilante du contenu ne doit rien ajouter a l'image : le parchemin des blocs se peint
+   au travers. Le second selecteur vise le VIEWPORT de la zone, que Qt remplit sinon de la couleur
+   de fond de la palette systeme. */
+#RpgScreenHost QScrollArea,
+#RpgScreenHost QScrollArea > QWidget > QWidget {
+    background: transparent;
+    border: none;
+}
+
+/* Le bandeau de titre prend ici la taille des TITRES DE SECTION, la seule de la portee a laisser
+   tenir « Inventaire et equipement » dans une fenetre de 1280. A la taille des titres d'ecran, le
+   bandeau et ses deux ailes reclamaient a eux seuls plus que la largeur de la fenetre -- et
+   comme la taille minimale d'un ecran ne contraint pas la fenetre (EX-IHM-080), c'est la colonne
+   de droite qui sortait du cadre, sans qu'aucune erreur ne soit levee. Les titres des autres
+   ecrans du jeu tiennent en un ou deux mots ; ceux-ci en comptent jusqu'a trois. */
+#RpgScreenHost QLabel#rpgTitle {
+    color: #c0b080;
+    font-family: "Press Start 2P", monospace;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+/* Titre de bloc : la meme hierarchie que les sections des credits -- accent, gras, taille du
+   corps. Un bloc titre a la taille d'un titre d'ecran ferait huit titres par ecran. */
+#RpgScreenHost QLabel[rpgRole="block"] {
+    color: #c0a060;
+    font-size: 20px;
+    font-weight: bold;
+}
+/* Libelle d'un champ, et la valeur qu'il annonce. Le libelle est en retrait, la valeur en pleine
+   encre : c'est la valeur qu'on lit, le libelle ne fait que la nommer. */
+#RpgScreenHost QLabel[rpgRole="field"] {
+    color: #705020;
+    font-size: 16px;
+}
+#RpgScreenHost QLabel[rpgRole="value"] {
+    color: #302000;
+    font-size: 20px;
+}
+
+/* Trois roles propres a la PLANCHE de la fiche (LOT-38). Ils vivent ici et non dans le peintre
+   pour la meme raison que les autres : une taille ecrite en dur dans un widget ne suit plus le
+   theme, et il faut alors se souvenir de deux endroits. */
+
+/* Le niveau, en grand. C'est la seule valeur de la planche que l'on lit de loin -- elle repond a
+   « ou en est ce personnage » avant meme qu'on lise le reste. */
+#RpgScreenHost QLabel[rpgRole="bigValue"] {
+    color: #302000;
+    font-family: "Press Start 2P", monospace;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+/* Le filet d'or qui separe deux sections d'un panneau. Un QFrame en ligne horizontale prend
+   sinon la couleur de la palette systeme, qui n'est d'aucune portee. */
+#RpgScreenHost QFrame[rpgRole="hairline"] {
+    background-color: #c0a060;
+    border: none;
+}
+
+/* La ligne de signature du contreseing : de l'encre delavee, sur un filet pointille. Elle attend
+   une main, pas une valeur -- d'ou le tiret cadratin qu'elle porte. */
+#RpgScreenHost QLabel[rpgRole="signature"] {
+    color: #705020;
+    font-size: 20px;
+    border-bottom: 1px dotted #907030;
+}
+#RpgScreenHost QLabel[rpgRole="prose"] {
+    color: #705020;
+    font-size: 20px;
+}
+
+/* Cases, jetons d'initiative, actions et cadre d'illustration : des EMPLACEMENTS vides, et ils
+   doivent se lire comme tels. Un fond alterne cerne d'un trait dit « il y a une place ici » ;
+   laisser le parchemin nu dirait « il n'y a rien », ce qui est faux -- il y aura quelque chose. */
+#RpgScreenHost QFrame[rpgRole="cell"],
+#RpgScreenHost QFrame[rpgRole="chip"],
+#RpgScreenHost QFrame[rpgRole="action"],
+#RpgScreenHost QFrame[rpgRole="illustration"] {
+    background: #f0e0d0;
+    border: 2px solid #302000;
+    border-radius: 0;
+}
+/* Ligne de liste : un filet en pied, jamais un encadrement complet -- huit lignes encadrees se
+   lisent comme huit boutons. */
+#RpgScreenHost QFrame[rpgRole="row"] {
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid #907030;
+    border-radius: 0;
+}
+
+/* Pied d'actions : des ENTREES DE MENU, comme le retour de l'ecran Options -- fermer un ecran et
+   passer au suivant sont des deplacements, pas des commandes.
+
+   A la taille des TITRES DE SECTION, en revanche, ces trois entrees mesuraient a elles seules plus
+   que la largeur de la fenetre, et poussaient la colonne de droite hors du cadre. Elles prennent
+   donc la taille du corps : ce sont trois entrees permanentes en pied de page, pas le menu
+   principal. */
+#RpgScreenHost hmi--MenuEntryButton {
+    color: #705020;
+    background: transparent;
+    border: none;
+    text-align: left;
+    padding: 8px 12px;
+    font-size: 20px;
+    font-weight: bold;
+}
+#RpgScreenHost hmi--MenuEntryButton:hover,
+#RpgScreenHost hmi--MenuEntryButton:focus {
+    color: #c0a060;
+    background: transparent;
+}

@@ -108,8 +108,16 @@ namespace {
 
 // ==================================================================================== SheetGauge
 
-SheetGauge::SheetGauge(Tone tone, QWidget* parent) : QWidget(parent), _tone(tone) {
+SheetGauge::SheetGauge(QWidget* parent) : QWidget(parent) {
     setAttribute(Qt::WA_StyledBackground, false);
+}
+
+void SheetGauge::setTone(Tone tone) {
+    if (_tone == tone) {
+        return;
+    }
+    _tone = tone;
+    update();
 }
 
 void SheetGauge::setLabel(const QString& label) {

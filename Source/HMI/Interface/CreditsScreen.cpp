@@ -18,6 +18,10 @@ CreditsScreen::CreditsScreen(QWidget* parent)
     setObjectName(QStringLiteral("CreditsScreen"));  // ciblé par le thème (theme-identity.qss)
     setAttribute(Qt::WA_StyledBackground, true);
     _ui->setupUi(this);
+    // Le theme que le .ui porte pour Qt Designer est jete ici (LOT-85, EX-IHM-006). Il y est fige
+    // au facteur x2 ; le jeu, lui, recalcule le sien avec la hauteur de la fenetre, et une feuille
+    // posee sur CE widget primerait celle de la pile d'ecrans -- la mise a l'echelle cesserait.
+    setStyleSheet(QString());
 
     // Marges de la mise en page, depuis l'echelle d'espacement des jetons (LOT-56 TACHE-03) --
     // meme patron que MainMenu/OptionsPage.

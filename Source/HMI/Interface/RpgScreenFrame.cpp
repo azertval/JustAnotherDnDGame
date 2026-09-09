@@ -83,18 +83,14 @@ void RpgScreenFrame::buildChrome() {
     if (QWidget* const right = buildColumn(_descriptor.layout.rightColumn); right != nullptr) {
         body->addWidget(right, 1);
     }
-    auto* const bodyScroll = new QScrollArea(this);
-    bodyScroll->setWidgetResizable(true);
-    bodyScroll->setFrameShape(QFrame::NoFrame);
-    // Sans cela, la zone defilante peint le fond opaque de la palette systeme : un rectangle gris
-    // au milieu du parchemin (meme piege que les zones defilantes du Mode IA, LOT-73).
-    bodyScroll->viewport()->setAutoFillBackground(false);
-    bodyScroll->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    bodyScroll->setWidget(bodyHost);
-    // Contribue ZERO a la hauteur minimale du chassis : c'est ce qui garde le pied d'actions
-    // visible quel que soit le contenu, et la fenetre libre de sa taille (EX-IHM-080).
-    bodyScroll->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
-    page->addWidget(bodyScroll, 1);
+    // Plus de zone defilante UNIQUE ici : c'est chaque ENCART qui defile (`EX-IHM-006`, LOT-85).
+    // Une seule pour tout le corps faisait payer a tous les blocs le debordement d'un seul, et
+    // celui qui debordait entrainait ses voisins -- souvent largement plus courts -- avec lui.
+    //
+    // Le pied reste visible pour la meme raison qu'avant : le corps ne reclame aucune hauteur
+    // minimale, puisque celle des encarts est absorbee par leur propre zone defilante.
+    bodyHost->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+    page->addWidget(bodyHost, 1);
 
     // Pied d'actions : les trois mêmes intentions sur tous les écrans, au même endroit. C'est la
     // moitié de ce que le LOT-68 livrait -- un écran qui se ferme autrement que son voisin oblige
@@ -153,13 +149,32 @@ void RpgScreenFrame::buildBlock(QVBoxLayout* column, const RpgContentBlock& bloc
     // les cartes des écrans, et il vaut ici sans exception -- un bloc à nu se lirait comme un
     // panneau d'éditeur au milieu d'une feuille de personnage.
     auto* const panel = new ParchmentPanel(nullptr);
-    auto* const inner = new QVBoxLayout(panel);
-    inner->setContentsMargins(spacing.large * scale, spacing.large * scale, spacing.large * scale,
+    // Le RETRAIT du parchemin reste du cote du cadre, en dehors de la zone defilante : a
+    // l'interieur, il defilerait avec le contenu et le texte viendrait toucher le cadre des qu'on
+    // descend d'un cran.
+    auto* const frame = new QVBoxLayout(panel);
+    frame->setContentsMargins(spacing.large * scale, spacing.large * scale, spacing.large * scale,
                               spacing.large * scale);
+    frame->setSpacing(0);
+
+    // L'encart defile pour SON compte. Sans cela, un bloc plus haut que la place disponible
+    // entrainait tout l'ecran, pied d'actions compris.
+    auto* const area = new QScrollArea(panel);
+    area->setWidgetResizable(true);
+    area->setFrameShape(QFrame::NoFrame);
+    // Sans cela, la zone defilante peint le fond opaque de la palette systeme : un rectangle gris
+    // au milieu du parchemin (meme piege que les zones defilantes du Mode IA, LOT-73).
+    area->viewport()->setAutoFillBackground(false);
+    frame->addWidget(area);
+
+    auto* const content = new QWidget(area);
+    auto* const inner = new QVBoxLayout(content);
+    inner->setContentsMargins(0, 0, 0, 0);
     inner->setSpacing(spacing.small * scale);
+    area->setWidget(content);
 
     if (block.titleKey[0] != '\0') {
-        auto* const title = new QLabel(panel);
+        auto* const title = new QLabel(content);
         setRole(title, "block");
         inner->addWidget(title);
         _translated.push_back({.label = title, .key = block.titleKey});
@@ -181,7 +196,7 @@ void RpgScreenFrame::buildBlock(QVBoxLayout* column, const RpgContentBlock& bloc
             grid->setVerticalSpacing(spacing.small * scale);
             int row = 0;
             for (const RpgField& field : block.fields) {
-                auto* const label = new QLabel(panel);
+                auto* const label = new QLabel(content);
                 setRole(label, "field");
                 grid->addWidget(label, row, 0);
                 grid->addWidget(addValue(panel, field.valueId), row, 1);
@@ -198,7 +213,7 @@ void RpgScreenFrame::buildBlock(QVBoxLayout* column, const RpgContentBlock& bloc
             const int side = cellSide();
             for (int row = 0; row < block.rows; ++row) {
                 for (int col = 0; col < block.columns; ++col) {
-                    auto* const cell = new QFrame(panel);
+                    auto* const cell = new QFrame(content);
                     setRole(cell, "cell");
                     cell->setFixedSize(side, side);
                     grid->addWidget(cell, row, col);
@@ -217,7 +232,7 @@ void RpgScreenFrame::buildBlock(QVBoxLayout* column, const RpgContentBlock& bloc
             const std::size_t lignes = block.valueIds.empty() ? static_cast<std::size_t>(block.rows)
                                                               : block.valueIds.size();
             for (std::size_t row = 0; row < lignes; ++row) {
-                auto* const line = new QFrame(panel);
+                auto* const line = new QFrame(content);
                 setRole(line, "row");
                 auto* const lineLayout = new QHBoxLayout(line);
                 lineLayout->setContentsMargins(spacing.small * scale, spacing.extraSmall * scale,
@@ -239,7 +254,7 @@ void RpgScreenFrame::buildBlock(QVBoxLayout* column, const RpgContentBlock& bloc
             break;
         }
         case RpgBlockKind::Portrait: {
-            auto* const illustration = new QFrame(panel);
+            auto* const illustration = new QFrame(content);
             setRole(illustration, "illustration");
             illustration->setMinimumSize(cellSide() * 3, cellSide() * 3);
             illustration->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -250,7 +265,7 @@ void RpgScreenFrame::buildBlock(QVBoxLayout* column, const RpgContentBlock& bloc
             auto* const strip = new QHBoxLayout();
             strip->setSpacing(spacing.small * scale);
             for (int chip = 0; chip < block.columns; ++chip) {
-                auto* const token = new QFrame(panel);
+                auto* const token = new QFrame(content);
                 setRole(token, "chip");
                 token->setFixedSize(cellSide(), cellSide());
                 strip->addWidget(token);
@@ -263,7 +278,7 @@ void RpgScreenFrame::buildBlock(QVBoxLayout* column, const RpgContentBlock& bloc
             auto* const bar = new QHBoxLayout();
             bar->setSpacing(spacing.small * scale);
             for (int action = 0; action < block.columns; ++action) {
-                auto* const slot = new QFrame(panel);
+                auto* const slot = new QFrame(content);
                 setRole(slot, "action");
                 slot->setFixedHeight(cellSide());
                 slot->setMinimumWidth(cellSide() * 2);

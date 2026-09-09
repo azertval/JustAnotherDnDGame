@@ -28,6 +28,18 @@ class Localization;
  * recouvrement par-dessus, geometrie synchronisee a chaque redimensionnement). N'émet que des
  * intentions ; `MainWindow` décide (dont la confirmation avant de quitter vers le menu, qui perd
  * la progression du tableau en cours).
+ *
+ * ## Ce que la mise en page porte, et que le `.ui` ne dit plus lui-meme
+ *
+ * Le `.ui` de cet ecran est un fichier **produit par Qt Designer** (`EX-IHM-006`) : Designer
+ * efface les commentaires XML a chaque enregistrement, et la justification de la mise en
+ * page vit donc ici, ou elle survit a l'edition.
+ *
+ * - La racine — Recouvrement plein cadre (`LOT-59 TACHE-02`) : le menu est centre par les
+ *   extenseurs haut/bas, sur un fond translucide pose en code (`PauseScreen::PauseScreen`) qui
+ *   laisse deviner la scene figee derriere.
+ * - `hintsLabel` — Rappels de touches (`LOT-68`) : texte enrichi compose en code depuis les jetons
+ *   (`hmi::keyHintText`). Vide dans le `.ui` — `retranslateUi` le remplit.
  */
 class PauseScreen : public QWidget {
     Q_OBJECT

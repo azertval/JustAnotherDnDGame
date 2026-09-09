@@ -33,6 +33,21 @@ class AudioEngine;
  * onglets **Vidéo** et **Audio** (contenu statique). Les onglets **Commande clavier** et **Commande
  * manette** (contenu généré) sont ajoutés en code (`EX-IHM-040`). N'émet que des intentions non
  * triviales (retour, plein écran) ; les réglages simples agissent directement sur le viewport.
+ *
+ * ## Ce que la mise en page porte, et que le `.ui` ne dit plus lui-meme
+ *
+ * Le `.ui` de cet ecran est un fichier **produit par Qt Designer** (`EX-IHM-006`) : Designer
+ * efface les commentaires XML a chaque enregistrement, et la justification de la mise en
+ * page vit donc ici, ou elle survit a l'edition.
+ *
+ * - La racine — Les marges sont posees en code (`OptionsPage::OptionsPage`, `LOT-56`) depuis
+ *   l'echelle d'espacement des jetons. Aucun nombre n'est fige dans le `.ui`.
+ * - `optionsTitle` — Taille et graisse viennent du theme (`#OptionsPage QLabel#optionsTitle`,
+ *   `LOT-56 TACHE-03`), depuis l'echelle typographique des jetons. Aucune propriete de police n'est
+ *   figee dans le `.ui`.
+ * - `fullscreenCheck` — Les selecteurs de resolution et de limite d'images/s ont ete **retires** au
+ *   `LOT-68` (`EX-IHM-072`) : grises et non branches depuis leur creation, ils promettaient un
+ *   reglage inexistant. A leur place, une bascule qui, elle, agit reellement.
  */
 class OptionsPage : public QWidget {
     Q_OBJECT

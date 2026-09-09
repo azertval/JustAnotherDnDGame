@@ -8,6 +8,18 @@
 
 #include "HMI/Interface/RpgCharacterSheetPlate.h"
 #include "HMI/Interface/RpgScreenFrame.h"
+#include "HMI/Interface/RpgUiScreen.h"
+
+// Les planches des huit ecrans, produites par `uic` (LOT-85). Elles ne sont incluses QUE
+// ici : la fabrique est le seul endroit qui connaisse le lien entre un ecran et sa planche.
+#include "ui_RpgInventoryScreen.h"
+#include "ui_RpgJournalScreen.h"
+#include "ui_RpgWorldMapScreen.h"
+#include "ui_RpgDialogueScreen.h"
+#include "ui_RpgMerchantScreen.h"
+#include "ui_RpgGuildBoardScreen.h"
+#include "ui_RpgCombatHudScreen.h"
+#include "ui_RpgTeamSheetScreen.h"
 #include "HMI/Localization/Localization.h"
 
 namespace hmi {
@@ -30,10 +42,44 @@ RpgScreenHost::RpgScreenHost(QWidget* parent) : QWidget(parent) {
         // cinquieme endroit serait oublie le jour d'une seconde planche.
         RpgScreenSurface* surface = nullptr;
         if (descriptor.rendering == RpgRendering::DesignerPlate) {
-            auto* const plate = new RpgCharacterSheetPlate(descriptor, _stack);
-            connect(plate, &RpgCharacterSheetPlate::closeRequested, this,
-                    &RpgScreenHost::closeRequested);
-            surface = plate;
+            // La fiche a sa propre classe : elle porte une logique qu'aucun autre ecran n'a
+            // (les cinq onglets, la roue, les valeurs derivees). Les huit autres n'ont que leur
+            // planche, et se contentent donc du comportement commun.
+            if (descriptor.id == RpgScreenId::CharacterSheet) {
+                auto* const plate = new RpgCharacterSheetPlate(descriptor, _stack);
+                connect(plate, &RpgCharacterSheetPlate::closeRequested, this,
+                        &RpgScreenHost::closeRequested);
+                surface = plate;
+            } else {
+                RpgUiScreen* const plate = [this, &descriptor]() -> RpgUiScreen* {
+                    switch (descriptor.id) {
+                case RpgScreenId::Inventory:
+                    return new RpgUiPlate<Ui::RpgInventoryScreen>(descriptor, _stack);
+                case RpgScreenId::QuestJournal:
+                    return new RpgUiPlate<Ui::RpgJournalScreen>(descriptor, _stack);
+                case RpgScreenId::WorldMap:
+                    return new RpgUiPlate<Ui::RpgWorldMapScreen>(descriptor, _stack);
+                case RpgScreenId::Dialogue:
+                    return new RpgUiPlate<Ui::RpgDialogueScreen>(descriptor, _stack);
+                case RpgScreenId::Merchant:
+                    return new RpgUiPlate<Ui::RpgMerchantScreen>(descriptor, _stack);
+                case RpgScreenId::GuildBoard:
+                    return new RpgUiPlate<Ui::RpgGuildBoardScreen>(descriptor, _stack);
+                case RpgScreenId::CombatHud:
+                    return new RpgUiPlate<Ui::RpgCombatHudScreen>(descriptor, _stack);
+                case RpgScreenId::TeamSheet:
+                    return new RpgUiPlate<Ui::RpgTeamSheetScreen>(descriptor, _stack);
+                        default:
+                            return nullptr;
+                    }
+                }();
+                connect(plate, &RpgUiScreen::closeRequested, this, &RpgScreenHost::closeRequested);
+                connect(plate, &RpgUiScreen::nextScreenRequested, this,
+                        &RpgScreenHost::showNextScreen);
+                connect(plate, &RpgUiScreen::previousScreenRequested, this,
+                        &RpgScreenHost::showPreviousScreen);
+                surface = plate;
+            }
         } else {
             auto* const frame = new RpgScreenFrame(descriptor, _stack);
             connect(frame, &RpgScreenFrame::closeRequested, this, &RpgScreenHost::closeRequested);

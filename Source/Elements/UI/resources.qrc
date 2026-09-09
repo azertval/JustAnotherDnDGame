@@ -34,5 +34,6 @@
     <file alias="resources/icons/slot/ring-right.svg">../Assets/Icons/slot/ring-right.svg</file>
     <file alias="resources/icons/slot/torso.svg">../Assets/Icons/slot/torso.svg</file>
     <file alias="resources/icons/slot/trinket.svg">../Assets/Icons/slot/trinket.svg</file>
+
   </qresource>
 </RCC>

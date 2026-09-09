@@ -6,6 +6,46 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **Les planches s'éditent dans Qt Designer** (`LOT-85`, `EX-IHM-006`). La table disait
+  `DesignerPlate` — « une planche décrite en Qt Designer » — depuis le `LOT-38`, mais ouvrir
+  `RpgCharacterSheetPlate.ui` dans Designer donnait des rectangles gris.
+  - **Un plugin de widgets promus** (`Source/Tools/DesignerPlugin`) expose les onze peintres de
+    l'identité. Ils peignent dans Designer exactement ce qu'ils peignent dans le jeu, et ce n'est
+    pas une chance : `hmi::identityTokens()` est une table **pure**, sans état d'application. Les
+    peintres passent dans `IdentityWidgetsLib` pour être liés par l'application **et** par le
+    plugin — compilés dans l'exécutable, aucune bibliothèque partagée ne pouvait les atteindre.
+  - **Le thème devient visible sans déformer le jeu.** `theme-identity.qss` est un gabarit posé à
+    l'exécution : Designer, qui n'exécute pas le jeu, n'en montrait rien. `Source/Tools/IdentityQss`
+    le résout au facteur ×2 — en C++, parce que la substitution des marqueurs vit dans le code du
+    jeu et qu'une seconde implémentation en Python aurait dérivé en silence — et
+    `scripts/sync_ui_theme.py` en dépose dans chaque formulaire la tranche qui le cadre. Chaque
+    écran l'efface après `setupUi` : figée à ×2, elle primerait sur la feuille de la pile d'écrans
+    (`EX-IHM-082`) et **casserait la mise à l'échelle**.
+  - **`SheetGauge` se construit avec le seul parent.** Son `Tone` obligatoire suffisait à la rendre
+    impossible à poser dans un `.ui` ; il devient une `Q_PROPERTY`, et l'encre d'une jauge se
+    choisit dans l'inspecteur de propriétés.
+  - **La colonne gauche de la fiche descend dans le `.ui`.** Entièrement statique, elle n'avait
+    aucune raison d'être bâtie en code : quinze widgets migrent, rôles compris, et
+    `buildLeftColumn` tombe de 65 à 38 lignes. Ne restent que les grandeurs — calculées depuis les
+    jetons **multipliées par le facteur d'agrandissement**, elles se figeraient à ×2 dans le
+    fichier — et le rattachement des libellés au catalogue de traduction.
+  - **Une zone défilante par encart**, et non une pour tout l'écran. Les trois colonnes de la fiche
+    en partageaient une seule : les dix-huit compétences manquaient de hauteur et imposaient donc le
+    défilement **aux trois**, alors que les deux autres avaient des centaines de pixels de vide — et
+    le bandeau comme les onglets s'en allaient avec. Les quatorze encarts de la fiche et ceux du
+    châssis `RpgScreenFrame` (les huit autres écrans) défilent désormais chacun pour leur compte. Le
+    retrait intérieur du parchemin reste **dehors** de la zone défilante : dedans, le texte viendrait
+    toucher le cadre dès qu'on descend.
+  - **Vingt-neuf commentaires XML relogés** dans les en-têtes C++ des cinq écrans : Designer les
+    efface à l'enregistrement, et les y laisser revenait à les perdre au premier geste d'édition.
+  - **Deux garde-fous** (`check_ui_designer.py`, `sync_ui_theme.py --check`) verrouillent quatre
+    liens qui lâchent sans rien casser de visible — le build reste vert, le jeu s'affiche bien, et
+    seule l'édition est morte. Ils refusent aussi de passer au vert par vacuité : un relevé vide est
+    une erreur, pas un succès (la panne du `LOT-78`).
+  - `powershell -File scripts/designer.ps1 -Path <fichier.ui>` bâtit le plugin **en Release** (Designer rejette une
+    DLL Debug sans un mot) et lance Designer par `QT_PLUGIN_PATH`, sans jamais rien copier dans
+    l'installation Qt.
+
 - **Plomberie des clés d'assets** (`LOT-39`). Le jeu tourne **complet** — 308 entrées affichables —
   avant qu'une seule illustration ne soit produite.
   - **Une clé, jamais un chemin** (`EX-CNT-040`) : une donnée désigne son illustration par

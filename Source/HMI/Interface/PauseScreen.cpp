@@ -19,6 +19,13 @@ PauseScreen::PauseScreen(QWidget* parent)
     setObjectName(QStringLiteral("PauseScreen"));
     setAttribute(Qt::WA_StyledBackground, true);
     _ui->setupUi(this);
+    // Le theme que le .ui porte pour Qt Designer est jete ici (LOT-85, EX-IHM-006). Il y est fige
+    // au facteur x2, et une feuille posee sur CE widget primerait celle de la pile d'ecrans -- la
+    // mise a l'echelle cesserait. La feuille propre a l'ecran, posee juste apres, le remplacerait
+    // de toute facon : l'effacement est ecrit quand meme, pour que la regle se lise a l'identique
+    // sur les cinq ecrans et qu'un jour ou cette feuille-la disparaitrait ne laisse pas revenir le
+    // defaut sans que personne ne s'en apercoive.
+    setStyleSheet(QString());
 
     // Fond translucide pose ici plutot que dans le theme (theme-identity.qss) : propre a ce
     // recouvrement par-dessus la scene figee, pas un jeton de theme editeur (LOT-56) -- la carte du

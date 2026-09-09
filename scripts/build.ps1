@@ -27,16 +27,19 @@
     (ex. C:\Qt\6.8.1\msvc2022_64).
 
 .EXAMPLE
-    pwsh scripts/build.ps1
+    powershell -ExecutionPolicy Bypass -File scripts/build.ps1
     Configure et construit avec le preset ninja.
 
 .EXAMPLE
-    pwsh scripts/build.ps1 -Preset vs -Test -Clean
+    powershell -ExecutionPolicy Bypass -File scripts/build.ps1 -Preset vs -Test -Clean
     Reconstruit de zéro avec le générateur Visual Studio, puis lance les tests.
 #>
 [CmdletBinding()]
 param(
-    [ValidateSet('ninja', 'vs')]
+    # « ninja-release » sert au plugin Qt Designer (scripts/designer.ps1) : designer.exe est une
+    # binaire Release, et une DLL Debug est rejetee EN SILENCE -- le plugin n'apparaitrait nulle
+    # part, sans le moindre message.
+    [ValidateSet('ninja', 'ninja-release', 'vs')]
     [string]$Preset = 'ninja',
 
     [switch]$Test,

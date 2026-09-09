@@ -1,4 +1,4 @@
-﻿// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "HMI/Interface/RpgCharacterSheetPlate.h"
@@ -99,6 +99,10 @@ RpgCharacterSheetPlate::RpgCharacterSheetPlate(const RpgScreenDescriptor& descri
     setAttribute(Qt::WA_StyledBackground, true);
     setFocusPolicy(Qt::StrongFocus);
     _ui->setupUi(this);
+    // Le theme que le .ui porte pour Qt Designer est jete ici (LOT-85, EX-IHM-006). Il y est fige
+    // au facteur x2 ; le jeu, lui, recalcule le sien avec la hauteur de la fenetre, et une feuille
+    // posee sur CE widget primerait celle de la pile d'ecrans -- la mise a l'echelle cesserait.
+    setStyleSheet(QString());
 
     const SpacingTokens& spacing = identityTokens().spacing;
     const int scale = identityScale();
@@ -110,8 +114,8 @@ RpgCharacterSheetPlate::RpgCharacterSheetPlate(const RpgScreenDescriptor& descri
                                          spacing.extraLarge * scale, spacing.large * scale);
     _ui->plateLayout->setSpacing(spacing.large * scale);
 
-    // Ni la zone défilante ni les rappels de touches ne contraignent la fenêtre (EX-IHM-080).
-    _ui->bodyScroll->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+    // Ni la pile des onglets ni les rappels de touches ne contraignent la fenêtre (EX-IHM-080).
+    _ui->bodyStack->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
     _ui->hintsLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Preferred);
     // Le bandeau ne s'étire pas : ses ailes suivent sa hauteur, et étiré il devient deux ailes
     // démesurées autour d'une plaque restée fine.
@@ -181,12 +185,42 @@ RpgCharacterSheetPlate::RpgCharacterSheetPlate(const RpgScreenDescriptor& descri
     // cadre, et c'est une des choses qui distinguaient la fiche du reste au premier coup d'œil.
     const int inset = spacing.large * scale;
     for (QLayout* const panelLayout :
-         {static_cast<QLayout*>(_ui->leftColumnLayout),
-          static_cast<QLayout*>(_ui->rightColumnLayout),
-          static_cast<QLayout*>(_ui->wheelPanelLayout),
-          static_cast<QLayout*>(_ui->appearanceLayout), static_cast<QLayout*>(_ui->historyLayout),
-          static_cast<QLayout*>(_ui->equipmentCenterLayout)}) {
+         {static_cast<QLayout*>(_ui->leftPanelInset), static_cast<QLayout*>(_ui->rightPanelInset),
+          static_cast<QLayout*>(_ui->wheelPanelInset),
+          static_cast<QLayout*>(_ui->appearancePanelInset),
+          static_cast<QLayout*>(_ui->historyPanelInset),
+          static_cast<QLayout*>(_ui->equipmentCenterPanelInset),
+          static_cast<QLayout*>(_ui->speciesPanelInset),
+          static_cast<QLayout*>(_ui->backgroundPanelInset),
+          static_cast<QLayout*>(_ui->classPanelInset),
+          static_cast<QLayout*>(_ui->spellcastingPanelInset),
+          static_cast<QLayout*>(_ui->spellSlotsPanelInset),
+          static_cast<QLayout*>(_ui->teamPanelInset), static_cast<QLayout*>(_ui->armsPanelInset),
+          static_cast<QLayout*>(_ui->ambitionPanelInset)}) {
         panelLayout->setContentsMargins(inset, inset, inset, inset);
+    }
+
+    // CHAQUE encart defile pour son compte (`EX-IHM-080`). Une seule zone defilante pour toute la
+    // planche faisait payer a TOUTES les colonnes le debordement d'UNE : les dix-huit competences
+    // manquaient de hauteur, les deux autres colonnes en avaient des centaines de pixels de trop,
+    // et le bandeau comme les onglets s'en allaient vers le haut des qu'on descendait.
+    //
+    // `Ignored` dans les deux sens : c'est ce qui empeche la taille minimale d'un encart de
+    // devenir un plancher pour la fenetre -- role que tenait la zone defilante unique.
+    for (QScrollArea* const area :
+         {_ui->leftPanelScroll, _ui->rightPanelScroll, _ui->wheelPanelScroll,
+          _ui->appearancePanelScroll, _ui->historyPanelScroll, _ui->equipmentCenterPanelScroll,
+          _ui->speciesPanelScroll, _ui->backgroundPanelScroll, _ui->classPanelScroll,
+          _ui->spellcastingPanelScroll, _ui->spellSlotsPanelScroll, _ui->teamPanelScroll,
+          _ui->armsPanelScroll, _ui->ambitionPanelScroll}) {
+        // `Ignored` en HAUTEUR seulement. Sur les deux axes, les colonnes perdaient toute
+        // revendication de largeur : la roue, qui est `Expanding`, prenait la place, et la colonne
+        // de combat se retrouvait tronquee sur « Vitesse » et « Perception passive ».
+        //
+        // `Preferred` en largeur rend aux colonnes leurs proportions sans creer de plancher pour
+        // la fenetre : une zone defilante annonce la largeur de son contenu, mais sa taille
+        // MINIMALE reste celle d'une barre de defilement (EX-IHM-080).
+        area->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Ignored);
     }
 
     buildLeftColumn();
@@ -301,7 +335,8 @@ void RpgCharacterSheetPlate::buildEquipmentPage() {
     slotsRow->addLayout(rightSlots, 1);
     center->addLayout(slotsRow);
 
-    _loadGauge = new SheetGauge(SheetGauge::Tone::Progress, this);
+    _loadGauge = new SheetGauge(this);
+    _loadGauge->setTone(SheetGauge::Tone::Progress);
     center->addWidget(_loadGauge);
 
     auto* const purseRow = new QHBoxLayout();
@@ -497,66 +532,40 @@ void RpgCharacterSheetPlate::addHairline(QVBoxLayout* column) {
 void RpgCharacterSheetPlate::buildLeftColumn() {
     const SpacingTokens& spacing = identityTokens().spacing;
     const int scale = identityScale();
-    QVBoxLayout* const column = _ui->leftColumnLayout;
-    column->setSpacing(spacing.small * scale);
 
-    addHeading(column, "rpg.block.progression");
-
-    // Le niveau en grand, l'expérience en jauge à côté : la composition de la planche, qui dit d'un
-    // coup d'œil où l'on en est sans demander de comparer deux nombres.
-    auto* const progression = new QHBoxLayout();
-    progression->setSpacing(spacing.large * scale);
-    auto* const levelBlock = new QVBoxLayout();
-    levelBlock->setSpacing(0);
+    // La colonne est **decrite dans le .ui** (`EX-IHM-006`) : elle est entierement statique, donc
+    // rien ne justifiait de la batir ici. Ne restent que les trois choses qu'un .ui ne peut pas
+    // porter -- les grandeurs, qui se calculent depuis les jetons et le facteur d'agrandissement
+    // et se figeraient a x2 dans le fichier ; le rattachement des libelles au catalogue de
+    // traduction ; et le ton des jauges, que la planche decide.
+    _ui->leftColumnLayout->setSpacing(spacing.small * scale);
+    _ui->progressionRow->setSpacing(spacing.large * scale);
     // Le bloc du niveau reclame sa largeur : sans elle, la jauge d'experience -- extensible --
     // prend tout, et le chiffre du niveau se retrouve rogne a mi-hauteur.
-    levelBlock->setContentsMargins(0, 0, spacing.small * scale, 0);
-    auto* const levelCaption = new QLabel(this);
-    setRole(levelCaption, "field");
-    _levelValue = new QLabel(EMPTY_VALUE, this);
-    setRole(_levelValue, "bigValue");
-    _levelValue->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
-    _levelValue->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
-    levelBlock->addWidget(levelCaption);
-    levelBlock->addWidget(_levelValue);
-    _translated.push_back({.label = levelCaption, .key = "rpg.field.level"});
-    progression->addLayout(levelBlock);
+    _ui->levelBlock->setContentsMargins(0, 0, spacing.small * scale, 0);
+    _ui->countersignRow->setSpacing(spacing.medium * scale);
+    _ui->countersignLines->setSpacing(spacing.small * scale);
 
-    _experienceGauge = new SheetGauge(SheetGauge::Tone::Progress, this);
-    progression->addWidget(_experienceGauge, 1);
-    column->addLayout(progression);
+    const int hairline = std::max(1, scale);
+    _ui->savesHairline->setFixedHeight(hairline);
+    _ui->countersignHairline->setFixedHeight(hairline);
 
-    _vitalityGauge = new SheetGauge(SheetGauge::Tone::Vitality, this);
-    column->addWidget(_vitalityGauge);
+    _levelValue = _ui->levelValue;
+    // L'experience se lit en progression, la vitalite en grenat : c'est la seule difference entre
+    // les deux jauges, et elle appartient a ce que la planche represente, pas a sa mise en page.
+    _experienceGauge = _ui->experienceGauge;
+    _experienceGauge->setTone(SheetGauge::Tone::Progress);
+    _vitalityGauge = _ui->vitalityGauge;
+    _vitalityGauge->setTone(SheetGauge::Tone::Vitality);
+    _saves = {_ui->save0, _ui->save1, _ui->save2, _ui->save3, _ui->save4, _ui->save5};
+    // Le contreseing ferme le panneau : c'est ce qui fait du feuillet une piece delivree plutot
+    // qu'une fiche imprimee. Les deux lignes restent au tiret -- rien ne les alimente.
+    _enlistedOn = _ui->enlistedOnCaption;
+    _countersigned = _ui->countersignedCaption;
 
-    addHairline(column);
-    addHeading(column, "rpg.block.saving_throws");
-    for (PipRow*& row : _saves) {
-        row = new PipRow(this);
-        column->addWidget(row);
-    }
-
-    column->addStretch(1);
-
-    // Le contreseing ferme le panneau : c'est ce qui fait du feuillet une pièce délivrée plutôt
-    // qu'une fiche imprimée. Les deux lignes restent au tiret — rien ne les alimente.
-    addHairline(column);
-    auto* const countersign = new QHBoxLayout();
-    countersign->setSpacing(spacing.medium * scale);
-    auto* const lines = new QVBoxLayout();
-    lines->setSpacing(spacing.small * scale);
-    for (QLabel** slot : {&_enlistedOn, &_countersigned}) {
-        auto* const caption = new QLabel(this);
-        setRole(caption, "field");
-        auto* const rule = new QLabel(EMPTY_VALUE, this);
-        setRole(rule, "signature");
-        lines->addWidget(caption);
-        lines->addWidget(rule);
-        *slot = caption;
-    }
-    countersign->addLayout(lines, 1);
-    countersign->addWidget(new WaxSeal(this), 0, Qt::AlignBottom);
-    column->addLayout(countersign);
+    _translated.push_back({.label = _ui->progressionHeading, .key = "rpg.block.progression"});
+    _translated.push_back({.label = _ui->levelCaption, .key = "rpg.field.level"});
+    _translated.push_back({.label = _ui->savesHeading, .key = "rpg.block.saving_throws"});
 }
 
 void RpgCharacterSheetPlate::buildRightColumn() {
@@ -971,7 +980,7 @@ void RpgCharacterSheetPlate::paintEvent(QPaintEvent* event) {
     const QColor ornament(color.frameOrnament.r, color.frameOrnament.g, color.frameOrnament.b);
     const QColor ground(color.background.r, color.background.g, color.background.b);
 
-    const QRect body = _ui->bodyScroll->geometry();
+    const QRect body = _ui->bodyStack->geometry();
 
     // Les deux filets d'or qui soulignaient l'en-tête et le pied ont été RETIRÉS. Aucun autre écran
     // n'en porte : ce sont les encadrements des panneaux qui séparent les zones, partout ailleurs.

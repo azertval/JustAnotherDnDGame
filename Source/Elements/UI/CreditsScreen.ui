@@ -2,9 +2,48 @@
 <ui version="4.0">
  <class>CreditsScreen</class>
  <widget class="QWidget" name="CreditsScreen">
+  <property name="styleSheet">
+   <string notr="true">#CreditsScreen {
+    background-color: #d0c0a0;
+    font-family: "Pixelify Sans", monospace;
+    font-size: 20px;
+    color: #302000;
+}
+
+#CreditsScreen QLabel#creditsTitle {
+    color: #c0b080;
+    font-family: "Press Start 2P", monospace;
+    font-size: 46px;
+    font-weight: bold;
+}
+
+#CreditsScreen QPushButton {
+    color: #705020;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    text-align: left;
+    padding: 8px 12px;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+#CreditsScreen QPushButton:hover, #CreditsScreen QPushButton:focus {
+    color: #c0a060;
+}
+
+#CreditsScreen QLabel[creditsRole="section"] {
+    color: #c0a060;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+#CreditsScreen QLabel[creditsRole="entry"] {
+    color: #705020;
+    font-size: 16px;
+}</string>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
-   <!-- Marges posees en code (CreditsScreen::CreditsScreen, LOT-56) depuis l'echelle d'espacement
-        des jetons, pas de nombre fige ici. -->
    <item>
     <widget class="hmi::TitleBanner" name="creditsTitle">
      <property name="text"><string>Crédits</string></property>
@@ -16,8 +55,6 @@
      <property name="sizeHint" stdset="0"><size><width>0</width><height>0</height></size></property>
     </spacer>
    </item>
-   <!-- Contenu dans un cadre pixel (LOT-68) : la maquette pose les trois sections sur une carte,
-        pas a nu sur le fond. -->
    <item>
     <widget class="hmi::ParchmentPanel" name="creditsCard">
      <layout class="QVBoxLayout" name="cardLayout">
@@ -30,7 +67,6 @@
        <item>
         <widget class="QLabel" name="developmentCredit">
          <property name="creditsRole" stdset="0"><string>entry</string></property>
-         <!-- Nom propre : jamais traduit, cf. CreditsScreen::retranslateUi. -->
          <property name="text"><string>Valentin Eloy</string></property>
         </widget>
        </item>
@@ -49,8 +85,6 @@
        <item>
         <widget class="QLabel" name="audioCredit">
          <property name="creditsRole" stdset="0"><string>entry</string></property>
-         <!-- Noms propres et licence : jamais traduits. Detail complet dans
-              Source/Elements/Audio/CREDITS.md (fichier par fichier). -->
          <property name="wordWrap"><bool>true</bool></property>
          <property name="text"><string>Kenney (www.kenney.nl) — Digital Audio, Impact Sounds, RPG Audio, Interface Sounds — licence CC0 1.0 Universal (domaine public)</string></property>
         </widget>
@@ -70,8 +104,6 @@
        <item>
         <widget class="QLabel" name="graphicsCredit">
          <property name="creditsRole" stdset="0"><string>entry</string></property>
-         <!-- Noms propres et licence : jamais traduits. Detail complet dans
-              Source/Elements/Assets/CREDITS.md (fichier par fichier). -->
          <property name="wordWrap"><bool>true</bool></property>
          <property name="text"><string>Kenney (www.kenney.nl) — Platformer Pack Remastered, Platformer Pack: Industrial — licence CC0 1.0 Universal (domaine public)</string></property>
         </widget>
@@ -91,9 +123,6 @@
        <item>
         <widget class="QLabel" name="fontsCredit">
          <property name="creditsRole" stdset="0"><string>entry</string></property>
-         <!-- Noms propres et licence : jamais traduits. La SIL OFL EXIGE que sa notice accompagne
-              les polices partout ou elles sont redistribuees : les fichiers de licence vivent dans
-              Source/Elements/Assets/Fonts/. -->
          <property name="wordWrap"><bool>true</bool></property>
          <property name="text"><string>Inter, Pixelify Sans, Press Start 2P — SIL Open Font License 1.1</string></property>
         </widget>
@@ -113,9 +142,6 @@
        <item>
         <widget class="QLabel" name="librariesCredit">
          <property name="creditsRole" stdset="0"><string>entry</string></property>
-         <!-- Mention EXIGEE par la LGPLv3 : l'usage de Qt et sa licence doivent etre indiques, et
-              le lien reste dynamique pour que l'utilisateur puisse substituer sa propre version.
-              Detail complet dans THIRD-PARTY-NOTICES.md. -->
          <property name="wordWrap"><bool>true</bool></property>
          <property name="text"><string>Qt 6 (www.qt.io) — licence LGPL v3, lien dynamique</string></property>
         </widget>
@@ -135,8 +161,6 @@
        <item>
         <widget class="QLabel" name="licenseCredit">
          <property name="creditsRole" stdset="0"><string>entry</string></property>
-         <!-- La licence du JEU, distincte de celles ci-dessus : les ressources restent sous CC0 et
-              SIL OFL, Qt sous LGPLv3. Le dire ici evite de laisser croire que tout est GPL. -->
          <property name="wordWrap"><bool>true</bool></property>
          <property name="text"><string>Just Another D&amp;D Game — GNU General Public License v3.0 ou ultérieure. Ressources et bibliothèques sous leurs licences propres, ci-dessus.</string></property>
         </widget>

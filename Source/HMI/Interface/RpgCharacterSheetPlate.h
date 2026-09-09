@@ -55,6 +55,50 @@ class StatMedallion;
  * les libellés viennent du catalogue de traduction. La planche n'invente ni champ ni intitulé ; si
  * un identifiant disparaissait de la table, la valeur cesserait d'arriver et le tiret cadratin le
  * dirait — ce qui est exactement le comportement voulu.
+ *
+ * ## Ce que la mise en page porte, et que le `.ui` ne dit plus lui-meme
+ *
+ * Le `.ui` de cet ecran est un fichier **produit par Qt Designer** (`EX-IHM-006`) : Designer
+ * efface les commentaires XML a chaque enregistrement, et la justification de la mise en
+ * page vit donc ici, ou elle survit a l'edition.
+ *
+ * - La racine — Le `.ui` ne porte que la **structure** : l'en-tete, la barre d'onglets, la pile des
+ *   sections, le pied. Le contenu de chaque section est bati par cette classe, et ses **valeurs**
+ *   sont nommees par la table des ecrans (`hmi::rpgScreens`) — la planche n'invente aucun champ.
+ * - `rpgTitle` — Le bandeau occupe **toute** la largeur, comme sur les huit autres ecrans et sur
+ *   Options. Serre dans une rangee a cote du registre, il se lisait comme une etiquette posee dans
+ *   un coin, la ou partout ailleurs il annonce l'ecran.
+ * - `headerRow` — La ligne de delivrance, **sous** le bandeau : le bureau qui delivre le feuillet,
+ *   puis le matricule et le rang, ajoutes en code. C'est ce qui fait de la fiche une piece
+ *   d'identite de mercenaire, et cela tient sur une ligne discrete au lieu de disputer sa place au
+ *   titre.
+ * - `tabBar` — Les cinq sections de la feuille du corpus sont des **onglets d'un meme ecran**, pas
+ *   cinq ecrans : la compagnie, l'equipement et les sorts d'un personnage sont sa fiche. La barre
+ *   est donc interne a la planche, et non une entree du cycle de navigation.
+ * - `bodyScroll` — Zone defilante **interieure** (`EX-IHM-080`). Sans elle, la taille minimale de
+ *   la planche devient un plancher pour la fenetre, qui cesse de pouvoir retrecir. Sa politique de
+ *   taille passe a `Ignored/Ignored` dans le constructeur, comme celle de `RpgScreenFrame`.
+ * - `wheelPanel` — La roue porte le portrait, les six caracteristiques **et** le nom : l'ouverture
+ *   de son arc existe pour lui, et l'en sortir le decrocherait au premier changement de taille.
+ *   Elle est **encadree** comme les deux colonnes qui l'entourent : nue, elle flottait sur le
+ *   parchemin entre deux panneaux encadres, seule de toute l'interface a ne pas porter son cadre.
+ * - `equipmentCenterPanel` — Le centre de la planche d'equipement est **radial** lui aussi : un
+ *   bouclier rond, les emplacements de part et d'autre. C'est la composition du corpus, et elle ne
+ *   varie qu'en nombre de lignes — seize emplacements au modele contre huit a la maquette. Encadre
+ *   pour la meme raison que la roue.
+ * - `speciesPanel` — Ce que l'**espece** accorde. La seule des trois sources dont le catalogue
+ *   porte a la fois le nom et le texte de chaque trait.
+ * - `backgroundPanel` — Ce que l'**historique** accorde : son don, et les maitrises de competences.
+ * - `classPanel` — Ce que la **classe** accorde, jusqu'au niveau atteint.
+ * - `spellcastingPanel` — Ce qui gouverne l'incantation. Rien ne l'alimente : aucune classe ne
+ *   declare de caracteristique d'incantation, et aucun catalogue de sorts n'existe. Les champs
+ *   restent au tiret cadratin, qui dit la verite.
+ * - `spellSlotsPanel` — Les emplacements de sorts, des mineurs au neuvieme niveau.
+ * - `closeButton` — Une seule entree permanente : « Fermer ». Les boutons d'ecran precedent et
+ *   suivant ont quitte le pied — deux chemins pour le meme deplacement obligent a se demander
+ *   lequel fait quoi, et les rappels de touches disent deja LB/RB.
+ * - `hintsLabel` — Rappels de touches. Ils ne contraignent pas la largeur : une aide ne decide pas
+ *   de la taille d'une fenetre, elle s'efface quand la place manque (`LOT-68`).
  */
 class RpgCharacterSheetPlate : public QWidget, public RpgScreenSurface {
     Q_OBJECT

@@ -452,6 +452,25 @@ jobs:
       - name: Illustrations conformes a leur manifeste (EX-IHM-076)
         run: python3 scripts/check_ui_assets.py
 
+      # Les .ui d'identite doivent rester editables dans Qt Designer (LOT-85). Trois liens que rien
+      # ne relie et qui lachent EN SILENCE : un widget promu que le plugin n'expose pas (Designer
+      # le rend en gris), un ecran qui garde le theme fige que son .ui porte pour Designer (fige a
+      # x2, il prime sur la feuille de la pile et casse la mise a l'echelle), un commentaire XML
+      # reintroduit (Designer l'efface au premier enregistrement). Aucun ne fait rougir le build ni
+      # ne se voit dans le jeu : seule l'EDITION est cassee, et on ne s'en apercoit qu'en ouvrant
+      # Designer -- que le runner n'a pas.
+      - name: Les .ui d'identite restent editables dans Designer (EX-IHM-006)
+        run: python3 scripts/check_ui_designer.py
+
+      # Le theme resolu que Designer applique (LOT-85). Il est produit par du C++ (la substitution
+      # des marqueurs vit dans le code du jeu), et le runner n'a pas Qt : ce controle ne rejoue donc
+      # PAS la resolution. Il verifie ce qui est versionne -- que la feuille resolue porte encore
+      # les empreintes du gabarit et des jetons d'aujourd'hui, et que la tranche deposee dans chaque
+      # .ui est bien la sienne. Sans lui, une retouche de teinte laisserait Designer montrer un jeu
+      # qui n'existe plus.
+      - name: Theme des .ui a jour pour Designer (EX-IHM-006)
+        run: python3 scripts/sync_ui_theme.py --check
+
       # Les cles d'assets d'ENTITE (LOT-39). Ce controle echoue sur une cle orpheline -- une
       # derogation malformee, ou qui nomme une famille inconnue (EX-CNT-040) -- mais se contente de
       # LISTER les cles encore servies par un marqueur genere (EX-CNT-041) : c'est un etat

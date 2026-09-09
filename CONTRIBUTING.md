@@ -80,3 +80,24 @@ La portée correspond en général au module (`core`, `hmi`, `elements`, `test`,
    épinglé** (`env.AQT_SOURCE`), la version PyPI ne sachant pas installer Qt ≥ 6.11 : dès
    qu'`aqtinstall 3.3.1` paraît, remplacer `aqtsource` par `aqtversion: '==3.3.1'` et supprimer
    `AQT_SOURCE`. Le motif complet est dans [`External/README.md`](External/README.md).
+8. Les mises en page des **écrans d'identité** (`MainMenu`, `OptionsPage`, `CreditsScreen`,
+   `PauseScreen`, `RpgCharacterSheetPlate`) s'éditent **dans Qt Designer** (`EX-IHM-006`, `LOT-85`),
+   lancé par le script, et jamais `designer.exe` à la main :
+
+   ```
+   powershell -ExecutionPolicy Bypass -File scripts/designer.ps1 -Path <fichier.ui>
+   ```
+
+   `powershell` et non `pwsh` : PowerShell 7 n'est pas installé sur le poste de développement, et
+   l'invoquer donne un « command not found » qui ne dit pas lequel des deux manque. Le script bâtit
+   le plugin des widgets promus **en Release** (Designer rejette une DLL Debug sans le moindre
+   message) et régénère le thème que Designer affiche. Deux règles y tiennent :
+   - **aucun commentaire XML dans ces `.ui`** — Designer les efface à l'enregistrement ; la
+     justification de la mise en page vit dans l'en-tête C++ de l'écran ;
+   - ne reste construit en code que ce qu'une **donnée engendre en nombre variable**. Une rangée
+     fixe écrite dans le constructeur est un morceau de maquette que Designer ne montre pas.
+
+   Après toute retouche des jetons de design ou de `theme-identity.qss`, relancer
+   `scripts/designer.ps1` (ou `IdentityQss` puis `python scripts/sync_ui_theme.py`) pour que le
+   thème déposé dans les `.ui` décrive encore le jeu — vérifié par
+   `python scripts/sync_ui_theme.py --check` et `python scripts/check_ui_designer.py`.

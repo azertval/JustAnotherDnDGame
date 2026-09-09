@@ -315,6 +315,13 @@ d'eux pris isolément, et sur les quatre ensemble il n'est plus rattrapable sans
   écrit écran par écran : ajouter un écran ne doit demander de toucher à **aucun** des autres, ni
   dans le code, ni dans la feuille de style. Une convention à réappliquer à chaque écran se reperd
   au premier ajout — c'est la leçon qu'`EX-IHM-080` a déjà tirée pour la taille des écrans.
+  **Amendé au `LOT-85`** : cette description reste la source des **identifiants de valeur**, des
+  **libellés** et du **cycle** d'écrans — un champ qui en disparaît cesse d'arriver, et le tiret
+  cadratin le dit. Sa **disposition**, en revanche, est passée aux planches d'`EX-IHM-006` : un
+  écran qu'on ne peut pas ouvrir ne se règle pas, et huit écrans que personne ne peut retoucher
+  valaient moins que huit écrans réglables. Un neuvième écran coûte donc une ligne de table **et**
+  une planche — que `Source/Tools/RpgScreenUi` engendre depuis cette même table, ce qui la ramène
+  au coût d'une commande.
   Corollaire : les libellés de cette description passent par le catalogue de traduction
   (`EX-REN-033`) comme tout autre texte, et rien ne les y rattachant qu'une table, leur présence
   dans **les deux** catalogues doit être vérifiée automatiquement.
@@ -323,6 +330,33 @@ d'eux pris isolément, et sur les quatre ensemble il n'est plus rattrapable sans
   appartient à la **description** de l'écran, jamais au code qui l'ouvre : ouvert depuis la pause,
   depuis le jeu ou depuis une touche, un même écran doit se comporter de la même façon, et une règle
   décidée au point d'appel se contredit d'un appel à l'autre sans que rien ne le signale.
+
+## 11. Les planches s'éditent dans Qt Designer (LOT-85)
+
+`EX-IHM-090` fait naître l'ossature d'un écran d'une description en données — le bon outil pour un
+écran dont aucune maquette n'existe. Un écran qui en a une, gravée, échappe à cette règle : une
+ossature générique ne sait rendre ni une jauge, ni un écu, ni un médaillon, et la table le nomme
+donc `RpgRendering::DesignerPlate`.
+
+Ce nom promettait Qt Designer sans que rien ne l'y oblige. Designer, qui ne compile pas le C++, ne
+connaissait des widgets promus que leur classe de base et dessinait des rectangles gris ; la
+mise en page vivait pour les deux tiers dans le constructeur ; la feuille de style, posée à
+l'exécution, n'y apparaissait pas. La planche ne s'ouvrait donc pas, et ce qui ne s'ouvre pas ne
+s'édite pas — le geste que `DesignerPlate` désigne n'existait nulle part.
+
+- \anchor EX-IHM-006 **EX-IHM-006** — Un écran dont la table dit `DesignerPlate` doit avoir sa
+  **mise en page portée par son `.ui`**, ouvrable et modifiable dans Qt Designer sans compilation
+  préalable, et son rendu doit y être **intégralement visible** : tout widget promu est exposé par
+  le plugin Designer du dépôt et constructible avec le seul parent ; les formes complexes sont des
+  ressources SVG du `.qrc`, dont le trait prend sa teinte au rôle demandé (`EX-IHM-051`) ; le thème
+  y est déposé sous forme **résolue** et effacé au démarrage, sa mise à l'échelle restant celle du
+  jeu (`EX-IHM-082`). Ne reste construit en code que ce qu'une **donnée engendre en nombre
+  variable** — les rangées d'équipement, les langues, le sac : les écrire une à une romprait le lien
+  avec la table et rendrait manuel l'ajout d'un champ. Corollaire : le `.ui` est un fichier
+  **produit par l'outil**, qui en efface les commentaires à chaque enregistrement ; la justification
+  de la mise en page vit dans les en-têtes C++, et rien ne doit dépendre de ce qui est écrit dans le
+  `.ui` hors de sa structure. Ces liens ne tiennent à rien d'automatique et lâchent en silence —
+  Designer se contente de ne rien montrer — ils sont donc vérifiés à chaque Pull Request.
 
 ## Traçabilité
 Tout ceci relève de `Source/HMI` — depuis le `LOT-H-38`, l'unique application Qt `JustAnotherDnDGame` (rendu

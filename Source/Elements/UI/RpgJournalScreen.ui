@@ -1,0 +1,529 @@
+<?xml version='1.0' encoding='utf-8'?>
+<ui version="4.0">
+ <class>RpgJournalScreen</class>
+ <widget class="QWidget" name="RpgJournalScreen">
+  <property name="styleSheet">
+   <string notr="true">#RpgJournalScreen {
+    background-color: #d0c0a0;
+    font-family: "Pixelify Sans", monospace;
+    font-size: 20px;
+    color: #302000;
+}
+
+#RpgJournalScreen QScrollArea, #RpgJournalScreen QScrollArea &gt; QWidget &gt; QWidget {
+    background: transparent;
+    border: none;
+}
+
+#RpgJournalScreen QLabel#rpgTitle {
+    color: #c0b080;
+    font-family: "Press Start 2P", monospace;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+#RpgJournalScreen QLabel[rpgRole="block"] {
+    color: #c0a060;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+#RpgJournalScreen QLabel[rpgRole="field"] {
+    color: #705020;
+    font-size: 16px;
+}
+
+#RpgJournalScreen QLabel[rpgRole="value"] {
+    color: #302000;
+    font-size: 20px;
+}
+
+#RpgJournalScreen QLabel[rpgRole="bigValue"] {
+    color: #302000;
+    font-family: "Press Start 2P", monospace;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+#RpgJournalScreen QFrame[rpgRole="hairline"] {
+    background-color: #c0a060;
+    border: none;
+}
+
+#RpgJournalScreen QLabel[rpgRole="signature"] {
+    color: #705020;
+    font-size: 20px;
+    border-bottom: 1px dotted #907030;
+}
+
+#RpgJournalScreen QLabel[rpgRole="prose"] {
+    color: #705020;
+    font-size: 20px;
+}
+
+#RpgJournalScreen QFrame[rpgRole="cell"], #RpgJournalScreen QFrame[rpgRole="chip"], #RpgJournalScreen QFrame[rpgRole="action"], #RpgJournalScreen QFrame[rpgRole="illustration"] {
+    background: #f0e0d0;
+    border: 2px solid #302000;
+    border-radius: 0;
+}
+
+#RpgJournalScreen QFrame[rpgRole="row"] {
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid #907030;
+    border-radius: 0;
+}
+
+#RpgJournalScreen hmi--MenuEntryButton {
+    color: #705020;
+    background: transparent;
+    border: none;
+    text-align: left;
+    padding: 8px 12px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+#RpgJournalScreen hmi--MenuEntryButton:hover, #RpgJournalScreen hmi--MenuEntryButton:focus {
+    color: #c0a060;
+    background: transparent;
+}</string>
+  </property>
+  <layout class="QVBoxLayout" name="pageLayout">
+   <item>
+    <widget class="hmi::TitleBanner" name="rpgTitle">
+     <property name="text">
+      <string />
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QWidget" name="bodyHost">
+     <layout class="QHBoxLayout" name="bodyRow">
+      <item>
+       <widget class="QWidget" name="leftColumn">
+        <layout class="QVBoxLayout" name="leftColumnLayout">
+         <item>
+          <widget class="hmi::ParchmentPanel" name="leftColumnBlock0Panel">
+           <layout class="QVBoxLayout" name="leftColumnBlock0Inset">
+            <item>
+             <widget class="QScrollArea" name="leftColumnBlock0Scroll">
+              <property name="widgetResizable">
+               <bool>true</bool>
+              </property>
+              <property name="frameShape">
+               <enum>QFrame::NoFrame</enum>
+              </property>
+              <widget class="QWidget" name="leftColumnBlock0Content">
+               <layout class="QVBoxLayout" name="leftColumnBlock0Layout">
+                <item>
+                 <widget class="QLabel" name="leftColumnBlock0Title">
+                  <property name="text">
+                   <string />
+                  </property>
+                  <property name="rpgRole" stdset="0">
+                   <string>block</string>
+                  </property>
+                  <property name="rpgKey" stdset="0">
+                   <string>rpg.block.quests</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QFrame" name="leftColumnBlock0Row0">
+                  <property name="rpgRole" stdset="0">
+                   <string>row</string>
+                  </property>
+                  <layout class="QHBoxLayout" name="leftColumnBlock0Row0Layout">
+                   <item>
+                    <widget class="QLabel" name="leftColumnBlock0Row0Value">
+                     <property name="text">
+                      <string />
+                     </property>
+                     <property name="rpgRole" stdset="0">
+                      <string>value</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QFrame" name="leftColumnBlock0Row1">
+                  <property name="rpgRole" stdset="0">
+                   <string>row</string>
+                  </property>
+                  <layout class="QHBoxLayout" name="leftColumnBlock0Row1Layout">
+                   <item>
+                    <widget class="QLabel" name="leftColumnBlock0Row1Value">
+                     <property name="text">
+                      <string />
+                     </property>
+                     <property name="rpgRole" stdset="0">
+                      <string>value</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QFrame" name="leftColumnBlock0Row2">
+                  <property name="rpgRole" stdset="0">
+                   <string>row</string>
+                  </property>
+                  <layout class="QHBoxLayout" name="leftColumnBlock0Row2Layout">
+                   <item>
+                    <widget class="QLabel" name="leftColumnBlock0Row2Value">
+                     <property name="text">
+                      <string />
+                     </property>
+                     <property name="rpgRole" stdset="0">
+                      <string>value</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QFrame" name="leftColumnBlock0Row3">
+                  <property name="rpgRole" stdset="0">
+                   <string>row</string>
+                  </property>
+                  <layout class="QHBoxLayout" name="leftColumnBlock0Row3Layout">
+                   <item>
+                    <widget class="QLabel" name="leftColumnBlock0Row3Value">
+                     <property name="text">
+                      <string />
+                     </property>
+                     <property name="rpgRole" stdset="0">
+                      <string>value</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QFrame" name="leftColumnBlock0Row4">
+                  <property name="rpgRole" stdset="0">
+                   <string>row</string>
+                  </property>
+                  <layout class="QHBoxLayout" name="leftColumnBlock0Row4Layout">
+                   <item>
+                    <widget class="QLabel" name="leftColumnBlock0Row4Value">
+                     <property name="text">
+                      <string />
+                     </property>
+                     <property name="rpgRole" stdset="0">
+                      <string>value</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QFrame" name="leftColumnBlock0Row5">
+                  <property name="rpgRole" stdset="0">
+                   <string>row</string>
+                  </property>
+                  <layout class="QHBoxLayout" name="leftColumnBlock0Row5Layout">
+                   <item>
+                    <widget class="QLabel" name="leftColumnBlock0Row5Value">
+                     <property name="text">
+                      <string />
+                     </property>
+                     <property name="rpgRole" stdset="0">
+                      <string>value</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QFrame" name="leftColumnBlock0Row6">
+                  <property name="rpgRole" stdset="0">
+                   <string>row</string>
+                  </property>
+                  <layout class="QHBoxLayout" name="leftColumnBlock0Row6Layout">
+                   <item>
+                    <widget class="QLabel" name="leftColumnBlock0Row6Value">
+                     <property name="text">
+                      <string />
+                     </property>
+                     <property name="rpgRole" stdset="0">
+                      <string>value</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QFrame" name="leftColumnBlock0Row7">
+                  <property name="rpgRole" stdset="0">
+                   <string>row</string>
+                  </property>
+                  <layout class="QHBoxLayout" name="leftColumnBlock0Row7Layout">
+                   <item>
+                    <widget class="QLabel" name="leftColumnBlock0Row7Value">
+                     <property name="text">
+                      <string />
+                     </property>
+                     <property name="rpgRole" stdset="0">
+                      <string>value</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <spacer name="leftColumnStretch">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QWidget" name="rightColumn">
+        <layout class="QVBoxLayout" name="rightColumnLayout">
+         <item>
+          <widget class="hmi::ParchmentPanel" name="rightColumnBlock0Panel">
+           <layout class="QVBoxLayout" name="rightColumnBlock0Inset">
+            <item>
+             <widget class="QScrollArea" name="rightColumnBlock0Scroll">
+              <property name="widgetResizable">
+               <bool>true</bool>
+              </property>
+              <property name="frameShape">
+               <enum>QFrame::NoFrame</enum>
+              </property>
+              <widget class="QWidget" name="rightColumnBlock0Content">
+               <layout class="QVBoxLayout" name="rightColumnBlock0Layout">
+                <item>
+                 <widget class="QLabel" name="rightColumnBlock0Title">
+                  <property name="text">
+                   <string />
+                  </property>
+                  <property name="rpgRole" stdset="0">
+                   <string>block</string>
+                  </property>
+                  <property name="rpgKey" stdset="0">
+                   <string>rpg.block.quest_detail</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="rightColumnBlock0Prose">
+                  <property name="text">
+                   <string />
+                  </property>
+                  <property name="wordWrap">
+                   <bool>true</bool>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignLeft|Qt::AlignTop</set>
+                  </property>
+                  <property name="rpgRole" stdset="0">
+                   <string>prose</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="hmi::ParchmentPanel" name="rightColumnBlock1Panel">
+           <layout class="QVBoxLayout" name="rightColumnBlock1Inset">
+            <item>
+             <widget class="QScrollArea" name="rightColumnBlock1Scroll">
+              <property name="widgetResizable">
+               <bool>true</bool>
+              </property>
+              <property name="frameShape">
+               <enum>QFrame::NoFrame</enum>
+              </property>
+              <widget class="QWidget" name="rightColumnBlock1Content">
+               <layout class="QVBoxLayout" name="rightColumnBlock1Layout">
+                <item>
+                 <widget class="QLabel" name="rightColumnBlock1Title">
+                  <property name="text">
+                   <string />
+                  </property>
+                  <property name="rpgRole" stdset="0">
+                   <string>block</string>
+                  </property>
+                  <property name="rpgKey" stdset="0">
+                   <string>rpg.block.objectives</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QFrame" name="rightColumnBlock1Row0">
+                  <property name="rpgRole" stdset="0">
+                   <string>row</string>
+                  </property>
+                  <layout class="QHBoxLayout" name="rightColumnBlock1Row0Layout">
+                   <item>
+                    <widget class="QLabel" name="rightColumnBlock1Row0Value">
+                     <property name="text">
+                      <string />
+                     </property>
+                     <property name="rpgRole" stdset="0">
+                      <string>value</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QFrame" name="rightColumnBlock1Row1">
+                  <property name="rpgRole" stdset="0">
+                   <string>row</string>
+                  </property>
+                  <layout class="QHBoxLayout" name="rightColumnBlock1Row1Layout">
+                   <item>
+                    <widget class="QLabel" name="rightColumnBlock1Row1Value">
+                     <property name="text">
+                      <string />
+                     </property>
+                     <property name="rpgRole" stdset="0">
+                      <string>value</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QFrame" name="rightColumnBlock1Row2">
+                  <property name="rpgRole" stdset="0">
+                   <string>row</string>
+                  </property>
+                  <layout class="QHBoxLayout" name="rightColumnBlock1Row2Layout">
+                   <item>
+                    <widget class="QLabel" name="rightColumnBlock1Row2Value">
+                     <property name="text">
+                      <string />
+                     </property>
+                     <property name="rpgRole" stdset="0">
+                      <string>value</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QFrame" name="rightColumnBlock1Row3">
+                  <property name="rpgRole" stdset="0">
+                   <string>row</string>
+                  </property>
+                  <layout class="QHBoxLayout" name="rightColumnBlock1Row3Layout">
+                   <item>
+                    <widget class="QLabel" name="rightColumnBlock1Row3Value">
+                     <property name="text">
+                      <string />
+                     </property>
+                     <property name="rpgRole" stdset="0">
+                      <string>value</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <spacer name="rightColumnStretch">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="footerRow">
+     <item>
+      <widget class="hmi::MenuEntryButton" name="closeButton">
+       <property name="text">
+        <string />
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="hmi::MenuEntryButton" name="previousButton">
+       <property name="text">
+        <string />
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="hmi::MenuEntryButton" name="nextButton">
+       <property name="text">
+        <string />
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="hintsLabel">
+       <property name="text">
+        <string />
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>hmi::TitleBanner</class>
+   <extends>QLabel</extends>
+   <header>HMI/Interface/TitleBanner.h</header>
+  </customwidget>
+  <customwidget>
+   <class>hmi::ParchmentPanel</class>
+   <extends>QWidget</extends>
+   <header>HMI/Interface/ParchmentPanel.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>hmi::MenuEntryButton</class>
+   <extends>QPushButton</extends>
+   <header>HMI/Interface/MenuEntryButton.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources />
+ <connections />
+</ui>

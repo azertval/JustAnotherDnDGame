@@ -2,204 +2,777 @@
 <ui version="4.0">
  <class>RpgCharacterSheetPlate</class>
  <widget class="QWidget" name="RpgCharacterSheetPlate">
-  <layout class="QVBoxLayout" name="plateLayout">
-   <!-- La planche de la fiche de personnage (LOT-38, EX-IHM-090).
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1295</width>
+    <height>704</height>
+   </rect>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">#RpgCharacterSheetPlate {
+    background-color: #d0c0a0;
+    font-family: &quot;Pixelify Sans&quot;, monospace;
+    font-size: 20px;
+    color: #302000;
+}
 
-        Ce fichier ne porte que la STRUCTURE : l'en-tete, la barre d'onglets, la pile des sections,
-        le pied. Le contenu de chaque section est bati par RpgCharacterSheetPlate, et ses VALEURS
-        sont nommees par la table des ecrans (hmi::rpgScreens) — la planche n'invente aucun champ. -->
+#RpgCharacterSheetPlate QScrollArea, #RpgCharacterSheetPlate QScrollArea &gt; QWidget &gt; QWidget {
+    background: transparent;
+    border: none;
+}
+
+#RpgCharacterSheetPlate QLabel#rpgTitle {
+    color: #c0b080;
+    font-family: &quot;Press Start 2P&quot;, monospace;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+#RpgCharacterSheetPlate QLabel[rpgRole=&quot;block&quot;] {
+    color: #c0a060;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+#RpgCharacterSheetPlate QLabel[rpgRole=&quot;field&quot;] {
+    color: #705020;
+    font-size: 16px;
+}
+
+#RpgCharacterSheetPlate QLabel[rpgRole=&quot;value&quot;] {
+    color: #302000;
+    font-size: 20px;
+}
+
+#RpgCharacterSheetPlate QLabel[rpgRole=&quot;bigValue&quot;] {
+    color: #302000;
+    font-family: &quot;Press Start 2P&quot;, monospace;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+#RpgCharacterSheetPlate QFrame[rpgRole=&quot;hairline&quot;] {
+    background-color: #c0a060;
+    border: none;
+}
+
+#RpgCharacterSheetPlate QLabel[rpgRole=&quot;signature&quot;] {
+    color: #705020;
+    font-size: 20px;
+    border-bottom: 1px dotted #907030;
+}
+
+#RpgCharacterSheetPlate QLabel[rpgRole=&quot;prose&quot;] {
+    color: #705020;
+    font-size: 20px;
+}
+
+#RpgCharacterSheetPlate QFrame[rpgRole=&quot;cell&quot;], #RpgCharacterSheetPlate QFrame[rpgRole=&quot;chip&quot;], #RpgCharacterSheetPlate QFrame[rpgRole=&quot;action&quot;], #RpgCharacterSheetPlate QFrame[rpgRole=&quot;illustration&quot;] {
+    background: #f0e0d0;
+    border: 2px solid #302000;
+    border-radius: 0;
+}
+
+#RpgCharacterSheetPlate QFrame[rpgRole=&quot;row&quot;] {
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid #907030;
+    border-radius: 0;
+}
+
+#RpgCharacterSheetPlate hmi--MenuEntryButton {
+    color: #705020;
+    background: transparent;
+    border: none;
+    text-align: left;
+    padding: 8px 12px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+#RpgCharacterSheetPlate hmi--MenuEntryButton:hover, #RpgCharacterSheetPlate hmi--MenuEntryButton:focus {
+    color: #c0a060;
+    background: transparent;
+}</string>
+  </property>
+  <layout class="QVBoxLayout" name="plateLayout">
    <item>
-    <!-- Le bandeau occupe TOUTE la largeur, comme sur les huit autres ecrans et sur Options.
-         Serre dans une rangee a cote du registre, il se lisait comme une etiquette posee dans un
-         coin, la ou partout ailleurs il annonce l'ecran. -->
     <widget class="hmi::TitleBanner" name="rpgTitle">
-     <property name="text"><string/></property>
+     <property name="text">
+      <string/>
+     </property>
     </widget>
    </item>
-
    <item>
-    <!-- La ligne de delivrance, SOUS le bandeau : le bureau qui delivre le feuillet, puis le
-         matricule et le rang, ajoutes en code. C'est ce qui fait de la fiche une piece d'identite
-         de mercenaire, et cela tient desormais sur une ligne discrete au lieu de disputer sa
-         place au titre. -->
     <layout class="QHBoxLayout" name="headerRow">
      <item>
       <spacer name="headerSpacer">
-       <property name="orientation"><enum>Qt::Horizontal</enum></property>
+       <property name="orientation">
+        <enum>Qt::Orientation::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
       </spacer>
      </item>
      <item>
       <widget class="QLabel" name="registryLabel">
-       <property name="text"><string/></property>
-       <property name="alignment"><set>Qt::AlignRight|Qt::AlignVCenter</set></property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+       </property>
       </widget>
      </item>
     </layout>
    </item>
-
    <item>
-    <!-- Les cinq sections de la feuille du corpus sont des ONGLETS d'un meme ecran, pas cinq
-         ecrans : la compagnie, l'equipement et les sorts d'un personnage sont sa fiche. La barre
-         est donc interne a la planche, et non une entree du cycle de navigation. -->
     <widget class="hmi::SheetTabBar" name="tabBar"/>
    </item>
-
    <item>
-    <!-- Zone defilante INTERIEURE (EX-IHM-080). Sans elle, la taille minimale de la planche devient
-         un plancher pour la fenetre, qui cesse de pouvoir retrecir. Sa politique de taille passe a
-         Ignored/Ignored dans le constructeur, comme celle de RpgScreenFrame. -->
-    <widget class="QScrollArea" name="bodyScroll">
-     <property name="widgetResizable"><bool>true</bool></property>
-     <property name="frameShape"><enum>QFrame::NoFrame</enum></property>
-     <widget class="QStackedWidget" name="bodyStack">
-
-      <widget class="QWidget" name="abilitiesPage">
-       <layout class="QHBoxLayout" name="bodyRow">
-        <item>
-         <widget class="hmi::ParchmentPanel" name="leftPanel">
-          <layout class="QVBoxLayout" name="leftColumnLayout"/>
-         </widget>
-        </item>
-        <item>
-         <!-- La roue porte le portrait, les six caracteristiques ET le nom : l'ouverture de son arc
-              existe pour lui, et l'en sortir le decrocherait au premier changement de taille.
-
-              Elle est ENCADREE comme les deux colonnes qui l'entourent. Nue, elle flottait sur le
-              parchemin au milieu de deux panneaux encadres : partout ailleurs dans l'interface, un
-              bloc de contenu porte son cadre, et celui-la etait le seul a ne pas en avoir. -->
-         <widget class="hmi::ParchmentPanel" name="wheelPanel">
-          <layout class="QVBoxLayout" name="wheelPanelLayout">
-           <item>
-            <widget class="hmi::AbilityWheel" name="abilityWheel"/>
-           </item>
-          </layout>
-         </widget>
-        </item>
-        <item>
-         <widget class="hmi::ParchmentPanel" name="rightPanel">
-          <layout class="QVBoxLayout" name="rightColumnLayout"/>
-         </widget>
-        </item>
-       </layout>
-      </widget>
-
-      <widget class="QWidget" name="equipmentPage">
-       <layout class="QHBoxLayout" name="equipmentRow">
-        <item>
-         <widget class="hmi::ParchmentPanel" name="appearancePanel">
-          <layout class="QVBoxLayout" name="appearanceLayout"/>
-         </widget>
-        </item>
-        <item>
-         <!-- Le centre de la planche d'equipement est RADIAL lui aussi : un bouclier rond, les
-              emplacements de part et d'autre. C'est la composition du corpus, et elle ne varie
-              qu'en nombre de lignes — seize emplacements au modele contre huit a la maquette.
-
-              Encadre pour la meme raison que la roue : c'est un bloc de contenu, et tous les blocs
-              de contenu de cette interface portent le meme encadrement. -->
-         <widget class="hmi::ParchmentPanel" name="equipmentCenterPanel">
-          <layout class="QVBoxLayout" name="equipmentCenterLayout"/>
-         </widget>
-        </item>
-        <item>
-         <widget class="hmi::ParchmentPanel" name="historyPanel">
-          <layout class="QVBoxLayout" name="historyLayout"/>
-         </widget>
-        </item>
-       </layout>
-      </widget>
-
-      <widget class="QWidget" name="traitsPage">
-       <layout class="QHBoxLayout" name="traitsRow">
-        <item>
-         <!-- Ce que l'ESPECE accorde. C'est la seule des trois sources dont le catalogue porte a
-              la fois le nom et le texte de chaque trait. -->
-         <widget class="hmi::ParchmentPanel" name="speciesPanel">
-          <layout class="QVBoxLayout" name="speciesLayout"/>
-         </widget>
-        </item>
-        <item>
-         <!-- Ce que l'HISTORIQUE accorde : son don, et les maitrises de competences. -->
-         <widget class="hmi::ParchmentPanel" name="backgroundPanel">
-          <layout class="QVBoxLayout" name="backgroundLayout"/>
-         </widget>
-        </item>
-        <item>
-         <!-- Ce que la CLASSE accorde, jusqu'au niveau atteint. -->
-         <widget class="hmi::ParchmentPanel" name="classPanel">
-          <layout class="QVBoxLayout" name="classLayout"/>
-         </widget>
-        </item>
-       </layout>
-      </widget>
-
-      <widget class="QWidget" name="spellsPage">
-       <layout class="QHBoxLayout" name="spellsRow">
-        <item>
-         <!-- Ce qui gouverne l'incantation. Rien ne l'alimente : aucune classe ne declare de
-              caracteristique d'incantation, et aucun catalogue de sorts n'existe. Les champs
-              restent donc au tiret cadratin, qui dit la verite. -->
-         <widget class="hmi::ParchmentPanel" name="spellcastingPanel">
-          <layout class="QVBoxLayout" name="spellcastingLayout"/>
-         </widget>
-        </item>
-        <item>
-         <!-- Les emplacements de sorts, des mineurs au neuvieme niveau. -->
-         <widget class="hmi::ParchmentPanel" name="spellSlotsPanel">
-          <layout class="QVBoxLayout" name="spellSlotsLayout"/>
-         </widget>
-        </item>
-       </layout>
-      </widget>
-
-      <widget class="QWidget" name="teamPage">
-       <layout class="QHBoxLayout" name="teamRow">
-        <item>
-         <widget class="hmi::ParchmentPanel" name="teamPanel">
-          <layout class="QVBoxLayout" name="teamLayout"/>
-         </widget>
-        </item>
-        <item>
-         <widget class="hmi::ParchmentPanel" name="armsPanel">
-          <layout class="QVBoxLayout" name="armsLayout"/>
-         </widget>
-        </item>
-        <item>
-         <widget class="hmi::ParchmentPanel" name="ambitionPanel">
-          <layout class="QVBoxLayout" name="ambitionLayout"/>
-         </widget>
-        </item>
-       </layout>
-      </widget>
-
+    <widget class="QStackedWidget" name="bodyStack">
+     <widget class="QWidget" name="abilitiesPage">
+      <layout class="QHBoxLayout" name="bodyRow">
+       <item>
+        <widget class="hmi::ParchmentPanel" name="leftPanel">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>1</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <layout class="QVBoxLayout" name="leftPanelInset">
+          <item>
+           <widget class="QScrollArea" name="leftPanelScroll">
+            <property name="frameShape">
+             <enum>QFrame::Shape::NoFrame</enum>
+            </property>
+            <property name="widgetResizable">
+             <bool>true</bool>
+            </property>
+            <widget class="QWidget" name="leftPanelContent">
+             <property name="geometry">
+              <rect>
+               <x>0</x>
+               <y>0</y>
+               <width>386</width>
+               <height>527</height>
+              </rect>
+             </property>
+             <layout class="QVBoxLayout" name="leftColumnLayout">
+              <item>
+               <widget class="QLabel" name="progressionHeading">
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="rpgRole" stdset="0">
+                 <string>block</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="progressionRow">
+                <item>
+                 <layout class="QVBoxLayout" name="levelBlock">
+                  <property name="spacing">
+                   <number>0</number>
+                  </property>
+                  <item>
+                   <widget class="QLabel" name="levelCaption">
+                    <property name="text">
+                     <string/>
+                    </property>
+                    <property name="rpgRole" stdset="0">
+                     <string>field</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="levelValue">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="text">
+                     <string>—</string>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+                    </property>
+                    <property name="rpgRole" stdset="0">
+                     <string>bigValue</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <widget class="hmi::SheetGauge" name="experienceGauge"/>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <widget class="hmi::SheetGauge" name="vitalityGauge"/>
+              </item>
+              <item>
+               <widget class="QFrame" name="savesHairline">
+                <property name="frameShape">
+                 <enum>QFrame::Shape::HLine</enum>
+                </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Shadow::Plain</enum>
+                </property>
+                <property name="rpgRole" stdset="0">
+                 <string>hairline</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="savesHeading">
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="rpgRole" stdset="0">
+                 <string>block</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="hmi::PipRow" name="save0"/>
+              </item>
+              <item>
+               <widget class="hmi::PipRow" name="save1"/>
+              </item>
+              <item>
+               <widget class="hmi::PipRow" name="save2"/>
+              </item>
+              <item>
+               <widget class="hmi::PipRow" name="save3"/>
+              </item>
+              <item>
+               <widget class="hmi::PipRow" name="save4"/>
+              </item>
+              <item>
+               <widget class="hmi::PipRow" name="save5"/>
+              </item>
+              <item>
+               <spacer name="leftColumnStretch">
+                <property name="orientation">
+                 <enum>Qt::Orientation::Vertical</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>0</width>
+                  <height>0</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QFrame" name="countersignHairline">
+                <property name="frameShape">
+                 <enum>QFrame::Shape::HLine</enum>
+                </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Shadow::Plain</enum>
+                </property>
+                <property name="rpgRole" stdset="0">
+                 <string>hairline</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="countersignRow">
+                <item>
+                 <layout class="QVBoxLayout" name="countersignLines">
+                  <item>
+                   <widget class="QLabel" name="enlistedOnCaption">
+                    <property name="text">
+                     <string/>
+                    </property>
+                    <property name="rpgRole" stdset="0">
+                     <string>field</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="enlistedOnRule">
+                    <property name="text">
+                     <string>—</string>
+                    </property>
+                    <property name="rpgRole" stdset="0">
+                     <string>signature</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="countersignedCaption">
+                    <property name="text">
+                     <string/>
+                    </property>
+                    <property name="rpgRole" stdset="0">
+                     <string>field</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="countersignedRule">
+                    <property name="text">
+                     <string>—</string>
+                    </property>
+                    <property name="rpgRole" stdset="0">
+                     <string>signature</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <widget class="hmi::WaxSeal" name="waxSeal"/>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </widget>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="hmi::ParchmentPanel" name="wheelPanel">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>1</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <layout class="QVBoxLayout" name="wheelPanelInset">
+          <item>
+           <widget class="QScrollArea" name="wheelPanelScroll">
+            <property name="frameShape">
+             <enum>QFrame::Shape::NoFrame</enum>
+            </property>
+            <property name="widgetResizable">
+             <bool>true</bool>
+            </property>
+            <widget class="QWidget" name="wheelPanelContent">
+             <property name="geometry">
+              <rect>
+               <x>0</x>
+               <y>0</y>
+               <width>397</width>
+               <height>481</height>
+              </rect>
+             </property>
+             <layout class="QVBoxLayout" name="wheelPanelLayout">
+              <item>
+               <widget class="hmi::AbilityWheel" name="abilityWheel"/>
+              </item>
+             </layout>
+            </widget>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="hmi::ParchmentPanel" name="rightPanel">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>1</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <layout class="QVBoxLayout" name="rightPanelInset">
+          <item>
+           <widget class="QScrollArea" name="rightPanelScroll">
+            <property name="frameShape">
+             <enum>QFrame::Shape::NoFrame</enum>
+            </property>
+            <property name="widgetResizable">
+             <bool>true</bool>
+            </property>
+            <widget class="QWidget" name="rightPanelContent">
+             <property name="geometry">
+              <rect>
+               <x>0</x>
+               <y>0</y>
+               <width>398</width>
+               <height>481</height>
+              </rect>
+             </property>
+             <layout class="QVBoxLayout" name="rightColumnLayout"/>
+            </widget>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="equipmentPage">
+      <layout class="QHBoxLayout" name="equipmentRow">
+       <item>
+        <widget class="hmi::ParchmentPanel" name="appearancePanel">
+         <layout class="QVBoxLayout" name="appearancePanelInset">
+          <item>
+           <widget class="QScrollArea" name="appearancePanelScroll">
+            <property name="frameShape">
+             <enum>QFrame::Shape::NoFrame</enum>
+            </property>
+            <property name="widgetResizable">
+             <bool>true</bool>
+            </property>
+            <widget class="QWidget" name="appearancePanelContent">
+             <property name="geometry">
+              <rect>
+               <x>0</x>
+               <y>0</y>
+               <width>100</width>
+               <height>30</height>
+              </rect>
+             </property>
+             <layout class="QVBoxLayout" name="appearanceLayout"/>
+            </widget>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="hmi::ParchmentPanel" name="equipmentCenterPanel">
+         <layout class="QVBoxLayout" name="equipmentCenterPanelInset">
+          <item>
+           <widget class="QScrollArea" name="equipmentCenterPanelScroll">
+            <property name="frameShape">
+             <enum>QFrame::Shape::NoFrame</enum>
+            </property>
+            <property name="widgetResizable">
+             <bool>true</bool>
+            </property>
+            <widget class="QWidget" name="equipmentCenterPanelContent">
+             <property name="geometry">
+              <rect>
+               <x>0</x>
+               <y>0</y>
+               <width>100</width>
+               <height>30</height>
+              </rect>
+             </property>
+             <layout class="QVBoxLayout" name="equipmentCenterLayout"/>
+            </widget>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="hmi::ParchmentPanel" name="historyPanel">
+         <layout class="QVBoxLayout" name="historyPanelInset">
+          <item>
+           <widget class="QScrollArea" name="historyPanelScroll">
+            <property name="frameShape">
+             <enum>QFrame::Shape::NoFrame</enum>
+            </property>
+            <property name="widgetResizable">
+             <bool>true</bool>
+            </property>
+            <widget class="QWidget" name="historyPanelContent">
+             <property name="geometry">
+              <rect>
+               <x>0</x>
+               <y>0</y>
+               <width>100</width>
+               <height>30</height>
+              </rect>
+             </property>
+             <layout class="QVBoxLayout" name="historyLayout"/>
+            </widget>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="traitsPage">
+      <layout class="QHBoxLayout" name="traitsRow">
+       <item>
+        <widget class="hmi::ParchmentPanel" name="speciesPanel">
+         <layout class="QVBoxLayout" name="speciesPanelInset">
+          <item>
+           <widget class="QScrollArea" name="speciesPanelScroll">
+            <property name="frameShape">
+             <enum>QFrame::Shape::NoFrame</enum>
+            </property>
+            <property name="widgetResizable">
+             <bool>true</bool>
+            </property>
+            <widget class="QWidget" name="speciesPanelContent">
+             <property name="geometry">
+              <rect>
+               <x>0</x>
+               <y>0</y>
+               <width>100</width>
+               <height>30</height>
+              </rect>
+             </property>
+             <layout class="QVBoxLayout" name="speciesLayout"/>
+            </widget>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="hmi::ParchmentPanel" name="backgroundPanel">
+         <layout class="QVBoxLayout" name="backgroundPanelInset">
+          <item>
+           <widget class="QScrollArea" name="backgroundPanelScroll">
+            <property name="frameShape">
+             <enum>QFrame::Shape::NoFrame</enum>
+            </property>
+            <property name="widgetResizable">
+             <bool>true</bool>
+            </property>
+            <widget class="QWidget" name="backgroundPanelContent">
+             <property name="geometry">
+              <rect>
+               <x>0</x>
+               <y>0</y>
+               <width>100</width>
+               <height>30</height>
+              </rect>
+             </property>
+             <layout class="QVBoxLayout" name="backgroundLayout"/>
+            </widget>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="hmi::ParchmentPanel" name="classPanel">
+         <layout class="QVBoxLayout" name="classPanelInset">
+          <item>
+           <widget class="QScrollArea" name="classPanelScroll">
+            <property name="frameShape">
+             <enum>QFrame::Shape::NoFrame</enum>
+            </property>
+            <property name="widgetResizable">
+             <bool>true</bool>
+            </property>
+            <widget class="QWidget" name="classPanelContent">
+             <property name="geometry">
+              <rect>
+               <x>0</x>
+               <y>0</y>
+               <width>100</width>
+               <height>30</height>
+              </rect>
+             </property>
+             <layout class="QVBoxLayout" name="classLayout"/>
+            </widget>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="spellsPage">
+      <layout class="QHBoxLayout" name="spellsRow">
+       <item>
+        <widget class="hmi::ParchmentPanel" name="spellcastingPanel">
+         <layout class="QVBoxLayout" name="spellcastingPanelInset">
+          <item>
+           <widget class="QScrollArea" name="spellcastingPanelScroll">
+            <property name="frameShape">
+             <enum>QFrame::Shape::NoFrame</enum>
+            </property>
+            <property name="widgetResizable">
+             <bool>true</bool>
+            </property>
+            <widget class="QWidget" name="spellcastingPanelContent">
+             <property name="geometry">
+              <rect>
+               <x>0</x>
+               <y>0</y>
+               <width>100</width>
+               <height>30</height>
+              </rect>
+             </property>
+             <layout class="QVBoxLayout" name="spellcastingLayout"/>
+            </widget>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="hmi::ParchmentPanel" name="spellSlotsPanel">
+         <layout class="QVBoxLayout" name="spellSlotsPanelInset">
+          <item>
+           <widget class="QScrollArea" name="spellSlotsPanelScroll">
+            <property name="frameShape">
+             <enum>QFrame::Shape::NoFrame</enum>
+            </property>
+            <property name="widgetResizable">
+             <bool>true</bool>
+            </property>
+            <widget class="QWidget" name="spellSlotsPanelContent">
+             <property name="geometry">
+              <rect>
+               <x>0</x>
+               <y>0</y>
+               <width>100</width>
+               <height>30</height>
+              </rect>
+             </property>
+             <layout class="QVBoxLayout" name="spellSlotsLayout"/>
+            </widget>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="teamPage">
+      <layout class="QHBoxLayout" name="teamRow">
+       <item>
+        <widget class="hmi::ParchmentPanel" name="teamPanel">
+         <layout class="QVBoxLayout" name="teamPanelInset">
+          <item>
+           <widget class="QScrollArea" name="teamPanelScroll">
+            <property name="frameShape">
+             <enum>QFrame::Shape::NoFrame</enum>
+            </property>
+            <property name="widgetResizable">
+             <bool>true</bool>
+            </property>
+            <widget class="QWidget" name="teamPanelContent">
+             <property name="geometry">
+              <rect>
+               <x>0</x>
+               <y>0</y>
+               <width>100</width>
+               <height>30</height>
+              </rect>
+             </property>
+             <layout class="QVBoxLayout" name="teamLayout"/>
+            </widget>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="hmi::ParchmentPanel" name="armsPanel">
+         <layout class="QVBoxLayout" name="armsPanelInset">
+          <item>
+           <widget class="QScrollArea" name="armsPanelScroll">
+            <property name="frameShape">
+             <enum>QFrame::Shape::NoFrame</enum>
+            </property>
+            <property name="widgetResizable">
+             <bool>true</bool>
+            </property>
+            <widget class="QWidget" name="armsPanelContent">
+             <property name="geometry">
+              <rect>
+               <x>0</x>
+               <y>0</y>
+               <width>100</width>
+               <height>30</height>
+              </rect>
+             </property>
+             <layout class="QVBoxLayout" name="armsLayout"/>
+            </widget>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="hmi::ParchmentPanel" name="ambitionPanel">
+         <layout class="QVBoxLayout" name="ambitionPanelInset">
+          <item>
+           <widget class="QScrollArea" name="ambitionPanelScroll">
+            <property name="frameShape">
+             <enum>QFrame::Shape::NoFrame</enum>
+            </property>
+            <property name="widgetResizable">
+             <bool>true</bool>
+            </property>
+            <widget class="QWidget" name="ambitionPanelContent">
+             <property name="geometry">
+              <rect>
+               <x>0</x>
+               <y>0</y>
+               <width>100</width>
+               <height>30</height>
+              </rect>
+             </property>
+             <layout class="QVBoxLayout" name="ambitionLayout"/>
+            </widget>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
      </widget>
     </widget>
    </item>
-
    <item>
     <layout class="QHBoxLayout" name="footerRow">
      <item>
-      <!-- Une seule entree permanente : « Fermer ». Les boutons d'ecran precedent et suivant ont
-           quitte le pied : deux chemins pour le meme deplacement obligent a se demander lequel
-           fait quoi, et les rappels de touches disent deja LB/RB. -->
       <widget class="hmi::MenuEntryButton" name="closeButton">
-       <property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property>
-       <property name="text"><string/></property>
-       <property name="flat"><bool>true</bool></property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
       </widget>
      </item>
      <item>
       <spacer name="footerSpacer">
-       <property name="orientation"><enum>Qt::Horizontal</enum></property>
+       <property name="orientation">
+        <enum>Qt::Orientation::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
       </spacer>
      </item>
      <item>
-      <!-- Rappels de touches. Ils ne contraignent pas la largeur : une aide ne decide pas de la
-           taille d'une fenetre, elle s'efface quand la place manque (LOT-68). -->
       <widget class="QLabel" name="hintsLabel">
-       <property name="text"><string/></property>
-       <property name="textFormat"><enum>Qt::RichText</enum></property>
-       <property name="alignment"><set>Qt::AlignRight|Qt::AlignVCenter</set></property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="textFormat">
+        <enum>Qt::TextFormat::RichText</enum>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+       </property>
       </widget>
      </item>
     </layout>
@@ -208,15 +781,15 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>hmi::TitleBanner</class>
-   <extends>QLabel</extends>
-   <header>HMI/Interface/TitleBanner.h</header>
-  </customwidget>
-  <customwidget>
    <class>hmi::ParchmentPanel</class>
    <extends>QWidget</extends>
    <header>HMI/Interface/ParchmentPanel.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>hmi::TitleBanner</class>
+   <extends>QLabel</extends>
+   <header>HMI/Interface/TitleBanner.h</header>
   </customwidget>
   <customwidget>
    <class>hmi::MenuEntryButton</class>
@@ -230,6 +803,21 @@
   </customwidget>
   <customwidget>
    <class>hmi::SheetTabBar</class>
+   <extends>QWidget</extends>
+   <header>HMI/Interface/SheetWidgets.h</header>
+  </customwidget>
+  <customwidget>
+   <class>hmi::SheetGauge</class>
+   <extends>QWidget</extends>
+   <header>HMI/Interface/SheetWidgets.h</header>
+  </customwidget>
+  <customwidget>
+   <class>hmi::PipRow</class>
+   <extends>QWidget</extends>
+   <header>HMI/Interface/SheetWidgets.h</header>
+  </customwidget>
+  <customwidget>
+   <class>hmi::WaxSeal</class>
    <extends>QWidget</extends>
    <header>HMI/Interface/SheetWidgets.h</header>
   </customwidget>

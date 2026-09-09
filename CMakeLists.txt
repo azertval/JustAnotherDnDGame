@@ -37,7 +37,7 @@ option(SKIP_MSVC_ENV_CHECK "Désactiver la vérification d'architecture de l'env
 if(MSVC AND NOT SKIP_MSVC_ENV_CHECK AND NOT CMAKE_GENERATOR MATCHES "Visual Studio")
     set(_msvc_env_hint
         "Corriger en construisant via le script fourni, qui établit lui-même l'environnement :\n"
-        "  pwsh scripts/build.ps1\n"
+        "  powershell -ExecutionPolicy Bypass -File scripts/build.ps1\n"
         "Ou en ouvrant un terminal x64 avant CMake (vcvars64.bat, ou « x64 Native Tools Command "
         "Prompt » — la « Developer PowerShell » démarre en x86).\n"
         "Passer -DSKIP_MSVC_ENV_CHECK=ON pour outrepasser cette vérification.")
