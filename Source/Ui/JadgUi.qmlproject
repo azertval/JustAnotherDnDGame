@@ -1,0 +1,20 @@
+/* Projet Qt Design Studio des ecrans du jeu (LOT-86).
+ *
+ * C'est le fichier que la conception ouvre. Il ne decrit QUE Source/Ui et les assets :
+ * ni CMake, ni Source/HMI, ni une ligne de C++ n'y sont visibles. C'est la frontiere,
+ * rendue litterale par le perimetre de ce fichier.
+ *
+ * Ouvrir avec : D:/Qt/Tools/QtDesignStudio/bin/qtdesignstudio.exe Source/Ui/JadgUi.qmlproject
+ */
+import QmlProject 1.1
+
+Project {
+    mainFile: "Main.qml"
+
+    QmlFiles   { directory: "." }
+    ImageFiles { directory: "../Elements/Assets" }
+    FontFiles  { directory: "../Elements/Assets/Fonts" }
+
+    // Les types du module se resolvent depuis la racine du projet, comme a l'execution.
+    importPaths: [ "." ]
+}
