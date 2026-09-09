@@ -9,6 +9,7 @@
 #include "Core/Rpg/CharacterOptions.h"
 #include "Core/Rpg/CharacterSheet.h"
 #include "Core/Rpg/Inventory.h"
+#include "Core/Rpg/Language.h"
 #include "Core/Rpg/Skill.h"
 
 /**
@@ -47,6 +48,12 @@ struct CharacterSheetContext {
     const core::CharacterOptions* options = nullptr;
     const core::ExperienceTable* experience = nullptr;
     const core::SkillCatalog* skills = nullptr;
+    /// Le catalogue des langues (`EX-RPG-042`). L'espèce ne porte que des **identifiants** —
+    /// `common`, `elvish` — et sans ce catalogue la fiche les afficherait tels quels : un écran
+    /// français annonçant « common, elvish » fait passer une clé pour une donnée. Absent, les
+    /// langues ne sont pas publiées du tout, ce qui laisse le tiret cadratin — et le tiret est la
+    /// vérité, là où l'identifiant serait un mensonge lisible.
+    const core::LanguageCatalog* languages = nullptr;
     /// Ce que l'équipement porté produit (`core::derivedStatsFor`, `LOT-14`). **Présent**, il
     /// remplace la classe d'armure et la vitesse de la fiche : celles-ci sont calculées à la
     /// construction, sans rien savoir de l'armure endossée depuis. Absent, la fiche donne les

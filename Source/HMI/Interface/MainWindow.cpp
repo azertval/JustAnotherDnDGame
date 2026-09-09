@@ -1055,6 +1055,10 @@ void MainWindow::loadDemonstrationCharacter() {
     const core::CharacterOptions options =
         core::loadCharacterOptions(rpg / "species", rpg / "backgrounds", rpg / "classes");
     const core::SkillCatalog competences = core::loadSkills(rpg / "skills");
+    const core::LanguageCatalog langues = core::loadLanguages(rpg / "languages");
+    for (const std::string& erreur : langues.errors) {
+        HMI_LOG_WARNING(("Catalogue des langues : " + erreur).c_str());
+    }
     const core::ExperienceTable experience =
         core::loadExperienceTable(rpg / "rules" / "experience.json");
     const core::CharacterCreationRules regles =
@@ -1102,21 +1106,19 @@ void MainWindow::loadDemonstrationCharacter() {
     // les seize emplacements, la charge et le sac (LOT-38). Les deux tables sont FUSIONNEES plutot
     // que recalculees : deux calculs de la meme charge finiraient par differer, et personne ne
     // saurait lequel croire.
-    std::map<std::string, std::string> valeursFiche =
-        hmi::characterSheetValues(
-                               {.sheet = &fiche.sheet,
-                                .options = &options,
-                                .experience = &experience,
-                                .skills = &competences,
-                                .derived = &derivees,
-                                // L'identifiant du fichier, sans son extension : c'est lui qui
-                                // nomme la cle d'asset du portrait (`character/<id>`, LOT-39). La
-                                // fiche, elle, ne porte qu'un NOM -- qui peut changer, alors
-                                // qu'une cle d'asset ne le doit pas.
-                                .characterId = std::filesystem::path(DEMONSTRATION_CHARACTER_FILE)
-                                                   .stem()
-                                                   .string(),
-                                .emptyMark = _loc.text("rpg.empty")});
+    std::map<std::string, std::string> valeursFiche = hmi::characterSheetValues(
+        {.sheet = &fiche.sheet,
+         .options = &options,
+         .experience = &experience,
+         .skills = &competences,
+         .languages = &langues,
+         .derived = &derivees,
+         // L'identifiant du fichier, sans son extension : c'est lui qui
+         // nomme la cle d'asset du portrait (`character/<id>`, LOT-39). La
+         // fiche, elle, ne porte qu'un NOM -- qui peut changer, alors
+         // qu'une cle d'asset ne le doit pas.
+         .characterId = std::filesystem::path(DEMONSTRATION_CHARACTER_FILE).stem().string(),
+         .emptyMark = _loc.text("rpg.empty")});
     valeursFiche.insert(valeursInventaire.begin(), valeursInventaire.end());
     _rpgScreens->setValues(hmi::RpgScreenId::CharacterSheet, valeursFiche);
 }

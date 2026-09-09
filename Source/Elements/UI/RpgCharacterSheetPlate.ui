@@ -109,6 +109,69 @@
        </layout>
       </widget>
 
+      <widget class="QWidget" name="traitsPage">
+       <layout class="QHBoxLayout" name="traitsRow">
+        <item>
+         <!-- Ce que l'ESPECE accorde. C'est la seule des trois sources dont le catalogue porte a
+              la fois le nom et le texte de chaque trait. -->
+         <widget class="hmi::ParchmentPanel" name="speciesPanel">
+          <layout class="QVBoxLayout" name="speciesLayout"/>
+         </widget>
+        </item>
+        <item>
+         <!-- Ce que l'HISTORIQUE accorde : son don, et les maitrises de competences. -->
+         <widget class="hmi::ParchmentPanel" name="backgroundPanel">
+          <layout class="QVBoxLayout" name="backgroundLayout"/>
+         </widget>
+        </item>
+        <item>
+         <!-- Ce que la CLASSE accorde, jusqu'au niveau atteint. -->
+         <widget class="hmi::ParchmentPanel" name="classPanel">
+          <layout class="QVBoxLayout" name="classLayout"/>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+
+      <widget class="QWidget" name="spellsPage">
+       <layout class="QHBoxLayout" name="spellsRow">
+        <item>
+         <!-- Ce qui gouverne l'incantation. Rien ne l'alimente : aucune classe ne declare de
+              caracteristique d'incantation, et aucun catalogue de sorts n'existe. Les champs
+              restent donc au tiret cadratin, qui dit la verite. -->
+         <widget class="hmi::ParchmentPanel" name="spellcastingPanel">
+          <layout class="QVBoxLayout" name="spellcastingLayout"/>
+         </widget>
+        </item>
+        <item>
+         <!-- Les emplacements de sorts, des mineurs au neuvieme niveau. -->
+         <widget class="hmi::ParchmentPanel" name="spellSlotsPanel">
+          <layout class="QVBoxLayout" name="spellSlotsLayout"/>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+
+      <widget class="QWidget" name="teamPage">
+       <layout class="QHBoxLayout" name="teamRow">
+        <item>
+         <widget class="hmi::ParchmentPanel" name="teamPanel">
+          <layout class="QVBoxLayout" name="teamLayout"/>
+         </widget>
+        </item>
+        <item>
+         <widget class="hmi::ParchmentPanel" name="armsPanel">
+          <layout class="QVBoxLayout" name="armsLayout"/>
+         </widget>
+        </item>
+        <item>
+         <widget class="hmi::ParchmentPanel" name="ambitionPanel">
+          <layout class="QVBoxLayout" name="ambitionLayout"/>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+
      </widget>
     </widget>
    </item>

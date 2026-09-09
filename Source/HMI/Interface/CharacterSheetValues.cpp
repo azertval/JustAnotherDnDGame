@@ -72,18 +72,35 @@ std::map<std::string, std::string> characterSheetValues(const CharacterSheetCont
                 std::to_string(fiche.level) + "d" + std::to_string(classe->hitDie);
         }
 
-        // Les langues viennent de l'ESPECE. Elles sortent avec l'identifiant que porte le
-        // catalogue -- « common », « elvish » -- comme le nom d'espece sort avec le sien : les
-        // catalogues sont en anglais, et les traduire est le sujet du lexique, pas de cet ecran.
-        if (espece != nullptr && !espece->languages.empty()) {
+        // Les langues viennent de l'ESPECE, qui n'en porte que les identifiants. Le nom lisible
+        // vient du CATALOGUE des langues : « common » est une cle, et l'afficher tel quel la
+        // ferait passer pour une donnee. Sans catalogue, rien n'est publie -- le tiret cadratin
+        // dit alors la verite, la ou l'identifiant brut serait un mensonge lisible.
+        if (espece != nullptr && !espece->languages.empty() && context.languages != nullptr) {
             std::string langues;
+            std::size_t rang = 0;
             for (const std::string& langue : espece->languages) {
+                const core::LanguageDefinition* const connue = context.languages->find(langue);
+                if (connue == nullptr) {
+                    // Une langue absente du catalogue est PASSEE, pas devinee : un test verifie
+                    // que les especes livrees n'en accordent aucune qui manque, et le silence ici
+                    // ne masque donc rien -- il refuse seulement d'ecrire une cle a l'ecran.
+                    continue;
+                }
                 if (!langues.empty()) {
                     langues += ", ";
                 }
-                langues += langue;
+                langues += connue->name;
+                // Et chaque langue A PART, indexee : la planche en pose une par ligne. Lui faire
+                // redecouper « commun, elfique » serait defaire la-bas ce qu'on assemble ici, et
+                // la premiere langue dont le nom porte une virgule le dirait.
+                valeurs["sheet.language." + std::to_string(rang)] = connue->name;
+                ++rang;
             }
-            valeurs["sheet.languages"] = langues;
+            if (rang > 0) {
+                valeurs["sheet.languages"] = langues;
+                valeurs["sheet.language.count"] = std::to_string(rang);
+            }
         }
 
         // Le don d'historique : son nom et son texte, separement. Une seule chaine obligerait la
@@ -91,6 +108,66 @@ std::map<std::string, std::string> characterSheetValues(const CharacterSheetCont
         if (historique != nullptr && historique->feature.has_value()) {
             valeurs["sheet.background_feature"] = historique->feature->name;
             valeurs["sheet.background_feature_text"] = historique->feature->text;
+        }
+
+        // --- Ce que l'ESPECE accorde -----------------------------------------------------------
+        //
+        // Les traits d'espece portent leur nom ET leur texte, en francais, dans le catalogue :
+        // c'est la seule des trois sources qui soit complete. Chacun sort indexe, nom et texte
+        // separes, parce que la planche met le nom en titre et le texte dessous.
+        if (espece != nullptr) {
+            std::size_t rang = 0;
+            for (const core::NamedTrait& trait : espece->traits) {
+                const std::string prefixe = "sheet.species_trait." + std::to_string(rang);
+                valeurs[prefixe + ".name"] = trait.name;
+                valeurs[prefixe + ".text"] = trait.text;
+                ++rang;
+            }
+            valeurs["sheet.species_trait.count"] = std::to_string(rang);
+        }
+
+        // --- Ce que l'HISTORIQUE accorde -------------------------------------------------------
+        //
+        // Les maitrises de competences accordees par l'historique. Le nom lisible vient du
+        // catalogue des competences, jamais de l'identifiant : « animal-handling » affiche tel
+        // quel se lirait comme une donnee. Sans catalogue, aucune n'est publiee.
+        if (historique != nullptr && context.skills != nullptr) {
+            std::size_t rang = 0;
+            for (const std::string& identifiant : historique->skillProficiencies) {
+                const core::SkillDefinition* const connue = context.skills->find(identifiant);
+                if (connue == nullptr) {
+                    continue;
+                }
+                valeurs["sheet.background_skill." + std::to_string(rang)] = connue->name;
+                ++rang;
+            }
+            valeurs["sheet.background_skill.count"] = std::to_string(rang);
+        }
+
+        // --- Ce que la CLASSE accorde ----------------------------------------------------------
+        //
+        // La progression de classe nomme ses aptitudes par IDENTIFIANT, et n'en porte ni le
+        // libelle ni le texte : aucun catalogue d'aptitudes n'existe encore. On publie donc
+        // l'identifiant TEL QUEL, avec le niveau ou il s'obtient, et la planche l'affiche comme ce
+        // qu'il est -- une cle en attente de son catalogue. Lui inventer un nom ici ferait croire
+        // que la donnee le contient, ce qui est le contraire de ce que le tiret cadratin promet.
+        //
+        // Seuls les niveaux DEJA ATTEINTS sont publies : annoncer l'aptitude du niveau 9 a un
+        // personnage de niveau 3 lui ferait lire comme acquis ce qui ne l'est pas.
+        if (classe != nullptr) {
+            std::size_t rang = 0;
+            for (const core::ClassLevel& palier : classe->progression) {
+                if (palier.level > fiche.level) {
+                    continue;
+                }
+                for (const std::string& aptitude : palier.features) {
+                    const std::string prefixe = "sheet.class_feature." + std::to_string(rang);
+                    valeurs[prefixe + ".id"] = aptitude;
+                    valeurs[prefixe + ".level"] = std::to_string(palier.level);
+                    ++rang;
+                }
+            }
+            valeurs["sheet.class_feature.count"] = std::to_string(rang);
         }
     }
 

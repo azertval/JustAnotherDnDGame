@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2026 Valentin Eloy
+﻿// SPDX-FileCopyrightText: 2026 Valentin Eloy
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "HMI/Interface/RpgCharacterSheetPlate.h"
@@ -162,6 +162,17 @@ RpgCharacterSheetPlate::RpgCharacterSheetPlate(const RpgScreenDescriptor& descri
     _ui->equipmentRow->setStretch(0, 4);
     _ui->equipmentRow->setStretch(1, 7);
     _ui->equipmentRow->setStretch(2, 4);
+    // Les trois dernières pages n'ont pas de centre privilégié : leurs colonnes se partagent la
+    // largeur à parts égales. Sans facteur, chacune prend la largeur de son contenu, et la colonne
+    // qui n'affiche que des tirets se réduit à un ruban — ce qui la fait lire comme une erreur de
+    // rendu plutôt que comme une section en attente de sa donnée.
+    for (QHBoxLayout* const row : {_ui->traitsRow, _ui->teamRow}) {
+        row->setStretch(0, 1);
+        row->setStretch(1, 1);
+        row->setStretch(2, 1);
+    }
+    _ui->spellsRow->setStretch(0, 1);
+    _ui->spellsRow->setStretch(1, 1);
 
     // Le RETRAIT intérieur des quatre panneaux, posé ici et non laissé au défaut de Qt. Le défaut
     // vaut onze pixels, qui ne suivent pas le facteur d'agrandissement : à l'échelle 2, les
@@ -181,6 +192,9 @@ RpgCharacterSheetPlate::RpgCharacterSheetPlate(const RpgScreenDescriptor& descri
     buildLeftColumn();
     buildRightColumn();
     buildEquipmentPage();
+    buildTraitsPage();
+    buildSpellsPage();
+    buildTeamPage();
 
     // Deux onglets, parce que deux sections existent. En annoncer cinq alors que trois ne mènent
     // nulle part serait promettre ce que l'écran ne tient pas -- le défaut même que le tiret
@@ -228,10 +242,11 @@ void RpgCharacterSheetPlate::buildEquipmentPage() {
     }
     addHairline(appearance);
     addHeading(appearance, "rpg.block.languages");
-    _languages = new QLabel(EMPTY_VALUE, this);
-    setRole(_languages, "prose");
-    _languages->setWordWrap(true);
-    appearance->addWidget(_languages);
+    // Une ligne PAR LANGUE, et non « commun, elfique » sur une seule : les langues sont une liste,
+    // et une liste écrite en phrase se compte mal. Les lignes naissent à la pose des valeurs.
+    _languagesLayout = new QVBoxLayout();
+    _languagesLayout->setSpacing(spacing.small * scale);
+    appearance->addLayout(_languagesLayout);
     addHairline(appearance);
     addHeading(appearance, "rpg.block.other_proficiencies");
     auto* const others = new QLabel(EMPTY_VALUE, this);
@@ -301,23 +316,22 @@ void RpgCharacterSheetPlate::buildEquipmentPage() {
     center->addLayout(purseRow);
 
     addHeading(center, "rpg.block.bag");
-    _backpack = new QLabel(EMPTY_VALUE, this);
-    setRole(_backpack, "prose");
-    _backpack->setWordWrap(true);
-    center->addWidget(_backpack);
+    // Le sac est un TABLEAU : l'objet à gauche, sa quantité à droite, une ligne par pile. Rendu
+    // en prose, « Torche ×5 » collait le nombre au nom et les quantités ne s'alignaient pas —
+    // impossible de lire d'un coup d'œil ce dont on a beaucoup.
+    _bagLayout = new QVBoxLayout();
+    _bagLayout->setSpacing(spacing.small * scale);
+    center->addLayout(_bagLayout);
     center->addStretch(1);
 
     // --- Colonne droite : d'où il vient --------------------------------------------------------
     QVBoxLayout* const history = _ui->historyLayout;
     history->setSpacing(spacing.small * scale);
+    // Le don d'historique NE FIGURE PLUS ici : il a rejoint l'onglet « Dons et traits », avec le
+    // reste de ce que l'historique accorde. Le montrer aux deux endroits aurait ete le meme
+    // doublon que l'ecran d'inventaire, qui repetait deja la page d'equipement.
     addHeading(history, "rpg.block.backstory");
-    _backgroundFeature = new QLabel(EMPTY_VALUE, this);
-    setRole(_backgroundFeature, "block");
-    history->addWidget(_backgroundFeature);
-    _backgroundText = new QLabel(EMPTY_VALUE, this);
-    setRole(_backgroundText, "prose");
-    _backgroundText->setWordWrap(true);
-    history->addWidget(_backgroundText);
+    addField(history, "rpg.field.background");
     addHairline(history);
     addHeading(history, "rpg.block.personality");
     for (const char* const key :
@@ -325,6 +339,142 @@ void RpgCharacterSheetPlate::buildEquipmentPage() {
         addField(history, key);
     }
     history->addStretch(1);
+}
+
+void RpgCharacterSheetPlate::buildTraitsPage() {
+    const SpacingTokens& spacing = identityTokens().spacing;
+    const int scale = identityScale();
+
+    // Le meme patron pour les trois colonnes : le titre de la source, son nom, puis ce qu'elle
+    // accorde. Les trois se lisent donc de la meme facon, et la difference entre elles saute aux
+    // yeux -- c'est la COMPLETUDE de la donnee qui varie, pas la mise en page.
+    const auto entete = [this, &spacing, scale](QVBoxLayout* column, const char* key) {
+        column->setSpacing(spacing.small * scale);
+        addHeading(column, key);
+        auto* const name = new QLabel(EMPTY_VALUE, this);
+        setRole(name, "bigValue");
+        name->setWordWrap(true);
+        column->addWidget(name);
+        addHairline(column);
+        return name;
+    };
+
+    _speciesName = entete(_ui->speciesLayout, "rpg.field.species");
+    _speciesTraitsLayout = new QVBoxLayout();
+    _speciesTraitsLayout->setSpacing(spacing.medium * scale);
+    _ui->speciesLayout->addLayout(_speciesTraitsLayout);
+    _ui->speciesLayout->addStretch(1);
+
+    _backgroundName = entete(_ui->backgroundLayout, "rpg.field.background");
+    _backgroundFeature = new QLabel(EMPTY_VALUE, this);
+    setRole(_backgroundFeature, "block");
+    _backgroundFeature->setWordWrap(true);
+    _ui->backgroundLayout->addWidget(_backgroundFeature);
+    _backgroundText = new QLabel(EMPTY_VALUE, this);
+    setRole(_backgroundText, "prose");
+    _backgroundText->setWordWrap(true);
+    _ui->backgroundLayout->addWidget(_backgroundText);
+    addHairline(_ui->backgroundLayout);
+    addHeading(_ui->backgroundLayout, "rpg.block.granted_proficiencies");
+    _backgroundSkillsLayout = new QVBoxLayout();
+    _backgroundSkillsLayout->setSpacing(spacing.small * scale);
+    _ui->backgroundLayout->addLayout(_backgroundSkillsLayout);
+    _ui->backgroundLayout->addStretch(1);
+
+    _className = entete(_ui->classLayout, "rpg.field.class");
+    addHeading(_ui->classLayout, "rpg.block.powers");
+    _classFeaturesLayout = new QVBoxLayout();
+    _classFeaturesLayout->setSpacing(spacing.medium * scale);
+    _ui->classLayout->addLayout(_classFeaturesLayout);
+    _ui->classLayout->addStretch(1);
+}
+
+void RpgCharacterSheetPlate::buildSpellsPage() {
+    const SpacingTokens& spacing = identityTokens().spacing;
+    const int scale = identityScale();
+
+    // AUCUN champ de cette page n'a de source, et c'est ce que la page doit dire. Ni la classe ni
+    // le personnage ne declarent de caracteristique d'incantation, et aucun catalogue de sorts
+    // n'existe (`spell.schema.json` est ecrit, son dossier ne l'est pas). Poser un « 0 » ou un
+    // « aucun » affirmerait quelque chose ; le tiret cadratin, lui, dit qu'on ne sait pas encore.
+    //
+    // La page existe malgre tout, et c'est delibere : une section qu'aucun chemin n'atteint ne se
+    // relit pas, ne se navigue pas, et son intitule ne se verifie jamais. C'est le raisonnement
+    // qui a fait livrer les huit ecrans vides du `LOT-68`.
+    QVBoxLayout* const rules = _ui->spellcastingLayout;
+    rules->setSpacing(spacing.small * scale);
+    addHeading(rules, "rpg.block.spellcasting");
+    for (const char* const key : {"rpg.field.spellcasting_class", "rpg.field.spellcasting_ability",
+                                  "rpg.field.spell_save_dc", "rpg.field.spell_attack_bonus"}) {
+        addField(rules, key);
+    }
+    rules->addStretch(1);
+
+    // slots est un MOT-CLE Qt (une macro vide) : nomme ainsi, la variable disparaissait a la
+    // preprocession et le compilateur signalait une erreur de syntaxe trois lignes plus bas.
+    QVBoxLayout* const levels = _ui->spellSlotsLayout;
+    levels->setSpacing(spacing.small * scale);
+    addHeading(levels, "rpg.block.spell_slots");
+    for (const char* const key :
+         {"rpg.field.cantrips", "rpg.field.spell_level_1", "rpg.field.spell_level_2",
+          "rpg.field.spell_level_3", "rpg.field.spell_level_4", "rpg.field.spell_level_5",
+          "rpg.field.spell_level_6", "rpg.field.spell_level_7", "rpg.field.spell_level_8",
+          "rpg.field.spell_level_9"}) {
+        addField(levels, key);
+    }
+    levels->addStretch(1);
+}
+
+void RpgCharacterSheetPlate::buildTeamPage() {
+    const SpacingTokens& spacing = identityTokens().spacing;
+    const int scale = identityScale();
+
+    // La feuille d'equipe fait partie de la FICHE, et non d'un ecran a part : la compagnie d'un
+    // mercenaire est un morceau de son identite, au meme titre que son espece. Ce qui la remplira
+    // viendra de la Guilde (`LOT-45`, `LOT-83`) ; le seul membre que la donnee porte aujourd'hui
+    // est le personnage lui-meme, et c'est la seule valeur reelle de cette page.
+    QVBoxLayout* const team = _ui->teamLayout;
+    team->setSpacing(spacing.small * scale);
+    addHeading(team, "rpg.block.team");
+    _teamName = addField(team, "rpg.field.team_name");
+    addField(team, "rpg.field.career_points");
+    addHairline(team);
+    addHeading(team, "rpg.block.team_members");
+    _teamMember = new QLabel(EMPTY_VALUE, this);
+    setRole(_teamMember, "value");
+    team->addWidget(_teamMember);
+    addHairline(team);
+    addHeading(team, "rpg.block.relations");
+    auto* const relations = new QLabel(EMPTY_VALUE, this);
+    setRole(relations, "value");
+    team->addWidget(relations);
+    team->addStretch(1);
+
+    QVBoxLayout* const arms = _ui->armsLayout;
+    arms->setSpacing(spacing.small * scale);
+    addHeading(arms, "rpg.block.coat_of_arms");
+    auto* const blason = new QLabel(EMPTY_VALUE, this);
+    setRole(blason, "value");
+    arms->addWidget(blason);
+    addHairline(arms);
+    for (const char* const key :
+         {"rpg.field.fame", "rpg.field.level", "rpg.field.prestige", "rpg.field.beneficiary",
+          "rpg.field.style", "rpg.field.specialization"}) {
+        addField(arms, key);
+    }
+    arms->addStretch(1);
+
+    QVBoxLayout* const ambition = _ui->ambitionLayout;
+    ambition->setSpacing(spacing.small * scale);
+    for (const char* const key :
+         {"rpg.block.dream", "rpg.block.hidden_agenda", "rpg.block.legendary_rewards"}) {
+        addHeading(ambition, key);
+        auto* const prose = new QLabel(EMPTY_VALUE, this);
+        setRole(prose, "prose");
+        prose->setWordWrap(true);
+        ambition->addWidget(prose);
+    }
+    ambition->addStretch(1);
 }
 
 QLabel* RpgCharacterSheetPlate::addHeading(QVBoxLayout* column, const char* key) {
@@ -469,7 +619,12 @@ void RpgCharacterSheetPlate::retranslateUi(const Localization& loc) {
 
     // Les deux onglets existants. Leurs intitulés sont ceux des blocs de la table -- ce sont
     // les mêmes sections, vues de l'extérieur.
-    _ui->tabBar->setTabs({t("rpg.block.abilities"), t("rpg.block.equipment")});
+    // Les cinq sections de la planche du corpus. Elles existent TOUTES, y compris celles que
+    // rien n'alimente encore : un onglet qu'aucun chemin n'atteint ne se relit pas, et son
+    // intitule ne se verifie jamais.
+    _ui->tabBar->setTabs({t("rpg.block.abilities"), t("rpg.block.equipment"),
+                          t("rpg.block.features"), t("rpg.block.spellcasting"),
+                          t("rpg.block.team")});
 
     // Les intitulés des seize emplacements viennent de la table de l'écran d'inventaire, dans son
     // ordre : le même parcours qu'à la construction, donc les mêmes lignes.
@@ -592,16 +747,180 @@ void RpgCharacterSheetPlate::setValues(const std::map<std::string, std::string>&
                          valueOr(values, "inventory.capacity"));
     _loadGauge->setFill(ratioOf(values, "inventory.carried_grams", "inventory.capacity_grams"));
 
-    for (const auto& [label, key] :
-         {std::pair{_purse, "inventory.purse"}, std::pair{_backpack, "inventory.backpack"},
-          std::pair{_languages, "sheet.languages"},
-          std::pair{_backgroundFeature, "sheet.background_feature"},
-          std::pair{_backgroundText, "sheet.background_feature_text"}}) {
+    for (const auto& [label, key] : {std::pair{_purse, "inventory.purse"},
+                                     std::pair{_backgroundFeature, "sheet.background_feature"},
+                                     std::pair{_backgroundText, "sheet.background_feature_text"}}) {
         const QString reading = valueOr(values, key);
         label->setText(reading.isEmpty() ? EMPTY_VALUE : reading);
     }
 
+    applyLanguages(values);
+    applyBackpack(values);
+    applyTraits(values);
+
+    // Le seul membre d'equipe reel : le personnage. Le reste de la page attend la Guilde.
+    const QString name = valueOr(values, "sheet.name");
+    _teamMember->setText(name.isEmpty() ? EMPTY_VALUE : name);
+
     applyWheelValues();
+}
+
+void RpgCharacterSheetPlate::applyLanguages(const std::map<std::string, std::string>& values) {
+    const int count = valueOr(values, "sheet.language.count").toInt();
+
+    while (static_cast<int>(_languageRows.size()) < count) {
+        auto* const row = new QLabel(this);
+        setRole(row, "value");
+        _languagesLayout->addWidget(row);
+        _languageRows.push_back(row);
+    }
+    // Aucune langue publiée : une seule ligne, au tiret cadratin. Le tiret dit « rien ne
+    // l'alimente », ce qui est la vérité quand le catalogue des langues manque.
+    if (count == 0 && _languageRows.empty()) {
+        auto* const row = new QLabel(EMPTY_VALUE, this);
+        setRole(row, "value");
+        _languagesLayout->addWidget(row);
+        _languageRows.push_back(row);
+    }
+
+    for (std::size_t index = 0; index < _languageRows.size(); ++index) {
+        const QString reading = valueOr(values, "sheet.language." + std::to_string(index));
+        _languageRows.at(index)->setText(reading.isEmpty() ? EMPTY_VALUE : reading);
+        // Masquée et non détruite : les langues d'un personnage changent (don, historique), et
+        // recréer les widgets à chaque changement ferait clignoter le panneau.
+        _languageRows.at(index)->setVisible(index == 0 || static_cast<int>(index) < count);
+    }
+}
+
+void RpgCharacterSheetPlate::applyBackpack(const std::map<std::string, std::string>& values) {
+    const int count = valueOr(values, "inventory.backpack.count").toInt();
+    const SpacingTokens& spacing = identityTokens().spacing;
+    const int scale = identityScale();
+
+    while (static_cast<int>(_bagRows.size()) < std::max(1, count)) {
+        auto* const line = new QHBoxLayout();
+        line->setSpacing(spacing.medium * scale);
+        auto* const name = new QLabel(this);
+        setRole(name, "value");
+        auto* const quantity = new QLabel(this);
+        // La quantité prend le rôle d'un LIBELLÉ, pas d'une valeur : c'est le nom de l'objet que
+        // l'on lit, la quantité ne fait que le compter. Les deux en pleine encre feraient deux
+        // colonnes qui se disputent le regard.
+        setRole(quantity, "field");
+        quantity->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
+        line->addWidget(name, 1);
+        line->addWidget(quantity, 0);
+        _bagLayout->addLayout(line);
+        _bagRows.push_back({.name = name, .quantity = quantity});
+    }
+
+    for (std::size_t index = 0; index < _bagRows.size(); ++index) {
+        const std::string prefix = "inventory.backpack." + std::to_string(index);
+        const QString name = valueOr(values, prefix + ".name");
+        const BagRow& row = _bagRows.at(index);
+        row.name->setText(name.isEmpty() ? EMPTY_VALUE : name);
+        row.quantity->setText(valueOr(values, prefix + ".quantity"));
+        row.name->setVisible(index == 0 || static_cast<int>(index) < count);
+        row.quantity->setVisible(index == 0 || static_cast<int>(index) < count);
+    }
+}
+
+void RpgCharacterSheetPlate::applyTraits(const std::map<std::string, std::string>& values) {
+    const SpacingTokens& spacing = identityTokens().spacing;
+    const int scale = identityScale();
+
+    _speciesName->setText(valueOr(values, "sheet.species").isEmpty()
+                              ? EMPTY_VALUE
+                              : valueOr(values, "sheet.species"));
+    _backgroundName->setText(valueOr(values, "sheet.background").isEmpty()
+                                 ? EMPTY_VALUE
+                                 : valueOr(values, "sheet.background"));
+    // La classe se lit AVEC son niveau : « Brawler » seul ne dit pas ou en est le personnage, et
+    // les aptitudes affichees dessous s'arretent precisement a ce niveau.
+    const QString className = valueOr(values, "sheet.class_and_level");
+    _className->setText(className.isEmpty() ? EMPTY_VALUE : className);
+
+    _backgroundFeature->setText(valueOr(values, "sheet.background_feature").isEmpty()
+                                    ? EMPTY_VALUE
+                                    : valueOr(values, "sheet.background_feature"));
+    _backgroundText->setText(valueOr(values, "sheet.background_feature_text").isEmpty()
+                                 ? EMPTY_VALUE
+                                 : valueOr(values, "sheet.background_feature_text"));
+
+    // --- Les traits d'espece : nom en accent, texte dessous ------------------------------------
+    const int traitCount = valueOr(values, "sheet.species_trait.count").toInt();
+    while (static_cast<int>(_speciesTraits.size()) < std::max(1, traitCount)) {
+        auto* const name = new QLabel(this);
+        setRole(name, "block");
+        name->setWordWrap(true);
+        auto* const text = new QLabel(this);
+        setRole(text, "prose");
+        text->setWordWrap(true);
+        _speciesTraitsLayout->addWidget(name);
+        _speciesTraitsLayout->addWidget(text);
+        _speciesTraits.push_back({.name = name, .text = text});
+    }
+    for (std::size_t index = 0; index < _speciesTraits.size(); ++index) {
+        const std::string prefix = "sheet.species_trait." + std::to_string(index);
+        const NamedBlock& block = _speciesTraits.at(index);
+        const QString name = valueOr(values, prefix + ".name");
+        block.name->setText(name.isEmpty() ? EMPTY_VALUE : name);
+        block.text->setText(valueOr(values, prefix + ".text"));
+        const bool shown = index == 0 || static_cast<int>(index) < traitCount;
+        block.name->setVisible(shown);
+        block.text->setVisible(shown);
+    }
+
+    // --- Les maitrises accordees par l'historique ----------------------------------------------
+    const int skillCount = valueOr(values, "sheet.background_skill.count").toInt();
+    while (static_cast<int>(_backgroundSkills.size()) < std::max(1, skillCount)) {
+        auto* const row = new QLabel(this);
+        setRole(row, "value");
+        _backgroundSkillsLayout->addWidget(row);
+        _backgroundSkills.push_back(row);
+    }
+    for (std::size_t index = 0; index < _backgroundSkills.size(); ++index) {
+        const QString reading = valueOr(values, "sheet.background_skill." + std::to_string(index));
+        _backgroundSkills.at(index)->setText(reading.isEmpty() ? EMPTY_VALUE : reading);
+        _backgroundSkills.at(index)->setVisible(index == 0 || static_cast<int>(index) < skillCount);
+    }
+
+    // --- Les aptitudes de classe ---------------------------------------------------------------
+    //
+    // L'identifiant est affiche TEL QUEL, et son texte reste au tiret : la progression de classe
+    // ne porte ni libelle ni description, et lui en inventer un ferait croire que la donnee les
+    // contient. Le tiret dit exactement ce qui manque, et ou.
+    const int featureCount = valueOr(values, "sheet.class_feature.count").toInt();
+    while (static_cast<int>(_classFeatures.size()) < std::max(1, featureCount)) {
+        auto* const head = new QHBoxLayout();
+        head->setSpacing(spacing.small * scale);
+        auto* const level = new QLabel(this);
+        setRole(level, "field");
+        auto* const name = new QLabel(this);
+        setRole(name, "value");
+        name->setWordWrap(true);
+        head->addWidget(level, 0);
+        head->addWidget(name, 1);
+        auto* const text = new QLabel(this);
+        setRole(text, "prose");
+        text->setWordWrap(true);
+        _classFeaturesLayout->addLayout(head);
+        _classFeaturesLayout->addWidget(text);
+        _classFeatures.push_back({.level = level, .name = name, .text = text});
+    }
+    for (std::size_t index = 0; index < _classFeatures.size(); ++index) {
+        const std::string prefix = "sheet.class_feature." + std::to_string(index);
+        const FeatureRow& row = _classFeatures.at(index);
+        const QString name = valueOr(values, prefix + ".id");
+        const QString level = valueOr(values, prefix + ".level");
+        row.level->setText(level.isEmpty() ? QString() : QString::fromUtf8("· ") + level);
+        row.name->setText(name.isEmpty() ? EMPTY_VALUE : name);
+        row.text->setText(EMPTY_VALUE);
+        const bool shown = index == 0 || static_cast<int>(index) < featureCount;
+        row.level->setVisible(shown);
+        row.name->setVisible(shown);
+        row.text->setVisible(shown);
+    }
 }
 
 void RpgCharacterSheetPlate::applyWheelValues() {

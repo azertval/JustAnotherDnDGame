@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2026 Valentin Eloy
+﻿# SPDX-FileCopyrightText: 2026 Valentin Eloy
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 # Tests unitaires (GoogleTest).
@@ -43,6 +43,7 @@ add_executable(UnitTests
     Unit/Core/World/test_atlas.cpp
     Unit/Core/Rpg/test_character_options.cpp
     Unit/Core/Rpg/test_character_sheet.cpp
+    Unit/Core/Rpg/test_language_catalog.cpp
     Unit/Core/Levels/test_rpg_terrain.cpp
     Unit/Core/Levels/test_tile_texture_override.cpp
     Unit/Core/Physics/test_swept_collision.cpp
@@ -115,6 +116,7 @@ add_executable(UnitTests
     Unit/HMI/Interface/test_screen_flow.cpp
     Unit/HMI/Interface/test_rpg_screens.cpp
     Unit/HMI/Interface/test_character_sheet_values.cpp
+    Unit/HMI/Interface/test_inventory_values.cpp
     Unit/HMI/Interface/test_identity_scale.cpp
     Unit/HMI/Interface/test_editor_workspace.cpp
     Unit/HMI/Interface/test_parchment_frame.cpp

@@ -90,12 +90,24 @@ private:
     void buildRightColumn();
     /// La page « Équipement » : le bouclier, les seize emplacements, la charge et le sac.
     void buildEquipmentPage();
+    /// La page « Dons et traits » : ce que l'espèce, l'historique et la classe accordent.
+    void buildTraitsPage();
+    /// La page « Incantation » : ce qui gouverne les sorts, et les emplacements par niveau.
+    void buildSpellsPage();
+    /// La page « Équipe » : la compagnie, son blason et ses desseins (`LOT-45`, `LOT-83`).
+    void buildTeamPage();
     /// Une ligne « intitulé / valeur » simple, pour les champs que rien n'alimente encore.
     QLabel* addField(QVBoxLayout* column, const char* key);
     /// Un intitulé de section, dans le style des titres de bloc.
     QLabel* addHeading(QVBoxLayout* column, const char* key);
     /// Un filet d'or pleine largeur, qui sépare deux sections d'un panneau.
     void addHairline(QVBoxLayout* column);
+    /// Pose une ligne par langue, et masque les lignes en trop.
+    void applyLanguages(const std::map<std::string, std::string>& values);
+    /// Pose une ligne par pile du sac : l'objet, puis sa quantité.
+    void applyBackpack(const std::map<std::string, std::string>& values);
+    /// Pose les traits d'espèce, les maîtrises de l'historique et les aptitudes de classe.
+    void applyTraits(const std::map<std::string, std::string>& values);
     void applyWheelValues();
 
     std::unique_ptr<Ui::RpgCharacterSheetPlate> _ui;
@@ -129,10 +141,54 @@ private:
     std::vector<EquipmentSlotRow*> _slots;
     SheetGauge* _loadGauge = nullptr;
     QLabel* _purse = nullptr;
-    QLabel* _backpack = nullptr;
-    QLabel* _languages = nullptr;
+
+    /// Une ligne du sac : l'objet à gauche, sa quantité à droite.
+    struct BagRow {
+        QLabel* name = nullptr;
+        QLabel* quantity = nullptr;
+    };
+    /// Les lignes du sac et celles des langues, créées **à la demande** quand les valeurs
+    /// arrivent : leur nombre n'est pas connu à la construction, et une réserve de lignes fixée
+    /// d'avance couperait le sac au onzième objet sans que rien ne le dise. Les lignes en trop
+    /// sont masquées plutôt que détruites — un inventaire qui varie recréerait sinon des widgets
+    /// à chaque ramassage.
+    std::vector<BagRow> _bagRows;
+    QVBoxLayout* _bagLayout = nullptr;
+    std::vector<QLabel*> _languageRows;
+    QVBoxLayout* _languagesLayout = nullptr;
+
+    // --- Page « Dons et traits » ---
+    /// Un bloc nommé : un intitulé en accent, son texte dessous. C'est la forme d'un trait
+    /// d'espèce comme d'un don d'historique — les deux sont la même chose vue de deux sources.
+    struct NamedBlock {
+        QLabel* name = nullptr;
+        QLabel* text = nullptr;
+    };
+    QLabel* _speciesName = nullptr;
+    std::vector<NamedBlock> _speciesTraits;
+    QVBoxLayout* _speciesTraitsLayout = nullptr;
+
+    QLabel* _backgroundName = nullptr;
     QLabel* _backgroundFeature = nullptr;
     QLabel* _backgroundText = nullptr;
+    std::vector<QLabel*> _backgroundSkills;
+    QVBoxLayout* _backgroundSkillsLayout = nullptr;
+
+    QLabel* _className = nullptr;
+
+    /// Le seul membre d'équipe que la donnée porte aujourd'hui : le personnage lui-même. Les
+    /// autres viendront de la Guilde (`LOT-45`).
+    QLabel* _teamMember = nullptr;
+    QLabel* _teamName = nullptr;
+    /// Une aptitude de classe : le niveau où elle s'obtient, son identifiant, et le tiret cadratin
+    /// à la place de son texte. Le catalogue qui les nommera n'existe pas encore.
+    struct FeatureRow {
+        QLabel* level = nullptr;
+        QLabel* name = nullptr;
+        QLabel* text = nullptr;
+    };
+    std::vector<FeatureRow> _classFeatures;
+    QVBoxLayout* _classFeaturesLayout = nullptr;
 
     // --- En-tête ---
     QLabel* _matricule = nullptr;

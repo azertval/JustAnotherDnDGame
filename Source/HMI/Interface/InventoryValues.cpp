@@ -88,27 +88,43 @@ std::map<std::string, std::string> inventoryValues(const InventoryContext& conte
     // phrases : lui faire redecouper « 23,5 kg » serait defaire ici ce qu'on vient d'ecrire, et le
     // premier changement d'unite la casserait.
     valeurs["inventory.carried_grams"] = std::to_string(context.derived.carriedWeightGrams);
-    valeurs["inventory.capacity_grams"] =
-        std::to_string(context.derived.carryingCapacityGrams);
+    valeurs["inventory.capacity_grams"] = std::to_string(context.derived.carryingCapacityGrams);
     valeurs["inventory.capacity"] = context.derived.carryingCapacityGrams > 0
                                         ? kilogrammes(context.derived.carryingCapacityGrams)
                                         : context.emptyMark;
 
-    // Le sac : une ligne par pile, la quantité seulement quand il y en a plusieurs. « Torche ×1 »
-    // se lit moins bien que « Torche », et l'inventaire d'un personnage en compte beaucoup.
+    // Le sac, pile par pile. Le nom et la quantite sortent SEPAREMENT et indexes, parce que la
+    // planche les pose dans deux colonnes : l'objet a gauche, sa quantite a droite. Une seule
+    // chaine « Torche x5 » l'obligerait a la redecouper -- defaire la-bas ce qu'on assemble ici --
+    // et le premier objet dont le nom porte le signe casserait la colonne sans prevenir.
     std::string contenu;
+    std::size_t pile = 0;
     for (const core::InventoryStack& ligne : sac.backpack) {
         if (ligne.quantity <= 0) {
             continue;
         }
+        const std::string nom = nomDe(context.lookup, ligne.itemId);
+        const std::string prefixe = "inventory.backpack." + std::to_string(pile);
+        valeurs[prefixe + ".name"] = nom;
+        // La quantite porte son signe. C'est une marque d'AFFICHAGE, et l'ecrire ici evite que
+        // chaque ecran qui lit cette valeur invente la sienne.
+        valeurs[prefixe + ".quantity"] = "×" + std::to_string(ligne.quantity);
+        ++pile;
+
+        // La forme en UNE chaine reste publiee : les huit ecrans generiques affichent le sac en
+        // une ligne, et la quantite y disparait quand elle vaut un -- « Torche x1 » se lit moins
+        // bien que « Torche », et l'inventaire d'un personnage en compte beaucoup.
         if (!contenu.empty()) {
             contenu += "\n";
         }
-        contenu += nomDe(context.lookup, ligne.itemId);
+        contenu += nom;
         if (ligne.quantity > 1) {
             contenu += " ×" + std::to_string(ligne.quantity);
         }
     }
+    // Combien de piles la planche doit lire. Zero est ici une VERITE -- le sac est vide -- et non
+    // une valeur qui manque : la cle est ecrite dans tous les cas.
+    valeurs["inventory.backpack.count"] = std::to_string(pile);
     valeurs["inventory.backpack"] = contenu.empty() ? context.emptyMark : contenu;
 
     return valeurs;

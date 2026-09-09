@@ -25,6 +25,7 @@ add_library(Core STATIC
     Rpg/CharacterOptions.cpp
     Rpg/CharacterSheet.cpp
     Rpg/Skill.cpp
+    Rpg/Language.cpp
     Rpg/Check.cpp
     Rpg/Dice.cpp
     Rpg/Equipment.cpp

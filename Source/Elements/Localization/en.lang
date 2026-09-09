@@ -575,6 +575,7 @@ rpg.skill.survival = Survival
 
 rpg.block.attacks = Attacks
 rpg.block.other_proficiencies = Other Proficiencies
+rpg.block.granted_proficiencies = Granted Proficiencies
 rpg.block.appearance = Appearance
 rpg.block.personality = Personality
 rpg.block.features = Features and Traits

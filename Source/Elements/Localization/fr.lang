@@ -578,6 +578,7 @@ rpg.skill.survival = Survie
 
 rpg.block.attacks = Attaques
 rpg.block.other_proficiencies = Autres maîtrises
+rpg.block.granted_proficiencies = Maîtrises accordées
 rpg.block.appearance = Apparence
 rpg.block.personality = Personnalité
 rpg.block.features = Dons et traits

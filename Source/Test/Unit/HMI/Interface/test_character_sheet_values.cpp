@@ -66,14 +66,40 @@ using core::Ability;
 /// bouge.
 [[nodiscard]] core::CharacterOptions catalogues() {
     core::CharacterOptions options;
-    options.species.push_back({.id = "demi-elfe", .name = "Demi-elfe"});
-    options.backgrounds.push_back({.id = "cartographer", .name = "Cartographer"});
+    core::Species espece;
+    espece.id = "demi-elfe";
+    espece.name = "Demi-elfe";
+    espece.languages = {"common", "elvish"};
+    espece.traits = {{.name = "Ascendance feerique", .text = "Avantage contre l'effet charme."},
+                     {.name = "Polyvalence", .text = "Deux competences au choix."}};
+    options.species.push_back(std::move(espece));
+
+    core::Background historique;
+    historique.id = "cartographer";
+    historique.name = "Cartographer";
+    historique.skillProficiencies = {"history", "survival"};
+    options.backgrounds.push_back(std::move(historique));
+
     core::PlayableClass classe;
     classe.id = "brawler";
     classe.name = "Brawler";
     classe.hitDie = 12;
+    // Quatre paliers, dont un AU-DESSUS du niveau de la fiche d'essai : c'est lui qui verifie que
+    // l'ecran n'annonce pas comme acquise une aptitude qui ne l'est pas encore.
+    classe.progression = {{.level = 1, .proficiencyBonus = 2, .features = {"tough-as-nails"}},
+                          {.level = 2, .proficiencyBonus = 2, .features = {"experience"}},
+                          {.level = 3, .proficiencyBonus = 2, .features = {"hit-the-mark"}},
+                          {.level = 5, .proficiencyBonus = 3, .features = {"extra-attack"}}};
     options.classes.push_back(std::move(classe));
     return options;
+}
+
+/// Le catalogue des langues, reduit aux deux que l'espece d'essai accorde.
+[[nodiscard]] core::LanguageCatalog catalogueDeLangues() {
+    core::LanguageCatalog catalogue;
+    catalogue.languages = {{.id = "common", .name = "commun", .exotic = false},
+                           {.id = "elvish", .name = "elfe", .exotic = false}};
+    return catalogue;
 }
 
 [[nodiscard]] core::CharacterSheet fiche() {
@@ -250,4 +276,87 @@ TEST(CharacterSheetValuesTest, ChaqueChampDeLaFicheEstAlimente) {
         }
     }
     EXPECT_GT(declares, 10) << "lecture cassee : l'ossature ne declare presque aucune valeur";
+}
+
+// ============================================================== Ce que l'espece, l'historique
+// et la classe accordent (`LOT-38`, onglet << Dons et traits >>).
+
+TEST(CharacterSheetValuesTest, LesLanguesPassentParLeurCatalogueEtSortentUneParUne) {
+    const core::CharacterSheet personnage = fiche();
+    const core::CharacterOptions options = catalogues();
+    const core::ExperienceTable table = tableDExperience();
+    const core::SkillCatalog competences = catalogueDeCompetences();
+    const core::LanguageCatalog langues = catalogueDeLangues();
+    const std::map<std::string, std::string> valeurs =
+        hmi::characterSheetValues({.sheet = &personnage,
+                                   .options = &options,
+                                   .experience = &table,
+                                   .skills = &competences,
+                                   .languages = &langues});
+
+    EXPECT_EQ(valeurs.at("sheet.language.count"), "2");
+    EXPECT_EQ(valeurs.at("sheet.language.0"), "commun");
+    EXPECT_EQ(valeurs.at("sheet.language.1"), "elfe");
+    // Et la forme en une chaine reste publiee pour les ecrans qui l'affichent en une ligne.
+    EXPECT_EQ(valeurs.at("sheet.languages"), "commun, elfe");
+}
+
+TEST(CharacterSheetValuesTest, SansCatalogueAucuneLangueNEstPubliee) {
+    const core::CharacterSheet personnage = fiche();
+    const core::CharacterOptions options = catalogues();
+    const core::ExperienceTable table = tableDExperience();
+    const core::SkillCatalog competences = catalogueDeCompetences();
+    const std::map<std::string, std::string> valeurs = hmi::characterSheetValues(
+        {.sheet = &personnage, .options = &options, .experience = &table, .skills = &competences});
+
+    // L'identifiant brut serait un MENSONGE lisible : « common » a l'ecran se lit comme une
+    // donnee alors que c'est une cle. Rien de publie laisse le tiret cadratin, qui dit la verite.
+    EXPECT_EQ(valeurs.count("sheet.languages"), 0U);
+    EXPECT_EQ(valeurs.count("sheet.language.0"), 0U);
+}
+
+TEST(CharacterSheetValuesTest, LesTraitsDEspeceSortentNomEtTexteSepares) {
+    const core::CharacterSheet personnage = fiche();
+    const core::CharacterOptions options = catalogues();
+    const core::ExperienceTable table = tableDExperience();
+    const core::SkillCatalog competences = catalogueDeCompetences();
+    const std::map<std::string, std::string> valeurs = hmi::characterSheetValues(
+        {.sheet = &personnage, .options = &options, .experience = &table, .skills = &competences});
+
+    EXPECT_EQ(valeurs.at("sheet.species_trait.count"), "2");
+    EXPECT_EQ(valeurs.at("sheet.species_trait.0.name"), "Ascendance feerique");
+    EXPECT_EQ(valeurs.at("sheet.species_trait.1.name"), "Polyvalence");
+    // Le texte A PART : la planche met le nom en titre et le texte dessous, et une seule chaine
+    // l'obligerait a la redecouper.
+    EXPECT_EQ(valeurs.at("sheet.species_trait.1.text"), "Deux competences au choix.");
+}
+
+TEST(CharacterSheetValuesTest, LesMaitrisesDeLHistoriqueSontNommeesParLeCatalogue) {
+    const core::CharacterSheet personnage = fiche();
+    const core::CharacterOptions options = catalogues();
+    const core::ExperienceTable table = tableDExperience();
+    const core::SkillCatalog competences = catalogueDeCompetences();
+    const std::map<std::string, std::string> valeurs = hmi::characterSheetValues(
+        {.sheet = &personnage, .options = &options, .experience = &table, .skills = &competences});
+
+    EXPECT_EQ(valeurs.at("sheet.background_skill.count"), "2");
+    EXPECT_EQ(valeurs.at("sheet.background_skill.0"), "Histoire");
+    EXPECT_EQ(valeurs.at("sheet.background_skill.1"), "Survie");
+}
+
+TEST(CharacterSheetValuesTest, LesAptitudesDeClasseSArretentAuNiveauAtteint) {
+    const core::CharacterSheet personnage = fiche();  // niveau 3
+    const core::CharacterOptions options = catalogues();
+    const core::ExperienceTable table = tableDExperience();
+    const core::SkillCatalog competences = catalogueDeCompetences();
+    const std::map<std::string, std::string> valeurs = hmi::characterSheetValues(
+        {.sheet = &personnage, .options = &options, .experience = &table, .skills = &competences});
+
+    // Trois aptitudes, pas quatre : celle du niveau 5 n'est PAS acquise, et l'annoncer la ferait
+    // lire comme telle.
+    EXPECT_EQ(valeurs.at("sheet.class_feature.count"), "3");
+    EXPECT_EQ(valeurs.at("sheet.class_feature.0.id"), "tough-as-nails");
+    EXPECT_EQ(valeurs.at("sheet.class_feature.0.level"), "1");
+    EXPECT_EQ(valeurs.at("sheet.class_feature.2.id"), "hit-the-mark");
+    EXPECT_EQ(valeurs.count("sheet.class_feature.3.id"), 0U);
 }
