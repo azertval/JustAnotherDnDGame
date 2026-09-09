@@ -3,7 +3,11 @@
 
 #pragma once
 
+#include <QColor>
+#include <QPixmap>
+#include <QRect>
 #include <QString>
+#include <QStringList>
 #include <QWidget>
 
 /**
@@ -163,6 +167,129 @@ class WaxSeal : public QWidget {
 
 public:
     explicit WaxSeal(QWidget* parent = nullptr);
+
+    [[nodiscard]] QSize sizeHint() const override;
+    [[nodiscard]] QSize minimumSizeHint() const override;
+
+protected:
+    void paintEvent(QPaintEvent* event) override;
+};
+
+/**
+ * @brief Rend une icône d'emplacement à la taille demandée, dans l'encre demandée.
+ *
+ * Les icônes sont écrites avec `stroke="currentColor"` (`EX-IHM-051`) : aucune ne fige de teinte.
+ * Qt SVG ne connaît pas `currentColor` — il le rendrait en **noir**. La substitution se fait donc
+ * ici, sur la source, avant le rendu. Ce noir n'est pas un accident : c'est la panne visible qui
+ * signale un chemin de rendu ayant oublié de passer par cette fonction.
+ *
+ * @param slotName Nom de l'emplacement, celui de `core::equipmentSlotName` — qui est aussi le nom
+ *                 du fichier. Un nom inconnu rend un pixmap nul.
+ * @param ink      Couleur du trait, résolue depuis les jetons par l'appelant.
+ * @param side     Côté du carré, en pixels.
+ */
+[[nodiscard]] QPixmap slotIcon(const QString& slotName, const QColor& ink, int side);
+
+/**
+ * @brief Une ligne d'emplacement d'équipement : l'icône dans son médaillon, l'intitulé, l'objet.
+ *
+ * Le médaillon change d'aspect selon qu'il porte quelque chose : plein et cerclé d'or s'il est
+ * équipé, en réserve et cerclé de brun s'il est vide. C'est ce que fait la planche du corpus, et
+ * c'est ce qui permet de compter les emplacements libres sans lire une seule ligne.
+ */
+class EquipmentSlotRow : public QWidget {
+    Q_OBJECT
+
+public:
+    /// @param slotName Nom de l'emplacement (`core::equipmentSlotName`), qui choisit l'icône.
+    /// @param mirrored Vrai pour la colonne de DROITE : le médaillon passe à droite et le texte
+    ///                 s'aligne vers lui — sur la planche, les deux colonnes se font face.
+    explicit EquipmentSlotRow(QString slotName, bool mirrored, QWidget* parent = nullptr);
+
+    void setCaption(const QString& caption);
+    /// @param item Nom de l'objet équipé. Le tiret cadratin marque un emplacement vide.
+    void setItem(const QString& item);
+
+    [[nodiscard]] QSize sizeHint() const override;
+    [[nodiscard]] QSize minimumSizeHint() const override;
+
+protected:
+    void paintEvent(QPaintEvent* event) override;
+
+private:
+    QString _slotName;
+    bool _mirrored;
+    QString _caption;
+    QString _item;
+};
+
+/**
+ * @brief La barre d'onglets de la planche : les cinq sections de la feuille.
+ *
+ * Les cinq planches du corpus sont **des sections d'un même écran**, pas cinq écrans : la
+ * compagnie, l'équipement et les sorts d'un personnage sont sa fiche. La barre est donc interne à
+ * la planche, et non une entrée du cycle de navigation.
+ *
+ * L'onglet actif porte le cadre — trait d'encre, réserve, filet — et le **fleuron**. L'inactif
+ * n'est que du texte délavé : une teinte seule ne se suit pas à la manette (`EX-IHM-071`), d'où la
+ * forme.
+ */
+class SheetTabBar : public QWidget {
+    Q_OBJECT
+
+public:
+    explicit SheetTabBar(QWidget* parent = nullptr);
+
+    /// Pose les intitulés, déjà traduits. Le nombre d'onglets suit la longueur de la liste.
+    void setTabs(const QStringList& labels);
+    void setCurrentIndex(int index);
+    [[nodiscard]] int currentIndex() const {
+        return _current;
+    }
+
+    [[nodiscard]] QSize sizeHint() const override;
+    [[nodiscard]] QSize minimumSizeHint() const override;
+
+signals:
+    /// Un onglet a été choisi — au clic ou à la flèche.
+    void currentChanged(int index);
+
+protected:
+    void paintEvent(QPaintEvent* event) override;
+    void mousePressEvent(QMouseEvent* event) override;
+    void keyPressEvent(QKeyEvent* event) override;
+    /// Le fleuron de focus n'apparaît qu'au clavier : les deux événements le font repeindre.
+    void focusInEvent(QFocusEvent* event) override;
+    void focusOutEvent(QFocusEvent* event) override;
+
+private:
+    /// @return La largeur de l'onglet @p index : celle de son texte, plus sa gouttière. Calculée
+    ///         sur la fonte GRASSE quel que soit l'onglet actif — sinon un onglet s'élargirait en
+    ///         le devenant, et les autres glisseraient sous le curseur.
+    [[nodiscard]] int tabWidth(int index) const;
+    /// @return Le rectangle de l'onglet @p index, ou un rectangle nul hors bornes.
+    [[nodiscard]] QRect tabRect(int index) const;
+
+    QStringList _labels;
+    int _current = 0;
+};
+
+/**
+ * @brief Le bouclier rond, au centre de la planche d'équipement.
+ *
+ * La deuxième planche du corpus est **radiale elle aussi** : là où la première pose un portrait au
+ * centre d'un arc de caractéristiques, celle-ci pose un bouclier au centre de ses emplacements. Ce
+ * n'est donc pas une particularité de la première page, c'est la grammaire de la feuille.
+ *
+ * Il ne porte aucune valeur — c'est un ornement, et le seul de la planche qui occupe le centre. Le
+ * faire porter la classe d'armure le confondrait avec l'écu de la première page, qui, lui, en est
+ * une.
+ */
+class RoundShield : public QWidget {
+    Q_OBJECT
+
+public:
+    explicit RoundShield(QWidget* parent = nullptr);
 
     [[nodiscard]] QSize sizeHint() const override;
     [[nodiscard]] QSize minimumSizeHint() const override;

@@ -5,25 +5,30 @@
   <layout class="QVBoxLayout" name="plateLayout">
    <!-- La planche de la fiche de personnage (LOT-38, EX-IHM-090).
 
-        Ce fichier ne porte que la STRUCTURE : l'en-tete, les trois colonnes, le pied. Les lignes
-        de champs viennent de la table des ecrans (hmi::rpgScreens) et sont construites par
-        RpgCharacterSheetPlate. Les ecrire ici les dupliquerait, et un champ ajoute a la table
-        n'apparaitrait pas : le defaut exact que le chassis du LOT-68 existe pour eviter. -->
+        Ce fichier ne porte que la STRUCTURE : l'en-tete, la barre d'onglets, la pile des sections,
+        le pied. Le contenu de chaque section est bati par RpgCharacterSheetPlate, et ses VALEURS
+        sont nommees par la table des ecrans (hmi::rpgScreens) — la planche n'invente aucun champ. -->
    <item>
+    <!-- Le bandeau occupe TOUTE la largeur, comme sur les huit autres ecrans et sur Options.
+         Serre dans une rangee a cote du registre, il se lisait comme une etiquette posee dans un
+         coin, la ou partout ailleurs il annonce l'ecran. -->
+    <widget class="hmi::TitleBanner" name="rpgTitle">
+     <property name="text"><string/></property>
+    </widget>
+   </item>
+
+   <item>
+    <!-- La ligne de delivrance, SOUS le bandeau : le bureau qui delivre le feuillet, puis le
+         matricule et le rang, ajoutes en code. C'est ce qui fait de la fiche une piece d'identite
+         de mercenaire, et cela tient desormais sur une ligne discrete au lieu de disputer sa
+         place au titre. -->
     <layout class="QHBoxLayout" name="headerRow">
-     <item>
-      <widget class="hmi::TitleBanner" name="rpgTitle">
-       <property name="text"><string/></property>
-      </widget>
-     </item>
      <item>
       <spacer name="headerSpacer">
        <property name="orientation"><enum>Qt::Horizontal</enum></property>
       </spacer>
      </item>
      <item>
-      <!-- Le bureau qui delivre le feuillet, puis le matricule et le rang. Vides ici :
-           retranslateUi et setValues les remplissent. -->
       <widget class="QLabel" name="registryLabel">
        <property name="text"><string/></property>
        <property name="alignment"><set>Qt::AlignRight|Qt::AlignVCenter</set></property>
@@ -33,33 +38,77 @@
    </item>
 
    <item>
-    <!-- Zone defilante INTERIEURE (EX-IHM-080). Sans elle, la taille minimale de la planche
-         devient un plancher pour la fenetre : la roue et ses deux panneaux reclament plus qu'un
-         1280x720, et c'est la fenetre qui cesse de pouvoir retrecir. Sa politique de taille passe
-         a Ignored/Ignored dans le constructeur, comme celle de RpgScreenFrame. -->
+    <!-- Les cinq sections de la feuille du corpus sont des ONGLETS d'un meme ecran, pas cinq
+         ecrans : la compagnie, l'equipement et les sorts d'un personnage sont sa fiche. La barre
+         est donc interne a la planche, et non une entree du cycle de navigation. -->
+    <widget class="hmi::SheetTabBar" name="tabBar"/>
+   </item>
+
+   <item>
+    <!-- Zone defilante INTERIEURE (EX-IHM-080). Sans elle, la taille minimale de la planche devient
+         un plancher pour la fenetre, qui cesse de pouvoir retrecir. Sa politique de taille passe a
+         Ignored/Ignored dans le constructeur, comme celle de RpgScreenFrame. -->
     <widget class="QScrollArea" name="bodyScroll">
      <property name="widgetResizable"><bool>true</bool></property>
      <property name="frameShape"><enum>QFrame::NoFrame</enum></property>
-     <widget class="QWidget" name="bodyContents">
-      <layout class="QHBoxLayout" name="bodyRow">
-       <item>
-        <!-- Colonne gauche : les blocs de la colonne gauche de la table, moins ceux que la roue
-             reprend. -->
-        <widget class="hmi::ParchmentPanel" name="leftPanel">
-         <layout class="QVBoxLayout" name="leftColumnLayout"/>
-        </widget>
-       </item>
-       <item>
-        <!-- La roue porte le portrait, les six caracteristiques ET le nom : l'ouverture de son arc
-             existe pour lui, et l'en sortir le decrocherait au premier changement de taille. -->
-        <widget class="hmi::AbilityWheel" name="abilityWheel"/>
-       </item>
-       <item>
-        <widget class="hmi::ParchmentPanel" name="rightPanel">
-         <layout class="QVBoxLayout" name="rightColumnLayout"/>
-        </widget>
-       </item>
-      </layout>
+     <widget class="QStackedWidget" name="bodyStack">
+
+      <widget class="QWidget" name="abilitiesPage">
+       <layout class="QHBoxLayout" name="bodyRow">
+        <item>
+         <widget class="hmi::ParchmentPanel" name="leftPanel">
+          <layout class="QVBoxLayout" name="leftColumnLayout"/>
+         </widget>
+        </item>
+        <item>
+         <!-- La roue porte le portrait, les six caracteristiques ET le nom : l'ouverture de son arc
+              existe pour lui, et l'en sortir le decrocherait au premier changement de taille.
+
+              Elle est ENCADREE comme les deux colonnes qui l'entourent. Nue, elle flottait sur le
+              parchemin au milieu de deux panneaux encadres : partout ailleurs dans l'interface, un
+              bloc de contenu porte son cadre, et celui-la etait le seul a ne pas en avoir. -->
+         <widget class="hmi::ParchmentPanel" name="wheelPanel">
+          <layout class="QVBoxLayout" name="wheelPanelLayout">
+           <item>
+            <widget class="hmi::AbilityWheel" name="abilityWheel"/>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="hmi::ParchmentPanel" name="rightPanel">
+          <layout class="QVBoxLayout" name="rightColumnLayout"/>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+
+      <widget class="QWidget" name="equipmentPage">
+       <layout class="QHBoxLayout" name="equipmentRow">
+        <item>
+         <widget class="hmi::ParchmentPanel" name="appearancePanel">
+          <layout class="QVBoxLayout" name="appearanceLayout"/>
+         </widget>
+        </item>
+        <item>
+         <!-- Le centre de la planche d'equipement est RADIAL lui aussi : un bouclier rond, les
+              emplacements de part et d'autre. C'est la composition du corpus, et elle ne varie
+              qu'en nombre de lignes — seize emplacements au modele contre huit a la maquette.
+
+              Encadre pour la meme raison que la roue : c'est un bloc de contenu, et tous les blocs
+              de contenu de cette interface portent le meme encadrement. -->
+         <widget class="hmi::ParchmentPanel" name="equipmentCenterPanel">
+          <layout class="QVBoxLayout" name="equipmentCenterLayout"/>
+         </widget>
+        </item>
+        <item>
+         <widget class="hmi::ParchmentPanel" name="historyPanel">
+          <layout class="QVBoxLayout" name="historyLayout"/>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+
      </widget>
     </widget>
    </item>
@@ -115,6 +164,11 @@
    <class>hmi::AbilityWheel</class>
    <extends>QWidget</extends>
    <header>HMI/Interface/AbilityWheel.h</header>
+  </customwidget>
+  <customwidget>
+   <class>hmi::SheetTabBar</class>
+   <extends>QWidget</extends>
+   <header>HMI/Interface/SheetWidgets.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

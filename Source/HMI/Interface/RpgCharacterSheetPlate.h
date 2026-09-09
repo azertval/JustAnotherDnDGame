@@ -31,6 +31,7 @@ class QVBoxLayout;
 namespace hmi {
 
 class Localization;
+class EquipmentSlotRow;
 class PipRow;
 class SheetGauge;
 class ShieldValue;
@@ -87,6 +88,10 @@ private:
 
     void buildLeftColumn();
     void buildRightColumn();
+    /// La page « Équipement » : le bouclier, les seize emplacements, la charge et le sac.
+    void buildEquipmentPage();
+    /// Une ligne « intitulé / valeur » simple, pour les champs que rien n'alimente encore.
+    QLabel* addField(QVBoxLayout* column, const char* key);
     /// Un intitulé de section, dans le style des titres de bloc.
     QLabel* addHeading(QVBoxLayout* column, const char* key);
     /// Un filet d'or pleine largeur, qui sépare deux sections d'un panneau.
@@ -117,6 +122,17 @@ private:
     /// Initiative, vitesse, bonus de maîtrise, perception passive — dans cet ordre.
     std::array<StatMedallion*, 4> _combat{};
     std::vector<PipRow*> _skills;
+
+    // --- Page « Équipement » ---
+    /// Les seize emplacements, dans l'ordre de la table de l'écran d'inventaire : c'est la même
+    /// donnée qui les nomme, et un dix-septième apparaîtrait sans que cette planche soit touchée.
+    std::vector<EquipmentSlotRow*> _slots;
+    SheetGauge* _loadGauge = nullptr;
+    QLabel* _purse = nullptr;
+    QLabel* _backpack = nullptr;
+    QLabel* _languages = nullptr;
+    QLabel* _backgroundFeature = nullptr;
+    QLabel* _backgroundText = nullptr;
 
     // --- En-tête ---
     QLabel* _matricule = nullptr;

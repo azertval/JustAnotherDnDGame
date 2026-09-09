@@ -14,6 +14,7 @@
 #include <QPushButton>
 #include <QScrollArea>
 #include <QSizePolicy>
+#include <QStackedWidget>
 #include <QStringList>
 #include <QVBoxLayout>
 #include <algorithm>
@@ -101,10 +102,13 @@ RpgCharacterSheetPlate::RpgCharacterSheetPlate(const RpgScreenDescriptor& descri
 
     const SpacingTokens& spacing = identityTokens().spacing;
     const int scale = identityScale();
-    // La marge gauche est plus large que les trois autres : c'est la place de la souche perforée,
-    // le bord par lequel le feuillet a quitté son registre.
-    _ui->plateLayout->setContentsMargins(spacing.extraLarge * scale, spacing.medium * scale,
-                                         spacing.large * scale, spacing.medium * scale);
+    // Les MÊMES marges et le MÊME espacement que `hmi::RpgScreenFrame`, qui habille les huit autres
+    // écrans. La planche s'était donné les siens -- plus serrés en haut et en bas, plus étroits à
+    // droite -- et c'est ce qui la faisait lire comme une page importée : rien ne s'y alignait sur
+    // la fenêtre voisine, alors que le contenu, lui, était le même genre de contenu.
+    _ui->plateLayout->setContentsMargins(spacing.extraLarge * scale, spacing.large * scale,
+                                         spacing.extraLarge * scale, spacing.large * scale);
+    _ui->plateLayout->setSpacing(spacing.large * scale);
 
     // Ni la zone défilante ni les rappels de touches ne contraignent la fenêtre (EX-IHM-080).
     _ui->bodyScroll->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
@@ -119,6 +123,7 @@ RpgCharacterSheetPlate::RpgCharacterSheetPlate(const RpgScreenDescriptor& descri
     // aujourd'hui, et tous deux restent au tiret cadratin. Un « M-3-0417 » d'exemple se lirait
     // comme un état du jeu et mentirait.
     _ui->headerRow->setSpacing(spacing.large * scale);
+    setRole(_ui->registryLabel, "field");
     auto* const stamps = new QHBoxLayout();
     stamps->setSpacing(spacing.extraLarge * scale);
     for (QLabel** slot : {&_matricule, &_rank}) {
@@ -135,15 +140,53 @@ RpgCharacterSheetPlate::RpgCharacterSheetPlate(const RpgScreenDescriptor& descri
     }
     _ui->headerRow->addLayout(stamps);
 
+    // Cinq éléments empilés : bandeau, ligne de délivrance, onglets, corps, pied. TOUT l'espace
+    // libre va au corps (indice 3). Un poids posé sur le mauvais indice ne lève aucune erreur — il
+    // donne simplement la fenêtre entière à la barre d'onglets, et le corps disparaît.
+    _ui->tabBar->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
     _ui->plateLayout->setStretch(0, 0);
-    _ui->plateLayout->setStretch(1, 1);
+    _ui->plateLayout->setStretch(1, 0);
     _ui->plateLayout->setStretch(2, 0);
+    _ui->plateLayout->setStretch(3, 1);
+    _ui->plateLayout->setStretch(4, 0);
+
+    // Les rappels de touches prennent TOUT le reste de la largeur du pied, et n'en exigent aucune.
+    // Sans ce poids, ils recevaient zéro pixel et n'apparaissaient jamais — alors que les huit
+    // autres écrans les affichent, et que le pied annonce LB/RB. Un rappel qui manque sur un seul
+    // écran est pire qu'un rappel absent partout : il apprend au joueur à ne pas les chercher.
+    _ui->footerRow->setStretch(1, 0);
+    _ui->footerRow->setStretch(2, 1);
     _ui->bodyRow->setStretch(0, 4);
     _ui->bodyRow->setStretch(1, 7);
     _ui->bodyRow->setStretch(2, 4);
+    _ui->equipmentRow->setStretch(0, 4);
+    _ui->equipmentRow->setStretch(1, 7);
+    _ui->equipmentRow->setStretch(2, 4);
+
+    // Le RETRAIT intérieur des quatre panneaux, posé ici et non laissé au défaut de Qt. Le défaut
+    // vaut onze pixels, qui ne suivent pas le facteur d'agrandissement : à l'échelle 2, les
+    // panneaux de la fiche respiraient donc deux fois moins que ceux des huit autres écrans, dont
+    // `hmi::RpgScreenFrame` fixe le retrait à `large × échelle`. Le contenu paraissait collé au
+    // cadre, et c'est une des choses qui distinguaient la fiche du reste au premier coup d'œil.
+    const int inset = spacing.large * scale;
+    for (QLayout* const panelLayout :
+         {static_cast<QLayout*>(_ui->leftColumnLayout),
+          static_cast<QLayout*>(_ui->rightColumnLayout),
+          static_cast<QLayout*>(_ui->wheelPanelLayout),
+          static_cast<QLayout*>(_ui->appearanceLayout), static_cast<QLayout*>(_ui->historyLayout),
+          static_cast<QLayout*>(_ui->equipmentCenterLayout)}) {
+        panelLayout->setContentsMargins(inset, inset, inset, inset);
+    }
 
     buildLeftColumn();
     buildRightColumn();
+    buildEquipmentPage();
+
+    // Deux onglets, parce que deux sections existent. En annoncer cinq alors que trois ne mènent
+    // nulle part serait promettre ce que l'écran ne tient pas -- le défaut même que le tiret
+    // cadratin évite ailleurs.
+    connect(_ui->tabBar, &SheetTabBar::currentChanged, _ui->bodyStack,
+            &QStackedWidget::setCurrentIndex);
 
     connect(_ui->closeButton, &QPushButton::clicked, this, &RpgCharacterSheetPlate::closeRequested);
     _ui->closeButton->setAutoDefault(true);
@@ -153,6 +196,135 @@ RpgCharacterSheetPlate::~RpgCharacterSheetPlate() = default;
 
 QWidget* RpgCharacterSheetPlate::widget() {
     return this;
+}
+
+QLabel* RpgCharacterSheetPlate::addField(QVBoxLayout* column, const char* key) {
+    auto* const row = new QHBoxLayout();
+    auto* const caption = new QLabel(this);
+    setRole(caption, "field");
+    auto* const value = new QLabel(EMPTY_VALUE, this);
+    setRole(value, "value");
+    row->addWidget(caption);
+    row->addStretch(1);
+    row->addWidget(value);
+    column->addLayout(row);
+    _translated.push_back({.label = caption, .key = key});
+    return value;
+}
+
+void RpgCharacterSheetPlate::buildEquipmentPage() {
+    const SpacingTokens& spacing = identityTokens().spacing;
+    const int scale = identityScale();
+
+    // --- Colonne gauche : ce que le personnage EST, par opposition à ce qu'il porte -------------
+    QVBoxLayout* const appearance = _ui->appearanceLayout;
+    appearance->setSpacing(spacing.small * scale);
+    addHeading(appearance, "rpg.block.appearance");
+    // Les six champs d'apparence n'ont aucune source : ils attendent un portrait de personnage.
+    // Ils restent au tiret, et la colonne des tirets EST le périmètre restant.
+    for (const char* const key : {"rpg.field.age", "rpg.field.height", "rpg.field.weight",
+                                  "rpg.field.eyes", "rpg.field.skin", "rpg.field.hair"}) {
+        addField(appearance, key);
+    }
+    addHairline(appearance);
+    addHeading(appearance, "rpg.block.languages");
+    _languages = new QLabel(EMPTY_VALUE, this);
+    setRole(_languages, "prose");
+    _languages->setWordWrap(true);
+    appearance->addWidget(_languages);
+    addHairline(appearance);
+    addHeading(appearance, "rpg.block.other_proficiencies");
+    auto* const others = new QLabel(EMPTY_VALUE, this);
+    setRole(others, "value");
+    appearance->addWidget(others);
+    appearance->addStretch(1);
+
+    // --- Centre : le bouclier, et les seize emplacements de part et d'autre ---------------------
+    //
+    // Les emplacements sont ceux de l'écran d'inventaire (`hmi::rpgScreens`), pas une liste tenue
+    // ici. La deuxième planche du corpus est radiale elle aussi : là où la première pose un
+    // portrait au centre d'un arc, celle-ci pose un bouclier au centre de ses emplacements.
+    QVBoxLayout* const center = _ui->equipmentCenterLayout;
+    center->setSpacing(spacing.medium * scale);
+
+    std::vector<const RpgField*> slotFields;
+    for (const RpgContentBlock& block :
+         rpgScreenDescriptor(RpgScreenId::Inventory).layout.leftColumn) {
+        if (std::string_view(block.titleKey) != "rpg.block.equipment") {
+            continue;
+        }
+        for (const RpgField& field : block.fields) {
+            slotFields.push_back(&field);
+        }
+    }
+
+    auto* const slotsRow = new QHBoxLayout();
+    slotsRow->setSpacing(spacing.medium * scale);
+    auto* const leftSlots = new QVBoxLayout();
+    auto* const rightSlots = new QVBoxLayout();
+    leftSlots->setSpacing(spacing.small * scale);
+    rightSlots->setSpacing(spacing.small * scale);
+
+    const std::size_t half = (slotFields.size() + 1) / 2;
+    for (std::size_t index = 0; index < slotFields.size(); ++index) {
+        const bool mirrored = index >= half;
+        // Le nom de l'emplacement est la fin de son identifiant de valeur : `inventory.slot.head`
+        // donne `head`, qui est aussi le nom du fichier de l'icône. Le lien se lit.
+        const std::string valueId = slotFields.at(index)->valueId;
+        const std::size_t dot = valueId.rfind('.');
+        const QString slotName =
+            dot == std::string::npos ? QString() : QString::fromStdString(valueId.substr(dot + 1));
+        auto* const row = new EquipmentSlotRow(slotName, mirrored, this);
+        (mirrored ? rightSlots : leftSlots)->addWidget(row);
+        _slots.push_back(row);
+    }
+    leftSlots->addStretch(1);
+    rightSlots->addStretch(1);
+
+    slotsRow->addLayout(leftSlots, 1);
+    slotsRow->addWidget(new RoundShield(this), 0, Qt::AlignCenter);
+    slotsRow->addLayout(rightSlots, 1);
+    center->addLayout(slotsRow);
+
+    _loadGauge = new SheetGauge(SheetGauge::Tone::Progress, this);
+    center->addWidget(_loadGauge);
+
+    auto* const purseRow = new QHBoxLayout();
+    auto* const purseCaption = new QLabel(this);
+    setRole(purseCaption, "field");
+    _purse = new QLabel(EMPTY_VALUE, this);
+    setRole(_purse, "value");
+    purseRow->addWidget(purseCaption);
+    purseRow->addStretch(1);
+    purseRow->addWidget(_purse);
+    _translated.push_back({.label = purseCaption, .key = "rpg.field.gold"});
+    center->addLayout(purseRow);
+
+    addHeading(center, "rpg.block.bag");
+    _backpack = new QLabel(EMPTY_VALUE, this);
+    setRole(_backpack, "prose");
+    _backpack->setWordWrap(true);
+    center->addWidget(_backpack);
+    center->addStretch(1);
+
+    // --- Colonne droite : d'où il vient --------------------------------------------------------
+    QVBoxLayout* const history = _ui->historyLayout;
+    history->setSpacing(spacing.small * scale);
+    addHeading(history, "rpg.block.backstory");
+    _backgroundFeature = new QLabel(EMPTY_VALUE, this);
+    setRole(_backgroundFeature, "block");
+    history->addWidget(_backgroundFeature);
+    _backgroundText = new QLabel(EMPTY_VALUE, this);
+    setRole(_backgroundText, "prose");
+    _backgroundText->setWordWrap(true);
+    history->addWidget(_backgroundText);
+    addHairline(history);
+    addHeading(history, "rpg.block.personality");
+    for (const char* const key :
+         {"rpg.field.traits", "rpg.field.ideals", "rpg.field.bonds", "rpg.field.flaws"}) {
+        addField(history, key);
+    }
+    history->addStretch(1);
 }
 
 QLabel* RpgCharacterSheetPlate::addHeading(QVBoxLayout* column, const char* key) {
@@ -295,6 +467,27 @@ void RpgCharacterSheetPlate::retranslateUi(const Localization& loc) {
         },
         hmi::identityTokens(), hmi::identityScale())));
 
+    // Les deux onglets existants. Leurs intitulés sont ceux des blocs de la table -- ce sont
+    // les mêmes sections, vues de l'extérieur.
+    _ui->tabBar->setTabs({t("rpg.block.abilities"), t("rpg.block.equipment")});
+
+    // Les intitulés des seize emplacements viennent de la table de l'écran d'inventaire, dans son
+    // ordre : le même parcours qu'à la construction, donc les mêmes lignes.
+    std::size_t slotIndex = 0;
+    for (const RpgContentBlock& block :
+         rpgScreenDescriptor(RpgScreenId::Inventory).layout.leftColumn) {
+        if (std::string_view(block.titleKey) != "rpg.block.equipment") {
+            continue;
+        }
+        for (const RpgField& field : block.fields) {
+            if (slotIndex < _slots.size()) {
+                _slots.at(slotIndex)->setCaption(t(field.labelKey));
+            }
+            ++slotIndex;
+        }
+    }
+    _loadGauge->setLabel(t("rpg.field.carried"));
+
     _matricule->setText(t("rpg.plate.matricule"));
     _rank->setText(t("rpg.plate.rank"));
     _enlistedOn->setText(t("rpg.plate.enlisted_on"));
@@ -377,6 +570,37 @@ void RpgCharacterSheetPlate::setValues(const std::map<std::string, std::string>&
         }
     }
 
+    // --- Page « Équipement » ---
+    std::size_t slotIndex = 0;
+    for (const RpgContentBlock& block :
+         rpgScreenDescriptor(RpgScreenId::Inventory).layout.leftColumn) {
+        if (std::string_view(block.titleKey) != "rpg.block.equipment") {
+            continue;
+        }
+        for (const RpgField& field : block.fields) {
+            if (slotIndex < _slots.size()) {
+                const QString item = valueOr(values, field.valueId);
+                _slots.at(slotIndex)->setItem(item.isEmpty() ? EMPTY_VALUE : item);
+            }
+            ++slotIndex;
+        }
+    }
+
+    // La charge se remplit vers la CAPACITÉ, en poids brut : les deux chaines lisibles
+    // (« 23,5 kg ») sont pour l'œil, le rapport est pour la barre.
+    _loadGauge->setValue(valueOr(values, "inventory.carried") + " / " +
+                         valueOr(values, "inventory.capacity"));
+    _loadGauge->setFill(ratioOf(values, "inventory.carried_grams", "inventory.capacity_grams"));
+
+    for (const auto& [label, key] :
+         {std::pair{_purse, "inventory.purse"}, std::pair{_backpack, "inventory.backpack"},
+          std::pair{_languages, "sheet.languages"},
+          std::pair{_backgroundFeature, "sheet.background_feature"},
+          std::pair{_backgroundText, "sheet.background_feature_text"}}) {
+        const QString reading = valueOr(values, key);
+        label->setText(reading.isEmpty() ? EMPTY_VALUE : reading);
+    }
+
     applyWheelValues();
 }
 
@@ -429,16 +653,15 @@ void RpgCharacterSheetPlate::paintEvent(QPaintEvent* event) {
     const QColor ground(color.background.r, color.background.g, color.background.b);
 
     const QRect body = _ui->bodyScroll->geometry();
-    const int gap = identityTokens().spacing.small * scale;
 
-    // Les deux filets d'or, sous l'en-tête et au-dessus du pied. Ils tiennent les trois zones
-    // ensemble : sans eux, le titre et le pied flottent sur le parchemin.
-    painter.setPen(QPen(ornament, std::max(1, scale)));
-    painter.drawLine(body.left(), body.top() - gap, body.right(), body.top() - gap);
-    painter.drawLine(body.left(), body.bottom() + gap, body.right(), body.bottom() + gap);
+    // Les deux filets d'or qui soulignaient l'en-tête et le pied ont été RETIRÉS. Aucun autre écran
+    // n'en porte : ce sont les encadrements des panneaux qui séparent les zones, partout ailleurs.
+    // Deux filets de plus sur le seul écran de la fiche ajoutaient une règle de lecture qui ne
+    // valait que là, et c'est précisément ce qui la détachait du reste de l'interface.
 
     // La souche perforée : le bord par lequel le feuillet a quitté son registre. Un trait rompu,
-    // et cinq trous en creux.
+    // et cinq trous en creux. Elle reste — c'est le seul trait qui dise « pièce délivrée » plutôt
+    // que « écran de jeu », et elle vit dans la MARGE, sans rien déplacer de la composition.
     const int dashX = identityTokens().spacing.medium * scale;
     QPen dashed(ornament, std::max(1, scale));
     dashed.setDashPattern({3.0, 3.0});
