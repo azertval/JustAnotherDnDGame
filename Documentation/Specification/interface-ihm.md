@@ -324,6 +324,82 @@ d'eux pris isolément, et sur les quatre ensemble il n'est plus rattrapable sans
   depuis le jeu ou depuis une touche, un même écran doit se comporter de la même façon, et une règle
   décidée au point d'appel se contredit d'un appel à l'autre sans que rien ne le signale.
 
+## 11. La conception séparée du code (LOT-86) {#ihm-conception}
+
+> Statut : **en cours** (`LOT-86`). Cette section remplace, pour les écrans du **jeu**, ce que la
+> section 10 confiait à une description en données. Le
+> châssis d'édition (sections 6, 7 et 9) n'est pas concerné : il reste en Qt Widgets, dans son
+> propre binaire.
+
+### Ce qui a changé, et pourquoi
+
+Les écrans du jeu étaient en Qt Widgets, décrits par une table C++ (`EX-IHM-090`). Une tentative
+de les porter sur des fichiers Qt Designer a été menée puis **abandonnée** : elle demandait
+1 268 lignes d'outillage — plugin de widgets promus, résolveur de feuille de style, générateur de
+`.ui` — dont l'unique fonction était de rendre ces fichiers visualisables dans le designer. Les
+deux formes partageaient le même défaut : **la mise en page vivait du côté du code**. Une retouche d'apparence demandait un développeur, une compilation, et
+une relecture — pour déplacer un bloc de huit pixels.
+
+Le prix s'est vu deux fois. Le défaut du plancher de taille des écrans s'est produit **trois fois**
+avant qu'`EX-IHM-080` ne le déplace sur un chemin commun. Et la palette d'identité a été écrite
+**deux fois** — en CSS dans les maquettes, en C++ dans les jetons — tenue par un contrôle dont le
+commentaire disait qu'auparavant *« rien ne les reliait »*.
+
+Les écrans du jeu passent donc à **Qt Quick**, et leur mise en page à des fichiers que Qt Design
+Studio ouvre, modifie et réenregistre. Ce n'est pas un changement de bibliothèque : c'est un
+déplacement de la frontière entre deux métiers.
+
+### La frontière, telle qu'elle est tenue
+
+- \anchor EX-IHM-100 **EX-IHM-100** — Une modification **purement visuelle** d'un écran du jeu —
+  mise en page, couleurs, typographie, ornements, animations, textes — doit être réalisable **sans
+  modifier ni recompiler une ligne de C++**, depuis Qt Design Studio ouvrant
+  `Source/Ui/JadgUi.qmlproject`. Ce projet ne décrit que `Source/Ui` et les assets : ni CMake, ni
+  `Source/HMI`, ni code. La frontière n'est pas une consigne de relecture, c'est le périmètre d'un
+  fichier.
+- \anchor EX-IHM-101 **EX-IHM-101** — La couche de **présentation** (`Source/HMI/Presentation`)
+  transforme l'état du jeu en données affichables et **ne dessine rien** : elle ne connaît ni Qt
+  Quick, ni Qt Widgets. Un écran lui demande *ce que le jeu sait dire*, jamais *comment le
+  montrer*. Un seul en-tête d'IHM qui y entrerait signalerait que la logique de vue a commencé à
+  redescendre dans la couche de données — et c'est ainsi que les 2 472 lignes de `MainWindow.cpp`
+  se sont accumulées.
+- \anchor EX-IHM-102 **EX-IHM-102** — L'exécutable du **jeu** ne lie pas `Qt6::Widgets`. Ce n'est
+  pas une convention mais une impossibilité : un widget qui y réapparaîtrait ferait échouer
+  l'édition de liens. Les widgets n'appartiennent qu'à l'éditeur de niveaux, binaire séparé.
+- \anchor EX-IHM-103 **EX-IHM-103** — Tout écran et tout contrôle du jeu est un **formulaire
+  `.ui.qml`** — le sous-ensemble **déclaratif** de QML — et ne contient aucun code impératif.
+  Qt Design Studio relit et **réenregistre** ces fichiers : ce qu'il n'y comprend pas, il le perd,
+  sans avertir. La logique vit dans un fichier jumeau `.qml`, côté développeur. La règle ne vise
+  donc pas le style, mais ce que l'outil détruirait.
+- \anchor EX-IHM-104 **EX-IHM-104** — Un formulaire n'importe que des modules connus **à la fois**
+  de l'installation Qt et de Qt Design Studio. Le designer livre les siens (`QtQuick.Studio.*`),
+  absents d'une installation ordinaire : un formulaire qui en importerait s'ouvrirait parfaitement
+  chez la conception et casserait le jeu — le pire des deux mondes, découvert le plus tard
+  possible.
+- \anchor EX-IHM-105 **EX-IHM-105** — Aucune couleur, famille de police ni taille de texte n'est
+  écrite en dur hors de `Source/Ui/Theme`. C'est ce qui donne son sens aux jetons : une valeur
+  écrite dans un écran survit à un changement de palette, ne suit plus rien, et personne ne
+  remarque qu'un seul écran a cessé de ressembler aux autres (`EX-IHM-051`).
+
+### Ce qui rend ces exigences autre chose que des intentions
+
+`scripts/check_ui_layers.py` les vérifie toutes à chaque *Pull Request*, et vérifie en outre
+qu'`EX-ARCH-001` et `EX-NFR-010` restent vraies — `Core` sans un seul en-tête Qt. Il ne **crée** pas
+cette dernière règle, il la **verrouille** : elle est tenue depuis le `LOT-01`, et un seul `QString`
+suffirait à la rendre fausse sans que rien d'autre ne le signale.
+
+Le contrôle s'auto-vérifie contre la vacuité : un relevé vide est un **échec**, jamais un succès.
+C'est la panne du `LOT-78`, où un contrôle vert ne lisait rien.
+
+### Ce que la conception ne peut pas faire seule
+
+Aucune chaîne ne met la totalité d'une interface entre les mains d'un artiste, et le prétendre
+serait un mensonge utile à personne. Exposer une **donnée** que le jeu ne calculait pas, ajouter une
+**interaction** qui change l'état du jeu, écrire une **règle de navigation** ou faire exister un
+**écran** demandent un développeur : ce sont des notions de jeu, pas d'apparence. La conception
+dispose librement de tout ce que le jeu sait déjà dire. C'est la même frontière que dans les moteurs
+du commerce, et c'est la bonne.
+
 ## Traçabilité
 Tout ceci relève de `Source/HMI` — depuis le `LOT-H-38`, l'unique application Qt `JustAnotherDnDGame` (rendu
 de jeu Direct3D 11 + widgets Qt répartis par domaine) ; les assets Qt déclaratifs vivent dans
@@ -333,4 +409,6 @@ couverte par des tests (`EX-NFR-010`, `EX-NFR-020`). Détail du séquencement : 
 `LOT-H-56` (section 6) et `LOT-H-57` (section 7) pour la révision de
 l'apparence et de la répartition de l'information ; `LOT-H-73` (section 9) pour
 l'invariant de taille, les portées de thème et les réglages effectifs ; `LOT-68` (section 10)
-pour le châssis des écrans du RPG.
+pour le châssis des écrans du RPG ; `LOT-86` (section 11) pour la séparation de la conception et
+du code — les écrans du **jeu** passent à Qt Quick dans un binaire propre, l'**éditeur** reste en
+Qt Widgets dans le sien.

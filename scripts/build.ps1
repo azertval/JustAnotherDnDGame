@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
     Configure, construit et teste JustAnotherDnDGame dans un environnement MSVC correct.
 
@@ -22,6 +22,10 @@
 .PARAMETER Clean
     Supprimer le répertoire de build avant de configurer.
 
+.PARAMETER Target
+    Cible precise a construire au lieu de tout (ex. « JustAnotherDnDGame_qmllint », engendree par
+    qt_add_qml_module et qui verifie tous les .qml du module).
+
 .PARAMETER QtPath
     Chemin d'une installation Qt à utiliser, si la détection automatique ne la trouve pas
     (ex. C:\Qt\6.8.1\msvc2022_64).
@@ -43,7 +47,13 @@ param(
 
     [switch]$Clean,
 
-    [string]$QtPath
+    [string]$QtPath,
+
+    # Cible precise a construire au lieu de tout. Sert notamment au controle QML :
+    #   scripts/build.ps1 -Target JustAnotherDnDGame_qmllint
+    # Passer par ce script et non par `cmake` directement n'est pas une preference : `cmake` seul
+    # herite d'un terminal sans environnement MSVC, et echoue sur un <array> introuvable.
+    [string]$Target
 )
 
 $ErrorActionPreference = 'Stop'
@@ -122,7 +132,11 @@ if ($Clean -and (Test-Path $buildDir)) {
 Push-Location $repoRoot
 try {
     Invoke-Step 'Configuration (CMake)' { cmake --preset $Preset }
-    Invoke-Step 'Construction'          { cmake --build --preset $Preset }
+    if ($Target) {
+        Invoke-Step "Construction ($Target)" { cmake --build --preset $Preset --target $Target }
+    } else {
+        Invoke-Step 'Construction'      { cmake --build --preset $Preset }
+    }
     if ($Test) {
         Invoke-Step 'Tests (CTest)'     { ctest --preset $Preset }
     }
