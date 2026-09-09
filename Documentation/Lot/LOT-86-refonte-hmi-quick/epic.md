@@ -45,14 +45,21 @@ erreurs. L'artiste dessinait, un développeur transcrivait.
 `.design-mockups/` disparaît avec ce lot : la maquette et l'écran deviennent le même fichier. Ses
 décisions sont reportées ici, seule trace qui subsiste.
 
-### Direction A — « Ambre nuit » (retenue)
+### Attention : le texte des maquettes était périmé
 
-Bleu-nuit et ambre **`#ffd133`**, rendus en pixel art. Continuité totale avec l'existant : la portée
-identité change de traitement sans changer de teintes, donc peu de risque de régression sur le
-contraste, et le HUD en jeu reste cohérent avec les écrans sans retouche.
+Les planches nommaient la direction retenue « **Ambre nuit** » et la décrivaient comme « votre
+bleu-nuit et votre ambre `#ffd133`, rendus en pixel art ». **Ce n'est plus l'identité du jeu.** Ce
+texte datait du `LOT-68` ; les `LOT-66` et `LOT-76` ont depuis remplacé la portée identité par le
+**parchemin de Tanares**, dont chaque teinte est *relevée* sur les feuilles de personnage de la
+source — parchemin vieilli `#d0c0a0`, encre sépia `#302000`, or des filets `#c0a060`, grenat des
+cabochons `#701010`. `#ffd133` n'est plus que l'accent du **châssis d'édition**.
 
-*Le prix, assumé* : c'est la moins mémorable des trois. Personne ne reconnaîtra le jeu à sa capture
-d'écran.
+C'est une illustration de ce que ce lot corrige : la maquette avait cessé de décrire le jeu, et le
+seul contrôle qui les reliait comparait les couleurs — pas les mots. `Source/Ui/Theme/Tokens.qml`
+porte désormais ces valeurs, à un seul endroit, et il n'y a plus de second texte à laisser périmer.
+
+*Le prix, assumé et toujours vrai* : le parchemin est chaleureux et lisible, mais peu mémorable.
+Personne ne reconnaîtra le jeu à sa capture d'écran.
 
 ### Les deux directions écartées, et pourquoi
 
@@ -95,6 +102,27 @@ soient des règles et non des intentions :
 Réutilisées et **verrouillées** par le même contrôle, sans être redéclarées :
 [`EX-ARCH-001`](@ref EX-ARCH-001) et [`EX-NFR-010`](@ref EX-NFR-010) — `Core` sans un seul en-tête
 Qt, vrai depuis le `LOT-01` et qu'un seul `QString` suffirait à rendre faux.
+
+## Où en est le lot
+
+**Fait et vérifié.** Deux binaires séparés — le jeu en Qt Quick (`QGuiApplication`, ne lie pas
+`Qt6::Widgets`), l'éditeur inchangé en Qt Widgets. `Source/Ui` avec son projet Qt Design Studio et
+`Tokens.qml` écrit à la main. L'édition d'un écran **sans reconstruction**, prouvée de bout en bout.
+`hmi::SceneResources`, la grappe de ressources QRhi commune aux deux surfaces. Une tranche verticale
+complète — vue-modèle, formulaire `.ui.qml`, écran affichant les vraies données du personnage de
+démonstration. Et les six garde-fous, dont chacun a été vérifié **en mordant**.
+
+**Reste à faire.**
+
+- Les douze autres écrans (inventaire, journal, carte, dialogue, marchand, guilde, HUD de combat,
+  compagnie, menu, options, pause, crédits). Le motif est établi et éprouvé ; ce qui suit est de la
+  répétition, pas de la conception.
+- Le portage du viewport sur `QQuickRhiItem`. Reporté sciemment : c'est le morceau le plus risqué —
+  `QQuickRhiItem` rend sur un **fil séparé** là où `QRhiWidget` est mono-fil, et la simulation doit
+  rester sur le fil graphique en passant sa `ComposedScene` au renderer, ce qui suppose de séparer
+  la composition de la soumission, aujourd'hui faites en une passe.
+- La localisation sur `.ts`/`.qm`, et la suppression de `Source/HMI/Interface`.
+- Les guides (`guide-ihm-qt`, `guide-design-ihm`, `guide-conception-qds`).
 
 ## Critères d'acceptation
 

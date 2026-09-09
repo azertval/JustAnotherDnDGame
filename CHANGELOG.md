@@ -6,6 +6,67 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **Refonte de l'IHM sur Qt Quick, avec la conception séparée du code** (`LOT-86`, en cours).
+  L'objectif n'est pas technique : **un artiste doit pouvoir modifier les interfaces sans ouvrir un
+  fichier source**, en travaillant directement dans Qt Design Studio.
+  - **Deux applications, deux technologies d'IHM.** `JustAnotherDnDGame` est le jeu, en Qt Quick,
+    sur `QGuiApplication` ; `LevelEditor` est l'éditeur de niveaux, inchangé, en Qt Widgets. Ils
+    partagent `Core`, le rendu, les entrées, l'audio et l'amorçage — jamais une technologie
+    d'interface. Le jeu **ne lie pas `Qt6::Widgets`**, et c'est la garantie qui porte tout le lot :
+    un widget ne peut pas y réapparaître par inadvertance, l'édition de liens échouerait. Les tenir
+    dans une seule application obligeait à choisir une technologie pour deux besoins opposés — un
+    outil d'auteur à docks détachables d'un côté, une image agrandie d'un facteur entier de l'autre.
+    C'est de là que venaient les 2 472 lignes de `MainWindow.cpp`.
+  - **La couche de maquettes HTML disparaît.** `.design-mockups/` portait des planches dessinées à
+    la main, transcrites ensuite en C++ par un développeur, et un lint vérifiait que les deux copies
+    de la palette n'avaient pas divergé — trois représentations du même écran, deux transcriptions
+    manuelles, un garde-fou pour rattraper les erreurs. La maquette et l'écran sont désormais **le
+    même fichier**. Ce que les planches décidaient est reporté dans l'epic du lot, y compris le fait
+    que leur texte était **périmé** : elles annonçaient encore la direction « Ambre nuit » du
+    `LOT-68`, alors que les `LOT-66` et `LOT-76` avaient remplacé l'identité par le parchemin de
+    Tanares. Le contrôle qui les reliait comparait les couleurs, pas les mots.
+  - **Les jetons d'identité vivent en QML, écrits à la main, et nulle part ailleurs.** Engendrer
+    `Tokens.qml` depuis le C++ aurait remis la conception derrière un générateur et un contrôle de
+    fraîcheur : la surcouche qu'on supprime ailleurs. Le raisonnement qui l'évite est simple —
+    après la refonte, **plus aucun C++ n'a besoin des couleurs d'identité**, leurs seuls
+    consommateurs étant les écrans, qui deviennent du QML. `DesignTokens` perd donc sa portée
+    identité et ne garde que celle de l'éditeur. L'étanchéité des deux portées, jusqu'ici garantie
+    par un test, devient **structurelle** : deux langages, deux binaires, aucun chemin entre eux.
+  - **Éditer un écran sans rien reconstruire.** `qt_add_qml_module` embarque les `.qml` dans la
+    ressource ; on écrit donc un second `qmldir` dont les chemins désignent les **sources**, et
+    `JADG_QML_FROM_SOURCE=1` le place en tête des chemins d'import. Ce `qmldir` est **engendré
+    depuis la même liste** que la ressource : ajouter un écran ne crée pas un second endroit à
+    synchroniser. Vérifié de bout en bout — deux couleurs changées dans `Tokens.qml`, relance, le
+    changement est à l'écran, sans qu'aucun compilateur ait été lancé.
+  - **Une tranche verticale complète** : vue-modèle C++ → formulaire `.ui.qml` → écran affichant les
+    vraies données du personnage de démonstration. Le **formatage** n'est pas refait : le signe d'un
+    modificateur, le « 25 / 30 » des points de vie, le point qui marque une maîtrise restent dans
+    `hmi::characterSheetValues`, fonction pure et testée — deux endroits qui savent écrire un
+    modificateur finiraient par ne plus l'écrire pareil. Les libellés sont des **données** : les
+    compétences viennent du catalogue de règles, les caractéristiques du lexique, qui garantit une
+    seule traduction par terme.
+  - **Le garde-fou est le cœur du lot, pas la bascule QML.** Une refonte qui ne produit que du QML
+    redérive. `scripts/check_ui_layers.py` vérifie six règles (`EX-IHM-100` à `EX-IHM-105`) et
+    **verrouille** en outre `EX-ARCH-001`/`EX-NFR-010` — `Core` sans un seul en-tête Qt, vrai depuis
+    le `LOT-01`, qu'un seul `QString` suffirait à rendre faux — sans les redéclarer. Les six règles
+    ont été vérifiées **en mordant** : une violation injectée dans chacune, le contrôle rouge à
+    chaque fois. Un lint qui passe sur du code propre mais ne se déclenche jamais ne vaut rien, et
+    il s'auto-vérifie contre la vacuité — la panne du `LOT-78`, où un contrôle vert ne lisait rien.
+  - **Six pièges silencieux, tous consignés là où ils se reproduiraient** : le `qmldir` engendré qui
+    ne déclare pas un singleton malgré son `pragma` (chaque import en construirait une instance
+    neuve, et le facteur d'agrandissement ne serait vu par aucun écran) ; le module embarqué sous un
+    préfixe où l'engine ne regarde pas ; `windeployqt` sans `--qmldir`, qui produit un jeu se
+    lançant sans interface ; le fichier d'enregistrement des types qui inclut les en-têtes par nom
+    de base dans un `__has_include` échouant sans bruit ; `qmlcachegen` dont le C++ engendré
+    déclenche `C4702` depuis les en-têtes de Qt ; et un tableau JavaScript qui n'expose que
+    `modelData` là où un modèle expose ses rôles — un écran validé sur des données d'exemple se
+    serait affiché vide une fois branché aux vraies.
+  - `--screenshot=<chemin>` capture la fenêtre **par Qt lui-même** : les API de capture de Windows
+    rendent une image noire d'une fenêtre Qt Quick, dessinée par le GPU. La vérification visuelle
+    des écrans devient reproductible au lieu de dépendre d'un œil devant l'écran au bon moment.
+  - `scripts/build.ps1` accepte `-Target` : le contrôle QML se lance localement comme en CI, sans
+    contourner l'environnement MSVC que ce script existe pour établir.
+
 - **Inventaire et équipement** (`LOT-14`). Porter, équiper et consommer des objets, avec un effet
   **mesurable** sur la fiche.
   - **Aucune statistique n'est stockée, et c'est tout le lot.** `core::Inventory` ne porte ni classe
