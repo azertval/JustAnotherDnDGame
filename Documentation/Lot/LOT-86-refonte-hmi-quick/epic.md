@@ -114,9 +114,17 @@ démonstration. Et les six garde-fous, dont chacun a été vérifié **en mordan
 
 **Reste à faire.**
 
-- Les douze autres écrans (inventaire, journal, carte, dialogue, marchand, guilde, HUD de combat,
-  compagnie, menu, options, pause, crédits). Le motif est établi et éprouvé ; ce qui suit est de la
-  répétition, pas de la conception.
+- **L'inventaire**, seul autre écran du RPG qui possède de vraies données (`hmi::inventoryValues`).
+  Le motif est établi et éprouvé : c'est de la répétition, pas de la conception.
+- Les **quatre écrans hors-jeu** (menu principal, options, pause, crédits). Ils demandent d'abord
+  la navigation — `hmi::ScreenRouter` au-dessus de `ScreenFlow`, dont la table de transitions pure
+  et testée est déjà déplacée dans `Presentation`.
+- Les **sept autres écrans du RPG** — journal, carte, dialogue, marchand, guilde, HUD de combat,
+  compagnie. **Ils n'ont aucune donnée** : dans l'ancienne interface, seuls la fiche et l'inventaire
+  recevaient des valeurs ; les sept autres étaient des ossatures engendrées par une table, vides.
+  Les porter aujourd'hui reviendrait à traduire du vide d'une technologie vers une autre. Ils
+  s'écriront quand leur contenu existera — et ce sera alors un `.ui.qml` de plus, sans toucher au
+  reste.
 - Le portage du viewport sur `QQuickRhiItem`. Reporté sciemment : c'est le morceau le plus risqué —
   `QQuickRhiItem` rend sur un **fil séparé** là où `QRhiWidget` est mono-fil, et la simulation doit
   rester sur le fil graphique en passant sa `ComposedScene` au renderer, ce qui suppose de séparer
