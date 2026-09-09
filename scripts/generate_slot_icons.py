@@ -152,16 +152,22 @@ GABARIT = """<?xml version="1.0" encoding="UTF-8"?>
 
      Emplacement `{nom}` (core::equipmentSlotName) : {description}.
 
-     GENERE par scripts/generate_slot_icons.py -- ne pas retoucher a la main. La retouche serait
+     GENERE par scripts/generate_slot_icons.py. Ne pas retoucher a la main : la retouche serait
      perdue a la prochaine execution, et l'icone divergerait des quinze autres.
 
-     Le trait est `currentColor` : le chargeur y substitue le role demande de la portee identite
-     (EX-IHM-051). Rendue telle quelle, l'icone sort en NOIR -- une panne qui se voit, et non une
-     teinte plausible qui ment. -->
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {cote} {cote}" width="{cote}" height="{cote}"
-     fill="none" stroke="currentColor" stroke-width="{epaisseur}"
+     Le trait est `currentColor` ; le chargeur y substitue le role demande de la portee identite
+     (EX-IHM-051). Rendue telle quelle, l'icone sort en NOIR : une panne qui se voit, plutot
+     qu'une teinte plausible qui ment.
+
+     AUCUN double tiret dans ce commentaire. XML l'interdit, QSvgRenderer refuse alors le fichier
+     en silence, et l'icone sort vide sans qu'aucune erreur ne soit levee. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {cote} {cote}" width="{cote}" height="{cote}">
+  <!-- Les attributs de presentation sont sur un GROUPE, jamais sur la racine : le moteur SVG de
+       Qt (SVG Tiny 1.2) ne les herite pas depuis la racine. -->
+  <g fill="none" stroke="currentColor" stroke-width="{epaisseur}"
      stroke-linecap="round" stroke-linejoin="round">
 {corps}
+  </g>
 </svg>
 """
 
@@ -171,8 +177,8 @@ def ecrire() -> int:
     attendus = set()
 
     for nom, (description, traces, cercles) in EMPLACEMENTS.items():
-        lignes = [f'  <path d="{d}"/>' for d in traces]
-        lignes += [f'  <circle cx="{cx}" cy="{cy}" r="{r}"/>' for cx, cy, r in cercles]
+        lignes = [f'    <path d="{d}"/>' for d in traces]
+        lignes += [f'    <circle cx="{cx}" cy="{cy}" r="{r}"/>' for cx, cy, r in cercles]
 
         contenu = GABARIT.format(
             nom=nom,

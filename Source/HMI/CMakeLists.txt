@@ -199,12 +199,12 @@ if(_qt_hints)
     list(APPEND CMAKE_PREFIX_PATH ${_qt_hints})
 endif()
 
-find_package(Qt6 ${QT_VERSION_MINIMUM} QUIET COMPONENTS Widgets Gui GuiPrivate Multimedia ShaderTools)
+find_package(Qt6 ${QT_VERSION_MINIMUM} QUIET COMPONENTS Widgets Gui GuiPrivate Multimedia ShaderTools Svg)
 if(NOT Qt6_FOUND)
     # Deuxième essai, sans contrainte de version, seulement pour distinguer dans le message
     # « rien d'installé » de « une version installée, mais trop ancienne » — sinon les deux
     # produisent le même NOT Qt6_FOUND et le second cas serait diagnostiqué à tort comme le premier.
-    find_package(Qt6 QUIET COMPONENTS Widgets Gui GuiPrivate Multimedia ShaderTools)
+    find_package(Qt6 QUIET COMPONENTS Widgets Gui GuiPrivate Multimedia ShaderTools Svg)
     # Avertissement et non simple statut : sans Qt il n'y a **aucun exécutable**, seulement les
     # tests. Passer inaperçu est précisément ce qui rendait l'absence d'exe difficile à diagnostiquer.
     if(Qt6_FOUND)
@@ -218,7 +218,7 @@ if(NOT Qt6_FOUND)
         # MODULE (typiquement Multimedia, un composant additionnel que l'installateur officiel ne
         # coche pas par défaut). find_package échoue alors en bloc, et annoncer « Qt6 introuvable »
         # envoie chercher au mauvais endroit — le cas a réellement coûté une session de diagnostic.
-        find_package(Qt6 QUIET COMPONENTS Widgets Gui)
+        find_package(Qt6 QUIET COMPONENTS Widgets Gui Svg)
         if(Qt6_FOUND)
             set(_qt_missing "")
             foreach(_qt_component Widgets Gui GuiPrivate Multimedia ShaderTools)
@@ -369,6 +369,9 @@ target_link_libraries(JustAnotherDnDGame PRIVATE
     HmiLib
     Qt6::Widgets
     Qt6::Gui
+    # Les icones d'emplacement sont des SVG, rendues a la
+    # taille demandee (LOT-38). Le module n'est pas dans qtbase : la CI le nomme aussi.
+    Qt6::Svg
     # QRhi vit dans les en-têtes privés de QtGui : c'est une API privée, stable en pratique mais
     # non couverte par la garantie de compatibilité binaire — assumé, QRhiWidget n'existe pas sans.
     Qt6::GuiPrivate

@@ -60,7 +60,7 @@ jobs:
           # (LOT-69 TACHE-02). qtcanvaspainter : peinture 2D acceleree (LOT-69), nouveau en 6.11.
           # Un nom de module inconnu fait echouer aqt : ces trois lignes valent donc verification
           # que le provisionnement de 6.11.2 fournit bien ce dont les taches suivantes dependent.
-          modules: qtmultimedia qtshadertools qtcanvaspainter
+          modules: qtmultimedia qtshadertools qtcanvaspainter qtsvg
           cache: true
           aqtsource: ${{ env.AQT_SOURCE }}
 
@@ -116,7 +116,7 @@ jobs:
           # (LOT-69 TACHE-02). qtcanvaspainter : peinture 2D acceleree (LOT-69), nouveau en 6.11.
           # Un nom de module inconnu fait echouer aqt : ces trois lignes valent donc verification
           # que le provisionnement de 6.11.2 fournit bien ce dont les taches suivantes dependent.
-          modules: qtmultimedia qtshadertools qtcanvaspainter
+          modules: qtmultimedia qtshadertools qtcanvaspainter qtsvg
           cache: true
           aqtsource: ${{ env.AQT_SOURCE }}
 

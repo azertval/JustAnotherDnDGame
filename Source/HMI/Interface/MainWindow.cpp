@@ -1088,16 +1088,22 @@ void MainWindow::loadDemonstrationCharacter() {
     // de deriver quand on equipe et retire dans le desordre (LOT-14).
     const core::DerivedStats derivees =
         core::derivedStatsFor(fiche.sheet, fiche.inventory, catalogues, regles, charge);
-    _rpgScreens->setValues(hmi::RpgScreenId::Inventory,
-                           hmi::inventoryValues({.inventory = &fiche.inventory,
-                                                 .lookup = catalogues,
-                                                 .derived = derivees,
-                                                 .emptyMark = _loc.text("rpg.empty")}));
+    const std::map<std::string, std::string> valeursInventaire =
+        hmi::inventoryValues({.inventory = &fiche.inventory,
+                              .lookup = catalogues,
+                              .derived = derivees,
+                              .emptyMark = _loc.text("rpg.empty")});
+    _rpgScreens->setValues(hmi::RpgScreenId::Inventory, valeursInventaire);
 
     // La fiche est alimentee APRES l'inventaire, parce qu'elle en depend : sa classe d'armure et
     // sa vitesse viennent de ce qui est porte, pas de la construction.
-    _rpgScreens->setValues(hmi::RpgScreenId::CharacterSheet,
-                           hmi::characterSheetValues(
+    //
+    // Elle recoit AUSSI les valeurs d'inventaire, depuis que son onglet << Equipement >> montre
+    // les seize emplacements, la charge et le sac (LOT-38). Les deux tables sont FUSIONNEES plutot
+    // que recalculees : deux calculs de la meme charge finiraient par differer, et personne ne
+    // saurait lequel croire.
+    std::map<std::string, std::string> valeursFiche =
+        hmi::characterSheetValues(
                                {.sheet = &fiche.sheet,
                                 .options = &options,
                                 .experience = &experience,
@@ -1110,7 +1116,9 @@ void MainWindow::loadDemonstrationCharacter() {
                                 .characterId = std::filesystem::path(DEMONSTRATION_CHARACTER_FILE)
                                                    .stem()
                                                    .string(),
-                                .emptyMark = _loc.text("rpg.empty")}));
+                                .emptyMark = _loc.text("rpg.empty")});
+    valeursFiche.insert(valeursInventaire.begin(), valeursInventaire.end());
+    _rpgScreens->setValues(hmi::RpgScreenId::CharacterSheet, valeursFiche);
 }
 
 void MainWindow::openRpgScreen(hmi::RpgScreenId screen) {
