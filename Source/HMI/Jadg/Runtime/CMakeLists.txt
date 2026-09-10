@@ -7,11 +7,9 @@
 #   - Jadg.Ui       = composants et formulaires editables dans Qt Design Studio ;
 #   - Jadg.Runtime  = types C++ generes/enregistres par qt_add_qml_module.
 #
-# Le target de l'application est cree par ../CMakeLists.txt avant l'arrivee ici. Les sources C++
+# Le target de l'application est cree par HMI/CMakeLists.txt avant l'arrivee ici. Les sources C++
 # runtime etaient historiquement declarees directement dans l'executable ; elles sont retirees de
-# celui-ci avant que qt_add_qml_module ne les ajoute au backing target du module. Cela evite une
-# double compilation des Q_OBJECT/QML_ELEMENT tout en gardant l'executable et son module dans le
-# meme build.
+# celui-ci avant que qt_add_qml_module ne les ajoute au backing target du module.
 
 set(JADG_RUNTIME_SOURCES
     ${CMAKE_CURRENT_LIST_DIR}/../../Game/GameViewportItem.h
@@ -32,6 +30,7 @@ qt_add_qml_module(JadgRuntime
     URI Jadg.Runtime
     VERSION 1.0
     RESOURCE_PREFIX "/qt/qml"
+    NO_PLUGIN
     SOURCES ${JADG_RUNTIME_SOURCES}
     DEPENDENCIES QtQml QtQuick
 )
@@ -68,6 +67,7 @@ foreach(_runtime_cpp IN ITEMS
 endforeach()
 set_property(TARGET JustAnotherDnDGame PROPERTY SOURCES "${_jadg_game_sources}")
 
-# Le plugin du module est lie a l'application. C'est le modele recommande par Qt pour un module
-# C++ supplementaire : le backing target porte les types et le plugin apporte l'enregistrement QML.
-target_link_libraries(JustAnotherDnDGame PRIVATE JadgRuntimeplugin)
+# Le backing target contient le code, les ressources du module et l'enregistrement genere par
+# qmltyperegistrar. Il est lie directement a l'application ; le plugin dynamique n'est donc pas
+# necessaire (NO_PLUGIN ci-dessus), ce qui evite une seconde couche de chargement au demarrage.
+target_link_libraries(JustAnotherDnDGame PRIVATE JadgRuntime)
