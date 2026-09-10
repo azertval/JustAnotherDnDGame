@@ -72,6 +72,32 @@ Il est engendré depuis **la même liste** que la ressource : ajouter un écran 
 endroit à synchroniser — ce serait exactement la surcouche que ce lot supprime ailleurs. C'est aussi
 lui qui rend `Source/Ui` importable tel quel, donc ouvrable par Qt Design Studio.
 
+### Ouvrir les écrans pour les dessiner
+
+**Ce n'est pas Qt Designer.** Qt Designer dessine des *widgets* et n'ouvre que des `.ui` (XML) — il
+n'en reste que dans `Source/Elements/UI/`, pour l'éditeur. Les écrans du jeu sont du Qt Quick : ils
+s'ouvrent dans **Qt Design Studio**, qui est un programme distinct.
+
+```
+D:/Qt/Tools/QtDesignStudio/bin/qtdesignstudio.exe Source/Ui/JadgUi.qmlproject
+```
+
+Trois règles, dont deux se paient par un mode *Design* vide plutôt que par un message :
+
+- **ouvrir le `.qmlproject`, jamais le fichier seul.** Un `.ui.qml` ouvert par « File > Open File »
+  n'a pas de chemin d'import : `import Jadg.Ui` échoue, et la vue 2D reste blanche ;
+- **le projet doit avoir été configuré une fois par CMake.** Le `qmldir` de `Source/Ui/Jadg/Ui/`
+  est *engendré* (ci-dessus) et ignoré par git : sur un dépôt fraîchement cloné il n'existe pas
+  encore, et aucun type du module ne se résout. `scripts/build.ps1` suffit à le poser ;
+- **on dessine le `*Form.ui.qml`, jamais son jumeau.** Un `.ui.qml` est déclaratif, donc réversible :
+  Design Studio le réenregistre sans le casser. Le jumeau `.qml` contient du JavaScript ; Design
+  Studio ne l'ouvre qu'en texte, et c'est voulu — c'est la frontière du lot, rendue littérale par
+  l'outil lui-même.
+
+Deux fichiers échappent à la vue 2D parce qu'ils nomment des types **C++**, invisibles à Design
+Studio faute de simulacres dans `Source/Ui/Mocks/` : `Main.qml` et `ScreenStack.qml` (`OptionsModel`)
+et `GameViewForm.ui.qml` (`GameViewport`). Les treize autres formulaires s'ouvrent et se dessinent.
+
 ## La surface de rendu
 
 `hmi::GameViewportItem` (`QQuickRhiItem`) est le jumeau Qt Quick de `hmi::GameViewport`
@@ -112,6 +138,46 @@ conception peut réorganiser `Screens/` sans qu'une ligne de C++ ne s'en aperço
 
 `--screen=<Nom>` court-circuite le routeur et ouvre un écran directement. C'est un outil de
 vérification, pas un chemin de jeu.
+
+`Source/Ui/Logic/ScreenProbe.qml` fait la même chose **en cours d'exécution** : deux boutons posés
+en bas de la fenêtre font défiler les quatorze écrans. Ils existent parce que le viewport n'affiche
+encore aucune scène — sans eux, les sept écrans dessinés mais pas encore alimentés ne sont
+atteignables par aucun chemin de jeu, et ne se vérifient donc pas.
+
+Deux choses le distinguent d'une fonctionnalité :
+
+- il se lie à `ScreenRouter.developerBuild` et **n'existe pas** dans un binaire livré — garanti par
+  la construction, non par une consigne de relecture ;
+- il **rend la main au routeur** dès que le jeu navigue de lui-même. Sans cela, l'écran choisi
+  restait épinglé : `Échap` ne fermait plus rien, et la navigation aurait paru cassée par l'outil
+  censé permettre de la vérifier.
+
+## Les réglages, et ce qu'ils atteignent
+
+`hmi::OptionsModel` ne fait que **persister et prévenir** ; c'est `App/Game/Main.cpp` qui branche
+chaque signal sur ce qu'il atteint. La vue-modèle ignore ainsi le moteur audio, la fenêtre et les
+traducteurs — c'est précisément la frontière que le lot établit.
+
+| Réglage | Atteint | Quand |
+|---|---|---|
+| plein écran | la fenêtre, par **liaison** sur `visibility` | immédiatement |
+| volume | `hmi::AudioEngine::setVolume` | immédiatement |
+| langue | le `QTranslator` puis `QQmlEngine::retranslate()` | immédiatement |
+| compteur de diagnostic | `Controls/DiagnosticsOverlay.ui.qml` | immédiatement |
+| synchronisation verticale | `QSurfaceFormat::setDefaultFormat` | **au prochain lancement** |
+
+La dernière ligne est dite **à l'écran** et non tue : `EX-IHM-083` exige qu'un réglage exposé
+atteigne le moteur, et il l'atteint — mais l'utilisateur doit savoir quand. Elle se pose sur le
+format de surface, donc avant la fenêtre ; la changer à chaud recréerait la surface de rendu sous
+les yeux du joueur, pour un réglage qu'on modifie une fois.
+
+Deux pièges consignés là où ils se posent :
+
+- l'**identité de l'application** (`setOrganizationName`) doit précéder toute lecture de `QSettings`,
+  sans quoi la synchronisation verticale serait lue dans une portée vide — le réglage paraîtrait
+  absent et sa valeur par défaut s'appliquerait à chaque lancement, en silence ;
+- le changement de langue à chaud **exige** `retranslate()` : sans lui, la nouvelle langue
+  n'apparaîtrait qu'aux écrans construits ensuite, et la moitié de l'interface changerait.
 
 ## Vérifier une interface sans la regarder
 
