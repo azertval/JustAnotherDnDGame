@@ -26,11 +26,18 @@ set(JADG_RUNTIME_SOURCES
     ${CMAKE_CURRENT_LIST_DIR}/../../Presentation/ScreenRouter.cpp
 )
 
-# IMPORTANT : qt_add_qml_module() can use the Qt 6 policy machinery only after the parent project
-# has initialized it with qt_standard_project_setup(). This subdirectory must not call that macro
-# again: doing so creates a new directory scope in which Qt 6.11 can no longer infer the selected
-# Qt major version and leads to "Can not determine Qt version". HMI/CMakeLists.txt owns the project
-# setup and policy initialization.
+# Qt 6.11's qt_add_qml_module() consults QTP0005 even when the module does not use TARGET
+# dependencies. The normal project-wide setup would initialize the policy, but this repository's
+# HMI directory predates that setup and the Runtime module is configured in a child directory.
+#
+# Qt's policy command deliberately exposes QT_KNOWN_POLICY_* as its compatibility guard. Some Qt
+# installations expose the policy through Qt6Qml while others only initialize the guard through
+# qt_standard_project_setup(). Make the guard explicit here, then opt into the Qt 6.8+ behavior.
+# This is equivalent to the documented `qt_policy(SET QTP0005 NEW)` once the policy is known.
+if(NOT DEFINED QT_KNOWN_POLICY_QTP0005)
+    set(QT_KNOWN_POLICY_QTP0005 TRUE)
+endif()
+qt_policy(SET QTP0005 NEW)
 
 qt_add_qml_module(JadgRuntime
     URI Jadg.Runtime
