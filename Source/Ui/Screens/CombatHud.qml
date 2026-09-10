@@ -1,5 +1,6 @@
 import QtQuick
 import Jadg.Ui
+import Jadg.Runtime
 
 /*!
     ATH de combat -- CABLAGE, cote developpeur (LOT-86).
