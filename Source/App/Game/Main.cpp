@@ -4,13 +4,6 @@
 /**
  * @file App/Game/Main.cpp
  * @brief Point d'entrée du **jeu** (`JustAnotherDnDGame`) — Qt Quick, sans un seul widget.
- *
- * `QGuiApplication` et non `QApplication` : la cible ne lie pas `Qt6::Widgets`, et ce n'est pas un
- * détail de dépendance mais la garantie qui porte tout le `LOT-86`. Un widget ne peut pas
- * réapparaître dans le jeu par inadvertance — l'édition de liens échouerait.
- *
- * L'éditeur de niveaux est un binaire séparé (`App/Editor/Main.cpp`), lui en Qt Widgets : c'est un
- * outil d'auteur, où docks et arbres sont le bon outil.
  */
 
 #include <QFontDatabase>
@@ -26,6 +19,7 @@
 #include <QTimer>
 #include <QTranslator>
 #include <QUrl>
+#include <QtQml/qqml.h>
 #include <filesystem>
 #include <optional>
 #include <string>
@@ -40,17 +34,6 @@
 
 namespace {
 
-/**
- * @brief Enregistre les polices embarquées de l'identité auprès de Qt.
- *
- * Les fichiers sont déposés à côté de l'exécutable (`Assets/Fonts/`). Le QML ne les charge pas
- * lui-même : il les désigne par **nom de famille** (`Tokens.qml`), et Qt Design Studio les prend de
- * son côté via `FontFiles` du `.qmlproject`. Les deux voient donc les mêmes noms, et changer de
- * police reste une modification de `Tokens.qml` — jamais de C++.
- *
- * Un fichier absent n'est pas fatal : Qt retombe sur une famille générique et le journal le dit
- * (`EX-NFR-040`).
- */
 void registerIdentityFonts() {
     const std::filesystem::path fonts = hmi::executableDirectory() / "Assets" / "Fonts";
     for (const char* file :
@@ -66,10 +49,6 @@ void registerIdentityFonts() {
 
 }  // namespace
 
-/**
- * @brief Point d'entrée du programme.
- * @return Code de sortie du processus (0 en cas de succès).
- */
 int main(int argc, char** argv) {
     core::MemoryLogSink* const sessionLog = app::installLogging(argc, argv, "JustAnotherDnDGame");
 
@@ -103,10 +82,9 @@ int main(int argc, char** argv) {
 
     hmi::AudioEngine audio;
 
-    // GameViewportItem est un type C++ runtime. Il ne peut pas être découvert par le seul
-    // `qmldir` de conception, qui doit rester indépendant du moteur. L'enregistrer explicitement
-    // ici garantit que `GameView.qml` le trouve aussi bien en build normal qu'en mode
-    // JADG_QML_FROM_SOURCE=1. Le formulaire `GameViewForm.ui.qml` ne le référence jamais.
+    // GameViewportItem est une primitive C++ du runtime et ne doit pas apparaître dans les
+    // `.ui.qml`. Son enregistrement explicite complète le module QML de l'application sans rendre
+    // le formulaire dépendant de HMI/C++ pour Qt Design Studio.
     qmlRegisterType<hmi::GameViewportItem>("Jadg.Ui", 1, 0, "GameViewport");
 
     QQmlApplicationEngine engine;
@@ -150,7 +128,6 @@ int main(int argc, char** argv) {
                 });
             },
             Qt::SingleShotConnection);
-
         QTimer::singleShot(15000, &application, []() {
             HMI_LOG_ERROR("Capture : delai depasse, aucune image produite.");
             QCoreApplication::exit(2);
