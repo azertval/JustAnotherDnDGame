@@ -105,7 +105,9 @@ Qt, vrai depuis le `LOT-01` et qu'un seul `QString` suffirait à rendre faux.
 
 ## Où en est le lot
 
-**Fait et vérifié.** Deux binaires séparés — le jeu en Qt Quick (`QGuiApplication`, ne lie pas
+**Fait et vérifié.** Les **treize écrans** existent en QML, l'ancienne couche est supprimée du
+châssis d'édition (−3 879 lignes), et l'éditeur s'ouvre directement sur son espace de travail.
+Deux binaires séparés — le jeu en Qt Quick (`QGuiApplication`, ne lie pas
 `Qt6::Widgets`), l'éditeur inchangé en Qt Widgets. `Source/Ui` avec son projet Qt Design Studio et
 `Tokens.qml` écrit à la main. L'édition d'un écran **sans reconstruction**, prouvée de bout en bout.
 `hmi::SceneResources`, la grappe de ressources QRhi commune aux deux surfaces. Une tranche verticale
@@ -131,9 +133,11 @@ prendraient pour un écran fini et passeraient les relectures — et leur pied l
 
 - **L'inventaire**, seul autre écran du RPG qui possède de vraies données (`hmi::inventoryValues`).
   Le motif est établi et éprouvé : c'est de la répétition, pas de la conception.
-- Les **quatre écrans hors-jeu** (menu principal, options, pause, crédits). Ils demandent d'abord
-  la navigation — `hmi::ScreenRouter` au-dessus de `ScreenFlow`, dont la table de transitions pure
-  et testée est déjà déplacée dans `Presentation`.
+- **Porter les ornements vers Qt Quick Shapes.** `EX-IHM-075` n'est **pas** retirée — j'avais
+  d'abord conclu l'inverse, à tort : les trois raisons qu'elle invoque valent toujours, et Qt Quick
+  Shapes les honore tout en restant éditable dans Qt Design Studio. La géométrie pure relevée sur le
+  corpus est conservée dans `Presentation` comme source de ce portage. Le cadre QML actuel est un
+  double filet — une simplification assumée en attendant.
 - **Brancher les sept écrans dessinés.** Ils existent (voir ci-dessous) mais n'ont pas de source :
   `python scripts/list_pending_bindings.py` donne les 41 clés à relier, écran par écran.
 - Le portage du viewport sur `QQuickRhiItem`. Reporté sciemment : c'est le morceau le plus risqué —

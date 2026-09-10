@@ -381,6 +381,26 @@ déplacement de la frontière entre deux métiers.
   écrite dans un écran survit à un changement de palette, ne suit plus rien, et personne ne
   remarque qu'un seul écran a cessé de ressembler aux autres (`EX-IHM-051`).
 
+### Les ornements restent tracés, et `EX-IHM-075` avec eux
+
+Le passage à Qt Quick a d'abord semblé condamner `EX-IHM-075` — *« l'habillage ornemental se trace,
+il ne se livre pas en image »* —, puisqu'une règle qui place le dessin dans du code place aussi
+l'apparence hors de portée de la conception.
+
+**C'est faux, et l'erreur méritait d'être corrigée plutôt que suivie.** Les trois raisons que cette
+exigence invoque tiennent toujours : une image ne s'étire pas honnêtement (un cabochon posé sur un
+panneau bas s'ovalise), elle fige ses couleurs hors des jetons (`EX-IHM-051`), et elle ne suit pas
+le facteur d'agrandissement entier (`EX-IHM-081`) — nette à un seul facteur, floue aux deux autres.
+
+Or **Qt Quick Shapes** honore les trois : une forme s'y redessine à la taille demandée, prend ses
+couleurs de `Tokens.qml`, et reste nette à tous les facteurs. Et une `Shape` déclarative s'édite
+dans Qt Design Studio comme le reste.
+
+Ce qui change n'est donc pas « tracé par du code » mais « tracé par du **C++** ». La géométrie pure
+relevée sur le corpus (`hmi::parchmentFrameStrokes`, `hmi::cabochonShapes`, `hmi::titleBannerShapes`)
+reste la **source** de ce portage, et n'est pas jetée en attendant : la redessiner plus tard, sans
+se souvenir de ce qui avait été relevé, coûterait bien plus que de la conserver.
+
 ### Ce qui rend ces exigences autre chose que des intentions
 
 `scripts/check_ui_layers.py` les vérifie toutes à chaque *Pull Request*, et vérifie en outre

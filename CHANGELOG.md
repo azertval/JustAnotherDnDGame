@@ -66,6 +66,31 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
     des écrans devient reproductible au lieu de dépendre d'un œil devant l'écran au bon moment.
   - `scripts/build.ps1` accepte `-Target` : le contrôle QML se lance localement comme en CI, sans
     contourner l'environnement MSVC que ce script existe pour établir.
+  - **Les treize écrans existent, et l'ancienne couche est retirée du châssis d'édition**
+    (−3 879 lignes). `MainWindow` redevient ce que son nom dit : le viewport est de nouveau le
+    widget central, là où il partageait une pile avec cinq écrans du jeu. La pile disparaissant,
+    disparaît aussi l'enveloppe défilante que chaque écran traversait — elle existait parce qu'une
+    pile propage le minimum de **toutes** ses pages, y compris masquées, et qu'un écran dense
+    fixait à lui seul le plancher de la fenêtre. Sans pile d'écrans, le mécanisme du défaut n'existe
+    plus. L'éditeur s'ouvre désormais **directement** sur son espace de travail.
+  - **La navigation est réelle.** `hmi::ScreenRouter` ne décide rien : toute la règle vit dans la
+    table de transitions pure et testée, et une transition non déclarée est **refusée**, jamais
+    silencieusement acceptée. Il publie un **état**, jamais un chemin de fichier — la conception
+    peut réorganiser `Screens/` sans qu'une ligne de C++ ne s'en aperçoive.
+  - **Les options sont dessinées mais pas branchées, délibérément** : `EX-IHM-083` exige qu'un
+    réglage exposé atteigne le moteur, et le jeu n'a pas encore de viewport à régler. Une case à
+    cocher qui ne fait rien est pire qu'une case absente.
+  - **`EX-IHM-075` n'est pas retirée, contrairement à ce que le cadrage avait conclu.** Les trois
+    raisons qu'elle invoque — une image ne s'étire pas honnêtement, fige ses couleurs hors des
+    jetons, et ne suit pas le facteur entier — restent vraies en QML, et **Qt Quick Shapes** les
+    honore toutes en restant éditable dans Qt Design Studio. Ce qui change n'est pas « tracé par du
+    code » mais « tracé par du **C++** ». La géométrie pure relevée sur le corpus est conservée dans
+    `Presentation` comme source du portage, plutôt que jetée puis redessinée de mémoire.
+  - **Quatre tests retirés, aucune garantie perdue.** Celui des tailles de police dans les `.ui` est
+    remplacé par un lint qui couvre **tous** les écrans et non deux. Les trois tests d'étanchéité
+    des portées tombent parce que l'étanchéité est devenue **structurelle** : l'identité vit en QML,
+    dans un autre binaire, et aucun chemin ne relie plus les deux. C'est le meilleur sort qu'on
+    puisse réserver à un test — que ce qu'il surveillait devienne impossible.
   - **Les sept écrans sans données sont dessinés, et leur travail est mis à l'abri.** Journal,
     carte, dialogue, marchand, tableau de la Guilde, ATH de combat et feuille d'équipe existent
     comme formulaires `.ui.qml`, fidèles aux blocs que la table décrivait et aux libellés de
