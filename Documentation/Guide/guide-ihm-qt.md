@@ -104,6 +104,13 @@ quel que soit le Qt installé : un numéro de plus dans le fichier de conception
 l'un ni l'autre, et ne servirait qu'à faire croire à un troisième épinglage. Tous les imports du
 module étant sans version, le choix ne se pose pas.
 
+Ce Qt embarqué se voit dans le nom du programme qui dessine : `qmlpuppet-4.8.2.exe`, versionné par
+**Design Studio** et non par Qt. C'est le seul exemplaire de la machine — une installation Qt
+ordinaire n'en fournit aucun — donc la « couche d'émulation QML » des préférences n'a nulle part
+ailleurs où pointer. Voir « Qt 6.8.7 » dans l'atelier alors que le jeu se construit en 6.11.2 n'est
+pas un défaut d'installation : c'est la conception de l'outil, et seule une version plus récente de
+Design Studio la déplacera.
+
 Deux fichiers échappent à la vue 2D parce qu'ils nomment des types **C++**, invisibles à Design
 Studio faute de simulacres dans `Source/Ui/Mocks/` : `Main.qml` et `ScreenStack.qml` (`OptionsModel`)
 et `GameViewForm.ui.qml` (`GameViewport`). Les treize autres formulaires s'ouvrent et se dessinent.
