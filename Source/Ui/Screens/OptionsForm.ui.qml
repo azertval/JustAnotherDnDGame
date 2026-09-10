@@ -1,29 +1,33 @@
 import QtQuick
+import QtQuick.Controls
 import QtQuick.Layouts
 import Jadg.Ui
 
 /*!
-    Options -- FORMULAIRE, cote conception (LOT-86).
+    Options -- FORMULAIRE, côté conception (LOT-86).
 
-    Dessine, mais PAS BRANCHE, et c'est delibere : `EX-IHM-083` exige que tout reglage expose
-    atteigne reellement le moteur. Le jeu n'a pas encore de viewport ; un curseur de volume ou une
-    synchronisation verticale n'y toucheraient rien. Les afficher comme actifs serait mentir a
-    l'utilisateur -- une case a cocher qui ne fait rien est pire qu'une case absente.
+    Les réglages sont **réels** : chacun atteint le moteur (`EX-IHM-083`). Deux d'entre eux
+    s'appliquent au prochain lancement, et l'écran le dit — un réglage qui s'applique plus tard
+    atteint bien le moteur, mais l'utilisateur doit savoir quand.
 
-    Ils portent donc des cles d'attribution, comme les sept ecrans du RPG, et le pied l'avoue.
+    Le compteur d'images par seconde ne figure pas ici : les planches l'avaient tranché, c'est un
+    élément de HUD, il vit avec le HUD et non dans les écrans.
 
-    Le compteur d'images par seconde ne figure pas ici : les planches l'avaient tranche, c'est un
-    element de HUD, il vit avec le HUD et non dans les ecrans.
+    Les contrôles sont exposés par `property alias` : c'est le jumeau qui leur attache une réaction,
+    un formulaire ne pouvant pas contenir de code.
 */
 RpgScreenFrame {
     id: root
 
-    property string vsync: "—"
-    property string fullscreen: "—"
-    property string diagnostics: "—"
-    property string volume: "—"
-    property string language: "—"
-    property string gamepad: "—"
+    property alias fullscreenSwitch: fullscreenControl
+    property alias vsyncSwitch: vsyncControl
+    property alias diagnosticsSwitch: diagnosticsControl
+    property alias volumeSlider: volumeControl
+    property alias languageBox: languageControl
+    property alias saveLogsButton: saveLogsControl
+
+    property string logsMessage: ""
+    property bool logsEnabled: true
 
     navigationHint: qsTr("Échap") + " · " + qsTr("Retour")
     title: qsTr("Options")
@@ -42,15 +46,74 @@ RpgScreenFrame {
                 SheetBlock {
                     Layout.fillWidth: true
                     title: qsTr("Affichage")
-                    SheetLine { Layout.fillWidth: true; label: qsTr("Plein écran"); value: root.fullscreen }
-                    SheetLine { Layout.fillWidth: true; label: qsTr("Synchronisation verticale"); value: root.vsync }
-                    SheetLine { Layout.fillWidth: true; label: qsTr("Compteur de diagnostic"); value: root.diagnostics }
+
+                    RowLayout {
+                        Layout.fillWidth: true
+                        Text {
+                            Layout.fillWidth: true
+                            text: qsTr("Plein écran")
+                            color: Tokens.textMuted
+                            font.family: Tokens.bodyFamily
+                            font.pixelSize: Tokens.body
+                        }
+                        Switch { id: fullscreenControl }
+                    }
+
+                    RowLayout {
+                        Layout.fillWidth: true
+                        Text {
+                            Layout.fillWidth: true
+                            text: qsTr("Synchronisation verticale")
+                            color: Tokens.textMuted
+                            font.family: Tokens.bodyFamily
+                            font.pixelSize: Tokens.body
+                        }
+                        Switch { id: vsyncControl }
+                    }
+
+                    Text {
+                        Layout.fillWidth: true
+                        text: qsTr("Appliquée au prochain lancement.")
+                        color: Tokens.textMuted
+                        font.family: Tokens.bodyFamily
+                        font.pixelSize: Tokens.caption
+                        opacity: 0.8
+                    }
+
+                    RowLayout {
+                        Layout.fillWidth: true
+                        Text {
+                            Layout.fillWidth: true
+                            text: qsTr("Compteur de diagnostic")
+                            color: Tokens.textMuted
+                            font.family: Tokens.bodyFamily
+                            font.pixelSize: Tokens.body
+                        }
+                        Switch { id: diagnosticsControl }
+                    }
                 }
 
                 SheetBlock {
                     Layout.fillWidth: true
                     title: qsTr("Volume")
-                    SheetLine { Layout.fillWidth: true; label: qsTr("Volume"); value: root.volume }
+
+                    RowLayout {
+                        Layout.fillWidth: true
+                        spacing: Tokens.spaceMedium
+                        Slider {
+                            id: volumeControl
+                            Layout.fillWidth: true
+                            from: 0
+                            to: 100
+                            stepSize: 1
+                        }
+                        Text {
+                            text: Math.round(volumeControl.value) + " %"
+                            color: Tokens.text
+                            font.family: Tokens.bodyFamily
+                            font.pixelSize: Tokens.body
+                        }
+                    }
                 }
             }
 
@@ -62,13 +125,33 @@ RpgScreenFrame {
                 SheetBlock {
                     Layout.fillWidth: true
                     title: qsTr("Langue")
-                    SheetLine { Layout.fillWidth: true; label: qsTr("Langue"); value: root.language }
+
+                    ComboBox {
+                        id: languageControl
+                        Layout.fillWidth: true
+                    }
                 }
 
                 SheetBlock {
                     Layout.fillWidth: true
-                    title: qsTr("Contrôles")
-                    SheetLine { Layout.fillWidth: true; label: qsTr("Manette"); value: root.gamepad }
+                    title: qsTr("Journaux")
+
+                    Button {
+                        id: saveLogsControl
+                        Layout.fillWidth: true
+                        enabled: root.logsEnabled
+                        text: qsTr("Enregistrer les journaux de session")
+                    }
+
+                    Text {
+                        Layout.fillWidth: true
+                        text: root.logsMessage
+                        color: Tokens.textMuted
+                        font.family: Tokens.bodyFamily
+                        font.pixelSize: Tokens.caption
+                        wrapMode: Text.WrapAnywhere
+                        visible: root.logsMessage.length > 0
+                    }
                 }
             }
         }

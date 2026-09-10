@@ -77,9 +77,29 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
     table de transitions pure et testée, et une transition non déclarée est **refusée**, jamais
     silencieusement acceptée. Il publie un **état**, jamais un chemin de fichier — la conception
     peut réorganiser `Screens/` sans qu'une ligne de C++ ne s'en aperçoive.
-  - **Les options sont dessinées mais pas branchées, délibérément** : `EX-IHM-083` exige qu'un
-    réglage exposé atteigne le moteur, et le jeu n'a pas encore de viewport à régler. Une case à
-    cocher qui ne fait rien est pire qu'une case absente.
+  - **Les options sont branchées : chaque réglage atteint le moteur** (`EX-IHM-083`). Plein écran
+    par liaison sur la fenêtre, volume vers `hmi::AudioEngine`, langue par échange de `QTranslator`
+    suivi de `QQmlEngine::retranslate()`, compteur de diagnostic vers un recouvrement qui affiche la
+    cadence — et synchronisation verticale sur le format de surface, donc **au prochain lancement**,
+    ce que l'écran **dit** au lieu de le taire. `hmi::OptionsModel` se borne à persister et à
+    prévenir ; c'est l'application qui branche. Le faire dans la vue-modèle lui aurait fait
+    connaître le moteur audio et la fenêtre, c'est-à-dire la frontière même que ce lot établit. Les
+    clés de configuration historiques sont **reprises telles quelles** : les renommer aurait
+    réinitialisé en silence les préférences de qui jouait avant la refonte.
+  - **Les contrôles Qt prennent la couleur des jetons, et il a fallu imposer le style pour cela.**
+    Sous Windows, Qt choisit « FluentWinUI3 », qui peint avec les couleurs du système et ignore
+    largement la palette : interrupteurs et curseur de volume ressortaient en **bleu** au milieu du
+    parchemin, et aucune retouche de `Tokens.qml` n'y pouvait rien. Le jeu impose « Basic », dont
+    tout le rendu vient de la palette, que `Main.qml` dérive des jetons. Sans cela, la seule issue
+    aurait été d'écrire une couleur dans chaque écran — exactement ce que `Tokens.qml` existe pour
+    empêcher.
+  - **Un sélecteur d'écrans, pour pouvoir tout vérifier avant qu'un niveau n'existe.** Deux boutons
+    font défiler les quatorze écrans (`Logic/ScreenProbe.qml`) : sans eux, les sept écrans dessinés
+    mais pas encore alimentés ne sont atteignables par aucun chemin de jeu. Ce n'est pas une
+    fonctionnalité, et le code le garantit — il se lie à `ScreenRouter.developerBuild`, faux dans un
+    binaire livré. Il **rend la main au routeur** dès que le jeu navigue de lui-même : épinglé, il
+    aurait empêché `Échap` de fermer quoi que ce soit et fait paraître la navigation cassée par
+    l'outil censé permettre de la vérifier.
   - **`EX-IHM-075` n'est pas retirée, contrairement à ce que le cadrage avait conclu.** Les trois
     raisons qu'elle invoque — une image ne s'étire pas honnêtement, fige ses couleurs hors des
     jetons, et ne suit pas le facteur entier — restent vraies en QML, et **Qt Quick Shapes** les

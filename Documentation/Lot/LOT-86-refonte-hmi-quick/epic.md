@@ -162,5 +162,13 @@ Qt, vrai depuis le `LOT-01` et qu'un seul `QString` suffirait à rendre faux.
 - Lint d'exigences (352/352), lint des lots, `check_ui_layers` (6 règles), `check_glossary`,
   `check_qt_version_pin` : verts ✔
 - Doxygen sans erreur ✔
-- Les treize écrans se chargent sans un seul avertissement QML, capturés et relus ✔
+- Les quatorze écrans se chargent sans un seul avertissement QML, capturés et relus ✔
 - Les deux binaires démarrent ✔
+- **Les réglages atteignent le moteur** (`EX-IHM-083`) : plein écran, volume, langue et compteur de
+  diagnostic immédiatement, synchronisation verticale au prochain lancement — et l'écran le dit ✔
+- Les contrôles Qt prennent la couleur des jetons : style « Basic » imposé, palette dérivée de
+  `Tokens.qml`. Sans cela, `FluentWinUI3` les peignait en bleu et aucune retouche des jetons n'y
+  pouvait rien ✔
+- Un sélecteur d'écrans de développement (`Logic/ScreenProbe.qml`) permet de parcourir les quatorze
+  écrans tant qu'aucun niveau n'existe pour y mener ; il est lié à `ScreenRouter.developerBuild` et
+  rend la main au routeur dès que le jeu navigue ✔

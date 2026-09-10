@@ -26,6 +26,15 @@ Item {
     /// Écran imposé au lancement, ou chaîne vide pour laisser le routeur décider.
     property string forcedScreen: ""
 
+    /// Les quatorze écrans, dans l'ordre où le sélecteur de développement les fait défiler.
+    /// Le même vocabulaire que `--screen=` : deux listes différentes auraient fini par diverger,
+    /// et un écran serait devenu joignable par un chemin et pas par l'autre.
+    readonly property var screenNames: [
+        "MainMenu", "GameView", "Pause", "Options", "Credits",
+        "CharacterSheet", "Inventory", "Journal", "WorldMap", "Dialogue",
+        "Merchant", "GuildBoard", "CombatHud", "TeamSheet"
+    ]
+
     Component { id: menuScreen; MainMenu {} }
     Component { id: optionsScreen; Options {} }
     Component { id: creditsScreen; Credits {} }
@@ -44,8 +53,46 @@ Item {
     Loader {
         anchors.fill: parent
         focus: true
-        sourceComponent: root.forcedScreen.length > 0 ? root.byName(root.forcedScreen)
-                                                      : root.byState()
+        // Trois sources, dans cet ordre : le sélecteur de développement s'il a servi, puis
+        // `--screen=`, puis le routeur. Le sélecteur passe DEVANT `--screen=` : sans cela,
+        // ouvrir le jeu sur un écran précis aurait figé le sélecteur sur ce même écran.
+        sourceComponent: probe.selectedScreen.length > 0
+                         ? root.byName(probe.selectedScreen)
+                         : (root.forcedScreen.length > 0 ? root.byName(root.forcedScreen)
+                                                         : root.byState())
+    }
+
+    /*!
+        Le sélecteur d'écrans de développement. Absent des binaires livrés -- il se lie lui-même à
+        `ScreenRouter.developerBuild`.
+
+        Il est posé APRÈS le `Loader`, donc au-dessus : c'est un recouvrement, et il doit le rester
+        quel que soit l'écran regardé.
+    */
+    ScreenProbe {
+        id: probe
+
+        anchors.fill: parent
+        screenNames: root.screenNames
+        // Reprend là où `--screen=` a ouvert : sans cela, le premier clic sur ▶ aurait ramené au
+        // menu depuis n'importe quel écran, au lieu de continuer la liste.
+        Component.onCompleted: {
+            if (root.forcedScreen.length > 0) {
+                probe.index = root.screenNames.indexOf(root.forcedScreen);
+                probe.selectedScreen = root.forcedScreen;
+            }
+        }
+    }
+
+    // Le routeur reprend la main dès que le jeu navigue de lui-même. Sans cela, un écran choisi
+    // dans le sélecteur restait épinglé : `Échap` ne fermait plus rien, et la navigation -- ce
+    // qu'on cherche justement à vérifier -- aurait paru cassée par l'outil de vérification.
+    Connections {
+        target: ScreenRouter
+
+        function onChanged() {
+            probe.clear();
+        }
     }
 
     /// L'écran que le routeur désigne.

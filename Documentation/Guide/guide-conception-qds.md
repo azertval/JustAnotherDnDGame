@@ -81,14 +81,30 @@ branché, sans la moindre erreur.
 
 ## Les écrans dessinés mais pas encore alimentés
 
-Sept écrans du RPG et la page Options existent **sans données** : les lots qui les produiront ne sont
-pas écrits. Leur pied l'avoue — « Écran dessiné, données à brancher » — et leurs champs affichent un
+Sept écrans du RPG existent **sans données** : les lots qui les produiront ne sont pas écrits. La
+page Options, elle, ne l'est plus — ses réglages atteignent le moteur pour de bon. Leur pied l'avoue — « Écran dessiné, données à brancher » — et leurs champs affichent un
 tiret cadratin plutôt que de fausses valeurs. Un écran rempli de valeurs plausibles se prend pour un
 écran fini : il passe les relectures, on l'oublie, et un jour quelqu'un s'étonne que le marchand
 vende toujours les mêmes trois objets.
 
 Vous pouvez **les dessiner entièrement** dès maintenant : le jour où le lot fonctionnel arrive, seul
 le jumeau change. `python scripts/list_pending_bindings.py` en donne l'inventaire.
+
+## Les contrôles Qt prennent la couleur des jetons
+
+`Switch`, `Slider`, `ComboBox`, `Button` — ceux de `QtQuick.Controls` — ne se peignent pas eux-mêmes :
+ils suivent la **palette** de leur fenêtre, que `Main.qml` dérive de `Tokens.qml`. Changer
+`Tokens.accent` change donc la couleur d'un interrupteur allumé, sans que personne ne touche à un
+écran.
+
+Pour que cela soit vrai, le jeu **impose le style « Basic »**. Sous Windows, Qt choisit sinon
+« FluentWinUI3 », qui peint avec les couleurs du système et ignore largement la palette : les
+interrupteurs et le curseur de volume ressortaient en **bleu** au milieu du parchemin, et aucune
+retouche des jetons n'y pouvait rien. C'est le genre de dépendance cachée qu'on cherche longtemps —
+elle est donc écrite une fois, dans `Source/App/Game/Main.cpp`, et commentée.
+
+Conséquence pour vous : si un contrôle vous paraît de la mauvaise couleur, la réponse est dans
+`Tokens.qml` ou dans la palette de `Main.qml`, jamais dans l'écran.
 
 ## Les modules que vous pouvez importer
 

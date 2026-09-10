@@ -46,6 +46,12 @@ class ScreenRouter : public QObject {
     Q_PROPERTY(Screen currentScreen READ currentScreen NOTIFY changed)
     Q_PROPERTY(RpgScreen currentRpgScreen READ currentRpgScreen NOTIFY changed)
 
+    /// Vrai dans un binaire de developpement, faux dans un binaire livre. Ce qui s'y adosse est un
+    /// outil de verification -- le selecteur d'ecrans de `Logic/ScreenProbe.qml` --, et un outil de
+    /// verification ne doit pas pouvoir partir avec le jeu. Une liaison QML sur cette propriete le
+    /// garantit a la construction, la ou une consigne de relecture ne garantit rien.
+    Q_PROPERTY(bool developerBuild READ developerBuild CONSTANT)
+
 public:
     /// Écran affiché. Reprend `hmi::ScreenId`, moins `Editor` : l'éditeur de niveaux est un
     /// binaire séparé depuis le `LOT-86`, et le jeu n'a aucun chemin qui y mène.
@@ -77,6 +83,8 @@ public:
 
     [[nodiscard]] Screen currentScreen() const noexcept;
     [[nodiscard]] RpgScreen currentRpgScreen() const noexcept;
+
+    [[nodiscard]] static bool developerBuild() noexcept;
 
     Q_INVOKABLE void openMenu();
     Q_INVOKABLE void openGame();

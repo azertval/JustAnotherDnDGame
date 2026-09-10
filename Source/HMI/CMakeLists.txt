@@ -368,6 +368,8 @@ add_executable(JustAnotherDnDGame
     ${APP_DIR}/Common/Bootstrap.cpp
     # La surface de rendu du jeu : le jumeau Qt Quick du QRhiWidget de l'editeur.
     Game/GameViewportItem.cpp
+    # Le son : le volume des options doit atteindre un moteur reel (EX-IHM-083).
+    Audio/AudioEngine.cpp
     # Vues-modèles : ce que le jeu SAIT DIRE, exposé au QML en propriétés et en modèles de liste.
     # Elles ne connaissent ni QML, ni asset, ni feuille de style, et ne lient que Qt6::Qml — jamais
     # Quick ni Widgets. `scripts/check_ui_layers.py` le vérifie (EX-IHM-101), parce qu'un include
@@ -380,6 +382,8 @@ add_executable(JustAnotherDnDGame
     Presentation/RuleLabels.cpp
     # Navigation : suit la table de transitions PURE, il ne decide rien lui-meme.
     Presentation/ScreenRouter.cpp
+    # Les reglages : ils persistent et publient, l'application branche (EX-IHM-083).
+    Presentation/OptionsModel.cpp
     Presentation/CharacterSheetModel.cpp
     # L'ancre des ecrans dessines mais pas encore alimentes (LOT-86).
     Presentation/PendingData.cpp
@@ -407,10 +411,15 @@ set(JADG_QML_FILES
     Controls/TitleBanner.ui.qml
     Controls/FocusFleuron.ui.qml
     Controls/MenuEntry.ui.qml
+    # Le recouvrement qu'allume le reglage « Compteur de diagnostic » (EX-IHM-083).
+    Controls/DiagnosticsOverlay.ui.qml
     # Cote developpeur : la correspondance entre l'ETAT publie par le routeur et le FICHIER
     # d'ecran. Elle vit en QML pour que la conception puisse renommer ses fichiers sans
     # qu'une ligne de C++ ne s'en apercoive.
     Logic/ScreenStack.qml
+    # Outil de VERIFICATION, absent des binaires livres : il se lie a ScreenRouter.developerBuild.
+    # Il fait defiler les quatorze ecrans tant qu'aucun niveau n'existe pour y mener.
+    Logic/ScreenProbe.qml
     # Écrans : un FORMULAIRE `.ui.qml` (conception) et son jumeau `.qml` (câblage) par écran.
     # Sept d'entre eux sont dessinés mais pas encore alimentés : leur jumeau relie chaque champ à
     # une clé nommée qui aboutit à `hmi::PendingData`. Le jour où le lot fonctionnel arrive, seul

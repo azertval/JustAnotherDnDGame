@@ -18,8 +18,37 @@ Window {
     width: 1280
     height: 720
     visible: true
+    // Plein écran : le seul réglage qui atteint la FENÊTRE, et il l'atteint par liaison plutôt que
+    // par un gestionnaire. Une liaison rend l'état de la fenêtre et celui du réglage indissociables
+    // -- ils ne peuvent pas se désynchroniser, faute d'un chemin par lequel le faire.
+    visibility: OptionsModel.fullscreen ? Window.FullScreen : Window.Windowed
     color: Tokens.background
     title: "JustAnotherDnDGame"
+
+    /*!
+        La palette des contrôles Qt, tirée des jetons.
+
+        `Switch`, `Slider`, `ComboBox` et `Button` se peignent avec la palette de leur fenêtre. Sans
+        cette liaison, ils gardaient le bleu du style par défaut au milieu du parchemin -- et la
+        seule façon de le corriger aurait été d'écrire une couleur dans chaque écran, c'est-à-dire
+        exactement ce que `Tokens.qml` existe pour empêcher.
+
+        Elle est posée sur la FENÊTRE, une fois : la palette descend par héritage, donc un contrôle
+        ajouté demain l'aura sans que personne n'ait à y penser.
+    */
+    palette.window: Tokens.surface
+    palette.windowText: Tokens.text
+    palette.base: Tokens.surfaceAlt
+    palette.text: Tokens.text
+    palette.button: Tokens.surfaceAlt
+    palette.buttonText: Tokens.text
+    palette.highlight: Tokens.accent
+    palette.highlightedText: Tokens.text
+    palette.accent: Tokens.accent
+    palette.mid: Tokens.border
+    palette.dark: Tokens.frameEdge
+    palette.light: Tokens.surfaceAlt
+    palette.placeholderText: Tokens.textMuted
 
     // Facteur entier borné à [1, 3], depuis une hauteur de référence de 360 px. Repris tel quel de
     // `hmi::identityScaleFor` en attendant que la vue-modèle l'expose : la formule est ici
@@ -43,5 +72,17 @@ Window {
     ScreenStack {
         anchors.fill: parent
         forcedScreen: root.startScreen
+    }
+
+    /*!
+        Le compteur de diagnostic, commandé par les options (`EX-IHM-083`).
+
+        Il vit ici et non dans l'écran des options : les planches l'avaient tranché, c'est un
+        élément de recouvrement, et un compteur d'images par seconde affiché dans une page de
+        réglages ne mesurerait que cette page.
+    */
+    DiagnosticsOverlay {
+        anchors.fill: parent
+        visible: OptionsModel.diagnostics
     }
 }

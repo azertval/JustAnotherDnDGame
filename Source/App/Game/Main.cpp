@@ -17,9 +17,11 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlError>
+#include <QQuickStyle>
 #include <QQuickWindow>
 #include <QSettings>
 #include <QString>
+#include <QSurfaceFormat>
 #include <QTimer>
 #include <QTranslator>
 #include <QUrl>
@@ -28,8 +30,11 @@
 #include <string>
 
 #include "App/Common/Bootstrap.h"
+#include "Core/Diagnostics/MemoryLogSink.h"
+#include "HMI/Audio/AudioEngine.h"
 #include "HMI/HmiLog.h"
 #include "HMI/Platform/ExecutableDirectory.h"
+#include "HMI/Presentation/OptionsModel.h"
 
 namespace {
 
@@ -64,12 +69,26 @@ void registerIdentityFonts() {
  * @return Code de sortie du processus (0 en cas de succès).
  */
 int main(int argc, char** argv) {
-    app::installLogging(argc, argv, "JustAnotherDnDGame");
+    core::MemoryLogSink* const sessionLog = app::installLogging(argc, argv, "JustAnotherDnDGame");
 
-    QGuiApplication application(argc, argv);
-    // Identité de l'application : portée des réglages persistés (QSettings).
+    // Identite de l'application AVANT toute lecture de reglage : c'est elle qui designe la portee
+    // des QSettings. Lire la synchronisation verticale avant de la poser aurait interroge une
+    // portee vide -- le reglage aurait paru absent, et sa valeur par defaut se serait appliquee a
+    // chaque lancement sans que rien ne le signale.
     QCoreApplication::setOrganizationName(QStringLiteral("JustAnotherDnDGame"));
     QCoreApplication::setApplicationName(QStringLiteral("Game"));
+
+    // Synchronisation verticale : elle se pose sur le FORMAT DE SURFACE, donc avant la creation de
+    // la fenetre -- c'est pour cela qu'elle s'applique au prochain lancement et que l'ecran des
+    // options le dit. La changer en cours de route recreerait la surface de rendu sous les yeux du
+    // joueur, pour un reglage qu'on modifie une fois.
+    {
+        QSurfaceFormat format = QSurfaceFormat::defaultFormat();
+        format.setSwapInterval(QSettings().value(QStringLiteral("vsync"), true).toBool() ? 1 : 0);
+        QSurfaceFormat::setDefaultFormat(format);
+    }
+
+    QGuiApplication application(argc, argv);
 
     const QString language =
         QSettings().value(QStringLiteral("language"), QStringLiteral("fr")).toString();
@@ -93,6 +112,23 @@ int main(int argc, char** argv) {
     }
 
     registerIdentityFonts();
+
+    // Style des controles Qt Quick : « Basic », impose et non deduit.
+    //
+    // Sous Windows, Qt choisit « FluentWinUI3 » par defaut. Ce style peint ses controles avec les
+    // couleurs du systeme et ignore largement la palette de l'application : les interrupteurs et le
+    // curseur de volume ressortaient en BLEU au milieu du parchemin, et aucune retouche de
+    // `Tokens.qml` n'y pouvait rien -- la conception aurait cherche longtemps.
+    //
+    // « Basic » est l'inverse : tout ce qu'il peint vient de la palette, que `Main.qml` derive des
+    // jetons. C'est ce qui rend l'apparence des controles modifiable sans code, comme le reste
+    // (EX-IHM-100). Il est de surcroit le seul style identique sur toutes les plateformes.
+    QQuickStyle::setStyle(QStringLiteral("Basic"));
+
+    // Moteur audio : le volume des options doit atteindre QUELQUE CHOSE, sans quoi le reglage
+    // serait un mensonge (EX-IHM-083). Il vit ici, dans l'application, et non dans la vue-modele
+    // des options -- ce n'est pas a un ecran de reglages de posseder le son du jeu.
+    hmi::AudioEngine audio;
 
     QQmlApplicationEngine engine;
 
@@ -174,7 +210,32 @@ int main(int argc, char** argv) {
               QString::fromUtf8(screen->data(), static_cast<qsizetype>(screen->size()))}});
     }
 
+    // Brancher les reglages sur ce qu'ils atteignent. La vue-modele persiste et previent ; c'est
+    // ICI que chaque signal rejoint le moteur -- la presentation ne connait ni le son, ni les
+    // traducteurs, ni la fenetre.
     engine.loadFromModule("Jadg.Ui", "Main");
+    if (auto* const options =
+            engine.singletonInstance<hmi::OptionsModel*>("Jadg.Ui", "OptionsModel")) {
+        options->setSessionLog(sessionLog);
+        audio.setVolume(static_cast<float>(options->volume()) / 100.0F);
+        QObject::connect(options, &hmi::OptionsModel::volumeChanged, options, [options, &audio]() {
+            audio.setVolume(static_cast<float>(options->volume()) / 100.0F);
+        });
+        // Changement de langue A CHAUD : le traducteur est remplace, puis `retranslate()` fait
+        // reevaluer toutes les liaisons `qsTr` du QML. Sans ce second appel, la nouvelle langue
+        // n'apparaitrait qu'aux ecrans construits ensuite -- la moitie de l'interface changerait.
+        QObject::connect(
+            options, &hmi::OptionsModel::languageChanged, &engine, [options, &engine]() {
+                QCoreApplication::removeTranslator(&gameTranslator);
+                if (options->language() != QLatin1String("fr") &&
+                    gameTranslator.load(QStringLiteral(":/i18n/jadg_") + options->language())) {
+                    QCoreApplication::installTranslator(&gameTranslator);
+                }
+                engine.retranslate();
+            });
+    } else {
+        HMI_LOG_ERROR("Reglages introuvables : le volume et la langue ne seront pas appliques.");
+    }
 
     const int code = QGuiApplication::exec();
     HMI_LOG_INFO("Arret de JustAnotherDnDGame (code " + std::to_string(code) + ").");

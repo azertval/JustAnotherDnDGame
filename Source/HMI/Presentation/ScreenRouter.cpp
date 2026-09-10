@@ -5,9 +5,15 @@
 
 #include <optional>
 
+#include "Core/BuildConfig.h"
 #include "HMI/HmiLog.h"
 
 namespace hmi {
+
+bool ScreenRouter::developerBuild() noexcept {
+    return core::DEVELOPER_BUILD;
+}
+
 namespace {
 
 /// Correspondance entre l'état de la table et celui que le QML lit. `Editor` n'y figure pas : le
