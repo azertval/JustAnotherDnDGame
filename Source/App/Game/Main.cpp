@@ -19,7 +19,7 @@
 #include <QTimer>
 #include <QTranslator>
 #include <QUrl>
-#include <QtQml/qqml.h>
+#include <QtQml/QQmlExtensionPlugin>
 #include <filesystem>
 #include <optional>
 #include <string>
@@ -27,14 +27,11 @@
 #include "App/Common/Bootstrap.h"
 #include "Core/Diagnostics/MemoryLogSink.h"
 #include "HMI/Audio/AudioEngine.h"
-#include "HMI/Game/GameViewportItem.h"
 #include "HMI/HmiLog.h"
 #include "HMI/Platform/ExecutableDirectory.h"
-#include "HMI/Presentation/CharacterSheetModel.h"
-#include "HMI/Presentation/InventoryModel.h"
 #include "HMI/Presentation/OptionsModel.h"
-#include "HMI/Presentation/PendingData.h"
-#include "HMI/Presentation/ScreenRouter.h"
+
+Q_IMPORT_QML_PLUGIN(Jadg_RuntimePlugin)
 
 namespace {
 
@@ -85,25 +82,6 @@ int main(int argc, char** argv) {
     QQuickStyle::setStyle(QStringLiteral("Basic"));
 
     hmi::AudioEngine audio;
-
-    // `Jadg.Ui` est un module QML identifie par son qmldir. Qt interdit qu'un autre module
-    // enregistre dynamiquement des types dans cet espace de noms. Tous les types C++ du runtime
-    // vivent donc dans leur propre module procedural `Jadg.Runtime`.
-    qmlRegisterType<hmi::GameViewportItem>("Jadg.Runtime", 1, 0, "GameViewport");
-    qmlRegisterType<hmi::CharacterSheetModel>("Jadg.Runtime", 1, 0, "CharacterSheetModel");
-    qmlRegisterType<hmi::InventoryModel>("Jadg.Runtime", 1, 0, "InventoryModel");
-    qmlRegisterSingletonType<hmi::OptionsModel>("Jadg.Runtime", 1, 0, "OptionsModel",
-                                                [](QQmlEngine*, QJSEngine*) -> QObject* {
-                                                    return new hmi::OptionsModel;
-                                                });
-    qmlRegisterSingletonType<hmi::PendingData>("Jadg.Runtime", 1, 0, "PendingData",
-                                               [](QQmlEngine*, QJSEngine*) -> QObject* {
-                                                   return new hmi::PendingData;
-                                               });
-    qmlRegisterSingletonType<hmi::ScreenRouter>("Jadg.Runtime", 1, 0, "ScreenRouter",
-                                                [](QQmlEngine*, QJSEngine*) -> QObject* {
-                                                    return new hmi::ScreenRouter;
-                                                });
 
     QQmlApplicationEngine engine;
 
