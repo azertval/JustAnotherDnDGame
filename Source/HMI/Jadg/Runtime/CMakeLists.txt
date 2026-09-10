@@ -30,9 +30,8 @@ set(JADG_RUNTIME_SOURCES
 # policies Qt jusqu'a 6.8 dans la portee du module runtime. Cela active notamment QTP0005 avant
 # qt_add_qml_module(), sans modifier la version de Qt du projet (Qt 6.11.2 reste requise).
 #
-# Ne pas utiliser de variable QT_KNOWN_POLICY_* fabriquee a la main : cette variable est un garde-
-# fou de compatibilite fourni par Qt et ne declare pas une policy. qt_standard_project_setup() est
-# l'API Qt documentee pour initialiser l'ensemble des policies.
+# Ne pas fabriquer QT_KNOWN_POLICY_* a la main : ces variables sont des gardes de compatibilite
+# fournis par Qt et ne declarent pas une policy. qt_standard_project_setup() est l'API Qt documentee.
 qt_standard_project_setup(REQUIRES 6.8)
 
 qt_add_qml_module(JadgRuntime
@@ -65,9 +64,6 @@ foreach(_runtime_cpp IN ITEMS
     "${CMAKE_CURRENT_SOURCE_DIR}/../../Presentation/PendingData.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/../../Presentation/ScreenRouter.cpp"
     "Game/GameViewportItem.cpp"
-    "Presentation/CharacterSheetModel.cpp"
-    "Presentation/InventoryModel.cpp"
-    "Presentation/OptionsModel.cpp"
     "Presentation/CharacterSheetModel.cpp"
     "Presentation/InventoryModel.cpp"
     "Presentation/OptionsModel.cpp"
