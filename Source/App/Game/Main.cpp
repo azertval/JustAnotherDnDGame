@@ -86,10 +86,10 @@ int main(int argc, char** argv) {
 
     hmi::AudioEngine audio;
 
-    // Les types C++ du runtime sont enregistres explicitement ici. Cela evite de dependre de
-    // l'enregistrement genere par qmltyperegistrar pour le chargement de l'executable, tout en
-    // laissant les `.ui.qml` totalement independants du C++.
-    qmlRegisterType<hmi::GameViewportItem>("Jadg.Ui", 1, 0, "GameViewport");
+    // `Jadg.Ui` est un module QML identifie par son qmldir. Qt interdit qu'un autre module
+    // enregistre dynamiquement des types dans cet espace de noms : les types C++ du runtime ont
+    // donc leur propre module procedurale `Jadg.Runtime`.
+    qmlRegisterType<hmi::GameViewportItem>("Jadg.Runtime", 1, 0, "GameViewport");
     qmlRegisterType<hmi::CharacterSheetModel>("Jadg.Ui", 1, 0, "CharacterSheetModel");
     qmlRegisterType<hmi::InventoryModel>("Jadg.Ui", 1, 0, "InventoryModel");
     qmlRegisterSingletonType<hmi::OptionsModel>("Jadg.Ui", 1, 0, "OptionsModel",
