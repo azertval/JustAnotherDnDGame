@@ -17,6 +17,7 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlError>
+#include <QQmlEngine>
 #include <QQuickStyle>
 #include <QQuickWindow>
 #include <QSettings>
@@ -32,6 +33,7 @@
 #include "App/Common/Bootstrap.h"
 #include "Core/Diagnostics/MemoryLogSink.h"
 #include "HMI/Audio/AudioEngine.h"
+#include "HMI/Game/GameViewportItem.h"
 #include "HMI/HmiLog.h"
 #include "HMI/Platform/ExecutableDirectory.h"
 #include "HMI/Presentation/OptionsModel.h"
@@ -71,17 +73,9 @@ void registerIdentityFonts() {
 int main(int argc, char** argv) {
     core::MemoryLogSink* const sessionLog = app::installLogging(argc, argv, "JustAnotherDnDGame");
 
-    // Identite de l'application AVANT toute lecture de reglage : c'est elle qui designe la portee
-    // des QSettings. Lire la synchronisation verticale avant de la poser aurait interroge une
-    // portee vide -- le reglage aurait paru absent, et sa valeur par defaut se serait appliquee a
-    // chaque lancement sans que rien ne le signale.
     QCoreApplication::setOrganizationName(QStringLiteral("JustAnotherDnDGame"));
     QCoreApplication::setApplicationName(QStringLiteral("Game"));
 
-    // Synchronisation verticale : elle se pose sur le FORMAT DE SURFACE, donc avant la creation de
-    // la fenetre -- c'est pour cela qu'elle s'applique au prochain lancement et que l'ecran des
-    // options le dit. La changer en cours de route recreerait la surface de rendu sous les yeux du
-    // joueur, pour un reglage qu'on modifie une fois.
     {
         QSurfaceFormat format = QSurfaceFormat::defaultFormat();
         format.setSwapInterval(QSettings().value(QStringLiteral("vsync"), true).toBool() ? 1 : 0);
@@ -94,13 +88,6 @@ int main(int argc, char** argv) {
         QSettings().value(QStringLiteral("language"), QStringLiteral("fr")).toString();
     app::installQtTranslations(language.toStdString());
 
-    // Traductions du JEU. Le francais est la langue SOURCE des ecrans -- leurs textes s'ecrivent en
-    // francais dans le QML, pour que la conception les lise dans Qt Design Studio -- et n'a donc
-    // pas de catalogue : sans traducteur installe, `qsTr` rend sa source.
-    //
-    // Duree de vie statique : QCoreApplication ne possede pas le traducteur, et un objet local
-    // serait detruit a la sortie de cette portee. La traduction disparaitrait alors sans erreur,
-    // et l'interface reviendrait au francais sans que rien ne le dise.
     static QTranslator gameTranslator;
     if (language != QLatin1String("fr")) {
         if (gameTranslator.load(QStringLiteral(":/i18n/jadg_") + language)) {
@@ -112,49 +99,29 @@ int main(int argc, char** argv) {
     }
 
     registerIdentityFonts();
-
-    // Style des controles Qt Quick : « Basic », impose et non deduit.
-    //
-    // Sous Windows, Qt choisit « FluentWinUI3 » par defaut. Ce style peint ses controles avec les
-    // couleurs du systeme et ignore largement la palette de l'application : les interrupteurs et le
-    // curseur de volume ressortaient en BLEU au milieu du parchemin, et aucune retouche de
-    // `Tokens.qml` n'y pouvait rien -- la conception aurait cherche longtemps.
-    //
-    // « Basic » est l'inverse : tout ce qu'il peint vient de la palette, que `Main.qml` derive des
-    // jetons. C'est ce qui rend l'apparence des controles modifiable sans code, comme le reste
-    // (EX-IHM-100). Il est de surcroit le seul style identique sur toutes les plateformes.
     QQuickStyle::setStyle(QStringLiteral("Basic"));
 
-    // Moteur audio : le volume des options doit atteindre QUELQUE CHOSE, sans quoi le reglage
-    // serait un mensonge (EX-IHM-083). Il vit ici, dans l'application, et non dans la vue-modele
-    // des options -- ce n'est pas a un ecran de reglages de posseder le son du jeu.
     hmi::AudioEngine audio;
+
+    // GameViewportItem est un type C++ runtime. Il ne peut pas être découvert par le seul
+    // `qmldir` de conception, qui doit rester indépendant du moteur. L'enregistrer explicitement
+    // ici garantit que `GameView.qml` le trouve aussi bien en build normal qu'en mode
+    // JADG_QML_FROM_SOURCE=1. Le formulaire `GameViewForm.ui.qml` ne le référence jamais.
+    qmlRegisterType<hmi::GameViewportItem>("Jadg.Ui", 1, 0, "GameViewport");
 
     QQmlApplicationEngine engine;
 
-    // Éditer un écran sans rien reconstruire (EX-IHM-100). Par défaut, les .qml sont lus dans la
-    // ressource embarquée -- c'est ce qu'il faut pour un binaire livré. Avec
-    // JADG_QML_FROM_SOURCE=1, on place en tête des chemins d'import un module dont le qmldir
-    // désigne les fichiers SOURCES : le programme lit alors Source/Ui directement, et relancer
-    // suffit à voir la retouche.
-    //
-    // `addImportPath` insère en tête : le module sur disque l'emporte donc sur celui de la
-    // ressource, sans qu'il faille retirer ce dernier.
     if (qEnvironmentVariable("JADG_QML_FROM_SOURCE") == QLatin1String("1")) {
         engine.addImportPath(QStringLiteral(JADG_QML_DEV_IMPORT_PATH));
         HMI_LOG_INFO("Interface lue depuis les sources : " JADG_QML_DEV_IMPORT_PATH);
     }
-    // Les erreurs de l'engine vont, par defaut, sur la sortie d'erreur de Qt -- que personne ne
-    // lit apres coup, et qui n'existe pas dans un binaire livre. On les verse dans le journal de
-    // session : un ecran QML casse doit se diagnostiquer depuis Logs/, comme tout le reste.
+
     QObject::connect(&engine, &QQmlEngine::warnings, &application,
                      [](const QList<QQmlError>& warnings) {
                          for (const QQmlError& warning : warnings) {
                              HMI_LOG_ERROR("QML : " + warning.toString().toStdString());
                          }
                      });
-    // Un échec de chargement QML ne lève pas : sans cette garde, le programme rendrait 0 avec une
-    // fenêtre absente — la panne muette que le châssis Qt documente déjà pour d'autres raisons.
     QObject::connect(
         &engine, &QQmlApplicationEngine::objectCreationFailed, &application,
         []() {
@@ -162,14 +129,7 @@ int main(int argc, char** argv) {
             QCoreApplication::exit(1);
         },
         Qt::QueuedConnection);
-    // Capture d'ecran non interactive (--screenshot=<chemin>). Une fenetre Qt Quick est rendue par
-    // le GPU : les API de capture de Windows en tirent une image NOIRE, seul Qt sait relire son
-    // propre graphe de scene. C'est ce qui rend la verification visuelle des ecrans reproductible,
-    // au lieu de dependre d'un oeil devant l'ecran au bon moment.
-    //
-    // Declenchee par minuterie sur le fil graphique, et non depuis `frameSwapped` : ce signal est
-    // emis par le FIL DE RENDU, et `grabWindow` -- qui attend ce meme fil -- n'y rendait jamais la
-    // main. Le programme restait ouvert sans rien ecrire.
+
     if (const std::optional<std::string_view> shot =
             app::commandLineOption(argc, argv, "--screenshot=")) {
         const QString path = QString::fromUtf8(shot->data(), static_cast<qsizetype>(shot->size()));
@@ -191,18 +151,12 @@ int main(int argc, char** argv) {
             },
             Qt::SingleShotConnection);
 
-        // Filet de securite : en mode capture, le programme ne doit JAMAIS rester ouvert. Sans
-        // cette sortie, un echec de chargement de la fenetre laisserait un processus vivant qu'il
-        // faudrait tuer a la main -- et, en integration continue, un travail suspendu.
         QTimer::singleShot(15000, &application, []() {
             HMI_LOG_ERROR("Capture : delai depasse, aucune image produite.");
             QCoreApplication::exit(2);
         });
     }
 
-    // Écran d'ouverture (--screen=<Nom>). `setInitialProperties` pose la propriété AVANT que la
-    // racine ne soit construite : l'affecter après aurait fait afficher l'écran par défaut le
-    // temps d'une image, puis le bon -- un clignement visible sur une capture.
     if (const std::optional<std::string_view> screen =
             app::commandLineOption(argc, argv, "--screen=")) {
         engine.setInitialProperties(
@@ -210,15 +164,6 @@ int main(int argc, char** argv) {
               QString::fromUtf8(screen->data(), static_cast<qsizetype>(screen->size()))}});
     }
 
-    // Brancher les reglages sur ce qu'ils atteignent. La vue-modele persiste et previent ; c'est
-    // ICI que chaque signal rejoint le moteur -- la presentation ne connait ni le son, ni les
-    // traducteurs, ni la fenetre.
-    //
-    // AVANT `loadFromModule`, et ce n'est pas un detail de style : le chargement construit la
-    // fenetre ET ses ecrans dans la foulee. Brancher apres, c'est laisser les liaisons de ces
-    // ecrans s'evaluer sur un modele pas encore renseigne -- et `logsAvailable` etant CONSTANT,
-    // elle ne se serait jamais reevaluee : le bouton d'export des journaux serait reste grise
-    // pour toujours, dans un build ou les journaux existent pourtant.
     if (auto* const options =
             engine.singletonInstance<hmi::OptionsModel*>("Jadg.Ui", "OptionsModel")) {
         options->setSessionLog(sessionLog);
@@ -226,9 +171,6 @@ int main(int argc, char** argv) {
         QObject::connect(options, &hmi::OptionsModel::volumeChanged, options, [options, &audio]() {
             audio.setVolume(static_cast<float>(options->volume()) / 100.0F);
         });
-        // Changement de langue A CHAUD : le traducteur est remplace, puis `retranslate()` fait
-        // reevaluer toutes les liaisons `qsTr` du QML. Sans ce second appel, la nouvelle langue
-        // n'apparaitrait qu'aux ecrans construits ensuite -- la moitie de l'interface changerait.
         QObject::connect(
             options, &hmi::OptionsModel::languageChanged, &engine, [options, &engine]() {
                 QCoreApplication::removeTranslator(&gameTranslator);
@@ -242,8 +184,6 @@ int main(int argc, char** argv) {
         HMI_LOG_ERROR("Reglages introuvables : le volume et la langue ne seront pas appliques.");
     }
 
-    // En dernier : la fenetre et tous ses ecrans naissent ici, et doivent trouver un modele deja
-    // branche.
     engine.loadFromModule("Jadg.Ui", "Main");
 
     const int code = QGuiApplication::exec();
