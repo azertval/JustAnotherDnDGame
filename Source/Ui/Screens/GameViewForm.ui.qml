@@ -25,5 +25,6 @@ Item {
         color: Tokens.textMuted
         font.family: Tokens.bodyFamily
         font.pixelSize: Tokens.body
+        z: 1
     }
 }
