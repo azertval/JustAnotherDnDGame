@@ -5,7 +5,6 @@
 
 #include <QColor>
 #include <QQuickRhiItem>
-#include <QtQmlIntegration>
 
 /**
  * @file HMI/Game/GameViewportItem.h
@@ -40,15 +39,16 @@ namespace hmi {
  * Il **n'affiche aucune scène** : `Source/Elements/Levels/` est vide par construction depuis le
  * `LOT-01`, et le contenu du RPG arrive avec un lot ultérieur. Il établit la plomberie — création
  * du `QRhi`, passe de rendu, couleur d'effacement — qui était le vrai risque du portage, et laisse
- * la scène à brancher quand elle existera. Bâtir une session de jeu autour d'un niveau qui n'existe
- * pas produirait du code que rien ne peut vérifier.
+ * la scène à brancher quand elle existera.
+ *
+ * ## Enregistrement QML
+ *
+ * Ce type n'est volontairement **pas** `QML_NAMED_ELEMENT`. `Jadg.Ui` est un module QML identifié
+ * par son `qmldir` et ne peut pas être étendu par un enregistrement C++ provenant d'un autre module.
+ * Le type est donc enregistré explicitement par l'exécutable dans le module runtime `Jadg.Runtime`.
  */
 class GameViewportItem : public QQuickRhiItem {
     Q_OBJECT
-    // Nommé pour le QML, où le suffixe `Item` n'apprendrait rien : tout y est un élément. La classe
-    // C++ le garde, elle, parce qu'elle cohabite avec `hmi::GameViewport`, le viewport à widget de
-    // l'éditeur — et deux types de même nom dans le même espace de noms ne cohabiteraient pas.
-    QML_NAMED_ELEMENT(GameViewport)
 
     /// Couleur d'effacement. Exposée au QML pour venir de `Tokens.qml` comme le reste : la surface
     /// de rendu appartient à l'identité du jeu, et une couleur écrite ici lui échapperait.
