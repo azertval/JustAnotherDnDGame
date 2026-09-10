@@ -30,7 +30,11 @@
 #include "HMI/Game/GameViewportItem.h"
 #include "HMI/HmiLog.h"
 #include "HMI/Platform/ExecutableDirectory.h"
+#include "HMI/Presentation/CharacterSheetModel.h"
+#include "HMI/Presentation/InventoryModel.h"
 #include "HMI/Presentation/OptionsModel.h"
+#include "HMI/Presentation/PendingData.h"
+#include "HMI/Presentation/ScreenRouter.h"
 
 namespace {
 
@@ -82,10 +86,24 @@ int main(int argc, char** argv) {
 
     hmi::AudioEngine audio;
 
-    // GameViewportItem est une primitive C++ du runtime et ne doit pas apparaître dans les
-    // `.ui.qml`. Son enregistrement explicite complète le module QML de l'application sans rendre
-    // le formulaire dépendant de HMI/C++ pour Qt Design Studio.
+    // Les types C++ du runtime sont enregistres explicitement ici. Cela evite de dependre de
+    // l'enregistrement genere par qmltyperegistrar pour le chargement de l'executable, tout en
+    // laissant les `.ui.qml` totalement independants du C++.
     qmlRegisterType<hmi::GameViewportItem>("Jadg.Ui", 1, 0, "GameViewport");
+    qmlRegisterType<hmi::CharacterSheetModel>("Jadg.Ui", 1, 0, "CharacterSheetModel");
+    qmlRegisterType<hmi::InventoryModel>("Jadg.Ui", 1, 0, "InventoryModel");
+    qmlRegisterSingletonType<hmi::OptionsModel>("Jadg.Ui", 1, 0, "OptionsModel",
+                                                [](QQmlEngine*, QJSEngine*) -> QObject* {
+                                                    return new hmi::OptionsModel;
+                                                });
+    qmlRegisterSingletonType<hmi::PendingData>("Jadg.Ui", 1, 0, "PendingData",
+                                               [](QQmlEngine*, QJSEngine*) -> QObject* {
+                                                   return new hmi::PendingData;
+                                               });
+    qmlRegisterSingletonType<hmi::ScreenRouter>("Jadg.Ui", 1, 0, "ScreenRouter",
+                                                [](QQmlEngine*, QJSEngine*) -> QObject* {
+                                                    return new hmi::ScreenRouter;
+                                                });
 
     QQmlApplicationEngine engine;
 
