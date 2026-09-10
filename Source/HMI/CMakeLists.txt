@@ -366,6 +366,8 @@ target_link_libraries(LevelEditor PRIVATE
 add_executable(JustAnotherDnDGame
     ${APP_DIR}/Game/Main.cpp
     ${APP_DIR}/Common/Bootstrap.cpp
+    # La surface de rendu du jeu : le jumeau Qt Quick du QRhiWidget de l'editeur.
+    Game/GameViewportItem.cpp
     # Vues-modèles : ce que le jeu SAIT DIRE, exposé au QML en propriétés et en modèles de liste.
     # Elles ne connaissent ni QML, ni asset, ni feuille de style, et ne lient que Qt6::Qml — jamais
     # Quick ni Widgets. `scripts/check_ui_layers.py` le vérifie (EX-IHM-101), parce qu'un include
@@ -441,6 +443,8 @@ set(JADG_QML_FILES
     Screens/Pause.qml
     Screens/CreditsForm.ui.qml
     Screens/Credits.qml
+    Screens/GameViewForm.ui.qml
+    Screens/GameView.qml
 )
 # Les singletons, dans une liste a part : elle sert DEUX fois ci-dessous (propriete de source, et
 # qmldir de developpement). Une seule liste, donc rien a resynchroniser en ajoutant un ecran.
@@ -512,7 +516,9 @@ qt_add_qml_module(JustAnotherDnDGame
 # le reste du projet. Sans ce répertoire dans les chemins d'inclusion, le `__has_include` échoue
 # **en silence**, l'en-tête n'est pas inclus, et la compilation du fichier engendré échoue sur un
 # « identificateur non déclaré » qui ne désigne aucun fichier écrit à la main.
-target_include_directories(JustAnotherDnDGame PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/Presentation)
+target_include_directories(JustAnotherDnDGame PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/Presentation
+    ${CMAKE_CURRENT_SOURCE_DIR}/Game)
 
 # `qmlcachegen` compile le QML A L'AVANCE en C++, et ce C++ ENGENDRÉ déclenche C4702 (« code
 # inatteignable ») depuis les en-têtes de Qt eux-mêmes. `/external:W0` ne l'attrape pas : la

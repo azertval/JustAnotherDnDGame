@@ -47,7 +47,10 @@ std::string ruleLabel(std::string_view key, const std::string& language) {
 }
 
 std::string activeLanguage() {
-    return QSettings().value(QStringLiteral("language"), QStringLiteral("fr")).toString().toStdString();
+    return QSettings()
+        .value(QStringLiteral("language"), QStringLiteral("fr"))
+        .toString()
+        .toStdString();
 }
 
 }  // namespace hmi

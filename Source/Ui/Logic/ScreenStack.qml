@@ -30,6 +30,7 @@ Item {
     Component { id: optionsScreen; Options {} }
     Component { id: creditsScreen; Credits {} }
     Component { id: pauseScreen; Pause {} }
+    Component { id: gameScreen; GameView {} }
     Component { id: characterSheetScreen; CharacterSheet {} }
     Component { id: inventoryScreen; Inventory {} }
     Component { id: journalScreen; Journal {} }
@@ -55,10 +56,7 @@ Item {
         case ScreenRouter.Credits:   return creditsScreen
         case ScreenRouter.Pause:     return pauseScreen
         case ScreenRouter.RpgScreen: return root.rpgScreen(ScreenRouter.currentRpgScreen)
-        // Le viewport de jeu n'existe pas encore : il arrive avec le portage du rendu sur Qt
-        // Quick. En attendant, « Nouvelle partie » ouvre la fiche du personnage -- c'est ce que
-        // le jeu sait montrer de plus vrai.
-        case ScreenRouter.Game:      return characterSheetScreen
+        case ScreenRouter.Game:      return gameScreen
         }
         return menuScreen
     }
@@ -86,6 +84,7 @@ Item {
         case "Options":        return optionsScreen
         case "Credits":        return creditsScreen
         case "Pause":          return pauseScreen
+        case "GameView":       return gameScreen
         case "CharacterSheet": return characterSheetScreen
         case "Inventory":      return inventoryScreen
         case "Journal":        return journalScreen
