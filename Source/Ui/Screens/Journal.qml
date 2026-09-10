@@ -1,5 +1,6 @@
 import QtQuick
 import Jadg.Ui
+import Jadg.Runtime
 
 /*!
     Journal de quetes -- CABLAGE, cote developpeur (LOT-86).
