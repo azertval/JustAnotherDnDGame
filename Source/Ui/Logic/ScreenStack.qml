@@ -1,5 +1,6 @@
 import QtQuick
 import Jadg.Ui
+import Jadg.Runtime
 
 /*!
     La pile d'écrans -- côté DÉVELOPPEUR (LOT-86).
@@ -117,7 +118,7 @@ Item {
         case ScreenRouter.Dialogue:       return dialogueScreen
         case ScreenRouter.Merchant:       return merchantScreen
         case ScreenRouter.GuildBoard:     return guildBoardScreen
-        case ScreenRouter.CombatHud:      return combatHudScreen
+        case ScreenRouter.CombatHud:     return combatHudScreen
         case ScreenRouter.TeamSheet:      return teamSheetScreen
         }
         return characterSheetScreen
