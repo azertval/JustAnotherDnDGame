@@ -1,5 +1,6 @@
 import QtQuick
 import Jadg.Ui
+import Jadg.Runtime
 
 /*!
     Fiche de personnage — CÂBLAGE, côté développeur (LOT-86).
