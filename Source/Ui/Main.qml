@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Window
 import Jadg.Ui
+import Jadg.Runtime
 
 /*!
     Fenêtre du jeu -- côté DÉVELOPPEUR (LOT-86).
