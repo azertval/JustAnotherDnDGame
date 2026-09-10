@@ -10,3 +10,9 @@
 
 add_subdirectory(Core)
 add_subdirectory(HMI)
+
+# Jadg.Runtime doit être ajouté après HMI : le target JustAnotherDnDGame est alors disponible et
+# le module peut déplacer ses sources C++ runtime hors de l'exécutable avant de créer son backing
+# target QML. Jadg.Ui reste porté par l'exécutable et reste donc indépendant de ce module côté
+# conception/Qt Design Studio.
+add_subdirectory(HMI/Jadg/Runtime)
