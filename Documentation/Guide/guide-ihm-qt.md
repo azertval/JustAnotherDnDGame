@@ -89,10 +89,20 @@ Trois règles, dont deux se paient par un mode *Design* vide plutôt que par un 
 - **le projet doit avoir été configuré une fois par CMake.** Le `qmldir` de `Source/Ui/Jadg/Ui/`
   est *engendré* (ci-dessus) et ignoré par git : sur un dépôt fraîchement cloné il n'existe pas
   encore, et aucun type du module ne se résout. `scripts/build.ps1` suffit à le poser ;
+- **le mode Design reste grisé si `qt6Project: true` manque** du `.qmlproject`. Sans ce booléen,
+  Design Studio suppose un projet Qt 5, ne trouve aucun kit Qt 5, et désactive le mode — sans
+  message ni trace dans le journal ;
 - **on dessine le `*Form.ui.qml`, jamais son jumeau.** Un `.ui.qml` est déclaratif, donc réversible :
   Design Studio le réenregistre sans le casser. Le jumeau `.qml` contient du JavaScript ; Design
   Studio ne l'ouvre qu'en texte, et c'est voulu — c'est la frontière du lot, rendue littérale par
   l'outil lui-même.
+
+Aucune version de Qt n'est écrite dans le `.qmlproject`, et c'est délibéré. Le projet se construit
+avec la version épinglée par `QT_VERSION_MINIMUM` — **6.11.2**, que `check_qt_version_pin.py` tient
+identique en CMake et en CI. Design Studio, lui, dessine toujours avec le Qt qu'il **embarque**,
+quel que soit le Qt installé : un numéro de plus dans le fichier de conception ne commanderait ni
+l'un ni l'autre, et ne servirait qu'à faire croire à un troisième épinglage. Tous les imports du
+module étant sans version, le choix ne se pose pas.
 
 Deux fichiers échappent à la vue 2D parce qu'ils nomment des types **C++**, invisibles à Design
 Studio faute de simulacres dans `Source/Ui/Mocks/` : `Main.qml` et `ScreenStack.qml` (`OptionsModel`)

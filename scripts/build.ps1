@@ -31,7 +31,7 @@
 
 .PARAMETER QtPath
     Chemin d'une installation Qt à utiliser, si la détection automatique ne la trouve pas
-    (ex. C:\Qt\6.8.1\msvc2022_64).
+    (ex. D:\Qt\6.11.2\msvc2022_64).
 
 .EXAMPLE
     pwsh scripts/build.ps1

@@ -180,7 +180,7 @@ foreach(_qt_var QT_ROOT_DIR Qt6_ROOT QTDIR)
 endforeach()
 
 # Arborescences de l'installateur officiel. Le tri décroissant naturel place la version la plus
-# récente en tête (6.10 avant 6.8, ce qu'un tri lexicographique ferait à l'envers).
+# récente en tête (6.11 avant 6.9, ce qu'un tri lexicographique ferait à l'envers).
 if(WIN32)
     file(GLOB _qt_installs
         "$ENV{SystemDrive}/Qt/*/msvc*_64"
