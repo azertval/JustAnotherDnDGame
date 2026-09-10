@@ -464,6 +464,14 @@ jobs:
       - name: Illustrations conformes a leur manifeste (EX-IHM-076)
         run: python3 scripts/check_ui_assets.py
 
+      # Les cles d'assets d'ENTITE (LOT-39). Ce controle echoue sur une cle orpheline -- une
+      # derogation malformee, ou qui nomme une famille inconnue (EX-CNT-040) -- mais se contente de
+      # LISTER les cles encore servies par un marqueur genere (EX-CNT-041) : c'est un etat
+      # d'avancement, pas un defaut. Le faire echouer la-dessus rendrait le depot rouge jusqu'a la
+      # derniere illustration livree, et plus personne ne lirait sa sortie.
+      - name: Cles d'assets d'entite (EX-CNT-040, EX-CNT-041)
+        run: python3 scripts/check_asset_keys.py
+
       # Contrats des catalogues RPG (LOT-32). jsonschema est la seule dependance externe de la
       # filiere contenu ; elle est EPINGLEE, meme raison que Qt, Doxygen et LLVM ailleurs dans ce
       # fichier : un validateur qui change de version sans qu'on le decide ne predit plus le

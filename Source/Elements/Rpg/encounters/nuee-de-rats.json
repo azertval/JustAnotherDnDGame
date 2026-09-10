@@ -1,0 +1,16 @@
+{
+  "id": "nuee-de-rats",
+  "name": "Nuee de rats geants",
+  "source": "original",
+  "status": {
+    "provisoire": true,
+    "raison": "rencontre de DEMONSTRATION du LOT-18 : l'aller-retour exploration <-> combat a besoin d'une rencontre a engager, et il n'y a encore ni contenu de zone (LOT-27) ni table de rencontres aleatoires. Ses creatures sont des BETES du SRD (LOT-33), les seules livrees a ce jour.",
+    "retraitSi": "le contenu du vertical slice (LOT-27) fournit ses propres rencontres"
+  },
+  "escapable": true,
+  "combatants": [
+    { "creatureId": "giant-rat", "columnOffset": 0, "rowOffset": -1 },
+    { "creatureId": "giant-rat", "columnOffset": 1, "rowOffset": -1 },
+    { "creatureId": "rat", "columnOffset": -1, "rowOffset": -1 }
+  ]
+}

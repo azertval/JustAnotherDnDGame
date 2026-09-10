@@ -230,7 +230,8 @@ def ordre_execution(texte: str):
     """La suite d'exécution des lots restants, ce que chacun attend et ce qu'il débloque.
 
     **La règle, en une phrase :** à chaque pas, on prend, parmi les lots dont tous les prérequis
-    sont faits, **celui qui en débloque le plus** — à égalité, le plus petit numéro.
+    sont faits, **celui qui en débloque le plus** — à égalité, le plus petit numéro ; un lot qui
+    en couvre d'autres passe en dernier, parce que c'est une série et non un lot.
 
     Le critère n'est pas le numéro. Il l'a été un temps, et il donnait une suite déterministe mais
     bête : elle plaçait le `LOT-10` et le `LOT-12` devant le `LOT-30`, alors que ce dernier
@@ -277,7 +278,13 @@ def ordre_execution(texte: str):
             # rapporte la cause exacte, pas ce symptôme.
             break
         portee = {lot: len(descendants(lot, enfants, restants)) for lot in prets}
-        lot = max(prets, key=lambda x: (portee[x], -int(x[4:])))
+        # Un lot QUI EN COUVRE D'AUTRES (`LOT-51` → `LOT-65` : une classe par lot) passe en
+        # dernier, quelle que soit sa portée. Ce n'est pas une exception à la règle mais une
+        # lecture de ce qu'il est : ce n'est pas un lot, c'est une série, et la placer au milieu
+        # de la suite ferait croire qu'on la traverse d'un bloc avant de reprendre le programme.
+        # Le départage ne la choisit donc que lorsqu'elle est seule en lice — jamais de blocage,
+        # puisque `prets` finit par ne plus contenir qu'elle.
+        lot = max(prets, key=lambda x: (not couverts_par.get(x), portee[x], -int(x[4:])))
         suite.append(lot)
         portees[lot] = portee[lot]
         faits.add(lot)
