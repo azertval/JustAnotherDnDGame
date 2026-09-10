@@ -1,5 +1,6 @@
 import QtQuick
 import Jadg.Ui
+import Jadg.Runtime
 
 /*!
     Vue de jeu -- CABLAGE, cote developpeur (LOT-86).
