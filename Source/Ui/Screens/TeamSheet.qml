@@ -1,5 +1,6 @@
 import QtQuick
 import Jadg.Ui
+import Jadg.Runtime
 
 /*!
     Feuille d'equipe -- CABLAGE, cote developpeur (LOT-86).
