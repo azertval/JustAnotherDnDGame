@@ -1,5 +1,6 @@
 import QtQuick
 import Jadg.Ui
+import Jadg.Runtime
 
 /*!
     Inventaire et equipement -- CABLAGE, cote developpeur (LOT-86).
