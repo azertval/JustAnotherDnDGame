@@ -87,20 +87,20 @@ int main(int argc, char** argv) {
     hmi::AudioEngine audio;
 
     // `Jadg.Ui` est un module QML identifie par son qmldir. Qt interdit qu'un autre module
-    // enregistre dynamiquement des types dans cet espace de noms : les types C++ du runtime ont
-    // donc leur propre module procedurale `Jadg.Runtime`.
+    // enregistre dynamiquement des types dans cet espace de noms. Tous les types C++ du runtime
+    // vivent donc dans leur propre module procedural `Jadg.Runtime`.
     qmlRegisterType<hmi::GameViewportItem>("Jadg.Runtime", 1, 0, "GameViewport");
-    qmlRegisterType<hmi::CharacterSheetModel>("Jadg.Ui", 1, 0, "CharacterSheetModel");
-    qmlRegisterType<hmi::InventoryModel>("Jadg.Ui", 1, 0, "InventoryModel");
-    qmlRegisterSingletonType<hmi::OptionsModel>("Jadg.Ui", 1, 0, "OptionsModel",
+    qmlRegisterType<hmi::CharacterSheetModel>("Jadg.Runtime", 1, 0, "CharacterSheetModel");
+    qmlRegisterType<hmi::InventoryModel>("Jadg.Runtime", 1, 0, "InventoryModel");
+    qmlRegisterSingletonType<hmi::OptionsModel>("Jadg.Runtime", 1, 0, "OptionsModel",
                                                 [](QQmlEngine*, QJSEngine*) -> QObject* {
                                                     return new hmi::OptionsModel;
                                                 });
-    qmlRegisterSingletonType<hmi::PendingData>("Jadg.Ui", 1, 0, "PendingData",
+    qmlRegisterSingletonType<hmi::PendingData>("Jadg.Runtime", 1, 0, "PendingData",
                                                [](QQmlEngine*, QJSEngine*) -> QObject* {
                                                    return new hmi::PendingData;
                                                });
-    qmlRegisterSingletonType<hmi::ScreenRouter>("Jadg.Ui", 1, 0, "ScreenRouter",
+    qmlRegisterSingletonType<hmi::ScreenRouter>("Jadg.Runtime", 1, 0, "ScreenRouter",
                                                 [](QQmlEngine*, QJSEngine*) -> QObject* {
                                                     return new hmi::ScreenRouter;
                                                 });
@@ -160,7 +160,7 @@ int main(int argc, char** argv) {
     }
 
     if (auto* const options =
-            engine.singletonInstance<hmi::OptionsModel*>("Jadg.Ui", "OptionsModel")) {
+            engine.singletonInstance<hmi::OptionsModel*>("Jadg.Runtime", "OptionsModel")) {
         options->setSessionLog(sessionLog);
         audio.setVolume(static_cast<float>(options->volume()) / 100.0F);
         QObject::connect(options, &hmi::OptionsModel::volumeChanged, options, [options, &audio]() {
