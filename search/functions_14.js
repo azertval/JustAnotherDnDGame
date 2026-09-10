@@ -17,12 +17,11 @@ var searchData=
   ['updateeditcamera_14',['updateEditCamera',['../classhmi_1_1GameViewport.html#a751bc28ce93fe7547fafd85eeae90feb',1,'hmi::GameViewport']]],
   ['updatefollowcamera_15',['updateFollowCamera',['../classhmi_1_1GameSession.html#a4a9b995c4a2d996892cab9da455532c9',1,'hmi::GameSession']]],
   ['updatelivepreview_16',['updateLivePreview',['../classhmi_1_1MainWindow.html#a7581f0e4c9e3019b782e5ecf3cf1401c',1,'hmi::MainWindow']]],
-  ['updatemargins_17',['updateMargins',['../classhmi_1_1TitleBanner.html#af9c4c18b1e279c80174e51ed4d252496',1,'hmi::TitleBanner']]],
-  ['updatemechanisms_18',['updateMechanisms',['../classhmi_1_1GameSession.html#a56e54900f5e204d5edeb613b05bebab9',1,'hmi::GameSession::updateMechanisms()'],['../classhmi_1_1IGameModePasses.html#ad9fdd1781d509f62e4531d87067bb84b',1,'hmi::IGameModePasses::updateMechanisms()']]],
-  ['updatemechanismvisuals_19',['updateMechanismVisuals',['../classhmi_1_1GameSession.html#a516cf82d1b6e046dc9e306f91e024101',1,'hmi::GameSession::updateMechanismVisuals()'],['../classhmi_1_1IGameModePasses.html#a8760c9e016c5bb81905dbe6975a8bf9d',1,'hmi::IGameModePasses::updateMechanismVisuals()']]],
-  ['updatemouseposition_20',['updateMousePosition',['../classhmi_1_1GameViewport.html#ab2638f80f14726b02741409d6ff1f960',1,'hmi::GameViewport']]],
-  ['updatepixelcolorbuttonicon_21',['updatePixelColorButtonIcon',['../classhmi_1_1MainWindow.html#a3b786cda76b1c4b3c58cfe1d926711c2',1,'hmi::MainWindow']]],
-  ['updatestatus_22',['updateStatus',['../classhmi_1_1GamepadBindingsWidget.html#a7d152ebc17a38ff34e2b5083e4cba46e',1,'hmi::GamepadBindingsWidget']]],
-  ['updatetileanimations_23',['updateTileAnimations',['../classhmi_1_1GameSession.html#a930a2413f190c4c2ce9bfdea2ea4eadb',1,'hmi::GameSession']]],
-  ['updatetopdownmovement_24',['updateTopDownMovement',['../namespacecore.html#afb50f723166a2e99225a878005f990bc',1,'core']]]
+  ['updatemechanisms_17',['updateMechanisms',['../classhmi_1_1GameSession.html#a56e54900f5e204d5edeb613b05bebab9',1,'hmi::GameSession::updateMechanisms()'],['../classhmi_1_1IGameModePasses.html#ad9fdd1781d509f62e4531d87067bb84b',1,'hmi::IGameModePasses::updateMechanisms()']]],
+  ['updatemechanismvisuals_18',['updateMechanismVisuals',['../classhmi_1_1GameSession.html#a516cf82d1b6e046dc9e306f91e024101',1,'hmi::GameSession::updateMechanismVisuals()'],['../classhmi_1_1IGameModePasses.html#a8760c9e016c5bb81905dbe6975a8bf9d',1,'hmi::IGameModePasses::updateMechanismVisuals()']]],
+  ['updatemouseposition_19',['updateMousePosition',['../classhmi_1_1GameViewport.html#ab2638f80f14726b02741409d6ff1f960',1,'hmi::GameViewport']]],
+  ['updatepixelcolorbuttonicon_20',['updatePixelColorButtonIcon',['../classhmi_1_1MainWindow.html#a3b786cda76b1c4b3c58cfe1d926711c2',1,'hmi::MainWindow']]],
+  ['updatestatus_21',['updateStatus',['../classhmi_1_1GamepadBindingsWidget.html#a7d152ebc17a38ff34e2b5083e4cba46e',1,'hmi::GamepadBindingsWidget']]],
+  ['updatetileanimations_22',['updateTileAnimations',['../classhmi_1_1GameSession.html#a930a2413f190c4c2ce9bfdea2ea4eadb',1,'hmi::GameSession']]],
+  ['updatetopdownmovement_23',['updateTopDownMovement',['../namespacecore.html#afb50f723166a2e99225a878005f990bc',1,'core']]]
 ];

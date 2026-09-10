@@ -13,7 +13,7 @@ var searchData=
   ['deepwater_10',['DeepWater',['../namespacecore.html#ace99a1be913e6294e42e9ebb145eb875ad75f2eb4f735236e2cd65c575ed5fdc3',1,'core']]],
   ['defeat_11',['Defeat',['../namespacecore.html#a8825ea64ff05621b7c2c8a073d27577ca570e9d24849e2161b5a969599fb03446',1,'core']]],
   ['dexterity_12',['Dexterity',['../namespacecore.html#a97f31c7914a6cfc54cc026a77da58fd1aa8747f5acdc2352d39f455bdd1689273',1,'core']]],
-  ['dialogue_13',['Dialogue',['../namespacehmi.html#a86e4ce6097c7a029c683096302528e72a359928afdf6c973ee869e1698023a812',1,'hmi']]],
+  ['dialogue_13',['Dialogue',['../classhmi_1_1ScreenRouter.html#a0277d29471d1699b63793797bbab3bdea359928afdf6c973ee869e1698023a812',1,'hmi::ScreenRouter::Dialogue'],['../namespacehmi.html#a86e4ce6097c7a029c683096302528e72a359928afdf6c973ee869e1698023a812',1,'hmi::Dialogue']]],
   ['died_14',['Died',['../namespacehmi.html#a3a61aed1c8e95c289c829398d48488deab4ee54591aaa4862bf37f75f6839b514',1,'hmi']]],
   ['dirt_15',['Dirt',['../namespacecore.html#ace99a1be913e6294e42e9ebb145eb875a7cf334b79a84091f27dfc019b4b79229',1,'core']]],
   ['disadvantage_16',['Disadvantage',['../namespacecore.html#aff494cc4070ea4489c3d5ee57178f7c9ae755d083f9085a585ef791919be5a004',1,'core']]],

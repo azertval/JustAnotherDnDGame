@@ -14,9 +14,12 @@ var searchData=
   ['highlight_11',['highlight',['../classhmi_1_1GameViewport.html#a7741b62548715a272721a4e7c4b67a21',1,'hmi::GameViewport']]],
   ['history_12',['history',['../classhmi_1_1PixelCanvas.html#a87cfdc983a37d4af6204bf08455e843f',1,'hmi::PixelCanvas']]],
   ['historychanged_13',['historyChanged',['../classhmi_1_1PixelCanvas.html#a7930a3c832ecdfd99d45f77fa0605582',1,'hmi::PixelCanvas']]],
-  ['hmikeytoqtkey_14',['hmiKeyToQtKey',['../namespacehmi.html#a807ca4b0d189a41995531913a247a3c9',1,'hmi']]],
-  ['hoveredcell_15',['hoveredCell',['../classhmi_1_1GameViewport.html#a47134978f9ee32fd613ddd132006835a',1,'hmi::GameViewport']]],
-  ['hoveredcellchanged_16',['hoveredCellChanged',['../classhmi_1_1GameViewport.html#a22e7abff7158a0e24d3c4a61879a41f6',1,'hmi::GameViewport']]],
-  ['hoveredpixel_17',['hoveredPixel',['../classhmi_1_1PixelCanvas.html#a80a66874ef7245921560687884777e98',1,'hmi::PixelCanvas']]],
-  ['hoveredpixelchanged_18',['hoveredPixelChanged',['../classhmi_1_1PixelCanvas.html#a1ecae83ab6b3259ec1643af49046f117',1,'hmi::PixelCanvas']]]
+  ['hitdice_14',['hitDice',['../classhmi_1_1CharacterSheetModel.html#a2145b179411747d3f9ccdf57de60b17e',1,'hmi::CharacterSheetModel']]],
+  ['hitpoints_15',['hitPoints',['../classhmi_1_1CharacterSheetModel.html#a6637b9c1173e329d4a019b0539021b2c',1,'hmi::CharacterSheetModel']]],
+  ['hitpointsmax_16',['hitPointsMax',['../classhmi_1_1CharacterSheetModel.html#ae6effb695d2338de6d6cf1fb0837cff7',1,'hmi::CharacterSheetModel']]],
+  ['hmikeytoqtkey_17',['hmiKeyToQtKey',['../namespacehmi.html#a807ca4b0d189a41995531913a247a3c9',1,'hmi']]],
+  ['hoveredcell_18',['hoveredCell',['../classhmi_1_1GameViewport.html#a47134978f9ee32fd613ddd132006835a',1,'hmi::GameViewport']]],
+  ['hoveredcellchanged_19',['hoveredCellChanged',['../classhmi_1_1GameViewport.html#a22e7abff7158a0e24d3c4a61879a41f6',1,'hmi::GameViewport']]],
+  ['hoveredpixel_20',['hoveredPixel',['../classhmi_1_1PixelCanvas.html#a80a66874ef7245921560687884777e98',1,'hmi::PixelCanvas']]],
+  ['hoveredpixelchanged_21',['hoveredPixelChanged',['../classhmi_1_1PixelCanvas.html#a1ecae83ab6b3259ec1643af49046f117',1,'hmi::PixelCanvas']]]
 ];

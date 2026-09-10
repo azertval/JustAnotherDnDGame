@@ -50,6 +50,7 @@ var hierarchy =
     [ "core::CreatureSpeed", "structcore_1_1CreatureSpeed.html", null ],
     [ "core::CreatureTrait", "structcore_1_1CreatureTrait.html", null ],
     [ "hmi::DecodedImage", "structhmi_1_1DecodedImage.html", null ],
+    [ "hmi::DemonstrationCharacter", "structhmi_1_1DemonstrationCharacter.html", null ],
     [ "core::DerivedStats", "structcore_1_1DerivedStats.html", null ],
     [ "hmi::DesignColor", "structhmi_1_1DesignColor.html", null ],
     [ "hmi::DesignTokens", "structhmi_1_1DesignTokens.html", null ],
@@ -164,12 +165,8 @@ var hierarchy =
     [ "hmi::MechanismVisualState", "structhmi_1_1MechanismVisualState.html", null ],
     [ "core::Modifier", "structcore_1_1Modifier.html", null ],
     [ "core::NamedTrait", "structcore_1_1NamedTrait.html", null ],
-    [ "hmi::OrnamentPoint", "structhmi_1_1OrnamentPoint.html", null ],
-    [ "hmi::OrnamentShape", "structhmi_1_1OrnamentShape.html", null ],
     [ "hmi::PaletteThumbnail", "structhmi_1_1PaletteThumbnail.html", null ],
     [ "hmi::PanelFocusEntry", "structhmi_1_1PanelFocusEntry.html", null ],
-    [ "hmi::ParchmentPoint", "structhmi_1_1ParchmentPoint.html", null ],
-    [ "hmi::ParchmentStroke", "structhmi_1_1ParchmentStroke.html", null ],
     [ "core::Particle", "structcore_1_1Particle.html", null ],
     [ "core::ParticleEffect", "structcore_1_1ParticleEffect.html", null ],
     [ "core::ParticleSystem", "classcore_1_1ParticleSystem.html", null ],
@@ -203,45 +200,39 @@ var hierarchy =
     [ "hmi::ProceduralFont", "structhmi_1_1ProceduralFont.html", null ],
     [ "hmi::ProceduralFontImage", "structhmi_1_1ProceduralFontImage.html", null ],
     [ "core::ProvisionalStatus", "structcore_1_1ProvisionalStatus.html", null ],
-    [ "QLabel", null, [
-      [ "hmi::TitleBanner", "classhmi_1_1TitleBanner.html", null ]
+    [ "QAbstractListModel", null, [
+      [ "hmi::SheetRowModel", "classhmi_1_1SheetRowModel.html", null ]
     ] ],
     [ "QMainWindow", null, [
       [ "hmi::MainWindow", "classhmi_1_1MainWindow.html", null ]
     ] ],
     [ "QObject", null, [
-      [ "hmi::EditorActions", "classhmi_1_1EditorActions.html", null ]
+      [ "hmi::CharacterSheetModel", "classhmi_1_1CharacterSheetModel.html", null ],
+      [ "hmi::EditorActions", "classhmi_1_1EditorActions.html", null ],
+      [ "hmi::InventoryModel", "classhmi_1_1InventoryModel.html", null ],
+      [ "hmi::OptionsModel", "classhmi_1_1OptionsModel.html", null ],
+      [ "hmi::PendingData", "classhmi_1_1PendingData.html", null ],
+      [ "hmi::ScreenRouter", "classhmi_1_1ScreenRouter.html", null ]
     ] ],
-    [ "QPushButton", null, [
-      [ "hmi::MenuEntryButton", "classhmi_1_1MenuEntryButton.html", null ]
+    [ "QQuickRhiItem", null, [
+      [ "hmi::GameViewportItem", "classhmi_1_1GameViewportItem.html", null ]
     ] ],
     [ "QRhiWidget", null, [
       [ "hmi::GameViewport", "classhmi_1_1GameViewport.html", null ]
     ] ],
-    [ "QScrollArea", null, [
-      [ "hmi::ScreenPageHost", "classhmi_1_1ScreenPageHost.html", null ]
-    ] ],
     [ "hmi::QuadRecorder", "classhmi_1_1QuadRecorder.html", null ],
     [ "QWidget", null, [
       [ "hmi::AssetThumbnailView", "classhmi_1_1AssetThumbnailView.html", null ],
-      [ "hmi::CreditsScreen", "classhmi_1_1CreditsScreen.html", null ],
       [ "hmi::EditorKeybindingsWidget", "classhmi_1_1EditorKeybindingsWidget.html", null ],
-      [ "hmi::FocusMarker", "classhmi_1_1FocusMarker.html", null ],
       [ "hmi::GamepadBindingsWidget", "classhmi_1_1GamepadBindingsWidget.html", null ],
       [ "hmi::KeybindingsWidget", "classhmi_1_1KeybindingsWidget.html", null ],
       [ "hmi::LevelBrowserPanel", "classhmi_1_1LevelBrowserPanel.html", null ],
       [ "hmi::LinkPanel", "classhmi_1_1LinkPanel.html", null ],
-      [ "hmi::MainMenu", "classhmi_1_1MainMenu.html", null ],
-      [ "hmi::OptionsPage", "classhmi_1_1OptionsPage.html", null ],
       [ "hmi::PalettePanel", "classhmi_1_1PalettePanel.html", null ],
-      [ "hmi::ParchmentPanel", "classhmi_1_1ParchmentPanel.html", null ],
-      [ "hmi::PauseScreen", "classhmi_1_1PauseScreen.html", null ],
       [ "hmi::PixelCanvas", "classhmi_1_1PixelCanvas.html", null ],
       [ "hmi::PixelHistoryPanel", "classhmi_1_1PixelHistoryPanel.html", null ],
       [ "hmi::PixelPalettePanel", "classhmi_1_1PixelPalettePanel.html", null ],
       [ "hmi::PlanesPanel", "classhmi_1_1PlanesPanel.html", null ],
-      [ "hmi::RpgScreenFrame", "classhmi_1_1RpgScreenFrame.html", null ],
-      [ "hmi::RpgScreenHost", "classhmi_1_1RpgScreenHost.html", null ],
       [ "hmi::TexturePanel", "classhmi_1_1TexturePanel.html", null ]
     ] ],
     [ "core::Rect", "structcore_1_1Rect.html", null ],
@@ -260,12 +251,14 @@ var hierarchy =
     [ "hmi::RpgScreenDescriptor", "structhmi_1_1RpgScreenDescriptor.html", null ],
     [ "hmi::RpgScreenLayout", "structhmi_1_1RpgScreenLayout.html", null ],
     [ "hmi::AudioEngine::Sample", "structhmi_1_1AudioEngine_1_1Sample.html", null ],
+    [ "hmi::SceneResources", "classhmi_1_1SceneResources.html", null ],
     [ "hmi::SceneStatistics", "structhmi_1_1SceneStatistics.html", null ],
     [ "hmi::SceneTextures", "structhmi_1_1SceneTextures.html", null ],
     [ "core::ScopedLogLevel", "classcore_1_1ScopedLogLevel.html", null ],
     [ "hmi::ScreenDressing", "structhmi_1_1ScreenDressing.html", null ],
     [ "hmi::ScreenShakeState", "structhmi_1_1ScreenShakeState.html", null ],
     [ "hmi::ScreenState", "structhmi_1_1ScreenState.html", null ],
+    [ "hmi::SheetRow", "structhmi_1_1SheetRow.html", null ],
     [ "hmi::SizeTokens", "structhmi_1_1SizeTokens.html", null ],
     [ "core::SkillCatalog", "structcore_1_1SkillCatalog.html", null ],
     [ "core::SkillCheckModifier", "structcore_1_1SkillCheckModifier.html", null ],
@@ -303,7 +296,6 @@ var hierarchy =
     [ "core::TileTextureOverride", "structcore_1_1TileTextureOverride.html", null ],
     [ "core::TopDownConfig", "structcore_1_1TopDownConfig.html", null ],
     [ "core::Transform", "structcore_1_1Transform.html", null ],
-    [ "hmi::RpgScreenFrame::TranslatedLabel", "structhmi_1_1RpgScreenFrame_1_1TranslatedLabel.html", null ],
     [ "core::TriggerWeight", "structcore_1_1TriggerWeight.html", null ],
     [ "hmi::TypographyLevel", "structhmi_1_1TypographyLevel.html", null ],
     [ "hmi::TypographyTokens", "structhmi_1_1TypographyTokens.html", null ],

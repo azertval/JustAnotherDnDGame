@@ -207,6 +207,8 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Simule et rend <b>un seul niveau</b> (déjà validé, en mémoire), indépendamment de toute infrastructure d'écran.  <a href="classhmi_1_1GameSession.html#details">More...</a><br /></td></tr>
 <tr class="memitem:GameViewport" id="r_GameViewport"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1GameViewport.html">GameViewport</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Widget de rendu (<span class="tt">QRhiWidget</span>) où la scène est dessinée, composé avec le reste de l'interface.  <a href="classhmi_1_1GameViewport.html#details">More...</a><br /></td></tr>
+<tr class="memitem:GameViewportItem" id="r_GameViewportItem"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1GameViewportItem.html">GameViewportItem</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Surface QRhi du jeu, composée avec le reste de l'interface QML.  <a href="classhmi_1_1GameViewportItem.html#details">More...</a><br /></td></tr>
 <tr class="memitem:IGameModePasses" id="r_IGameModePasses"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1IGameModePasses.html">IGameModePasses</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les passes d'un pas fixe, telles que l'orchestrateur les offre à un mode de jeu.  <a href="classhmi_1_1IGameModePasses.html#details">More...</a><br /></td></tr>
 <tr class="memitem:IGameMode" id="r_IGameMode"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1IGameMode.html">IGameMode</a></td></tr>
@@ -291,6 +293,8 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rectangle (en cases) d'une salle, borné aux dimensions réelles du niveau.  <a href="structhmi_1_1RoomBounds.html#details">More...</a><br /></td></tr>
 <tr class="memitem:RoomGrid" id="r_RoomGrid"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1RoomGrid.html">RoomGrid</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Partitionne une grille de niveau en un tableau de <b>salles</b> de taille fixe, façon <em>Celeste</em> (<span class="tt">LOT-32</span>).  <a href="classhmi_1_1RoomGrid.html#details">More...</a><br /></td></tr>
+<tr class="memitem:SceneResources" id="r_SceneResources"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1SceneResources.html">SceneResources</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lot de sprites, atlas, police bitmap, registre de textures et catalogue de skins — créés ensemble, libérés ensemble, dans le bon ordre.  <a href="classhmi_1_1SceneResources.html#details">More...</a><br /></td></tr>
 <tr class="memitem:SkinEntry" id="r_SkinEntry"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1SkinEntry.html">SkinEntry</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Apparence assignée à un type de tuile : le fichier à utiliser et son découpage.  <a href="structhmi_1_1SkinEntry.html#details">More...</a><br /></td></tr>
 <tr class="memitem:SkinCatalog" id="r_SkinCatalog"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1SkinCatalog.html">SkinCatalog</a></td></tr>
@@ -335,10 +339,6 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Description d'une action, indépendante de Qt : de quoi construire un <span class="tt">QAction</span> complet (icône, libellé, raccourci, caractère cochable) sans dupliquer sa définition ailleurs.  <a href="structhmi_1_1EditorActionSpec.html#details">More...</a><br /></td></tr>
 <tr class="memitem:KeyBindingIconEntry" id="r_KeyBindingIconEntry"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1KeyBindingIconEntry.html">KeyBindingIconEntry</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Correspondance entre une action d'éditeur remappable (<span class="tt"><a class="el" href="#aa4f5968d7b564d555f29fdc5d2fc9585" title="Action d&#39;éditeur logique, remappable indépendamment de la touche physique.">hmi::EditorAction</a></span>, <span class="tt"><a class="el" href="EditorKeyBindings_8h.html" title="Association remappable action d&#39;éditeur -&gt; touche clavier, avec persistance (EX-CTRL-012).">EditorKeyBindings.h</a></span>) et l'identifiant d'action du catalogue qui la rend effective (<span class="tt">LOT-57</span> TACHE-04, <span class="tt">EX-IHM-062</span>).  <a href="structhmi_1_1KeyBindingIconEntry.html#details">More...</a><br /></td></tr>
-<tr class="memitem:CharacterSheetContext" id="r_CharacterSheetContext"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1CharacterSheetContext.html">CharacterSheetContext</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Traduit une fiche de personnage en <b>valeurs affichables</b>, indexées par l'identifiant que l'ossature de l'écran déclare (<span class="tt"><a class="el" href="structhmi_1_1RpgField.html#adaf2f6e27991d43d9b19180ed7a8fe69">hmi::RpgField::valueId</a></span>).  <a href="structhmi_1_1CharacterSheetContext.html#details">More...</a><br /></td></tr>
-<tr class="memitem:CreditsScreen" id="r_CreditsScreen"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1CreditsScreen.html">CreditsScreen</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Écran de crédits (développement, bruitages) atteint depuis le menu principal.  <a href="classhmi_1_1CreditsScreen.html#details">More...</a><br /></td></tr>
 <tr class="memitem:DesignColor" id="r_DesignColor"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1DesignColor.html">DesignColor</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Couleur RVBA pure (indépendante de Qt), convertible en chaîne CSS pour la feuille de style et directement décomposable pour construire une <span class="tt">QColor</span>/<span class="tt">QPalette</span>.  <a href="structhmi_1_1DesignColor.html#details">More...</a><br /></td></tr>
 <tr class="memitem:ColorTokens" id="r_ColorTokens"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1ColorTokens.html">ColorTokens</a></td></tr>
@@ -361,8 +361,6 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Widget de remappage des <b>touches d'éditeur</b> (<span class="tt"><a class="el" href="classhmi_1_1EditorKeyBindings.html" title="Association action d&#39;éditeur -&gt; touche, avec persistance JSON (EX-CTRL-012, LOT-29).">EditorKeyBindings</a></span>), destiné à l'onglet « Éditeur » de la page Options.  <a href="classhmi_1_1EditorKeybindingsWidget.html#details">More...</a><br /></td></tr>
 <tr class="memitem:WorkspaceDressing" id="r_WorkspaceDressing"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1WorkspaceDressing.html">WorkspaceDressing</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ce qu'un espace affiche, hors panneaux (voir <span class="tt"><a class="el" href="#a03a0fe6ee48e4c601c49463e13dc2453" title="Espaces dans lesquels panel est affiché.">workspacesForPanel</a></span>).  <a href="structhmi_1_1WorkspaceDressing.html#details">More...</a><br /></td></tr>
-<tr class="memitem:FocusMarker" id="r_FocusMarker"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1FocusMarker.html">FocusMarker</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Marque de focus flottante, posée à gauche du contrôle focalisé de l'écran hôte.  <a href="classhmi_1_1FocusMarker.html#details">More...</a><br /></td></tr>
 <tr class="memitem:FontFamilyResolution" id="r_FontFamilyResolution"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1FontFamilyResolution.html">FontFamilyResolution</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Résultat de la résolution : la police embarquée si elle a pu être enregistrée auprès de Qt, sinon aucun nom de famille &ndash; jamais un second nom codé en dur.  <a href="structhmi_1_1FontFamilyResolution.html#details">More...</a><br /></td></tr>
 <tr class="memitem:GamepadBindingsWidget" id="r_GamepadBindingsWidget"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1GamepadBindingsWidget.html">GamepadBindingsWidget</a></td></tr>
@@ -373,36 +371,32 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un trait de l'icône : polyligne ouverte, ou polygone fermé (éventuellement rempli), d'une seule couleur.  <a href="structhmi_1_1IconStroke.html#details">More...</a><br /></td></tr>
 <tr class="memitem:IconGeometry" id="r_IconGeometry"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1IconGeometry.html">IconGeometry</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Géométrie complète d'une icône : liste ordonnée de traits.  <a href="structhmi_1_1IconGeometry.html#details">More...</a><br /></td></tr>
-<tr class="memitem:InventoryContext" id="r_InventoryContext"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1InventoryContext.html">InventoryContext</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Traduit un inventaire en <b>valeurs affichables</b>, indexées par l'identifiant que la table de la planche 2 déclare (<span class="tt">hmi::PlateField::valueId</span>).  <a href="structhmi_1_1InventoryContext.html#details">More...</a><br /></td></tr>
 <tr class="memitem:KeybindingsWidget" id="r_KeybindingsWidget"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1KeybindingsWidget.html">KeybindingsWidget</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Widget de remappage des <b>touches de jeu</b> (<span class="tt"><a class="el" href="classhmi_1_1GameKeyBindings.html" title="Association action de jeu -&gt; touche, avec persistance JSON (EX-CTRL-012, LOT-29).">GameKeyBindings</a></span>), destiné à l'onglet « Commande clavier » de la page Options.  <a href="classhmi_1_1KeybindingsWidget.html#details">More...</a><br /></td></tr>
-<tr class="memitem:KeyHint" id="r_KeyHint"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1KeyHint.html">KeyHint</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une paire touche → action, déjà <b>traduite</b> par l'appelant (<span class="tt">EX-REN-033</span>).  <a href="structhmi_1_1KeyHint.html#details">More...</a><br /></td></tr>
-<tr class="memitem:MainMenu" id="r_MainMenu"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1MainMenu.html">MainMenu</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Menu principal : point d'entrée de l'application Qt (<span class="tt">EX-IHM-040</span>).  <a href="classhmi_1_1MainMenu.html#details">More...</a><br /></td></tr>
 <tr class="memitem:MainWindow" id="r_MainWindow"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1MainWindow.html">MainWindow</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fenêtre principale de l'application Qt : <b>poste de travail d'éditeur</b> à panneaux dockables autour du viewport Direct3D 11.  <a href="classhmi_1_1MainWindow.html#details">More...</a><br /></td></tr>
+<tr class="memitem:StyleSheetSubstitutionResult" id="r_StyleSheetSubstitutionResult"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1StyleSheetSubstitutionResult.html">StyleSheetSubstitutionResult</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Résultat d'une substitution : succès et texte produit, ou échec et message d'erreur — jamais un résultat produit silencieusement avec un trou (marqueur inconnu non substitué).  <a href="structhmi_1_1StyleSheetSubstitutionResult.html#details">More...</a><br /></td></tr>
+<tr class="memitem:Localization" id="r_Localization"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1Localization.html">Localization</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Catalogue de traduction (i18n) : associe des <b>clés</b> stables à des chaînes selon la <b>langue active</b>, avec repli sur la langue par défaut.  <a href="classhmi_1_1Localization.html#details">More...</a><br /></td></tr>
+<tr class="memitem:CharacterSheetModel" id="r_CharacterSheetModel"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1CharacterSheetModel.html">CharacterSheetModel</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vue-modèle de la fiche : ce que le jeu <b>sait dire</b> d'un personnage.  <a href="classhmi_1_1CharacterSheetModel.html#details">More...</a><br /></td></tr>
+<tr class="memitem:CharacterSheetContext" id="r_CharacterSheetContext"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1CharacterSheetContext.html">CharacterSheetContext</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Traduit une fiche de personnage en <b>valeurs affichables</b>, indexées par l'identifiant que l'ossature de l'écran déclare (<span class="tt"><a class="el" href="structhmi_1_1RpgField.html#adaf2f6e27991d43d9b19180ed7a8fe69">hmi::RpgField::valueId</a></span>).  <a href="structhmi_1_1CharacterSheetContext.html#details">More...</a><br /></td></tr>
+<tr class="memitem:DemonstrationCharacter" id="r_DemonstrationCharacter"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1DemonstrationCharacter.html">DemonstrationCharacter</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ce qu'un chargement du personnage de démonstration produit, prêt à être publié au QML.  <a href="structhmi_1_1DemonstrationCharacter.html#details">More...</a><br /></td></tr>
+<tr class="memitem:InventoryModel" id="r_InventoryModel"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1InventoryModel.html">InventoryModel</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vue-modèle de l'inventaire : les seize emplacements, la bourse, la charge et le sac.  <a href="classhmi_1_1InventoryModel.html#details">More...</a><br /></td></tr>
+<tr class="memitem:InventoryContext" id="r_InventoryContext"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1InventoryContext.html">InventoryContext</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Traduit un inventaire en <b>valeurs affichables</b>, indexées par l'identifiant que la table de la planche 2 déclare (<span class="tt">hmi::PlateField::valueId</span>).  <a href="structhmi_1_1InventoryContext.html#details">More...</a><br /></td></tr>
+<tr class="memitem:KeyHint" id="r_KeyHint"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1KeyHint.html">KeyHint</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une paire touche → action, déjà <b>traduite</b> par l'appelant (<span class="tt">EX-REN-033</span>).  <a href="structhmi_1_1KeyHint.html#details">More...</a><br /></td></tr>
 <tr class="memitem:BackdropQuad" id="r_BackdropQuad"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1BackdropQuad.html">BackdropQuad</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un pavé plein, en pixels, relatif au coin haut-gauche de la surface décorée.  <a href="structhmi_1_1BackdropQuad.html#details">More...</a><br /></td></tr>
-<tr class="memitem:MenuEntryButton" id="r_MenuEntryButton"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1MenuEntryButton.html">MenuEntryButton</a></td></tr>
-<tr class="memitem:OptionsPage" id="r_OptionsPage"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1OptionsPage.html">OptionsPage</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Page Options <b>unique</b>, affichée dans la fenêtre principale (pas en pop-up), au style du menu principal (thème <span class="tt">theme-identity.qss</span>).  <a href="classhmi_1_1OptionsPage.html#details">More...</a><br /></td></tr>
-<tr class="memitem:ParchmentStroke" id="r_ParchmentStroke"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1ParchmentStroke.html">ParchmentStroke</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une bande pleine, en pixels, relative au coin haut-gauche du widget.  <a href="structhmi_1_1ParchmentStroke.html#details">More...</a><br /></td></tr>
-<tr class="memitem:ParchmentPoint" id="r_ParchmentPoint"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1ParchmentPoint.html">ParchmentPoint</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un sommet, en pixels, relatif au coin haut-gauche du carré englobant.  <a href="structhmi_1_1ParchmentPoint.html#details">More...</a><br /></td></tr>
-<tr class="memitem:OrnamentPoint" id="r_OrnamentPoint"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1OrnamentPoint.html">OrnamentPoint</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un sommet, en pixels, relatif au coin haut-gauche de la forme.  <a href="structhmi_1_1OrnamentPoint.html#details">More...</a><br /></td></tr>
-<tr class="memitem:OrnamentShape" id="r_OrnamentShape"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1OrnamentShape.html">OrnamentShape</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une forme d'ornement : un polygone fermé, rempli ou tracé, d'un seul rôle.  <a href="structhmi_1_1OrnamentShape.html#details">More...</a><br /></td></tr>
-<tr class="memitem:ParchmentPanel" id="r_ParchmentPanel"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1ParchmentPanel.html">ParchmentPanel</a></td></tr>
-<tr class="memitem:PauseScreen" id="r_PauseScreen"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1PauseScreen.html">PauseScreen</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Recouvrement de pause affiché par-dessus la scène de jeu figée (<span class="tt">EX-GP-041</span>).  <a href="classhmi_1_1PauseScreen.html#details">More...</a><br /></td></tr>
-<tr class="memitem:RpgScreenFrame" id="r_RpgScreenFrame"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1RpgScreenFrame.html">RpgScreenFrame</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le <b>cadre</b> que les huit écrans du RPG partagent : panneau, titre, zone de contenu, pied d'actions.  <a href="classhmi_1_1RpgScreenFrame.html#details">More...</a><br /></td></tr>
-<tr class="memitem:RpgScreenHost" id="r_RpgScreenHost"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1RpgScreenHost.html">RpgScreenHost</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Héberge les écrans du RPG et fait passer de l'un à l'autre <b>sans repasser par le menu</b>.  <a href="classhmi_1_1RpgScreenHost.html#details">More...</a><br /></td></tr>
+<tr class="memitem:OptionsModel" id="r_OptionsModel"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1OptionsModel.html">OptionsModel</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vue-modèle des options : lit et persiste les réglages, et <b>publie</b> leur changement.  <a href="classhmi_1_1OptionsModel.html#details">More...</a><br /></td></tr>
+<tr class="memitem:PendingData" id="r_PendingData"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1PendingData.html">PendingData</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le point unique vers lequel pointe <b>tout ce qui n'a pas encore de source</b>.  <a href="classhmi_1_1PendingData.html#details">More...</a><br /></td></tr>
 <tr class="memitem:RpgField" id="r_RpgField"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1RpgField.html">RpgField</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une ligne « libellé → valeur » d'un bloc <span class="tt">Fields</span>.  <a href="structhmi_1_1RpgField.html#details">More...</a><br /></td></tr>
 <tr class="memitem:RpgContentBlock" id="r_RpgContentBlock"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1RpgContentBlock.html">RpgContentBlock</a></td></tr>
@@ -415,13 +409,12 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Habillage de fenêtre associé à un écran : ce que chaque <span class="tt">showXxx()</span> répétait à la main (bascule du <span class="tt">QStackedWidget</span>, docks, barre de menu, barres d'outils, navigation manette).  <a href="structhmi_1_1ScreenDressing.html#details">More...</a><br /></td></tr>
 <tr class="memitem:ScreenState" id="r_ScreenState"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1ScreenState.html">ScreenState</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">État complet de la machine.  <a href="structhmi_1_1ScreenState.html#details">More...</a><br /></td></tr>
-<tr class="memitem:ScreenPageHost" id="r_ScreenPageHost"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1ScreenPageHost.html">ScreenPageHost</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Conteneur défilant par lequel passe <b>toute</b> page ajoutée à la pile d'écrans.  <a href="classhmi_1_1ScreenPageHost.html#details">More...</a><br /></td></tr>
-<tr class="memitem:StyleSheetSubstitutionResult" id="r_StyleSheetSubstitutionResult"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1StyleSheetSubstitutionResult.html">StyleSheetSubstitutionResult</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Résultat d'une substitution : succès et texte produit, ou échec et message d'erreur — jamais un résultat produit silencieusement avec un trou (marqueur inconnu non substitué).  <a href="structhmi_1_1StyleSheetSubstitutionResult.html#details">More...</a><br /></td></tr>
-<tr class="memitem:TitleBanner" id="r_TitleBanner"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1TitleBanner.html">TitleBanner</a></td></tr>
-<tr class="memitem:Localization" id="r_Localization"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1Localization.html">Localization</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Catalogue de traduction (i18n) : associe des <b>clés</b> stables à des chaînes selon la <b>langue active</b>, avec repli sur la langue par défaut.  <a href="classhmi_1_1Localization.html#details">More...</a><br /></td></tr>
+<tr class="memitem:ScreenRouter" id="r_ScreenRouter"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1ScreenRouter.html">ScreenRouter</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pilote la machine à états des écrans, et publie l'écran courant.  <a href="classhmi_1_1ScreenRouter.html#details">More...</a><br /></td></tr>
+<tr class="memitem:SheetRow" id="r_SheetRow"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1SheetRow.html">SheetRow</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une ligne : ce qu'elle désigne, comment on l'appelle, ce qu'elle vaut.  <a href="structhmi_1_1SheetRow.html#details">More...</a><br /></td></tr>
+<tr class="memitem:SheetRowModel" id="r_SheetRowModel"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1SheetRowModel.html">SheetRowModel</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Liste de lignes libellé/valeur, pour un <span class="tt">Repeater</span> ou une <span class="tt">ListView</span>.  <a href="classhmi_1_1SheetRowModel.html#details">More...</a><br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-typedef-members" class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>
@@ -786,6 +779,15 @@ Enumerations</h2></td></tr>
 , <a class="el" href="#acaf7f33926fae2f8294ef4ee5d24ba52ac900e1bd8e22771d610bd2a5861b544f">Accent</a>
  }</td></tr>
 <tr class="memdesc:acaf7f33926fae2f8294ef4ee5d24ba52"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rôle de couleur d'un trait, résolu depuis les jetons de design au moment du rendu (recoloration automatique avec le thème, y compris après une bascule TACHE-06).  <a href="#acaf7f33926fae2f8294ef4ee5d24ba52">More...</a><br /></td></tr>
+<tr class="memitem:a796b5dfcf1d9de2fb2552d51af677646" id="r_a796b5dfcf1d9de2fb2552d51af677646"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#a796b5dfcf1d9de2fb2552d51af677646">EditorThemeSetting</a> { <a class="el" href="#a796b5dfcf1d9de2fb2552d51af677646aa45da96d0bf6575970f2d27af22be28a">System</a>
+, <a class="el" href="#a796b5dfcf1d9de2fb2552d51af677646a9914a0ce04a7b7b6a8e39bec55064b82">Light</a>
+, <a class="el" href="#a796b5dfcf1d9de2fb2552d51af677646aa18366b217ebf811ad1886e4f4f865b2">Dark</a>
+ }</td></tr>
+<tr class="memdesc:a796b5dfcf1d9de2fb2552d51af677646"><td class="mdescLeft">&#160;</td><td class="mdescRight">Réglage choisi par l'utilisateur (menu Affichage de l'éditeur, persisté entre sessions).  <a href="#a796b5dfcf1d9de2fb2552d51af677646">More...</a><br /></td></tr>
+<tr class="memitem:a57dcf8ac7fd26c90a8741e698c896580" id="r_a57dcf8ac7fd26c90a8741e698c896580"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#a57dcf8ac7fd26c90a8741e698c896580">EditorThemeMode</a> { <a class="el" href="#a57dcf8ac7fd26c90a8741e698c896580a9914a0ce04a7b7b6a8e39bec55064b82">Light</a>
+, <a class="el" href="#a57dcf8ac7fd26c90a8741e698c896580aa18366b217ebf811ad1886e4f4f865b2">Dark</a>
+ }</td></tr>
+<tr class="memdesc:a57dcf8ac7fd26c90a8741e698c896580"><td class="mdescLeft">&#160;</td><td class="mdescRight">Thème effectivement appliqué au châssis d'édition.  <a href="#a57dcf8ac7fd26c90a8741e698c896580">More...</a><br /></td></tr>
 <tr class="memitem:aaa18c515c21f28af61bd057d2c1df415" id="r_aaa18c515c21f28af61bd057d2c1df415"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#aaa18c515c21f28af61bd057d2c1df415">BackdropRole</a> { <br />
 &#160;&#160;<a class="el" href="#aaa18c515c21f28af61bd057d2c1df415a8cf626d46ed9b651ba701d7f032ccec0">SkyHigh</a>
 , <a class="el" href="#aaa18c515c21f28af61bd057d2c1df415adeda56df39da60ff81bfee718b51861e">SkyMid</a>
@@ -804,22 +806,6 @@ Enumerations</h2></td></tr>
 <br />
  }</td></tr>
 <tr class="memdesc:aaa18c515c21f28af61bd057d2c1df415"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rôle de couleur d'un pavé du décor, résolu depuis les jetons au moment du rendu.  <a href="#aaa18c515c21f28af61bd057d2c1df415">More...</a><br /></td></tr>
-<tr class="memitem:ae32ec83f939d20ebd5cf00137de659f4" id="r_ae32ec83f939d20ebd5cf00137de659f4"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#ae32ec83f939d20ebd5cf00137de659f4">ParchmentRole</a> { <a class="el" href="#ae32ec83f939d20ebd5cf00137de659f4a6f16a5f8ff5d75ab84c018adacdfcbb7">Field</a>
-, <a class="el" href="#ae32ec83f939d20ebd5cf00137de659f4ae4a297a0f76119a442c2595ac040673e">Edge</a>
-, <a class="el" href="#ae32ec83f939d20ebd5cf00137de659f4ae4d7e2fff97ef663babce3cf0e3108a3">Ornament</a>
-, <a class="el" href="#ae32ec83f939d20ebd5cf00137de659f4a3f39588bb19e28051d9aedfbb170025c">Shadow</a>
- }</td></tr>
-<tr class="memdesc:ae32ec83f939d20ebd5cf00137de659f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rôle de couleur d'une bande, résolu depuis les jetons au moment du rendu.  <a href="#ae32ec83f939d20ebd5cf00137de659f4">More...</a><br /></td></tr>
-<tr class="memitem:a369c89ce919372e6e2647a9e0c6ea5e0" id="r_a369c89ce919372e6e2647a9e0c6ea5e0"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#a369c89ce919372e6e2647a9e0c6ea5e0">OrnamentRole</a> { <br />
-&#160;&#160;<a class="el" href="#a369c89ce919372e6e2647a9e0c6ea5e0ae4a297a0f76119a442c2595ac040673e">Edge</a>
-, <a class="el" href="#a369c89ce919372e6e2647a9e0c6ea5e0ae4d7e2fff97ef663babce3cf0e3108a3">Ornament</a>
-, <a class="el" href="#a369c89ce919372e6e2647a9e0c6ea5e0a97246e79b82f4fb4d7595a80b91f3f9f">OrnamentLight</a>
-, <a class="el" href="#a369c89ce919372e6e2647a9e0c6ea5e0a65ce9d2fa1e9c3598206e6f2ec1d7a95">Gem</a>
-, <br />
-&#160;&#160;<a class="el" href="#a369c89ce919372e6e2647a9e0c6ea5e0ae2a97f1c4ef478e33be5d7829ce54de4">GemShadow</a>
-<br />
- }</td></tr>
-<tr class="memdesc:a369c89ce919372e6e2647a9e0c6ea5e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rôle de couleur d'une forme, résolu depuis les jetons de la portée identité au moment du rendu.  <a href="#a369c89ce919372e6e2647a9e0c6ea5e0">More...</a><br /></td></tr>
 <tr class="memitem:a86e4ce6097c7a029c683096302528e72" id="r_a86e4ce6097c7a029c683096302528e72"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#a86e4ce6097c7a029c683096302528e72">RpgScreenId</a> { <br />
 &#160;&#160;<a class="el" href="#a86e4ce6097c7a029c683096302528e72aeb7e99d2187282628ef8b4c20cf7a714">CharacterSheet</a>
 , <a class="el" href="#a86e4ce6097c7a029c683096302528e72a4d604dd8f008145471dc845683399189">Inventory</a>
@@ -881,15 +867,6 @@ Enumerations</h2></td></tr>
 <br />
  }</td></tr>
 <tr class="memdesc:a964211f19cf43757eaaa80c3c29b0e90"><td class="mdescLeft">&#160;</td><td class="mdescRight">Événement pouvant déclencher une transition d'écran.  <a href="#a964211f19cf43757eaaa80c3c29b0e90">More...</a><br /></td></tr>
-<tr class="memitem:a796b5dfcf1d9de2fb2552d51af677646" id="r_a796b5dfcf1d9de2fb2552d51af677646"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#a796b5dfcf1d9de2fb2552d51af677646">EditorThemeSetting</a> { <a class="el" href="#a796b5dfcf1d9de2fb2552d51af677646aa45da96d0bf6575970f2d27af22be28a">System</a>
-, <a class="el" href="#a796b5dfcf1d9de2fb2552d51af677646a9914a0ce04a7b7b6a8e39bec55064b82">Light</a>
-, <a class="el" href="#a796b5dfcf1d9de2fb2552d51af677646aa18366b217ebf811ad1886e4f4f865b2">Dark</a>
- }</td></tr>
-<tr class="memdesc:a796b5dfcf1d9de2fb2552d51af677646"><td class="mdescLeft">&#160;</td><td class="mdescRight">Réglage choisi par l'utilisateur (menu Affichage de l'éditeur, persisté entre sessions).  <a href="#a796b5dfcf1d9de2fb2552d51af677646">More...</a><br /></td></tr>
-<tr class="memitem:a57dcf8ac7fd26c90a8741e698c896580" id="r_a57dcf8ac7fd26c90a8741e698c896580"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#a57dcf8ac7fd26c90a8741e698c896580">EditorThemeMode</a> { <a class="el" href="#a57dcf8ac7fd26c90a8741e698c896580a9914a0ce04a7b7b6a8e39bec55064b82">Light</a>
-, <a class="el" href="#a57dcf8ac7fd26c90a8741e698c896580aa18366b217ebf811ad1886e4f4f865b2">Dark</a>
- }</td></tr>
-<tr class="memdesc:a57dcf8ac7fd26c90a8741e698c896580"><td class="mdescLeft">&#160;</td><td class="mdescRight">Thème effectivement appliqué au châssis d'édition.  <a href="#a57dcf8ac7fd26c90a8741e698c896580">More...</a><br /></td></tr>
 <tr class="memitem:a97f31c7914a6cfc54cc026a77da58fd1" id="r_a97f31c7914a6cfc54cc026a77da58fd1"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#a97f31c7914a6cfc54cc026a77da58fd1">Ability</a> </td></tr>
 <tr class="memdesc:a97f31c7914a6cfc54cc026a77da58fd1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une des six caractéristiques d'un personnage ou d'une créature (<span class="tt">EX-DND-010</span>).  <a href="#a97f31c7914a6cfc54cc026a77da58fd1">More...</a><br /></td></tr>
 </table><table class="memberdecls">
@@ -1228,15 +1205,8 @@ Functions</h2></td></tr>
 <tr class="memdesc:a73cb9cef74be4c0f0577ef8fe0416522"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construit une <span class="tt">QPalette</span> complète — groupes actif, inactif et désactivé — à partir d'un jeu de jetons.  <br /></td></tr>
 <tr class="memitem:a3c4d73967a56ebbcc1be6d1793407be7" id="r_a3c4d73967a56ebbcc1be6d1793407be7"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a3c4d73967a56ebbcc1be6d1793407be7">resolvedFontFamily</a> (<a class="el" href="#acd4bd1bd5a7edb4000f6de915686c897">FontRole</a> role)</td></tr>
 <tr class="memdesc:a3c4d73967a56ebbcc1be6d1793407be7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nom de famille <b>effectivement</b> enregistré pour la police de corps de <code class="param">role</code>, ou une chaîne vide si l'enregistrement a échoué (l'appelant emploie alors une famille générique).  <br /></td></tr>
-<tr class="memitem:aa12b108fb923da090df69e6ae9635498" id="r_aa12b108fb923da090df69e6ae9635498"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#aa12b108fb923da090df69e6ae9635498">resolvedIdentityTitleFamily</a> ()</td></tr>
-<tr class="memdesc:aa12b108fb923da090df69e6ae9635498"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nom de famille des <b>titres d'écran</b> de la portée identité (<span class="tt">Press Start 2P</span>), ou une chaîne vide en cas d'échec.  <br /></td></tr>
-<tr class="memitem:a04dc2eb2c01a84c7b71c2489e8f230f5" id="r_a04dc2eb2c01a84c7b71c2489e8f230f5"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a04dc2eb2c01a84c7b71c2489e8f230f5">setIdentityScale</a> (int scale)</td></tr>
-<tr class="memdesc:a04dc2eb2c01a84c7b71c2489e8f230f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fixe le facteur d'agrandissement <b>entier</b> des écrans du jeu (<span class="tt"><a class="el" href="#a680c72595996170b489d85e44e9fbc5c" title="Facteur d&#39;agrandissement des écrans du jeu pour une hauteur de fenêtre donnée.">hmi::identityScaleFor</a></span>), relu par <span class="tt"><a class="el" href="#aee6f5ca213fc30772f1d5a7df740fe4c" title="Charge le modèle de feuille de style du châssis d&#39;édition (:/resources/theme-editor....">applyStyleSheet</a></span> (<span class="tt">LOT-68</span>, <span class="tt">EX-IHM-070</span>).  <br /></td></tr>
-<tr class="memitem:a0bdbcbcbafff7ef8f3271c768963559c" id="r_a0bdbcbcbafff7ef8f3271c768963559c"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a0bdbcbcbafff7ef8f3271c768963559c">identityScale</a> ()</td></tr>
 <tr class="memitem:aee6f5ca213fc30772f1d5a7df740fe4c" id="r_aee6f5ca213fc30772f1d5a7df740fe4c"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aee6f5ca213fc30772f1d5a7df740fe4c">applyStyleSheet</a> (const <a class="el" href="structhmi_1_1DesignTokens.html">DesignTokens</a> &amp;editorTokens)</td></tr>
 <tr class="memdesc:aee6f5ca213fc30772f1d5a7df740fe4c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Charge le modèle de feuille de style du <b>châssis d'édition</b> (<span class="tt">:/resources/theme-editor.qss</span>), le substitue avec <code class="param">editorTokens</code> et l'applique à l'<b>application</b>.  <br /></td></tr>
-<tr class="memitem:ac3130b7d78eb3f92bca8ded4f7fa4e3d" id="r_ac3130b7d78eb3f92bca8ded4f7fa4e3d"><td class="memItemLeft">QString&#160;</td><td class="memItemRight"><a class="el" href="#ac3130b7d78eb3f92bca8ded4f7fa4e3d">identityStyleSheet</a> ()</td></tr>
-<tr class="memdesc:ac3130b7d78eb3f92bca8ded4f7fa4e3d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Feuille de style de la <b>portée identité</b> (<span class="tt">:/resources/theme-identity.qss</span>), substituée avec les jetons effectifs et le facteur d'agrandissement courant (<span class="tt"><a class="el" href="#a0bdbcbcbafff7ef8f3271c768963559c">identityScale</a></span>).  <br /></td></tr>
 <tr class="memitem:a2c008aaa4051cc949be754258753baa7" id="r_a2c008aaa4051cc949be754258753baa7"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a2c008aaa4051cc949be754258753baa7">applyFont</a> ()</td></tr>
 <tr class="memdesc:a2c008aaa4051cc949be754258753baa7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enregistre les polices embarquées auprès de Qt et applique la famille du <b>châssis d'édition</b> comme police par défaut de l'application (<span class="tt">Assets/Fonts/</span>) :  <br /></td></tr>
 <tr class="memitem:a9dc9509fbff97a3271f33b011e243ecb" id="r_a9dc9509fbff97a3271f33b011e243ecb"><td class="memItemLeft"><a class="el" href="#a796b5dfcf1d9de2fb2552d51af677646">EditorThemeSetting</a>&#160;</td><td class="memItemRight"><a class="el" href="#a9dc9509fbff97a3271f33b011e243ecb">editorThemeSetting</a> ()</td></tr>
@@ -1248,7 +1218,6 @@ Functions</h2></td></tr>
 <tr class="memdesc:a21903bad18cb9cb682fe83b340418c1e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Applique le thème complet du châssis d'édition (portée <b>variable</b>) : police, palette puis feuille de style, tous dérivés des jetons <b>actuellement effectifs</b> (<span class="tt"><a class="el" href="#a26a0827c46d5301e7690c51a9e6fc159">currentEditorTokens()</a></span>).  <br /></td></tr>
 <tr class="memitem:a4dbd77c54104dd2723bba59437d00bd5" id="r_a4dbd77c54104dd2723bba59437d00bd5"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a4dbd77c54104dd2723bba59437d00bd5">reapplyEditorTheme</a> ()</td></tr>
 <tr class="memdesc:a4dbd77c54104dd2723bba59437d00bd5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Réapplique la palette et la feuille de style (mais pas la police, inchangée par le thème) depuis <span class="tt"><a class="el" href="#a26a0827c46d5301e7690c51a9e6fc159">currentEditorTokens()</a></span> — bascule à chaud (<span class="tt">LOT-56</span> TACHE-06), sans reconstruire les widgets.  <br /></td></tr>
-<tr class="memitem:ad2b3435349dd004d6768a14a49f5dacc" id="r_ad2b3435349dd004d6768a14a49f5dacc"><td class="memItemLeft">std::map&lt; std::string, std::string &gt;&#160;</td><td class="memItemRight"><a class="el" href="#ad2b3435349dd004d6768a14a49f5dacc">characterSheetValues</a> (const <a class="el" href="structhmi_1_1CharacterSheetContext.html">CharacterSheetContext</a> &amp;context)</td></tr>
 <tr class="memitem:a5933ff4f4fc07147fb21070522d05085" id="r_a5933ff4f4fc07147fb21070522d05085"><td class="memItemLeft"><a class="el" href="structhmi_1_1DesignColor.html">DesignColor</a>&#160;</td><td class="memItemRight"><a class="el" href="#a5933ff4f4fc07147fb21070522d05085">mixColor</a> (<a class="el" href="structhmi_1_1DesignColor.html">DesignColor</a> from, <a class="el" href="structhmi_1_1DesignColor.html">DesignColor</a> to, float ratio) noexcept</td></tr>
 <tr class="memitem:a419a1dbd1f08cf22d2d00cb975f974d2" id="r_a419a1dbd1f08cf22d2d00cb975f974d2"><td class="memItemLeft">const <a class="el" href="structhmi_1_1IdentityBaseScale.html">IdentityBaseScale</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a419a1dbd1f08cf22d2d00cb975f974d2">identityBaseScale</a> () noexcept</td></tr>
 <tr class="memitem:ac930d13be4162410e795052307cd59e0" id="r_ac930d13be4162410e795052307cd59e0"><td class="memItemLeft">const char *&#160;</td><td class="memItemRight"><a class="el" href="#ac930d13be4162410e795052307cd59e0">genericCssFamily</a> (<a class="el" href="#acd4bd1bd5a7edb4000f6de915686c897">FontRole</a> role) noexcept</td></tr>
@@ -1268,7 +1237,7 @@ Functions</h2></td></tr>
 <tr class="memdesc:aadfbb57622e1e177b3c41c9ba011779b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Luminance relative WCAG d'une couleur (0 = noir, 1 = blanc), pour le calcul de contraste.  <br /></td></tr>
 <tr class="memitem:a4b85e74ce8764eb9f4121b7b91eb84c7" id="r_a4b85e74ce8764eb9f4121b7b91eb84c7"><td class="memItemLeft">double&#160;</td><td class="memItemRight"><a class="el" href="#a4b85e74ce8764eb9f4121b7b91eb84c7">contrastRatio</a> (<a class="el" href="structhmi_1_1DesignColor.html">DesignColor</a> a, <a class="el" href="structhmi_1_1DesignColor.html">DesignColor</a> b) noexcept</td></tr>
 <tr class="memdesc:a4b85e74ce8764eb9f4121b7b91eb84c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rapport de contraste WCAG entre deux couleurs (1 = aucun contraste, 21 = noir sur blanc).  <br /></td></tr>
-<tr class="memitem:a014e8fac21fdb33837a37724048e9ee3" id="r_a014e8fac21fdb33837a37724048e9ee3"><td class="memItemLeft">std::unordered_map&lt; std::string, std::string &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a014e8fac21fdb33837a37724048e9ee3">buildStyleSheetValues</a> (const <a class="el" href="structhmi_1_1DesignTokens.html">DesignTokens</a> &amp;editorTokens, int <a class="el" href="#a0bdbcbcbafff7ef8f3271c768963559c">identityScale</a>=1)</td></tr>
+<tr class="memitem:a014e8fac21fdb33837a37724048e9ee3" id="r_a014e8fac21fdb33837a37724048e9ee3"><td class="memItemLeft">std::unordered_map&lt; std::string, std::string &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a014e8fac21fdb33837a37724048e9ee3">buildStyleSheetValues</a> (const <a class="el" href="structhmi_1_1DesignTokens.html">DesignTokens</a> &amp;editorTokens, int identityScale=1)</td></tr>
 <tr class="memdesc:a014e8fac21fdb33837a37724048e9ee3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Table de substitution marqueur -&gt; valeur pour le modèle de feuille de style (<span class="tt">LOT-56</span> TACHE-02), à partir d'un jeu de jetons du châssis d'édition (portée variable) ; les marqueurs de préfixe "identity." sont toujours résolus depuis <span class="tt"><a class="el" href="#ad6321dea8cce4302df77dbdbcd3fd155" title="Jetons de l&#39;identité du jeu (menu principal, écran Options, jeu) : invariants, ne suivent jamais aucu...">identityTokens()</a></span> (portée invariante).  <br /></td></tr>
 <tr class="memitem:aaebc5001a9e15748fcf70eac997f48c6" id="r_aaebc5001a9e15748fcf70eac997f48c6"><td class="memItemLeft"><a class="el" href="structhmi_1_1WorkspaceDressing.html">WorkspaceDressing</a>&#160;</td><td class="memItemRight"><a class="el" href="#aaebc5001a9e15748fcf70eac997f48c6">dressingForWorkspace</a> (<a class="el" href="#afc2e687c85989440c76b94c012a1b91d">EditorWorkspace</a> workspace) noexcept</td></tr>
 <tr class="memitem:a03a0fe6ee48e4c601c49463e13dc2453" id="r_a03a0fe6ee48e4c601c49463e13dc2453"><td class="memItemLeft"><a class="el" href="#ab8a3c6d8e00f86576f71c0b2a4e494d4">EditorWorkspaceMask</a>&#160;</td><td class="memItemRight"><a class="el" href="#a03a0fe6ee48e4c601c49463e13dc2453">workspacesForPanel</a> (<a class="el" href="#aaa32928dac1bf321cd65435b9a0b0726">PanelId</a> panel) noexcept</td></tr>
@@ -1277,12 +1246,21 @@ Functions</h2></td></tr>
 <tr class="memitem:ad075fc85767c6c9a6e6b919548dcbe01" id="r_ad075fc85767c6c9a6e6b919548dcbe01"><td class="memItemLeft"><a class="el" href="#afc2e687c85989440c76b94c012a1b91d">EditorWorkspace</a>&#160;</td><td class="memItemRight"><a class="el" href="#ad075fc85767c6c9a6e6b919548dcbe01">workspaceForPixelTool</a> (<a class="el" href="#a9cb51e9b7642963a83312d94737fe571">PixelTool</a>) noexcept</td></tr>
 <tr class="memitem:a995f7c23db3bf4cc03926aa7679618a9" id="r_a995f7c23db3bf4cc03926aa7679618a9"><td class="memItemLeft">constexpr <a class="el" href="#ab8a3c6d8e00f86576f71c0b2a4e494d4">EditorWorkspaceMask</a>&#160;</td><td class="memItemRight"><a class="el" href="#a995f7c23db3bf4cc03926aa7679618a9">workspaceBit</a> (<a class="el" href="#afc2e687c85989440c76b94c012a1b91d">EditorWorkspace</a> workspace) noexcept</td></tr>
 <tr class="memitem:a1e9cf88c150b16a6a0c4109255923da2" id="r_a1e9cf88c150b16a6a0c4109255923da2"><td class="memItemLeft">constexpr bool&#160;</td><td class="memItemRight"><a class="el" href="#a1e9cf88c150b16a6a0c4109255923da2">workspaceMaskContains</a> (<a class="el" href="#ab8a3c6d8e00f86576f71c0b2a4e494d4">EditorWorkspaceMask</a> mask, <a class="el" href="#afc2e687c85989440c76b94c012a1b91d">EditorWorkspace</a> workspace) noexcept</td></tr>
-<tr class="memitem:a07443ee4713c5b7b831895cb83dc80b9" id="r_a07443ee4713c5b7b831895cb83dc80b9"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a07443ee4713c5b7b831895cb83dc80b9">paintFocusFleuron</a> (QPainter &amp;painter, const QRect &amp;box)</td></tr>
-<tr class="memdesc:a07443ee4713c5b7b831895cb83dc80b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Peint le fleuron de focus dans <code class="param">box</code>, à la couleur d'accent de l'identité.  <br /></td></tr>
 <tr class="memitem:ab6fc3cb9d2aa0cca7d624c1f3700e859" id="r_ab6fc3cb9d2aa0cca7d624c1f3700e859"><td class="memItemLeft"><a class="el" href="structhmi_1_1FontFamilyResolution.html">FontFamilyResolution</a>&#160;</td><td class="memItemRight"><a class="el" href="#ab6fc3cb9d2aa0cca7d624c1f3700e859">resolveFontFamily</a> (bool fontRegistered, const std::string &amp;embeddedFamilyName)</td></tr>
 <tr class="memdesc:ab6fc3cb9d2aa0cca7d624c1f3700e859"><td class="mdescLeft">&#160;</td><td class="mdescRight">Choisit la famille de police à employer pour le corps de l'IHM.  <br /></td></tr>
 <tr class="memitem:a209dabae621c4b379079647002f4c080" id="r_a209dabae621c4b379079647002f4c080"><td class="memItemLeft"><a class="el" href="structhmi_1_1IconGeometry.html">IconGeometry</a>&#160;</td><td class="memItemRight"><a class="el" href="#a209dabae621c4b379079647002f4c080">iconGeometry</a> (<a class="el" href="#ab269aabb94611e449a8e7427969874f5">IconId</a> id)</td></tr>
 <tr class="memdesc:a209dabae621c4b379079647002f4c080"><td class="mdescLeft">&#160;</td><td class="mdescRight">Décrit la géométrie d'une icône, en espace normalisé.  <br /></td></tr>
+<tr class="memitem:a109a8b01a44769d182894f833e7cb054" id="r_a109a8b01a44769d182894f833e7cb054"><td class="memItemLeft"><a class="el" href="structhmi_1_1StyleSheetSubstitutionResult.html">StyleSheetSubstitutionResult</a>&#160;</td><td class="memItemRight"><a class="el" href="#a109a8b01a44769d182894f833e7cb054">substituteStyleSheetTemplate</a> (const std::string &amp;templateText, const std::unordered_map&lt; std::string, std::string &gt; &amp;values)</td></tr>
+<tr class="memdesc:a109a8b01a44769d182894f833e7cb054"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remplace chaque marqueur dollar-accolade de <code class="param">templateText</code> par sa valeur dans <code class="param">values</code>.  <br /></td></tr>
+<tr class="memitem:a3126473350fe705bf2fac20bc6194c62" id="r_a3126473350fe705bf2fac20bc6194c62"><td class="memItemLeft">QIcon&#160;</td><td class="memItemRight"><a class="el" href="#a3126473350fe705bf2fac20bc6194c62">themeIcon</a> (<a class="el" href="#ab269aabb94611e449a8e7427969874f5">IconId</a> id, int pixelSize, const <a class="el" href="structhmi_1_1DesignTokens.html">DesignTokens</a> &amp;tokens)</td></tr>
+<tr class="memdesc:a3126473350fe705bf2fac20bc6194c62"><td class="mdescLeft">&#160;</td><td class="mdescRight">Peint une icône à la taille demandée, recolorée depuis les jetons.  <br /></td></tr>
+<tr class="memitem:a00629522279a61cffd0c68ae26c3fca0" id="r_a00629522279a61cffd0c68ae26c3fca0"><td class="memItemLeft"><a class="el" href="#a57dcf8ac7fd26c90a8741e698c896580">EditorThemeMode</a>&#160;</td><td class="memItemRight"><a class="el" href="#a00629522279a61cffd0c68ae26c3fca0">resolveEffectiveEditorTheme</a> (<a class="el" href="#a796b5dfcf1d9de2fb2552d51af677646">EditorThemeSetting</a> setting, bool systemPrefersDark) noexcept</td></tr>
+<tr class="memdesc:a00629522279a61cffd0c68ae26c3fca0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Résout le thème effectif à appliquer.  <br /></td></tr>
+<tr class="memitem:a18648161d8a6c752202b6034613a947b" id="r_a18648161d8a6c752202b6034613a947b"><td class="memItemLeft">std::filesystem::path&#160;</td><td class="memItemRight"><a class="el" href="#a18648161d8a6c752202b6034613a947b">executableDirectory</a> ()</td></tr>
+<tr class="memdesc:a18648161d8a6c752202b6034613a947b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dossier contenant l'exécutable en cours, pour localiser les ressources copiées à côté (niveaux, catalogues de traduction, logs).  <br /></td></tr>
+<tr class="memitem:ad2b3435349dd004d6768a14a49f5dacc" id="r_ad2b3435349dd004d6768a14a49f5dacc"><td class="memItemLeft">std::map&lt; std::string, std::string &gt;&#160;</td><td class="memItemRight"><a class="el" href="#ad2b3435349dd004d6768a14a49f5dacc">characterSheetValues</a> (const <a class="el" href="structhmi_1_1CharacterSheetContext.html">CharacterSheetContext</a> &amp;context)</td></tr>
+<tr class="memitem:aa7f27ef2ac4ebf9ca9471566aa568af4" id="r_aa7f27ef2ac4ebf9ca9471566aa568af4"><td class="memItemLeft"><a class="el" href="structhmi_1_1DemonstrationCharacter.html">DemonstrationCharacter</a>&#160;</td><td class="memItemRight"><a class="el" href="#aa7f27ef2ac4ebf9ca9471566aa568af4">loadDemonstrationValues</a> ()</td></tr>
+<tr class="memdesc:aa7f27ef2ac4ebf9ca9471566aa568af4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Charge le personnage de démonstration livré en donnée, et calcule ses deux tables.  <br /></td></tr>
 <tr class="memitem:a680c72595996170b489d85e44e9fbc5c" id="r_a680c72595996170b489d85e44e9fbc5c"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a680c72595996170b489d85e44e9fbc5c">identityScaleFor</a> (int windowLogicalHeight) noexcept</td></tr>
 <tr class="memdesc:a680c72595996170b489d85e44e9fbc5c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Facteur d'agrandissement des écrans du jeu pour une hauteur de fenêtre donnée.  <br /></td></tr>
 <tr class="memitem:a749862bc7ec43967d584189840299747" id="r_a749862bc7ec43967d584189840299747"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a749862bc7ec43967d584189840299747">identityScaleForDisplay</a> (int windowLogicalHeight, int availableLogicalHeight) noexcept</td></tr>
@@ -1294,36 +1272,17 @@ Functions</h2></td></tr>
 <tr class="memdesc:ad5bcff7f69e584df822fc896a9a979cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compose la ligne de rappels en texte enrichi.  <br /></td></tr>
 <tr class="memitem:a1ebed041b4b817775b645ae6d51ea778" id="r_a1ebed041b4b817775b645ae6d51ea778"><td class="memItemLeft">std::vector&lt; <a class="el" href="structhmi_1_1BackdropQuad.html">BackdropQuad</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a1ebed041b4b817775b645ae6d51ea778">menuBackdropQuads</a> (int width, int height, int scale)</td></tr>
 <tr class="memdesc:a1ebed041b4b817775b645ae6d51ea778"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pavés du décor, dans l'<b>ordre de dessin</b> (les derniers recouvrent les premiers).  <br /></td></tr>
-<tr class="memitem:afb15abd558357b81975c9f1b10473f38" id="r_afb15abd558357b81975c9f1b10473f38"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#afb15abd558357b81975c9f1b10473f38">paintOrnaments</a> (QPainter &amp;painter, const std::vector&lt; <a class="el" href="structhmi_1_1OrnamentShape.html">OrnamentShape</a> &gt; &amp;shapes, const QPoint &amp;origin)</td></tr>
-<tr class="memdesc:afb15abd558357b81975c9f1b10473f38"><td class="mdescLeft">&#160;</td><td class="mdescRight">Peint les formes de <code class="param">shapes</code>, translatées de <code class="param">origin</code>.  <br /></td></tr>
-<tr class="memitem:a45ffc40cf32dc17c3c53721ff78b1d90" id="r_a45ffc40cf32dc17c3c53721ff78b1d90"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a45ffc40cf32dc17c3c53721ff78b1d90">parchmentFrameCorner</a> (int width, int height, int scale)</td></tr>
-<tr class="memdesc:a45ffc40cf32dc17c3c53721ff78b1d90"><td class="mdescLeft">&#160;</td><td class="mdescRight">Côté du <b>cabochon d'angle</b> d'un encadrement de <code class="param">width</code> × <code class="param">height</code>, en pixels.  <br /></td></tr>
-<tr class="memitem:addf3903688875c48beebeda82ec7daf5" id="r_addf3903688875c48beebeda82ec7daf5"><td class="memItemLeft">std::vector&lt; <a class="el" href="structhmi_1_1ParchmentStroke.html">ParchmentStroke</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#addf3903688875c48beebeda82ec7daf5">parchmentFrameStrokes</a> (int width, int height, int scale)</td></tr>
-<tr class="memdesc:addf3903688875c48beebeda82ec7daf5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bandes composant un encadrement, dans l'<b>ordre de dessin</b> (les dernières recouvrent les premières).  <br /></td></tr>
-<tr class="memitem:a55b861e9c4e75fd753ec919a062940fc" id="r_a55b861e9c4e75fd753ec919a062940fc"><td class="memItemLeft">std::vector&lt; <a class="el" href="structhmi_1_1ParchmentPoint.html">ParchmentPoint</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a55b861e9c4e75fd753ec919a062940fc">focusFleuronPoints</a> (int size)</td></tr>
-<tr class="memdesc:a55b861e9c4e75fd753ec919a062940fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sommets du <b>fleuron de focus</b> — une pointe pleine tournée vers la droite, inscrite dans un carré de côté <code class="param">size</code> (<span class="tt">LOT-66</span>, <span class="tt">EX-IHM-071</span>).  <br /></td></tr>
-<tr class="memitem:a0d244a21dbfe1f90cb0df09f356e933e" id="r_a0d244a21dbfe1f90cb0df09f356e933e"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a0d244a21dbfe1f90cb0df09f356e933e">bannerWingSpan</a> (int height)</td></tr>
-<tr class="memdesc:a0d244a21dbfe1f90cb0df09f356e933e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Envergure d'une aile pour un bandeau de <code class="param">height</code> pixels de haut — exposée pour que la mise en page réserve la place du titre <b>entre</b> les ailes plutôt que par-dessus.  <br /></td></tr>
-<tr class="memitem:a533707d1b488af487db2d8ba55917e23" id="r_a533707d1b488af487db2d8ba55917e23"><td class="memItemLeft">std::vector&lt; <a class="el" href="structhmi_1_1OrnamentShape.html">OrnamentShape</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a533707d1b488af487db2d8ba55917e23">cabochonShapes</a> (int size)</td></tr>
-<tr class="memdesc:a533707d1b488af487db2d8ba55917e23"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cabochon d'angle : un grenat taillé, serti d'or, inscrit dans un carré de côté <code class="param">size</code>.  <br /></td></tr>
-<tr class="memitem:ad064e631e040400bdf725766b3dabd4c" id="r_ad064e631e040400bdf725766b3dabd4c"><td class="memItemLeft">std::vector&lt; <a class="el" href="structhmi_1_1OrnamentShape.html">OrnamentShape</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#ad064e631e040400bdf725766b3dabd4c">titleBannerShapes</a> (int width, int height)</td></tr>
-<tr class="memdesc:ad064e631e040400bdf725766b3dabd4c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bandeau de titre : une plaque de grenat à chevrons, entre deux ailes d'or.  <br /></td></tr>
 <tr class="memitem:a74752c1a9d7b1d3e8da19eec82c397be" id="r_a74752c1a9d7b1d3e8da19eec82c397be"><td class="memItemLeft">std::span&lt; const <a class="el" href="structhmi_1_1RpgScreenDescriptor.html">RpgScreenDescriptor</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a74752c1a9d7b1d3e8da19eec82c397be">rpgScreens</a> () noexcept</td></tr>
 <tr class="memitem:aadabcaf08acb48c29dc437f3bd2f47ce" id="r_aadabcaf08acb48c29dc437f3bd2f47ce"><td class="memItemLeft">const <a class="el" href="structhmi_1_1RpgScreenDescriptor.html">RpgScreenDescriptor</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#aadabcaf08acb48c29dc437f3bd2f47ce">rpgScreenDescriptor</a> (<a class="el" href="#a86e4ce6097c7a029c683096302528e72">RpgScreenId</a> screen) noexcept</td></tr>
 <tr class="memitem:a9eed4f2ad079e39eb5f17daf66defe91" id="r_a9eed4f2ad079e39eb5f17daf66defe91"><td class="memItemLeft"><a class="el" href="#a86e4ce6097c7a029c683096302528e72">RpgScreenId</a>&#160;</td><td class="memItemRight"><a class="el" href="#a9eed4f2ad079e39eb5f17daf66defe91">nextRpgScreen</a> (<a class="el" href="#a86e4ce6097c7a029c683096302528e72">RpgScreenId</a> screen) noexcept</td></tr>
 <tr class="memitem:ad41bb1dd00388cd216ed0adc326d0e5e" id="r_ad41bb1dd00388cd216ed0adc326d0e5e"><td class="memItemLeft"><a class="el" href="#a86e4ce6097c7a029c683096302528e72">RpgScreenId</a>&#160;</td><td class="memItemRight"><a class="el" href="#ad41bb1dd00388cd216ed0adc326d0e5e">previousRpgScreen</a> (<a class="el" href="#a86e4ce6097c7a029c683096302528e72">RpgScreenId</a> screen) noexcept</td></tr>
 <tr class="memitem:af90277096862529748e78023af0d654e" id="r_af90277096862529748e78023af0d654e"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#af90277096862529748e78023af0d654e">pausesGame</a> (<a class="el" href="#a86e4ce6097c7a029c683096302528e72">RpgScreenId</a> screen) noexcept</td></tr>
+<tr class="memitem:ab6cae0930fa7f6fecf4d383e6b80ed39" id="r_ab6cae0930fa7f6fecf4d383e6b80ed39"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#ab6cae0930fa7f6fecf4d383e6b80ed39">ruleLabel</a> (std::string_view key, const std::string &amp;language)</td></tr>
+<tr class="memdesc:ab6cae0930fa7f6fecf4d383e6b80ed39"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nom lisible d'un terme de règle — caractéristique, emplacement d'équipement, condition.  <br /></td></tr>
+<tr class="memitem:a7d20e45b3534ac88b3b7a1ad870ddfeb" id="r_a7d20e45b3534ac88b3b7a1ad870ddfeb"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a7d20e45b3534ac88b3b7a1ad870ddfeb">activeLanguage</a> ()</td></tr>
 <tr class="memitem:a7e42ffeba1ac86e0a292c24dc3b99f94" id="r_a7e42ffeba1ac86e0a292c24dc3b99f94"><td class="memItemLeft"><a class="el" href="structhmi_1_1ScreenDressing.html">ScreenDressing</a>&#160;</td><td class="memItemRight"><a class="el" href="#a7e42ffeba1ac86e0a292c24dc3b99f94">dressingFor</a> (<a class="el" href="#a168b24f798c2e6d06beb9472a071528d">ScreenId</a> screen) noexcept</td></tr>
 <tr class="memitem:adbeed25b15bad59211fcea357825feec" id="r_adbeed25b15bad59211fcea357825feec"><td class="memItemLeft">std::optional&lt; <a class="el" href="structhmi_1_1ScreenState.html">ScreenState</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#adbeed25b15bad59211fcea357825feec">resolveTransition</a> (const <a class="el" href="structhmi_1_1ScreenState.html">ScreenState</a> &amp;current, <a class="el" href="#a964211f19cf43757eaaa80c3c29b0e90">ScreenEvent</a> event) noexcept</td></tr>
 <tr class="memdesc:adbeed25b15bad59211fcea357825feec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Résout une transition d'écran à partir de l'état courant et d'un événement.  <br /></td></tr>
-<tr class="memitem:a109a8b01a44769d182894f833e7cb054" id="r_a109a8b01a44769d182894f833e7cb054"><td class="memItemLeft"><a class="el" href="structhmi_1_1StyleSheetSubstitutionResult.html">StyleSheetSubstitutionResult</a>&#160;</td><td class="memItemRight"><a class="el" href="#a109a8b01a44769d182894f833e7cb054">substituteStyleSheetTemplate</a> (const std::string &amp;templateText, const std::unordered_map&lt; std::string, std::string &gt; &amp;values)</td></tr>
-<tr class="memdesc:a109a8b01a44769d182894f833e7cb054"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remplace chaque marqueur dollar-accolade de <code class="param">templateText</code> par sa valeur dans <code class="param">values</code>.  <br /></td></tr>
-<tr class="memitem:a3126473350fe705bf2fac20bc6194c62" id="r_a3126473350fe705bf2fac20bc6194c62"><td class="memItemLeft">QIcon&#160;</td><td class="memItemRight"><a class="el" href="#a3126473350fe705bf2fac20bc6194c62">themeIcon</a> (<a class="el" href="#ab269aabb94611e449a8e7427969874f5">IconId</a> id, int pixelSize, const <a class="el" href="structhmi_1_1DesignTokens.html">DesignTokens</a> &amp;tokens)</td></tr>
-<tr class="memdesc:a3126473350fe705bf2fac20bc6194c62"><td class="mdescLeft">&#160;</td><td class="mdescRight">Peint une icône à la taille demandée, recolorée depuis les jetons.  <br /></td></tr>
-<tr class="memitem:a00629522279a61cffd0c68ae26c3fca0" id="r_a00629522279a61cffd0c68ae26c3fca0"><td class="memItemLeft"><a class="el" href="#a57dcf8ac7fd26c90a8741e698c896580">EditorThemeMode</a>&#160;</td><td class="memItemRight"><a class="el" href="#a00629522279a61cffd0c68ae26c3fca0">resolveEffectiveEditorTheme</a> (<a class="el" href="#a796b5dfcf1d9de2fb2552d51af677646">EditorThemeSetting</a> setting, bool systemPrefersDark) noexcept</td></tr>
-<tr class="memdesc:a00629522279a61cffd0c68ae26c3fca0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Résout le thème effectif à appliquer.  <br /></td></tr>
-<tr class="memitem:a18648161d8a6c752202b6034613a947b" id="r_a18648161d8a6c752202b6034613a947b"><td class="memItemLeft">std::filesystem::path&#160;</td><td class="memItemRight"><a class="el" href="#a18648161d8a6c752202b6034613a947b">executableDirectory</a> ()</td></tr>
-<tr class="memdesc:a18648161d8a6c752202b6034613a947b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dossier contenant l'exécutable en cours, pour localiser les ressources copiées à côté (niveaux, catalogues de traduction, logs).  <br /></td></tr>
 <tr class="memitem:ad674a6058a9d73bac93466d37cedcf71" id="r_ad674a6058a9d73bac93466d37cedcf71"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#ad674a6058a9d73bac93466d37cedcf71">TEST</a> (MechanismTransitionsTest, PremierCalculRejointEtatCibleSansTransition)</td></tr>
 <tr class="memdesc:ad674a6058a9d73bac93466d37cedcf71"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le tout premier calcul rejoint directement l'état cible, <b>sans</b> jouer de transition : une porte déjà ouverte au chargement du niveau doit apparaître ouverte, pas s'ouvrir sous les yeux du joueur comme si un interrupteur venait d'être actionné.  <br /></td></tr>
 <tr class="memitem:a90e6d84c42db35e9f30e38f1aa000054" id="r_a90e6d84c42db35e9f30e38f1aa000054"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a90e6d84c42db35e9f30e38f1aa000054">TEST</a> (MechanismTransitionsTest, ChangementDetatDeclencheLaTransitionUneSeuleFois)</td></tr>
@@ -1467,12 +1426,6 @@ Variables</h2></td></tr>
 <tr class="memdesc:a916e627cfbcd09bf5c10d3a5e56b6add"><td class="mdescLeft">&#160;</td><td class="mdescRight">Part de la largeur couverte par le voile de lisibilité, sous le titre et les entrées de menu.  <br /></td></tr>
 <tr class="memitem:a6c2bbdc696241bb46c4baf26759c5314" id="r_a6c2bbdc696241bb46c4baf26759c5314"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#a6c2bbdc696241bb46c4baf26759c5314">BACKDROP_VEIL_STEPS</a> = 6</td></tr>
 <tr class="memdesc:a6c2bbdc696241bb46c4baf26759c5314"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nombre de bandes du voile.  <br /></td></tr>
-<tr class="memitem:ae9ed7690d4c8521dfcb82be2d3389860" id="r_ae9ed7690d4c8521dfcb82be2d3389860"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#ae9ed7690d4c8521dfcb82be2d3389860">PARCHMENT_FRAME_UNITS</a> = 3</td></tr>
-<tr class="memdesc:ae9ed7690d4c8521dfcb82be2d3389860"><td class="mdescLeft">&#160;</td><td class="mdescRight">Épaisseur totale de l'encadrement, en <b>unités de maquette</b> : trait, réserve de parchemin, filet.  <br /></td></tr>
-<tr class="memitem:af1ae6f7ec7bfe9e7b3f8198180717c5c" id="r_af1ae6f7ec7bfe9e7b3f8198180717c5c"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#af1ae6f7ec7bfe9e7b3f8198180717c5c">PARCHMENT_CABOCHON_FACTOR</a> = 2</td></tr>
-<tr class="memdesc:af1ae6f7ec7bfe9e7b3f8198180717c5c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Facteur de débord du <b>cabochon</b> sur le carré d'angle qu'il habille (<span class="tt">LOT-76</span>).  <br /></td></tr>
-<tr class="memitem:a9c1595bc09ef4f786e40bc32c594a1fc" id="r_a9c1595bc09ef4f786e40bc32c594a1fc"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#a9c1595bc09ef4f786e40bc32c594a1fc">ORNAMENT_MINIMUM_SIZE</a> = 8</td></tr>
-<tr class="memdesc:a9c1595bc09ef4f786e40bc32c594a1fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Côté minimal, en pixels, sous lequel un cabochon n'est plus qu'une tache.  <br /></td></tr>
 <tr class="memitem:a93db3bafe6aeaebee6e483836f313055" id="r_a93db3bafe6aeaebee6e483836f313055"><td class="memItemLeft">constexpr std::size_t&#160;</td><td class="memItemRight"><a class="el" href="#a93db3bafe6aeaebee6e483836f313055">RPG_SCREEN_COUNT</a> = 9</td></tr>
 <tr class="memdesc:a93db3bafe6aeaebee6e483836f313055"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nombre d'écrans du catalogue.  <br /></td></tr>
 </table>
@@ -2365,42 +2318,6 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a369c89ce919372e6e2647a9e0c6ea5e0" name="a369c89ce919372e6e2647a9e0c6ea5e0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a369c89ce919372e6e2647a9e0c6ea5e0">&#9670;&#160;</a></span>OrnamentRole</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum class <a class="el" href="#a369c89ce919372e6e2647a9e0c6ea5e0">hmi::OrnamentRole</a></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Rôle de couleur d'une forme, résolu depuis les jetons de la portée identité au moment du rendu. </p>
-<table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a369c89ce919372e6e2647a9e0c6ea5e0ae4a297a0f76119a442c2595ac040673e" name="a369c89ce919372e6e2647a9e0c6ea5e0ae4a297a0f76119a442c2595ac040673e"></a>Edge&#160;</td><td class="fielddoc"><p>Trait extérieur d'encre (<span class="tt">frameEdge</span>). </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a369c89ce919372e6e2647a9e0c6ea5e0ae4d7e2fff97ef663babce3cf0e3108a3" name="a369c89ce919372e6e2647a9e0c6ea5e0ae4d7e2fff97ef663babce3cf0e3108a3"></a>Ornament&#160;</td><td class="fielddoc"><p>Or du serti, des filets et des ailes (<span class="tt">frameOrnament</span>). </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a369c89ce919372e6e2647a9e0c6ea5e0a97246e79b82f4fb4d7595a80b91f3f9f" name="a369c89ce919372e6e2647a9e0c6ea5e0a97246e79b82f4fb4d7595a80b91f3f9f"></a>OrnamentLight&#160;</td><td class="fielddoc"><p>Éclat d'or : facette éclairée, reflet (<span class="tt">accentHover</span>). </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a369c89ce919372e6e2647a9e0c6ea5e0a65ce9d2fa1e9c3598206e6f2ec1d7a95" name="a369c89ce919372e6e2647a9e0c6ea5e0a65ce9d2fa1e9c3598206e6f2ec1d7a95"></a>Gem&#160;</td><td class="fielddoc"><p>Facette éclairée de la gemme (<span class="tt">gem</span>). </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a369c89ce919372e6e2647a9e0c6ea5e0ae2a97f1c4ef478e33be5d7829ce54de4" name="a369c89ce919372e6e2647a9e0c6ea5e0ae2a97f1c4ef478e33be5d7829ce54de4"></a>GemShadow&#160;</td><td class="fielddoc"><p>Facette en profondeur, fond de plaque (<span class="tt">gemShadow</span>). </p>
-</td></tr>
-</table>
-
-</div>
-</div>
 <a id="a484fc821d307ce050da2a61ed1760a8d" name="a484fc821d307ce050da2a61ed1760a8d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a484fc821d307ce050da2a61ed1760a8d">&#9670;&#160;</a></span>PaletteThumbnailSource</h2>
 
@@ -2464,40 +2381,6 @@ Variables</h2></td></tr>
 <tr><td class="fieldname"><a id="aaa32928dac1bf321cd65435b9a0b0726ab1175488d7517a7b3490f45437b7cd0d" name="aaa32928dac1bf321cd65435b9a0b0726ab1175488d7517a7b3490f45437b7cd0d"></a>PixelCanvas&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="aaa32928dac1bf321cd65435b9a0b0726a60421a4156d1beef9070bc14bd2623a4" name="aaa32928dac1bf321cd65435b9a0b0726a60421a4156d1beef9070bc14bd2623a4"></a>PixelHistory&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="aaa32928dac1bf321cd65435b9a0b0726a61b4f1c9bd8c6614c124bf11bcd1e187" name="aaa32928dac1bf321cd65435b9a0b0726a61b4f1c9bd8c6614c124bf11bcd1e187"></a>PixelPalette&#160;</td><td class="fielddoc"></td></tr>
-</table>
-
-</div>
-</div>
-<a id="ae32ec83f939d20ebd5cf00137de659f4" name="ae32ec83f939d20ebd5cf00137de659f4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae32ec83f939d20ebd5cf00137de659f4">&#9670;&#160;</a></span>ParchmentRole</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum class <a class="el" href="#ae32ec83f939d20ebd5cf00137de659f4">hmi::ParchmentRole</a></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Rôle de couleur d'une bande, résolu depuis les jetons au moment du rendu. </p>
-<table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ae32ec83f939d20ebd5cf00137de659f4a6f16a5f8ff5d75ab84c018adacdfcbb7" name="ae32ec83f939d20ebd5cf00137de659f4a6f16a5f8ff5d75ab84c018adacdfcbb7"></a>Field&#160;</td><td class="fielddoc"><p>Champ intérieur, le parchemin lui-même (<span class="tt">surface</span>). </p>
-</td></tr>
-<tr><td class="fieldname"><a id="ae32ec83f939d20ebd5cf00137de659f4ae4a297a0f76119a442c2595ac040673e" name="ae32ec83f939d20ebd5cf00137de659f4ae4a297a0f76119a442c2595ac040673e"></a>Edge&#160;</td><td class="fielddoc"><p>Trait extérieur d'encre (<span class="tt">frameEdge</span>). </p>
-</td></tr>
-<tr><td class="fieldname"><a id="ae32ec83f939d20ebd5cf00137de659f4ae4d7e2fff97ef663babce3cf0e3108a3" name="ae32ec83f939d20ebd5cf00137de659f4ae4d7e2fff97ef663babce3cf0e3108a3"></a>Ornament&#160;</td><td class="fielddoc"><p>Filet ornemental doré, en retrait du trait (<span class="tt">frameOrnament</span>). </p>
-</td></tr>
-<tr><td class="fieldname"><a id="ae32ec83f939d20ebd5cf00137de659f4a3f39588bb19e28051d9aedfbb170025c" name="ae32ec83f939d20ebd5cf00137de659f4a3f39588bb19e28051d9aedfbb170025c"></a>Shadow&#160;</td><td class="fielddoc"><p>Ombre du filet sur le champ (<span class="tt">frameShadow</span>). </p>
-</td></tr>
 </table>
 
 </div>
@@ -2901,7 +2784,7 @@ Variables</h2></td></tr>
 <tr><td class="fieldname"><a id="a168b24f798c2e6d06beb9472a071528da105b296a83f9c105355403f3332af50f" name="a168b24f798c2e6d06beb9472a071528da105b296a83f9c105355403f3332af50f"></a>Pause&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a168b24f798c2e6d06beb9472a071528da948a2e3548aaf7f9941a3192fa607d51" name="a168b24f798c2e6d06beb9472a071528da948a2e3548aaf7f9941a3192fa607d51"></a>Credits&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a168b24f798c2e6d06beb9472a071528da74f7bb96f40b089d24eea4863b269139" name="a168b24f798c2e6d06beb9472a071528da74f7bb96f40b089d24eea4863b269139"></a>RpgScreen&#160;</td><td class="fielddoc"><p><b>Un</b> écran du RPG est ouvert (<span class="tt">LOT-68</span>, <span class="tt">EX-IHM-090</span>). </p>
-<p>Lequel des huit n'est pas la question de cette table : c'est celle de <span class="tt"><a class="el" href="classhmi_1_1RpgScreenHost.html" title="Héberge les écrans du RPG et fait passer de l&#39;un à l&#39;autre sans repasser par le menu.">hmi::RpgScreenHost</a></span>, qui les héberge tous sur une seule page. Les y déclarer un par un aurait multiplié par huit les transitions à écrire pour n'exprimer, huit fois, que la même règle. </p>
+<p>Lequel des huit n'est pas la question de cette table : c'est celle de <span class="tt">hmi::RpgScreenHost</span>, qui les héberge tous sur une seule page. Les y déclarer un par un aurait multiplié par huit les transitions à écrire pour n'exprimer, huit fois, que la même règle. </p>
 </td></tr>
 </table>
 
@@ -3140,6 +3023,32 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>L'indice dans <code class="param">zones</code> de la première zone contenant <code class="param">position</code> ; <span class="tt">std::nullopt</span> si aucune zone ne la contient (repli sur le cadrage niveau entier, côté appelant). </dd></dl>
+
+</div>
+</div>
+<a id="a7d20e45b3534ac88b3b7a1ad870ddfeb" name="a7d20e45b3534ac88b3b7a1ad870ddfeb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7d20e45b3534ac88b3b7a1ad870ddfeb">&#9670;&#160;</a></span>activeLanguage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string hmi::activeLanguage </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>La langue de l'IHM telle que les réglages la persistent (« fr » par défaut). </dd></dl>
 
 </div>
 </div>
@@ -3617,7 +3526,7 @@ Variables</h2></td></tr>
 
 <p>Charge le modèle de feuille de style du <b>châssis d'édition</b> (<span class="tt">:/resources/theme-editor.qss</span>), le substitue avec <code class="param">editorTokens</code> et l'applique à l'<b>application</b>. </p>
 <p>Repli explicite : fichier absent/illisible ou marqueur inconnu -&gt; avertissement journalisé, l'application reste utilisable sans feuille de style (comportement historique de <span class="tt">main.cpp</span>, non régressé).</p>
-<p>Ne porte <b>plus</b> la portée identité depuis le <span class="tt">LOT-73</span> (<span class="tt">EX-IHM-082</span>) : celle-ci se pose sur la pile d'écrans (<span class="tt"><a class="el" href="#ac3130b7d78eb3f92bca8ded4f7fa4e3d" title="Feuille de style de la portée identité (:/resources/theme-identity.qss), substituée avec les jetons e...">identityStyleSheet</a></span>). Les deux vivaient dans la même feuille applicative, si bien qu'un changement de facteur d'agrandissement — préoccupation des seuls écrans du jeu — repolissait les 862 widgets de l'application, cinq secondes durant en Debug. </p>
+<p>Ne porte <b>plus</b> la portée identité depuis le <span class="tt">LOT-73</span> (<span class="tt">EX-IHM-082</span>) : celle-ci se pose sur la pile d'écrans (<span class="tt">identityStyleSheet</span>). Les deux vivaient dans la même feuille applicative, si bien qu'un changement de facteur d'agrandissement — préoccupation des seuls écrans du jeu — repolissait les 862 widgets de l'application, cinq secondes durant en Debug. </p>
 
 </div>
 </div>
@@ -3849,33 +3758,6 @@ Variables</h2></td></tr>
 
 <p>Case représentative d'une planche : l'<b>intérieur plein</b> (quatre voisins solides). </p>
 <p>Utilisée là où une seule image doit résumer un skin à raccords — la vignette de la palette de l'éditeur (<span class="tt">EX-EDIT-027</span>). L'intérieur plein est le motif de fond du skin ; la case zéro, elle, serait la tuile isolée, un cas particulier peu représentatif. </p><dl class="section return"><dt>Returns</dt><dd>La case d'intérieur plein. </dd></dl>
-
-</div>
-</div>
-<a id="a0d244a21dbfe1f90cb0df09f356e933e" name="a0d244a21dbfe1f90cb0df09f356e933e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0d244a21dbfe1f90cb0df09f356e933e">&#9670;&#160;</a></span>bannerWingSpan()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">int hmi::bannerWingSpan </td>
-          <td>(</td>
-          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>height</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Envergure d'une aile pour un bandeau de <code class="param">height</code> pixels de haut — exposée pour que la mise en page réserve la place du titre <b>entre</b> les ailes plutôt que par-dessus. </p>
 
 </div>
 </div>
@@ -4279,41 +4161,6 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a533707d1b488af487db2d8ba55917e23" name="a533707d1b488af487db2d8ba55917e23"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a533707d1b488af487db2d8ba55917e23">&#9670;&#160;</a></span>cabochonShapes()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::vector&lt; <a class="el" href="structhmi_1_1OrnamentShape.html">OrnamentShape</a> &gt; hmi::cabochonShapes </td>
-          <td>(</td>
-          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>size</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Cabochon d'angle : un grenat taillé, serti d'or, inscrit dans un carré de côté <code class="param">size</code>. </p>
-<p>C'est l'ornement que les feuilles posent aux quatre angles de chaque panneau. Il remplace le carré d'or plein du <a class="el" href="lot-66.html" title="LOT-66 — Charte visuelle : sortir de l&#39;identité pixel art">LOT-66</a> — qui n'était pas faux, seulement muet : un aplat de trois unités ne dit pas qu'il y a une pierre.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">size</td><td>Côté du carré englobant, en pixels. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Les formes, dans l'<b>ordre de dessin</b> (les dernières recouvrent) ; vide sous <span class="tt"><a class="el" href="#a9c1595bc09ef4f786e40bc32c594a1fc" title="Côté minimal, en pixels, sous lequel un cabochon n&#39;est plus qu&#39;une tache.">ORNAMENT_MINIMUM_SIZE</a></span>. </dd></dl>
-
-</div>
-</div>
 <a id="a3b48baec87107f7a4aec638550bdb941" name="a3b48baec87107f7a4aec638550bdb941"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3b48baec87107f7a4aec638550bdb941">&#9670;&#160;</a></span>capturedGamepadButton()</h2>
 
@@ -4405,7 +4252,7 @@ Variables</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>Les valeurs de la fiche, prêtes à être posées par <span class="tt"><a class="el" href="classhmi_1_1RpgScreenFrame.html#ab291c53e878299247ec021e73722f4eb" title="Remplit les valeurs de l&#39;écran (LOT-38).">hmi::RpgScreenFrame::setValues</a></span>. Un contexte incomplet (fiche absente) rend une table <b>vide</b>, jamais des zéros : l'écran garde alors ses tirets, ce qui est la vérité. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Les valeurs de la fiche, prêtes à être posées par <span class="tt">hmi::RpgScreenFrame::setValues</span>. Un contexte incomplet (fiche absente) rend une table <b>vide</b>, jamais des zéros : l'écran garde alors ses tirets, ce qui est la vérité. </dd></dl>
 
 </div>
 </div>
@@ -6220,41 +6067,6 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a55b861e9c4e75fd753ec919a062940fc" name="a55b861e9c4e75fd753ec919a062940fc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a55b861e9c4e75fd753ec919a062940fc">&#9670;&#160;</a></span>focusFleuronPoints()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::vector&lt; <a class="el" href="structhmi_1_1ParchmentPoint.html">ParchmentPoint</a> &gt; hmi::focusFleuronPoints </td>
-          <td>(</td>
-          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>size</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Sommets du <b>fleuron de focus</b> — une pointe pleine tournée vers la droite, inscrite dans un carré de côté <code class="param">size</code> (<span class="tt">LOT-66</span>, <span class="tt">EX-IHM-071</span>). </p>
-<p>Un polygone, et non plus des pavés : la charte parchemin peint anticrénelé, et le triangle en escalier du pixel art n'a plus lieu d'être. La pointe est <b>échancrée</b> à l'arrière — quatre sommets, pas trois — pour qu'elle se lise comme une marque de position et non comme le curseur de saisie d'un champ de texte.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">size</td><td>Côté du carré englobant, en pixels. En dessous de quatre pixels, le fleuron est vide plutôt que réduit à une tache : une marque qu'on ne reconnaît pas ne désigne rien. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Les sommets, dans l'ordre du tracé, relatifs au coin haut-gauche du carré. </dd></dl>
-
-</div>
-</div>
 <a id="aabc578b802bb386e63d830e168140fe7" name="aabc578b802bb386e63d830e168140fe7"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aabc578b802bb386e63d830e168140fe7">&#9670;&#160;</a></span>formatSceneStatistics()</h2>
 
@@ -6583,32 +6395,6 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a0bdbcbcbafff7ef8f3271c768963559c" name="a0bdbcbcbafff7ef8f3271c768963559c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0bdbcbcbafff7ef8f3271c768963559c">&#9670;&#160;</a></span>identityScale()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">int hmi::identityScale </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>Le facteur d'agrandissement courant des écrans du jeu (1 tant qu'aucune fenêtre ne l'a fixé). </dd></dl>
-
-</div>
-</div>
 <a id="a680c72595996170b489d85e44e9fbc5c" name="a680c72595996170b489d85e44e9fbc5c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a680c72595996170b489d85e44e9fbc5c">&#9670;&#160;</a></span>identityScaleFor()</h2>
 
@@ -6683,34 +6469,6 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Le facteur entier, dans <span class="tt">[1, <a class="el" href="#ae685f3bbb2403ff14aed68781f718fab" title="Plus grand facteur admis.">IDENTITY_MAX_SCALE</a>]</span>, jamais supérieur à celui que la zone disponible admet. </dd></dl>
-
-</div>
-</div>
-<a id="ac3130b7d78eb3f92bca8ded4f7fa4e3d" name="ac3130b7d78eb3f92bca8ded4f7fa4e3d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac3130b7d78eb3f92bca8ded4f7fa4e3d">&#9670;&#160;</a></span>identityStyleSheet()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">QString hmi::identityStyleSheet </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Feuille de style de la <b>portée identité</b> (<span class="tt">:/resources/theme-identity.qss</span>), substituée avec les jetons effectifs et le facteur d'agrandissement courant (<span class="tt"><a class="el" href="#a0bdbcbcbafff7ef8f3271c768963559c">identityScale</a></span>). </p>
-<p>Rendue plutôt qu'appliquée : c'est l'appelant qui sait <b>où</b> la poser — sur la pile d'écrans, et non sur l'application (<span class="tt">EX-IHM-082</span>). Chaîne vide si la feuille est absente ou invalide ; l'appelant laisse alors en place la précédente. </p>
 
 </div>
 </div>
@@ -6800,7 +6558,7 @@ Variables</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>Les valeurs de l'inventaire, prêtes pour <span class="tt"><a class="el" href="classhmi_1_1RpgScreenFrame.html#ab291c53e878299247ec021e73722f4eb" title="Remplit les valeurs de l&#39;écran (LOT-38).">hmi::RpgScreenFrame::setValues</a></span>. Un contexte sans inventaire rend une table <b>vide</b> : l'écran garde alors ses tirets. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Les valeurs de l'inventaire, prêtes pour <span class="tt">hmi::RpgScreenFrame::setValues</span>. Un contexte sans inventaire rend une table <b>vide</b> : l'écran garde alors ses tirets. </dd></dl>
 
 </div>
 </div>
@@ -7326,6 +7084,36 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Les noms de fichiers image, triés par ordre alphabétique ; vide si le dossier est absent — un état de départ légitime, pas une erreur. </dd></dl>
+
+</div>
+</div>
+<a id="aa7f27ef2ac4ebf9ca9471566aa568af4" name="aa7f27ef2ac4ebf9ca9471566aa568af4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa7f27ef2ac4ebf9ca9471566aa568af4">&#9670;&#160;</a></span>loadDemonstrationValues()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structhmi_1_1DemonstrationCharacter.html">DemonstrationCharacter</a> hmi::loadDemonstrationValues </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Charge le personnage de démonstration livré en donnée, et calcule ses deux tables. </p>
+<p><b>ÉCHAFAUDAGE, et il est écrit comme tel.</b> Il n'existe encore ni groupe ni sauvegarde d'où tirer un personnage réel, et des écrans qui n'affichent aucun personnage ne se relisent pas. Le jour où une partie en fournira un, c'est <b>cette fonction</b> qui change — pas les écrans, qui ne consomment que des valeurs nommées, d'où qu'elles viennent.</p>
+<p><b>Pourquoi une fonction partagée.</b> La fiche et l'inventaire décrivent le <b>même</b> personnage : charger deux fois les huit catalogues aurait doublé le travail et, surtout, permis aux deux écrans de diverger — la classe d'armure de la fiche vient de ce que l'inventaire contient, et deux chargements séparés auraient pu ne pas voir le même équipement.</p>
+<p>Une donnée manquante n'interrompt rien : l'erreur est journalisée en nommant son fichier (<span class="tt">EX-CNT-010</span>) et les tables sont partielles. Un écran partiel garde ses tirets, ce qui est la vérité — et vaut mieux qu'un écran vide. </p><dl class="section note"><dt>Note</dt><dd>Nommee <span class="tt"><a class="el" href="#aa7f27ef2ac4ebf9ca9471566aa568af4" title="Charge le personnage de démonstration livré en donnée, et calcule ses deux tables.">loadDemonstrationValues</a></span> et non <span class="tt">…Character</span> : les vues-modeles exposent au QML une methode <span class="tt">loadDemonstrationCharacter</span>, et deux noms identiques auraient fait que la methode s'appelle elle-meme &ndash; la recherche de nom trouve le membre avant la fonction libre. </dd></dl>
 
 </div>
 </div>
@@ -7953,67 +7741,6 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a07443ee4713c5b7b831895cb83dc80b9" name="a07443ee4713c5b7b831895cb83dc80b9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a07443ee4713c5b7b831895cb83dc80b9">&#9670;&#160;</a></span>paintFocusFleuron()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hmi::paintFocusFleuron </td>
-          <td>(</td>
-          <td class="paramtype">QPainter &amp;</td>          <td class="paramname"><span class="paramname"><em>painter</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const QRect &amp;</td>          <td class="paramname"><span class="paramname"><em>box</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Peint le fleuron de focus dans <code class="param">box</code>, à la couleur d'accent de l'identité. </p>
-<p>Fonction <b>libre</b> et non méthode : la marque est peinte à deux endroits — par <span class="tt"><a class="el" href="classhmi_1_1FocusMarker.html" title="Marque de focus flottante, posée à gauche du contrôle focalisé de l&#39;écran hôte.">hmi::FocusMarker</a></span> pour les contrôles ordinaires, par <span class="tt"><a class="el" href="classhmi_1_1MenuEntryButton.html">hmi::MenuEntryButton</a></span> dans sa propre gouttière — et <span class="tt">EX-IHM-071</span> demande <em>une</em> marque, pas deux qui se ressemblent. Deux tracés séparés dériveraient l'un de l'autre à la première retouche, sans que rien ne le signale : le joueur verrait une pointe dans le menu et une autre dans les options, et croirait à deux états différents.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">painter</td><td>Peintre déjà positionné dans le repère du widget hôte. </td></tr>
-    <tr><td class="paramname">box</td><td>Carré englobant du fleuron. Un rectangle non carré est rogné à son plus petit côté, puis centré : une marque étirée ne se reconnaît plus. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="afb15abd558357b81975c9f1b10473f38" name="afb15abd558357b81975c9f1b10473f38"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afb15abd558357b81975c9f1b10473f38">&#9670;&#160;</a></span>paintOrnaments()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hmi::paintOrnaments </td>
-          <td>(</td>
-          <td class="paramtype">QPainter &amp;</td>          <td class="paramname"><span class="paramname"><em>painter</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="structhmi_1_1OrnamentShape.html">OrnamentShape</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>shapes</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const QPoint &amp;</td>          <td class="paramname"><span class="paramname"><em>origin</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Peint les formes de <code class="param">shapes</code>, translatées de <code class="param">origin</code>. </p>
-<p>L'anticrénelage est <b>actif</b> : toutes ces formes sont obliques — facettes de gemme, doigts d'aile, chevrons — et sont les seules de l'habillage à ne pas suivre la grille de pixels. Sans lui, elles redeviendraient l'escalier du pixel art dont la charte est sortie. C'est l'inverse du choix fait pour les bandes de <span class="tt"><a class="el" href="classhmi_1_1ParchmentPanel.html">hmi::ParchmentPanel</a></span>, qui sont toutes alignées sur la grille et qu'un anticrénelage coudrait d'une demi-teinte claire à chaque jointure.</p>
-<p>Les réglages du <code class="param">painter</code> (crayon, brosse, indices de rendu) sont <b>restaurés</b> à la sortie : ce peintre est appelé au milieu du <span class="tt">paintEvent</span> d'autrui. </p>
-
-</div>
-</div>
 <a id="aa391954b311db21fd63162e8ec40fcc5" name="aa391954b311db21fd63162e8ec40fcc5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa391954b311db21fd63162e8ec40fcc5">&#9670;&#160;</a></span>paletteThumbnail()</h2>
 
@@ -8240,91 +7967,6 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>La position à utiliser pour le rendu (et le culling) de ce contenu. </dd></dl>
-
-</div>
-</div>
-<a id="a45ffc40cf32dc17c3c53721ff78b1d90" name="a45ffc40cf32dc17c3c53721ff78b1d90"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a45ffc40cf32dc17c3c53721ff78b1d90">&#9670;&#160;</a></span>parchmentFrameCorner()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">int hmi::parchmentFrameCorner </td>
-          <td>(</td>
-          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>width</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>height</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>scale</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Côté du <b>cabochon d'angle</b> d'un encadrement de <code class="param">width</code> × <code class="param">height</code>, en pixels. </p>
-<p>Exposé pour que le peintre pose au même endroit, et à la même taille, l'ornement tracé du <span class="tt">LOT-76</span> (<span class="tt"><a class="el" href="#a533707d1b488af487db2d8ba55917e23" title="Cabochon d&#39;angle : un grenat taillé, serti d&#39;or, inscrit dans un carré de côté size.">hmi::cabochonShapes</a></span>). Le déduire de l'ordre des bandes rendues par <span class="tt"><a class="el" href="#addf3903688875c48beebeda82ec7daf5" title="Bandes composant un encadrement, dans l&#39;ordre de dessin (les dernières recouvrent les premières).">parchmentFrameStrokes</a></span> marcherait aujourd'hui et casserait à la première bande ajoutée, sans qu'aucune erreur ne le dise : le cabochon se poserait ailleurs que le carré qu'il habille.</p>
-<dl class="section return"><dt>Returns</dt><dd>Le côté du carré d'angle ; <b>zéro</b> quand le cadre est trop petit pour porter un encadrement, cas où <span class="tt"><a class="el" href="#addf3903688875c48beebeda82ec7daf5" title="Bandes composant un encadrement, dans l&#39;ordre de dessin (les dernières recouvrent les premières).">parchmentFrameStrokes</a></span> ne rend que son champ. </dd></dl>
-
-</div>
-</div>
-<a id="addf3903688875c48beebeda82ec7daf5" name="addf3903688875c48beebeda82ec7daf5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#addf3903688875c48beebeda82ec7daf5">&#9670;&#160;</a></span>parchmentFrameStrokes()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::vector&lt; <a class="el" href="structhmi_1_1ParchmentStroke.html">ParchmentStroke</a> &gt; hmi::parchmentFrameStrokes </td>
-          <td>(</td>
-          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>width</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>height</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>scale</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Bandes composant un encadrement, dans l'<b>ordre de dessin</b> (les dernières recouvrent les premières). </p>
-<p>Les coins ne sont <b>pas entaillés</b> : ils portent un cabochon doré, carré de trois unités posé par-dessus le trait. C'est ce détail qui distingue l'encadrement d'une simple bordure à deux traits — et c'est exactement ce que le pixel art faisait à l'envers, en <em>retirant</em> de la matière aux angles au lieu d'en ajouter.</p>
-<p>Toutes les bandes retournées sont contenues dans <span class="tt">[0, width] x [0, height]</span>, y compris lorsque le cadre est trop petit pour porter son encadrement : dans ce cas l'épaisseur se réduit, elle ne déborde jamais. Un cadre plus petit que six unités dans l'une de ses dimensions ne rend que son champ — mieux vaut un panneau nu qu'un encadrement écrasé, illisible et faux.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">width</td><td>Largeur du cadre, en pixels. </td></tr>
-    <tr><td class="paramname">height</td><td>Hauteur du cadre, en pixels. </td></tr>
-    <tr><td class="paramname">scale</td><td>Facteur d'agrandissement entier (<span class="tt"><a class="el" href="#a680c72595996170b489d85e44e9fbc5c" title="Facteur d&#39;agrandissement des écrans du jeu pour une hauteur de fenêtre donnée.">hmi::identityScaleFor</a></span>) : trait, réserve et filet valent chacun une unité de maquette, donc <code class="param">scale</code> pixels réels. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Les bandes à peindre ; vide si <code class="param">width</code> ou <code class="param">height</code> est nul ou négatif. </dd></dl>
 
 </div>
 </div>
@@ -9550,34 +9192,6 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="aa12b108fb923da090df69e6ae9635498" name="aa12b108fb923da090df69e6ae9635498"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa12b108fb923da090df69e6ae9635498">&#9670;&#160;</a></span>resolvedIdentityTitleFamily()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string hmi::resolvedIdentityTitleFamily </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Nom de famille des <b>titres d'écran</b> de la portée identité (<span class="tt">Press Start 2P</span>), ou une chaîne vide en cas d'échec. </p>
-<p>Distincte de <span class="tt">resolvedFontFamily(FontRole::Identity)</span> : une police de titre très typée serait illisible en corps de texte. </p>
-
-</div>
-</div>
 <a id="a00629522279a61cffd0c68ae26c3fca0" name="a00629522279a61cffd0c68ae26c3fca0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a00629522279a61cffd0c68ae26c3fca0">&#9670;&#160;</a></span>resolveEffectiveEditorTheme()</h2>
 
@@ -10108,6 +9722,49 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="ab6cae0930fa7f6fecf4d383e6b80ed39" name="ab6cae0930fa7f6fecf4d383e6b80ed39"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab6cae0930fa7f6fecf4d383e6b80ed39">&#9670;&#160;</a></span>ruleLabel()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string hmi::ruleLabel </td>
+          <td>(</td>
+          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>key</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>language</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Nom lisible d'un terme de règle — caractéristique, emplacement d'équipement, condition. </p>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md827"></a>
+Pourquoi ceux-là ne passent pas par <span class="tt">qsTr</span></h2>
+<p>La chrome des écrans (« Points de vie », « Nouvelle partie ») s'écrit en français <b>dans le fichier QML</b>, et Qt la traduit par sa source. Ces libellés-ci ne le peuvent pas : leur clé est <b>calculée</b> (<span class="tt">rpg.ability.</span> + l'identifiant que le modèle rend), et <span class="tt">qsTr</span> exige une chaîne littérale — c'est ce qui permet à <span class="tt">lupdate</span> de l'extraire sans exécuter le programme.</p>
+<p>Ce n'est pas qu'une contrainte technique. Ces termes sont un <b>lexique</b> : <span class="tt">rpg.glossary.csv</span> garantit une seule traduction par terme de règle dans tout le jeu, et <span class="tt">scripts/check_glossary.py</span> le vérifie. Les disperser en littéraux dans les écrans casserait précisément cette garantie.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">key</td><td>Clé du catalogue (« rpg.ability.strength »). </td></tr>
+    <tr><td class="paramname">language</td><td>Langue demandée (« fr », « en »). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Le libellé traduit ; la <b>clé elle-même</b> si le catalogue ne la porte pas — jamais une chaîne vide, qui donnerait un écran troué sans dire pourquoi. </dd></dl>
+
+</div>
+</div>
 <a id="ab15770b1b08b0c7155acb374ca5b174a" name="ab15770b1b08b0c7155acb374ca5b174a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab15770b1b08b0c7155acb374ca5b174a">&#9670;&#160;</a></span>sanitizePlaneBaseName()</h2>
 
@@ -10425,26 +10082,6 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Persiste <code class="param">setting</code> (<span class="tt">QSettings</span>), relu au démarrage suivant. </p>
-
-</div>
-</div>
-<a id="a04dc2eb2c01a84c7b71c2489e8f230f5" name="a04dc2eb2c01a84c7b71c2489e8f230f5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a04dc2eb2c01a84c7b71c2489e8f230f5">&#9670;&#160;</a></span>setIdentityScale()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool hmi::setIdentityScale </td>
-          <td>(</td>
-          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>scale</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Fixe le facteur d'agrandissement <b>entier</b> des écrans du jeu (<span class="tt"><a class="el" href="#a680c72595996170b489d85e44e9fbc5c" title="Facteur d&#39;agrandissement des écrans du jeu pour une hauteur de fenêtre donnée.">hmi::identityScaleFor</a></span>), relu par <span class="tt"><a class="el" href="#aee6f5ca213fc30772f1d5a7df740fe4c" title="Charge le modèle de feuille de style du châssis d&#39;édition (:/resources/theme-editor....">applyStyleSheet</a></span> (<span class="tt">LOT-68</span>, <span class="tt">EX-IHM-070</span>). </p>
-<p>Un réglage, pas un calcul : c'est la fenêtre qui connaît sa hauteur, et elle seule. </p><dl class="section return"><dt>Returns</dt><dd><span class="tt">true</span> si la valeur a changé — l'appelant sait alors qu'il doit rejouer le thème. </dd></dl>
 
 </div>
 </div>
@@ -11210,47 +10847,6 @@ Variables</h2></td></tr>
 
 <p>Taxonomie complète des types de tuiles peignables, en catégories/sous-groupes. </p>
 <p>Logique <b>pure</b> (aucune dépendance Qt/GPU), testable (<span class="tt">EX-NFR-010</span>) : sert de source unique à la palette <span class="tt">QTreeView</span> de l'éditeur (<span class="tt">EX-EDIT-018</span>, <span class="tt">EX-IHM-010</span>). <b>Chaque</b> <span class="tt"><a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875" title="Type d&#39;une tuile de la grille d&#39;une carte (EX-GP-001).">core::TileType</a></span> y figure <b>exactement une fois</b>, dans un ordre déterministe (invariant vérifié par les tests). Reprend l'organisation de la palette historique (<span class="tt">LOT-27</span>). </p>
-
-</div>
-</div>
-<a id="ad064e631e040400bdf725766b3dabd4c" name="ad064e631e040400bdf725766b3dabd4c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad064e631e040400bdf725766b3dabd4c">&#9670;&#160;</a></span>titleBannerShapes()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::vector&lt; <a class="el" href="structhmi_1_1OrnamentShape.html">OrnamentShape</a> &gt; hmi::titleBannerShapes </td>
-          <td>(</td>
-          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>width</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>height</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Bandeau de titre : une plaque de grenat à chevrons, entre deux ailes d'or. </p>
-<p>Les ailes ne s'étirent <b>pas</b> avec la largeur : leur envergure suit la <b>hauteur</b> du bandeau, comme dans le livre, et c'est le seul point où l'on peut se tromper en le traçant. Un bandeau deux fois plus long doit porter une plaque deux fois plus longue et les mêmes ailes ; les faire grandir avec la largeur donne, sur un titre long, deux ailes de chauve-souris démesurées de part et d'autre d'une plaque restée fine.</p>
-<p>Quand la largeur ne suffit plus à porter les deux ailes et une plaque lisible, ce sont les <b>ailes</b> qui cèdent — d'abord en se réduisant, puis, sous <span class="tt"><a class="el" href="#a9c1595bc09ef4f786e40bc32c594a1fc" title="Côté minimal, en pixels, sous lequel un cabochon n&#39;est plus qu&#39;une tache.">ORNAMENT_MINIMUM_SIZE</a></span>, en disparaissant. Jamais la plaque : c'est elle qui porte le titre, et un titre rogné pour loger des ailes entières n'a plus de raison d'avoir un bandeau. Un moignon de six pixels, lui, ne se lit pas comme une aile mais comme une bavure.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">width</td><td>Largeur totale du bandeau, en pixels. </td></tr>
-    <tr><td class="paramname">height</td><td>Hauteur totale, en pixels. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Les formes, dans l'ordre de dessin ; vide si le bandeau est dégénéré. </dd></dl>
 
 </div>
 </div>
@@ -12933,31 +12529,6 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a9c1595bc09ef4f786e40bc32c594a1fc" name="a9c1595bc09ef4f786e40bc32c594a1fc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9c1595bc09ef4f786e40bc32c594a1fc">&#9670;&#160;</a></span>ORNAMENT_MINIMUM_SIZE</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">int hmi::ORNAMENT_MINIMUM_SIZE = 8</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Côté minimal, en pixels, sous lequel un cabochon n'est plus qu'une tache. </p>
-<p>Six sommets d'octogone dans moins de huit pixels ne dessinent plus un serti, et une marque qu'on ne reconnaît pas ne désigne rien — même raison que le plancher du fleuron de focus (<span class="tt"><a class="el" href="#a55b861e9c4e75fd753ec919a062940fc" title="Sommets du fleuron de focus — une pointe pleine tournée vers la droite, inscrite dans un carré de côt...">hmi::focusFleuronPoints</a></span>). </p>
-
-</div>
-</div>
 <a id="af04ce56b73b71704b41ee6d8cfe4e2e2" name="af04ce56b73b71704b41ee6d8cfe4e2e2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af04ce56b73b71704b41ee6d8cfe4e2e2">&#9670;&#160;</a></span>PANEL_COUNT</h2>
 
@@ -13028,56 +12599,6 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Facteur <b>neutre</b> : le contenu est solidaire du niveau et ne subit aucun décalage. </p>
-
-</div>
-</div>
-<a id="af1ae6f7ec7bfe9e7b3f8198180717c5c" name="af1ae6f7ec7bfe9e7b3f8198180717c5c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af1ae6f7ec7bfe9e7b3f8198180717c5c">&#9670;&#160;</a></span>PARCHMENT_CABOCHON_FACTOR</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">int hmi::PARCHMENT_CABOCHON_FACTOR = 2</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Facteur de débord du <b>cabochon</b> sur le carré d'angle qu'il habille (<span class="tt">LOT-76</span>). </p>
-<p>Un cabochon exactement à la taille du carré disparaît : il fait alors l'épaisseur de l'encadrement, et son octogone se confond avec le filet qui le borde. Sur les feuilles du corpus, la pierre mesure plus du double du filet — elle est <em>posée sur</em> l'angle, pas <em>encastrée dedans</em>. Deux fois, donc, et pas trois : au-delà elle mordrait sur le champ. </p>
-
-</div>
-</div>
-<a id="ae9ed7690d4c8521dfcb82be2d3389860" name="ae9ed7690d4c8521dfcb82be2d3389860"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae9ed7690d4c8521dfcb82be2d3389860">&#9670;&#160;</a></span>PARCHMENT_FRAME_UNITS</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">int hmi::PARCHMENT_FRAME_UNITS = 3</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Épaisseur totale de l'encadrement, en <b>unités de maquette</b> : trait, réserve de parchemin, filet. </p>
-<p>C'est la réserve du milieu qui fait l'encadrement — sans elle, trait et filet se touchent et l'ensemble se lit comme une bordure épaisse de deux tons, pas comme un cadre. </p>
 
 </div>
 </div>

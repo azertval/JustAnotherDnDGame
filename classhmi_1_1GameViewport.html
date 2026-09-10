@@ -342,16 +342,9 @@ Private Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-attribs" class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
-<tr class="memitem:a79277c640d9064451180966082c326f4" id="r_a79277c640d9064451180966082c326f4"><td class="memItemLeft"><a class="el" href="structhmi_1_1RhiContext.html">hmi::RhiContext</a>&#160;</td><td class="memItemRight"><a class="el" href="#a79277c640d9064451180966082c326f4">_rhiContext</a></td></tr>
-<tr class="memdesc:a79277c640d9064451180966082c326f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interface de rendu courante et lot de mises à jour de l'image en cours, partagés avec tout ce qui crée des textures (atlas, cache, police).  <br /></td></tr>
-<tr class="memitem:a132dc1f84bb787da5f50d8cef3627d38" id="r_a132dc1f84bb787da5f50d8cef3627d38"><td class="memItemLeft">std::unique_ptr&lt; <a class="el" href="classhmi_1_1SpriteBatch.html">hmi::SpriteBatch</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a132dc1f84bb787da5f50d8cef3627d38">_spriteBatch</a></td></tr>
-<tr class="memitem:a59a93eb0995d3ebd1f0547b569ff0b9c" id="r_a59a93eb0995d3ebd1f0547b569ff0b9c"><td class="memItemLeft">std::unique_ptr&lt; <a class="el" href="classhmi_1_1TextureAtlas.html">hmi::TextureAtlas</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a59a93eb0995d3ebd1f0547b569ff0b9c">_atlas</a></td></tr>
-<tr class="memitem:a22acfc4d63a401176b695f09d71ec03b" id="r_a22acfc4d63a401176b695f09d71ec03b"><td class="memItemLeft">std::unique_ptr&lt; <a class="el" href="classhmi_1_1TextureCache.html">hmi::TextureCache</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a22acfc4d63a401176b695f09d71ec03b">_textureCache</a></td></tr>
+<tr class="memitem:a1e846a703787f4fb239777fda2a7905c" id="r_a1e846a703787f4fb239777fda2a7905c"><td class="memItemLeft"><a class="el" href="classhmi_1_1SceneResources.html">hmi::SceneResources</a>&#160;</td><td class="memItemRight"><a class="el" href="#a1e846a703787f4fb239777fda2a7905c">_scene</a></td></tr>
+<tr class="memdesc:a1e846a703787f4fb239777fda2a7905c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lot de sprites, atlas, police, textures et skins — communs au viewport de l'éditeur et à l'élément Qt Quick du jeu (<span class="tt">LOT-86</span>).  <br /></td></tr>
 <tr class="memitem:acb6b47f4e35e9c42a6354f799d90e066" id="r_acb6b47f4e35e9c42a6354f799d90e066"><td class="memItemLeft">std::unique_ptr&lt; <a class="el" href="classhmi_1_1DraftRenderer.html">hmi::DraftRenderer</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#acb6b47f4e35e9c42a6354f799d90e066">_draftRenderer</a></td></tr>
-<tr class="memitem:a5c63edbd4f0ca7e0b77ee7f7b211c2c7" id="r_a5c63edbd4f0ca7e0b77ee7f7b211c2c7"><td class="memItemLeft">std::unique_ptr&lt; <a class="el" href="classhmi_1_1BitmapFont.html">hmi::BitmapFont</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a5c63edbd4f0ca7e0b77ee7f7b211c2c7">_font</a></td></tr>
-<tr class="memdesc:a5c63edbd4f0ca7e0b77ee7f7b211c2c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Police bitmap de l'affichage tête haute (<span class="tt">LOT-52</span>), chargée une fois au démarrage comme <span class="tt"><a class="el" href="#a59a93eb0995d3ebd1f0547b569ff0b9c">_atlas</a></span> (pas de rechargement à chaud).  <br /></td></tr>
-<tr class="memitem:aeac238dcd6e5acc5b30326e29643e214" id="r_aeac238dcd6e5acc5b30326e29643e214"><td class="memItemLeft"><a class="el" href="classhmi_1_1SkinCatalog.html">hmi::SkinCatalog</a>&#160;</td><td class="memItemRight"><a class="el" href="#aeac238dcd6e5acc5b30326e29643e214">_skins</a></td></tr>
-<tr class="memdesc:aeac238dcd6e5acc5b30326e29643e214"><td class="mdescLeft">&#160;</td><td class="mdescRight">Catalogue des jeux de skins (<span class="tt">LOT-42</span>), lu au démarrage depuis <span class="tt">Assets/skins.json</span>.  <br /></td></tr>
 <tr class="memitem:a18df9fc7817cad1954a2008e827ac3c6" id="r_a18df9fc7817cad1954a2008e827ac3c6"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a18df9fc7817cad1954a2008e827ac3c6">_skinSet</a></td></tr>
 <tr class="memdesc:a18df9fc7817cad1954a2008e827ac3c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Jeu de skins courant ; vide pour le jeu par défaut du catalogue.  <br /></td></tr>
 <tr class="memitem:acd267663dc14c010857f9d3156526e94" id="r_acd267663dc14c010857f9d3156526e94"><td class="memItemLeft"><a class="el" href="classhmi_1_1GameKeyBindings.html">hmi::GameKeyBindings</a>&#160;</td><td class="memItemRight"><a class="el" href="#acd267663dc14c010857f9d3156526e94">_gameBindings</a></td></tr>
@@ -3690,28 +3683,6 @@ paintTile</span>) ; <span class="tt">Ctrl+Z</span>/<span class="tt">Ctrl+Y</span
 
 </div>
 </div>
-<a id="a59a93eb0995d3ebd1f0547b569ff0b9c" name="a59a93eb0995d3ebd1f0547b569ff0b9c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a59a93eb0995d3ebd1f0547b569ff0b9c">&#9670;&#160;</a></span>_atlas</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::unique_ptr&lt;<a class="el" href="classhmi_1_1TextureAtlas.html">hmi::TextureAtlas</a>&gt; hmi::GameViewport::_atlas</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="a56722605e0ce1c86c80d4630b5f441a7" name="a56722605e0ce1c86c80d4630b5f441a7"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a56722605e0ce1c86c80d4630b5f441a7">&#9670;&#160;</a></span>_audioEngine</h2>
 
@@ -4020,30 +3991,6 @@ paintTile</span>) ; <span class="tt">Ctrl+Z</span>/<span class="tt">Ctrl+Y</span
 </div><div class="memdoc">
 
 <p>Raccourcis d'éditeur remappables (<span class="tt">LOT-45</span>). </p>
-
-</div>
-</div>
-<a id="a5c63edbd4f0ca7e0b77ee7f7b211c2c7" name="a5c63edbd4f0ca7e0b77ee7f7b211c2c7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5c63edbd4f0ca7e0b77ee7f7b211c2c7">&#9670;&#160;</a></span>_font</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::unique_ptr&lt;<a class="el" href="classhmi_1_1BitmapFont.html">hmi::BitmapFont</a>&gt; hmi::GameViewport::_font</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Police bitmap de l'affichage tête haute (<span class="tt">LOT-52</span>), chargée une fois au démarrage comme <span class="tt"><a class="el" href="#a59a93eb0995d3ebd1f0547b569ff0b9c">_atlas</a></span> (pas de rechargement à chaud). </p>
 
 </div>
 </div>
@@ -4592,30 +4539,6 @@ paintTile</span>) ; <span class="tt">Ctrl+Z</span>/<span class="tt">Ctrl+Y</span
 
 </div>
 </div>
-<a id="a79277c640d9064451180966082c326f4" name="a79277c640d9064451180966082c326f4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a79277c640d9064451180966082c326f4">&#9670;&#160;</a></span>_rhiContext</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="structhmi_1_1RhiContext.html">hmi::RhiContext</a> hmi::GameViewport::_rhiContext</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Interface de rendu courante et lot de mises à jour de l'image en cours, partagés avec tout ce qui crée des textures (atlas, cache, police). </p>
-
-</div>
-</div>
 <a id="a8af62a9933e2cf88b94029a55b3643b1" name="a8af62a9933e2cf88b94029a55b3643b1"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8af62a9933e2cf88b94029a55b3643b1">&#9670;&#160;</a></span>_rightDragging</h2>
 
@@ -4661,6 +4584,31 @@ paintTile</span>) ; <span class="tt">Ctrl+Z</span>/<span class="tt">Ctrl+Y</span
 </div><div class="memdoc">
 
 <p>Dernière position écran du glisser droit en cours. </p>
+
+</div>
+</div>
+<a id="a1e846a703787f4fb239777fda2a7905c" name="a1e846a703787f4fb239777fda2a7905c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1e846a703787f4fb239777fda2a7905c">&#9670;&#160;</a></span>_scene</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classhmi_1_1SceneResources.html">hmi::SceneResources</a> hmi::GameViewport::_scene</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Lot de sprites, atlas, police, textures et skins — communs au viewport de l'éditeur et à l'élément Qt Quick du jeu (<span class="tt">LOT-86</span>). </p>
+<p>Regroupés parce que leur ORDRE de libération est une contrainte, pas une préférence : voir <span class="tt"><a class="el" href="classhmi_1_1SceneResources.html" title="Lot de sprites, atlas, police bitmap, registre de textures et catalogue de skins — créés ensemble,...">hmi::SceneResources</a></span>. </p>
 
 </div>
 </div>
@@ -4782,31 +4730,6 @@ paintTile</span>) ; <span class="tt">Ctrl+Z</span>/<span class="tt">Ctrl+Y</span
 
 </div>
 </div>
-<a id="aeac238dcd6e5acc5b30326e29643e214" name="aeac238dcd6e5acc5b30326e29643e214"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aeac238dcd6e5acc5b30326e29643e214">&#9670;&#160;</a></span>_skins</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classhmi_1_1SkinCatalog.html">hmi::SkinCatalog</a> hmi::GameViewport::_skins</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Catalogue des jeux de skins (<span class="tt">LOT-42</span>), lu au démarrage depuis <span class="tt">Assets/skins.json</span>. </p>
-<p>Vide si le fichier est absent ou illisible : tout retombe alors sur le damier, sans bloquer. </p>
-
-</div>
-</div>
 <a id="a18df9fc7817cad1954a2008e827ac3c6" name="a18df9fc7817cad1954a2008e827ac3c6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a18df9fc7817cad1954a2008e827ac3c6">&#9670;&#160;</a></span>_skinSet</h2>
 
@@ -4828,50 +4751,6 @@ paintTile</span>) ; <span class="tt">Ctrl+Z</span>/<span class="tt">Ctrl+Y</span
 </div><div class="memdoc">
 
 <p>Jeu de skins courant ; vide pour le jeu par défaut du catalogue. </p>
-
-</div>
-</div>
-<a id="a132dc1f84bb787da5f50d8cef3627d38" name="a132dc1f84bb787da5f50d8cef3627d38"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a132dc1f84bb787da5f50d8cef3627d38">&#9670;&#160;</a></span>_spriteBatch</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::unique_ptr&lt;<a class="el" href="classhmi_1_1SpriteBatch.html">hmi::SpriteBatch</a>&gt; hmi::GameViewport::_spriteBatch</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a22acfc4d63a401176b695f09d71ec03b" name="a22acfc4d63a401176b695f09d71ec03b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a22acfc4d63a401176b695f09d71ec03b">&#9670;&#160;</a></span>_textureCache</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::unique_ptr&lt;<a class="el" href="classhmi_1_1TextureCache.html">hmi::TextureCache</a>&gt; hmi::GameViewport::_textureCache</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
 
 </div>
 </div>

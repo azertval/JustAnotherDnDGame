@@ -51,6 +51,8 @@ var dir_1f83c05e1f2f20b6a532ccaeb0dbcc81 =
     [ "RhiContext.h", "RhiContext_8h.html", "RhiContext_8h" ],
     [ "RoomGrid.cpp", "RoomGrid_8cpp.html", null ],
     [ "RoomGrid.h", "RoomGrid_8h.html", "RoomGrid_8h" ],
+    [ "SceneResources.cpp", "SceneResources_8cpp.html", null ],
+    [ "SceneResources.h", "SceneResources_8h.html", "SceneResources_8h" ],
     [ "ShadowRenderer.cpp", "ShadowRenderer_8cpp.html", "ShadowRenderer_8cpp" ],
     [ "ShadowRenderer.h", "ShadowRenderer_8h.html", "ShadowRenderer_8h" ],
     [ "SkinCatalog.cpp", "SkinCatalog_8cpp.html", "SkinCatalog_8cpp" ],

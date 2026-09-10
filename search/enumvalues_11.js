@@ -17,6 +17,6 @@ var searchData=
   ['ringright_14',['RingRight',['../namespacecore.html#af71085608729d9857e7ee3fd17be6cd6a2390e3a8317e0d192cdbaebaaa54a716',1,'core']]],
   ['rotateclockwise_15',['RotateClockwise',['../namespacehmi.html#a5889df12c254317504ef5777d27d9b0eaafb7976e05c7fb09abf47d0b2add09a5',1,'hmi']]],
   ['rotatecounterclockwise_16',['RotateCounterClockwise',['../namespacehmi.html#a5889df12c254317504ef5777d27d9b0ea1a139302b19d048aee4be8e428710ac6',1,'hmi']]],
-  ['rpgscreen_17',['RpgScreen',['../namespacehmi.html#a168b24f798c2e6d06beb9472a071528da74f7bb96f40b089d24eea4863b269139',1,'hmi']]],
+  ['rpgscreen_17',['RpgScreen',['../classhmi_1_1ScreenRouter.html#a82f878c3ef3a0d8b924af7bbca4b37f7a74f7bb96f40b089d24eea4863b269139',1,'hmi::ScreenRouter::RpgScreen'],['../namespacehmi.html#a168b24f798c2e6d06beb9472a071528da74f7bb96f40b089d24eea4863b269139',1,'hmi::RpgScreen']]],
   ['run_18',['Run',['../namespacehmi.html#a01d3aca49804e2e7ac13786499fe7bf4ac5301693c4e792bcd5a479ef38fb8f8d',1,'hmi']]]
 ];

@@ -14,5 +14,7 @@ var dir_e63fac7525d4addf9f5e759ec10d14ef =
     [ "GameSession.h", "GameSession_8h.html", "GameSession_8h" ],
     [ "GameViewport.cpp", "GameViewport_8cpp.html", null ],
     [ "GameViewport.h", "GameViewport_8h.html", "GameViewport_8h" ],
+    [ "GameViewportItem.cpp", "GameViewportItem_8cpp.html", null ],
+    [ "GameViewportItem.h", "GameViewportItem_8h.html", "GameViewportItem_8h" ],
     [ "IGameMode.h", "IGameMode_8h.html", "IGameMode_8h" ]
 ];

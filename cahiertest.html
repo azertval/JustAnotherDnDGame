@@ -6878,13 +6878,13 @@ Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a749862bc7ec
 Vérifie que <span class="tt">hmi::identityScaleForDisplay(720, 1440)</span> vaut <span class="tt">2</span>.<br  />
 Vérifie que <span class="tt">hmi::identityScaleForDisplay(1080, 1440)</span> vaut <span class="tt">3</span>.  </td></tr>
 </table>
-<p><b><span class="tt"><a class="el" href="test__parchment__frame_8cpp.html" title="Tests unitaires de la géométrie de l&#39;encadrement de parchemin (LOT-66, EX-IHM-070).">test_parchment_frame.cpp</a></span></b></p>
+<p><b><span class="tt">test_parchment_frame.cpp</span></b></p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
 <th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>ParchmentFrameTest.AucuneBandeNeDeborde</b> (Critique)<br  />
-<sub><span class="tt"><a class="el" href="test__parchment__frame_8cpp.html" title="Tests unitaires de la géométrie de l&#39;encadrement de parchemin (LOT-66, EX-IHM-070).">Source/Test/Unit/HMI/Interface/test_parchment_frame.cpp</a>:47</span></sub>  </td><td class="markdownTableBodyNone">Aucune bande de l'encadrement ne sort du rectangle du widget.  </td><td class="markdownTableBodyNone">1. Produire la geometrie pour un balayage de tailles et d'echelles.<br  />
+<sub><span class="tt">Source/Test/Unit/HMI/Interface/test_parchment_frame.cpp:47</span></sub>  </td><td class="markdownTableBodyNone">Aucune bande de l'encadrement ne sort du rectangle du widget.  </td><td class="markdownTableBodyNone">1. Produire la geometrie pour un balayage de tailles et d'echelles.<br  />
 2. Verifier que chaque bande a des dimensions positives et reste dans [0,largeur] x [0,hauteur].  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">stroke.width</span> est strictement supérieur à <span class="tt">0</span>.<br  />
 Vérifie que <span class="tt">stroke.height</span> est strictement supérieur à <span class="tt">0</span>.<br  />
 Vérifie que <span class="tt">stroke.x</span> est supérieur ou égal à <span class="tt">0</span>.<br  />
@@ -6893,45 +6893,45 @@ Vérifie que <span class="tt">stroke.x + stroke.width</span> est inférieur ou �
 Vérifie que <span class="tt">stroke.y + stroke.height</span> est inférieur ou égal à <span class="tt">size</span>.  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>ParchmentFrameTest.LesQuatreRolesSontPresents</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__parchment__frame_8cpp.html" title="Tests unitaires de la géométrie de l&#39;encadrement de parchemin (LOT-66, EX-IHM-070).">Source/Test/Unit/HMI/Interface/test_parchment_frame.cpp</a>:78</span></sub>  </td><td class="markdownTableBodyNone">Un encadrement de taille utile porte les quatre roles de couleur.  </td><td class="markdownTableBodyNone">1. Produire la geometrie d'un cadre de 120 x 80 a l'echelle 2.<br  />
+<sub><span class="tt">Source/Test/Unit/HMI/Interface/test_parchment_frame.cpp:78</span></sub>  </td><td class="markdownTableBodyNone">Un encadrement de taille utile porte les quatre roles de couleur.  </td><td class="markdownTableBodyNone">1. Produire la geometrie d'un cadre de 120 x 80 a l'echelle 2.<br  />
 2. Chercher chacun des quatre roles.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">containsRole(strokes, hmi::ParchmentRole::Field)</span> est vrai.<br  />
 Vérifie que <span class="tt">containsRole(strokes, hmi::ParchmentRole::Edge)</span> est vrai.<br  />
 Vérifie que <span class="tt">containsRole(strokes, hmi::ParchmentRole::Ornament)</span> est vrai.<br  />
 Vérifie que <span class="tt">containsRole(strokes, hmi::ParchmentRole::Shadow)</span> est vrai.  </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>ParchmentFrameTest.UneReserveSepareLeTraitDuFilet</b> (Critique)<br  />
-<sub><span class="tt"><a class="el" href="test__parchment__frame_8cpp.html" title="Tests unitaires de la géométrie de l&#39;encadrement de parchemin (LOT-66, EX-IHM-070).">Source/Test/Unit/HMI/Interface/test_parchment_frame.cpp</a>:99</span></sub>  </td><td class="markdownTableBodyNone">Une reserve de parchemin separe le trait exterieur du filet ornemental.  </td><td class="markdownTableBodyNone">1. Produire la geometrie d'un cadre de 120 x 80 a l'echelle 2.<br  />
-2. Relever le role visible a mi-hauteur, une unite a l'interieur du trait exterieur.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">topRoleAt(strokes, 0, 40)</span> vaut <span class="tt"><a class="el" href="namespacehmi.html#ae32ec83f939d20ebd5cf00137de659f4ae4a297a0f76119a442c2595ac040673e" title="Trait extérieur d&#39;encre (frameEdge).">hmi::ParchmentRole::Edge</a></span>.<br  />
-Vérifie que <span class="tt">topRoleAt(strokes, UNIT, 40)</span> vaut <span class="tt"><a class="el" href="namespacehmi.html#ae32ec83f939d20ebd5cf00137de659f4a6f16a5f8ff5d75ab84c018adacdfcbb7" title="Champ intérieur, le parchemin lui-même (surface).">hmi::ParchmentRole::Field</a></span>.<br  />
-Vérifie que <span class="tt">topRoleAt(strokes, 2 * UNIT, 40)</span> vaut <span class="tt"><a class="el" href="namespacehmi.html#ae32ec83f939d20ebd5cf00137de659f4ae4d7e2fff97ef663babce3cf0e3108a3" title="Filet ornemental doré, en retrait du trait (frameOrnament).">hmi::ParchmentRole::Ornament</a></span>.<br  />
-Vérifie que <span class="tt">topRoleAt(strokes, 3 * UNIT, 40)</span> vaut <span class="tt"><a class="el" href="namespacehmi.html#ae32ec83f939d20ebd5cf00137de659f4a3f39588bb19e28051d9aedfbb170025c" title="Ombre du filet sur le champ (frameShadow).">hmi::ParchmentRole::Shadow</a></span>.  </td></tr>
+<sub><span class="tt">Source/Test/Unit/HMI/Interface/test_parchment_frame.cpp:99</span></sub>  </td><td class="markdownTableBodyNone">Une reserve de parchemin separe le trait exterieur du filet ornemental.  </td><td class="markdownTableBodyNone">1. Produire la geometrie d'un cadre de 120 x 80 a l'echelle 2.<br  />
+2. Relever le role visible a mi-hauteur, une unite a l'interieur du trait exterieur.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">topRoleAt(strokes, 0, 40)</span> vaut <span class="tt">hmi::ParchmentRole::Edge</span>.<br  />
+Vérifie que <span class="tt">topRoleAt(strokes, UNIT, 40)</span> vaut <span class="tt">hmi::ParchmentRole::Field</span>.<br  />
+Vérifie que <span class="tt">topRoleAt(strokes, 2 * UNIT, 40)</span> vaut <span class="tt">hmi::ParchmentRole::Ornament</span>.<br  />
+Vérifie que <span class="tt">topRoleAt(strokes, 3 * UNIT, 40)</span> vaut <span class="tt">hmi::ParchmentRole::Shadow</span>.  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>ParchmentFrameTest.LesAnglesPortentUnCabochon</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__parchment__frame_8cpp.html" title="Tests unitaires de la géométrie de l&#39;encadrement de parchemin (LOT-66, EX-IHM-070).">Source/Test/Unit/HMI/Interface/test_parchment_frame.cpp</a>:122</span></sub>  </td><td class="markdownTableBodyNone">Les quatre angles du cadre portent un cabochon ornemental.  </td><td class="markdownTableBodyNone">1. Produire la geometrie d'un cadre de 120 x 80 a l'echelle 2.<br  />
-2. Relever le role visible au pixel de chacun des quatre angles.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">topRoleAt(strokes, 0, 0)</span> vaut <span class="tt"><a class="el" href="namespacehmi.html#ae32ec83f939d20ebd5cf00137de659f4ae4d7e2fff97ef663babce3cf0e3108a3" title="Filet ornemental doré, en retrait du trait (frameOrnament).">hmi::ParchmentRole::Ornament</a></span>.<br  />
-Vérifie que <span class="tt">topRoleAt(strokes, WIDTH - 1, 0)</span> vaut <span class="tt"><a class="el" href="namespacehmi.html#ae32ec83f939d20ebd5cf00137de659f4ae4d7e2fff97ef663babce3cf0e3108a3" title="Filet ornemental doré, en retrait du trait (frameOrnament).">hmi::ParchmentRole::Ornament</a></span>.<br  />
-Vérifie que <span class="tt">topRoleAt(strokes, 0, HEIGHT - 1)</span> vaut <span class="tt"><a class="el" href="namespacehmi.html#ae32ec83f939d20ebd5cf00137de659f4ae4d7e2fff97ef663babce3cf0e3108a3" title="Filet ornemental doré, en retrait du trait (frameOrnament).">hmi::ParchmentRole::Ornament</a></span>.<br  />
-Vérifie que <span class="tt">topRoleAt(strokes, WIDTH - 1, HEIGHT - 1)</span> vaut <span class="tt"><a class="el" href="namespacehmi.html#ae32ec83f939d20ebd5cf00137de659f4ae4d7e2fff97ef663babce3cf0e3108a3" title="Filet ornemental doré, en retrait du trait (frameOrnament).">hmi::ParchmentRole::Ornament</a></span>.  </td></tr>
+<sub><span class="tt">Source/Test/Unit/HMI/Interface/test_parchment_frame.cpp:122</span></sub>  </td><td class="markdownTableBodyNone">Les quatre angles du cadre portent un cabochon ornemental.  </td><td class="markdownTableBodyNone">1. Produire la geometrie d'un cadre de 120 x 80 a l'echelle 2.<br  />
+2. Relever le role visible au pixel de chacun des quatre angles.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">topRoleAt(strokes, 0, 0)</span> vaut <span class="tt">hmi::ParchmentRole::Ornament</span>.<br  />
+Vérifie que <span class="tt">topRoleAt(strokes, WIDTH - 1, 0)</span> vaut <span class="tt">hmi::ParchmentRole::Ornament</span>.<br  />
+Vérifie que <span class="tt">topRoleAt(strokes, 0, HEIGHT - 1)</span> vaut <span class="tt">hmi::ParchmentRole::Ornament</span>.<br  />
+Vérifie que <span class="tt">topRoleAt(strokes, WIDTH - 1, HEIGHT - 1)</span> vaut <span class="tt">hmi::ParchmentRole::Ornament</span>.  </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>ParchmentFrameTest.LesBorduresOpposeesSontSymetriques</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__parchment__frame_8cpp.html" title="Tests unitaires de la géométrie de l&#39;encadrement de parchemin (LOT-66, EX-IHM-070).">Source/Test/Unit/HMI/Interface/test_parchment_frame.cpp</a>:145</span></sub>  </td><td class="markdownTableBodyNone">Les bordures opposees de l'encadrement ont la meme epaisseur.  </td><td class="markdownTableBodyNone">1. Produire la geometrie d'un cadre rectangulaire.<br  />
+<sub><span class="tt">Source/Test/Unit/HMI/Interface/test_parchment_frame.cpp:145</span></sub>  </td><td class="markdownTableBodyNone">Les bordures opposees de l'encadrement ont la meme epaisseur.  </td><td class="markdownTableBodyNone">1. Produire la geometrie d'un cadre rectangulaire.<br  />
 2. Mesurer l'epaisseur des quatre bandes du trait exterieur.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">left</span> est strictement supérieur à <span class="tt">0</span>.<br  />
 Vérifie que <span class="tt">left</span> vaut <span class="tt">right</span>.<br  />
 Vérifie que <span class="tt">top</span> est strictement supérieur à <span class="tt">0</span>.<br  />
 Vérifie que <span class="tt">top</span> vaut <span class="tt">bottom</span>.  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>ParchmentFrameTest.TaillesDegenereesSansGeometrieInvalide</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__parchment__frame_8cpp.html" title="Tests unitaires de la géométrie de l&#39;encadrement de parchemin (LOT-66, EX-IHM-070).">Source/Test/Unit/HMI/Interface/test_parchment_frame.cpp</a>:193</span></sub>  </td><td class="markdownTableBodyNone">Les tailles degenerees produisent le vide ou un champ nu, jamais une geometrie invalide.  </td><td class="markdownTableBodyNone">1. Demander la geometrie pour une largeur ou une hauteur nulle, puis negative.<br  />
+<sub><span class="tt">Source/Test/Unit/HMI/Interface/test_parchment_frame.cpp:193</span></sub>  </td><td class="markdownTableBodyNone">Les tailles degenerees produisent le vide ou un champ nu, jamais une geometrie invalide.  </td><td class="markdownTableBodyNone">1. Demander la geometrie pour une largeur ou une hauteur nulle, puis negative.<br  />
  2. Demander celle d'un cadre de 2 x 2 a l'echelle 3.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">hmi::parchmentFrameStrokes(0, 40, 2).empty()</span> est vrai.<br  />
 Vérifie que <span class="tt">hmi::parchmentFrameStrokes(40, 0, 2).empty()</span> est vrai.<br  />
-Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#addf3903688875c48beebeda82ec7daf5" title="Bandes composant un encadrement, dans l&#39;ordre de dessin (les dernières recouvrent les premières).">hmi::parchmentFrameStrokes</a>(-10, -10, 2).empty()</span> est vrai.<br  />
+Vérifie que <span class="tt">hmi::parchmentFrameStrokes(-10, -10, 2).empty()</span> est vrai.<br  />
 Vérifie que <span class="tt">tiny.size()</span> vaut <span class="tt">1u</span>.<br  />
-Vérifie que <span class="tt">tiny.front().role</span> vaut <span class="tt"><a class="el" href="namespacehmi.html#ae32ec83f939d20ebd5cf00137de659f4a6f16a5f8ff5d75ab84c018adacdfcbb7" title="Champ intérieur, le parchemin lui-même (surface).">hmi::ParchmentRole::Field</a></span>.<br  />
+Vérifie que <span class="tt">tiny.front().role</span> vaut <span class="tt">hmi::ParchmentRole::Field</span>.<br  />
 Vérifie que <span class="tt">tiny.front().width</span> vaut <span class="tt">2</span>.<br  />
 Vérifie que <span class="tt">tiny.front().height</span> vaut <span class="tt">2</span>.  </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>ParchmentFrameTest.LeFleuronEstUnePointeEchancree</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__parchment__frame_8cpp.html" title="Tests unitaires de la géométrie de l&#39;encadrement de parchemin (LOT-66, EX-IHM-070).">Source/Test/Unit/HMI/Interface/test_parchment_frame.cpp</a>:219</span></sub>  </td><td class="markdownTableBodyNone">Le fleuron de focus est une pointe echancree contenue dans son carre.  </td><td class="markdownTableBodyNone">1. Produire le fleuron pour plusieurs tailles.<br  />
+<sub><span class="tt">Source/Test/Unit/HMI/Interface/test_parchment_frame.cpp:219</span></sub>  </td><td class="markdownTableBodyNone">Le fleuron de focus est une pointe echancree contenue dans son carre.  </td><td class="markdownTableBodyNone">1. Produire le fleuron pour plusieurs tailles.<br  />
 2. Verifier le confinement, la symetrie haut/bas, l'orientation a droite et la presence de l'echancrure arriere.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">points.size()</span> vaut <span class="tt">4u</span>.<br  />
 Vérifie que <span class="tt">point.x</span> est supérieur ou égal à <span class="tt">0</span>.<br  />
 Vérifie que <span class="tt">point.y</span> est supérieur ou égal à <span class="tt">0</span>.<br  />
@@ -6946,17 +6946,17 @@ Vérifie que <span class="tt">points[3].x</span> est strictement supérieur à <
 Vérifie que <span class="tt">points[3].x</span> est strictement inférieur à <span class="tt">points[1].x</span>.  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>ParchmentFrameTest.FleuronTropPetitEstVide</b> (Mineur)<br  />
-<sub><span class="tt"><a class="el" href="test__parchment__frame_8cpp.html" title="Tests unitaires de la géométrie de l&#39;encadrement de parchemin (LOT-66, EX-IHM-070).">Source/Test/Unit/HMI/Interface/test_parchment_frame.cpp</a>:253</span></sub>  </td><td class="markdownTableBodyNone">Un fleuron trop petit pour son echancrure est vide.  </td><td class="markdownTableBodyNone">1. Demander le fleuron pour une taille inferieure a quatre, nulle et negative.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">hmi::focusFleuronPoints(3).empty()</span> est vrai.<br  />
+<sub><span class="tt">Source/Test/Unit/HMI/Interface/test_parchment_frame.cpp:253</span></sub>  </td><td class="markdownTableBodyNone">Un fleuron trop petit pour son echancrure est vide.  </td><td class="markdownTableBodyNone">1. Demander le fleuron pour une taille inferieure a quatre, nulle et negative.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">hmi::focusFleuronPoints(3).empty()</span> est vrai.<br  />
 Vérifie que <span class="tt">hmi::focusFleuronPoints(0).empty()</span> est vrai.<br  />
-Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a55b861e9c4e75fd753ec919a062940fc" title="Sommets du fleuron de focus — une pointe pleine tournée vers la droite, inscrite dans un carré de côt...">hmi::focusFleuronPoints</a>(-8).empty()</span> est vrai.  </td></tr>
+Vérifie que <span class="tt">hmi::focusFleuronPoints(-8).empty()</span> est vrai.  </td></tr>
 </table>
-<p><b><span class="tt"><a class="el" href="test__parchment__ornaments_8cpp.html" title="Ornements tracés de l&#39;habillage (LOT-76, EX-IHM-075).">test_parchment_ornaments.cpp</a></span></b></p>
+<p><b><span class="tt">test_parchment_ornaments.cpp</span></b></p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
 <th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>CabochonTest.ToutTientDansLeCarreEnglobant</b> (Critique)<br  />
-<sub><span class="tt"><a class="el" href="test__parchment__ornaments_8cpp.html" title="Ornements tracés de l&#39;habillage (LOT-76, EX-IHM-075).">Source/Test/Unit/HMI/Interface/test_parchment_ornaments.cpp</a>:61</span></sub>  </td><td class="markdownTableBodyNone">Le cabochon ne deborde jamais de son carre d'angle.  </td><td class="markdownTableBodyNone">1. Produire la geometrie pour cinq tailles, de 8 a 96 pixels.<br  />
+<sub><span class="tt">Source/Test/Unit/HMI/Interface/test_parchment_ornaments.cpp:61</span></sub>  </td><td class="markdownTableBodyNone">Le cabochon ne deborde jamais de son carre d'angle.  </td><td class="markdownTableBodyNone">1. Produire la geometrie pour cinq tailles, de 8 a 96 pixels.<br  />
 2. Relever la boite englobante de toutes les formes.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">shapes.empty()</span> est faux.<br  />
 Vérifie que <span class="tt">bounds.left</span> est supérieur ou égal à <span class="tt">0.0f</span>.<br  />
 Vérifie que <span class="tt">bounds.top</span> est supérieur ou égal à <span class="tt">0.0f</span>.<br  />
@@ -6964,37 +6964,37 @@ Vérifie que <span class="tt">bounds.right</span> est inférieur ou égal à <sp
 Vérifie que <span class="tt">bounds.bottom</span> est inférieur ou égal à <span class="tt">static_cast&lt;float&gt;(size)</span>.  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>CabochonTest.SousLaTailleMinimaleIlNEstPlusDessine</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__parchment__ornaments_8cpp.html" title="Ornements tracés de l&#39;habillage (LOT-76, EX-IHM-075).">Source/Test/Unit/HMI/Interface/test_parchment_ornaments.cpp</a>:86</span></sub>  </td><td class="markdownTableBodyNone">Un cabochon trop petit n'est pas dessine plutot que reduit a une tache.  </td><td class="markdownTableBodyNone">1. Demander la geometrie pour toutes les tailles de -4 a la taille minimale exclue.<br  />
+<sub><span class="tt">Source/Test/Unit/HMI/Interface/test_parchment_ornaments.cpp:86</span></sub>  </td><td class="markdownTableBodyNone">Un cabochon trop petit n'est pas dessine plutot que reduit a une tache.  </td><td class="markdownTableBodyNone">1. Demander la geometrie pour toutes les tailles de -4 a la taille minimale exclue.<br  />
 2. Demander la geometrie a la taille minimale.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">cabochonShapes(size).empty()</span> est vrai.<br  />
 Vérifie que <span class="tt">cabochonShapes(ORNAMENT_MINIMUM_SIZE).empty()</span> est faux.  </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>CabochonTest.LaGemmeEstInscriteDansLeSerti</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__parchment__ornaments_8cpp.html" title="Ornements tracés de l&#39;habillage (LOT-76, EX-IHM-075).">Source/Test/Unit/HMI/Interface/test_parchment_ornaments.cpp</a>:104</span></sub>  </td><td class="markdownTableBodyNone">La gemme est inscrite dans son serti, sans l'affleurer.  </td><td class="markdownTableBodyNone">1. Produire un cabochon de 64 pixels.<br  />
+<sub><span class="tt">Source/Test/Unit/HMI/Interface/test_parchment_ornaments.cpp:104</span></sub>  </td><td class="markdownTableBodyNone">La gemme est inscrite dans son serti, sans l'affleurer.  </td><td class="markdownTableBodyNone">1. Produire un cabochon de 64 pixels.<br  />
 2. Comparer la boite de chaque facette a celle du serti.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">gem.left</span> est strictement supérieur à <span class="tt">bezel.left</span>.<br  />
 Vérifie que <span class="tt">gem.top</span> est strictement supérieur à <span class="tt">bezel.top</span>.<br  />
 Vérifie que <span class="tt">gem.right</span> est strictement inférieur à <span class="tt">bezel.right</span>.<br  />
 Vérifie que <span class="tt">gem.bottom</span> est strictement inférieur à <span class="tt">bezel.bottom</span>.  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>CabochonTest.LEclatEstPoseEnDernier</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__parchment__ornaments_8cpp.html" title="Ornements tracés de l&#39;habillage (LOT-76, EX-IHM-075).">Source/Test/Unit/HMI/Interface/test_parchment_ornaments.cpp</a>:134</span></sub>  </td><td class="markdownTableBodyNone">L'ordre de dessin du cabochon met l'eclat par-dessus la facette qu'il eclaire.  </td><td class="markdownTableBodyNone">1. Produire un cabochon de 64 pixels.<br  />
+<sub><span class="tt">Source/Test/Unit/HMI/Interface/test_parchment_ornaments.cpp:134</span></sub>  </td><td class="markdownTableBodyNone">L'ordre de dessin du cabochon met l'eclat par-dessus la facette qu'il eclaire.  </td><td class="markdownTableBodyNone">1. Produire un cabochon de 64 pixels.<br  />
 2. Lire le role de la premiere et de la derniere forme, et compter les traits d'encre.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">shapes.empty()</span> est faux.<br  />
 Vérifie que <span class="tt">shapes.back().role</span> vaut <span class="tt">OrnamentRole::OrnamentLight</span>.<br  />
 Vérifie que <span class="tt">shapes.front().role</span> vaut <span class="tt">OrnamentRole::Ornament</span>.<br  />
 Vérifie que <span class="tt">countRole(shapes, OrnamentRole::Edge)</span> vaut <span class="tt">1</span>.  </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>CabochonTest.ToutesLesFormesOntAuMoinsTroisSommets</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__parchment__ornaments_8cpp.html" title="Ornements tracés de l&#39;habillage (LOT-76, EX-IHM-075).">Source/Test/Unit/HMI/Interface/test_parchment_ornaments.cpp</a>:156</span></sub>  </td><td class="markdownTableBodyNone">Aucune forme du cabochon n'a moins de trois sommets.  </td><td class="markdownTableBodyNone">1. Produire la geometrie pour cinq tailles.<br  />
+<sub><span class="tt">Source/Test/Unit/HMI/Interface/test_parchment_ornaments.cpp:156</span></sub>  </td><td class="markdownTableBodyNone">Aucune forme du cabochon n'a moins de trois sommets.  </td><td class="markdownTableBodyNone">1. Produire la geometrie pour cinq tailles.<br  />
 2. Compter les sommets de chaque forme.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">shape.points.size()</span> est supérieur ou égal à <span class="tt">3U</span>.  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>TitleBannerTest.LEnvergureSuitLaHauteurEtPasLaLargeur</b> (Critique)<br  />
-<sub><span class="tt"><a class="el" href="test__parchment__ornaments_8cpp.html" title="Ornements tracés de l&#39;habillage (LOT-76, EX-IHM-075).">Source/Test/Unit/HMI/Interface/test_parchment_ornaments.cpp</a>:179</span></sub>  </td><td class="markdownTableBodyNone">Les ailes du bandeau gardent leur envergure quand sa largeur triple.  </td><td class="markdownTableBodyNone">1. Produire trois bandeaux de meme hauteur et de 600, 900 puis 1400 pixels de large.<br  />
+<sub><span class="tt">Source/Test/Unit/HMI/Interface/test_parchment_ornaments.cpp:179</span></sub>  </td><td class="markdownTableBodyNone">Les ailes du bandeau gardent leur envergure quand sa largeur triple.  </td><td class="markdownTableBodyNone">1. Produire trois bandeaux de meme hauteur et de 600, 900 puis 1400 pixels de large.<br  />
 2. Mesurer la largeur de l'aile gauche de chacun.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">shapes.size()</span> est supérieur ou égal à <span class="tt">5U</span>.<br  />
 Vérifie que <span class="tt">measured</span> vaut <span class="tt">reference</span>, à <span class="tt">reference * 0.05f</span> près.<br  />
 Vérifie que <span class="tt">measured</span> vaut <span class="tt">first</span> (comparaison flottante).<br  />
 Vérifie que <span class="tt">bannerWingSpan(80)</span> est strictement supérieur à <span class="tt">bannerWingSpan(40)</span>.  </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>TitleBannerTest.SurUnBandeauEtroitCeSontLesAilesQuiCedent</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__parchment__ornaments_8cpp.html" title="Ornements tracés de l&#39;habillage (LOT-76, EX-IHM-075).">Source/Test/Unit/HMI/Interface/test_parchment_ornaments.cpp</a>:216</span></sub>  </td><td class="markdownTableBodyNone">Sur un bandeau etroit, ce sont les ailes qui cedent et non la plaque.  </td><td class="markdownTableBodyNone">1. Produire un bandeau de 60 x 40, puis un de 20 x 40.<br  />
+<sub><span class="tt">Source/Test/Unit/HMI/Interface/test_parchment_ornaments.cpp:216</span></sub>  </td><td class="markdownTableBodyNone">Sur un bandeau etroit, ce sont les ailes qui cedent et non la plaque.  </td><td class="markdownTableBodyNone">1. Produire un bandeau de 60 x 40, puis un de 20 x 40.<br  />
 2. Compter les formes dorees et mesurer l'aile.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">narrow.empty()</span> est faux.<br  />
 Vérifie que <span class="tt">countRole(narrow, OrnamentRole::Ornament)</span> vaut <span class="tt">3</span>.<br  />
 Vérifie que <span class="tt">wing.right - wing.left</span> est strictement inférieur à <span class="tt">static_cast&lt;float&gt;(bannerWingSpan(40))</span>.<br  />
@@ -7004,14 +7004,14 @@ Vérifie que <span class="tt">countRole(tiny, OrnamentRole::GemShadow)</span> es
 Vérifie que <span class="tt">countRole(tiny, OrnamentRole::Gem)</span> est supérieur ou égal à <span class="tt">1</span>.  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>TitleBannerTest.ToutTientDansLeBandeau</b> (Critique)<br  />
-<sub><span class="tt"><a class="el" href="test__parchment__ornaments_8cpp.html" title="Ornements tracés de l&#39;habillage (LOT-76, EX-IHM-075).">Source/Test/Unit/HMI/Interface/test_parchment_ornaments.cpp</a>:246</span></sub>  </td><td class="markdownTableBodyNone">Aucune forme du bandeau ne deborde de son rectangle.  </td><td class="markdownTableBodyNone">1. Produire la geometrie pour trois largeurs et quatre hauteurs.<br  />
+<sub><span class="tt">Source/Test/Unit/HMI/Interface/test_parchment_ornaments.cpp:246</span></sub>  </td><td class="markdownTableBodyNone">Aucune forme du bandeau ne deborde de son rectangle.  </td><td class="markdownTableBodyNone">1. Produire la geometrie pour trois largeurs et quatre hauteurs.<br  />
 2. Relever la boite englobante de chaque bandeau non vide.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">bounds.left</span> est supérieur ou égal à <span class="tt">0.0f</span>.<br  />
 Vérifie que <span class="tt">bounds.top</span> est supérieur ou égal à <span class="tt">0.0f</span>.<br  />
 Vérifie que <span class="tt">bounds.right</span> est inférieur ou égal à <span class="tt">static_cast&lt;float&gt;(width)</span>.<br  />
 Vérifie que <span class="tt">bounds.bottom</span> est inférieur ou égal à <span class="tt">static_cast&lt;float&gt;(height)</span>.  </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>TitleBannerTest.LesDeuxAilesSontSymetriques</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__parchment__ornaments_8cpp.html" title="Ornements tracés de l&#39;habillage (LOT-76, EX-IHM-075).">Source/Test/Unit/HMI/Interface/test_parchment_ornaments.cpp</a>:273</span></sub>  </td><td class="markdownTableBodyNone">Les deux ailes du bandeau sont symetriques au centieme de pixel.  </td><td class="markdownTableBodyNone">1. Produire un bandeau de 800 x 40.<br  />
+<sub><span class="tt">Source/Test/Unit/HMI/Interface/test_parchment_ornaments.cpp:273</span></sub>  </td><td class="markdownTableBodyNone">Les deux ailes du bandeau sont symetriques au centieme de pixel.  </td><td class="markdownTableBodyNone">1. Produire un bandeau de 800 x 40.<br  />
 2. Comparer les boites des deux premieres formes, l'une reflechie autour de l'axe vertical.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">shapes.size()</span> est supérieur ou égal à <span class="tt">2U</span>.<br  />
 Vérifie que <span class="tt">left.left</span> vaut <span class="tt">static_cast&lt;float&gt;(width) - right.right</span>, à <span class="tt">0.01f</span> près.<br  />
 Vérifie que <span class="tt">left.right</span> vaut <span class="tt">static_cast&lt;float&gt;(width) - right.left</span>, à <span class="tt">0.01f</span> près.<br  />
@@ -7019,7 +7019,7 @@ Vérifie que <span class="tt">left.top</span> vaut <span class="tt">right.top</s
 Vérifie que <span class="tt">left.bottom</span> vaut <span class="tt">right.bottom</span>, à <span class="tt">0.01f</span> près.  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>TitleBannerTest.UnBandeauDegenereNeDonneRien</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__parchment__ornaments_8cpp.html" title="Ornements tracés de l&#39;habillage (LOT-76, EX-IHM-075).">Source/Test/Unit/HMI/Interface/test_parchment_ornaments.cpp</a>:298</span></sub>  </td><td class="markdownTableBodyNone">Un bandeau degenere ne produit aucune forme.  </td><td class="markdownTableBodyNone">1. Demander la geometrie pour une largeur nulle, negative, puis une hauteur sous le seuil.<br  />
+<sub><span class="tt">Source/Test/Unit/HMI/Interface/test_parchment_ornaments.cpp:298</span></sub>  </td><td class="markdownTableBodyNone">Un bandeau degenere ne produit aucune forme.  </td><td class="markdownTableBodyNone">1. Demander la geometrie pour une largeur nulle, negative, puis une hauteur sous le seuil.<br  />
 2. Demander l'envergure pour une hauteur nulle et negative.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">titleBannerShapes(0, 40).empty()</span> est vrai.<br  />
 Vérifie que <span class="tt">titleBannerShapes(-10, 40).empty()</span> est vrai.<br  />
 Vérifie que <span class="tt">titleBannerShapes(800, ORNAMENT_MINIMUM_SIZE - 1).empty()</span> est vrai.<br  />
@@ -7027,7 +7027,7 @@ Vérifie que <span class="tt">bannerWingSpan(0)</span> vaut <span class="tt">0</
 Vérifie que <span class="tt">bannerWingSpan(-5)</span> vaut <span class="tt">0</span>.  </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>TitleBannerTest.LeFiletEstTraceEtPoseEnDernier</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__parchment__ornaments_8cpp.html" title="Ornements tracés de l&#39;habillage (LOT-76, EX-IHM-075).">Source/Test/Unit/HMI/Interface/test_parchment_ornaments.cpp</a>:316</span></sub>  </td><td class="markdownTableBodyNone">Le filet du bandeau est trace, non rempli, et pose en dernier.  </td><td class="markdownTableBodyNone">1. Produire un bandeau de 800 x 40.<br  />
+<sub><span class="tt">Source/Test/Unit/HMI/Interface/test_parchment_ornaments.cpp:316</span></sub>  </td><td class="markdownTableBodyNone">Le filet du bandeau est trace, non rempli, et pose en dernier.  </td><td class="markdownTableBodyNone">1. Produire un bandeau de 800 x 40.<br  />
 2. Verifier que la derniere forme est doree et non remplie, et que toutes les autres sont remplies.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">shapes.empty()</span> est faux.<br  />
 Vérifie que <span class="tt">shapes.back().filled</span> est faux.<br  />
 Vérifie que <span class="tt">shapes.back().role</span> vaut <span class="tt">OrnamentRole::Ornament</span>.<br  />

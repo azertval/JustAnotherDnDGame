@@ -9,5 +9,5 @@ var searchData=
   ['wholelevel_6',['WholeLevel',['../namespacecore.html#a5c6444096b9bc21a78b1f1157e9070b6a3080b25e8fedb44c9a9a494d7278490e',1,'core']]],
   ['wisdom_7',['Wisdom',['../namespacecore.html#a97f31c7914a6cfc54cc026a77da58fd1a646f0a01b685558b975b5cd3f5b36241',1,'core']]],
   ['won_8',['Won',['../namespacecore.html#a60398ec3835dd2882a7d3a9eaddb65aaa19abd416eb9fe03ae7400a22446956a5',1,'core']]],
-  ['worldmap_9',['WorldMap',['../namespacehmi.html#a86e4ce6097c7a029c683096302528e72ade45fe3bb002bd16009ebd8331e35146',1,'hmi']]]
+  ['worldmap_9',['WorldMap',['../classhmi_1_1ScreenRouter.html#a0277d29471d1699b63793797bbab3bdeade45fe3bb002bd16009ebd8331e35146',1,'hmi::ScreenRouter::WorldMap'],['../namespacehmi.html#a86e4ce6097c7a029c683096302528e72ade45fe3bb002bd16009ebd8331e35146',1,'hmi::WorldMap']]]
 ];

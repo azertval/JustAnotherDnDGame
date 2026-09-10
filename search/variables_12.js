@@ -15,7 +15,7 @@ var searchData=
   ['rhi_12',['rhi',['../structhmi_1_1RhiContext.html#a07d6fe0b31c50e6573bb261c369120ab',1,'hmi::RhiContext']]],
   ['right_13',['right',['../structhmi_1_1ArrowHead.html#a3547b3c1f02184707c825f80db42074c',1,'hmi::ArrowHead']]],
   ['rightcolumn_14',['rightColumn',['../structhmi_1_1RpgScreenLayout.html#ac042f301b5b5fd544b7c7543eedfc29d',1,'hmi::RpgScreenLayout']]],
-  ['role_15',['role',['../structhmi_1_1BackdropQuad.html#aff11ab08c33fd72fba9c7fcb23498c59',1,'hmi::BackdropQuad::role'],['../structhmi_1_1ParchmentStroke.html#af4eff1a8d0d221158d07d2bff44e4bf3',1,'hmi::ParchmentStroke::role'],['../structhmi_1_1OrnamentShape.html#aca7340d525afa4a17e3d8b7d0b36276a',1,'hmi::OrnamentShape::role']]],
+  ['role_15',['role',['../structhmi_1_1BackdropQuad.html#aff11ab08c33fd72fba9c7fcb23498c59',1,'hmi::BackdropQuad']]],
   ['room_5fheight_5ftiles_16',['ROOM_HEIGHT_TILES',['../classhmi_1_1RoomGrid.html#a0b955c9993b7ea1652cec0f9c8cae916',1,'hmi::RoomGrid']]],
   ['room_5fwidth_5ftiles_17',['ROOM_WIDTH_TILES',['../classhmi_1_1RoomGrid.html#a3641300883e783d130eb0d100e049ef6',1,'hmi::RoomGrid']]],
   ['roomheighttiles_18',['roomHeightTiles',['../structcore_1_1CameraFramingConfig.html#ae20fc5eef068fe3bc180bdca58cb5ddb',1,'core::CameraFramingConfig']]],

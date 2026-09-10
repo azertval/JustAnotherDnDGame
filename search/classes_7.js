@@ -17,10 +17,11 @@ var searchData=
   ['inventory_14',['Inventory',['../structcore_1_1Inventory.html',1,'core']]],
   ['inventorycontext_15',['InventoryContext',['../structhmi_1_1InventoryContext.html',1,'hmi']]],
   ['inventoryentry_16',['InventoryEntry',['../structcore_1_1InventoryEntry.html',1,'core']]],
-  ['inventorystack_17',['InventoryStack',['../structcore_1_1InventoryStack.html',1,'core']]],
-  ['isystem_18',['ISystem',['../classcore_1_1ISystem.html',1,'core']]],
-  ['item_19',['Item',['../structcore_1_1Item.html',1,'core']]],
-  ['itemcatalog_20',['ItemCatalog',['../structcore_1_1ItemCatalog.html',1,'core']]],
-  ['itemlookup_21',['ItemLookup',['../structcore_1_1ItemLookup.html',1,'core']]],
-  ['iterator_22',['Iterator',['../classcore_1_1View_1_1Iterator.html',1,'core::View']]]
+  ['inventorymodel_17',['InventoryModel',['../classhmi_1_1InventoryModel.html',1,'hmi']]],
+  ['inventorystack_18',['InventoryStack',['../structcore_1_1InventoryStack.html',1,'core']]],
+  ['isystem_19',['ISystem',['../classcore_1_1ISystem.html',1,'core']]],
+  ['item_20',['Item',['../structcore_1_1Item.html',1,'core']]],
+  ['itemcatalog_21',['ItemCatalog',['../structcore_1_1ItemCatalog.html',1,'core']]],
+  ['itemlookup_22',['ItemLookup',['../structcore_1_1ItemLookup.html',1,'core']]],
+  ['iterator_23',['Iterator',['../classcore_1_1View_1_1Iterator.html',1,'core::View']]]
 ];
