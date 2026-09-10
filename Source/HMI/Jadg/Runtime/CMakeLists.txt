@@ -26,13 +26,11 @@ set(JADG_RUNTIME_SOURCES
     ${CMAKE_CURRENT_LIST_DIR}/../../Presentation/ScreenRouter.cpp
 )
 
-# IMPORTANT : qt_standard_project_setup() est un reglage de projet/directory scope. Qt recommande
-# de l'appeler apres le premier find_package(Qt6), avant les qt_add_qml_module, typiquement dans
-# le CMakeLists parent. Le target runtime est un sous-repertoire de HMI, donc l'appeler ici force
-# Qt6CoreMacros a rechercher le contexte de version dans ce nouveau scope et provoque sous Qt 6.11
-# l'erreur « Can not determine Qt version ». Le setup/policy est donc gere par HMI/CMakeLists.txt.
-# On ne redefinit volontairement ni QT_VERSION_MAJOR ni QT_DEFAULT_MAJOR_VERSION ici : ces variables
-# ne remplacent pas le contexte Qt etabli par find_package(Qt6).
+# IMPORTANT : qt_add_qml_module() can use the Qt 6 policy machinery only after the parent project
+# has initialized it with qt_standard_project_setup(). This subdirectory must not call that macro
+# again: doing so creates a new directory scope in which Qt 6.11 can no longer infer the selected
+# Qt major version and leads to "Can not determine Qt version". HMI/CMakeLists.txt owns the project
+# setup and policy initialization.
 
 qt_add_qml_module(JadgRuntime
     URI Jadg.Runtime
