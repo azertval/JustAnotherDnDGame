@@ -41,22 +41,12 @@ Rectangle {
 
     color: Tokens.background
 
-    // Double cadre de parchemin : un trait d'encre au bord, un filet doré en retrait. Ce ne sont
-    // pas des biseaux — ce qui doit rester lisible, c'est l'ÉCART entre les deux.
-    Rectangle {
+    // L'encadrement relevé sur le corpus : trait d'encre, réserve de parchemin, filet doré, et un
+    // cabochon de grenat à chaque angle. Il remplace le double rectangle qui tenait sa place en
+    // attendant le portage des ornements.
+    ParchmentFrame {
         anchors.fill: parent
-        anchors.margins: Tokens.spaceMedium
-        color: "transparent"
-        border.width: Tokens.frameThickness
-        border.color: Tokens.frameEdge
-
-        Rectangle {
-            anchors.fill: parent
-            anchors.margins: Tokens.spaceSmall
-            color: "transparent"
-            border.width: Tokens.frameThickness
-            border.color: Tokens.frameOrnament
-        }
+        anchors.margins: Tokens.spaceSmall
     }
 
     ColumnLayout {
@@ -64,18 +54,10 @@ Rectangle {
         anchors.margins: Tokens.spaceExtraLarge
         spacing: Tokens.spaceLarge
 
-        Text {
-            Layout.alignment: Qt.AlignHCenter
-            text: root.title
-            color: Tokens.text
-            font.family: Tokens.titleFamily
-            font.pixelSize: Tokens.sectionTitle
-        }
-
-        Rectangle {
+        TitleBanner {
             Layout.fillWidth: true
-            Layout.preferredHeight: Tokens.frameThickness
-            color: Tokens.frameOrnament
+            Layout.preferredHeight: Tokens.sectionTitle + Tokens.spaceLarge
+            title: root.title
         }
 
         // Ce qui ne tient pas DEFILE, au lieu d'etre rogne.

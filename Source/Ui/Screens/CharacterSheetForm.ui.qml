@@ -20,7 +20,7 @@ import Jadg.Ui
     elles, Design Studio afficherait un écran vide et aucune mise en page ne pourrait s'y juger. À
     l'exécution, le jumeau les remplace par celles de la vue-modèle.
 */
-Rectangle {
+RpgScreenFrame {
     id: root
 
     // --- Ce que l'écran reçoit ------------------------------------------------------------
@@ -62,61 +62,25 @@ Rectangle {
         ListElement { rowId: "insight"; label: "Intuition"; value: "+1" }
     }
 
-    color: Tokens.background
+    title: root.characterName
 
-    // --- Cadre de parchemin ---------------------------------------------------------------
-    // Un trait d'encre au bord, un filet doré en retrait. Ce ne sont pas des biseaux : ce qui doit
-    // rester lisible, c'est l'ÉCART entre les deux.
-    Rectangle {
-        anchors.fill: parent
-        anchors.margins: Tokens.spaceMedium
-        color: "transparent"
-        border.width: Tokens.frameThickness
-        border.color: Tokens.frameEdge
-
-        Rectangle {
-            anchors.fill: parent
-            anchors.margins: Tokens.spaceSmall
-            color: "transparent"
-            border.width: Tokens.frameThickness
-            border.color: Tokens.frameOrnament
-        }
-    }
-
-    ColumnLayout {
-        anchors.fill: parent
-        anchors.margins: Tokens.spaceExtraLarge
-        spacing: Tokens.spaceLarge
-
-        // --- Bandeau de titre -------------------------------------------------------------
+    content: [
         ColumnLayout {
             Layout.fillWidth: true
             spacing: Tokens.spaceSmall
 
             Text {
-                Layout.alignment: Qt.AlignHCenter
-                text: root.characterName
-                color: Tokens.text
-                font.family: Tokens.titleFamily
-                font.pixelSize: Tokens.sectionTitle
-            }
-            Text {
-                Layout.alignment: Qt.AlignHCenter
+                // `horizontalAlignment` sur un texte qui remplit la largeur, plutot que
+                // `Layout.alignment` : cette derniere centre l'ELEMENT dans la cellule, et un
+                // element large comme sa cellule est deja centre -- son texte, lui, reste a gauche.
+                Layout.fillWidth: true
+                horizontalAlignment: Text.AlignHCenter
                 text: root.species + " · " + root.background + " · " + root.classAndLevel
                 color: Tokens.textMuted
                 font.family: Tokens.bodyFamily
                 font.pixelSize: Tokens.body
             }
-            Rectangle {
-                Layout.fillWidth: true
-                // `Layout.preferredHeight` et non `height` : un layout REECRIT la hauteur de ses
-                // enfants, et la poser directement produit un comportement indefini -- le filet
-                // apparaissait ou disparaissait selon l'ordre des passes de mise en page.
-                Layout.preferredHeight: Tokens.frameThickness
-                color: Tokens.frameOrnament
-            }
-        }
-
+        },
         // --- Corps : caractéristiques | constantes | compétences ---------------------------
         RowLayout {
             Layout.fillWidth: true
@@ -226,5 +190,5 @@ Rectangle {
                 }
             }
         }
-    }
+    ]
 }

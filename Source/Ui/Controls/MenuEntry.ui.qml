@@ -17,13 +17,10 @@ Item {
     implicitHeight: entryLabel.implicitHeight
     implicitWidth: entryChevron.implicitWidth + entryLabel.implicitWidth + Tokens.spaceMedium
 
-    Text {
+    FocusFleuron {
         id: entryChevron
         anchors.verticalCenter: parent.verticalCenter
-        text: ">"
-        color: Tokens.accent
-        font.family: Tokens.bodyFamily
-        font.pixelSize: Tokens.sectionTitle
+        size: Tokens.sectionTitle
         opacity: root.current ? 1.0 : 0.0
     }
 

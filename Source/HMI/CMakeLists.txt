@@ -108,12 +108,10 @@ add_library(HmiLib STATIC
     Editor/PixelAutotilePreview.cpp
     # Interface : logique d'écrans et de thème, sans widget.
     Presentation/ScreenFlow.cpp
-    # Geometries d'ornement et rappels de touches : logique PURE, relevee sur le corpus, testee.
-    # Encore compilees et testees bien qu'aucun ecran ne les consomme pour l'instant : elles sont
-    # la SOURCE du portage des ornements vers Qt Quick Shapes, et les jeter reviendrait a devoir
-    # les redessiner plus tard, autrement, sans se souvenir de ce qui avait ete releve.
-    Presentation/ParchmentFrame.cpp
-    Presentation/ParchmentOrnaments.cpp
+    # Geometries PURES relevees sur le corpus, encore compilees et testees bien qu'aucun ecran ne
+    # les consomme : elles sont la SOURCE d'un portage vers Qt Quick Shapes qui reste a faire. Les
+    # ornements de parchemin, eux, ONT ete portes (Controls/Cabochon, ParchmentFrame, TitleBanner,
+    # FocusFleuron) et leurs sources C++ sont donc parties avec.
     Presentation/MenuBackdropGeometry.cpp
     Presentation/KeyHintText.cpp
     Presentation/RpgScreens.cpp
@@ -399,6 +397,11 @@ set(JADG_QML_FILES
     Controls/SheetTrack.ui.qml
     Controls/SheetActionBar.ui.qml
     Controls/RpgScreenFrame.ui.qml
+    # Ornements TRACES (EX-IHM-075), portes depuis les geometries relevees sur le corpus.
+    Controls/Cabochon.ui.qml
+    Controls/ParchmentFrame.ui.qml
+    Controls/TitleBanner.ui.qml
+    Controls/FocusFleuron.ui.qml
     Controls/MenuEntry.ui.qml
     # Cote developpeur : la correspondance entre l'ETAT publie par le routeur et le FICHIER
     # d'ecran. Elle vit en QML pour que la conception puisse renommer ses fichiers sans
