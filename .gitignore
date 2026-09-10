@@ -94,3 +94,9 @@ __pycache__/
 # tel quel -- c'est ce qui permet au .qmlproject de l'artiste de resoudre Jadg.Ui sans connaitre
 # le repertoire de construction. Engendre depuis la meme liste que la ressource, jamais edite.
 /Source/Ui/Jadg/
+
+# Session de Qt Design Studio / Qt Creator : etat LOCAL d'un poste (fenetres ouvertes, cibles de
+# construction, identifiant d'environnement de la machine). Rien de partageable, et le versionner
+# ferait diverger deux postes a chaque ouverture du projet.
+*.qtds
+*.user
