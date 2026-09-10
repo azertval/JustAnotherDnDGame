@@ -19,7 +19,6 @@
 #include <QTimer>
 #include <QTranslator>
 #include <QUrl>
-#include <QtQml/QQmlExtensionPlugin>
 #include <filesystem>
 #include <optional>
 #include <string>
@@ -30,8 +29,6 @@
 #include "HMI/HmiLog.h"
 #include "HMI/Platform/ExecutableDirectory.h"
 #include "HMI/Presentation/OptionsModel.h"
-
-Q_IMPORT_QML_PLUGIN(Jadg_RuntimePlugin)
 
 namespace {
 
@@ -82,7 +79,6 @@ int main(int argc, char** argv) {
     QQuickStyle::setStyle(QStringLiteral("Basic"));
 
     hmi::AudioEngine audio;
-
     QQmlApplicationEngine engine;
 
     if (qEnvironmentVariable("JADG_QML_FROM_SOURCE") == QLatin1String("1")) {
