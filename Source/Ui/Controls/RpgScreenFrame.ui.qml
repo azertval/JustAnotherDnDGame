@@ -28,6 +28,15 @@ Rectangle {
     */
     property bool pending: false
 
+    /*!
+        Ce que le pied annonce des touches. Par défaut, le passage d'un écran du RPG à l'autre.
+
+        Configurable, et il fallait qu'il le soit : les crédits et les options ne se parcourent pas
+        aux gâchettes, et leur laisser cette indication aurait annoncé à l'utilisateur des touches
+        qui ne font rien. Une aide de touche fausse est pire qu'une aide absente.
+    */
+    property string navigationHint: qsTr("Précédent") + " ·  · " + qsTr("Suivant")
+
     property alias content: body.data
 
     color: Tokens.background
@@ -97,7 +106,7 @@ Rectangle {
             spacing: Tokens.spaceLarge
 
             Text {
-                text: qsTr("Précédent") + " ·  · " + qsTr("Suivant")
+                text: root.navigationHint
                 color: Tokens.textMuted
                 font.family: Tokens.bodyFamily
                 font.pixelSize: Tokens.caption

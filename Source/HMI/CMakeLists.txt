@@ -388,6 +388,8 @@ add_executable(JustAnotherDnDGame
     # Chargement PARTAGE par la fiche et l'inventaire : ils decrivent le meme personnage.
     Presentation/DemonstrationCharacter.cpp
     Presentation/InventoryModel.cpp
+    # Navigation : suit la table de transitions PURE, il ne decide rien lui-meme.
+    Presentation/ScreenRouter.cpp
     Presentation/CharacterSheetModel.cpp
     # L'ancre des ecrans dessines mais pas encore alimentes (LOT-86).
     Presentation/PendingData.cpp
@@ -409,6 +411,11 @@ set(JADG_QML_FILES
     Controls/SheetTrack.ui.qml
     Controls/SheetActionBar.ui.qml
     Controls/RpgScreenFrame.ui.qml
+    Controls/MenuEntry.ui.qml
+    # Cote developpeur : la correspondance entre l'ETAT publie par le routeur et le FICHIER
+    # d'ecran. Elle vit en QML pour que la conception puisse renommer ses fichiers sans
+    # qu'une ligne de C++ ne s'en apercoive.
+    Logic/ScreenStack.qml
     # Écrans : un FORMULAIRE `.ui.qml` (conception) et son jumeau `.qml` (câblage) par écran.
     # Sept d'entre eux sont dessinés mais pas encore alimentés : leur jumeau relie chaque champ à
     # une clé nommée qui aboutit à `hmi::PendingData`. Le jour où le lot fonctionnel arrive, seul
@@ -432,6 +439,15 @@ set(JADG_QML_FILES
     Screens/CombatHud.qml
     Screens/TeamSheetForm.ui.qml
     Screens/TeamSheet.qml
+    # Ecrans hors-jeu.
+    Screens/MainMenuForm.ui.qml
+    Screens/MainMenu.qml
+    Screens/OptionsForm.ui.qml
+    Screens/Options.qml
+    Screens/PauseForm.ui.qml
+    Screens/Pause.qml
+    Screens/CreditsForm.ui.qml
+    Screens/Credits.qml
 )
 # Les singletons, dans une liste a part : elle sert DEUX fois ci-dessous (propriete de source, et
 # qmldir de developpement). Une seule liste, donc rien a resynchroniser en ajoutant un ecran.
