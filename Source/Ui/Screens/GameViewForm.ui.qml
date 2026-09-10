@@ -4,26 +4,21 @@ import Jadg.Ui
 /*!
     Vue de jeu -- FORMULAIRE, cote conception (LOT-86).
 
-    La surface de rendu occupe l'ecran ; ce qui se pose PAR-DESSUS est de l'interface ordinaire,
-    et c'est tout l'interet du portage : un recouvrement n'a plus a etre une fenetre native.
-
-    Aucune scene n'y est encore dessinee -- Source/Elements/Levels/ est vide par construction, et
-    le contenu du RPG arrive avec un lot ulterieur. La surface efface au parchemin, ce qui suffit a
-    verifier que la plomberie tient.
+    Le formulaire ne contient que la composition visuelle editable dans Qt Design Studio.
+    La surface de rendu QRhi est branchee dans `GameView.qml`, cote developpeur, afin que ce
+    formulaire reste autonome et ouvrable sans les types C++ du moteur.
 */
 Item {
     id: root
 
     property string status: "—"
 
-    GameViewport {
+    // Placeholder visuel pour la conception. Le vrai viewport QRhi est ajoute par GameView.qml.
+    Rectangle {
         anchors.fill: parent
-        clearColor: Tokens.background
+        color: Tokens.background
     }
 
-    // Le rappel se pose PAR-DESSUS la surface de rendu, comme un enfant ordinaire. C'est ce que le
-    // portage sur une texture d'appui rend possible : plus aucun recouvrement ne depend d'un
-    // empilement de fenetres natives.
     Text {
         anchors.centerIn: parent
         text: root.status
