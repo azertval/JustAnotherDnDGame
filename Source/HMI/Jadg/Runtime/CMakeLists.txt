@@ -26,16 +26,14 @@ set(JADG_RUNTIME_SOURCES
     ${CMAKE_CURRENT_LIST_DIR}/../../Presentation/ScreenRouter.cpp
 )
 
-# qt_standard_project_setup() determine le module Qt a utiliser via QT_VERSION_MAJOR.
-# Le projet ne definit pas cette variable lui-meme (find_package(Qt6 ...) fournit Qt6_VERSION),
-# alors que qt_standard_project_setup() peut etre appele depuis ce sous-repertoire. La fixer
-# explicitement evite le « Can not determine Qt version » de Qt6CoreMacros.cmake sous Qt 6.11.
-set(QT_VERSION_MAJOR 6)
-qt_standard_project_setup(REQUIRES 6.8)
+# IMPORTANT : qt_standard_project_setup() est un reglage de projet/directory scope. Qt recommande
+# de l'appeler apres le premier find_package(Qt6), avant les qt_add_qml_module, typiquement dans
+# le CMakeLists parent. Le target runtime est un sous-repertoire de HMI, donc l'appeler ici force
+# Qt6CoreMacros a rechercher le contexte de version dans ce nouveau scope et provoque sous Qt 6.11
+# l'erreur « Can not determine Qt version ». Le setup/policy est donc gere par HMI/CMakeLists.txt.
+# On ne redefinit volontairement ni QT_VERSION_MAJOR ni QT_DEFAULT_MAJOR_VERSION ici : ces variables
+# ne remplacent pas le contexte Qt etabli par find_package(Qt6).
 
-# Les dependances QML ne sont pas declarees ici par DEPENDENCIES : les types C++ sont relies
-# explicitement a Qt6::Qml/Qt6::Quick ci-dessous et ce module ne depend d'aucun autre module QML
-# du projet par TARGET. Les metadonnees QML generees restent ainsi minimales.
 qt_add_qml_module(JadgRuntime
     URI Jadg.Runtime
     VERSION 1.0
