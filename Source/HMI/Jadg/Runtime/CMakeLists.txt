@@ -26,10 +26,11 @@ set(JADG_RUNTIME_SOURCES
     ${CMAKE_CURRENT_LIST_DIR}/../../Presentation/ScreenRouter.cpp
 )
 
-# Qt 6.8+ : active explicitement les politiques CMake QML requises par qt_add_qml_module.
-# Cela inclut QTP0005, utilise en interne par les macros QML modernes meme lorsque le projet
-# n'ecrit aucun "TARGET ..." dans DEPENDENCIES/IMPORTS. Sans cette initialisation, Qt 6.11
-# peut arreter la configuration avec « QTP0005 is not a known Qt policy ».
+# qt_standard_project_setup() determine le module Qt a utiliser via QT_VERSION_MAJOR.
+# Le projet ne definit pas cette variable lui-meme (find_package(Qt6 ...) fournit Qt6_VERSION),
+# alors que qt_standard_project_setup() peut etre appele depuis ce sous-repertoire. La fixer
+# explicitement evite le « Can not determine Qt version » de Qt6CoreMacros.cmake sous Qt 6.11.
+set(QT_VERSION_MAJOR 6)
 qt_standard_project_setup(REQUIRES 6.8)
 
 # Les dependances QML ne sont pas declarees ici par DEPENDENCIES : les types C++ sont relies
