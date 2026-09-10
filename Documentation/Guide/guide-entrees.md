@@ -210,10 +210,14 @@ micro-saccades chez un joueur clavier. `hmi::GamepadPoller::poll` ne re-sonde do
 reste « déconnecté » (aucune touche synthétique enfoncée). Dès qu'une manette est présente, le
 sondage redevient systématique — un branchement à chaud est détecté au plus tard après un intervalle.
 
-## Le menu d'options : \ref hmi::OptionsPage "hmi::OptionsPage"
+## Le menu d'options
+
+> **Refondu au `LOT-86`.** La page Options du jeu est passee en QML
+> (`Source/Ui/Screens/Options*`) ; la page Qt a onglets decrite ci-dessous n'existe plus. Ce que ses
+> onglets regroupaient -- V-Sync, langue, remappage -- reste le contenu attendu.
 
 Le menu d'options (accessible depuis le menu principal, @ref guide-ecrans) est, depuis le `LOT-38`,
-une **page Qt à onglets** (`hmi::OptionsPage`, mise en page dans `Elements/UI/OptionsPage.ui`) : la
+une **page à onglets** : la
 navigation, le défilement et la souris sont pris en charge nativement par Qt — plus aucun modèle de
 liste « maison ». Ses onglets regroupent la bascule **V-Sync** (`EX-REN-022`), le choix de **langue**
 (une liste déroulante `QComboBox`) et le **remappage** des touches de jeu, des touches d'éditeur et
@@ -274,7 +278,7 @@ que de planter.
 ## Voir aussi
 - `hmi::InputState`, `hmi::Key`, `hmi::qtKeyToHmiKey`, `hmi::GamepadButton`, `hmi::toPlayerInput`, `core::PlayerInput`.
 - `hmi::GamepadPoller` — le sondage XInput, partagé par le viewport.
-- `hmi::MainMenu`, `hmi::OptionsPage` — le menu principal et la page Options (Qt).
+- `Source/Ui/Screens/MainMenu*`, `Options*` — le menu principal et la page Options, en QML.
 - `hmi::GameKeyBindings`, `hmi::EditorKeyBindings`, `hmi::keyDisplayName`, `hmi::capturedKey`,
   `hmi::KeybindingsWidget` — remappage des touches (`LOT-29`, IHM Qt `LOT-38`).
 - `hmi::GamepadBindings`, `hmi::gamepadButtonDisplayName`, `hmi::capturedGamepadButton`,

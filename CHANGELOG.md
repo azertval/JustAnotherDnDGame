@@ -6,55 +6,156 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
-- **Plomberie des clés d'assets** (`LOT-39`). Le jeu tourne **complet** — 308 entrées affichables —
-  avant qu'une seule illustration ne soit produite.
-  - **Une clé, jamais un chemin** (`EX-CNT-040`) : une donnée désigne son illustration par
-    `beast/wolf`, pas par `Assets/Entities/beast/wolf.png`. Un chemin lierait le catalogue à
-    l'arborescence du disque, et tout déplacement de dossier casserait des créatures. Ce qui
-    ressemble à un chemin est explicitement refusé — y compris `beast/wolf/token`, chemin déguisé en
-    clé à trois segments — avec **la même expression** que le schéma JSON.
-  - **La clé se déduit ; `asset` sert à déroger.** Trois cents entrées auraient sinon porté trois
-    cents lignes recopiées, et la première faute de frappe aurait donné une créature sans image sans
-    que rien ne l'explique. Le contrôle d'unicité ne porte donc que sur les clés *dérivées* : deux
-    dérogations vers la même image sont légitimes.
-  - **Le manifeste est dérivé, jamais commité** : un manifeste tenu à la main divergerait du
-    catalogue au premier ajout de créature. Les **dimensions**, elles, sont de la donnée
-    (`families.json`) — un `96` nu dans un calcul de découpe ne dit pas ce qu'il représente
-    (`EX-VIS-007`) — et les familles y sont lues, jamais énumérées en C++.
-  - **Le marqueur est déterministe**, et c'est le point (`EX-CNT-041`) : la même clé donne toujours
-    le même. Tiré au hasard, il changerait à chaque lancement — le loup ne serait plus
-    reconnaissable d'une partie à l'autre, et aucun test ne pourrait rien en dire. Le hachage est
-    **écrit dans le projet** plutôt qu'emprunté à `std::hash`, dont la valeur n'est pas garantie
-    d'une plateforme à l'autre. Deux diagonales le barrent : un marqueur doit se voir *comme* un
-    marqueur.
-  - **Le lint fait deux choses de nature différente** : il **échoue** sur une clé orpheline, et se
-    contente de **lister** les clés encore servies par un marqueur. Le faire échouer là-dessus
-    rendrait le dépôt rouge jusqu'à la dernière illustration livrée, et plus personne ne lirait sa
-    sortie.
-
-- **Bascule exploration ↔ combat** (`LOT-18`). Déclencher une rencontre, geler le monde, monter les
-  combattants, et en revenir **sans que le joueur perde quoi que ce soit au passage**.
-  - **L'aller-retour est PUR**, et c'est ce qui le rend vérifiable : `core::ExplorationSnapshot`,
-    `core::EncounterRun`, `beginEncounter` / `endEncounter` — aucun widget, aucune entité, aucun
-    pointeur de monde. `hmi::CombatMode` ne fait qu'**ordonner des passes**, et ne retient rien de la
-    rencontre : lui confier l'état aurait rendu l'aller-retour invérifiable sans fenêtre.
-  - **L'instantané ne porte pas les points de vie**, et c'est délibéré : ils sont précisément ce que
-    le combat a changé, et les remettre à leur valeur d'avant annulerait le combat. Il porte en
-    revanche l'**orientation** — un personnage qui revient d'un combat regarde là où il regardait.
-  - **Un ennemi vaincu est un drapeau de monde, pas un booléen** : l'entité est détruite et recréée
-    au rechargement de la carte, et un booléen porté par elle disparaîtrait avec elle — l'ennemi
-    réapparaîtrait à chaque passage, ce qui se confond avec une carte peuplée. La clé est
-    **fabriquée** (`core::keyForEntity`), jamais écrite à la main.
-  - **Seule une victoire l'acquiert.** Fuir ou tomber ne marque rien : poser le drapeau à toute
-    sortie aurait fait de la fuite un moyen de nettoyer une carte, et la carte se serait vidée — ce
-    qui ressemble à une progression.
-  - **Une rencontre dit QUI, jamais OÙ** : les positions sont relatives au déclencheur, si bien
-    qu'une même rencontre se joue partout. Des coordonnées absolues feraient apparaître les mêmes
-    ennemis au même endroit — ou hors de la carte.
-  - **Trois passes disparaissent en combat**, chacune pour une raison nommée : `moveCharacter` (le
-    déplacement suivra le budget du tour), `updateMechanisms` (une plaque de pression au milieu d'un
-    tour ne relève d'aucune règle) et `evaluateOutcome` (tomber à zéro est une issue du **combat**,
-    pas du niveau — l'évaluer rechargerait le niveau au lieu d'ouvrir l'agonie).
+- **Refonte de l'IHM sur Qt Quick, avec la conception séparée du code** (`LOT-86`, en cours).
+  L'objectif n'est pas technique : **un artiste doit pouvoir modifier les interfaces sans ouvrir un
+  fichier source**, en travaillant directement dans Qt Design Studio.
+  - **Deux applications, deux technologies d'IHM.** `JustAnotherDnDGame` est le jeu, en Qt Quick,
+    sur `QGuiApplication` ; `LevelEditor` est l'éditeur de niveaux, inchangé, en Qt Widgets. Ils
+    partagent `Core`, le rendu, les entrées, l'audio et l'amorçage — jamais une technologie
+    d'interface. Le jeu **ne lie pas `Qt6::Widgets`**, et c'est la garantie qui porte tout le lot :
+    un widget ne peut pas y réapparaître par inadvertance, l'édition de liens échouerait. Les tenir
+    dans une seule application obligeait à choisir une technologie pour deux besoins opposés — un
+    outil d'auteur à docks détachables d'un côté, une image agrandie d'un facteur entier de l'autre.
+    C'est de là que venaient les 2 472 lignes de `MainWindow.cpp`.
+  - **La couche de maquettes HTML disparaît.** `.design-mockups/` portait des planches dessinées à
+    la main, transcrites ensuite en C++ par un développeur, et un lint vérifiait que les deux copies
+    de la palette n'avaient pas divergé — trois représentations du même écran, deux transcriptions
+    manuelles, un garde-fou pour rattraper les erreurs. La maquette et l'écran sont désormais **le
+    même fichier**. Ce que les planches décidaient est reporté dans l'epic du lot, y compris le fait
+    que leur texte était **périmé** : elles annonçaient encore la direction « Ambre nuit » du
+    `LOT-68`, alors que les `LOT-66` et `LOT-76` avaient remplacé l'identité par le parchemin de
+    Tanares. Le contrôle qui les reliait comparait les couleurs, pas les mots.
+  - **Les jetons d'identité vivent en QML, écrits à la main, et nulle part ailleurs.** Engendrer
+    `Tokens.qml` depuis le C++ aurait remis la conception derrière un générateur et un contrôle de
+    fraîcheur : la surcouche qu'on supprime ailleurs. Le raisonnement qui l'évite est simple —
+    après la refonte, **plus aucun C++ n'a besoin des couleurs d'identité**, leurs seuls
+    consommateurs étant les écrans, qui deviennent du QML. `DesignTokens` perd donc sa portée
+    identité et ne garde que celle de l'éditeur. L'étanchéité des deux portées, jusqu'ici garantie
+    par un test, devient **structurelle** : deux langages, deux binaires, aucun chemin entre eux.
+  - **Éditer un écran sans rien reconstruire.** `qt_add_qml_module` embarque les `.qml` dans la
+    ressource ; on écrit donc un second `qmldir` dont les chemins désignent les **sources**, et
+    `JADG_QML_FROM_SOURCE=1` le place en tête des chemins d'import. Ce `qmldir` est **engendré
+    depuis la même liste** que la ressource : ajouter un écran ne crée pas un second endroit à
+    synchroniser. Vérifié de bout en bout — deux couleurs changées dans `Tokens.qml`, relance, le
+    changement est à l'écran, sans qu'aucun compilateur ait été lancé.
+  - **Une tranche verticale complète** : vue-modèle C++ → formulaire `.ui.qml` → écran affichant les
+    vraies données du personnage de démonstration. Le **formatage** n'est pas refait : le signe d'un
+    modificateur, le « 25 / 30 » des points de vie, le point qui marque une maîtrise restent dans
+    `hmi::characterSheetValues`, fonction pure et testée — deux endroits qui savent écrire un
+    modificateur finiraient par ne plus l'écrire pareil. Les libellés sont des **données** : les
+    compétences viennent du catalogue de règles, les caractéristiques du lexique, qui garantit une
+    seule traduction par terme.
+  - **Le garde-fou est le cœur du lot, pas la bascule QML.** Une refonte qui ne produit que du QML
+    redérive. `scripts/check_ui_layers.py` vérifie six règles (`EX-IHM-100` à `EX-IHM-105`) et
+    **verrouille** en outre `EX-ARCH-001`/`EX-NFR-010` — `Core` sans un seul en-tête Qt, vrai depuis
+    le `LOT-01`, qu'un seul `QString` suffirait à rendre faux — sans les redéclarer. Les six règles
+    ont été vérifiées **en mordant** : une violation injectée dans chacune, le contrôle rouge à
+    chaque fois. Un lint qui passe sur du code propre mais ne se déclenche jamais ne vaut rien, et
+    il s'auto-vérifie contre la vacuité — la panne du `LOT-78`, où un contrôle vert ne lisait rien.
+  - **Six pièges silencieux, tous consignés là où ils se reproduiraient** : le `qmldir` engendré qui
+    ne déclare pas un singleton malgré son `pragma` (chaque import en construirait une instance
+    neuve, et le facteur d'agrandissement ne serait vu par aucun écran) ; le module embarqué sous un
+    préfixe où l'engine ne regarde pas ; `windeployqt` sans `--qmldir`, qui produit un jeu se
+    lançant sans interface ; le fichier d'enregistrement des types qui inclut les en-têtes par nom
+    de base dans un `__has_include` échouant sans bruit ; `qmlcachegen` dont le C++ engendré
+    déclenche `C4702` depuis les en-têtes de Qt ; et un tableau JavaScript qui n'expose que
+    `modelData` là où un modèle expose ses rôles — un écran validé sur des données d'exemple se
+    serait affiché vide une fois branché aux vraies.
+  - `--screenshot=<chemin>` capture la fenêtre **par Qt lui-même** : les API de capture de Windows
+    rendent une image noire d'une fenêtre Qt Quick, dessinée par le GPU. La vérification visuelle
+    des écrans devient reproductible au lieu de dépendre d'un œil devant l'écran au bon moment.
+  - `scripts/build.ps1` accepte `-Target` : le contrôle QML se lance localement comme en CI, sans
+    contourner l'environnement MSVC que ce script existe pour établir.
+  - **Les treize écrans existent, et l'ancienne couche est retirée du châssis d'édition**
+    (−3 879 lignes). `MainWindow` redevient ce que son nom dit : le viewport est de nouveau le
+    widget central, là où il partageait une pile avec cinq écrans du jeu. La pile disparaissant,
+    disparaît aussi l'enveloppe défilante que chaque écran traversait — elle existait parce qu'une
+    pile propage le minimum de **toutes** ses pages, y compris masquées, et qu'un écran dense
+    fixait à lui seul le plancher de la fenêtre. Sans pile d'écrans, le mécanisme du défaut n'existe
+    plus. L'éditeur s'ouvre désormais **directement** sur son espace de travail.
+  - **La navigation est réelle.** `hmi::ScreenRouter` ne décide rien : toute la règle vit dans la
+    table de transitions pure et testée, et une transition non déclarée est **refusée**, jamais
+    silencieusement acceptée. Il publie un **état**, jamais un chemin de fichier — la conception
+    peut réorganiser `Screens/` sans qu'une ligne de C++ ne s'en aperçoive.
+  - **Les options sont branchées : chaque réglage atteint le moteur** (`EX-IHM-083`). Plein écran
+    par liaison sur la fenêtre, volume vers `hmi::AudioEngine`, langue par échange de `QTranslator`
+    suivi de `QQmlEngine::retranslate()`, compteur de diagnostic vers un recouvrement qui affiche la
+    cadence — et synchronisation verticale sur le format de surface, donc **au prochain lancement**,
+    ce que l'écran **dit** au lieu de le taire. `hmi::OptionsModel` se borne à persister et à
+    prévenir ; c'est l'application qui branche. Le faire dans la vue-modèle lui aurait fait
+    connaître le moteur audio et la fenêtre, c'est-à-dire la frontière même que ce lot établit. Les
+    clés de configuration historiques sont **reprises telles quelles** : les renommer aurait
+    réinitialisé en silence les préférences de qui jouait avant la refonte.
+  - **Les contrôles Qt prennent la couleur des jetons, et il a fallu imposer le style pour cela.**
+    Sous Windows, Qt choisit « FluentWinUI3 », qui peint avec les couleurs du système et ignore
+    largement la palette : interrupteurs et curseur de volume ressortaient en **bleu** au milieu du
+    parchemin, et aucune retouche de `Tokens.qml` n'y pouvait rien. Le jeu impose « Basic », dont
+    tout le rendu vient de la palette, que `Main.qml` dérive des jetons. Sans cela, la seule issue
+    aurait été d'écrire une couleur dans chaque écran — exactement ce que `Tokens.qml` existe pour
+    empêcher.
+  - **Un sélecteur d'écrans, pour pouvoir tout vérifier avant qu'un niveau n'existe.** Deux boutons
+    font défiler les quatorze écrans (`Logic/ScreenProbe.qml`) : sans eux, les sept écrans dessinés
+    mais pas encore alimentés ne sont atteignables par aucun chemin de jeu. Ce n'est pas une
+    fonctionnalité, et le code le garantit — il se lie à `ScreenRouter.developerBuild`, faux dans un
+    binaire livré. Il **rend la main au routeur** dès que le jeu navigue de lui-même : épinglé, il
+    aurait empêché `Échap` de fermer quoi que ce soit et fait paraître la navigation cassée par
+    l'outil censé permettre de la vérifier.
+  - **`EX-IHM-075` n'est pas retirée, contrairement à ce que le cadrage avait conclu.** Les trois
+    raisons qu'elle invoque — une image ne s'étire pas honnêtement, fige ses couleurs hors des
+    jetons, et ne suit pas le facteur entier — restent vraies en QML, et **Qt Quick Shapes** les
+    honore toutes en restant éditable dans Qt Design Studio. Ce qui change n'est pas « tracé par du
+    code » mais « tracé par du **C++** ». La géométrie pure relevée sur le corpus est conservée dans
+    `Presentation` comme source du portage, plutôt que jetée puis redessinée de mémoire.
+  - **Les ornements sont tracés, en Qt Quick Shapes.** Cadre à cabochons, bandeau à ailes, fleuron
+    de focus : portés depuis les géométries relevées sur `Character_Sheets_Tanares.pdf`. Un détail
+    manquait au premier essai et se voyait — la pierre **déborde** du carré d'angle d'un facteur
+    deux, sans quoi elle fait l'épaisseur de l'encadrement et son octogone se confond avec le filet ;
+    elle reste ancrée **au coin** et jamais centrée, faute de quoi elle sortirait du panneau et se
+    ferait rogner.
+  - **Le jeu est traduisible, et le français est sa langue source.** Les 101 chaînes des écrans QML
+    n'étaient portées par aucun catalogue. 89 traductions anglaises sont **reprises** du catalogue
+    maison par `scripts/seed_translations.py`, qui ne devine rien : une source sans correspondance
+    exacte reste à traduire et il la signale. Il a d'ailleurs trouvé une vraie ambiguïté du corpus —
+    « Bourse » traduit **Purse** (l'argent) et **Pouch** (l'emplacement) — et a refusé de choisir.
+    Les libellés à clé **calculée** (caractéristiques, emplacements) restent au lexique, dont
+    `rpg.glossary.csv` garantit une traduction unique par terme de règle.
+  - **La surface de rendu du jeu est un `QQuickRhiItem`** : QRhi rend en **Direct3D 11 dans une
+    fenêtre Qt Quick**, et le QML se compose par-dessus — la garantie que le portage sur
+    `QRhiWidget` cherchait côté éditeur, obtenue sans un seul widget. Elle n'affiche encore aucune
+    scène : `Source/Elements/Levels/` est vide par construction, et bâtir une session autour d'un
+    niveau inexistant aurait produit du code que rien ne peut vérifier.
+  - **Documentation refondue** : `interface-ihm.md` §11, la traçabilité d'`architecture.md`, et cinq
+    guides — dont un nouveau, **`guide-conception-qds`**, qui ne s'adresse pas au développeur mais à
+    qui dessine les écrans : ce qui se modifie sans jamais ouvrir un fichier source, ce qui demande
+    encore un développeur, et pourquoi la frontière est là.
+  - **Quatre tests retirés, aucune garantie perdue.** Celui des tailles de police dans les `.ui` est
+    remplacé par un lint qui couvre **tous** les écrans et non deux. Les trois tests d'étanchéité
+    des portées tombent parce que l'étanchéité est devenue **structurelle** : l'identité vit en QML,
+    dans un autre binaire, et aucun chemin ne relie plus les deux. C'est le meilleur sort qu'on
+    puisse réserver à un test — que ce qu'il surveillait devienne impossible.
+  - **Les sept écrans sans données sont dessinés, et leur travail est mis à l'abri.** Journal,
+    carte, dialogue, marchand, tableau de la Guilde, ATH de combat et feuille d'équipe existent
+    comme formulaires `.ui.qml`, fidèles aux blocs que la table décrivait et aux libellés de
+    `fr.lang`, mot pour mot. Chacun de leurs **41 champs** porte une **clé d'attribution** nommée
+    qui aboutit à l'ancre `hmi::PendingData`. Le jour où un lot fonctionnel livre sa donnée, il
+    remplace `PendingData` par sa vraie vue-modèle dans le fichier de **câblage** : le formulaire
+    ne bouge pas. `python scripts/list_pending_bindings.py` en donne l'inventaire — **dérivé du
+    QML**, donc toujours exact, là où une liste écrite à côté aurait cessé d'être vraie au premier
+    écran branché.
+  - **Des tirets cadratins, jamais de fausses données.** Un écran rempli de valeurs plausibles se
+    prend pour un écran fini : il passe les relectures, on l'oublie, et un jour quelqu'un s'étonne
+    que le marchand vende toujours les mêmes trois objets. Le pied de l'écran l'avoue en outre —
+    « Écran dessiné, données à brancher ». Les **valeurs d'exemple**, elles, vivent dans les
+    formulaires : Qt Design Studio les affiche, la conception juge sa mise en page dessus, et le
+    jeu ne les voit jamais.
+  - **Le châssis fait défiler ce qui ne tient pas**, sur le chemin commun et non écran par écran.
+    C'est la leçon payée trois fois du côté des widgets, où le même débordement fut corrigé deux
+    fois écran par écran avant qu'on ne comprenne qu'une règle à réappliquer se reperd au premier
+    écran ajouté.
+  - Quatre défauts trouvés par `qmllint`, dont deux propres à Qt Design Studio et donc invisibles
+    autrement : `screen` redéfinissait une propriété de `Window` (l'écran **physique**), et deux
+    identifiants trop génériques dans des `.ui.qml` que le designer ne sait pas garantir. Plus un
+    délégué qui lisait la portée de son fichier par un mécanisme que QML ne garantit plus.
 
 - **Inventaire et équipement** (`LOT-14`). Porter, équiper et consommer des objets, avec un effet
   **mesurable** sur la fiche.

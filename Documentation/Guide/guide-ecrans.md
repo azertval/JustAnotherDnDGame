@@ -1,5 +1,12 @@
 # Écrans, navigation et boucle de jeu {#guide-ecrans}
 
+> **Refondu au `LOT-86`.** Les écrans du jeu ne sont plus des pages empilées de widgets Qt mais des
+> fichiers QML, et l'éditeur de niveaux est un binaire séparé qui n'en héberge plus aucun. La
+> **table de transitions** décrite ci-dessous, elle, n'a pas bougé d'une ligne : elle est pure,
+> testée, et `hmi::ScreenRouter` se contente de l'appeler pour le compte du QML. Ce qui suit reste
+> vrai du *quoi* et du *pourquoi* ; le *comment* de l'affichage est en @ref guide-ihm-qt.
+
+
 Cette page explique comment l'application passe du menu au jeu, à l'éditeur ou aux options, ainsi
 que la boucle de jeu complète ajoutée en `LOT-59` — pause, fin de niveau, sélection de niveau et
 progression persistée. Elle relie les écrans décrits dans les autres pages (@ref guide-entrees pour

@@ -37,7 +37,6 @@
     <!-- Enregistrer, Renommer : inseres en code depuis le catalogue, avant actResize. -->
     <addaction name="actResize"/>
     <addaction name="separator"/>
-    <addaction name="actMainMenu"/>
     <addaction name="actQuit"/>
    </widget>
    <widget class="QMenu" name="editMenu">
@@ -160,7 +159,6 @@
    <widget class="QWidget" name="pixelPaletteContents"/>
   </widget>
 
-  <action name="actMainMenu"><property name="text"><string>Menu principal</string></property></action>
   <action name="actQuit"><property name="text"><string>Quitter</string></property></action>
   <action name="actResize"><property name="text"><string>Redimensionner…</string></property></action>
   <action name="actResetLayout"><property name="text"><string>Réinitialiser la disposition</string></property></action>

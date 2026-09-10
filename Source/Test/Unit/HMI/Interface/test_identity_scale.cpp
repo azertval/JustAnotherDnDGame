@@ -8,7 +8,7 @@
 
 #include <gtest/gtest.h>
 
-#include "HMI/Interface/IdentityScale.h"
+#include "HMI/Presentation/IdentityScale.h"
 
 /**
  * @brief Le facteur est toujours un entier d'au moins 1 et n'excède jamais le plafond, pour

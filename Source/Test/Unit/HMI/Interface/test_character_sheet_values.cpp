@@ -15,8 +15,8 @@
 
 #include <gtest/gtest.h>
 
-#include "HMI/Interface/CharacterSheetValues.h"
-#include "HMI/Interface/RpgScreens.h"
+#include "HMI/Presentation/CharacterSheetValues.h"
+#include "HMI/Presentation/RpgScreens.h"
 
 namespace {
 

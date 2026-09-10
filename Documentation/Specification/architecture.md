@@ -85,3 +85,14 @@ avoir besoin de les citer nommément dans son « Exigences couvertes ». Qu'ils 
 aucun lot n'est donc pas une exigence orpheline (`LOT-H-66`).
 
 > **Refonte IHM (`LOT-H-34` → `LOT-H-39`)** : l'interface **hors-jeu** (éditeur, menus, options) migre vers **Qt**, tandis que le **rendu in-game reste Direct3D 11** (`EX-ARCH-050`), embarqué dans un viewport Qt. Depuis le `LOT-H-38`, l'IHM « maison » et l'exécutable historique ont été retirés : `Source/HMI` porte désormais **l'unique application** (`JustAnotherDnDGame`, cible Qt) — code réparti par domaine (`Platform/`, `Input/`, `Graphics/`, `Game/`, `Localization/`, `Interface/`, `Editor/`) — et les **assets Qt déclaratifs** (`.ui`, `.qrc`, thème `.qss`) vivent dans `Source/Elements` (`UI/`, `Themes/`). La frontière `HMI → Core` (`EX-ARCH-010`) et la frontière simulation ↔ rendu (`EX-ARCH-030`/`031`) sont **inchangées**. Voir [`interface-ihm.md`](@ref spec-interface-ihm) (`EX-IHM-*`) et [`guide-ihm-qt`](@ref guide-ihm-qt).
+
+> **Séparation de la conception et du code (`LOT-86`)** : l'IHM se scinde en **deux applications**.
+> Le **jeu** passe à **Qt Quick** (`JustAnotherDnDGame`, `QGuiApplication`, ne lie pas
+> `Qt6::Widgets`) ; l'**éditeur de niveaux** reste en Qt Widgets dans son propre binaire
+> (`LevelEditor`). Une couche de **présentation** (`Source/HMI/Presentation`) transforme l'état du
+> jeu en données affichables sans rien dessiner, et les écrans vivent en QML dans `Source/Ui` — que
+> Qt Design Studio ouvre et réenregistre. `EX-ARCH-001` (sens des dépendances), `EX-ARCH-030`/`031`
+> (frontière simulation ↔ rendu) et `EX-ARCH-050` (rendu au travers de QRhi) sont **inchangées** :
+> le portage déplace l'hôte du rendu (`QRhiWidget` → `QQuickRhiItem`), jamais sa cible. Voir
+> [`interface-ihm.md`](@ref spec-interface-ihm) §11 (`EX-IHM-100` → `EX-IHM-105`) et
+> @ref guide-conception-qds.

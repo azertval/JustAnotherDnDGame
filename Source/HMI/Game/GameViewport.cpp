@@ -136,31 +136,21 @@ int GameViewport::pixelHeight() const {
 void GameViewport::createResources() {
     HMI_LOG_INFO("Viewport : initialisation du rendu sur QRhi (" + std::to_string(pixelWidth()) +
                  "x" + std::to_string(pixelHeight()) + ").");
-    _spriteBatch = std::make_unique<hmi::SpriteBatch>(_rhiContext.rhi);
-    _atlas = std::make_unique<hmi::TextureAtlas>(_rhiContext);
-    // Police bitmap du HUD (LOT-52), chargee une fois comme l'atlas (repli procedural integre,
-    // pas de damier de secours a gerer ici).
-    _font = std::make_unique<hmi::BitmapFont>(_rhiContext);
-    // Registre des textures nommees (LOT-40) : proprietaire du damier de repli du mode Texture,
-    // et point d'entree des skins a partir du LOT-42.
-    _textureCache = std::make_unique<hmi::TextureCache>(
-        _rhiContext, hmi::AssetPaths{hmi::executableDirectory() / "Assets"});
-    _draftRenderer = std::make_unique<hmi::DraftRenderer>(*_spriteBatch, *_atlas, *_textureCache);
+
+    // Le lot de sprites, l'atlas, la police, le cache de textures et le catalogue de skins sont
+    // communs au jeu et a l'editeur : ils sont crees -- et surtout LIBERES dans le bon ordre --
+    // par `hmi::SceneResources`, que l'element Qt Quick du jeu possede a l'identique (LOT-86).
+    _scene.create(rhi(), _scene.context().updates);
+
+    // Ce qui suit n'appartient qu'a l'editeur : le rendu de brouillon et le niveau de depart.
+    _draftRenderer =
+        std::make_unique<hmi::DraftRenderer>(_scene.sprites(), _scene.atlas(), _scene.textures());
     // Images des plans (LOT-69 TACHE-05) : a cote des niveaux, comme en jeu.
     _draftRenderer->setPlanesDirectory(hmi::executableDirectory() / "Levels" / "Plans");
+    _draftRenderer->setSkins(&_scene.skins());
 
-    // Catalogue des skins (LOT-42), lu a cote de l'executable comme les niveaux et les traductions.
-    // Fichier absent ou illisible : catalogue vide, tout retombe sur le damier -- un etat de depart
-    // legitime, pas une erreur bloquante (EX-NFR-040).
-    hmi::SkinCatalogResult skins =
-        hmi::SkinCatalog::loadFromFile(hmi::executableDirectory() / "Assets" / "skins.json");
-    if (skins.ok()) {
-        _skins = std::move(*skins.catalog);
-    }
-    _draftRenderer->setSkins(&_skins);
-
-    // LOT-35 : ouvre un niveau de démonstration comme brouillon éditable (le sélecteur de niveaux
-    // arrive au LOT-36). Échec récupérable : on garde le brouillon vierge.
+    // LOT-35 : ouvre un niveau de démonstration comme brouillon éditable. Échec récupérable : on
+    // garde le brouillon vierge.
     const std::filesystem::path levelPath =
         hmi::executableDirectory() / "Levels" / "demo-deplacement.json";
     core::LevelLoadResult result = core::LevelLoader::loadFromFile(levelPath);
@@ -173,8 +163,8 @@ void GameViewport::createResources() {
 
     // MainWindow cable ses panneaux (palette, arbre de skins) a la construction, avant que la
     // fenetre ne soit exposee -- donc avant que ce catalogue ne soit charge. `resourcesReady`
-    // leur donne l'occasion de se reconstruire une fois `_skins` reellement peuple, faute de quoi
-    // l'editeur s'ouvre sans aucune texture jusqu'a la premiere bascule de mode/jeu de skins.
+    // leur donne l'occasion de se reconstruire une fois les skins reellement peuples, faute de
+    // quoi l'editeur s'ouvre sans aucune texture jusqu'a la premiere bascule de mode.
     emit resourcesReady();
 }
 
@@ -525,10 +515,10 @@ void GameViewport::setSkinSet(const std::string& setName) {
     // Le catalogue est deja a jour (le panneau agit dessus directement) : il n'y a que le jeu
     // courant a propager, et l'image suivante montrera le resultat. Aucune scene a reconstruire.
     if (_draftRenderer) {
-        _draftRenderer->setSkins(&_skins, setName);
+        _draftRenderer->setSkins(&_scene.skins(), setName);
     }
     if (_session) {
-        _session->setSkins(&_skins, setName);
+        _session->setSkins(&_scene.skins(), setName);
     }
     _skinSet = setName;
 }
@@ -536,17 +526,18 @@ void GameViewport::setSkinSet(const std::string& setName) {
 void GameViewport::reloadAssets() {
     // Invalidation avant relecture du catalogue : un asset renomme doit disparaitre du cache
     // AVANT que la nouvelle assignation ne pointe vers son remplacant.
-    if (_textureCache) {
-        _textureCache->invalidateAll();
+    if (_scene.created()) {
+        _scene.textures().invalidateAll();
     }
     // skins.json a pu changer hors de l'application (renommage/suppression d'un asset) : on le
-    // relit entierement, comme au demarrage. _skins garde son adresse (membre) : DraftRenderer et
+    // relit entierement, comme au demarrage. Le catalogue garde son adresse (membre de la grappe de
+    // ressources) : DraftRenderer et
     // la session en cours, qui n'en detiennent qu'un pointeur, voient le nouveau contenu sans
     // etre re-cables (LOT-42).
     hmi::SkinCatalogResult skins =
         hmi::SkinCatalog::loadFromFile(hmi::executableDirectory() / "Assets" / "skins.json");
     if (skins.ok()) {
-        _skins = std::move(*skins.catalog);
+        _scene.skins() = std::move(*skins.catalog);
     }
     // Aucune reconstruction de scene necessaire : l'apparence est resolue a la composition de
     // chaque image (hmi::DraftRenderer), donc l'image suivante montre deja le resultat (LOT-42).
@@ -554,8 +545,8 @@ void GameViewport::reloadAssets() {
 }
 
 void GameViewport::invalidateAsset(const std::string& fileName) {
-    if (_textureCache) {
-        _textureCache->invalidate(fileName);
+    if (_scene.created()) {
+        _scene.textures().invalidate(fileName);
     }
 }
 
@@ -692,7 +683,7 @@ void GameViewport::tick(float elapsedSeconds) {
 
 // Crée (ou recrée) les ressources graphiques quand QRhiWidget fournit son interface de rendu.
 void GameViewport::initialize(QRhiCommandBuffer* commandBuffer) {
-    if (_rhiContext.rhi == rhi()) {
+    if (_scene.context().rhi == rhi()) {
         return;  // même interface : les ressources déjà créées restent valides.
     }
     // initialize() s'execute APRES startGame() dans le cas NOMINAL : le viewport n'est peint
@@ -706,12 +697,12 @@ void GameViewport::initialize(QRhiCommandBuffer* commandBuffer) {
     // niveau) : tout ce qui tient une texture est caduc. Ordre de libération : la session et les
     // rendus AVANT les textures qu'ils référencent.
     releaseResources();
-    _rhiContext.rhi = rhi();
-    _rhiContext.updates = _rhiContext.rhi->nextResourceUpdateBatch();
+    _scene.context().rhi = rhi();
+    _scene.context().updates = _scene.context().rhi->nextResourceUpdateBatch();
     createResources();
     // Téléversements accumulés par la création des textures : soumis ici, hors de toute passe.
-    commandBuffer->resourceUpdate(_rhiContext.updates);
-    _rhiContext.updates = nullptr;
+    commandBuffer->resourceUpdate(_scene.context().updates);
+    _scene.context().updates = nullptr;
     // Remontage de la session, une fois les ressources disponibles. Le tableau repart de son
     // debut : l'avancee dans la salle n'est pas rejouable, et la reprendre a mi-course exigerait
     // de serialiser toute la simulation pour un cas qui ne se produit qu'a la premiere image ou
@@ -726,19 +717,17 @@ void GameViewport::initialize(QRhiCommandBuffer* commandBuffer) {
 
 // Libère les ressources graphiques quand QRhiWidget défait son interface de rendu.
 void GameViewport::releaseResources() {
+    // Ce qui tient une texture meurt avant elle. La session et le rendu de brouillon d'abord --
+    // ils appartiennent a l'editeur ; `SceneResources::release` fixe ensuite l'ordre interne de
+    // la grappe, que plus aucun appelant n'a a se rappeler.
     _session.reset();
     _draftRenderer.reset();
-    _textureCache.reset();  // libère les textures avant le pipeline qui les échantillonne
-    _font.reset();
-    _atlas.reset();
-    _spriteBatch.reset();
-    _rhiContext.rhi = nullptr;
-    _rhiContext.updates = nullptr;
+    _scene.release();
 }
 
 // Dessine une image : avance la simulation, compose la scène, puis la soumet.
 void GameViewport::render(QRhiCommandBuffer* commandBuffer) {
-    if (_spriteBatch == nullptr) {
+    if (!_scene.created()) {
         return;  // initialize() n'a pas encore pu créer les ressources.
     }
     const Clock::time_point now = Clock::now();
@@ -747,10 +736,10 @@ void GameViewport::render(QRhiCommandBuffer* commandBuffer) {
 
     // Lot de mises à jour de CETTE image : les textures chargées paresseusement pendant la
     // composition y déposent leurs pixels, et `submit` le soumet avant d'ouvrir sa passe.
-    _rhiContext.updates = _rhiContext.rhi->nextResourceUpdateBatch();
+    _scene.context().updates = _scene.context().rhi->nextResourceUpdateBatch();
     tick(elapsedSeconds);
     renderFrame(commandBuffer, elapsedSeconds);
-    _rhiContext.updates = nullptr;
+    _scene.context().updates = nullptr;
 
     // Animation continue : la prochaine image est demandée dès celle-ci terminée, comme le faisait
     // `requestUpdate()` du temps de la fenêtre native.
@@ -758,7 +747,7 @@ void GameViewport::render(QRhiCommandBuffer* commandBuffer) {
 }
 
 void GameViewport::renderFrame(QRhiCommandBuffer* commandBuffer, float deltaSeconds) {
-    _spriteBatch->beginFrame();
+    _scene.sprites().beginFrame();
     // Fond derive des jetons (LOT-56) : portee variable (chassis d'edition, suivant le theme actif
     // de l'editeur, TACHE-06) en edition, portee invariante (identite du jeu) en jeu/essai -- seule
     // surface qui appartient tour a tour aux deux portees (hmi::viewportClearColor).
@@ -792,7 +781,7 @@ void GameViewport::renderFrame(QRhiCommandBuffer* commandBuffer, float deltaSeco
     }
     // Téléversement unique puis passe unique : c'est ici, et nulle part ailleurs, que le GPU voit
     // l'image (cf. `hmi::SpriteBatch`, enregistrement en deux phases).
-    _spriteBatch->submit(commandBuffer, renderTarget(), _rhiContext.updates, clear);
+    _scene.sprites().submit(commandBuffer, renderTarget(), _scene.context().updates, clear);
 }
 
 void GameViewport::renderDiagnosticsOverlay(int viewportWidth, int viewportHeight) {
@@ -820,13 +809,14 @@ void GameViewport::renderDiagnosticsOverlay(int viewportWidth, int viewportHeigh
     const float x = static_cast<float>(viewportWidth) - MARGIN;
     float lineY = MARGIN;
     for (const std::string& line : lines) {
-        hmi::composeText(_diagnosticsScene, *_font, line, x + 1.0f, lineY + 1.0f, SCALE,
+        hmi::composeText(_diagnosticsScene, _scene.font(), line, x + 1.0f, lineY + 1.0f, SCALE,
                          SHADOW_COLOR, ANCHOR);
-        hmi::composeText(_diagnosticsScene, *_font, line, x, lineY, SCALE, TEXT_COLOR, ANCHOR);
-        lineY += static_cast<float>(_font->metrics().lineHeight) * SCALE + LINE_SPACING;
+        hmi::composeText(_diagnosticsScene, _scene.font(), line, x, lineY, SCALE, TEXT_COLOR,
+                         ANCHOR);
+        lineY += static_cast<float>(_scene.font().metrics().lineHeight) * SCALE + LINE_SPACING;
     }
     _diagnosticsScene.sort();
-    hmi::submitComposedScene(*_spriteBatch,
+    hmi::submitComposedScene(_scene.sprites(),
                              hmi::screenProjectionMatrix(viewportWidth, viewportHeight),
                              _diagnosticsScene);
 }
@@ -994,14 +984,15 @@ void GameViewport::startPlaytest() {
             statusText("status.playtest_failed").arg(QString::fromStdString(validated.error)));
         return;
     }
-    if (_spriteBatch == nullptr) {
+    if (!_scene.created()) {
         emit statusMessage(statusText("status.playtest_failed"));
         return;  // rendu pas encore initialise (aucune image dessinee) : rien a essayer.
     }
-    _session.emplace(*_spriteBatch, *_atlas, *_textureCache, pixelWidth(), pixelHeight(),
-                     std::move(*validated.level), _gameBindings, _gamepadBindings, *_font, _loc);
+    _session.emplace(_scene.sprites(), _scene.atlas(), _scene.textures(), pixelWidth(),
+                     pixelHeight(), std::move(*validated.level), _gameBindings, _gamepadBindings,
+                     _scene.font(), _loc);
     // Meme habillage qu'en edition : l'essai doit montrer exactement le canevas de l'editeur.
-    _session->setSkins(&_skins, _skinSet);
+    _session->setSkins(&_scene.skins(), _skinSet);
     HMI_LOG_INFO("Editeur : essai immediat demarre.");
     emit statusMessage(statusText("status.playtesting"));
 }
@@ -1100,7 +1091,7 @@ void GameViewport::loadGameMap() {
         return;
     }
     HMI_LOG_INFO("Jeu : carte chargee : " + _gameMap.filename().string());
-    if (_spriteBatch == nullptr) {
+    if (!_scene.created()) {
         // Les ressources de rendu n'existent pas encore : QRhiWidget ne les cree qu'a la premiere
         // image, et le viewport n'est peint qu'une fois affiche -- donc APRES ce chemin quand on
         // lance une partie depuis le menu. La carte reste designee (`_gameMode`, `_gameMap`) et
@@ -1108,9 +1099,10 @@ void GameViewport::loadGameMap() {
         // a un lot de sprites nul.
         return;
     }
-    _session.emplace(*_spriteBatch, *_atlas, *_textureCache, pixelWidth(), pixelHeight(),
-                     std::move(*loaded.level), _gameBindings, _gamepadBindings, *_font, _loc);
-    _session->setSkins(&_skins, _skinSet);
+    _session.emplace(_scene.sprites(), _scene.atlas(), _scene.textures(), pixelWidth(),
+                     pixelHeight(), std::move(*loaded.level), _gameBindings, _gamepadBindings,
+                     _scene.font(), _loc);
+    _session->setSkins(&_scene.skins(), _skinSet);
 }
 
 void GameViewport::resizeLevel(int width, int height) {

@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
     Configure, construit et teste JustAnotherDnDGame dans un environnement MSVC correct.
 
@@ -14,7 +14,10 @@
     dur.
 
 .PARAMETER Preset
-    Preset CMake à utiliser : « ninja » (défaut) ou « vs ».
+    Preset CMake à utiliser : « ninja » (défaut), « vs », « ninja-release » ou « vs-release ».
+    Les deux derniers construisent en Release, où `NDEBUG` est défini : c'est la seule façon de
+    vérifier ce qui DISPARAÎT d'un binaire livré -- l'outillage adossé à `core::DEVELOPER_BUILD`.
+    Une garantie qu'on ne peut pas construire est une intention.
 
 .PARAMETER Test
     Exécuter CTest après la construction.
@@ -22,9 +25,13 @@
 .PARAMETER Clean
     Supprimer le répertoire de build avant de configurer.
 
+.PARAMETER Target
+    Cible precise a construire au lieu de tout (ex. « JustAnotherDnDGame_qmllint », engendree par
+    qt_add_qml_module et qui verifie tous les .qml du module).
+
 .PARAMETER QtPath
     Chemin d'une installation Qt à utiliser, si la détection automatique ne la trouve pas
-    (ex. C:\Qt\6.8.1\msvc2022_64).
+    (ex. D:\Qt\6.11.2\msvc2022_64).
 
 .EXAMPLE
     pwsh scripts/build.ps1
@@ -36,14 +43,20 @@
 #>
 [CmdletBinding()]
 param(
-    [ValidateSet('ninja', 'vs')]
+    [ValidateSet('ninja', 'vs', 'ninja-release', 'vs-release')]
     [string]$Preset = 'ninja',
 
     [switch]$Test,
 
     [switch]$Clean,
 
-    [string]$QtPath
+    [string]$QtPath,
+
+    # Cible precise a construire au lieu de tout. Sert notamment au controle QML :
+    #   scripts/build.ps1 -Target JustAnotherDnDGame_qmllint
+    # Passer par ce script et non par `cmake` directement n'est pas une preference : `cmake` seul
+    # herite d'un terminal sans environnement MSVC, et echoue sur un <array> introuvable.
+    [string]$Target
 )
 
 $ErrorActionPreference = 'Stop'
@@ -114,15 +127,22 @@ if ($QtPath) {
     $env:CMAKE_PREFIX_PATH = $QtPath
 }
 
-$buildDir = Join-Path $repoRoot "build\$Preset"
+# Les presets de configuration et de construction ne portent pas toujours le même nom : Visual
+# Studio est multi-configuration, donc « vs-release » se construit dans le répertoire de « vs ».
+$configurePreset = if ($Preset -eq 'vs-release') { 'vs' } else { $Preset }
+$buildDir = Join-Path $repoRoot "build\$configurePreset"
 if ($Clean -and (Test-Path $buildDir)) {
     Invoke-Step "Nettoyage de $buildDir" { Remove-Item -Recurse -Force $buildDir; $global:LASTEXITCODE = 0 }
 }
 
 Push-Location $repoRoot
 try {
-    Invoke-Step 'Configuration (CMake)' { cmake --preset $Preset }
-    Invoke-Step 'Construction'          { cmake --build --preset $Preset }
+    Invoke-Step 'Configuration (CMake)' { cmake --preset $configurePreset }
+    if ($Target) {
+        Invoke-Step "Construction ($Target)" { cmake --build --preset $Preset --target $Target }
+    } else {
+        Invoke-Step 'Construction'      { cmake --build --preset $Preset }
+    }
     if ($Test) {
         Invoke-Step 'Tests (CTest)'     { ctest --preset $Preset }
     }
@@ -133,7 +153,11 @@ finally {
 
 # Emplacement de l'exécutable : le générateur Visual Studio est multi-configuration (sous-dossier
 # par configuration), Ninja ne l'est pas.
-$exe = if ($Preset -eq 'vs') { "$buildDir\bin\Debug\JustAnotherDnDGame.exe" } else { "$buildDir\bin\JustAnotherDnDGame.exe" }
+$exe = switch ($Preset) {
+    'vs'         { "$buildDir\bin\Debug\JustAnotherDnDGame.exe" }
+    'vs-release' { "$buildDir\bin\Release\JustAnotherDnDGame.exe" }
+    default      { "$buildDir\bin\JustAnotherDnDGame.exe" }
+}
 if (Test-Path $exe) {
     Write-Host "`nExécutable : $exe" -ForegroundColor Green
 }

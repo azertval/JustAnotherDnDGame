@@ -1,1 +1,0 @@
-<svg class="caret" viewBox="0 0 5 8" width="18" height="29" shape-rendering="crispEdges" aria-hidden="true"><rect x="0" y="0" width="2" height="8" fill="currentColor"></rect><rect x="2" y="1" width="1" height="6" fill="currentColor"></rect><rect x="3" y="2" width="1" height="4" fill="currentColor"></rect><rect x="4" y="3" width="1" height="2" fill="currentColor"></rect></svg>

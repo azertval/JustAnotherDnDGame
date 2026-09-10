@@ -15,8 +15,8 @@
 
 #include <gtest/gtest.h>
 
-#include "HMI/Interface/RpgScreens.h"
 #include "HMI/Localization/Localization.h"
+#include "HMI/Presentation/RpgScreens.h"
 
 namespace {
 

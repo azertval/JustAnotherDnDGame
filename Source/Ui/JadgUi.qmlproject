@@ -1,0 +1,37 @@
+/* Projet Qt Design Studio des ecrans du jeu (LOT-86).
+ *
+ * C'est le fichier que la conception ouvre. Il ne decrit QUE Source/Ui et les assets :
+ * ni CMake, ni Source/HMI, ni une ligne de C++ n'y sont visibles. C'est la frontiere,
+ * rendue litterale par le perimetre de ce fichier.
+ *
+ * Ouvrir avec : D:/Qt/Tools/QtDesignStudio/bin/qtdesignstudio.exe Source/Ui/JadgUi.qmlproject
+ */
+import QmlProject 1.1
+
+Project {
+    mainFile: "Main.qml"
+
+    // AUCUNE version de Qt n'est ecrite ici, et c'est deliberé : le projet se construit avec la
+    // version epinglee par `QT_VERSION_MINIMUM` (Source/HMI/CMakeLists.txt), tandis que Design
+    // Studio dessine avec le Qt qu'il embarque lui-meme. Figer un numero dans ce fichier ferait
+    // croire a un troisieme epinglage, qui ne commanderait ni l'un ni l'autre. Tous les imports
+    // du module sont sans version, ce qui rend le choix inutile de toute facon.
+
+    // Sans cette ligne, Design Studio suppose un projet Qt 5, ne trouve aucun kit Qt 5, et laisse
+    // le mode Design GRISE -- sans message, sans rien dans le journal. C'est la panne la plus
+    // couteuse du fichier, et elle tient a un booleen absent.
+    qt6Project: true
+
+    QmlFiles   { directory: "." }
+    ImageFiles { directory: "../Elements/Assets" }
+    FontFiles  { directory: "../Elements/Assets/Fonts" }
+
+    // Le `qmldir` du module. Il est ENGENDRE par CMake sous Jadg/Ui/ (et ignore par git) : sur un
+    // depot jamais construit il n'existe pas, et aucun type de `Jadg.Ui` ne se resout. Le declarer
+    // ici le rend visible dans l'arborescence du projet, donc diagnosticable au lieu d'etre
+    // simplement absent.
+    Files { filter: "qmldir"; directory: "." }
+
+    // Les types du module se resolvent depuis la racine du projet, comme a l'execution.
+    importPaths: [ "." ]
+}

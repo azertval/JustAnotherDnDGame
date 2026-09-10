@@ -9,7 +9,7 @@
 
 #include <gtest/gtest.h>
 
-#include "HMI/Interface/ScreenFlow.h"
+#include "HMI/Presentation/ScreenFlow.h"
 
 namespace {
 

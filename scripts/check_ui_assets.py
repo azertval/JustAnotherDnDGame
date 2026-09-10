@@ -20,7 +20,7 @@ donnee, celui-la protege le LIEN entre la donnee et le code, qui est ce qui lach
 un fichier sans y penser.
 
 Aucune dependance : l'empreinte est du hashlib, et les dimensions se lisent dans l'en-tete du
-fichier. Meme motif que `check_design_tokens.py`.
+fichier. Meme motif que `check_qt_version_pin.py`.
 
 Usage :
     python scripts/check_ui_assets.py     # code de sortie non nul si divergence
@@ -38,12 +38,13 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 UI = ROOT / "Source" / "Elements" / "Assets" / "UI"
 MANIFEST = UI / "illustrations.json"
-# Les SEULS endroits du code ou un nom de fichier d'illustration est ecrit. Une LISTE, et non un
-# fichier unique : un ecran qui nomme une image sans figurer ici sortirait du recoupement, et
-# l'image se retrouverait declaree mais << nommee par aucun code >>.
-NAMING_SOURCES = (
-    ROOT / "Source" / "HMI" / "Interface" / "MainMenu.h",
-)
+# Les endroits ou un nom de fichier d'illustration est ecrit. Depuis le LOT-86, ce sont les ecrans
+# QML : c'est la conception qui choisit une image, et elle le fait dans Source/Ui.
+#
+# Le repertoire ENTIER, et non une liste de fichiers : un ecran ajoute qui nommerait une image
+# sortirait sinon du recoupement, et l'image se retrouverait declaree mais << nommee par aucun
+# code >> -- l'inverse exact de ce que ce controle protege.
+NAMING_SOURCES = tuple(sorted((ROOT / "Source" / "Ui").rglob("*.qml")))
 
 PNG_SIGNATURE = bytes([0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A])
 
@@ -154,7 +155,11 @@ def check_code_keys(declared_files: set[str]) -> None:
             fail(f"{source.relative_to(ROOT)} absent : plus rien ne relie ses images au code")
             continue
         used |= set(
-            re.findall(r'"([A-Za-z0-9_-]+\.(?:jpe?g|png))"', source.read_text(encoding="utf-8"))
+            re.findall(
+                # Un chemin facultatif devant le nom : le QML ecrit « assets/world-map.jpg »,
+                # la ou le C++ ecrivait le nom nu. Seul le NOM DE FICHIER compte au recoupement.
+                r'"(?:[A-Za-z0-9_./-]*/)?([A-Za-z0-9_-]+\.(?:jpe?g|png))"',
+                source.read_text(encoding="utf-8"))
         )
     if not used:
         fail("aucun nom d'illustration dans les sources de nommage (lecture cassee ?)")

@@ -25,7 +25,7 @@
 #include "HMI/Graphics/LayerVisibility.h"
 #include "HMI/Graphics/PlaneVisibility.h"
 #include "HMI/Graphics/RenderMode.h"
-#include "HMI/Graphics/RhiContext.h"
+#include "HMI/Graphics/SceneResources.h"
 #include "HMI/Graphics/SkinCatalog.h"
 #include "HMI/Input/EditorKeyBindings.h"
 #include "HMI/Input/GameKeyBindings.h"
@@ -389,7 +389,7 @@ public:
      * @return Le catalogue.
      */
     [[nodiscard]] SkinCatalog& skinCatalog() noexcept {
-        return _skins;
+        return _scene.skins();
     }
 
     /**
@@ -590,19 +590,11 @@ private:
 
     using Clock = std::chrono::steady_clock;
 
-    /// Interface de rendu courante et lot de mises à jour de l'image en cours, partagés avec
-    /// tout ce qui crée des textures (atlas, cache, police).
-    hmi::RhiContext _rhiContext;
-    std::unique_ptr<hmi::SpriteBatch> _spriteBatch;
-    std::unique_ptr<hmi::TextureAtlas> _atlas;
-    std::unique_ptr<hmi::TextureCache> _textureCache;
+    /// Lot de sprites, atlas, police, textures et skins — communs au viewport de l'éditeur et à
+    /// l'élément Qt Quick du jeu (`LOT-86`). Regroupés parce que leur ORDRE de libération est une
+    /// contrainte, pas une préférence : voir `hmi::SceneResources`.
+    hmi::SceneResources _scene;
     std::unique_ptr<hmi::DraftRenderer> _draftRenderer;
-    /// Police bitmap de l'affichage tête haute (`LOT-52`), chargée une fois au démarrage comme
-    /// `_atlas` (pas de rechargement à chaud).
-    std::unique_ptr<hmi::BitmapFont> _font;
-    /// Catalogue des jeux de skins (`LOT-42`), lu au démarrage depuis `Assets/skins.json`. Vide si
-    /// le fichier est absent ou illisible : tout retombe alors sur le damier, sans bloquer.
-    hmi::SkinCatalog _skins;
     /// Jeu de skins courant ; vide pour le jeu par défaut du catalogue.
     std::string _skinSet;
     hmi::GameKeyBindings _gameBindings;

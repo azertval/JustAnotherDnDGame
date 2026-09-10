@@ -26,11 +26,11 @@
 namespace {
 
 [[nodiscard]] std::string readThemeTemplate() {
-    // Les DEUX portees, concatenees (LOT-73, EX-IHM-082) : separer les feuilles ne doit pas
-    // retrecir ce que ces garde-fous couvrent. Une regle interdite le reste dans l'une comme dans
-    // l'autre.
+    // La feuille de l'EDITEUR, desormais la seule : celle de l'identite a disparu au LOT-86 avec
+    // les ecrans du jeu, passes en QML. Ces garde-fous ne retrecissent pas pour autant -- ils
+    // portaient sur des proprietes de widgets Qt, qui n'existent plus que dans l'editeur.
     std::ostringstream buffer;
-    for (const char* const path : {JADG_THEME_IDENTITY_PATH, JADG_THEME_EDITOR_PATH}) {
+    for (const char* const path : {JADG_THEME_EDITOR_PATH}) {
         std::ifstream file(path);
         buffer << file.rdbuf();
     }
