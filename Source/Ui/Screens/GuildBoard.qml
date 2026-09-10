@@ -1,5 +1,6 @@
 import QtQuick
 import Jadg.Ui
+import Jadg.Runtime
 
 /*!
     Tableau de la Guilde -- CABLAGE, cote developpeur (LOT-86).
