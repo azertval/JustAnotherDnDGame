@@ -10,9 +10,9 @@
 
 #include "Core/Rpg/Inventory.h"
 #include "HMI/HmiLog.h"
-#include "HMI/Localization/Localization.h"
 #include "HMI/Platform/ExecutableDirectory.h"
 #include "HMI/Presentation/DemonstrationCharacter.h"
+#include "HMI/Presentation/RuleLabels.h"
 
 namespace hmi {
 namespace {
@@ -68,11 +68,7 @@ void InventoryModel::loadDemonstrationCharacter() {
     const DemonstrationCharacter loaded = loadDemonstrationValues();
     _values = loaded.inventory;
 
-    Localization labels(executableDirectory() / "Localization");
-    if (!labels.loadDefaultLanguage("fr")) {
-        HMI_LOG_WARNING(
-            "Catalogue de traduction introuvable : les emplacements resteront techniques.");
-    }
+    const std::string language = activeLanguage();
 
     QVector<SheetRow> rows;
     rows.reserve(static_cast<qsizetype>(SLOTS.size()));
@@ -81,7 +77,7 @@ void InventoryModel::loadDemonstrationCharacter() {
         const auto found = _values.find("inventory.slot." + name);
         rows.append(SheetRow{
             .id = toQt(name),
-            .label = toQt(labels.text(translationKey(name))),
+            .label = toQt(ruleLabel(translationKey(name), language)),
             .value = found == _values.end() ? QString::fromUtf8(EMPTY_MARK) : toQt(found->second)});
     }
     _slots.setRows(std::move(rows));

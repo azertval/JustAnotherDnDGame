@@ -9,9 +9,9 @@
 
 #include "Core/Rpg/Ability.h"
 #include "HMI/HmiLog.h"
-#include "HMI/Localization/Localization.h"
 #include "HMI/Platform/ExecutableDirectory.h"
 #include "HMI/Presentation/DemonstrationCharacter.h"
+#include "HMI/Presentation/RuleLabels.h"
 
 namespace hmi {
 namespace {
@@ -61,13 +61,7 @@ void CharacterSheetModel::loadDemonstrationCharacter() {
     // viennent du lexique des regles (`rpg.glossary.csv`), qui garantit une seule traduction par
     // terme dans tout le jeu. Les ecrire ici en dur aurait cree un deuxieme vocabulaire, et c'est
     // exactement ce que le lexique existe pour empecher.
-    Localization labels(executableDirectory() / "Localization");
-    if (!labels.loadDefaultLanguage("fr")) {
-        // Non bloquant, mais loin d'etre anodin : sans catalogue, `text()` rend la CLE, et l'ecran
-        // afficherait « rpg.ability.strength » la ou on attend « Force ».
-        HMI_LOG_WARNING(
-            "Catalogue de traduction introuvable : les libelles de la fiche resteront techniques.");
-    }
+    const std::string language = activeLanguage();
 
     QVector<SheetRow> abilityRows;
     QVector<SheetRow> saveRows;
@@ -75,7 +69,7 @@ void CharacterSheetModel::loadDemonstrationCharacter() {
     saveRows.reserve(static_cast<qsizetype>(ABILITIES.size()));
     for (const core::Ability ability : ABILITIES) {
         const std::string id(core::abilityName(ability));
-        const QString label = toQt(labels.text("rpg.ability." + id));
+        const QString label = toQt(ruleLabel("rpg.ability." + id, language));
         abilityRows.append(SheetRow{
             .id = toQt(id), .label = label, .value = lookup(_values, "sheet.ability." + id)});
         saveRows.append(

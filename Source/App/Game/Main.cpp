@@ -21,6 +21,7 @@
 #include <QSettings>
 #include <QString>
 #include <QTimer>
+#include <QTranslator>
 #include <QUrl>
 #include <filesystem>
 #include <optional>
@@ -73,6 +74,23 @@ int main(int argc, char** argv) {
     const QString language =
         QSettings().value(QStringLiteral("language"), QStringLiteral("fr")).toString();
     app::installQtTranslations(language.toStdString());
+
+    // Traductions du JEU. Le francais est la langue SOURCE des ecrans -- leurs textes s'ecrivent en
+    // francais dans le QML, pour que la conception les lise dans Qt Design Studio -- et n'a donc
+    // pas de catalogue : sans traducteur installe, `qsTr` rend sa source.
+    //
+    // Duree de vie statique : QCoreApplication ne possede pas le traducteur, et un objet local
+    // serait detruit a la sortie de cette portee. La traduction disparaitrait alors sans erreur,
+    // et l'interface reviendrait au francais sans que rien ne le dise.
+    static QTranslator gameTranslator;
+    if (language != QLatin1String("fr")) {
+        if (gameTranslator.load(QStringLiteral(":/i18n/jadg_") + language)) {
+            QCoreApplication::installTranslator(&gameTranslator);
+        } else {
+            HMI_LOG_WARNING("Catalogue de traduction du jeu absent pour '" +
+                            language.toStdString() + "' : l'interface restera en francais.");
+        }
+    }
 
     registerIdentityFonts();
 

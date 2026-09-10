@@ -374,6 +374,8 @@ add_executable(JustAnotherDnDGame
     # Chargement PARTAGE par la fiche et l'inventaire : ils decrivent le meme personnage.
     Presentation/DemonstrationCharacter.cpp
     Presentation/InventoryModel.cpp
+    # Le lexique des regles : leurs cles sont CALCULEES, donc hors de portee de qsTr.
+    Presentation/RuleLabels.cpp
     # Navigation : suit la table de transitions PURE, il ne decide rien lui-meme.
     Presentation/ScreenRouter.cpp
     Presentation/CharacterSheetModel.cpp
@@ -520,6 +522,31 @@ target_include_directories(JustAnotherDnDGame PRIVATE ${CMAKE_CURRENT_SOURCE_DIR
 # Neutralisé pour CETTE cible seulement, jamais pour le dépôt : `/W4 /WX` reste la règle
 # (EX-NFR-013), et C4702 continue d'être une erreur partout ailleurs, y compris dans l'éditeur.
 target_compile_options(JustAnotherDnDGame PRIVATE /wd4702)
+
+# --- Traductions du JEU (LOT-86) --------------------------------------------------------------
+#
+# Les ecrans du jeu ecrivent leurs textes EN FRANCAIS dans le fichier QML (`qsTr("Nouvelle
+# partie")`) plutot que par une cle. C'est ce qui permet a la conception de juger une mise en page
+# dans Qt Design Studio : une cle technique ne se lit pas. Le francais est donc la langue SOURCE, et
+# n'a pas de catalogue -- sans traducteur installe, `qsTr` rend sa source.
+#
+# `lupdate` extrait, `lrelease` compile, et le .qm est embarque dans la ressource. La mise a jour du
+# .ts se declenche a la main (cible `update_translations`) et non a chaque construction : lupdate
+# reecrit alors le fichier, et le voir bouger sous soi a chaque build rend toute relecture penible.
+#
+# OPTIONNEL, et il faut qu'il le soit : LinguistTools n'est pas garanti present sur une machine ou
+# dans une image d'integration continue. Absent, le jeu se construit et parle francais -- ce qui est
+# un repli honnete -- et le message dit pourquoi, plutot que de laisser chercher.
+find_package(Qt6 ${QT_VERSION_MINIMUM} QUIET COMPONENTS LinguistTools)
+if(Qt6LinguistTools_FOUND)
+    qt_add_translations(JustAnotherDnDGame
+        TS_FILES ${PROJECT_SOURCE_DIR}/Source/Elements/Localization/jadg_en.ts
+        RESOURCE_PREFIX "/i18n"
+    )
+else()
+    message(STATUS "JustAnotherDnDGame : LinguistTools absent, le jeu ne parlera que francais "
+        "(sa langue source). Installer le module qttools pour produire les catalogues.")
+endif()
 
 # Fichier de configuration du serveur de langage QML : ce qui donne complétion et diagnostics dans
 # un éditeur, sans que la conception ait à décrire les chemins d'import à la main.
