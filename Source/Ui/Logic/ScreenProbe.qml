@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import Jadg.Ui
+import Jadg.Runtime
 
 /*!
     Sélecteur d'écrans -- OUTIL DE VÉRIFICATION, côté développeur (LOT-86).
