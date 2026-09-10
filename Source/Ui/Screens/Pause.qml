@@ -1,5 +1,6 @@
 import QtQuick
 import Jadg.Ui
+import Jadg.Runtime
 
 /*!
     Pause -- CABLAGE, cote developpeur (LOT-86).
