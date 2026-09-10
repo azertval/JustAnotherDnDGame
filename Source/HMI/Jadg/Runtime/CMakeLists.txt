@@ -26,18 +26,14 @@ set(JADG_RUNTIME_SOURCES
     ${CMAKE_CURRENT_LIST_DIR}/../../Presentation/ScreenRouter.cpp
 )
 
-# Qt 6.11's qt_add_qml_module() consults QTP0005 even when the module does not use TARGET
-# dependencies. The normal project-wide setup would initialize the policy, but this repository's
-# HMI directory predates that setup and the Runtime module is configured in a child directory.
+# HMI/CMakeLists.txt trouve Qt6 avant d'entrer dans ce sous-repertoire. On initialise ici les
+# policies Qt jusqu'a 6.8 dans la portee du module runtime. Cela active notamment QTP0005 avant
+# qt_add_qml_module(), sans modifier la version de Qt du projet (Qt 6.11.2 reste requise).
 #
-# Qt's policy command deliberately exposes QT_KNOWN_POLICY_* as its compatibility guard. Some Qt
-# installations expose the policy through Qt6Qml while others only initialize the guard through
-# qt_standard_project_setup(). Make the guard explicit here, then opt into the Qt 6.8+ behavior.
-# This is equivalent to the documented `qt_policy(SET QTP0005 NEW)` once the policy is known.
-if(NOT DEFINED QT_KNOWN_POLICY_QTP0005)
-    set(QT_KNOWN_POLICY_QTP0005 TRUE)
-endif()
-qt_policy(SET QTP0005 NEW)
+# Ne pas utiliser de variable QT_KNOWN_POLICY_* fabriquee a la main : cette variable est un garde-
+# fou de compatibilite fourni par Qt et ne declare pas une policy. qt_standard_project_setup() est
+# l'API Qt documentee pour initialiser l'ensemble des policies.
+qt_standard_project_setup(REQUIRES 6.8)
 
 qt_add_qml_module(JadgRuntime
     URI Jadg.Runtime
@@ -69,6 +65,9 @@ foreach(_runtime_cpp IN ITEMS
     "${CMAKE_CURRENT_SOURCE_DIR}/../../Presentation/PendingData.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/../../Presentation/ScreenRouter.cpp"
     "Game/GameViewportItem.cpp"
+    "Presentation/CharacterSheetModel.cpp"
+    "Presentation/InventoryModel.cpp"
+    "Presentation/OptionsModel.cpp"
     "Presentation/CharacterSheetModel.cpp"
     "Presentation/InventoryModel.cpp"
     "Presentation/OptionsModel.cpp"
