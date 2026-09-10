@@ -213,7 +213,12 @@ int main(int argc, char** argv) {
     // Brancher les reglages sur ce qu'ils atteignent. La vue-modele persiste et previent ; c'est
     // ICI que chaque signal rejoint le moteur -- la presentation ne connait ni le son, ni les
     // traducteurs, ni la fenetre.
-    engine.loadFromModule("Jadg.Ui", "Main");
+    //
+    // AVANT `loadFromModule`, et ce n'est pas un detail de style : le chargement construit la
+    // fenetre ET ses ecrans dans la foulee. Brancher apres, c'est laisser les liaisons de ces
+    // ecrans s'evaluer sur un modele pas encore renseigne -- et `logsAvailable` etant CONSTANT,
+    // elle ne se serait jamais reevaluee : le bouton d'export des journaux serait reste grise
+    // pour toujours, dans un build ou les journaux existent pourtant.
     if (auto* const options =
             engine.singletonInstance<hmi::OptionsModel*>("Jadg.Ui", "OptionsModel")) {
         options->setSessionLog(sessionLog);
@@ -236,6 +241,10 @@ int main(int argc, char** argv) {
     } else {
         HMI_LOG_ERROR("Reglages introuvables : le volume et la langue ne seront pas appliques.");
     }
+
+    // En dernier : la fenetre et tous ses ecrans naissent ici, et doivent trouver un modele deja
+    // branche.
+    engine.loadFromModule("Jadg.Ui", "Main");
 
     const int code = QGuiApplication::exec();
     HMI_LOG_INFO("Arret de JustAnotherDnDGame (code " + std::to_string(code) + ").");

@@ -13,5 +13,14 @@ CreditsForm {
 
     focus: true
 
+    // Le pied devient un retour cliquable : l'écran s'ouvre à la souris depuis le menu, il doit
+    // pouvoir se fermer de la même main.
+    backAvailable: true
+
     Keys.onEscapePressed: ScreenRouter.closeCredits()
+
+    Connections {
+        target: root.backPointer
+        function onClicked() { ScreenRouter.closeCredits() }
+    }
 }

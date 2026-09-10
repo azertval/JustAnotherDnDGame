@@ -16,6 +16,8 @@ OptionsForm {
     id: root
 
     focus: true
+    // Le pied devient un retour cliquable (voir `RpgScreenFrame`).
+    backAvailable: true
     logsEnabled: OptionsModel.logsAvailable
     logsMessage: root.lastLogsMessage
 
@@ -60,4 +62,9 @@ OptionsForm {
     }
 
     Keys.onEscapePressed: ScreenRouter.closeOptions()
+
+    Connections {
+        target: root.backPointer
+        function onClicked() { ScreenRouter.closeOptions() }
+    }
 }

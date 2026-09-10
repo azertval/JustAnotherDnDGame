@@ -37,6 +37,23 @@ Rectangle {
     */
     property string navigationHint: qsTr("Précédent") + " ·  · " + qsTr("Suivant")
 
+    /*!
+        Le pied est-il un RETOUR cliquable ?
+
+        Faux par défaut, et il fallait qu'il le soit : tous les écrans n'ont pas de retour à offrir,
+        et une indication qui prend l'apparence d'un bouton sans rien faire est pire que pas de
+        bouton du tout. L'écran qui branche `backPointer` lève ce drapeau — les deux vont ensemble.
+    */
+    property bool backAvailable: false
+
+    /*!
+        La zone sensible du pied, à brancher par le jumeau de l'écran (`clicked`).
+
+        Sans elle, un écran ouvert à la souris ne se refermait qu'au clavier : on entrait dans les
+        options d'un clic, et plus rien à l'écran ne disait comment en sortir.
+    */
+    property alias backPointer: backControl
+
     property alias content: body.data
 
     color: Tokens.background
@@ -89,9 +106,22 @@ Rectangle {
 
             Text {
                 text: root.navigationHint
-                color: Tokens.textMuted
+                // L'accent ne s'allume que si le pied fait vraiment quelque chose : c'est la
+                // même règle que pour le curseur, une réaction au survol PROMET une action.
+                color: root.backAvailable && backControl.containsMouse ? Tokens.accent : Tokens.textMuted
                 font.family: Tokens.bodyFamily
                 font.pixelSize: Tokens.caption
+
+                // La cible déborde le texte : une ligne de légende fait quelques pixels de haut,
+                // et viser des lettres de cette taille à la souris relève de l'adresse.
+                MouseArea {
+                    id: backControl
+                    anchors.fill: parent
+                    anchors.margins: -Tokens.spaceSmall
+                    enabled: root.backAvailable
+                    hoverEnabled: true
+                    cursorShape: Qt.PointingHandCursor
+                }
             }
             Item { Layout.fillWidth: true }
             Text {

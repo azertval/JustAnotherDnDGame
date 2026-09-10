@@ -13,6 +13,11 @@ Item {
 
     property int currentIndex: 0
 
+    // Exposees pour que le jumeau y branche le pointeur (voir `MainMenuForm`).
+    property alias resumeEntry: resumeControl
+    property alias optionsEntry: optionsControl
+    property alias quitEntry: quitControl
+
     // Voile : le jeu doit rester DEVINABLE derriere, sans quoi la pause ressemble a un ecran
     // de plus et l'on ne sait plus si la partie tourne encore.
     Rectangle {
@@ -35,8 +40,8 @@ Item {
 
         Item { Layout.preferredHeight: Tokens.spaceMedium }
 
-        MenuEntry { Layout.alignment: Qt.AlignHCenter; label: qsTr("Reprendre"); current: root.currentIndex === 0 }
-        MenuEntry { Layout.alignment: Qt.AlignHCenter; label: qsTr("Options"); current: root.currentIndex === 1 }
-        MenuEntry { Layout.alignment: Qt.AlignHCenter; label: qsTr("Quitter vers le menu"); current: root.currentIndex === 2 }
+        MenuEntry { id: resumeControl; Layout.alignment: Qt.AlignHCenter; label: qsTr("Reprendre"); current: root.currentIndex === 0 }
+        MenuEntry { id: optionsControl; Layout.alignment: Qt.AlignHCenter; label: qsTr("Options"); current: root.currentIndex === 1 }
+        MenuEntry { id: quitControl; Layout.alignment: Qt.AlignHCenter; label: qsTr("Quitter vers le menu"); current: root.currentIndex === 2 }
     }
 }

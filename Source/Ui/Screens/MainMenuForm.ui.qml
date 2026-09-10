@@ -17,6 +17,13 @@ Item {
 
     property int currentIndex: 0
 
+    // Les entrees sont exposees une a une : c'est le jumeau qui leur attache le survol et le clic,
+    // un formulaire ne pouvant pas contenir de code.
+    property alias newGameEntry: newGameControl
+    property alias optionsEntry: optionsControl
+    property alias creditsEntry: creditsControl
+    property alias quitEntry: quitControl
+
     Rectangle {
         anchors.fill: parent
         color: Tokens.background
@@ -76,9 +83,9 @@ Item {
 
         Item { Layout.preferredHeight: Tokens.spaceExtraLarge }
 
-        MenuEntry { label: qsTr("Nouvelle partie"); current: root.currentIndex === 0 }
-        MenuEntry { label: qsTr("Options"); current: root.currentIndex === 1 }
-        MenuEntry { label: qsTr("Crédits"); current: root.currentIndex === 2 }
-        MenuEntry { label: qsTr("Quitter"); current: root.currentIndex === 3 }
+        MenuEntry { id: newGameControl; label: qsTr("Nouvelle partie"); current: root.currentIndex === 0 }
+        MenuEntry { id: optionsControl; label: qsTr("Options"); current: root.currentIndex === 1 }
+        MenuEntry { id: creditsControl; label: qsTr("Crédits"); current: root.currentIndex === 2 }
+        MenuEntry { id: quitControl; label: qsTr("Quitter"); current: root.currentIndex === 3 }
     }
 }
