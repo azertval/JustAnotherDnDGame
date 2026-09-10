@@ -1,5 +1,6 @@
 import QtQuick
 import Jadg.Ui
+import Jadg.Runtime
 
 /*!
     Carte du monde -- CABLAGE, cote developpeur (LOT-86).
