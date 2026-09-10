@@ -26,13 +26,16 @@ set(JADG_RUNTIME_SOURCES
     ${CMAKE_CURRENT_LIST_DIR}/../../Presentation/ScreenRouter.cpp
 )
 
+# Ne pas utiliser DEPENDENCIES ici : Qt 6.11 documente ce mot-cle comme pouvant declencher
+# QTP0005 lorsque des cibles CMake sont utilisees. Le runtime depend deja explicitement de QtQml et
+# QtQuick via target_link_libraries(), et aucun TARGET <qml-module> n'est necessaire ici. Cela evite
+# de faire intervenir QTP0005 dans ce module tout en conservant le meme comportement de compilation.
 qt_add_qml_module(JadgRuntime
     URI Jadg.Runtime
     VERSION 1.0
     RESOURCE_PREFIX "/qt/qml"
     NO_PLUGIN
     SOURCES ${JADG_RUNTIME_SOURCES}
-    DEPENDENCIES QtQml QtQuick
 )
 
 target_include_directories(JadgRuntime PUBLIC ${PROJECT_SOURCE_DIR}/Source)
