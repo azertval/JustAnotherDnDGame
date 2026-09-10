@@ -29,7 +29,7 @@ namespace {
     // retrecir ce que ces garde-fous couvrent. Une regle interdite le reste dans l'une comme dans
     // l'autre.
     std::ostringstream buffer;
-    for (const char* const path : {JADG_THEME_IDENTITY_PATH, JADG_THEME_EDITOR_PATH}) {
+    for (const char* const path : {JADG_THEME_EDITOR_PATH}) {
         std::ifstream file(path);
         buffer << file.rdbuf();
     }
@@ -47,6 +47,18 @@ namespace {
 }
 
 }  // namespace
+
+// Les deux tests d'ETANCHEITE DES PORTEES ont ete retires au LOT-86, et leur garantie n'est pas
+// perdue : elle est devenue STRUCTURELLE. Ils verifiaient que le theme de l'editeur ne faisait pas
+// bouger les regles d'identite du menu principal, les deux portees vivant dans deux feuilles de
+// style du meme binaire. Depuis, l'identite du jeu vit dans Source/Ui/Theme/Tokens.qml, en QML,
+// dans un AUTRE BINAIRE : aucun chemin ne relie plus les deux, et il n'y a plus rien a verifier.
+//
+// Le troisieme, « les deux portees sont dans deux fichiers disjoints », tombe pour la meme
+// raison : il n'y a plus deux fichiers, il y a deux langages.
+//
+// C'est le meilleur sort qu'on puisse reserver a un test : que ce qu'il surveillait devienne
+// impossible.
 
 /**
  * @brief Chaque marqueur `${nom}` présent dans le modèle est remplacé par sa valeur ; le résultat
@@ -108,57 +120,6 @@ TEST(ApplicationThemeTest, AucuneCouleurLitteraleDansLeModeleReel) {
 }
 
 /**
- * @brief Produire la feuille de style avec deux jeux de valeurs **variables** différents donne
- *        deux résultats dont les règles d'**identité** (`#MainMenu`, `#OptionsPage`) sont
- *        identiques au caractère près : le thème de l'éditeur ne doit jamais faire bouger le menu
- *        principal.
- * \castest{<b>Les regles d'identite sont etanches au theme de l'editeur.</b><br/>
- * \tcat Unitaire · Theme de l'IHM<br/>
- * \tcrit Critique<br/>
- * \tetapes 1. Substituer le modele reel avec deux jeux de jetons d'editeur de couleurs
- * differentes, les valeurs derivant de buildStyleSheetValues.<br/>2. Extraire les blocs
- * `#MainMenu`/`#OptionsPage` des deux resultats.<br/> \tattendu Les deux extraits sont identiques
- * au caractere pres.
- * }
- */
-TEST(ApplicationThemeTest, EtancheiteDesPortees) {
-    const std::string themeText = readScopeTemplate(JADG_THEME_IDENTITY_PATH);
-    ASSERT_FALSE(themeText.empty()) << "feuille d'identite introuvable (JADG_THEME_IDENTITY_PATH)";
-
-    // Les valeurs sont DERIVEES de buildStyleSheetValues, jamais recopiees : une liste ecrite a la
-    // main ici devrait etre etendue a chaque marqueur ajoute au modele, et ne le serait pas -- le
-    // test echouerait alors sur un "marqueur inconnu" qui n'a rien a voir avec l'etancheite qu'il
-    // verifie. Seules les couleurs de l'EDITEUR sont forcees, puisque c'est la variable du test.
-    auto valuesWithEditor = [&](std::uint8_t level) {
-        hmi::DesignTokens editorTokens = hmi::editorDarkTokens();
-        const hmi::DesignColor uniform{.r = level, .g = level, .b = level};
-        editorTokens.color.background = uniform;
-        editorTokens.color.surface = uniform;
-        editorTokens.color.surfaceAlt = uniform;
-        editorTokens.color.border = uniform;
-        editorTokens.color.text = uniform;
-        editorTokens.color.textMuted = uniform;
-        editorTokens.color.accent = uniform;
-        editorTokens.color.accentHover = uniform;
-        editorTokens.color.error = uniform;
-        editorTokens.color.frameEdge = uniform;
-        editorTokens.color.frameOrnament = uniform;
-        editorTokens.color.frameShadow = uniform;
-        return hmi::buildStyleSheetValues(editorTokens);
-    };
-
-    const hmi::StyleSheetSubstitutionResult dark =
-        hmi::substituteStyleSheetTemplate(themeText, valuesWithEditor(0x11));
-    const hmi::StyleSheetSubstitutionResult light =
-        hmi::substituteStyleSheetTemplate(themeText, valuesWithEditor(0xee));
-    ASSERT_TRUE(dark.ok) << dark.error;
-    ASSERT_TRUE(light.ok) << light.error;
-
-    // La feuille d'identite ENTIERE, au caractere pres : elle ne contient plus que cette portee.
-    EXPECT_EQ(dark.text, light.text);
-}
-
-/**
  * @brief La police embarquée est retenue quand elle a pu être enregistrée ; sinon, aucun nom de
  *        famille n'est renvoyé (TACHE-03) -- l'appelant Qt doit alors demander une famille
  *        générique, jamais un second nom codé en dur.
@@ -201,31 +162,11 @@ TEST(ApplicationThemeTest, EchelleTypographiquePositiveEtOrdonnee) {
     EXPECT_GT(typography.body.pointSize, typography.caption.pointSize);
 }
 
-/**
- * @brief Aucune propriété de police ni de marge figée ne subsiste dans `MainMenu.ui` ou
- *        `OptionsPage.ui` : la typographie et l'espacement viennent des jetons, pas du fichier
- *        `.ui`.
- * \castest{<b>Aucune taille de police ni marge figee ne subsiste dans les fichiers .ui.</b><br/>
- * \tcat Unitaire · Theme de l'IHM<br/>
- * \tcrit Majeur<br/>
- * \tetapes 1. Lire MainMenu.ui et OptionsPage.ui.<br/>2. Chercher une propriete font/margin figee
- * au niveau du widget racine.<br/>
- * \tattendu Aucune des deux proprietes n'apparait dans l'un ou l'autre fichier.
- * }
- */
-TEST(ApplicationThemeTest, AucuneTailleDePoliceResiduelleDansLesFichiersUi) {
-    for (const char* path : {JADG_MAIN_MENU_UI_PATH, JADG_OPTIONS_PAGE_UI_PATH}) {
-        std::ifstream file(path);
-        std::ostringstream buffer;
-        buffer << file.rdbuf();
-        const std::string text = buffer.str();
-        ASSERT_FALSE(text.empty()) << "fichier .ui introuvable : " << path;
-        EXPECT_EQ(text.find("<property name=\"font\">"), std::string::npos)
-            << "propriete de police figee trouvee dans " << path;
-        EXPECT_EQ(text.find("Margin"), std::string::npos)
-            << "propriete de marge figee trouvee dans " << path;
-    }
-}
+// Le test « aucune taille de police residuelle dans les fichiers .ui » a ete RETIRE au LOT-86 : les
+// .ui des ecrans du jeu n'existent plus, ces ecrans etant passes en QML. Sa garantie n'est pas
+// perdue pour autant -- `scripts/check_ui_layers.py` (regle 6, EX-IHM-105) verifie desormais
+// qu'aucune couleur, police ni taille n'est ecrite en dur hors de `Source/Ui/Theme`. Le controle
+// couvre donc plus qu'avant : tous les ecrans, et pas seulement deux.
 
 /**
  * @brief Résolution pure du thème effectif (`LOT-56` TACHE-06) : `Système` suit le système
@@ -253,81 +194,4 @@ TEST(ApplicationThemeTest, ResolutionDuThemeEffectifSuitLeReglageEtLeSysteme) {
     EXPECT_EQ(
         hmi::resolveEffectiveEditorTheme(EditorThemeSetting::Dark, /*systemPrefersDark=*/false),
         EditorThemeMode::Dark);
-}
-
-/**
- * @brief Avec les **vrais** jetons sombre et clair du châssis d'édition, les règles d'identité
- *        (`#MainMenu`, `#OptionsPage`) de la feuille de style produite restent identiques au
- *        caractère près : complète `ApplicationThemeTest.EtancheiteDesPortees` (jetons de test
- *        arbitraires) en couvrant la bascule réelle que `LOT-56` TACHE-06 introduit.
- * \castest{<b>L'etancheite des portees tient avec les vrais themes sombre et clair.</b><br/>
- * \tcat Unitaire · Theme de l'IHM<br/>
- * \tcrit Critique<br/>
- * \tetapes 1. Produire la feuille de style avec editorDarkTokens() puis editorLightTokens().<br/>
- * 2. Comparer les blocs `#MainMenu`/`#OptionsPage` des deux resultats.<br/>
- * \tattendu Les deux extraits sont identiques au caractere pres.
- * }
- */
-TEST(ApplicationThemeTest, EtancheiteDesPorteesAvecLesVraisThemes) {
-    const std::string identityText = readScopeTemplate(JADG_THEME_IDENTITY_PATH);
-    const std::string editorText = readScopeTemplate(JADG_THEME_EDITOR_PATH);
-    ASSERT_FALSE(identityText.empty()) << "feuille d'identite introuvable";
-    ASSERT_FALSE(editorText.empty()) << "feuille du chassis introuvable";
-
-    const auto substituted = [](const std::string& text, const hmi::DesignTokens& tokens) {
-        return hmi::substituteStyleSheetTemplate(text, hmi::buildStyleSheetValues(tokens));
-    };
-    const hmi::StyleSheetSubstitutionResult identityDark =
-        substituted(identityText, hmi::editorDarkTokens());
-    const hmi::StyleSheetSubstitutionResult identityLight =
-        substituted(identityText, hmi::editorLightTokens());
-    const hmi::StyleSheetSubstitutionResult editorDark =
-        substituted(editorText, hmi::editorDarkTokens());
-    const hmi::StyleSheetSubstitutionResult editorLight =
-        substituted(editorText, hmi::editorLightTokens());
-    ASSERT_TRUE(identityDark.ok) << identityDark.error;
-    ASSERT_TRUE(identityLight.ok) << identityLight.error;
-    ASSERT_TRUE(editorDark.ok) << editorDark.error;
-    ASSERT_TRUE(editorLight.ok) << editorLight.error;
-
-    EXPECT_EQ(identityDark.text, identityLight.text);
-    // Le chassis, lui, doit bel et bien changer : sinon TACHE-06 n'aurait aucun effet visible.
-    EXPECT_NE(editorDark.text, editorLight.text);
-}
-
-/**
- * @brief Les deux portées vivent dans deux fichiers **disjoints** : la feuille d'identité ne nomme
- *        aucun jeton du châssis, et celle du châssis aucun jeton d'identité (`LOT-73`,
- *        `EX-IHM-082`).
- *
- * C'est la condition qui rend la séparation utile plutôt que cosmétique. Les grandeurs
- * `identity.size.*` sont multipliées par le facteur d'agrandissement, qui change avec la hauteur de
- * la fenêtre ; tant qu'elles cohabitaient avec le châssis dans la feuille **applicative**, en
- * changer repolissait les 862 widgets de l'application — cinq secondes par redimensionnement en
- * Debug. Une seule règle d'identité qui reviendrait dans la feuille du châssis ramènerait ce coût.
- * \castest{<b>Les deux portees de theme sont disjointes, marqueur par marqueur.</b><br/>
- * \tcat Unitaire · Theme de l'IHM<br/>
- * \tcrit Bloquant<br/>
- * \tetapes 1. Lire les deux feuilles livrees, commentaires retires.<br/>2. Chercher un marqueur
- * du prefixe de l'autre portee dans chacune.<br/>
- * \tattendu Aucune feuille ne reference les jetons de l'autre portee.
- * }
- */
-TEST(ApplicationThemeTest, LesDeuxPorteesSontDansDeuxFichiersDisjoints) {
-    // Commentaires retires : chaque feuille EXPLIQUE en tete pourquoi elle ignore l'autre portee,
-    // et un test qui s'y declencherait interdirait d'en documenter la raison.
-    static const std::regex commentPattern(R"(/\*[\s\S]*?\*/)");
-    const auto ruleTextOf = [](const char* path) {
-        return std::regex_replace(readScopeTemplate(path), commentPattern, "");
-    };
-    const std::string identityRules = ruleTextOf(JADG_THEME_IDENTITY_PATH);
-    const std::string editorRules = ruleTextOf(JADG_THEME_EDITOR_PATH);
-    ASSERT_FALSE(identityRules.empty());
-    ASSERT_FALSE(editorRules.empty());
-
-    EXPECT_EQ(identityRules.find("editor.color."), std::string::npos)
-        << "la feuille d'identite reference un jeton du chassis d'edition";
-    EXPECT_EQ(editorRules.find("identity."), std::string::npos)
-        << "la feuille du chassis reference un jeton d'identite : un changement de facteur "
-           "d'agrandissement redeviendrait un rejeu applicatif complet";
 }

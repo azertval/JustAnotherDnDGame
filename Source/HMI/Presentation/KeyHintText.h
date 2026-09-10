@@ -9,7 +9,7 @@
 #include "HMI/Interface/DesignTokens.h"
 
 /**
- * @file HMI/Interface/KeyHintText.h
+ * @file HMI/Presentation/KeyHintText.h
  * @brief Rappels de touches en bas des écrans du jeu (`LOT-68`, `EX-IHM-070`).
  *
  * Logique **pure** (aucune dépendance Qt/GPU), testable hors instance d'application

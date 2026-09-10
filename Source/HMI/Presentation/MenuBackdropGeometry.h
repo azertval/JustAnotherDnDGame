@@ -6,7 +6,7 @@
 #include <vector>
 
 /**
- * @file HMI/Interface/MenuBackdropGeometry.h
+ * @file HMI/Presentation/MenuBackdropGeometry.h
  * @brief Décor du menu principal, en pavés (`LOT-68`, `EX-IHM-070`).
  *
  * Logique **pure** (aucune dépendance Qt/GPU), testable hors instance d'application

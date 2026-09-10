@@ -6,7 +6,7 @@
 #include <vector>
 
 /**
- * @file HMI/Interface/ParchmentOrnaments.h
+ * @file HMI/Presentation/ParchmentOrnaments.h
  * @brief Ornements d'habillage des écrans du jeu, **tracés** (`LOT-76`, `EX-IHM-075`).
  *
  * Logique **pure** (aucune dépendance Qt/GPU), testable hors instance d'application

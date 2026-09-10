@@ -36,7 +36,6 @@
 #include <QSettings>
 #include <QSignalBlocker>
 #include <QSpinBox>
-#include <QStackedWidget>
 #include <QStatusBar>
 #include <QString>
 #include <QStyleHints>
@@ -79,19 +78,10 @@
 #include "HMI/HmiLog.h"
 #include "HMI/Input/GamepadButton.h"
 #include "HMI/Interface/ApplicationTheme.h"
-#include "HMI/Interface/CreditsScreen.h"
 #include "HMI/Interface/DesignTokens.h"
 #include "HMI/Interface/EditorActions.h"
 #include "HMI/Interface/EditorWorkspace.h"
-#include "HMI/Interface/MainMenu.h"
-#include "HMI/Interface/OptionsPage.h"
-#include "HMI/Interface/PauseScreen.h"
-#include "HMI/Interface/RpgScreenHost.h"
-#include "HMI/Interface/ScreenPageHost.h"
 #include "HMI/Platform/ExecutableDirectory.h"
-#include "HMI/Presentation/CharacterSheetValues.h"
-#include "HMI/Presentation/IdentityScale.h"
-#include "HMI/Presentation/InventoryValues.h"
 #include "ui_MainWindow.h"
 #include "ui_ResizeDialog.h"
 #include "ui_ShortcutsDialog.h"
@@ -135,9 +125,6 @@ constexpr char DEMONSTRATION_CHARACTER_FILE[] = "demonstration-brenna.json";
 
 MainWindow::MainWindow(core::MemoryLogSink* sessionLog)
     : _ui(std::make_unique<Ui::EditorMainWindow>()),
-      _stack(nullptr),
-      _menu(nullptr),
-      _options(nullptr),
       _viewport(new GameViewport()),
       _palette(nullptr),
       _levels(nullptr),
@@ -189,44 +176,15 @@ MainWindow::MainWindow(core::MemoryLogSink* sessionLog)
     _viewport->setFocusPolicy(Qt::StrongFocus);
     _viewport->installEventFilter(this);
 
-    // Central : menu principal, options et viewport empilés (remplace le centralHost du .ui).
-    _menu = new MainMenu();
-    _options = new OptionsPage(_viewport, &_audio,
-                               hmi::executableDirectory() / "Settings" / "keybindings.json");
-    _credits = new CreditsScreen();
-    _rpgScreens = new RpgScreenHost();
-    _stack = new QStackedWidget(this);
-    // Chaque ecran passe par une enveloppe defilante (LOT-73, EX-IHM-080) : sa taille minimale ne
-    // remonte plus jusqu'a la fenetre. Le VIEWPORT en est exclu -- surface de rendu QRhi, il
-    // remplit la page sans jamais defiler, et son minimum (320x240) tient sur tout ecran.
-    addScreenPage(_menu);
-    addScreenPage(_options);
-    addScreenPage(_credits);
-    addScreenPage(_rpgScreens);
-    _stack->addWidget(_viewport);
-    setCentralWidget(_stack);
-    connect(_credits, &CreditsScreen::backRequested, this, &MainWindow::closeCredits);
-    connect(_rpgScreens, &RpgScreenHost::closeRequested, this, &MainWindow::closeRpgScreen);
-    // Le passage d'un ecran du RPG a un autre peut CHANGER la regle de superposition -- passer de
-    // la carte (qui se consulte en marchant) a la fiche (qui suspend) doit suspendre. La regle est
-    // donc appliquee a chaque changement d'ecran, pas seulement a l'ouverture (EX-IHM-091).
-    connect(_rpgScreens, &RpgScreenHost::screenChanged, this, &MainWindow::applyRpgSuperposition);
-
-    // Recouvrement de pause (LOT-59 TACHE-02) : widget ENFANT ORDINAIRE du viewport depuis le
-    // LOT-69 TACHE-02. Il avait dû devenir une fenêtre de haut niveau (Qt::Dialog) parce qu'un
-    // widget frère ne se dessinait jamais de façon fiable par-dessus la fenêtre native embarquée
-    // par createWindowContainer -- deux défauts réels payés au LOT-59 (l'écran ne s'affichait pas,
-    // puis Qt::Tool cassait activateWindow() sur Windows). QRhiWidget rendant dans une texture
-    // composée avec le reste de l'interface, l'empilement redevient celui de Qt : un enfant
-    // raise() suffit, le focus s'obtient sans activation de fenêtre, et la géométrie se donne en
-    // coordonnées locales.
-    _pauseScreen = new PauseScreen(_viewport);
-    _pauseScreen->setAttribute(Qt::WA_TranslucentBackground);
-    _pauseScreen->hide();
-    connect(_pauseScreen, &PauseScreen::resumeRequested, this, &MainWindow::resumeFromPause);
-    connect(_pauseScreen, &PauseScreen::optionsRequested, this, &MainWindow::showOptions);
-    connect(_pauseScreen, &PauseScreen::quitToMenuRequested, this, &MainWindow::quitPauseToMenu);
-    connect(_viewport, &GameViewport::pauseRequested, this, &MainWindow::openPause);
+    // Le viewport EST le widget central. Il l'est redevenu au LOT-86 : il partageait jusque-la une
+    // pile avec le menu principal, les options, les credits et les neuf ecrans du RPG, tous passes
+    // en QML dans l'application du JEU. L'editeur n'a plus qu'une chose a montrer.
+    //
+    // C'est aussi la fin de l'enveloppe defilante que chaque ecran traversait (LOT-73) : elle
+    // existait parce qu'une pile propage le minimum de TOUTES ses pages, y compris masquees, et
+    // qu'un ecran dense fixait a lui seul le plancher de la fenetre. Sans pile d'ecrans, le
+    // mecanisme du defaut n'existe plus.
+    setCentralWidget(_viewport);
 
     buildUi();  // contenu des docks (panneaux) + branchement des actions de la barre de menus.
 
@@ -367,31 +325,144 @@ MainWindow::MainWindow(core::MemoryLogSink* sessionLog)
         showTransientStatusMessage(text("textures.reload_done"), 3000);
     });
 
-    // Navigation depuis le menu principal.
-    connect(_menu, &MainMenu::editorRequested, this, &MainWindow::showEditor);
-    // Jouer (LOT-59 TACHE-06) : trois intentions distinctes remplacent l'ancien "Jouer" unique.
-    connect(_menu, &MainMenu::newGameRequested, this, &MainWindow::newGame);
-    connect(_menu, &MainMenu::optionsRequested, this, &MainWindow::showOptions);
-    connect(_menu, &MainMenu::creditsRequested, this, &MainWindow::openCredits);
-    connect(_menu, &MainMenu::quitRequested, this, &MainWindow::close);
-    // Retour au menu à la fin d'une partie (ou Échap en mode jeu).
-    connect(_viewport, &GameViewport::exitToMenuRequested, this, &MainWindow::showMenu);
-    // Page Options : retour à l'écran d'origine (Menu ou Pause, EX-GP-041), bascule plein écran,
-    // changement de langue, sauvegarde des logs.
-    connect(_options, &OptionsPage::backRequested, this, &MainWindow::closeOptions);
-    connect(_options, &OptionsPage::fullscreenRequested, this,
-            [this](bool enabled) { enabled ? showFullScreen() : showNormal(); });
-    connect(_options, &OptionsPage::languageChanged, this, &MainWindow::changeLanguage);
-    connect(_options, &OptionsPage::saveLogsRequested, this, &MainWindow::saveSessionLogs);
-    // Un remappage d'editeur (onglet Options > Éditeur, LOT-57 TACHE-04) doit se refleter
-    // immediatement sur les raccourcis effectifs des actions (menu/barre d'outils).
-    connect(_options, &OptionsPage::editorBindingsChanged, this,
-            [this] { _actions->applyShortcuts(_viewport->editorBindings(), _loc); });
+    buildUi();  // contenu des docks (panneaux) + branchement des actions de la barre de menus.
 
-    // Navigation manette des menus : sondage périodique, actif seulement hors jeu/édition.
-    _menuNavTimer = new QTimer(this);
-    _menuNavTimer->setInterval(150);
-    connect(_menuNavTimer, &QTimer::timeout, this, &MainWindow::pollMenuGamepad);
+    // Contexte d'edition actif (LOT-54 TACHE-04, EX-IHM-062) : suit le focus clavier entre le
+    // niveau (_viewport) et l'atelier pixel art (_pixelCanvas) -- Annuler/Refaire/Copier/Coller
+    // (deja dispatches via _editContext) et la barre d'etat visent ainsi toujours le meme widget.
+    connect(qApp, &QApplication::focusChanged, this,
+            [this](QWidget*, QWidget* now) { updateActiveEditContext(now); });
+
+    // Sélectionner une tuile dans la palette définit le type peint au clic dans le viewport.
+    connect(_palette, &PalettePanel::tileSelected, _viewport,
+            [this](core::TileType type) { _viewport->setActiveTile(type); });
+    // Raccourci clavier de l'outil « Texture par instance » (LOT-45, « touche dédiée ») :
+    // resynchronise la barre d'outils (LOT-56 TACHE-04), sans reboucler (setActiveTool n'émet
+    // rien).
+    connect(_viewport, &GameViewport::toolChanged, _actions, &EditorActions::setActiveTool);
+    // Les messages d'état du viewport (enregistrement, essai, erreurs) s'affichent en bas, puis
+    // laissent la main à l'aide contextuelle (LOT-57 TACHE-01).
+    connect(_viewport, &GameViewport::statusMessage, this,
+            [this](const QString& message) { showTransientStatusMessage(message, 5000); });
+    // Barre d'état : zones permanentes (LOT-57 TACHE-01), recalculées à chaque changement
+    // pertinent -- outil, survol, zoom, brouillon (nom, modifications).
+    connect(_viewport, &GameViewport::toolChanged, this,
+            [this](hmi::EditorTool) { refreshStatusHelp(); });
+    // Mise en avant du panneau pertinent selon l'outil actif (LOT-57 TACHE-02).
+    connect(_viewport, &GameViewport::toolChanged, this, &MainWindow::applyPanelFocus);
+    connect(_viewport, &GameViewport::hoveredCellChanged, this,
+            [this](std::optional<core::GridPosition>) { refreshStatusHelp(); });
+    connect(_viewport, &GameViewport::zoomChanged, this, [this](float) { refreshStatusHelp(); });
+    // Ouvrir un niveau depuis le panneau : garde-fou des modifications non enregistrées d'abord.
+    connect(_levels, &LevelBrowserPanel::levelOpenRequested, this, [this](const QString& path) {
+        if (_viewport->isDirty()) {
+            const QMessageBox::StandardButton answer = QMessageBox::question(
+                this, text("dialog.unsaved_title"), text("dialog.unsaved_text"));
+            if (answer != QMessageBox::Yes) {
+                return;
+            }
+        }
+        _viewport->openLevel(std::filesystem::path(path.toStdString()));
+    });
+
+    // Panneau Liens : reste synchronise avec le brouillon (LOT-37) ; selectionner une ligne
+    // surligne la liaison dans le viewport, supprimer delegue au viewport (seul proprietaire).
+    // Section « Fond » (LOT-44) : meme synchronisation -- le viewport reste seul proprietaire du
+    // brouillon, le panneau ne fait que refleter fond/jeu de skins du niveau courant.
+    connect(_viewport, &GameViewport::draftChanged, this, [this] {
+        _links->refresh(_viewport->draft());
+        _textures->setLevelProperties(_viewport->draft().background(),
+                                      _viewport->draft().skinSet());
+        _textures->setLevelCameraFraming(_viewport->draft().cameraFraming());
+        _textures->refreshObjects(_viewport->draft());
+        _planes->refresh(_viewport->draft(), _viewport->selectedPlaneIndex(),
+                         _viewport->planeVisibility());
+        refreshStatusHelp();  // nom du niveau et indicateur de modification (LOT-57 TACHE-01).
+    });
+    connect(_links, &LinkPanel::linkSelected, _viewport, &GameViewport::setHighlightedLink);
+    connect(_links, &LinkPanel::deleteRequested, _viewport, &GameViewport::unlinkMechanism);
+    _links->refresh(_viewport->draft());  // etat initial (avant tout draftChanged).
+
+    // Section « Objets » (LOT-45) : meme separation que le panneau Liens -- choisir un asset arme
+    // l'outil « Texture par instance », la selection d'une ligne surligne dans le viewport, le
+    // retrait passe par le viewport (seul proprietaire du brouillon).
+    connect(_textures, &TexturePanel::textureOverrideAssetSelected, _viewport,
+            [this](const QString& fileName) {
+                _viewport->setActiveTextureAsset(
+                    fileName.isEmpty() ? std::nullopt : std::make_optional(fileName.toStdString()));
+            });
+    connect(_textures, &TexturePanel::textureOverrideSelectionChanged, _viewport,
+            &GameViewport::setHighlightedTextureOverride);
+    connect(_textures, &TexturePanel::textureOverrideRemoveRequested, _viewport,
+            &GameViewport::removeTextureOverride);
+
+    _textures->refreshObjects(_viewport->draft());  // etat initial (avant tout draftChanged).
+
+    // Panneau « Plans » (LOT-69 TACHE-08) : le panneau ne mute rien, il demande. Le viewport,
+    // seul proprietaire du brouillon, applique -- donc tout passe par l'historique, sauf la
+    // visibilite, qui est une aide d'edition.
+    connectPlanesPanel();
+
+    // Panneau Textures : agit sur le catalogue dont le viewport est proprietaire, et lui signale
+    // le jeu courant. Aucune scene n'est reconstruite -- l'apparence est resolue a la composition,
+    // donc l'image suivante suffit a montrer le resultat (LOT-42).
+    _textures->setCatalog(&_viewport->skinCatalog());
+    _textures->setLevelProperties(_viewport->draft().background(), _viewport->draft().skinSet());
+    _textures->setLevelCameraFraming(_viewport->draft().cameraFraming());
+
+    // Section « Fond » (LOT-44) : les deux modifications passent par le viewport (seul
+    // proprietaire du brouillon), exactement comme le panneau Liens ci-dessus.
+    connect(_textures, &TexturePanel::backgroundChanged, _viewport, [this](const QString& name) {
+        _viewport->setLevelBackground(name.isEmpty() ? std::nullopt
+                                                     : std::make_optional(name.toStdString()));
+    });
+    connect(_textures, &TexturePanel::levelSkinSetChanged, _viewport, [this](const QString& name) {
+        _viewport->setLevelSkinSet(name.isEmpty() ? std::nullopt
+                                                  : std::make_optional(name.toStdString()));
+    });
+    // Section « Cadrage » (LOT-64, EX-EDIT-028) : meme separation.
+    connect(_textures, &TexturePanel::cameraFramingChanged, _viewport,
+            &GameViewport::setLevelCameraFraming);
+    connect(_textures, &TexturePanel::cameraZoneRemoveRequested, _viewport,
+            &GameViewport::removeCameraZone);
+
+    // Palette fidele au canevas (EX-EDIT-027) : elle interroge le MEME catalogue, et se rafraichit
+    // aux trois evenements qui rendent ses vignettes obsoletes -- bascule de mode, changement de
+    // jeu, reassignation. Peindre sans voir ce que l'on pose serait une regression d'usage.
+    _palette->setSkinSource(hmi::executableDirectory() / "Assets" / "Skins",
+                            &_viewport->skinCatalog());
+    _palette->refreshThumbnails(_viewport->renderMode(), _textures->currentSet());
+
+    connect(_textures, &TexturePanel::assignmentsChanged, this, [this] {
+        _viewport->setSkinSet(_textures->currentSet());
+        _palette->refreshThumbnails(_viewport->renderMode(), _textures->currentSet());
+    });
+    connect(_viewport, &GameViewport::renderModeChanged, this, [this](RenderMode mode) {
+        _palette->refreshThumbnails(mode, _textures->currentSet());
+    });
+
+    // Le catalogue de skins n'est reellement charge qu'a la premiere exposition du canevas
+    // (`GameViewport::ensureResources`, differe l'initialisation Direct3D) -- posterieure a ce
+    // cablage, execute a la construction de la fenetre. Sans ce rafraichissement, l'arbre de
+    // textures et la palette s'ouvrent vides et le restent jusqu'a la premiere bascule de mode ou
+    // de jeu de skins (vieux defaut : "pas de texture au lancement du mode edition").
+    connect(_viewport, &GameViewport::resourcesReady, this, [this] {
+        _textures->setCatalog(&_viewport->skinCatalog());
+        _palette->refreshThumbnails(_viewport->renderMode(), _textures->currentSet());
+    });
+
+    // Rechargement a chaud (LOT-43 TACHE-03) : un asset modifie/renomme/ajoute hors de
+    // l'application n'est repris qu'a la demande explicite -- une surveillance automatique de
+    // dossier a ete ecartee (editeurs d'image externes ecrivant en plusieurs passes, risque de
+    // recharger un fichier partiellement ecrit). Invalider le TextureCache PUIS vider les caches
+    // de vignettes, dans cet ordre : les vignettes redecoderont depuis un cache deja purge.
+    connect(_textures, &TexturePanel::reloadRequested, this, [this] {
+        _viewport->reloadAssets();
+        _textures->reloadAssets();
+        _palette->clearThumbnailCache();
+        _palette->refreshThumbnails(_viewport->renderMode(), _textures->currentSet());
+        showTransientStatusMessage(text("textures.reload_done"), 3000);
+    });
 
     resize(1280, 720);
     retranslateUi();  // applique la langue active à tous les textes construits ci-dessus.
@@ -400,12 +471,6 @@ MainWindow::MainWindow(core::MemoryLogSink* sessionLog)
     // éventuelle disposition sauvegardée) : sert de cible à « Réinitialiser la disposition ».
     _defaultState = saveState(LAYOUT_VERSION);
     restoreLayout();
-
-    // APRES restoreLayout : le facteur d'agrandissement est derive de la hauteur FINALE de la
-    // fenetre, et la geometrie restauree peut differer du resize(1280, 720) ci-dessus. Le poser
-    // ici, et non avant, evite que la premiere image du menu soit peinte a une echelle qu'un
-    // resizeEvent devrait ensuite corriger sous les yeux du joueur.
-    applyIdentityScale(true);
 
     // Espace de travail persiste (LOT-68) : on rouvre l'editeur la ou on l'a laisse. Applique
     // APRES restoreLayout, qui restaurerait sinon des docks des deux espaces.
@@ -419,11 +484,8 @@ MainWindow::MainWindow(core::MemoryLogSink* sessionLog)
     workspaceSelector(startWorkspace)->setChecked(true);
     applyWorkspace(startWorkspace);
 
-    // Contrainte de taille imposee par les ecrans, verifiee une fois au demarrage (EX-IHM-080).
-    warnIfScreensConstrainWindow();
-
-    loadDemonstrationCharacter();  // LOT-38 : l'ecran de fiche a une fiche a afficher.
-    showMenu();                    // l'application démarre sur le menu principal.
+    // L'editeur s'ouvre directement sur son espace de travail : il n'a plus de menu principal a
+    // traverser depuis le LOT-86, le jeu etant un binaire separe.
 }
 
 void MainWindow::setDocksVisible(bool visible) {
@@ -458,85 +520,6 @@ std::array<std::pair<QDockWidget*, hmi::PanelId>, hmi::PANEL_COUNT> MainWindow::
         {_ui->PixelHistoryPanel, hmi::PanelId::PixelHistory},
         {_ui->PixelPalettePanel, hmi::PanelId::PixelPalette},
     }};
-}
-
-bool MainWindow::transitionScreen(ScreenEvent event) {
-    const std::optional<ScreenState> next = resolveTransition(_screenState, event);
-    if (!next) {
-        HMI_LOG_WARNING(
-            "Transition d'ecran refusee (evenement non autorise depuis l'ecran "
-            "courant, EX-GP-041).");
-        return false;
-    }
-    _screenState = *next;
-    applyScreenDressing(_screenState.screen);
-    return true;
-}
-
-void MainWindow::applyScreenDressing(ScreenId screen) {
-    // Choix de la page du QStackedWidget : seule part propre a Qt (pointeurs de widgets), hors de
-    // portee d'une table pure (hmi::ScreenDressing). Pause recouvre Game (meme page) : son widget
-    // se dessine PAR-DESSUS, la scene reste visible derriere.
-    switch (screen) {
-        case ScreenId::Menu:
-            showScreenPage(_menu);
-            break;
-        case ScreenId::Options:
-            showScreenPage(_options);
-            break;
-        case ScreenId::Credits:
-            showScreenPage(_credits);
-            break;
-        case ScreenId::RpgScreen:
-            showScreenPage(_rpgScreens);
-            break;
-        case ScreenId::Editor:
-        case ScreenId::Game:
-        case ScreenId::Pause:
-            _stack->setCurrentWidget(_viewport);
-            break;
-    }
-
-    // Recouvrement de pause (LOT-59 TACHE-02) : visible et au premier plan seulement sur cet
-    // écran -- jamais une page de _stack (la scène doit rester dessinée derrière, cf. le
-    // commentaire de construction de _pauseScreen). Ne touche jamais à l'état de pause du
-    // viewport lui-même (GameViewport::pauseSimulation/resumeSimulation) : c'est le rôle exclusif
-    // de openPause/resumeFromPause/quitPauseToMenu, jamais un effet de bord de
-    // l'affichage -- une visite par Options (Pause -> Options -> Pause) ne doit pas reprendre puis
-    // re-suspendre la simulation.
-    const bool showPauseOverlay = screen == ScreenId::Pause;
-    _pauseScreen->setVisible(showPauseOverlay);
-    if (showPauseOverlay) {
-        _pauseScreen->setGeometry(_viewport->rect());
-        _pauseScreen->raise();
-        // L'ecran de pause est un widget ENFANT (LOT-69 TACHE-02), pas une fenetre de haut niveau :
-        // poser le focus est donc synchrone. Aucune activation de fenetre a attendre, donc aucun
-        // report a un tour de boucle ulterieur avant de router le clavier.
-        _pauseScreen->focusDefaultAction();
-    }
-
-    if (!showPauseOverlay && (screen == ScreenId::Editor || screen == ScreenId::Game)) {
-        _viewport->setFocus();
-    } else if (screen == ScreenId::Credits) {
-        _credits->focusDefaultAction();
-    } else if (screen == ScreenId::RpgScreen) {
-        _rpgScreens->focusDefaultAction();
-    }
-
-    const ScreenDressing dressing = hmi::dressingFor(screen);
-    setDocksVisible(dressing.docksVisible);
-    menuBar()->setVisible(dressing.menuBarVisible);
-    // Barres d'outils : mode ET espace de travail. dressing.pixelToolBarVisible dit que le
-    // chassis d'edition est a l'ecran, hmi::dressingForWorkspace dit laquelle des deux barres --
-    // les composer evite de rouvrir la barre de l'atelier en pleine edition de niveau.
-    const hmi::WorkspaceDressing workspaceDressing = hmi::dressingForWorkspace(_workspace);
-    _toolBar->setVisible(dressing.toolBarVisible && workspaceDressing.levelToolBarVisible);
-    _pixelToolBar->setVisible(dressing.pixelToolBarVisible &&
-                              workspaceDressing.pixelToolBarVisible);
-    _actions->setEditingCommandsEnabled(dressing.editingCommandsEnabled);
-    setMenuGamepadActive(dressing.gamepadNavigationActive);
-    _statusMessageTimer->stop();
-    refreshStatusHelp();
 }
 
 void MainWindow::connectPlanesPanel() {
@@ -852,116 +835,6 @@ bool MainWindow::confirmDiscardPlaneChanges() {
 
 void MainWindow::resizeEvent(QResizeEvent* event) {
     QMainWindow::resizeEvent(event);
-    applyIdentityScale();
-}
-
-void MainWindow::addScreenPage(QWidget* page) {
-    auto* const host = new hmi::ScreenPageHost(page, _stack);
-    _screenHosts.insert(page, host);
-    _stack->addWidget(host);
-}
-
-void MainWindow::showScreenPage(QWidget* page) {
-    // Repli sur la page elle-meme : le viewport n'est pas enveloppe, et un ecran ajoute sans
-    // passer par addScreenPage doit rester affichable plutot que de ne rien afficher.
-    _stack->setCurrentWidget(_screenHosts.value(page, page));
-}
-
-int MainWindow::availableLogicalHeight() const {
-    const QScreen* const hostScreen = screen();
-    // availableGeometry est exprimee en pixels LOGIQUES en Qt 6, comme height() : les deux
-    // grandeurs sont directement comparables, sans passer par devicePixelRatio.
-    return hostScreen == nullptr ? 0 : hostScreen->availableGeometry().height();
-}
-
-void MainWindow::warnIfScreensConstrainWindow() const {
-    // `QStackedWidget::minimumSizeHint` est le MAXIMUM sur toutes ses pages, y compris celles qu'on
-    // ne regarde pas : un seul ecran trop dense fixerait la taille minimale de la FENETRE, que
-    // Windows refuse ensuite de retailler -- elle deborde sous la barre des taches en rognant son
-    // contenu, sans rien dire. Le defaut s'est produit trois fois.
-    //
-    // Depuis le LOT-73 chaque ecran passe par une enveloppe defilante qui contribue ZERO
-    // (EX-IHM-080), de sorte que ce plancher ne devrait plus jamais approcher la zone utile. On ne
-    // se contente donc plus de journaliser la valeur : on la CONFRONTE a l'ecran, et un
-    // depassement devient un avertissement dans le journal que l'utilisateur envoie.
-    const QSize required = _stack->minimumSizeHint();
-    HMI_LOG_INFO("Taille minimale imposee par les ecrans : " + std::to_string(required.width()) +
-                 "x" + std::to_string(required.height()) + " (facteur " +
-                 std::to_string(hmi::identityScale()) + ").");
-
-    const QScreen* const hostScreen = screen();
-    if (hostScreen == nullptr) {
-        return;
-    }
-    const QSize available = hostScreen->availableGeometry().size();
-    if (required.width() > available.width() || required.height() > available.height()) {
-        HMI_LOG_WARNING("Un ecran impose une taille minimale de " +
-                        std::to_string(required.width()) + "x" + std::to_string(required.height()) +
-                        ", superieure a la zone disponible (" + std::to_string(available.width()) +
-                        "x" + std::to_string(available.height()) +
-                        ") : la fenetre debordera et son contenu sera rogne (EX-IHM-080).");
-    }
-}
-
-void MainWindow::applyIdentityScale(bool beforeFirstShow) {
-    // Fenetre en cours de fermeture ou de destruction : ne rien recalculer. Qt envoie encore des
-    // evenements de redimensionnement pendant le demontage d'une QMainWindow a docks, ce qui
-    // ramenerait le facteur a 1 et declencherait un rejeu de theme sur des widgets a moitie
-    // detruits.
-    //
-    // L'exception est la CONSTRUCTION : la fenetre n'y est pas encore montree, et la garde
-    // d'invisibilite y rendait l'appel sans effet -- l'application demarrait donc toujours au
-    // facteur 1, le vrai facteur n'arrivant qu'au premier redimensionnement, sous les yeux du
-    // joueur. C'est exactement ce que le commentaire de l'appelant pretendait eviter.
-    if (_closing || (!isVisible() && !beforeFirstShow)) {
-        return;
-    }
-    // Facteur ENTIER des ecrans du jeu (LOT-68, EX-IHM-070), derive de la hauteur LOGIQUE de la
-    // fenetre : Qt applique la mise a l echelle systeme par-dessus. Le theme n est rejoue que
-    // lorsque le facteur CHANGE -- le refaire a chaque pixel de redimensionnement reconstruirait
-    // la feuille de style des dizaines de fois par seconde.
-    //
-    // BORNE par la zone d'affichage disponible, jamais par la seule hauteur de fenetre
-    // (EX-IHM-081) : le facteur grossit les grandeurs d'habillage, qui grossissent la taille
-    // minimale des ecrans, qui grossit celle de la fenetre -- laquelle relancerait le calcul un
-    // cran plus haut, sans que rien ne redescende jamais. La zone disponible, elle, ne depend
-    // d'aucune decision de l'application : c'est ce qui ferme la boucle.
-    const bool scaleChanged =
-        hmi::setIdentityScale(hmi::identityScaleForDisplay(height(), availableLogicalHeight()));
-    // A la CONSTRUCTION, la feuille est posee meme si le facteur n'a pas bouge : la pile d'ecrans
-    // n'en porte encore aucune, et la portee identite ne vit plus dans la feuille applicative
-    // depuis le LOT-73. Sans cette exception, une fenetre ouvrant au facteur 1 -- la valeur
-    // initiale -- laisserait les ecrans du jeu sans habillage.
-    if (!scaleChanged && !beforeFirstShow) {
-        return;
-    }
-    // Seule la feuille de la portee IDENTITE est reposee, et seulement sur la pile d'ecrans
-    // (LOT-73, EX-IHM-082). C'est la difference qui fait disparaitre le gel.
-    //
-    // Auparavant, le facteur vivait dans la feuille de style de l'APPLICATION : en changer
-    // repolissait ses 862 widgets, avec recalcul de metriques, de tailles et de dispositions pour
-    // chacun -- cinq secondes par appel en Debug. Il avait fallu REGROUPER ces rejeux derriere un
-    // minuteur, un glisser de bordure franchissant un seuil de facteur des dizaines de fois. Le
-    // regroupement rendait le cout supportable sans le supprimer, et le faisait atterrir APRES le
-    // relachement de la souris, quand la fenetre etait deja placee -- d'ou un recalage visible.
-    //
-    // Le cout est desormais proportionnel a ce qui change reellement : les quelques dizaines de
-    // widgets des ecrans du jeu. Plus rien a differer, donc plus rien a regrouper -- le facteur
-    // s'applique dans le redimensionnement lui-meme, ou l'utilisateur l'attend.
-    applyIdentityStyleSheet();
-}
-
-void MainWindow::applyIdentityStyleSheet() {
-    const QString sheet = hmi::identityStyleSheet();
-    // Feuille absente ou invalide : garder la precedente. Un ecran sans habillage serait pire que
-    // le meme ecran a un facteur perime (EX-NFR-040).
-    if (sheet.isEmpty()) {
-        return;
-    }
-    // Posee sur la PILE, jamais sur l'application : la pile ne contient que les ecrans et le
-    // viewport. Les panneaux dockables, les barres et la barre d'etat -- l'essentiel des 862
-    // widgets -- n'appartiennent pas a cette portee et n'ont donc pas a etre repolis.
-    _stack->setStyleSheet(sheet);
 }
 
 void MainWindow::moveEvent(QMoveEvent* event) {
@@ -972,9 +845,6 @@ bool MainWindow::eventFilter(QObject* watched, QEvent* event) {
     if (watched == _viewport && event->type() == QEvent::Resize) {
         // Un recouvrement visible doit couvrir exactement le viewport : le suivre a sa taille
         // suffit desormais, les deux vivant dans le meme systeme de coordonnees.
-        if (_pauseScreen != nullptr && _pauseScreen->isVisible()) {
-            _pauseScreen->setGeometry(_viewport->rect());
-        }
     }
     return QMainWindow::eventFilter(watched, event);
 }
@@ -985,187 +855,10 @@ void MainWindow::playInterfaceSound(GameEvent event) {
     }
 }
 
-void MainWindow::openPause() {
-    if (!transitionScreen(ScreenEvent::OpenPause)) {
-        return;
-    }
-    HMI_LOG_INFO("Navigation : pause.");
-    _viewport->pauseSimulation();
-}
-
-void MainWindow::resumeFromPause() {
-    if (!transitionScreen(ScreenEvent::ResumePause)) {
-        return;
-    }
-    HMI_LOG_INFO("Navigation : reprise depuis la pause.");
-    _viewport->resumeSimulation();
-}
-
-void MainWindow::quitPauseToMenu() {
-    const QMessageBox::StandardButton answer = QMessageBox::question(
-        this, text("pause.quit_confirm_title"), text("pause.quit_confirm_text"));
-    if (answer != QMessageBox::Yes) {
-        return;
-    }
-    if (!transitionScreen(ScreenEvent::QuitPauseToMenu)) {
-        return;
-    }
-    HMI_LOG_INFO("Navigation : partie abandonnee depuis la pause, retour au menu.");
-    _viewport->quitGame();
-}
-
-void MainWindow::showMenu() {
-    if (!transitionScreen(ScreenEvent::OpenMenu)) {
-        return;
-    }
-    HMI_LOG_INFO("Navigation : menu principal.");
-    // `_menu->setContinueEnabled(...)` : posé dans `applyScreenDressing` (cas `ScreenId::Menu`),
-    // pas ici -- la plupart des retours au menu ne passent pas par cette méthode.
-}
-
 void MainWindow::showEditor() {
-    if (!transitionScreen(ScreenEvent::OpenEditor)) {
-        return;
-    }
+    // Ne fait plus que journaliser : l'editeur EST l'application depuis le LOT-86, et il n'y a
+    // plus d'autre ecran d'ou venir. La methode reste parce que le menu « Affichage » y mene.
     HMI_LOG_INFO("Navigation : editeur.");
-}
-
-void MainWindow::newGame() {
-    // ECHAFAUDAGE ASSUME (LOT-68). Cette entree devrait ouvrir une carte, et elle le fera : la
-    // carte de depart arrive avec le contenu du LOT-27. Elle n'en a AUCUNE aujourd'hui -- le
-    // LOT-01 a purge les niveaux du jeu de plateforme, et `demo-deplacement.json` n'existe pas.
-    // Elle chargeait donc un fichier absent, et le LOT-67 l'a ecrit plutot que de le laisser
-    // decouvrir.
-    //
-    // Elle ouvre en attendant le CHASSIS des ecrans du RPG, sur la fiche de personnage. Ce n'est
-    // pas un pis-aller : les huit ecrans de ce lot sont vides par construction, et huit ecrans
-    // qu'aucun chemin n'atteint ne se relisent pas, ne se naviguent pas et ne se valident pas. La
-    // ligne a remplacer le jour ou il y aura une carte est CELLE-CI, et elle est seule.
-    openRpgScreen(hmi::RpgScreenId::CharacterSheet);
-}
-
-void MainWindow::loadDemonstrationCharacter() {
-    // ECHAFAUDAGE, et il est ecrit comme tel. La fiche affichee est celle d'un personnage de
-    // DEMONSTRATION livre en donnee (Rpg/characters/) : il n'y a ni groupe (LOT-29) ni sauvegarde
-    // (LOT-17) d'ou tirer un personnage reel, et un ecran de fiche qui n'affiche aucune fiche ne
-    // se relit pas. Le jour ou une partie en fournira un, c'est la SOURCE qui change ici, pas
-    // l'ecran : il consomme des valeurs indexees, d'ou qu'elles viennent.
-    const std::filesystem::path rpg = hmi::executableDirectory() / "Rpg";
-
-    const core::CharacterOptions options =
-        core::loadCharacterOptions(rpg / "species", rpg / "backgrounds", rpg / "classes");
-    const core::SkillCatalog competences = core::loadSkills(rpg / "skills");
-    const core::ExperienceTable experience =
-        core::loadExperienceTable(rpg / "rules" / "experience.json");
-    const core::CharacterCreationRules regles =
-        core::loadCharacterCreationRules(rpg / "rules" / "character-creation.json");
-
-    const core::LoadedCharacterSheet fiche = core::loadCharacterSheet(
-        rpg / "characters" / DEMONSTRATION_CHARACTER_FILE, options, regles, experience);
-    for (const std::string& erreur : fiche.errors) {
-        // Journalise et poursuit : une fiche partielle vaut mieux qu'un ecran vide, et l'erreur
-        // nomme son fichier (EX-CNT-010).
-        HMI_LOG_WARNING(("Fiche de demonstration : " + erreur).c_str());
-    }
-
-    // Ce que le personnage PORTE (LOT-14). Les catalogues ne vivent que le temps de produire les
-    // valeurs : l'ecran ne consomme que du texte deja resolu, et n'a donc aucune duree de vie a
-    // partager avec eux.
-    const core::ItemCatalog objets = core::loadItems(rpg / "items");
-    const core::EquipmentCatalog equipement = core::loadEquipment(rpg / "weapons", rpg / "armors");
-    const core::EncumbranceRules charge =
-        core::loadEncumbranceRules(rpg / "rules" / "encumbrance.json");
-    for (const std::string& erreur : objets.errors) {
-        HMI_LOG_WARNING(("Catalogue d'objets : " + erreur).c_str());
-    }
-    const core::ItemLookup catalogues{.items = &objets, .equipment = &equipement};
-    for (const std::string& inconnu : core::unknownIds(fiche.inventory, catalogues)) {
-        // Un identifiant que rien ne porte ne pese rien et s'affiche tel quel : le dire vaut mieux
-        // que de peser faux en silence (EX-CNT-010).
-        HMI_LOG_WARNING(("Inventaire de demonstration : objet inconnu '" + inconnu + "'.").c_str());
-    }
-    // Les statistiques derivees sont RECALCULEES ici, jamais retenues : c'est ce qui les empeche
-    // de deriver quand on equipe et retire dans le desordre (LOT-14).
-    const core::DerivedStats derivees =
-        core::derivedStatsFor(fiche.sheet, fiche.inventory, catalogues, regles, charge);
-    _rpgScreens->setValues(hmi::RpgScreenId::Inventory,
-                           hmi::inventoryValues({.inventory = &fiche.inventory,
-                                                 .lookup = catalogues,
-                                                 .derived = derivees,
-                                                 .emptyMark = _loc.text("rpg.empty")}));
-
-    // La fiche est alimentee APRES l'inventaire, parce qu'elle en depend : sa classe d'armure et
-    // sa vitesse viennent de ce qui est porte, pas de la construction.
-    _rpgScreens->setValues(hmi::RpgScreenId::CharacterSheet,
-                           hmi::characterSheetValues({.sheet = &fiche.sheet,
-                                                      .options = &options,
-                                                      .experience = &experience,
-                                                      .skills = &competences,
-                                                      .derived = &derivees,
-                                                      .emptyMark = _loc.text("rpg.empty")}));
-}
-
-void MainWindow::openRpgScreen(hmi::RpgScreenId screen) {
-    if (!transitionScreen(ScreenEvent::OpenRpgScreen)) {
-        return;
-    }
-    HMI_LOG_INFO("Navigation : ecran du RPG.");
-    _rpgScreens->showScreen(screen);
-}
-
-void MainWindow::applyRpgSuperposition(hmi::RpgScreenId screen) {
-    // Regle de superposition (EX-IHM-091) : la fiche, l'inventaire, le journal, le dialogue, le
-    // marchand et le tableau de la Guilde suspendent la simulation ; la carte et l'ATH de combat
-    // se consultent en marchant. La table le dit, ce code l'applique -- il ne redecide rien.
-    if (_screenState.rpgReturnTo != ScreenId::Game && _screenState.rpgReturnTo != ScreenId::Pause) {
-        return;  // ouvert depuis le menu : aucune simulation a suspendre.
-    }
-    if (hmi::pausesGame(screen)) {
-        _viewport->pauseSimulation();
-    } else {
-        _viewport->resumeSimulation();
-    }
-}
-
-void MainWindow::closeRpgScreen() {
-    const ScreenId returnTo = _screenState.rpgReturnTo;
-    if (!transitionScreen(ScreenEvent::CloseRpgScreen)) {
-        return;
-    }
-    HMI_LOG_INFO("Navigation : fermeture d'un ecran du RPG.");
-    // La simulation reprend si l'ecran ferme l'avait suspendue -- et SEULEMENT si l'on revient au
-    // jeu : revenir a la pause doit laisser la scene figee, c'est tout son objet.
-    if (returnTo == ScreenId::Game) {
-        _viewport->resumeSimulation();
-    }
-}
-
-void MainWindow::openCredits() {
-    if (!transitionScreen(ScreenEvent::OpenCredits)) {
-        return;
-    }
-    HMI_LOG_INFO("Navigation : credits.");
-}
-
-void MainWindow::closeCredits() {
-    if (!transitionScreen(ScreenEvent::CloseCredits)) {
-        return;
-    }
-    HMI_LOG_INFO("Navigation : retour au menu depuis les credits.");
-}
-
-void MainWindow::showOptions() {
-    if (!transitionScreen(ScreenEvent::OpenOptions)) {
-        return;
-    }
-    HMI_LOG_INFO("Navigation : options.");
-}
-
-void MainWindow::closeOptions() {
-    if (!transitionScreen(ScreenEvent::CloseOptions)) {
-        return;
-    }
-    HMI_LOG_INFO("Navigation : retour depuis les options.");
 }
 
 MainWindow::~MainWindow() = default;
@@ -1499,7 +1192,6 @@ void MainWindow::buildUi() {
     _ui->helpMenu->addAction(_actions->action(hmi::IconId::ShortcutsOverview));
 
     // Branchement du fonctionnel sur les actions restantes, déclarées dans le `.ui`.
-    connect(_ui->actMainMenu, &QAction::triggered, this, &MainWindow::showMenu);
     connect(_ui->actQuit, &QAction::triggered, this, &MainWindow::close);
     connect(_ui->actResize, &QAction::triggered, this, [this] { openResizeDialog(); });
     connect(_ui->actResetLayout, &QAction::triggered, this, [this] {
@@ -1824,16 +1516,16 @@ void MainWindow::applyWorkspace(EditorWorkspace workspace) {
     _suppressPanelFocusTracking = true;
 
     const hmi::WorkspaceDressing dressing = hmi::dressingForWorkspace(workspace);
-    const bool toolBarsAllowed = hmi::dressingFor(_screenState.screen).toolBarVisible;
+    // L'editeur est TOUJOURS en edition depuis le LOT-86 : il n'a plus d'autre etat a etre. Cette
+    // condition interrogeait la machine a etats des ecrans, qui appartient desormais au jeu.
+    constexpr bool toolBarsAllowed = true;
     _toolBar->setVisible(dressing.levelToolBarVisible && toolBarsAllowed);
     _pixelToolBar->setVisible(dressing.pixelToolBarVisible && toolBarsAllowed);
     _pixelMenu->menuAction()->setVisible(dressing.workshopMenuVisible);
 
     // Panneaux : la table decide, la fenetre applique. Aucune condition ecrite en dur sur un dock.
     const auto PANELS = workspacePanels();
-    // Hors mode edition (menu principal, jeu), aucun dock ne doit reapparaitre : la bascule
-    // d'espace ne rend pas le chassis d'edition visible, elle dit seulement lequel le serait.
-    const bool editing = hmi::dressingFor(_screenState.screen).docksVisible;
+    constexpr bool editing = true;
     for (const auto& [dock, panel] : PANELS) {
         const bool belongsHere =
             hmi::workspaceMaskContains(hmi::workspacesForPanel(panel), workspace);
@@ -1915,75 +1607,6 @@ void MainWindow::closeEvent(QCloseEvent* event) {
     QMainWindow::closeEvent(event);
 }
 
-void MainWindow::setMenuGamepadActive(bool active) {
-    if (active) {
-        _menuNavTimer->start();
-    } else {
-        _menuNavTimer->stop();
-    }
-}
-
-void MainWindow::pollMenuGamepad() {
-    _menuPad.poll(_menuPadInput);
-
-    // Poste un événement clavier Qt à la cible focalisée (repli : page courante de la pile), pour
-    // que la manette pilote la **navigation de focus** standard de Qt sans code de layout dédié.
-    QWidget* const target = QApplication::focusWidget() != nullptr ? QApplication::focusWidget()
-                                                                   : _stack->currentWidget();
-    const auto post = [target](Qt::Key key, Qt::KeyboardModifiers mods) {
-        if (target == nullptr) {
-            return;
-        }
-        QApplication::postEvent(target, new QKeyEvent(QEvent::KeyPress, key, mods));
-        QApplication::postEvent(target, new QKeyEvent(QEvent::KeyRelease, key, mods));
-    };
-
-    // Bas/Droite -> focus suivant ; Haut/Gauche -> focus précédent ; A -> activer.
-    if (_menuPadInput.gamepadButtonPressed(GamepadButton::Down) ||
-        _menuPadInput.gamepadButtonPressed(GamepadButton::Right)) {
-        post(Qt::Key_Tab, Qt::NoModifier);
-        playInterfaceSound(GameEvent::MenuNavigate);
-    }
-    if (_menuPadInput.gamepadButtonPressed(GamepadButton::Up) ||
-        _menuPadInput.gamepadButtonPressed(GamepadButton::Left)) {
-        post(Qt::Key_Backtab, Qt::ShiftModifier);
-        playInterfaceSound(GameEvent::MenuNavigate);
-    }
-    if (_menuPadInput.gamepadButtonPressed(GamepadButton::A)) {
-        post(Qt::Key_Return, Qt::NoModifier);
-        playInterfaceSound(GameEvent::MenuConfirm);
-    }
-    // Epaules : passage d'un ecran du RPG a l'autre (LOT-68). C'est le pendant manette du bouton
-    // du pied de page, et la raison pour laquelle le rappel de touches annonce LB/RB : un rappel
-    // qui nomme une touche inerte est pire que pas de rappel du tout (EX-IHM-072).
-    if (_screenState.screen == ScreenId::RpgScreen) {
-        if (_menuPadInput.gamepadButtonPressed(GamepadButton::RightShoulder)) {
-            _rpgScreens->showNextScreen();
-            playInterfaceSound(GameEvent::MenuNavigate);
-        }
-        if (_menuPadInput.gamepadButtonPressed(GamepadButton::LeftShoulder)) {
-            _rpgScreens->showPreviousScreen();
-            playInterfaceSound(GameEvent::MenuNavigate);
-        }
-    }
-
-    // B : retour contextuel (depuis Options vers son écran d'origine, ou reprise depuis la pause
-    // -- LOT-59 TACHE-02), sans quitter depuis le menu principal.
-    if (_menuPadInput.gamepadButtonPressed(GamepadButton::B)) {
-        if (_screenState.screen == ScreenId::Options) {
-            closeOptions();
-        } else if (_screenState.screen == ScreenId::Pause) {
-            resumeFromPause();
-        } else if (_screenState.screen == ScreenId::Credits) {
-            closeCredits();
-        } else if (_screenState.screen == ScreenId::RpgScreen) {
-            closeRpgScreen();
-        }
-    }
-
-    _menuPadInput.beginFrame();
-}
-
 QString MainWindow::text(const char* key) const {
     return QString::fromStdString(_loc.text(key));
 }
@@ -1994,7 +1617,9 @@ void MainWindow::refreshStatusHelp() {
     // que l'ancien rechargement de `status.edit_help` en changement de langue. Lequel des deux
     // contextes (niveau/atelier) dépend du widget qui a le focus clavier (_editContext, LOT-54
     // TACHE-04) -- jamais les deux en même temps (EX-IHM-062).
-    if (_stack->currentWidget() == _viewport && menuBar()->isVisible()) {
+    // `menuBar()` visible vaut « espace d'edition actif » : en jeu et en essai, la barre est
+    // masquee. La pile d'ecrans qu'on interrogeait ici n'existe plus (LOT-86).
+    if (menuBar()->isVisible()) {
         // En mode creation, le sujet de la barre d'etat est le PLAN, independamment du focus
         // clavier : l'espace n'a pas d'autre sujet, et le niveau ou son zoom de camera n'y
         // apprennent rien a qui peint une image. Ailleurs, la regle du LOT-54 s'applique -- c'est
@@ -2365,7 +1990,6 @@ void MainWindow::retranslateUi() {
 
     // Barre de menus, organisee par nature d'action (LOT-68).
     _ui->fileMenu->setTitle(text("menubar.file"));
-    _ui->actMainMenu->setText(text("menubar.main_menu"));
     _ui->actQuit->setText(text("menubar.quit"));
     _ui->actResize->setText(text("menubar.resize"));
     _ui->editMenu->setTitle(text("menubar.edit"));
@@ -2395,12 +2019,7 @@ void MainWindow::retranslateUi() {
     _ui->actResetLayout->setText(text("menubar.reset_layout"));
     _actions->retranslateUi(_loc);
 
-    // Panneaux et pages (chacun retraduit son propre contenu depuis le catalogue).
-    _menu->retranslateUi(_loc);
-    _pauseScreen->retranslateUi(_loc);
-    _credits->retranslateUi(_loc);
-    _rpgScreens->retranslateUi(_loc);
-    _options->retranslateUi(_loc);
+    // Panneaux (chacun retraduit son propre contenu depuis le catalogue).
     _palette->retranslateUi(_loc);
     _planes->retranslateUi(_loc);
     _levels->retranslateUi(_loc);

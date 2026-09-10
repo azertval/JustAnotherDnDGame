@@ -6,7 +6,7 @@
 #include <vector>
 
 /**
- * @file HMI/Interface/ParchmentFrame.h
+ * @file HMI/Presentation/ParchmentFrame.h
  * @brief Géométrie de l'encadrement de parchemin des écrans du jeu (`LOT-66`, `EX-IHM-070`).
  *
  * Logique **pure** (aucune dépendance Qt/GPU), testable hors instance d'application

@@ -24,8 +24,6 @@
 #include "HMI/Input/InputState.h"
 #include "HMI/Interface/EditorWorkspace.h"
 #include "HMI/Localization/Localization.h"
-#include "HMI/Presentation/RpgScreens.h"
-#include "HMI/Presentation/ScreenFlow.h"
 
 /**
  * @file HMI/Interface/MainWindow.h
@@ -90,24 +88,9 @@ public:
 protected:
     /// Sauvegarde la disposition avant fermeture.
     void closeEvent(QCloseEvent* event) override;
-    /// Resynchronise la géométrie des recouvrements d'écran (`_pauseScreen`/`_levelCompleteScreen`,
-    /// `LOT-59` TACHE-02/03) -- fenêtres de haut niveau positionnées à la main, jamais
-    /// redimensionnées automatiquement par `_stack`.
+    /// Repris de `QMainWindow`. Il resynchronisait la géométrie des recouvrements d'écran, qui
+    /// appartiennent au jeu depuis le `LOT-86` ; il ne reste que le comportement de base.
     void resizeEvent(QResizeEvent* event) override;
-    /// Recalcule le facteur d'agrandissement des écrans du jeu depuis la hauteur courante, **borné
-    /// par la zone d'affichage disponible** (`LOT-68`/`LOT-73`, `EX-IHM-070`, `EX-IHM-081`), et
-    /// rejoue le thème s'il a changé. Sans effet sur le châssis d'édition, dont les grandeurs ne
-    /// sont jamais multipliées.
-    /// @param beforeFirstShow `true` pendant la construction, alors que la fenêtre n'est pas encore
-    ///        montrée : lève la garde d'invisibilité (qui rendait sinon l'appel sans effet) et
-    ///        rejoue le thème **sans différer**, pour que la première image soit peinte au bon
-    ///        facteur.
-    void applyIdentityScale(bool beforeFirstShow = false);
-    /// Pose la feuille de style de la portée identité sur la **pile d'écrans** (`LOT-73`,
-    /// `EX-IHM-082`). Jamais sur l'application : les panneaux, barres et docks n'appartiennent pas
-    /// à cette portée, et les repolir à chaque changement de facteur coûtait cinq secondes en
-    /// Debug pour un résultat identique.
-    void applyIdentityStyleSheet();
 
 private:
     /// Applique l'espace de travail @p workspace (`LOT-68`, `EX-IHM-073`) : masque les panneaux de
@@ -268,113 +251,23 @@ private:
     /// Raccourci : texte localisé d'une clé, en `QString`.
     [[nodiscard]] QString text(const char* key) const;
 
-    /// Affiche le menu principal (docks et barre de menu masqués) ; rafraîchit l'état de
-    /// « Continuer » (`MainMenu::setContinueEnabled`, `LOT-59` TACHE-06) à chaque affichage --
-    /// seule voie de mise à jour, jamais suivi à part.
-    void showMenu();
     /// Affiche l'éditeur (viewport + docks + barre de menu).
     void showEditor();
-    /// Affiche la page Options (onglets) dans la fenêtre, revient à l'écran d'où elle a été
-    /// ouverte (Menu ou Pause, `EX-GP-041`).
-    void showOptions();
-    /// Ferme la page Options, retour à l'écran d'où elle a été ouverte (`ScreenState::
-    /// optionsReturnTo`) -- remplace l'ancien retour direct et systématique vers le menu.
-    void closeOptions();
     /// Montre/masque tous les panneaux dockables.
     void setDocksVisible(bool visible);
 
-    /// Résout @p event via `hmi::resolveTransition` depuis l'écran courant (`_screenState`) et
-    /// applique l'habillage du nouvel écran (`applyScreenDressing`) -- @return `false` sans effet
-    /// si la transition est refusée (`EX-GP-041`), auquel cas l'appelant ne doit rien faire
-    /// d'autre (aucun chargement, aucun log de navigation).
-    bool transitionScreen(hmi::ScreenEvent event);
-    /// Bascule la page du `QStackedWidget` (seule part propre à Qt, hors de portée d'une table
-    /// pure) puis applique l'habillage générique de @p screen (`hmi::dressingFor`) : docks,
-    /// barres, commandes d'édition, navigation manette, minuteur de statut.
-    void applyScreenDressing(hmi::ScreenId screen);
-
     // Invariant de taille des écrans (`LOT-73`, `EX-IHM-080`).
-    /// Enveloppe @p page dans un `hmi::ScreenPageHost` défilant, l'ajoute à la pile et retient
-    /// l'association. **Tout** écran passe par ici : c'est ce passage obligé, et non une convention
-    /// à réappliquer dans chaque `.ui`, qui garantit qu'aucun écran ne dicte sa taille à la
-    /// fenêtre. Le viewport en est exclu — c'est une surface de rendu, qui remplit sans défiler.
-    void addScreenPage(QWidget* page);
-    /// Affiche l'écran @p page en sélectionnant l'enveloppe qui l'héberge.
-    void showScreenPage(QWidget* page);
-    /// Vérifie que la taille minimale imposée par les écrans tient dans la zone d'affichage
-    /// disponible, et avertit dans le journal sinon (`EX-IHM-080`). Le dépassement est
-    /// silencieux côté Qt : Windows refuse la géométrie sans que rien ne le signale.
-    void warnIfScreensConstrainWindow() const;
-    /// Hauteur utile, en pixels logiques, de l'écran hébergeant la fenêtre ; `0` si inconnue.
-    [[nodiscard]] int availableLogicalHeight() const;
 
     // Écran de pause (LOT-59 TACHE-02).
-    /// `Échap`/bouton manette B en jeu réel (`GameViewport::pauseRequested`) : ouvre la pause.
-    void openPause();
-    /// « Reprendre » (bouton, `Échap`, ou B manette depuis la pause) : reprend la simulation.
-    void resumeFromPause();
-    /// « Quitter vers le menu » depuis la pause : demande confirmation (la partie en cours est
-    /// perdue), puis abandonne la partie si confirmé.
-    void quitPauseToMenu();
 
     /// Joue le son associé à @p event (`hmi::SoundTriggers`), sans effet si aucun son ne lui est
     /// associé (`LOT-60` TACHE-03) -- point d'appel unique pour tous les sons d'interface.
     void playInterfaceSound(GameEvent event);
 
-    /// « Nouvelle partie » (menu) : ouvre la carte de départ. Aucune confirmation d'écrasement —
-    /// elle protégeait une progression de campagne qui n'existe plus, et reviendra avec la
-    /// sauvegarde du `LOT-17`, qui aura quelque chose à écraser.
-    void newGame();
-    /// Ouvre le châssis des écrans du RPG sur @p screen (`LOT-68`, `EX-IHM-090`). Applique la
-    /// règle de superposition de l'écran ouvert (`hmi::pausesGame`, `EX-IHM-091`) : la simulation
-    /// est suspendue par la fiche ou un dialogue, laissée courir par la carte.
-    void openRpgScreen(hmi::RpgScreenId screen);
-    /// Ferme le châssis des écrans du RPG et revient à l'écran d'où il a été ouvert
-    /// (`ScreenState::rpgReturnTo`), en reprenant la simulation si elle avait été suspendue.
-    void closeRpgScreen();
-    /// Charge les catalogues RPG et le personnage de démonstration, puis pose ses valeurs sur
-    /// l'écran de fiche (`LOT-38`). Sans effet visible si les données manquent : l'écran garde ses
-    /// tirets, ce qui est la vérité (`EX-NFR-040`).
-    void loadDemonstrationCharacter();
-
-    /// Applique la règle de superposition de @p screen à la simulation, sans changer d'écran :
-    /// appelé aussi lors du **passage** d'un écran du RPG à un autre, où la règle peut changer.
-    void applyRpgSuperposition(hmi::RpgScreenId screen);
-    /// « Crédits » (menu) : ouvre `_credits` (`LOT-60`).
-    void openCredits();
-    /// Retour au menu depuis l'écran de crédits.
-    void closeCredits();
-    /// Traduit la manette en navigation de focus Qt (menus/options) : appelé par `_menuNavTimer`.
-    void pollMenuGamepad();
-    /// Active/désactive la navigation manette des menus (inactive en jeu/édition).
-    void setMenuGamepadActive(bool active);
-
     std::unique_ptr<Ui::EditorMainWindow> _ui;  ///< Mise en page (MainWindow.ui : menubar + docks).
-    /// Écran courant et écran de retour d'Options (`LOT-59` TACHE-01, `EX-GP-041`) : seule source
-    /// de vérité sur la navigation, mise à jour uniquement par `transitionScreen`.
-    hmi::ScreenState _screenState;
-    QStackedWidget* _stack;  ///< Central : empile menu principal, options et viewport.
-    /// Écran → enveloppe défilante qui l'héberge dans la pile (`LOT-73`, `EX-IHM-080`). Le
-    /// viewport n'y figure pas : il est ajouté tel quel.
-    QHash<QWidget*, QWidget*> _screenHosts;
-    MainMenu* _menu;        ///< Menu principal (page d'accueil).
-    OptionsPage* _options;  ///< Page Options à onglets.
-    /// Recouvrement de pause (`LOT-59` TACHE-02) : **widget enfant ordinaire** du viewport
-    /// depuis le `LOT-69` TACHE-02. Il fut une fenêtre de haut niveau tant que le viewport était
-    /// une fenêtre native embarquée (`QWidget::createWindowContainer`), qui peignait toujours
-    /// par-dessus ses frères Qt : le portage sur `QRhiWidget` efface cette contrainte, et avec
-    /// elle la géométrie synchronisée en coordonnées écran. Visibilité pilotée par
-    /// `applyScreenDressing`, géométrie suivie par le filtre d'événements posé sur le viewport.
-    PauseScreen* _pauseScreen = nullptr;
-    /// Écran de crédits (`LOT-60`) : une page normale de `_stack`, jamais un recouvrement —
-    /// atteint depuis le menu, pas en jeu, contrairement au précédent.
-    CreditsScreen* _credits = nullptr;
-    /// Les huit écrans du RPG et la navigation entre eux (`LOT-68`) : **une** page de `_stack`,
-    /// jamais huit -- c'est ce qui permet d'aller de la fiche au journal sans que la machine à
-    /// états d'écrans ait à connaître les huit.
-    RpgScreenHost* _rpgScreens = nullptr;
-    /// Écran Mode IA (`LOT-ANNEXE-21`) : même patron que `_levelSelectScreen`, page normale de
-    /// `_stack`.
+    /// Surface de rendu QRhi, et **widget central** depuis le `LOT-86`. Elle partageait jusque-là
+    /// une pile avec le menu principal, les options, les crédits et les neuf écrans du RPG, tous
+    /// passés en QML dans l'application du jeu. L'éditeur n'a plus qu'une chose à montrer.
     GameViewport* _viewport;  ///< Surface de rendu D3D11 (possédée par le conteneur central).
     /// Contexte d'édition actif, cible d'Annuler/Refaire/Copier/Coller (`LOT-57` TACHE-04) : `
     /// _viewport` (niveau) ou `_pixelCanvas` (atelier pixel art, `LOT-54` TACHE-04), selon le
@@ -471,11 +364,6 @@ private:
     /// et entièrement préchargé dans `_audio`.
     hmi::SoundCatalog _sounds;
     core::MemoryLogSink* _sessionLog;  ///< Sink mémoire des logs (nul en Release).
-
-    // Navigation manette des menus (hors jeu) : sondage périodique -> événements clavier Qt.
-    GamepadPoller _menuPad;
-    InputState _menuPadInput;
-    QTimer* _menuNavTimer = nullptr;
 };
 
 }  // namespace hmi

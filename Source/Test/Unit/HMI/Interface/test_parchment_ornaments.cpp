@@ -15,7 +15,7 @@
 
 #include <gtest/gtest.h>
 
-#include "HMI/Interface/ParchmentOrnaments.h"
+#include "HMI/Presentation/ParchmentOrnaments.h"
 
 namespace {
 

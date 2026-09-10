@@ -12,7 +12,7 @@
 
 #include <gtest/gtest.h>
 
-#include "HMI/Interface/ParchmentFrame.h"
+#include "HMI/Presentation/ParchmentFrame.h"
 
 namespace {
 

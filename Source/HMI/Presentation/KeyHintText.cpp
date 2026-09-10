@@ -1,7 +1,7 @@
 // SPDX-FileCopyrightText: 2026 Valentin Eloy
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include "HMI/Interface/KeyHintText.h"
+#include "HMI/Presentation/KeyHintText.h"
 
 #include <algorithm>
 

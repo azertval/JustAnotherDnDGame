@@ -44,14 +44,6 @@ void applyApplicationStyle();
 /// repolissait les 862 widgets de l'application, cinq secondes durant en Debug.
 void applyStyleSheet(const DesignTokens& editorTokens);
 
-/// Feuille de style de la **portée identité** (`:/resources/theme-identity.qss`), substituée avec
-/// les jetons effectifs et le facteur d'agrandissement courant (`identityScale`).
-///
-/// Rendue plutôt qu'appliquée : c'est l'appelant qui sait **où** la poser — sur la pile d'écrans,
-/// et non sur l'application (`EX-IHM-082`). Chaîne vide si la feuille est absente ou invalide ;
-/// l'appelant laisse alors en place la précédente.
-[[nodiscard]] QString identityStyleSheet();
-
 /// Enregistre les polices embarquées auprès de Qt et applique la famille du **châssis
 /// d'édition** comme police par défaut de l'application (`Assets/Fonts/`) :
 /// - `Inter-{Regular,Bold}.ttf` — `FontRole::Ui`, le châssis d'édition ;
@@ -69,21 +61,6 @@ void applyFont();
 /// vide si l'enregistrement a échoué (l'appelant emploie alors une famille générique). Renseigné
 /// par `applyFont()` ; vide tant qu'elle n'a pas été appelée.
 [[nodiscard]] std::string resolvedFontFamily(FontRole role);
-
-/// Nom de famille des **titres d'écran** de la portée identité (`Press Start 2P`), ou une chaîne
-/// vide en cas d'échec. Distincte de `resolvedFontFamily(FontRole::Identity)` : une police de
-/// titre très typée serait illisible en corps de texte.
-[[nodiscard]] std::string resolvedIdentityTitleFamily();
-
-/// Fixe le facteur d'agrandissement **entier** des écrans du jeu (`hmi::identityScaleFor`), relu
-/// par `applyStyleSheet` (`LOT-68`, `EX-IHM-070`). Un réglage, pas un calcul : c'est la fenêtre qui
-/// connaît sa hauteur, et elle seule.
-/// @return `true` si la valeur a changé — l'appelant sait alors qu'il doit rejouer le thème.
-bool setIdentityScale(int scale);
-
-/// @return Le facteur d'agrandissement courant des écrans du jeu (1 tant qu'aucune fenêtre ne l'a
-/// fixé).
-[[nodiscard]] int identityScale();
 
 /// @return Le réglage de thème persisté (`QSettings`), `Système` par défaut.
 [[nodiscard]] EditorThemeSetting editorThemeSetting();

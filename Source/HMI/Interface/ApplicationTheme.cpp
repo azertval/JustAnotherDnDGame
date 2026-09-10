@@ -173,23 +173,6 @@ std::string resolvedFontFamily(FontRole role) {
     return role == FontRole::Identity ? resolvedFamilies().identityBody : resolvedFamilies().ui;
 }
 
-std::string resolvedIdentityTitleFamily() {
-    return resolvedFamilies().identityTitle;
-}
-
-bool setIdentityScale(int scale) {
-    const int clamped = scale < 1 ? 1 : scale;
-    if (identityScaleState() == clamped) {
-        return false;
-    }
-    identityScaleState() = clamped;
-    return true;
-}
-
-int identityScale() {
-    return identityScaleState();
-}
-
 namespace {
 
 // Charge une feuille embarquee et y substitue les jetons. Chaine VIDE en cas d'echec : l'appelant
@@ -238,10 +221,6 @@ void applyStyleSheet(const DesignTokens& editorTokens) {
         return;
     }
     qApp->setStyleSheet(sheet);
-}
-
-QString identityStyleSheet() {
-    return loadStyleSheet(QStringLiteral(":/resources/theme-identity.qss"), currentEditorTokens());
 }
 
 void applyFont() {

@@ -7,7 +7,6 @@
          de l'application. Séparées, chacune s'applique là où elle porte — l'identité sur la pile
          d'écrans, le châssis sur l'application.
          Les alias conservent des chemins runtime stables, indépendants de l'emplacement source. -->
-    <file alias="resources/theme-identity.qss">../Themes/theme-identity.qss</file>
     <file alias="resources/theme-editor.qss">../Themes/theme-editor.qss</file>
   </qresource>
 </RCC>

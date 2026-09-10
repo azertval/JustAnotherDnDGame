@@ -1,7 +1,7 @@
 // SPDX-FileCopyrightText: 2026 Valentin Eloy
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include "HMI/Interface/MenuBackdropGeometry.h"
+#include "HMI/Presentation/MenuBackdropGeometry.h"
 
 #include <algorithm>
 #include <array>

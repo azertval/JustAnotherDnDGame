@@ -108,6 +108,14 @@ add_library(HmiLib STATIC
     Editor/PixelAutotilePreview.cpp
     # Interface : logique d'écrans et de thème, sans widget.
     Presentation/ScreenFlow.cpp
+    # Geometries d'ornement et rappels de touches : logique PURE, relevee sur le corpus, testee.
+    # Encore compilees et testees bien qu'aucun ecran ne les consomme pour l'instant : elles sont
+    # la SOURCE du portage des ornements vers Qt Quick Shapes, et les jeter reviendrait a devoir
+    # les redessiner plus tard, autrement, sans se souvenir de ce qui avait ete releve.
+    Presentation/ParchmentFrame.cpp
+    Presentation/ParchmentOrnaments.cpp
+    Presentation/MenuBackdropGeometry.cpp
+    Presentation/KeyHintText.cpp
     Presentation/RpgScreens.cpp
     Presentation/CharacterSheetValues.cpp
     Presentation/InventoryValues.cpp
@@ -118,10 +126,6 @@ add_library(HmiLib STATIC
     Interface/IconGeometry.cpp
     Presentation/IdentityScale.cpp
     Interface/EditorWorkspace.cpp
-    Interface/ParchmentFrame.cpp
-    Interface/ParchmentOrnaments.cpp
-    Interface/MenuBackdropGeometry.cpp
-    Interface/KeyHintText.cpp
     Interface/ActionCatalog.cpp
     # Plateforme.
     Platform/ExecutableDirectory.cpp
@@ -315,21 +319,9 @@ add_executable(LevelEditor
     # Interface (fenêtre, menu, options, remappage) — Widgets. Le LOT-86 en retire tout ce qui
     # relève du JEU ; ce qui restera ici est le châssis d'édition, et lui seul.
     Interface/ApplicationTheme.cpp
-    Interface/ParchmentPanel.cpp
-    Interface/OrnamentPainter.cpp
-    Interface/TitleBanner.cpp
-    Interface/FocusMarker.cpp
-    Interface/MenuEntryButton.cpp
     Interface/ThemeIcons.cpp
     Interface/EditorActions.cpp
-    Interface/ScreenPageHost.cpp
     Interface/MainWindow.cpp
-    Interface/MainMenu.cpp
-    Interface/PauseScreen.cpp
-    Interface/CreditsScreen.cpp
-    Interface/RpgScreenFrame.cpp
-    Interface/RpgScreenHost.cpp
-    Interface/OptionsPage.cpp
     Interface/KeybindingsWidget.cpp
     Interface/EditorKeybindingsWidget.cpp
     Interface/GamepadBindingsWidget.cpp
@@ -347,10 +339,6 @@ add_executable(LevelEditor
     ${ELEMENTS_UI}/resources.qrc
     # Mises en page Qt Designer — traitées par AUTOUIC (génèrent ui_*.h).
     ${ELEMENTS_UI}/MainWindow.ui
-    ${ELEMENTS_UI}/MainMenu.ui
-    ${ELEMENTS_UI}/PauseScreen.ui
-    ${ELEMENTS_UI}/CreditsScreen.ui
-    ${ELEMENTS_UI}/OptionsPage.ui
     ${ELEMENTS_UI}/TexturePanel.ui
     ${ELEMENTS_UI}/PlanesPanel.ui
     ${ELEMENTS_UI}/LevelBrowserPanel.ui
