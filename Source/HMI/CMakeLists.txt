@@ -504,11 +504,18 @@ file(WRITE ${_dev_module_dir}/qmldir "${_dev_qmldir}")
 # contains no type named Main », alors que le qmldir engendre declare bien ce type. Le prefixe
 # vaudrait « /qt/qml » d'office apres un qt_standard_project_setup(), que ce projet n'appelle pas :
 # on le dit donc ici plutot que d'adopter un reglage global pour un seul effet.
+# Illustrations extraites du corpus (EX-IHM-076) que le QML designe par un chemin. Embarquees dans
+# le module plutot que lues a cote de l'executable : une image d'interface fait partie de l'ecran,
+# et un ecran ne doit pas dependre de ce qu'un dossier voisin contient au moment ou il s'ouvre.
+set(JADG_UI_IMAGES ${PROJECT_SOURCE_DIR}/Source/Elements/Assets/UI/world-map.jpg)
+set_source_files_properties(${JADG_UI_IMAGES} PROPERTIES QT_RESOURCE_ALIAS assets/world-map.jpg)
+
 qt_add_qml_module(JustAnotherDnDGame
     URI Jadg.Ui
     VERSION 1.0
     RESOURCE_PREFIX "/qt/qml"
     QML_FILES ${JADG_QML_ABSOLUTE}
+    RESOURCES ${JADG_UI_IMAGES}
 )
 
 # Le fichier d'enregistrement des types QML est ENGENDRÉ, et il inclut les en-têtes par NOM DE

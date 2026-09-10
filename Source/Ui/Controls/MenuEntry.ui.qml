@@ -30,7 +30,9 @@ Item {
         anchors.leftMargin: Tokens.spaceMedium
         anchors.verticalCenter: parent.verticalCenter
         text: root.label
-        color: root.current ? Tokens.text : Tokens.textMuted
+        // Sur le fond d'encre du menu, l'encre sepia du corps de texte ne se lirait pas : les
+        // entrees prennent les teintes CLAIRES de la palette. Deux roles, pas deux couleurs.
+        color: root.current ? Tokens.surfaceAlt : Tokens.accent
         font.family: Tokens.bodyFamily
         font.pixelSize: Tokens.sectionTitle
     }

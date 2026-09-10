@@ -37,6 +37,8 @@ namespace app {
  * error>`. Une valeur non reconnue est ignorée et signalée dans le journal, jamais fatale
  * (`EX-NFR-040`).
  *
+ * @param argc            Nombre d'arguments de la ligne de commande.
+ * @param argv            Arguments de la ligne de commande.
  * @param applicationName Nom porté par la bannière de démarrage (« JustAnotherDnDGame », «
  * LevelEditor »).
  * @return Le puits mémoire de la session en développement, `nullptr` en release.

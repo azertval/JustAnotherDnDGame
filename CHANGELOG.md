@@ -86,6 +86,28 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
     honore toutes en restant éditable dans Qt Design Studio. Ce qui change n'est pas « tracé par du
     code » mais « tracé par du **C++** ». La géométrie pure relevée sur le corpus est conservée dans
     `Presentation` comme source du portage, plutôt que jetée puis redessinée de mémoire.
+  - **Les ornements sont tracés, en Qt Quick Shapes.** Cadre à cabochons, bandeau à ailes, fleuron
+    de focus : portés depuis les géométries relevées sur `Character_Sheets_Tanares.pdf`. Un détail
+    manquait au premier essai et se voyait — la pierre **déborde** du carré d'angle d'un facteur
+    deux, sans quoi elle fait l'épaisseur de l'encadrement et son octogone se confond avec le filet ;
+    elle reste ancrée **au coin** et jamais centrée, faute de quoi elle sortirait du panneau et se
+    ferait rogner.
+  - **Le jeu est traduisible, et le français est sa langue source.** Les 101 chaînes des écrans QML
+    n'étaient portées par aucun catalogue. 89 traductions anglaises sont **reprises** du catalogue
+    maison par `scripts/seed_translations.py`, qui ne devine rien : une source sans correspondance
+    exacte reste à traduire et il la signale. Il a d'ailleurs trouvé une vraie ambiguïté du corpus —
+    « Bourse » traduit **Purse** (l'argent) et **Pouch** (l'emplacement) — et a refusé de choisir.
+    Les libellés à clé **calculée** (caractéristiques, emplacements) restent au lexique, dont
+    `rpg.glossary.csv` garantit une traduction unique par terme de règle.
+  - **La surface de rendu du jeu est un `QQuickRhiItem`** : QRhi rend en **Direct3D 11 dans une
+    fenêtre Qt Quick**, et le QML se compose par-dessus — la garantie que le portage sur
+    `QRhiWidget` cherchait côté éditeur, obtenue sans un seul widget. Elle n'affiche encore aucune
+    scène : `Source/Elements/Levels/` est vide par construction, et bâtir une session autour d'un
+    niveau inexistant aurait produit du code que rien ne peut vérifier.
+  - **Documentation refondue** : `interface-ihm.md` §11, la traçabilité d'`architecture.md`, et cinq
+    guides — dont un nouveau, **`guide-conception-qds`**, qui ne s'adresse pas au développeur mais à
+    qui dessine les écrans : ce qui se modifie sans jamais ouvrir un fichier source, ce qui demande
+    encore un développeur, et pourquoi la frontière est là.
   - **Quatre tests retirés, aucune garantie perdue.** Celui des tailles de police dans les `.ui` est
     remplacé par un lint qui couvre **tous** les écrans et non deux. Les trois tests d'étanchéité
     des portées tombent parce que l'étanchéité est devenue **structurelle** : l'identité vit en QML,

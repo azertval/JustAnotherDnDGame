@@ -105,51 +105,47 @@ Qt, vrai depuis le `LOT-01` et qu'un seul `QString` suffirait à rendre faux.
 
 ## Où en est le lot
 
-**Fait et vérifié.** Les **treize écrans** existent en QML, l'ancienne couche est supprimée du
-châssis d'édition (−3 879 lignes), et l'éditeur s'ouvre directement sur son espace de travail.
-Deux binaires séparés — le jeu en Qt Quick (`QGuiApplication`, ne lie pas
-`Qt6::Widgets`), l'éditeur inchangé en Qt Widgets. `Source/Ui` avec son projet Qt Design Studio et
-`Tokens.qml` écrit à la main. L'édition d'un écran **sans reconstruction**, prouvée de bout en bout.
-`hmi::SceneResources`, la grappe de ressources QRhi commune aux deux surfaces. Une tranche verticale
-complète — vue-modèle, formulaire `.ui.qml`, écran affichant les vraies données du personnage de
-démonstration. Et les six garde-fous, dont chacun a été vérifié **en mordant**.
+**Fait et vérifié.**
 
-**Les sept écrans sans données sont dessinés, et leur travail est mis à l'abri.** Journal, carte,
-dialogue, marchand, tableau de la Guilde, ATH de combat et feuille d'équipe existent comme
-formulaires `.ui.qml`, fidèles aux blocs que la table décrivait et aux libellés de `fr.lang`, mot
-pour mot. Chacun de leurs 41 champs porte une **clé d'attribution** nommée qui aboutit à l'ancre
-`hmi::PendingData`.
+- **Deux applications.** Le jeu en Qt Quick (`QGuiApplication`, ne lie pas `Qt6::Widgets`),
+  l'éditeur de niveaux en Qt Widgets dans son propre binaire. L'ancienne couche est retirée du
+  châssis d'édition (−3 879 lignes) et l'éditeur s'ouvre directement sur son espace de travail.
+- **Les treize écrans** existent en QML. Fiche et inventaire branchés sur de vraies données ; sept
+  écrans du RPG et la page Options dessinés avec **47 clés d'attribution** vers l'ancre
+  `hmi::PendingData` ; menu, pause et crédits fonctionnels avec une navigation réelle.
+- **Les jetons vivent en QML**, écrits à la main. Aucun générateur, aucun JSON intermédiaire :
+  après la refonte, plus aucun C++ n'a besoin des couleurs d'identité.
+- **Les ornements sont tracés**, portés en `Shape` QML depuis les géométries relevées sur le
+  corpus — cadre à cabochons, bandeau à ailes, fleuron de focus.
+- **Le jeu est traduisible.** Le français est sa langue source ; 89 des 101 traductions anglaises
+  ont été reprises du catalogue maison, le reste écrit à la main.
+- **La surface de rendu** du jeu est un `QQuickRhiItem` : QRhi rend en Direct3D 11 dans une fenêtre
+  Qt Quick, et le QML se compose par-dessus.
+- **Six garde-fous**, chacun vérifié **en mordant** — violation injectée, contrôle rouge, arbre
+  rendu propre ensuite.
+- **Documentation** : `interface-ihm.md` §11, `architecture.md`, `guide-ihm-qt`, `guide-design-ihm`,
+  `guide-ecrans`, `guide-editeur`, `guide-entrees`, et un nouveau `guide-conception-qds` — le mode
+  d'emploi de la conception. Doxygen sans erreur.
 
-Le jour où un lot fonctionnel livre sa donnée, il remplace `PendingData` par sa vraie vue-modèle
-dans le **fichier de câblage** de l'écran et retire `pending: true` : le formulaire ne bouge pas, et
-la mise en page décidée aujourd'hui est conservée telle quelle. C'est précisément ce que la
-séparation achète, et c'est la première fois qu'on peut le montrer.
+**Reste, et il faut le dire.**
 
-En attendant, ces écrans affichent des tirets cadratins — jamais de fausses valeurs, qui se
-prendraient pour un écran fini et passeraient les relectures — et leur pied l'avoue :
-« Écran dessiné, données à brancher ».
-
-**Reste à faire.**
-
-- **L'inventaire**, seul autre écran du RPG qui possède de vraies données (`hmi::inventoryValues`).
-  Le motif est établi et éprouvé : c'est de la répétition, pas de la conception.
-- **Porter les ornements vers Qt Quick Shapes.** `EX-IHM-075` n'est **pas** retirée — j'avais
-  d'abord conclu l'inverse, à tort : les trois raisons qu'elle invoque valent toujours, et Qt Quick
-  Shapes les honore tout en restant éditable dans Qt Design Studio. La géométrie pure relevée sur le
-  corpus est conservée dans `Presentation` comme source de ce portage. Le cadre QML actuel est un
-  double filet — une simplification assumée en attendant.
-- **Brancher les sept écrans dessinés.** Ils existent (voir ci-dessous) mais n'ont pas de source :
-  `python scripts/list_pending_bindings.py` donne les 41 clés à relier, écran par écran.
-- Le portage du viewport sur `QQuickRhiItem`. Reporté sciemment : c'est le morceau le plus risqué —
-  `QQuickRhiItem` rend sur un **fil séparé** là où `QRhiWidget` est mono-fil, et la simulation doit
-  rester sur le fil graphique en passant sa `ComposedScene` au renderer, ce qui suppose de séparer
-  la composition de la soumission, aujourd'hui faites en une passe.
-- La localisation sur `.ts`/`.qm`, et la suppression de `Source/HMI/Interface`.
-- Les guides (`guide-ihm-qt`, `guide-design-ihm`, `guide-conception-qds`).
+- **Le viewport n'affiche aucune scène.** `Source/Elements/Levels/` est vide par construction depuis
+  le `LOT-01` : la plomberie est établie et vérifiée, la session se branchera quand il y aura une
+  carte à jouer. Bâtir une session autour d'un niveau inexistant aurait produit du code que rien ne
+  peut vérifier.
+- **Les options ne sont pas branchées**, délibérément : `EX-IHM-083` exige qu'un réglage exposé
+  atteigne le moteur, et il n'y a pas encore de viewport à régler.
+- **L'éditeur garde le catalogue maison** pour ses textes : 188 sites d'appel, dont 14 à clé
+  dynamique, pour un outil de développeur où aucun utilisateur ne verrait la différence.
+- **Les noms de compétences restent français** en anglais : ils viennent des JSON de règles, qui
+  n'ont qu'un champ `name`. C'est une limite de la **donnée**, pas de l'IHM.
+- `MenuBackdropGeometry` et `KeyHintText` attendent leur portage en QML ; ils restent compilés et
+  testés comme sources de ce portage.
+- **Les modules `aqtinstall` de la CI** n'ont pas été touchés : ajouter un nom de module inconnu
+  ferait échouer le provisionnement pour tout le monde. Si Qt Quick manque à l'image, rien ne passe
+  inaperçu — `find_package` nomme les modules absents et le contrôle d'exécutable échoue franchement.
 
 ## Critères d'acceptation
-
-*(complétés à la livraison)*
 
 - **Test de l'artiste** — ouvrir `Source/Ui/JadgUi.qmlproject` dans Qt Design Studio, y déplacer un
   bloc d'un écran, changer une couleur dans `Tokens.qml`, remplacer un ornement par un autre SVG ;
@@ -159,5 +155,12 @@ prendraient pour un écran fini et passeraient les relectures — et leur pied l
   `Source/Elements/**`. Aucun `.cpp`, aucun `.h`, aucun fichier engendré.
 - Deux exécutables : `JustAnotherDnDGame` (Qt Quick, ne lie pas `Qt6::Widgets`) et `LevelEditor`.
 - `scripts/check_ui_layers.py` vert, et les quatre garde-fous devenus sans objet retirés.
-- Build `/W4 /WX` sans avertissement, `ctest` vert, `qmllint --strict` et `qmlformat --verify`
-  propres, lint d'exigences et lint des lots verts.
+- Build `/W4 /WX` sans avertissement ✔
+- `ctest` : **1011/1011** ✔
+- `qmllint` sans un seul avertissement sur les fichiers QML ✔
+- `clang-format` propre sur l'ensemble du dépôt ✔
+- Lint d'exigences (352/352), lint des lots, `check_ui_layers` (6 règles), `check_glossary`,
+  `check_qt_version_pin` : verts ✔
+- Doxygen sans erreur ✔
+- Les treize écrans se chargent sans un seul avertissement QML, capturés et relus ✔
+- Les deux binaires démarrent ✔

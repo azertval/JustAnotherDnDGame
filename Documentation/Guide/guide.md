@@ -28,9 +28,11 @@ Le moteur sépare strictement :
 
 - **`Core`** — logique pure : ECS, mathématiques, physique, modèle de niveau, gameplay, temps.
   **Aucune dépendance** à DirectX ni à la fenêtre → testable sans GPU (`EX-NFR-010`).
-- **`HMI`** — présentation : l'application **Qt** (fenêtre, menu, options, éditeur), le rendu
-  Direct3D 11 du jeu embarqué dans un viewport, et les entrées. Dépend de `Core`, **jamais l'inverse**
-  (`EX-ARCH-010`).
+- **`HMI`** — présentation : deux applications Qt depuis le `LOT-86` — le **jeu** en Qt Quick,
+  l'**éditeur de niveaux** en Qt Widgets —, le rendu de scène sur QRhi (Direct3D 11 par défaut sous
+  Windows) et les entrées. Dépend de `Core`, **jamais l'inverse** (`EX-ARCH-010`).
+- **`Source/Ui`** — ce que la **conception** modifie : les écrans du jeu en QML déclaratif, leurs
+  jetons et leurs ornements. Ne connaît de `HMI` que ses vues-modèles (`EX-IHM-100`).
 
 La règle d'or : **la simulation est dans `Core`, déterministe et testée** ; `HMI` orchestre et
 affiche. Cette frontière est ce qui rend le moteur analysable domaine par domaine.
@@ -48,7 +50,8 @@ affiche. Cette frontière est ce qui rend le moteur analysable domaine par domai
 - @subpage guide-editeur — l'**éditeur de niveaux intégré** : brouillon mutable, peinture, undo/redo, essai immédiat.
 - @subpage guide-atelier-pixel-art — l'**atelier pixel art** : opérations pures, historique local, canevas, palettes.
 - @subpage guide-ecrans — la **navigation** Qt : menu, jeu, éditeur et options (pages empilées, signaux).
-- @subpage guide-ihm-qt — la **refonte IHM vers Qt** : socle applicatif, viewport Direct3D 11, boucle et entrées Qt.
+- @subpage guide-ihm-qt — l'**IHM Qt** : deux applications (jeu en Qt Quick, éditeur en Widgets), module QML, surface de rendu QRhi.
+- @subpage guide-conception-qds — **concevoir les écrans** dans Qt Design Studio : ce qui se modifie sans jamais ouvrir un fichier source.
 - @subpage guide-design-ihm — le **système de design** et l'**architecture de l'information** : jetons, thème, actions, barre d'état.
 - @subpage guide-audio — l'**audio** : moteur Qt Multimedia, catalogue de sons, détection des transitions et table événement → son.
 

@@ -1,9 +1,15 @@
 # Système de design et architecture de l'information {#guide-design-ihm}
 
 > Statut : **livré** (`LOT-56`, `EX-IHM-050` → `EX-IHM-055` ; `LOT-57`, `EX-IHM-060` →
-> `EX-IHM-062`). Cette page décrit **comment l'IHM Qt se présente et se répartit** : les jetons de
-> design et leur application, puis la distribution de l'information dans l'éditeur. Le socle
-> applicatif (fenêtre, viewport, boucle) est en @ref guide-ihm-qt.
+> `EX-IHM-062`), **restreint à l'éditeur** au `LOT-86`. Cette page décrit **comment le châssis
+> d'édition se présente et se répartit** : ses jetons de design et leur application, puis la
+> distribution de l'information dans ses panneaux.
+>
+> **Les jetons du JEU n'y sont plus.** Ils vivent désormais dans `Source/Ui/Theme/Tokens.qml`,
+> écrits à la main et possédés par la conception — voir @ref guide-conception-qds. L'étanchéité des
+> deux portées, que cette page décrivait comme garantie par un test, est devenue **structurelle** :
+> deux langages, deux binaires, aucun chemin entre eux. Le socle applicatif est en
+> @ref guide-ihm-qt.
 
 ## Pourquoi un système de design
 
@@ -65,7 +71,7 @@ ordre :
    marqueurs depuis les jetons, via
    \ref hmi::substituteStyleSheetTemplate "substituteStyleSheetTemplate" (fonction pure). Plus
    aucune couleur littérale dans la feuille de style. La portée **identité** est produite à part par
-   \ref hmi::identityStyleSheet "identityStyleSheet", et posée par `MainWindow` sur la **pile
+   `identityStyleSheet` (retiree au `LOT-86`), et posée par `MainWindow` sur la **pile
    d'écrans** — voir « Une feuille par portée » ci-dessous.
 
 Le focus clavier est rendu visible partout — condition de la navigation à la manette
@@ -267,17 +273,21 @@ l'encadrement se lit comme une bordure épaisse. Une échelle fractionnaire ne s
 
 ### Ce qu'une feuille de style ne sait pas faire
 
+> **Déplacé au `LOT-86`.** Ces deux éléments appartiennent aux écrans du **jeu**, passés en Qt
+> Quick : ils sont désormais tracés par des `Shape` QML, éditables dans Qt Design Studio, et non
+> plus par des peintres C++. L'argument, lui, n'a pas changé d'un mot — c'est pourquoi il reste
+> écrit ici. Voir @ref guide-conception-qds.
+
 Deux éléments de la charte échappent à `theme.qss`, et c'est pourquoi ils sont **peints** :
 
-- l'**encadrement à cabochons d'angle** (\ref hmi::ParchmentPanel "ParchmentPanel") : une bordure
+- l'**encadrement à cabochons d'angle** (`Controls/ParchmentFrame.ui.qml`) : une bordure
   QSS ne peut pas poser un pavé par-dessus son propre trait, et ce sont ces cabochons — pas
   l'épaisseur du trait — qui distinguent l'encadrement d'une feuille de personnage d'un rectangle
   tracé ;
-- la **marque de focus** (\ref hmi::MenuEntryButton "MenuEntryButton", \ref hmi::FocusMarker
-  "FocusMarker") : une feuille de style change une teinte, elle n'ajoute pas de contenu. Or la
+- la **marque de focus** (`Controls/MenuEntry.ui.qml`, `Controls/FocusFleuron.ui.qml`) : une feuille de style change une teinte, elle n'ajoute pas de contenu. Or la
   teinte seule ne dit pas où l'on en est à la manette, faute de pointeur, et ne dit rien du tout à
   qui distingue mal les couleurs (`EX-IHM-071`). Le fleuron est tracé **une seule fois**
-  (\ref hmi::paintFocusFleuron "paintFocusFleuron") et appelé des deux côtés : deux tracés séparés
+  (`Controls/FocusFleuron.ui.qml`) et appelé des deux côtés : deux tracés séparés
   dériveraient l'un de l'autre à la première retouche, et le joueur verrait deux marques
   différentes là où l'exigence en demande une.
 

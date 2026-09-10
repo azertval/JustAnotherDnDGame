@@ -22,18 +22,43 @@ Item {
         color: Tokens.background
     }
 
-    // Le degrade qui porte la lisibilite du titre et des entrees, sur le tiers gauche.
+    // Le decor : la carte du monde, extraite du corpus (EX-IHM-076). La maquette voulait un FOND,
+    // pas un aplat -- « les entrees ne sont plus enfermees dans un panneau, elles se posent sur une
+    // scene ». `PreserveAspectCrop` remplit sans deformer : une carte etiree se lit tout de suite.
+    Image {
+        anchors.fill: parent
+        source: "../assets/world-map.jpg"
+        fillMode: Image.PreserveAspectCrop
+        // Peinte, pas en pixel art : elle se redimensionne en interpole (EX-ARCH-022, LOT-66).
+        smooth: true
+    }
+
+    // Le degrade qui porte la lisibilite du titre et des entrees -- et NON un voile plein sur tout
+    // l'ecran : la maquette voulait que le decor reste visible.
+    //
+    // L'ALPHA est dans les paliers, pas dans l'opacite de l'element : une opacite uniforme
+    // eclaircirait aussi le bord gauche, la ou le texte a le plus besoin de fond. Et la teinte
+    // vient du jeton d'encre, pas d'une couleur ecrite ici -- elle suivra un changement de palette.
     Rectangle {
         anchors.left: parent.left
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-        width: parent.width / 3
+        width: parent.width * 0.55
         gradient: Gradient {
             orientation: Gradient.Horizontal
-            GradientStop { position: 0.0; color: Tokens.frameEdge }
-            GradientStop { position: 1.0; color: "transparent" }
+            GradientStop {
+                position: 0.0
+                color: Qt.rgba(Tokens.frameEdge.r, Tokens.frameEdge.g, Tokens.frameEdge.b, 0.92)
+            }
+            GradientStop {
+                position: 0.55
+                color: Qt.rgba(Tokens.frameEdge.r, Tokens.frameEdge.g, Tokens.frameEdge.b, 0.72)
+            }
+            GradientStop {
+                position: 1.0
+                color: Qt.rgba(Tokens.frameEdge.r, Tokens.frameEdge.g, Tokens.frameEdge.b, 0.0)
+            }
         }
-        opacity: 0.35
     }
 
     ColumnLayout {
@@ -44,7 +69,7 @@ Item {
 
         Text {
             text: "JustAnotherDnDGame"
-            color: Tokens.text
+            color: Tokens.surfaceAlt
             font.family: Tokens.titleFamily
             font.pixelSize: Tokens.screenTitle
         }

@@ -1,4 +1,10 @@
-# Éditeur de niveaux intégré {#guide-editeur}
+# Éditeur de niveaux {#guide-editeur}
+
+> **Binaire séparé depuis le `LOT-86`** (`LevelEditor`). Il n'héberge plus les écrans du jeu, qui
+> sont passés en Qt Quick dans `JustAnotherDnDGame` : sa fenêtre s'ouvre directement sur son espace
+> de travail, et son widget central est de nouveau le viewport. Ce qui suit décrit l'outil, dont le
+> fonctionnement est inchangé.
+
 
 Cette page explique comment le mode éditeur transforme le personnage jouable, la caméra et le rendu
 déjà vus dans les pages précédentes en un **outil de création de contenu**, sans écrire un nouveau
