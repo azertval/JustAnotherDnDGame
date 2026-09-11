@@ -3,6 +3,10 @@
 
 # C++ types consumed by the application QML. This module is deliberately separate from Jadg.Ui:
 # Jadg.Ui is a reusable, design-only module; Jadg.Runtime is application/runtime-only.
+#
+# Keep the backing target static. The game links the module directly, which makes the generated
+# QML registration deterministic and avoids a runtime DLL plugin dependency for the game.
+add_library(JadgRuntime STATIC)
 
 set(JADG_RUNTIME_SOURCES
     ../../Game/GameViewportItem.h
@@ -22,7 +26,6 @@ set(JADG_RUNTIME_SOURCES
 qt_add_qml_module(JadgRuntime
     URI Jadg.Runtime
     VERSION 1.0
-    RESOURCE_PREFIX "/qt/qml"
     CLASS_NAME JadgRuntimePlugin
     DEPENDENCIES
         QtQml
