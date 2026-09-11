@@ -94,7 +94,7 @@ add_library(HmiLib STATIC
 target_include_directories(HmiLib PUBLIC ${PROJECT_SOURCE_DIR}/Source)
 target_link_libraries(HmiLib
     PUBLIC Core nlohmann_json::nlohmann_json
-    PRIVATE project_warnings project_options
+    PRIVATE project_warnings project_options Qt6::Multimedia
 )
 target_compile_definitions(HmiLib PUBLIC WIN32_LEAN_AND_MEAN NOMINMAX UNICODE _UNICODE)
 
