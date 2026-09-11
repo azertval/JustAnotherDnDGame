@@ -41,9 +41,6 @@ set_source_files_properties(
     PROPERTIES QT_QML_SINGLETON_TYPE TRUE
 )
 
-set(JADG_UI_IMAGE ${PROJECT_SOURCE_DIR}/Source/Elements/Assets/UI/world-map.jpg)
-set_source_files_properties(${JADG_UI_IMAGE} PROPERTIES QT_RESOURCE_ALIAS assets/world-map.jpg)
-
 add_library(JadgUi STATIC)
 qt_add_qml_module(JadgUi
     URI Jadg.Ui
@@ -52,7 +49,6 @@ qt_add_qml_module(JadgUi
     NO_PLUGIN
     DESIGNER_SUPPORTED
     QML_FILES ${JADG_UI_QML_FILES}
-    RESOURCES ${JADG_UI_IMAGE}
 )
 
 target_link_libraries(JadgUi
