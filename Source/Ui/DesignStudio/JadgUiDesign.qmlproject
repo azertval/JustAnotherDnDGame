@@ -1,0 +1,18 @@
+/* Independent Qt Design Studio project for the design-only QML surface. */
+import QmlProject 1.1
+
+Project {
+    mainFile: "Main.ui.qml"
+    qt6Project: true
+
+    QmlFiles { directory: "." }
+    QmlFiles { directory: "../Controls" }
+    QmlFiles { directory: "../Screens" }
+    QmlFiles { directory: "../Theme" }
+
+    ImageFiles { directory: "../../Elements/Assets" }
+    FontFiles { directory: "../../Elements/Assets/Fonts" }
+
+    Files { filter: "qmldir"; directory: "../Jadg/Ui" }
+    importPaths: [ ".." ]
+}
