@@ -43,6 +43,15 @@ qt_add_qml_module(JustAnotherDnDGame
         ${JADG_GAME_UI_IMAGE}
 )
 
+qt_query_qml_module(JustAnotherDnDGame TYPEINFO JADG_APP_QMLTYPES)
+message(STATUS "Jadg.App qmltypes: ${JADG_APP_QMLTYPES}")
+add_custom_command(TARGET JustAnotherDnDGame POST_BUILD
+    COMMAND ${CMAKE_COMMAND}
+        -DEXPECTED_QMLTYPES="${JADG_APP_QMLTYPES}"
+        -P "${PROJECT_SOURCE_DIR}/Source/HMI/Jadg/Runtime/VerifyQmlTypes.cmake"
+    VERBATIM
+)
+
 target_include_directories(JustAnotherDnDGame PRIVATE ${PROJECT_SOURCE_DIR}/Source)
 target_compile_definitions(JustAnotherDnDGame PRIVATE
     WIN32_LEAN_AND_MEAN
