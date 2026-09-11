@@ -137,7 +137,7 @@ int main(int argc, char** argv) {
             app::commandLineOption(argc, argv, "--screen=")) {
         engine.setInitialProperties(
             {{QStringLiteral("startScreen"),
-              QString::fromUtf8(screen->data(), static_cast<qsizetype>(screen->size()))});
+              QString::fromUtf8(screen->data(), static_cast<qsizetype>(screen->size()))}});
     }
 
     if (auto* const options =
