@@ -16,6 +16,9 @@ import Jadg.Runtime
 MainMenuForm {
     id: root
 
+    // The world-map image is a runtime resource of Jadg.Ui. The design form remains asset-neutral.
+    backgroundSource: "../assets/world-map.jpg"
+
     focus: true
 
     Keys.onUpPressed: root.currentIndex = (root.currentIndex + 3) % 4
@@ -23,14 +26,10 @@ MainMenuForm {
     Keys.onReturnPressed: root.activate()
     Keys.onEnterPressed: root.activate()
 
-    /// Le pointeur DESIGNE une entree, sans l'ouvrir : passer la souris en travers du menu ne doit
-    /// rien declencher.
     function point(index) {
         root.currentIndex = index;
     }
 
-    /// Le pointeur CHOISIT : on designe d'abord, on ouvre ensuite, par le meme chemin que le
-    /// clavier. Un clic ne peut ainsi jamais ouvrir une entree que l'ecran ne montrait pas.
     function choose(index) {
         root.currentIndex = index;
         root.activate();
