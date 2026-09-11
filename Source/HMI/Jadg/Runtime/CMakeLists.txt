@@ -28,8 +28,7 @@ set(JADG_RUNTIME_SOURCES
 
 # HMI a deja trouve Qt6. Le projet principal doit initialiser ses policies avant tout
 # qt_add_qml_module ; ce sous-module ne doit donc pas appeler qt_standard_project_setup().
-# QTP0005 est active explicitement ici pour le qt_add_qml_module du runtime.
-qt_policy(SET QTP0005 NEW)
+# Les policies Qt QML restent donc gerees par la portee projet/HMI qui possede la decouverte Qt.
 
 qt_add_qml_module(JadgRuntime
     URI Jadg.Runtime
