@@ -41,6 +41,7 @@ target_compile_definitions(JustAnotherDnDGame PRIVATE
     NOMINMAX
     UNICODE
     _UNICODE
+    JADG_QML_DEV_IMPORT_PATH="${PROJECT_SOURCE_DIR}/Source/Ui"
 )
 
 target_link_libraries(JustAnotherDnDGame PRIVATE
