@@ -153,7 +153,9 @@ int main(int argc, char** argv) {
         HMI_LOG_ERROR("Reglages introuvables : le volume et la langue ne seront pas appliques.");
     }
 
-    engine.loadFromModule("Jadg.Ui", "Main");
+    // Main.qml remains the application entry point, but it now belongs to Jadg.App.  Jadg.Ui is
+    // design-only and must never be used as the executable's entry module.
+    engine.loadFromModule("Jadg.App", "Main");
 
     const int code = QGuiApplication::exec();
     HMI_LOG_INFO("Arret de JustAnotherDnDGame (code " + std::to_string(code) + ").");
