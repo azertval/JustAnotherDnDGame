@@ -73,12 +73,20 @@ qt_add_qml_module(JustAnotherDnDGame
 
 qt_query_qml_module(JustAnotherDnDGame TYPEINFO JADG_APP_QMLTYPES)
 message(STATUS "Jadg.App qmltypes: ${JADG_APP_QMLTYPES}")
-add_custom_command(TARGET JustAnotherDnDGame POST_BUILD
+
+# See the equivalent fix in Source/Ui/Jadg/Ui/CMakeLists.txt: `TARGET ... POST_BUILD` only orders
+# this after JustAnotherDnDGame's own link step, not after the qmltypes file itself is produced by
+# qt_add_qml_module()'s internal custom command. Depend on the actual file path instead so Ninja
+# orders it correctly.
+add_custom_target(JustAnotherDnDGame_verify_qmltypes ALL
+    DEPENDS "${JADG_APP_QMLTYPES}"
     COMMAND ${CMAKE_COMMAND}
+        -DMODULE_LABEL="Jadg.App"
         -DEXPECTED_QMLTYPES="${JADG_APP_QMLTYPES}"
         -P "${PROJECT_SOURCE_DIR}/Source/HMI/Jadg/Runtime/VerifyQmlTypes.cmake"
     VERBATIM
 )
+add_dependencies(JustAnotherDnDGame_verify_qmltypes JustAnotherDnDGame)
 
 target_include_directories(JustAnotherDnDGame PRIVATE ${PROJECT_SOURCE_DIR}/Source)
 target_compile_definitions(JustAnotherDnDGame PRIVATE
