@@ -11,11 +11,16 @@ import Jadg.Ui
 
     « Mode Edition » a disparu des entrees : l'editeur de niveaux est un BINAIRE SEPARE depuis ce
     lot, et le jeu n'a plus aucun chemin qui y mene.
+
+    The background is deliberately supplied by the developer-side wrapper through
+    `backgroundSource`. The design form therefore has no dependency on runtime asset deployment:
+    Qt Design Studio can preview the form even when only the source tree is present.
 */
 Item {
     id: root
 
     property int currentIndex: 0
+    property url backgroundSource: ""
 
     // Les entrees sont exposees une a une : c'est le jumeau qui leur attache le survol et le clic,
     // un formulaire ne pouvant pas contenir de code.
@@ -29,23 +34,16 @@ Item {
         color: Tokens.background
     }
 
-    // Le decor : la carte du monde, extraite du corpus (EX-IHM-076). La maquette voulait un FOND,
-    // pas un aplat -- « les entrees ne sont plus enfermees dans un panneau, elles se posent sur une
-    // scene ». `PreserveAspectCrop` remplit sans deformer : une carte etiree se lit tout de suite.
+    // The runtime wrapper supplies the embedded asset. Keeping the URL outside the form avoids a
+    // dependency on a build directory or on runtime deployment while designing the form.
     Image {
         anchors.fill: parent
-        source: "../assets/world-map.jpg"
+        source: root.backgroundSource
+        visible: root.backgroundSource !== ""
         fillMode: Image.PreserveAspectCrop
-        // Peinte, pas en pixel art : elle se redimensionne en interpole (EX-ARCH-022, LOT-66).
         smooth: true
     }
 
-    // Le degrade qui porte la lisibilite du titre et des entrees -- et NON un voile plein sur tout
-    // l'ecran : la maquette voulait que le decor reste visible.
-    //
-    // L'ALPHA est dans les paliers, pas dans l'opacite de l'element : une opacite uniforme
-    // eclaircirait aussi le bord gauche, la ou le texte a le plus besoin de fond. Et la teinte
-    // vient du jeton d'encre, pas d'une couleur ecrite ici -- elle suivra un changement de palette.
     Rectangle {
         anchors.left: parent.left
         anchors.top: parent.top
