@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: 2026 Valentin Eloy
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-# Design-time QML module.  It contains only reusable visual components and .ui.qml forms.
+# Design-time QML module. It contains only reusable visual components and .ui.qml forms.
 # No C++ runtime type is part of this module, so Qt Design Studio can load it independently.
 
 set(JADG_UI_QML_FILES
@@ -49,6 +49,7 @@ qt_add_qml_module(JadgUi
     URI Jadg.Ui
     VERSION 1.0
     RESOURCE_PREFIX "/qt/qml"
+    NO_PLUGIN
     DESIGNER_SUPPORTED
     QML_FILES ${JADG_UI_QML_FILES}
     RESOURCES ${JADG_UI_IMAGE}
@@ -62,5 +63,5 @@ target_link_libraries(JadgUi
         project_options
 )
 
-# Keep the source-side module available to Qt Design Studio without requiring a CMake configure.
-# The generated build-side qmldir/qmltypes remain owned by qt_add_qml_module for the application.
+# The repository contains a source-side qmldir for Qt Design Studio. CMake generates its own
+# build-side qmldir/qmltypes metadata and never writes into Source/Ui.
