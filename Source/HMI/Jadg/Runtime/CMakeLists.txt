@@ -23,7 +23,7 @@ qt_add_qml_module(JadgRuntime
     URI Jadg.Runtime
     VERSION 1.0
     RESOURCE_PREFIX "/qt/qml"
-    NO_PLUGIN
+    CLASS_NAME JadgRuntimePlugin
     SOURCES ${JADG_RUNTIME_SOURCES}
 )
 
@@ -54,6 +54,3 @@ add_custom_command(TARGET JadgRuntime POST_BUILD
         -P "${CMAKE_CURRENT_LIST_DIR}/VerifyQmlTypes.cmake"
     VERBATIM
 )
-
-# The application links the backing target directly. There is no plugin-only dependency and no
-# second compilation of the runtime sources in the application target.
