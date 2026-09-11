@@ -13,14 +13,20 @@ set(JADG_RUNTIME_SOURCES
     ../../Game/GameViewportItem.cpp
     ../../Presentation/CharacterSheetModel.h
     ../../Presentation/CharacterSheetModel.cpp
+    ../../Presentation/DemonstrationCharacter.h
+    ../../Presentation/DemonstrationCharacter.cpp
     ../../Presentation/InventoryModel.h
     ../../Presentation/InventoryModel.cpp
     ../../Presentation/OptionsModel.h
     ../../Presentation/OptionsModel.cpp
     ../../Presentation/PendingData.h
     ../../Presentation/PendingData.cpp
+    ../../Presentation/RuleLabels.h
+    ../../Presentation/RuleLabels.cpp
     ../../Presentation/ScreenRouter.h
     ../../Presentation/ScreenRouter.cpp
+    ../../Presentation/SheetRowModel.h
+    ../../Presentation/SheetRowModel.cpp
 )
 
 qt_add_qml_module(JadgRuntime

@@ -88,6 +88,7 @@ add_library(HmiLib STATIC
     Interface/EditorWorkspace.cpp
     Interface/ActionCatalog.cpp
     Platform/ExecutableDirectory.cpp
+    Audio/AudioEngine.cpp
 )
 
 target_include_directories(HmiLib PUBLIC ${PROJECT_SOURCE_DIR}/Source)
@@ -130,7 +131,6 @@ add_executable(LevelEditor
     Graphics/BitmapFont.cpp
     Game/GameSession.cpp
     Game/GameViewport.cpp
-    Audio/AudioEngine.cpp
     Interface/ApplicationTheme.cpp
     Interface/ThemeIcons.cpp
     Interface/EditorActions.cpp
