@@ -24,6 +24,9 @@ qt_add_qml_module(JadgRuntime
     VERSION 1.0
     RESOURCE_PREFIX "/qt/qml"
     CLASS_NAME JadgRuntimePlugin
+    DEPENDENCIES
+        QtQml
+        QtQuick
     SOURCES ${JADG_RUNTIME_SOURCES}
 )
 
