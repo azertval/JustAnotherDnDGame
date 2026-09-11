@@ -33,18 +33,18 @@ jobs:
           cache: true
           aqtsource: ${{ env.AQT_SOURCE }}
 
-      - name: Configure Ninja with MSVC
+      - name: Configure, build and test with MSVC environment
         shell: cmd
         run: |
+          rem VsDevCmd.bat sets INCLUDE/LIB/PATH and other MSVC variables required by cl.exe.
+          rem Keep configure, build and test in this same cmd process so those variables are preserved.
           for /f "usebackq tokens=*" %%i in (`"%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath`) do call "%%i\Common7\Tools\VsDevCmd.bat" -arch=x64
           where cl
           cl
           cmake --preset ninja
+          if errorlevel 1 exit /b %errorlevel%
+          cmake --build --preset ninja
+          if errorlevel 1 exit /b %errorlevel%
+          ctest --preset ninja
         env:
           CMAKE_PREFIX_PATH: ${{ env.QT_ROOT_DIR }}
-
-      - name: Build Ninja
-        run: cmake --build --preset ninja
-
-      - name: Test Ninja
-        run: ctest --preset ninja
