@@ -66,5 +66,33 @@ if(ENABLE_PCH)
     target_precompile_headers(JustAnotherDnDGame PRIVATE ${PROJECT_SOURCE_DIR}/Source/pch.h)
 endif()
 
+# Keep all runtime data beside the game executable. This is a real build target rather than a
+# POST_BUILD source mutation, so asset changes are deterministic and visible to the build graph.
+add_custom_target(CopyGameData ALL
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${PROJECT_SOURCE_DIR}/Source/Elements/Localization
+        $<TARGET_FILE_DIR:JustAnotherDnDGame>/Localization
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${PROJECT_SOURCE_DIR}/Source/Elements/Levels
+        $<TARGET_FILE_DIR:JustAnotherDnDGame>/Levels
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${PROJECT_SOURCE_DIR}/Source/Elements/Assets
+        $<TARGET_FILE_DIR:JustAnotherDnDGame>/Assets
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${PROJECT_SOURCE_DIR}/Source/Elements/Audio
+        $<TARGET_FILE_DIR:JustAnotherDnDGame>/Audio
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${PROJECT_SOURCE_DIR}/Source/Elements/Rpg
+        $<TARGET_FILE_DIR:JustAnotherDnDGame>/Rpg
+    COMMENT "Copy game data")
+add_dependencies(JustAnotherDnDGame CopyGameData)
+
+find_package(Qt6 QUIET COMPONENTS LinguistTools)
+if(Qt6LinguistTools_FOUND)
+    qt_add_translations(JustAnotherDnDGame
+        TS_FILES ${PROJECT_SOURCE_DIR}/Source/Elements/Localization/jadg_en.ts
+        RESOURCE_PREFIX "/i18n")
+endif()
+
 # The QML module is the application entry point. C++ loads Jadg.App/Main, while the design module
 # remains independent and reusable by Qt Design Studio.
