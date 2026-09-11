@@ -19,6 +19,7 @@ UI = ROOT / "Source" / "Ui"
 MODULE = UI / "Jadg" / "Ui" / "qmldir"
 DESIGN_ENTRY = UI / "DesignStudio" / "Main.ui.qml"
 DESIGN_PROJECT = UI / "DesignStudio" / "JadgUiDesign.qmlproject"
+SOURCE_CMAKE = ROOT / "Source" / "CMakeLists.txt"
 UI_CMAKE = UI / "Jadg" / "Ui" / "CMakeLists.txt"
 RUNTIME_CMAKE = ROOT / "Source" / "HMI" / "Jadg" / "Runtime" / "CMakeLists.txt"
 APP_CMAKE = ROOT / "Source" / "App" / "CMakeLists.txt"
@@ -38,7 +39,6 @@ FORBIDDEN = [
 ]
 IMPORT_RE = re.compile(r"^\s*import\s+([A-Za-z][\w.]*)", re.M)
 TYPE_RE = re.compile(r"\b([A-Z][A-Za-z0-9_]*)\s*\{", re.M)
-LOCAL_EXTENSIONS = (".qml", ".ui.qml")
 
 
 def strip_comments(text: str) -> str:
@@ -113,6 +113,10 @@ def audit_qml_module_paths() -> list[str]:
 
 def audit_static_module_contract() -> list[str]:
     failures: list[str] = []
+
+    source_text = SOURCE_CMAKE.read_text(encoding="utf-8", errors="replace") if SOURCE_CMAKE.is_file() else ""
+    if not re.search(r"\bset\(CMAKE_AUTOMOC\s+ON\)", source_text):
+        failures.append(f"{rel(SOURCE_CMAKE)}: CMAKE_AUTOMOC doit etre active avant les modules QML")
 
     for path, target in ((UI_CMAKE, "JadgUi"), (RUNTIME_CMAKE, "JadgRuntime")):
         text = path.read_text(encoding="utf-8", errors="replace") if path.is_file() else ""
