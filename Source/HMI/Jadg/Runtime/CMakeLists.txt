@@ -34,6 +34,16 @@ qt_add_qml_module(JadgRuntime
 )
 
 target_include_directories(JadgRuntime PUBLIC ${PROJECT_SOURCE_DIR}/Source)
+
+# qmltyperegistrar emits bare-filename includes (e.g. `#include <GameViewportItem.h>`) for every
+# QML_ELEMENT/QML_NAMED_ELEMENT header listed in SOURCES, regardless of the relative path used to
+# reference them above. Without these directories on the include path, __has_include() silently
+# fails to find the headers and jadgruntime_qmltyperegistrations.cpp compiles with every registered
+# type left undeclared. Keep PRIVATE: only this target's generated registration file needs it.
+target_include_directories(JadgRuntime PRIVATE
+    ${PROJECT_SOURCE_DIR}/Source/HMI/Game
+    ${PROJECT_SOURCE_DIR}/Source/HMI/Presentation
+)
 target_link_libraries(JadgRuntime
     PRIVATE
         HmiLib
