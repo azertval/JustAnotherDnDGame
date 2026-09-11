@@ -59,8 +59,8 @@ qt_add_qml_module(JustAnotherDnDGame
     VERSION 1.0
     RESOURCE_PREFIX "/qt/qml"
     IMPORTS
-        Jadg.Ui
-        Jadg.Runtime
+        TARGET JadgUi
+        TARGET JadgRuntime
     QML_FILES ${JADG_APP_QML_FILES}
     RESOURCES
         ${JADG_GAME_UI_IMAGE}
