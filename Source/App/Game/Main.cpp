@@ -13,6 +13,7 @@
 #include <QQmlEngine>
 #include <QQuickStyle>
 #include <QQuickWindow>
+#include <QQmlExtensionPlugin>
 #include <QSettings>
 #include <QString>
 #include <QSurfaceFormat>
@@ -29,6 +30,11 @@
 #include "HMI/HmiLog.h"
 #include "HMI/Platform/ExecutableDirectory.h"
 #include "HMI/Presentation/OptionsModel.h"
+
+// Static QML modules need an explicit reference to their generated plugins so the linker cannot
+// discard the qmltyperegistrar registration objects. The plugin class names are fixed in CMake.
+Q_IMPORT_QML_PLUGIN(JadgUiPlugin)
+Q_IMPORT_QML_PLUGIN(JadgRuntimePlugin)
 
 namespace {
 
@@ -153,7 +159,7 @@ int main(int argc, char** argv) {
         HMI_LOG_ERROR("Reglages introuvables : le volume et la langue ne seront pas appliques.");
     }
 
-    // Main.qml remains the application entry point, but it now belongs to Jadg.App.  Jadg.Ui is
+    // Main.qml remains the application entry point, but it now belongs to Jadg.App. Jadg.Ui is
     // design-only and must never be used as the executable's entry module.
     engine.loadFromModule("Jadg.App", "Main");
 
