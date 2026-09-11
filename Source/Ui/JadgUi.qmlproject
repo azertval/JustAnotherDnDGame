@@ -1,29 +1,22 @@
-/* Projet Qt Design Studio des ecrans du jeu (LOT-86).
+/* Qt Design Studio project for the design-only surface of Jadg.Ui.
  *
- * C'est le fichier que la conception ouvre. Il ne decrit QUE Source/Ui et les assets :
- * ni CMake, ni Source/HMI, ni une ligne de C++ n'y sont visibles. C'est la frontiere,
- * rendue litterale par le perimetre de ce fichier.
- *
- * Ouvrir avec : D:/Qt/Tools/QtDesignStudio/bin/qtdesignstudio.exe Source/Ui/JadgUi.qmlproject
+ * Open this project directly in Qt Design Studio 6.8.x. It deliberately contains no application
+ * Main.qml, no C++ source, and no import of Jadg.Runtime.
  */
 import QmlProject 1.1
 
 Project {
-    mainFile: "Main.qml"
-
-    // AUCUNE version de Qt n'est ecrite ici : le runtime est epingle par CMake, tandis que Design
-    // Studio utilise le Qt fourni par son kit. Les imports restent sans version pour eviter un
-    // troisieme verrou de version.
+    mainFile: "DesignStudio/Main.ui.qml"
     qt6Project: true
 
-    QmlFiles   { directory: "." }
+    QmlFiles { directory: "DesignStudio" }
+    QmlFiles { directory: "Controls" }
+    QmlFiles { directory: "Screens" }
+    QmlFiles { directory: "Theme" }
+
     ImageFiles { directory: "../Elements/Assets" }
-    FontFiles  { directory: "../Elements/Assets/Fonts" }
+    FontFiles { directory: "../Elements/Assets/Fonts" }
 
-    // Le module Jadg.Ui est present dans le depot, donc Design Studio n'a plus besoin d'une
-    // configuration CMake prealable pour resoudre `import Jadg.Ui`.
     Files { filter: "qmldir"; directory: "Jadg/Ui" }
-
-    // Les types du module se resolvent depuis la racine de Source/Ui.
     importPaths: [ "." ]
 }
