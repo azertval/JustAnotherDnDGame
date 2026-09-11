@@ -129,11 +129,10 @@ endif()
 find_package(Qt6 ${QT_VERSION_MINIMUM} REQUIRED COMPONENTS
     Widgets Gui GuiPrivate Multimedia ShaderTools Quick Qml QuickControls2)
 
-# Set only policies known by the Qt installation. In particular, do not request a newer QTP policy
-# unconditionally: Qt 6.8.7 is the minimum supported version for this compatibility branch.
-if(COMMAND qt_policy AND QT_KNOWN_POLICY_QTP0004)
-    qt_policy(SET QTP0004 NEW)
-endif()
+# qt_standard_project_setup(REQUIRES 6.8) initializes all Qt CMake policies introduced through
+# Qt 6.8, including QTP0004 and QTP0005, before any qt_add_qml_module() call is evaluated.
+# This is preferable to probing internal policy variables: they are not a stable public API.
+qt_standard_project_setup(REQUIRES 6.8)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
@@ -168,10 +167,6 @@ add_executable(LevelEditor
     Editor/LevelBrowserPanel.cpp
     Editor/LinkPanel.cpp
     Editor/TexturePanel.cpp
-    Editor/AssetThumbnailView.cpp
-    Editor/PixelCanvas.cpp
-    Editor/PixelHistoryPanel.cpp
-    Editor/PixelPalettePanel.cpp
     Editor/PlanesPanel.cpp
     ${ELEMENTS_UI}/resources.qrc
     ${ELEMENTS_UI}/MainWindow.ui
