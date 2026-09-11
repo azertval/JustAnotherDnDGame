@@ -1,20 +1,15 @@
 # SPDX-FileCopyrightText: 2026 Valentin Eloy
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-# The game application owns the runtime wiring.  Its entry point remains Main.qml, but Main.qml is
-# deliberately not part of Jadg.Ui: Design Studio must never have to resolve Jadg.Runtime.
+# The game application owns the runtime wiring. Main.qml remains the application entry point, but it
+# is deliberately part of Jadg.App rather than Jadg.Ui. Design Studio therefore never resolves
+# Jadg.Runtime when opening a .ui.qml form.
 
 add_executable(JustAnotherDnDGame
     Game/Main.cpp
     Common/Bootstrap.cpp
-    Game/GameViewportItem.cpp
     Audio/AudioEngine.cpp
-    project_placeholder.cpp
 )
-
-# Replace the placeholder source with the real C++ QML-facing models.  They are compiled only by
-# Jadg.Runtime, never by the executable itself; the runtime module is linked below.
-set_source_files_properties(project_placeholder.cpp PROPERTIES HEADER_FILE_ONLY TRUE)
 
 qt_add_qml_module(JustAnotherDnDGame
     URI Jadg.App
@@ -67,11 +62,5 @@ if(ENABLE_PCH)
     target_precompile_headers(JustAnotherDnDGame PRIVATE ${PROJECT_SOURCE_DIR}/Source/pch.h)
 endif()
 
-# Keep source-mode development independent of generated CMake qmldirs.  The runtime QML module is
-# still supplied by the built JadgRuntime target, while Jadg.Ui can be resolved from Source/Ui.
-target_compile_definitions(JustAnotherDnDGame PRIVATE
-    JADG_QML_SOURCE_ROOT="${PROJECT_SOURCE_DIR}/Source/Ui"
-)
-
-# The QML module is deliberately the application entry point.  C++ loads Jadg.App/Main rather than
-# reaching into Jadg.Ui, so the design module remains reusable by Qt Design Studio.
+# The QML module is the application entry point. C++ loads Jadg.App/Main, while the design module
+# remains independent and reusable by Qt Design Studio.
