@@ -4,7 +4,8 @@
 The check is intentionally source-only: it can run before CMake/Qt are configured.
 It validates every `.ui.qml` under Source/Ui for common Design Studio hazards, checks
 local QML dependency cycles, verifies the tracked Jadg.Ui/qmldir, audits QML module
-source paths, and rejects runtime dependencies from the design-only project.
+source paths, checks the static-module/plugin contract, and rejects runtime dependencies
+from the design-only project.
 """
 
 from __future__ import annotations
@@ -18,11 +19,11 @@ UI = ROOT / "Source" / "Ui"
 MODULE = UI / "Jadg" / "Ui" / "qmldir"
 DESIGN_ENTRY = UI / "DesignStudio" / "Main.ui.qml"
 DESIGN_PROJECT = UI / "DesignStudio" / "JadgUiDesign.qmlproject"
-QML_MODULE_CMAKES = [
-    ROOT / "Source" / "Ui" / "Jadg" / "Ui" / "CMakeLists.txt",
-    ROOT / "Source" / "HMI" / "Jadg" / "Runtime" / "CMakeLists.txt",
-    ROOT / "Source" / "App" / "CMakeLists.txt",
-]
+UI_CMAKE = UI / "Jadg" / "Ui" / "CMakeLists.txt"
+RUNTIME_CMAKE = ROOT / "Source" / "HMI" / "Jadg" / "Runtime" / "CMakeLists.txt"
+APP_CMAKE = ROOT / "Source" / "App" / "CMakeLists.txt"
+MAIN_CPP = ROOT / "Source" / "App" / "Game" / "Main.cpp"
+QML_MODULE_CMAKES = [UI_CMAKE, RUNTIME_CMAKE, APP_CMAKE]
 ALLOWED_IMPORTS = {
     "QtQuick", "QtQuick.Window", "QtQuick.Layouts", "QtQuick.Controls",
     "QtQuick.Shapes", "QtQuick.Effects", "Jadg.Ui",
@@ -110,6 +111,33 @@ def audit_qml_module_paths() -> list[str]:
     return failures
 
 
+def audit_static_module_contract() -> list[str]:
+    failures: list[str] = []
+
+    for path, target in ((UI_CMAKE, "JadgUi"), (RUNTIME_CMAKE, "JadgRuntime")):
+        text = path.read_text(encoding="utf-8", errors="replace") if path.is_file() else ""
+        if not re.search(rf"add_library\({target}\s+STATIC\s*\)", text):
+            failures.append(f"{rel(path)}: {target} doit rester un backing target STATIC")
+        if "CLASS_NAME" not in text:
+            failures.append(f"{rel(path)}: CLASS_NAME manquant pour le plugin QML statique")
+        if "NO_GENERATE_EXTRA_QMLDIRS" not in text and target == "JadgUi":
+            failures.append(
+                f"{rel(path)}: les QT_RESOURCE_ALIAS externes exigent NO_GENERATE_EXTRA_QMLDIRS"
+            )
+
+    app_text = APP_CMAKE.read_text(encoding="utf-8", errors="replace") if APP_CMAKE.is_file() else ""
+    for plugin in ("JadgUiplugin", "JadgRuntimeplugin"):
+        if re.search(rf"\b{re.escape(plugin)}\b", app_text) is None:
+            failures.append(f"{rel(APP_CMAKE)}: plugin statique {plugin} non lié à l'application")
+
+    main_text = MAIN_CPP.read_text(encoding="utf-8", errors="replace") if MAIN_CPP.is_file() else ""
+    for plugin in ("JadgUiPlugin", "JadgRuntimePlugin"):
+        if f"Q_IMPORT_QML_PLUGIN({plugin})" not in main_text:
+            failures.append(f"{rel(MAIN_CPP)}: Q_IMPORT_QML_PLUGIN({plugin}) manquant")
+
+    return failures
+
+
 def main() -> int:
     failures: list[str] = []
     forms = sorted(p for p in UI.rglob("*.ui.qml"))
@@ -153,6 +181,7 @@ def main() -> int:
             failures.append("JadgUiDesign.qmlproject doit ouvrir Main.ui.qml")
 
     failures.extend(audit_qml_module_paths())
+    failures.extend(audit_static_module_contract())
 
     graph = local_dependency_graph(qml_files())
     for cycle in cycles(graph):
