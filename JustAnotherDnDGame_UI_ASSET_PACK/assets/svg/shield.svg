@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="150" viewBox="0 0 128 150">
+<path d="M64 5L116 22v43c0 35-22 61-52 76C34 126 12 100 12 65V22z" fill="#5b1712" stroke="#b88b2a" stroke-width="5"/>
+<path d="M64 25l28 11v27c0 22-11 38-28 49C47 101 36 85 36 63V36z" fill="#34271d" stroke="#d0ad58" stroke-width="2"/>
+<text x="64" y="77" text-anchor="middle" fill="#ead8a7" font-family="Georgia" font-size="34">⚔</text>
+</svg>

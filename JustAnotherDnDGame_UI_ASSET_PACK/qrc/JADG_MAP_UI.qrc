@@ -1,0 +1,29 @@
+<RCC>
+<qresource prefix="/jadg">
+  <file>assets/maps/world_map.jpg</file>
+  <file>assets/icons/icon_compass.svg</file>
+  <file>assets/icons/icon_quest_main.svg</file>
+  <file>assets/icons/icon_quest_side.svg</file>
+  <file>assets/icons/icon_poi.svg</file>
+  <file>assets/icons/icon_city.svg</file>
+  <file>assets/icons/icon_fortress.svg</file>
+  <file>assets/icons/icon_dungeon.svg</file>
+  <file>assets/icons/icon_camp.svg</file>
+  <file>assets/icons/icon_zoom_plus.svg</file>
+  <file>assets/icons/icon_zoom_minus.svg</file>
+  <file>assets/icons/icon_map.svg</file>
+  <file>assets/icons/icon_quests.svg</file>
+  <file>assets/icons/icon_inventory.svg</file>
+  <file>assets/icons/icon_party.svg</file>
+  <file>assets/icons/icon_options.svg</file>
+  <file>qml/main.qml</file>
+  <file>qml/screens/MapScreen.qml</file>
+  <file>qml/components/GoldPanel.qml</file>
+  <file>qml/components/IconButton.qml</file>
+  <file>qml/components/MapLegend.qml</file>
+  <file>qml/components/MapControls.qml</file>
+  <file>qml/components/BottomNavigation.qml</file>
+  <file>qml/components/PlayerStatus.qml</file>
+  <file>qml/styles/JadgTheme.qml</file>
+</qresource>
+</RCC>

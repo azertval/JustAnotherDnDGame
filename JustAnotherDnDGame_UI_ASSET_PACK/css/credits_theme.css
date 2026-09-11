@@ -1,0 +1,8 @@
+QWidget#CreditsScreen { background: #080706; color: #ead8a7; }
+QPushButton {
+    color: #ead8a7;
+    background: #0d0a07;
+    border: 1px solid #b58a32;
+    min-height: 50px;
+}
+QPushButton:hover { background: #8d1515; border-color: #e3c56b; }

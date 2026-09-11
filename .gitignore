@@ -100,3 +100,4 @@ __pycache__/
 # deux postes a chaque ouverture du projet. `*.user`, le pendant de Qt Creator, est deja couvert
 # plus haut.
 *.qtds
+/.qtcreator/qtc-cmake-presets-nngTQTpJ

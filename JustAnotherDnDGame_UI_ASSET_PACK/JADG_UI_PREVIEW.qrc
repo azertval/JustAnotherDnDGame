@@ -1,0 +1,318 @@
+<RCC>
+  <qresource prefix="/">
+    <file>assets/README.md</file>
+    <file>assets/backgrounds/.gitkeep</file>
+    <file>assets/credits/svg/background/vignette_overlay.svg</file>
+    <file>assets/credits/svg/decor/gold_divider.svg</file>
+    <file>assets/credits/svg/decor/ornament.svg</file>
+    <file>assets/credits/svg/frame/credits_panel.svg</file>
+    <file>assets/credits/svg/frame/section_panel.svg</file>
+    <file>assets/credits/svg/frame/title_plate.svg</file>
+    <file>assets/credits/svg/icons/book.svg</file>
+    <file>assets/credits/svg/icons/code.svg</file>
+    <file>assets/credits/svg/icons/heart.svg</file>
+    <file>assets/credits/svg/icons/sword_shield.svg</file>
+    <file>assets/credits/svg/icons/team.svg</file>
+    <file>assets/credits/svg/navigation/back_button.svg</file>
+    <file>assets/docs/ASSET_INDEX.md</file>
+    <file>assets/docs/INTEGRATION.md</file>
+    <file>assets/icons/.gitkeep</file>
+    <file>assets/icons/attack.svg</file>
+    <file>assets/icons/book.svg</file>
+    <file>assets/icons/damage.svg</file>
+    <file>assets/icons/eye.svg</file>
+    <file>assets/icons/fire.svg</file>
+    <file>assets/icons/heal.svg</file>
+    <file>assets/icons/ice.svg</file>
+    <file>assets/icons/icon_camp.svg</file>
+    <file>assets/icons/icon_city.svg</file>
+    <file>assets/icons/icon_compass.svg</file>
+    <file>assets/icons/icon_dungeon.svg</file>
+    <file>assets/icons/icon_fortress.svg</file>
+    <file>assets/icons/icon_inventory.svg</file>
+    <file>assets/icons/icon_map.svg</file>
+    <file>assets/icons/icon_options.svg</file>
+    <file>assets/icons/icon_party.svg</file>
+    <file>assets/icons/icon_poi.svg</file>
+    <file>assets/icons/icon_quest_main.svg</file>
+    <file>assets/icons/icon_quest_side.svg</file>
+    <file>assets/icons/icon_quests.svg</file>
+    <file>assets/icons/icon_zoom_minus.svg</file>
+    <file>assets/icons/icon_zoom_plus.svg</file>
+    <file>assets/icons/range.svg</file>
+    <file>assets/icons/shield.svg</file>
+    <file>assets/icons/spell.svg</file>
+    <file>assets/main_menu/svg/background/menu_dark_overlay.svg</file>
+    <file>assets/main_menu/svg/background/top_shadow.svg</file>
+    <file>assets/main_menu/svg/background/vignette_overlay.svg</file>
+    <file>assets/main_menu/svg/branding/compass_emblem.svg</file>
+    <file>assets/main_menu/svg/branding/logo_plate.svg</file>
+    <file>assets/main_menu/svg/decor/banner.svg</file>
+    <file>assets/main_menu/svg/decor/corner_ornament.svg</file>
+    <file>assets/main_menu/svg/decor/gold_divider.svg</file>
+    <file>assets/main_menu/svg/icons/continue.svg</file>
+    <file>assets/main_menu/svg/icons/credits.svg</file>
+    <file>assets/main_menu/svg/icons/load.svg</file>
+    <file>assets/main_menu/svg/icons/new_game.svg</file>
+    <file>assets/main_menu/svg/icons/profile.svg</file>
+    <file>assets/main_menu/svg/icons/quit.svg</file>
+    <file>assets/main_menu/svg/icons/settings.svg</file>
+    <file>assets/main_menu/svg/navigation/menu_button_active.svg</file>
+    <file>assets/main_menu/svg/navigation/menu_button_disabled.svg</file>
+    <file>assets/main_menu/svg/navigation/menu_button_normal.svg</file>
+    <file>assets/main_menu/svg/profile/profile_avatar_frame.svg</file>
+    <file>assets/main_menu/svg/profile/profile_panel.svg</file>
+    <file>assets/maps/world_map.jpg</file>
+    <file>assets/options/svg/background/overlay.svg</file>
+    <file>assets/options/svg/controls/button_apply.svg</file>
+    <file>assets/options/svg/controls/button_cancel.svg</file>
+    <file>assets/options/svg/controls/button_primary.svg</file>
+    <file>assets/options/svg/controls/button_secondary.svg</file>
+    <file>assets/options/svg/controls/checkbox_checked.svg</file>
+    <file>assets/options/svg/controls/checkbox_unchecked.svg</file>
+    <file>assets/options/svg/controls/dropdown.svg</file>
+    <file>assets/options/svg/controls/slider_fill.svg</file>
+    <file>assets/options/svg/controls/slider_handle.svg</file>
+    <file>assets/options/svg/controls/slider_track.svg</file>
+    <file>assets/options/svg/frame/footer_bar.svg</file>
+    <file>assets/options/svg/frame/options_panel.svg</file>
+    <file>assets/options/svg/frame/section_panel.svg</file>
+    <file>assets/options/svg/frame/title_plate.svg</file>
+    <file>assets/options/svg/icons/accessibility.svg</file>
+    <file>assets/options/svg/icons/audio.svg</file>
+    <file>assets/options/svg/icons/controls.svg</file>
+    <file>assets/options/svg/icons/difficulty.svg</file>
+    <file>assets/options/svg/icons/game.svg</file>
+    <file>assets/options/svg/icons/general.svg</file>
+    <file>assets/options/svg/icons/graphics.svg</file>
+    <file>assets/options/svg/icons/language.svg</file>
+    <file>assets/options/svg/icons/network.svg</file>
+    <file>assets/options/svg/icons/privacy.svg</file>
+    <file>assets/options/svg/icons/save.svg</file>
+    <file>assets/options/svg/states/disabled.svg</file>
+    <file>assets/options/svg/states/divider.svg</file>
+    <file>assets/options/svg/states/focus.svg</file>
+    <file>assets/options/svg/tabs/tab_active.svg</file>
+    <file>assets/options/svg/tabs/tab_disabled.svg</file>
+    <file>assets/options/svg/tabs/tab_normal.svg</file>
+    <file>assets/svg/character_frame/corner.svg</file>
+    <file>assets/svg/character_frame/divider.svg</file>
+    <file>assets/svg/character_frame/panel.svg</file>
+    <file>assets/svg/character_frame/ribbon.svg</file>
+    <file>assets/svg/character_frame/seal.svg</file>
+    <file>assets/svg/character_frame/shield.svg</file>
+    <file>assets/svg/character_frame/title_plate.svg</file>
+    <file>assets/svg/character_identity/field_class.svg</file>
+    <file>assets/svg/character_identity/field_level.svg</file>
+    <file>assets/svg/character_identity/field_name.svg</file>
+    <file>assets/svg/character_identity/field_origin.svg</file>
+    <file>assets/svg/character_identity/field_serial.svg</file>
+    <file>assets/svg/character_identity/field_species.svg</file>
+    <file>assets/svg/character_identity/heart.svg</file>
+    <file>assets/svg/character_identity/portrait_frame.svg</file>
+    <file>assets/svg/character_identity/portrait_placeholder.svg</file>
+    <file>assets/svg/character_identity/signature_line.svg</file>
+    <file>assets/svg/character_identity/xp.svg</file>
+    <file>assets/svg/character_skills/acrobatics.svg</file>
+    <file>assets/svg/character_skills/animal_handling.svg</file>
+    <file>assets/svg/character_skills/arcana.svg</file>
+    <file>assets/svg/character_skills/athletics.svg</file>
+    <file>assets/svg/character_skills/deception.svg</file>
+    <file>assets/svg/character_skills/history.svg</file>
+    <file>assets/svg/character_skills/insight.svg</file>
+    <file>assets/svg/character_skills/intimidation.svg</file>
+    <file>assets/svg/character_skills/investigation.svg</file>
+    <file>assets/svg/character_skills/medicine.svg</file>
+    <file>assets/svg/character_skills/nature.svg</file>
+    <file>assets/svg/character_skills/perception.svg</file>
+    <file>assets/svg/character_skills/performance.svg</file>
+    <file>assets/svg/character_skills/persuasion.svg</file>
+    <file>assets/svg/character_skills/proficiency_empty.svg</file>
+    <file>assets/svg/character_skills/proficiency_filled.svg</file>
+    <file>assets/svg/character_skills/religion.svg</file>
+    <file>assets/svg/character_skills/sleight_of_hand.svg</file>
+    <file>assets/svg/character_skills/stealth.svg</file>
+    <file>assets/svg/character_skills/survival.svg</file>
+    <file>assets/svg/character_stats/cha.svg</file>
+    <file>assets/svg/character_stats/con.svg</file>
+    <file>assets/svg/character_stats/dex.svg</file>
+    <file>assets/svg/character_stats/int.svg</file>
+    <file>assets/svg/character_stats/modifier_minus.svg</file>
+    <file>assets/svg/character_stats/modifier_plus.svg</file>
+    <file>assets/svg/character_stats/str.svg</file>
+    <file>assets/svg/character_stats/wis.svg</file>
+    <file>assets/svg/character_ui/hp_bar_bg.svg</file>
+    <file>assets/svg/character_ui/hp_bar_fill.svg</file>
+    <file>assets/svg/character_ui/lock.svg</file>
+    <file>assets/svg/character_ui/selection.svg</file>
+    <file>assets/svg/character_ui/skill_row.svg</file>
+    <file>assets/svg/character_ui/value_capsule.svg</file>
+    <file>assets/svg/character_ui/xp_bar_fill.svg</file>
+    <file>assets/svg/divider.svg</file>
+    <file>assets/svg/gold_divider.svg</file>
+    <file>assets/svg/header_plaque.svg</file>
+    <file>assets/svg/inventory_equipment/amulet.svg</file>
+    <file>assets/svg/inventory_equipment/armor.svg</file>
+    <file>assets/svg/inventory_equipment/boots.svg</file>
+    <file>assets/svg/inventory_equipment/cloak.svg</file>
+    <file>assets/svg/inventory_equipment/gloves.svg</file>
+    <file>assets/svg/inventory_equipment/helmet.svg</file>
+    <file>assets/svg/inventory_equipment/ring.svg</file>
+    <file>assets/svg/inventory_frame/equipment_panel.svg</file>
+    <file>assets/svg/inventory_frame/inventory_frame.svg</file>
+    <file>assets/svg/inventory_frame/inventory_panel.svg</file>
+    <file>assets/svg/inventory_frame/item_detail_panel.svg</file>
+    <file>assets/svg/inventory_frame/panel_header.svg</file>
+    <file>assets/svg/inventory_frame/parchment_tile.svg</file>
+    <file>assets/svg/inventory_frame/red_banner.svg</file>
+    <file>assets/svg/inventory_icons/chevron.svg</file>
+    <file>assets/svg/inventory_icons/close.svg</file>
+    <file>assets/svg/inventory_icons/discard.svg</file>
+    <file>assets/svg/inventory_icons/equip.svg</file>
+    <file>assets/svg/inventory_icons/inspect.svg</file>
+    <file>assets/svg/inventory_inventory/action_primary.svg</file>
+    <file>assets/svg/inventory_inventory/action_secondary.svg</file>
+    <file>assets/svg/inventory_inventory/arrows.svg</file>
+    <file>assets/svg/inventory_inventory/bow.svg</file>
+    <file>assets/svg/inventory_inventory/gold_pouch.svg</file>
+    <file>assets/svg/inventory_inventory/key.svg</file>
+    <file>assets/svg/inventory_inventory/longsword.svg</file>
+    <file>assets/svg/inventory_inventory/potion_blue.svg</file>
+    <file>assets/svg/inventory_inventory/potion_red.svg</file>
+    <file>assets/svg/inventory_inventory/rope.svg</file>
+    <file>assets/svg/inventory_inventory/sort_button.svg</file>
+    <file>assets/svg/inventory_inventory/weight_bar.svg</file>
+    <file>assets/svg/inventory_slots/count_badge.svg</file>
+    <file>assets/svg/inventory_slots/equipment_slot.svg</file>
+    <file>assets/svg/inventory_slots/rarity_common.svg</file>
+    <file>assets/svg/inventory_slots/rarity_epic.svg</file>
+    <file>assets/svg/inventory_slots/rarity_legendary.svg</file>
+    <file>assets/svg/inventory_slots/rarity_rare.svg</file>
+    <file>assets/svg/inventory_slots/rarity_uncommon.svg</file>
+    <file>assets/svg/inventory_slots/slot_empty.svg</file>
+    <file>assets/svg/inventory_slots/slot_equipped.svg</file>
+    <file>assets/svg/inventory_slots/slot_hover.svg</file>
+    <file>assets/svg/inventory_slots/slot_selected.svg</file>
+    <file>assets/svg/panel-corner.svg</file>
+    <file>assets/svg/panel_frame.svg</file>
+    <file>assets/svg/shield.svg</file>
+    <file>assets/svg/slot_empty.svg</file>
+    <file>assets/svg/slot_used.svg</file>
+    <file>css/credits_theme.css</file>
+    <file>css/main_menu_theme.css</file>
+    <file>css/mercenary_theme.css</file>
+    <file>qml/MercenaryEquipmentSlot.qml</file>
+    <file>qml/MercenaryProgressBar.qml</file>
+    <file>qml/MercenarySkillRow.qml</file>
+    <file>qml/MercenarySlot.qml</file>
+    <file>qml/MercenaryStatMedallion.qml</file>
+    <file>qml/MercenaryTheme.qml</file>
+    <file>qml/MercenaryTitle.qml</file>
+    <file>qml/components/AchievementRow.qml</file>
+    <file>qml/components/BottomNavigation.qml</file>
+    <file>qml/components/BuildingCard.qml</file>
+    <file>qml/components/DetailStat.qml</file>
+    <file>qml/components/GoldPanel.qml</file>
+    <file>qml/components/IconButton.qml</file>
+    <file>qml/components/MapControls.qml</file>
+    <file>qml/components/MapLegend.qml</file>
+    <file>qml/components/MemberToken.qml</file>
+    <file>qml/components/OrnatePanel.qml</file>
+    <file>qml/components/PlayerStatus.qml</file>
+    <file>qml/components/ResourceTile.qml</file>
+    <file>qml/components/SkillRow.qml</file>
+    <file>qml/components/SlotDots.qml</file>
+    <file>qml/components/SpellCategory.qml</file>
+    <file>qml/components/StatBadge.qml</file>
+    <file>qml/components/TitlePlaque.qml</file>
+    <file>qml/credits/CreditsEntry.qml</file>
+    <file>qml/credits/CreditsScreen.qml</file>
+    <file>qml/main.qml</file>
+    <file>qml/main_menu/MainMenu.qml</file>
+    <file>qml/main_menu/MainMenuButton.qml</file>
+    <file>qml/main_menu/MainMenuProfile.qml</file>
+    <file>qml/options/Button.qml</file>
+    <file>qml/options/CheckBox.qml</file>
+    <file>qml/options/OptionsButton.qml</file>
+    <file>qml/options/OptionsCheckBox.qml</file>
+    <file>qml/options/OptionsScreen.qml</file>
+    <file>qml/options/OptionsSection.qml</file>
+    <file>qml/options/OptionsSlider.qml</file>
+    <file>qml/options/OptionsTab.qml</file>
+    <file>qml/options/OptionsTheme.qml</file>
+    <file>qml/options/Screen.qml</file>
+    <file>qml/options/Section.qml</file>
+    <file>qml/options/Slider.qml</file>
+    <file>qml/options/Tab.qml</file>
+    <file>qml/options/Theme.qml</file>
+    <file>qml/preview/AssetGallery.qml</file>
+    <file>qml/preview/PreviewCompetencesScreen.qml</file>
+    <file>qml/preview/PreviewMain.qml</file>
+    <file>qml/qmldir</file>
+    <file>qml/screens/CompetencesScreen.qml</file>
+    <file>qml/screens/MapScreen.qml</file>
+    <file>qml/screens/MercenaryTeamScreen.qml</file>
+    <file>qml/styles/JadgTheme.qml</file>
+    <file>src/main.cpp</file>
+  </qresource>
+  <qresource prefix="/JustAnotherDnDGame">
+    <file alias="svg/background/menu_dark_overlay.svg">assets/main_menu/svg/background/menu_dark_overlay.svg</file>
+    <file alias="svg/background/vignette_overlay.svg">assets/main_menu/svg/background/vignette_overlay.svg</file>
+    <file alias="svg/branding/logo_plate.svg">assets/main_menu/svg/branding/logo_plate.svg</file>
+    <file alias="svg/icons/continue.svg">assets/main_menu/svg/icons/continue.svg</file>
+    <file alias="svg/icons/new_game.svg">assets/main_menu/svg/icons/new_game.svg</file>
+    <file alias="svg/icons/load.svg">assets/main_menu/svg/icons/load.svg</file>
+    <file alias="svg/icons/settings.svg">assets/main_menu/svg/icons/settings.svg</file>
+    <file alias="svg/icons/credits.svg">assets/main_menu/svg/icons/credits.svg</file>
+    <file alias="svg/icons/quit.svg">assets/main_menu/svg/icons/quit.svg</file>
+    <file alias="svg/icons/profile.svg">assets/main_menu/svg/icons/profile.svg</file>
+    <file alias="svg/navigation/menu_button_active.svg">assets/main_menu/svg/navigation/menu_button_active.svg</file>
+    <file alias="svg/navigation/menu_button_normal.svg">assets/main_menu/svg/navigation/menu_button_normal.svg</file>
+    <file alias="svg/profile/profile_panel.svg">assets/main_menu/svg/profile/profile_panel.svg</file>
+    <file alias="svg/frame/credits_panel.svg">assets/credits/svg/frame/credits_panel.svg</file>
+    <file alias="svg/frame/title_plate.svg">assets/credits/svg/frame/title_plate.svg</file>
+    <file alias="svg/frame/section_panel.svg">assets/credits/svg/frame/section_panel.svg</file>
+    <file alias="svg/icons/sword_shield.svg">assets/credits/svg/icons/sword_shield.svg</file>
+    <file alias="svg/navigation/back_button.svg">assets/credits/svg/navigation/back_button.svg</file>
+  </qresource>
+  <qresource prefix="/MercenaryRpgUiKit">
+    <file alias="assets/options/background/overlay.svg">assets/options/svg/background/overlay.svg</file>
+    <file alias="assets/options/frame/options_panel.svg">assets/options/svg/frame/options_panel.svg</file>
+    <file alias="assets/options/frame/section_panel.svg">assets/options/svg/frame/section_panel.svg</file>
+    <file alias="assets/options/tabs/tab_active.svg">assets/options/svg/tabs/tab_active.svg</file>
+    <file alias="assets/options/tabs/tab_normal.svg">assets/options/svg/tabs/tab_normal.svg</file>
+    <file alias="assets/options/controls/slider_track.svg">assets/options/svg/controls/slider_track.svg</file>
+    <file alias="assets/options/controls/slider_handle.svg">assets/options/svg/controls/slider_handle.svg</file>
+    <file alias="assets/options/controls/button_apply.svg">assets/options/svg/controls/button_apply.svg</file>
+    <file alias="assets/options/controls/button_secondary.svg">assets/options/svg/controls/button_secondary.svg</file>
+    <file alias="assets/options/controls/checkbox_checked.svg">assets/options/svg/controls/checkbox_checked.svg</file>
+    <file alias="assets/options/controls/checkbox_unchecked.svg">assets/options/svg/controls/checkbox_unchecked.svg</file>
+    <file alias="svg/character_stats/cha.svg">assets/svg/character_stats/cha.svg</file>
+    <file alias="svg/character_stats/con.svg">assets/svg/character_stats/con.svg</file>
+    <file alias="svg/character_stats/dex.svg">assets/svg/character_stats/dex.svg</file>
+    <file alias="svg/character_stats/int.svg">assets/svg/character_stats/int.svg</file>
+    <file alias="svg/character_stats/modifier_minus.svg">assets/svg/character_stats/modifier_minus.svg</file>
+    <file alias="svg/character_stats/modifier_plus.svg">assets/svg/character_stats/modifier_plus.svg</file>
+    <file alias="svg/character_stats/str.svg">assets/svg/character_stats/str.svg</file>
+    <file alias="svg/character_stats/wis.svg">assets/svg/character_stats/wis.svg</file>
+    <file alias="svg/character_ui/hp_bar_bg.svg">assets/svg/character_ui/hp_bar_bg.svg</file>
+    <file alias="svg/character_ui/hp_bar_fill.svg">assets/svg/character_ui/hp_bar_fill.svg</file>
+    <file alias="svg/character_ui/lock.svg">assets/svg/character_ui/lock.svg</file>
+    <file alias="svg/character_ui/selection.svg">assets/svg/character_ui/selection.svg</file>
+    <file alias="svg/character_ui/skill_row.svg">assets/svg/character_ui/skill_row.svg</file>
+    <file alias="svg/character_ui/value_capsule.svg">assets/svg/character_ui/value_capsule.svg</file>
+    <file alias="svg/character_ui/xp_bar_fill.svg">assets/svg/character_ui/xp_bar_fill.svg</file>
+    <file alias="svg/inventory_slots/count_badge.svg">assets/svg/inventory_slots/count_badge.svg</file>
+    <file alias="svg/inventory_slots/equipment_slot.svg">assets/svg/inventory_slots/equipment_slot.svg</file>
+    <file alias="svg/inventory_slots/rarity_common.svg">assets/svg/inventory_slots/rarity_common.svg</file>
+    <file alias="svg/inventory_slots/rarity_epic.svg">assets/svg/inventory_slots/rarity_epic.svg</file>
+    <file alias="svg/inventory_slots/rarity_legendary.svg">assets/svg/inventory_slots/rarity_legendary.svg</file>
+    <file alias="svg/inventory_slots/rarity_rare.svg">assets/svg/inventory_slots/rarity_rare.svg</file>
+    <file alias="svg/inventory_slots/rarity_uncommon.svg">assets/svg/inventory_slots/rarity_uncommon.svg</file>
+    <file alias="svg/inventory_slots/slot_empty.svg">assets/svg/inventory_slots/slot_empty.svg</file>
+    <file alias="svg/inventory_slots/slot_equipped.svg">assets/svg/inventory_slots/slot_equipped.svg</file>
+    <file alias="svg/inventory_slots/slot_hover.svg">assets/svg/inventory_slots/slot_hover.svg</file>
+    <file alias="svg/inventory_slots/slot_selected.svg">assets/svg/inventory_slots/slot_selected.svg</file>
+    <file alias="svg/inventory_frame/red_banner.svg">assets/svg/inventory_frame/red_banner.svg</file>
+  </qresource>
+</RCC>

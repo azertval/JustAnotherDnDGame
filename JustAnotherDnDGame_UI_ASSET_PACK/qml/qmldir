@@ -1,0 +1,8 @@
+module Mercenary.RpgUiKit
+singleton MercenaryTheme 1.0 MercenaryTheme.qml
+MercenarySlot 1.0 MercenarySlot.qml
+MercenaryEquipmentSlot 1.0 MercenaryEquipmentSlot.qml
+MercenaryStatMedallion 1.0 MercenaryStatMedallion.qml
+MercenaryProgressBar 1.0 MercenaryProgressBar.qml
+MercenarySkillRow 1.0 MercenarySkillRow.qml
+MercenaryTitle 1.0 MercenaryTitle.qml

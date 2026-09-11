@@ -1,0 +1,111 @@
+{
+  "screens": {
+    "main_menu": {
+      "assets": [
+        "assets/main_menu/svg/background/menu_dark_overlay.svg",
+        "assets/main_menu/svg/background/top_shadow.svg",
+        "assets/main_menu/svg/background/vignette_overlay.svg",
+        "assets/main_menu/svg/branding/compass_emblem.svg",
+        "assets/main_menu/svg/branding/logo_plate.svg",
+        "assets/main_menu/svg/decor/banner.svg",
+        "assets/main_menu/svg/decor/corner_ornament.svg",
+        "assets/main_menu/svg/decor/gold_divider.svg",
+        "assets/main_menu/svg/icons/continue.svg",
+        "assets/main_menu/svg/icons/credits.svg",
+        "assets/main_menu/svg/icons/load.svg",
+        "assets/main_menu/svg/icons/new_game.svg",
+        "assets/main_menu/svg/icons/profile.svg",
+        "assets/main_menu/svg/icons/quit.svg",
+        "assets/main_menu/svg/icons/settings.svg",
+        "assets/main_menu/svg/navigation/menu_button_active.svg",
+        "assets/main_menu/svg/navigation/menu_button_disabled.svg",
+        "assets/main_menu/svg/navigation/menu_button_normal.svg",
+        "assets/main_menu/svg/profile/profile_avatar_frame.svg",
+        "assets/main_menu/svg/profile/profile_panel.svg"
+      ],
+      "qml": [
+        "qml/main_menu/MainMenu.qml",
+        "qml/main_menu/MainMenuButton.qml",
+        "qml/main_menu/MainMenuProfile.qml"
+      ]
+    },
+    "options": {
+      "assets": [
+        "assets/options/svg/background/overlay.svg",
+        "assets/options/svg/controls/button_apply.svg",
+        "assets/options/svg/controls/button_cancel.svg",
+        "assets/options/svg/controls/button_primary.svg",
+        "assets/options/svg/controls/button_secondary.svg",
+        "assets/options/svg/controls/checkbox_checked.svg",
+        "assets/options/svg/controls/checkbox_unchecked.svg",
+        "assets/options/svg/controls/dropdown.svg",
+        "assets/options/svg/controls/slider_fill.svg",
+        "assets/options/svg/controls/slider_handle.svg",
+        "assets/options/svg/controls/slider_track.svg",
+        "assets/options/svg/frame/footer_bar.svg",
+        "assets/options/svg/frame/options_panel.svg",
+        "assets/options/svg/frame/section_panel.svg",
+        "assets/options/svg/frame/title_plate.svg",
+        "assets/options/svg/icons/accessibility.svg",
+        "assets/options/svg/icons/audio.svg",
+        "assets/options/svg/icons/controls.svg",
+        "assets/options/svg/icons/difficulty.svg",
+        "assets/options/svg/icons/game.svg",
+        "assets/options/svg/icons/general.svg",
+        "assets/options/svg/icons/graphics.svg",
+        "assets/options/svg/icons/language.svg",
+        "assets/options/svg/icons/network.svg",
+        "assets/options/svg/icons/privacy.svg",
+        "assets/options/svg/icons/save.svg",
+        "assets/options/svg/states/disabled.svg",
+        "assets/options/svg/states/divider.svg",
+        "assets/options/svg/states/focus.svg",
+        "assets/options/svg/tabs/tab_active.svg",
+        "assets/options/svg/tabs/tab_disabled.svg",
+        "assets/options/svg/tabs/tab_normal.svg"
+      ],
+      "qml": [
+        "qml/options/Button.qml",
+        "qml/options/CheckBox.qml",
+        "qml/options/OptionsButton.qml",
+        "qml/options/OptionsCheckBox.qml",
+        "qml/options/OptionsScreen.qml",
+        "qml/options/OptionsSection.qml",
+        "qml/options/OptionsSlider.qml",
+        "qml/options/OptionsTab.qml",
+        "qml/options/OptionsTheme.qml",
+        "qml/options/Screen.qml",
+        "qml/options/Section.qml",
+        "qml/options/Slider.qml",
+        "qml/options/Tab.qml",
+        "qml/options/Theme.qml"
+      ]
+    },
+    "credits": {
+      "assets": [
+        "assets/credits/svg/background/vignette_overlay.svg",
+        "assets/credits/svg/decor/gold_divider.svg",
+        "assets/credits/svg/decor/ornament.svg",
+        "assets/credits/svg/frame/credits_panel.svg",
+        "assets/credits/svg/frame/section_panel.svg",
+        "assets/credits/svg/frame/title_plate.svg",
+        "assets/credits/svg/icons/book.svg",
+        "assets/credits/svg/icons/code.svg",
+        "assets/credits/svg/icons/heart.svg",
+        "assets/credits/svg/icons/sword_shield.svg",
+        "assets/credits/svg/icons/team.svg",
+        "assets/credits/svg/navigation/back_button.svg"
+      ],
+      "qml": [
+        "qml/credits/CreditsEntry.qml",
+        "qml/credits/CreditsScreen.qml"
+      ]
+    }
+  },
+  "qrc": "JADG_UI_CLEAN.qrc",
+  "references": [
+    "references/05_Options_Mockup.png",
+    "references/06_Main_Menu_Mockup.png",
+    "references/credits_reference.png"
+  ]
+}

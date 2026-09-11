@@ -1,0 +1,582 @@
+[
+  {
+    "path": "README.md",
+    "bytes": 1386,
+    "sha256": "661c059a10bce01ca8fbf64f3390339d4e00ae65af1fc83c45bbcae5ccda4717"
+  },
+  {
+    "path": "css/mercenary_theme.css",
+    "bytes": 333,
+    "sha256": "adda57398c8215def4ff9d212f53f28ae0cf97160218e22dbc2bff456bf582b9"
+  },
+  {
+    "path": "qrc/mercenary_rpg_ui_kit.qrc",
+    "bytes": 22685,
+    "sha256": "28a9f2994b33cc758efc72be407a2619e3be4a712669b2439f03286cd99c9db0"
+  },
+  {
+    "path": "docs/ASSET_INDEX.md",
+    "bytes": 1348,
+    "sha256": "4611c9b627e71c17c2ccadd68a35791442e4590a778f7f4caccc016fa92b3bea"
+  },
+  {
+    "path": "docs/INTEGRATION.md",
+    "bytes": 964,
+    "sha256": "60354678b45a4aa462ec00454aa1b3b444e2ae49575164a799297c9a3ecf52e7"
+  },
+  {
+    "path": "fonts/README.md",
+    "bytes": 223,
+    "sha256": "ce2772799250ef613f797362afece6cd8995c03f2d68a3b4ed7bd1b87c30d340"
+  },
+  {
+    "path": "qml/qmldir",
+    "bytes": 350,
+    "sha256": "7c779881a0789ce43462bd47ac79a945c9e13985db88297e8b826bdcd5faddb6"
+  },
+  {
+    "path": "qml/MercenaryStatMedallion.qml",
+    "bytes": 742,
+    "sha256": "686234cda20296b1f90dba9aff99b4c5a0c5c3e8b094bc884fe9df5ee2fb8642"
+  },
+  {
+    "path": "qml/MercenaryProgressBar.qml",
+    "bytes": 693,
+    "sha256": "06f90b90d3c7c1998f20a74797cb357c55016678ad138ac101fbddf10426c97e"
+  },
+  {
+    "path": "qml/MercenaryTheme.qml",
+    "bytes": 759,
+    "sha256": "f9a3f434513fe3276c8fecf0c8155dae557bfce53b632fb4c86f0446e53ab690"
+  },
+  {
+    "path": "qml/MercenaryEquipmentSlot.qml",
+    "bytes": 827,
+    "sha256": "6733888fb41e75cf15e9148be2b183ff2adab87c248991277cb27f8751506547"
+  },
+  {
+    "path": "qml/MercenarySkillRow.qml",
+    "bytes": 895,
+    "sha256": "79974facd88af42e47d0237671ae82b1f98344bc22acf9808ea657d5378630b6"
+  },
+  {
+    "path": "qml/MercenarySlot.qml",
+    "bytes": 1184,
+    "sha256": "27d5863e11c370096a9fc23d60cada65ac78f6675b42d73737c52328639fef19"
+  },
+  {
+    "path": "qml/MercenaryTitle.qml",
+    "bytes": 555,
+    "sha256": "5579e3fa19b8476a58195663dc5e4aa1c8866a4a6c012ab85382a03eba10c33d"
+  },
+  {
+    "path": "references/01_InGame_HUD_Mockup.png",
+    "bytes": 4187082,
+    "sha256": "07407d677680c2ae5a25b0eb34386876a661879f32b2daff047fe3a6cd720335"
+  },
+  {
+    "path": "references/03_Character_Sheet_Mockup.png",
+    "bytes": 4362637,
+    "sha256": "012914f05bcf90b9f3cc953da62d3a7d89a65434715bed6f6a3b925c8c373fcc"
+  },
+  {
+    "path": "references/02_InGame_HUD_Asset_CheatSheet.png",
+    "bytes": 3282431,
+    "sha256": "f7daa00555940100f5cb8584b4823799c56685f6c939424ab47d08987b89cd5c"
+  },
+  {
+    "path": "references/04_Inventory_Equipment_Mockup.png",
+    "bytes": 4366276,
+    "sha256": "e5c385062ad549641a0562eebc31f59de6241b49dc978f5ecc9c43b001d57ca8"
+  },
+  {
+    "path": "assets/README.md",
+    "bytes": 401,
+    "sha256": "86aa733f44d17283d5f7da15df205e82ca299a4e255e1eeb53c289da1f544ba3"
+  },
+  {
+    "path": "assets/docs/ASSET_INDEX.md",
+    "bytes": 928,
+    "sha256": "11e76cb352a55c3ea3cbd318a9ece1d62ffb7aad78c5284f8586af039af03242"
+  },
+  {
+    "path": "assets/docs/INTEGRATION.md",
+    "bytes": 553,
+    "sha256": "9b4b68cabec807ad8fb2c6ce2f43308d54038f29399daa50915710dce2412c5a"
+  },
+  {
+    "path": "assets/svg/inventory_frame/equipment_panel.svg",
+    "bytes": 694,
+    "sha256": "257bb944c1da943a53a85455458bb8464ce7ca74f9586359a241f995ab13944b"
+  },
+  {
+    "path": "assets/svg/inventory_frame/red_banner.svg",
+    "bytes": 265,
+    "sha256": "d9cc7f4da4c6e5aaee9d2225ebb4414ede923e4cf73b1f21ff76b98443ce012a"
+  },
+  {
+    "path": "assets/svg/inventory_frame/panel_header.svg",
+    "bytes": 248,
+    "sha256": "1903e684b50ca2d38f7722a4007787a7cadb8b1b4160963249d17daa7ebab8a2"
+  },
+  {
+    "path": "assets/svg/inventory_frame/inventory_panel.svg",
+    "bytes": 694,
+    "sha256": "c760653f8f6732fe3893be4b0a0ace782f9f4a2b1c9918c828e354b0268ab34e"
+  },
+  {
+    "path": "assets/svg/inventory_frame/inventory_frame.svg",
+    "bytes": 702,
+    "sha256": "bee68771b2e3a96810283f0a7c8f8c58bb9e066c157e604017fd7dcc9b890f78"
+  },
+  {
+    "path": "assets/svg/inventory_frame/parchment_tile.svg",
+    "bytes": 271,
+    "sha256": "96cad3780ec79d7df3ca27df360468269ea5475f2aecdebc908ac94b20251730"
+  },
+  {
+    "path": "assets/svg/inventory_frame/item_detail_panel.svg",
+    "bytes": 694,
+    "sha256": "257bb944c1da943a53a85455458bb8464ce7ca74f9586359a241f995ab13944b"
+  },
+  {
+    "path": "assets/svg/inventory_icons/chevron.svg",
+    "bytes": 166,
+    "sha256": "888ac06fd63c07fb858dca90deaf00d2d68068b94eefb1e50ba3391517a57062"
+  },
+  {
+    "path": "assets/svg/inventory_icons/inspect.svg",
+    "bytes": 226,
+    "sha256": "08ab5845d76ec90235a8a41dc0d70f4bf297e4c702400368f06b3ab93e754c57"
+  },
+  {
+    "path": "assets/svg/inventory_icons/discard.svg",
+    "bytes": 187,
+    "sha256": "6db3a6465318eeb6a7c4cbd720a0c18942d231f6fccb9eea99402fdfb9cd0d39"
+  },
+  {
+    "path": "assets/svg/inventory_icons/equip.svg",
+    "bytes": 204,
+    "sha256": "08a80c3b69e652edba466d1e82f2de32c6cb5174d0c78362fb0b8dc23c7affaf"
+  },
+  {
+    "path": "assets/svg/inventory_icons/close.svg",
+    "bytes": 162,
+    "sha256": "91598d479e79984d6c85b81785a4aeb571c22e01b98b84730a797e85d059f3e9"
+  },
+  {
+    "path": "assets/svg/character_frame/title_plate.svg",
+    "bytes": 255,
+    "sha256": "1da513cdbabb310f4526059d4aaa85dc40b3a9a588fc35bee978893982338ce4"
+  },
+  {
+    "path": "assets/svg/character_frame/shield.svg",
+    "bytes": 383,
+    "sha256": "b9f85da61dd71eb518c9be1fe605669e6d1d36228eeb5b4a1d2484f9e014dc24"
+  },
+  {
+    "path": "assets/svg/character_frame/ribbon.svg",
+    "bytes": 310,
+    "sha256": "b9fd538d344fda81bfd660916cac36ed6ab72226cf979475ee579b445f0a24a9"
+  },
+  {
+    "path": "assets/svg/character_frame/corner.svg",
+    "bytes": 318,
+    "sha256": "5b0dd1559d5834e8c03a446fea99dbaae8cd53d798994b828d0d1a090e95ca93"
+  },
+  {
+    "path": "assets/svg/character_frame/panel.svg",
+    "bytes": 432,
+    "sha256": "0684a37334bcf4f908a183291851222f23a42ec429e1d981e94e4e7858d37bac"
+  },
+  {
+    "path": "assets/svg/character_frame/seal.svg",
+    "bytes": 398,
+    "sha256": "646c8a6bbc4eea01682bfe6377d4adab78b49f3993f6091685885c3c01b76cf4"
+  },
+  {
+    "path": "assets/svg/character_frame/divider.svg",
+    "bytes": 259,
+    "sha256": "dd2917a8648101a6cff05a374c45346e4a39512cdbc7a75b28b063e3f5a09431"
+  },
+  {
+    "path": "assets/svg/inventory_inventory/bow.svg",
+    "bytes": 229,
+    "sha256": "f0515886c0ddfda754bd1b61f760eb36ec9a3cb9e64af73c36e9242b78473dca"
+  },
+  {
+    "path": "assets/svg/inventory_inventory/potion_red.svg",
+    "bytes": 267,
+    "sha256": "8b0cd86e5c3222eee037fc8651649a995050924e521238efc764d23693a96320"
+  },
+  {
+    "path": "assets/svg/inventory_inventory/key.svg",
+    "bytes": 258,
+    "sha256": "34b1d105d856135c90486f1dca3f20c4fc82af4cd51ac8344f5cece8e240e925"
+  },
+  {
+    "path": "assets/svg/inventory_inventory/sort_button.svg",
+    "bytes": 268,
+    "sha256": "51816ba97f60a9ad077ea9f96e20c2745fb376108b2467fc97f657df739c1d09"
+  },
+  {
+    "path": "assets/svg/inventory_inventory/weight_bar.svg",
+    "bytes": 324,
+    "sha256": "d83d95de30e4599821a7fff20acb256bca6d32b80517148e2c381956d194bbe7"
+  },
+  {
+    "path": "assets/svg/inventory_inventory/action_primary.svg",
+    "bytes": 245,
+    "sha256": "2d99244870234a275446def3b34964b7a82789cee81c8353f4c21bc0716e7e68"
+  },
+  {
+    "path": "assets/svg/inventory_inventory/potion_blue.svg",
+    "bytes": 267,
+    "sha256": "6633f91d78bd69d42ac287854ea66700467a89afdcda91c4f5f21542380b9a0c"
+  },
+  {
+    "path": "assets/svg/inventory_inventory/rope.svg",
+    "bytes": 191,
+    "sha256": "ebca9beebc66d39ea0e9257b79ffbe979197ec73e3844ae92f439f6b5730f288"
+  },
+  {
+    "path": "assets/svg/inventory_inventory/action_secondary.svg",
+    "bytes": 245,
+    "sha256": "2c805fd3df099ef4252721edd9d5436696ef3cfedfc4efb74bace75cd9c88826"
+  },
+  {
+    "path": "assets/svg/inventory_inventory/arrows.svg",
+    "bytes": 234,
+    "sha256": "a6c197ff99726b39f764a35836591baf9538b3939f1cb7b5a65af2bdce65c7ac"
+  },
+  {
+    "path": "assets/svg/inventory_inventory/longsword.svg",
+    "bytes": 174,
+    "sha256": "a3db76c914d208a7ce7ff30a5e50b249099b1b9ce9a9efee92b824cfd5decefa"
+  },
+  {
+    "path": "assets/svg/inventory_inventory/gold_pouch.svg",
+    "bytes": 440,
+    "sha256": "34e7fb055455e419a52bae548332bbfb4be9036f774138801943c80d96a6244e"
+  },
+  {
+    "path": "assets/svg/character_ui/value_capsule.svg",
+    "bytes": 199,
+    "sha256": "6299d77cd6184357bee3eb14b009ddbc521677c1af26ba6425be41974d16b230"
+  },
+  {
+    "path": "assets/svg/character_ui/selection.svg",
+    "bytes": 298,
+    "sha256": "83a5e6c3c56dca1062a859e13bd50dea33cdcf1a713b16efdaaf533901e353c9"
+  },
+  {
+    "path": "assets/svg/character_ui/xp_bar_fill.svg",
+    "bytes": 199,
+    "sha256": "24012c534dcf00d7e93d55daaefd13c5e021ade815e7d0126d629ffa6f99f822"
+  },
+  {
+    "path": "assets/svg/character_ui/lock.svg",
+    "bytes": 293,
+    "sha256": "826c4e1372a370517f752ffe6885f3ea5cfe789f1e78e529da352e03e14db6bc"
+  },
+  {
+    "path": "assets/svg/character_ui/hp_bar_fill.svg",
+    "bytes": 199,
+    "sha256": "21073857f64ca64d3b08d6081728684c2f3bc6f4ddef86bef4a5deef1c51936c"
+  },
+  {
+    "path": "assets/svg/character_ui/skill_row.svg",
+    "bytes": 241,
+    "sha256": "479ffd2f1efc29c2aeda28f71cead49819a64376e25908be1360189db36c4333"
+  },
+  {
+    "path": "assets/svg/character_ui/hp_bar_bg.svg",
+    "bytes": 226,
+    "sha256": "45316c3871c07801873b988152177c3cdfccdc189511f672b6ea8b993a7b6aa6"
+  },
+  {
+    "path": "assets/svg/inventory_slots/rarity_epic.svg",
+    "bytes": 133,
+    "sha256": "275071ea1eb8f366136886f6b405b02f2ab498d65e53c1c8a487ab68cdb72215"
+  },
+  {
+    "path": "assets/svg/inventory_slots/rarity_uncommon.svg",
+    "bytes": 133,
+    "sha256": "688a7da54cbf3f6e5f94fae67f18511f83af297841916b911266b69b05bf98d9"
+  },
+  {
+    "path": "assets/svg/inventory_slots/slot_hover.svg",
+    "bytes": 350,
+    "sha256": "1993fcb93f151fe1bc39b0c9cf5d52f84425a7841b4ec35538f534d6a863a2bd"
+  },
+  {
+    "path": "assets/svg/inventory_slots/slot_empty.svg",
+    "bytes": 350,
+    "sha256": "65b2bea019521f7f98fb00c31e1a7d799952da2233ea2c81d26b07a27b56131d"
+  },
+  {
+    "path": "assets/svg/inventory_slots/slot_selected.svg",
+    "bytes": 350,
+    "sha256": "be7bb11f587dbcf04cbf75ecb91ad2ee981beb3b747a9f463e5eb5d426260863"
+  },
+  {
+    "path": "assets/svg/inventory_slots/slot_equipped.svg",
+    "bytes": 350,
+    "sha256": "647ad2d5a754910f2a6b3f44ff3bf03d04db45d362fe93b3ea3631133ba44566"
+  },
+  {
+    "path": "assets/svg/inventory_slots/rarity_common.svg",
+    "bytes": 133,
+    "sha256": "41c6ea7ca36e2871af01a35807c74aa1d3e49514935f25d4d880a7709581e74f"
+  },
+  {
+    "path": "assets/svg/inventory_slots/count_badge.svg",
+    "bytes": 183,
+    "sha256": "e61e63594b8c0f0c7a80b230c0d676545a0b42bf84c62c68d3cc503c737c6466"
+  },
+  {
+    "path": "assets/svg/inventory_slots/equipment_slot.svg",
+    "bytes": 290,
+    "sha256": "28e2abfb356f5c65961608269fc1339dcd2e0347b1a49bf83726ec729e9a1cc8"
+  },
+  {
+    "path": "assets/svg/inventory_slots/rarity_rare.svg",
+    "bytes": 133,
+    "sha256": "9fabeb9f872cc2be797202b0043bd0ef4a84aec27b907617996193807a58776c"
+  },
+  {
+    "path": "assets/svg/inventory_slots/rarity_legendary.svg",
+    "bytes": 133,
+    "sha256": "1e4473aa9c0f252ad8721e074833dc23fb09054b8d2b70d9fa6827b7c615faa3"
+  },
+  {
+    "path": "assets/svg/character_identity/field_level.svg",
+    "bytes": 255,
+    "sha256": "3761208750e511840452eccefdf627d614f5cfc92f31c759903ec786d1f65202"
+  },
+  {
+    "path": "assets/svg/character_identity/field_origin.svg",
+    "bytes": 255,
+    "sha256": "3761208750e511840452eccefdf627d614f5cfc92f31c759903ec786d1f65202"
+  },
+  {
+    "path": "assets/svg/character_identity/heart.svg",
+    "bytes": 313,
+    "sha256": "208f98f6af1e1b7134c7912baaf0b2597df07ea3553ca335ceb7c14a35ac5a6a"
+  },
+  {
+    "path": "assets/svg/character_identity/portrait_frame.svg",
+    "bytes": 429,
+    "sha256": "590fabc7c3aa1a27955be95d2d56f70f585aebb27f9b6dc80fba48217019126c"
+  },
+  {
+    "path": "assets/svg/character_identity/field_species.svg",
+    "bytes": 255,
+    "sha256": "3761208750e511840452eccefdf627d614f5cfc92f31c759903ec786d1f65202"
+  },
+  {
+    "path": "assets/svg/character_identity/xp.svg",
+    "bytes": 311,
+    "sha256": "9cb4b38c28f88fb121d2252e92cfa60524e5b64938ec0d709f17eb931c1ccb8c"
+  },
+  {
+    "path": "assets/svg/character_identity/portrait_placeholder.svg",
+    "bytes": 558,
+    "sha256": "f971e9226fc47aee55e651e7316392a3774e6f2d2d7ba1576f3473063c12e00a"
+  },
+  {
+    "path": "assets/svg/character_identity/field_class.svg",
+    "bytes": 255,
+    "sha256": "3761208750e511840452eccefdf627d614f5cfc92f31c759903ec786d1f65202"
+  },
+  {
+    "path": "assets/svg/character_identity/field_serial.svg",
+    "bytes": 255,
+    "sha256": "3761208750e511840452eccefdf627d614f5cfc92f31c759903ec786d1f65202"
+  },
+  {
+    "path": "assets/svg/character_identity/signature_line.svg",
+    "bytes": 237,
+    "sha256": "c361c27df4d61c96179780c6bac6f17ea641116126d17c59a75ccbea71fd1140"
+  },
+  {
+    "path": "assets/svg/character_identity/field_name.svg",
+    "bytes": 255,
+    "sha256": "3761208750e511840452eccefdf627d614f5cfc92f31c759903ec786d1f65202"
+  },
+  {
+    "path": "assets/svg/character_skills/investigation.svg",
+    "bytes": 330,
+    "sha256": "d947b53b1f14891234af0840f2d5f10f1b7667caa47f0df521aaceb70e119ba6"
+  },
+  {
+    "path": "assets/svg/character_skills/persuasion.svg",
+    "bytes": 353,
+    "sha256": "372ee276d0df0e6d1ea9ff26bb4b7732a986ebaffd3880459f5cc5624b0d5ae6"
+  },
+  {
+    "path": "assets/svg/character_skills/survival.svg",
+    "bytes": 329,
+    "sha256": "5d99a2315c5cd20e34f1a90add18bca0b828af56d3b14838bce3ad7c75fbcca6"
+  },
+  {
+    "path": "assets/svg/character_skills/performance.svg",
+    "bytes": 337,
+    "sha256": "4e63df6c28c97c38174770a5f6ef97779cc960aafcd68a476d5f17a6a62cd20b"
+  },
+  {
+    "path": "assets/svg/character_skills/intimidation.svg",
+    "bytes": 327,
+    "sha256": "225ebe44ee4d5348a3f93b74d08a1acbe0e6202cec9061f020a5abe8b1648340"
+  },
+  {
+    "path": "assets/svg/character_skills/acrobatics.svg",
+    "bytes": 350,
+    "sha256": "93c9ae8212fa59d3b116d9af8e50b020b729ed6a608c50f1cca439c222dfd192"
+  },
+  {
+    "path": "assets/svg/character_skills/arcana.svg",
+    "bytes": 329,
+    "sha256": "92e5afc19d481480580c5efdd4f6dc9211e944086fb1a036bd53b9e1ae01ea00"
+  },
+  {
+    "path": "assets/svg/character_skills/medicine.svg",
+    "bytes": 337,
+    "sha256": "b91c4ef4c2c58767332dce7a6fd9d2fef1ff8b3df48f53ac2ff06460a11ddc68"
+  },
+  {
+    "path": "assets/svg/character_skills/sleight_of_hand.svg",
+    "bytes": 326,
+    "sha256": "b5a675f78cd079972931a41912b927f8a67110ed0df478db6321504aa4f1cb5c"
+  },
+  {
+    "path": "assets/svg/character_skills/proficiency_filled.svg",
+    "bytes": 362,
+    "sha256": "0251fc40ad863108ee40f7abecc065f446e2a7a376c301ade49b6ec705c5207b"
+  },
+  {
+    "path": "assets/svg/character_skills/perception.svg",
+    "bytes": 332,
+    "sha256": "ad416afa4f85c85e35ec8163b0e5f3205c3f56e6459f269482c7591e33fb5326"
+  },
+  {
+    "path": "assets/svg/character_skills/deception.svg",
+    "bytes": 335,
+    "sha256": "542e241036b08afd78031e27e822c91a4e9e5f54aff9d5583a18087643b8ba81"
+  },
+  {
+    "path": "assets/svg/character_skills/athletics.svg",
+    "bytes": 344,
+    "sha256": "4bb930c16c9b3f407afc1370c4809a013a485ae86b8e0365eab14394a415d578"
+  },
+  {
+    "path": "assets/svg/character_skills/insight.svg",
+    "bytes": 362,
+    "sha256": "f743acdc24a19e20f4d46bfbf2b6f92cab60b7fedc363062308160ad4e55ed09"
+  },
+  {
+    "path": "assets/svg/character_skills/history.svg",
+    "bytes": 340,
+    "sha256": "ce7bbff8527d36a185d4ea245821138770b5f977d023e365164bd941382f2300"
+  },
+  {
+    "path": "assets/svg/character_skills/proficiency_empty.svg",
+    "bytes": 261,
+    "sha256": "91673cd8c6adb1b243cf78d7b5a2761a2ddd5d76d22f390350680a17a97671c4"
+  },
+  {
+    "path": "assets/svg/character_skills/animal_handling.svg",
+    "bytes": 389,
+    "sha256": "c993ff80a9db436fc61fa87c46b51a72f92fa465dd9a62cac68cce61828e280c"
+  },
+  {
+    "path": "assets/svg/character_skills/religion.svg",
+    "bytes": 346,
+    "sha256": "3ed10957e714ac889ade00397d9a43e35ca19a58bd863eb9e618ea9bd568e8c6"
+  },
+  {
+    "path": "assets/svg/character_skills/nature.svg",
+    "bytes": 327,
+    "sha256": "4170db1ff3bbfbc7e0c0e63d65b54ecc12170b4877f68d8d285bae899e261381"
+  },
+  {
+    "path": "assets/svg/character_skills/stealth.svg",
+    "bytes": 358,
+    "sha256": "ca387253ebffb30a0fd96c00a07a695d61f6dfad863573e3197a5aab2fb0ea2e"
+  },
+  {
+    "path": "assets/svg/inventory_equipment/gloves.svg",
+    "bytes": 291,
+    "sha256": "008111334935d4505415c769e4f61685c20061df047b797e905cfe3e3e6df51b"
+  },
+  {
+    "path": "assets/svg/inventory_equipment/armor.svg",
+    "bytes": 224,
+    "sha256": "bacee9a40f2d74ad8fb8d25cd054a1436e43bbb2783df31c8b797b5f88df692e"
+  },
+  {
+    "path": "assets/svg/inventory_equipment/boots.svg",
+    "bytes": 223,
+    "sha256": "68a8372261b37008003fd3fbd96844c9e76a0298c80e0c04f62b0669ad8ddd77"
+  },
+  {
+    "path": "assets/svg/inventory_equipment/ring.svg",
+    "bytes": 328,
+    "sha256": "e8dac29c59ee554a30a1bb4f622d996870d62ff78d7ac1687203e0426512c43c"
+  },
+  {
+    "path": "assets/svg/inventory_equipment/cloak.svg",
+    "bytes": 202,
+    "sha256": "9744dc8975d7f6af027ae02b78bb623a1d07eca4f1116d567c535f30f699f557"
+  },
+  {
+    "path": "assets/svg/inventory_equipment/amulet.svg",
+    "bytes": 365,
+    "sha256": "0d07dc046b893bcac84618c9d12a1d86c215c7cc2460a3c769a502cdee2bb193"
+  },
+  {
+    "path": "assets/svg/inventory_equipment/helmet.svg",
+    "bytes": 231,
+    "sha256": "849eebd95c3f230e199e0604a68a9e475b0e1e54ce6133fc9ac3cbe75ee5329a"
+  },
+  {
+    "path": "assets/svg/character_stats/int.svg",
+    "bytes": 390,
+    "sha256": "0da9f44c2c7a9bcdfa9e13977901c7a2dec3537212b59071330808fe178d0148"
+  },
+  {
+    "path": "assets/svg/character_stats/str.svg",
+    "bytes": 390,
+    "sha256": "0da9f44c2c7a9bcdfa9e13977901c7a2dec3537212b59071330808fe178d0148"
+  },
+  {
+    "path": "assets/svg/character_stats/modifier_plus.svg",
+    "bytes": 273,
+    "sha256": "967769a88f6b17e6ff5e5ab0d8878b5bfbc0bd39e959a26f2b88297643ffb0e2"
+  },
+  {
+    "path": "assets/svg/character_stats/modifier_minus.svg",
+    "bytes": 262,
+    "sha256": "1f461d73cf75de257dc0adf1703a00ee64b3383cff7f86022e6d8d8d0810872d"
+  },
+  {
+    "path": "assets/svg/character_stats/con.svg",
+    "bytes": 390,
+    "sha256": "0da9f44c2c7a9bcdfa9e13977901c7a2dec3537212b59071330808fe178d0148"
+  },
+  {
+    "path": "assets/svg/character_stats/wis.svg",
+    "bytes": 390,
+    "sha256": "0da9f44c2c7a9bcdfa9e13977901c7a2dec3537212b59071330808fe178d0148"
+  },
+  {
+    "path": "assets/svg/character_stats/dex.svg",
+    "bytes": 390,
+    "sha256": "0da9f44c2c7a9bcdfa9e13977901c7a2dec3537212b59071330808fe178d0148"
+  },
+  {
+    "path": "assets/svg/character_stats/cha.svg",
+    "bytes": 390,
+    "sha256": "0da9f44c2c7a9bcdfa9e13977901c7a2dec3537212b59071330808fe178d0148"
+  }
+]

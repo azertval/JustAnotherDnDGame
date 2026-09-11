@@ -1,0 +1,6 @@
+/* Shared Mercenary palette for Qt Widgets */
+QPushButton { font-family: "Cinzel"; color:#ead8a7; background:#211d18;
+ border:1px solid #b58a32; padding:7px 14px; }
+QPushButton:hover { background:#4c0b0b; }
+QProgressBar { border:1px solid #5d3e16; background:#211d18; text-align:center; }
+QProgressBar::chunk { background:#8d1515; }
