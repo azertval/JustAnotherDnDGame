@@ -142,8 +142,8 @@ set(CMAKE_AUTORCC ON)
 set(ELEMENTS_UI ${PROJECT_SOURCE_DIR}/Source/Elements/UI)
 
 add_executable(LevelEditor
-    Editor/Main.cpp
-    Common/Bootstrap.cpp
+    ${PROJECT_SOURCE_DIR}/Source/App/Editor/Main.cpp
+    ${PROJECT_SOURCE_DIR}/Source/App/Common/Bootstrap.cpp
     Input/GamepadPoller.cpp
     Input/QtKeyMap.cpp
     Graphics/SpriteBatch.cpp
