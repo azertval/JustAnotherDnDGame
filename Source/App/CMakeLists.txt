@@ -11,6 +11,9 @@ add_executable(JustAnotherDnDGame
     Audio/AudioEngine.cpp
 )
 
+set(JADG_GAME_UI_IMAGE ${PROJECT_SOURCE_DIR}/Source/Elements/Assets/UI/world-map.jpg)
+set_source_files_properties(${JADG_GAME_UI_IMAGE} PROPERTIES QT_RESOURCE_ALIAS assets/world-map.jpg)
+
 qt_add_qml_module(JustAnotherDnDGame
     URI Jadg.App
     VERSION 1.0
@@ -36,6 +39,8 @@ qt_add_qml_module(JustAnotherDnDGame
         ${PROJECT_SOURCE_DIR}/Source/Ui/Screens/Pause.qml
         ${PROJECT_SOURCE_DIR}/Source/Ui/Screens/Credits.qml
         ${PROJECT_SOURCE_DIR}/Source/Ui/Screens/GameView.qml
+    RESOURCES
+        ${JADG_GAME_UI_IMAGE}
 )
 
 target_include_directories(JustAnotherDnDGame PRIVATE ${PROJECT_SOURCE_DIR}/Source)
