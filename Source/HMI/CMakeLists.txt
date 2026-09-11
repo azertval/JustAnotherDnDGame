@@ -143,6 +143,10 @@ add_executable(LevelEditor
     Editor/LinkPanel.cpp
     Editor/TexturePanel.cpp
     Editor/PlanesPanel.cpp
+    Editor/PixelCanvas.cpp
+    Editor/PixelHistoryPanel.cpp
+    Editor/PixelPalettePanel.cpp
+    Editor/AssetThumbnailView.cpp
     ${ELEMENTS_UI}/resources.qrc
     ${ELEMENTS_UI}/MainWindow.ui
     ${ELEMENTS_UI}/TexturePanel.ui
