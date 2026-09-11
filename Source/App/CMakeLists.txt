@@ -14,6 +14,46 @@ add_executable(JustAnotherDnDGame
 set(JADG_GAME_UI_IMAGE ${PROJECT_SOURCE_DIR}/Source/Elements/Assets/UI/world-map.jpg)
 set_source_files_properties(${JADG_GAME_UI_IMAGE} PROPERTIES QT_RESOURCE_ALIAS assets/world-map.jpg)
 
+set(JADG_APP_QML_FILES
+    ../Ui/Main.qml
+    ../Ui/Logic/ScreenStack.qml
+    ../Ui/Logic/ScreenProbe.qml
+    ../Ui/Screens/CharacterSheet.qml
+    ../Ui/Screens/Inventory.qml
+    ../Ui/Screens/Journal.qml
+    ../Ui/Screens/WorldMap.qml
+    ../Ui/Screens/Dialogue.qml
+    ../Ui/Screens/Merchant.qml
+    ../Ui/Screens/GuildBoard.qml
+    ../Ui/Screens/CombatHud.qml
+    ../Ui/Screens/TeamSheet.qml
+    ../Ui/Screens/MainMenu.qml
+    ../Ui/Screens/Options.qml
+    ../Ui/Screens/Pause.qml
+    ../Ui/Screens/Credits.qml
+    ../Ui/Screens/GameView.qml
+)
+
+# These QML files live outside Source/App. Stable aliases keep the application resource layout
+# independent from the physical source tree.
+set_source_files_properties(../Ui/Main.qml PROPERTIES QT_RESOURCE_ALIAS Main.qml)
+set_source_files_properties(../Ui/Logic/ScreenStack.qml PROPERTIES QT_RESOURCE_ALIAS Logic/ScreenStack.qml)
+set_source_files_properties(../Ui/Logic/ScreenProbe.qml PROPERTIES QT_RESOURCE_ALIAS Logic/ScreenProbe.qml)
+set_source_files_properties(../Ui/Screens/CharacterSheet.qml PROPERTIES QT_RESOURCE_ALIAS Screens/CharacterSheet.qml)
+set_source_files_properties(../Ui/Screens/Inventory.qml PROPERTIES QT_RESOURCE_ALIAS Screens/Inventory.qml)
+set_source_files_properties(../Ui/Screens/Journal.qml PROPERTIES QT_RESOURCE_ALIAS Screens/Journal.qml)
+set_source_files_properties(../Ui/Screens/WorldMap.qml PROPERTIES QT_RESOURCE_ALIAS Screens/WorldMap.qml)
+set_source_files_properties(../Ui/Screens/Dialogue.qml PROPERTIES QT_RESOURCE_ALIAS Screens/Dialogue.qml)
+set_source_files_properties(../Ui/Screens/Merchant.qml PROPERTIES QT_RESOURCE_ALIAS Screens/Merchant.qml)
+set_source_files_properties(../Ui/Screens/GuildBoard.qml PROPERTIES QT_RESOURCE_ALIAS Screens/GuildBoard.qml)
+set_source_files_properties(../Ui/Screens/CombatHud.qml PROPERTIES QT_RESOURCE_ALIAS Screens/CombatHud.qml)
+set_source_files_properties(../Ui/Screens/TeamSheet.qml PROPERTIES QT_RESOURCE_ALIAS Screens/TeamSheet.qml)
+set_source_files_properties(../Ui/Screens/MainMenu.qml PROPERTIES QT_RESOURCE_ALIAS Screens/MainMenu.qml)
+set_source_files_properties(../Ui/Screens/Options.qml PROPERTIES QT_RESOURCE_ALIAS Screens/Options.qml)
+set_source_files_properties(../Ui/Screens/Pause.qml PROPERTIES QT_RESOURCE_ALIAS Screens/Pause.qml)
+set_source_files_properties(../Ui/Screens/Credits.qml PROPERTIES QT_RESOURCE_ALIAS Screens/Credits.qml)
+set_source_files_properties(../Ui/Screens/GameView.qml PROPERTIES QT_RESOURCE_ALIAS Screens/GameView.qml)
+
 qt_add_qml_module(JustAnotherDnDGame
     URI Jadg.App
     VERSION 1.0
@@ -21,24 +61,7 @@ qt_add_qml_module(JustAnotherDnDGame
     IMPORTS
         Jadg.Ui
         Jadg.Runtime
-    QML_FILES
-        ${PROJECT_SOURCE_DIR}/Source/Ui/Main.qml
-        ${PROJECT_SOURCE_DIR}/Source/Ui/Logic/ScreenStack.qml
-        ${PROJECT_SOURCE_DIR}/Source/Ui/Logic/ScreenProbe.qml
-        ${PROJECT_SOURCE_DIR}/Source/Ui/Screens/CharacterSheet.qml
-        ${PROJECT_SOURCE_DIR}/Source/Ui/Screens/Inventory.qml
-        ${PROJECT_SOURCE_DIR}/Source/Ui/Screens/Journal.qml
-        ${PROJECT_SOURCE_DIR}/Source/Ui/Screens/WorldMap.qml
-        ${PROJECT_SOURCE_DIR}/Source/Ui/Screens/Dialogue.qml
-        ${PROJECT_SOURCE_DIR}/Source/Ui/Screens/Merchant.qml
-        ${PROJECT_SOURCE_DIR}/Source/Ui/Screens/GuildBoard.qml
-        ${PROJECT_SOURCE_DIR}/Source/Ui/Screens/CombatHud.qml
-        ${PROJECT_SOURCE_DIR}/Source/Ui/Screens/TeamSheet.qml
-        ${PROJECT_SOURCE_DIR}/Source/Ui/Screens/MainMenu.qml
-        ${PROJECT_SOURCE_DIR}/Source/Ui/Screens/Options.qml
-        ${PROJECT_SOURCE_DIR}/Source/Ui/Screens/Pause.qml
-        ${PROJECT_SOURCE_DIR}/Source/Ui/Screens/Credits.qml
-        ${PROJECT_SOURCE_DIR}/Source/Ui/Screens/GameView.qml
+    QML_FILES ${JADG_APP_QML_FILES}
     RESOURCES
         ${JADG_GAME_UI_IMAGE}
 )
