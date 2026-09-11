@@ -83,8 +83,15 @@ if(MSVC)
     # /external:* : les en-têtes inclus via <...> (STL, DirectX, GoogleTest) sont
     # traités comme externes et n'émettent pas d'avertissement — cohérent avec
     # notre règle « <...> = externe, "..." = projet ».
+    #
+    # C4702 (unreachable code) est désactivé séparément : c'est un faux positif connu du toolset
+    # MSVC 14.44, déclenché lors de l'instanciation de templates Qt (qvariant.h, qjsengine.h) dans
+    # NOS unités de compilation — /external:W0 ne le supprime pas car le diagnostic est émis côté
+    # instanciation, pas côté parsing du header. Repéré sur le code généré par qmlcachegen pour la
+    # logique QML réelle (Main.qml, ScreenProbe.qml, ...), absent des .ui.qml purement déclaratifs
+    # de Jadg.Ui. Suivi upstream (non résolu à ce jour) : https://forum.qt.io/topic/164264
     target_compile_options(project_warnings INTERFACE
-        /W4 /permissive- /external:anglebrackets /external:W0)
+        /W4 /permissive- /external:anglebrackets /external:W0 /wd4702)
     if(ENABLE_WARNINGS_AS_ERRORS)
         target_compile_options(project_warnings INTERFACE /WX)
     endif()
