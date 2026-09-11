@@ -46,7 +46,7 @@ qt_add_qml_module(JadgUi
     URI Jadg.Ui
     VERSION 1.0
     RESOURCE_PREFIX "/qt/qml"
-    NO_PLUGIN
+    CLASS_NAME JadgUiPlugin
     DESIGNER_SUPPORTED
     QML_FILES ${JADG_UI_QML_FILES}
 )
