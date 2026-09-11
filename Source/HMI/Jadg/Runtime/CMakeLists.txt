@@ -5,18 +5,18 @@
 # Jadg.Ui is a reusable, design-only module; Jadg.Runtime is application/runtime-only.
 
 set(JADG_RUNTIME_SOURCES
-    ${CMAKE_CURRENT_LIST_DIR}/../../Game/GameViewportItem.h
-    ${CMAKE_CURRENT_LIST_DIR}/../../Game/GameViewportItem.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/../../Presentation/CharacterSheetModel.h
-    ${CMAKE_CURRENT_LIST_DIR}/../../Presentation/CharacterSheetModel.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/../../Presentation/InventoryModel.h
-    ${CMAKE_CURRENT_LIST_DIR}/../../Presentation/InventoryModel.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/../../Presentation/OptionsModel.h
-    ${CMAKE_CURRENT_LIST_DIR}/../../Presentation/OptionsModel.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/../../Presentation/PendingData.h
-    ${CMAKE_CURRENT_LIST_DIR}/../../Presentation/PendingData.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/../../Presentation/ScreenRouter.h
-    ${CMAKE_CURRENT_LIST_DIR}/../../Presentation/ScreenRouter.cpp
+    ../../Game/GameViewportItem.h
+    ../../Game/GameViewportItem.cpp
+    ../../Presentation/CharacterSheetModel.h
+    ../../Presentation/CharacterSheetModel.cpp
+    ../../Presentation/InventoryModel.h
+    ../../Presentation/InventoryModel.cpp
+    ../../Presentation/OptionsModel.h
+    ../../Presentation/OptionsModel.cpp
+    ../../Presentation/PendingData.h
+    ../../Presentation/PendingData.cpp
+    ../../Presentation/ScreenRouter.h
+    ../../Presentation/ScreenRouter.cpp
 )
 
 qt_add_qml_module(JadgRuntime
