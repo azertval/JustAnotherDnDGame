@@ -11,8 +11,12 @@ Project {
 
     QmlFiles { directory: "DesignStudio" }
     QmlFiles { directory: "Controls" }
-    QmlFiles { directory: "Screens" }
     QmlFiles { directory: "Theme" }
+
+    Files {
+        filter: "*.ui.qml"
+        directory: "Screens"
+    }
 
     ImageFiles { directory: "../Elements/Assets" }
     FontFiles { directory: "../Elements/Assets/Fonts" }
