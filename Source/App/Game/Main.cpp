@@ -13,7 +13,6 @@
 #include <QQmlEngine>
 #include <QQuickStyle>
 #include <QQuickWindow>
-#include <QQmlExtensionPlugin>
 #include <QSettings>
 #include <QString>
 #include <QSurfaceFormat>
@@ -31,10 +30,9 @@
 #include "HMI/Platform/ExecutableDirectory.h"
 #include "HMI/Presentation/OptionsModel.h"
 
-// Static QML modules need an explicit reference to their generated plugins so the linker cannot
-// discard the qmltyperegistrar registration objects. The plugin class names are fixed in CMake.
-Q_IMPORT_QML_PLUGIN(JadgUiPlugin)
-Q_IMPORT_QML_PLUGIN(JadgRuntimePlugin)
+// Jadg.Ui and Jadg.Runtime are built as shared QML plugin libraries on the Windows/MSVC
+// configuration used by the project. Their generated qmldir files make them discoverable by the
+// QML engine, so the executable must not force-link MODULE_LIBRARY plugin targets here.
 
 namespace {
 
