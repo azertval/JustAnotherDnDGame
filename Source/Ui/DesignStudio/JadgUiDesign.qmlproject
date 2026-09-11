@@ -1,14 +1,20 @@
-/* Independent Qt Design Studio project for the design-only QML surface. */
+/* Independent Qt Design Studio project for the design-only surface of Jadg.Ui. */
 import QmlProject 1.1
 
 Project {
     mainFile: "Main.ui.qml"
     qt6Project: true
 
-    QmlFiles { directory: "." }
+    QmlFiles { directory: ".." }
     QmlFiles { directory: "../Controls" }
-    QmlFiles { directory: "../Screens" }
     QmlFiles { directory: "../Theme" }
+
+    /* Only forms are part of the design project. Runtime wiring .qml files are deliberately
+       excluded, so Design Studio never needs to resolve Jadg.Runtime. */
+    Files {
+        filter: "*.ui.qml"
+        directory: "../Screens"
+    }
 
     ImageFiles { directory: "../../Elements/Assets" }
     FontFiles { directory: "../../Elements/Assets/Fonts" }
