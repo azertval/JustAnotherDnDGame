@@ -3,8 +3,8 @@
 
 The check is intentionally source-only: it can run before CMake/Qt are configured.
 It validates every `.ui.qml` under Source/Ui for common Design Studio hazards, checks
-local QML dependency cycles, verifies the tracked Jadg.Ui/qmldir, and rejects the
-runtime-only C++ GameViewport type from designer forms.
+local QML dependency cycles, verifies the tracked Jadg.Ui/qmldir, audits QML module
+source paths, and rejects runtime dependencies from the design-only project.
 """
 
 from __future__ import annotations
@@ -16,6 +16,13 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 UI = ROOT / "Source" / "Ui"
 MODULE = UI / "Jadg" / "Ui" / "qmldir"
+DESIGN_ENTRY = UI / "DesignStudio" / "Main.ui.qml"
+DESIGN_PROJECT = UI / "DesignStudio" / "JadgUiDesign.qmlproject"
+QML_MODULE_CMAKES = [
+    ROOT / "Source" / "Ui" / "Jadg" / "Ui" / "CMakeLists.txt",
+    ROOT / "Source" / "HMI" / "Jadg" / "Runtime" / "CMakeLists.txt",
+    ROOT / "Source" / "App" / "CMakeLists.txt",
+]
 ALLOWED_IMPORTS = {
     "QtQuick", "QtQuick.Window", "QtQuick.Layouts", "QtQuick.Controls",
     "QtQuick.Shapes", "QtQuick.Effects", "Jadg.Ui",
@@ -82,6 +89,27 @@ def cycles(graph: dict[Path, set[Path]]) -> list[list[Path]]:
     return found
 
 
+def audit_qml_module_paths() -> list[str]:
+    failures: list[str] = []
+    for cmake in QML_MODULE_CMAKES:
+        if not cmake.is_file():
+            failures.append(f"CMake QML module manquant: {rel(cmake)}")
+            continue
+        text = cmake.read_text(encoding="utf-8", errors="replace")
+        for match in re.finditer(r"\bQML_FILES\b(?P<body>.*?)(?:\n\s*\)|\n\s*[A-Z][A-Z_]+\b)", text, re.S):
+            body = match.group("body")
+            if "${PROJECT_SOURCE_DIR}" in body or "${CMAKE_SOURCE_DIR}" in body:
+                failures.append(
+                    f"{rel(cmake)}: QML_FILES ne doit pas utiliser un chemin absolu via "
+                    "PROJECT_SOURCE_DIR/CMAKE_SOURCE_DIR; utiliser un chemin relatif + QT_RESOURCE_ALIAS"
+                )
+            for line in body.splitlines():
+                stripped = line.strip()
+                if re.match(r"^[A-Za-z]:[\\/]", stripped) or stripped.startswith("/"):
+                    failures.append(f"{rel(cmake)}: chemin QML absolu interdit: {stripped}")
+    return failures
+
+
 def main() -> int:
     failures: list[str] = []
     forms = sorted(p for p in UI.rglob("*.ui.qml"))
@@ -107,6 +135,24 @@ def main() -> int:
             failures.append("qmldir: URI module Jadg.Ui manquante")
         if not re.search(r"^singleton\s+Tokens\s+1\.0\s+", module_text, re.M):
             failures.append("qmldir: Tokens doit etre declare singleton")
+
+    if not DESIGN_ENTRY.is_file():
+        failures.append("DesignStudio/Main.ui.qml manquant")
+    else:
+        design_body = strip_comments(DESIGN_ENTRY.read_text(encoding="utf-8", errors="replace"))
+        if "Jadg.Runtime" in design_body:
+            failures.append("DesignStudio/Main.ui.qml ne doit jamais importer Jadg.Runtime")
+
+    if not DESIGN_PROJECT.is_file():
+        failures.append("DesignStudio/JadgUiDesign.qmlproject manquant")
+    else:
+        project_body = strip_comments(DESIGN_PROJECT.read_text(encoding="utf-8", errors="replace"))
+        if "Jadg.Runtime" in project_body:
+            failures.append("JadgUiDesign.qmlproject ne doit jamais referencer Jadg.Runtime")
+        if 'mainFile: "Main.ui.qml"' not in project_body:
+            failures.append("JadgUiDesign.qmlproject doit ouvrir Main.ui.qml")
+
+    failures.extend(audit_qml_module_paths())
 
     graph = local_dependency_graph(qml_files())
     for cycle in cycles(graph):
