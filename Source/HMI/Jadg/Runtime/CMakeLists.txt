@@ -26,12 +26,10 @@ set(JADG_RUNTIME_SOURCES
     ${CMAKE_CURRENT_LIST_DIR}/../../Presentation/ScreenRouter.cpp
 )
 
-# HMI/CMakeLists.txt trouve Qt6 avant d'entrer dans ce sous-repertoire. On initialise ici les
-# policies Qt jusqu'a 6.8 dans la portee du module runtime. Cela active notamment QTP0005 avant
-# qt_add_qml_module(), sans modifier la version de Qt du projet (Qt 6.11.2 reste requise).
-#
-# Ne pas fabriquer QT_KNOWN_POLICY_* a la main : ces variables sont des gardes de compatibilite
-# fournis par Qt et ne declarent pas une policy. qt_standard_project_setup() est l'API Qt documentee.
+# HMI a deja trouve Qt6, mais les variables de version necessaires a qt_standard_project_setup()
+# sont scopees au repertoire qui a execute find_package(). On retrouve explicitement Qt6::Core dans
+# ce sous-repertoire avant d'activer les policies QTP0001..QTP0005.
+find_package(Qt6 REQUIRED COMPONENTS Core)
 qt_standard_project_setup(REQUIRES 6.8)
 
 qt_add_qml_module(JadgRuntime
