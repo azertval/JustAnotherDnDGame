@@ -54,10 +54,14 @@ set_source_files_properties(../Ui/Screens/Pause.qml PROPERTIES QT_RESOURCE_ALIAS
 set_source_files_properties(../Ui/Screens/Credits.qml PROPERTIES QT_RESOURCE_ALIAS Screens/Credits.qml)
 set_source_files_properties(../Ui/Screens/GameView.qml PROPERTIES QT_RESOURCE_ALIAS Screens/GameView.qml)
 
+# QTP0001 already provides the canonical /qt/qml resource prefix. Keep the aliases above because
+# the source tree and the QML module tree intentionally differ.
+# QTP0004 extra qmldirs cannot account for QT_RESOURCE_ALIAS paths, so disable them for this
+# deliberately flattened/aliased application module.
 qt_add_qml_module(JustAnotherDnDGame
     URI Jadg.App
     VERSION 1.0
-    RESOURCE_PREFIX "/qt/qml"
+    NO_GENERATE_EXTRA_QMLDIRS
     IMPORTS
         TARGET JadgUi
         TARGET JadgRuntime
@@ -87,7 +91,9 @@ target_compile_definitions(JustAnotherDnDGame PRIVATE
 target_link_libraries(JustAnotherDnDGame PRIVATE
     HmiLib
     JadgUi
+    JadgUiplugin
     JadgRuntime
+    JadgRuntimeplugin
     Qt6::Quick
     Qt6::Qml
     Qt6::QuickControls2
