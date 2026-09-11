@@ -1,18 +1,12 @@
 # SPDX-FileCopyrightText: 2026 Valentin Eloy
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-# Modules de code source
-#
-# Core     : logique / moteur (bibliothèque)
-# HMI      : application/éditeur Qt (JustAnotherDnDGame) + rendu via QRhi (Direct3D 11 par défaut
-#            sous Windows) — nécessite Qt6
-# Elements : assets statiques non compilés (niveaux, localisation, UI Qt, thèmes, textures…)
-
+# Build order is intentionally explicit. Each layer creates only the targets that belong to it;
+# later layers consume those targets and never modify an earlier target's source list.
 add_subdirectory(Core)
 add_subdirectory(HMI)
-
-# Jadg.Runtime doit être ajouté après HMI : le target JustAnotherDnDGame est alors disponible et
-# le module peut déplacer ses sources C++ runtime hors de l'exécutable avant de créer son backing
-# target QML. Jadg.Ui reste porté par l'exécutable et reste donc indépendant de ce module côté
-# conception/Qt Design Studio.
+add_subdirectory(HMI/Jadg/Ui)
 add_subdirectory(HMI/Jadg/Runtime)
+add_subdirectory(App)
+
+# Core -> reusable HMI/editor -> reusable design QML -> runtime QML types -> game application.
