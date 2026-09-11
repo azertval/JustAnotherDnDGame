@@ -15,6 +15,9 @@ qt_add_qml_module(JustAnotherDnDGame
     URI Jadg.App
     VERSION 1.0
     RESOURCE_PREFIX "/qt/qml"
+    IMPORTS
+        Jadg.Ui
+        Jadg.Runtime
     QML_FILES
         ${PROJECT_SOURCE_DIR}/Source/Ui/Main.qml
         ${PROJECT_SOURCE_DIR}/Source/Ui/Logic/ScreenStack.qml
