@@ -3,43 +3,83 @@
 
 # Design-time QML module. The CMake file intentionally lives under the URI-matching directory so
 # qt_add_qml_module() has the same source and module target path.
-
 set(JADG_UI_QML_FILES
-    ${PROJECT_SOURCE_DIR}/Source/Ui/Theme/Tokens.qml
-    ${PROJECT_SOURCE_DIR}/Source/Ui/Controls/SheetLine.ui.qml
-    ${PROJECT_SOURCE_DIR}/Source/Ui/Controls/SheetBlock.ui.qml
-    ${PROJECT_SOURCE_DIR}/Source/Ui/Controls/SheetList.ui.qml
-    ${PROJECT_SOURCE_DIR}/Source/Ui/Controls/SheetProse.ui.qml
-    ${PROJECT_SOURCE_DIR}/Source/Ui/Controls/SheetPortrait.ui.qml
-    ${PROJECT_SOURCE_DIR}/Source/Ui/Controls/SheetTrack.ui.qml
-    ${PROJECT_SOURCE_DIR}/Source/Ui/Controls/SheetActionBar.ui.qml
-    ${PROJECT_SOURCE_DIR}/Source/Ui/Controls/RpgScreenFrame.ui.qml
-    ${PROJECT_SOURCE_DIR}/Source/Ui/Controls/Cabochon.ui.qml
-    ${PROJECT_SOURCE_DIR}/Source/Ui/Controls/ParchmentFrame.ui.qml
-    ${PROJECT_SOURCE_DIR}/Source/Ui/Controls/TitleBanner.ui.qml
-    ${PROJECT_SOURCE_DIR}/Source/Ui/Controls/FocusFleuron.ui.qml
-    ${PROJECT_SOURCE_DIR}/Source/Ui/Controls/MenuEntry.ui.qml
-    ${PROJECT_SOURCE_DIR}/Source/Ui/Controls/DiagnosticsOverlay.ui.qml
-    ${PROJECT_SOURCE_DIR}/Source/Ui/Screens/CharacterSheetForm.ui.qml
-    ${PROJECT_SOURCE_DIR}/Source/Ui/Screens/InventoryForm.ui.qml
-    ${PROJECT_SOURCE_DIR}/Source/Ui/Screens/JournalForm.ui.qml
-    ${PROJECT_SOURCE_DIR}/Source/Ui/Screens/WorldMapForm.ui.qml
-    ${PROJECT_SOURCE_DIR}/Source/Ui/Screens/DialogueForm.ui.qml
-    ${PROJECT_SOURCE_DIR}/Source/Ui/Screens/MerchantForm.ui.qml
-    ${PROJECT_SOURCE_DIR}/Source/Ui/Screens/GuildBoardForm.ui.qml
-    ${PROJECT_SOURCE_DIR}/Source/Ui/Screens/CombatHudForm.ui.qml
-    ${PROJECT_SOURCE_DIR}/Source/Ui/Screens/TeamSheetForm.ui.qml
-    ${PROJECT_SOURCE_DIR}/Source/Ui/Screens/MainMenuForm.ui.qml
-    ${PROJECT_SOURCE_DIR}/Source/Ui/Screens/OptionsForm.ui.qml
-    ${PROJECT_SOURCE_DIR}/Source/Ui/Screens/PauseForm.ui.qml
-    ${PROJECT_SOURCE_DIR}/Source/Ui/Screens/CreditsForm.ui.qml
-    ${PROJECT_SOURCE_DIR}/Source/Ui/Screens/GameViewForm.ui.qml
+    ../../Theme/Tokens.qml
+    ../../Controls/SheetLine.ui.qml
+    ../../Controls/SheetBlock.ui.qml
+    ../../Controls/SheetList.ui.qml
+    ../../Controls/SheetProse.ui.qml
+    ../../Controls/SheetPortrait.ui.qml
+    ../../Controls/SheetTrack.ui.qml
+    ../../Controls/SheetActionBar.ui.qml
+    ../../Controls/RpgScreenFrame.ui.qml
+    ../../Controls/Cabochon.ui.qml
+    ../../Controls/ParchmentFrame.ui.qml
+    ../../Controls/TitleBanner.ui.qml
+    ../../Controls/FocusFleuron.ui.qml
+    ../../Controls/MenuEntry.ui.qml
+    ../../Controls/DiagnosticsOverlay.ui.qml
+    ../../Screens/CharacterSheetForm.ui.qml
+    ../../Screens/InventoryForm.ui.qml
+    ../../Screens/JournalForm.ui.qml
+    ../../Screens/WorldMapForm.ui.qml
+    ../../Screens/DialogueForm.ui.qml
+    ../../Screens/MerchantForm.ui.qml
+    ../../Screens/GuildBoardForm.ui.qml
+    ../../Screens/CombatHudForm.ui.qml
+    ../../Screens/TeamSheetForm.ui.qml
+    ../../Screens/MainMenuForm.ui.qml
+    ../../Screens/OptionsForm.ui.qml
+    ../../Screens/PauseForm.ui.qml
+    ../../Screens/CreditsForm.ui.qml
+    ../../Screens/GameViewForm.ui.qml
 )
 
+# The QML files live outside this CMake directory. Keep their source paths relative and assign
+# stable resource aliases so the generated QML module remains independent of the filesystem layout.
 set_source_files_properties(
-    ${PROJECT_SOURCE_DIR}/Source/Ui/Theme/Tokens.qml
-    PROPERTIES QT_QML_SINGLETON_TYPE TRUE
+    ../../Theme/Tokens.qml
+    PROPERTIES
+        QT_QML_SINGLETON_TYPE TRUE
+        QT_RESOURCE_ALIAS Theme/Tokens.qml
 )
+
+set(_jadg_ui_aliases
+    "../../Controls/SheetLine.ui.qml;Controls/SheetLine.ui.qml"
+    "../../Controls/SheetBlock.ui.qml;Controls/SheetBlock.ui.qml"
+    "../../Controls/SheetList.ui.qml;Controls/SheetList.ui.qml"
+    "../../Controls/SheetProse.ui.qml;Controls/SheetProse.ui.qml"
+    "../../Controls/SheetPortrait.ui.qml;Controls/SheetPortrait.ui.qml"
+    "../../Controls/SheetTrack.ui.qml;Controls/SheetTrack.ui.qml"
+    "../../Controls/SheetActionBar.ui.qml;Controls/SheetActionBar.ui.qml"
+    "../../Controls/RpgScreenFrame.ui.qml;Controls/RpgScreenFrame.ui.qml"
+    "../../Controls/Cabochon.ui.qml;Controls/Cabochon.ui.qml"
+    "../../Controls/ParchmentFrame.ui.qml;Controls/ParchmentFrame.ui.qml"
+    "../../Controls/TitleBanner.ui.qml;Controls/TitleBanner.ui.qml"
+    "../../Controls/FocusFleuron.ui.qml;Controls/FocusFleuron.ui.qml"
+    "../../Controls/MenuEntry.ui.qml;Controls/MenuEntry.ui.qml"
+    "../../Controls/DiagnosticsOverlay.ui.qml;Controls/DiagnosticsOverlay.ui.qml"
+    "../../Screens/CharacterSheetForm.ui.qml;Screens/CharacterSheetForm.ui.qml"
+    "../../Screens/InventoryForm.ui.qml;Screens/InventoryForm.ui.qml"
+    "../../Screens/JournalForm.ui.qml;Screens/JournalForm.ui.qml"
+    "../../Screens/WorldMapForm.ui.qml;Screens/WorldMapForm.ui.qml"
+    "../../Screens/DialogueForm.ui.qml;Screens/DialogueForm.ui.qml"
+    "../../Screens/MerchantForm.ui.qml;Screens/MerchantForm.ui.qml"
+    "../../Screens/GuildBoardForm.ui.qml;Screens/GuildBoardForm.ui.qml"
+    "../../Screens/CombatHudForm.ui.qml;Screens/CombatHudForm.ui.qml"
+    "../../Screens/TeamSheetForm.ui.qml;Screens/TeamSheetForm.ui.qml"
+    "../../Screens/MainMenuForm.ui.qml;Screens/MainMenuForm.ui.qml"
+    "../../Screens/OptionsForm.ui.qml;Screens/OptionsForm.ui.qml"
+    "../../Screens/PauseForm.ui.qml;Screens/PauseForm.ui.qml"
+    "../../Screens/CreditsForm.ui.qml;Screens/CreditsForm.ui.qml"
+    "../../Screens/GameViewForm.ui.qml;Screens/GameViewForm.ui.qml"
+)
+foreach(_entry IN LISTS _jadg_ui_aliases)
+    string(REPLACE ";" ";" _alias_pair "${_entry}")
+    list(GET _alias_pair 0 _source)
+    list(GET _alias_pair 1 _alias)
+    set_source_files_properties(${_source} PROPERTIES QT_RESOURCE_ALIAS "${_alias}")
+endforeach()
 
 add_library(JadgUi STATIC)
 qt_add_qml_module(JadgUi
