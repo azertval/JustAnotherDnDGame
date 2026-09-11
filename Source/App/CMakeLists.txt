@@ -8,7 +8,7 @@
 add_executable(JustAnotherDnDGame
     Game/Main.cpp
     Common/Bootstrap.cpp
-    Audio/AudioEngine.cpp
+    ../HMI/Audio/AudioEngine.cpp
 )
 
 set(JADG_GAME_UI_IMAGE ${PROJECT_SOURCE_DIR}/Source/Elements/Assets/UI/world-map.jpg)
