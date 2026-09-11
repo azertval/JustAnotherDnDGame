@@ -5,7 +5,7 @@
 # later layers consume those targets and never modify an earlier target's source list.
 add_subdirectory(Core)
 add_subdirectory(HMI)
-add_subdirectory(HMI/Jadg/Ui)
+add_subdirectory(Ui/Jadg/Ui)
 add_subdirectory(HMI/Jadg/Runtime)
 add_subdirectory(App)
 
