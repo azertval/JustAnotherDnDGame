@@ -5,7 +5,7 @@ Project {
     mainFile: "Main.ui.qml"
     qt6Project: true
 
-    QmlFiles { directory: ".." }
+    QmlFiles { directory: "." }
     QmlFiles { directory: "../Controls" }
     QmlFiles { directory: "../Theme" }
 
