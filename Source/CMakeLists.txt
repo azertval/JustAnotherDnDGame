@@ -33,6 +33,12 @@ if(BUILD_EDITOR_QT)
     # subdirectories such as Ui/Jadg/Ui and HMI/Jadg/Runtime call qt_add_qml_module().
     # REQUIRES 6.8 enables QTP0001 through QTP0005, including QTP0004 and QTP0005.
     qt_standard_project_setup(REQUIRES 6.8)
+
+    # qt_add_qml_module() requires AUTOMOC for reliable C++ type registration and qmltypes
+    # generation. Hmi/CMakeLists.txt has its own local setting, but sibling directories do not
+    # inherit directory-local CMake variables, so establish it at the common parent instead.
+    set(CMAKE_AUTOMOC ON)
+    set(CMAKE_AUTORCC ON)
 endif()
 
 add_subdirectory(Core)
