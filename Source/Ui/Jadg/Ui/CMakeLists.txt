@@ -94,9 +94,18 @@ target_link_libraries(JadgUi
 
 qt_query_qml_module(JadgUi TYPEINFO JADG_UI_QMLTYPES)
 message(STATUS "Jadg.Ui qmltypes: ${JADG_UI_QMLTYPES}")
-add_custom_command(TARGET JadgUi POST_BUILD
+
+# `add_custom_command(TARGET JadgUi POST_BUILD ...)` only orders the check after JadgUi's own link
+# step; it is not a real file-level dependency on the qmltypes byproduct that qt_add_qml_module()
+# generates internally. Ninja is then free to run this check before that generation command has
+# finished (JadgUi has no C++ SOURCES, which seems to make the internal ordering looser). Depending
+# on the actual ${JADG_UI_QMLTYPES} path forces Ninja to build whatever produces it first.
+add_custom_target(JadgUi_verify_qmltypes ALL
+    DEPENDS "${JADG_UI_QMLTYPES}"
     COMMAND ${CMAKE_COMMAND}
+        -DMODULE_LABEL="Jadg.Ui"
         -DEXPECTED_QMLTYPES="${JADG_UI_QMLTYPES}"
         -P "${PROJECT_SOURCE_DIR}/Source/HMI/Jadg/Runtime/VerifyQmlTypes.cmake"
     VERBATIM
 )
+add_dependencies(JadgUi_verify_qmltypes JadgUi)

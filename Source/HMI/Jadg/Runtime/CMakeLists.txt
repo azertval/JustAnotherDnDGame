@@ -62,11 +62,16 @@ qt_query_qml_module(JadgRuntime TYPEINFO JADG_RUNTIME_QMLTYPES QMLDIR JADG_RUNTI
 message(STATUS "Jadg.Runtime qmltypes: ${JADG_RUNTIME_QMLTYPES}")
 message(STATUS "Jadg.Runtime qmldir:   ${JADG_RUNTIME_QMLDIR}")
 
-# Fail the build if the generated type metadata is unexpectedly absent. The check is attached to
-# the module target, so it runs only after qmltyperegistrar has had a chance to generate the file.
-add_custom_command(TARGET JadgRuntime POST_BUILD
+# Fail the build if the generated type metadata is unexpectedly absent. `TARGET ... POST_BUILD`
+# only orders this after JadgRuntime's own link step, not after the qmltypes file itself is
+# produced (see the equivalent fix in Source/Ui/Jadg/Ui/CMakeLists.txt for the failure mode this
+# avoids). Depend on the actual file path so Ninja orders it correctly regardless.
+add_custom_target(JadgRuntime_verify_qmltypes ALL
+    DEPENDS "${JADG_RUNTIME_QMLTYPES}"
     COMMAND ${CMAKE_COMMAND}
+        -DMODULE_LABEL="Jadg.Runtime"
         -DEXPECTED_QMLTYPES="${JADG_RUNTIME_QMLTYPES}"
         -P "${CMAKE_CURRENT_LIST_DIR}/VerifyQmlTypes.cmake"
     VERBATIM
 )
+add_dependencies(JadgRuntime_verify_qmltypes JadgRuntime)
