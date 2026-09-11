@@ -13,6 +13,7 @@
 #include <QQmlEngine>
 #include <QQuickStyle>
 #include <QQuickWindow>
+#include <QQmlExtensionPlugin>
 #include <QSettings>
 #include <QString>
 #include <QSurfaceFormat>
@@ -30,9 +31,11 @@
 #include "HMI/Platform/ExecutableDirectory.h"
 #include "HMI/Presentation/OptionsModel.h"
 
-// Jadg.Ui and Jadg.Runtime are built as shared QML plugin libraries on the Windows/MSVC
-// configuration used by the project. Their generated qmldir files make them discoverable by the
-// QML engine, so the executable must not force-link MODULE_LIBRARY plugin targets here.
+// Jadg.Ui and Jadg.Runtime are deliberately built as static QML modules. Their generated static
+// plugins carry the module registration entry points, so the application explicitly references
+// and links those plugins instead of treating them as Windows MODULE_LIBRARY targets.
+Q_IMPORT_QML_PLUGIN(JadgUiPlugin)
+Q_IMPORT_QML_PLUGIN(JadgRuntimePlugin)
 
 namespace {
 
@@ -134,7 +137,7 @@ int main(int argc, char** argv) {
             app::commandLineOption(argc, argv, "--screen=")) {
         engine.setInitialProperties(
             {{QStringLiteral("startScreen"),
-              QString::fromUtf8(screen->data(), static_cast<qsizetype>(screen->size()))}});
+              QString::fromUtf8(screen->data(), static_cast<qsizetype>(screen->size()))});
     }
 
     if (auto* const options =
