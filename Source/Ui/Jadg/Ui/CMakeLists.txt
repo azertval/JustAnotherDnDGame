@@ -71,12 +71,16 @@ set_source_files_properties(../../Screens/CreditsForm.ui.qml PROPERTIES QT_RESOU
 set_source_files_properties(../../Screens/GameViewForm.ui.qml PROPERTIES QT_RESOURCE_ALIAS Screens/GameViewForm.ui.qml)
 
 add_library(JadgUi STATIC)
+
+# The files are intentionally collected from sibling source directories and exposed through
+# QT_RESOURCE_ALIAS. QTP0004's extra qmldirs do not understand those aliases, so disable only that
+# generation here while retaining the normal module qmldir and qmltypes generation.
 qt_add_qml_module(JadgUi
     URI Jadg.Ui
     VERSION 1.0
-    RESOURCE_PREFIX "/qt/qml"
     CLASS_NAME JadgUiPlugin
     DESIGNER_SUPPORTED
+    NO_GENERATE_EXTRA_QMLDIRS
     QML_FILES ${JADG_UI_QML_FILES}
 )
 
