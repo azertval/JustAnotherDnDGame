@@ -5,10 +5,11 @@
 # is deliberately part of Jadg.App rather than Jadg.Ui. Design Studio therefore never resolves
 # Jadg.Runtime when opening a .ui.qml form.
 
+# AudioEngine is already part of HmiLib. Do not compile it a second time into the executable: doing
+# so would duplicate its symbols when the static HMI library is linked.
 add_executable(JustAnotherDnDGame
     Game/Main.cpp
     Common/Bootstrap.cpp
-    ../HMI/Audio/AudioEngine.cpp
 )
 
 set(JADG_GAME_UI_IMAGE ${PROJECT_SOURCE_DIR}/Source/Elements/Assets/UI/world-map.jpg)
