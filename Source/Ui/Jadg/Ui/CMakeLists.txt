@@ -58,3 +58,12 @@ target_link_libraries(JadgUi
         project_warnings
         project_options
 )
+
+qt_query_qml_module(JadgUi TYPEINFO JADG_UI_QMLTYPES)
+message(STATUS "Jadg.Ui qmltypes: ${JADG_UI_QMLTYPES}")
+add_custom_command(TARGET JadgUi POST_BUILD
+    COMMAND ${CMAKE_COMMAND}
+        -DEXPECTED_QMLTYPES="${JADG_UI_QMLTYPES}"
+        -P "${PROJECT_SOURCE_DIR}/Source/HMI/Jadg/Runtime/VerifyQmlTypes.cmake"
+    VERBATIM
+)
