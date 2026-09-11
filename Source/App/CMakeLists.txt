@@ -64,7 +64,9 @@ target_compile_definitions(JustAnotherDnDGame PRIVATE
 target_link_libraries(JustAnotherDnDGame PRIVATE
     HmiLib
     JadgUi
+    JadgUiplugin
     JadgRuntime
+    JadgRuntimeplugin
     Qt6::Quick
     Qt6::Qml
     Qt6::QuickControls2
