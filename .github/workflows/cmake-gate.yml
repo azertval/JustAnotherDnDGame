@@ -33,9 +33,13 @@ jobs:
           cache: true
           aqtsource: ${{ env.AQT_SOURCE }}
 
-      - name: Configure Ninja
+      - name: Configure Ninja with MSVC
         shell: cmd
-        run: cmake --preset ninja
+        run: |
+          for /f "usebackq tokens=*" %%i in (`"%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath`) do call "%%i\Common7\Tools\VsDevCmd.bat" -arch=x64
+          where cl
+          cl
+          cmake --preset ninja
         env:
           CMAKE_PREFIX_PATH: ${{ env.QT_ROOT_DIR }}
 
