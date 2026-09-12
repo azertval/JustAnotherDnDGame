@@ -354,12 +354,16 @@ déplacement de la frontière entre deux métiers.
 - \anchor EX-IHM-100 **EX-IHM-100** — Une modification **purement visuelle** d'un écran du jeu —
   mise en page, couleurs, typographie, ornements, animations, textes — doit être réalisable **sans
   modifier ni recompiler une ligne de C++**, depuis Qt Design Studio ouvrant
-  `Source/Ui/JadgUi.qmlproject`. Ce projet ne décrit que `Source/Ui` et les assets : ni CMake, ni
-  `Source/HMI`, ni code. La frontière n'est pas une consigne de relecture, c'est le périmètre d'un
-  fichier.
-- \anchor EX-IHM-101 **EX-IHM-101** — La couche de **présentation** (`Source/HMI/Presentation`)
-  transforme l'état du jeu en données affichables et **ne dessine rien** : elle ne connaît ni Qt
-  Quick, ni Qt Widgets. Un écran lui demande *ce que le jeu sait dire*, jamais *comment le
+  `Source/Ui/JadgUi.qmlproject`. Ce projet ne décrit que `Source/Ui`, les jumeaux de câblage et
+  les assets : ni CMake, ni `Source/HMI`, ni code. La frontière n'est pas une consigne de
+  relecture, c'est le périmètre d'un fichier. Depuis le `LOT-87`, `Source/Ui` est un module QML
+  **sans C++** (`Jadg.Ui`) : c'est ce qui le rend résolvable par l'atelier, dont le marionnettiste
+  ne charge aucun plugin du projet ; les types C++ forment un module à part (`Jadg.Runtime`) que
+  seuls les jumeaux importent, et que l'atelier remplace par des doublures QML (`Source/Ui/Mocks`).
+- \anchor EX-IHM-101 **EX-IHM-101** — La couche de **présentation** (`Source/HMI/Presentation`,
+  et les vues-modèles de `Source/HMI/Runtime` exposées au QML) transforme l'état du jeu en données
+  affichables et **ne dessine rien** : elle ne connaît ni Qt Quick, ni Qt Widgets. Seule exception,
+  nommée : la surface de rendu (`GameViewportItem`), qui est un item de scène et non un modèle. Un écran lui demande *ce que le jeu sait dire*, jamais *comment le
   montrer*. Un seul en-tête d'IHM qui y entrerait signalerait que la logique de vue a commencé à
   redescendre dans la couche de données — et c'est ainsi que les 2 472 lignes de `MainWindow.cpp`
   se sont accumulées.

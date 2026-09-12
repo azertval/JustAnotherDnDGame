@@ -258,9 +258,10 @@ jobs:
           cmake --build --preset ninja || exit /b 1
           ctest --preset ninja || exit /b 1
           rem Controle statique des .qml (LOT-86, EX-IHM-100). La cible est ENGENDREE par
-          rem qt_add_qml_module : elle connait les chemins d'import du module, qu'il faudrait
-          rem sinon recomposer a la main -- et qui divergeraient au premier ecran ajoute.
-          cmake --build --preset ninja --target JustAnotherDnDGame_qmllint || exit /b 1
+          rem qt_add_qml_module : elle connait les chemins d'import de chaque module, qu'il
+          rem faudrait sinon recomposer a la main -- et qui divergeraient au premier ecran ajoute.
+          rem `all_qmllint` couvre les trois modules du jeu (Jadg.Ui, Jadg.App, Jadg.Runtime).
+          cmake --build --preset ninja --target all_qmllint || exit /b 1
 
       - name: Verifier que l'executable est bien produit
         shell: pwsh
@@ -438,6 +439,11 @@ jobs:
       # n'est pas verifiee n'est pas une regle, c'est une intention.
       - name: Separation conception / code (EX-IHM-100 a EX-IHM-105)
         run: python3 scripts/check_ui_layers.py
+
+      - name: Contrat des formulaires avec Qt Design Studio (LOT-87)
+        # Ce qu'un formulaire nomme doit se resoudre SANS le jeu, et chaque type C++ a sa doublure
+        # pour l'atelier. Textuel, sans Qt.
+        run: python3 scripts/check_qml_designer_compat.py
 
       - name: Cahier de test a jour
         run: python3 scripts/generate_cahier_test.py --check

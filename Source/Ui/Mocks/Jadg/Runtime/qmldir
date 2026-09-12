@@ -1,0 +1,7 @@
+module Jadg.Runtime
+singleton OptionsModel 1.0 OptionsModel.qml
+singleton ScreenRouter 1.0 ScreenRouter.qml
+singleton PendingData 1.0 PendingData.qml
+CharacterSheetModel 1.0 CharacterSheetModel.qml
+InventoryModel 1.0 InventoryModel.qml
+GameViewport 1.0 GameViewport.qml

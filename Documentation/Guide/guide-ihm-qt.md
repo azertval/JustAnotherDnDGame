@@ -30,12 +30,14 @@ convention : un widget qui y réapparaîtrait ferait échouer l'édition de lien
 ```
 Core                     règles et état, SANS Qt
   ↑
-HMI/Presentation         vues-modèles : ce que le jeu SAIT DIRE
+HMI/Presentation         logique de présentation pure (table de transitions, échelle, valeurs)
+HMI/Runtime              vues-modèles exposées au QML : ce que le jeu SAIT DIRE (module Jadg.Runtime)
   ↑                      Qt6::Qml seulement — jamais Quick ni Widgets (EX-IHM-101)
-Source/Ui (QML)          ce que ça DONNE À VOIR
+Source/Ui (QML)          ce que ça DONNE À VOIR (module Jadg.Ui, sans C++)
+Source/App/Game/Qml      le câblage entre les deux (module Jadg.App)
 ```
 
-`HMI/Presentation` transforme l'état du jeu en propriétés et en modèles de liste, et **ne dessine
+`HMI/Runtime` transforme l'état du jeu en propriétés et en modèles de liste, et **ne dessine
 rien**. Un écran lui demande *ce que le jeu sait dire*, jamais *comment le montrer*. Un seul en-tête
 d'IHM qui y entrerait signalerait que la logique de vue a commencé à redescendre dans la couche de
 données — et c'est ainsi que `MainWindow.cpp` s'était épaissi.
@@ -45,13 +47,36 @@ Elles sont écrites en `EX-IHM-100` à `EX-IHM-105`. **Une règle qui n'est pas 
 règle : c'est une intention** — le dépôt l'a appris deux fois, avec un défaut de taille d'écran
 corrigé *trois* fois et une palette écrite *deux* fois.
 
-## Le module QML
+## Les trois modules QML
 
-`qt_add_qml_module(JustAnotherDnDGame URI Jadg.Ui ...)` embarque les `.qml` dans la ressource, sous
-`/qt/qml` — le préfixe est **explicite** : sans lui le module atterrit là où l'engine ne regarde pas,
-et le chargement échoue sur un « type introuvable » que le `qmldir` dément.
+Depuis le `LOT-87`, le jeu est fait de **trois** modules QML, et chacun est déclaré **dans le
+répertoire de ses fichiers** :
 
-Trois pièges de ce module, tous silencieux, tous consignés dans le CMake :
+| Module | Répertoire, et son CMakeLists.txt | Contenu | Cible |
+|---|---|---|---|
+| `Jadg.Ui` | `Source/Ui` | formulaires, contrôles, jetons, galerie — **QML pur** | bibliothèque statique `JadgUi`, `designersupported` |
+| `Jadg.Runtime` | `Source/HMI/Runtime` | les types C++ exposés au QML (`QML_ELEMENT`) | bibliothèque statique `JadgRuntime` |
+| `Jadg.App` | `Source/App` (fichiers sous `Game/Qml/`) | la fenêtre, la pile d'écrans, les jumeaux | l'exécutable `JustAnotherDnDGame` |
+
+**Pourquoi trois, et pourquoi là.** Qt Design Studio ne charge aucun plugin C++ du projet : un
+module qui mêle formulaires et types C++ est résolvable par le jeu et pas par l'atelier. `Jadg.Ui`
+est donc pur, et n'importe jamais `Jadg.Runtime` — seuls les jumeaux le font, et l'atelier le
+remplace par les doublures de `Source/Ui/Mocks/`. Quant au « là » : `qt_add_qml_module` calcule le
+chemin de ressource de chaque fichier relativement au CMakeLists.txt qui l'appelle. Un module
+déclaré depuis un autre répertoire oblige à réécrire ces chemins un par un, par des alias, et c'est
+cette plomberie qui a coûté 125 commits à une branche abandonnée. **Aucun alias de ressource dans
+ce dépôt**, et `check_qml_designer_compat.py` le vérifie.
+
+La découverte de Qt et `QT_VERSION_MINIMUM` vivent dans `Source/CMakeLists.txt` : les cibles
+importées d'un `find_package` ne sont visibles que sous le répertoire qui l'a appelé, et trois
+répertoires frères en dépendent.
+
+Les deux bibliothèques statiques sont liées **avec leurs plugins** (`JadgUiplugin`,
+`JadgRuntimeplugin`) : le `qmldir` embarqué de chaque module les désigne (`optional plugin`,
+`linktarget`), et c'est le plugin lié qui enregistre les types quand l'engine rencontre l'import.
+Aucune macro d'import dans le C++.
+
+Quatre pièges, tous silencieux, tous consignés dans les CMake :
 
 - un **singleton** doit être déclaré (`QT_QML_SINGLETON_TYPE`) : CMake ne déduit pas
   `pragma Singleton`. Non déclaré, le type se charge quand même — mais chaque `import` en construit
@@ -60,7 +85,10 @@ Trois pièges de ce module, tous silencieux, tous consignés dans le CMake :
   dans un `__has_include` qui échoue sans bruit : le répertoire doit être dans les chemins
   d'inclusion ;
 - `windeployqt` sans `--qmldir` n'embarque **aucun** module QML, et le jeu se lance alors sans
-  interface, sans message.
+  interface, sans message — il en faut deux, un par répertoire QML ;
+- `target_link_libraries` doit **précéder** `qt_add_qml_module` sur l'exécutable : la cible
+  `all_qmllint` compose ses chemins d'import depuis les modules déjà liés à cet instant. Après,
+  qmllint ne résout ni `Jadg.Ui` ni `Jadg.Runtime` et signale chaque écran en erreur.
 
 ### Éditer un écran sans rien reconstruire
 
@@ -70,7 +98,9 @@ place en tête des chemins d'import.
 
 Il est engendré depuis **la même liste** que la ressource : ajouter un écran ne crée pas un second
 endroit à synchroniser — ce serait exactement la surcouche que ce lot supprime ailleurs. C'est aussi
-lui qui rend `Source/Ui` importable tel quel, donc ouvrable par Qt Design Studio.
+lui qui rend `Source/Ui` importable tel quel, donc ouvrable par Qt Design Studio. Seul `Jadg.Ui`
+se relit ainsi : `Jadg.App` et `Jadg.Runtime` restent ceux du binaire, et c'est voulu — ce qu'un
+artiste change ne demande jamais de les toucher.
 
 ### Ouvrir les écrans pour les dessiner
 
@@ -94,31 +124,42 @@ Trois règles, dont deux se paient par un mode *Design* vide plutôt que par un 
   message ni trace dans le journal ;
 - **on dessine le `*Form.ui.qml`, jamais son jumeau.** Un `.ui.qml` est déclaratif, donc réversible :
   Design Studio le réenregistre sans le casser. Le jumeau `.qml` contient du JavaScript ; Design
-  Studio ne l'ouvre qu'en texte, et c'est voulu — c'est la frontière du lot, rendue littérale par
-  l'outil lui-même.
+  Studio l'ouvre — grâce aux doublures de `Source/Ui/Mocks/` — pour le *voir* avec les valeurs du
+  jeu, mais ne l'édite qu'en texte, et c'est voulu — c'est la frontière du lot, rendue littérale
+  par l'outil lui-même ;
+- **la bibliothèque de composants reste « (vide) »** pour les dossiers du projet, avec ou sans le
+  mot `designersupported` que le `qmldir` engendré porte, et quelle que soit la disposition des
+  fichiers (deux essayées en phase 1 du `LOT-87`). Les briques se posent depuis la galerie
+  `DesignStudio/Main.ui.qml` ou par le code ; le point reste à instruire.
 
 Aucune version de Qt n'est écrite dans le `.qmlproject`, et c'est délibéré. Le projet se construit
-avec la version épinglée par `QT_VERSION_MINIMUM` — **6.11.2**, que `check_qt_version_pin.py` tient
-identique en CMake et en CI. Design Studio, lui, dessine toujours avec le Qt qu'il **embarque**,
+avec la version épinglée par `QT_VERSION_MINIMUM` (`Source/CMakeLists.txt`) — **6.11.2**, que
+`check_qt_version_pin.py` tient identique en CMake et en CI. Design Studio, lui, dessine toujours avec le Qt qu'il **embarque**,
 quel que soit le Qt installé : un numéro de plus dans le fichier de conception ne commanderait ni
 l'un ni l'autre, et ne servirait qu'à faire croire à un troisième épinglage. Tous les imports du
 module étant sans version, le choix ne se pose pas.
 
-Ce Qt embarqué se voit dans le nom du programme qui dessine : `qmlpuppet-4.8.2.exe`, versionné par
-**Design Studio** et non par Qt. C'est le seul exemplaire de la machine — une installation Qt
+Ce Qt embarqué se voit dans le nom du programme qui dessine : `qmlpuppet-4.8.3.exe`, versionné par
+**Design Studio** (4.8.3 sur le poste de référence) et non par Qt. C'est le seul exemplaire de la machine — une installation Qt
 ordinaire n'en fournit aucun — donc la « couche d'émulation QML » des préférences n'a nulle part
 ailleurs où pointer. Voir « Qt 6.8.7 » dans l'atelier alors que le jeu se construit en 6.11.2 n'est
 pas un défaut d'installation : c'est la conception de l'outil, et seule une version plus récente de
 Design Studio la déplacera.
 
-Deux fichiers échappent à la vue 2D parce qu'ils nomment des types **C++**, invisibles à Design
-Studio faute de simulacres dans `Source/Ui/Mocks/` : `Main.qml` et `ScreenStack.qml` (`OptionsModel`)
-et `GameViewForm.ui.qml` (`GameViewport`). Les treize autres formulaires s'ouvrent et se dessinent.
+Les types **C++** (`OptionsModel`, `ScreenRouter`, `PendingData`, `CharacterSheetModel`,
+`InventoryModel`, `GameViewport`) sont invisibles à Design Studio ; `Source/Ui/Mocks/Jadg/Runtime/`
+en porte des doublures QML aux mêmes noms et propriétés, que le `.qmlproject` place dans ses
+`importPaths`. Les quatorze formulaires et les quatorze jumeaux se résolvent ainsi dans l'atelier —
+vérifié avec le `qmllint` du Qt 6.8.7 embarqué. Seuls `Main.qml` et `ScreenStack.qml` restent
+irrésolus, parce qu'ils importent `Jadg.App` lui-même : ce sont des fichiers de câblage, et rien
+ne s'y dessine. `check_qml_designer_compat.py` tient les doublures alignées sur le C++ : chaque
+`Q_PROPERTY` et chaque `Q_INVOKABLE` doit y avoir son pendant.
 
 ## La surface de rendu
 
-`hmi::GameViewportItem` (`QQuickRhiItem`) est le jumeau Qt Quick de `hmi::GameViewport`
-(`QRhiWidget`, côté éditeur). Les deux rendent dans une **texture d'appui** que leur hôte compose :
+`hmi::GameViewportItem` (`QQuickRhiItem`, dans `HMI/Runtime`) est le jumeau Qt Quick de
+`hmi::GameViewport` (`QRhiWidget`, côté éditeur). C'est le jumeau `GameView.qml` qui le pose, dans
+l'hôte que `GameViewForm.ui.qml` lui réserve : un type C++ n'a pas sa place dans un formulaire. Les deux rendent dans une **texture d'appui** que leur hôte compose :
 la cible technique ne change pas (`EX-ARCH-050`), seul l'hôte change. Un recouvrement redevient donc
 un enfant ordinaire — plus aucun empilement de fenêtres natives.
 

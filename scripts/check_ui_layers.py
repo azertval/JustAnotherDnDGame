@@ -5,7 +5,7 @@
 POURQUOI CE CONTROLE EXISTE
 ---------------------------
 Le LOT-86 separe ce qu'un artiste modifie (Source/Ui, en QML declaratif) de ce qu'un developpeur
-ecrit (Source/HMI/Presentation, en C++). Cette separation ne tient pas toute seule : elle se perd
+ecrit (Source/HMI/Presentation et Source/HMI/Runtime, en C++ ; Source/App/Game/Qml, le cablage). Cette separation ne tient pas toute seule : elle se perd
 par de petits gestes raisonnables, chacun defendable pris isolement -- un include de Quick pour
 « juste » lire une propriete, une couleur ecrite en dur « le temps d'essayer », un gestionnaire
 imperatif glisse dans un formulaire.
@@ -19,12 +19,15 @@ Une regle qui n'est pas verifiee n'est pas une regle : c'est une intention.
 
 CE QUI EST VERIFIE
 ------------------
-1. Presentation ne connait ni Qt Quick ni Qt Widgets.
+1. Presentation et Runtime (les vues-modeles) ne connaissent ni Qt Quick ni Qt Widgets ; seule la
+   surface de rendu (Runtime/GameViewportItem) lie Quick, et rien ne lie Widgets.
 2. Core ne connait pas Qt du tout.
 3. La cible du JEU ne lie pas Qt6::Widgets.
-4. Les ecrans et controles sont des `.ui.qml`, et n'y contiennent aucun code imperatif.
+4. Les ecrans et controles de Source/Ui sont des `.ui.qml` sans code imperatif ; le cablage vit
+   dans Source/App/Game/Qml (LOT-87), et chaque formulaire d'ecran y a son jumeau.
 5. Les `.ui.qml` n'importent que des modules connus A LA FOIS de Qt et de Qt Design Studio.
-6. Aucune couleur, police ou taille en dur hors de Source/Ui/Theme.
+6. Aucune couleur, police ou taille en dur hors de Source/Ui/Theme -- ni dans les formulaires, ni
+   dans les doublures, ni dans le cablage.
 
 Controle purement textuel : aucun binaire a construire, aucune dependance. Meme motif que
 `check_qt_version_pin.py`. Il s'auto-verifie contre la vacuite -- un releve vide est un ECHEC, et
@@ -43,10 +46,17 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 
 PRESENTATION = ROOT / "Source" / "HMI" / "Presentation"
+# Les vues-modeles exposees au QML (module Jadg.Runtime, LOT-87) : meme regle que Presentation, a
+# l'exception nommee de la surface de rendu, qui EST un item Qt Quick.
+RUNTIME = ROOT / "Source" / "HMI" / "Runtime"
+RUNTIME_QUICK_ALLOWED = ("GameViewportItem.h", "GameViewportItem.cpp")
 CORE = ROOT / "Source" / "Core"
 UI = ROOT / "Source" / "Ui"
 UI_THEME = UI / "Theme"
-HMI_CMAKE = ROOT / "Source" / "HMI" / "CMakeLists.txt"
+# Le cablage des ecrans : les jumeaux `.qml`, la fenetre et la pile d'ecrans (module Jadg.App).
+APP_QML = ROOT / "Source" / "App" / "Game" / "Qml"
+# La cible du jeu est declaree dans Source/App depuis le LOT-87.
+APP_CMAKE = ROOT / "Source" / "App" / "CMakeLists.txt"
 
 # Repertoires dont TOUT fichier visuel appartient a la conception.
 DESIGN_DIRECTORIES = (UI / "Screens", UI / "Controls")
@@ -113,14 +123,17 @@ def check_presentation_has_no_ui_toolkit(failures: list[str]) -> int:
     """Regle 1 : Presentation transforme l'etat du jeu en donnees affichables. Elle ne dessine
     rien. Un include de Quick ou de Widgets y signale que la logique de vue a commence a
     redescendre dans la couche de donnees -- exactement ce que le lot separe."""
-    files = sources(PRESENTATION, (".h", ".cpp"))
-    forbidden = re.compile(r'#\s*include\s*[<"](QtQuick|QtWidgets|QQuick|QWidget)')
+    files = sources(PRESENTATION, (".h", ".cpp")) + sources(RUNTIME, (".h", ".cpp"))
+    quick = re.compile(r'#\s*include\s*[<"](QtQuick|QQuick)')
+    widgets = re.compile(r'#\s*include\s*[<"](QtWidgets|QWidget)')
     for path in files:
+        quick_allowed = RUNTIME in path.parents and path.name in RUNTIME_QUICK_ALLOWED
         for number, line in enumerate(read(path).splitlines(), start=1):
-            if forbidden.search(line):
+            if widgets.search(line) or (quick.search(line) and not quick_allowed):
                 failures.append(
-                    f"{relative(path)}:{number} : Presentation inclut une bibliotheque d'IHM "
-                    f"({line.strip()}). Elle ne doit connaitre ni Qt Quick ni Qt Widgets."
+                    f"{relative(path)}:{number} : une vue-modele inclut une bibliotheque d'IHM "
+                    f"({line.strip()}). Elle ne doit connaitre ni Qt Quick ni Qt Widgets ; seule "
+                    f"la surface de rendu ({', '.join(RUNTIME_QUICK_ALLOWED)}) lie Quick."
                 )
     return len(files)
 
@@ -145,22 +158,22 @@ def check_game_does_not_link_widgets(failures: list[str]) -> int:
     """Regle 3 : la garantie la plus forte du lot, parce qu'elle n'est pas une convention -- si le
     jeu liait Qt6::Widgets, un widget pourrait y reapparaitre. Ne pas le lier rend la chose
     impossible : l'edition de liens echouerait."""
-    if not HMI_CMAKE.is_file():
-        failures.append(f"{relative(HMI_CMAKE)} introuvable : la regle 3 ne peut pas etre verifiee.")
+    if not APP_CMAKE.is_file():
+        failures.append(f"{relative(APP_CMAKE)} introuvable : la regle 3 ne peut pas etre verifiee.")
         return 0
-    text = read(HMI_CMAKE)
+    text = read(APP_CMAKE)
     match = re.search(
         r"target_link_libraries\(JustAnotherDnDGame\s+PRIVATE(.*?)\)", text, re.DOTALL
     )
     if match is None:
         failures.append(
-            f"{relative(HMI_CMAKE)} : bloc target_link_libraries(JustAnotherDnDGame PRIVATE …) "
+            f"{relative(APP_CMAKE)} : bloc target_link_libraries(JustAnotherDnDGame PRIVATE …) "
             f"introuvable. La regle 3 ne peut pas etre verifiee."
         )
         return 0
     if "Qt6::Widgets" in strip_comments(match.group(1)):
         failures.append(
-            f"{relative(HMI_CMAKE)} : la cible du JEU lie Qt6::Widgets. Le jeu est en Qt Quick ; "
+            f"{relative(APP_CMAKE)} : la cible du JEU lie Qt6::Widgets. Le jeu est en Qt Quick ; "
             f"les widgets n'appartiennent qu'a LevelEditor (EX-IHM-041)."
         )
     return 1
@@ -175,18 +188,23 @@ def check_design_files_are_forms(failures: list[str]) -> int:
         for path in sources(directory, (".qml",)):
             checked += 1
             name = path.name
-            is_form = name.endswith(".ui.qml")
-            # Un ecran a le droit d'avoir un jumeau de cablage `X.qml` a cote de `XForm.ui.qml` :
-            # c'est la convention de Design Studio, et c'est la que le code doit vivre.
-            has_twin_form = (path.parent / f"{path.stem}Form.ui.qml").is_file()
-            if not is_form and not has_twin_form:
+            if not name.endswith(".ui.qml"):
+                # Depuis le LOT-87, le jumeau de cablage `X.qml` vit dans Source/App/Game/Qml/Screens :
+                # Source/Ui ne contient que ce que la conception dessine.
                 failures.append(
-                    f"{relative(path)} : ni formulaire `.ui.qml`, ni jumeau de cablage d'un "
-                    f"`{path.stem}Form.ui.qml`. La conception ne pourra pas l'ouvrir."
+                    f"{relative(path)} : n'est pas un formulaire `.ui.qml`. Le cablage vit dans "
+                    f"{APP_QML.relative_to(ROOT).as_posix()}/Screens/, jamais dans Source/Ui."
                 )
                 continue
-            if not is_form:
-                continue
+            # Chaque formulaire d'ecran a son jumeau : un ecran sans cablage n'est atteignable par
+            # aucun chemin du jeu, et personne ne le remarquerait avant longtemps.
+            if directory.name == "Screens" and name.endswith("Form.ui.qml"):
+                twin = APP_QML / "Screens" / f"{name[:-len('Form.ui.qml')]}.qml"
+                if not twin.is_file():
+                    failures.append(
+                        f"{relative(path)} : formulaire sans jumeau de cablage. Attendu : "
+                        f"{relative(twin)}."
+                    )
             body = strip_comments(read(path))
             for pattern, what in IMPERATIVE_PATTERNS:
                 if pattern.search(body):
@@ -222,9 +240,11 @@ def check_no_appearance_literals(failures: list[str]) -> int:
     dans un ecran survit a un changement de palette : elle ne suit plus rien, et personne ne
     remarque qu'un seul ecran a cesse de ressembler aux autres (EX-IHM-051)."""
     checked = 0
-    for path in sources(UI, (".qml",)):
+    for path in sources(UI, (".qml",)) + sources(APP_QML, (".qml",)):
         if UI_THEME in path.parents:
             continue  # Le theme EST l'endroit ou ces valeurs s'ecrivent.
+        if (UI / "Jadg") in path.parents:
+            continue  # Le qmldir engendre, jamais un fichier ecrit.
         checked += 1
         for number, line in enumerate(strip_comments(read(path)).splitlines(), start=1):
             if COLOR_LITERAL.search(line):

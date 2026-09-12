@@ -6,6 +6,26 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **Charte v2 et intégration des maquettes** (`LOT-87`, en cours). Les dix maquettes du pack UI
+  deviennent la charte visuelle ; les cadres, plaques et fonds seront produits à part, à 1080p.
+  - **Phase 0 — socle vert.** Branches mortes archivées, débris retirés, maquettes déplacées dans
+    l'epic, lot inscrit.
+  - **Phase 1 — le module de conception.** Qt Design Studio ouvre chaque formulaire *et* chaque
+    jumeau en mode conception, et le jeu démarre — ce que 125 commits d'une branche abandonnée
+    n'avaient pas obtenu. Trois modules QML, chacun déclaré **dans le répertoire de ses fichiers**,
+    sans un seul alias de ressource : `Jadg.Ui` (`Source/Ui`, QML pur, `designersupported`),
+    `Jadg.Runtime` (`Source/HMI/Runtime`, les types C++, bibliothèque statique) et `Jadg.App`
+    (`Source/App/Game/Qml`, la fenêtre, la pile d'écrans et les jumeaux de câblage, module de
+    l'exécutable). Le diagnostic qui fonde ce découpage : l'atelier n'était pas grisé ; les jumeaux
+    nommant un type C++ restaient irrésolus, et un formulaire nommait lui-même un type C++. Sa
+    bibliothèque de composants, elle, liste chaque dossier « (vide) » avant comme après —
+    `designersupported` posé, deux dispositions essayées — et reste à instruire. Des **doublures** QML des types C++
+    (`Source/Ui/Mocks/`) rendent les jumeaux ouvrables dans l'atelier. Le garde-fou
+    `check_qml_designer_compat.py` vérifie désormais un **contrat** (imports, motifs, doublures
+    complètes, jumeaux appareillés, fichiers listés) et non une structure CMake. La surface de rendu
+    C++ quitte `GameViewForm.ui.qml` pour son jumeau. Le pin de Qt et la découverte de Qt vivent
+    dans `Source/CMakeLists.txt`, visibles des trois répertoires qui en dépendent.
+
 - **Refonte de l'IHM sur Qt Quick, avec la conception séparée du code** (`LOT-86`, en cours).
   L'objectif n'est pas technique : **un artiste doit pouvoir modifier les interfaces sans ouvrir un
   fichier source**, en travaillant directement dans Qt Design Studio.
