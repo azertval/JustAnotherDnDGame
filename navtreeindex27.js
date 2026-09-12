@@ -1,5 +1,14 @@
 var NAVTREEINDEX27 =
 {
+"structcore_1_1Inventory.html#a6bdd1949358ca49f977163c591dc3d12":[15,0,1,107,1],
+"structcore_1_1Inventory.html#a6bdd1949358ca49f977163c591dc3d12":[16,0,0,107,1],
+"structcore_1_1Inventory.html#abf787423090884ef88096f21d2828da1":[15,0,1,107,3],
+"structcore_1_1Inventory.html#abf787423090884ef88096f21d2828da1":[16,0,0,107,3],
+"structcore_1_1InventoryEntry.html":[15,0,1,102],
+"structcore_1_1InventoryEntry.html":[16,0,0,102],
+"structcore_1_1InventoryEntry.html#a718b8ea11349a9de0c522cfd35b321ee":[15,0,1,102,1],
+"structcore_1_1InventoryEntry.html#a718b8ea11349a9de0c522cfd35b321ee":[16,0,0,102,1],
+"structcore_1_1InventoryEntry.html#ac50d61855e15bd9894448eb3f8182496":[15,0,1,102,0],
 "structcore_1_1InventoryEntry.html#ac50d61855e15bd9894448eb3f8182496":[16,0,0,102,0],
 "structcore_1_1InventoryStack.html":[15,0,1,106],
 "structcore_1_1InventoryStack.html":[16,0,0,106],
@@ -240,14 +249,5 @@ var NAVTREEINDEX27 =
 "structcore_1_1ParticleEffect.html#a993bf8b7a2098769d3f84ee788bd96b4":[15,0,1,36,3],
 "structcore_1_1ParticleEffect.html#a993bf8b7a2098769d3f84ee788bd96b4":[16,0,0,36,3],
 "structcore_1_1ParticleEffect.html#a9aa22795454ec7fa0aceca7a0245c77e":[15,0,1,36,5],
-"structcore_1_1ParticleEffect.html#a9aa22795454ec7fa0aceca7a0245c77e":[16,0,0,36,5],
-"structcore_1_1ParticleEffect.html#aae65a2d7d727cd2137d640a61d567b86":[15,0,1,36,1],
-"structcore_1_1ParticleEffect.html#aae65a2d7d727cd2137d640a61d567b86":[16,0,0,36,1],
-"structcore_1_1PhysicsConfig.html":[15,0,1,66],
-"structcore_1_1PhysicsConfig.html":[16,0,0,66],
-"structcore_1_1PhysicsConfig.html#a0c37db23188588851424c06d9183bfa1":[15,0,1,66,21],
-"structcore_1_1PhysicsConfig.html#a0c37db23188588851424c06d9183bfa1":[16,0,0,66,21],
-"structcore_1_1PhysicsConfig.html#a0fdb33afff65f36642d32a0714f9a642":[15,0,1,66,23],
-"structcore_1_1PhysicsConfig.html#a0fdb33afff65f36642d32a0714f9a642":[16,0,0,66,23],
-"structcore_1_1PhysicsConfig.html#a1d917394883028f145c989fd268e876c":[15,0,1,66,15]
+"structcore_1_1ParticleEffect.html#a9aa22795454ec7fa0aceca7a0245c77e":[16,0,0,36,5]
 };

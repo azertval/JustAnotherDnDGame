@@ -8,7 +8,7 @@ var searchData=
   ['«_20en_20dur_20»_20une_20touche_20dans_20le_20gameplay_5',['Le principe : ne jamais coder « en dur » une touche dans le gameplay',['../guide-entrees.html#autotoc_md133',1,'']]],
   ['«_20niveau_20»_20devient_20«_20carte_20»_20partout_6',['Le vocabulaire : « niveau » devient « carte », partout',['../lot-67.html#autotoc_md599',1,'']]],
   ['«_20nouvelle_20partie_20»_20_3a_20un_20échafaudage_20et_20il_20est_20écrit_7',['« Nouvelle partie » : un échafaudage, et il est écrit',['../lot-68.html#autotoc_md606',1,'']]],
-  ['«_20par_20salle_20»_8',['Mélanger plusieurs tailles de caméra dans un même niveau (mode « Par salle »)',['../manuel-partager-niveau.html#autotoc_md798',1,'']]],
+  ['«_20par_20salle_20»_8',['Mélanger plusieurs tailles de caméra dans un même niveau (mode « Par salle »)',['../manuel-partager-niveau.html#autotoc_md805',1,'']]],
   ['«_20parcours_20»_20_3a_20dessiner_20la_20route_20d_20un_20élément_20mobile_9',['L&apos;outil « Parcours » : dessiner la route d&apos;un élément mobile',['../guide-editeur.html#autotoc_md117',1,'']]],
   ['«_20plans_20»_10',['Le panneau « Plans »',['../guide-editeur.html#autotoc_md127',1,'']]],
   ['«_20spirale_20de_20la_20mort_20»_11',['La « spirale de la mort »',['../guide-boucle.html#autotoc_md57',1,'']]],

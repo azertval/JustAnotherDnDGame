@@ -103,6 +103,7 @@ var NAVTREEINDEX16 =
 "dir_91c068ebb4e479004bf485f61e4c8f6a.html":[17,0,3,4,2,0],
 "dir_935c2558c4a2ecc5b2bcb71c6abb691d.html":[17,0,3,1,3,1],
 "dir_97d7630938bc94e9facb9909756450a5.html":[17,0,1,28],
+"dir_97e9109d259bf3a165bf04ee00dc196c.html":[17,0,1,30],
 "dir_9c2c1d58a156aa8e30c089ae7a4e31f9.html":[17,0,3,4,2,1,4],
 "dir_9d26ecc336da623c959e069dc54d539d.html":[17,0,1,18],
 "dir_a615648f5bcb4cb4123a265dfa66d893.html":[17,0,1,3],
@@ -248,6 +249,5 @@ var NAVTREEINDEX16 =
 "globals_m.html":[17,1,0,7],
 "globals_p.html":[17,1,0,8],
 "globals_t.html":[17,1,0,9],
-"guide-atelier-pixel-art.html":[4,12],
-"guide-atelier-pixel-art.html#autotoc_md35":[4,12,0]
+"guide-atelier-pixel-art.html":[4,12]
 };

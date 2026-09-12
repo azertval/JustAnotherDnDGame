@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['0_0',['0',['../roadmap-010.html',1,'Feuille de route 0.1.0'],['../roadmap-010.html#lot-28',1,'LOT-28 — Audio, effets et version &lt;span class=&quot;tt&quot;&gt;0.2.0&lt;/span&gt;'],['../spec-gameplay.html#autotoc_md340',1,'Ressenti (game feel) — ⚠️ réglage fin reporté au-delà de &lt;span class=&quot;tt&quot;&gt;0.1.0&lt;/span&gt;']]],
+  ['0_0',['0',['../lot-87.html#autotoc_md647',1,'Critères d&apos;acceptation de la phase 0'],['../roadmap-010.html',1,'Feuille de route 0.1.0'],['../roadmap-010.html#lot-28',1,'LOT-28 — Audio, effets et version &lt;span class=&quot;tt&quot;&gt;0.2.0&lt;/span&gt;'],['../spec-gameplay.html#autotoc_md340',1,'Ressenti (game feel) — ⚠️ réglage fin reporté au-delà de &lt;span class=&quot;tt&quot;&gt;0.1.0&lt;/span&gt;']]],
   ['0_201_200_1',['0 1 0',['../roadmap-010.html',1,'Feuille de route 0.1.0'],['../spec-gameplay.html#autotoc_md340',1,'Ressenti (game feel) — ⚠️ réglage fin reporté au-delà de &lt;span class=&quot;tt&quot;&gt;0.1.0&lt;/span&gt;']]],
   ['0_202_200_2',['LOT-28 — Audio, effets et version &lt;span class=&quot;tt&quot;&gt;0.2.0&lt;/span&gt;',['../roadmap-010.html#lot-28',1,'']]],
   ['002_20lot_2020_3',['La manette : une seconde source, fusionnée en lecture (EX-CTRL-002, LOT-20)',['../guide-entrees.html#autotoc_md139',1,'']]],
@@ -24,6 +24,6 @@ var searchData=
   ['075_20avec_20eux_21',['Les ornements restent tracés, et &lt;span class=&quot;tt&quot;&gt;EX-IHM-075&lt;/span&gt; avec eux',['../spec-interface-ihm.html#autotoc_md361',1,'']]],
   ['08_20—_20vocabulaire_20de_20tuiles_20rpg_22',['LOT-08 — Vocabulaire de tuiles RPG',['../lot-08.html',1,'lots']]],
   ['08_2012_23',['Mesures de référence, à la date du &lt;span class=&quot;tt&quot;&gt;LOT-62&lt;/span&gt; (2026-08-12)',['../guide-rendu.html#autotoc_md252',1,'']]],
-  ['09_20à_20lot_2029_24',['11. Les lots &lt;span class=&quot;tt&quot;&gt;LOT-09&lt;/span&gt; à &lt;span class=&quot;tt&quot;&gt;LOT-29&lt;/span&gt;',['../roadmap-010.html#autotoc_md685',1,'']]],
+  ['09_20à_20lot_2029_24',['11. Les lots &lt;span class=&quot;tt&quot;&gt;LOT-09&lt;/span&gt; à &lt;span class=&quot;tt&quot;&gt;LOT-29&lt;/span&gt;',['../roadmap-010.html#autotoc_md692',1,'']]],
   ['09_20—_20graphe_20de_20cartes_20et_20transitions_25',['LOT-09 — Graphe de cartes et transitions',['../roadmap-010.html#lot-09',1,'']]]
 ];

@@ -1,5 +1,14 @@
 var NAVTREEINDEX26 =
 {
+"structcore_1_1CreatureSpeed.html#a0b5a385391038497d11fb91718630b26":[15,0,1,78,3],
+"structcore_1_1CreatureSpeed.html#a0b5a385391038497d11fb91718630b26":[16,0,0,78,3],
+"structcore_1_1CreatureSpeed.html#a279a2e0ca9c7dacec5321ca51777d61d":[15,0,1,78,0],
+"structcore_1_1CreatureSpeed.html#a279a2e0ca9c7dacec5321ca51777d61d":[16,0,0,78,0],
+"structcore_1_1CreatureSpeed.html#a2b416bcbeaa0806afa62407f8094cc9e":[15,0,1,78,4],
+"structcore_1_1CreatureSpeed.html#a2b416bcbeaa0806afa62407f8094cc9e":[16,0,0,78,4],
+"structcore_1_1CreatureSpeed.html#a37c2fa80536e700482b1f3272bcdc38f":[15,0,1,78,2],
+"structcore_1_1CreatureSpeed.html#a37c2fa80536e700482b1f3272bcdc38f":[16,0,0,78,2],
+"structcore_1_1CreatureSpeed.html#a9d1b93d9919b9222738ca0430dd1c991":[15,0,1,78,1],
 "structcore_1_1CreatureSpeed.html#a9d1b93d9919b9222738ca0430dd1c991":[16,0,0,78,1],
 "structcore_1_1CreatureTrait.html":[15,0,1,76],
 "structcore_1_1CreatureTrait.html":[16,0,0,76],
@@ -240,14 +249,5 @@ var NAVTREEINDEX26 =
 "structcore_1_1Inventory.html#a1a10659783aa894f79d4e2efa1a8d4ee":[15,0,1,107,0],
 "structcore_1_1Inventory.html#a1a10659783aa894f79d4e2efa1a8d4ee":[16,0,0,107,0],
 "structcore_1_1Inventory.html#a69466b9692bc8350330186874e3ae038":[15,0,1,107,2],
-"structcore_1_1Inventory.html#a69466b9692bc8350330186874e3ae038":[16,0,0,107,2],
-"structcore_1_1Inventory.html#a6bdd1949358ca49f977163c591dc3d12":[15,0,1,107,1],
-"structcore_1_1Inventory.html#a6bdd1949358ca49f977163c591dc3d12":[16,0,0,107,1],
-"structcore_1_1Inventory.html#abf787423090884ef88096f21d2828da1":[15,0,1,107,3],
-"structcore_1_1Inventory.html#abf787423090884ef88096f21d2828da1":[16,0,0,107,3],
-"structcore_1_1InventoryEntry.html":[15,0,1,102],
-"structcore_1_1InventoryEntry.html":[16,0,0,102],
-"structcore_1_1InventoryEntry.html#a718b8ea11349a9de0c522cfd35b321ee":[15,0,1,102,1],
-"structcore_1_1InventoryEntry.html#a718b8ea11349a9de0c522cfd35b321ee":[16,0,0,102,1],
-"structcore_1_1InventoryEntry.html#ac50d61855e15bd9894448eb3f8182496":[15,0,1,102,0]
+"structcore_1_1Inventory.html#a69466b9692bc8350330186874e3ae038":[16,0,0,107,2]
 };

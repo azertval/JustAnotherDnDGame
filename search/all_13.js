@@ -103,7 +103,7 @@ var searchData=
   ['hmilib_20»_100',['Le découpage retenu — et pourquoi il n&apos;est pas « une seule &lt;span class=&quot;tt&quot;&gt;HmiLib&lt;/span&gt; »',['../lot-02.html#autotoc_md412',1,'']]],
   ['hmilog_2eh_101',['HmiLog.h',['../HmiLog_8h.html',1,'']]],
   ['honorer_102',['Décisions d&apos;écran à honorer',['../lot-86.html#autotoc_md637',1,'']]],
-  ['honorer_20progressivement_103',['Importer tout, honorer progressivement',['../roadmap-010.html#autotoc_md657',1,'']]],
+  ['honorer_20progressivement_103',['Importer tout, honorer progressivement',['../roadmap-010.html#autotoc_md664',1,'']]],
   ['horizontal_104',['horizontal',['../structhmi_1_1TextAnchor.html#abd9f11b551aab6d6def90fda59a10b47',1,'hmi::TextAnchor::horizontal'],['../guide-physique.html#autotoc_md202',1,'Le piège du mur adjacent (correction du balayage horizontal)']]],
   ['horloge_20de_20partie_20et_20cycle_20jour_20nuit_105',['&lt;span class=&quot;tt&quot;&gt;LOT-70&lt;/span&gt; — Horloge de partie et cycle jour/nuit',['../roadmap-010.html#lot-70',1,'']]],
   ['hors_20code_106',['IHM Qt : le moins de code possible, la mise en page hors code',['../spec-conventions.html#autotoc_md295',1,'']]],
@@ -114,5 +114,5 @@ var searchData=
   ['hoveredpixelchanged_111',['hoveredPixelChanged',['../classhmi_1_1PixelCanvas.html#a1ecae83ab6b3259ec1643af49046f117',1,'hmi::PixelCanvas']]],
   ['huge_112',['Huge',['../namespacecore.html#ae6c6faeaa28aa7b90280f4dc39237204aa2ad65f28a717b0fd2be860a0d8e5c3e',1,'core']]],
   ['hui_113',['Ce que l&apos;écran est donc aujourd&apos;hui',['../lot-38.html#autotoc_md561',1,'']]],
-  ['huit_20écrans_20écrits_20à_20la_20main_114',['Une table, et non huit écrans écrits à la main',['../RpgScreens_8h.html#autotoc_md826',1,'']]]
+  ['huit_20écrans_20écrits_20à_20la_20main_114',['Une table, et non huit écrans écrits à la main',['../RpgScreens_8h.html#autotoc_md833',1,'']]]
 ];

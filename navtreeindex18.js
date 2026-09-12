@@ -1,5 +1,6 @@
 var NAVTREEINDEX18 =
 {
+"lot-01.html#autotoc_md405":[7,3,2,2],
 "lot-01.html#autotoc_md406":[7,3,2,3],
 "lot-01.html#autotoc_md407":[7,3,2,4],
 "lot-01.html#autotoc_md408":[7,3,3],
@@ -248,6 +249,5 @@ var NAVTREEINDEX18 =
 "lot-78.html#autotoc_md624":[7,12,2],
 "lot-78.html#autotoc_md625":[7,12,3],
 "lot-78.html#autotoc_md626":[7,12,4],
-"lot-79.html":[7,13],
-"lot-79.html#autotoc_md627":[7,13,0]
+"lot-79.html":[7,13]
 };

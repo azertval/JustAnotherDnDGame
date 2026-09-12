@@ -1,5 +1,14 @@
 var NAVTREEINDEX38 =
 {
+"test__thumbnail__geometry_8cpp.html#a0d2222e1fd8e8e3cb57b5273e47a6b56":[17,0,3,4,2,1,2,21,0],
+"test__thumbnail__geometry_8cpp.html#a1cf578e00e9a50fa673395eef9ceca36":[17,0,3,4,2,1,2,21,1],
+"test__thumbnail__geometry_8cpp.html#a89b219eb59fc6b2be956439954f83934":[17,0,3,4,2,1,2,21,2],
+"test__tile__autotile_8cpp.html":[17,0,3,4,2,1,4,33],
+"test__tile__autotile_8cpp.html#a048224472d72a78076fa54e19c6f9157":[17,0,3,4,2,1,4,33,10],
+"test__tile__autotile_8cpp.html#a0c8aa8baf5f892f698ccd4037b4b9efa":[17,0,3,4,2,1,4,33,5],
+"test__tile__autotile_8cpp.html#a13b14a7fae76a10cb386671f7910e572":[17,0,3,4,2,1,4,33,8],
+"test__tile__autotile_8cpp.html#a6665c5886258394050f269a611964c02":[17,0,3,4,2,1,4,33,4],
+"test__tile__autotile_8cpp.html#a7908d2d61f87c8a5fbadbae15be7a675":[17,0,3,4,2,1,4,33,11],
 "test__tile__autotile_8cpp.html#a989f6fa8b7b0c48ec9180a09c574264c":[17,0,3,4,2,1,4,33,9],
 "test__tile__autotile_8cpp.html#ab7d0a6c7ecf6d39aadb193bf73927008":[17,0,3,4,2,1,4,33,7],
 "test__tile__autotile_8cpp.html#ac16dc0678bc8ff3027cbc04b6661d5eb":[17,0,3,4,2,1,4,33,2],

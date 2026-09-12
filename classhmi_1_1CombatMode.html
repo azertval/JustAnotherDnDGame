@@ -128,7 +128,7 @@ Public Member Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Le second mode de jeu : le combat se déroule <b>sur la carte d'exploration</b>, mais l'exploration, elle, ne tourne plus. </p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md811"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md818"></a>
 Ce qui est gelé, et pourquoi</h2>
 <p>Trois passes de l'exploration <b>disparaissent</b> ici, et chacune pour une raison précise :</p>
 <ul>
@@ -137,7 +137,7 @@ Ce qui est gelé, et pourquoi</h2>
 <li><span class="tt">evaluateOutcome</span> — l'issue du <b>niveau</b> n'a pas de sens pendant un combat : tomber à zéro point de vie est une issue du <b>combat</b> (<span class="tt"><a class="el" href="namespacecore.html#a8825ea64ff05621b7c2c8a073d27577c" title="Comment un combat se termine.">core::CombatOutcome</a></span>), et l'évaluer ici ferait recharger le niveau au lieu d'ouvrir l'agonie (<span class="tt">LOT-72</span>).</li>
 </ul>
 <p>Ce qui reste tourne parce que le combat reste une <b>scène</b> : les particules et la secousse d'écran finissent ce qu'elles ont commencé, les animations continuent de jouer — un combattant immobile respire —, et la caméra suit ce qu'il faut regarder.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md812"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md819"></a>
 Ce que ce mode ne fait pas encore</h2>
 <p>Ni initiative, ni tour actif, ni résolution d'action : c'est le <span class="tt">LOT-20</span>. Ce lot-ci livre la <b>bascule</b> — geler le monde, monter la rencontre, en revenir sans rien perdre — et l'état de la rencontre engagée vit dans <span class="tt"><a class="el" href="structcore_1_1EncounterRun.html" title="Une rencontre engagée : ce qu&#39;on restituera, et ce qu&#39;une victoire acquerra.">core::EncounterRun</a></span>, hors de ce mode, précisément pour que l'aller-retour se vérifie sans fenêtre.</p>
 <p>Sans état, donc, comme <span class="tt"><a class="el" href="classhmi_1_1ExplorationMode.html" title="Le mode par défaut : le personnage parcourt la carte, les mécanismes répondent, la caméra suit,...">hmi::ExplorationMode</a></span> : le mode ne décide que de l'ordre. Le tour courant, lui, sera une mémoire, et c'est le <span class="tt">LOT-20</span> qui la portera. </p>

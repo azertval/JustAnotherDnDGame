@@ -1,5 +1,6 @@
 var NAVTREEINDEX17 =
 {
+"guide-atelier-pixel-art.html#autotoc_md35":[4,12,0],
 "guide-atelier-pixel-art.html#autotoc_md36":[4,12,1],
 "guide-atelier-pixel-art.html#autotoc_md37":[4,12,2],
 "guide-atelier-pixel-art.html#autotoc_md38":[4,12,3],
@@ -248,6 +249,5 @@ var NAVTREEINDEX17 =
 "lot-01.html#autotoc_md401":[7,3,1],
 "lot-01.html#autotoc_md402":[7,3,2],
 "lot-01.html#autotoc_md403":[7,3,2,0],
-"lot-01.html#autotoc_md404":[7,3,2,1],
-"lot-01.html#autotoc_md405":[7,3,2,2]
+"lot-01.html#autotoc_md404":[7,3,2,1]
 };

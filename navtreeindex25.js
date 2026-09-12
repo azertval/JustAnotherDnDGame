@@ -1,5 +1,14 @@
 var NAVTREEINDEX25 =
 {
+"structcore_1_1Atlas.html#a439fbd9274d9ae36c809c3411204e1fa":[15,0,1,119,2],
+"structcore_1_1Atlas.html#a439fbd9274d9ae36c809c3411204e1fa":[16,0,0,119,2],
+"structcore_1_1Atlas.html#a641417a59ed11b7c345d9d4178777517":[15,0,1,119,1],
+"structcore_1_1Atlas.html#a641417a59ed11b7c345d9d4178777517":[16,0,0,119,1],
+"structcore_1_1AtlasRegion.html":[15,0,1,26],
+"structcore_1_1AtlasRegion.html":[16,0,0,26],
+"structcore_1_1AtlasRegion.html#a3a0cb4b401af97afdc18eda1ad766069":[15,0,1,26,0],
+"structcore_1_1AtlasRegion.html#a3a0cb4b401af97afdc18eda1ad766069":[16,0,0,26,0],
+"structcore_1_1AtlasRegion.html#a8d6dd0dbfe7e386d977d8d817d619724":[15,0,1,26,2],
 "structcore_1_1AtlasRegion.html#a8d6dd0dbfe7e386d977d8d817d619724":[16,0,0,26,2],
 "structcore_1_1AtlasRegion.html#aa388d2a63445f5723971eaf31175b0df":[15,0,1,26,3],
 "structcore_1_1AtlasRegion.html#aa388d2a63445f5723971eaf31175b0df":[16,0,0,26,3],
@@ -240,14 +249,5 @@ var NAVTREEINDEX25 =
 "structcore_1_1CreatureAction.html#a70ac35b5427c032e7a8ecec9c22dd41c":[15,0,1,77,5],
 "structcore_1_1CreatureAction.html#a70ac35b5427c032e7a8ecec9c22dd41c":[16,0,0,77,5],
 "structcore_1_1CreatureSpeed.html":[15,0,1,78],
-"structcore_1_1CreatureSpeed.html":[16,0,0,78],
-"structcore_1_1CreatureSpeed.html#a0b5a385391038497d11fb91718630b26":[15,0,1,78,3],
-"structcore_1_1CreatureSpeed.html#a0b5a385391038497d11fb91718630b26":[16,0,0,78,3],
-"structcore_1_1CreatureSpeed.html#a279a2e0ca9c7dacec5321ca51777d61d":[15,0,1,78,0],
-"structcore_1_1CreatureSpeed.html#a279a2e0ca9c7dacec5321ca51777d61d":[16,0,0,78,0],
-"structcore_1_1CreatureSpeed.html#a2b416bcbeaa0806afa62407f8094cc9e":[15,0,1,78,4],
-"structcore_1_1CreatureSpeed.html#a2b416bcbeaa0806afa62407f8094cc9e":[16,0,0,78,4],
-"structcore_1_1CreatureSpeed.html#a37c2fa80536e700482b1f3272bcdc38f":[15,0,1,78,2],
-"structcore_1_1CreatureSpeed.html#a37c2fa80536e700482b1f3272bcdc38f":[16,0,0,78,2],
-"structcore_1_1CreatureSpeed.html#a9d1b93d9919b9222738ca0430dd1c991":[15,0,1,78,1]
+"structcore_1_1CreatureSpeed.html":[16,0,0,78]
 };

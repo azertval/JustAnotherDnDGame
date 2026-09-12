@@ -1,5 +1,14 @@
 var NAVTREEINDEX37 =
 {
+"test__plane__render_8cpp.html#a163a6c1feeadff3714745f91c8b8afe5":[17,0,3,4,2,1,4,18,4],
+"test__plane__render_8cpp.html#a25e896b9c0483f3dc0cf8513b2b9d869":[17,0,3,4,2,1,4,18,3],
+"test__plane__render_8cpp.html#a826f46b34583052d6eeac304d1329e10":[17,0,3,4,2,1,4,18,6],
+"test__plane__render_8cpp.html#a82f6cd8460098c282a02df83f472be57":[17,0,3,4,2,1,4,18,1],
+"test__plane__render_8cpp.html#a9ca4527dada74a2ea110060d67a8531e":[17,0,3,4,2,1,4,18,7],
+"test__plane__render_8cpp.html#ab6870f9a0f5e83733c10c129ba2de883":[17,0,3,4,2,1,4,18,5],
+"test__plane__render_8cpp.html#ad649e8f0a0b5269166a243823f72215b":[17,0,3,4,2,1,4,18,2],
+"test__plane__render_8cpp.html#ae28ceeed5e546f4439149e2f4e88976a":[17,0,3,4,2,1,4,18,0],
+"test__player__input__mapper_8cpp.html":[17,0,3,4,2,1,5,7],
 "test__player__input__mapper_8cpp.html#a0077cf1727eec8790568618d004b88bc":[17,0,3,4,2,1,5,7,20],
 "test__player__input__mapper_8cpp.html#a141830898bb9816f9d63687a070e81ce":[17,0,3,4,2,1,5,7,16],
 "test__player__input__mapper_8cpp.html#a1b0ce4b3550b844e37cb8ec3c519c7da":[17,0,3,4,2,1,5,7,0],
@@ -240,14 +249,5 @@ var NAVTREEINDEX37 =
 "test__theme__teardown__guards_8cpp.html":[17,0,3,4,2,1,6,8],
 "test__theme__teardown__guards_8cpp.html#a03f21cb2e846d21ce1db1f35e3e68ba0":[17,0,3,4,2,1,6,8,0],
 "test__theme__teardown__guards_8cpp.html#a8396bf8bceb53ee227c9035a57f8b983":[17,0,3,4,2,1,6,8,1],
-"test__thumbnail__geometry_8cpp.html":[17,0,3,4,2,1,2,21],
-"test__thumbnail__geometry_8cpp.html#a0d2222e1fd8e8e3cb57b5273e47a6b56":[17,0,3,4,2,1,2,21,0],
-"test__thumbnail__geometry_8cpp.html#a1cf578e00e9a50fa673395eef9ceca36":[17,0,3,4,2,1,2,21,1],
-"test__thumbnail__geometry_8cpp.html#a89b219eb59fc6b2be956439954f83934":[17,0,3,4,2,1,2,21,2],
-"test__tile__autotile_8cpp.html":[17,0,3,4,2,1,4,33],
-"test__tile__autotile_8cpp.html#a048224472d72a78076fa54e19c6f9157":[17,0,3,4,2,1,4,33,10],
-"test__tile__autotile_8cpp.html#a0c8aa8baf5f892f698ccd4037b4b9efa":[17,0,3,4,2,1,4,33,5],
-"test__tile__autotile_8cpp.html#a13b14a7fae76a10cb386671f7910e572":[17,0,3,4,2,1,4,33,8],
-"test__tile__autotile_8cpp.html#a6665c5886258394050f269a611964c02":[17,0,3,4,2,1,4,33,4],
-"test__tile__autotile_8cpp.html#a7908d2d61f87c8a5fbadbae15be7a675":[17,0,3,4,2,1,4,33,11]
+"test__thumbnail__geometry_8cpp.html":[17,0,3,4,2,1,2,21]
 };

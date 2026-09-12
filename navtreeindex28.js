@@ -1,5 +1,14 @@
 var NAVTREEINDEX28 =
 {
+"structcore_1_1ParticleEffect.html#aae65a2d7d727cd2137d640a61d567b86":[15,0,1,36,1],
+"structcore_1_1ParticleEffect.html#aae65a2d7d727cd2137d640a61d567b86":[16,0,0,36,1],
+"structcore_1_1PhysicsConfig.html":[15,0,1,66],
+"structcore_1_1PhysicsConfig.html":[16,0,0,66],
+"structcore_1_1PhysicsConfig.html#a0c37db23188588851424c06d9183bfa1":[15,0,1,66,21],
+"structcore_1_1PhysicsConfig.html#a0c37db23188588851424c06d9183bfa1":[16,0,0,66,21],
+"structcore_1_1PhysicsConfig.html#a0fdb33afff65f36642d32a0714f9a642":[15,0,1,66,23],
+"structcore_1_1PhysicsConfig.html#a0fdb33afff65f36642d32a0714f9a642":[16,0,0,66,23],
+"structcore_1_1PhysicsConfig.html#a1d917394883028f145c989fd268e876c":[15,0,1,66,15],
 "structcore_1_1PhysicsConfig.html#a1d917394883028f145c989fd268e876c":[16,0,0,66,15],
 "structcore_1_1PhysicsConfig.html#a2072e171d44c396a1d3fc28e738224d0":[15,0,1,66,18],
 "structcore_1_1PhysicsConfig.html#a2072e171d44c396a1d3fc28e738224d0":[16,0,0,66,18],
@@ -240,14 +249,5 @@ var NAVTREEINDEX28 =
 "structcore_1_1Species.html#a931bb7870f2655b91cc099cdc74e95d9":[15,0,1,83,8],
 "structcore_1_1Species.html#a931bb7870f2655b91cc099cdc74e95d9":[16,0,0,83,8],
 "structcore_1_1Species.html#aea29c6ecc5439b520b57f3ae13e62694":[15,0,1,83,7],
-"structcore_1_1Species.html#aea29c6ecc5439b520b57f3ae13e62694":[16,0,0,83,7],
-"structcore_1_1Species.html#af38aa174cb7a2b6db46329e00d0175bd":[15,0,1,83,10],
-"structcore_1_1Species.html#af38aa174cb7a2b6db46329e00d0175bd":[16,0,0,83,10],
-"structcore_1_1Species.html#afd48c8cd4a1ee3cdbb385d5f24e425df":[15,0,1,83,5],
-"structcore_1_1Species.html#afd48c8cd4a1ee3cdbb385d5f24e425df":[16,0,0,83,5],
-"structcore_1_1Sprite.html":[15,0,1,28],
-"structcore_1_1Sprite.html":[16,0,0,28],
-"structcore_1_1Sprite.html#a6388caacbea8c28cb9e8956cd46e9b2c":[15,0,1,28,1],
-"structcore_1_1Sprite.html#a6388caacbea8c28cb9e8956cd46e9b2c":[16,0,0,28,1],
-"structcore_1_1Sprite.html#aa14509186966df68f09f59dfda0e2318":[15,0,1,28,2]
+"structcore_1_1Species.html#aea29c6ecc5439b520b57f3ae13e62694":[16,0,0,83,7]
 };
