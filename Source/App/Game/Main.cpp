@@ -34,7 +34,7 @@
 #include "HMI/Audio/AudioEngine.h"
 #include "HMI/HmiLog.h"
 #include "HMI/Platform/ExecutableDirectory.h"
-#include "HMI/Presentation/OptionsModel.h"
+#include "HMI/Runtime/OptionsModel.h"
 
 namespace {
 
@@ -136,7 +136,9 @@ int main(int argc, char** argv) {
     // ressource embarquée -- c'est ce qu'il faut pour un binaire livré. Avec
     // JADG_QML_FROM_SOURCE=1, on place en tête des chemins d'import un module dont le qmldir
     // désigne les fichiers SOURCES : le programme lit alors Source/Ui directement, et relancer
-    // suffit à voir la retouche.
+    // suffit à voir la retouche. Seul `Jadg.Ui` -- les formulaires, le territoire de la
+    // conception -- se relit ainsi ; `Jadg.App` (le câblage) et `Jadg.Runtime` (le C++) restent
+    // ceux du binaire, et c'est voulu : ce qu'un artiste change ne demande jamais de les toucher.
     //
     // `addImportPath` insère en tête : le module sur disque l'emporte donc sur celui de la
     // ressource, sans qu'il faille retirer ce dernier.
@@ -220,7 +222,7 @@ int main(int argc, char** argv) {
     // elle ne se serait jamais reevaluee : le bouton d'export des journaux serait reste grise
     // pour toujours, dans un build ou les journaux existent pourtant.
     if (auto* const options =
-            engine.singletonInstance<hmi::OptionsModel*>("Jadg.Ui", "OptionsModel")) {
+            engine.singletonInstance<hmi::OptionsModel*>("Jadg.Runtime", "OptionsModel")) {
         options->setSessionLog(sessionLog);
         audio.setVolume(static_cast<float>(options->volume()) / 100.0F);
         QObject::connect(options, &hmi::OptionsModel::volumeChanged, options, [options, &audio]() {
@@ -244,7 +246,7 @@ int main(int argc, char** argv) {
 
     // En dernier : la fenetre et tous ses ecrans naissent ici, et doivent trouver un modele deja
     // branche.
-    engine.loadFromModule("Jadg.Ui", "Main");
+    engine.loadFromModule("Jadg.App", "Main");
 
     const int code = QGuiApplication::exec();
     HMI_LOG_INFO("Arret de JustAnotherDnDGame (code " + std::to_string(code) + ").");
