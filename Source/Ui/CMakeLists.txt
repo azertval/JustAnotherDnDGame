@@ -13,9 +13,11 @@
 # chemin aurait dû être réécrit un par un (par un alias de ressource), et c'est cette plomberie qui
 # a coûté 125 commits à la branche abandonnée. Aucun alias ici, ni nulle part.
 #
-# DESIGNER_SUPPORTED : sans ce mot dans le `qmldir`, Qt Design Studio ouvre les fichiers mais laisse
-# la bibliothèque de composants VIDE -- chaque dossier y est listé « (vide) » -- et l'artiste ne
-# peut poser aucune brique du projet sur un écran. C'est le constat de la phase 1 du LOT-87.
+# DESIGNER_SUPPORTED : le mot que Qt Design Studio exige dans le `qmldir` pour traiter un module
+# comme une bibliothèque de conception. Nécessaire, et pas suffisant : la bibliothèque de
+# composants de l'atelier reste « (vide) » avec ou sans lui (constat de la phase 1 du LOT-87, deux
+# dispositions essayées) ; les briques se posent par la galerie DesignStudio/Main.ui.qml et par le
+# code, en attendant que la phase 2 instruise ce point avec ses nouvelles briques.
 
 # Contrôles : les briques que la conception réutilise d'un écran à l'autre. Écrans : un FORMULAIRE
 # `.ui.qml` par écran ; son jumeau de câblage `.qml` vit dans Source/App/Game/Qml/Screens/, module
