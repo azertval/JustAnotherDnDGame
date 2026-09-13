@@ -187,6 +187,46 @@ Rectangle {
                             Gauge { kind: "experience"; value: 0.4 }
                         }
                     }
+
+                    SectionBanner {
+                        Layout.fillWidth: true
+                        material: "dark"
+                        text: "Menu"
+                    }
+
+                    RowLayout {
+                        spacing: Tokens.gapLarge
+
+                        LogoPlate { Layout.preferredWidth: 320 * Tokens.uiScale }
+
+                        ColumnLayout {
+                            spacing: Tokens.gapMedium
+
+                            Row {
+                                spacing: Tokens.gapSmall
+
+                                FocusMark { anchors.verticalCenter: parent.verticalCenter }
+                                FocusMark { anchors.verticalCenter: parent.verticalCenter; size: 40 * Tokens.uiScale }
+                            }
+
+                            QuotePlate { text: "« Chaque choix façonne une nouvelle histoire. »" }
+
+                            // Un fond couvrant, cadre dans une vignette : invisible tant que la scene
+                            // n'est pas livree -- la vignette montre alors le panneau dessous.
+                            Rectangle {
+                                Layout.preferredWidth: 320 * Tokens.uiScale
+                                Layout.preferredHeight: 180 * Tokens.uiScale
+                                color: Tokens.panelRaised
+                                border.color: Tokens.panelEdge
+                                border.width: Tokens.strokeWidth
+
+                                CoverArt {
+                                    anchors.fill: parent
+                                    key: "ui/background/menu-scene"
+                                }
+                            }
+                        }
+                    }
                 }
             }
 

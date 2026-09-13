@@ -280,24 +280,44 @@
 <context>
     <name>MainMenuForm.ui</name>
     <message>
-        <location filename="../../Ui/Screens/MainMenuForm.ui.qml" line="54"/>
+        <location filename="../../Ui/Screens/MainMenuForm.ui.qml" line="122"/>
+        <source>Continuer</source>
+        <translation>Continue</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/MainMenuForm.ui.qml" line="137"/>
         <source>Nouvelle partie</source>
         <translation>New Game</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/MainMenuForm.ui.qml" line="55"/>
+        <location filename="../../Ui/Screens/MainMenuForm.ui.qml" line="151"/>
+        <source>Charger une partie</source>
+        <translation>Load Game</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/MainMenuForm.ui.qml" line="166"/>
         <source>Options</source>
         <translation>Options</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/MainMenuForm.ui.qml" line="56"/>
+        <location filename="../../Ui/Screens/MainMenuForm.ui.qml" line="180"/>
         <source>Crédits</source>
         <translation>Credits</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/MainMenuForm.ui.qml" line="57"/>
+        <location filename="../../Ui/Screens/MainMenuForm.ui.qml" line="194"/>
         <source>Quitter</source>
         <translation>Quit</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/MainMenuForm.ui.qml" line="233"/>
+        <source>Profil joueur</source>
+        <translation>Player profile</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/MainMenuForm.ui.qml" line="256"/>
+        <source>« Chaque choix façonne une nouvelle histoire. »</source>
+        <translation>“Every choice shapes a new story.”</translation>
     </message>
 </context>
 <context>

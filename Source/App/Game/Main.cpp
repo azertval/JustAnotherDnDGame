@@ -21,15 +21,18 @@
 #include <QQuickWindow>
 #include <QSettings>
 #include <QString>
+#include <QStringList>
 #include <QSurfaceFormat>
 #include <QTimer>
 #include <QTranslator>
 #include <QUrl>
+#include <QVariantMap>
 #include <filesystem>
 #include <optional>
 #include <string>
 
 #include "App/Common/Bootstrap.h"
+#include "Core/Core.h"
 #include "Core/Diagnostics/MemoryLogSink.h"
 #include "HMI/Audio/AudioEngine.h"
 #include "HMI/HmiLog.h"
@@ -83,6 +86,9 @@ int main(int argc, char** argv) {
     // chaque lancement sans que rien ne le signale.
     QCoreApplication::setOrganizationName(QStringLiteral("JustAnotherDnDGame"));
     QCoreApplication::setApplicationName(QStringLiteral("Game"));
+    // Lue par le menu principal (`Qt.application.version`) : le numero reste celui du `project()`
+    // racine, sans type C++ de plus a exposer ni doublure a tenir pour l'atelier.
+    QCoreApplication::setApplicationVersion(QString::fromStdString(core::Engine::version()));
 
     // Synchronisation verticale : elle se pose sur le FORMAT DE SURFACE, donc avant la creation de
     // la fenetre -- c'est pour cela qu'elle s'applique au prochain lancement et que l'ecran des
@@ -211,11 +217,34 @@ int main(int argc, char** argv) {
     // Écran d'ouverture (--screen=<Nom>). `setInitialProperties` pose la propriété AVANT que la
     // racine ne soit construite : l'affecter après aurait fait afficher l'écran par défaut le
     // temps d'une image, puis le bon -- un clignement visible sur une capture.
+    QVariantMap initialProperties;
     if (const std::optional<std::string_view> screen =
             app::commandLineOption(argc, argv, "--screen=")) {
-        engine.setInitialProperties(
-            {{QStringLiteral("startScreen"),
-              QString::fromUtf8(screen->data(), static_cast<qsizetype>(screen->size()))}});
+        initialProperties.insert(
+            QStringLiteral("startScreen"),
+            QString::fromUtf8(screen->data(), static_cast<qsizetype>(screen->size())));
+    }
+    // Taille de fenetre imposee (--window-size=<L>x<H>), pour capturer un ecran a 1920 x 1080 et a
+    // 1280 x 720 cote a cote avec sa maquette (LOT-87, phase 3). Passer par le plein ecran aurait
+    // ecrit le reglage du joueur, et donne la taille de SON moniteur, pas celle qu'on verifie.
+    if (const std::optional<std::string_view> size =
+            app::commandLineOption(argc, argv, "--window-size=")) {
+        const QStringList parts =
+            QString::fromUtf8(size->data(), static_cast<qsizetype>(size->size()))
+                .split(QLatin1Char('x'));
+        bool widthOk = false;
+        bool heightOk = false;
+        const int width = parts.size() == 2 ? parts[0].toInt(&widthOk) : 0;
+        const int height = parts.size() == 2 ? parts[1].toInt(&heightOk) : 0;
+        if (widthOk && heightOk && width > 0 && height > 0) {
+            initialProperties.insert(QStringLiteral("width"), width);
+            initialProperties.insert(QStringLiteral("height"), height);
+        } else {
+            HMI_LOG_WARNING("--window-size= attend <largeur>x<hauteur> : taille par defaut.");
+        }
+    }
+    if (!initialProperties.isEmpty()) {
+        engine.setInitialProperties(initialProperties);
     }
 
     // Brancher les reglages sur ce qu'ils atteignent. La vue-modele persiste et previent ; c'est
