@@ -413,6 +413,82 @@ refusées avec leur motif ; `check_ui_assets.py` reste vert après une installat
 Aucune pièce n'est encore produite : la production (le générateur d'images, hors de portée de
 Claude) n'a pas tourné. Le cahier et les deux scripts sont la matière prête à la recevoir.
 
+### T2.7 — Les briques de la charte v2
+
+Treize briques dans `Source/Ui/Controls/`, toutes en `.ui.qml`, toutes nommées par le plan :
+
+| Brique | Base | Pièces du cahier | Propriétés qui choisissent la pièce |
+|---|---|---|---|
+| `PanelFrame` | `Item` | `ui/frame/panel-*`, `subpanel-*` | `material`, `subpanel`, `bound`, `empty` ; le contenu se pose dedans, en retrait de `padding` |
+| `TitlePlate` | `Item` | `ui/plate/title-garnet`, `title-black` | `material`, `text` |
+| `SectionBanner` | `Item` | `ui/plate/section-banner`, `section-bar` | `material`, `text` |
+| `OrnateButton` | `Button` | `ui/button/<kind>/<état>` | `kind` (`menu`, `primary`, `secondary`, `apply`, `cancel`, `default`, `back`), `iconKey`, `forcedState` |
+| `OrnateTab` | `TabButton` | `ui/tab/ribbon/<état>`, `segment/<état>` | `material`, `iconKey`, `forcedState` |
+| `OrnateCheck` | `CheckBox` | `ui/control/checkbox/<état>` | `forcedState` |
+| `OrnateSlider` | `Slider` | `ui/control/slider-track`, `slider-handle/<état>` | `forcedState` |
+| `OrnateCombo` | `ComboBox` | `ui/control/combo/<état>`, `combo-popup` | `forcedState` |
+| `StatMedallion` | `Item` | `ui/medallion/ability`, `derived-stat` | `kind`, `label`, `value`, `modifier` |
+| `PortraitFrame` | `Item` | `ui/medallion/portrait-round/<état>`, `portrait-square/<état>`, `portrait-hud`, `level-pip` | `shape`, `source`, `active`, `level`, `size` |
+| `ItemSlot` | `Item` | `ui/slot/item/<état>`, `rarity/<rareté>`, `quantity-pip` | `iconSource`, `rarity`, `quantity`, `selected`, `equipped`, `forcedState` ; `pointer` pour le jumeau |
+| `Gauge` | `Item` | `ui/gauge/track`, `fill-sheen` | `kind` (`health`, `experience`, `weight`), `value`, `label` |
+| `GoldDivider` | `Item` | `ui/control/divider-gold` | — |
+
+Et deux porteurs d'image qu'elles partagent, hors de la liste du plan : `NinePatchArt` (une pièce
+9-patch) et `FixedArt` (une pièce de taille fixe). Ils existent pour qu'aucune brique ne réécrive le
+calcul d'échelle ni la règle « livrée ou repli ».
+
+Ce que la tâche a décidé :
+
+- **Une brique nomme une clé du cahier, jamais un fichier.** `Source/Ui/Theme/Artwork.qml`, un
+  singleton, dit quelles pièces sont livrées : une table `delivered` (clé → fichier, marges) et le
+  dossier résolu `baseUrl`. Pas de fonction : Qt Design Studio refuse tout appel de fonction dans un
+  `.ui.qml`, et le `qmllint` de Qt 6.11 le signale (`FunctionsNotSupportedInQmlUi`). Tant qu'une pièce
+  manque, la brique dessine l'**aplat de repli** que le cahier lui prévoit (`fallback`), avec les
+  jetons ; le jour où elle arrive, la même brique la pose sans qu'un formulaire change. Pourquoi une
+  table et non « essayer le fichier » : un `BorderImage` qui échoue écrit un avertissement QML par
+  instance, et le journal de session — qui sert de preuve à chaque porte — serait noyé.
+- **La table est engendrée, pas tenue.** `receive_ui_assets.py` la réécrit à chaque réception, depuis
+  les entrées `produced` du manifeste ; `check_ui_assets.py` échoue si elle ne le suit plus
+  (`--write-artwork` la répare) et si une brique nomme en toutes lettres une pièce absente du cahier.
+- **Les 9-patch sont posés à la taille de conception, puis réduits d'un bloc.** Les marges d'un
+  `BorderImage` sont en pixels de l'image et ne suivent pas l'élément : à 720p, des coins de 112 px
+  mangeraient un panneau réduit aux deux tiers. `NinePatchArt` pose l'image à `taille / uiScale` et
+  la ramène par `scale: uiScale` — coins, bords et centre dans les proportions de la maquette.
+- **Les contrôles sont des contrôles Qt restylés** (`Button`, `TabButton`, `CheckBox`, `Slider`,
+  `ComboBox`), pas des dessins qui les imitent : clavier, manette, glisser et accessibilité viennent
+  avec, et un jumeau branche `clicked` ou `checked` comme sur tout contrôle. Le style `Basic`, que
+  `Main.cpp` impose, est celui qui accepte `background`, `contentItem`, `indicator` et `handle`.
+- **Les états sont des propriétés.** L'état visuel se déduit de ce que le contrôle sait (`enabled`,
+  `down`, `hovered`, `highlighted`, `checked`) ; `forcedState` l'impose — ce qui permet à la galerie,
+  et à l'atelier où l'on ne survole rien, de montrer chaque état côte à côte. Pour une entrée de menu,
+  `active` est l'entrée **courante** (`highlighted`), celle que désigne le clavier ou la manette.
+- **Le remplissage d'une jauge et celui d'un curseur sont des aplats de jetons**, jamais une image
+  étirée à la largeur de la valeur (qui en déformerait les extrémités) ; la jauge y pose le relief en
+  niveaux de gris du cahier (`fill-sheen`), comme le T2.4 l'a tranché.
+- **`Tokens.qml` gagne `gapSmall`, `gapMedium`, `gapLarge` (8, 16, 32 à 1080p) et `strokeWidth`**
+  (le trait des aplats de repli, jamais sous un pixel). Préfixe `gap` pour la même raison que `font` :
+  `spaceSmall` et ses voisins sont encore ceux de la v1.
+- **La galerie est `DesignStudio/Main.ui.qml`**, posée telle quelle par `ScreenStack` sous
+  `--screen=Gallery` et en dernier dans le sélecteur de développement. Import qualifié
+  (`import Jadg.Ui as Ui`) : `Jadg.Ui` et `Jadg.App` exportent tous deux un type `Main`.
+- **Un écart à la règle « plus personne ne touche à CMake »** de la porte 1, et un seul en plus de la
+  liste des fichiers : les images produites entrent dans la ressource par motif
+  (`UI/*/*.png`, `CONFIGURE_DEPENDS`). Sans lui, la première livraison serait installée, déclarée,
+  dite livrée par `Artwork.qml`… et introuvable dans le binaire. Le motif ne remplace aucune liste :
+  celle qui fait foi reste le manifeste, dont `check_ui_assets.py` refuse déjà tout fichier absent.
+
+**Vérifié de bout en bout** avec quatre mires PNG (coins, bords et centre de trois couleurs, aux
+marges exactes du cahier) : `receive_ui_assets.py` les installe et réécrit `Artwork.qml`,
+`check_ui_assets.py` reste vert, le jeu reconstruit les embarque par le motif, et la galerie les pose
+à 720p avec des extrémités de plaque de 107 px (160 × 2/3). Mires retirées ensuite. La mire a montré
+une contrainte que le cahier implique sans la dire : **un 9-patch plus petit que ses deux marges
+superpose ses coins** — 224 px de haut au moins pour `panel-dark`, 256 pour `panel-parchment`. Les
+écrans de la phase 3 prennent un sous-panneau en deçà.
+
+Laissé ouvert : **le panneau Composants de l'atelier** (constat de la phase 1, toujours « (vide) »).
+Les briques se posent depuis la galerie ou par le code ; un `.qmltypes` ou des `designer/*.metainfo`
+restent l'hypothèse, et ne sont pas instruits ici.
+
 ### Où en est la phase 2 — vérifié le 13 septembre 2026
 
 - `scripts/build.ps1 -Preset ninja -Test` : construction propre, `ctest` 1033/1033.
@@ -435,10 +511,12 @@ Claude) n'a pas tourné. Le cahier et les deux scripts sont la matière prête �
 
 ## Où en est le lot
 
-**Phases 0 et 1 livrées** (PR #25 et #26) ; **phase 2 en cours** — T2.1 à T2.6 faits (branche
-`lot/LOT-87-phase-2-charte-jetons`). Reste T2.7 (les briques). Le cahier (T2.4) est la première
-chose à faire produire : c'est le chemin critique du lot, et le manifeste (T2.5) comme la
-réception (T2.6) sont prêts à recevoir ce qui en revient.
+**Phases 0 et 1 livrées** (PR #25 et #26) ; **phase 2 faite** — T2.1 à T2.7 (branche
+`lot/LOT-87-phase-2-charte-jetons`), en attente de la porte 2 (revue des jetons et des briques). Le
+cahier (T2.4) est la première chose à faire produire : c'est le chemin critique du lot. Le manifeste
+(T2.5), la réception (T2.6) et les briques (T2.7) sont prêts à recevoir ce qui en revient — une
+pièce réceptionnée apparaît dans la galerie sans autre changement. La clôture du T2.6 (fonds,
+cadres, plaques, boutons et contrôles livrés) attend toujours la production.
 
 Rappel de la phase 0 :
 

@@ -159,6 +159,14 @@ des deux mondes, découvert le plus tard possible. `EX-IHM-104` l'interdit, et l
 > `PanelFrame`, `TitlePlate`, `OrnateButton`… (T2.7). Les trois raisons ci-dessous en deviennent les
 > conditions : marges 9-patch déclarées, palette des jetons imposée à la production, taille fixe pour
 > ce qui ne s'étire pas. Ce qui suit reste vrai des écrans pas encore transcrits.
+>
+> **Poser une brique v2.** Elles sont toutes dans la galerie (`DesignStudio/Main.ui.qml`, ce que
+> l'atelier ouvre en premier ; `--screen=Gallery` dans le jeu), chacune dans ses états. Une brique se
+> règle par ses propriétés — `material`, `kind`, `forcedState`… — et jamais par une image : elle
+> nomme une clé du cahier et pose la pièce livrée, ou son aplat de jetons tant qu'elle ne l'est pas
+> (`Theme/Artwork.qml` dit lesquelles le sont). Une maquette qui paraît « plate » dans l'atelier
+> n'est donc pas fausse : elle attend ses images. Ne pas éditer `Artwork.qml` à la main, la
+> réception des images l'écrit.
 
 Cadres, cabochons, bandeaux et fleurons sont des `Shape` — des polygones, pas des images
 (`EX-IHM-075`, version v1). Trois raisons :

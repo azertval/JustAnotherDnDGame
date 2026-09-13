@@ -14,7 +14,9 @@ un membre -- avec chaque « / » remplacé par « __ » (`ui__frame__dark-panel.
 - ce qui passe est installé sous `Source/Elements/Assets/UI/<famille>/...` (la clé, préfixe `ui/`
   ôté, en donne le chemin -- exactement ce que `installRoot` du cahier décrit), et une entrée
   `provenance: "produced"` est ajoutée à `illustrations.json` (T2.5) : le prompt assemblé tel qu'il
-  serait envoyé (`check_assets_brief.assembler`), la date du jour, les marges 9-patch de la pièce.
+  serait envoyé (`check_assets_brief.assembler`), la date du jour, les marges 9-patch de la pièce ;
+- la table des pièces livrées (`Source/Ui/Theme/Artwork.qml`) est réécrite : c'est ce qui fait
+  poser l'image par les briques de la charte v2 (T2.7), à la place de leur aplat de repli.
 
 Ce que ce script NE vérifie PAS : l'absence de lettres incrustées, la fidélité de la matière au
 prompt, un filigrane qui déborderait de ses marges. Ce sont des jugements sur une image, pas des
@@ -38,6 +40,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import check_assets_brief as brief  # reutilise lire_jetons(), variantes(), assembler()
+import check_ui_assets  # reutilise write_artwork() : la table des pieces livrees (T2.7)
 
 ROOT = Path(__file__).resolve().parent.parent
 UI = ROOT / "Source" / "Elements" / "Assets" / "UI"
@@ -154,6 +157,11 @@ def receive(folder: Path, dry_run: bool) -> int:
         MANIFEST.write_text(
             json.dumps(manifest, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
         )
+        # Les briques ne posent une image que si Artwork.qml la dit livree : sans cette ligne, la
+        # piece serait installee et declaree, et les ecrans garderaient leur aplat de repli.
+        if not check_ui_assets.write_artwork(manifest):
+            print("receive_ui_assets : table d'Artwork.qml introuvable, non mise a jour.", file=sys.stderr)
+            return 1
 
     for name, reason in refused:
         print(f"receive_ui_assets : REFUSE {name} -- {reason}", file=sys.stderr)

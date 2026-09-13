@@ -128,6 +128,19 @@ QtObject {
     readonly property int fontBody: Math.round(18 * uiScale)          // libelles et corps
     readonly property int fontCaption: Math.round(14 * uiScale)       // legendes, aides, version
 
+    // --- Espacements et trait de la charte v2 (LOT-87, T2.7) -----------------------------------
+    //
+    // Meme regle que l'echelle typographique : ecrits a 1080p, multiplies ici par `uiScale`, et
+    // jamais par l'entier. Prefixe `gap` pour la meme raison que `font` : `spaceSmall` et ses
+    // voisins sont encore ceux de la v1, multiplies par `scale`, jusqu'au T5.2.
+    readonly property real gapSmall: 8 * uiScale        // entre un libelle et sa valeur
+    readonly property real gapMedium: 16 * uiScale      // entre deux controles d'une section
+    readonly property real gapLarge: 32 * uiScale       // entre deux sections, retrait d'un panneau
+
+    // Le trait des aplats de repli -- ce que les briques dessinent tant que l'image produite de
+    // leur piece n'est pas livree. Jamais sous un pixel : un filet de 0,7 px disparait.
+    readonly property real strokeWidth: Math.max(1, Math.round(2 * uiScale))
+
     // --- Grandeurs de la charte v1, en PIXELS a l'echelle courante : OBSOLETES -----------------
     //
     // Gardees le temps de la phase 3 du LOT-87 : les quatorze ecrans actuels les lisent encore.

@@ -1,5 +1,8 @@
 import QtQuick
 import Jadg.Runtime
+// Qualifié : `Jadg.Ui` et `Jadg.App` exportent tous deux un type `Main` (la galerie de l'atelier et
+// la fenêtre du jeu). Sans préfixe, l'un masquerait l'autre selon l'ordre des imports.
+import Jadg.Ui as Ui
 // Les écrans vivent dans Screens/, un sous-dossier de ce module : l'import explicite les rend
 // visibles d'ici, ce que l'import implicite du répertoire courant ne ferait pas.
 import Jadg.App
@@ -29,13 +32,15 @@ Item {
     /// Écran imposé au lancement, ou chaîne vide pour laisser le routeur décider.
     property string forcedScreen: ""
 
-    /// Les quatorze écrans, dans l'ordre où le sélecteur de développement les fait défiler.
+    /// Les quatorze écrans, dans l'ordre où le sélecteur de développement les fait défiler, puis
+    /// la galerie des briques de la charte v2 (LOT-87) -- qui n'est pas un écran du jeu, et que le
+    /// routeur ne désigne jamais.
     /// Le même vocabulaire que `--screen=` : deux listes différentes auraient fini par diverger,
     /// et un écran serait devenu joignable par un chemin et pas par l'autre.
     readonly property var screenNames: [
         "MainMenu", "GameView", "Pause", "Options", "Credits",
         "CharacterSheet", "Inventory", "Journal", "WorldMap", "Dialogue",
-        "Merchant", "GuildBoard", "CombatHud", "TeamSheet"
+        "Merchant", "GuildBoard", "CombatHud", "TeamSheet", "Gallery"
     ]
 
     Component { id: menuScreen; MainMenu {} }
@@ -52,6 +57,10 @@ Item {
     Component { id: guildBoardScreen; GuildBoard {} }
     Component { id: combatHudScreen; CombatHud {} }
     Component { id: teamSheetScreen; TeamSheet {} }
+    // La galerie est le point d'entrée de l'atelier (`DesignStudio/Main.ui.qml`), posée telle quelle :
+    // aucun jumeau, rien à câbler -- c'est ce qui prouve que les briques se résolvent au jeu comme à
+    // l'atelier.
+    Component { id: galleryScreen; Ui.Main {} }
 
     Loader {
         anchors.fill: parent
@@ -144,6 +153,7 @@ Item {
         case "GuildBoard":     return guildBoardScreen
         case "CombatHud":      return combatHudScreen
         case "TeamSheet":      return teamSheetScreen
+        case "Gallery":        return galleryScreen
         }
         return menuScreen
     }
