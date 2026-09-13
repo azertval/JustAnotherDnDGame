@@ -55,10 +55,10 @@ namespace {
  */
 void registerIdentityFonts() {
     const std::filesystem::path fonts = hmi::executableDirectory() / "Assets" / "Fonts";
-    for (const char* file : {"PixelifySans-Regular.ttf", "PixelifySans-Bold.ttf",
-                              "PressStart2P-Regular.ttf", "Cinzel-Regular.ttf",
-                              "Cinzel-SemiBold.ttf", "Cinzel-Bold.ttf",
-                              "IMFellEnglish-Regular.ttf", "IMFellEnglish-Italic.ttf"}) {
+    for (const char* file :
+         {"PixelifySans-Regular.ttf", "PixelifySans-Bold.ttf", "PressStart2P-Regular.ttf",
+          "Cinzel-Regular.ttf", "Cinzel-SemiBold.ttf", "Cinzel-Bold.ttf",
+          "IMFellEnglish-Regular.ttf", "IMFellEnglish-Italic.ttf"}) {
         const std::filesystem::path path = fonts / file;
         const int id = QFontDatabase::addApplicationFont(QString::fromStdString(path.string()));
         if (id < 0) {
