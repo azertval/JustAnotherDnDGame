@@ -96,16 +96,16 @@ $(function(){initNavTree('lot-87.html','',''); });
 <blockquote class="doxtable">
 <p>Statut : <b>en cours</b>. Prérequis : <span class="tt">LOT-86</span>, <span class="tt">LOT-39</span>. </p>
 </blockquote>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md641"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md642"></a>
 Objectif</h1>
 <p>Adopter les dix maquettes du pack UI comme charte visuelle v2, et transcrire les écrans du jeu sur cette base : panneaux sombres et parchemin, <span class="tt">Cinzel</span> en titres, <span class="tt">IM Fell English</span> en corps, illustrations peintes. Les assets (cadres 9-patch, plaques, boutons, fonds) sont produits à part, à 1080p, depuis un cahier des assets — jamais découpés des maquettes elles-mêmes, qui restent des références de cotes et de composition.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md642"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md643"></a>
 Pourquoi les maquettes remplacent la charte parchemin pixel</h1>
 <p>Les maquettes du pack contredisent la direction retenue par les <span class="tt">LOT-66</span> et <span class="tt">LOT-76</span> (parchemin de Tanares, sans illustration peinte). Elles sont malgré tout la matière la plus riche dont dispose le projet pour les dix écrans qu'elles couvrent : la décision, prise le 11 septembre 2026, est de les adopter comme charte v2 plutôt que de continuer à les ignorer. Le prix assumé : deux directions graphiques auront coexisté dans l'historique du dépôt, la seconde remplaçant entièrement la première.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md643"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md644"></a>
 Ce que Claude ne produit pas</h1>
 <p>Aucun cadre doré, aucun fond peint n'est dessiné par un modèle Claude. La phase 2 sépare deux métiers : Claude écrit le cahier des assets (liste, dimensions, marges 9-patch, description, prompt de génération par pièce) et vérifie/enregistre ce qui revient ; la production des images passe par un générateur d'images ou un illustrateur, à partir de ce cahier.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md644"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md645"></a>
 Programme, en six phases</h1>
 <ol type="1">
 <li><b>Socle vert</b> — dépôt propre (branches mortes archivées et retirées, débris de travail retirés, maquettes déplacées dans ce dossier), lot inscrit à la feuille de route.</li>
@@ -115,12 +115,73 @@ Programme, en six phases</h1>
 <li><b>Le cadre du HUD</b> — <span class="tt">CombatHudForm</span> et <span class="tt">GameViewForm</span> réécrits avec le cadre de la maquette, branchement différé aux lots qui fourniront les données réelles.</li>
 <li><b>Retrait</b> — le dossier <span class="tt">JustAnotherDnDGame_UI_ASSET_PACK/</span> et l'ancienne charte (<span class="tt">LOT-86</span>) supprimés une fois qu'aucun écran ne les cite plus.</li>
 </ol>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md645"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md646"></a>
+Phase 1 — le module de conception</h1>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md647"></a>
+T1.1 — Le diagnostic, avant d'écrire</h2>
+<p>L'hypothèse du plan — <em>le mode conception est grisé parce que <span class="tt">Jadg.Ui</span> mêle QML et C++</em> — a été mise à l'épreuve le 12 septembre 2026 en ouvrant <span class="tt">Source/Ui/JadgUi.qmlproject</span> de l'état <span class="tt"><a class="el" href="Editor_2Main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="Point d&#39;entrée du programme.">main</a></span> (phase 0) dans Qt Design Studio <b>4.8.3</b> (Qt 6.8.7 embarqué, <span class="tt">qmlpuppet-4.8.3.exe</span>), puis en résolvant chaque fichier avec le <span class="tt">qmllint</span> de ce même Qt. <b>Elle est fausse dans sa forme, et juste dans son fond.</b></p>
+<p>Ce qui a été observé :</p>
+<ul>
+<li>Le mode conception <b>n'est pas grisé</b> : les formulaires s'ouvrent, le panneau Propriétés fonctionne, trois marionnettistes tournent (kit « Desktop Qt 6.8.7 », style Basic).</li>
+<li>La bibliothèque de composants liste <b>chaque dossier « (vide) »</b> — <span class="tt">Controls</span>, <span class="tt">Screens</span>, <span class="tt">Theme</span>, <span class="tt">Logic</span> : l'artiste ne peut poser aucune brique du projet depuis ce panneau. Première hypothèse : le <span class="tt">qmldir</span> engendré ne porte pas <span class="tt">designersupported</span>. <b>Infirmée</b> après coup (voir ci-dessous) : le mot est posé, le panneau reste vide.</li>
+<li>Le panneau Problèmes signale « Nom pour le type <span class="tt">CharacterSheetModel</span> manquant » et « <span class="tt">InventoryModel</span> manquant » (<span class="tt">CharacterSheet.qml</span>, <span class="tt">Inventory.qml</span>) : les jumeaux qui instancient un type C++ restent irrésolus, et <span class="tt">GameViewForm.ui.qml</span> — un <em>formulaire</em> — nommait <span class="tt">GameViewport</span>, lui aussi C++. Le marionnettiste ne charge aucun plugin C++ du projet ; tout type C++ mêlé au module des formulaires y est irrésolvable.</li>
+<li>Avec le <span class="tt">qmllint</span> 6.8.7 de l'atelier et <span class="tt">-I Source/Ui</span> : les 13 formulaires purs se résolvent ; <span class="tt">GameViewForm.ui.qml</span>, <span class="tt">Main.qml</span>, <span class="tt">ScreenStack.qml</span> et tous les jumeaux échouent sur les types C++ (« unqualified access » sur <span class="tt">OptionsModel</span>, <span class="tt">ScreenRouter</span>, <span class="tt">PendingData</span>).</li>
+</ul>
+<p><b>Cause nommée</b> : un module unique (<span class="tt">Jadg.Ui</span>, porté par l'exécutable) qui contient à la fois les formulaires, le câblage et les types C++. <b>Critère qui la fait disparaître</b> : chaque formulaire et chaque jumeau se résout avec le <span class="tt">qmllint</span> du Qt embarqué de l'atelier, sans plugin C++, et l'atelier les ouvre sans un problème signalé.</p>
+<p><b>Ce qui reste ouvert : le panneau Composants.</b> Une fois la phase 1 faite (0 problème, 0 avertissement dans l'atelier), le panneau liste toujours chaque dossier « (vide) », y compris <span class="tt">Mocks</span>. Une expérience à part — un projet jetable avec deux modules <span class="tt">designersupported</span>, l'un à fichiers plats dans le répertoire du <span class="tt">qmldir</span>, l'autre en sous-dossiers — donne le même résultat pour les deux : ni la disposition ni le mot ne suffisent. Ce panneau n'est pas un critère de la phase 1 ; l'artiste pose une brique depuis la galerie <span class="tt">DesignStudio/Main.ui.qml</span> ou par le code, et la phase 2 (T2.7, les briques de la charte v2) instruira ce qu'il exige de plus — un <span class="tt">.qmltypes</span> ou un <span class="tt">designer/*.metainfo</span>, probablement.</p>
+<p>La branche abandonnée (125 commits) visait le bon découpage, mais l'a fait en laissant les fichiers en place et en réécrivant leurs chemins de ressource un par un, avec des cibles qui vérifiaient des fichiers engendrés. C'est cette plomberie qui a dérivé, pas l'idée.</p>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md648"></a>
+T1.2 à T1.4 — Ce qui a été fait</h2>
+<p>Trois modules QML, <b>chacun déclaré dans le répertoire de ses fichiers</b>, sans un seul alias de ressource :</p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Module  </th><th class="markdownTableHeadNone">Répertoire  </th><th class="markdownTableHeadNone">Contenu  </th><th class="markdownTableHeadNone">Cible  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><span class="tt">Jadg.Ui</span>  </td><td class="markdownTableBodyNone"><span class="tt">Source/Ui</span>  </td><td class="markdownTableBodyNone">formulaires, contrôles, jetons, galerie ; QML pur, <span class="tt">designersupported</span>  </td><td class="markdownTableBodyNone"><span class="tt">JadgUi</span> (statique)  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><span class="tt">Jadg.Runtime</span>  </td><td class="markdownTableBodyNone"><span class="tt">Source/HMI/Runtime</span>  </td><td class="markdownTableBodyNone">les neuf types C++ exposés au QML, dont la surface de rendu  </td><td class="markdownTableBodyNone"><span class="tt">JadgRuntime</span> (statique)  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><span class="tt">Jadg.App</span>  </td><td class="markdownTableBodyNone"><span class="tt">Source/App</span> (fichiers sous <span class="tt">Game/Qml/</span>)  </td><td class="markdownTableBodyNone"><span class="tt">Main.qml</span>, <span class="tt">Logic/</span>, les quatorze jumeaux  </td><td class="markdownTableBodyNone"><span class="tt">JustAnotherDnDGame</span>  </td></tr>
+</table>
+<ul>
+<li>La découverte de Qt, <span class="tt">QT_VERSION_MINIMUM</span>, les politiques <span class="tt">QTP0001</span>/<span class="tt">QTP0004</span> et <span class="tt">QT_QML_OUTPUT_DIRECTORY</span> (un seul répertoire de sortie pour les <span class="tt">qmldir</span> engendrés, celui que <span class="tt">all_qmllint</span> prend pour chemin d'import) vivent dans <span class="tt">Source/CMakeLists.txt</span> : trois répertoires frères en dépendent, et les cibles importées d'un <span class="tt">find_package</span> ne sont visibles que sous le répertoire qui l'a appelé.</li>
+<li>Les deux bibliothèques statiques sont liées avec leurs plugins (<span class="tt">JadgUiplugin</span>, <span class="tt">JadgRuntimeplugin</span>) : le <span class="tt">qmldir</span> embarqué les désigne (<span class="tt">optional plugin</span>, <span class="tt">linktarget</span>), et Qt les importe à l'édition de liens. Aucune macro dans le C++.</li>
+<li><span class="tt">world-map.jpg</span> est désigné par les formulaires par un chemin <b>relatif à leur source</b> (<span class="tt">../../Elements/Assets/UI/</span>), et embarqué par <span class="tt">qt_add_resources(... BASE ...)</span> à l'endroit exact où ce chemin le cherche dans la ressource : le même chemin sert à l'atelier, aux sources (<span class="tt">JADG_QML_FROM_SOURCE=1</span>) et au binaire.</li>
+<li>La surface de rendu C++ quitte <span class="tt">GameViewForm.ui.qml</span> pour son jumeau : le formulaire réserve un hôte (<span class="tt">viewportHost</span>), le jumeau y pose <span class="tt">GameViewport</span>.</li>
+<li><span class="tt">Source/Ui/Mocks/Jadg/Runtime/</span> : six doublures QML (<span class="tt">OptionsModel</span>, <span class="tt">ScreenRouter</span>, <span class="tt">PendingData</span>, <span class="tt">CharacterSheetModel</span>, <span class="tt">InventoryModel</span>, <span class="tt">GameViewport</span>) aux mêmes noms et propriétés que le C++ ; le <span class="tt">.qmlproject</span> les place dans ses <span class="tt">importPaths</span> et déclare les jumeaux dans ses <span class="tt">QmlFiles</span>. CMake ne connaît pas ce dossier.</li>
+<li><span class="tt">scripts/check_qml_designer_compat.py</span> réécrit : un <b>contrat</b> en neuf règles (imports et motifs des formulaires, aucun type C++ dans un formulaire, doublures complètes — chaque <span class="tt">Q_PROPERTY</span> et <span class="tt">Q_INVOKABLE</span> a son pendant —, jumeaux appareillés, chaque fichier QML listé par son CMake, aucun alias ni désactivation de <span class="tt">qmldir</span> engendré, <span class="tt">qmldir</span> de conception <span class="tt">designersupported</span>, aucune dépendance circulaire). <span class="tt">check_ui_layers.py</span> suit la nouvelle arborescence (règle 1 étendue à <span class="tt">Runtime/</span>, règle 3 sur <span class="tt">Source/App/CMakeLists.txt</span>, règle 6 étendue au câblage). <span class="tt">check_qt_version_pin.py</span> lit <span class="tt">Source/CMakeLists.txt</span>. Le pin garde son objet — la CI installe cette version — donc le script reste.</li>
+</ul>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md649"></a>
+T1.5 — Le test de l'artiste, passé le 12 septembre 2026</h2>
+<p>Trois changements, faits dans <span class="tt">Source/Ui</span> seulement, puis le jeu relancé avec <span class="tt">JADG_QML_FROM_SOURCE=1</span> — <b>sans qu'aucun compilateur C++ n'ait tourné</b> :</p>
+<ol type="1">
+<li><b>déplacer un bloc</b> — la colonne du menu passe de deux à six espacements extra-larges (<span class="tt">MainMenuForm.ui.qml</span>) ;</li>
+<li><b>changer un jeton</b> — l'accent (<span class="tt">Tokens.accent</span>) passe de l'or au bleu-vert ;</li>
+<li><b>remplacer un ornement</b> — les quatre cabochons d'angle du cadre de parchemin deviennent des fleurons (<span class="tt">ParchmentFrame.ui.qml</span>).</li>
+</ol>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Avant  </th><th class="markdownTableHeadNone">Après  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><img src="captures/phase1-avant-menu.jpg" alt="menu avant" class="inline"/>  </td><td class="markdownTableBodyNone"><img src="captures/phase1-apres-menu.jpg" alt="menu après" class="inline"/>  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><img src="captures/phase1-avant-fiche.png" alt="fiche avant" class="inline"/>  </td><td class="markdownTableBodyNone"><img src="captures/phase1-apres-fiche.png" alt="fiche après" class="inline"/>  </td></tr>
+</table>
+<p>Le <span class="tt">git diff</span> du test touche trois fichiers, tous sous <span class="tt">Source/Ui/**</span> ; aucun <span class="tt">.cpp</span>, aucun <span class="tt">.h</span>, aucun fichier engendré. Les deux journaux de session ne contiennent aucun avertissement QML.</p>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md650"></a>
+Où en est la phase 1</h2>
+<ul>
+<li>Le jeu démarre sur les quatorze écrans (<span class="tt">--screen=&lt;Nom&gt; --screenshot=</span>), aucun avertissement QML dans le journal ; <span class="tt">JADG_QML_FROM_SOURCE=1</span> relit <span class="tt">Source/Ui</span> (« Interface lue depuis les sources »).</li>
+<li><span class="tt">ctest</span> : 1033/1033.</li>
+<li>Avec le <span class="tt">qmllint</span> 6.8.7 de l'atelier et les doublures : 44 fichiers sur 46 se résolvent — les quatorze formulaires, les quatorze contrôles, la galerie, les quatorze jumeaux. Les deux restants, <span class="tt">Main.qml</span> et <span class="tt">ScreenStack.qml</span>, importent <span class="tt">Jadg.App</span> lui-même : fichiers de câblage, rien ne s'y dessine.</li>
+<li><span class="tt">check_qml_designer_compat.py</span> (196 éléments, 9 règles), <span class="tt">check_ui_layers.py</span> (278 éléments), <span class="tt">check_qt_version_pin.py</span>, <span class="tt">lint_lots.py</span>, <span class="tt">lint_exigences.py</span> : verts.</li>
+</ul>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md651"></a>
 Exigences couvertes</h1>
 <p>À écrire en phase 2 : la charte v2 remplace la description de <span class="tt"><a class="el" href="interface-ihm_8md.html">interface-ihm.md</a></span> et des exigences <span class="tt">EX-IHM-070</span> et voisines, aujourd'hui écrites pour le parchemin pixel.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md646"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md652"></a>
 Où en est le lot</h1>
-<p><b>Phase 0 en cours.</b></p>
+<p><b>Phase 0 livrée, phase 1 en cours</b> (branche <span class="tt">lot/LOT-87-module-conception</span>).</p>
 <ul>
 <li>Branches mortes (dix-neuf) archivées sous des tags <span class="tt">archive/&lt;nom&gt;</span> et retirées localement ; les branches distantes correspondantes restent à retirer (nécessite une confirmation explicite, hors de portée de l'automatisation).</li>
 <li><span class="tt"><a class="el" href="Editor_2Main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="Point d&#39;entrée du programme.">main</a></span> avancé sur <span class="tt">origin/main</span>, les trois worktrees obsolètes purgés.</li>
@@ -128,7 +189,7 @@ Où en est le lot</h1>
 <li>Les dix maquettes déplacées dans <span class="tt">references/</span>.</li>
 <li>Ce dossier créé : comme tout lot démarré, le <span class="tt">LOT-87</span> quitte <span class="tt"><a class="el" href="roadmap-0_81_80_8md.html">roadmap-0.1.0.md</a></span> pour cet epic, et <span class="tt"><a class="el" href="lots_8md.html">lots.md</a></span> porte désormais son <span class="tt">@subpage lot-87</span>.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md647"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md653"></a>
 Critères d'acceptation de la phase 0</h1>
 <ul>
 <li><span class="tt">git branch -a</span> ne liste plus que <span class="tt"><a class="el" href="Editor_2Main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="Point d&#39;entrée du programme.">main</a></span>, <span class="tt">gh-pages</span> et <span class="tt">lot/LOT-87-charte-v2</span>, hors branches distantes en attente de suppression manuelle.</li>

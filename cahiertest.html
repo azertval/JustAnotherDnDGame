@@ -93,9 +93,9 @@ $(function(){initNavTree('cahiertest.html','',''); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md_CahierTest"></a></p>
-<p><b>1051 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
+<p><b>1028 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md5"></a>
-Tests unitaires (1036)</h1>
+Tests unitaires (1013)</h1>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md6"></a>
 Core</h2>
 <p><b><span class="tt"><a class="el" href="test__core_8cpp.html" title="Tests unitaires de la bibliothèque Core (amorçage).">test_core.cpp</a></span></b></p>
@@ -6559,40 +6559,33 @@ Vérifie que <span class="tt">hmi::qtKeyToHmiKey(Qt::Key_Home).has_value()</span
 Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a1b53de392afb0dfdf5cdef4543fb672d" title="Traduit un code Qt::Key en hmi::Key.">hmi::qtKeyToHmiKey</a>(-1).has_value()</span> est faux.  </td></tr>
 </table>
 <h3 class="doxsection"><a class="anchor" id="autotoc_md26"></a>
-Interface (82)</h3>
+Interface (59)</h3>
 <p><b><span class="tt"><a class="el" href="test__application__theme_8cpp.html" title="Tests unitaires du thème de l&#39;IHM : modèle de feuille de style (LOT-56 TACHE-02, EX-IHM-050,...">test_application_theme.cpp</a></span></b></p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
 <th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>ApplicationThemeTest.SubstitutionRemplaceTousLesMarqueurs</b> (Critique)<br  />
-<sub><span class="tt"><a class="el" href="test__application__theme_8cpp.html" title="Tests unitaires du thème de l&#39;IHM : modèle de feuille de style (LOT-56 TACHE-02, EX-IHM-050,...">Source/Test/Unit/HMI/Interface/test_application_theme.cpp</a>:54</span></sub>  </td><td class="markdownTableBodyNone">La substitution remplace tous les marqueurs du modele.  </td><td class="markdownTableBodyNone">1. Substituer un modele avec deux marqueurs connus.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">result.ok</span> est vrai.<br  />
+<sub><span class="tt"><a class="el" href="test__application__theme_8cpp.html" title="Tests unitaires du thème de l&#39;IHM : modèle de feuille de style (LOT-56 TACHE-02, EX-IHM-050,...">Source/Test/Unit/HMI/Interface/test_application_theme.cpp</a>:66</span></sub>  </td><td class="markdownTableBodyNone">La substitution remplace tous les marqueurs du modele.  </td><td class="markdownTableBodyNone">1. Substituer un modele avec deux marqueurs connus.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">result.ok</span> est vrai.<br  />
 Vérifie que <span class="tt">result.text</span> vaut <span class="tt">"x: 1; y: 2;"</span>.  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>ApplicationThemeTest.MarqueurInconnuEstSignale</b> (Critique)<br  />
-<sub><span class="tt"><a class="el" href="test__application__theme_8cpp.html" title="Tests unitaires du thème de l&#39;IHM : modèle de feuille de style (LOT-56 TACHE-02, EX-IHM-050,...">Source/Test/Unit/HMI/Interface/test_application_theme.cpp</a>:72</span></sub>  </td><td class="markdownTableBodyNone">Un marqueur inconnu est signale plutot que produit avec un trou.  </td><td class="markdownTableBodyNone">1. Substituer un modele dont un marqueur n'a pas de valeur.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">result.ok</span> est faux.<br  />
+<sub><span class="tt"><a class="el" href="test__application__theme_8cpp.html" title="Tests unitaires du thème de l&#39;IHM : modèle de feuille de style (LOT-56 TACHE-02, EX-IHM-050,...">Source/Test/Unit/HMI/Interface/test_application_theme.cpp</a>:84</span></sub>  </td><td class="markdownTableBodyNone">Un marqueur inconnu est signale plutot que produit avec un trou.  </td><td class="markdownTableBodyNone">1. Substituer un modele dont un marqueur n'a pas de valeur.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">result.ok</span> est faux.<br  />
 Vérifie que <span class="tt">result.error.find("inconnu")</span> diffère de <span class="tt">std::string::npos</span>.  </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>ApplicationThemeTest.AucuneCouleurLitteraleDansLeModeleReel</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__application__theme_8cpp.html" title="Tests unitaires du thème de l&#39;IHM : modèle de feuille de style (LOT-56 TACHE-02, EX-IHM-050,...">Source/Test/Unit/HMI/Interface/test_application_theme.cpp</a>:89</span></sub>  </td><td class="markdownTableBodyNone">Le modele de theme livre ne contient aucune couleur litterale.  </td><td class="markdownTableBodyNone">1. Lire les feuilles de theme livrees.<br  />
+<sub><span class="tt"><a class="el" href="test__application__theme_8cpp.html" title="Tests unitaires du thème de l&#39;IHM : modèle de feuille de style (LOT-56 TACHE-02, EX-IHM-050,...">Source/Test/Unit/HMI/Interface/test_application_theme.cpp</a>:101</span></sub>  </td><td class="markdownTableBodyNone">Le modele de theme livre ne contient aucune couleur litterale.  </td><td class="markdownTableBodyNone">1. Lire les feuilles de theme livrees.<br  />
 2. Chercher un motif de couleur hexadecimale.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">themeText.empty()</span> est faux.<br  />
 Vérifie que <span class="tt">std::regex_search(withoutComments, hexColorPattern)</span> est faux.  </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><b>ApplicationThemeTest.EtancheiteDesPortees</b> (Critique)<br  />
-<sub><span class="tt"><a class="el" href="test__application__theme_8cpp.html" title="Tests unitaires du thème de l&#39;IHM : modèle de feuille de style (LOT-56 TACHE-02, EX-IHM-050,...">Source/Test/Unit/HMI/Interface/test_application_theme.cpp</a>:115</span></sub>  </td><td class="markdownTableBodyNone">Les regles d'identite sont etanches au theme de l'editeur.  </td><td class="markdownTableBodyNone">1. Substituer le modele reel avec deux jeux de jetons d'editeur de couleurs differentes, les valeurs derivant de buildStyleSheetValues.<br  />
-2. Extraire les blocs <span class="tt">#MainMenu</span>/<span class="tt">#OptionsPage</span> des deux resultats.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">themeText.empty()</span> est faux.<br  />
-Vérifie que <span class="tt">dark.ok</span> est vrai.<br  />
-Vérifie que <span class="tt">light.ok</span> est vrai.<br  />
-Vérifie que <span class="tt">dark.text</span> vaut <span class="tt">light.text</span>.  </td></tr>
-<tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>ApplicationThemeTest.ResolutionDePoliceSansNomDeRepliCodeEnDur</b> (Critique)<br  />
-<sub><span class="tt"><a class="el" href="test__application__theme_8cpp.html" title="Tests unitaires du thème de l&#39;IHM : modèle de feuille de style (LOT-56 TACHE-02, EX-IHM-050,...">Source/Test/Unit/HMI/Interface/test_application_theme.cpp</a>:165</span></sub>  </td><td class="markdownTableBodyNone">La resolution de police retombe sur une famille generique sans nom code en dur.  </td><td class="markdownTableBodyNone">1. Resoudre la police embarquee enregistree, puis non enregistree.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">registered.useEmbeddedFamily</span> est vrai.<br  />
+<sub><span class="tt"><a class="el" href="test__application__theme_8cpp.html" title="Tests unitaires du thème de l&#39;IHM : modèle de feuille de style (LOT-56 TACHE-02, EX-IHM-050,...">Source/Test/Unit/HMI/Interface/test_application_theme.cpp</a>:126</span></sub>  </td><td class="markdownTableBodyNone">La resolution de police retombe sur une famille generique sans nom code en dur.  </td><td class="markdownTableBodyNone">1. Resoudre la police embarquee enregistree, puis non enregistree.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">registered.useEmbeddedFamily</span> est vrai.<br  />
 Vérifie que <span class="tt">registered.embeddedFamily</span> vaut <span class="tt">"Inter"</span>.<br  />
 Vérifie que <span class="tt">missing.useEmbeddedFamily</span> est faux.<br  />
 Vérifie que <span class="tt">missing.embeddedFamily.empty()</span> est vrai.  </td></tr>
-<tr class="markdownTableRowEven">
+<tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>ApplicationThemeTest.EchelleTypographiquePositiveEtOrdonnee</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__application__theme_8cpp.html" title="Tests unitaires du thème de l&#39;IHM : modèle de feuille de style (LOT-56 TACHE-02, EX-IHM-050,...">Source/Test/Unit/HMI/Interface/test_application_theme.cpp</a>:185</span></sub>  </td><td class="markdownTableBodyNone">L'echelle typographique est positive et ordonnee du plus grand au plus petit.  </td><td class="markdownTableBodyNone">1. Lire les tailles de l'echelle typographique des jetons.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">typography.screenTitle.pointSize</span> est strictement supérieur à <span class="tt">0</span>.<br  />
+<sub><span class="tt"><a class="el" href="test__application__theme_8cpp.html" title="Tests unitaires du thème de l&#39;IHM : modèle de feuille de style (LOT-56 TACHE-02, EX-IHM-050,...">Source/Test/Unit/HMI/Interface/test_application_theme.cpp</a>:146</span></sub>  </td><td class="markdownTableBodyNone">L'echelle typographique est positive et ordonnee du plus grand au plus petit.  </td><td class="markdownTableBodyNone">1. Lire les tailles de l'echelle typographique des jetons.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">typography.screenTitle.pointSize</span> est strictement supérieur à <span class="tt">0</span>.<br  />
 Vérifie que <span class="tt">typography.sectionTitle.pointSize</span> est strictement supérieur à <span class="tt">0</span>.<br  />
 Vérifie que <span class="tt">typography.body.pointSize</span> est strictement supérieur à <span class="tt">0</span>.<br  />
 Vérifie que <span class="tt">typography.caption.pointSize</span> est strictement supérieur à <span class="tt">0</span>.<br  />
@@ -6600,35 +6593,12 @@ Vérifie que <span class="tt">typography.monospaceBody.pointSize</span> est stri
 Vérifie que <span class="tt">typography.screenTitle.pointSize</span> est strictement supérieur à <span class="tt">typography.sectionTitle.pointSize</span>.<br  />
 Vérifie que <span class="tt">typography.sectionTitle.pointSize</span> est strictement supérieur à <span class="tt">typography.body.pointSize</span>.<br  />
 Vérifie que <span class="tt">typography.body.pointSize</span> est strictement supérieur à <span class="tt">typography.caption.pointSize</span>.  </td></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><b>ApplicationThemeTest.AucuneTailleDePoliceResiduelleDansLesFichiersUi</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__application__theme_8cpp.html" title="Tests unitaires du thème de l&#39;IHM : modèle de feuille de style (LOT-56 TACHE-02, EX-IHM-050,...">Source/Test/Unit/HMI/Interface/test_application_theme.cpp</a>:208</span></sub>  </td><td class="markdownTableBodyNone">Aucune taille de police ni marge figee ne subsiste dans les fichiers .ui.  </td><td class="markdownTableBodyNone">1. Lire MainMenu.ui et OptionsPage.ui.<br  />
-2. Chercher une propriete font/margin figee au niveau du widget racine.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">text.empty()</span> est faux.<br  />
-Vérifie que <span class="tt">text.find("&lt;property name=\\"font\\\\"\&gt;\")&lt;/tt&gt; vaut &lt;tt&gt;std::string::npos&lt;/tt&gt;.&lt;br/&gt;Vérifie que &lt;tt&gt;text.find(\"Margin\")</span> vaut <span class="tt">std::string::npos</span>.  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>ApplicationThemeTest.ResolutionDuThemeEffectifSuitLeReglageEtLeSysteme</b> (Critique)<br  />
-<sub><span class="tt"><a class="el" href="test__application__theme_8cpp.html" title="Tests unitaires du thème de l&#39;IHM : modèle de feuille de style (LOT-56 TACHE-02, EX-IHM-050,...">Source/Test/Unit/HMI/Interface/test_application_theme.cpp</a>:233</span></sub>  </td><td class="markdownTableBodyNone">La resolution du theme effectif suit le reglage et, si Systeme, le systeme.  </td><td class="markdownTableBodyNone">1. Resoudre les quatre combinaisons reglage/systeme.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a00629522279a61cffd0c68ae26c3fca0" title="Résout le thème effectif à appliquer.">hmi::resolveEffectiveEditorTheme</a>(EditorThemeSetting::System, /*systemPrefersDark=*/true)</span> vaut <span class="tt">EditorThemeMode::Dark</span>.<br  />
+<sub><span class="tt"><a class="el" href="test__application__theme_8cpp.html" title="Tests unitaires du thème de l&#39;IHM : modèle de feuille de style (LOT-56 TACHE-02, EX-IHM-050,...">Source/Test/Unit/HMI/Interface/test_application_theme.cpp</a>:174</span></sub>  </td><td class="markdownTableBodyNone">La resolution du theme effectif suit le reglage et, si Systeme, le systeme.  </td><td class="markdownTableBodyNone">1. Resoudre les quatre combinaisons reglage/systeme.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a00629522279a61cffd0c68ae26c3fca0" title="Résout le thème effectif à appliquer.">hmi::resolveEffectiveEditorTheme</a>(EditorThemeSetting::System, /*systemPrefersDark=*/true)</span> vaut <span class="tt">EditorThemeMode::Dark</span>.<br  />
 Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a00629522279a61cffd0c68ae26c3fca0" title="Résout le thème effectif à appliquer.">hmi::resolveEffectiveEditorTheme</a>(EditorThemeSetting::System, /*systemPrefersDark=*/false)</span> vaut <span class="tt">EditorThemeMode::Light</span>.<br  />
 Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a00629522279a61cffd0c68ae26c3fca0" title="Résout le thème effectif à appliquer.">hmi::resolveEffectiveEditorTheme</a>(EditorThemeSetting::Light, /*systemPrefersDark=*/true)</span> vaut <span class="tt">EditorThemeMode::Light</span>.<br  />
 Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a00629522279a61cffd0c68ae26c3fca0" title="Résout le thème effectif à appliquer.">hmi::resolveEffectiveEditorTheme</a>(EditorThemeSetting::Dark, /*systemPrefersDark=*/false)</span> vaut <span class="tt">EditorThemeMode::Dark</span>.  </td></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><b>ApplicationThemeTest.EtancheiteDesPorteesAvecLesVraisThemes</b> (Critique)<br  />
-<sub><span class="tt"><a class="el" href="test__application__theme_8cpp.html" title="Tests unitaires du thème de l&#39;IHM : modèle de feuille de style (LOT-56 TACHE-02, EX-IHM-050,...">Source/Test/Unit/HMI/Interface/test_application_theme.cpp</a>:263</span></sub>  </td><td class="markdownTableBodyNone">L'etancheite des portees tient avec les vrais themes sombre et clair.  </td><td class="markdownTableBodyNone">1. Produire la feuille de style avec editorDarkTokens() puis editorLightTokens().<br  />
- 2. Comparer les blocs <span class="tt">#MainMenu</span>/<span class="tt">#OptionsPage</span> des deux resultats.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">identityText.empty()</span> est faux.<br  />
-Vérifie que <span class="tt">editorText.empty()</span> est faux.<br  />
-Vérifie que <span class="tt">identityDark.ok</span> est vrai.<br  />
-Vérifie que <span class="tt">identityLight.ok</span> est vrai.<br  />
-Vérifie que <span class="tt">editorDark.ok</span> est vrai.<br  />
-Vérifie que <span class="tt">editorLight.ok</span> est vrai.<br  />
-Vérifie que <span class="tt">identityDark.text</span> vaut <span class="tt">identityLight.text</span>.<br  />
-Vérifie que <span class="tt">editorDark.text</span> diffère de <span class="tt">editorLight.text</span>.  </td></tr>
-<tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><b>ApplicationThemeTest.LesDeuxPorteesSontDansDeuxFichiersDisjoints</b> (Bloquant)<br  />
-<sub><span class="tt"><a class="el" href="test__application__theme_8cpp.html" title="Tests unitaires du thème de l&#39;IHM : modèle de feuille de style (LOT-56 TACHE-02, EX-IHM-050,...">Source/Test/Unit/HMI/Interface/test_application_theme.cpp</a>:308</span></sub>  </td><td class="markdownTableBodyNone">Les deux portees de theme sont disjointes, marqueur par marqueur.  </td><td class="markdownTableBodyNone">1. Lire les deux feuilles livrees, commentaires retires.<br  />
-2. Chercher un marqueur du prefixe de l'autre portee dans chacune.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">identityRules.empty()</span> est faux.<br  />
-Vérifie que <span class="tt">editorRules.empty()</span> est faux.<br  />
-Vérifie que <span class="tt">identityRules.find("editor.color.")</span> vaut <span class="tt">std::string::npos</span>.<br  />
-Vérifie que <span class="tt">editorRules.find("identity.")</span> vaut <span class="tt">std::string::npos</span>.  </td></tr>
 </table>
 <p><b><span class="tt"><a class="el" href="test__character__sheet__values_8cpp.html" title="Tests unitaires des valeurs affichées par l&#39;écran de fiche (LOT-38).">test_character_sheet_values.cpp</a></span></b></p>
 <table class="markdownTable">
@@ -6877,161 +6847,6 @@ Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a749862bc7ec
 2. Demander le facteur pour des fenetres de 360 et 720 pixels.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">hmi::identityScaleForDisplay(360, 1440)</span> vaut <span class="tt">1</span>.<br  />
 Vérifie que <span class="tt">hmi::identityScaleForDisplay(720, 1440)</span> vaut <span class="tt">2</span>.<br  />
 Vérifie que <span class="tt">hmi::identityScaleForDisplay(1080, 1440)</span> vaut <span class="tt">3</span>.  </td></tr>
-</table>
-<p><b><span class="tt">test_parchment_frame.cpp</span></b></p>
-<table class="markdownTable">
-<tr class="markdownTableHead">
-<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><b>ParchmentFrameTest.AucuneBandeNeDeborde</b> (Critique)<br  />
-<sub><span class="tt">Source/Test/Unit/HMI/Interface/test_parchment_frame.cpp:47</span></sub>  </td><td class="markdownTableBodyNone">Aucune bande de l'encadrement ne sort du rectangle du widget.  </td><td class="markdownTableBodyNone">1. Produire la geometrie pour un balayage de tailles et d'echelles.<br  />
-2. Verifier que chaque bande a des dimensions positives et reste dans [0,largeur] x [0,hauteur].  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">stroke.width</span> est strictement supérieur à <span class="tt">0</span>.<br  />
-Vérifie que <span class="tt">stroke.height</span> est strictement supérieur à <span class="tt">0</span>.<br  />
-Vérifie que <span class="tt">stroke.x</span> est supérieur ou égal à <span class="tt">0</span>.<br  />
-Vérifie que <span class="tt">stroke.y</span> est supérieur ou égal à <span class="tt">0</span>.<br  />
-Vérifie que <span class="tt">stroke.x + stroke.width</span> est inférieur ou égal à <span class="tt">size</span>.<br  />
-Vérifie que <span class="tt">stroke.y + stroke.height</span> est inférieur ou égal à <span class="tt">size</span>.  </td></tr>
-<tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><b>ParchmentFrameTest.LesQuatreRolesSontPresents</b> (Majeur)<br  />
-<sub><span class="tt">Source/Test/Unit/HMI/Interface/test_parchment_frame.cpp:78</span></sub>  </td><td class="markdownTableBodyNone">Un encadrement de taille utile porte les quatre roles de couleur.  </td><td class="markdownTableBodyNone">1. Produire la geometrie d'un cadre de 120 x 80 a l'echelle 2.<br  />
-2. Chercher chacun des quatre roles.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">containsRole(strokes, hmi::ParchmentRole::Field)</span> est vrai.<br  />
-Vérifie que <span class="tt">containsRole(strokes, hmi::ParchmentRole::Edge)</span> est vrai.<br  />
-Vérifie que <span class="tt">containsRole(strokes, hmi::ParchmentRole::Ornament)</span> est vrai.<br  />
-Vérifie que <span class="tt">containsRole(strokes, hmi::ParchmentRole::Shadow)</span> est vrai.  </td></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><b>ParchmentFrameTest.UneReserveSepareLeTraitDuFilet</b> (Critique)<br  />
-<sub><span class="tt">Source/Test/Unit/HMI/Interface/test_parchment_frame.cpp:99</span></sub>  </td><td class="markdownTableBodyNone">Une reserve de parchemin separe le trait exterieur du filet ornemental.  </td><td class="markdownTableBodyNone">1. Produire la geometrie d'un cadre de 120 x 80 a l'echelle 2.<br  />
-2. Relever le role visible a mi-hauteur, une unite a l'interieur du trait exterieur.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">topRoleAt(strokes, 0, 40)</span> vaut <span class="tt">hmi::ParchmentRole::Edge</span>.<br  />
-Vérifie que <span class="tt">topRoleAt(strokes, UNIT, 40)</span> vaut <span class="tt">hmi::ParchmentRole::Field</span>.<br  />
-Vérifie que <span class="tt">topRoleAt(strokes, 2 * UNIT, 40)</span> vaut <span class="tt">hmi::ParchmentRole::Ornament</span>.<br  />
-Vérifie que <span class="tt">topRoleAt(strokes, 3 * UNIT, 40)</span> vaut <span class="tt">hmi::ParchmentRole::Shadow</span>.  </td></tr>
-<tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><b>ParchmentFrameTest.LesAnglesPortentUnCabochon</b> (Majeur)<br  />
-<sub><span class="tt">Source/Test/Unit/HMI/Interface/test_parchment_frame.cpp:122</span></sub>  </td><td class="markdownTableBodyNone">Les quatre angles du cadre portent un cabochon ornemental.  </td><td class="markdownTableBodyNone">1. Produire la geometrie d'un cadre de 120 x 80 a l'echelle 2.<br  />
-2. Relever le role visible au pixel de chacun des quatre angles.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">topRoleAt(strokes, 0, 0)</span> vaut <span class="tt">hmi::ParchmentRole::Ornament</span>.<br  />
-Vérifie que <span class="tt">topRoleAt(strokes, WIDTH - 1, 0)</span> vaut <span class="tt">hmi::ParchmentRole::Ornament</span>.<br  />
-Vérifie que <span class="tt">topRoleAt(strokes, 0, HEIGHT - 1)</span> vaut <span class="tt">hmi::ParchmentRole::Ornament</span>.<br  />
-Vérifie que <span class="tt">topRoleAt(strokes, WIDTH - 1, HEIGHT - 1)</span> vaut <span class="tt">hmi::ParchmentRole::Ornament</span>.  </td></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><b>ParchmentFrameTest.LesBorduresOpposeesSontSymetriques</b> (Majeur)<br  />
-<sub><span class="tt">Source/Test/Unit/HMI/Interface/test_parchment_frame.cpp:145</span></sub>  </td><td class="markdownTableBodyNone">Les bordures opposees de l'encadrement ont la meme epaisseur.  </td><td class="markdownTableBodyNone">1. Produire la geometrie d'un cadre rectangulaire.<br  />
-2. Mesurer l'epaisseur des quatre bandes du trait exterieur.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">left</span> est strictement supérieur à <span class="tt">0</span>.<br  />
-Vérifie que <span class="tt">left</span> vaut <span class="tt">right</span>.<br  />
-Vérifie que <span class="tt">top</span> est strictement supérieur à <span class="tt">0</span>.<br  />
-Vérifie que <span class="tt">top</span> vaut <span class="tt">bottom</span>.  </td></tr>
-<tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><b>ParchmentFrameTest.TaillesDegenereesSansGeometrieInvalide</b> (Majeur)<br  />
-<sub><span class="tt">Source/Test/Unit/HMI/Interface/test_parchment_frame.cpp:193</span></sub>  </td><td class="markdownTableBodyNone">Les tailles degenerees produisent le vide ou un champ nu, jamais une geometrie invalide.  </td><td class="markdownTableBodyNone">1. Demander la geometrie pour une largeur ou une hauteur nulle, puis negative.<br  />
- 2. Demander celle d'un cadre de 2 x 2 a l'echelle 3.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">hmi::parchmentFrameStrokes(0, 40, 2).empty()</span> est vrai.<br  />
-Vérifie que <span class="tt">hmi::parchmentFrameStrokes(40, 0, 2).empty()</span> est vrai.<br  />
-Vérifie que <span class="tt">hmi::parchmentFrameStrokes(-10, -10, 2).empty()</span> est vrai.<br  />
-Vérifie que <span class="tt">tiny.size()</span> vaut <span class="tt">1u</span>.<br  />
-Vérifie que <span class="tt">tiny.front().role</span> vaut <span class="tt">hmi::ParchmentRole::Field</span>.<br  />
-Vérifie que <span class="tt">tiny.front().width</span> vaut <span class="tt">2</span>.<br  />
-Vérifie que <span class="tt">tiny.front().height</span> vaut <span class="tt">2</span>.  </td></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><b>ParchmentFrameTest.LeFleuronEstUnePointeEchancree</b> (Majeur)<br  />
-<sub><span class="tt">Source/Test/Unit/HMI/Interface/test_parchment_frame.cpp:219</span></sub>  </td><td class="markdownTableBodyNone">Le fleuron de focus est une pointe echancree contenue dans son carre.  </td><td class="markdownTableBodyNone">1. Produire le fleuron pour plusieurs tailles.<br  />
-2. Verifier le confinement, la symetrie haut/bas, l'orientation a droite et la presence de l'echancrure arriere.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">points.size()</span> vaut <span class="tt">4u</span>.<br  />
-Vérifie que <span class="tt">point.x</span> est supérieur ou égal à <span class="tt">0</span>.<br  />
-Vérifie que <span class="tt">point.y</span> est supérieur ou égal à <span class="tt">0</span>.<br  />
-Vérifie que <span class="tt">point.x</span> est inférieur ou égal à <span class="tt">size</span>.<br  />
-Vérifie que <span class="tt">point.y</span> est inférieur ou égal à <span class="tt">size</span>.<br  />
-Vérifie que <span class="tt">points[1].x</span> vaut <span class="tt">size</span>.<br  />
-Vérifie que <span class="tt">points[1].y</span> vaut <span class="tt">size / 2</span>.<br  />
-Vérifie que <span class="tt">points[0].y</span> vaut <span class="tt">0</span>.<br  />
-Vérifie que <span class="tt">points[2].y</span> vaut <span class="tt">size</span>.<br  />
-Vérifie que <span class="tt">points[0].x</span> vaut <span class="tt">points[2].x</span>.<br  />
-Vérifie que <span class="tt">points[3].x</span> est strictement supérieur à <span class="tt">points[0].x</span>.<br  />
-Vérifie que <span class="tt">points[3].x</span> est strictement inférieur à <span class="tt">points[1].x</span>.  </td></tr>
-<tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><b>ParchmentFrameTest.FleuronTropPetitEstVide</b> (Mineur)<br  />
-<sub><span class="tt">Source/Test/Unit/HMI/Interface/test_parchment_frame.cpp:253</span></sub>  </td><td class="markdownTableBodyNone">Un fleuron trop petit pour son echancrure est vide.  </td><td class="markdownTableBodyNone">1. Demander le fleuron pour une taille inferieure a quatre, nulle et negative.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">hmi::focusFleuronPoints(3).empty()</span> est vrai.<br  />
-Vérifie que <span class="tt">hmi::focusFleuronPoints(0).empty()</span> est vrai.<br  />
-Vérifie que <span class="tt">hmi::focusFleuronPoints(-8).empty()</span> est vrai.  </td></tr>
-</table>
-<p><b><span class="tt">test_parchment_ornaments.cpp</span></b></p>
-<table class="markdownTable">
-<tr class="markdownTableHead">
-<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><b>CabochonTest.ToutTientDansLeCarreEnglobant</b> (Critique)<br  />
-<sub><span class="tt">Source/Test/Unit/HMI/Interface/test_parchment_ornaments.cpp:61</span></sub>  </td><td class="markdownTableBodyNone">Le cabochon ne deborde jamais de son carre d'angle.  </td><td class="markdownTableBodyNone">1. Produire la geometrie pour cinq tailles, de 8 a 96 pixels.<br  />
-2. Relever la boite englobante de toutes les formes.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">shapes.empty()</span> est faux.<br  />
-Vérifie que <span class="tt">bounds.left</span> est supérieur ou égal à <span class="tt">0.0f</span>.<br  />
-Vérifie que <span class="tt">bounds.top</span> est supérieur ou égal à <span class="tt">0.0f</span>.<br  />
-Vérifie que <span class="tt">bounds.right</span> est inférieur ou égal à <span class="tt">static_cast&lt;float&gt;(size)</span>.<br  />
-Vérifie que <span class="tt">bounds.bottom</span> est inférieur ou égal à <span class="tt">static_cast&lt;float&gt;(size)</span>.  </td></tr>
-<tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><b>CabochonTest.SousLaTailleMinimaleIlNEstPlusDessine</b> (Majeur)<br  />
-<sub><span class="tt">Source/Test/Unit/HMI/Interface/test_parchment_ornaments.cpp:86</span></sub>  </td><td class="markdownTableBodyNone">Un cabochon trop petit n'est pas dessine plutot que reduit a une tache.  </td><td class="markdownTableBodyNone">1. Demander la geometrie pour toutes les tailles de -4 a la taille minimale exclue.<br  />
-2. Demander la geometrie a la taille minimale.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">cabochonShapes(size).empty()</span> est vrai.<br  />
-Vérifie que <span class="tt">cabochonShapes(ORNAMENT_MINIMUM_SIZE).empty()</span> est faux.  </td></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><b>CabochonTest.LaGemmeEstInscriteDansLeSerti</b> (Majeur)<br  />
-<sub><span class="tt">Source/Test/Unit/HMI/Interface/test_parchment_ornaments.cpp:104</span></sub>  </td><td class="markdownTableBodyNone">La gemme est inscrite dans son serti, sans l'affleurer.  </td><td class="markdownTableBodyNone">1. Produire un cabochon de 64 pixels.<br  />
-2. Comparer la boite de chaque facette a celle du serti.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">gem.left</span> est strictement supérieur à <span class="tt">bezel.left</span>.<br  />
-Vérifie que <span class="tt">gem.top</span> est strictement supérieur à <span class="tt">bezel.top</span>.<br  />
-Vérifie que <span class="tt">gem.right</span> est strictement inférieur à <span class="tt">bezel.right</span>.<br  />
-Vérifie que <span class="tt">gem.bottom</span> est strictement inférieur à <span class="tt">bezel.bottom</span>.  </td></tr>
-<tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><b>CabochonTest.LEclatEstPoseEnDernier</b> (Majeur)<br  />
-<sub><span class="tt">Source/Test/Unit/HMI/Interface/test_parchment_ornaments.cpp:134</span></sub>  </td><td class="markdownTableBodyNone">L'ordre de dessin du cabochon met l'eclat par-dessus la facette qu'il eclaire.  </td><td class="markdownTableBodyNone">1. Produire un cabochon de 64 pixels.<br  />
-2. Lire le role de la premiere et de la derniere forme, et compter les traits d'encre.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">shapes.empty()</span> est faux.<br  />
-Vérifie que <span class="tt">shapes.back().role</span> vaut <span class="tt">OrnamentRole::OrnamentLight</span>.<br  />
-Vérifie que <span class="tt">shapes.front().role</span> vaut <span class="tt">OrnamentRole::Ornament</span>.<br  />
-Vérifie que <span class="tt">countRole(shapes, OrnamentRole::Edge)</span> vaut <span class="tt">1</span>.  </td></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><b>CabochonTest.ToutesLesFormesOntAuMoinsTroisSommets</b> (Majeur)<br  />
-<sub><span class="tt">Source/Test/Unit/HMI/Interface/test_parchment_ornaments.cpp:156</span></sub>  </td><td class="markdownTableBodyNone">Aucune forme du cabochon n'a moins de trois sommets.  </td><td class="markdownTableBodyNone">1. Produire la geometrie pour cinq tailles.<br  />
-2. Compter les sommets de chaque forme.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">shape.points.size()</span> est supérieur ou égal à <span class="tt">3U</span>.  </td></tr>
-<tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><b>TitleBannerTest.LEnvergureSuitLaHauteurEtPasLaLargeur</b> (Critique)<br  />
-<sub><span class="tt">Source/Test/Unit/HMI/Interface/test_parchment_ornaments.cpp:179</span></sub>  </td><td class="markdownTableBodyNone">Les ailes du bandeau gardent leur envergure quand sa largeur triple.  </td><td class="markdownTableBodyNone">1. Produire trois bandeaux de meme hauteur et de 600, 900 puis 1400 pixels de large.<br  />
-2. Mesurer la largeur de l'aile gauche de chacun.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">shapes.size()</span> est supérieur ou égal à <span class="tt">5U</span>.<br  />
-Vérifie que <span class="tt">measured</span> vaut <span class="tt">reference</span>, à <span class="tt">reference * 0.05f</span> près.<br  />
-Vérifie que <span class="tt">measured</span> vaut <span class="tt">first</span> (comparaison flottante).<br  />
-Vérifie que <span class="tt">bannerWingSpan(80)</span> est strictement supérieur à <span class="tt">bannerWingSpan(40)</span>.  </td></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><b>TitleBannerTest.SurUnBandeauEtroitCeSontLesAilesQuiCedent</b> (Majeur)<br  />
-<sub><span class="tt">Source/Test/Unit/HMI/Interface/test_parchment_ornaments.cpp:216</span></sub>  </td><td class="markdownTableBodyNone">Sur un bandeau etroit, ce sont les ailes qui cedent et non la plaque.  </td><td class="markdownTableBodyNone">1. Produire un bandeau de 60 x 40, puis un de 20 x 40.<br  />
-2. Compter les formes dorees et mesurer l'aile.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">narrow.empty()</span> est faux.<br  />
-Vérifie que <span class="tt">countRole(narrow, OrnamentRole::Ornament)</span> vaut <span class="tt">3</span>.<br  />
-Vérifie que <span class="tt">wing.right - wing.left</span> est strictement inférieur à <span class="tt">static_cast&lt;float&gt;(bannerWingSpan(40))</span>.<br  />
-Vérifie que <span class="tt">tiny.empty()</span> est faux.<br  />
-Vérifie que <span class="tt">countRole(tiny, OrnamentRole::Ornament)</span> vaut <span class="tt">1</span>.<br  />
-Vérifie que <span class="tt">countRole(tiny, OrnamentRole::GemShadow)</span> est supérieur ou égal à <span class="tt">1</span>.<br  />
-Vérifie que <span class="tt">countRole(tiny, OrnamentRole::Gem)</span> est supérieur ou égal à <span class="tt">1</span>.  </td></tr>
-<tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><b>TitleBannerTest.ToutTientDansLeBandeau</b> (Critique)<br  />
-<sub><span class="tt">Source/Test/Unit/HMI/Interface/test_parchment_ornaments.cpp:246</span></sub>  </td><td class="markdownTableBodyNone">Aucune forme du bandeau ne deborde de son rectangle.  </td><td class="markdownTableBodyNone">1. Produire la geometrie pour trois largeurs et quatre hauteurs.<br  />
-2. Relever la boite englobante de chaque bandeau non vide.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">bounds.left</span> est supérieur ou égal à <span class="tt">0.0f</span>.<br  />
-Vérifie que <span class="tt">bounds.top</span> est supérieur ou égal à <span class="tt">0.0f</span>.<br  />
-Vérifie que <span class="tt">bounds.right</span> est inférieur ou égal à <span class="tt">static_cast&lt;float&gt;(width)</span>.<br  />
-Vérifie que <span class="tt">bounds.bottom</span> est inférieur ou égal à <span class="tt">static_cast&lt;float&gt;(height)</span>.  </td></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><b>TitleBannerTest.LesDeuxAilesSontSymetriques</b> (Majeur)<br  />
-<sub><span class="tt">Source/Test/Unit/HMI/Interface/test_parchment_ornaments.cpp:273</span></sub>  </td><td class="markdownTableBodyNone">Les deux ailes du bandeau sont symetriques au centieme de pixel.  </td><td class="markdownTableBodyNone">1. Produire un bandeau de 800 x 40.<br  />
-2. Comparer les boites des deux premieres formes, l'une reflechie autour de l'axe vertical.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">shapes.size()</span> est supérieur ou égal à <span class="tt">2U</span>.<br  />
-Vérifie que <span class="tt">left.left</span> vaut <span class="tt">static_cast&lt;float&gt;(width) - right.right</span>, à <span class="tt">0.01f</span> près.<br  />
-Vérifie que <span class="tt">left.right</span> vaut <span class="tt">static_cast&lt;float&gt;(width) - right.left</span>, à <span class="tt">0.01f</span> près.<br  />
-Vérifie que <span class="tt">left.top</span> vaut <span class="tt">right.top</span>, à <span class="tt">0.01f</span> près.<br  />
-Vérifie que <span class="tt">left.bottom</span> vaut <span class="tt">right.bottom</span>, à <span class="tt">0.01f</span> près.  </td></tr>
-<tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><b>TitleBannerTest.UnBandeauDegenereNeDonneRien</b> (Majeur)<br  />
-<sub><span class="tt">Source/Test/Unit/HMI/Interface/test_parchment_ornaments.cpp:298</span></sub>  </td><td class="markdownTableBodyNone">Un bandeau degenere ne produit aucune forme.  </td><td class="markdownTableBodyNone">1. Demander la geometrie pour une largeur nulle, negative, puis une hauteur sous le seuil.<br  />
-2. Demander l'envergure pour une hauteur nulle et negative.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">titleBannerShapes(0, 40).empty()</span> est vrai.<br  />
-Vérifie que <span class="tt">titleBannerShapes(-10, 40).empty()</span> est vrai.<br  />
-Vérifie que <span class="tt">titleBannerShapes(800, ORNAMENT_MINIMUM_SIZE - 1).empty()</span> est vrai.<br  />
-Vérifie que <span class="tt">bannerWingSpan(0)</span> vaut <span class="tt">0</span>.<br  />
-Vérifie que <span class="tt">bannerWingSpan(-5)</span> vaut <span class="tt">0</span>.  </td></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><b>TitleBannerTest.LeFiletEstTraceEtPoseEnDernier</b> (Majeur)<br  />
-<sub><span class="tt">Source/Test/Unit/HMI/Interface/test_parchment_ornaments.cpp:316</span></sub>  </td><td class="markdownTableBodyNone">Le filet du bandeau est trace, non rempli, et pose en dernier.  </td><td class="markdownTableBodyNone">1. Produire un bandeau de 800 x 40.<br  />
-2. Verifier que la derniere forme est doree et non remplie, et que toutes les autres sont remplies.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">shapes.empty()</span> est faux.<br  />
-Vérifie que <span class="tt">shapes.back().filled</span> est faux.<br  />
-Vérifie que <span class="tt">shapes.back().role</span> vaut <span class="tt">OrnamentRole::Ornament</span>.<br  />
-Vérifie que <span class="tt">shapes[i].filled</span> est vrai.  </td></tr>
 </table>
 <p><b><span class="tt"><a class="el" href="test__rpg__screens_8cpp.html" title="Tests unitaires du catalogue des écrans du RPG et de leur ossature (LOT-68, EX-IHM-090,...">test_rpg_screens.cpp</a></span></b></p>
 <table class="markdownTable">

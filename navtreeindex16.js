@@ -91,6 +91,7 @@ var NAVTREEINDEX16 =
 "dir_76d97c54a16374659ce0f27a302675ee.html":[17,0,3,3,5],
 "dir_7c7356e692772728ab91d19f773c60c4.html":[17,0,1],
 "dir_7d4f1976496a6a2058d9c70bdca36906.html":[17,0,1,27],
+"dir_7eb0d0bc801e3eeb9c9e3cb238223789.html":[17,0,3,3,10],
 "dir_81575a0a6a20a380991b9ad2c16b89e5.html":[17,0,3,1,8],
 "dir_8313096c752d5c630995eec91c1ad22a.html":[17,0,3,1,1],
 "dir_8582677ef72a95e6c2b44a30d95c0011.html":[17,0,3,3,2],
@@ -248,6 +249,5 @@ var NAVTREEINDEX16 =
 "globals_l.html":[17,1,0,6],
 "globals_m.html":[17,1,0,7],
 "globals_p.html":[17,1,0,8],
-"globals_t.html":[17,1,0,9],
-"guide-atelier-pixel-art.html":[4,12]
+"globals_t.html":[17,1,0,9]
 };
