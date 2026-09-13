@@ -25,6 +25,28 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
     complètes, jumeaux appareillés, fichiers listés) et non une structure CMake. La surface de rendu
     C++ quitte `GameViewForm.ui.qml` pour son jumeau. Le pin de Qt et la découverte de Qt vivent
     dans `Source/CMakeLists.txt`, visibles des trois répertoires qui en dépendent.
+  - **Phase 2 — la charte v2 écrite, et ses jetons (T2.1, T2.2).** L'epic porte la charte : ce qui
+    est gardé (le parchemin, l'or et le grenat du corpus), ce qui change (panneaux sombres pour les
+    écrans posés sur une scène, `Cinzel` et `IM Fell English`, ornements en images 9-patch
+    produites, facteur d'agrandissement réel), ce qui est écarté et pourquoi (polices pixel, facteur
+    entier hors du viewport, tracé des ornements, découpage des maquettes). Les dix rôles nouveaux
+    sont **relevés** sur les maquettes par `scripts/measure_mockup_palette.py`, qui nomme maquette
+    et zone pour chacun et vérifie `Tokens.qml` (`--check`). La mesure a corrigé l'œil : les
+    sémantiques `success`, `danger` et `info` sont des matières de plaque, illisibles en texte.
+    `EX-IHM-070`, `EX-IHM-075` et `EX-IHM-076` refondues, `EX-IHM-081` précisée. `Tokens.qml` gagne
+    ces rôles, `uiScale` (lié à la fenêtre par `Main.qml`), `loreFamily` et une échelle `font*` de
+    cinq tailles à 1080p ; les grandeurs v1 restent, marquées obsolètes. Jusqu'au dépôt des polices
+    (T2.3), les écrans v1 s'affichent dans la famille de repli.
+  - **Phase 2 — les briques de la charte v2 (T2.7).** Treize contrôles `.ui.qml` que la phase 3
+    transcrira dans les écrans : `PanelFrame`, `TitlePlate`, `SectionBanner`, `OrnateButton`,
+    `OrnateTab`, `OrnateCheck`, `OrnateSlider`, `OrnateCombo`, `StatMedallion`, `PortraitFrame`,
+    `ItemSlot`, `Gauge`, `GoldDivider`. Les contrôles interactifs sont des contrôles Qt restylés ;
+    les états sont des propriétés, et `forcedState` les impose. Chaque brique nomme une **clé du
+    cahier** et pose l'image livrée — à la taille de conception, réduite d'un bloc par `uiScale` —
+    ou, tant qu'elle manque, l'aplat de jetons que le cahier prévoit. `Theme/Artwork.qml` dit quelles
+    pièces sont livrées ; `receive_ui_assets.py` l'écrit, `check_ui_assets.py` le vérifie. La galerie
+    (`DesignStudio/Main.ui.qml`) pose chaque brique dans ses états, dans l'atelier comme dans le jeu
+    (`--screen=Gallery`).
 
 - **Refonte de l'IHM sur Qt Quick, avec la conception séparée du code** (`LOT-86`, en cours).
   L'objectif n'est pas technique : **un artiste doit pouvoir modifier les interfaces sans ouvrir un

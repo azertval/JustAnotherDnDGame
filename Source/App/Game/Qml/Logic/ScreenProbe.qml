@@ -5,7 +5,7 @@ import Jadg.Runtime
 /*!
     Sélecteur d'écrans -- OUTIL DE VÉRIFICATION, côté développeur (LOT-86).
 
-    Deux boutons posés par-dessus l'interface, qui font défiler les quatorze écrans. Ils existent
+    Deux boutons posés par-dessus l'interface, qui font défiler les quatorze écrans et la galerie. Ils existent
     parce que le viewport du jeu n'affiche encore aucune scène (`Source/Elements/Levels/` est vide
     par construction depuis le `LOT-01`) : sans eux, les sept écrans dessinés mais pas encore
     alimentés ne sont atteignables par aucun chemin de jeu, et ne se vérifient donc pas.

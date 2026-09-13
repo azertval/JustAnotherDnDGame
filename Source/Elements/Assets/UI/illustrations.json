@@ -23,5 +23,10 @@
       "sha256": "209757713a21409a8b755efb56531be1c923f9e26bfeb99f379af523e404f644",
       "note": "carte du monde de Tanares (pages imprimees 88-89), les treize regions de l'atlas"
     }
+  ],
+  "pending": [
+    {
+      "reason": "Aucune piece du cahier des assets (LOT-87, T2.4) n'est encore produite : le generateur d'images n'a pas encore tourne. Cette portee generale (sans 'keys') couvre toute cle du cahier qu'aucune entree 'produced' ne cite. scripts/receive_ui_assets.py (T2.6) ajoute ces entrees au fil des livraisons ; elle n'a besoin d'etre retiree ou restreinte que si une piece precise du cahier est deliberement abandonnee avant d'etre produite."
+    }
   ]
 }

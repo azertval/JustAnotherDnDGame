@@ -38,6 +38,24 @@ set(JADG_UI_QML_FILES
     Controls/FocusFleuron.ui.qml
     Controls/MenuEntry.ui.qml
     Controls/DiagnosticsOverlay.ui.qml
+    # Charte v2 (LOT-87, T2.7) : les briques que la phase 3 transcrit dans les écrans, et les deux
+    # porteurs d'image qu'elles partagent. `Theme/Artwork.qml` dit quelles pièces sont livrées.
+    Theme/Artwork.qml
+    Controls/NinePatchArt.ui.qml
+    Controls/FixedArt.ui.qml
+    Controls/PanelFrame.ui.qml
+    Controls/TitlePlate.ui.qml
+    Controls/SectionBanner.ui.qml
+    Controls/OrnateButton.ui.qml
+    Controls/OrnateTab.ui.qml
+    Controls/OrnateCheck.ui.qml
+    Controls/OrnateSlider.ui.qml
+    Controls/OrnateCombo.ui.qml
+    Controls/StatMedallion.ui.qml
+    Controls/PortraitFrame.ui.qml
+    Controls/ItemSlot.ui.qml
+    Controls/Gauge.ui.qml
+    Controls/GoldDivider.ui.qml
     Screens/CharacterSheetForm.ui.qml
     Screens/InventoryForm.ui.qml
     Screens/JournalForm.ui.qml
@@ -61,6 +79,7 @@ set(JADG_UI_QML_FILES
 # instance neuve, et le facteur d'agrandissement posé par la fenêtre ne serait vu par aucun écran.
 set(JADG_UI_QML_SINGLETONS
     Theme/Tokens.qml
+    Theme/Artwork.qml
 )
 set_source_files_properties(${JADG_UI_QML_SINGLETONS} PROPERTIES QT_QML_SINGLETON_TYPE TRUE)
 
@@ -83,10 +102,18 @@ qt_add_qml_module(JadgUi
 # depuis la ressource : l'image est donc embarquée à l'endroit exact où ce chemin relatif la
 # cherche depuis `/qt/qml/Jadg/Ui/Screens/`, c'est-à-dire `/qt/qml/Jadg/Elements/Assets/UI/`.
 # `BASE` est le mécanisme prévu par qt_add_resources pour cela -- pas un alias par fichier.
+#
+# Les images PRODUITES de la charte v2 (LOT-87) suivent le même chemin, rangées par famille sous
+# `UI/<famille>/` par scripts/receive_ui_assets.py. Elles sont ramassées par motif et non listées :
+# la liste qui fait foi est le manifeste (`illustrations.json`), et `check_ui_assets.py` refuse
+# déjà tout fichier qu'il ne déclare pas -- une seconde liste ici serait une troisième copie à
+# tenir. `CONFIGURE_DEPENDS` : une livraison est vue à la construction suivante, sans reconfigurer.
+file(GLOB_RECURSE _jadg_produced_art CONFIGURE_DEPENDS
+    "${PROJECT_SOURCE_DIR}/Source/Elements/Assets/UI/*/*.png")
 qt_add_resources(JadgUi "JadgUiIllustrations"
     PREFIX "/qt/qml/Jadg/Elements/Assets/UI"
     BASE "${PROJECT_SOURCE_DIR}/Source/Elements/Assets/UI"
-    FILES "${PROJECT_SOURCE_DIR}/Source/Elements/Assets/UI/world-map.jpg"
+    FILES "${PROJECT_SOURCE_DIR}/Source/Elements/Assets/UI/world-map.jpg" ${_jadg_produced_art}
 )
 
 # --- Éditer un écran sans rien reconstruire (EX-IHM-100) --------------------------------------

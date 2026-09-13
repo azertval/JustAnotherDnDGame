@@ -2,28 +2,43 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 """Garde-fou : les illustrations livrees et leur manifeste ne doivent pas diverger.
 
-`Source/Elements/Assets/UI/` porte les illustrations extraites du corpus (`LOT-67`,
-`EX-IHM-076`) et le manifeste `illustrations.json` qui dit d'ou chacune vient. Le corpus, lui,
-n'est pas versionne (`EX-CNT-023`) : sur un poste sans les PDF -- et sur le runner de CI, qui n'en
-aura jamais -- rien ne peut rejouer l'extraction pour verifier ce que ces fichiers contiennent.
+`Source/Elements/Assets/UI/` porte deux provenances distinctes, toutes deux cataloguees par
+`illustrations.json` :
 
-Ce que ce controle rend impossible, c'est donc l'ecart SILENCIEUX :
+- les illustrations **extraites** du corpus (`LOT-67`, `EX-IHM-076`, `provenance` autre que
+  `"produced"`) -- le corpus n'est pas versionne (`EX-CNT-023`), donc rien ne peut rejouer
+  l'extraction pour verifier ce qu'elles contiennent ;
+- depuis le `LOT-87` (T2.5), les illustrations **produites** par un generateur d'images a partir
+  du cahier des assets (`Documentation/Lot/LOT-87-charte-v2/assets-brief.json`, T2.4),
+  `provenance: "produced"`, qui portent la cle du cahier (`cahier`), le prompt tel qu'envoye et sa
+  date, plutot qu'une page du corpus.
+
+Ce que ce controle rend impossible, c'est l'ecart SILENCIEUX :
 
 - une illustration retouchee a la main, ou remplacee par une image venue d'ailleurs (empreinte) ;
 - une illustration supprimee, ou ajoutee sans passer par le catalogue du module (orpheline) ;
 - un manifeste redige a la main dont les dimensions ne sont pas celles du fichier ;
-- une cle citee par le C++ que le manifeste ne porte pas -- et l'inverse, une illustration livree
-  que plus personne ne nomme.
+- une cle citee par le C++ que le manifeste ne porte pas -- et l'inverse, une illustration EXTRAITE
+  que plus personne ne nomme (une illustration PRODUITE, elle, n'est recoupee qu'avec le cahier :
+  aucun ecran ne la consomme avant le T2.7) ;
+- une piece du cahier sans image livree ET sans mention explicite « non livree » dans le
+  manifeste (section `pending`) -- ce qui la ferait disparaitre sans que rien ne le remarque ;
+- depuis le T2.7, une table des pieces livrees (`Source/Ui/Theme/Artwork.qml`, ce que les briques
+  de la charte v2 consultent) qui ne suit plus les entrees produites du manifeste, et une brique
+  qui nomme une piece absente du cahier.
 
-Le dernier point est celui qui casse le plus souvent a l'usage : les trois premiers protegent une
-donnee, celui-la protege le LIEN entre la donnee et le code, qui est ce qui lache quand on renomme
-un fichier sans y penser.
+Ce dernier point sur le code est celui qui casse le plus souvent a l'usage : les trois premiers
+protegent une donnee, celui-la protege le LIEN entre la donnee et le code, qui est ce qui lache
+quand on renomme un fichier sans y penser.
 
 Aucune dependance : l'empreinte est du hashlib, et les dimensions se lisent dans l'en-tete du
-fichier. Meme motif que `check_qt_version_pin.py`.
+fichier. Meme motif que `check_qt_version_pin.py`. La lecture du cahier ne valide pas son schema
+(c'est le role de `check_assets_brief.py`, qui a besoin de `jsonschema`) : elle n'en lit que la
+forme deja garantie ailleurs.
 
 Usage :
-    python scripts/check_ui_assets.py     # code de sortie non nul si divergence
+    python scripts/check_ui_assets.py                   # code de sortie non nul si divergence
+    python scripts/check_ui_assets.py --write-artwork   # reecrit la table d'Artwork.qml
 """
 
 from __future__ import annotations
@@ -38,6 +53,12 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 UI = ROOT / "Source" / "Elements" / "Assets" / "UI"
 MANIFEST = UI / "illustrations.json"
+CAHIER = ROOT / "Documentation" / "Lot" / "LOT-87-charte-v2" / "assets-brief.json"
+# La table des pieces livrees que les briques consultent (T2.7), et les briques elles-memes.
+ARTWORK = ROOT / "Source" / "Ui" / "Theme" / "Artwork.qml"
+ARTWORK_BEGIN = "// --- DEBUT DE LA TABLE ENGENDREE"
+ARTWORK_END = "// --- FIN DE LA TABLE ENGENDREE"
+CONTROLS = ROOT / "Source" / "Ui" / "Controls"
 # Les endroits ou un nom de fichier d'illustration est ecrit. Depuis le LOT-86, ce sont les ecrans
 # QML : c'est la conception qui choisit une image, et elle le fait dans Source/Ui.
 #
@@ -100,9 +121,57 @@ def read_manifest() -> dict:
     return json.loads(MANIFEST.read_text(encoding="utf-8"))
 
 
-def check_illustrations(manifest: dict) -> set[str]:
-    """Chaque illustration declaree existe, et est bien celle que le manifeste decrit."""
+def read_cahier() -> dict | None:
+    """Le cahier des assets (T2.4), lu sans validation de schema (role de check_assets_brief.py)."""
+    if not CAHIER.is_file():
+        return None
+    return json.loads(CAHIER.read_text(encoding="utf-8"))
+
+
+def cahier_keys(cahier: dict) -> dict[str, dict]:
+    """Chaque cle qu'engendre le cahier (une piece, ou une par etat/membre) -> la piece qui la porte."""
+    keys: dict[str, dict] = {}
+    for piece in cahier["pieces"]:
+        variants = piece.get("states") or piece.get("members") or []
+        if variants:
+            for variant in variants:
+                keys[f"{piece['key']}/{variant['id']}"] = piece
+        else:
+            keys[piece["key"]] = piece
+    return keys
+
+
+def check_produced(identifier: str, entry: dict, keys: dict[str, dict]) -> None:
+    """Une illustration produite se recoupe avec le cahier, pas avec le code (voir docstring)."""
+    key = entry.get("cahier")
+    if not key:
+        fail(f"`{identifier}` : provenance 'produced' sans cle 'cahier'")
+        return
+    piece = keys.get(key)
+    if piece is None:
+        fail(f"`{identifier}` : cle de cahier '{key}' absente de {CAHIER.relative_to(ROOT)}")
+        return
+    if not entry.get("prompt"):
+        fail(f"`{identifier}` : aucun prompt enregistre (celui envoye au generateur)")
+    if not entry.get("date"):
+        fail(f"`{identifier}` : aucune date de production")
+    if piece["display"] == "nine-patch":
+        margins = entry.get("margins")
+        if not margins:
+            fail(f"`{identifier}` : piece 9-patch sans marges enregistrees")
+        elif margins != piece["margins"]:
+            fail(f"`{identifier}` : marges {margins}, {piece['margins']} annoncees par le cahier")
+
+
+def check_illustrations(manifest: dict, keys: dict[str, dict]) -> tuple[set[str], set[str], set[str]]:
+    """Chaque illustration declaree existe, et est bien celle que le manifeste decrit.
+
+    Renvoie (tous les fichiers declares, les fichiers extraits du corpus, les cles du cahier
+    citees par une entree produite).
+    """
     declared: dict[str, str] = {}
+    corpus_files: set[str] = set()
+    cited: set[str] = set()
     for entry in manifest["illustrations"]:
         identifier = entry["id"]
         if identifier in declared:
@@ -132,23 +201,38 @@ def check_illustrations(manifest: dict) -> set[str]:
 
         # La provenance n'est pas decorative : elle repond, le jour d'une publication, a la
         # question « qu'est-ce qui doit sauter ? » (EX-CNT-001).
-        if not entry.get("provenance"):
+        provenance = entry.get("provenance")
+        if not provenance:
             fail(f"`{identifier}` : aucune provenance declaree")
-    return set(declared.values())
+        elif provenance == "produced":
+            check_produced(identifier, entry, keys)
+            if entry.get("cahier"):
+                cited.add(entry["cahier"])
+        else:
+            corpus_files.add(entry["file"])
+    return set(declared.values()), corpus_files, cited
 
 
 def check_orphan_files(declared_files: set[str]) -> None:
-    """Aucun fichier d'image du dossier n'echappe au manifeste."""
-    for path in sorted(UI.iterdir()):
-        if path.suffix.lower() in (".jpg", ".jpeg", ".png") and path.name not in declared_files:
+    """Aucun fichier d'image du dossier -- ou d'une de ses familles -- n'echappe au manifeste."""
+    for path in sorted(UI.rglob("*")):
+        if path.is_dir() or path.suffix.lower() not in (".jpg", ".jpeg", ".png"):
+            continue
+        relative = path.relative_to(UI).as_posix()
+        if relative not in declared_files:
             fail(
-                f"{path.name} n'est declare par aucune entree du manifeste. Une image deposee a "
-                f"la main ne vient d'aucune page, et rien ne dit d'ou elle sort."
+                f"{relative} n'est declare par aucune entree du manifeste. Une image deposee a "
+                f"la main ne vient d'aucune page ni d'aucun prompt, et rien ne dit d'ou elle sort."
             )
 
 
-def check_code_keys(declared_files: set[str]) -> None:
-    """Les noms de fichiers cites par le C++ et ceux du manifeste sont les memes, dans les deux sens."""
+def check_code_keys(declared_files: set[str], corpus_files: set[str]) -> None:
+    """Les noms de fichiers cites par le code et ceux EXTRAITS du manifeste sont les memes, dans
+    les deux sens. Une illustration PRODUITE n'entre dans aucun des deux ensembles compares ici :
+    les briques du T2.7 ne la nomment pas par son fichier mais par sa cle, que `check_artwork`
+    recoupe avec le cahier."""
+    declared_names = {Path(name).name for name in declared_files}
+    corpus_names = {Path(name).name for name in corpus_files}
     used: set[str] = set()
     for source in NAMING_SOURCES:
         if not source.is_file():
@@ -164,17 +248,129 @@ def check_code_keys(declared_files: set[str]) -> None:
     if not used:
         fail("aucun nom d'illustration dans les sources de nommage (lecture cassee ?)")
         return
-    for name in sorted(used - declared_files):
+    for name in sorted(used - declared_names):
         fail(f"`{name}` nomme par le code, absent du manifeste")
-    for name in sorted(declared_files - used):
-        fail(f"`{name}` livre et declare, mais nomme par aucun code")
+    for name in sorted(corpus_names - used):
+        fail(f"`{name}` extraite et declaree, mais nomme par aucun code")
+
+
+def check_cahier_coverage(manifest: dict, keys: dict[str, dict], cited: set[str]) -> None:
+    """Chaque cle du cahier finit par avoir un fichier (`cited`), ou une mention explicite
+    « non livree » dans `pending` -- sans quoi une piece oubliee disparaitrait sans que rien ne
+    le remarque."""
+    pending = manifest.get("pending", [])
+    blanket = False
+    specific: set[str] = set()
+    for entry in pending:
+        if not entry.get("reason"):
+            fail("entree 'pending' sans raison")
+        if "keys" in entry:
+            for key in entry["keys"]:
+                if key in specific:
+                    fail(f"`{key}` : cle en double dans 'pending'")
+                specific.add(key)
+        else:
+            blanket = True
+    for key in sorted((cited | specific) - set(keys)):
+        fail(f"`{key}` : citee (produite ou en attente) mais absente du cahier")
+    if blanket:
+        return
+    for key in sorted(set(keys) - cited - specific):
+        fail(f"`{key}` : ni produite ni marquee « non livree » dans le manifeste")
+
+
+def artwork_table(manifest: dict) -> list[str]:
+    """Les lignes de la table `delivered` d'Artwork.qml, engendrees depuis les entrees produites
+    du manifeste : cle du cahier -> fichier sous Source/Elements/Assets/UI, et marges 9-patch."""
+    produced = sorted(
+        (entry for entry in manifest["illustrations"] if entry.get("provenance") == "produced"),
+        key=lambda entry: entry["cahier"],
+    )
+    lines = ["    readonly property var delivered: ({"]
+    for entry in produced:
+        value: dict = {"file": entry["file"]}
+        if entry.get("margins"):
+            value["margins"] = entry["margins"]
+        lines.append(f'        "{entry["cahier"]}": {json.dumps(value, ensure_ascii=False)},')
+    lines.append("    })")
+    return lines
+
+
+def splice_artwork(text: str, table: list[str]) -> str | None:
+    """Le texte d'Artwork.qml avec la table remplacee entre ses deux marqueurs, ou None s'ils
+    manquent."""
+    lines = text.split("\n")
+    begin = next((i for i, line in enumerate(lines) if ARTWORK_BEGIN in line), None)
+    end = next((i for i, line in enumerate(lines) if ARTWORK_END in line), None)
+    if begin is None or end is None or end <= begin:
+        return None
+    return "\n".join(lines[: begin + 1] + table + lines[end:])
+
+
+def write_artwork(manifest: dict) -> bool:
+    """Reecrit la table d'Artwork.qml ; appele par receive_ui_assets.py apres une livraison."""
+    text = ARTWORK.read_text(encoding="utf-8")
+    spliced = splice_artwork(text, artwork_table(manifest))
+    if spliced is None:
+        return False
+    if spliced != text:
+        ARTWORK.write_text(spliced, encoding="utf-8", newline="\n")
+    return True
+
+
+def check_artwork(manifest: dict, cahier: dict | None) -> None:
+    """La table d'Artwork.qml suit le manifeste, et chaque piece qu'une brique nomme en toutes
+    lettres (`"ui/<famille>/<piece>`) existe dans le cahier. Une table en retard laisserait une
+    image livree invisible -- la brique garderait son repli, sans rien signaler ; une cle mal
+    ecrite dans une brique ne serait jamais livree, et l'aplat resterait pour toujours."""
+    if not ARTWORK.is_file():
+        fail(f"{ARTWORK.relative_to(ROOT)} absent : les briques ne savent pas quelles pieces sont livrees")
+        return
+    text = ARTWORK.read_text(encoding="utf-8")
+    spliced = splice_artwork(text, artwork_table(manifest))
+    if spliced is None:
+        fail(f"{ARTWORK.relative_to(ROOT)} : marqueurs de la table engendree introuvables")
+    elif spliced != text:
+        fail(
+            f"{ARTWORK.relative_to(ROOT)} : la table des pieces livrees ne suit plus le manifeste. "
+            f"La reecrire :\n    python scripts/check_ui_assets.py --write-artwork"
+        )
+    if cahier is None:
+        return
+    pieces = {piece["key"] for piece in cahier["pieces"]}
+    named = 0
+    for brick in sorted(CONTROLS.glob("*.ui.qml")):
+        body = brick.read_text(encoding="utf-8")
+        for key in re.findall(r'"(ui/[a-z-]+/[a-z-]+)', body):
+            named += 1
+            if key not in pieces:
+                fail(f"{brick.relative_to(ROOT)} : nomme la piece '{key}', absente du cahier")
+    if named == 0:
+        fail(f"aucune brique de {CONTROLS.relative_to(ROOT)} ne nomme une piece du cahier (lecture cassee ?)")
 
 
 def main() -> None:
+    if "--write-artwork" in sys.argv[1:]:
+        if not write_artwork(read_manifest()):
+            print(f"check_ui_assets : marqueurs introuvables dans {ARTWORK.relative_to(ROOT)}", file=sys.stderr)
+            sys.exit(1)
+        print(f"check_ui_assets : {ARTWORK.relative_to(ROOT)} reecrit depuis le manifeste.")
+        return
+
     manifest = read_manifest()
-    declared_files = check_illustrations(manifest)
+    cahier = read_cahier()
+    if cahier is None:
+        fail(f"{CAHIER.relative_to(ROOT)} absent : impossible de recouper les assets produits")
+        keys: dict[str, dict] = {}
+    else:
+        keys = cahier_keys(cahier)
+
+    declared_files, corpus_files, cited = check_illustrations(manifest, keys)
     check_orphan_files(declared_files)
-    check_code_keys(declared_files)
+    check_code_keys(declared_files, corpus_files)
+    if cahier is not None:
+        check_cahier_coverage(manifest, keys, cited)
+    check_artwork(manifest, cahier)
 
     if errors:
         for message in errors:

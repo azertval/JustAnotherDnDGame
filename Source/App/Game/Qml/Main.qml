@@ -10,9 +10,9 @@ import Jadg.App
     Ce fichier câble ; il ne décrit pas d'apparence. Tout ce qui se voit vit dans les `.ui.qml` de
     `Screens/` et `Controls/`, que Qt Design Studio ouvre et réenregistre sans les casser.
 
-    Sa seule responsabilité visuelle est de poser le facteur d'agrandissement : entier, dérivé de
-    la hauteur de la fenêtre. Ce calcul reste en C++ (`IdentityScale`, couvert par ses tests) -- il
-    n'a rien d'une décision d'apparence.
+    Sa seule responsabilité visuelle est de poser les facteurs d'agrandissement : l'entier de la
+    charte v1, dérivé de la hauteur de la fenêtre, et le réel de la charte v2 (`uiScale`), rapport
+    de la fenêtre à la définition de conception. Ni l'un ni l'autre n'est une décision d'apparence.
 */
 Window {
     id: root
@@ -56,6 +56,25 @@ Window {
     // `hmi::identityScaleFor` en attendant que la vue-modèle l'expose : la formule est ici
     // temporairement, jamais l'apparence.
     onHeightChanged: Tokens.scale = Math.max(1, Math.min(3, Math.floor(root.height / 360)))
+
+    /*!
+        Facteur réel de la charte v2 (LOT-87) : la fenêtre rapportée à 1920 x 1080.
+
+        Le plus petit des deux rapports, pour que l'écran de conception tienne entier dans la
+        fenêtre quel que soit son format : une fenêtre plus large que le 16:9 garde de la marge sur
+        les côtés, une plus haute en haut et en bas, et rien n'est rogné. Aucune boucle possible
+        (`EX-IHM-080`, `EX-IHM-081`) : aucun écran ne contraint la taille de la fenêtre, donc rien
+        de ce qui dépend de ce facteur ne la fait croître.
+
+        Plancher à 0,5 : en deçà, un corps de 18 px tombe sous 9 px et ne se lit plus ; l'écran
+        défile plutôt que de rétrécir encore. Une liaison, et non deux gestionnaires : le facteur
+        dépend de la largeur ET de la hauteur, et un gestionnaire oublié sur l'une le figerait.
+    */
+    Binding {
+        target: Tokens
+        property: "uiScale"
+        value: Math.max(0.5, Math.min(root.width / 1920, root.height / 1080))
+    }
 
     /*!
         Écran imposé au lancement, ou vide pour laisser le routeur décider.
