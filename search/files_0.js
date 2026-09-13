@@ -34,11 +34,12 @@ var searchData=
   ['assetpaths_2eh_31',['AssetPaths.h',['../AssetPaths_8h.html',1,'']]],
   ['assetreferences_2ecpp_32',['AssetReferences.cpp',['../AssetReferences_8cpp.html',1,'']]],
   ['assetreferences_2eh_33',['AssetReferences.h',['../AssetReferences_8h.html',1,'']]],
-  ['assetthumbnailview_2ecpp_34',['AssetThumbnailView.cpp',['../AssetThumbnailView_8cpp.html',1,'']]],
-  ['assetthumbnailview_2eh_35',['AssetThumbnailView.h',['../AssetThumbnailView_8h.html',1,'']]],
-  ['atlas_2ecpp_36',['Atlas.cpp',['../Atlas_8cpp.html',1,'']]],
-  ['atlas_2eh_37',['Atlas.h',['../Atlas_8h.html',1,'']]],
-  ['audioengine_2ecpp_38',['AudioEngine.cpp',['../AudioEngine_8cpp.html',1,'']]],
-  ['audioengine_2eh_39',['AudioEngine.h',['../AudioEngine_8h.html',1,'']]],
-  ['audiolog_2eh_40',['AudioLog.h',['../AudioLog_8h.html',1,'']]]
+  ['assets_2dbrief_2emd_34',['assets-brief.md',['../assets-brief_8md.html',1,'']]],
+  ['assetthumbnailview_2ecpp_35',['AssetThumbnailView.cpp',['../AssetThumbnailView_8cpp.html',1,'']]],
+  ['assetthumbnailview_2eh_36',['AssetThumbnailView.h',['../AssetThumbnailView_8h.html',1,'']]],
+  ['atlas_2ecpp_37',['Atlas.cpp',['../Atlas_8cpp.html',1,'']]],
+  ['atlas_2eh_38',['Atlas.h',['../Atlas_8h.html',1,'']]],
+  ['audioengine_2ecpp_39',['AudioEngine.cpp',['../AudioEngine_8cpp.html',1,'']]],
+  ['audioengine_2eh_40',['AudioEngine.h',['../AudioEngine_8h.html',1,'']]],
+  ['audiolog_2eh_41',['AudioLog.h',['../AudioLog_8h.html',1,'']]]
 ];

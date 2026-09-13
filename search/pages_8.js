@@ -1,7 +1,7 @@
 var searchData=
 [
   ['8_20communication_20inter_20systèmes_0',['8. Communication inter-systèmes',['../spec-architecture.html#autotoc_md266',1,'']]],
-  ['8_20décisions_20prises_20et_20questions_20restantes_1',['8. Décisions prises et questions restantes',['../roadmap-010.html#autotoc_md685',1,'']]],
+  ['8_20décisions_20prises_20et_20questions_20restantes_1',['8. Décisions prises et questions restantes',['../roadmap-010.html#autotoc_md707',1,'']]],
   ['8_20directions_2',['8 directions',['../guide-physique.html#autotoc_md208',1,'5. Dash 8 directions'],['../lot-06.html',1,'LOT-06 — Déplacement top-down 8 directions']]],
   ['8_20identité_20visuelle_20des_20écrans_20du_20jeu_20lot_20h_2068_3',['8. Identité visuelle des écrans du jeu (LOT-H-68)',['../spec-interface-ihm.html#autotoc_md357',1,'']]],
   ['8_20palette_20organisée_20par_20catégories_20lot_20h_2027_4',['8. Palette organisée par catégories (LOT-H-27)',['../spec-editeur.html#autotoc_md323',1,'']]],
@@ -14,5 +14,6 @@ var searchData=
   ['84_20—_20les_2031_20tables_20de_20progression_20de_20classe_11',['&lt;span class=&quot;tt&quot;&gt;LOT-84&lt;/span&gt; — Les 31 tables de progression de classe',['../roadmap-010.html#lot-84',1,'']]],
   ['86_12',['11. La conception séparée du code (LOT-86)',['../spec-interface-ihm.html#ihm-conception',1,'']]],
   ['86_20—_20refonte_20de_20l_20ihm_20sur_20qt_20quick_13',['LOT-86 — Refonte de l&apos;IHM sur Qt Quick',['../lot-86.html',1,'']]],
-  ['87_20—_20charte_20v2_20et_20intégration_20des_20maquettes_14',['LOT-87 — Charte v2 et intégration des maquettes',['../lot-87.html',1,'lots']]]
+  ['87_20—_20cahier_20des_20assets_20de_20la_20charte_20v2_14',['LOT-87 — Cahier des assets de la charte v2',['../lot-87-cahier-assets.html',1,'lot-87']]],
+  ['87_20—_20charte_20v2_20et_20intégration_20des_20maquettes_15',['LOT-87 — Charte v2 et intégration des maquettes',['../lot-87.html',1,'lots']]]
 ];
