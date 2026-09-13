@@ -1,6 +1,6 @@
 # Concevoir les écrans dans Qt Design Studio {#guide-conception-qds}
 
-> Statut : **en place** (`LOT-86`). Cette page ne s'adresse pas au développeur mais à **qui dessine
+> Statut : **en place** (`LOT-86`, module de conception refondu au `LOT-87`). Cette page ne s'adresse pas au développeur mais à **qui dessine
 > les écrans**. Elle décrit ce qu'on peut faire sans jamais ouvrir un fichier source, ce qui demande
 > encore un développeur, et pourquoi la frontière est là.
 
@@ -11,29 +11,40 @@ le changement est à l'écran, sans qu'aucun compilateur n'ait tourné (`EX-IHM-
 
 ## Ce que le projet vous montre, et ce qu'il vous cache
 
-`JadgUi.qmlproject` ne décrit que `Source/Ui` et les assets. Ni CMake, ni `Source/HMI`, ni une ligne
-de C++ n'y apparaissent — ce n'est pas une commodité d'affichage, c'est le **périmètre du fichier**.
-La frontière entre les deux métiers n'est donc pas une consigne de relecture : c'est ce que le
-projet vous laisse voir.
+`JadgUi.qmlproject` ne décrit que `Source/Ui`, les jumeaux de câblage et les assets. Ni CMake, ni
+`Source/HMI`, ni une ligne de C++ n'y apparaissent — ce n'est pas une commodité d'affichage, c'est
+le **périmètre du fichier**. La frontière entre les deux métiers n'est donc pas une consigne de
+relecture : c'est ce que le projet vous laisse voir.
 
 ```
-Source/Ui/
-  Main.qml            la fenêtre — développeur
-  Theme/Tokens.qml    LES JETONS : couleurs, polices, grandeurs. À vous.
-  Controls/           les briques réutilisées d'un écran à l'autre. À vous.
-  Screens/            un FORMULAIRE et son jumeau par écran (voir ci-dessous).
-  Logic/              le câblage — développeur.
-  Mocks/              les données d'exemple de la conception.
+Source/Ui/                      le module Jadg.Ui : du QML, et rien d'autre. À vous.
+  Theme/Tokens.qml              LES JETONS : couleurs, polices, grandeurs.
+  Controls/                     les briques réutilisées d'un écran à l'autre.
+  Screens/                      un FORMULAIRE *Form.ui.qml par écran.
+  DesignStudio/Main.ui.qml      la galerie : ce que l'atelier ouvre en premier.
+  Mocks/                        les DOUBLURES des types C++, pour l'atelier seulement.
+Source/App/Game/Qml/            le module Jadg.App : le câblage — développeur.
+  Main.qml                      la fenêtre.
+  Logic/                        la pile d'écrans, le sélecteur de développement.
+  Screens/                      le JUMEAU <Écran>.qml de chaque formulaire.
+Source/HMI/Runtime/             le module Jadg.Runtime : les types C++ que les jumeaux voient.
 ```
+
+**Pourquoi trois modules, et pourquoi `Source/Ui` n'a pas une ligne de C++.** Qt Design Studio
+dessine avec son propre Qt (6.8.7, embarqué dans l'atelier) et un marionnettiste — `qmlpuppet` —
+qui **ne charge aucun plugin C++ du projet**. Un module qui mêle formulaires et types C++ est donc
+résolvable par le jeu et pas par l'atelier. `Jadg.Ui` est du QML pur, et le reste tel quel ; les
+types C++ vivent dans `Jadg.Runtime`, que seuls les jumeaux importent.
 
 ## La règle des deux fichiers
 
-Chaque écran existe en **deux** exemplaires, et il faut savoir lequel est le vôtre :
+Chaque écran existe en **deux** exemplaires, dans deux dossiers, et il faut savoir lequel est le
+vôtre :
 
 | Fichier | À qui | Ce qu'il contient |
 |---|---|---|
-| `CharacterSheetForm.ui.qml` | **la conception** | tout ce qui se voit : disposition, couleurs, tailles, animations |
-| `CharacterSheet.qml` | le développement | d'où viennent les données, et ce que font les touches |
+| `Source/Ui/Screens/CharacterSheetForm.ui.qml` | **la conception** | tout ce qui se voit : disposition, couleurs, tailles, animations |
+| `Source/App/Game/Qml/Screens/CharacterSheet.qml` | le développement | d'où viennent les données, et ce que font les touches |
 
 Le suffixe `Form` n'est pas décoratif : sans lui, les deux fichiers déclareraient un type du même
 nom et le module refuserait de se charger.
@@ -74,6 +85,13 @@ Entier, parce que les filets d'un pixel du cadre de parchemin se corrompent sile
 Chaque formulaire porte des valeurs d'exemple — c'est ce qui vous permet de juger une mise en page
 au lieu de regarder un écran vide. Le jeu ne les voit jamais : à l'exécution, le jumeau les remplace.
 
+Vous pouvez aussi ouvrir **le jumeau** dans l'atelier, pour voir l'écran avec les valeurs que le jeu
+lui donne. Les types C++ qu'il nomme (`OptionsModel`, `ScreenRouter`, `PendingData`,
+`CharacterSheetModel`, `InventoryModel`, `GameViewport`) y sont remplacés par des **doublures** QML
+de `Source/Ui/Mocks/`, aux mêmes noms et mêmes propriétés. Ce n'est pas là qu'on dessine — le
+jumeau contient du code, que l'atelier n'ouvre qu'en texte pour l'éditer — mais c'est là qu'on
+vérifie qu'un formulaire tient avec de vraies longueurs de texte.
+
 **Elles doivent avoir exactement la forme des vraies données.** Les listes d'exemple sont des
 `ListModel` et non des tableaux JavaScript, parce qu'un tableau n'expose que `modelData` là où un
 modèle expose ses **rôles** — un écran validé sur des tableaux se serait affiché vide une fois
@@ -106,10 +124,22 @@ elle est donc écrite une fois, dans `Source/App/Game/Main.cpp`, et commentée.
 Conséquence pour vous : si un contrôle vous paraît de la mauvaise couleur, la réponse est dans
 `Tokens.qml` ou dans la palette de `Main.qml`, jamais dans l'écran.
 
+## La bibliothèque de composants
+
+Le panneau **Composants** de l'atelier liste aujourd'hui chaque dossier du projet « (vide) », avec
+ou sans le mot `designersupported` que porte le `qmldir` engendré (`Source/Ui/Jadg/Ui/`), et quelle
+que soit la disposition des fichiers — c'est le constat de la phase 1 du `LOT-87`, et il reste à
+instruire. En attendant, une brique se pose de deux façons : en la copiant depuis la galerie
+`DesignStudio/Main.ui.qml`, qui les montre toutes, ou en l'écrivant dans l'onglet Code
+(`Cabochon { }`), après quoi la vue 2D la dessine et le panneau Propriétés l'édite. Si un type ne se
+résout pas du tout, le projet n'a pas été configuré : lancer `scripts/build.ps1` une fois suffit.
+
 ## Les modules que vous pouvez importer
 
 Uniquement ceux que connaissent **à la fois** Qt et Design Studio : `QtQuick`, `QtQuick.Controls`,
-`QtQuick.Layouts`, `QtQuick.Shapes`, `QtQuick.Effects`, et `Jadg.Ui`.
+`QtQuick.Layouts`, `QtQuick.Shapes`, `QtQuick.Effects`, et `Jadg.Ui`. **Jamais `Jadg.Runtime`** :
+un formulaire qui nommerait un type C++ s'ouvrirait dans le jeu et resterait irrésolu dans
+l'atelier. `scripts/check_qml_designer_compat.py` le refuse.
 
 Design Studio livre les siens (`QtQuick.Studio.*`), absents d'une installation Qt ordinaire : un
 formulaire qui en importerait s'ouvrirait parfaitement chez vous et **casserait le jeu** — le pire

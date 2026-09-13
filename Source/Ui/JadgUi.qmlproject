@@ -1,18 +1,20 @@
-/* Projet Qt Design Studio des ecrans du jeu (LOT-86).
+/* Projet Qt Design Studio des ecrans du jeu (LOT-86, LOT-87).
  *
- * C'est le fichier que la conception ouvre. Il ne decrit QUE Source/Ui et les assets :
- * ni CMake, ni Source/HMI, ni une ligne de C++ n'y sont visibles. C'est la frontiere,
- * rendue litterale par le perimetre de ce fichier.
+ * C'est le fichier que la conception ouvre. Il ne decrit QUE Source/Ui, les jumeaux de cablage
+ * et les assets : ni CMake, ni Source/HMI, ni une ligne de C++ n'y sont visibles. C'est la
+ * frontiere, rendue litterale par le perimetre de ce fichier.
  *
  * Ouvrir avec : D:/Qt/Tools/QtDesignStudio/bin/qtdesignstudio.exe Source/Ui/JadgUi.qmlproject
  */
 import QmlProject 1.1
 
 Project {
-    mainFile: "Main.qml"
+    // La galerie : chaque brique posee une fois, ce que l'atelier ouvre en premier. La fenetre du
+    // jeu (Main.qml, module Jadg.App) est un fichier de cablage : elle ne se dessine pas.
+    mainFile: "DesignStudio/Main.ui.qml"
 
     // AUCUNE version de Qt n'est ecrite ici, et c'est deliberé : le projet se construit avec la
-    // version epinglee par `QT_VERSION_MINIMUM` (Source/HMI/CMakeLists.txt), tandis que Design
+    // version epinglee par `QT_VERSION_MINIMUM` (Source/CMakeLists.txt), tandis que Design
     // Studio dessine avec le Qt qu'il embarque lui-meme. Figer un numero dans ce fichier ferait
     // croire a un troisieme epinglage, qui ne commanderait ni l'un ni l'autre. Tous les imports
     // du module sont sans version, ce qui rend le choix inutile de toute facon.
@@ -22,16 +24,25 @@ Project {
     // couteuse du fichier, et elle tient a un booleen absent.
     qt6Project: true
 
+    // Les formulaires, les controles, les jetons, la galerie et les doublures.
     QmlFiles   { directory: "." }
+    // Les jumeaux de cablage (module Jadg.App) : ouvrables ici grace aux doublures de Mocks/, pour
+    // voir un ecran AVEC les valeurs que le jeu lui donne -- et non pour les dessiner. Ce qui se
+    // dessine reste le *Form.ui.qml.
+    QmlFiles   { directory: "../App/Game/Qml" }
     ImageFiles { directory: "../Elements/Assets" }
     FontFiles  { directory: "../Elements/Assets/Fonts" }
 
-    // Le `qmldir` du module. Il est ENGENDRE par CMake sous Jadg/Ui/ (et ignore par git) : sur un
-    // depot jamais construit il n'existe pas, et aucun type de `Jadg.Ui` ne se resout. Le declarer
-    // ici le rend visible dans l'arborescence du projet, donc diagnosticable au lieu d'etre
-    // simplement absent.
+    // Le `qmldir` du module Jadg.Ui. Il est ENGENDRE par CMake sous Jadg/Ui/ (et ignore par git) :
+    // sur un depot jamais construit il n'existe pas, et aucun type de `Jadg.Ui` ne se resout. Le
+    // declarer ici le rend visible dans l'arborescence du projet, donc diagnosticable au lieu
+    // d'etre simplement absent. Celui de Mocks/Jadg/Runtime/ est ecrit a la main et versionne.
     Files { filter: "qmldir"; directory: "." }
 
-    // Les types du module se resolvent depuis la racine du projet, comme a l'execution.
-    importPaths: [ "." ]
+    // Deux chemins d'import. « . » resout `Jadg.Ui` comme a l'execution. « Mocks » resout
+    // `Jadg.Runtime` par des DOUBLURES QML des types C++ (OptionsModel, ScreenRouter, PendingData,
+    // CharacterSheetModel, InventoryModel, GameViewport) : le marionnettiste de l'atelier ne
+    // charge aucun plugin C++, et sans elles tout fichier qui nomme un de ces types resterait
+    // irresolu. CMake ne connait pas Mocks/ ; le jeu ne le voit jamais.
+    importPaths: [ ".", "Mocks" ]
 }

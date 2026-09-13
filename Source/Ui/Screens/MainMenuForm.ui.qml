@@ -34,7 +34,7 @@ Item {
     // scene ». `PreserveAspectCrop` remplit sans deformer : une carte etiree se lit tout de suite.
     Image {
         anchors.fill: parent
-        source: "../assets/world-map.jpg"
+        source: "../../Elements/Assets/UI/world-map.jpg"
         fillMode: Image.PreserveAspectCrop
         // Peinte, pas en pixel art : elle se redimensionne en interpole (EX-ARCH-022, LOT-66).
         smooth: true

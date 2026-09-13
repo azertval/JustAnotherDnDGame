@@ -94,6 +94,8 @@ __pycache__/
 # tel quel -- c'est ce qui permet au .qmlproject de l'artiste de resoudre Jadg.Ui sans connaitre
 # le repertoire de construction. Engendre depuis la meme liste que la ressource, jamais edite.
 /Source/Ui/Jadg/
+# Configuration du serveur de langage QML, engendree par qt_add_qml_module (QT_QML_GENERATE_QMLLS_INI).
+.qmlls.ini
 
 # Session de Qt Design Studio : etat LOCAL d'un poste (fenetres ouvertes, cibles de construction,
 # identifiant d'environnement de la machine). Rien de partageable, et le versionner ferait diverger

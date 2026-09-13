@@ -11,6 +11,8 @@
 #   Input/        entrées (état, mapping, remappage clavier/manette, pont Qt -> Key) ;
 #   Graphics/     rendu Direct3D 11 réutilisable (device, sprites, caméra, brouillon d'édition) ;
 #   Game/         simulation d'un niveau (GameSession) et viewport Qt jeu/édition ;
+#   Presentation/ logique de présentation pure (table de transitions, échelle, valeurs de fiche) ;
+#   Runtime/      les types C++ que les écrans du jeu voient -- module QML `Jadg.Runtime` (LOT-87) ;
 #   Localization/ catalogue de traduction ;
 #   Interface/    fenêtre principale, menu, options, remappage (widgets Qt) ;
 #   Editor/       périmètre éditeur de niveau (palette, outils, navigateur, logique pure).
@@ -146,122 +148,13 @@ if(ENABLE_PCH)
     target_precompile_headers(HmiLib PRIVATE ${PROJECT_SOURCE_DIR}/Source/pch.h)
 endif()
 
-# La cible reste **optionnelle** : sur un poste sans Qt (ex. CI n'exécutant que les tests unitaires,
-# qui compilent les sources pures directement), la configuration n'échoue pas — l'application est
-# simplement ignorée. Fournir Qt via CMAKE_PREFIX_PATH (ou l'action CI install-qt-action) pour
-# l'activer, ou passer -DBUILD_EDITOR_QT=OFF pour l'ignorer explicitement.
-option(BUILD_EDITOR_QT "Construire l'éditeur Qt (JustAnotherDnDGame). Nécessite Qt6." ON)
-if(NOT BUILD_EDITOR_QT)
-    message(STATUS "JustAnotherDnDGame : désactivé (BUILD_EDITOR_QT=OFF).")
+# Tout ce qui suit demande Qt. La découverte de Qt et l'option BUILD_EDITOR_QT vivent dans
+# Source/CMakeLists.txt depuis le LOT-87 : trois répertoires frères (HMI, Ui, App) en dépendent, et
+# les cibles importées d'un find_package ne sont visibles que sous le répertoire qui l'a appelé.
+if(NOT JADG_GAME_ENABLED)
     return()
 endif()
 
-# --- Version de référence (EX-BUILD-010) ---
-# Seul endroit où la version de Qt est écrite dans le CMake : la CI (`.github/workflows/ci.yml`,
-# `release.yml`) l'installe explicitement à cette même valeur (`env.QT_VERSION`), vérifié
-# automatiquement par `scripts/check_qt_version_pin.py` (job `lint-exigences`) pour que les deux
-# ne divergent jamais silencieusement.
-set(QT_VERSION_MINIMUM "6.11.2")
-
-# --- Découverte de Qt sans configuration manuelle ---
-# find_package() ne consulte que CMAKE_PREFIX_PATH. Or l'installateur officiel Qt place ses
-# versions dans <racine>/<version>/<compilateur> — un emplacement que CMake ne connaît pas. Sur un
-# poste neuf, la configuration ne trouvait donc rien et la cible était ignorée *en silence* : le
-# build « réussissait » sans jamais produire d'exécutable. On complète la recherche par les
-# emplacements conventionnels, en les ajoutant **en fin** de liste pour qu'un choix explicite
-# (-DCMAKE_PREFIX_PATH, -DQt6_DIR) garde toujours la priorité.
-set(_qt_hints "")
-
-# Variables d'environnement usuelles. QT_ROOT_DIR est exporté par install-qt-action (CI) ;
-# QTDIR est la convention historique de l'installateur.
-foreach(_qt_var QT_ROOT_DIR Qt6_ROOT QTDIR)
-    if(DEFINED ENV{${_qt_var}})
-        list(APPEND _qt_hints "$ENV{${_qt_var}}")
-    endif()
-endforeach()
-
-# Arborescences de l'installateur officiel. Le tri décroissant naturel place la version la plus
-# récente en tête (6.11 avant 6.9, ce qu'un tri lexicographique ferait à l'envers).
-if(WIN32)
-    file(GLOB _qt_installs
-        "$ENV{SystemDrive}/Qt/*/msvc*_64"
-        "C:/Qt/*/msvc*_64"
-        "D:/Qt/*/msvc*_64")
-else()
-    file(GLOB _qt_installs
-        "$ENV{HOME}/Qt/*/gcc_64"
-        "/opt/Qt/*/gcc_64")
-endif()
-list(SORT _qt_installs COMPARE NATURAL ORDER DESCENDING)
-list(APPEND _qt_hints ${_qt_installs})
-
-if(_qt_hints)
-    list(REMOVE_DUPLICATES _qt_hints)
-    list(APPEND CMAKE_PREFIX_PATH ${_qt_hints})
-endif()
-
-find_package(Qt6 ${QT_VERSION_MINIMUM} QUIET COMPONENTS Widgets Gui GuiPrivate Multimedia ShaderTools Quick Qml QuickControls2)
-if(NOT Qt6_FOUND)
-    # Deuxième essai, sans contrainte de version, seulement pour distinguer dans le message
-    # « rien d'installé » de « une version installée, mais trop ancienne » — sinon les deux
-    # produisent le même NOT Qt6_FOUND et le second cas serait diagnostiqué à tort comme le premier.
-    find_package(Qt6 QUIET COMPONENTS Widgets Gui GuiPrivate Multimedia ShaderTools Quick Qml QuickControls2)
-    # Avertissement et non simple statut : sans Qt il n'y a **aucun exécutable**, seulement les
-    # tests. Passer inaperçu est précisément ce qui rendait l'absence d'exe difficile à diagnostiquer.
-    if(Qt6_FOUND)
-        message(WARNING
-            "JustAnotherDnDGame : Qt6 ${Qt6_VERSION} trouvé (${Qt6_DIR}), mais inférieur à la version "
-            "minimale requise ${QT_VERSION_MINIMUM} — cible ignorée, AUCUN EXÉCUTABLE ne sera produit.\n"
-            "Installer au moins Qt ${QT_VERSION_MINIMUM} (ou désigner une autre installation via "
-            "-DCMAKE_PREFIX_PATH), ou passer -DBUILD_EDITOR_QT=OFF pour ne construire que les tests.")
-    else()
-        # Troisième cas, distinct des deux précédents : Qt est bien installé, mais il lui manque un
-        # MODULE (typiquement Multimedia, un composant additionnel que l'installateur officiel ne
-        # coche pas par défaut). find_package échoue alors en bloc, et annoncer « Qt6 introuvable »
-        # envoie chercher au mauvais endroit — le cas a réellement coûté une session de diagnostic.
-        find_package(Qt6 QUIET COMPONENTS Widgets Gui)
-        if(Qt6_FOUND)
-            set(_qt_missing "")
-            foreach(_qt_component Widgets Gui GuiPrivate Multimedia ShaderTools Quick Qml QuickControls2)
-                find_package(Qt6${_qt_component} QUIET)
-                if(NOT Qt6${_qt_component}_FOUND)
-                    list(APPEND _qt_missing ${_qt_component})
-                endif()
-            endforeach()
-            message(WARNING
-                "JustAnotherDnDGame : Qt6 ${Qt6_VERSION} est bien installé (${Qt6_DIR}), mais il manque "
-                "le(s) module(s) : ${_qt_missing} — cible ignorée, AUCUN EXÉCUTABLE ne sera produit.\n"
-                "ShaderTools (l'outil `qsb`) et GuiPrivate (les en-têtes QRhi) sont exigés depuis le "
-                "LOT-69 TACHE-02 : le rendu passe par QRhi, plus par Direct3D 11 en direct.\n"
-                "Quick, Qml et QuickControls2 le sont depuis le LOT-86 : les écrans du jeu sont "
-                "du QML, et Widgets ne sert plus qu'à l'éditeur de niveaux.
-"
-                "Ajouter le(s) module(s) manquant(s) avec l'outil de maintenance Qt "
-                "(MaintenanceTool.exe, à la racine de l'installation), puis reconfigurer.\n"
-                "Passer -DBUILD_EDITOR_QT=OFF pour ne construire que les tests, sans cet avertissement.")
-        else()
-            message(WARNING
-                "JustAnotherDnDGame : Qt6 introuvable, cible ignorée — AUCUN EXÉCUTABLE ne sera produit.\n"
-                "Version minimale requise : ${QT_VERSION_MINIMUM}.\n"
-                "Emplacements examinés : ${_qt_hints}\n"
-                "Corriger en installant Qt via l'installateur officiel, ou en désignant l'installation :\n"
-                "  cmake --preset ninja -DCMAKE_PREFIX_PATH=<chemin>/msvc2022_64\n"
-                "Passer -DBUILD_EDITOR_QT=OFF pour ne construire que les tests, sans cet avertissement.")
-        endif()
-    endif()
-    return()
-endif()
-
-if(NOT Qt6_VERSION VERSION_EQUAL QT_VERSION_MINIMUM)
-    # Avertissement, pas erreur (cf. TACHE-01) : interdire de construire sur une version voisine
-    # coûterait plus qu'il ne rapporterait. Le but est qu'un écart soit visible, pas interdit.
-    message(WARNING
-        "JustAnotherDnDGame : Qt6 ${Qt6_VERSION} trouvé (${Qt6_DIR}), différent de la version de "
-        "référence ${QT_VERSION_MINIMUM} (celle validée par la CI) — le build peut diverger de la "
-        "CI sans que rien d'autre ne le signale.")
-endif()
-
-message(STATUS "JustAnotherDnDGame : Qt6 ${Qt6_VERSION} trouvé (${Qt6_DIR}).")
 
 # =============================================================================================
 # Deux applications (LOT-86)
@@ -289,7 +182,6 @@ set(CMAKE_AUTORCC ON)
 # Assets Qt déclaratifs (hors code) : mises en page Designer + ressource embarquée, dans Elements.
 set(ELEMENTS_UI ${PROJECT_SOURCE_DIR}/Source/Elements/UI)
 set(APP_DIR ${PROJECT_SOURCE_DIR}/Source/App)
-set(UI_DIR ${PROJECT_SOURCE_DIR}/Source/Ui)
 
 # ---------------------------------------------------------------------------------------------
 # LevelEditor : l'outil d'auteur, en Qt Widgets
@@ -361,248 +253,17 @@ target_link_libraries(LevelEditor PRIVATE
     project_options
 )
 
-# ---------------------------------------------------------------------------------------------
-# JustAnotherDnDGame : le jeu, en Qt Quick
-# ---------------------------------------------------------------------------------------------
-add_executable(JustAnotherDnDGame
-    ${APP_DIR}/Game/Main.cpp
-    ${APP_DIR}/Common/Bootstrap.cpp
-    # La surface de rendu du jeu : le jumeau Qt Quick du QRhiWidget de l'editeur.
-    Game/GameViewportItem.cpp
-    # Le son : le volume des options doit atteindre un moteur reel (EX-IHM-083).
-    Audio/AudioEngine.cpp
-    # Vues-modèles : ce que le jeu SAIT DIRE, exposé au QML en propriétés et en modèles de liste.
-    # Elles ne connaissent ni QML, ni asset, ni feuille de style, et ne lient que Qt6::Qml — jamais
-    # Quick ni Widgets. `scripts/check_ui_layers.py` le vérifie (EX-IHM-101), parce qu'un include
-    # de trop ne se voit pas à la relecture et ne casse rien avant longtemps.
-    Presentation/SheetRowModel.cpp
-    # Chargement PARTAGE par la fiche et l'inventaire : ils decrivent le meme personnage.
-    Presentation/DemonstrationCharacter.cpp
-    Presentation/InventoryModel.cpp
-    # Le lexique des regles : leurs cles sont CALCULEES, donc hors de portee de qsTr.
-    Presentation/RuleLabels.cpp
-    # Navigation : suit la table de transitions PURE, il ne decide rien lui-meme.
-    Presentation/ScreenRouter.cpp
-    # Les reglages : ils persistent et publient, l'application branche (EX-IHM-083).
-    Presentation/OptionsModel.cpp
-    Presentation/CharacterSheetModel.cpp
-    # L'ancre des ecrans dessines mais pas encore alimentes (LOT-86).
-    Presentation/PendingData.cpp
-)
-
-# Les fichiers QML vivent dans Source/Ui — le territoire de la conception, hors de Source/HMI.
-# qt_add_qml_module calculerait sinon leur chemin de ressource RELATIVEMENT au répertoire courant
-# (Source/HMI), ce qui produirait des « ../Ui/… » : on pose donc l'alias explicitement, par une
-# boucle. Ajouter un écran ne demande alors que de l'ajouter à cette liste.
-set(JADG_QML_FILES
-    Main.qml
-    Theme/Tokens.qml
-    # Contrôles : les briques que la conception réutilise d'un écran à l'autre.
-    Controls/SheetLine.ui.qml
-    Controls/SheetBlock.ui.qml
-    Controls/SheetList.ui.qml
-    Controls/SheetProse.ui.qml
-    Controls/SheetPortrait.ui.qml
-    Controls/SheetTrack.ui.qml
-    Controls/SheetActionBar.ui.qml
-    Controls/RpgScreenFrame.ui.qml
-    # Ornements TRACES (EX-IHM-075), portes depuis les geometries relevees sur le corpus.
-    Controls/Cabochon.ui.qml
-    Controls/ParchmentFrame.ui.qml
-    Controls/TitleBanner.ui.qml
-    Controls/FocusFleuron.ui.qml
-    Controls/MenuEntry.ui.qml
-    # Le recouvrement qu'allume le reglage « Compteur de diagnostic » (EX-IHM-083).
-    Controls/DiagnosticsOverlay.ui.qml
-    # Cote developpeur : la correspondance entre l'ETAT publie par le routeur et le FICHIER
-    # d'ecran. Elle vit en QML pour que la conception puisse renommer ses fichiers sans
-    # qu'une ligne de C++ ne s'en apercoive.
-    Logic/ScreenStack.qml
-    # Outil de VERIFICATION, absent des binaires livres : il se lie a ScreenRouter.developerBuild.
-    # Il fait defiler les quatorze ecrans tant qu'aucun niveau n'existe pour y mener.
-    Logic/ScreenProbe.qml
-    # Écrans : un FORMULAIRE `.ui.qml` (conception) et son jumeau `.qml` (câblage) par écran.
-    # Sept d'entre eux sont dessinés mais pas encore alimentés : leur jumeau relie chaque champ à
-    # une clé nommée qui aboutit à `hmi::PendingData`. Le jour où le lot fonctionnel arrive, seul
-    # le jumeau change — la mise en page décidée aujourd'hui est conservée telle quelle.
-    # `python scripts/list_pending_bindings.py` en donne l'inventaire, dérivé du QML.
-    Screens/CharacterSheetForm.ui.qml
-    Screens/CharacterSheet.qml
-    Screens/InventoryForm.ui.qml
-    Screens/Inventory.qml
-    Screens/JournalForm.ui.qml
-    Screens/Journal.qml
-    Screens/WorldMapForm.ui.qml
-    Screens/WorldMap.qml
-    Screens/DialogueForm.ui.qml
-    Screens/Dialogue.qml
-    Screens/MerchantForm.ui.qml
-    Screens/Merchant.qml
-    Screens/GuildBoardForm.ui.qml
-    Screens/GuildBoard.qml
-    Screens/CombatHudForm.ui.qml
-    Screens/CombatHud.qml
-    Screens/TeamSheetForm.ui.qml
-    Screens/TeamSheet.qml
-    # Ecrans hors-jeu.
-    Screens/MainMenuForm.ui.qml
-    Screens/MainMenu.qml
-    Screens/OptionsForm.ui.qml
-    Screens/Options.qml
-    Screens/PauseForm.ui.qml
-    Screens/Pause.qml
-    Screens/CreditsForm.ui.qml
-    Screens/Credits.qml
-    Screens/GameViewForm.ui.qml
-    Screens/GameView.qml
-)
-# Les singletons, dans une liste a part : elle sert DEUX fois ci-dessous (propriete de source, et
-# qmldir de developpement). Une seule liste, donc rien a resynchroniser en ajoutant un ecran.
-set(JADG_QML_SINGLETONS
-    Theme/Tokens.qml
-)
-foreach(_qml ${JADG_QML_FILES})
-    set_source_files_properties(${UI_DIR}/${_qml} PROPERTIES QT_RESOURCE_ALIAS ${_qml})
-    list(APPEND JADG_QML_ABSOLUTE ${UI_DIR}/${_qml})
-endforeach()
-
-# Les singletons doivent être DÉCLARÉS : CMake ne déduit pas `pragma Singleton` du contenu du
-# fichier, et le `qmldir` engendré omettrait alors le mot-clé. Le type se charge quand même, mais
-# comme un type ordinaire — chaque `import` en construirait une instance neuve, et le facteur
-# d'agrandissement posé par la fenêtre ne serait vu par aucun écran. La panne serait visuelle et
-# muette, jamais une erreur.
-foreach(_qml ${JADG_QML_SINGLETONS})
-    set_source_files_properties(${UI_DIR}/${_qml} PROPERTIES QT_QML_SINGLETON_TYPE TRUE)
-endforeach()
-
-# --- Éditer un écran sans rien reconstruire (EX-IHM-100) --------------------------------------
-#
-# `qt_add_qml_module` embarque les .qml dans la ressource : la moindre retouche de mise en page
-# demanderait sinon de repasser par le build, ce qui vide l'objectif du lot de sa substance.
-#
-# On écrit donc un second `qmldir` — engendré depuis LA MÊME liste que la ressource, jamais tenu à
-# la main — dont les chemins désignent les fichiers SOURCES. Lancer le jeu avec
-# `JADG_QML_FROM_SOURCE=1` place ce répertoire en tête des chemins d'import : le programme lit
-# alors Source/Ui directement, et relancer suffit à voir le changement.
-#
-# Écrit à la configuration, pas à la construction : il ne dépend que de la liste, jamais du contenu
-# des fichiers.
-# Écrit SOUS Source/Ui (et ignoré par git), et non dans le répertoire de construction : c'est ce
-# qui permet au `.qmlproject` de l'artiste de déclarer `importPaths: ["."]` et de résoudre
-# `Jadg.Ui` tout seul. Un chemin vers `build/…` dans un fichier de conception serait à la fois
-# fragile et incompréhensible pour qui ne construit pas le projet.
-set(JADG_QML_DEV_DIR ${UI_DIR})
-set(_dev_module_dir ${JADG_QML_DEV_DIR}/Jadg/Ui)
-file(MAKE_DIRECTORY ${_dev_module_dir})
-set(_dev_qmldir "module Jadg.Ui
-")
-foreach(_qml ${JADG_QML_FILES})
-    get_filename_component(_qml_type ${_qml} NAME_WE)
-    file(RELATIVE_PATH _qml_rel ${_dev_module_dir} ${UI_DIR}/${_qml})
-    if(${_qml} IN_LIST JADG_QML_SINGLETONS)
-        string(APPEND _dev_qmldir "singleton ${_qml_type} 1.0 ${_qml_rel}
-")
-    else()
-        string(APPEND _dev_qmldir "${_qml_type} 1.0 ${_qml_rel}
-")
-    endif()
-endforeach()
-file(WRITE ${_dev_module_dir}/qmldir "${_dev_qmldir}")
-
-# RESOURCE_PREFIX explicite. Sans lui, le module est embarque sous « :/Jadg/Ui », alors que
-# l'engine QML ne cherche ses modules que sous « :/qt/qml » -- il repondrait « Module Jadg.Ui
-# contains no type named Main », alors que le qmldir engendre declare bien ce type. Le prefixe
-# vaudrait « /qt/qml » d'office apres un qt_standard_project_setup(), que ce projet n'appelle pas :
-# on le dit donc ici plutot que d'adopter un reglage global pour un seul effet.
-# Illustrations extraites du corpus (EX-IHM-076) que le QML designe par un chemin. Embarquees dans
-# le module plutot que lues a cote de l'executable : une image d'interface fait partie de l'ecran,
-# et un ecran ne doit pas dependre de ce qu'un dossier voisin contient au moment ou il s'ouvre.
-set(JADG_UI_IMAGES ${PROJECT_SOURCE_DIR}/Source/Elements/Assets/UI/world-map.jpg)
-set_source_files_properties(${JADG_UI_IMAGES} PROPERTIES QT_RESOURCE_ALIAS assets/world-map.jpg)
-
-qt_add_qml_module(JustAnotherDnDGame
-    URI Jadg.Ui
-    VERSION 1.0
-    RESOURCE_PREFIX "/qt/qml"
-    QML_FILES ${JADG_QML_ABSOLUTE}
-    RESOURCES ${JADG_UI_IMAGES}
-)
-
-# Le fichier d'enregistrement des types QML est ENGENDRÉ, et il inclut les en-têtes par NOM DE
-# BASE (`#if __has_include(<CharacterSheetModel.h>)`), pas par le chemin « HMI/… » qu'emploie tout
-# le reste du projet. Sans ce répertoire dans les chemins d'inclusion, le `__has_include` échoue
-# **en silence**, l'en-tête n'est pas inclus, et la compilation du fichier engendré échoue sur un
-# « identificateur non déclaré » qui ne désigne aucun fichier écrit à la main.
-target_include_directories(JustAnotherDnDGame PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/Presentation
-    ${CMAKE_CURRENT_SOURCE_DIR}/Game)
-
-# `qmlcachegen` compile le QML A L'AVANCE en C++, et ce C++ ENGENDRÉ déclenche C4702 (« code
-# inatteignable ») depuis les en-têtes de Qt eux-mêmes. `/external:W0` ne l'attrape pas : la
-# construction fautive est instanciée dans l'unité engendrée, pas dans l'en-tête. `/WX` en fait
-# alors une erreur, sur du code que le projet n'écrit pas et ne peut pas corriger.
-#
-# Neutralisé pour CETTE cible seulement, jamais pour le dépôt : `/W4 /WX` reste la règle
-# (EX-NFR-013), et C4702 continue d'être une erreur partout ailleurs, y compris dans l'éditeur.
-target_compile_options(JustAnotherDnDGame PRIVATE /wd4702)
-
-# --- Traductions du JEU (LOT-86) --------------------------------------------------------------
-#
-# Les ecrans du jeu ecrivent leurs textes EN FRANCAIS dans le fichier QML (`qsTr("Nouvelle
-# partie")`) plutot que par une cle. C'est ce qui permet a la conception de juger une mise en page
-# dans Qt Design Studio : une cle technique ne se lit pas. Le francais est donc la langue SOURCE, et
-# n'a pas de catalogue -- sans traducteur installe, `qsTr` rend sa source.
-#
-# `lupdate` extrait, `lrelease` compile, et le .qm est embarque dans la ressource. La mise a jour du
-# .ts se declenche a la main (cible `update_translations`) et non a chaque construction : lupdate
-# reecrit alors le fichier, et le voir bouger sous soi a chaque build rend toute relecture penible.
-#
-# OPTIONNEL, et il faut qu'il le soit : LinguistTools n'est pas garanti present sur une machine ou
-# dans une image d'integration continue. Absent, le jeu se construit et parle francais -- ce qui est
-# un repli honnete -- et le message dit pourquoi, plutot que de laisser chercher.
-find_package(Qt6 ${QT_VERSION_MINIMUM} QUIET COMPONENTS LinguistTools)
-if(Qt6LinguistTools_FOUND)
-    qt_add_translations(JustAnotherDnDGame
-        TS_FILES ${PROJECT_SOURCE_DIR}/Source/Elements/Localization/jadg_en.ts
-        RESOURCE_PREFIX "/i18n"
-    )
-else()
-    message(STATUS "JustAnotherDnDGame : LinguistTools absent, le jeu ne parlera que francais "
-        "(sa langue source). Installer le module qttools pour produire les catalogues.")
+# Racine d'inclusion Source/ (pour les includes "App/...", "HMI/..." et "Core/...").
+target_include_directories(LevelEditor PRIVATE ${PROJECT_SOURCE_DIR}/Source)
+# Réduit la surface de Windows.h, évite les macros min/max, API Unicode.
+target_compile_definitions(LevelEditor PRIVATE WIN32_LEAN_AND_MEAN NOMINMAX UNICODE _UNICODE)
+if(ENABLE_PCH)
+    target_precompile_headers(LevelEditor PRIVATE ${PROJECT_SOURCE_DIR}/Source/pch.h)
 endif()
 
-# Fichier de configuration du serveur de langage QML : ce qui donne complétion et diagnostics dans
-# un éditeur, sans que la conception ait à décrire les chemins d'import à la main.
-set_target_properties(JustAnotherDnDGame PROPERTIES QT_QML_GENERATE_QMLLS_INI ON)
-
-target_link_libraries(JustAnotherDnDGame PRIVATE
-    HmiLib
-    Qt6::Quick
-    Qt6::Qml
-    Qt6::QuickControls2
-    Qt6::Gui
-    Qt6::GuiPrivate
-    Qt6::Multimedia
-    xinput
-    project_warnings
-    project_options
-)
-
-# ---------------------------------------------------------------------------------------------
-# Réglages communs aux deux applications
-# ---------------------------------------------------------------------------------------------
-foreach(_app JustAnotherDnDGame LevelEditor)
-    # Racine d'inclusion Source/ (pour les includes "App/...", "HMI/..." et "Core/...").
-    target_include_directories(${_app} PRIVATE ${PROJECT_SOURCE_DIR}/Source)
-    # Réduit la surface de Windows.h, évite les macros min/max, API Unicode.
-    target_compile_definitions(${_app} PRIVATE WIN32_LEAN_AND_MEAN NOMINMAX UNICODE _UNICODE)
-    if(_app STREQUAL "JustAnotherDnDGame")
-        target_compile_definitions(${_app} PRIVATE JADG_QML_DEV_IMPORT_PATH="${JADG_QML_DEV_DIR}")
-    endif()
-    if(ENABLE_PCH)
-        target_precompile_headers(${_app} PRIVATE ${PROJECT_SOURCE_DIR}/Source/pch.h)
-    endif()
-endforeach()
+# Les types C++ que les écrans du JEU voient (module QML `Jadg.Runtime`, LOT-87) : après AUTOMOC,
+# qu'ils exigent, et après HmiLib, qu'ils lient. Le jeu lui-même est dans Source/App.
+add_subdirectory(Runtime)
 
 # Shaders du pipeline 2D, compilés en .qsb par qsb (module ShaderTools) et embarqués comme
 # ressource Qt. Un .qsb porte plusieurs variantes (SPIR-V, HLSL, MSL, GLSL) : c'est ce qui permet
@@ -646,49 +307,22 @@ add_custom_target(CopyGameData ALL
         ${PROJECT_SOURCE_DIR}/Source/Elements/Rpg
         $<TARGET_FILE_DIR:JustAnotherDnDGame>/Rpg
     COMMENT "Copie des données de jeu (traductions, cartes, assets, audio, catalogues RPG)")
-add_dependencies(JustAnotherDnDGame CopyGameData)
 add_dependencies(LevelEditor CopyGameData)
 
-# Déploiement Qt : copie les DLL Qt (plateforme, styles, plugins QML) à côté des exécutables pour
-# que l'utilisateur final n'ait **aucune bibliothèque à installer** — un simple dossier exécutable
-# autonome. windeployqt est fourni par l'installation Qt (même répertoire bin que qmake).
+# Déploiement Qt : copie les DLL Qt (plateforme, styles) à côté de l'éditeur pour que
+# l'utilisateur final n'ait **aucune bibliothèque à installer**. windeployqt est fourni par
+# l'installation Qt (même répertoire bin que qmake). Le jeu a le sien, dans Source/App : lui seul
+# a des modules QML à embarquer.
 get_target_property(_qmake_exe Qt6::qmake IMPORTED_LOCATION)
 get_filename_component(_qt_bin_dir "${_qmake_exe}" DIRECTORY)
 find_program(WINDEPLOYQT_EXE windeployqt HINTS "${_qt_bin_dir}")
 if(WINDEPLOYQT_EXE)
-    # --qmldir : sans lui, windeployqt ne sait pas quels modules QML embarquer, et le jeu se lance
-    # sans son interface, sans message. L'éditeur n'a pas de QML et n'en a pas besoin.
-    add_custom_command(TARGET JustAnotherDnDGame POST_BUILD
-        COMMAND "${WINDEPLOYQT_EXE}"
-            --no-translations --compiler-runtime
-            --qmldir "${UI_DIR}"
-            "$<TARGET_FILE:JustAnotherDnDGame>"
-        COMMENT "Déploiement des DLL Qt + modules QML à côté du jeu (windeployqt)")
     add_custom_command(TARGET LevelEditor POST_BUILD
         COMMAND "${WINDEPLOYQT_EXE}"
             --no-translations --compiler-runtime
             "$<TARGET_FILE:LevelEditor>"
         COMMENT "Déploiement des DLL Qt + runtime à côté de l'éditeur (windeployqt)")
-
-    # --no-translations ci-dessus reste le bon réglage : windeployqt déploierait la trentaine de
-    # catalogues de Qt, alors que l'IHM du projet a le sien. Mais **les boutons standard des boîtes
-    # de dialogue** (« Oui »/« Non »/« Annuler ») viennent de Qt, pas du catalogue du projet, et
-    # restent en anglais sans son qtbase_<langue>.qm — une boîte française à boutons anglais, ce
-    # qui s'est vu à l'essai (LOT-69). On copie donc **les deux seuls** catalogues dont l'IHM
-    # propose la langue. Fichier absent : la copie est silencieusement ignorée, et le programme
-    # retombe sur l'anglais (EX-NFR-040).
-    get_filename_component(_qt_prefix "${_qt_bin_dir}" DIRECTORY)
-    set(_qt_translations_dir "${_qt_prefix}/translations")
-    foreach(_lang fr en)
-        if(EXISTS "${_qt_translations_dir}/qtbase_${_lang}.qm")
-            add_custom_command(TARGET JustAnotherDnDGame POST_BUILD
-                COMMAND ${CMAKE_COMMAND} -E copy_if_different
-                    "${_qt_translations_dir}/qtbase_${_lang}.qm"
-                    "$<TARGET_FILE_DIR:JustAnotherDnDGame>/Translations/qtbase_${_lang}.qm"
-                COMMENT "Copie du catalogue Qt qtbase_${_lang}.qm")
-        endif()
-    endforeach()
 else()
-    message(STATUS "JustAnotherDnDGame : windeployqt introuvable, DLL Qt non déployées "
+    message(STATUS "LevelEditor : windeployqt introuvable, DLL Qt non déployées "
         "automatiquement (exécution possible depuis un environnement Qt).")
 endif()

@@ -16,9 +16,17 @@ Item {
 
     property string status: "—"
 
-    GameViewport {
+    // L'hôte de la surface de rendu. La surface elle-même (`GameViewport`) est un type C++ que
+    // l'atelier ne connaît pas : c'est le jumeau qui la pose ici, à l'exécution. Dans Qt Design
+    // Studio, l'hôte se dessine comme un aplat au parchemin -- ce que la surface efface de toute
+    // façon tant qu'aucune scène n'est jouée.
+    property alias viewportHost: viewportHost
+
+    Rectangle {
+        id: viewportHost
+
         anchors.fill: parent
-        clearColor: Tokens.background
+        color: Tokens.background
     }
 
     // Le rappel se pose PAR-DESSUS la surface de rendu, comme un enfant ordinaire. C'est ce que le
