@@ -74,11 +74,18 @@ mensonge le jour où l'accent passe au bleu.
 
 ### Le facteur d'agrandissement
 
-`Tokens.scale` est un **entier** borné à 1–3, et les grandeurs sont déjà multipliées par lui :
-écrire `font.pixelSize: Tokens.body` suffit, ne multipliez jamais vous-même.
+Deux facteurs coexistent pendant la charte v2 (`LOT-87`), et les grandeurs sont **déjà multipliées**
+par le leur : ne multipliez jamais vous-même.
 
-Entier, parce que les filets d'un pixel du cadre de parchemin se corrompent silencieusement à une
-échelle fractionnaire. Design Studio affiche le facteur 2, celui d'une fenêtre 720p.
+- **Charte v2** — `Tokens.uiScale`, un **réel** : la fenêtre rapportée à 1920 × 1080. Design Studio
+  dessine à 1080p, où il vaut 1. L'échelle typographique est `fontDisplay` (58), `fontScreenTitle`
+  (36), `fontSectionTitle` (24), `fontBody` (18) et `fontCaption` (14) : écrire
+  `font.pixelSize: Tokens.fontBody` suffit. Titres en `Tokens.titleFamily` (`Cinzel`), corps en
+  `Tokens.bodyFamily`, citations en `Tokens.loreFamily` avec `font.italic: true`.
+- **Charte v1, obsolète** — `Tokens.scale`, un **entier** borné à 1–3, et `screenTitle`, `body`,
+  `spaceMedium`… Entier, parce que les filets d'un pixel du cadre de parchemin se corrompent
+  silencieusement à une échelle fractionnaire. Un écran transcrit en v2 ne les emploie plus ; ils
+  disparaissent au T5.2 du lot.
 
 ## Les données d'exemple
 
@@ -147,8 +154,14 @@ des deux mondes, découvert le plus tard possible. `EX-IHM-104` l'interdit, et l
 
 ## Les ornements se tracent, ils ne se collent pas
 
+> **Charte v1.** Au `LOT-87`, `EX-IHM-075` est refondue : les ornements de la charte v2 sont des
+> **images 9-patch produites** à 1080p depuis le cahier des assets, et posées par les briques
+> `PanelFrame`, `TitlePlate`, `OrnateButton`… (T2.7). Les trois raisons ci-dessous en deviennent les
+> conditions : marges 9-patch déclarées, palette des jetons imposée à la production, taille fixe pour
+> ce qui ne s'étire pas. Ce qui suit reste vrai des écrans pas encore transcrits.
+
 Cadres, cabochons, bandeaux et fleurons sont des `Shape` — des polygones, pas des images
-(`EX-IHM-075`). Trois raisons, et elles tiennent toutes :
+(`EX-IHM-075`, version v1). Trois raisons :
 
 - **une image ne s'étire pas honnêtement** : un cabochon posé sur un panneau bas s'ovalise ;
 - **une image fige ses couleurs hors des jetons**, et devrait être réexportée à chaque retouche ;

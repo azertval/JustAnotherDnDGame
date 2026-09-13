@@ -154,21 +154,34 @@ fenêtre, ce qui donne une interface visiblement petite dès qu'on dépasse la d
 ordinateur portable. Et le focus n'est signalé que par un changement de teinte — suffisant à la
 souris, insuffisant à la manette, qui n'a pas de pointeur pour dire où elle en est.
 
-- \anchor EX-IHM-070 **EX-IHM-070** — Les écrans du **jeu** doivent porter l'identité du **parchemin
-  de Tanares** : fond de parchemin, encre sépia, filets et cabochons dorés, titrage à empattements
-  dans une police **embarquée** avec l'application (repli sur une famille générique si elle est
-  absente, `EX-IHM-052`). Les **teintes de cette palette sont relevées sur le corpus** — les feuilles
-  de personnage et les livres Tanares — et jamais choisies à vue : une couleur inventée ressemble à
-  la source sans en venir, et rien ne le dit jamais.
-  Les grandeurs de l'habillage suivent un facteur d'agrandissement **entier** dérivé de la taille de
-  la fenêtre. Le facteur reste entier pour une raison qui n'est plus celle du filtrage : les
-  longueurs de la feuille de style sont des **entiers de pixels**, et à 1,5× le trait et le filet
-  d'un encadrement s'arrondissent tous deux à la même épaisseur — la réserve de parchemin qui les
-  sépare disparaît, et l'encadrement se lit comme une bordure épaisse, sans qu'aucune erreur ne
-  soit levée.
+- \anchor EX-IHM-070 **EX-IHM-070** — Les écrans du **jeu** doivent porter la **charte v2** du
+  [LOT-87](@ref lot-87), qui tient en **deux matières** : des **panneaux sombres** cerclés d'un filet
+  d'or (menu principal, options, crédits, carte, HUD) et le **parchemin de Tanares** (fiche de
+  personnage, inventaire, équipe, compétences, dialogue, marchand). Le **grenat** et l'**or** en sont
+  les accents communs. Les titres se composent en `Cinzel`, le corps et les citations en
+  `IM Fell English` — deux polices **embarquées** avec l'application (repli sur une famille générique
+  si elle est absente, `EX-IHM-052`).
+  Les **teintes sont relevées, jamais choisies à vue** : une couleur inventée ressemble à la source
+  sans en venir, et rien ne le dit jamais. Le parchemin, l'encre, l'or et le grenat restent relevés
+  sur le **corpus** (`LOT-66`) ; les rôles propres à la v2 — panneaux sombres, texte sur panneau,
+  plaques d'action — sont relevés sur les **maquettes de référence** du lot, par un relevé rejouable
+  (`scripts/measure_mockup_palette.py`) qui nomme, pour chaque rôle, la maquette et la zone mesurée.
+  Les grandeurs de l'habillage suivent un facteur d'agrandissement **réel**, rapport de la fenêtre à
+  la définition de conception de 1920 × 1080. Le facteur **entier** ne subsiste que pour le viewport
+  de la scène, où il protège encore des pixels de tuile.
   Cette identité est **bornée aux écrans du jeu** — le châssis d'édition conserve son apparence
-  d'outil de travail et ses thèmes clair/sombre (`EX-IHM-054`), et aucun parchemin ne se répand dans
-  ses tables et ses arbres denses.
+  d'outil de travail et ses thèmes clair/sombre (`EX-IHM-054`), et ni parchemin ni panneau doré ne se
+  répand dans ses tables et ses arbres denses.
+  > **Refondue au `LOT-87`.** Elle décrivait le seul parchemin, en polices pixel (`Pixelify Sans`,
+  > `Press Start 2P`), agrandi d'un facteur **entier** : à 1,5×, le trait et le filet d'un
+  > encadrement tracé s'arrondissaient tous deux à la même épaisseur et la réserve de parchemin qui
+  > les sépare disparaissait. Cette raison tombe avec la v2, dont les cadres sont des **images
+  > 9-patch** produites à 1080p (`EX-IHM-075`) : aucun filet d'un pixel n'est plus tracé, et une
+  > image s'échantillonne à tout facteur. Les polices pixel sont écartées pour la raison que le
+  > `LOT-66` donnait déjà contre le pixel art — une police bitmap et une illustration peinte ne
+  > cohabitent pas —, et que les maquettes rendent visible. La v1 et la v2 coexistent le temps de la
+  > phase 3 du lot ; les jetons de la v1 y sont marqués obsolètes.
+  >
   > **Refondue au `LOT-66`.** Elle imposait une identité **pixel art** — police bitmap, bordures
   > franches, aucun lissage — héritée du jeu de plateforme dont ce dépôt est issu. Elle entrait en
   > contradiction frontale avec les références du jeu visé : une police bitmap non lissée et une
@@ -204,22 +217,50 @@ souris, insuffisant à la manette, qui n'a pas de pointeur pour dire où elle en
   de chaque commande, et non décidée par le code qui peuple les barres : une répartition implicite
   ne se relit pas et dérive au premier ajout.
 
-- \anchor EX-IHM-075 **EX-IHM-075** — L'habillage ornemental des écrans du jeu — encadrements,
-  cabochons, bandeaux de titre — doit être **tracé par le code**, jamais livré en image. C'est le
-  prolongement d'`EX-IHM-070`, et la raison n'est pas la place que prendraient ces fichiers :
-  - **une image ne s'étire pas honnêtement.** Un cabochon posé sur un panneau bas s'ovalise ou
-    mange le tiers de sa hauteur ; un bandeau étiré déforme ses ailes. Un ornement tracé se
-    *redessine* à la taille demandée, et ses ailes peuvent suivre la **hauteur** quand sa plaque
-    suit la **largeur** — ce qu'aucun découpage en tranches ne sait faire ;
-  - **une image fige ses couleurs hors des jetons** (`EX-IHM-051`) et devrait être réexportée à
-    chaque retouche de palette. Une forme tracée porte un **rôle**, jamais une teinte ;
-  - **une image ne suit pas le facteur d'agrandissement** (`EX-IHM-081`) : elle est nette à un seul
-    facteur, un tracé l'est à tous.
+- \anchor EX-IHM-075 **EX-IHM-075** — L'habillage ornemental des écrans du jeu — cadres, plaques,
+  bandeaux, boutons, médaillons — est livré en **images produites** à la définition de conception
+  (1920 × 1080), chacune décrite par une entrée du **cahier des assets** du [LOT-87](@ref lot-87) :
+  dimensions, marges, états, prompt de génération, et la maquette qui la montre. Jamais découpé des
+  maquettes elles-mêmes, qui restent des relevés de cotes. Les trois raisons qui imposaient autrefois
+  le tracé deviennent trois **conditions** que chaque pièce doit tenir :
+  - **elle s'étire honnêtement.** Une pièce étirable (cadre, plaque, bandeau, jauge) déclare ses
+    **marges 9-patch**, et seule sa partie centrale et ses bords s'étirent — jamais ses coins. Une
+    pièce qui ne le peut pas (médaillon, sceau, cabochon) a une **taille fixe** multipliée par le
+    facteur, et ne se déforme pas : un médaillon ne s'ovalise pas pour tenir dans une case basse ;
+  - **ses couleurs sont celles des jetons.** Le prompt de chaque pièce impose la palette relevée
+    (`EX-IHM-070`), la réception d'une image la vérifie, et tout ce qui n'est pas image — texte,
+    remplissage de jauge, état de focus — prend sa couleur dans `Tokens.qml` (`EX-IHM-051`) ;
+  - **elle reste nette au facteur de conception et en deçà.** Produite à 1080p, elle est réduite
+    avec lissage sur une fenêtre plus petite ; au-delà de 1080p, elle est agrandie, et c'est la
+    limite assumée de la v2.
 
-  Ce que le corpus apporte n'est donc pas de la matière mais de la **mesure** : les proportions et
-  les teintes de ces ornements sont **relevées** sur `Documentation/SourceBook/`, jamais choisies à
-  vue — même règle qu'`EX-IHM-070` pour la palette, et même raison. Un ornement inventé ressemble à
-  la source sans en venir, et rien ne le dit jamais.
+  Un écran ne **dépend** d'aucune de ces images pour être utilisable : une pièce absente retombe
+  sur un aplat des jetons (`EX-NFR-040`), jamais sur un vide.
+  > **Refondue au `LOT-87`.** Elle imposait le **tracé par le code**, jamais l'image. Les
+  > géométries relevées sur le corpus (`hmi::parchmentFrameStrokes`, `hmi::cabochonShapes`,
+  > `hmi::titleBannerShapes`) et leurs portages en `Shape` ont tenu ce contrat pour la v1. La v2
+  > montre des filigranes d'or en relief, des plaques à grain et des éclats qu'aucun tracé ne rend
+  > de façon crédible : les tracer aurait produit une troisième direction graphique, ni la v1 ni les
+  > maquettes. Les trois raisons de la version précédente, ci-dessous, n'ont pas été jugées fausses —
+  > elles sont gardées comme conditions. Le tracé v1 disparaît au T5.2 du lot, avec les écrans qui
+  > l'emploient.
+  >
+  > *Texte de la version précédente* — l'habillage ornemental des écrans du jeu — encadrements,
+  > cabochons, bandeaux de titre — doit être **tracé par le code**, jamais livré en image. C'est le
+  > prolongement d'`EX-IHM-070`, et la raison n'est pas la place que prendraient ces fichiers.
+  > (1) **Une image ne s'étire pas honnêtement.** Un cabochon posé sur un panneau bas s'ovalise ou
+  > mange le tiers de sa hauteur ; un bandeau étiré déforme ses ailes. Un ornement tracé se
+  > *redessine* à la taille demandée, et ses ailes peuvent suivre la **hauteur** quand sa plaque
+  > suit la **largeur** — ce qu'aucun découpage en tranches ne sait faire. (2) **Une image fige ses
+  > couleurs hors des jetons** (`EX-IHM-051`) et devrait être réexportée à chaque retouche de
+  > palette. Une forme tracée porte un **rôle**, jamais une teinte. (3) **Une image ne suit pas le
+  > facteur d'agrandissement** (`EX-IHM-081`) : elle est nette à un seul facteur, un tracé l'est à
+  > tous.
+  >
+  > Ce que le corpus apporte n'est donc pas de la matière mais de la **mesure** : les proportions et
+  > les teintes de ces ornements sont **relevées** sur `Documentation/SourceBook/`, jamais choisies
+  > à vue — même règle qu'`EX-IHM-070` pour la palette, et même raison.
+  >
   > **Ajoutée au `LOT-76`.** `EX-IHM-070` imposait déjà de relever les couleurs sur le corpus, mais
   > rien n'était écrit des **formes** : le `LOT-66` avait donc pu conclure, à juste titre pour son
   > périmètre mais sans que rien ne le garantisse au-delà, qu'aucun fichier d'image ne serait livré.
@@ -227,20 +268,27 @@ souris, insuffisant à la manette, qui n'a pas de pointeur pour dire où elle en
   > découpage d'images — essayée, puis abandonnée au `LOT-76`.
 
 - \anchor EX-IHM-076 **EX-IHM-076** — Une **illustration** d'interface — fond d'écran, carte,
-  portrait — doit être **extraite du corpus** et livrée telle quelle, jamais redessinée. C'est le
-  pendant d'`EX-IHM-075`, et la frontière entre les deux est nette : un **ornement** se trace parce
-  qu'il doit se redimensionner et suivre les jetons ; une **illustration** ne le peut pas — une
-  carte du monde peinte ne se trace pas, elle se prend ou elle n'existe pas.
+  portrait — a l'une de deux provenances, et une seule : **extraite du corpus** et livrée telle
+  quelle, jamais redessinée ; ou **produite** depuis une entrée du cahier des assets du
+  [LOT-87](@ref lot-87), comme les ornements (`EX-IHM-075`). La carte du monde et les portraits de
+  démonstration viennent du corpus, qui les a ; les fonds de scène du menu et des options, qu'il n'a
+  pas, sont produits. Ce qui est interdit, c'est l'image **sans provenance** — venue d'ailleurs,
+  retouchée à la main, ou produite hors du cahier.
   Trois obligations en découlent :
-  - la région extraite est **déclarée** (document, page, rectangle) et l'extraction se rejoue à
-    l'identique (`EX-CNT-020`), par **rendu de région** (`EX-CNT-022`) ;
+  - une illustration **extraite** déclare sa région (document, page, rectangle) et l'extraction se
+    rejoue à l'identique (`EX-CNT-020`), par **rendu de région** (`EX-CNT-022`) ; une illustration
+    **produite** déclare l'entrée du cahier, le prompt tel qu'envoyé et la date ;
   - ce qui est livré est décrit par un **manifeste** — dimensions, empreinte, provenance — que
     l'intégration continue recoupe avec les fichiers **et avec le code qui les nomme**. Le corpus
     étant absent du runner, rien d'autre ne peut dire d'où une image vient ;
-  - une illustration **absente** est un cas attendu (`EX-NFR-040`) : l'écran retombe sur son décor
-    tracé. Aucun écran ne doit dépendre d'un binaire pour s'afficher.
+  - une illustration **absente** est un cas attendu (`EX-NFR-040`) : l'écran retombe sur un aplat
+    des jetons. Aucun écran ne doit dépendre d'un binaire pour s'afficher.
   Un **filigrane** ou un folio présent sur la page source se **recadre**, jamais ne s'efface :
   l'effacer demanderait de repeindre ce qu'il recouvre, c'est-à-dire d'inventer des pixels.
+  > **Refondue au `LOT-87`.** Elle n'admettait que l'extraction du corpus, et opposait l'illustration
+  > à l'ornement tracé. L'ornement étant désormais produit (`EX-IHM-075`), la frontière ne passe plus
+  > entre « tracé » et « image » mais entre **image avec provenance** et **image sans**. La
+  > provenance `produced` du manifeste et son contrôle sont le T2.5 du lot.
 
 ## Exigences retirées {#ihm-retirees}
 
@@ -282,11 +330,14 @@ pendant que le `config.json` du run affirmait le contraire.
   garantie doit être portée par le **chemin d'ajout commun** des écrans, et non par une convention à
   réappliquer dans chaque fichier de description d'interface : une règle qu'il faut se rappeler
   d'appliquer se reperd au premier écran ajouté — c'est déjà arrivé deux fois.
-- \anchor EX-IHM-081 **EX-IHM-081** — Le **facteur d'agrandissement** (`EX-IHM-070`) doit être borné
-  par la **zone d'affichage disponible**, et non par la seule hauteur de la fenêtre ; la géométrie
-  **restaurée** d'une session précédente doit être ramenée dans cette même zone, position et taille.
-  Un facteur dérivé d'une hauteur que lui-même fait croître n'a pas de point fixe : la borne doit
-  venir d'une grandeur dont l'application ne décide pas.
+- \anchor EX-IHM-081 **EX-IHM-081** — Les **facteurs d'agrandissement** (`EX-IHM-070`) — l'entier
+  du viewport comme le réel de la charte v2 — doivent être bornés par la **zone d'affichage
+  disponible**, et non par la seule hauteur de la fenêtre ; la géométrie **restaurée** d'une session
+  précédente doit être ramenée dans cette même zone, position et taille. Un facteur dérivé d'une
+  hauteur que lui-même fait croître n'a pas de point fixe : la borne doit venir d'une grandeur dont
+  l'application ne décide pas.
+  > **Précisée au `LOT-87`**, qui ajoute le facteur réel : dérivé de la fenêtre, lui-même bornée par
+  > l'écran, et d'aucun contenu (`EX-IHM-080`), il n'ouvre pas de nouvelle boucle.
 - \anchor EX-IHM-082 **EX-IHM-082** — Une préoccupation limitée à une **portée** ne doit jamais
   provoquer un rejeu de style d'une portée **plus large**. Les deux portées d'`EX-IHM-050` (identité
   du jeu, châssis d'édition) sont donc deux feuilles **disjointes**, appliquées chacune là où elle
@@ -387,6 +438,9 @@ déplacement de la frontière entre deux métiers.
 
 ### Les ornements restent tracés, et `EX-IHM-075` avec eux
 
+> Section du `LOT-86`, conservée telle quelle : elle décrit la v1. Au `LOT-87`, `EX-IHM-075` est
+> refondue — les ornements de la charte v2 sont des images produites, sous trois conditions.
+
 Le passage à Qt Quick a d'abord semblé condamner `EX-IHM-075` — *« l'habillage ornemental se trace,
 il ne se livre pas en image »* —, puisqu'une règle qui place le dessin dans du code place aussi
 l'apparence hors de portée de la conception.
@@ -435,4 +489,5 @@ l'apparence et de la répartition de l'information ; `LOT-H-73` (section 9) pour
 l'invariant de taille, les portées de thème et les réglages effectifs ; `LOT-68` (section 10)
 pour le châssis des écrans du RPG ; `LOT-86` (section 11) pour la séparation de la conception et
 du code — les écrans du **jeu** passent à Qt Quick dans un binaire propre, l'**éditeur** reste en
-Qt Widgets dans le sien.
+Qt Widgets dans le sien ; `LOT-87` (section 8) pour la charte v2 — `EX-IHM-070`, `EX-IHM-075`,
+`EX-IHM-076` et `EX-IHM-081` refondues.
