@@ -65,8 +65,8 @@ depuis ce dossier, deploye a cote de l'executable.
 | Fichier | Role | Employe par |
 |---|---|---|
 | `Inter-{Regular,Bold}.ttf` | `FontRole::Ui` | Chassis d'edition : panneaux, tables, arbres, boites de dialogue. Police **par defaut** de l'application. |
-| `PixelifySans-{Regular,Bold}.ttf` | `FontRole::Identity` | Corps et entrees de menu des six ecrans du jeu (`LOT-68`, `EX-IHM-070`). |
-| `PressStart2P-Regular.ttf` | `FontRole::Identity` | **Titres d'ecran uniquement** : trop typee pour du corps de texte. |
+| `PixelifySans-{Regular,Bold}.ttf` | `FontRole::Identity` | Charte v1 : corps et entrees de menu des ecrans du jeu (`LOT-68`, `EX-IHM-070`), le temps de la phase 3 du `LOT-87`. |
+| `PressStart2P-Regular.ttf` | `FontRole::Identity` | Charte v1, **titres d'ecran uniquement** : trop typee pour du corps de texte. |
 
 Les deux familles d'identite sont posees par la feuille de style, cadrees par `objectName`
 (`#MainMenu`, `#OptionsPage`, ...). C'est ce cadrage, et lui seul, qui empeche la police pixel de
@@ -83,3 +83,34 @@ chaque `*-LICENSE.txt` accompagne sa famille et doit le rester.
 **Accents.** Les trois couvrent `E A E C U OE` accentues et la ponctuation employee par les
 catalogues de traduction. C'est le point de rupture d'une police pixel : beaucoup s'arretent a
 l'ASCII, et le francais devient illisible sans que rien ne le signale.
+
+## Polices des ecrans du jeu, charte v2 (`LOT-87`, `T2.3`)
+
+Enregistrees par `registerIdentityFonts()` (`App/Game/Main.cpp`), a cote de la charte v1
+ci-dessus et non a sa place : les quatorze ecrans existants lisent encore `PixelifySans`/
+`PressStart2P` jusqu'a ce que la phase 3 du `LOT-87` les ait tous transcrits en v2 ; T5.2 retire
+alors les deux polices pixel de ce dossier. `Tokens.qml` designe les familles par leur nom
+(`bodyFamily`, `titleFamily`, `loreFamily`) : Design Studio les voit via `FontFiles` du
+`.qmlproject`, qui pointe sur ce dossier entier — aucune liste de fichiers a tenir a jour ailleurs.
+
+| Fichier | Famille rapportee a Qt | Sert a |
+|---|---|---|
+| `Cinzel-Regular.ttf` | `Cinzel`, style `Regular` | Titres, plaques et bandeaux (`titleFamily`). |
+| `Cinzel-SemiBold.ttf` | `Cinzel SemiBold`, style `Regular` | Graisse intermediaire ; famille legacy distincte faute d'entree `STAT` a 600 dans la police source, nom typographique prefere `Cinzel`/`SemiBold` conserve pour les moteurs qui le lisent. |
+| `Cinzel-Bold.ttf` | `Cinzel`, style `Bold` | Emphase de titre. |
+| `IMFellEnglish-Regular.ttf` | `IM Fell English`, style `Regular` | Corps de texte (`bodyFamily`) et citations (`loreFamily`). |
+| `IMFellEnglish-Italic.ttf` | `IM Fell English`, style `Italic` | Citations et texte d'ambiance (`font.italic: true` sur `loreFamily`). |
+
+**Provenance.** Extraites de [google/fonts](https://github.com/google/fonts) (`ofl/cinzel`,
+`ofl/imfellenglish`), SIL Open Font License 1.1 — `Cinzel-LICENSE.txt` et
+`IMFellEnglish-LICENSE.txt` accompagnent leurs familles. `Cinzel` n'existe en amont qu'en police
+variable (axe `wght`, 400 a 900) : les trois graisses deposees ici sont des instances statiques
+figees par `fonttools varLib.instancer`, sans modification de dessin — seul le nom de la graisse
+600 a ete pose a la main, faute d'instance nommee correspondante en amont. Aucun nom n'est reserve
+par les deux licences (pas de `Reserved Font Name` apres la mention de copyright) : cette
+derivation reste couverte par l'OFL.
+
+**Repli.** Meme garantie que la charte v1 : un fichier absent ou refuse par Qt journalise un
+avertissement (`EX-NFR-040`) et Qt Quick retombe sur la famille demandee telle quelle, resolue par
+le systeme — `Tokens.qml` ne connait pas de mot-cle CSS generique, a la difference de la feuille de
+style du chassis d'edition.

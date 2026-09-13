@@ -285,8 +285,8 @@ ou le motif de la version précédente, et nomme ce lot. Le guide de conception 
   pas ensemble : le T3.2 tranche — retirer ces sections, ou refondre `EX-IHM-072` — avant d'écrire le
   formulaire.
 - **`EX-IHM-053` contre le T2.4.** L'exigence veut des icônes vectorielles ; le cahier prévoit des
-  icônes 64 × 64. Le T2.4 fixe le format (SVG produit, ou PNG avec la limite d'échelle d'`EX-IHM-075`)
-  et refond l'exigence s'il le faut.
+  icônes 64 × 64. **Tranché au T2.4** (ci-dessous) : PNG produits au double de leur taille
+  d'affichage, et l'exigence refondue.
 - **Les couleurs de texte du HUD** — le bleu du tour du joueur, le rouge du tour ennemi, l'or de la
   quête active (maquette 01) — ne sont pas des rôles de cette phase. Le T4.1 les relève avec le même
   script s'il en a besoin.
@@ -329,6 +329,90 @@ encore. Jusqu'au T2.3, ils s'affichent dans la famille générique de repli (`EX
 mise en page inchangées. Le journal ne le signale pas : il ne dit qu'un fichier absent de la liste de
 `registerIdentityFonts()`, où ces polices n'entrent qu'au T2.3.
 
+### T2.4 — Le cahier des assets
+
+Le cahier est une page à part, @subpage lot-87-cahier-assets, et son jumeau machine
+`assets-brief.json`, validé contre `assets-brief.schema.json` par `scripts/check_assets_brief.py`.
+**80 pièces, 214 images** (une par état ou par membre d'un jeu d'icônes), en onze familles ; chacune
+porte sa clé au format du `LOT-39` (`ui/<famille>/<pièce>`), sa taille de production à 1080p, ses
+marges 9-patch ou sa taille fixe, son fond, ses états, sa description, son prompt, les zones de
+maquette qui la montrent, les écrans qui la posent et l'aplat de jetons qui la remplace tant qu'elle
+manque. Six éléments des maquettes sont écartés du cahier avec leur raison (carte, portraits, icônes
+d'objets, scène du HUD, illustrations de la base, planche 02).
+
+Ce que la tâche a décidé, en plus de la liste :
+
+- **Le prompt est assemblé, pas recopié.** Style, matière, interdit des lettres, prompt de la pièce,
+  variante, toile et règle d'étirement sont mis bout à bout par `--prompt <clé>`, et chaque couleur ou
+  famille qu'il impose est lue dans `Tokens.qml` à ce moment-là. Une palette recopiée dans 214 prompts
+  aurait divergé au premier jeton changé.
+- **La page est engendrée.** Les tables de la page du cahier sortent du JSON (`--write`) ; la CI
+  échoue si elles ne le suivent plus.
+- **`EX-IHM-053` refondue** : les icônes du jeu sont des PNG produits à deux fois leur taille
+  d'affichage (128 × 128 pour 32 à 64 px), réduits avec lissage ; celles de l'éditeur restent
+  vectorielles.
+- **Un remplissage de jauge n'est pas une image** : un relief en niveaux de gris posé sur un aplat
+  des jetons, comme `EX-IHM-075` le demande. Le plan prévoyait trois remplissages peints.
+- **Le logotype est la seule pièce qui porte des lettres** ; la signature de la fiche devient un
+  paraphe sans nom.
+- **Six onglets d'options**, pas huit : ceux de la maquette 05.
+
+Les zones ont été relevées sur les maquettes puis contrôlées en les y dessinant (`--annotate`) ; une
+seule mordait à côté, corrigée. Le garde-fou a été éprouvé par injection : zone hors maquette, jeton
+inconnu, marges sans milieu, clé en double, pièce dérivée d'une pièce absente, marges sur une pièce
+fixe, `{jeton}` hors palette, écran sans pièce, page en retard — chacune le fait échouer.
+
+### T2.5 — Le manifeste étendu aux images produites
+
+`illustrations.json` ne connaissait qu'une provenance, l'extraction du corpus (`document`, `page`,
+`region`). Une seconde provenance s'ajoute, `"produced"` : la clé du cahier (`cahier`), le prompt
+tel qu'assemblé et envoyé (`prompt`), la date (`date`), et pour une pièce 9-patch les marges
+(`margins`, celles du cahier, recopiées à la lettre). Les champs d'empreinte et de dimensions
+(`sha256`, `bytes`, `size`) restent communs aux deux provenances : une image produite se vérifie
+comme une image extraite, seule sa provenance et ce qu'elle cite diffèrent.
+
+`scripts/check_ui_assets.py` garde ses trois contrôles (empreinte, dimensions, orphelin — étendu à
+`UI.rglob()` pour suivre les images produites dans leurs sous-dossiers de famille), et en gagne
+deux :
+
+- une illustration produite doit citer une clé du cahier qui existe (`cahier_keys()`, la même
+  fonction qui déplie les clés de variante que `check_assets_brief.py`) ;
+- chaque clé du cahier finit par avoir un fichier (une entrée `"produced"` la cite), ou une mention
+  explicite « non livrée » dans une nouvelle section `pending` du manifeste — une entrée sans
+  `keys` couvre toute clé qu'aucune entrée produite ne cite (la portée générale posée maintenant,
+  puisqu'aucune pièce n'est encore produite), une entrée avec `keys` nomme des clés précises.
+
+Le recoupement avec le code (`check_code_keys`) ne porte plus que sur les illustrations
+**extraites** : une image produite n'est nommée par aucun écran avant que le T2.7 pose les briques
+qui la consomment, l'exiger maintenant aurait fait échouer le contrôle sur chaque pièce livrée
+avant son écran.
+
+**Vérifié par injection** : un fichier déposé sans entrée (orphelin), une clé de cahier inconnue
+citée par une entrée produite, la section `pending` vidée avec les 214 clés du cahier encore non
+couvertes — chacune fait échouer `check_ui_assets.py` avec un message qui nomme la clé en cause.
+
+### T2.6 — La réception des images produites
+
+`scripts/receive_ui_assets.py` : un dossier de PNG livrés par le générateur, chacun nommé par la
+clé du cahier qu'il porte (`ui/frame/panel-dark.png` → `ui__frame__panel-dark.png`, une variante
+`ui/button/apply/hover` → `ui__button__apply__hover.png`). Pour chaque fichier : la clé existe dans
+le cahier et n'a pas déjà été reçue, les dimensions et la présence d'un canal alpha (octet de type
+de couleur de l'en-tête PNG) correspondent à ce que la pièce annonce. Ce qui passe est installé
+sous `installRoot/<famille>/...` (la clé, préfixe `ui/` ôté) et ajouté au manifeste avec le prompt
+assemblé par `check_assets_brief.assembler()` — le même module est réutilisé, pas recopié. Ce qui
+échoue est refusé avec le motif, pour régénération ; `--dry-run` rapporte sans rien écrire.
+
+Ce que le script ne vérifie pas — lettres incrustées, fidélité de la matière au prompt — reste une
+relecture humaine avant de le lancer : ce sont des jugements, pas des mesures.
+
+**Vérifié** : un dossier de quatre PNG de test (une pièce fixe valide, une pièce 9-patch valide,
+une clé de variante mal formée, une clé inconnue, une pièce aux mauvaises dimensions, une pièce
+sans le canal alpha attendu) — les deux valides installées et déclarées, les quatre autres
+refusées avec leur motif ; `check_ui_assets.py` reste vert après une installation réelle.
+
+Aucune pièce n'est encore produite : la production (le générateur d'images, hors de portée de
+Claude) n'a pas tourné. Le cahier et les deux scripts sont la matière prête à la recevoir.
+
 ### Où en est la phase 2 — vérifié le 13 septembre 2026
 
 - `scripts/build.ps1 -Preset ninja -Test` : construction propre, `ctest` 1033/1033.
@@ -346,11 +430,15 @@ mise en page inchangées. Le journal ne le signale pas : il ne dit qu'un fichier
 - [`EX-IHM-070`](@ref EX-IHM-070), [`EX-IHM-075`](@ref EX-IHM-075), [`EX-IHM-076`](@ref EX-IHM-076),
   [`EX-IHM-081`](@ref EX-IHM-081) : refondues ou précisées par la phase 2 (T2.1), pour décrire la
   charte v2.
+- [`EX-IHM-053`](@ref EX-IHM-053) : refondue par le T2.4 — les icônes des écrans du jeu sont
+  produites, au double de leur taille d'affichage.
 
 ## Où en est le lot
 
-**Phases 0 et 1 livrées** (PR #25 et #26) ; **phase 2 en cours** — T2.1 et T2.2 faits
-(branche `lot/LOT-87-phase-2-charte-jetons`), T2.3 à T2.7 à venir.
+**Phases 0 et 1 livrées** (PR #25 et #26) ; **phase 2 en cours** — T2.1 à T2.6 faits (branche
+`lot/LOT-87-phase-2-charte-jetons`). Reste T2.7 (les briques). Le cahier (T2.4) est la première
+chose à faire produire : c'est le chemin critique du lot, et le manifeste (T2.5) comme la
+réception (T2.6) sont prêts à recevoir ce qui en revient.
 
 Rappel de la phase 0 :
 

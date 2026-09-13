@@ -100,14 +100,24 @@ et des constantes locales à chaque widget.
   **police embarquée avec l'application**, avec **repli** sur une famille générique si elle est
   absente — l'interface ne doit dépendre d'aucune police installée sur le système hôte.
 - \anchor EX-IHM-053 **EX-IHM-053** — Les **icônes et vignettes** de l'interface doivent rester
-  **nettes à toute échelle d'affichage** (facteur de mise à l'échelle du système) : les **icônes**
-  sont vectorielles et se retracent à la taille demandée (`LOT-H-56`), et une **vignette** d'asset
-  est agrandie selon la nature de l'image qu'elle représente (`EX-ARCH-022`) — au plus proche
-  voisin pour une tuile pixellisée, interpolée pour une illustration peinte.
+  **nettes à toute échelle d'affichage** (facteur de mise à l'échelle du système). Une **icône de
+  l'éditeur** est vectorielle et se retrace à la taille demandée (`LOT-H-56`). Une **icône des écrans
+  du jeu** est une image **produite** comme les ornements (`EX-IHM-075`), depuis une entrée du cahier
+  des assets du [LOT-87](@ref lot-87-cahier-assets), à **deux fois sa plus grande taille d'affichage
+  à 1080p**, et réduite avec lissage. Une **vignette** d'asset est agrandie selon la nature de l'image
+  qu'elle représente (`EX-ARCH-022`) — au plus proche voisin pour une tuile pixellisée, interpolée
+  pour une illustration peinte.
   > **Refondue au `LOT-66`.** Elle imposait l'absence de lissage *pour toutes* les vignettes, au
   > motif qu'elles représentent du pixel art. Une vignette de panneau peint ([LOT-76](@ref lot-76))
   > agrandie au plus proche voisin serait crénelée, et la bibliothèque d'assets montrerait alors
   > une image que le jeu ne rend pas ainsi — la vignette cesserait d'être un aperçu.
+  >
+  > **Refondue au `LOT-87`.** Elle voulait *toutes* les icônes vectorielles. Les icônes de la
+  > charte v2 sont des émaux et des gravures d'or en relief : tracées, elles formeraient une
+  > troisième direction graphique, la faute que `EX-IHM-075` écarte déjà pour les ornements. La
+  > netteté reste l'objet de l'exigence ; elle est tenue autrement — une icône est la plus petite
+  > pièce d'un écran, donc la première qu'un agrandissement au-delà de 1080p abîme, et c'est pourquoi
+  > elle seule est produite au double de sa taille d'affichage.
 - \anchor EX-IHM-054 **EX-IHM-054** — L'**éditeur** doit proposer un thème **clair et sombre**, suivant
   par défaut le réglage du système, modifiable par l'utilisateur et **persisté** entre deux sessions ;
   le changement s'applique sans redémarrage. Ce réglage est **strictement limité au châssis

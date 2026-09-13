@@ -103,9 +103,9 @@ QtObject {
     // et Qt Design Studio les prend dans `FontFiles` du .qmlproject. Les deux voient donc les
     // memes noms. Changer de police se fait ICI, sans toucher au C++.
     //
-    // Charte v2 (LOT-87) : `Cinzel` en titres, `IM Fell English` en corps. Les fichiers arrivent au
-    // T2.3 ; d'ici la, Qt retombe sur une famille generique SANS MESSAGE : le journal ne signale
-    // qu'un fichier absent de la liste de `registerIdentityFonts()`, et ceux-ci n'y sont pas encore.
+    // Charte v2 (LOT-87) : `Cinzel` en titres, `IM Fell English` en corps. Deposees et enregistrees
+    // au T2.3 (Source/Elements/Assets/Fonts/, registerIdentityFonts()), a cote de la charte v1 --
+    // qui reste en service tant que la phase 3 n'a pas transcrit les quatorze ecrans existants.
     readonly property string bodyFamily: "IM Fell English"
 
     // Titres, plaques et bandeaux : capitales romaines, trop solennelles pour du corps de texte.

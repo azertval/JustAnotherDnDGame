@@ -489,6 +489,13 @@ jobs:
       - name: Catalogues RPG valides contre leurs schemas (EX-CNT-010)
         run: python3 scripts/check_rpg_data.py
 
+      # Cahier des assets de la charte v2 (LOT-87, T2.4). Dans ce job parce qu'il lui faut le meme
+      # jsonschema epingle. Au-dela du schema : chaque jeton que ses prompts imposent existe dans
+      # Tokens.qml, chaque zone tient dans sa maquette, chaque ecran consomme une piece, et la page
+      # de documentation est a jour du JSON dont elle est engendree.
+      - name: Cahier des assets conforme (EX-IHM-075, EX-IHM-053)
+        run: python3 scripts/check_assets_brief.py
+
   docs:
     # Génère la documentation Doxygen (garde-fou WARN_AS_ERROR) pour valider la
     # doc dès la PR, avec la même version de Doxygen que le déploiement (docs.yml).

@@ -48,11 +48,17 @@ namespace {
  *
  * Un fichier absent n'est pas fatal : Qt retombe sur une famille générique et le journal le dit
  * (`EX-NFR-040`).
+ *
+ * Charte v2 (`LOT-87`) : `Cinzel` et `IM Fell English` s'ajoutent à la charte v1 (`Pixelify Sans`,
+ * `Press Start 2P`) sans la remplacer — les quatorze écrans existants en dépendent encore jusqu'à
+ * ce que la phase 3 les ait tous transcrits (T5.2 retire alors les deux polices pixel).
  */
 void registerIdentityFonts() {
     const std::filesystem::path fonts = hmi::executableDirectory() / "Assets" / "Fonts";
-    for (const char* file :
-         {"PixelifySans-Regular.ttf", "PixelifySans-Bold.ttf", "PressStart2P-Regular.ttf"}) {
+    for (const char* file : {"PixelifySans-Regular.ttf", "PixelifySans-Bold.ttf",
+                              "PressStart2P-Regular.ttf", "Cinzel-Regular.ttf",
+                              "Cinzel-SemiBold.ttf", "Cinzel-Bold.ttf",
+                              "IMFellEnglish-Regular.ttf", "IMFellEnglish-Italic.ttf"}) {
         const std::filesystem::path path = fonts / file;
         const int id = QFontDatabase::addApplicationFont(QString::fromStdString(path.string()));
         if (id < 0) {
