@@ -70,6 +70,7 @@ qt_add_qml_module(JustAnotherDnDGame
         Game/Qml/Screens/Pause.qml
         Game/Qml/Screens/Credits.qml
         Game/Qml/Screens/GameView.qml
+        Game/Qml/Screens/Arena.qml
 )
 
 # `qmlcachegen` compile le QML A L'AVANCE en C++, et ce C++ ENGENDRÉ déclenche C4702 (« code

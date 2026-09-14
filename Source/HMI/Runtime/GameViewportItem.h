@@ -37,8 +37,9 @@ namespace hmi {
  *
  * ## Ce qu'il ne fait pas encore
  *
- * Il **n'affiche aucune scène** : `Source/Elements/Levels/` est vide par construction depuis le
- * `LOT-01`, et le contenu du RPG arrive avec un lot ultérieur. Il établit la plomberie — création
+ * Il **n'affiche aucune scène** : `Source/Elements/Levels/` ne porte que la carte de l'arène
+ * (`LOT-50`), que l'écran du Colisée dessine lui-même en QML, et le contenu du RPG arrive avec un
+ * lot ultérieur. Il établit la plomberie — création
  * du `QRhi`, passe de rendu, couleur d'effacement — qui était le vrai risque du portage, et laisse
  * la scène à brancher quand elle existera. Bâtir une session de jeu autour d'un niveau qui n'existe
  * pas produirait du code que rien ne peut vérifier.

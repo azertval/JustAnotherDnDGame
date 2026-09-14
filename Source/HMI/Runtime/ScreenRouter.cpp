@@ -32,6 +32,8 @@ namespace {
             return ScreenRouter::Screen::Credits;
         case ScreenId::RpgScreen:
             return ScreenRouter::Screen::RpgScreen;
+        case ScreenId::Arena:
+            return ScreenRouter::Screen::Arena;
         case ScreenId::Editor:
             break;
     }
@@ -117,6 +119,14 @@ void ScreenRouter::openCredits() {
 }
 void ScreenRouter::closeCredits() {
     static_cast<void>(apply(ScreenEvent::CloseCredits));
+}
+
+void ScreenRouter::openArena() {
+    static_cast<void>(apply(ScreenEvent::OpenArena));
+}
+
+void ScreenRouter::closeArena() {
+    static_cast<void>(apply(ScreenEvent::CloseArena));
 }
 
 void ScreenRouter::openRpgScreen(RpgScreen screen) {

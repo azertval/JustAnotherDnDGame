@@ -9,8 +9,9 @@ import Jadg.Ui
     de navigation. Ce qui n'appartient qu'au combat -- journal, barre d'actions, cible -- est dans
     `CombatHudForm`.
 
-    Aucune scene n'y est encore dessinee -- Source/Elements/Levels/ est vide par construction, et
-    le contenu du RPG arrive avec un lot ulterieur. La surface efface au parchemin, et le rappel
+    Aucune scene n'y est encore dessinee -- Source/Elements/Levels/ ne porte que la carte de
+    l'arene (LOT-50), que l'ecran du Colisee dessine lui-meme, et le contenu du RPG arrive avec un
+    lot ulterieur. La surface efface au parchemin, et le rappel
     `status` le dit au centre de l'ecran.
 */
 HudFrame {

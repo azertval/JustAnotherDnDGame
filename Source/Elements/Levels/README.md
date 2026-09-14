@@ -2,9 +2,12 @@
 
 Cartes du jeu, un fichier **JSON** par carte (`EX-LVL-001`, `EX-LVL-003`).
 
-> **Dossier vide au `LOT-01`.** Les 26 tableaux de démonstration du jeu de plateforme dont ce dépôt
-> est dérivé ont été retirés avec leur gameplay. Le contenu du RPG arrive avec le `LOT-27` ; les
-> premières cartes d'essai apparaîtront dès le `LOT-06` (déplacement top-down).
+> **Vidé au `LOT-01`, rouvert au `LOT-50`.** Les 26 tableaux de démonstration du jeu de plateforme
+> dont ce dépôt est dérivé ont été retirés avec leur gameplay. La première carte du RPG est
+> `arena-of-the-future.json`, la piste du Colisée : une enceinte de murs et de gradins, du sable,
+> deux portes (l'entrée à l'ouest, la sortie à l'est) et douze entités `arenaEntry` — six par
+> camp (`side`), rangées par `rank` — que `core::arenaEntryPoints` lit pour poser les combattants.
+> Le contenu du *vertical slice* arrive avec le `LOT-27`.
 
 - Une carte est un objet JSON : `name`, `width`, `height`, et une liste **`tiles`** d'objets
   `{ "x", "y", "type", … }`. Les cases **vides** ne sont pas listées (absence = vide). Une tuile
