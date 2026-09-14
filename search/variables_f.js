@@ -11,6 +11,8 @@ var searchData=
   ['options_8',['options',['../structhmi_1_1CharacterSheetContext.html#a7f50322612711e989b75474c9291a9e6',1,'hmi::CharacterSheetContext::options'],['../structhmi_1_1DemonstrationState.html#abd063b0080db76a16d1cc9521e2b8360',1,'hmi::DemonstrationState::options']]],
   ['optionsreturnto_9',['optionsReturnTo',['../structhmi_1_1ScreenState.html#a1120d4bbb5ce909eea650a2ae5a7ae29',1,'hmi::ScreenState']]],
   ['otherpercent_10',['otherPercent',['../structcore_1_1RegionPopulation.html#a0f8f13b808b437e0283dba47d3368a86',1,'core::RegionPopulation']]],
-  ['overlayvisible_11',['overlayVisible',['../structhmi_1_1ScreenDressing.html#a5b89bab07391119fa56909676c604031',1,'hmi::ScreenDressing']]],
-  ['overrideasset_12',['overrideAsset',['../structhmi_1_1TileSkinTag.html#a6449615c56d78758cfd1ced852b902ca',1,'hmi::TileSkinTag']]]
+  ['outcome_11',['outcome',['../structcore_1_1ArenaAttack.html#a132666f2ae9aa71e512b582003eb70a3',1,'core::ArenaAttack']]],
+  ['overflow_12',['overflow',['../structcore_1_1CombatEvent.html#aca4ca7b9c011cd32b9ba814043162516',1,'core::CombatEvent::overflow'],['../structcore_1_1DamageReport.html#ae06f13af66682a6bba8f5305e70db49c',1,'core::DamageReport::overflow']]],
+  ['overlayvisible_13',['overlayVisible',['../structhmi_1_1ScreenDressing.html#a5b89bab07391119fa56909676c604031',1,'hmi::ScreenDressing']]],
+  ['overrideasset_14',['overrideAsset',['../structhmi_1_1TileSkinTag.html#a6449615c56d78758cfd1ced852b902ca',1,'hmi::TileSkinTag']]]
 ];

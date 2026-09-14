@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['generation_0',['Generation',['../structcore_1_1Entity.html#a7e90cbccd752d760b3e0757dcfbeeec8',1,'core::Entity']]]
+  ['editorworkspacemask_0',['EditorWorkspaceMask',['../namespacehmi.html#ab8a3c6d8e00f86576f71c0b2a4e494d4',1,'hmi']]]
 ];

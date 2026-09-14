@@ -108,10 +108,35 @@ Public Attributes</h2></td></tr>
 <tr class="memdesc:a814f14e7bfd2b942f3097a3842bd32a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">La cible d'une attaque déclarée.  <br /></td></tr>
 <tr class="memitem:a7483c3517a2a45987963e70e97ef7774" id="r_a7483c3517a2a45987963e70e97ef7774"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a7483c3517a2a45987963e70e97ef7774">marker</a></td></tr>
 <tr class="memdesc:a7483c3517a2a45987963e70e97ef7774"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le nom du repère d'initiative fixe.  <br /></td></tr>
+<tr class="memitem:a5d4180eeac3290b56b638e9521bc4008" id="r_a5d4180eeac3290b56b638e9521bc4008"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a5d4180eeac3290b56b638e9521bc4008">amount</a> = 0</td></tr>
+<tr class="memdesc:a5d4180eeac3290b56b638e9521bc4008"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">DamageTaken</span> et <span class="tt">CombatantDowned</span> : les points de vie perdus, avant, après, le maximum.  <br /></td></tr>
+<tr class="memitem:a40a43039f3a72994607c3f050ce03059" id="r_a40a43039f3a72994607c3f050ce03059"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a40a43039f3a72994607c3f050ce03059">hitPointsBefore</a> = 0</td></tr>
+<tr class="memitem:a17dced5c645c0998427206cd6eede6b5" id="r_a17dced5c645c0998427206cd6eede6b5"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a17dced5c645c0998427206cd6eede6b5">hitPointsAfter</a> = 0</td></tr>
+<tr class="memitem:a05ac43793422ddea715c39466b6ec574" id="r_a05ac43793422ddea715c39466b6ec574"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a05ac43793422ddea715c39466b6ec574">maximumHitPoints</a> = 0</td></tr>
+<tr class="memitem:aca4ca7b9c011cd32b9ba814043162516" id="r_aca4ca7b9c011cd32b9ba814043162516"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#aca4ca7b9c011cd32b9ba814043162516">overflow</a> = 0</td></tr>
+<tr class="memdesc:aca4ca7b9c011cd32b9ba814043162516"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les dégâts restants une fois la cible tombée à 0 — la mort instantanée du <span class="tt">LOT-72</span>.  <br /></td></tr>
+<tr class="memitem:ab5ca5e21d721e18698b2f3971d6c9034" id="r_ab5ca5e21d721e18698b2f3971d6c9034"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#ab5ca5e21d721e18698b2f3971d6c9034">critical</a> = false</td></tr>
+<tr class="memdesc:ab5ca5e21d721e18698b2f3971d6c9034"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vrai si les dégâts viennent d'un coup critique : subis à 0 PV, ils comptent deux échecs.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Ce qu'un crochet annonce. </p>
 </div><a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Member Data Documentation</h2>
+<a id="a5d4180eeac3290b56b638e9521bc4008" name="a5d4180eeac3290b56b638e9521bc4008"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5d4180eeac3290b56b638e9521bc4008">&#9670;&#160;</a></span>amount</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int core::CombatEvent::amount = 0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><span class="tt">DamageTaken</span> et <span class="tt">CombatantDowned</span> : les points de vie perdus, avant, après, le maximum. </p>
+
+</div>
+</div>
 <a id="acafc1e4e3633c55e4d3c5b498b49ca8b" name="acafc1e4e3633c55e4d3c5b498b49ca8b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#acafc1e4e3633c55e4d3c5b498b49ca8b">&#9670;&#160;</a></span>combatant</h2>
 
@@ -125,6 +150,50 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Le combattant concerné : celui dont c'est le tour, qui entre, qui sort, ou qui attaque. </p>
+
+</div>
+</div>
+<a id="ab5ca5e21d721e18698b2f3971d6c9034" name="ab5ca5e21d721e18698b2f3971d6c9034"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab5ca5e21d721e18698b2f3971d6c9034">&#9670;&#160;</a></span>critical</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool core::CombatEvent::critical = false</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Vrai si les dégâts viennent d'un coup critique : subis à 0 PV, ils comptent deux échecs. </p>
+
+</div>
+</div>
+<a id="a17dced5c645c0998427206cd6eede6b5" name="a17dced5c645c0998427206cd6eede6b5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a17dced5c645c0998427206cd6eede6b5">&#9670;&#160;</a></span>hitPointsAfter</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int core::CombatEvent::hitPointsAfter = 0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a40a43039f3a72994607c3f050ce03059" name="a40a43039f3a72994607c3f050ce03059"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a40a43039f3a72994607c3f050ce03059">&#9670;&#160;</a></span>hitPointsBefore</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int core::CombatEvent::hitPointsBefore = 0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -155,6 +224,36 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Le nom du repère d'initiative fixe. </p>
+
+</div>
+</div>
+<a id="a05ac43793422ddea715c39466b6ec574" name="a05ac43793422ddea715c39466b6ec574"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a05ac43793422ddea715c39466b6ec574">&#9670;&#160;</a></span>maximumHitPoints</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int core::CombatEvent::maximumHitPoints = 0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aca4ca7b9c011cd32b9ba814043162516" name="aca4ca7b9c011cd32b9ba814043162516"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aca4ca7b9c011cd32b9ba814043162516">&#9670;&#160;</a></span>overflow</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int core::CombatEvent::overflow = 0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Les dégâts restants une fois la cible tombée à 0 — la mort instantanée du <span class="tt">LOT-72</span>. </p>
 
 </div>
 </div>

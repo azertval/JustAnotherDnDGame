@@ -108,6 +108,8 @@ Public Attributes</h2></td></tr>
 <tr class="memdesc:a46a4e8a2564a0e37012b1e1687d52e24"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le jet d'initiative, restituable (<span class="tt">EX-DND-003</span>).  <br /></td></tr>
 <tr class="memitem:a956cd5e749ca3cdd94241445037e25d7" id="r_a956cd5e749ca3cdd94241445037e25d7"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a956cd5e749ca3cdd94241445037e25d7">actedThisRound</a> = false</td></tr>
 <tr class="memdesc:a956cd5e749ca3cdd94241445037e25d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pour un acteur flottant : a-t-il déjà joué ce round-ci ?  <br /></td></tr>
+<tr class="memitem:aee6b98def7c1a4a96f1808fd5980aae2" id="r_aee6b98def7c1a4a96f1808fd5980aae2"><td class="memItemLeft">std::vector&lt; <a class="el" href="structcore_1_1HitPointReserve.html">HitPointReserve</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#aee6b98def7c1a4a96f1808fd5980aae2">reserves</a></td></tr>
+<tr class="memdesc:aee6b98def7c1a4a96f1808fd5980aae2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ce qui absorbe les dégâts avant les points de vie, dans l'ordre où on les a reçus.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Un combattant engagé : son profil, son état, son économie et son jet d'initiative. </p>
@@ -184,6 +186,22 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="aee6b98def7c1a4a96f1808fd5980aae2" name="aee6b98def7c1a4a96f1808fd5980aae2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aee6b98def7c1a4a96f1808fd5980aae2">&#9670;&#160;</a></span>reserves</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;<a class="el" href="structcore_1_1HitPointReserve.html">HitPointReserve</a>&gt; core::Combatant::reserves</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Ce qui absorbe les dégâts avant les points de vie, dans l'ordre où on les a reçus. </p>
 
 </div>
 </div>

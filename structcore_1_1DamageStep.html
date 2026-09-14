@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.16.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>JustAnotherDnDGame: core::StrikeKit Struct Reference</title>
+<title>JustAnotherDnDGame: core::DamageStep Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -63,7 +63,7 @@ $(function() {
   </div>
 </div>
 <script type="text/javascript">
-$(function(){initNavTree('structcore_1_1StrikeKit.html','','structcore_1_1StrikeKit-members'); });
+$(function(){initNavTree('structcore_1_1DamageStep.html','','structcore_1_1DamageStep-members'); });
 </script>
 <div id="container">
 <div id="doc-content">
@@ -89,87 +89,86 @@ $(function(){initNavTree('structcore_1_1StrikeKit.html','','structcore_1_1Strike
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">core::StrikeKit Struct Reference</div></div>
+  <div class="headertitle"><div class="title">core::DamageStep Struct Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Ce qu'un combattant sait frapper, en attendant les attaques du <span class="tt">LOT-21</span>.  
+<p>Une ligne de la trace : ce qu'une étape a fait d'une clause.  
  <a href="#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="Arena_8h_source.html">Arena.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="Damage_8h_source.html">Damage.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-attribs" class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a2b9c303b343b68cda788d10b0c5fbc2b" id="r_a2b9c303b343b68cda788d10b0c5fbc2b"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a2b9c303b343b68cda788d10b0c5fbc2b">armorClass</a> = 10</td></tr>
-<tr class="memitem:a5e3424acf47b72793b5dad488e8a81b3" id="r_a5e3424acf47b72793b5dad488e8a81b3"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a5e3424acf47b72793b5dad488e8a81b3">attackBonus</a> = 0</td></tr>
-<tr class="memitem:a76854a695b0c8e734f519b9187dc3f8c" id="r_a76854a695b0c8e734f519b9187dc3f8c"><td class="memItemLeft"><a class="el" href="structcore_1_1Dice.html">Dice</a>&#160;</td><td class="memItemRight"><a class="el" href="#a76854a695b0c8e734f519b9187dc3f8c">damage</a></td></tr>
-<tr class="memitem:a29a5bc827a564e27ce6251582b243bdd" id="r_a29a5bc827a564e27ce6251582b243bdd"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a29a5bc827a564e27ce6251582b243bdd">label</a></td></tr>
-<tr class="memdesc:a29a5bc827a564e27ce6251582b243bdd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le nom du coup, tel que le journal l'écrit : « Cimeterre », « Coup à mains nues ».  <br /></td></tr>
+<tr class="memitem:a333b38c6f83f6dfff0128d0c7da7161c" id="r_a333b38c6f83f6dfff0128d0c7da7161c"><td class="memItemLeft"><a class="el" href="namespacecore.html#aabf3d04e881096180d288d8c6ad9fcf6">DamageStage</a>&#160;</td><td class="memItemRight"><a class="el" href="#a333b38c6f83f6dfff0128d0c7da7161c">stage</a> = <a class="el" href="namespacecore.html#aabf3d04e881096180d288d8c6ad9fcf6af31bbdd1b3e85bccd652680e16935819">DamageStage::Source</a></td></tr>
+<tr class="memitem:a6c75e49f556cdd2552e895814f9a87d3" id="r_a6c75e49f556cdd2552e895814f9a87d3"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a6c75e49f556cdd2552e895814f9a87d3">source</a></td></tr>
+<tr class="memdesc:a6c75e49f556cdd2552e895814f9a87d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ce qui a agi : « resistance (tranchant) », « points de vie temporaires ».  <br /></td></tr>
+<tr class="memitem:ad225f453e8e424a90702b9e46a640ec5" id="r_ad225f453e8e424a90702b9e46a640ec5"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#ad225f453e8e424a90702b9e46a640ec5">before</a> = 0</td></tr>
+<tr class="memitem:adeccc9878781be9356535be91369a111" id="r_adeccc9878781be9356535be91369a111"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#adeccc9878781be9356535be91369a111">after</a> = 0</td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Ce qu'un combattant sait frapper, en attendant les attaques du <span class="tt">LOT-21</span>. </p>
-<p>La classe d'armure est celle de la cible ; le bonus et les dés sont ceux du coup. Une allonge n'y figure pas : le coup d'essai est au contact, une case, et c'est le <span class="tt">LOT-22</span> qui dira la portée. </p>
+<div class="textblock"><p>Une ligne de la trace : ce qu'une étape a fait d'une clause. </p>
 </div><a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Member Data Documentation</h2>
-<a id="a2b9c303b343b68cda788d10b0c5fbc2b" name="a2b9c303b343b68cda788d10b0c5fbc2b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2b9c303b343b68cda788d10b0c5fbc2b">&#9670;&#160;</a></span>armorClass</h2>
+<a id="adeccc9878781be9356535be91369a111" name="adeccc9878781be9356535be91369a111"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adeccc9878781be9356535be91369a111">&#9670;&#160;</a></span>after</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int core::StrikeKit::armorClass = 10</td>
+          <td class="memname">int core::DamageStep::after = 0</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a5e3424acf47b72793b5dad488e8a81b3" name="a5e3424acf47b72793b5dad488e8a81b3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5e3424acf47b72793b5dad488e8a81b3">&#9670;&#160;</a></span>attackBonus</h2>
+<a id="ad225f453e8e424a90702b9e46a640ec5" name="ad225f453e8e424a90702b9e46a640ec5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad225f453e8e424a90702b9e46a640ec5">&#9670;&#160;</a></span>before</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int core::StrikeKit::attackBonus = 0</td>
+          <td class="memname">int core::DamageStep::before = 0</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a76854a695b0c8e734f519b9187dc3f8c" name="a76854a695b0c8e734f519b9187dc3f8c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a76854a695b0c8e734f519b9187dc3f8c">&#9670;&#160;</a></span>damage</h2>
+<a id="a6c75e49f556cdd2552e895814f9a87d3" name="a6c75e49f556cdd2552e895814f9a87d3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6c75e49f556cdd2552e895814f9a87d3">&#9670;&#160;</a></span>source</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structcore_1_1Dice.html">Dice</a> core::StrikeKit::damage</td>
+          <td class="memname">std::string core::DamageStep::source</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
+<p>Ce qui a agi : « resistance (tranchant) », « points de vie temporaires ». </p>
+
 </div>
 </div>
-<a id="a29a5bc827a564e27ce6251582b243bdd" name="a29a5bc827a564e27ce6251582b243bdd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a29a5bc827a564e27ce6251582b243bdd">&#9670;&#160;</a></span>label</h2>
+<a id="a333b38c6f83f6dfff0128d0c7da7161c" name="a333b38c6f83f6dfff0128d0c7da7161c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a333b38c6f83f6dfff0128d0c7da7161c">&#9670;&#160;</a></span>stage</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::string core::StrikeKit::label</td>
+          <td class="memname"><a class="el" href="namespacecore.html#aabf3d04e881096180d288d8c6ad9fcf6">DamageStage</a> core::DamageStep::stage = <a class="el" href="namespacecore.html#aabf3d04e881096180d288d8c6ad9fcf6af31bbdd1b3e85bccd652680e16935819">DamageStage::Source</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Le nom du coup, tel que le journal l'écrit : « Cimeterre », « Coup à mains nues ». </p>
 
 </div>
 </div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li>/home/runner/work/JustAnotherDnDGame/JustAnotherDnDGame/Source/Core/Combat/<a class="el" href="Arena_8h_source.html">Arena.h</a></li>
+<li>/home/runner/work/JustAnotherDnDGame/JustAnotherDnDGame/Source/Core/Combat/<a class="el" href="Damage_8h_source.html">Damage.h</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
@@ -184,7 +183,7 @@ Public Attributes</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a href="namespacecore.html">core</a></li><li class="navelem"><a href="structcore_1_1StrikeKit.html">StrikeKit</a></li>
+    <li class="navelem"><a href="namespacecore.html">core</a></li><li class="navelem"><a href="structcore_1_1DamageStep.html">DamageStep</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.16.1 </li>
   </ul>
 </div>

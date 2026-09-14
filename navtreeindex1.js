@@ -1,5 +1,11 @@
 var NAVTREEINDEX1 =
 {
+"GameEvents_8h.html":[13,0,3,3,3,9],
+"GameEvents_8h_source.html":[13,0,3,3,3,9],
+"GameHud_8cpp.html":[13,0,3,3,3,10],
+"GameHud_8h.html":[13,0,3,3,3,11],
+"GameHud_8h_source.html":[13,0,3,3,3,11],
+"GameKeyBindings_8cpp.html":[13,0,3,3,5,2],
 "GameKeyBindings_8h.html":[13,0,3,3,5,3],
 "GameKeyBindings_8h_source.html":[13,0,3,3,5,3],
 "GameSession_8cpp.html":[13,0,3,3,3,12],
@@ -209,9 +215,9 @@ var NAVTREEINDEX1 =
 "ParticleSystem_8h_source.html":[13,0,3,1,3,1,5],
 "Particle_8h.html":[13,0,3,1,3,0,4],
 "Particle_8h_source.html":[13,0,3,1,3,0,4],
-"Pathfinding_8cpp.html":[13,0,3,1,0,14],
-"Pathfinding_8h.html":[13,0,3,1,0,15],
-"Pathfinding_8h_source.html":[13,0,3,1,0,15],
+"Pathfinding_8cpp.html":[13,0,3,1,0,18],
+"Pathfinding_8h.html":[13,0,3,1,0,19],
+"Pathfinding_8h_source.html":[13,0,3,1,0,19],
 "PendingData_8cpp.html":[13,0,3,3,10,16],
 "PendingData_8h.html":[13,0,3,3,10,17],
 "PendingData_8h_source.html":[13,0,3,3,10,17],
@@ -243,11 +249,5 @@ var NAVTREEINDEX1 =
 "PixelHistory_8h_source.html":[13,0,3,3,2,42],
 "PixelOperations_8cpp.html":[13,0,3,3,2,45],
 "PixelOperations_8h.html":[13,0,3,3,2,46],
-"PixelOperations_8h_source.html":[13,0,3,3,2,46],
-"PixelPalettePanel_8cpp.html":[13,0,3,3,2,49],
-"PixelPalettePanel_8h.html":[13,0,3,3,2,50],
-"PixelPalettePanel_8h_source.html":[13,0,3,3,2,50],
-"PixelPalette_8cpp.html":[13,0,3,3,2,47],
-"PixelPalette_8h.html":[13,0,3,3,2,48],
-"PixelPalette_8h_source.html":[13,0,3,3,2,48]
+"PixelOperations_8h_source.html":[13,0,3,3,2,46]
 };

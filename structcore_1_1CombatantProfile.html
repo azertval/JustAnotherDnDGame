@@ -115,11 +115,32 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a025818f10d93efa6ad3544b9f5d0c908" id="r_a025818f10d93efa6ad3544b9f5d0c908"><td class="memItemLeft"><a class="el" href="namespacecore.html#ae6c6faeaa28aa7b90280f4dc39237204">CreatureSize</a>&#160;</td><td class="memItemRight"><a class="el" href="#a025818f10d93efa6ad3544b9f5d0c908">size</a> = <a class="el" href="namespacecore.html#ae6c6faeaa28aa7b90280f4dc39237204a87f8a6ab85c9ced3702b4ea641ad4bb5">CreatureSize::Medium</a></td></tr>
 <tr class="memitem:a28fe20ab1fc26414cddebd7e282c939c" id="r_a28fe20ab1fc26414cddebd7e282c939c"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a28fe20ab1fc26414cddebd7e282c939c">floating</a> = false</td></tr>
 <tr class="memdesc:a28fe20ab1fc26414cddebd7e282c939c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vrai pour un acteur <b>flottant</b> (<em>Law of Time</em>) : il n'a pas de place dans l'ordre, et joue une fois par round <b>avant n'importe quel tour</b> de son choix (<span class="tt"><a class="el" href="classcore_1_1CombatState.html#a50b0d58335080428272acee52ca4e17d" title="Demande qu&#39;un acteur flottant joue avant le prochain tour.">CombatState::interject</a></span>) — ou à la fin du round, s'il n'a pas choisi.  <br /></td></tr>
+<tr class="memitem:ada5d2d10aab3c03e3eeb1c997d5d14a8" id="r_ada5d2d10aab3c03e3eeb1c997d5d14a8"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#ada5d2d10aab3c03e3eeb1c997d5d14a8">armorClass</a> = 10</td></tr>
+<tr class="memdesc:ada5d2d10aab3c03e3eeb1c997d5d14a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">La classe d'armure contre laquelle on l'attaque (<span class="tt">EX-CBT-030</span>).  <br /></td></tr>
+<tr class="memitem:a56bfe782f09a73dadfb8dc635ae4566b" id="r_a56bfe782f09a73dadfb8dc635ae4566b"><td class="memItemLeft"><a class="el" href="structcore_1_1DamageTraits.html">DamageTraits</a>&#160;</td><td class="memItemRight"><a class="el" href="#a56bfe782f09a73dadfb8dc635ae4566b">damageTraits</a></td></tr>
+<tr class="memdesc:a56bfe782f09a73dadfb8dc635ae4566b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Résistances, vulnérabilités et immunités (<span class="tt">EX-CBT-032</span>).  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Ce que le combat doit savoir d'un combattant — ni fiche, ni bloc de statistiques. </p>
 <p>Le combat ne dépend ni de <span class="tt"><a class="el" href="structcore_1_1CharacterSheet.html" title="La fiche d&#39;une créature jouable ou non : héros, PNJ, ennemi.">core::CharacterSheet</a></span> ni de <span class="tt"><a class="el" href="structcore_1_1Creature.html" title="Un bloc de statistiques : ce que creature.schema.json décrit.">core::Creature</a></span> : un personnage, un compagnon et un gobelin s'y présentent sous la même forme, et <span class="tt"><a class="el" href="namespacecore.html#a781adb33ce539ef59c9ed60f57e51901" title="Le profil d&#39;un personnage : ses points de vie courants, sa Dextérité, sa vitesse.">profileFor</a></span> la construit depuis l'un ou l'autre. C'est ce qui garde la machine à états indifférente à « qui est le joueur ». </p>
 </div><a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Member Data Documentation</h2>
+<a id="ada5d2d10aab3c03e3eeb1c997d5d14a8" name="ada5d2d10aab3c03e3eeb1c997d5d14a8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ada5d2d10aab3c03e3eeb1c997d5d14a8">&#9670;&#160;</a></span>armorClass</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int core::CombatantProfile::armorClass = 10</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>La classe d'armure contre laquelle on l'attaque (<span class="tt">EX-CBT-030</span>). </p>
+<p><b>Recalculée depuis ses sources</b> au moment où le profil se construit — l'équipement porté (<span class="tt"><a class="el" href="namespacecore.html#a9a5cbcc72fe725bdada14f1b5a38e3d1" title="Calcule tout ce que l&#39;équipement porté produit, depuis la fiche et les catalogues.">core::derivedStatsFor</a></span>), le bloc de bestiaire —, jamais tenue à jour à la main : un équipement ne change pas au milieu d'un combat, et ce qui la change en combat (un abri, une posture) s'ajoute au jet par un crochet, sans toucher à ce nombre. </p>
+
+</div>
+</div>
 <a id="a0e93aedad6e03dc07a91298babe5a459" name="a0e93aedad6e03dc07a91298babe5a459"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0e93aedad6e03dc07a91298babe5a459">&#9670;&#160;</a></span>currentHitPoints</h2>
 
@@ -131,6 +152,22 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="a56bfe782f09a73dadfb8dc635ae4566b" name="a56bfe782f09a73dadfb8dc635ae4566b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a56bfe782f09a73dadfb8dc635ae4566b">&#9670;&#160;</a></span>damageTraits</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structcore_1_1DamageTraits.html">DamageTraits</a> core::CombatantProfile::damageTraits</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Résistances, vulnérabilités et immunités (<span class="tt">EX-CBT-032</span>). </p>
 
 </div>
 </div>

@@ -1,5 +1,11 @@
 var NAVTREEINDEX2 =
 {
+"PixelPalettePanel_8cpp.html":[13,0,3,3,2,49],
+"PixelPalettePanel_8h.html":[13,0,3,3,2,50],
+"PixelPalettePanel_8h_source.html":[13,0,3,3,2,50],
+"PixelPalette_8cpp.html":[13,0,3,3,2,47],
+"PixelPalette_8h.html":[13,0,3,3,2,48],
+"PixelPalette_8h_source.html":[13,0,3,3,2,48],
 "PixelTool_8h.html":[13,0,3,3,2,51],
 "PixelTool_8h_source.html":[13,0,3,3,2,51],
 "PlaneFileNaming_8cpp.html":[13,0,3,3,2,52],
@@ -188,9 +194,9 @@ var NAVTREEINDEX2 =
 "TopDownMovementSystem_8h_source.html":[13,0,3,1,3,1,7],
 "Transform_8h.html":[13,0,3,1,3,0,7],
 "Transform_8h_source.html":[13,0,3,1,3,0,7],
-"TurnOrder_8cpp.html":[13,0,3,1,0,16],
-"TurnOrder_8h.html":[13,0,3,1,0,17],
-"TurnOrder_8h_source.html":[13,0,3,1,0,17],
+"TurnOrder_8cpp.html":[13,0,3,1,0,20],
+"TurnOrder_8h.html":[13,0,3,1,0,21],
+"TurnOrder_8h_source.html":[13,0,3,1,0,21],
 "Vector2_8cpp.html":[13,0,3,1,6,4],
 "Vector2_8h.html":[13,0,3,1,6,5],
 "Vector2_8h_source.html":[13,0,3,1,6,5],
@@ -243,11 +249,5 @@ var NAVTREEINDEX2 =
 "cahiertest.html#autotoc_md7":[5,0,0,0],
 "cahiertest.html#autotoc_md8":[5,0,0,1],
 "cahiertest.html#autotoc_md9":[5,0,0,2],
-"classcore_1_1ActionEconomy.html":[11,0,1,1],
-"classcore_1_1ActionEconomy.html":[12,0,0,1],
-"classcore_1_1ActionEconomy.html#a2516894c23f6ab87d351e9b63e6c11f6":[11,0,1,1,0],
-"classcore_1_1ActionEconomy.html#a2516894c23f6ab87d351e9b63e6c11f6":[12,0,0,1,0],
-"classcore_1_1ActionEconomy.html#a2a74b90540854d8e0dca98a5f5f0f6da":[11,0,1,1,5],
-"classcore_1_1ActionEconomy.html#a2a74b90540854d8e0dca98a5f5f0f6da":[12,0,0,1,5],
-"classcore_1_1ActionEconomy.html#a3203f2c94a1825a7ab09f0a8d4e31fab":[11,0,1,1,2]
+"classcore_1_1ActionEconomy.html":[11,0,1,1]
 };

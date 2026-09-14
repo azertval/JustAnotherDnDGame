@@ -31,10 +31,11 @@ var searchData=
   ['consolelogsink_28',['ConsoleLogSink',['../classcore_1_1ConsoleLogSink.html',1,'core']]],
   ['creature_29',['Creature',['../structcore_1_1Creature.html',1,'core']]],
   ['creatureaction_30',['CreatureAction',['../structcore_1_1CreatureAction.html',1,'core']]],
-  ['creaturespeed_31',['CreatureSpeed',['../structcore_1_1CreatureSpeed.html',1,'core']]],
-  ['creaturetrait_32',['CreatureTrait',['../structcore_1_1CreatureTrait.html',1,'core']]],
-  ['creditline_33',['CreditLine',['../structhmi_1_1CreditLine.html',1,'hmi']]],
-  ['creditsection_34',['CreditSection',['../structhmi_1_1CreditSection.html',1,'hmi']]],
-  ['creditsmodel_35',['CreditsModel',['../classhmi_1_1CreditsModel.html',1,'hmi']]],
-  ['creditsresult_36',['CreditsResult',['../structhmi_1_1CreditsResult.html',1,'hmi']]]
+  ['creatureattacks_31',['CreatureAttacks',['../structcore_1_1CreatureAttacks.html',1,'core']]],
+  ['creaturespeed_32',['CreatureSpeed',['../structcore_1_1CreatureSpeed.html',1,'core']]],
+  ['creaturetrait_33',['CreatureTrait',['../structcore_1_1CreatureTrait.html',1,'core']]],
+  ['creditline_34',['CreditLine',['../structhmi_1_1CreditLine.html',1,'hmi']]],
+  ['creditsection_35',['CreditSection',['../structhmi_1_1CreditSection.html',1,'hmi']]],
+  ['creditsmodel_36',['CreditsModel',['../classhmi_1_1CreditsModel.html',1,'hmi']]],
+  ['creditsresult_37',['CreditsResult',['../structhmi_1_1CreditsResult.html',1,'hmi']]]
 ];

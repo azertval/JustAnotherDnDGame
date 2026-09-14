@@ -10,5 +10,6 @@ var Inventory_8cpp =
     [ "core::parseEquipmentSlot", "namespacecore.html#a3c6126ca45164ee5761518aa0ae58ccd", null ],
     [ "core::removeFromBackpack", "namespacecore.html#a8ddb5a787feab8431b23b406bf78fb07", null ],
     [ "core::unequip", "namespacecore.html#a98be44354174d01b7cd1e67bdae8fab5", null ],
-    [ "core::unknownIds", "namespacecore.html#a35b74fe1ec1287f70d0076ad28812c81", null ]
+    [ "core::unknownIds", "namespacecore.html#a35b74fe1ec1287f70d0076ad28812c81", null ],
+    [ "core::weaponAttackAbility", "namespacecore.html#a322a4b7a467d4c7168e4173641b88459", null ]
 ];

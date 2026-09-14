@@ -42,5 +42,6 @@ var Inventory_8h =
     [ "core::removeFromBackpack", "namespacecore.html#a8ddb5a787feab8431b23b406bf78fb07", null ],
     [ "core::unequip", "namespacecore.html#a98be44354174d01b7cd1e67bdae8fab5", null ],
     [ "core::unknownIds", "namespacecore.html#a35b74fe1ec1287f70d0076ad28812c81", null ],
+    [ "core::weaponAttackAbility", "namespacecore.html#a322a4b7a467d4c7168e4173641b88459", null ],
     [ "core::EQUIPMENT_SLOT_COUNT", "namespacecore.html#ab6f6a87729df10e41e9fa1e5f74c4d76", null ]
 ];

@@ -107,6 +107,7 @@ $(function(){initNavTree('CombatState_8h.html','',''); });
 <code>#include &quot;<a class="el" href="BattleGrid_8h_source.html">Core/Combat/BattleGrid.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="CombatCounters_8h_source.html">Core/Combat/CombatCounters.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="CombatTransition_8h_source.html">Core/Combat/CombatTransition.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="Damage_8h_source.html">Core/Combat/Damage.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="Pathfinding_8h_source.html">Core/Combat/Pathfinding.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="TurnOrder_8h_source.html">Core/Combat/TurnOrder.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="GridPosition_8h_source.html">Core/Levels/GridPosition.h</a>&quot;</code><br />
@@ -170,10 +171,12 @@ Enumerations</h2></td></tr>
 , <br />
 &#160;&#160;<a class="el" href="namespacecore.html#a942a0cabc5c97e0e10dfb8a148e26fb9add2a059ce5c2b0e39ede932ecb5af42f">core::TurnEnd</a>
 , <a class="el" href="namespacecore.html#a942a0cabc5c97e0e10dfb8a148e26fb9a5a4f89385b5dfc0953b794f3df6378af">core::AttackDeclared</a>
-, <a class="el" href="namespacecore.html#a942a0cabc5c97e0e10dfb8a148e26fb9a6b262362e4626c332872a4645efc154c">core::CombatantJoined</a>
-, <a class="el" href="namespacecore.html#a942a0cabc5c97e0e10dfb8a148e26fb9a228189956989fdf6b5e1340df902051b">core::CombatantLeft</a>
+, <a class="el" href="namespacecore.html#a942a0cabc5c97e0e10dfb8a148e26fb9a3007032a944ef3638beb8825cbb3c28b">core::DamageTaken</a>
+, <a class="el" href="namespacecore.html#a942a0cabc5c97e0e10dfb8a148e26fb9ac963ba0b22143d6653abb38826c9a254">core::CombatantDowned</a>
 , <br />
-&#160;&#160;<a class="el" href="namespacecore.html#a942a0cabc5c97e0e10dfb8a148e26fb9a8e2cadedb4267fb709cbf7bfffcf1a64">core::CombatEnded</a>
+&#160;&#160;<a class="el" href="namespacecore.html#a942a0cabc5c97e0e10dfb8a148e26fb9a6b262362e4626c332872a4645efc154c">core::CombatantJoined</a>
+, <a class="el" href="namespacecore.html#a942a0cabc5c97e0e10dfb8a148e26fb9a228189956989fdf6b5e1340df902051b">core::CombatantLeft</a>
+, <a class="el" href="namespacecore.html#a942a0cabc5c97e0e10dfb8a148e26fb9a8e2cadedb4267fb709cbf7bfffcf1a64">core::CombatEnded</a>
 <br />
  }</td></tr>
 <tr class="memdesc:a942a0cabc5c97e0e10dfb8a148e26fb9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les <b>points d'insertion</b> du combat : où une capacité peut se greffer.  <a href="namespacecore.html#a942a0cabc5c97e0e10dfb8a148e26fb9">More...</a><br /></td></tr>
@@ -196,6 +199,8 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:a7a167c903e311c5d67c0dedf3292eaa5" id="r_a7a167c903e311c5d67c0dedf3292eaa5"><td class="memItemLeft">constexpr bool&#160;</td><td class="memItemRight"><a class="el" href="namespacecore.html#a7a167c903e311c5d67c0dedf3292eaa5">core::crossedBelow</a> (const <a class="el" href="structcore_1_1CombatEvent.html">CombatEvent</a> &amp;event, int numerator, int denominator) noexcept</td></tr>
+<tr class="memdesc:a7a167c903e311c5d67c0dedf3292eaa5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vrai si l'événement fait passer les points de vie <b>sous</b> la fraction <code class="param">numerator</code> / <code class="param">denominator</code> du maximum — « sous 50 % » s'écrit <span class="tt">(e, 1, 2)</span>.  <br /></td></tr>
 <tr class="memitem:a781adb33ce539ef59c9ed60f57e51901" id="r_a781adb33ce539ef59c9ed60f57e51901"><td class="memItemLeft"><a class="el" href="structcore_1_1CombatantProfile.html">CombatantProfile</a>&#160;</td><td class="memItemRight"><a class="el" href="namespacecore.html#a781adb33ce539ef59c9ed60f57e51901">core::profileFor</a> (const <a class="el" href="structcore_1_1CharacterSheet.html">CharacterSheet</a> &amp;sheet, <a class="el" href="namespacecore.html#a5de8069e593ab57dab3a12c60b40b717">CombatSide</a> side=<a class="el" href="namespacecore.html#a5de8069e593ab57dab3a12c60b40b717a4ff52320ad589c7346c8562c2c715fd6">CombatSide::Allies</a>)</td></tr>
 <tr class="memdesc:a781adb33ce539ef59c9ed60f57e51901"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le profil d'un personnage : ses points de vie courants, sa Dextérité, sa vitesse.  <br /></td></tr>
 <tr class="memitem:a42dc4a900c3340d179d7270def49fde9" id="r_a42dc4a900c3340d179d7270def49fde9"><td class="memItemLeft"><a class="el" href="structcore_1_1CombatantProfile.html">CombatantProfile</a>&#160;</td><td class="memItemRight"><a class="el" href="namespacecore.html#a42dc4a900c3340d179d7270def49fde9">core::profileFor</a> (const <a class="el" href="structcore_1_1Creature.html">Creature</a> &amp;creature, <a class="el" href="namespacecore.html#a5de8069e593ab57dab3a12c60b40b717">CombatSide</a> side=<a class="el" href="namespacecore.html#a5de8069e593ab57dab3a12c60b40b717af181304e789fd0882df5cb02d232fc69">CombatSide::Enemies</a>)</td></tr>

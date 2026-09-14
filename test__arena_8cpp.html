@@ -93,7 +93,7 @@ $(function(){initNavTree('test__arena_8cpp.html','',''); });
 </div><!--header-->
 <div class="contents">
 
-<p>Tests unitaires du Colisée (<span class="tt">LOT-50</span>) : points d'entrée, catalogues, kits, montage, coup d'essai, rejeu et non-létalité.  
+<p>Tests unitaires du Colisée (<span class="tt">LOT-50</span>) : points d'entrée, catalogues, montage, attaques et attaque d'opportunité (<span class="tt">LOT-21</span>), rejeu et non-létalité.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;algorithm&gt;</code><br />
 <code>#include &lt;cstdlib&gt;</code><br />
@@ -115,17 +115,17 @@ Functions</h2></td></tr>
 <tr class="memdesc:a583e1dc101e4249b06701d1e66cd54b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les points d'entree d'une carte se lisent de ses entites, ranges par camp et par rang.  <br /></td></tr>
 <tr class="memitem:a3e2fd143bc856dd83da6de8462eed21f" id="r_a3e2fd143bc856dd83da6de8462eed21f"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a3e2fd143bc856dd83da6de8462eed21f">TEST</a> (ArenaTest, LaPremiereCarteSeChargeEtAccueilleLesDeuxCamps)</td></tr>
 <tr class="memdesc:a3e2fd143bc856dd83da6de8462eed21f"><td class="mdescLeft">&#160;</td><td class="mdescRight">La premiere carte livree se charge, et les catalogues de l'arene avec elle.  <br /></td></tr>
-<tr class="memitem:a540141fe061b9dcd97775f47122c1e19" id="r_a540141fe061b9dcd97775f47122c1e19"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a540141fe061b9dcd97775f47122c1e19">TEST</a> (ArenaTest, LesKitsSeTirentDuBestiaireEtDeLaFiche)</td></tr>
-<tr class="memdesc:a540141fe061b9dcd97775f47122c1e19"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le kit d'un coup d'essai se tire du bestiaire ou de la fiche.  <br /></td></tr>
 <tr class="memitem:aaeec5a6d0d9dd452e7b3bc4a4923006c" id="r_aaeec5a6d0d9dd452e7b3bc4a4923006c"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#aaeec5a6d0d9dd452e7b3bc4a4923006c">TEST</a> (ArenaTest, LeMontagePlaceAuxEntreesEtRefuseEnLeDisant)</td></tr>
 <tr class="memdesc:aaeec5a6d0d9dd452e7b3bc4a4923006c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le montage pose chacun a son entree, et refuse en le disant.  <br /></td></tr>
-<tr class="memitem:a97ed5f9d10c74eab83a9ef2f3698dd80" id="r_a97ed5f9d10c74eab83a9ef2f3698dd80"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a97ed5f9d10c74eab83a9ef2f3698dd80">TEST</a> (ArenaTest, LeCoupDEssaiSeRefuseEtPorte)</td></tr>
-<tr class="memdesc:a97ed5f9d10c74eab83a9ef2f3698dd80"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le coup d'essai se refuse hors tour, hors allonge et sans action, et porte au contact.  <br /></td></tr>
+<tr class="memitem:afb485a7a0d7dbc53764da343b05520d3" id="r_afb485a7a0d7dbc53764da343b05520d3"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#afb485a7a0d7dbc53764da343b05520d3">TEST</a> (ArenaTest, LAttaqueSeRefuseEtSeResout)</td></tr>
+<tr class="memdesc:afb485a7a0d7dbc53764da343b05520d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">L'attaque de l'arene se refuse hors tour, hors allonge et sans action, et se resout.  <br /></td></tr>
+<tr class="memitem:a694c9f8555eef43da1a9c4805ab00a2e" id="r_a694c9f8555eef43da1a9c4805ab00a2e"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a694c9f8555eef43da1a9c4805ab00a2e">TEST</a> (ArenaTest, LOpportuniteLeDesengagementEtLEsquive)</td></tr>
+<tr class="memdesc:a694c9f8555eef43da1a9c4805ab00a2e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sortir de l'allonge provoque une attaque d'opportunite, sauf a se desengager ; esquiver desavantage les attaques.  <br /></td></tr>
 <tr class="memitem:aee31946462ee240dbebb660d6e370ca4" id="r_aee31946462ee240dbebb660d6e370ca4"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#aee31946462ee240dbebb660d6e370ca4">TEST</a> (ArenaTest, UnAffrontementSeJoueSeRejoueEtPersonneNYMeurt)</td></tr>
 <tr class="memdesc:aee31946462ee240dbebb660d6e370ca4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un affrontement se joue, se rejoue a l'identique, et personne n'y meurt.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Tests unitaires du Colisée (<span class="tt">LOT-50</span>) : points d'entrée, catalogues, kits, montage, coup d'essai, rejeu et non-létalité. </p>
+<div class="textblock"><p>Tests unitaires du Colisée (<span class="tt">LOT-50</span>) : points d'entrée, catalogues, montage, attaques et attaque d'opportunité (<span class="tt">LOT-21</span>), rejeu et non-létalité. </p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
 <a id="a3e2fd143bc856dd83da6de8462eed21f" name="a3e2fd143bc856dd83da6de8462eed21f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3e2fd143bc856dd83da6de8462eed21f">&#9670;&#160;</a></span>TEST() <span class="overload">[1/6]</span></h2>
@@ -158,8 +158,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a97ed5f9d10c74eab83a9ef2f3698dd80" name="a97ed5f9d10c74eab83a9ef2f3698dd80"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a97ed5f9d10c74eab83a9ef2f3698dd80">&#9670;&#160;</a></span>TEST() <span class="overload">[2/6]</span></h2>
+<a id="afb485a7a0d7dbc53764da343b05520d3" name="afb485a7a0d7dbc53764da343b05520d3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afb485a7a0d7dbc53764da343b05520d3">&#9670;&#160;</a></span>TEST() <span class="overload">[2/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -172,20 +172,20 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">LeCoupDEssaiSeRefuseEtPorte</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+          <td class="paramtype">LAttaqueSeRefuseEtSeResout</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Le coup d'essai se refuse hors tour, hors allonge et sans action, et porte au contact. </p>
-<p><b>Cas de test :</b> <b>Le coup d'essai refuse hors tour actif, hors allonge, contre un allie et sans action ; au contact il jette le d20 contre la classe d'armure.</b><br  />
+<p>L'attaque de l'arene se refuse hors tour, hors allonge et sans action, et se resout. </p>
+<p><b>Cas de test :</b> <b>L'action attaquer de l'arene refuse hors tour actif, contre un allie ou un inconnu, hors allonge, sans attaque ou sans action ; a portee elle jette le d20 contre la classe d'armure du profil et l'ecrit au journal.</b><br  />
  <b>Categorie :</b> Unitaire · Combat<br  />
  <b>Criticite :</b> Critique<br  />
  <b>Etapes :</b><br  />
- 1. Heroine en (2,3), compagnon en (2,2), gobelin en (3,3) a la CA 30, graine 3.<br  />
-2. Frapper avant le debut ; frapper le compagnon ; frapper un identifiant inconnu.<br  />
-3. Frapper le gobelin, puis frapper encore.<br  />
- <b>Resultat attendu :</b> NoActiveTurn, OutOfReach, InvalidTarget ; puis un jet contre 30 qui rate et est restitue ; puis NoAction. </p>
+ 1. Heroine en (2,3), compagnon en (2,2), gobelin en (3,3) a la CA 30, un second gobelin en (8,3), graine 3.<br  />
+2. Attaquer avant le debut ; le compagnon ; un inconnu ; le gobelin lointain ; avec une attaque inexistante.<br  />
+3. Attaquer le gobelin voisin, puis encore.<br  />
+ <b>Resultat attendu :</b> NoActiveTurn, InvalidTarget, InvalidTarget, OutOfReach, NoAttack ; puis Done, un jet contre 30 restitue au journal ; puis NoAction. </p>
 
 </div>
 </div>
@@ -219,39 +219,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a540141fe061b9dcd97775f47122c1e19" name="a540141fe061b9dcd97775f47122c1e19"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a540141fe061b9dcd97775f47122c1e19">&#9670;&#160;</a></span>TEST() <span class="overload">[4/6]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">TEST </td>
-          <td>(</td>
-          <td class="paramtype">ArenaTest</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">LesKitsSeTirentDuBestiaireEtDeLaFiche</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Le kit d'un coup d'essai se tire du bestiaire ou de la fiche. </p>
-<p><b>Cas de test :</b> <b>Le kit du coup d'essai vient de la premiere action qui frappe d'une creature, ou du coup a mains nues d'un personnage.</b><br  />
- <b>Categorie :</b> Unitaire · Combat<br  />
- <b>Criticite :</b> Majeur<br  />
- <b>Etapes :</b><br  />
- 1. Une creature dont la premiere action ne frappe pas et la seconde frappe.<br  />
-2. Une creature sans attaque.<br  />
-3. Une fiche de Force 16, maitrise +2, CA 14.<br  />
- <b>Resultat attendu :</b> La seconde action donne le kit ; la creature sans attaque a un kit sans degats ; la fiche frappe a +5 pour 1 + 3. </p>
-
-</div>
-</div>
 <a id="a583e1dc101e4249b06701d1e66cd54b0" name="a583e1dc101e4249b06701d1e66cd54b0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a583e1dc101e4249b06701d1e66cd54b0">&#9670;&#160;</a></span>TEST() <span class="overload">[5/6]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a583e1dc101e4249b06701d1e66cd54b0">&#9670;&#160;</a></span>TEST() <span class="overload">[4/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -277,6 +246,38 @@ Functions</h2></td></tr>
  1. Une piste avec trois entrees par camp, declarees dans le desordre, et une entree sans camp.<br  />
 2. Lire les points d'entree.<br  />
  <b>Resultat attendu :</b> Six points, allies d'abord, par rang croissant ; l'entree sans camp est ignoree. </p>
+
+</div>
+</div>
+<a id="a694c9f8555eef43da1a9c4805ab00a2e" name="a694c9f8555eef43da1a9c4805ab00a2e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a694c9f8555eef43da1a9c4805ab00a2e">&#9670;&#160;</a></span>TEST() <span class="overload">[5/6]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TEST </td>
+          <td>(</td>
+          <td class="paramtype">ArenaTest</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">LOpportuniteLeDesengagementEtLEsquive</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sortir de l'allonge provoque une attaque d'opportunite, sauf a se desengager ; esquiver desavantage les attaques. </p>
+<p><b>Cas de test :</b> <b>Quitter l'allonge d'un ennemi provoque son attaque d'opportunite, qui depense sa reaction ; se desengager l'evite ; esquiver impose le desavantage a qui attaque.</b><br  />
+ <b>Categorie :</b> Unitaire · Combat<br  />
+ <b>Criticite :</b> Critique<br  />
+ <b>Etapes :</b><br  />
+ 1. Heroine en (2,3) au contact d'un ogre en (3,3) (CA 1, bonus 0, 1 degat).<br  />
+2. L'heroine s'eloigne en (2,5).<br  />
+3. Remonter, se desengager, puis s'eloigner.<br  />
+4. Remonter, esquiver, finir le tour ; l'ogre attaque l'heroine.<br  />
+ <b>Resultat attendu :</b> Une ligne « opportunite » au journal et la reaction de l'ogre depensee, l'heroine arrive en (2,5) ; aucune attaque d'opportunite apres le desengagement ; l'attaque de l'ogre est jetee avec desavantage, « esquive de la cible ». </p>
 
 </div>
 </div>

@@ -111,9 +111,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a1499cabc1b8c1ba3c21a31446278c40f" id="r_a1499cabc1b8c1ba3c21a31446278c40f"><td class="memItemLeft">const <a class="el" href="classcore_1_1CombatState.html">CombatState</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a1499cabc1b8c1ba3c21a31446278c40f">combat</a> () const noexcept</td></tr>
 <tr class="memitem:a66d861ed4aeef7be12d617ea129ab16c" id="r_a66d861ed4aeef7be12d617ea129ab16c"><td class="memItemLeft">const <a class="el" href="classcore_1_1Level.html">Level</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a66d861ed4aeef7be12d617ea129ab16c">level</a> () const noexcept</td></tr>
 <tr class="memitem:a7b9cbd6f1bfc3c5276543737f2ac6db2" id="r_a7b9cbd6f1bfc3c5276543737f2ac6db2"><td class="memItemLeft">const <a class="el" href="structcore_1_1ArenaBout.html">ArenaBout</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a7b9cbd6f1bfc3c5276543737f2ac6db2">bout</a> () const noexcept</td></tr>
-<tr class="memitem:ae1824f4d84aef4dc94079636a427272c" id="r_ae1824f4d84aef4dc94079636a427272c"><td class="memItemLeft">const <a class="el" href="structcore_1_1StrikeKit.html">StrikeKit</a> *&#160;</td><td class="memItemRight"><a class="el" href="#ae1824f4d84aef4dc94079636a427272c">kit</a> (<a class="el" href="namespacecore.html#a91235fd72a18c305c494723774630841">CombatantId</a> combatant) const</td></tr>
-<tr class="memitem:a24b596aa2a702650f23cab8b4eec544e" id="r_a24b596aa2a702650f23cab8b4eec544e"><td class="memItemLeft"><a class="el" href="structcore_1_1StrikeOutcome.html">StrikeOutcome</a>&#160;</td><td class="memItemRight"><a class="el" href="#a24b596aa2a702650f23cab8b4eec544e">strike</a> (<a class="el" href="namespacecore.html#a91235fd72a18c305c494723774630841">CombatantId</a> target)</td></tr>
-<tr class="memdesc:a24b596aa2a702650f23cab8b4eec544e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le coup d'essai du combattant actif sur une cible au contact.  <br /></td></tr>
+<tr class="memitem:a3dc6b71791568af78f3f66d6987df23c" id="r_a3dc6b71791568af78f3f66d6987df23c"><td class="memItemLeft">const std::vector&lt; <a class="el" href="structcore_1_1AttackProfile.html">AttackProfile</a> &gt; *&#160;</td><td class="memItemRight"><a class="el" href="#a3dc6b71791568af78f3f66d6987df23c">attacks</a> (<a class="el" href="namespacecore.html#a91235fd72a18c305c494723774630841">CombatantId</a> combatant) const</td></tr>
+<tr class="memitem:a1fbc7cdb3c96e2214737ca2ef6c5e429" id="r_a1fbc7cdb3c96e2214737ca2ef6c5e429"><td class="memItemLeft"><a class="el" href="classcore_1_1AttackHooks.html">AttackHooks</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a1fbc7cdb3c96e2214737ca2ef6c5e429">attackHooks</a> () noexcept</td></tr>
+<tr class="memitem:a36554b265c0ee59bd356956ab7d2469a" id="r_a36554b265c0ee59bd356956ab7d2469a"><td class="memItemLeft"><a class="el" href="classcore_1_1DamagePipeline.html">DamagePipeline</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a36554b265c0ee59bd356956ab7d2469a">damagePipeline</a> () noexcept</td></tr>
+<tr class="memitem:af6df2744b75f2368435b6a7ba12b01e3" id="r_af6df2744b75f2368435b6a7ba12b01e3"><td class="memItemLeft"><a class="el" href="structcore_1_1ArenaAttack.html">ArenaAttack</a>&#160;</td><td class="memItemRight"><a class="el" href="#af6df2744b75f2368435b6a7ba12b01e3">attack</a> (<a class="el" href="namespacecore.html#a91235fd72a18c305c494723774630841">CombatantId</a> target, std::size_t attackIndex=0)</td></tr>
+<tr class="memdesc:af6df2744b75f2368435b6a7ba12b01e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">L'action <em>attaquer</em> du combattant actif, avec son attaque <code class="param">attackIndex</code>.  <br /></td></tr>
+<tr class="memitem:a8fe411d2eeeb7eec646bafd6baa5269a" id="r_a8fe411d2eeeb7eec646bafd6baa5269a"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a8fe411d2eeeb7eec646bafd6baa5269a">dodge</a> ()</td></tr>
+<tr class="memdesc:a8fe411d2eeeb7eec646bafd6baa5269a"><td class="mdescLeft">&#160;</td><td class="mdescRight">L'action <em>esquiver</em> : jusqu'au début de son prochain tour, les attaques contre le combattant actif sont désavantagées (Manuel, chapitre 9).  <br /></td></tr>
+<tr class="memitem:a97a21749dc62d995ebaa827a398ed4be" id="r_a97a21749dc62d995ebaa827a398ed4be"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a97a21749dc62d995ebaa827a398ed4be">disengage</a> ()</td></tr>
+<tr class="memdesc:a97a21749dc62d995ebaa827a398ed4be"><td class="mdescLeft">&#160;</td><td class="mdescRight">L'action <em>se désengager</em> : jusqu'à la fin du tour, le déplacement du combattant actif ne provoque pas d'attaque d'opportunité.  <br /></td></tr>
 <tr class="memitem:ae110a3d6fe0b565b9dfbdbaad5f13990" id="r_ae110a3d6fe0b565b9dfbdbaad5f13990"><td class="memItemLeft"><a class="el" href="structcore_1_1MoveOutcome.html">MoveOutcome</a>&#160;</td><td class="memItemRight"><a class="el" href="#ae110a3d6fe0b565b9dfbdbaad5f13990">move</a> (<a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> destination)</td></tr>
 <tr class="memdesc:ae110a3d6fe0b565b9dfbdbaad5f13990"><td class="mdescLeft">&#160;</td><td class="mdescRight">Déplace le combattant actif ; le chemin est payé sur son budget restant.  <br /></td></tr>
 <tr class="memitem:a6d429af2387a6dc634c54af286fd64fd" id="r_a6d429af2387a6dc634c54af286fd64fd"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a6d429af2387a6dc634c54af286fd64fd">endTurn</a> ()</td></tr>
@@ -129,6 +135,12 @@ Private Member Functions</h2></td></tr>
 <tr class="memitem:a5fc4ae039fa18816d42b39cfaa381e76" id="r_a5fc4ae039fa18816d42b39cfaa381e76"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a5fc4ae039fa18816d42b39cfaa381e76">record</a> (std::string line)</td></tr>
 <tr class="memitem:a0267ab08d63cdd1e97c7aa776b16739e" id="r_a0267ab08d63cdd1e97c7aa776b16739e"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a0267ab08d63cdd1e97c7aa776b16739e">restoreAll</a> ()</td></tr>
 <tr class="memdesc:a0267ab08d63cdd1e97c7aa776b16739e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Relève tout le monde : le rituel de la Marque Héroïque, qui fait des Arènes un lieu sans mort.  <br /></td></tr>
+<tr class="memitem:a66b291aaeb73accc1ffa139ae5dcfce2" id="r_a66b291aaeb73accc1ffa139ae5dcfce2"><td class="memItemLeft">std::optional&lt; <a class="el" href="structcore_1_1AttackOutcome.html">AttackOutcome</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a66b291aaeb73accc1ffa139ae5dcfce2">resolveAndRecord</a> (<a class="el" href="namespacecore.html#a91235fd72a18c305c494723774630841">CombatantId</a> attacker, <a class="el" href="namespacecore.html#a91235fd72a18c305c494723774630841">CombatantId</a> target, const <a class="el" href="structcore_1_1AttackProfile.html">AttackProfile</a> &amp;profile, const std::string &amp;prefix)</td></tr>
+<tr class="memdesc:a66b291aaeb73accc1ffa139ae5dcfce2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Résout une attaque et l'écrit au journal à sa place : après la déclaration, avant ce que ses dégâts déclenchent.  <br /></td></tr>
+<tr class="memitem:a42d83e47f76ce243b47c11cbf0626d6a" id="r_a42d83e47f76ce243b47c11cbf0626d6a"><td class="memItemLeft"><a class="el" href="structcore_1_1AttackContext.html">AttackContext</a>&#160;</td><td class="memItemRight"><a class="el" href="#a42d83e47f76ce243b47c11cbf0626d6a">contextAgainst</a> (<a class="el" href="namespacecore.html#a91235fd72a18c305c494723774630841">CombatantId</a> target) const</td></tr>
+<tr class="memdesc:a42d83e47f76ce243b47c11cbf0626d6a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les circonstances qu'ajoute la session : l'esquive de la cible.  <br /></td></tr>
+<tr class="memitem:a811a05394f43e2e01cf02d55fc5c0d3b" id="r_a811a05394f43e2e01cf02d55fc5c0d3b"><td class="memItemLeft">const <a class="el" href="structcore_1_1AttackProfile.html">AttackProfile</a> *&#160;</td><td class="memItemRight"><a class="el" href="#a811a05394f43e2e01cf02d55fc5c0d3b">meleeAttack</a> (<a class="el" href="namespacecore.html#a91235fd72a18c305c494723774630841">CombatantId</a> combatant) const</td></tr>
+<tr class="memdesc:a811a05394f43e2e01cf02d55fc5c0d3b"><td class="mdescLeft">&#160;</td><td class="mdescRight">La première attaque au corps à corps d'un combattant, ou <span class="tt">nullptr</span>.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-attribs" class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -136,7 +148,11 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:a849c3ed071bb8d813120952501cfdb0b" id="r_a849c3ed071bb8d813120952501cfdb0b"><td class="memItemLeft"><a class="el" href="structcore_1_1ArenaBout.html">ArenaBout</a>&#160;</td><td class="memItemRight"><a class="el" href="#a849c3ed071bb8d813120952501cfdb0b">_bout</a></td></tr>
 <tr class="memitem:adf67da40ab63c3b22f35f3c691d811c2" id="r_adf67da40ab63c3b22f35f3c691d811c2"><td class="memItemLeft"><a class="el" href="classcore_1_1DeterministicRandom.html">DeterministicRandom</a>&#160;</td><td class="memItemRight"><a class="el" href="#adf67da40ab63c3b22f35f3c691d811c2">_random</a> {0}</td></tr>
 <tr class="memitem:ae5ec4ffe9daaed4bfdc3c20505ee4647" id="r_ae5ec4ffe9daaed4bfdc3c20505ee4647"><td class="memItemLeft">std::unique_ptr&lt; <a class="el" href="classcore_1_1CombatState.html">CombatState</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#ae5ec4ffe9daaed4bfdc3c20505ee4647">_combat</a></td></tr>
-<tr class="memitem:af6a329e191cfedd8fb3d9d7ea2cb688a" id="r_af6a329e191cfedd8fb3d9d7ea2cb688a"><td class="memItemLeft">std::map&lt; <a class="el" href="namespacecore.html#a91235fd72a18c305c494723774630841">CombatantId</a>, <a class="el" href="structcore_1_1StrikeKit.html">StrikeKit</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#af6a329e191cfedd8fb3d9d7ea2cb688a">_kits</a></td></tr>
+<tr class="memitem:a35cbb920f818826a6c52dc2d946d5700" id="r_a35cbb920f818826a6c52dc2d946d5700"><td class="memItemLeft">std::map&lt; <a class="el" href="namespacecore.html#a91235fd72a18c305c494723774630841">CombatantId</a>, std::vector&lt; <a class="el" href="structcore_1_1AttackProfile.html">AttackProfile</a> &gt; &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a35cbb920f818826a6c52dc2d946d5700">_attacks</a></td></tr>
+<tr class="memitem:affcf58712798b74df13c294096f6a692" id="r_affcf58712798b74df13c294096f6a692"><td class="memItemLeft"><a class="el" href="classcore_1_1AttackHooks.html">AttackHooks</a>&#160;</td><td class="memItemRight"><a class="el" href="#affcf58712798b74df13c294096f6a692">_attackHooks</a></td></tr>
+<tr class="memitem:a4034c02d8e32b175dbba41999b5646fe" id="r_a4034c02d8e32b175dbba41999b5646fe"><td class="memItemLeft"><a class="el" href="classcore_1_1DamagePipeline.html">DamagePipeline</a>&#160;</td><td class="memItemRight"><a class="el" href="#a4034c02d8e32b175dbba41999b5646fe">_damagePipeline</a></td></tr>
+<tr class="memitem:af3041cfba8f35666776f7d72b8bb8c5b" id="r_af3041cfba8f35666776f7d72b8bb8c5b"><td class="memItemLeft">std::set&lt; <a class="el" href="namespacecore.html#a91235fd72a18c305c494723774630841">CombatantId</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#af3041cfba8f35666776f7d72b8bb8c5b">_dodging</a></td></tr>
+<tr class="memitem:a8c9838d3f035652baef9b7653c1cd921" id="r_a8c9838d3f035652baef9b7653c1cd921"><td class="memItemLeft">std::set&lt; <a class="el" href="namespacecore.html#a91235fd72a18c305c494723774630841">CombatantId</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a8c9838d3f035652baef9b7653c1cd921">_disengaged</a></td></tr>
 <tr class="memitem:a95fa6187920a6c5fbebd02b9c44603da" id="r_a95fa6187920a6c5fbebd02b9c44603da"><td class="memItemLeft">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a95fa6187920a6c5fbebd02b9c44603da">_journal</a></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
@@ -176,6 +192,82 @@ Private Attributes</h2></td></tr>
 </div>
 </div>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
+<a id="af6df2744b75f2368435b6a7ba12b01e3" name="af6df2744b75f2368435b6a7ba12b01e3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af6df2744b75f2368435b6a7ba12b01e3">&#9670;&#160;</a></span>attack()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structcore_1_1ArenaAttack.html">ArenaAttack</a> core::ArenaSession::attack </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacecore.html#a91235fd72a18c305c494723774630841">CombatantId</a></td>          <td class="paramname"><span class="paramname"><em>target</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>attackIndex</em></span><span class="paramdefsep"> = </span><span class="paramdefval">0</span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>L'action <em>attaquer</em> du combattant actif, avec son attaque <code class="param">attackIndex</code>. </p>
+<p>Vérifie la cible et la portée (<span class="tt"><a class="el" href="namespacecore.html#a58f349d22c971141da56b91273d5d29d" title="Vrai si target est à portée de l&#39;attaque : allonge au corps à corps ; au contact, ou dans la portée m...">core::inReach</a></span>), dépense l'action, puis résout (<span class="tt"><a class="el" href="namespacecore.html#ab1a4d741effe8706e8261be043b9224a" title="Résout une attaque dans le combat : déclaration, jet, dégâts, points de vie.">core::resolveAttack</a></span>) : déclaration, jet, dégâts. Une cible qui esquive impose le désavantage. Tout passe par la suite aléatoire de la session : un rejeu redonne les mêmes coups. </p>
+
+</div>
+</div>
+<a id="a1fbc7cdb3c96e2214737ca2ef6c5e429" name="a1fbc7cdb3c96e2214737ca2ef6c5e429"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1fbc7cdb3c96e2214737ca2ef6c5e429">&#9670;&#160;</a></span>attackHooks()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classcore_1_1AttackHooks.html">AttackHooks</a> &amp; core::ArenaSession::attackHooks </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>Les greffons des jets d'attaque de la session, pour qu'une capacité s'y insère. </dd></dl>
+
+</div>
+</div>
+<a id="a3dc6b71791568af78f3f66d6987df23c" name="a3dc6b71791568af78f3f66d6987df23c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3dc6b71791568af78f3f66d6987df23c">&#9670;&#160;</a></span>attacks()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::vector&lt; <a class="el" href="structcore_1_1AttackProfile.html">AttackProfile</a> &gt; * core::ArenaSession::attacks </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacecore.html#a91235fd72a18c305c494723774630841">CombatantId</a></td>          <td class="paramname"><span class="paramname"><em>combatant</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>Les attaques d'un combattant enrôlé, ou <span class="tt">nullptr</span>. </dd></dl>
+
+</div>
+</div>
 <a id="a7b9cbd6f1bfc3c5276543737f2ac6db2" name="a7b9cbd6f1bfc3c5276543737f2ac6db2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7b9cbd6f1bfc3c5276543737f2ac6db2">&#9670;&#160;</a></span>bout()</h2>
 
@@ -253,6 +345,99 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a42d83e47f76ce243b47c11cbf0626d6a" name="a42d83e47f76ce243b47c11cbf0626d6a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a42d83e47f76ce243b47c11cbf0626d6a">&#9670;&#160;</a></span>contextAgainst()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structcore_1_1AttackContext.html">AttackContext</a> core::ArenaSession::contextAgainst </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacecore.html#a91235fd72a18c305c494723774630841">CombatantId</a></td>          <td class="paramname"><span class="paramname"><em>target</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Les circonstances qu'ajoute la session : l'esquive de la cible. </p>
+
+</div>
+</div>
+<a id="a36554b265c0ee59bd356956ab7d2469a" name="a36554b265c0ee59bd356956ab7d2469a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a36554b265c0ee59bd356956ab7d2469a">&#9670;&#160;</a></span>damagePipeline()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classcore_1_1DamagePipeline.html">DamagePipeline</a> &amp; core::ArenaSession::damagePipeline </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>Le pipeline de dégâts de la session. </dd></dl>
+
+</div>
+</div>
+<a id="a97a21749dc62d995ebaa827a398ed4be" name="a97a21749dc62d995ebaa827a398ed4be"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a97a21749dc62d995ebaa827a398ed4be">&#9670;&#160;</a></span>disengage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool core::ArenaSession::disengage </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>L'action <em>se désengager</em> : jusqu'à la fin du tour, le déplacement du combattant actif ne provoque pas d'attaque d'opportunité. </p>
+<dl class="section return"><dt>Returns</dt><dd>Faux sans tour actif, ou sans action. </dd></dl>
+
+</div>
+</div>
+<a id="a8fe411d2eeeb7eec646bafd6baa5269a" name="a8fe411d2eeeb7eec646bafd6baa5269a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8fe411d2eeeb7eec646bafd6baa5269a">&#9670;&#160;</a></span>dodge()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool core::ArenaSession::dodge </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>L'action <em>esquiver</em> : jusqu'au début de son prochain tour, les attaques contre le combattant actif sont désavantagées (Manuel, chapitre 9). </p>
+<dl class="section return"><dt>Returns</dt><dd>Faux sans tour actif, ou sans action. </dd></dl>
+
+</div>
+</div>
 <a id="a6d429af2387a6dc634c54af286fd64fd" name="a6d429af2387a6dc634c54af286fd64fd"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6d429af2387a6dc634c54af286fd64fd">&#9670;&#160;</a></span>endTurn()</h2>
 
@@ -298,32 +483,6 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="ae1824f4d84aef4dc94079636a427272c" name="ae1824f4d84aef4dc94079636a427272c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae1824f4d84aef4dc94079636a427272c">&#9670;&#160;</a></span>kit()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const <a class="el" href="structcore_1_1StrikeKit.html">StrikeKit</a> * core::ArenaSession::kit </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="namespacecore.html#a91235fd72a18c305c494723774630841">CombatantId</a></td>          <td class="paramname"><span class="paramname"><em>combatant</em></span></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>Le kit d'un combattant enrôlé, ou <span class="tt">nullptr</span>. </dd></dl>
-
-</div>
-</div>
 <a id="a66d861ed4aeef7be12d617ea129ab16c" name="a66d861ed4aeef7be12d617ea129ab16c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a66d861ed4aeef7be12d617ea129ab16c">&#9670;&#160;</a></span>level()</h2>
 
@@ -347,6 +506,33 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>La carte de l'arène. </dd></dl>
+
+</div>
+</div>
+<a id="a811a05394f43e2e01cf02d55fc5c0d3b" name="a811a05394f43e2e01cf02d55fc5c0d3b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a811a05394f43e2e01cf02d55fc5c0d3b">&#9670;&#160;</a></span>meleeAttack()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="structcore_1_1AttackProfile.html">AttackProfile</a> * core::ArenaSession::meleeAttack </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacecore.html#a91235fd72a18c305c494723774630841">CombatantId</a></td>          <td class="paramname"><span class="paramname"><em>combatant</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>La première attaque au corps à corps d'un combattant, ou <span class="tt">nullptr</span>. </p>
 
 </div>
 </div>
@@ -386,6 +572,7 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Déplace le combattant actif ; le chemin est payé sur son budget restant. </p>
+<p><b>Attaque d'opportunité</b> (Manuel, chapitre 9) : quand le chemin sort de l'allonge d'une créature hostile debout qui a encore sa réaction, elle frappe « juste avant que la créature ne sorte de sa zone d'allonge », avec sa première attaque au corps à corps, et dépense sa réaction. Le déplacement s'arrête à la dernière case où l'on peut se tenir avant la sortie, les attaques se jouent par identifiant croissant, et le déplacement reprend si le combattant tient encore debout. Dans l'arène, <b>chaque</b> créature éligible frappe : il n'y a pas encore d'interface pour décliner (<span class="tt">LOT-24</span>) ni de comportement pour choisir (<span class="tt">LOT-23</span>). </p>
 
 </div>
 </div>
@@ -459,6 +646,47 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a66b291aaeb73accc1ffa139ae5dcfce2" name="a66b291aaeb73accc1ffa139ae5dcfce2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a66b291aaeb73accc1ffa139ae5dcfce2">&#9670;&#160;</a></span>resolveAndRecord()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::optional&lt; <a class="el" href="structcore_1_1AttackOutcome.html">AttackOutcome</a> &gt; core::ArenaSession::resolveAndRecord </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacecore.html#a91235fd72a18c305c494723774630841">CombatantId</a></td>          <td class="paramname"><span class="paramname"><em>attacker</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacecore.html#a91235fd72a18c305c494723774630841">CombatantId</a></td>          <td class="paramname"><span class="paramname"><em>target</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structcore_1_1AttackProfile.html">AttackProfile</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>profile</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>prefix</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Résout une attaque et l'écrit au journal à sa place : après la déclaration, avant ce que ses dégâts déclenchent. </p>
+
+</div>
+</div>
 <a id="a0267ab08d63cdd1e97c7aa776b16739e" name="a0267ab08d63cdd1e97c7aa776b16739e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0267ab08d63cdd1e97c7aa776b16739e">&#9670;&#160;</a></span>restoreAll()</h2>
 
@@ -503,26 +731,6 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Jette l'initiative à la graine de la composition, et ouvre le premier tour. </p>
-
-</div>
-</div>
-<a id="a24b596aa2a702650f23cab8b4eec544e" name="a24b596aa2a702650f23cab8b4eec544e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a24b596aa2a702650f23cab8b4eec544e">&#9670;&#160;</a></span>strike()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="structcore_1_1StrikeOutcome.html">StrikeOutcome</a> core::ArenaSession::strike </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="namespacecore.html#a91235fd72a18c305c494723774630841">CombatantId</a></td>          <td class="paramname"><span class="paramname"><em>target</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Le coup d'essai du combattant actif sur une cible au contact. </p>
-<p>Déclare l'attaque (<span class="tt"><a class="el" href="namespacecore.html#a942a0cabc5c97e0e10dfb8a148e26fb9a5a4f89385b5dfc0953b794f3df6378af">core::CombatHook::AttackDeclared</a></span>), dépense l'action, jette le d20 contre la classe d'armure de la cible, et applique les dégâts si le coup porte. Tout passe par la suite aléatoire de la session : un rejeu redonne les mêmes coups. </p>
 
 </div>
 </div>
@@ -571,6 +779,50 @@ Private Attributes</h2></td></tr>
 </div>
 </div>
 <a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Member Data Documentation</h2>
+<a id="affcf58712798b74df13c294096f6a692" name="affcf58712798b74df13c294096f6a692"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#affcf58712798b74df13c294096f6a692">&#9670;&#160;</a></span>_attackHooks</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classcore_1_1AttackHooks.html">AttackHooks</a> core::ArenaSession::_attackHooks</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a35cbb920f818826a6c52dc2d946d5700" name="a35cbb920f818826a6c52dc2d946d5700"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a35cbb920f818826a6c52dc2d946d5700">&#9670;&#160;</a></span>_attacks</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::map&lt;<a class="el" href="namespacecore.html#a91235fd72a18c305c494723774630841">CombatantId</a>, std::vector&lt;<a class="el" href="structcore_1_1AttackProfile.html">AttackProfile</a>&gt; &gt; core::ArenaSession::_attacks</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a849c3ed071bb8d813120952501cfdb0b" name="a849c3ed071bb8d813120952501cfdb0b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a849c3ed071bb8d813120952501cfdb0b">&#9670;&#160;</a></span>_bout</h2>
 
@@ -615,8 +867,8 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a95fa6187920a6c5fbebd02b9c44603da" name="a95fa6187920a6c5fbebd02b9c44603da"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a95fa6187920a6c5fbebd02b9c44603da">&#9670;&#160;</a></span>_journal</h2>
+<a id="a4034c02d8e32b175dbba41999b5646fe" name="a4034c02d8e32b175dbba41999b5646fe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4034c02d8e32b175dbba41999b5646fe">&#9670;&#160;</a></span>_damagePipeline</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -625,7 +877,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt;std::string&gt; core::ArenaSession::_journal</td>
+          <td class="memname"><a class="el" href="classcore_1_1DamagePipeline.html">DamagePipeline</a> core::ArenaSession::_damagePipeline</td>
         </tr>
       </table>
   </td>
@@ -637,8 +889,8 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="af6a329e191cfedd8fb3d9d7ea2cb688a" name="af6a329e191cfedd8fb3d9d7ea2cb688a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af6a329e191cfedd8fb3d9d7ea2cb688a">&#9670;&#160;</a></span>_kits</h2>
+<a id="a8c9838d3f035652baef9b7653c1cd921" name="a8c9838d3f035652baef9b7653c1cd921"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8c9838d3f035652baef9b7653c1cd921">&#9670;&#160;</a></span>_disengaged</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -647,7 +899,51 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::map&lt;<a class="el" href="namespacecore.html#a91235fd72a18c305c494723774630841">CombatantId</a>, <a class="el" href="structcore_1_1StrikeKit.html">StrikeKit</a>&gt; core::ArenaSession::_kits</td>
+          <td class="memname">std::set&lt;<a class="el" href="namespacecore.html#a91235fd72a18c305c494723774630841">CombatantId</a>&gt; core::ArenaSession::_disengaged</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af3041cfba8f35666776f7d72b8bb8c5b" name="af3041cfba8f35666776f7d72b8bb8c5b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af3041cfba8f35666776f7d72b8bb8c5b">&#9670;&#160;</a></span>_dodging</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::set&lt;<a class="el" href="namespacecore.html#a91235fd72a18c305c494723774630841">CombatantId</a>&gt; core::ArenaSession::_dodging</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a95fa6187920a6c5fbebd02b9c44603da" name="a95fa6187920a6c5fbebd02b9c44603da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a95fa6187920a6c5fbebd02b9c44603da">&#9670;&#160;</a></span>_journal</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;std::string&gt; core::ArenaSession::_journal</td>
         </tr>
       </table>
   </td>

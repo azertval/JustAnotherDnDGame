@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.16.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>JustAnotherDnDGame: core::StrikeOutcome Struct Reference</title>
+<title>JustAnotherDnDGame: core::AttackContext Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -63,7 +63,7 @@ $(function() {
   </div>
 </div>
 <script type="text/javascript">
-$(function(){initNavTree('structcore_1_1StrikeOutcome.html','','structcore_1_1StrikeOutcome-members'); });
+$(function(){initNavTree('structcore_1_1AttackContext.html','','structcore_1_1AttackContext-members'); });
 </script>
 <div id="container">
 <div id="doc-content">
@@ -89,60 +89,63 @@ $(function(){initNavTree('structcore_1_1StrikeOutcome.html','','structcore_1_1St
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">core::StrikeOutcome Struct Reference</div></div>
+  <div class="headertitle"><div class="title">core::AttackContext Struct Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Le détail d'un coup d'essai, restituable (<span class="tt">EX-DND-003</span>).  
+<p>Ce qu'une résolution consulte en plus du profil : greffons et circonstances.  
  <a href="#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="Arena_8h_source.html">Arena.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="Attack_8h_source.html">Attack.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-attribs" class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a4730d9ffb076e27ce9b4fa1475191c79" id="r_a4730d9ffb076e27ce9b4fa1475191c79"><td class="memItemLeft"><a class="el" href="namespacecore.html#a8e11f0df61439a2de165b4019062e0e4">StrikeResult</a>&#160;</td><td class="memItemRight"><a class="el" href="#a4730d9ffb076e27ce9b4fa1475191c79">result</a> = <a class="el" href="namespacecore.html#a8e11f0df61439a2de165b4019062e0e4a6f923f50457fdf3e12863922643f9a71">StrikeResult::InvalidTarget</a></td></tr>
-<tr class="memitem:a292188d44b961b9e169b2319fa3bbb11" id="r_a292188d44b961b9e169b2319fa3bbb11"><td class="memItemLeft">std::optional&lt; <a class="el" href="structcore_1_1CheckResult.html">CheckResult</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a292188d44b961b9e169b2319fa3bbb11">roll</a></td></tr>
-<tr class="memitem:a1c2716d6655a5b97b599052ef0126fbc" id="r_a1c2716d6655a5b97b599052ef0126fbc"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a1c2716d6655a5b97b599052ef0126fbc">damage</a> = 0</td></tr>
+<tr class="memitem:af7e121d9e35bf129fe638219d390b3cd" id="r_af7e121d9e35bf129fe638219d390b3cd"><td class="memItemLeft">const <a class="el" href="classcore_1_1AttackHooks.html">AttackHooks</a> *&#160;</td><td class="memItemRight"><a class="el" href="#af7e121d9e35bf129fe638219d390b3cd">hooks</a> = nullptr</td></tr>
+<tr class="memitem:a961ae85ba90835a4125132fdc618b647" id="r_a961ae85ba90835a4125132fdc618b647"><td class="memItemLeft">const <a class="el" href="classcore_1_1DamagePipeline.html">DamagePipeline</a> *&#160;</td><td class="memItemRight"><a class="el" href="#a961ae85ba90835a4125132fdc618b647">pipeline</a> = nullptr</td></tr>
+<tr class="memitem:ac6ff8416d5a6c1fef9f7451a3aebfa5e" id="r_ac6ff8416d5a6c1fef9f7451a3aebfa5e"><td class="memItemLeft"><a class="el" href="structcore_1_1AttackCircumstances.html">AttackCircumstances</a>&#160;</td><td class="memItemRight"><a class="el" href="#ac6ff8416d5a6c1fef9f7451a3aebfa5e">circumstances</a></td></tr>
+<tr class="memdesc:ac6ff8416d5a6c1fef9f7451a3aebfa5e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sources supplémentaires, que l'appelant connaît et la grille non (une esquive, une aide).  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Le détail d'un coup d'essai, restituable (<span class="tt">EX-DND-003</span>). </p>
+<div class="textblock"><p>Ce qu'une résolution consulte en plus du profil : greffons et circonstances. </p>
 </div><a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Member Data Documentation</h2>
-<a id="a1c2716d6655a5b97b599052ef0126fbc" name="a1c2716d6655a5b97b599052ef0126fbc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1c2716d6655a5b97b599052ef0126fbc">&#9670;&#160;</a></span>damage</h2>
+<a id="ac6ff8416d5a6c1fef9f7451a3aebfa5e" name="ac6ff8416d5a6c1fef9f7451a3aebfa5e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac6ff8416d5a6c1fef9f7451a3aebfa5e">&#9670;&#160;</a></span>circumstances</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int core::StrikeOutcome::damage = 0</td>
+          <td class="memname"><a class="el" href="structcore_1_1AttackCircumstances.html">AttackCircumstances</a> core::AttackContext::circumstances</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sources supplémentaires, que l'appelant connaît et la grille non (une esquive, une aide). </p>
+
+</div>
+</div>
+<a id="af7e121d9e35bf129fe638219d390b3cd" name="af7e121d9e35bf129fe638219d390b3cd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af7e121d9e35bf129fe638219d390b3cd">&#9670;&#160;</a></span>hooks</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="classcore_1_1AttackHooks.html">AttackHooks</a>* core::AttackContext::hooks = nullptr</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a4730d9ffb076e27ce9b4fa1475191c79" name="a4730d9ffb076e27ce9b4fa1475191c79"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4730d9ffb076e27ce9b4fa1475191c79">&#9670;&#160;</a></span>result</h2>
+<a id="a961ae85ba90835a4125132fdc618b647" name="a961ae85ba90835a4125132fdc618b647"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a961ae85ba90835a4125132fdc618b647">&#9670;&#160;</a></span>pipeline</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespacecore.html#a8e11f0df61439a2de165b4019062e0e4">StrikeResult</a> core::StrikeOutcome::result = <a class="el" href="namespacecore.html#a8e11f0df61439a2de165b4019062e0e4a6f923f50457fdf3e12863922643f9a71">StrikeResult::InvalidTarget</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a292188d44b961b9e169b2319fa3bbb11" name="a292188d44b961b9e169b2319fa3bbb11"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a292188d44b961b9e169b2319fa3bbb11">&#9670;&#160;</a></span>roll</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::optional&lt;<a class="el" href="structcore_1_1CheckResult.html">CheckResult</a>&gt; core::StrikeOutcome::roll</td>
+          <td class="memname">const <a class="el" href="classcore_1_1DamagePipeline.html">DamagePipeline</a>* core::AttackContext::pipeline = nullptr</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -150,7 +153,7 @@ Public Attributes</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li>/home/runner/work/JustAnotherDnDGame/JustAnotherDnDGame/Source/Core/Combat/<a class="el" href="Arena_8h_source.html">Arena.h</a></li>
+<li>/home/runner/work/JustAnotherDnDGame/JustAnotherDnDGame/Source/Core/Combat/<a class="el" href="Attack_8h_source.html">Attack.h</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
@@ -165,7 +168,7 @@ Public Attributes</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a href="namespacecore.html">core</a></li><li class="navelem"><a href="structcore_1_1StrikeOutcome.html">StrikeOutcome</a></li>
+    <li class="navelem"><a href="namespacecore.html">core</a></li><li class="navelem"><a href="structcore_1_1AttackContext.html">AttackContext</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.16.1 </li>
   </ul>
 </div>

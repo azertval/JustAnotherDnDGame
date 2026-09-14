@@ -101,7 +101,9 @@ $(function(){initNavTree('structcore_1_1ArenaContestant.html','','structcore_1_1
 <tr class="heading"><td colspan="2"><h2 id="header-pub-attribs" class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:a1ae64e52f560402dc6c25bc8cf2b0895" id="r_a1ae64e52f560402dc6c25bc8cf2b0895"><td class="memItemLeft"><a class="el" href="structcore_1_1CombatantProfile.html">CombatantProfile</a>&#160;</td><td class="memItemRight"><a class="el" href="#a1ae64e52f560402dc6c25bc8cf2b0895">profile</a></td></tr>
-<tr class="memitem:ad48342517bfd5f963c26cb2c1a8c615b" id="r_ad48342517bfd5f963c26cb2c1a8c615b"><td class="memItemLeft"><a class="el" href="structcore_1_1StrikeKit.html">StrikeKit</a>&#160;</td><td class="memItemRight"><a class="el" href="#ad48342517bfd5f963c26cb2c1a8c615b">kit</a></td></tr>
+<tr class="memdesc:a1ae64e52f560402dc6c25bc8cf2b0895"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le profil, classe d'armure et affinités comprises.  <br /></td></tr>
+<tr class="memitem:a86a1bacc54063ba082ffcae7c8b456fc" id="r_a86a1bacc54063ba082ffcae7c8b456fc"><td class="memItemLeft">std::vector&lt; <a class="el" href="structcore_1_1AttackProfile.html">AttackProfile</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a86a1bacc54063ba082ffcae7c8b456fc">attacks</a></td></tr>
+<tr class="memdesc:a86a1bacc54063ba082ffcae7c8b456fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ce qu'il sait frapper, la première attaque étant celle qu'on joue par défaut.  <br /></td></tr>
 <tr class="memitem:a6fcb6b725ceab85eb60fa4fe5aac2878" id="r_a6fcb6b725ceab85eb60fa4fe5aac2878"><td class="memItemLeft">std::optional&lt; <a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a6fcb6b725ceab85eb60fa4fe5aac2878">position</a></td></tr>
 <tr class="memdesc:a6fcb6b725ceab85eb60fa4fe5aac2878"><td class="mdescLeft">&#160;</td><td class="mdescRight">Case demandée, ou absente : le prochain point d'entrée libre de son camp.  <br /></td></tr>
 <tr class="memitem:abc7382a0078f0c8b9fe97d472e456fe2" id="r_abc7382a0078f0c8b9fe97d472e456fe2"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#abc7382a0078f0c8b9fe97d472e456fe2">markId</a></td></tr>
@@ -110,17 +112,19 @@ Public Attributes</h2></td></tr>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Un combattant tel que l'écran de mise en place le compose. </p>
 </div><a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Member Data Documentation</h2>
-<a id="ad48342517bfd5f963c26cb2c1a8c615b" name="ad48342517bfd5f963c26cb2c1a8c615b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad48342517bfd5f963c26cb2c1a8c615b">&#9670;&#160;</a></span>kit</h2>
+<a id="a86a1bacc54063ba082ffcae7c8b456fc" name="a86a1bacc54063ba082ffcae7c8b456fc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a86a1bacc54063ba082ffcae7c8b456fc">&#9670;&#160;</a></span>attacks</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structcore_1_1StrikeKit.html">StrikeKit</a> core::ArenaContestant::kit</td>
+          <td class="memname">std::vector&lt;<a class="el" href="structcore_1_1AttackProfile.html">AttackProfile</a>&gt; core::ArenaContestant::attacks</td>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Ce qu'il sait frapper, la première attaque étant celle qu'on joue par défaut. </p>
 
 </div>
 </div>
@@ -167,6 +171,8 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Le profil, classe d'armure et affinités comprises. </p>
 
 </div>
 </div>

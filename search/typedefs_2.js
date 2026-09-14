@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['editorworkspacemask_0',['EditorWorkspaceMask',['../namespacehmi.html#ab8a3c6d8e00f86576f71c0b2a4e494d4',1,'hmi']]]
+  ['damageflags_0',['DamageFlags',['../namespacecore.html#a3acedcaf6cf80cdf2bc278d2bb7a4159',1,'core']]],
+  ['damagelistener_1',['DamageListener',['../namespacecore.html#a3590dffd7f4abb831e517aafa42647d6',1,'core']]]
 ];

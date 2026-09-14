@@ -105,6 +105,8 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:aff9938e4fc616d5538368b29681c999f" id="r_aff9938e4fc616d5538368b29681c999f"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#aff9938e4fc616d5538368b29681c999f">hitPoints</a> = 1</td></tr>
 <tr class="memitem:aeaf196e6d2db7cd9d6c0b969f70435d3" id="r_aeaf196e6d2db7cd9d6c0b969f70435d3"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#aeaf196e6d2db7cd9d6c0b969f70435d3">blocksMovement</a> = true</td></tr>
 <tr class="memdesc:aeaf196e6d2db7cd9d6c0b969f70435d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vrai si l'objet empêche d'entrer dans sa case, comme un mur tant qu'il tient debout.  <br /></td></tr>
+<tr class="memitem:aa9ee822b3ce5094e14190420ec96c281" id="r_aa9ee822b3ce5094e14190420ec96c281"><td class="memItemLeft"><a class="el" href="structcore_1_1DamageTraits.html">DamageTraits</a>&#160;</td><td class="memItemRight"><a class="el" href="#aa9ee822b3ce5094e14190420ec96c281">damageTraits</a></td></tr>
+<tr class="memdesc:aa9ee822b3ce5094e14190420ec96c281"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les structures résistent comme les créatures : une porte de fer ne craint pas le poison (<span class="tt"><a class="el" href="classcore_1_1DamagePipeline.html#ab12d245fc394a994f925b869404b0334" title="Fait traverser des dégâts à une structure de la grille : les structures ont des PV,...">core::DamagePipeline::applyToStructure</a></span>, <span class="tt">LOT-21</span>).  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Un objet posé sur une case : une toile, une barricade, un tonneau. </p>
@@ -124,6 +126,22 @@ Public Attributes</h2></td></tr>
 
 <p>Vrai si l'objet empêche d'entrer dans sa case, comme un mur tant qu'il tient debout. </p>
 <p>Faux pour une toile, qu'on traverse — c'est l'état qu'elle inflige qui gêne, pas sa présence. </p>
+
+</div>
+</div>
+<a id="aa9ee822b3ce5094e14190420ec96c281" name="aa9ee822b3ce5094e14190420ec96c281"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa9ee822b3ce5094e14190420ec96c281">&#9670;&#160;</a></span>damageTraits</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structcore_1_1DamageTraits.html">DamageTraits</a> core::GridObject::damageTraits</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Les structures résistent comme les créatures : une porte de fer ne craint pas le poison (<span class="tt"><a class="el" href="classcore_1_1DamagePipeline.html#ab12d245fc394a994f925b869404b0334" title="Fait traverser des dégâts à une structure de la grille : les structures ont des PV,...">core::DamagePipeline::applyToStructure</a></span>, <span class="tt">LOT-21</span>). </p>
 
 </div>
 </div>

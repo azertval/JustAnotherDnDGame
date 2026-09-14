@@ -11,7 +11,7 @@ var searchData=
   ['nextinstance_8',['nextInstance',['../structhmi_1_1AudioEngine_1_1Sample.html#ad84aae5e0baeb4763c0fd52d43f119f6',1,'hmi::AudioEngine::Sample']]],
   ['nodeid_9',['nodeId',['../structcore_1_1DialogueCheck.html#a4fad60b4bcd5e8279e1dbd1ae04a8207',1,'core::DialogueCheck']]],
   ['nodes_10',['nodes',['../structcore_1_1DialogueGraph.html#ab69f79e0bcd11a1eba05ee928ffe1af4',1,'core::DialogueGraph']]],
-  ['normal_11',['normal',['../structcore_1_1SweepResult.html#ae6f0daf6dfb73c51f95b4da468b7f353',1,'core::SweepResult']]],
+  ['normal_11',['normal',['../structcore_1_1AttackRange.html#aaf80314fc3103e2b11aaedea23769239',1,'core::AttackRange::normal'],['../structcore_1_1SweepResult.html#ae6f0daf6dfb73c51f95b4da468b7f353',1,'core::SweepResult::normal']]],
   ['npc_5fdialogue_5fproperty_12',['NPC_DIALOGUE_PROPERTY',['../namespacecore.html#ae2e3fb1ff10ddbebb4cdf1b1636afb25',1,'core']]],
   ['npc_5fentity_5ftype_13',['NPC_ENTITY_TYPE',['../namespacecore.html#a9d88411f2638378a427c3aeb435d7590',1,'core']]]
 ];

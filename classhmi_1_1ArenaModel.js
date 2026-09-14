@@ -15,6 +15,8 @@ var classhmi_1_1ArenaModel =
     [ "cells", "classhmi_1_1ArenaModel.html#a21805da3d92ddb24739be2857d8b8ce0", null ],
     [ "changed", "classhmi_1_1ArenaModel.html#a279bb9f9ff32e8573df589640baa7775", null ],
     [ "composeBout", "classhmi_1_1ArenaModel.html#ac35690bb8373d4c3bb6f142749ca1ecd", null ],
+    [ "disengage", "classhmi_1_1ArenaModel.html#a83b480b74613eb910cf4eaf3dcb80ba6", null ],
+    [ "dodge", "classhmi_1_1ArenaModel.html#ad0dbabc4af65a9d1f12cf28af335d9c5", null ],
     [ "ended", "classhmi_1_1ArenaModel.html#a9aa370be690b19fadfc5d329594ba7aa", null ],
     [ "endTurn", "classhmi_1_1ArenaModel.html#aa6e303ae8fd20711a040ec1f05c75255", null ],
     [ "enemies", "classhmi_1_1ArenaModel.html#a08d9ac46ff3302893235a354fa1b070e", null ],

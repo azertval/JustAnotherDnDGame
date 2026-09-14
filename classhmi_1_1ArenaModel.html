@@ -146,7 +146,11 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a1c364203649d375b354ac1c3ccd3a280" id="r_a1c364203649d375b354ac1c3ccd3a280"><td class="memItemLeft">Q_INVOKABLE void&#160;</td><td class="memItemRight"><a class="el" href="#a1c364203649d375b354ac1c3ccd3a280">launch</a> ()</td></tr>
 <tr class="memdesc:a1c364203649d375b354ac1c3ccd3a280"><td class="mdescLeft">&#160;</td><td class="mdescRight">Monte l'affrontement et jette l'initiative. Refuse une composition sans les deux camps.  <br /></td></tr>
 <tr class="memitem:ad620eb044ec5d68bb119996fff64d82c" id="r_ad620eb044ec5d68bb119996fff64d82c"><td class="memItemLeft">Q_INVOKABLE void&#160;</td><td class="memItemRight"><a class="el" href="#ad620eb044ec5d68bb119996fff64d82c">tapCell</a> (int column, int row)</td></tr>
-<tr class="memdesc:ad620eb044ec5d68bb119996fff64d82c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le geste sur une case : déplacer le combattant actif si elle est atteignable, frapper si elle porte un ennemi au contact.  <br /></td></tr>
+<tr class="memdesc:ad620eb044ec5d68bb119996fff64d82c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le geste sur une case : déplacer le combattant actif si elle est atteignable, attaquer si elle porte un ennemi à portée.  <br /></td></tr>
+<tr class="memitem:ad0dbabc4af65a9d1f12cf28af335d9c5" id="r_ad0dbabc4af65a9d1f12cf28af335d9c5"><td class="memItemLeft">Q_INVOKABLE void&#160;</td><td class="memItemRight"><a class="el" href="#ad0dbabc4af65a9d1f12cf28af335d9c5">dodge</a> ()</td></tr>
+<tr class="memdesc:ad0dbabc4af65a9d1f12cf28af335d9c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">L'action <em>esquiver</em> du combattant actif.  <br /></td></tr>
+<tr class="memitem:a83b480b74613eb910cf4eaf3dcb80ba6" id="r_a83b480b74613eb910cf4eaf3dcb80ba6"><td class="memItemLeft">Q_INVOKABLE void&#160;</td><td class="memItemRight"><a class="el" href="#a83b480b74613eb910cf4eaf3dcb80ba6">disengage</a> ()</td></tr>
+<tr class="memdesc:a83b480b74613eb910cf4eaf3dcb80ba6"><td class="mdescLeft">&#160;</td><td class="mdescRight">L'action <em>se désengager</em> du combattant actif.  <br /></td></tr>
 <tr class="memitem:aa6e303ae8fd20711a040ec1f05c75255" id="r_aa6e303ae8fd20711a040ec1f05c75255"><td class="memItemLeft">Q_INVOKABLE void&#160;</td><td class="memItemRight"><a class="el" href="#aa6e303ae8fd20711a040ec1f05c75255">endTurn</a> ()</td></tr>
 <tr class="memitem:a53e4578bc24ffdff34ffebbb7b9a2bf8" id="r_a53e4578bc24ffdff34ffebbb7b9a2bf8"><td class="memItemLeft">Q_INVOKABLE void&#160;</td><td class="memItemRight"><a class="el" href="#a53e4578bc24ffdff34ffebbb7b9a2bf8">withdraw</a> ()</td></tr>
 <tr class="memitem:a13525acff4eb4eed4a1bc8d0daff05dd" id="r_a13525acff4eb4eed4a1bc8d0daff05dd"><td class="memItemLeft">Q_INVOKABLE void&#160;</td><td class="memItemRight"><a class="el" href="#a13525acff4eb4eed4a1bc8d0daff05dd">replay</a> ()</td></tr>
@@ -205,10 +209,10 @@ Private Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>La vue-modèle de l'arène : composer deux camps, lancer, jouer, rejouer. </p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md931"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md937"></a>
 Ce qu'elle tient, et ce qu'elle ne décide pas</h2>
 <p>Elle tient une <span class="tt"><a class="el" href="classcore_1_1ArenaSession.html" title="Une session d&#39;arène : la carte, la composition, et le combat qui s&#39;y joue.">core::ArenaSession</a></span> — la première session de jeu à tenir un <span class="tt"><a class="el" href="classcore_1_1CombatState.html" title="Un combat, du montage de la rencontre à sa fin.">core::CombatState</a></span> — et les catalogues dont l'écran compose son affrontement : le bestiaire (<span class="tt">LOT-33</span>), le personnage de démonstration (<span class="tt">LOT-38</span>), les arènes et les Marques Héroïques. Elle ne décide <b>rien</b> du combat : chaque geste de l'écran devient un appel à la session, et ce que l'écran affiche est relu de la machine à états après chaque geste.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md932"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md938"></a>
 Pourquoi une liste de cases et non une scène</h2>
 <p>L'écran de l'arène est un écran de développeur, en QML, sans charte (feuille de route, §5) : il dessine la grille lui-même, depuis <span class="tt"><a class="el" href="#a6d2087f27d85d91e9ead3bfca9eb49fa" title="Une entrée par case, ligne par ligne : {column, row, wall, occupant, side, reachable,...">cells</a></span>, plutôt que par la surface de rendu — qui n'affiche encore aucune scène. C'est l'IHM de combat (<span class="tt">LOT-24</span>) qui dessinera le combat sur la carte ; elle lira la même session, par les mêmes appels.</p>
 <p>Un seul signal, <span class="tt"><a class="el" href="#a279bb9f9ff32e8573df589640baa7775">changed</a></span>, pour tout ce qui découle d'un geste : la grille, l'ordre, le journal et l'issue changent ensemble, et les distinguer n'épargnerait aucun rafraîchissement. </p>
@@ -519,6 +523,44 @@ Pourquoi une liste de cases et non une scène</h2>
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="a83b480b74613eb910cf4eaf3dcb80ba6" name="a83b480b74613eb910cf4eaf3dcb80ba6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a83b480b74613eb910cf4eaf3dcb80ba6">&#9670;&#160;</a></span>disengage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::ArenaModel::disengage </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>L'action <em>se désengager</em> du combattant actif. </p>
+
+</div>
+</div>
+<a id="ad0dbabc4af65a9d1f12cf28af335d9c5" name="ad0dbabc4af65a9d1f12cf28af335d9c5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad0dbabc4af65a9d1f12cf28af335d9c5">&#9670;&#160;</a></span>dodge()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::ArenaModel::dodge </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>L'action <em>esquiver</em> du combattant actif. </p>
 
 </div>
 </div>
@@ -976,7 +1018,7 @@ Pourquoi une liste de cases et non une scène</h2>
       </table>
 </div><div class="memdoc">
 
-<p>Le geste sur une case : déplacer le combattant actif si elle est atteignable, frapper si elle porte un ennemi au contact. </p>
+<p>Le geste sur une case : déplacer le combattant actif si elle est atteignable, attaquer si elle porte un ennemi à portée. </p>
 
 </div>
 </div>

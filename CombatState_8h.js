@@ -23,6 +23,8 @@ var CombatState_8h =
       [ "core::CombatHook::TurnStart", "namespacecore.html#a942a0cabc5c97e0e10dfb8a148e26fb9ab0a8a1979409102f824db0a1a8484802", null ],
       [ "core::CombatHook::TurnEnd", "namespacecore.html#a942a0cabc5c97e0e10dfb8a148e26fb9add2a059ce5c2b0e39ede932ecb5af42f", null ],
       [ "core::CombatHook::AttackDeclared", "namespacecore.html#a942a0cabc5c97e0e10dfb8a148e26fb9a5a4f89385b5dfc0953b794f3df6378af", null ],
+      [ "core::CombatHook::DamageTaken", "namespacecore.html#a942a0cabc5c97e0e10dfb8a148e26fb9a3007032a944ef3638beb8825cbb3c28b", null ],
+      [ "core::CombatHook::CombatantDowned", "namespacecore.html#a942a0cabc5c97e0e10dfb8a148e26fb9ac963ba0b22143d6653abb38826c9a254", null ],
       [ "core::CombatHook::CombatantJoined", "namespacecore.html#a942a0cabc5c97e0e10dfb8a148e26fb9a6b262362e4626c332872a4645efc154c", null ],
       [ "core::CombatHook::CombatantLeft", "namespacecore.html#a942a0cabc5c97e0e10dfb8a148e26fb9a228189956989fdf6b5e1340df902051b", null ],
       [ "core::CombatHook::CombatEnded", "namespacecore.html#a942a0cabc5c97e0e10dfb8a148e26fb9a8e2cadedb4267fb709cbf7bfffcf1a64", null ]
@@ -46,6 +48,7 @@ var CombatState_8h =
       [ "core::WithdrawResult::NotEscapable", "namespacecore.html#ae1ab268fb5658f04b32b785790e7c082aa6bdb933c351cf222821ac7c5dd158b6", null ],
       [ "core::WithdrawResult::NotInCombat", "namespacecore.html#ae1ab268fb5658f04b32b785790e7c082a9e21f7ee0cee28526201edff8a19f87b", null ]
     ] ],
+    [ "core::crossedBelow", "namespacecore.html#a7a167c903e311c5d67c0dedf3292eaa5", null ],
     [ "core::mountEncounter", "namespacecore.html#a5921fce291ef1e0650a91c91bc158a3e", null ],
     [ "core::profileFor", "namespacecore.html#a781adb33ce539ef59c9ed60f57e51901", null ],
     [ "core::profileFor", "namespacecore.html#a42dc4a900c3340d179d7270def49fde9", null ]
