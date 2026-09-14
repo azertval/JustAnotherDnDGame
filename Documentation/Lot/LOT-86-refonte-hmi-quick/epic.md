@@ -1,6 +1,6 @@
 # LOT-86 — Refonte de l'IHM sur Qt Quick {#lot-86}
 
-> Statut : **en cours**.
+> Statut : **livré** (PR #24 ; le [LOT-87](@ref lot-87) s'y adosse).
 > Prérequis : `LOT-38`, `LOT-68`.
 
 ## Objectif

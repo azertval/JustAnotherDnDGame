@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """Lint du graphe de lots de JustAnotherDnDGame.
 
-La feuille de route ``Documentation/Lot/roadmap-0.1.0.md`` est l'**unique source de vérité** des
+La feuille de route ``Documentation/Lot/roadmap.md`` est l'**unique source de vérité** des
 lots à venir. Un document de cette taille dérive : les comptes vieillissent, un lien de dépendance
 s'écrit d'un seul côté, un lot disparaît du tableau d'ordre, deux lots revendiquent la même
 exigence, le diagramme trace une flèche que plus rien ne justifie. L'audit qui a produit la version
@@ -47,7 +47,7 @@ if hasattr(sys.stdout, 'reconfigure'):
 
 RACINE = Path(__file__).resolve().parent.parent
 DOSSIER_LOTS = RACINE / 'Documentation' / 'Lot'
-ROADMAP = DOSSIER_LOTS / 'roadmap-0.1.0.md'
+ROADMAP = DOSSIER_LOTS / 'roadmap.md'
 SPECIFICATIONS = RACINE / 'Documentation' / 'Specification'
 
 # Un renvoi de spécification vers le programme hérité s'écrit LOT-H-NN ; sans le préfixe, LOT-NN
@@ -72,7 +72,8 @@ SENS_INVERSE_RE = re.compile(r'Alimente|Prérequis de(?! chacun)|Débloque|Contr
 NOMBRES_FR = {
     1: 'un', 2: 'deux', 3: 'trois', 4: 'quatre', 5: 'cinq', 6: 'six', 7: 'sept', 8: 'huit',
     9: 'neuf', 10: 'dix', 11: 'onze', 12: 'douze', 13: 'treize', 14: 'quatorze', 15: 'quinze',
-    16: 'seize', 20: 'vingt', 30: 'trente', 40: 'quarante', 50: 'cinquante',
+    16: 'seize', 20: 'vingt', 30: 'trente', 35: 'trente-cinq', 38: 'trente-huit', 40: 'quarante',
+    50: 'cinquante',
     45: 'quarante-cinq', 46: 'quarante-six', 47: 'quarante-sept', 48: 'quarante-huit',
     49: 'quarante-neuf',
     51: 'cinquante et un', 52: 'cinquante-deux', 53: 'cinquante-trois',

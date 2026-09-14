@@ -10,7 +10,7 @@ travail](@ref lots) et sont tracées par des identifiants d'exigences `EX-…`.
 > D'où la convention, posée par le `LOT-78` et **vérifiée en CI** par `scripts/lint_lots.py` :
 >
 > - **`LOT-NN`** désigne un lot **de ce programme** — il doit exister, livré ou inscrit à la
->   [feuille de route](@ref roadmap-010) ;
+>   [feuille de route](@ref roadmap) ;
 > - **`LOT-H-NN`** désigne un lot **hérité**, archivé en lecture seule sous
 >   `Documentation/Heritage/Lot/` et hors périmètre Doxygen.
 >

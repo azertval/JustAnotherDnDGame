@@ -2,7 +2,7 @@
 
 Le travail est découpé en **lots** (un incrément livrable par lot). Un lot **démarré** reçoit son
 sous-dossier `LOT-XX-nom/` avec un `epic.md` (objectif, périmètre, critères d'acceptation) ; les
-lots **à venir** vivent dans la [feuille de route](@ref roadmap-010), qui est leur unique source de
+lots **à venir** vivent dans la [feuille de route](@ref roadmap), qui est leur unique source de
 vérité. Les lots référencent les [spécifications](@ref specifications) via les identifiants
 d'exigences `EX-…`.
 
@@ -19,11 +19,10 @@ c'est un identifiant stable, jamais réordonné.
 > lots est archivé en lecture seule sous `Documentation/Heritage/Lot/`.
 >
 > On a longtemps pu écrire que les deux ensembles « ne se croisaient jamais ». **Ce n'est plus
-> vrai** : la feuille de route atteint `LOT-84` et recouvre entièrement la plage héritée. Les
-> spécifications portent **208 renvois `LOT-NN` ambigus dans douze fichiers**, que ni le lint ni
-> Doxygen ne signalent. Le `LOT-78` les classe et préfixe les renvois hérités en `LOT-H-XX` ; il
-> doit précéder la création du premier dossier de lot au-delà du `LOT-29`. D'ici là, un `LOT-XX`
-> cité dans une spécification **peut désigner l'un ou l'autre programme**.
+> vrai** : le programme atteint `LOT-87` et recouvre entièrement la plage héritée. Un renvoi au
+> programme hérité s'écrit donc `LOT-H-XX` — le `LOT-78` a préfixé les 201 renvois des
+> spécifications, et `scripts/lint_lots.py` refuse tout `LOT-XX` de spécification qui ne désigne
+> pas un lot de ce programme.
 
 ## Lots
 
@@ -53,17 +52,21 @@ c'est un identifiant stable, jamais réordonné.
 - @subpage lot-67
 - @subpage lot-68
 - @subpage lot-38
+- @subpage lot-14
+- @subpage lot-18
+- @subpage lot-39
+- @subpage lot-86
 - @subpage lot-87
 
 ## Feuille de route
 
-- @subpage roadmap-010 — le programme complet : ce que le corpus
-  `Documentation/SourceBook/` permet d'en tirer, les lots `LOT-08` à `LOT-84`, et l'audit qui
-  a confronté le tout à l'état réel du dépôt.
+- @subpage roadmap — le programme complet du bac à sable de Tanares : ce que le corpus
+  `Documentation/SourceBook/` permet d'en tirer, les lots `LOT-09` à `LOT-90` par jalon de version,
+  et les audits qui ont confronté le tout au dépôt et aux livres.
 
 ## Programme
 
-La cible est un **bac à sable** dans l'univers complet de Tanares : dix régions jouables, treize
+La cible est un **bac à sable** dans l'univers complet de Tanares : treize régions jouables, treize
 espèces, seize classes, cent-soixante-seize créatures. Le *vertical slice* du `LOT-27` — « un
 personnage explore une carte top-down, parle à un PNJ, déclenche une rencontre, gagne un combat
 tactique au d20 » — reste le jalon qui prouve la boucle avant qu'on la généralise.
@@ -74,16 +77,18 @@ tactique au d20 » — reste le jalon qui prouve la boucle avant qu'on la géné
 | B — Exploration | `LOT-06` → `LOT-11` | Déplacement top-down 8 directions, tri par Y, vocabulaire de tuiles RPG, graphe de cartes, entités et interaction, éditeur |
 | C — Noyau RPG | `LOT-12` → `LOT-17` | Dés et jets d20, fiche de personnage, inventaire, PNJ et dialogues, quêtes, sauvegarde |
 | D — Combat tactique | `LOT-18` → `LOT-24` | Bascule exploration ↔ combat, grille tactique, initiative, attaques, ligne de vue, IA, IHM de combat |
-| E — Contenu et finition | `LOT-25` → `LOT-29` | Sorts, économie, contenu du slice, audio et version `0.2.0`, groupe de quatre personnages |
+| E — Contenu et finition | `LOT-25` → `LOT-29` | Sorts, économie, contenu du slice, audio et version `0.0.1` (le slice ; la `0.1.0` est le bac à sable complet), groupe de quatre personnages |
 | F — Filière contenu | `LOT-30` → `LOT-84` | Préconditions (spécification RPG, numéros, chargement de données), extraction du corpus, catalogues, monde et peuplement, une classe par lot, refonte IHM, mécaniques manquantes |
+| G — Refonte de l'interface | `LOT-85` → `LOT-87` | Décidés hors de la feuille de route : `LOT-85` abandonné, `LOT-86` (Qt Quick, deux exécutables) et `LOT-87` (charte v2) livrés |
+| H — Relecture des livres | `LOT-88` → `LOT-90` | Ajoutés au second audit : retrait de l'héritage plateforme des spécifications, dons et objets magiques de Tanares, le plan pénombral |
 
-La phase F compte **48 lots à venir** — quatre numéros (`LOT-31`, `LOT-48`, `LOT-71`, `LOT-73`)
-ayant été retirés par fusion et n'étant pas réattribués, et ses trois préconditions (`LOT-77`,
-`LOT-78`, `LOT-79`) étant livrées. Elle **ne suit pas** les précédentes : elle
+La filière (phases F et H) compte **38 lots à venir** — quatre numéros (`LOT-31`, `LOT-48`, `LOT-71`, `LOT-73`)
+ayant été retirés par fusion et n'étant pas réattribués, et seize de ses lots étant livrés, dont
+ses trois préconditions (`LOT-77`, `LOT-78`, `LOT-79`). Elle **ne suit pas** les précédentes : elle
 s'entrelace avec B à E, chacun de ses lots servant un lot des phases antérieures qui, sans lui, se
 bâtirait sur un catalogue fictif. L'ordre d'exécution recommandé, le chemin critique jusqu'au
 `LOT-27` et le graphe complet des dépendances sont donnés par la
-[feuille de route](@ref roadmap-010), §6 — et vérifiés en CI par `scripts/lint_lots.py`.
+[feuille de route](@ref roadmap), §6 — et vérifiés en CI par `scripts/lint_lots.py`.
 
 Décisions de cadrage actées avant le `LOT-01` : règles **d20 maison** (compatible SRD dans sa
 structure, sans en dépendre), combat **sur la carte d'exploration** (grille dérivée de la couche
