@@ -703,6 +703,55 @@ valeur publiée (règle du `LOT-14`).
 |---|---|---|
 | ![maquette 04](references/04_Inventory_Equipment_Mockup.png) | ![inventaire à 1080p](captures/t3-5-inventaire-1080p.png) | ![inventaire à 720p](captures/t3-5-inventaire-720p.png) |
 
+### T3.6 — La carte du monde (maquette 08)
+
+La carte VTT de Tanares en plein écran, qu'on déplace (glisser) et qu'on agrandit (molette, `+` et
+`-`, boutons de la mini-carte). Par-dessus : la plaque de titre, la barre de boussole, l'encart du
+personnage, la mini-carte, la barre d'état et la barre de navigation.
+
+**Constat qui change le critère du plan : l'atlas n'a pas de coordonnées.** Le `LOT-37` a extrait
+du livre les 13 régions et les 94 lieux, avec leurs textes, et **aucune position**. « Les 94 lieux
+posés aux coordonnées de l'atlas » n'était donc pas réalisable. Ce qui a été fait :
+
+- **Les 13 régions sont posées** à des ancres **relevées sur la carte**, au centre du nom imprimé
+  de chaque région, dans `Source/Elements/Maps/world-map-regions.json`. Ce fichier est à part, et
+  non dans l'atlas, parce que la chaîne d'extraction réécrit les régions et effacerait un champ
+  qu'elle n'a pas produit. Les repères tombent sur les noms imprimés (capture), ce qui vérifie le
+  relevé.
+- **Les 94 lieux sont listés dans la fiche de leur région**, qui s'ouvre au survol du repère : nom,
+  gouvernement, nombre et noms des lieux. Leur placement individuel attend le voyage (`LOT-42`).
+- `hmi::readRegionAnchors` et `hmi::worldMapRegions` (`HMI/Presentation/WorldMapRegions`) :
+  lecture pure, et jointure qui **signale** toute région sans ancre et toute ancre sans région.
+  **Deux tests**, dont un qui joint l'atlas livré au fichier livré : 13 régions posées, 94 lieux
+  répartis, aucun écart.
+- **`WorldMapModel`** (`Jadg.Runtime`, et sa doublure) expose les régions jointes. L'atlas et les
+  ancres sont désormais **copiés à côté de l'exécutable** (`World/`, `Maps/`), comme les catalogues
+  RPG.
+
+**La carte en haute définition.** `world-map.jpg` (1 612 × 990, tiré du PDF) est un fond de menu ;
+un écran qu'on consulte en zoom demande la ressource VTT (`VTT/Map - World.jpg`, 9 933 × 7 016).
+La chaîne du `LOT-30` sait désormais livrer une **illustration raster** (`IllustrationRaster`) :
+`world-map-hd.jpg`, réduite à 3 072 × 2 170, 3,3 Mo, déclarée au manifeste avec sa provenance. Deux
+retouches de la chaîne au passage :
+
+- `sourcebook illustrations <clés…>` ne régénère que les illustrations nommées. Une ressource VTT
+  se rééchantillonne sans PyMuPDF, et le poste de production n'a pas à pouvoir rendre les PDF pour
+  la produire.
+- La régénération du manifeste **gardait uniquement** les entrées extraites, et effaçait donc la
+  section `pending` et les images produites du `LOT-87`. Elle les conserve désormais.
+
+En attente (`PendingData`) : le jour et l'heure (`world_map.clock`), le lieu du groupe
+(`world_map.party.location`), le seuil d'expérience et le portrait de l'encart. L'encart lit sinon
+la vraie fiche (`CharacterSheetModel`). La barre de navigation ouvre le journal, l'inventaire, la
+fiche d'équipe et les options par le routeur.
+
+Écarts : **pas de légende**, puisque aucun point d'intérêt n'est typé dans l'atlas. Pas de quêtes
+sur la carte (`LOT-16`). La mini-carte montre la carte entière, sans rectangle de vue.
+
+| Maquette | 1920 × 1080 | 1280 × 720 | Fiche de région (720p) |
+|---|---|---|---|
+| ![maquette 08](references/08_Map_Mockup.png) | ![carte à 1080p](captures/t3-6-carte-1080p.png) | ![carte à 720p](captures/t3-6-carte-720p.png) | ![fiche de région](captures/t3-6-carte-fiche-720p.png) |
+
 ## Exigences couvertes
 
 - [`EX-IHM-070`](@ref EX-IHM-070), [`EX-IHM-075`](@ref EX-IHM-075), [`EX-IHM-076`](@ref EX-IHM-076),

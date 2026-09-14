@@ -652,40 +652,63 @@
 </context>
 <context>
     <name>WorldMapForm.ui</name>
-    <message>
-        <location filename="../../Ui/Screens/WorldMapForm.ui.qml" line="21"/>
-        <source>Carte du monde</source>
-        <translation>World Map</translation>
+    <message numerus="yes">
+        <location filename="../../Ui/Screens/WorldMapForm.ui.qml" line="153"/>
+        <source>%n lieu(x)</source>
+        <translation>
+            <numerusform>%n location</numerusform>
+            <numerusform>%n locations</numerusform>
+        </translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/WorldMapForm.ui.qml" line="41"/>
-        <source>Régions</source>
-        <translation>Regions</translation>
+        <location filename="../../Ui/Screens/WorldMapForm.ui.qml" line="196"/>
+        <source>Tanares impérial</source>
+        <translation>Imperial Tanares</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/WorldMapForm.ui.qml" line="53"/>
-        <source>Lieu</source>
-        <translation>Location</translation>
+        <location filename="../../Ui/Screens/WorldMapForm.ui.qml" line="204"/>
+        <source>Provinces et points d'intérêt</source>
+        <translation>Provinces and points of interest</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/WorldMapForm.ui.qml" line="54"/>
-        <source>Région</source>
-        <translation>Region</translation>
+        <location filename="../../Ui/Screens/WorldMapForm.ui.qml" line="239"/>
+        <source>O</source>
+        <translation>W</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/WorldMapForm.ui.qml" line="55"/>
-        <source>Type de lieu</source>
-        <translation>Location Type</translation>
+        <location filename="../../Ui/Screens/WorldMapForm.ui.qml" line="240"/>
+        <source>N</source>
+        <translation>N</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/WorldMapForm.ui.qml" line="56"/>
-        <source>Danger</source>
-        <translation>Danger</translation>
+        <location filename="../../Ui/Screens/WorldMapForm.ui.qml" line="241"/>
+        <source>E</source>
+        <translation>E</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/WorldMapForm.ui.qml" line="65"/>
+        <location filename="../../Ui/Screens/WorldMapForm.ui.qml" line="398"/>
         <source>Carte</source>
         <translation>Map</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/WorldMapForm.ui.qml" line="408"/>
+        <source>Quêtes</source>
+        <translation>Quests</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/WorldMapForm.ui.qml" line="417"/>
+        <source>Sac</source>
+        <translation>Bag</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/WorldMapForm.ui.qml" line="426"/>
+        <source>Équipe</source>
+        <translation>Company</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/WorldMapForm.ui.qml" line="435"/>
+        <source>Options</source>
+        <translation>Options</translation>
     </message>
 </context>
 </TS>

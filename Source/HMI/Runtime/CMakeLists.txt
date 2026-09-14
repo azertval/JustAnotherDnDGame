@@ -28,6 +28,7 @@ qt_add_qml_module(JadgRuntime
         CharacterSheetModel.h CharacterSheetModel.cpp
         InventoryModel.h InventoryModel.cpp
         CreditsModel.h CreditsModel.cpp
+        WorldMapModel.h WorldMapModel.cpp
         SheetRowModel.h SheetRowModel.cpp
         RuleLabels.h RuleLabels.cpp
         DemonstrationCharacter.h DemonstrationCharacter.cpp

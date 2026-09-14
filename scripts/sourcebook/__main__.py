@@ -147,6 +147,8 @@ def analyser(argv) -> argparse.Namespace:
     p = commande('illustrations', "produire les illustrations d'interface (LOT-67)")
     p.add_argument('-o', '--sortie', type=Path, default=None,
                    help='défaut : ' + mod_illustrations.SORTIE_UI)
+    p.add_argument('cles', nargs='*',
+                   help='les illustrations à produire (world-map-hd…) ; toutes par défaut')
 
     p = commande('glossaire', 'produire le lexique bilingue')
     p.add_argument('-o', '--sortie', type=Path, default=None,
@@ -213,7 +215,7 @@ def commande_stats(corpus: Corpus, args) -> int:
 
 def commande_illustrations(corpus: Corpus, args) -> int:
     racine = args.sortie or (RACINE / mod_illustrations.SORTIE_UI)
-    resume = mod_illustrations.produire(corpus, racine, cache=args.cache)
+    resume = mod_illustrations.produire(corpus, racine, cache=args.cache, cles=args.cles)
     print('%d illustration(s) ecrite(s) sous %s (%.0f Ko)'
           % (resume['illustrations'], racine, resume['octets'] / 1024))
     return 0

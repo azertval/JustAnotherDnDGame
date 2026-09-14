@@ -64,6 +64,7 @@ set(JADG_UI_QML_FILES
     Controls/CreditSection.ui.qml
     Controls/FieldRow.ui.qml
     Controls/SkillRow.ui.qml
+    Controls/MapMarker.ui.qml
     Screens/CharacterSheetForm.ui.qml
     Screens/InventoryForm.ui.qml
     Screens/JournalForm.ui.qml
@@ -121,7 +122,8 @@ file(GLOB_RECURSE _jadg_produced_art CONFIGURE_DEPENDS
 qt_add_resources(JadgUi "JadgUiIllustrations"
     PREFIX "/qt/qml/Jadg/Elements/Assets/UI"
     BASE "${PROJECT_SOURCE_DIR}/Source/Elements/Assets/UI"
-    FILES "${PROJECT_SOURCE_DIR}/Source/Elements/Assets/UI/world-map.jpg" ${_jadg_produced_art}
+    FILES "${PROJECT_SOURCE_DIR}/Source/Elements/Assets/UI/world-map.jpg"
+          "${PROJECT_SOURCE_DIR}/Source/Elements/Assets/UI/world-map-hd.jpg" ${_jadg_produced_art}
 )
 
 # --- Éditer un écran sans rien reconstruire (EX-IHM-100) --------------------------------------

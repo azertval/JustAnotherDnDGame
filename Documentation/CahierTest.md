@@ -1,8 +1,8 @@
 # Cahier de test {#cahiertest}
 
-**1039 cas de test**, générés depuis les blocs `\castest{...}` du code par `scripts/generate_cahier_test.py` (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de `Source/Test/` pour rester lisibles page par page.
+**1041 cas de test**, générés depuis les blocs `\castest{...}` du code par `scripts/generate_cahier_test.py` (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de `Source/Test/` pour rester lisibles page par page.
 
-## Tests unitaires (1024)
+## Tests unitaires (1026)
 
 ### Core
 
@@ -1741,7 +1741,7 @@
 | **LocalizationTest.CatalogueFrancaisLivreSeCharge** (Majeur)<br/><sub>`Source/Test/Unit/HMI/Localization/test_localization.cpp:173`</sub> | Le catalogue français livré (Source/Elements/Localization) se charge et résout ses clés. | 1. Mettre en place le contexte du test (arrangement).<br/>2. Executer le scenario et verifier les assertions. | Vérifie que `localization.loadDefaultLanguage("fr")` est vrai.<br/>Vérifie que `localization.activeLanguage()` vaut `"fr"`.<br/>Vérifie que `localization.text("menu.quit")` vaut `"Quitter"`.<br/>Vérifie que `localization.text("menu.new_game")` vaut `"Nouvelle partie"`. |
 | **LocalizationTest.LesDeuxCataloguesDeclarentLesMemesCles** (Majeur)<br/><sub>`Source/Test/Unit/HMI/Localization/test_localization.cpp:201`</sub> | Les catalogues francais et anglais declarent les memes cles. | 1. Charger fr.lang et en.lang.<br/>2. Comparer les ensembles de cles dans les deux sens. | Vérifie que `french.empty()` est faux.<br/>Vérifie que `english.empty()` est faux.<br/>Vérifie que `english.count(key) > 0` est vrai.<br/>Vérifie que `french.count(key) > 0` est vrai.<br/>Vérifie que `french.size()` vaut `english.size()`. |
 
-#### Presentation (11)
+#### Presentation (13)
 
 **`test_credits_catalog.cpp`**
 
@@ -1763,6 +1763,13 @@
 | **InventoryScreenTest.RetirerEtJeter** (Majeur)<br/><sub>`Source/Test/Unit/HMI/Presentation/test_inventory_screen.cpp:147`</sub> | Retirer un objet le range au sac, jeter en retire un exemplaire. | 1. Retirer le bouclier porté.<br/> 2. Jeter une torche d'une pile de trois.<br/> 3. Retirer un emplacement vide. | Vérifie que `hmi::unequipToBackpack(inventory, core::EquipmentSlot::OffHand)` est vrai.<br/>Vérifie que `inventory.isEquipped(core::EquipmentSlot::OffHand)` est faux.<br/>Vérifie que `quantityOf(inventory, "bouclier")` vaut `1`.<br/>Vérifie que `hmi::dropFromBackpack(inventory, "torche")` est vrai.<br/>Vérifie que `quantityOf(inventory, "torche")` vaut `2`.<br/>Vérifie que `hmi::unequipToBackpack(inventory, core::EquipmentSlot::Head)` est faux. |
 | **InventoryScreenTest.TrierParNom** (Mineur)<br/><sub>`Source/Test/Unit/HMI/Presentation/test_inventory_screen.cpp:173`</sub> | Trier l'inventaire range le sac par nom. | 1. Remplir un sac de torches, d'une épée et d'une dague, dans cet ordre.<br/> 2. Trier. | Vérifie que `inventory.backpack.size()` vaut `3U`.<br/>Vérifie que `inventory.backpack[0].itemId` vaut `"dague"`.<br/>Vérifie que `inventory.backpack[1].itemId` vaut `"torche"`.<br/>Vérifie que `inventory.backpack[2].itemId` vaut `"epee-longue"`. |
 | **InventoryScreenTest.FicheDObjet** (Mineur)<br/><sub>`Source/Test/Unit/HMI/Presentation/test_inventory_screen.cpp:197`</sub> | La fiche d'un objet de l'inventaire décrit sa nature et son poids. | 1. Demander la fiche de l'armure de cuir, du bouclier et de la torche. | Vérifie que `armor.kind` vaut `"Armure légère"`.<br/>Vérifie que `armor.armor` vaut `"CA 11 + Dex"`.<br/>Vérifie que `armor.equippable` est vrai.<br/>Vérifie que `hmi::itemSheet("bouclier", catalogs.lookup()).armor` vaut `"+2"`.<br/>Vérifie que `torch.kind` vaut `"Matériel"`.<br/>Vérifie que `torch.weight` vaut `"0,5 kg"`.<br/>Vérifie que `torch.equippable` est faux. |
+
+**`test_world_map_regions.cpp`**
+
+| Titre (criticité) | Brief | Étapes | Résultat attendu |
+|---|---|---|---|
+| **WorldMapRegionsTest.AncresLuesEtBornees** (Majeur)<br/><sub>`Source/Test/Unit/HMI/Presentation/test_world_map_regions.cpp:33`</sub> | Les ancres des régions se lisent, et une ancre hors de la carte est refusée. | 1. Lire deux ancres valides.<br/> 2. Lire une ancre dont l'abscisse vaut 1,2. | Vérifie que `valid.ok()` est vrai.<br/>Vérifie que `valid.anchors.size()` vaut `2U`.<br/>Vérifie que `valid.anchors.at("a").first` vaut `0.25` (comparaison flottante).<br/>Vérifie que `valid.anchors.at("a").second` vaut `0.5` (comparaison flottante).<br/>Vérifie que `outside.ok()` est faux.<br/>Vérifie que `outside.anchors.empty()` est vrai.<br/>Vérifie que `outside.error.find("c")` diffère de `std::string::npos`. |
+| **WorldMapRegionsTest.AtlasLivreEntierementPose** (Critique)<br/><sub>`Source/Test/Unit/HMI/Presentation/test_world_map_regions.cpp:57`</sub> | Les treize régions de l'atlas sont posées sur la carte du monde. | 1. Charger l'atlas livré et `Source/Elements/Maps/world-map-regions.json`.<br/> 2. Joindre les deux. | Vérifie que `atlas.errors.empty()` est vrai.<br/>Vérifie que `anchors.ok()` est vrai.<br/>Vérifie que `missing.empty()` est vrai.<br/>Vérifie que `regions.size()` vaut `atlas.regions.size()`.<br/>Vérifie que `locations` vaut `atlas.locations.size()`. |
 
 ## Tests d'intégration (13)
 
