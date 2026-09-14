@@ -99,6 +99,11 @@ $(function(){initNavTree('DemonstrationCharacter_8h.html','',''); });
 <code>#include &lt;string&gt;</code><br />
 <code>#include &lt;utility&gt;</code><br />
 <code>#include &lt;vector&gt;</code><br />
+<code>#include &quot;<a class="el" href="CharacterOptions_8h_source.html">Core/Rpg/CharacterOptions.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="CharacterSheet_8h_source.html">Core/Rpg/CharacterSheet.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="Equipment_8h_source.html">Core/Rpg/Equipment.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="Inventory_8h_source.html">Core/Rpg/Inventory.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="Skill_8h_source.html">Core/Rpg/Skill.h</a>&quot;</code><br />
 </div>
 <p><a href="DemonstrationCharacter_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -106,6 +111,8 @@ $(function(){initNavTree('DemonstrationCharacter_8h.html','',''); });
 Classes</h2></td></tr>
 <tr class="memitem:hmi_3A_3ADemonstrationCharacter" id="r_hmi_3A_3ADemonstrationCharacter"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1DemonstrationCharacter.html">hmi::DemonstrationCharacter</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ce qu'un chargement du personnage de démonstration produit, prêt à être publié au QML.  <a href="structhmi_1_1DemonstrationCharacter.html#details">More...</a><br /></td></tr>
+<tr class="memitem:hmi_3A_3ADemonstrationState" id="r_hmi_3A_3ADemonstrationState"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1DemonstrationState.html">hmi::DemonstrationState</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le personnage de démonstration et tout ce qu'il faut pour le recalculer : la fiche, ce qu'il porte, et les catalogues (<span class="tt">LOT-87</span>, T3.5).  <a href="structhmi_1_1DemonstrationState.html#details">More...</a><br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-namespaces" class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
@@ -113,6 +120,10 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:aaf18529e7061f72c5c481ea2f30b6909" id="r_aaf18529e7061f72c5c481ea2f30b6909"><td class="memItemLeft"><a class="el" href="structhmi_1_1DemonstrationState.html">DemonstrationState</a>&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#aaf18529e7061f72c5c481ea2f30b6909">hmi::loadDemonstrationState</a> ()</td></tr>
+<tr class="memdesc:aaf18529e7061f72c5c481ea2f30b6909"><td class="mdescLeft">&#160;</td><td class="mdescRight">Charge le personnage de démonstration et ses catalogues, en journalisant chaque manque.  <br /></td></tr>
+<tr class="memitem:a1f08c6b798997faab9cda3d79eebe751" id="r_a1f08c6b798997faab9cda3d79eebe751"><td class="memItemLeft"><a class="el" href="structhmi_1_1DemonstrationCharacter.html">DemonstrationCharacter</a>&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#a1f08c6b798997faab9cda3d79eebe751">hmi::demonstrationValues</a> (const <a class="el" href="structhmi_1_1DemonstrationState.html">DemonstrationState</a> &amp;state)</td></tr>
+<tr class="memdesc:a1f08c6b798997faab9cda3d79eebe751"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les deux tables de valeurs d'un état, statistiques dérivées <b>recalculées</b>.  <br /></td></tr>
 <tr class="memitem:aa7f27ef2ac4ebf9ca9471566aa568af4" id="r_aa7f27ef2ac4ebf9ca9471566aa568af4"><td class="memItemLeft"><a class="el" href="structhmi_1_1DemonstrationCharacter.html">DemonstrationCharacter</a>&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#aa7f27ef2ac4ebf9ca9471566aa568af4">hmi::loadDemonstrationValues</a> ()</td></tr>
 <tr class="memdesc:aa7f27ef2ac4ebf9ca9471566aa568af4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Charge le personnage de démonstration livré en donnée, et calcule ses deux tables.  <br /></td></tr>
 </table>

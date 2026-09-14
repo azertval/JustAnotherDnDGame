@@ -6,7 +6,7 @@ var searchData=
   ['offset_3',['offset',['../structhmi_1_1PlayerSpriteQuad.html#ad7ee61a81078f31eb64eb58030fa52ee',1,'hmi::PlayerSpriteQuad']]],
   ['ok_4',['ok',['../structhmi_1_1StyleSheetSubstitutionResult.html#ada2f1e28c45938501b1603cc752099df',1,'hmi::StyleSheetSubstitutionResult']]],
   ['opacity_5',['opacity',['../structcore_1_1Plane.html#a590f0ac17bcd5ffc323d567a79806908',1,'core::Plane::opacity'],['../structhmi_1_1PlaneLayer.html#a579366d10f9b54d5de1b7b551b2eeec8',1,'hmi::PlaneLayer::opacity']]],
-  ['options_6',['options',['../structhmi_1_1CharacterSheetContext.html#a7f50322612711e989b75474c9291a9e6',1,'hmi::CharacterSheetContext']]],
+  ['options_6',['options',['../structhmi_1_1CharacterSheetContext.html#a7f50322612711e989b75474c9291a9e6',1,'hmi::CharacterSheetContext::options'],['../structhmi_1_1DemonstrationState.html#abd063b0080db76a16d1cc9521e2b8360',1,'hmi::DemonstrationState::options']]],
   ['optionsreturnto_7',['optionsReturnTo',['../structhmi_1_1ScreenState.html#a1120d4bbb5ce909eea650a2ae5a7ae29',1,'hmi::ScreenState']]],
   ['otherpercent_8',['otherPercent',['../structcore_1_1RegionPopulation.html#a0f8f13b808b437e0283dba47d3368a86',1,'core::RegionPopulation']]],
   ['overlayvisible_9',['overlayVisible',['../structhmi_1_1ScreenDressing.html#a5b89bab07391119fa56909676c604031',1,'hmi::ScreenDressing']]],

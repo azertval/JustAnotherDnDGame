@@ -1,7 +1,7 @@
 var searchData=
 [
   ['d20_5ffaces_0',['D20_FACES',['../namespacecore.html#a42b6dd302d4b68da1f4bdd439884b338',1,'core']]],
-  ['damage_1',['damage',['../structcore_1_1CreatureAction.html#a2d614ee79e5d776ba6f490f6e20aedc7',1,'core::CreatureAction::damage'],['../structcore_1_1Weapon.html#a68520b1a13724b2da2d55c0cc056c472',1,'core::Weapon::damage'],['../structcore_1_1DerivedStats.html#a19069ad5cee5bd2ae14964650bb902d7',1,'core::DerivedStats::damage']]],
+  ['damage_1',['damage',['../structcore_1_1CreatureAction.html#a2d614ee79e5d776ba6f490f6e20aedc7',1,'core::CreatureAction::damage'],['../structcore_1_1Weapon.html#a68520b1a13724b2da2d55c0cc056c472',1,'core::Weapon::damage'],['../structcore_1_1DerivedStats.html#a19069ad5cee5bd2ae14964650bb902d7',1,'core::DerivedStats::damage'],['../structhmi_1_1ItemSheet.html#a1a1609cb7ec8cf89f08b53db1725a304',1,'hmi::ItemSheet::damage']]],
   ['damageimmunities_2',['damageImmunities',['../structcore_1_1Creature.html#ae30a746afcc3f9d62188927021df7911',1,'core::Creature']]],
   ['damageresistances_3',['damageResistances',['../structcore_1_1Creature.html#a470e93d56d3285a1ea03927074ad2bb7',1,'core::Creature']]],
   ['damagetype_4',['damageType',['../structcore_1_1CreatureAction.html#a5005f47d27307a316d49daaab2f871e1',1,'core::CreatureAction::damageType'],['../structcore_1_1Weapon.html#a7858e37c1bb97bc58cec8c049950e520',1,'core::Weapon::damageType'],['../structcore_1_1DerivedStats.html#aedd7077c41d1b2e12f52facb4b513833',1,'core::DerivedStats::damageType']]],

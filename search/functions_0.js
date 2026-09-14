@@ -66,7 +66,7 @@ var searchData=
   ['approximatelyequal_63',['approximatelyEqual',['../namespacecore.html#a69640dd3c9f3f8778a7c7621839c3794',1,'core']]],
   ['aretexturegroupscontiguous_64',['areTextureGroupsContiguous',['../classhmi_1_1QuadRecorder.html#a7c183aae5a2bb4d0cf840699d6de1091',1,'hmi::QuadRecorder']]],
   ['armorcategoryname_65',['armorCategoryName',['../namespacecore.html#a8f90cc0f92ab13611bbb2c2730e4efdd',1,'core']]],
-  ['armorclass_66',['armorClass',['../classhmi_1_1CharacterSheetModel.html#af4658a068bb04533dfdf1b15687a4629',1,'hmi::CharacterSheetModel']]],
+  ['armorclass_66',['armorClass',['../classhmi_1_1CharacterSheetModel.html#af4658a068bb04533dfdf1b15687a4629',1,'hmi::CharacterSheetModel::armorClass()'],['../classhmi_1_1InventoryModel.html#a097477044c2f08395c78e29cdfe4823b',1,'hmi::InventoryModel::armorClass()']]],
   ['armorclassfor_67',['armorClassFor',['../namespacecore.html#aec44b80878262388830e480b169c6b70',1,'core']]],
   ['arrowhead_68',['arrowHead',['../namespacehmi.html#a42f96951bfec11435da37c91ee377046',1,'hmi']]],
   ['assetactivated_69',['assetActivated',['../classhmi_1_1AssetThumbnailView.html#a54e4a97f815683a44cdb3112cbba6128',1,'hmi::AssetThumbnailView']]],

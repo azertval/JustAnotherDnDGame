@@ -93,9 +93,9 @@ $(function(){initNavTree('cahiertest.html','',''); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md_CahierTest"></a></p>
-<p><b>1033 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
+<p><b>1039 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md5"></a>
-Tests unitaires (1018)</h1>
+Tests unitaires (1024)</h1>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md6"></a>
 Core</h2>
 <p><b><span class="tt"><a class="el" href="test__core_8cpp.html" title="Tests unitaires de la bibliothèque Core (amorçage).">test_core.cpp</a></span></b></p>
@@ -7077,7 +7077,7 @@ Vérifie que <span class="tt">french.count(key) &gt; 0</span> est vrai.<br  />
 Vérifie que <span class="tt">french.size()</span> vaut <span class="tt">english.size()</span>.  </td></tr>
 </table>
 <h3 class="doxsection"><a class="anchor" id="autotoc_md28"></a>
-Presentation (5)</h3>
+Presentation (11)</h3>
 <p><b><span class="tt"><a class="el" href="test__credits__catalog_8cpp.html" title="Tests unitaires de la lecture des crédits (LOT-87, T3.3).">test_credits_catalog.cpp</a></span></b></p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -7110,6 +7110,63 @@ Vérifie que <span class="tt">result.error.find("x")</span> diffère de <span cl
 <sub><span class="tt"><a class="el" href="test__credits__catalog_8cpp.html" title="Tests unitaires de la lecture des crédits (LOT-87, T3.3).">Source/Test/Unit/HMI/Presentation/test_credits_catalog.cpp</a>:115</span></sub>  </td><td class="markdownTableBodyNone">Le fichier de crédits livré se lit en français et en anglais.  </td><td class="markdownTableBodyNone">1. Lire <span class="tt">Source/Elements/Credits/credits.json</span> en français, puis en anglais.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">file</span> est vrai.<br  />
 Vérifie que <span class="tt">result.ok()</span> est vrai.<br  />
 Vérifie que <span class="tt">left &amp;&amp; right</span> est vrai.  </td></tr>
+</table>
+<p><b><span class="tt"><a class="el" href="test__inventory__screen_8cpp.html" title="Tests unitaires de la logique de l&#39;écran d&#39;inventaire (LOT-87, T3.5).">test_inventory_screen.cpp</a></span></b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>InventoryScreenTest.OngletsFiltrentParFamille</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__inventory__screen_8cpp.html" title="Tests unitaires de la logique de l&#39;écran d&#39;inventaire (LOT-87, T3.5).">Source/Test/Unit/HMI/Presentation/test_inventory_screen.cpp</a>:70</span></sub>  </td><td class="markdownTableBodyNone">Les onglets de l'inventaire filtrent le sac par famille.  </td><td class="markdownTableBodyNone">1. Remplir un sac d'une épée, de torches et d'outils.<br  />
+ 2. Demander les cases de chaque filtre.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a155d659b488b9c7a4898db4deed6300a">hmi::backpackCells</a>(inventory, catalogs.lookup(), <a class="el" href="namespacehmi.html#a874cdf4b3785a41ee4cfc4ae882c2df5ab1c94ca2fbc3e78fc30069c8d0f01680" title="Aucun filtre.">hmi::ItemFamily::All</a>).size()</span> vaut <span class="tt">3U</span>.<br  />
+Vérifie que <span class="tt">equipment.size()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">equipment[0].name</span> vaut <span class="tt">"Épée longue"</span>.<br  />
+Vérifie que <span class="tt">gear.size()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">gear[0].quantity</span> vaut <span class="tt">5</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a155d659b488b9c7a4898db4deed6300a">hmi::backpackCells</a>(inventory, catalogs.lookup(), <a class="el" href="namespacehmi.html#a874cdf4b3785a41ee4cfc4ae882c2df5a8625e1de7be14c39b1d14dc03d822497" title="Outils (tool).">hmi::ItemFamily::Tools</a>).size()</span> vaut <span class="tt">1U</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>InventoryScreenTest.EquiperEchangeAvecLEmplacement</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__inventory__screen_8cpp.html" title="Tests unitaires de la logique de l&#39;écran d&#39;inventaire (LOT-87, T3.5).">Source/Test/Unit/HMI/Presentation/test_inventory_screen.cpp</a>:99</span></sub>  </td><td class="markdownTableBodyNone">Équiper depuis l'inventaire rend l'objet remplacé au sac.  </td><td class="markdownTableBodyNone">1. Porter une dague en main directrice, avoir une épée longue dans le sac.<br  />
+ 2. Équiper l'épée depuis le sac.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a73d5e9b5f9b64f3dcc6c132b37c00106" title="Équipe un exemplaire du sac à son emplacement naturel.">hmi::equipFromBackpack</a>(inventory, "epee-longue", catalogs.lookup())</span> est vrai.<br  />
+Vérifie que <span class="tt">inventory.at(core::EquipmentSlot::MainHand)</span> vaut <span class="tt">"epee-longue"</span>.<br  />
+Vérifie que <span class="tt">quantityOf(inventory, "dague")</span> vaut <span class="tt">1</span>.<br  />
+Vérifie que <span class="tt">quantityOf(inventory, "epee-longue")</span> vaut <span class="tt">0</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>InventoryScreenTest.EmplacementNaturel</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__inventory__screen_8cpp.html" title="Tests unitaires de la logique de l&#39;écran d&#39;inventaire (LOT-87, T3.5).">Source/Test/Unit/HMI/Presentation/test_inventory_screen.cpp</a>:121</span></sub>  </td><td class="markdownTableBodyNone">Un objet s'équipe à son emplacement naturel, ou pas du tout.  </td><td class="markdownTableBodyNone">1. Demander l'emplacement naturel d'un arc, d'une épée, d'une armure, d'un bouclier, d'une torche.<br  />
+ 2. Tenter d'équiper la torche.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#abc3b90e24ff6f22219147e82cb449f88" title="L&#39;emplacement où un objet s&#39;équipe naturellement.">hmi::naturalSlot</a>("arc-long", catalogs.lookup())</span> vaut <span class="tt"><a class="el" href="namespacecore.html#af71085608729d9857e7ee3fd17be6cd6ac2f329a17c18a701dbe1e96e03858728">core::EquipmentSlot::Ranged</a></span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#abc3b90e24ff6f22219147e82cb449f88" title="L&#39;emplacement où un objet s&#39;équipe naturellement.">hmi::naturalSlot</a>("epee-longue", catalogs.lookup())</span> vaut <span class="tt"><a class="el" href="namespacecore.html#af71085608729d9857e7ee3fd17be6cd6a1f9cdfca2d19bbc92349db7eb1544434">core::EquipmentSlot::MainHand</a></span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#abc3b90e24ff6f22219147e82cb449f88" title="L&#39;emplacement où un objet s&#39;équipe naturellement.">hmi::naturalSlot</a>("cuir", catalogs.lookup())</span> vaut <span class="tt"><a class="el" href="namespacecore.html#af71085608729d9857e7ee3fd17be6cd6a94b1fe49b616aa3862defa8922c7493d">core::EquipmentSlot::Torso</a></span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#abc3b90e24ff6f22219147e82cb449f88" title="L&#39;emplacement où un objet s&#39;équipe naturellement.">hmi::naturalSlot</a>("bouclier", catalogs.lookup())</span> vaut <span class="tt"><a class="el" href="namespacecore.html#af71085608729d9857e7ee3fd17be6cd6a2cc539207caf1a7e1e986b92e4462d7c">core::EquipmentSlot::OffHand</a></span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#abc3b90e24ff6f22219147e82cb449f88" title="L&#39;emplacement où un objet s&#39;équipe naturellement.">hmi::naturalSlot</a>("torche", catalogs.lookup()).has_value()</span> est faux.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a73d5e9b5f9b64f3dcc6c132b37c00106" title="Équipe un exemplaire du sac à son emplacement naturel.">hmi::equipFromBackpack</a>(inventory, "torche", catalogs.lookup())</span> est faux.<br  />
+Vérifie que <span class="tt">quantityOf(inventory, "torche")</span> vaut <span class="tt">1</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>InventoryScreenTest.RetirerEtJeter</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__inventory__screen_8cpp.html" title="Tests unitaires de la logique de l&#39;écran d&#39;inventaire (LOT-87, T3.5).">Source/Test/Unit/HMI/Presentation/test_inventory_screen.cpp</a>:147</span></sub>  </td><td class="markdownTableBodyNone">Retirer un objet le range au sac, jeter en retire un exemplaire.  </td><td class="markdownTableBodyNone">1. Retirer le bouclier porté.<br  />
+ 2. Jeter une torche d'une pile de trois.<br  />
+ 3. Retirer un emplacement vide.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">hmi::unequipToBackpack(inventory, core::EquipmentSlot::OffHand)</span> est vrai.<br  />
+Vérifie que <span class="tt">inventory.isEquipped(core::EquipmentSlot::OffHand)</span> est faux.<br  />
+Vérifie que <span class="tt">quantityOf(inventory, "bouclier")</span> vaut <span class="tt">1</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a750d910df13135536b34892bf61ff32e" title="Jette un exemplaire de itemId du sac.">hmi::dropFromBackpack</a>(inventory, "torche")</span> est vrai.<br  />
+Vérifie que <span class="tt">quantityOf(inventory, "torche")</span> vaut <span class="tt">2</span>.<br  />
+Vérifie que <span class="tt">hmi::unequipToBackpack(inventory, core::EquipmentSlot::Head)</span> est faux.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>InventoryScreenTest.TrierParNom</b> (Mineur)<br  />
+<sub><span class="tt"><a class="el" href="test__inventory__screen_8cpp.html" title="Tests unitaires de la logique de l&#39;écran d&#39;inventaire (LOT-87, T3.5).">Source/Test/Unit/HMI/Presentation/test_inventory_screen.cpp</a>:173</span></sub>  </td><td class="markdownTableBodyNone">Trier l'inventaire range le sac par nom.  </td><td class="markdownTableBodyNone">1. Remplir un sac de torches, d'une épée et d'une dague, dans cet ordre.<br  />
+ 2. Trier.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">inventory.backpack.size()</span> vaut <span class="tt">3U</span>.<br  />
+Vérifie que <span class="tt">inventory.backpack[0].itemId</span> vaut <span class="tt">"dague"</span>.<br  />
+Vérifie que <span class="tt">inventory.backpack[1].itemId</span> vaut <span class="tt">"torche"</span>.<br  />
+Vérifie que <span class="tt">inventory.backpack[2].itemId</span> vaut <span class="tt">"epee-longue"</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>InventoryScreenTest.FicheDObjet</b> (Mineur)<br  />
+<sub><span class="tt"><a class="el" href="test__inventory__screen_8cpp.html" title="Tests unitaires de la logique de l&#39;écran d&#39;inventaire (LOT-87, T3.5).">Source/Test/Unit/HMI/Presentation/test_inventory_screen.cpp</a>:197</span></sub>  </td><td class="markdownTableBodyNone">La fiche d'un objet de l'inventaire décrit sa nature et son poids.  </td><td class="markdownTableBodyNone">1. Demander la fiche de l'armure de cuir, du bouclier et de la torche.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">armor.kind</span> vaut <span class="tt">"Armure légère"</span>.<br  />
+Vérifie que <span class="tt">armor.armor</span> vaut <span class="tt">"CA 11 + Dex"</span>.<br  />
+Vérifie que <span class="tt">armor.equippable</span> est vrai.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#aa11e1e0720b6d68b5362d8062922cf64">hmi::itemSheet</a>("bouclier", catalogs.lookup()).armor</span> vaut <span class="tt">"+2"</span>.<br  />
+Vérifie que <span class="tt">torch.kind</span> vaut <span class="tt">"Matériel"</span>.<br  />
+Vérifie que <span class="tt">torch.weight</span> vaut <span class="tt">"0,5 kg"</span>.<br  />
+Vérifie que <span class="tt">torch.equippable</span> est faux.  </td></tr>
 </table>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md29"></a>
 Tests d'intégration (13)</h1>

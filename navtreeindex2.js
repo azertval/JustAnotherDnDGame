@@ -1,5 +1,8 @@
 var NAVTREEINDEX2 =
 {
+"PlayerSprite_8cpp.html":[17,0,3,3,4,34],
+"PlayerSprite_8h.html":[17,0,3,3,4,35],
+"PlayerSprite_8h_source.html":[17,0,3,3,4,35],
 "PreviousPosition_8h.html":[17,0,3,3,4,37],
 "PreviousPosition_8h_source.html":[17,0,3,3,4,37],
 "ProceduralAtlas_8cpp.html":[17,0,3,3,4,38],
@@ -36,9 +39,9 @@ var NAVTREEINDEX2 =
 "RpgEnumNames_8h_source.html":[17,0,3,1,9,19],
 "RpgEnums_8h.html":[17,0,3,1,9,20],
 "RpgEnums_8h_source.html":[17,0,3,1,9,20],
-"RpgScreens_8cpp.html":[17,0,3,3,9,12],
-"RpgScreens_8h.html":[17,0,3,3,9,13],
-"RpgScreens_8h_source.html":[17,0,3,3,9,13],
+"RpgScreens_8cpp.html":[17,0,3,3,9,14],
+"RpgScreens_8h.html":[17,0,3,3,9,15],
+"RpgScreens_8h_source.html":[17,0,3,3,9,15],
 "RuleLabels_8cpp.html":[17,0,3,3,10,14],
 "RuleLabels_8h.html":[17,0,3,3,10,15],
 "RuleLabels_8h_source.html":[17,0,3,3,10,15],
@@ -49,9 +52,9 @@ var NAVTREEINDEX2 =
 "SceneResources_8h_source.html":[17,0,3,3,4,52],
 "ScopedLogLevel_8h.html":[17,0,3,1,2,15],
 "ScopedLogLevel_8h_source.html":[17,0,3,1,2,15],
-"ScreenFlow_8cpp.html":[17,0,3,3,9,14],
-"ScreenFlow_8h.html":[17,0,3,3,9,15],
-"ScreenFlow_8h_source.html":[17,0,3,3,9,15],
+"ScreenFlow_8cpp.html":[17,0,3,3,9,16],
+"ScreenFlow_8h.html":[17,0,3,3,9,17],
+"ScreenFlow_8h_source.html":[17,0,3,3,9,17],
 "ScreenRouter_8cpp.html":[17,0,3,3,10,16],
 "ScreenRouter_8h.html":[17,0,3,3,10,17],
 "ScreenRouter_8h_source.html":[17,0,3,3,10,17],
@@ -246,8 +249,5 @@ var NAVTREEINDEX2 =
 "classcore_1_1ComponentPool.html#a8df498c6d5a55e013535f294e92738b1":[16,0,0,19,2],
 "classcore_1_1ComponentPool.html#aa164388e6fac4b808c075cdf69f952b7":[15,0,1,19,10],
 "classcore_1_1ComponentPool.html#aa164388e6fac4b808c075cdf69f952b7":[16,0,0,19,10],
-"classcore_1_1ComponentPool.html#aa1ea89339a0b953f501acb46dd31cf73":[15,0,1,19,0],
-"classcore_1_1ComponentPool.html#aa1ea89339a0b953f501acb46dd31cf73":[16,0,0,19,0],
-"classcore_1_1ComponentPool.html#aa6399864a2dc32b2625103a46c0ce6b8":[15,0,1,19,7],
-"classcore_1_1ComponentPool.html#aa6399864a2dc32b2625103a46c0ce6b8":[16,0,0,19,7]
+"classcore_1_1ComponentPool.html#aa1ea89339a0b953f501acb46dd31cf73":[15,0,1,19,0]
 };

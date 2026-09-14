@@ -17,7 +17,7 @@ var searchData=
   ['increase_14',['increase',['../structcore_1_1Species.html#a6968591f59f98ee8d5586f8c6c8d9b06',1,'core::Species']]],
   ['indexof_15',['indexOf',['../classcore_1_1ClipSet.html#a64d712df72325595d40945b0514c6798',1,'core::ClipSet']]],
   ['initialize_16',['initialize',['../classhmi_1_1GameViewport.html#a4a31de0d35b6fce76afb749e27539d35',1,'hmi::GameViewport']]],
-  ['initiative_17',['initiative',['../classhmi_1_1CharacterSheetModel.html#a73838eed49ec51152e79f1b2685f204b',1,'hmi::CharacterSheetModel']]],
+  ['initiative_17',['initiative',['../classhmi_1_1CharacterSheetModel.html#a73838eed49ec51152e79f1b2685f204b',1,'hmi::CharacterSheetModel::initiative()'],['../classhmi_1_1InventoryModel.html#aeaf67e9b85de96793268fed3b7781541',1,'hmi::InventoryModel::initiative()']]],
   ['inputstate_18',['InputState',['../classhmi_1_1InputState.html#a2e64870c1d2ac0640668fcfdca3cb9ad',1,'hmi::InputState']]],
   ['installlogging_19',['installLogging',['../namespaceapp.html#a96bd993236840537bb7357f87a3aab7a',1,'app']]],
   ['installqttranslations_20',['installQtTranslations',['../namespaceapp.html#a96fb419a6918480c58eb69bfa2fdc7cd',1,'app']]],
@@ -61,5 +61,6 @@ var searchData=
   ['isvalidpixelcanvasdenominator_58',['isValidPixelCanvasDenominator',['../namespacehmi.html#a2a6fdf22997fd2e6e09e9e1ae965b57b',1,'hmi']]],
   ['isvalidplanedensity_59',['isValidPlaneDensity',['../namespacecore.html#a0f61acebed3678706e825f972217a233',1,'core']]],
   ['isvisible_60',['isVisible',['../classhmi_1_1ComposedScene.html#ad544319d48036199694098d8c61dfd05',1,'hmi::ComposedScene']]],
-  ['iterator_61',['Iterator',['../classcore_1_1View_1_1Iterator.html#a2ff93b328284c1d0facc842494e8514e',1,'core::View::Iterator']]]
+  ['itemsheet_61',['itemSheet',['../namespacehmi.html#aa11e1e0720b6d68b5362d8062922cf64',1,'hmi']]],
+  ['iterator_62',['Iterator',['../classcore_1_1View_1_1Iterator.html#a2ff93b328284c1d0facc842494e8514e',1,'core::View::Iterator']]]
 ];

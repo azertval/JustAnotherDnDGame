@@ -26,5 +26,6 @@ var searchData=
   ['rowoffset_23',['rowOffset',['../structcore_1_1EncounterCombatant.html#adee00c242215fb6f4bccfc875b6f583d',1,'core::EncounterCombatant']]],
   ['rows_24',['rows',['../structhmi_1_1SkinSection.html#a57e6adcbf198c9092de2a0f033c57e12',1,'hmi::SkinSection::rows'],['../structhmi_1_1RpgContentBlock.html#a0b2ec16652fe9f2435fafdb5ff9a23f2',1,'hmi::RpgContentBlock::rows']]],
   ['rpg_5fscreen_5fcount_25',['RPG_SCREEN_COUNT',['../namespacehmi.html#a93db3bafe6aeaebee6e483836f313055',1,'hmi']]],
-  ['rpgreturnto_26',['rpgReturnTo',['../structhmi_1_1ScreenState.html#a35d36781ddd45df8818932eb54d7a616',1,'hmi::ScreenState']]]
+  ['rpgreturnto_26',['rpgReturnTo',['../structhmi_1_1ScreenState.html#a35d36781ddd45df8818932eb54d7a616',1,'hmi::ScreenState']]],
+  ['rules_27',['rules',['../structhmi_1_1DemonstrationState.html#af73eaf8a173c729d1afac7853bd36e92',1,'hmi::DemonstrationState']]]
 ];
