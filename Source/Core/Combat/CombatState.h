@@ -22,6 +22,7 @@
 #include "Core/Combat/BattleGrid.h"
 #include "Core/Combat/CombatCounters.h"
 #include "Core/Combat/CombatTransition.h"
+#include "Core/Combat/Damage.h"
 #include "Core/Combat/Pathfinding.h"
 #include "Core/Combat/TurnOrder.h"
 #include "Core/Levels/GridPosition.h"
@@ -73,6 +74,8 @@ enum class CombatPhase : std::uint8_t {
  * | `TurnStart` | les effets « au début de votre tour » |
  * | `TurnEnd` | les actions légendaires, dépensées en fin de tour d'autrui |
  * | `AttackDeclared` | les postures du moine, qui répondent à une attaque **déclarée** |
+ * | `DamageTaken` | un seuil franchi (*Battle Fury* sous 50 %), des dégâts subis à 0 PV |
+ * | `CombatantDowned` | un déclencheur à la chute (explosion, apparition) ; l'agonie (`LOT-72`) |
  * | `CombatantJoined`, `CombatantLeft` | un renfort, une fuite |
  * | `CombatEnded` | l'expérience (`LOT-74`), le retour à l'exploration (`LOT-18`) |
  */
@@ -83,6 +86,8 @@ enum class CombatHook : std::uint8_t {
     TurnStart,
     TurnEnd,
     AttackDeclared,
+    DamageTaken,
+    CombatantDowned,
     CombatantJoined,
     CombatantLeft,
     CombatEnded,
@@ -98,7 +103,30 @@ struct CombatEvent {
     std::optional<CombatantId> target;
     /// Le nom du repère d'initiative fixe.
     std::string marker;
+    /// `DamageTaken` et `CombatantDowned` : les points de vie perdus, avant, après, le maximum.
+    int amount = 0;
+    int hitPointsBefore = 0;
+    int hitPointsAfter = 0;
+    int maximumHitPoints = 0;
+    /// Les dégâts restants une fois la cible tombée à 0 — la mort instantanée du `LOT-72`.
+    int overflow = 0;
+    /// Vrai si les dégâts viennent d'un coup critique : subis à 0 PV, ils comptent deux échecs.
+    bool critical = false;
 };
+
+/**
+ * @brief Vrai si l'événement fait passer les points de vie **sous** la fraction
+ *        @p numerator / @p denominator du maximum — « sous 50 % » s'écrit `(e, 1, 2)`.
+ *
+ * Franchir, pas être sous : une créature déjà sous la moitié qui reprend un coup ne déclenche pas
+ * une seconde fois sa *Battle Fury*.
+ */
+[[nodiscard]] constexpr bool crossedBelow(const CombatEvent& event, int numerator,
+                                          int denominator) noexcept {
+    const long long seuil = static_cast<long long>(event.maximumHitPoints) * numerator;
+    return static_cast<long long>(event.hitPointsBefore) * denominator >= seuil &&
+           static_cast<long long>(event.hitPointsAfter) * denominator < seuil;
+}
 
 class CombatState;
 
@@ -151,6 +179,17 @@ struct CombatantProfile {
      *        (`CombatState::interject`) — ou à la fin du round, s'il n'a pas choisi.
      */
     bool floating = false;
+    /**
+     * @brief La classe d'armure contre laquelle on l'attaque (`EX-CBT-030`).
+     *
+     * **Recalculée depuis ses sources** au moment où le profil se construit — l'équipement porté
+     * (`core::derivedStatsFor`), le bloc de bestiaire —, jamais tenue à jour à la main : un
+     * équipement ne change pas au milieu d'un combat, et ce qui la change en combat (un abri, une
+     * posture) s'ajoute au jet par un crochet, sans toucher à ce nombre.
+     */
+    int armorClass = 10;
+    /// Résistances, vulnérabilités et immunités (`EX-CBT-032`).
+    DamageTraits damageTraits;
 };
 
 /// @brief Le profil d'un personnage : ses points de vie courants, sa Dextérité, sa vitesse.
@@ -179,6 +218,8 @@ struct Combatant {
     std::optional<CheckResult> initiativeRoll;
     /// Pour un acteur flottant : a-t-il déjà joué ce round-ci ?
     bool actedThisRound = false;
+    /// Ce qui absorbe les dégâts avant les points de vie, dans l'ordre où on les a reçus.
+    std::vector<HitPointReserve> reserves;
 };
 
 /// @brief Ce qu'un enrôlement a donné : l'identifiant, ou la raison du refus.
@@ -218,6 +259,8 @@ struct MoveOutcome {
 struct HitPointChange {
     CombatantId target{};
     int amount = 0;
+    /// Vrai si la perte vient d'un coup critique — recopié dans l'événement.
+    bool critical = false;
 };
 
 /**
@@ -397,8 +440,8 @@ public:
      * @brief Annonce qu'une attaque est **déclarée**, avant tout jet
      * (`CombatHook::AttackDeclared`).
      *
-     * Le jet et les dégâts sont au `LOT-21` ; ce crochet est la fenêtre où une posture répond à
-     * l'intention, avant que le dé ne tombe.
+     * Le jet et les dégâts sont dans `core::resolveAttack` (`LOT-21`) ; ce crochet est la fenêtre
+     * où une posture répond à l'intention, avant que le dé ne tombe.
      *
      * @return Faux si l'un des deux n'est pas debout, ou si le combat n'est pas en cours.
      */
@@ -429,8 +472,10 @@ public:
      * @brief Retire @p amount points de vie, sans descendre sous 0 ; à 0, le combattant est à
      * terre.
      *
-     * Le pipeline de dégâts — types, résistances, réserves — est au `LOT-21`, et il se termine
-     * ici. Sans effet sur un combattant sorti, ou pour un montant non positif.
+     * C'est la **dernière** étape du pipeline de dégâts (`core::DamagePipeline`, `LOT-21`) : les
+     * types, les résistances et les réserves sont déjà passés. Annonce `CombatHook::DamageTaken`,
+     * puis `CombatHook::CombatantDowned` si le combattant vient de tomber. Sans effet sur un
+     * combattant sorti, ou pour un montant non positif.
      */
     void applyDamage(CombatantId combatant, int amount);
 
@@ -443,8 +488,21 @@ public:
     void applyDamage(std::span<const HitPointChange> changes);
 
     /// @brief Rend @p amount points de vie, sans dépasser le maximum ; relève un combattant à
-    /// terre.
+    /// terre. Les réserves ne se soignent pas.
     void heal(CombatantId combatant, int amount);
+
+    /**
+     * @brief Donne une réserve de points de vie.
+     *
+     * Une réserve qui ne se cumule pas remplace celle de même source si elle est plus grande, et
+     * est ignorée sinon ; une réserve qui se cumule s'ajoute à la pile. Ne relève personne.
+     * @return Faux si le combattant est inconnu ou sorti, ou si la réserve est ignorée.
+     */
+    bool grantReserve(CombatantId combatant, HitPointReserve reserve);
+
+    /// @brief Les réserves d'un combattant, pour que le pipeline les consomme. `nullptr` s'il est
+    /// inconnu.
+    [[nodiscard]] std::vector<HitPointReserve>* reserves(CombatantId combatant);
 
     /**
      * @brief Le `core::Mover` d'un combattant, droit de passage compris.
@@ -472,7 +530,7 @@ private:
     EnlistResult admit(CombatantProfile profile, std::optional<GridPosition> anchor);
     void rollInitiative(Combatant& combatant, DeterministicRandom& random);
     void takeFixedInitiative(Combatant& combatant, int initiative);
-    void damage(CombatantId combatant, int amount);
+    void damage(const HitPointChange& change);
     void dispatch(const CombatEvent& event);
 
     void settle();

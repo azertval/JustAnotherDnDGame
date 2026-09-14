@@ -227,6 +227,17 @@ struct DerivedStats {
 };
 
 /**
+ * @brief La caractéristique du jet d'attaque avec @p weapon (Manuel, chapitre 9, « Modificateurs
+ *        du jet »).
+ *
+ * Force au corps à corps, Dextérité à distance ; une arme de **finesse** laisse le choix, et le
+ * personnage prend la meilleure des deux. La même caractéristique s'ajoute aux dégâts. Une seule
+ * écriture de la règle, que la fiche (`derivedStatsFor`) et l'attaque (`core::weaponAttackFor`)
+ * lisent toutes deux.
+ */
+[[nodiscard]] Ability weaponAttackAbility(const CharacterSheet& sheet, const Weapon& weapon);
+
+/**
  * @brief Calcule tout ce que l'équipement porté produit, depuis la fiche et les catalogues.
  *
  * @param sheet     La fiche, pour ses caractéristiques et sa vitesse de base.

@@ -40,6 +40,8 @@ add_library(Core STATIC
     Combat/ActionEconomy.cpp
     Combat/CombatCounters.cpp
     Combat/CombatState.cpp
+    Combat/Damage.cpp
+    Combat/Attack.cpp
     Combat/Arena.cpp
     Rpg/RpgEnumNames.cpp
     Rpg/Multiclassing.cpp

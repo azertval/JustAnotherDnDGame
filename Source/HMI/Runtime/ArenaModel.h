@@ -111,9 +111,13 @@ public:
     Q_INVOKABLE void assignMark(bool ally, int index, const QString& markId);
     /// Monte l'affrontement et jette l'initiative. Refuse une composition sans les deux camps.
     Q_INVOKABLE void launch();
-    /// Le geste sur une case : déplacer le combattant actif si elle est atteignable, frapper si
-    /// elle porte un ennemi au contact.
+    /// Le geste sur une case : déplacer le combattant actif si elle est atteignable, attaquer si
+    /// elle porte un ennemi à portée.
     Q_INVOKABLE void tapCell(int column, int row);
+    /// L'action *esquiver* du combattant actif.
+    Q_INVOKABLE void dodge();
+    /// L'action *se désengager* du combattant actif.
+    Q_INVOKABLE void disengage();
     Q_INVOKABLE void endTurn();
     Q_INVOKABLE void withdraw();
     /// Remonte le même affrontement à la même graine.

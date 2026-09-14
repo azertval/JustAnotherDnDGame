@@ -44,6 +44,8 @@ ArenaForm {
     onLaunchRequested: arena.launch()
     onCellTapped: (column, row) => arena.tapCell(column, row)
     onEndTurnRequested: arena.endTurn()
+    onDodgeRequested: arena.dodge()
+    onDisengageRequested: arena.disengage()
     onWithdrawRequested: arena.withdraw()
     onReplayRequested: arena.replay()
     onBackRequested: arena.backToSetup()

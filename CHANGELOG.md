@@ -6,6 +6,35 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **Attaques, dégâts et états** (`LOT-21`, `EX-CBT-030`, `EX-CBT-031`, `EX-CBT-032`). Une attaque se
+  résout selon le Manuel des Joueurs, chapitre 9, et ses dégâts traversent un pipeline.
+  - **Le jet d'attaque est un objet** (`core::AttackRoll`) que trois points d'insertion lisent et
+    amendent avant que l'issue ne soit figée : ajouter un avantage ou un désavantage nommé, relancer
+    ou substituer un d20, ajouter un modificateur après avoir vu le total. Un 20 naturel touche
+    quelle que soit la CA et fait un critique ; un 1 naturel rate toujours.
+  - **Le critique double les dés, jamais le modificateur** (`core::rollDamage`) ; des dégâts ne sont
+    jamais négatifs ; une salve se lance une fois pour toutes ses cibles.
+  - **Un pipeline à étapes nommées** (`core::DamagePipeline`) : source, conversion, résistances,
+    réserves, points de vie — chaque étape est un point d'insertion, et la dernière est un seul
+    appel à `CombatState::applyDamage`. Résistance **puis** vulnérabilité, après tous les autres
+    modificateurs, une seule fois chacune (l'exemple du Manuel est rejoué par test) ; des affinités
+    contournables par la source (« non magique ») ; des **points de vie temporaires** qui se perdent
+    d'abord, ne se cumulent pas et ne se soignent pas ; des **structures** qui ont des PV et des
+    résistances.
+  - **Des profils d'attaque** tirés du bestiaire (`core::attacksFor` : allonge en cases, attaque à
+    distance, refus nommé d'une action sans type de dégâts) et de l'arme de la fiche
+    (`core::weaponAttackFor` : Force ou Dextérité, finesse, maîtrise, coup à mains nues).
+  - **Un journal qui dit tout** (`core::AttackOutcome::describe`) : « d20 = 12 + 3 (Force) + 2
+    (maitrise) = 17 contre CA 15 : touche ; degats 1d8+3 : 5 + 3 = 8 tranchant ; resistance
+    (tranchant) 8 -> 4 ; PV 30 -> 26 ».
+  - **Ce que l'agonie lira** : deux crochets de plus, `DamageTaken` (annoncé même à 0 PV) et
+    `CombatantDowned`, avec l'excédent au-delà de 0 et le drapeau critique.
+  - **Dans l'arène**, le coup d'essai du `LOT-50` laisse la place à l'action *attaquer*, et
+    s'ajoutent *esquiver*, *se désengager* et l'**attaque d'opportunité** à la sortie de l'allonge.
+    Le personnage de démonstration frappe avec son épée longue, contre la CA de son armure.
+  - Hors du lot, nommément : l'inconscience, les jets contre la mort et la mort instantanée
+    (`LOT-72`), la portée, la ligne de vue et l'abri (`LOT-22`), les sorts (avec les classes).
+
 - **PNJ et dialogues** (`LOT-15`, `EX-VIS-003`, `EX-RPG-042`). On parle à un PNJ par un arbre
   scripté : répliques, réponses, conditions sur drapeau, actions, jets de compétence.
   - **Un graphe en JSON, sans aucun texte** (`core::DialogueGraph`, `Source/Elements/World/dialogues/`).

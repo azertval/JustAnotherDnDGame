@@ -48,6 +48,8 @@ Item {
     signal launchRequested()
     signal cellTapped(int column, int row)
     signal endTurnRequested()
+    signal dodgeRequested()
+    signal disengageRequested()
     signal withdrawRequested()
     signal replayRequested()
     signal backRequested()
@@ -275,11 +277,21 @@ Item {
         }
         Text {
             width: parent.width
-            text: qsTr("Cliquer une case surlignee : se deplacer. Cliquer un ennemi au contact : frapper.")
+            text: qsTr("Cliquer une case surlignee : se deplacer. Cliquer un ennemi a portee : attaquer.")
             color: Tokens.textOnPanelMuted
             font.family: Tokens.bodyFamily
             font.pixelSize: Tokens.fontCaption
             wrapMode: Text.WordWrap
+        }
+        Button {
+            text: qsTr("Esquiver")
+            enabled: !root.ended
+            onClicked: root.dodgeRequested()
+        }
+        Button {
+            text: qsTr("Se desengager")
+            enabled: !root.ended
+            onClicked: root.disengageRequested()
         }
         Button {
             text: qsTr("Fin du tour")

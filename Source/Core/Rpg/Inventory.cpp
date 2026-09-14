@@ -252,6 +252,21 @@ std::vector<std::string> unknownIds(const Inventory& inventory, const ItemLookup
     return inconnus;
 }
 
+Ability weaponAttackAbility(const CharacterSheet& sheet, const Weapon& weapon) {
+    // Une arme de FINESSE laisse le choix -- mais aucune arme du catalogue ne declare encore cette
+    // propriete autrement qu'en toutes lettres dans son texte francais, et lire une regle dans de
+    // la prose est exactement ce que ce projet evite. La branche existe donc, et elle attend que la
+    // donnee porte `properties` (LOT-49).
+    const bool finesse =
+        std::ranges::any_of(weapon.properties, [](const std::string& p) { return p == "finesse"; });
+    if (finesse) {
+        return sheet.modifier(Ability::Dexterity) > sheet.modifier(Ability::Strength)
+                   ? Ability::Dexterity
+                   : Ability::Strength;
+    }
+    return weapon.ranged ? Ability::Dexterity : Ability::Strength;
+}
+
 DerivedStats derivedStatsFor(const CharacterSheet& sheet, const Inventory& inventory,
                              const ItemLookup& lookup, const CharacterCreationRules& creation,
                              const EncumbranceRules& carrying) {
@@ -286,20 +301,7 @@ DerivedStats derivedStatsFor(const CharacterSheet& sheet, const Inventory& inven
         if (arme != nullptr) {
             derivees.damage = arme->damage;
             derivees.damageType = arme->damageType;
-            // Force au corps a corps, Dexterite a distance. Une arme de FINESSE laisse le choix, et
-            // le personnage prend la meilleure des deux -- mais aucune arme du catalogue ne declare
-            // encore cette propriete autrement qu'en toutes lettres dans son texte francais, et
-            // lire une regle dans de la prose est exactement ce que ce projet evite. La branche
-            // existe donc, et elle attend que la donnee porte `properties` (LOT-49).
-            const bool finesse = std::ranges::any_of(
-                arme->properties, [](const std::string& p) { return p == "finesse"; });
-            const int force = sheet.modifier(Ability::Strength);
-            const int dexterite = sheet.modifier(Ability::Dexterity);
-            if (finesse) {
-                derivees.attackAbility = dexterite > force ? Ability::Dexterity : Ability::Strength;
-            } else {
-                derivees.attackAbility = arme->ranged ? Ability::Dexterity : Ability::Strength;
-            }
+            derivees.attackAbility = weaponAttackAbility(sheet, *arme);
         }
     }
 

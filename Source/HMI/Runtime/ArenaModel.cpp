@@ -29,6 +29,10 @@ struct ArenaModel::Catalogs {
     core::Bestiary bestiary;
     std::optional<core::CharacterSheet> character;
     int characterProficiency = 2;
+    /// La classe d'armure **recalculée** depuis ce que le personnage porte (`EX-CBT-030`).
+    int characterArmorClass = 10;
+    /// L'arme en main directrice, ou vide : il frappe alors à mains nues.
+    std::optional<core::Weapon> characterWeapon;
     core::ArenaCatalog arenas;
     core::HeroicMarkCatalog marks;
     const core::Arena* playable = nullptr;
@@ -47,10 +51,6 @@ namespace {
 }
 
 constexpr const char* CHARACTER_PREFIX = "character:";
-
-[[nodiscard]] int chebyshev(core::GridPosition a, core::GridPosition b) noexcept {
-    return std::max(std::abs(a.column - b.column), std::abs(a.row - b.row));
-}
 
 }  // namespace
 
@@ -79,6 +79,14 @@ void ArenaModel::loadCatalogs() {
         c.character = demonstration.sheet;
         c.characterProficiency =
             core::proficiencyBonus(demonstration.sheet, demonstration.experience);
+        c.characterArmorClass = core::derivedStatsFor(demonstration.sheet, demonstration.inventory,
+                                                      demonstration.lookup(), demonstration.rules,
+                                                      demonstration.encumbrance)
+                                    .armorClass;
+        if (const core::Weapon* weapon = demonstration.equipment.findWeapon(
+                demonstration.inventory.at(core::EquipmentSlot::MainHand))) {
+            c.characterWeapon = *weapon;
+        }
     } else {
         c.problems << QStringLiteral("personnage de demonstration absent");
     }
@@ -319,12 +327,21 @@ std::optional<ArenaModel::Fighter> ArenaModel::fighterFor(const QString& id,
             return std::nullopt;
         }
         const core::CharacterSheet& sheet = *_catalogs->character;
-        return Fighter{
-            .id = id,
-            .contestant = {.profile = core::profileFor(sheet, side),
-                           .kit = core::strikeKitFor(sheet, _catalogs->characterProficiency),
-                           .position = std::nullopt,
-                           .markId = {}}};
+        core::CombatantProfile profile = core::profileFor(sheet, side);
+        profile.armorClass = _catalogs->characterArmorClass;
+        // L'arme d'abord, les mains nues ensuite. Les classes provisoires ne declarent pas leurs
+        // maitrises d'armes : maitrisee jusqu'au socle de classe (LOT-47).
+        std::vector<core::AttackProfile> attacks;
+        if (_catalogs->characterWeapon.has_value()) {
+            attacks.push_back(core::weaponAttackFor(sheet, &*_catalogs->characterWeapon,
+                                                    _catalogs->characterProficiency));
+        }
+        attacks.push_back(core::weaponAttackFor(sheet, nullptr, _catalogs->characterProficiency));
+        return Fighter{.id = id,
+                       .contestant = {.profile = std::move(profile),
+                                      .attacks = std::move(attacks),
+                                      .position = std::nullopt,
+                                      .markId = {}}};
     }
     const core::Creature* creature = _catalogs->bestiary.find(id.toStdString());
     if (creature == nullptr) {
@@ -332,7 +349,7 @@ std::optional<ArenaModel::Fighter> ArenaModel::fighterFor(const QString& id,
     }
     return Fighter{.id = id,
                    .contestant = {.profile = core::profileFor(*creature, side),
-                                  .kit = core::strikeKitFor(*creature),
+                                  .attacks = core::attacksFor(*creature).attacks,
                                   .position = std::nullopt,
                                   .markId = {}}};
 }
@@ -461,27 +478,27 @@ void ArenaModel::tapCell(int column, int row) {
     if (const std::optional<core::CombatantId> target = combat.grid().occupantAt(cell)) {
         const core::Combatant* attacker = combat.find(*active);
         const core::Combatant* defender = combat.find(*target);
-        const std::optional<core::GridPosition> from = combat.grid().positionOf(*active);
-        if (attacker != nullptr && defender != nullptr && from.has_value() &&
+        if (attacker != nullptr && defender != nullptr &&
             defender->profile.side != attacker->profile.side) {
-            if (chebyshev(*from, cell) > 1) {
-                _status = QStringLiteral("Hors d'allonge : le coup d'essai porte a une case.");
-            } else {
-                const core::StrikeOutcome strike = _session->strike(*target);
-                switch (strike.result) {
-                    case core::StrikeResult::Hit:
-                    case core::StrikeResult::Missed:
-                        _status = toQt(_session->journal().back());
-                        break;
-                    case core::StrikeResult::NoAction:
-                        _status = QStringLiteral("L'action de ce tour est deja depensee.");
-                        break;
-                    case core::StrikeResult::NoActiveTurn:
-                    case core::StrikeResult::OutOfReach:
-                    case core::StrikeResult::InvalidTarget:
-                        _status = QStringLiteral("Coup refuse.");
-                        break;
-                }
+            const core::ArenaAttack attack = _session->attack(*target);
+            switch (attack.result) {
+                case core::ArenaActionResult::Done:
+                    _status =
+                        attack.outcome.has_value() ? toQt(attack.outcome->describe()) : QString();
+                    break;
+                case core::ArenaActionResult::OutOfReach:
+                    _status = QStringLiteral("Hors d'allonge ou de portee.");
+                    break;
+                case core::ArenaActionResult::NoAction:
+                    _status = QStringLiteral("L'action de ce tour est deja depensee.");
+                    break;
+                case core::ArenaActionResult::NoAttack:
+                    _status = QStringLiteral("Ce combattant n'a aucune attaque.");
+                    break;
+                case core::ArenaActionResult::NoActiveTurn:
+                case core::ArenaActionResult::InvalidTarget:
+                    _status = QStringLiteral("Attaque refusee.");
+                    break;
             }
             emit changed();
             return;
@@ -501,6 +518,24 @@ void ArenaModel::tapCell(int column, int row) {
             _status = QStringLiteral("Aucun combattant a deplacer.");
             break;
     }
+    emit changed();
+}
+
+void ArenaModel::dodge() {
+    if (_session == nullptr || !_inCombat || ended()) {
+        return;
+    }
+    _status = _session->dodge() ? toQt(_session->journal().back())
+                                : QStringLiteral("L'action de ce tour est deja depensee.");
+    emit changed();
+}
+
+void ArenaModel::disengage() {
+    if (_session == nullptr || !_inCombat || ended()) {
+        return;
+    }
+    _status = _session->disengage() ? toQt(_session->journal().back())
+                                    : QStringLiteral("L'action de ce tour est deja depensee.");
     emit changed();
 }
 

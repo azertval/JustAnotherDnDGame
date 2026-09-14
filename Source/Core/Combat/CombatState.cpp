@@ -47,6 +47,8 @@ CombatantProfile profileFor(const CharacterSheet& sheet, CombatSide side) {
         .locomotion = Locomotion::Walk,
         .size = CreatureSize::Medium,
         .floating = false,
+        .armorClass = sheet.armorClass,
+        .damageTraits = {},
     };
 }
 
@@ -66,6 +68,8 @@ CombatantProfile profileFor(const Creature& creature, CombatSide side) {
         .locomotion = locomotion,
         .size = creature.size,
         .floating = false,
+        .armorClass = creature.armorClass,
+        .damageTraits = damageTraitsFor(creature),
     };
 }
 
@@ -266,13 +270,13 @@ WithdrawResult CombatState::withdraw(CombatantId combatant) {
 
 void CombatState::applyDamage(CombatantId combatant, int amount) {
     Operation operation(*this);
-    damage(combatant, amount);
+    damage({.target = combatant, .amount = amount, .critical = false});
 }
 
 void CombatState::applyDamage(std::span<const HitPointChange> changes) {
     Operation operation(*this);
     for (const HitPointChange& change : changes) {
-        damage(change.target, change.amount);
+        damage(change);
     }
 }
 
@@ -287,6 +291,32 @@ void CombatState::heal(CombatantId combatant, int amount) {
     if (target->profile.currentHitPoints > 0) {
         target->status = CombatantStatus::Standing;
     }
+}
+
+bool CombatState::grantReserve(CombatantId combatant, HitPointReserve reserve) {
+    Combatant* target = findMutable(combatant);
+    if (target == nullptr || target->status == CombatantStatus::Withdrawn || reserve.amount <= 0) {
+        return false;
+    }
+    if (!reserve.stacks) {
+        const auto same = std::ranges::find_if(target->reserves, [&](const HitPointReserve& r) {
+            return !r.stacks && r.source == reserve.source;
+        });
+        if (same != target->reserves.end()) {
+            if (same->amount >= reserve.amount) {
+                return false;
+            }
+            same->amount = reserve.amount;
+            return true;
+        }
+    }
+    target->reserves.push_back(std::move(reserve));
+    return true;
+}
+
+std::vector<HitPointReserve>* CombatState::reserves(CombatantId combatant) {
+    Combatant* target = findMutable(combatant);
+    return target == nullptr ? nullptr : &target->reserves;
 }
 
 Mover CombatState::moverFor(CombatantId combatant) const {
@@ -343,14 +373,34 @@ void CombatState::takeFixedInitiative(Combatant& combatant, int initiative) {
                                   .side = combatant.profile.side}));
 }
 
-void CombatState::damage(CombatantId combatant, int amount) {
-    Combatant* target = findMutable(combatant);
-    if (target == nullptr || target->status == CombatantStatus::Withdrawn || amount <= 0) {
+void CombatState::damage(const HitPointChange& change) {
+    Combatant* target = findMutable(change.target);
+    if (target == nullptr || target->status == CombatantStatus::Withdrawn || change.amount <= 0) {
         return;
     }
-    target->profile.currentHitPoints = std::max(0, target->profile.currentHitPoints - amount);
+    const int before = target->profile.currentHitPoints;
+    target->profile.currentHitPoints = std::max(0, before - change.amount);
+    const bool fell =
+        target->profile.currentHitPoints == 0 && target->status != CombatantStatus::Down;
     if (target->profile.currentHitPoints == 0) {
         target->status = CombatantStatus::Down;
+    }
+    CombatEvent event{.hook = CombatHook::DamageTaken,
+                      .round = _round,
+                      .combatant = change.target,
+                      .target = std::nullopt,
+                      .marker = {},
+                      .amount = change.amount,
+                      .hitPointsBefore = before,
+                      .hitPointsAfter = target->profile.currentHitPoints,
+                      .maximumHitPoints = target->profile.maximumHitPoints,
+                      .overflow = std::max(0, change.amount - before),
+                      .critical = change.critical};
+    // L'abonne peut enroler un renfort et reallouer la liste : `target` n'est plus lu apres.
+    dispatch(event);
+    if (fell) {
+        event.hook = CombatHook::CombatantDowned;
+        dispatch(event);
     }
 }
 

@@ -8,6 +8,7 @@
 #include <map>
 #include <memory>
 #include <optional>
+#include <set>
 #include <string>
 #include <string_view>
 #include <vector>
@@ -38,15 +39,17 @@
  * Rien ne dépend d'une fenêtre : l'écran de mise en place (`hmi::ArenaModel`) ne fait que
  * présenter et commander.
  *
- * ## Le coup d'essai, provisoire et dit comme tel
+ * ## Les attaques du Manuel
  *
- * Les attaques sont au `LOT-21`. Sans coup, un combat ne finit jamais, et un banc d'essai qui ne
- * finit jamais ne vérifie rien. `core::ArenaSession::strike` porte donc un **coup d'essai** : un
- * d20 plus le bonus d'attaque contre la classe d'armure, puis les dés de dégâts. Le kit
- * (`core::StrikeKit`) se lit du bloc de bestiaire — la première action qui frappe — ou de la
- * fiche — le coup à mains nues du SRD, 1 + Force. Le `LOT-21` remplacera ce coup par son
- * pipeline ; ce qu'il laisse en place est le **lieu** où l'on frappe, pas la façon.
+ * Le coup d'essai du `LOT-50` est remplacé par les attaques du `LOT-21` (`core::resolveAttack`) :
+ * les profils se tirent du bestiaire (`core::attacksFor`) ou de l'arme de la fiche
+ * (`core::weaponAttackFor`), le jet s'amende par `attackHooks`, les dégâts traversent
+ * `damagePipeline`. Ce que le `LOT-50` avait posé reste : la session, la déclaration avant le jet,
+ * la suite aléatoire unique, le journal. S'y ajoutent, du chapitre 9 du Manuel, l'**attaque
+ * d'opportunité** au déplacement, et les actions **esquiver** et **se désengager** qui la règlent.
  */
+
+#include "Core/Combat/Attack.h"
 
 namespace core {
 
@@ -131,39 +134,12 @@ struct ArenaCatalog {
 /// @brief Charge les arènes d'un dossier — un fichier JSON par arène, balayé et trié.
 [[nodiscard]] ArenaCatalog loadArenas(const std::filesystem::path& directory);
 
-/**
- * @brief Ce qu'un combattant sait frapper, en attendant les attaques du `LOT-21`.
- *
- * La classe d'armure est celle de la cible ; le bonus et les dés sont ceux du coup. Une allonge
- * n'y figure pas : le coup d'essai est au contact, une case, et c'est le `LOT-22` qui dira la
- * portée.
- */
-struct StrikeKit {
-    int armorClass = 10;
-    int attackBonus = 0;
-    Dice damage;
-    /// Le nom du coup, tel que le journal l'écrit : « Cimeterre », « Coup à mains nues ».
-    std::string label;
-};
-
-/// @brief Le kit d'une créature : sa classe d'armure et la **première** action qui frappe.
-[[nodiscard]] StrikeKit strikeKitFor(const Creature& creature);
-
-/**
- * @brief Le kit d'un personnage : sa classe d'armure et le coup à mains nues du SRD.
- *
- * Bonus d'attaque = maîtrise + modificateur de Force ; dégâts = 1 + modificateur de Force,
- * contondants. C'est la règle du livre, pas une valeur inventée ; lire l'arme équipée est
- * l'affaire du `LOT-21`, qui connaît les propriétés d'arme.
- * @param sheet            La fiche du personnage.
- * @param proficiencyBonus Le bonus de maîtrise au niveau de la fiche (`core::proficiencyBonus`).
- */
-[[nodiscard]] StrikeKit strikeKitFor(const CharacterSheet& sheet, int proficiencyBonus);
-
 /// @brief Un combattant tel que l'écran de mise en place le compose.
 struct ArenaContestant {
+    /// Le profil, classe d'armure et affinités comprises.
     CombatantProfile profile;
-    StrikeKit kit;
+    /// Ce qu'il sait frapper, la première attaque étant celle qu'on joue par défaut.
+    std::vector<AttackProfile> attacks;
     /// Case demandée, ou absente : le prochain point d'entrée libre de son camp.
     std::optional<GridPosition> position;
     /// Rôle de Marque Héroïque revendiqué (`core::HeroicMark::id`), ou vide.
@@ -185,24 +161,26 @@ struct ArenaMount {
     std::vector<MountRefusal> refusals;
 };
 
-/// @brief Ce qu'un coup d'essai a donné.
-enum class StrikeResult : std::uint8_t {
-    Hit,
-    Missed,
+/// @brief Ce qu'une action de l'arène a donné.
+enum class ArenaActionResult : std::uint8_t {
+    /// L'action a eu lieu — une attaque a été jetée, qu'elle ait touché ou non.
+    Done,
     /// Aucun tour actif : le combat n'a pas commencé, ou il est fini.
     NoActiveTurn,
-    /// L'attaquant a déjà dépensé son action ce tour-ci.
+    /// L'action de ce tour est déjà dépensée.
     NoAction,
-    /// La cible n'est pas à une case, ou n'est pas un ennemi debout.
+    /// La cible est hors d'allonge ou de portée.
     OutOfReach,
+    /// Inconnue, soi-même, un allié, ou une cible qui n'est pas debout.
     InvalidTarget,
+    /// Le combattant n'a pas d'attaque de cet indice.
+    NoAttack,
 };
 
-/// @brief Le détail d'un coup d'essai, restituable (`EX-DND-003`).
-struct StrikeOutcome {
-    StrikeResult result = StrikeResult::InvalidTarget;
-    std::optional<CheckResult> roll;
-    int damage = 0;
+/// @brief Une attaque jouée dans l'arène : le refus, ou l'attaque résolue.
+struct ArenaAttack {
+    ArenaActionResult result = ArenaActionResult::InvalidTarget;
+    std::optional<AttackOutcome> outcome;
 };
 
 /**
@@ -255,19 +233,53 @@ public:
         return _bout;
     }
 
-    /// @return Le kit d'un combattant enrôlé, ou `nullptr`.
-    [[nodiscard]] const StrikeKit* kit(CombatantId combatant) const;
+    /// @return Les attaques d'un combattant enrôlé, ou `nullptr`.
+    [[nodiscard]] const std::vector<AttackProfile>* attacks(CombatantId combatant) const;
+
+    /// @return Les greffons des jets d'attaque de la session, pour qu'une capacité s'y insère.
+    [[nodiscard]] AttackHooks& attackHooks() noexcept {
+        return _attackHooks;
+    }
+    /// @return Le pipeline de dégâts de la session.
+    [[nodiscard]] DamagePipeline& damagePipeline() noexcept {
+        return _damagePipeline;
+    }
 
     /**
-     * @brief Le coup d'essai du combattant actif sur une cible au contact.
+     * @brief L'action *attaquer* du combattant actif, avec son attaque @p attackIndex.
      *
-     * Déclare l'attaque (`core::CombatHook::AttackDeclared`), dépense l'action, jette le d20
-     * contre la classe d'armure de la cible, et applique les dégâts si le coup porte. Tout
-     * passe par la suite aléatoire de la session : un rejeu redonne les mêmes coups.
+     * Vérifie la cible et la portée (`core::inReach`), dépense l'action, puis résout
+     * (`core::resolveAttack`) : déclaration, jet, dégâts. Une cible qui esquive impose le
+     * désavantage. Tout passe par la suite aléatoire de la session : un rejeu redonne les mêmes
+     * coups.
      */
-    StrikeOutcome strike(CombatantId target);
+    ArenaAttack attack(CombatantId target, std::size_t attackIndex = 0);
 
-    /// @brief Déplace le combattant actif ; le chemin est payé sur son budget restant.
+    /**
+     * @brief L'action *esquiver* : jusqu'au début de son prochain tour, les attaques contre le
+     *        combattant actif sont désavantagées (Manuel, chapitre 9).
+     * @return Faux sans tour actif, ou sans action.
+     */
+    bool dodge();
+
+    /**
+     * @brief L'action *se désengager* : jusqu'à la fin du tour, le déplacement du combattant actif
+     *        ne provoque pas d'attaque d'opportunité.
+     * @return Faux sans tour actif, ou sans action.
+     */
+    bool disengage();
+
+    /**
+     * @brief Déplace le combattant actif ; le chemin est payé sur son budget restant.
+     *
+     * **Attaque d'opportunité** (Manuel, chapitre 9) : quand le chemin sort de l'allonge d'une
+     * créature hostile debout qui a encore sa réaction, elle frappe « juste avant que la créature
+     * ne sorte de sa zone d'allonge », avec sa première attaque au corps à corps, et dépense sa
+     * réaction. Le déplacement s'arrête à la dernière case où l'on peut se tenir avant la sortie,
+     * les attaques se jouent par identifiant croissant, et le déplacement reprend si le combattant
+     * tient encore debout. Dans l'arène, **chaque** créature éligible frappe : il n'y a pas encore
+     * d'interface pour décliner (`LOT-24`) ni de comportement pour choisir (`LOT-23`).
+     */
     MoveOutcome move(GridPosition destination);
 
     /// @brief Termine le tour actif.
@@ -290,12 +302,25 @@ private:
     /// Relève tout le monde : le rituel de la Marque Héroïque, qui fait des Arènes un lieu
     /// sans mort. Rien dans une arène létale.
     void restoreAll();
+    /// Résout une attaque et l'écrit au journal à sa place : après la déclaration, avant ce que
+    /// ses dégâts déclenchent.
+    std::optional<AttackOutcome> resolveAndRecord(CombatantId attacker, CombatantId target,
+                                                  const AttackProfile& profile,
+                                                  const std::string& prefix);
+    /// Les circonstances qu'ajoute la session : l'esquive de la cible.
+    [[nodiscard]] AttackContext contextAgainst(CombatantId target) const;
+    /// La première attaque au corps à corps d'un combattant, ou `nullptr`.
+    [[nodiscard]] const AttackProfile* meleeAttack(CombatantId combatant) const;
 
     Level _level;
     ArenaBout _bout;
     DeterministicRandom _random{0};
     std::unique_ptr<CombatState> _combat;
-    std::map<CombatantId, StrikeKit> _kits;
+    std::map<CombatantId, std::vector<AttackProfile>> _attacks;
+    AttackHooks _attackHooks;
+    DamagePipeline _damagePipeline;
+    std::set<CombatantId> _dodging;
+    std::set<CombatantId> _disengaged;
     std::vector<std::string> _journal;
 };
 
