@@ -33,6 +33,10 @@
     },
     "backpack": [
       {
+        "itemId": "dague",
+        "quantity": 1
+      },
+      {
         "itemId": "torche",
         "quantity": 5
       },

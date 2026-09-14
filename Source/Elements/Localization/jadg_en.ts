@@ -239,44 +239,104 @@
 <context>
     <name>InventoryForm.ui</name>
     <message>
-        <location filename="../../Ui/Screens/InventoryForm.ui.qml" line="24"/>
-        <source>Inventaire et équipement</source>
-        <translation>Inventory and Equipment</translation>
+        <location filename="../../Ui/Screens/InventoryForm.ui.qml" line="103"/>
+        <source>Inventaire &amp; équipement</source>
+        <translation>Inventory &amp; equipment</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/InventoryForm.ui.qml" line="40"/>
+        <location filename="../../Ui/Screens/InventoryForm.ui.qml" line="169"/>
+        <source>CA</source>
+        <translation>AC</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/InventoryForm.ui.qml" line="170"/>
+        <source>INIT.</source>
+        <translation>INIT.</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/InventoryForm.ui.qml" line="171"/>
+        <source>VITESSE</source>
+        <translation>SPEED</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/InventoryForm.ui.qml" line="172"/>
+        <source>PERC. PASS.</source>
+        <translation>PASS. PERC.</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/InventoryForm.ui.qml" line="215"/>
+        <source>Tous</source>
+        <translation>All</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/InventoryForm.ui.qml" line="227"/>
         <source>Équipement</source>
         <translation>Equipment</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/InventoryForm.ui.qml" line="53"/>
-        <source>Charge</source>
-        <translation>Load</translation>
+        <location filename="../../Ui/Screens/InventoryForm.ui.qml" line="239"/>
+        <source>Matériel</source>
+        <translation>Gear</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/InventoryForm.ui.qml" line="54"/>
-        <source>Poids porté</source>
-        <translation>Carried Weight</translation>
+        <location filename="../../Ui/Screens/InventoryForm.ui.qml" line="251"/>
+        <source>Outils</source>
+        <translation>Tools</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/InventoryForm.ui.qml" line="55"/>
-        <source>Capacité</source>
-        <translation>Capacity</translation>
+        <location filename="../../Ui/Screens/InventoryForm.ui.qml" line="318"/>
+        <source>Poids : %1 / %2</source>
+        <translation>Weight: %1 / %2</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/InventoryForm.ui.qml" line="67"/>
-        <source>Sac</source>
-        <translation>Backpack</translation>
+        <location filename="../../Ui/Screens/InventoryForm.ui.qml" line="340"/>
+        <source>Pièces d'or</source>
+        <translation>Gold pieces</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/InventoryForm.ui.qml" line="73"/>
-        <source>Bourse</source>
-        <translation>Purse</translation>
+        <location filename="../../Ui/Screens/InventoryForm.ui.qml" line="350"/>
+        <source>Trier</source>
+        <translation>Sort</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/InventoryForm.ui.qml" line="74"/>
-        <source>Pièces d&apos;or</source>
-        <translation>Gold Pieces</translation>
+        <location filename="../../Ui/Screens/InventoryForm.ui.qml" line="394"/>
+        <source>Choisissez un objet du sac ou un emplacement porté.</source>
+        <translation>Choose an item from the bag or a worn slot.</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/InventoryForm.ui.qml" line="421"/>
+        <source>Poids : %1</source>
+        <translation>Weight: %1</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/InventoryForm.ui.qml" line="432"/>
+        <source>Dégâts</source>
+        <translation>Damage</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/InventoryForm.ui.qml" line="447"/>
+        <source>Protection</source>
+        <translation>Protection</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/InventoryForm.ui.qml" line="462"/>
+        <source>Propriétés</source>
+        <translation>Properties</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/InventoryForm.ui.qml" line="489"/>
+        <source>Retirer</source>
+        <translation>Unequip</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/InventoryForm.ui.qml" line="489"/>
+        <source>Équiper</source>
+        <translation>Equip</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/InventoryForm.ui.qml" line="498"/>
+        <source>Jeter</source>
+        <translation>Drop</translation>
     </message>
 </context>
 <context>

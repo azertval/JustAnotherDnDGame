@@ -653,6 +653,56 @@ niveau suivant** qui remplit la jauge d'expérience (`character_sheet.experience
 |---|---|---|
 | ![maquette 03](references/03_Character_Sheet_Mockup.png) | ![fiche à 1080p](captures/t3-4-fiche-1080p.png) | ![fiche à 720p](captures/t3-4-fiche-720p.png) |
 
+### T3.5 — L'inventaire et l'équipement (maquette 04)
+
+Trois parchemins : l'équipement porté et les statistiques dérivées ; les onglets, la grille du sac,
+la charge, l'or et le tri ; la fiche de l'objet sélectionné et ses actions.
+
+**L'écran agit.** Filtrer, sélectionner, équiper, retirer, jeter, trier modifient l'inventaire, et
+tout se recalcule depuis lui : classe d'armure, charge, grille. Rien n'est ajouté ni retranché à une
+valeur publiée (règle du `LOT-14`).
+
+- **Logique pure et testée** : `HMI/Presentation/InventoryScreen` classe les objets par famille
+  (`familyOf`), rend les cases filtrées (`backpackCells`), la fiche d'un objet (`itemSheet`), son
+  emplacement naturel (`naturalSlot`), et les actions : `equipFromBackpack` (ce que l'emplacement
+  portait retourne au sac), `unequipToBackpack`, `dropFromBackpack` (un exemplaire), `sortBackpack`.
+  **Six tests.**
+- **`hmi::loadDemonstrationState`** : le chargeur du personnage de démonstration se scinde en un
+  état (fiche, sac, catalogues) et le calcul de ses valeurs (`demonstrationValues`). La fiche garde
+  son appel d'origine ; l'inventaire garde l'état, le modifie et le recalcule.
+- **`InventoryModel`** gagne ce que le plan demandait : les **familles** pour les filtres (`filter`,
+  `cells`), la **sélection** et sa fiche (`selectItem`, `selectSlot`, `selection`), la **charge**
+  (`loadRatio`), plus l'or, les quatre statistiques dérivées, ce que porte chaque emplacement
+  (`equipped`), et les actions (`equipSelected`, `unequipSelected`, `dropSelected`, `sortBackpack`).
+  La doublure suit.
+- `ItemSlot` gagne `label` : tant qu'un objet n'a pas d'icône, son nom s'écrit dans la case. Une case
+  pleine et une case vide ne se distingueraient pas sinon.
+- **Vérifié dans le jeu** : le jumeau, modifié le temps d'une capture pour sélectionner la dague,
+  l'équiper puis filtrer le matériel, montre la dague en main directrice, la sélection passée à
+  l'emplacement (« Retirer ») et l'onglet Matériel actif, sans l'épée longue (retournée au sac,
+  famille équipement). Modification retirée ensuite.
+- Donnée : une **dague** entre dans le sac du personnage de démonstration. Tout son équipement étant
+  déjà porté, « Équiper » n'aurait rien eu à montrer.
+
+Écarts :
+
+- **Onglets Tous, Équipement, Matériel, Outils**, et non Tous, Équipement, Consommables, Divers :
+  les catalogues ne connaissent que `gear`, `tool` et `mount`, plus les armes et armures. Un onglet
+  « Consommables » ne trierait rien (`EX-IHM-072`).
+- **Pas de bouton Examiner** : la fiche est déjà affichée à côté. « Équiper » devient « Retirer » sur
+  un emplacement porté.
+- **Dix emplacements sur seize** : ceux de la maquette (tête, cape, torse, mains, pieds ; main
+  directrice, main secondaire, distance, anneau, cou). Les seize restent dans `equipmentSlots`.
+- **Le matériel ne s'équipe pas** : une amulette et une torche portent la même catégorie (`gear`),
+  et rien ne dit où ranger l'une ou l'autre. Seules les armes, armures et boucliers ont un
+  emplacement naturel.
+- **Pas de silhouette ni d'icônes d'objets** : ni l'une ni les autres ne sont au cahier (icônes
+  d'objets : `LOT-39`).
+
+| Maquette | 1920 × 1080 | 1280 × 720 |
+|---|---|---|
+| ![maquette 04](references/04_Inventory_Equipment_Mockup.png) | ![inventaire à 1080p](captures/t3-5-inventaire-1080p.png) | ![inventaire à 720p](captures/t3-5-inventaire-720p.png) |
+
 ## Exigences couvertes
 
 - [`EX-IHM-070`](@ref EX-IHM-070), [`EX-IHM-075`](@ref EX-IHM-075), [`EX-IHM-076`](@ref EX-IHM-076),

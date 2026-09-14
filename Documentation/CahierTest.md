@@ -1,8 +1,8 @@
 # Cahier de test {#cahiertest}
 
-**1033 cas de test**, générés depuis les blocs `\castest{...}` du code par `scripts/generate_cahier_test.py` (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de `Source/Test/` pour rester lisibles page par page.
+**1039 cas de test**, générés depuis les blocs `\castest{...}` du code par `scripts/generate_cahier_test.py` (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de `Source/Test/` pour rester lisibles page par page.
 
-## Tests unitaires (1018)
+## Tests unitaires (1024)
 
 ### Core
 
@@ -1741,7 +1741,7 @@
 | **LocalizationTest.CatalogueFrancaisLivreSeCharge** (Majeur)<br/><sub>`Source/Test/Unit/HMI/Localization/test_localization.cpp:173`</sub> | Le catalogue français livré (Source/Elements/Localization) se charge et résout ses clés. | 1. Mettre en place le contexte du test (arrangement).<br/>2. Executer le scenario et verifier les assertions. | Vérifie que `localization.loadDefaultLanguage("fr")` est vrai.<br/>Vérifie que `localization.activeLanguage()` vaut `"fr"`.<br/>Vérifie que `localization.text("menu.quit")` vaut `"Quitter"`.<br/>Vérifie que `localization.text("menu.new_game")` vaut `"Nouvelle partie"`. |
 | **LocalizationTest.LesDeuxCataloguesDeclarentLesMemesCles** (Majeur)<br/><sub>`Source/Test/Unit/HMI/Localization/test_localization.cpp:201`</sub> | Les catalogues francais et anglais declarent les memes cles. | 1. Charger fr.lang et en.lang.<br/>2. Comparer les ensembles de cles dans les deux sens. | Vérifie que `french.empty()` est faux.<br/>Vérifie que `english.empty()` est faux.<br/>Vérifie que `english.count(key) > 0` est vrai.<br/>Vérifie que `french.count(key) > 0` est vrai.<br/>Vérifie que `french.size()` vaut `english.size()`. |
 
-#### Presentation (5)
+#### Presentation (11)
 
 **`test_credits_catalog.cpp`**
 
@@ -1752,6 +1752,17 @@
 | **CreditsCatalogTest.LigneSansNomFaitEchouerLaLecture** (Critique)<br/><sub>`Source/Test/Unit/HMI/Presentation/test_credits_catalog.cpp:81`</sub> | Une ligne de crédits sans nom fait échouer la lecture. | 1. Lire un JSON dont la seule ligne a une liste de noms vide. | Vérifie que `result.ok()` est faux.<br/>Vérifie que `result.sections.empty()` est vrai.<br/>Vérifie que `result.error.find("x")` diffère de `std::string::npos`. |
 | **CreditsCatalogTest.ColonneHorsBornesRefusee** (Majeur)<br/><sub>`Source/Test/Unit/HMI/Presentation/test_credits_catalog.cpp:99`</sub> | Une section de crédits hors des deux colonnes est refusée. | 1. Lire une section de colonne 2. | Vérifie que `result.ok()` est faux. |
 | **CreditsCatalogTest.FichierLivreSeLitDansLesDeuxLangues** (Critique)<br/><sub>`Source/Test/Unit/HMI/Presentation/test_credits_catalog.cpp:115`</sub> | Le fichier de crédits livré se lit en français et en anglais. | 1. Lire `Source/Elements/Credits/credits.json` en français, puis en anglais. | Vérifie que `file` est vrai.<br/>Vérifie que `result.ok()` est vrai.<br/>Vérifie que `left && right` est vrai. |
+
+**`test_inventory_screen.cpp`**
+
+| Titre (criticité) | Brief | Étapes | Résultat attendu |
+|---|---|---|---|
+| **InventoryScreenTest.OngletsFiltrentParFamille** (Majeur)<br/><sub>`Source/Test/Unit/HMI/Presentation/test_inventory_screen.cpp:70`</sub> | Les onglets de l'inventaire filtrent le sac par famille. | 1. Remplir un sac d'une épée, de torches et d'outils.<br/> 2. Demander les cases de chaque filtre. | Vérifie que `hmi::backpackCells(inventory, catalogs.lookup(), hmi::ItemFamily::All).size()` vaut `3U`.<br/>Vérifie que `equipment.size()` vaut `1U`.<br/>Vérifie que `equipment[0].name` vaut `"Épée longue"`.<br/>Vérifie que `gear.size()` vaut `1U`.<br/>Vérifie que `gear[0].quantity` vaut `5`.<br/>Vérifie que `hmi::backpackCells(inventory, catalogs.lookup(), hmi::ItemFamily::Tools).size()` vaut `1U`. |
+| **InventoryScreenTest.EquiperEchangeAvecLEmplacement** (Critique)<br/><sub>`Source/Test/Unit/HMI/Presentation/test_inventory_screen.cpp:99`</sub> | Équiper depuis l'inventaire rend l'objet remplacé au sac. | 1. Porter une dague en main directrice, avoir une épée longue dans le sac.<br/> 2. Équiper l'épée depuis le sac. | Vérifie que `hmi::equipFromBackpack(inventory, "epee-longue", catalogs.lookup())` est vrai.<br/>Vérifie que `inventory.at(core::EquipmentSlot::MainHand)` vaut `"epee-longue"`.<br/>Vérifie que `quantityOf(inventory, "dague")` vaut `1`.<br/>Vérifie que `quantityOf(inventory, "epee-longue")` vaut `0`. |
+| **InventoryScreenTest.EmplacementNaturel** (Majeur)<br/><sub>`Source/Test/Unit/HMI/Presentation/test_inventory_screen.cpp:121`</sub> | Un objet s'équipe à son emplacement naturel, ou pas du tout. | 1. Demander l'emplacement naturel d'un arc, d'une épée, d'une armure, d'un bouclier, d'une torche.<br/> 2. Tenter d'équiper la torche. | Vérifie que `hmi::naturalSlot("arc-long", catalogs.lookup())` vaut `core::EquipmentSlot::Ranged`.<br/>Vérifie que `hmi::naturalSlot("epee-longue", catalogs.lookup())` vaut `core::EquipmentSlot::MainHand`.<br/>Vérifie que `hmi::naturalSlot("cuir", catalogs.lookup())` vaut `core::EquipmentSlot::Torso`.<br/>Vérifie que `hmi::naturalSlot("bouclier", catalogs.lookup())` vaut `core::EquipmentSlot::OffHand`.<br/>Vérifie que `hmi::naturalSlot("torche", catalogs.lookup()).has_value()` est faux.<br/>Vérifie que `hmi::equipFromBackpack(inventory, "torche", catalogs.lookup())` est faux.<br/>Vérifie que `quantityOf(inventory, "torche")` vaut `1`. |
+| **InventoryScreenTest.RetirerEtJeter** (Majeur)<br/><sub>`Source/Test/Unit/HMI/Presentation/test_inventory_screen.cpp:147`</sub> | Retirer un objet le range au sac, jeter en retire un exemplaire. | 1. Retirer le bouclier porté.<br/> 2. Jeter une torche d'une pile de trois.<br/> 3. Retirer un emplacement vide. | Vérifie que `hmi::unequipToBackpack(inventory, core::EquipmentSlot::OffHand)` est vrai.<br/>Vérifie que `inventory.isEquipped(core::EquipmentSlot::OffHand)` est faux.<br/>Vérifie que `quantityOf(inventory, "bouclier")` vaut `1`.<br/>Vérifie que `hmi::dropFromBackpack(inventory, "torche")` est vrai.<br/>Vérifie que `quantityOf(inventory, "torche")` vaut `2`.<br/>Vérifie que `hmi::unequipToBackpack(inventory, core::EquipmentSlot::Head)` est faux. |
+| **InventoryScreenTest.TrierParNom** (Mineur)<br/><sub>`Source/Test/Unit/HMI/Presentation/test_inventory_screen.cpp:173`</sub> | Trier l'inventaire range le sac par nom. | 1. Remplir un sac de torches, d'une épée et d'une dague, dans cet ordre.<br/> 2. Trier. | Vérifie que `inventory.backpack.size()` vaut `3U`.<br/>Vérifie que `inventory.backpack[0].itemId` vaut `"dague"`.<br/>Vérifie que `inventory.backpack[1].itemId` vaut `"torche"`.<br/>Vérifie que `inventory.backpack[2].itemId` vaut `"epee-longue"`. |
+| **InventoryScreenTest.FicheDObjet** (Mineur)<br/><sub>`Source/Test/Unit/HMI/Presentation/test_inventory_screen.cpp:197`</sub> | La fiche d'un objet de l'inventaire décrit sa nature et son poids. | 1. Demander la fiche de l'armure de cuir, du bouclier et de la torche. | Vérifie que `armor.kind` vaut `"Armure légère"`.<br/>Vérifie que `armor.armor` vaut `"CA 11 + Dex"`.<br/>Vérifie que `armor.equippable` est vrai.<br/>Vérifie que `hmi::itemSheet("bouclier", catalogs.lookup()).armor` vaut `"+2"`.<br/>Vérifie que `torch.kind` vaut `"Matériel"`.<br/>Vérifie que `torch.weight` vaut `"0,5 kg"`.<br/>Vérifie que `torch.equippable` est faux. |
 
 ## Tests d'intégration (13)
 
