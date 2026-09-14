@@ -37,18 +37,18 @@ PauseForm {
     }
 
     Connections {
-        target: root.resumeEntry.pointer
-        function onEntered() { root.point(0) }
+        target: root.resumeEntry
+        function onHoveredChanged() { if (root.resumeEntry.hovered) root.point(0) }
         function onClicked() { root.choose(0) }
     }
     Connections {
-        target: root.optionsEntry.pointer
-        function onEntered() { root.point(1) }
+        target: root.optionsEntry
+        function onHoveredChanged() { if (root.optionsEntry.hovered) root.point(1) }
         function onClicked() { root.choose(1) }
     }
     Connections {
-        target: root.quitEntry.pointer
-        function onEntered() { root.point(2) }
+        target: root.quitEntry
+        function onHoveredChanged() { if (root.quitEntry.hovered) root.point(2) }
         function onClicked() { root.choose(2) }
     }
 }

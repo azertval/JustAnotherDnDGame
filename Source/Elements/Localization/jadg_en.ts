@@ -178,32 +178,27 @@
 <context>
     <name>DialogueForm.ui</name>
     <message>
-        <location filename="../../Ui/Screens/DialogueForm.ui.qml" line="21"/>
+        <location filename="../../Ui/Screens/DialogueForm.ui.qml" line="30"/>
         <source>Dialogue</source>
         <translation>Dialogue</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/DialogueForm.ui.qml" line="41"/>
-        <source>Interlocuteur</source>
-        <translation>Speaker</translation>
-    </message>
-    <message>
-        <location filename="../../Ui/Screens/DialogueForm.ui.qml" line="48"/>
+        <location filename="../../Ui/Screens/DialogueForm.ui.qml" line="52"/>
         <source>Nom</source>
         <translation>Name</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/DialogueForm.ui.qml" line="49"/>
+        <location filename="../../Ui/Screens/DialogueForm.ui.qml" line="58"/>
         <source>Attitude</source>
         <translation>Attitude</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/DialogueForm.ui.qml" line="62"/>
+        <location filename="../../Ui/Screens/DialogueForm.ui.qml" line="80"/>
         <source>Réplique</source>
         <translation>Line</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/DialogueForm.ui.qml" line="69"/>
+        <location filename="../../Ui/Screens/DialogueForm.ui.qml" line="102"/>
         <source>Réponses</source>
         <translation>Replies</translation>
     </message>
@@ -314,22 +309,22 @@
 <context>
     <name>JournalForm.ui</name>
     <message>
-        <location filename="../../Ui/Screens/JournalForm.ui.qml" line="23"/>
+        <location filename="../../Ui/Screens/JournalForm.ui.qml" line="33"/>
         <source>Journal de quêtes</source>
         <translation>Quest Journal</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/JournalForm.ui.qml" line="38"/>
+        <location filename="../../Ui/Screens/JournalForm.ui.qml" line="45"/>
         <source>Quêtes</source>
         <translation>Quests</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/JournalForm.ui.qml" line="56"/>
+        <location filename="../../Ui/Screens/JournalForm.ui.qml" line="66"/>
         <source>Détail</source>
         <translation>Details</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/JournalForm.ui.qml" line="63"/>
+        <location filename="../../Ui/Screens/JournalForm.ui.qml" line="89"/>
         <source>Objectifs</source>
         <translation>Objectives</translation>
     </message>
@@ -380,29 +375,29 @@
 <context>
     <name>MerchantForm.ui</name>
     <message>
-        <location filename="../../Ui/Screens/MerchantForm.ui.qml" line="18"/>
+        <location filename="../../Ui/Screens/MerchantForm.ui.qml" line="27"/>
         <source>Marchand</source>
         <translation>Merchant</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/MerchantForm.ui.qml" line="37"/>
+        <location filename="../../Ui/Screens/MerchantForm.ui.qml" line="38"/>
         <source>Marchandises</source>
         <translation>Goods</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/MerchantForm.ui.qml" line="49"/>
+        <location filename="../../Ui/Screens/MerchantForm.ui.qml" line="56"/>
         <source>Bourse</source>
         <translation>Purse</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/MerchantForm.ui.qml" line="50"/>
-        <source>Pièces d&apos;or</source>
-        <translation>Gold Pieces</translation>
+        <location filename="../../Ui/Screens/MerchantForm.ui.qml" line="61"/>
+        <source>Pièces d'or</source>
+        <translation>Gold pieces</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/MerchantForm.ui.qml" line="58"/>
+        <location filename="../../Ui/Screens/MerchantForm.ui.qml" line="71"/>
         <source>Votre sac</source>
-        <translation>Your Backpack</translation>
+        <translation>Your bag</translation>
     </message>
 </context>
 <context>
@@ -501,24 +496,24 @@
 <context>
     <name>PauseForm.ui</name>
     <message>
-        <location filename="../../Ui/Screens/PauseForm.ui.qml" line="30"/>
-        <source>Pause</source>
-        <translation>Pause</translation>
-    </message>
-    <message>
-        <location filename="../../Ui/Screens/PauseForm.ui.qml" line="38"/>
+        <location filename="../../Ui/Screens/PauseForm.ui.qml" line="50"/>
         <source>Reprendre</source>
         <translation>Resume</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/PauseForm.ui.qml" line="39"/>
+        <location filename="../../Ui/Screens/PauseForm.ui.qml" line="63"/>
         <source>Options</source>
         <translation>Options</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/PauseForm.ui.qml" line="40"/>
+        <location filename="../../Ui/Screens/PauseForm.ui.qml" line="76"/>
         <source>Quitter vers le menu</source>
-        <translation>Quit to Menu</translation>
+        <translation>Quit to menu</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/PauseForm.ui.qml" line="88"/>
+        <source>Pause</source>
+        <translation>Pause</translation>
     </message>
 </context>
 <context>

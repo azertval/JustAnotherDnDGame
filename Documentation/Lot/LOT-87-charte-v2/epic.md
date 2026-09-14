@@ -815,6 +815,39 @@ de bouton « Gestion des sorts » : il n'aurait rien à ouvrir (`EX-IHM-072`).
 |---|---|---|
 | ![maquette 10](references/10_Skills_Mockup.png) | ![sorts à 1080p](captures/t3-8-sorts-1080p.png) | ![sorts à 720p](captures/t3-8-sorts-720p.png) |
 
+### T3.9 — Pause, dialogue, marchand, journal : restylés
+
+Pas de maquette : les briques et les jetons de la charte v2, sur la structure v1 de chaque écran.
+La matière suit la charte : **panneau sombre** pour la pause et le journal, **parchemin** pour le
+dialogue et le marchand.
+
+- **`ScreenPage`**, nouveau châssis v2, remplace `RpgScreenFrame` : fond, grand panneau de la
+  matière, plaque de titre (grenat ou noire), et au pied la mention « Écran dessiné, données à
+  venir » quand `pending` est vrai. Les jumeaux de ces écrans ne changent pas : ils posent les mêmes
+  propriétés, reprises à l'identique par les nouveaux formulaires.
+- Les listes sont des `LedgerList` (T3.7), les champs des `FieldRow` (T3.4), le portrait un
+  `PortraitFrame`.
+- **La pause** reprend les boutons et la marque de focus du menu principal (T3.1). Son jumeau
+  branche désormais le survol et le clic des boutons, et non plus la zone de `MenuEntry`.
+
+**Critère du plan, à une exception près** : plus aucun formulaire de ces quatre écrans ni de ceux de
+la phase 3 n'emploie `ParchmentFrame`, `Cabochon`, `TitleBanner`, `MenuEntry` ou `Sheet*`. Le
+**HUD de combat** (`CombatHudForm`) les emploie encore : sa réécriture est le T4.1, en phase 4, et
+les contrôles v1 partent au T5.2 une fois qu'il est fait.
+
+| Écran | 1920 × 1080 | 1280 × 720 |
+|---|---|---|
+| Pause | ![pause à 1080p](captures/t3-9-pause-1080p.png) | ![pause à 720p](captures/t3-9-pause-720p.png) |
+| Dialogue | ![dialogue à 1080p](captures/t3-9-dialogue-1080p.png) | ![dialogue à 720p](captures/t3-9-dialogue-720p.png) |
+| Marchand | ![marchand à 1080p](captures/t3-9-merchant-1080p.png) | ![marchand à 720p](captures/t3-9-merchant-720p.png) |
+| Journal | ![journal à 1080p](captures/t3-9-journal-1080p.png) | ![journal à 720p](captures/t3-9-journal-720p.png) |
+
+### Où en est la phase 3
+
+Les neuf tâches sont faites, **une PR par tâche, empilées** : #28 (T3.1, fusionnée), puis #29 à
+#36. Aucune image du cahier n'est encore produite : tous les écrans sont posés sur les aplats de
+repli des briques, et les captures jugent la mise en page. La porte 3 attend la revue.
+
 ## Exigences couvertes
 
 - [`EX-IHM-070`](@ref EX-IHM-070), [`EX-IHM-075`](@ref EX-IHM-075), [`EX-IHM-076`](@ref EX-IHM-076),

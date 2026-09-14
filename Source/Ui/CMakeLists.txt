@@ -67,6 +67,7 @@ set(JADG_UI_QML_FILES
     Controls/MapMarker.ui.qml
     Controls/LedgerList.ui.qml
     Controls/SpellEntry.ui.qml
+    Controls/ScreenPage.ui.qml
     Screens/CharacterSheetForm.ui.qml
     Screens/InventoryForm.ui.qml
     Screens/JournalForm.ui.qml

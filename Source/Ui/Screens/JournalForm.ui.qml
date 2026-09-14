@@ -3,72 +3,92 @@ import QtQuick.Layouts
 import Jadg.Ui
 
 /*!
-    Journal de quetes -- FORMULAIRE, cote conception (LOT-86).
+    Journal de quetes -- FORMULAIRE, cote conception (LOT-86, restyle LOT-87 T3.9).
 
-    Dessine avant que la donnee existe : le lot des quetes n'est pas ecrit. La mise en page, elle,
-    etait deja decidee, et la jeter en attendant reviendrait a la redessiner plus tard, autrement,
-    sans que personne ne se souvienne de ce qui avait ete tranche.
+    Pas de maquette : les briques et les jetons de la charte v2, sur la structure v1 -- les quetes a
+    gauche, le detail et les objectifs de la quete choisie a droite. Panneau sombre : le journal se
+    consulte par-dessus le jeu, comme la carte.
 
-    Les valeurs ci-dessous sont des EXEMPLES, pour que Qt Design Studio montre un ecran plein et
-    que la mise en page se juge. Le jumeau de cablage les remplace par l'ancre `PendingData`, en
-    attendant la vraie source.
+    Les proprietes portent des VALEURS D'EXEMPLE : sans elles, l'atelier montrerait un ecran vide et
+    la mise en page ne se jugerait pas. Le jumeau les remplace par l'ancre `PendingData`, en
+    attendant le lot des quetes (`LOT-16`).
 */
-RpgScreenFrame {
+ScreenPage {
     id: root
 
-    property alias quests: questList.model
-    property alias objectives: objectiveList.model
-    property alias detail: detailProse.text
+    property var quests: exampleQuests
+    property var objectives: exampleObjectives
+    property string detail: "Le tavernier jure que les tonneaux descendent seuls à la cave, et qu'aucun ne remonte. Il propose trois pièces d'or et le gîte pour la nuit à qui voudra bien y descendre voir."
+
+    readonly property ListModel exampleQuests: ListModel {
+        ListElement { rowId: "a"; label: "Les caves de Bourg-la-Rive"; value: "En cours" }
+        ListElement { rowId: "b"; label: "La cargaison disparue"; value: "En cours" }
+        ListElement { rowId: "c"; label: "Le convoi de Val-Morne"; value: "Terminée" }
+    }
+    readonly property ListModel exampleObjectives: ListModel {
+        ListElement { rowId: "a"; label: "Descendre à la cave"; value: "✓" }
+        ListElement { rowId: "b"; label: "Trouver l'origine du bruit"; value: "" }
+    }
 
     title: qsTr("Journal de quêtes")
+    material: "dark"
 
-    // Le contenu s'affecte au slot du châssis. `content` n'est PAS la propriété par défaut,
-    // et ne peut pas l'être : le châssis a ses propres enfants (le double cadre, le titre, le
-    // pied), qui y entreraient aussi et s'imbriqueraient dans eux-mêmes.
-    content: [
-        RowLayout {
+    RowLayout {
+        anchors.fill: parent
+        spacing: Tokens.gapLarge
+
+        LedgerList {
             Layout.fillWidth: true
             Layout.fillHeight: true
-            spacing: Tokens.spaceExtraLarge
+            Layout.preferredWidth: 1
+            material: "dark"
+            title: qsTr("Quêtes")
+            rows: root.quests
+        }
 
-            SheetList {
-                id: questList
-                Layout.alignment: Qt.AlignTop
+        ColumnLayout {
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            Layout.preferredWidth: 1
+            spacing: Tokens.gapLarge
+
+            PanelFrame {
                 Layout.fillWidth: true
-                title: qsTr("Quêtes")
-                rows: 8
-                model: ListModel {
-                    ListElement { label: "Les caves de Bourg-la-Rive"; value: "En cours" }
-                    ListElement { label: "La cargaison disparue"; value: "En cours" }
-                    ListElement { label: "Le convoi de Val-Morne"; value: "Terminée" }
-                    ListElement { label: "Ce qui rôde sous la halle"; value: "Nouvelle" }
+                Layout.preferredHeight: 360 * Tokens.uiScale
+                subpanel: true
+
+                SectionBanner {
+                    id: detailBanner
+
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    material: "dark"
+                    text: qsTr("Détail")
+                }
+
+                Text {
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.top: detailBanner.bottom
+                    anchors.bottom: parent.bottom
+                    anchors.topMargin: Tokens.gapMedium
+                    text: root.detail
+                    color: Tokens.textOnPanel
+                    font.family: Tokens.loreFamily
+                    font.italic: true
+                    font.pixelSize: Tokens.fontBody
+                    wrapMode: Text.WordWrap
+                    elide: Text.ElideRight
                 }
             }
 
-            ColumnLayout {
-                Layout.alignment: Qt.AlignTop
+            LedgerList {
                 Layout.fillWidth: true
-                spacing: Tokens.spaceLarge
-
-                SheetProse {
-                    id: detailProse
-                    Layout.fillWidth: true
-                    title: qsTr("Détail")
-                    text: "Le tavernier jure que les tonneaux descendent seuls à la cave, et qu'aucun ne remonte. Il propose trois pièces d'or et le gîte pour la nuit à qui voudra bien y descendre voir."
-                }
-
-                SheetList {
-                    id: objectiveList
-                    Layout.fillWidth: true
-                    title: qsTr("Objectifs")
-                    rows: 4
-                    model: ListModel {
-                        ListElement { label: "Descendre à la cave"; value: "✓" }
-                        ListElement { label: "Trouver l'origine du bruit"; value: "" }
-                        ListElement { label: "En parler au tavernier"; value: "" }
-                    }
-                }
+                Layout.fillHeight: true
+                material: "dark"
+                title: qsTr("Objectifs")
+                rows: root.objectives
             }
         }
-    ]
+    }
 }
