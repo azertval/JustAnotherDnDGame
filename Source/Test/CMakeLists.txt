@@ -36,6 +36,8 @@ add_executable(UnitTests
     Unit/Core/Rpg/test_equipment.cpp
     Unit/Core/Rpg/test_inventory.cpp
     Unit/Core/Combat/test_encounter.cpp
+    Unit/Core/Combat/test_battle_grid.cpp
+    Unit/Core/Combat/test_pathfinding.cpp
     Unit/Core/Resources/test_asset_keys.cpp
     Unit/Core/Rpg/test_rpg_enums.cpp
     Unit/Core/Rpg/test_multiclassing.cpp

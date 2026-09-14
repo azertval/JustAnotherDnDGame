@@ -26,8 +26,9 @@ namespace hmi {
  * Trois passes de l'exploration **disparaissent** ici, et chacune pour une raison précise :
  *
  * - `moveCharacter` — le personnage ne se déplace plus à l'intention du joueur mais au **budget de
- *   déplacement** de son tour (`LOT-19`). Laisser la passe d'exploration active donnerait un
- *   combat où l'on marche librement pendant le tour d'un autre.
+ *   déplacement** de son tour, case par case sur la grille tactique (`core::BattleGrid`,
+ *   `core::ReachableArea`, `LOT-19`). Laisser la passe d'exploration active donnerait un combat où
+ *   l'on marche librement pendant le tour d'un autre.
  * - `updateMechanisms` — une plaque de pression qui s'enfoncerait au milieu d'un tour ferait
  *   dépendre le combat de la position d'un pion sur un mécanisme, ce qu'aucune règle ne décrit.
  * - `evaluateOutcome` — l'issue du **niveau** n'a pas de sens pendant un combat : tomber à zéro

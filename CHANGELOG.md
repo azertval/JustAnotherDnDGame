@@ -6,6 +6,34 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **Grille tactique et déplacement** (`LOT-19`, `EX-CBT-020`, `EX-DND-051`). Le combat a sa grille :
+  qui se tient où, jusqu'où l'on va ce tour-ci, et par où.
+  - **La règle vient du Manuel, et elle a contredit la feuille de route.** « Jouer sur un
+    quadrillage » : une case coûte 1 **même en diagonale**, 2 en terrain difficile — à condition
+    de pouvoir les payer —, et l'on ne coupe pas le coin d'un mur. `core::GridDistanceField`, qu'on
+    devait réemployer, est un parcours à quatre voisins et à coût uniforme : il ne sait rien de
+    cela. Il reste l'outil de la récompense de progression ; le déplacement est un Dijkstra à huit
+    voisins (`core::ReachableArea`) et un A* (`core::findPath`).
+  - **Même entrée, même chemin — et le même dans les deux algorithmes.** À coût égal, le
+    prédécesseur d'indice de case le plus petit l'emporte : une règle posée sur le graphe, pas sur
+    l'ordre d'exploration. L'A* ne s'arrête donc pas à la première sortie de la destination ; le
+    test qui compare les deux algorithmes sur deux cents cartes aléatoires à graine fixe échoue
+    quand on l'y arrête.
+  - **Deux créatures ne partagent jamais une case**, par **emprise** : une créature de taille G
+    tient 2 × 2, et ne passe pas là où un humain passe. `place` et `moveTo` refusent avec leur
+    raison plutôt que de corriger. On traverse qui la requête autorise (`canPassThrough`), jamais
+    personne par défaut, et l'on ne s'arrête sur aucun.
+  - **L'altitude est un attribut, jamais une géométrie.** Un volant survole l'eau profonde et la
+    falaise et ignore la boue ; il ne traverse pas les murs, que la grille de collision ne sait
+    pas distinguer d'un muret.
+  - **Le budget tronque** : 9 m font 6 cases, 10 m aussi — un segment de 1,50 m entamé n'en est
+    pas un.
+  - **Le crochet des zones** : une couche à propriétés déclare une zone (`zonesAt`) ; seul
+    `difficultTerrain: true` — le booléen, pas un `1` — est interprété ici. Le terrain difficile
+    naît aussi en combat, et un objet de grille a des points de vie.
+  - Huit cas de test du cahier s'affichaient sans criticité ni étapes : leurs balises `\tcat`
+    avaient été écrites avec une tabulation. Corrigé.
+
 - **Charte v2 et intégration des maquettes** (`LOT-87`, en cours). Les dix maquettes du pack UI
   deviennent la charte visuelle ; les cadres, plaques et fonds seront produits à part, à 1080p.
   - **Phase 0 — socle vert.** Branches mortes archivées, débris retirés, maquettes déplacées dans

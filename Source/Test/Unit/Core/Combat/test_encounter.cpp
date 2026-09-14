@@ -237,10 +237,10 @@ TEST(EncounterTest, UnInstantaneNonReleveSeDistingueDeLOrigine) {
 /**
  * @brief Un ennemi **posé** sur la carte porte une clé de drapeau ; une **zone** n'en porte pas.
  * \castest{<b>Un ennemi pose porte une cle, une zone n'en porte pas.</b><br/>
- * 	cat Unitaire · Combat<br/>
- * 	crit Critique<br/>
- * 	etapes 1. Lire une entite de rencontre posee.<br/>2. Lire la meme avec respawns.<br/>
- * 	attendu La premiere porte une cle fabriquee, la seconde aucune.
+ * \tcat Unitaire · Combat<br/>
+ * \tcrit Critique<br/>
+ * \tetapes 1. Lire une entite de rencontre posee.<br/>2. Lire la meme avec respawns.<br/>
+ * \tattendu La premiere porte une cle fabriquee, la seconde aucune.
  * }
  */
 TEST(EncounterTest, UnEnnemiPosePorteUneCleUneZoneNonN) {
@@ -268,11 +268,11 @@ TEST(EncounterTest, UnEnnemiPosePorteUneCleUneZoneNonN) {
  * @brief Deux ennemis d'une même carte, et le même ennemi sur deux cartes, ne partagent jamais
  *        leur clé.
  * \castest{<b>Deux declencheurs ne partagent jamais leur cle.</b><br/>
- * 	cat Unitaire · Combat<br/>
- * 	crit Critique<br/>
- * 	etapes 1. Lire deux entites de rencontre a des cases differentes de la meme carte.<br/>
+ * \tcat Unitaire · Combat<br/>
+ * \tcrit Critique<br/>
+ * \tetapes 1. Lire deux entites de rencontre a des cases differentes de la meme carte.<br/>
  * 2. Lire la meme case sur deux cartes differentes.<br/>
- * 	attendu Les cles different dans les deux cas.
+ * \tattendu Les cles different dans les deux cas.
  * }
  */
 TEST(EncounterTest, DeuxDeclencheursNePartagentJamaisLeurCle) {
@@ -294,11 +294,11 @@ TEST(EncounterTest, DeuxDeclencheursNePartagentJamaisLeurCle) {
 /**
  * @brief Ce qui n'est pas un déclencheur n'en devient pas un.
  * \castest{<b>Ce qui n'est pas un declencheur n'en devient pas un.</b><br/>
- * 	cat Unitaire · Combat<br/>
- * 	crit Majeur<br/>
- * 	etapes 1. Lire une entite d'un autre type.<br/>2. Lire une entite de rencontre sans
+ * \tcat Unitaire · Combat<br/>
+ * \tcrit Majeur<br/>
+ * \tetapes 1. Lire une entite d'un autre type.<br/>2. Lire une entite de rencontre sans
  * encounterId.<br/>
- * 	attendu Aucun declencheur dans les deux cas.
+ * \tattendu Aucun declencheur dans les deux cas.
  * }
  */
 TEST(EncounterTest, CeQuiNEstPasUnDeclencheurNEnDevientPasUn) {

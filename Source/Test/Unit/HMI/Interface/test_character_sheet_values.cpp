@@ -211,12 +211,12 @@ TEST(CharacterSheetValuesTest, SansFicheAucuneValeurNEstProduite) {
  * rapproche. Une faute de frappe d'un côté ne se verrait qu'à l'écran, sous la forme d'un champ
  * resté au tiret cadratin au milieu de champs remplis — c'est-à-dire pas du tout.
  * \castest{<b>Chaque champ de la fiche declarant une source est rempli.</b><br/>
- * 	cat Unitaire · Fiche de personnage<br/>
- * 	crit Critique<br/>
- * 	etapes 1. Lire les identifiants de valeur declares par l'ossature de la fiche.<br/>2.
+ * \tcat Unitaire · Fiche de personnage<br/>
+ * \tcrit Critique<br/>
+ * \tetapes 1. Lire les identifiants de valeur declares par l'ossature de la fiche.<br/>2.
  * Produire les valeurs d'une fiche complete.<br/>3. Verifier que chaque identifiant declare est
  * produit.<br/>
- * 	attendu Aucun champ de la fiche ne reste sans source.
+ * \tattendu Aucun champ de la fiche ne reste sans source.
  * }
  */
 TEST(CharacterSheetValuesTest, ChaqueChampDeLaFicheEstAlimente) {
