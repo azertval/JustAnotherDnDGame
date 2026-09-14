@@ -1,44 +1,44 @@
 var manuel =
 [
-    [ "Pages", "manuel.html#autotoc_md820", null ],
+    [ "Pages", "manuel.html#autotoc_md822", null ],
     [ "Télécharger et lancer le jeu", "manuel-telecharger.html", [
-      [ "Prérequis", "manuel-telecharger.html#autotoc_md840", null ],
-      [ "Étapes", "manuel-telecharger.html#autotoc_md841", null ],
-      [ "Remarques", "manuel-telecharger.html#autotoc_md842", null ]
+      [ "Prérequis", "manuel-telecharger.html#autotoc_md842", null ],
+      [ "Étapes", "manuel-telecharger.html#autotoc_md843", null ],
+      [ "Remarques", "manuel-telecharger.html#autotoc_md844", null ]
     ] ],
     [ "Jouer", "manuel-jouer.html", [
-      [ "Le menu principal", "manuel-jouer.html#autotoc_md814", null ],
-      [ "Contrôles en jeu", "manuel-jouer.html#autotoc_md815", null ],
-      [ "Objectif d'un niveau", "manuel-jouer.html#autotoc_md816", null ],
-      [ "Pause", "manuel-jouer.html#autotoc_md817", null ],
-      [ "Progression et sélection de niveau", "manuel-jouer.html#autotoc_md818", null ],
-      [ "Le menu d'options", "manuel-jouer.html#autotoc_md819", null ]
+      [ "Le menu principal", "manuel-jouer.html#autotoc_md816", null ],
+      [ "Contrôles en jeu", "manuel-jouer.html#autotoc_md817", null ],
+      [ "Objectif d'un niveau", "manuel-jouer.html#autotoc_md818", null ],
+      [ "Pause", "manuel-jouer.html#autotoc_md819", null ],
+      [ "Progression et sélection de niveau", "manuel-jouer.html#autotoc_md820", null ],
+      [ "Le menu d'options", "manuel-jouer.html#autotoc_md821", null ]
     ] ],
     [ "Créer et partager un niveau (sans ligne de commande)", "manuel-partager-niveau.html", [
-      [ "1. Récupérer le projet", "manuel-partager-niveau.html#autotoc_md832", null ],
-      [ "2. Lancer l'éditeur", "manuel-partager-niveau.html#autotoc_md833", null ],
-      [ "3. Créer un niveau", "manuel-partager-niveau.html#autotoc_md834", [
-        [ "Choisir comment la caméra suit le joueur", "manuel-partager-niveau.html#autotoc_md835", [
-          [ "Mélanger plusieurs tailles de caméra dans un même niveau (mode « Par salle »)", "manuel-partager-niveau.html#autotoc_md836", null ]
+      [ "1. Récupérer le projet", "manuel-partager-niveau.html#autotoc_md834", null ],
+      [ "2. Lancer l'éditeur", "manuel-partager-niveau.html#autotoc_md835", null ],
+      [ "3. Créer un niveau", "manuel-partager-niveau.html#autotoc_md836", [
+        [ "Choisir comment la caméra suit le joueur", "manuel-partager-niveau.html#autotoc_md837", [
+          [ "Mélanger plusieurs tailles de caméra dans un même niveau (mode « Par salle »)", "manuel-partager-niveau.html#autotoc_md838", null ]
         ] ]
       ] ],
-      [ "4. Publier votre niveau", "manuel-partager-niveau.html#autotoc_md837", null ],
-      [ "5. Récupérer les niveaux des autres", "manuel-partager-niveau.html#autotoc_md838", null ],
-      [ "En cas de problème", "manuel-partager-niveau.html#autotoc_md839", null ]
+      [ "4. Publier votre niveau", "manuel-partager-niveau.html#autotoc_md839", null ],
+      [ "5. Récupérer les niveaux des autres", "manuel-partager-niveau.html#autotoc_md840", null ],
+      [ "En cas de problème", "manuel-partager-niveau.html#autotoc_md841", null ]
     ] ],
     [ "Regarder l'IA jouer", "manuel-mode-ia.html", [
-      [ "Ce que fait l'IA, en une phrase", "manuel-mode-ia.html#autotoc_md821", null ],
-      [ "Les trois onglets", "manuel-mode-ia.html#autotoc_md822", [
-        [ "Entraînement", "manuel-mode-ia.html#autotoc_md823", [
-          [ "Les réglages de l'onglet Entraînement", "manuel-mode-ia.html#autotoc_md824", null ],
-          [ "Comment fonctionne la population (algorithme Évolutif)", "manuel-mode-ia.html#autotoc_md825", null ],
-          [ "Enregistrer et réutiliser des réglages", "manuel-mode-ia.html#autotoc_md826", null ],
-          [ "Le fichier <span class=\"tt\">stats.csv</span>", "manuel-mode-ia.html#autotoc_md827", null ],
-          [ "Traces du moteur pendant l'entraînement", "manuel-mode-ia.html#autotoc_md828", null ]
+      [ "Ce que fait l'IA, en une phrase", "manuel-mode-ia.html#autotoc_md823", null ],
+      [ "Les trois onglets", "manuel-mode-ia.html#autotoc_md824", [
+        [ "Entraînement", "manuel-mode-ia.html#autotoc_md825", [
+          [ "Les réglages de l'onglet Entraînement", "manuel-mode-ia.html#autotoc_md826", null ],
+          [ "Comment fonctionne la population (algorithme Évolutif)", "manuel-mode-ia.html#autotoc_md827", null ],
+          [ "Enregistrer et réutiliser des réglages", "manuel-mode-ia.html#autotoc_md828", null ],
+          [ "Le fichier <span class=\"tt\">stats.csv</span>", "manuel-mode-ia.html#autotoc_md829", null ],
+          [ "Traces du moteur pendant l'entraînement", "manuel-mode-ia.html#autotoc_md830", null ]
         ] ],
-        [ "Validation &amp; sauvegarde", "manuel-mode-ia.html#autotoc_md829", null ],
-        [ "Rejeu", "manuel-mode-ia.html#autotoc_md830", null ]
+        [ "Validation &amp; sauvegarde", "manuel-mode-ia.html#autotoc_md831", null ],
+        [ "Rejeu", "manuel-mode-ia.html#autotoc_md832", null ]
       ] ],
-      [ "Questions fréquentes", "manuel-mode-ia.html#autotoc_md831", null ]
+      [ "Questions fréquentes", "manuel-mode-ia.html#autotoc_md833", null ]
     ] ]
 ];

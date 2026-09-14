@@ -93,9 +93,9 @@ $(function(){initNavTree('cahiertest.html','',''); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md_CahierTest"></a></p>
-<p><b>1028 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
+<p><b>1033 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md5"></a>
-Tests unitaires (1013)</h1>
+Tests unitaires (1018)</h1>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md6"></a>
 Core</h2>
 <p><b><span class="tt"><a class="el" href="test__core_8cpp.html" title="Tests unitaires de la bibliothèque Core (amorçage).">test_core.cpp</a></span></b></p>
@@ -7076,9 +7076,44 @@ Vérifie que <span class="tt">english.count(key) &gt; 0</span> est vrai.<br  />
 Vérifie que <span class="tt">french.count(key) &gt; 0</span> est vrai.<br  />
 Vérifie que <span class="tt">french.size()</span> vaut <span class="tt">english.size()</span>.  </td></tr>
 </table>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md28"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md28"></a>
+Presentation (5)</h3>
+<p><b><span class="tt"><a class="el" href="test__credits__catalog_8cpp.html" title="Tests unitaires de la lecture des crédits (LOT-87, T3.3).">test_credits_catalog.cpp</a></span></b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>CreditsCatalogTest.CreditsLusDansLaLangueDemandee</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__credits__catalog_8cpp.html" title="Tests unitaires de la lecture des crédits (LOT-87, T3.3).">Source/Test/Unit/HMI/Presentation/test_credits_catalog.cpp</a>:44</span></sub>  </td><td class="markdownTableBodyNone">Les crédits se lisent dans la langue demandée.  </td><td class="markdownTableBodyNone">1. Lire un JSON de deux sections en anglais.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">result.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt">result.sections.size()</span> vaut <span class="tt">2U</span>.<br  />
+Vérifie que <span class="tt">result.sections[0].title</span> vaut <span class="tt">"Development"</span>.<br  />
+Vérifie que <span class="tt">result.sections[0].column</span> vaut <span class="tt">0</span>.<br  />
+Vérifie que <span class="tt">result.sections[0].lines.size()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">result.sections[0].lines[0].role</span> vaut <span class="tt">"Programming"</span>.<br  />
+Vérifie que <span class="tt">result.sections[0].lines[0].names</span> vaut <span class="tt">(std::vector&lt;std::string&gt;{"A", "B"})</span>.<br  />
+Vérifie que <span class="tt">result.sections[1].column</span> vaut <span class="tt">1</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>CreditsCatalogTest.LibelleNonTraduitRetombeSurLeFrancais</b> (Mineur)<br  />
+<sub><span class="tt"><a class="el" href="test__credits__catalog_8cpp.html" title="Tests unitaires de la lecture des crédits (LOT-87, T3.3).">Source/Test/Unit/HMI/Presentation/test_credits_catalog.cpp</a>:65</span></sub>  </td><td class="markdownTableBodyNone">Un libellé non traduit des crédits s'affiche en français.  </td><td class="markdownTableBodyNone">1. Lire en anglais une section dont le titre et le rôle n'ont que le français.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">result.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt">result.sections[1].title</span> vaut <span class="tt">"Audio"</span>.<br  />
+Vérifie que <span class="tt">result.sections[1].lines[0].role</span> vaut <span class="tt">"Bruitages"</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>CreditsCatalogTest.LigneSansNomFaitEchouerLaLecture</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__credits__catalog_8cpp.html" title="Tests unitaires de la lecture des crédits (LOT-87, T3.3).">Source/Test/Unit/HMI/Presentation/test_credits_catalog.cpp</a>:81</span></sub>  </td><td class="markdownTableBodyNone">Une ligne de crédits sans nom fait échouer la lecture.  </td><td class="markdownTableBodyNone">1. Lire un JSON dont la seule ligne a une liste de noms vide.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">result.ok()</span> est faux.<br  />
+Vérifie que <span class="tt">result.sections.empty()</span> est vrai.<br  />
+Vérifie que <span class="tt">result.error.find("x")</span> diffère de <span class="tt">std::string::npos</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>CreditsCatalogTest.ColonneHorsBornesRefusee</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__credits__catalog_8cpp.html" title="Tests unitaires de la lecture des crédits (LOT-87, T3.3).">Source/Test/Unit/HMI/Presentation/test_credits_catalog.cpp</a>:99</span></sub>  </td><td class="markdownTableBodyNone">Une section de crédits hors des deux colonnes est refusée.  </td><td class="markdownTableBodyNone">1. Lire une section de colonne 2.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">result.ok()</span> est faux.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>CreditsCatalogTest.FichierLivreSeLitDansLesDeuxLangues</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__credits__catalog_8cpp.html" title="Tests unitaires de la lecture des crédits (LOT-87, T3.3).">Source/Test/Unit/HMI/Presentation/test_credits_catalog.cpp</a>:115</span></sub>  </td><td class="markdownTableBodyNone">Le fichier de crédits livré se lit en français et en anglais.  </td><td class="markdownTableBodyNone">1. Lire <span class="tt">Source/Elements/Credits/credits.json</span> en français, puis en anglais.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">file</span> est vrai.<br  />
+Vérifie que <span class="tt">result.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt">left &amp;&amp; right</span> est vrai.  </td></tr>
+</table>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md29"></a>
 Tests d'intégration (13)</h1>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md29"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md30"></a>
 Animation Personnage — <span class="tt">test_animation_personnage.cpp</span> (6)</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -7119,7 +7154,7 @@ Vérifie que <span class="tt">animation.elapsed</span> vaut <span class="tt">0.0
 2. Avancer le systeme dix pas.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">animation.clipIndex</span> vaut <span class="tt">0</span>.<br  />
 Vérifie que <span class="tt">animation.frameIndex</span> vaut <span class="tt">0</span>.  </td></tr>
 </table>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md30"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md31"></a>
 Boucle Simulation — <span class="tt">test_boucle_simulation.cpp</span> (2)</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -7135,7 +7170,7 @@ Vérifie que <span class="tt">position.x</span> vaut <span class="tt">6.0f * tot
 2. Executer le scenario et verifier les assertions.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">firstPosition.x</span> vaut <span class="tt">secondPosition.x</span>, à <span class="tt">TOLERANCE</span> près.<br  />
 Vérifie que <span class="tt">firstPosition.y</span> vaut <span class="tt">secondPosition.y</span>, à <span class="tt">TOLERANCE</span> près.  </td></tr>
 </table>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md31"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md32"></a>
 Ecs Mouvement — <span class="tt">test_ecs_mouvement.cpp</span> (4)</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -7162,7 +7197,7 @@ Vérifie que <span class="tt">fastPosition.y</span> vaut <span class="tt">4.0f</
 <sub><span class="tt"><a class="el" href="test__ecs__mouvement_8cpp.html" title="Tests d&#39;intégration de l&#39;ECS : entités + composants + système de mouvement assemblés dans un World,...">Source/Test/Integration/test_ecs_mouvement.cpp</a>:117</span></sub>  </td><td class="markdownTableBodyNone">Enregistré dans le World, le système s'exécute via World::update (chaîne complète).  </td><td class="markdownTableBodyNone">1. Mettre en place le contexte du test (arrangement).<br  />
 2. Executer le scenario et verifier les assertions.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">position.x</span> vaut <span class="tt">10.0f * steps * STEP</span>, à <span class="tt">TOLERANCE</span> près.  </td></tr>
 </table>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md32"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md33"></a>
 Niveau Ecs — <span class="tt">test_niveau_ecs.cpp</span> (1)</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -7177,9 +7212,9 @@ Vérifie que <span class="tt">tilesByPosition.at({0, 0})</span> vaut <span class
 Vérifie que <span class="tt">tilesByPosition.at({1, 0})</span> vaut <span class="tt">static_cast&lt;int&gt;(<a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875ae41480b6bbfbf7407974a88d3d34f4fa">core::TileType::Solid</a>)</span>.<br  />
 Vérifie que <span class="tt">tilesByPosition.at({1, 1})</span> vaut <span class="tt">static_cast&lt;int&gt;(<a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875afef46e5063ce3dc78b8ae64fa474241d">core::TileType::Exit</a>)</span>.  </td></tr>
 </table>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md33"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md34"></a>
 Tests système (2)</h1>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md34"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md35"></a>
 Éditeur de niveaux — <span class="tt">test_parcours_edition.cpp</span> (2)</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">

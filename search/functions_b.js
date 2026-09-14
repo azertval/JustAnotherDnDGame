@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['language_0',['language',['../classhmi_1_1OptionsModel.html#ab752fc21fbc1785b1685e46abaa5ea34',1,'hmi::OptionsModel']]],
+  ['language_0',['language',['../classhmi_1_1CreditsModel.html#aead2ca3281754a7ed860f3a21947c372',1,'hmi::CreditsModel::language()'],['../classhmi_1_1OptionsModel.html#ab752fc21fbc1785b1685e46abaa5ea34',1,'hmi::OptionsModel::language() const']]],
   ['languagechanged_1',['languageChanged',['../classhmi_1_1OptionsModel.html#ab58c4b2199b558425c3b5988dacb4d02',1,'hmi::OptionsModel']]],
   ['languagenames_2',['languageNames',['../classhmi_1_1OptionsModel.html#a7ef3b5db34d5d24ad9e3a0b52d7d7d6d',1,'hmi::OptionsModel']]],
   ['languages_3',['languages',['../classhmi_1_1OptionsModel.html#a796b8e9a864fc91684d5c452e2c56c6a',1,'hmi::OptionsModel']]],

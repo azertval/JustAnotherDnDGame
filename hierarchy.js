@@ -49,6 +49,9 @@ var hierarchy =
     [ "core::CreatureAction", "structcore_1_1CreatureAction.html", null ],
     [ "core::CreatureSpeed", "structcore_1_1CreatureSpeed.html", null ],
     [ "core::CreatureTrait", "structcore_1_1CreatureTrait.html", null ],
+    [ "hmi::CreditLine", "structhmi_1_1CreditLine.html", null ],
+    [ "hmi::CreditSection", "structhmi_1_1CreditSection.html", null ],
+    [ "hmi::CreditsResult", "structhmi_1_1CreditsResult.html", null ],
     [ "hmi::DecodedImage", "structhmi_1_1DecodedImage.html", null ],
     [ "hmi::DemonstrationCharacter", "structhmi_1_1DemonstrationCharacter.html", null ],
     [ "core::DerivedStats", "structcore_1_1DerivedStats.html", null ],
@@ -208,6 +211,7 @@ var hierarchy =
     ] ],
     [ "QObject", null, [
       [ "hmi::CharacterSheetModel", "classhmi_1_1CharacterSheetModel.html", null ],
+      [ "hmi::CreditsModel", "classhmi_1_1CreditsModel.html", null ],
       [ "hmi::EditorActions", "classhmi_1_1EditorActions.html", null ],
       [ "hmi::InventoryModel", "classhmi_1_1InventoryModel.html", null ],
       [ "hmi::OptionsModel", "classhmi_1_1OptionsModel.html", null ],

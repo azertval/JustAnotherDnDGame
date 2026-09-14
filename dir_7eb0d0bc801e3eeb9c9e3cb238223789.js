@@ -2,6 +2,8 @@ var dir_7eb0d0bc801e3eeb9c9e3cb238223789 =
 [
     [ "CharacterSheetModel.cpp", "CharacterSheetModel_8cpp.html", null ],
     [ "CharacterSheetModel.h", "CharacterSheetModel_8h.html", "CharacterSheetModel_8h" ],
+    [ "CreditsModel.cpp", "CreditsModel_8cpp.html", null ],
+    [ "CreditsModel.h", "CreditsModel_8h.html", "CreditsModel_8h" ],
     [ "DemonstrationCharacter.cpp", "DemonstrationCharacter_8cpp.html", "DemonstrationCharacter_8cpp" ],
     [ "DemonstrationCharacter.h", "DemonstrationCharacter_8h.html", "DemonstrationCharacter_8h" ],
     [ "GameViewportItem.cpp", "GameViewportItem_8cpp.html", null ],

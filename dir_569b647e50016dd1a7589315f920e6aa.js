@@ -2,6 +2,8 @@ var dir_569b647e50016dd1a7589315f920e6aa =
 [
     [ "CharacterSheetValues.cpp", "CharacterSheetValues_8cpp.html", "CharacterSheetValues_8cpp" ],
     [ "CharacterSheetValues.h", "CharacterSheetValues_8h.html", "CharacterSheetValues_8h" ],
+    [ "CreditsCatalog.cpp", "CreditsCatalog_8cpp.html", "CreditsCatalog_8cpp" ],
+    [ "CreditsCatalog.h", "CreditsCatalog_8h.html", "CreditsCatalog_8h" ],
     [ "IdentityScale.cpp", "IdentityScale_8cpp.html", "IdentityScale_8cpp" ],
     [ "IdentityScale.h", "IdentityScale_8h.html", "IdentityScale_8h" ],
     [ "InventoryValues.cpp", "InventoryValues_8cpp.html", "InventoryValues_8cpp" ],

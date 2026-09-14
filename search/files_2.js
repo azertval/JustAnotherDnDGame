@@ -35,5 +35,9 @@ var searchData=
   ['core_2ecpp_32',['Core.cpp',['../Core_8cpp.html',1,'']]],
   ['core_2eh_33',['Core.h',['../Core_8h.html',1,'']]],
   ['corelog_2eh_34',['CoreLog.h',['../CoreLog_8h.html',1,'']]],
-  ['credits_2emd_35',['CREDITS.md',['../Assets_2CREDITS_8md.html',1,'(Global Namespace)'],['../Audio_2CREDITS_8md.html',1,'(Global Namespace)']]]
+  ['credits_2emd_35',['CREDITS.md',['../Assets_2CREDITS_8md.html',1,'(Global Namespace)'],['../Audio_2CREDITS_8md.html',1,'(Global Namespace)']]],
+  ['creditscatalog_2ecpp_36',['CreditsCatalog.cpp',['../CreditsCatalog_8cpp.html',1,'']]],
+  ['creditscatalog_2eh_37',['CreditsCatalog.h',['../CreditsCatalog_8h.html',1,'']]],
+  ['creditsmodel_2ecpp_38',['CreditsModel.cpp',['../CreditsModel_8cpp.html',1,'']]],
+  ['creditsmodel_2eh_39',['CreditsModel.h',['../CreditsModel_8h.html',1,'']]]
 ];

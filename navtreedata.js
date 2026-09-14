@@ -31,7 +31,7 @@ var NAVTREE =
     [ "Navigation", "index.html#autotoc_md4", null ],
     [ "Guide du développeur", "guide.html", "guide" ],
     [ "Cahier de test", "cahiertest.html", [
-      [ "Tests unitaires (1013)", "cahiertest.html#autotoc_md5", [
+      [ "Tests unitaires (1018)", "cahiertest.html#autotoc_md5", [
         [ "Core", "cahiertest.html#autotoc_md6", [
           [ "Combat (11)", "cahiertest.html#autotoc_md7", null ],
           [ "Data (11)", "cahiertest.html#autotoc_md8", null ],
@@ -54,66 +54,67 @@ var NAVTREE =
           [ "Graphics (264)", "cahiertest.html#autotoc_md24", null ],
           [ "Input (81)", "cahiertest.html#autotoc_md25", null ],
           [ "Interface (59)", "cahiertest.html#autotoc_md26", null ],
-          [ "Localization (9)", "cahiertest.html#autotoc_md27", null ]
+          [ "Localization (9)", "cahiertest.html#autotoc_md27", null ],
+          [ "Presentation (5)", "cahiertest.html#autotoc_md28", null ]
         ] ]
       ] ],
-      [ "Tests d'intégration (13)", "cahiertest.html#autotoc_md28", [
-        [ "Animation Personnage — <span class=\"tt\">test_animation_personnage.cpp</span> (6)", "cahiertest.html#autotoc_md29", null ],
-        [ "Boucle Simulation — <span class=\"tt\">test_boucle_simulation.cpp</span> (2)", "cahiertest.html#autotoc_md30", null ],
-        [ "Ecs Mouvement — <span class=\"tt\">test_ecs_mouvement.cpp</span> (4)", "cahiertest.html#autotoc_md31", null ],
-        [ "Niveau Ecs — <span class=\"tt\">test_niveau_ecs.cpp</span> (1)", "cahiertest.html#autotoc_md32", null ]
+      [ "Tests d'intégration (13)", "cahiertest.html#autotoc_md29", [
+        [ "Animation Personnage — <span class=\"tt\">test_animation_personnage.cpp</span> (6)", "cahiertest.html#autotoc_md30", null ],
+        [ "Boucle Simulation — <span class=\"tt\">test_boucle_simulation.cpp</span> (2)", "cahiertest.html#autotoc_md31", null ],
+        [ "Ecs Mouvement — <span class=\"tt\">test_ecs_mouvement.cpp</span> (4)", "cahiertest.html#autotoc_md32", null ],
+        [ "Niveau Ecs — <span class=\"tt\">test_niveau_ecs.cpp</span> (1)", "cahiertest.html#autotoc_md33", null ]
       ] ],
-      [ "Tests système (2)", "cahiertest.html#autotoc_md33", [
-        [ "Éditeur de niveaux — <span class=\"tt\">test_parcours_edition.cpp</span> (2)", "cahiertest.html#autotoc_md34", null ]
+      [ "Tests système (2)", "cahiertest.html#autotoc_md34", [
+        [ "Éditeur de niveaux — <span class=\"tt\">test_parcours_edition.cpp</span> (2)", "cahiertest.html#autotoc_md35", null ]
       ] ]
     ] ],
     [ "Spécifications", "specifications.html", "specifications" ],
     [ "Lots", "lots.html", "lots" ],
     [ "Manuel utilisateur", "manuel.html", "manuel" ],
     [ "LOT-14 — Inventaire et équipement", "lot-14.html", [
-      [ "Objectif", "lot-14.html#autotoc_md483", null ],
-      [ "Le piège, et la façon dont il est écarté", "lot-14.html#autotoc_md484", null ],
-      [ "Ce que la règle dit, et où elle est écrite", "lot-14.html#autotoc_md485", null ],
-      [ "Ce que le lot n'invente pas", "lot-14.html#autotoc_md486", null ],
-      [ "L'écran", "lot-14.html#autotoc_md487", null ],
-      [ "Ce que le lot ne fait pas", "lot-14.html#autotoc_md488", null ],
-      [ "Critères d'acceptation", "lot-14.html#autotoc_md489", null ]
+      [ "Objectif", "lot-14.html#autotoc_md484", null ],
+      [ "Le piège, et la façon dont il est écarté", "lot-14.html#autotoc_md485", null ],
+      [ "Ce que la règle dit, et où elle est écrite", "lot-14.html#autotoc_md486", null ],
+      [ "Ce que le lot n'invente pas", "lot-14.html#autotoc_md487", null ],
+      [ "L'écran", "lot-14.html#autotoc_md488", null ],
+      [ "Ce que le lot ne fait pas", "lot-14.html#autotoc_md489", null ],
+      [ "Critères d'acceptation", "lot-14.html#autotoc_md490", null ]
     ] ],
     [ "LOT-18 — Bascule exploration ↔ combat", "lot-18.html", [
-      [ "Objectif", "lot-18.html#autotoc_md490", null ],
-      [ "Ce que ce lot livre, et ce qu'il ne livre pas", "lot-18.html#autotoc_md491", null ],
-      [ "L'aller-retour est PUR, et c'est ce qui le rend vérifiable", "lot-18.html#autotoc_md492", null ],
-      [ "Ce que l'instantané porte, et ce qu'il ne porte pas", "lot-18.html#autotoc_md493", null ],
-      [ "Un ennemi vaincu est un drapeau de monde, pas un booléen", "lot-18.html#autotoc_md494", [
-        [ "Seule une victoire l'acquiert", "lot-18.html#autotoc_md495", null ]
+      [ "Objectif", "lot-18.html#autotoc_md491", null ],
+      [ "Ce que ce lot livre, et ce qu'il ne livre pas", "lot-18.html#autotoc_md492", null ],
+      [ "L'aller-retour est PUR, et c'est ce qui le rend vérifiable", "lot-18.html#autotoc_md493", null ],
+      [ "Ce que l'instantané porte, et ce qu'il ne porte pas", "lot-18.html#autotoc_md494", null ],
+      [ "Un ennemi vaincu est un drapeau de monde, pas un booléen", "lot-18.html#autotoc_md495", [
+        [ "Seule une victoire l'acquiert", "lot-18.html#autotoc_md496", null ]
       ] ],
-      [ "Deux natures de déclencheur, distinguées par la donnée", "lot-18.html#autotoc_md496", null ],
-      [ "Une rencontre dit QUI, jamais OÙ", "lot-18.html#autotoc_md497", null ],
-      [ "Ce que le mode combat gèle, et pourquoi", "lot-18.html#autotoc_md498", null ],
-      [ "Le personnage de démonstration", "lot-18.html#autotoc_md499", null ],
-      [ "Critères d'acceptation", "lot-18.html#autotoc_md500", null ]
+      [ "Deux natures de déclencheur, distinguées par la donnée", "lot-18.html#autotoc_md497", null ],
+      [ "Une rencontre dit QUI, jamais OÙ", "lot-18.html#autotoc_md498", null ],
+      [ "Ce que le mode combat gèle, et pourquoi", "lot-18.html#autotoc_md499", null ],
+      [ "Le personnage de démonstration", "lot-18.html#autotoc_md500", null ],
+      [ "Critères d'acceptation", "lot-18.html#autotoc_md501", null ]
     ] ],
     [ "LOT-39 — Plomberie des clés d'assets", "lot-39.html", [
-      [ "Objectif", "lot-39.html#autotoc_md568", null ],
-      [ "Une clé, jamais un chemin", "lot-39.html#autotoc_md569", null ],
-      [ "La clé se déduit ; le champ <span class=\"tt\">asset</span> sert à déroger", "lot-39.html#autotoc_md570", null ],
-      [ "Le manifeste est dérivé, jamais tenu à la main", "lot-39.html#autotoc_md571", null ],
-      [ "Le marqueur, et pourquoi il est déterministe", "lot-39.html#autotoc_md572", null ],
-      [ "Le lint fait deux choses de nature différente", "lot-39.html#autotoc_md573", null ],
-      [ "Ce que le lot ne fait pas", "lot-39.html#autotoc_md574", null ],
-      [ "Critères d'acceptation", "lot-39.html#autotoc_md575", null ]
+      [ "Objectif", "lot-39.html#autotoc_md569", null ],
+      [ "Une clé, jamais un chemin", "lot-39.html#autotoc_md570", null ],
+      [ "La clé se déduit ; le champ <span class=\"tt\">asset</span> sert à déroger", "lot-39.html#autotoc_md571", null ],
+      [ "Le manifeste est dérivé, jamais tenu à la main", "lot-39.html#autotoc_md572", null ],
+      [ "Le marqueur, et pourquoi il est déterministe", "lot-39.html#autotoc_md573", null ],
+      [ "Le lint fait deux choses de nature différente", "lot-39.html#autotoc_md574", null ],
+      [ "Ce que le lot ne fait pas", "lot-39.html#autotoc_md575", null ],
+      [ "Critères d'acceptation", "lot-39.html#autotoc_md576", null ]
     ] ],
     [ "LOT-86 — Refonte de l'IHM sur Qt Quick", "lot-86.html", [
-      [ "Objectif", "lot-86.html#autotoc_md633", null ],
-      [ "Ce qui existait", "lot-86.html#autotoc_md634", null ],
-      [ "La direction artistique, reprise des maquettes supprimées", "lot-86.html#autotoc_md635", [
-        [ "Attention : le texte des maquettes était périmé", "lot-86.html#autotoc_md636", null ],
-        [ "Les deux directions écartées, et pourquoi", "lot-86.html#autotoc_md637", null ],
-        [ "Décisions d'écran à honorer", "lot-86.html#autotoc_md638", null ]
+      [ "Objectif", "lot-86.html#autotoc_md634", null ],
+      [ "Ce qui existait", "lot-86.html#autotoc_md635", null ],
+      [ "La direction artistique, reprise des maquettes supprimées", "lot-86.html#autotoc_md636", [
+        [ "Attention : le texte des maquettes était périmé", "lot-86.html#autotoc_md637", null ],
+        [ "Les deux directions écartées, et pourquoi", "lot-86.html#autotoc_md638", null ],
+        [ "Décisions d'écran à honorer", "lot-86.html#autotoc_md639", null ]
       ] ],
-      [ "Exigences couvertes", "lot-86.html#autotoc_md639", null ],
-      [ "Où en est le lot", "lot-86.html#autotoc_md640", null ],
-      [ "Critères d'acceptation", "lot-86.html#autotoc_md641", null ]
+      [ "Exigences couvertes", "lot-86.html#autotoc_md640", null ],
+      [ "Où en est le lot", "lot-86.html#autotoc_md641", null ],
+      [ "Critères d'acceptation", "lot-86.html#autotoc_md642", null ]
     ] ],
     [ "Crédits graphiques", "md__2home_2runner_2work_2JustAnotherDnDGame_2JustAnotherDnDGame_2Source_2Elements_2Assets_2CREDITS.html", null ],
     [ "Crédits audio", "md__2home_2runner_2work_2JustAnotherDnDGame_2JustAnotherDnDGame_2Source_2Elements_2Audio_2CREDITS.html", null ],
@@ -157,44 +158,44 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "AabbVsAabb_8cpp.html",
-"GraphicsLog_8h.html#ade26905e5ae5a615ff9abcf8a7721940",
-"ProceduralFont_8h.html",
-"classcore_1_1ConsoleLogSink.html#a832f603dba5ba9ecaa75b1314ed6b84d",
-"classcore_1_1LevelDraft.html#abf3838beed68b04528a0ae57f3bdb25a",
-"classcore_1_1World.html#a5d524864277691a7419b5268d4c53449",
-"classhmi_1_1Camera2D.html#a3d1d52a7653c7a3dca5eb2e5a5990f88",
-"classhmi_1_1EditorActions.html#a2df67ecdab8e8d45df22070c8393f291",
-"classhmi_1_1GameSession.html#ad50a91bcda601187ad4ed65add9ac3cd",
-"classhmi_1_1GameViewport.html#aadb7286fd043ddf60ff83f0499687950",
-"classhmi_1_1IGameModePasses.html#a5b9371264a6cc85cfb47eae0bd35ea97",
-"classhmi_1_1LinkPanel.html#aa9289ca3b30988e4287dbb35dfe860ea",
-"classhmi_1_1OptionsModel.html#a3493c096100070fb4963a76db2338fbc",
-"classhmi_1_1PixelCanvas.html#ac22ae6d5813bb2e8a4a6c4519b9a6a57",
-"classhmi_1_1QuadRecorder.html#a7ae51d3dc90ca97809247b0b9fb78ca8",
-"classhmi_1_1SoundCatalog.html#ab109f38a96cadc72f271b61ec7b454a2",
-"classhmi_1_1TexturePanel.html#a8beee864e1295689d194f5e2a3b8d7ed",
-"globals_l.html",
-"lot-01.html",
-"lot-78.html#autotoc_md623",
-"namespacecore.html#a918b595ef74492bed349a6bbf82a9f64",
-"namespacehmi.html#a126525c795b7d17752d39838f2027233",
-"namespacehmi.html#a842c2e980bf7c8686d4a549d583d6866",
-"namespacehmi.html#ad7099b7e079afed3ba2eee64261b1725",
-"roadmap-010.html#lot-16",
-"structcore_1_1Armor.html#a85302f29d0dc9ffb9baacc68a4164970",
-"structcore_1_1Creature.html#a68b8469e19a311563fa060efd23d00a7",
-"structcore_1_1Interactable.html#a31b0f06ece6c893d9181c36b248158c0",
-"structcore_1_1MarkerImage.html#af033d60286404c2fa11cb9ba618fb1ed",
-"structcore_1_1RpgActor.html#a3a81c94ba800d4e6c931b4032dbd05f9",
-"structhmi_1_1BackgroundFit.html#ab1da3d74172cc364d929cfed8abf6f53",
-"structhmi_1_1InventoryContext.html",
-"structhmi_1_1PixelScreenRect.html#a14cdcf5216a156c71f5699a8dfca7800",
-"structhmi_1_1SheetRow.html#a58da53efd38a580938bb529830946ef5",
-"test__aabb__vs__aabb_8cpp.html#a0dcb2b48d24a7f694139dda854d59ebe",
-"test__dice_8cpp.html#ad5284d1ced79700a2cb443c25cd19728",
-"test__level__draft_8cpp.html#a477398b3d3ebe4bf6668ec2761cf9968",
-"test__pixel__operations_8cpp.html#a955a20e332b021ccb8fc2fbe7bb9f2cc",
-"test__swept__collision_8cpp.html#a70c4f9f811925298fb468c4d401d9434"
+"GameplayLog_8h.html#a5d8c9f506ec84e69acaf587bbe4d18ae",
+"PreviousPosition_8h.html",
+"classcore_1_1ComponentPool.html#abfe3af447f41425bf06d4db890f67bf4",
+"classcore_1_1LevelDraft.html#aafa403c6e7bfc2795abcf8c52709775b",
+"classcore_1_1World.html#a1d131cad0324faf0dd0fd8b8ec322568",
+"classhmi_1_1Camera2D.html#a197df5a46fa35ccf6c17df58662b16bb",
+"classhmi_1_1DraftRenderer.html#ac2404f33b0fc05a3623d744e78e2755e",
+"classhmi_1_1GameSession.html#a939c5208095fec70c440afdc97eb8c53",
+"classhmi_1_1GameViewport.html#a961e7d6ffebba90148177c1569ae1c02",
+"classhmi_1_1IGameMode.html",
+"classhmi_1_1LevelBrowserPanel.html#af6be2772b308c62a472a234e35f00c2e",
+"classhmi_1_1MainWindow.html#adff4abfa93ae5ca39e57e306f9786a69",
+"classhmi_1_1PixelCanvas.html#a9a2ac334f5ee332ba577fbec39557b6d",
+"classhmi_1_1PlanesPanel.html#a85d595c86e7423328e8c083bf9e9bc82",
+"classhmi_1_1SkinCatalog.html#a43cec3c28d32be5f319fcc308ff22818",
+"classhmi_1_1TexturePanel.html#a4b2b9263dd65b896be2f989e36e94c45",
+"functions_vars_e.html",
+"guide-rendu.html#autotoc_md229",
+"lot-66.html#autotoc_md591",
+"namespacecore.html#a69640dd3c9f3f8778a7c7621839c3794",
+"namespacehmi.html#a00629522279a61cffd0c68ae26c3fca0",
+"namespacehmi.html#a7bd1f14c12b142d5227ad2560e7c5e88a9d5ed678fe57bcca610140957afab571",
+"namespacehmi.html#ac69176e5c8acf86f4990696f7f54f11ea626462c0578a21deb18ab448defe0522",
+"roadmap-010.html#autotoc_md779",
+"structcore_1_1Actor.html",
+"structcore_1_1ClassLevel.html#a729a086773af573c5c025e12589e5f9e",
+"structcore_1_1ExperienceLevel.html#a183cfeb9efc4f74a3300ebc67a05ad36",
+"structcore_1_1Location.html#a1144f0c1a71664ed8ed4c3c98a9b8922",
+"structcore_1_1Region.html#aa5106f49a5fe7972e76eeb126bf1a9a2",
+"structhmi_1_1AssetValidation.html",
+"structhmi_1_1FontMetricsResult.html",
+"structhmi_1_1PixelEditStatusInfo.html#a319a7c26d15a0d9e00a56bc543dae575",
+"structhmi_1_1SceneTextures.html#a5b50d924a3f3e54e96fc5c47c5486e4e",
+"structhmi_1_1TileCategory.html",
+"test__character__sheet__values_8cpp.html#a8e6cf81f4a4a56734391c9d5734da586",
+"test__input__state_8cpp.html#a8d8b26cac3ac268359ec15eb1ab327cf",
+"test__parallax_8cpp.html#a775f5168da5de90928c88636e6e5252f",
+"test__screen__flow_8cpp.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';
