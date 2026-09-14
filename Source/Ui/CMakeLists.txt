@@ -24,19 +24,6 @@
 # `Jadg.App`. Ajouter un écran = ajouter son formulaire ici et son jumeau là-bas.
 set(JADG_UI_QML_FILES
     Theme/Tokens.qml
-    Controls/SheetLine.ui.qml
-    Controls/SheetBlock.ui.qml
-    Controls/SheetList.ui.qml
-    Controls/SheetProse.ui.qml
-    Controls/SheetPortrait.ui.qml
-    Controls/SheetTrack.ui.qml
-    Controls/SheetActionBar.ui.qml
-    Controls/RpgScreenFrame.ui.qml
-    Controls/Cabochon.ui.qml
-    Controls/ParchmentFrame.ui.qml
-    Controls/TitleBanner.ui.qml
-    Controls/FocusFleuron.ui.qml
-    Controls/MenuEntry.ui.qml
     Controls/DiagnosticsOverlay.ui.qml
     # Charte v2 (LOT-87, T2.7) : les briques que la phase 3 transcrit dans les écrans, et les deux
     # porteurs d'image qu'elles partagent. `Theme/Artwork.qml` dit quelles pièces sont livrées.

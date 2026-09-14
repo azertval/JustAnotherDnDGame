@@ -1,6 +1,6 @@
 # LOT-87 — Charte v2 et intégration des maquettes {#lot-87}
 
-> Statut : **en cours**.
+> Statut : **livré**.
 > Prérequis : `LOT-86`, `LOT-39`.
 >
 > Exigences refondues : [`EX-IHM-070`](@ref EX-IHM-070) (charte v2, facteur réel),
@@ -49,8 +49,8 @@ passe par un générateur d'images ou un illustrateur, à partir de ce cahier.
    dialogue, marchand et journal restylés sans redessin.
 5. **Le cadre du HUD** — `CombatHudForm` et `GameViewForm` réécrits avec le cadre de la maquette,
    branchement différé aux lots qui fourniront les données réelles.
-6. **Retrait** — le dossier `JustAnotherDnDGame_UI_ASSET_PACK/` et l'ancienne charte (`LOT-86`)
-   supprimés une fois qu'aucun écran ne les cite plus.
+6. **Retrait** — le dossier des dix maquettes du pack (retiré dès la phase 0) et l'ancienne charte
+   (`LOT-86`) supprimés une fois qu'aucun écran ne les cite plus.
 
 ## Phase 1 — le module de conception
 
@@ -923,6 +923,58 @@ pixel art ; la scène isométrique peinte de la maquette n'est pas un objectif d
 |---|---|
 | ![exploration à 1080p](captures/t4-1-exploration-1080p.png) | ![exploration à 720p](captures/t4-1-exploration-720p.png) |
 
+## Phase 5 — retirer ce qui ne sert plus
+
+### T5.1 — Le pack de maquettes
+
+Déjà fait à la phase 0 : les dix PNG avaient rejoint `references/` et le reste du pack (kits QML,
+zip, build) avait été supprimé avant l'ouverture de la branche du lot. `git grep -i
+"MercenaryRpgUiKit\|JADG_UI\|UI_ASSET_PACK"` ne renvoie plus rien qu'un jeton CMake sans rapport
+(`JADG_UI_QML_FILES`, la liste des fichiers du module `Jadg.Ui`). Aucune icône schématique du pack
+n'a été promue en icône produite : la production des images n'a pas tourné pour ce lot (T2.6), donc
+rien ne restait à basculer sous `Source/Elements/Assets/UI/icons/`.
+
+### T5.2 — L'ancienne charte
+
+- **Treize contrôles du `LOT-86`** retirés de `Source/Ui/Controls/` et de `Source/Ui/CMakeLists.txt`
+  — `RpgScreenFrame`, `ParchmentFrame`, `Cabochon`, `TitleBanner`, `FocusFleuron`, `MenuEntry`, et
+  les sept briques de fiche (`SheetActionBar`, `SheetBlock`, `SheetLine`, `SheetList`,
+  `SheetPortrait`, `SheetProse`, `SheetTrack`). Vérifié un par un avant suppression : aucune
+  instanciation restante en dehors de la chaîne elle-même (`RpgScreenFrame { … }` n'apparaissait
+  plus nulle part), `MenuEntry` compris — la seule mention restante était une comparaison en
+  commentaire dans `ItemSlot.ui.qml`, laissée telle quelle.
+- **Les jetons obsolètes de `Tokens.qml`** retirés : `screenTitle`, `sectionTitle`, `body`,
+  `caption`, `spaceSmall`, `spaceMedium`, `spaceLarge`, `spaceExtraLarge`, `frameThickness`. Un
+  dernier écran vivant les lisait encore : `DiagnosticsOverlay.ui.qml` (le compteur d'images par
+  seconde, `LOT-86`, superposé au jeu et non transcrit par la phase 3 puisqu'il n'a pas de
+  maquette) — basculé sur `gapSmall`, `gapMedium`, `strokeWidth` et `fontCaption`. `scale` **reste** :
+  ce n'est pas un jeton de la charte v1, mais le facteur entier du viewport en pixel art
+  (`Main.qml`, `DiagnosticsOverlay.ui.qml`), que la charte v2 ne remplace pas (T2.2).
+- **Les deux polices pixel dans le jeu** : `registerIdentityFonts()` (`Source/App/Game/Main.cpp`)
+  n'enregistre plus `PixelifySans-*.ttf` ni `PressStart2P-Regular.ttf`, la phase 3 ayant transcrit
+  les quatorze écrans.
+  **Écart assumé** : les deux fichiers de police et leurs licences restent dans
+  `Source/Elements/Assets/Fonts/`. Ils sont encore chargés par `hmi::applyFont()`
+  (`Source/HMI/Interface/ApplicationTheme.cpp`), qui sert une portée entièrement distincte — la
+  portée **identité** du châssis d'édition en Qt Widgets (`LOT-56`/`LOT-68`, @ref
+  guide-design-ihm), avec son propre système de jetons (`hmi::identityTokens()`,
+  `DesignTokens.cpp`) construit sur une échelle entière en pixels, sans rapport avec
+  `Source/Ui/Theme/Tokens.qml`. Ce plan ne couvre que les écrans QML du jeu (`Source/Ui/**`) ; faire
+  suivre cette seconde portée à la charte v2 — ou trancher qu'elle reste en pixel art — est une
+  décision hors du périmètre du `LOT-87`, laissée ouverte. Les licences des deux polices restent
+  donc légitimement dans `THIRD-PARTY-NOTICES.md` et `credits.json` tant qu'elles sont chargées.
+- **`MenuBackdropGeometry` et `KeyHintText`** (`Source/HMI/Presentation/`) : non retirés — ils
+  appartiennent au châssis Qt Widgets du `LOT-86` (menu et écran d'options **de l'éditeur**), une
+  portée distincte des formulaires QML de ce lot, et rien dans les quatorze écrans transcrits ne les
+  cite. Retirer du code de production hors du périmètre annoncé par ce plan n'a pas été fait sans
+  décision explicite ; laissé ouvert au même titre que ci-dessus.
+- **`guide-design-ihm.md`** mis à jour : la note « déplacé au `LOT-86` » citait
+  `ParchmentFrame.ui.qml`, `MenuEntry.ui.qml` et `FocusFleuron.ui.qml`, trois fichiers désormais
+  supprimés ; la note dit maintenant que la charte v2 les a remplacés par des images 9-patch
+  produites (`PanelFrame`, `FocusMark`), et que l'argument peint-en-C++ ne vaut plus que pour
+  l'éditeur. **`guide-ecrans.md`** ne citait aucun jeton ni contrôle de la charte (il documente la
+  navigation `hmi::ScreenFlow` du châssis Qt Widgets, une portée distincte) : rien à y changer.
+
 ## Exigences couvertes
 
 - [`EX-IHM-070`](@ref EX-IHM-070), [`EX-IHM-075`](@ref EX-IHM-075), [`EX-IHM-076`](@ref EX-IHM-076),
@@ -933,12 +985,15 @@ pixel art ; la scène isométrique peinte de la maquette n'est pas un objectif d
 
 ## Où en est le lot
 
-**Phases 0 et 1 livrées** (PR #25 et #26) ; **phase 2 faite** — T2.1 à T2.7 (branche
-`lot/LOT-87-phase-2-charte-jetons`), en attente de la porte 2 (revue des jetons et des briques). Le
-cahier (T2.4) est la première chose à faire produire : c'est le chemin critique du lot. Le manifeste
-(T2.5), la réception (T2.6) et les briques (T2.7) sont prêts à recevoir ce qui en revient — une
-pièce réceptionnée apparaît dans la galerie sans autre changement. La clôture du T2.6 (fonds,
-cadres, plaques, boutons et contrôles livrés) attend toujours la production.
+**Livré.** Phases 0 à 5 faites. Les huit écrans transcrits (menu, options, crédits, fiche,
+inventaire, carte, compagnie, sorts), les quatre restylés sans redessin (pause, dialogue, marchand,
+journal) et le cadre du HUD tiennent tous sur la charte v2 ; plus aucun écran n'importe un contrôle
+ou un jeton de la charte v1. **Reste hors de ce lot**, faute de production d'images (T2.6, jamais
+lancée) : aucune pièce du cahier des 214 images n'est livrée — les briques dessinent toutes leur
+aplat de repli. Le jour où le générateur d'images tourne, `receive_ui_assets.py` les installe sans
+qu'une ligne de QML change. Restent aussi ouverts, notés au T5.2 : la portée identité du châssis
+d'édition (police pixel, jetons entiers) n'a pas suivi la charte v2, et les branches distantes
+mortes de la phase 0 attendent une suppression manuelle.
 
 Rappel de la phase 0 :
 
