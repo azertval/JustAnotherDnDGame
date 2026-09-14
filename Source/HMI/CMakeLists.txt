@@ -111,12 +111,6 @@ add_library(HmiLib STATIC
     Editor/PixelAutotilePreview.cpp
     # Interface : logique d'écrans et de thème, sans widget.
     Presentation/ScreenFlow.cpp
-    # Geometries PURES relevees sur le corpus, encore compilees et testees bien qu'aucun ecran ne
-    # les consomme : elles sont la SOURCE d'un portage vers Qt Quick Shapes qui reste a faire. Les
-    # ornements de parchemin, eux, ONT ete portes (Controls/Cabochon, ParchmentFrame, TitleBanner,
-    # FocusFleuron) et leurs sources C++ sont donc parties avec.
-    Presentation/MenuBackdropGeometry.cpp
-    Presentation/KeyHintText.cpp
     Presentation/RpgScreens.cpp
     Presentation/CharacterSheetValues.cpp
     Presentation/InventoryValues.cpp

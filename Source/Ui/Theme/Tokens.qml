@@ -27,13 +27,14 @@ QtObject {
     // l'echelle typographique ci-dessous.
     property real uiScale: 1
 
-    // --- Facteur d'agrandissement ENTIER : viewport et charte v1 -------------------------------
+    // --- Facteur d'agrandissement ENTIER : viewport ---------------------------------------------
     //
-    // ENTIER, borne a [1, 3]. Il ne reste, a terme, que pour le viewport de la scene. Les grandeurs
-    // de la charte v1 qui le multiplient (plus bas) sont obsoletes et partent au T5.2.
+    // ENTIER, borne a [1, 3]. Ne sert plus qu'au viewport de la scene, en pixel art : ses tuiles
+    // sont des pixels, que la charte v2 -- ses cadres 9-patch echantillonnes a tout facteur -- n'a
+    // plus besoin de proteger.
     //
-    // Fractionnaire, il corromprait silencieusement les filets d'un pixel
-    // du cadre de parchemin -- c'est la raison pour laquelle il ne sera jamais un reel.
+    // Fractionnaire, il corromprait silencieusement les tuiles d'un pixel du viewport -- c'est la
+    // raison pour laquelle il ne sera jamais un reel.
     //
     // L'application ecrit cette valeur au demarrage, calculee depuis la hauteur de la fenetre. La
     // valeur par defaut 2 est celle de la CONCEPTION : c'est ce que Qt Design Studio affiche, et
@@ -137,8 +138,7 @@ QtObject {
     // --- Espacements et trait de la charte v2 (LOT-87, T2.7) -----------------------------------
     //
     // Meme regle que l'echelle typographique : ecrits a 1080p, multiplies ici par `uiScale`, et
-    // jamais par l'entier. Prefixe `gap` pour la meme raison que `font` : `spaceSmall` et ses
-    // voisins sont encore ceux de la v1, multiplies par `scale`, jusqu'au T5.2.
+    // jamais par l'entier.
     readonly property real gapSmall: 8 * uiScale        // entre un libelle et sa valeur
     readonly property real gapMedium: 16 * uiScale      // entre deux controles d'une section
     readonly property real gapLarge: 32 * uiScale       // entre deux sections, retrait d'un panneau
@@ -146,29 +146,4 @@ QtObject {
     // Le trait des aplats de repli -- ce que les briques dessinent tant que l'image produite de
     // leur piece n'est pas livree. Jamais sous un pixel : un filet de 0,7 px disparait.
     readonly property real strokeWidth: Math.max(1, Math.round(2 * uiScale))
-
-    // --- Grandeurs de la charte v1, en PIXELS a l'echelle courante : OBSOLETES -----------------
-    //
-    // Gardees le temps de la phase 3 du LOT-87 : les quatorze ecrans actuels les lisent encore.
-    // Un ecran transcrit en v2 ne les emploie plus ; elles partent au T5.2, avec `scale`.
-    //
-    // En pixels et non en points : le pixel art se dimensionne en pixels, et un point vaut une
-    // fraction variable de pixel selon la definition de l'ecran -- le facteur entier n'aurait
-    // alors plus rien d'entier.
-    //
-    // Deja multipliees par `scale`, pour que la conception n'ait jamais a le faire : ecrire
-    // `font.pixelSize: Tokens.screenTitle` suffit. C'est aussi ce qui empeche d'oublier le
-    // facteur sur un ecran et de le voir diverger des autres.
-    readonly property int screenTitle: 23 * scale
-    readonly property int sectionTitle: 14 * scale
-    readonly property int body: 10 * scale
-    readonly property int caption: 8 * scale
-
-    readonly property int spaceSmall: 4 * scale
-    readonly property int spaceMedium: 6 * scale
-    readonly property int spaceLarge: 8 * scale
-    readonly property int spaceExtraLarge: 12 * scale
-
-    // Trait et filet d'un encadrement : une unite de maquette chacun.
-    readonly property int frameThickness: 1 * scale
 }

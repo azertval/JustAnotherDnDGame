@@ -273,23 +273,24 @@ l'encadrement se lit comme une bordure épaisse. Une échelle fractionnaire ne s
 
 ### Ce qu'une feuille de style ne sait pas faire
 
-> **Déplacé au `LOT-86`.** Ces deux éléments appartiennent aux écrans du **jeu**, passés en Qt
-> Quick : ils sont désormais tracés par des `Shape` QML, éditables dans Qt Design Studio, et non
-> plus par des peintres C++. L'argument, lui, n'a pas changé d'un mot — c'est pourquoi il reste
-> écrit ici. Voir @ref guide-conception-qds.
+> **Déplacé au `LOT-86`, retiré au `LOT-87` (T5.2).** Ces deux éléments appartenaient aux écrans du
+> **jeu** version 1 (Qt Quick), tracés par des `Shape` QML (`ParchmentFrame.ui.qml`,
+> `FocusFleuron.ui.qml`) et non plus par des peintres C++. La charte v2 les a ensuite remplacés par
+> des images 9-patch **produites** (`PanelFrame`, `FocusMark`) plutôt que tracées — les deux fichiers
+> v1 sont supprimés une fois que la phase 3 du `LOT-87` a transcrit les quatorze écrans. L'argument
+> ci-dessous n'a pas changé d'un mot pour l'éditeur, qui ne suit pas la charte du jeu et continue de
+> peindre les siens en C++ : c'est pourquoi il reste écrit ici. Voir @ref guide-conception-qds.
 
 Deux éléments de la charte échappent à `theme.qss`, et c'est pourquoi ils sont **peints** :
 
-- l'**encadrement à cabochons d'angle** (`Controls/ParchmentFrame.ui.qml`) : une bordure
-  QSS ne peut pas poser un pavé par-dessus son propre trait, et ce sont ces cabochons — pas
-  l'épaisseur du trait — qui distinguent l'encadrement d'une feuille de personnage d'un rectangle
-  tracé ;
-- la **marque de focus** (`Controls/MenuEntry.ui.qml`, `Controls/FocusFleuron.ui.qml`) : une feuille de style change une teinte, elle n'ajoute pas de contenu. Or la
-  teinte seule ne dit pas où l'on en est à la manette, faute de pointeur, et ne dit rien du tout à
-  qui distingue mal les couleurs (`EX-IHM-071`). Le fleuron est tracé **une seule fois**
-  (`Controls/FocusFleuron.ui.qml`) et appelé des deux côtés : deux tracés séparés
-  dériveraient l'un de l'autre à la première retouche, et le joueur verrait deux marques
-  différentes là où l'exigence en demande une.
+- l'**encadrement à cabochons d'angle** : une bordure QSS ne peut pas poser un pavé par-dessus son
+  propre trait, et ce sont ces cabochons — pas l'épaisseur du trait — qui distinguent l'encadrement
+  d'une feuille de personnage d'un rectangle tracé ;
+- la **marque de focus** : une feuille de style change une teinte, elle n'ajoute pas de contenu. Or
+  la teinte seule ne dit pas où l'on en est à la manette, faute de pointeur, et ne dit rien du tout à
+  qui distingue mal les couleurs (`EX-IHM-071`). Le fleuron est tracé **une seule fois** et appelé
+  des deux côtés : deux tracés séparés dériveraient l'un de l'autre à la première retouche, et le
+  joueur verrait deux marques différentes là où l'exigence en demande une.
 
 Les deux suivent le patron des icônes du `LOT-56` : une géométrie **pure et testable** décide *quoi*
 dessiner, un peintre Qt décide *comment*. Aucun fichier d'image n'est livré — un cadre en PNG

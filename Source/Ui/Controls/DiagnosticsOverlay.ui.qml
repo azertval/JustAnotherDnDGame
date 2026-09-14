@@ -27,12 +27,12 @@ Item {
     Rectangle {
         anchors.right: parent.right
         anchors.top: parent.top
-        anchors.margins: Tokens.spaceSmall
-        width: readout.width + Tokens.spaceMedium * 2
-        height: readout.height + Tokens.spaceSmall * 2
+        anchors.margins: Tokens.gapSmall
+        width: readout.width + Tokens.gapMedium * 2
+        height: readout.height + Tokens.gapSmall * 2
         color: Tokens.surface
         border.color: Tokens.border
-        border.width: Tokens.frameThickness
+        border.width: Tokens.strokeWidth
         opacity: 0.85
 
         Text {
@@ -41,7 +41,7 @@ Item {
             anchors.centerIn: parent
             color: Tokens.text
             font.family: Tokens.bodyFamily
-            font.pixelSize: Tokens.caption
+            font.pixelSize: Tokens.fontCaption
             horizontalAlignment: Text.AlignRight
             // `smoothFrameTime` vaut zéro avant la première image : sans cette garde, le compteur
             // afficherait « Infinity » le temps d'une image, à chaque activation.
