@@ -25,7 +25,7 @@ sections 9 et 10 rapportent l'audit et ce qu'il faut anticiper ; la section 11 p
 
 ## État d'avancement {#roadmap-avancement}
 
-**Trente et un lots livrés, cinquante et un restants.** Le prochain est le [LOT-19](@ref lot-19).
+**Trente et un lots livrés, cinquante-quatre restants.** Le prochain est le [LOT-19](@ref lot-19).
 
 Livrés : `LOT-01` à `LOT-08` (le socle : fork et purge, `HmiLib`, `LevelData`, format de carte
 version 3, modes de jeu, déplacement top-down, tri par profondeur, tuiles RPG), `LOT-77`, `LOT-78`
@@ -70,43 +70,46 @@ tableau n'en porte volontairement aucun.
 
 | # | Lot | Objet | Débloque | Statut |
 |---|---|---|---|---|
-| 1 | `LOT-19` | Grille tactique et déplacement | 19 | **prochain** |
-| 2 | `LOT-20` | Initiative et tour par tour | 17 | en attente |
-| 3 | `LOT-21` | Attaques, dégâts et états | 15 | en attente |
-| 4 | `LOT-15` | PNJ et dialogues | 13 | prêt |
-| 5 | `LOT-22` | Portée, ligne de vue et zones d'effet | 12 | en attente |
-| 6 | `LOT-80` | Factions, panthéon et organisations | 12 | prêt |
-| 7 | `LOT-11` | Éditeur multi-couches et placement d'entités | 11 | prêt |
-| 8 | `LOT-16` | Quêtes et drapeaux de monde | 11 | en attente |
-| 9 | `LOT-09` | Graphe de cartes et transitions | 10 | prêt |
-| 10 | `LOT-23` | IA tactique ennemie | 10 | en attente |
-| 11 | `LOT-17` | Sauvegarde riche | 9 | en attente |
-| 12 | `LOT-24` | IHM de combat | 9 | en attente |
-| 13 | `LOT-27` | Contenu du *vertical slice* | 8 | en attente |
-| 14 | `LOT-81` | Descripteurs de terrain des dix régions | 7 | prêt |
-| 15 | `LOT-40` | Générateur de terrain | 6 | en attente |
-| 16 | `LOT-44` | Noms, tables aléatoires et contenu d'ambiance | 6 | prêt |
-| 17 | `LOT-46` | Créatures de Tanares | 6 | prêt |
-| 18 | `LOT-26` | Butin, marchands, économie | 5 | en attente |
-| 19 | `LOT-41` | Peuplement : rencontres et créatures | 5 | en attente |
-| 20 | `LOT-70` | Horloge de partie et cycle jour/nuit | 4 | prêt |
-| 21 | `LOT-82` | Peuplement civil : PNJ, marchands et quêtes | 4 | en attente |
-| 22 | `LOT-84` | Les 31 tables de progression de classe | 3 | prêt |
-| 23 | `LOT-35` | Sorts et états | 2 | prêt |
-| 24 | `LOT-47` | Socle de classe, et le guerrier comme preuve | 2 | en attente |
-| 25 | `LOT-42` | Voyage et carte du monde | 1 | en attente |
-| 26 | `LOT-45` | Guilde des Aventuriers : rangs et contrats | 1 | en attente |
-| 27 | `LOT-50` | Le Colisée : bac à sable de combat | 1 | en attente |
-| 28 | `LOT-74` | Expérience et progression | 1 | en attente |
-| 29 | `LOT-25` | Sorts et capacités de classe | 0 | en attente |
-| 30 | `LOT-28` | Audio, effets et version `0.2.0` | 0 | en attente |
-| 31 | `LOT-29` | Groupe de quatre personnages | 0 | en attente |
-| 32 | `LOT-49` | Contrôle de cohérence du contenu | 0 | prêt |
-| 33 | `LOT-69` | Retrait de l'atelier pixel art | 0 | en attente |
-| 34 | `LOT-72` | Conditions, agonie et mort | 0 | en attente |
-| 35 | `LOT-75` | Campement et repos dans le monde | 0 | en attente |
-| 36 | `LOT-83` | Boucle de progression de la Guilde | 0 | en attente |
-| 37 | `LOT-51` → `LOT-65` | une classe par lot | 0 | en attente |
+| 1 | `LOT-19` | Grille tactique et déplacement | 20 | **prochain** |
+| 2 | `LOT-20` | Initiative et tour par tour | 18 | en attente |
+| 3 | `LOT-50` | Le Colisée : bac à sable de combat | 16 | en attente |
+| 4 | `LOT-15` | PNJ et dialogues | 14 | prêt |
+| 5 | `LOT-21` | Attaques, dégâts et états | 14 | en attente |
+| 6 | `LOT-22` | Portée, ligne de vue et zones d'effet | 13 | en attente |
+| 7 | `LOT-80` | Factions, panthéon et organisations | 13 | prêt |
+| 8 | `LOT-11` | Éditeur multi-couches et placement d'entités | 12 | prêt |
+| 9 | `LOT-16` | Quêtes et drapeaux de monde | 12 | en attente |
+| 10 | `LOT-09` | Graphe de cartes et transitions | 11 | prêt |
+| 11 | `LOT-23` | IA tactique ennemie | 11 | en attente |
+| 12 | `LOT-17` | Sauvegarde riche | 10 | en attente |
+| 13 | `LOT-24` | IHM de combat | 10 | en attente |
+| 14 | `LOT-27` | Contenu du *vertical slice* | 9 | en attente |
+| 15 | `LOT-81` | Descripteurs de terrain et règles de zone des treize régions | 8 | prêt |
+| 16 | `LOT-40` | Générateur de terrain | 7 | en attente |
+| 17 | `LOT-44` | Noms, tables aléatoires et contenu d'ambiance | 7 | prêt |
+| 18 | `LOT-46` | Créatures de Tanares | 7 | prêt |
+| 19 | `LOT-89` | Dons, objets magiques et consommables de Tanares | 7 | prêt |
+| 20 | `LOT-26` | Butin, marchands, économie | 6 | en attente |
+| 21 | `LOT-41` | Peuplement : rencontres et créatures | 6 | en attente |
+| 22 | `LOT-70` | Horloge, calendrier et lune | 5 | prêt |
+| 23 | `LOT-82` | Peuplement civil : PNJ, marchands et quêtes | 5 | en attente |
+| 24 | `LOT-35` | Sorts et états | 2 | prêt |
+| 25 | `LOT-42` | Voyage et carte du monde | 2 | en attente |
+| 26 | `LOT-84` | Les 31 tables de progression de classe | 2 | prêt |
+| 27 | `LOT-29` | Groupe de quatre personnages | 1 | en attente |
+| 28 | `LOT-45` | Guilde des Aventuriers : rangs et contrats | 1 | en attente |
+| 29 | `LOT-47` | Socle de classe, et le guerrier comme preuve | 1 | en attente |
+| 30 | `LOT-74` | Expérience et progression | 1 | en attente |
+| 31 | `LOT-25` | Sorts et capacités de classe | 0 | en attente |
+| 32 | `LOT-28` | Audio, effets et version `0.2.0` | 0 | en attente |
+| 33 | `LOT-49` | Contrôle de cohérence du contenu | 0 | prêt |
+| 34 | `LOT-69` | Retrait de l'atelier pixel art | 0 | en attente |
+| 35 | `LOT-72` | Conditions, agonie et mort | 0 | en attente |
+| 36 | `LOT-75` | Campement et repos dans le monde | 0 | en attente |
+| 37 | `LOT-83` | Compagnie : rangs de Guilde, niveau d'équipe et quartier général | 0 | en attente |
+| 38 | `LOT-88` | Spécifications : retrait de l'héritage plateforme | 0 | prêt |
+| 39 | `LOT-90` | Le plan pénombral | 0 | en attente |
+| 40 | `LOT-51` → `LOT-65` | une classe par lot | 0 | en attente |
 
 **Débloque** — combien de lots restants dépendent de celui-ci, directement ou en cascade. C'est le
 critère de priorité, et il se relit sur la ligne.
@@ -214,10 +217,12 @@ jeu qu'on prend ou qu'on laisse entier.
   comprise (`; classe`, `; sort`, `; état`, `; type de dégâts`, `; capacité (paladin)`…). C'est une
   table d'autorité de traduction directement exploitable, et la réponse à « comment dit-on *saving
   throw* partout pareil dans le jeu ».
-- **`Tanares_Sourcebook.pdf`** — **10 régions**, **5 factions**, **7 lieux du plan pénombral**,
-  **18 divinités**, **11 organisations**, une chronologie, une économie de minerais rares, puis
-  **17 familles de créatures pour 82 blocs de statistiques** (ch. 9) et un chapitre d'objets
-  magiques (ch. 10). Chaque région y a ses lieux, ses factions présentes, ses PNJ notables : c'est
+- **`Tanares_Sourcebook.pdf`** — **13 régions** à encart `Regional Statistics` (plus Darkall,
+  l'Undertanares et le Wasteland, décrits sans encart), **5 factions**, un **plan pénombral en
+  sept couches et 32 lieux**, **18 divinités**, **13 organisations** à fiche (une trentaine
+  nommées), une chronologie de 90 événements datés, un calendrier complet, une économie de
+  minerais rares, puis **17 familles de créatures pour 82 blocs de statistiques** (ch. 9) et
+  **29 objets magiques** (ch. 10). *(Comptes relus sur le livre le 14 septembre 2026, §4bis.)* Chaque région y a ses lieux, ses factions présentes, ses PNJ notables : c'est
   un monde de jeu prêt à l'emploi, pas seulement un exemple de structure. Et **2 029 images**, dont
   les cartes de régions.
 - **`Players_Guide_to_Tanares.pdf`** — 13 espèces, 4 classes inédites, 4 classes simplifiées, une
@@ -225,7 +230,7 @@ jeu qu'on prend ou qu'on laisse entier.
   images** — portraits d'espèces, illustrations de classes, objets.
 - **`Manuel-Des-Monstres.pdf`** — **416 blocs de statistiques** en français, le plus gros bestiaire
   du corpus. **Hors périmètre** (§8) : son OCR bruité en fait aussi le plus coûteux, et les 176
-  créatures des deux autres gisements suffisent à peupler dix régions. Il reste disponible si le
+  créatures des deux autres gisements suffisent à peupler treize régions. Il reste disponible si le
   besoin s'en fait sentir plus tard.
 - **`Manuel-Des-Joueurs.pdf`** — **la source française des races et classes manquantes**, et à ce
   titre indispensable. Les *Basic Rules* ne portent que 4 races et 4 classes ; ce manuel apporte les
@@ -370,6 +375,62 @@ assets, le corpus ne servant plus que de référence de cotes et de couleurs.
 
 ---
 
+## 4bis. Ce que les deux livres imposent au moteur — relecture du 14 septembre 2026
+
+Les entrants réels du projet ne sont pas les spécifications : ce sont le *Player's Guide to
+Tanares* et le *Tanares Sourcebook*. Ils ont été relus **en entier** (2,65 millions de caractères,
+neuf lecteurs en parallèle) avant de démarrer les lots de mécanique de cœur, pour que le
+[LOT-19](@ref lot-19) et ses suivants ne construisent pas un moteur que le contenu de Tanares ne
+saura pas traverser. Le résultat tient dans une règle et une matrice.
+
+**La règle.** Le moteur ne cherche pas à implémenter chaque capacité des livres — il y en a
+plusieurs centaines, et une bonne part est arbitrée par un maître de jeu. Il doit en revanche
+**offrir les crochets** que ces capacités composent (`EX-RPG-050`), et laisser la donnée déclarer ce
+qu'elle exige (`EX-CNT-030`) pour que le moteur refuse en le disant ce qu'il ne sait pas honorer
+(`EX-CNT-031`). Un crochet manquant au socle se paie en refonte de tous les lots de classe ; un
+crochet posé tôt ne coûte qu'une interface. La matrice ci-dessous dit, domaine par domaine, ce
+que le socle doit **prévoir** (une interface, un champ, un événement) et ce qu'il peut **ignorer**.
+
+| Domaine | Ce que les livres exigent, chiffres en main | Ce que le socle doit prévoir | Lot porteur |
+|---|---|---|---|
+| **Tour et initiative** | Actions légendaires (réserve de 3, dépensées en fin de tour d'autrui) ; actions de repaire à l'initiative 20 ; renforts entrant à l'initiative 0 ; un acteur **flottant** qui joue avant n'importe quel tour (*Law of Time*) ; une fenêtre de réaction **avant le premier tour** (*Natural Strategist*) ; octroi d'une réaction supplémentaire à un allié ; fenêtre « une créature *déclare* une attaque » (postures du moine) ; une **troisième économie d'action** (Heroic Action) ; compteurs « une fois par rencontre » et immunités 24 h par couple (créature, source) | La machine à états du tour expose des **points d'insertion** nommés (début de round, avant le premier tour, fin de tour de X, initiative fixe N, à la déclaration d'une attaque) et des compteurs à portée (tour, rencontre, jour) ; l'économie d'action est une **liste** de ressources par tour, pas trois booléens | [LOT-20](@ref lot-20) |
+| **Le dé** | d20 brut exposé (*Omen*, *Augurs*, plancher à 10) ; relance **avant** résolution ; modificateur ajouté **après** avoir vu le résultat (*Future Guard*) ; résultats de d20 **stockés** puis substitués ; « si les deux d20 de l'avantage touchent » ; super-avantage à 3d20 | `core::Check` (livré) reste le seul mécanisme, mais son résultat est un **objet** (dés bruts, modificateurs avec origine, seuil, issue, `EX-DND-003`) que des crochets peuvent lire et amender avant que l'issue ne soit figée | [LOT-21](@ref lot-21) |
+| **Dégâts et points de vie** | Dégâts typés avec **drapeaux de source** (magique, adamantium, sort) ; conversion de type (*Shadowcaster*, zone *Maelstrom*) ; « ignore résistances et PV temporaires » ; dégâts redirigés (*Life Link*), différés, par case parcourue ; échange et transfert de PV ; réserves ablatives (*Exoskeleton*, 80 PV) ; PV **mis en commun** (monture) ; PV temporaires sans plafond ; **PV de structures** ; phases par seuil (*Battle Fury* sous 50 %) ; déclencheurs à la mort (spawn, explosion) ; seuil de jets de mort **variable** (Cultist : 4 échecs) ; régénération conditionnelle | Un **pipeline** de dégâts à étapes nommées (source → conversion → résistances → réserves → PV) où chaque étape est un point d'insertion, et un événement « seuil franchi » / « mort » ; les PV sont une pile de réserves, pas un entier | [LOT-21](@ref lot-21), [LOT-72](@ref lot-72) |
+| **Conditions et afflictions** | Marqueurs **empilables** (poison ×4) ; saignement ; « couvert de lave », « mouillé », « chargé » ; malédictions à **tick quotidien ou hebdomadaire**, levées seulement par *remove curse* ou *wish* ; épuisement à niveaux utilisé comme **coût** ; cécité permanente, mutisme ; malus par paliers (Insanity −1/−2/−3) ; folies aléatoires | Une condition est une **source datée** avec durée en tours **ou en temps de jeu**, empilable et recalculée (`EX-DND-040`) ; une couche « affliction persistante » qui survit au combat et se réveille à l'horloge | [LOT-72](@ref lot-72), `LOT-70` |
+| **La grille** | Zones à **règle locale** sur la carte (zone du rituel des Marques ; combat interdit ; aucun soin ; type de dégâts aléatoire) ; objets **destructibles** posés sur la grille (toiles CA 10 / 10 PV) ; terrain difficile créé en combat ; téléportation, échange de positions, déplacement forcé avec dégâts de collision ; **vol et vol stationnaire** partout (dragons, drakes, ailes) sur un jeu vu de dessus ; requête « une case où l'on peut se cacher » | La grille porte des **propriétés de zone** déclarées par la carte (`EX-LVL-018`) que le combat lit ; les objets de grille sont des entités à PV ; **l'altitude est un attribut**, jamais une géométrie — un volant ignore la couche collision au sol et reste ciblable à portée, décision à écrire au `LOT-19` avant la première créature volante | [LOT-19](@ref lot-19), [LOT-22](@ref lot-22) |
+| **L'adversaire** | Tactiques de meute et bonus d'adjacence (+1 par drake, max +5) ; lanceurs de sorts ; boss de repaire (actions de repaire, effets régionaux, ×3 rencontres à 6 miles) ; formes alternatives (*Change Shape* → second bloc) | Les profils de comportement en JSON (`LOT-23`) savent lire les traits de groupe ; un bloc peut **référencer** un autre bloc | [LOT-23](@ref lot-23), `LOT-46` |
+| **Ressources de classe** | Au moins **six modèles** : réserve dépensée (ki, Courage) ; **jauge montante** à paliers de malus et transformation forcée (Insanity) ; automate positionnel à six cases (Cycle of Redemption) ; postures avec interruptions déclaratives (Way of the Animals) ; points à **gain événementiel** (Soul Points, +1 par mort à 15 ft) ; cadence « un pouvoir par round » + accumulation de marques (Dragonblade) ; tampon « prochain surge » + journal FIFO de deux éléments (Elementalist) ; second système d'emplacements (pacte) ; « N usages par sort » (classes simplifiées) | `EX-RPG-021` reste vraie — une ressource est une donnée — mais la « ressource générique » est une **famille** de six modèles, chacun avec sa cadence, et non un compteur ; le socle en livre l'interface et le guerrier n'en prouve qu'un | `LOT-47` |
+| **Substitution de profil** | Forme de dragon (4 profils), *Penumbral Shape* (30), forme sauvage, *Change Shape*, *Machine Infestation* (prend le bloc d'un construct), **deux fiches alternées** (cirrus) | La substitution est un mécanisme du **socle** (PV séparés, report de l'excédent, ce qui est conservé déclaré par la donnée), pas une particularité du druide | `LOT-47`, puis `LOT-61` |
+| **Espèces et personnage** | Espèce **composable** (soulborn hérite taille/vitesse/vision d'une autre) ; scores effectifs conditionnels (taii'maku *Equilibrium*) ; sous-classe au niveau **1, 2 ou 3** selon la classe ; artisanat racial à péremption (poison gloomfolk, gadgets) ; compagnons hors quota (gardien-plante, jusqu'à 20 morts-vivants, invocations paramétriques) | Le niveau de greffe est un champ de la classe ; les compagnons sont des combattants **hors groupe** dans l'initiative (`EX-CBT-010`) | `LOT-47`, [LOT-29](@ref lot-29) |
+| **Étiquettes de créature** | « naturel / non naturel », origine planaire, « possède un lancement de sorts », type, FP exposé — lus par le Redeemer, le Dark Hunter, l'Arcane Guardian, *Empathy* | Le schéma de créature porte ces **tags** (`creature.schema.json`, livré) ; le `LOT-46` les remplit | `LOT-46` |
+| **Temps** | Calendrier de **12 mois × 30 jours**, 7 jours nommés, an 1298, saisons, solstices, **4 fêtes à bonus mécanique**, **phase lunaire** et périgée (*Bauron's Vigil* 1d4→1d12, lycanthropes, Vandanamalika) ; *Tamera's Light* — les créatures pénombrales n'errent que **la nuit** ; recharges de 7, 30 et 1001 jours ; vieillissement ; échéances mensuelles (prêts, entretien des constructs) ; respawns différés (1d6 jours, 1d10 semaines) | `core::GameClock` est un **calendrier**, pas un compteur jour/nuit, avec une **phase de lune** et des **événements datés** consommables par les rencontres, les malédictions, l'économie | `LOT-70` |
+| **Monde et régions** | 13 régions à encart **+ Darkall, Undertanares, Wasteland** ; statistiques à **portée** (nord/sud, surface/souterrain — `EX-CNT-061`, livré) ; **règles de zone** régionales ; légalité de la magie par région ; réputations multiples (Guilde, Conseil draconique à 7 rangs et primes, Relic Hunters notés sur 10, code d'honneur, foi) ; **Undertanares** comme couche sous les régions ; plan pénombral en 7 couches avec ses règles de survie | Un descripteur de région porte ses **règles de zone** et sa **légalité** ; la réputation est un **modèle par organisation**, la Guilde n'en est qu'une instance ; le plan pénombral est un lot à part | `LOT-81`, `LOT-45`, `LOT-90` |
+| **Économie et objets** | 5 pièces + électrum standard à Yama ; lettres de crédit, prêts à 5 %/mois, coffres, assurances ; grille de prix des trois minerais ; marché noir et contrebande ; consommables à **durée** (boissons, mets, Estelindea, peintures de guerre) ; **29 objets magiques** à charges, malédictions, harmonisation forcée, variantes par type de dragon ; bénédictions achetées en or ; corrosion d'arme, vol d'objet | Un objet déclare rareté, harmonisation, charges et recharge, malédiction ; l'inventaire (livré) accepte durabilité et vol ; la monnaie est régionale | [LOT-26](@ref lot-26), `LOT-89` |
+| **Voyage** | Table de 19 montures ; portails à coût en bauronite ; disques nains ; failles pénombrales comme raccourcis ; Tritors reliés ; **mer** (Seashores est presque entièrement marine, navires statés) | Une route a un **type** (terre, mer, portail, faille) et un coût ; pas de combat naval | `LOT-42` |
+| **Arène** | *Law of the Arena* = justice civile (litiges, champions à louer) ; arènes **régionales** (Future non létale, Feargus létale, Braves débutants, duel de baguettes) ; **paris** avec combat simulé hors écran ; Marques Héroïques (8) ; Tritors ; *Arena Day* | Le Colisée est **un mode du jeu** — banc d'essai des mécaniques d'abord, institution ensuite — et ses variantes régionales sont des **données** de lieu | `LOT-50` |
+| **Compagnie** | Système d'**équipe** complet : niveau 1-20 par *Career Points*, QG à 12 structures × 6 niveaux, 12 employés statés, 12 dons d'équipe, récompenses légendaires — c'est la maquette 09 que le [LOT-87](@ref lot-87) a déjà transcrite (`CompanyForm`) | Deux échelles de progression de groupe coexistent (rangs de Guilde, niveau d'équipe) ; elles se tiennent chacune dans son lot | `LOT-45`, `LOT-83` |
+
+**Ce que la relecture écarte, et pourquoi** — inscrit au §8 pour ne pas être redécouvert :
+les montures volantes et leurs *Flying Points* (n'agissent que monté contre monté, sans sens vu de
+dessus) ; le combat naval ; les deux fiches alternées du cirrus (une seule face, choisie à la
+création) ; les tests « liés aux dragons » ou « mathématiques » (étiquetage sémantique des tests) ;
+les sorts arbitrés par le maître de jeu et ceux qui **rejouent un tour** ou **réécrivent un PNJ**
+(déclarés narratifs, `EX-RPG-051`) ; les zones **mobiles** (oasis migrante, Deep Freeze qui
+s'étend) ; les plans autres que le pénombral (Éthéré, Astral, Yrthak, Elemental Grounds) ; la
+Malédiction malrokienne comme compteur global.
+
+**Ce que la relecture a compté, et qui corrige la page** : 13 régions et non 10 ; 82 blocs de
+créatures confirmés (66 + 16), plus **Etoraax** (FP 29), 30 formes pénombrales, 5 gardiens-plantes,
+3 invocations, 3 montures, 12 employés, 13 créatures orientales de Yama et 3 blocs de Sindile —
+soit une soixantaine de blocs **hors** des 82 ; 7 historiques (les 13 du `LOT-36` les incluent) ;
+**20 dons de Tanares** absents des 42 dons livrés au `LOT-43` ; 76 sorts du *Player's Guide* et
+**191 sorts d'élémentaliste**, chacun avec un second effet (*Elemental Flux*) ; 46 pouvoirs
+draconiques, 48 mutations, 16 pouvoirs de mort, 50 bénédictions, 6 postures ; 29 objets magiques ;
+15 sous-classes de Tanares pour les classes du SRD, plus l'Amazone ; les 4 classes simplifiées sont
+bien les 4 provisoires du `LOT-36`.
+
+---
+
 ## 5. Programme de lots proposé — la filière contenu
 
 Les lots [LOT-13](@ref lot-13) (fiche de personnage), [LOT-14](@ref lot-14) (inventaire),
@@ -378,8 +439,10 @@ Les lots [LOT-13](@ref lot-13) (fiche de personnage), [LOT-14](@ref lot-14) (inv
 JSON**. C'est exactement le trou que ce corpus comble, et c'est le périmètre de cette filière — les
 deux premiers sont livrés depuis, sur les catalogues qu'elle a produits.
 
-Trente-cinq lots, `LOT-35` à `LOT-84`, restent à livrer dans cette filière. Quatre numéros ont été
-**retirés** par fusion (`LOT-31`, `LOT-48`, `LOT-71`, `LOT-73` : voir l'encart en fin de section),
+Trente-huit lots, `LOT-35` à `LOT-90`, restent à livrer dans cette filière — dont trois ajoutés
+par la relecture des livres (§4bis) : `LOT-88`, `LOT-89`, `LOT-90`. Cinq numéros ont été
+**retirés** (`LOT-31`, `LOT-48`, `LOT-71`, `LOT-73` par fusion, `LOT-85` par abandon : voir l'encart
+en fin de section),
 et seize lots de la même plage sont **livrés** — les trois préconditions [LOT-77](@ref lot-77),
 [LOT-78](@ref lot-78) et [LOT-79](@ref lot-79), puis `LOT-30`, `LOT-32` à `LOT-34`, `LOT-36` à
 `LOT-39`, `LOT-43`, `LOT-66` à `LOT-68` et `LOT-76` — qui ont donc quitté cette page pour leur
@@ -418,11 +481,11 @@ qui tient lieu de toute image absente.
 
 ### Importer tout, honorer progressivement
 
-Le périmètre est **le monde complet** : les 10 régions et leurs lieux, les 13 espèces, les 8 classes
+Le périmètre est **le monde complet** : les 13 régions et leurs lieux, les 13 espèces, les 8 classes
 et leurs sous-classes, les historiques, les factions, le panthéon, le bestiaire entier. Pas de
 socle réduit, pas de tri préalable.
 
-C'est le bon choix, et il est peu coûteux : extraire dix régions ne demande pas dix fois le travail
+C'est le bon choix, et il est peu coûteux : extraire treize régions ne demande pas dix fois le travail
 d'en extraire une, puisque c'est le **parseur** qui coûte, pas les données qu'il avale. Mais il
 introduit un écart qu'il faut nommer tout de suite, sous peine de le découvrir en jeu :
 
@@ -441,7 +504,7 @@ jouable — et l'écart entre les deux devient une liste consultable plutôt qu'
 
 ### La cible : un bac à sable dans l'univers entier
 
-Le jeu visé dans un premier temps est un **bac à sable** — le personnage parcourt les dix régions
+Le jeu visé dans un premier temps est un **bac à sable** — le personnage parcourt les treize régions
 librement, sans intrigue directrice. Ce cadrage n'ajoute pas une contrainte à la filière, il en
 change la nature, et pour le mieux.
 
@@ -450,7 +513,7 @@ lieu, pas d'un script ; le stock d'un marchand se déduit de sa région ; une qu
 partir des objectifs d'une faction et de l'état du monde. Rien de tout cela ne s'écrit à la main
 région par région — et c'est précisément ce que le corpus permet d'éviter, parce que les
 **`Regional Statistics` sont déjà des réglages de bac à sable**. `Monster Presence`, `Magic Access`,
-`Economic Prosperity`, `Crime and Violence` : quatre axes notés, dix régions, et le monde se
+`Economic Prosperity`, `Crime and Violence` : quatre axes notés, treize régions, et le monde se
 différencie mécaniquement sans qu'une seule valeur soit inventée.
 
 D'où trois lots supplémentaires, `LOT-40` à `LOT-42`, qui transforment l'atlas en monde parcourable :
@@ -468,7 +531,10 @@ de l'avoir validée sur un seul multiplierait simplement par cent le coût de ch
 *Exigences couvertes : `EX-RPG-050`, `EX-RPG-051`.*
 
 Les sorts et l'appendice des états des *Basic Rules* vers `spells/` et `conditions/`, complétés par
-les sorts propres au *Player's Guide* (liste de l'élémentaliste, descriptions du ch. 4).
+les sorts propres au *Player's Guide* : **76 sorts** du chapitre 4 (dont cinq cités par les blocs
+du bestiaire) et **191 sorts d'élémentaliste** cloisonnés par élément, chacun portant un second
+effet (*Elemental Flux*) et 36 sorts de fusion — le catalogue de sorts de ce jeu est donc plus
+grand que celui du SRD, et sa moitié Tanares se code en **deux champs par sort** (§4bis).
 
 La règle qui compte est celle que le [LOT-25](@ref lot-25) énonce déjà : le C++ ne porte que des
 *mécanismes* (dégâts de zone, jet de sauvegarde, condition appliquée, durée), la donnée les compose.
@@ -484,11 +550,11 @@ tombe silencieusement dans un cas par défaut, un test énumère le catalogue et
 *Prérequis : `LOT-81`, [LOT-11](@ref lot-11). Alimente `LOT-41`.*
 
 > **Découpé à l'audit.** Ce lot mêlait un **générateur** (du C++ déterministe, testable sans aucune
-> donnée de région) et les **descripteurs des dix régions** (de la donnée extraite et relue). Deux
+> donnée de région) et les **descripteurs des treize régions** (de la donnée extraite et relue). Deux
 > métiers, deux critères d'acceptation : les descripteurs partent au `LOT-81`. Ne reste ici que le
 > moteur, qui se valide sur un descripteur de test.
 
-Dix régions, une dizaine de lieux nommés chacune : environ **cent cartes**. Dessinées à la main dans
+Treize régions, une dizaine de lieux nommés chacune : environ **cent cartes**. Dessinées à la main dans
 l'éditeur, à raison de quelques heures pièce, c'est une année de travail pour un développeur seul —
 et la certitude que le monde ne sera jamais fini. Elles doivent donc se **générer**.
 
@@ -519,7 +585,7 @@ générée qui ne soutient pas la comparaison avec l'une d'elles n'est pas une c
 *Acceptation* — une même graine et un même descripteur rendent deux fois la carte **identique** ;
 toute carte générée est traversable de son entrée à sa sortie, vérifié par un parcours automatique ;
 une carte générée s'ouvre dans l'éditeur, se modifie et se recharge sans perte. Le générateur se
-teste sur un descripteur **de fixture**, sans dépendre des dix régions réelles.
+teste sur un descripteur **de fixture**, sans dépendre des treize régions réelles.
 
 ### `LOT-41` — Peuplement : rencontres et créatures {#lot-41}
 
@@ -532,7 +598,7 @@ Alimente `LOT-82`.*
 > part au `LOT-82`.
 
 Une carte vide n'est pas un lieu. Ce lot y met ce qui est **hostile**, et il le fait **par déduction
-depuis les données de région**, jamais par placement manuel — c'est ce qui rend dix régions tenables.
+depuis les données de région**, jamais par placement manuel — c'est ce qui rend treize régions tenables.
 
 Trois des sept `Regional Statistics` pilotent ce versant :
 
@@ -544,6 +610,11 @@ Trois des sept `Regional Statistics` pilotent ce versant :
 
 Le bestiaire des 176 créatures y est filtré par région : une table de rencontre se compose de ce qui
 vit là, à la dangerosité que la région annonce, et non d'un tirage uniforme dans le catalogue.
+
+*Contraintes du corpus (§4bis).* Les créatures pénombrales n'errent que **la nuit** (*Tamera's
+Light* : 10 dégâts radiants par tour au soleil) — la table lit l'horloge du `LOT-70`. Un repaire
+de dragon **triple** la fréquence des rencontres à six miles : un lieu peut porter un
+modificateur. L'Undertanares est une **couche** sous les régions, avec ses propres tables.
 
 *Acceptation* — deux régions aux statistiques opposées produisent des **densités et des tables de
 rencontre mesurablement différentes**, vérifié par un test ; le peuplement est reproductible à
@@ -559,6 +630,12 @@ régions, leurs lieux connus, la position du personnage — et le déplacement e
 voyage rapide vers un lieu déjà visité, et le coût que ce voyage représente (temps, ravitaillement,
 risque de rencontre selon la `Crime and Violence` traversée).
 
+*Contraintes du corpus (§4bis).* Une route a un **type** — terre, mer (les Seashores sont
+presque entièrement marines), portail (trois gros tameranium à bâtir, une bauronite par usage),
+disque nain, faille pénombrale (Yama → Freelands en six heures, au prix de ce qu'elle attire),
+Tritor — et une monture parmi les **19** de la table du ch. 8 change son coût. Pas de combat
+naval : la mer est une route, pas un champ de bataille.
+
 Il porte aussi la **découverte** : un lieu se révèle en y arrivant ou en l'apprenant d'un PNJ, et
 cet état de découverte entre dans la sauvegarde du [LOT-17](@ref lot-17). Sans cela, un monde de
 cent lieux s'ouvre entièrement dès la première seconde et n'a plus rien à offrir.
@@ -571,7 +648,7 @@ connaît encore ni position du personnage ni découverte. Ce lot n'a donc plus d
 il livre la **donnée** du voyage (routes, coûts, ancrages) et le modèle qui la porte, puis place
 les lieux un à un. **`VTT/Map - Capital.jpg`** donne la capitale rue par rue, à la même définition.
 
-*Acceptation* — le joueur atteint les dix régions par le seul jeu, sans commande de débogage ; la
+*Acceptation* — le joueur atteint les treize régions par le seul jeu, sans commande de débogage ; la
 carte du monde n'affiche que ce qui est découvert ; l'état de découverte survit à une sauvegarde et
 à un rechargement.
 
@@ -628,7 +705,13 @@ niveau, une **raison de progresser**, et un garde-fou qui évite au joueur de ni
 étriller dans une région d'Argent sans avertissement.
 
 Les halls de guilde étant « bâtis jusqu'au-delà des Freelands », le système s'étend naturellement aux
-dix régions et donne au `LOT-42` des points d'ancrage pour le voyage.
+treize régions et donne au `LOT-42` des points d'ancrage pour le voyage.
+
+*Contraintes du corpus (§4bis).* La Guilde n'est pas la seule échelle : le **Conseil draconique**
+a sept rangs et paie des primes sur les créatures pénombrales, les **Relic Hunters** notent sur
+dix, Kolbjörn a un code d'honneur, le Kepesh une réputation religieuse, l'Empire un régime de
+délation indexé sur `Citizen Freedom`. Ce lot livre donc un **modèle de réputation par
+organisation** dont la Guilde est la première instance, pas une mécanique de guilde.
 
 **L'écran existe déjà.** Le tableau de la Guilde du [LOT-68](@ref lot-68) a été absorbé par
 `CompanyForm.ui.qml` ([LOT-87](@ref lot-87), maquette 09) — quatre onglets : Équipe, Recrutement,
@@ -650,7 +733,7 @@ analogue aux 94 du `LOT-33`, mais **en anglais** : c'est l'étape de traduction,
 
 Avec les 94 du SRD, cela porte le bestiaire à **176 créatures** — et c'est le total retenu. Les 416
 blocs du *Manuel des Monstres* sont **écartés du périmètre** (voir §8) : 176 profils suffisent
-largement à peupler dix régions, et ils épargnent le seul gisement du corpus dont chaque valeur
+largement à peupler treize régions, et ils épargnent le seul gisement du corpus dont chaque valeur
 numérique aurait dû être relue.
 
 > **À réexaminer dans ce lot** : le `VTT/Character Compendium` (§2), arrivé après cet arbitrage,
@@ -661,9 +744,23 @@ numérique aurait dû être relue.
 Ce lot est donc **borné et achevable**, contrairement à ce qu'il était quand il portait le *Manuel
 des Monstres* : 17 familles, une fin, un critère de fin.
 
-*Acceptation* — les 82 profils chargent et sont jouables en combat, pas seulement chargés ; chaque
-terme de règle traduit est conforme au lexique du `LOT-30` ; dix profils sont vérifiés à la main
-contre le PDF.
+*Contraintes du corpus (§4bis).* Les 82 blocs sont confirmés (66 au ch. 9 après l'index, 16
+avant), et la relecture en trouve une **soixantaine d'autres** hors du ch. 9 — Etoraax (FP 29),
+30 formes pénombrales du madwalker, 5 gardiens-plantes, 13 créatures orientales de Yama,
+invocations, montures, employés — qui sont des **fiches jouables** au même gabarit : ce lot les
+prend, ou dit lesquelles il laisse aux lots de classe. Chaque bloc porte les **étiquettes** que
+les classes lisent (naturel / non naturel, origine planaire, lanceur de sorts, type, FP) et
+**déclare les mécanismes qu'il exige** (`EX-CNT-030`) : actions légendaires et de repaire,
+effets régionaux, phases par seuil, déclencheur à la mort, forme alternative référençant un
+autre bloc, aura, régénération conditionnelle — quatorze blocs en dépendent. Le moteur les
+liste au chargement (`EX-CNT-031`) ; le `LOT-20` et le `LOT-21` les honorent un à un. Les
+coquilles du livre sont à corriger à l'extraction (seuils d'aura de l'Ancient Bauronite copiés
+de l'adulte, INT 17 (−3), CR 6 pour 5 000 XP).
+
+*Acceptation* — les 82 profils chargent et **déclarent** ce qu'ils exigent ; ceux dont le moteur
+honore tous les mécanismes sont jouables en combat, les autres sont listés, jamais joués amputés ;
+chaque terme de règle traduit est conforme au lexique du `LOT-30` ; dix profils sont vérifiés à la
+main contre le PDF.
 
 ### `LOT-47` — Socle de classe, et le guerrier comme preuve {#lot-47}
 
@@ -686,10 +783,16 @@ forme sauvage n'est pas l'attaque sournoise. Chacune se code, se teste et se rè
 le découpage en `LOT-51` à `LOT-65`, **une classe par lot**.
 
 Ce lot-ci pose donc le contrat commun : ce qu'une classe **déclare** (dé de vie, maîtrises,
-caractéristiques de sauvegarde, table de progression sur 20 niveaux, niveau de choix de sous-classe,
-ressources propres), comment une **ressource de classe** se décrit génériquement — quantité, cadence
-de récupération (repos court, repos long, à volonté), et ce qu'elle alimente — et comment une
-**sous-classe** se greffe sans dupliquer sa classe mère.
+caractéristiques de sauvegarde, table de progression sur 20 niveaux, niveau de choix de sous-classe
+— **1, 2 ou 3** selon la classe, le clerc au premier, le druide, le madwalker et le redeemer au
+second —, ressources propres, présence ou non d'un *Spellcasting* pour le multiclassage), comment
+une **ressource de classe** se décrit — et la relecture des livres (§4bis) dit qu'il y a **six
+modèles**, pas un : réserve dépensée, jauge montante à paliers, automate positionnel, postures à
+interruptions, points à gain événementiel, cadence par round avec marques ; chacun a sa cadence
+de récupération et ce qu'il alimente —, comment une **sous-classe** se greffe sans dupliquer sa
+classe mère, et comment un personnage **substitue son profil** (forme de dragon, forme
+pénombrale, forme sauvage : PV séparés, excédent reporté, ce qui est conservé déclaré par la
+donnée). Ce dernier point n'est pas une particularité du druide : quatre classes en dépendent.
 
 Il le prouve sur le **guerrier**, la classe la plus simple : pas d'incantation, deux ressources
 seulement (Second souffle, Fougue), et l'Attaque supplémentaire qui suffit à valider la boucle
@@ -730,8 +833,18 @@ distingue l'anomalie confirmée de l'anomalie acceptée, et cette acceptation es
 la donnée** pour ne pas être re-signalée à chaque exécution.
 ### `LOT-50` — Le Colisée : bac à sable de combat {#lot-50}
 
-*Prérequis : [LOT-19](@ref lot-19), [LOT-20](@ref lot-20), [LOT-21](@ref lot-21), `LOT-47`.
-Prérequis de `LOT-51` à `LOT-65`.*
+*Prérequis : [LOT-19](@ref lot-19), [LOT-20](@ref lot-20). Alimente [LOT-21](@ref lot-21) — les
+attaques se vérifient à l'œil dans l'arène — et `LOT-51` à `LOT-65`.*
+
+> **Reclassé au second audit, sur une clarification de l'auteur.** L'arène est **un mode du jeu
+> principal**, et d'abord son **bac à sable de débogage** : c'est ce que l'ancienne appellation
+> « mode édition » désignait — poser librement combattants, objets et décors sur une grille, jouer,
+> rejouer à graine fixée. Elle est réutilisée telle quelle dans le jeu final. Elle ne dépend donc
+> ni du socle de classe ni des attaques : dès que la grille ([LOT-19](@ref lot-19)) et le tour
+> ([LOT-20](@ref lot-20)) existent, l'arène est le lieu où les `LOT-21` à `LOT-24` se vérifient
+> à l'œil, et elle livre au passage **la première carte** de `Source/Elements/Levels/`, vide
+> depuis le `LOT-01`. L'écran de mise en place n'a pas de maquette : c'est un écran de
+> développeur, en QML, sans charte.
 
 Un lieu pour éprouver le combat, encore et encore, sans monter une partie complète à chaque essai.
 Et le corpus en fournit un qui n'est pas un outil de développement déguisé : **les Arènes de
@@ -757,6 +870,14 @@ Ce qu'elles apportent est presque taillé pour l'usage :
 Le lot livre l'arène comme **carte jouable** — une grille tactique dégagée, des gradins, des points
 d'entrée — plus un écran de mise en place : choisir les combattants de chaque camp, leur niveau,
 leur équipement, et lancer. Rejouable à graine fixée pour comparer deux versions d'une mécanique.
+
+*Contraintes du corpus (§4bis).* Les livres font de l'arène bien plus qu'un sport : la *Law of the
+Arena* règle les **litiges civils** (avec champions à louer), chaque région a **sa** variante
+(Arena of the Future non létale, Feargus létale, Braves pour débutants, duel de baguettes à la
+Magocratie), les **paris** se résolvent par un combat simulé hors écran, et les Marques Héroïques
+exigent une **troisième économie d'action** bornée à la zone du rituel. Ce lot livre le mode et la
+première arène ; les variantes sont des **données de lieu** (`LOT-37`, livré) et la troisième
+économie d'action est un crochet réservé au `LOT-20`.
 
 Sa vertu la plus durable est de n'être **jamais du code jetable** : c'est une zone du jeu final,
 avec ses combats de gloire, sa Marque Héroïque à gagner et son statut social — le monde de Tanares
@@ -793,10 +914,16 @@ change réellement le profil. Une classe dont la mécanique ne se voit pas en co
 | `LOT-59` | Ensorceleur | Points de sorcellerie, métamagie | Conversion ressource ↔ emplacement, altération d'un sort à l'incantation |
 | `LOT-60` | Sorcier | Magie de pacte, manifestations occultes | **Un second système d'emplacements** : peu nombreux, toujours au niveau maximal, récupérés au repos court |
 | `LOT-61` | Druide | Forme sauvage | **Substitution complète du profil de créature** — le plus lourd du lot |
-| `LOT-62` | Élémentaliste | Éléments primordiaux, sorts de fusion | Liste de sorts dédiée, combinaison de deux sorts en un |
-| `LOT-63` | Dragonblade | Voies draconiques | Ressource liée à un dragon choisi, effets par couleur |
-| `LOT-64` | Madwalker | *Trails* aberrantes | Progression par piste plutôt que par sous-classe unique |
-| `LOT-65` | Redeemer | Bénédictions | Liste de bénédictions accordées à autrui, distincte des sorts |
+| `LOT-62` | Élémentaliste | Éléments primordiaux, *Elemental Flux*, sorts de fusion | **191 sorts** cloisonnés par élément, un tampon « prochain surge » écrasé par chaque sort, un journal FIFO des deux derniers éléments, un cantrip qui consomme des emplacements |
+| `LOT-63` | Dragonblade | Pouvoirs draconiques, âmes | Martial à l'**Intelligence** ; cadence « un pouvoir par round » + accumulation de trois marques ; réaction **avant le premier tour** ; 46 pouvoirs typés Claw/Scale/Wing ; 4 formes de dragon ; sous-classe au niveau 2 ; pas de *Spellcasting* |
+| `LOT-64` | Madwalker | Mutations, *Insanity*, formes pénombrales | Jauge **montante** à paliers de malus et transformation forcée ; 48 mutations, plusieurs actives, une activation par round ; **30 formes** de substitution ; *trail* au niveau 2 ; pas de *Spellcasting* |
+| `LOT-65` | Redeemer | Rayons, Cycle, bénédictions | Rayons à 60 ft qui **véhiculent** un sort ; automate à six positions ; dégâts qui ignorent les résistances des créatures **non naturelles** (étiquette) ; 50 bénédictions achetées en or et harmonisées ; sous-classe au niveau 2 |
+
+Chaque classe du SRD reçoit en outre **sa sous-classe de Tanares** (quinze dans le *Player's
+Guide*, plus l'Amazone pour le guerrier) : la Voie des Animaux du moine avec ses postures, le
+domaine du Chaos qui prépare sur la liste d'une autre classe, le Chevalier de la Mort et ses
+points d'âme à gain événementiel, le Cultiste qui meurt au quatrième échec — c'est là que les six
+modèles de ressource du `LOT-47` se vérifient.
 
 Deux d'entre eux méritent d'être vus venir. Le **druide** (`LOT-61`) remplace le profil entier du
 personnage par celui d'une bête pendant sa forme sauvage : c'est le seul cas où une classe touche à
@@ -875,12 +1002,22 @@ de l'éditeur, est celui où elle se pose.
 `EX-IHM-073` et `EX-EDIT-045` sont révisées ; l'éditeur du `LOT-11` continue de fonctionner à
 l'identique, panneau de textures compris.
 
-### `LOT-70` — Horloge de partie et cycle jour/nuit {#lot-70}
+### `LOT-70` — Horloge, calendrier et lune {#lot-70}
 
 *Prérequis : [LOT-13](@ref lot-13). **Débloque `LOT-51`→`LOT-65`, [LOT-25](@ref lot-25),
 `LOT-75` et `LOT-42`.***
 
-*Exigences couvertes : `EX-DND-030`, `EX-DND-032`.*
+*Exigences couvertes : `EX-DND-030`, `EX-DND-031`, `EX-DND-032`.*
+
+> **Élargi au second audit.** « Horloge et cycle jour/nuit » ne suffit pas : les livres datent
+> tout. Un **calendrier** de 12 mois × 30 jours et 7 jours nommés (an 1298), des saisons et des
+> solstices, quatre fêtes à bonus mécanique, une **phase de lune** et son périgée (*Bauron's
+> Vigil* : 1d4 → 1d12 PV temporaires selon la phase ; lycanthropes ; Vandanamalika), des
+> recharges de 7, 30 et 1001 jours, des malédictions à tick quotidien, des échéances mensuelles
+> (prêts, entretien des constructs), des respawns différés. Et surtout *Tamera's Light* : les
+> créatures pénombrales ne sortent que **la nuit** — le premier consommateur de l'horloge n'est pas
+> le repos, c'est la table de rencontres du `LOT-41`. `core::GameClock` expose donc une **date**,
+> une **phase de lune** et des **événements datés** que les autres lots consomment.
 
 > **Fusionné à l'audit.** Ce lot a absorbé l'ancien `LOT-71` (repos court et long). L'horloge n'a
 > **aucun consommateur** hors du repos et du campement : livrée seule, elle ne produit rien
@@ -927,6 +1064,14 @@ pendant un combat ; elle survit à une sauvegarde et à un rechargement.
 Le moteur d'application : poser, empiler, expirer — en tours ou en temps de jeu — et l'effet sur les
 jets : avantage, désavantage, incapacité d'agir.
 
+*Contraintes du corpus (§4bis).* Les états de Tanares débordent l'appendice du SRD : marqueurs
+**empilables** (quatre marques de poison), saignement, « couvert de lave », « mouillé »,
+« chargé », malus par paliers, cécité **permanente**, mutisme, malédictions à tick quotidien ou
+hebdomadaire levées seulement par *remove curse* — et l'**épuisement à niveaux**, que dix sorts
+et capacités emploient comme coût. Une condition est donc une **source datée** avec une durée en
+tours **ou** en temps de jeu (`LOT-70`), et la couche « affliction persistante » survit au combat.
+Le seuil de jets contre la mort est **par personnage** (le Cultiste meurt au quatrième échec).
+
 **Le piège.** Une condition n'est pas un booléen sur la fiche. Deux sources peuvent poser
 « empoisonné » avec deux durées différentes ; retirer l'une ne doit pas retirer l'autre. C'est le
 piège de la classe d'armure du [LOT-14](@ref lot-14), transposé : on **recalcule depuis les
@@ -949,7 +1094,8 @@ le compteur ; mourir en exploration a un effet défini, et ce n'est pas « redé
 
 *Prérequis : [LOT-13](@ref lot-13), [LOT-20](@ref lot-20), [LOT-16](@ref lot-16).*
 
-*Exigences couvertes : `EX-RPG-030`, `EX-RPG-031`, `EX-RPG-032`.*
+*Exigences couvertes : `EX-RPG-030`, `EX-RPG-031`, `EX-RPG-032`, `EX-DND-050` (le facteur de
+puissance, échelle unique du dosage, des rangs et de l'expérience).*
 
 **Les sources** d'expérience, qui manquent entièrement : victoire au combat selon le facteur de
 puissance des adversaires, achèvement de quête, découverte de lieu — cette dernière propre au bac à
@@ -977,7 +1123,7 @@ sans lui donner de fonction.
 **Le piège.** Un repos long disponible partout et sans risque annule toute gestion de ressources —
 or c'est elle qui rend le repos intéressant. La contrainte doit venir des **données de région**
 (`Crime and Violence`, `Monster Presence` du `LOT-41`), jamais d'une règle codée : c'est ainsi que
-dix régions donnent dix rapports au repos sans qu'une ligne de C++ les distingue.
+treize régions donnent dix rapports au repos sans qu'une ligne de C++ les distingue.
 
 *Acceptation* — se reposer en zone dangereuse déclenche des rencontres à une fréquence dérivée de la
 région ; une auberge garantit un repos non interrompu ; l'horloge avance du montant attendu.
@@ -986,9 +1132,14 @@ région ; une auberge garantit un repos non interrompu ; l'horloge avance du mon
 
 *Prérequis : `LOT-37`. Alimente [LOT-16](@ref lot-16), `LOT-82`.*
 
-Détaché du `LOT-37` à l'audit : les **5 factions**, **18 divinités**, **11 organisations**, **7 lieux
-du plan pénombral**, la chronologie et l'économie de minerais rares, vers
-`Source/Elements/World/factions/`, `pantheon/` et `organizations/`.
+Détaché du `LOT-37` à l'audit : les **5 factions** (avec leurs 15 entreprises et 23 secrets, qui
+sont des gabarits de quête tout faits), **18 divinités** avec domaines, **13 organisations** à
+fiche (une trentaine nommées, dont les 8 ordres de l'Église et les 7 rangs du Conseil draconique),
+la chronologie (90 événements datés, 12 royaumes disparus) et la **légalité de la magie par
+région** (réservée à la noblesse dans l'Empire, certifiée et payante à la Magocratie, débattue en
+République — `Magic Access` seul ne l'exprime pas), vers `Source/Elements/World/factions/`,
+`pantheon/` et `organizations/`. Le plan pénombral — sept couches, 32 lieux, ses règles de survie
+— n'est plus « 7 lieux » ici : c'est le `LOT-90`.
 
 Ce sont les entités **transverses aux régions**, et elles servent un autre consommateur que l'atlas :
 une faction porte des objectifs qui se traduisent en quêtes, un panthéon porte des domaines qui se
@@ -999,7 +1150,7 @@ traduisent en capacités. C'est ce qui rend le [LOT-16](@ref lot-16) écrivable 
 le catalogue ; chaque faction déclare au moins un objectif exploitable comme gabarit de quête ;
 aucune entité orpheline, vérifié par `check_world_graph.py`.
 
-### `LOT-81` — Descripteurs de terrain des dix régions {#lot-81}
+### `LOT-81` — Descripteurs de terrain et règles de zone des treize régions {#lot-81}
 
 *Prérequis : `LOT-37`. Prérequis de `LOT-40`.*
 
@@ -1013,15 +1164,25 @@ chaînes glacées, deux mers ». Ce sont des recettes de terrain, pas de la pros
 travail est de les **typer** dans le vocabulaire de tuiles du [LOT-08](@ref lot-08), et de les
 relire.
 
-*Acceptation* — les dix régions portent un descripteur validé par schéma ; chaque biome cité
-correspond à un type de tuile existant ; deux régions distinctes ne portent pas le même descripteur.
+*Contraintes du corpus (§4bis).* Une région porte aussi ses **règles de zone** : le Wasteland
+interdit tout regain de points de vie en son centre et halve les soins en bordure ; le centre de
+Darkall change au hasard le type de tout dégât non physique ; l'île d'Uncle Joe et les Temples de
+Paix interdisent le combat ; les Night Mansions sanctionnent une attaque de 5d6 de froid. Ce sont
+des **propriétés de zone** que la carte déclare (`EX-LVL-018`) et que le combat lit — le `LOT-19`
+en prévoit le crochet. **L'Undertanares** est une couche sous les régions, Darkall et le Wasteland
+sont décrits sans encart : trois espaces jouables de plus que les treize, à descripteur propre.
+
+*Acceptation* — les treize régions, l'Undertanares, Darkall et le Wasteland portent un descripteur
+validé par schéma ; chaque biome cité correspond à un type de tuile existant ; deux régions
+distinctes ne portent pas le même descripteur ; chaque règle de zone du livre est déclarée, et
+un test la lit.
 
 ### `LOT-82` — Peuplement civil : PNJ, marchands et quêtes {#lot-82}
 
 *Prérequis : `LOT-41`, `LOT-34`, `LOT-44`, `LOT-80`, [LOT-15](@ref lot-15), [LOT-26](@ref lot-26).
 Alimente `LOT-45`, `LOT-42`.*
 
-*Exigences couvertes : `EX-INV-030`, `EX-INV-031`.*
+*Exigences couvertes : `EX-INV-031`.*
 
 Détaché du `LOT-41` à l'audit : le versant **non hostile** du peuplement, dérivé des quatre autres
 `Regional Statistics`.
@@ -1044,13 +1205,25 @@ ce lot fournit les gabarits qui s'en servent.
 mesurablement différents**, vérifié par un test ; mille PNJ générés suivent la distribution
 d'espèces déclarée par leur région ; aucun PNJ ni aucun marchand n'est placé en dur dans le code.
 
-### `LOT-83` — Boucle de progression de la Guilde {#lot-83}
+### `LOT-83` — Compagnie : rangs de Guilde, niveau d'équipe et quartier général {#lot-83}
 
-*Prérequis : `LOT-45`, `LOT-74`.*
+*Prérequis : `LOT-45`, `LOT-74`, [LOT-29](@ref lot-29).*
 
 Détaché du `LOT-45` à l'audit : le catalogue des rangs et des contrats est une donnée et un écran,
 la **progression** est une mécanique — et elle suppose l'expérience du `LOT-74`, que le `LOT-45`
 n'exigeait pas.
+
+> **Élargi au second audit.** Le *Player's Guide* (ch. 5) porte un système d'**équipe** complet
+> que la maquette 09 du [LOT-87](@ref lot-87) a déjà transcrite en `CompanyForm` : un **niveau
+> d'équipe** de 1 à 20 gagné en *Career Points* (une échelle de contrats en sept paliers), un
+> **quartier général** à douze structures de six niveaux chacune (hall, bibliothèque, écurie,
+> atelier, taverne, infirmerie, observatoire, forteresse, ferme, musée, quai, jardin), douze
+> employés statés, des effets économiques (remises, profits de taverne, rations, voyage raccourci),
+> **douze dons d'équipe** et des récompenses légendaires. L'écran a ses onglets Équipe,
+> Recrutement, Contrats et Réserve ; ce lot les remplit. La Guilde (rangs, `LOT-45`) et la
+> compagnie (niveau, QG) sont **deux échelles**, et les deux restent : l'une borne ce qu'on a le
+> droit de prendre, l'autre ce qu'on est capable de faire. Le [LOT-29](@ref lot-29) est prérequis
+> : une équipe se joue à plusieurs.
 
 Monter de rang : ce qui le déclenche (contrats accomplis, niveau atteint), ce que cela change dans
 l'offre affichée, ce que cela ouvre — accès aux régions de rang supérieur, tarifs, réputation auprès
@@ -1060,7 +1233,8 @@ inexpérimentés de prendre des tâches au-dessus de leurs moyens » — un joue
 
 *Acceptation* — accomplir les contrats d'un rang fait monter au suivant ; monter de rang change
 l'offre de façon observable ; entrer dans une zone au-dessus de son rang produit un avertissement
-diégétique, et non un écran de mort.
+diégétique, et non un écran de mort ; le niveau d'équipe monte par *Career Points*, une structure
+de QG produit son effet, un don d'équipe s'observe en combat.
 
 ### `LOT-84` — Les 31 tables de progression de classe {#lot-84}
 
@@ -1088,10 +1262,83 @@ pas et n'en dépend pas : c'est un filet, pas un maillon.
 comparées **ligne à ligne** au PDF ; le contrôle statistique du `LOT-49` ne signale aucune anomalie
 non acceptée.
 
+### `LOT-88` — Spécifications : retrait de l'héritage plateforme {#lot-88}
+
+*Prérequis : [LOT-67](@ref lot-67).*
+
+> **Ajouté au second audit.** Les spécifications sont relues comme des entrants, et la moitié
+> d'entre elles décrit **un autre jeu**. `gameplay.md` est « livré » avec le saut, la gravité, les
+> pentes, les blocs poussables et 39 exigences de plateforme actives ; `controles.md` mappe Sauter
+> et Dash ; `rendu-technique.md` exige un écran de fin de niveau et des bruitages de saut ;
+> `niveaux.md` décrit le format par ses tuiles de pente ; `ia.md` déclare « livré » un solveur par
+> apprentissage purgé au `LOT-01`. Le `LOT-67` n'a retiré que la notion de niveau discret ; le
+> `LOT-77` a écrit la moitié RPG ; personne ne portait le retrait de l'autre moitié. Une exigence
+> active qui décrit une mécanique absente du moteur est une exigence que le lint d'exigences tient
+> pour vraie.
+
+Une passe de rédaction, à la manière du `LOT-67` : les exigences de plateforme passent en
+« retirées », ancres conservées, texte d'origine intact, motif écrit ; `ia.md` et `decors.md` sont
+archivés sous `Documentation/Heritage/` s'ils ne décrivent plus rien du dépôt ; `vision.md` cesse
+d'annoncer « aucun objectif livré » ; `contenu.md` dit treize régions ; `EX-EDIT-030` est refondue
+dans le sens tranché au §8 (l'éditeur d'auteur est un exécutable à part, l'arène est le mode
+intégré). Aucune ligne de code.
+
+*Acceptation* — aucune exigence active ne décrit une mécanique retirée du moteur, vérifié en
+listant les exigences citées par les seuls lots hérités ; `lint_exigences.py` et Doxygen verts ;
+aucune ancre supprimée.
+
+### `LOT-89` — Dons, objets magiques et consommables de Tanares {#lot-89}
+
+*Prérequis : `LOT-34`, `LOT-43`. Alimente [LOT-26](@ref lot-26).*
+
+> **Ajouté au second audit.** Trois matières du corpus n'avaient aucun lot : les **20 dons** du
+> *Player's Guide* (les 42 livrés au `LOT-43` sont ceux du SRD), les **29 objets magiques** du
+> Sourcebook (27 au ch. 10, deux dans le bestiaire) et les **consommables à durée** du chapitre 8
+> — boissons, mets rares à +1 de caractéristique pendant deux heures, Estelindea, peintures de
+> guerre, Aemomium. De la donnée, comme le `LOT-34`, avec les mêmes outils.
+
+Les objets magiques imposent au schéma d'objet ce que le `LOT-34` n'avait pas à prévoir : rareté,
+**harmonisation** avec restriction de classe (`EX-INV-041`), réserve de **charges** et règle de
+recharge (à l'aube ; un bâton se réduit en cendres sur un 1), coût d'activation, **malédiction**
+et harmonisation forcée (la Couronne de Pénombre éjecte un autre objet), jet de casse, paramètre
+« type de dragon » ; onze objets ont un effet de combat, dix-huit relèvent d'enquête, de voyage ou
+de messagerie et déclarent le mécanisme qu'ils exigent (`EX-CNT-030`). Les dons déclarent leurs
+conditions d'accès et leurs effets en mécanismes (`EX-RPG-040`) — cinq dépendent d'une espèce.
+
+*Acceptation* — 20 dons, 29 objets et les consommables du ch. 8 validés par schéma, avec `source`
+et le mécanisme qu'ils exigent ; un objet à charges se recharge à l'heure déclarée par le
+`LOT-70` ; un objet maudit ne se retire pas sans le mécanisme qui le permet ; le `LOT-49` ne
+signale aucune anomalie non acceptée.
+
+### `LOT-90` — Le plan pénombral {#lot-90}
+
+*Prérequis : `LOT-42`, `LOT-41`, `LOT-46`.*
+
+> **Ajouté au second audit.** Le plan pénombral n'est pas « 7 lieux » du `LOT-80` : c'est le
+> **second monde** du Sourcebook — une surface et six couches, 32 lieux, un maître par couche, une
+> table de cauchemars par couche — et le cœur de tout ce que Tanares raconte : les emoguns naissent
+> des péchés, le madwalker s'y mute, les failles y mènent, *Tamera's Light* en chasse les créatures
+> le jour. Un bac à sable dans l'univers complet ne peut pas l'ignorer ; un *vertical slice* ne
+> doit pas l'attendre. D'où un lot à part, **après** le voyage et le peuplement, et différable sans
+> rien casser.
+
+Ce qu'il porte : les **règles de survie** du plan (pas de repos long hors des zones de stabilité,
+jet de Sagesse toutes les huit heures ou niveau d'épuisement, lumière plafonnée, divination
+faussée) comme règles de zone du `LOT-81` ; les **failles** — ouvertes par rituel ou sur un lieu
+de massacre, bidirectionnelles, menant toujours au lieu **miroir** — comme routes du `LOT-42` ; les
+lieux miroirs (marché, taudis, bois, cour) comme cartes du `LOT-40` ; les emoguns comme rencontres
+du `LOT-41`, filtrés par couche ; le péage de sang, le Ghost Market mensuel, les trains toutes les
+deux heures. La Malédiction malrokienne comme compteur global est **écartée** (§8) ; ce lot garde
+la règle locale — un lieu de massacre ouvre une faille.
+
+*Acceptation* — le personnage entre dans le plan par une faille et en revient au lieu miroir ;
+un repos long y échoue hors zone de stabilité ; une créature pénombrale ramenée sur le plan
+matériel brûle au soleil ; les sept couches sont jouables, chacune avec sa table.
+
 ---
 
-> **Trois numéros retirés.** Les `LOT-48`, `LOT-71` et `LOT-73` ont été absorbés par fusion et
-> **ne seront pas réattribués** : un identifiant de lot est stable, y compris quand il cesse de
+> **Quatre numéros retirés.** Les `LOT-48`, `LOT-71` et `LOT-73` ont été absorbés par fusion, le
+> `LOT-85` a été abandonné, et aucun **ne sera réattribué** : un identifiant de lot est stable, y compris quand il cesse de
 > désigner du travail. Le tableau ci-dessous dit où leur contenu est parti.
 >
 > | Numéro retiré | Contenu | Absorbé par |
@@ -1099,6 +1346,7 @@ non acceptée.
 > | `LOT-48` | Portraits et illustrations | Dissous dans chaque lot de catalogue |
 > | `LOT-71` | Repos court et long | `LOT-70` |
 > | `LOT-73` | Agonie et mort | `LOT-72` |
+> | `LOT-85` | Outillage Qt Designer pour les `.ui` | Abandonné ; remplacé par le [LOT-86](@ref lot-86) |
 >
 > Le `LOT-31` (lexique bilingue) a lui aussi été retiré par fusion, dans le
 > [LOT-30](@ref lot-30) — mais ce dernier étant livré, la plage de cette page commence désormais au
@@ -1193,7 +1441,11 @@ valeurs codées en dur, exactement ce que [`EX-VIS-007`](@ref EX-VIS-007) interd
 | Avec [LOT-21](@ref lot-21) | `LOT-72` | Conditions, agonie et mort appartiennent au combat |
 | Avec [LOT-20](@ref lot-20) | `LOT-74` | L'expérience se gagne à la fin d'un combat |
 | Avant `LOT-47` | `LOT-84` | Les 31 tables sont de la donnée : elles précèdent le socle qui les lit |
-| Après [LOT-21](@ref lot-21) | `LOT-47`, puis `LOT-50` | Le socle de classe, puis le lieu où éprouver ce qu'on lui ajoute |
+| Après [LOT-20](@ref lot-20), avant [LOT-21](@ref lot-21) | `LOT-50` | L'arène est le **banc d'essai** des mécaniques de combat : elle arrive dès que la grille et le tour existent, livre la première carte, et les attaques s'y vérifient |
+| Après [LOT-21](@ref lot-21) | `LOT-47` | Le socle de classe, éprouvé dans l'arène |
+| Démarrable maintenant | `LOT-88` | Une passe de rédaction sur les spécifications, avant que les lots de moteur ne citent des exigences de plateforme |
+| Après `LOT-34` et `LOT-43` (livrés) | `LOT-89` | De la donnée : dons, objets magiques, consommables |
+| Après [LOT-27](@ref lot-27) | `LOT-90` | Le second monde, différable sans rien casser |
 | Avant [LOT-27](@ref lot-27), en filière | `LOT-44`, `LOT-46` | Noms et créatures de Tanares : de la donnée, sans prérequis de moteur, qui donne au slice de vrais habitants |
 | Après [LOT-27](@ref lot-27) | `LOT-41`, `LOT-82`, `LOT-42`, `LOT-45`, `LOT-83`, `LOT-75` | Le bac à sable généralise une boucle ; elle se valide une fois avant d'être appliquée cent fois |
 
@@ -1218,7 +1470,7 @@ numéros ; le slice retombe à sa place réelle — voir le tableau d'avancement
 critique** ci-dessous en est la conséquence directe. Une dépendance que seul un humain sait lire
 n'existe pas pour la règle qui calcule l'ordre.
 
-**Les lots du bac à sable restent résolument après le [LOT-27](@ref lot-27).** Peupler dix régions
+**Les lots du bac à sable restent résolument après le [LOT-27](@ref lot-27).** Peupler treize régions
 revient à appliquer cent fois la même recette ; si la recette est mauvaise — rencontres mal dosées,
 marchands inutiles, quêtes vides — on la découvre cent fois. Le `LOT-27` coûte un village et un
 donjon, et c'est le prix pour ne pas payer cette erreur au centuple. Leur ordre interne compte
@@ -1251,10 +1503,10 @@ lots, dont la fiche de personnage et sa maquette. **Ces sept-là sont livrés.**
 Le chemin critique restant est celui du **combat**, et c'est la plus longue chaîne de prérequis
 qui mène au slice depuis que celui-ci déclare les siens en numéros :
 
-[LOT-19](@ref lot-19) → [LOT-20](@ref lot-20) → [LOT-21](@ref lot-21) → [LOT-23](@ref lot-23) →
-[LOT-24](@ref lot-24) → [LOT-27](@ref lot-27)
+[LOT-19](@ref lot-19) → [LOT-20](@ref lot-20) → `LOT-50` → [LOT-21](@ref lot-21) →
+[LOT-23](@ref lot-23) → [LOT-24](@ref lot-24) → [LOT-27](@ref lot-27)
 
-Six lots, avec le [LOT-22](@ref lot-22) (portée et ligne de vue) en parallèle du `LOT-21`, exigé
+Sept lots — l'arène du `LOT-50` s'y intercale comme banc d'essai des attaques —, avec le [LOT-22](@ref lot-22) (portée et ligne de vue) en parallèle du `LOT-21`, exigé
 par l'IA du `LOT-23`. Deux chaînes plus courtes y aboutissent aussi et se mènent **en parallèle** :
 [LOT-15](@ref lot-15) → [LOT-16](@ref lot-16) → [LOT-17](@ref lot-17) → `LOT-27` (dialogues, quêtes,
 sauvegarde — quatre lots), et [LOT-09](@ref lot-09) → `LOT-17`, [LOT-11](@ref lot-11) → `LOT-27`
@@ -1298,8 +1550,8 @@ digraph filiere {
   }
   L84 [label="LOT-84\n31 tables"]; L47 [label="LOT-47\nSocle de classe"];
   L50 [label="LOT-50\nColisée"]; L51 [label="LOT-51→65\nune classe par lot"];
-  L32 -> L84 -> L47 -> L50 -> L51;
-  L43 -> L47; L70 [label="LOT-70\nTemps et repos"] -> L51;
+  L32 -> L84 -> L47 -> L51; L50 -> L51;
+  L43 -> L47; L70 [label="LOT-70\nCalendrier et repos"] -> L51;
   L80 [label="LOT-80\nFactions"]; L81 [label="LOT-81\nDescripteurs"];
   L40 [label="LOT-40\nGénérateur"]; L41 [label="LOT-41\nRencontres"];
   L82 [label="LOT-82\nPeuplement civil"]; L45 [label="LOT-45\nGuilde"];
@@ -1315,6 +1567,7 @@ digraph filiere {
     L21 [label="LOT-21\nAttaques"]; L22 [label="LOT-22\nLigne de vue"];
     L23 [label="LOT-23\nIA tactique"]; L24 [label="LOT-24\nIHM de combat"];
     L18 -> L19 -> L20 -> L21 -> L23 -> L24 -> L27; L19 -> L22 -> L23; L21 -> L24;
+    L20 -> L50 -> L21;
   }
   L15 [label="LOT-15\nDialogues"]; L16 [label="LOT-16\nQuêtes"]; L17 [label="LOT-17\nSauvegarde"];
   L09 [label="LOT-09\nGraphe de cartes"]; L11 [label="LOT-11\nÉditeur"];
@@ -1334,25 +1587,28 @@ eux-mêmes.
 |---|---|---|---|
 | `LOT-35` | Sorts et états | `LOT-32` | `LOT-25`, `LOT-72` |
 | `LOT-40` | Générateur de terrain | `LOT-11`, `LOT-81` | `LOT-41` |
-| `LOT-41` | Peuplement : rencontres et créatures | `LOT-27`, `LOT-33`, `LOT-40`, `LOT-44`, `LOT-46` | `LOT-75`, `LOT-82` |
-| `LOT-42` | Voyage et carte du monde | `LOT-09`, `LOT-17`, `LOT-68`, `LOT-70`, `LOT-82` | `LOT-75` |
+| `LOT-41` | Peuplement : rencontres et créatures | `LOT-27`, `LOT-33`, `LOT-40`, `LOT-44`, `LOT-46` | `LOT-75`, `LOT-82`, `LOT-90` |
+| `LOT-42` | Voyage et carte du monde | `LOT-09`, `LOT-17`, `LOT-68`, `LOT-70`, `LOT-82` | `LOT-75`, `LOT-90` |
 | `LOT-44` | Noms, tables aléatoires et contenu d'ambiance | `LOT-36`, `LOT-37` | `LOT-41`, `LOT-82` |
 | `LOT-45` | Guilde des Aventuriers : rangs et contrats | `LOT-16`, `LOT-26`, `LOT-68`, `LOT-82` | `LOT-83` |
-| `LOT-46` | Créatures de Tanares | `LOT-30`, `LOT-33` | `LOT-41` |
-| `LOT-47` | Socle de classe, et le guerrier comme preuve | `LOT-36`, `LOT-43`, `LOT-84` | `LOT-50`, `LOT-51` |
+| `LOT-46` | Créatures de Tanares | `LOT-30`, `LOT-33` | `LOT-41`, `LOT-90` |
+| `LOT-47` | Socle de classe, et le guerrier comme preuve | `LOT-36`, `LOT-43`, `LOT-84` | `LOT-51` |
 | `LOT-49` | Contrôle de cohérence du contenu | `LOT-33`, `LOT-34` | — |
-| `LOT-50` | Le Colisée : bac à sable de combat | `LOT-19`, `LOT-20`, `LOT-21`, `LOT-47` | `LOT-51`, `LOT-65` |
+| `LOT-50` | Le Colisée : bac à sable de combat | `LOT-19`, `LOT-20` | `LOT-21`, `LOT-51`, `LOT-65` |
 | `LOT-51` | une classe par lot | `LOT-47`, `LOT-50`, `LOT-70` | — |
 | `LOT-69` | Retrait de l'atelier pixel art | `LOT-11`, `LOT-66` | — |
-| `LOT-70` | Horloge de partie et cycle jour/nuit | `LOT-13` | `LOT-25`, `LOT-42`, `LOT-51`, `LOT-65`, `LOT-75` |
+| `LOT-70` | Horloge, calendrier et lune | `LOT-13` | `LOT-25`, `LOT-42`, `LOT-51`, `LOT-65`, `LOT-75` |
 | `LOT-72` | Conditions, agonie et mort | `LOT-12`, `LOT-21`, `LOT-35` | — |
 | `LOT-74` | Expérience et progression | `LOT-13`, `LOT-16`, `LOT-20` | `LOT-83` |
 | `LOT-75` | Campement et repos dans le monde | `LOT-41`, `LOT-42`, `LOT-70` | — |
 | `LOT-80` | Factions, panthéon et organisations | `LOT-37` | `LOT-16`, `LOT-82` |
-| `LOT-81` | Descripteurs de terrain des dix régions | `LOT-37` | `LOT-40` |
+| `LOT-81` | Descripteurs de terrain et règles de zone des treize régions | `LOT-37` | `LOT-40` |
 | `LOT-82` | Peuplement civil : PNJ, marchands et quêtes | `LOT-15`, `LOT-26`, `LOT-34`, `LOT-41`, `LOT-44`, `LOT-80` | `LOT-42`, `LOT-45` |
-| `LOT-83` | Boucle de progression de la Guilde | `LOT-45`, `LOT-74` | — |
+| `LOT-83` | Compagnie : rangs de Guilde, niveau d'équipe et quartier général | `LOT-29`, `LOT-45`, `LOT-74` | — |
 | `LOT-84` | Les 31 tables de progression de classe | `LOT-32` | `LOT-47` |
+| `LOT-88` | Spécifications : retrait de l'héritage plateforme | `LOT-67` | — |
+| `LOT-89` | Dons, objets magiques et consommables de Tanares | `LOT-34`, `LOT-43` | `LOT-26` |
+| `LOT-90` | Le plan pénombral | `LOT-41`, `LOT-42`, `LOT-46` | — |
 
 
 ---
@@ -1381,7 +1637,8 @@ Source/Elements/Rpg/
   characters/, encounters/  ← personnage et rencontre de démonstration (LOT-13, LOT-18, livrés ;
                               provisoires, retirés par le contenu du LOT-27)
   tables/*.json             ← noms, personnalité, babioles (LOT-44)
-  guild/*.json              ← rangs et gabarits de contrat (LOT-45), progression (LOT-83)
+  guild/*.json              ← rangs et gabarits de contrat (LOT-45), compagnie et QG (LOT-83)
+  magic-items/, consumables/, feats/ (20 de Tanares)   ← (LOT-89)
 
 Source/Elements/World/
   regions/*.json            ← 13 régions : statistiques, espèces, factions (LOT-37, livré)
@@ -1390,6 +1647,7 @@ Source/Elements/World/
   factions/, pantheon/, organizations/            ← (LOT-80)
   arena/*.json              ← Colisée : appariements, marques héroïques, rôles (LOT-50)
   populate/*.json           ← gabarits de rencontre (LOT-41), civils et quêtes (LOT-82)
+  penumbra/*.json           ← sept couches, lieux miroirs, failles (LOT-90)
 Source/Elements/Assets/
   Entities/families.json, UI/illustrations.json   ← clés d'assets et marqueurs (LOT-39, livré)
   UI/world-map*.jpg         ← la carte du monde (LOT-67, LOT-87, livrés)
@@ -1412,7 +1670,7 @@ Source/Core/World/
   RegionPopulator.{h,cpp}   ← peuplement systémique (LOT-41, LOT-82)
   WorldMap.{h,cpp}          ← voyage et découverte (LOT-42)
 Source/Core/Time/
-  GameClock.{h,cpp}, Rest.{h,cpp}    ← horloge, repos court et long (LOT-70)
+  GameClock.{h,cpp}, Calendar, Rest  ← date, phase de lune, repos court et long (LOT-70)
 
 Documentation/Specification/
   contenu.md, regles-dnd.md, combat.md, rpg.md, inventaire.md   ← (LOT-77, livré)
@@ -1426,10 +1684,10 @@ Documentation/Lot/LOT-87-charte-v2/
 
 ### Tranché
 
-- **Périmètre : l'univers complet.** Les 10 régions et leurs lieux, les 13 espèces, les 8 classes et
+- **Périmètre : l'univers complet.** Les 13 régions et leurs lieux, les 13 espèces, les 8 classes et
   leurs sous-classes, les historiques, les factions, le panthéon, le bestiaire entier. Pas de socle
   réduit.
-- **Les 10 régions sont jouables**, pas seulement importées — d'où la génération de terrain du
+- **Les 13 régions sont jouables**, pas seulement importées — d'où la génération de terrain du
   `LOT-40`, qui seule rend une centaine de cartes atteignable.
 - **Le jeu est un bac à sable** dans un premier temps : contenu systémique déduit des données de
   région, pas d'intrigue directrice.
@@ -1438,7 +1696,7 @@ Documentation/Lot/LOT-87-charte-v2/
 - **Bestiaire arrêté à 176 créatures** : les 94 bêtes du SRD (`LOT-33`) et les 82 de Tanares
   (`LOT-46`). Le *Manuel des Monstres* est **hors périmètre** — 416 blocs dont chaque valeur
   numérique demanderait un contrôle, pour un bestiaire déjà largement suffisant à un monde ouvert
-  de dix régions. Rien n'est fermé : le `LOT-30` sait le lire, il pourra être repris plus tard.
+  de treize régions. Rien n'est fermé : le `LOT-30` sait le lire, il pourra être repris plus tard.
 - **Le *Manuel des Joueurs* est dans le périmètre**, lui, et il est indispensable : il porte les
   5 races et 8 classes que les *Basic Rules* n'ont pas, donc les classes de base sur lesquelles se
   greffent les sous-classes de Tanares. Son OCR se traite (§4).
@@ -1468,10 +1726,44 @@ Documentation/Lot/LOT-87-charte-v2/
   les écrans dans Qt Design Studio et les voit sans compilateur (`EX-IHM-100`). Chaque écran du RPG
   existe en QML, sur `PendingData` là où son lot n'a pas encore livré la donnée : les lots de
   moteur qui restent **branchent** des écrans, ils n'en dessinent plus.
+- **L'arène est un mode du jeu principal** (`LOT-50`) — clarification de l'auteur, 14 septembre
+  2026. C'est ce que l'ancienne appellation « mode édition » désignait : un bac à sable de
+  **débogage** où l'on pose librement combattants, objets et décors, joue et rejoue à graine fixée,
+  réutilisé tel quel dans le jeu final comme Colisée. Il arrive dès la grille et le tour
+  ([LOT-19](@ref lot-19), [LOT-20](@ref lot-20)), pas après les classes. **L'éditeur d'auteur
+  reste `LevelEditor`**, l'exécutable Qt Widgets du [LOT-86](@ref lot-86) : le [LOT-11](@ref lot-11)
+  le retarge aux trois couches et aux entités, et refond `EX-EDIT-030` (« intégré à
+  l'application ») en distinguant l'outil d'auteur, séparé, du mode intégré, l'arène.
 - **L'atelier pixel art est retiré** (`LOT-69`), faute d'objet une fois l'identité pixel art
-  abandonnée. Ce qui, dans la version précédente de cette liste, en faisait « un mode de l'arène,
-  sans application séparée » est passé dans « à trancher » : le `LOT-86` a tranché l'inverse pour
-  l'IHM.
+  abandonnée.
+- **Les livres sont les entrants, et le moteur leur offre des crochets** (§4bis). Le socle du
+  combat (`LOT-20`, `LOT-21`) expose des points d'insertion nommés et un pipeline de dégâts à
+  étapes ; le socle de classe (`LOT-47`) livre six modèles de ressource et la substitution de
+  profil ; l'horloge (`LOT-70`) est un calendrier lunaire ; l'altitude est un attribut, jamais
+  une géométrie (`LOT-19`). Ce qui est écarté l'est nommément, dans la liste ci-dessous.
+- **Treize régions**, pas dix : le livre en porte treize à encart, et trois espaces de plus
+  (Darkall, Undertanares, Wasteland) que le `LOT-81` décrit sans encart.
+- **Deux échelles de progression de groupe coexistent** : les rangs de la Guilde (`LOT-45`) et le
+  niveau d'équipe avec quartier général (`LOT-83`), que la maquette 09 montre déjà.
+
+### Écarté à la relecture des livres
+
+- **Montures volantes et *Flying Points*** : n'agissent que monté contre monté, sans sens sur une
+  grille vue de dessus. Les montures restent une ligne de la table de voyage (`LOT-42`).
+- **Combat naval** : la mer est un type de route (`LOT-42`), pas un champ de bataille.
+- **Les deux fiches alternées du cirrus** : une seule face, choisie à la création ; le don
+  *Soul Connection* tombe avec.
+- **Les tests étiquetés** (« lié aux dragons », « mathématique ») : un étiquetage sémantique des
+  tests que rien ne sait produire ; les traits qui en dépendent se déclarent narratifs.
+- **Les sorts arbitrés par le maître de jeu**, ceux qui **rejouent un tour** (*Echoing*) ou
+  **réécrivent un PNJ** (*Mind Reshaping*) : narratifs, `EX-RPG-051`.
+- **Les zones mobiles** (oasis migrante, Deep Freeze qui s'étend, Illus qui marchent) : les cartes
+  du `LOT-40` sont fixes.
+- **Les plans autres que le pénombral** (Éthéré, Astral, Yrthak, Elemental Grounds).
+- **La Malédiction malrokienne comme compteur global** ; sa règle locale (un massacre ouvre une
+  faille) reste au `LOT-90`.
+- **Les classes simplifiées** (Brawler, Mage, Priest, Scoundrel) comme classes du jeu final : ce
+  sont les quatre provisoires du `LOT-36`, retirées au dernier lot de classe — décision inchangée.
 - **Région de départ : la République des Freelands.** Ses propres statistiques l'argumentent :
   `Monster Presence` haute — les rencontres se justifient d'elles-mêmes, ce que le Central Empire,
   noté *Low*, ne permet pas ; économie fondée sur les mercenaires et les parts de monstres — le
@@ -1489,24 +1781,17 @@ Documentation/Lot/LOT-87-charte-v2/
   `LOT-47`/`LOT-84`. Les deux moitiés n'ont ni le même métier, ni le même critère d'acceptation, ni
   le même moment.
 - **Le `LOT-69` n'est plus une refonte de l'éditeur**, seulement le retrait de l'atelier pixel art.
-  Ce qu'il portait de refonte — l'édition dans la scène — est devenu la question du `LOT-11`,
-  ci-dessous.
+  Ce qu'il portait de refonte — le placement libre depuis le jeu — est l'arène du `LOT-50`.
 
 ### À trancher
 
-- **Où vit l'édition de contenu, depuis le `LOT-86`.** Le §10 concluait que le
-  [LOT-11](@ref lot-11), non commencé, devait viser d'emblée l'édition **dans la scène**, depuis
-  le jeu — et `EX-EDIT-030` l'exige encore (« intégré à l'application, non un outil séparé »). Le
-  [LOT-86](@ref lot-86) a depuis scindé l'IHM en deux exécutables, dont un jeu qui ne lie pas Qt
-  Widgets, et `LevelEditor` est resté l'outil d'auteur, en Widgets, à docks. Trois lectures : (a)
-  l'édition dans la scène se construit **en QML, dans le jeu**, et `LevelEditor` disparaît à
-  terme ; (b) `LevelEditor` reste l'outil, **retargé** aux trois couches et aux entités — le
-  texte d'origine du `LOT-11` —, avec l'essai immédiat d'`EX-EDIT-008` pour la boucle « modifier →
-  constater », et `EX-EDIT-030` est refondue ; (c) les deux, l'un après l'autre. **Recommandation
-  de l'audit : (b).** Le `LOT-86` a payé la séparation pour qu'un outil d'auteur et un jeu
-  n'aient plus à partager une technologie ; reconstruire l'éditeur en QML dans le jeu défait ce
-  choix, et le `LOT-11` est sur le chemin du slice. La décision se prend **au démarrage du
-  `LOT-11`**, et elle refond `EX-EDIT-030` dans un sens ou dans l'autre.
+- **Deux versions pour un programme.** Cette page s'appelle « 0.1.0 », le `CMakeLists.txt` est à
+  `0.1.0`, et le `LOT-28` clôt le *vertical slice* par un tag `v0.2.0` ; rien ne dit quelle
+  version porte le bac à sable des treize régions. À nommer avant le `LOT-28`.
+- **Le plan pénombral, quand.** Le `LOT-90` est écrit et placé après le voyage ; il peut être
+  différé au-delà de la première version du bac à sable sans rien casser. La décision est une
+  décision de périmètre, pas d'architecture — les crochets qu'il exige (règles de zone, routes
+  typées, horloge) sont pris par les lots qui le précèdent.
 - **La portée identité du châssis d'édition.** `hmi::identityTokens()` et `hmi::applyFont()`
   chargent encore `Pixelify Sans` et `Press Start 2P`, que plus aucun écran du jeu n'emploie
   depuis le `LOT-87`, qui a explicitement laissé ce point ouvert. Suivre la charte v2, ou décider
@@ -1699,11 +1984,27 @@ d'être consigné : ce qu'il ne vérifie pas vieillit en silence.
 Ce que l'audit n'a **pas** fait : découper, fusionner ou réordonner un lot à la main. L'ordre
 reste calculé ; il a seulement reçu une dépendance qu'il ne voyait pas.
 
+**Seconde passe, le même jour : les entrants.** À la demande de l'auteur, les deux livres de
+Tanares ont été relus en entier et confrontés à chaque lot de moteur (§4bis), et les
+spécifications relues comme des entrants. Ce qu'elle a changé :
+
+- l'**arène** est reclassée mode du jeu et banc d'essai, prérequise par le seul tour (`LOT-50`
+  passe de la fin du programme à juste après le `LOT-20`) ; l'éditeur d'auteur reste séparé ;
+- **treize régions** partout ; trois espaces sans encart ajoutés au `LOT-81` ;
+- `LOT-70` devient un **calendrier lunaire**, `LOT-83` prend le système d'équipe, `LOT-46` et
+  `LOT-47` reçoivent leurs contraintes chiffrées, `LOT-19` à `LOT-24` et `LOT-72` leurs crochets ;
+- trois lots ajoutés là où une matière n'avait aucun porteur : `LOT-88` (les spécifications
+  décrivent encore un jeu de plateforme), `LOT-89` (20 dons, 29 objets magiques, consommables),
+  `LOT-90` (le plan pénombral) ; `LOT-85` inscrit parmi les numéros retirés ;
+- une liste de ce qui est **écarté**, nommément, au §8 ;
+- sept exigences sans lot rattachées (`EX-VIS-002/003/004`, `EX-DND-031/050`, `EX-IHM-003`,
+  `EX-RPG-042`), et `EX-INV-030` (la monnaie) rendue au `LOT-26`.
+
 ---
 
 ## 10. Ce qu'il faut anticiper, tant que rien n'est construit
 
-**Trente et un lots sont livrés sur les quatre-vingt-sept que compte le programme** (huit au
+**Trente et un lots sont livrés sur les quatre-vingt-dix que compte le programme** (huit au
 premier audit). La fiche de personnage, l'inventaire, la bascule de combat et tous les écrans
 existent désormais ; le combat lui-même, l'éditeur multi-couches, les dialogues et le graphe de
 cartes, non. L'avantage était **temporaire**, et le tableau ci-dessous le montre : chaque décision
@@ -1796,7 +2097,8 @@ une forêt et sur une auberge, la forêt ramène au village, le donjon a trois e
 
 #### Exigences couvertes
 
-`EX-EXP-*` (portails, points d'arrivée nommés), `EX-LVL-*` (validation du graphe).
+`EX-VIS-002` (plusieurs cartes reliées par des portails, retour possible), `EX-EXP-*` (portails,
+points d'arrivée nommés), `EX-LVL-*` (validation du graphe).
 
 #### Critères d'acceptation
 
@@ -1901,7 +2203,8 @@ nœud, sans fenêtre : c'est ce qui permettra de vérifier des arbres de vingt n
 
 #### Exigences couvertes
 
-`EX-RPG-*` (dialogue, choix, conditions, actions), `EX-IHM-*`.
+`EX-VIS-003` (dialoguer avec un PNJ, à choix et conditions), `EX-RPG-042` (un dialogue peut être
+**refusé** faute de langue commune — les langues sont livrées au `LOT-43`), `EX-RPG-*`, `EX-IHM-*`.
 
 #### Critères d'acceptation
 
@@ -2029,6 +2332,10 @@ la passe de déplacement libre en attendant le budget de ce lot. Le HUD de comba
   **issus de la couche collision** du format v3 (`LOT-04`).
 - Portée de déplacement via `GridDistanceField`, budget dérivé de la vitesse de la fiche
   (`LOT-13`), à l'échelle 1 case = 1,5 m figée au `LOT-12`.
+- *Contraintes du corpus (§4bis).* La grille lit les **propriétés de zone** déclarées par la carte
+  (`EX-LVL-018`) : ce lot en pose le crochet, le `LOT-81` et le `LOT-50` le remplissent. Le
+  terrain difficile peut être **créé en combat** (séisme) ; un objet posé sur une case peut avoir
+  des PV (toile). L'arène du `LOT-50` est le premier consommateur de cette grille, et sa carte.
 - `Pathfinding.{h,cpp}` : A* **déterministe**, avec départage stable des égalités.
 
 #### Pourquoi le déterminisme du chemin n'est pas négociable
@@ -2054,7 +2361,8 @@ petit indice de case), pas un hasard d'implémentation.
 
 > Statut : **à faire**.
 > Prérequis : [LOT-12](@ref lot-12) (jet d'initiative), [LOT-19](@ref lot-19).
-> Exigences couvertes : `EX-CBT-010`, `EX-CBT-011`, `EX-CBT-012`.
+> Exigences couvertes : `EX-CBT-010`, `EX-CBT-011`, `EX-CBT-012`, `EX-VIS-004` (un combat tactique
+> complet, avec l'attaque et l'IHM qui suivent).
 
 #### Objectif
 
@@ -2070,6 +2378,15 @@ réaction.
   fin de combat. Pas de drapeaux épars : un état nommé, des transitions nommées.
 - Égalités d'initiative : départage déterministe et documenté.
 - Entrée et sortie d'un combattant **en cours** de combat (renfort, fuite).
+- *Contraintes du corpus (§4bis).* La machine à états expose des **points d'insertion nommés**
+  — début de round, **avant le premier tour** (réaction du Dragonblade), fin de tour d'un
+  combattant (actions légendaires, réserve de 3), initiative fixe 20 (actions de repaire) et 0
+  (renforts), à la déclaration d'une attaque (postures du moine) — un acteur **flottant** qui joue
+  avant n'importe quel tour (*Law of Time*), l'octroi d'une réaction à un allié, et une économie
+  d'action qui est une **liste** de ressources par tour : la Heroic Action du `LOT-50` en est la
+  troisième. Des compteurs à portée (tour, rencontre, jour) et une mémoire d'immunité 24 h par
+  couple (créature, source). Aucun de ces crochets n'a de consommateur dans ce lot ; tous en
+  auront un, et les poser après coûte une refonte de la machine.
 
 #### Les trois fins
 
@@ -2124,6 +2441,16 @@ inconscience et mort.
 - Les PV sont **bornés à 0** par le bas : pas de PV négatifs qui rendraient la réanimation
   arbitraire.
 
+#### Contraintes du corpus (§4bis)
+
+Le résultat d'un jet est un **objet** — dés bruts, modificateurs avec origine, seuil, issue — que
+des crochets lisent et amendent **avant** que l'issue ne soit figée : d20 brut exposé, relance
+avant résolution, modificateur ajouté après lecture, résultat stocké puis substitué. Les dégâts
+traversent un **pipeline à étapes nommées** — source (drapeaux magique, adamantium, sort) →
+conversion de type → résistances (contournables) → réserves (PV temporaires, réserves ablatives,
+PV mis en commun) → PV — avec un événement à chaque seuil franchi et à la mort ; les PV sont une
+pile de réserves, pas un entier. Les **structures** ont des PV.
+
 #### Le journal de combat
 
 Chaque jet doit être **auditable** : jet brut, modificateurs détaillés, cible, total, résultat.
@@ -2164,6 +2491,11 @@ C'est ce lot qui fait qu'un combat se joue avec le terrain plutôt que sur une g
 - `AreaOfEffect.{h,cpp}` : gabarits cercle, cône, ligne, carré — à l'échelle 1 case = 1,5 m figée
   au `LOT-12`.
 - Portée d'arme et portée de sort, distinguées de la portée de déplacement.
+- *Contraintes du corpus (§4bis).* **L'altitude est un attribut, jamais une géométrie** : un
+  volant ignore la couche collision au sol, reste ciblable à portée et peut être forcé à
+  atterrir — décision à écrire ici, avant la première créature volante du `LOT-46`. Les zones à
+  règle locale de la carte (rituel des Marques, combat interdit, aucun soin) et les objets
+  destructibles posés sur la grille (toiles) sont des propriétés que ce lot et le `LOT-19` lisent.
 
 #### L'invariant à tester exhaustivement
 
@@ -2215,6 +2547,10 @@ régression irreproductible.
 - **Profils de comportement en JSON** : agressif, prudent, soutien, archer. Les poids sont des
   données, pas des constantes C++ (`EX-VIS-007`) — c'est ce qui permet d'ajuster un ennemi sans
   recompiler.
+- *Contraintes du corpus (§4bis).* Les profils savent lire les **traits de groupe** des blocs du
+  `LOT-46` (tactiques de meute, +1 par drake adjacent), un lanceur de sorts choisit dans sa
+  liste, et un boss de repaire agit aussi par ses actions de repaire — dans les mêmes crochets que
+  le joueur (`EX-CBT-050`).
 
 #### Les deux défauts à prévenir
 
@@ -2271,7 +2607,8 @@ jeu, soit le seul écran à exiger une souris.
 
 #### Exigences couvertes
 
-`EX-IHM-*`, `EX-REN-*`.
+`EX-IHM-003` (l'affichage tête haute dit ce dont le joueur a besoin pour décider : points de vie,
+initiative, actions restantes), `EX-IHM-*`, `EX-REN-*`.
 
 #### Critères d'acceptation
 
@@ -2327,7 +2664,8 @@ règle pas. Un sort est une **donnée** ; le C++ ne porte que les *mécanismes* 
 
 > Statut : **à faire**.
 > Prérequis : [LOT-14](@ref lot-14), [LOT-15](@ref lot-15).
-> Exigences couvertes : `EX-INV-040`.
+> Exigences couvertes : `EX-INV-040`, `EX-INV-030` (la monnaie, à taux fixes, sans perte par arrondi
+> — le peuplement civil ne fait ensuite que la moduler par région).
 
 #### Objectif
 
@@ -2338,7 +2676,10 @@ Boucler la boucle économique : gagner du butin, le vendre, acheter mieux.
 - `Source/Core/Rpg/LootTable.{h,cpp}` : tables de butin en **JSON**, tirées avec le hasard
   déterministe du `LOT-12` — un coffre rouvert après rechargement de sauvegarde doit donner le
   **même** contenu, sinon le joueur peut relancer jusqu'au bon tirage.
-- Or et valeur des objets.
+- Or et valeur des objets — *contraintes du corpus (§4bis)* : cinq pièces et l'électrum comme
+  monnaie standard de Yama, lettres de crédit de la Banque d'Hajal, prêts à 5 % par mois et
+  coffres, grille de prix des trois minerais, légalité et marché noir selon la région (`LOT-80`).
+  Les objets magiques et les consommables à durée viennent du `LOT-89`.
 - `Shop.{h,cpp}` : achat, vente, marge du marchand, stock.
 - *État au 14 septembre 2026.* **L'écran existe** : `MerchantForm.ui.qml` ([LOT-68](@ref lot-68),
   restylé au [LOT-87](@ref lot-87)) sur `PendingData` ; ce lot lui donne sa vue-modèle.

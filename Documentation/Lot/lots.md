@@ -66,7 +66,7 @@ c'est un identifiant stable, jamais réordonné.
 
 ## Programme
 
-La cible est un **bac à sable** dans l'univers complet de Tanares : dix régions jouables, treize
+La cible est un **bac à sable** dans l'univers complet de Tanares : treize régions jouables, treize
 espèces, seize classes, cent-soixante-seize créatures. Le *vertical slice* du `LOT-27` — « un
 personnage explore une carte top-down, parle à un PNJ, déclenche une rencontre, gagne un combat
 tactique au d20 » — reste le jalon qui prouve la boucle avant qu'on la généralise.
@@ -80,8 +80,9 @@ tactique au d20 » — reste le jalon qui prouve la boucle avant qu'on la géné
 | E — Contenu et finition | `LOT-25` → `LOT-29` | Sorts, économie, contenu du slice, audio et version `0.2.0`, groupe de quatre personnages |
 | F — Filière contenu | `LOT-30` → `LOT-84` | Préconditions (spécification RPG, numéros, chargement de données), extraction du corpus, catalogues, monde et peuplement, une classe par lot, refonte IHM, mécaniques manquantes |
 | G — Refonte de l'interface | `LOT-85` → `LOT-87` | Décidés hors de la feuille de route : `LOT-85` abandonné, `LOT-86` (Qt Quick, deux exécutables) et `LOT-87` (charte v2) livrés |
+| H — Relecture des livres | `LOT-88` → `LOT-90` | Ajoutés au second audit : retrait de l'héritage plateforme des spécifications, dons et objets magiques de Tanares, le plan pénombral |
 
-La phase F compte **35 lots à venir** — quatre numéros (`LOT-31`, `LOT-48`, `LOT-71`, `LOT-73`)
+La filière (phases F et H) compte **38 lots à venir** — quatre numéros (`LOT-31`, `LOT-48`, `LOT-71`, `LOT-73`)
 ayant été retirés par fusion et n'étant pas réattribués, et seize de ses lots étant livrés, dont
 ses trois préconditions (`LOT-77`, `LOT-78`, `LOT-79`). Elle **ne suit pas** les précédentes : elle
 s'entrelace avec B à E, chacun de ses lots servant un lot des phases antérieures qui, sans lui, se
