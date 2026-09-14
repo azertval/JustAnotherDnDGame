@@ -2,7 +2,7 @@ var searchData=
 [
   ['8_20—_20les_20compétences_20et_20sorts_20maquette_2010_0',['T3.8 — Les compétences et sorts (maquette 10)',['../lot-87.html#autotoc_md682',1,'']]],
   ['8_20communication_20inter_20systèmes_1',['8. Communication inter-systèmes',['../spec-architecture.html#autotoc_md267',1,'']]],
-  ['8_20décisions_20prises_20et_20questions_20restantes_2',['8. Décisions prises et questions restantes',['../roadmap-010.html#autotoc_md721',1,'']]],
+  ['8_20décisions_20prises_20et_20questions_20restantes_2',['8. Décisions prises et questions restantes',['../roadmap-010.html#autotoc_md724',1,'']]],
   ['8_20directions_3',['8 directions',['../guide-physique.html#autotoc_md209',1,'5. Dash 8 directions'],['../lot-06.html',1,'LOT-06 — Déplacement top-down 8 directions']]],
   ['8_20identité_20visuelle_20des_20écrans_20du_20jeu_20lot_20h_2068_4',['8. Identité visuelle des écrans du jeu (LOT-H-68)',['../spec-interface-ihm.html#autotoc_md358',1,'']]],
   ['8_20palette_20organisée_20par_20catégories_20lot_20h_2027_5',['8. Palette organisée par catégories (LOT-H-27)',['../spec-editeur.html#autotoc_md324',1,'']]],

@@ -272,8 +272,6 @@ var annotated_dup =
       [ "InventoryCell", "structhmi_1_1InventoryCell.html", "structhmi_1_1InventoryCell" ],
       [ "ItemSheet", "structhmi_1_1ItemSheet.html", "structhmi_1_1ItemSheet" ],
       [ "InventoryContext", "structhmi_1_1InventoryContext.html", "structhmi_1_1InventoryContext" ],
-      [ "KeyHint", "structhmi_1_1KeyHint.html", "structhmi_1_1KeyHint" ],
-      [ "BackdropQuad", "structhmi_1_1BackdropQuad.html", "structhmi_1_1BackdropQuad" ],
       [ "RpgField", "structhmi_1_1RpgField.html", "structhmi_1_1RpgField" ],
       [ "RpgContentBlock", "structhmi_1_1RpgContentBlock.html", "structhmi_1_1RpgContentBlock" ],
       [ "RpgScreenLayout", "structhmi_1_1RpgScreenLayout.html", "structhmi_1_1RpgScreenLayout" ],

@@ -55,9 +55,6 @@ var NAVTREEINDEX1 =
 "JsonDocument_8cpp.html":[17,0,3,1,1,0],
 "JsonDocument_8h.html":[17,0,3,1,1,1],
 "JsonDocument_8h_source.html":[17,0,3,1,1,1],
-"KeyHintText_8cpp.html":[17,0,3,3,9,10],
-"KeyHintText_8h.html":[17,0,3,3,9,11],
-"KeyHintText_8h_source.html":[17,0,3,3,9,11],
 "KeyName_8cpp.html":[17,0,3,3,5,13],
 "KeyName_8h.html":[17,0,3,3,5,14],
 "KeyName_8h_source.html":[17,0,3,3,5,14],
@@ -150,9 +147,6 @@ var NAVTREEINDEX1 =
 "MechanismVisuals_8h_source.html":[17,0,3,3,4,24],
 "MemoryLogSink_8h.html":[17,0,3,1,2,14],
 "MemoryLogSink_8h_source.html":[17,0,3,1,2,14],
-"MenuBackdropGeometry_8cpp.html":[17,0,3,3,9,12],
-"MenuBackdropGeometry_8h.html":[17,0,3,3,9,13],
-"MenuBackdropGeometry_8h_source.html":[17,0,3,3,9,13],
 "MissingTexture_8cpp.html":[17,0,3,3,4,25],
 "MissingTexture_8h.html":[17,0,3,3,4,26],
 "MissingTexture_8h_source.html":[17,0,3,3,4,26],
@@ -249,5 +243,11 @@ var NAVTREEINDEX1 =
 "PlayerSpawn_8h.html":[17,0,3,1,7,6],
 "PlayerSpawn_8h_source.html":[17,0,3,1,7,6],
 "PlayerSpriteTag_8h.html":[17,0,3,3,4,36],
-"PlayerSpriteTag_8h_source.html":[17,0,3,3,4,36]
+"PlayerSpriteTag_8h_source.html":[17,0,3,3,4,36],
+"PlayerSprite_8cpp.html":[17,0,3,3,4,34],
+"PlayerSprite_8h.html":[17,0,3,3,4,35],
+"PlayerSprite_8h_source.html":[17,0,3,3,4,35],
+"PreviousPosition_8h.html":[17,0,3,3,4,37],
+"PreviousPosition_8h_source.html":[17,0,3,3,4,37],
+"ProceduralAtlas_8cpp.html":[17,0,3,3,4,38]
 };
