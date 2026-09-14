@@ -225,7 +225,8 @@ QVariantList ArenaModel::cells() const {
                               {"reachable", area.has_value() && area->canEndAt(cell)},
                               {"active", false},
                               {"down", false},
-                              {"hitPoints", QString()}};
+                              {"hitPoints", QString()},
+                              {"hitPointsRatio", 1.0}};
             if (const std::optional<core::CombatantId> id = grid.occupantAt(cell)) {
                 if (const core::Combatant* combatant = _session->combat().find(*id)) {
                     entry["occupant"] = toQt(combatant->profile.name);
@@ -234,6 +235,11 @@ QVariantList ArenaModel::cells() const {
                     entry["down"] = combatant->status == core::CombatantStatus::Down;
                     entry["hitPoints"] = QString::number(combatant->profile.currentHitPoints) +
                                          "/" + QString::number(combatant->profile.maximumHitPoints);
+                    // La jauge d'un ennemi (`ArenaCell`) lit une part, pas un texte.
+                    const int maximum = std::max(1, combatant->profile.maximumHitPoints);
+                    entry["hitPointsRatio"] = std::clamp(
+                        static_cast<double>(combatant->profile.currentHitPoints) / maximum, 0.0,
+                        1.0);
                 }
             }
             list << entry;

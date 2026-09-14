@@ -70,7 +70,8 @@ class ArenaModel : public QObject {
     Q_PROPERTY(int gridColumns READ gridColumns NOTIFY changed)
     Q_PROPERTY(int gridRows READ gridRows NOTIFY changed)
     /// Une entrée par case, ligne par ligne : `{column, row, wall, occupant, side, reachable,
-    /// active, down, hitPoints}`.
+    /// active, down, hitPoints, hitPointsRatio}` -- la part de vie restante, de 0 à 1, pour la
+    /// jauge de la case.
     Q_PROPERTY(QVariantList cells READ cells NOTIFY changed)
     /// L'ordre d'initiative : `{name, total, side, active, down}`.
     Q_PROPERTY(QVariantList turnOrder READ turnOrder NOTIFY changed)

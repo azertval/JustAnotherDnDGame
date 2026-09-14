@@ -129,6 +129,39 @@ lance rien.
 - **`check_rpg_data.py`** connaît deux familles de plus : `arena` (sous `World/`) et la règle
   `heroic-marks`.
 
+## Habillage de l'arène (14 septembre 2026, après livraison)
+
+L'écran reste celui du développeur, mais sa grille devient la scène du Colisée. Demande de
+l'auteur : le vrai design du jeu, pas une esquisse — un tileset qui respecte la maquette.
+
+- **La source est une planche de production**, `Source/Elements/Assets/Coliseum/production_source_atlas.png`
+  (1536 × 1024), sortie d'un générateur sur la maquette 01 : tuiles isométriques, tileset du Colisée,
+  figurines des quatre héros (idle, marche, attaque, touché, mort) et des quatre gladiateurs,
+  structures, détails, props, rochers, végétation, effets. Le pack découpé à la main qui
+  l'accompagnait (`JustAnotherDnDGame_UI_ASSET_PACK/coliseum_production_pack/`, non suivi) n'était
+  pas exploitable : légendes dans les tuiles, fond non détouré derrière les figurines, effets
+  découpés dans du texte. **`scripts/extract_coliseum_atlas.py`** redécoupe la planche — détourage
+  du fond bleu nuit, grille par profils coupés aux vallées, composantes connexes pour les sections
+  irrégulières — en 138 fichiers nommés, avec des bandes d'animation à canevas commun (48 × 64,
+  ancre au pied, cinq images par héros, huit par gladiateur) et un manifeste ; `--check` vérifie
+  que le dossier suit la planche.
+- **Deux briques** : `ArenaScene` (projection isométrique, losange de hauteur 0,62 L comme les
+  tuiles de la planche, profondeur `z = colonne + ligne`) et `ArenaTile` (sol de sable ou dalle du
+  Colisée, pan de mur ou colonne d'angle, bannières et torches à intervalle, arche sur les deux
+  portes, surbrillance en losange de jetons, figurine animée `AnimatedSprite`, jauge d'un ennemi,
+  points de vie en texte). Un allié reçoit un héros et un ennemi un gladiateur, choisis d'après le
+  nom : une créature du bestiaire enrôlée s'affiche donc en gladiateur — la planche n'a pas de
+  bêtes, à produire si l'arène doit en montrer.
+- **Ressource** : les pièces sont embarquées comme les illustrations de la charte v2
+  (`Source/Ui/CMakeLists.txt`, motif `Coliseum/*/*.png`) ; `check_ui_assets.py` sait que ce
+  dossier a son propre manifeste. `ArenaModel::cells` porte en plus `hitPointsRatio`.
+- **Le cahier des assets du `LOT-87` n'est pas touché** : ces pièces ne sont pas produites par
+  prompt, elles sont découpées d'une planche. Une première version de cet habillage y avait
+  ajouté une famille `arena` de neuf images à générer ; elle est retirée.
+- **Hors périmètre** : le cadre de l'écran (panneaux, boutons, journal) garde ses contrôles Qt
+  Quick nus ; les animations `walk`, `attack`, `hit` sont découpées mais pas encore jouées (le
+  coup d'essai n'a pas de phase d'animation) ; l'IHM de combat (`LOT-24`) réemploiera la scène.
+
 ## Ce qui reste hors du lot, nommément
 
 - **L'ouverture depuis le monde** (`LOT-42`) : l'arène est aussi un lieu de l'atlas, et s'ouvrira

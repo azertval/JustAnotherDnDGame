@@ -13,6 +13,10 @@ import Jadg.Ui
     Trois zones : a gauche la composition (le roster, les deux camps, la graine), au centre la
     grille et sa barre d'actions, a droite l'ordre d'initiative et le journal. Les couleurs
     viennent des jetons pour que l'ecran ne jure pas au milieu du jeu, sans pretendre a la charte.
+
+    Depuis le 14 septembre 2026, la grille est la scene isometrique `ArenaScene` : sol, enceinte
+    et figurines animees viennent de la planche de production du Colisee
+    (`Source/Elements/Assets/Coliseum/`). Le cadre de l'ecran, lui, reste celui du developpeur.
 */
 Item {
     id: root
@@ -48,9 +52,6 @@ Item {
     signal replayRequested()
     signal backRequested()
     signal closeRequested()
-
-    readonly property real cellSize: Math.max(16, Math.min((gridHost.width - 8) / Math.max(1, root.gridColumns),
-                                                           (gridHost.height - 8) / Math.max(1, root.gridRows)))
 
     Rectangle {
         anchors.fill: parent
@@ -312,47 +313,14 @@ Item {
         border.color: Tokens.panelEdge
         border.width: Tokens.strokeWidth
 
-        Grid {
-            anchors.centerIn: parent
-            columns: root.gridColumns
-            rows: root.gridRows
-            spacing: 0
-
-            Repeater {
-                model: root.cells
-
-                Rectangle {
-                    width: root.cellSize
-                    height: root.cellSize
-                    color: modelData.wall ? Tokens.frameEdge
-                         : modelData.reachable ? Tokens.info
-                         : Tokens.surface
-                    border.color: modelData.active ? Tokens.goldLight : Tokens.border
-                    border.width: modelData.active ? 2 : 1
-
-                    Rectangle {
-                        anchors.centerIn: parent
-                        width: parent.width * 0.7
-                        height: width
-                        radius: width / 2
-                        visible: modelData.occupant.length > 0
-                        color: modelData.side === "allies" ? Tokens.textAlly : Tokens.textEnemy
-                        opacity: modelData.down ? 0.35 : 1
-                    }
-                    Text {
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        anchors.bottom: parent.bottom
-                        text: modelData.hitPoints
-                        color: Tokens.textOnPanel
-                        font.pixelSize: Math.max(8, root.cellSize * 0.28)
-                        visible: modelData.occupant.length > 0
-                    }
-                    MouseArea {
-                        anchors.fill: parent
-                        onClicked: root.cellTapped(modelData.column, modelData.row)
-                    }
-                }
-            }
+        // La scene isometrique du Colisee : sol, enceinte, surbrillances, figurines animees.
+        ArenaScene {
+            anchors.fill: parent
+            anchors.margins: Tokens.gapMedium
+            gridColumns: root.gridColumns
+            gridRows: root.gridRows
+            cells: root.cells
+            onCellTapped: (column, row) => root.cellTapped(column, row)
         }
     }
 

@@ -206,6 +206,54 @@ Rectangle {
                     SectionBanner {
                         Layout.fillWidth: true
                         material: "dark"
+                        text: "Colisée"
+                    }
+
+                    // La scene isometrique du Colisee (LOT-50) sur une petite grille d'exemple :
+                    // enceinte, porte, sol, cases atteignables, un allie au tour, un ennemi, un
+                    // ennemi a terre.
+                    ArenaScene {
+                        Layout.preferredWidth: 900 * Tokens.uiScale
+                        Layout.preferredHeight: 420 * Tokens.uiScale
+                        gridColumns: 6
+                        gridRows: 5
+                        cells: [
+                            { column: 0, row: 0, wall: true, occupant: "", side: "", reachable: false, active: false, down: false, hitPoints: "", hitPointsRatio: 1 },
+                            { column: 1, row: 0, wall: true, occupant: "", side: "", reachable: false, active: false, down: false, hitPoints: "", hitPointsRatio: 1 },
+                            { column: 2, row: 0, wall: true, occupant: "", side: "", reachable: false, active: false, down: false, hitPoints: "", hitPointsRatio: 1 },
+                            { column: 3, row: 0, wall: true, occupant: "", side: "", reachable: false, active: false, down: false, hitPoints: "", hitPointsRatio: 1 },
+                            { column: 4, row: 0, wall: true, occupant: "", side: "", reachable: false, active: false, down: false, hitPoints: "", hitPointsRatio: 1 },
+                            { column: 5, row: 0, wall: true, occupant: "", side: "", reachable: false, active: false, down: false, hitPoints: "", hitPointsRatio: 1 },
+                            { column: 0, row: 1, wall: true, occupant: "", side: "", reachable: false, active: false, down: false, hitPoints: "", hitPointsRatio: 1 },
+                            { column: 1, row: 1, wall: false, occupant: "Brenna", side: "allies", reachable: false, active: true, down: false, hitPoints: "30/30", hitPointsRatio: 1 },
+                            { column: 2, row: 1, wall: false, occupant: "", side: "", reachable: true, active: false, down: false, hitPoints: "", hitPointsRatio: 1 },
+                            { column: 3, row: 1, wall: false, occupant: "", side: "", reachable: true, active: false, down: false, hitPoints: "", hitPointsRatio: 1 },
+                            { column: 4, row: 1, wall: false, occupant: "Gobelin", side: "enemies", reachable: false, active: false, down: false, hitPoints: "5/7", hitPointsRatio: 0.7 },
+                            { column: 5, row: 1, wall: true, occupant: "", side: "", reachable: false, active: false, down: false, hitPoints: "", hitPointsRatio: 1 },
+                            { column: 0, row: 2, wall: false, occupant: "", side: "", reachable: false, active: false, down: false, hitPoints: "", hitPointsRatio: 1 },
+                            { column: 1, row: 2, wall: false, occupant: "", side: "", reachable: true, active: false, down: false, hitPoints: "", hitPointsRatio: 1 },
+                            { column: 2, row: 2, wall: false, occupant: "", side: "", reachable: true, active: false, down: false, hitPoints: "", hitPointsRatio: 1 },
+                            { column: 3, row: 2, wall: false, occupant: "", side: "", reachable: false, active: false, down: false, hitPoints: "", hitPointsRatio: 1 },
+                            { column: 4, row: 2, wall: false, occupant: "Loup", side: "enemies", reachable: false, active: false, down: true, hitPoints: "0/11", hitPointsRatio: 0 },
+                            { column: 5, row: 2, wall: true, occupant: "", side: "", reachable: false, active: false, down: false, hitPoints: "", hitPointsRatio: 1 },
+                            { column: 0, row: 3, wall: true, occupant: "", side: "", reachable: false, active: false, down: false, hitPoints: "", hitPointsRatio: 1 },
+                            { column: 1, row: 3, wall: false, occupant: "", side: "", reachable: false, active: false, down: false, hitPoints: "", hitPointsRatio: 1 },
+                            { column: 2, row: 3, wall: false, occupant: "Elira", side: "allies", reachable: false, active: false, down: false, hitPoints: "22/28", hitPointsRatio: 0.8 },
+                            { column: 3, row: 3, wall: false, occupant: "", side: "", reachable: false, active: false, down: false, hitPoints: "", hitPointsRatio: 1 },
+                            { column: 4, row: 3, wall: false, occupant: "", side: "", reachable: false, active: false, down: false, hitPoints: "", hitPointsRatio: 1 },
+                            { column: 5, row: 3, wall: true, occupant: "", side: "", reachable: false, active: false, down: false, hitPoints: "", hitPointsRatio: 1 },
+                            { column: 0, row: 4, wall: true, occupant: "", side: "", reachable: false, active: false, down: false, hitPoints: "", hitPointsRatio: 1 },
+                            { column: 1, row: 4, wall: true, occupant: "", side: "", reachable: false, active: false, down: false, hitPoints: "", hitPointsRatio: 1 },
+                            { column: 2, row: 4, wall: true, occupant: "", side: "", reachable: false, active: false, down: false, hitPoints: "", hitPointsRatio: 1 },
+                            { column: 3, row: 4, wall: true, occupant: "", side: "", reachable: false, active: false, down: false, hitPoints: "", hitPointsRatio: 1 },
+                            { column: 4, row: 4, wall: true, occupant: "", side: "", reachable: false, active: false, down: false, hitPoints: "", hitPointsRatio: 1 },
+                            { column: 5, row: 4, wall: true, occupant: "", side: "", reachable: false, active: false, down: false, hitPoints: "", hitPointsRatio: 1 }
+                        ]
+                    }
+
+                    SectionBanner {
+                        Layout.fillWidth: true
+                        material: "dark"
                         text: "Menu"
                     }
 
