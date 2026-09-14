@@ -6,6 +6,33 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **IA tactique ennemie** (`LOT-23`, `EX-CBT-050`). Les ennemis du Colisée jouent seuls, par les
+  règles du *Guide du Maître* (chapitre 8, « Le combat ») et les mêmes actions que le joueur.
+  - **Ce que la table sait, et rien de plus** : l'état **ensanglanté** d'un adversaire sous la
+    moitié de ses points de vie (`core::isBloodied`), jamais ses PV ; la chance de toucher tirée du
+    **jet requis**, CA moins bonus d'attaque (`core::requiredRoll`, `core::hitChance`) ; les dégâts
+    moyens, et au critique les dés ajoutés (`core::expectedDamage`). Tout en entiers : deux
+    exécutions donnent le même tour, et le rejeu le même journal.
+  - **Un tour décidé case par case** (`core::planTurn`) : chaque case atteignable, chaque attaque,
+    chaque cible en vue, pesée contre la menace du prochain round et les attaques d'opportunité du
+    chemin ; sinon s'avancer par le chemin, se précipiter, esquiver ou se désengager ; un prudent
+    recule après avoir frappé. La décision s'écrit au journal avant d'être jouée (`core::playTurn`).
+  - **Ni suicide, ni blocage** : une case à portée de plus d'ennemis que le profil n'en tolère perd
+    contre toute case plus sûre, quel que soit son score ; une IA qui peut attaquer attaque, sinon
+    elle avance. Trente combats générés, joués par l'IA des deux côtés, atteignent tous leur issue.
+  - **Cinq profils en données** (`Source/Elements/Rpg/rules/behaviors.json`) — agressif, prudent,
+    soutien, archer, meute — et leurs règles d'attribution : le loup, qui porte *Tactique de
+    groupe*, chasse en meute ; le singe, dont le rocher frappe plus fort que le poing, tire.
+  - **La prise en tenaille**, règle optionnelle du Guide (`core::isFlanked`) : avantage au corps à
+    corps pour deux alliés de part et d'autre d'un ennemi, la ligne des centres tranche. L'Arène du
+    Futur la joue (`flanking` dans sa donnée).
+  - **Dans l'arène** : l'action *se précipiter* (`core::ArenaSession::dash`), une politique qui
+    décide des attaques d'opportunité au lieu de toutes les prendre, et une case à cocher pour
+    commander soi-même les ennemis.
+  - Hors du lot, nommément : les lanceurs de sorts (`LOT-25`, `LOT-35`), les actions de repaire et
+    les traits de groupe comme mécanismes (`LOT-46`), l'intention de l'IA montrée autrement qu'au
+    journal (`LOT-24`).
+
 - **Portée, ligne de vue et zones d'effet** (`LOT-22`, `EX-CBT-021`, `EX-CBT-022`). Le terrain compte :
   un mur cache, un muret abrite, une boule de feu s'arrête contre une paroi.
   - **Une ligne de vue symétrique par construction** (`core::hasLineOfSight`) : des segments entre
