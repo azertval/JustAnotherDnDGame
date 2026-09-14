@@ -171,6 +171,8 @@ enum class ArenaActionResult : std::uint8_t {
     NoAction,
     /// La cible est hors d'allonge ou de portée.
     OutOfReach,
+    /// La cible est sous abri total : aucune ligne de vue ne la relie à l'attaquant (`LOT-22`).
+    TotalCover,
     /// Inconnue, soi-même, un allié, ou une cible qui n'est pas debout.
     InvalidTarget,
     /// Le combattant n'a pas d'attaque de cet indice.
@@ -248,10 +250,10 @@ public:
     /**
      * @brief L'action *attaquer* du combattant actif, avec son attaque @p attackIndex.
      *
-     * Vérifie la cible et la portée (`core::inReach`), dépense l'action, puis résout
-     * (`core::resolveAttack`) : déclaration, jet, dégâts. Une cible qui esquive impose le
-     * désavantage. Tout passe par la suite aléatoire de la session : un rejeu redonne les mêmes
-     * coups.
+     * Vérifie la cible, la portée et la vue (`core::checkTarget`), dépense l'action, puis résout
+     * (`core::resolveAttack`) : déclaration, abri, jet, dégâts. Une cible qui esquive et voit son
+     * attaquant impose le désavantage. Tout passe par la suite aléatoire de la session : un rejeu
+     * redonne les mêmes coups.
      */
     ArenaAttack attack(CombatantId target, std::size_t attackIndex = 0);
 
@@ -273,7 +275,8 @@ public:
      * @brief Déplace le combattant actif ; le chemin est payé sur son budget restant.
      *
      * **Attaque d'opportunité** (Manuel, chapitre 9) : quand le chemin sort de l'allonge d'une
-     * créature hostile debout qui a encore sa réaction, elle frappe « juste avant que la créature
+     * créature hostile debout qui a encore sa réaction et voit le fuyard (« située dans votre
+     * champ de vision », `core::hasLineOfSight`), elle frappe « juste avant que la créature
      * ne sorte de sa zone d'allonge », avec sa première attaque au corps à corps, et dépense sa
      * réaction. Le déplacement s'arrête à la dernière case où l'on peut se tenir avant la sortie,
      * les attaques se jouent par identifiant croissant, et le déplacement reprend si le combattant
@@ -307,8 +310,8 @@ private:
     std::optional<AttackOutcome> resolveAndRecord(CombatantId attacker, CombatantId target,
                                                   const AttackProfile& profile,
                                                   const std::string& prefix);
-    /// Les circonstances qu'ajoute la session : l'esquive de la cible.
-    [[nodiscard]] AttackContext contextAgainst(CombatantId target) const;
+    /// Les circonstances qu'ajoute la session : l'esquive de la cible, si elle voit l'attaquant.
+    [[nodiscard]] AttackContext contextAgainst(CombatantId attacker, CombatantId target) const;
     /// La première attaque au corps à corps d'un combattant, ou `nullptr`.
     [[nodiscard]] const AttackProfile* meleeAttack(CombatantId combatant) const;
 

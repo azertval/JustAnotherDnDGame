@@ -70,12 +70,20 @@ struct Weapon {
     int weightGrams = 0;
     /// Les propriétés, telles que le livre les écrit — en toutes lettres, et en français.
     std::string text;
-    /// Les mêmes, **structurées** (`finesse`, `light`, `thrown`...). Le schéma les prévoit ; aucune
-    /// arme du catalogue ne les porte encore, et c'est le `LOT-49` qui les remplira. Les lire dès
-    /// maintenant évite qu'une règle qui en dépend — la caractéristique d'attaque d'une arme de
-    /// finesse — soit écrite en analysant la prose de `text`.
+    /// Les mêmes, **structurées** (`finesse`, `light`, `reach`, `thrown`...), tirées de la colonne
+    /// des propriétés **à l'extraction** (`LOT-22`). Une règle qui en dépend — la caractéristique
+    /// d'attaque d'une arme de finesse, l'allonge d'une hallebarde — les lit ici, jamais dans la
+    /// prose de `text`.
     std::vector<std::string> properties;
+    /// Portée normale, en **mètres**, telle que le livre l'écrit (« portée 24 m/96 m »). Absente
+    /// pour une arme qui ne se tire ni ne se lance.
+    std::optional<float> rangeNormal;
+    /// Longue portée, en mètres.
+    std::optional<float> rangeLong;
 };
+
+/// @brief Vrai si l'arme porte la propriété @p property (`"finesse"`, `"reach"`, `"thrown"`...).
+[[nodiscard]] bool hasProperty(const Weapon& weapon, std::string_view property);
 
 /// @brief Les deux catalogues chargés, et ce qui n'a pas pu l'être.
 struct EquipmentCatalog {

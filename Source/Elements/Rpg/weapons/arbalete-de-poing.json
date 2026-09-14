@@ -8,5 +8,12 @@
   "damageType": "piercing",
   "weightGrams": 1500,
   "price": 7500,
-  "text": "Munitions (portée 9 m/36 m), légère, chargement"
+  "text": "Munitions (portée 9 m/36 m), légère, chargement",
+  "properties": [
+    "ammunition",
+    "light",
+    "loading"
+  ],
+  "rangeNormal": 9,
+  "rangeLong": 36
 }

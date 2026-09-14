@@ -323,6 +323,25 @@ def nombre(texte: str):
     return int(valeur) if valeur == int(valeur) else valeur
 
 
+MOTIF_PORTEE = re.compile(r'portée\s+([\d,]+)\s*(?:m\s*)?(?:/\s*([\d,]+)\s*)?m\b', re.IGNORECASE)
+
+
+def portees(texte: str) -> dict:
+    """Les portées d'une attaque à distance, en mètres : ``rangeNormal`` et ``rangeLong``.
+
+    Le livre les écrit de quatre façons — « portée 24/96 m » dans un bloc de créature, « portée
+    45 m/180 m » et « portée 1,50 m/ 4,50 m » dans la table des armes, « portée 18 m » pour une
+    portée unique, qui donne deux nombres égaux (`LOT-22`). Le moteur ne lit jamais cette prose :
+    c'est ici qu'elle devient des nombres.
+    """
+    trouve = MOTIF_PORTEE.search(texte)
+    if trouve is None:
+        return {}
+    normale = nombre(trouve.group(1))
+    longue = nombre(trouve.group(2)) if trouve.group(2) else normale
+    return {'rangeNormal': normale, 'rangeLong': longue}
+
+
 def des(texte: str) -> str:
     """Une expression de dés du livre en forme du schéma : « 4d10 + 4 » → ``4d10+4``.
 
@@ -517,7 +536,8 @@ def lire_action(nom: str, texte: str, types: dict) -> dict:
         action['attackBonus'] = int(des(trouve.group(1)).replace('+', ''))
     if (trouve := re.search(r'allonge\s+([\d,]+)\s*m', texte)):
         action['reach'] = nombre(trouve.group(1))
-    trouve = re.search(r'(?:Touché|Touche)\s*:\s*(?:(\d+)\s*\(([^)]+)\)|(\d+))\s*dégâts?\s+'
+    action.update(portees(texte))
+    trouve =re.search(r'(?:Touché|Touche)\s*:\s*(?:(\d+)\s*\(([^)]+)\)|(\d+))\s*dégâts?\s+'
                        r'((?:de\s+|d\')?[\wÀ-ÿ]+)', texte)
     if trouve:
         action['damage'] = des(trouve.group(2)) if trouve.group(2) else trouve.group(3)

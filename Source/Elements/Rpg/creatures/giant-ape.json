@@ -45,6 +45,8 @@
       "name": "Rocher",
       "text": "Attaque à distance avec une arme : +9 au toucher, portée 15/30 m, une cible. Touché : 30 (7d6 + 6) dégâts contondants.",
       "attackBonus": 9,
+      "rangeNormal": 15,
+      "rangeLong": 30,
       "damage": "7d6+6",
       "damageType": "bludgeoning"
     }

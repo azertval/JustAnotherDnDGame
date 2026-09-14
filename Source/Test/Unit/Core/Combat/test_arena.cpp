@@ -333,6 +333,48 @@ TEST(ArenaTest, LAttaqueSeRefuseEtSeResout) {
 }
 
 /**
+ * @brief Le pilier de la piste cache une cible et en abrite une autre (LOT-22).
+ * \castest{<b>Dans l'arene, un tir vers une cible cachee par le pilier est refuse ; vers une cible
+ * que le pilier abrite partiellement, il est jete contre sa CA + 2, et le journal le dit.</b><br/>
+ * \tcat Unitaire · Combat<br/>
+ * \tcrit Critique<br/>
+ * \tetapes 1. Une archere (portee 16/64) en (5,3), un gobelin a la CA 12 en (7,3) derriere le
+ * pilier (6,3), un second en (7,5).<br/>2. L'archere tire sur le premier.<br/>3. Elle se place en
+ * (5,2), d'ou le pilier ne cache plus que le bas de la case du gobelin, et tire encore.<br/>
+ * \tattendu TotalCover sans depenser l'action ; puis Done, CA 14, « abri partiel : CA 12 -> 14 » au
+ * journal.
+ * }
+ */
+TEST(ArenaTest, LePilierCacheEtAbrite) {
+    core::ArenaBout bout{.seed = 5, .lethal = false, .heroicMark = false};
+    core::ArenaContestant archere = concurrent("Archere", CombatSide::Allies, 20, 20, 5, "1d8", 14);
+    archere.attacks[0].kind = core::AttackKind::Ranged;
+    archere.attacks[0].range = core::AttackRange{.normal = 16, .maximum = 64};
+    archere.profile.initiativeModifier = 100;
+    archere.position = core::GridPosition{5, 3};
+    core::ArenaContestant cache = concurrent("Cache", CombatSide::Enemies, 30, 8, 4, "1d6", 12);
+    cache.position = core::GridPosition{7, 3};
+    core::ArenaContestant abrite = concurrent("Abrite", CombatSide::Enemies, 30, 8, 4, "1d6", 12);
+    abrite.position = core::GridPosition{7, 5};
+    bout.contestants = {archere, cache, abrite};
+
+    core::ArenaSession session(piste());
+    session.mount(bout);
+    ASSERT_TRUE(session.start());
+    ASSERT_EQ(session.combat().activeCombatant(), CombatantId{1});
+    EXPECT_EQ(session.attack(CombatantId{2}).result, core::ArenaActionResult::TotalCover);
+    EXPECT_EQ(session.combat().find(CombatantId{1})->economy.remaining(core::ACTION_RESOURCE), 1);
+
+    ASSERT_EQ(session.move(core::GridPosition{5, 2}).result, core::MoveResult::Moved);
+    const core::ArenaAttack tir = session.attack(CombatantId{2});
+    ASSERT_EQ(tir.result, core::ArenaActionResult::Done);
+    ASSERT_TRUE(tir.outcome.has_value());
+    EXPECT_EQ(tir.outcome->roll.armorClass, 14);
+    EXPECT_NE(session.journal().back().find("abri partiel : CA 12 -> 14"), std::string::npos)
+        << session.journal().back();
+}
+
+/**
  * @brief Sortir de l'allonge provoque une attaque d'opportunite, sauf a se desengager ; esquiver
  *        desavantage les attaques.
  * \castest{<b>Quitter l'allonge d'un ennemi provoque son attaque d'opportunite, qui depense sa

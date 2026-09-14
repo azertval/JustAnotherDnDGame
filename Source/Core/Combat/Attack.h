@@ -31,9 +31,11 @@
  *
  * ## Hors de ce fichier, nommément
  *
- * La portée à distance, la ligne de vue et l'abri (`LOT-22`) ; l'inconscience, les jets contre la
- * mort, la mort instantanée et le coup qui assomme (`LOT-72`, qui lit l'excédent et le critique que
- * ce lot rapporte) ; les sorts et les attaques de classe, ajoutés avec les classes.
+ * La ligne de vue et l'abri se calculent dans `Core/Combat/LineOfSight.h` (`LOT-22`) et se lisent
+ * ici : `core::checkTarget` refuse une cible sous abri total, `core::resolveAttack` pose l'abri sur
+ * le jet. L'inconscience, les jets contre la mort, la mort instantanée et le coup qui assomme sont
+ * au `LOT-72`, qui lit l'excédent et le critique que le `LOT-21` rapporte ; les sorts et les
+ * attaques de classe arrivent avec les classes.
  */
 
 #include <cstddef>
@@ -45,6 +47,7 @@
 
 #include "Core/Combat/CombatState.h"
 #include "Core/Combat/Damage.h"
+#include "Core/Combat/LineOfSight.h"
 #include "Core/Math/DeterministicRandom.h"
 #include "Core/Rpg/Check.h"
 
@@ -60,7 +63,13 @@ enum class AttackKind : std::uint8_t {
     Ranged,
 };
 
-/// @brief Les deux portées d'une attaque à distance, en cases.
+/**
+ * @brief Les deux portées d'une attaque à distance, en cases.
+ *
+ * Manuel, « Portée » : au-delà de la portée normale, le jet est désavantagé ; au-delà de la longue
+ * portée, l'attaque est impossible. Une portée unique — celle d'un sort — s'écrit avec deux
+ * nombres égaux.
+ */
 struct AttackRange {
     int normal = 0;
     int maximum = 0;
@@ -84,10 +93,10 @@ struct AttackProfile {
     /**
      * @brief Les portées d'une attaque à distance, si la donnée les porte.
      *
-     * Aucune arme ni aucune action du catalogue ne les porte encore autrement qu'en prose (« portée
-     * 24/96 m ») : c'est le `LOT-22` qui les structure. En attendant, une attaque à distance sans
-     * portée connue ne vise qu'au contact — avec le désavantage que le Manuel impose au tir au
-     * contact d'un ennemi.
+     * Les armes du catalogue et les actions du bestiaire les portent en mètres (`rangeNormal`,
+     * `rangeLong`) depuis le `LOT-22`, converties en cases **arrondies vers le bas** : une portée
+     * ne dépasse jamais ce que le texte promet. Une attaque à distance **sans** portée connue ne
+     * vise qu'au contact — avec le désavantage que le Manuel impose au tir au contact d'un ennemi.
      */
     std::optional<AttackRange> range;
     /// Plus petit résultat du d20 qui fait un critique. 20 par défaut ; un Champion le baisse.
@@ -107,7 +116,9 @@ struct CreatureAttacks {
  * dégâts.
  *
  * Une action **avec** allonge est au corps à corps (allonge en cases, arrondie, au moins 1) ; une
- * action **sans** allonge est à distance. Le bonus du bloc est pris tel quel : le livre l'a déjà
+ * action **sans** allonge est à distance, à sa portée si le bloc l'écrit (« portée 24/96 m ») ; une
+ * action qui porte les deux donne deux attaques, au contact puis à distance. Le bonus du bloc est
+ * pris tel quel : le livre l'a déjà
  * calculé. Une action qui a un bonus mais aucun dégât (la toile de l'araignée géante) n'est pas une
  * attaque de ce lot — elle entrave, et c'est l'affaire des conditions (`LOT-72`).
  *
@@ -136,6 +147,19 @@ struct CreatureAttacks {
                                             int proficiencyBonus, bool proficient = true);
 
 /**
+ * @brief L'attaque d'une arme **lancée** — dague, hachette, javeline —, si elle a la propriété
+ *        `thrown`.
+ *
+ * Manuel, chapitre 5, « Lancer » : une arme de corps à corps lancée emploie la même caractéristique
+ * qu'au corps à corps. L'attaque est à distance, à la portée de l'arme. Vide pour une arme sans
+ * cette propriété : une épée longue lancée est une arme improvisée, qui n'est pas de ce lot.
+ */
+[[nodiscard]] std::optional<AttackProfile> thrownAttackFor(const CharacterSheet& sheet,
+                                                           const Weapon& weapon,
+                                                           int proficiencyBonus,
+                                                           bool proficient = true);
+
+/**
  * @brief La distance en cases entre deux combattants, **emprises comprises** : zéro contact
  *        impossible, 1 pour deux emprises adjacentes, diagonale comprise.
  *
@@ -154,9 +178,33 @@ struct CreatureAttacks {
 /**
  * @brief Vrai si @p target est à portée de l'attaque : allonge au corps à corps ; au contact, ou
  *        dans la portée maximale si elle est connue, à distance.
+ *
+ * La distance seule : la vue est dans `core::checkTarget`.
  */
 [[nodiscard]] bool inReach(const CombatState& combat, CombatantId attacker, CombatantId target,
                            const AttackProfile& profile);
+
+/// @brief Ce qui rend une cible attaquable, ou ce qui l'en empêche.
+enum class TargetCheck : std::uint8_t {
+    Valid,
+    /// L'attaquant et la cible sont le même, ou l'un des deux n'est pas sur la grille.
+    NotOnGrid,
+    /// Hors d'allonge, ou au-delà de la longue portée (`core::inReach`).
+    OutOfReach,
+    /// Sous abri total : aucun segment dégagé entre les deux emprises (`core::hasLineOfSight`).
+    TotalCover,
+};
+
+/**
+ * @brief Peut-on viser @p target avec cette attaque ? La distance, puis la vue.
+ *
+ * Manuel, chapitre 9 : « une cible qui bénéficie d'un abri total ne peut pas être ciblée
+ * directement par des attaques » ; `EX-CBT-021` : une attaque à distance suppose une ligne de vue.
+ * Au corps à corps aussi — frapper par le coin commun de deux murs est aussi impossible que de s'y
+ * faufiler.
+ */
+[[nodiscard]] TargetCheck checkTarget(const CombatState& combat, CombatantId attacker,
+                                      CombatantId target, const AttackProfile& profile);
 
 /// @brief Les sources nommées d'avantage et de désavantage d'un jet.
 struct AttackCircumstances {
@@ -168,10 +216,11 @@ struct AttackCircumstances {
  * @brief Ce que la grille sait dire des circonstances d'une attaque (Manuel, chapitre 9).
  *
  * - **Attaque à distance dans un combat au corps à corps** : désavantage si une créature hostile
- *   debout se trouve à une case de l'attaquant ;
+ *   debout « qui vous voit » (`core::hasLineOfSight`) se trouve à une case de l'attaquant ;
  * - **au-delà de la portée normale** : désavantage.
  *
- * Voir sans être vu, l'abri et l'état de la cible sont au `LOT-22` et au `LOT-72`.
+ * L'abri n'est pas une circonstance mais un changement de CA (`core::AttackRoll::applyCover`).
+ * Voir sans être vu suppose la lumière et les sens ; l'état de la cible est au `LOT-72`.
  */
 [[nodiscard]] AttackCircumstances attackCircumstances(const CombatState& combat,
                                                       CombatantId attacker, CombatantId target,
@@ -197,7 +246,10 @@ struct AttackRoll {
     CombatantId attacker{};
     CombatantId target{};
     std::string label;
+    /// La CA visée : celle du profil de la cible, plus le bonus de son abri (`applyCover`).
     int armorClass = 10;
+    /// L'abri déjà compté dans `armorClass`.
+    Cover cover = Cover::None;
     int criticalThreshold = 20;
     std::vector<std::string> advantages;
     std::vector<std::string> disadvantages;
@@ -214,6 +266,16 @@ struct AttackRoll {
     void substitute(std::size_t die, int value, const std::string& source);
     /// @brief Ajoute un modificateur, avec son origine.
     void addModifier(Modifier modifier);
+    /**
+     * @brief Place la cible derrière @p level : la CA gagne le bonus de l'abri, **une fois**.
+     *
+     * Les abris ne s'additionnent pas (Manuel, « Abri ») : un abri moins bon ou égal à celui déjà
+     * compté ne change rien, un meilleur remplace l'ancien bonus au lieu de s'y ajouter. Poser deux
+     * fois l'abri partiel laisse la CA à +2 ; l'abri important par-dessus la porte à +5, pas à +7.
+     * `Cover::Total` est sans effet : ce n'est pas un bonus mais une cible qu'on ne vise pas
+     * (`core::checkTarget`). Le changement s'inscrit dans `amendments`.
+     */
+    void applyCover(Cover level);
     /// @brief Recalcule le dé retenu et le total depuis les dés et les modificateurs.
     void recompute();
 };
@@ -271,10 +333,12 @@ struct AttackContext {
  * @brief Résout une attaque dans le combat : déclaration, jet, dégâts, points de vie.
  *
  * Annonce `CombatHook::AttackDeclared` **avant** le jet (`LOT-20`), ajoute les circonstances que la
- * grille dit, jette, et si l'attaque touche, fait traverser les dégâts au pipeline — qui se termine
- * dans `core::CombatState::applyDamage`. Ne dépense **aucune** ressource : une attaque de l'action
- * *attaquer* dépense l'action, une attaque d'opportunité la réaction, et c'est l'appelant qui sait
- * laquelle il joue. Ne vérifie pas la portée, pour la même raison (`core::inReach`).
+ * grille dit, pose l'abri de la cible (`core::coverBetween`) **avant le premier greffon**
+ * `BeforeRoll` — qui peut le relever, jamais le cumuler —, jette, et si l'attaque touche, fait
+ * traverser les dégâts au pipeline — qui se termine dans `core::CombatState::applyDamage`. Ne
+ * dépense **aucune** ressource : une attaque de l'action *attaquer* dépense l'action, une attaque
+ * d'opportunité la réaction, et c'est l'appelant qui sait laquelle il joue. Ne vérifie ni la portée
+ * ni la vue, pour la même raison (`core::checkTarget`).
  *
  * @return Vide si l'attaque ne peut pas être déclarée : l'un des deux n'est pas debout, ou le
  *         combat n'est pas en cours.

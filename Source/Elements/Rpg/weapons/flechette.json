@@ -8,5 +8,11 @@
   "damageType": "piercing",
   "weightGrams": 100,
   "price": 5,
-  "text": "Finesse, lancer (portée 6 m/18 m)"
+  "text": "Finesse, lancer (portée 6 m/18 m)",
+  "properties": [
+    "finesse",
+    "thrown"
+  ],
+  "rangeNormal": 6,
+  "rangeLong": 18
 }

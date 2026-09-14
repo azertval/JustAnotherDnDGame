@@ -8,5 +8,11 @@
   "damageType": "piercing",
   "weightGrams": 1000,
   "price": 2500,
-  "text": "Munitions (portée 24 m/96 m), à deux mains"
+  "text": "Munitions (portée 24 m/96 m), à deux mains",
+  "properties": [
+    "ammunition",
+    "two-handed"
+  ],
+  "rangeNormal": 24,
+  "rangeLong": 96
 }

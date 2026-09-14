@@ -368,3 +368,178 @@ TEST(AttackTest, LesProfilsSeTirentDuBestiaireEtDeLaFiche) {
     }
     EXPECT_GT(total, bestiaire.creatures.size() / 2);
 }
+
+/**
+ * @brief L'abri change la CA de son montant, une fois, et le meilleur seul compte (LOT-22).
+ * \castest{<b>Une cible derriere un muret gagne +2 a sa CA ; un greffon qui pose le meme abri ne
+ * l'ajoute pas une seconde fois ; un abri important par-dessus porte le bonus a +5, pas a +7 ; un
+ * abri total n'est pas un bonus.</b><br/>
+ * \tcat Unitaire · Combat<br/>
+ * \tcrit Bloquant<br/>
+ * \tetapes 1. Un archer en (0,1), un gobelin a la CA 15 en (3,1), un muret en (2,1).<br/>2. Tirer,
+ * d20 force a 12.<br/>3. Tirer avec un greffon qui pose l'abri partiel, puis l'abri total.<br/>4.
+ * Tirer avec un greffon qui pose l'abri important.<br/>
+ * \tattendu CA 17 et « abri partiel : CA 15 -> 17 » au journal ; CA 17 encore, une seule
+ * inscription ; CA 20, deux inscriptions.
+ * }
+ */
+TEST(AttackTest, LAbriChangeLaCAUneFois) {
+    core::CombatState combat(core::BattleGrid(core::TileMap(6, 3)));
+    ASSERT_EQ(combat.grid().placeObject({2, 1}, {.kind = "muret",
+                                                 .hitPoints = 10,
+                                                 .blocksMovement = true,
+                                                 .cover = core::Cover::Half,
+                                                 .damageTraits = {}}),
+              core::PlacementResult::Placed);
+    combat.enlist(profil("Archer", CombatSide::Allies, 12, 14, 100), core::GridPosition{0, 1});
+    combat.enlist(profil("Gobelin", CombatSide::Enemies, 30, 15, -100), core::GridPosition{3, 1});
+    core::DeterministicRandom hasard(8);
+    ASSERT_TRUE(combat.start(hasard));
+
+    core::AttackProfile arc = epee();
+    arc.kind = core::AttackKind::Ranged;
+    arc.range = core::AttackRange{.normal = 16, .maximum = 64};
+    ASSERT_EQ(core::coverBetween(combat, CombatantId{1}, CombatantId{2}), core::Cover::Half);
+
+    const core::AttackHooks douze = deForce(12);
+    const std::optional<core::AttackOutcome> simple =
+        core::resolveAttack(combat, CombatantId{1}, CombatantId{2}, arc, hasard, {.hooks = &douze});
+    ASSERT_TRUE(simple.has_value());
+    EXPECT_EQ(simple->roll.armorClass, 17);
+    EXPECT_EQ(simple->roll.cover, core::Cover::Half);
+    EXPECT_NE(simple->describe().find("[abri partiel : CA 15 -> 17] = 12"), std::string::npos)
+        << simple->describe();
+    EXPECT_NE(simple->describe().find("= 17 contre CA 17 : touche"), std::string::npos);
+
+    core::AttackHooks deuxFois = deForce(12);
+    deuxFois.insert(AttackRollStage::BeforeRoll,
+                    [](core::AttackRoll& jet, core::DeterministicRandom&) {
+                        jet.applyCover(core::Cover::Half);
+                        jet.applyCover(core::Cover::Total);
+                    });
+    const std::optional<core::AttackOutcome> repose = core::resolveAttack(
+        combat, CombatantId{1}, CombatantId{2}, arc, hasard, {.hooks = &deuxFois});
+    ASSERT_TRUE(repose.has_value());
+    EXPECT_EQ(repose->roll.armorClass, 17);
+    EXPECT_EQ(repose->roll.amendments.size(), 1U);
+
+    core::AttackHooks herse = deForce(12);
+    herse.insert(AttackRollStage::BeforeRoll,
+                 [](core::AttackRoll& jet, core::DeterministicRandom&) {
+                     jet.applyCover(core::Cover::ThreeQuarters);
+                 });
+    const std::optional<core::AttackOutcome> important =
+        core::resolveAttack(combat, CombatantId{1}, CombatantId{2}, arc, hasard, {.hooks = &herse});
+    ASSERT_TRUE(important.has_value());
+    EXPECT_EQ(important->roll.armorClass, 20);
+    EXPECT_EQ(important->roll.cover, core::Cover::ThreeQuarters);
+    EXPECT_EQ(important->roll.amendments.size(), 2U);
+    EXPECT_FALSE(important->roll.hit);
+}
+
+/**
+ * @brief Viser demande la portee et la vue ; un ennemi qu'on ne voit pas ne gene pas le tir.
+ * \castest{<b>Une cible derriere un mur ne se vise pas, ni a distance ni au contact par le coin de
+ * deux murs ; au-dela de la longue portee non plus ; un ennemi adjacent qui ne voit pas le tireur
+ * ne lui impose pas le desavantage du tir au contact.</b><br/>
+ * \tcat Unitaire · Combat<br/>
+ * \tcrit Critique<br/>
+ * \tetapes 1. Un archer en (1,1), un gobelin en (2,2) derriere deux murs en (2,1) et (1,2), un loup
+ * en (0,3), un rat en (5,5).<br/>2. Verifier chaque cible, a distance (portee 2/3) et au
+ * contact.<br/>3. Les circonstances du tir vers le loup.<br/>
+ * \tattendu Gobelin : abri total, a distance comme au contact ; loup : valide ; rat : hors de
+ * portee ; soi-meme : hors grille ; aucun desavantage de tir au contact.
+ * }
+ */
+TEST(AttackTest, ViserDemandeLaPorteeEtLaVue) {
+    core::TileMap murs(6, 6);
+    murs.setTile(2, 1, core::TileType::Wall);
+    murs.setTile(1, 2, core::TileType::Wall);
+    core::CombatState combat{core::BattleGrid(murs)};
+    combat.enlist(profil("Archer", CombatSide::Allies, 12, 14, 100), core::GridPosition{1, 1});
+    combat.enlist(profil("Gobelin", CombatSide::Enemies, 7, 15, 0), core::GridPosition{2, 2});
+    combat.enlist(profil("Loup", CombatSide::Enemies, 11, 13, -50), core::GridPosition{0, 3});
+    combat.enlist(profil("Rat", CombatSide::Enemies, 1, 10, -100), core::GridPosition{5, 5});
+    core::DeterministicRandom hasard(4);
+    ASSERT_TRUE(combat.start(hasard));
+
+    core::AttackProfile arc = epee();
+    arc.kind = core::AttackKind::Ranged;
+    arc.range = core::AttackRange{.normal = 2, .maximum = 3};
+    EXPECT_EQ(core::gridDistance(combat, CombatantId{1}, CombatantId{2}), 1);
+    EXPECT_EQ(core::checkTarget(combat, CombatantId{1}, CombatantId{2}, arc),
+              core::TargetCheck::TotalCover);
+    EXPECT_EQ(core::checkTarget(combat, CombatantId{1}, CombatantId{2}, epee()),
+              core::TargetCheck::TotalCover);
+    EXPECT_EQ(core::checkTarget(combat, CombatantId{1}, CombatantId{3}, arc),
+              core::TargetCheck::Valid);
+    EXPECT_EQ(core::checkTarget(combat, CombatantId{1}, CombatantId{4}, arc),
+              core::TargetCheck::OutOfReach);
+    EXPECT_EQ(core::checkTarget(combat, CombatantId{1}, CombatantId{1}, arc),
+              core::TargetCheck::NotOnGrid);
+    EXPECT_TRUE(core::attackCircumstances(combat, CombatantId{1}, CombatantId{3}, arc)
+                    .disadvantages.empty());
+}
+
+/**
+ * @brief Les portees et l'allonge se lisent dans la donnee structuree, jamais dans la prose.
+ * \castest{<b>Chaque arme qui se tire ou se lance porte ses portees ; l'arc long tire a 30/120
+ * cases, la hallebarde frappe a 2, la dague se lance a 4/12 ; le squelette tire a 16/64.</b><br/>
+ * \tcat Unitaire · Combat<br/>
+ * \tcrit Majeur<br/>
+ * \tetapes 1. Charger le catalogue d'armes et le bestiaire livres.<br/>2. Pour chaque arme :
+ * portees presentes si et seulement si elle a les munitions ou le lancer.<br/>3. Tirer les profils
+ * de l'arc long, de la hallebarde, de la dague (lancee), de l'epee longue (qui ne se lance pas) et
+ * du squelette.<br/>
+ * \tattendu Aucune arme sans portee qui se tire, aucune portee sans raison ; 30/120 ; allonge 2 ;
+ * « Dague (lancer) » a distance, 4/12, Dexterite ; pas d'epee lancee ; l'arc court du squelette a
+ * 16/64.
+ * }
+ */
+TEST(AttackTest, LesPorteesSeLisentDansLaDonnee) {
+    const std::filesystem::path rpg{JADG_RPG_CREATURES_DIR};
+    const core::EquipmentCatalog catalogue =
+        core::loadEquipment(rpg.parent_path() / "weapons", rpg.parent_path() / "armors");
+    ASSERT_TRUE(catalogue.errors.empty());
+    ASSERT_EQ(catalogue.weapons.size(), 37U);
+    for (const core::Weapon& arme : catalogue.weapons) {
+        const bool tiree =
+            core::hasProperty(arme, "ammunition") || core::hasProperty(arme, "thrown");
+        EXPECT_EQ(arme.rangeNormal.has_value(), tiree) << arme.id;
+        EXPECT_EQ(arme.rangeLong.has_value(), tiree) << arme.id;
+        if (arme.ranged) {
+            EXPECT_TRUE(tiree) << arme.id;
+        }
+    }
+
+    core::CharacterSheet fiche;
+    fiche.abilities[static_cast<std::size_t>(core::Ability::Strength)] = 12;
+    fiche.abilities[static_cast<std::size_t>(core::Ability::Dexterity)] = 16;
+    const core::AttackProfile arcLong =
+        core::weaponAttackFor(fiche, catalogue.findWeapon("arc-long"), 2);
+    ASSERT_TRUE(arcLong.range.has_value());
+    EXPECT_EQ(arcLong.range->normal, 30);
+    EXPECT_EQ(arcLong.range->maximum, 120);
+    EXPECT_EQ(core::weaponAttackFor(fiche, catalogue.findWeapon("hallebarde"), 2).reach, 2);
+    EXPECT_EQ(core::weaponAttackFor(fiche, catalogue.findWeapon("epee-longue"), 2).reach, 1);
+
+    const std::optional<core::AttackProfile> dague =
+        core::thrownAttackFor(fiche, *catalogue.findWeapon("dague"), 2);
+    ASSERT_TRUE(dague.has_value() && dague->range.has_value());
+    EXPECT_EQ(dague->label, "Dague (lancer)");
+    EXPECT_EQ(dague->kind, core::AttackKind::Ranged);
+    EXPECT_EQ(dague->range->normal, 4);
+    EXPECT_EQ(dague->range->maximum, 12);
+    EXPECT_EQ(dague->modifiers[0].source, "Dexterite");
+    EXPECT_FALSE(core::thrownAttackFor(fiche, *catalogue.findWeapon("epee-longue"), 2).has_value());
+
+    const core::Bestiary bestiaire = core::loadBestiary(rpg);
+    const core::Creature* squelette = bestiaire.find("skeleton");
+    ASSERT_NE(squelette, nullptr);
+    const core::CreatureAttacks attaques = core::attacksFor(*squelette);
+    ASSERT_EQ(attaques.attacks.size(), 2U);
+    EXPECT_EQ(attaques.attacks[1].kind, core::AttackKind::Ranged);
+    ASSERT_TRUE(attaques.attacks[1].range.has_value());
+    EXPECT_EQ(attaques.attacks[1].range->normal, 16);
+    EXPECT_EQ(attaques.attacks[1].range->maximum, 64);
+}

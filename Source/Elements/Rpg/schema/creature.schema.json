@@ -66,6 +66,8 @@
           "text": { "type": "string", "minLength": 1 },
           "attackBonus": { "type": "integer", "minimum": -5, "maximum": 20 },
           "reach": { "type": "number", "minimum": 0 },
+          "rangeNormal": { "type": "number", "minimum": 0 },
+          "rangeLong": { "type": "number", "minimum": 0 },
           "damage": { "$ref": "https://justanotherdndgame.local/rpg/common.schema.json#/$defs/des" },
           "damageType": { "$ref": "https://justanotherdndgame.local/rpg/common.schema.json#/$defs/damageType" }
         },

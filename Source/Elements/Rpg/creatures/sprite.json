@@ -46,6 +46,8 @@
       "name": "Arc court",
       "text": "Attaque à distance avec une arme : +6 au toucher, portée 12/48 m, une cible. Touché : 1 dégât perforant, et la cible doit réussir un jet de sauvegarde de Constitution DD 10 ou être empoisonnée pendant 1 minute. Si le jet de sauvegarde échoue de 5 ou plus, la cible empoisonnée tombe inconsciente pour la durée de l'empoisonnement, ou jusqu'à ce qu'elle subisse des dégâts, ou jusqu'à ce qu'une autre créature utilise son action pour la secouer et la réveiller.",
       "attackBonus": 6,
+      "rangeNormal": 12,
+      "rangeLong": 48,
       "damage": "1",
       "damageType": "piercing"
     },

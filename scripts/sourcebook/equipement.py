@@ -45,6 +45,7 @@ import re
 import unicodedata
 from dataclasses import dataclass
 
+from .bestiaire import portees
 from .corpus import Corpus
 from .extraction import Extracteur
 from .glossaire import normaliser, normaliser_cle
@@ -275,7 +276,50 @@ def _lire_arme(cellules: list[str], categorie: str, distance: bool, degats: dict
         proprietes = normaliser(cellules[depart + 3])
         if proprietes and proprietes != '-':
             arme['text'] = proprietes
+            arme.update(proprietes_d_arme(nom, proprietes))
     return arme
+
+
+# Les dix propriétés d'arme du livre, et leur nom dans le schéma (`weapon.schema.json`).
+PROPRIETES_ARME = {
+    'munitions': 'ammunition',
+    'finesse': 'finesse',
+    'lourde': 'heavy',
+    'legere': 'light',
+    'chargement': 'loading',
+    'allonge': 'reach',
+    'special': 'special',
+    'lancer': 'thrown',
+    'a deux mains': 'two-handed',
+    'polyvalente': 'versatile',
+}
+
+# « Polyvalente (1d8) » : les dés à deux mains.
+MOTIF_DEGATS_POLYVALENTS = re.compile(r'\((\d+d\d+)\)')
+
+
+def proprietes_d_arme(nom: str, texte: str) -> dict:
+    """La colonne des propriétés, structurée : ``properties``, ``versatileDamage``, ``rangeNormal``
+    et ``rangeLong`` (`LOT-22`).
+
+    « Munitions (portée 45 m/180 m), lourde, à deux mains » : les virgules séparent les propriétés,
+    sauf entre parenthèses. Une propriété inconnue **arrête** l'extraction — la deviner ferait d'une
+    coquille de la table une règle du jeu.
+    """
+    resultat: dict = {}
+    proprietes: list[str] = []
+    for morceau in re.split(r',\s*(?![^()]*\))', texte):
+        cle = normaliser_cle(re.sub(r'\([^)]*\)', '', morceau)).strip()
+        if not cle:
+            continue
+        if cle not in PROPRIETES_ARME:
+            raise EquipementError('%s : propriete << %s >> inconnue.' % (nom, morceau))
+        proprietes.append(PROPRIETES_ARME[cle])
+        if cle == 'polyvalente' and (des := MOTIF_DEGATS_POLYVALENTS.search(morceau)):
+            resultat['versatileDamage'] = des.group(1)
+    resultat['properties'] = proprietes
+    resultat.update(portees(texte))
+    return resultat
 
 
 # -- Armures -------------------------------------------------------------------------------------

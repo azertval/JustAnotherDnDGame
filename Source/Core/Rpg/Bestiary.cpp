@@ -182,6 +182,8 @@ void lireActions(const nlohmann::json& objet, Creature& creature, const std::str
             action.attackBonus = bonus->get<int>();
         }
         action.reach = lireReelFacultatif(element, "reach");
+        action.rangeNormal = lireReelFacultatif(element, "rangeNormal");
+        action.rangeLong = lireReelFacultatif(element, "rangeLong");
         action.damage = lireDesFacultatifs(element, "damage");
         if (element.contains("damage") && !action.damage.has_value()) {
             erreurs.push_back(fichier + " : action '" + action.name +

@@ -8,5 +8,10 @@
   "damageType": "bludgeoning",
   "weightGrams": 0,
   "price": 10,
-  "text": "Munitions (portée 9 m/36 m)"
+  "text": "Munitions (portée 9 m/36 m)",
+  "properties": [
+    "ammunition"
+  ],
+  "rangeNormal": 9,
+  "rangeLong": 36
 }

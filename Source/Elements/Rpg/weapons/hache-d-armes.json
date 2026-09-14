@@ -7,5 +7,9 @@
   "damageType": "slashing",
   "weightGrams": 2000,
   "price": 1000,
-  "text": "Polyvalente (1d10)"
+  "text": "Polyvalente (1d10)",
+  "versatileDamage": "1d10",
+  "properties": [
+    "versatile"
+  ]
 }
