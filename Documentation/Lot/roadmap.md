@@ -7,9 +7,9 @@ confronté le tout à l'état réel du dépôt et aux deux livres de Tanares.
 > **Cette page s'appelait « Feuille de route 0.1.0 ».** Ce nom disait le périmètre d'un *vertical
 > slice* — la version que le dépôt porte déjà dans son `CMakeLists.txt` — alors que la cible, fixée
 > par les livres, est un **bac à sable dans l'univers complet de Tanares** : treize régions, treize
-> espèces, seize classes, le Colisée, la compagnie, le plan pénombral. Renommée au second audit, le
-> 14 septembre 2026, avec les **jalons de version** ci-dessous, qui disent quelle version porte
-> quoi. L'ancre Doxygen a suivi (`@ref roadmap`).
+> espèces, seize classes, le Colisée, la compagnie, le plan pénombral — et **c'est ce contenu
+> complet qui est la `0.1.0`**. Renommée au second audit, le 14 septembre 2026, avec les jalons
+> intermédiaires `0.0.x` ci-dessous. L'ancre Doxygen a suivi (`@ref roadmap`).
 
 Les lots **livrés** gardent leur dossier et leur `epic.md` : ils portent ce que leur réalisation a
 tranché, qui est de l'histoire, pas du programme. Tout le reste vit ici, et un dossier se crée
@@ -59,22 +59,25 @@ v2**, tirée des dix maquettes du pack UI, et les treize écrans transcrits dess
 Chacun garde son dossier et son `epic.md`. Le `LOT-85` (outillage Qt Designer) a été **abandonné**
 au profit du `LOT-86` et son numéro n'est pas réattribué.
 
-**Les jalons de version.** Le `CMakeLists.txt` est à `0.1.0`, la version du socle hérité et
-réorienté. Chaque version suivante est un état **jouable** du bac à sable, et chaque lot restant en
-sert exactement une :
+**Les jalons de version.** La `0.1.0` est le **contenu final** : le bac à sable complet. Tout ce
+qui la précède est un état intermédiaire **jouable**, numéroté `0.0.x`, et chaque lot restant en
+sert exactement un. Le `CMakeLists.txt` porte encore `0.1.0`, numéro hérité du jeu de plateforme
+(`LOT-H-66`) : c'est un contresens depuis le fork, et le `LOT-28` le ramène à `0.0.1` en taguant
+le slice.
 
 | Version | Ce qu'elle rend jouable | Lots |
 |---|---|---|
-| `0.2.0` | Le *vertical slice* : un village, un donjon, un combat tactique complet, une sauvegarde ; l'arène comme banc d'essai ; des spécifications qui décrivent ce jeu | `LOT-19`, `LOT-20`, `LOT-50`, `LOT-21`, `LOT-22`, `LOT-23`, `LOT-24`, `LOT-15`, `LOT-16`, `LOT-17`, `LOT-09`, `LOT-11`, `LOT-27`, `LOT-28`, `LOT-88` |
-| `0.3.0` | Le bac à sable des **treize régions** : terrain généré, peuplement déduit des statistiques régionales, voyage, calendrier lunaire, économie, Guilde, groupe de quatre | `LOT-80`, `LOT-81`, `LOT-40`, `LOT-44`, `LOT-46`, `LOT-89`, `LOT-26`, `LOT-41`, `LOT-70`, `LOT-82`, `LOT-35`, `LOT-42`, `LOT-45`, `LOT-74`, `LOT-75`, `LOT-72`, `LOT-25`, `LOT-29`, `LOT-49`, `LOT-69` |
-| `0.4.0` | Les **seize classes** du *Player's Guide* et leurs sous-classes, le Colisée comme institution, la compagnie et son quartier général | `LOT-84`, `LOT-47`, `LOT-51` → `LOT-65`, `LOT-83` |
-| `0.5.0` | Le **plan pénombral**, second monde du Sourcebook | `LOT-90` |
+| `0.0.1` | Le *vertical slice* : un village, un donjon, un combat tactique complet, une sauvegarde ; l'arène comme banc d'essai ; des spécifications qui décrivent ce jeu | `LOT-19`, `LOT-20`, `LOT-50`, `LOT-21`, `LOT-22`, `LOT-23`, `LOT-24`, `LOT-15`, `LOT-16`, `LOT-17`, `LOT-09`, `LOT-11`, `LOT-27`, `LOT-28`, `LOT-88` |
+| `0.0.2` | Le bac à sable des **treize régions** : terrain généré, peuplement déduit des statistiques régionales, voyage, calendrier lunaire, économie, Guilde, groupe de quatre | `LOT-80`, `LOT-81`, `LOT-40`, `LOT-44`, `LOT-46`, `LOT-89`, `LOT-26`, `LOT-41`, `LOT-70`, `LOT-82`, `LOT-35`, `LOT-42`, `LOT-45`, `LOT-74`, `LOT-75`, `LOT-72`, `LOT-25`, `LOT-29`, `LOT-49`, `LOT-69` |
+| `0.0.3` | Les **seize classes** du *Player's Guide* et leurs sous-classes, le Colisée comme institution, la compagnie et son quartier général | `LOT-84`, `LOT-47`, `LOT-51` → `LOT-65`, `LOT-83` |
+| `0.0.4` | Le **plan pénombral**, second monde du Sourcebook | `LOT-90` |
+| **`0.1.0`** | **Le bac à sable de Tanares, complet** : la somme des quatre, relue et équilibrée d'un bloc — la version de contenu final | aucun lot propre : c'est le tag posé quand le dernier lot de la `0.0.4` est livré |
 
 L'ordre d'exécution ne suit pas ces jalons ligne à ligne — il est calculé (§6) — mais un lot d'un
 jalon ultérieur ne démarre pas tant que le jalon courant a un lot prêt : c'est la seule règle de
 priorité que le calcul ne porte pas.
 
-**Quelle date pour la `0.2.0` ?** Aucune n'est annoncée ici, et ce n'est pas une prudence de
+**Quelle date pour la `0.0.1` ?** Aucune n'est annoncée ici, et ce n'est pas une prudence de
 principe : les trente et un lots livrés l'ont été entre le 3 et le 14 septembre 2026, soit une
 cadence observée qui, prise au pied de la lettre, placerait la version dans trois semaines. Cette
 extrapolation est fausse, et il vaut mieux l'écrire que la laisser deviner : les lots livrés sont
@@ -123,7 +126,7 @@ tableau n'en porte volontairement aucun.
 | 29 | `LOT-47` | Socle de classe, et le guerrier comme preuve | 1 | en attente |
 | 30 | `LOT-74` | Expérience et progression | 1 | en attente |
 | 31 | `LOT-25` | Sorts et capacités de classe | 0 | en attente |
-| 32 | `LOT-28` | Audio, effets et version `0.2.0` | 0 | en attente |
+| 32 | `LOT-28` | Audio, effets et version `0.0.1` | 0 | en attente |
 | 33 | `LOT-49` | Contrôle de cohérence du contenu | 0 | prêt |
 | 34 | `LOT-69` | Retrait de l'atelier pixel art | 0 | en attente |
 | 35 | `LOT-72` | Conditions, agonie et mort | 0 | en attente |
@@ -1773,9 +1776,10 @@ Documentation/Lot/LOT-87-charte-v2/
   étapes ; le socle de classe (`LOT-47`) livre six modèles de ressource et la substitution de
   profil ; l'horloge (`LOT-70`) est un calendrier lunaire ; l'altitude est un attribut, jamais
   une géométrie (`LOT-19`). Ce qui est écarté l'est nommément, dans la liste ci-dessous.
-- **Quatre jalons de version**, et non « la 0.1.0 » : `0.2.0` le slice, `0.3.0` les treize
-  régions, `0.4.0` les seize classes, `0.5.0` le plan pénombral (tableau en tête de page). La page
-  s'appelle désormais « Feuille de route » ; le `LOT-28` reste le lot qui tague `v0.2.0`.
+- **La `0.1.0` est le contenu final, les jalons sont des `0.0.x`** : `0.0.1` le slice, `0.0.2` les
+  treize régions, `0.0.3` les seize classes, `0.0.4` le plan pénombral, `0.1.0` la somme (tableau
+  en tête de page). La page s'appelle désormais « Feuille de route » ; le `LOT-28` tague `v0.0.1`
+  et ramène le `CMakeLists.txt` du `0.1.0` hérité à ce numéro.
 - **Treize régions**, pas dix : le livre en porte treize à encart, et trois espaces de plus
   (Darkall, Undertanares, Wasteland) que le `LOT-81` décrit sans encart.
 - **Deux échelles de progression de groupe coexistent** : les rangs de la Guilde (`LOT-45`) et le
@@ -2783,7 +2787,7 @@ Il valide, en CI :
 - `check_world_graph.py` vert.
 - Le contenu se recharge après sauvegarde à n'importe quel point de la boucle.
 
-### LOT-28 — Audio, effets et version `0.2.0` {#lot-28}
+### LOT-28 — Audio, effets et version `0.0.1` {#lot-28}
 
 > Statut : **à faire**.
 > Prérequis : [LOT-27](@ref lot-27).
@@ -2821,8 +2825,9 @@ JSON depuis la phase C — aucune recompilation.
 
 - Régénération du **cahier de test** (`scripts/generate_cahier_test.py`).
 - Mise en cohérence documentaire globale : specs, guides, manuel.
-- Bump `project(VERSION 0.2.0)` dans le `CMakeLists.txt` racine — **seul endroit** où la version
-  s'écrit — puis tag `v0.2.0`.
+- `project(VERSION 0.0.1)` dans le `CMakeLists.txt` racine — **seul endroit** où la version
+  s'écrit — puis tag `v0.0.1`. Le `0.1.0` qui y figure est le numéro hérité du jeu de plateforme ;
+  dans ce programme, `0.1.0` est le bac à sable complet, et le slice est son premier `0.0.x`.
 
 #### Note de méthode
 

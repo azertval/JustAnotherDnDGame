@@ -77,7 +77,7 @@ tactique au d20 » — reste le jalon qui prouve la boucle avant qu'on la géné
 | B — Exploration | `LOT-06` → `LOT-11` | Déplacement top-down 8 directions, tri par Y, vocabulaire de tuiles RPG, graphe de cartes, entités et interaction, éditeur |
 | C — Noyau RPG | `LOT-12` → `LOT-17` | Dés et jets d20, fiche de personnage, inventaire, PNJ et dialogues, quêtes, sauvegarde |
 | D — Combat tactique | `LOT-18` → `LOT-24` | Bascule exploration ↔ combat, grille tactique, initiative, attaques, ligne de vue, IA, IHM de combat |
-| E — Contenu et finition | `LOT-25` → `LOT-29` | Sorts, économie, contenu du slice, audio et version `0.2.0`, groupe de quatre personnages |
+| E — Contenu et finition | `LOT-25` → `LOT-29` | Sorts, économie, contenu du slice, audio et version `0.0.1` (le slice ; la `0.1.0` est le bac à sable complet), groupe de quatre personnages |
 | F — Filière contenu | `LOT-30` → `LOT-84` | Préconditions (spécification RPG, numéros, chargement de données), extraction du corpus, catalogues, monde et peuplement, une classe par lot, refonte IHM, mécaniques manquantes |
 | G — Refonte de l'interface | `LOT-85` → `LOT-87` | Décidés hors de la feuille de route : `LOT-85` abandonné, `LOT-86` (Qt Quick, deux exécutables) et `LOT-87` (charte v2) livrés |
 | H — Relecture des livres | `LOT-88` → `LOT-90` | Ajoutés au second audit : retrait de l'héritage plateforme des spécifications, dons et objets magiques de Tanares, le plan pénombral |
