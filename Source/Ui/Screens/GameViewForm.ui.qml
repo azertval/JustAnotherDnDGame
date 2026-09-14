@@ -2,41 +2,35 @@ import QtQuick
 import Jadg.Ui
 
 /*!
-    Vue de jeu -- FORMULAIRE, cote conception (LOT-86).
+    Vue de jeu -- FORMULAIRE, cote conception (LOT-86, LOT-87 T4.1 ; maquette 01).
 
-    La surface de rendu occupe l'ecran ; ce qui se pose PAR-DESSUS est de l'interface ordinaire,
-    et c'est tout l'interet du portage : un recouvrement n'a plus a etre une fenetre native.
+    La surface de rendu occupe l'ecran ; le cadre du HUD se pose PAR-DESSUS (`HudFrame`), en mode
+    exploration : personnage actif, membres, boussole, mini-carte, quetes, jour et lieu, raccourcis
+    de navigation. Ce qui n'appartient qu'au combat -- journal, barre d'actions, cible -- est dans
+    `CombatHudForm`.
 
     Aucune scene n'y est encore dessinee -- Source/Elements/Levels/ est vide par construction, et
-    le contenu du RPG arrive avec un lot ulterieur. La surface efface au parchemin, ce qui suffit a
-    verifier que la plomberie tient.
+    le contenu du RPG arrive avec un lot ulterieur. La surface efface au parchemin, et le rappel
+    `status` le dit au centre de l'ecran.
 */
-Item {
+HudFrame {
     id: root
 
     property string status: "—"
 
-    // L'hôte de la surface de rendu. La surface elle-même (`GameViewport`) est un type C++ que
-    // l'atelier ne connaît pas : c'est le jumeau qui la pose ici, à l'exécution. Dans Qt Design
-    // Studio, l'hôte se dessine comme un aplat au parchemin -- ce que la surface efface de toute
-    // façon tant qu'aucune scène n'est jouée.
-    property alias viewportHost: viewportHost
+    mode: "exploration"
 
-    Rectangle {
-        id: viewportHost
-
-        anchors.fill: parent
-        color: Tokens.background
-    }
-
-    // Le rappel se pose PAR-DESSUS la surface de rendu, comme un enfant ordinaire. C'est ce que le
-    // portage sur une texture d'appui rend possible : plus aucun recouvrement ne depend d'un
-    // empilement de fenetres natives.
+    // Le rappel se pose PAR-DESSUS la surface de rendu, comme un enfant ordinaire : plus aucun
+    // recouvrement ne depend d'un empilement de fenetres natives.
     Text {
         anchors.centerIn: parent
+        width: 720 * Tokens.uiScale
         text: root.status
         color: Tokens.textMuted
-        font.family: Tokens.bodyFamily
-        font.pixelSize: Tokens.body
+        font.family: Tokens.loreFamily
+        font.italic: true
+        font.pixelSize: Tokens.fontBody
+        horizontalAlignment: Text.AlignHCenter
+        wrapMode: Text.WordWrap
     }
 }

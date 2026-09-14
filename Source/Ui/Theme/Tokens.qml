@@ -91,6 +91,12 @@ QtObject {
     readonly property color textOnPanel: "#fcfcfc"       // libelle d'entree du menu (06)
     readonly property color textOnPanelMuted: "#74747c"  // libelle desactive (05)
 
+    // Camp d'un combattant, en texte sur un panneau sombre : journal de combat, ordre d'initiative
+    // (LOT-87, T4.1). Le camp se lit AUSSI a sa marque (losange ou pastille) : jamais a sa seule
+    // teinte, qu'un joueur qui distingue mal le bleu du rouge ne lirait pas.
+    readonly property color textAlly: "#74e4fc"   // tour du joueur, journal du HUD (01)
+    readonly property color textEnemy: "#ac443c"  // tour de l'ennemi, journal du HUD (01)
+
     // Semantiques : la MATIERE des plaques d'action, face eclairee. Le texte pose dessus est
     // `textOnPanel` ; aucune de ces trois teintes n'est lisible en texte sur `panel`.
     readonly property color success: "#0c2c0c"   // plaque d'Appliquer (05)
