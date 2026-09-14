@@ -30,9 +30,9 @@ class Level;
  * @brief Identifiant d'un combattant sur la grille.
  *
  * Un type **fort**, et non un `int` : la grille ne sait rien de ce qu'est un combattant — fiche,
- * créature, camp —, elle ne retient que sa place. C'est le tour par tour (`LOT-20`) qui attribue
- * les identifiants ; un entier nu se serait confondu avec un indice de case à la première
- * signature qui prend les deux.
+ * créature, camp —, elle ne retient que sa place. C'est le combat (`core::CombatState`, `LOT-20`)
+ * qui attribue les identifiants ; un entier nu se serait confondu avec un indice de case à la
+ * première signature qui prend les deux.
  */
 enum class CombatantId : std::uint32_t {};
 

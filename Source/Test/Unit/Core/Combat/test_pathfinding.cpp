@@ -254,7 +254,9 @@ TEST(PathfindingTest, UnAllieSeTraverseUnEnnemiNon) {
                             }};
     const core::ReachableArea passage(grille, heros, 6);
     EXPECT_EQ(passage.destinations(), (std::vector<core::GridPosition>{{2, 0}}));
-    EXPECT_EQ(passage.costTo({1, 0}), 1);
+    // La case d'une autre creature compte comme terrain difficile (Manuel des Joueurs, PDF p. 193).
+    EXPECT_EQ(passage.costTo({1, 0}), 2);
+    EXPECT_EQ(passage.costTo({2, 0}), 3);
     EXPECT_FALSE(passage.canEndAt({1, 0}));
     EXPECT_FALSE(passage.costTo({4, 0}).has_value());
     EXPECT_FALSE(core::findPath(grille, heros, {4, 0}).has_value());

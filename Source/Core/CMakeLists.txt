@@ -35,6 +35,10 @@ add_library(Core STATIC
     Combat/CombatTransition.cpp
     Combat/BattleGrid.cpp
     Combat/Pathfinding.cpp
+    Combat/TurnOrder.cpp
+    Combat/ActionEconomy.cpp
+    Combat/CombatCounters.cpp
+    Combat/CombatState.cpp
     Rpg/RpgEnumNames.cpp
     Rpg/Multiclassing.cpp
     Levels/TileMap.cpp
