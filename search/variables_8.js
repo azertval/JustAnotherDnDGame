@@ -11,7 +11,8 @@ var searchData=
   ['hitdie_8',['hitDie',['../structcore_1_1PlayableClass.html#a9f2304ce7895d59e0793f29cb3644a24',1,'core::PlayableClass']]],
   ['hitpoints_9',['hitPoints',['../structcore_1_1GridObject.html#aff9938e4fc616d5538368b29681c999f',1,'core::GridObject::hitPoints'],['../structcore_1_1Creature.html#a7a0d61688b76d8555a09defbf43a13d9',1,'core::Creature::hitPoints']]],
   ['hitpointsgained_10',['hitPointsGained',['../structcore_1_1LevelUpResult.html#a06e76aff6d73239de44e902c26bc2f84',1,'core::LevelUpResult']]],
-  ['horizontal_11',['horizontal',['../structhmi_1_1TextAnchor.html#abd9f11b551aab6d6def90fda59a10b47',1,'hmi::TextAnchor']]],
-  ['hoveredcell_12',['hoveredCell',['../structhmi_1_1LevelStatusInfo.html#ae31b27e74cbacf3e320a2e9f5467c414',1,'hmi::LevelStatusInfo::hoveredCell'],['../structhmi_1_1LinkOverlayState.html#ae885874a0e6c75282eaa852fe2610b3d',1,'hmi::LinkOverlayState::hoveredCell']]],
-  ['hoveredpixel_13',['hoveredPixel',['../structhmi_1_1PixelEditStatusInfo.html#a9e9bdb903e4e24550b4aeea678fd4e0d',1,'hmi::PixelEditStatusInfo']]]
+  ['hook_11',['hook',['../structcore_1_1CombatEvent.html#af766a48a133d30c5734e73c1d9414fe1',1,'core::CombatEvent']]],
+  ['horizontal_12',['horizontal',['../structhmi_1_1TextAnchor.html#abd9f11b551aab6d6def90fda59a10b47',1,'hmi::TextAnchor']]],
+  ['hoveredcell_13',['hoveredCell',['../structhmi_1_1LevelStatusInfo.html#ae31b27e74cbacf3e320a2e9f5467c414',1,'hmi::LevelStatusInfo::hoveredCell'],['../structhmi_1_1LinkOverlayState.html#ae885874a0e6c75282eaa852fe2610b3d',1,'hmi::LinkOverlayState::hoveredCell']]],
+  ['hoveredpixel_14',['hoveredPixel',['../structhmi_1_1PixelEditStatusInfo.html#a9e9bdb903e4e24550b4aeea678fd4e0d',1,'hmi::PixelEditStatusInfo']]]
 ];

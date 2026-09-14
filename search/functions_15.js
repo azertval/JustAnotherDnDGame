@@ -5,7 +5,7 @@ var searchData=
   ['validateasset_2',['validateAsset',['../namespacehmi.html#ab24a5852795a7f93e35b8ab9ad8e9c9c',1,'hmi']]],
   ['validatecameraframingconfig_3',['validateCameraFramingConfig',['../namespacecore.html#a8066c4006517959fe9db47cdbfb50cc9',1,'core']]],
   ['validatefontmetricsagainsttexture_4',['validateFontMetricsAgainstTexture',['../namespacehmi.html#aa07f4464477c925f45c59a7c90e6054d',1,'hmi']]],
-  ['value_5',['value',['../classhmi_1_1CharacterSheetModel.html#aae2fcfc96e7821e1817383670102717d',1,'hmi::CharacterSheetModel::value()'],['../classhmi_1_1InventoryModel.html#a3a2d5b6bee8db4701e4938a70f52a67a',1,'hmi::InventoryModel::value()'],['../classhmi_1_1PendingData.html#af7163d5406d9668a3d8460461315cad8',1,'hmi::PendingData::value()']]],
+  ['value_5',['value',['../classcore_1_1ScopedCounters.html#a2dd9654e4b8528d8750e0ac9b9ba895d',1,'core::ScopedCounters::value()'],['../classhmi_1_1CharacterSheetModel.html#aae2fcfc96e7821e1817383670102717d',1,'hmi::CharacterSheetModel::value()'],['../classhmi_1_1InventoryModel.html#a3a2d5b6bee8db4701e4938a70f52a67a',1,'hmi::InventoryModel::value()'],['../classhmi_1_1PendingData.html#af7163d5406d9668a3d8460461315cad8',1,'hmi::PendingData::value()']]],
   ['values_6',['values',['../classhmi_1_1CharacterSheetModel.html#aefebf156fee6aefb7500d82fb7ce23a6',1,'hmi::CharacterSheetModel']]],
   ['varies_7',['varies',['../structcore_1_1RegionStatistic.html#a3d10a89b2dabe4e7df4a6b0d9f6985a5',1,'core::RegionStatistic']]],
   ['vector2_8',['Vector2',['../structcore_1_1Vector2.html#a895249415331e9f9f894bbd6ad1f2b8c',1,'core::Vector2::Vector2()=default'],['../structcore_1_1Vector2.html#a9ddd3b555ac4e050f00c3ab9954d7844',1,'core::Vector2::Vector2(float xComponent, float yComponent)']]],

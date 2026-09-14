@@ -27,6 +27,6 @@ var searchData=
   ['lineheight_24',['lineHeight',['../structhmi_1_1FontMetrics.html#a21973518c82f73e635cc8a8295fed43d',1,'hmi::FontMetrics']]],
   ['lines_25',['lines',['../structhmi_1_1CreditSection.html#af9ea8e50dcc65ba98d28ab7531621835',1,'hmi::CreditSection']]],
   ['locations_26',['locations',['../structcore_1_1Region.html#aae7d6f162d8fbf1ac4be15fec2aac0bc',1,'core::Region::locations'],['../structcore_1_1Atlas.html#a00ee928f799e8c7ed2dd1de25133d482',1,'core::Atlas::locations'],['../structhmi_1_1MapRegion.html#afadd81f0cb1d6a5e17d1e940a0f9a78e',1,'hmi::MapRegion::locations']]],
-  ['locomotion_27',['locomotion',['../structcore_1_1Mover.html#a6460e35d94181c11ec5b734757a68e19',1,'core::Mover']]],
+  ['locomotion_27',['locomotion',['../structcore_1_1CombatantProfile.html#ae9504a084f7dcd5daad453732a93dd35',1,'core::CombatantProfile::locomotion'],['../structcore_1_1Mover.html#a6460e35d94181c11ec5b734757a68e19',1,'core::Mover::locomotion']]],
   ['lookup_28',['lookup',['../structhmi_1_1InventoryContext.html#af0cdc30724cbf3d678c09313eec86200',1,'hmi::InventoryContext']]]
 ];

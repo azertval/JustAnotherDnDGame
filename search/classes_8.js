@@ -1,4 +1,32 @@
 var searchData=
 [
-  ['jsondocument_0',['JsonDocument',['../structcore_1_1JsonDocument.html',1,'core']]]
+  ['icomponentpool_0',['IComponentPool',['../classcore_1_1IComponentPool.html',1,'core']]],
+  ['icongeometry_1',['IconGeometry',['../structhmi_1_1IconGeometry.html',1,'hmi']]],
+  ['iconpoint_2',['IconPoint',['../structhmi_1_1IconPoint.html',1,'hmi']]],
+  ['iconstroke_3',['IconStroke',['../structhmi_1_1IconStroke.html',1,'hmi']]],
+  ['identitybasescale_4',['IdentityBaseScale',['../structhmi_1_1IdentityBaseScale.html',1,'hmi']]],
+  ['igamemode_5',['IGameMode',['../classhmi_1_1IGameMode.html',1,'hmi']]],
+  ['igamemodepasses_6',['IGameModePasses',['../classhmi_1_1IGameModePasses.html',1,'hmi']]],
+  ['ilogsink_7',['ILogSink',['../classcore_1_1ILogSink.html',1,'core']]],
+  ['immunityledger_8',['ImmunityLedger',['../classcore_1_1ImmunityLedger.html',1,'core']]],
+  ['initiativeentry_9',['InitiativeEntry',['../structcore_1_1InitiativeEntry.html',1,'core']]],
+  ['initiativemarker_10',['InitiativeMarker',['../structcore_1_1InitiativeMarker.html',1,'core']]],
+  ['inputstate_11',['InputState',['../classhmi_1_1InputState.html',1,'hmi']]],
+  ['interactable_12',['Interactable',['../structcore_1_1Interactable.html',1,'core']]],
+  ['interactablekind_13',['InteractableKind',['../structcore_1_1InteractableKind.html',1,'core']]],
+  ['interactioncandidate_14',['InteractionCandidate',['../structcore_1_1InteractionCandidate.html',1,'core']]],
+  ['interactionoutcome_15',['InteractionOutcome',['../structcore_1_1InteractionOutcome.html',1,'core']]],
+  ['interactiontarget_16',['InteractionTarget',['../structcore_1_1InteractionTarget.html',1,'core']]],
+  ['inventory_17',['Inventory',['../structcore_1_1Inventory.html',1,'core']]],
+  ['inventorycell_18',['InventoryCell',['../structhmi_1_1InventoryCell.html',1,'hmi']]],
+  ['inventorycontext_19',['InventoryContext',['../structhmi_1_1InventoryContext.html',1,'hmi']]],
+  ['inventoryentry_20',['InventoryEntry',['../structcore_1_1InventoryEntry.html',1,'core']]],
+  ['inventorymodel_21',['InventoryModel',['../classhmi_1_1InventoryModel.html',1,'hmi']]],
+  ['inventorystack_22',['InventoryStack',['../structcore_1_1InventoryStack.html',1,'core']]],
+  ['isystem_23',['ISystem',['../classcore_1_1ISystem.html',1,'core']]],
+  ['item_24',['Item',['../structcore_1_1Item.html',1,'core']]],
+  ['itemcatalog_25',['ItemCatalog',['../structcore_1_1ItemCatalog.html',1,'core']]],
+  ['itemlookup_26',['ItemLookup',['../structcore_1_1ItemLookup.html',1,'core']]],
+  ['itemsheet_27',['ItemSheet',['../structhmi_1_1ItemSheet.html',1,'hmi']]],
+  ['iterator_28',['Iterator',['../classcore_1_1View_1_1Iterator.html',1,'core::View']]]
 ];

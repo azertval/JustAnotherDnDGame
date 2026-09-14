@@ -1,5 +1,14 @@
 var NAVTREEINDEX1 =
 {
+"GamepadBindings_8h_source.html":[13,0,3,3,5,5],
+"GamepadButtonName_8cpp.html":[13,0,3,3,5,7],
+"GamepadButtonName_8h.html":[13,0,3,3,5,8],
+"GamepadButtonName_8h_source.html":[13,0,3,3,5,8],
+"GamepadButton_8h.html":[13,0,3,3,5,6],
+"GamepadButton_8h_source.html":[13,0,3,3,5,6],
+"GamepadPoller_8cpp.html":[13,0,3,3,5,9],
+"GamepadPoller_8h.html":[13,0,3,3,5,10],
+"GamepadPoller_8h_source.html":[13,0,3,3,5,10],
 "GameplayLog_8h.html":[13,0,3,1,4,0],
 "GameplayLog_8h.html#a070c804459187e213fdcff98e639514b":[13,0,3,1,4,0,3],
 "GameplayLog_8h.html#a3642b9797558286415285c8ac3ff244e":[13,0,3,1,4,0,0],
@@ -182,9 +191,9 @@ var NAVTREEINDEX1 =
 "ParticleSystem_8h_source.html":[13,0,3,1,3,1,5],
 "Particle_8h.html":[13,0,3,1,3,0,4],
 "Particle_8h_source.html":[13,0,3,1,3,0,4],
-"Pathfinding_8cpp.html":[13,0,3,1,0,6],
-"Pathfinding_8h.html":[13,0,3,1,0,7],
-"Pathfinding_8h_source.html":[13,0,3,1,0,7],
+"Pathfinding_8cpp.html":[13,0,3,1,0,12],
+"Pathfinding_8h.html":[13,0,3,1,0,13],
+"Pathfinding_8h_source.html":[13,0,3,1,0,13],
 "PendingData_8cpp.html":[13,0,3,3,10,12],
 "PendingData_8h.html":[13,0,3,3,10,13],
 "PendingData_8h_source.html":[13,0,3,3,10,13],
@@ -240,14 +249,5 @@ var NAVTREEINDEX1 =
 "Plane_8h_source.html":[13,0,3,1,5,17],
 "PlanesPanel_8cpp.html":[13,0,3,3,2,56],
 "PlanesPanel_8h.html":[13,0,3,3,2,57],
-"PlanesPanel_8h_source.html":[13,0,3,3,2,57],
-"PlayerInputMapper_8cpp.html":[13,0,3,3,5,15],
-"PlayerInputMapper_8h.html":[13,0,3,3,5,16],
-"PlayerInputMapper_8h_source.html":[13,0,3,3,5,16],
-"PlayerInput_8h.html":[13,0,3,1,7,5],
-"PlayerInput_8h_source.html":[13,0,3,1,7,5],
-"PlayerSpawn_8h.html":[13,0,3,1,7,6],
-"PlayerSpawn_8h_source.html":[13,0,3,1,7,6],
-"PlayerSpriteTag_8h.html":[13,0,3,3,4,36],
-"PlayerSpriteTag_8h_source.html":[13,0,3,3,4,36]
+"PlanesPanel_8h_source.html":[13,0,3,3,2,57]
 };

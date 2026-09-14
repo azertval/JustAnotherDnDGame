@@ -110,7 +110,8 @@ var menudata={children:[
 {text:"q",url:"namespacemembers_enum.html#index_q"},
 {text:"r",url:"namespacemembers_enum.html#index_r"},
 {text:"s",url:"namespacemembers_enum.html#index_s"},
-{text:"t",url:"namespacemembers_enum.html#index_t"}]},
+{text:"t",url:"namespacemembers_enum.html#index_t"},
+{text:"w",url:"namespacemembers_enum.html#index_w"}]},
 {text:"Enumerator",url:"namespacemembers_eval.html"}]}]},
 {text:"Classes",url:"annotated.html",children:[
 {text:"Class List",url:"annotated.html"},

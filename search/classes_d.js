@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['optionsmodel_0',['OptionsModel',['../classhmi_1_1OptionsModel.html',1,'hmi']]]
+  ['namedtrait_0',['NamedTrait',['../structcore_1_1NamedTrait.html',1,'core']]]
 ];

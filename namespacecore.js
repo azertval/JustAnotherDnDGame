@@ -1,7 +1,21 @@
 var namespacecore =
 [
+    [ "ActionResource", "structcore_1_1ActionResource.html", "structcore_1_1ActionResource" ],
+    [ "ActionEconomy", "classcore_1_1ActionEconomy.html", "classcore_1_1ActionEconomy" ],
     [ "GridObject", "structcore_1_1GridObject.html", "structcore_1_1GridObject" ],
     [ "BattleGrid", "classcore_1_1BattleGrid.html", "classcore_1_1BattleGrid" ],
+    [ "ScopedCounters", "classcore_1_1ScopedCounters.html", "classcore_1_1ScopedCounters" ],
+    [ "ImmunityLedger", "classcore_1_1ImmunityLedger.html", "classcore_1_1ImmunityLedger" ],
+    [ "CombatEvent", "structcore_1_1CombatEvent.html", "structcore_1_1CombatEvent" ],
+    [ "CombatantProfile", "structcore_1_1CombatantProfile.html", "structcore_1_1CombatantProfile" ],
+    [ "Combatant", "structcore_1_1Combatant.html", "structcore_1_1Combatant" ],
+    [ "EnlistResult", "structcore_1_1EnlistResult.html", "structcore_1_1EnlistResult" ],
+    [ "MoveOutcome", "structcore_1_1MoveOutcome.html", "structcore_1_1MoveOutcome" ],
+    [ "HitPointChange", "structcore_1_1HitPointChange.html", "structcore_1_1HitPointChange" ],
+    [ "CombatState", "classcore_1_1CombatState.html", "classcore_1_1CombatState" ],
+    [ "PartyMember", "structcore_1_1PartyMember.html", "structcore_1_1PartyMember" ],
+    [ "MountRefusal", "structcore_1_1MountRefusal.html", "structcore_1_1MountRefusal" ],
+    [ "EncounterMount", "structcore_1_1EncounterMount.html", "structcore_1_1EncounterMount" ],
     [ "ExplorationSnapshot", "structcore_1_1ExplorationSnapshot.html", "structcore_1_1ExplorationSnapshot" ],
     [ "EncounterRun", "structcore_1_1EncounterRun.html", "structcore_1_1EncounterRun" ],
     [ "EncounterTrigger", "structcore_1_1EncounterTrigger.html", "structcore_1_1EncounterTrigger" ],
@@ -12,6 +26,10 @@ var namespacecore =
     [ "Mover", "structcore_1_1Mover.html", "structcore_1_1Mover" ],
     [ "Path", "structcore_1_1Path.html", "structcore_1_1Path" ],
     [ "ReachableArea", "classcore_1_1ReachableArea.html", "classcore_1_1ReachableArea" ],
+    [ "InitiativeEntry", "structcore_1_1InitiativeEntry.html", "structcore_1_1InitiativeEntry" ],
+    [ "InitiativeMarker", "structcore_1_1InitiativeMarker.html", "structcore_1_1InitiativeMarker" ],
+    [ "TurnSlot", "structcore_1_1TurnSlot.html", "structcore_1_1TurnSlot" ],
+    [ "TurnOrder", "classcore_1_1TurnOrder.html", "classcore_1_1TurnOrder" ],
     [ "Engine", "classcore_1_1Engine.html", "classcore_1_1Engine" ],
     [ "TextPosition", "structcore_1_1TextPosition.html", "structcore_1_1TextPosition" ],
     [ "JsonDocument", "structcore_1_1JsonDocument.html", "structcore_1_1JsonDocument" ],
@@ -127,6 +145,7 @@ var namespacecore =
     [ "Atlas", "structcore_1_1Atlas.html", "structcore_1_1Atlas" ],
     [ "GridDistanceField", "classcore_1_1GridDistanceField.html", "classcore_1_1GridDistanceField" ],
     [ "AssertionHandler", "namespacecore.html#af16dfcce848d49387703fb5a0b155485", null ],
+    [ "CombatListener", "namespacecore.html#aec8883b9ba0315c5d8d5b710a34d03d4", null ],
     [ "PropertyMap", "namespacecore.html#ac3cd7f319efbfd33f183ca31782d1731", null ],
     [ "PropertyValue", "namespacecore.html#a9f79b235a73b6264aa3a97d51267919d", null ],
     [ "Ability", "namespacecore.html#a97f31c7914a6cfc54cc026a77da58fd1", [
@@ -160,10 +179,38 @@ var namespacecore =
       [ "OneShot", "namespacecore.html#a71fba78b647ce3be2a8b78f79c84f522ac7fc2ee61fad0e2bba6754efdee31481", null ]
     ] ],
     [ "CombatantId", "namespacecore.html#a91235fd72a18c305c494723774630841", null ],
+    [ "CombatantStatus", "namespacecore.html#ab77b88490327a0c26ec09d4f6126e382", [
+      [ "Standing", "namespacecore.html#ab77b88490327a0c26ec09d4f6126e382aa66b284e632fb96f19e27dca96b78fd7", null ],
+      [ "Down", "namespacecore.html#ab77b88490327a0c26ec09d4f6126e382a08a38277b0309070706f6652eeae9a53", null ],
+      [ "Withdrawn", "namespacecore.html#ab77b88490327a0c26ec09d4f6126e382af62dedad685b570f499b61e94084dab2", null ]
+    ] ],
+    [ "CombatHook", "namespacecore.html#a942a0cabc5c97e0e10dfb8a148e26fb9", [
+      [ "BeforeFirstTurn", "namespacecore.html#a942a0cabc5c97e0e10dfb8a148e26fb9a9146e3e958df55f213ab4a470d861dc3", null ],
+      [ "RoundStart", "namespacecore.html#a942a0cabc5c97e0e10dfb8a148e26fb9ae279ccaa0940305fd66b36348b823963", null ],
+      [ "InitiativeCount", "namespacecore.html#a942a0cabc5c97e0e10dfb8a148e26fb9a12a823e143c43755d6c40dcaf1679dad", null ],
+      [ "TurnStart", "namespacecore.html#a942a0cabc5c97e0e10dfb8a148e26fb9ab0a8a1979409102f824db0a1a8484802", null ],
+      [ "TurnEnd", "namespacecore.html#a942a0cabc5c97e0e10dfb8a148e26fb9add2a059ce5c2b0e39ede932ecb5af42f", null ],
+      [ "AttackDeclared", "namespacecore.html#a942a0cabc5c97e0e10dfb8a148e26fb9a5a4f89385b5dfc0953b794f3df6378af", null ],
+      [ "CombatantJoined", "namespacecore.html#a942a0cabc5c97e0e10dfb8a148e26fb9a6b262362e4626c332872a4645efc154c", null ],
+      [ "CombatantLeft", "namespacecore.html#a942a0cabc5c97e0e10dfb8a148e26fb9a228189956989fdf6b5e1340df902051b", null ],
+      [ "CombatEnded", "namespacecore.html#a942a0cabc5c97e0e10dfb8a148e26fb9a8e2cadedb4267fb709cbf7bfffcf1a64", null ]
+    ] ],
     [ "CombatOutcome", "namespacecore.html#a8825ea64ff05621b7c2c8a073d27577c", [
       [ "Victory", "namespacecore.html#a8825ea64ff05621b7c2c8a073d27577ca1f5c647d9066bc9e350b70aa2d16aec4", null ],
       [ "Flight", "namespacecore.html#a8825ea64ff05621b7c2c8a073d27577ca98415a6f570af1d10bebd54f054ce4b4", null ],
       [ "Defeat", "namespacecore.html#a8825ea64ff05621b7c2c8a073d27577ca570e9d24849e2161b5a969599fb03446", null ]
+    ] ],
+    [ "CombatPhase", "namespacecore.html#a7257683f3d1f85e256dfdce8b29bc840", [
+      [ "Setup", "namespacecore.html#a7257683f3d1f85e256dfdce8b29bc840aad2376beebecdcf7846ba973fa1a005b", null ],
+      [ "Starting", "namespacecore.html#a7257683f3d1f85e256dfdce8b29bc840ac2efe4bbd13e6cb0db293e72884273c0", null ],
+      [ "RoundStart", "namespacecore.html#a7257683f3d1f85e256dfdce8b29bc840ae279ccaa0940305fd66b36348b823963", null ],
+      [ "TurnActive", "namespacecore.html#a7257683f3d1f85e256dfdce8b29bc840a5015d46b35dcee9bb9a0438bf3adf01f", null ],
+      [ "TurnEnd", "namespacecore.html#a7257683f3d1f85e256dfdce8b29bc840add2a059ce5c2b0e39ede932ecb5af42f", null ],
+      [ "Ended", "namespacecore.html#a7257683f3d1f85e256dfdce8b29bc840a0157fbb99be9622bdaa6e544270c0622", null ]
+    ] ],
+    [ "CombatSide", "namespacecore.html#a5de8069e593ab57dab3a12c60b40b717", [
+      [ "Allies", "namespacecore.html#a5de8069e593ab57dab3a12c60b40b717a4ff52320ad589c7346c8562c2c715fd6", null ],
+      [ "Enemies", "namespacecore.html#a5de8069e593ab57dab3a12c60b40b717af181304e789fd0882df5cb02d232fc69", null ]
     ] ],
     [ "Condition", "namespacecore.html#aae82873d6c7bd0b4db085354c50e1493", [
       [ "Blinded", "namespacecore.html#aae82873d6c7bd0b4db085354c50e1493a32fbf8162d99dbcdb050e32ab8e34ea8", null ],
@@ -181,6 +228,12 @@ var namespacecore =
       [ "Restrained", "namespacecore.html#aae82873d6c7bd0b4db085354c50e1493a55bd768b63443f1f2f930d8858799830", null ],
       [ "Stunned", "namespacecore.html#aae82873d6c7bd0b4db085354c50e1493aeb8ab7d98634514cc61c2b0a0c8d93a2", null ],
       [ "Unconscious", "namespacecore.html#aae82873d6c7bd0b4db085354c50e1493acb6b56b0daf97dc9660af8977785a0e8", null ]
+    ] ],
+    [ "CounterScope", "namespacecore.html#a9b42f3467a678d16bee619bc34ddf4e2", [
+      [ "Turn", "namespacecore.html#a9b42f3467a678d16bee619bc34ddf4e2a6b12be2513bab07567150f54467bc568", null ],
+      [ "Round", "namespacecore.html#a9b42f3467a678d16bee619bc34ddf4e2ab7f41fc1412ad2ee75e9b2635d3b9d5c", null ],
+      [ "Encounter", "namespacecore.html#a9b42f3467a678d16bee619bc34ddf4e2ad1e9f9f891de8f9a655739a01fbf68f0", null ],
+      [ "Day", "namespacecore.html#a9b42f3467a678d16bee619bc34ddf4e2a03727ac48595a24daed975559c944a44", null ]
     ] ],
     [ "CreatureSize", "namespacecore.html#ae6c6faeaa28aa7b90280f4dc39237204", [
       [ "Tiny", "namespacecore.html#ae6c6faeaa28aa7b90280f4dc39237204a383c05bda6f030a44990d354b24f3338", null ],
@@ -282,6 +335,12 @@ var namespacecore =
       [ "Necromancy", "namespacecore.html#acb09396acc95973b3ca488c497bbddb2ac3170ffd5abd69961f44e353cbf7894a", null ],
       [ "Transmutation", "namespacecore.html#acb09396acc95973b3ca488c497bbddb2af11fb43b55b4f3555e1be6f4a9917163", null ]
     ] ],
+    [ "MoveResult", "namespacecore.html#ac0c9dc39aafc4bad02c96a9659df0c1b", [
+      [ "Moved", "namespacecore.html#ac0c9dc39aafc4bad02c96a9659df0c1ba95bfdefaaf01553cbf21ccd942855c69", null ],
+      [ "NoActiveTurn", "namespacecore.html#ac0c9dc39aafc4bad02c96a9659df0c1ba8cb45f47274f0e76f8d60401f43b0fb7", null ],
+      [ "NotPlaced", "namespacecore.html#ac0c9dc39aafc4bad02c96a9659df0c1bada099a58dee575669ba6db4611297762", null ],
+      [ "Unreachable", "namespacecore.html#ac0c9dc39aafc4bad02c96a9659df0c1ba4bed942140642650ca78039de000796a", null ]
+    ] ],
     [ "ParticleKind", "namespacecore.html#aa6799b2e10b4cf31b2527af8a390ce2c", [
       [ "DashTrail", "namespacecore.html#aa6799b2e10b4cf31b2527af8a390ce2ca5035aee0b4665a2808f4a262c62e3e0c", null ],
       [ "LandingDust", "namespacecore.html#aa6799b2e10b4cf31b2527af8a390ce2ca0cdb0f6c72187ce44ad0d64103920653", null ],
@@ -341,9 +400,15 @@ var namespacecore =
       [ "Bridge", "namespacecore.html#ace99a1be913e6294e42e9ebb145eb875ade8504b73ea228d0ea9bbce69752092e", null ],
       [ "Stairs", "namespacecore.html#ace99a1be913e6294e42e9ebb145eb875a0b01cc688e1e0b5f6b70f858a1b389ae", null ]
     ] ],
+    [ "WithdrawResult", "namespacecore.html#ae1ab268fb5658f04b32b785790e7c082", [
+      [ "Withdrawn", "namespacecore.html#ae1ab268fb5658f04b32b785790e7c082af62dedad685b570f499b61e94084dab2", null ],
+      [ "NotEscapable", "namespacecore.html#ae1ab268fb5658f04b32b785790e7c082aa6bdb933c351cf222821ac7c5dd158b6", null ],
+      [ "NotInCombat", "namespacecore.html#ae1ab268fb5658f04b32b785790e7c082a9e21f7ee0cee28526201edff8a19f87b", null ]
+    ] ],
     [ "abilityModifier", "namespacecore.html#ab1f3cc471902daa6c652cd68eee0bcef", null ],
     [ "abilityName", "namespacecore.html#ad539e41d55b3f90675658586d0d0b77e", null ],
     [ "abilityScoreWith", "namespacecore.html#a94f7b2f3a63555d1eb113d01619edf1a", null ],
+    [ "actsBefore", "namespacecore.html#a5c371a295ae26906048b92ab568077cc", null ],
     [ "addToBackpack", "namespacecore.html#a6f489a122d9d233c3bdbe93d7e8469a7", null ],
     [ "advanceAnimation", "namespacecore.html#a209ceac8415ddadd8463746b94934eed", null ],
     [ "aimedCell", "namespacecore.html#a241c2143642b12472d6bddb921dac0fa", null ],
@@ -407,6 +472,7 @@ var namespacecore =
     [ "magicSchoolName", "namespacecore.html#aa8d6d02cb4e8204a0ae9e6a14b5bbc2e", null ],
     [ "maximumHitPointsFor", "namespacecore.html#ae73047aa52884ecfd7eebb21af3990bb", null ],
     [ "metersFromTiles", "namespacecore.html#a3bc1fb9934614684210eff9159619222", null ],
+    [ "mountEncounter", "namespacecore.html#a5921fce291ef1e0650a91c91bc158a3e", null ],
     [ "movementBudget", "namespacecore.html#aab76f284d12a5c2f1ac73c818061a142", null ],
     [ "movementBudget", "namespacecore.html#ae0c172747acb5ac9891a8562e16427ab", null ],
     [ "movementBudget", "namespacecore.html#a29156af7de7653ab4fa06d96b0c881a1", null ],
@@ -440,6 +506,8 @@ var namespacecore =
     [ "playerSpawnPosition", "namespacecore.html#a478b06d0135ab7cd314b90791cfe7ba0", null ],
     [ "positionOf", "namespacecore.html#a569a17f14f76ba1b657c3d43521dd3cc", null ],
     [ "proficiencyBonus", "namespacecore.html#ab3286191c0a02de9afbc9e711ec799d1", null ],
+    [ "profileFor", "namespacecore.html#a781adb33ce539ef59c9ed60f57e51901", null ],
+    [ "profileFor", "namespacecore.html#a42dc4a900c3340d179d7270def49fde9", null ],
     [ "readJsonObject", "namespacecore.html#acfecbe35ed7427415d02c52fcea70388", null ],
     [ "readJsonObjectFromFile", "namespacecore.html#a45b1f244e1cfa341eaae0df618418f8e", null ],
     [ "regionAxisName", "namespacecore.html#a3cb4f147c529e897b3d66b33d07db7fd", null ],
@@ -454,6 +522,7 @@ var namespacecore =
     [ "savingThrowModifier", "namespacecore.html#a5f742da51af4901d06af8def76937d57", null ],
     [ "setAssertionHandler", "namespacecore.html#a0b2fde01c38742c460acb176220332ff", null ],
     [ "skillModifier", "namespacecore.html#a29026a1c7235970e3f432ac5d08229ad", null ],
+    [ "slotBefore", "namespacecore.html#aefbe58769e27637d475329aa7459e90d", null ],
     [ "spawnMapEntities", "namespacecore.html#adb2706947c6f0111c0cdd008fde5779e", null ],
     [ "splitMix64", "namespacecore.html#aabea08fea40eec17f439cef7c5a34e56", null ],
     [ "stableAssetHash", "namespacecore.html#a22e0e2c24dd3236fe3a81f89f795fee2", null ],
@@ -467,6 +536,8 @@ var namespacecore =
     [ "unknownIds", "namespacecore.html#a35b74fe1ec1287f70d0076ad28812c81", null ],
     [ "updateTopDownMovement", "namespacecore.html#afb50f723166a2e99225a878005f990bc", null ],
     [ "validateCameraFramingConfig", "namespacecore.html#a8066c4006517959fe9db47cdbfb50cc9", null ],
+    [ "ACTION_RESOURCE", "namespacecore.html#a7593d494012f47485e1173a68a1209c1", null ],
+    [ "BONUS_ACTION_RESOURCE", "namespacecore.html#a1a7647b95079dc030d27953b8c41ecf6", null ],
     [ "COLLISION_SKIN", "namespacecore.html#ab4b604a43e1474873a24b312091aa8a2", null ],
     [ "D20_FACES", "namespacecore.html#a42b6dd302d4b68da1f4bdd439884b338", null ],
     [ "DEFAULT_PARTICLE_SEED", "namespacecore.html#af218f154fa492105df009ecf2b84d61f", null ],
@@ -477,6 +548,7 @@ var namespacecore =
     [ "ENCOUNTER_ENTITY_TYPE", "namespacecore.html#ab682036a643ab5c1e7f219f5f94bf9d1", null ],
     [ "EPSILON", "namespacecore.html#a49c6e01fbd8905740993109a36f65c11", null ],
     [ "EQUIPMENT_SLOT_COUNT", "namespacecore.html#ab6f6a87729df10e41e9fa1e5f74c4d76", null ],
+    [ "IMMUNITY_DAY_SECONDS", "namespacecore.html#a19abfcf45c52011124208e7201c3663a", null ],
     [ "INVALID_ENTITY", "namespacecore.html#a2a9202a1a89eacaec610bdc83b0ff272", null ],
     [ "kRegionAxisCount", "namespacecore.html#abc767d4db86670c1b2d325f75023ca6c", null ],
     [ "kRegionGradeCount", "namespacecore.html#a29a08c23095e20f5b90a5799fb05f24a", null ],
@@ -490,6 +562,7 @@ var namespacecore =
     [ "MAX_PLANE_TEXTURE_EXTENT", "namespacecore.html#a2b0b5578c096a53cc778a39c41f18f72", null ],
     [ "MAX_PLANES_PER_LEVEL", "namespacecore.html#aba31765307efa0a613fd06d8bcecc203", null ],
     [ "METERS_PER_TILE", "namespacecore.html#a511d502baab5befb28a3742b65ee1e61", null ],
+    [ "MOVEMENT_RESOURCE", "namespacecore.html#a7ab9475b62f44395c8e5f7e30a3f32f5", null ],
     [ "PLANE_NATIVE_PIXELS_PER_UNIT", "namespacecore.html#a93b262158b33f33fa0f8b234387f2d2a", null ],
     [ "PLAYER_CLIP_DASH", "namespacecore.html#a29878d049f4e3e4ea35da414d6783daf", null ],
     [ "PLAYER_CLIP_FALL", "namespacecore.html#a383d9d113ce5c48640f24d6f9759d83c", null ],
@@ -500,5 +573,6 @@ var namespacecore =
     [ "PLAYER_CLIP_WALLSLIDE", "namespacecore.html#ab778e77cf62b7d1c11d8038f75cbf020", null ],
     [ "PLAYER_HEIGHT", "namespacecore.html#a3e638fa357e74af32512b3eb91a6fcf6", null ],
     [ "PLAYER_WIDTH", "namespacecore.html#a841ea8f763991419331d87ffd89758a0", null ],
+    [ "REACTION_RESOURCE", "namespacecore.html#a7397c26065a22000f4167d104a2dc69c", null ],
     [ "TILE_TYPE_COUNT", "namespacecore.html#a319e1d0258052359525fdc83ee93f269", null ]
 ];

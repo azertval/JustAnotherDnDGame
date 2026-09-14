@@ -1,29 +1,4 @@
 var searchData=
 [
-  ['icomponentpool_0',['IComponentPool',['../classcore_1_1IComponentPool.html',1,'core']]],
-  ['icongeometry_1',['IconGeometry',['../structhmi_1_1IconGeometry.html',1,'hmi']]],
-  ['iconpoint_2',['IconPoint',['../structhmi_1_1IconPoint.html',1,'hmi']]],
-  ['iconstroke_3',['IconStroke',['../structhmi_1_1IconStroke.html',1,'hmi']]],
-  ['identitybasescale_4',['IdentityBaseScale',['../structhmi_1_1IdentityBaseScale.html',1,'hmi']]],
-  ['igamemode_5',['IGameMode',['../classhmi_1_1IGameMode.html',1,'hmi']]],
-  ['igamemodepasses_6',['IGameModePasses',['../classhmi_1_1IGameModePasses.html',1,'hmi']]],
-  ['ilogsink_7',['ILogSink',['../classcore_1_1ILogSink.html',1,'core']]],
-  ['inputstate_8',['InputState',['../classhmi_1_1InputState.html',1,'hmi']]],
-  ['interactable_9',['Interactable',['../structcore_1_1Interactable.html',1,'core']]],
-  ['interactablekind_10',['InteractableKind',['../structcore_1_1InteractableKind.html',1,'core']]],
-  ['interactioncandidate_11',['InteractionCandidate',['../structcore_1_1InteractionCandidate.html',1,'core']]],
-  ['interactionoutcome_12',['InteractionOutcome',['../structcore_1_1InteractionOutcome.html',1,'core']]],
-  ['interactiontarget_13',['InteractionTarget',['../structcore_1_1InteractionTarget.html',1,'core']]],
-  ['inventory_14',['Inventory',['../structcore_1_1Inventory.html',1,'core']]],
-  ['inventorycell_15',['InventoryCell',['../structhmi_1_1InventoryCell.html',1,'hmi']]],
-  ['inventorycontext_16',['InventoryContext',['../structhmi_1_1InventoryContext.html',1,'hmi']]],
-  ['inventoryentry_17',['InventoryEntry',['../structcore_1_1InventoryEntry.html',1,'core']]],
-  ['inventorymodel_18',['InventoryModel',['../classhmi_1_1InventoryModel.html',1,'hmi']]],
-  ['inventorystack_19',['InventoryStack',['../structcore_1_1InventoryStack.html',1,'core']]],
-  ['isystem_20',['ISystem',['../classcore_1_1ISystem.html',1,'core']]],
-  ['item_21',['Item',['../structcore_1_1Item.html',1,'core']]],
-  ['itemcatalog_22',['ItemCatalog',['../structcore_1_1ItemCatalog.html',1,'core']]],
-  ['itemlookup_23',['ItemLookup',['../structcore_1_1ItemLookup.html',1,'core']]],
-  ['itemsheet_24',['ItemSheet',['../structhmi_1_1ItemSheet.html',1,'hmi']]],
-  ['iterator_25',['Iterator',['../classcore_1_1View_1_1Iterator.html',1,'core::View']]]
+  ['hitpointchange_0',['HitPointChange',['../structcore_1_1HitPointChange.html',1,'core']]]
 ];

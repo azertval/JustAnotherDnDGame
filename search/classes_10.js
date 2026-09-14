@@ -1,20 +1,4 @@
 var searchData=
 [
-  ['reachablearea_0',['ReachableArea',['../classcore_1_1ReachableArea.html',1,'core']]],
-  ['rect_1',['Rect',['../structcore_1_1Rect.html',1,'core']]],
-  ['region_2',['Region',['../structcore_1_1Region.html',1,'core']]],
-  ['regionanchors_3',['RegionAnchors',['../structhmi_1_1RegionAnchors.html',1,'hmi']]],
-  ['regionappraisal_4',['RegionAppraisal',['../structcore_1_1RegionAppraisal.html',1,'core']]],
-  ['regionpopulation_5',['RegionPopulation',['../structcore_1_1RegionPopulation.html',1,'core']]],
-  ['regionspeciesshare_6',['RegionSpeciesShare',['../structcore_1_1RegionSpeciesShare.html',1,'core']]],
-  ['regionstatistic_7',['RegionStatistic',['../structcore_1_1RegionStatistic.html',1,'core']]],
-  ['renderlayertag_8',['RenderLayerTag',['../structhmi_1_1RenderLayerTag.html',1,'hmi']]],
-  ['rhicontext_9',['RhiContext',['../structhmi_1_1RhiContext.html',1,'hmi']]],
-  ['roombounds_10',['RoomBounds',['../structhmi_1_1RoomBounds.html',1,'hmi']]],
-  ['roomgrid_11',['RoomGrid',['../classhmi_1_1RoomGrid.html',1,'hmi']]],
-  ['rpgactor_12',['RpgActor',['../structcore_1_1RpgActor.html',1,'core']]],
-  ['rpgcontentblock_13',['RpgContentBlock',['../structhmi_1_1RpgContentBlock.html',1,'hmi']]],
-  ['rpgfield_14',['RpgField',['../structhmi_1_1RpgField.html',1,'hmi']]],
-  ['rpgscreendescriptor_15',['RpgScreenDescriptor',['../structhmi_1_1RpgScreenDescriptor.html',1,'hmi']]],
-  ['rpgscreenlayout_16',['RpgScreenLayout',['../structhmi_1_1RpgScreenLayout.html',1,'hmi']]]
+  ['quadrecorder_0',['QuadRecorder',['../classhmi_1_1QuadRecorder.html',1,'hmi']]]
 ];

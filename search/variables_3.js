@@ -31,7 +31,7 @@ var searchData=
   ['column_28',['column',['../structcore_1_1TextPosition.html#ad5334b2ba9eec9ef6492eeb6d6ce65ac',1,'core::TextPosition::column'],['../structcore_1_1GridPosition.html#ab0574e45a221418d1a0ea6e1b67c6bc0',1,'core::GridPosition::column'],['../structhmi_1_1RoomBounds.html#a92ab7b8ca1892eb132580cd282f8ca3b',1,'hmi::RoomBounds::column'],['../structhmi_1_1AutotileCell.html#aec8849facc712ea3a1d296b911df4250',1,'hmi::AutotileCell::column'],['../structhmi_1_1CreditSection.html#ab1fe95b3c703036d8338ffca7987ba78',1,'hmi::CreditSection::column']]],
   ['columnoffset_29',['columnOffset',['../structcore_1_1EncounterCombatant.html#ad27bbb6021a231aaea9cc3d4c2f7e867',1,'core::EncounterCombatant']]],
   ['columns_30',['columns',['../structhmi_1_1RpgContentBlock.html#acf0a652111f9810d64ccd47132d5c620',1,'hmi::RpgContentBlock']]],
-  ['combatant_31',['combatant',['../structcore_1_1Mover.html#a3f3f06b4737d83f7a062fa23215d0ce4',1,'core::Mover']]],
+  ['combatant_31',['combatant',['../structcore_1_1CombatEvent.html#acafc1e4e3633c55e4d3c5b498b49ca8b',1,'core::CombatEvent::combatant'],['../structcore_1_1EnlistResult.html#a8f5cf8e64a466312900f5149082c9580',1,'core::EnlistResult::combatant'],['../structcore_1_1Mover.html#a3f3f06b4737d83f7a062fa23215d0ce4',1,'core::Mover::combatant'],['../structcore_1_1InitiativeEntry.html#a563ee84544e93ac518735bed0f5a0831',1,'core::InitiativeEntry::combatant']]],
   ['combatants_32',['combatants',['../structcore_1_1Encounter.html#acda5e9848de4a0732cc062d13193953d',1,'core::Encounter']]],
   ['combospeedbonus_33',['comboSpeedBonus',['../structcore_1_1PhysicsConfig.html#adf53a7eb3659b4b8bcc1bd7b85eb6149',1,'core::PhysicsConfig']]],
   ['combospeedcap_34',['comboSpeedCap',['../structcore_1_1PhysicsConfig.html#a4ba3fac25287d4896ffadf1d2b5665ae',1,'core::PhysicsConfig']]],
@@ -43,7 +43,7 @@ var searchData=
   ['consumedflag_40',['consumedFlag',['../structcore_1_1Interactable.html#ae1a3fa46606be726921d5e677af9ef82',1,'core::Interactable']]],
   ['controlminwidth_41',['controlMinWidth',['../structhmi_1_1SizeTokens.html#ae19213d66c31d01cdd23368a4afde150',1,'hmi::SizeTokens']]],
   ['cost_42',['cost',['../structcore_1_1Path.html#ad3940420fbeb5e12108818c1dd9cda1f',1,'core::Path']]],
-  ['count_43',['count',['../structcore_1_1ParticleEffect.html#a767dd83c16b7b0072422769da07eb5e4',1,'core::ParticleEffect::count'],['../structcore_1_1Dice.html#a5de7f803131238fd195b63e8c6fa59c6',1,'core::Dice::count'],['../structhmi_1_1PixelPaletteExtractionEntry.html#acbd0a5b11d3ad7bfef9b7de2d4be79d9',1,'hmi::PixelPaletteExtractionEntry::count']]],
+  ['count_43',['count',['../structcore_1_1InitiativeMarker.html#aee94c6a78652ddbf8427d78dbb489396',1,'core::InitiativeMarker::count'],['../structcore_1_1ParticleEffect.html#a767dd83c16b7b0072422769da07eb5e4',1,'core::ParticleEffect::count'],['../structcore_1_1Dice.html#a5de7f803131238fd195b63e8c6fa59c6',1,'core::Dice::count'],['../structhmi_1_1PixelPaletteExtractionEntry.html#acbd0a5b11d3ad7bfef9b7de2d4be79d9',1,'hmi::PixelPaletteExtractionEntry::count']]],
   ['coyotetime_44',['coyoteTime',['../structcore_1_1PhysicsConfig.html#ac73ce3de3e423e272cad5f348e524bbe',1,'core::PhysicsConfig']]],
   ['creatureid_45',['creatureId',['../structcore_1_1EncounterCombatant.html#acfbd9c2b612e3e8e8d88445ee608b88b',1,'core::EncounterCombatant::creatureId'],['../structcore_1_1CombatantPlacement.html#abb3f684f43cc0b01e6030b93c71a1a32',1,'core::CombatantPlacement::creatureId']]],
   ['creatures_46',['creatures',['../structcore_1_1Bestiary.html#afce8b735e98e75ac3c9aafd3309647f9',1,'core::Bestiary']]],
@@ -51,5 +51,5 @@ var searchData=
   ['culled_48',['culled',['../structhmi_1_1SceneStatistics.html#a944649e434a4fab1f0a72e0fbf23f1cf',1,'hmi::SceneStatistics']]],
   ['culling_5fmargin_5funits_49',['CULLING_MARGIN_UNITS',['../classhmi_1_1ComposedScene.html#ad8dd91b7cee4c5d987aae7b22fac4d7e',1,'hmi::ComposedScene']]],
   ['currentcolor_50',['currentColor',['../structhmi_1_1PixelEditStatusInfo.html#a4439cd114f4790a5f175c570b41039b1',1,'hmi::PixelEditStatusInfo']]],
-  ['currenthitpoints_51',['currentHitPoints',['../structcore_1_1CharacterSheet.html#a866fe7b5be97e74f1de1068d17c6392c',1,'core::CharacterSheet']]]
+  ['currenthitpoints_51',['currentHitPoints',['../structcore_1_1CombatantProfile.html#a0e93aedad6e03dc07a91298babe5a459',1,'core::CombatantProfile::currentHitPoints'],['../structcore_1_1CharacterSheet.html#a866fe7b5be97e74f1de1068d17c6392c',1,'core::CharacterSheet::currentHitPoints']]]
 ];
