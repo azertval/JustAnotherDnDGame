@@ -27,6 +27,7 @@ qt_add_qml_module(JadgRuntime
         PendingData.h PendingData.cpp
         CharacterSheetModel.h CharacterSheetModel.cpp
         InventoryModel.h InventoryModel.cpp
+        CreditsModel.h CreditsModel.cpp
         SheetRowModel.h SheetRowModel.cpp
         RuleLabels.h RuleLabels.cpp
         DemonstrationCharacter.h DemonstrationCharacter.cpp
@@ -37,6 +38,14 @@ qt_add_qml_module(JadgRuntime
 # (`#if __has_include(<OptionsModel.h>)`), pas par le chemin « HMI/Runtime/… » qu'emploie le reste
 # du projet. Sans ce répertoire dans les chemins d'inclusion, le `__has_include` échoue en silence
 # et la compilation du fichier engendré échoue sur un identificateur que personne n'a écrit.
+# Les credits (LOT-87, T3.3) sont EMBARQUES : des attributions que les licences exigent ne dependent
+# pas d'un fichier pose a cote de l'executable, qu'un deploiement pourrait oublier.
+qt_add_resources(JadgRuntime "JadgCredits"
+    PREFIX "/jadg/credits"
+    BASE "${PROJECT_SOURCE_DIR}/Source/Elements/Credits"
+    FILES "${PROJECT_SOURCE_DIR}/Source/Elements/Credits/credits.json"
+)
+
 target_include_directories(JadgRuntime
     PUBLIC ${PROJECT_SOURCE_DIR}/Source
     PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})

@@ -211,6 +211,13 @@ Rectangle {
 
                             QuotePlate { text: "« Chaque choix façonne une nouvelle histoire. »" }
 
+                            CreditSection {
+                                Layout.preferredWidth: 420 * Tokens.uiScale
+                                title: "Section"
+                                iconKey: "ui/icon/credits-section/development"
+                                lines: [{ role: "Rôle", names: "Nom\nNom" }]
+                            }
+
                             // Un fond couvrant, cadre dans une vignette : invisible tant que la scene
                             // n'est pas livree -- la vignette montre alors le panneau dessous.
                             Rectangle {

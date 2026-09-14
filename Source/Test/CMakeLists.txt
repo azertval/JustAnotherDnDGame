@@ -108,6 +108,7 @@ add_executable(UnitTests
     Unit/HMI/Localization/test_localization.cpp
     Unit/HMI/Diagnostics/test_session_log.cpp
     Unit/HMI/Audio/test_sound_catalog.cpp
+    Unit/HMI/Presentation/test_credits_catalog.cpp
     Unit/HMI/Interface/test_design_tokens.cpp
     Unit/HMI/Interface/test_application_theme.cpp
     Unit/HMI/Interface/test_theme_teardown_guards.cpp
@@ -233,6 +234,8 @@ target_compile_definitions(UnitTests PRIVATE
     # historiques et classes, ET balaie tout l'arbre pour verifier qu'aucune donnee definitive ne
     # reference une classe provisoire.
     JADG_RPG_DIR="${PROJECT_SOURCE_DIR}/Source/Elements/Rpg"
+    # Credits livres (LOT-87, T3.3) : le test lit le fichier REEL que la ressource embarque.
+    JADG_CREDITS_FILE="${PROJECT_SOURCE_DIR}/Source/Elements/Credits/credits.json"
     # Atlas livre (LOT-37) : le test des regions lit les 13 regions et 94 lieux REELS, ceux que le
     # jeu chargera. Une fixture serait une copie, et une copie ne prouve plus rien le jour ou
     # l'extraction change.

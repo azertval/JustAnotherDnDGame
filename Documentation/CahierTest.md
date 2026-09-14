@@ -1,8 +1,8 @@
 # Cahier de test {#cahiertest}
 
-**1028 cas de test**, générés depuis les blocs `\castest{...}` du code par `scripts/generate_cahier_test.py` (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de `Source/Test/` pour rester lisibles page par page.
+**1033 cas de test**, générés depuis les blocs `\castest{...}` du code par `scripts/generate_cahier_test.py` (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de `Source/Test/` pour rester lisibles page par page.
 
-## Tests unitaires (1013)
+## Tests unitaires (1018)
 
 ### Core
 
@@ -1740,6 +1740,18 @@
 | **LocalizationTest.LangueAbsenteEstRecuperable** (Majeur)<br/><sub>`Source/Test/Unit/HMI/Localization/test_localization.cpp:152`</sub> | Charger une langue absente échoue proprement et conserve la langue active (récupérable). | 1. Mettre en place le contexte du test (arrangement).<br/>2. Executer le scenario et verifier les assertions. | Vérifie que `localization.loadLanguage("xx")` est faux.<br/>Vérifie que `localization.activeLanguage()` vaut `"fr"`.<br/>Vérifie que `localization.text("menu.quitter")` vaut `"Quitter"`. |
 | **LocalizationTest.CatalogueFrancaisLivreSeCharge** (Majeur)<br/><sub>`Source/Test/Unit/HMI/Localization/test_localization.cpp:173`</sub> | Le catalogue français livré (Source/Elements/Localization) se charge et résout ses clés. | 1. Mettre en place le contexte du test (arrangement).<br/>2. Executer le scenario et verifier les assertions. | Vérifie que `localization.loadDefaultLanguage("fr")` est vrai.<br/>Vérifie que `localization.activeLanguage()` vaut `"fr"`.<br/>Vérifie que `localization.text("menu.quit")` vaut `"Quitter"`.<br/>Vérifie que `localization.text("menu.new_game")` vaut `"Nouvelle partie"`. |
 | **LocalizationTest.LesDeuxCataloguesDeclarentLesMemesCles** (Majeur)<br/><sub>`Source/Test/Unit/HMI/Localization/test_localization.cpp:201`</sub> | Les catalogues francais et anglais declarent les memes cles. | 1. Charger fr.lang et en.lang.<br/>2. Comparer les ensembles de cles dans les deux sens. | Vérifie que `french.empty()` est faux.<br/>Vérifie que `english.empty()` est faux.<br/>Vérifie que `english.count(key) > 0` est vrai.<br/>Vérifie que `french.count(key) > 0` est vrai.<br/>Vérifie que `french.size()` vaut `english.size()`. |
+
+#### Presentation (5)
+
+**`test_credits_catalog.cpp`**
+
+| Titre (criticité) | Brief | Étapes | Résultat attendu |
+|---|---|---|---|
+| **CreditsCatalogTest.CreditsLusDansLaLangueDemandee** (Majeur)<br/><sub>`Source/Test/Unit/HMI/Presentation/test_credits_catalog.cpp:44`</sub> | Les crédits se lisent dans la langue demandée. | 1. Lire un JSON de deux sections en anglais. | Vérifie que `result.ok()` est vrai.<br/>Vérifie que `result.sections.size()` vaut `2U`.<br/>Vérifie que `result.sections[0].title` vaut `"Development"`.<br/>Vérifie que `result.sections[0].column` vaut `0`.<br/>Vérifie que `result.sections[0].lines.size()` vaut `1U`.<br/>Vérifie que `result.sections[0].lines[0].role` vaut `"Programming"`.<br/>Vérifie que `result.sections[0].lines[0].names` vaut `(std::vector<std::string>{"A", "B"})`.<br/>Vérifie que `result.sections[1].column` vaut `1`. |
+| **CreditsCatalogTest.LibelleNonTraduitRetombeSurLeFrancais** (Mineur)<br/><sub>`Source/Test/Unit/HMI/Presentation/test_credits_catalog.cpp:65`</sub> | Un libellé non traduit des crédits s'affiche en français. | 1. Lire en anglais une section dont le titre et le rôle n'ont que le français. | Vérifie que `result.ok()` est vrai.<br/>Vérifie que `result.sections[1].title` vaut `"Audio"`.<br/>Vérifie que `result.sections[1].lines[0].role` vaut `"Bruitages"`. |
+| **CreditsCatalogTest.LigneSansNomFaitEchouerLaLecture** (Critique)<br/><sub>`Source/Test/Unit/HMI/Presentation/test_credits_catalog.cpp:81`</sub> | Une ligne de crédits sans nom fait échouer la lecture. | 1. Lire un JSON dont la seule ligne a une liste de noms vide. | Vérifie que `result.ok()` est faux.<br/>Vérifie que `result.sections.empty()` est vrai.<br/>Vérifie que `result.error.find("x")` diffère de `std::string::npos`. |
+| **CreditsCatalogTest.ColonneHorsBornesRefusee** (Majeur)<br/><sub>`Source/Test/Unit/HMI/Presentation/test_credits_catalog.cpp:99`</sub> | Une section de crédits hors des deux colonnes est refusée. | 1. Lire une section de colonne 2. | Vérifie que `result.ok()` est faux. |
+| **CreditsCatalogTest.FichierLivreSeLitDansLesDeuxLangues** (Critique)<br/><sub>`Source/Test/Unit/HMI/Presentation/test_credits_catalog.cpp:115`</sub> | Le fichier de crédits livré se lit en français et en anglais. | 1. Lire `Source/Elements/Credits/credits.json` en français, puis en anglais. | Vérifie que `file` est vrai.<br/>Vérifie que `result.ok()` est vrai.<br/>Vérifie que `left && right` est vrai. |
 
 ## Tests d'intégration (13)
 
