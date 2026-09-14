@@ -6,6 +6,7 @@
 #include <QObject>
 #include <QString>
 #include <QStringList>
+#include <QVariantMap>
 #include <QtQmlIntegration>
 
 namespace core {
@@ -45,6 +46,10 @@ namespace hmi {
  *
  * Les deux dernières lignes sont dites à l'écran, et non tues : un réglage qui s'applique plus tard
  * atteint bien le moteur, mais l'utilisateur doit savoir quand.
+ *
+ * « Immédiatement » s'entend **à l'écriture** d'une propriété. L'écran des options de la charte v2
+ * (LOT-87, T3.2) n'écrit qu'au bouton « Appliquer » : il tient ses valeurs en attente, et
+ * « Annuler » les abandonne sans que cette classe en ait rien su.
  */
 class OptionsModel : public QObject {
     Q_OBJECT
@@ -71,6 +76,12 @@ class OptionsModel : public QObject {
     /// `false` en Release, où aucun puits mémoire ne collecte les journaux de session. Le bouton
     /// se désactive alors plutôt que d'échouer une fois cliqué.
     Q_PROPERTY(bool logsAvailable READ logsAvailable CONSTANT)
+
+    /// Les valeurs d'usine, par nom de réglage (ullscreen, sync, diagnostics, olume,
+    /// language) : ce que le bouton « Par défaut » des options pose, et ce que le constructeur
+    /// prend quand aucun réglage n'est enregistré. Une seule table, lue par les deux : recopiées
+    /// en QML, elles auraient divergé au premier défaut changé ici.
+    Q_PROPERTY(QVariantMap defaults READ defaults CONSTANT)
 
 public:
     explicit OptionsModel(QObject* parent = nullptr);
@@ -99,6 +110,7 @@ public:
     [[nodiscard]] bool logsAvailable() const noexcept {
         return _sessionLog != nullptr;
     }
+    [[nodiscard]] QVariantMap defaults() const;
 
     void setFullscreen(bool enabled);
     void setVsync(bool enabled);

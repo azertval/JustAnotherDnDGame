@@ -283,7 +283,7 @@ ou le motif de la version précédente, et nomme ce lot. Le guide de conception 
 - **`EX-IHM-072` contre le T3.2.** L'exigence retire tout contrôle grisé non branché ; le plan des
   options dessine les sections de la maquette « désactivées, non disponible ». Les deux ne tiennent
   pas ensemble : le T3.2 tranche — retirer ces sections, ou refondre `EX-IHM-072` — avant d'écrire le
-  formulaire.
+  formulaire. **Tranché au T3.2** : sections retirées, l'exigence est gardée.
 - **`EX-IHM-053` contre le T2.4.** L'exigence veut des icônes vectorielles ; le cahier prévoit des
   icônes 64 × 64. **Tranché au T2.4** (ci-dessous) : PNG produits au double de leur taille
   d'affichage, et l'exigence refondue.
@@ -553,6 +553,39 @@ ramenées à 1920 × 1080, puis multipliées par `Tokens.uiScale` : scène en fo
 | Maquette | 1920 × 1080 | 1280 × 720 |
 |---|---|---|
 | ![maquette 06](references/06_Main_Menu_Mockup.png) | ![menu à 1080p](captures/t3-1-menu-1080p.png) | ![menu à 720p](captures/t3-1-menu-720p.png) |
+
+### T3.2 — Les options (maquette 05)
+
+**`EX-IHM-072` contre le plan : tranché le 14 septembre 2026, l'exigence est gardée.** Aucune
+section de la maquette sans réglage branché n'est dessinée, même désactivée. Il reste donc **trois
+onglets sur six** : Général (langue, journaux), Graphismes (plein écran, synchronisation verticale,
+compteur de diagnostic), Audio (volume). Jeu, Commandes et Accessibilité reviendront avec leurs
+réglages, et les sections Difficulté, Réseau, Sauvegarde et Confidentialité avec les leurs.
+
+- **Colonne d'onglets** sous la plaque de titre grenat : ce sont des `OrnateButton` de genre `menu`,
+  la pièce que le cahier prévoit aussi pour les onglets verticaux. La rose des vents en filigrane
+  (`FixedArt`) n'apparaît qu'une fois livrée. Changement d'onglet au pointeur, ou par `PageUp` et
+  `PageDown`.
+- **Grand panneau sombre** : chaque section est un sous-panneau coiffé d'un `SectionBanner` sombre,
+  deux colonnes de même largeur. Les contrôles sont les briques Qt restylées (`OrnateCheck`,
+  `OrnateSlider`, `OrnateCombo`).
+- **La barre de pied a un sens réel.** Les boutons Annuler et Appliquer de la maquette auraient été
+  inopérants sur un modèle qui écrit à chaque geste. Les contrôles tiennent donc les valeurs **en
+  attente** : « Appliquer » les écrit dans `OptionsModel` et ne s'allume que si une valeur diffère
+  du réglage enregistré (`dirty`) ; « Annuler » et `Échap` ferment l'écran sans rien écrire ;
+  « Par défaut » pose les valeurs d'usine dans les contrôles, sans les écrire non plus.
+- **`OptionsModel.defaults`**, propriété constante nouvelle (et sa doublure) : les valeurs d'usine,
+  que le constructeur lit aussi quand rien n'est enregistré. Une seule table, et non une recopie en
+  QML qui aurait divergé.
+- Le fond reprend le repli du menu (carte de Tanares), sous un voile de `panel` : le décor produit
+  `ui/background/options-backdrop` est déjà flou et sombre.
+
+Conséquence assumée : le volume et la langue ne s'appliquent plus au glisser ou au choix, mais à
+« Appliquer ». C'est ce que la barre de pied de la maquette promet.
+
+| Maquette | 1920 × 1080 (Général) | 1280 × 720 (Général) | 1280 × 720 (Graphismes) |
+|---|---|---|---|
+| ![maquette 05](references/05_Options_Mockup.png) | ![options à 1080p](captures/t3-2-options-1080p.png) | ![options à 720p](captures/t3-2-options-720p.png) | ![graphismes à 720p](captures/t3-2-options-graphismes-720p.png) |
 
 ## Exigences couvertes
 

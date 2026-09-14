@@ -351,61 +351,94 @@
 <context>
     <name>OptionsForm.ui</name>
     <message>
-        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="28"/>
-        <source>Échap</source>
-        <translation>Esc</translation>
-    </message>
-    <message>
-        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="28"/>
-        <source>Retour</source>
-        <translation>Back</translation>
-    </message>
-    <message>
-        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="29"/>
+        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="148"/>
         <source>Options</source>
         <translation>Options</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="44"/>
-        <source>Affichage</source>
-        <translation>Display</translation>
+        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="105"/>
+        <source>Général</source>
+        <translation>General</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="45"/>
-        <source>Plein écran</source>
-        <translation>Fullscreen</translation>
+        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="115"/>
+        <source>Graphismes</source>
+        <translation>Graphics</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="46"/>
-        <source>Synchronisation verticale</source>
-        <translation>Vertical sync</translation>
+        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="125"/>
+        <source>Audio</source>
+        <translation>Audio</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="47"/>
-        <source>Compteur de diagnostic</source>
-        <translation>Diagnostics counter</translation>
-    </message>
-    <message>
-        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="52"/>
-        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="53"/>
-        <source>Volume</source>
-        <translation>Volume</translation>
-    </message>
-    <message>
-        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="64"/>
-        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="65"/>
+        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="185"/>
         <source>Langue</source>
         <translation>Language</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="70"/>
-        <source>Contrôles</source>
-        <translation>Controls</translation>
+        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="194"/>
+        <source>Langue du jeu</source>
+        <translation>Game language</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="71"/>
-        <source>Manette</source>
-        <translation>Gamepad</translation>
+        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="223"/>
+        <source>Journaux</source>
+        <translation>Logs</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="231"/>
+        <source>Enregistrer les journaux de session</source>
+        <translation>Save session logs</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="266"/>
+        <source>Affichage</source>
+        <translation>Display</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="271"/>
+        <source>Plein écran</source>
+        <translation>Fullscreen</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="276"/>
+        <source>Synchronisation verticale</source>
+        <translation>Vertical sync</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="282"/>
+        <source>Appliquée au prochain lancement.</source>
+        <translation>Applied on next launch.</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="291"/>
+        <source>Compteur de diagnostic</source>
+        <translation>Diagnostics counter</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="324"/>
+        <source>Volume</source>
+        <translation>Volume</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="332"/>
+        <source>Volume général</source>
+        <translation>Master volume</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="389"/>
+        <source>Par défaut</source>
+        <translation>Defaults</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="400"/>
+        <source>Annuler</source>
+        <translation>Cancel</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="407"/>
+        <source>Appliquer</source>
+        <translation>Apply</translation>
     </message>
 </context>
 <context>

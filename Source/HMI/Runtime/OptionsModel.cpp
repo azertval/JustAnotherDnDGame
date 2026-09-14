@@ -27,6 +27,14 @@ constexpr const char* DIAGNOSTICS_KEY = "diagnostics_overlay";
 constexpr const char* VOLUME_KEY = "volume";
 constexpr const char* LANGUAGE_KEY = "language";
 
+// Les valeurs d'usine : lues par le constructeur quand aucun réglage n'est enregistré, et publiées
+// telles quelles par defaults() pour le bouton « Par défaut » des options.
+constexpr bool DEFAULT_FULLSCREEN = false;
+constexpr bool DEFAULT_VSYNC = true;
+constexpr bool DEFAULT_DIAGNOSTICS = false;
+constexpr int DEFAULT_VOLUME = 100;
+constexpr const char* DEFAULT_LANGUAGE = "fr";
+
 [[nodiscard]] QSettings settings() {
     return QSettings();
 }
@@ -35,11 +43,20 @@ constexpr const char* LANGUAGE_KEY = "language";
 
 OptionsModel::OptionsModel(QObject* parent) : QObject(parent) {
     QSettings stored = settings();
-    _fullscreen = stored.value(QLatin1String(FULLSCREEN_KEY), false).toBool();
-    _vsync = stored.value(QLatin1String(VSYNC_KEY), true).toBool();
-    _diagnostics = stored.value(QLatin1String(DIAGNOSTICS_KEY), false).toBool();
-    _volume = std::clamp(stored.value(QLatin1String(VOLUME_KEY), 100).toInt(), 0, 100);
-    _language = stored.value(QLatin1String(LANGUAGE_KEY), QStringLiteral("fr")).toString();
+    _fullscreen = stored.value(QLatin1String(FULLSCREEN_KEY), DEFAULT_FULLSCREEN).toBool();
+    _vsync = stored.value(QLatin1String(VSYNC_KEY), DEFAULT_VSYNC).toBool();
+    _diagnostics = stored.value(QLatin1String(DIAGNOSTICS_KEY), DEFAULT_DIAGNOSTICS).toBool();
+    _volume = std::clamp(stored.value(QLatin1String(VOLUME_KEY), DEFAULT_VOLUME).toInt(), 0, 100);
+    _language =
+        stored.value(QLatin1String(LANGUAGE_KEY), QLatin1String(DEFAULT_LANGUAGE)).toString();
+}
+
+QVariantMap OptionsModel::defaults() const {
+    return {{QStringLiteral("fullscreen"), DEFAULT_FULLSCREEN},
+            {QStringLiteral("vsync"), DEFAULT_VSYNC},
+            {QStringLiteral("diagnostics"), DEFAULT_DIAGNOSTICS},
+            {QStringLiteral("volume"), DEFAULT_VOLUME},
+            {QStringLiteral("language"), QLatin1String(DEFAULT_LANGUAGE)}};
 }
 
 void OptionsModel::setSessionLog(core::MemoryLogSink* sessionLog) noexcept {

@@ -16,6 +16,7 @@ QtObject {
     readonly property var languages: ["fr", "en"]
     readonly property var languageNames: ["Français", "English"]
     readonly property bool logsAvailable: true
+    readonly property var defaults: ({ fullscreen: false, vsync: true, diagnostics: false, volume: 100, language: "fr" })
 
     function saveLogs() {
         return "";
