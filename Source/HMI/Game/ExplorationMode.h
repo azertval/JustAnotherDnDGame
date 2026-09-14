@@ -22,9 +22,10 @@ namespace hmi {
  *        suit, l'issue du niveau est évaluée à chaque pas.
  *
  * Premier mode extrait de `hmi::GameSession::update` (`LOT-05`), **à comportement constant** : il
- * enchaîne exactement les passes que la session enchaînait, dans le même ordre. Le mode dialogue
- * et le mode combat arrivent aux `LOT-15` et `LOT-18` — les écrire ici aurait mélangé un
- * refactoring et une nouveauté, et on n'aurait plus su lequel des deux avait cassé quoi.
+ * enchaîne exactement les passes que la session enchaînait, dans le même ordre. Le mode combat et
+ * le mode dialogue sont arrivés ensuite, aux `LOT-18` et `LOT-15` (`hmi::CombatMode`,
+ * `hmi::DialogueMode`) — les écrire ici aurait mélangé un refactoring et une nouveauté, et on
+ * n'aurait plus su lequel des deux avait cassé quoi.
  *
  * Sans état : l'état de la partie vit dans l'orchestrateur, le mode ne décide que de l'ordre. Un
  * mode qui aura besoin de mémoire (le tour courant d'un combat) la portera, lui.

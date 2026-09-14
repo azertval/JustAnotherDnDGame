@@ -9,8 +9,9 @@ import Jadg.Ui
     a gauche (portrait, nom, attitude), sa replique et les reponses possibles a droite. Parchemin :
     un dialogue suspend le jeu, et se lit comme une page.
 
-    Les proprietes portent des VALEURS D'EXEMPLE ; le jumeau les remplace par l'ancre `PendingData`,
-    en attendant le lot des dialogues (`LOT-15`).
+    Les proprietes portent des VALEURS D'EXEMPLE ; le jumeau les lie a `DialogueModel` (LOT-15).
+    Cliquer une reponse emet `replyChosen(rowId)` ; le jet que la derniere reponse a joue s'ecrit
+    au-dessus de la replique (`checkOutcome`), vide sinon.
 */
 ScreenPage {
     id: root
@@ -20,6 +21,9 @@ ScreenPage {
     property string line: "Vous arrivez tard, et par la mauvaise route. Ceux qui viennent par là ont d'ordinaire quelque chose à cacher — ou quelqu'un à fuir. Lequel des deux, pour vous ?"
     property string speakerName: "—"
     property string attitude: "—"
+    property string checkOutcome: ""
+
+    signal replyChosen(string rowId)
 
     readonly property ListModel exampleReplies: ListModel {
         ListElement { rowId: "a"; label: "Ni l'un ni l'autre. Je cherche du travail."; value: "" }
@@ -81,9 +85,25 @@ ScreenPage {
                 }
 
                 Text {
+                    id: outcomeLabel
+
                     anchors.left: parent.left
                     anchors.right: parent.right
                     anchors.top: lineBanner.bottom
+                    anchors.topMargin: Tokens.gapSmall
+                    visible: root.checkOutcome.length > 0
+                    height: visible ? implicitHeight : 0
+                    text: root.checkOutcome
+                    color: Tokens.textMuted
+                    font.family: Tokens.bodyFamily
+                    font.pixelSize: Tokens.fontBody
+                    elide: Text.ElideRight
+                }
+
+                Text {
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.top: outcomeLabel.bottom
                     anchors.bottom: parent.bottom
                     anchors.topMargin: Tokens.gapMedium
                     text: root.line
@@ -101,6 +121,8 @@ ScreenPage {
                 Layout.fillHeight: true
                 title: qsTr("Réponses")
                 rows: root.replies
+                interactive: true
+                onRowActivated: (rowId) => root.replyChosen(rowId)
             }
         }
     }

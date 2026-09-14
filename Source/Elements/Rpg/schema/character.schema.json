@@ -38,6 +38,14 @@
       "uniqueItems": true,
       "description": "Competences maitrisees EN PLUS de celles que l'historique donne : celles-la sont deja dans le catalogue de l'historique, et les repeter ici en ferait une seconde source."
     },
+    "languages": {
+      "type": "array",
+      "items": {
+        "$ref": "https://justanotherdndgame.local/rpg/common.schema.json#/$defs/id"
+      },
+      "uniqueItems": true,
+      "description": "Langues CHOISIES (LOT-15, EX-RPG-042) : un historique en accorde un nombre, pas une liste, et la fiche dit lesquelles. Celles de l'espece sont recopiees au chargement ; les repeter ici en ferait une seconde source."
+    },
     "baseAbilities": {
       "$ref": "https://justanotherdndgame.local/rpg/common.schema.json#/$defs/abilityScores",
       "description": "Les six valeurs AVANT augmentation d'espece. L'espece les augmente au chargement, dans la limite lue dans rules/character-creation.json."

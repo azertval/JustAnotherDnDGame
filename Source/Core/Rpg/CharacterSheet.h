@@ -122,6 +122,14 @@ struct CharacterSheet {
     std::set<std::string> skillProficiencies;
     /// Jets de sauvegarde maîtrisés.
     std::set<Ability> savingThrowProficiencies;
+    /**
+     * @brief Langues parlées, par identifiant du catalogue (`EX-RPG-042`, `LOT-15`).
+     *
+     * Celles de l'espèce, recopiées à la construction, plus celles que la fiche **choisit** — un
+     * historique en accorde un nombre, pas une liste. Elles ne sont pas décoratives : un dialogue
+     * se refuse faute de langue commune (`core::DialogueRunner`).
+     */
+    std::set<std::string> languages;
 
     /// @brief La valeur d'une caractéristique.
     [[nodiscard]] int ability(Ability which) const {

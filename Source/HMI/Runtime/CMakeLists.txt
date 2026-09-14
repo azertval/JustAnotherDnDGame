@@ -34,6 +34,7 @@ qt_add_qml_module(JadgRuntime
         DemonstrationCharacter.h DemonstrationCharacter.cpp
         GameViewportItem.h GameViewportItem.cpp
         ArenaModel.h ArenaModel.cpp
+        DialogueModel.h DialogueModel.cpp
 )
 
 # Le fichier d'enregistrement des types est ENGENDRÉ et inclut les en-têtes par NOM DE BASE

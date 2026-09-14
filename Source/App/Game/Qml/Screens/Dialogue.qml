@@ -3,23 +3,52 @@ import Jadg.Ui
 import Jadg.Runtime
 
 /*!
-    Dialogue -- CABLAGE, cote developpeur (LOT-86).
+    Dialogue -- CABLAGE, cote developpeur (LOT-86, alimente au LOT-15).
 
-    Alimente par le lot des dialogues et du runner qui les joue.
+    Chaque propriete du formulaire se lit de `DialogueModel`, chaque reponse cliquee devient
+    `DialogueModel.choose`. Le modele ne decide rien de la conversation : c'est
+    `core::DialogueRunner` qui la joue, et ce qui se voit ici est relu apres chaque geste.
 
-    Chaque liaison porte une CLE D'ATTRIBUTION nommee, qui aboutit a l'ancre `PendingData`. Le
-    jour ou le lot fonctionnel arrive, il remplace ici `PendingData` par sa vraie vue-modele :
-    le formulaire ne bouge pas, et la mise en page decidee aujourd'hui est conservee telle quelle.
+    **Le dialogue ouvert est celui du heraut du Colisee**, dialogue de demonstration provisoire :
+    aucune carte ne sait encore ouvrir la conversation d'un PNJ (l'interaction du LOT-10 n'est pas
+    cablee dans la session de jeu). Le jour ou elle le sera, c'est ce seul identifiant qui viendra
+    du PNJ au lieu d'etre ecrit ici.
 
-    `python scripts/list_pending_bindings.py` releve ces cles depuis le QML : l'inventaire de ce
-    qu'il reste a brancher est DERIVE du code, donc toujours exact.
+    `Echap` quitte la conversation ; `1` a `9` choisissent la reponse de ce rang. La conversation
+    terminee, l'ecran se referme de lui-meme.
 */
 DialogueForm {
-    pending: true
+    id: root
 
-    speakerName: PendingData.value("dialogue.speaker.name")
-    attitude: PendingData.value("dialogue.speaker.attitude")
-    portraitSource: PendingData.image("dialogue.speaker.portrait")
-    line: PendingData.value("dialogue.line")
-    replies: PendingData.rows("dialogue.replies", 4)
+    focus: true
+
+    readonly property DialogueModel conversation: DialogueModel {
+        dialogueId: "heraut-colisee"
+    }
+
+    speakerName: conversation.speakerName
+    attitude: conversation.attitude
+    line: conversation.line
+    checkOutcome: conversation.checkOutcome
+    replies: conversation.replies
+
+    onReplyChosen: (rowId) => conversation.choose(rowId)
+
+    Connections {
+        target: root.conversation
+
+        function onChanged() {
+            if (root.conversation.finished) {
+                ScreenRouter.closeRpgScreen();
+            }
+        }
+    }
+
+    Keys.onEscapePressed: ScreenRouter.closeRpgScreen()
+    Keys.onPressed: (event) => {
+        if (event.key >= Qt.Key_1 && event.key <= Qt.Key_9) {
+            root.conversation.chooseAt(event.key - Qt.Key_1);
+            event.accepted = true;
+        }
+    }
 }

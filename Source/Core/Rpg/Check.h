@@ -8,6 +8,7 @@
  * @brief Le jet de d20 : avantage, désavantage, seuil, restitution (`EX-DND-002`, `EX-DND-003`).
  */
 
+#include <filesystem>
 #include <span>
 #include <string>
 #include <string_view>
@@ -121,5 +122,38 @@ struct CheckResult {
 
 /// @brief Nom textuel d'une posture, pour les journaux et la restitution.
 [[nodiscard]] std::string_view rollStanceName(RollStance stance) noexcept;
+
+/// @brief Un degré de difficulté nommé : « moyenne », 15.
+struct DifficultyTier {
+    std::string id;
+    std::string name;
+    int dc = 0;
+};
+
+/**
+ * @brief L'échelle des degrés de difficulté, telle que `rules/difficulty.json` la déclare
+ *        (`EX-DND-021`, `LOT-15`).
+ *
+ * Un contenu écrit « Persuasion, difficulté **moyenne** » et non « Persuasion 15 » : le nombre est
+ * une règle, et régler l'équilibre du jeu ne doit toucher qu'un fichier. C'est la lecture qui
+ * manquait à `rollCheck` depuis le `LOT-12`, et que le premier contenu à jeter un d20 hors combat
+ * — le dialogue — rend nécessaire.
+ */
+struct DifficultyScale {
+    std::vector<DifficultyTier> tiers;
+    std::vector<std::string> errors;
+
+    /// @brief Le degré portant cet identifiant, ou `nullptr`.
+    [[nodiscard]] const DifficultyTier* find(std::string_view id) const;
+};
+
+/**
+ * @brief Charge l'échelle des degrés de difficulté.
+ *
+ * @param path `Source/Elements/Rpg/rules/difficulty.json`.
+ * @return L'échelle et ses erreurs, un degré sans identifiant ou sans nombre étant écarté en le
+ *         nommant. Ne lève jamais (`EX-NFR-040`).
+ */
+[[nodiscard]] DifficultyScale loadDifficultyScale(const std::filesystem::path& path);
 
 }  // namespace core

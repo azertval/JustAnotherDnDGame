@@ -20,6 +20,7 @@
 #include "Core/Levels/LevelOutcome.h"
 #include "Core/Physics/PlayerInput.h"
 #include "HMI/Game/CombatMode.h"
+#include "HMI/Game/DialogueMode.h"
 #include "HMI/Game/ExplorationMode.h"
 #include "HMI/Game/IGameMode.h"
 
@@ -245,6 +246,73 @@ TEST(ModeDeJeuTest, LeModeCombatEstNommeEtSansEtat) {
     hmi::CombatMode second;
     EXPECT_EQ(premier.name(), "combat");
     EXPECT_NE(premier.name(), hmi::ExplorationMode{}.name());
+
+    RecordingPasses passesA;
+    RecordingPasses passesB;
+    static_cast<void>(premier.step(passesA, core::PlayerInput{}, FIXED_DELTA));
+    static_cast<void>(premier.step(passesA, core::PlayerInput{}, FIXED_DELTA));
+    static_cast<void>(second.step(passesB, core::PlayerInput{}, FIXED_DELTA));
+    static_cast<void>(second.step(passesB, core::PlayerInput{}, FIXED_DELTA));
+    EXPECT_EQ(passesA.calls(), passesB.calls());
+}
+
+/**
+ * @brief Le mode dialogue **gèle** l'exploration : sur une conversation de six cents pas, joueur
+ *        appuyant sur les directions et sur « interagir », aucun pas d'exploration n'est consommé
+ *        (`LOT-15`).
+ * \castest{<b>Le mode dialogue gele l'exploration.</b><br/>
+ * \tcat Unitaire · Mode de jeu<br/>
+ * \tcrit Critique<br/>
+ * \tetapes 1. Avancer le mode dialogue de 600 pas fixes, avec une intention qui pousse a droite et
+ * vers le bas et presse la touche d'interaction.<br/>2. Comparer chaque pas a passOrder().<br/>
+ * 3. Compter les passes d'exploration appelees.<br/>
+ * \tattendu Chaque pas joue exactement l'ordre annonce ; moveCharacter, updateMechanisms,
+ * detectEvents, updateMechanismVisuals et evaluateOutcome ne sont jamais appeles ; l'issue reste
+ * Playing.
+ * }
+ */
+TEST(ModeDeJeuTest, LeModeDialogueGeleLExploration) {
+    hmi::DialogueMode mode;
+    core::PlayerInput pousse;
+    pousse.moveX = 1.0F;
+    pousse.moveY = 1.0F;
+    pousse.interactPressed = true;
+    pousse.interactHeld = true;
+
+    RecordingPasses passes;
+    mode.onLoad(passes);
+    for (int pas = 0; pas < 600; ++pas) {
+        const std::size_t avant = passes.calls().size();
+        EXPECT_EQ(mode.step(passes, pousse, FIXED_DELTA), core::LevelOutcome::Playing);
+        const std::vector<std::string> joue(
+            passes.calls().begin() + static_cast<std::ptrdiff_t>(avant), passes.calls().end());
+        ASSERT_EQ(joue, announcedOrder(mode)) << "pas " << pas;
+    }
+    mode.onUnload(passes);
+
+    for (const char* gelee : {"moveCharacter", "updateMechanisms", "detectEvents",
+                              "updateMechanismVisuals", "evaluateOutcome", "onLevelLost"}) {
+        EXPECT_EQ(std::ranges::find(passes.calls(), gelee), passes.calls().end())
+            << "passe d'exploration jouee pendant un dialogue : " << gelee;
+    }
+}
+
+/**
+ * @brief Le mode dialogue se nomme, distinctement des deux autres, et ne garde aucun état.
+ * \castest{<b>Le mode dialogue est nomme et sans etat.</b><br/>
+ * \tcat Unitaire · Mode de jeu<br/>
+ * \tcrit Mineur<br/>
+ * \tetapes 1. Avancer deux instances distinctes du mode de deux pas chacune.<br/>
+ * \tattendu Les deux sequences sont identiques ; le nom « dialogue » differe d'« exploration » et
+ * de « combat ».
+ * }
+ */
+TEST(ModeDeJeuTest, LeModeDialogueEstNommeEtSansEtat) {
+    hmi::DialogueMode premier;
+    hmi::DialogueMode second;
+    EXPECT_EQ(premier.name(), "dialogue");
+    EXPECT_NE(premier.name(), hmi::ExplorationMode{}.name());
+    EXPECT_NE(premier.name(), hmi::CombatMode{}.name());
 
     RecordingPasses passesA;
     RecordingPasses passesB;

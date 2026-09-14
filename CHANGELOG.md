@@ -6,6 +6,34 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **PNJ et dialogues** (`LOT-15`, `EX-VIS-003`, `EX-RPG-042`). On parle à un PNJ par un arbre
+  scripté : répliques, réponses, conditions sur drapeau, actions, jets de compétence.
+  - **Un graphe en JSON, sans aucun texte** (`core::DialogueGraph`, `Source/Elements/World/dialogues/`).
+    Chaque réplique et chaque réponse ont une clé de traduction fabriquée depuis les identifiants ;
+    un test vérifie que toutes existent en français et en anglais.
+  - **Refusé au chargement, pas découvert en jeu** : cible inconnue, choix vide, réponses toutes
+    conditionnelles, cycle qui ne passe par aucune réponse à donner, nœud orphelin, impasse,
+    difficulté écrite en nombre. Toutes les fautes d'un fichier d'un coup, chacune nommant son
+    nœud ; les compétences, degrés, objets et langues nommés sont confrontés aux catalogues.
+  - **`core::DialogueRunner`, pur** : il enchaîne conditions, actions et jets jusqu'à la réplique
+    suivante, réévalue la condition d'une réponse au moment du geste, pose les drapeaux, donne les
+    objets, démarre une quête par `quest/<id>/started`, et jette ses d20 contre le degré lu dans
+    `rules/difficulty.json`. Une conversation se joue nœud par nœud sans fenêtre, et se rejoue à
+    l'identique à graine égale.
+  - **Refusé faute de langue commune** : un PNJ déclare ses langues, la fiche porte les siennes —
+    celles de l'espèce et celles qu'elle choisit (`core::CharacterSheet::languages`).
+  - **`hmi::DialogueMode`**, troisième mode de jeu : le monde est gelé pendant la conversation.
+  - **L'écran est branché** : `hmi::DialogueModel` remplace `PendingData` ; on clique une réponse
+    (ou `1` à `9`), une réponse qui mène à un jet l'annonce, le jet se restitue sur la réplique
+    suivante, et la conversation finie referme l'écran. Dialogue de démonstration provisoire : le
+    héraut du Colisée, quatorze nœuds, une Persuasion de difficulté moyenne.
+  - **Autour** : l'échelle des degrés de difficulté a enfin un lecteur
+    (`core::loadDifficultyScale`), la table des interactifs connaît les PNJ (`npc`, qui nomme son
+    dialogue), `LedgerList` sait rendre ses lignes cliquables.
+  - Hors du lot, nommément : ouvrir la conversation depuis la carte (l'interaction ne tourne pas
+    encore dans la session de jeu, `LOT-27`), les quêtes et leur journal (`LOT-16`), la
+    persistance (`LOT-17`), les portraits.
+
 - **Le Colisée : bac à sable de combat** (`LOT-50`). Un lieu pour éprouver le combat, encore et
   encore, sans monter une partie — et qui est une zone du jeu final : les Arènes de Tanares.
   - **La première carte** de `Source/Elements/Levels/`, vide depuis le `LOT-01` : l'Arène du

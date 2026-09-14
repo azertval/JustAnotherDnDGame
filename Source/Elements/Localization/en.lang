@@ -648,3 +648,35 @@ rpg.slot.ammunition = Ammunition
 rpg.slot.bracers = Bracers
 rpg.slot.pouch = Pouch
 rpg.slot.trinket = Trinket
+
+# Dialogues (LOT-15). Line and reply keys are BUILT from the graph identifiers
+# (dialogue.<dialogue>.<node>[.<reply>]): a test checks that every key a dialogue needs exists
+# here AND in fr.lang.
+dialogue.continue = Continue
+dialogue.leave = Leave the conversation
+dialogue.refused = Your interlocutor speaks no language you understand. They shrug and turn away.
+dialogue.unavailable = No conversation to show.
+dialogue.check.success = success
+dialogue.check.failure = failure
+dialogue.check.summary = %1: %2 against %3 — %4
+dialogue.attitude.friendly = Friendly
+dialogue.attitude.indifferent = Indifferent
+dialogue.attitude.hostile = Hostile
+
+# The Coliseum herald (demonstration dialogue, provisional).
+dialogue.heraut-colisee.speaker = The Coliseum Herald
+dialogue.heraut-colisee.presentation = Halt, traveller. You stand at the gates of the Arena of the Future. Here, two sides settle what a war would otherwise settle — and nobody leaves feet first. What are you looking for?
+dialogue.heraut-colisee.presentation.marque = Nobody dies? How is that possible?
+dialogue.heraut-colisee.presentation.inscription = I want to fight in the arena.
+dialogue.heraut-colisee.presentation.partir = Nothing. I was only passing through.
+dialogue.heraut-colisee.retour = You again. Still curious about the Mark, or do you finally want to fight?
+dialogue.heraut-colisee.retour.marque = Tell me about the Mark again.
+dialogue.heraut-colisee.retour.inscription = Put my name among the champions.
+dialogue.heraut-colisee.retour.partir = I will be back.
+dialogue.heraut-colisee.marque = Before every bout, a priest traces the Heroic Mark on each fighter. When the last blow falls, it raises everyone back up — winners and losers alike. Only Feargus fights without it.
+dialogue.heraut-colisee.deja-inscrit = Your name is already on the list. Come back when the stands are full.
+dialogue.heraut-colisee.demande = The champions' list is closed for the season. Unless you give me a good reason to reopen it.
+dialogue.heraut-colisee.demande.convaincre = The stands crave fresh blood. I am what they are waiting for.
+dialogue.heraut-colisee.demande.renoncer = Too bad. Another season.
+dialogue.heraut-colisee.accepte-replique = Hm. You have nerve, and that is what the crowd loves. Your name is on the list — may the Mark keep you.
+dialogue.heraut-colisee.refuse-replique = Fine speech. The list stays closed, and so does my patience.
