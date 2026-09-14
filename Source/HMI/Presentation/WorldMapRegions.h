@@ -56,6 +56,8 @@ struct MapRegion {
 /**
  * @brief Les régions de l'atlas qui ont une ancre, dans l'ordre de l'atlas.
  *
+ * @param atlas L'atlas du `LOT-37`, dont les régions sont filtrées et ordonnées.
+ * @param anchors Les ancres lues par `readRegionAnchors`, qui donnent la position de chaque région.
  * @param missing Reçoit les identifiants des régions **sans** ancre, et ceux des ancres qui ne
  *        désignent aucune région : les deux écarts se voient, plutôt qu'une région qui manque en
  *        silence sur la carte.
