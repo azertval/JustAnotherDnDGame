@@ -737,5 +737,25 @@
         <source>Mercenaires au repos</source>
         <translation>Resting mercenaries</translation>
     </message>
+    <message>
+        <location filename="../../Ui/Screens/WorldMapForm.ui.qml" line="408"/>
+        <source>Quêtes</source>
+        <translation>Quests</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/WorldMapForm.ui.qml" line="417"/>
+        <source>Sac</source>
+        <translation>Bag</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/WorldMapForm.ui.qml" line="426"/>
+        <source>Équipe</source>
+        <translation>Company</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/WorldMapForm.ui.qml" line="435"/>
+        <source>Options</source>
+        <translation>Options</translation>
+    </message>
 </context>
 </TS>
