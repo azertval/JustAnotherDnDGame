@@ -1,5 +1,7 @@
 var NAVTREEINDEX34 =
 {
+"structhmi_1_1ScreenDressing.html#afaadcce2a4848ec507ac6584b3590205":[15,0,2,154,1],
+"structhmi_1_1ScreenDressing.html#afaadcce2a4848ec507ac6584b3590205":[16,0,1,154,1],
 "structhmi_1_1ScreenShakeState.html":[15,0,2,68],
 "structhmi_1_1ScreenShakeState.html":[16,0,1,68],
 "structhmi_1_1ScreenShakeState.html#a0af939241aae31f584200a4f23d21cd7":[15,0,2,68,1],
@@ -247,7 +249,5 @@ var NAVTREEINDEX34 =
 "structhmi_1_1TypographyLevel.html#a97b1f662877b54dc7eb22c8dec9f51d1":[15,0,2,124,1],
 "structhmi_1_1TypographyLevel.html#a97b1f662877b54dc7eb22c8dec9f51d1":[16,0,1,124,1],
 "structhmi_1_1TypographyTokens.html":[15,0,2,125],
-"structhmi_1_1TypographyTokens.html":[16,0,1,125],
-"structhmi_1_1TypographyTokens.html#a1aa0ced064a83a2dbed4f92171037f51":[15,0,2,125,4],
-"structhmi_1_1TypographyTokens.html#a1aa0ced064a83a2dbed4f92171037f51":[16,0,1,125,4]
+"structhmi_1_1TypographyTokens.html":[16,0,1,125]
 };

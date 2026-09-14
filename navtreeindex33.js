@@ -1,5 +1,7 @@
 var NAVTREEINDEX33 =
 {
+"structhmi_1_1PixelRegion.html#a48bddb1e470351c6f6f3f0edba73bf77":[15,0,2,33,4],
+"structhmi_1_1PixelRegion.html#a48bddb1e470351c6f6f3f0edba73bf77":[16,0,1,33,4],
 "structhmi_1_1PixelRegion.html#a56d93b164ce2ab2805861567cb97e92a":[15,0,2,33,2],
 "structhmi_1_1PixelRegion.html#a56d93b164ce2ab2805861567cb97e92a":[16,0,1,33,2],
 "structhmi_1_1PixelRegion.html#a6a3122cbd18f25a0d3eb3155a85f9855":[15,0,2,33,1],
@@ -247,7 +249,5 @@ var NAVTREEINDEX33 =
 "structhmi_1_1ScreenDressing.html#ab0e80ccc728954e6f7f559caef0f8a8e":[15,0,2,154,3],
 "structhmi_1_1ScreenDressing.html#ab0e80ccc728954e6f7f559caef0f8a8e":[16,0,1,154,3],
 "structhmi_1_1ScreenDressing.html#ac07e63b6daeecc5147bd22016f03c307":[15,0,2,154,2],
-"structhmi_1_1ScreenDressing.html#ac07e63b6daeecc5147bd22016f03c307":[16,0,1,154,2],
-"structhmi_1_1ScreenDressing.html#afaadcce2a4848ec507ac6584b3590205":[15,0,2,154,1],
-"structhmi_1_1ScreenDressing.html#afaadcce2a4848ec507ac6584b3590205":[16,0,1,154,1]
+"structhmi_1_1ScreenDressing.html#ac07e63b6daeecc5147bd22016f03c307":[16,0,1,154,2]
 };

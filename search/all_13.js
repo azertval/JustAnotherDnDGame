@@ -103,7 +103,7 @@ var searchData=
   ['hmilib_20»_100',['Le découpage retenu — et pourquoi il n&apos;est pas « une seule &lt;span class=&quot;tt&quot;&gt;HmiLib&lt;/span&gt; »',['../lot-02.html#autotoc_md414',1,'']]],
   ['hmilog_2eh_101',['HmiLog.h',['../HmiLog_8h.html',1,'']]],
   ['honorer_102',['Décisions d&apos;écran à honorer',['../lot-86.html#autotoc_md639',1,'']]],
-  ['honorer_20progressivement_103',['Importer tout, honorer progressivement',['../roadmap-010.html#autotoc_md704',1,'']]],
+  ['honorer_20progressivement_103',['Importer tout, honorer progressivement',['../roadmap-010.html#autotoc_md706',1,'']]],
   ['horizontal_104',['horizontal',['../structhmi_1_1TextAnchor.html#abd9f11b551aab6d6def90fda59a10b47',1,'hmi::TextAnchor::horizontal'],['../guide-physique.html#autotoc_md204',1,'Le piège du mur adjacent (correction du balayage horizontal)']]],
   ['horloge_20de_20partie_20et_20cycle_20jour_20nuit_105',['&lt;span class=&quot;tt&quot;&gt;LOT-70&lt;/span&gt; — Horloge de partie et cycle jour/nuit',['../roadmap-010.html#lot-70',1,'']]],
   ['hors_20code_106',['IHM Qt : le moins de code possible, la mise en page hors code',['../spec-conventions.html#autotoc_md297',1,'']]],
@@ -112,7 +112,9 @@ var searchData=
   ['hoveredcellchanged_109',['hoveredCellChanged',['../classhmi_1_1GameViewport.html#a22e7abff7158a0e24d3c4a61879a41f6',1,'hmi::GameViewport']]],
   ['hoveredpixel_110',['hoveredPixel',['../structhmi_1_1PixelEditStatusInfo.html#a9e9bdb903e4e24550b4aeea678fd4e0d',1,'hmi::PixelEditStatusInfo::hoveredPixel'],['../classhmi_1_1PixelCanvas.html#a80a66874ef7245921560687884777e98',1,'hmi::PixelCanvas::hoveredPixel() const noexcept']]],
   ['hoveredpixelchanged_111',['hoveredPixelChanged',['../classhmi_1_1PixelCanvas.html#a1ecae83ab6b3259ec1643af49046f117',1,'hmi::PixelCanvas']]],
-  ['huge_112',['Huge',['../namespacecore.html#ae6c6faeaa28aa7b90280f4dc39237204aa2ad65f28a717b0fd2be860a0d8e5c3e',1,'core']]],
-  ['hui_113',['Ce que l&apos;écran est donc aujourd&apos;hui',['../lot-38.html#autotoc_md563',1,'']]],
-  ['huit_20écrans_20écrits_20à_20la_20main_114',['Une table, et non huit écrans écrits à la main',['../RpgScreens_8h.html#autotoc_md862',1,'']]]
+  ['hud_112',['Phase 4 — le cadre du HUD',['../lot-87.html#autotoc_md685',1,'']]],
+  ['hud_20de_20jeu_20maquette_2001_20sans_20la_20scène_113',['T4.1 — Le HUD de jeu (maquette 01), sans la scène',['../lot-87.html#autotoc_md686',1,'']]],
+  ['huge_114',['Huge',['../namespacecore.html#ae6c6faeaa28aa7b90280f4dc39237204aa2ad65f28a717b0fd2be860a0d8e5c3e',1,'core']]],
+  ['hui_115',['Ce que l&apos;écran est donc aujourd&apos;hui',['../lot-38.html#autotoc_md563',1,'']]],
+  ['huit_20écrans_20écrits_20à_20la_20main_116',['Une table, et non huit écrans écrits à la main',['../RpgScreens_8h.html#autotoc_md864',1,'']]]
 ];

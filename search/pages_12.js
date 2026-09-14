@@ -64,11 +64,13 @@ var searchData=
   ['hmilib_61',['LOT-02 — Bibliothèque `HmiLib`',['../lot-02.html',1,'lots']]],
   ['hmilib_20»_62',['Le découpage retenu — et pourquoi il n&apos;est pas « une seule &lt;span class=&quot;tt&quot;&gt;HmiLib&lt;/span&gt; »',['../lot-02.html#autotoc_md414',1,'']]],
   ['honorer_63',['Décisions d&apos;écran à honorer',['../lot-86.html#autotoc_md639',1,'']]],
-  ['honorer_20progressivement_64',['Importer tout, honorer progressivement',['../roadmap-010.html#autotoc_md704',1,'']]],
+  ['honorer_20progressivement_64',['Importer tout, honorer progressivement',['../roadmap-010.html#autotoc_md706',1,'']]],
   ['horizontal_65',['Le piège du mur adjacent (correction du balayage horizontal)',['../guide-physique.html#autotoc_md204',1,'']]],
   ['horloge_20de_20partie_20et_20cycle_20jour_20nuit_66',['&lt;span class=&quot;tt&quot;&gt;LOT-70&lt;/span&gt; — Horloge de partie et cycle jour/nuit',['../roadmap-010.html#lot-70',1,'']]],
   ['hors_20code_67',['IHM Qt : le moins de code possible, la mise en page hors code',['../spec-conventions.html#autotoc_md297',1,'']]],
   ['hors_20périmètre_20vertical_20slice_68',['Hors périmètre (&lt;em&gt;vertical slice&lt;/em&gt;)',['../spec-vision.html#autotoc_md399',1,'']]],
-  ['hui_69',['Ce que l&apos;écran est donc aujourd&apos;hui',['../lot-38.html#autotoc_md563',1,'']]],
-  ['huit_20écrans_20écrits_20à_20la_20main_70',['Une table, et non huit écrans écrits à la main',['../RpgScreens_8h.html#autotoc_md862',1,'']]]
+  ['hud_69',['Phase 4 — le cadre du HUD',['../lot-87.html#autotoc_md685',1,'']]],
+  ['hud_20de_20jeu_20maquette_2001_20sans_20la_20scène_70',['T4.1 — Le HUD de jeu (maquette 01), sans la scène',['../lot-87.html#autotoc_md686',1,'']]],
+  ['hui_71',['Ce que l&apos;écran est donc aujourd&apos;hui',['../lot-38.html#autotoc_md563',1,'']]],
+  ['huit_20écrans_20écrits_20à_20la_20main_72',['Une table, et non huit écrans écrits à la main',['../RpgScreens_8h.html#autotoc_md864',1,'']]]
 ];

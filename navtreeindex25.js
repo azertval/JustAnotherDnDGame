@@ -1,5 +1,7 @@
 var NAVTREEINDEX25 =
 {
+"spec-conventions.html#autotoc_md290":[6,18,0],
+"spec-conventions.html#autotoc_md291":[6,18,1],
 "spec-conventions.html#autotoc_md292":[6,18,2],
 "spec-conventions.html#autotoc_md293":[6,18,3],
 "spec-conventions.html#autotoc_md294":[6,18,3,0],
@@ -247,7 +249,5 @@ var NAVTREEINDEX25 =
 "structcore_1_1Background.html#a6f9545625d8d0c92dedbd581e79ce052":[15,0,1,84,0],
 "structcore_1_1Background.html#a6f9545625d8d0c92dedbd581e79ce052":[16,0,0,84,0],
 "structcore_1_1Background.html#a8fa9cd13e72c44ccc70f86ac6ee58d18":[15,0,1,84,1],
-"structcore_1_1Background.html#a8fa9cd13e72c44ccc70f86ac6ee58d18":[16,0,0,84,1],
-"structcore_1_1Background.html#aa65a31c095c8b1b5c21a5fd5cc9d3d37":[15,0,1,84,6],
-"structcore_1_1Background.html#aa65a31c095c8b1b5c21a5fd5cc9d3d37":[16,0,0,84,6]
+"structcore_1_1Background.html#a8fa9cd13e72c44ccc70f86ac6ee58d18":[16,0,0,84,1]
 };

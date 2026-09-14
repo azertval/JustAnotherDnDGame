@@ -38,9 +38,12 @@ var lot_87 =
       [ "T3.9 — Pause, dialogue, marchand, journal : restylés", "lot-87.html#autotoc_md683", null ],
       [ "Où en est la phase 3", "lot-87.html#autotoc_md684", null ]
     ] ],
-    [ "Exigences couvertes", "lot-87.html#autotoc_md685", null ],
-    [ "Où en est le lot", "lot-87.html#autotoc_md686", null ],
-    [ "Critères d'acceptation de la phase 0", "lot-87.html#autotoc_md687", null ],
+    [ "Phase 4 — le cadre du HUD", "lot-87.html#autotoc_md685", [
+      [ "T4.1 — Le HUD de jeu (maquette 01), sans la scène", "lot-87.html#autotoc_md686", null ]
+    ] ],
+    [ "Exigences couvertes", "lot-87.html#autotoc_md687", null ],
+    [ "Où en est le lot", "lot-87.html#autotoc_md688", null ],
+    [ "Critères d'acceptation de la phase 0", "lot-87.html#autotoc_md689", null ],
     [ "LOT-87 — Cahier des assets de la charte v2", "lot-87-cahier-assets.html", [
       [ "À quoi sert ce cahier", "lot-87-cahier-assets.html#autotoc_md643", null ],
       [ "Lire une entrée", "lot-87-cahier-assets.html#autotoc_md644", null ],
