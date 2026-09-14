@@ -1,8 +1,15 @@
-# Feuille de route 0.1.0 {#roadmap-010}
+# Feuille de route — le bac à sable de Tanares {#roadmap}
 
-Le programme complet de la version `0.1.0`, et **l'unique source de vérité** des lots à venir : les
-lots `LOT-09` à `LOT-84`, ce que le corpus `Documentation/SourceBook/` permet d'en tirer, et l'audit
-qui a confronté le tout à l'état réel du dépôt.
+Le programme complet du jeu, et **l'unique source de vérité** des lots à venir : les lots `LOT-09`
+à `LOT-90`, ce que le corpus `Documentation/SourceBook/` permet d'en tirer, et les audits qui ont
+confronté le tout à l'état réel du dépôt et aux deux livres de Tanares.
+
+> **Cette page s'appelait « Feuille de route 0.1.0 ».** Ce nom disait le périmètre d'un *vertical
+> slice* — la version que le dépôt porte déjà dans son `CMakeLists.txt` — alors que la cible, fixée
+> par les livres, est un **bac à sable dans l'univers complet de Tanares** : treize régions, treize
+> espèces, seize classes, le Colisée, la compagnie, le plan pénombral. Renommée au second audit, le
+> 14 septembre 2026, avec les **jalons de version** ci-dessous, qui disent quelle version porte
+> quoi. L'ancre Doxygen a suivi (`@ref roadmap`).
 
 Les lots **livrés** gardent leur dossier et leur `epic.md` : ils portent ce que leur réalisation a
 tranché, qui est de l'histoire, pas du programme. Tout le reste vit ici, et un dossier se crée
@@ -52,7 +59,22 @@ v2**, tirée des dix maquettes du pack UI, et les treize écrans transcrits dess
 Chacun garde son dossier et son `epic.md`. Le `LOT-85` (outillage Qt Designer) a été **abandonné**
 au profit du `LOT-86` et son numéro n'est pas réattribué.
 
-**Quelle date pour la `0.1.0` ?** Aucune n'est annoncée ici, et ce n'est pas une prudence de
+**Les jalons de version.** Le `CMakeLists.txt` est à `0.1.0`, la version du socle hérité et
+réorienté. Chaque version suivante est un état **jouable** du bac à sable, et chaque lot restant en
+sert exactement une :
+
+| Version | Ce qu'elle rend jouable | Lots |
+|---|---|---|
+| `0.2.0` | Le *vertical slice* : un village, un donjon, un combat tactique complet, une sauvegarde ; l'arène comme banc d'essai ; des spécifications qui décrivent ce jeu | `LOT-19`, `LOT-20`, `LOT-50`, `LOT-21`, `LOT-22`, `LOT-23`, `LOT-24`, `LOT-15`, `LOT-16`, `LOT-17`, `LOT-09`, `LOT-11`, `LOT-27`, `LOT-28`, `LOT-88` |
+| `0.3.0` | Le bac à sable des **treize régions** : terrain généré, peuplement déduit des statistiques régionales, voyage, calendrier lunaire, économie, Guilde, groupe de quatre | `LOT-80`, `LOT-81`, `LOT-40`, `LOT-44`, `LOT-46`, `LOT-89`, `LOT-26`, `LOT-41`, `LOT-70`, `LOT-82`, `LOT-35`, `LOT-42`, `LOT-45`, `LOT-74`, `LOT-75`, `LOT-72`, `LOT-25`, `LOT-29`, `LOT-49`, `LOT-69` |
+| `0.4.0` | Les **seize classes** du *Player's Guide* et leurs sous-classes, le Colisée comme institution, la compagnie et son quartier général | `LOT-84`, `LOT-47`, `LOT-51` → `LOT-65`, `LOT-83` |
+| `0.5.0` | Le **plan pénombral**, second monde du Sourcebook | `LOT-90` |
+
+L'ordre d'exécution ne suit pas ces jalons ligne à ligne — il est calculé (§6) — mais un lot d'un
+jalon ultérieur ne démarre pas tant que le jalon courant a un lot prêt : c'est la seule règle de
+priorité que le calcul ne porte pas.
+
+**Quelle date pour la `0.2.0` ?** Aucune n'est annoncée ici, et ce n'est pas une prudence de
 principe : les trente et un lots livrés l'ont été entre le 3 et le 14 septembre 2026, soit une
 cadence observée qui, prise au pied de la lettre, placerait la version dans trois semaines. Cette
 extrapolation est fausse, et il vaut mieux l'écrire que la laisser deviner : les lots livrés sont
@@ -665,7 +687,9 @@ plausibles plutôt qu'une suite de « Villageois 1 ».
 S'y ajoutent les **tables aléatoires** déjà écrites : les traits, idéaux, liens et défauts en `d6`
 de chaque historique — de quoi donner une personnalité à un PNJ sans en écrire une —, la table de
 **babioles** (p. 59), et le contenu d'ambiance du chapitre 8 du Sourcebook : animaux de compagnie,
-boissons, fêtes, nourriture, jeux de taverne, mesure du temps.
+boissons, fêtes, nourriture, mesure du temps, et les **jeux** — quatre jeux de taverne à DD, le
+Dragon Gateway de Yama, les jeux de Mirare, la Greatwolf Race — qui sont des mini-jeux à
+tables, pas des mécaniques : ce lot livre leurs tables, pas leurs écrans.
 
 C'est le lot le moins spectaculaire de la filière et l'un des plus rentables : c'est lui qui fait la
 différence entre un monde peuplé et une grille d'entités.
@@ -1070,7 +1094,9 @@ jets : avantage, désavantage, incapacité d'agir.
 hebdomadaire levées seulement par *remove curse* — et l'**épuisement à niveaux**, que dix sorts
 et capacités emploient comme coût. Une condition est donc une **source datée** avec une durée en
 tours **ou** en temps de jeu (`LOT-70`), et la couche « affliction persistante » survit au combat.
-Le seuil de jets contre la mort est **par personnage** (le Cultiste meurt au quatrième échec).
+Le seuil de jets contre la mort est **par personnage** (le Cultiste meurt au quatrième échec). Les
+**maladies** du Sourcebook (la peste de Goldraft : DD 17, −1d6 PV maximum par aube ; les brumes de
+Mistvale) sont des afflictions persistantes de cette couche, déclenchées par une zone du `LOT-81`.
 
 **Le piège.** Une condition n'est pas un booléen sur la fiche. Deux sources peuvent poser
 « empoisonné » avec deux durées différentes ; retirer l'une ne doit pas retirer l'autre. C'est le
@@ -1274,7 +1300,11 @@ non acceptée.
 > apprentissage purgé au `LOT-01`. Le `LOT-67` n'a retiré que la notion de niveau discret ; le
 > `LOT-77` a écrit la moitié RPG ; personne ne portait le retrait de l'autre moitié. Une exigence
 > active qui décrit une mécanique absente du moteur est une exigence que le lint d'exigences tient
-> pour vraie.
+> pour vraie. Le décompte du 14 septembre 2026 : **209 exigences actives** ne sont portées par
+> aucun lot de ce programme — 39 `EX-GP`, 23 `EX-IA`, 36 `EX-EDIT`, 33 `EX-REN`, 11 `EX-LVL`, 9
+> `EX-CTRL`, 7 `EX-DEC` et les invariants transverses (`EX-ARCH`, `EX-NFR`, `EX-IHM`, `EX-BUILD`)
+> qui, eux, n'ont pas à l'être. Ce lot classe chacune : héritée et encore vraie, héritée et à
+> retirer, ou transverse.
 
 Une passe de rédaction, à la manière du `LOT-67` : les exigences de plateforme passent en
 « retirées », ancres conservées, texte d'origine intact, motif écrit ; `ia.md` et `decors.md` sont
@@ -1295,7 +1325,9 @@ aucune ancre supprimée.
 > *Player's Guide* (les 42 livrés au `LOT-43` sont ceux du SRD), les **29 objets magiques** du
 > Sourcebook (27 au ch. 10, deux dans le bestiaire) et les **consommables à durée** du chapitre 8
 > — boissons, mets rares à +1 de caractéristique pendant deux heures, Estelindea, peintures de
-> guerre, Aemomium. De la donnée, comme le `LOT-34`, avec les mêmes outils.
+> guerre, Aemomium — et les **herbes à récolter** (trois des Monts de Cristal, avec leur DD de
+> récolte), qui sont le premier artisanat du jeu. De la donnée, comme le `LOT-34`, avec les mêmes
+> outils.
 
 Les objets magiques imposent au schéma d'objet ce que le `LOT-34` n'avait pas à prévoir : rareté,
 **harmonisation** avec restriction de classe (`EX-INV-041`), réserve de **charges** et règle de
@@ -1741,6 +1773,9 @@ Documentation/Lot/LOT-87-charte-v2/
   étapes ; le socle de classe (`LOT-47`) livre six modèles de ressource et la substitution de
   profil ; l'horloge (`LOT-70`) est un calendrier lunaire ; l'altitude est un attribut, jamais
   une géométrie (`LOT-19`). Ce qui est écarté l'est nommément, dans la liste ci-dessous.
+- **Quatre jalons de version**, et non « la 0.1.0 » : `0.2.0` le slice, `0.3.0` les treize
+  régions, `0.4.0` les seize classes, `0.5.0` le plan pénombral (tableau en tête de page). La page
+  s'appelle désormais « Feuille de route » ; le `LOT-28` reste le lot qui tague `v0.2.0`.
 - **Treize régions**, pas dix : le livre en porte treize à encart, et trois espaces de plus
   (Darkall, Undertanares, Wasteland) que le `LOT-81` décrit sans encart.
 - **Deux échelles de progression de groupe coexistent** : les rangs de la Guilde (`LOT-45`) et le
@@ -1785,9 +1820,6 @@ Documentation/Lot/LOT-87-charte-v2/
 
 ### À trancher
 
-- **Deux versions pour un programme.** Cette page s'appelle « 0.1.0 », le `CMakeLists.txt` est à
-  `0.1.0`, et le `LOT-28` clôt le *vertical slice* par un tag `v0.2.0` ; rien ne dit quelle
-  version porte le bac à sable des treize régions. À nommer avant le `LOT-28`.
 - **Le plan pénombral, quand.** Le `LOT-90` est écrit et placé après le voyage ; il peut être
   différé au-delà de la première version du bac à sable sans rien casser. La décision est une
   décision de périmètre, pas d'architecture — les crochets qu'il exige (règles de zone, routes
@@ -2842,6 +2874,10 @@ d'alarme à surveiller pendant les phases C et D.
 - **Sélecteur de personnage** activé dans les écrans de fiche, d'inventaire et d'équipement.
 - Quatre alliés dans l'ordre d'initiative ; **ciblage allié** (soins, sorts de soutien).
 - Répartition de l'expérience et du butin.
+- *Contraintes du corpus (§4bis).* Le groupe n'est pas seul sur la carte : gardien-plante du druide,
+  morts-vivants du Chevalier de la Mort (jusqu'à vingt), invocations paramétriques, montures. Ce
+  sont des combattants **hors quota** dans l'initiative, qui suivent, obéissent ou non, et que la
+  sauvegarde du `LOT-17` retient ; la compagnie du `LOT-83` en fait des recrues.
 
 #### Le point délicat
 

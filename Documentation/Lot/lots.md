@@ -2,7 +2,7 @@
 
 Le travail est découpé en **lots** (un incrément livrable par lot). Un lot **démarré** reçoit son
 sous-dossier `LOT-XX-nom/` avec un `epic.md` (objectif, périmètre, critères d'acceptation) ; les
-lots **à venir** vivent dans la [feuille de route](@ref roadmap-010), qui est leur unique source de
+lots **à venir** vivent dans la [feuille de route](@ref roadmap), qui est leur unique source de
 vérité. Les lots référencent les [spécifications](@ref specifications) via les identifiants
 d'exigences `EX-…`.
 
@@ -60,9 +60,9 @@ c'est un identifiant stable, jamais réordonné.
 
 ## Feuille de route
 
-- @subpage roadmap-010 — le programme complet : ce que le corpus
-  `Documentation/SourceBook/` permet d'en tirer, les lots `LOT-08` à `LOT-84`, et l'audit qui
-  a confronté le tout à l'état réel du dépôt.
+- @subpage roadmap — le programme complet du bac à sable de Tanares : ce que le corpus
+  `Documentation/SourceBook/` permet d'en tirer, les lots `LOT-09` à `LOT-90` par jalon de version,
+  et les audits qui ont confronté le tout au dépôt et aux livres.
 
 ## Programme
 
@@ -88,7 +88,7 @@ ses trois préconditions (`LOT-77`, `LOT-78`, `LOT-79`). Elle **ne suit pas** le
 s'entrelace avec B à E, chacun de ses lots servant un lot des phases antérieures qui, sans lui, se
 bâtirait sur un catalogue fictif. L'ordre d'exécution recommandé, le chemin critique jusqu'au
 `LOT-27` et le graphe complet des dépendances sont donnés par la
-[feuille de route](@ref roadmap-010), §6 — et vérifiés en CI par `scripts/lint_lots.py`.
+[feuille de route](@ref roadmap), §6 — et vérifiés en CI par `scripts/lint_lots.py`.
 
 Décisions de cadrage actées avant le `LOT-01` : règles **d20 maison** (compatible SRD dans sa
 structure, sans en dépendre), combat **sur la carte d'exploration** (grille dérivée de la couche

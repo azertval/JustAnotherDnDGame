@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """Lint du graphe de lots de JustAnotherDnDGame.
 
-La feuille de route ``Documentation/Lot/roadmap-0.1.0.md`` est l'**unique source de vérité** des
+La feuille de route ``Documentation/Lot/roadmap.md`` est l'**unique source de vérité** des
 lots à venir. Un document de cette taille dérive : les comptes vieillissent, un lien de dépendance
 s'écrit d'un seul côté, un lot disparaît du tableau d'ordre, deux lots revendiquent la même
 exigence, le diagramme trace une flèche que plus rien ne justifie. L'audit qui a produit la version
@@ -47,7 +47,7 @@ if hasattr(sys.stdout, 'reconfigure'):
 
 RACINE = Path(__file__).resolve().parent.parent
 DOSSIER_LOTS = RACINE / 'Documentation' / 'Lot'
-ROADMAP = DOSSIER_LOTS / 'roadmap-0.1.0.md'
+ROADMAP = DOSSIER_LOTS / 'roadmap.md'
 SPECIFICATIONS = RACINE / 'Documentation' / 'Specification'
 
 # Un renvoi de spécification vers le programme hérité s'écrit LOT-H-NN ; sans le préfixe, LOT-NN
