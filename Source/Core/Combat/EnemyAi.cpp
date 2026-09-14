@@ -514,8 +514,8 @@ int attackBonusOf(const AttackProfile& profile) noexcept {
     return bonus;
 }
 
-int hitChance(int required, RollStance stance) noexcept {
-    return chanceSelonPosture(facesQuiTouchent(required, 20), stance);
+int hitChance(int required, RollStance stance, int criticalThreshold) noexcept {
+    return chanceSelonPosture(facesQuiTouchent(required, criticalThreshold), stance);
 }
 
 int criticalChance(int criticalThreshold, RollStance stance) noexcept {

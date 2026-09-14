@@ -10,8 +10,11 @@ import Jadg.Ui
     rejoue a graine fixee. Il dessine la grille lui-meme, depuis `cells`, parce que la surface de
     rendu n'affiche encore aucune scene ; l'IHM de combat (LOT-24) la dessinera sur la carte.
 
-    Trois zones : a gauche la composition (le roster, les deux camps, la graine), au centre la
-    grille et sa barre d'actions, a droite l'ordre d'initiative et le journal. Les couleurs
+    Trois zones : a gauche la composition (le roster, les deux camps, la graine), puis en combat les
+    actions du tour, la previsualisation de la case visee et les commandes ; au centre la grille,
+    son curseur et le chemin ; a droite l'ordre d'initiative et le journal. Depuis le LOT-24, le
+    combat se joue entierement au clavier ou a la manette : le formulaire montre, le jumeau traduit
+    les touches et les boutons en gestes. Les couleurs
     viennent des jetons pour que l'ecran ne jure pas au milieu du jeu, sans pretendre a la charte.
 
     Depuis le 14 septembre 2026, la grille est la scene isometrique `ArenaScene` : sol, enceinte
@@ -39,6 +42,15 @@ Item {
     property string activeName: ""
     property string activeResources: ""
     property var journal: []
+    /// Les actions du tour : `{label, kind, enabled, selected}` (LOT-24).
+    property var turnActions: []
+    /// Ce que la confirmation ferait sur la case visee, ligne par ligne (LOT-24).
+    property var preview: []
+    property int cursorColumn: 0
+    property int cursorRow: 0
+    /// Le chemin jusqu'au curseur : `{column, row}` (LOT-24).
+    property var pathCells: []
+    property bool gamepadConnected: false
 
     // --- Ce que le jumeau ecoute -------------------------------------------------------------
     signal fighterChosen(string id, bool ally)
@@ -50,9 +62,7 @@ Item {
     signal launchRequested()
     signal cellTapped(int column, int row)
     signal endTurnRequested()
-    signal dodgeRequested()
-    signal disengageRequested()
-    signal dashRequested()
+    signal actionChosen(int index)
     signal withdrawRequested()
     signal replayRequested()
     signal backRequested()
@@ -283,46 +293,91 @@ Item {
             font.pixelSize: Tokens.fontCaption
             wrapMode: Text.WordWrap
         }
-        Text {
+        // Les actions du tour, numerotees comme au clavier ; l'action choisie est surlignee.
+        Repeater {
+            model: root.turnActions
+
+            Button {
+                width: combatColumn.width
+                // La selection se lit au texte : le style « highlighted » assombrit le libelle.
+                text: (modelData.selected ? "> " : "") + (index + 1) + ". " + modelData.label
+                      + (modelData.selected ? " <" : "")
+                enabled: modelData.enabled
+                font.bold: modelData.selected
+                focusPolicy: Qt.NoFocus
+                onClicked: root.actionChosen(index)
+            }
+        }
+
+        // Ce que la confirmation ferait sur la case visee, avant que le joueur ne s'engage.
+        Rectangle {
             width: parent.width
-            text: qsTr("Cliquer une case surlignee : se deplacer. Cliquer un ennemi a portee : attaquer.")
-            color: Tokens.textOnPanelMuted
-            font.family: Tokens.bodyFamily
-            font.pixelSize: Tokens.fontCaption
-            wrapMode: Text.WordWrap
+            height: previewColumn.height + 2 * Tokens.gapSmall
+            visible: root.preview.length > 0
+            color: Tokens.panelRaised
+            border.color: Tokens.accent
+            border.width: Tokens.strokeWidth
+
+            Column {
+                id: previewColumn
+
+                x: Tokens.gapSmall
+                y: Tokens.gapSmall
+                width: parent.width - 2 * Tokens.gapSmall
+
+                Repeater {
+                    model: root.preview
+
+                    Text {
+                        width: previewColumn.width
+                        text: modelData
+                        color: index === 0 ? Tokens.goldLight : Tokens.textOnPanel
+                        font.family: Tokens.bodyFamily
+                        font.pixelSize: Tokens.fontCaption
+                        wrapMode: Text.WordWrap
+                    }
+                }
+            }
         }
-        Button {
-            text: qsTr("Esquiver")
-            enabled: !root.ended
-            onClicked: root.dodgeRequested()
-        }
-        Button {
-            text: qsTr("Se desengager")
-            enabled: !root.ended
-            onClicked: root.disengageRequested()
-        }
-        Button {
-            text: qsTr("Se precipiter")
-            enabled: !root.ended
-            onClicked: root.dashRequested()
-        }
+
         Button {
             text: qsTr("Fin du tour")
             enabled: !root.ended
+            focusPolicy: Qt.NoFocus
             onClicked: root.endTurnRequested()
         }
         Button {
             text: qsTr("Se retirer")
             enabled: !root.ended
+            focusPolicy: Qt.NoFocus
             onClicked: root.withdrawRequested()
         }
         Button {
             text: qsTr("Rejouer (meme graine)")
+            focusPolicy: Qt.NoFocus
             onClicked: root.replayRequested()
         }
         Button {
             text: qsTr("Nouvelle composition")
+            focusPolicy: Qt.NoFocus
             onClicked: root.backRequested()
+        }
+        Text {
+            width: parent.width
+            text: qsTr("Clavier : fleches, le curseur ; Entree, confirmer ; Tab, cible suivante ; 1 a 9 ou Page precedente / suivante, l'action ; Retour arriere, recentrer ; Espace, fin du tour.")
+            color: Tokens.textOnPanelMuted
+            font.family: Tokens.bodyFamily
+            font.pixelSize: Tokens.fontCaption
+            wrapMode: Text.WordWrap
+        }
+        Text {
+            width: parent.width
+            text: (root.gamepadConnected ? qsTr("Manette connectee") : qsTr("Manette absente"))
+                  + qsTr(" : croix, le curseur ; A, confirmer ; X, cible suivante ; LB / RB, l'action ; B, recentrer ; Y, fin du tour.")
+            color: Tokens.textOnPanelMuted
+            font.family: Tokens.bodyFamily
+            font.pixelSize: Tokens.fontCaption
+            wrapMode: Text.WordWrap
         }
     }
 
@@ -345,6 +400,10 @@ Item {
             gridColumns: root.gridColumns
             gridRows: root.gridRows
             cells: root.cells
+            showCursor: root.inCombat && !root.ended
+            cursorColumn: root.cursorColumn
+            cursorRow: root.cursorRow
+            pathCells: root.pathCells
             onCellTapped: (column, row) => root.cellTapped(column, row)
         }
     }

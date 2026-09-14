@@ -245,7 +245,7 @@ private:
     /// `SkinMode::Single` sans silhouette (`bitmask16` et silhouette détourée excluent
     /// l'animation, signalé une fois par asset via `_warnedExcludedAnimations`).
     void updateTileAnimations(float fixedDelta);
-    /// Compose et soumet l'affichage tête haute (budgets, nom du tableau), en espace écran, sur
+    /// Compose et soumet l'affichage tête haute (invite, nom du tableau), en espace écran, sur
     /// sa propre projection (`hmi::screenProjectionMatrix`) — jamais affecté par le zoom de la
     /// caméra ni par son culling (`LOT-52` TACHE-02/03). Sans effet si `_localization` est nul.
     void renderHud(int viewportWidth, int viewportHeight);

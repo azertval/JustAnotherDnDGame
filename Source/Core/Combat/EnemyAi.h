@@ -96,9 +96,9 @@ inline constexpr int CHANCE_SCALE = 400;
  *
  * Un 1 rate toujours, un 20 touche toujours : la chance d'un seul dé est entre 1 et 19 vingtièmes.
  * Avec l'avantage, on rate si les deux dés ratent ; avec le désavantage, on touche si les deux dés
- * touchent.
+ * touchent. Un résultat au moins égal au seuil critique touche aussi, quelle que soit la CA.
  */
-[[nodiscard]] int hitChance(int required, RollStance stance) noexcept;
+[[nodiscard]] int hitChance(int required, RollStance stance, int criticalThreshold = 20) noexcept;
 
 /// @brief La chance d'un critique, en quatre-centièmes, pour un seuil critique et une posture.
 [[nodiscard]] int criticalChance(int criticalThreshold, RollStance stance) noexcept;

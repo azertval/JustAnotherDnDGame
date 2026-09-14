@@ -796,7 +796,7 @@ void GameViewport::renderDiagnosticsOverlay(int viewportWidth, int viewportHeigh
     const std::vector<std::string> lines = hmi::composeDiagnosticsHudLines(measurements, *_loc);
 
     // Meme habillage (ombre + texte) que hmi::GameSession::renderHud, coin haut-DROIT (LOT-62
-    // TACHE-02) pour ne jamais recouvrir le HUD de jeu (budgets), ancre coin haut-gauche.
+    // TACHE-02) pour ne jamais recouvrir le HUD de jeu, ancre coin haut-gauche.
     constexpr float MARGIN = 8.0f;
     constexpr float SCALE = 1.0f;
     constexpr float LINE_SPACING = 2.0f;

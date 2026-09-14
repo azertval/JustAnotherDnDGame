@@ -74,8 +74,27 @@ class ArenaModel : public QObject {
     Q_PROPERTY(int gridRows READ gridRows NOTIFY changed)
     /// Une entrée par case, ligne par ligne : `{column, row, wall, occupant, side, reachable,
     /// active, down, hitPoints, hitPointsRatio}` -- la part de vie restante, de 0 à 1, pour la
-    /// jauge de la case.
+    /// jauge de la case. Un ennemi ne montre pas ses points de vie : « ensanglanté » sous la
+    /// moitié, comme le *Guide du Maître* le laisse voir (`LOT-24`).
     Q_PROPERTY(QVariantList cells READ cells NOTIFY changed)
+
+    // --- Le ciblage (`LOT-24`) -----------------------------------------------------------------
+    // Tout ce qui suit le curseur a son propre signal, `cursorChanged` : un pas de curseur ne doit
+    // pas reconstruire les centaines de cases de la scène, qui ne lisent que `cells`. Un geste qui
+    // change le combat émet `changed`, et `changed` entraîne `cursorChanged`.
+
+    /// La case visée par le curseur de ciblage, au clavier et à la manette.
+    Q_PROPERTY(int cursorColumn READ cursorColumn NOTIFY cursorChanged)
+    Q_PROPERTY(int cursorRow READ cursorRow NOTIFY cursorChanged)
+    /// Le chemin que le déplacement suivrait jusqu'au curseur : `{column, row}`, départ exclu.
+    Q_PROPERTY(QVariantList pathCells READ pathCells NOTIFY cursorChanged)
+    /// Ce que le combattant actif peut faire de son tour : `{label, kind, enabled, selected}`, où
+    /// `kind` vaut `attack`, `dodge`, `disengage`, `dash` ou `reaction`. Les attaques d'abord,
+    /// dans l'ordre du profil.
+    Q_PROPERTY(QVariantList turnActions READ turnActions NOTIFY cursorChanged)
+    /// Ce que le geste de confirmation ferait sur la case visée, ligne par ligne : chemin et
+    /// attaques d'opportunité, ou attaque, jet requis, chance, CA, abri, sources.
+    Q_PROPERTY(QStringList preview READ preview NOTIFY cursorChanged)
     /// L'ordre d'initiative : `{name, total, side, active, down}`.
     Q_PROPERTY(QVariantList turnOrder READ turnOrder NOTIFY changed)
     Q_PROPERTY(QString activeName READ activeName NOTIFY changed)
@@ -102,6 +121,15 @@ public:
     [[nodiscard]] int gridColumns() const;
     [[nodiscard]] int gridRows() const;
     [[nodiscard]] QVariantList cells() const;
+    [[nodiscard]] int cursorColumn() const noexcept {
+        return _cursor.column;
+    }
+    [[nodiscard]] int cursorRow() const noexcept {
+        return _cursor.row;
+    }
+    [[nodiscard]] QVariantList pathCells() const;
+    [[nodiscard]] QVariantList turnActions() const;
+    [[nodiscard]] QStringList preview() const;
     [[nodiscard]] QVariantList turnOrder() const;
     [[nodiscard]] QString activeName() const;
     [[nodiscard]] QString activeResources() const;
@@ -117,8 +145,21 @@ public:
     /// Monte l'affrontement et jette l'initiative. Refuse une composition sans les deux camps.
     Q_INVOKABLE void launch();
     /// Le geste sur une case : déplacer le combattant actif si elle est atteignable, attaquer si
-    /// elle porte un ennemi à portée.
+    /// elle porte un ennemi à portée. Le curseur s'y pose.
     Q_INVOKABLE void tapCell(int column, int row);
+    /// Déplace le curseur d'une case, sans sortir de la grille.
+    Q_INVOKABLE void moveCursor(int columns, int rows);
+    /// Ramène le curseur sur le combattant actif.
+    Q_INVOKABLE void centerCursor();
+    /// Pose le curseur sur l'ennemi debout suivant (@p step = 1) ou précédent (-1), du plus proche
+    /// au plus lointain.
+    Q_INVOKABLE void cycleTarget(int step);
+    /// Choisit l'action du tour d'indice @p index (`turnActions`).
+    Q_INVOKABLE void selectAction(int index);
+    Q_INVOKABLE void cycleAction(int step);
+    /// Joue l'action choisie : une attaque ou un déplacement sur la case visée ; esquiver, se
+    /// désengager, se précipiter ; ou basculer la réaction.
+    Q_INVOKABLE void confirm();
     /// L'action *esquiver* du combattant actif.
     Q_INVOKABLE void dodge();
     /// L'action *se désengager* du combattant actif.
@@ -134,6 +175,8 @@ public:
 
 signals:
     void changed();
+    /// Le curseur, l'action choisie, la prévisualisation ou le chemin ont changé.
+    void cursorChanged();
 
 private:
     struct Fighter;
@@ -148,8 +191,18 @@ private:
     /// Joue les tours de l'IA tant que le combattant actif en a un profil : le joueur reprend la
     /// main à son tour, ou à l'issue.
     void playAiTurns();
+    /// Attaque @p target avec l'attaque @p index, ou la première qui peut la viser ; écrit l'issue.
+    void attackAt(core::CombatantId target, std::optional<std::size_t> index);
+    void moveTo(core::GridPosition cell);
+    /// Le combattant actif s'il est commandé par le joueur.
+    [[nodiscard]] std::optional<core::CombatantId> playerTurn() const;
+    /// Recale le curseur et l'action choisie sur le combattant actif, à chaque changement de tour.
+    void followActive();
 
     std::unique_ptr<Catalogs> _catalogs;
+    core::GridPosition _cursor{};
+    int _selectedAction = 0;
+    std::optional<core::CombatantId> _followed;
     std::unique_ptr<core::ArenaSession> _session;
     std::vector<Fighter> _allies;
     std::vector<Fighter> _enemies;
