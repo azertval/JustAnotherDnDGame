@@ -12,6 +12,7 @@
 #include <variant>
 
 #include "Core/Combat/BattleGrid.h"
+#include "Core/Combat/Flanking.h"
 #include "Core/Data/JsonDocument.h"
 #include "Core/Rpg/Ability.h"
 
@@ -201,7 +202,8 @@ ArenaCatalog loadArenas(const std::filesystem::path& directory) {
                     .region = lireTexte(racine, "region"),
                     .map = lireTexte(racine, "map"),
                     .lethal = lireBooleen(racine, "lethal", false),
-                    .heroicMark = lireBooleen(racine, "heroicMark", true)};
+                    .heroicMark = lireBooleen(racine, "heroicMark", true),
+                    .flanking = lireBooleen(racine, "flanking", false)};
         if (arene.id.empty()) {
             catalogue.errors.push_back(chemin.filename().string() + " : arene sans identifiant.");
             continue;
@@ -304,6 +306,7 @@ ArenaMount ArenaSession::mount(const ArenaBout& bout) {
     _random = DeterministicRandom(bout.seed);
     _combat = std::make_unique<CombatState>(BattleGrid(_level));
     _attacks.clear();
+    _behaviors.clear();
     _dodging.clear();
     _disengaged.clear();
     _journal.clear();
@@ -342,6 +345,9 @@ ArenaMount ArenaSession::mount(const ArenaBout& bout) {
         }
         const CombatantId id = *enrolement.combatant;
         _attacks[id] = concurrent.attacks;
+        if (!concurrent.behavior.empty()) {
+            _behaviors[id] = concurrent.behavior;
+        }
         if (bout.heroicMark) {
             _combat->economy(id)->declare(HEROIC_ACTION_RESOURCE, 1);
         }
@@ -378,6 +384,12 @@ const std::vector<AttackProfile>* ArenaSession::attacks(CombatantId combatant) c
     return trouve == _attacks.end() ? nullptr : &trouve->second;
 }
 
+const std::string& ArenaSession::behaviorOf(CombatantId combatant) const {
+    static const std::string joueur;
+    const auto trouve = _behaviors.find(combatant);
+    return trouve == _behaviors.end() ? joueur : trouve->second;
+}
+
 const AttackProfile* ArenaSession::meleeAttack(CombatantId combatant) const {
     const std::vector<AttackProfile>* liste = attacks(combatant);
     if (liste == nullptr) {
@@ -399,7 +411,7 @@ std::optional<AttackOutcome> ArenaSession::resolveAndRecord(CombatantId attacker
         place = _journal.size();
         _journal.emplace_back();
     });
-    AttackContext contexte = contextAgainst(attacker, target);
+    AttackContext contexte = contextAgainst(attacker, target, profile);
     contexte.hooks = &crochets;
     std::optional<AttackOutcome> issue =
         resolveAttack(*_combat, attacker, target, profile, _random, contexte);
@@ -409,13 +421,19 @@ std::optional<AttackOutcome> ArenaSession::resolveAndRecord(CombatantId attacker
     return issue;
 }
 
-AttackContext ArenaSession::contextAgainst(CombatantId attacker, CombatantId target) const {
+AttackContext ArenaSession::contextAgainst(CombatantId attacker, CombatantId target,
+                                           const AttackProfile& profile) const {
     AttackContext contexte{
         .hooks = &_attackHooks, .pipeline = &_damagePipeline, .circumstances = {}};
     // Manuel, « Esquiver » : les attaques contre vous sont desavantagees « si vous pouvez voir
     // l'attaquant ». La lumiere et les sens ne sont pas encore la : voir, c'est la ligne de vue.
     if (_dodging.contains(target) && hasLineOfSight(*_combat, target, attacker)) {
         contexte.circumstances.disadvantages.emplace_back("esquive de la cible");
+    }
+    // Guide du Maitre, « la prise en tenaille » : avantage aux jets d'attaque au corps a corps.
+    if (_bout.flanking && profile.kind == AttackKind::Melee &&
+        isFlanked(*_combat, attacker, target)) {
+        contexte.circumstances.advantages.emplace_back("prise en tenaille");
     }
     return contexte;
 }
@@ -474,6 +492,19 @@ bool ArenaSession::disengage() {
     }
     _disengaged.insert(*actif);
     record("desengagement " + _combat->find(*actif)->profile.name);
+    return true;
+}
+
+bool ArenaSession::dash() {
+    const std::optional<CombatantId> actif = _combat->activeCombatant();
+    if (!actif.has_value() || !_combat->spend(ACTION_RESOURCE)) {
+        return false;
+    }
+    const Combatant* c = _combat->find(*actif);
+    // « Vous obtenez un deplacement supplementaire pour le tour en cours », egal a votre vitesse :
+    // un octroi, que le debut du prochain tour efface (core::ActionEconomy::grant).
+    _combat->economy(*actif)->grant(MOVEMENT_RESOURCE, c->profile.movement);
+    record("precipitation " + c->profile.name);
     return true;
 }
 
@@ -539,7 +570,8 @@ MoveOutcome ArenaSession::move(GridPosition destination) {
                                        {.anchor = cases[i], .side = _combat->grid().sideOf(*actif)},
                                        {.anchor = *ancre, .side = _combat->grid().sideOf(autre)});
                     if (avant.has_value() && apres.has_value() && *avant <= coup->reach &&
-                        *apres > coup->reach && voit) {
+                        *apres > coup->reach && voit &&
+                        (!_opportunityPolicy || _opportunityPolicy(*this, autre, *actif))) {
                         opportunistes.push_back(autre);
                     }
                 }

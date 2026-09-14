@@ -11,5 +11,6 @@
   "map": "arena-of-the-future.json",
   "lethal": false,
   "heroicMark": true,
+  "flanking": true,
   "description": "L'arene non letale de l'Empire : deux camps y reglent un litige par leurs champions, sous la protection du rituel de Marque Heroique de l'Eglise evolutionniste. Personne n'y meurt, et un affrontement s'y rejoue autant de fois qu'il le faut."
 }

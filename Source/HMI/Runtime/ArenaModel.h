@@ -67,6 +67,9 @@ class ArenaModel : public QObject {
     Q_PROPERTY(QStringList marks READ marks NOTIFY changed)
     /// La graine du prochain lancement. Deux lancements à graine égale donnent le même déroulé.
     Q_PROPERTY(int seed READ seed WRITE setSeed NOTIFY changed)
+    /// Vrai si les ennemis sont joués par l'IA (`LOT-23`) : leurs tours se jouent seuls, par les
+    /// profils de `behaviors.json`. Faux : on commande les deux camps, comme au `LOT-50`.
+    Q_PROPERTY(bool enemyAi READ enemyAi WRITE setEnemyAi NOTIFY changed)
     Q_PROPERTY(int gridColumns READ gridColumns NOTIFY changed)
     Q_PROPERTY(int gridRows READ gridRows NOTIFY changed)
     /// Une entrée par case, ligne par ligne : `{column, row, wall, occupant, side, reachable,
@@ -94,6 +97,8 @@ public:
     [[nodiscard]] QStringList marks() const;
     [[nodiscard]] int seed() const noexcept;
     void setSeed(int seed);
+    [[nodiscard]] bool enemyAi() const noexcept;
+    void setEnemyAi(bool enabled);
     [[nodiscard]] int gridColumns() const;
     [[nodiscard]] int gridRows() const;
     [[nodiscard]] QVariantList cells() const;
@@ -118,6 +123,8 @@ public:
     Q_INVOKABLE void dodge();
     /// L'action *se désengager* du combattant actif.
     Q_INVOKABLE void disengage();
+    /// L'action *se précipiter* du combattant actif.
+    Q_INVOKABLE void dash();
     Q_INVOKABLE void endTurn();
     Q_INVOKABLE void withdraw();
     /// Remonte le même affrontement à la même graine.
@@ -136,12 +143,18 @@ private:
     [[nodiscard]] std::optional<Fighter> fighterFor(const QString& id, core::CombatSide side) const;
     [[nodiscard]] core::ArenaBout composeBout() const;
     void refreshMessage(const core::ArenaMount& mount);
+    /// Une session neuve sur la carte de l'arène, l'IA décidant des opportunités de ses créatures.
+    void resetSession();
+    /// Joue les tours de l'IA tant que le combattant actif en a un profil : le joueur reprend la
+    /// main à son tour, ou à l'issue.
+    void playAiTurns();
 
     std::unique_ptr<Catalogs> _catalogs;
     std::unique_ptr<core::ArenaSession> _session;
     std::vector<Fighter> _allies;
     std::vector<Fighter> _enemies;
     int _seed = 2026;
+    bool _enemyAi = true;
     bool _inCombat = false;
     QString _status;
 };

@@ -10,6 +10,7 @@
 #include <utility>
 
 #include "Core/Combat/BattleGrid.h"
+#include "Core/Combat/EnemyAi.h"
 #include "Core/Levels/LevelLoader.h"
 #include "HMI/HmiLog.h"
 #include "HMI/Platform/ExecutableDirectory.h"
@@ -35,6 +36,8 @@ struct ArenaModel::Catalogs {
     std::optional<core::Weapon> characterWeapon;
     core::ArenaCatalog arenas;
     core::HeroicMarkCatalog marks;
+    /// Les profils de l'IA tactique (`LOT-23`).
+    core::BehaviorCatalog behaviors;
     const core::Arena* playable = nullptr;
     std::optional<core::Level> level;
     QStringList problems;
@@ -99,6 +102,13 @@ void ArenaModel::loadCatalogs() {
     for (const std::string& error : c.marks.errors) {
         HMI_LOG_WARNING("Arene : marques heroiques, " + error);
     }
+    c.behaviors = core::loadBehaviors(root / "Rpg" / "rules" / "behaviors.json");
+    for (const std::string& error : c.behaviors.errors) {
+        HMI_LOG_WARNING("Arene : profils de comportement, " + error);
+    }
+    if (c.behaviors.profiles.empty()) {
+        c.problems << QStringLiteral("aucun profil d'IA : les ennemis se commandent a la main");
+    }
 
     for (const core::Arena& arena : c.arenas.arenas) {
         if (!arena.map.empty()) {
@@ -118,8 +128,31 @@ void ArenaModel::loadCatalogs() {
         return;
     }
     c.level = loaded.level;
-    _session = std::make_unique<core::ArenaSession>(*c.level);
+    resetSession();
     _status = c.problems.join(QStringLiteral(" ; "));
+}
+
+void ArenaModel::resetSession() {
+    _session = std::make_unique<core::ArenaSession>(*_catalogs->level);
+    // Le catalogue vit aussi longtemps que le modele, donc que la session.
+    _session->setOpportunityPolicy(core::aiOpportunityPolicy(_catalogs->behaviors));
+}
+
+void ArenaModel::playAiTurns() {
+    if (_session == nullptr || !_inCombat) {
+        return;
+    }
+    // Chaque tour joue termine le tour ou le combat : la garde n'est la que contre une regression.
+    for (int guard = 0; guard < 256 && !ended(); ++guard) {
+        const std::optional<core::CombatantId> active = _session->combat().activeCombatant();
+        if (!active.has_value() || _session->behaviorOf(*active).empty() ||
+            !core::playTurn(*_session, _catalogs->behaviors)) {
+            break;
+        }
+    }
+    if (ended()) {
+        _status = toQt(_session->journal().back());
+    }
 }
 
 // --- Lecture ----------------------------------------------------------------------------------
@@ -202,6 +235,19 @@ void ArenaModel::setSeed(int seed) {
         return;
     }
     _seed = seed;
+    emit changed();
+}
+
+bool ArenaModel::enemyAi() const noexcept {
+    return _enemyAi;
+}
+
+void ArenaModel::setEnemyAi(bool enabled) {
+    // Le choix vaut pour le prochain lancement : un combat monte garde qui le joue.
+    if (enabled == _enemyAi || _inCombat) {
+        return;
+    }
+    _enemyAi = enabled;
     emit changed();
 }
 
@@ -409,12 +455,21 @@ core::ArenaBout ArenaModel::composeBout() const {
     core::ArenaBout bout{
         .seed = static_cast<std::uint64_t>(static_cast<unsigned>(_seed)),
         .lethal = _catalogs->playable != nullptr && _catalogs->playable->lethal,
-        .heroicMark = _catalogs->playable == nullptr || _catalogs->playable->heroicMark};
+        .heroicMark = _catalogs->playable == nullptr || _catalogs->playable->heroicMark,
+        .flanking = _catalogs->playable != nullptr && _catalogs->playable->flanking};
     for (const Fighter& fighter : _allies) {
         bout.contestants.push_back(fighter.contestant);
     }
     for (const Fighter& fighter : _enemies) {
-        bout.contestants.push_back(fighter.contestant);
+        core::ArenaContestant contestant = fighter.contestant;
+        if (_enemyAi && !_catalogs->behaviors.profiles.empty()) {
+            // Une creature prend le profil que ses regles lui donnent ; le personnage, le defaut.
+            const core::Creature* creature = _catalogs->bestiary.find(fighter.id.toStdString());
+            contestant.behavior = creature != nullptr
+                                      ? core::behaviorFor(*creature, _catalogs->behaviors)
+                                      : _catalogs->behaviors.defaultBehavior;
+        }
+        bout.contestants.push_back(std::move(contestant));
     }
     return bout;
 }
@@ -466,6 +521,7 @@ void ArenaModel::launch() {
         return;
     }
     _inCombat = _session->start();
+    playAiTurns();
     emit changed();
 }
 
@@ -558,6 +614,15 @@ void ArenaModel::disengage() {
     emit changed();
 }
 
+void ArenaModel::dash() {
+    if (_session == nullptr || !_inCombat || ended()) {
+        return;
+    }
+    _status = _session->dash() ? toQt(_session->journal().back())
+                               : QStringLiteral("L'action de ce tour est deja depensee.");
+    emit changed();
+}
+
 void ArenaModel::endTurn() {
     if (_session == nullptr || !_inCombat) {
         return;
@@ -565,6 +630,7 @@ void ArenaModel::endTurn() {
     if (_session->endTurn()) {
         _status.clear();
     }
+    playAiTurns();
     if (const std::optional<core::CombatOutcome> outcome = _session->outcome()) {
         _status = toQt(_session->journal().back());
         static_cast<void>(outcome);
@@ -587,6 +653,7 @@ void ArenaModel::withdraw() {
             _status = QStringLiteral("Personne a retirer.");
             break;
     }
+    playAiTurns();
     emit changed();
 }
 
@@ -598,6 +665,7 @@ void ArenaModel::replay() {
     refreshMessage(mount);
     _status = QStringLiteral("Rejeu a la graine ") + QString::number(_seed) +
               (_status.isEmpty() ? QString() : QStringLiteral(" ; ") + _status);
+    playAiTurns();
     emit changed();
 }
 
@@ -606,7 +674,7 @@ void ArenaModel::backToSetup() {
         return;
     }
     _inCombat = false;
-    _session = std::make_unique<core::ArenaSession>(*_catalogs->level);
+    resetSession();
     _status.clear();
     emit changed();
 }

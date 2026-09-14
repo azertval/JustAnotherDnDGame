@@ -105,6 +105,8 @@ REGLES = {
     'character-creation': 'character-creation',
     'encumbrance': 'encumbrance',
     'heroic-marks': 'heroic-marks',
+    # L'IA tactique (LOT-23) : les poids des profils sont des donnees (EX-VIS-007).
+    'behaviors': 'behaviors',
 }
 
 # Énumération fermée d'un schéma ↔ catégorie du lexique. `equivalence` exige l'égalité des deux
