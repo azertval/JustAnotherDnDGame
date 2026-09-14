@@ -4,109 +4,114 @@
 <context>
     <name>CharacterSheetForm.ui</name>
     <message>
-        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="143"/>
+        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="146"/>
         <source>FOR</source>
         <translation>STR</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="153"/>
+        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="156"/>
         <source>DEX</source>
         <translation>DEX</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="163"/>
+        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="166"/>
         <source>CON</source>
         <translation>CON</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="173"/>
+        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="176"/>
         <source>INT</source>
         <translation>INT</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="183"/>
+        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="186"/>
         <source>SAG</source>
         <translation>WIS</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="193"/>
+        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="196"/>
         <source>CHA</source>
         <translation>CHA</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="207"/>
+        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="210"/>
         <source>CA</source>
         <translation>AC</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="208"/>
+        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="211"/>
         <source>INIT.</source>
         <translation>INIT.</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="209"/>
+        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="212"/>
         <source>VITESSE</source>
         <translation>SPEED</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="210"/>
+        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="213"/>
         <source>MAÎTRISE</source>
         <translation>PROF.</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="211"/>
+        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="214"/>
         <source>PERC. PASS.</source>
         <translation>PASS. PERC.</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="223"/>
+        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="226"/>
         <source>Identité du personnage</source>
         <translation>Character identity</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="232"/>
+        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="235"/>
         <source>Nom</source>
         <translation>Name</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="233"/>
+        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="236"/>
         <source>Classe</source>
         <translation>Class</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="234"/>
+        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="237"/>
         <source>Niveau</source>
         <translation>Level</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="235"/>
+        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="238"/>
         <source>Origine</source>
         <translation>Background</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="236"/>
+        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="239"/>
         <source>Espèce</source>
         <translation>Species</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="237"/>
+        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="240"/>
         <source>Matricule</source>
         <translation>Registration</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="255"/>
+        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="258"/>
         <source>Points de vie</source>
         <translation>Hit Points</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="284"/>
+        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="287"/>
         <source>Expérience</source>
         <translation>Experience</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="366"/>
+        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="369"/>
         <source>Compétences</source>
         <translation>Skills</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="380"/>
+        <source>Compétences et sorts</source>
+        <translation>Skills and spells</translation>
     </message>
 </context>
 <context>
@@ -737,25 +742,118 @@
         <source>Mercenaires au repos</source>
         <translation>Resting mercenaries</translation>
     </message>
+</context>
+<context>
+    <name>SkillsForm.ui</name>
     <message>
-        <location filename="../../Ui/Screens/WorldMapForm.ui.qml" line="408"/>
-        <source>Quêtes</source>
-        <translation>Quests</translation>
+        <location filename="../../Ui/Screens/SkillsForm.ui.qml" line="29"/>
+        <source>Abjuration</source>
+        <translation>Abjuration</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/WorldMapForm.ui.qml" line="417"/>
-        <source>Sac</source>
-        <translation>Bag</translation>
+        <location filename="../../Ui/Screens/SkillsForm.ui.qml" line="30"/>
+        <source>Invocation</source>
+        <translation>Conjuration</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/WorldMapForm.ui.qml" line="426"/>
-        <source>Équipe</source>
-        <translation>Company</translation>
+        <location filename="../../Ui/Screens/SkillsForm.ui.qml" line="31"/>
+        <source>Divination</source>
+        <translation>Divination</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/WorldMapForm.ui.qml" line="435"/>
-        <source>Options</source>
-        <translation>Options</translation>
+        <location filename="../../Ui/Screens/SkillsForm.ui.qml" line="32"/>
+        <source>Enchantement</source>
+        <translation>Enchantment</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/SkillsForm.ui.qml" line="33"/>
+        <source>Évocation</source>
+        <translation>Evocation</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/SkillsForm.ui.qml" line="34"/>
+        <source>Illusion</source>
+        <translation>Illusion</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/SkillsForm.ui.qml" line="35"/>
+        <source>Nécromancie</source>
+        <translation>Necromancy</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/SkillsForm.ui.qml" line="36"/>
+        <source>Transmutation</source>
+        <translation>Transmutation</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/SkillsForm.ui.qml" line="89"/>
+        <source>Compétences</source>
+        <translation>Skills</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/SkillsForm.ui.qml" line="100"/>
+        <source>Attaques</source>
+        <translation>Attacks</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/SkillsForm.ui.qml" line="120"/>
+        <source>Sortilèges</source>
+        <translation>Cantrips</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/SkillsForm.ui.qml" line="143"/>
+        <source>« La maîtrise des arts et des armes fait la force d'un véritable héros. »</source>
+        <translation>“Mastery of arts and arms makes a true hero.”</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/SkillsForm.ui.qml" line="170"/>
+        <source>Sorts</source>
+        <translation>Spells</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/SkillsForm.ui.qml" line="177"/>
+        <source>Emplacements de sort : %1</source>
+        <translation>Spell slots: %1</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/SkillsForm.ui.qml" line="290"/>
+        <source>Fiche</source>
+        <translation>Sheet</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/SkillsForm.ui.qml" line="302"/>
+        <source>Détail du sort</source>
+        <translation>Spell details</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/SkillsForm.ui.qml" line="348"/>
+        <source>Type de dégâts</source>
+        <translation>Damage type</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/SkillsForm.ui.qml" line="349"/>
+        <source>Portée</source>
+        <translation>Range</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/SkillsForm.ui.qml" line="350"/>
+        <source>Dégâts</source>
+        <translation>Damage</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/SkillsForm.ui.qml" line="351"/>
+        <source>Incantation</source>
+        <translation>Casting time</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/SkillsForm.ui.qml" line="352"/>
+        <source>Composantes</source>
+        <translation>Components</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/SkillsForm.ui.qml" line="356"/>
+        <source>Effets spéciaux</source>
+        <translation>Special effects</translation>
     </message>
 </context>
 </TS>

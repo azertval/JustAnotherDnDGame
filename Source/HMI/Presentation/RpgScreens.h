@@ -30,15 +30,18 @@
 
 namespace hmi {
 
-/// Les huit écrans du RPG. L'ordre est celui du **cycle** de navigation
+/// Les neuf écrans du RPG. L'ordre est celui du **cycle** de navigation
 /// (`nextRpgScreen`/`previousRpgScreen`) et celui de la table de `rpgScreens()`.
 enum class RpgScreenId {
     CharacterSheet,  ///< Fiche de personnage (remplie par le `LOT-38`).
-    Inventory,       ///< Inventaire et équipement (`LOT-14`).
-    QuestJournal,    ///< Journal de quêtes (`LOT-16`).
-    WorldMap,        ///< Carte du monde (`LOT-42`).
-    Dialogue,        ///< Dialogue avec un PNJ (`LOT-15`).
-    Merchant,        ///< Marchand (`LOT-26`).
+    /// Compétences et sorts (maquette 10, `LOT-87` T3.8) : attaques, sortilèges, écoles de magie.
+    /// Ouvert depuis la fiche ; rempli par le `LOT-35`.
+    Skills,
+    Inventory,     ///< Inventaire et équipement (`LOT-14`).
+    QuestJournal,  ///< Journal de quêtes (`LOT-16`).
+    WorldMap,      ///< Carte du monde (`LOT-42`).
+    Dialogue,      ///< Dialogue avec un PNJ (`LOT-15`).
+    Merchant,      ///< Marchand (`LOT-26`).
     /// Équipe de **mercenaires** (maquette 09, `LOT-87` T3.7) : la feuille d'équipe (`LOT-38`)
     /// et le tableau de la Guilde réunis en quatre onglets. Remplie par `LOT-45` et `LOT-83`.
     Company,
@@ -46,7 +49,7 @@ enum class RpgScreenId {
 };
 
 /// Nombre d'écrans du catalogue.
-inline constexpr std::size_t RPG_SCREEN_COUNT = 8;
+inline constexpr std::size_t RPG_SCREEN_COUNT = 9;
 
 /**
  * @brief Règle de **superposition** d'un écran (`EX-IHM-091`) : ce qui met le jeu en pause et ce

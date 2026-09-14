@@ -537,6 +537,11 @@ rpg.slot.ring = Ring
 # names are the LEXICON's (rpg.glossary.csv), not synonyms: `check_glossary.py` guards these two
 # namespaces the way it already guards conditions.
 rpg.company.title = Mercenary Company
+rpg.skills.title = Skills and Spells
+rpg.block.attacks = Attacks
+rpg.block.cantrips = Cantrips
+rpg.block.spell_schools = Schools of Magic
+rpg.block.spell = Spell details
 
 rpg.ability.strength = Strength
 rpg.ability.dexterity = Dexterity

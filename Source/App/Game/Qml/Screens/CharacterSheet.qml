@@ -72,4 +72,9 @@ CharacterSheetForm {
     skills: sheet.skills
 
     Component.onCompleted: sheet.loadDemonstrationCharacter()
+
+    Connections {
+        target: root.skillsButton
+        function onClicked() { ScreenRouter.openRpgScreen(ScreenRouter.Skills) }
+    }
 }

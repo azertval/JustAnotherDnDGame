@@ -21,7 +21,7 @@ import Jadg.App
     renommé fait échouer le contrôle, pas le jeu.
 
     Chaque écran est enveloppé dans un `Component` : il n'est construit qu'une fois choisi. Les
-    treize écrans ne vivent jamais tous en même temps.
+    quatorze écrans ne vivent jamais tous en même temps.
 
     `--screen=<Nom>` court-circuite le routeur. C'est un outil de vérification, pas un chemin de
     jeu : les écrans dessinés mais pas encore alimentés ne sont atteignables par aucun autre moyen.
@@ -32,14 +32,14 @@ Item {
     /// Écran imposé au lancement, ou chaîne vide pour laisser le routeur décider.
     property string forcedScreen: ""
 
-    /// Les treize écrans, dans l'ordre où le sélecteur de développement les fait défiler, puis
+    /// Les quatorze écrans, dans l'ordre où le sélecteur de développement les fait défiler, puis
     /// la galerie des briques de la charte v2 (LOT-87) -- qui n'est pas un écran du jeu, et que le
     /// routeur ne désigne jamais.
     /// Le même vocabulaire que `--screen=` : deux listes différentes auraient fini par diverger,
     /// et un écran serait devenu joignable par un chemin et pas par l'autre.
     readonly property var screenNames: [
         "MainMenu", "GameView", "Pause", "Options", "Credits",
-        "CharacterSheet", "Inventory", "Journal", "WorldMap", "Dialogue",
+        "CharacterSheet", "Skills", "Inventory", "Journal", "WorldMap", "Dialogue",
         "Merchant", "Company", "CombatHud", "Gallery"
     ]
 
@@ -49,6 +49,7 @@ Item {
     Component { id: pauseScreen; Pause {} }
     Component { id: gameScreen; GameView {} }
     Component { id: characterSheetScreen; CharacterSheet {} }
+    Component { id: skillsScreen; Skills {} }
     Component { id: inventoryScreen; Inventory {} }
     Component { id: journalScreen; Journal {} }
     Component { id: worldMapScreen; WorldMap {} }
@@ -122,6 +123,7 @@ Item {
     function rpgScreen(screen) {
         switch (screen) {
         case ScreenRouter.CharacterSheet: return characterSheetScreen
+        case ScreenRouter.Skills:         return skillsScreen
         case ScreenRouter.Inventory:      return inventoryScreen
         case ScreenRouter.QuestJournal:   return journalScreen
         case ScreenRouter.WorldMap:       return worldMapScreen
@@ -143,6 +145,7 @@ Item {
         case "Pause":          return pauseScreen
         case "GameView":       return gameScreen
         case "CharacterSheet": return characterSheetScreen
+        case "Skills":         return skillsScreen
         case "Inventory":      return inventoryScreen
         case "Journal":        return journalScreen
         case "WorldMap":       return worldMapScreen

@@ -83,16 +83,18 @@ TEST(RpgScreensTest, LePasArriereEstLInverseDuPasAvant) {
 
 /**
  * @brief La règle de superposition est celle décidée par le lot : la carte et l'ATH de combat se
- *        consultent en marchant, les six autres écrans suspendent la simulation (`EX-IHM-091`).
+ *        consultent en marchant, les sept autres écrans suspendent la simulation (`EX-IHM-091`).
  * \castest{<b>La regle de superposition est celle attendue pour chacun des huit ecrans.</b><br/>
  * \tcat Unitaire · Ecrans du RPG<br/>
  * \tcrit Majeur<br/>
  * \tetapes 1. Interroger pausesGame pour chacun des huit ecrans.<br/>
- * \tattendu La carte du monde et l'ATH de combat ne suspendent pas ; les six autres suspendent.
+ * \tattendu La carte du monde et l'ATH de combat ne suspendent pas ; les sept autres suspendent.
  * }
  */
 TEST(RpgScreensTest, LaRegleDeSuperpositionEstCelleAttendue) {
     EXPECT_TRUE(pausesGame(RpgScreenId::CharacterSheet));
+    // Les sorts (LOT-87, T3.8) se preparent a l'arret, comme la fiche d'ou on les ouvre.
+    EXPECT_TRUE(pausesGame(RpgScreenId::Skills));
     EXPECT_TRUE(pausesGame(RpgScreenId::Inventory));
     EXPECT_TRUE(pausesGame(RpgScreenId::QuestJournal));
     EXPECT_TRUE(pausesGame(RpgScreenId::Dialogue));

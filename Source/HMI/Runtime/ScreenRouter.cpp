@@ -49,6 +49,8 @@ namespace {
 // leur échec se lit à la compilation.
 static_assert(static_cast<int>(ScreenRouter::RpgScreen::CharacterSheet) ==
               static_cast<int>(RpgScreenId::CharacterSheet));
+static_assert(static_cast<int>(ScreenRouter::RpgScreen::Skills) ==
+              static_cast<int>(RpgScreenId::Skills));
 static_assert(static_cast<int>(ScreenRouter::RpgScreen::Inventory) ==
               static_cast<int>(RpgScreenId::Inventory));
 static_assert(static_cast<int>(ScreenRouter::RpgScreen::CombatHud) ==

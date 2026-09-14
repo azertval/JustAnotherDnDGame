@@ -68,6 +68,7 @@ public:
     /// Lequel des huit écrans du RPG est ouvert, quand `currentScreen` vaut `RpgScreen`.
     enum class RpgScreen {
         CharacterSheet,
+        Skills,
         Inventory,
         QuestJournal,
         WorldMap,
