@@ -54,6 +54,9 @@ ROOT = Path(__file__).resolve().parent.parent
 UI = ROOT / "Source" / "Elements" / "Assets" / "UI"
 MANIFEST = UI / "illustrations.json"
 CAHIER = ROOT / "Documentation" / "Lot" / "LOT-87-charte-v2" / "assets-brief.json"
+# Les pieces du Colisee (LOT-50) : un autre dossier, un autre manifeste, ecrit par
+# scripts/extract_coliseum_atlas.py depuis la planche de production.
+COLISEUM_MANIFEST = ROOT / "Source" / "Elements" / "Assets" / "Coliseum" / "manifest.json"
 # La table des pieces livrees que les briques consultent (T2.7), et les briques elles-memes.
 ARTWORK = ROOT / "Source" / "Ui" / "Theme" / "Artwork.qml"
 ARTWORK_BEGIN = "// --- DEBUT DE LA TABLE ENGENDREE"
@@ -119,6 +122,13 @@ def read_manifest() -> dict:
         print(f"check_ui_assets : {MANIFEST.relative_to(ROOT)} absent.", file=sys.stderr)
         sys.exit(1)
     return json.loads(MANIFEST.read_text(encoding="utf-8"))
+
+
+def read_coliseum_manifest() -> list[str]:
+    """Les fichiers de la planche du Colisee (LOT-50), ou rien si le dossier n'existe pas."""
+    if not COLISEUM_MANIFEST.is_file():
+        return []
+    return list(json.loads(COLISEUM_MANIFEST.read_text(encoding="utf-8")).get("files", {}))
 
 
 def read_cahier() -> dict | None:
@@ -248,6 +258,10 @@ def check_code_keys(declared_files: set[str], corpus_files: set[str]) -> None:
     if not used:
         fail("aucun nom d'illustration dans les sources de nommage (lecture cassee ?)")
         return
+    # Les pieces du Colisee (LOT-50) ont leur propre manifeste, ecrit par
+    # scripts/extract_coliseum_atlas.py : ce que la scene de l'arene nomme s'y recoupe, pas ici.
+    coliseum_names = {Path(name).name for name in read_coliseum_manifest()}
+    used -= coliseum_names
     for name in sorted(used - declared_names):
         fail(f"`{name}` nomme par le code, absent du manifeste")
     for name in sorted(corpus_names - used):

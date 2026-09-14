@@ -14,10 +14,9 @@ import Jadg.Ui
     grille et sa barre d'actions, a droite l'ordre d'initiative et le journal. Les couleurs
     viennent des jetons pour que l'ecran ne jure pas au milieu du jeu, sans pretendre a la charte.
 
-    Depuis le 14 septembre 2026, la grille est faite de briques `ArenaCell` : chaque case pose les
-    pieces `ui/arena/*` du cahier des assets (sol, mur, surbrillance, unite alliee ou ennemie,
-    marque d'ennemi) des qu'elles sont livrees, et garde les aplats d'origine jusque-la. Le cadre
-    de l'ecran, lui, reste celui du developpeur.
+    Depuis le 14 septembre 2026, la grille est la scene isometrique `ArenaScene` : sol, enceinte
+    et figurines animees viennent de la planche de production du Colisee
+    (`Source/Elements/Assets/Coliseum/`). Le cadre de l'ecran, lui, reste celui du developpeur.
 */
 Item {
     id: root
@@ -53,12 +52,6 @@ Item {
     signal replayRequested()
     signal backRequested()
     signal closeRequested()
-
-    // Bornee a 256 px de conception : la surbrillance et l'unite du cahier sont produites pour un
-    // affichage de 64 a 256 px, et une piece fixe ne s'affiche jamais plus grande que sa production.
-    readonly property real cellSize: Math.max(16, Math.min(256 * Tokens.uiScale,
-                                                           (gridHost.width - 8) / Math.max(1, root.gridColumns),
-                                                           (gridHost.height - 8) / Math.max(1, root.gridRows)))
 
     Rectangle {
         anchors.fill: parent
@@ -320,30 +313,14 @@ Item {
         border.color: Tokens.panelEdge
         border.width: Tokens.strokeWidth
 
-        Grid {
-            anchors.centerIn: parent
-            columns: root.gridColumns
-            rows: root.gridRows
-            spacing: 0
-
-            Repeater {
-                model: root.cells
-
-                // La case et ce qu'elle porte : sol, surbrillance, combattant, jauge (les pieces
-                // `ui/arena/*` du cahier, ou leur repli tant qu'elles ne sont pas livrees).
-                ArenaCell {
-                    width: root.cellSize
-                    height: root.cellSize
-                    wall: modelData.wall
-                    reachable: modelData.reachable
-                    active: modelData.active
-                    side: modelData.side
-                    down: modelData.down
-                    hitPoints: modelData.hitPoints
-                    hitPointsRatio: modelData.hitPointsRatio
-                    pointer.onClicked: root.cellTapped(modelData.column, modelData.row)
-                }
-            }
+        // La scene isometrique du Colisee : sol, enceinte, surbrillances, figurines animees.
+        ArenaScene {
+            anchors.fill: parent
+            anchors.margins: Tokens.gapMedium
+            gridColumns: root.gridColumns
+            gridRows: root.gridRows
+            cells: root.cells
+            onCellTapped: (column, row) => root.cellTapped(column, row)
         }
     }
 

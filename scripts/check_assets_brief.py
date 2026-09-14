@@ -60,8 +60,7 @@ DEBUT = "<!-- DEBUT DES TABLES ENGENDREES : scripts/check_assets_brief.py --writ
 FIN = "<!-- FIN DES TABLES ENGENDREES -->"
 
 # Les ecrans que le cahier doit nourrir : la phase 3 entiere et le HUD de la phase 4.
-# Depuis le 14 septembre 2026, le Colisee (LOT-50) consomme aussi le cahier : famille `arena`.
-ECRANS = ["T3.1", "T3.2", "T3.3", "T3.4", "T3.5", "T3.6", "T3.7", "T3.8", "T3.9", "T4.1", "LOT-50"]
+ECRANS = ["T3.1", "T3.2", "T3.3", "T3.4", "T3.5", "T3.6", "T3.7", "T3.8", "T3.9", "T4.1"]
 
 # L'ordre et le titre des familles dans la page. La cle porte la famille, la page la nomme.
 FAMILLES = [
@@ -76,7 +75,6 @@ FAMILLES = [
     ("gauge", "Jauges"),
     ("ornament", "Ornements"),
     ("icon", "Icônes"),
-    ("arena", "Arène"),
 ]
 
 JETON = re.compile(r'^\s*(?:readonly\s+)?property\s+(?:color|string)\s+(\w+)\s*:\s*"([^"]*)"', re.M)

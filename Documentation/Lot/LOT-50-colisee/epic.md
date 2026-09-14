@@ -131,29 +131,36 @@ lance rien.
 
 ## Habillage de l'arène (14 septembre 2026, après livraison)
 
-L'écran reste celui du développeur, mais sa grille se peint. Demande de l'auteur, sur la maquette
-01 du HUD : des assets pour l'arène, et pour les unités deux images, une par camp.
+L'écran reste celui du développeur, mais sa grille devient la scène du Colisée. Demande de
+l'auteur : le vrai design du jeu, pas une esquisse — un tileset qui respecte la maquette.
 
-- **Le cahier des assets du `LOT-87`** (`assets-brief.json`) gagne une famille `arena` et une
-  matière `tactical` : cinq pièces, neuf images — `ui/arena/floor` et `ui/arena/wall` (tuiles
-  256 × 256), `ui/arena/cell` (états `reachable`, `ally`, `enemy`, `active`, 256 × 256),
-  `ui/arena/unit` (membres `ally`, `enemy`, 512 × 512) et `ui/arena/foe-mark` (64 × 64). Le schéma
-  admet `LOT-50` comme écran consommateur ; les zones citées sont celles de la maquette 01
-  (cases bleues et rouges, les quatre alliés, les quatre bandits, le crâne du panneau « Bandit »).
-  L'exclusion « scène et grille tactique du HUD » reste vraie pour le viewport du HUD ; l'arène,
-  elle, dessine sa grille en QML et peut donc la peindre.
-- **Deux briques** : `TileArt` (le porteur des pièces `tile`, qui manquait) et `ArenaCell`, la
-  case composée — sol ou mur, surbrillance, unité, marque et jauge d'un ennemi, points de vie en
-  texte. Tant qu'aucune pièce n'est livrée, `ArenaCell` dessine exactement les aplats d'avant.
-  `ArenaModel::cells` porte en plus `hitPointsRatio`, ce que la jauge lit.
-- **La grille est bornée à 256 px de conception par case** : une pièce fixe ne s'affiche jamais
-  plus grande que sa production.
-- **Validation avant production** : la composition, la planche de style et les prompts ont été
-  soumis dans un canevas de conception ; la réception à blanc (`receive_ui_assets.py --dry-run`)
-  de neuf brouillons nommés d'après les clés passe. La production reste celle du `LOT-87`
-  (T2.6) : `check_assets_brief.py --prompt ui/arena/<pièce>`, générer, réceptionner.
+- **La source est une planche de production**, `Source/Elements/Assets/Coliseum/production_source_atlas.png`
+  (1536 × 1024), sortie d'un générateur sur la maquette 01 : tuiles isométriques, tileset du Colisée,
+  figurines des quatre héros (idle, marche, attaque, touché, mort) et des quatre gladiateurs,
+  structures, détails, props, rochers, végétation, effets. Le pack découpé à la main qui
+  l'accompagnait (`JustAnotherDnDGame_UI_ASSET_PACK/coliseum_production_pack/`, non suivi) n'était
+  pas exploitable : légendes dans les tuiles, fond non détouré derrière les figurines, effets
+  découpés dans du texte. **`scripts/extract_coliseum_atlas.py`** redécoupe la planche — détourage
+  du fond bleu nuit, grille par profils coupés aux vallées, composantes connexes pour les sections
+  irrégulières — en 138 fichiers nommés, avec des bandes d'animation à canevas commun (48 × 64,
+  ancre au pied, cinq images par héros, huit par gladiateur) et un manifeste ; `--check` vérifie
+  que le dossier suit la planche.
+- **Deux briques** : `ArenaScene` (projection isométrique, losange de hauteur 0,62 L comme les
+  tuiles de la planche, profondeur `z = colonne + ligne`) et `ArenaTile` (sol de sable ou dalle du
+  Colisée, pan de mur ou colonne d'angle, bannières et torches à intervalle, arche sur les deux
+  portes, surbrillance en losange de jetons, figurine animée `AnimatedSprite`, jauge d'un ennemi,
+  points de vie en texte). Un allié reçoit un héros et un ennemi un gladiateur, choisis d'après le
+  nom : une créature du bestiaire enrôlée s'affiche donc en gladiateur — la planche n'a pas de
+  bêtes, à produire si l'arène doit en montrer.
+- **Ressource** : les pièces sont embarquées comme les illustrations de la charte v2
+  (`Source/Ui/CMakeLists.txt`, motif `Coliseum/*/*.png`) ; `check_ui_assets.py` sait que ce
+  dossier a son propre manifeste. `ArenaModel::cells` porte en plus `hitPointsRatio`.
+- **Le cahier des assets du `LOT-87` n'est pas touché** : ces pièces ne sont pas produites par
+  prompt, elles sont découpées d'une planche. Une première version de cet habillage y avait
+  ajouté une famille `arena` de neuf images à générer ; elle est retirée.
 - **Hors périmètre** : le cadre de l'écran (panneaux, boutons, journal) garde ses contrôles Qt
-  Quick nus ; l'habillage complet du combat reste au `LOT-24`, qui réemploiera `ArenaCell`.
+  Quick nus ; les animations `walk`, `attack`, `hit` sont découpées mais pas encore jouées (le
+  coup d'essai n'a pas de phase d'animation) ; l'IHM de combat (`LOT-24`) réemploiera la scène.
 
 ## Ce qui reste hors du lot, nommément
 

@@ -58,9 +58,9 @@ set(JADG_UI_QML_FILES
     Controls/ActionSlot.ui.qml
     Controls/OrnateRoundButton.ui.qml
     Controls/HudFrame.ui.qml
-    # Le Colisee (LOT-50, habillage du 14 septembre 2026) : le porteur de tuile et la case de grille.
-    Controls/TileArt.ui.qml
-    Controls/ArenaCell.ui.qml
+    # Le Colisee (LOT-50, habillage du 14 septembre 2026) : la scene isometrique et sa case.
+    Controls/ArenaScene.ui.qml
+    Controls/ArenaTile.ui.qml
     Screens/CharacterSheetForm.ui.qml
     Screens/InventoryForm.ui.qml
     Screens/JournalForm.ui.qml
@@ -121,6 +121,19 @@ qt_add_resources(JadgUi "JadgUiIllustrations"
     BASE "${PROJECT_SOURCE_DIR}/Source/Elements/Assets/UI"
     FILES "${PROJECT_SOURCE_DIR}/Source/Elements/Assets/UI/world-map.jpg"
           "${PROJECT_SOURCE_DIR}/Source/Elements/Assets/UI/world-map-hd.jpg" ${_jadg_produced_art}
+)
+
+# Les pieces du Colisee (LOT-50) : decoupees de la planche de production par
+# scripts/extract_coliseum_atlas.py sous Source/Elements/Assets/Coliseum/, et embarquees par le
+# meme mecanisme, a l'endroit ou `../../Elements/Assets/Coliseum/` les cherche depuis
+# Source/Ui/Controls/. La planche elle-meme (la source, 2,8 Mo) n'est pas embarquee : seules ses
+# pieces le sont.
+file(GLOB_RECURSE _jadg_coliseum_art CONFIGURE_DEPENDS
+    "${PROJECT_SOURCE_DIR}/Source/Elements/Assets/Coliseum/*/*.png")
+qt_add_resources(JadgUi "JadgUiColiseum"
+    PREFIX "/qt/qml/Jadg/Elements/Assets/Coliseum"
+    BASE "${PROJECT_SOURCE_DIR}/Source/Elements/Assets/Coliseum"
+    FILES ${_jadg_coliseum_art}
 )
 
 # --- Éditer un écran sans rien reconstruire (EX-IHM-100) --------------------------------------
