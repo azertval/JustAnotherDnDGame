@@ -1,5 +1,7 @@
 var NAVTREEINDEX35 =
 {
+"structhmi_1_1TypographyTokens.html#a1c83eccd644f3cb355dd7836df3dbd91":[15,0,2,125,3],
+"structhmi_1_1TypographyTokens.html#a1c83eccd644f3cb355dd7836df3dbd91":[16,0,1,125,3],
 "structhmi_1_1TypographyTokens.html#a4ef65536c7fe503983922d5a4769fcee":[15,0,2,125,1],
 "structhmi_1_1TypographyTokens.html#a4ef65536c7fe503983922d5a4769fcee":[16,0,1,125,1],
 "structhmi_1_1TypographyTokens.html#a5a19bc78929fb0feae31c45c4a6105f4":[15,0,2,125,6],
@@ -247,7 +249,5 @@ var NAVTREEINDEX35 =
 "test__design__tokens_8cpp.html#a7e32376e19aee660610ea3ab6907ab0d":[17,0,3,4,2,1,6,2,5],
 "test__design__tokens_8cpp.html#a989725915b94ad371a696425cf0d56a0":[17,0,3,4,2,1,6,2,7],
 "test__design__tokens_8cpp.html#aacf5c999a1643978ef053a1fd1e3e53b":[17,0,3,4,2,1,6,2,3],
-"test__design__tokens_8cpp.html#ab02b750f07ac93b7c07a576d3790b6fd":[17,0,3,4,2,1,6,2,9],
-"test__design__tokens_8cpp.html#ab43a471333f671df23082c219ba2efc7":[17,0,3,4,2,1,6,2,8],
-"test__design__tokens_8cpp.html#ac7f5e1258104d4ca69573ae669ae8bef":[17,0,3,4,2,1,6,2,4]
+"test__design__tokens_8cpp.html#ab02b750f07ac93b7c07a576d3790b6fd":[17,0,3,4,2,1,6,2,9]
 };

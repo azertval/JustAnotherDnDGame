@@ -34,11 +34,13 @@ var lot_87 =
       [ "T3.5 — L'inventaire et l'équipement (maquette 04)", "lot-87.html#autotoc_md679", null ],
       [ "T3.6 — La carte du monde (maquette 08)", "lot-87.html#autotoc_md680", null ],
       [ "T3.7 — L'équipe de mercenaires (maquette 09)", "lot-87.html#autotoc_md681", null ],
-      [ "T3.8 — Les compétences et sorts (maquette 10)", "lot-87.html#autotoc_md682", null ]
+      [ "T3.8 — Les compétences et sorts (maquette 10)", "lot-87.html#autotoc_md682", null ],
+      [ "T3.9 — Pause, dialogue, marchand, journal : restylés", "lot-87.html#autotoc_md683", null ],
+      [ "Où en est la phase 3", "lot-87.html#autotoc_md684", null ]
     ] ],
-    [ "Exigences couvertes", "lot-87.html#autotoc_md683", null ],
-    [ "Où en est le lot", "lot-87.html#autotoc_md684", null ],
-    [ "Critères d'acceptation de la phase 0", "lot-87.html#autotoc_md685", null ],
+    [ "Exigences couvertes", "lot-87.html#autotoc_md685", null ],
+    [ "Où en est le lot", "lot-87.html#autotoc_md686", null ],
+    [ "Critères d'acceptation de la phase 0", "lot-87.html#autotoc_md687", null ],
     [ "LOT-87 — Cahier des assets de la charte v2", "lot-87-cahier-assets.html", [
       [ "À quoi sert ce cahier", "lot-87-cahier-assets.html#autotoc_md643", null ],
       [ "Lire une entrée", "lot-87-cahier-assets.html#autotoc_md644", null ],

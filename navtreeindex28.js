@@ -1,5 +1,7 @@
 var NAVTREEINDEX28 =
 {
+"structcore_1_1Item.html#a3134994c82c50a53f462dcad4dcc8187":[15,0,1,103,9],
+"structcore_1_1Item.html#a3134994c82c50a53f462dcad4dcc8187":[16,0,0,103,9],
 "structcore_1_1Item.html#a5e31bf112f66c60ee7e5fc482c645d64":[15,0,1,103,4],
 "structcore_1_1Item.html#a5e31bf112f66c60ee7e5fc482c645d64":[16,0,0,103,4],
 "structcore_1_1Item.html#a738829051583f957920534d3c35a5488":[15,0,1,103,5],
@@ -247,7 +249,5 @@ var NAVTREEINDEX28 =
 "structcore_1_1PhysicsConfig.html#a311991a630c5cb0dfed44cefa461b395":[15,0,1,66,22],
 "structcore_1_1PhysicsConfig.html#a311991a630c5cb0dfed44cefa461b395":[16,0,0,66,22],
 "structcore_1_1PhysicsConfig.html#a37aca1422a35fa64aabfd21f996ee689":[15,0,1,66,12],
-"structcore_1_1PhysicsConfig.html#a37aca1422a35fa64aabfd21f996ee689":[16,0,0,66,12],
-"structcore_1_1PhysicsConfig.html#a405b63790e2d2080150cae32a37d03ae":[15,0,1,66,9],
-"structcore_1_1PhysicsConfig.html#a405b63790e2d2080150cae32a37d03ae":[16,0,0,66,9]
+"structcore_1_1PhysicsConfig.html#a37aca1422a35fa64aabfd21f996ee689":[16,0,0,66,12]
 };

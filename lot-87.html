@@ -522,13 +522,37 @@ T3.8 — Les compétences et sorts (maquette 10)</h2>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><img src="references/10_Skills_Mockup.png" alt="maquette 10" class="inline"/>  </td><td class="markdownTableBodyNone"><img src="captures/t3-8-sorts-1080p.png" alt="sorts à 1080p" class="inline"/>  </td><td class="markdownTableBodyNone"><img src="captures/t3-8-sorts-720p.png" alt="sorts à 720p" class="inline"/>  </td></tr>
 </table>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md683"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md683"></a>
+T3.9 — Pause, dialogue, marchand, journal : restylés</h2>
+<p>Pas de maquette : les briques et les jetons de la charte v2, sur la structure v1 de chaque écran. La matière suit la charte : <b>panneau sombre</b> pour la pause et le journal, <b>parchemin</b> pour le dialogue et le marchand.</p>
+<ul>
+<li><b><span class="tt">ScreenPage</span></b>, nouveau châssis v2, remplace <span class="tt">RpgScreenFrame</span> : fond, grand panneau de la matière, plaque de titre (grenat ou noire), et au pied la mention « Écran dessiné, données à venir » quand <span class="tt">pending</span> est vrai. Les jumeaux de ces écrans ne changent pas : ils posent les mêmes propriétés, reprises à l'identique par les nouveaux formulaires.</li>
+<li>Les listes sont des <span class="tt">LedgerList</span> (T3.7), les champs des <span class="tt">FieldRow</span> (T3.4), le portrait un <span class="tt">PortraitFrame</span>.</li>
+<li><b>La pause</b> reprend les boutons et la marque de focus du menu principal (T3.1). Son jumeau branche désormais le survol et le clic des boutons, et non plus la zone de <span class="tt">MenuEntry</span>.</li>
+</ul>
+<p><b>Critère du plan, à une exception près</b> : plus aucun formulaire de ces quatre écrans ni de ceux de la phase 3 n'emploie <span class="tt">ParchmentFrame</span>, <span class="tt">Cabochon</span>, <span class="tt">TitleBanner</span>, <span class="tt">MenuEntry</span> ou <span class="tt">Sheet*</span>. Le <b>HUD de combat</b> (<span class="tt">CombatHudForm</span>) les emploie encore : sa réécriture est le T4.1, en phase 4, et les contrôles v1 partent au T5.2 une fois qu'il est fait.</p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Écran  </th><th class="markdownTableHeadNone">1920 × 1080  </th><th class="markdownTableHeadNone">1280 × 720  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">Pause  </td><td class="markdownTableBodyNone"><img src="captures/t3-9-pause-1080p.png" alt="pause à 1080p" class="inline"/>  </td><td class="markdownTableBodyNone"><img src="captures/t3-9-pause-720p.png" alt="pause à 720p" class="inline"/>  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">Dialogue  </td><td class="markdownTableBodyNone"><img src="captures/t3-9-dialogue-1080p.png" alt="dialogue à 1080p" class="inline"/>  </td><td class="markdownTableBodyNone"><img src="captures/t3-9-dialogue-720p.png" alt="dialogue à 720p" class="inline"/>  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">Marchand  </td><td class="markdownTableBodyNone"><img src="captures/t3-9-merchant-1080p.png" alt="marchand à 1080p" class="inline"/>  </td><td class="markdownTableBodyNone"><img src="captures/t3-9-merchant-720p.png" alt="marchand à 720p" class="inline"/>  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">Journal  </td><td class="markdownTableBodyNone"><img src="captures/t3-9-journal-1080p.png" alt="journal à 1080p" class="inline"/>  </td><td class="markdownTableBodyNone"><img src="captures/t3-9-journal-720p.png" alt="journal à 720p" class="inline"/>  </td></tr>
+</table>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md684"></a>
+Où en est la phase 3</h2>
+<p>Les neuf tâches sont faites, <b>une PR par tâche, empilées</b> : #28 (T3.1, fusionnée), puis #29 à #36. Aucune image du cahier n'est encore produite : tous les écrans sont posés sur les aplats de repli des briques, et les captures jugent la mise en page. La porte 3 attend la revue.</p>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md685"></a>
 Exigences couvertes</h1>
 <ul>
 <li><a class="el" href="spec-interface-ihm.html#EX-IHM-070" title="EX-IHM-070"><span class="tt">EX-IHM-070</span></a>, <a class="el" href="spec-interface-ihm.html#EX-IHM-075" title="EX-IHM-075"><span class="tt">EX-IHM-075</span></a>, <a class="el" href="spec-interface-ihm.html#EX-IHM-076" title="EX-IHM-076"><span class="tt">EX-IHM-076</span></a>, <a class="el" href="spec-interface-ihm.html#EX-IHM-081" title="EX-IHM-081"><span class="tt">EX-IHM-081</span></a> : refondues ou précisées par la phase 2 (T2.1), pour décrire la charte v2.</li>
 <li><a class="el" href="spec-interface-ihm.html#EX-IHM-053" title="EX-IHM-053"><span class="tt">EX-IHM-053</span></a> : refondue par le T2.4 — les icônes des écrans du jeu sont produites, au double de leur taille d'affichage.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md684"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md686"></a>
 Où en est le lot</h1>
 <p><b>Phases 0 et 1 livrées</b> (PR #25 et #26) ; <b>phase 2 faite</b> — T2.1 à T2.7 (branche <span class="tt">lot/LOT-87-phase-2-charte-jetons</span>), en attente de la porte 2 (revue des jetons et des briques). Le cahier (T2.4) est la première chose à faire produire : c'est le chemin critique du lot. Le manifeste (T2.5), la réception (T2.6) et les briques (T2.7) sont prêts à recevoir ce qui en revient — une pièce réceptionnée apparaît dans la galerie sans autre changement. La clôture du T2.6 (fonds, cadres, plaques, boutons et contrôles livrés) attend toujours la production.</p>
 <p>Rappel de la phase 0 :</p>
@@ -539,7 +563,7 @@ Où en est le lot</h1>
 <li>Les dix maquettes déplacées dans <span class="tt">references/</span>.</li>
 <li>Ce dossier créé : comme tout lot démarré, le <span class="tt">LOT-87</span> quitte <span class="tt"><a class="el" href="roadmap-0_81_80_8md.html">roadmap-0.1.0.md</a></span> pour cet epic, et <span class="tt"><a class="el" href="lots_8md.html">lots.md</a></span> porte désormais son <span class="tt">@subpage lot-87</span>.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md685"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md687"></a>
 Critères d'acceptation de la phase 0</h1>
 <ul>
 <li><span class="tt">git branch -a</span> ne liste plus que <span class="tt"><a class="el" href="Editor_2Main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="Point d&#39;entrée du programme.">main</a></span>, <span class="tt">gh-pages</span> et <span class="tt">lot/LOT-87-charte-v2</span>, hors branches distantes en attente de suppression manuelle.</li>

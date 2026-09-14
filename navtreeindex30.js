@@ -1,5 +1,7 @@
 var NAVTREEINDEX30 =
 {
+"structcore_1_1TextPosition.html#a212854e72aaaba608142270b46f535d0":[15,0,1,8,1],
+"structcore_1_1TextPosition.html#a212854e72aaaba608142270b46f535d0":[16,0,0,8,1],
 "structcore_1_1TextPosition.html#ad5334b2ba9eec9ef6492eeb6d6ce65ac":[15,0,1,8,0],
 "structcore_1_1TextPosition.html#ad5334b2ba9eec9ef6492eeb6d6ce65ac":[16,0,0,8,0],
 "structcore_1_1TileLayer.html":[15,0,1,60],
@@ -247,7 +249,5 @@ var NAVTREEINDEX30 =
 "structhmi_1_1ComposedQuad.html#af4241edce3e12e76a2b398e81dae9954":[15,0,2,70,3],
 "structhmi_1_1ComposedQuad.html#af4241edce3e12e76a2b398e81dae9954":[16,0,1,70,3],
 "structhmi_1_1ComposedQuad.html#af6d4eeb26df72fc862a647b8acaf813c":[15,0,2,70,1],
-"structhmi_1_1ComposedQuad.html#af6d4eeb26df72fc862a647b8acaf813c":[16,0,1,70,1],
-"structhmi_1_1CreditLine.html":[15,0,2,142],
-"structhmi_1_1CreditLine.html":[16,0,1,142]
+"structhmi_1_1ComposedQuad.html#af6d4eeb26df72fc862a647b8acaf813c":[16,0,1,70,1]
 };
