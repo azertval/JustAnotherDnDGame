@@ -1,6 +1,8 @@
 var annotated_dup =
 [
     [ "core", "namespacecore.html", [
+      [ "GridObject", "structcore_1_1GridObject.html", "structcore_1_1GridObject" ],
+      [ "BattleGrid", "classcore_1_1BattleGrid.html", "classcore_1_1BattleGrid" ],
       [ "ExplorationSnapshot", "structcore_1_1ExplorationSnapshot.html", "structcore_1_1ExplorationSnapshot" ],
       [ "EncounterRun", "structcore_1_1EncounterRun.html", "structcore_1_1EncounterRun" ],
       [ "EncounterTrigger", "structcore_1_1EncounterTrigger.html", "structcore_1_1EncounterTrigger" ],
@@ -8,6 +10,9 @@ var annotated_dup =
       [ "Encounter", "structcore_1_1Encounter.html", "structcore_1_1Encounter" ],
       [ "EncounterCatalog", "structcore_1_1EncounterCatalog.html", "structcore_1_1EncounterCatalog" ],
       [ "CombatantPlacement", "structcore_1_1CombatantPlacement.html", "structcore_1_1CombatantPlacement" ],
+      [ "Mover", "structcore_1_1Mover.html", "structcore_1_1Mover" ],
+      [ "Path", "structcore_1_1Path.html", "structcore_1_1Path" ],
+      [ "ReachableArea", "classcore_1_1ReachableArea.html", "classcore_1_1ReachableArea" ],
       [ "Engine", "classcore_1_1Engine.html", "classcore_1_1Engine" ],
       [ "TextPosition", "structcore_1_1TextPosition.html", "structcore_1_1TextPosition" ],
       [ "JsonDocument", "structcore_1_1JsonDocument.html", "structcore_1_1JsonDocument" ],

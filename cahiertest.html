@@ -93,9 +93,9 @@ $(function(){initNavTree('cahiertest.html','',''); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md_CahierTest"></a></p>
-<p><b>1041 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
+<p><b>1060 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md5"></a>
-Tests unitaires (1026)</h1>
+Tests unitaires (1045)</h1>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md6"></a>
 Core</h2>
 <p><b><span class="tt"><a class="el" href="test__core_8cpp.html" title="Tests unitaires de la bibliothèque Core (amorçage).">test_core.cpp</a></span></b></p>
@@ -108,7 +108,100 @@ Core</h2>
 2. Executer le scenario et verifier les assertions.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">engine.version().empty()</span> est faux.  </td></tr>
 </table>
 <h3 class="doxsection"><a class="anchor" id="autotoc_md7"></a>
-Combat (11)</h3>
+Combat (30)</h3>
+<p><b><span class="tt"><a class="el" href="test__battle__grid_8cpp.html" title="Tests de la grille de combat : obstacles, zones, occupation et objets (LOT-19, EX-CBT-020).">test_battle_grid.cpp</a></span></b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>BattleGridTest.LesObstaclesSontCeuxDeLaCollision</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__battle__grid_8cpp.html" title="Tests de la grille de combat : obstacles, zones, occupation et objets (LOT-19, EX-CBT-020).">Source/Test/Unit/Core/Combat/test_battle_grid.cpp</a>:74</span></sub>  </td><td class="markdownTableBodyNone">Les obstacles de la grille de combat sont ceux de la couche collision.  </td><td class="markdownTableBodyNone">1. Construire une grille sur une collision portant un mur, de l'eau peu profonde et de l'eau profonde.<br  />
+2. Interroger chaque case, au sol puis en vol.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">grille.isObstructed({0, 0})</span> est vrai.<br  />
+Vérifie que <span class="tt">grille.isObstructed({0, 0}, <a class="el" href="namespacecore.html#a764555c0509482c85a9aa71b8a9ec1ffaac51deb7d2c3f9663a6df72c7c9b2b51">core::Locomotion::Fly</a>)</span> est vrai.<br  />
+Vérifie que <span class="tt">grille.isObstructed({1, 0})</span> est faux.<br  />
+Vérifie que <span class="tt">grille.isObstructed({2, 0})</span> est vrai.<br  />
+Vérifie que <span class="tt">grille.isObstructed({2, 0}, <a class="el" href="namespacecore.html#a764555c0509482c85a9aa71b8a9ec1ffaac51deb7d2c3f9663a6df72c7c9b2b51">core::Locomotion::Fly</a>)</span> est faux.<br  />
+Vérifie que <span class="tt">grille.isObstructed({3, 0})</span> est faux.<br  />
+Vérifie que <span class="tt">grille.isObstructed({4, 0})</span> est vrai.<br  />
+Vérifie que <span class="tt">grille.isObstructed({-1, 0})</span> est vrai.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>BattleGridTest.DeuxCreaturesNePartagentJamaisUneCase</b> (Bloquant)<br  />
+<sub><span class="tt"><a class="el" href="test__battle__grid_8cpp.html" title="Tests de la grille de combat : obstacles, zones, occupation et objets (LOT-19, EX-CBT-020).">Source/Test/Unit/Core/Combat/test_battle_grid.cpp</a>:104</span></sub>  </td><td class="markdownTableBodyNone">Deux creatures ne partagent jamais une case.  </td><td class="markdownTableBodyNone">1. Placer un combattant.<br  />
+2. Tenter d'en placer un second sur sa case, puis d'y deplacer un troisieme.<br  />
+3. Tenter de poser une creature 2x2 dont l'emprise mord sur la case.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">grille.place(HEROS, {3, 3})</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a56ee2c3f69200e700ac0f1b65dc413b4af429e45eaf722cbbb524b40a0313aa67">core::PlacementResult::Placed</a></span>.<br  />
+Vérifie que <span class="tt">grille.place(RAT, {3, 3})</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a56ee2c3f69200e700ac0f1b65dc413b4abbd86c81e760279d9731d5cac811ba50" title="L&#39;emprise touche une case déjà tenue par un autre combattant, ou déjà chargée d&#39;un objet.">core::PlacementResult::Occupied</a></span>.<br  />
+Vérifie que <span class="tt">grille.place(RAT, {5, 5})</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a56ee2c3f69200e700ac0f1b65dc413b4af429e45eaf722cbbb524b40a0313aa67">core::PlacementResult::Placed</a></span>.<br  />
+Vérifie que <span class="tt">grille.moveTo(RAT, {3, 3})</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a56ee2c3f69200e700ac0f1b65dc413b4abbd86c81e760279d9731d5cac811ba50" title="L&#39;emprise touche une case déjà tenue par un autre combattant, ou déjà chargée d&#39;un objet.">core::PlacementResult::Occupied</a></span>.<br  />
+Vérifie que <span class="tt">grille.place(OURS, {2, 2}, 2)</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a56ee2c3f69200e700ac0f1b65dc413b4abbd86c81e760279d9731d5cac811ba50" title="L&#39;emprise touche une case déjà tenue par un autre combattant, ou déjà chargée d&#39;un objet.">core::PlacementResult::Occupied</a></span>.<br  />
+Vérifie que <span class="tt">grille.occupantAt({3, 3})</span> vaut <span class="tt">HEROS</span>.<br  />
+Vérifie que <span class="tt">grille.positionOf(RAT)</span> vaut <span class="tt">(<a class="el" href="structcore_1_1GridPosition.html" title="Position d&#39;une case dans la grille d&#39;un niveau, en coordonnées entières.">core::GridPosition</a>{5, 5})</span>.<br  />
+Vérifie que <span class="tt">grille.positionOf(OURS).has_value()</span> est faux.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>BattleGridTest.UneGrandeCreatureOccupeToutSonEmprise</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__battle__grid_8cpp.html" title="Tests de la grille de combat : obstacles, zones, occupation et objets (LOT-19, EX-CBT-020).">Source/Test/Unit/Core/Combat/test_battle_grid.cpp</a>:131</span></sub>  </td><td class="markdownTableBodyNone">Une creature 2x2 occupe quatre cases et avance sur sa propre emprise.  </td><td class="markdownTableBodyNone">1. Placer une creature de taille G (2x2).<br  />
+2. La deplacer d'une case vers la droite.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">core::footprintSide(core::CreatureSize::Tiny)</span> vaut <span class="tt">1</span>.<br  />
+Vérifie que <span class="tt">core::footprintSide(core::CreatureSize::Large)</span> vaut <span class="tt">2</span>.<br  />
+Vérifie que <span class="tt">core::footprintSide(core::CreatureSize::Gargantuan)</span> vaut <span class="tt">4</span>.<br  />
+Vérifie que <span class="tt">grille.place(OURS, {1, 1}, core::footprintSide(core::CreatureSize::Large))</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a56ee2c3f69200e700ac0f1b65dc413b4af429e45eaf722cbbb524b40a0313aa67">core::PlacementResult::Placed</a></span>.<br  />
+Vérifie que <span class="tt">grille.occupantAt(case_)</span> vaut <span class="tt">OURS</span>.<br  />
+Vérifie que <span class="tt">grille.sideOf(OURS)</span> vaut <span class="tt">2</span>.<br  />
+Vérifie que <span class="tt">grille.moveTo(OURS, {2, 1})</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a56ee2c3f69200e700ac0f1b65dc413b4af429e45eaf722cbbb524b40a0313aa67">core::PlacementResult::Placed</a></span>.<br  />
+Vérifie que <span class="tt">grille.occupantAt({1, 1}).has_value()</span> est faux.<br  />
+Vérifie que <span class="tt">grille.occupantAt({3, 2})</span> vaut <span class="tt">OURS</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>BattleGridTest.UnPlacementImpossibleEstRefuseAvecSaRaison</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__battle__grid_8cpp.html" title="Tests de la grille de combat : obstacles, zones, occupation et objets (LOT-19, EX-CBT-020).">Source/Test/Unit/Core/Combat/test_battle_grid.cpp</a>:163</span></sub>  </td><td class="markdownTableBodyNone">Un placement impossible est refuse avec sa raison.  </td><td class="markdownTableBodyNone">1. Placer hors de la carte, dans un mur, a cheval sur le bord.<br  />
+2. Placer deux fois le meme combattant, deplacer un combattant absent.<br  />
+3. Retirer un combattant et reprendre sa case.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">grille.place(HEROS, {4, 0})</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a56ee2c3f69200e700ac0f1b65dc413b4a46dc1018ac1d8fca7c2752a61ce2fd0f" title="L&#39;emprise sort de la carte.">core::PlacementResult::OutOfBounds</a></span>.<br  />
+Vérifie que <span class="tt">grille.place(HEROS, {1, 1})</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a56ee2c3f69200e700ac0f1b65dc413b4a11d2b6741acad8cb69767d00147f57a5" title="L&#39;emprise touche une case pleine ou un objet bloquant.">core::PlacementResult::Obstructed</a></span>.<br  />
+Vérifie que <span class="tt">grille.place(OURS, {3, 3}, 2)</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a56ee2c3f69200e700ac0f1b65dc413b4a46dc1018ac1d8fca7c2752a61ce2fd0f" title="L&#39;emprise sort de la carte.">core::PlacementResult::OutOfBounds</a></span>.<br  />
+Vérifie que <span class="tt">grille.place(HEROS, {0, 0})</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a56ee2c3f69200e700ac0f1b65dc413b4af429e45eaf722cbbb524b40a0313aa67">core::PlacementResult::Placed</a></span>.<br  />
+Vérifie que <span class="tt">grille.place(HEROS, {2, 2})</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a56ee2c3f69200e700ac0f1b65dc413b4af021923d144bbdd4e5742bcd1d4a4821" title="place : le combattant est déjà sur la grille, ou son emprise n&#39;est pas un côté valide.">core::PlacementResult::InvalidCombatant</a></span>.<br  />
+Vérifie que <span class="tt">grille.moveTo(RAT, {2, 2})</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a56ee2c3f69200e700ac0f1b65dc413b4af021923d144bbdd4e5742bcd1d4a4821" title="place : le combattant est déjà sur la grille, ou son emprise n&#39;est pas un côté valide.">core::PlacementResult::InvalidCombatant</a></span>.<br  />
+Vérifie que <span class="tt">grille.place(RAT, {2, 2}, 0)</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a56ee2c3f69200e700ac0f1b65dc413b4af021923d144bbdd4e5742bcd1d4a4821" title="place : le combattant est déjà sur la grille, ou son emprise n&#39;est pas un côté valide.">core::PlacementResult::InvalidCombatant</a></span>.<br  />
+Vérifie que <span class="tt">grille.remove(HEROS)</span> est vrai.<br  />
+Vérifie que <span class="tt">grille.remove(HEROS)</span> est faux.<br  />
+Vérifie que <span class="tt">grille.place(RAT, {0, 0})</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a56ee2c3f69200e700ac0f1b65dc413b4af429e45eaf722cbbb524b40a0313aa67">core::PlacementResult::Placed</a></span>.<br  />
+Vérifie que <span class="tt">grille.combatants()</span> vaut <span class="tt">(std::vector&lt;<a class="el" href="namespacecore.html#a91235fd72a18c305c494723774630841" title="Identifiant d&#39;un combattant sur la grille.">core::CombatantId</a>&gt;{RAT})</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>BattleGridTest.LesProprietesDeZoneSontRelevees</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__battle__grid_8cpp.html" title="Tests de la grille de combat : obstacles, zones, occupation et objets (LOT-19, EX-CBT-020).">Source/Test/Unit/Core/Combat/test_battle_grid.cpp</a>:194</span></sub>  </td><td class="markdownTableBodyNone">Les proprietes de zone de la carte sont relevees par la grille.  </td><td class="markdownTableBodyNone">1. Construire la grille d'une carte dont une couche porte difficultTerrain, une autre une regle inconnue, une troisieme une coquille (difficultTerrain: 1).<br  />
+2. Interroger les cases.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">grille.isObstructed({5, 0})</span> est vrai.<br  />
+Vérifie que <span class="tt">grille.isDifficult({1, 1})</span> est vrai.<br  />
+Vérifie que <span class="tt">grille.isDifficult({2, 1})</span> est vrai.<br  />
+Vérifie que <span class="tt">grille.isDifficult({3, 1})</span> est faux.<br  />
+Vérifie que <span class="tt">grille.isDifficult({0, 3})</span> est faux.<br  />
+Vérifie que <span class="tt">zones.size()</span> vaut <span class="tt">2U</span>.<br  />
+Vérifie que <span class="tt">zones[0]-&gt;contains("difficultTerrain")</span> est vrai.<br  />
+Vérifie que <span class="tt">std::get&lt;bool&gt;(zones[1]-&gt;at("noHealing"))</span> est vrai.<br  />
+Vérifie que <span class="tt">grille.zonesAt({4, 3}).empty()</span> est vrai.<br  />
+Vérifie que <span class="tt">grille.zonesAt({-1, 0}).empty()</span> est vrai.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>BattleGridTest.LeTerrainDifficileSeCreeEnCombat</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__battle__grid_8cpp.html" title="Tests de la grille de combat : obstacles, zones, occupation et objets (LOT-19, EX-CBT-020).">Source/Test/Unit/Core/Combat/test_battle_grid.cpp</a>:224</span></sub>  </td><td class="markdownTableBodyNone">Le terrain difficile se cree et s'efface en combat.  </td><td class="markdownTableBodyNone">1. Rendre une case difficile (un seisme).<br  />
+2. L'effacer.<br  />
+3. Viser une case hors de la carte.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">grille.isDifficult({1, 1})</span> est vrai.<br  />
+Vérifie que <span class="tt">grille.isDifficult({1, 1})</span> est faux.<br  />
+Vérifie que <span class="tt">grille.isDifficult({9, 9})</span> est faux.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>BattleGridTest.UnObjetDeGrilleBloqueEtSeDetruit</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__battle__grid_8cpp.html" title="Tests de la grille de combat : obstacles, zones, occupation et objets (LOT-19, EX-CBT-020).">Source/Test/Unit/Core/Combat/test_battle_grid.cpp</a>:246</span></sub>  </td><td class="markdownTableBodyNone">Un objet de grille bloque tant qu'il tient, puis se detruit.  </td><td class="markdownTableBodyNone">1. Poser une barricade de 10 PV et une toile non bloquante.<br  />
+2. Infliger 4 puis 6 degats a la barricade.<br  />
+3. Placer un combattant sur la toile, puis tenter une barricade sur lui.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">grille.placeObject({1, 1}, {.kind = "barricade", .hitPoints = 10})</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a56ee2c3f69200e700ac0f1b65dc413b4af429e45eaf722cbbb524b40a0313aa67">core::PlacementResult::Placed</a></span>.<br  />
+Vérifie que <span class="tt">grille.placeObject({2, 2}, {.kind = "web", .hitPoints = 10, .blocksMovement = false})</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a56ee2c3f69200e700ac0f1b65dc413b4af429e45eaf722cbbb524b40a0313aa67">core::PlacementResult::Placed</a></span>.<br  />
+Vérifie que <span class="tt">grille.placeObject({1, 1}, {.kind = "tonneau"})</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a56ee2c3f69200e700ac0f1b65dc413b4abbd86c81e760279d9731d5cac811ba50" title="L&#39;emprise touche une case déjà tenue par un autre combattant, ou déjà chargée d&#39;un objet.">core::PlacementResult::Occupied</a></span>.<br  />
+Vérifie que <span class="tt">grille.isObstructed({1, 1})</span> est vrai.<br  />
+Vérifie que <span class="tt">grille.place(HEROS, {1, 1})</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a56ee2c3f69200e700ac0f1b65dc413b4a11d2b6741acad8cb69767d00147f57a5" title="L&#39;emprise touche une case pleine ou un objet bloquant.">core::PlacementResult::Obstructed</a></span>.<br  />
+Vérifie que <span class="tt">grille.damageObject({1, 1}, 4)</span> est faux.<br  />
+Vérifie que <span class="tt">grille.objectAt({1, 1})</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">grille.objectAt({1, 1})-&gt;hitPoints</span> vaut <span class="tt">6</span>.<br  />
+Vérifie que <span class="tt">grille.damageObject({1, 1}, 6)</span> est vrai.<br  />
+Vérifie que <span class="tt">grille.objectAt({1, 1})</span> vaut <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">grille.isObstructed({1, 1})</span> est faux.<br  />
+Vérifie que <span class="tt">grille.isObstructed({2, 2})</span> est faux.<br  />
+Vérifie que <span class="tt">grille.place(HEROS, {3, 3})</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a56ee2c3f69200e700ac0f1b65dc413b4af429e45eaf722cbbb524b40a0313aa67">core::PlacementResult::Placed</a></span>.<br  />
+Vérifie que <span class="tt">grille.placeObject({3, 3}, {.kind = "barricade"})</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a56ee2c3f69200e700ac0f1b65dc413b4abbd86c81e760279d9731d5cac811ba50" title="L&#39;emprise touche une case déjà tenue par un autre combattant, ou déjà chargée d&#39;un objet.">core::PlacementResult::Occupied</a></span>.  </td></tr>
+</table>
 <p><b><span class="tt"><a class="el" href="test__encounter_8cpp.html" title="Tests de l&#39;aller-retour exploration ↔ combat (LOT-18, EX-CBT-001).">test_encounter.cpp</a></span></b></p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -168,22 +261,160 @@ Vérifie que <span class="tt">catalogue.find("rencontre-qui-n-existe-pas")</span
 <td class="markdownTableBodyNone"><b>EncounterTest.UnInstantaneNonReleveSeDistingueDeLOrigine</b> (Majeur)<br  />
 <sub><span class="tt"><a class="el" href="test__encounter_8cpp.html" title="Tests de l&#39;aller-retour exploration ↔ combat (LOT-18, EX-CBT-001).">Source/Test/Unit/Core/Combat/test_encounter.cpp</a>:223</span></sub>  </td><td class="markdownTableBodyNone">Un instantane non releve se distingue de l'origine.  </td><td class="markdownTableBodyNone">1. Construire un instantane par defaut.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">vide.captured</span> est faux.  </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><b>EncounterTest.UnEnnemiPosePorteUneCleUneZoneNonN</b> (?)<br  />
-<sub><span class="tt"><a class="el" href="test__encounter_8cpp.html" title="Tests de l&#39;aller-retour exploration ↔ combat (LOT-18, EX-CBT-001).">Source/Test/Unit/Core/Combat/test_encounter.cpp</a>:239</span></sub>  </td><td class="markdownTableBodyNone">Un ennemi pose porte une cle, une zone n'en porte pas. cat Unitaire · Combat crit Critique etapes 1. Lire une entite de rencontre posee. 2. Lire la meme avec respawns. attendu La premiere porte une cle fabriquee, la seconde aucune.  </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">Vérifie que <span class="tt">declencheur.has_value()</span> est vrai.<br  />
+<td class="markdownTableBodyNone"><b>EncounterTest.UnEnnemiPosePorteUneCleUneZoneNonN</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__encounter_8cpp.html" title="Tests de l&#39;aller-retour exploration ↔ combat (LOT-18, EX-CBT-001).">Source/Test/Unit/Core/Combat/test_encounter.cpp</a>:239</span></sub>  </td><td class="markdownTableBodyNone">Un ennemi pose porte une cle, une zone n'en porte pas.  </td><td class="markdownTableBodyNone">1. Lire une entite de rencontre posee.<br  />
+2. Lire la meme avec respawns.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">declencheur.has_value()</span> est vrai.<br  />
 Vérifie que <span class="tt">declencheur-&gt;encounterId</span> vaut <span class="tt">"nuee-de-rats"</span>.<br  />
 Vérifie que <span class="tt">declencheur-&gt;position.column</span> vaut <span class="tt">5</span>.<br  />
 Vérifie que <span class="tt">declencheur-&gt;defeatFlagKey.empty()</span> est faux.<br  />
 Vérifie que <span class="tt">declencheurZone.has_value()</span> est vrai.<br  />
 Vérifie que <span class="tt">declencheurZone-&gt;defeatFlagKey.empty()</span> est vrai.  </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><b>EncounterTest.DeuxDeclencheursNePartagentJamaisLeurCle</b> (?)<br  />
-<sub><span class="tt"><a class="el" href="test__encounter_8cpp.html" title="Tests de l&#39;aller-retour exploration ↔ combat (LOT-18, EX-CBT-001).">Source/Test/Unit/Core/Combat/test_encounter.cpp</a>:270</span></sub>  </td><td class="markdownTableBodyNone">Deux declencheurs ne partagent jamais leur cle. cat Unitaire · Combat crit Critique etapes 1. Lire deux entites de rencontre a des cases differentes de la meme carte. 2. Lire la meme case sur deux cartes differentes. attendu Les cles different dans les deux cas.  </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">Vérifie que <span class="tt">a &amp;&amp; b &amp;&amp; ailleurs</span> est vrai.<br  />
+<td class="markdownTableBodyNone"><b>EncounterTest.DeuxDeclencheursNePartagentJamaisLeurCle</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__encounter_8cpp.html" title="Tests de l&#39;aller-retour exploration ↔ combat (LOT-18, EX-CBT-001).">Source/Test/Unit/Core/Combat/test_encounter.cpp</a>:270</span></sub>  </td><td class="markdownTableBodyNone">Deux declencheurs ne partagent jamais leur cle.  </td><td class="markdownTableBodyNone">1. Lire deux entites de rencontre a des cases differentes de la meme carte.<br  />
+ 2. Lire la meme case sur deux cartes differentes.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">a &amp;&amp; b &amp;&amp; ailleurs</span> est vrai.<br  />
 Vérifie que <span class="tt">a-&gt;defeatFlagKey</span> diffère de <span class="tt">b-&gt;defeatFlagKey</span>.<br  />
 Vérifie que <span class="tt">a-&gt;defeatFlagKey</span> diffère de <span class="tt">ailleurs-&gt;defeatFlagKey</span>.  </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><b>EncounterTest.CeQuiNEstPasUnDeclencheurNEnDevientPasUn</b> (?)<br  />
-<sub><span class="tt"><a class="el" href="test__encounter_8cpp.html" title="Tests de l&#39;aller-retour exploration ↔ combat (LOT-18, EX-CBT-001).">Source/Test/Unit/Core/Combat/test_encounter.cpp</a>:296</span></sub>  </td><td class="markdownTableBodyNone">Ce qui n'est pas un declencheur n'en devient pas un. cat Unitaire · Combat crit Majeur etapes 1. Lire une entite d'un autre type. 2. Lire une entite de rencontre sans encounterId. attendu Aucun declencheur dans les deux cas.  </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a930b849a4d1c903dd56b8f5fe14d26ca" title="Lit entity comme un déclencheur de rencontre, s&#39;il en est un.">core::encounterTriggerFor</a>(coffre, "grotte").has_value()</span> est faux.<br  />
+<td class="markdownTableBodyNone"><b>EncounterTest.CeQuiNEstPasUnDeclencheurNEnDevientPasUn</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__encounter_8cpp.html" title="Tests de l&#39;aller-retour exploration ↔ combat (LOT-18, EX-CBT-001).">Source/Test/Unit/Core/Combat/test_encounter.cpp</a>:296</span></sub>  </td><td class="markdownTableBodyNone">Ce qui n'est pas un declencheur n'en devient pas un.  </td><td class="markdownTableBodyNone">1. Lire une entite d'un autre type.<br  />
+2. Lire une entite de rencontre sans encounterId.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a930b849a4d1c903dd56b8f5fe14d26ca" title="Lit entity comme un déclencheur de rencontre, s&#39;il en est un.">core::encounterTriggerFor</a>(coffre, "grotte").has_value()</span> est faux.<br  />
 Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a930b849a4d1c903dd56b8f5fe14d26ca" title="Lit entity comme un déclencheur de rencontre, s&#39;il en est un.">core::encounterTriggerFor</a>(sansRencontre, "grotte").has_value()</span> est faux.  </td></tr>
+</table>
+<p><b><span class="tt"><a class="el" href="test__pathfinding_8cpp.html" title="Tests du déplacement d&#39;un tour : budget, cases atteignables, chemin déterministe (LOT-19,...">test_pathfinding.cpp</a></span></b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>PathfindingTest.LeBudgetSeDeduitDeLaVitesse</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__pathfinding_8cpp.html" title="Tests du déplacement d&#39;un tour : budget, cases atteignables, chemin déterministe (LOT-19,...">Source/Test/Unit/Core/Combat/test_pathfinding.cpp</a>:69</span></sub>  </td><td class="markdownTableBodyNone">Le budget de deplacement vaut la vitesse divisee par 1,5, arrondie en dessous.  </td><td class="markdownTableBodyNone">1. Convertir 9 m, 7,5 m, 10 m, 0 m et -3 m.<br  />
+2. Lire le budget d'une fiche a 9 m.<br  />
+ 3. Lire le budget de marche et de vol d'une creature qui ne vole pas, puis d'une qui vole.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a29156af7de7653ab4fa06d96b0c881a1" title="Le budget de déplacement d&#39;une vitesse de speedMeters, en cases entières.">core::movementBudget</a>(9.0F)</span> vaut <span class="tt">6</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a29156af7de7653ab4fa06d96b0c881a1" title="Le budget de déplacement d&#39;une vitesse de speedMeters, en cases entières.">core::movementBudget</a>(7.5F)</span> vaut <span class="tt">5</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a29156af7de7653ab4fa06d96b0c881a1" title="Le budget de déplacement d&#39;une vitesse de speedMeters, en cases entières.">core::movementBudget</a>(10.0F)</span> vaut <span class="tt">6</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a29156af7de7653ab4fa06d96b0c881a1" title="Le budget de déplacement d&#39;une vitesse de speedMeters, en cases entières.">core::movementBudget</a>(13.5F - 4.5F)</span> vaut <span class="tt">6</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a29156af7de7653ab4fa06d96b0c881a1" title="Le budget de déplacement d&#39;une vitesse de speedMeters, en cases entières.">core::movementBudget</a>(0.0F)</span> vaut <span class="tt">0</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a29156af7de7653ab4fa06d96b0c881a1" title="Le budget de déplacement d&#39;une vitesse de speedMeters, en cases entières.">core::movementBudget</a>(-3.0F)</span> vaut <span class="tt">0</span>.<br  />
+Vérifie que <span class="tt">core::movementBudget(fiche)</span> vaut <span class="tt">6</span>.<br  />
+Vérifie que <span class="tt">core::movementBudget(loup, core::Locomotion::Walk)</span> vaut <span class="tt">8</span>.<br  />
+Vérifie que <span class="tt">core::movementBudget(loup, core::Locomotion::Fly)</span> vaut <span class="tt">0</span>.<br  />
+Vérifie que <span class="tt">core::movementBudget(chouette, core::Locomotion::Fly)</span> vaut <span class="tt">12</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>PathfindingTest.LesCasesAtteignablesCorrespondentExactementAuBudget</b> (Bloquant)<br  />
+<sub><span class="tt"><a class="el" href="test__pathfinding_8cpp.html" title="Tests du déplacement d&#39;un tour : budget, cases atteignables, chemin déterministe (LOT-19,...">Source/Test/Unit/Core/Combat/test_pathfinding.cpp</a>:103</span></sub>  </td><td class="markdownTableBodyNone">Les cases atteignables correspondent exactement au budget.  </td><td class="markdownTableBodyNone">1. Grille ouverte 11x11, heros au centre.<br  />
+2. Calculer l'aire atteignable pour les budgets 0 a 5.<br  />
+3. Comparer chaque case a sa distance de Tchebychev.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">aire.origin()</span> vaut <span class="tt">centre</span>.<br  />
+Vérifie que <span class="tt">aire.destinations().size()</span> vaut <span class="tt">attendu</span>.<br  />
+Vérifie que <span class="tt">aire.canEndAt(case_)</span> vaut <span class="tt">distance &gt;= 1 &amp;&amp; distance &lt;= budget</span>.<br  />
+Vérifie que <span class="tt">aire.costTo(case_)</span> vaut <span class="tt">distance</span>.<br  />
+Vérifie que <span class="tt">aire.costTo(case_).has_value()</span> est faux.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>PathfindingTest.UnMurCouteLeDetour</b> (Bloquant)<br  />
+<sub><span class="tt"><a class="el" href="test__pathfinding_8cpp.html" title="Tests du déplacement d&#39;un tour : budget, cases atteignables, chemin déterministe (LOT-19,...">Source/Test/Unit/Core/Combat/test_pathfinding.cpp</a>:140</span></sub>  </td><td class="markdownTableBodyNone">Un mur entre deux cases voisines coute le detour.  </td><td class="markdownTableBodyNone">1. Grille 7x5, mur vertical en colonne 3 des lignes 0 a 2.<br  />
+2. Heros en (2,1), cible en (4,1), a deux cases de l'autre cote du mur.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">grille.place(HEROS, {2, 1})</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a56ee2c3f69200e700ac0f1b65dc413b4af429e45eaf722cbbb524b40a0313aa67">core::PlacementResult::Placed</a></span>.<br  />
+Vérifie que <span class="tt">courte.canEndAt({4, 1})</span> est faux.<br  />
+Vérifie que <span class="tt">longue.canEndAt({4, 1})</span> est vrai.<br  />
+Vérifie que <span class="tt">longue.costTo({4, 1})</span> vaut <span class="tt">6</span>.<br  />
+Vérifie que <span class="tt">chemin.has_value()</span> est vrai.<br  />
+Vérifie que <span class="tt">chemin-&gt;cost</span> vaut <span class="tt">6</span>.<br  />
+Vérifie que <span class="tt">chemin-&gt;steps.size()</span> vaut <span class="tt">6U</span>.<br  />
+Vérifie que <span class="tt">chemin-&gt;steps.back()</span> vaut <span class="tt">(<a class="el" href="structcore_1_1GridPosition.html" title="Position d&#39;une case dans la grille d&#39;un niveau, en coordonnées entières.">core::GridPosition</a>{4, 1})</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>PathfindingTest.UneDiagonaleNeCoupePasLeCoinDUnMur</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__pathfinding_8cpp.html" title="Tests du déplacement d&#39;un tour : budget, cases atteignables, chemin déterministe (LOT-19,...">Source/Test/Unit/Core/Combat/test_pathfinding.cpp</a>:172</span></sub>  </td><td class="markdownTableBodyNone">Une diagonale ne coupe pas le coin d'un mur.  </td><td class="markdownTableBodyNone">1. Grille 3x3, mur en (1,0).<br  />
+2. Heros en (0,0), cible (1,1) en diagonale.<br  />
+3. Meme chose avec de l'eau profonde a la place du mur.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">grilleMur.place(HEROS, {0, 0})</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a56ee2c3f69200e700ac0f1b65dc413b4af429e45eaf722cbbb524b40a0313aa67">core::PlacementResult::Placed</a></span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="classcore_1_1ReachableArea.html" title="Les cases qu&#39;un combattant peut atteindre ce tour-ci, et par où.">core::ReachableArea</a>(grilleMur, {.combatant = HEROS}, 3).costTo({1, 1})</span> vaut <span class="tt">2</span>.<br  />
+Vérifie que <span class="tt">grilleMare.place(HEROS, {0, 0})</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a56ee2c3f69200e700ac0f1b65dc413b4af429e45eaf722cbbb524b40a0313aa67">core::PlacementResult::Placed</a></span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="classcore_1_1ReachableArea.html" title="Les cases qu&#39;un combattant peut atteindre ce tour-ci, et par où.">core::ReachableArea</a>(grilleMare, {.combatant = HEROS}, 3).costTo({1, 1})</span> vaut <span class="tt">1</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>PathfindingTest.LeTerrainDifficileDoubleLeCoutEtReduitLaPortee</b> (Bloquant)<br  />
+<sub><span class="tt"><a class="el" href="test__pathfinding_8cpp.html" title="Tests du déplacement d&#39;un tour : budget, cases atteignables, chemin déterministe (LOT-19,...">Source/Test/Unit/Core/Combat/test_pathfinding.cpp</a>:197</span></sub>  </td><td class="markdownTableBodyNone">Le terrain difficile double le cout et reduit la portee.  </td><td class="markdownTableBodyNone">1. Grille ouverte 11x11, heros au centre, budget 4.<br  />
+2. Rendre difficile une case voisine, puis toute la grille.<br  />
+3. Recalculer l'aire avec un budget de 1 contre une case difficile.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">uneCase.costTo(voisine)</span> vaut <span class="tt">2</span>.<br  />
+Vérifie que <span class="tt">uneCase.costTo({7, 5})</span> vaut <span class="tt">2</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="classcore_1_1ReachableArea.html" title="Les cases qu&#39;un combattant peut atteindre ce tour-ci, et par où.">core::ReachableArea</a>(grille, {.combatant = HEROS}, 1).canEndAt(voisine)</span> est faux.<br  />
+Vérifie que <span class="tt"><a class="el" href="classcore_1_1ReachableArea.html" title="Les cases qu&#39;un combattant peut atteindre ce tour-ci, et par où.">core::ReachableArea</a>(grilleOuverte(11), {.combatant = HEROS}, 4).destinations().size()</span> vaut <span class="tt">80U</span>.<br  />
+Vérifie que <span class="tt">boue.destinations().size()</span> vaut <span class="tt">24U</span>.<br  />
+Vérifie que <span class="tt">boue.costTo({7, 7})</span> vaut <span class="tt">4</span>.<br  />
+Vérifie que <span class="tt">boue.costTo({8, 5}).has_value()</span> est faux.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>PathfindingTest.UnAllieSeTraverseUnEnnemiNon</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__pathfinding_8cpp.html" title="Tests du déplacement d&#39;un tour : budget, cases atteignables, chemin déterministe (LOT-19,...">Source/Test/Unit/Core/Combat/test_pathfinding.cpp</a>:234</span></sub>  </td><td class="markdownTableBodyNone">Un allie se traverse, un ennemi non, et aucun ne sert de destination.  </td><td class="markdownTableBodyNone">1. Couloir 5x1 : heros en (0,0), allie en (1,0), ennemi en (3,0).<br  />
+2. Calculer l'aire sans droit de passage, puis en autorisant l'allie.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">grille.place(HEROS, {0, 0})</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a56ee2c3f69200e700ac0f1b65dc413b4af429e45eaf722cbbb524b40a0313aa67">core::PlacementResult::Placed</a></span>.<br  />
+Vérifie que <span class="tt">grille.place(ALLIE, {1, 0})</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a56ee2c3f69200e700ac0f1b65dc413b4af429e45eaf722cbbb524b40a0313aa67">core::PlacementResult::Placed</a></span>.<br  />
+Vérifie que <span class="tt">grille.place(ENNEMI, {3, 0})</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a56ee2c3f69200e700ac0f1b65dc413b4af429e45eaf722cbbb524b40a0313aa67">core::PlacementResult::Placed</a></span>.<br  />
+Vérifie que <span class="tt">bloque.destinations().empty()</span> est vrai.<br  />
+Vérifie que <span class="tt">passage.destinations()</span> vaut <span class="tt">(std::vector&lt;<a class="el" href="structcore_1_1GridPosition.html" title="Position d&#39;une case dans la grille d&#39;un niveau, en coordonnées entières.">core::GridPosition</a>&gt;{{2, 0}})</span>.<br  />
+Vérifie que <span class="tt">passage.costTo({1, 0})</span> vaut <span class="tt">1</span>.<br  />
+Vérifie que <span class="tt">passage.canEndAt({1, 0})</span> est faux.<br  />
+Vérifie que <span class="tt">passage.costTo({4, 0}).has_value()</span> est faux.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#ad018fcc5c0c0bcabf187d6ae09568067" title="Le meilleur chemin de mover jusqu&#39;à destination, sans limite de budget.">core::findPath</a>(grille, heros, {4, 0}).has_value()</span> est faux.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#ad018fcc5c0c0bcabf187d6ae09568067" title="Le meilleur chemin de mover jusqu&#39;à destination, sans limite de budget.">core::findPath</a>(grille, heros, {1, 0}).has_value()</span> est faux.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>PathfindingTest.MemeEntreeMemeChemin</b> (Bloquant)<br  />
+<sub><span class="tt"><a class="el" href="test__pathfinding_8cpp.html" title="Tests du déplacement d&#39;un tour : budget, cases atteignables, chemin déterministe (LOT-19,...">Source/Test/Unit/Core/Combat/test_pathfinding.cpp</a>:266</span></sub>  </td><td class="markdownTableBodyNone">Meme entree, meme chemin, et le departage suit la regle du plus petit indice.  </td><td class="markdownTableBodyNone">1. Grille ouverte 3x3, heros en (0,0).<br  />
+2. Demander le chemin vers (2,0) et vers (0,2), chacun a deux chemins de cout 2.<br  />
+3. Repeter cent fois la requete sur une grille accidentee.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">petite.place(HEROS, {0, 0})</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a56ee2c3f69200e700ac0f1b65dc413b4af429e45eaf722cbbb524b40a0313aa67">core::PlacementResult::Placed</a></span>.<br  />
+Vérifie que <span class="tt">versLaDroite.has_value()</span> est vrai.<br  />
+Vérifie que <span class="tt">versLaDroite-&gt;steps</span> vaut <span class="tt">(std::vector&lt;<a class="el" href="structcore_1_1GridPosition.html" title="Position d&#39;une case dans la grille d&#39;un niveau, en coordonnées entières.">core::GridPosition</a>&gt;{{1, 0}, {2, 0}})</span>.<br  />
+Vérifie que <span class="tt">versLeBas.has_value()</span> est vrai.<br  />
+Vérifie que <span class="tt">versLeBas-&gt;steps</span> vaut <span class="tt">(std::vector&lt;<a class="el" href="structcore_1_1GridPosition.html" title="Position d&#39;une case dans la grille d&#39;un niveau, en coordonnées entières.">core::GridPosition</a>&gt;{{0, 1}, {0, 2}})</span>.<br  />
+Vérifie que <span class="tt">reference.has_value()</span> est vrai.<br  />
+Vérifie que <span class="tt">chemin.has_value()</span> est vrai.<br  />
+Vérifie que <span class="tt">chemin-&gt;steps</span> vaut <span class="tt">reference-&gt;steps</span>.<br  />
+Vérifie que <span class="tt">chemin-&gt;cost</span> vaut <span class="tt">reference-&gt;cost</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>PathfindingTest.LAireEtAStarRendentLeMemeChemin</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__pathfinding_8cpp.html" title="Tests du déplacement d&#39;un tour : budget, cases atteignables, chemin déterministe (LOT-19,...">Source/Test/Unit/Core/Combat/test_pathfinding.cpp</a>:306</span></sub>  </td><td class="markdownTableBodyNone">findPath et ReachableArea::pathTo rendent le meme chemin.  </td><td class="markdownTableBodyNone">1. Grille accidentee (mur en L, boue).<br  />
+2. Calculer l'aire pour un budget de 12.<br  />
+3. Pour chaque destination, comparer pathTo a findPath.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">aire.destinations().empty()</span> est faux.<br  />
+Vérifie que <span class="tt">parAire.has_value()</span> est vrai.<br  />
+Vérifie que <span class="tt">parAStar.has_value()</span> est vrai.<br  />
+Vérifie que <span class="tt">parAire-&gt;steps</span> vaut <span class="tt">parAStar-&gt;steps</span>.<br  />
+Vérifie que <span class="tt">parAire-&gt;cost</span> vaut <span class="tt">parAStar-&gt;cost</span>.<br  />
+Vérifie que <span class="tt">aire.costTo(destination)</span> vaut <span class="tt">parAire-&gt;cost</span>.<br  />
+Vérifie que <span class="tt">tchebychev(pas, precedente)</span> vaut <span class="tt">1</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>PathfindingTest.UnCheminImpossibleEstRefuse</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__pathfinding_8cpp.html" title="Tests du déplacement d&#39;un tour : budget, cases atteignables, chemin déterministe (LOT-19,...">Source/Test/Unit/Core/Combat/test_pathfinding.cpp</a>:340</span></sub>  </td><td class="markdownTableBodyNone">Un chemin impossible est refuse.  </td><td class="markdownTableBodyNone">1. Grille coupee en deux par un mur plein.<br  />
+2. Demander un chemin de l'autre cote, un chemin vers un mur, un chemin pour un combattant absent.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">grille.place(HEROS, {0, 2})</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a56ee2c3f69200e700ac0f1b65dc413b4af429e45eaf722cbbb524b40a0313aa67">core::PlacementResult::Placed</a></span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#ad018fcc5c0c0bcabf187d6ae09568067" title="Le meilleur chemin de mover jusqu&#39;à destination, sans limite de budget.">core::findPath</a>(grille, {.combatant = HEROS}, {4, 2}).has_value()</span> est faux.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#ad018fcc5c0c0bcabf187d6ae09568067" title="Le meilleur chemin de mover jusqu&#39;à destination, sans limite de budget.">core::findPath</a>(grille, {.combatant = HEROS}, {2, 2}).has_value()</span> est faux.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#ad018fcc5c0c0bcabf187d6ae09568067" title="Le meilleur chemin de mover jusqu&#39;à destination, sans limite de budget.">core::findPath</a>(grille, {.combatant = ENNEMI}, {1, 2}).has_value()</span> est faux.<br  />
+Vérifie que <span class="tt">aire.pathTo({0, 2}).has_value()</span> est faux.<br  />
+Vérifie que <span class="tt">aire.pathTo({4, 2}).has_value()</span> est faux.<br  />
+Vérifie que <span class="tt">aire.destinations().size()</span> vaut <span class="tt">9U</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="classcore_1_1ReachableArea.html" title="Les cases qu&#39;un combattant peut atteindre ce tour-ci, et par où.">core::ReachableArea</a>(grille, {.combatant = ENNEMI}, 20).destinations().empty()</span> est vrai.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>PathfindingTest.UnVolantSurvoleLesObstaclesDeSol</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__pathfinding_8cpp.html" title="Tests du déplacement d&#39;un tour : budget, cases atteignables, chemin déterministe (LOT-19,...">Source/Test/Unit/Core/Combat/test_pathfinding.cpp</a>:369</span></sub>  </td><td class="markdownTableBodyNone">Un volant survole les obstacles de sol, pas les murs.  </td><td class="markdownTableBodyNone">1. Couloir 5x3 : colonne 2 en eau profonde, case (1,1) en boue, ligne 0 murée.<br  />
+2. Calculer l'aire du meme combattant au sol, puis en vol.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">grille.place(HEROS, {0, 1})</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a56ee2c3f69200e700ac0f1b65dc413b4af429e45eaf722cbbb524b40a0313aa67">core::PlacementResult::Placed</a></span>.<br  />
+Vérifie que <span class="tt">marche.canEndAt({3, 1})</span> est faux.<br  />
+Vérifie que <span class="tt">marche.costTo({1, 1})</span> vaut <span class="tt">2</span>.<br  />
+Vérifie que <span class="tt">vol.canEndAt({3, 1})</span> est vrai.<br  />
+Vérifie que <span class="tt">vol.costTo({1, 1})</span> vaut <span class="tt">1</span>.<br  />
+Vérifie que <span class="tt">vol.canEndAt({2, 1})</span> est vrai.<br  />
+Vérifie que <span class="tt">vol.costTo({1, 0}).has_value()</span> est faux.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>PathfindingTest.UneGrandeCreatureNePassePasParUnCouloirEtroit</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__pathfinding_8cpp.html" title="Tests du déplacement d&#39;un tour : budget, cases atteignables, chemin déterministe (LOT-19,...">Source/Test/Unit/Core/Combat/test_pathfinding.cpp</a>:404</span></sub>  </td><td class="markdownTableBodyNone">Une creature 2x2 ne passe pas par un couloir d'une case.  </td><td class="markdownTableBodyNone">1. Salle 6x6 coupee par un mur en colonne 3, percee d'une seule case en (3,2).<br  />
+2. Calculer l'aire d'un combattant 1x1, puis d'un 2x2, au budget 10.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">grille.place(HEROS, {0, 0})</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a56ee2c3f69200e700ac0f1b65dc413b4af429e45eaf722cbbb524b40a0313aa67">core::PlacementResult::Placed</a></span>.<br  />
+Vérifie que <span class="tt">grille.place(ENNEMI, {0, 3}, 2)</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a56ee2c3f69200e700ac0f1b65dc413b4af429e45eaf722cbbb524b40a0313aa67">core::PlacementResult::Placed</a></span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="classcore_1_1ReachableArea.html" title="Les cases qu&#39;un combattant peut atteindre ce tour-ci, et par où.">core::ReachableArea</a>(grille, {.combatant = HEROS}, 10).canEndAt({5, 2})</span> est vrai.<br  />
+Vérifie que <span class="tt">ours.destinations().empty()</span> est faux.<br  />
+Vérifie que <span class="tt">place.column</span> est strictement inférieur à <span class="tt">3</span>.<br  />
+Vérifie que <span class="tt">grille.canStand(place, 2, ENNEMI)</span> est vrai.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>PathfindingTest.SurDesCartesAleatoiresAStarEtLAireSAccordent</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__pathfinding_8cpp.html" title="Tests du déplacement d&#39;un tour : budget, cases atteignables, chemin déterministe (LOT-19,...">Source/Test/Unit/Core/Combat/test_pathfinding.cpp</a>:437</span></sub>  </td><td class="markdownTableBodyNone">Sur deux cents cartes aleatoires a graine fixe, A* et l'aire s'accordent.  </td><td class="markdownTableBodyNone">1. Tirer deux cents grilles 12x9 (graine fixe) : murs, eau profonde, boue, un allie a traverser.<br  />
+2. Pour chaque destination de l'aire au budget 14, comparer pathTo et findPath.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">grille.place(HEROS, {1, 1})</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a56ee2c3f69200e700ac0f1b65dc413b4af429e45eaf722cbbb524b40a0313aa67">core::PlacementResult::Placed</a></span>.<br  />
+Vérifie que <span class="tt">grille.place(ALLIE, {2, 1})</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a56ee2c3f69200e700ac0f1b65dc413b4af429e45eaf722cbbb524b40a0313aa67">core::PlacementResult::Placed</a></span>.<br  />
+Vérifie que <span class="tt">parAire.has_value()</span> est vrai.<br  />
+Vérifie que <span class="tt">parAStar.has_value()</span> est vrai.<br  />
+Vérifie que <span class="tt">parAire-&gt;steps</span> vaut <span class="tt">parAStar-&gt;steps</span>.<br  />
+Vérifie que <span class="tt">parAire-&gt;cost</span> vaut <span class="tt">parAStar-&gt;cost</span>.<br  />
+Vérifie que <span class="tt">comparaisons</span> est strictement supérieur à <span class="tt">2000</span>.  </td></tr>
 </table>
 <h3 class="doxsection"><a class="anchor" id="autotoc_md8"></a>
 Data (11)</h3>
@@ -4279,13 +4510,15 @@ Vérifie que <span class="tt">passes.calls()</span> vaut <span class="tt">announ
 <sub><span class="tt"><a class="el" href="test__game__mode_8cpp.html" title="Tests unitaires du mode de jeu : l&#39;ordre des passes du pas fixe (EX-ARCH-002, LOT-05).">Source/Test/Unit/HMI/Game/test_game_mode.cpp</a>:186</span></sub>  </td><td class="markdownTableBodyNone">Le mode d'exploration est sans etat et se nomme.  </td><td class="markdownTableBodyNone">1. Charger puis decharger le mode.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">passes.calls().empty()</span> est vrai.<br  />
 Vérifie que <span class="tt">mode.name()</span> vaut <span class="tt">"exploration"</span>.  </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><b>ModeDeJeuTest.LeModeCombatGeleLeMonde</b> (?)<br  />
-<sub><span class="tt"><a class="el" href="test__game__mode_8cpp.html" title="Tests unitaires du mode de jeu : l&#39;ordre des passes du pas fixe (EX-ARCH-002, LOT-05).">Source/Test/Unit/HMI/Game/test_game_mode.cpp</a>:207</span></sub>  </td><td class="markdownTableBodyNone">Le mode combat gele le monde. cat Unitaire · Mode de jeu crit Critique etapes 1. Avancer le mode combat d'un pas fixe sur des passes qui enregistrent leurs appels. 2. Comparer la sequence a passOrder(). 3. Verifier l'absence des passes d'exploration. attendu moveCharacter, updateMechanisms, detectEvents et evaluateOutcome ne sont jamais appeles, et l'issue rendue est Playing.  </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">Vérifie que <span class="tt">passes.calls()</span> vaut <span class="tt">announcedOrder(mode)</span>.<br  />
+<td class="markdownTableBodyNone"><b>ModeDeJeuTest.LeModeCombatGeleLeMonde</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__game__mode_8cpp.html" title="Tests unitaires du mode de jeu : l&#39;ordre des passes du pas fixe (EX-ARCH-002, LOT-05).">Source/Test/Unit/HMI/Game/test_game_mode.cpp</a>:207</span></sub>  </td><td class="markdownTableBodyNone">Le mode combat gele le monde.  </td><td class="markdownTableBodyNone">1. Avancer le mode combat d'un pas fixe sur des passes qui enregistrent leurs appels.<br  />
+2. Comparer la sequence a passOrder().<br  />
+3. Verifier l'absence des passes d'exploration.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">passes.calls()</span> vaut <span class="tt">announcedOrder(mode)</span>.<br  />
 Vérifie que <span class="tt">issue</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a60398ec3835dd2882a7d3a9eaddb65aaac9dbb2b7c84159b632d71e512eba8428" title="Partie en cours.">core::LevelOutcome::Playing</a></span>.<br  />
 Vérifie que <span class="tt">std::ranges::find(passes.calls(), gelee)</span> vaut <span class="tt">passes.calls().end()</span>.  </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><b>ModeDeJeuTest.LeModeCombatEstNommeEtSansEtat</b> (?)<br  />
-<sub><span class="tt"><a class="el" href="test__game__mode_8cpp.html" title="Tests unitaires du mode de jeu : l&#39;ordre des passes du pas fixe (EX-ARCH-002, LOT-05).">Source/Test/Unit/HMI/Game/test_game_mode.cpp</a>:235</span></sub>  </td><td class="markdownTableBodyNone">Le mode combat est nomme et sans etat. cat Unitaire · Mode de jeu crit Mineur etapes 1. Avancer deux instances distinctes du mode d'un meme pas. attendu Les deux produisent la meme sequence, et le mode porte un nom distinct de l'exploration.  </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">Vérifie que <span class="tt">premier.name()</span> vaut <span class="tt">"combat"</span>.<br  />
+<td class="markdownTableBodyNone"><b>ModeDeJeuTest.LeModeCombatEstNommeEtSansEtat</b> (Mineur)<br  />
+<sub><span class="tt"><a class="el" href="test__game__mode_8cpp.html" title="Tests unitaires du mode de jeu : l&#39;ordre des passes du pas fixe (EX-ARCH-002, LOT-05).">Source/Test/Unit/HMI/Game/test_game_mode.cpp</a>:235</span></sub>  </td><td class="markdownTableBodyNone">Le mode combat est nomme et sans etat.  </td><td class="markdownTableBodyNone">1. Avancer deux instances distinctes du mode d'un meme pas.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">premier.name()</span> vaut <span class="tt">"combat"</span>.<br  />
 Vérifie que <span class="tt">premier.name()</span> diffère de <span class="tt"><a class="el" href="classhmi_1_1ExplorationMode.html" title="Le mode par défaut : le personnage parcourt la carte, les mécanismes répondent, la caméra suit,...">hmi::ExplorationMode</a>{}.name()</span>.<br  />
 Vérifie que <span class="tt">passesA.calls()</span> vaut <span class="tt">passesB.calls()</span>.  </td></tr>
 </table>
@@ -6631,8 +6864,10 @@ Vérifie que <span class="tt">valeurs.at("sheet.speed")</span> vaut <span class=
 <td class="markdownTableBodyNone"><b>CharacterSheetValuesTest.SansFicheAucuneValeurNEstProduite</b> (Majeur)<br  />
 <sub><span class="tt"><a class="el" href="test__character__sheet__values_8cpp.html" title="Tests unitaires des valeurs affichées par l&#39;écran de fiche (LOT-38).">Source/Test/Unit/HMI/Interface/test_character_sheet_values.cpp</a>:194</span></sub>  </td><td class="markdownTableBodyNone">Sans fiche, aucune valeur n'est produite.  </td><td class="markdownTableBodyNone">1. Produire les valeurs d'un contexte sans fiche.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#ad2b3435349dd004d6768a14a49f5dacc">hmi::characterSheetValues</a>({}).empty()</span> est vrai.  </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><b>CharacterSheetValuesTest.ChaqueChampDeLaFicheEstAlimente</b> (?)<br  />
-<sub><span class="tt"><a class="el" href="test__character__sheet__values_8cpp.html" title="Tests unitaires des valeurs affichées par l&#39;écran de fiche (LOT-38).">Source/Test/Unit/HMI/Interface/test_character_sheet_values.cpp</a>:213</span></sub>  </td><td class="markdownTableBodyNone">Chaque champ de la fiche declarant une source est rempli. cat Unitaire · Fiche de personnage crit Critique etapes 1. Lire les identifiants de valeur declares par l'ossature de la fiche. 2. Produire les valeurs d'une fiche complete. 3. Verifier que chaque identifiant declare est produit. attendu Aucun champ de la fiche ne reste sans source.  </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">Vérifie que <span class="tt">valeurs.count(champ.valueId) &gt; 0</span> est vrai.<br  />
+<td class="markdownTableBodyNone"><b>CharacterSheetValuesTest.ChaqueChampDeLaFicheEstAlimente</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__character__sheet__values_8cpp.html" title="Tests unitaires des valeurs affichées par l&#39;écran de fiche (LOT-38).">Source/Test/Unit/HMI/Interface/test_character_sheet_values.cpp</a>:213</span></sub>  </td><td class="markdownTableBodyNone">Chaque champ de la fiche declarant une source est rempli.  </td><td class="markdownTableBodyNone">1. Lire les identifiants de valeur declares par l'ossature de la fiche.<br  />
+2. Produire les valeurs d'une fiche complete.<br  />
+3. Verifier que chaque identifiant declare est produit.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">valeurs.count(champ.valueId) &gt; 0</span> est vrai.<br  />
 Vérifie que <span class="tt">declares</span> est strictement supérieur à <span class="tt">10</span>.  </td></tr>
 </table>
 <p><b><span class="tt"><a class="el" href="test__design__tokens_8cpp.html" title="Tests unitaires des jetons de design de l&#39;IHM (LOT-56 TACHE-01, EX-IHM-050, EX-IHM-051).">test_design_tokens.cpp</a></span></b></p>
@@ -6899,8 +7134,9 @@ Vérifie que <span class="tt">en.empty()</span> est faux.<br  />
 Vérifie que <span class="tt">fr.count(key) &gt; 0</span> est vrai.<br  />
 Vérifie que <span class="tt">en.count(key) &gt; 0</span> est vrai.  </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><b>RpgScreensTest.LesIdentifiantsDeValeurSontUniquesParEcran</b> (?)<br  />
-<sub><span class="tt"><a class="el" href="test__rpg__screens_8cpp.html" title="Tests unitaires du catalogue des écrans du RPG et de leur ossature (LOT-68, EX-IHM-090,...">Source/Test/Unit/HMI/Interface/test_rpg_screens.cpp</a>:254</span></sub>  </td><td class="markdownTableBodyNone">Les identifiants de valeur sont uniques a l'interieur d'un ecran. cat Unitaire · Ecrans du RPG crit Majeur etapes 1. Collecter les identifiants de valeur de chaque ecran. 2. Verifier qu'aucun ne se repete dans un meme ecran. attendu Aucun identifiant duplique.  </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">Vérifie que <span class="tt">vus.insert(field.valueId).second</span> est vrai.<br  />
+<td class="markdownTableBodyNone"><b>RpgScreensTest.LesIdentifiantsDeValeurSontUniquesParEcran</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__rpg__screens_8cpp.html" title="Tests unitaires du catalogue des écrans du RPG et de leur ossature (LOT-68, EX-IHM-090,...">Source/Test/Unit/HMI/Interface/test_rpg_screens.cpp</a>:254</span></sub>  </td><td class="markdownTableBodyNone">Les identifiants de valeur sont uniques a l'interieur d'un ecran.  </td><td class="markdownTableBodyNone">1. Collecter les identifiants de valeur de chaque ecran.<br  />
+2. Verifier qu'aucun ne se repete dans un meme ecran.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">vus.insert(field.valueId).second</span> est vrai.<br  />
 Vérifie que <span class="tt">vus.insert(id).second</span> est vrai.  </td></tr>
 </table>
 <p><b><span class="tt"><a class="el" href="test__screen__flow_8cpp.html" title="Tests unitaires de la machine à états des écrans (LOT-59 TACHE-01, EX-GP-041).">test_screen_flow.cpp</a></span></b></p>
@@ -6947,8 +7183,9 @@ Vérifie que <span class="tt">resolveTransition(game, ScreenEvent::OpenCredits)<
 Vérifie que <span class="tt">resolveTransition(editor, ScreenEvent::OpenRpgScreen)</span> vaut <span class="tt">std::nullopt</span>.<br  />
 Vérifie que <span class="tt">resolveTransition(menu, ScreenEvent::CloseRpgScreen)</span> vaut <span class="tt">std::nullopt</span>.  </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><b>ScreenFlowTest.EcranDuRpgRevientVersSonEcranDOrigine</b> (?)<br  />
-<sub><span class="tt"><a class="el" href="test__screen__flow_8cpp.html" title="Tests unitaires de la machine à états des écrans (LOT-59 TACHE-01, EX-GP-041).">Source/Test/Unit/HMI/Interface/test_screen_flow.cpp</a>:131</span></sub>  </td><td class="markdownTableBodyNone">Un ecran du RPG revient vers son ecran d'origine (Menu, Game ou Pause). cat Unitaire · Machine à états des écrans crit Critique etapes 1. Ouvrir un ecran du RPG depuis le menu, le jeu puis la pause. 2. Le fermer a chaque fois et verifier l'ecran atteint. attendu Chaque fermeture revient a l'ecran d'origine respectif.  </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">Vérifie que <span class="tt">opened.has_value()</span> est vrai.<br  />
+<td class="markdownTableBodyNone"><b>ScreenFlowTest.EcranDuRpgRevientVersSonEcranDOrigine</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__screen__flow_8cpp.html" title="Tests unitaires de la machine à états des écrans (LOT-59 TACHE-01, EX-GP-041).">Source/Test/Unit/HMI/Interface/test_screen_flow.cpp</a>:131</span></sub>  </td><td class="markdownTableBodyNone">Un ecran du RPG revient vers son ecran d'origine (Menu, Game ou Pause).  </td><td class="markdownTableBodyNone">1. Ouvrir un ecran du RPG depuis le menu, le jeu puis la pause.<br  />
+2. Le fermer a chaque fois et verifier l'ecran atteint.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">opened.has_value()</span> est vrai.<br  />
 Vérifie que <span class="tt">opened-&gt;rpgReturnTo</span> vaut <span class="tt">expected</span>.<br  />
 Vérifie que <span class="tt">resolveTransition(*opened, ScreenEvent::CloseRpgScreen)-&gt;screen</span> vaut <span class="tt">expected</span>.  </td></tr>
 <tr class="markdownTableRowOdd">

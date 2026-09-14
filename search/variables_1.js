@@ -16,7 +16,7 @@ var searchData=
   ['airjumps_13',['airJumps',['../structcore_1_1PhysicsConfig.html#aece7832fe12221342224bb69afc9e273',1,'core::PhysicsConfig']]],
   ['alignment_14',['alignment',['../structcore_1_1Creature.html#a0590b9078fdba523d54be4a3a42ee01b',1,'core::Creature']]],
   ['amplitudepixels_15',['amplitudePixels',['../structhmi_1_1ScreenShakeState.html#a3e1d3a4324971d228388ffadbc9d5682',1,'hmi::ScreenShakeState']]],
-  ['anchor_16',['anchor',['../structhmi_1_1FollowCameraState.html#aad1ea32f2aa02eb8b804f243ec21cff4',1,'hmi::FollowCameraState']]],
+  ['anchor_16',['anchor',['../structcore_1_1BattleGrid_1_1Placement.html#a0cc8960ddfdeb2bb29dea52217b4449f',1,'core::BattleGrid::Placement::anchor'],['../structhmi_1_1FollowCameraState.html#aad1ea32f2aa02eb8b804f243ec21cff4',1,'hmi::FollowCameraState::anchor']]],
   ['anchors_17',['anchors',['../structhmi_1_1RegionAnchors.html#afb2422c58a72420b4f3590173f0e9d62',1,'hmi::RegionAnchors']]],
   ['animatedframe_18',['animatedFrame',['../structhmi_1_1SkinTexture.html#adb205ea88fb4f3ffa43f9e210046042c',1,'hmi::SkinTexture::animatedFrame'],['../structhmi_1_1TileSkinTag.html#a911bf19f0ce47dfffc68209f3e96581f',1,'hmi::TileSkinTag::animatedFrame']]],
   ['animation_19',['animation',['../structhmi_1_1MechanismVisualState.html#abdae420be12d1f1458b01df920774b17',1,'hmi::MechanismVisualState']]],

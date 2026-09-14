@@ -176,10 +176,11 @@ Functions</h2></td></tr>
 
 <p>Le mode combat se nomme, et ne garde aucun état d'un pas à l'autre. </p>
 <p><b>Cas de test :</b> <b>Le mode combat est nomme et sans etat.</b><br  />
- cat Unitaire · Mode de jeu<br  />
- crit Mineur<br  />
- etapes 1. Avancer deux instances distinctes du mode d'un meme pas.<br  />
- attendu Les deux produisent la meme sequence, et le mode porte un nom distinct de l'exploration. </p>
+ <b>Categorie :</b> Unitaire · Mode de jeu<br  />
+ <b>Criticite :</b> Mineur<br  />
+ <b>Etapes :</b><br  />
+ 1. Avancer deux instances distinctes du mode d'un meme pas.<br  />
+ <b>Resultat attendu :</b> Les deux produisent la meme sequence, et le mode porte un nom distinct de l'exploration. </p>
 
 </div>
 </div>
@@ -204,12 +205,13 @@ Functions</h2></td></tr>
 
 <p>Le mode combat <b>gèle</b> le monde : ni déplacement libre, ni mécanismes, ni évaluation d'issue de niveau — et l'ordre appelé reste celui qu'il annonce. </p>
 <p><b>Cas de test :</b> <b>Le mode combat gele le monde.</b><br  />
- cat Unitaire · Mode de jeu<br  />
- crit Critique<br  />
- etapes 1. Avancer le mode combat d'un pas fixe sur des passes qui enregistrent leurs appels.<br  />
+ <b>Categorie :</b> Unitaire · Mode de jeu<br  />
+ <b>Criticite :</b> Critique<br  />
+ <b>Etapes :</b><br  />
+ 1. Avancer le mode combat d'un pas fixe sur des passes qui enregistrent leurs appels.<br  />
 2. Comparer la sequence a passOrder().<br  />
 3. Verifier l'absence des passes d'exploration.<br  />
- attendu moveCharacter, updateMechanisms, detectEvents et evaluateOutcome ne sont jamais appeles, et l'issue rendue est Playing. </p>
+ <b>Resultat attendu :</b> moveCharacter, updateMechanisms, detectEvents et evaluateOutcome ne sont jamais appeles, et l'issue rendue est Playing. </p>
 
 </div>
 </div>

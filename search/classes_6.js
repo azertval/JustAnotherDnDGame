@@ -9,5 +9,6 @@ var searchData=
   ['gameviewportitem_6',['GameViewportItem',['../classhmi_1_1GameViewportItem.html',1,'hmi']]],
   ['glyphmetrics_7',['GlyphMetrics',['../structhmi_1_1GlyphMetrics.html',1,'hmi']]],
   ['griddistancefield_8',['GridDistanceField',['../classcore_1_1GridDistanceField.html',1,'core']]],
-  ['gridposition_9',['GridPosition',['../structcore_1_1GridPosition.html',1,'core']]]
+  ['gridobject_9',['GridObject',['../structcore_1_1GridObject.html',1,'core']]],
+  ['gridposition_10',['GridPosition',['../structcore_1_1GridPosition.html',1,'core']]]
 ];

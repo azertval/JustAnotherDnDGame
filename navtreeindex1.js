@@ -1,5 +1,8 @@
 var NAVTREEINDEX1 =
 {
+"GameplayLog_8h.html":[13,0,3,1,4,0],
+"GameplayLog_8h.html#a070c804459187e213fdcff98e639514b":[13,0,3,1,4,0,3],
+"GameplayLog_8h.html#a3642b9797558286415285c8ac3ff244e":[13,0,3,1,4,0,0],
 "GameplayLog_8h.html#a5d8c9f506ec84e69acaf587bbe4d18ae":[13,0,3,1,4,0,1],
 "GameplayLog_8h.html#af792b42d5aa0d818b78e0f591fe46280":[13,0,3,1,4,0,2],
 "GameplayLog_8h_source.html":[13,0,3,1,4,0],
@@ -179,6 +182,9 @@ var NAVTREEINDEX1 =
 "ParticleSystem_8h_source.html":[13,0,3,1,3,1,5],
 "Particle_8h.html":[13,0,3,1,3,0,4],
 "Particle_8h_source.html":[13,0,3,1,3,0,4],
+"Pathfinding_8cpp.html":[13,0,3,1,0,6],
+"Pathfinding_8h.html":[13,0,3,1,0,7],
+"Pathfinding_8h_source.html":[13,0,3,1,0,7],
 "PendingData_8cpp.html":[13,0,3,3,10,12],
 "PendingData_8h.html":[13,0,3,3,10,13],
 "PendingData_8h_source.html":[13,0,3,3,10,13],
@@ -243,11 +249,5 @@ var NAVTREEINDEX1 =
 "PlayerSpawn_8h.html":[13,0,3,1,7,6],
 "PlayerSpawn_8h_source.html":[13,0,3,1,7,6],
 "PlayerSpriteTag_8h.html":[13,0,3,3,4,36],
-"PlayerSpriteTag_8h_source.html":[13,0,3,3,4,36],
-"PlayerSprite_8cpp.html":[13,0,3,3,4,34],
-"PlayerSprite_8h.html":[13,0,3,3,4,35],
-"PlayerSprite_8h_source.html":[13,0,3,3,4,35],
-"PreviousPosition_8h.html":[13,0,3,3,4,37],
-"PreviousPosition_8h_source.html":[13,0,3,3,4,37],
-"ProceduralAtlas_8cpp.html":[13,0,3,3,4,38]
+"PlayerSpriteTag_8h_source.html":[13,0,3,3,4,36]
 };

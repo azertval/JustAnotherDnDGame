@@ -25,6 +25,7 @@ var hierarchy =
     [ "hmi::BackgroundFit", "structhmi_1_1BackgroundFit.html", null ],
     [ "hmi::BackgroundTexture", "structhmi_1_1BackgroundTexture.html", null ],
     [ "hmi::SpriteBatch::Batch", "structhmi_1_1SpriteBatch_1_1Batch.html", null ],
+    [ "core::BattleGrid", "classcore_1_1BattleGrid.html", null ],
     [ "core::Bestiary", "structcore_1_1Bestiary.html", null ],
     [ "hmi::BitmapFont", "classhmi_1_1BitmapFont.html", null ],
     [ "hmi::CacheRegistry&lt; Resource &gt;", "classhmi_1_1CacheRegistry.html", null ],
@@ -97,6 +98,7 @@ var hierarchy =
     [ "hmi::GamepadPoller", "classhmi_1_1GamepadPoller.html", null ],
     [ "hmi::GlyphMetrics", "structhmi_1_1GlyphMetrics.html", null ],
     [ "core::GridDistanceField", "classcore_1_1GridDistanceField.html", null ],
+    [ "core::GridObject", "structcore_1_1GridObject.html", null ],
     [ "core::GridPosition", "structcore_1_1GridPosition.html", null ],
     [ "core::IComponentPool", "classcore_1_1IComponentPool.html", [
       [ "core::ComponentPool< T >", "classcore_1_1ComponentPool.html", null ]
@@ -169,12 +171,14 @@ var hierarchy =
     [ "hmi::MechanismEventState", "structhmi_1_1MechanismEventState.html", null ],
     [ "hmi::MechanismVisualState", "structhmi_1_1MechanismVisualState.html", null ],
     [ "core::Modifier", "structcore_1_1Modifier.html", null ],
+    [ "core::Mover", "structcore_1_1Mover.html", null ],
     [ "core::NamedTrait", "structcore_1_1NamedTrait.html", null ],
     [ "hmi::PaletteThumbnail", "structhmi_1_1PaletteThumbnail.html", null ],
     [ "hmi::PanelFocusEntry", "structhmi_1_1PanelFocusEntry.html", null ],
     [ "core::Particle", "structcore_1_1Particle.html", null ],
     [ "core::ParticleEffect", "structcore_1_1ParticleEffect.html", null ],
     [ "core::ParticleSystem", "classcore_1_1ParticleSystem.html", null ],
+    [ "core::Path", "structcore_1_1Path.html", null ],
     [ "hmi::PendingLink", "structhmi_1_1PendingLink.html", null ],
     [ "core::PhysicsConfig", "structcore_1_1PhysicsConfig.html", null ],
     [ "hmi::PixelCanvasRealSize", "structhmi_1_1PixelCanvasRealSize.html", null ],
@@ -189,6 +193,7 @@ var hierarchy =
     [ "hmi::PixelPanelFocusEntry", "structhmi_1_1PixelPanelFocusEntry.html", null ],
     [ "hmi::PixelRegion", "structhmi_1_1PixelRegion.html", null ],
     [ "hmi::PixelScreenRect", "structhmi_1_1PixelScreenRect.html", null ],
+    [ "core::BattleGrid::Placement", "structcore_1_1BattleGrid_1_1Placement.html", null ],
     [ "core::Plane", "structcore_1_1Plane.html", null ],
     [ "hmi::PlaneEditStatusInfo", "structhmi_1_1PlaneEditStatusInfo.html", null ],
     [ "hmi::PlaneLayer", "structhmi_1_1PlaneLayer.html", null ],
@@ -242,6 +247,7 @@ var hierarchy =
       [ "hmi::PlanesPanel", "classhmi_1_1PlanesPanel.html", null ],
       [ "hmi::TexturePanel", "classhmi_1_1TexturePanel.html", null ]
     ] ],
+    [ "core::ReachableArea", "classcore_1_1ReachableArea.html", null ],
     [ "core::Rect", "structcore_1_1Rect.html", null ],
     [ "core::Region", "structcore_1_1Region.html", null ],
     [ "hmi::RegionAnchors", "structhmi_1_1RegionAnchors.html", null ],
@@ -314,5 +320,6 @@ var hierarchy =
     [ "core::Weapon", "structcore_1_1Weapon.html", null ],
     [ "hmi::WorkspaceDressing", "structhmi_1_1WorkspaceDressing.html", null ],
     [ "core::World", "classcore_1_1World.html", null ],
-    [ "core::WorldFlags", "classcore_1_1WorldFlags.html", null ]
+    [ "core::WorldFlags", "classcore_1_1WorldFlags.html", null ],
+    [ "core::BattleGrid::Zone", "structcore_1_1BattleGrid_1_1Zone.html", null ]
 ];

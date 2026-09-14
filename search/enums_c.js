@@ -5,6 +5,7 @@ var searchData=
   ['particlekind_2',['ParticleKind',['../namespacecore.html#aa6799b2e10b4cf31b2527af8a390ce2c',1,'core']]],
   ['pixeloperationkind_3',['PixelOperationKind',['../namespacehmi.html#a5889df12c254317504ef5777d27d9b0e',1,'hmi']]],
   ['pixeltool_4',['PixelTool',['../namespacehmi.html#a9cb51e9b7642963a83312d94737fe571',1,'hmi']]],
-  ['planedepth_5',['PlaneDepth',['../namespacecore.html#a6dc89438a55a80980ab04f7da513f731',1,'core']]],
-  ['playerclipkind_6',['PlayerClipKind',['../namespacehmi.html#a01d3aca49804e2e7ac13786499fe7bf4',1,'hmi']]]
+  ['placementresult_5',['PlacementResult',['../namespacecore.html#a56ee2c3f69200e700ac0f1b65dc413b4',1,'core']]],
+  ['planedepth_6',['PlaneDepth',['../namespacecore.html#a6dc89438a55a80980ab04f7da513f731',1,'core']]],
+  ['playerclipkind_7',['PlayerClipKind',['../namespacehmi.html#a01d3aca49804e2e7ac13786499fe7bf4',1,'hmi']]]
 ];

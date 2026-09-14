@@ -98,6 +98,10 @@ $(function(){initNavTree('namespacecore.html','',''); });
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
+<tr class="memitem:GridObject" id="r_GridObject"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1GridObject.html">GridObject</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un objet posé sur une case : une toile, une barricade, un tonneau.  <a href="structcore_1_1GridObject.html#details">More...</a><br /></td></tr>
+<tr class="memitem:BattleGrid" id="r_BattleGrid"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classcore_1_1BattleGrid.html">BattleGrid</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">La grille tactique d'une rencontre.  <a href="classcore_1_1BattleGrid.html#details">More...</a><br /></td></tr>
 <tr class="memitem:ExplorationSnapshot" id="r_ExplorationSnapshot"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1ExplorationSnapshot.html">ExplorationSnapshot</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">L'état d'exploration mis de côté le temps d'un combat.  <a href="structcore_1_1ExplorationSnapshot.html#details">More...</a><br /></td></tr>
 <tr class="memitem:EncounterRun" id="r_EncounterRun"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1EncounterRun.html">EncounterRun</a></td></tr>
@@ -112,6 +116,12 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le catalogue des rencontres, et ce qui n'a pas pu être lu.  <a href="structcore_1_1EncounterCatalog.html#details">More...</a><br /></td></tr>
 <tr class="memitem:CombatantPlacement" id="r_CombatantPlacement"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1CombatantPlacement.html">CombatantPlacement</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un combattant <b>placé</b> : sa créature, et sa case sur la carte.  <a href="structcore_1_1CombatantPlacement.html#details">More...</a><br /></td></tr>
+<tr class="memitem:Mover" id="r_Mover"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1Mover.html">Mover</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Qui se déplace, comment, et à travers qui.  <a href="structcore_1_1Mover.html#details">More...</a><br /></td></tr>
+<tr class="memitem:Path" id="r_Path"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1Path.html">Path</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un chemin : les cases franchies, départ exclu et arrivée incluse, et ce qu'il coûte.  <a href="structcore_1_1Path.html#details">More...</a><br /></td></tr>
+<tr class="memitem:ReachableArea" id="r_ReachableArea"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classcore_1_1ReachableArea.html">ReachableArea</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les cases qu'un combattant peut atteindre ce tour-ci, et par où.  <a href="classcore_1_1ReachableArea.html#details">More...</a><br /></td></tr>
 <tr class="memitem:Engine" id="r_Engine"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classcore_1_1Engine.html">Engine</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fournit les informations globales du moteur.  <a href="classcore_1_1Engine.html#details">More...</a><br /></td></tr>
 <tr class="memitem:TextPosition" id="r_TextPosition"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1TextPosition.html">TextPosition</a></td></tr>
@@ -351,6 +361,22 @@ Typedefs</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-enum-members" class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
+<tr class="memitem:a91235fd72a18c305c494723774630841" id="r_a91235fd72a18c305c494723774630841"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#a91235fd72a18c305c494723774630841">CombatantId</a> : std::uint32_t </td></tr>
+<tr class="memdesc:a91235fd72a18c305c494723774630841"><td class="mdescLeft">&#160;</td><td class="mdescRight">Identifiant d'un combattant sur la grille.  <a href="#a91235fd72a18c305c494723774630841">More...</a><br /></td></tr>
+<tr class="memitem:a764555c0509482c85a9aa71b8a9ec1ff" id="r_a764555c0509482c85a9aa71b8a9ec1ff"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#a764555c0509482c85a9aa71b8a9ec1ff">Locomotion</a> { <a class="el" href="#a764555c0509482c85a9aa71b8a9ec1ffa7a16a854f32231a8df9326136b09ee62">Walk</a>
+, <a class="el" href="#a764555c0509482c85a9aa71b8a9ec1ffaac51deb7d2c3f9663a6df72c7c9b2b51">Fly</a>
+ }</td></tr>
+<tr class="memdesc:a764555c0509482c85a9aa71b8a9ec1ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Comment un combattant se déplace : au sol, ou en vol.  <a href="#a764555c0509482c85a9aa71b8a9ec1ff">More...</a><br /></td></tr>
+<tr class="memitem:a56ee2c3f69200e700ac0f1b65dc413b4" id="r_a56ee2c3f69200e700ac0f1b65dc413b4"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#a56ee2c3f69200e700ac0f1b65dc413b4">PlacementResult</a> { <br />
+&#160;&#160;<a class="el" href="#a56ee2c3f69200e700ac0f1b65dc413b4af429e45eaf722cbbb524b40a0313aa67">Placed</a>
+, <a class="el" href="#a56ee2c3f69200e700ac0f1b65dc413b4a46dc1018ac1d8fca7c2752a61ce2fd0f">OutOfBounds</a>
+, <a class="el" href="#a56ee2c3f69200e700ac0f1b65dc413b4a11d2b6741acad8cb69767d00147f57a5">Obstructed</a>
+, <a class="el" href="#a56ee2c3f69200e700ac0f1b65dc413b4abbd86c81e760279d9731d5cac811ba50">Occupied</a>
+, <br />
+&#160;&#160;<a class="el" href="#a56ee2c3f69200e700ac0f1b65dc413b4af021923d144bbdd4e5742bcd1d4a4821">InvalidCombatant</a>
+<br />
+ }</td></tr>
+<tr class="memdesc:a56ee2c3f69200e700ac0f1b65dc413b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pourquoi un placement a été refusé — ou qu'il a réussi.  <a href="#a56ee2c3f69200e700ac0f1b65dc413b4">More...</a><br /></td></tr>
 <tr class="memitem:a8825ea64ff05621b7c2c8a073d27577c" id="r_a8825ea64ff05621b7c2c8a073d27577c"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#a8825ea64ff05621b7c2c8a073d27577c">CombatOutcome</a> { <a class="el" href="#a8825ea64ff05621b7c2c8a073d27577ca1f5c647d9066bc9e350b70aa2d16aec4">Victory</a>
 , <a class="el" href="#a8825ea64ff05621b7c2c8a073d27577ca98415a6f570af1d10bebd54f054ce4b4">Flight</a>
 , <a class="el" href="#a8825ea64ff05621b7c2c8a073d27577ca570e9d24849e2161b5a969599fb03446">Defeat</a>
@@ -601,6 +627,8 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:a64de19e2c29ae4e9c60441599e61d808" id="r_a64de19e2c29ae4e9c60441599e61d808"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#a64de19e2c29ae4e9c60441599e61d808">footprintSide</a> (<a class="el" href="#ae6c6faeaa28aa7b90280f4dc39237204">CreatureSize</a> size) noexcept</td></tr>
+<tr class="memdesc:a64de19e2c29ae4e9c60441599e61d808"><td class="mdescLeft">&#160;</td><td class="mdescRight">Côté, en cases, de l'emprise d'une créature de taille <code class="param">size</code>.  <br /></td></tr>
 <tr class="memitem:a8ae810130a331e928f30b4c78f4c5768" id="r_a8ae810130a331e928f30b4c78f4c5768"><td class="memItemLeft"><a class="el" href="structcore_1_1EncounterRun.html">EncounterRun</a>&#160;</td><td class="memItemRight"><a class="el" href="#a8ae810130a331e928f30b4c78f4c5768">beginEncounter</a> (const <a class="el" href="structcore_1_1Encounter.html">Encounter</a> &amp;encounter, const <a class="el" href="structcore_1_1ExplorationSnapshot.html">ExplorationSnapshot</a> &amp;exploration, <a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> trigger, std::string defeatFlagKey)</td></tr>
 <tr class="memdesc:a8ae810130a331e928f30b4c78f4c5768"><td class="mdescLeft">&#160;</td><td class="mdescRight">Engage <code class="param">encounter</code> au point <code class="param">trigger</code>, en mettant <code class="param">exploration</code> de côté.  <br /></td></tr>
 <tr class="memitem:a468dc3da08cf6838100dc8e96eed0312" id="r_a468dc3da08cf6838100dc8e96eed0312"><td class="memItemLeft"><a class="el" href="structcore_1_1ExplorationSnapshot.html">ExplorationSnapshot</a>&#160;</td><td class="memItemRight"><a class="el" href="#a468dc3da08cf6838100dc8e96eed0312">endEncounter</a> (const <a class="el" href="structcore_1_1EncounterRun.html">EncounterRun</a> &amp;run, <a class="el" href="#a8825ea64ff05621b7c2c8a073d27577c">CombatOutcome</a> outcome, <a class="el" href="classcore_1_1WorldFlags.html">WorldFlags</a> &amp;flags)</td></tr>
@@ -613,6 +641,14 @@ Functions</h2></td></tr>
 <tr class="memdesc:a707734069fc72e63f6f67a8ef9f60dcc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Charge les rencontres depuis leur dossier (<span class="tt">Rpg/encounters/</span>).  <br /></td></tr>
 <tr class="memitem:a63e47d6c989b07bf0c2c7e0a568d1e02" id="r_a63e47d6c989b07bf0c2c7e0a568d1e02"><td class="memItemLeft">std::vector&lt; <a class="el" href="structcore_1_1CombatantPlacement.html">CombatantPlacement</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a63e47d6c989b07bf0c2c7e0a568d1e02">placeCombatants</a> (const <a class="el" href="structcore_1_1Encounter.html">Encounter</a> &amp;encounter, <a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> trigger)</td></tr>
 <tr class="memdesc:a63e47d6c989b07bf0c2c7e0a568d1e02"><td class="mdescLeft">&#160;</td><td class="mdescRight">Place les combattants d'une rencontre autour de <code class="param">trigger</code>.  <br /></td></tr>
+<tr class="memitem:a29156af7de7653ab4fa06d96b0c881a1" id="r_a29156af7de7653ab4fa06d96b0c881a1"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a29156af7de7653ab4fa06d96b0c881a1">movementBudget</a> (float speedMeters) noexcept</td></tr>
+<tr class="memdesc:a29156af7de7653ab4fa06d96b0c881a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le budget de déplacement d'une vitesse de <code class="param">speedMeters</code>, en cases entières.  <br /></td></tr>
+<tr class="memitem:aab76f284d12a5c2f1ac73c818061a142" id="r_aab76f284d12a5c2f1ac73c818061a142"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#aab76f284d12a5c2f1ac73c818061a142">movementBudget</a> (const <a class="el" href="structcore_1_1CharacterSheet.html">CharacterSheet</a> &amp;sheet) noexcept</td></tr>
+<tr class="memdesc:aab76f284d12a5c2f1ac73c818061a142"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le budget d'une fiche, sur sa vitesse de base (<span class="tt"><a class="el" href="structcore_1_1CharacterSheet.html#acb6e1037ecf2517ccd754447a9d5d04f" title="Vitesse de base, en mètres — l&#39;unité du corpus. speedInTiles() la convertit.">core::CharacterSheet::speedMeters</a></span>).  <br /></td></tr>
+<tr class="memitem:ae0c172747acb5ac9891a8562e16427ab" id="r_ae0c172747acb5ac9891a8562e16427ab"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#ae0c172747acb5ac9891a8562e16427ab">movementBudget</a> (const <a class="el" href="structcore_1_1Creature.html">Creature</a> &amp;creature, <a class="el" href="#a764555c0509482c85a9aa71b8a9ec1ff">Locomotion</a> locomotion) noexcept</td></tr>
+<tr class="memdesc:ae0c172747acb5ac9891a8562e16427ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le budget d'une créature du bestiaire pour <code class="param">locomotion</code> : sa vitesse de marche, ou de vol — 0 pour une créature qui ne vole pas.  <br /></td></tr>
+<tr class="memitem:ad018fcc5c0c0bcabf187d6ae09568067" id="r_ad018fcc5c0c0bcabf187d6ae09568067"><td class="memItemLeft">std::optional&lt; <a class="el" href="structcore_1_1Path.html">Path</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#ad018fcc5c0c0bcabf187d6ae09568067">findPath</a> (const <a class="el" href="classcore_1_1BattleGrid.html">BattleGrid</a> &amp;grid, const <a class="el" href="structcore_1_1Mover.html">Mover</a> &amp;mover, <a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> destination)</td></tr>
+<tr class="memdesc:ad018fcc5c0c0bcabf187d6ae09568067"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le meilleur chemin de <code class="param">mover</code> jusqu'à <code class="param">destination</code>, sans limite de budget.  <br /></td></tr>
 <tr class="memitem:a569a17f14f76ba1b657c3d43521dd3cc" id="r_a569a17f14f76ba1b657c3d43521dd3cc"><td class="memItemLeft"><a class="el" href="structcore_1_1TextPosition.html">TextPosition</a>&#160;</td><td class="memItemRight"><a class="el" href="#a569a17f14f76ba1b657c3d43521dd3cc">positionOf</a> (std::string_view text, std::size_t byteOffset)</td></tr>
 <tr class="memdesc:a569a17f14f76ba1b657c3d43521dd3cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convertit un décalage en octets en ligne et colonne.  <br /></td></tr>
 <tr class="memitem:acfecbe35ed7427415d02c52fcea70388" id="r_acfecbe35ed7427415d02c52fcea70388"><td class="memItemLeft"><a class="el" href="structcore_1_1JsonDocument.html">JsonDocument</a>&#160;</td><td class="memItemRight"><a class="el" href="#acfecbe35ed7427415d02c52fcea70388">readJsonObject</a> (std::string_view json, int supportedVersion, std::string_view origin={}, std::string_view versionField=&quot;version&quot;)</td></tr>
@@ -839,6 +875,8 @@ Functions</h2></td></tr>
 Variables</h2></td></tr>
 <tr class="memitem:affbaf55db3c297c638c8399aa855dbfe" id="r_affbaf55db3c297c638c8399aa855dbfe"><td class="memItemLeft">constexpr bool&#160;</td><td class="memItemRight"><a class="el" href="#affbaf55db3c297c638c8399aa855dbfe">DEVELOPER_BUILD</a> = true</td></tr>
 <tr class="memdesc:affbaf55db3c297c638c8399aa855dbfe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vrai dans les builds de <b>développement</b> (Debug), faux en <b>Release</b>.  <br /></td></tr>
+<tr class="memitem:ad5a54565b7750c164a8b959b31ec3018" id="r_ad5a54565b7750c164a8b959b31ec3018"><td class="memItemLeft">constexpr std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#ad5a54565b7750c164a8b959b31ec3018">DIFFICULT_TERRAIN_PROPERTY</a> = &quot;difficultTerrain&quot;</td></tr>
+<tr class="memdesc:ad5a54565b7750c164a8b959b31ec3018"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nom de la propriété de zone qui rend une case difficile (<span class="tt">EX-LVL-018</span>).  <br /></td></tr>
 <tr class="memitem:ab682036a643ab5c1e7f219f5f94bf9d1" id="r_ab682036a643ab5c1e7f219f5f94bf9d1"><td class="memItemLeft">constexpr std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#ab682036a643ab5c1e7f219f5f94bf9d1">ENCOUNTER_ENTITY_TYPE</a> = &quot;encounter&quot;</td></tr>
 <tr class="memdesc:ab682036a643ab5c1e7f219f5f94bf9d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type de la couche <span class="tt">objects</span> qui déclenche une rencontre.  <br /></td></tr>
 <tr class="memitem:a2a9202a1a89eacaec610bdc83b0ff272" id="r_a2a9202a1a89eacaec610bdc83b0ff272"><td class="memItemLeft">constexpr <a class="el" href="structcore_1_1Entity.html">Entity</a>&#160;</td><td class="memItemRight"><a class="el" href="#a2a9202a1a89eacaec610bdc83b0ff272">INVALID_ENTITY</a> {<a class="el" href="structcore_1_1Entity.html#a215ee621f52074b73615e4c567820e38">Entity::INVALID_INDEX</a>, 0}</td></tr>
@@ -1124,6 +1162,31 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
 <tr><td class="fieldname"><a id="a71fba78b647ce3be2a8b78f79c84f522ac7fc2ee61fad0e2bba6754efdee31481" name="a71fba78b647ce3be2a8b78f79c84f522ac7fc2ee61fad0e2bba6754efdee31481"></a>OneShot&#160;</td><td class="fielddoc"><p>S'arrête à la dernière image puis bascule sur <span class="tt"><a class="el" href="structcore_1_1AnimationClip.html#a508d5f46279f56ab33ec39cd1fceae13" title="Nom du clip suivant, consulté seulement si endMode == OneShot.">AnimationClip::nextClip</a></span> (<span class="tt">LOT-47</span>). </p>
 </td></tr>
 </table>
+
+</div>
+</div>
+<a id="a91235fd72a18c305c494723774630841" name="a91235fd72a18c305c494723774630841"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a91235fd72a18c305c494723774630841">&#9670;&#160;</a></span>CombatantId</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="#a91235fd72a18c305c494723774630841">core::CombatantId</a> : std::uint32_t</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Identifiant d'un combattant sur la grille. </p>
+<p>Un type <b>fort</b>, et non un <span class="tt">int</span> : la grille ne sait rien de ce qu'est un combattant — fiche, créature, camp —, elle ne retient que sa place. C'est le tour par tour (<span class="tt">LOT-20</span>) qui attribue les identifiants ; un entier nu se serait confondu avec un indice de case à la première signature qui prend les deux. </p>
 
 </div>
 </div>
@@ -1513,6 +1576,43 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
 
 </div>
 </div>
+<a id="a764555c0509482c85a9aa71b8a9ec1ff" name="a764555c0509482c85a9aa71b8a9ec1ff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a764555c0509482c85a9aa71b8a9ec1ff">&#9670;&#160;</a></span>Locomotion</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="#a764555c0509482c85a9aa71b8a9ec1ff">core::Locomotion</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Comment un combattant se déplace : au sol, ou en vol. </p>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md870"></a>
+L'altitude est un attribut, jamais une géométrie</h2>
+<p>Le jeu est vu de dessus, et sa grille n'a pas de hauteur. Donner une altitude aux cases — une grille par étage, ou une case « en l'air » au-dessus d'une autre — ferait de chaque requête de portée, de chemin et d'occupation une requête en trois dimensions, pour un contenu qui n'en a besoin qu'au passage d'un dragon. Le vol est donc une <b>manière de traverser</b> la même grille :</p>
+<ul>
+<li>un volant franchit les obstacles <b>au sol</b> — l'eau profonde, la falaise — et ignore le terrain difficile, qui est une gêne de sol ;</li>
+<li>il ne traverse pas la <b>matière pleine</b> : un mur de donjon monte jusqu'à la voûte, et la grille de collision ne sait pas distinguer un muret d'un rempart ;</li>
+<li>il occupe sa case comme tout autre combattant : deux créatures ne s'y superposent pas, l'une en vol et l'autre au sol.</li>
+</ul>
+<p>Qu'un volant reste ciblable à portée découle de la même décision, et c'est le <span class="tt">LOT-22</span> qui la lira : une portée se compte sur la grille, sans hauteur à ajouter. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a764555c0509482c85a9aa71b8a9ec1ffa7a16a854f32231a8df9326136b09ee62" name="a764555c0509482c85a9aa71b8a9ec1ffa7a16a854f32231a8df9326136b09ee62"></a>Walk&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a764555c0509482c85a9aa71b8a9ec1ffaac51deb7d2c3f9663a6df72c7c9b2b51" name="a764555c0509482c85a9aa71b8a9ec1ffaac51deb7d2c3f9663a6df72c7c9b2b51"></a>Fly&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
 <a id="aa9b5a444ee11933c91d5e3235aa5b5e3" name="aa9b5a444ee11933c91d5e3235aa5b5e3"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa9b5a444ee11933c91d5e3235aa5b5e3">&#9670;&#160;</a></span>LogLevel</h2>
 
@@ -1609,6 +1709,42 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
 <tr><td class="fieldname"><a id="aa6799b2e10b4cf31b2527af8a390ce2ca0cdb0f6c72187ce44ad0d64103920653" name="aa6799b2e10b4cf31b2527af8a390ce2ca0cdb0f6c72187ce44ad0d64103920653"></a>LandingDust&#160;</td><td class="fielddoc"><p>Bouffée de poussière à l'atterrissage. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="aa6799b2e10b4cf31b2527af8a390ce2ca6097f89e3092d4ccd249c9d479785c1f" name="aa6799b2e10b4cf31b2527af8a390ce2ca6097f89e3092d4ccd249c9d479785c1f"></a>Death&#160;</td><td class="fielddoc"><p>Éclatement à la mort du personnage. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="a56ee2c3f69200e700ac0f1b65dc413b4" name="a56ee2c3f69200e700ac0f1b65dc413b4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a56ee2c3f69200e700ac0f1b65dc413b4">&#9670;&#160;</a></span>PlacementResult</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="#a56ee2c3f69200e700ac0f1b65dc413b4">core::PlacementResult</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Pourquoi un placement a été refusé — ou qu'il a réussi. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a56ee2c3f69200e700ac0f1b65dc413b4af429e45eaf722cbbb524b40a0313aa67" name="a56ee2c3f69200e700ac0f1b65dc413b4af429e45eaf722cbbb524b40a0313aa67"></a>Placed&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a56ee2c3f69200e700ac0f1b65dc413b4a46dc1018ac1d8fca7c2752a61ce2fd0f" name="a56ee2c3f69200e700ac0f1b65dc413b4a46dc1018ac1d8fca7c2752a61ce2fd0f"></a>OutOfBounds&#160;</td><td class="fielddoc"><p>L'emprise sort de la carte. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a56ee2c3f69200e700ac0f1b65dc413b4a11d2b6741acad8cb69767d00147f57a5" name="a56ee2c3f69200e700ac0f1b65dc413b4a11d2b6741acad8cb69767d00147f57a5"></a>Obstructed&#160;</td><td class="fielddoc"><p>L'emprise touche une case pleine ou un objet bloquant. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a56ee2c3f69200e700ac0f1b65dc413b4abbd86c81e760279d9731d5cac811ba50" name="a56ee2c3f69200e700ac0f1b65dc413b4abbd86c81e760279d9731d5cac811ba50"></a>Occupied&#160;</td><td class="fielddoc"><p>L'emprise touche une case déjà tenue par un <b>autre</b> combattant, ou déjà chargée d'un objet. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a56ee2c3f69200e700ac0f1b65dc413b4af021923d144bbdd4e5742bcd1d4a4821" name="a56ee2c3f69200e700ac0f1b65dc413b4af021923d144bbdd4e5742bcd1d4a4821"></a>InvalidCombatant&#160;</td><td class="fielddoc"><p><span class="tt">place</span> : le combattant est déjà sur la grille, ou son emprise n'est pas un côté valide. </p>
+<p><span class="tt">moveTo</span> : il n'y est pas. </p>
 </td></tr>
 </table>
 
@@ -2291,10 +2427,10 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
 </div><div class="memdoc">
 
 <p>Peint le marqueur d'une clé d'asset. </p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md864"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md877"></a>
 Pourquoi un marqueur plutôt qu'une image manquante</h2>
 <p><span class="tt">EX-CNT-041</span> : le jeu doit tourner <b>complet</b> avant qu'aucune illustration ne soit produite. Sans marqueur, trois cents entrées s'afficheraient comme des trous, la production graphique deviendrait un préalable bloquant, et rien ne pourrait être joué ni relu avant elle. Avec, elle devient un <b>remplacement progressif</b> : on remplace un marqueur par une image, une à la fois, et le jeu ne cesse jamais d'être jouable.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md865"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md878"></a>
 Déterministe, et c'est le point</h2>
 <p>La même clé donne <b>toujours</b> le même marqueur — même teinte, même figure. Un marqueur tiré au hasard changerait à chaque lancement : le loup ne serait plus reconnaissable d'une partie à l'autre, deux captures d'écran du même combat différeraient, et un test ne pourrait rien en dire. La teinte est donc dérivée de la clé elle-même, par un hachage stable écrit ici plutôt qu'emprunté à <span class="tt">std::hash</span>, dont la valeur n'est <b>pas</b> garantie d'une plateforme ou d'une version de bibliothèque à l'autre.</p>
 <p>Le marqueur reste <b>manifestement</b> un marqueur : deux diagonales barrent la vignette, de sorte qu'on ne le prenne jamais pour une illustration définitive livrée un peu vite.</p>
@@ -3192,6 +3328,72 @@ Déterministe, et c'est le point</h2>
 
 </div>
 </div>
+<a id="ad018fcc5c0c0bcabf187d6ae09568067" name="ad018fcc5c0c0bcabf187d6ae09568067"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad018fcc5c0c0bcabf187d6ae09568067">&#9670;&#160;</a></span>findPath()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::optional&lt; <a class="el" href="structcore_1_1Path.html">Path</a> &gt; core::findPath </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classcore_1_1BattleGrid.html">BattleGrid</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>grid</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structcore_1_1Mover.html">Mover</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>mover</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcore_1_1GridPosition.html">GridPosition</a></td>          <td class="paramname"><span class="paramname"><em>destination</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Le meilleur chemin de <code class="param">mover</code> jusqu'à <code class="param">destination</code>, sans limite de budget. </p>
+<p>A* sur la même règle que <span class="tt"><a class="el" href="classcore_1_1ReachableArea.html" title="Les cases qu&#39;un combattant peut atteindre ce tour-ci, et par où.">core::ReachableArea</a></span> — mêmes coûts, mêmes coins, même départage — pour qui planifie au-delà du tour : l'IA (<span class="tt">LOT-23</span>) qui marche vers une cible lointaine. Le même appel sur la même grille rend <b>toujours</b> le même chemin, sans quoi aucun test de combat ne tiendrait.</p>
+<dl class="section return"><dt>Returns</dt><dd>Le chemin, ou <span class="tt">std::nullopt</span> si <code class="param">destination</code> est hors d'atteinte, ne peut pas accueillir l'emprise du combattant, ou si celui-ci n'est pas placé. </dd></dl>
+
+</div>
+</div>
+<a id="a64de19e2c29ae4e9c60441599e61d808" name="a64de19e2c29ae4e9c60441599e61d808"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a64de19e2c29ae4e9c60441599e61d808">&#9670;&#160;</a></span>footprintSide()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int core::footprintSide </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#ae6c6faeaa28aa7b90280f4dc39237204">CreatureSize</a></td>          <td class="paramname"><span class="paramname"><em>size</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Côté, en cases, de l'emprise d'une créature de taille <code class="param">size</code>. </p>
+<p>Manuel des Joueurs, « Taille des créatures » : TP, P et M tiennent dans une case de 1,50 m, G dans 2 × 2, TG dans 3 × 3, Gig dans 4 × 4. Une très petite créature occupe <b>une case entière</b> ici, là où le livre en tolère quatre dans la même : c'est le critère du lot — « deux créatures ne partagent jamais une case » —, et la règle du livre se rouvrira, si un contenu la réclame, par une exception nommée et non par un partage silencieux. </p>
+
+</div>
+</div>
 <a id="a58d791281d7fcab412851036c03c94bd" name="a58d791281d7fcab412851036c03c94bd"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a58d791281d7fcab412851036c03c94bd">&#9670;&#160;</a></span>formatDice()</h2>
 
@@ -4075,6 +4277,92 @@ Déterministe, et c'est le point</h2>
 </div><div class="memdoc">
 
 <p>Convertit un nombre de cases en mètres, pour l'affichage et les infobulles. </p>
+
+</div>
+</div>
+<a id="aab76f284d12a5c2f1ac73c818061a142" name="aab76f284d12a5c2f1ac73c818061a142"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aab76f284d12a5c2f1ac73c818061a142">&#9670;&#160;</a></span>movementBudget() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int core::movementBudget </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structcore_1_1CharacterSheet.html">CharacterSheet</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>sheet</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Le budget d'une fiche, sur sa vitesse de base (<span class="tt"><a class="el" href="structcore_1_1CharacterSheet.html#acb6e1037ecf2517ccd754447a9d5d04f" title="Vitesse de base, en mètres — l&#39;unité du corpus. speedInTiles() la convertit.">core::CharacterSheet::speedMeters</a></span>). </p>
+
+</div>
+</div>
+<a id="ae0c172747acb5ac9891a8562e16427ab" name="ae0c172747acb5ac9891a8562e16427ab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae0c172747acb5ac9891a8562e16427ab">&#9670;&#160;</a></span>movementBudget() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int core::movementBudget </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structcore_1_1Creature.html">Creature</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>creature</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#a764555c0509482c85a9aa71b8a9ec1ff">Locomotion</a></td>          <td class="paramname"><span class="paramname"><em>locomotion</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Le budget d'une créature du bestiaire pour <code class="param">locomotion</code> : sa vitesse de marche, ou de vol — 0 pour une créature qui ne vole pas. </p>
+
+</div>
+</div>
+<a id="a29156af7de7653ab4fa06d96b0c881a1" name="a29156af7de7653ab4fa06d96b0c881a1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a29156af7de7653ab4fa06d96b0c881a1">&#9670;&#160;</a></span>movementBudget() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int core::movementBudget </td>
+          <td>(</td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>speedMeters</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Le budget de déplacement d'une vitesse de <code class="param">speedMeters</code>, en cases entières. </p>
+<p>Une case vaut 1,5 m (<span class="tt">EX-DND-051</span>, <span class="tt"><a class="el" href="#a511d502baab5befb28a3742b65ee1e61" title="Côté d&#39;une case de la grille tactique, en mètres.">core::METERS_PER_TILE</a></span>) : 9 m font 6 cases. Une vitesse qui ne tombe pas juste — 10 m après un malus d'encombrement de 3 m sur 13 m — est <b>arrondie à la case inférieure</b> : le livre dépense la vitesse « par segments de 1,50 mètre », et un segment entamé n'en est pas un. Arrondir au plus proche ferait gagner une case à qui porte trop. Une vitesse négative ou nulle donne 0. </p>
 
 </div>
 </div>
@@ -6092,6 +6380,30 @@ Déterministe, et c'est le point</h2>
 
 <p>Vrai dans les builds de <b>développement</b> (Debug), faux en <b>Release</b>. </p>
 <p>S'appuie sur <span class="tt">NDEBUG</span> (défini par le compilateur en Release). Sert à n'inclure que dans les builds de développement des éléments d'outillage (par exemple des boutons de débogage de l'interface), à utiliser de préférence avec <span class="tt">if constexpr</span> pour éliminer le code en Release. </p>
+
+</div>
+</div>
+<a id="ad5a54565b7750c164a8b959b31ec3018" name="ad5a54565b7750c164a8b959b31ec3018"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad5a54565b7750c164a8b959b31ec3018">&#9670;&#160;</a></span>DIFFICULT_TERRAIN_PROPERTY</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string_view core::DIFFICULT_TERRAIN_PROPERTY = &quot;difficultTerrain&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Nom de la propriété de zone qui rend une case difficile (<span class="tt">EX-LVL-018</span>). </p>
 
 </div>
 </div>

@@ -152,11 +152,12 @@ Functions</h2></td></tr>
 
 <p>Ce qui n'est pas un déclencheur n'en devient pas un. </p>
 <p><b>Cas de test :</b> <b>Ce qui n'est pas un declencheur n'en devient pas un.</b><br  />
- cat Unitaire · Combat<br  />
- crit Majeur<br  />
- etapes 1. Lire une entite d'un autre type.<br  />
+ <b>Categorie :</b> Unitaire · Combat<br  />
+ <b>Criticite :</b> Majeur<br  />
+ <b>Etapes :</b><br  />
+ 1. Lire une entite d'un autre type.<br  />
 2. Lire une entite de rencontre sans encounterId.<br  />
- attendu Aucun declencheur dans les deux cas. </p>
+ <b>Resultat attendu :</b> Aucun declencheur dans les deux cas. </p>
 
 </div>
 </div>
@@ -181,12 +182,13 @@ Functions</h2></td></tr>
 
 <p>Deux ennemis d'une même carte, et le même ennemi sur deux cartes, ne partagent jamais leur clé. </p>
 <p><b>Cas de test :</b> <b>Deux declencheurs ne partagent jamais leur cle.</b><br  />
- cat Unitaire · Combat<br  />
- crit Critique<br  />
- etapes 1. Lire deux entites de rencontre a des cases differentes de la meme carte.<br  />
+ <b>Categorie :</b> Unitaire · Combat<br  />
+ <b>Criticite :</b> Critique<br  />
+ <b>Etapes :</b><br  />
+ 1. Lire deux entites de rencontre a des cases differentes de la meme carte.<br  />
 </p><ol type="1">
 <li>Lire la meme case sur deux cartes differentes.<br  />
- attendu Les cles different dans les deux cas. </li>
+ <b>Resultat attendu :</b> Les cles different dans les deux cas. </li>
 </ol>
 
 </div>
@@ -331,11 +333,12 @@ Functions</h2></td></tr>
 
 <p>Un ennemi <b>posé</b> sur la carte porte une clé de drapeau ; une <b>zone</b> n'en porte pas. </p>
 <p><b>Cas de test :</b> <b>Un ennemi pose porte une cle, une zone n'en porte pas.</b><br  />
- cat Unitaire · Combat<br  />
- crit Critique<br  />
- etapes 1. Lire une entite de rencontre posee.<br  />
+ <b>Categorie :</b> Unitaire · Combat<br  />
+ <b>Criticite :</b> Critique<br  />
+ <b>Etapes :</b><br  />
+ 1. Lire une entite de rencontre posee.<br  />
 2. Lire la meme avec respawns.<br  />
- attendu La premiere porte une cle fabriquee, la seconde aucune. </p>
+ <b>Resultat attendu :</b> La premiere porte une cle fabriquee, la seconde aucune. </p>
 
 </div>
 </div>

@@ -3,7 +3,7 @@ var searchData=
   ['weightgramsof_0',['weightGramsOf',['../structcore_1_1ItemLookup.html#a911405483110eb776e74b7d4351dacca',1,'core::ItemLookup']]],
   ['wheeldelta_1',['wheelDelta',['../classhmi_1_1InputState.html#a8168408e70f27916878b8057227ef7ff',1,'hmi::InputState']]],
   ['wheelevent_2',['wheelEvent',['../classhmi_1_1PixelCanvas.html#aa4d846f6267513828f8b35ea33ec5e1a',1,'hmi::PixelCanvas::wheelEvent()'],['../classhmi_1_1GameViewport.html#a9bc7a0ae5471c1274616dfcc3e6ef880',1,'hmi::GameViewport::wheelEvent()']]],
-  ['width_3',['width',['../classcore_1_1TileMap.html#aacb0302300621bb9fb43c89bbddfef0d',1,'core::TileMap::width()'],['../structhmi_1_1PixelRegion.html#a90d7af7f0a2052c84de2f0b310546b73',1,'hmi::PixelRegion::width()'],['../classhmi_1_1TextureAtlas.html#a6408ca8d697d60ac8d5da5290b157726',1,'hmi::TextureAtlas::width()']]],
+  ['width_3',['width',['../classcore_1_1BattleGrid.html#ab7d7cbb5a4348e90c82deae5bfd2e3c1',1,'core::BattleGrid::width()'],['../classcore_1_1TileMap.html#aacb0302300621bb9fb43c89bbddfef0d',1,'core::TileMap::width()'],['../structhmi_1_1PixelRegion.html#a90d7af7f0a2052c84de2f0b310546b73',1,'hmi::PixelRegion::width()'],['../classhmi_1_1TextureAtlas.html#a6408ca8d697d60ac8d5da5290b157726',1,'hmi::TextureAtlas::width()']]],
   ['widthfor_4',['widthFor',['../structhmi_1_1SceneTextures.html#acfdc279bc1f8f78d0781b2d6a2e2c633',1,'hmi::SceneTextures']]],
   ['workspacebit_5',['workspaceBit',['../namespacehmi.html#a995f7c23db3bf4cc03926aa7679618a9',1,'hmi']]],
   ['workspaceforpixeltool_6',['workspaceForPixelTool',['../namespacehmi.html#ad075fc85767c6c9a6e6b919548dcbe01',1,'hmi']]],

@@ -13,6 +13,7 @@ var dir_7c7356e692772728ab91d19f773c60c4 =
     [ "LOT-13-fiche-de-personnage", "dir_6ec51d3329454be19df7ee64d07756ef.html", null ],
     [ "LOT-14-inventaire-et-equipement", "dir_8b1f1d5242bf2aa6dd5f47b10638060b.html", null ],
     [ "LOT-18-bascule-exploration-combat", "dir_fe7a714086135a64def029325f62fba4.html", null ],
+    [ "LOT-19-grille-tactique", "dir_0bc1f44a5e2cc11771ed23acb9a7caec.html", null ],
     [ "LOT-30-chaine-extraction-corpus", "dir_1a572379fa9a8d4a5955449e90cfed1b.html", null ],
     [ "LOT-32-schemas-donnees-rpg", "dir_42f5d2e71022fc997214f45730d4f996.html", null ],
     [ "LOT-33-bestiaire-de-base", "dir_d099c8ae0edc1c87bb187eaf82af2103.html", null ],

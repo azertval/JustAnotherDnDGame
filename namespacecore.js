@@ -1,5 +1,7 @@
 var namespacecore =
 [
+    [ "GridObject", "structcore_1_1GridObject.html", "structcore_1_1GridObject" ],
+    [ "BattleGrid", "classcore_1_1BattleGrid.html", "classcore_1_1BattleGrid" ],
     [ "ExplorationSnapshot", "structcore_1_1ExplorationSnapshot.html", "structcore_1_1ExplorationSnapshot" ],
     [ "EncounterRun", "structcore_1_1EncounterRun.html", "structcore_1_1EncounterRun" ],
     [ "EncounterTrigger", "structcore_1_1EncounterTrigger.html", "structcore_1_1EncounterTrigger" ],
@@ -7,6 +9,9 @@ var namespacecore =
     [ "Encounter", "structcore_1_1Encounter.html", "structcore_1_1Encounter" ],
     [ "EncounterCatalog", "structcore_1_1EncounterCatalog.html", "structcore_1_1EncounterCatalog" ],
     [ "CombatantPlacement", "structcore_1_1CombatantPlacement.html", "structcore_1_1CombatantPlacement" ],
+    [ "Mover", "structcore_1_1Mover.html", "structcore_1_1Mover" ],
+    [ "Path", "structcore_1_1Path.html", "structcore_1_1Path" ],
+    [ "ReachableArea", "classcore_1_1ReachableArea.html", "classcore_1_1ReachableArea" ],
     [ "Engine", "classcore_1_1Engine.html", "classcore_1_1Engine" ],
     [ "TextPosition", "structcore_1_1TextPosition.html", "structcore_1_1TextPosition" ],
     [ "JsonDocument", "structcore_1_1JsonDocument.html", "structcore_1_1JsonDocument" ],
@@ -154,6 +159,7 @@ var namespacecore =
       [ "Loop", "namespacecore.html#a71fba78b647ce3be2a8b78f79c84f522a89d7b10cb4238977d2b523dfd9ea7745", null ],
       [ "OneShot", "namespacecore.html#a71fba78b647ce3be2a8b78f79c84f522ac7fc2ee61fad0e2bba6754efdee31481", null ]
     ] ],
+    [ "CombatantId", "namespacecore.html#a91235fd72a18c305c494723774630841", null ],
     [ "CombatOutcome", "namespacecore.html#a8825ea64ff05621b7c2c8a073d27577c", [
       [ "Victory", "namespacecore.html#a8825ea64ff05621b7c2c8a073d27577ca1f5c647d9066bc9e350b70aa2d16aec4", null ],
       [ "Flight", "namespacecore.html#a8825ea64ff05621b7c2c8a073d27577ca98415a6f570af1d10bebd54f054ce4b4", null ],
@@ -256,6 +262,10 @@ var namespacecore =
       [ "UnsupportedFormatVersion", "namespacecore.html#af2a63d18c9ef40479ebdc204e726e823a7d194788f42fea83b92833f89101a8f4", null ],
       [ "InvalidCameraFraming", "namespacecore.html#af2a63d18c9ef40479ebdc204e726e823a8ebb0d1c1c8fab3e269157f5b98a862e", null ]
     ] ],
+    [ "Locomotion", "namespacecore.html#a764555c0509482c85a9aa71b8a9ec1ff", [
+      [ "Walk", "namespacecore.html#a764555c0509482c85a9aa71b8a9ec1ffa7a16a854f32231a8df9326136b09ee62", null ],
+      [ "Fly", "namespacecore.html#a764555c0509482c85a9aa71b8a9ec1ffaac51deb7d2c3f9663a6df72c7c9b2b51", null ]
+    ] ],
     [ "LogLevel", "namespacecore.html#aa9b5a444ee11933c91d5e3235aa5b5e3", [
       [ "Trace", "namespacecore.html#aa9b5a444ee11933c91d5e3235aa5b5e3add4ec0ac4e58f7c32a01244ae91150b1", null ],
       [ "Info", "namespacecore.html#aa9b5a444ee11933c91d5e3235aa5b5e3a4059b0251f66a18cb56f544728796875", null ],
@@ -276,6 +286,13 @@ var namespacecore =
       [ "DashTrail", "namespacecore.html#aa6799b2e10b4cf31b2527af8a390ce2ca5035aee0b4665a2808f4a262c62e3e0c", null ],
       [ "LandingDust", "namespacecore.html#aa6799b2e10b4cf31b2527af8a390ce2ca0cdb0f6c72187ce44ad0d64103920653", null ],
       [ "Death", "namespacecore.html#aa6799b2e10b4cf31b2527af8a390ce2ca6097f89e3092d4ccd249c9d479785c1f", null ]
+    ] ],
+    [ "PlacementResult", "namespacecore.html#a56ee2c3f69200e700ac0f1b65dc413b4", [
+      [ "Placed", "namespacecore.html#a56ee2c3f69200e700ac0f1b65dc413b4af429e45eaf722cbbb524b40a0313aa67", null ],
+      [ "OutOfBounds", "namespacecore.html#a56ee2c3f69200e700ac0f1b65dc413b4a46dc1018ac1d8fca7c2752a61ce2fd0f", null ],
+      [ "Obstructed", "namespacecore.html#a56ee2c3f69200e700ac0f1b65dc413b4a11d2b6741acad8cb69767d00147f57a5", null ],
+      [ "Occupied", "namespacecore.html#a56ee2c3f69200e700ac0f1b65dc413b4abbd86c81e760279d9731d5cac811ba50", null ],
+      [ "InvalidCombatant", "namespacecore.html#a56ee2c3f69200e700ac0f1b65dc413b4af021923d144bbdd4e5742bcd1d4a4821", null ]
     ] ],
     [ "PlaneDepth", "namespacecore.html#a6dc89438a55a80980ab04f7da513f731", [
       [ "Behind", "namespacecore.html#a6dc89438a55a80980ab04f7da513f731a382c70faebc9dd21aff0801c33c5c4eb", null ],
@@ -362,6 +379,8 @@ var namespacecore =
     [ "expectedAssetKeys", "namespacecore.html#aab57711f82ec7e7ced5a2c8d90d8abe1", null ],
     [ "fileName", "namespacecore.html#aacd09bfbf70df9627195ed54b58a0297", null ],
     [ "findInteractionTarget", "namespacecore.html#a9d8c1764c03821f2f58f75d0e5795e7a", null ],
+    [ "findPath", "namespacecore.html#ad018fcc5c0c0bcabf187d6ae09568067", null ],
+    [ "footprintSide", "namespacecore.html#a64de19e2c29ae4e9c60441599e61d808", null ],
     [ "formatDice", "namespacecore.html#a58d791281d7fcab412851036c03c94bd", null ],
     [ "formatLogLine", "namespacecore.html#aafa85d91ee91c84b123fff01f147615e", null ],
     [ "gainExperience", "namespacecore.html#a7cfff9a8cfc89ebc9d4074d1db13eacd", null ],
@@ -388,6 +407,9 @@ var namespacecore =
     [ "magicSchoolName", "namespacecore.html#aa8d6d02cb4e8204a0ae9e6a14b5bbc2e", null ],
     [ "maximumHitPointsFor", "namespacecore.html#ae73047aa52884ecfd7eebb21af3990bb", null ],
     [ "metersFromTiles", "namespacecore.html#a3bc1fb9934614684210eff9159619222", null ],
+    [ "movementBudget", "namespacecore.html#aab76f284d12a5c2f1ac73c818061a142", null ],
+    [ "movementBudget", "namespacecore.html#ae0c172747acb5ac9891a8562e16427ab", null ],
+    [ "movementBudget", "namespacecore.html#a29156af7de7653ab4fa06d96b0c881a1", null ],
     [ "multiclassCasterLevel", "namespacecore.html#a5efe1ddb8ab76545ac60552ba2c43a32", null ],
     [ "operator!=", "namespacecore.html#a197b5bff2c73896fbfb05df9ea6419b9", null ],
     [ "operator!=", "namespacecore.html#a29323798eff97fce936a3352846efb93", null ],
@@ -451,6 +473,7 @@ var namespacecore =
     [ "DEFAULT_ROOM_HEIGHT_TILES", "namespacecore.html#a27bf5fbce0dbeda08de2d7e82e64d719", null ],
     [ "DEFAULT_ROOM_WIDTH_TILES", "namespacecore.html#a16d88a44dd10fb55af743080cdf23310", null ],
     [ "DEVELOPER_BUILD", "namespacecore.html#affbaf55db3c297c638c8399aa855dbfe", null ],
+    [ "DIFFICULT_TERRAIN_PROPERTY", "namespacecore.html#ad5a54565b7750c164a8b959b31ec3018", null ],
     [ "ENCOUNTER_ENTITY_TYPE", "namespacecore.html#ab682036a643ab5c1e7f219f5f94bf9d1", null ],
     [ "EPSILON", "namespacecore.html#a49c6e01fbd8905740993109a36f65c11", null ],
     [ "EQUIPMENT_SLOT_COUNT", "namespacecore.html#ab6f6a87729df10e41e9fa1e5f74c4d76", null ],

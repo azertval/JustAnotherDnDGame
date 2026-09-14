@@ -14,7 +14,7 @@ var searchData=
   ['skin_11',['Skin',['../namespacehmi.html#a484fc821d307ce050da2a61ed1760a8da9313566fe19aca293daefe4ce37942bf',1,'hmi::Skin'],['../namespacehmi.html#ac32d81972d12a0b2475fc009eefee225a9313566fe19aca293daefe4ce37942bf',1,'hmi::Skin']]],
   ['slashing_12',['Slashing',['../namespacecore.html#aae5ed49bedbf68049f008e4efac2edfda8c5d5b09768823ed63d3d3a95a7a962a',1,'core']]],
   ['small_13',['Small',['../namespacecore.html#ae6c6faeaa28aa7b90280f4dc39237204a2660064e68655415da2628c2ae2f7592',1,'core']]],
-  ['solid_14',['Solid',['../namespacecore.html#ace99a1be913e6294e42e9ebb145eb875ae41480b6bbfbf7407974a88d3d34f4fa',1,'core']]],
+  ['solid_14',['Solid',['../classcore_1_1BattleGrid.html#afa362bf2c8a692ba969b6a319c7a987fae41480b6bbfbf7407974a88d3d34f4fa',1,'core::BattleGrid::Solid'],['../namespacecore.html#ace99a1be913e6294e42e9ebb145eb875ae41480b6bbfbf7407974a88d3d34f4fa',1,'core::Solid']]],
   ['space_15',['Space',['../namespacehmi.html#a83c98e56e30eafa606048853f7962e48ad511f8439ecde36647437fbba67a4394',1,'hmi']]],
   ['sprite_16',['Sprite',['../namespacehmi.html#aa9ff839f9bcc1bb899b24cb8026ab2b3a51f2b7b14433aa22c67d1f4fc18943cd',1,'hmi']]],
   ['stairs_17',['Stairs',['../namespacecore.html#ace99a1be913e6294e42e9ebb145eb875a0b01cc688e1e0b5f6b70f858a1b389ae',1,'core']]],

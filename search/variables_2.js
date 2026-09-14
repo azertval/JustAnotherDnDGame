@@ -9,11 +9,12 @@ var searchData=
   ['basearmorclass_6',['baseArmorClass',['../structcore_1_1Armor.html#acf5fbaa640c57b18396a1291da9d476a',1,'core::Armor']]],
   ['batches_7',['batches',['../structhmi_1_1SceneStatistics.html#ad7138a1319fdb40388fb35bc913ec6d5',1,'hmi::SceneStatistics']]],
   ['before_8',['before',['../structhmi_1_1PixelHistoryEntry.html#af7d7ee9628baa64f19d8afc208623a25',1,'hmi::PixelHistoryEntry']]],
-  ['body_9',['body',['../structhmi_1_1TypographyTokens.html#a4ef65536c7fe503983922d5a4769fcee',1,'hmi::TypographyTokens::body'],['../structhmi_1_1IdentityBaseScale.html#accf376ca961b7275e87ed17edd5aaf87',1,'hmi::IdentityBaseScale::body']]],
-  ['border_10',['border',['../structhmi_1_1ColorTokens.html#a241a0c3b5c0ac06b32bc6c8a8931144a',1,'hmi::ColorTokens']]],
-  ['box_11',['box',['../structcore_1_1TriggerWeight.html#ab974e361606ec4249ab88f8e305c2480',1,'core::TriggerWeight']]],
-  ['burrow_12',['burrow',['../structcore_1_1CreatureSpeed.html#a279a2e0ca9c7dacec5321ca51777d61d',1,'core::CreatureSpeed']]],
-  ['button_5fcount_13',['BUTTON_COUNT',['../classhmi_1_1InputState.html#a692a4d893cae9b15948b3d1081bbafeb',1,'hmi::InputState']]],
-  ['bx_14',['bx',['../structhmi_1_1LineQuad.html#a203b268e3040f841fa7089fc58391d22',1,'hmi::LineQuad']]],
-  ['by_15',['by',['../structhmi_1_1LineQuad.html#aea263b042537c77e3ffbebe64b772a27',1,'hmi::LineQuad']]]
+  ['blocksmovement_9',['blocksMovement',['../structcore_1_1GridObject.html#aeaf196e6d2db7cd9d6c0b969f70435d3',1,'core::GridObject']]],
+  ['body_10',['body',['../structhmi_1_1TypographyTokens.html#a4ef65536c7fe503983922d5a4769fcee',1,'hmi::TypographyTokens::body'],['../structhmi_1_1IdentityBaseScale.html#accf376ca961b7275e87ed17edd5aaf87',1,'hmi::IdentityBaseScale::body']]],
+  ['border_11',['border',['../structhmi_1_1ColorTokens.html#a241a0c3b5c0ac06b32bc6c8a8931144a',1,'hmi::ColorTokens']]],
+  ['box_12',['box',['../structcore_1_1TriggerWeight.html#ab974e361606ec4249ab88f8e305c2480',1,'core::TriggerWeight']]],
+  ['burrow_13',['burrow',['../structcore_1_1CreatureSpeed.html#a279a2e0ca9c7dacec5321ca51777d61d',1,'core::CreatureSpeed']]],
+  ['button_5fcount_14',['BUTTON_COUNT',['../classhmi_1_1InputState.html#a692a4d893cae9b15948b3d1081bbafeb',1,'hmi::InputState']]],
+  ['bx_15',['bx',['../structhmi_1_1LineQuad.html#a203b268e3040f841fa7089fc58391d22',1,'hmi::LineQuad']]],
+  ['by_16',['by',['../structhmi_1_1LineQuad.html#aea263b042537c77e3ffbebe64b772a27',1,'hmi::LineQuad']]]
 ];

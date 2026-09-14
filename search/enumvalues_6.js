@@ -7,5 +7,6 @@ var searchData=
   ['grappled_4',['Grappled',['../namespacecore.html#aae82873d6c7bd0b4db085354c50e1493aa6a928f3388475a9635f44ac382ba759',1,'core']]],
   ['grass_5',['Grass',['../namespacecore.html#ace99a1be913e6294e42e9ebb145eb875aaac9a63596f76a62bb9f61a5dd7c0d25',1,'core']]],
   ['grid_6',['Grid',['../namespacehmi.html#a0076ce0092efe8d8df165966481a5830a5174d1309f275ba6f275db3af9eb3e18',1,'hmi']]],
-  ['ground_7',['Ground',['../namespacecore.html#ab0cf50b7ad0dce1357c85662e0fb7e5da3519d51443d41746a097cd54cd5c11cf',1,'core']]]
+  ['ground_7',['Ground',['../namespacecore.html#ab0cf50b7ad0dce1357c85662e0fb7e5da3519d51443d41746a097cd54cd5c11cf',1,'core']]],
+  ['groundobstacle_8',['GroundObstacle',['../classcore_1_1BattleGrid.html#afa362bf2c8a692ba969b6a319c7a987fa9359d5f3ea6721150c54b95c46f49cba',1,'core::BattleGrid']]]
 ];

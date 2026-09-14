@@ -8,7 +8,7 @@ var searchData=
   ['hascomponent_5',['hasComponent',['../classcore_1_1World.html#a89409118ee9ad14b7aeb404b0e844c04',1,'core::World']]],
   ['hassheet_6',['hasSheet',['../structcore_1_1RpgActor.html#a6d3846c50bd7f04cb938044e0388a670',1,'core::RpgActor']]],
   ['hassilhouette_7',['hasSilhouette',['../namespacehmi.html#a8a000913259074c63f34b46b7d67864e',1,'hmi']]],
-  ['height_8',['height',['../classcore_1_1TileMap.html#aa3eeac433441da6f84c9a5e152fd3845',1,'core::TileMap::height()'],['../structhmi_1_1PixelRegion.html#a6a3122cbd18f25a0d3eb3155a85f9855',1,'hmi::PixelRegion::height()'],['../classhmi_1_1TextureAtlas.html#a4d1a9e1cfc71dd6c1b319ce0dab8a6d7',1,'hmi::TextureAtlas::height()']]],
+  ['height_8',['height',['../classcore_1_1BattleGrid.html#aa86684cfb35851fcb057779307a9a35d',1,'core::BattleGrid::height()'],['../classcore_1_1TileMap.html#aa3eeac433441da6f84c9a5e152fd3845',1,'core::TileMap::height()'],['../structhmi_1_1PixelRegion.html#a6a3122cbd18f25a0d3eb3155a85f9855',1,'hmi::PixelRegion::height()'],['../classhmi_1_1TextureAtlas.html#a4d1a9e1cfc71dd6c1b319ce0dab8a6d7',1,'hmi::TextureAtlas::height()']]],
   ['heightfor_9',['heightFor',['../structhmi_1_1SceneTextures.html#abce6688963dc3a0b879a9b86391326e8',1,'hmi::SceneTextures']]],
   ['hideevent_10',['hideEvent',['../classhmi_1_1GamepadBindingsWidget.html#ad29eefb8cc66b020a431dae0d5d85512',1,'hmi::GamepadBindingsWidget']]],
   ['highlight_11',['highlight',['../classhmi_1_1GameViewport.html#a7741b62548715a272721a4e7c4b67a21',1,'hmi::GameViewport']]],
