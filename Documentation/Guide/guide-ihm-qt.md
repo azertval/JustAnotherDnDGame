@@ -244,6 +244,14 @@ une image **noire** d'une fenêtre Qt Quick, dessinée par le GPU : seul Qt sait
 graphe de scène. La vérification visuelle des écrans devient ainsi reproductible, au lieu de dépendre
 d'un œil devant l'écran au bon moment.
 
+`--window-size=<largeur>x<hauteur>` impose la taille de la fenêtre, sans passer par le plein écran
+— qui écrirait le réglage du joueur et donnerait la taille de son moniteur. C'est ainsi que chaque
+écran de la charte v2 se capture à 1920 × 1080 et à 1280 × 720, à côté de sa maquette :
+
+```
+JustAnotherDnDGame --screen=MainMenu --window-size=1920x1080 --screenshot=menu-1080p.png
+```
+
 ## Voir aussi
 
 - @ref guide-conception-qds — le mode d'emploi de la **conception** : ce qu'on modifie sans code.

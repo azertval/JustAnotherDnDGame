@@ -501,6 +501,59 @@ restent l'hypothèse, et ne sont pas instruits ici.
   `check_qml_designer_compat.py`, `lint_exigences.py` (352/352), `lint_lots.py` : verts. Doxygen sans
   erreur.
 
+## Phase 3 — les écrans
+
+### T3.1 — Le menu principal (maquette 06)
+
+`MainMenuForm.ui.qml` réécrit sur les briques v2, cotes relevées sur la maquette (1672 × 941) et
+ramenées à 1920 × 1080, puis multipliées par `Tokens.uiScale` : scène en fond, logotype, six entrées
+à icône, encart de profil, citation, version.
+
+- **Six entrées, deux sans destination.** « Continuer » et « Charger une partie » sont dessinées à
+  leur place dans l'état `disabled` d'`OrnateButton`, jusqu'à la sauvegarde (`LOT-17`). Le jumeau ne
+  les rend jamais courantes : les flèches les sautent, un bouton désactivé n'émet ni survol ni clic,
+  et `activate()` refuse une entrée désactivée. L'écran s'ouvre donc sur « Nouvelle partie ».
+  `continueAvailable` et `loadAvailable` les rallumeront sans toucher au formulaire.
+- **La marque de focus.** La plaque grenat de l'entrée active est une teinte ; `EX-IHM-071` veut une
+  marque. Un losange d'or (`FocusMark`, pièce `ui/control/focus-fleuron`) se pose devant l'entrée
+  courante.
+- **Quatre briques de plus**, pour les pièces du menu qui n'en avaient pas : `CoverArt` (troisième
+  porteur d'image, pour les pièces `display: cover`), `LogoPlate` (`ui/plate/logo`, dont le repli
+  écrit le nom en deux lignes et s'efface le jour où l'image, qui porte ses lettres, arrive),
+  `QuotePlate` (`ui/plate/quote`) et `FocusMark`. Les trois premières servent aussi aux crédits
+  (T3.3) ; toutes sont dans la galerie.
+- **La version** vient de `core::Engine::version()` par `QCoreApplication::setApplicationVersion`,
+  lue en QML par `Qt.application.version` : aucun type C++ ni doublure de plus.
+- **Le profil** est en attente : `main_menu.profile.name` et `main_menu.profile.portrait`
+  (`PendingData`). Aucun lot ne tient de profil de joueur ; le cadre de portrait prend son état
+  `empty`.
+- La navigation réelle ne change pas : Nouvelle partie, Options, Crédits, Quitter appellent le
+  routeur comme avant. Clavier et pointeur pilotent le même `currentIndex` ; les boutons ne prennent
+  pas le focus (`Qt.NoFocus`), qui reste à l'écran et à ses touches.
+
+Écarts assumés :
+
+- **Aucune pièce n'est livrée.** Le plan voulait fonds, cadres, plaques, boutons et contrôles livrés
+  avant la phase 3 ; la production n'a pas tourné. L'écran est posé sur les aplats de repli des
+  briques, qui céderont la place aux images sans qu'une ligne du formulaire change. Les captures
+  ci-dessous jugent la **mise en page**, pas la matière.
+- **La scène de repli est la carte de Tanares**, et non l'aplat `panel` que le cahier prévoit pour
+  `ui/background/menu-scene` : un menu noir aurait caché la composition que la capture doit montrer,
+  et la carte est une illustration extraite, déjà déclarée. Le dégradé sombre du tiers gauche ne
+  s'affiche qu'avec ce repli : la scène produite est peinte avec un tiers gauche sombre.
+- **Logotype à 608 px de large**, mesuré sur la maquette, et non les 532 px du cahier. **Encart de
+  profil à 96 px de haut**, et non 80 : un 9-patch plus petit que ses deux marges superpose ses
+  coins.
+- **Pas de roue dentée dans l'encart de profil** : elle n'ouvre rien que le menu n'ouvre déjà, et
+  aucune pièce du cahier ne la porte.
+- **`EX-IHM-072`** retire tout réglage inopérant. Deux entrées désactivées ne sont pas des réglages,
+  et le plan les veut visibles ; l'exigence n'est pas refondue ici. Le T3.2, qui tranche le cas des
+  options, dira si la règle s'étend aux entrées de menu.
+
+| Maquette | 1920 × 1080 | 1280 × 720 |
+|---|---|---|
+| ![maquette 06](references/06_Main_Menu_Mockup.png) | ![menu à 1080p](captures/t3-1-menu-1080p.png) | ![menu à 720p](captures/t3-1-menu-720p.png) |
+
 ## Exigences couvertes
 
 - [`EX-IHM-070`](@ref EX-IHM-070), [`EX-IHM-075`](@ref EX-IHM-075), [`EX-IHM-076`](@ref EX-IHM-076),

@@ -1,91 +1,274 @@
 import QtQuick
-import QtQuick.Layouts
 import Jadg.Ui
 
 /*!
-    Menu principal -- FORMULAIRE, cote conception (LOT-86).
+    Menu principal -- FORMULAIRE, cote conception (LOT-87, T3.1 ; maquette 06).
 
-    Pas de cadre : les entrees se posent sur une scene, et la lisibilite tient a un degrade sombre
-    sur le tiers gauche plutot qu'a un voile plein -- le decor doit rester visible. C'est la
-    decision que portaient les planches, reprise ici.
+    Transcrit de la maquette `06_Main_Menu_Mockup.png` (1672 x 941), cotes ramenees a 1920 x 1080 --
+    la definition de conception -- puis multipliees par `Tokens.uiScale` : a 720p, tout l'ecran se
+    reduit d'un bloc, dans les proportions de la maquette.
 
-    « Mode Edition » a disparu des entrees : l'editeur de niveaux est un BINAIRE SEPARE depuis ce
-    lot, et le jeu n'a plus aucun chemin qui y mene.
+    - la scene en fond (`ui/background/menu-scene`) ; tant qu'elle n'est pas livree, la carte de
+      Tanares extraite du corpus tient sa place, sous un degrade de `panel` qui porte la lisibilite
+      du tiers gauche -- le decor reste visible, comme la maquette le veut ;
+    - le logotype en haut a gauche, et sous lui six entrees a icone ;
+    - l'encart de profil en haut a droite, la citation en bas a gauche, la version en bas a droite.
+
+    **Six entrees, dont deux sans destination.** « Continuer » et « Charger une partie » attendent
+    la sauvegarde (LOT-17) : elles sont dessinees, a leur place, dans l'etat `disabled` du bouton,
+    et le jumeau ne les rend jamais courantes. `continueAvailable` et `loadAvailable` les rallumeront.
+
+    **Le focus est une marque** (EX-IHM-071) : un losange d'or devant l'entree courante, en plus de la
+    plaque grenat de l'etat actif.
+
+    Aucune donnee ecrite ici : le profil et la version sont poses par le jumeau. Les valeurs
+    ci-dessous ne sont que celles de la conception.
 */
 Item {
     id: root
 
-    property int currentIndex: 0
+    /// L'entree courante, 0 a 5, dans l'ordre de l'ecran. Le jumeau la tient.
+    property int currentIndex: 1
+
+    /// Rallument « Continuer » et « Charger une partie » le jour ou la sauvegarde existe (LOT-17).
+    property bool continueAvailable: false
+    property bool loadAvailable: false
+
+    /// L'encart de profil : nom du joueur et portrait (vide : cadre libre).
+    property string profileName: "—"
+    property url profilePortrait: ""
+
+    /// La version du jeu, sans le « v » (`core::Engine::version()`, posee par le jumeau).
+    property string version: "0.0.0"
 
     // Les entrees sont exposees une a une : c'est le jumeau qui leur attache le survol et le clic,
     // un formulaire ne pouvant pas contenir de code.
+    property alias continueEntry: continueControl
     property alias newGameEntry: newGameControl
+    property alias loadGameEntry: loadGameControl
     property alias optionsEntry: optionsControl
     property alias creditsEntry: creditsControl
     property alias quitEntry: quitControl
 
+    width: 1920
+    height: 1080
+
+    // --- Le fond ----------------------------------------------------------------------------------
     Rectangle {
         anchors.fill: parent
-        color: Tokens.background
+        color: Tokens.panel
     }
 
-    // Le decor : la carte du monde, extraite du corpus (EX-IHM-076). La maquette voulait un FOND,
-    // pas un aplat -- « les entrees ne sont plus enfermees dans un panneau, elles se posent sur une
-    // scene ». `PreserveAspectCrop` remplit sans deformer : une carte etiree se lit tout de suite.
+    // Repli de la scene : la carte du monde, extraite du corpus (EX-IHM-076). `PreserveAspectCrop`
+    // remplit sans deformer.
     Image {
         anchors.fill: parent
+        visible: !sceneArt.delivered
         source: "../../Elements/Assets/UI/world-map.jpg"
         fillMode: Image.PreserveAspectCrop
-        // Peinte, pas en pixel art : elle se redimensionne en interpole (EX-ARCH-022, LOT-66).
         smooth: true
     }
 
-    // Le degrade qui porte la lisibilite du titre et des entrees -- et NON un voile plein sur tout
-    // l'ecran : la maquette voulait que le decor reste visible.
-    //
-    // L'ALPHA est dans les paliers, pas dans l'opacite de l'element : une opacite uniforme
-    // eclaircirait aussi le bord gauche, la ou le texte a le plus besoin de fond. Et la teinte
-    // vient du jeton d'encre, pas d'une couleur ecrite ici -- elle suivra un changement de palette.
+    CoverArt {
+        id: sceneArt
+
+        anchors.fill: parent
+        key: "ui/background/menu-scene"
+    }
+
+    // Le degrade qui porte la lisibilite du logo et des entrees, et NON un voile plein : la scene
+    // doit rester visible. L'alpha est dans les paliers, pas dans l'opacite de l'element -- une
+    // opacite uniforme eclaircirait aussi le bord gauche, la ou le texte a le plus besoin de fond.
+    // La scene produite est peinte avec un tiers gauche sombre : elle n'en a pas besoin.
     Rectangle {
         anchors.left: parent.left
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-        width: parent.width * 0.55
+        width: parent.width * 0.5
+        visible: !sceneArt.delivered
         gradient: Gradient {
             orientation: Gradient.Horizontal
-            GradientStop {
-                position: 0.0
-                color: Qt.rgba(Tokens.frameEdge.r, Tokens.frameEdge.g, Tokens.frameEdge.b, 0.92)
+            GradientStop { position: 0.0; color: Qt.rgba(Tokens.panel.r, Tokens.panel.g, Tokens.panel.b, 0.9) }
+            GradientStop { position: 0.6; color: Qt.rgba(Tokens.panel.r, Tokens.panel.g, Tokens.panel.b, 0.65) }
+            GradientStop { position: 1.0; color: Qt.rgba(Tokens.panel.r, Tokens.panel.g, Tokens.panel.b, 0.0) }
+        }
+    }
+
+    // --- Logotype (maquette : 110, 25 -> 640, 345) ------------------------------------------------
+    LogoPlate {
+        id: logo
+
+        x: 126 * Tokens.uiScale
+        y: 28 * Tokens.uiScale
+        width: 608 * Tokens.uiScale
+    }
+
+    // --- Les six entrees (maquette : 150, 355 -> 540, 805 ; pas de 88 px a 1080p) -----------------
+    Column {
+        id: entries
+
+        x: 180 * Tokens.uiScale
+        y: 408 * Tokens.uiScale
+        spacing: Tokens.gapMedium
+
+        Row {
+            spacing: Tokens.gapSmall
+
+            FocusMark { anchors.verticalCenter: parent.verticalCenter; opacity: root.currentIndex === 0 ? 1 : 0 }
+            OrnateButton {
+                id: continueControl
+                kind: "menu"
+                iconKey: "ui/icon/menu/continue"
+                text: qsTr("Continuer")
+                enabled: root.continueAvailable
+                highlighted: root.currentIndex === 0
+                focusPolicy: Qt.NoFocus
             }
-            GradientStop {
-                position: 0.55
-                color: Qt.rgba(Tokens.frameEdge.r, Tokens.frameEdge.g, Tokens.frameEdge.b, 0.72)
+        }
+
+        Row {
+            spacing: Tokens.gapSmall
+
+            FocusMark { anchors.verticalCenter: parent.verticalCenter; opacity: root.currentIndex === 1 ? 1 : 0 }
+            OrnateButton {
+                id: newGameControl
+                kind: "menu"
+                iconKey: "ui/icon/menu/new-game"
+                text: qsTr("Nouvelle partie")
+                highlighted: root.currentIndex === 1
+                focusPolicy: Qt.NoFocus
             }
-            GradientStop {
-                position: 1.0
-                color: Qt.rgba(Tokens.frameEdge.r, Tokens.frameEdge.g, Tokens.frameEdge.b, 0.0)
+        }
+
+        Row {
+            spacing: Tokens.gapSmall
+
+            FocusMark { anchors.verticalCenter: parent.verticalCenter; opacity: root.currentIndex === 2 ? 1 : 0 }
+            OrnateButton {
+                id: loadGameControl
+                kind: "menu"
+                iconKey: "ui/icon/menu/load-game"
+                text: qsTr("Charger une partie")
+                enabled: root.loadAvailable
+                highlighted: root.currentIndex === 2
+                focusPolicy: Qt.NoFocus
+            }
+        }
+
+        Row {
+            spacing: Tokens.gapSmall
+
+            FocusMark { anchors.verticalCenter: parent.verticalCenter; opacity: root.currentIndex === 3 ? 1 : 0 }
+            OrnateButton {
+                id: optionsControl
+                kind: "menu"
+                iconKey: "ui/icon/menu/options"
+                text: qsTr("Options")
+                highlighted: root.currentIndex === 3
+                focusPolicy: Qt.NoFocus
+            }
+        }
+
+        Row {
+            spacing: Tokens.gapSmall
+
+            FocusMark { anchors.verticalCenter: parent.verticalCenter; opacity: root.currentIndex === 4 ? 1 : 0 }
+            OrnateButton {
+                id: creditsControl
+                kind: "menu"
+                iconKey: "ui/icon/menu/credits"
+                text: qsTr("Crédits")
+                highlighted: root.currentIndex === 4
+                focusPolicy: Qt.NoFocus
+            }
+        }
+
+        Row {
+            spacing: Tokens.gapSmall
+
+            FocusMark { anchors.verticalCenter: parent.verticalCenter; opacity: root.currentIndex === 5 ? 1 : 0 }
+            OrnateButton {
+                id: quitControl
+                kind: "menu"
+                iconKey: "ui/icon/menu/quit"
+                text: qsTr("Quitter")
+                highlighted: root.currentIndex === 5
+                focusPolicy: Qt.NoFocus
             }
         }
     }
 
-    ColumnLayout {
-        anchors.left: parent.left
-        anchors.verticalCenter: parent.verticalCenter
-        anchors.leftMargin: Tokens.spaceExtraLarge * 2
-        spacing: Tokens.spaceLarge
+    // --- Encart de profil (maquette : 1355, 30 -> 1630, 100) --------------------------------------
+    // 96 px de haut et non les 80 de la maquette : un 9-patch plus petit que ses deux marges (48 + 48)
+    // superposerait ses coins.
+    PanelFrame {
+        id: profile
 
-        Text {
-            text: "JustAnotherDnDGame"
-            color: Tokens.surfaceAlt
-            font.family: Tokens.titleFamily
-            font.pixelSize: Tokens.screenTitle
+        anchors.right: parent.right
+        anchors.top: parent.top
+        anchors.rightMargin: 48 * Tokens.uiScale
+        anchors.topMargin: Tokens.gapLarge
+        width: 316 * Tokens.uiScale
+        height: 96 * Tokens.uiScale
+        subpanel: true
+        padding: 0
+
+        PortraitFrame {
+            id: profilePortraitFrame
+
+            anchors.left: parent.left
+            anchors.verticalCenter: parent.verticalCenter
+            size: 96 * Tokens.uiScale
+            source: root.profilePortrait
         }
 
-        Item { Layout.preferredHeight: Tokens.spaceExtraLarge }
+        Column {
+            anchors.left: profilePortraitFrame.right
+            anchors.right: parent.right
+            anchors.leftMargin: Tokens.gapMedium
+            anchors.rightMargin: Tokens.gapMedium
+            anchors.verticalCenter: parent.verticalCenter
 
-        MenuEntry { id: newGameControl; label: qsTr("Nouvelle partie"); current: root.currentIndex === 0 }
-        MenuEntry { id: optionsControl; label: qsTr("Options"); current: root.currentIndex === 1 }
-        MenuEntry { id: creditsControl; label: qsTr("Crédits"); current: root.currentIndex === 2 }
-        MenuEntry { id: quitControl; label: qsTr("Quitter"); current: root.currentIndex === 3 }
+            Text {
+                text: qsTr("Profil joueur")
+                color: Tokens.textOnPanelMuted
+                font.family: Tokens.bodyFamily
+                font.pixelSize: Tokens.fontCaption
+            }
+
+            Text {
+                width: parent.width
+                text: root.profileName
+                color: Tokens.textOnPanel
+                font.family: Tokens.bodyFamily
+                font.pixelSize: Tokens.fontBody
+                elide: Text.ElideRight
+            }
+        }
+    }
+
+    // --- Citation (maquette : 28, 858 -> 392, 910) ------------------------------------------------
+    QuotePlate {
+        anchors.left: parent.left
+        anchors.bottom: parent.bottom
+        anchors.leftMargin: Tokens.gapLarge
+        anchors.bottomMargin: Tokens.gapLarge
+        text: qsTr("« Chaque choix façonne une nouvelle histoire. »")
+    }
+
+    // --- Version (maquette : 1595, 895 -> 1642, 915) ----------------------------------------------
+    Text {
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        anchors.rightMargin: Tokens.gapLarge
+        anchors.bottomMargin: Tokens.gapLarge
+        text: "v" + root.version
+        color: Tokens.textOnPanel
+        font.family: Tokens.bodyFamily
+        font.pixelSize: Tokens.fontCaption
+        // Posee a meme la scene, sans plaque : un contour de `panel` la garde lisible sur un ciel
+        // clair comme sur la carte de repli.
+        style: Text.Outline
+        styleColor: Tokens.panel
     }
 }

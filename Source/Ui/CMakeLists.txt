@@ -56,6 +56,11 @@ set(JADG_UI_QML_FILES
     Controls/ItemSlot.ui.qml
     Controls/Gauge.ui.qml
     Controls/GoldDivider.ui.qml
+    # Phase 3 (T3.1) : les pièces du menu principal qui n'avaient pas encore de brique.
+    Controls/CoverArt.ui.qml
+    Controls/LogoPlate.ui.qml
+    Controls/QuotePlate.ui.qml
+    Controls/FocusMark.ui.qml
     Screens/CharacterSheetForm.ui.qml
     Screens/InventoryForm.ui.qml
     Screens/JournalForm.ui.qml
