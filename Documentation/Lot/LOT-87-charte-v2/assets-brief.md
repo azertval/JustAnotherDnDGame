@@ -135,7 +135,7 @@ jour — et sort en erreur à la première faute.
 
 <!-- DEBUT DES TABLES ENGENDREES : scripts/check_assets_brief.py --write -->
 
-Le cahier compte **80 pièces**, qui engendrent **214 images** (une par état ou par membre).
+Le cahier compte **85 pièces**, qui engendrent **223 images** (une par état ou par membre).
 
 ### Fonds {#lot-87-cahier-background}
 
@@ -582,6 +582,36 @@ Le cahier compte **80 pièces**, qui engendrent **214 images** (une par état ou
   *Prompt propre :* « Engraved gold emblem icon, bold readable silhouette at 32 px, subtle relief, transparent background. »
   *Membres :* `career-points` Points de carrière (« an eight-pointed star » — 09 (64, 284, 113, 338)) ; `team-level` Niveau d'équipe (« a shield » — 09 (190, 284, 238, 338)) ; `prestige` Prestige (« a crown » — 09 (300, 284, 348, 338)) ; `fame` Renommée (« a laurel wreath » — 09 (393, 284, 440, 338)).
   *Repli :* `goldLight`.
+
+### Arène {#lot-87-cahier-arena}
+
+5 pièces, 9 images.
+
+| Clé | Pièce | Production | Tenue | Variantes | Maquettes, zone (x0, y0, x1, y1) | Écrans |
+|---|---|---|---|---|---|---|
+| `ui/arena/floor` | Sol de l'arène | 256 × 256, opaque | tuile | — | 01 (480, 390, 900, 660) | LOT-50 |
+| `ui/arena/wall` | Mur de l'arène | 256 × 256, opaque | tuile | — | 01 (1110, 10, 1360, 190) | LOT-50 |
+| `ui/arena/cell` | Surbrillance de case | 256 × 256 | fixe, affichée 64 × 64, 128 × 128, 256 × 256 | `reachable`, `ally`, `enemy`, `active` | 01 (480, 380, 900, 670)<br>01 (880, 280, 1230, 540) | LOT-50 |
+| `ui/arena/unit` | Unité de l'arène | 512 × 512 | fixe, affichée 64 × 64, 128 × 128, 256 × 256 | `ally`, `enemy` | 01 (535, 325, 800, 655)<br>01 (925, 155, 1230, 545) | LOT-50 |
+| `ui/arena/foe-mark` | Marque d'ennemi | 64 × 64 | fixe, affichée 16 × 16, 24 × 24, 32 × 32 | — | 01 (955, 160, 985, 190)<br>01 (1110, 685, 1150, 715) | LOT-50 |
+
+- **`ui/arena/floor`** — Sable tassé sur dalles usées, répété sous toute la grille du Colisée. Chaque case en reçoit une tuile ; la grille se dessine par-dessus.
+  *Prompt propre :* « Arena floor tile: hard-packed ochre sand over worn pale flagstones, a few pebbles and faint chalk scuffs, flat even lighting, no focal feature. »
+  *Repli :* `surface`.
+- **`ui/arena/wall`** — Bloc de maçonnerie vu de dessus : les cases infranchissables de la carte d'arène (`wall`).
+  *Prompt propre :* « Top-down block of fitted grey-brown stone masonry with mossy joints, seen straight from above, flat and even, no focal feature. »
+  *Repli :* `frameEdge`.
+- **`ui/arena/cell`** — Calque posé sur une case du sol : atteignable, sous un allié, sous un ennemi, ou au tour (cerclé d'or). Réduit à la taille de case.
+  *Prompt propre :* « Square grid-cell overlay: a translucent inner fill with a crisp painted edge line and a thin inner glow, small notches at the four corners, a 6 px fully transparent margin all around. »
+  *États :* `reachable` atteignable (« pale cyan-blue fill at 35 % opacity, thin cyan edge line » — 01 (500, 575, 620, 660)) ; `ally` allié (« cyan-blue fill at 45 % opacity, bright cyan edge line » — 01 (690, 470, 790, 545)) ; `enemy` ennemi (« blood-red fill at 45 % opacity, bright red edge line » — 01 (1080, 340, 1170, 410)) ; `active` au tour (« nearly clear fill, bright gold edge line with a warm inner glow » — 01 (940, 320, 1045, 405)).
+  *Repli :* `info`, `textAlly`, `textEnemy`, `goldLight`.
+- **`ui/arena/unit`** — Le combattant posé dans sa case : une silhouette peinte par camp, réduite à la taille de case. Le nom et les points de vie restent du texte de l'écran.
+  *Prompt propre :* « Full-figure character token for one square grid cell: seen from a high three-quarter view as on a painted tactical map, standing on a small soft elliptical ground shadow, feet at the bottom centre, the figure filling 80 % of the height, a strong silhouette that stays readable at 64 px. »
+  *Membres :* `ally` allié (« a human warrior in worn steel plate and a blue-grey cloak, a round wooden shield with a brass boss on the left arm, longsword lowered in the right hand, facing front-left » — 01 (690, 415, 800, 545)) ; `enemy` ennemi (« a hooded bandit in dark leather and a ragged blood-red scarf, curved dagger raised in the right hand, crouched and aggressive, facing front-right » — 01 (945, 155, 1045, 280)).
+  *Repli :* `textAlly`, `textEnemy`.
+- **`ui/arena/foe-mark`** — Petit médaillon grenat au crâne d'os, posé au-dessus d'un ennemi à côté de ses points de vie.
+  *Prompt propre :* « Small round garnet enamel badge rimmed with gold, bearing a bone-white skull seen from the front. »
+  *Repli :* `gem`, `textOnPanel`.
 
 ### Ce que le cahier ne fait pas produire {#lot-87-cahier-exclusions}
 

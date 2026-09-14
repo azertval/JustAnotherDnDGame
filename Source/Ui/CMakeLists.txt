@@ -58,6 +58,9 @@ set(JADG_UI_QML_FILES
     Controls/ActionSlot.ui.qml
     Controls/OrnateRoundButton.ui.qml
     Controls/HudFrame.ui.qml
+    # Le Colisee (LOT-50, habillage du 14 septembre 2026) : le porteur de tuile et la case de grille.
+    Controls/TileArt.ui.qml
+    Controls/ArenaCell.ui.qml
     Screens/CharacterSheetForm.ui.qml
     Screens/InventoryForm.ui.qml
     Screens/JournalForm.ui.qml

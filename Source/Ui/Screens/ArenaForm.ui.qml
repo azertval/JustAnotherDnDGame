@@ -13,6 +13,11 @@ import Jadg.Ui
     Trois zones : a gauche la composition (le roster, les deux camps, la graine), au centre la
     grille et sa barre d'actions, a droite l'ordre d'initiative et le journal. Les couleurs
     viennent des jetons pour que l'ecran ne jure pas au milieu du jeu, sans pretendre a la charte.
+
+    Depuis le 14 septembre 2026, la grille est faite de briques `ArenaCell` : chaque case pose les
+    pieces `ui/arena/*` du cahier des assets (sol, mur, surbrillance, unite alliee ou ennemie,
+    marque d'ennemi) des qu'elles sont livrees, et garde les aplats d'origine jusque-la. Le cadre
+    de l'ecran, lui, reste celui du developpeur.
 */
 Item {
     id: root
@@ -49,7 +54,10 @@ Item {
     signal backRequested()
     signal closeRequested()
 
-    readonly property real cellSize: Math.max(16, Math.min((gridHost.width - 8) / Math.max(1, root.gridColumns),
+    // Bornee a 256 px de conception : la surbrillance et l'unite du cahier sont produites pour un
+    // affichage de 64 a 256 px, et une piece fixe ne s'affiche jamais plus grande que sa production.
+    readonly property real cellSize: Math.max(16, Math.min(256 * Tokens.uiScale,
+                                                           (gridHost.width - 8) / Math.max(1, root.gridColumns),
                                                            (gridHost.height - 8) / Math.max(1, root.gridRows)))
 
     Rectangle {
@@ -321,36 +329,19 @@ Item {
             Repeater {
                 model: root.cells
 
-                Rectangle {
+                // La case et ce qu'elle porte : sol, surbrillance, combattant, jauge (les pieces
+                // `ui/arena/*` du cahier, ou leur repli tant qu'elles ne sont pas livrees).
+                ArenaCell {
                     width: root.cellSize
                     height: root.cellSize
-                    color: modelData.wall ? Tokens.frameEdge
-                         : modelData.reachable ? Tokens.info
-                         : Tokens.surface
-                    border.color: modelData.active ? Tokens.goldLight : Tokens.border
-                    border.width: modelData.active ? 2 : 1
-
-                    Rectangle {
-                        anchors.centerIn: parent
-                        width: parent.width * 0.7
-                        height: width
-                        radius: width / 2
-                        visible: modelData.occupant.length > 0
-                        color: modelData.side === "allies" ? Tokens.textAlly : Tokens.textEnemy
-                        opacity: modelData.down ? 0.35 : 1
-                    }
-                    Text {
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        anchors.bottom: parent.bottom
-                        text: modelData.hitPoints
-                        color: Tokens.textOnPanel
-                        font.pixelSize: Math.max(8, root.cellSize * 0.28)
-                        visible: modelData.occupant.length > 0
-                    }
-                    MouseArea {
-                        anchors.fill: parent
-                        onClicked: root.cellTapped(modelData.column, modelData.row)
-                    }
+                    wall: modelData.wall
+                    reachable: modelData.reachable
+                    active: modelData.active
+                    side: modelData.side
+                    down: modelData.down
+                    hitPoints: modelData.hitPoints
+                    hitPointsRatio: modelData.hitPointsRatio
+                    pointer.onClicked: root.cellTapped(modelData.column, modelData.row)
                 }
             }
         }

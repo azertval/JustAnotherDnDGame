@@ -86,9 +86,9 @@
       "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
     },
     "screen": {
-      "description": "La tache qui transcrit l'ecran consommateur : T3.1 a T3.9 (phase 3), T4.1 (HUD).",
+      "description": "La tache qui transcrit l'ecran consommateur : T3.1 a T3.9 (phase 3), T4.1 (HUD) ; ou le lot d'un ecran hors LOT-87 qui consomme le cahier (LOT-50, le Colisee).",
       "type": "string",
-      "pattern": "^T(3\\.[1-9]|4\\.1)$"
+      "pattern": "^(T(3\\.[1-9]|4\\.1)|LOT-50)$"
     },
     "mockupRef": {
       "type": "object",
@@ -148,7 +148,7 @@
         "key": {
           "description": "Cle d'asset `ui/<famille>/<piece>`. Une piece a etats ou a membres engendre une cle par variante : `<cle>/<id>`.",
           "type": "string",
-          "pattern": "^ui/(background|frame|plate|tab|button|control|medallion|slot|gauge|ornament|icon)/[a-z0-9]+(-[a-z0-9]+)*$"
+          "pattern": "^ui/(background|frame|plate|tab|button|control|medallion|slot|gauge|ornament|icon|arena)/[a-z0-9]+(-[a-z0-9]+)*$"
         },
         "name": { "type": "string", "minLength": 1 },
         "material": { "type": "string", "minLength": 1 },

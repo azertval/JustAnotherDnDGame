@@ -129,6 +129,32 @@ lance rien.
 - **`check_rpg_data.py`** connaît deux familles de plus : `arena` (sous `World/`) et la règle
   `heroic-marks`.
 
+## Habillage de l'arène (14 septembre 2026, après livraison)
+
+L'écran reste celui du développeur, mais sa grille se peint. Demande de l'auteur, sur la maquette
+01 du HUD : des assets pour l'arène, et pour les unités deux images, une par camp.
+
+- **Le cahier des assets du `LOT-87`** (`assets-brief.json`) gagne une famille `arena` et une
+  matière `tactical` : cinq pièces, neuf images — `ui/arena/floor` et `ui/arena/wall` (tuiles
+  256 × 256), `ui/arena/cell` (états `reachable`, `ally`, `enemy`, `active`, 256 × 256),
+  `ui/arena/unit` (membres `ally`, `enemy`, 512 × 512) et `ui/arena/foe-mark` (64 × 64). Le schéma
+  admet `LOT-50` comme écran consommateur ; les zones citées sont celles de la maquette 01
+  (cases bleues et rouges, les quatre alliés, les quatre bandits, le crâne du panneau « Bandit »).
+  L'exclusion « scène et grille tactique du HUD » reste vraie pour le viewport du HUD ; l'arène,
+  elle, dessine sa grille en QML et peut donc la peindre.
+- **Deux briques** : `TileArt` (le porteur des pièces `tile`, qui manquait) et `ArenaCell`, la
+  case composée — sol ou mur, surbrillance, unité, marque et jauge d'un ennemi, points de vie en
+  texte. Tant qu'aucune pièce n'est livrée, `ArenaCell` dessine exactement les aplats d'avant.
+  `ArenaModel::cells` porte en plus `hitPointsRatio`, ce que la jauge lit.
+- **La grille est bornée à 256 px de conception par case** : une pièce fixe ne s'affiche jamais
+  plus grande que sa production.
+- **Validation avant production** : la composition, la planche de style et les prompts ont été
+  soumis dans un canevas de conception ; la réception à blanc (`receive_ui_assets.py --dry-run`)
+  de neuf brouillons nommés d'après les clés passe. La production reste celle du `LOT-87`
+  (T2.6) : `check_assets_brief.py --prompt ui/arena/<pièce>`, générer, réceptionner.
+- **Hors périmètre** : le cadre de l'écran (panneaux, boutons, journal) garde ses contrôles Qt
+  Quick nus ; l'habillage complet du combat reste au `LOT-24`, qui réemploiera `ArenaCell`.
+
 ## Ce qui reste hors du lot, nommément
 
 - **L'ouverture depuis le monde** (`LOT-42`) : l'arène est aussi un lieu de l'atlas, et s'ouvrira

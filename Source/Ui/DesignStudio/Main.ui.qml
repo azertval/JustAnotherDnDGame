@@ -206,6 +206,25 @@ Rectangle {
                     SectionBanner {
                         Layout.fillWidth: true
                         material: "dark"
+                        text: "Colisée"
+                    }
+
+                    // La case de grille du Colisee (LOT-50) dans chacun de ses etats : mur, nue,
+                    // atteignable, allie au tour, ennemi, ennemi a terre.
+                    RowLayout {
+                        spacing: 0
+
+                        ArenaCell { Layout.preferredWidth: 96 * Tokens.uiScale; Layout.preferredHeight: 96 * Tokens.uiScale; wall: true }
+                        ArenaCell { Layout.preferredWidth: 96 * Tokens.uiScale; Layout.preferredHeight: 96 * Tokens.uiScale }
+                        ArenaCell { Layout.preferredWidth: 96 * Tokens.uiScale; Layout.preferredHeight: 96 * Tokens.uiScale; reachable: true }
+                        ArenaCell { Layout.preferredWidth: 96 * Tokens.uiScale; Layout.preferredHeight: 96 * Tokens.uiScale; side: "allies"; active: true; hitPoints: "30/30" }
+                        ArenaCell { Layout.preferredWidth: 96 * Tokens.uiScale; Layout.preferredHeight: 96 * Tokens.uiScale; side: "enemies"; hitPoints: "5/7"; hitPointsRatio: 0.7 }
+                        ArenaCell { Layout.preferredWidth: 96 * Tokens.uiScale; Layout.preferredHeight: 96 * Tokens.uiScale; side: "enemies"; down: true; hitPoints: "0/11"; hitPointsRatio: 0 }
+                    }
+
+                    SectionBanner {
+                        Layout.fillWidth: true
+                        material: "dark"
                         text: "Menu"
                     }
 
