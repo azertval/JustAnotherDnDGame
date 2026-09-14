@@ -18,6 +18,10 @@ Item {
 
     property url iconSource: ""
 
+    /// Nom de l'objet, ecrit dans la case tant qu'elle n'a pas d'icone (LOT-87, T3.5) : sans icone ni
+    /// nom, une case pleine et une case vide ne se distingueraient pas.
+    property string label: ""
+
     /// Rarete de l'objet : `common`, `uncommon`, `rare`, `very-rare`, `legendary`, ou vide.
     property string rarity: ""
 
@@ -64,6 +68,20 @@ Item {
         fillMode: Image.PreserveAspectFit
         smooth: true
         mipmap: true
+    }
+
+    Text {
+        anchors.fill: parent
+        anchors.margins: 6 * Tokens.uiScale
+        visible: root.iconSource.toString().length === 0 && root.label.length > 0
+        text: root.label
+        color: Tokens.textOnPanel
+        font.family: Tokens.bodyFamily
+        font.pixelSize: Tokens.fontCaption
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
+        wrapMode: Text.WordWrap
+        elide: Text.ElideRight
     }
 
     // Le liseré de rarete : sans image livree, un second filet en retrait, aux couleurs de l'or --

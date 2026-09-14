@@ -121,6 +121,7 @@ add_library(HmiLib STATIC
     Presentation/CharacterSheetValues.cpp
     Presentation/InventoryValues.cpp
     Presentation/CreditsCatalog.cpp
+    Presentation/InventoryScreen.cpp
     Interface/DesignTokens.cpp
     Interface/StyleSheetTemplate.cpp
     Interface/FontResolution.cpp

@@ -8,6 +8,12 @@
 #include <utility>
 #include <vector>
 
+#include "Core/Rpg/CharacterOptions.h"
+#include "Core/Rpg/CharacterSheet.h"
+#include "Core/Rpg/Equipment.h"
+#include "Core/Rpg/Inventory.h"
+#include "Core/Rpg/Skill.h"
+
 /**
  * @file HMI/Runtime/DemonstrationCharacter.h
  * @brief Le personnage de démonstration, chargé **une fois** pour tous les écrans (`LOT-86`).
@@ -24,6 +30,37 @@ struct DemonstrationCharacter {
     /// Compétences du catalogue de règles : identifiant et nom lisible, dans l'ordre du catalogue.
     std::vector<std::pair<std::string, std::string>> skills;
 };
+
+/**
+ * @brief Le personnage de démonstration et tout ce qu'il faut pour le recalculer : la fiche, ce
+ *        qu'il porte, et les catalogues (`LOT-87`, T3.5).
+ *
+ * L'inventaire de la charte v2 **agit** — équiper, retirer, jeter, trier — et chaque action doit
+ * recalculer la classe d'armure et la charge depuis l'inventaire modifié. Une table de valeurs
+ * figée ne le permet pas : l'écran garde donc cet état, le modifie, et en redemande les valeurs.
+ */
+struct DemonstrationState {
+    core::CharacterOptions options;
+    core::SkillCatalog skills;
+    core::ExperienceTable experience;
+    core::CharacterCreationRules rules;
+    core::CharacterSheet sheet;
+    core::Inventory inventory;
+    core::ItemCatalog items;
+    core::EquipmentCatalog equipment;
+    core::EncumbranceRules encumbrance;
+
+    /// Les catalogues qu'un inventaire consulte. Pointe dans cet état : ne pas le copier ensuite.
+    [[nodiscard]] core::ItemLookup lookup() const {
+        return core::ItemLookup{.items = &items, .equipment = &equipment};
+    }
+};
+
+/// @brief Charge le personnage de démonstration et ses catalogues, en journalisant chaque manque.
+[[nodiscard]] DemonstrationState loadDemonstrationState();
+
+/// @brief Les deux tables de valeurs d'un état, statistiques dérivées **recalculées**.
+[[nodiscard]] DemonstrationCharacter demonstrationValues(const DemonstrationState& state);
 
 /**
  * @brief Charge le personnage de démonstration livré en donnée, et calcule ses deux tables.
