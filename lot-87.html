@@ -251,7 +251,7 @@ Exigences refondues</h3>
 <h3 class="doxsection"><a class="anchor" id="autotoc_md666"></a>
 Laissé ouvert, et à qui</h3>
 <ul>
-<li><b><span class="tt">EX-IHM-072</span> contre le T3.2.</b> L'exigence retire tout contrôle grisé non branché ; le plan des options dessine les sections de la maquette « désactivées, non disponible ». Les deux ne tiennent pas ensemble : le T3.2 tranche — retirer ces sections, ou refondre <span class="tt">EX-IHM-072</span> — avant d'écrire le formulaire.</li>
+<li><b><span class="tt">EX-IHM-072</span> contre le T3.2.</b> L'exigence retire tout contrôle grisé non branché ; le plan des options dessine les sections de la maquette « désactivées, non disponible ». Les deux ne tiennent pas ensemble : le T3.2 tranche — retirer ces sections, ou refondre <span class="tt">EX-IHM-072</span> — avant d'écrire le formulaire. <b>Tranché au T3.2</b> : sections retirées, l'exigence est gardée.</li>
 <li><b><span class="tt">EX-IHM-053</span> contre le T2.4.</b> L'exigence veut des icônes vectorielles ; le cahier prévoit des icônes 64 × 64. <b>Tranché au T2.4</b> (ci-dessous) : PNG produits au double de leur taille d'affichage, et l'exigence refondue.</li>
 <li><b>Les couleurs de texte du HUD</b> — le bleu du tour du joueur, le rouge du tour ennemi, l'or de la quête active (maquette 01) — ne sont pas des rôles de cette phase. Le T4.1 les relève avec le même script s'il en a besoin.</li>
 <li><b>Les noms de famille des polices</b> (<span class="tt">Cinzel</span>, <span class="tt">IM Fell English</span>) sont ceux de leur distribution ; le T2.3 les confronte à la table <span class="tt">name</span> des fichiers déposés, et corrige <span class="tt">Tokens.qml</span> s'ils diffèrent.</li>
@@ -384,13 +384,30 @@ T3.1 — Le menu principal (maquette 06)</h2>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><img src="references/06_Main_Menu_Mockup.png" alt="maquette 06" class="inline"/>  </td><td class="markdownTableBodyNone"><img src="captures/t3-1-menu-1080p.png" alt="menu à 1080p" class="inline"/>  </td><td class="markdownTableBodyNone"><img src="captures/t3-1-menu-720p.png" alt="menu à 720p" class="inline"/>  </td></tr>
 </table>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md675"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md675"></a>
+T3.2 — Les options (maquette 05)</h2>
+<p><b><span class="tt">EX-IHM-072</span> contre le plan : tranché le 14 septembre 2026, l'exigence est gardée.</b> Aucune section de la maquette sans réglage branché n'est dessinée, même désactivée. Il reste donc <b>trois onglets sur six</b> : Général (langue, journaux), Graphismes (plein écran, synchronisation verticale, compteur de diagnostic), Audio (volume). Jeu, Commandes et Accessibilité reviendront avec leurs réglages, et les sections Difficulté, Réseau, Sauvegarde et Confidentialité avec les leurs.</p>
+<ul>
+<li><b>Colonne d'onglets</b> sous la plaque de titre grenat : ce sont des <span class="tt">OrnateButton</span> de genre <span class="tt">menu</span>, la pièce que le cahier prévoit aussi pour les onglets verticaux. La rose des vents en filigrane (<span class="tt">FixedArt</span>) n'apparaît qu'une fois livrée. Changement d'onglet au pointeur, ou par <span class="tt">PageUp</span> et <span class="tt">PageDown</span>.</li>
+<li><b>Grand panneau sombre</b> : chaque section est un sous-panneau coiffé d'un <span class="tt">SectionBanner</span> sombre, deux colonnes de même largeur. Les contrôles sont les briques Qt restylées (<span class="tt">OrnateCheck</span>, <span class="tt">OrnateSlider</span>, <span class="tt">OrnateCombo</span>).</li>
+<li><b>La barre de pied a un sens réel.</b> Les boutons Annuler et Appliquer de la maquette auraient été inopérants sur un modèle qui écrit à chaque geste. Les contrôles tiennent donc les valeurs <b>en attente</b> : « Appliquer » les écrit dans <span class="tt">OptionsModel</span> et ne s'allume que si une valeur diffère du réglage enregistré (<span class="tt">dirty</span>) ; « Annuler » et <span class="tt">Échap</span> ferment l'écran sans rien écrire ; « Par défaut » pose les valeurs d'usine dans les contrôles, sans les écrire non plus.</li>
+<li><b><span class="tt">OptionsModel.defaults</span></b>, propriété constante nouvelle (et sa doublure) : les valeurs d'usine, que le constructeur lit aussi quand rien n'est enregistré. Une seule table, et non une recopie en QML qui aurait divergé.</li>
+<li>Le fond reprend le repli du menu (carte de Tanares), sous un voile de <span class="tt">panel</span> : le décor produit <span class="tt">ui/background/options-backdrop</span> est déjà flou et sombre.</li>
+</ul>
+<p>Conséquence assumée : le volume et la langue ne s'appliquent plus au glisser ou au choix, mais à « Appliquer ». C'est ce que la barre de pied de la maquette promet.</p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Maquette  </th><th class="markdownTableHeadNone">1920 × 1080 (Général)  </th><th class="markdownTableHeadNone">1280 × 720 (Général)  </th><th class="markdownTableHeadNone">1280 × 720 (Graphismes)  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><img src="references/05_Options_Mockup.png" alt="maquette 05" class="inline"/>  </td><td class="markdownTableBodyNone"><img src="captures/t3-2-options-1080p.png" alt="options à 1080p" class="inline"/>  </td><td class="markdownTableBodyNone"><img src="captures/t3-2-options-720p.png" alt="options à 720p" class="inline"/>  </td><td class="markdownTableBodyNone"><img src="captures/t3-2-options-graphismes-720p.png" alt="graphismes à 720p" class="inline"/>  </td></tr>
+</table>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md676"></a>
 Exigences couvertes</h1>
 <ul>
 <li><a class="el" href="spec-interface-ihm.html#EX-IHM-070" title="EX-IHM-070"><span class="tt">EX-IHM-070</span></a>, <a class="el" href="spec-interface-ihm.html#EX-IHM-075" title="EX-IHM-075"><span class="tt">EX-IHM-075</span></a>, <a class="el" href="spec-interface-ihm.html#EX-IHM-076" title="EX-IHM-076"><span class="tt">EX-IHM-076</span></a>, <a class="el" href="spec-interface-ihm.html#EX-IHM-081" title="EX-IHM-081"><span class="tt">EX-IHM-081</span></a> : refondues ou précisées par la phase 2 (T2.1), pour décrire la charte v2.</li>
 <li><a class="el" href="spec-interface-ihm.html#EX-IHM-053" title="EX-IHM-053"><span class="tt">EX-IHM-053</span></a> : refondue par le T2.4 — les icônes des écrans du jeu sont produites, au double de leur taille d'affichage.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md676"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md677"></a>
 Où en est le lot</h1>
 <p><b>Phases 0 et 1 livrées</b> (PR #25 et #26) ; <b>phase 2 faite</b> — T2.1 à T2.7 (branche <span class="tt">lot/LOT-87-phase-2-charte-jetons</span>), en attente de la porte 2 (revue des jetons et des briques). Le cahier (T2.4) est la première chose à faire produire : c'est le chemin critique du lot. Le manifeste (T2.5), la réception (T2.6) et les briques (T2.7) sont prêts à recevoir ce qui en revient — une pièce réceptionnée apparaît dans la galerie sans autre changement. La clôture du T2.6 (fonds, cadres, plaques, boutons et contrôles livrés) attend toujours la production.</p>
 <p>Rappel de la phase 0 :</p>
@@ -401,7 +418,7 @@ Où en est le lot</h1>
 <li>Les dix maquettes déplacées dans <span class="tt">references/</span>.</li>
 <li>Ce dossier créé : comme tout lot démarré, le <span class="tt">LOT-87</span> quitte <span class="tt"><a class="el" href="roadmap-0_81_80_8md.html">roadmap-0.1.0.md</a></span> pour cet epic, et <span class="tt"><a class="el" href="lots_8md.html">lots.md</a></span> porte désormais son <span class="tt">@subpage lot-87</span>.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md677"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md678"></a>
 Critères d'acceptation de la phase 0</h1>
 <ul>
 <li><span class="tt">git branch -a</span> ne liste plus que <span class="tt"><a class="el" href="Editor_2Main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="Point d&#39;entrée du programme.">main</a></span>, <span class="tt">gh-pages</span> et <span class="tt">lot/LOT-87-charte-v2</span>, hors branches distantes en attente de suppression manuelle.</li>

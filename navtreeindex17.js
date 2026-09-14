@@ -1,5 +1,9 @@
 var NAVTREEINDEX17 =
 {
+"globals_l.html":[17,1,0,6],
+"globals_m.html":[17,1,0,7],
+"globals_p.html":[17,1,0,8],
+"globals_t.html":[17,1,0,9],
 "guide-atelier-pixel-art.html":[4,12],
 "guide-atelier-pixel-art.html#autotoc_md35":[4,12,0],
 "guide-atelier-pixel-art.html#autotoc_md36":[4,12,1],
@@ -245,9 +249,5 @@ var NAVTREEINDEX17 =
 "index.html#autotoc_md1":[0],
 "index.html#autotoc_md2":[1],
 "index.html#autotoc_md3":[2],
-"index.html#autotoc_md4":[3],
-"lot-01.html":[7,3],
-"lot-01.html#autotoc_md401":[7,3,0],
-"lot-01.html#autotoc_md402":[7,3,1],
-"lot-01.html#autotoc_md403":[7,3,2]
+"index.html#autotoc_md4":[3]
 };

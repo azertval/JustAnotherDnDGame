@@ -1,5 +1,10 @@
 var NAVTREEINDEX25 =
 {
+"structcore_1_1Armor.html#a85302f29d0dc9ffb9baacc68a4164970":[16,0,0,99,3],
+"structcore_1_1Armor.html#a90783bcb508be463b57290a61a33677c":[15,0,1,99,1],
+"structcore_1_1Armor.html#a90783bcb508be463b57290a61a33677c":[16,0,0,99,1],
+"structcore_1_1Armor.html#aa06d559649a795a2c18bfbdce1111d3b":[15,0,1,99,7],
+"structcore_1_1Armor.html#aa06d559649a795a2c18bfbdce1111d3b":[16,0,0,99,7],
 "structcore_1_1Armor.html#ac581b54cd1588b03d17d0463925ef430":[15,0,1,99,4],
 "structcore_1_1Armor.html#ac581b54cd1588b03d17d0463925ef430":[16,0,0,99,4],
 "structcore_1_1Armor.html#acf5fbaa640c57b18396a1291da9d476a":[15,0,1,99,0],
@@ -244,10 +249,5 @@ var NAVTREEINDEX25 =
 "structcore_1_1Creature.html#a6297613a530c3798ee46006e8107fa8f":[16,0,0,79,16],
 "structcore_1_1Creature.html#a6759a1b49b024b5a720b24c9744967d6":[15,0,1,79,20],
 "structcore_1_1Creature.html#a6759a1b49b024b5a720b24c9744967d6":[16,0,0,79,20],
-"structcore_1_1Creature.html#a68b8469e19a311563fa060efd23d00a7":[15,0,1,79,1],
-"structcore_1_1Creature.html#a68b8469e19a311563fa060efd23d00a7":[16,0,0,79,1],
-"structcore_1_1Creature.html#a6f1222825640093ec41817483949cc1c":[15,0,1,79,21],
-"structcore_1_1Creature.html#a6f1222825640093ec41817483949cc1c":[16,0,0,79,21],
-"structcore_1_1Creature.html#a725c53cfefd07ad0e63f34bd4834f7f3":[15,0,1,79,19],
-"structcore_1_1Creature.html#a725c53cfefd07ad0e63f34bd4834f7f3":[16,0,0,79,19]
+"structcore_1_1Creature.html#a68b8469e19a311563fa060efd23d00a7":[15,0,1,79,1]
 };

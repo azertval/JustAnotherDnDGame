@@ -1,5 +1,9 @@
 var NAVTREEINDEX15 =
 {
+"classhmi_1_1SoundCatalog.html#ab109f38a96cadc72f271b61ec7b454a2":[15,0,2,1,4],
+"classhmi_1_1SoundCatalog.html#ab109f38a96cadc72f271b61ec7b454a2":[16,0,1,1,4],
+"classhmi_1_1SpriteBatch.html":[15,0,2,102],
+"classhmi_1_1SpriteBatch.html":[16,0,1,102],
 "classhmi_1_1SpriteBatch.html#a034089bc835d283076338b063ae9e7e7":[15,0,2,102,4],
 "classhmi_1_1SpriteBatch.html#a034089bc835d283076338b063ae9e7e7":[16,0,1,102,4],
 "classhmi_1_1SpriteBatch.html#a051d302fd795217053cf51e5710ef8ae":[15,0,2,102,29],
@@ -245,9 +249,5 @@ var NAVTREEINDEX15 =
 "classhmi_1_1TexturePanel.html#a8900f1bd4dd38c73eca12d47e4b82875":[15,0,2,45,44],
 "classhmi_1_1TexturePanel.html#a8900f1bd4dd38c73eca12d47e4b82875":[16,0,1,45,44],
 "classhmi_1_1TexturePanel.html#a8ae09e24a36d04218664fe6fe0776db5":[15,0,2,45,11],
-"classhmi_1_1TexturePanel.html#a8ae09e24a36d04218664fe6fe0776db5":[16,0,1,45,11],
-"classhmi_1_1TexturePanel.html#a8beee864e1295689d194f5e2a3b8d7ed":[15,0,2,45,2],
-"classhmi_1_1TexturePanel.html#a8beee864e1295689d194f5e2a3b8d7ed":[16,0,1,45,2],
-"classhmi_1_1TexturePanel.html#a8f596754205c547cb8e7e99560afa2f0":[15,0,2,45,37],
-"classhmi_1_1TexturePanel.html#a8f596754205c547cb8e7e99560afa2f0":[16,0,1,45,37]
+"classhmi_1_1TexturePanel.html#a8ae09e24a36d04218664fe6fe0776db5":[16,0,1,45,11]
 };

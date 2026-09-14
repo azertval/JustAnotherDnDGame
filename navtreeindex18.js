@@ -1,5 +1,9 @@
 var NAVTREEINDEX18 =
 {
+"lot-01.html":[7,3],
+"lot-01.html#autotoc_md401":[7,3,0],
+"lot-01.html#autotoc_md402":[7,3,1],
+"lot-01.html#autotoc_md403":[7,3,2],
 "lot-01.html#autotoc_md404":[7,3,2,0],
 "lot-01.html#autotoc_md405":[7,3,2,1],
 "lot-01.html#autotoc_md406":[7,3,2,2],
@@ -245,9 +249,5 @@ var NAVTREEINDEX18 =
 "lot-77.html#autotoc_md620":[7,11,1],
 "lot-77.html#autotoc_md621":[7,11,2],
 "lot-77.html#autotoc_md622":[7,11,3],
-"lot-78.html":[7,12],
-"lot-78.html#autotoc_md623":[7,12,0],
-"lot-78.html#autotoc_md624":[7,12,1],
-"lot-78.html#autotoc_md625":[7,12,2],
-"lot-78.html#autotoc_md626":[7,12,3]
+"lot-78.html":[7,12]
 };

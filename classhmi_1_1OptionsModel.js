@@ -1,6 +1,7 @@
 var classhmi_1_1OptionsModel =
 [
     [ "OptionsModel", "classhmi_1_1OptionsModel.html#a4d386dbcbbf08f038777ae1df87cd485", null ],
+    [ "defaults", "classhmi_1_1OptionsModel.html#a30be8a662c06a28ddc41e63449a4a2c7", null ],
     [ "diagnostics", "classhmi_1_1OptionsModel.html#a992cb73498ebeb078f7a10695ffae601", null ],
     [ "diagnosticsChanged", "classhmi_1_1OptionsModel.html#a87c5da577e125eb3adfcbf1fdb4770f2", null ],
     [ "fullscreen", "classhmi_1_1OptionsModel.html#a66079ad92a010525ebd1322090cd70d7", null ],
@@ -27,6 +28,7 @@ var classhmi_1_1OptionsModel =
     [ "_sessionLog", "classhmi_1_1OptionsModel.html#a413ddbde5c79699d4f853ebb60eb3149", null ],
     [ "_volume", "classhmi_1_1OptionsModel.html#a4fddcc430039e273b0a8f0982515d4d4", null ],
     [ "_vsync", "classhmi_1_1OptionsModel.html#a715fd6e8ac838444b8dded0082cc4390", null ],
+    [ "defaults", "classhmi_1_1OptionsModel.html#a1a9fcaff0d366deccfb2d1e630a01280", null ],
     [ "diagnostics", "classhmi_1_1OptionsModel.html#ad4faa29a69a81e4c9987c7fab507397f", null ],
     [ "fullscreen", "classhmi_1_1OptionsModel.html#ab48d2a0c8793aa51af171d2ace788250", null ],
     [ "language", "classhmi_1_1OptionsModel.html#a03c96660aaef740d4ce080cfb9a8f417", null ],

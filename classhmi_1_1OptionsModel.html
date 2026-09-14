@@ -125,6 +125,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a796b8e9a864fc91684d5c452e2c56c6a" id="r_a796b8e9a864fc91684d5c452e2c56c6a"><td class="memItemLeft">QStringList&#160;</td><td class="memItemRight"><a class="el" href="#a796b8e9a864fc91684d5c452e2c56c6a">languages</a> () const</td></tr>
 <tr class="memitem:a7ef3b5db34d5d24ad9e3a0b52d7d7d6d" id="r_a7ef3b5db34d5d24ad9e3a0b52d7d7d6d"><td class="memItemLeft">QStringList&#160;</td><td class="memItemRight"><a class="el" href="#a7ef3b5db34d5d24ad9e3a0b52d7d7d6d">languageNames</a> () const</td></tr>
 <tr class="memitem:a11cf5c63f2f53adc2dcc833087916a60" id="r_a11cf5c63f2f53adc2dcc833087916a60"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a11cf5c63f2f53adc2dcc833087916a60">logsAvailable</a> () const noexcept</td></tr>
+<tr class="memitem:a30be8a662c06a28ddc41e63449a4a2c7" id="r_a30be8a662c06a28ddc41e63449a4a2c7"><td class="memItemLeft">QVariantMap&#160;</td><td class="memItemRight"><a class="el" href="#a30be8a662c06a28ddc41e63449a4a2c7">defaults</a> () const</td></tr>
 <tr class="memitem:a09960f2f33b9dee001c62cb51e83c78a" id="r_a09960f2f33b9dee001c62cb51e83c78a"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a09960f2f33b9dee001c62cb51e83c78a">setFullscreen</a> (bool enabled)</td></tr>
 <tr class="memitem:aaa061a05f674dd471129a8f0b54ddcec" id="r_aaa061a05f674dd471129a8f0b54ddcec"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aaa061a05f674dd471129a8f0b54ddcec">setVsync</a> (bool enabled)</td></tr>
 <tr class="memitem:a523f95c24ef61868b16054620c87dd8d" id="r_a523f95c24ef61868b16054620c87dd8d"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a523f95c24ef61868b16054620c87dd8d">setDiagnostics</a> (bool enabled)</td></tr>
@@ -146,6 +147,8 @@ Properties</h2></td></tr>
 <tr class="memdesc:a5b5e4ce99022db0ad4444625e1d528e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les mêmes, par leur <b>nom</b>, dans le même ordre — et chacun écrit dans sa propre langue.  <br /></td></tr>
 <tr class="memitem:ace9a52cbc002b12326f524777f7febd5" id="r_ace9a52cbc002b12326f524777f7febd5"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#ace9a52cbc002b12326f524777f7febd5">logsAvailable</a></td></tr>
 <tr class="memdesc:ace9a52cbc002b12326f524777f7febd5"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">false</span> en Release, où aucun puits mémoire ne collecte les journaux de session.  <br /></td></tr>
+<tr class="memitem:a1a9fcaff0d366deccfb2d1e630a01280" id="r_a1a9fcaff0d366deccfb2d1e630a01280"><td class="memItemLeft">QVariantMap&#160;</td><td class="memItemRight"><a class="el" href="#a1a9fcaff0d366deccfb2d1e630a01280">defaults</a></td></tr>
+<tr class="memdesc:a1a9fcaff0d366deccfb2d1e630a01280"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les valeurs d'usine, par nom de réglage (ullscreen, sync, diagnostics, olume, language) : ce que le bouton « Par défaut » des options pose, et ce que le constructeur prend quand aucun réglage n'est enregistré.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-attribs" class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -158,11 +161,11 @@ Private Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Vue-modèle des options : lit et persiste les réglages, et <b>publie</b> leur changement. </p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md859"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md860"></a>
 La règle qui gouverne cette classe</h2>
 <p><span class="tt">EX-IHM-083</span> : <b>tout réglage exposé doit atteindre le moteur</b>. Une case à cocher qui ne fait rien est pire qu'une case absente — elle fait croire à un réglage, et l'utilisateur cherche ensuite pourquoi il n'a pas d'effet.</p>
 <p>Cette classe ne fait donc que deux choses : persister, et prévenir. C'est l'application qui <b>branche</b> chaque signal sur ce qu'il doit atteindre — le moteur audio, la fenêtre, les traducteurs. Le faire ici obligerait la présentation à connaître le moteur, et c'est précisément la frontière que le lot établit.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md860"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md861"></a>
 Ce qui s'applique quand</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -178,7 +181,8 @@ Ce qui s'applique quand</h2>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">compteur de diagnostic  </td><td class="markdownTableBodyNone">l'affichage tête haute, quand il existera  </td></tr>
 </table>
-<p>Les deux dernières lignes sont dites à l'écran, et non tues : un réglage qui s'applique plus tard atteint bien le moteur, mais l'utilisateur doit savoir quand. </p>
+<p>Les deux dernières lignes sont dites à l'écran, et non tues : un réglage qui s'applique plus tard atteint bien le moteur, mais l'utilisateur doit savoir quand.</p>
+<p>« Immédiatement » s'entend <b>à l'écriture</b> d'une propriété. L'écran des options de la charte v2 (LOT-87, T3.2) n'écrit qu'au bouton « Appliquer » : il tient ses valeurs en attente, et « Annuler » les abandonne sans que cette classe en ait rien su. </p>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a4d386dbcbbf08f038777ae1df87cd485" name="a4d386dbcbbf08f038777ae1df87cd485"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4d386dbcbbf08f038777ae1df87cd485">&#9670;&#160;</a></span>OptionsModel()</h2>
@@ -206,6 +210,31 @@ Ce qui s'applique quand</h2>
 </div>
 </div>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
+<a id="a30be8a662c06a28ddc41e63449a4a2c7" name="a30be8a662c06a28ddc41e63449a4a2c7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a30be8a662c06a28ddc41e63449a4a2c7">&#9670;&#160;</a></span>defaults()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QVariantMap hmi::OptionsModel::defaults </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a992cb73498ebeb078f7a10695ffae601" name="a992cb73498ebeb078f7a10695ffae601"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a992cb73498ebeb078f7a10695ffae601">&#9670;&#160;</a></span>diagnostics()</h2>
 
@@ -806,6 +835,31 @@ Ce qui s'applique quand</h2>
 </div>
 </div>
 <a name="doc-property-members" id="doc-property-members"></a><h2 id="header-doc-property-members" class="groupheader">Property Documentation</h2>
+<a id="a1a9fcaff0d366deccfb2d1e630a01280" name="a1a9fcaff0d366deccfb2d1e630a01280"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1a9fcaff0d366deccfb2d1e630a01280">&#9670;&#160;</a></span>defaults</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QVariantMap hmi::OptionsModel::defaults</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel read">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Les valeurs d'usine, par nom de réglage (ullscreen, sync, diagnostics, olume, language) : ce que le bouton « Par défaut » des options pose, et ce que le constructeur prend quand aucun réglage n'est enregistré. </p>
+<p>Une seule table, lue par les deux : recopiées en QML, elles auraient divergé au premier défaut changé ici. </p>
+
+</div>
+</div>
 <a id="ad4faa29a69a81e4c9987c7fab507397f" name="ad4faa29a69a81e4c9987c7fab507397f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad4faa29a69a81e4c9987c7fab507397f">&#9670;&#160;</a></span>diagnostics</h2>
 

@@ -1,5 +1,10 @@
 var NAVTREEINDEX29 =
 {
+"structcore_1_1RpgActor.html#a3a81c94ba800d4e6c931b4032dbd05f9":[16,0,0,25,1],
+"structcore_1_1RpgActor.html#a6d3846c50bd7f04cb938044e0388a670":[15,0,1,25,0],
+"structcore_1_1RpgActor.html#a6d3846c50bd7f04cb938044e0388a670":[16,0,0,25,0],
+"structcore_1_1RpgActor.html#af16eabf5f82d16d65293f0be65a0d569":[15,0,1,25,2],
+"structcore_1_1RpgActor.html#af16eabf5f82d16d65293f0be65a0d569":[16,0,0,25,2],
 "structcore_1_1SkillCatalog.html":[15,0,1,111],
 "structcore_1_1SkillCatalog.html":[16,0,0,111],
 "structcore_1_1SkillCatalog.html#a65b6856244ceed5206dfeb9bdf125695":[15,0,1,111,2],
@@ -244,10 +249,5 @@ var NAVTREEINDEX29 =
 "structhmi_1_1BackgroundFit.html#a1e431b706e1bbcafceb1dca083a6c42f":[16,0,1,64,0],
 "structhmi_1_1BackgroundFit.html#a321876eec3c17d05eceb5d66890c5701":[15,0,2,64,3],
 "structhmi_1_1BackgroundFit.html#a321876eec3c17d05eceb5d66890c5701":[16,0,1,64,3],
-"structhmi_1_1BackgroundFit.html#ab1da3d74172cc364d929cfed8abf6f53":[15,0,2,64,1],
-"structhmi_1_1BackgroundFit.html#ab1da3d74172cc364d929cfed8abf6f53":[16,0,1,64,1],
-"structhmi_1_1BackgroundFit.html#afbf72738060e360416acf9b4ac386cdd":[15,0,2,64,2],
-"structhmi_1_1BackgroundFit.html#afbf72738060e360416acf9b4ac386cdd":[16,0,1,64,2],
-"structhmi_1_1BackgroundTexture.html":[15,0,2,65],
-"structhmi_1_1BackgroundTexture.html":[16,0,1,65]
+"structhmi_1_1BackgroundFit.html#ab1da3d74172cc364d929cfed8abf6f53":[15,0,2,64,1]
 };

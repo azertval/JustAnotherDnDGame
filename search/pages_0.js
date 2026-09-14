@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['0_0',['0',['../lot-87.html#autotoc_md677',1,'Critères d&apos;acceptation de la phase 0'],['../roadmap-010.html',1,'Feuille de route 0.1.0'],['../roadmap-010.html#lot-28',1,'LOT-28 — Audio, effets et version &lt;span class=&quot;tt&quot;&gt;0.2.0&lt;/span&gt;'],['../spec-gameplay.html#autotoc_md341',1,'Ressenti (game feel) — ⚠️ réglage fin reporté au-delà de &lt;span class=&quot;tt&quot;&gt;0.1.0&lt;/span&gt;']]],
+  ['0_0',['0',['../lot-87.html#autotoc_md678',1,'Critères d&apos;acceptation de la phase 0'],['../roadmap-010.html',1,'Feuille de route 0.1.0'],['../roadmap-010.html#lot-28',1,'LOT-28 — Audio, effets et version &lt;span class=&quot;tt&quot;&gt;0.2.0&lt;/span&gt;'],['../spec-gameplay.html#autotoc_md341',1,'Ressenti (game feel) — ⚠️ réglage fin reporté au-delà de &lt;span class=&quot;tt&quot;&gt;0.1.0&lt;/span&gt;']]],
   ['0_201_200_1',['0 1 0',['../roadmap-010.html',1,'Feuille de route 0.1.0'],['../spec-gameplay.html#autotoc_md341',1,'Ressenti (game feel) — ⚠️ réglage fin reporté au-delà de &lt;span class=&quot;tt&quot;&gt;0.1.0&lt;/span&gt;']]],
   ['0_202_200_2',['LOT-28 — Audio, effets et version &lt;span class=&quot;tt&quot;&gt;0.2.0&lt;/span&gt;',['../roadmap-010.html#lot-28',1,'']]],
   ['002_20lot_2020_3',['La manette : une seconde source, fusionnée en lecture (EX-CTRL-002, LOT-20)',['../guide-entrees.html#autotoc_md140',1,'']]],
@@ -17,7 +17,7 @@ var searchData=
   ['030_20ex_20ihm_20031_14',['Lier des mécanismes dans l&apos;éditeur (&lt;span class=&quot;tt&quot;&gt;LOT-37&lt;/span&gt;, &lt;span class=&quot;tt&quot;&gt;EX-IHM-030&lt;/span&gt;/&lt;span class=&quot;tt&quot;&gt;EX-IHM-031&lt;/span&gt;)',['../guide-editeur.html#autotoc_md114',1,'']]],
   ['031_15',['Lier des mécanismes dans l&apos;éditeur (&lt;span class=&quot;tt&quot;&gt;LOT-37&lt;/span&gt;, &lt;span class=&quot;tt&quot;&gt;EX-IHM-030&lt;/span&gt;/&lt;span class=&quot;tt&quot;&gt;EX-IHM-031&lt;/span&gt;)',['../guide-editeur.html#autotoc_md114',1,'']]],
   ['04_20—_20format_20de_20carte_20version_3a_203_20multi_20couches_16',['LOT-04 — Format de carte `version: 3`, multi-couches',['../lot-04.html',1,'lots']]],
-  ['05_17',['Doctrine de profondeur (&lt;span class=&quot;tt&quot;&gt;LOT-H-65&lt;/span&gt; TACHE-05)',['../spec-niveaux.html#autotoc_md372',1,'']]],
+  ['05_17',['05',['../spec-niveaux.html#autotoc_md372',1,'Doctrine de profondeur (&lt;span class=&quot;tt&quot;&gt;LOT-H-65&lt;/span&gt; TACHE-05)'],['../lot-87.html#autotoc_md675',1,'T3.2 — Les options (maquette 05)']]],
   ['05_20—_20modes_20de_20jeu_18',['LOT-05 — Modes de jeu',['../lot-05.html',1,'lots']]],
   ['06_19',['T3.1 — Le menu principal (maquette 06)',['../lot-87.html#autotoc_md674',1,'']]],
   ['06_20—_20déplacement_20top_20down_208_20directions_20',['LOT-06 — Déplacement top-down 8 directions',['../lot-06.html',1,'lots']]],
@@ -25,6 +25,6 @@ var searchData=
   ['075_20avec_20eux_22',['Les ornements restent tracés, et &lt;span class=&quot;tt&quot;&gt;EX-IHM-075&lt;/span&gt; avec eux',['../spec-interface-ihm.html#autotoc_md362',1,'']]],
   ['08_20—_20vocabulaire_20de_20tuiles_20rpg_23',['LOT-08 — Vocabulaire de tuiles RPG',['../lot-08.html',1,'lots']]],
   ['08_2012_24',['Mesures de référence, à la date du &lt;span class=&quot;tt&quot;&gt;LOT-62&lt;/span&gt; (2026-08-12)',['../guide-rendu.html#autotoc_md253',1,'']]],
-  ['09_20à_20lot_2029_25',['11. Les lots &lt;span class=&quot;tt&quot;&gt;LOT-09&lt;/span&gt; à &lt;span class=&quot;tt&quot;&gt;LOT-29&lt;/span&gt;',['../roadmap-010.html#autotoc_md722',1,'']]],
+  ['09_20à_20lot_2029_25',['11. Les lots &lt;span class=&quot;tt&quot;&gt;LOT-09&lt;/span&gt; à &lt;span class=&quot;tt&quot;&gt;LOT-29&lt;/span&gt;',['../roadmap-010.html#autotoc_md723',1,'']]],
   ['09_20—_20graphe_20de_20cartes_20et_20transitions_26',['LOT-09 — Graphe de cartes et transitions',['../roadmap-010.html#lot-09',1,'']]]
 ];
