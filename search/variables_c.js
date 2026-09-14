@@ -26,6 +26,6 @@ var searchData=
   ['line_23',['line',['../structcore_1_1TextPosition.html#a212854e72aaaba608142270b46f535d0',1,'core::TextPosition::line'],['../structhmi_1_1ComposedQuad.html#a7e6bffe91fa5be8be3d80bda3f408d7b',1,'hmi::ComposedQuad::line']]],
   ['lineheight_24',['lineHeight',['../structhmi_1_1FontMetrics.html#a21973518c82f73e635cc8a8295fed43d',1,'hmi::FontMetrics']]],
   ['lines_25',['lines',['../structhmi_1_1CreditSection.html#af9ea8e50dcc65ba98d28ab7531621835',1,'hmi::CreditSection']]],
-  ['locations_26',['locations',['../structcore_1_1Region.html#aae7d6f162d8fbf1ac4be15fec2aac0bc',1,'core::Region::locations'],['../structcore_1_1Atlas.html#a00ee928f799e8c7ed2dd1de25133d482',1,'core::Atlas::locations']]],
+  ['locations_26',['locations',['../structcore_1_1Region.html#aae7d6f162d8fbf1ac4be15fec2aac0bc',1,'core::Region::locations'],['../structcore_1_1Atlas.html#a00ee928f799e8c7ed2dd1de25133d482',1,'core::Atlas::locations'],['../structhmi_1_1MapRegion.html#afadd81f0cb1d6a5e17d1e940a0f9a78e',1,'hmi::MapRegion::locations']]],
   ['lookup_27',['lookup',['../structhmi_1_1InventoryContext.html#af0cdc30724cbf3d678c09313eec86200',1,'hmi::InventoryContext']]]
 ];

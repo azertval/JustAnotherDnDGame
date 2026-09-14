@@ -93,9 +93,9 @@ $(function(){initNavTree('cahiertest.html','',''); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md_CahierTest"></a></p>
-<p><b>1039 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
+<p><b>1041 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md5"></a>
-Tests unitaires (1024)</h1>
+Tests unitaires (1026)</h1>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md6"></a>
 Core</h2>
 <p><b><span class="tt"><a class="el" href="test__core_8cpp.html" title="Tests unitaires de la bibliothèque Core (amorçage).">test_core.cpp</a></span></b></p>
@@ -6853,9 +6853,9 @@ Vérifie que <span class="tt">hmi::identityScaleForDisplay(1080, 1440)</span> va
 <tr class="markdownTableHead">
 <th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><b>RpgScreensTest.LeCycleTraverseLesNeufEcrans</b> (Critique)<br  />
-<sub><span class="tt"><a class="el" href="test__rpg__screens_8cpp.html" title="Tests unitaires du catalogue des écrans du RPG et de leur ossature (LOT-68, EX-IHM-090,...">Source/Test/Unit/HMI/Interface/test_rpg_screens.cpp</a>:43</span></sub>  </td><td class="markdownTableBodyNone">Le cycle de navigation traverse les neuf ecrans et revient au premier.  </td><td class="markdownTableBodyNone">1. Partir du premier ecran.<br  />
-2. Appeler nextRpgScreen neuf fois en notant chaque ecran atteint.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">rpgScreens().size()</span> vaut <span class="tt"><a class="el" href="namespacehmi.html#a93db3bafe6aeaebee6e483836f313055" title="Nombre d&#39;écrans du catalogue.">hmi::RPG_SCREEN_COUNT</a></span>.<br  />
+<td class="markdownTableBodyNone"><b>RpgScreensTest.LeCycleTraverseLesHuitEcrans</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__rpg__screens_8cpp.html" title="Tests unitaires du catalogue des écrans du RPG et de leur ossature (LOT-68, EX-IHM-090,...">Source/Test/Unit/HMI/Interface/test_rpg_screens.cpp</a>:43</span></sub>  </td><td class="markdownTableBodyNone">Le cycle de navigation traverse les huit ecrans et revient au premier.  </td><td class="markdownTableBodyNone">1. Partir du premier ecran.<br  />
+2. Appeler nextRpgScreen huit fois en notant chaque ecran atteint.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">rpgScreens().size()</span> vaut <span class="tt"><a class="el" href="namespacehmi.html#a93db3bafe6aeaebee6e483836f313055" title="Nombre d&#39;écrans du catalogue.">hmi::RPG_SCREEN_COUNT</a></span>.<br  />
 Vérifie que <span class="tt">visited.size()</span> vaut <span class="tt"><a class="el" href="namespacehmi.html#a93db3bafe6aeaebee6e483836f313055" title="Nombre d&#39;écrans du catalogue.">hmi::RPG_SCREEN_COUNT</a></span>.<br  />
 Vérifie que <span class="tt">screen</span> vaut <span class="tt">first</span>.  </td></tr>
 <tr class="markdownTableRowEven">
@@ -6866,25 +6866,25 @@ Vérifie que <span class="tt">nextRpgScreen(previousRpgScreen(descriptor.id))</s
 Vérifie que <span class="tt">previousRpgScreen(rpgScreens().front().id)</span> vaut <span class="tt">rpgScreens().back().id</span>.  </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>RpgScreensTest.LaRegleDeSuperpositionEstCelleAttendue</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__rpg__screens_8cpp.html" title="Tests unitaires du catalogue des écrans du RPG et de leur ossature (LOT-68, EX-IHM-090,...">Source/Test/Unit/HMI/Interface/test_rpg_screens.cpp</a>:87</span></sub>  </td><td class="markdownTableBodyNone">La regle de superposition est celle attendue pour chacun des neuf ecrans.  </td><td class="markdownTableBodyNone">1. Interroger pausesGame pour chacun des neuf ecrans.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">pausesGame(RpgScreenId::CharacterSheet)</span> est vrai.<br  />
+<sub><span class="tt"><a class="el" href="test__rpg__screens_8cpp.html" title="Tests unitaires du catalogue des écrans du RPG et de leur ossature (LOT-68, EX-IHM-090,...">Source/Test/Unit/HMI/Interface/test_rpg_screens.cpp</a>:87</span></sub>  </td><td class="markdownTableBodyNone">La regle de superposition est celle attendue pour chacun des huit ecrans.  </td><td class="markdownTableBodyNone">1. Interroger pausesGame pour chacun des huit ecrans.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">pausesGame(RpgScreenId::CharacterSheet)</span> est vrai.<br  />
+Vérifie que <span class="tt">pausesGame(RpgScreenId::Skills)</span> est vrai.<br  />
 Vérifie que <span class="tt">pausesGame(RpgScreenId::Inventory)</span> est vrai.<br  />
 Vérifie que <span class="tt">pausesGame(RpgScreenId::QuestJournal)</span> est vrai.<br  />
 Vérifie que <span class="tt">pausesGame(RpgScreenId::Dialogue)</span> est vrai.<br  />
 Vérifie que <span class="tt">pausesGame(RpgScreenId::Merchant)</span> est vrai.<br  />
-Vérifie que <span class="tt">pausesGame(RpgScreenId::GuildBoard)</span> est vrai.<br  />
-Vérifie que <span class="tt">pausesGame(RpgScreenId::TeamSheet)</span> est vrai.<br  />
+Vérifie que <span class="tt">pausesGame(RpgScreenId::Company)</span> est vrai.<br  />
 Vérifie que <span class="tt">pausesGame(RpgScreenId::WorldMap)</span> est faux.<br  />
 Vérifie que <span class="tt">pausesGame(RpgScreenId::CombatHud)</span> est faux.  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>RpgScreensTest.ChaqueEcranEstIdentifiableEtNonVide</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__rpg__screens_8cpp.html" title="Tests unitaires du catalogue des écrans du RPG et de leur ossature (LOT-68, EX-IHM-090,...">Source/Test/Unit/HMI/Interface/test_rpg_screens.cpp</a>:114</span></sub>  </td><td class="markdownTableBodyNone">Chaque ecran a un nom d'objet unique, un titre unique et une ossature non vide.  </td><td class="markdownTableBodyNone">1. Collecter noms d'objets et cles de titre.<br  />
+<sub><span class="tt"><a class="el" href="test__rpg__screens_8cpp.html" title="Tests unitaires du catalogue des écrans du RPG et de leur ossature (LOT-68, EX-IHM-090,...">Source/Test/Unit/HMI/Interface/test_rpg_screens.cpp</a>:115</span></sub>  </td><td class="markdownTableBodyNone">Chaque ecran a un nom d'objet unique, un titre unique et une ossature non vide.  </td><td class="markdownTableBodyNone">1. Collecter noms d'objets et cles de titre.<br  />
 2. Verifier leur unicite et la presence d'au moins un bloc par ecran.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">objectNames.insert(descriptor.objectName).second</span> est vrai.<br  />
 Vérifie que <span class="tt">titleKeys.insert(descriptor.titleKey).second</span> est vrai.<br  />
 Vérifie que <span class="tt">descriptor.layout.leftColumn.empty()</span> est faux.<br  />
 Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#aadabcaf08acb48c29dc437f3bd2f47ce">hmi::rpgScreenDescriptor</a>(descriptor.id).id</span> vaut <span class="tt">descriptor.id</span>.  </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>RpgScreensTest.ChaqueBlocEstCoherentAvecSonGenre</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__rpg__screens_8cpp.html" title="Tests unitaires du catalogue des écrans du RPG et de leur ossature (LOT-68, EX-IHM-090,...">Source/Test/Unit/HMI/Interface/test_rpg_screens.cpp</a>:144</span></sub>  </td><td class="markdownTableBodyNone">Chaque bloc de l'ossature est coherent avec son genre.  </td><td class="markdownTableBodyNone">1. Parcourir les blocs des deux colonnes de chaque ecran.<br  />
+<sub><span class="tt"><a class="el" href="test__rpg__screens_8cpp.html" title="Tests unitaires du catalogue des écrans du RPG et de leur ossature (LOT-68, EX-IHM-090,...">Source/Test/Unit/HMI/Interface/test_rpg_screens.cpp</a>:145</span></sub>  </td><td class="markdownTableBodyNone">Chaque bloc de l'ossature est coherent avec son genre.  </td><td class="markdownTableBodyNone">1. Parcourir les blocs des deux colonnes de chaque ecran.<br  />
 2. Verifier les dimensions et libelles exiges par chaque genre.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">block.fields.empty()</span> est faux.<br  />
 Vérifie que <span class="tt">field.labelKey[0]</span> diffère de <span class="tt">'\\0'</span>.<br  />
 Vérifie que <span class="tt">block.columns</span> est strictement supérieur à <span class="tt">0</span>.<br  />
@@ -6893,14 +6893,14 @@ Vérifie que <span class="tt">block.rows &gt; 0 \|\| !block.valueIds.empty()</sp
 Vérifie que <span class="tt">block.columns</span> est strictement supérieur à <span class="tt">0</span>.  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>RpgScreensTest.ChaqueCleDeLOssatureExisteDansLesDeuxLangues</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__rpg__screens_8cpp.html" title="Tests unitaires du catalogue des écrans du RPG et de leur ossature (LOT-68, EX-IHM-090,...">Source/Test/Unit/HMI/Interface/test_rpg_screens.cpp</a>:198</span></sub>  </td><td class="markdownTableBodyNone">Chaque cle de l'ossature des ecrans du RPG existe en francais et en anglais.  </td><td class="markdownTableBodyNone">1. Lire fr.lang et en.lang.<br  />
+<sub><span class="tt"><a class="el" href="test__rpg__screens_8cpp.html" title="Tests unitaires du catalogue des écrans du RPG et de leur ossature (LOT-68, EX-IHM-090,...">Source/Test/Unit/HMI/Interface/test_rpg_screens.cpp</a>:199</span></sub>  </td><td class="markdownTableBodyNone">Chaque cle de l'ossature des ecrans du RPG existe en francais et en anglais.  </td><td class="markdownTableBodyNone">1. Lire fr.lang et en.lang.<br  />
 2. Verifier chaque cle de titre, de bloc et de champ, plus les cles du pied d'actions.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">fr.empty()</span> est faux.<br  />
 Vérifie que <span class="tt">en.empty()</span> est faux.<br  />
 Vérifie que <span class="tt">fr.count(key) &gt; 0</span> est vrai.<br  />
 Vérifie que <span class="tt">en.count(key) &gt; 0</span> est vrai.  </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>RpgScreensTest.LesIdentifiantsDeValeurSontUniquesParEcran</b> (?)<br  />
-<sub><span class="tt"><a class="el" href="test__rpg__screens_8cpp.html" title="Tests unitaires du catalogue des écrans du RPG et de leur ossature (LOT-68, EX-IHM-090,...">Source/Test/Unit/HMI/Interface/test_rpg_screens.cpp</a>:253</span></sub>  </td><td class="markdownTableBodyNone">Les identifiants de valeur sont uniques a l'interieur d'un ecran. cat Unitaire · Ecrans du RPG crit Majeur etapes 1. Collecter les identifiants de valeur de chaque ecran. 2. Verifier qu'aucun ne se repete dans un meme ecran. attendu Aucun identifiant duplique.  </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">Vérifie que <span class="tt">vus.insert(field.valueId).second</span> est vrai.<br  />
+<sub><span class="tt"><a class="el" href="test__rpg__screens_8cpp.html" title="Tests unitaires du catalogue des écrans du RPG et de leur ossature (LOT-68, EX-IHM-090,...">Source/Test/Unit/HMI/Interface/test_rpg_screens.cpp</a>:254</span></sub>  </td><td class="markdownTableBodyNone">Les identifiants de valeur sont uniques a l'interieur d'un ecran. cat Unitaire · Ecrans du RPG crit Majeur etapes 1. Collecter les identifiants de valeur de chaque ecran. 2. Verifier qu'aucun ne se repete dans un meme ecran. attendu Aucun identifiant duplique.  </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">Vérifie que <span class="tt">vus.insert(field.valueId).second</span> est vrai.<br  />
 Vérifie que <span class="tt">vus.insert(id).second</span> est vrai.  </td></tr>
 </table>
 <p><b><span class="tt"><a class="el" href="test__screen__flow_8cpp.html" title="Tests unitaires de la machine à états des écrans (LOT-59 TACHE-01, EX-GP-041).">test_screen_flow.cpp</a></span></b></p>
@@ -7077,7 +7077,7 @@ Vérifie que <span class="tt">french.count(key) &gt; 0</span> est vrai.<br  />
 Vérifie que <span class="tt">french.size()</span> vaut <span class="tt">english.size()</span>.  </td></tr>
 </table>
 <h3 class="doxsection"><a class="anchor" id="autotoc_md28"></a>
-Presentation (11)</h3>
+Presentation (13)</h3>
 <p><b><span class="tt"><a class="el" href="test__credits__catalog_8cpp.html" title="Tests unitaires de la lecture des crédits (LOT-87, T3.3).">test_credits_catalog.cpp</a></span></b></p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -7167,6 +7167,29 @@ Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#aa11e1e0720b
 Vérifie que <span class="tt">torch.kind</span> vaut <span class="tt">"Matériel"</span>.<br  />
 Vérifie que <span class="tt">torch.weight</span> vaut <span class="tt">"0,5 kg"</span>.<br  />
 Vérifie que <span class="tt">torch.equippable</span> est faux.  </td></tr>
+</table>
+<p><b><span class="tt"><a class="el" href="test__world__map__regions_8cpp.html" title="Tests unitaires des régions posées sur la carte du monde (LOT-87, T3.6).">test_world_map_regions.cpp</a></span></b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>WorldMapRegionsTest.AncresLuesEtBornees</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__world__map__regions_8cpp.html" title="Tests unitaires des régions posées sur la carte du monde (LOT-87, T3.6).">Source/Test/Unit/HMI/Presentation/test_world_map_regions.cpp</a>:33</span></sub>  </td><td class="markdownTableBodyNone">Les ancres des régions se lisent, et une ancre hors de la carte est refusée.  </td><td class="markdownTableBodyNone">1. Lire deux ancres valides.<br  />
+ 2. Lire une ancre dont l'abscisse vaut 1,2.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">valid.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt">valid.anchors.size()</span> vaut <span class="tt">2U</span>.<br  />
+Vérifie que <span class="tt">valid.anchors.at("a").first</span> vaut <span class="tt">0.25</span> (comparaison flottante).<br  />
+Vérifie que <span class="tt">valid.anchors.at("a").second</span> vaut <span class="tt">0.5</span> (comparaison flottante).<br  />
+Vérifie que <span class="tt">outside.ok()</span> est faux.<br  />
+Vérifie que <span class="tt">outside.anchors.empty()</span> est vrai.<br  />
+Vérifie que <span class="tt">outside.error.find("c")</span> diffère de <span class="tt">std::string::npos</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>WorldMapRegionsTest.AtlasLivreEntierementPose</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__world__map__regions_8cpp.html" title="Tests unitaires des régions posées sur la carte du monde (LOT-87, T3.6).">Source/Test/Unit/HMI/Presentation/test_world_map_regions.cpp</a>:57</span></sub>  </td><td class="markdownTableBodyNone">Les treize régions de l'atlas sont posées sur la carte du monde.  </td><td class="markdownTableBodyNone">1. Charger l'atlas livré et <span class="tt">Source/Elements/Maps/world-map-regions.json</span>.<br  />
+ 2. Joindre les deux.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">atlas.errors.empty()</span> est vrai.<br  />
+Vérifie que <span class="tt">anchors.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt">missing.empty()</span> est vrai.<br  />
+Vérifie que <span class="tt">regions.size()</span> vaut <span class="tt">atlas.regions.size()</span>.<br  />
+Vérifie que <span class="tt">locations</span> vaut <span class="tt">atlas.locations.size()</span>.  </td></tr>
 </table>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md29"></a>
 Tests d'intégration (13)</h1>

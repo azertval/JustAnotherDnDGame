@@ -10,7 +10,7 @@ var searchData=
   ['gemshadow_7',['gemShadow',['../structhmi_1_1ColorTokens.html#a64a1076313c930d9e730ce559f271c18',1,'hmi::ColorTokens']]],
   ['generation_8',['generation',['../structcore_1_1Entity.html#a2ad1b664955eb77c38cef28d6978cf7b',1,'core::Entity']]],
   ['glyphs_9',['glyphs',['../structhmi_1_1FontMetrics.html#af8edf913ecf02975f75b9d41f9acff65',1,'hmi::FontMetrics']]],
-  ['government_10',['government',['../structcore_1_1Region.html#ab2fcfb2827210b97d085a810023d1196',1,'core::Region']]],
+  ['government_10',['government',['../structcore_1_1Region.html#ab2fcfb2827210b97d085a810023d1196',1,'core::Region::government'],['../structhmi_1_1MapRegion.html#a325fc962037f6fdbb94fbab81e2e86e2',1,'hmi::MapRegion::government']]],
   ['grade_11',['grade',['../structcore_1_1RegionAppraisal.html#a9cea16e7edc28da4c20902d603d19cf6',1,'core::RegionAppraisal']]],
   ['gravity_12',['gravity',['../structcore_1_1PhysicsConfig.html#abca056c01e3263ccc8d5e3adbd174e91',1,'core::PhysicsConfig']]],
   ['groundpoundspeed_13',['groundPoundSpeed',['../structcore_1_1PhysicsConfig.html#a2072e171d44c396a1d3fc28e738224d0',1,'core::PhysicsConfig']]],

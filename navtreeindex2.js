@@ -171,6 +171,12 @@ var NAVTREEINDEX2 =
 "WorldFlags_8cpp.html":[17,0,3,1,4,7],
 "WorldFlags_8h.html":[17,0,3,1,4,8],
 "WorldFlags_8h_source.html":[17,0,3,1,4,8],
+"WorldMapModel_8cpp.html":[17,0,3,3,10,20],
+"WorldMapModel_8h.html":[17,0,3,3,10,21],
+"WorldMapModel_8h_source.html":[17,0,3,3,10,21],
+"WorldMapRegions_8cpp.html":[17,0,3,3,9,18],
+"WorldMapRegions_8h.html":[17,0,3,3,9,19],
+"WorldMapRegions_8h_source.html":[17,0,3,3,9,19],
 "World_8cpp.html":[17,0,3,1,3,11],
 "World_8h.html":[17,0,3,1,3,12],
 "World_8h_source.html":[17,0,3,1,3,12],
@@ -243,11 +249,5 @@ var NAVTREEINDEX2 =
 "classcore_1_1ComponentPool.html#a79bfb21e11d5240cca2e36e86aebf356":[16,0,0,19,4],
 "classcore_1_1ComponentPool.html#a7f018dd02b06e43193affdac6c6c82d2":[15,0,1,19,11],
 "classcore_1_1ComponentPool.html#a7f018dd02b06e43193affdac6c6c82d2":[16,0,0,19,11],
-"classcore_1_1ComponentPool.html#a7f399e6294d15b47dcf6a665a5f71d08":[15,0,1,19,5],
-"classcore_1_1ComponentPool.html#a7f399e6294d15b47dcf6a665a5f71d08":[16,0,0,19,5],
-"classcore_1_1ComponentPool.html#a8df498c6d5a55e013535f294e92738b1":[15,0,1,19,2],
-"classcore_1_1ComponentPool.html#a8df498c6d5a55e013535f294e92738b1":[16,0,0,19,2],
-"classcore_1_1ComponentPool.html#aa164388e6fac4b808c075cdf69f952b7":[15,0,1,19,10],
-"classcore_1_1ComponentPool.html#aa164388e6fac4b808c075cdf69f952b7":[16,0,0,19,10],
-"classcore_1_1ComponentPool.html#aa1ea89339a0b953f501acb46dd31cf73":[15,0,1,19,0]
+"classcore_1_1ComponentPool.html#a7f399e6294d15b47dcf6a665a5f71d08":[15,0,1,19,5]
 };

@@ -15,11 +15,12 @@ var searchData=
   ['cold_12',['Cold',['../namespacecore.html#aae5ed49bedbf68049f008e4efac2edfda1a3c2e99e572ec71d3820d0363d90742',1,'core']]],
   ['collision_13',['Collision',['../namespacecore.html#ab0cf50b7ad0dce1357c85662e0fb7e5da15fb6ccbd11ebebcea2b48dc477f3561',1,'core']]],
   ['combathud_14',['CombatHud',['../classhmi_1_1ScreenRouter.html#a0277d29471d1699b63793797bbab3bdea24a64995097c2618f6232d44c3b135ff',1,'hmi::ScreenRouter::CombatHud'],['../namespacehmi.html#a86e4ce6097c7a029c683096302528e72a24a64995097c2618f6232d44c3b135ff',1,'hmi::CombatHud']]],
-  ['conjuration_15',['Conjuration',['../namespacecore.html#acb09396acc95973b3ca488c497bbddb2a2b5126899e7c63756f01fb2475a7c7a2',1,'core']]],
-  ['constitution_16',['Constitution',['../namespacecore.html#a97f31c7914a6cfc54cc026a77da58fd1aae93e52a3c1f3bbcefbc805331fca9e9',1,'core']]],
-  ['control_17',['Control',['../namespacehmi.html#a83c98e56e30eafa606048853f7962e48aa1595abbb4c3a326636dd178757cd6c1',1,'hmi']]],
-  ['copy_18',['Copy',['../namespacehmi.html#aa4f5968d7b564d555f29fdc5d2fc9585a5fb63579fc981698f97d55bfecb213ea',1,'hmi::Copy'],['../namespacehmi.html#ab269aabb94611e449a8e7427969874f5a5fb63579fc981698f97d55bfecb213ea',1,'hmi::Copy']]],
-  ['count_19',['Count',['../namespacehmi.html#a4180e6c308353c9965d695855746d982ae93f994f01c537c4e2f7d8528c3eb5e9',1,'hmi']]],
-  ['credits_20',['Credits',['../classhmi_1_1ScreenRouter.html#a82f878c3ef3a0d8b924af7bbca4b37f7a948a2e3548aaf7f9941a3192fa607d51',1,'hmi::ScreenRouter::Credits'],['../namespacehmi.html#a168b24f798c2e6d06beb9472a071528da948a2e3548aaf7f9941a3192fa607d51',1,'hmi::Credits']]],
-  ['crimeandviolence_21',['CrimeAndViolence',['../namespacecore.html#a1471b5a70feb139829909360f5b07940a1ac8b82da41e7a78301dfa6e47b6bb23',1,'core']]]
+  ['company_15',['Company',['../classhmi_1_1ScreenRouter.html#a0277d29471d1699b63793797bbab3bdea1c76cbfe21c6f44c1d1e59d54f3e4420',1,'hmi::ScreenRouter::Company'],['../namespacehmi.html#a86e4ce6097c7a029c683096302528e72a1c76cbfe21c6f44c1d1e59d54f3e4420',1,'hmi::Company']]],
+  ['conjuration_16',['Conjuration',['../namespacecore.html#acb09396acc95973b3ca488c497bbddb2a2b5126899e7c63756f01fb2475a7c7a2',1,'core']]],
+  ['constitution_17',['Constitution',['../namespacecore.html#a97f31c7914a6cfc54cc026a77da58fd1aae93e52a3c1f3bbcefbc805331fca9e9',1,'core']]],
+  ['control_18',['Control',['../namespacehmi.html#a83c98e56e30eafa606048853f7962e48aa1595abbb4c3a326636dd178757cd6c1',1,'hmi']]],
+  ['copy_19',['Copy',['../namespacehmi.html#aa4f5968d7b564d555f29fdc5d2fc9585a5fb63579fc981698f97d55bfecb213ea',1,'hmi::Copy'],['../namespacehmi.html#ab269aabb94611e449a8e7427969874f5a5fb63579fc981698f97d55bfecb213ea',1,'hmi::Copy']]],
+  ['count_20',['Count',['../namespacehmi.html#a4180e6c308353c9965d695855746d982ae93f994f01c537c4e2f7d8528c3eb5e9',1,'hmi']]],
+  ['credits_21',['Credits',['../classhmi_1_1ScreenRouter.html#a82f878c3ef3a0d8b924af7bbca4b37f7a948a2e3548aaf7f9941a3192fa607d51',1,'hmi::ScreenRouter::Credits'],['../namespacehmi.html#a168b24f798c2e6d06beb9472a071528da948a2e3548aaf7f9941a3192fa607d51',1,'hmi::Credits']]],
+  ['crimeandviolence_22',['CrimeAndViolence',['../namespacecore.html#a1471b5a70feb139829909360f5b07940a1ac8b82da41e7a78301dfa6e47b6bb23',1,'core']]]
 ];

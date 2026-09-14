@@ -1,6 +1,11 @@
 var searchData=
 [
-  ['values_0',['values',['../classhmi_1_1CharacterSheetModel.html#ab4343c40ed226a3a19259cc8564b6d91',1,'hmi::CharacterSheetModel']]],
-  ['volume_1',['volume',['../classhmi_1_1OptionsModel.html#a0577a4c5c12f6bbc8f756bd92a0a4280',1,'hmi::OptionsModel']]],
-  ['vsync_2',['vsync',['../classhmi_1_1OptionsModel.html#a8a907b9efd8a1079fb0dc6d88ca45e24',1,'hmi::OptionsModel']]]
+  ['savingthrows_0',['savingThrows',['../classhmi_1_1CharacterSheetModel.html#a38a22274234b22eabee7060c27cc22d4',1,'hmi::CharacterSheetModel']]],
+  ['sections_1',['sections',['../classhmi_1_1CreditsModel.html#a068637f059cf148bf43a58754d36fb48',1,'hmi::CreditsModel']]],
+  ['selecteditem_2',['selectedItem',['../classhmi_1_1InventoryModel.html#a4482591aaae9745574c68b268a4d2105',1,'hmi::InventoryModel']]],
+  ['selectedslot_3',['selectedSlot',['../classhmi_1_1InventoryModel.html#a87ebc26f71bd350bcd37a450f264ff2b',1,'hmi::InventoryModel']]],
+  ['selection_4',['selection',['../classhmi_1_1InventoryModel.html#ac9d4d4eef953b647f13fd4ec05070b54',1,'hmi::InventoryModel']]],
+  ['skills_5',['skills',['../classhmi_1_1CharacterSheetModel.html#a86fa2e2be3af38f8095194bd257c95d2',1,'hmi::CharacterSheetModel']]],
+  ['species_6',['species',['../classhmi_1_1CharacterSheetModel.html#ab635485894fcf0cf7a1c8de1c797b2ee',1,'hmi::CharacterSheetModel']]],
+  ['speed_7',['speed',['../classhmi_1_1CharacterSheetModel.html#a74bf7012708a91997d29350295273131',1,'hmi::CharacterSheetModel::speed'],['../classhmi_1_1InventoryModel.html#adad1d72b86b6dd6522ac591573fd5c81',1,'hmi::InventoryModel::speed']]]
 ];

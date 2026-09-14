@@ -19,5 +19,7 @@ var dir_7eb0d0bc801e3eeb9c9e3cb238223789 =
     [ "ScreenRouter.cpp", "ScreenRouter_8cpp.html", null ],
     [ "ScreenRouter.h", "ScreenRouter_8h.html", "ScreenRouter_8h" ],
     [ "SheetRowModel.cpp", "SheetRowModel_8cpp.html", null ],
-    [ "SheetRowModel.h", "SheetRowModel_8h.html", "SheetRowModel_8h" ]
+    [ "SheetRowModel.h", "SheetRowModel_8h.html", "SheetRowModel_8h" ],
+    [ "WorldMapModel.cpp", "WorldMapModel_8cpp.html", null ],
+    [ "WorldMapModel.h", "WorldMapModel_8h.html", "WorldMapModel_8h" ]
 ];

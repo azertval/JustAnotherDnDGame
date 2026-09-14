@@ -5,5 +5,6 @@ var searchData=
   ['languages_2',['languages',['../classhmi_1_1OptionsModel.html#a580407e9597675adca39c37cfcff008a',1,'hmi::OptionsModel']]],
   ['level_3',['level',['../classhmi_1_1CharacterSheetModel.html#a00211f22b831a62542f5df2a8baf68e3',1,'hmi::CharacterSheetModel']]],
   ['loadratio_4',['loadRatio',['../classhmi_1_1InventoryModel.html#aba17baad4338fb9e5ce748ecfdb6f446',1,'hmi::InventoryModel']]],
-  ['logsavailable_5',['logsAvailable',['../classhmi_1_1OptionsModel.html#ace9a52cbc002b12326f524777f7febd5',1,'hmi::OptionsModel']]]
+  ['locationcount_5',['locationCount',['../classhmi_1_1WorldMapModel.html#a12f74d325911c0aa8a22beef0fa5b24c',1,'hmi::WorldMapModel']]],
+  ['logsavailable_6',['logsAvailable',['../classhmi_1_1OptionsModel.html#ace9a52cbc002b12326f524777f7febd5',1,'hmi::OptionsModel']]]
 ];

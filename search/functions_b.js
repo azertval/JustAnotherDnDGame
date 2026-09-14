@@ -35,7 +35,7 @@ var searchData=
   ['list_32',['list',['../classhmi_1_1AssetFileOperations.html#a8d9ba0215bb9d739022c08151deecdd3',1,'hmi::AssetFileOperations::list()'],['../classhmi_1_1LevelFileOperations.html#a0f2a3f81e7b378c50c4448c292ec2499',1,'hmi::LevelFileOperations::list()']]],
   ['listassetfiles_33',['listAssetFiles',['../namespacehmi.html#afd6b5a676aa84f6f9f7c16eb9de83f9a',1,'hmi']]],
   ['listskinassets_34',['listSkinAssets',['../namespacehmi.html#acfc16de3fc9ebf22b724eeaa552313bf',1,'hmi']]],
-  ['load_35',['load',['../classhmi_1_1TextureCache.html#ae1e131bf205906a4f5356a07aa3f5879',1,'hmi::TextureCache::load()'],['../classhmi_1_1EditorKeyBindings.html#ae15fd7146af0937829dbcf69de533637',1,'hmi::EditorKeyBindings::load()'],['../classhmi_1_1GameKeyBindings.html#ad0730747c26c0da49543e3e837bec7cd',1,'hmi::GameKeyBindings::load()'],['../classhmi_1_1GamepadBindings.html#abd5af0a2a9702b6fa7148033d500e910',1,'hmi::GamepadBindings::load()']]],
+  ['load_35',['load',['../classhmi_1_1TextureCache.html#ae1e131bf205906a4f5356a07aa3f5879',1,'hmi::TextureCache::load()'],['../classhmi_1_1EditorKeyBindings.html#ae15fd7146af0937829dbcf69de533637',1,'hmi::EditorKeyBindings::load()'],['../classhmi_1_1GameKeyBindings.html#ad0730747c26c0da49543e3e837bec7cd',1,'hmi::GameKeyBindings::load()'],['../classhmi_1_1GamepadBindings.html#abd5af0a2a9702b6fa7148033d500e910',1,'hmi::GamepadBindings::load()'],['../classhmi_1_1WorldMapModel.html#a0e96fce71937aa2f2ff5977bafc4f154',1,'hmi::WorldMapModel::load()']]],
   ['loadanimation_36',['loadAnimation',['../classhmi_1_1TextureCache.html#a083e7d115a6a86f3e7ca7e6c3eef3316',1,'hmi::TextureCache']]],
   ['loadassetfamilies_37',['loadAssetFamilies',['../namespacecore.html#a572e98b67a306b182732d2396b1478fb',1,'core']]],
   ['loadatlas_38',['loadAtlas',['../namespacecore.html#a4a28b9f58a274691d57f2f961c7909e7',1,'core']]],
@@ -68,9 +68,10 @@ var searchData=
   ['loadtexturefromfile_65',['loadTextureFromFile',['../namespacehmi.html#a9821e11a6df2a1d3415b00f423657686',1,'hmi']]],
   ['localization_66',['Localization',['../classhmi_1_1Localization.html#aa549c7438b65314c5e0b8bd90996e310',1,'hmi::Localization']]],
   ['localizedtaxonomylabel_67',['localizedTaxonomyLabel',['../namespacehmi.html#a62841e1d2bd66f14e276709d5f41acb0',1,'hmi']]],
-  ['log_68',['log',['../classcore_1_1Logger.html#a1aeae4c7813133be7e1dc64490839bf2',1,'core::Logger']]],
-  ['logger_69',['Logger',['../classcore_1_1Logger.html#a9fcf9b06e1d98a1be5e3a8d423ad0327',1,'core::Logger::Logger()=default'],['../classcore_1_1Logger.html#ae2ef4918898cb336d755cd0b657ba40e',1,'core::Logger::Logger(const Logger &amp;)=delete']]],
-  ['logsavailable_70',['logsAvailable',['../classhmi_1_1OptionsModel.html#a11cf5c63f2f53adc2dcc833087916a60',1,'hmi::OptionsModel']]],
-  ['logstatisticsifchanged_71',['logStatisticsIfChanged',['../classhmi_1_1SpriteRenderer.html#a796e552b16b1c726e9bd44016c965783',1,'hmi::SpriteRenderer']]],
-  ['lookup_72',['lookup',['../structhmi_1_1DemonstrationState.html#abcf71e6be641b767f2de7d9e0bbbbbde',1,'hmi::DemonstrationState']]]
+  ['locationcount_68',['locationCount',['../classhmi_1_1WorldMapModel.html#aaa3fcf5322ce528763ea90e63a4cccbc',1,'hmi::WorldMapModel']]],
+  ['log_69',['log',['../classcore_1_1Logger.html#a1aeae4c7813133be7e1dc64490839bf2',1,'core::Logger']]],
+  ['logger_70',['Logger',['../classcore_1_1Logger.html#a9fcf9b06e1d98a1be5e3a8d423ad0327',1,'core::Logger::Logger()=default'],['../classcore_1_1Logger.html#ae2ef4918898cb336d755cd0b657ba40e',1,'core::Logger::Logger(const Logger &amp;)=delete']]],
+  ['logsavailable_71',['logsAvailable',['../classhmi_1_1OptionsModel.html#a11cf5c63f2f53adc2dcc833087916a60',1,'hmi::OptionsModel']]],
+  ['logstatisticsifchanged_72',['logStatisticsIfChanged',['../classhmi_1_1SpriteRenderer.html#a796e552b16b1c726e9bd44016c965783',1,'hmi::SpriteRenderer']]],
+  ['lookup_73',['lookup',['../structhmi_1_1DemonstrationState.html#abcf71e6be641b767f2de7d9e0bbbbbde',1,'hmi::DemonstrationState']]]
 ];

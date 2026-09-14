@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['0_0',['0',['../lot-87.html#autotoc_md682',1,'Critères d&apos;acceptation de la phase 0'],['../roadmap-010.html',1,'Feuille de route 0.1.0'],['../roadmap-010.html#lot-28',1,'LOT-28 — Audio, effets et version &lt;span class=&quot;tt&quot;&gt;0.2.0&lt;/span&gt;'],['../spec-gameplay.html#autotoc_md342',1,'Ressenti (game feel) — ⚠️ réglage fin reporté au-delà de &lt;span class=&quot;tt&quot;&gt;0.1.0&lt;/span&gt;']]],
+  ['0_0',['0',['../lot-87.html#autotoc_md685',1,'Critères d&apos;acceptation de la phase 0'],['../roadmap-010.html',1,'Feuille de route 0.1.0'],['../roadmap-010.html#lot-28',1,'LOT-28 — Audio, effets et version &lt;span class=&quot;tt&quot;&gt;0.2.0&lt;/span&gt;'],['../spec-gameplay.html#autotoc_md342',1,'Ressenti (game feel) — ⚠️ réglage fin reporté au-delà de &lt;span class=&quot;tt&quot;&gt;0.1.0&lt;/span&gt;']]],
   ['0_201_200_1',['0 1 0',['../roadmap-010.html',1,'Feuille de route 0.1.0'],['../spec-gameplay.html#autotoc_md342',1,'Ressenti (game feel) — ⚠️ réglage fin reporté au-delà de &lt;span class=&quot;tt&quot;&gt;0.1.0&lt;/span&gt;']]],
   ['0_202_200_2',['LOT-28 — Audio, effets et version &lt;span class=&quot;tt&quot;&gt;0.2.0&lt;/span&gt;',['../roadmap-010.html#lot-28',1,'']]],
   ['002_20lot_2020_3',['La manette : une seconde source, fusionnée en lecture (EX-CTRL-002, LOT-20)',['../guide-entrees.html#autotoc_md141',1,'']]],
@@ -26,8 +26,10 @@ var searchData=
   ['07_23',['T3.3 — Les crédits (maquette 07)',['../lot-87.html#autotoc_md677',1,'']]],
   ['07_20—_20rendu_20top_20down_20et_20tri_20par_20y_24',['LOT-07 — Rendu top-down et tri par Y',['../lot-07.html',1,'lots']]],
   ['075_20avec_20eux_25',['Les ornements restent tracés, et &lt;span class=&quot;tt&quot;&gt;EX-IHM-075&lt;/span&gt; avec eux',['../spec-interface-ihm.html#autotoc_md363',1,'']]],
-  ['08_20—_20vocabulaire_20de_20tuiles_20rpg_26',['LOT-08 — Vocabulaire de tuiles RPG',['../lot-08.html',1,'lots']]],
-  ['08_2012_27',['Mesures de référence, à la date du &lt;span class=&quot;tt&quot;&gt;LOT-62&lt;/span&gt; (2026-08-12)',['../guide-rendu.html#autotoc_md254',1,'']]],
-  ['09_20à_20lot_2029_28',['11. Les lots &lt;span class=&quot;tt&quot;&gt;LOT-09&lt;/span&gt; à &lt;span class=&quot;tt&quot;&gt;LOT-29&lt;/span&gt;',['../roadmap-010.html#autotoc_md727',1,'']]],
-  ['09_20—_20graphe_20de_20cartes_20et_20transitions_29',['LOT-09 — Graphe de cartes et transitions',['../roadmap-010.html#lot-09',1,'']]]
+  ['08_26',['T3.6 — La carte du monde (maquette 08)',['../lot-87.html#autotoc_md680',1,'']]],
+  ['08_20—_20vocabulaire_20de_20tuiles_20rpg_27',['LOT-08 — Vocabulaire de tuiles RPG',['../lot-08.html',1,'lots']]],
+  ['08_2012_28',['Mesures de référence, à la date du &lt;span class=&quot;tt&quot;&gt;LOT-62&lt;/span&gt; (2026-08-12)',['../guide-rendu.html#autotoc_md254',1,'']]],
+  ['09_29',['T3.7 — L&apos;équipe de mercenaires (maquette 09)',['../lot-87.html#autotoc_md681',1,'']]],
+  ['09_20à_20lot_2029_30',['11. Les lots &lt;span class=&quot;tt&quot;&gt;LOT-09&lt;/span&gt; à &lt;span class=&quot;tt&quot;&gt;LOT-29&lt;/span&gt;',['../roadmap-010.html#autotoc_md730',1,'']]],
+  ['09_20—_20graphe_20de_20cartes_20et_20transitions_31',['LOT-09 — Graphe de cartes et transitions',['../roadmap-010.html#lot-09',1,'']]]
 ];

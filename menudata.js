@@ -217,6 +217,7 @@ var menudata={children:[
 {text:"l",url:"functions_prop.html#index_l"},
 {text:"n",url:"functions_prop.html#index_n"},
 {text:"p",url:"functions_prop.html#index_p"},
+{text:"r",url:"functions_prop.html#index_r"},
 {text:"s",url:"functions_prop.html#index_s"},
 {text:"v",url:"functions_prop.html#index_v"}]},
 {text:"Related Symbols",url:"functions_rela.html"}]}]},

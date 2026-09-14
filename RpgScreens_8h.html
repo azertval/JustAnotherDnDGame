@@ -119,19 +119,19 @@ Namespaces</h2></td></tr>
 Enumerations</h2></td></tr>
 <tr class="memitem:a86e4ce6097c7a029c683096302528e72" id="r_a86e4ce6097c7a029c683096302528e72"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#a86e4ce6097c7a029c683096302528e72">hmi::RpgScreenId</a> { <br />
 &#160;&#160;<a class="el" href="namespacehmi.html#a86e4ce6097c7a029c683096302528e72aeb7e99d2187282628ef8b4c20cf7a714">hmi::CharacterSheet</a>
+, <a class="el" href="namespacehmi.html#a86e4ce6097c7a029c683096302528e72aaa79c5d1cbe3d96218a92481bcfaa39c">hmi::Skills</a>
 , <a class="el" href="namespacehmi.html#a86e4ce6097c7a029c683096302528e72a4d604dd8f008145471dc845683399189">hmi::Inventory</a>
 , <a class="el" href="namespacehmi.html#a86e4ce6097c7a029c683096302528e72aafebbeedc0c1e6ef23639958ccfc4e93">hmi::QuestJournal</a>
-, <a class="el" href="namespacehmi.html#a86e4ce6097c7a029c683096302528e72ade45fe3bb002bd16009ebd8331e35146">hmi::WorldMap</a>
 , <br />
-&#160;&#160;<a class="el" href="namespacehmi.html#a86e4ce6097c7a029c683096302528e72a359928afdf6c973ee869e1698023a812">hmi::Dialogue</a>
+&#160;&#160;<a class="el" href="namespacehmi.html#a86e4ce6097c7a029c683096302528e72ade45fe3bb002bd16009ebd8331e35146">hmi::WorldMap</a>
+, <a class="el" href="namespacehmi.html#a86e4ce6097c7a029c683096302528e72a359928afdf6c973ee869e1698023a812">hmi::Dialogue</a>
 , <a class="el" href="namespacehmi.html#a86e4ce6097c7a029c683096302528e72a896890bfb700eac98300d639ca970f2b">hmi::Merchant</a>
-, <a class="el" href="namespacehmi.html#a86e4ce6097c7a029c683096302528e72ab45d4262677771f2c5e9a59301287d99">hmi::GuildBoard</a>
-, <a class="el" href="namespacehmi.html#a86e4ce6097c7a029c683096302528e72a24a64995097c2618f6232d44c3b135ff">hmi::CombatHud</a>
+, <a class="el" href="namespacehmi.html#a86e4ce6097c7a029c683096302528e72a1c76cbfe21c6f44c1d1e59d54f3e4420">hmi::Company</a>
 , <br />
-&#160;&#160;<a class="el" href="namespacehmi.html#a86e4ce6097c7a029c683096302528e72abb3574dbe048a2115f7793abf6fa9c08">hmi::TeamSheet</a>
+&#160;&#160;<a class="el" href="namespacehmi.html#a86e4ce6097c7a029c683096302528e72a24a64995097c2618f6232d44c3b135ff">hmi::CombatHud</a>
 <br />
  }</td></tr>
-<tr class="memdesc:a86e4ce6097c7a029c683096302528e72"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les huit écrans du RPG.  <a href="namespacehmi.html#a86e4ce6097c7a029c683096302528e72">More...</a><br /></td></tr>
+<tr class="memdesc:a86e4ce6097c7a029c683096302528e72"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les neuf écrans du RPG.  <a href="namespacehmi.html#a86e4ce6097c7a029c683096302528e72">More...</a><br /></td></tr>
 <tr class="memitem:a3222e3cf5f453d3a55c104456a615430" id="r_a3222e3cf5f453d3a55c104456a615430"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#a3222e3cf5f453d3a55c104456a615430">hmi::RpgSuperposition</a> { <a class="el" href="namespacehmi.html#a3222e3cf5f453d3a55c104456a615430aeeed228a1530b74c9d193195034781e9">hmi::PausesGame</a>
 , <a class="el" href="namespacehmi.html#a3222e3cf5f453d3a55c104456a615430a56876e48dbe57b9eb2e66e54c6576eaf">hmi::WhileWalking</a>
  }</td></tr>
@@ -165,7 +165,7 @@ Variables</h2></td></tr>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Catalogue des écrans du RPG et <b>ossature</b> de leur contenu (<span class="tt">LOT-68</span>, <span class="tt">EX-IHM-090</span>, <span class="tt">EX-IHM-091</span>). </p>
 <p>Logique <b>pure</b> (aucune dépendance Qt), testable hors instance d'application (<span class="tt">EX-NFR-010</span>) &ndash; même patron que <span class="tt"><a class="el" href="ScreenFlow_8h.html" title="Machine à états des écrans de la fenêtre principale (LOT-59 TACHE-01, EX-GP-041).">HMI/Presentation/ScreenFlow.h</a></span> et <span class="tt"><a class="el" href="ActionCatalog_8h.html" title="Catalogue des actions de l&#39;éditeur : outils et commandes principales (LOT-56 TACHE-04,...">HMI/Interface/ActionCatalog.h</a></span>.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md857"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md860"></a>
 Une table, et non huit écrans écrits à la main</h2>
 <p>Les huit écrans que le RPG doit à terme porter &ndash; fiche, inventaire, journal, carte, dialogue, marchand, tableau de la Guilde, ATH de combat &ndash; n'ont, à ce lot, aucun contenu à afficher : les données viendront des lots qui les remplissent (<span class="tt">LOT-38</span>, <span class="tt">LOT-42</span>, <span class="tt">LOT-45</span>, <span class="tt">LOT-24</span>). Ce qui est livré ici est ce qu'ils ont <b>en commun</b> : leur cadre, leur navigation, leur parcours de focus, et leur <b>ossature</b>.</p>
 <p>Cette ossature est décrite en <b>données</b> plutôt qu'en code d'interface, pour la raison qu'écrit <span class="tt">EX-IHM-090</span> : un neuvième écran doit coûter une <b>ligne de table</b>, jamais une retouche des huit autres. Le rendu Qt (<span class="tt">hmi::RpgScreenFrame</span>) sait peindre les sept genres de blocs ci-dessous et rien de plus ; il n'a aucune connaissance d'un écran en particulier. </p>

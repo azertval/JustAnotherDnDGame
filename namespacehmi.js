@@ -156,6 +156,8 @@ var namespacehmi =
     [ "RpgScreenDescriptor", "structhmi_1_1RpgScreenDescriptor.html", "structhmi_1_1RpgScreenDescriptor" ],
     [ "ScreenDressing", "structhmi_1_1ScreenDressing.html", "structhmi_1_1ScreenDressing" ],
     [ "ScreenState", "structhmi_1_1ScreenState.html", "structhmi_1_1ScreenState" ],
+    [ "RegionAnchors", "structhmi_1_1RegionAnchors.html", "structhmi_1_1RegionAnchors" ],
+    [ "MapRegion", "structhmi_1_1MapRegion.html", "structhmi_1_1MapRegion" ],
     [ "CharacterSheetModel", "classhmi_1_1CharacterSheetModel.html", "classhmi_1_1CharacterSheetModel" ],
     [ "CreditsModel", "classhmi_1_1CreditsModel.html", "classhmi_1_1CreditsModel" ],
     [ "DemonstrationCharacter", "structhmi_1_1DemonstrationCharacter.html", "structhmi_1_1DemonstrationCharacter" ],
@@ -167,7 +169,9 @@ var namespacehmi =
     [ "ScreenRouter", "classhmi_1_1ScreenRouter.html", "classhmi_1_1ScreenRouter" ],
     [ "SheetRow", "structhmi_1_1SheetRow.html", "structhmi_1_1SheetRow" ],
     [ "SheetRowModel", "classhmi_1_1SheetRowModel.html", "classhmi_1_1SheetRowModel" ],
+    [ "WorldMapModel", "classhmi_1_1WorldMapModel.html", "classhmi_1_1WorldMapModel" ],
     [ "EditorWorkspaceMask", "namespacehmi.html#ab8a3c6d8e00f86576f71c0b2a4e494d4", null ],
+    [ "MapAnchor", "namespacehmi.html#a3381e27cdaac8041b5c1525d4b5fb0a1", null ],
     [ "TextureHandle", "namespacehmi.html#a979f7ffd7c87877cb1f65f0d08e4419d", null ],
     [ "Ability", "namespacehmi.html#a97f31c7914a6cfc54cc026a77da58fd1", null ],
     [ "ActionSurface", "namespacehmi.html#a2a7c152b5b5451602bbf4e4f416b402b", [
@@ -464,14 +468,14 @@ var namespacehmi =
     ] ],
     [ "RpgScreenId", "namespacehmi.html#a86e4ce6097c7a029c683096302528e72", [
       [ "CharacterSheet", "namespacehmi.html#a86e4ce6097c7a029c683096302528e72aeb7e99d2187282628ef8b4c20cf7a714", null ],
+      [ "Skills", "namespacehmi.html#a86e4ce6097c7a029c683096302528e72aaa79c5d1cbe3d96218a92481bcfaa39c", null ],
       [ "Inventory", "namespacehmi.html#a86e4ce6097c7a029c683096302528e72a4d604dd8f008145471dc845683399189", null ],
       [ "QuestJournal", "namespacehmi.html#a86e4ce6097c7a029c683096302528e72aafebbeedc0c1e6ef23639958ccfc4e93", null ],
       [ "WorldMap", "namespacehmi.html#a86e4ce6097c7a029c683096302528e72ade45fe3bb002bd16009ebd8331e35146", null ],
       [ "Dialogue", "namespacehmi.html#a86e4ce6097c7a029c683096302528e72a359928afdf6c973ee869e1698023a812", null ],
       [ "Merchant", "namespacehmi.html#a86e4ce6097c7a029c683096302528e72a896890bfb700eac98300d639ca970f2b", null ],
-      [ "GuildBoard", "namespacehmi.html#a86e4ce6097c7a029c683096302528e72ab45d4262677771f2c5e9a59301287d99", null ],
-      [ "CombatHud", "namespacehmi.html#a86e4ce6097c7a029c683096302528e72a24a64995097c2618f6232d44c3b135ff", null ],
-      [ "TeamSheet", "namespacehmi.html#a86e4ce6097c7a029c683096302528e72abb3574dbe048a2115f7793abf6fa9c08", null ]
+      [ "Company", "namespacehmi.html#a86e4ce6097c7a029c683096302528e72a1c76cbfe21c6f44c1d1e59d54f3e4420", null ],
+      [ "CombatHud", "namespacehmi.html#a86e4ce6097c7a029c683096302528e72a24a64995097c2618f6232d44c3b135ff", null ]
     ] ],
     [ "RpgSuperposition", "namespacehmi.html#a3222e3cf5f453d3a55c104456a615430", [
       [ "PausesGame", "namespacehmi.html#a3222e3cf5f453d3a55c104456a615430aeeed228a1530b74c9d193195034781e9", null ],
@@ -700,6 +704,7 @@ var namespacehmi =
     [ "qtKeyToHmiKey", "namespacehmi.html#a1b53de392afb0dfdf5cdef4543fb672d", null ],
     [ "readCredits", "namespacehmi.html#a45a16f6daf05b3e3e37dbe025a9006a6", null ],
     [ "readRegion", "namespacehmi.html#af837f7f56fae98fb73ed278ea49e27b5", null ],
+    [ "readRegionAnchors", "namespacehmi.html#a8bceca2f9b95a505e599e12dddb403da", null ],
     [ "reapplyEditorTheme", "namespacehmi.html#a4dbd77c54104dd2723bba59437d00bd5", null ],
     [ "regionForTile", "namespacehmi.html#a597b9471d79c0d524b3dedbf52c2fac6", null ],
     [ "relativeLuminance", "namespacehmi.html#aadfbb57622e1e177b3c41c9ba011779b", null ],
@@ -773,6 +778,7 @@ var namespacehmi =
     [ "workspaceForTool", "namespacehmi.html#a861d89e3cd32c93cccec048ed72d7647", null ],
     [ "workspaceMaskContains", "namespacehmi.html#a1e9cf88c150b16a6a0c4109255923da2", null ],
     [ "workspacesForPanel", "namespacehmi.html#a03a0fe6ee48e4c601c49463e13dc2453", null ],
+    [ "worldMapRegions", "namespacehmi.html#af95ee3b81d6cb0c95bf172a021ce9dcf", null ],
     [ "writeRegion", "namespacehmi.html#a5c0696a5aefa22650536ad018edc2d72", null ],
     [ "AUTOTILE_CONFIGURATION_COUNT", "namespacehmi.html#a58aec3b5e8b7ff780934f969eb35febb", null ],
     [ "AUTOTILE_SHEET_SIDE", "namespacehmi.html#a645fa51fe9636c77f3b67558bb094d23", null ],

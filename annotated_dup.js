@@ -280,6 +280,8 @@ var annotated_dup =
       [ "RpgScreenDescriptor", "structhmi_1_1RpgScreenDescriptor.html", "structhmi_1_1RpgScreenDescriptor" ],
       [ "ScreenDressing", "structhmi_1_1ScreenDressing.html", "structhmi_1_1ScreenDressing" ],
       [ "ScreenState", "structhmi_1_1ScreenState.html", "structhmi_1_1ScreenState" ],
+      [ "RegionAnchors", "structhmi_1_1RegionAnchors.html", "structhmi_1_1RegionAnchors" ],
+      [ "MapRegion", "structhmi_1_1MapRegion.html", "structhmi_1_1MapRegion" ],
       [ "CharacterSheetModel", "classhmi_1_1CharacterSheetModel.html", "classhmi_1_1CharacterSheetModel" ],
       [ "CreditsModel", "classhmi_1_1CreditsModel.html", "classhmi_1_1CreditsModel" ],
       [ "DemonstrationCharacter", "structhmi_1_1DemonstrationCharacter.html", "structhmi_1_1DemonstrationCharacter" ],
@@ -290,6 +292,7 @@ var annotated_dup =
       [ "PendingData", "classhmi_1_1PendingData.html", "classhmi_1_1PendingData" ],
       [ "ScreenRouter", "classhmi_1_1ScreenRouter.html", "classhmi_1_1ScreenRouter" ],
       [ "SheetRow", "structhmi_1_1SheetRow.html", "structhmi_1_1SheetRow" ],
-      [ "SheetRowModel", "classhmi_1_1SheetRowModel.html", "classhmi_1_1SheetRowModel" ]
+      [ "SheetRowModel", "classhmi_1_1SheetRowModel.html", "classhmi_1_1SheetRowModel" ],
+      [ "WorldMapModel", "classhmi_1_1WorldMapModel.html", "classhmi_1_1WorldMapModel" ]
     ] ]
 ];

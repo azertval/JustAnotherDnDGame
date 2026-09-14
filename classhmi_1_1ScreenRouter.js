@@ -2,14 +2,14 @@ var classhmi_1_1ScreenRouter =
 [
     [ "RpgScreen", "classhmi_1_1ScreenRouter.html#a0277d29471d1699b63793797bbab3bde", [
       [ "CharacterSheet", "classhmi_1_1ScreenRouter.html#a0277d29471d1699b63793797bbab3bdeaeb7e99d2187282628ef8b4c20cf7a714", null ],
+      [ "Skills", "classhmi_1_1ScreenRouter.html#a0277d29471d1699b63793797bbab3bdeaaa79c5d1cbe3d96218a92481bcfaa39c", null ],
       [ "Inventory", "classhmi_1_1ScreenRouter.html#a0277d29471d1699b63793797bbab3bdea4d604dd8f008145471dc845683399189", null ],
       [ "QuestJournal", "classhmi_1_1ScreenRouter.html#a0277d29471d1699b63793797bbab3bdeaafebbeedc0c1e6ef23639958ccfc4e93", null ],
       [ "WorldMap", "classhmi_1_1ScreenRouter.html#a0277d29471d1699b63793797bbab3bdeade45fe3bb002bd16009ebd8331e35146", null ],
       [ "Dialogue", "classhmi_1_1ScreenRouter.html#a0277d29471d1699b63793797bbab3bdea359928afdf6c973ee869e1698023a812", null ],
       [ "Merchant", "classhmi_1_1ScreenRouter.html#a0277d29471d1699b63793797bbab3bdea896890bfb700eac98300d639ca970f2b", null ],
-      [ "GuildBoard", "classhmi_1_1ScreenRouter.html#a0277d29471d1699b63793797bbab3bdeab45d4262677771f2c5e9a59301287d99", null ],
-      [ "CombatHud", "classhmi_1_1ScreenRouter.html#a0277d29471d1699b63793797bbab3bdea24a64995097c2618f6232d44c3b135ff", null ],
-      [ "TeamSheet", "classhmi_1_1ScreenRouter.html#a0277d29471d1699b63793797bbab3bdeabb3574dbe048a2115f7793abf6fa9c08", null ]
+      [ "Company", "classhmi_1_1ScreenRouter.html#a0277d29471d1699b63793797bbab3bdea1c76cbfe21c6f44c1d1e59d54f3e4420", null ],
+      [ "CombatHud", "classhmi_1_1ScreenRouter.html#a0277d29471d1699b63793797bbab3bdea24a64995097c2618f6232d44c3b135ff", null ]
     ] ],
     [ "Screen", "classhmi_1_1ScreenRouter.html#a82f878c3ef3a0d8b924af7bbca4b37f7", [
       [ "Menu", "classhmi_1_1ScreenRouter.html#a82f878c3ef3a0d8b924af7bbca4b37f7ab61541208db7fa7dba42c85224405911", null ],

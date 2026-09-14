@@ -162,6 +162,7 @@ var hierarchy =
     [ "core::Location", "structcore_1_1Location.html", null ],
     [ "core::Logger", "classcore_1_1Logger.html", null ],
     [ "core::MapEntity", "structcore_1_1MapEntity.html", null ],
+    [ "hmi::MapRegion", "structhmi_1_1MapRegion.html", null ],
     [ "core::MarkerColor", "structcore_1_1MarkerColor.html", null ],
     [ "core::MarkerImage", "structcore_1_1MarkerImage.html", null ],
     [ "core::Mechanism", "structcore_1_1Mechanism.html", null ],
@@ -219,7 +220,8 @@ var hierarchy =
       [ "hmi::InventoryModel", "classhmi_1_1InventoryModel.html", null ],
       [ "hmi::OptionsModel", "classhmi_1_1OptionsModel.html", null ],
       [ "hmi::PendingData", "classhmi_1_1PendingData.html", null ],
-      [ "hmi::ScreenRouter", "classhmi_1_1ScreenRouter.html", null ]
+      [ "hmi::ScreenRouter", "classhmi_1_1ScreenRouter.html", null ],
+      [ "hmi::WorldMapModel", "classhmi_1_1WorldMapModel.html", null ]
     ] ],
     [ "QQuickRhiItem", null, [
       [ "hmi::GameViewportItem", "classhmi_1_1GameViewportItem.html", null ]
@@ -244,6 +246,7 @@ var hierarchy =
     ] ],
     [ "core::Rect", "structcore_1_1Rect.html", null ],
     [ "core::Region", "structcore_1_1Region.html", null ],
+    [ "hmi::RegionAnchors", "structhmi_1_1RegionAnchors.html", null ],
     [ "core::RegionAppraisal", "structcore_1_1RegionAppraisal.html", null ],
     [ "core::RegionPopulation", "structcore_1_1RegionPopulation.html", null ],
     [ "core::RegionSpeciesShare", "structcore_1_1RegionSpeciesShare.html", null ],

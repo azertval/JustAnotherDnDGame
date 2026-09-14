@@ -106,8 +106,8 @@ $(function(){initNavTree('test__rpg__screens_8cpp.html','',''); });
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a6ed2dd5a07f832b4e1555149cc4677f7" id="r_a6ed2dd5a07f832b4e1555149cc4677f7"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a6ed2dd5a07f832b4e1555149cc4677f7">TEST</a> (RpgScreensTest, LeCycleTraverseLesNeufEcrans)</td></tr>
-<tr class="memdesc:a6ed2dd5a07f832b4e1555149cc4677f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les neuf écrans sont déclarés, et le cycle les traverse tous avant de revenir au premier.  <br /></td></tr>
+<tr class="memitem:a10b420ce279b6fec3e03fb8168ac6098" id="r_a10b420ce279b6fec3e03fb8168ac6098"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a10b420ce279b6fec3e03fb8168ac6098">TEST</a> (RpgScreensTest, LeCycleTraverseLesHuitEcrans)</td></tr>
+<tr class="memdesc:a10b420ce279b6fec3e03fb8168ac6098"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les huit écrans sont déclarés, et le cycle les traverse tous avant de revenir au premier.  <br /></td></tr>
 <tr class="memitem:affccbc2c436e1fc05acce211ae22c131" id="r_affccbc2c436e1fc05acce211ae22c131"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#affccbc2c436e1fc05acce211ae22c131">TEST</a> (RpgScreensTest, LePasArriereEstLInverseDuPasAvant)</td></tr>
 <tr class="memdesc:affccbc2c436e1fc05acce211ae22c131"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le pas arrière est l'exact inverse du pas avant, aux extrémités comprises.  <br /></td></tr>
 <tr class="memitem:ad59f398655a6d85d2f3b41e4b2f4252d" id="r_ad59f398655a6d85d2f3b41e4b2f4252d"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#ad59f398655a6d85d2f3b41e4b2f4252d">TEST</a> (RpgScreensTest, LaRegleDeSuperpositionEstCelleAttendue)</td></tr>
@@ -235,17 +235,17 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>La règle de superposition est celle décidée par le lot : la carte et l'ATH de combat se consultent en marchant, les sept autres écrans suspendent la simulation (<span class="tt">EX-IHM-091</span>). </p>
-<p><b>Cas de test :</b> <b>La regle de superposition est celle attendue pour chacun des neuf ecrans.</b><br  />
+<p><b>Cas de test :</b> <b>La regle de superposition est celle attendue pour chacun des huit ecrans.</b><br  />
  <b>Categorie :</b> Unitaire · Ecrans du RPG<br  />
  <b>Criticite :</b> Majeur<br  />
  <b>Etapes :</b><br  />
- 1. Interroger pausesGame pour chacun des neuf ecrans.<br  />
+ 1. Interroger pausesGame pour chacun des huit ecrans.<br  />
  <b>Resultat attendu :</b> La carte du monde et l'ATH de combat ne suspendent pas ; les sept autres suspendent. </p>
 
 </div>
 </div>
-<a id="a6ed2dd5a07f832b4e1555149cc4677f7" name="a6ed2dd5a07f832b4e1555149cc4677f7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6ed2dd5a07f832b4e1555149cc4677f7">&#9670;&#160;</a></span>TEST() <span class="overload">[5/7]</span></h2>
+<a id="a10b420ce279b6fec3e03fb8168ac6098" name="a10b420ce279b6fec3e03fb8168ac6098"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a10b420ce279b6fec3e03fb8168ac6098">&#9670;&#160;</a></span>TEST() <span class="overload">[5/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -258,19 +258,19 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">LeCycleTraverseLesNeufEcrans</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+          <td class="paramtype">LeCycleTraverseLesHuitEcrans</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Les neuf écrans sont déclarés, et le cycle les traverse tous avant de revenir au premier. </p>
-<p><b>Cas de test :</b> <b>Le cycle de navigation traverse les neuf ecrans et revient au premier.</b><br  />
+<p>Les huit écrans sont déclarés, et le cycle les traverse tous avant de revenir au premier. </p>
+<p><b>Cas de test :</b> <b>Le cycle de navigation traverse les huit ecrans et revient au premier.</b><br  />
  <b>Categorie :</b> Unitaire · Ecrans du RPG<br  />
  <b>Criticite :</b> Critique<br  />
  <b>Etapes :</b><br  />
  1. Partir du premier ecran.<br  />
-2. Appeler nextRpgScreen neuf fois en notant chaque ecran atteint.<br  />
- <b>Resultat attendu :</b> Les neuf ecrans sont atteints une fois chacun, et le neuvieme pas ramene au premier. </p>
+2. Appeler nextRpgScreen huit fois en notant chaque ecran atteint.<br  />
+ <b>Resultat attendu :</b> Les huit ecrans sont atteints une fois chacun, et le huitieme pas ramene au premier. </p>
 
 </div>
 </div>

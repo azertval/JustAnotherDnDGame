@@ -14,10 +14,12 @@ var searchData=
   ['workspaceselector_11',['workspaceSelector',['../classhmi_1_1MainWindow.html#a027b04a3b312514563ce3a0d81600192',1,'hmi::MainWindow']]],
   ['workspacesettingsname_12',['workspaceSettingsName',['../classhmi_1_1MainWindow.html#a5136cda0984d0b96d9ae1c6051adb0ea',1,'hmi::MainWindow']]],
   ['workspacesforpanel_13',['workspacesForPanel',['../namespacehmi.html#a03a0fe6ee48e4c601c49463e13dc2453',1,'hmi']]],
-  ['worldpositionat_14',['worldPositionAt',['../classhmi_1_1GameViewport.html#ac71069276d05341fffe54f5d071ef5d1',1,'hmi::GameViewport']]],
-  ['worldtoscreen_15',['worldToScreen',['../classhmi_1_1Camera2D.html#a2f872fc80538490f888f3eef52498dfb',1,'hmi::Camera2D']]],
-  ['wouldresizedrop_16',['wouldResizeDrop',['../classhmi_1_1GameViewport.html#aca00d4e9745dab6b1f0139407b78bd62',1,'hmi::GameViewport']]],
-  ['wouldresizedropcontent_17',['wouldResizeDropContent',['../classcore_1_1LevelDraft.html#a7bb1c529de03797c0e158a1f13b39084',1,'core::LevelDraft']]],
-  ['write_18',['write',['../classcore_1_1ConsoleLogSink.html#a832f603dba5ba9ecaa75b1314ed6b84d',1,'core::ConsoleLogSink::write()'],['../classcore_1_1FileLogSink.html#a5edba3663d5a45d0e7de1ddf5a9caf03',1,'core::FileLogSink::write()'],['../classcore_1_1ILogSink.html#ab0e09a7994cb3ee96744c6ebb1755585',1,'core::ILogSink::write()'],['../classcore_1_1MemoryLogSink.html#a7e1c23f28325a73a36c7b837759c0c05',1,'core::MemoryLogSink::write()']]],
-  ['writeregion_19',['writeRegion',['../namespacehmi.html#a5c0696a5aefa22650536ad018edc2d72',1,'hmi']]]
+  ['worldmapmodel_14',['WorldMapModel',['../classhmi_1_1WorldMapModel.html#a22b42403d4f833485b6be9d30784cbd7',1,'hmi::WorldMapModel']]],
+  ['worldmapregions_15',['worldMapRegions',['../namespacehmi.html#af95ee3b81d6cb0c95bf172a021ce9dcf',1,'hmi']]],
+  ['worldpositionat_16',['worldPositionAt',['../classhmi_1_1GameViewport.html#ac71069276d05341fffe54f5d071ef5d1',1,'hmi::GameViewport']]],
+  ['worldtoscreen_17',['worldToScreen',['../classhmi_1_1Camera2D.html#a2f872fc80538490f888f3eef52498dfb',1,'hmi::Camera2D']]],
+  ['wouldresizedrop_18',['wouldResizeDrop',['../classhmi_1_1GameViewport.html#aca00d4e9745dab6b1f0139407b78bd62',1,'hmi::GameViewport']]],
+  ['wouldresizedropcontent_19',['wouldResizeDropContent',['../classcore_1_1LevelDraft.html#a7bb1c529de03797c0e158a1f13b39084',1,'core::LevelDraft']]],
+  ['write_20',['write',['../classcore_1_1ConsoleLogSink.html#a832f603dba5ba9ecaa75b1314ed6b84d',1,'core::ConsoleLogSink::write()'],['../classcore_1_1FileLogSink.html#a5edba3663d5a45d0e7de1ddf5a9caf03',1,'core::FileLogSink::write()'],['../classcore_1_1ILogSink.html#ab0e09a7994cb3ee96744c6ebb1755585',1,'core::ILogSink::write()'],['../classcore_1_1MemoryLogSink.html#a7e1c23f28325a73a36c7b837759c0c05',1,'core::MemoryLogSink::write()']]],
+  ['writeregion_21',['writeRegion',['../namespacehmi.html#a5c0696a5aefa22650536ad018edc2d72',1,'hmi']]]
 ];

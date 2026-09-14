@@ -465,13 +465,70 @@ T3.5 — L'inventaire et l'équipement (maquette 04)</h2>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><img src="references/04_Inventory_Equipment_Mockup.png" alt="maquette 04" class="inline"/>  </td><td class="markdownTableBodyNone"><img src="captures/t3-5-inventaire-1080p.png" alt="inventaire à 1080p" class="inline"/>  </td><td class="markdownTableBodyNone"><img src="captures/t3-5-inventaire-720p.png" alt="inventaire à 720p" class="inline"/>  </td></tr>
 </table>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md680"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md680"></a>
+T3.6 — La carte du monde (maquette 08)</h2>
+<p>La carte VTT de Tanares en plein écran, qu'on déplace (glisser) et qu'on agrandit (molette, <span class="tt">+</span> et <span class="tt">-</span>, boutons de la mini-carte). Par-dessus : la plaque de titre, la barre de boussole, l'encart du personnage, la mini-carte, la barre d'état et la barre de navigation.</p>
+<p><b>Constat qui change le critère du plan : l'atlas n'a pas de coordonnées.</b> Le <span class="tt">LOT-37</span> a extrait du livre les 13 régions et les 94 lieux, avec leurs textes, et <b>aucune position</b>. « Les 94 lieux posés aux coordonnées de l'atlas » n'était donc pas réalisable. Ce qui a été fait :</p>
+<ul>
+<li><b>Les 13 régions sont posées</b> à des ancres <b>relevées sur la carte</b>, au centre du nom imprimé de chaque région, dans <span class="tt">Source/Elements/Maps/world-map-regions.json</span>. Ce fichier est à part, et non dans l'atlas, parce que la chaîne d'extraction réécrit les régions et effacerait un champ qu'elle n'a pas produit. Les repères tombent sur les noms imprimés (capture), ce qui vérifie le relevé.</li>
+<li><b>Les 94 lieux sont listés dans la fiche de leur région</b>, qui s'ouvre au survol du repère : nom, gouvernement, nombre et noms des lieux. Leur placement individuel attend le voyage (<span class="tt">LOT-42</span>).</li>
+<li><span class="tt"><a class="el" href="namespacehmi.html#a8bceca2f9b95a505e599e12dddb403da" title="Lit les ancres des régions.">hmi::readRegionAnchors</a></span> et <span class="tt"><a class="el" href="namespacehmi.html#af95ee3b81d6cb0c95bf172a021ce9dcf" title="Les régions de l&#39;atlas qui ont une ancre, dans l&#39;ordre de l&#39;atlas.">hmi::worldMapRegions</a></span> (<span class="tt">HMI/Presentation/WorldMapRegions</span>) : lecture pure, et jointure qui <b>signale</b> toute région sans ancre et toute ancre sans région. <b>Deux tests</b>, dont un qui joint l'atlas livré au fichier livré : 13 régions posées, 94 lieux répartis, aucun écart.</li>
+<li><b><span class="tt">WorldMapModel</span></b> (<span class="tt">Jadg.Runtime</span>, et sa doublure) expose les régions jointes. L'atlas et les ancres sont désormais <b>copiés à côté de l'exécutable</b> (<span class="tt">World/</span>, <span class="tt">Maps/</span>), comme les catalogues RPG.</li>
+</ul>
+<p><b>La carte en haute définition.</b> <span class="tt">world-map.jpg</span> (1 612 × 990, tiré du PDF) est un fond de menu ; un écran qu'on consulte en zoom demande la ressource VTT (<span class="tt">VTT/Map - World.jpg</span>, 9 933 × 7 016). La chaîne du <span class="tt">LOT-30</span> sait désormais livrer une <b>illustration raster</b> (<span class="tt">IllustrationRaster</span>) : <span class="tt">world-map-hd.jpg</span>, réduite à 3 072 × 2 170, 3,3 Mo, déclarée au manifeste avec sa provenance. Deux retouches de la chaîne au passage :</p>
+<ul>
+<li><span class="tt">sourcebook illustrations &lt;clés…&gt;</span> ne régénère que les illustrations nommées. Une ressource VTT se rééchantillonne sans PyMuPDF, et le poste de production n'a pas à pouvoir rendre les PDF pour la produire.</li>
+<li>La régénération du manifeste <b>gardait uniquement</b> les entrées extraites, et effaçait donc la section <span class="tt">pending</span> et les images produites du <span class="tt">LOT-87</span>. Elle les conserve désormais.</li>
+</ul>
+<p>En attente (<span class="tt">PendingData</span>) : le jour et l'heure (<span class="tt">world_map.clock</span>), le lieu du groupe (<span class="tt">world_map.party.location</span>), le seuil d'expérience et le portrait de l'encart. L'encart lit sinon la vraie fiche (<span class="tt">CharacterSheetModel</span>). La barre de navigation ouvre le journal, l'inventaire, la fiche d'équipe et les options par le routeur.</p>
+<p>Écarts : <b>pas de légende</b>, puisque aucun point d'intérêt n'est typé dans l'atlas. Pas de quêtes sur la carte (<span class="tt">LOT-16</span>). La mini-carte montre la carte entière, sans rectangle de vue.</p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Maquette  </th><th class="markdownTableHeadNone">1920 × 1080  </th><th class="markdownTableHeadNone">1280 × 720  </th><th class="markdownTableHeadNone">Fiche de région (720p)  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><img src="references/08_Map_Mockup.png" alt="maquette 08" class="inline"/>  </td><td class="markdownTableBodyNone"><img src="captures/t3-6-carte-1080p.png" alt="carte à 1080p" class="inline"/>  </td><td class="markdownTableBodyNone"><img src="captures/t3-6-carte-720p.png" alt="carte à 720p" class="inline"/>  </td><td class="markdownTableBodyNone"><img src="captures/t3-6-carte-fiche-720p.png" alt="fiche de région" class="inline"/>  </td></tr>
+</table>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md681"></a>
+T3.7 — L'équipe de mercenaires (maquette 09)</h2>
+<p><b>Deux écrans deviennent un.</b> La feuille d'équipe (<span class="tt">TeamSheetForm</span>, <span class="tt">LOT-38</span>) et le tableau de la Guilde (<span class="tt">GuildBoardForm</span>) sont remplacés par <span class="tt">CompanyForm</span>, à quatre onglets : Équipe, Recrutement, Contrats, Réserve.</p>
+<ul>
+<li><b>Le routeur suit</b>, de la table pure au QML : <span class="tt">RpgScreenId</span> et <span class="tt">ScreenRouter::RpgScreen</span> perdent <span class="tt">GuildBoard</span> et <span class="tt">TeamSheet</span> et gagnent <span class="tt">Company</span> (<b>huit écrans du RPG</b> au lieu de neuf, les vérifications statiques d'alignement comprises). La table <span class="tt">rpgScreens()</span> réunit les deux ossatures en une, avec la clé de titre <span class="tt">rpg.company.title</span> (fr/en). <span class="tt">ScreenStack</span> et <span class="tt">--screen=</span> passent de quatorze à <b>treize écrans</b> (<span class="tt">--screen=Company</span>). La doublure du routeur et la barre de navigation de la carte suivent. Les tests du cycle et de la superposition sont mis à jour (huit écrans, l'équipe suspend le jeu), et ils passent.</li>
+<li><b>L'onglet Équipe est celui de la maquette</b> : blason et devise, quatre compteurs, six places d'équipe, base principale et son état, bâtiments, personnel, hauts faits, spécialisation et style, trésors. Contrats reprend le tableau de la Guilde (liste et fiche du contrat) ; Recrutement et Réserve sont des registres.</li>
+<li><b>Les membres viennent des personnages existants</b> : le personnage de démonstration occupe la première place (nom et niveau réels), les cinq autres sont libres. Tout le reste attend les lots de la compagnie (<span class="tt">LOT-45</span>, <span class="tt">LOT-83</span>) : <b>26 clés <span class="tt">company.*</span></b>, relevées par <span class="tt">list_pending_bindings.py</span>.</li>
+<li>Brique <span class="tt">LedgerList</span> : un registre de lignes libellé/valeur dans un sous-panneau à bandeau, que les écrans sans maquette réutiliseront (T3.9).</li>
+</ul>
+<p>Écarts : les champs de la feuille d'équipe v1 que la maquette ne montre pas (bénéficiaire, relations, rêve, dessein caché, récompenses légendaires, quartier général en huit installations) ne sont plus dessinés. Ils n'avaient aucune donnée, et leurs libellés restent au catalogue. L'illustration de la base n'est pas au cahier (données de la compagnie) : son cadre est vide.</p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Maquette  </th><th class="markdownTableHeadNone">1920 × 1080  </th><th class="markdownTableHeadNone">1280 × 720  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><img src="references/09_MercenaryScreen_Mockup.png" alt="maquette 09" class="inline"/>  </td><td class="markdownTableBodyNone"><img src="captures/t3-7-compagnie-1080p.png" alt="compagnie à 1080p" class="inline"/>  </td><td class="markdownTableBodyNone"><img src="captures/t3-7-compagnie-720p.png" alt="compagnie à 720p" class="inline"/>  </td></tr>
+</table>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md682"></a>
+T3.8 — Les compétences et sorts (maquette 10)</h2>
+<p>Nouvel écran, <span class="tt">SkillsForm</span>. À gauche, les attaques et les sortilèges ; au centre, les écoles de magie avec leurs emplacements et leurs sorts connus ; à droite, le détail du sort choisi.</p>
+<ul>
+<li><b>Il entre dans le routeur</b> : <span class="tt">RpgScreenId::Skills</span> et <span class="tt">ScreenRouter::RpgScreen::Skills</span>, placés juste après la fiche dans les deux énumérations, qui restent alignées (<span class="tt">static_assert</span>). Le RPG compte à nouveau <b>neuf écrans</b>, et le cycle passe de la fiche aux sorts. Une ossature de table (<span class="tt">rpg.skills.title</span> et quatre clés de bloc, fr/en) et <span class="tt">--screen=Skills</span> : <b>quatorze écrans</b>. Les tests du cycle et de la superposition suivent (les sorts suspendent le jeu).</li>
+<li><b>On y entre depuis la fiche</b> : un bouton « Compétences et sorts » sous la liste des compétences. Le bouton Fiche ramène à la fiche.</li>
+<li><b>Aucune donnée avant le <span class="tt">LOT-35</span></b> : chaque valeur passe par <span class="tt">PendingData</span>, et les <b>28 clés <span class="tt">skills.*</span></b> apparaissent dans <span class="tt">list_pending_bindings.py</span>.</li>
+<li><b>Huit écoles, et non neuf</b> : celles du lexique des règles (<span class="tt">LOT-30</span>, <span class="tt">magicSchoolName</span>). La maquette montre une « Thaumaturgie » que les règles ne connaissent pas ; le cahier la porte parmi les icônes (<span class="tt">ui/icon/school/thaumaturgy</span>), aucun écran ne la pose.</li>
+<li><b>Navigation au clavier</b> : les flèches désignent une école, que signale la marque d'or (<span class="tt">FocusMark</span>, <span class="tt">EX-IHM-071</span>).</li>
+<li>Brique <span class="tt">SpellEntry</span> : une attaque ou un sortilège, avec son icône dans son anneau et ses caractéristiques.</li>
+</ul>
+<p>Écarts : la maquette reprend en tête les onglets de la compagnie (Équipe, Recrutement…), une copie visible de la maquette 09 ; ils ne sont pas repris, et un bouton Fiche prend leur place. Pas de bouton « Gestion des sorts » : il n'aurait rien à ouvrir (<span class="tt">EX-IHM-072</span>).</p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Maquette  </th><th class="markdownTableHeadNone">1920 × 1080  </th><th class="markdownTableHeadNone">1280 × 720  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><img src="references/10_Skills_Mockup.png" alt="maquette 10" class="inline"/>  </td><td class="markdownTableBodyNone"><img src="captures/t3-8-sorts-1080p.png" alt="sorts à 1080p" class="inline"/>  </td><td class="markdownTableBodyNone"><img src="captures/t3-8-sorts-720p.png" alt="sorts à 720p" class="inline"/>  </td></tr>
+</table>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md683"></a>
 Exigences couvertes</h1>
 <ul>
 <li><a class="el" href="spec-interface-ihm.html#EX-IHM-070" title="EX-IHM-070"><span class="tt">EX-IHM-070</span></a>, <a class="el" href="spec-interface-ihm.html#EX-IHM-075" title="EX-IHM-075"><span class="tt">EX-IHM-075</span></a>, <a class="el" href="spec-interface-ihm.html#EX-IHM-076" title="EX-IHM-076"><span class="tt">EX-IHM-076</span></a>, <a class="el" href="spec-interface-ihm.html#EX-IHM-081" title="EX-IHM-081"><span class="tt">EX-IHM-081</span></a> : refondues ou précisées par la phase 2 (T2.1), pour décrire la charte v2.</li>
 <li><a class="el" href="spec-interface-ihm.html#EX-IHM-053" title="EX-IHM-053"><span class="tt">EX-IHM-053</span></a> : refondue par le T2.4 — les icônes des écrans du jeu sont produites, au double de leur taille d'affichage.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md681"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md684"></a>
 Où en est le lot</h1>
 <p><b>Phases 0 et 1 livrées</b> (PR #25 et #26) ; <b>phase 2 faite</b> — T2.1 à T2.7 (branche <span class="tt">lot/LOT-87-phase-2-charte-jetons</span>), en attente de la porte 2 (revue des jetons et des briques). Le cahier (T2.4) est la première chose à faire produire : c'est le chemin critique du lot. Le manifeste (T2.5), la réception (T2.6) et les briques (T2.7) sont prêts à recevoir ce qui en revient — une pièce réceptionnée apparaît dans la galerie sans autre changement. La clôture du T2.6 (fonds, cadres, plaques, boutons et contrôles livrés) attend toujours la production.</p>
 <p>Rappel de la phase 0 :</p>
@@ -482,7 +539,7 @@ Où en est le lot</h1>
 <li>Les dix maquettes déplacées dans <span class="tt">references/</span>.</li>
 <li>Ce dossier créé : comme tout lot démarré, le <span class="tt">LOT-87</span> quitte <span class="tt"><a class="el" href="roadmap-0_81_80_8md.html">roadmap-0.1.0.md</a></span> pour cet epic, et <span class="tt"><a class="el" href="lots_8md.html">lots.md</a></span> porte désormais son <span class="tt">@subpage lot-87</span>.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md682"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md685"></a>
 Critères d'acceptation de la phase 0</h1>
 <ul>
 <li><span class="tt">git branch -a</span> ne liste plus que <span class="tt"><a class="el" href="Editor_2Main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="Point d&#39;entrée du programme.">main</a></span>, <span class="tt">gh-pages</span> et <span class="tt">lot/LOT-87-charte-v2</span>, hors branches distantes en attente de suppression manuelle.</li>

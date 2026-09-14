@@ -46,10 +46,16 @@ var searchData=
   ['worldflags_2ecpp_43',['WorldFlags.cpp',['../WorldFlags_8cpp.html',1,'']]],
   ['worldflags_2eh_44',['WorldFlags.h',['../WorldFlags_8h.html',1,'']]],
   ['worldmap_45',['WorldMap',['../classhmi_1_1ScreenRouter.html#a0277d29471d1699b63793797bbab3bdeade45fe3bb002bd16009ebd8331e35146',1,'hmi::ScreenRouter::WorldMap'],['../namespacehmi.html#a86e4ce6097c7a029c683096302528e72ade45fe3bb002bd16009ebd8331e35146',1,'hmi::WorldMap']]],
-  ['worldpositionat_46',['worldPositionAt',['../classhmi_1_1GameViewport.html#ac71069276d05341fffe54f5d071ef5d1',1,'hmi::GameViewport']]],
-  ['worldtoscreen_47',['worldToScreen',['../classhmi_1_1Camera2D.html#a2f872fc80538490f888f3eef52498dfb',1,'hmi::Camera2D']]],
-  ['wouldresizedrop_48',['wouldResizeDrop',['../classhmi_1_1GameViewport.html#aca00d4e9745dab6b1f0139407b78bd62',1,'hmi::GameViewport']]],
-  ['wouldresizedropcontent_49',['wouldResizeDropContent',['../classcore_1_1LevelDraft.html#a7bb1c529de03797c0e158a1f13b39084',1,'core::LevelDraft']]],
-  ['write_50',['write',['../classcore_1_1ConsoleLogSink.html#a832f603dba5ba9ecaa75b1314ed6b84d',1,'core::ConsoleLogSink::write()'],['../classcore_1_1FileLogSink.html#a5edba3663d5a45d0e7de1ddf5a9caf03',1,'core::FileLogSink::write()'],['../classcore_1_1ILogSink.html#ab0e09a7994cb3ee96744c6ebb1755585',1,'core::ILogSink::write()'],['../classcore_1_1MemoryLogSink.html#a7e1c23f28325a73a36c7b837759c0c05',1,'core::MemoryLogSink::write()']]],
-  ['writeregion_51',['writeRegion',['../namespacehmi.html#a5c0696a5aefa22650536ad018edc2d72',1,'hmi']]]
+  ['worldmapmodel_46',['WorldMapModel',['../classhmi_1_1WorldMapModel.html',1,'hmi::WorldMapModel'],['../classhmi_1_1WorldMapModel.html#a22b42403d4f833485b6be9d30784cbd7',1,'hmi::WorldMapModel::WorldMapModel()']]],
+  ['worldmapmodel_2ecpp_47',['WorldMapModel.cpp',['../WorldMapModel_8cpp.html',1,'']]],
+  ['worldmapmodel_2eh_48',['WorldMapModel.h',['../WorldMapModel_8h.html',1,'']]],
+  ['worldmapregions_49',['worldMapRegions',['../namespacehmi.html#af95ee3b81d6cb0c95bf172a021ce9dcf',1,'hmi']]],
+  ['worldmapregions_2ecpp_50',['WorldMapRegions.cpp',['../WorldMapRegions_8cpp.html',1,'']]],
+  ['worldmapregions_2eh_51',['WorldMapRegions.h',['../WorldMapRegions_8h.html',1,'']]],
+  ['worldpositionat_52',['worldPositionAt',['../classhmi_1_1GameViewport.html#ac71069276d05341fffe54f5d071ef5d1',1,'hmi::GameViewport']]],
+  ['worldtoscreen_53',['worldToScreen',['../classhmi_1_1Camera2D.html#a2f872fc80538490f888f3eef52498dfb',1,'hmi::Camera2D']]],
+  ['wouldresizedrop_54',['wouldResizeDrop',['../classhmi_1_1GameViewport.html#aca00d4e9745dab6b1f0139407b78bd62',1,'hmi::GameViewport']]],
+  ['wouldresizedropcontent_55',['wouldResizeDropContent',['../classcore_1_1LevelDraft.html#a7bb1c529de03797c0e158a1f13b39084',1,'core::LevelDraft']]],
+  ['write_56',['write',['../classcore_1_1ConsoleLogSink.html#a832f603dba5ba9ecaa75b1314ed6b84d',1,'core::ConsoleLogSink::write()'],['../classcore_1_1FileLogSink.html#a5edba3663d5a45d0e7de1ddf5a9caf03',1,'core::FileLogSink::write()'],['../classcore_1_1ILogSink.html#ab0e09a7994cb3ee96744c6ebb1755585',1,'core::ILogSink::write()'],['../classcore_1_1MemoryLogSink.html#a7e1c23f28325a73a36c7b837759c0c05',1,'core::MemoryLogSink::write()']]],
+  ['writeregion_57',['writeRegion',['../namespacehmi.html#a5c0696a5aefa22650536ad018edc2d72',1,'hmi']]]
 ];
