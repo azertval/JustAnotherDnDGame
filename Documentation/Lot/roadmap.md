@@ -32,7 +32,7 @@ sections 9 et 10 rapportent l'audit et ce qu'il faut anticiper ; la section 11 p
 
 ## État d'avancement {#roadmap-avancement}
 
-**Trente et un lots livrés, cinquante-quatre restants.** Le prochain est le [LOT-19](@ref lot-19).
+**Trente-deux lots livrés, cinquante-trois restants.** Le prochain est le [LOT-20](@ref lot-20).
 
 Livrés : `LOT-01` à `LOT-08` (le socle : fork et purge, `HmiLib`, `LevelData`, format de carte
 version 3, modes de jeu, déplacement top-down, tri par profondeur, tuiles RPG), `LOT-77`, `LOT-78`
@@ -55,7 +55,9 @@ retire du programme la notion de niveau discret) et le [LOT-68](@ref lot-68) (le
 des clés d'assets), puis les deux lots de refonte de l'interface, inscrits **hors** de cette page
 parce que décidés après elle : le [LOT-86](@ref lot-86) (l'IHM du jeu en Qt Quick, dans son propre
 exécutable, modifiable par un artiste sans compilateur) et le [LOT-87](@ref lot-87) (la **charte
-v2**, tirée des dix maquettes du pack UI, et les treize écrans transcrits dessus).
+v2**, tirée des dix maquettes du pack UI, et les treize écrans transcrits dessus), enfin le
+[LOT-19](@ref lot-19) (la grille tactique : occupation par emprise, cases atteignables au budget,
+chemin déterministe), premier lot du combat proprement dit.
 Chacun garde son dossier et son `epic.md`. Le `LOT-85` (outillage Qt Designer) a été **abandonné**
 au profit du `LOT-86` et son numéro n'est pas réattribué.
 
@@ -67,7 +69,7 @@ le slice.
 
 | Version | Ce qu'elle rend jouable | Lots |
 |---|---|---|
-| `0.0.1` | Le *vertical slice* : un village, un donjon, un combat tactique complet, une sauvegarde ; l'arène comme banc d'essai ; des spécifications qui décrivent ce jeu | `LOT-19`, `LOT-20`, `LOT-50`, `LOT-21`, `LOT-22`, `LOT-23`, `LOT-24`, `LOT-15`, `LOT-16`, `LOT-17`, `LOT-09`, `LOT-11`, `LOT-27`, `LOT-28`, `LOT-88` |
+| `0.0.1` | Le *vertical slice* : un village, un donjon, un combat tactique complet, une sauvegarde ; l'arène comme banc d'essai ; des spécifications qui décrivent ce jeu | `LOT-20`, `LOT-50`, `LOT-21`, `LOT-22`, `LOT-23`, `LOT-24`, `LOT-15`, `LOT-16`, `LOT-17`, `LOT-09`, `LOT-11`, `LOT-27`, `LOT-28`, `LOT-88` |
 | `0.0.2` | Le bac à sable des **treize régions** : terrain généré, peuplement déduit des statistiques régionales, voyage, calendrier lunaire, économie, Guilde, groupe de quatre | `LOT-80`, `LOT-81`, `LOT-40`, `LOT-44`, `LOT-46`, `LOT-89`, `LOT-26`, `LOT-41`, `LOT-70`, `LOT-82`, `LOT-35`, `LOT-42`, `LOT-45`, `LOT-74`, `LOT-75`, `LOT-72`, `LOT-25`, `LOT-29`, `LOT-49`, `LOT-69` |
 | `0.0.3` | Les **seize classes** du *Player's Guide* et leurs sous-classes, le Colisée comme institution, la compagnie et son quartier général | `LOT-84`, `LOT-47`, `LOT-51` → `LOT-65`, `LOT-83` |
 | `0.0.4` | Le **plan pénombral**, second monde du Sourcebook | `LOT-90` |
@@ -78,12 +80,13 @@ tant que le jalon courant a un lot prêt, et `scripts/lint_lots.py` refuse un lo
 figure dans aucun jalon (règle 14).
 
 **Quelle date pour la `0.0.1` ?** Aucune n'est annoncée ici, et ce n'est pas une prudence de
-principe : les trente et un lots livrés l'ont été entre le 3 et le 14 septembre 2026, soit une
+principe : les trente-deux lots livrés l'ont été entre le 3 et le 14 septembre 2026, soit une
 cadence observée qui, prise au pied de la lettre, placerait la version dans trois semaines. Cette
 extrapolation est fausse, et il vaut mieux l'écrire que la laisser deviner : les lots livrés sont
 des lots de **socle**, de **catalogues** déjà extraits et d'**écrans** dessinés sur des données en
-attente. Ceux qui restent sont des lots de **moteur** — la grille tactique, l'initiative, les
-dialogues, l'éditeur, le graphe de cartes — dont aucun n'a encore de mesure de cadence, puis les
+attente. Ceux qui restent sont des lots de **moteur** — l'initiative, les attaques, les
+dialogues, l'éditeur, le graphe de cartes — dont seule la grille tactique du `LOT-19`, livrée le
+14 septembre, donne une première mesure de cadence, puis les
 catalogues restants (82 créatures de Tanares, 31 tables de progression) et le peuplement de dix
 régions. Ce tableau donne le **reste à faire**, pas une date.
 
@@ -96,46 +99,45 @@ tableau n'en porte volontairement aucun.
 
 | # | Lot | Objet | Débloque | Statut |
 |---|---|---|---|---|
-| 1 | `LOT-19` | Grille tactique et déplacement | 20 | **prochain** |
-| 2 | `LOT-20` | Initiative et tour par tour | 18 | en attente |
-| 3 | `LOT-50` | Le Colisée : bac à sable de combat | 16 | en attente |
-| 4 | `LOT-15` | PNJ et dialogues | 14 | prêt |
-| 5 | `LOT-21` | Attaques, dégâts et états | 14 | en attente |
-| 6 | `LOT-22` | Portée, ligne de vue et zones d'effet | 13 | en attente |
-| 7 | `LOT-11` | Éditeur multi-couches et placement d'entités | 12 | prêt |
-| 8 | `LOT-16` | Quêtes et drapeaux de monde | 12 | en attente |
-| 9 | `LOT-09` | Graphe de cartes et transitions | 11 | prêt |
-| 10 | `LOT-23` | IA tactique ennemie | 11 | en attente |
-| 11 | `LOT-17` | Sauvegarde riche | 10 | en attente |
-| 12 | `LOT-24` | IHM de combat | 10 | en attente |
-| 13 | `LOT-27` | Contenu du *vertical slice* | 9 | en attente |
-| 14 | `LOT-28` | Audio, effets et version `0.0.1` | 0 | en attente |
-| 15 | `LOT-88` | Spécifications : retrait de l'héritage plateforme | 0 | prêt |
-| 16 | `LOT-81` | Descripteurs de terrain et règles de zone des treize régions | 8 | prêt |
-| 17 | `LOT-40` | Générateur de terrain | 7 | en attente |
-| 18 | `LOT-44` | Noms, tables aléatoires et contenu d'ambiance | 7 | prêt |
-| 19 | `LOT-46` | Créatures de Tanares | 7 | prêt |
-| 20 | `LOT-89` | Dons, objets magiques et consommables de Tanares | 7 | prêt |
-| 21 | `LOT-26` | Butin, marchands, économie | 6 | en attente |
-| 22 | `LOT-41` | Peuplement : rencontres et créatures | 6 | en attente |
-| 23 | `LOT-80` | Factions, panthéon et organisations | 6 | prêt |
-| 24 | `LOT-70` | Horloge, calendrier et lune | 5 | prêt |
-| 25 | `LOT-82` | Peuplement civil : PNJ, marchands et quêtes | 5 | en attente |
-| 26 | `LOT-35` | Sorts et états | 2 | prêt |
-| 27 | `LOT-42` | Voyage et carte du monde | 2 | en attente |
-| 28 | `LOT-29` | Groupe de quatre personnages | 1 | en attente |
-| 29 | `LOT-45` | Guilde des Aventuriers : rangs et contrats | 1 | en attente |
-| 30 | `LOT-74` | Expérience et progression | 1 | en attente |
-| 31 | `LOT-25` | Sorts et capacités de classe | 0 | en attente |
-| 32 | `LOT-49` | Contrôle de cohérence du contenu | 0 | prêt |
-| 33 | `LOT-69` | Retrait de l'atelier pixel art | 0 | en attente |
-| 34 | `LOT-72` | Conditions, agonie et mort | 0 | en attente |
-| 35 | `LOT-75` | Campement et repos dans le monde | 0 | en attente |
-| 36 | `LOT-84` | Les 31 tables de progression de classe | 2 | prêt |
-| 37 | `LOT-47` | Socle de classe, et le guerrier comme preuve | 1 | en attente |
-| 38 | `LOT-83` | Compagnie : rangs de Guilde, niveau d'équipe et quartier général | 0 | en attente |
-| 39 | `LOT-90` | Le plan pénombral | 0 | en attente |
-| 40 | `LOT-51` → `LOT-65` | une classe par lot | 0 | en attente |
+| 1 | `LOT-20` | Initiative et tour par tour | 18 | **prochain** |
+| 2 | `LOT-50` | Le Colisée : bac à sable de combat | 16 | en attente |
+| 3 | `LOT-15` | PNJ et dialogues | 14 | prêt |
+| 4 | `LOT-21` | Attaques, dégâts et états | 14 | en attente |
+| 5 | `LOT-22` | Portée, ligne de vue et zones d'effet | 13 | prêt |
+| 6 | `LOT-11` | Éditeur multi-couches et placement d'entités | 12 | prêt |
+| 7 | `LOT-16` | Quêtes et drapeaux de monde | 12 | en attente |
+| 8 | `LOT-09` | Graphe de cartes et transitions | 11 | prêt |
+| 9 | `LOT-23` | IA tactique ennemie | 11 | en attente |
+| 10 | `LOT-17` | Sauvegarde riche | 10 | en attente |
+| 11 | `LOT-24` | IHM de combat | 10 | en attente |
+| 12 | `LOT-27` | Contenu du *vertical slice* | 9 | en attente |
+| 13 | `LOT-28` | Audio, effets et version `0.0.1` | 0 | en attente |
+| 14 | `LOT-88` | Spécifications : retrait de l'héritage plateforme | 0 | prêt |
+| 15 | `LOT-81` | Descripteurs de terrain et règles de zone des treize régions | 8 | prêt |
+| 16 | `LOT-40` | Générateur de terrain | 7 | en attente |
+| 17 | `LOT-44` | Noms, tables aléatoires et contenu d'ambiance | 7 | prêt |
+| 18 | `LOT-46` | Créatures de Tanares | 7 | prêt |
+| 19 | `LOT-89` | Dons, objets magiques et consommables de Tanares | 7 | prêt |
+| 20 | `LOT-26` | Butin, marchands, économie | 6 | en attente |
+| 21 | `LOT-41` | Peuplement : rencontres et créatures | 6 | en attente |
+| 22 | `LOT-80` | Factions, panthéon et organisations | 6 | prêt |
+| 23 | `LOT-70` | Horloge, calendrier et lune | 5 | prêt |
+| 24 | `LOT-82` | Peuplement civil : PNJ, marchands et quêtes | 5 | en attente |
+| 25 | `LOT-35` | Sorts et états | 2 | prêt |
+| 26 | `LOT-42` | Voyage et carte du monde | 2 | en attente |
+| 27 | `LOT-29` | Groupe de quatre personnages | 1 | en attente |
+| 28 | `LOT-45` | Guilde des Aventuriers : rangs et contrats | 1 | en attente |
+| 29 | `LOT-74` | Expérience et progression | 1 | en attente |
+| 30 | `LOT-25` | Sorts et capacités de classe | 0 | en attente |
+| 31 | `LOT-49` | Contrôle de cohérence du contenu | 0 | prêt |
+| 32 | `LOT-69` | Retrait de l'atelier pixel art | 0 | en attente |
+| 33 | `LOT-72` | Conditions, agonie et mort | 0 | en attente |
+| 34 | `LOT-75` | Campement et repos dans le monde | 0 | en attente |
+| 35 | `LOT-84` | Les 31 tables de progression de classe | 2 | prêt |
+| 36 | `LOT-47` | Socle de classe, et le guerrier comme preuve | 1 | en attente |
+| 37 | `LOT-83` | Compagnie : rangs de Guilde, niveau d'équipe et quartier général | 0 | en attente |
+| 38 | `LOT-90` | Le plan pénombral | 0 | en attente |
+| 39 | `LOT-51` → `LOT-65` | une classe par lot | 0 | en attente |
 
 **Débloque** — combien de lots restants dépendent de celui-ci, directement ou en cascade. C'est le
 critère de priorité, et il se relit sur la ligne.
@@ -423,7 +425,7 @@ que le socle doit **prévoir** (une interface, un champ, un événement) et ce q
 | **Le dé** | d20 brut exposé (*Omen*, *Augurs*, plancher à 10) ; relance **avant** résolution ; modificateur ajouté **après** avoir vu le résultat (*Future Guard*) ; résultats de d20 **stockés** puis substitués ; « si les deux d20 de l'avantage touchent » ; super-avantage à 3d20 | `core::Check` (livré) reste le seul mécanisme, mais son résultat est un **objet** (dés bruts, modificateurs avec origine, seuil, issue, `EX-DND-003`) que des crochets peuvent lire et amender avant que l'issue ne soit figée | [LOT-21](@ref lot-21) |
 | **Dégâts et points de vie** | Dégâts typés avec **drapeaux de source** (magique, adamantium, sort) ; conversion de type (*Shadowcaster*, zone *Maelstrom*) ; « ignore résistances et PV temporaires » ; dégâts redirigés (*Life Link*), différés, par case parcourue ; échange et transfert de PV ; réserves ablatives (*Exoskeleton*, 80 PV) ; PV **mis en commun** (monture) ; PV temporaires sans plafond ; **PV de structures** ; phases par seuil (*Battle Fury* sous 50 %) ; déclencheurs à la mort (spawn, explosion) ; seuil de jets de mort **variable** (Cultist : 4 échecs) ; régénération conditionnelle | Un **pipeline** de dégâts à étapes nommées (source → conversion → résistances → réserves → PV) où chaque étape est un point d'insertion, et un événement « seuil franchi » / « mort » ; les PV sont une pile de réserves, pas un entier | [LOT-21](@ref lot-21), [LOT-72](@ref lot-72) |
 | **Conditions et afflictions** | Marqueurs **empilables** (poison ×4) ; saignement ; « couvert de lave », « mouillé », « chargé » ; malédictions à **tick quotidien ou hebdomadaire**, levées seulement par *remove curse* ou *wish* ; épuisement à niveaux utilisé comme **coût** ; cécité permanente, mutisme ; malus par paliers (Insanity −1/−2/−3) ; folies aléatoires | Une condition est une **source datée** avec durée en tours **ou en temps de jeu**, empilable et recalculée (`EX-DND-040`) ; une couche « affliction persistante » qui survit au combat et se réveille à l'horloge | [LOT-72](@ref lot-72), `LOT-70` |
-| **La grille** | Zones à **règle locale** sur la carte (zone du rituel des Marques ; combat interdit ; aucun soin ; type de dégâts aléatoire) ; objets **destructibles** posés sur la grille (toiles CA 10 / 10 PV) ; terrain difficile créé en combat ; téléportation, échange de positions, déplacement forcé avec dégâts de collision ; **vol et vol stationnaire** partout (dragons, drakes, ailes) sur un jeu vu de dessus ; requête « une case où l'on peut se cacher » | La grille porte des **propriétés de zone** déclarées par la carte (`EX-LVL-018`) que le combat lit ; les objets de grille sont des entités à PV ; **l'altitude est un attribut**, jamais une géométrie — un volant ignore la couche collision au sol et reste ciblable à portée, décision à écrire au `LOT-19` avant la première créature volante | [LOT-19](@ref lot-19), [LOT-22](@ref lot-22) |
+| **La grille** | Zones à **règle locale** sur la carte (zone du rituel des Marques ; combat interdit ; aucun soin ; type de dégâts aléatoire) ; objets **destructibles** posés sur la grille (toiles CA 10 / 10 PV) ; terrain difficile créé en combat ; téléportation, échange de positions, déplacement forcé avec dégâts de collision ; **vol et vol stationnaire** partout (dragons, drakes, ailes) sur un jeu vu de dessus ; requête « une case où l'on peut se cacher » | La grille porte des **propriétés de zone** déclarées par la carte (`EX-LVL-018`) que le combat lit ; les objets de grille sont des entités à PV ; **l'altitude est un attribut**, jamais une géométrie — décision **écrite au [LOT-19](@ref lot-19)** : un volant survole les obstacles de sol (eau profonde, falaise) et ignore le terrain difficile, mais pas les murs, et reste ciblable à portée | [LOT-19](@ref lot-19), [LOT-22](@ref lot-22) |
 | **L'adversaire** | Tactiques de meute et bonus d'adjacence (+1 par drake, max +5) ; lanceurs de sorts ; boss de repaire (actions de repaire, effets régionaux, ×3 rencontres à 6 miles) ; formes alternatives (*Change Shape* → second bloc) | Les profils de comportement en JSON (`LOT-23`) savent lire les traits de groupe ; un bloc peut **référencer** un autre bloc | [LOT-23](@ref lot-23), `LOT-46` |
 | **Ressources de classe** | Au moins **six modèles** : réserve dépensée (ki, Courage) ; **jauge montante** à paliers de malus et transformation forcée (Insanity) ; automate positionnel à six cases (Cycle of Redemption) ; postures avec interruptions déclaratives (Way of the Animals) ; points à **gain événementiel** (Soul Points, +1 par mort à 15 ft) ; cadence « un pouvoir par round » + accumulation de marques (Dragonblade) ; tampon « prochain surge » + journal FIFO de deux éléments (Elementalist) ; second système d'emplacements (pacte) ; « N usages par sort » (classes simplifiées) | `EX-RPG-021` reste vraie — une ressource est une donnée — mais la « ressource générique » est une **famille** de six modèles, chacun avec sa cadence, et non un compteur ; le socle en livre l'interface et le guerrier n'en prouve qu'un | `LOT-47` |
 | **Substitution de profil** | Forme de dragon (4 profils), *Penumbral Shape* (30), forme sauvage, *Change Shape*, *Machine Infestation* (prend le bloc d'un construct), **deux fiches alternées** (cirrus) | La substitution est un mécanisme du **socle** (PV séparés, report de l'excédent, ce qui est conservé déclaré par la donnée), pas une particularité du druide | `LOT-47`, puis `LOT-61` |
@@ -1200,8 +1202,9 @@ relire.
 interdit tout regain de points de vie en son centre et halve les soins en bordure ; le centre de
 Darkall change au hasard le type de tout dégât non physique ; l'île d'Uncle Joe et les Temples de
 Paix interdisent le combat ; les Night Mansions sanctionnent une attaque de 5d6 de froid. Ce sont
-des **propriétés de zone** que la carte déclare (`EX-LVL-018`) et que le combat lit — le `LOT-19`
-en prévoit le crochet. **L'Undertanares** est une couche sous les régions, Darkall et le Wasteland
+des **propriétés de zone** que la carte déclare (`EX-LVL-018`) et que le combat lit — le
+[LOT-19](@ref lot-19) en a posé le crochet (`core::BattleGrid::zonesAt`), qui ne lit lui-même que
+`difficultTerrain`. **L'Undertanares** est une couche sous les régions, Darkall et le Wasteland
 sont décrits sans encart : trois espaces jouables de plus que les treize, à descripteur propre.
 
 *Acceptation* — les treize régions, l'Undertanares, Darkall et le Wasteland portent un descripteur
@@ -1475,7 +1478,7 @@ valeurs codées en dur, exactement ce que [`EX-VIS-007`](@ref EX-VIS-007) interd
 
 | Quand | Lots | Pourquoi là |
 |---|---|---|
-| **Démarrable maintenant** | [LOT-19](@ref lot-19) | La grille tactique : la bascule du [LOT-18](@ref lot-18) est livrée, et le combat est le chemin critique du *vertical slice* |
+| **Démarrable maintenant** | [LOT-20](@ref lot-20) | Le tour : la bascule du [LOT-18](@ref lot-18) et la grille du [LOT-19](@ref lot-19) sont livrées, et le combat est le chemin critique du *vertical slice* |
 | Démarrables, en parallèle du combat | [LOT-15](@ref lot-15), [LOT-11](@ref lot-11), [LOT-09](@ref lot-09) | Dialogues, éditeur et graphe de cartes n'attendent plus rien ; la règle leur préfère seulement ce qui débloque davantage |
 | Avec [LOT-09](@ref lot-09) | `LOT-80` | L'atlas du `LOT-37` est livré : le graphe de cartes a ses nœuds, il lui manque les entités transverses |
 | Après `LOT-34` (livré) | `LOT-49` | Catalogue réel, puis contrôle de ses valeurs — un filet, pas un maillon |
@@ -1548,10 +1551,10 @@ lots, dont la fiche de personnage et sa maquette. **Ces sept-là sont livrés.**
 Le chemin critique restant est celui du **combat**, et c'est la plus longue chaîne de prérequis
 qui mène au slice depuis que celui-ci déclare les siens en numéros :
 
-[LOT-19](@ref lot-19) → [LOT-20](@ref lot-20) → `LOT-50` → [LOT-21](@ref lot-21) →
+[LOT-20](@ref lot-20) → `LOT-50` → [LOT-21](@ref lot-21) →
 [LOT-23](@ref lot-23) → [LOT-24](@ref lot-24) → [LOT-27](@ref lot-27)
 
-Sept lots — l'arène du `LOT-50` s'y intercale comme banc d'essai des attaques —, avec le [LOT-22](@ref lot-22) (portée et ligne de vue) en parallèle du `LOT-21`, exigé
+Six lots depuis la livraison de la grille tactique ([LOT-19](@ref lot-19)) — l'arène du `LOT-50` s'y intercale comme banc d'essai des attaques —, avec le [LOT-22](@ref lot-22) (portée et ligne de vue) en parallèle du `LOT-21`, exigé
 par l'IA du `LOT-23`. Deux chaînes plus courtes y aboutissent aussi et se mènent **en parallèle** :
 [LOT-15](@ref lot-15) → [LOT-16](@ref lot-16) → [LOT-17](@ref lot-17) → `LOT-27` (dialogues, quêtes,
 sauvegarde — quatre lots), et [LOT-09](@ref lot-09) → `LOT-17`, [LOT-11](@ref lot-11) → `LOT-27`
@@ -1608,10 +1611,11 @@ digraph filiere {
   L66 -> L69 [label=""]; L69 [label="LOT-69\nRetrait atelier"];
   subgraph cluster_combat { label="Chemin critique restant : le combat"; style=dashed;
     L18 [label="LOT-18\nBascule\n(livré)", style="rounded,filled", fillcolor=grey90];
-    L19 [label="LOT-19\nGrille tactique"]; L20 [label="LOT-20\nInitiative"];
+    L19 [label="LOT-19\nGrille tactique\n(livré)", style="rounded,filled", fillcolor=grey90];
+    L20 [label="LOT-20\nInitiative"];
     L21 [label="LOT-21\nAttaques"]; L22 [label="LOT-22\nLigne de vue"];
     L23 [label="LOT-23\nIA tactique"]; L24 [label="LOT-24\nIHM de combat"];
-    L18 -> L19 -> L20 -> L21 -> L23 -> L24 -> L27; L19 -> L22 -> L23; L21 -> L24;
+    L19 -> L20 -> L21 -> L23 -> L24 -> L27; L19 -> L22 -> L23; L21 -> L24;
     L20 -> L50 -> L21;
   }
   L15 [label="LOT-15\nDialogues"]; L16 [label="LOT-16\nQuêtes"]; L17 [label="LOT-17\nSauvegarde"];
@@ -1706,8 +1710,9 @@ Source/Core/Data/
   JsonDocument.{h,cpp}      ← brique de lecture unique, position ligne/colonne (LOT-79, livré)
 Source/Core/Combat/
   Encounter, CombatTransition        ← la bascule (LOT-18, livré)
-  BattleGrid, Pathfinding, TurnOrder, CombatState, Attack, Damage, LineOfSight, EnemyAi
-                            ← le combat lui-même (LOT-19 à LOT-23)
+  BattleGrid, Pathfinding            ← la grille et le déplacement (LOT-19, livré)
+  TurnOrder, CombatState, Attack, Damage, LineOfSight, EnemyAi
+                            ← le combat lui-même (LOT-20 à LOT-23)
 Source/Core/World/
   Atlas.{h,cpp}             ← régions et lieux (LOT-37, livré)
   WorldGraph.{h,cpp}        ← cartes, portails, points d'arrivée nommés (LOT-09)
@@ -2093,10 +2098,11 @@ Ces vingt et un lots avaient chacun leur dossier `LOT-NN-nom/`. Ils sont absorb�
 la feuille de route ait **une seule source de vérité** : deux documents décrivant le même
 programme divergent, et l'audit a montré qu'ils avaient déjà commencé à le faire.
 
-> Les `LOT-08`, `LOT-10`, `LOT-12`, `LOT-13`, `LOT-14` et `LOT-18` ont été **livrés** entre-temps.
+> Les `LOT-08`, `LOT-10`, `LOT-12`, `LOT-13`, `LOT-14`, `LOT-18` et `LOT-19` ont été **livrés**
+> entre-temps.
 > Ils ne sont donc plus ici : comme les sept premiers lots, chacun garde son dossier et son
 > `epic.md`, qui porte ce que sa réalisation a tranché — de l'histoire, pas du programme. Restent
-> seize lots, `LOT-09`, `LOT-11`, `LOT-15` à `LOT-17` et `LOT-19` à `LOT-29`.
+> quinze lots, `LOT-09`, `LOT-11`, `LOT-15` à `LOT-17` et `LOT-20` à `LOT-29`.
 
 Leurs **ancres Doxygen sont conservées** (`{#lot-09}`, `{#lot-13}`…), si bien que tous les
 renvois `@ref lot-NN` des spécifications continuent de résoudre. Seuls les `@subpage` de
@@ -2347,62 +2353,6 @@ reconstruire — un format qui casse lui fait perdre sa partie.
 - Un champ inconnu est ignoré **et préservé** à la réécriture.
 - Testable headless.
 
-### LOT-19 — Grille tactique et déplacement {#lot-19}
-
-> Statut : **à faire**.
-> Prérequis : [LOT-18](@ref lot-18).
-> Exigences couvertes : `EX-CBT-020`, `EX-DND-051`.
-
-#### Objectif
-
-Poser la grille de combat, l'occupation des cases, et le calcul du déplacement par budget.
-
-#### Ce qui existe déjà — à ne pas réécrire
-
-**`core::GridDistanceField`** (`Source/Core/World/GridDistanceField.h`) : champ de distances de
-plus court chemin sur la grille, BFS 4-voisins **multi-source**, lectures `O(1)`, avec sentinelle
-d'inatteignabilité. Il vient du solveur d'IA du dépôt d'origine ; le `LOT-01` l'a **délibérément
-sauvé** de la purge et déplacé dans `Core/World/` **pour ce lot précis**.
-
-C'est exactement le calcul « quelles cases puis-je atteindre avec ce budget de déplacement ».
-
-*État au 14 septembre 2026.* Le [LOT-18](@ref lot-18) a livré la bascule : `core::Encounter`
-place les combattants en formation **relative au déclencheur**, et `hmi::CombatMode` gèle déjà
-la passe de déplacement libre en attendant le budget de ce lot. Le HUD de combat
-(`CombatHudForm.ui.qml`, [LOT-87](@ref lot-87)) existe sur `PendingData` ; ce lot et le
-[LOT-20](@ref lot-20) sont ceux qui commencent à le remplir.
-
-#### Périmètre
-
-- `Source/Core/Combat/BattleGrid.{h,cpp}` : occupation des cases, terrain difficile, obstacles
-  **issus de la couche collision** du format v3 (`LOT-04`).
-- Portée de déplacement via `GridDistanceField`, budget dérivé de la vitesse de la fiche
-  (`LOT-13`), à l'échelle 1 case = 1,5 m figée au `LOT-12`.
-- *Contraintes du corpus (§4bis).* La grille lit les **propriétés de zone** déclarées par la carte
-  (`EX-LVL-018`) : ce lot en pose le crochet, le `LOT-81` et le `LOT-50` le remplissent. Le
-  terrain difficile peut être **créé en combat** (séisme) ; un objet posé sur une case peut avoir
-  des PV (toile). L'arène du `LOT-50` est le premier consommateur de cette grille, et sa carte.
-- `Pathfinding.{h,cpp}` : A* **déterministe**, avec départage stable des égalités.
-
-#### Pourquoi le déterminisme du chemin n'est pas négociable
-
-Deux chemins de même coût existent presque toujours sur une grille. Si le départage dépend de
-l'ordre d'itération d'un conteneur non ordonné, l'IA (`LOT-23`) devient irreproductible et
-**aucun test de combat ne tient**. Le départage doit être une règle explicite (par exemple : plus
-petit indice de case), pas un hasard d'implémentation.
-
-#### Exigences couvertes
-
-`EX-CBT-*` (grille, portée de déplacement, chemin déterministe).
-
-#### Critères d'acceptation
-
-- Même entrée → **même chemin**, systématiquement.
-- L'ensemble des cases atteignables correspond **exactement** au budget de déplacement, ni une de
-  plus ni une de moins (tests aux bornes).
-- Deux créatures ne partagent **jamais** une case.
-- Le terrain difficile double le coût, et la portée s'en trouve réduite en conséquence.
-
 ### LOT-20 — Initiative et tour par tour {#lot-20}
 
 > Statut : **à faire**.
@@ -2424,6 +2374,12 @@ réaction.
   fin de combat. Pas de drapeaux épars : un état nommé, des transitions nommées.
 - Égalités d'initiative : départage déterministe et documenté.
 - Entrée et sortie d'un combattant **en cours** de combat (renfort, fuite).
+- *État au 14 septembre 2026.* La grille du [LOT-19](@ref lot-19) attend ce lot sur trois points
+  qu'elle a laissés ouverts faute de tour : attribuer les `core::CombatantId` et poser sur
+  `core::BattleGrid` les placements que `core::beginEncounter` calcule déjà (en refusant ceux qui
+  tombent dans un mur, avec leur raison) ; dire qui l'on peut traverser
+  (`core::Mover::canPassThrough`, vide aujourd'hui, donc personne) ; et dépenser le budget d'un
+  tour sur `core::ReachableArea`, plutôt que sur l'intention libre que `hmi::CombatMode` gèle.
 - *Contraintes du corpus (§4bis).* La machine à états expose des **points d'insertion nommés**
   — début de round, **avant le premier tour** (réaction du Dragonblade), fin de tour d'un
   combattant (actions légendaires, réserve de 3), initiative fixe 20 (actions de repaire) et 0
@@ -2537,11 +2493,13 @@ C'est ce lot qui fait qu'un combat se joue avec le terrain plutôt que sur une g
 - `AreaOfEffect.{h,cpp}` : gabarits cercle, cône, ligne, carré — à l'échelle 1 case = 1,5 m figée
   au `LOT-12`.
 - Portée d'arme et portée de sort, distinguées de la portée de déplacement.
-- *Contraintes du corpus (§4bis).* **L'altitude est un attribut, jamais une géométrie** : un
-  volant ignore la couche collision au sol, reste ciblable à portée et peut être forcé à
-  atterrir — décision à écrire ici, avant la première créature volante du `LOT-46`. Les zones à
+- *Contraintes du corpus (§4bis).* **L'altitude est un attribut, jamais une géométrie** —
+  décision écrite au [LOT-19](@ref lot-19) (`core::Locomotion`) : un volant survole l'eau profonde
+  et la falaise, pas les murs, et occupe sa case comme tout combattant. Ce lot en tire la portée :
+  un volant reste ciblable sans hauteur à ajouter, et peut être forcé à atterrir. Les zones à
   règle locale de la carte (rituel des Marques, combat interdit, aucun soin) et les objets
-  destructibles posés sur la grille (toiles) sont des propriétés que ce lot et le `LOT-19` lisent.
+  destructibles posés sur la grille (toiles) sont déjà relevés par `core::BattleGrid` (`zonesAt`,
+  `objectAt`) ; ce lot les lit.
 
 #### L'invariant à tester exhaustivement
 
@@ -2589,7 +2547,9 @@ régression irreproductible.
 #### Périmètre
 
 - `Source/Core/Combat/EnemyAi.{h,cpp}` : évaluation de cibles pondérée (distance, PV restants,
-  menace, portée), choix de position, choix d'action.
+  menace, portée), choix de position, choix d'action. Le chemin vers une case lointaine est
+  `core::findPath` ([LOT-19](@ref lot-19)), déterministe et d'accord avec l'aire atteignable du
+  joueur : l'IA ne se donne pas un planificateur à elle.
 - **Profils de comportement en JSON** : agressif, prudent, soutien, archer. Les poids sont des
   données, pas des constantes C++ (`EX-VIS-007`) — c'est ce qui permet d'ajuster un ennemi sans
   recompiler.
@@ -2637,7 +2597,10 @@ C'est le lot qui transforme une machine à états correcte en un combat qu'on a 
   `hmi::GameHud` les budgets de sauts et de dashs du jeu de plateforme, que le
   [LOT-67](@ref lot-67) lui a laissés.
 - **Surbrillance de grille** via `SpriteBatch` / `ComposedScene` — le calque `EditorOverlay` hérité
-  se réemploie tel quel pour les cases atteignables et les portées.
+  se réemploie tel quel pour les cases atteignables et les portées. Les cases à surligner sont
+  `core::ReachableArea::destinations()` et le chemin prévisualisé `pathTo()`
+  ([LOT-19](@ref lot-19)) : c'est ici que se dessine la moitié « montrées avant que le joueur ne
+  s'engage » d'`EX-CBT-020`.
 - **Curseur de ciblage** clavier et manette (pas seulement souris : cf. critère ci-dessous).
 - **Prévisualisations** avant validation : chemin emprunté, cases atteintes par un gabarit,
   probabilité de toucher.
