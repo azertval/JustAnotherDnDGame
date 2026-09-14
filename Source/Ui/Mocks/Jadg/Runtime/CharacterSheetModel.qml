@@ -23,6 +23,18 @@ QtObject {
     readonly property string proficiencyBonus: "+2"
     readonly property string passivePerception: "11"
 
+    readonly property var values: ({
+        "sheet.name": "Brenna Pierrefonte", "sheet.class": "Guerrière", "sheet.level": "3",
+        "sheet.species": "Naine des collines", "sheet.background": "Artisane de guilde",
+        "sheet.experience": "900", "sheet.hit_points": "25 / 30", "sheet.hit_points_max": "30",
+        "sheet.ability.strength.score": "16", "sheet.ability.strength.modifier": "+3",
+        "sheet.ability.dexterity.score": "12", "sheet.ability.dexterity.modifier": "+1",
+        "sheet.ability.constitution.score": "15", "sheet.ability.constitution.modifier": "+2",
+        "sheet.ability.intelligence.score": "10", "sheet.ability.intelligence.modifier": "+0",
+        "sheet.ability.wisdom.score": "13", "sheet.ability.wisdom.modifier": "+1",
+        "sheet.ability.charisma.score": "8", "sheet.ability.charisma.modifier": "-1"
+    })
+
     readonly property ListModel abilities: ListModel {
         ListElement { rowId: "strength"; label: "Force"; value: "16 (+3)" }
         ListElement { rowId: "dexterity"; label: "Dextérité"; value: "12 (+1)" }

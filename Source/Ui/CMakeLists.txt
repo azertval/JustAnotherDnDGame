@@ -62,6 +62,8 @@ set(JADG_UI_QML_FILES
     Controls/QuotePlate.ui.qml
     Controls/FocusMark.ui.qml
     Controls/CreditSection.ui.qml
+    Controls/FieldRow.ui.qml
+    Controls/SkillRow.ui.qml
     Screens/CharacterSheetForm.ui.qml
     Screens/InventoryForm.ui.qml
     Screens/JournalForm.ui.qml

@@ -6,6 +6,7 @@
 #include <QAbstractItemModel>
 #include <QObject>
 #include <QString>
+#include <QVariantMap>
 #include <QtQmlIntegration>
 #include <map>
 #include <string>
@@ -71,6 +72,13 @@ class CharacterSheetModel : public QObject {
     Q_PROPERTY(QAbstractItemModel* savingThrows READ savingThrows CONSTANT)
     Q_PROPERTY(QAbstractItemModel* skills READ skills CONSTANT)
 
+    /// Toutes les valeurs formatées de la fiche, par clé (`sheet.ability.strength.score`,
+    /// `sheet.ability.strength.modifier`…) : ce que la fiche de la charte v2 (`LOT-87`, T3.4) pose
+    /// hors des listes, comme le score et le modificateur SÉPARÉS de chaque médaillon. Une table et
+    /// non douze propriétés : les clés existent déjà dans `hmi::characterSheetValues`, les
+    /// recopier une à une en propriétés aurait fait un second endroit à tenir.
+    Q_PROPERTY(QVariantMap values READ values NOTIFY changed)
+
 public:
     explicit CharacterSheetModel(QObject* parent = nullptr);
 
@@ -87,6 +95,8 @@ public:
      * mieux qu'un écran vide.
      */
     Q_INVOKABLE void loadDemonstrationCharacter();
+
+    [[nodiscard]] QVariantMap values() const;
 
     [[nodiscard]] QString name() const {
         return value("sheet.name");
