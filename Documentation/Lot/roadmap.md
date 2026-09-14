@@ -32,7 +32,7 @@ sections 9 et 10 rapportent l'audit et ce qu'il faut anticiper ; la section 11 p
 
 ## État d'avancement {#roadmap-avancement}
 
-**Trente-six lots livrés, quarante-neuf restants.** Le prochain est le [LOT-22](@ref lot-22).
+**Trente-sept lots livrés, quarante-huit restants.** Le prochain est le [LOT-11](@ref lot-11).
 
 Livrés : `LOT-01` à `LOT-08` (le socle : fork et purge, `HmiLib`, `LevelData`, format de carte
 version 3, modes de jeu, déplacement top-down, tri par profondeur, tuiles RPG), `LOT-77`, `LOT-78`
@@ -63,7 +63,9 @@ chemin déterministe), premier lot du combat proprement dit, le [LOT-20](@ref lo
 graine fixée, personne n'y meurt), et le [LOT-15](@ref lot-15) (les PNJ et les dialogues : un
 graphe refusé au chargement s'il est mal formé, joué sans fenêtre, refusé faute de langue commune),
 et le [LOT-21](@ref lot-21) (les attaques et les dégâts du Manuel : un jet qui s'amende avant d'être
-figé, un pipeline de dégâts à étapes nommées, l'attaque d'opportunité, un journal qui dit tout).
+figé, un pipeline de dégâts à étapes nommées, l'attaque d'opportunité, un journal qui dit tout),
+et le [LOT-22](@ref lot-22) (la portée, la ligne de vue symétrique par construction, l'abri qui ne
+s'additionne pas, les cinq zones d'effet du Manuel, les portées des armes enfin structurées).
 Chacun garde son dossier et son `epic.md`. Le `LOT-85` (outillage Qt Designer) a été **abandonné**
 au profit du `LOT-86` et son numéro n'est pas réattribué.
 
@@ -75,7 +77,7 @@ le slice.
 
 | Version | Ce qu'elle rend jouable | Lots |
 |---|---|---|
-| `0.0.1` | Le *vertical slice* : un village, un donjon, un combat tactique complet, une sauvegarde ; l'arène comme banc d'essai ; des spécifications qui décrivent ce jeu | `LOT-22`, `LOT-23`, `LOT-24`, `LOT-16`, `LOT-17`, `LOT-09`, `LOT-11`, `LOT-27`, `LOT-28`, `LOT-88` |
+| `0.0.1` | Le *vertical slice* : un village, un donjon, un combat tactique complet, une sauvegarde ; l'arène comme banc d'essai ; des spécifications qui décrivent ce jeu | `LOT-23`, `LOT-24`, `LOT-16`, `LOT-17`, `LOT-09`, `LOT-11`, `LOT-27`, `LOT-28`, `LOT-88` |
 | `0.0.2` | Le bac à sable des **treize régions** : terrain généré, peuplement déduit des statistiques régionales, voyage, calendrier lunaire, économie, Guilde, groupe de quatre | `LOT-80`, `LOT-81`, `LOT-40`, `LOT-44`, `LOT-46`, `LOT-89`, `LOT-26`, `LOT-41`, `LOT-70`, `LOT-82`, `LOT-35`, `LOT-42`, `LOT-45`, `LOT-74`, `LOT-75`, `LOT-72`, `LOT-25`, `LOT-29`, `LOT-49`, `LOT-69` |
 | `0.0.3` | Les **seize classes** du *Player's Guide* et leurs sous-classes, le Colisée comme institution, la compagnie et son quartier général | `LOT-84`, `LOT-47`, `LOT-51` → `LOT-65`, `LOT-83` |
 | `0.0.4` | Le **plan pénombral**, second monde du Sourcebook | `LOT-90` |
@@ -86,14 +88,14 @@ tant que le jalon courant a un lot prêt, et `scripts/lint_lots.py` refuse un lo
 figure dans aucun jalon (règle 14).
 
 **Quelle date pour la `0.0.1` ?** Aucune n'est annoncée ici, et ce n'est pas une prudence de
-principe : les trente-six lots livrés l'ont été entre le 3 et le 14 septembre 2026, soit une
+principe : les trente-sept lots livrés l'ont été entre le 3 et le 14 septembre 2026, soit une
 cadence observée qui, prise au pied de la lettre, placerait la version dans trois semaines. Cette
 extrapolation est fausse, et il vaut mieux l'écrire que la laisser deviner : les lots livrés sont
 des lots de **socle**, de **catalogues** déjà extraits et d'**écrans** dessinés sur des données en
-attente. Ceux qui restent sont des lots de **moteur** — la ligne de vue, l'IA, les quêtes,
+attente. Ceux qui restent sont des lots de **moteur** — l'IA, l'IHM de combat, les quêtes,
 l'éditeur, le graphe de cartes — dont seuls la grille tactique du `LOT-19`, le tour du `LOT-20`,
-l'arène du `LOT-50`, les dialogues du `LOT-15` et les attaques du `LOT-21`, livrés le 14 septembre,
-donnent une première mesure de cadence, puis les
+l'arène du `LOT-50`, les dialogues du `LOT-15`, les attaques du `LOT-21` et la ligne de vue du
+`LOT-22`, livrés le 14 septembre, donnent une première mesure de cadence, puis les
 catalogues restants (82 créatures de Tanares, 31 tables de progression) et le peuplement de dix
 régions. Ce tableau donne le **reste à faire**, pas une date.
 
@@ -106,41 +108,40 @@ tableau n'en porte volontairement aucun.
 
 | # | Lot | Objet | Débloque | Statut |
 |---|---|---|---|---|
-| 1 | `LOT-22` | Portée, ligne de vue et zones d'effet | 13 | **prochain** |
-| 2 | `LOT-11` | Éditeur multi-couches et placement d'entités | 12 | prêt |
-| 3 | `LOT-16` | Quêtes et drapeaux de monde | 12 | prêt |
-| 4 | `LOT-09` | Graphe de cartes et transitions | 11 | prêt |
-| 5 | `LOT-23` | IA tactique ennemie | 11 | en attente |
-| 6 | `LOT-17` | Sauvegarde riche | 10 | en attente |
-| 7 | `LOT-24` | IHM de combat | 10 | en attente |
-| 8 | `LOT-27` | Contenu du *vertical slice* | 9 | en attente |
-| 9 | `LOT-28` | Audio, effets et version `0.0.1` | 0 | en attente |
-| 10 | `LOT-88` | Spécifications : retrait de l'héritage plateforme | 0 | prêt |
-| 11 | `LOT-81` | Descripteurs de terrain et règles de zone des treize régions | 8 | prêt |
-| 12 | `LOT-40` | Générateur de terrain | 7 | en attente |
-| 13 | `LOT-44` | Noms, tables aléatoires et contenu d'ambiance | 7 | prêt |
-| 14 | `LOT-46` | Créatures de Tanares | 7 | prêt |
-| 15 | `LOT-89` | Dons, objets magiques et consommables de Tanares | 7 | prêt |
-| 16 | `LOT-26` | Butin, marchands, économie | 6 | en attente |
-| 17 | `LOT-41` | Peuplement : rencontres et créatures | 6 | en attente |
-| 18 | `LOT-80` | Factions, panthéon et organisations | 6 | prêt |
-| 19 | `LOT-70` | Horloge, calendrier et lune | 5 | prêt |
-| 20 | `LOT-82` | Peuplement civil : PNJ, marchands et quêtes | 5 | en attente |
-| 21 | `LOT-35` | Sorts et états | 2 | prêt |
-| 22 | `LOT-42` | Voyage et carte du monde | 2 | en attente |
-| 23 | `LOT-29` | Groupe de quatre personnages | 1 | en attente |
-| 24 | `LOT-45` | Guilde des Aventuriers : rangs et contrats | 1 | en attente |
-| 25 | `LOT-74` | Expérience et progression | 1 | en attente |
-| 26 | `LOT-25` | Sorts et capacités de classe | 0 | en attente |
-| 27 | `LOT-49` | Contrôle de cohérence du contenu | 0 | prêt |
-| 28 | `LOT-69` | Retrait de l'atelier pixel art | 0 | en attente |
-| 29 | `LOT-72` | Conditions, agonie et mort | 0 | en attente |
-| 30 | `LOT-75` | Campement et repos dans le monde | 0 | en attente |
-| 31 | `LOT-84` | Les 31 tables de progression de classe | 2 | prêt |
-| 32 | `LOT-47` | Socle de classe, et le guerrier comme preuve | 1 | en attente |
-| 33 | `LOT-83` | Compagnie : rangs de Guilde, niveau d'équipe et quartier général | 0 | en attente |
-| 34 | `LOT-90` | Le plan pénombral | 0 | en attente |
-| 35 | `LOT-51` → `LOT-65` | une classe par lot | 0 | en attente |
+| 1 | `LOT-11` | Éditeur multi-couches et placement d'entités | 12 | **prochain** |
+| 2 | `LOT-16` | Quêtes et drapeaux de monde | 12 | prêt |
+| 3 | `LOT-09` | Graphe de cartes et transitions | 11 | prêt |
+| 4 | `LOT-23` | IA tactique ennemie | 11 | prêt |
+| 5 | `LOT-17` | Sauvegarde riche | 10 | en attente |
+| 6 | `LOT-24` | IHM de combat | 10 | en attente |
+| 7 | `LOT-27` | Contenu du *vertical slice* | 9 | en attente |
+| 8 | `LOT-28` | Audio, effets et version `0.0.1` | 0 | en attente |
+| 9 | `LOT-88` | Spécifications : retrait de l'héritage plateforme | 0 | prêt |
+| 10 | `LOT-81` | Descripteurs de terrain et règles de zone des treize régions | 8 | prêt |
+| 11 | `LOT-40` | Générateur de terrain | 7 | en attente |
+| 12 | `LOT-44` | Noms, tables aléatoires et contenu d'ambiance | 7 | prêt |
+| 13 | `LOT-46` | Créatures de Tanares | 7 | prêt |
+| 14 | `LOT-89` | Dons, objets magiques et consommables de Tanares | 7 | prêt |
+| 15 | `LOT-26` | Butin, marchands, économie | 6 | en attente |
+| 16 | `LOT-41` | Peuplement : rencontres et créatures | 6 | en attente |
+| 17 | `LOT-80` | Factions, panthéon et organisations | 6 | prêt |
+| 18 | `LOT-70` | Horloge, calendrier et lune | 5 | prêt |
+| 19 | `LOT-82` | Peuplement civil : PNJ, marchands et quêtes | 5 | en attente |
+| 20 | `LOT-35` | Sorts et états | 2 | prêt |
+| 21 | `LOT-42` | Voyage et carte du monde | 2 | en attente |
+| 22 | `LOT-29` | Groupe de quatre personnages | 1 | en attente |
+| 23 | `LOT-45` | Guilde des Aventuriers : rangs et contrats | 1 | en attente |
+| 24 | `LOT-74` | Expérience et progression | 1 | en attente |
+| 25 | `LOT-25` | Sorts et capacités de classe | 0 | en attente |
+| 26 | `LOT-49` | Contrôle de cohérence du contenu | 0 | prêt |
+| 27 | `LOT-69` | Retrait de l'atelier pixel art | 0 | en attente |
+| 28 | `LOT-72` | Conditions, agonie et mort | 0 | en attente |
+| 29 | `LOT-75` | Campement et repos dans le monde | 0 | en attente |
+| 30 | `LOT-84` | Les 31 tables de progression de classe | 2 | prêt |
+| 31 | `LOT-47` | Socle de classe, et le guerrier comme preuve | 1 | en attente |
+| 32 | `LOT-83` | Compagnie : rangs de Guilde, niveau d'équipe et quartier général | 0 | en attente |
+| 33 | `LOT-90` | Le plan pénombral | 0 | en attente |
+| 34 | `LOT-51` → `LOT-65` | une classe par lot | 0 | en attente |
 
 **Débloque** — combien de lots restants dépendent de celui-ci, directement ou en cascade. C'est le
 critère de priorité, et il se relit sur la ligne.
@@ -1435,8 +1436,8 @@ valeurs codées en dur, exactement ce que [`EX-VIS-007`](@ref EX-VIS-007) interd
 
 | Quand | Lots | Pourquoi là |
 |---|---|---|
-| **Démarrable maintenant** | [LOT-22](@ref lot-22) | Les attaques du [LOT-21](@ref lot-21) sont livrées au contact : la portée, la ligne de vue et l'abri leur donnent la distance, et l'IA du `LOT-23` les attend tous deux |
-| Démarrables, en parallèle du combat | [LOT-16](@ref lot-16), [LOT-11](@ref lot-11), [LOT-09](@ref lot-09) | Quêtes, éditeur et graphe de cartes n'attendent plus rien — les dialogues du [LOT-15](@ref lot-15) démarrent déjà une quête par un drapeau ; la règle leur préfère seulement ce qui débloque davantage |
+| **Démarrables maintenant** | [LOT-11](@ref lot-11), [LOT-23](@ref lot-23) | L'éditeur débloque le plus (douze lots), et la règle le place en tête ; l'IA tient le chemin critique du combat — les attaques du [LOT-21](@ref lot-21) et la ligne de vue du [LOT-22](@ref lot-22) lui donnent tout ce qu'un joueur a pour choisir une cible et une position |
+| Démarrables, en parallèle | [LOT-16](@ref lot-16), [LOT-09](@ref lot-09) | Quêtes et graphe de cartes n'attendent plus rien — les dialogues du [LOT-15](@ref lot-15) démarrent déjà une quête par un drapeau ; la règle leur préfère seulement ce qui débloque davantage |
 | Avec [LOT-09](@ref lot-09) | `LOT-80` | L'atlas du `LOT-37` est livré : le graphe de cartes a ses nœuds, il lui manque les entités transverses |
 | Après `LOT-34` (livré) | `LOT-49` | Catalogue réel, puis contrôle de ses valeurs — un filet, pas un maillon |
 | Avant [LOT-25](@ref lot-25) | `LOT-35` | Les sorts sont des données avant d'être un système ; l'écran des sorts existe déjà (`LOT-87`) |
@@ -1507,11 +1508,11 @@ lots, dont la fiche de personnage et sa maquette. **Ces sept-là sont livrés.**
 Le chemin critique restant est celui du **combat**, et c'est la plus longue chaîne de prérequis
 qui mène au slice depuis que celui-ci déclare les siens en numéros :
 
-[LOT-22](@ref lot-22) → [LOT-23](@ref lot-23) → [LOT-24](@ref lot-24) → [LOT-27](@ref lot-27)
+[LOT-23](@ref lot-23) → [LOT-24](@ref lot-24) → [LOT-27](@ref lot-27)
 
-Quatre lots depuis la livraison des attaques ([LOT-21](@ref lot-21)), qui se vérifient à l'œil dans
-l'arène du [LOT-50](@ref lot-50) : la portée et la ligne de vue du `LOT-22`, exigées par l'IA du
-`LOT-23`. Deux chaînes plus courtes y aboutissent aussi et se mènent **en parallèle** :
+Trois lots depuis la livraison de la portée et de la ligne de vue ([LOT-22](@ref lot-22)), après
+les attaques du [LOT-21](@ref lot-21), qui se vérifient à l'œil dans l'arène du
+[LOT-50](@ref lot-50) : l'IA du `LOT-23`, puis l'écran qui la montre. Deux chaînes plus courtes y aboutissent aussi et se mènent **en parallèle** :
 [LOT-16](@ref lot-16) → [LOT-17](@ref lot-17) → `LOT-27` (quêtes et sauvegarde — trois lots,
 les dialogues du [LOT-15](@ref lot-15) étant livrés), et [LOT-09](@ref lot-09) → `LOT-17`, [LOT-11](@ref lot-11) → `LOT-27`
 (le graphe de cartes et l'éditeur). Tout le reste — classes, peuplement, voyage, guilde —
@@ -1569,9 +1570,9 @@ digraph filiere {
     L18 [label="LOT-18\nBascule\n(livré)", style="rounded,filled", fillcolor=grey90];
     L19 [label="LOT-19\nGrille tactique\n(livré)", style="rounded,filled", fillcolor=grey90];
     L20 [label="LOT-20\nInitiative\n(livré)", style="rounded,filled", fillcolor=grey90];
-    L21 [label="LOT-21\nAttaques\n(livré)", style="rounded,filled", fillcolor=grey90]; L22 [label="LOT-22\nLigne de vue"];
+    L21 [label="LOT-21\nAttaques\n(livré)", style="rounded,filled", fillcolor=grey90]; L22 [label="LOT-22\nLigne de vue\n(livré)", style="rounded,filled", fillcolor=grey90];
     L23 [label="LOT-23\nIA tactique"]; L24 [label="LOT-24\nIHM de combat"];
-    L20 -> L23; L21 -> L23 -> L24 -> L27; L19 -> L22 -> L23; L21 -> L24;
+    L20 -> L23; L21 -> L23 -> L24 -> L27; L22 -> L23; L21 -> L24;
   }
   L15 [label="LOT-15\nDialogues\n(livré)", style="rounded,filled", fillcolor=grey90]; L16 [label="LOT-16\nQuêtes"]; L17 [label="LOT-17\nSauvegarde"];
   L09 [label="LOT-09\nGraphe de cartes"]; L11 [label="LOT-11\nÉditeur"];
@@ -2274,62 +2275,6 @@ reconstruire — un format qui casse lui fait perdre sa partie.
 - Un champ inconnu est ignoré **et préservé** à la réécriture.
 - Testable headless.
 
-### LOT-22 — Portée, ligne de vue et zones d'effet {#lot-22}
-
-> Statut : **à faire**.
-> Prérequis : [LOT-19](@ref lot-19).
-> Exigences couvertes : `EX-CBT-021`, `EX-CBT-022`.
-
-#### Objectif
-
-Rendre la **géométrie** tactique signifiante : portée d'arme, ligne de vue bloquée, couverture,
-gabarits d'effet de zone.
-
-C'est ce lot qui fait qu'un combat se joue avec le terrain plutôt que sur une grille vide.
-
-#### Périmètre
-
-- `Source/Core/Combat/LineOfSight.{h,cpp}` : tracé sur grille, obstacles issus de la **couche
-  collision** du format v3 (`LOT-04`).
-- **Couverture** partielle et totale, traduite en bonus de CA.
-- `AreaOfEffect.{h,cpp}` : gabarits cercle, cône, ligne, carré — à l'échelle 1 case = 1,5 m figée
-  au `LOT-12`.
-- Portée d'arme et portée de sort, distinguées de la portée de déplacement.
-- *Contraintes du corpus (§4bis).* **L'altitude est un attribut, jamais une géométrie** —
-  décision écrite au [LOT-19](@ref lot-19) (`core::Locomotion`) : un volant survole l'eau profonde
-  et la falaise, pas les murs, et occupe sa case comme tout combattant. Ce lot en tire la portée :
-  un volant reste ciblable sans hauteur à ajouter, et peut être forcé à atterrir. Les zones à
-  règle locale de la carte (rituel des Marques, combat interdit, aucun soin) et les objets
-  destructibles posés sur la grille (toiles) sont déjà relevés par `core::BattleGrid` (`zonesAt`,
-  `objectAt`) ; ce lot les lit.
-- *État au 14 septembre 2026, après le [LOT-21](@ref lot-21).* Une attaque à distance porte ses
-  portées dans `core::AttackProfile::range`, en cases, **vide** tant que la donnée ne les structure
-  pas (« portée 24/96 m » reste en prose dans les armes et les blocs) : sans portée connue, elle ne
-  vise qu'au contact. `core::attackCircumstances` impose déjà le désavantage au tir au contact d'un
-  ennemi et au-delà de la portée normale ; l'abri s'ajoute au jet par un greffon
-  `core::AttackRollStage::BeforeRoll` (qui peut changer `armorClass`), jamais en réécrivant la CA du
-  profil. `core::gridDistance` mesure entre emprises : c'est la distance à réemployer.
-
-#### L'invariant à tester exhaustivement
-
-**La ligne de vue doit être symétrique** : A voit B si et seulement si B voit A. C'est le défaut
-classique des tracés sur grille — un algorithme qui part de A et s'arrête au premier obstacle ne
-donne pas le même résultat en partant de B, et le joueur découvre qu'il peut tirer sur un ennemi
-qui ne peut pas riposter (ou l'inverse, plus rageant encore).
-
-À vérifier **exhaustivement sur des grilles générées**, pas sur trois cas choisis à la main.
-
-#### Exigences couvertes
-
-`EX-CBT-*` (portée, ligne de vue, couverture, gabarits).
-
-#### Critères d'acceptation
-
-- **Symétrie de la ligne de vue** vérifiée exhaustivement sur des grilles générées.
-- Les gabarits couvrent exactement les cases attendues, figées par des cas de référence.
-- La couverture modifie la CA du montant prévu, et ne s'applique jamais deux fois.
-- Testable headless.
-
 ### LOT-23 — IA tactique ennemie {#lot-23}
 
 > Statut : **à faire**.
@@ -2349,7 +2294,11 @@ frapper au contact — et la rejoue à l'identique : c'est la ligne de base à b
 les profils de `core::attacksFor`, et décide elle-même de prendre ou non une **attaque
 d'opportunité** : l'arène, faute d'IA, les prend toutes. Le choix du vol
 pour une créature qui vole et marche est à reprendre ici (`profileFor` vole si le vol est plus
-rapide).
+rapide). Depuis le [LOT-22](@ref lot-22), viser passe par `core::checkTarget` (la portée, puis la
+vue) et l'abri d'une position se lit avant d'y aller (`core::coverFrom` sur une emprise supposée) :
+la « menace subie » et le « choix de position » ont leur géométrie, et un archer peut chercher la
+case d'où il voit sa cible sans être au contact d'un ennemi qui le voit
+(`core::attackCircumstances`). Les portées des armes et des actions du bestiaire sont structurées.
 
 #### La décision de conception
 
@@ -2423,7 +2372,11 @@ C'est le lot qui transforme une machine à états correcte en un combat qu'on a 
   s'engage » d'`EX-CBT-020`.
 - **Curseur de ciblage** clavier et manette (pas seulement souris : cf. critère ci-dessous).
 - **Prévisualisations** avant validation : chemin emprunté, cases atteintes par un gabarit,
-  probabilité de toucher.
+  probabilité de toucher. Le [LOT-22](@ref lot-22) en donne la matière : les cases d'une zone
+  (`core::affectedCells`, murs comptés), les cibles qu'une attaque peut viser
+  (`core::checkTarget`), et l'abri à afficher avant le tir (`core::coverBetween`, qui fait monter
+  la CA de 2 ou de 5). L'écran de l'arène choisit déjà la première attaque qui peut viser la cible
+  cliquée, et dit « Cible hors de vue : abri total. » quand aucune ne le peut.
 - **Journal de combat** défilant, alimenté par les entrées auditables du [LOT-21](@ref lot-21)
   (`core::AttackOutcome::describe`) : le dé, chaque modificateur et son origine, la CA, l'issue,
   les dés de dégâts, chaque étape du pipeline qui les a changés, les PV avant et après.
@@ -2480,7 +2433,11 @@ classes.
 - Catalogue de sorts en **JSON** (`EX-VIS-007`), extrait par le `LOT-35`.
 - *État au 14 septembre 2026.* **L'écran existe** : `SkillsForm.ui.qml` ([LOT-87](@ref lot-87),
   maquette 10, compétences et sorts) sur `PendingData` ; ce lot et le `LOT-35` l'alimentent.
-- Branchement sur les gabarits d'effet de zone du `LOT-22` — aucune géométrie nouvelle.
+- Branchement sur les gabarits d'effet de zone du [LOT-22](@ref lot-22) — aucune géométrie
+  nouvelle : `core::AreaOfEffect` et ses cinq formes, `core::areaTilesFromMeters` pour les tailles
+  du catalogue, `core::combatantsInArea` pour les cibles. L'abri contre l'origine de la zone
+  s'ajoute aux sauvegardes de Dextérité (`core::coverFromPoint`, `core::coverBonus`), et
+  « l'origine derrière un obstacle qu'on ne voit pas » reste à écrire ici.
 - Effets **hors combat** aussi : un sort d'utilité en exploration passe par le même catalogue.
 
 #### Note de conception

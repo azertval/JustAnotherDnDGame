@@ -6,6 +6,34 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **Portée, ligne de vue et zones d'effet** (`LOT-22`, `EX-CBT-021`, `EX-CBT-022`). Le terrain compte :
+  un mur cache, un muret abrite, une boule de feu s'arrête contre une paroi.
+  - **Une ligne de vue symétrique par construction** (`core::hasLineOfSight`) : des segments entre
+    points de grille, testés en arithmétique entière exacte contre les cases qu'ils touchent — rien
+    n'avance case par case, et A voit B si et seulement si B voit A, vérifié sur des grilles
+    générées. Le coin commun de deux murs arrête le regard comme il arrête le pas ; l'eau profonde
+    et la falaise ne l'arrêtent pas.
+  - **L'abri du Manuel** (`core::coverFrom`, `core::coverBetween`) : partiel (+2), important (+5),
+    total (on ne vise pas). Les murs abritent selon les lignes qu'ils coupent, une créature ou un
+    muret partiellement, une herse de façon importante — et les abris **ne s'additionnent pas**.
+    L'abri se pose sur le jet une fois et une seule (`core::AttackRoll::applyCover`), et le journal
+    l'écrit : « [abri partiel : CA 15 -> 17] ».
+  - **Viser demande la portée, puis la vue** (`core::checkTarget`) ; le tir au contact n'est
+    désavantagé que par un ennemi qui voit le tireur ; l'esquive et l'attaque d'opportunité
+    demandent de voir.
+  - **Les cinq zones d'effet** (`core::AreaOfEffect` : cône, cube, cylindre, ligne, sphère) : une case
+    est dans la zone si la forme en couvre au moins la moitié, calculée exactement ; les cases
+    qu'aucune ligne droite ne relie à l'origine en sortent (`core::affectedCells`).
+  - **Les armes déclarent leurs propriétés et leurs portées** : `properties`, `versatileDamage`,
+    `rangeNormal`, `rangeLong` sont tirés de la table des *Basic Rules* à l'extraction, et les
+    actions à distance du bestiaire portent leurs portées. La hallebarde frappe à deux cases, la
+    dague se lance (`core::thrownAttackFor`), l'arc du squelette tire à 16/64 cases, et les armes de
+    finesse le sont vraiment.
+  - **Dans l'arène**, un pilier cache ou abrite ; l'écran choisit la première attaque qui peut viser
+    la cible, et dit quand elle est hors de vue.
+  - Hors du lot, nommément : les sorts et leurs sauvegardes (avec les classes), la lumière et les
+    sens, l'affichage des portées et des gabarits (`LOT-24`).
+
 - **Attaques, dégâts et états** (`LOT-21`, `EX-CBT-030`, `EX-CBT-031`, `EX-CBT-032`). Une attaque se
   résout selon le Manuel des Joueurs, chapitre 9, et ses dégâts traversent un pipeline.
   - **Le jet d'attaque est un objet** (`core::AttackRoll`) que trois points d'insertion lisent et
