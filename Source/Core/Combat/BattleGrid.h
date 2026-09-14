@@ -91,6 +91,23 @@ enum class Locomotion {
 inline constexpr std::string_view DIFFICULT_TERRAIN_PROPERTY = "difficultTerrain";
 
 /**
+ * @brief Les trois abris du Manuel des Joueurs (chapitre 9, « Abri »), et l'absence d'abri.
+ *
+ * Ordonnés du moins au plus protecteur : « si une cible se positionne derrière plusieurs types
+ * d'abri, seul celui qui la protège le plus est pris en compte », et comparer deux abris est ce que
+ * cette règle demande. Le calcul est au `LOT-22` (`core::coverBetween`).
+ */
+enum class Cover : std::uint8_t {
+    None,
+    /// Au moins la moitié du corps : +2 à la CA et aux sauvegardes de Dextérité.
+    Half,
+    /// Au moins les trois quarts : +5.
+    ThreeQuarters,
+    /// Complètement dissimulée : ne peut pas être ciblée directement.
+    Total,
+};
+
+/**
  * @brief Un objet posé sur une case : une toile, une barricade, un tonneau.
  *
  * Il a des **points de vie** parce que le corpus en donne (les toiles du Sourcebook : CA 10,
@@ -104,6 +121,15 @@ struct GridObject {
     /// Vrai si l'objet empêche d'entrer dans sa case, comme un mur tant qu'il tient debout. Faux
     /// pour une toile, qu'on traverse — c'est l'état qu'elle inflige qui gêne, pas sa présence.
     bool blocksMovement = true;
+    /**
+     * @brief L'abri que l'objet procure à ce qui se tient derrière (`LOT-22`).
+     *
+     * Le Manuel nomme ses exemples : un muret ou un grand meuble abrite partiellement, une herse ou
+     * une meurtrière abrite de façon importante. Aucun ne se déduit de `kind`, que la grille
+     * n'interprète pas. Un objet à `Cover::Total` arrête la vue comme un mur ; une toile n'abrite
+     * de rien.
+     */
+    Cover cover = Cover::None;
     /// Les structures résistent comme les créatures : une porte de fer ne craint pas le poison
     /// (`core::DamagePipeline::applyToStructure`, `LOT-21`).
     DamageTraits damageTraits;
@@ -187,6 +213,18 @@ public:
     /// @brief Vrai si entrer dans la case coûte double **au sol** — un volant n'en tient pas compte
     /// (`core::Locomotion`).
     [[nodiscard]] bool isDifficult(GridPosition cell) const;
+
+    /**
+     * @brief Vrai si la case arrête la vue : matière pleine, ou objet à abri total (`LOT-22`).
+     *
+     * L'eau profonde et la falaise arrêtent la marche, pas le regard : on voit par-dessus un
+     * gouffre. Hors de la carte, faux — un tracé entre deux cases de la carte n'en sort jamais, et
+     * les bords ne sont pas des murs pour la vue.
+     */
+    [[nodiscard]] bool blocksSight(GridPosition cell) const;
+
+    /// @brief L'abri que procure l'objet posé sur la case, `Cover::None` s'il n'y en a pas.
+    [[nodiscard]] Cover objectCoverAt(GridPosition cell) const;
 
     /**
      * @brief Rend une case difficile, ou la rend à la normale — en cours de combat.

@@ -86,6 +86,10 @@ std::optional<ArmorCategory> parseArmorCategory(std::string_view name) {
     return std::nullopt;
 }
 
+bool hasProperty(const Weapon& weapon, std::string_view property) {
+    return std::ranges::find(weapon.properties, property) != weapon.properties.end();
+}
+
 const Weapon* EquipmentCatalog::findWeapon(std::string_view id) const {
     const auto trouve = std::ranges::find(weapons, id, &Weapon::id);
     return trouve == weapons.end() ? nullptr : &*trouve;
@@ -117,6 +121,13 @@ EquipmentCatalog loadEquipment(const std::filesystem::path& weaponsDir,
                         if (propriete.is_string()) {
                             arme.properties.push_back(propriete.get<std::string>());
                         }
+                    }
+                }
+                for (const auto& [cle, portee] : {std::pair{"rangeNormal", &arme.rangeNormal},
+                                                  std::pair{"rangeLong", &arme.rangeLong}}) {
+                    if (const auto valeur = racine.find(cle);
+                        valeur != racine.end() && valeur->is_number()) {
+                        *portee = valeur->get<float>();
                     }
                 }
                 const std::string des = lireTexte(racine, "damage");

@@ -7,5 +7,8 @@
   "damageType": "piercing",
   "weightGrams": 1000,
   "price": 2500,
-  "text": "Finesse"
+  "text": "Finesse",
+  "properties": [
+    "finesse"
+  ]
 }

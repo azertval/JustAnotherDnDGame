@@ -399,7 +399,7 @@ std::optional<AttackOutcome> ArenaSession::resolveAndRecord(CombatantId attacker
         place = _journal.size();
         _journal.emplace_back();
     });
-    AttackContext contexte = contextAgainst(target);
+    AttackContext contexte = contextAgainst(attacker, target);
     contexte.hooks = &crochets;
     std::optional<AttackOutcome> issue =
         resolveAttack(*_combat, attacker, target, profile, _random, contexte);
@@ -409,12 +409,12 @@ std::optional<AttackOutcome> ArenaSession::resolveAndRecord(CombatantId attacker
     return issue;
 }
 
-AttackContext ArenaSession::contextAgainst(CombatantId target) const {
+AttackContext ArenaSession::contextAgainst(CombatantId attacker, CombatantId target) const {
     AttackContext contexte{
         .hooks = &_attackHooks, .pipeline = &_damagePipeline, .circumstances = {}};
     // Manuel, « Esquiver » : les attaques contre vous sont desavantagees « si vous pouvez voir
-    // l'attaquant ». La vision est au LOT-22 : on la suppose.
-    if (_dodging.contains(target)) {
+    // l'attaquant ». La lumiere et les sens ne sont pas encore la : voir, c'est la ligne de vue.
+    if (_dodging.contains(target) && hasLineOfSight(*_combat, target, attacker)) {
         contexte.circumstances.disadvantages.emplace_back("esquive de la cible");
     }
     return contexte;
@@ -438,8 +438,15 @@ ArenaAttack ArenaSession::attack(CombatantId target, std::size_t attackIndex) {
     // Copie : un abonne peut enroler un renfort, et la table des attaques ne doit pas bouger sous
     // la resolution.
     const AttackProfile profil = (*liste)[attackIndex];
-    if (!inReach(*_combat, *actif, target, profil)) {
-        return {.result = ArenaActionResult::OutOfReach, .outcome = std::nullopt};
+    switch (checkTarget(*_combat, *actif, target, profil)) {
+        case TargetCheck::Valid:
+            break;
+        case TargetCheck::NotOnGrid:
+            return {.result = ArenaActionResult::InvalidTarget, .outcome = std::nullopt};
+        case TargetCheck::OutOfReach:
+            return {.result = ArenaActionResult::OutOfReach, .outcome = std::nullopt};
+        case TargetCheck::TotalCover:
+            return {.result = ArenaActionResult::TotalCover, .outcome = std::nullopt};
     }
     if (attaquant->economy.remaining(ACTION_RESOURCE) <= 0) {
         return {.result = ArenaActionResult::NoAction, .outcome = std::nullopt};
@@ -523,8 +530,16 @@ MoveOutcome ArenaSession::move(GridPosition destination) {
                         gridDistanceFrom(*_combat, *actif, cases[i], autre);
                     const std::optional<int> apres =
                         gridDistanceFrom(*_combat, *actif, cases[i + 1], autre);
+                    // « Une creature hostile, situee dans votre champ de vision » : vue depuis la
+                    // case qu'elle quitte.
+                    const std::optional<GridPosition> ancre = _combat->grid().positionOf(autre);
+                    const bool voit =
+                        ancre.has_value() &&
+                        hasLineOfSight(_combat->grid(),
+                                       {.anchor = cases[i], .side = _combat->grid().sideOf(*actif)},
+                                       {.anchor = *ancre, .side = _combat->grid().sideOf(autre)});
                     if (avant.has_value() && apres.has_value() && *avant <= coup->reach &&
-                        *apres > coup->reach) {
+                        *apres > coup->reach && voit) {
                         opportunistes.push_back(autre);
                     }
                 }

@@ -48,6 +48,10 @@ struct CreatureAction {
     std::optional<Dice> damage;
     /// Type des dégâts ci-dessus.
     std::optional<DamageType> damageType;
+    /// Portée normale d'une action à distance, en mètres (« portée 24/96 m » : 24). `LOT-22`.
+    std::optional<float> rangeNormal;
+    /// Longue portée, en mètres (96). Égale à la normale pour une portée unique.
+    std::optional<float> rangeLong;
 };
 
 /// @brief Vitesses de déplacement d'une créature, en **mètres**. `walk` est toujours renseignée.

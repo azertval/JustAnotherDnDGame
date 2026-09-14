@@ -7,5 +7,11 @@
   "damageType": "slashing",
   "weightGrams": 1000,
   "price": 500,
-  "text": "Légère, lancer (portée 6 m/18 m)"
+  "text": "Légère, lancer (portée 6 m/18 m)",
+  "properties": [
+    "light",
+    "thrown"
+  ],
+  "rangeNormal": 6,
+  "rangeLong": 18
 }

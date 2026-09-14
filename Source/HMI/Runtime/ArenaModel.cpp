@@ -335,6 +335,10 @@ std::optional<ArenaModel::Fighter> ArenaModel::fighterFor(const QString& id,
         if (_catalogs->characterWeapon.has_value()) {
             attacks.push_back(core::weaponAttackFor(sheet, &*_catalogs->characterWeapon,
                                                     _catalogs->characterProficiency));
+            if (std::optional<core::AttackProfile> thrown = core::thrownAttackFor(
+                    sheet, *_catalogs->characterWeapon, _catalogs->characterProficiency)) {
+                attacks.push_back(std::move(*thrown));
+            }
         }
         attacks.push_back(core::weaponAttackFor(sheet, nullptr, _catalogs->characterProficiency));
         return Fighter{.id = id,
@@ -480,7 +484,19 @@ void ArenaModel::tapCell(int column, int row) {
         const core::Combatant* defender = combat.find(*target);
         if (attacker != nullptr && defender != nullptr &&
             defender->profile.side != attacker->profile.side) {
-            const core::ArenaAttack attack = _session->attack(*target);
+            // La premiere attaque qui peut viser la cible : l'epee au contact, l'arc a distance.
+            // Sans aucune, la premiere, pour que le refus dise pourquoi.
+            std::size_t index = 0;
+            if (const std::vector<core::AttackProfile>* profiles = _session->attacks(*active)) {
+                for (std::size_t i = 0; i < profiles->size(); ++i) {
+                    if (core::checkTarget(combat, *active, *target, (*profiles)[i]) ==
+                        core::TargetCheck::Valid) {
+                        index = i;
+                        break;
+                    }
+                }
+            }
+            const core::ArenaAttack attack = _session->attack(*target, index);
             switch (attack.result) {
                 case core::ArenaActionResult::Done:
                     _status =
@@ -488,6 +504,9 @@ void ArenaModel::tapCell(int column, int row) {
                     break;
                 case core::ArenaActionResult::OutOfReach:
                     _status = QStringLiteral("Hors d'allonge ou de portee.");
+                    break;
+                case core::ArenaActionResult::TotalCover:
+                    _status = QStringLiteral("Cible hors de vue : abri total.");
                     break;
                 case core::ArenaActionResult::NoAction:
                     _status = QStringLiteral("L'action de ce tour est deja depensee.");

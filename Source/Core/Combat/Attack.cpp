@@ -49,6 +49,25 @@ namespace {
     return std::max(dx, dy);
 }
 
+/// Une portee du corpus en cases, arrondie vers le bas : 24 m font 16 cases, 7,50 m en font 5. La
+/// marge evite de perdre une case sur l'arrondi d'une division par 1,5.
+[[nodiscard]] int casesDePortee(float metres) noexcept {
+    return static_cast<int>(std::floor(tilesFromMeters(metres) + 1e-4F));
+}
+
+/// Les portees d'une arme ou d'une action, si la donnee en porte une. Une portee unique fait deux
+/// nombres egaux.
+[[nodiscard]] std::optional<AttackRange> porteeDe(std::optional<float> normale,
+                                                  std::optional<float> longue) {
+    if (!normale.has_value() || casesDePortee(*normale) <= 0) {
+        return std::nullopt;
+    }
+    const int proche = casesDePortee(*normale);
+    return AttackRange{
+        .normal = proche,
+        .maximum = std::max(proche, longue.has_value() ? casesDePortee(*longue) : 0)};
+}
+
 [[nodiscard]] const DamagePipeline& pipelineVide() {
     static const DamagePipeline vide;
     return vide;
@@ -77,17 +96,22 @@ CreatureAttacks attacksFor(const Creature& creature) {
         profil.label = action.name;
         profil.modifiers.push_back({.source = "bonus d'attaque", .value = *action.attackBonus});
         profil.damage.push_back({.dice = *action.damage, .type = *action.damageType, .flags = 0});
+        const std::optional<AttackRange> portee = porteeDe(action.rangeNormal, action.rangeLong);
         if (action.reach.has_value()) {
-            profil.kind = AttackKind::Melee;
+            AttackProfile contact = profil;
+            contact.kind = AttackKind::Melee;
             // 1,50 m = 1 case, 3 m = 2, 4,50 m = 3. Une allonge de 0 m (une nuee qui entre dans
             // l'emplacement de sa cible) frappe au contact : deux creatures ne partagent jamais une
             // case sur cette grille (LOT-19).
-            profil.reach =
+            contact.reach =
                 std::max(1, static_cast<int>(std::lround(tilesFromMeters(*action.reach))));
-        } else {
-            profil.kind = AttackKind::Ranged;
+            attaques.attacks.push_back(std::move(contact));
         }
-        attaques.attacks.push_back(std::move(profil));
+        if (!action.reach.has_value() || portee.has_value()) {
+            profil.kind = AttackKind::Ranged;
+            profil.range = portee;
+            attaques.attacks.push_back(std::move(profil));
+        }
     }
     return attaques;
 }
@@ -109,6 +133,11 @@ AttackProfile weaponAttackFor(const CharacterSheet& sheet, const Weapon* weapon,
     const int modificateur = sheet.modifier(caracteristique);
     profil.label = weapon->name;
     profil.kind = weapon->ranged ? AttackKind::Ranged : AttackKind::Melee;
+    // Manuel, chapitre 5, « Allonge » : l'arme ajoute 1,50 m a l'allonge.
+    profil.reach = hasProperty(*weapon, "reach") ? 2 : 1;
+    if (weapon->ranged) {
+        profil.range = porteeDe(weapon->rangeNormal, weapon->rangeLong);
+    }
     profil.modifiers.push_back(
         {.source = std::string(nomDeCaracteristique(caracteristique)), .value = modificateur});
     if (proficient) {
@@ -121,6 +150,21 @@ AttackProfile weaponAttackFor(const CharacterSheet& sheet, const Weapon* weapon,
         des.modifier += modificateur;
         profil.damage.push_back({.dice = des, .type = *weapon->damageType, .flags = 0});
     }
+    return profil;
+}
+
+std::optional<AttackProfile> thrownAttackFor(const CharacterSheet& sheet, const Weapon& weapon,
+                                             int proficiencyBonus, bool proficient) {
+    if (!hasProperty(weapon, "thrown")) {
+        return std::nullopt;
+    }
+    // La caracteristique est celle de l'arme telle qu'elle est (weaponAttackAbility) : Force pour
+    // une javeline, la meilleure des deux pour une dague de finesse, Dexterite pour une flechette.
+    AttackProfile profil = weaponAttackFor(sheet, &weapon, proficiencyBonus, proficient);
+    profil.label = weapon.name + " (lancer)";
+    profil.kind = AttackKind::Ranged;
+    profil.reach = 1;
+    profil.range = porteeDe(weapon.rangeNormal, weapon.rangeLong);
     return profil;
 }
 
@@ -158,6 +202,18 @@ bool inReach(const CombatState& combat, CombatantId attacker, CombatantId target
     return profile.range.has_value() ? *distance <= profile.range->maximum : *distance <= 1;
 }
 
+TargetCheck checkTarget(const CombatState& combat, CombatantId attacker, CombatantId target,
+                        const AttackProfile& profile) {
+    if (attacker == target || !combat.grid().positionOf(attacker).has_value() ||
+        !combat.grid().positionOf(target).has_value()) {
+        return TargetCheck::NotOnGrid;
+    }
+    if (!inReach(combat, attacker, target, profile)) {
+        return TargetCheck::OutOfReach;
+    }
+    return hasLineOfSight(combat, attacker, target) ? TargetCheck::Valid : TargetCheck::TotalCover;
+}
+
 AttackCircumstances attackCircumstances(const CombatState& combat, CombatantId attacker,
                                         CombatantId target, const AttackProfile& profile) {
     AttackCircumstances circonstances;
@@ -174,7 +230,9 @@ AttackCircumstances attackCircumstances(const CombatState& combat, CombatantId a
             c->status != CombatantStatus::Standing) {
             continue;
         }
-        if (gridDistance(combat, attacker, autre) == 1) {
+        // « Une creature hostile qui vous voit » : un gobelin de l'autre cote d'un mur, a une case,
+        // ne gene pas le tir.
+        if (gridDistance(combat, attacker, autre) == 1 && hasLineOfSight(combat, autre, attacker)) {
             circonstances.disadvantages.emplace_back("tir au contact d'un ennemi");
             break;
         }
@@ -235,6 +293,19 @@ void AttackRoll::substitute(std::size_t die, int value, const std::string& sourc
 
 void AttackRoll::addModifier(Modifier modifier) {
     check.modifiers.push_back(std::move(modifier));
+    recompute();
+}
+
+void AttackRoll::applyCover(Cover level) {
+    // Total n'est pas un bonus ; un abri egal ou moindre est deja compte.
+    if (level == Cover::Total || level <= cover) {
+        return;
+    }
+    const int avant = armorClass;
+    armorClass += coverBonus(level) - coverBonus(cover);
+    cover = level;
+    amendments.push_back(std::string(coverLabel(level)) + " : CA " + std::to_string(avant) +
+                         " -> " + std::to_string(armorClass));
     recompute();
 }
 
@@ -315,6 +386,9 @@ std::optional<AttackOutcome> resolveAttack(CombatState& combat, CombatantId atta
         demande.disadvantages.insert(demande.disadvantages.end(), source->disadvantages.begin(),
                                      source->disadvantages.end());
     }
+    // L'abri que la grille dit, avant tout greffon : un greffon qui en pose un autre passe par
+    // applyCover, et le meilleur seul compte.
+    demande.applyCover(coverBetween(combat, attacker, target));
 
     issue.roll = rollAttack(std::move(demande),
                             context.hooks != nullptr ? *context.hooks : crochetsVides(), random);

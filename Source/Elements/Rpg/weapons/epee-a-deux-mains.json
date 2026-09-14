@@ -7,5 +7,9 @@
   "damageType": "slashing",
   "weightGrams": 3000,
   "price": 5000,
-  "text": "Lourde, à deux mains"
+  "text": "Lourde, à deux mains",
+  "properties": [
+    "heavy",
+    "two-handed"
+  ]
 }

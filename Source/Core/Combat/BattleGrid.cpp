@@ -115,6 +115,19 @@ bool BattleGrid::isDifficult(GridPosition cell) const {
     return inBounds(cell) && _difficult[indexOf(cell)];
 }
 
+bool BattleGrid::blocksSight(GridPosition cell) const {
+    if (!inBounds(cell)) {
+        return false;
+    }
+    const std::size_t index = indexOf(cell);
+    return _terrain[index] == Terrain::Solid || objectCoverAt(cell) == Cover::Total;
+}
+
+Cover BattleGrid::objectCoverAt(GridPosition cell) const {
+    const GridObject* object = objectAt(cell);
+    return object == nullptr ? Cover::None : object->cover;
+}
+
 void BattleGrid::setDifficult(GridPosition cell, bool difficult) {
     if (inBounds(cell)) {
         _difficult[indexOf(cell)] = difficult;

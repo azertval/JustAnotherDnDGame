@@ -7,5 +7,12 @@
   "damageType": "piercing",
   "weightGrams": 1500,
   "price": 100,
-  "text": "Lancer (portée 6 m/18 m), polyvalente (1d8)"
+  "text": "Lancer (portée 6 m/18 m), polyvalente (1d8)",
+  "versatileDamage": "1d8",
+  "properties": [
+    "thrown",
+    "versatile"
+  ],
+  "rangeNormal": 6,
+  "rangeLong": 18
 }

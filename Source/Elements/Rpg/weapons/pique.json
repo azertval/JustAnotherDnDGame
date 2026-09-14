@@ -7,5 +7,10 @@
   "damageType": "piercing",
   "weightGrams": 9000,
   "price": 500,
-  "text": "Lourde, allonge, à deux mains"
+  "text": "Lourde, allonge, à deux mains",
+  "properties": [
+    "heavy",
+    "reach",
+    "two-handed"
+  ]
 }

@@ -6,5 +6,11 @@
   "ranged": true,
   "weightGrams": 1500,
   "price": 100,
-  "text": "Spécial, lancer (portée 1,50 m/ 4,50 m)"
+  "text": "Spécial, lancer (portée 1,50 m/ 4,50 m)",
+  "properties": [
+    "special",
+    "thrown"
+  ],
+  "rangeNormal": 1.5,
+  "rangeLong": 4.5
 }

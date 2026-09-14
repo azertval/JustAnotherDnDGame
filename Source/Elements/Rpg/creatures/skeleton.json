@@ -53,6 +53,8 @@
       "name": "Arc court",
       "text": "Attaque à distance avec une arme : +4 au toucher, portée 24/96 m, une cible. Touché : 5 (1d6 + 2) dégâts perforants.",
       "attackBonus": 4,
+      "rangeNormal": 24,
+      "rangeLong": 96,
       "damage": "1d6+2",
       "damageType": "piercing"
     }

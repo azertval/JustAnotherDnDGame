@@ -7,5 +7,9 @@
   "damageType": "bludgeoning",
   "weightGrams": 1000,
   "price": 1500,
-  "text": "Polyvalente (1d10)"
+  "text": "Polyvalente (1d10)",
+  "versatileDamage": "1d10",
+  "properties": [
+    "versatile"
+  ]
 }

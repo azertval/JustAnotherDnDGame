@@ -76,6 +76,15 @@ if(_qt_hints)
     list(APPEND CMAKE_PREFIX_PATH ${_qt_hints})
 endif()
 
+# Un seul `windeployqt` à la fois. Le jeu (Source/App) et l'éditeur (Source/HMI) déploient chacun,
+# en POST_BUILD, les DLL Qt **et le runtime MSVC** dans le même `bin/`. Sous Ninja, les deux
+# éditions de liens tournent en parallèle, et l'une ouvre `MSVCP140D.dll` pendant que l'autre la
+# copie : « The process cannot access the file because it is being used by another process », le
+# lien du jeu échoue, `build-ninja` rougit sans rapport avec le code (vu aux LOT-15 et LOT-22). Sous
+# Ninja, le POST_BUILD fait partie de l'arête de lien : une réserve de lien de taille 1 sérialise
+# donc les deux déploiements, et rien d'autre. Le générateur Visual Studio ignore la propriété.
+set_property(GLOBAL APPEND PROPERTY JOB_POOLS deploiement_qt=1)
+
 find_package(Qt6 ${QT_VERSION_MINIMUM} QUIET COMPONENTS Widgets Gui GuiPrivate Multimedia ShaderTools Quick Qml QuickControls2)
 if(NOT Qt6_FOUND)
     # Deuxième essai, sans contrainte de version, seulement pour distinguer dans le message
