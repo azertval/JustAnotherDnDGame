@@ -197,14 +197,6 @@ constexpr std::array MERCHANT_RIGHT = {
     RpgContentBlock{.titleKey = "rpg.block.your_bag", .kind = RpgBlockKind::List, .rows = 8},
 };
 
-constexpr std::array GUILD_BOARD_LEFT = {
-    RpgContentBlock{.titleKey = "rpg.block.contracts", .kind = RpgBlockKind::List, .rows = 6},
-};
-constexpr std::array GUILD_BOARD_RIGHT = {
-    RpgContentBlock{.titleKey = "rpg.block.contract", .kind = RpgBlockKind::Prose},
-    RpgContentBlock{.titleKey = "", .kind = RpgBlockKind::Fields, .fields = CONTRACT_FIELDS},
-};
-
 constexpr std::array COMBAT_HUD_LEFT = {
     RpgContentBlock{.titleKey = "rpg.block.initiative", .kind = RpgBlockKind::Track, .columns = 6},
     RpgContentBlock{
@@ -232,19 +224,23 @@ constexpr std::array TEAM_FIELDS = {
     RpgField{.labelKey = "rpg.field.specialization"},
 };
 
-constexpr std::array TEAM_SHEET_LEFT = {
+constexpr std::array COMPANY_LEFT = {
     RpgContentBlock{
         .titleKey = "rpg.block.team", .kind = RpgBlockKind::Fields, .fields = TEAM_FIELDS},
     RpgContentBlock{.titleKey = "rpg.block.team_members", .kind = RpgBlockKind::List, .rows = 4},
     RpgContentBlock{.titleKey = "rpg.block.relations", .kind = RpgBlockKind::Prose},
+    // Les contrats de la Guilde (onglet « Contrats », LOT-87 T3.7).
+    RpgContentBlock{.titleKey = "rpg.block.contracts", .kind = RpgBlockKind::List, .rows = 6},
 };
-constexpr std::array TEAM_SHEET_RIGHT = {
+constexpr std::array COMPANY_RIGHT = {
     RpgContentBlock{.titleKey = "rpg.block.coat_of_arms", .kind = RpgBlockKind::Portrait},
     RpgContentBlock{.titleKey = "rpg.block.dream", .kind = RpgBlockKind::Prose},
     RpgContentBlock{.titleKey = "rpg.block.hidden_agenda", .kind = RpgBlockKind::Prose},
     RpgContentBlock{.titleKey = "rpg.block.legendary_rewards", .kind = RpgBlockKind::Prose},
     // Huit installations au quartier général de la planche.
     RpgContentBlock{.titleKey = "rpg.block.headquarters", .kind = RpgBlockKind::List, .rows = 8},
+    RpgContentBlock{.titleKey = "rpg.block.contract", .kind = RpgBlockKind::Prose},
+    RpgContentBlock{.titleKey = "", .kind = RpgBlockKind::Fields, .fields = CONTRACT_FIELDS},
 };
 
 // --- La table ---------------------------------------------------------------------------------
@@ -285,11 +281,13 @@ constexpr std::array<RpgScreenDescriptor, RPG_SCREEN_COUNT> SCREENS = {{
      .titleKey = "rpg.merchant.title",
      .superposition = RpgSuperposition::PausesGame,
      .layout = {.leftColumn = MERCHANT_LEFT, .rightColumn = MERCHANT_RIGHT}},
-    {.id = RpgScreenId::GuildBoard,
-     .objectName = "RpgGuildBoardScreen",
-     .titleKey = "rpg.guild_board.title",
+    // L'équipe de mercenaires (LOT-87, T3.7) : feuille d'équipe et tableau de la Guilde réunis.
+    // Une équipe se consulte à l'arrêt, comme une fiche.
+    {.id = RpgScreenId::Company,
+     .objectName = "RpgCompanyScreen",
+     .titleKey = "rpg.company.title",
      .superposition = RpgSuperposition::PausesGame,
-     .layout = {.leftColumn = GUILD_BOARD_LEFT, .rightColumn = GUILD_BOARD_RIGHT}},
+     .layout = {.leftColumn = COMPANY_LEFT, .rightColumn = COMPANY_RIGHT}},
     // L'ATH de combat est le seul écran qui ne s'ouvre PAS par-dessus le jeu : il EST le jeu
     // pendant un combat. Il ne suspend donc rien, et le tour par tour du LOT-20 décidera de son
     // rythme -- pas cette table.
@@ -298,12 +296,6 @@ constexpr std::array<RpgScreenDescriptor, RPG_SCREEN_COUNT> SCREENS = {{
      .titleKey = "rpg.combat_hud.title",
      .superposition = RpgSuperposition::WhileWalking,
      .layout = {.leftColumn = COMBAT_HUD_LEFT}},
-    // Le neuvième (LOT-38) : une équipe se consulte à l'arrêt, comme une fiche.
-    {.id = RpgScreenId::TeamSheet,
-     .objectName = "RpgTeamSheetScreen",
-     .titleKey = "rpg.team_sheet.title",
-     .superposition = RpgSuperposition::PausesGame,
-     .layout = {.leftColumn = TEAM_SHEET_LEFT, .rightColumn = TEAM_SHEET_RIGHT}},
 }};
 
 /// @return Le rang de @p screen dans la table.

@@ -24,9 +24,8 @@ QtObject {
         WorldMap,
         Dialogue,
         Merchant,
-        GuildBoard,
-        CombatHud,
-        TeamSheet
+        Company,
+        CombatHud
     }
 
     readonly property int currentScreen: ScreenRouter.Menu

@@ -32,7 +32,7 @@ Item {
     /// Écran imposé au lancement, ou chaîne vide pour laisser le routeur décider.
     property string forcedScreen: ""
 
-    /// Les quatorze écrans, dans l'ordre où le sélecteur de développement les fait défiler, puis
+    /// Les treize écrans, dans l'ordre où le sélecteur de développement les fait défiler, puis
     /// la galerie des briques de la charte v2 (LOT-87) -- qui n'est pas un écran du jeu, et que le
     /// routeur ne désigne jamais.
     /// Le même vocabulaire que `--screen=` : deux listes différentes auraient fini par diverger,
@@ -40,7 +40,7 @@ Item {
     readonly property var screenNames: [
         "MainMenu", "GameView", "Pause", "Options", "Credits",
         "CharacterSheet", "Inventory", "Journal", "WorldMap", "Dialogue",
-        "Merchant", "GuildBoard", "CombatHud", "TeamSheet", "Gallery"
+        "Merchant", "Company", "CombatHud", "Gallery"
     ]
 
     Component { id: menuScreen; MainMenu {} }
@@ -54,9 +54,8 @@ Item {
     Component { id: worldMapScreen; WorldMap {} }
     Component { id: dialogueScreen; Dialogue {} }
     Component { id: merchantScreen; Merchant {} }
-    Component { id: guildBoardScreen; GuildBoard {} }
+    Component { id: companyScreen; Company {} }
     Component { id: combatHudScreen; CombatHud {} }
-    Component { id: teamSheetScreen; TeamSheet {} }
     // La galerie est le point d'entrée de l'atelier (`DesignStudio/Main.ui.qml`), posée telle quelle :
     // aucun jumeau, rien à câbler -- c'est ce qui prouve que les briques se résolvent au jeu comme à
     // l'atelier.
@@ -128,9 +127,8 @@ Item {
         case ScreenRouter.WorldMap:       return worldMapScreen
         case ScreenRouter.Dialogue:       return dialogueScreen
         case ScreenRouter.Merchant:       return merchantScreen
-        case ScreenRouter.GuildBoard:     return guildBoardScreen
+        case ScreenRouter.Company:        return companyScreen
         case ScreenRouter.CombatHud:      return combatHudScreen
-        case ScreenRouter.TeamSheet:      return teamSheetScreen
         }
         return characterSheetScreen
     }
@@ -150,9 +148,8 @@ Item {
         case "WorldMap":       return worldMapScreen
         case "Dialogue":       return dialogueScreen
         case "Merchant":       return merchantScreen
-        case "GuildBoard":     return guildBoardScreen
+        case "Company":        return companyScreen
         case "CombatHud":      return combatHudScreen
-        case "TeamSheet":      return teamSheetScreen
         case "Gallery":        return galleryScreen
         }
         return menuScreen

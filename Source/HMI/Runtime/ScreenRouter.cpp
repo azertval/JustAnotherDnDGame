@@ -42,7 +42,7 @@ namespace {
     return ScreenRouter::Screen::Menu;
 }
 
-// Les deux énumérations décrivent les mêmes neuf écrans, dans le même ordre : la conversion est
+// Les deux énumérations décrivent les mêmes huit écrans, dans le même ordre : la conversion est
 // donc un simple changement de type. C'est une hypothèse, et une hypothèse tacite se casse en
 // silence — le jour où quelqu'un insère un écran au milieu d'une des deux, la fiche s'ouvrirait
 // à la place de l'inventaire, sans la moindre erreur. Ces vérifications la rendent explicite, et
@@ -53,8 +53,8 @@ static_assert(static_cast<int>(ScreenRouter::RpgScreen::Inventory) ==
               static_cast<int>(RpgScreenId::Inventory));
 static_assert(static_cast<int>(ScreenRouter::RpgScreen::CombatHud) ==
               static_cast<int>(RpgScreenId::CombatHud));
-static_assert(static_cast<int>(ScreenRouter::RpgScreen::TeamSheet) ==
-              static_cast<int>(RpgScreenId::TeamSheet));
+static_assert(static_cast<int>(ScreenRouter::RpgScreen::Company) ==
+              static_cast<int>(RpgScreenId::Company));
 
 [[nodiscard]] RpgScreenId toRpgScreenId(ScreenRouter::RpgScreen screen) noexcept {
     return static_cast<RpgScreenId>(screen);

@@ -752,6 +752,39 @@ sur la carte (`LOT-16`). La mini-carte montre la carte entière, sans rectangle 
 |---|---|---|---|
 | ![maquette 08](references/08_Map_Mockup.png) | ![carte à 1080p](captures/t3-6-carte-1080p.png) | ![carte à 720p](captures/t3-6-carte-720p.png) | ![fiche de région](captures/t3-6-carte-fiche-720p.png) |
 
+### T3.7 — L'équipe de mercenaires (maquette 09)
+
+**Deux écrans deviennent un.** La feuille d'équipe (`TeamSheetForm`, `LOT-38`) et le tableau de la
+Guilde (`GuildBoardForm`) sont remplacés par `CompanyForm`, à quatre onglets : Équipe, Recrutement,
+Contrats, Réserve.
+
+- **Le routeur suit**, de la table pure au QML : `RpgScreenId` et `ScreenRouter::RpgScreen` perdent
+  `GuildBoard` et `TeamSheet` et gagnent `Company` (**huit écrans du RPG** au lieu de neuf, les
+  vérifications statiques d'alignement comprises). La table `rpgScreens()` réunit les deux
+  ossatures en une, avec la clé de titre `rpg.company.title` (fr/en). `ScreenStack` et `--screen=`
+  passent de quatorze à **treize écrans** (`--screen=Company`). La doublure du routeur et la barre
+  de navigation de la carte suivent. Les tests du cycle et de la superposition sont mis à jour
+  (huit écrans, l'équipe suspend le jeu), et ils passent.
+- **L'onglet Équipe est celui de la maquette** : blason et devise, quatre compteurs, six places
+  d'équipe, base principale et son état, bâtiments, personnel, hauts faits, spécialisation et
+  style, trésors. Contrats reprend le tableau de la Guilde (liste et fiche du contrat) ;
+  Recrutement et Réserve sont des registres.
+- **Les membres viennent des personnages existants** : le personnage de démonstration occupe la
+  première place (nom et niveau réels), les cinq autres sont libres. Tout le reste attend les lots
+  de la compagnie (`LOT-45`, `LOT-83`) : **27 clés `company.*`**, relevées par
+  `list_pending_bindings.py`.
+- Brique `LedgerList` : un registre de lignes libellé/valeur dans un sous-panneau à bandeau, que
+  les écrans sans maquette réutiliseront (T3.9).
+
+Écarts : les champs de la feuille d'équipe v1 que la maquette ne montre pas (bénéficiaire,
+relations, rêve, dessein caché, récompenses légendaires, quartier général en huit installations)
+ne sont plus dessinés. Ils n'avaient aucune donnée, et leurs libellés restent au catalogue.
+L'illustration de la base n'est pas au cahier (données de la compagnie) : son cadre est vide.
+
+| Maquette | 1920 × 1080 | 1280 × 720 |
+|---|---|---|
+| ![maquette 09](references/09_MercenaryScreen_Mockup.png) | ![compagnie à 1080p](captures/t3-7-compagnie-1080p.png) | ![compagnie à 720p](captures/t3-7-compagnie-720p.png) |
+
 ## Exigences couvertes
 
 - [`EX-IHM-070`](@ref EX-IHM-070), [`EX-IHM-075`](@ref EX-IHM-075), [`EX-IHM-076`](@ref EX-IHM-076),

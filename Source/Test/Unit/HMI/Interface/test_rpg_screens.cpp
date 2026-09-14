@@ -39,16 +39,16 @@ using hmi::rpgScreens;
 }  // namespace
 
 /**
- * @brief Les neuf écrans sont déclarés, et le cycle les traverse tous avant de revenir au premier.
- * \castest{<b>Le cycle de navigation traverse les neuf ecrans et revient au premier.</b><br/>
+ * @brief Les huit écrans sont déclarés, et le cycle les traverse tous avant de revenir au premier.
+ * \castest{<b>Le cycle de navigation traverse les huit ecrans et revient au premier.</b><br/>
  * \tcat Unitaire · Ecrans du RPG<br/>
  * \tcrit Critique<br/>
- * \tetapes 1. Partir du premier ecran.<br/>2. Appeler nextRpgScreen neuf fois en notant chaque
+ * \tetapes 1. Partir du premier ecran.<br/>2. Appeler nextRpgScreen huit fois en notant chaque
  * ecran atteint.<br/>
- * \tattendu Les neuf ecrans sont atteints une fois chacun, et le neuvieme pas ramene au premier.
+ * \tattendu Les huit ecrans sont atteints une fois chacun, et le huitieme pas ramene au premier.
  * }
  */
-TEST(RpgScreensTest, LeCycleTraverseLesNeufEcrans) {
+TEST(RpgScreensTest, LeCycleTraverseLesHuitEcrans) {
     ASSERT_EQ(rpgScreens().size(), hmi::RPG_SCREEN_COUNT);
 
     const RpgScreenId first = rpgScreens().front().id;
@@ -83,12 +83,12 @@ TEST(RpgScreensTest, LePasArriereEstLInverseDuPasAvant) {
 
 /**
  * @brief La règle de superposition est celle décidée par le lot : la carte et l'ATH de combat se
- *        consultent en marchant, les sept autres écrans suspendent la simulation (`EX-IHM-091`).
- * \castest{<b>La regle de superposition est celle attendue pour chacun des neuf ecrans.</b><br/>
+ *        consultent en marchant, les six autres écrans suspendent la simulation (`EX-IHM-091`).
+ * \castest{<b>La regle de superposition est celle attendue pour chacun des huit ecrans.</b><br/>
  * \tcat Unitaire · Ecrans du RPG<br/>
  * \tcrit Majeur<br/>
- * \tetapes 1. Interroger pausesGame pour chacun des neuf ecrans.<br/>
- * \tattendu La carte du monde et l'ATH de combat ne suspendent pas ; les sept autres suspendent.
+ * \tetapes 1. Interroger pausesGame pour chacun des huit ecrans.<br/>
+ * \tattendu La carte du monde et l'ATH de combat ne suspendent pas ; les six autres suspendent.
  * }
  */
 TEST(RpgScreensTest, LaRegleDeSuperpositionEstCelleAttendue) {
@@ -97,9 +97,8 @@ TEST(RpgScreensTest, LaRegleDeSuperpositionEstCelleAttendue) {
     EXPECT_TRUE(pausesGame(RpgScreenId::QuestJournal));
     EXPECT_TRUE(pausesGame(RpgScreenId::Dialogue));
     EXPECT_TRUE(pausesGame(RpgScreenId::Merchant));
-    EXPECT_TRUE(pausesGame(RpgScreenId::GuildBoard));
-    // La feuille d'equipe (LOT-38) : on la consulte a l'arret, comme une fiche.
-    EXPECT_TRUE(pausesGame(RpgScreenId::TeamSheet));
+    // L'equipe de mercenaires (LOT-87, T3.7) : on la consulte a l'arret, comme une fiche.
+    EXPECT_TRUE(pausesGame(RpgScreenId::Company));
 
     // On ouvre une carte pour savoir ou l'on va sans s'arreter ; et l'ATH de combat EST le jeu
     // pendant un combat, il ne se superpose a rien.
