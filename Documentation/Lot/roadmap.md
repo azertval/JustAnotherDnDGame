@@ -32,7 +32,7 @@ sections 9 et 10 rapportent l'audit et ce qu'il faut anticiper ; la section 11 p
 
 ## État d'avancement {#roadmap-avancement}
 
-**Trente-trois lots livrés, cinquante-deux restants.** Le prochain est le `LOT-50`.
+**Trente-quatre lots livrés, cinquante et un restants.** Le prochain est le [LOT-15](@ref lot-15) — à égalité avec le [LOT-21](@ref lot-21), que la règle de la section 6 départage par le plus petit numéro ; les deux se mènent en parallèle.
 
 Livrés : `LOT-01` à `LOT-08` (le socle : fork et purge, `HmiLib`, `LevelData`, format de carte
 version 3, modes de jeu, déplacement top-down, tri par profondeur, tuiles RPG), `LOT-77`, `LOT-78`
@@ -57,8 +57,10 @@ parce que décidés après elle : le [LOT-86](@ref lot-86) (l'IHM du jeu en Qt Q
 exécutable, modifiable par un artiste sans compilateur) et le [LOT-87](@ref lot-87) (la **charte
 v2**, tirée des dix maquettes du pack UI, et les treize écrans transcrits dessus), enfin le
 [LOT-19](@ref lot-19) (la grille tactique : occupation par emprise, cases atteignables au budget,
-chemin déterministe), premier lot du combat proprement dit, et le [LOT-20](@ref lot-20)
-(l'initiative, le tour par tour et ses crochets, les trois fins d'un combat).
+chemin déterministe), premier lot du combat proprement dit, le [LOT-20](@ref lot-20)
+(l'initiative, le tour par tour et ses crochets, les trois fins d'un combat), et le
+[LOT-50](@ref lot-50) (le Colisée : la première carte, l'arène qui tient le combat et le rejoue à
+graine fixée, personne n'y meurt).
 Chacun garde son dossier et son `epic.md`. Le `LOT-85` (outillage Qt Designer) a été **abandonné**
 au profit du `LOT-86` et son numéro n'est pas réattribué.
 
@@ -70,7 +72,7 @@ le slice.
 
 | Version | Ce qu'elle rend jouable | Lots |
 |---|---|---|
-| `0.0.1` | Le *vertical slice* : un village, un donjon, un combat tactique complet, une sauvegarde ; l'arène comme banc d'essai ; des spécifications qui décrivent ce jeu | `LOT-50`, `LOT-21`, `LOT-22`, `LOT-23`, `LOT-24`, `LOT-15`, `LOT-16`, `LOT-17`, `LOT-09`, `LOT-11`, `LOT-27`, `LOT-28`, `LOT-88` |
+| `0.0.1` | Le *vertical slice* : un village, un donjon, un combat tactique complet, une sauvegarde ; l'arène comme banc d'essai ; des spécifications qui décrivent ce jeu | `LOT-21`, `LOT-22`, `LOT-23`, `LOT-24`, `LOT-15`, `LOT-16`, `LOT-17`, `LOT-09`, `LOT-11`, `LOT-27`, `LOT-28`, `LOT-88` |
 | `0.0.2` | Le bac à sable des **treize régions** : terrain généré, peuplement déduit des statistiques régionales, voyage, calendrier lunaire, économie, Guilde, groupe de quatre | `LOT-80`, `LOT-81`, `LOT-40`, `LOT-44`, `LOT-46`, `LOT-89`, `LOT-26`, `LOT-41`, `LOT-70`, `LOT-82`, `LOT-35`, `LOT-42`, `LOT-45`, `LOT-74`, `LOT-75`, `LOT-72`, `LOT-25`, `LOT-29`, `LOT-49`, `LOT-69` |
 | `0.0.3` | Les **seize classes** du *Player's Guide* et leurs sous-classes, le Colisée comme institution, la compagnie et son quartier général | `LOT-84`, `LOT-47`, `LOT-51` → `LOT-65`, `LOT-83` |
 | `0.0.4` | Le **plan pénombral**, second monde du Sourcebook | `LOT-90` |
@@ -81,13 +83,13 @@ tant que le jalon courant a un lot prêt, et `scripts/lint_lots.py` refuse un lo
 figure dans aucun jalon (règle 14).
 
 **Quelle date pour la `0.0.1` ?** Aucune n'est annoncée ici, et ce n'est pas une prudence de
-principe : les trente-trois lots livrés l'ont été entre le 3 et le 14 septembre 2026, soit une
+principe : les trente-quatre lots livrés l'ont été entre le 3 et le 14 septembre 2026, soit une
 cadence observée qui, prise au pied de la lettre, placerait la version dans trois semaines. Cette
 extrapolation est fausse, et il vaut mieux l'écrire que la laisser deviner : les lots livrés sont
 des lots de **socle**, de **catalogues** déjà extraits et d'**écrans** dessinés sur des données en
 attente. Ceux qui restent sont des lots de **moteur** — les attaques, l'IA, les dialogues,
-l'éditeur, le graphe de cartes — dont seuls la grille tactique du `LOT-19` et le tour du `LOT-20`,
-livrés le 14 septembre, donnent une première mesure de cadence, puis les
+l'éditeur, le graphe de cartes — dont seuls la grille tactique du `LOT-19`, le tour du `LOT-20` et
+l'arène du `LOT-50`, livrés le 14 septembre, donnent une première mesure de cadence, puis les
 catalogues restants (82 créatures de Tanares, 31 tables de progression) et le peuplement de dix
 régions. Ce tableau donne le **reste à faire**, pas une date.
 
@@ -100,44 +102,43 @@ tableau n'en porte volontairement aucun.
 
 | # | Lot | Objet | Débloque | Statut |
 |---|---|---|---|---|
-| 1 | `LOT-50` | Le Colisée : bac à sable de combat | 16 | **prochain** |
-| 2 | `LOT-15` | PNJ et dialogues | 14 | prêt |
-| 3 | `LOT-21` | Attaques, dégâts et états | 14 | en attente |
-| 4 | `LOT-22` | Portée, ligne de vue et zones d'effet | 13 | prêt |
-| 5 | `LOT-11` | Éditeur multi-couches et placement d'entités | 12 | prêt |
-| 6 | `LOT-16` | Quêtes et drapeaux de monde | 12 | en attente |
-| 7 | `LOT-09` | Graphe de cartes et transitions | 11 | prêt |
-| 8 | `LOT-23` | IA tactique ennemie | 11 | en attente |
-| 9 | `LOT-17` | Sauvegarde riche | 10 | en attente |
-| 10 | `LOT-24` | IHM de combat | 10 | en attente |
-| 11 | `LOT-27` | Contenu du *vertical slice* | 9 | en attente |
-| 12 | `LOT-28` | Audio, effets et version `0.0.1` | 0 | en attente |
-| 13 | `LOT-88` | Spécifications : retrait de l'héritage plateforme | 0 | prêt |
-| 14 | `LOT-81` | Descripteurs de terrain et règles de zone des treize régions | 8 | prêt |
-| 15 | `LOT-40` | Générateur de terrain | 7 | en attente |
-| 16 | `LOT-44` | Noms, tables aléatoires et contenu d'ambiance | 7 | prêt |
-| 17 | `LOT-46` | Créatures de Tanares | 7 | prêt |
-| 18 | `LOT-89` | Dons, objets magiques et consommables de Tanares | 7 | prêt |
-| 19 | `LOT-26` | Butin, marchands, économie | 6 | en attente |
-| 20 | `LOT-41` | Peuplement : rencontres et créatures | 6 | en attente |
-| 21 | `LOT-80` | Factions, panthéon et organisations | 6 | prêt |
-| 22 | `LOT-70` | Horloge, calendrier et lune | 5 | prêt |
-| 23 | `LOT-82` | Peuplement civil : PNJ, marchands et quêtes | 5 | en attente |
-| 24 | `LOT-35` | Sorts et états | 2 | prêt |
-| 25 | `LOT-42` | Voyage et carte du monde | 2 | en attente |
-| 26 | `LOT-29` | Groupe de quatre personnages | 1 | en attente |
-| 27 | `LOT-45` | Guilde des Aventuriers : rangs et contrats | 1 | en attente |
-| 28 | `LOT-74` | Expérience et progression | 1 | en attente |
-| 29 | `LOT-25` | Sorts et capacités de classe | 0 | en attente |
-| 30 | `LOT-49` | Contrôle de cohérence du contenu | 0 | prêt |
-| 31 | `LOT-69` | Retrait de l'atelier pixel art | 0 | en attente |
-| 32 | `LOT-72` | Conditions, agonie et mort | 0 | en attente |
-| 33 | `LOT-75` | Campement et repos dans le monde | 0 | en attente |
-| 34 | `LOT-84` | Les 31 tables de progression de classe | 2 | prêt |
-| 35 | `LOT-47` | Socle de classe, et le guerrier comme preuve | 1 | en attente |
-| 36 | `LOT-83` | Compagnie : rangs de Guilde, niveau d'équipe et quartier général | 0 | en attente |
-| 37 | `LOT-90` | Le plan pénombral | 0 | en attente |
-| 38 | `LOT-51` → `LOT-65` | une classe par lot | 0 | en attente |
+| 1 | `LOT-15` | PNJ et dialogues | 14 | **prochain** |
+| 2 | `LOT-21` | Attaques, dégâts et états | 14 | prêt |
+| 3 | `LOT-22` | Portée, ligne de vue et zones d'effet | 13 | prêt |
+| 4 | `LOT-11` | Éditeur multi-couches et placement d'entités | 12 | prêt |
+| 5 | `LOT-16` | Quêtes et drapeaux de monde | 12 | en attente |
+| 6 | `LOT-09` | Graphe de cartes et transitions | 11 | prêt |
+| 7 | `LOT-23` | IA tactique ennemie | 11 | en attente |
+| 8 | `LOT-17` | Sauvegarde riche | 10 | en attente |
+| 9 | `LOT-24` | IHM de combat | 10 | en attente |
+| 10 | `LOT-27` | Contenu du *vertical slice* | 9 | en attente |
+| 11 | `LOT-28` | Audio, effets et version `0.0.1` | 0 | en attente |
+| 12 | `LOT-88` | Spécifications : retrait de l'héritage plateforme | 0 | prêt |
+| 13 | `LOT-81` | Descripteurs de terrain et règles de zone des treize régions | 8 | prêt |
+| 14 | `LOT-40` | Générateur de terrain | 7 | en attente |
+| 15 | `LOT-44` | Noms, tables aléatoires et contenu d'ambiance | 7 | prêt |
+| 16 | `LOT-46` | Créatures de Tanares | 7 | prêt |
+| 17 | `LOT-89` | Dons, objets magiques et consommables de Tanares | 7 | prêt |
+| 18 | `LOT-26` | Butin, marchands, économie | 6 | en attente |
+| 19 | `LOT-41` | Peuplement : rencontres et créatures | 6 | en attente |
+| 20 | `LOT-80` | Factions, panthéon et organisations | 6 | prêt |
+| 21 | `LOT-70` | Horloge, calendrier et lune | 5 | prêt |
+| 22 | `LOT-82` | Peuplement civil : PNJ, marchands et quêtes | 5 | en attente |
+| 23 | `LOT-35` | Sorts et états | 2 | prêt |
+| 24 | `LOT-42` | Voyage et carte du monde | 2 | en attente |
+| 25 | `LOT-29` | Groupe de quatre personnages | 1 | en attente |
+| 26 | `LOT-45` | Guilde des Aventuriers : rangs et contrats | 1 | en attente |
+| 27 | `LOT-74` | Expérience et progression | 1 | en attente |
+| 28 | `LOT-25` | Sorts et capacités de classe | 0 | en attente |
+| 29 | `LOT-49` | Contrôle de cohérence du contenu | 0 | prêt |
+| 30 | `LOT-69` | Retrait de l'atelier pixel art | 0 | en attente |
+| 31 | `LOT-72` | Conditions, agonie et mort | 0 | en attente |
+| 32 | `LOT-75` | Campement et repos dans le monde | 0 | en attente |
+| 33 | `LOT-84` | Les 31 tables de progression de classe | 2 | prêt |
+| 34 | `LOT-47` | Socle de classe, et le guerrier comme preuve | 1 | en attente |
+| 35 | `LOT-83` | Compagnie : rangs de Guilde, niveau d'équipe et quartier général | 0 | en attente |
+| 36 | `LOT-90` | Le plan pénombral | 0 | en attente |
+| 37 | `LOT-51` → `LOT-65` | une classe par lot | 0 | en attente |
 
 **Débloque** — combien de lots restants dépendent de celui-ci, directement ou en cascade. C'est le
 critère de priorité, et il se relit sur la ligne.
@@ -435,7 +436,7 @@ que le socle doit **prévoir** (une interface, un champ, un événement) et ce q
 | **Monde et régions** | 13 régions à encart **+ Darkall, Undertanares, Wasteland** ; statistiques à **portée** (nord/sud, surface/souterrain — `EX-CNT-061`, livré) ; **règles de zone** régionales ; légalité de la magie par région ; réputations multiples (Guilde, Conseil draconique à 7 rangs et primes, Relic Hunters notés sur 10, code d'honneur, foi) ; **Undertanares** comme couche sous les régions ; plan pénombral en 7 couches avec ses règles de survie | Un descripteur de région porte ses **règles de zone** et sa **légalité** ; la réputation est un **modèle par organisation**, la Guilde n'en est qu'une instance ; le plan pénombral est un lot à part | `LOT-81`, `LOT-45`, `LOT-90` |
 | **Économie et objets** | 5 pièces + électrum standard à Yama ; lettres de crédit, prêts à 5 %/mois, coffres, assurances ; grille de prix des trois minerais ; marché noir et contrebande ; consommables à **durée** (boissons, mets, Estelindea, peintures de guerre) ; **29 objets magiques** à charges, malédictions, harmonisation forcée, variantes par type de dragon ; bénédictions achetées en or ; corrosion d'arme, vol d'objet | Un objet déclare rareté, harmonisation, charges et recharge, malédiction ; l'inventaire (livré) accepte durabilité et vol ; la monnaie est régionale | [LOT-26](@ref lot-26), `LOT-89` |
 | **Voyage** | Table de 19 montures ; portails à coût en bauronite ; disques nains ; failles pénombrales comme raccourcis ; Tritors reliés ; **mer** (Seashores est presque entièrement marine, navires statés) | Une route a un **type** (terre, mer, portail, faille) et un coût ; pas de combat naval | `LOT-42` |
-| **Arène** | *Law of the Arena* = justice civile (litiges, champions à louer) ; arènes **régionales** (Future non létale, Feargus létale, Braves débutants, duel de baguettes) ; **paris** avec combat simulé hors écran ; Marques Héroïques (8) ; Tritors ; *Arena Day* | Le Colisée est **un mode du jeu** — banc d'essai des mécaniques d'abord, institution ensuite — et ses variantes régionales sont des **données** de lieu | `LOT-50` |
+| **Arène** | *Law of the Arena* = justice civile (litiges, champions à louer) ; arènes **régionales** (Future non létale, Feargus létale, Braves débutants, duel de baguettes) ; **paris** avec combat simulé hors écran ; Marques Héroïques (8) ; Tritors ; *Arena Day* | Le Colisée est **un mode du jeu** — banc d'essai des mécaniques d'abord, institution ensuite — et ses variantes régionales sont des **données** de lieu — **posé au [LOT-50](@ref lot-50)** : `core::ArenaSession` tient le combat et le rejoue à graine fixée, `Source/Elements/World/arena/` porte trois arènes (`lethal`, `heroicMark`, `map`), les huit Marques sont une règle (`heroic-marks.json`), la *Heroic Action* est déclarée à chaque combattant marqué, et la Marque relève tout le monde à l'issue ; paris, Tritors et *Arena Day* restent à écrire | [LOT-50](@ref lot-50) |
 | **Compagnie** | Système d'**équipe** complet : niveau 1-20 par *Career Points*, QG à 12 structures × 6 niveaux, 12 employés statés, 12 dons d'équipe, récompenses légendaires — c'est la maquette 09 que le [LOT-87](@ref lot-87) a déjà transcrite (`CompanyForm`) | Deux échelles de progression de groupe coexistent (rangs de Guilde, niveau d'équipe) ; elles se tiennent chacune dans son lot | `LOT-45`, `LOT-83` |
 
 **Ce que la relecture écarte, et pourquoi** — inscrit au §8 pour ne pas être redécouvert :
@@ -861,71 +862,6 @@ volontairement hors norme existe, un OCR raté aussi, et seul un humain les dist
 *Acceptation* — une valeur sciemment corrompue dans un profil de test est détectée ; le rapport
 distingue l'anomalie confirmée de l'anomalie acceptée, et cette acceptation est **enregistrée dans
 la donnée** pour ne pas être re-signalée à chaque exécution.
-### `LOT-50` — Le Colisée : bac à sable de combat {#lot-50}
-
-*Prérequis : [LOT-19](@ref lot-19), [LOT-20](@ref lot-20). Alimente [LOT-21](@ref lot-21) — les
-attaques se vérifient à l'œil dans l'arène — et `LOT-51` à `LOT-65`.*
-
-> **Reclassé au second audit, sur une clarification de l'auteur.** L'arène est **un mode du jeu
-> principal**, et d'abord son **bac à sable de débogage** : c'est ce que l'ancienne appellation
-> « mode édition » désignait — poser librement combattants, objets et décors sur une grille, jouer,
-> rejouer à graine fixée. Elle est réutilisée telle quelle dans le jeu final. Elle ne dépend donc
-> ni du socle de classe ni des attaques : dès que la grille ([LOT-19](@ref lot-19)) et le tour
-> ([LOT-20](@ref lot-20)) existent, l'arène est le lieu où les `LOT-21` à `LOT-24` se vérifient
-> à l'œil, et elle livre au passage **la première carte** de `Source/Elements/Levels/`, vide
-> depuis le `LOT-01`. L'écran de mise en place n'a pas de maquette : c'est un écran de
-> développeur, en QML, sans charte.
-
-Un lieu pour éprouver le combat, encore et encore, sans monter une partie complète à chaque essai.
-Et le corpus en fournit un qui n'est pas un outil de développement déguisé : **les Arènes de
-Tanares**, mentionnées cent fois dans le Sourcebook, sont une institution centrale du monde.
-
-Ce qu'elles apportent est presque taillé pour l'usage :
-
-- **Le combat y est non létal.** « Les Arènes opposent deux camps d'un conflit, représentés par
-  leurs Héros, pour résoudre les impasses sans recourir à la guerre ni aux morts. » La sécurité des
-  combattants tient à un rituel de **Marque Héroïque** de l'Église évolutionniste. Un affrontement
-  se rejoue donc indéfiniment, ce qui est exactement ce qu'on demande à un banc d'essai — et ici
-  c'est la fiction qui l'explique, pas une entorse aux règles.
-- **N'importe quel appariement est justifié.** La *Law of the Arena* est le mode de résolution des
-  litiges de l'Empire : la Malédiction malrokienne interdisant la guerre ouverte, les conflits entre
-  citoyens ou entre régions se tranchent en arène. Opposer un moine à trois gobelins n'a donc pas
-  besoin de prétexte.
-- **Huit rôles tabulés.** Les Marques Héroïques se déclinent en Bruiser, Brute, Commander,
-  Controller, Healer, Shooter, Tactician, Tank — une taxonomie toute faite pour vérifier que chaque
-  classe livrée remplit bien le sien.
-- **Les feats d'équipe** du *Player's Guide* (Coordinated Attack, Group Opportunity, Phalanx
-  Tactics…) s'y branchent directement, et anticipent le [LOT-29](@ref lot-29).
-
-Le lot livre l'arène comme **carte jouable** — une grille tactique dégagée, des gradins, des points
-d'entrée — plus un écran de mise en place : choisir les combattants de chaque camp, leur niveau,
-leur équipement, et lancer. Rejouable à graine fixée pour comparer deux versions d'une mécanique.
-
-*Contraintes du corpus (§4bis).* Les livres font de l'arène bien plus qu'un sport : la *Law of the
-Arena* règle les **litiges civils** (avec champions à louer), chaque région a **sa** variante
-(Arena of the Future non létale, Feargus létale, Braves pour débutants, duel de baguettes à la
-Magocratie), les **paris** se résolvent par un combat simulé hors écran, et les Marques Héroïques
-exigent une **troisième économie d'action** bornée à la zone du rituel. Ce lot livre le mode et la
-première arène ; les variantes sont des **données de lieu** (`LOT-37`, livré) et la troisième
-économie d'action est une ressource déclarée (`core::ActionEconomy::declare`), crochet posé au
-[LOT-20](@ref lot-20).
-
-*État au 14 septembre 2026.* Le tour existe : l'écran de mise en place enrôle chaque camp
-(`core::CombatState::enlist`, ou `core::mountEncounter` pour une rencontre écrite), place les
-combattants en disant pourquoi une case est refusée, et lance le combat à graine fixée
-(`start`) — le rejeu exact est vérifié par test. La première carte jouable de ce lot est aussi le
-premier endroit où `core::CombatState` sera branché sur une session de jeu : `hmi::CombatMode` gèle
-le monde, mais ne tient pas encore le combat.
-
-Sa vertu la plus durable est de n'être **jamais du code jetable** : c'est une zone du jeu final,
-avec ses combats de gloire, sa Marque Héroïque à gagner et son statut social — le monde de Tanares
-est né du jeu de plateau *Arena: The Contest*, et l'arène y est chez elle.
-
-*Acceptation* — un affrontement se met en place, se joue et se rejoue **sans quitter le jeu** ; à
-graine et composition égales, deux exécutions donnent le même déroulé ; aucun combattant n'y meurt
-définitivement ; l'arène s'ouvre aussi comme une carte ordinaire depuis le monde
-(`LOT-42`).
-
 ### `LOT-51` à `LOT-65` — une classe par lot {#lot-51}
 
 *Prérequis de chacun : `LOT-47`, `LOT-50`, `LOT-70`.*
@@ -1491,7 +1427,7 @@ valeurs codées en dur, exactement ce que [`EX-VIS-007`](@ref EX-VIS-007) interd
 
 | Quand | Lots | Pourquoi là |
 |---|---|---|
-| **Démarrable maintenant** | `LOT-50` | L'arène est le **banc d'essai** des mécaniques de combat : la grille du [LOT-19](@ref lot-19) et le tour du [LOT-20](@ref lot-20) sont livrés ; elle livre la première carte, et les attaques du [LOT-21](@ref lot-21) s'y vérifient |
+| **Démarrable maintenant** | [LOT-21](@ref lot-21) | L'arène du [LOT-50](@ref lot-50) est livrée : les attaques s'y vérifient à l'œil, et le combat reste le chemin critique du *vertical slice* ; à égalité de rang avec le [LOT-15](@ref lot-15), que la règle place premier par son numéro |
 | Démarrables, en parallèle du combat | [LOT-15](@ref lot-15), [LOT-11](@ref lot-11), [LOT-09](@ref lot-09) | Dialogues, éditeur et graphe de cartes n'attendent plus rien ; la règle leur préfère seulement ce qui débloque davantage |
 | Avec [LOT-09](@ref lot-09) | `LOT-80` | L'atlas du `LOT-37` est livré : le graphe de cartes a ses nœuds, il lui manque les entités transverses |
 | Après `LOT-34` (livré) | `LOT-49` | Catalogue réel, puis contrôle de ses valeurs — un filet, pas un maillon |
@@ -1563,15 +1499,14 @@ lots, dont la fiche de personnage et sa maquette. **Ces sept-là sont livrés.**
 Le chemin critique restant est celui du **combat**, et c'est la plus longue chaîne de prérequis
 qui mène au slice depuis que celui-ci déclare les siens en numéros :
 
-`LOT-50` → [LOT-21](@ref lot-21) → [LOT-23](@ref lot-23) → [LOT-24](@ref lot-24) →
-[LOT-27](@ref lot-27)
+[LOT-21](@ref lot-21) → [LOT-23](@ref lot-23) → [LOT-24](@ref lot-24) → [LOT-27](@ref lot-27)
 
-Cinq lots depuis la livraison du tour par tour ([LOT-20](@ref lot-20)) — l'arène du `LOT-50` s'y
-intercale comme banc d'essai des attaques —, avec le [LOT-22](@ref lot-22) (portée et ligne de vue) en parallèle du `LOT-21`, exigé
+Quatre lots depuis la livraison de l'arène ([LOT-50](@ref lot-50)), le banc d'essai où les
+attaques se vérifient à l'œil, avec le [LOT-22](@ref lot-22) (portée et ligne de vue) en parallèle du `LOT-21`, exigé
 par l'IA du `LOT-23`. Deux chaînes plus courtes y aboutissent aussi et se mènent **en parallèle** :
 [LOT-15](@ref lot-15) → [LOT-16](@ref lot-16) → [LOT-17](@ref lot-17) → `LOT-27` (dialogues, quêtes,
 sauvegarde — quatre lots), et [LOT-09](@ref lot-09) → `LOT-17`, [LOT-11](@ref lot-11) → `LOT-27`
-(le graphe de cartes et l'éditeur). Tout le reste — classes, Colisée, peuplement, voyage, guilde —
+(le graphe de cartes et l'éditeur). Tout le reste — classes, peuplement, voyage, guilde —
 vient **après**. La règle à tenir tient en une phrase : *un lot n'entre dans ce chemin que si le
 slice ne peut pas se jouer sans lui.*
 
@@ -1610,7 +1545,7 @@ digraph filiere {
     L27 [label="LOT-27\nVertical slice", shape=box, style="rounded,bold"];
   }
   L84 [label="LOT-84\n31 tables"]; L47 [label="LOT-47\nSocle de classe"];
-  L50 [label="LOT-50\nColisée"]; L51 [label="LOT-51→65\nune classe par lot"];
+  L50 [label="LOT-50\nColisée\n(livré)", style="rounded,filled", fillcolor=grey90]; L51 [label="LOT-51→65\nune classe par lot"];
   L32 -> L84 -> L47 -> L51; L50 -> L51;
   L43 -> L47; L70 [label="LOT-70\nCalendrier et repos"] -> L51;
   L80 [label="LOT-80\nFactions"]; L81 [label="LOT-81\nDescripteurs"];
@@ -1629,7 +1564,6 @@ digraph filiere {
     L21 [label="LOT-21\nAttaques"]; L22 [label="LOT-22\nLigne de vue"];
     L23 [label="LOT-23\nIA tactique"]; L24 [label="LOT-24\nIHM de combat"];
     L20 -> L21 -> L23 -> L24 -> L27; L19 -> L22 -> L23; L21 -> L24;
-    L20 -> L50 -> L21;
   }
   L15 [label="LOT-15\nDialogues"]; L16 [label="LOT-16\nQuêtes"]; L17 [label="LOT-17\nSauvegarde"];
   L09 [label="LOT-09\nGraphe de cartes"]; L11 [label="LOT-11\nÉditeur"];
@@ -1656,7 +1590,6 @@ eux-mêmes.
 | `LOT-46` | Créatures de Tanares | `LOT-30`, `LOT-33` | `LOT-41`, `LOT-90` |
 | `LOT-47` | Socle de classe, et le guerrier comme preuve | `LOT-36`, `LOT-43`, `LOT-84` | `LOT-51` |
 | `LOT-49` | Contrôle de cohérence du contenu | `LOT-33`, `LOT-34` | — |
-| `LOT-50` | Le Colisée : bac à sable de combat | `LOT-19`, `LOT-20` | `LOT-21`, `LOT-51`, `LOT-65` |
 | `LOT-51` | une classe par lot | `LOT-47`, `LOT-50`, `LOT-70` | — |
 | `LOT-69` | Retrait de l'atelier pixel art | `LOT-11`, `LOT-66` | — |
 | `LOT-70` | Horloge, calendrier et lune | `LOT-13` | `LOT-25`, `LOT-42`, `LOT-51`, `LOT-65`, `LOT-75` |
@@ -1707,7 +1640,8 @@ Source/Elements/World/
                               + descripteurs de terrain (LOT-81)
   locations/*.json          ← 94 lieux nommés, avec leurs effets mécaniques (LOT-37, livré)
   factions/, pantheon/, organizations/            ← (LOT-80)
-  arena/*.json              ← Colisée : appariements, marques héroïques, rôles (LOT-50)
+  arena/*.json              ← Colisée : les arènes, une par variante régionale (LOT-50, livré) ;
+                              les huit Marques Héroïques sont une règle, Rpg/rules/heroic-marks.json
   populate/*.json           ← gabarits de rencontre (LOT-41), civils et quêtes (LOT-82)
   penumbra/*.json           ← sept couches, lieux miroirs, failles (LOT-90)
 Source/Elements/Assets/
@@ -1770,7 +1704,7 @@ Documentation/Lot/LOT-87-charte-v2/
 - **Une classe par lot, pas un lot pour toutes.** Une classe apporte une mécanique — rage, forme
   sauvage, magie de pacte — qui se code, se teste et se règle séparément. Le `LOT-47` ne porte donc
   que le socle commun et le guerrier ; les quinze autres classes ont chacune leur lot.
-- **Le Colisée est le bac à sable de combat** (`LOT-50`), et il n'est pas un outil jetable : les
+- **Le Colisée est le bac à sable de combat** ([LOT-50](@ref lot-50), livré), et il n'est pas un outil jetable : les
   Arènes sont une institution centrale de Tanares, leurs combats sont non létaux par la fiction
   même, et la zone sert telle quelle dans le jeu final.
 - **La charte IHM a été refondue deux fois, et la seconde remplace la première.** Le
@@ -1789,7 +1723,7 @@ Documentation/Lot/LOT-87-charte-v2/
   les écrans dans Qt Design Studio et les voit sans compilateur (`EX-IHM-100`). Chaque écran du RPG
   existe en QML, sur `PendingData` là où son lot n'a pas encore livré la donnée : les lots de
   moteur qui restent **branchent** des écrans, ils n'en dessinent plus.
-- **L'arène est un mode du jeu principal** (`LOT-50`) — clarification de l'auteur, 14 septembre
+- **L'arène est un mode du jeu principal** ([LOT-50](@ref lot-50), livré le jour même) — clarification de l'auteur, 14 septembre
   2026. C'est ce que l'ancienne appellation « mode édition » désignait : un bac à sable de
   **débogage** où l'on pose librement combattants, objets et décors, joue et rejoue à graine fixée,
   réutilisé tel quel dans le jeu final comme Colisée. Il arrive dès la grille et le tour
@@ -1964,7 +1898,8 @@ Ce qui manque avant d'ajouter des dizaines de catalogues :
   ne portait le travail C++. C'est l'audit qui l'a trouvé.
 - **`Source/Elements/Levels/` est vide.** Le jeu n'a aucune carte à charger ; `loadDeliveredLevel`
   (`test_render_budget.cpp`) est du code mort et la fixture `rejeu-test-deplacement.json` est
-  orpheline depuis la purge. **Toujours vrai le 14 septembre 2026** : le [LOT-86](@ref lot-86)
+  orpheline depuis la purge. **Vrai jusqu'au 14 septembre 2026** — le [LOT-50](@ref lot-50) y
+  a posé la première carte, celle de l'arène, que son écran dessine lui-même : le [LOT-86](@ref lot-86)
   l'a reconstaté — le viewport n'affiche aucune scène, « Nouvelle partie » ouvre la fiche — et les
   treize écrans se vérifient par un sélecteur de développement faute d'un niveau pour y mener. La
   première carte arrive avec le contenu du [LOT-27](@ref lot-27), sa destination avec le
@@ -2143,7 +2078,7 @@ d'autres cartes, et où l'on peut revenir sur ses pas.
 *État au 14 septembre 2026.* La **séquence linéaire** héritée (`core::LevelSequence` : tableau 1,
 puis 2, puis 3) a été retirée par le [LOT-67](@ref lot-67) avec la notion de niveau discret, et rien
 ne l'a remplacée : la tuile de sortie **ramène au menu**, et « Nouvelle partie » n'a aucune carte à
-ouvrir (`Source/Elements/Levels/` est vide). Un RPG a besoin d'un **graphe** : un village ouvre sur
+ouvrir (`Source/Elements/Levels/` ne porte que l'arène du [LOT-50](@ref lot-50)). Un RPG a besoin d'un **graphe** : un village ouvre sur
 une forêt et sur une auberge, la forêt ramène au village, le donjon a trois entrées.
 
 #### Périmètre
@@ -2412,7 +2347,12 @@ déclaration d'une attaque s'annonce par `CombatState::declareAttack` **avant** 
 (`CombatHook::AttackDeclared`) ; et l'attaque d'opportunité dépense la réaction du porteur
 (`CombatState::economy(id)->spend(REACTION_RESOURCE)`), qui ne revient qu'au début de son tour.
 Les actions nommées (se précipiter, se désengager, esquiver, se tenir prêt) sont des usages de
-`ACTION_RESOURCE`.
+`ACTION_RESOURCE`. L'arène du [LOT-50](@ref lot-50) est le lieu où ce lot se vérifie à l'œil :
+`core::ArenaSession::strike` y porte un **coup d'essai** — déclaration, action, d20 contre la
+classe d'armure, dés de dégâts, `applyDamage` — dont ce lot remplace la façon (le pipeline) en
+gardant le lieu (la session, la suite aléatoire unique, le journal) ; `core::StrikeKit` lit la
+première action qui frappe d'une créature, ou le coup à mains nues d'une fiche, et c'est ce que
+les propriétés d'arme remplaceront.
 
 #### Le journal de combat
 
@@ -2577,9 +2517,11 @@ C'est le lot qui transforme une machine à états correcte en un combat qu'on a 
 - *État au 14 septembre 2026.* Le **bandeau d'initiative** lit `core::CombatState::turnOrder()` et
   `activeCombatant()` ; les cases surlignées sont celles de `CombatState::reachableArea()`, qui
   tient compte de ce qui **reste** du déplacement ; les crochets (`core::CombatHook`) donnent au
-  journal et aux animations les instants à montrer. Brancher la machine sur la session de jeu
-  — `hmi::CombatMode` gèle le monde, mais ne tient pas le combat — est à faire ici ou au `LOT-50`,
-  au premier des deux.
+  journal et aux animations les instants à montrer. L'arène du [LOT-50](@ref lot-50) tient la
+  machine dans `core::ArenaSession` — un journal, une grille dessinée en QML, sans passer par
+  `hmi::CombatMode` — et c'est ce que cet écran lira ; brancher la machine sur une carte
+  d'exploration **gelée** (`hmi::CombatMode` gèle le monde, mais ne tient pas le combat) est à
+  faire ici.
 - Animations d'attaque via `AnimationCatalog`.
 
 #### Le critère qui est souvent oublié

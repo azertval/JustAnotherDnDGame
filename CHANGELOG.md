@@ -6,6 +6,32 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **Le Colisée : bac à sable de combat** (`LOT-50`). Un lieu pour éprouver le combat, encore et
+  encore, sans monter une partie — et qui est une zone du jeu final : les Arènes de Tanares.
+  - **La première carte** de `Source/Elements/Levels/`, vide depuis le `LOT-01` : l'Arène du
+    Futur, une enceinte de murs et de gradins, du sable, deux portes, douze points d'entrée écrits
+    comme des entités `arenaEntry` de la carte — six par camp, rangés par rang.
+  - **`core::ArenaSession` tient le combat** : le premier objet du jeu à tenir un
+    `core::CombatState`. Il monte la composition sur la carte en nommant chaque refus, jette
+    l'initiative à graine fixée, joue — déplacement, coup, fin de tour, retrait — et **rejoue** :
+    une seule suite aléatoire pour l'initiative, les jets et les dégâts, et un journal ; même
+    graine, même journal, vérifié par test.
+  - **Personne n'y meurt** : le rituel de Marque Héroïque relève tout le monde à l'issue, sauf dans
+    une arène létale, qui est l'exception écrite dans la donnée. La **troisième économie
+    d'action** (`heroicAction`) est déclarée à chaque combattant marqué, par le crochet du `LOT-20`.
+  - **Un coup d'essai, provisoire et dit comme tel** : déclaration, action, d20 contre la classe
+    d'armure, dés, `applyDamage`. Le kit vient de la première action qui frappe d'une créature, ou
+    du coup à mains nues du SRD pour un personnage. Le `LOT-21` remplace la façon, garde le lieu.
+  - **La donnée** : trois arènes du Sourcebook dans `Source/Elements/World/arena/` (`lethal`,
+    `heroicMark`, `map`), les huit Marques Héroïques en règle, et leurs deux schémas ;
+    `check_rpg_data.py` connaît les deux familles.
+  - **L'écran** : « Arène » au menu principal ; un écran de développeur en QML, sans charte, qui
+    compose deux camps depuis le bestiaire et le personnage de démonstration, choisit une Marque et
+    une graine, lance, joue case par case, rejoue. `hmi::ScreenId::Arena` dans la table de
+    navigation, `hmi::ArenaModel` dans `Jadg.Runtime`, sa doublure pour l'atelier.
+  - Hors du lot, nommément : l'ouverture de l'arène depuis le monde (`LOT-42`), le dessin du combat
+    sur la carte et la manette (`LOT-24`), les capacités qui dépenseront la *Heroic Action*.
+
 - **Initiative et tour par tour** (`LOT-20`, `EX-CBT-010`, `EX-CBT-011`, `EX-CBT-012`). Le combat a
   son horloge : qui joue avant qui, ce qu'un tour permet, et comment un combat finit.
   - **L'initiative est jetée une fois, et départagée par une règle écrite.** Total, modificateur,
