@@ -537,7 +537,11 @@ struct EncounterMount {
  * créature d'office — une formation mal écrite est une information pour l'auteur. Un combattant
  * refusé n'est pas enrôlé : un combattant sans case ne peut pas combattre sur la grille.
  *
- * @param combat Un combat encore en montage.
+ * @param combat   Un combat encore en montage.
+ * @param run      La rencontre engagée : ses placements, et si l'on peut la fuir.
+ * @param bestiary Le bestiaire où chercher chaque créature de la rencontre.
+ * @param party    Le groupe à engager, chaque membre avec sa case.
+ * @return Les alliés et ennemis enrôlés, et chaque refus avec sa raison.
  */
 [[nodiscard]] EncounterMount mountEncounter(CombatState& combat, const EncounterRun& run,
                                             const Bestiary& bestiary,
