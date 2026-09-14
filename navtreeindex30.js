@@ -1,5 +1,6 @@
 var NAVTREEINDEX30 =
 {
+"structcore_1_1CreatureTrait.html":[11,0,1,110],
 "structcore_1_1CreatureTrait.html":[12,0,0,110],
 "structcore_1_1CreatureTrait.html#a8b2b03382885fa99fdf129b706c81a73":[11,0,1,110,0],
 "structcore_1_1CreatureTrait.html#a8b2b03382885fa99fdf129b706c81a73":[12,0,0,110,0],
@@ -248,6 +249,5 @@ var NAVTREEINDEX30 =
 "structcore_1_1InitiativeMarker.html#aef75d4d331e8ba6e35f1896553990886":[11,0,1,38,1],
 "structcore_1_1InitiativeMarker.html#aef75d4d331e8ba6e35f1896553990886":[12,0,0,38,1],
 "structcore_1_1Interactable.html":[11,0,1,57],
-"structcore_1_1Interactable.html":[12,0,0,57],
-"structcore_1_1Interactable.html#a1071102fd3cc0c62003785e4b6fb5754":[11,0,1,57,4]
+"structcore_1_1Interactable.html":[12,0,0,57]
 };

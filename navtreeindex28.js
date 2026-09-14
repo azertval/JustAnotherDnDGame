@@ -1,5 +1,6 @@
 var NAVTREEINDEX28 =
 {
+"spec-vision.html#autotoc_md394":[6,1,0],
 "spec-vision.html#autotoc_md395":[6,1,0,0],
 "spec-vision.html#autotoc_md396":[6,1,1],
 "spec-vision.html#autotoc_md397":[6,1,2],
@@ -248,6 +249,5 @@ var NAVTREEINDEX28 =
 "structcore_1_1CameraZone.html#a36a26d5117c62cc53bad3263095a2058":[11,0,1,81,0],
 "structcore_1_1CameraZone.html#a36a26d5117c62cc53bad3263095a2058":[12,0,0,81,0],
 "structcore_1_1CameraZone.html#a5d8f7e78711fe2f1a955cf1778396c0b":[11,0,1,81,2],
-"structcore_1_1CameraZone.html#a5d8f7e78711fe2f1a955cf1778396c0b":[12,0,0,81,2],
-"structcore_1_1CameraZone.html#a6b73b30e6cc5807b1628f5f87fe9bd49":[11,0,1,81,4]
+"structcore_1_1CameraZone.html#a5d8f7e78711fe2f1a955cf1778396c0b":[12,0,0,81,2]
 };

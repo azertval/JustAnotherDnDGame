@@ -1,5 +1,6 @@
 var NAVTREEINDEX29 =
 {
+"structcore_1_1CameraZone.html#a6b73b30e6cc5807b1628f5f87fe9bd49":[11,0,1,81,4],
 "structcore_1_1CameraZone.html#a6b73b30e6cc5807b1628f5f87fe9bd49":[12,0,0,81,4],
 "structcore_1_1CameraZone.html#a7f190e760c7819d1b2d22eb02beb5862":[11,0,1,81,1],
 "structcore_1_1CameraZone.html#a7f190e760c7819d1b2d22eb02beb5862":[12,0,0,81,1],
@@ -248,6 +249,5 @@ var NAVTREEINDEX29 =
 "structcore_1_1CreatureSpeed.html#a37c2fa80536e700482b1f3272bcdc38f":[11,0,1,112,2],
 "structcore_1_1CreatureSpeed.html#a37c2fa80536e700482b1f3272bcdc38f":[12,0,0,112,2],
 "structcore_1_1CreatureSpeed.html#a9d1b93d9919b9222738ca0430dd1c991":[11,0,1,112,1],
-"structcore_1_1CreatureSpeed.html#a9d1b93d9919b9222738ca0430dd1c991":[12,0,0,112,1],
-"structcore_1_1CreatureTrait.html":[11,0,1,110]
+"structcore_1_1CreatureSpeed.html#a9d1b93d9919b9222738ca0430dd1c991":[12,0,0,112,1]
 };

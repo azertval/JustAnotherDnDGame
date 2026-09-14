@@ -1,5 +1,6 @@
 var NAVTREEINDEX36 =
 {
+"structhmi_1_1MapRegion.html#a2759d84ea68c7271cfdece4615a644e8":[11,0,2,155,5],
 "structhmi_1_1MapRegion.html#a2759d84ea68c7271cfdece4615a644e8":[12,0,1,155,5],
 "structhmi_1_1MapRegion.html#a325fc962037f6fdbb94fbab81e2e86e2":[11,0,2,155,0],
 "structhmi_1_1MapRegion.html#a325fc962037f6fdbb94fbab81e2e86e2":[12,0,1,155,0],
@@ -248,6 +249,5 @@ var NAVTREEINDEX36 =
 "structhmi_1_1ProceduralFontImage.html#a5d844d3be6b91d7fee4ac4e225a0e403":[11,0,2,88,1],
 "structhmi_1_1ProceduralFontImage.html#a5d844d3be6b91d7fee4ac4e225a0e403":[12,0,1,88,1],
 "structhmi_1_1ProceduralFontImage.html#a7b05a9788959b7ef83867164b9a1d7e4":[11,0,2,88,2],
-"structhmi_1_1ProceduralFontImage.html#a7b05a9788959b7ef83867164b9a1d7e4":[12,0,1,88,2],
-"structhmi_1_1RegionAnchors.html":[11,0,2,154]
+"structhmi_1_1ProceduralFontImage.html#a7b05a9788959b7ef83867164b9a1d7e4":[12,0,1,88,2]
 };

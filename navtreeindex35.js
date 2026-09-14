@@ -1,5 +1,6 @@
 var NAVTREEINDEX35 =
 {
+"structhmi_1_1EditorActionSpec.html#affc2dfeea5c3939150e2df41b3d4aee8":[11,0,2,119,3],
 "structhmi_1_1EditorActionSpec.html#affc2dfeea5c3939150e2df41b3d4aee8":[12,0,1,119,3],
 "structhmi_1_1EditorStatusContext.html":[11,0,2,10],
 "structhmi_1_1EditorStatusContext.html":[12,0,1,10],
@@ -248,6 +249,5 @@ var NAVTREEINDEX35 =
 "structhmi_1_1MapRegion.html":[11,0,2,155],
 "structhmi_1_1MapRegion.html":[12,0,1,155],
 "structhmi_1_1MapRegion.html#a1a3bcc0f07af8cd30ccea34867004ae7":[11,0,2,155,4],
-"structhmi_1_1MapRegion.html#a1a3bcc0f07af8cd30ccea34867004ae7":[12,0,1,155,4],
-"structhmi_1_1MapRegion.html#a2759d84ea68c7271cfdece4615a644e8":[11,0,2,155,5]
+"structhmi_1_1MapRegion.html#a1a3bcc0f07af8cd30ccea34867004ae7":[12,0,1,155,4]
 };

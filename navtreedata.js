@@ -134,13 +134,13 @@ var NAVTREEINDEX =
 "dir_3b3fb6ca5c5a53919dd576540a5935af.html",
 "guide-ecrans.html#autotoc_md99",
 "lot-12.html#autotoc_md468",
-"lot-87-cahier-assets.html#lot-87-cahier-icon",
-"namespacecore.html#a7ad0450d2b476419d40745fbfa9ac105af9ffe67a20da9cbff56b420fca4bd491",
-"namespacecore.html#af71085608729d9857e7ee3fd17be6cd6ac2f329a17c18a701dbe1e96e03858728",
-"namespacehmi.html#a76066d550faf628786294c82cd2d12a4a185b7133db22230701a857c059360cc2",
-"namespacehmi.html#ab8a3c6d8e00f86576f71c0b2a4e494d4",
+"lot-87-cahier-assets.html#lot-87-cahier-gauge",
+"namespacecore.html#a7ad0450d2b476419d40745fbfa9ac105a9914a0ce04a7b7b6a8e39bec55064b82",
+"namespacecore.html#af71085608729d9857e7ee3fd17be6cd6ac0de26eacdb0be95995bddc8d719bc4b",
+"namespacehmi.html#a76066d550faf628786294c82cd2d12a4a1063e38cb53d94d386f21227fcd84717",
+"namespacehmi.html#ab7a7e2e0b4ed018b8acae760f5678b94",
 "roadmap.html#autotoc_md805",
-"spec-vision.html#autotoc_md395",
+"spec-vision.html#autotoc_md394",
 "structcore_1_1CameraZone.html#a6b73b30e6cc5807b1628f5f87fe9bd49",
 "structcore_1_1CreatureTrait.html",
 "structcore_1_1Interactable.html#a1071102fd3cc0c62003785e4b6fb5754",
@@ -151,11 +151,11 @@ var NAVTREEINDEX =
 "structhmi_1_1MapRegion.html#a2759d84ea68c7271cfdece4615a644e8",
 "structhmi_1_1RegionAnchors.html",
 "structhmi_1_1SpacingTokens.html#a88914ac55f9f786f9903793ba9702884",
-"test__asset__keys_8cpp.html#adac32b81c2bbf27517c67e22a67eb5e3",
-"test__encounter_8cpp.html#a297c9569a1f47e5464067390dbb5c3bb",
-"test__level__loader_8cpp.html#adafdf138dfda2dd039f068697ec7bcfa",
-"test__plane_8cpp.html#af02d476f39bd7a1154dc41ab8311ee8e",
-"test__texture__resolution_8cpp.html#a11c6601c8ca6faf19218f09a747a5b51"
+"test__asset__keys_8cpp.html#ac68ce38e83be6e349e514170ad6c4618",
+"test__encounter_8cpp.html#a1e4dce9d5f12d45a13d6306559d4a898",
+"test__level__loader_8cpp.html#ad755bd5ee32f7c840984f9c7cc273c01",
+"test__plane_8cpp.html#abdcb4f40ffee56f02f0554af2216da82",
+"test__texture__resolution_8cpp.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

@@ -178,7 +178,7 @@ Properties</h2></td></tr>
 <tr class="memitem:aee86a256c6660b2fa8650b3e4aee9b27" id="r_aee86a256c6660b2fa8650b3e4aee9b27"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#aee86a256c6660b2fa8650b3e4aee9b27">gridRows</a></td></tr>
 <tr class="memitem:a6d2087f27d85d91e9ead3bfca9eb49fa" id="r_a6d2087f27d85d91e9ead3bfca9eb49fa"><td class="memItemLeft">QVariantList&#160;</td><td class="memItemRight"><a class="el" href="#a6d2087f27d85d91e9ead3bfca9eb49fa">cells</a></td></tr>
 <tr class="memdesc:a6d2087f27d85d91e9ead3bfca9eb49fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une entrée par case, ligne par ligne : <span class="tt">{column, row, wall, occupant, side, reachable,
-active, down, hitPoints}</span>.  <br /></td></tr>
+active, down, hitPoints, hitPointsRatio}</span> &ndash; la part de vie restante, de 0 à 1, pour la jauge de la case.  <br /></td></tr>
 <tr class="memitem:a5f8831c8f0dfd8f687ee16ffe30cec0d" id="r_a5f8831c8f0dfd8f687ee16ffe30cec0d"><td class="memItemLeft">QVariantList&#160;</td><td class="memItemRight"><a class="el" href="#a5f8831c8f0dfd8f687ee16ffe30cec0d">turnOrder</a></td></tr>
 <tr class="memdesc:a5f8831c8f0dfd8f687ee16ffe30cec0d"><td class="mdescLeft">&#160;</td><td class="mdescRight">L'ordre d'initiative : <span class="tt">{name, total, side, active, down}</span>.  <br /></td></tr>
 <tr class="memitem:a283539f3e5853abd3f6835638b4eb218" id="r_a283539f3e5853abd3f6835638b4eb218"><td class="memItemLeft">QString&#160;</td><td class="memItemRight"><a class="el" href="#a283539f3e5853abd3f6835638b4eb218">activeName</a></td></tr>
@@ -205,10 +205,10 @@ Private Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>La vue-modèle de l'arène : composer deux camps, lancer, jouer, rejouer. </p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md917"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md918"></a>
 Ce qu'elle tient, et ce qu'elle ne décide pas</h2>
 <p>Elle tient une <span class="tt"><a class="el" href="classcore_1_1ArenaSession.html" title="Une session d&#39;arène : la carte, la composition, et le combat qui s&#39;y joue.">core::ArenaSession</a></span> — la première session de jeu à tenir un <span class="tt"><a class="el" href="classcore_1_1CombatState.html" title="Un combat, du montage de la rencontre à sa fin.">core::CombatState</a></span> — et les catalogues dont l'écran compose son affrontement : le bestiaire (<span class="tt">LOT-33</span>), le personnage de démonstration (<span class="tt">LOT-38</span>), les arènes et les Marques Héroïques. Elle ne décide <b>rien</b> du combat : chaque geste de l'écran devient un appel à la session, et ce que l'écran affiche est relu de la machine à états après chaque geste.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md918"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md919"></a>
 Pourquoi une liste de cases et non une scène</h2>
 <p>L'écran de l'arène est un écran de développeur, en QML, sans charte (feuille de route, §5) : il dessine la grille lui-même, depuis <span class="tt"><a class="el" href="#a6d2087f27d85d91e9ead3bfca9eb49fa" title="Une entrée par case, ligne par ligne : {column, row, wall, occupant, side, reachable,...">cells</a></span>, plutôt que par la surface de rendu — qui n'affiche encore aucune scène. C'est l'IHM de combat (<span class="tt">LOT-24</span>) qui dessinera le combat sur la carte ; elle lira la même session, par les mêmes appels.</p>
 <p>Un seul signal, <span class="tt"><a class="el" href="#a279bb9f9ff32e8573df589640baa7775">changed</a></span>, pour tout ce qui découle d'un geste : la grille, l'ordre, le journal et l'issue changent ensemble, et les distinguer n'épargnerait aucun rafraîchissement. </p>
@@ -1293,7 +1293,7 @@ Pourquoi une liste de cases et non une scène</h2>
 </div><div class="memdoc">
 
 <p>Une entrée par case, ligne par ligne : <span class="tt">{column, row, wall, occupant, side, reachable,
-active, down, hitPoints}</span>. </p>
+active, down, hitPoints, hitPointsRatio}</span> &ndash; la part de vie restante, de 0 à 1, pour la jauge de la case. </p>
 
 </div>
 </div>

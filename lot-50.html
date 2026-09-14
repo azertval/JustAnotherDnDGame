@@ -140,6 +140,16 @@ Relevé en chemin</h1>
 <li><b><span class="tt">check_rpg_data.py</span></b> connaît deux familles de plus : <span class="tt">arena</span> (sous <span class="tt">World/</span>) et la règle <span class="tt">heroic-marks</span>.</li>
 </ul>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md620"></a>
+Habillage de l'arène (14 septembre 2026, après livraison)</h1>
+<p>L'écran reste celui du développeur, mais sa grille devient la scène du Colisée. Demande de l'auteur : le vrai design du jeu, pas une esquisse — un tileset qui respecte la maquette.</p>
+<ul>
+<li><b>La source est une planche de production</b>, <span class="tt">Source/Elements/Assets/Coliseum/production_source_atlas.png</span> (1536 × 1024), sortie d'un générateur sur la maquette 01 : tuiles isométriques, tileset du Colisée, figurines des quatre héros (idle, marche, attaque, touché, mort) et des quatre gladiateurs, structures, détails, props, rochers, végétation, effets. Le pack découpé à la main qui l'accompagnait (<span class="tt">JustAnotherDnDGame_UI_ASSET_PACK/coliseum_production_pack/</span>, non suivi) n'était pas exploitable : légendes dans les tuiles, fond non détouré derrière les figurines, effets découpés dans du texte. <b><span class="tt">scripts/extract_coliseum_atlas.py</span></b> redécoupe la planche — détourage du fond bleu nuit, grille par profils coupés aux vallées, composantes connexes pour les sections irrégulières — en 138 fichiers nommés, avec des bandes d'animation à canevas commun (48 × 64, ancre au pied, cinq images par héros, huit par gladiateur) et un manifeste ; <span class="tt">--check</span> vérifie que le dossier suit la planche.</li>
+<li><b>Deux briques</b> : <span class="tt">ArenaScene</span> (projection isométrique, losange de hauteur 0,62 L comme les tuiles de la planche, profondeur <span class="tt">z = colonne + ligne</span>) et <span class="tt">ArenaTile</span> (sol de sable ou dalle du Colisée, pan de mur ou colonne d'angle, bannières et torches à intervalle, arche sur les deux portes, surbrillance en losange de jetons, figurine animée <span class="tt">AnimatedSprite</span>, jauge d'un ennemi, points de vie en texte). Un allié reçoit un héros et un ennemi un gladiateur, choisis d'après le nom : une créature du bestiaire enrôlée s'affiche donc en gladiateur — la planche n'a pas de bêtes, à produire si l'arène doit en montrer.</li>
+<li><b>Ressource</b> : les pièces sont embarquées comme les illustrations de la charte v2 (<span class="tt">Source/Ui/CMakeLists.txt</span>, motif <span class="tt">Coliseum/*/*.png</span>) ; <span class="tt">check_ui_assets.py</span> sait que ce dossier a son propre manifeste. <span class="tt">ArenaModel::cells</span> porte en plus <span class="tt">hitPointsRatio</span>.</li>
+<li><b>Le cahier des assets du <span class="tt">LOT-87</span> n'est pas touché</b> : ces pièces ne sont pas produites par prompt, elles sont découpées d'une planche. Une première version de cet habillage y avait ajouté une famille <span class="tt">arena</span> de neuf images à générer ; elle est retirée.</li>
+<li><b>Hors périmètre</b> : le cadre de l'écran (panneaux, boutons, journal) garde ses contrôles Qt Quick nus ; les animations <span class="tt">walk</span>, <span class="tt">attack</span>, <span class="tt">hit</span> sont découpées mais pas encore jouées (le coup d'essai n'a pas de phase d'animation) ; l'IHM de combat (<span class="tt">LOT-24</span>) réemploiera la scène.</li>
+</ul>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md621"></a>
 Ce qui reste hors du lot, nommément</h1>
 <ul>
 <li><b>L'ouverture depuis le monde</b> (<span class="tt">LOT-42</span>) : l'arène est aussi un lieu de l'atlas, et s'ouvrira comme une carte ordinaire quand le voyage existera. La carte a déjà ses deux portes.</li>
@@ -147,7 +157,7 @@ Ce qui reste hors du lot, nommément</h1>
 <li><b>La <em>Heroic Action</em> elle-même</b> : la ressource est déclarée ; aucune capacité ne la dépense avant les classes.</li>
 <li><b>Le dessin du combat sur la carte</b> et le jeu <b>à la manette</b> : l'IHM de combat (<span class="tt">LOT-24</span>).</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md621"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md622"></a>
 Critères d'acceptation</h1>
 <ul>
 <li><b>Un affrontement se met en place, se joue et se rejoue sans quitter le jeu.</b> ✔ Depuis le menu principal, « Nouvelle partie » ; composer, lancer, jouer case par case, rejouer, recomposer.</li>
