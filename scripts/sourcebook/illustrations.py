@@ -78,6 +78,26 @@ class Illustration:
         return self.cle + '.jpg'
 
 
+@dataclass(frozen=True)
+class IllustrationRaster:
+    """Une illustration livrée par le corpus **en image** (ressource VTT) : rééchantillonnée, pas rendue.
+
+    La carte du monde de la double page 88-89 est un fond de menu à 96 ppp ; l'écran de carte du
+    `LOT-87` (T3.6) la **consulte** — zoom, lieux, déplacement — et il lui faut la carte VTT
+    (9 933 x 7 016). Livrée telle quelle, elle pèserait 128 Mo et ne tiendrait pas dans une texture :
+    elle est réduite à `largeur` pixels, proportions gardées, puis encodée comme les autres.
+    """
+
+    cle: str
+    document: str
+    largeur: int
+    note: str
+
+    @property
+    def fichier(self) -> str:
+        return self.cle + '.jpg'
+
+
 CATALOGUE: list = [
     Illustration(
         cle='world-map',
@@ -87,11 +107,24 @@ CATALOGUE: list = [
         # et la region s'arrete avant eux plutot que de les recouvrir.
         region=(8.0, 6.0, 1216.0, 748.0),
         note="carte du monde de Tanares (pages imprimees 88-89), les treize regions de l'atlas"),
+    IllustrationRaster(
+        cle='world-map-hd',
+        document='carte-monde-hd',
+        # 3 072 px : deux fois la largeur d'un ecran 1080p pour le zoom de l'ecran de carte, sans
+        # franchir la taille de texture sure de tous les pilotes (4 096) ni alourdir le depot plus
+        # que de raison (EX-CNT-023).
+        largeur=3072,
+        note="carte du monde de Tanares, ressource VTT reduite : fond consulte de l'ecran de carte (LOT-87, T3.6)"),
 ]
 
 
-def produire(corpus: Corpus, racine, cache=None) -> dict:
-    """Rendre les illustrations du catalogue et écrire le manifeste à côté d'elles."""
+def produire(corpus: Corpus, racine, cache=None, cles=None) -> dict:
+    """Rendre les illustrations du catalogue et écrire le manifeste à côté d'elles.
+
+    `cles` restreint la production à ces illustrations ; les entrées extraites des autres restent
+    celles du manifeste. Une ressource VTT se rééchantillonne sans PyMuPDF : la régénérer seule ne
+    demande pas de pouvoir rendre les PDF.
+    """
     try:
         from PIL import Image
     except ImportError as erreur:  # pragma: no cover - dépend de l'environnement
@@ -102,39 +135,62 @@ def produire(corpus: Corpus, racine, cache=None) -> dict:
     entrees = []
     octets = 0
     for illustration in CATALOGUE:
+        if cles and illustration.cle not in cles:
+            continue
         document = corpus[illustration.document]
         document.verifier()  # EX-CNT-020 : jamais de rendu sur une autre édition.
-        with Extracteur(document, cache=cache) as extracteur:
-            try:
-                rendu = extracteur.image(illustration.page, illustration.region, None, PPP)
-            except ExtractionError as erreur:
-                raise IllustrationsError('%s : %s' % (illustration.cle, erreur)) from erreur
+        if isinstance(illustration, IllustrationRaster):
+            source = Image.open(document.chemin).convert('RGB')
+            hauteur = round(source.height * illustration.largeur / source.width)
+            image = source.resize((illustration.largeur, hauteur), Image.LANCZOS)
+            provenance_image = {'sourceSize': [source.width, source.height]}
+        else:
+            with Extracteur(document, cache=cache) as extracteur:
+                try:
+                    rendu = extracteur.image(illustration.page, illustration.region, None, PPP)
+                except ExtractionError as erreur:
+                    raise IllustrationsError('%s : %s' % (illustration.cle, erreur)) from erreur
+            # Le rendu est un PNG (EX-CNT-022 : une image se REND, elle ne se tire pas d'un flux
+            # brut) ; seul l'encodage final change. Aucun rééchantillonnage : la taille livrée est
+            # celle rendue.
+            image = Image.open(io.BytesIO(rendu)).convert('RGB')
+            provenance_image = {'page': illustration.page, 'region': list(illustration.region),
+                                'dpi': PPP}
 
-        # Le rendu est un PNG (EX-CNT-022 : une image se REND, elle ne se tire pas d'un flux brut) ;
-        # seul l'encodage final change. Aucun rééchantillonnage : la taille livrée est celle rendue.
-        image = Image.open(io.BytesIO(rendu)).convert('RGB')
         tampon = io.BytesIO()
         image.save(tampon, format='JPEG', quality=QUALITE, optimize=True, subsampling=1)
         donnees = tampon.getvalue()
 
         (racine / illustration.fichier).write_bytes(donnees)
         octets += len(donnees)
-        entrees.append({
+        entree = {
             'id': illustration.cle,
             'file': illustration.fichier,
             'document': document.fichier,
             'provenance': document.provenance,
-            'page': illustration.page,
-            'region': list(illustration.region),
+        }
+        entree.update(provenance_image)
+        entree.update({
             'size': [image.width, image.height],
-            'dpi': PPP,
             'quality': QUALITE,
             'bytes': len(donnees),
             'sha256': hashlib.sha256(donnees).hexdigest(),
             'note': illustration.note,
         })
+        entrees.append(entree)
 
-    (racine / MANIFESTE).write_text(
-        json.dumps({'version': 1, 'illustrations': entrees}, indent=2, ensure_ascii=False) + '\n',
-        encoding='utf-8')
+    # Le manifeste porte aussi ce que d'autres outils y ecrivent (les images PRODUITES et la
+    # section pending du LOT-87) : seules les entrees extraites du corpus sont remplacees.
+    chemin_manifeste = racine / MANIFESTE
+    existant = (json.loads(chemin_manifeste.read_text(encoding='utf-8'))
+                if chemin_manifeste.is_file() else {'version': 1, 'illustrations': []})
+    produites_ici = {e['id'] for e in entrees}
+    gardees = [e for e in existant.get('illustrations', [])
+               if e.get('provenance') == 'produced'
+               or (cles and e.get('id') not in produites_ici)]
+    existant['illustrations'] = sorted(
+        entrees + gardees, key=lambda e: (e.get('provenance') == 'produced', e['id']))
+    chemin_manifeste.write_text(
+        json.dumps(existant, indent=2, ensure_ascii=False) + '\n',
+        encoding='utf-8', newline='\n')
     return {'illustrations': len(entrees), 'octets': octets}

@@ -6,3 +6,4 @@ CharacterSheetModel 1.0 CharacterSheetModel.qml
 InventoryModel 1.0 InventoryModel.qml
 GameViewport 1.0 GameViewport.qml
 CreditsModel 1.0 CreditsModel.qml
+WorldMapModel 1.0 WorldMapModel.qml
