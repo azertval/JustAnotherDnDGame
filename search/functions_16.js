@@ -5,7 +5,7 @@ var searchData=
   ['wheelevent_2',['wheelEvent',['../classhmi_1_1PixelCanvas.html#aa4d846f6267513828f8b35ea33ec5e1a',1,'hmi::PixelCanvas::wheelEvent()'],['../classhmi_1_1GameViewport.html#a9bc7a0ae5471c1274616dfcc3e6ef880',1,'hmi::GameViewport::wheelEvent()']]],
   ['width_3',['width',['../classcore_1_1BattleGrid.html#ab7d7cbb5a4348e90c82deae5bfd2e3c1',1,'core::BattleGrid::width()'],['../classcore_1_1TileMap.html#aacb0302300621bb9fb43c89bbddfef0d',1,'core::TileMap::width()'],['../structhmi_1_1PixelRegion.html#a90d7af7f0a2052c84de2f0b310546b73',1,'hmi::PixelRegion::width()'],['../classhmi_1_1TextureAtlas.html#a6408ca8d697d60ac8d5da5290b157726',1,'hmi::TextureAtlas::width()']]],
   ['widthfor_4',['widthFor',['../structhmi_1_1SceneTextures.html#acfdc279bc1f8f78d0781b2d6a2e2c633',1,'hmi::SceneTextures']]],
-  ['withdraw_5',['withdraw',['../classcore_1_1CombatState.html#a7770c8599b487305a83920da2df77ea9',1,'core::CombatState']]],
+  ['withdraw_5',['withdraw',['../classcore_1_1ArenaSession.html#a8d6256721d29bb2605674939cc41818a',1,'core::ArenaSession::withdraw()'],['../classcore_1_1CombatState.html#a7770c8599b487305a83920da2df77ea9',1,'core::CombatState::withdraw()'],['../classhmi_1_1ArenaModel.html#a53e4578bc24ffdff34ffebbb7b9a2bf8',1,'hmi::ArenaModel::withdraw()']]],
   ['workspacebit_6',['workspaceBit',['../namespacehmi.html#a995f7c23db3bf4cc03926aa7679618a9',1,'hmi']]],
   ['workspaceforpixeltool_7',['workspaceForPixelTool',['../namespacehmi.html#ad075fc85767c6c9a6e6b919548dcbe01',1,'hmi']]],
   ['workspacefortool_8',['workspaceForTool',['../namespacehmi.html#a861d89e3cd32c93cccec048ed72d7647',1,'hmi']]],

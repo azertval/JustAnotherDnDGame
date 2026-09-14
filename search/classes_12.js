@@ -31,6 +31,8 @@ var searchData=
   ['spritequad_28',['SpriteQuad',['../structhmi_1_1SpriteQuad.html',1,'hmi']]],
   ['spriterenderer_29',['SpriteRenderer',['../classhmi_1_1SpriteRenderer.html',1,'hmi']]],
   ['state_30',['State',['../structcore_1_1LevelDraft_1_1State.html',1,'core::LevelDraft']]],
-  ['stylesheetsubstitutionresult_31',['StyleSheetSubstitutionResult',['../structhmi_1_1StyleSheetSubstitutionResult.html',1,'hmi']]],
-  ['sweepresult_32',['SweepResult',['../structcore_1_1SweepResult.html',1,'core']]]
+  ['strikekit_31',['StrikeKit',['../structcore_1_1StrikeKit.html',1,'core']]],
+  ['strikeoutcome_32',['StrikeOutcome',['../structcore_1_1StrikeOutcome.html',1,'core']]],
+  ['stylesheetsubstitutionresult_33',['StyleSheetSubstitutionResult',['../structhmi_1_1StyleSheetSubstitutionResult.html',1,'hmi']]],
+  ['sweepresult_34',['SweepResult',['../structcore_1_1SweepResult.html',1,'core']]]
 ];

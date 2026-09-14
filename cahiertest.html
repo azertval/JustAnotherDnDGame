@@ -93,9 +93,9 @@ $(function(){initNavTree('cahiertest.html','',''); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md_CahierTest"></a></p>
-<p><b>1079 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
+<p><b>1085 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md5"></a>
-Tests unitaires (1064)</h1>
+Tests unitaires (1070)</h1>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md6"></a>
 Core</h2>
 <p><b><span class="tt"><a class="el" href="test__core_8cpp.html" title="Tests unitaires de la bibliothèque Core (amorçage).">test_core.cpp</a></span></b></p>
@@ -108,7 +108,7 @@ Core</h2>
 2. Executer le scenario et verifier les assertions.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">engine.version().empty()</span> est faux.  </td></tr>
 </table>
 <h3 class="doxsection"><a class="anchor" id="autotoc_md7"></a>
-Combat (49)</h3>
+Combat (55)</h3>
 <p><b><span class="tt"><a class="el" href="test__action__economy_8cpp.html" title="Tests de l&#39;économie d&#39;action et des mémoires à portée (LOT-20, EX-CBT-011).">test_action_economy.cpp</a></span></b></p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -159,6 +159,104 @@ Vérifie que <span class="tt">immunites.isImmune("gobelin", "dragon-bleu", maint
 Vérifie que <span class="tt">immunites.isImmune("ogre", "dragon-rouge", maintenant)</span> est faux.<br  />
 Vérifie que <span class="tt">immunites.isImmune("gobelin", "dragon-rouge", maintenant + <a class="el" href="namespacecore.html#a19abfcf45c52011124208e7201c3663a" title="Durée d&#39;une immunité « de 24 heures », en secondes de jeu.">core::IMMUNITY_DAY_SECONDS</a> - 1)</span> est vrai.<br  />
 Vérifie que <span class="tt">immunites.isImmune("gobelin", "dragon-rouge", maintenant + <a class="el" href="namespacecore.html#a19abfcf45c52011124208e7201c3663a" title="Durée d&#39;une immunité « de 24 heures », en secondes de jeu.">core::IMMUNITY_DAY_SECONDS</a> - 1)</span> est faux.  </td></tr>
+</table>
+<p><b><span class="tt"><a class="el" href="test__arena_8cpp.html" title="Tests unitaires du Colisée (LOT-50) : points d&#39;entrée, catalogues, kits, montage, coup d&#39;essai,...">test_arena.cpp</a></span></b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>ArenaTest.LesPointsDEntreeSeLisentDeLaCarte</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__arena_8cpp.html" title="Tests unitaires du Colisée (LOT-50) : points d&#39;entrée, catalogues, kits, montage, coup d&#39;essai,...">Source/Test/Unit/Core/Combat/test_arena.cpp</a>:154</span></sub>  </td><td class="markdownTableBodyNone">Les points d'entree de l'arene se lisent de la carte, ranges par camp puis par rang.  </td><td class="markdownTableBodyNone">1. Une piste avec trois entrees par camp, declarees dans le desordre, et une entree sans camp.<br  />
+2. Lire les points d'entree.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">entrees.size()</span> vaut <span class="tt">6U</span>.<br  />
+Vérifie que <span class="tt">entrees</span> vaut <span class="tt">attendu</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>ArenaTest.LaPremiereCarteSeChargeEtAccueilleLesDeuxCamps</b> (Bloquant)<br  />
+<sub><span class="tt"><a class="el" href="test__arena_8cpp.html" title="Tests unitaires du Colisée (LOT-50) : points d&#39;entrée, catalogues, kits, montage, coup d&#39;essai,...">Source/Test/Unit/Core/Combat/test_arena.cpp</a>:175</span></sub>  </td><td class="markdownTableBodyNone">La premiere carte de Source/Elements/Levels se charge et accueille les deux camps ; les arenes et les huit Marques Heroiques se chargent.  </td><td class="markdownTableBodyNone">1. Charger le catalogue des arenes livre et les Marques Heroiques.<br  />
+2. Charger la carte que la premiere arene nomme.<br  />
+3. Lire ses points d'entree et verifier qu'aucun n'est dans un mur.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">arenes.errors.empty()</span> est vrai.<br  />
+Vérifie que <span class="tt">marques.errors.empty()</span> est vrai.<br  />
+Vérifie que <span class="tt">marques.marks.size()</span> vaut <span class="tt">8U</span>.<br  />
+Vérifie que <span class="tt">marques.find("tank")</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">marques.find("paladin")</span> vaut <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">jouable</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">jouable-&gt;lethal</span> est faux.<br  />
+Vérifie que <span class="tt">jouable-&gt;heroicMark</span> est vrai.<br  />
+Vérifie que <span class="tt">arenes.find(jouable-&gt;id)</span> vaut <span class="tt">jouable</span>.<br  />
+Vérifie que <span class="tt">carte.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt">grille.isObstructed(entree.position, <a class="el" href="namespacecore.html#a764555c0509482c85a9aa71b8a9ec1ffa7a16a854f32231a8df9326136b09ee62">core::Locomotion::Walk</a>)</span> est faux.<br  />
+Vérifie que <span class="tt">allies</span> est supérieur ou égal à <span class="tt">4</span>.<br  />
+Vérifie que <span class="tt">ennemis</span> est supérieur ou égal à <span class="tt">4</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>ArenaTest.LesKitsSeTirentDuBestiaireEtDeLaFiche</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__arena_8cpp.html" title="Tests unitaires du Colisée (LOT-50) : points d&#39;entrée, catalogues, kits, montage, coup d&#39;essai,...">Source/Test/Unit/Core/Combat/test_arena.cpp</a>:225</span></sub>  </td><td class="markdownTableBodyNone">Le kit du coup d'essai vient de la premiere action qui frappe d'une creature, ou du coup a mains nues d'un personnage.  </td><td class="markdownTableBodyNone">1. Une creature dont la premiere action ne frappe pas et la seconde frappe.<br  />
+2. Une creature sans attaque.<br  />
+3. Une fiche de Force 16, maitrise +2, CA 14.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">kit.armorClass</span> vaut <span class="tt">15</span>.<br  />
+Vérifie que <span class="tt">kit.attackBonus</span> vaut <span class="tt">4</span>.<br  />
+Vérifie que <span class="tt">kit.damage</span> vaut <span class="tt">*core::parseDice("1d6+2")</span>.<br  />
+Vérifie que <span class="tt">kit.label</span> vaut <span class="tt">"Cimeterre"</span>.<br  />
+Vérifie que <span class="tt">sansCoup.attackBonus</span> vaut <span class="tt">0</span>.<br  />
+Vérifie que <span class="tt">sansCoup.damage.maximum()</span> vaut <span class="tt">0</span>.<br  />
+Vérifie que <span class="tt">mains.armorClass</span> vaut <span class="tt">14</span>.<br  />
+Vérifie que <span class="tt">mains.attackBonus</span> vaut <span class="tt">5</span>.<br  />
+Vérifie que <span class="tt">mains.damage.minimum()</span> vaut <span class="tt">4</span>.<br  />
+Vérifie que <span class="tt">mains.damage.maximum()</span> vaut <span class="tt">4</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>ArenaTest.LeMontagePlaceAuxEntreesEtRefuseEnLeDisant</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__arena_8cpp.html" title="Tests unitaires du Colisée (LOT-50) : points d&#39;entrée, catalogues, kits, montage, coup d&#39;essai,...">Source/Test/Unit/Core/Combat/test_arena.cpp</a>:269</span></sub>  </td><td class="markdownTableBodyNone">Le montage place chaque combattant au prochain point d'entree libre de son camp, ou a la case demandee, et nomme chaque refus.  </td><td class="markdownTableBodyNone">1. Quatre allies sur trois entrees, un ennemi a une case demandee dans le pilier, un ennemi libre.<br  />
+2. Monter avec la Marque Heroique, puis sans.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">montage.allies</span> vaut <span class="tt">(std::vector&lt;CombatantId&gt;{CombatantId{1}, CombatantId{2}, CombatantId{3}})</span>.<br  />
+Vérifie que <span class="tt">montage.enemies</span> vaut <span class="tt">(std::vector&lt;CombatantId&gt;{CombatantId{4}})</span>.<br  />
+Vérifie que <span class="tt">montage.refusals.size()</span> vaut <span class="tt">2U</span>.<br  />
+Vérifie que <span class="tt">montage.refusals[0].who</span> vaut <span class="tt">"Allie3"</span>.<br  />
+Vérifie que <span class="tt">montage.refusals[0].placement</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a56ee2c3f69200e700ac0f1b65dc413b4a46dc1018ac1d8fca7c2752a61ce2fd0f" title="L&#39;emprise sort de la carte.">core::PlacementResult::OutOfBounds</a></span>.<br  />
+Vérifie que <span class="tt">montage.refusals[1].who</span> vaut <span class="tt">"Golem"</span>.<br  />
+Vérifie que <span class="tt">montage.refusals[1].placement</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a56ee2c3f69200e700ac0f1b65dc413b4a11d2b6741acad8cb69767d00147f57a5" title="L&#39;emprise touche une case pleine ou un objet bloquant.">core::PlacementResult::Obstructed</a></span>.<br  />
+Vérifie que <span class="tt">session.combat().grid().positionOf(CombatantId{1})</span> vaut <span class="tt">(<a class="el" href="structcore_1_1GridPosition.html" title="Position d&#39;une case dans la grille d&#39;un niveau, en coordonnées entières.">core::GridPosition</a>{2, 3})</span>.<br  />
+Vérifie que <span class="tt">session.combat().grid().positionOf(CombatantId{2})</span> vaut <span class="tt">(<a class="el" href="structcore_1_1GridPosition.html" title="Position d&#39;une case dans la grille d&#39;un niveau, en coordonnées entières.">core::GridPosition</a>{2, 2})</span>.<br  />
+Vérifie que <span class="tt">session.combat().grid().positionOf(CombatantId{4})</span> vaut <span class="tt">(<a class="el" href="structcore_1_1GridPosition.html" title="Position d&#39;une case dans la grille d&#39;un niveau, en coordonnées entières.">core::GridPosition</a>{9, 3})</span>.<br  />
+Vérifie que <span class="tt">session.combat().economy(CombatantId{1})-&gt;has(core::HEROIC_ACTION_RESOURCE)</span> est vrai.<br  />
+Vérifie que <span class="tt">session.kit(CombatantId{4})</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">session.kit(CombatantId{9})</span> vaut <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">session.combat().economy(CombatantId{1})-&gt;has(core::HEROIC_ACTION_RESOURCE)</span> est faux.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>ArenaTest.LeCoupDEssaiSeRefuseEtPorte</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__arena_8cpp.html" title="Tests unitaires du Colisée (LOT-50) : points d&#39;entrée, catalogues, kits, montage, coup d&#39;essai,...">Source/Test/Unit/Core/Combat/test_arena.cpp</a>:315</span></sub>  </td><td class="markdownTableBodyNone">Le coup d'essai refuse hors tour actif, hors allonge, contre un allie et sans action ; au contact il jette le d20 contre la classe d'armure.  </td><td class="markdownTableBodyNone">1. Heroine en (2,3), compagnon en (2,2), gobelin en (3,3) a la CA 30, graine 3.<br  />
+2. Frapper avant le debut ; frapper le compagnon ; frapper un identifiant inconnu.<br  />
+3. Frapper le gobelin, puis frapper encore.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">session.strike(CombatantId{3}).result</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a8e11f0df61439a2de165b4019062e0e4a8cb45f47274f0e76f8d60401f43b0fb7" title="Aucun tour actif : le combat n&#39;a pas commencé, ou il est fini.">core::StrikeResult::NoActiveTurn</a></span>.<br  />
+Vérifie que <span class="tt">session.start()</span> est vrai.<br  />
+Vérifie que <span class="tt">session.endTurn()</span> est vrai.<br  />
+Vérifie que <span class="tt">session.strike(CombatantId{2}).result</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a8e11f0df61439a2de165b4019062e0e4ab3e0302fd4814646ffa6de166cddc38a" title="La cible n&#39;est pas à une case, ou n&#39;est pas un ennemi debout.">core::StrikeResult::OutOfReach</a></span>.<br  />
+Vérifie que <span class="tt">session.strike(CombatantId{9}).result</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a8e11f0df61439a2de165b4019062e0e4a6f923f50457fdf3e12863922643f9a71">core::StrikeResult::InvalidTarget</a></span>.<br  />
+Vérifie que <span class="tt">session.strike(CombatantId{1}).result</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a8e11f0df61439a2de165b4019062e0e4a6f923f50457fdf3e12863922643f9a71">core::StrikeResult::InvalidTarget</a></span>.<br  />
+Vérifie que <span class="tt">coup.result</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a8e11f0df61439a2de165b4019062e0e4aca9e83a6c347b2bdf7f00ef202a331ad">core::StrikeResult::Missed</a></span>.<br  />
+Vérifie que <span class="tt">coup.roll.has_value()</span> est vrai.<br  />
+Vérifie que <span class="tt">coup.roll-&gt;target</span> vaut <span class="tt">30</span>.<br  />
+Vérifie que <span class="tt">coup.roll-&gt;modifiers.size()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">coup.roll-&gt;modifiers[0].value</span> vaut <span class="tt">5</span>.<br  />
+Vérifie que <span class="tt">session.combat().find(CombatantId{3})-&gt;profile.currentHitPoints</span> vaut <span class="tt">7</span>.<br  />
+Vérifie que <span class="tt">session.strike(CombatantId{3}).result</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a8e11f0df61439a2de165b4019062e0e4a1e601ea653db1c729c9ee5746730fabe" title="L&#39;attaquant a déjà dépensé son action ce tour-ci.">core::StrikeResult::NoAction</a></span>.<br  />
+Vérifie que <span class="tt">std::ranges::find_if( session.journal(), [](const std::string&amp; l) { return l.starts_with("attaque declaree"); })</span> diffère de <span class="tt">session.journal().end()</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>ArenaTest.UnAffrontementSeJoueSeRejoueEtPersonneNYMeurt</b> (Bloquant)<br  />
+<sub><span class="tt"><a class="el" href="test__arena_8cpp.html" title="Tests unitaires du Colisée (LOT-50) : points d&#39;entrée, catalogues, kits, montage, coup d&#39;essai,...">Source/Test/Unit/Core/Combat/test_arena.cpp</a>:368</span></sub>  </td><td class="markdownTableBodyNone">Un affrontement se joue jusqu'a son issue ; le rejeu a la meme graine donne le meme journal ; a la fin, la Marque Heroique releve tout le monde, sauf dans une arene letale.  </td><td class="markdownTableBodyNone">1. Deux allies contre trois gobelins, graine 2026, jouer jusqu'a l'issue.<br  />
+2. Rejouer par <span class="tt">replay</span>, puis a une autre graine.<br  />
+3. Meme affrontement dans une arene letale.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">session.start()</span> est vrai.<br  />
+Vérifie que <span class="tt">session.outcome().has_value()</span> est vrai.<br  />
+Vérifie que <span class="tt">session.combat().round()</span> est supérieur ou égal à <span class="tt">2</span>.<br  />
+Vérifie que <span class="tt">std::count_if(journal.begin(), journal.end(), [](const std::string&amp; l) { return l.starts_with("issue"); })</span> vaut <span class="tt">1</span>.<br  />
+Vérifie que <span class="tt">journal.back()</span> vaut <span class="tt">"marque heroique : tous releves"</span>.<br  />
+Vérifie que <span class="tt">c-&gt;status</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ab77b88490327a0c26ec09d4f6126e382aa66b284e632fb96f19e27dca96b78fd7" title="En état de combattre.">core::CombatantStatus::Standing</a></span>.<br  />
+Vérifie que <span class="tt">c-&gt;profile.currentHitPoints</span> vaut <span class="tt">c-&gt;profile.maximumHitPoints</span>.<br  />
+Vérifie que <span class="tt">remontage.allies.size()</span> vaut <span class="tt">2U</span>.<br  />
+Vérifie que <span class="tt">remontage.enemies.size()</span> vaut <span class="tt">3U</span>.<br  />
+Vérifie que <span class="tt">session.outcome().has_value()</span> est faux.<br  />
+Vérifie que <span class="tt">jouer(session)</span> vaut <span class="tt">journal</span>.<br  />
+Vérifie que <span class="tt">session.outcome()</span> vaut <span class="tt">issue</span>.<br  />
+Vérifie que <span class="tt">autre.start()</span> est vrai.<br  />
+Vérifie que <span class="tt">jouer(autre)</span> diffère de <span class="tt">journal</span>.<br  />
+Vérifie que <span class="tt">letale.start()</span> est vrai.<br  />
+Vérifie que <span class="tt">letale.outcome().has_value()</span> est vrai.<br  />
+Vérifie que <span class="tt">journalLetal.back()</span> diffère de <span class="tt">"marque heroique : tous releves"</span>.<br  />
+Vérifie que <span class="tt">std::ranges::any_of(letale.combat().combatants(), [&amp;](CombatantId id) { return letale.combat().find(id)-&gt;status == <a class="el" href="namespacecore.html#ab77b88490327a0c26ec09d4f6126e382a08a38277b0309070706f6652eeae9a53" title="À 0 point de vie : il garde sa place dans l&#39;ordre, et ses tours sont passés tant qu&#39;il n&#39;est pas rele...">core::CombatantStatus::Down</a>; })</span> est vrai.  </td></tr>
 </table>
 <p><b><span class="tt"><a class="el" href="test__battle__grid_8cpp.html" title="Tests de la grille de combat : obstacles, zones, occupation et objets (LOT-19, EX-CBT-020).">test_battle_grid.cpp</a></span></b></p>
 <table class="markdownTable">
@@ -7470,17 +7568,20 @@ Vérifie que <span class="tt">resolveTransition(menu, ScreenEvent::OpenCredits)-
 Vérifie que <span class="tt">resolveTransition(credits, ScreenEvent::CloseCredits)-&gt;screen</span> vaut <span class="tt">ScreenId::Menu</span>.<br  />
 Vérifie que <span class="tt">resolveTransition(menu, ScreenEvent::OpenRpgScreen)-&gt;screen</span> vaut <span class="tt">ScreenId::RpgScreen</span>.<br  />
 Vérifie que <span class="tt">resolveTransition(game, ScreenEvent::OpenRpgScreen)-&gt;screen</span> vaut <span class="tt">ScreenId::RpgScreen</span>.<br  />
-Vérifie que <span class="tt">resolveTransition(pause, ScreenEvent::OpenRpgScreen)-&gt;screen</span> vaut <span class="tt">ScreenId::RpgScreen</span>.  </td></tr>
+Vérifie que <span class="tt">resolveTransition(pause, ScreenEvent::OpenRpgScreen)-&gt;screen</span> vaut <span class="tt">ScreenId::RpgScreen</span>.<br  />
+Vérifie que <span class="tt">resolveTransition(menu, ScreenEvent::OpenArena)-&gt;screen</span> vaut <span class="tt">ScreenId::Arena</span>.<br  />
+Vérifie que <span class="tt">resolveTransition(arena, ScreenEvent::CloseArena)-&gt;screen</span> vaut <span class="tt">ScreenId::Menu</span>.<br  />
+Vérifie que <span class="tt">resolveTransition(arena, ScreenEvent::OpenMenu)-&gt;screen</span> vaut <span class="tt">ScreenId::Menu</span>.  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>ScreenFlowTest.OptionsRevientVersSonEcranDOrigine</b> (Critique)<br  />
-<sub><span class="tt"><a class="el" href="test__screen__flow_8cpp.html" title="Tests unitaires de la machine à états des écrans (LOT-59 TACHE-01, EX-GP-041).">Source/Test/Unit/HMI/Interface/test_screen_flow.cpp</a>:74</span></sub>  </td><td class="markdownTableBodyNone">Options revient vers son écran d'origine (Menu ou Pause).  </td><td class="markdownTableBodyNone">1. Ouvrir Options depuis Menu, puis le fermer : vérifier le retour au Menu.<br  />
+<sub><span class="tt"><a class="el" href="test__screen__flow_8cpp.html" title="Tests unitaires de la machine à états des écrans (LOT-59 TACHE-01, EX-GP-041).">Source/Test/Unit/HMI/Interface/test_screen_flow.cpp</a>:79</span></sub>  </td><td class="markdownTableBodyNone">Options revient vers son écran d'origine (Menu ou Pause).  </td><td class="markdownTableBodyNone">1. Ouvrir Options depuis Menu, puis le fermer : vérifier le retour au Menu.<br  />
 2. Ouvrir Options depuis Pause, puis le fermer : vérifier le retour à Pause.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">openedFromMenu.has_value()</span> est vrai.<br  />
 Vérifie que <span class="tt">resolveTransition(*openedFromMenu, ScreenEvent::CloseOptions)-&gt;screen</span> vaut <span class="tt">ScreenId::Menu</span>.<br  />
 Vérifie que <span class="tt">openedFromPause.has_value()</span> est vrai.<br  />
 Vérifie que <span class="tt">resolveTransition(*openedFromPause, ScreenEvent::CloseOptions)-&gt;screen</span> vaut <span class="tt">ScreenId::Pause</span>.  </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>ScreenFlowTest.TransitionInterditeEstRefusee</b> (Critique)<br  />
-<sub><span class="tt"><a class="el" href="test__screen__flow_8cpp.html" title="Tests unitaires de la machine à états des écrans (LOT-59 TACHE-01, EX-GP-041).">Source/Test/Unit/HMI/Interface/test_screen_flow.cpp</a>:102</span></sub>  </td><td class="markdownTableBodyNone">Une transition interdite est refusée.  </td><td class="markdownTableBodyNone">1. Tenter Editor -&gt; Pause (via OpenPause).<br  />
+<sub><span class="tt"><a class="el" href="test__screen__flow_8cpp.html" title="Tests unitaires de la machine à états des écrans (LOT-59 TACHE-01, EX-GP-041).">Source/Test/Unit/HMI/Interface/test_screen_flow.cpp</a>:107</span></sub>  </td><td class="markdownTableBodyNone">Une transition interdite est refusée.  </td><td class="markdownTableBodyNone">1. Tenter Editor -&gt; Pause (via OpenPause).<br  />
 2. Tenter Menu -&gt; LevelComplete (via LevelSucceeded).<br  />
 3. Tenter Menu -&gt; Pause directement.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">resolveTransition(editor, ScreenEvent::OpenPause)</span> vaut <span class="tt">std::nullopt</span>.<br  />
 Vérifie que <span class="tt">resolveTransition(menu, ScreenEvent::OpenPause)</span> vaut <span class="tt">std::nullopt</span>.<br  />
@@ -7489,16 +7590,19 @@ Vérifie que <span class="tt">resolveTransition(editor, ScreenEvent::OpenOptions
 Vérifie que <span class="tt">resolveTransition(editor, ScreenEvent::OpenCredits)</span> vaut <span class="tt">std::nullopt</span>.<br  />
 Vérifie que <span class="tt">resolveTransition(game, ScreenEvent::OpenCredits)</span> vaut <span class="tt">std::nullopt</span>.<br  />
 Vérifie que <span class="tt">resolveTransition(editor, ScreenEvent::OpenRpgScreen)</span> vaut <span class="tt">std::nullopt</span>.<br  />
-Vérifie que <span class="tt">resolveTransition(menu, ScreenEvent::CloseRpgScreen)</span> vaut <span class="tt">std::nullopt</span>.  </td></tr>
+Vérifie que <span class="tt">resolveTransition(menu, ScreenEvent::CloseRpgScreen)</span> vaut <span class="tt">std::nullopt</span>.<br  />
+Vérifie que <span class="tt">resolveTransition(game, ScreenEvent::OpenArena)</span> vaut <span class="tt">std::nullopt</span>.<br  />
+Vérifie que <span class="tt">resolveTransition(pause, ScreenEvent::OpenArena)</span> vaut <span class="tt">std::nullopt</span>.<br  />
+Vérifie que <span class="tt">resolveTransition(menu, ScreenEvent::CloseArena)</span> vaut <span class="tt">std::nullopt</span>.  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>ScreenFlowTest.EcranDuRpgRevientVersSonEcranDOrigine</b> (Critique)<br  />
-<sub><span class="tt"><a class="el" href="test__screen__flow_8cpp.html" title="Tests unitaires de la machine à états des écrans (LOT-59 TACHE-01, EX-GP-041).">Source/Test/Unit/HMI/Interface/test_screen_flow.cpp</a>:131</span></sub>  </td><td class="markdownTableBodyNone">Un ecran du RPG revient vers son ecran d'origine (Menu, Game ou Pause).  </td><td class="markdownTableBodyNone">1. Ouvrir un ecran du RPG depuis le menu, le jeu puis la pause.<br  />
+<sub><span class="tt"><a class="el" href="test__screen__flow_8cpp.html" title="Tests unitaires de la machine à états des écrans (LOT-59 TACHE-01, EX-GP-041).">Source/Test/Unit/HMI/Interface/test_screen_flow.cpp</a>:141</span></sub>  </td><td class="markdownTableBodyNone">Un ecran du RPG revient vers son ecran d'origine (Menu, Game ou Pause).  </td><td class="markdownTableBodyNone">1. Ouvrir un ecran du RPG depuis le menu, le jeu puis la pause.<br  />
 2. Le fermer a chaque fois et verifier l'ecran atteint.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">opened.has_value()</span> est vrai.<br  />
 Vérifie que <span class="tt">opened-&gt;rpgReturnTo</span> vaut <span class="tt">expected</span>.<br  />
 Vérifie que <span class="tt">resolveTransition(*opened, ScreenEvent::CloseRpgScreen)-&gt;screen</span> vaut <span class="tt">expected</span>.  </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>ScreenFlowTest.HabillageDeFenetreEstCeluiAttenduParEcran</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__screen__flow_8cpp.html" title="Tests unitaires de la machine à états des écrans (LOT-59 TACHE-01, EX-GP-041).">Source/Test/Unit/HMI/Interface/test_screen_flow.cpp</a>:159</span></sub>  </td><td class="markdownTableBodyNone">L'habillage de fenêtre est celui attendu pour chaque écran.  </td><td class="markdownTableBodyNone">1. Interroger l'habillage de chacun des sept écrans.<br  />
+<sub><span class="tt"><a class="el" href="test__screen__flow_8cpp.html" title="Tests unitaires de la machine à états des écrans (LOT-59 TACHE-01, EX-GP-041).">Source/Test/Unit/HMI/Interface/test_screen_flow.cpp</a>:169</span></sub>  </td><td class="markdownTableBodyNone">L'habillage de fenêtre est celui attendu pour chaque écran.  </td><td class="markdownTableBodyNone">1. Interroger l'habillage de chacun des sept écrans.<br  />
 2. Vérifier chaque champ.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">menu.docksVisible</span> est faux.<br  />
 Vérifie que <span class="tt">menu.menuBarVisible</span> est faux.<br  />
 Vérifie que <span class="tt">menu.toolBarVisible</span> est faux.<br  />

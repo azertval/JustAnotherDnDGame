@@ -28,7 +28,7 @@ var searchData=
   ['widthfor_25',['widthFor',['../structhmi_1_1SceneTextures.html#acfdc279bc1f8f78d0781b2d6a2e2c633',1,'hmi::SceneTextures']]],
   ['widthpixels_26',['widthPixels',['../structhmi_1_1PlaneEditStatusInfo.html#ad0f4abfe0c33aa6f2514b169437a267b',1,'hmi::PlaneEditStatusInfo']]],
   ['wisdom_27',['Wisdom',['../namespacecore.html#a97f31c7914a6cfc54cc026a77da58fd1a646f0a01b685558b975b5cd3f5b36241',1,'core']]],
-  ['withdraw_28',['withdraw',['../classcore_1_1CombatState.html#a7770c8599b487305a83920da2df77ea9',1,'core::CombatState']]],
+  ['withdraw_28',['withdraw',['../classcore_1_1ArenaSession.html#a8d6256721d29bb2605674939cc41818a',1,'core::ArenaSession::withdraw()'],['../classcore_1_1CombatState.html#a7770c8599b487305a83920da2df77ea9',1,'core::CombatState::withdraw()'],['../classhmi_1_1ArenaModel.html#a53e4578bc24ffdff34ffebbb7b9a2bf8',1,'hmi::ArenaModel::withdraw()']]],
   ['withdrawn_29',['Withdrawn',['../namespacecore.html#ab77b88490327a0c26ec09d4f6126e382af62dedad685b570f499b61e94084dab2',1,'core::Withdrawn'],['../namespacecore.html#ae1ab268fb5658f04b32b785790e7c082af62dedad685b570f499b61e94084dab2',1,'core::Withdrawn']]],
   ['withdrawresult_30',['WithdrawResult',['../namespacecore.html#ae1ab268fb5658f04b32b785790e7c082',1,'core']]],
   ['won_31',['Won',['../namespacecore.html#a60398ec3835dd2882a7d3a9eaddb65aaa19abd416eb9fe03ae7400a22446956a5',1,'core']]],

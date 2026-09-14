@@ -17,11 +17,13 @@ var classhmi_1_1ScreenRouter =
       [ "Options", "classhmi_1_1ScreenRouter.html#a82f878c3ef3a0d8b924af7bbca4b37f7adae8ace18bdcbcc6ae5aece263e14fe8", null ],
       [ "Pause", "classhmi_1_1ScreenRouter.html#a82f878c3ef3a0d8b924af7bbca4b37f7a105b296a83f9c105355403f3332af50f", null ],
       [ "Credits", "classhmi_1_1ScreenRouter.html#a82f878c3ef3a0d8b924af7bbca4b37f7a948a2e3548aaf7f9941a3192fa607d51", null ],
-      [ "RpgScreen", "classhmi_1_1ScreenRouter.html#a82f878c3ef3a0d8b924af7bbca4b37f7a74f7bb96f40b089d24eea4863b269139", null ]
+      [ "RpgScreen", "classhmi_1_1ScreenRouter.html#a82f878c3ef3a0d8b924af7bbca4b37f7a74f7bb96f40b089d24eea4863b269139", null ],
+      [ "Arena", "classhmi_1_1ScreenRouter.html#a82f878c3ef3a0d8b924af7bbca4b37f7a6fa3f3daa9f9a6282d58c913b73b8dc4", null ]
     ] ],
     [ "ScreenRouter", "classhmi_1_1ScreenRouter.html#a9e6541e67445b3ac46d5100ffbf96fb1", null ],
     [ "apply", "classhmi_1_1ScreenRouter.html#a8479413d73606356d8ebd8443fdf40c5", null ],
     [ "changed", "classhmi_1_1ScreenRouter.html#abe0507d01e28c708982407bb9f1f2096", null ],
+    [ "closeArena", "classhmi_1_1ScreenRouter.html#a848642d2b4ed6fcf1b3c78de534de4e9", null ],
     [ "closeCredits", "classhmi_1_1ScreenRouter.html#afc4b6c4f6e692e0f439b694fbc4ed7a4", null ],
     [ "closeOptions", "classhmi_1_1ScreenRouter.html#a715c3898e04c067e4fb45b1cedb6d8f8", null ],
     [ "closeRpgScreen", "classhmi_1_1ScreenRouter.html#a5efecee08cf5d4212b5c68431b1d2ed9", null ],
@@ -29,6 +31,7 @@ var classhmi_1_1ScreenRouter =
     [ "currentScreen", "classhmi_1_1ScreenRouter.html#a6723c5bdb4ac5876eae37b87f3918fd2", null ],
     [ "developerBuild", "classhmi_1_1ScreenRouter.html#ac6014c18529417527360f273fe9e39f3", null ],
     [ "nextRpgScreen", "classhmi_1_1ScreenRouter.html#aba7714a748fe5539eb4c69e6b87dc169", null ],
+    [ "openArena", "classhmi_1_1ScreenRouter.html#a2494cbca36808d307ae0cf26336e5c78", null ],
     [ "openCredits", "classhmi_1_1ScreenRouter.html#a72a1fbefbc533cfa55a1baebd0a68615", null ],
     [ "openGame", "classhmi_1_1ScreenRouter.html#a10a7ce61538fe188b0f4151a44f61595", null ],
     [ "openMenu", "classhmi_1_1ScreenRouter.html#aadd3bd3f7a84530fbd3c139dfc4011d0", null ],

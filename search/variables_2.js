@@ -9,13 +9,14 @@ var searchData=
   ['basearmorclass_6',['baseArmorClass',['../structcore_1_1Armor.html#acf5fbaa640c57b18396a1291da9d476a',1,'core::Armor']]],
   ['batches_7',['batches',['../structhmi_1_1SceneStatistics.html#ad7138a1319fdb40388fb35bc913ec6d5',1,'hmi::SceneStatistics']]],
   ['before_8',['before',['../structhmi_1_1PixelHistoryEntry.html#af7d7ee9628baa64f19d8afc208623a25',1,'hmi::PixelHistoryEntry']]],
-  ['blocksmovement_9',['blocksMovement',['../structcore_1_1GridObject.html#aeaf196e6d2db7cd9d6c0b969f70435d3',1,'core::GridObject']]],
-  ['body_10',['body',['../structhmi_1_1TypographyTokens.html#a4ef65536c7fe503983922d5a4769fcee',1,'hmi::TypographyTokens::body'],['../structhmi_1_1IdentityBaseScale.html#accf376ca961b7275e87ed17edd5aaf87',1,'hmi::IdentityBaseScale::body']]],
-  ['bonus_5faction_5fresource_11',['BONUS_ACTION_RESOURCE',['../namespacecore.html#a1a7647b95079dc030d27953b8c41ecf6',1,'core']]],
-  ['border_12',['border',['../structhmi_1_1ColorTokens.html#a241a0c3b5c0ac06b32bc6c8a8931144a',1,'hmi::ColorTokens']]],
-  ['box_13',['box',['../structcore_1_1TriggerWeight.html#ab974e361606ec4249ab88f8e305c2480',1,'core::TriggerWeight']]],
-  ['burrow_14',['burrow',['../structcore_1_1CreatureSpeed.html#a279a2e0ca9c7dacec5321ca51777d61d',1,'core::CreatureSpeed']]],
-  ['button_5fcount_15',['BUTTON_COUNT',['../classhmi_1_1InputState.html#a692a4d893cae9b15948b3d1081bbafeb',1,'hmi::InputState']]],
-  ['bx_16',['bx',['../structhmi_1_1LineQuad.html#a203b268e3040f841fa7089fc58391d22',1,'hmi::LineQuad']]],
-  ['by_17',['by',['../structhmi_1_1LineQuad.html#aea263b042537c77e3ffbebe64b772a27',1,'hmi::LineQuad']]]
+  ['bestiary_9',['bestiary',['../structhmi_1_1ArenaModel_1_1Catalogs.html#a956024d97966afc5962d5709bb54404e',1,'hmi::ArenaModel::Catalogs']]],
+  ['blocksmovement_10',['blocksMovement',['../structcore_1_1GridObject.html#aeaf196e6d2db7cd9d6c0b969f70435d3',1,'core::GridObject']]],
+  ['body_11',['body',['../structhmi_1_1TypographyTokens.html#a4ef65536c7fe503983922d5a4769fcee',1,'hmi::TypographyTokens::body'],['../structhmi_1_1IdentityBaseScale.html#accf376ca961b7275e87ed17edd5aaf87',1,'hmi::IdentityBaseScale::body']]],
+  ['bonus_5faction_5fresource_12',['BONUS_ACTION_RESOURCE',['../namespacecore.html#a1a7647b95079dc030d27953b8c41ecf6',1,'core']]],
+  ['border_13',['border',['../structhmi_1_1ColorTokens.html#a241a0c3b5c0ac06b32bc6c8a8931144a',1,'hmi::ColorTokens']]],
+  ['box_14',['box',['../structcore_1_1TriggerWeight.html#ab974e361606ec4249ab88f8e305c2480',1,'core::TriggerWeight']]],
+  ['burrow_15',['burrow',['../structcore_1_1CreatureSpeed.html#a279a2e0ca9c7dacec5321ca51777d61d',1,'core::CreatureSpeed']]],
+  ['button_5fcount_16',['BUTTON_COUNT',['../classhmi_1_1InputState.html#a692a4d893cae9b15948b3d1081bbafeb',1,'hmi::InputState']]],
+  ['bx_17',['bx',['../structhmi_1_1LineQuad.html#a203b268e3040f841fa7089fc58391d22',1,'hmi::LineQuad']]],
+  ['by_18',['by',['../structhmi_1_1LineQuad.html#aea263b042537c77e3ffbebe64b772a27',1,'hmi::LineQuad']]]
 ];

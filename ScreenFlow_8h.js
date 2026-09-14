@@ -14,7 +14,9 @@ var ScreenFlow_8h =
       [ "hmi::ScreenEvent::OpenCredits", "namespacehmi.html#a964211f19cf43757eaaa80c3c29b0e90a2a1540e25ac6f65503d2539901c3eb7c", null ],
       [ "hmi::ScreenEvent::CloseCredits", "namespacehmi.html#a964211f19cf43757eaaa80c3c29b0e90a64b9ec7c728085981f7746660948ed17", null ],
       [ "hmi::ScreenEvent::OpenRpgScreen", "namespacehmi.html#a964211f19cf43757eaaa80c3c29b0e90adb28cc1642bf3c7166e5556e54c9752b", null ],
-      [ "hmi::ScreenEvent::CloseRpgScreen", "namespacehmi.html#a964211f19cf43757eaaa80c3c29b0e90a41a0a091b97ea443ec61e2b5fd660d32", null ]
+      [ "hmi::ScreenEvent::CloseRpgScreen", "namespacehmi.html#a964211f19cf43757eaaa80c3c29b0e90a41a0a091b97ea443ec61e2b5fd660d32", null ],
+      [ "hmi::ScreenEvent::OpenArena", "namespacehmi.html#a964211f19cf43757eaaa80c3c29b0e90a3be966fb2b7d08b242df53d0bc22e1dd", null ],
+      [ "hmi::ScreenEvent::CloseArena", "namespacehmi.html#a964211f19cf43757eaaa80c3c29b0e90abc9cfeaf81c60f29d78a1ef99aecb576", null ]
     ] ],
     [ "hmi::ScreenId", "namespacehmi.html#a168b24f798c2e6d06beb9472a071528d", [
       [ "hmi::ScreenId::Menu", "namespacehmi.html#a168b24f798c2e6d06beb9472a071528dab61541208db7fa7dba42c85224405911", null ],
@@ -23,7 +25,8 @@ var ScreenFlow_8h =
       [ "hmi::ScreenId::Options", "namespacehmi.html#a168b24f798c2e6d06beb9472a071528dadae8ace18bdcbcc6ae5aece263e14fe8", null ],
       [ "hmi::ScreenId::Pause", "namespacehmi.html#a168b24f798c2e6d06beb9472a071528da105b296a83f9c105355403f3332af50f", null ],
       [ "hmi::ScreenId::Credits", "namespacehmi.html#a168b24f798c2e6d06beb9472a071528da948a2e3548aaf7f9941a3192fa607d51", null ],
-      [ "hmi::ScreenId::RpgScreen", "namespacehmi.html#a168b24f798c2e6d06beb9472a071528da74f7bb96f40b089d24eea4863b269139", null ]
+      [ "hmi::ScreenId::RpgScreen", "namespacehmi.html#a168b24f798c2e6d06beb9472a071528da74f7bb96f40b089d24eea4863b269139", null ],
+      [ "hmi::ScreenId::Arena", "namespacehmi.html#a168b24f798c2e6d06beb9472a071528da6fa3f3daa9f9a6282d58c913b73b8dc4", null ]
     ] ],
     [ "hmi::dressingFor", "namespacehmi.html#a7e42ffeba1ac86e0a292c24dc3b99f94", null ],
     [ "hmi::resolveTransition", "namespacehmi.html#adbeed25b15bad59211fcea357825feec", null ]

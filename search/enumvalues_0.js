@@ -11,8 +11,9 @@ var searchData=
   ['all_8',['All',['../namespacehmi.html#a874cdf4b3785a41ee4cfc4ae882c2df5ab1c94ca2fbc3e78fc30069c8d0f01680',1,'hmi']]],
   ['allies_9',['Allies',['../namespacecore.html#a5de8069e593ab57dab3a12c60b40b717a4ff52320ad589c7346c8562c2c715fd6',1,'core']]],
   ['ammunition_10',['Ammunition',['../namespacecore.html#af71085608729d9857e7ee3fd17be6cd6a18c5b5c7381f5d9eecaa5b06a6bb4960',1,'core']]],
-  ['assign_11',['Assign',['../namespacehmi.html#a76066d550faf628786294c82cd2d12a4a185b7133db22230701a857c059360cc2',1,'hmi']]],
-  ['atlas_12',['Atlas',['../namespacehmi.html#a484fc821d307ce050da2a61ed1760a8daa6567816e007283cf9781c35b95dd56f',1,'hmi::Atlas'],['../namespacehmi.html#a0030e1768b551f6d1bc0a9fa566d2003aa6567816e007283cf9781c35b95dd56f',1,'hmi::Atlas'],['../namespacehmi.html#ac32d81972d12a0b2475fc009eefee225aa6567816e007283cf9781c35b95dd56f',1,'hmi::Atlas']]],
-  ['attackdeclared_13',['AttackDeclared',['../namespacecore.html#a942a0cabc5c97e0e10dfb8a148e26fb9a5a4f89385b5dfc0953b794f3df6378af',1,'core']]],
-  ['autotilesheet_14',['AutotileSheet',['../namespacehmi.html#a0030e1768b551f6d1bc0a9fa566d2003a43d654bfc07197e5e982b9e03f64477f',1,'hmi']]]
+  ['arena_11',['Arena',['../classhmi_1_1ScreenRouter.html#a82f878c3ef3a0d8b924af7bbca4b37f7a6fa3f3daa9f9a6282d58c913b73b8dc4',1,'hmi::ScreenRouter::Arena'],['../namespacehmi.html#a168b24f798c2e6d06beb9472a071528da6fa3f3daa9f9a6282d58c913b73b8dc4',1,'hmi::Arena']]],
+  ['assign_12',['Assign',['../namespacehmi.html#a76066d550faf628786294c82cd2d12a4a185b7133db22230701a857c059360cc2',1,'hmi']]],
+  ['atlas_13',['Atlas',['../namespacehmi.html#a484fc821d307ce050da2a61ed1760a8daa6567816e007283cf9781c35b95dd56f',1,'hmi::Atlas'],['../namespacehmi.html#a0030e1768b551f6d1bc0a9fa566d2003aa6567816e007283cf9781c35b95dd56f',1,'hmi::Atlas'],['../namespacehmi.html#ac32d81972d12a0b2475fc009eefee225aa6567816e007283cf9781c35b95dd56f',1,'hmi::Atlas']]],
+  ['attackdeclared_14',['AttackDeclared',['../namespacecore.html#a942a0cabc5c97e0e10dfb8a148e26fb9a5a4f89385b5dfc0953b794f3df6378af',1,'core']]],
+  ['autotilesheet_15',['AutotileSheet',['../namespacehmi.html#a0030e1768b551f6d1bc0a9fa566d2003a43d654bfc07197e5e982b9e03f64477f',1,'hmi']]]
 ];

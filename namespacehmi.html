@@ -407,6 +407,8 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les ancres lues dans <span class="tt">world-map-regions.json</span>, ou la raison de l'échec.  <a href="structhmi_1_1RegionAnchors.html#details">More...</a><br /></td></tr>
 <tr class="memitem:MapRegion" id="r_MapRegion"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1MapRegion.html">MapRegion</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une région telle que la carte la montre : son repère et sa fiche.  <a href="structhmi_1_1MapRegion.html#details">More...</a><br /></td></tr>
+<tr class="memitem:ArenaModel" id="r_ArenaModel"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1ArenaModel.html">ArenaModel</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">La vue-modèle de l'arène : composer deux camps, lancer, jouer, rejouer.  <a href="classhmi_1_1ArenaModel.html#details">More...</a><br /></td></tr>
 <tr class="memitem:CharacterSheetModel" id="r_CharacterSheetModel"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1CharacterSheetModel.html">CharacterSheetModel</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vue-modèle de la fiche : ce que le jeu <b>sait dire</b> d'un personnage.  <a href="classhmi_1_1CharacterSheetModel.html#details">More...</a><br /></td></tr>
 <tr class="memitem:CreditsModel" id="r_CreditsModel"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1CreditsModel.html">CreditsModel</a></td></tr>
@@ -856,6 +858,7 @@ Enumerations</h2></td></tr>
 &#160;&#160;<a class="el" href="#a168b24f798c2e6d06beb9472a071528da105b296a83f9c105355403f3332af50f">Pause</a>
 , <a class="el" href="#a168b24f798c2e6d06beb9472a071528da948a2e3548aaf7f9941a3192fa607d51">Credits</a>
 , <a class="el" href="#a168b24f798c2e6d06beb9472a071528da74f7bb96f40b089d24eea4863b269139">RpgScreen</a>
+, <a class="el" href="#a168b24f798c2e6d06beb9472a071528da6fa3f3daa9f9a6282d58c913b73b8dc4">Arena</a>
 <br />
  }</td></tr>
 <tr class="memdesc:a168b24f798c2e6d06beb9472a071528d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Écran actuellement affiché par la fenêtre principale.  <a href="#a168b24f798c2e6d06beb9472a071528d">More...</a><br /></td></tr>
@@ -874,6 +877,9 @@ Enumerations</h2></td></tr>
 , <a class="el" href="#a964211f19cf43757eaaa80c3c29b0e90a64b9ec7c728085981f7746660948ed17">CloseCredits</a>
 , <a class="el" href="#a964211f19cf43757eaaa80c3c29b0e90adb28cc1642bf3c7166e5556e54c9752b">OpenRpgScreen</a>
 , <a class="el" href="#a964211f19cf43757eaaa80c3c29b0e90a41a0a091b97ea443ec61e2b5fd660d32">CloseRpgScreen</a>
+, <br />
+&#160;&#160;<a class="el" href="#a964211f19cf43757eaaa80c3c29b0e90a3be966fb2b7d08b242df53d0bc22e1dd">OpenArena</a>
+, <a class="el" href="#a964211f19cf43757eaaa80c3c29b0e90abc9cfeaf81c60f29d78a1ef99aecb576">CloseArena</a>
 <br />
  }</td></tr>
 <tr class="memdesc:a964211f19cf43757eaaa80c3c29b0e90"><td class="mdescLeft">&#160;</td><td class="mdescRight">Événement pouvant déclencher une transition d'écran.  <a href="#a964211f19cf43757eaaa80c3c29b0e90">More...</a><br /></td></tr>
@@ -2780,6 +2786,9 @@ Variables</h2></td></tr>
 <p>Un seul événement pour les huit, et depuis trois écrans (Menu, Game, Pause) : c'est <span class="tt"><a class="el" href="structhmi_1_1ScreenState.html#a35d36781ddd45df8818932eb54d7a616" title="Écran vers lequel CloseRpgScreen revient (Menu, Game ou Pause, selon l&#39;origine).">ScreenState::rpgReturnTo</a></span> qui porte la différence, comme <span class="tt">optionsReturnTo</span> le fait pour Options. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a964211f19cf43757eaaa80c3c29b0e90a41a0a091b97ea443ec61e2b5fd660d32" name="a964211f19cf43757eaaa80c3c29b0e90a41a0a091b97ea443ec61e2b5fd660d32"></a>CloseRpgScreen&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a964211f19cf43757eaaa80c3c29b0e90a3be966fb2b7d08b242df53d0bc22e1dd" name="a964211f19cf43757eaaa80c3c29b0e90a3be966fb2b7d08b242df53d0bc22e1dd"></a>OpenArena&#160;</td><td class="fielddoc"><p>Ouvre le Colisée depuis le menu ; <span class="tt">CloseArena</span> y revient. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a964211f19cf43757eaaa80c3c29b0e90abc9cfeaf81c60f29d78a1ef99aecb576" name="a964211f19cf43757eaaa80c3c29b0e90abc9cfeaf81c60f29d78a1ef99aecb576"></a>CloseArena&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
 </div>
@@ -2814,6 +2823,9 @@ Variables</h2></td></tr>
 <tr><td class="fieldname"><a id="a168b24f798c2e6d06beb9472a071528da948a2e3548aaf7f9941a3192fa607d51" name="a168b24f798c2e6d06beb9472a071528da948a2e3548aaf7f9941a3192fa607d51"></a>Credits&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a168b24f798c2e6d06beb9472a071528da74f7bb96f40b089d24eea4863b269139" name="a168b24f798c2e6d06beb9472a071528da74f7bb96f40b089d24eea4863b269139"></a>RpgScreen&#160;</td><td class="fielddoc"><p><b>Un</b> écran du RPG est ouvert (<span class="tt">LOT-68</span>, <span class="tt">EX-IHM-090</span>). </p>
 <p>Lequel des huit n'est pas la question de cette table : c'est celle de <span class="tt">hmi::RpgScreenHost</span>, qui les héberge tous sur une seule page. Les y déclarer un par un aurait multiplié par huit les transitions à écrire pour n'exprimer, huit fois, que la même règle. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a168b24f798c2e6d06beb9472a071528da6fa3f3daa9f9a6282d58c913b73b8dc4" name="a168b24f798c2e6d06beb9472a071528da6fa3f3daa9f9a6282d58c913b73b8dc4"></a>Arena&#160;</td><td class="fielddoc"><p>Le Colisée (<span class="tt">LOT-50</span>) : la mise en place d'un affrontement et sa grille. </p>
+<p>Un écran de premier niveau, comme <span class="tt">Game</span>, parce que l'arène est un <b>mode du jeu</b> et non l'un des écrans du RPG qui se consultent depuis une partie. </p>
 </td></tr>
 </table>
 
@@ -9992,7 +10004,7 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Nom lisible d'un terme de règle — caractéristique, emplacement d'équipement, condition. </p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md915"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md930"></a>
 Pourquoi ceux-là ne passent pas par <span class="tt">qsTr</span></h2>
 <p>La chrome des écrans (« Points de vie », « Nouvelle partie ») s'écrit en français <b>dans le fichier QML</b>, et Qt la traduit par sa source. Ces libellés-ci ne le peuvent pas : leur clé est <b>calculée</b> (<span class="tt">rpg.ability.</span> + l'identifiant que le modèle rend), et <span class="tt">qsTr</span> exige une chaîne littérale — c'est ce qui permet à <span class="tt">lupdate</span> de l'extraire sans exécuter le programme.</p>
 <p>Ce n'est pas qu'une contrainte technique. Ces termes sont un <b>lexique</b> : <span class="tt">rpg.glossary.csv</span> garantit une seule traduction par terme de règle dans tout le jeu, et <span class="tt">scripts/check_glossary.py</span> le vérifie. Les disperser en littéraux dans les écrans casserait précisément cette garantie.</p>

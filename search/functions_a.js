@@ -11,5 +11,6 @@ var searchData=
   ['keypressevent_8',['keyPressEvent',['../classhmi_1_1GameViewport.html#ac3bad1f6d1f1e5f61bbb4e35283ad308',1,'hmi::GameViewport::keyPressEvent()'],['../classhmi_1_1EditorKeybindingsWidget.html#ab12500557ec10ea0d22d1bed22f1520f',1,'hmi::EditorKeybindingsWidget::keyPressEvent()'],['../classhmi_1_1KeybindingsWidget.html#adfb3f1bc4826280f3de23a4ad75de2f6',1,'hmi::KeybindingsWidget::keyPressEvent()']]],
   ['keyreleased_9',['keyReleased',['../classhmi_1_1InputState.html#ae58b5ee926c82c8f62bf57ee7e446ac4',1,'hmi::InputState']]],
   ['keyreleaseevent_10',['keyReleaseEvent',['../classhmi_1_1GameViewport.html#aeab73386d2f7ed680a6bee08b923d1c9',1,'hmi::GameViewport']]],
-  ['knowninteractablekinds_11',['knownInteractableKinds',['../namespacecore.html#a07f40df9fbe2a910d1e99b9756220fea',1,'core']]]
+  ['kit_11',['kit',['../classcore_1_1ArenaSession.html#ae1824f4d84aef4dc94079636a427272c',1,'core::ArenaSession']]],
+  ['knowninteractablekinds_12',['knownInteractableKinds',['../namespacecore.html#a07f40df9fbe2a910d1e99b9756220fea',1,'core']]]
 ];

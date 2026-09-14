@@ -156,6 +156,7 @@ var namespacehmi =
     [ "ScreenState", "structhmi_1_1ScreenState.html", "structhmi_1_1ScreenState" ],
     [ "RegionAnchors", "structhmi_1_1RegionAnchors.html", "structhmi_1_1RegionAnchors" ],
     [ "MapRegion", "structhmi_1_1MapRegion.html", "structhmi_1_1MapRegion" ],
+    [ "ArenaModel", "classhmi_1_1ArenaModel.html", "classhmi_1_1ArenaModel" ],
     [ "CharacterSheetModel", "classhmi_1_1CharacterSheetModel.html", "classhmi_1_1CharacterSheetModel" ],
     [ "CreditsModel", "classhmi_1_1CreditsModel.html", "classhmi_1_1CreditsModel" ],
     [ "DemonstrationCharacter", "structhmi_1_1DemonstrationCharacter.html", "structhmi_1_1DemonstrationCharacter" ],
@@ -477,7 +478,9 @@ var namespacehmi =
       [ "OpenCredits", "namespacehmi.html#a964211f19cf43757eaaa80c3c29b0e90a2a1540e25ac6f65503d2539901c3eb7c", null ],
       [ "CloseCredits", "namespacehmi.html#a964211f19cf43757eaaa80c3c29b0e90a64b9ec7c728085981f7746660948ed17", null ],
       [ "OpenRpgScreen", "namespacehmi.html#a964211f19cf43757eaaa80c3c29b0e90adb28cc1642bf3c7166e5556e54c9752b", null ],
-      [ "CloseRpgScreen", "namespacehmi.html#a964211f19cf43757eaaa80c3c29b0e90a41a0a091b97ea443ec61e2b5fd660d32", null ]
+      [ "CloseRpgScreen", "namespacehmi.html#a964211f19cf43757eaaa80c3c29b0e90a41a0a091b97ea443ec61e2b5fd660d32", null ],
+      [ "OpenArena", "namespacehmi.html#a964211f19cf43757eaaa80c3c29b0e90a3be966fb2b7d08b242df53d0bc22e1dd", null ],
+      [ "CloseArena", "namespacehmi.html#a964211f19cf43757eaaa80c3c29b0e90abc9cfeaf81c60f29d78a1ef99aecb576", null ]
     ] ],
     [ "ScreenId", "namespacehmi.html#a168b24f798c2e6d06beb9472a071528d", [
       [ "Menu", "namespacehmi.html#a168b24f798c2e6d06beb9472a071528dab61541208db7fa7dba42c85224405911", null ],
@@ -486,7 +489,8 @@ var namespacehmi =
       [ "Options", "namespacehmi.html#a168b24f798c2e6d06beb9472a071528dadae8ace18bdcbcc6ae5aece263e14fe8", null ],
       [ "Pause", "namespacehmi.html#a168b24f798c2e6d06beb9472a071528da105b296a83f9c105355403f3332af50f", null ],
       [ "Credits", "namespacehmi.html#a168b24f798c2e6d06beb9472a071528da948a2e3548aaf7f9941a3192fa607d51", null ],
-      [ "RpgScreen", "namespacehmi.html#a168b24f798c2e6d06beb9472a071528da74f7bb96f40b089d24eea4863b269139", null ]
+      [ "RpgScreen", "namespacehmi.html#a168b24f798c2e6d06beb9472a071528da74f7bb96f40b089d24eea4863b269139", null ],
+      [ "Arena", "namespacehmi.html#a168b24f798c2e6d06beb9472a071528da6fa3f3daa9f9a6282d58c913b73b8dc4", null ]
     ] ],
     [ "SkinCatalogError", "namespacehmi.html#ae064c48cb814db754a1228bda7b8d77d", [
       [ "None", "namespacehmi.html#ae064c48cb814db754a1228bda7b8d77da6adf97f83acf6453d4a6a4b1070f3754", null ],

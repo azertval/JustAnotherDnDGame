@@ -24,6 +24,7 @@ var dir_7c7356e692772728ab91d19f773c60c4 =
     [ "LOT-38-fiche-de-personnage", "dir_bce831998dd0e61ab3c72478c551a976.html", null ],
     [ "LOT-39-cles-assets", "dir_6a1dfa06889c983c3ecf0e89bbf628bb.html", null ],
     [ "LOT-43-options-de-personnage", "dir_91a1717ccebb1cc2aff1d37999f0b3a5.html", null ],
+    [ "LOT-50-colisee", "dir_290c9d5d4c426802629a240bb4749a9d.html", null ],
     [ "LOT-66-charte-visuelle", "dir_29a1f51c54cbfc88d7c530899ae7368b.html", null ],
     [ "LOT-67-menus-vocabulaire-rpg", "dir_dd88eb841413bd2c22872f99cd8dfd26.html", null ],
     [ "LOT-68-chassis-ecrans-rpg", "dir_2a5a505333510ae298024ce941e3c3c9.html", null ],

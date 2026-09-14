@@ -1,11 +1,6 @@
 var searchData=
 [
-  ['savingthrows_0',['savingThrows',['../classhmi_1_1CharacterSheetModel.html#a38a22274234b22eabee7060c27cc22d4',1,'hmi::CharacterSheetModel']]],
-  ['sections_1',['sections',['../classhmi_1_1CreditsModel.html#a068637f059cf148bf43a58754d36fb48',1,'hmi::CreditsModel']]],
-  ['selecteditem_2',['selectedItem',['../classhmi_1_1InventoryModel.html#a4482591aaae9745574c68b268a4d2105',1,'hmi::InventoryModel']]],
-  ['selectedslot_3',['selectedSlot',['../classhmi_1_1InventoryModel.html#a87ebc26f71bd350bcd37a450f264ff2b',1,'hmi::InventoryModel']]],
-  ['selection_4',['selection',['../classhmi_1_1InventoryModel.html#ac9d4d4eef953b647f13fd4ec05070b54',1,'hmi::InventoryModel']]],
-  ['skills_5',['skills',['../classhmi_1_1CharacterSheetModel.html#a86fa2e2be3af38f8095194bd257c95d2',1,'hmi::CharacterSheetModel']]],
-  ['species_6',['species',['../classhmi_1_1CharacterSheetModel.html#ab635485894fcf0cf7a1c8de1c797b2ee',1,'hmi::CharacterSheetModel']]],
-  ['speed_7',['speed',['../classhmi_1_1CharacterSheetModel.html#a74bf7012708a91997d29350295273131',1,'hmi::CharacterSheetModel::speed'],['../classhmi_1_1InventoryModel.html#adad1d72b86b6dd6522ac591573fd5c81',1,'hmi::InventoryModel::speed']]]
+  ['passiveperception_0',['passivePerception',['../classhmi_1_1CharacterSheetModel.html#a09cbaea3005c41db0e17924cff5eaeec',1,'hmi::CharacterSheetModel::passivePerception'],['../classhmi_1_1InventoryModel.html#a182911c728bbc446da58413657d22325',1,'hmi::InventoryModel::passivePerception']]],
+  ['proficiencybonus_1',['proficiencyBonus',['../classhmi_1_1CharacterSheetModel.html#aff7b297341febf1e9670c5c4d5d0a9b0',1,'hmi::CharacterSheetModel']]],
+  ['purse_2',['purse',['../classhmi_1_1InventoryModel.html#ad815eabdbc72f2d89fde2f2241f43cc3',1,'hmi::InventoryModel']]]
 ];
