@@ -1,5 +1,9 @@
 var NAVTREEINDEX10 =
 {
+"classhmi_1_1GamepadPoller.html#a50ff27e4cacca8e5627fe8a0079e1cd1":[16,0,1,117,2],
+"classhmi_1_1GamepadPoller.html#ae33c922e03ea961b2b1a3bc5630f47f1":[15,0,2,117,1],
+"classhmi_1_1GamepadPoller.html#ae33c922e03ea961b2b1a3bc5630f47f1":[16,0,1,117,1],
+"classhmi_1_1IGameMode.html":[15,0,2,57],
 "classhmi_1_1IGameMode.html":[16,0,1,57],
 "classhmi_1_1IGameMode.html#a192b362749376e490f573400b6f10e59":[15,0,2,57,8],
 "classhmi_1_1IGameMode.html#a192b362749376e490f573400b6f10e59":[16,0,1,57,8],
@@ -245,9 +249,5 @@ var NAVTREEINDEX10 =
 "classhmi_1_1LevelBrowserPanel.html#a69eb067948088996f047d0ad7582edab":[16,0,1,13,2],
 "classhmi_1_1LevelBrowserPanel.html#a82f1f4da93c2c41ee4faae7b49047ff0":[15,0,2,13,13],
 "classhmi_1_1LevelBrowserPanel.html#a82f1f4da93c2c41ee4faae7b49047ff0":[16,0,1,13,13],
-"classhmi_1_1LevelBrowserPanel.html#ad8ee64b6f05251adf8b27e7fae98297b":[15,0,2,13,14],
-"classhmi_1_1LevelBrowserPanel.html#ad8ee64b6f05251adf8b27e7fae98297b":[16,0,1,13,14],
-"classhmi_1_1LevelBrowserPanel.html#adde81f1cab1c37e2a715cdb8641fd8ba":[15,0,2,13,1],
-"classhmi_1_1LevelBrowserPanel.html#adde81f1cab1c37e2a715cdb8641fd8ba":[16,0,1,13,1],
-"classhmi_1_1LevelBrowserPanel.html#af6be2772b308c62a472a234e35f00c2e":[15,0,2,13,7]
+"classhmi_1_1LevelBrowserPanel.html#ad8ee64b6f05251adf8b27e7fae98297b":[15,0,2,13,14]
 };

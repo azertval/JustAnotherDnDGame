@@ -114,6 +114,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a0d053b078f640fa4fa8c144f98abf2ac" id="r_a0d053b078f640fa4fa8c144f98abf2ac"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a0d053b078f640fa4fa8c144f98abf2ac">CharacterSheetModel</a> (QObject *parent=nullptr)</td></tr>
 <tr class="memitem:a99112a943925ad31447c8ac791110d91" id="r_a99112a943925ad31447c8ac791110d91"><td class="memItemLeft">Q_INVOKABLE void&#160;</td><td class="memItemRight"><a class="el" href="#a99112a943925ad31447c8ac791110d91">loadDemonstrationCharacter</a> ()</td></tr>
 <tr class="memdesc:a99112a943925ad31447c8ac791110d91"><td class="mdescLeft">&#160;</td><td class="mdescRight">Charge le personnage de <b>démonstration</b> livré en donnée.  <br /></td></tr>
+<tr class="memitem:aefebf156fee6aefb7500d82fb7ce23a6" id="r_aefebf156fee6aefb7500d82fb7ce23a6"><td class="memItemLeft">QVariantMap&#160;</td><td class="memItemRight"><a class="el" href="#aefebf156fee6aefb7500d82fb7ce23a6">values</a> () const</td></tr>
 <tr class="memitem:ae9272437bad8041b677f4c7ad81a38d8" id="r_ae9272437bad8041b677f4c7ad81a38d8"><td class="memItemLeft">QString&#160;</td><td class="memItemRight"><a class="el" href="#ae9272437bad8041b677f4c7ad81a38d8">name</a> () const</td></tr>
 <tr class="memitem:aa3dba1adba2892df6db90a5a8a3be0a8" id="r_aa3dba1adba2892df6db90a5a8a3be0a8"><td class="memItemLeft">QString&#160;</td><td class="memItemRight"><a class="el" href="#aa3dba1adba2892df6db90a5a8a3be0a8">species</a> () const</td></tr>
 <tr class="memitem:a548046d5506b7a6e8591ec15059a6dc9" id="r_a548046d5506b7a6e8591ec15059a6dc9"><td class="memItemLeft">QString&#160;</td><td class="memItemRight"><a class="el" href="#a548046d5506b7a6e8591ec15059a6dc9">background</a> () const</td></tr>
@@ -151,6 +152,8 @@ Properties</h2></td></tr>
 <tr class="memitem:ad71fb1e982b447d7c9a4a780d23eaf84" id="r_ad71fb1e982b447d7c9a4a780d23eaf84"><td class="memItemLeft">QAbstractItemModel *&#160;</td><td class="memItemRight"><a class="el" href="#ad71fb1e982b447d7c9a4a780d23eaf84">abilities</a></td></tr>
 <tr class="memitem:a38a22274234b22eabee7060c27cc22d4" id="r_a38a22274234b22eabee7060c27cc22d4"><td class="memItemLeft">QAbstractItemModel *&#160;</td><td class="memItemRight"><a class="el" href="#a38a22274234b22eabee7060c27cc22d4">savingThrows</a></td></tr>
 <tr class="memitem:a86fa2e2be3af38f8095194bd257c95d2" id="r_a86fa2e2be3af38f8095194bd257c95d2"><td class="memItemLeft">QAbstractItemModel *&#160;</td><td class="memItemRight"><a class="el" href="#a86fa2e2be3af38f8095194bd257c95d2">skills</a></td></tr>
+<tr class="memitem:ab4343c40ed226a3a19259cc8564b6d91" id="r_ab4343c40ed226a3a19259cc8564b6d91"><td class="memItemLeft">QVariantMap&#160;</td><td class="memItemRight"><a class="el" href="#ab4343c40ed226a3a19259cc8564b6d91">values</a></td></tr>
+<tr class="memdesc:ab4343c40ed226a3a19259cc8564b6d91"><td class="mdescLeft">&#160;</td><td class="mdescRight">Toutes les valeurs formatées de la fiche, par clé (<span class="tt">sheet.ability.strength.score</span>, <span class="tt">sheet.ability.strength.modifier</span>…) : ce que la fiche de la charte v2 (<span class="tt">LOT-87</span>, T3.4) pose hors des listes, comme le score et le modificateur SÉPARÉS de chaque médaillon.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-methods" class="groupheader"><a id="pri-methods" name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
@@ -165,14 +168,14 @@ Private Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Vue-modèle de la fiche : ce que le jeu <b>sait dire</b> d'un personnage. </p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md856"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md857"></a>
 Où passe la frontière</h2>
 <p>Cette classe est la frontière entre le développeur et la conception. Elle décide <b>quelles données existent</b> ; le QML décide <b>comment elles se voient</b>. Ajouter un champ ici demande un développeur ; le déplacer, le colorer, l'animer ou le supprimer de l'écran ne demande personne.</p>
 <p>Elle ne connaît donc ni QML, ni asset, ni feuille de style : elle ne lie que <span class="tt">Qt6::Qml</span>, pour pouvoir être déclarée au moteur — jamais <span class="tt">Qt6::Quick</span> ni <span class="tt">Qt6::Widgets</span>, et un lint le vérifie (<span class="tt">EX-IHM-101</span>).</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md857"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md858"></a>
 Ce qu'elle ne refait pas</h2>
 <p>Le <b>formatage</b> — le signe d'un modificateur, le « 25 / 30 » des points de vie, le point qui marque une maîtrise — reste dans <span class="tt"><a class="el" href="namespacehmi.html#ad2b3435349dd004d6768a14a49f5dacc">hmi::characterSheetValues</a></span>, fonction <b>pure</b> et couverte par ses tests. Cette classe la lit et la publie ; elle ne la réécrit pas. Deux endroits qui savent écrire un modificateur finiraient par ne plus l'écrire pareil.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md858"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md859"></a>
 Pourquoi des propriétés nommées plutôt que la table brute</h2>
 <p>La couche pure produit une table indexée par chaîne (<span class="tt">sheet.hit_points</span>), et c'est le bon contrat <b>entre C++</b> : un champ ajouté n'y touche qu'un endroit. Mais un artiste travaillant dans Qt Design Studio verrait alors des clés de chaîne dans le panneau des propriétés, sans complétion ni vérification. Les propriétés ci-dessous nomment ces clés une fois, ici — elles ne constituent pas une deuxième source, seulement une façade lisible sur la première. </p>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
@@ -702,6 +705,31 @@ Pourquoi des propriétés nommées plutôt que la table brute</h2>
 
 </div>
 </div>
+<a id="aefebf156fee6aefb7500d82fb7ce23a6" name="aefebf156fee6aefb7500d82fb7ce23a6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aefebf156fee6aefb7500d82fb7ce23a6">&#9670;&#160;</a></span>values()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QVariantMap hmi::CharacterSheetModel::values </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Member Data Documentation</h2>
 <a id="abc773dd51b7c03eede33b83070da048e" name="abc773dd51b7c03eede33b83070da048e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#abc773dd51b7c03eede33b83070da048e">&#9670;&#160;</a></span>_abilities</h2>
@@ -1163,6 +1191,31 @@ Pourquoi des propriétés nommées plutôt que la table brute</h2>
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab4343c40ed226a3a19259cc8564b6d91" name="ab4343c40ed226a3a19259cc8564b6d91"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab4343c40ed226a3a19259cc8564b6d91">&#9670;&#160;</a></span>values</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QVariantMap hmi::CharacterSheetModel::values</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel read">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Toutes les valeurs formatées de la fiche, par clé (<span class="tt">sheet.ability.strength.score</span>, <span class="tt">sheet.ability.strength.modifier</span>…) : ce que la fiche de la charte v2 (<span class="tt">LOT-87</span>, T3.4) pose hors des listes, comme le score et le modificateur SÉPARÉS de chaque médaillon. </p>
+<p>Une table et non douze propriétés : les clés existent déjà dans <span class="tt"><a class="el" href="namespacehmi.html#ad2b3435349dd004d6768a14a49f5dacc">hmi::characterSheetValues</a></span>, les recopier une à une en propriétés aurait fait un second endroit à tenir. </p>
 
 </div>
 </div>

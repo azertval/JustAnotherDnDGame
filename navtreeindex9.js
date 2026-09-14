@@ -1,5 +1,9 @@
 var NAVTREEINDEX9 =
 {
+"classhmi_1_1GameViewport.html#a94e3858bc46bbe625f7a3a46199ec825":[16,0,1,55,57],
+"classhmi_1_1GameViewport.html#a950f514e76ffef7f6227b1d6aea3c01d":[15,0,2,55,102],
+"classhmi_1_1GameViewport.html#a950f514e76ffef7f6227b1d6aea3c01d":[16,0,1,55,102],
+"classhmi_1_1GameViewport.html#a961e7d6ffebba90148177c1569ae1c02":[15,0,2,55,74],
 "classhmi_1_1GameViewport.html#a961e7d6ffebba90148177c1569ae1c02":[16,0,1,55,74],
 "classhmi_1_1GameViewport.html#a98766eeff197f6eca3e149e29a7ad34e":[15,0,2,55,91],
 "classhmi_1_1GameViewport.html#a98766eeff197f6eca3e149e29a7ad34e":[16,0,1,55,91],
@@ -245,9 +249,5 @@ var NAVTREEINDEX9 =
 "classhmi_1_1GamepadPoller.html":[16,0,1,117],
 "classhmi_1_1GamepadPoller.html#a1ba7adb75dea62a30fca7a207dc79868":[15,0,2,117,0],
 "classhmi_1_1GamepadPoller.html#a1ba7adb75dea62a30fca7a207dc79868":[16,0,1,117,0],
-"classhmi_1_1GamepadPoller.html#a50ff27e4cacca8e5627fe8a0079e1cd1":[15,0,2,117,2],
-"classhmi_1_1GamepadPoller.html#a50ff27e4cacca8e5627fe8a0079e1cd1":[16,0,1,117,2],
-"classhmi_1_1GamepadPoller.html#ae33c922e03ea961b2b1a3bc5630f47f1":[15,0,2,117,1],
-"classhmi_1_1GamepadPoller.html#ae33c922e03ea961b2b1a3bc5630f47f1":[16,0,1,117,1],
-"classhmi_1_1IGameMode.html":[15,0,2,57]
+"classhmi_1_1GamepadPoller.html#a50ff27e4cacca8e5627fe8a0079e1cd1":[15,0,2,117,2]
 };

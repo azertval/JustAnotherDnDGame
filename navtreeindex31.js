@@ -1,5 +1,10 @@
 var NAVTREEINDEX31 =
 {
+"structhmi_1_1FontMetrics.html#aac5b7c0434ca48b7cfc46d5f00860cae":[15,0,2,86,0],
+"structhmi_1_1FontMetrics.html#aac5b7c0434ca48b7cfc46d5f00860cae":[16,0,1,86,0],
+"structhmi_1_1FontMetrics.html#af8edf913ecf02975f75b9d41f9acff65":[15,0,2,86,1],
+"structhmi_1_1FontMetrics.html#af8edf913ecf02975f75b9d41f9acff65":[16,0,1,86,1],
+"structhmi_1_1FontMetricsResult.html":[15,0,2,90],
 "structhmi_1_1FontMetricsResult.html":[16,0,1,90],
 "structhmi_1_1FontMetricsResult.html#a006810b1798a682165ac5988d07e5dd6":[15,0,2,90,1],
 "structhmi_1_1FontMetricsResult.html#a006810b1798a682165ac5988d07e5dd6":[16,0,1,90,1],
@@ -244,10 +249,5 @@ var NAVTREEINDEX31 =
 "structhmi_1_1PixelClipboard.html#aad7e8cb77b43980f449517b7ab0131bc":[15,0,2,34,2],
 "structhmi_1_1PixelClipboard.html#aad7e8cb77b43980f449517b7ab0131bc":[16,0,1,34,2],
 "structhmi_1_1PixelClipboard.html#aea4369b92a8101317629b3b18017dcb6":[15,0,2,34,3],
-"structhmi_1_1PixelClipboard.html#aea4369b92a8101317629b3b18017dcb6":[16,0,1,34,3],
-"structhmi_1_1PixelEditStatusInfo.html":[15,0,2,9],
-"structhmi_1_1PixelEditStatusInfo.html":[16,0,1,9],
-"structhmi_1_1PixelEditStatusInfo.html#a04166eb7d6ae1bb0efa86ca15c897b8e":[15,0,2,9,5],
-"structhmi_1_1PixelEditStatusInfo.html#a04166eb7d6ae1bb0efa86ca15c897b8e":[16,0,1,9,5],
-"structhmi_1_1PixelEditStatusInfo.html#a319a7c26d15a0d9e00a56bc543dae575":[15,0,2,9,0]
+"structhmi_1_1PixelClipboard.html#aea4369b92a8101317629b3b18017dcb6":[16,0,1,34,3]
 };

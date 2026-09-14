@@ -21,6 +21,7 @@ var classhmi_1_1CharacterSheetModel =
     [ "species", "classhmi_1_1CharacterSheetModel.html#aa3dba1adba2892df6db90a5a8a3be0a8", null ],
     [ "speed", "classhmi_1_1CharacterSheetModel.html#a9187a8bc19b960fcd03a01e19bc150b0", null ],
     [ "value", "classhmi_1_1CharacterSheetModel.html#aae2fcfc96e7821e1817383670102717d", null ],
+    [ "values", "classhmi_1_1CharacterSheetModel.html#aefebf156fee6aefb7500d82fb7ce23a6", null ],
     [ "_abilities", "classhmi_1_1CharacterSheetModel.html#abc773dd51b7c03eede33b83070da048e", null ],
     [ "_savingThrows", "classhmi_1_1CharacterSheetModel.html#ab7104b95c06dffe6ba59996fd46ef4cf", null ],
     [ "_skills", "classhmi_1_1CharacterSheetModel.html#ac0354a3af50d52b4c918bd90fba10147", null ],
@@ -41,5 +42,6 @@ var classhmi_1_1CharacterSheetModel =
     [ "savingThrows", "classhmi_1_1CharacterSheetModel.html#a38a22274234b22eabee7060c27cc22d4", null ],
     [ "skills", "classhmi_1_1CharacterSheetModel.html#a86fa2e2be3af38f8095194bd257c95d2", null ],
     [ "species", "classhmi_1_1CharacterSheetModel.html#ab635485894fcf0cf7a1c8de1c797b2ee", null ],
-    [ "speed", "classhmi_1_1CharacterSheetModel.html#a74bf7012708a91997d29350295273131", null ]
+    [ "speed", "classhmi_1_1CharacterSheetModel.html#a74bf7012708a91997d29350295273131", null ],
+    [ "values", "classhmi_1_1CharacterSheetModel.html#ab4343c40ed226a3a19259cc8564b6d91", null ]
 ];

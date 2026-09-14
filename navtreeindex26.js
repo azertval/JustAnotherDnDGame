@@ -1,5 +1,10 @@
 var NAVTREEINDEX26 =
 {
+"structcore_1_1ClassLevel.html#a1686d415553a8941dc6b9f18e50c835e":[15,0,1,85,0],
+"structcore_1_1ClassLevel.html#a1686d415553a8941dc6b9f18e50c835e":[16,0,0,85,0],
+"structcore_1_1ClassLevel.html#a6a9d17c484c7c83840fde08953db8168":[15,0,1,85,1],
+"structcore_1_1ClassLevel.html#a6a9d17c484c7c83840fde08953db8168":[16,0,0,85,1],
+"structcore_1_1ClassLevel.html#a729a086773af573c5c025e12589e5f9e":[15,0,1,85,3],
 "structcore_1_1ClassLevel.html#a729a086773af573c5c025e12589e5f9e":[16,0,0,85,3],
 "structcore_1_1Collider.html":[15,0,1,22],
 "structcore_1_1Collider.html":[16,0,0,22],
@@ -244,10 +249,5 @@ var NAVTREEINDEX26 =
 "structcore_1_1ExpectedAssetKey.html#a2161ca9d95bf648eb7c5c455aac2e171":[15,0,1,73,2],
 "structcore_1_1ExpectedAssetKey.html#a2161ca9d95bf648eb7c5c455aac2e171":[16,0,0,73,2],
 "structcore_1_1ExpectedAssetKey.html#a9e1598be068b11e9106b02cdc6285372":[15,0,1,73,1],
-"structcore_1_1ExpectedAssetKey.html#a9e1598be068b11e9106b02cdc6285372":[16,0,0,73,1],
-"structcore_1_1ExpectedAssetKey.html#af4c061be4e72494398eef6e44787977a":[15,0,1,73,0],
-"structcore_1_1ExpectedAssetKey.html#af4c061be4e72494398eef6e44787977a":[16,0,0,73,0],
-"structcore_1_1ExperienceLevel.html":[15,0,1,88],
-"structcore_1_1ExperienceLevel.html":[16,0,0,88],
-"structcore_1_1ExperienceLevel.html#a183cfeb9efc4f74a3300ebc67a05ad36":[15,0,1,88,0]
+"structcore_1_1ExpectedAssetKey.html#a9e1598be068b11e9106b02cdc6285372":[16,0,0,73,1]
 };

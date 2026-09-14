@@ -29,11 +29,12 @@ var lot_87 =
     [ "Phase 3 — les écrans", "lot-87.html#autotoc_md674", [
       [ "T3.1 — Le menu principal (maquette 06)", "lot-87.html#autotoc_md675", null ],
       [ "T3.2 — Les options (maquette 05)", "lot-87.html#autotoc_md676", null ],
-      [ "T3.3 — Les crédits (maquette 07)", "lot-87.html#autotoc_md677", null ]
+      [ "T3.3 — Les crédits (maquette 07)", "lot-87.html#autotoc_md677", null ],
+      [ "T3.4 — La fiche de personnage (maquette 03)", "lot-87.html#autotoc_md678", null ]
     ] ],
-    [ "Exigences couvertes", "lot-87.html#autotoc_md678", null ],
-    [ "Où en est le lot", "lot-87.html#autotoc_md679", null ],
-    [ "Critères d'acceptation de la phase 0", "lot-87.html#autotoc_md680", null ],
+    [ "Exigences couvertes", "lot-87.html#autotoc_md679", null ],
+    [ "Où en est le lot", "lot-87.html#autotoc_md680", null ],
+    [ "Critères d'acceptation de la phase 0", "lot-87.html#autotoc_md681", null ],
     [ "LOT-87 — Cahier des assets de la charte v2", "lot-87-cahier-assets.html", [
       [ "À quoi sert ce cahier", "lot-87-cahier-assets.html#autotoc_md643", null ],
       [ "Lire une entrée", "lot-87-cahier-assets.html#autotoc_md644", null ],
