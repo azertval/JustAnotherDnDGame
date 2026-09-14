@@ -26,9 +26,12 @@ var lot_87 =
       [ "T2.7 — Les briques de la charte v2", "lot-87.html#autotoc_md671", null ],
       [ "Où en est la phase 2 — vérifié le 13 septembre 2026", "lot-87.html#autotoc_md672", null ]
     ] ],
-    [ "Exigences couvertes", "lot-87.html#autotoc_md673", null ],
-    [ "Où en est le lot", "lot-87.html#autotoc_md674", null ],
-    [ "Critères d'acceptation de la phase 0", "lot-87.html#autotoc_md675", null ],
+    [ "Phase 3 — les écrans", "lot-87.html#autotoc_md673", [
+      [ "T3.1 — Le menu principal (maquette 06)", "lot-87.html#autotoc_md674", null ]
+    ] ],
+    [ "Exigences couvertes", "lot-87.html#autotoc_md675", null ],
+    [ "Où en est le lot", "lot-87.html#autotoc_md676", null ],
+    [ "Critères d'acceptation de la phase 0", "lot-87.html#autotoc_md677", null ],
     [ "LOT-87 — Cahier des assets de la charte v2", "lot-87-cahier-assets.html", [
       [ "À quoi sert ce cahier", "lot-87-cahier-assets.html#autotoc_md642", null ],
       [ "Lire une entrée", "lot-87-cahier-assets.html#autotoc_md643", null ],

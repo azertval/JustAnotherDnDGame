@@ -1,5 +1,7 @@
 var NAVTREEINDEX26 =
 {
+"structcore_1_1Creature.html#a7280fb956645baecf016045e75adcd14":[15,0,1,79,7],
+"structcore_1_1Creature.html#a7280fb956645baecf016045e75adcd14":[16,0,0,79,7],
 "structcore_1_1Creature.html#a7862251798afea359503fcd3b299d9ed":[15,0,1,79,0],
 "structcore_1_1Creature.html#a7862251798afea359503fcd3b299d9ed":[16,0,0,79,0],
 "structcore_1_1Creature.html#a7a0d61688b76d8555a09defbf43a13d9":[15,0,1,79,14],
@@ -247,7 +249,5 @@ var NAVTREEINDEX26 =
 "structcore_1_1Interactable.html#a4dacc208724da53bb1f81620aeb7501e":[15,0,1,23,0],
 "structcore_1_1Interactable.html#a4dacc208724da53bb1f81620aeb7501e":[16,0,0,23,0],
 "structcore_1_1Interactable.html#a85a53fade82c3733a8c742fc9577b734":[15,0,1,23,3],
-"structcore_1_1Interactable.html#a85a53fade82c3733a8c742fc9577b734":[16,0,0,23,3],
-"structcore_1_1Interactable.html#ae1a3fa46606be726921d5e677af9ef82":[15,0,1,23,1],
-"structcore_1_1Interactable.html#ae1a3fa46606be726921d5e677af9ef82":[16,0,0,23,1]
+"structcore_1_1Interactable.html#a85a53fade82c3733a8c742fc9577b734":[16,0,0,23,3]
 };

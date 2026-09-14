@@ -1,5 +1,7 @@
 var NAVTREEINDEX28 =
 {
+"structcore_1_1Mechanism.html#aff8f5698a02356618c67d7fafae8b2b7":[15,0,1,50,0],
+"structcore_1_1Mechanism.html#aff8f5698a02356618c67d7fafae8b2b7":[16,0,0,50,0],
 "structcore_1_1MemoryLogSink_1_1Entry.html":[15,0,1,14,0],
 "structcore_1_1MemoryLogSink_1_1Entry.html":[16,0,0,14,0],
 "structcore_1_1MemoryLogSink_1_1Entry.html#ab2a140504bc9e377d32147b8cddc7055":[15,0,1,14,0,0],
@@ -247,7 +249,5 @@ var NAVTREEINDEX28 =
 "structcore_1_1RpgActor.html#a6d3846c50bd7f04cb938044e0388a670":[15,0,1,25,0],
 "structcore_1_1RpgActor.html#a6d3846c50bd7f04cb938044e0388a670":[16,0,0,25,0],
 "structcore_1_1RpgActor.html#af16eabf5f82d16d65293f0be65a0d569":[15,0,1,25,2],
-"structcore_1_1RpgActor.html#af16eabf5f82d16d65293f0be65a0d569":[16,0,0,25,2],
-"structcore_1_1SkillCatalog.html":[15,0,1,111],
-"structcore_1_1SkillCatalog.html":[16,0,0,111]
+"structcore_1_1RpgActor.html#af16eabf5f82d16d65293f0be65a0d569":[16,0,0,25,2]
 };

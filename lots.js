@@ -1,8 +1,8 @@
 var lots =
 [
-    [ "Lots", "lots.html#autotoc_md676", null ],
-    [ "Feuille de route", "lots.html#autotoc_md677", null ],
-    [ "Programme", "lots.html#autotoc_md678", null ],
+    [ "Lots", "lots.html#autotoc_md678", null ],
+    [ "Feuille de route", "lots.html#autotoc_md679", null ],
+    [ "Programme", "lots.html#autotoc_md680", null ],
     [ "LOT-01 — Fork, purge et remise à nu", "lot-01.html", [
       [ "Objectif", "lot-01.html#autotoc_md401", null ],
       [ "Pourquoi purger en premier", "lot-01.html#autotoc_md402", null ],
@@ -267,16 +267,16 @@ var lots =
     [ "LOT-87 — Charte v2 et intégration des maquettes", "lot-87.html", "lot-87" ],
     [ "Feuille de route 0.1.0", "roadmap-010.html", [
       [ "État d'avancement", "roadmap-010.html#roadmap-avancement", null ],
-      [ "1. Le corpus n'est pas versionné", "roadmap-010.html#autotoc_md681", null ],
-      [ "2. Inventaire du corpus", "roadmap-010.html#autotoc_md683", [
-        [ "Les ressources de table virtuelle (ajoutées le 7 septembre 2026)", "roadmap-010.html#autotoc_md684", null ],
-        [ "Ce que chaque document apporte, chiffré", "roadmap-010.html#autotoc_md685", null ]
+      [ "1. Le corpus n'est pas versionné", "roadmap-010.html#autotoc_md683", null ],
+      [ "2. Inventaire du corpus", "roadmap-010.html#autotoc_md685", [
+        [ "Les ressources de table virtuelle (ajoutées le 7 septembre 2026)", "roadmap-010.html#autotoc_md686", null ],
+        [ "Ce que chaque document apporte, chiffré", "roadmap-010.html#autotoc_md687", null ]
       ] ],
-      [ "3. Licences : contrainte en sommeil", "roadmap-010.html#autotoc_md687", null ],
-      [ "4. Ce que l'extraction a appris", "roadmap-010.html#autotoc_md689", null ],
-      [ "5. Programme de lots proposé — la filière contenu", "roadmap-010.html#autotoc_md691", [
-        [ "Importer tout, honorer progressivement", "roadmap-010.html#autotoc_md692", null ],
-        [ "La cible : un bac à sable dans l'univers entier", "roadmap-010.html#autotoc_md693", null ],
+      [ "3. Licences : contrainte en sommeil", "roadmap-010.html#autotoc_md689", null ],
+      [ "4. Ce que l'extraction a appris", "roadmap-010.html#autotoc_md691", null ],
+      [ "5. Programme de lots proposé — la filière contenu", "roadmap-010.html#autotoc_md693", [
+        [ "Importer tout, honorer progressivement", "roadmap-010.html#autotoc_md694", null ],
+        [ "La cible : un bac à sable dans l'univers entier", "roadmap-010.html#autotoc_md695", null ],
         [ "<span class=\"tt\">LOT-35</span> — Sorts et états", "roadmap-010.html#lot-35", null ],
         [ "<span class=\"tt\">LOT-40</span> — Générateur de terrain", "roadmap-010.html#lot-40", null ],
         [ "<span class=\"tt\">LOT-41</span> — Peuplement : rencontres et créatures", "roadmap-010.html#lot-41", null ],
@@ -299,151 +299,151 @@ var lots =
         [ "<span class=\"tt\">LOT-83</span> — Boucle de progression de la Guilde", "roadmap-010.html#lot-83", null ],
         [ "<span class=\"tt\">LOT-84</span> — Les 31 tables de progression de classe", "roadmap-010.html#lot-84", null ]
       ] ],
-      [ "6. Ordre d'exécution", "roadmap-010.html#autotoc_md696", [
-        [ "La règle", "roadmap-010.html#autotoc_md697", null ],
-        [ "Où lire la suite", "roadmap-010.html#autotoc_md698", null ],
-        [ "Le regroupement d'intention", "roadmap-010.html#autotoc_md699", null ],
-        [ "Ce que l'ordre a révélé", "roadmap-010.html#autotoc_md700", null ],
-        [ "Le chemin critique jusqu'au <em>vertical slice</em>", "roadmap-010.html#autotoc_md701", null ],
-        [ "Le graphe des dépendances", "roadmap-010.html#autotoc_md702", null ],
-        [ "Récapitulatif : qui dépend de qui", "roadmap-010.html#autotoc_md703", null ]
+      [ "6. Ordre d'exécution", "roadmap-010.html#autotoc_md698", [
+        [ "La règle", "roadmap-010.html#autotoc_md699", null ],
+        [ "Où lire la suite", "roadmap-010.html#autotoc_md700", null ],
+        [ "Le regroupement d'intention", "roadmap-010.html#autotoc_md701", null ],
+        [ "Ce que l'ordre a révélé", "roadmap-010.html#autotoc_md702", null ],
+        [ "Le chemin critique jusqu'au <em>vertical slice</em>", "roadmap-010.html#autotoc_md703", null ],
+        [ "Le graphe des dépendances", "roadmap-010.html#autotoc_md704", null ],
+        [ "Récapitulatif : qui dépend de qui", "roadmap-010.html#autotoc_md705", null ]
       ] ],
-      [ "7. Arborescence cible", "roadmap-010.html#autotoc_md705", null ],
-      [ "8. Décisions prises et questions restantes", "roadmap-010.html#autotoc_md707", [
-        [ "Tranché", "roadmap-010.html#autotoc_md708", null ],
-        [ "À trancher", "roadmap-010.html#autotoc_md709", null ]
+      [ "7. Arborescence cible", "roadmap-010.html#autotoc_md707", null ],
+      [ "8. Décisions prises et questions restantes", "roadmap-010.html#autotoc_md709", [
+        [ "Tranché", "roadmap-010.html#autotoc_md710", null ],
+        [ "À trancher", "roadmap-010.html#autotoc_md711", null ]
       ] ],
-      [ "9. Ce que l'audit a révélé sur l'état du dépôt", "roadmap-010.html#autotoc_md711", [
-        [ "9.1 Cinq familles d'exigences sont fantômes — le lint le dit désormais", "roadmap-010.html#autotoc_md712", null ],
-        [ "9.2 Six mécaniques étaient consommées sans être produites", "roadmap-010.html#autotoc_md713", null ],
-        [ "9.3 L'allègement est le geste à plus fort levier du programme", "roadmap-010.html#autotoc_md714", null ],
-        [ "9.4 Le socle technique tient, mais trois préconditions manquent", "roadmap-010.html#autotoc_md715", null ],
-        [ "9.5 La collision de numéros est bloquante, et bien plus large qu'estimé", "roadmap-010.html#autotoc_md716", null ]
+      [ "9. Ce que l'audit a révélé sur l'état du dépôt", "roadmap-010.html#autotoc_md713", [
+        [ "9.1 Cinq familles d'exigences sont fantômes — le lint le dit désormais", "roadmap-010.html#autotoc_md714", null ],
+        [ "9.2 Six mécaniques étaient consommées sans être produites", "roadmap-010.html#autotoc_md715", null ],
+        [ "9.3 L'allègement est le geste à plus fort levier du programme", "roadmap-010.html#autotoc_md716", null ],
+        [ "9.4 Le socle technique tient, mais trois préconditions manquent", "roadmap-010.html#autotoc_md717", null ],
+        [ "9.5 La collision de numéros est bloquante, et bien plus large qu'estimé", "roadmap-010.html#autotoc_md718", null ]
       ] ],
-      [ "10. Ce qu'il faut anticiper, tant que rien n'est construit", "roadmap-010.html#autotoc_md718", null ],
-      [ "11. Les lots <span class=\"tt\">LOT-09</span> à <span class=\"tt\">LOT-29</span>", "roadmap-010.html#autotoc_md720", [
+      [ "10. Ce qu'il faut anticiper, tant que rien n'est construit", "roadmap-010.html#autotoc_md720", null ],
+      [ "11. Les lots <span class=\"tt\">LOT-09</span> à <span class=\"tt\">LOT-29</span>", "roadmap-010.html#autotoc_md722", [
         [ "LOT-09 — Graphe de cartes et transitions", "roadmap-010.html#lot-09", [
-          [ "Objectif", "roadmap-010.html#autotoc_md721", null ],
-          [ "Le problème", "roadmap-010.html#autotoc_md722", null ],
-          [ "Périmètre", "roadmap-010.html#autotoc_md723", null ],
-          [ "Exigences couvertes", "roadmap-010.html#autotoc_md724", null ],
-          [ "Critères d'acceptation", "roadmap-010.html#autotoc_md725", null ]
+          [ "Objectif", "roadmap-010.html#autotoc_md723", null ],
+          [ "Le problème", "roadmap-010.html#autotoc_md724", null ],
+          [ "Périmètre", "roadmap-010.html#autotoc_md725", null ],
+          [ "Exigences couvertes", "roadmap-010.html#autotoc_md726", null ],
+          [ "Critères d'acceptation", "roadmap-010.html#autotoc_md727", null ]
         ] ],
         [ "LOT-11 — Éditeur multi-couches et placement d'entités", "roadmap-010.html#lot-11", [
-          [ "Objectif", "roadmap-010.html#autotoc_md726", null ],
-          [ "Ce qui est déjà là", "roadmap-010.html#autotoc_md727", null ],
-          [ "Périmètre", "roadmap-010.html#autotoc_md728", null ],
-          [ "La contrainte à rendre visible ici", "roadmap-010.html#autotoc_md729", null ],
-          [ "Exigences couvertes", "roadmap-010.html#autotoc_md730", null ],
-          [ "Critères d'acceptation", "roadmap-010.html#autotoc_md731", null ]
+          [ "Objectif", "roadmap-010.html#autotoc_md728", null ],
+          [ "Ce qui est déjà là", "roadmap-010.html#autotoc_md729", null ],
+          [ "Périmètre", "roadmap-010.html#autotoc_md730", null ],
+          [ "La contrainte à rendre visible ici", "roadmap-010.html#autotoc_md731", null ],
+          [ "Exigences couvertes", "roadmap-010.html#autotoc_md732", null ],
+          [ "Critères d'acceptation", "roadmap-010.html#autotoc_md733", null ]
         ] ],
         [ "LOT-15 — PNJ et dialogues", "roadmap-010.html#lot-15", [
-          [ "Objectif", "roadmap-010.html#autotoc_md732", null ],
-          [ "Périmètre", "roadmap-010.html#autotoc_md733", null ],
-          [ "Ce qui fait la qualité de ce lot", "roadmap-010.html#autotoc_md734", null ],
-          [ "Exigences couvertes", "roadmap-010.html#autotoc_md735", null ],
-          [ "Critères d'acceptation", "roadmap-010.html#autotoc_md736", null ]
+          [ "Objectif", "roadmap-010.html#autotoc_md734", null ],
+          [ "Périmètre", "roadmap-010.html#autotoc_md735", null ],
+          [ "Ce qui fait la qualité de ce lot", "roadmap-010.html#autotoc_md736", null ],
+          [ "Exigences couvertes", "roadmap-010.html#autotoc_md737", null ],
+          [ "Critères d'acceptation", "roadmap-010.html#autotoc_md738", null ]
         ] ],
         [ "LOT-16 — Quêtes et drapeaux de monde", "roadmap-010.html#lot-16", [
-          [ "Objectif", "roadmap-010.html#autotoc_md737", null ],
-          [ "Périmètre", "roadmap-010.html#autotoc_md738", null ],
-          [ "Note de conception", "roadmap-010.html#autotoc_md739", null ],
-          [ "Exigences couvertes", "roadmap-010.html#autotoc_md740", null ],
-          [ "Critères d'acceptation", "roadmap-010.html#autotoc_md741", null ]
+          [ "Objectif", "roadmap-010.html#autotoc_md739", null ],
+          [ "Périmètre", "roadmap-010.html#autotoc_md740", null ],
+          [ "Note de conception", "roadmap-010.html#autotoc_md741", null ],
+          [ "Exigences couvertes", "roadmap-010.html#autotoc_md742", null ],
+          [ "Critères d'acceptation", "roadmap-010.html#autotoc_md743", null ]
         ] ],
         [ "LOT-17 — Sauvegarde riche", "roadmap-010.html#lot-17", [
-          [ "Objectif", "roadmap-010.html#autotoc_md742", null ],
-          [ "Le problème", "roadmap-010.html#autotoc_md743", null ],
-          [ "Périmètre", "roadmap-010.html#autotoc_md744", null ],
-          [ "Règles de format", "roadmap-010.html#autotoc_md745", null ],
-          [ "Exigences couvertes", "roadmap-010.html#autotoc_md746", null ],
-          [ "Critères d'acceptation", "roadmap-010.html#autotoc_md747", null ]
+          [ "Objectif", "roadmap-010.html#autotoc_md744", null ],
+          [ "Le problème", "roadmap-010.html#autotoc_md745", null ],
+          [ "Périmètre", "roadmap-010.html#autotoc_md746", null ],
+          [ "Règles de format", "roadmap-010.html#autotoc_md747", null ],
+          [ "Exigences couvertes", "roadmap-010.html#autotoc_md748", null ],
+          [ "Critères d'acceptation", "roadmap-010.html#autotoc_md749", null ]
         ] ],
         [ "LOT-19 — Grille tactique et déplacement", "roadmap-010.html#lot-19", [
-          [ "Objectif", "roadmap-010.html#autotoc_md748", null ],
-          [ "Ce qui existe déjà — à ne pas réécrire", "roadmap-010.html#autotoc_md749", null ],
-          [ "Périmètre", "roadmap-010.html#autotoc_md750", null ],
-          [ "Pourquoi le déterminisme du chemin n'est pas négociable", "roadmap-010.html#autotoc_md751", null ],
-          [ "Exigences couvertes", "roadmap-010.html#autotoc_md752", null ],
-          [ "Critères d'acceptation", "roadmap-010.html#autotoc_md753", null ]
+          [ "Objectif", "roadmap-010.html#autotoc_md750", null ],
+          [ "Ce qui existe déjà — à ne pas réécrire", "roadmap-010.html#autotoc_md751", null ],
+          [ "Périmètre", "roadmap-010.html#autotoc_md752", null ],
+          [ "Pourquoi le déterminisme du chemin n'est pas négociable", "roadmap-010.html#autotoc_md753", null ],
+          [ "Exigences couvertes", "roadmap-010.html#autotoc_md754", null ],
+          [ "Critères d'acceptation", "roadmap-010.html#autotoc_md755", null ]
         ] ],
         [ "LOT-20 — Initiative et tour par tour", "roadmap-010.html#lot-20", [
-          [ "Objectif", "roadmap-010.html#autotoc_md754", null ],
-          [ "Périmètre", "roadmap-010.html#autotoc_md755", null ],
-          [ "Les trois fins", "roadmap-010.html#autotoc_md756", null ],
-          [ "Exigences couvertes", "roadmap-010.html#autotoc_md757", null ],
-          [ "Critères d'acceptation", "roadmap-010.html#autotoc_md758", null ]
+          [ "Objectif", "roadmap-010.html#autotoc_md756", null ],
+          [ "Périmètre", "roadmap-010.html#autotoc_md757", null ],
+          [ "Les trois fins", "roadmap-010.html#autotoc_md758", null ],
+          [ "Exigences couvertes", "roadmap-010.html#autotoc_md759", null ],
+          [ "Critères d'acceptation", "roadmap-010.html#autotoc_md760", null ]
         ] ],
         [ "LOT-21 — Attaques, dégâts et états", "roadmap-010.html#lot-21", [
-          [ "Objectif", "roadmap-010.html#autotoc_md759", null ],
-          [ "Périmètre", "roadmap-010.html#autotoc_md760", null ],
-          [ "Les règles à ne pas se tromper", "roadmap-010.html#autotoc_md761", null ],
-          [ "Le journal de combat", "roadmap-010.html#autotoc_md762", null ],
-          [ "Exigences couvertes", "roadmap-010.html#autotoc_md763", null ],
-          [ "Critères d'acceptation", "roadmap-010.html#autotoc_md764", null ]
+          [ "Objectif", "roadmap-010.html#autotoc_md761", null ],
+          [ "Périmètre", "roadmap-010.html#autotoc_md762", null ],
+          [ "Les règles à ne pas se tromper", "roadmap-010.html#autotoc_md763", null ],
+          [ "Le journal de combat", "roadmap-010.html#autotoc_md764", null ],
+          [ "Exigences couvertes", "roadmap-010.html#autotoc_md765", null ],
+          [ "Critères d'acceptation", "roadmap-010.html#autotoc_md766", null ]
         ] ],
         [ "LOT-22 — Portée, ligne de vue et zones d'effet", "roadmap-010.html#lot-22", [
-          [ "Objectif", "roadmap-010.html#autotoc_md765", null ],
-          [ "Périmètre", "roadmap-010.html#autotoc_md766", null ],
-          [ "L'invariant à tester exhaustivement", "roadmap-010.html#autotoc_md767", null ],
-          [ "Exigences couvertes", "roadmap-010.html#autotoc_md768", null ],
-          [ "Critères d'acceptation", "roadmap-010.html#autotoc_md769", null ]
+          [ "Objectif", "roadmap-010.html#autotoc_md767", null ],
+          [ "Périmètre", "roadmap-010.html#autotoc_md768", null ],
+          [ "L'invariant à tester exhaustivement", "roadmap-010.html#autotoc_md769", null ],
+          [ "Exigences couvertes", "roadmap-010.html#autotoc_md770", null ],
+          [ "Critères d'acceptation", "roadmap-010.html#autotoc_md771", null ]
         ] ],
         [ "LOT-23 — IA tactique ennemie", "roadmap-010.html#lot-23", [
-          [ "Objectif", "roadmap-010.html#autotoc_md770", null ],
-          [ "La décision de conception", "roadmap-010.html#autotoc_md771", null ],
-          [ "Périmètre", "roadmap-010.html#autotoc_md772", null ],
-          [ "Les deux défauts à prévenir", "roadmap-010.html#autotoc_md773", null ],
-          [ "Exigences couvertes", "roadmap-010.html#autotoc_md774", null ],
-          [ "Critères d'acceptation", "roadmap-010.html#autotoc_md775", null ]
+          [ "Objectif", "roadmap-010.html#autotoc_md772", null ],
+          [ "La décision de conception", "roadmap-010.html#autotoc_md773", null ],
+          [ "Périmètre", "roadmap-010.html#autotoc_md774", null ],
+          [ "Les deux défauts à prévenir", "roadmap-010.html#autotoc_md775", null ],
+          [ "Exigences couvertes", "roadmap-010.html#autotoc_md776", null ],
+          [ "Critères d'acceptation", "roadmap-010.html#autotoc_md777", null ]
         ] ],
         [ "LOT-24 — IHM de combat", "roadmap-010.html#lot-24", [
-          [ "Objectif", "roadmap-010.html#autotoc_md776", null ],
-          [ "Périmètre", "roadmap-010.html#autotoc_md777", null ],
-          [ "Le critère qui est souvent oublié", "roadmap-010.html#autotoc_md778", null ],
-          [ "Exigences couvertes", "roadmap-010.html#autotoc_md779", null ],
-          [ "Critères d'acceptation", "roadmap-010.html#autotoc_md780", null ]
+          [ "Objectif", "roadmap-010.html#autotoc_md778", null ],
+          [ "Périmètre", "roadmap-010.html#autotoc_md779", null ],
+          [ "Le critère qui est souvent oublié", "roadmap-010.html#autotoc_md780", null ],
+          [ "Exigences couvertes", "roadmap-010.html#autotoc_md781", null ],
+          [ "Critères d'acceptation", "roadmap-010.html#autotoc_md782", null ]
         ] ],
         [ "LOT-25 — Sorts et capacités de classe", "roadmap-010.html#lot-25", [
-          [ "Objectif", "roadmap-010.html#autotoc_md781", null ],
-          [ "Périmètre", "roadmap-010.html#autotoc_md782", null ],
-          [ "Note de conception", "roadmap-010.html#autotoc_md783", null ],
-          [ "Exigences couvertes", "roadmap-010.html#autotoc_md784", null ],
-          [ "Critères d'acceptation", "roadmap-010.html#autotoc_md785", null ]
+          [ "Objectif", "roadmap-010.html#autotoc_md783", null ],
+          [ "Périmètre", "roadmap-010.html#autotoc_md784", null ],
+          [ "Note de conception", "roadmap-010.html#autotoc_md785", null ],
+          [ "Exigences couvertes", "roadmap-010.html#autotoc_md786", null ],
+          [ "Critères d'acceptation", "roadmap-010.html#autotoc_md787", null ]
         ] ],
         [ "LOT-26 — Butin, marchands, économie", "roadmap-010.html#lot-26", [
-          [ "Objectif", "roadmap-010.html#autotoc_md786", null ],
-          [ "Périmètre", "roadmap-010.html#autotoc_md787", null ],
-          [ "Le piège du tirage", "roadmap-010.html#autotoc_md788", null ],
-          [ "Exigences couvertes", "roadmap-010.html#autotoc_md789", null ],
-          [ "Critères d'acceptation", "roadmap-010.html#autotoc_md790", null ]
+          [ "Objectif", "roadmap-010.html#autotoc_md788", null ],
+          [ "Périmètre", "roadmap-010.html#autotoc_md789", null ],
+          [ "Le piège du tirage", "roadmap-010.html#autotoc_md790", null ],
+          [ "Exigences couvertes", "roadmap-010.html#autotoc_md791", null ],
+          [ "Critères d'acceptation", "roadmap-010.html#autotoc_md792", null ]
         ] ],
         [ "LOT-27 — Contenu du <em>vertical slice</em>", "roadmap-010.html#lot-27", [
-          [ "Objectif", "roadmap-010.html#autotoc_md791", null ],
-          [ "Périmètre", "roadmap-010.html#autotoc_md792", null ],
-          [ "Outillage", "roadmap-010.html#autotoc_md793", null ],
-          [ "Exigences couvertes", "roadmap-010.html#autotoc_md794", null ],
-          [ "Critères d'acceptation", "roadmap-010.html#autotoc_md795", null ]
+          [ "Objectif", "roadmap-010.html#autotoc_md793", null ],
+          [ "Périmètre", "roadmap-010.html#autotoc_md794", null ],
+          [ "Outillage", "roadmap-010.html#autotoc_md795", null ],
+          [ "Exigences couvertes", "roadmap-010.html#autotoc_md796", null ],
+          [ "Critères d'acceptation", "roadmap-010.html#autotoc_md797", null ]
         ] ],
         [ "LOT-28 — Audio, effets et version <span class=\"tt\">0.2.0</span>", "roadmap-010.html#lot-28", [
-          [ "Objectif", "roadmap-010.html#autotoc_md796", null ],
-          [ "Périmètre", "roadmap-010.html#autotoc_md797", [
-            [ "Audio", "roadmap-010.html#autotoc_md798", null ],
-            [ "Effets", "roadmap-010.html#autotoc_md799", null ],
-            [ "Équilibrage", "roadmap-010.html#autotoc_md800", null ],
-            [ "Clôture", "roadmap-010.html#autotoc_md801", null ]
+          [ "Objectif", "roadmap-010.html#autotoc_md798", null ],
+          [ "Périmètre", "roadmap-010.html#autotoc_md799", [
+            [ "Audio", "roadmap-010.html#autotoc_md800", null ],
+            [ "Effets", "roadmap-010.html#autotoc_md801", null ],
+            [ "Équilibrage", "roadmap-010.html#autotoc_md802", null ],
+            [ "Clôture", "roadmap-010.html#autotoc_md803", null ]
           ] ],
-          [ "Note de méthode", "roadmap-010.html#autotoc_md802", null ],
-          [ "Exigences couvertes", "roadmap-010.html#autotoc_md803", null ],
-          [ "Critères d'acceptation", "roadmap-010.html#autotoc_md804", null ]
+          [ "Note de méthode", "roadmap-010.html#autotoc_md804", null ],
+          [ "Exigences couvertes", "roadmap-010.html#autotoc_md805", null ],
+          [ "Critères d'acceptation", "roadmap-010.html#autotoc_md806", null ]
         ] ],
         [ "LOT-29 — Groupe de quatre personnages", "roadmap-010.html#lot-29", [
-          [ "Objectif", "roadmap-010.html#autotoc_md805", null ],
-          [ "Pourquoi ce lot est un lot d'<b>ajout</b>, pas une refonte", "roadmap-010.html#autotoc_md806", null ],
-          [ "Périmètre", "roadmap-010.html#autotoc_md807", null ],
-          [ "Le point délicat", "roadmap-010.html#autotoc_md808", null ],
-          [ "Exigences couvertes", "roadmap-010.html#autotoc_md809", null ],
-          [ "Critères d'acceptation", "roadmap-010.html#autotoc_md810", null ]
+          [ "Objectif", "roadmap-010.html#autotoc_md807", null ],
+          [ "Pourquoi ce lot est un lot d'<b>ajout</b>, pas une refonte", "roadmap-010.html#autotoc_md808", null ],
+          [ "Périmètre", "roadmap-010.html#autotoc_md809", null ],
+          [ "Le point délicat", "roadmap-010.html#autotoc_md810", null ],
+          [ "Exigences couvertes", "roadmap-010.html#autotoc_md811", null ],
+          [ "Critères d'acceptation", "roadmap-010.html#autotoc_md812", null ]
         ] ]
       ] ]
     ] ]

@@ -211,7 +211,9 @@ Les réglages, et ce qu'ils atteignent</h1>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md153"></a>
 Vérifier une interface sans la regarder</h1>
 <p><span class="tt">--screenshot=&lt;chemin&gt;</span> capture la fenêtre <b>par Qt lui-même</b>. Les API de capture de Windows rendent une image <b>noire</b> d'une fenêtre Qt Quick, dessinée par le GPU : seul Qt sait relire son propre graphe de scène. La vérification visuelle des écrans devient ainsi reproductible, au lieu de dépendre d'un œil devant l'écran au bon moment.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md154"></a>
+<p><span class="tt">--window-size=&lt;largeur&gt;x&lt;hauteur&gt;</span> impose la taille de la fenêtre, sans passer par le plein écran — qui écrirait le réglage du joueur et donnerait la taille de son moniteur. C'est ainsi que chaque écran de la charte v2 se capture à 1920 × 1080 et à 1280 × 720, à côté de sa maquette :</p>
+<div class="fragment"><div class="line">JustAnotherDnDGame --screen=MainMenu --window-size=1920x1080 --screenshot=menu-1080p.png</div>
+</div><!-- fragment --><h1 class="doxsection"><a class="anchor" id="autotoc_md154"></a>
 Voir aussi</h1>
 <ul>
 <li><a class="el" href="guide-conception-qds.html" title="Concevoir les écrans dans Qt Design Studio">Concevoir les écrans dans Qt Design Studio</a> — le mode d'emploi de la <b>conception</b> : ce qu'on modifie sans code.</li>

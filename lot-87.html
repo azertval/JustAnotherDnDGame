@@ -358,12 +358,39 @@ Où en est la phase 2 — vérifié le 13 septembre 2026</h2>
 <li><span class="tt">measure_mockup_palette.py --check</span> (10 rôles, 0 divergence), <span class="tt">check_ui_layers.py</span>, <span class="tt">check_qml_designer_compat.py</span>, <span class="tt">lint_exigences.py</span> (352/352), <span class="tt">lint_lots.py</span> : verts. Doxygen sans erreur.</li>
 </ul>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md673"></a>
+Phase 3 — les écrans</h1>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md674"></a>
+T3.1 — Le menu principal (maquette 06)</h2>
+<p><span class="tt">MainMenuForm.ui.qml</span> réécrit sur les briques v2, cotes relevées sur la maquette (1672 × 941) et ramenées à 1920 × 1080, puis multipliées par <span class="tt">Tokens.uiScale</span> : scène en fond, logotype, six entrées à icône, encart de profil, citation, version.</p>
+<ul>
+<li><b>Six entrées, deux sans destination.</b> « Continuer » et « Charger une partie » sont dessinées à leur place dans l'état <span class="tt">disabled</span> d'<span class="tt">OrnateButton</span>, jusqu'à la sauvegarde (<span class="tt">LOT-17</span>). Le jumeau ne les rend jamais courantes : les flèches les sautent, un bouton désactivé n'émet ni survol ni clic, et <span class="tt">activate()</span> refuse une entrée désactivée. L'écran s'ouvre donc sur « Nouvelle partie ». <span class="tt">continueAvailable</span> et <span class="tt">loadAvailable</span> les rallumeront sans toucher au formulaire.</li>
+<li><b>La marque de focus.</b> La plaque grenat de l'entrée active est une teinte ; <span class="tt">EX-IHM-071</span> veut une marque. Un losange d'or (<span class="tt">FocusMark</span>, pièce <span class="tt">ui/control/focus-fleuron</span>) se pose devant l'entrée courante.</li>
+<li><b>Quatre briques de plus</b>, pour les pièces du menu qui n'en avaient pas : <span class="tt">CoverArt</span> (troisième porteur d'image, pour les pièces <span class="tt">display: cover</span>), <span class="tt">LogoPlate</span> (<span class="tt">ui/plate/logo</span>, dont le repli écrit le nom en deux lignes et s'efface le jour où l'image, qui porte ses lettres, arrive), <span class="tt">QuotePlate</span> (<span class="tt">ui/plate/quote</span>) et <span class="tt">FocusMark</span>. Les trois premières servent aussi aux crédits (T3.3) ; toutes sont dans la galerie.</li>
+<li><b>La version</b> vient de <span class="tt"><a class="el" href="classcore_1_1Engine.html#a80c1e60da14c218b7846ff3201a325a6" title="Retourne la version du moteur, telle que déclarée par le système de build.">core::Engine::version()</a></span> par <span class="tt">QCoreApplication::setApplicationVersion</span>, lue en QML par <span class="tt">Qt.application.version</span> : aucun type C++ ni doublure de plus.</li>
+<li><b>Le profil</b> est en attente : <span class="tt">main_menu.profile.name</span> et <span class="tt">main_menu.profile.portrait</span> (<span class="tt">PendingData</span>). Aucun lot ne tient de profil de joueur ; le cadre de portrait prend son état <span class="tt">empty</span>.</li>
+<li>La navigation réelle ne change pas : Nouvelle partie, Options, Crédits, Quitter appellent le routeur comme avant. Clavier et pointeur pilotent le même <span class="tt">currentIndex</span> ; les boutons ne prennent pas le focus (<span class="tt">Qt.NoFocus</span>), qui reste à l'écran et à ses touches.</li>
+</ul>
+<p>Écarts assumés :</p>
+<ul>
+<li><b>Aucune pièce n'est livrée.</b> Le plan voulait fonds, cadres, plaques, boutons et contrôles livrés avant la phase 3 ; la production n'a pas tourné. L'écran est posé sur les aplats de repli des briques, qui céderont la place aux images sans qu'une ligne du formulaire change. Les captures ci-dessous jugent la <b>mise en page</b>, pas la matière.</li>
+<li><b>La scène de repli est la carte de Tanares</b>, et non l'aplat <span class="tt">panel</span> que le cahier prévoit pour <span class="tt">ui/background/menu-scene</span> : un menu noir aurait caché la composition que la capture doit montrer, et la carte est une illustration extraite, déjà déclarée. Le dégradé sombre du tiers gauche ne s'affiche qu'avec ce repli : la scène produite est peinte avec un tiers gauche sombre.</li>
+<li><b>Logotype à 608 px de large</b>, mesuré sur la maquette, et non les 532 px du cahier. <b>Encart de profil à 96 px de haut</b>, et non 80 : un 9-patch plus petit que ses deux marges superpose ses coins.</li>
+<li><b>Pas de roue dentée dans l'encart de profil</b> : elle n'ouvre rien que le menu n'ouvre déjà, et aucune pièce du cahier ne la porte.</li>
+<li><b><span class="tt">EX-IHM-072</span></b> retire tout réglage inopérant. Deux entrées désactivées ne sont pas des réglages, et le plan les veut visibles ; l'exigence n'est pas refondue ici. Le T3.2, qui tranche le cas des options, dira si la règle s'étend aux entrées de menu.</li>
+</ul>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Maquette  </th><th class="markdownTableHeadNone">1920 × 1080  </th><th class="markdownTableHeadNone">1280 × 720  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><img src="references/06_Main_Menu_Mockup.png" alt="maquette 06" class="inline"/>  </td><td class="markdownTableBodyNone"><img src="captures/t3-1-menu-1080p.png" alt="menu à 1080p" class="inline"/>  </td><td class="markdownTableBodyNone"><img src="captures/t3-1-menu-720p.png" alt="menu à 720p" class="inline"/>  </td></tr>
+</table>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md675"></a>
 Exigences couvertes</h1>
 <ul>
 <li><a class="el" href="spec-interface-ihm.html#EX-IHM-070" title="EX-IHM-070"><span class="tt">EX-IHM-070</span></a>, <a class="el" href="spec-interface-ihm.html#EX-IHM-075" title="EX-IHM-075"><span class="tt">EX-IHM-075</span></a>, <a class="el" href="spec-interface-ihm.html#EX-IHM-076" title="EX-IHM-076"><span class="tt">EX-IHM-076</span></a>, <a class="el" href="spec-interface-ihm.html#EX-IHM-081" title="EX-IHM-081"><span class="tt">EX-IHM-081</span></a> : refondues ou précisées par la phase 2 (T2.1), pour décrire la charte v2.</li>
 <li><a class="el" href="spec-interface-ihm.html#EX-IHM-053" title="EX-IHM-053"><span class="tt">EX-IHM-053</span></a> : refondue par le T2.4 — les icônes des écrans du jeu sont produites, au double de leur taille d'affichage.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md674"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md676"></a>
 Où en est le lot</h1>
 <p><b>Phases 0 et 1 livrées</b> (PR #25 et #26) ; <b>phase 2 faite</b> — T2.1 à T2.7 (branche <span class="tt">lot/LOT-87-phase-2-charte-jetons</span>), en attente de la porte 2 (revue des jetons et des briques). Le cahier (T2.4) est la première chose à faire produire : c'est le chemin critique du lot. Le manifeste (T2.5), la réception (T2.6) et les briques (T2.7) sont prêts à recevoir ce qui en revient — une pièce réceptionnée apparaît dans la galerie sans autre changement. La clôture du T2.6 (fonds, cadres, plaques, boutons et contrôles livrés) attend toujours la production.</p>
 <p>Rappel de la phase 0 :</p>
@@ -374,7 +401,7 @@ Où en est le lot</h1>
 <li>Les dix maquettes déplacées dans <span class="tt">references/</span>.</li>
 <li>Ce dossier créé : comme tout lot démarré, le <span class="tt">LOT-87</span> quitte <span class="tt"><a class="el" href="roadmap-0_81_80_8md.html">roadmap-0.1.0.md</a></span> pour cet epic, et <span class="tt"><a class="el" href="lots_8md.html">lots.md</a></span> porte désormais son <span class="tt">@subpage lot-87</span>.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md675"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md677"></a>
 Critères d'acceptation de la phase 0</h1>
 <ul>
 <li><span class="tt">git branch -a</span> ne liste plus que <span class="tt"><a class="el" href="Editor_2Main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="Point d&#39;entrée du programme.">main</a></span>, <span class="tt">gh-pages</span> et <span class="tt">lot/LOT-87-charte-v2</span>, hors branches distantes en attente de suppression manuelle.</li>

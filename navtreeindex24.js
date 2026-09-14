@@ -1,5 +1,7 @@
 var NAVTREEINDEX24 =
 {
+"roadmap-010.html#lot-22":[7,30,11,8],
+"roadmap-010.html#lot-23":[7,30,11,9],
 "roadmap-010.html#lot-24":[7,30,11,10],
 "roadmap-010.html#lot-25":[7,30,11,11],
 "roadmap-010.html#lot-26":[7,30,11,12],
@@ -247,7 +249,5 @@ var NAVTREEINDEX24 =
 "structcore_1_1Armor.html#a90783bcb508be463b57290a61a33677c":[15,0,1,99,1],
 "structcore_1_1Armor.html#a90783bcb508be463b57290a61a33677c":[16,0,0,99,1],
 "structcore_1_1Armor.html#aa06d559649a795a2c18bfbdce1111d3b":[15,0,1,99,7],
-"structcore_1_1Armor.html#aa06d559649a795a2c18bfbdce1111d3b":[16,0,0,99,7],
-"structcore_1_1Armor.html#ac581b54cd1588b03d17d0463925ef430":[15,0,1,99,4],
-"structcore_1_1Armor.html#ac581b54cd1588b03d17d0463925ef430":[16,0,0,99,4]
+"structcore_1_1Armor.html#aa06d559649a795a2c18bfbdce1111d3b":[16,0,0,99,7]
 };
