@@ -3,78 +3,105 @@ import QtQuick.Layouts
 import Jadg.Ui
 
 /*!
-    Dialogue -- FORMULAIRE, cote conception (LOT-86).
+    Dialogue -- FORMULAIRE, cote conception (LOT-86, restyle LOT-87 T3.9).
 
-    Un dialogue SUSPEND le jeu : l'interlocuteur attend une reponse, il ne la recoit pas en
-    courant. C'est une regle de l'ecran, pas du point d'appel -- ouvert depuis le jeu ou depuis une
-    touche, il se comporte pareil (EX-IHM-091).
+    Pas de maquette : les briques et les jetons de la charte v2, sur la structure v1 -- l'interlocuteur
+    a gauche (portrait, nom, attitude), sa replique et les reponses possibles a droite. Parchemin :
+    un dialogue suspend le jeu, et se lit comme une page.
+
+    Les proprietes portent des VALEURS D'EXEMPLE ; le jumeau les remplace par l'ancre `PendingData`,
+    en attendant le lot des dialogues (`LOT-15`).
 */
-RpgScreenFrame {
+ScreenPage {
     id: root
 
-    property alias portraitSource: portrait.source
-    property alias replies: replyList.model
-    property alias line: lineProse.text
+    property url portraitSource: ""
+    property var replies: exampleReplies
+    property string line: "Vous arrivez tard, et par la mauvaise route. Ceux qui viennent par là ont d'ordinaire quelque chose à cacher — ou quelqu'un à fuir. Lequel des deux, pour vous ?"
     property string speakerName: "—"
     property string attitude: "—"
 
+    readonly property ListModel exampleReplies: ListModel {
+        ListElement { rowId: "a"; label: "Ni l'un ni l'autre. Je cherche du travail."; value: "" }
+        ListElement { rowId: "b"; label: "Cela ne vous regarde pas."; value: "" }
+        ListElement { rowId: "c"; label: "Qui fuit, ici ?"; value: "" }
+    }
+
     title: qsTr("Dialogue")
+    material: "parchment"
 
-    // Le contenu s'affecte au slot du châssis. `content` n'est PAS la propriété par défaut,
-    // et ne peut pas l'être : le châssis a ses propres enfants (le double cadre, le titre, le
-    // pied), qui y entreraient aussi et s'imbriqueraient dans eux-mêmes.
-    content: [
-        RowLayout {
+    RowLayout {
+        anchors.fill: parent
+        spacing: Tokens.gapLarge
+
+        ColumnLayout {
+            Layout.alignment: Qt.AlignTop
             Layout.fillWidth: true
-            Layout.fillHeight: true
-            spacing: Tokens.spaceExtraLarge
+            Layout.preferredWidth: 1
+            spacing: Tokens.gapMedium
 
-            ColumnLayout {
-                Layout.alignment: Qt.AlignTop
-                Layout.preferredWidth: 1
-                Layout.fillWidth: true
-                spacing: Tokens.spaceLarge
-
-                SheetPortrait {
-                    id: portrait
-                    Layout.fillWidth: true
-                    title: qsTr("Interlocuteur")
-                    aspectRatio: 0.8
-                }
-
-                SheetBlock {
-                    Layout.fillWidth: true
-                    title: ""
-                    SheetLine { Layout.fillWidth: true; label: qsTr("Nom"); value: root.speakerName }
-                    SheetLine { Layout.fillWidth: true; label: qsTr("Attitude"); value: root.attitude }
-                }
+            PortraitFrame {
+                Layout.alignment: Qt.AlignHCenter
+                shape: "square"
+                size: 360 * Tokens.uiScale
+                source: root.portraitSource
             }
 
-            ColumnLayout {
-                Layout.alignment: Qt.AlignTop
-                Layout.preferredWidth: 2
+            FieldRow {
                 Layout.fillWidth: true
-                spacing: Tokens.spaceLarge
+                label: qsTr("Nom")
+                value: root.speakerName
+            }
 
-                SheetProse {
-                    id: lineProse
-                    Layout.fillWidth: true
-                    title: qsTr("Réplique")
-                    text: "Vous arrivez tard, et par la mauvaise route. Ceux qui viennent par là ont d'ordinaire quelque chose à cacher — ou quelqu'un à fuir. Lequel des deux, pour vous ?"
-                }
-
-                SheetList {
-                    id: replyList
-                    Layout.fillWidth: true
-                    title: qsTr("Réponses")
-                    rows: 4
-                    model: ListModel {
-                        ListElement { label: "Ni l'un ni l'autre. Je cherche du travail."; value: "" }
-                        ListElement { label: "Cela ne vous regarde pas."; value: "" }
-                        ListElement { label: "Qui fuit, ici ?"; value: "" }
-                    }
-                }
+            FieldRow {
+                Layout.fillWidth: true
+                label: qsTr("Attitude")
+                value: root.attitude
             }
         }
-    ]
+
+        ColumnLayout {
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            Layout.preferredWidth: 2
+            spacing: Tokens.gapLarge
+
+            PanelFrame {
+                Layout.fillWidth: true
+                Layout.preferredHeight: 340 * Tokens.uiScale
+                material: "parchment"
+                subpanel: true
+
+                SectionBanner {
+                    id: lineBanner
+
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    text: qsTr("Réplique")
+                }
+
+                Text {
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.top: lineBanner.bottom
+                    anchors.bottom: parent.bottom
+                    anchors.topMargin: Tokens.gapMedium
+                    text: root.line
+                    color: Tokens.text
+                    font.family: Tokens.loreFamily
+                    font.italic: true
+                    font.pixelSize: Tokens.fontSectionTitle
+                    wrapMode: Text.WordWrap
+                    elide: Text.ElideRight
+                }
+            }
+
+            LedgerList {
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                title: qsTr("Réponses")
+                rows: root.replies
+            }
+        }
+    }
 }

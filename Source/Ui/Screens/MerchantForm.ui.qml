@@ -3,66 +3,73 @@ import QtQuick.Layouts
 import Jadg.Ui
 
 /*!
-    Marchand -- FORMULAIRE, cote conception (LOT-86).
+    Marchand -- FORMULAIRE, cote conception (LOT-86, restyle LOT-87 T3.9).
 
-    Deux listes face a face : ce qu'il vend, ce que l'on porte. La bourse est sous la premiere,
-    parce que c'est elle qui decide de ce qu'on peut acheter -- pas de ce qu'on peut vendre.
+    Pas de maquette : les briques et les jetons de la charte v2, sur la structure v1 -- les
+    marchandises a gauche, la bourse au centre, le sac du personnage a droite. Parchemin : un
+    marchand se consulte a l'arret, comme un inventaire.
+
+    Les proprietes portent des VALEURS D'EXEMPLE ; le jumeau les remplace par l'ancre `PendingData`,
+    en attendant le lot du commerce (`LOT-26`).
 */
-RpgScreenFrame {
+ScreenPage {
     id: root
 
-    property alias goods: goodsList.model
-    property alias bag: bagList.model
+    property var goods: exampleRows
+    property var bag: exampleRows
     property string gold: "—"
 
-    title: qsTr("Marchand")
+    readonly property ListModel exampleRows: ListModel {
+        ListElement { rowId: "a"; label: "Corde de chanvre (15 m)"; value: "1 po" }
+        ListElement { rowId: "b"; label: "Torche"; value: "1 pc" }
+    }
 
-    // Le contenu s'affecte au slot du châssis. `content` n'est PAS la propriété par défaut,
-    // et ne peut pas l'être : le châssis a ses propres enfants (le double cadre, le titre, le
-    // pied), qui y entreraient aussi et s'imbriqueraient dans eux-mêmes.
-    content: [
-        RowLayout {
+    title: qsTr("Marchand")
+    material: "parchment"
+
+    RowLayout {
+        anchors.fill: parent
+        spacing: Tokens.gapLarge
+
+        LedgerList {
             Layout.fillWidth: true
             Layout.fillHeight: true
-            spacing: Tokens.spaceExtraLarge
+            Layout.preferredWidth: 3
+            title: qsTr("Marchandises")
+            rows: root.goods
+        }
 
-            ColumnLayout {
-                Layout.alignment: Qt.AlignTop
-                Layout.fillWidth: true
-                spacing: Tokens.spaceLarge
+        PanelFrame {
+            Layout.alignment: Qt.AlignTop
+            Layout.fillWidth: true
+            Layout.preferredWidth: 2
+            Layout.preferredHeight: 200 * Tokens.uiScale
+            material: "parchment"
+            subpanel: true
 
-                SheetList {
-                    id: goodsList
-                    Layout.fillWidth: true
-                    title: qsTr("Marchandises")
-                    rows: 8
-                    model: ListModel {
-                        ListElement { label: "Corde de chanvre, 15 m"; value: "1 po" }
-                        ListElement { label: "Rations de voyage"; value: "5 pa" }
-                        ListElement { label: "Lanterne à capote"; value: "5 po" }
-                        ListElement { label: "Cotte de mailles"; value: "75 po" }
-                    }
+            Column {
+                anchors.fill: parent
+                spacing: Tokens.gapMedium
+
+                SectionBanner {
+                    width: parent.width
+                    text: qsTr("Bourse")
                 }
 
-                SheetBlock {
-                    Layout.fillWidth: true
-                    title: qsTr("Bourse")
-                    SheetLine { Layout.fillWidth: true; label: qsTr("Pièces d'or"); value: root.gold }
-                }
-            }
-
-            SheetList {
-                id: bagList
-                Layout.alignment: Qt.AlignTop
-                Layout.fillWidth: true
-                title: qsTr("Votre sac")
-                rows: 8
-                model: ListModel {
-                    ListElement { label: "Torche"; value: "×4" }
-                    ListElement { label: "Pied-de-biche"; value: "×1" }
-                    ListElement { label: "Potion de soins"; value: "×2" }
+                FieldRow {
+                    width: parent.width
+                    label: qsTr("Pièces d'or")
+                    value: root.gold
                 }
             }
         }
-    ]
+
+        LedgerList {
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            Layout.preferredWidth: 3
+            title: qsTr("Votre sac")
+            rows: root.bag
+        }
+    }
 }
