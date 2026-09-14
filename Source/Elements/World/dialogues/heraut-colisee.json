@@ -1,0 +1,120 @@
+{
+  "id": "heraut-colisee",
+  "name": "Le heraut de l'Arene du Futur",
+  "source": "original",
+  "status": {
+    "provisoire": true,
+    "raison": "dialogue de DEMONSTRATION du LOT-15 : le runner, l'ecran et la traduction ont besoin d'une conversation a jouer, et il n'y a encore ni village ni quete (LOT-27, LOT-16). Le heraut est au Colisee parce que l'arene est la seule carte jouable ; ses repliques ne sont pas tirees du Sourcebook.",
+    "retraitSi": "le contenu du vertical slice (LOT-27) fournit ses propres PNJ et dialogues"
+  },
+  "speaker": {
+    "languages": ["common"],
+    "attitude": "indifferent"
+  },
+  "start": "accueil",
+  "nodes": [
+    {
+      "id": "accueil",
+      "type": "condition",
+      "flag": "dialogue/heraut-colisee/rencontre",
+      "then": "retour",
+      "else": "premiere-fois"
+    },
+    {
+      "id": "premiere-fois",
+      "type": "action",
+      "actions": [
+        { "type": "setFlag", "flag": "dialogue/heraut-colisee/rencontre" }
+      ],
+      "next": "presentation"
+    },
+    {
+      "id": "presentation",
+      "type": "line",
+      "choices": [
+        { "id": "marque", "next": "marque" },
+        { "id": "inscription", "next": "inscription" },
+        { "id": "partir", "next": "fin" }
+      ]
+    },
+    {
+      "id": "retour",
+      "type": "line",
+      "choices": [
+        { "id": "marque", "next": "marque" },
+        { "id": "inscription", "next": "inscription" },
+        { "id": "partir", "next": "fin" }
+      ]
+    },
+    {
+      "id": "marque",
+      "type": "line",
+      "next": "retour"
+    },
+    {
+      "id": "inscription",
+      "type": "condition",
+      "flag": "quest/champion-du-colisee/started",
+      "then": "deja-inscrit",
+      "else": "demande"
+    },
+    {
+      "id": "deja-inscrit",
+      "type": "line",
+      "attitude": "friendly",
+      "next": "fin"
+    },
+    {
+      "id": "demande",
+      "type": "line",
+      "choices": [
+        {
+          "id": "convaincre",
+          "next": "jet-persuasion",
+          "condition": { "flag": "dialogue/heraut-colisee/persuasion-echouee", "isSet": false }
+        },
+        { "id": "renoncer", "next": "fin" }
+      ]
+    },
+    {
+      "id": "jet-persuasion",
+      "type": "check",
+      "skill": "persuasion",
+      "difficulty": "moyenne",
+      "success": "accepte",
+      "failure": "refuse"
+    },
+    {
+      "id": "accepte",
+      "type": "action",
+      "actions": [
+        { "type": "startQuest", "quest": "champion-du-colisee" }
+      ],
+      "next": "accepte-replique"
+    },
+    {
+      "id": "accepte-replique",
+      "type": "line",
+      "attitude": "friendly",
+      "next": "fin"
+    },
+    {
+      "id": "refuse",
+      "type": "action",
+      "actions": [
+        { "type": "setFlag", "flag": "dialogue/heraut-colisee/persuasion-echouee" }
+      ],
+      "next": "refuse-replique"
+    },
+    {
+      "id": "refuse-replique",
+      "type": "line",
+      "attitude": "hostile",
+      "next": "retour"
+    },
+    {
+      "id": "fin",
+      "type": "end"
+    }
+  ]
+}

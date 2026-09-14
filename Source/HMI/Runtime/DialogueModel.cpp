@@ -1,0 +1,238 @@
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: GPL-3.0-or-later
+
+#include "HMI/Runtime/DialogueModel.h"
+
+#include <QStringList>
+#include <QVector>
+#include <cstdint>
+#include <filesystem>
+#include <optional>
+#include <string>
+#include <vector>
+
+#include "Core/Gameplay/WorldFlags.h"
+#include "Core/Math/DeterministicRandom.h"
+#include "Core/Rpg/Check.h"
+#include "Core/Rpg/Dialogue.h"
+#include "HMI/HmiLog.h"
+#include "HMI/Platform/ExecutableDirectory.h"
+#include "HMI/Presentation/DialogueScreen.h"
+#include "HMI/Runtime/DemonstrationCharacter.h"
+#include "HMI/Runtime/RuleLabels.h"
+
+namespace hmi {
+
+namespace {
+
+[[nodiscard]] QString toQt(const std::string& texte) {
+    return QString::fromStdString(texte);
+}
+
+/**
+ * Les drapeaux de monde des conversations, le temps du processus. ECHAFAUDAGE : sans partie ni
+ * sauvegarde (LOT-17), il n'y a pas d'autre endroit ou les garder, et un heraut qui oublierait
+ * qu'on lui a parle a chaque ouverture de l'ecran rendrait les conditions invisibles.
+ */
+[[nodiscard]] core::WorldFlags& drapeauxDeDemonstration() {
+    static core::WorldFlags drapeaux;
+    return drapeaux;
+}
+
+/**
+ * Une graine par conversation, tiree d'un compteur et non de l'horloge (EX-NFR-002) : deux
+ * lancements du jeu rejouent les memes des dans le meme ordre de conversations.
+ */
+[[nodiscard]] std::uint64_t graineSuivante() {
+    static std::uint64_t compteur = 0;
+    return core::deriveSeed(0x15D1A106ULL, compteur++, 0);
+}
+
+}  // namespace
+
+struct DialogueModel::Session {
+    DemonstrationState character;
+    core::DialogueCatalog dialogues;
+    core::DifficultyScale difficulty;
+    std::vector<std::string> problems;
+
+    std::string dialogueId;
+    const core::DialogueGraph* graph = nullptr;
+    std::optional<core::CharacterListener> listener;
+    std::optional<core::DeterministicRandom> random;
+    std::optional<core::DialogueRunner> runner;
+    DialogueScreenValues values;
+    bool left = false;
+};
+
+DialogueModel::DialogueModel(QObject* parent)
+    : QObject(parent), _session(std::make_unique<Session>()) {
+    Session& s = *_session;
+    const std::filesystem::path root = executableDirectory();
+
+    s.character = loadDemonstrationState();
+    if (s.character.sheet.name.empty()) {
+        s.problems.emplace_back("personnage de demonstration absent");
+    }
+    s.difficulty = core::loadDifficultyScale(root / "Rpg" / "rules" / "difficulty.json");
+    for (const std::string& error : s.difficulty.errors) {
+        HMI_LOG_WARNING("Dialogue : degres de difficulte, " + error);
+    }
+    s.dialogues = core::loadDialogues(root / "World" / "dialogues");
+    for (const std::string& error : s.dialogues.errors) {
+        // Nomme son fichier et son noeud : l'auteur du dialogue le corrige sans lancer le jeu deux
+        // fois (EX-CNT-010).
+        HMI_LOG_WARNING("Dialogue : " + error);
+    }
+
+    core::DialogueReferences references;
+    references.skills = &s.character.skills;
+    references.difficulty = &s.difficulty;
+    references.itemExists = [&s](std::string_view id) {
+        return s.character.items.find(id) != nullptr ||
+               s.character.equipment.findWeapon(id) != nullptr ||
+               s.character.equipment.findArmor(id) != nullptr;
+    };
+    references.languageExists = [root](std::string_view id) {
+        return std::filesystem::exists(root / "Rpg" / "languages" / (std::string(id) + ".json"));
+    };
+    std::vector<core::DialogueGraph> valides;
+    for (core::DialogueGraph& graphe : s.dialogues.dialogues) {
+        const std::vector<std::string> erreurs =
+            core::validateDialogueReferences(graphe, references);
+        for (const std::string& error : erreurs) {
+            HMI_LOG_WARNING("Dialogue : " + error);
+        }
+        if (erreurs.empty()) {
+            valides.push_back(std::move(graphe));
+        }
+    }
+    s.dialogues.dialogues = std::move(valides);
+    refresh();
+}
+
+DialogueModel::~DialogueModel() = default;
+
+void DialogueModel::open() {
+    Session& s = *_session;
+    s.runner.reset();
+    s.random.reset();
+    s.listener.reset();
+    s.left = false;
+    s.graph = s.dialogues.find(s.dialogueId);
+    if (s.graph == nullptr || s.character.sheet.name.empty()) {
+        if (!s.dialogueId.empty()) {
+            HMI_LOG_WARNING("Dialogue : '" + s.dialogueId +
+                            "' introuvable ou refuse au chargement.");
+        }
+        refresh();
+        return;
+    }
+    s.listener.emplace(s.character.sheet, s.character.inventory, s.character.experience,
+                       s.character.skills);
+    s.random.emplace(graineSuivante());
+    s.runner.emplace(*s.graph, drapeauxDeDemonstration(), *s.listener, s.difficulty, *s.random);
+    static_cast<void>(s.runner->start());
+    for (const std::string& ligne : s.runner->journal()) {
+        HMI_LOG_INFO("Dialogue : " + ligne);
+    }
+    refresh();
+}
+
+void DialogueModel::refresh() {
+    Session& s = *_session;
+    if (s.runner) {
+        s.values = dialogueScreenValues(
+            *s.runner, [](std::string_view key) { return ruleLabel(key, activeLanguage()); });
+    } else {
+        s.values = DialogueScreenValues{};
+        s.values.line = ruleLabel("dialogue.unavailable", activeLanguage());
+        s.values.replies.push_back(
+            {std::string(DIALOGUE_LEAVE_REPLY), ruleLabel("dialogue.leave", activeLanguage()), {}});
+    }
+    QVector<SheetRow> lignes;
+    for (const DialogueReply& reponse : s.values.replies) {
+        lignes.push_back({toQt(reponse.id), toQt(reponse.label), toQt(reponse.value)});
+    }
+    _replies.setRows(std::move(lignes));
+    emit changed();
+}
+
+QString DialogueModel::dialogueId() const {
+    return toQt(_session->dialogueId);
+}
+
+void DialogueModel::setDialogueId(const QString& id) {
+    const std::string lu = id.toStdString();
+    if (lu == _session->dialogueId && _session->runner) {
+        return;
+    }
+    _session->dialogueId = lu;
+    open();
+}
+
+QString DialogueModel::speakerName() const {
+    return toQt(_session->values.speakerName);
+}
+
+QString DialogueModel::attitude() const {
+    return toQt(_session->values.attitude);
+}
+
+QString DialogueModel::line() const {
+    return toQt(_session->values.line);
+}
+
+QString DialogueModel::checkOutcome() const {
+    return toQt(_session->values.checkOutcome);
+}
+
+bool DialogueModel::finished() const noexcept {
+    return _session->values.finished || _session->left;
+}
+
+QString DialogueModel::status() const {
+    const Session& s = *_session;
+    QStringList parts;
+    for (const std::string& probleme : s.problems) {
+        parts << toQt(probleme);
+    }
+    if (!s.dialogueId.empty() && s.graph == nullptr) {
+        parts << QStringLiteral("dialogue inconnu : ") + toQt(s.dialogueId);
+    }
+    return parts.join(QStringLiteral(" ; "));
+}
+
+void DialogueModel::choose(const QString& rowId) {
+    Session& s = *_session;
+    if (rowId.toStdString() == DIALOGUE_LEAVE_REPLY) {
+        s.left = true;
+        emit changed();
+        return;
+    }
+    if (!s.runner) {
+        return;
+    }
+    const std::size_t avant = s.runner->journal().size();
+    if (s.runner->choose(rowId.toStdString()) != core::ChoiceResult::Advanced) {
+        return;
+    }
+    for (std::size_t i = avant; i < s.runner->journal().size(); ++i) {
+        HMI_LOG_INFO("Dialogue : " + s.runner->journal()[i]);
+    }
+    refresh();
+}
+
+void DialogueModel::chooseAt(int index) {
+    const std::vector<DialogueReply>& reponses = _session->values.replies;
+    if (index < 0 || static_cast<std::size_t>(index) >= reponses.size()) {
+        return;
+    }
+    choose(toQt(reponses[static_cast<std::size_t>(index)].id));
+}
+
+void DialogueModel::restart() {
+    open();
+}
+
+}  // namespace hmi

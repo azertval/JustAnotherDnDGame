@@ -4,6 +4,9 @@
 #include "Core/Rpg/Check.h"
 
 #include <algorithm>
+#include <utility>
+
+#include "Core/Data/JsonDocument.h"
 
 namespace core {
 
@@ -86,6 +89,45 @@ std::string CheckResult::describe() const {
         texte += " (1 naturel)";
     }
     return texte;
+}
+
+const DifficultyTier* DifficultyScale::find(std::string_view id) const {
+    const auto trouve = std::ranges::find(tiers, id, &DifficultyTier::id);
+    return trouve == tiers.end() ? nullptr : &*trouve;
+}
+
+DifficultyScale loadDifficultyScale(const std::filesystem::path& path) {
+    DifficultyScale echelle;
+    // Une regle, pas un document de format : pas de champ `version` (meme choix qu'au LOT-33).
+    const JsonDocument document = readJsonObjectFromFile(path, 0);
+    if (!document.ok()) {
+        echelle.errors.push_back(path.string() + " : " + document.message);
+        return echelle;
+    }
+    const auto degres = document.root.find("tiers");
+    if (degres == document.root.end() || !degres->is_array()) {
+        echelle.errors.push_back(path.string() + " : champ 'tiers' absent ou non tableau.");
+        return echelle;
+    }
+    for (const auto& degre : *degres) {
+        const auto id = degre.find("id");
+        const auto dc = degre.find("dc");
+        if (!degre.is_object() || id == degre.end() || !id->is_string() || dc == degre.end() ||
+            !dc->is_number_integer()) {
+            // Ecarte en le NOMMANT : un degre sans nombre, garde a 0, ferait reussir tout jet qui
+            // le vise, ce qui se joue et ne se voit pas.
+            echelle.errors.push_back(path.string() + " : degre sans identifiant ou sans 'dc'.");
+            continue;
+        }
+        DifficultyTier lu;
+        lu.id = id->get<std::string>();
+        lu.dc = dc->get<int>();
+        if (const auto nom = degre.find("name"); nom != degre.end() && nom->is_string()) {
+            lu.name = nom->get<std::string>();
+        }
+        echelle.tiers.push_back(std::move(lu));
+    }
+    return echelle;
 }
 
 }  // namespace core

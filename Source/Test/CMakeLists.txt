@@ -32,6 +32,7 @@ add_executable(UnitTests
     Unit/Core/Levels/test_level_outcome.cpp
     Unit/Core/Levels/test_tile_type_name.cpp
     Unit/Core/Rpg/test_check.cpp
+    Unit/Core/Rpg/test_dialogue.cpp
     Unit/Core/Rpg/test_dice.cpp
     Unit/Core/Rpg/test_equipment.cpp
     Unit/Core/Rpg/test_inventory.cpp
@@ -124,6 +125,7 @@ add_executable(UnitTests
     Unit/HMI/Interface/test_screen_flow.cpp
     Unit/HMI/Interface/test_rpg_screens.cpp
     Unit/HMI/Interface/test_character_sheet_values.cpp
+    Unit/HMI/Interface/test_dialogue_screen.cpp
     Unit/HMI/Interface/test_identity_scale.cpp
     Unit/HMI/Interface/test_editor_workspace.cpp
     Unit/HMI/Editor/test_thumbnail_geometry.cpp

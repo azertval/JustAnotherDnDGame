@@ -24,8 +24,9 @@ struct MapEntity;
 /**
  * @brief Les types d'entité que ce lot sait rendre **interactifs**, et ce qu'ils consomment.
  *
- * Une table, et non un `if` par famille : le `LOT-15` ajoutera les PNJ et le `LOT-09` les portails,
- * et chacun devrait sinon retoucher la même fonction. `Core` ne connaît aucune sémantique de type
+ * Une table, et non un `if` par famille : le `LOT-15` y a ajouté les PNJ et le `LOT-09` les
+ * portails, et chacun devrait sinon retoucher la même fonction. `Core` ne connaît aucune sémantique
+ * de type
  * (`core::MapEntity`) ; il connaît en revanche **ce qui ne se prend qu'une fois**, qui est une
  * propriété structurelle et non un comportement.
  */
@@ -38,7 +39,8 @@ struct InteractableKind {
     std::string_view promptKey;
 };
 
-/// @brief Les familles connues de ce lot. Le `LOT-15` et le `LOT-09` en ajouteront.
+/// @brief Les familles connues : coffre, panneau (`LOT-10`), PNJ (`LOT-15`). Le `LOT-09` ajoutera
+/// les portails.
 [[nodiscard]] const std::vector<InteractableKind>& knownInteractableKinds();
 
 /**

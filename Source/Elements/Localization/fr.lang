@@ -651,3 +651,35 @@ rpg.slot.ammunition = Munitions
 rpg.slot.bracers = Brassards
 rpg.slot.pouch = Bourse
 rpg.slot.trinket = Babiole
+
+# Dialogues (LOT-15). Les cles des repliques et des reponses sont FABRIQUEES depuis les
+# identifiants du graphe (dialogue.<dialogue>.<noeud>[.<reponse>]) : un test verifie que chaque
+# cle qu'un dialogue reclame existe ici ET dans en.lang.
+dialogue.continue = Continuer
+dialogue.leave = Quitter la conversation
+dialogue.refused = Votre interlocuteur ne parle aucune langue que vous comprenez. Il hausse les épaules et se détourne.
+dialogue.unavailable = Aucune conversation à afficher.
+dialogue.check.success = réussite
+dialogue.check.failure = échec
+dialogue.check.summary = %1 : %2 contre %3 — %4
+dialogue.attitude.friendly = Amical
+dialogue.attitude.indifferent = Indifférent
+dialogue.attitude.hostile = Hostile
+
+# Le héraut du Colisée (dialogue de démonstration, provisoire).
+dialogue.heraut-colisee.speaker = Le héraut du Colisée
+dialogue.heraut-colisee.presentation = Halte, voyageur. Vous voici aux portes de l'Arène du Futur. Ici, deux camps règlent ce qu'une guerre réglerait autrement — et personne n'en sort les pieds devant. Que cherchez-vous ?
+dialogue.heraut-colisee.presentation.marque = Personne n'y meurt ? Comment est-ce possible ?
+dialogue.heraut-colisee.presentation.inscription = Je veux combattre dans l'arène.
+dialogue.heraut-colisee.presentation.partir = Rien. Je ne faisais que passer.
+dialogue.heraut-colisee.retour = Encore vous. La Marque vous intrigue toujours, ou vous voulez enfin vous battre ?
+dialogue.heraut-colisee.retour.marque = Parlez-moi encore de la Marque.
+dialogue.heraut-colisee.retour.inscription = Inscrivez-moi parmi les champions.
+dialogue.heraut-colisee.retour.partir = Je reviendrai.
+dialogue.heraut-colisee.marque = Avant chaque combat, un prêtre trace sur chaque combattant la Marque Héroïque. Quand le dernier coup tombe, elle relève tout le monde — vainqueurs comme vaincus. Seule Feargus combat sans elle.
+dialogue.heraut-colisee.deja-inscrit = Votre nom est déjà sur la liste. Revenez quand les gradins seront pleins.
+dialogue.heraut-colisee.demande = La liste des champions est close pour la saison. À moins que vous ne me donniez une bonne raison de la rouvrir.
+dialogue.heraut-colisee.demande.convaincre = Les gradins réclament du sang neuf. Je suis ce qu'ils attendent.
+dialogue.heraut-colisee.demande.renoncer = Tant pis. Une autre saison.
+dialogue.heraut-colisee.accepte-replique = Hm. Vous avez de l'aplomb, et c'est ce que la foule aime. Votre nom est sur la liste — que la Marque vous garde.
+dialogue.heraut-colisee.refuse-replique = Belle tirade. La liste reste close, et ma patience aussi.

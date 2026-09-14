@@ -23,6 +23,9 @@
     "athletics",
     "perception"
   ],
+  "languages": [
+    "dwarvish"
+  ],
   "inventory": {
     "equipped": {
       "torso": "cuir-cloute",

@@ -22,6 +22,9 @@ const std::vector<InteractableKind>& knownInteractableKinds() {
         {"chest", true, "interaction.chest"},
         // Le panneau se relit indefiniment : rien a consommer.
         {"sign", false, "interaction.sign"},
+        // Le PNJ se reparle : ce qu'il dit depend des drapeaux, pas d'un « deja fait » (LOT-15).
+        // Son dialogue se lit de la carte par `core::dialogueTriggerFor`.
+        {"npc", false, "interaction.npc"},
     };
     return familles;
 }

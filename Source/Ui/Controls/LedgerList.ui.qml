@@ -11,11 +11,18 @@ import Jadg.Ui
     de `SheetRowModel` (`rowId`, `label`, `value`), comme ceux que pose `PendingData.rows()`.
 
     `material` choisit la matiere du sous-panneau, comme sur `PanelFrame`.
+
+    `interactive` rend chaque ligne cliquable et emet `rowActivated(rowId)` : les reponses d'un
+    dialogue (LOT-15) sont une liste comme les autres, que le joueur choisit. Faux par defaut --
+    un registre qui se lit ne doit pas promettre un geste.
 */
 PanelFrame {
     id: root
 
     property string title: "Registre"
+    property bool interactive: false
+
+    signal rowActivated(string rowId)
 
     /// Le modele de lignes : roles `rowId`, `label`, `value`.
     property var rows: exampleRows
@@ -52,6 +59,7 @@ PanelFrame {
         delegate: Item {
             id: line
 
+            required property string rowId
             required property string label
             required property string value
 
@@ -79,6 +87,22 @@ PanelFrame {
                 color: root.material === "parchment" ? Tokens.textMuted : Tokens.textOnPanelMuted
                 font.family: Tokens.bodyFamily
                 font.pixelSize: Tokens.fontBody
+            }
+
+            Rectangle {
+                anchors.fill: parent
+                color: Tokens.accent
+                opacity: linePointer.containsMouse ? 0.18 : 0
+            }
+
+            MouseArea {
+                id: linePointer
+
+                anchors.fill: parent
+                enabled: root.interactive
+                hoverEnabled: root.interactive
+                cursorShape: root.interactive ? Qt.PointingHandCursor : Qt.ArrowCursor
+                onClicked: root.rowActivated(line.rowId)
             }
 
             Rectangle {

@@ -191,6 +191,17 @@ LoadedCharacterSheet loadCharacterSheet(const std::filesystem::path& path,
         }
     }
 
+    // Les langues CHOISIES (LOT-15) : un historique en accorde un nombre, et la fiche dit
+    // lesquelles. Celles de l'espece sont deja la, recopiees par `buildCharacterSheet`.
+    const auto langues = document.root.find("languages");
+    if (langues != document.root.end() && langues->is_array()) {
+        for (const auto& element : *langues) {
+            if (element.is_string()) {
+                resultat.sheet.languages.insert(element.get<std::string>());
+            }
+        }
+    }
+
     // Ce que le personnage PORTE (LOT-14). Rien n'en est derive ici : ni classe d'armure, ni poids
     // total, ni encombrement. `core::derivedStatsFor` les recalcule depuis ce contenu a chaque
     // lecture, et c'est ce qui les empeche de deriver.
@@ -331,6 +342,7 @@ CharacterSheet buildCharacterSheet(std::string name, const std::array<int, 6>& b
     if (species != nullptr) {
         fiche.speciesId = species->id;
         fiche.speedMeters = species->speed;
+        fiche.languages.insert(species->languages.begin(), species->languages.end());
         for (const Ability caracteristique : allAbilities()) {
             fiche.abilities[static_cast<std::size_t>(caracteristique)] = abilityScoreWith(
                 *species, caracteristique, baseAbilities[static_cast<std::size_t>(caracteristique)],

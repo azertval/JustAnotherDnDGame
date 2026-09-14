@@ -91,6 +91,9 @@ FAMILLES = {
     # formee est un ecran vide qu'on met une heure a expliquer.
     'characters': 'character',
     'encounters': 'encounter',
+    # Dialogues (LOT-15), sous World/ : une conversation est un contenu de lieu. Le schema dit la
+    # forme ; les cibles, les cycles et les impasses se refusent au chargement (core::readDialogue).
+    'dialogues': 'dialogue',
 }
 
 # `rules/` porte des REGLES, pas une collection d'entrees semblables : chaque fichier y a son

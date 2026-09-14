@@ -82,6 +82,7 @@ add_library(HmiLib STATIC
     # testable sans fenetre, alors que GameSession, son orchestrateur, ne l'est pas.
     Game/ExplorationMode.cpp
     Game/CombatMode.cpp
+    Game/DialogueMode.cpp
     Game/GameHud.cpp
     Game/DiagnosticsHud.cpp
     # Éditeur : validation, taxonomie, gestes et géométrie, bibliothèque d'assets, atelier pixel.
@@ -114,6 +115,7 @@ add_library(HmiLib STATIC
     Presentation/RpgScreens.cpp
     Presentation/CharacterSheetValues.cpp
     Presentation/InventoryValues.cpp
+    Presentation/DialogueScreen.cpp
     Presentation/CreditsCatalog.cpp
     Presentation/InventoryScreen.cpp
     Presentation/WorldMapRegions.cpp
