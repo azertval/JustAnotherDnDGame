@@ -66,6 +66,7 @@ set(JADG_UI_QML_FILES
     Controls/SkillRow.ui.qml
     Controls/MapMarker.ui.qml
     Controls/LedgerList.ui.qml
+    Controls/SpellEntry.ui.qml
     Screens/CharacterSheetForm.ui.qml
     Screens/InventoryForm.ui.qml
     Screens/JournalForm.ui.qml
@@ -74,6 +75,7 @@ set(JADG_UI_QML_FILES
     Screens/MerchantForm.ui.qml
     Screens/CombatHudForm.ui.qml
     Screens/CompanyForm.ui.qml
+    Screens/SkillsForm.ui.qml
     Screens/MainMenuForm.ui.qml
     Screens/OptionsForm.ui.qml
     Screens/PauseForm.ui.qml

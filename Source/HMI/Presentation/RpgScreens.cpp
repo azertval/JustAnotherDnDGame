@@ -243,6 +243,18 @@ constexpr std::array COMPANY_RIGHT = {
     RpgContentBlock{.titleKey = "", .kind = RpgBlockKind::Fields, .fields = CONTRACT_FIELDS},
 };
 
+// --- Ossature des COMPÉTENCES ET SORTS (maquette 10, LOT-87 T3.8) -------------------------------
+//
+// Aucune donnée avant le LOT-35 : l'écran est dessiné, chaque valeur passe par PendingData.
+constexpr std::array SKILLS_LEFT = {
+    RpgContentBlock{.titleKey = "rpg.block.attacks", .kind = RpgBlockKind::List, .rows = 2},
+    RpgContentBlock{.titleKey = "rpg.block.cantrips", .kind = RpgBlockKind::List, .rows = 4},
+};
+constexpr std::array SKILLS_RIGHT = {
+    RpgContentBlock{.titleKey = "rpg.block.spell_schools", .kind = RpgBlockKind::List, .rows = 8},
+    RpgContentBlock{.titleKey = "rpg.block.spell", .kind = RpgBlockKind::Prose},
+};
+
 // --- La table ---------------------------------------------------------------------------------
 //
 // C'est ELLE, et rien d'autre, qu'un neuvième écran vient allonger (EX-IHM-090) : le châssis Qt ne
@@ -253,6 +265,12 @@ constexpr std::array<RpgScreenDescriptor, RPG_SCREEN_COUNT> SCREENS = {{
      .titleKey = "rpg.character_sheet.title",
      .superposition = RpgSuperposition::PausesGame,
      .layout = {.leftColumn = CHARACTER_SHEET_LEFT, .rightColumn = CHARACTER_SHEET_RIGHT}},
+    // Les sorts se préparent à l'arrêt, comme la fiche d'où on les ouvre.
+    {.id = RpgScreenId::Skills,
+     .objectName = "RpgSkillsScreen",
+     .titleKey = "rpg.skills.title",
+     .superposition = RpgSuperposition::PausesGame,
+     .layout = {.leftColumn = SKILLS_LEFT, .rightColumn = SKILLS_RIGHT}},
     {.id = RpgScreenId::Inventory,
      .objectName = "RpgInventoryScreen",
      .titleKey = "rpg.inventory.title",

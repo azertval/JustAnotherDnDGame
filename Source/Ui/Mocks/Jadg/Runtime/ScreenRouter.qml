@@ -19,6 +19,7 @@ QtObject {
 
     enum RpgScreen {
         CharacterSheet,
+        Skills,
         Inventory,
         QuestJournal,
         WorldMap,

@@ -60,6 +60,9 @@ Item {
 
     // Un `ListModel` et non un tableau : il a la forme exacte du vrai modele (des ROLES), sans quoi
     // un ecran valide sur l'exemple s'afficherait vide une fois branche.
+    /// Le bouton qui ouvre les competences et sorts (LOT-87, T3.8), branche par le jumeau.
+    property alias skillsButton: skillsControl
+
     readonly property ListModel exampleSkills: ListModel {
         ListElement { rowId: "athletics"; label: "Athlétisme"; value: "+5 •" }
         ListElement { rowId: "stealth"; label: "Discrétion"; value: "+1" }
@@ -364,6 +367,17 @@ Item {
         width: 460 * Tokens.uiScale
         material: "black"
         text: qsTr("Compétences")
+    }
+
+    // L'entree des sorts (LOT-87, T3.8) : sous les competences, qui en sont le voisin naturel.
+    OrnateButton {
+        id: skillsControl
+
+        x: 1480 * Tokens.uiScale
+        y: 990 * Tokens.uiScale
+        width: 380 * Tokens.uiScale
+        kind: "secondary"
+        text: qsTr("Compétences et sorts")
     }
 
     ListView {

@@ -771,7 +771,7 @@ Contrats, Réserve.
   Recrutement et Réserve sont des registres.
 - **Les membres viennent des personnages existants** : le personnage de démonstration occupe la
   première place (nom et niveau réels), les cinq autres sont libres. Tout le reste attend les lots
-  de la compagnie (`LOT-45`, `LOT-83`) : **27 clés `company.*`**, relevées par
+  de la compagnie (`LOT-45`, `LOT-83`) : **26 clés `company.*`**, relevées par
   `list_pending_bindings.py`.
 - Brique `LedgerList` : un registre de lignes libellé/valeur dans un sous-panneau à bandeau, que
   les écrans sans maquette réutiliseront (T3.9).
@@ -784,6 +784,36 @@ L'illustration de la base n'est pas au cahier (données de la compagnie) : son c
 | Maquette | 1920 × 1080 | 1280 × 720 |
 |---|---|---|
 | ![maquette 09](references/09_MercenaryScreen_Mockup.png) | ![compagnie à 1080p](captures/t3-7-compagnie-1080p.png) | ![compagnie à 720p](captures/t3-7-compagnie-720p.png) |
+
+### T3.8 — Les compétences et sorts (maquette 10)
+
+Nouvel écran, `SkillsForm`. À gauche, les attaques et les sortilèges ; au centre, les écoles de
+magie avec leurs emplacements et leurs sorts connus ; à droite, le détail du sort choisi.
+
+- **Il entre dans le routeur** : `RpgScreenId::Skills` et `ScreenRouter::RpgScreen::Skills`, placés
+  juste après la fiche dans les deux énumérations, qui restent alignées (`static_assert`). Le RPG
+  compte à nouveau **neuf écrans**, et le cycle passe de la fiche aux sorts. Une ossature de table
+  (`rpg.skills.title` et quatre clés de bloc, fr/en) et `--screen=Skills` : **quatorze écrans**.
+  Les tests du cycle et de la superposition suivent (les sorts suspendent le jeu).
+- **On y entre depuis la fiche** : un bouton « Compétences et sorts » sous la liste des
+  compétences. Le bouton Fiche ramène à la fiche.
+- **Aucune donnée avant le `LOT-35`** : chaque valeur passe par `PendingData`, et les **28 clés
+  `skills.*`** apparaissent dans `list_pending_bindings.py`.
+- **Huit écoles, et non neuf** : celles du lexique des règles (`LOT-30`, `magicSchoolName`). La
+  maquette montre une « Thaumaturgie » que les règles ne connaissent pas ; le cahier la porte parmi
+  les icônes (`ui/icon/school/thaumaturgy`), aucun écran ne la pose.
+- **Navigation au clavier** : les flèches désignent une école, que signale la marque d'or
+  (`FocusMark`, `EX-IHM-071`).
+- Brique `SpellEntry` : une attaque ou un sortilège, avec son icône dans son anneau et ses
+  caractéristiques.
+
+Écarts : la maquette reprend en tête les onglets de la compagnie (Équipe, Recrutement…), une
+copie visible de la maquette 09 ; ils ne sont pas repris, et un bouton Fiche prend leur place. Pas
+de bouton « Gestion des sorts » : il n'aurait rien à ouvrir (`EX-IHM-072`).
+
+| Maquette | 1920 × 1080 | 1280 × 720 |
+|---|---|---|
+| ![maquette 10](references/10_Skills_Mockup.png) | ![sorts à 1080p](captures/t3-8-sorts-1080p.png) | ![sorts à 720p](captures/t3-8-sorts-720p.png) |
 
 ## Exigences couvertes
 

@@ -539,6 +539,11 @@ rpg.slot.ring = Anneau
 # competences et de caracteristiques sont ceux du LEXIQUE (rpg.glossary.csv) et non des synonymes :
 # `check_glossary.py` controle ces deux espaces de noms, comme il controle deja les etats.
 rpg.company.title = Équipe de mercenaires
+rpg.skills.title = Compétences et sorts
+rpg.block.attacks = Attaques
+rpg.block.cantrips = Sortilèges
+rpg.block.spell_schools = Écoles de magie
+rpg.block.spell = Détail du sort
 
 rpg.ability.strength = Force
 rpg.ability.dexterity = Dextérité
