@@ -1,0 +1,69 @@
+{
+  "version": 1,
+  "sections": [
+    {
+      "id": "development",
+      "column": 0,
+      "title": { "fr": "Développement", "en": "Development" },
+      "lines": [
+        {
+          "role": { "fr": "Conception et programmation", "en": "Design and programming" },
+          "names": ["Valentin Eloy"]
+        }
+      ]
+    },
+    {
+      "id": "art-direction",
+      "column": 0,
+      "title": { "fr": "Direction artistique", "en": "Art direction" },
+      "lines": [
+        {
+          "role": { "fr": "Graphismes", "en": "Graphics" },
+          "names": [
+            "Kenney (www.kenney.nl)",
+            "Platformer Pack Remastered, Platformer Pack: Industrial",
+            "CC0 1.0 Universal"
+          ]
+        },
+        {
+          "role": { "fr": "Polices", "en": "Fonts" },
+          "names": [
+            "Cinzel, IM Fell English, Inter",
+            "Pixelify Sans, Press Start 2P",
+            "SIL Open Font License 1.1"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "audio",
+      "column": 1,
+      "title": { "fr": "Audio", "en": "Audio" },
+      "lines": [
+        {
+          "role": { "fr": "Bruitages", "en": "Sound effects" },
+          "names": [
+            "Kenney (www.kenney.nl)",
+            "Digital Audio, Impact Sounds, RPG Audio, Interface Sounds",
+            "CC0 1.0 Universal"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "other",
+      "column": 1,
+      "title": { "fr": "Autres contributions", "en": "Other contributions" },
+      "lines": [
+        {
+          "role": { "fr": "Bibliothèques", "en": "Libraries" },
+          "names": ["Qt 6 (www.qt.io), LGPL v3", "nlohmann/json, MIT"]
+        },
+        {
+          "role": { "fr": "Licence", "en": "License" },
+          "names": ["GNU GPL v3.0+"]
+        }
+      ]
+    }
+  ]
+}

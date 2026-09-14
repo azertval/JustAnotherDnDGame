@@ -100,49 +100,19 @@
 <context>
     <name>CreditsForm.ui</name>
     <message>
-        <location filename="../../Ui/Screens/CreditsForm.ui.qml" line="15"/>
-        <source>Échap</source>
-        <translation>Esc</translation>
+        <location filename="../../Ui/Screens/CreditsForm.ui.qml" line="126"/>
+        <source>« Une grande aventure ne se fait jamais seul. »</source>
+        <translation>“No great adventure is ever undertaken alone.”</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/CreditsForm.ui.qml" line="15"/>
-        <source>Retour</source>
-        <translation>Back</translation>
-    </message>
-    <message>
-        <location filename="../../Ui/Screens/CreditsForm.ui.qml" line="16"/>
+        <location filename="../../Ui/Screens/CreditsForm.ui.qml" line="139"/>
         <source>Crédits</source>
         <translation>Credits</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/CreditsForm.ui.qml" line="25"/>
-        <source>Développement</source>
-        <translation>Development</translation>
-    </message>
-    <message>
-        <location filename="../../Ui/Screens/CreditsForm.ui.qml" line="30"/>
-        <source>Musique et bruitages</source>
-        <translation>Music and sound effects</translation>
-    </message>
-    <message>
-        <location filename="../../Ui/Screens/CreditsForm.ui.qml" line="35"/>
-        <source>Graphismes</source>
-        <translation>Graphics</translation>
-    </message>
-    <message>
-        <location filename="../../Ui/Screens/CreditsForm.ui.qml" line="40"/>
-        <source>Polices</source>
-        <translation>Fonts</translation>
-    </message>
-    <message>
-        <location filename="../../Ui/Screens/CreditsForm.ui.qml" line="45"/>
-        <source>Bibliothèques</source>
-        <translation>Libraries</translation>
-    </message>
-    <message>
-        <location filename="../../Ui/Screens/CreditsForm.ui.qml" line="50"/>
-        <source>Licence</source>
-        <translation>License</translation>
+        <location filename="../../Ui/Screens/CreditsForm.ui.qml" line="156"/>
+        <source>Retour</source>
+        <translation>Back</translation>
     </message>
 </context>
 <context>

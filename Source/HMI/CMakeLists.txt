@@ -120,6 +120,7 @@ add_library(HmiLib STATIC
     Presentation/RpgScreens.cpp
     Presentation/CharacterSheetValues.cpp
     Presentation/InventoryValues.cpp
+    Presentation/CreditsCatalog.cpp
     Interface/DesignTokens.cpp
     Interface/StyleSheetTemplate.cpp
     Interface/FontResolution.cpp

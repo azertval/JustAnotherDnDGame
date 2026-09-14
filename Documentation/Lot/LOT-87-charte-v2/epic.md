@@ -587,6 +587,34 @@ Conséquence assumée : le volume et la langue ne s'appliquent plus au glisser o
 |---|---|---|---|
 | ![maquette 05](references/05_Options_Mockup.png) | ![options à 1080p](captures/t3-2-options-1080p.png) | ![options à 720p](captures/t3-2-options-720p.png) | ![graphismes à 720p](captures/t3-2-options-graphismes-720p.png) |
 
+### T3.3 — Les crédits (maquette 07)
+
+Scène du menu, logotype, grand panneau sombre coiffé de sa plaque « Crédits », deux colonnes de
+sections, citation au pied du panneau, bouton Retour, version.
+
+- **Les attributions sont des données.** `Source/Elements/Credits/credits.json` porte les sections,
+  leur colonne, leurs titres et rôles traduits (`fr`, `en`), et les noms (non traduits). Le
+  formulaire ne contient **aucun nom propre** : il ne sait dessiner qu'une section (brique
+  `CreditSection`). Les vrais crédits du projet tiennent en quatre sections, quand la maquette en
+  montre cinq et vingt noms. Rien n'est inventé pour remplir.
+- **Lecture pure et testée** : `hmi::readCredits` (`HMI/Presentation/CreditsCatalog`) lit le JSON
+  dans une langue, retombe sur le français pour un libellé non traduit, et **refuse** toute section
+  malformée plutôt que de rendre des crédits partiels. Cinq tests, dont un sur le fichier livré dans
+  les deux langues.
+- **`CreditsModel`** (`Jadg.Runtime`, et sa doublure) : une colonne de sections, pour une langue.
+  Le jumeau en pose deux, dont la langue suit `OptionsModel.language`. Le fichier est **embarqué**
+  dans la ressource (`:/jadg/credits/credits.json`) : des attributions que les licences exigent ne
+  dépendent pas d'un fichier posé à côté de l'exécutable.
+- Retour et `Échap` ramènent au menu par le routeur.
+
+Écart : la section « Scénario & Univers » de la maquette n'existe pas. Le projet n'a pas de
+contributeur à y nommer, et `credits.json` en accueillera une le jour où il en aura un (icône
+`story` déjà au cahier).
+
+| Maquette | 1920 × 1080 | 1280 × 720 |
+|---|---|---|
+| ![maquette 07](references/07_Credit_Mockup.png) | ![crédits à 1080p](captures/t3-3-credits-1080p.png) | ![crédits à 720p](captures/t3-3-credits-720p.png) |
+
 ## Exigences couvertes
 
 - [`EX-IHM-070`](@ref EX-IHM-070), [`EX-IHM-075`](@ref EX-IHM-075), [`EX-IHM-076`](@ref EX-IHM-076),
