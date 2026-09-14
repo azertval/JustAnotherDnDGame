@@ -77,10 +77,6 @@ constexpr int SANS_GARDE_DE_VERSION = 0;
     return 0;
 }
 
-[[nodiscard]] int chebyshev(GridPosition a, GridPosition b) noexcept {
-    return std::max(std::abs(a.column - b.column), std::abs(a.row - b.row));
-}
-
 [[nodiscard]] std::string_view nomDuCrochet(CombatHook crochet) noexcept {
     switch (crochet) {
         case CombatHook::BeforeFirstTurn:
@@ -95,6 +91,10 @@ constexpr int SANS_GARDE_DE_VERSION = 0;
             return "fin du tour";
         case CombatHook::AttackDeclared:
             return "attaque declaree";
+        case CombatHook::DamageTaken:
+            return "degats";
+        case CombatHook::CombatantDowned:
+            return "a terre";
         case CombatHook::CombatantJoined:
             return "entree";
         case CombatHook::CombatantLeft:
@@ -211,32 +211,6 @@ ArenaCatalog loadArenas(const std::filesystem::path& directory) {
     return catalogue;
 }
 
-// --- Kits -------------------------------------------------------------------------------------
-
-StrikeKit strikeKitFor(const Creature& creature) {
-    StrikeKit kit{.armorClass = creature.armorClass, .attackBonus = 0, .damage = {}, .label = {}};
-    for (const CreatureAction& action : creature.actions) {
-        if (action.attackBonus.has_value() && action.damage.has_value()) {
-            kit.attackBonus = *action.attackBonus;
-            kit.damage = *action.damage;
-            kit.label = action.name;
-            return kit;
-        }
-    }
-    // Une creature sans action qui frappe (un familier, une nuee) se defend sans attaquer : un
-    // coup a zero de bonus et sans degats, qui ne touche donc jamais rien. Le journal le dit.
-    kit.label = "aucune attaque";
-    return kit;
-}
-
-StrikeKit strikeKitFor(const CharacterSheet& sheet, int proficiencyBonus) {
-    const int force = sheet.modifier(Ability::Strength);
-    return {.armorClass = sheet.armorClass,
-            .attackBonus = proficiencyBonus + force,
-            .damage = Dice{.count = 0, .faces = 0, .modifier = 1 + force},
-            .label = "coup a mains nues"};
-}
-
 // --- Session ----------------------------------------------------------------------------------
 
 ArenaSession::ArenaSession(Level level)
@@ -255,10 +229,13 @@ void ArenaSession::subscribe() {
         return (c == nullptr ? std::string("?") : c->profile.name) + " #" +
                std::to_string(static_cast<std::uint32_t>(*id));
     };
-    constexpr std::array<CombatHook, 9> CROCHETS{
-        CombatHook::BeforeFirstTurn, CombatHook::RoundStart,    CombatHook::InitiativeCount,
-        CombatHook::TurnStart,       CombatHook::TurnEnd,       CombatHook::AttackDeclared,
-        CombatHook::CombatantJoined, CombatHook::CombatantLeft, CombatHook::CombatEnded};
+    // Les degats subis ne font pas une ligne a eux seuls : l'attaque qui les inflige les ecrit
+    // deja, etape par etape. La chute, elle, en fait une.
+    constexpr std::array<CombatHook, 10> CROCHETS{
+        CombatHook::BeforeFirstTurn, CombatHook::RoundStart,      CombatHook::InitiativeCount,
+        CombatHook::TurnStart,       CombatHook::TurnEnd,         CombatHook::AttackDeclared,
+        CombatHook::CombatantDowned, CombatHook::CombatantJoined, CombatHook::CombatantLeft,
+        CombatHook::CombatEnded};
     for (const CombatHook crochet : CROCHETS) {
         _combat->subscribe(crochet, [this, nommer](CombatState& etat, const CombatEvent& e) {
             std::string ligne = std::string(nomDuCrochet(e.hook));
@@ -270,7 +247,21 @@ void ArenaSession::subscribe() {
                     ligne += " " + e.marker;
                     break;
                 case CombatHook::TurnStart:
+                    // L'esquive dure « jusqu'au debut de votre prochain tour ».
+                    if (e.combatant.has_value()) {
+                        _dodging.erase(*e.combatant);
+                    }
+                    ligne += " " + nommer(e.combatant);
+                    break;
                 case CombatHook::TurnEnd:
+                    // Se desengager vaut « jusqu'a la fin du tour ».
+                    if (e.combatant.has_value()) {
+                        _disengaged.erase(*e.combatant);
+                    }
+                    ligne += " " + nommer(e.combatant);
+                    break;
+                case CombatHook::CombatantDowned:
+                case CombatHook::DamageTaken:
                 case CombatHook::CombatantJoined:
                 case CombatHook::CombatantLeft:
                     ligne += " " + nommer(e.combatant);
@@ -312,7 +303,9 @@ ArenaMount ArenaSession::mount(const ArenaBout& bout) {
     _bout = bout;
     _random = DeterministicRandom(bout.seed);
     _combat = std::make_unique<CombatState>(BattleGrid(_level));
-    _kits.clear();
+    _attacks.clear();
+    _dodging.clear();
+    _disengaged.clear();
     _journal.clear();
     subscribe();
     _combat->setEscapable(true);
@@ -348,7 +341,7 @@ ArenaMount ArenaSession::mount(const ArenaBout& bout) {
             continue;
         }
         const CombatantId id = *enrolement.combatant;
-        _kits[id] = concurrent.kit;
+        _attacks[id] = concurrent.attacks;
         if (bout.heroicMark) {
             _combat->economy(id)->declare(HEROIC_ACTION_RESOURCE, 1);
         }
@@ -380,64 +373,202 @@ ArenaMount ArenaSession::replay() {
     return montage;
 }
 
-const StrikeKit* ArenaSession::kit(CombatantId combatant) const {
-    const auto trouve = _kits.find(combatant);
-    return trouve == _kits.end() ? nullptr : &trouve->second;
+const std::vector<AttackProfile>* ArenaSession::attacks(CombatantId combatant) const {
+    const auto trouve = _attacks.find(combatant);
+    return trouve == _attacks.end() ? nullptr : &trouve->second;
 }
 
-StrikeOutcome ArenaSession::strike(CombatantId target) {
+const AttackProfile* ArenaSession::meleeAttack(CombatantId combatant) const {
+    const std::vector<AttackProfile>* liste = attacks(combatant);
+    if (liste == nullptr) {
+        return nullptr;
+    }
+    const auto trouve = std::ranges::find(*liste, AttackKind::Melee, &AttackProfile::kind);
+    return trouve == liste->end() ? nullptr : &*trouve;
+}
+
+std::optional<AttackOutcome> ArenaSession::resolveAndRecord(CombatantId attacker,
+                                                            CombatantId target,
+                                                            const AttackProfile& profile,
+                                                            const std::string& prefix) {
+    // La ligne de l'attaque se reserve apres la declaration et avant les des : ce que les degats
+    // declenchent (une chute, l'issue, la Marque) s'ecrit ensuite, dans l'ordre ou c'est arrive.
+    std::optional<std::size_t> place;
+    AttackHooks crochets = _attackHooks;
+    crochets.insert(AttackRollStage::BeforeRoll, [this, &place](AttackRoll&, DeterministicRandom&) {
+        place = _journal.size();
+        _journal.emplace_back();
+    });
+    AttackContext contexte = contextAgainst(target);
+    contexte.hooks = &crochets;
+    std::optional<AttackOutcome> issue =
+        resolveAttack(*_combat, attacker, target, profile, _random, contexte);
+    if (issue.has_value() && place.has_value()) {
+        _journal[*place] = prefix + issue->describe();
+    }
+    return issue;
+}
+
+AttackContext ArenaSession::contextAgainst(CombatantId target) const {
+    AttackContext contexte{
+        .hooks = &_attackHooks, .pipeline = &_damagePipeline, .circumstances = {}};
+    // Manuel, « Esquiver » : les attaques contre vous sont desavantagees « si vous pouvez voir
+    // l'attaquant ». La vision est au LOT-22 : on la suppose.
+    if (_dodging.contains(target)) {
+        contexte.circumstances.disadvantages.emplace_back("esquive de la cible");
+    }
+    return contexte;
+}
+
+ArenaAttack ArenaSession::attack(CombatantId target, std::size_t attackIndex) {
     const std::optional<CombatantId> actif = _combat->activeCombatant();
     if (!actif.has_value() || _combat->phase() != CombatPhase::TurnActive) {
-        return {.result = StrikeResult::NoActiveTurn};
+        return {.result = ArenaActionResult::NoActiveTurn, .outcome = std::nullopt};
     }
     const Combatant* attaquant = _combat->find(*actif);
     const Combatant* cible = _combat->find(target);
-    const StrikeKit* kitAttaquant = kit(*actif);
-    const StrikeKit* kitCible = kit(target);
-    if (cible == nullptr || kitAttaquant == nullptr || kitCible == nullptr || target == *actif) {
-        return {.result = StrikeResult::InvalidTarget};
+    if (cible == nullptr || target == *actif || cible->profile.side == attaquant->profile.side ||
+        cible->status != CombatantStatus::Standing) {
+        return {.result = ArenaActionResult::InvalidTarget, .outcome = std::nullopt};
     }
-    const std::optional<GridPosition> de = _combat->grid().positionOf(*actif);
-    const std::optional<GridPosition> vers = _combat->grid().positionOf(target);
-    if (cible->profile.side == attaquant->profile.side ||
-        cible->status != CombatantStatus::Standing || !de.has_value() || !vers.has_value() ||
-        chebyshev(*de, *vers) > 1) {
-        return {.result = StrikeResult::OutOfReach};
+    const std::vector<AttackProfile>* liste = attacks(*actif);
+    if (liste == nullptr || attackIndex >= liste->size()) {
+        return {.result = ArenaActionResult::NoAttack, .outcome = std::nullopt};
+    }
+    // Copie : un abonne peut enroler un renfort, et la table des attaques ne doit pas bouger sous
+    // la resolution.
+    const AttackProfile profil = (*liste)[attackIndex];
+    if (!inReach(*_combat, *actif, target, profil)) {
+        return {.result = ArenaActionResult::OutOfReach, .outcome = std::nullopt};
     }
     if (attaquant->economy.remaining(ACTION_RESOURCE) <= 0) {
-        return {.result = StrikeResult::NoAction};
+        return {.result = ArenaActionResult::NoAction, .outcome = std::nullopt};
     }
-
-    _combat->declareAttack(*actif, target);
     _combat->spend(ACTION_RESOURCE);
-    const std::array<Modifier, 1> bonus{
-        Modifier{.source = kitAttaquant->label, .value = kitAttaquant->attackBonus}};
-    StrikeOutcome coup;
-    coup.roll = rollCheck(kitCible->armorClass, bonus, RollStance::Normal, _random);
-    if (!coup.roll->succeeded()) {
-        coup.result = StrikeResult::Missed;
-        record("coup " + attaquant->profile.name + " -> " + cible->profile.name + " : " +
-               coup.roll->describe() + " : rate");
-        return coup;
+    ArenaAttack attaque{.result = ArenaActionResult::Done, .outcome = std::nullopt};
+    attaque.outcome = resolveAndRecord(*actif, target, profil, {});
+    return attaque;
+}
+
+bool ArenaSession::dodge() {
+    const std::optional<CombatantId> actif = _combat->activeCombatant();
+    if (!actif.has_value() || !_combat->spend(ACTION_RESOURCE)) {
+        return false;
     }
-    const DiceRoll degats = rollDice(kitAttaquant->damage, _random);
-    coup.result = StrikeResult::Hit;
-    coup.damage = std::max(degats.total, 0);
-    record("coup " + attaquant->profile.name + " -> " + cible->profile.name + " : " +
-           coup.roll->describe() + " : touche, " + degats.describe());
-    _combat->applyDamage(target, coup.damage);
-    return coup;
+    _dodging.insert(*actif);
+    record("esquive " + _combat->find(*actif)->profile.name);
+    return true;
+}
+
+bool ArenaSession::disengage() {
+    const std::optional<CombatantId> actif = _combat->activeCombatant();
+    if (!actif.has_value() || !_combat->spend(ACTION_RESOURCE)) {
+        return false;
+    }
+    _disengaged.insert(*actif);
+    record("desengagement " + _combat->find(*actif)->profile.name);
+    return true;
 }
 
 MoveOutcome ArenaSession::move(GridPosition destination) {
     const std::optional<CombatantId> actif = _combat->activeCombatant();
-    MoveOutcome deplacement = _combat->move(destination);
-    if (deplacement.result == MoveResult::Moved && actif.has_value()) {
-        record("pas " + _combat->find(*actif)->profile.name + " " +
-               std::to_string(destination.column) + "," + std::to_string(destination.row) + " (" +
-               std::to_string(deplacement.path.cost) + ")");
+    if (!actif.has_value()) {
+        return _combat->move(destination);
     }
-    return deplacement;
+    const auto noterPas = [&](const MoveOutcome& pas, GridPosition vers) {
+        record("pas " + _combat->find(*actif)->profile.name + " " + std::to_string(vers.column) +
+               "," + std::to_string(vers.row) + " (" + std::to_string(pas.path.cost) + ")");
+    };
+    MoveOutcome parcours{.result = MoveResult::NoActiveTurn, .path = {}};
+    const auto cumuler = [&](const MoveOutcome& pas) {
+        parcours.result = MoveResult::Moved;
+        parcours.path.steps.insert(parcours.path.steps.end(), pas.path.steps.begin(),
+                                   pas.path.steps.end());
+        parcours.path.cost += pas.path.cost;
+    };
+
+    // Chaque tour de boucle depense au moins une reaction, ou finit le deplacement : la garde n'est
+    // la que contre une regression.
+    for (std::size_t garde = 0; garde <= _combat->combatants().size(); ++garde) {
+        const bool toujoursLui =
+            _combat->phase() == CombatPhase::TurnActive && _combat->activeCombatant() == actif;
+        if (!toujoursLui) {
+            return parcours;
+        }
+        const std::optional<ReachableArea> zone = _combat->reachableArea();
+        const std::optional<Path> chemin =
+            zone.has_value() ? zone->pathTo(destination) : std::optional<Path>{};
+        if (!chemin.has_value()) {
+            return parcours.result == MoveResult::Moved ? parcours : _combat->move(destination);
+        }
+
+        // Les cases successives de l'ancre, depart compris, et la premiere sortie d'allonge.
+        std::vector<GridPosition> cases{zone->origin()};
+        cases.insert(cases.end(), chemin->steps.begin(), chemin->steps.end());
+        const Combatant* mobile = _combat->find(*actif);
+        std::optional<std::size_t> sortie;
+        std::vector<CombatantId> opportunistes;
+        if (!_disengaged.contains(*actif)) {
+            for (std::size_t i = 0; i + 1 < cases.size() && !sortie.has_value(); ++i) {
+                for (const CombatantId autre : _combat->combatants()) {
+                    const Combatant* c = _combat->find(autre);
+                    const AttackProfile* coup = meleeAttack(autre);
+                    if (c == nullptr || coup == nullptr ||
+                        c->profile.side == mobile->profile.side ||
+                        c->status != CombatantStatus::Standing ||
+                        c->economy.remaining(REACTION_RESOURCE) <= 0) {
+                        continue;
+                    }
+                    const std::optional<int> avant =
+                        gridDistanceFrom(*_combat, *actif, cases[i], autre);
+                    const std::optional<int> apres =
+                        gridDistanceFrom(*_combat, *actif, cases[i + 1], autre);
+                    if (avant.has_value() && apres.has_value() && *avant <= coup->reach &&
+                        *apres > coup->reach) {
+                        opportunistes.push_back(autre);
+                    }
+                }
+                if (!opportunistes.empty()) {
+                    sortie = i;
+                }
+            }
+        }
+        if (!sortie.has_value()) {
+            const MoveOutcome pas = _combat->move(destination);
+            if (pas.result == MoveResult::Moved) {
+                noterPas(pas, destination);
+                cumuler(pas);
+            }
+            return parcours.result == MoveResult::Moved ? parcours : pas;
+        }
+
+        // On ne s'arrete pas sur la case d'un allie qu'on traverse : l'attaque tombe a la derniere
+        // case ou l'on peut se tenir avant la sortie.
+        std::size_t arret = *sortie;
+        while (arret > 0 && !zone->canEndAt(cases[arret])) {
+            --arret;
+        }
+        if (arret > 0) {
+            const MoveOutcome pas = _combat->move(cases[arret]);
+            if (pas.result == MoveResult::Moved) {
+                noterPas(pas, cases[arret]);
+                cumuler(pas);
+            }
+        }
+        for (const CombatantId opportuniste : opportunistes) {
+            const Combatant* cible = _combat->find(*actif);
+            const Combatant* c = _combat->find(opportuniste);
+            if (cible == nullptr || cible->status != CombatantStatus::Standing ||
+                _combat->phase() == CombatPhase::Ended || c == nullptr ||
+                c->status != CombatantStatus::Standing) {
+                break;
+            }
+            const AttackProfile coup = *meleeAttack(opportuniste);
+            static_cast<void>(_combat->economy(opportuniste)->spend(REACTION_RESOURCE));
+            static_cast<void>(resolveAndRecord(opportuniste, *actif, coup, "opportunite : "));
+        }
+    }
+    return parcours;
 }
 
 bool ArenaSession::endTurn() {

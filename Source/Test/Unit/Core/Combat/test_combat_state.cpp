@@ -81,6 +81,10 @@ constexpr int DERNIER = -100;
             return "fin " + idTexte(evenement.combatant);
         case CombatHook::AttackDeclared:
             return "attaque " + idTexte(evenement.combatant) + ">" + idTexte(evenement.target);
+        case CombatHook::DamageTaken:
+            return "degats " + idTexte(evenement.combatant);
+        case CombatHook::CombatantDowned:
+            return "a terre " + idTexte(evenement.combatant);
         case CombatHook::CombatantJoined:
             return "entree " + idTexte(evenement.combatant);
         case CombatHook::CombatantLeft:

@@ -17,6 +17,7 @@
 #include <string_view>
 #include <vector>
 
+#include "Core/Combat/Damage.h"
 #include "Core/Levels/GridPosition.h"
 #include "Core/Levels/LevelProperties.h"
 #include "Core/Levels/TileMap.h"
@@ -103,6 +104,9 @@ struct GridObject {
     /// Vrai si l'objet empêche d'entrer dans sa case, comme un mur tant qu'il tient debout. Faux
     /// pour une toile, qu'on traverse — c'est l'état qu'elle inflige qui gêne, pas sa présence.
     bool blocksMovement = true;
+    /// Les structures résistent comme les créatures : une porte de fer ne craint pas le poison
+    /// (`core::DamagePipeline::applyToStructure`, `LOT-21`).
+    DamageTraits damageTraits;
 };
 
 /// @brief Pourquoi un placement a été refusé — ou qu'il a réussi.

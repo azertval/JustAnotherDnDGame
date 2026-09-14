@@ -71,6 +71,8 @@ QtObject {
     function launch() {}
     function tapCell(column, row) {}
     function endTurn() {}
+    function dodge() {}
+    function disengage() {}
     function withdraw() {}
     function replay() {}
     function backToSetup() {}

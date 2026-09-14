@@ -42,6 +42,8 @@ add_executable(UnitTests
     Unit/Core/Combat/test_turn_order.cpp
     Unit/Core/Combat/test_action_economy.cpp
     Unit/Core/Combat/test_combat_state.cpp
+    Unit/Core/Combat/test_damage.cpp
+    Unit/Core/Combat/test_attack.cpp
     Unit/Core/Combat/test_arena.cpp
     Unit/Core/Resources/test_asset_keys.cpp
     Unit/Core/Rpg/test_rpg_enums.cpp
