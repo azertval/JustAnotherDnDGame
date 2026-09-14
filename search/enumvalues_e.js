@@ -17,7 +17,7 @@ var searchData=
   ['options_14',['Options',['../classhmi_1_1ScreenRouter.html#a82f878c3ef3a0d8b924af7bbca4b37f7adae8ace18bdcbcc6ae5aece263e14fe8',1,'hmi::ScreenRouter::Options'],['../namespacehmi.html#a168b24f798c2e6d06beb9472a071528dadae8ace18bdcbcc6ae5aece263e14fe8',1,'hmi::Options']]],
   ['other_15',['Other',['../namespacehmi.html#a874cdf4b3785a41ee4cfc4ae882c2df5a6311ae17c1ee52b36e68aaf4ad066387',1,'hmi']]],
   ['outofbounds_16',['OutOfBounds',['../namespacecore.html#a56ee2c3f69200e700ac0f1b65dc413b4a46dc1018ac1d8fca7c2752a61ce2fd0f',1,'core::OutOfBounds'],['../namespacecore.html#af2a63d18c9ef40479ebdc204e726e823a46dc1018ac1d8fca7c2752a61ce2fd0f',1,'core::OutOfBounds']]],
-  ['outofreach_17',['OutOfReach',['../namespacecore.html#ac011cdb67f4c31ececbaaceeace4cbedab3e0302fd4814646ffa6de166cddc38a',1,'core']]],
+  ['outofreach_17',['OutOfReach',['../namespacecore.html#ac011cdb67f4c31ececbaaceeace4cbedab3e0302fd4814646ffa6de166cddc38a',1,'core::OutOfReach'],['../namespacecore.html#a1c2689aacd9707ef3d8c556e9f2bf840ab3e0302fd4814646ffa6de166cddc38a',1,'core::OutOfReach']]],
   ['overcapacity_18',['OverCapacity',['../namespacecore.html#ad77756d2c98fad50a0b353e7924843a5a4fcf3e94521b7db24bd0c3bd6e9201af',1,'core']]],
   ['override_19',['Override',['../namespacehmi.html#ac32d81972d12a0b2475fc009eefee225a6da8e67225fdcfa78c3ea5dc3154b849',1,'hmi']]]
 ];

@@ -1,5 +1,15 @@
 var NAVTREEINDEX17 =
 {
+"classhmi_1_1PixelPalettePanel.html#a207b8f1479b6a1fcaaed87cf2abbe232":[11,0,2,38,21],
+"classhmi_1_1PixelPalettePanel.html#a207b8f1479b6a1fcaaed87cf2abbe232":[12,0,1,38,21],
+"classhmi_1_1PixelPalettePanel.html#a2494c18686e526bdd0d3d8b172a61605":[11,0,2,38,7],
+"classhmi_1_1PixelPalettePanel.html#a2494c18686e526bdd0d3d8b172a61605":[12,0,1,38,7],
+"classhmi_1_1PixelPalettePanel.html#a31fb34aa4810ae4fc1c1d4596b8d8b95":[11,0,2,38,4],
+"classhmi_1_1PixelPalettePanel.html#a31fb34aa4810ae4fc1c1d4596b8d8b95":[12,0,1,38,4],
+"classhmi_1_1PixelPalettePanel.html#a3782a0396c27f27e5eed59d7d9db1401":[11,0,2,38,25],
+"classhmi_1_1PixelPalettePanel.html#a3782a0396c27f27e5eed59d7d9db1401":[12,0,1,38,25],
+"classhmi_1_1PixelPalettePanel.html#a3dc1270837b8c6c8fa9eb6674a003840":[11,0,2,38,0],
+"classhmi_1_1PixelPalettePanel.html#a3dc1270837b8c6c8fa9eb6674a003840":[12,0,1,38,0],
 "classhmi_1_1PixelPalettePanel.html#a3fd90c779156bf20fff24d8c9b169905":[11,0,2,38,20],
 "classhmi_1_1PixelPalettePanel.html#a3fd90c779156bf20fff24d8c9b169905":[12,0,1,38,20],
 "classhmi_1_1PixelPalettePanel.html#a49706d46cfb2f645529278276be21413":[11,0,2,38,3],
@@ -239,15 +249,5 @@ var NAVTREEINDEX17 =
 "classhmi_1_1ScreenRouter.html#a10a7ce61538fe188b0f4151a44f61595":[11,0,2,169,15],
 "classhmi_1_1ScreenRouter.html#a10a7ce61538fe188b0f4151a44f61595":[12,0,1,169,15],
 "classhmi_1_1ScreenRouter.html#a11c974d1ecc02dc6164d96347e09e1ae":[11,0,2,169,20],
-"classhmi_1_1ScreenRouter.html#a11c974d1ecc02dc6164d96347e09e1ae":[12,0,1,169,20],
-"classhmi_1_1ScreenRouter.html#a21433fbad1393d4d8d0d39190c672290":[11,0,2,169,24],
-"classhmi_1_1ScreenRouter.html#a21433fbad1393d4d8d0d39190c672290":[12,0,1,169,24],
-"classhmi_1_1ScreenRouter.html#a2494cbca36808d307ae0cf26336e5c78":[11,0,2,169,13],
-"classhmi_1_1ScreenRouter.html#a2494cbca36808d307ae0cf26336e5c78":[12,0,1,169,13],
-"classhmi_1_1ScreenRouter.html#a324e160a25a802626ac8a46e17f88357":[11,0,2,169,23],
-"classhmi_1_1ScreenRouter.html#a324e160a25a802626ac8a46e17f88357":[12,0,1,169,23],
-"classhmi_1_1ScreenRouter.html#a52cafab93eba8eeaa94127082bd2059b":[11,0,2,169,19],
-"classhmi_1_1ScreenRouter.html#a52cafab93eba8eeaa94127082bd2059b":[12,0,1,169,19],
-"classhmi_1_1ScreenRouter.html#a5efecee08cf5d4212b5c68431b1d2ed9":[11,0,2,169,8],
-"classhmi_1_1ScreenRouter.html#a5efecee08cf5d4212b5c68431b1d2ed9":[12,0,1,169,8]
+"classhmi_1_1ScreenRouter.html#a11c974d1ecc02dc6164d96347e09e1ae":[12,0,1,169,20]
 };

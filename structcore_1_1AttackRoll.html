@@ -106,6 +106,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:aa1e136f6d9b2feb99c3b9e70e4dd933a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remplace le d20 d'indice <code class="param">die</code> par <code class="param">value</code> (un résultat stocké, <em>Portent</em>).  <br /></td></tr>
 <tr class="memitem:a1b132925fea0b58cf4e58c21dca88587" id="r_a1b132925fea0b58cf4e58c21dca88587"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a1b132925fea0b58cf4e58c21dca88587">addModifier</a> (<a class="el" href="structcore_1_1Modifier.html">Modifier</a> modifier)</td></tr>
 <tr class="memdesc:a1b132925fea0b58cf4e58c21dca88587"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ajoute un modificateur, avec son origine.  <br /></td></tr>
+<tr class="memitem:a67dd2cd1fbfd74998b4f5ab7a6c9f520" id="r_a67dd2cd1fbfd74998b4f5ab7a6c9f520"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a67dd2cd1fbfd74998b4f5ab7a6c9f520">applyCover</a> (<a class="el" href="namespacecore.html#a0ddd67c0966fb31bf8c2de44a63d6999">Cover</a> level)</td></tr>
+<tr class="memdesc:a67dd2cd1fbfd74998b4f5ab7a6c9f520"><td class="mdescLeft">&#160;</td><td class="mdescRight">Place la cible derrière <code class="param">level</code> : la CA gagne le bonus de l'abri, <b>une fois</b>.  <br /></td></tr>
 <tr class="memitem:a825befcaffc5bdc899718397e8871e69" id="r_a825befcaffc5bdc899718397e8871e69"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a825befcaffc5bdc899718397e8871e69">recompute</a> ()</td></tr>
 <tr class="memdesc:a825befcaffc5bdc899718397e8871e69"><td class="mdescLeft">&#160;</td><td class="mdescRight">Recalcule le dé retenu et le total depuis les dés et les modificateurs.  <br /></td></tr>
 </table><table class="memberdecls">
@@ -115,6 +117,9 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:afe4ca5d711250be7c4e393105844047d" id="r_afe4ca5d711250be7c4e393105844047d"><td class="memItemLeft"><a class="el" href="namespacecore.html#a91235fd72a18c305c494723774630841">CombatantId</a>&#160;</td><td class="memItemRight"><a class="el" href="#afe4ca5d711250be7c4e393105844047d">target</a> {}</td></tr>
 <tr class="memitem:a8704230f162edc0631152dacb5d50bf7" id="r_a8704230f162edc0631152dacb5d50bf7"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a8704230f162edc0631152dacb5d50bf7">label</a></td></tr>
 <tr class="memitem:aa300944799cf2938bda1c50922cd680d" id="r_aa300944799cf2938bda1c50922cd680d"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#aa300944799cf2938bda1c50922cd680d">armorClass</a> = 10</td></tr>
+<tr class="memdesc:aa300944799cf2938bda1c50922cd680d"><td class="mdescLeft">&#160;</td><td class="mdescRight">La CA visée : celle du profil de la cible, plus le bonus de son abri (<span class="tt"><a class="el" href="#a67dd2cd1fbfd74998b4f5ab7a6c9f520" title="Place la cible derrière level : la CA gagne le bonus de l&#39;abri, une fois.">applyCover</a></span>).  <br /></td></tr>
+<tr class="memitem:ac7d1344427cadd508ea5bc7df5c50a28" id="r_ac7d1344427cadd508ea5bc7df5c50a28"><td class="memItemLeft"><a class="el" href="namespacecore.html#a0ddd67c0966fb31bf8c2de44a63d6999">Cover</a>&#160;</td><td class="memItemRight"><a class="el" href="#ac7d1344427cadd508ea5bc7df5c50a28">cover</a> = <a class="el" href="namespacecore.html#a0ddd67c0966fb31bf8c2de44a63d6999a6adf97f83acf6453d4a6a4b1070f3754">Cover::None</a></td></tr>
+<tr class="memdesc:ac7d1344427cadd508ea5bc7df5c50a28"><td class="mdescLeft">&#160;</td><td class="mdescRight">L'abri déjà compté dans <span class="tt"><a class="el" href="#aa300944799cf2938bda1c50922cd680d" title="La CA visée : celle du profil de la cible, plus le bonus de son abri (applyCover).">armorClass</a></span>.  <br /></td></tr>
 <tr class="memitem:a4d6074ea25d9eee80056cdfb9da46cbb" id="r_a4d6074ea25d9eee80056cdfb9da46cbb"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a4d6074ea25d9eee80056cdfb9da46cbb">criticalThreshold</a> = 20</td></tr>
 <tr class="memitem:a356086b6ceadd9536ad22f4740baa00d" id="r_a356086b6ceadd9536ad22f4740baa00d"><td class="memItemLeft">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a356086b6ceadd9536ad22f4740baa00d">advantages</a></td></tr>
 <tr class="memitem:a336d74ae9da041c697992ef3c8ae0ba9" id="r_a336d74ae9da041c697992ef3c8ae0ba9"><td class="memItemLeft">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a336d74ae9da041c697992ef3c8ae0ba9">disadvantages</a></td></tr>
@@ -145,6 +150,26 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Ajoute un modificateur, avec son origine. </p>
+
+</div>
+</div>
+<a id="a67dd2cd1fbfd74998b4f5ab7a6c9f520" name="a67dd2cd1fbfd74998b4f5ab7a6c9f520"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a67dd2cd1fbfd74998b4f5ab7a6c9f520">&#9670;&#160;</a></span>applyCover()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void core::AttackRoll::applyCover </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacecore.html#a0ddd67c0966fb31bf8c2de44a63d6999">Cover</a></td>          <td class="paramname"><span class="paramname"><em>level</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Place la cible derrière <code class="param">level</code> : la CA gagne le bonus de l'abri, <b>une fois</b>. </p>
+<p>Les abris ne s'additionnent pas (Manuel, « Abri ») : un abri moins bon ou égal à celui déjà compté ne change rien, un meilleur remplace l'ancien bonus au lieu de s'y ajouter. Poser deux fois l'abri partiel laisse la CA à +2 ; l'abri important par-dessus la porte à +5, pas à +7. <span class="tt"><a class="el" href="namespacecore.html#a0ddd67c0966fb31bf8c2de44a63d6999a96b0141273eabab320119c467cdcaf17" title="Complètement dissimulée : ne peut pas être ciblée directement.">Cover::Total</a></span> est sans effet : ce n'est pas un bonus mais une cible qu'on ne vise pas (<span class="tt"><a class="el" href="namespacecore.html#a7365293652d3b9980a5d196d0ada9400" title="Peut-on viser target avec cette attaque ?">core::checkTarget</a></span>). Le changement s'inscrit dans <span class="tt"><a class="el" href="#a92362aee27d0322322e39779397bc506" title="Ce que les crochets ont changé, dans l&#39;ordre : « relance (Chance) : 1 -&gt; 14 ».">amendments</a></span>. </p>
 
 </div>
 </div>
@@ -266,6 +291,8 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>La CA visée : celle du profil de la cible, plus le bonus de son abri (<span class="tt"><a class="el" href="#a67dd2cd1fbfd74998b4f5ab7a6c9f520" title="Place la cible derrière level : la CA gagne le bonus de l&#39;abri, une fois.">applyCover</a></span>). </p>
+
 </div>
 </div>
 <a id="a40e3610b5736f4548c99cfb697f44d7a" name="a40e3610b5736f4548c99cfb697f44d7a"></a>
@@ -293,6 +320,22 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac7d1344427cadd508ea5bc7df5c50a28" name="ac7d1344427cadd508ea5bc7df5c50a28"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac7d1344427cadd508ea5bc7df5c50a28">&#9670;&#160;</a></span>cover</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacecore.html#a0ddd67c0966fb31bf8c2de44a63d6999">Cover</a> core::AttackRoll::cover = <a class="el" href="namespacecore.html#a0ddd67c0966fb31bf8c2de44a63d6999a6adf97f83acf6453d4a6a4b1070f3754">Cover::None</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>L'abri déjà compté dans <span class="tt"><a class="el" href="#aa300944799cf2938bda1c50922cd680d" title="La CA visée : celle du profil de la cible, plus le bonus de son abri (applyCover).">armorClass</a></span>. </p>
 
 </div>
 </div>

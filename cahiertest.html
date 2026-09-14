@@ -93,9 +93,9 @@ $(function(){initNavTree('cahiertest.html','',''); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md_CahierTest"></a></p>
-<p><b>1115 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
+<p><b>1125 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md5"></a>
-Tests unitaires (1100)</h1>
+Tests unitaires (1110)</h1>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md6"></a>
 Core</h2>
 <p><b><span class="tt"><a class="el" href="test__core_8cpp.html" title="Tests unitaires de la bibliothèque Core (amorçage).">test_core.cpp</a></span></b></p>
@@ -108,7 +108,7 @@ Core</h2>
 2. Executer le scenario et verifier les assertions.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">engine.version().empty()</span> est faux.  </td></tr>
 </table>
 <h3 class="doxsection"><a class="anchor" id="autotoc_md7"></a>
-Combat (68)</h3>
+Combat (78)</h3>
 <p><b><span class="tt"><a class="el" href="test__action__economy_8cpp.html" title="Tests de l&#39;économie d&#39;action et des mémoires à portée (LOT-20, EX-CBT-011).">test_action_economy.cpp</a></span></b></p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -159,6 +159,42 @@ Vérifie que <span class="tt">immunites.isImmune("gobelin", "dragon-bleu", maint
 Vérifie que <span class="tt">immunites.isImmune("ogre", "dragon-rouge", maintenant)</span> est faux.<br  />
 Vérifie que <span class="tt">immunites.isImmune("gobelin", "dragon-rouge", maintenant + <a class="el" href="namespacecore.html#a19abfcf45c52011124208e7201c3663a" title="Durée d&#39;une immunité « de 24 heures », en secondes de jeu.">core::IMMUNITY_DAY_SECONDS</a> - 1)</span> est vrai.<br  />
 Vérifie que <span class="tt">immunites.isImmune("gobelin", "dragon-rouge", maintenant + <a class="el" href="namespacecore.html#a19abfcf45c52011124208e7201c3663a" title="Durée d&#39;une immunité « de 24 heures », en secondes de jeu.">core::IMMUNITY_DAY_SECONDS</a> - 1)</span> est faux.  </td></tr>
+</table>
+<p><b><span class="tt"><a class="el" href="test__area__of__effect_8cpp.html" title="Tests des zones d&#39;effet (LOT-22) : gabarits figés par des cas de référence dessinés,...">test_area_of_effect.cpp</a></span></b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>AreaOfEffectTest.LesGabaritsCouvrentLesCasesDeReference</b> (Bloquant)<br  />
+<sub><span class="tt"><a class="el" href="test__area__of__effect_8cpp.html" title="Tests des zones d&#39;effet (LOT-22) : gabarits figés par des cas de référence dessinés,...">Source/Test/Unit/Core/Combat/test_area_of_effect.cpp</a>:69</span></sub>  </td><td class="markdownTableBodyNone">Sphère, cylindre, cône, ligne et cube couvrent chacun les cases de leur dessin de référence : une case est dans la zone si la forme en couvre au moins la moitié.  </td><td class="markdownTableBodyNone">1. Sphère de rayon 2 sur une intersection ; cylindre identique.<br  />
+2. Cône de 3 vers l'est depuis le milieu du bord d'une case.<br  />
+3. Ligne de 4 sur 1 vers l'est depuis le milieu d'un bord ; la même en diagonale depuis un coin.<br  />
+4. Cube d'arête 2 vers le nord depuis une intersection.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">gabarit(sphere, 8)</span> vaut <span class="tt">boule</span>.<br  />
+Vérifie que <span class="tt">gabarit(cylindre, 8)</span> vaut <span class="tt">boule</span>.<br  />
+Vérifie que <span class="tt">gabarit(cone, 7)</span> vaut <span class="tt">souffle</span>.<br  />
+Vérifie que <span class="tt">gabarit(ligne, 5)</span> vaut <span class="tt">(std::vector&lt;std::string&gt;{".....", "XXXX.", ".....", ".....", "....."})</span>.<br  />
+Vérifie que <span class="tt">gabarit(diagonale, 5)</span> vaut <span class="tt">(std::vector&lt;std::string&gt;{"X....", ".X...", "..X..", ".....", "....."})</span>.<br  />
+Vérifie que <span class="tt">gabarit(cube, 5)</span> vaut <span class="tt">(std::vector&lt;std::string&gt;{".....", ".....", ".XX..", ".XX..", "....."})</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>AreaOfEffectTest.LOrigineEtLesTailles</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__area__of__effect_8cpp.html" title="Tests des zones d&#39;effet (LOT-22) : gabarits figés par des cas de référence dessinés,...">Source/Test/Unit/Core/Combat/test_area_of_effect.cpp</a>:139</span></sub>  </td><td class="markdownTableBodyNone">Une sphère posée au centre d'une case la contient ; un cône qui part du même centre n'en couvre qu'un huitième et ne la contient pas ; un cône sans direction ne couvre rien.  </td><td class="markdownTableBodyNone">1. Sphère de rayon 1 au centre de la case (2, 2).<br  />
+2. Cône de 2 vers l'est depuis le même centre.<br  />
+3. Un cône dont la direction est son origine.<br  />
+4. Convertir 6 m, 4,50 m, 7,50 m et 1 m en cases.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">contient(core::areaTemplate(sphere, 5, 5), GridPosition{2, 2})</span> est vrai.<br  />
+Vérifie que <span class="tt">contient(souffle, GridPosition{2, 2})</span> est faux.<br  />
+Vérifie que <span class="tt">contient(souffle, GridPosition{3, 2})</span> est vrai.<br  />
+Vérifie que <span class="tt">core::areaTemplate(sansDirection, 5, 5).empty()</span> est vrai.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a12fd31b453634d9f7241976e779f9d84" title="Une taille de zone du corpus, en cases : 6 m font 4 cases, 4,50 m en font 3.">core::areaTilesFromMeters</a>(6.0F)</span> vaut <span class="tt">4</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a12fd31b453634d9f7241976e779f9d84" title="Une taille de zone du corpus, en cases : 6 m font 4 cases, 4,50 m en font 3.">core::areaTilesFromMeters</a>(4.5F)</span> vaut <span class="tt">3</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a12fd31b453634d9f7241976e779f9d84" title="Une taille de zone du corpus, en cases : 6 m font 4 cases, 4,50 m en font 3.">core::areaTilesFromMeters</a>(7.5F)</span> vaut <span class="tt">5</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a12fd31b453634d9f7241976e779f9d84" title="Une taille de zone du corpus, en cases : 6 m font 4 cases, 4,50 m en font 3.">core::areaTilesFromMeters</a>(1.0F).has_value()</span> est faux.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>AreaOfEffectTest.UnMurArreteLEffet</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__area__of__effect_8cpp.html" title="Tests des zones d&#39;effet (LOT-22) : gabarits figés par des cas de référence dessinés,...">Source/Test/Unit/Core/Combat/test_area_of_effect.cpp</a>:179</span></sub>  </td><td class="markdownTableBodyNone">Une sphère posée derrière un mur n'atteint pas les cases qu'aucune ligne droite ne relie à son origine, ni le mur lui-même ; une créature de grande taille à moitié dans la zone y est, une fois.  </td><td class="markdownTableBodyNone">1. Une grille 7 × 7 barrée d'un mur vertical sur cinq cases, en colonne 4.<br  />
+2. Une sphère de rayon 3 au centre de la case (3, 3), dont le gabarit déborde derrière le mur.<br  />
+3. Un gobelin derrière le mur, un ogre de taille G à cheval sur le bord de la zone, un allié dans la zone.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">dessin(gabarit, 7, 7)</span> vaut <span class="tt">(std::vector&lt;std::string&gt;{".......", ".XXXXX.", ".XXXXX.", ".XXXXX.", ".XXXXX.", ".XXXXX.", "......."})</span>.<br  />
+Vérifie que <span class="tt">dessin(atteintes, 7, 7, &amp;grille)</span> vaut <span class="tt">(std::vector&lt;std::string&gt;{".......", ".XXX#..", ".XXX#..", ".XXX#..", ".XXX#..", ".XXX#..", "......."})</span>.<br  />
+Vérifie que <span class="tt">core::combatantsInArea(combat, boule)</span> vaut <span class="tt">(std::vector&lt;<a class="el" href="namespacecore.html#a91235fd72a18c305c494723774630841" title="Identifiant d&#39;un combattant sur la grille.">core::CombatantId</a>&gt;{<a class="el" href="namespacecore.html#a91235fd72a18c305c494723774630841" title="Identifiant d&#39;un combattant sur la grille.">core::CombatantId</a>{1}, <a class="el" href="namespacecore.html#a91235fd72a18c305c494723774630841" title="Identifiant d&#39;un combattant sur la grille.">core::CombatantId</a>{3}})</span>.  </td></tr>
 </table>
 <p><b><span class="tt"><a class="el" href="test__arena_8cpp.html" title="Tests unitaires du Colisée (LOT-50) : points d&#39;entrée, catalogues, montage, attaques et attaque d&#39;opp...">test_arena.cpp</a></span></b></p>
 <table class="markdownTable">
@@ -224,8 +260,21 @@ Vérifie que <span class="tt">session.journal().back().starts_with("attaque Hero
 Vérifie que <span class="tt">session.attack(CombatantId{3}).result</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ac011cdb67f4c31ececbaaceeace4cbeda1e601ea653db1c729c9ee5746730fabe" title="L&#39;action de ce tour est déjà dépensée.">core::ArenaActionResult::NoAction</a></span>.<br  />
 Vérifie que <span class="tt">std::ranges::find_if( session.journal(), [](const std::string&amp; l) { return l.starts_with("attaque declaree"); })</span> diffère de <span class="tt">session.journal().end()</span>.  </td></tr>
 <tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>ArenaTest.LePilierCacheEtAbrite</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__arena_8cpp.html" title="Tests unitaires du Colisée (LOT-50) : points d&#39;entrée, catalogues, montage, attaques et attaque d&#39;opp...">Source/Test/Unit/Core/Combat/test_arena.cpp</a>:337</span></sub>  </td><td class="markdownTableBodyNone">Dans l'arene, un tir vers une cible cachee par le pilier est refuse ; vers une cible que le pilier abrite partiellement, il est jete contre sa CA + 2, et le journal le dit.  </td><td class="markdownTableBodyNone">1. Une archere (portee 16/64) en (5,3), un gobelin a la CA 12 en (7,3) derriere le pilier (6,3), un second en (7,5).<br  />
+2. L'archere tire sur le premier.<br  />
+3. Elle se place en (5,2), d'ou le pilier ne cache plus que le bas de la case du gobelin, et tire encore.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">session.start()</span> est vrai.<br  />
+Vérifie que <span class="tt">session.combat().activeCombatant()</span> vaut <span class="tt">CombatantId{1}</span>.<br  />
+Vérifie que <span class="tt">session.attack(CombatantId{2}).result</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ac011cdb67f4c31ececbaaceeace4cbeda62da737bbf89f486e90024dc099e2bc4" title="La cible est sous abri total : aucune ligne de vue ne la relie à l&#39;attaquant (LOT-22).">core::ArenaActionResult::TotalCover</a></span>.<br  />
+Vérifie que <span class="tt">session.combat().find(CombatantId{1})-&gt;economy.remaining(core::ACTION_RESOURCE)</span> vaut <span class="tt">1</span>.<br  />
+Vérifie que <span class="tt">session.move(<a class="el" href="structcore_1_1GridPosition.html" title="Position d&#39;une case dans la grille d&#39;un niveau, en coordonnées entières.">core::GridPosition</a>{5, 2}).result</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ac0c9dc39aafc4bad02c96a9659df0c1ba95bfdefaaf01553cbf21ccd942855c69">core::MoveResult::Moved</a></span>.<br  />
+Vérifie que <span class="tt">tir.result</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ac011cdb67f4c31ececbaaceeace4cbedaf92965e2c8a7afb3c1b9a5c09a263636" title="L&#39;action a eu lieu — une attaque a été jetée, qu&#39;elle ait touché ou non.">core::ArenaActionResult::Done</a></span>.<br  />
+Vérifie que <span class="tt">tir.outcome.has_value()</span> est vrai.<br  />
+Vérifie que <span class="tt">tir.outcome-&gt;roll.armorClass</span> vaut <span class="tt">14</span>.<br  />
+Vérifie que <span class="tt">session.journal().back().find("abri partiel : CA 12 -&gt; 14")</span> diffère de <span class="tt">std::string::npos</span>.  </td></tr>
+<tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>ArenaTest.LOpportuniteLeDesengagementEtLEsquive</b> (Critique)<br  />
-<sub><span class="tt"><a class="el" href="test__arena_8cpp.html" title="Tests unitaires du Colisée (LOT-50) : points d&#39;entrée, catalogues, montage, attaques et attaque d&#39;opp...">Source/Test/Unit/Core/Combat/test_arena.cpp</a>:338</span></sub>  </td><td class="markdownTableBodyNone">Quitter l'allonge d'un ennemi provoque son attaque d'opportunite, qui depense sa reaction ; se desengager l'evite ; esquiver impose le desavantage a qui attaque.  </td><td class="markdownTableBodyNone">1. Heroine en (2,3) au contact d'un ogre en (3,3) (CA 1, bonus 0, 1 degat).<br  />
+<sub><span class="tt"><a class="el" href="test__arena_8cpp.html" title="Tests unitaires du Colisée (LOT-50) : points d&#39;entrée, catalogues, montage, attaques et attaque d&#39;opp...">Source/Test/Unit/Core/Combat/test_arena.cpp</a>:380</span></sub>  </td><td class="markdownTableBodyNone">Quitter l'allonge d'un ennemi provoque son attaque d'opportunite, qui depense sa reaction ; se desengager l'evite ; esquiver impose le desavantage a qui attaque.  </td><td class="markdownTableBodyNone">1. Heroine en (2,3) au contact d'un ogre en (3,3) (CA 1, bonus 0, 1 degat).<br  />
 2. L'heroine s'eloigne en (2,5).<br  />
 3. Remonter, se desengager, puis s'eloigner.<br  />
 4. Remonter, esquiver, finir le tour ; l'ogre attaque l'heroine.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">session.start()</span> est vrai.<br  />
@@ -247,9 +296,9 @@ Vérifie que <span class="tt">esquive.combat().activeCombatant()</span> vaut <sp
 Vérifie que <span class="tt">riposte.outcome.has_value()</span> est vrai.<br  />
 Vérifie que <span class="tt">riposte.outcome-&gt;roll.check.stance</span> vaut <span class="tt"><a class="el" href="namespacecore.html#aff494cc4070ea4489c3d5ee57178f7c9ae755d083f9085a585ef791919be5a004">core::RollStance::Disadvantage</a></span>.<br  />
 Vérifie que <span class="tt">riposte.outcome-&gt;describe().find("esquive de la cible")</span> diffère de <span class="tt">std::string::npos</span>.  </td></tr>
-<tr class="markdownTableRowEven">
+<tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>ArenaTest.UnAffrontementSeJoueSeRejoueEtPersonneNYMeurt</b> (Bloquant)<br  />
-<sub><span class="tt"><a class="el" href="test__arena_8cpp.html" title="Tests unitaires du Colisée (LOT-50) : points d&#39;entrée, catalogues, montage, attaques et attaque d&#39;opp...">Source/Test/Unit/Core/Combat/test_arena.cpp</a>:403</span></sub>  </td><td class="markdownTableBodyNone">Un affrontement se joue jusqu'a son issue ; le rejeu a la meme graine donne le meme journal ; a la fin, la Marque Heroique releve tout le monde, sauf dans une arene letale.  </td><td class="markdownTableBodyNone">1. Deux allies contre trois gobelins, graine 2026, jouer jusqu'a l'issue.<br  />
+<sub><span class="tt"><a class="el" href="test__arena_8cpp.html" title="Tests unitaires du Colisée (LOT-50) : points d&#39;entrée, catalogues, montage, attaques et attaque d&#39;opp...">Source/Test/Unit/Core/Combat/test_arena.cpp</a>:445</span></sub>  </td><td class="markdownTableBodyNone">Un affrontement se joue jusqu'a son issue ; le rejeu a la meme graine donne le meme journal ; a la fin, la Marque Heroique releve tout le monde, sauf dans une arene letale.  </td><td class="markdownTableBodyNone">1. Deux allies contre trois gobelins, graine 2026, jouer jusqu'a l'issue.<br  />
 2. Rejouer par <span class="tt">replay</span>, puis a une autre graine.<br  />
 3. Meme affrontement dans une arene letale.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">session.start()</span> est vrai.<br  />
 Vérifie que <span class="tt">session.outcome().has_value()</span> est vrai.<br  />
@@ -360,6 +409,66 @@ Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a1881c42c84
 Vérifie que <span class="tt">bestiaire.creatures.empty()</span> est faux.<br  />
 Vérifie que <span class="tt">lues.refused.empty()</span> est vrai.<br  />
 Vérifie que <span class="tt">total</span> est strictement supérieur à <span class="tt">bestiaire.creatures.size() / 2</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>AttackTest.LAbriChangeLaCAUneFois</b> (Bloquant)<br  />
+<sub><span class="tt"><a class="el" href="test__attack_8cpp.html" title="Tests de l&#39;attaque (LOT-21, EX-CBT-030, EX-CBT-031, EX-DND-003) : 1 et 20 naturels,...">Source/Test/Unit/Core/Combat/test_attack.cpp</a>:374</span></sub>  </td><td class="markdownTableBodyNone">Une cible derriere un muret gagne +2 a sa CA ; un greffon qui pose le meme abri ne l'ajoute pas une seconde fois ; un abri important par-dessus porte le bonus a +5, pas a +7 ; un abri total n'est pas un bonus.  </td><td class="markdownTableBodyNone">1. Un archer en (0,1), un gobelin a la CA 15 en (3,1), un muret en (2,1).<br  />
+2. Tirer, d20 force a 12.<br  />
+3. Tirer avec un greffon qui pose l'abri partiel, puis l'abri total.<br  />
+4. Tirer avec un greffon qui pose l'abri important.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">combat.grid().placeObject({2, 1}, {.kind = "muret", .hitPoints = 10, .blocksMovement = true, .cover = <a class="el" href="namespacecore.html#a0ddd67c0966fb31bf8c2de44a63d6999ac48615a1bc4197056d522af276aa5a85" title="Au moins la moitié du corps : +2 à la CA et aux sauvegardes de Dextérité.">core::Cover::Half</a>, .damageTraits = {}})</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a56ee2c3f69200e700ac0f1b65dc413b4af429e45eaf722cbbb524b40a0313aa67">core::PlacementResult::Placed</a></span>.<br  />
+Vérifie que <span class="tt">combat.start(hasard)</span> est vrai.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a9ca481bd627a473f4cddc6f5e14dd971" title="L&#39;abri d&#39;un combattant contre un autre, les autres combattants placés faisant corps.">core::coverBetween</a>(combat, CombatantId{1}, CombatantId{2})</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a0ddd67c0966fb31bf8c2de44a63d6999ac48615a1bc4197056d522af276aa5a85" title="Au moins la moitié du corps : +2 à la CA et aux sauvegardes de Dextérité.">core::Cover::Half</a></span>.<br  />
+Vérifie que <span class="tt">simple.has_value()</span> est vrai.<br  />
+Vérifie que <span class="tt">simple-&gt;roll.armorClass</span> vaut <span class="tt">17</span>.<br  />
+Vérifie que <span class="tt">simple-&gt;roll.cover</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a0ddd67c0966fb31bf8c2de44a63d6999ac48615a1bc4197056d522af276aa5a85" title="Au moins la moitié du corps : +2 à la CA et aux sauvegardes de Dextérité.">core::Cover::Half</a></span>.<br  />
+Vérifie que <span class="tt">simple-&gt;describe().find("[abri partiel : CA 15 -&gt; 17] = 12")</span> diffère de <span class="tt">std::string::npos</span>.<br  />
+Vérifie que <span class="tt">simple-&gt;describe().find("= 17 contre CA 17 : touche")</span> diffère de <span class="tt">std::string::npos</span>.<br  />
+Vérifie que <span class="tt">repose.has_value()</span> est vrai.<br  />
+Vérifie que <span class="tt">repose-&gt;roll.armorClass</span> vaut <span class="tt">17</span>.<br  />
+Vérifie que <span class="tt">repose-&gt;roll.amendments.size()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">important.has_value()</span> est vrai.<br  />
+Vérifie que <span class="tt">important-&gt;roll.armorClass</span> vaut <span class="tt">20</span>.<br  />
+Vérifie que <span class="tt">important-&gt;roll.cover</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a0ddd67c0966fb31bf8c2de44a63d6999a850728c829c818ee8538216e8ad2770d" title="Au moins les trois quarts : +5.">core::Cover::ThreeQuarters</a></span>.<br  />
+Vérifie que <span class="tt">important-&gt;roll.amendments.size()</span> vaut <span class="tt">2U</span>.<br  />
+Vérifie que <span class="tt">important-&gt;roll.hit</span> est faux.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>AttackTest.ViserDemandeLaPorteeEtLaVue</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__attack_8cpp.html" title="Tests de l&#39;attaque (LOT-21, EX-CBT-030, EX-CBT-031, EX-DND-003) : 1 et 20 naturels,...">Source/Test/Unit/Core/Combat/test_attack.cpp</a>:442</span></sub>  </td><td class="markdownTableBodyNone">Une cible derriere un mur ne se vise pas, ni a distance ni au contact par le coin de deux murs ; au-dela de la longue portee non plus ; un ennemi adjacent qui ne voit pas le tireur ne lui impose pas le desavantage du tir au contact.  </td><td class="markdownTableBodyNone">1. Un archer en (1,1), un gobelin en (2,2) derriere deux murs en (2,1) et (1,2), un loup en (0,3), un rat en (5,5).<br  />
+2. Verifier chaque cible, a distance (portee 2/3) et au contact.<br  />
+3. Les circonstances du tir vers le loup.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">combat.start(hasard)</span> est vrai.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#ae19c39c376647e74514462b13d834e06" title="La distance en cases entre deux combattants, emprises comprises : zéro contact impossible,...">core::gridDistance</a>(combat, CombatantId{1}, CombatantId{2})</span> vaut <span class="tt">1</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a7365293652d3b9980a5d196d0ada9400" title="Peut-on viser target avec cette attaque ?">core::checkTarget</a>(combat, CombatantId{1}, CombatantId{2}, arc)</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a1c2689aacd9707ef3d8c556e9f2bf840a62da737bbf89f486e90024dc099e2bc4" title="Sous abri total : aucun segment dégagé entre les deux emprises (core::hasLineOfSight).">core::TargetCheck::TotalCover</a></span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a7365293652d3b9980a5d196d0ada9400" title="Peut-on viser target avec cette attaque ?">core::checkTarget</a>(combat, CombatantId{1}, CombatantId{2}, epee())</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a1c2689aacd9707ef3d8c556e9f2bf840a62da737bbf89f486e90024dc099e2bc4" title="Sous abri total : aucun segment dégagé entre les deux emprises (core::hasLineOfSight).">core::TargetCheck::TotalCover</a></span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a7365293652d3b9980a5d196d0ada9400" title="Peut-on viser target avec cette attaque ?">core::checkTarget</a>(combat, CombatantId{1}, CombatantId{3}, arc)</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a1c2689aacd9707ef3d8c556e9f2bf840a3ac705f2acd51a4613f9188c05c91d0d">core::TargetCheck::Valid</a></span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a7365293652d3b9980a5d196d0ada9400" title="Peut-on viser target avec cette attaque ?">core::checkTarget</a>(combat, CombatantId{1}, CombatantId{4}, arc)</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a1c2689aacd9707ef3d8c556e9f2bf840ab3e0302fd4814646ffa6de166cddc38a" title="Hors d&#39;allonge, ou au-delà de la longue portée (core::inReach).">core::TargetCheck::OutOfReach</a></span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a7365293652d3b9980a5d196d0ada9400" title="Peut-on viser target avec cette attaque ?">core::checkTarget</a>(combat, CombatantId{1}, CombatantId{1}, arc)</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a1c2689aacd9707ef3d8c556e9f2bf840aaba0e4b47c2d27f1f4cf098433b0b4b5" title="L&#39;attaquant et la cible sont le même, ou l&#39;un des deux n&#39;est pas sur la grille.">core::TargetCheck::NotOnGrid</a></span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#adb9ad640862c6901d33d96c181f4c9e0" title="Ce que la grille sait dire des circonstances d&#39;une attaque (Manuel, chapitre 9).">core::attackCircumstances</a>(combat, CombatantId{1}, CombatantId{3}, arc) .disadvantages.empty()</span> est vrai.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>AttackTest.LesPorteesSeLisentDansLaDonnee</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__attack_8cpp.html" title="Tests de l&#39;attaque (LOT-21, EX-CBT-030, EX-CBT-031, EX-DND-003) : 1 et 20 naturels,...">Source/Test/Unit/Core/Combat/test_attack.cpp</a>:486</span></sub>  </td><td class="markdownTableBodyNone">Chaque arme qui se tire ou se lance porte ses portees ; l'arc long tire a 30/120 cases, la hallebarde frappe a 2, la dague se lance a 4/12 ; le squelette tire a 16/64.  </td><td class="markdownTableBodyNone">1. Charger le catalogue d'armes et le bestiaire livres.<br  />
+2. Pour chaque arme : portees presentes si et seulement si elle a les munitions ou le lancer.<br  />
+3. Tirer les profils de l'arc long, de la hallebarde, de la dague (lancee), de l'epee longue (qui ne se lance pas) et du squelette.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">catalogue.errors.empty()</span> est vrai.<br  />
+Vérifie que <span class="tt">catalogue.weapons.size()</span> vaut <span class="tt">37U</span>.<br  />
+Vérifie que <span class="tt">arme.rangeNormal.has_value()</span> vaut <span class="tt">tiree</span>.<br  />
+Vérifie que <span class="tt">arme.rangeLong.has_value()</span> vaut <span class="tt">tiree</span>.<br  />
+Vérifie que <span class="tt">tiree</span> est vrai.<br  />
+Vérifie que <span class="tt">arcLong.range.has_value()</span> est vrai.<br  />
+Vérifie que <span class="tt">arcLong.range-&gt;normal</span> vaut <span class="tt">30</span>.<br  />
+Vérifie que <span class="tt">arcLong.range-&gt;maximum</span> vaut <span class="tt">120</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a1881c42c8483587a6baa65c336a230c2" title="L&#39;attaque d&#39;un personnage avec une arme, ou à mains nues si weapon est nul.">core::weaponAttackFor</a>(fiche, catalogue.findWeapon("hallebarde"), 2).reach</span> vaut <span class="tt">2</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a1881c42c8483587a6baa65c336a230c2" title="L&#39;attaque d&#39;un personnage avec une arme, ou à mains nues si weapon est nul.">core::weaponAttackFor</a>(fiche, catalogue.findWeapon("epee-longue"), 2).reach</span> vaut <span class="tt">1</span>.<br  />
+Vérifie que <span class="tt">dague.has_value() &amp;&amp; dague-&gt;range.has_value()</span> est vrai.<br  />
+Vérifie que <span class="tt">dague-&gt;label</span> vaut <span class="tt">"Dague (lancer)"</span>.<br  />
+Vérifie que <span class="tt">dague-&gt;kind</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ac7c907f80d9ec08c831616af9902aae3ac2f329a17c18a701dbe1e96e03858728">core::AttackKind::Ranged</a></span>.<br  />
+Vérifie que <span class="tt">dague-&gt;range-&gt;normal</span> vaut <span class="tt">4</span>.<br  />
+Vérifie que <span class="tt">dague-&gt;range-&gt;maximum</span> vaut <span class="tt">12</span>.<br  />
+Vérifie que <span class="tt">dague-&gt;modifiers[0].source</span> vaut <span class="tt">"Dexterite"</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#acc72525dbecb690d39a4f7ebe97423b5" title="L&#39;attaque d&#39;une arme lancée — dague, hachette, javeline —, si elle a la propriété thrown.">core::thrownAttackFor</a>(fiche, *catalogue.findWeapon("epee-longue"), 2).has_value()</span> est faux.<br  />
+Vérifie que <span class="tt">squelette</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">attaques.attacks.size()</span> vaut <span class="tt">2U</span>.<br  />
+Vérifie que <span class="tt">attaques.attacks[1].kind</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ac7c907f80d9ec08c831616af9902aae3ac2f329a17c18a701dbe1e96e03858728">core::AttackKind::Ranged</a></span>.<br  />
+Vérifie que <span class="tt">attaques.attacks[1].range.has_value()</span> est vrai.<br  />
+Vérifie que <span class="tt">attaques.attacks[1].range-&gt;normal</span> vaut <span class="tt">16</span>.<br  />
+Vérifie que <span class="tt">attaques.attacks[1].range-&gt;maximum</span> vaut <span class="tt">64</span>.  </td></tr>
 </table>
 <p><b><span class="tt"><a class="el" href="test__battle__grid_8cpp.html" title="Tests de la grille de combat : obstacles, zones, occupation et objets (LOT-19, EX-CBT-020).">test_battle_grid.cpp</a></span></b></p>
 <table class="markdownTable">
@@ -856,6 +965,56 @@ Vérifie que <span class="tt">a-&gt;defeatFlagKey</span> diffère de <span class
 <sub><span class="tt"><a class="el" href="test__encounter_8cpp.html" title="Tests de l&#39;aller-retour exploration ↔ combat (LOT-18, EX-CBT-001).">Source/Test/Unit/Core/Combat/test_encounter.cpp</a>:296</span></sub>  </td><td class="markdownTableBodyNone">Ce qui n'est pas un declencheur n'en devient pas un.  </td><td class="markdownTableBodyNone">1. Lire une entite d'un autre type.<br  />
 2. Lire une entite de rencontre sans encounterId.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a930b849a4d1c903dd56b8f5fe14d26ca" title="Lit entity comme un déclencheur de rencontre, s&#39;il en est un.">core::encounterTriggerFor</a>(coffre, "grotte").has_value()</span> est faux.<br  />
 Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a930b849a4d1c903dd56b8f5fe14d26ca" title="Lit entity comme un déclencheur de rencontre, s&#39;il en est un.">core::encounterTriggerFor</a>(sansRencontre, "grotte").has_value()</span> est faux.  </td></tr>
+</table>
+<p><b><span class="tt"><a class="el" href="test__line__of__sight_8cpp.html" title="Tests de la ligne de vue et de l&#39;abri (LOT-22, EX-CBT-021) : symétrie vérifiée exhaustivement sur des...">test_line_of_sight.cpp</a></span></b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>LineOfSightTest.LaVueEstSymetriqueSurDesGrillesGenerees</b> (Bloquant)<br  />
+<sub><span class="tt"><a class="el" href="test__line__of__sight_8cpp.html" title="Tests de la ligne de vue et de l&#39;abri (LOT-22, EX-CBT-021) : symétrie vérifiée exhaustivement sur des...">Source/Test/Unit/Core/Combat/test_line_of_sight.cpp</a>:115</span></sub>  </td><td class="markdownTableBodyNone">A voit B si et seulement si B voit A — vérifié exhaustivement sur des grilles générées, pour chaque paire de points de grille et chaque paire d'emprises, 1 × 1 et 2 × 2.  </td><td class="markdownTableBodyNone">1. Générer 20 grilles 5 × 5 à des densités de 10 à 55 % de murs, d'eau profonde, de portes et de herses.<br  />
+2. Pour chaque paire ordonnée de points de grille : comparer les deux sens du segment.<br  />
+3. Pour chaque paire ordonnée d'emprises 1 × 1, et d'emprises 2 × 2 contre 1 × 1 : comparer les deux sens de la ligne de vue.<br  />
+4. Pour chacune : l'abri total équivaut à l'absence de ligne de vue.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">core::isSightClear(grille, a, b)</span> vaut <span class="tt">core::isSightClear(grille, b, a)</span>.<br  />
+Vérifie que <span class="tt">ab</span> vaut <span class="tt">core::hasLineOfSight(grille, b, a)</span>.<br  />
+Vérifie que <span class="tt">core::coverFrom(grille, a, b) == Cover::Total</span> vaut <span class="tt">!ab</span>.<br  />
+Vérifie que <span class="tt">core::coverFrom(grille, b, a) == Cover::Total</span> vaut <span class="tt">!ab</span>.<br  />
+Vérifie que <span class="tt">segments</span> est strictement supérieur à <span class="tt">25000U</span>.<br  />
+Vérifie que <span class="tt">vues</span> est strictement supérieur à <span class="tt">5000U</span>.<br  />
+Vérifie que <span class="tt">cachees</span> est strictement supérieur à <span class="tt">1000U</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>LineOfSightTest.CeQuiArreteLaVue</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__line__of__sight_8cpp.html" title="Tests de la ligne de vue et de l&#39;abri (LOT-22, EX-CBT-021) : symétrie vérifiée exhaustivement sur des...">Source/Test/Unit/Core/Combat/test_line_of_sight.cpp</a>:181</span></sub>  </td><td class="markdownTableBodyNone">Un mur caché, un gouffre non ; le coin commun de deux murs ne laisse pas passer le regard ; une porte fermée cache comme un mur.  </td><td class="markdownTableBodyNone">1. Deux combattants alignés, un mur d'une case entre eux.<br  />
+2. Les mêmes, séparés par une rivière d'eau profonde.<br  />
+3. Deux combattants en diagonale, deux murs sur les deux autres cases du carré ; puis un seul mur.<br  />
+4. Une porte fermée entre deux combattants.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacecore.html#aba1d28cef88c61f722b2b034a8415f10" title="Vrai si les deux emprises se voient : un segment dégagé relie un point de grille de l&#39;une à un point ...">core::hasLineOfSight</a>(mur, une(0, 1), une(2, 1))</span> est faux.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a870aa619bde747a0f4d7be56b323ebc3" title="L&#39;abri de target contre ce qui vient de attacker.">core::coverFrom</a>(mur, une(0, 1), une(2, 1))</span> vaut <span class="tt">Cover::Total</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#aba1d28cef88c61f722b2b034a8415f10" title="Vrai si les deux emprises se voient : un segment dégagé relie un point de grille de l&#39;une à un point ...">core::hasLineOfSight</a>(mur, une(0, 0), une(2, 0))</span> est vrai.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#aba1d28cef88c61f722b2b034a8415f10" title="Vrai si les deux emprises se voient : un segment dégagé relie un point de grille de l&#39;une à un point ...">core::hasLineOfSight</a>(riviere, une(0, 1), une(4, 1))</span> est vrai.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a870aa619bde747a0f4d7be56b323ebc3" title="L&#39;abri de target contre ce qui vient de attacker.">core::coverFrom</a>(riviere, une(0, 1), une(4, 1))</span> vaut <span class="tt">Cover::None</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#aba1d28cef88c61f722b2b034a8415f10" title="Vrai si les deux emprises se voient : un segment dégagé relie un point de grille de l&#39;une à un point ...">core::hasLineOfSight</a>(coin, une(0, 0), une(1, 1))</span> est faux.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#aba1d28cef88c61f722b2b034a8415f10" title="Vrai si les deux emprises se voient : un segment dégagé relie un point de grille de l&#39;une à un point ...">core::hasLineOfSight</a>(demiCoin, une(0, 0), une(1, 1))</span> est vrai.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#aba1d28cef88c61f722b2b034a8415f10" title="Vrai si les deux emprises se voient : un segment dégagé relie un point de grille de l&#39;une à un point ...">core::hasLineOfSight</a>(porte, une(1, 0), une(1, 2))</span> est faux.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>LineOfSightTest.LesAbrisEtCeQuiLesDonne</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__line__of__sight_8cpp.html" title="Tests de la ligne de vue et de l&#39;abri (LOT-22, EX-CBT-021) : symétrie vérifiée exhaustivement sur des...">Source/Test/Unit/Core/Combat/test_line_of_sight.cpp</a>:213</span></sub>  </td><td class="markdownTableBodyNone">Un muret et une créature interposée abritent partiellement, une herse de façon importante ; un angle de mur donne l'abri selon les lignes qu'il coupe ; les abris ne s'additionnent pas.  </td><td class="markdownTableBodyNone">1. Un tireur, une cible à trois cases, rien entre eux.<br  />
+2. Un muret, puis une herse, sur la case devant la cible.<br  />
+3. Une créature sur cette case.<br  />
+4. La cible derrière un angle de mur.<br  />
+5. La herse et une créature ensemble.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a870aa619bde747a0f4d7be56b323ebc3" title="L&#39;abri de target contre ce qui vient de attacker.">core::coverFrom</a>(libre, une(0, 1), une(3, 1))</span> vaut <span class="tt">Cover::None</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a870aa619bde747a0f4d7be56b323ebc3" title="L&#39;abri de target contre ce qui vient de attacker.">core::coverFrom</a>(muret, une(0, 1), une(3, 1))</span> vaut <span class="tt">Cover::Half</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a870aa619bde747a0f4d7be56b323ebc3" title="L&#39;abri de target contre ce qui vient de attacker.">core::coverFrom</a>(herse, une(0, 1), une(3, 1))</span> vaut <span class="tt">Cover::ThreeQuarters</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a870aa619bde747a0f4d7be56b323ebc3" title="L&#39;abri de target contre ce qui vient de attacker.">core::coverFrom</a>(libre, une(0, 1), une(3, 1), garde)</span> vaut <span class="tt">Cover::Half</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a870aa619bde747a0f4d7be56b323ebc3" title="L&#39;abri de target contre ce qui vient de attacker.">core::coverFrom</a>(herse, une(0, 1), une(3, 1), garde)</span> vaut <span class="tt">Cover::ThreeQuarters</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a870aa619bde747a0f4d7be56b323ebc3" title="L&#39;abri de target contre ce qui vient de attacker.">core::coverFrom</a>(angle, une(0, 0), une(3, 1))</span> vaut <span class="tt">Cover::Half</span>.<br  />
+Vérifie que <span class="tt">core::coverFromPoint(angle, coin, une(3, 1))</span> vaut <span class="tt">Cover::Half</span>.<br  />
+Vérifie que <span class="tt">core::coverFromPoint(libre, coin, une(3, 1), voisin)</span> vaut <span class="tt">Cover::Half</span>.<br  />
+Vérifie que <span class="tt">core::coverFromPoint(angle, coin, une(3, 1), voisin)</span> vaut <span class="tt">Cover::Half</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a870aa619bde747a0f4d7be56b323ebc3" title="L&#39;abri de target contre ce qui vient de attacker.">core::coverFrom</a>(angle, une(0, 0), une(3, 1), voisin)</span> vaut <span class="tt">Cover::Half</span>.<br  />
+Vérifie que <span class="tt">core::coverBonus(Cover::None)</span> vaut <span class="tt">0</span>.<br  />
+Vérifie que <span class="tt">core::coverBonus(Cover::Half)</span> vaut <span class="tt">2</span>.<br  />
+Vérifie que <span class="tt">core::coverBonus(Cover::ThreeQuarters)</span> vaut <span class="tt">5</span>.<br  />
+Vérifie que <span class="tt">core::coverBonus(Cover::Total)</span> vaut <span class="tt">0</span>.  </td></tr>
 </table>
 <p><b><span class="tt"><a class="el" href="test__pathfinding_8cpp.html" title="Tests du déplacement d&#39;un tour : budget, cases atteignables, chemin déterministe (LOT-19,...">test_pathfinding.cpp</a></span></b></p>
 <table class="markdownTable">

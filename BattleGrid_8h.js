@@ -5,6 +5,12 @@ var BattleGrid_8h =
     [ "core::BattleGrid::Placement", "structcore_1_1BattleGrid_1_1Placement.html", "structcore_1_1BattleGrid_1_1Placement" ],
     [ "core::BattleGrid::Zone", "structcore_1_1BattleGrid_1_1Zone.html", "structcore_1_1BattleGrid_1_1Zone" ],
     [ "core::CombatantId", "namespacecore.html#a91235fd72a18c305c494723774630841", null ],
+    [ "core::Cover", "namespacecore.html#a0ddd67c0966fb31bf8c2de44a63d6999", [
+      [ "core::Cover::None", "namespacecore.html#a0ddd67c0966fb31bf8c2de44a63d6999a6adf97f83acf6453d4a6a4b1070f3754", null ],
+      [ "core::Cover::Half", "namespacecore.html#a0ddd67c0966fb31bf8c2de44a63d6999ac48615a1bc4197056d522af276aa5a85", null ],
+      [ "core::Cover::ThreeQuarters", "namespacecore.html#a0ddd67c0966fb31bf8c2de44a63d6999a850728c829c818ee8538216e8ad2770d", null ],
+      [ "core::Cover::Total", "namespacecore.html#a0ddd67c0966fb31bf8c2de44a63d6999a96b0141273eabab320119c467cdcaf17", null ]
+    ] ],
     [ "core::Locomotion", "namespacecore.html#a764555c0509482c85a9aa71b8a9ec1ff", [
       [ "core::Locomotion::Walk", "namespacecore.html#a764555c0509482c85a9aa71b8a9ec1ffa7a16a854f32231a8df9326136b09ee62", null ],
       [ "core::Locomotion::Fly", "namespacecore.html#a764555c0509482c85a9aa71b8a9ec1ffaac51deb7d2c3f9663a6df72c7c9b2b51", null ]

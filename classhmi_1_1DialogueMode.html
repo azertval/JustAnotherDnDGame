@@ -128,7 +128,7 @@ Public Member Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Le troisième mode de jeu : on parle à un PNJ, et le monde attend. </p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md931"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md943"></a>
 Ce qui est gelé</h2>
 <p>Les mêmes passes que le combat (<span class="tt"><a class="el" href="classhmi_1_1CombatMode.html" title="Le second mode de jeu : le combat se déroule sur la carte d&#39;exploration, mais l&#39;exploration,...">hmi::CombatMode</a></span>), pour des raisons voisines :</p>
 <ul>
@@ -137,10 +137,10 @@ Ce qui est gelé</h2>
 <li><span class="tt">evaluateOutcome</span> — rien de ce qu'on dit ne fait perdre le niveau.</li>
 </ul>
 <p>Ce qui reste tourne parce que la scène reste <b>visible</b> derrière le parchemin : les particules finissent leur vie, les animations respirent, la caméra ne saute pas.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md932"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md944"></a>
 Pourquoi un mode distinct du combat, à passes égales</h2>
 <p>Aujourd'hui les deux gèlent la même chose. Ils ne le feront pas toujours : un combat avance au tour et à l'initiative, une conversation au fil des réponses, et une cinématique de dialogue voudra cadrer l'interlocuteur. Deux modes qui se ressemblent le premier jour coûtent une classe ; un mode partagé qu'il faudrait séparer ensuite coûterait chaque <span class="tt">if</span> ajouté entre-temps.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md933"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md945"></a>
 Où vit la conversation</h2>
 <p><b>Hors de ce mode</b>, dans <span class="tt"><a class="el" href="classcore_1_1DialogueRunner.html" title="La machine à états qui joue un dialogue.">core::DialogueRunner</a></span>, pour la même raison que le combat vit dans <span class="tt"><a class="el" href="classcore_1_1CombatState.html" title="Un combat, du montage de la rencontre à sa fin.">core::CombatState</a></span> : se jouer en test, sans fenêtre. Le mode ne décide que de l'ordre des passes et reste sans état. Aucune session de jeu ne bascule encore dans ce mode depuis une interaction : <span class="tt"><a class="el" href="classhmi_1_1GameSession.html" title="Simule et rend un seul niveau (déjà validé, en mémoire), indépendamment de toute infrastructure d&#39;écr...">hmi::GameSession</a></span> ne câble pas l'interaction du <span class="tt">LOT-10</span>, et la surface de rendu Qt Quick n'affiche encore aucune scène — l'écran de dialogue joue le runner directement (<span class="tt"><a class="el" href="classhmi_1_1DialogueModel.html" title="La vue-modèle de l&#39;écran de dialogue : elle tient un core::DialogueRunner et rien d&#39;autre ne décide.">hmi::DialogueModel</a></span>). </p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>

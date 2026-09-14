@@ -15,6 +15,7 @@ var Arena_8h =
       [ "core::ArenaActionResult::NoActiveTurn", "namespacecore.html#ac011cdb67f4c31ececbaaceeace4cbeda8cb45f47274f0e76f8d60401f43b0fb7", null ],
       [ "core::ArenaActionResult::NoAction", "namespacecore.html#ac011cdb67f4c31ececbaaceeace4cbeda1e601ea653db1c729c9ee5746730fabe", null ],
       [ "core::ArenaActionResult::OutOfReach", "namespacecore.html#ac011cdb67f4c31ececbaaceeace4cbedab3e0302fd4814646ffa6de166cddc38a", null ],
+      [ "core::ArenaActionResult::TotalCover", "namespacecore.html#ac011cdb67f4c31ececbaaceeace4cbeda62da737bbf89f486e90024dc099e2bc4", null ],
       [ "core::ArenaActionResult::InvalidTarget", "namespacecore.html#ac011cdb67f4c31ececbaaceeace4cbeda6f923f50457fdf3e12863922643f9a71", null ],
       [ "core::ArenaActionResult::NoAttack", "namespacecore.html#ac011cdb67f4c31ececbaaceeace4cbedafd717fc56e019faf5bdeb3429d6eb17d", null ]
     ] ],

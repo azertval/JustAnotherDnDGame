@@ -105,6 +105,8 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:aff9938e4fc616d5538368b29681c999f" id="r_aff9938e4fc616d5538368b29681c999f"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#aff9938e4fc616d5538368b29681c999f">hitPoints</a> = 1</td></tr>
 <tr class="memitem:aeaf196e6d2db7cd9d6c0b969f70435d3" id="r_aeaf196e6d2db7cd9d6c0b969f70435d3"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#aeaf196e6d2db7cd9d6c0b969f70435d3">blocksMovement</a> = true</td></tr>
 <tr class="memdesc:aeaf196e6d2db7cd9d6c0b969f70435d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vrai si l'objet empêche d'entrer dans sa case, comme un mur tant qu'il tient debout.  <br /></td></tr>
+<tr class="memitem:af0cf7e487e9228b4b241b8863df67312" id="r_af0cf7e487e9228b4b241b8863df67312"><td class="memItemLeft"><a class="el" href="namespacecore.html#a0ddd67c0966fb31bf8c2de44a63d6999">Cover</a>&#160;</td><td class="memItemRight"><a class="el" href="#af0cf7e487e9228b4b241b8863df67312">cover</a> = <a class="el" href="namespacecore.html#a0ddd67c0966fb31bf8c2de44a63d6999a6adf97f83acf6453d4a6a4b1070f3754">Cover::None</a></td></tr>
+<tr class="memdesc:af0cf7e487e9228b4b241b8863df67312"><td class="mdescLeft">&#160;</td><td class="mdescRight">L'abri que l'objet procure à ce qui se tient derrière (<span class="tt">LOT-22</span>).  <br /></td></tr>
 <tr class="memitem:aa9ee822b3ce5094e14190420ec96c281" id="r_aa9ee822b3ce5094e14190420ec96c281"><td class="memItemLeft"><a class="el" href="structcore_1_1DamageTraits.html">DamageTraits</a>&#160;</td><td class="memItemRight"><a class="el" href="#aa9ee822b3ce5094e14190420ec96c281">damageTraits</a></td></tr>
 <tr class="memdesc:aa9ee822b3ce5094e14190420ec96c281"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les structures résistent comme les créatures : une porte de fer ne craint pas le poison (<span class="tt"><a class="el" href="classcore_1_1DamagePipeline.html#ab12d245fc394a994f925b869404b0334" title="Fait traverser des dégâts à une structure de la grille : les structures ont des PV,...">core::DamagePipeline::applyToStructure</a></span>, <span class="tt">LOT-21</span>).  <br /></td></tr>
 </table>
@@ -126,6 +128,23 @@ Public Attributes</h2></td></tr>
 
 <p>Vrai si l'objet empêche d'entrer dans sa case, comme un mur tant qu'il tient debout. </p>
 <p>Faux pour une toile, qu'on traverse — c'est l'état qu'elle inflige qui gêne, pas sa présence. </p>
+
+</div>
+</div>
+<a id="af0cf7e487e9228b4b241b8863df67312" name="af0cf7e487e9228b4b241b8863df67312"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af0cf7e487e9228b4b241b8863df67312">&#9670;&#160;</a></span>cover</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacecore.html#a0ddd67c0966fb31bf8c2de44a63d6999">Cover</a> core::GridObject::cover = <a class="el" href="namespacecore.html#a0ddd67c0966fb31bf8c2de44a63d6999a6adf97f83acf6453d4a6a4b1070f3754">Cover::None</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>L'abri que l'objet procure à ce qui se tient derrière (<span class="tt">LOT-22</span>). </p>
+<p>Le Manuel nomme ses exemples : un muret ou un grand meuble abrite partiellement, une herse ou une meurtrière abrite de façon importante. Aucun ne se déduit de <span class="tt"><a class="el" href="#ac1d0fd3e869d620628a54fe6672e9f29" title="Nature de l&#39;objet, libre (&quot;web&quot;, &quot;barricade&quot;) — la grille ne l&#39;interprète pas.">kind</a></span>, que la grille n'interprète pas. Un objet à <span class="tt"><a class="el" href="namespacecore.html#a0ddd67c0966fb31bf8c2de44a63d6999a96b0141273eabab320119c467cdcaf17" title="Complètement dissimulée : ne peut pas être ciblée directement.">Cover::Total</a></span> arrête la vue comme un mur ; une toile n'abrite de rien. </p>
 
 </div>
 </div>

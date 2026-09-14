@@ -137,7 +137,7 @@ L'altitude est un attribut, jamais une géométrie</h1>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">une case, un combattant  </td><td class="markdownTableBodyNone">une case, un combattant  </td></tr>
 </table>
-<p>Le §4bis écrivait qu'un volant « ignore la couche collision au sol ». La formule a été <b>resserrée</b> : la grille de collision ne distingue pas un muret d'un rempart, et un volant qui traverserait tous les pleins traverserait les murs d'un donjon jusqu'à la voûte. Ce qui se survole se nomme donc dans <span class="tt">BattleGrid</span>, type de tuile par type de tuile (<span class="tt">DeepWater</span>, <span class="tt">Cliff</span>), et nulle part ailleurs. Qu'un volant reste ciblable à portée découle de la même décision, et c'est le <a class="el" href="roadmap.html#lot-22" title="LOT-22 — Portée, ligne de vue et zones d&#39;effet">LOT-22</a> qui la lira.</p>
+<p>Le §4bis écrivait qu'un volant « ignore la couche collision au sol ». La formule a été <b>resserrée</b> : la grille de collision ne distingue pas un muret d'un rempart, et un volant qui traverserait tous les pleins traverserait les murs d'un donjon jusqu'à la voûte. Ce qui se survole se nomme donc dans <span class="tt">BattleGrid</span>, type de tuile par type de tuile (<span class="tt">DeepWater</span>, <span class="tt">Cliff</span>), et nulle part ailleurs. Qu'un volant reste ciblable à portée découle de la même décision, et c'est le <a class="el" href="lot-22.html" title="LOT-22 — Portée, ligne de vue et zones d&#39;effet">LOT-22</a> qui la lira.</p>
 <p>Le coin d'un mur se juge, lui, <b>comme en vol</b> : seule la matière qui « remplit l'espace » l'interdit. Longer une mare en diagonale est permis ; couper l'angle d'un mur ne l'est pas.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md519"></a>
 Deux créatures ne partagent jamais une case</h1>
@@ -163,7 +163,7 @@ Ce qui reste hors du lot, nommément</h1>
 <ul>
 <li><b>Se faufiler</b> dans un espace d'une taille plus petite (le Manuel le permet à coût double) : aucun contenu du <em>vertical slice</em> ne le demande. Une créature trop grande pour un passage ne le franchit pas.</li>
 <li>Les <b>attaques d'opportunité</b> en sortant d'une allonge : <a class="el" href="lot-21.html" title="LOT-21 — Attaques, dégâts et états">LOT-21</a>.</li>
-<li>La <b>ligne de vue</b>, les portées et la couverture : <a class="el" href="roadmap.html#lot-22" title="LOT-22 — Portée, ligne de vue et zones d&#39;effet">LOT-22</a>, sur cette grille.</li>
+<li>La <b>ligne de vue</b>, les portées et la couverture : <a class="el" href="lot-22.html" title="LOT-22 — Portée, ligne de vue et zones d&#39;effet">LOT-22</a>, sur cette grille.</li>
 <li>La traversée d'un <b>ennemi</b> plus grand ou plus petit de deux tailles : elle suppose les camps du <a class="el" href="lot-20.html" title="LOT-20 — Initiative et tour par tour">LOT-20</a>, qui la déclarera par <span class="tt">canPassThrough</span>.</li>
 </ul>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md525"></a>

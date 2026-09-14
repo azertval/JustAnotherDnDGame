@@ -137,8 +137,8 @@ Private Member Functions</h2></td></tr>
 <tr class="memdesc:a0267ab08d63cdd1e97c7aa776b16739e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Relève tout le monde : le rituel de la Marque Héroïque, qui fait des Arènes un lieu sans mort.  <br /></td></tr>
 <tr class="memitem:a66b291aaeb73accc1ffa139ae5dcfce2" id="r_a66b291aaeb73accc1ffa139ae5dcfce2"><td class="memItemLeft">std::optional&lt; <a class="el" href="structcore_1_1AttackOutcome.html">AttackOutcome</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a66b291aaeb73accc1ffa139ae5dcfce2">resolveAndRecord</a> (<a class="el" href="namespacecore.html#a91235fd72a18c305c494723774630841">CombatantId</a> attacker, <a class="el" href="namespacecore.html#a91235fd72a18c305c494723774630841">CombatantId</a> target, const <a class="el" href="structcore_1_1AttackProfile.html">AttackProfile</a> &amp;profile, const std::string &amp;prefix)</td></tr>
 <tr class="memdesc:a66b291aaeb73accc1ffa139ae5dcfce2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Résout une attaque et l'écrit au journal à sa place : après la déclaration, avant ce que ses dégâts déclenchent.  <br /></td></tr>
-<tr class="memitem:a42d83e47f76ce243b47c11cbf0626d6a" id="r_a42d83e47f76ce243b47c11cbf0626d6a"><td class="memItemLeft"><a class="el" href="structcore_1_1AttackContext.html">AttackContext</a>&#160;</td><td class="memItemRight"><a class="el" href="#a42d83e47f76ce243b47c11cbf0626d6a">contextAgainst</a> (<a class="el" href="namespacecore.html#a91235fd72a18c305c494723774630841">CombatantId</a> target) const</td></tr>
-<tr class="memdesc:a42d83e47f76ce243b47c11cbf0626d6a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les circonstances qu'ajoute la session : l'esquive de la cible.  <br /></td></tr>
+<tr class="memitem:a99b7027a264c809152a0b0ba12ccaae6" id="r_a99b7027a264c809152a0b0ba12ccaae6"><td class="memItemLeft"><a class="el" href="structcore_1_1AttackContext.html">AttackContext</a>&#160;</td><td class="memItemRight"><a class="el" href="#a99b7027a264c809152a0b0ba12ccaae6">contextAgainst</a> (<a class="el" href="namespacecore.html#a91235fd72a18c305c494723774630841">CombatantId</a> attacker, <a class="el" href="namespacecore.html#a91235fd72a18c305c494723774630841">CombatantId</a> target) const</td></tr>
+<tr class="memdesc:a99b7027a264c809152a0b0ba12ccaae6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les circonstances qu'ajoute la session : l'esquive de la cible, si elle voit l'attaquant.  <br /></td></tr>
 <tr class="memitem:a811a05394f43e2e01cf02d55fc5c0d3b" id="r_a811a05394f43e2e01cf02d55fc5c0d3b"><td class="memItemLeft">const <a class="el" href="structcore_1_1AttackProfile.html">AttackProfile</a> *&#160;</td><td class="memItemRight"><a class="el" href="#a811a05394f43e2e01cf02d55fc5c0d3b">meleeAttack</a> (<a class="el" href="namespacecore.html#a91235fd72a18c305c494723774630841">CombatantId</a> combatant) const</td></tr>
 <tr class="memdesc:a811a05394f43e2e01cf02d55fc5c0d3b"><td class="mdescLeft">&#160;</td><td class="mdescRight">La première attaque au corps à corps d'un combattant, ou <span class="tt">nullptr</span>.  <br /></td></tr>
 </table><table class="memberdecls">
@@ -212,7 +212,7 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>L'action <em>attaquer</em> du combattant actif, avec son attaque <code class="param">attackIndex</code>. </p>
-<p>Vérifie la cible et la portée (<span class="tt"><a class="el" href="namespacecore.html#a58f349d22c971141da56b91273d5d29d" title="Vrai si target est à portée de l&#39;attaque : allonge au corps à corps ; au contact, ou dans la portée m...">core::inReach</a></span>), dépense l'action, puis résout (<span class="tt"><a class="el" href="namespacecore.html#ab1a4d741effe8706e8261be043b9224a" title="Résout une attaque dans le combat : déclaration, jet, dégâts, points de vie.">core::resolveAttack</a></span>) : déclaration, jet, dégâts. Une cible qui esquive impose le désavantage. Tout passe par la suite aléatoire de la session : un rejeu redonne les mêmes coups. </p>
+<p>Vérifie la cible, la portée et la vue (<span class="tt"><a class="el" href="namespacecore.html#a7365293652d3b9980a5d196d0ada9400" title="Peut-on viser target avec cette attaque ?">core::checkTarget</a></span>), dépense l'action, puis résout (<span class="tt"><a class="el" href="namespacecore.html#ab1a4d741effe8706e8261be043b9224a" title="Résout une attaque dans le combat : déclaration, jet, dégâts, points de vie.">core::resolveAttack</a></span>) : déclaration, abri, jet, dégâts. Une cible qui esquive et voit son attaquant impose le désavantage. Tout passe par la suite aléatoire de la session : un rejeu redonne les mêmes coups. </p>
 
 </div>
 </div>
@@ -345,8 +345,8 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a42d83e47f76ce243b47c11cbf0626d6a" name="a42d83e47f76ce243b47c11cbf0626d6a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a42d83e47f76ce243b47c11cbf0626d6a">&#9670;&#160;</a></span>contextAgainst()</h2>
+<a id="a99b7027a264c809152a0b0ba12ccaae6" name="a99b7027a264c809152a0b0ba12ccaae6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a99b7027a264c809152a0b0ba12ccaae6">&#9670;&#160;</a></span>contextAgainst()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -357,8 +357,12 @@ Private Attributes</h2></td></tr>
         <tr>
           <td class="memname"><a class="el" href="structcore_1_1AttackContext.html">AttackContext</a> core::ArenaSession::contextAgainst </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="namespacecore.html#a91235fd72a18c305c494723774630841">CombatantId</a></td>          <td class="paramname"><span class="paramname"><em>target</em></span></td><td>)</td>
-          <td> const</td>
+          <td class="paramtype"><a class="el" href="namespacecore.html#a91235fd72a18c305c494723774630841">CombatantId</a></td>          <td class="paramname"><span class="paramname"><em>attacker</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacecore.html#a91235fd72a18c305c494723774630841">CombatantId</a></td>          <td class="paramname"><span class="paramname"><em>target</em></span>&#160;) const</td>
         </tr>
       </table>
   </td>
@@ -368,7 +372,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Les circonstances qu'ajoute la session : l'esquive de la cible. </p>
+<p>Les circonstances qu'ajoute la session : l'esquive de la cible, si elle voit l'attaquant. </p>
 
 </div>
 </div>
@@ -572,7 +576,7 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Déplace le combattant actif ; le chemin est payé sur son budget restant. </p>
-<p><b>Attaque d'opportunité</b> (Manuel, chapitre 9) : quand le chemin sort de l'allonge d'une créature hostile debout qui a encore sa réaction, elle frappe « juste avant que la créature ne sorte de sa zone d'allonge », avec sa première attaque au corps à corps, et dépense sa réaction. Le déplacement s'arrête à la dernière case où l'on peut se tenir avant la sortie, les attaques se jouent par identifiant croissant, et le déplacement reprend si le combattant tient encore debout. Dans l'arène, <b>chaque</b> créature éligible frappe : il n'y a pas encore d'interface pour décliner (<span class="tt">LOT-24</span>) ni de comportement pour choisir (<span class="tt">LOT-23</span>). </p>
+<p><b>Attaque d'opportunité</b> (Manuel, chapitre 9) : quand le chemin sort de l'allonge d'une créature hostile debout qui a encore sa réaction et voit le fuyard (« située dans votre champ de vision », <span class="tt"><a class="el" href="namespacecore.html#aba1d28cef88c61f722b2b034a8415f10" title="Vrai si les deux emprises se voient : un segment dégagé relie un point de grille de l&#39;une à un point ...">core::hasLineOfSight</a></span>), elle frappe « juste avant que la créature ne sorte de sa zone d'allonge », avec sa première attaque au corps à corps, et dépense sa réaction. Le déplacement s'arrête à la dernière case où l'on peut se tenir avant la sortie, les attaques se jouent par identifiant croissant, et le déplacement reprend si le combattant tient encore debout. Dans l'arène, <b>chaque</b> créature éligible frappe : il n'y a pas encore d'interface pour décliner (<span class="tt">LOT-24</span>) ni de comportement pour choisir (<span class="tt">LOT-23</span>). </p>
 
 </div>
 </div>

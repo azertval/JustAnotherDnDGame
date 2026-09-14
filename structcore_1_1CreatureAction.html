@@ -110,6 +110,10 @@ Public Attributes</h2></td></tr>
 <tr class="memdesc:a2d614ee79e5d776ba6f490f6e20aedc7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dés de dégâts de la <b>première</b> clause de l'action. Voir la note de <span class="tt"><a class="el" href="namespacecore.html#a83d3373cdbf5d435e75c8d6a944e1e2b" title="Charge toutes les créatures d&#39;un dossier — un fichier JSON par créature.">loadBestiary</a></span>.  <br /></td></tr>
 <tr class="memitem:a5005f47d27307a316d49daaab2f871e1" id="r_a5005f47d27307a316d49daaab2f871e1"><td class="memItemLeft">std::optional&lt; <a class="el" href="namespacecore.html#aae5ed49bedbf68049f008e4efac2edfd">DamageType</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a5005f47d27307a316d49daaab2f871e1">damageType</a></td></tr>
 <tr class="memdesc:a5005f47d27307a316d49daaab2f871e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type des dégâts ci-dessus.  <br /></td></tr>
+<tr class="memitem:a5486f1b835fc05062114d6e2e514aecf" id="r_a5486f1b835fc05062114d6e2e514aecf"><td class="memItemLeft">std::optional&lt; float &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a5486f1b835fc05062114d6e2e514aecf">rangeNormal</a></td></tr>
+<tr class="memdesc:a5486f1b835fc05062114d6e2e514aecf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Portée normale d'une action à distance, en mètres (« portée 24/96 m » : 24). <span class="tt">LOT-22</span>.  <br /></td></tr>
+<tr class="memitem:a7d65a24e5f425e176ad41811483bdc2b" id="r_a7d65a24e5f425e176ad41811483bdc2b"><td class="memItemLeft">std::optional&lt; float &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a7d65a24e5f425e176ad41811483bdc2b">rangeLong</a></td></tr>
+<tr class="memdesc:a7d65a24e5f425e176ad41811483bdc2b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Longue portée, en mètres (96). Égale à la normale pour une portée unique.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Une action de créature, et ce que le moteur sait en jouer. </p>
@@ -174,6 +178,38 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7d65a24e5f425e176ad41811483bdc2b" name="a7d65a24e5f425e176ad41811483bdc2b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7d65a24e5f425e176ad41811483bdc2b">&#9670;&#160;</a></span>rangeLong</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::optional&lt;float&gt; core::CreatureAction::rangeLong</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Longue portée, en mètres (96). Égale à la normale pour une portée unique. </p>
+
+</div>
+</div>
+<a id="a5486f1b835fc05062114d6e2e514aecf" name="a5486f1b835fc05062114d6e2e514aecf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5486f1b835fc05062114d6e2e514aecf">&#9670;&#160;</a></span>rangeNormal</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::optional&lt;float&gt; core::CreatureAction::rangeNormal</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Portée normale d'une action à distance, en mètres (« portée 24/96 m » : 24). <span class="tt">LOT-22</span>. </p>
 
 </div>
 </div>

@@ -1,8 +1,8 @@
 var lots =
 [
-    [ "Lots", "lots.html#autotoc_md752", null ],
-    [ "Feuille de route", "lots.html#autotoc_md753", null ],
-    [ "Programme", "lots.html#autotoc_md754", null ],
+    [ "Lots", "lots.html#autotoc_md762", null ],
+    [ "Feuille de route", "lots.html#autotoc_md763", null ],
+    [ "Programme", "lots.html#autotoc_md764", null ],
     [ "LOT-01 — Fork, purge et remise à nu", "lot-01.html", [
       [ "Objectif", "lot-01.html#autotoc_md402", null ],
       [ "Pourquoi purger en premier", "lot-01.html#autotoc_md403", null ],
@@ -77,42 +77,42 @@ var lots =
       [ "Ce que la réalisation a tranché", "lot-08.html#autotoc_md457", null ]
     ] ],
     [ "LOT-77 — La moitié RPG de la spécification", "lot-77.html", [
-      [ "Objectif", "lot-77.html#autotoc_md679", null ],
-      [ "Périmètre", "lot-77.html#autotoc_md680", null ],
-      [ "Ce que la rédaction a tranché", "lot-77.html#autotoc_md681", null ],
-      [ "Critères d'acceptation", "lot-77.html#autotoc_md682", null ]
+      [ "Objectif", "lot-77.html#autotoc_md689", null ],
+      [ "Périmètre", "lot-77.html#autotoc_md690", null ],
+      [ "Ce que la rédaction a tranché", "lot-77.html#autotoc_md691", null ],
+      [ "Critères d'acceptation", "lot-77.html#autotoc_md692", null ]
     ] ],
     [ "LOT-78 — Désambiguïsation des numéros de lots hérités", "lot-78.html", [
-      [ "Objectif", "lot-78.html#autotoc_md683", null ],
-      [ "Périmètre", "lot-78.html#autotoc_md684", null ],
-      [ "Comment la classification a été faite", "lot-78.html#autotoc_md685", null ],
-      [ "Ce que la règle 12 empêche", "lot-78.html#autotoc_md686", null ],
-      [ "Critères d'acceptation", "lot-78.html#autotoc_md687", null ]
+      [ "Objectif", "lot-78.html#autotoc_md693", null ],
+      [ "Périmètre", "lot-78.html#autotoc_md694", null ],
+      [ "Comment la classification a été faite", "lot-78.html#autotoc_md695", null ],
+      [ "Ce que la règle 12 empêche", "lot-78.html#autotoc_md696", null ],
+      [ "Critères d'acceptation", "lot-78.html#autotoc_md697", null ]
     ] ],
     [ "LOT-79 — Socle de chargement de données", "lot-79.html", [
-      [ "Objectif", "lot-79.html#autotoc_md688", null ],
-      [ "Ce qui existait", "lot-79.html#autotoc_md689", null ],
-      [ "Ce que le lot livre", "lot-79.html#autotoc_md690", null ],
-      [ "Ce que la réalisation a tranché", "lot-79.html#autotoc_md691", null ],
-      [ "Critères d'acceptation", "lot-79.html#autotoc_md692", null ]
+      [ "Objectif", "lot-79.html#autotoc_md698", null ],
+      [ "Ce qui existait", "lot-79.html#autotoc_md699", null ],
+      [ "Ce que le lot livre", "lot-79.html#autotoc_md700", null ],
+      [ "Ce que la réalisation a tranché", "lot-79.html#autotoc_md701", null ],
+      [ "Critères d'acceptation", "lot-79.html#autotoc_md702", null ]
     ] ],
     [ "LOT-30 — Chaîne d'extraction du corpus et lexique bilingue", "lot-30.html", [
-      [ "Objectif", "lot-30.html#autotoc_md549", null ],
-      [ "Ce que le lot livre", "lot-30.html#autotoc_md550", null ],
-      [ "Ce que la réalisation a vérifié, et ce qu'elle a démenti", "lot-30.html#autotoc_md551", null ],
-      [ "Le complément des <em>Basic Rules</em> est attesté, pas saisi", "lot-30.html#autotoc_md552", null ],
-      [ "Ce que le contrôle vérifie, et pourquoi il s'auto-teste", "lot-30.html#autotoc_md553", null ],
-      [ "Ce que le lot ne fait pas", "lot-30.html#autotoc_md554", null ],
-      [ "Critères d'acceptation", "lot-30.html#autotoc_md555", null ]
+      [ "Objectif", "lot-30.html#autotoc_md559", null ],
+      [ "Ce que le lot livre", "lot-30.html#autotoc_md560", null ],
+      [ "Ce que la réalisation a vérifié, et ce qu'elle a démenti", "lot-30.html#autotoc_md561", null ],
+      [ "Le complément des <em>Basic Rules</em> est attesté, pas saisi", "lot-30.html#autotoc_md562", null ],
+      [ "Ce que le contrôle vérifie, et pourquoi il s'auto-teste", "lot-30.html#autotoc_md563", null ],
+      [ "Ce que le lot ne fait pas", "lot-30.html#autotoc_md564", null ],
+      [ "Critères d'acceptation", "lot-30.html#autotoc_md565", null ]
     ] ],
     [ "LOT-32 — Schémas de données RPG", "lot-32.html", [
-      [ "Objectif", "lot-32.html#autotoc_md556", null ],
-      [ "Ce que le lot livre", "lot-32.html#autotoc_md557", null ],
-      [ "Le triangle, et pourquoi chaque arête n'est contrôlée qu'une fois", "lot-32.html#autotoc_md558", null ],
-      [ "Ce que la réalisation a tranché", "lot-32.html#autotoc_md559", null ],
-      [ "Le validateur s'auto-teste, faute de données à valider", "lot-32.html#autotoc_md560", null ],
-      [ "Ce que le lot ne fait pas", "lot-32.html#autotoc_md561", null ],
-      [ "Critères d'acceptation", "lot-32.html#autotoc_md562", null ]
+      [ "Objectif", "lot-32.html#autotoc_md566", null ],
+      [ "Ce que le lot livre", "lot-32.html#autotoc_md567", null ],
+      [ "Le triangle, et pourquoi chaque arête n'est contrôlée qu'une fois", "lot-32.html#autotoc_md568", null ],
+      [ "Ce que la réalisation a tranché", "lot-32.html#autotoc_md569", null ],
+      [ "Le validateur s'auto-teste, faute de données à valider", "lot-32.html#autotoc_md570", null ],
+      [ "Ce que le lot ne fait pas", "lot-32.html#autotoc_md571", null ],
+      [ "Critères d'acceptation", "lot-32.html#autotoc_md572", null ]
     ] ],
     [ "LOT-12 — Dés, caractéristiques, jets", "lot-12.html", [
       [ "Objectif", "lot-12.html#autotoc_md466", null ],
@@ -126,41 +126,41 @@ var lots =
       [ "Critères d'acceptation", "lot-12.html#autotoc_md474", null ]
     ] ],
     [ "LOT-43 — Options de personnage : dons, multiclassage, compétences, langues", "lot-43.html", [
-      [ "Objectif", "lot-43.html#autotoc_md624", null ],
-      [ "Ce que le lot livre", "lot-43.html#autotoc_md625", null ],
-      [ "Le choix de la source est la moitié du travail", "lot-43.html#autotoc_md626", null ],
-      [ "Trois défauts du corpus que ce lot a mis au jour", "lot-43.html#autotoc_md627", null ],
-      [ "Le multiclassage, la règle qu'il est le plus facile d'implémenter de travers", "lot-43.html#autotoc_md628", null ],
-      [ "Les dons sont livrés provisoires, et le disent", "lot-43.html#autotoc_md629", null ],
-      [ "Ce que le lot ne fait pas", "lot-43.html#autotoc_md630", null ],
-      [ "Critères d'acceptation", "lot-43.html#autotoc_md631", null ]
+      [ "Objectif", "lot-43.html#autotoc_md634", null ],
+      [ "Ce que le lot livre", "lot-43.html#autotoc_md635", null ],
+      [ "Le choix de la source est la moitié du travail", "lot-43.html#autotoc_md636", null ],
+      [ "Trois défauts du corpus que ce lot a mis au jour", "lot-43.html#autotoc_md637", null ],
+      [ "Le multiclassage, la règle qu'il est le plus facile d'implémenter de travers", "lot-43.html#autotoc_md638", null ],
+      [ "Les dons sont livrés provisoires, et le disent", "lot-43.html#autotoc_md639", null ],
+      [ "Ce que le lot ne fait pas", "lot-43.html#autotoc_md640", null ],
+      [ "Critères d'acceptation", "lot-43.html#autotoc_md641", null ]
     ] ],
     [ "LOT-33 — Bestiaire de base", "lot-33.html", [
-      [ "Objectif", "lot-33.html#autotoc_md563", null ],
-      [ "Ce que le lot livre", "lot-33.html#autotoc_md564", null ],
-      [ "L'extraction se fait sur la typographie, pas sur des expressions régulières", "lot-33.html#autotoc_md565", null ],
-      [ "Deux contrôles qui arrêtent la génération", "lot-33.html#autotoc_md566", null ],
-      [ "Ce que le schéma ne peut pas dire, et qui n'est pas perdu pour autant", "lot-33.html#autotoc_md567", null ],
-      [ "Cinq défauts du lexique que les 94 noms ont mis au jour", "lot-33.html#autotoc_md568", null ],
-      [ "Le test lit le livre, pas la génération", "lot-33.html#autotoc_md569", null ],
-      [ "Ce que le lot ne fait pas", "lot-33.html#autotoc_md570", null ],
-      [ "Critères d'acceptation", "lot-33.html#autotoc_md571", null ]
+      [ "Objectif", "lot-33.html#autotoc_md573", null ],
+      [ "Ce que le lot livre", "lot-33.html#autotoc_md574", null ],
+      [ "L'extraction se fait sur la typographie, pas sur des expressions régulières", "lot-33.html#autotoc_md575", null ],
+      [ "Deux contrôles qui arrêtent la génération", "lot-33.html#autotoc_md576", null ],
+      [ "Ce que le schéma ne peut pas dire, et qui n'est pas perdu pour autant", "lot-33.html#autotoc_md577", null ],
+      [ "Cinq défauts du lexique que les 94 noms ont mis au jour", "lot-33.html#autotoc_md578", null ],
+      [ "Le test lit le livre, pas la génération", "lot-33.html#autotoc_md579", null ],
+      [ "Ce que le lot ne fait pas", "lot-33.html#autotoc_md580", null ],
+      [ "Critères d'acceptation", "lot-33.html#autotoc_md581", null ]
     ] ],
     [ "LOT-36 — Espèces, historiques et classes provisoires", "lot-36.html", [
-      [ "Objectif", "lot-36.html#autotoc_md582", null ],
-      [ "Ce que le lot livre", "lot-36.html#autotoc_md583", null ],
-      [ "Trois documents, deux langues — et c'est là qu'est la difficulté", "lot-36.html#autotoc_md584", null ],
-      [ "Le <em>Manuel des Joueurs</em> est un scan, et sa graisse ment", "lot-36.html#autotoc_md585", [
-        [ "Quatre corruptions d'OCR déclarées, une par une", "lot-36.html#autotoc_md586", null ],
-        [ "Sa gouttière bouge d'une page à l'autre", "lot-36.html#autotoc_md587", null ]
+      [ "Objectif", "lot-36.html#autotoc_md592", null ],
+      [ "Ce que le lot livre", "lot-36.html#autotoc_md593", null ],
+      [ "Trois documents, deux langues — et c'est là qu'est la difficulté", "lot-36.html#autotoc_md594", null ],
+      [ "Le <em>Manuel des Joueurs</em> est un scan, et sa graisse ment", "lot-36.html#autotoc_md595", [
+        [ "Quatre corruptions d'OCR déclarées, une par une", "lot-36.html#autotoc_md596", null ],
+        [ "Sa gouttière bouge d'une page à l'autre", "lot-36.html#autotoc_md597", null ]
       ] ],
-      [ "Le <em>Player's Guide</em> dessine ses titres deux fois", "lot-36.html#autotoc_md588", null ],
-      [ "Ce que le corpus dit, et que la feuille de route disait autrement", "lot-36.html#autotoc_md589", null ],
-      [ "Ce que le schéma ne peut pas dire", "lot-36.html#autotoc_md590", null ],
-      [ "Les quatre classes sont provisoires, et le déclarent", "lot-36.html#autotoc_md591", null ],
-      [ "Un seuil de corps se pose sous la valeur, jamais dessus", "lot-36.html#autotoc_md592", null ],
-      [ "Ce que le lot ne fait pas", "lot-36.html#autotoc_md593", null ],
-      [ "Critères d'acceptation", "lot-36.html#autotoc_md594", null ]
+      [ "Le <em>Player's Guide</em> dessine ses titres deux fois", "lot-36.html#autotoc_md598", null ],
+      [ "Ce que le corpus dit, et que la feuille de route disait autrement", "lot-36.html#autotoc_md599", null ],
+      [ "Ce que le schéma ne peut pas dire", "lot-36.html#autotoc_md600", null ],
+      [ "Les quatre classes sont provisoires, et le déclarent", "lot-36.html#autotoc_md601", null ],
+      [ "Un seuil de corps se pose sous la valeur, jamais dessus", "lot-36.html#autotoc_md602", null ],
+      [ "Ce que le lot ne fait pas", "lot-36.html#autotoc_md603", null ],
+      [ "Critères d'acceptation", "lot-36.html#autotoc_md604", null ]
     ] ],
     [ "LOT-13 — Fiche de personnage", "lot-13.html", [
       [ "Objectif", "lot-13.html#autotoc_md475", null ],
@@ -184,85 +184,85 @@ var lots =
       [ "Critères d'acceptation", "lot-10.html#autotoc_md465", null ]
     ] ],
     [ "LOT-34 — Équipement, monnaie, objets magiques", "lot-34.html", [
-      [ "Objectif", "lot-34.html#autotoc_md572", null ],
-      [ "Ce que le lot livre", "lot-34.html#autotoc_md573", null ],
-      [ "C'est le lot où le §4 se paie", "lot-34.html#autotoc_md574", null ],
-      [ "Le groupe d'une arme n'est pas dans sa rangée", "lot-34.html#autotoc_md575", null ],
-      [ "Trois cas que le livre écrit et qu'un schéma refusait", "lot-34.html#autotoc_md576", null ],
-      [ "Les trois formes de la colonne CA disent trois règles", "lot-34.html#autotoc_md577", null ],
-      [ "Deux unités, converties une seule fois", "lot-34.html#autotoc_md578", null ],
-      [ "La table du matériel est composée en deux sous-tables côte à côte", "lot-34.html#autotoc_md579", null ],
-      [ "Ce que le lot ne fait pas", "lot-34.html#autotoc_md580", null ],
-      [ "Critères d'acceptation", "lot-34.html#autotoc_md581", null ]
+      [ "Objectif", "lot-34.html#autotoc_md582", null ],
+      [ "Ce que le lot livre", "lot-34.html#autotoc_md583", null ],
+      [ "C'est le lot où le §4 se paie", "lot-34.html#autotoc_md584", null ],
+      [ "Le groupe d'une arme n'est pas dans sa rangée", "lot-34.html#autotoc_md585", null ],
+      [ "Trois cas que le livre écrit et qu'un schéma refusait", "lot-34.html#autotoc_md586", null ],
+      [ "Les trois formes de la colonne CA disent trois règles", "lot-34.html#autotoc_md587", null ],
+      [ "Deux unités, converties une seule fois", "lot-34.html#autotoc_md588", null ],
+      [ "La table du matériel est composée en deux sous-tables côte à côte", "lot-34.html#autotoc_md589", null ],
+      [ "Ce que le lot ne fait pas", "lot-34.html#autotoc_md590", null ],
+      [ "Critères d'acceptation", "lot-34.html#autotoc_md591", null ]
     ] ],
     [ "LOT-66 — Charte visuelle : sortir de l'identité pixel art", "lot-66.html", [
-      [ "Objectif", "lot-66.html#autotoc_md644", null ],
-      [ "Ce que le lot livre", "lot-66.html#autotoc_md645", null ],
-      [ "La palette est relevée, pas choisie", "lot-66.html#autotoc_md646", null ],
-      [ "Les rôles de cadre changent de nom, et c'est le cœur du lot", "lot-66.html#autotoc_md647", null ],
-      [ "Ce qui fait un encadrement, c'est la réserve", "lot-66.html#autotoc_md648", null ],
-      [ "Le facteur d'agrandissement reste entier, pour une autre raison", "lot-66.html#autotoc_md649", null ],
-      [ "Une déviation assumée sur la liste de suppressions", "lot-66.html#autotoc_md650", null ],
-      [ "Le focus n'est jamais perdu de vue", "lot-66.html#autotoc_md651", null ],
-      [ "Le renversement est assumé, pas subi", "lot-66.html#autotoc_md652", null ],
-      [ "Ce que le lot ne fait pas", "lot-66.html#autotoc_md653", null ],
-      [ "Critères d'acceptation", "lot-66.html#autotoc_md654", null ]
+      [ "Objectif", "lot-66.html#autotoc_md654", null ],
+      [ "Ce que le lot livre", "lot-66.html#autotoc_md655", null ],
+      [ "La palette est relevée, pas choisie", "lot-66.html#autotoc_md656", null ],
+      [ "Les rôles de cadre changent de nom, et c'est le cœur du lot", "lot-66.html#autotoc_md657", null ],
+      [ "Ce qui fait un encadrement, c'est la réserve", "lot-66.html#autotoc_md658", null ],
+      [ "Le facteur d'agrandissement reste entier, pour une autre raison", "lot-66.html#autotoc_md659", null ],
+      [ "Une déviation assumée sur la liste de suppressions", "lot-66.html#autotoc_md660", null ],
+      [ "Le focus n'est jamais perdu de vue", "lot-66.html#autotoc_md661", null ],
+      [ "Le renversement est assumé, pas subi", "lot-66.html#autotoc_md662", null ],
+      [ "Ce que le lot ne fait pas", "lot-66.html#autotoc_md663", null ],
+      [ "Critères d'acceptation", "lot-66.html#autotoc_md664", null ]
     ] ],
     [ "LOT-37 — Atlas des régions et graphe de cartes", "lot-37.html", [
-      [ "Objectif", "lot-37.html#autotoc_md595", null ],
-      [ "Ce que le lot livre", "lot-37.html#autotoc_md596", null ],
-      [ "Treize régions, pas dix", "lot-37.html#autotoc_md597", null ],
-      [ "L'encart se lit par son cadre, pas à l'estime", "lot-37.html#autotoc_md598", null ],
-      [ "Une statistique est une liste, jamais une chaîne", "lot-37.html#autotoc_md599", null ],
-      [ "Le voisinage est déclaré, et c'est écrit", "lot-37.html#autotoc_md600", null ],
-      [ "Trois irrégularités de la source, nommées plutôt que contournées", "lot-37.html#autotoc_md601", null ],
-      [ "Ce que le lot ne fait pas, et pourquoi", "lot-37.html#autotoc_md602", null ],
-      [ "Effet de bord assumé", "lot-37.html#autotoc_md603", null ]
+      [ "Objectif", "lot-37.html#autotoc_md605", null ],
+      [ "Ce que le lot livre", "lot-37.html#autotoc_md606", null ],
+      [ "Treize régions, pas dix", "lot-37.html#autotoc_md607", null ],
+      [ "L'encart se lit par son cadre, pas à l'estime", "lot-37.html#autotoc_md608", null ],
+      [ "Une statistique est une liste, jamais une chaîne", "lot-37.html#autotoc_md609", null ],
+      [ "Le voisinage est déclaré, et c'est écrit", "lot-37.html#autotoc_md610", null ],
+      [ "Trois irrégularités de la source, nommées plutôt que contournées", "lot-37.html#autotoc_md611", null ],
+      [ "Ce que le lot ne fait pas, et pourquoi", "lot-37.html#autotoc_md612", null ],
+      [ "Effet de bord assumé", "lot-37.html#autotoc_md613", null ]
     ] ],
     [ "LOT-76 — Habillage d'interface extrait des livres", "lot-76.html", [
-      [ "Objectif", "lot-76.html#autotoc_md671", null ],
-      [ "Le renversement du milieu du lot, et pourquoi il valait mieux", "lot-76.html#autotoc_md672", null ],
-      [ "Ce que le corpus donne encore : la mesure, pas la matière", "lot-76.html#autotoc_md673", null ],
-      [ "Deux ornements, deux invariants", "lot-76.html#autotoc_md674", null ],
-      [ "L'accentué reste tracé à l'ancienne, et ce n'est pas un oubli", "lot-76.html#autotoc_md675", null ],
-      [ "Le titre devient son bandeau, sur les six écrans", "lot-76.html#autotoc_md676", null ],
-      [ "Ce que le lot ne fait pas", "lot-76.html#autotoc_md677", null ],
-      [ "Critères d'acceptation", "lot-76.html#autotoc_md678", null ]
+      [ "Objectif", "lot-76.html#autotoc_md681", null ],
+      [ "Le renversement du milieu du lot, et pourquoi il valait mieux", "lot-76.html#autotoc_md682", null ],
+      [ "Ce que le corpus donne encore : la mesure, pas la matière", "lot-76.html#autotoc_md683", null ],
+      [ "Deux ornements, deux invariants", "lot-76.html#autotoc_md684", null ],
+      [ "L'accentué reste tracé à l'ancienne, et ce n'est pas un oubli", "lot-76.html#autotoc_md685", null ],
+      [ "Le titre devient son bandeau, sur les six écrans", "lot-76.html#autotoc_md686", null ],
+      [ "Ce que le lot ne fait pas", "lot-76.html#autotoc_md687", null ],
+      [ "Critères d'acceptation", "lot-76.html#autotoc_md688", null ]
     ] ],
     [ "LOT-67 — Menus et vocabulaire d'un RPG", "lot-67.html", [
-      [ "Objectif", "lot-67.html#autotoc_md655", null ],
-      [ "Ce que le joueur voit", "lot-67.html#autotoc_md656", null ],
-      [ "La carte du monde en fond, et la frontière qu'elle trace", "lot-67.html#autotoc_md657", null ],
-      [ "Ce qui a été retiré du code", "lot-67.html#autotoc_md658", null ],
-      [ "Les seize exigences : retirées pour douze, refondues pour trois", "lot-67.html#autotoc_md659", null ],
-      [ "Le vocabulaire : « niveau » devient « carte », partout", "lot-67.html#autotoc_md660", null ],
-      [ "Ce que le lot ne fait pas", "lot-67.html#autotoc_md661", null ],
-      [ "Critères d'acceptation", "lot-67.html#autotoc_md662", null ]
+      [ "Objectif", "lot-67.html#autotoc_md665", null ],
+      [ "Ce que le joueur voit", "lot-67.html#autotoc_md666", null ],
+      [ "La carte du monde en fond, et la frontière qu'elle trace", "lot-67.html#autotoc_md667", null ],
+      [ "Ce qui a été retiré du code", "lot-67.html#autotoc_md668", null ],
+      [ "Les seize exigences : retirées pour douze, refondues pour trois", "lot-67.html#autotoc_md669", null ],
+      [ "Le vocabulaire : « niveau » devient « carte », partout", "lot-67.html#autotoc_md670", null ],
+      [ "Ce que le lot ne fait pas", "lot-67.html#autotoc_md671", null ],
+      [ "Critères d'acceptation", "lot-67.html#autotoc_md672", null ]
     ] ],
     [ "LOT-68 — Le châssis des écrans du RPG", "lot-68.html", [
-      [ "Objectif", "lot-68.html#autotoc_md663", null ],
-      [ "Ce que le joueur voit", "lot-68.html#autotoc_md664", null ],
-      [ "L'ossature est une table, et c'est tout le lot", "lot-68.html#autotoc_md665", null ],
-      [ "La règle de superposition, portée par l'écran et non par l'appelant", "lot-68.html#autotoc_md666", null ],
-      [ "« Nouvelle partie » : un échafaudage, et il est écrit", "lot-68.html#autotoc_md667", null ],
-      [ "Trois défauts d'agencement, trouvés en regardant l'écran", "lot-68.html#autotoc_md668", null ],
-      [ "Ce que le lot ne fait pas", "lot-68.html#autotoc_md669", null ],
-      [ "Critères d'acceptation", "lot-68.html#autotoc_md670", null ]
+      [ "Objectif", "lot-68.html#autotoc_md673", null ],
+      [ "Ce que le joueur voit", "lot-68.html#autotoc_md674", null ],
+      [ "L'ossature est une table, et c'est tout le lot", "lot-68.html#autotoc_md675", null ],
+      [ "La règle de superposition, portée par l'écran et non par l'appelant", "lot-68.html#autotoc_md676", null ],
+      [ "« Nouvelle partie » : un échafaudage, et il est écrit", "lot-68.html#autotoc_md677", null ],
+      [ "Trois défauts d'agencement, trouvés en regardant l'écran", "lot-68.html#autotoc_md678", null ],
+      [ "Ce que le lot ne fait pas", "lot-68.html#autotoc_md679", null ],
+      [ "Critères d'acceptation", "lot-68.html#autotoc_md680", null ]
     ] ],
     [ "LOT-38 — Fiche de personnage : maquette et interface", "lot-38.html", [
-      [ "Objectif", "lot-38.html#autotoc_md604", null ],
-      [ "La maquette : cinq planches, et ce qu'on relève dessus", "lot-38.html#autotoc_md605", null ],
-      [ "Un champ affiché, ou écrit comme non alimenté", "lot-38.html#autotoc_md606", null ],
-      [ "La planche gravée : une piste ouverte, puis refermée", "lot-38.html#autotoc_md607", [
-        [ "Ce qui marchait", "lot-38.html#autotoc_md608", null ],
-        [ "Ce qui l'a arrêtée", "lot-38.html#autotoc_md609", null ],
-        [ "Ce que l'écran est donc aujourd'hui", "lot-38.html#autotoc_md610", null ]
+      [ "Objectif", "lot-38.html#autotoc_md614", null ],
+      [ "La maquette : cinq planches, et ce qu'on relève dessus", "lot-38.html#autotoc_md615", null ],
+      [ "Un champ affiché, ou écrit comme non alimenté", "lot-38.html#autotoc_md616", null ],
+      [ "La planche gravée : une piste ouverte, puis refermée", "lot-38.html#autotoc_md617", [
+        [ "Ce qui marchait", "lot-38.html#autotoc_md618", null ],
+        [ "Ce qui l'a arrêtée", "lot-38.html#autotoc_md619", null ],
+        [ "Ce que l'écran est donc aujourd'hui", "lot-38.html#autotoc_md620", null ]
       ] ],
-      [ "Ce que la fiche calcule, et où", "lot-38.html#autotoc_md611", null ],
-      [ "Le personnage affiché : une donnée, et un échafaudage assumé", "lot-38.html#autotoc_md612", null ],
-      [ "Le lexique tient maintenant les compétences et les caractéristiques", "lot-38.html#autotoc_md613", null ],
-      [ "Ce que le lot ne fait pas", "lot-38.html#autotoc_md614", null ],
-      [ "Critères d'acceptation", "lot-38.html#autotoc_md615", null ]
+      [ "Ce que la fiche calcule, et où", "lot-38.html#autotoc_md621", null ],
+      [ "Le personnage affiché : une donnée, et un échafaudage assumé", "lot-38.html#autotoc_md622", null ],
+      [ "Le lexique tient maintenant les compétences et les caractéristiques", "lot-38.html#autotoc_md623", null ],
+      [ "Ce que le lot ne fait pas", "lot-38.html#autotoc_md624", null ],
+      [ "Critères d'acceptation", "lot-38.html#autotoc_md625", null ]
     ] ],
     [ "LOT-14 — Inventaire et équipement", "lot-14.html", [
       [ "Objectif", "lot-14.html#autotoc_md484", null ],
@@ -288,26 +288,26 @@ var lots =
       [ "Critères d'acceptation", "lot-18.html#autotoc_md513", null ]
     ] ],
     [ "LOT-39 — Plomberie des clés d'assets", "lot-39.html", [
-      [ "Objectif", "lot-39.html#autotoc_md616", null ],
-      [ "Une clé, jamais un chemin", "lot-39.html#autotoc_md617", null ],
-      [ "La clé se déduit ; le champ <span class=\"tt\">asset</span> sert à déroger", "lot-39.html#autotoc_md618", null ],
-      [ "Le manifeste est dérivé, jamais tenu à la main", "lot-39.html#autotoc_md619", null ],
-      [ "Le marqueur, et pourquoi il est déterministe", "lot-39.html#autotoc_md620", null ],
-      [ "Le lint fait deux choses de nature différente", "lot-39.html#autotoc_md621", null ],
-      [ "Ce que le lot ne fait pas", "lot-39.html#autotoc_md622", null ],
-      [ "Critères d'acceptation", "lot-39.html#autotoc_md623", null ]
+      [ "Objectif", "lot-39.html#autotoc_md626", null ],
+      [ "Une clé, jamais un chemin", "lot-39.html#autotoc_md627", null ],
+      [ "La clé se déduit ; le champ <span class=\"tt\">asset</span> sert à déroger", "lot-39.html#autotoc_md628", null ],
+      [ "Le manifeste est dérivé, jamais tenu à la main", "lot-39.html#autotoc_md629", null ],
+      [ "Le marqueur, et pourquoi il est déterministe", "lot-39.html#autotoc_md630", null ],
+      [ "Le lint fait deux choses de nature différente", "lot-39.html#autotoc_md631", null ],
+      [ "Ce que le lot ne fait pas", "lot-39.html#autotoc_md632", null ],
+      [ "Critères d'acceptation", "lot-39.html#autotoc_md633", null ]
     ] ],
     [ "LOT-86 — Refonte de l'IHM sur Qt Quick", "lot-86.html", [
-      [ "Objectif", "lot-86.html#autotoc_md693", null ],
-      [ "Ce qui existait", "lot-86.html#autotoc_md694", null ],
-      [ "La direction artistique, reprise des maquettes supprimées", "lot-86.html#autotoc_md695", [
-        [ "Attention : le texte des maquettes était périmé", "lot-86.html#autotoc_md696", null ],
-        [ "Les deux directions écartées, et pourquoi", "lot-86.html#autotoc_md697", null ],
-        [ "Décisions d'écran à honorer", "lot-86.html#autotoc_md698", null ]
+      [ "Objectif", "lot-86.html#autotoc_md703", null ],
+      [ "Ce qui existait", "lot-86.html#autotoc_md704", null ],
+      [ "La direction artistique, reprise des maquettes supprimées", "lot-86.html#autotoc_md705", [
+        [ "Attention : le texte des maquettes était périmé", "lot-86.html#autotoc_md706", null ],
+        [ "Les deux directions écartées, et pourquoi", "lot-86.html#autotoc_md707", null ],
+        [ "Décisions d'écran à honorer", "lot-86.html#autotoc_md708", null ]
       ] ],
-      [ "Exigences couvertes", "lot-86.html#autotoc_md699", null ],
-      [ "Où en est le lot", "lot-86.html#autotoc_md700", null ],
-      [ "Critères d'acceptation", "lot-86.html#autotoc_md701", null ]
+      [ "Exigences couvertes", "lot-86.html#autotoc_md709", null ],
+      [ "Où en est le lot", "lot-86.html#autotoc_md710", null ],
+      [ "Critères d'acceptation", "lot-86.html#autotoc_md711", null ]
     ] ],
     [ "LOT-87 — Charte v2 et intégration des maquettes", "lot-87.html", "lot-87" ],
     [ "LOT-19 — Grille tactique et déplacement", "lot-19.html", [
@@ -342,18 +342,18 @@ var lots =
       [ "Critères d'acceptation", "lot-20.html#autotoc_md539", null ]
     ] ],
     [ "LOT-50 — Le Colisée : bac à sable de combat", "lot-50.html", [
-      [ "Objectif", "lot-50.html#autotoc_md632", null ],
-      [ "Ce que ce lot livre, et ce qu'il ne livre pas", "lot-50.html#autotoc_md633", null ],
-      [ "Le premier lieu où le combat est tenu", "lot-50.html#autotoc_md634", null ],
-      [ "Rejouable à graine fixée : ce que cela achète", "lot-50.html#autotoc_md635", null ],
-      [ "Personne n'y meurt, et c'est la fiction qui l'explique", "lot-50.html#autotoc_md636", null ],
-      [ "Le coup d'essai, provisoire et dit comme tel", "lot-50.html#autotoc_md637", null ],
-      [ "Ce que l'écran compose, et ce qu'il ne compose pas", "lot-50.html#autotoc_md638", null ],
-      [ "Le montage nomme ses refus", "lot-50.html#autotoc_md639", null ],
-      [ "Relevé en chemin", "lot-50.html#autotoc_md640", null ],
-      [ "Habillage de l'arène (14 septembre 2026, après livraison)", "lot-50.html#autotoc_md641", null ],
-      [ "Ce qui reste hors du lot, nommément", "lot-50.html#autotoc_md642", null ],
-      [ "Critères d'acceptation", "lot-50.html#autotoc_md643", null ]
+      [ "Objectif", "lot-50.html#autotoc_md642", null ],
+      [ "Ce que ce lot livre, et ce qu'il ne livre pas", "lot-50.html#autotoc_md643", null ],
+      [ "Le premier lieu où le combat est tenu", "lot-50.html#autotoc_md644", null ],
+      [ "Rejouable à graine fixée : ce que cela achète", "lot-50.html#autotoc_md645", null ],
+      [ "Personne n'y meurt, et c'est la fiction qui l'explique", "lot-50.html#autotoc_md646", null ],
+      [ "Le coup d'essai, provisoire et dit comme tel", "lot-50.html#autotoc_md647", null ],
+      [ "Ce que l'écran compose, et ce qu'il ne compose pas", "lot-50.html#autotoc_md648", null ],
+      [ "Le montage nomme ses refus", "lot-50.html#autotoc_md649", null ],
+      [ "Relevé en chemin", "lot-50.html#autotoc_md650", null ],
+      [ "Habillage de l'arène (14 septembre 2026, après livraison)", "lot-50.html#autotoc_md651", null ],
+      [ "Ce qui reste hors du lot, nommément", "lot-50.html#autotoc_md652", null ],
+      [ "Critères d'acceptation", "lot-50.html#autotoc_md653", null ]
     ] ],
     [ "LOT-15 — PNJ et dialogues", "lot-15.html", [
       [ "Objectif", "lot-15.html#autotoc_md491", null ],
@@ -380,19 +380,31 @@ var lots =
       [ "Ce qui reste hors du lot, nommément", "lot-21.html#autotoc_md547", null ],
       [ "Critères d'acceptation", "lot-21.html#autotoc_md548", null ]
     ] ],
+    [ "LOT-22 — Portée, ligne de vue et zones d'effet", "lot-22.html", [
+      [ "Objectif", "lot-22.html#autotoc_md549", null ],
+      [ "Ce que ce lot livre, et ce qu'il ne livre pas", "lot-22.html#autotoc_md550", null ],
+      [ "Les règles du Manuel, et où chacune vit", "lot-22.html#autotoc_md551", null ],
+      [ "La symétrie, par construction", "lot-22.html#autotoc_md552", null ],
+      [ "L'abri : ce que la grille compte", "lot-22.html#autotoc_md553", null ],
+      [ "Les zones d'effet : la moitié d'une case", "lot-22.html#autotoc_md554", null ],
+      [ "La donnée : des propriétés, pas de la prose", "lot-22.html#autotoc_md555", null ],
+      [ "Décisions prises en route", "lot-22.html#autotoc_md556", null ],
+      [ "Ce qui reste hors du lot, nommément", "lot-22.html#autotoc_md557", null ],
+      [ "Critères d'acceptation", "lot-22.html#autotoc_md558", null ]
+    ] ],
     [ "Feuille de route — le bac à sable de Tanares", "roadmap.html", [
       [ "État d'avancement", "roadmap.html#roadmap-avancement", null ],
-      [ "1. Le corpus n'est pas versionné", "roadmap.html#autotoc_md757", null ],
-      [ "2. Inventaire du corpus", "roadmap.html#autotoc_md759", [
-        [ "Les ressources de table virtuelle (ajoutées le 7 septembre 2026)", "roadmap.html#autotoc_md760", null ],
-        [ "Ce que chaque document apporte, chiffré", "roadmap.html#autotoc_md761", null ]
+      [ "1. Le corpus n'est pas versionné", "roadmap.html#autotoc_md767", null ],
+      [ "2. Inventaire du corpus", "roadmap.html#autotoc_md769", [
+        [ "Les ressources de table virtuelle (ajoutées le 7 septembre 2026)", "roadmap.html#autotoc_md770", null ],
+        [ "Ce que chaque document apporte, chiffré", "roadmap.html#autotoc_md771", null ]
       ] ],
-      [ "3. Licences : contrainte en sommeil", "roadmap.html#autotoc_md763", null ],
-      [ "4. Ce que l'extraction a appris", "roadmap.html#autotoc_md765", null ],
-      [ "4bis. Ce que les deux livres imposent au moteur — relecture du 14 septembre 2026", "roadmap.html#autotoc_md767", null ],
-      [ "5. Programme de lots proposé — la filière contenu", "roadmap.html#autotoc_md769", [
-        [ "Importer tout, honorer progressivement", "roadmap.html#autotoc_md770", null ],
-        [ "La cible : un bac à sable dans l'univers entier", "roadmap.html#autotoc_md771", null ],
+      [ "3. Licences : contrainte en sommeil", "roadmap.html#autotoc_md773", null ],
+      [ "4. Ce que l'extraction a appris", "roadmap.html#autotoc_md775", null ],
+      [ "4bis. Ce que les deux livres imposent au moteur — relecture du 14 septembre 2026", "roadmap.html#autotoc_md777", null ],
+      [ "5. Programme de lots proposé — la filière contenu", "roadmap.html#autotoc_md779", [
+        [ "Importer tout, honorer progressivement", "roadmap.html#autotoc_md780", null ],
+        [ "La cible : un bac à sable dans l'univers entier", "roadmap.html#autotoc_md781", null ],
         [ "<span class=\"tt\">LOT-35</span> — Sorts et états", "roadmap.html#lot-35", null ],
         [ "<span class=\"tt\">LOT-40</span> — Générateur de terrain", "roadmap.html#lot-40", null ],
         [ "<span class=\"tt\">LOT-41</span> — Peuplement : rencontres et créatures", "roadmap.html#lot-41", null ],
@@ -417,124 +429,117 @@ var lots =
         [ "<span class=\"tt\">LOT-89</span> — Dons, objets magiques et consommables de Tanares", "roadmap.html#lot-89", null ],
         [ "<span class=\"tt\">LOT-90</span> — Le plan pénombral", "roadmap.html#lot-90", null ]
       ] ],
-      [ "6. Ordre d'exécution", "roadmap.html#autotoc_md774", [
-        [ "La règle", "roadmap.html#autotoc_md775", null ],
-        [ "Où lire la suite", "roadmap.html#autotoc_md776", null ],
-        [ "Le regroupement d'intention", "roadmap.html#autotoc_md777", null ],
-        [ "Ce que l'ordre a révélé", "roadmap.html#autotoc_md778", null ],
-        [ "Le chemin critique jusqu'au <em>vertical slice</em>", "roadmap.html#autotoc_md779", null ],
-        [ "Le graphe des dépendances", "roadmap.html#autotoc_md780", null ],
-        [ "Récapitulatif : qui dépend de qui", "roadmap.html#autotoc_md781", null ]
+      [ "6. Ordre d'exécution", "roadmap.html#autotoc_md784", [
+        [ "La règle", "roadmap.html#autotoc_md785", null ],
+        [ "Où lire la suite", "roadmap.html#autotoc_md786", null ],
+        [ "Le regroupement d'intention", "roadmap.html#autotoc_md787", null ],
+        [ "Ce que l'ordre a révélé", "roadmap.html#autotoc_md788", null ],
+        [ "Le chemin critique jusqu'au <em>vertical slice</em>", "roadmap.html#autotoc_md789", null ],
+        [ "Le graphe des dépendances", "roadmap.html#autotoc_md790", null ],
+        [ "Récapitulatif : qui dépend de qui", "roadmap.html#autotoc_md791", null ]
       ] ],
-      [ "7. Arborescence cible", "roadmap.html#autotoc_md783", null ],
-      [ "8. Décisions prises et questions restantes", "roadmap.html#autotoc_md785", [
-        [ "Tranché", "roadmap.html#autotoc_md786", null ],
-        [ "Écarté à la relecture des livres", "roadmap.html#autotoc_md787", null ],
-        [ "À trancher", "roadmap.html#autotoc_md788", null ]
+      [ "7. Arborescence cible", "roadmap.html#autotoc_md793", null ],
+      [ "8. Décisions prises et questions restantes", "roadmap.html#autotoc_md795", [
+        [ "Tranché", "roadmap.html#autotoc_md796", null ],
+        [ "Écarté à la relecture des livres", "roadmap.html#autotoc_md797", null ],
+        [ "À trancher", "roadmap.html#autotoc_md798", null ]
       ] ],
-      [ "9. Ce que l'audit a révélé sur l'état du dépôt", "roadmap.html#autotoc_md790", [
-        [ "9.1 Cinq familles d'exigences sont fantômes — le lint le dit désormais", "roadmap.html#autotoc_md791", null ],
-        [ "9.2 Six mécaniques étaient consommées sans être produites", "roadmap.html#autotoc_md792", null ],
-        [ "9.3 L'allègement est le geste à plus fort levier du programme", "roadmap.html#autotoc_md793", null ],
-        [ "9.4 Le socle technique tient, mais trois préconditions manquent", "roadmap.html#autotoc_md794", null ],
-        [ "9.5 La collision de numéros est bloquante, et bien plus large qu'estimé", "roadmap.html#autotoc_md795", null ],
-        [ "9.6 Second audit, 14 septembre 2026 : ce qui avait dérivé en dix jours", "roadmap.html#autotoc_md796", null ]
+      [ "9. Ce que l'audit a révélé sur l'état du dépôt", "roadmap.html#autotoc_md800", [
+        [ "9.1 Cinq familles d'exigences sont fantômes — le lint le dit désormais", "roadmap.html#autotoc_md801", null ],
+        [ "9.2 Six mécaniques étaient consommées sans être produites", "roadmap.html#autotoc_md802", null ],
+        [ "9.3 L'allègement est le geste à plus fort levier du programme", "roadmap.html#autotoc_md803", null ],
+        [ "9.4 Le socle technique tient, mais trois préconditions manquent", "roadmap.html#autotoc_md804", null ],
+        [ "9.5 La collision de numéros est bloquante, et bien plus large qu'estimé", "roadmap.html#autotoc_md805", null ],
+        [ "9.6 Second audit, 14 septembre 2026 : ce qui avait dérivé en dix jours", "roadmap.html#autotoc_md806", null ]
       ] ],
-      [ "10. Ce qu'il faut anticiper, tant que rien n'est construit", "roadmap.html#autotoc_md798", null ],
-      [ "11. Les lots <span class=\"tt\">LOT-09</span> à <span class=\"tt\">LOT-29</span>", "roadmap.html#autotoc_md800", [
+      [ "10. Ce qu'il faut anticiper, tant que rien n'est construit", "roadmap.html#autotoc_md808", null ],
+      [ "11. Les lots <span class=\"tt\">LOT-09</span> à <span class=\"tt\">LOT-29</span>", "roadmap.html#autotoc_md810", [
         [ "LOT-09 — Graphe de cartes et transitions", "roadmap.html#lot-09", [
-          [ "Objectif", "roadmap.html#autotoc_md801", null ],
-          [ "Le problème", "roadmap.html#autotoc_md802", null ],
-          [ "Périmètre", "roadmap.html#autotoc_md803", null ],
-          [ "Exigences couvertes", "roadmap.html#autotoc_md804", null ],
-          [ "Critères d'acceptation", "roadmap.html#autotoc_md805", null ]
+          [ "Objectif", "roadmap.html#autotoc_md811", null ],
+          [ "Le problème", "roadmap.html#autotoc_md812", null ],
+          [ "Périmètre", "roadmap.html#autotoc_md813", null ],
+          [ "Exigences couvertes", "roadmap.html#autotoc_md814", null ],
+          [ "Critères d'acceptation", "roadmap.html#autotoc_md815", null ]
         ] ],
         [ "LOT-11 — Éditeur multi-couches et placement d'entités", "roadmap.html#lot-11", [
-          [ "Objectif", "roadmap.html#autotoc_md806", null ],
-          [ "La décision préalable", "roadmap.html#autotoc_md807", null ],
-          [ "Ce qui est déjà là", "roadmap.html#autotoc_md808", null ],
-          [ "Périmètre", "roadmap.html#autotoc_md809", null ],
-          [ "La contrainte à rendre visible ici", "roadmap.html#autotoc_md810", null ],
-          [ "Exigences couvertes", "roadmap.html#autotoc_md811", null ],
-          [ "Critères d'acceptation", "roadmap.html#autotoc_md812", null ]
+          [ "Objectif", "roadmap.html#autotoc_md816", null ],
+          [ "La décision préalable", "roadmap.html#autotoc_md817", null ],
+          [ "Ce qui est déjà là", "roadmap.html#autotoc_md818", null ],
+          [ "Périmètre", "roadmap.html#autotoc_md819", null ],
+          [ "La contrainte à rendre visible ici", "roadmap.html#autotoc_md820", null ],
+          [ "Exigences couvertes", "roadmap.html#autotoc_md821", null ],
+          [ "Critères d'acceptation", "roadmap.html#autotoc_md822", null ]
         ] ],
         [ "LOT-16 — Quêtes et drapeaux de monde", "roadmap.html#lot-16", [
-          [ "Objectif", "roadmap.html#autotoc_md813", null ],
-          [ "Périmètre", "roadmap.html#autotoc_md814", null ],
-          [ "Note de conception", "roadmap.html#autotoc_md815", null ],
-          [ "Exigences couvertes", "roadmap.html#autotoc_md816", null ],
-          [ "Critères d'acceptation", "roadmap.html#autotoc_md817", null ]
+          [ "Objectif", "roadmap.html#autotoc_md823", null ],
+          [ "Périmètre", "roadmap.html#autotoc_md824", null ],
+          [ "Note de conception", "roadmap.html#autotoc_md825", null ],
+          [ "Exigences couvertes", "roadmap.html#autotoc_md826", null ],
+          [ "Critères d'acceptation", "roadmap.html#autotoc_md827", null ]
         ] ],
         [ "LOT-17 — Sauvegarde riche", "roadmap.html#lot-17", [
-          [ "Objectif", "roadmap.html#autotoc_md818", null ],
-          [ "Le problème", "roadmap.html#autotoc_md819", null ],
-          [ "Périmètre", "roadmap.html#autotoc_md820", null ],
-          [ "Règles de format", "roadmap.html#autotoc_md821", null ],
-          [ "Exigences couvertes", "roadmap.html#autotoc_md822", null ],
-          [ "Critères d'acceptation", "roadmap.html#autotoc_md823", null ]
-        ] ],
-        [ "LOT-22 — Portée, ligne de vue et zones d'effet", "roadmap.html#lot-22", [
-          [ "Objectif", "roadmap.html#autotoc_md824", null ],
-          [ "Périmètre", "roadmap.html#autotoc_md825", null ],
-          [ "L'invariant à tester exhaustivement", "roadmap.html#autotoc_md826", null ],
-          [ "Exigences couvertes", "roadmap.html#autotoc_md827", null ],
-          [ "Critères d'acceptation", "roadmap.html#autotoc_md828", null ]
+          [ "Objectif", "roadmap.html#autotoc_md828", null ],
+          [ "Le problème", "roadmap.html#autotoc_md829", null ],
+          [ "Périmètre", "roadmap.html#autotoc_md830", null ],
+          [ "Règles de format", "roadmap.html#autotoc_md831", null ],
+          [ "Exigences couvertes", "roadmap.html#autotoc_md832", null ],
+          [ "Critères d'acceptation", "roadmap.html#autotoc_md833", null ]
         ] ],
         [ "LOT-23 — IA tactique ennemie", "roadmap.html#lot-23", [
-          [ "Objectif", "roadmap.html#autotoc_md829", null ],
-          [ "La décision de conception", "roadmap.html#autotoc_md830", null ],
-          [ "Périmètre", "roadmap.html#autotoc_md831", null ],
-          [ "Les deux défauts à prévenir", "roadmap.html#autotoc_md832", null ],
-          [ "Exigences couvertes", "roadmap.html#autotoc_md833", null ],
-          [ "Critères d'acceptation", "roadmap.html#autotoc_md834", null ]
-        ] ],
-        [ "LOT-24 — IHM de combat", "roadmap.html#lot-24", [
-          [ "Objectif", "roadmap.html#autotoc_md835", null ],
+          [ "Objectif", "roadmap.html#autotoc_md834", null ],
+          [ "La décision de conception", "roadmap.html#autotoc_md835", null ],
           [ "Périmètre", "roadmap.html#autotoc_md836", null ],
-          [ "Le critère qui est souvent oublié", "roadmap.html#autotoc_md837", null ],
+          [ "Les deux défauts à prévenir", "roadmap.html#autotoc_md837", null ],
           [ "Exigences couvertes", "roadmap.html#autotoc_md838", null ],
           [ "Critères d'acceptation", "roadmap.html#autotoc_md839", null ]
         ] ],
-        [ "LOT-25 — Sorts et capacités de classe", "roadmap.html#lot-25", [
+        [ "LOT-24 — IHM de combat", "roadmap.html#lot-24", [
           [ "Objectif", "roadmap.html#autotoc_md840", null ],
           [ "Périmètre", "roadmap.html#autotoc_md841", null ],
-          [ "Note de conception", "roadmap.html#autotoc_md842", null ],
+          [ "Le critère qui est souvent oublié", "roadmap.html#autotoc_md842", null ],
           [ "Exigences couvertes", "roadmap.html#autotoc_md843", null ],
           [ "Critères d'acceptation", "roadmap.html#autotoc_md844", null ]
         ] ],
-        [ "LOT-26 — Butin, marchands, économie", "roadmap.html#lot-26", [
+        [ "LOT-25 — Sorts et capacités de classe", "roadmap.html#lot-25", [
           [ "Objectif", "roadmap.html#autotoc_md845", null ],
           [ "Périmètre", "roadmap.html#autotoc_md846", null ],
-          [ "Le piège du tirage", "roadmap.html#autotoc_md847", null ],
+          [ "Note de conception", "roadmap.html#autotoc_md847", null ],
           [ "Exigences couvertes", "roadmap.html#autotoc_md848", null ],
           [ "Critères d'acceptation", "roadmap.html#autotoc_md849", null ]
         ] ],
-        [ "LOT-27 — Contenu du <em>vertical slice</em>", "roadmap.html#lot-27", [
+        [ "LOT-26 — Butin, marchands, économie", "roadmap.html#lot-26", [
           [ "Objectif", "roadmap.html#autotoc_md850", null ],
           [ "Périmètre", "roadmap.html#autotoc_md851", null ],
-          [ "Outillage", "roadmap.html#autotoc_md852", null ],
+          [ "Le piège du tirage", "roadmap.html#autotoc_md852", null ],
           [ "Exigences couvertes", "roadmap.html#autotoc_md853", null ],
           [ "Critères d'acceptation", "roadmap.html#autotoc_md854", null ]
         ] ],
-        [ "LOT-28 — Audio, effets et version <span class=\"tt\">0.0.1</span>", "roadmap.html#lot-28", [
+        [ "LOT-27 — Contenu du <em>vertical slice</em>", "roadmap.html#lot-27", [
           [ "Objectif", "roadmap.html#autotoc_md855", null ],
-          [ "Périmètre", "roadmap.html#autotoc_md856", [
-            [ "Audio", "roadmap.html#autotoc_md857", null ],
-            [ "Effets", "roadmap.html#autotoc_md858", null ],
-            [ "Équilibrage", "roadmap.html#autotoc_md859", null ],
-            [ "Clôture", "roadmap.html#autotoc_md860", null ]
+          [ "Périmètre", "roadmap.html#autotoc_md856", null ],
+          [ "Outillage", "roadmap.html#autotoc_md857", null ],
+          [ "Exigences couvertes", "roadmap.html#autotoc_md858", null ],
+          [ "Critères d'acceptation", "roadmap.html#autotoc_md859", null ]
+        ] ],
+        [ "LOT-28 — Audio, effets et version <span class=\"tt\">0.0.1</span>", "roadmap.html#lot-28", [
+          [ "Objectif", "roadmap.html#autotoc_md860", null ],
+          [ "Périmètre", "roadmap.html#autotoc_md861", [
+            [ "Audio", "roadmap.html#autotoc_md862", null ],
+            [ "Effets", "roadmap.html#autotoc_md863", null ],
+            [ "Équilibrage", "roadmap.html#autotoc_md864", null ],
+            [ "Clôture", "roadmap.html#autotoc_md865", null ]
           ] ],
-          [ "Note de méthode", "roadmap.html#autotoc_md861", null ],
-          [ "Exigences couvertes", "roadmap.html#autotoc_md862", null ],
-          [ "Critères d'acceptation", "roadmap.html#autotoc_md863", null ]
+          [ "Note de méthode", "roadmap.html#autotoc_md866", null ],
+          [ "Exigences couvertes", "roadmap.html#autotoc_md867", null ],
+          [ "Critères d'acceptation", "roadmap.html#autotoc_md868", null ]
         ] ],
         [ "LOT-29 — Groupe de quatre personnages", "roadmap.html#lot-29", [
-          [ "Objectif", "roadmap.html#autotoc_md864", null ],
-          [ "Pourquoi ce lot est un lot d'<b>ajout</b>, pas une refonte", "roadmap.html#autotoc_md865", null ],
-          [ "Périmètre", "roadmap.html#autotoc_md866", null ],
-          [ "Le point délicat", "roadmap.html#autotoc_md867", null ],
-          [ "Exigences couvertes", "roadmap.html#autotoc_md868", null ],
-          [ "Critères d'acceptation", "roadmap.html#autotoc_md869", null ]
+          [ "Objectif", "roadmap.html#autotoc_md869", null ],
+          [ "Pourquoi ce lot est un lot d'<b>ajout</b>, pas une refonte", "roadmap.html#autotoc_md870", null ],
+          [ "Périmètre", "roadmap.html#autotoc_md871", null ],
+          [ "Le point délicat", "roadmap.html#autotoc_md872", null ],
+          [ "Exigences couvertes", "roadmap.html#autotoc_md873", null ],
+          [ "Critères d'acceptation", "roadmap.html#autotoc_md874", null ]
         ] ]
       ] ]
     ] ]

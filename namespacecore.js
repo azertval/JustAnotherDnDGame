@@ -2,6 +2,7 @@ var namespacecore =
 [
     [ "ActionResource", "structcore_1_1ActionResource.html", "structcore_1_1ActionResource" ],
     [ "ActionEconomy", "classcore_1_1ActionEconomy.html", "classcore_1_1ActionEconomy" ],
+    [ "AreaOfEffect", "structcore_1_1AreaOfEffect.html", "structcore_1_1AreaOfEffect" ],
     [ "ArenaEntryPoint", "structcore_1_1ArenaEntryPoint.html", "structcore_1_1ArenaEntryPoint" ],
     [ "HeroicMark", "structcore_1_1HeroicMark.html", "structcore_1_1HeroicMark" ],
     [ "HeroicMarkCatalog", "structcore_1_1HeroicMarkCatalog.html", "structcore_1_1HeroicMarkCatalog" ],
@@ -52,6 +53,8 @@ var namespacecore =
     [ "Encounter", "structcore_1_1Encounter.html", "structcore_1_1Encounter" ],
     [ "EncounterCatalog", "structcore_1_1EncounterCatalog.html", "structcore_1_1EncounterCatalog" ],
     [ "CombatantPlacement", "structcore_1_1CombatantPlacement.html", "structcore_1_1CombatantPlacement" ],
+    [ "GridPoint", "structcore_1_1GridPoint.html", "structcore_1_1GridPoint" ],
+    [ "Footprint", "structcore_1_1Footprint.html", "structcore_1_1Footprint" ],
     [ "Mover", "structcore_1_1Mover.html", "structcore_1_1Mover" ],
     [ "Path", "structcore_1_1Path.html", "structcore_1_1Path" ],
     [ "ReachableArea", "classcore_1_1ReachableArea.html", "classcore_1_1ReachableArea" ],
@@ -204,11 +207,19 @@ var namespacecore =
       [ "Wisdom", "namespacecore.html#a97f31c7914a6cfc54cc026a77da58fd1a646f0a01b685558b975b5cd3f5b36241", null ],
       [ "Charisma", "namespacecore.html#a97f31c7914a6cfc54cc026a77da58fd1aa47211f258a8e0172523525035c743af", null ]
     ] ],
+    [ "AreaShape", "namespacecore.html#ad490fa58f4db55cab180bf278e3db721", [
+      [ "Cone", "namespacecore.html#ad490fa58f4db55cab180bf278e3db721acd2c8bc6e5f1ea17c918ccaf89660104", null ],
+      [ "Cube", "namespacecore.html#ad490fa58f4db55cab180bf278e3db721aa296104f0c61a9cf39f4824d05315e12", null ],
+      [ "Cylinder", "namespacecore.html#ad490fa58f4db55cab180bf278e3db721a2ec2c2961c7ce5a114d969c1f562a563", null ],
+      [ "Line", "namespacecore.html#ad490fa58f4db55cab180bf278e3db721a4803e6b9e63dabf04de980788d6a13c4", null ],
+      [ "Sphere", "namespacecore.html#ad490fa58f4db55cab180bf278e3db721ab7095f057db3fefa7325ad93a04e14fd", null ]
+    ] ],
     [ "ArenaActionResult", "namespacecore.html#ac011cdb67f4c31ececbaaceeace4cbed", [
       [ "Done", "namespacecore.html#ac011cdb67f4c31ececbaaceeace4cbedaf92965e2c8a7afb3c1b9a5c09a263636", null ],
       [ "NoActiveTurn", "namespacecore.html#ac011cdb67f4c31ececbaaceeace4cbeda8cb45f47274f0e76f8d60401f43b0fb7", null ],
       [ "NoAction", "namespacecore.html#ac011cdb67f4c31ececbaaceeace4cbeda1e601ea653db1c729c9ee5746730fabe", null ],
       [ "OutOfReach", "namespacecore.html#ac011cdb67f4c31ececbaaceeace4cbedab3e0302fd4814646ffa6de166cddc38a", null ],
+      [ "TotalCover", "namespacecore.html#ac011cdb67f4c31ececbaaceeace4cbeda62da737bbf89f486e90024dc099e2bc4", null ],
       [ "InvalidTarget", "namespacecore.html#ac011cdb67f4c31ececbaaceeace4cbeda6f923f50457fdf3e12863922643f9a71", null ],
       [ "NoAttack", "namespacecore.html#ac011cdb67f4c31ececbaaceeace4cbedafd717fc56e019faf5bdeb3429d6eb17d", null ]
     ] ],
@@ -306,6 +317,12 @@ var namespacecore =
       [ "Round", "namespacecore.html#a9b42f3467a678d16bee619bc34ddf4e2ab7f41fc1412ad2ee75e9b2635d3b9d5c", null ],
       [ "Encounter", "namespacecore.html#a9b42f3467a678d16bee619bc34ddf4e2ad1e9f9f891de8f9a655739a01fbf68f0", null ],
       [ "Day", "namespacecore.html#a9b42f3467a678d16bee619bc34ddf4e2a03727ac48595a24daed975559c944a44", null ]
+    ] ],
+    [ "Cover", "namespacecore.html#a0ddd67c0966fb31bf8c2de44a63d6999", [
+      [ "None", "namespacecore.html#a0ddd67c0966fb31bf8c2de44a63d6999a6adf97f83acf6453d4a6a4b1070f3754", null ],
+      [ "Half", "namespacecore.html#a0ddd67c0966fb31bf8c2de44a63d6999ac48615a1bc4197056d522af276aa5a85", null ],
+      [ "ThreeQuarters", "namespacecore.html#a0ddd67c0966fb31bf8c2de44a63d6999a850728c829c818ee8538216e8ad2770d", null ],
+      [ "Total", "namespacecore.html#a0ddd67c0966fb31bf8c2de44a63d6999a96b0141273eabab320119c467cdcaf17", null ]
     ] ],
     [ "CreatureSize", "namespacecore.html#ae6c6faeaa28aa7b90280f4dc39237204", [
       [ "Tiny", "namespacecore.html#ae6c6faeaa28aa7b90280f4dc39237204a383c05bda6f030a44990d354b24f3338", null ],
@@ -494,6 +511,12 @@ var namespacecore =
       [ "Advantage", "namespacecore.html#aff494cc4070ea4489c3d5ee57178f7c9a1b2430d20c750dada9aaaed48b4eb8f1", null ],
       [ "Disadvantage", "namespacecore.html#aff494cc4070ea4489c3d5ee57178f7c9ae755d083f9085a585ef791919be5a004", null ]
     ] ],
+    [ "TargetCheck", "namespacecore.html#a1c2689aacd9707ef3d8c556e9f2bf840", [
+      [ "Valid", "namespacecore.html#a1c2689aacd9707ef3d8c556e9f2bf840a3ac705f2acd51a4613f9188c05c91d0d", null ],
+      [ "NotOnGrid", "namespacecore.html#a1c2689aacd9707ef3d8c556e9f2bf840aaba0e4b47c2d27f1f4cf098433b0b4b5", null ],
+      [ "OutOfReach", "namespacecore.html#a1c2689aacd9707ef3d8c556e9f2bf840ab3e0302fd4814646ffa6de166cddc38a", null ],
+      [ "TotalCover", "namespacecore.html#a1c2689aacd9707ef3d8c556e9f2bf840a62da737bbf89f486e90024dc099e2bc4", null ]
+    ] ],
     [ "TileType", "namespacecore.html#ace99a1be913e6294e42e9ebb145eb875", [
       [ "Empty", "namespacecore.html#ace99a1be913e6294e42e9ebb145eb875ace2c8aed9c2fa0cfbed56cbda4d8bf07", null ],
       [ "Solid", "namespacecore.html#ace99a1be913e6294e42e9ebb145eb875ae41480b6bbfbf7407974a88d3d34f4fa", null ],
@@ -527,6 +550,7 @@ var namespacecore =
     [ "actsBefore", "namespacecore.html#a5c371a295ae26906048b92ab568077cc", null ],
     [ "addToBackpack", "namespacecore.html#a6f489a122d9d233c3bdbe93d7e8469a7", null ],
     [ "advanceAnimation", "namespacecore.html#a209ceac8415ddadd8463746b94934eed", null ],
+    [ "affectedCells", "namespacecore.html#a5f3db4ca6c004505a376ed726e7770b1", null ],
     [ "aimedCell", "namespacecore.html#a241c2143642b12472d6bddb921dac0fa", null ],
     [ "allAbilities", "namespacecore.html#a309ca7d25e940cb02037278fe41109d1", null ],
     [ "allConditions", "namespacecore.html#aff7f41bc814d9fd4f6c0bc0f8e85e93f", null ],
@@ -534,6 +558,8 @@ var namespacecore =
     [ "allDamageTypes", "namespacecore.html#ab77f2b5d3dc27e52a6907fdc09f6daa4", null ],
     [ "allMagicSchools", "namespacecore.html#aada0fb2093fbbb75a0f9c75e28336c8d", null ],
     [ "approximatelyEqual", "namespacecore.html#a69640dd3c9f3f8778a7c7621839c3794", null ],
+    [ "areaTemplate", "namespacecore.html#ab485942990fc789c20ed66a6d6b3fb7f", null ],
+    [ "areaTilesFromMeters", "namespacecore.html#a12fd31b453634d9f7241976e779f9d84", null ],
     [ "arenaEntryPoints", "namespacecore.html#a91e905d2d65ad1c9a0916752b0fd9b95", null ],
     [ "armorCategoryName", "namespacecore.html#a8f90cc0f92ab13611bbb2c2730e4efdd", null ],
     [ "armorClassFor", "namespacecore.html#aec44b80878262388830e480b169c6b70", null ],
@@ -546,7 +572,16 @@ var namespacecore =
     [ "cameraFramingModeName", "namespacecore.html#a0d231b385924c096dc5f94d17639e679", null ],
     [ "carriedWeightGrams", "namespacecore.html#acdf25cd5af39e26e10f832898b4f011b", null ],
     [ "casterProgressionName", "namespacecore.html#aedf7842b8c8c84ef5f6445c731072dfc", null ],
+    [ "centerOf", "namespacecore.html#aad39b76c276fcbb0b8c5244b4ce4b3cf", null ],
+    [ "checkTarget", "namespacecore.html#a7365293652d3b9980a5d196d0ada9400", null ],
+    [ "combatantsInArea", "namespacecore.html#a4dfe01f34b52d84d20c9c6785eb464aa", null ],
     [ "conditionName", "namespacecore.html#a987d60e4787ed087f78661162334cbdf", null ],
+    [ "cornerOf", "namespacecore.html#ac3263c16f8b0e7a86c20b9e412e43ae9", null ],
+    [ "coverBetween", "namespacecore.html#a9ca481bd627a473f4cddc6f5e14dd971", null ],
+    [ "coverBonus", "namespacecore.html#aac10188449066631157dad14349a01eb", null ],
+    [ "coverFrom", "namespacecore.html#a870aa619bde747a0f4d7be56b323ebc3", null ],
+    [ "coverFromPoint", "namespacecore.html#aebf827caa223eb1215f8613ffab5263e", null ],
+    [ "coverLabel", "namespacecore.html#a5d1d182841a7266b06a3220835bd1144", null ],
     [ "creatureSizeName", "namespacecore.html#a2dd643ce9019af55943b4bf9a9ad28c6", null ],
     [ "crossedBelow", "namespacecore.html#a7a167c903e311c5d67c0dedf3292eaa5", null ],
     [ "currentTimestamp", "namespacecore.html#a485afe76bcf660ec5db7d91f924f87a4", null ],
@@ -584,8 +619,12 @@ var namespacecore =
     [ "gridDistanceFrom", "namespacecore.html#ad19e2dfeb2158624471c2a07e5a776e6", null ],
     [ "handleAssertionFailure", "namespacecore.html#a7278ef05514b62dcd5241984197dfb23", null ],
     [ "hasFlag", "namespacecore.html#a68ce34289da15bf414434daa7bda435c", null ],
+    [ "hasLineOfSight", "namespacecore.html#aba1d28cef88c61f722b2b034a8415f10", null ],
+    [ "hasLineOfSight", "namespacecore.html#aa817dba16bcb7105e025a537da633667", null ],
+    [ "hasProperty", "namespacecore.html#ad0fe834d01c603c0df43af69133dc1e3", null ],
     [ "inReach", "namespacecore.html#a58f349d22c971141da56b91273d5d29d", null ],
     [ "interact", "namespacecore.html#ade4da2a70cde1d986371a29343746637", null ],
+    [ "isSightClear", "namespacecore.html#aef818c5b82795fc59c0d259e968762cd", null ],
     [ "isSolid", "namespacecore.html#a105a7f2ca0f25e01231a9bc1bbc36ebb", null ],
     [ "isValidAssetKey", "namespacecore.html#af313492482f82ad2391f0da874bfe2a7", null ],
     [ "isValidPlaneDensity", "namespacecore.html#a0f61acebed3678706e825f972217a233", null ],
@@ -626,6 +665,7 @@ var namespacecore =
     [ "operator-", "namespacecore.html#aabe0f47eb63d4391e7e95509fb7ff6b0", null ],
     [ "operator/", "namespacecore.html#ab931b1596f60176fe703b83007f27a12", null ],
     [ "operator==", "namespacecore.html#a78fa4a986a900f73517454f7c1eff774", null ],
+    [ "operator==", "namespacecore.html#aac10767b87c9d2dcc3932edb226563b1", null ],
     [ "operator==", "namespacecore.html#a02b4ac39e4a1c16efbe9ff53132d9a95", null ],
     [ "parseAbility", "namespacecore.html#a6faed4224d505ed620516937e3a019dd", null ],
     [ "parseArmorCategory", "namespacecore.html#ac58652f079d9fa10658f52da30750d24", null ],
@@ -673,6 +713,7 @@ var namespacecore =
     [ "stableAssetHash", "namespacecore.html#a22e0e2c24dd3236fe3a81f89f795fee2", null ],
     [ "sweepAabb", "namespacecore.html#a4ca635df367666624247837feb2af5a5", null ],
     [ "sweepAabbVsAabb", "namespacecore.html#a0019562e8e9658def020086ee4d49425", null ],
+    [ "thrownAttackFor", "namespacecore.html#acc72525dbecb690d39a4f7ebe97423b5", null ],
     [ "tilesFromMeters", "namespacecore.html#a918b595ef74492bed349a6bbf82a9f64", null ],
     [ "tileTypeName", "namespacecore.html#a43329559445927c3a2d55531287292d6", null ],
     [ "toString", "namespacecore.html#a44fc8d654b0e55558cf5e5a4258b5081", null ],

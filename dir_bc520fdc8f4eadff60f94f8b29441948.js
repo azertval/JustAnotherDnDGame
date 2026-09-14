@@ -2,6 +2,8 @@ var dir_bc520fdc8f4eadff60f94f8b29441948 =
 [
     [ "ActionEconomy.cpp", "ActionEconomy_8cpp.html", null ],
     [ "ActionEconomy.h", "ActionEconomy_8h.html", "ActionEconomy_8h" ],
+    [ "AreaOfEffect.cpp", "AreaOfEffect_8cpp.html", "AreaOfEffect_8cpp" ],
+    [ "AreaOfEffect.h", "AreaOfEffect_8h.html", "AreaOfEffect_8h" ],
     [ "Arena.cpp", "Arena_8cpp.html", "Arena_8cpp" ],
     [ "Arena.h", "Arena_8h.html", "Arena_8h" ],
     [ "Attack.cpp", "Attack_8cpp.html", "Attack_8cpp" ],
@@ -18,6 +20,8 @@ var dir_bc520fdc8f4eadff60f94f8b29441948 =
     [ "Damage.h", "Damage_8h.html", "Damage_8h" ],
     [ "Encounter.cpp", "Encounter_8cpp.html", "Encounter_8cpp" ],
     [ "Encounter.h", "Encounter_8h.html", "Encounter_8h" ],
+    [ "LineOfSight.cpp", "LineOfSight_8cpp.html", "LineOfSight_8cpp" ],
+    [ "LineOfSight.h", "LineOfSight_8h.html", "LineOfSight_8h" ],
     [ "Pathfinding.cpp", "Pathfinding_8cpp.html", "Pathfinding_8cpp" ],
     [ "Pathfinding.h", "Pathfinding_8h.html", "Pathfinding_8h" ],
     [ "TurnOrder.cpp", "TurnOrder_8cpp.html", "TurnOrder_8cpp" ],

@@ -102,6 +102,8 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une ressource du tour : ce qu'on en reçoit à chaque tour, et ce qu'il en reste.  <a href="structcore_1_1ActionResource.html#details">More...</a><br /></td></tr>
 <tr class="memitem:ActionEconomy" id="r_ActionEconomy"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classcore_1_1ActionEconomy.html">ActionEconomy</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">L'économie d'action d'un combattant : une <b>liste</b> de ressources, pas trois booléens.  <a href="classcore_1_1ActionEconomy.html#details">More...</a><br /></td></tr>
+<tr class="memitem:AreaOfEffect" id="r_AreaOfEffect"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1AreaOfEffect.html">AreaOfEffect</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une zone posée sur la grille.  <a href="structcore_1_1AreaOfEffect.html#details">More...</a><br /></td></tr>
 <tr class="memitem:ArenaEntryPoint" id="r_ArenaEntryPoint"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1ArenaEntryPoint.html">ArenaEntryPoint</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un point d'entrée de l'arène : une case, un camp, un rang d'appel.  <a href="structcore_1_1ArenaEntryPoint.html#details">More...</a><br /></td></tr>
 <tr class="memitem:HeroicMark" id="r_HeroicMark"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1HeroicMark.html">HeroicMark</a></td></tr>
@@ -202,6 +204,10 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le catalogue des rencontres, et ce qui n'a pas pu être lu.  <a href="structcore_1_1EncounterCatalog.html#details">More...</a><br /></td></tr>
 <tr class="memitem:CombatantPlacement" id="r_CombatantPlacement"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1CombatantPlacement.html">CombatantPlacement</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un combattant <b>placé</b> : sa créature, et sa case sur la carte.  <a href="structcore_1_1CombatantPlacement.html#details">More...</a><br /></td></tr>
+<tr class="memitem:GridPoint" id="r_GridPoint"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1GridPoint.html">GridPoint</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un point de la grille, en <b>demi-cases</b> : la case (c, r) va de (2c, 2r) à (2c+2, 2r+2).  <a href="structcore_1_1GridPoint.html#details">More...</a><br /></td></tr>
+<tr class="memitem:Footprint" id="r_Footprint"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1Footprint.html">Footprint</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une emprise carrée : coin haut-gauche et côté, en cases.  <a href="structcore_1_1Footprint.html#details">More...</a><br /></td></tr>
 <tr class="memitem:Mover" id="r_Mover"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1Mover.html">Mover</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Qui se déplace, comment, et à travers qui.  <a href="structcore_1_1Mover.html#details">More...</a><br /></td></tr>
 <tr class="memitem:Path" id="r_Path"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1Path.html">Path</a></td></tr>
@@ -495,13 +501,24 @@ Typedefs</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-enum-members" class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
+<tr class="memitem:ad490fa58f4db55cab180bf278e3db721" id="r_ad490fa58f4db55cab180bf278e3db721"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#ad490fa58f4db55cab180bf278e3db721">AreaShape</a> : std::uint8_t { <br />
+&#160;&#160;<a class="el" href="#ad490fa58f4db55cab180bf278e3db721acd2c8bc6e5f1ea17c918ccaf89660104">Cone</a>
+, <a class="el" href="#ad490fa58f4db55cab180bf278e3db721aa296104f0c61a9cf39f4824d05315e12">Cube</a>
+, <a class="el" href="#ad490fa58f4db55cab180bf278e3db721a2ec2c2961c7ce5a114d969c1f562a563">Cylinder</a>
+, <a class="el" href="#ad490fa58f4db55cab180bf278e3db721a4803e6b9e63dabf04de980788d6a13c4">Line</a>
+, <br />
+&#160;&#160;<a class="el" href="#ad490fa58f4db55cab180bf278e3db721ab7095f057db3fefa7325ad93a04e14fd">Sphere</a>
+<br />
+ }</td></tr>
+<tr class="memdesc:ad490fa58f4db55cab180bf278e3db721"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les cinq formes du Manuel.  <a href="#ad490fa58f4db55cab180bf278e3db721">More...</a><br /></td></tr>
 <tr class="memitem:ac011cdb67f4c31ececbaaceeace4cbed" id="r_ac011cdb67f4c31ececbaaceeace4cbed"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#ac011cdb67f4c31ececbaaceeace4cbed">ArenaActionResult</a> : std::uint8_t { <br />
 &#160;&#160;<a class="el" href="#ac011cdb67f4c31ececbaaceeace4cbedaf92965e2c8a7afb3c1b9a5c09a263636">Done</a>
 , <a class="el" href="#ac011cdb67f4c31ececbaaceeace4cbeda8cb45f47274f0e76f8d60401f43b0fb7">NoActiveTurn</a>
 , <a class="el" href="#ac011cdb67f4c31ececbaaceeace4cbeda1e601ea653db1c729c9ee5746730fabe">NoAction</a>
 , <a class="el" href="#ac011cdb67f4c31ececbaaceeace4cbedab3e0302fd4814646ffa6de166cddc38a">OutOfReach</a>
 , <br />
-&#160;&#160;<a class="el" href="#ac011cdb67f4c31ececbaaceeace4cbeda6f923f50457fdf3e12863922643f9a71">InvalidTarget</a>
+&#160;&#160;<a class="el" href="#ac011cdb67f4c31ececbaaceeace4cbeda62da737bbf89f486e90024dc099e2bc4">TotalCover</a>
+, <a class="el" href="#ac011cdb67f4c31ececbaaceeace4cbeda6f923f50457fdf3e12863922643f9a71">InvalidTarget</a>
 , <a class="el" href="#ac011cdb67f4c31ececbaaceeace4cbedafd717fc56e019faf5bdeb3429d6eb17d">NoAttack</a>
 <br />
  }</td></tr>
@@ -510,6 +527,12 @@ Enumerations</h2></td></tr>
 , <a class="el" href="#ac7c907f80d9ec08c831616af9902aae3ac2f329a17c18a701dbe1e96e03858728">Ranged</a>
  }</td></tr>
 <tr class="memdesc:ac7c907f80d9ec08c831616af9902aae3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Au corps à corps, ou à distance.  <a href="#ac7c907f80d9ec08c831616af9902aae3">More...</a><br /></td></tr>
+<tr class="memitem:a1c2689aacd9707ef3d8c556e9f2bf840" id="r_a1c2689aacd9707ef3d8c556e9f2bf840"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#a1c2689aacd9707ef3d8c556e9f2bf840">TargetCheck</a> : std::uint8_t { <a class="el" href="#a1c2689aacd9707ef3d8c556e9f2bf840a3ac705f2acd51a4613f9188c05c91d0d">Valid</a>
+, <a class="el" href="#a1c2689aacd9707ef3d8c556e9f2bf840aaba0e4b47c2d27f1f4cf098433b0b4b5">NotOnGrid</a>
+, <a class="el" href="#a1c2689aacd9707ef3d8c556e9f2bf840ab3e0302fd4814646ffa6de166cddc38a">OutOfReach</a>
+, <a class="el" href="#a1c2689aacd9707ef3d8c556e9f2bf840a62da737bbf89f486e90024dc099e2bc4">TotalCover</a>
+ }</td></tr>
+<tr class="memdesc:a1c2689aacd9707ef3d8c556e9f2bf840"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ce qui rend une cible attaquable, ou ce qui l'en empêche.  <a href="#a1c2689aacd9707ef3d8c556e9f2bf840">More...</a><br /></td></tr>
 <tr class="memitem:ac7bf6427f29bbba33973526a5896c20d" id="r_ac7bf6427f29bbba33973526a5896c20d"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#ac7bf6427f29bbba33973526a5896c20d">AttackRollStage</a> : std::uint8_t { <a class="el" href="#ac7bf6427f29bbba33973526a5896c20da07adb1b4dc71b2f13f0ab3ec94c64e6d">BeforeRoll</a>
 , <a class="el" href="#ac7bf6427f29bbba33973526a5896c20da66c4c4d61a9bb3202d84d9750ce1d929">DiceRolled</a>
 , <a class="el" href="#ac7bf6427f29bbba33973526a5896c20da9bda4b2b935d4e3fa053e22ca4078390">BeforeOutcome</a>
@@ -521,6 +544,12 @@ Enumerations</h2></td></tr>
 , <a class="el" href="#a764555c0509482c85a9aa71b8a9ec1ffaac51deb7d2c3f9663a6df72c7c9b2b51">Fly</a>
  }</td></tr>
 <tr class="memdesc:a764555c0509482c85a9aa71b8a9ec1ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Comment un combattant se déplace : au sol, ou en vol.  <a href="#a764555c0509482c85a9aa71b8a9ec1ff">More...</a><br /></td></tr>
+<tr class="memitem:a0ddd67c0966fb31bf8c2de44a63d6999" id="r_a0ddd67c0966fb31bf8c2de44a63d6999"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#a0ddd67c0966fb31bf8c2de44a63d6999">Cover</a> : std::uint8_t { <a class="el" href="#a0ddd67c0966fb31bf8c2de44a63d6999a6adf97f83acf6453d4a6a4b1070f3754">None</a>
+, <a class="el" href="#a0ddd67c0966fb31bf8c2de44a63d6999ac48615a1bc4197056d522af276aa5a85">Half</a>
+, <a class="el" href="#a0ddd67c0966fb31bf8c2de44a63d6999a850728c829c818ee8538216e8ad2770d">ThreeQuarters</a>
+, <a class="el" href="#a0ddd67c0966fb31bf8c2de44a63d6999a96b0141273eabab320119c467cdcaf17">Total</a>
+ }</td></tr>
+<tr class="memdesc:a0ddd67c0966fb31bf8c2de44a63d6999"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les trois abris du Manuel des Joueurs (chapitre 9, « Abri »), et l'absence d'abri.  <a href="#a0ddd67c0966fb31bf8c2de44a63d6999">More...</a><br /></td></tr>
 <tr class="memitem:a56ee2c3f69200e700ac0f1b65dc413b4" id="r_a56ee2c3f69200e700ac0f1b65dc413b4"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#a56ee2c3f69200e700ac0f1b65dc413b4">PlacementResult</a> { <br />
 &#160;&#160;<a class="el" href="#a56ee2c3f69200e700ac0f1b65dc413b4af429e45eaf722cbbb524b40a0313aa67">Placed</a>
 , <a class="el" href="#a56ee2c3f69200e700ac0f1b65dc413b4a46dc1018ac1d8fca7c2752a61ce2fd0f">OutOfBounds</a>
@@ -893,6 +922,14 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:a12fd31b453634d9f7241976e779f9d84" id="r_a12fd31b453634d9f7241976e779f9d84"><td class="memItemLeft">std::optional&lt; int &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a12fd31b453634d9f7241976e779f9d84">areaTilesFromMeters</a> (float meters)</td></tr>
+<tr class="memdesc:a12fd31b453634d9f7241976e779f9d84"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une taille de zone du corpus, en cases : 6 m font 4 cases, 4,50 m en font 3.  <br /></td></tr>
+<tr class="memitem:ab485942990fc789c20ed66a6d6b3fb7f" id="r_ab485942990fc789c20ed66a6d6b3fb7f"><td class="memItemLeft">std::vector&lt; <a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#ab485942990fc789c20ed66a6d6b3fb7f">areaTemplate</a> (const <a class="el" href="structcore_1_1AreaOfEffect.html">AreaOfEffect</a> &amp;area, int columns, int rows)</td></tr>
+<tr class="memdesc:ab485942990fc789c20ed66a6d6b3fb7f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les cases qu'une forme couvre au moins à moitié, dans une grille de <code class="param">columns</code> × <code class="param">rows</code>, <b>sans</b> obstacle : le gabarit seul.  <br /></td></tr>
+<tr class="memitem:a5f3db4ca6c004505a376ed726e7770b1" id="r_a5f3db4ca6c004505a376ed726e7770b1"><td class="memItemLeft">std::vector&lt; <a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a5f3db4ca6c004505a376ed726e7770b1">affectedCells</a> (const <a class="el" href="classcore_1_1BattleGrid.html">BattleGrid</a> &amp;grid, const <a class="el" href="structcore_1_1AreaOfEffect.html">AreaOfEffect</a> &amp;area)</td></tr>
+<tr class="memdesc:a5f3db4ca6c004505a376ed726e7770b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les cases réellement atteintes : le gabarit, moins celles qu'aucune ligne droite ne relie à l'origine sans traverser ce qui arrête la vue.  <br /></td></tr>
+<tr class="memitem:a4dfe01f34b52d84d20c9c6785eb464aa" id="r_a4dfe01f34b52d84d20c9c6785eb464aa"><td class="memItemLeft">std::vector&lt; <a class="el" href="#a91235fd72a18c305c494723774630841">CombatantId</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a4dfe01f34b52d84d20c9c6785eb464aa">combatantsInArea</a> (const <a class="el" href="classcore_1_1CombatState.html">CombatState</a> &amp;combat, const <a class="el" href="structcore_1_1AreaOfEffect.html">AreaOfEffect</a> &amp;area)</td></tr>
+<tr class="memdesc:a4dfe01f34b52d84d20c9c6785eb464aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les combattants dont une case au moins est atteinte, par identifiant croissant.  <br /></td></tr>
 <tr class="memitem:a91e905d2d65ad1c9a0916752b0fd9b95" id="r_a91e905d2d65ad1c9a0916752b0fd9b95"><td class="memItemLeft">std::vector&lt; <a class="el" href="structcore_1_1ArenaEntryPoint.html">ArenaEntryPoint</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a91e905d2d65ad1c9a0916752b0fd9b95">arenaEntryPoints</a> (const <a class="el" href="classcore_1_1Level.html">Level</a> &amp;level)</td></tr>
 <tr class="memdesc:a91e905d2d65ad1c9a0916752b0fd9b95"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les points d'entrée d'une carte, rangés par camp, rang, puis position.  <br /></td></tr>
 <tr class="memitem:a2c4f8564739de90f7f02936084207e1d" id="r_a2c4f8564739de90f7f02936084207e1d"><td class="memItemLeft"><a class="el" href="structcore_1_1HeroicMarkCatalog.html">HeroicMarkCatalog</a>&#160;</td><td class="memItemRight"><a class="el" href="#a2c4f8564739de90f7f02936084207e1d">loadHeroicMarks</a> (const std::filesystem::path &amp;file)</td></tr>
@@ -903,12 +940,16 @@ Functions</h2></td></tr>
 <tr class="memdesc:a9f790045523fda834167bed21d202dd3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les attaques d'un bloc de bestiaire : chaque action qui a un bonus d'attaque et des dégâts.  <br /></td></tr>
 <tr class="memitem:a1881c42c8483587a6baa65c336a230c2" id="r_a1881c42c8483587a6baa65c336a230c2"><td class="memItemLeft"><a class="el" href="structcore_1_1AttackProfile.html">AttackProfile</a>&#160;</td><td class="memItemRight"><a class="el" href="#a1881c42c8483587a6baa65c336a230c2">weaponAttackFor</a> (const <a class="el" href="structcore_1_1CharacterSheet.html">CharacterSheet</a> &amp;sheet, const <a class="el" href="structcore_1_1Weapon.html">Weapon</a> *weapon, int <a class="el" href="#ab3286191c0a02de9afbc9e711ec799d1">proficiencyBonus</a>, bool proficient=true)</td></tr>
 <tr class="memdesc:a1881c42c8483587a6baa65c336a230c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">L'attaque d'un personnage avec une arme, ou à mains nues si <code class="param">weapon</code> est nul.  <br /></td></tr>
+<tr class="memitem:acc72525dbecb690d39a4f7ebe97423b5" id="r_acc72525dbecb690d39a4f7ebe97423b5"><td class="memItemLeft">std::optional&lt; <a class="el" href="structcore_1_1AttackProfile.html">AttackProfile</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#acc72525dbecb690d39a4f7ebe97423b5">thrownAttackFor</a> (const <a class="el" href="structcore_1_1CharacterSheet.html">CharacterSheet</a> &amp;sheet, const <a class="el" href="structcore_1_1Weapon.html">Weapon</a> &amp;weapon, int <a class="el" href="#ab3286191c0a02de9afbc9e711ec799d1">proficiencyBonus</a>, bool proficient=true)</td></tr>
+<tr class="memdesc:acc72525dbecb690d39a4f7ebe97423b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">L'attaque d'une arme <b>lancée</b> — dague, hachette, javeline —, si elle a la propriété <span class="tt">thrown</span>.  <br /></td></tr>
 <tr class="memitem:ad19e2dfeb2158624471c2a07e5a776e6" id="r_ad19e2dfeb2158624471c2a07e5a776e6"><td class="memItemLeft">std::optional&lt; int &gt;&#160;</td><td class="memItemRight"><a class="el" href="#ad19e2dfeb2158624471c2a07e5a776e6">gridDistanceFrom</a> (const <a class="el" href="classcore_1_1CombatState.html">CombatState</a> &amp;combat, <a class="el" href="#a91235fd72a18c305c494723774630841">CombatantId</a> mover, <a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> moverAnchor, <a class="el" href="#a91235fd72a18c305c494723774630841">CombatantId</a> other)</td></tr>
 <tr class="memdesc:ad19e2dfeb2158624471c2a07e5a776e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">La même distance, <code class="param">mover</code> supposé ancré en <code class="param">moverAnchor</code>.  <br /></td></tr>
 <tr class="memitem:ae19c39c376647e74514462b13d834e06" id="r_ae19c39c376647e74514462b13d834e06"><td class="memItemLeft">std::optional&lt; int &gt;&#160;</td><td class="memItemRight"><a class="el" href="#ae19c39c376647e74514462b13d834e06">gridDistance</a> (const <a class="el" href="classcore_1_1CombatState.html">CombatState</a> &amp;combat, <a class="el" href="#a91235fd72a18c305c494723774630841">CombatantId</a> from, <a class="el" href="#a91235fd72a18c305c494723774630841">CombatantId</a> to)</td></tr>
 <tr class="memdesc:ae19c39c376647e74514462b13d834e06"><td class="mdescLeft">&#160;</td><td class="mdescRight">La distance en cases entre deux combattants, <b>emprises comprises</b> : zéro contact impossible, 1 pour deux emprises adjacentes, diagonale comprise.  <br /></td></tr>
 <tr class="memitem:a58f349d22c971141da56b91273d5d29d" id="r_a58f349d22c971141da56b91273d5d29d"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a58f349d22c971141da56b91273d5d29d">inReach</a> (const <a class="el" href="classcore_1_1CombatState.html">CombatState</a> &amp;combat, <a class="el" href="#a91235fd72a18c305c494723774630841">CombatantId</a> attacker, <a class="el" href="#a91235fd72a18c305c494723774630841">CombatantId</a> target, const <a class="el" href="structcore_1_1AttackProfile.html">AttackProfile</a> &amp;profile)</td></tr>
 <tr class="memdesc:a58f349d22c971141da56b91273d5d29d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vrai si <code class="param">target</code> est à portée de l'attaque : allonge au corps à corps ; au contact, ou dans la portée maximale si elle est connue, à distance.  <br /></td></tr>
+<tr class="memitem:a7365293652d3b9980a5d196d0ada9400" id="r_a7365293652d3b9980a5d196d0ada9400"><td class="memItemLeft"><a class="el" href="#a1c2689aacd9707ef3d8c556e9f2bf840">TargetCheck</a>&#160;</td><td class="memItemRight"><a class="el" href="#a7365293652d3b9980a5d196d0ada9400">checkTarget</a> (const <a class="el" href="classcore_1_1CombatState.html">CombatState</a> &amp;combat, <a class="el" href="#a91235fd72a18c305c494723774630841">CombatantId</a> attacker, <a class="el" href="#a91235fd72a18c305c494723774630841">CombatantId</a> target, const <a class="el" href="structcore_1_1AttackProfile.html">AttackProfile</a> &amp;profile)</td></tr>
+<tr class="memdesc:a7365293652d3b9980a5d196d0ada9400"><td class="mdescLeft">&#160;</td><td class="mdescRight">Peut-on viser <code class="param">target</code> avec cette attaque ?  <br /></td></tr>
 <tr class="memitem:adb9ad640862c6901d33d96c181f4c9e0" id="r_adb9ad640862c6901d33d96c181f4c9e0"><td class="memItemLeft"><a class="el" href="structcore_1_1AttackCircumstances.html">AttackCircumstances</a>&#160;</td><td class="memItemRight"><a class="el" href="#adb9ad640862c6901d33d96c181f4c9e0">attackCircumstances</a> (const <a class="el" href="classcore_1_1CombatState.html">CombatState</a> &amp;combat, <a class="el" href="#a91235fd72a18c305c494723774630841">CombatantId</a> attacker, <a class="el" href="#a91235fd72a18c305c494723774630841">CombatantId</a> target, const <a class="el" href="structcore_1_1AttackProfile.html">AttackProfile</a> &amp;profile)</td></tr>
 <tr class="memdesc:adb9ad640862c6901d33d96c181f4c9e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ce que la grille sait dire des circonstances d'une attaque (Manuel, chapitre 9).  <br /></td></tr>
 <tr class="memitem:a4f1692682e25dadb017d37ca0a42e9aa" id="r_a4f1692682e25dadb017d37ca0a42e9aa"><td class="memItemLeft"><a class="el" href="structcore_1_1AttackRoll.html">AttackRoll</a>&#160;</td><td class="memItemRight"><a class="el" href="#a4f1692682e25dadb017d37ca0a42e9aa">rollAttack</a> (<a class="el" href="structcore_1_1AttackRoll.html">AttackRoll</a> request, const <a class="el" href="classcore_1_1AttackHooks.html">AttackHooks</a> &amp;hooks, <a class="el" href="classcore_1_1DeterministicRandom.html">DeterministicRandom</a> &amp;random)</td></tr>
@@ -947,6 +988,27 @@ Functions</h2></td></tr>
 <tr class="memdesc:a707734069fc72e63f6f67a8ef9f60dcc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Charge les rencontres depuis leur dossier (<span class="tt">Rpg/encounters/</span>).  <br /></td></tr>
 <tr class="memitem:a63e47d6c989b07bf0c2c7e0a568d1e02" id="r_a63e47d6c989b07bf0c2c7e0a568d1e02"><td class="memItemLeft">std::vector&lt; <a class="el" href="structcore_1_1CombatantPlacement.html">CombatantPlacement</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a63e47d6c989b07bf0c2c7e0a568d1e02">placeCombatants</a> (const <a class="el" href="structcore_1_1Encounter.html">Encounter</a> &amp;encounter, <a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> trigger)</td></tr>
 <tr class="memdesc:a63e47d6c989b07bf0c2c7e0a568d1e02"><td class="mdescLeft">&#160;</td><td class="mdescRight">Place les combattants d'une rencontre autour de <code class="param">trigger</code>.  <br /></td></tr>
+<tr class="memitem:a5d1d182841a7266b06a3220835bd1144" id="r_a5d1d182841a7266b06a3220835bd1144"><td class="memItemLeft">std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#a5d1d182841a7266b06a3220835bd1144">coverLabel</a> (<a class="el" href="#a0ddd67c0966fb31bf8c2de44a63d6999">Cover</a> cover) noexcept</td></tr>
+<tr class="memdesc:a5d1d182841a7266b06a3220835bd1144"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le nom d'un abri tel que le journal l'écrit : « abri partiel », « abri important ».  <br /></td></tr>
+<tr class="memitem:aef818c5b82795fc59c0d259e968762cd" id="r_aef818c5b82795fc59c0d259e968762cd"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#aef818c5b82795fc59c0d259e968762cd">isSightClear</a> (const <a class="el" href="classcore_1_1BattleGrid.html">BattleGrid</a> &amp;grid, <a class="el" href="structcore_1_1GridPoint.html">GridPoint</a> a, <a class="el" href="structcore_1_1GridPoint.html">GridPoint</a> b)</td></tr>
+<tr class="memdesc:aef818c5b82795fc59c0d259e968762cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vrai si rien n'arrête la vue sur le segment <code class="param">a</code> — <code class="param">b</code> (extrémités exceptées).  <br /></td></tr>
+<tr class="memitem:aba1d28cef88c61f722b2b034a8415f10" id="r_aba1d28cef88c61f722b2b034a8415f10"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#aba1d28cef88c61f722b2b034a8415f10">hasLineOfSight</a> (const <a class="el" href="classcore_1_1BattleGrid.html">BattleGrid</a> &amp;grid, <a class="el" href="structcore_1_1Footprint.html">Footprint</a> a, <a class="el" href="structcore_1_1Footprint.html">Footprint</a> b)</td></tr>
+<tr class="memdesc:aba1d28cef88c61f722b2b034a8415f10"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vrai si les deux emprises se voient : un segment dégagé relie un point de grille de l'une à un point de grille de l'autre.  <br /></td></tr>
+<tr class="memitem:aa817dba16bcb7105e025a537da633667" id="r_aa817dba16bcb7105e025a537da633667"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#aa817dba16bcb7105e025a537da633667">hasLineOfSight</a> (const <a class="el" href="classcore_1_1CombatState.html">CombatState</a> &amp;combat, <a class="el" href="#a91235fd72a18c305c494723774630841">CombatantId</a> a, <a class="el" href="#a91235fd72a18c305c494723774630841">CombatantId</a> b)</td></tr>
+<tr class="memdesc:aa817dba16bcb7105e025a537da633667"><td class="mdescLeft">&#160;</td><td class="mdescRight">La même relation entre deux combattants ; faux si l'un des deux n'est pas sur la grille.  <br /></td></tr>
+<tr class="memitem:a870aa619bde747a0f4d7be56b323ebc3" id="r_a870aa619bde747a0f4d7be56b323ebc3"><td class="memItemLeft"><a class="el" href="#a0ddd67c0966fb31bf8c2de44a63d6999">Cover</a>&#160;</td><td class="memItemRight"><a class="el" href="#a870aa619bde747a0f4d7be56b323ebc3">coverFrom</a> (const <a class="el" href="classcore_1_1BattleGrid.html">BattleGrid</a> &amp;grid, <a class="el" href="structcore_1_1Footprint.html">Footprint</a> attacker, <a class="el" href="structcore_1_1Footprint.html">Footprint</a> target, std::span&lt; const <a class="el" href="structcore_1_1Footprint.html">Footprint</a> &gt; interposed={})</td></tr>
+<tr class="memdesc:a870aa619bde747a0f4d7be56b323ebc3"><td class="mdescLeft">&#160;</td><td class="mdescRight">L'abri de <code class="param">target</code> contre ce qui vient de <code class="param">attacker</code>.  <br /></td></tr>
+<tr class="memitem:aebf827caa223eb1215f8613ffab5263e" id="r_aebf827caa223eb1215f8613ffab5263e"><td class="memItemLeft"><a class="el" href="#a0ddd67c0966fb31bf8c2de44a63d6999">Cover</a>&#160;</td><td class="memItemRight"><a class="el" href="#aebf827caa223eb1215f8613ffab5263e">coverFromPoint</a> (const <a class="el" href="classcore_1_1BattleGrid.html">BattleGrid</a> &amp;grid, <a class="el" href="structcore_1_1GridPoint.html">GridPoint</a> origin, <a class="el" href="structcore_1_1Footprint.html">Footprint</a> target, std::span&lt; const <a class="el" href="structcore_1_1Footprint.html">Footprint</a> &gt; interposed={})</td></tr>
+<tr class="memdesc:aebf827caa223eb1215f8613ffab5263e"><td class="mdescLeft">&#160;</td><td class="mdescRight">L'abri de <code class="param">target</code> contre un effet qui part d'un <b>point</b> — l'origine d'une zone.  <br /></td></tr>
+<tr class="memitem:a9ca481bd627a473f4cddc6f5e14dd971" id="r_a9ca481bd627a473f4cddc6f5e14dd971"><td class="memItemLeft"><a class="el" href="#a0ddd67c0966fb31bf8c2de44a63d6999">Cover</a>&#160;</td><td class="memItemRight"><a class="el" href="#a9ca481bd627a473f4cddc6f5e14dd971">coverBetween</a> (const <a class="el" href="classcore_1_1CombatState.html">CombatState</a> &amp;combat, <a class="el" href="#a91235fd72a18c305c494723774630841">CombatantId</a> attacker, <a class="el" href="#a91235fd72a18c305c494723774630841">CombatantId</a> target)</td></tr>
+<tr class="memdesc:a9ca481bd627a473f4cddc6f5e14dd971"><td class="mdescLeft">&#160;</td><td class="mdescRight">L'abri d'un combattant contre un autre, les autres combattants placés faisant corps.  <br /></td></tr>
+<tr class="memitem:aac10767b87c9d2dcc3932edb226563b1" id="r_aac10767b87c9d2dcc3932edb226563b1"><td class="memItemLeft">constexpr bool&#160;</td><td class="memItemRight"><a class="el" href="#aac10767b87c9d2dcc3932edb226563b1">operator==</a> (<a class="el" href="structcore_1_1GridPoint.html">GridPoint</a> left, <a class="el" href="structcore_1_1GridPoint.html">GridPoint</a> right) noexcept</td></tr>
+<tr class="memitem:ac3263c16f8b0e7a86c20b9e412e43ae9" id="r_ac3263c16f8b0e7a86c20b9e412e43ae9"><td class="memItemLeft">constexpr <a class="el" href="structcore_1_1GridPoint.html">GridPoint</a>&#160;</td><td class="memItemRight"><a class="el" href="#ac3263c16f8b0e7a86c20b9e412e43ae9">cornerOf</a> (<a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> cell) noexcept</td></tr>
+<tr class="memdesc:ac3263c16f8b0e7a86c20b9e412e43ae9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le coin haut-gauche de la case.  <br /></td></tr>
+<tr class="memitem:aad39b76c276fcbb0b8c5244b4ce4b3cf" id="r_aad39b76c276fcbb0b8c5244b4ce4b3cf"><td class="memItemLeft">constexpr <a class="el" href="structcore_1_1GridPoint.html">GridPoint</a>&#160;</td><td class="memItemRight"><a class="el" href="#aad39b76c276fcbb0b8c5244b4ce4b3cf">centerOf</a> (<a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> cell) noexcept</td></tr>
+<tr class="memdesc:aad39b76c276fcbb0b8c5244b4ce4b3cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le centre de la case.  <br /></td></tr>
+<tr class="memitem:aac10188449066631157dad14349a01eb" id="r_aac10188449066631157dad14349a01eb"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#aac10188449066631157dad14349a01eb">coverBonus</a> (<a class="el" href="#a0ddd67c0966fb31bf8c2de44a63d6999">Cover</a> cover) noexcept</td></tr>
+<tr class="memdesc:aac10188449066631157dad14349a01eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le bonus d'un abri à la CA et aux sauvegardes de Dextérité : 0, +2, +5 ; 0 pour l'abri total, qui n'est pas un bonus mais une interdiction.  <br /></td></tr>
 <tr class="memitem:a29156af7de7653ab4fa06d96b0c881a1" id="r_a29156af7de7653ab4fa06d96b0c881a1"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a29156af7de7653ab4fa06d96b0c881a1">movementBudget</a> (float speedMeters) noexcept</td></tr>
 <tr class="memdesc:a29156af7de7653ab4fa06d96b0c881a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le budget de déplacement d'une vitesse de <code class="param">speedMeters</code>, en cases entières.  <br /></td></tr>
 <tr class="memitem:aab76f284d12a5c2f1ac73c818061a142" id="r_aab76f284d12a5c2f1ac73c818061a142"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#aab76f284d12a5c2f1ac73c818061a142">movementBudget</a> (const <a class="el" href="structcore_1_1CharacterSheet.html">CharacterSheet</a> &amp;sheet) noexcept</td></tr>
@@ -1132,6 +1194,8 @@ Functions</h2></td></tr>
 <tr class="memdesc:a8f90cc0f92ab13611bbb2c2730e4efdd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nom textuel d'une catégorie d'armure, tel que la donnée l'écrit.  <br /></td></tr>
 <tr class="memitem:ac58652f079d9fa10658f52da30750d24" id="r_ac58652f079d9fa10658f52da30750d24"><td class="memItemLeft">std::optional&lt; <a class="el" href="#a7ad0450d2b476419d40745fbfa9ac105">ArmorCategory</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#ac58652f079d9fa10658f52da30750d24">parseArmorCategory</a> (std::string_view name)</td></tr>
 <tr class="memdesc:ac58652f079d9fa10658f52da30750d24"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inverse d'<span class="tt"><a class="el" href="#a8f90cc0f92ab13611bbb2c2730e4efdd" title="Nom textuel d&#39;une catégorie d&#39;armure, tel que la donnée l&#39;écrit.">armorCategoryName</a></span>. <span class="tt">std::nullopt</span> si le nom est inconnu — jamais deviné.  <br /></td></tr>
+<tr class="memitem:ad0fe834d01c603c0df43af69133dc1e3" id="r_ad0fe834d01c603c0df43af69133dc1e3"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#ad0fe834d01c603c0df43af69133dc1e3">hasProperty</a> (const <a class="el" href="structcore_1_1Weapon.html">Weapon</a> &amp;weapon, std::string_view property)</td></tr>
+<tr class="memdesc:ad0fe834d01c603c0df43af69133dc1e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vrai si l'arme porte la propriété <code class="param">property</code> (<span class="tt">"finesse"</span>, <span class="tt">"reach"</span>, <span class="tt">"thrown"</span>...).  <br /></td></tr>
 <tr class="memitem:a06839f5ee0eea764bdcd5f6b865f194c" id="r_a06839f5ee0eea764bdcd5f6b865f194c"><td class="memItemLeft"><a class="el" href="structcore_1_1EquipmentCatalog.html">EquipmentCatalog</a>&#160;</td><td class="memItemRight"><a class="el" href="#a06839f5ee0eea764bdcd5f6b865f194c">loadEquipment</a> (const std::filesystem::path &amp;weaponsDir, const std::filesystem::path &amp;armorsDir)</td></tr>
 <tr class="memdesc:a06839f5ee0eea764bdcd5f6b865f194c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Charge les armes et les armures depuis leurs dossiers.  <br /></td></tr>
 <tr class="memitem:aec44b80878262388830e480b169c6b70" id="r_aec44b80878262388830e480b169c6b70"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#aec44b80878262388830e480b169c6b70">armorClassFor</a> (const <a class="el" href="structcore_1_1CharacterSheet.html">CharacterSheet</a> &amp;sheet, const <a class="el" href="structcore_1_1CharacterCreationRules.html">CharacterCreationRules</a> &amp;rules, const <a class="el" href="structcore_1_1Armor.html">Armor</a> *armor, const <a class="el" href="structcore_1_1Armor.html">Armor</a> *shield)</td></tr>
@@ -1464,6 +1528,37 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
 
 </div>
 </div>
+<a id="ad490fa58f4db55cab180bf278e3db721" name="ad490fa58f4db55cab180bf278e3db721"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad490fa58f4db55cab180bf278e3db721">&#9670;&#160;</a></span>AreaShape</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="#ad490fa58f4db55cab180bf278e3db721">core::AreaShape</a> : std::uint8_t</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Les cinq formes du Manuel. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ad490fa58f4db55cab180bf278e3db721acd2c8bc6e5f1ea17c918ccaf89660104" name="ad490fa58f4db55cab180bf278e3db721acd2c8bc6e5f1ea17c918ccaf89660104"></a>Cone&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad490fa58f4db55cab180bf278e3db721aa296104f0c61a9cf39f4824d05315e12" name="ad490fa58f4db55cab180bf278e3db721aa296104f0c61a9cf39f4824d05315e12"></a>Cube&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad490fa58f4db55cab180bf278e3db721a2ec2c2961c7ce5a114d969c1f562a563" name="ad490fa58f4db55cab180bf278e3db721a2ec2c2961c7ce5a114d969c1f562a563"></a>Cylinder&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad490fa58f4db55cab180bf278e3db721a4803e6b9e63dabf04de980788d6a13c4" name="ad490fa58f4db55cab180bf278e3db721a4803e6b9e63dabf04de980788d6a13c4"></a>Line&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad490fa58f4db55cab180bf278e3db721ab7095f057db3fefa7325ad93a04e14fd" name="ad490fa58f4db55cab180bf278e3db721ab7095f057db3fefa7325ad93a04e14fd"></a>Sphere&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
 <a id="ac011cdb67f4c31ececbaaceeace4cbed" name="ac011cdb67f4c31ececbaaceeace4cbed"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac011cdb67f4c31ececbaaceeace4cbed">&#9670;&#160;</a></span>ArenaActionResult</h2>
 
@@ -1493,6 +1588,8 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
 <tr><td class="fieldname"><a id="ac011cdb67f4c31ececbaaceeace4cbeda1e601ea653db1c729c9ee5746730fabe" name="ac011cdb67f4c31ececbaaceeace4cbeda1e601ea653db1c729c9ee5746730fabe"></a>NoAction&#160;</td><td class="fielddoc"><p>L'action de ce tour est déjà dépensée. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="ac011cdb67f4c31ececbaaceeace4cbedab3e0302fd4814646ffa6de166cddc38a" name="ac011cdb67f4c31ececbaaceeace4cbedab3e0302fd4814646ffa6de166cddc38a"></a>OutOfReach&#160;</td><td class="fielddoc"><p>La cible est hors d'allonge ou de portée. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ac011cdb67f4c31ececbaaceeace4cbeda62da737bbf89f486e90024dc099e2bc4" name="ac011cdb67f4c31ececbaaceeace4cbeda62da737bbf89f486e90024dc099e2bc4"></a>TotalCover&#160;</td><td class="fielddoc"><p>La cible est sous abri total : aucune ligne de vue ne la relie à l'attaquant (<span class="tt">LOT-22</span>). </p>
 </td></tr>
 <tr><td class="fieldname"><a id="ac011cdb67f4c31ececbaaceeace4cbeda6f923f50457fdf3e12863922643f9a71" name="ac011cdb67f4c31ececbaaceeace4cbeda6f923f50457fdf3e12863922643f9a71"></a>InvalidTarget&#160;</td><td class="fielddoc"><p>Inconnue, soi-même, un allié, ou une cible qui n'est pas debout. </p>
 </td></tr>
@@ -2024,6 +2121,40 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
 <tr><td class="fieldname"><a id="a9b42f3467a678d16bee619bc34ddf4e2ab7f41fc1412ad2ee75e9b2635d3b9d5c" name="a9b42f3467a678d16bee619bc34ddf4e2ab7f41fc1412ad2ee75e9b2635d3b9d5c"></a>Round&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a9b42f3467a678d16bee619bc34ddf4e2ad1e9f9f891de8f9a655739a01fbf68f0" name="a9b42f3467a678d16bee619bc34ddf4e2ad1e9f9f891de8f9a655739a01fbf68f0"></a>Encounter&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a9b42f3467a678d16bee619bc34ddf4e2a03727ac48595a24daed975559c944a44" name="a9b42f3467a678d16bee619bc34ddf4e2a03727ac48595a24daed975559c944a44"></a>Day&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+<a id="a0ddd67c0966fb31bf8c2de44a63d6999" name="a0ddd67c0966fb31bf8c2de44a63d6999"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0ddd67c0966fb31bf8c2de44a63d6999">&#9670;&#160;</a></span>Cover</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="#a0ddd67c0966fb31bf8c2de44a63d6999">core::Cover</a> : std::uint8_t</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Les trois abris du Manuel des Joueurs (chapitre 9, « Abri »), et l'absence d'abri. </p>
+<p>Ordonnés du moins au plus protecteur : « si une cible se positionne derrière plusieurs types d'abri, seul celui qui la protège le plus est pris en compte », et comparer deux abris est ce que cette règle demande. Le calcul est au <span class="tt">LOT-22</span> (<span class="tt"><a class="el" href="#a9ca481bd627a473f4cddc6f5e14dd971" title="L&#39;abri d&#39;un combattant contre un autre, les autres combattants placés faisant corps.">core::coverBetween</a></span>). </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a0ddd67c0966fb31bf8c2de44a63d6999a6adf97f83acf6453d4a6a4b1070f3754" name="a0ddd67c0966fb31bf8c2de44a63d6999a6adf97f83acf6453d4a6a4b1070f3754"></a>None&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0ddd67c0966fb31bf8c2de44a63d6999ac48615a1bc4197056d522af276aa5a85" name="a0ddd67c0966fb31bf8c2de44a63d6999ac48615a1bc4197056d522af276aa5a85"></a>Half&#160;</td><td class="fielddoc"><p>Au moins la moitié du corps : +2 à la CA et aux sauvegardes de Dextérité. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a0ddd67c0966fb31bf8c2de44a63d6999a850728c829c818ee8538216e8ad2770d" name="a0ddd67c0966fb31bf8c2de44a63d6999a850728c829c818ee8538216e8ad2770d"></a>ThreeQuarters&#160;</td><td class="fielddoc"><p>Au moins les trois quarts : +5. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a0ddd67c0966fb31bf8c2de44a63d6999a96b0141273eabab320119c467cdcaf17" name="a0ddd67c0966fb31bf8c2de44a63d6999a96b0141273eabab320119c467cdcaf17"></a>Total&#160;</td><td class="fielddoc"><p>Complètement dissimulée : ne peut pas être ciblée directement. </p>
+</td></tr>
 </table>
 
 </div>
@@ -2599,7 +2730,7 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
 </div><div class="memdoc">
 
 <p>Comment un combattant se déplace : au sol, ou en vol. </p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md907"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md916"></a>
 L'altitude est un attribut, jamais une géométrie</h2>
 <p>Le jeu est vu de dessus, et sa grille n'a pas de hauteur. Donner une altitude aux cases — une grille par étage, ou une case « en l'air » au-dessus d'une autre — ferait de chaque requête de portée, de chemin et d'occupation une requête en trois dimensions, pour un contenu qui n'en a besoin qu'au passage d'un dragon. Le vol est donc une <b>manière de traverser</b> la même grille :</p>
 <ul>
@@ -2913,6 +3044,39 @@ L'altitude est un attribut, jamais une géométrie</h2>
 
 </div>
 </div>
+<a id="a1c2689aacd9707ef3d8c556e9f2bf840" name="a1c2689aacd9707ef3d8c556e9f2bf840"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1c2689aacd9707ef3d8c556e9f2bf840">&#9670;&#160;</a></span>TargetCheck</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="#a1c2689aacd9707ef3d8c556e9f2bf840">core::TargetCheck</a> : std::uint8_t</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Ce qui rend une cible attaquable, ou ce qui l'en empêche. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a1c2689aacd9707ef3d8c556e9f2bf840a3ac705f2acd51a4613f9188c05c91d0d" name="a1c2689aacd9707ef3d8c556e9f2bf840a3ac705f2acd51a4613f9188c05c91d0d"></a>Valid&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a1c2689aacd9707ef3d8c556e9f2bf840aaba0e4b47c2d27f1f4cf098433b0b4b5" name="a1c2689aacd9707ef3d8c556e9f2bf840aaba0e4b47c2d27f1f4cf098433b0b4b5"></a>NotOnGrid&#160;</td><td class="fielddoc"><p>L'attaquant et la cible sont le même, ou l'un des deux n'est pas sur la grille. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a1c2689aacd9707ef3d8c556e9f2bf840ab3e0302fd4814646ffa6de166cddc38a" name="a1c2689aacd9707ef3d8c556e9f2bf840ab3e0302fd4814646ffa6de166cddc38a"></a>OutOfReach&#160;</td><td class="fielddoc"><p>Hors d'allonge, ou au-delà de la longue portée (<span class="tt"><a class="el" href="#a58f349d22c971141da56b91273d5d29d" title="Vrai si target est à portée de l&#39;attaque : allonge au corps à corps ; au contact, ou dans la portée m...">core::inReach</a></span>). </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a1c2689aacd9707ef3d8c556e9f2bf840a62da737bbf89f486e90024dc099e2bc4" name="a1c2689aacd9707ef3d8c556e9f2bf840a62da737bbf89f486e90024dc099e2bc4"></a>TotalCover&#160;</td><td class="fielddoc"><p>Sous abri total : aucun segment dégagé entre les deux emprises (<span class="tt"><a class="el" href="#aba1d28cef88c61f722b2b034a8415f10" title="Vrai si les deux emprises se voient : un segment dégagé relie un point de grille de l&#39;une à un point ...">core::hasLineOfSight</a></span>). </p>
+</td></tr>
+</table>
+
+</div>
+</div>
 <a id="ace99a1be913e6294e42e9ebb145eb875" name="ace99a1be913e6294e42e9ebb145eb875"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ace99a1be913e6294e42e9ebb145eb875">&#9670;&#160;</a></span>TileType</h2>
 
@@ -3139,7 +3303,7 @@ L'altitude est un attribut, jamais une géométrie</h2>
 </div><div class="memdoc">
 
 <p>Vrai si <code class="param">first</code> joue avant <code class="param">second</code>. </p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md919"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md931"></a>
 La règle de départage</h2>
 <p>Manuel des Joueurs, « Initiative » (PDF p. 191) : les combattants se classent du plus haut résultat au plus bas, et « en cas d'égalité », c'est le MD qui tranche entre ses créatures, les joueurs entre leurs personnages, et le MD encore entre un monstre et un personnage. Le jeu n'a pas de MD : la règle doit être <b>écrite</b>, et elle ne peut pas dépendre de l'ordre dans lequel les combattants ont été rangés en mémoire (<span class="tt">EX-CBT-010</span>). Dans l'ordre :</p>
 <ol type="1">
@@ -3207,6 +3371,38 @@ La règle de départage</h2>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="a5f3db4ca6c004505a376ed726e7770b1" name="a5f3db4ca6c004505a376ed726e7770b1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5f3db4ca6c004505a376ed726e7770b1">&#9670;&#160;</a></span>affectedCells()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; <a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> &gt; core::affectedCells </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classcore_1_1BattleGrid.html">BattleGrid</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>grid</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structcore_1_1AreaOfEffect.html">AreaOfEffect</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>area</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Les cases réellement atteintes : le gabarit, moins celles qu'aucune ligne droite ne relie à l'origine sans traverser ce qui arrête la vue. </p>
+<p>Une case est atteinte si un segment dégagé (<span class="tt"><a class="el" href="#aef818c5b82795fc59c0d259e968762cd" title="Vrai si rien n&#39;arrête la vue sur le segment a — b (extrémités exceptées).">core::isSightClear</a></span>) relie l'origine à l'un de ses quatre coins : c'est le même compte que l'abri total, et une cible qu'il protège entièrement de l'origine est hors de la zone. Une case qui arrête elle-même la vue — le mur — n'est pas un emplacement de la zone : l'effet s'y heurte. </p>
 
 </div>
 </div>
@@ -3416,6 +3612,71 @@ La règle de départage</h2>
 
 </div>
 </div>
+<a id="ab485942990fc789c20ed66a6d6b3fb7f" name="ab485942990fc789c20ed66a6d6b3fb7f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab485942990fc789c20ed66a6d6b3fb7f">&#9670;&#160;</a></span>areaTemplate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; <a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> &gt; core::areaTemplate </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structcore_1_1AreaOfEffect.html">AreaOfEffect</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>area</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>columns</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>rows</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Les cases qu'une forme couvre au moins à moitié, dans une grille de <code class="param">columns</code> × <code class="param">rows</code>, <b>sans</b> obstacle : le gabarit seul. </p>
+<p>Ordonnées par ligne puis par colonne. </p>
+
+</div>
+</div>
+<a id="a12fd31b453634d9f7241976e779f9d84" name="a12fd31b453634d9f7241976e779f9d84"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a12fd31b453634d9f7241976e779f9d84">&#9670;&#160;</a></span>areaTilesFromMeters()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::optional&lt; int &gt; core::areaTilesFromMeters </td>
+          <td>(</td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>meters</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Une taille de zone du corpus, en cases : 6 m font 4 cases, 4,50 m en font 3. </p>
+<p>Arrondie <b>vers le bas</b> : une zone ne déborde jamais de ce que le texte promet. Vide pour une taille nulle ou négative. </p>
+
+</div>
+</div>
 <a id="a91e905d2d65ad1c9a0916752b0fd9b95" name="a91e905d2d65ad1c9a0916752b0fd9b95"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a91e905d2d65ad1c9a0916752b0fd9b95">&#9670;&#160;</a></span>arenaEntryPoints()</h2>
 
@@ -3562,10 +3823,10 @@ La règle de départage</h2>
 </div><div class="memdoc">
 
 <p>Peint le marqueur d'une clé d'asset. </p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md921"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md933"></a>
 Pourquoi un marqueur plutôt qu'une image manquante</h2>
 <p><span class="tt">EX-CNT-041</span> : le jeu doit tourner <b>complet</b> avant qu'aucune illustration ne soit produite. Sans marqueur, trois cents entrées s'afficheraient comme des trous, la production graphique deviendrait un préalable bloquant, et rien ne pourrait être joué ni relu avant elle. Avec, elle devient un <b>remplacement progressif</b> : on remplace un marqueur par une image, une à la fois, et le jeu ne cesse jamais d'être jouable.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md922"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md934"></a>
 Déterministe, et c'est le point</h2>
 <p>La même clé donne <b>toujours</b> le même marqueur — même teinte, même figure. Un marqueur tiré au hasard changerait à chaque lancement : le loup ne serait plus reconnaissable d'une partie à l'autre, deux captures d'écran du même combat différeraient, et un test ne pourrait rien en dire. La teinte est donc dérivée de la clé elle-même, par un hachage stable écrit ici plutôt qu'emprunté à <span class="tt">std::hash</span>, dont la valeur n'est <b>pas</b> garantie d'une plateforme ou d'une version de bibliothèque à l'autre.</p>
 <p>Le marqueur reste <b>manifestement</b> un marqueur : deux diagonales barrent la vignette, de sorte qu'on ne le prenne jamais pour une illustration définitive livrée un peu vite.</p>
@@ -3619,10 +3880,10 @@ Déterministe, et c'est le point</h2>
 
 <p>Ce que la grille sait dire des circonstances d'une attaque (Manuel, chapitre 9). </p>
 <ul>
-<li><b>Attaque à distance dans un combat au corps à corps</b> : désavantage si une créature hostile debout se trouve à une case de l'attaquant ;</li>
+<li><b>Attaque à distance dans un combat au corps à corps</b> : désavantage si une créature hostile debout « qui vous voit » (<span class="tt"><a class="el" href="#aba1d28cef88c61f722b2b034a8415f10" title="Vrai si les deux emprises se voient : un segment dégagé relie un point de grille de l&#39;une à un point ...">core::hasLineOfSight</a></span>) se trouve à une case de l'attaquant ;</li>
 <li><b>au-delà de la portée normale</b> : désavantage.</li>
 </ul>
-<p>Voir sans être vu, l'abri et l'état de la cible sont au <span class="tt">LOT-22</span> et au <span class="tt">LOT-72</span>. </p>
+<p>L'abri n'est pas une circonstance mais un changement de CA (<span class="tt"><a class="el" href="structcore_1_1AttackRoll.html#a67dd2cd1fbfd74998b4f5ab7a6c9f520" title="Place la cible derrière level : la CA gagne le bonus de l&#39;abri, une fois.">core::AttackRoll::applyCover</a></span>). Voir sans être vu suppose la lumière et les sens ; l'état de la cible est au <span class="tt">LOT-72</span>. </p>
 
 </div>
 </div>
@@ -3650,7 +3911,7 @@ Déterministe, et c'est le point</h2>
 </div><div class="memdoc">
 
 <p>Les attaques d'un bloc de bestiaire : chaque action qui a un bonus d'attaque et des dégâts. </p>
-<p>Une action <b>avec</b> allonge est au corps à corps (allonge en cases, arrondie, au moins 1) ; une action <b>sans</b> allonge est à distance. Le bonus du bloc est pris tel quel : le livre l'a déjà calculé. Une action qui a un bonus mais aucun dégât (la toile de l'araignée géante) n'est pas une attaque de ce lot — elle entrave, et c'est l'affaire des conditions (<span class="tt">LOT-72</span>).</p>
+<p>Une action <b>avec</b> allonge est au corps à corps (allonge en cases, arrondie, au moins 1) ; une action <b>sans</b> allonge est à distance, à sa portée si le bloc l'écrit (« portée 24/96 m ») ; une action qui porte les deux donne deux attaques, au contact puis à distance. Le bonus du bloc est pris tel quel : le livre l'a déjà calculé. Une action qui a un bonus mais aucun dégât (la toile de l'araignée géante) n'est pas une attaque de ce lot — elle entrave, et c'est l'affaire des conditions (<span class="tt">LOT-72</span>).</p>
 <dl class="section note"><dt>Note</dt><dd>Le bestiaire ne type que la <b>première</b> clause de dégâts (<span class="tt"><a class="el" href="#a83d3373cdbf5d435e75c8d6a944e1e2b" title="Charge toutes les créatures d&#39;un dossier — un fichier JSON par créature.">core::loadBestiary</a></span>) : le moteur sait en porter plusieurs, la donnée n'en fournit qu'une. </dd></dl>
 
 </div>
@@ -3904,6 +4165,107 @@ Déterministe, et c'est le point</h2>
 
 </div>
 </div>
+<a id="aad39b76c276fcbb0b8c5244b4ce4b3cf" name="aad39b76c276fcbb0b8c5244b4ce4b3cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aad39b76c276fcbb0b8c5244b4ce4b3cf">&#9670;&#160;</a></span>centerOf()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structcore_1_1GridPoint.html">GridPoint</a> core::centerOf </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcore_1_1GridPosition.html">GridPosition</a></td>          <td class="paramname"><span class="paramname"><em>cell</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Le centre de la case. </p>
+
+</div>
+</div>
+<a id="a7365293652d3b9980a5d196d0ada9400" name="a7365293652d3b9980a5d196d0ada9400"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7365293652d3b9980a5d196d0ada9400">&#9670;&#160;</a></span>checkTarget()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a1c2689aacd9707ef3d8c556e9f2bf840">TargetCheck</a> core::checkTarget </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classcore_1_1CombatState.html">CombatState</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>combat</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#a91235fd72a18c305c494723774630841">CombatantId</a></td>          <td class="paramname"><span class="paramname"><em>attacker</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#a91235fd72a18c305c494723774630841">CombatantId</a></td>          <td class="paramname"><span class="paramname"><em>target</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structcore_1_1AttackProfile.html">AttackProfile</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>profile</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Peut-on viser <code class="param">target</code> avec cette attaque ? </p>
+<p>La distance, puis la vue.</p>
+<p>Manuel, chapitre 9 : « une cible qui bénéficie d'un abri total ne peut pas être ciblée directement par des attaques » ; <span class="tt">EX-CBT-021</span> : une attaque à distance suppose une ligne de vue. Au corps à corps aussi — frapper par le coin commun de deux murs est aussi impossible que de s'y faufiler. </p>
+
+</div>
+</div>
+<a id="a4dfe01f34b52d84d20c9c6785eb464aa" name="a4dfe01f34b52d84d20c9c6785eb464aa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4dfe01f34b52d84d20c9c6785eb464aa">&#9670;&#160;</a></span>combatantsInArea()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; <a class="el" href="#a91235fd72a18c305c494723774630841">CombatantId</a> &gt; core::combatantsInArea </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classcore_1_1CombatState.html">CombatState</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>combat</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structcore_1_1AreaOfEffect.html">AreaOfEffect</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>area</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Les combattants dont une case au moins est atteinte, par identifiant croissant. </p>
+
+</div>
+</div>
 <a id="a987d60e4787ed087f78661162334cbdf" name="a987d60e4787ed087f78661162334cbdf"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a987d60e4787ed087f78661162334cbdf">&#9670;&#160;</a></span>conditionName()</h2>
 
@@ -3926,6 +4288,209 @@ Déterministe, et c'est le point</h2>
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac3263c16f8b0e7a86c20b9e412e43ae9" name="ac3263c16f8b0e7a86c20b9e412e43ae9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac3263c16f8b0e7a86c20b9e412e43ae9">&#9670;&#160;</a></span>cornerOf()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structcore_1_1GridPoint.html">GridPoint</a> core::cornerOf </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcore_1_1GridPosition.html">GridPosition</a></td>          <td class="paramname"><span class="paramname"><em>cell</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Le coin haut-gauche de la case. </p>
+
+</div>
+</div>
+<a id="a9ca481bd627a473f4cddc6f5e14dd971" name="a9ca481bd627a473f4cddc6f5e14dd971"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9ca481bd627a473f4cddc6f5e14dd971">&#9670;&#160;</a></span>coverBetween()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a0ddd67c0966fb31bf8c2de44a63d6999">Cover</a> core::coverBetween </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classcore_1_1CombatState.html">CombatState</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>combat</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#a91235fd72a18c305c494723774630841">CombatantId</a></td>          <td class="paramname"><span class="paramname"><em>attacker</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#a91235fd72a18c305c494723774630841">CombatantId</a></td>          <td class="paramname"><span class="paramname"><em>target</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>L'abri d'un combattant contre un autre, les autres combattants placés faisant corps. </p>
+<p>Un combattant à terre reste sur la grille et abrite encore. <span class="tt"><a class="el" href="#a0ddd67c0966fb31bf8c2de44a63d6999a96b0141273eabab320119c467cdcaf17" title="Complètement dissimulée : ne peut pas être ciblée directement.">Cover::Total</a></span> si l'un des deux n'est pas sur la grille : ce qui n'y est pas ne se vise pas. </p>
+
+</div>
+</div>
+<a id="aac10188449066631157dad14349a01eb" name="aac10188449066631157dad14349a01eb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aac10188449066631157dad14349a01eb">&#9670;&#160;</a></span>coverBonus()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int core::coverBonus </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a0ddd67c0966fb31bf8c2de44a63d6999">Cover</a></td>          <td class="paramname"><span class="paramname"><em>cover</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Le bonus d'un abri à la CA et aux sauvegardes de Dextérité : 0, +2, +5 ; 0 pour l'abri total, qui n'est pas un bonus mais une interdiction. </p>
+
+</div>
+</div>
+<a id="a870aa619bde747a0f4d7be56b323ebc3" name="a870aa619bde747a0f4d7be56b323ebc3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a870aa619bde747a0f4d7be56b323ebc3">&#9670;&#160;</a></span>coverFrom()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a0ddd67c0966fb31bf8c2de44a63d6999">Cover</a> core::coverFrom </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classcore_1_1BattleGrid.html">BattleGrid</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>grid</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcore_1_1Footprint.html">Footprint</a></td>          <td class="paramname"><span class="paramname"><em>attacker</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcore_1_1Footprint.html">Footprint</a></td>          <td class="paramname"><span class="paramname"><em>target</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::span&lt; const <a class="el" href="structcore_1_1Footprint.html">Footprint</a> &gt;</td>          <td class="paramname"><span class="paramname"><em>interposed</em></span><span class="paramdefsep"> = </span><span class="paramdefval">{}</span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>L'abri de <code class="param">target</code> contre ce qui vient de <code class="param">attacker</code>. </p>
+<p>Trois familles d'obstacles, comptées <b>séparément</b> puis comparées, parce que les abris ne s'additionnent pas. Ce qui arrête la vue abrite <b>selon les lignes coupées</b> (une ou deux : partiel ; trois : important ; quatre : total). Un corps abrite <b>selon sa nature</b>, dès qu'il coupe une ligne : un objet à abri important — la herse, la meurtrière du Manuel — donne <span class="tt"><a class="el" href="#a0ddd67c0966fb31bf8c2de44a63d6999a850728c829c818ee8538216e8ad2770d" title="Au moins les trois quarts : +5.">Cover::ThreeQuarters</a></span> ; une créature de <code class="param">interposed</code>, « amie ou ennemie », ou un objet à abri partiel donne <span class="tt"><a class="el" href="#a0ddd67c0966fb31bf8c2de44a63d6999ac48615a1bc4197056d522af276aa5a85" title="Au moins la moitié du corps : +2 à la CA et aux sauvegardes de Dextérité.">Cover::Half</a></span>. Compter ses lignes n'aurait pas de sens : une herse d'une case n'en coupe jamais plus de deux. Un mur qui coupe deux lignes et un allié qui coupe les deux autres font un abri partiel, pas un abri total.</p>
+<p><span class="tt"><a class="el" href="#a0ddd67c0966fb31bf8c2de44a63d6999a96b0141273eabab320119c467cdcaf17" title="Complètement dissimulée : ne peut pas être ciblée directement.">Cover::Total</a></span> si et seulement si <span class="tt">!hasLineOfSight(grid, attacker, target)</span>. </p>
+
+</div>
+</div>
+<a id="aebf827caa223eb1215f8613ffab5263e" name="aebf827caa223eb1215f8613ffab5263e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aebf827caa223eb1215f8613ffab5263e">&#9670;&#160;</a></span>coverFromPoint()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a0ddd67c0966fb31bf8c2de44a63d6999">Cover</a> core::coverFromPoint </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classcore_1_1BattleGrid.html">BattleGrid</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>grid</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcore_1_1GridPoint.html">GridPoint</a></td>          <td class="paramname"><span class="paramname"><em>origin</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcore_1_1Footprint.html">Footprint</a></td>          <td class="paramname"><span class="paramname"><em>target</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::span&lt; const <a class="el" href="structcore_1_1Footprint.html">Footprint</a> &gt;</td>          <td class="paramname"><span class="paramname"><em>interposed</em></span><span class="paramdefsep"> = </span><span class="paramdefval">{}</span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>L'abri de <code class="param">target</code> contre un effet qui part d'un <b>point</b> — l'origine d'une zone. </p>
+<p>Même compte, depuis un seul point au lieu des coins d'une emprise : c'est l'abri qui s'ajoute à une sauvegarde de Dextérité contre une boule de feu. </p>
+
+</div>
+</div>
+<a id="a5d1d182841a7266b06a3220835bd1144" name="a5d1d182841a7266b06a3220835bd1144"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5d1d182841a7266b06a3220835bd1144">&#9670;&#160;</a></span>coverLabel()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string_view core::coverLabel </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a0ddd67c0966fb31bf8c2de44a63d6999">Cover</a></td>          <td class="paramname"><span class="paramname"><em>cover</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Le nom d'un abri tel que le journal l'écrit : « abri partiel », « abri important ». </p>
 
 </div>
 </div>
@@ -5237,6 +5802,110 @@ Déterministe, et c'est le point</h2>
 
 </div>
 </div>
+<a id="aba1d28cef88c61f722b2b034a8415f10" name="aba1d28cef88c61f722b2b034a8415f10"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aba1d28cef88c61f722b2b034a8415f10">&#9670;&#160;</a></span>hasLineOfSight() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool core::hasLineOfSight </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classcore_1_1BattleGrid.html">BattleGrid</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>grid</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcore_1_1Footprint.html">Footprint</a></td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcore_1_1Footprint.html">Footprint</a></td>          <td class="paramname"><span class="paramname"><em>b</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Vrai si les deux emprises se voient : un segment dégagé relie un point de grille de l'une à un point de grille de l'autre. </p>
+<p>Tous les points de grille de chaque emprise, et pas seulement ses quatre coins : c'est ce qui rend la relation symétrique pour une créature de grande taille, dont une case intérieure peut regarder par une meurtrière que ses coins ne voient pas. </p>
+
+</div>
+</div>
+<a id="aa817dba16bcb7105e025a537da633667" name="aa817dba16bcb7105e025a537da633667"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa817dba16bcb7105e025a537da633667">&#9670;&#160;</a></span>hasLineOfSight() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool core::hasLineOfSight </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classcore_1_1CombatState.html">CombatState</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>combat</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#a91235fd72a18c305c494723774630841">CombatantId</a></td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#a91235fd72a18c305c494723774630841">CombatantId</a></td>          <td class="paramname"><span class="paramname"><em>b</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>La même relation entre deux combattants ; faux si l'un des deux n'est pas sur la grille. </p>
+
+</div>
+</div>
+<a id="ad0fe834d01c603c0df43af69133dc1e3" name="ad0fe834d01c603c0df43af69133dc1e3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad0fe834d01c603c0df43af69133dc1e3">&#9670;&#160;</a></span>hasProperty()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool core::hasProperty </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structcore_1_1Weapon.html">Weapon</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>weapon</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>property</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Vrai si l'arme porte la propriété <code class="param">property</code> (<span class="tt">"finesse"</span>, <span class="tt">"reach"</span>, <span class="tt">"thrown"</span>...). </p>
+
+</div>
+</div>
 <a id="a58f349d22c971141da56b91273d5d29d" name="a58f349d22c971141da56b91273d5d29d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a58f349d22c971141da56b91273d5d29d">&#9670;&#160;</a></span>inReach()</h2>
 
@@ -5275,6 +5944,7 @@ Déterministe, et c'est le point</h2>
 </div><div class="memdoc">
 
 <p>Vrai si <code class="param">target</code> est à portée de l'attaque : allonge au corps à corps ; au contact, ou dans la portée maximale si elle est connue, à distance. </p>
+<p>La distance seule : la vue est dans <span class="tt"><a class="el" href="#a7365293652d3b9980a5d196d0ada9400" title="Peut-on viser target avec cette attaque ?">core::checkTarget</a></span>. </p>
 
 </div>
 </div>
@@ -5299,6 +5969,43 @@ Déterministe, et c'est le point</h2>
 
 <p>Résout une interaction sur une cible désignée, en levant son drapeau s'il y a lieu. </p>
 <p><b>C'est ici que « deux fois ne donne qu'une fois » se joue.</b> Le drapeau est levé et sa valeur de retour dit s'il était neuf ; l'appelant n'a pas à demander d'abord puis à écrire ensuite, séquence dans laquelle un second appel pourrait se glisser. </p>
+
+</div>
+</div>
+<a id="aef818c5b82795fc59c0d259e968762cd" name="aef818c5b82795fc59c0d259e968762cd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aef818c5b82795fc59c0d259e968762cd">&#9670;&#160;</a></span>isSightClear()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool core::isSightClear </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classcore_1_1BattleGrid.html">BattleGrid</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>grid</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcore_1_1GridPoint.html">GridPoint</a></td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcore_1_1GridPoint.html">GridPoint</a></td>          <td class="paramname"><span class="paramname"><em>b</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Vrai si rien n'arrête la vue sur le segment <code class="param">a</code> — <code class="param">b</code> (extrémités exceptées). </p>
+<p>Symétrique : <span class="tt">isSightClear(g, a, b) == isSightClear(g, b, a)</span>. Un segment réduit à un point est dégagé sauf si ce point touche une case qui arrête la vue — le coin commun de deux murs en diagonale. </p>
 
 </div>
 </div>
@@ -6540,7 +7247,7 @@ Déterministe, et c'est le point</h2>
 </div>
 </div>
 <a id="a78fa4a986a900f73517454f7c1eff774" name="a78fa4a986a900f73517454f7c1eff774"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a78fa4a986a900f73517454f7c1eff774">&#9670;&#160;</a></span>operator==() <span class="overload">[1/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a78fa4a986a900f73517454f7c1eff774">&#9670;&#160;</a></span>operator==() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -6578,8 +7285,37 @@ Déterministe, et c'est le point</h2>
 
 </div>
 </div>
+<a id="aac10767b87c9d2dcc3932edb226563b1" name="aac10767b87c9d2dcc3932edb226563b1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aac10767b87c9d2dcc3932edb226563b1">&#9670;&#160;</a></span>operator==() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool core::operator== </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcore_1_1GridPoint.html">GridPoint</a></td>          <td class="paramname"><span class="paramname"><em>left</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcore_1_1GridPoint.html">GridPoint</a></td>          <td class="paramname"><span class="paramname"><em>right</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a02b4ac39e4a1c16efbe9ff53132d9a95" name="a02b4ac39e4a1c16efbe9ff53132d9a95"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a02b4ac39e4a1c16efbe9ff53132d9a95">&#9670;&#160;</a></span>operator==() <span class="overload">[2/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a02b4ac39e4a1c16efbe9ff53132d9a95">&#9670;&#160;</a></span>operator==() <span class="overload">[3/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -7557,7 +8293,7 @@ Déterministe, et c'est le point</h2>
 </div><div class="memdoc">
 
 <p>Résout une attaque dans le combat : déclaration, jet, dégâts, points de vie. </p>
-<p>Annonce <span class="tt"><a class="el" href="#a942a0cabc5c97e0e10dfb8a148e26fb9a5a4f89385b5dfc0953b794f3df6378af">CombatHook::AttackDeclared</a></span> <b>avant</b> le jet (<span class="tt">LOT-20</span>), ajoute les circonstances que la grille dit, jette, et si l'attaque touche, fait traverser les dégâts au pipeline — qui se termine dans <span class="tt"><a class="el" href="classcore_1_1CombatState.html#a49abb9a15d8de91f995425ea70356280" title="Retire amount points de vie, sans descendre sous 0 ; à 0, le combattant est à terre.">core::CombatState::applyDamage</a></span>. Ne dépense <b>aucune</b> ressource : une attaque de l'action <em>attaquer</em> dépense l'action, une attaque d'opportunité la réaction, et c'est l'appelant qui sait laquelle il joue. Ne vérifie pas la portée, pour la même raison (<span class="tt"><a class="el" href="#a58f349d22c971141da56b91273d5d29d" title="Vrai si target est à portée de l&#39;attaque : allonge au corps à corps ; au contact, ou dans la portée m...">core::inReach</a></span>).</p>
+<p>Annonce <span class="tt"><a class="el" href="#a942a0cabc5c97e0e10dfb8a148e26fb9a5a4f89385b5dfc0953b794f3df6378af">CombatHook::AttackDeclared</a></span> <b>avant</b> le jet (<span class="tt">LOT-20</span>), ajoute les circonstances que la grille dit, pose l'abri de la cible (<span class="tt"><a class="el" href="#a9ca481bd627a473f4cddc6f5e14dd971" title="L&#39;abri d&#39;un combattant contre un autre, les autres combattants placés faisant corps.">core::coverBetween</a></span>) <b>avant le premier greffon</b> <span class="tt">BeforeRoll</span> — qui peut le relever, jamais le cumuler —, jette, et si l'attaque touche, fait traverser les dégâts au pipeline — qui se termine dans <span class="tt"><a class="el" href="classcore_1_1CombatState.html#a49abb9a15d8de91f995425ea70356280" title="Retire amount points de vie, sans descendre sous 0 ; à 0, le combattant est à terre.">core::CombatState::applyDamage</a></span>. Ne dépense <b>aucune</b> ressource : une attaque de l'action <em>attaquer</em> dépense l'action, une attaque d'opportunité la réaction, et c'est l'appelant qui sait laquelle il joue. Ne vérifie ni la portée ni la vue, pour la même raison (<span class="tt"><a class="el" href="#a7365293652d3b9980a5d196d0ada9400" title="Peut-on viser target avec cette attaque ?">core::checkTarget</a></span>).</p>
 <dl class="section return"><dt>Returns</dt><dd>Vide si l'attaque ne peut pas être déclarée : l'un des deux n'est pas debout, ou le combat n'est pas en cours. </dd></dl>
 
 </div>
@@ -8152,6 +8888,48 @@ Déterministe, et c'est le point</h2>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>La position finale, l'indicateur de blocage par axe et l'occurrence d'un contact — même structure <span class="tt"><a class="el" href="structcore_1_1SweepResult.html" title="Résultat d&#39;un balayage : où la boîte s&#39;arrête et sur quels axes elle a été bloquée.">core::SweepResult</a></span> que <span class="tt"><a class="el" href="#a4ca635df367666624247837feb2af5a5" title="Déplace box de delta en s&#39;arrêtant au premier contact avec une tuile solide, puis en glissant le long...">sweepAabb</a></span>, pour une composition directe côté appelant. </dd></dl>
+
+</div>
+</div>
+<a id="acc72525dbecb690d39a4f7ebe97423b5" name="acc72525dbecb690d39a4f7ebe97423b5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acc72525dbecb690d39a4f7ebe97423b5">&#9670;&#160;</a></span>thrownAttackFor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::optional&lt; <a class="el" href="structcore_1_1AttackProfile.html">AttackProfile</a> &gt; core::thrownAttackFor </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structcore_1_1CharacterSheet.html">CharacterSheet</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>sheet</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structcore_1_1Weapon.html">Weapon</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>weapon</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>proficiencyBonus</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>proficient</em></span><span class="paramdefsep"> = </span><span class="paramdefval">true</span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>L'attaque d'une arme <b>lancée</b> — dague, hachette, javeline —, si elle a la propriété <span class="tt">thrown</span>. </p>
+<p>Manuel, chapitre 5, « Lancer » : une arme de corps à corps lancée emploie la même caractéristique qu'au corps à corps. L'attaque est à distance, à la portée de l'arme. Vide pour une arme sans cette propriété : une épée longue lancée est une arme improvisée, qui n'est pas de ce lot. </p>
 
 </div>
 </div>

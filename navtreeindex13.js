@@ -1,5 +1,15 @@
 var NAVTREEINDEX13 =
 {
+"classhmi_1_1GamepadBindingsWidget.html#ae55d80696e9f2b18ac51860864f13e5c":[11,0,2,134,19],
+"classhmi_1_1GamepadBindingsWidget.html#ae55d80696e9f2b18ac51860864f13e5c":[12,0,1,134,19],
+"classhmi_1_1GamepadBindingsWidget.html#aebf8d182b575fc99b214fd8ac8137e7c":[11,0,2,134,10],
+"classhmi_1_1GamepadBindingsWidget.html#aebf8d182b575fc99b214fd8ac8137e7c":[12,0,1,134,10],
+"classhmi_1_1GamepadPoller.html":[11,0,2,118],
+"classhmi_1_1GamepadPoller.html":[12,0,1,118],
+"classhmi_1_1GamepadPoller.html#a1ba7adb75dea62a30fca7a207dc79868":[11,0,2,118,0],
+"classhmi_1_1GamepadPoller.html#a1ba7adb75dea62a30fca7a207dc79868":[12,0,1,118,0],
+"classhmi_1_1GamepadPoller.html#a50ff27e4cacca8e5627fe8a0079e1cd1":[11,0,2,118,2],
+"classhmi_1_1GamepadPoller.html#a50ff27e4cacca8e5627fe8a0079e1cd1":[12,0,1,118,2],
 "classhmi_1_1GamepadPoller.html#ae33c922e03ea961b2b1a3bc5630f47f1":[11,0,2,118,1],
 "classhmi_1_1GamepadPoller.html#ae33c922e03ea961b2b1a3bc5630f47f1":[12,0,1,118,1],
 "classhmi_1_1IGameMode.html":[11,0,2,58],
@@ -239,15 +249,5 @@ var NAVTREEINDEX13 =
 "classhmi_1_1InventoryModel.html#ac9d4d4eef953b647f13fd4ec05070b54":[11,0,2,166,54],
 "classhmi_1_1InventoryModel.html#ac9d4d4eef953b647f13fd4ec05070b54":[12,0,1,166,54],
 "classhmi_1_1InventoryModel.html#ace13938dcca6ac0654535a7b9ee9b0d8":[11,0,2,166,40],
-"classhmi_1_1InventoryModel.html#ace13938dcca6ac0654535a7b9ee9b0d8":[12,0,1,166,40],
-"classhmi_1_1InventoryModel.html#acf31a4cccc58031b7efa9351dcf0df30":[11,0,2,166,36],
-"classhmi_1_1InventoryModel.html#acf31a4cccc58031b7efa9351dcf0df30":[12,0,1,166,36],
-"classhmi_1_1InventoryModel.html#ad145dfad038799a59937922c2aa24a5a":[11,0,2,166,18],
-"classhmi_1_1InventoryModel.html#ad145dfad038799a59937922c2aa24a5a":[12,0,1,166,18],
-"classhmi_1_1InventoryModel.html#ad815eabdbc72f2d89fde2f2241f43cc3":[11,0,2,166,51],
-"classhmi_1_1InventoryModel.html#ad815eabdbc72f2d89fde2f2241f43cc3":[12,0,1,166,51],
-"classhmi_1_1InventoryModel.html#adad1d72b86b6dd6522ac591573fd5c81":[11,0,2,166,55],
-"classhmi_1_1InventoryModel.html#adad1d72b86b6dd6522ac591573fd5c81":[12,0,1,166,55],
-"classhmi_1_1InventoryModel.html#adc21c016b772e4f29a8520ac89faaa3e":[11,0,2,166,38],
-"classhmi_1_1InventoryModel.html#adc21c016b772e4f29a8520ac89faaa3e":[12,0,1,166,38]
+"classhmi_1_1InventoryModel.html#ace13938dcca6ac0654535a7b9ee9b0d8":[12,0,1,166,40]
 };

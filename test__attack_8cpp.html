@@ -125,13 +125,19 @@ Functions</h2></td></tr>
 <tr class="memdesc:a2ed726aac8eba8da89f268fdd3bdddee"><td class="mdescLeft">&#160;</td><td class="mdescRight">La grille dit la portee et les circonstances : allonge, emprise, tir au contact.  <br /></td></tr>
 <tr class="memitem:a66455ded2c0194baa1ce39359fa9bb17" id="r_a66455ded2c0194baa1ce39359fa9bb17"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a66455ded2c0194baa1ce39359fa9bb17">TEST</a> (AttackTest, LesProfilsSeTirentDuBestiaireEtDeLaFiche)</td></tr>
 <tr class="memdesc:a66455ded2c0194baa1ce39359fa9bb17"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les profils se tirent du bestiaire et de l'arme de la fiche, selon le Manuel.  <br /></td></tr>
+<tr class="memitem:af12f32c013767d0f758b03a9065fbec8" id="r_af12f32c013767d0f758b03a9065fbec8"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#af12f32c013767d0f758b03a9065fbec8">TEST</a> (AttackTest, LAbriChangeLaCAUneFois)</td></tr>
+<tr class="memdesc:af12f32c013767d0f758b03a9065fbec8"><td class="mdescLeft">&#160;</td><td class="mdescRight">L'abri change la CA de son montant, une fois, et le meilleur seul compte (LOT-22).  <br /></td></tr>
+<tr class="memitem:aa45a6ce83e767d69163e64546068715e" id="r_aa45a6ce83e767d69163e64546068715e"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#aa45a6ce83e767d69163e64546068715e">TEST</a> (AttackTest, ViserDemandeLaPorteeEtLaVue)</td></tr>
+<tr class="memdesc:aa45a6ce83e767d69163e64546068715e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Viser demande la portee et la vue ; un ennemi qu'on ne voit pas ne gene pas le tir.  <br /></td></tr>
+<tr class="memitem:a088dd1be5f606b8626ef2ba75495e38e" id="r_a088dd1be5f606b8626ef2ba75495e38e"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a088dd1be5f606b8626ef2ba75495e38e">TEST</a> (AttackTest, LesPorteesSeLisentDansLaDonnee)</td></tr>
+<tr class="memdesc:a088dd1be5f606b8626ef2ba75495e38e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les portees et l'allonge se lisent dans la donnee structuree, jamais dans la prose.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Tests de l'attaque (<span class="tt">LOT-21</span>, <span class="tt">EX-CBT-030</span>, <span class="tt">EX-CBT-031</span>, <span class="tt">EX-DND-003</span>) : 1 et 20 naturels, jet amendable, journal, circonstances de la grille, profils du bestiaire et de la fiche. </p>
 <p>Le d20 est <b>forcé</b> par un greffon qui substitue le dé : c'est le point d'insertion même que le lot livre, et il rend « un 20 naturel » écrivable sans chercher une graine qui le donne. </p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
 <a id="adb0cb7b176e51ade9cfc4b5dc2cd653a" name="adb0cb7b176e51ade9cfc4b5dc2cd653a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adb0cb7b176e51ade9cfc4b5dc2cd653a">&#9670;&#160;</a></span>TEST() <span class="overload">[1/6]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#adb0cb7b176e51ade9cfc4b5dc2cd653a">&#9670;&#160;</a></span>TEST() <span class="overload">[1/9]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -160,8 +166,40 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="af12f32c013767d0f758b03a9065fbec8" name="af12f32c013767d0f758b03a9065fbec8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af12f32c013767d0f758b03a9065fbec8">&#9670;&#160;</a></span>TEST() <span class="overload">[2/9]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TEST </td>
+          <td>(</td>
+          <td class="paramtype">AttackTest</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">LAbriChangeLaCAUneFois</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>L'abri change la CA de son montant, une fois, et le meilleur seul compte (LOT-22). </p>
+<p><b>Cas de test :</b> <b>Une cible derriere un muret gagne +2 a sa CA ; un greffon qui pose le meme abri ne l'ajoute pas une seconde fois ; un abri important par-dessus porte le bonus a +5, pas a +7 ; un abri total n'est pas un bonus.</b><br  />
+ <b>Categorie :</b> Unitaire · Combat<br  />
+ <b>Criticite :</b> Bloquant<br  />
+ <b>Etapes :</b><br  />
+ 1. Un archer en (0,1), un gobelin a la CA 15 en (3,1), un muret en (2,1).<br  />
+2. Tirer, d20 force a 12.<br  />
+3. Tirer avec un greffon qui pose l'abri partiel, puis l'abri total.<br  />
+4. Tirer avec un greffon qui pose l'abri important.<br  />
+ <b>Resultat attendu :</b> CA 17 et « abri partiel : CA 15 -&gt; 17 » au journal ; CA 17 encore, une seule inscription ; CA 20, deux inscriptions. </p>
+
+</div>
+</div>
 <a id="a2ed726aac8eba8da89f268fdd3bdddee" name="a2ed726aac8eba8da89f268fdd3bdddee"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2ed726aac8eba8da89f268fdd3bdddee">&#9670;&#160;</a></span>TEST() <span class="overload">[2/6]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a2ed726aac8eba8da89f268fdd3bdddee">&#9670;&#160;</a></span>TEST() <span class="overload">[3/9]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -193,7 +231,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a81f1726dcc96553052cfda148dd57eea" name="a81f1726dcc96553052cfda148dd57eea"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a81f1726dcc96553052cfda148dd57eea">&#9670;&#160;</a></span>TEST() <span class="overload">[3/6]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a81f1726dcc96553052cfda148dd57eea">&#9670;&#160;</a></span>TEST() <span class="overload">[4/9]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -225,8 +263,39 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a088dd1be5f606b8626ef2ba75495e38e" name="a088dd1be5f606b8626ef2ba75495e38e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a088dd1be5f606b8626ef2ba75495e38e">&#9670;&#160;</a></span>TEST() <span class="overload">[5/9]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TEST </td>
+          <td>(</td>
+          <td class="paramtype">AttackTest</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">LesPorteesSeLisentDansLaDonnee</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Les portees et l'allonge se lisent dans la donnee structuree, jamais dans la prose. </p>
+<p><b>Cas de test :</b> <b>Chaque arme qui se tire ou se lance porte ses portees ; l'arc long tire a 30/120 cases, la hallebarde frappe a 2, la dague se lance a 4/12 ; le squelette tire a 16/64.</b><br  />
+ <b>Categorie :</b> Unitaire · Combat<br  />
+ <b>Criticite :</b> Majeur<br  />
+ <b>Etapes :</b><br  />
+ 1. Charger le catalogue d'armes et le bestiaire livres.<br  />
+2. Pour chaque arme : portees presentes si et seulement si elle a les munitions ou le lancer.<br  />
+3. Tirer les profils de l'arc long, de la hallebarde, de la dague (lancee), de l'epee longue (qui ne se lance pas) et du squelette.<br  />
+ <b>Resultat attendu :</b> Aucune arme sans portee qui se tire, aucune portee sans raison ; 30/120 ; allonge 2 ; « Dague (lancer) » a distance, 4/12, Dexterite ; pas d'epee lancee ; l'arc court du squelette a 16/64. </p>
+
+</div>
+</div>
 <a id="a66455ded2c0194baa1ce39359fa9bb17" name="a66455ded2c0194baa1ce39359fa9bb17"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a66455ded2c0194baa1ce39359fa9bb17">&#9670;&#160;</a></span>TEST() <span class="overload">[4/6]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a66455ded2c0194baa1ce39359fa9bb17">&#9670;&#160;</a></span>TEST() <span class="overload">[6/9]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -257,7 +326,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a5c3d08e5a1dfaffcb6fa0ff3c25fe7d5" name="a5c3d08e5a1dfaffcb6fa0ff3c25fe7d5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5c3d08e5a1dfaffcb6fa0ff3c25fe7d5">&#9670;&#160;</a></span>TEST() <span class="overload">[5/6]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a5c3d08e5a1dfaffcb6fa0ff3c25fe7d5">&#9670;&#160;</a></span>TEST() <span class="overload">[7/9]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -287,7 +356,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="ad84382e76461b48f642e853aaa25e5b2" name="ad84382e76461b48f642e853aaa25e5b2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad84382e76461b48f642e853aaa25e5b2">&#9670;&#160;</a></span>TEST() <span class="overload">[6/6]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ad84382e76461b48f642e853aaa25e5b2">&#9670;&#160;</a></span>TEST() <span class="overload">[8/9]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -313,6 +382,37 @@ Functions</h2></td></tr>
  1. L'heroine (+5, 1d8+3) attaque un gobelin a la CA 40.<br  />
 2. Le d20 est force a 20.<br  />
  <b>Resultat attendu :</b> Touche et critique ; deux d8 lances, modificateur 3 ; PV perdus = somme des deux d8 + 3 ; le journal dit « critique (20 naturel) » et « des doubles ». </p>
+
+</div>
+</div>
+<a id="aa45a6ce83e767d69163e64546068715e" name="aa45a6ce83e767d69163e64546068715e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa45a6ce83e767d69163e64546068715e">&#9670;&#160;</a></span>TEST() <span class="overload">[9/9]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TEST </td>
+          <td>(</td>
+          <td class="paramtype">AttackTest</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ViserDemandeLaPorteeEtLaVue</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Viser demande la portee et la vue ; un ennemi qu'on ne voit pas ne gene pas le tir. </p>
+<p><b>Cas de test :</b> <b>Une cible derriere un mur ne se vise pas, ni a distance ni au contact par le coin de deux murs ; au-dela de la longue portee non plus ; un ennemi adjacent qui ne voit pas le tireur ne lui impose pas le desavantage du tir au contact.</b><br  />
+ <b>Categorie :</b> Unitaire · Combat<br  />
+ <b>Criticite :</b> Critique<br  />
+ <b>Etapes :</b><br  />
+ 1. Un archer en (1,1), un gobelin en (2,2) derriere deux murs en (2,1) et (1,2), un loup en (0,3), un rat en (5,5).<br  />
+2. Verifier chaque cible, a distance (portee 2/3) et au contact.<br  />
+3. Les circonstances du tir vers le loup.<br  />
+ <b>Resultat attendu :</b> Gobelin : abri total, a distance comme au contact ; loup : valide ; rat : hors de portee ; soi-meme : hors grille ; aucun desavantage de tir au contact. </p>
 
 </div>
 </div>

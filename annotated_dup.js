@@ -3,6 +3,7 @@ var annotated_dup =
     [ "core", "namespacecore.html", [
       [ "ActionResource", "structcore_1_1ActionResource.html", "structcore_1_1ActionResource" ],
       [ "ActionEconomy", "classcore_1_1ActionEconomy.html", "classcore_1_1ActionEconomy" ],
+      [ "AreaOfEffect", "structcore_1_1AreaOfEffect.html", "structcore_1_1AreaOfEffect" ],
       [ "ArenaEntryPoint", "structcore_1_1ArenaEntryPoint.html", "structcore_1_1ArenaEntryPoint" ],
       [ "HeroicMark", "structcore_1_1HeroicMark.html", "structcore_1_1HeroicMark" ],
       [ "HeroicMarkCatalog", "structcore_1_1HeroicMarkCatalog.html", "structcore_1_1HeroicMarkCatalog" ],
@@ -53,6 +54,8 @@ var annotated_dup =
       [ "Encounter", "structcore_1_1Encounter.html", "structcore_1_1Encounter" ],
       [ "EncounterCatalog", "structcore_1_1EncounterCatalog.html", "structcore_1_1EncounterCatalog" ],
       [ "CombatantPlacement", "structcore_1_1CombatantPlacement.html", "structcore_1_1CombatantPlacement" ],
+      [ "GridPoint", "structcore_1_1GridPoint.html", "structcore_1_1GridPoint" ],
+      [ "Footprint", "structcore_1_1Footprint.html", "structcore_1_1Footprint" ],
       [ "Mover", "structcore_1_1Mover.html", "structcore_1_1Mover" ],
       [ "Path", "structcore_1_1Path.html", "structcore_1_1Path" ],
       [ "ReachableArea", "classcore_1_1ReachableArea.html", "classcore_1_1ReachableArea" ],

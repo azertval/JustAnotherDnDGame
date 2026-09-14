@@ -9,5 +9,6 @@ var searchData=
   ['fontfamilyresolution_6',['FontFamilyResolution',['../structhmi_1_1FontFamilyResolution.html',1,'hmi']]],
   ['fontmetrics_7',['FontMetrics',['../structhmi_1_1FontMetrics.html',1,'hmi']]],
   ['fontmetricsresult_8',['FontMetricsResult',['../structhmi_1_1FontMetricsResult.html',1,'hmi']]],
-  ['framerateaverage_9',['FrameRateAverage',['../classhmi_1_1FrameRateAverage.html',1,'hmi']]]
+  ['footprint_9',['Footprint',['../structcore_1_1Footprint.html',1,'core']]],
+  ['framerateaverage_10',['FrameRateAverage',['../classhmi_1_1FrameRateAverage.html',1,'hmi']]]
 ];
