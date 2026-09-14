@@ -205,12 +205,12 @@ TEST(ModeDeJeuTest, ModeSansEtatEtNomme) {
  * @brief Le mode combat **gèle** le monde : ni déplacement libre, ni mécanismes, ni évaluation
  *        d'issue de niveau — et l'ordre appelé reste celui qu'il annonce.
  * \castest{<b>Le mode combat gele le monde.</b><br/>
- * 	cat Unitaire · Mode de jeu<br/>
- * 	crit Critique<br/>
- * 	etapes 1. Avancer le mode combat d'un pas fixe sur des passes qui enregistrent leurs
+ * \tcat Unitaire · Mode de jeu<br/>
+ * \tcrit Critique<br/>
+ * \tetapes 1. Avancer le mode combat d'un pas fixe sur des passes qui enregistrent leurs
  * appels.<br/>2. Comparer la sequence a passOrder().<br/>3. Verifier l'absence des passes
  * d'exploration.<br/>
- * 	attendu moveCharacter, updateMechanisms, detectEvents et evaluateOutcome ne sont jamais
+ * \tattendu moveCharacter, updateMechanisms, detectEvents et evaluateOutcome ne sont jamais
  * appeles, et l'issue rendue est Playing.
  * }
  */
@@ -233,10 +233,10 @@ TEST(ModeDeJeuTest, LeModeCombatGeleLeMonde) {
 /**
  * @brief Le mode combat se nomme, et ne garde aucun état d'un pas à l'autre.
  * \castest{<b>Le mode combat est nomme et sans etat.</b><br/>
- * 	cat Unitaire · Mode de jeu<br/>
- * 	crit Mineur<br/>
- * 	etapes 1. Avancer deux instances distinctes du mode d'un meme pas.<br/>
- * 	attendu Les deux produisent la meme sequence, et le mode porte un nom distinct de
+ * \tcat Unitaire · Mode de jeu<br/>
+ * \tcrit Mineur<br/>
+ * \tetapes 1. Avancer deux instances distinctes du mode d'un meme pas.<br/>
+ * \tattendu Les deux produisent la meme sequence, et le mode porte un nom distinct de
  * l'exploration.
  * }
  */

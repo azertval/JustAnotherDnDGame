@@ -129,11 +129,11 @@ TEST(ScreenFlowTest, TransitionInterditeEstRefusee) {
  * @brief Un écran du RPG revient vers l'écran d'où il a été ouvert -- menu, jeu ou pause -- porté
  *        par l'état, comme la provenance d'Options (`LOT-68`, `EX-IHM-090`).
  * \castest{<b>Un ecran du RPG revient vers son ecran d'origine (Menu, Game ou Pause).</b><br/>
- * 	cat Unitaire · Machine à états des écrans<br/>
- * 	crit Critique<br/>
- * 	etapes 1. Ouvrir un ecran du RPG depuis le menu, le jeu puis la pause.<br/>2. Le fermer a
+ * \tcat Unitaire · Machine à états des écrans<br/>
+ * \tcrit Critique<br/>
+ * \tetapes 1. Ouvrir un ecran du RPG depuis le menu, le jeu puis la pause.<br/>2. Le fermer a
  * chaque fois et verifier l'ecran atteint.<br/>
- * 	attendu Chaque fermeture revient a l'ecran d'origine respectif.
+ * \tattendu Chaque fermeture revient a l'ecran d'origine respectif.
  * }
  */
 TEST(ScreenFlowTest, EcranDuRpgRevientVersSonEcranDOrigine) {

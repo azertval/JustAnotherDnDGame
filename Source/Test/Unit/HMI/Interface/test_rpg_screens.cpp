@@ -252,11 +252,11 @@ TEST(RpgScreensTest, ChaqueCleDeLOssatureExisteDansLesDeuxLangues) {
  * contrôle est par écran et non global, parce qu'un identifiant est résolu par l'écran qui le
  * porte -- deux écrans ont le droit d'afficher chacun leur « nom ».
  * \castest{<b>Les identifiants de valeur sont uniques a l'interieur d'un ecran.</b><br/>
- * 	cat Unitaire · Ecrans du RPG<br/>
- * 	crit Majeur<br/>
- * 	etapes 1. Collecter les identifiants de valeur de chaque ecran.<br/>2. Verifier qu'aucun ne
+ * \tcat Unitaire · Ecrans du RPG<br/>
+ * \tcrit Majeur<br/>
+ * \tetapes 1. Collecter les identifiants de valeur de chaque ecran.<br/>2. Verifier qu'aucun ne
  * se repete dans un meme ecran.<br/>
- * 	attendu Aucun identifiant duplique.
+ * \tattendu Aucun identifiant duplique.
  * }
  */
 TEST(RpgScreensTest, LesIdentifiantsDeValeurSontUniquesParEcran) {
