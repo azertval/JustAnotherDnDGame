@@ -66,16 +66,25 @@ struct StepRules {
             return std::nullopt;
         }
         bool difficult = false;
+        bool crowded = false;
         for (int row = to.row; row < to.row + side; ++row) {
             for (int column = to.column; column < to.column + side; ++column) {
                 const GridPosition cell{column, row};
                 const std::optional<CombatantId> occupant = grid.occupantAt(cell);
-                if (occupant.has_value() && *occupant != mover.combatant &&
-                    !(mover.canPassThrough && mover.canPassThrough(*occupant))) {
-                    return std::nullopt;
+                if (occupant.has_value() && *occupant != mover.combatant) {
+                    if (!(mover.canPassThrough && mover.canPassThrough(*occupant))) {
+                        return std::nullopt;
+                    }
+                    crowded = true;
                 }
                 difficult = difficult || grid.isDifficult(cell);
             }
+        }
+        // « L'emplacement occupé par une autre créature est aussi considéré comme un terrain
+        // difficile » (Manuel des Joueurs, PDF p. 192 et 193) : traverser un allié coûte double, en
+        // vol comme au sol — c'est la créature qui gêne, pas le sol.
+        if (crowded) {
+            return DIFFICULT_COST;
         }
         // Le terrain difficile est une gêne de sol : un volant ne la paie pas (`core::Locomotion`).
         return difficult && mover.locomotion == Locomotion::Walk ? DIFFICULT_COST : NORMAL_COST;

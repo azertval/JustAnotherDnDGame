@@ -307,7 +307,7 @@ constexpr std::array<RpgScreenDescriptor, RPG_SCREEN_COUNT> SCREENS = {{
      .superposition = RpgSuperposition::PausesGame,
      .layout = {.leftColumn = COMPANY_LEFT, .rightColumn = COMPANY_RIGHT}},
     // L'ATH de combat est le seul écran qui ne s'ouvre PAS par-dessus le jeu : il EST le jeu
-    // pendant un combat. Il ne suspend donc rien, et le tour par tour du LOT-20 décidera de son
+    // pendant un combat. Il ne suspend donc rien, et c'est core::CombatState (LOT-20) qui tient son
     // rythme -- pas cette table.
     {.id = RpgScreenId::CombatHud,
      .objectName = "RpgCombatHudScreen",
