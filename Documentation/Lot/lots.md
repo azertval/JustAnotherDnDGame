@@ -19,11 +19,10 @@ c'est un identifiant stable, jamais réordonné.
 > lots est archivé en lecture seule sous `Documentation/Heritage/Lot/`.
 >
 > On a longtemps pu écrire que les deux ensembles « ne se croisaient jamais ». **Ce n'est plus
-> vrai** : la feuille de route atteint `LOT-84` et recouvre entièrement la plage héritée. Les
-> spécifications portent **208 renvois `LOT-NN` ambigus dans douze fichiers**, que ni le lint ni
-> Doxygen ne signalent. Le `LOT-78` les classe et préfixe les renvois hérités en `LOT-H-XX` ; il
-> doit précéder la création du premier dossier de lot au-delà du `LOT-29`. D'ici là, un `LOT-XX`
-> cité dans une spécification **peut désigner l'un ou l'autre programme**.
+> vrai** : le programme atteint `LOT-87` et recouvre entièrement la plage héritée. Un renvoi au
+> programme hérité s'écrit donc `LOT-H-XX` — le `LOT-78` a préfixé les 201 renvois des
+> spécifications, et `scripts/lint_lots.py` refuse tout `LOT-XX` de spécification qui ne désigne
+> pas un lot de ce programme.
 
 ## Lots
 
@@ -53,6 +52,10 @@ c'est un identifiant stable, jamais réordonné.
 - @subpage lot-67
 - @subpage lot-68
 - @subpage lot-38
+- @subpage lot-14
+- @subpage lot-18
+- @subpage lot-39
+- @subpage lot-86
 - @subpage lot-87
 
 ## Feuille de route
@@ -76,10 +79,11 @@ tactique au d20 » — reste le jalon qui prouve la boucle avant qu'on la géné
 | D — Combat tactique | `LOT-18` → `LOT-24` | Bascule exploration ↔ combat, grille tactique, initiative, attaques, ligne de vue, IA, IHM de combat |
 | E — Contenu et finition | `LOT-25` → `LOT-29` | Sorts, économie, contenu du slice, audio et version `0.2.0`, groupe de quatre personnages |
 | F — Filière contenu | `LOT-30` → `LOT-84` | Préconditions (spécification RPG, numéros, chargement de données), extraction du corpus, catalogues, monde et peuplement, une classe par lot, refonte IHM, mécaniques manquantes |
+| G — Refonte de l'interface | `LOT-85` → `LOT-87` | Décidés hors de la feuille de route : `LOT-85` abandonné, `LOT-86` (Qt Quick, deux exécutables) et `LOT-87` (charte v2) livrés |
 
-La phase F compte **48 lots à venir** — quatre numéros (`LOT-31`, `LOT-48`, `LOT-71`, `LOT-73`)
-ayant été retirés par fusion et n'étant pas réattribués, et ses trois préconditions (`LOT-77`,
-`LOT-78`, `LOT-79`) étant livrées. Elle **ne suit pas** les précédentes : elle
+La phase F compte **35 lots à venir** — quatre numéros (`LOT-31`, `LOT-48`, `LOT-71`, `LOT-73`)
+ayant été retirés par fusion et n'étant pas réattribués, et seize de ses lots étant livrés, dont
+ses trois préconditions (`LOT-77`, `LOT-78`, `LOT-79`). Elle **ne suit pas** les précédentes : elle
 s'entrelace avec B à E, chacun de ses lots servant un lot des phases antérieures qui, sans lui, se
 bâtirait sur un catalogue fictif. L'ordre d'exécution recommandé, le chemin critique jusqu'au
 `LOT-27` et le graphe complet des dépendances sont donnés par la

@@ -13,7 +13,8 @@ tableau, ce qui reste à faire et dans quel ordre — c'est la réponse à « et
 de la page dit pourquoi.
 
 `Documentation/SourceBook/` rassemble le **matériel de référence** ayant servi à construire le monde
-et les règles : huit PDF, environ 1 200 pages, 280 Mo. Les sections 1 à 4 disent ce qu'ils
+et les règles : huit PDF et neuf ressources de table virtuelle, environ 1 400 pages, 785 Mo.
+Les sections 1 à 4 disent ce qu'ils
 contiennent et ce que l'extraction a appris ; la section 5 découpe le travail et la section 6
 donne la **règle d'ordre** qui produit le tableau d'avancement, le chemin critique et le graphe ;
 la section 7 dessine l'arborescence cible et la section 8 récapitule ce qui est tranché ; les
@@ -24,7 +25,7 @@ sections 9 et 10 rapportent l'audit et ce qu'il faut anticiper ; la section 11 p
 
 ## État d'avancement {#roadmap-avancement}
 
-**Vingt-neuf lots livrés, cinquante et un restants.** Le prochain est le [LOT-19](@ref lot-19).
+**Trente et un lots livrés, cinquante et un restants.** Le prochain est le [LOT-19](@ref lot-19).
 
 Livrés : `LOT-01` à `LOT-08` (le socle : fork et purge, `HmiLib`, `LevelData`, format de carte
 version 3, modes de jeu, déplacement top-down, tri par profondeur, tuiles RPG), `LOT-77`, `LOT-78`
@@ -44,17 +45,22 @@ retire du programme la notion de niveau discret) et le [LOT-68](@ref lot-68) (le
 [LOT-38](@ref lot-38) (la fiche de personnage, calquée sur la planche du corpus) et le
 [LOT-14](@ref lot-14) (inventaire, équipement et statistiques dérivées) et le
 [LOT-18](@ref lot-18) (la bascule exploration ↔ combat) et le [LOT-39](@ref lot-39) (la plomberie
-des clés d'assets).
-Chacun garde son dossier et son `epic.md`.
+des clés d'assets), puis les deux lots de refonte de l'interface, inscrits **hors** de cette page
+parce que décidés après elle : le [LOT-86](@ref lot-86) (l'IHM du jeu en Qt Quick, dans son propre
+exécutable, modifiable par un artiste sans compilateur) et le [LOT-87](@ref lot-87) (la **charte
+v2**, tirée des dix maquettes du pack UI, et les treize écrans transcrits dessus).
+Chacun garde son dossier et son `epic.md`. Le `LOT-85` (outillage Qt Designer) a été **abandonné**
+au profit du `LOT-86` et son numéro n'est pas réattribué.
 
 **Quelle date pour la `0.1.0` ?** Aucune n'est annoncée ici, et ce n'est pas une prudence de
-principe : les vingt-six lots livrés l'ont été entre le 3 et le 7 septembre 2026, soit une cadence
-observée qui, prise au pied de la lettre, placerait la version dans deux semaines. Cette
+principe : les trente et un lots livrés l'ont été entre le 3 et le 14 septembre 2026, soit une
+cadence observée qui, prise au pied de la lettre, placerait la version dans trois semaines. Cette
 extrapolation est fausse, et il vaut mieux l'écrire que la laisser deviner : les lots livrés sont
-des lots de **socle**, dont le périmètre tient dans quelques fichiers. Ceux qui restent portent des
-catalogues — 176 créatures, 31 tables de progression, dix régions — et un volume de données ne se
-livre pas à la vitesse d'un refactoring. La cadence sera mesurable après les cinq premiers lots de
-la filière contenu ; d'ici là, ce tableau donne le **reste à faire**, pas une date.
+des lots de **socle**, de **catalogues** déjà extraits et d'**écrans** dessinés sur des données en
+attente. Ceux qui restent sont des lots de **moteur** — la grille tactique, l'initiative, les
+dialogues, l'éditeur, le graphe de cartes — dont aucun n'a encore de mesure de cadence, puis les
+catalogues restants (82 créatures de Tanares, 31 tables de progression) et le peuplement de dix
+régions. Ce tableau donne le **reste à faire**, pas une date.
 
 L'ordre ci-dessous n'est pas arbitré : il est **calculé** depuis le graphe de dépendances, par la
 règle de la **section 6** — *à chaque pas, parmi les lots dont tous les prérequis sont faits,
@@ -64,34 +70,34 @@ tableau n'en porte volontairement aucun.
 
 | # | Lot | Objet | Débloque | Statut |
 |---|---|---|---|---|
-| 1 | `LOT-19` | Grille tactique et déplacement | 11 | **prochain** |
-| 2 | `LOT-15` | PNJ et dialogues | 9 | prêt |
-| 3 | `LOT-20` | Initiative et tour par tour | 9 | en attente |
-| 4 | `LOT-11` | Éditeur multi-couches et placement d'entités | 8 | prêt |
-| 5 | `LOT-27` | Contenu du *vertical slice* | 8 | prêt |
-| 6 | `LOT-80` | Factions, panthéon et organisations | 8 | prêt |
-| 7 | `LOT-81` | Descripteurs de terrain des dix régions | 7 | prêt |
-| 8 | `LOT-16` | Quêtes et drapeaux de monde | 6 | en attente |
-| 9 | `LOT-21` | Attaques, dégâts et états | 6 | en attente |
-| 10 | `LOT-40` | Générateur de terrain | 6 | en attente |
-| 11 | `LOT-44` | Noms, tables aléatoires et contenu d'ambiance | 6 | prêt |
-| 12 | `LOT-46` | Créatures de Tanares | 6 | prêt |
-| 13 | `LOT-26` | Butin, marchands, économie | 5 | en attente |
-| 14 | `LOT-41` | Peuplement : rencontres et créatures | 5 | en attente |
-| 15 | `LOT-70` | Horloge de partie et cycle jour/nuit | 4 | prêt |
-| 16 | `LOT-82` | Peuplement civil : PNJ, marchands et quêtes | 4 | en attente |
-| 17 | `LOT-09` | Graphe de cartes et transitions | 3 | prêt |
-| 18 | `LOT-22` | Portée, ligne de vue et zones d'effet | 3 | en attente |
-| 19 | `LOT-84` | Les 31 tables de progression de classe | 3 | prêt |
-| 20 | `LOT-17` | Sauvegarde riche | 2 | en attente |
-| 21 | `LOT-35` | Sorts et états | 2 | prêt |
-| 22 | `LOT-47` | Socle de classe, et le guerrier comme preuve | 2 | en attente |
-| 23 | `LOT-23` | IA tactique ennemie | 1 | en attente |
-| 24 | `LOT-42` | Voyage et carte du monde | 1 | en attente |
-| 25 | `LOT-45` | Guilde des Aventuriers : rangs et contrats | 1 | en attente |
-| 26 | `LOT-50` | Le Colisée : bac à sable de combat | 1 | en attente |
-| 27 | `LOT-74` | Expérience et progression | 1 | en attente |
-| 28 | `LOT-24` | IHM de combat | 0 | en attente |
+| 1 | `LOT-19` | Grille tactique et déplacement | 19 | **prochain** |
+| 2 | `LOT-20` | Initiative et tour par tour | 17 | en attente |
+| 3 | `LOT-21` | Attaques, dégâts et états | 15 | en attente |
+| 4 | `LOT-15` | PNJ et dialogues | 13 | prêt |
+| 5 | `LOT-22` | Portée, ligne de vue et zones d'effet | 12 | en attente |
+| 6 | `LOT-80` | Factions, panthéon et organisations | 12 | prêt |
+| 7 | `LOT-11` | Éditeur multi-couches et placement d'entités | 11 | prêt |
+| 8 | `LOT-16` | Quêtes et drapeaux de monde | 11 | en attente |
+| 9 | `LOT-09` | Graphe de cartes et transitions | 10 | prêt |
+| 10 | `LOT-23` | IA tactique ennemie | 10 | en attente |
+| 11 | `LOT-17` | Sauvegarde riche | 9 | en attente |
+| 12 | `LOT-24` | IHM de combat | 9 | en attente |
+| 13 | `LOT-27` | Contenu du *vertical slice* | 8 | en attente |
+| 14 | `LOT-81` | Descripteurs de terrain des dix régions | 7 | prêt |
+| 15 | `LOT-40` | Générateur de terrain | 6 | en attente |
+| 16 | `LOT-44` | Noms, tables aléatoires et contenu d'ambiance | 6 | prêt |
+| 17 | `LOT-46` | Créatures de Tanares | 6 | prêt |
+| 18 | `LOT-26` | Butin, marchands, économie | 5 | en attente |
+| 19 | `LOT-41` | Peuplement : rencontres et créatures | 5 | en attente |
+| 20 | `LOT-70` | Horloge de partie et cycle jour/nuit | 4 | prêt |
+| 21 | `LOT-82` | Peuplement civil : PNJ, marchands et quêtes | 4 | en attente |
+| 22 | `LOT-84` | Les 31 tables de progression de classe | 3 | prêt |
+| 23 | `LOT-35` | Sorts et états | 2 | prêt |
+| 24 | `LOT-47` | Socle de classe, et le guerrier comme preuve | 2 | en attente |
+| 25 | `LOT-42` | Voyage et carte du monde | 1 | en attente |
+| 26 | `LOT-45` | Guilde des Aventuriers : rangs et contrats | 1 | en attente |
+| 27 | `LOT-50` | Le Colisée : bac à sable de combat | 1 | en attente |
+| 28 | `LOT-74` | Expérience et progression | 1 | en attente |
 | 29 | `LOT-25` | Sorts et capacités de classe | 0 | en attente |
 | 30 | `LOT-28` | Audio, effets et version `0.2.0` | 0 | en attente |
 | 31 | `LOT-29` | Groupe de quatre personnages | 0 | en attente |
@@ -230,7 +236,8 @@ jeu qu'on prend ou qu'on laisse entier.
   OCR est bruité mais gérable : voir §4.
 - **`Character_Sheets_Tanares.pdf`** — 5 feuilles, **zéro caractère de texte** hors filigrane. Les
   planches sont en revanche disponibles en image à 2 668 × 3 418, soit environ 300 ppp : de quoi
-  servir de maquette précise pour l'écran de fiche.
+  servir de maquette précise pour l'écran de fiche — ce que le [LOT-38](@ref lot-38) a fait, avant
+  que la charte v2 du [LOT-87](@ref lot-87) ne lui substitue la maquette 03 du pack UI.
 
 ---
 
@@ -357,7 +364,9 @@ compte : rendre une région composite **tout ce qui y est dessiné, texte compri
 l'art court sous les colonnes, l'extraction d'illustrations propres est donc **semi-automatique** —
 l'outil propose les régions candidates, l'humain garde et recadre. Les éléments d'habillage
 autonomes (panneaux de parchemin, cadres, bordures) sortent en revanche parfaitement seuls, et ce
-sont eux qui alimenteront l'interface.
+sont eux qui ont alimenté l'interface au [LOT-76](@ref lot-76) — jusqu'à ce que la charte v2 du
+[LOT-87](@ref lot-87) remplace ces relevés par des images **produites** depuis un cahier des
+assets, le corpus ne servant plus que de référence de cotes et de couleurs.
 
 ---
 
@@ -365,16 +374,19 @@ sont eux qui alimenteront l'interface.
 
 Les lots [LOT-13](@ref lot-13) (fiche de personnage), [LOT-14](@ref lot-14) (inventaire),
 [LOT-25](@ref lot-25) (sorts) et [LOT-26](@ref lot-26) (économie) exigent tous un « catalogue en
-**JSON** », conformément à [`EX-VIS-007`](@ref EX-VIS-007). Aucun ne dit **d'où sortent ces JSON**.
-C'est exactement le trou que ce corpus comble, et c'est le périmètre de cette filière.
+**JSON** », conformément à [`EX-VIS-007`](@ref EX-VIS-007). Aucun ne disait **d'où sortent ces
+JSON**. C'est exactement le trou que ce corpus comble, et c'est le périmètre de cette filière — les
+deux premiers sont livrés depuis, sur les catalogues qu'elle a produits.
 
-Trente-huit lots, `LOT-35` à `LOT-84`. Quatre numéros ont été **retirés** par fusion
-(`LOT-31`, `LOT-48`, `LOT-71`, `LOT-73` : voir l'encart en fin de section), et les trois
-préconditions ont été **livrées** — [LOT-77](@ref lot-77), [LOT-78](@ref lot-78) et
-[LOT-79](@ref lot-79) — qui ont donc quitté cette page pour leur dossier, comme tout lot livré. Les numéros sont,
-comme toujours, des identifiants stables : ils viennent après [LOT-29](@ref lot-29) dans la
-numérotation, mais plusieurs s'exécutent **avant** les lots qui les consomment (voir §6). Une nouvelle famille d'exigences `EX-CNT-*` les couvre, à écrire
-dans un `Documentation/Specification/contenu.md`.
+Trente-cinq lots, `LOT-35` à `LOT-84`, restent à livrer dans cette filière. Quatre numéros ont été
+**retirés** par fusion (`LOT-31`, `LOT-48`, `LOT-71`, `LOT-73` : voir l'encart en fin de section),
+et seize lots de la même plage sont **livrés** — les trois préconditions [LOT-77](@ref lot-77),
+[LOT-78](@ref lot-78) et [LOT-79](@ref lot-79), puis `LOT-30`, `LOT-32` à `LOT-34`, `LOT-36` à
+`LOT-39`, `LOT-43`, `LOT-66` à `LOT-68` et `LOT-76` — qui ont donc quitté cette page pour leur
+dossier, comme tout lot livré. Les numéros sont, comme toujours, des identifiants stables : ils
+viennent après [LOT-29](@ref lot-29) dans la numérotation, mais plusieurs s'exécutent **avant**
+les lots qui les consomment (voir §6). La famille d'exigences `EX-CNT-*` les couvre, dans
+`Documentation/Specification/contenu.md` ([LOT-77](@ref lot-77)).
 
 > **État de l'audit.** Cette page a été confrontée à l'état réel du dépôt, puis à elle-même. Six
 > lots dépassaient l'étalon mesuré sur les **huit lots livrés** — `LOT-01` à `LOT-08`, soit 16 à 34
@@ -386,15 +398,23 @@ dans un `Documentation/Specification/contenu.md`.
 >
 > Les epics réels font 33 à 89 lignes ; les sections ci-dessous en font environ 27, donc
 > **sous-spécifiées comme epics** — elles seront reprises au démarrage de chaque lot. Aucune ne
-> porte encore de rubrique « Exigences couvertes », faute de familles `EX-*` existantes : c'est
-> l'objet du `LOT-77`.
+> portait de rubrique « Exigences couvertes », faute de familles `EX-*` existantes : le `LOT-77`
+> les a écrites.
+>
+> **Second audit, le 14 septembre 2026** (§9.6) : trente et un lots livrés, dont deux refontes
+> d'interface (`LOT-86`, `LOT-87`) décidées hors de cette page. Il a corrigé ce qui avait dérivé —
+> un `LOT-27` que le lint croyait prêt, des sections de lots qui décrivaient des classes retirées,
+> une charte remplacée — sans changer un seul périmètre.
 
 Trois formes de sortie, et le choix entre elles n'est pas cosmétique. **JSON** pour tout ce qui est
 structuré et imbriqué — une créature a des actions, une classe a une progression par niveau — et
 parce que le projet lit déjà du JSON (`skins.json`, `sounds.json`, `palettes.json`). **CSV** pour la
 seule donnée réellement tabulaire et plate du corpus, le lexique du `LOT-30` : 1 200 lignes de trois
 colonnes, qu'on veut pouvoir trier, comparer et corriger dans un tableur sans passer par un éditeur
-de code. **PNG** enfin, pour les textures du `LOT-39`.
+de code. **PNG** enfin, pour les images de l'interface — non plus des textures **extraites** du
+corpus, comme le `LOT-39` le prévoyait, mais des images **produites** à 1080p depuis le cahier des
+assets du [LOT-87](@ref lot-87) ; le `LOT-39` a livré la plomberie des clés et le marqueur généré
+qui tient lieu de toute image absente.
 
 ### Importer tout, honorer progressivement
 
@@ -543,12 +563,13 @@ Il porte aussi la **découverte** : un lieu se révèle en y arrivant ou en l'ap
 cet état de découverte entre dans la sauvegarde du [LOT-17](@ref lot-17). Sans cela, un monde de
 cent lieux s'ouvre entièrement dès la première seconde et n'a plus rien à offrir.
 
-L'IHM s'appuie sur les cartes de régions du Sourcebook, redessinées à l'échelle du jeu par le
-`LOT-39` — et surtout sur **`VTT/Map - World.jpg`**, la carte du monde à 9 933 × 7 016 **sans
-filigrane et hors double page**, là où le fond de menu du [LOT-67](@ref lot-67) se contentait de
-96 ppp parce qu'il n'était qu'un décor. Un écran qu'on consulte demande de lire les toponymes ;
-celui-ci le permet. **`VTT/Map - Capital.jpg`** donne la capitale rue par rue, à la même
-définition.
+**L'écran existe déjà.** `WorldMapForm.ui.qml` ([LOT-87](@ref lot-87), maquette 08) pose la carte
+du monde en haute définition — **`VTT/Map - World.jpg`**, 9 933 × 7 016, **sans filigrane et hors
+double page**, là où le fond de menu du [LOT-67](@ref lot-67) se contentait de 96 ppp — avec les
+treize régions, leur gouvernement et le nombre de leurs lieux, sur un `WorldMapModel` qui ne
+connaît encore ni position du personnage ni découverte. Ce lot n'a donc plus d'écran à dessiner :
+il livre la **donnée** du voyage (routes, coûts, ancrages) et le modèle qui la porte, puis place
+les lieux un à un. **`VTT/Map - Capital.jpg`** donne la capitale rue par rue, à la même définition.
 
 *Acceptation* — le joueur atteint les dix régions par le seul jeu, sans commande de débogage ; la
 carte du monde n'affiche que ce qui est découvert ; l'état de découverte survit à une sauvegarde et
@@ -608,6 +629,11 @@ niveau, une **raison de progresser**, et un garde-fou qui évite au joueur de ni
 
 Les halls de guilde étant « bâtis jusqu'au-delà des Freelands », le système s'étend naturellement aux
 dix régions et donne au `LOT-42` des points d'ancrage pour le voyage.
+
+**L'écran existe déjà.** Le tableau de la Guilde du [LOT-68](@ref lot-68) a été absorbé par
+`CompanyForm.ui.qml` ([LOT-87](@ref lot-87), maquette 09) — quatre onglets : Équipe, Recrutement,
+Contrats, Réserve — dont **26 clés `company.*`** attendent ce lot et le `LOT-83`. Ce lot alimente
+l'onglet Contrats ; il ne redessine rien.
 
 *Acceptation* — un contrat n'est proposé qu'au rang correspondant ; la difficulté d'un contrat
 généré respecte la bande de FP de son rang, vérifié sur les cinq rangs ; le tableau de quêtes
@@ -788,18 +814,20 @@ supprimées, et rien ne doit s'en apercevoir.
 
 *Prérequis : [LOT-11](@ref lot-11), [LOT-66](@ref lot-66).*
 
-> **Deux fois corrigé à l'audit.** D'abord la prémisse : ce lot affirmait que l'éditeur est « un
-> outil Qt séparé », ce qui est **faux** — `EX-EDIT-030` impose déjà « un éditeur intégré à
-> l'application (mode éditeur), et **non un outil séparé** », et `EX-ARCH-090` prévoit un état
-> `Éditeur`.
+> **Deux fois corrigé à l'audit, puis rattrapé par le [LOT-86](@ref lot-86).** D'abord la
+> prémisse : ce lot affirmait que l'éditeur est « un outil Qt séparé », et le premier audit l'avait
+> déclaré faux au nom d'`EX-EDIT-030` (« un éditeur intégré à l'application, et **non un outil
+> séparé** »). Le [LOT-86](@ref lot-86) a depuis scindé l'IHM en **deux exécutables** —
+> `JustAnotherDnDGame` en Qt Quick, qui ne lie pas `Qt6::Widgets` (`EX-IHM-102`), et `LevelEditor`
+> en Qt Widgets — si bien que la prémisse est redevenue vraie, et qu'`EX-EDIT-030` est aujourd'hui
+> contredite par le dépôt. Ce que cela change pour l'édition dans la scène est **à trancher** au
+> `LOT-11` (§8) ; cela ne change rien à ce lot-ci.
 >
 > Ensuite le périmètre, et c'est le changement qui compte. Ce lot était écrit comme la **refonte**
 > de l'éditeur en mode édition dans la scène, et déclarait `LOT-50` en prérequis — ce qui plaçait le
 > socle de classe et le Colisée **avant le vertical slice du [LOT-27](@ref lot-27)**, à rebours de
-> l'argument du §6. Or le §10 conclut que le `LOT-11` n'étant pas commencé, il doit **viser d'emblée
-> l'édition dans la scène**. Cette conclusion est ici prise au mot : la refonte est devenue le
-> cahier des charges du `LOT-11`, et il ne reste à ce lot que la **suppression** de l'atelier de
-> dessin — qui n'a besoin ni du Colisée ni des classes.
+> l'argument du §6. La refonte est devenue le cahier des charges du `LOT-11`, et il ne reste à ce
+> lot que la **suppression** de l'atelier de dessin — qui n'a besoin ni du Colisée ni des classes.
 
 Le [LOT-66](@ref lot-66) supprime l'identité pixel art — et avec elle la raison d'être de l'**atelier pixel
 art** que l'`EX-IHM-073` impose aujourd'hui comme l'un des deux espaces de travail exclusifs. Un
@@ -830,6 +858,14 @@ Ce qui est **retiré** : l'atelier de dessin proprement dit — `PixelCanvas`, `
 et d'`EX-EDIT-045` qui le prescrit. Le guide `Documentation/Guide/guide-atelier-pixel-art.md` et les
 huit fichiers de tests associés disparaissent avec.
 
+**Ce que le [LOT-87](@ref lot-87) a laissé ouvert, et qui trouve ici son porteur naturel** — à
+confirmer au démarrage (§8) : la portée **identité** du châssis d'édition en Qt Widgets
+(`hmi::identityTokens()`, `IdentityScale`, `hmi::applyFont()`) charge encore les deux polices pixel
+`Pixelify Sans` et `Press Start 2P`, que plus aucun écran du jeu n'emploie. Faire suivre cette
+portée à la charte v2, ou décider qu'un outil de développeur reste en pixel, est une décision que
+le `LOT-87` a explicitement refusé de prendre pour lui ; ce lot, qui retire déjà l'identité pixel
+de l'éditeur, est celui où elle se pose.
+
 > **Ce retrait est un revirement, pas un oubli.** Le [LOT-01](@ref lot-01) a conservé l'atelier lors
 > de la purge, et le [LOT-11](@ref lot-11) en fait un acquis à ne pas régresser. La raison de
 > revenir dessus est que le [LOT-66](@ref lot-66) retire l'identité pixel art : un atelier de dessin au pixel
@@ -854,6 +890,10 @@ l'identique, panneau de textures compris.
 `core::GameClock` : un temps **de jeu**, distinct du temps réel, qui avance en exploration et se
 **gèle en combat** — un combat se compte en tours, pas en minutes. Cycle jour/nuit, calendrier
 simple.
+
+**La fenêtre du §10 est fermée.** Le [LOT-13](@ref lot-13) a été livré sans que la fiche déclare
+ses ressources ni leur cadence : `CharacterSheet` ne connaît ni repos ni ressource. Ce lot les
+rétro-adapte — c'est le « coût si on attend » que le tableau du §10 annonçait, et il est dû.
 
 **Le piège.** Le temps de jeu ne doit jamais dériver de l'horloge système. Le [LOT-26](@ref lot-26)
 interdit déjà les graines liées à l'horloge, et pour la même raison : une sauvegarde rechargée
@@ -896,10 +936,9 @@ sources**, on n'accumule jamais.
 ou trois échecs), stabilisation, critique à 0 PV, dégâts massifs. Et la mort **hors combat**,
 aujourd'hui absente de tout document.
 
-Ce lot **ne touche pas** à `EX-GP-030`/`031`/`032`, qui décrivent encore la mort du jeu de
-plateforme : leur retrait appartient au `LOT-67`, qui retire la notion de niveau discret dans son
-ensemble. Le `LOT-72` en dépend pour son vocabulaire, mais ne se les approprie pas — une exigence
-retirée deux fois par deux lots est une exigence dont personne ne répond.
+`EX-GP-030`/`031`/`032`, qui décrivaient la mort du jeu de plateforme, ont été retirées par le
+[LOT-67](@ref lot-67) avec la notion de niveau discret. Ce lot ne les rouvre pas : la mort, en
+combat comme hors combat, se spécifie dans les familles `EX-DND` et `EX-CBT` qu'il couvre.
 
 *Acceptation* — deux sources de la même condition, retrait de l'une, l'autre tient ; une condition
 expire au bon tour ; chaque état du catalogue `LOT-35` a un effet observable, ou est explicitement
@@ -918,9 +957,10 @@ sable. Puis les seuils, la montée de niveau, et la répartition dans un groupe
 ([LOT-29](@ref lot-29)).
 
 **Le piège.** Trois lots consomment l'expérience et aucun n'en produit : le `LOT-13` fait monter de
-niveau, le `LOT-28` règle des seuils, le `LOT-29` la répartit, mais rien n'en attribue jamais. Et
-`niveaux.md` fait encore progresser **par tableau franchi** (`EX-LVL-014`), une notion qui disparaît
-avec le `LOT-67`.
+niveau, le `LOT-28` règle des seuils, le `LOT-29` la répartit, mais rien n'en attribue jamais. Les
+**seuils** existent déjà en donnée (`Rpg/rules/experience.json`, [LOT-43](@ref lot-43)) ; la
+progression **par tableau franchi** (`EX-LVL-014`) a été retirée par le [LOT-67](@ref lot-67). Il
+ne manque donc que la **production** de l'expérience, et c'est tout ce lot.
 
 *Acceptation* — tuer une créature de facteur de puissance connu donne l'expérience attendue ;
 franchir un seuil monte d'un niveau, un dépassement multiple monte de plusieurs ; aucune progression
@@ -1133,7 +1173,7 @@ contredisent donc pas, ils ne répondent pas à la même question — et chacun 
 lint vérifie qu'aucun lot de la filière ne manque à celui-ci (règle 6), comme il vérifie que celui
 d'en-tête est bien la suite calculée (règle 13).
 
-Ces cinquante et un lots ne forment **pas une phase** qui suivrait le [LOT-29](@ref lot-29) : ils
+Ces trente-cinq lots ne forment **pas une phase** qui suivrait le [LOT-29](@ref lot-29) : ils
 s'entrelacent avec les phases B à E, parce que chacun sert un lot existant qui, sans lui, se
 construirait sur un catalogue fictif — et un catalogue fictif finit toujours par se figer en
 valeurs codées en dur, exactement ce que [`EX-VIS-007`](@ref EX-VIS-007) interdit. D'où
@@ -1142,41 +1182,41 @@ valeurs codées en dur, exactement ce que [`EX-VIS-007`](@ref EX-VIS-007) interd
 
 | Quand | Lots | Pourquoi là |
 |---|---|---|
-| **Démarrables maintenant** — le [LOT-08](@ref lot-08) est livré | `LOT-30`, puis `LOT-32` | Outillage et contrats ; le plus tôt est le mieux |
-| **Démarrables maintenant** | [LOT-19](@ref lot-19) | La grille tactique : la bascule du [LOT-18](@ref lot-18) est livrée |
+| **Démarrable maintenant** | [LOT-19](@ref lot-19) | La grille tactique : la bascule du [LOT-18](@ref lot-18) est livrée, et le combat est le chemin critique du *vertical slice* |
+| Démarrables, en parallèle du combat | [LOT-15](@ref lot-15), [LOT-11](@ref lot-11), [LOT-09](@ref lot-09) | Dialogues, éditeur et graphe de cartes n'attendent plus rien ; la règle leur préfère seulement ce qui débloque davantage |
 | Avec [LOT-09](@ref lot-09) | `LOT-80` | L'atlas du `LOT-37` est livré : le graphe de cartes a ses nœuds, il lui manque les entités transverses |
-| Avant [LOT-13](@ref lot-13) | `LOT-43`, puis `LOT-36` | Compétences et langues d'abord, car les espèces s'appuient dessus ; puis les 4 classes simplifiées pour le premier combat |
-| Avant [LOT-14](@ref lot-14) | `LOT-34`, puis `LOT-49` | Catalogue réel, puis contrôle de ses valeurs |
-| Avant [LOT-21](@ref lot-21) / [LOT-23](@ref lot-23) | `LOT-33` | Attaques et IA ont besoin de vraies créatures |
-| Avant [LOT-25](@ref lot-25) | `LOT-35` | Les sorts sont des données avant d'être un système |
-| Avant [LOT-25](@ref lot-25) et les lots de classes | `LOT-70` | Un petit lot qui en débloque quinze |
-| Après [LOT-13](@ref lot-13) | [LOT-38](@ref lot-38), puis `LOT-39` | La maquette suppose la fiche ; la plomberie d'assets suit |
-| Avec [LOT-11](@ref lot-11) | `LOT-69` | Le `LOT-11` vise l'édition dans la scène ; ce lot retire l'atelier devenu sans objet |
+| Après `LOT-34` (livré) | `LOT-49` | Catalogue réel, puis contrôle de ses valeurs — un filet, pas un maillon |
+| Avant [LOT-25](@ref lot-25) | `LOT-35` | Les sorts sont des données avant d'être un système ; l'écran des sorts existe déjà (`LOT-87`) |
+| Avant [LOT-25](@ref lot-25) et les lots de classes | `LOT-70` | Un petit lot qui en débloque quinze — et qui rétro-adapte la fiche du `LOT-13`, livrée sans cadence de ressource |
+| Avec [LOT-11](@ref lot-11) | `LOT-69` | Ce lot retire l'atelier pixel art devenu sans objet ; l'édition dans la scène est à trancher au `LOT-11` (§8) |
 | Après [LOT-11](@ref lot-11) | `LOT-81`, puis `LOT-40` | Les descripteurs, puis le générateur qui les consomme |
 | Avec [LOT-21](@ref lot-21) | `LOT-72` | Conditions, agonie et mort appartiennent au combat |
 | Avec [LOT-20](@ref lot-20) | `LOT-74` | L'expérience se gagne à la fin d'un combat |
 | Avant `LOT-47` | `LOT-84` | Les 31 tables sont de la donnée : elles précèdent le socle qui les lit |
 | Après [LOT-21](@ref lot-21) | `LOT-47`, puis `LOT-50` | Le socle de classe, puis le lieu où éprouver ce qu'on lui ajoute |
+| Avant [LOT-27](@ref lot-27), en filière | `LOT-44`, `LOT-46` | Noms et créatures de Tanares : de la donnée, sans prérequis de moteur, qui donne au slice de vrais habitants |
+| Après [LOT-27](@ref lot-27) | `LOT-41`, `LOT-82`, `LOT-42`, `LOT-45`, `LOT-83`, `LOT-75` | Le bac à sable généralise une boucle ; elle se valide une fois avant d'être appliquée cent fois |
 
 ### Ce que l'ordre a révélé
 
 Quatre points méritent qu'on s'y arrête.
 
-**Le `LOT-09` n'est pas le prochain lot, alors qu'il en porte le plus petit numéro.** À ne lire que
-sa ligne « Prérequis », il n'attend que des lots livrés. Mais le `LOT-37` déclare l'alimenter : le
-graphe de cartes attend l'atlas des régions, faute de quoi il relierait des nœuds inventés. Il
-tombe au rang 33. La version précédente de cette page portait l'information — « Avec `LOT-09` :
-`LOT-37` » — mais « avec » n'est pas un ordre, et rien n'obligeait à la lire comme tel. C'est le
-`LOT-30` qui sort premier, et pour une raison chiffrée : il débloque quarante-neuf des
-soixante-neuf lots restants.
+**Ce que les deux premiers calculs avaient montré, en septembre 2026.** Le `LOT-09`, plus petit
+numéro de la page, tombait au rang 33 parce que l'atlas du `LOT-37` déclarait l'alimenter — un
+graphe de cartes sans régions relierait des nœuds inventés. Et le `LOT-30` sortait premier, pour
+une raison chiffrée : il débloquait quarante-neuf des soixante-neuf lots restants, une fois les
+trois préconditions livrées ([LOT-77](@ref lot-77) : les cinq familles `EX-*` ; [LOT-78](@ref
+lot-78) : 201 renvois préfixés `LOT-H-NN` ; [LOT-79](@ref lot-79) : six lecteurs JSON factorisés).
+Les deux sont livrés ; la trace reste ici parce qu'elle dit pourquoi les numéros ne sont pas un
+ordre.
 
-**Les trois préconditions sont livrées, et la filière contenu remonte en tête.** Le
-[LOT-77](@ref lot-77) a écrit les cinq documents de spécification RPG, rendant réelles les cinq
-familles `EX-*` fantômes. Le [LOT-78](@ref lot-78) a préfixé `LOT-H-NN` les 201 renvois qui
-désignaient le programme hérité, et posé la règle de lint qui empêche l'ambiguïté de revenir. Le
-[LOT-79](@ref lot-79) a factorisé les six lecteurs JSON avant que la filière n'en ajoute quinze.
-Le `LOT-30` n'attend donc plus rien, et sort **premier** — devant tous les lots de moteur que
-ses catalogues alimentent.
+**Le `LOT-27` passait pour prêt, et il ne l'était pas.** Sa ligne « Prérequis : phases B, C et D
+complètes » ne nommait aucun lot. Le lint n'y lisait rien, et le calcul plaçait le *vertical slice*
+au rang 5, **prêt**, alors qu'il attend encore le combat entier, les dialogues, les quêtes, la
+sauvegarde, l'éditeur et le graphe de cartes. L'audit du 14 septembre 2026 a écrit ces onze lots en
+numéros ; le slice retombe à sa place réelle — voir le tableau d'avancement — et le **chemin
+critique** ci-dessous en est la conséquence directe. Une dépendance que seul un humain sait lire
+n'existe pas pour la règle qui calcule l'ordre.
 
 **Les lots du bac à sable restent résolument après le [LOT-27](@ref lot-27).** Peupler dix régions
 revient à appliquer cent fois la même recette ; si la recette est mauvaise — rencontres mal dosées,
@@ -1187,11 +1227,14 @@ peuplement), sinon on peuple avec des « Villageois 1 » ; `LOT-45` (la Guilde) 
 parce qu'elle a besoin de quêtes à afficher.
 
 **Le volume d'images n'est plus un lot.** 6 000 images ne se traitent pas d'un bloc, et rien n'y
-oblige — le `LOT-39` affiche un marqueur pour tout ce qui n'a pas encore d'image, et chaque
-illustration livrée en remplace un. Ce travail était le `LOT-48`, « volume long, sans jalon » ; il
-est désormais **réparti dans chaque lot de catalogue**, qui livre ses propres illustrations. Un lot
-sans date de fin est un lot qu'on ne finit pas — et en garder un pendant qu'on écrit cette phrase
-était le plus visible des angles morts de cette page.
+oblige — le [LOT-39](@ref lot-39) affiche un marqueur pour tout ce qui n'a pas encore d'image, et
+chaque illustration livrée en remplace un. Ce travail était le `LOT-48`, « volume long, sans
+jalon » ; il est désormais **réparti dans chaque lot de catalogue**, qui livre ses propres
+illustrations. Un lot sans date de fin est un lot qu'on ne finit pas — et en garder un pendant
+qu'on écrit cette phrase était le plus visible des angles morts de cette page. Le
+[LOT-87](@ref lot-87) a appliqué la même règle à l'interface : ses **214 images** de cadres, plaques
+et fonds sont décrites dans un cahier des assets, aucune n'est produite, et chaque brique dessine un
+aplat de repli en attendant — le jeu tourne complet sans elles.
 
 ### Le chemin critique jusqu'au *vertical slice*
 
@@ -1199,32 +1242,30 @@ C'est la contrainte que cette feuille de route a le plus de mal à tenir, parce 
 sans que personne ne décide rien : chaque lot qu'on déclare « avant le [LOT-27](@ref lot-27) »
 repousse d'autant le seul jalon qui prouve que le jeu **est un jeu**.
 
-L'audit a trouvé le `LOT-69` placé « avec `LOT-50`, avant le `LOT-27` ». Comme le `LOT-50` exige le
-socle de classe, cela plaçait `LOT-84 → LOT-47 → LOT-50 → LOT-69` — les seize classes, le Colisée et
-le mode édition — **devant** le slice. Vingt-six des lots de la filière se retrouvaient ainsi en
-amont d'un jalon censé arriver tôt. La correction est au `LOT-69`, réduit à une suppression.
+Le premier audit avait trouvé le `LOT-69` placé « avec `LOT-50`, avant le `LOT-27` » — soit les
+seize classes, le Colisée et le mode édition **devant** le slice — et l'avait réduit à une
+suppression. Puis le chemin passait par les catalogues : `LOT-30` → `LOT-32` → `LOT-43` →
+`LOT-36` → [LOT-13](@ref lot-13) → [LOT-38](@ref lot-38) → `LOT-39` → [LOT-27](@ref lot-27), huit
+lots, dont la fiche de personnage et sa maquette. **Ces sept-là sont livrés.**
 
-Le chemin critique restant compte **huit lots**, et c'est la plus longue chaîne de prérequis qui
-mène au slice :
+Le chemin critique restant est celui du **combat**, et c'est la plus longue chaîne de prérequis
+qui mène au slice depuis que celui-ci déclare les siens en numéros :
 
-`LOT-30` → `LOT-32` → `LOT-43` → `LOT-36` → [LOT-13](@ref lot-13) → [LOT-38](@ref lot-38) → `LOT-39` →
-[LOT-27](@ref lot-27)
+[LOT-19](@ref lot-19) → [LOT-20](@ref lot-20) → [LOT-21](@ref lot-21) → [LOT-23](@ref lot-23) →
+[LOT-24](@ref lot-24) → [LOT-27](@ref lot-27)
 
-Tout le reste — classes, Colisée, peuplement, voyage, guilde — vient **après**. La règle à tenir
-tient en une phrase : *un lot n'entre dans ce chemin que si le slice ne peut pas se jouer sans lui.*
+Six lots, avec le [LOT-22](@ref lot-22) (portée et ligne de vue) en parallèle du `LOT-21`, exigé
+par l'IA du `LOT-23`. Deux chaînes plus courtes y aboutissent aussi et se mènent **en parallèle** :
+[LOT-15](@ref lot-15) → [LOT-16](@ref lot-16) → [LOT-17](@ref lot-17) → `LOT-27` (dialogues, quêtes,
+sauvegarde — quatre lots), et [LOT-09](@ref lot-09) → `LOT-17`, [LOT-11](@ref lot-11) → `LOT-27`
+(le graphe de cartes et l'éditeur). Tout le reste — classes, Colisée, peuplement, voyage, guilde —
+vient **après**. La règle à tenir tient en une phrase : *un lot n'entre dans ce chemin que si le
+slice ne peut pas se jouer sans lui.*
 
-**Ce chemin s'est allongé de trois lots** quand le lien [LOT-38](@ref lot-38) / `LOT-39` a été remis à l'endroit.
-Il passait auparavant par les seuls catalogues — cinq lots, `LOT-30` → `LOT-32` → `LOT-43` →
-`LOT-36` → `LOT-27` — parce que le `LOT-39` était déclaré *avant* le [LOT-38](@ref lot-38). Dans le bon sens, le
-slice attend les clés d'assets, qui attendent la maquette de fiche, qui attend la fiche : la
-[fiche de personnage](@ref lot-13) et sa maquette sont **sur le chemin critique**, ce qu'aucune
-version de cette page n'avait dit.
-
-C'est la conséquence à surveiller, et la seule question qui vaille est : *le slice a-t-il vraiment
-besoin du `LOT-39` ?* Oui — c'est le `LOT-39` qui produit le **marqueur généré** pour toute clé
-sans image, donc ce qui permet au jeu de tourner complet avant qu'une seule illustration ne soit
-découpée. Sans lui, le slice n'aurait rien à afficher pour ses créatures. Le chemin est long parce
-qu'il est réel, pas parce qu'il a dérivé.
+**Ce chemin porte une décision, pas seulement du code.** Le contenu du slice « se produit dans
+l'éditeur », et le [LOT-86](@ref lot-86) a fait de l'éditeur un second exécutable en Qt Widgets, là
+où le §10 voulait l'édition **dans la scène** depuis le jeu. Le `LOT-11` ne peut pas démarrer sans
+que ce point soit tranché (§8) ; le trancher tard reporterait le slice d'autant.
 
 ### Le graphe des dépendances
 
@@ -1268,6 +1309,16 @@ digraph filiere {
   L27 -> L41 [style=dotted, label="valide la recette"];
   L66 [label="LOT-66\nCharte visuelle\n(livré)", style="rounded,filled", fillcolor=grey90];
   L66 -> L69 [label=""]; L69 [label="LOT-69\nRetrait atelier"];
+  subgraph cluster_combat { label="Chemin critique restant : le combat"; style=dashed;
+    L18 [label="LOT-18\nBascule\n(livré)", style="rounded,filled", fillcolor=grey90];
+    L19 [label="LOT-19\nGrille tactique"]; L20 [label="LOT-20\nInitiative"];
+    L21 [label="LOT-21\nAttaques"]; L22 [label="LOT-22\nLigne de vue"];
+    L23 [label="LOT-23\nIA tactique"]; L24 [label="LOT-24\nIHM de combat"];
+    L18 -> L19 -> L20 -> L21 -> L23 -> L24 -> L27; L19 -> L22 -> L23; L21 -> L24;
+  }
+  L15 [label="LOT-15\nDialogues"]; L16 [label="LOT-16\nQuêtes"]; L17 [label="LOT-17\nSauvegarde"];
+  L09 [label="LOT-09\nGraphe de cartes"]; L11 [label="LOT-11\nÉditeur"];
+  L15 -> L16 -> L17 -> L27; L09 -> L17; L11 -> L27; L11 -> L69;
 }
 ```
 
@@ -1309,49 +1360,64 @@ eux-mêmes.
 ## 7. Arborescence cible
 
 ```
-Documentation/SourceBook/   ← les PDF, exclus du dépôt (taille)
+Documentation/SourceBook/   ← les PDF et les ressources VTT, exclus du dépôt (taille)
 
 scripts/sourcebook/
-  corpus.toml               ← manifeste : empreintes, pagination, provenance (LOT-30)
-  *.py                      ← chaîne d'extraction, sur PyMuPDF (LOT-30)
-scripts/check_rpg_data.py, check_glossary.py
-scripts/lint_lots.py        ← controle du graphe de lots de cette page (LOT-78)
+  corpus.toml               ← manifeste : empreintes, pagination, provenance (LOT-30, livré)
+  *.py                      ← chaîne d'extraction, sur PyMuPDF (LOT-30, livré)
+scripts/check_rpg_data.py, check_glossary.py, check_asset_keys.py   ← livrés
+scripts/lint_lots.py        ← contrôle du graphe de lots de cette page (LOT-78, livré)
+scripts/check_assets_brief.py, receive_ui_assets.py   ← cahier et réception des images (LOT-87)
 
 Source/Elements/Rpg/
-  schema/*.schema.json      ← contrats (LOT-32)
-  creatures/*.json          ← 94 betes (LOT-33), puis 82 de Tanares (LOT-46)
-  items/*.json              ← équipement, monnaie, objets magiques (LOT-34)
-  spells/, conditions/      ← sorts et états (LOT-35)
-  species/, backgrounds/    ← especes et historiques (LOT-36)
-  classes/*.json            ← 4 provisoires (LOT-36), 31 tables (LOT-84), socle (LOT-47),
-                              puis une classe par lot (LOT-51 a LOT-65)
-  feats/, skills/, languages/        ← options de personnage (LOT-43)
-  tables/*.json             ← noms, personnalite, babioles (LOT-44)
+  schema/*.schema.json      ← contrats, 23 schémas (LOT-32, livré)
+  creatures/*.json          ← 94 bêtes (LOT-33, livré), puis 82 de Tanares (LOT-46)
+  items/, weapons/, armors/ ← équipement (LOT-34, livré)
+  spells/, conditions/      ← sorts et états (LOT-35) — leurs schémas existent déjà
+  species/, backgrounds/    ← espèces et historiques (LOT-36, livré)
+  classes/*.json            ← 4 provisoires (LOT-36, livré), 31 tables (LOT-84), socle (LOT-47),
+                              puis une classe par lot (LOT-51 à LOT-65)
+  feats/, skills/, languages/, rules/   ← options de personnage, seuils d'expérience (LOT-43, livré)
+  characters/, encounters/  ← personnage et rencontre de démonstration (LOT-13, LOT-18, livrés ;
+                              provisoires, retirés par le contenu du LOT-27)
+  tables/*.json             ← noms, personnalité, babioles (LOT-44)
   guild/*.json              ← rangs et gabarits de contrat (LOT-45), progression (LOT-83)
 
 Source/Elements/World/
-  arena/*.json              ← Colisee : appariements, marques heroiques, roles (LOT-50)
-  regions/*.json            ← 10 regions : statistiques, especes, factions (LOT-37)
+  regions/*.json            ← 13 régions : statistiques, espèces, factions (LOT-37, livré)
                               + descripteurs de terrain (LOT-81)
-  locations/*.json          ← lieux nommes, avec leurs effets mecaniques (LOT-37)
+  locations/*.json          ← 94 lieux nommés, avec leurs effets mécaniques (LOT-37, livré)
   factions/, pantheon/, organizations/            ← (LOT-80)
-  populate/*.json           ← gabarits de rencontre (LOT-41), civils et quetes (LOT-82)
+  arena/*.json              ← Colisée : appariements, marques héroïques, rôles (LOT-50)
+  populate/*.json           ← gabarits de rencontre (LOT-41), civils et quêtes (LOT-82)
 Source/Elements/Assets/
-  rpg.assets.json           ← manifeste des clés d'assets (LOT-39)
-  Ui/, Portraits/, Creatures/        ← textures extraites (LOT-39)
-Source/Elements/Localization/rpg.glossary.csv   ← lexique (LOT-30)
+  Entities/families.json, UI/illustrations.json   ← clés d'assets et marqueurs (LOT-39, livré)
+  UI/world-map*.jpg         ← la carte du monde (LOT-67, LOT-87, livrés)
+  UI/                       ← les 214 images 9-patch du cahier des assets (LOT-87 : à produire)
+Source/Elements/Localization/rpg.glossary.csv   ← lexique (LOT-30, livré)
 
+Source/Ui/                  ← les écrans du jeu en QML : formulaires, contrôles, jetons (LOT-86, LOT-87)
+Source/HMI/Runtime/         ← les vues-modèles C++ exposées au QML ; `PendingData` y tient lieu
+                              de toute donnée que son lot n'a pas encore livrée
 Source/Core/Data/
-  JsonDocument.{h,cpp}      ← brique de lecture unique, position ligne/colonne (LOT-79)
+  JsonDocument.{h,cpp}      ← brique de lecture unique, position ligne/colonne (LOT-79, livré)
+Source/Core/Combat/
+  Encounter, CombatTransition        ← la bascule (LOT-18, livré)
+  BattleGrid, Pathfinding, TurnOrder, CombatState, Attack, Damage, LineOfSight, EnemyAi
+                            ← le combat lui-même (LOT-19 à LOT-23)
 Source/Core/World/
-  TerrainGenerator.{h,cpp}  ← generation pilotee par descripteur de region (LOT-40)
-  RegionPopulator.{h,cpp}   ← peuplement systemique (LOT-41, LOT-82)
-  WorldMap.{h,cpp}          ← voyage et decouverte (LOT-42)
+  Atlas.{h,cpp}             ← régions et lieux (LOT-37, livré)
+  WorldGraph.{h,cpp}        ← cartes, portails, points d'arrivée nommés (LOT-09)
+  TerrainGenerator.{h,cpp}  ← génération pilotée par descripteur de région (LOT-40)
+  RegionPopulator.{h,cpp}   ← peuplement systémique (LOT-41, LOT-82)
+  WorldMap.{h,cpp}          ← voyage et découverte (LOT-42)
 Source/Core/Time/
   GameClock.{h,cpp}, Rest.{h,cpp}    ← horloge, repos court et long (LOT-70)
 
 Documentation/Specification/
-  contenu.md, regles-dnd.md, combat.md, rpg.md, inventaire.md   ← (LOT-77)
+  contenu.md, regles-dnd.md, combat.md, rpg.md, inventaire.md   ← (LOT-77, livré)
+Documentation/Lot/LOT-87-charte-v2/
+  assets-brief.{md,json}, references/   ← le cahier des 214 images et les dix maquettes (LOT-87)
 ```
 
 ---
@@ -1386,14 +1452,26 @@ Documentation/Specification/
 - **Le Colisée est le bac à sable de combat** (`LOT-50`), et il n'est pas un outil jetable : les
   Arènes sont une institution centrale de Tanares, leurs combats sont non létaux par la fiction
   même, et la zone sert telle quelle dans le jeu final.
-- **La charte IHM est refondue** ([LOT-66](@ref lot-66) → [LOT-68](@ref lot-68)). L'identité **pixel art** imposée par
-  `EX-IHM-070` était celle du jeu de plateforme d'origine et contredit frontalement une maquette de
-  fiche à 300 ppp et des panneaux de parchemin peints. Références retenues : les feuilles de
-  personnage pour la structure, les livres Tanares pour l'habillage. Les menus suivent — un monde
-  ouvert n'a ni « niveau à choisir » ni « tableau à recommencer ».
-- **L'éditeur devient un mode de l'arène** (`LOT-69`) : placement libre de décors, objets et PNJ
-  depuis le jeu, sans application séparée. L'atelier pixel art est retiré, faute d'objet une fois
-  l'identité pixel art abandonnée. Réoriente le [LOT-11](@ref lot-11), qui n'est pas encore livré.
+- **La charte IHM a été refondue deux fois, et la seconde remplace la première.** Le
+  [LOT-66](@ref lot-66) a retiré l'identité **pixel art** d'`EX-IHM-070`, celle du jeu de plateforme
+  d'origine, au profit du parchemin de Tanares relevé sur les feuilles de personnage ; les
+  [LOT-76](@ref lot-76), [LOT-67](@ref lot-67) et [LOT-68](@ref lot-68) ont habillé, renommé et
+  dessiné les écrans dessus — un monde ouvert n'a ni « niveau à choisir » ni « tableau à
+  recommencer ». Puis le [LOT-87](@ref lot-87) (décision du 11 septembre 2026) a adopté les dix
+  maquettes du pack UI comme **charte v2** : panneaux sombres cerclés d'or et parchemin, `Cinzel`
+  en titres, `IM Fell English` en corps, ornements livrés en **images 9-patch produites à 1080p**
+  depuis un cahier des assets, jamais découpées des maquettes. Les treize écrans du jeu sont
+  transcrits ; les 214 images du cahier restent **à produire**, et chaque brique dessine un aplat
+  de repli d'ici là. Le parchemin du `LOT-66` survit dans les rôles de couleur qu'il a mesurés.
+- **L'IHM du jeu est en Qt Quick, l'éditeur en Qt Widgets, dans deux exécutables**
+  ([LOT-86](@ref lot-86)). Le jeu ne lie pas `Qt6::Widgets` (`EX-IHM-102`) ; un artiste modifie
+  les écrans dans Qt Design Studio et les voit sans compilateur (`EX-IHM-100`). Chaque écran du RPG
+  existe en QML, sur `PendingData` là où son lot n'a pas encore livré la donnée : les lots de
+  moteur qui restent **branchent** des écrans, ils n'en dessinent plus.
+- **L'atelier pixel art est retiré** (`LOT-69`), faute d'objet une fois l'identité pixel art
+  abandonnée. Ce qui, dans la version précédente de cette liste, en faisait « un mode de l'arène,
+  sans application séparée » est passé dans « à trancher » : le `LOT-86` a tranché l'inverse pour
+  l'IHM.
 - **Région de départ : la République des Freelands.** Ses propres statistiques l'argumentent :
   `Monster Presence` haute — les rencontres se justifient d'elles-mêmes, ce que le Central Empire,
   noté *Low*, ne permet pas ; économie fondée sur les mercenaires et les parts de monstres — le
@@ -1410,11 +1488,33 @@ Documentation/Specification/
   scindé `LOT-37`/`LOT-80`, `LOT-40`/`LOT-81`, `LOT-41`/`LOT-82`, `LOT-45`/`LOT-83` et
   `LOT-47`/`LOT-84`. Les deux moitiés n'ont ni le même métier, ni le même critère d'acceptation, ni
   le même moment.
-- **Le `LOT-11` vise d'emblée l'édition dans la scène.** Le `LOT-69` n'est plus une refonte de
-  l'éditeur, seulement le retrait de l'atelier pixel art. Construire puis remplacer coûtait le
-  double, et le `LOT-11` n'est pas commencé.
+- **Le `LOT-69` n'est plus une refonte de l'éditeur**, seulement le retrait de l'atelier pixel art.
+  Ce qu'il portait de refonte — l'édition dans la scène — est devenu la question du `LOT-11`,
+  ci-dessous.
 
 ### À trancher
+
+- **Où vit l'édition de contenu, depuis le `LOT-86`.** Le §10 concluait que le
+  [LOT-11](@ref lot-11), non commencé, devait viser d'emblée l'édition **dans la scène**, depuis
+  le jeu — et `EX-EDIT-030` l'exige encore (« intégré à l'application, non un outil séparé »). Le
+  [LOT-86](@ref lot-86) a depuis scindé l'IHM en deux exécutables, dont un jeu qui ne lie pas Qt
+  Widgets, et `LevelEditor` est resté l'outil d'auteur, en Widgets, à docks. Trois lectures : (a)
+  l'édition dans la scène se construit **en QML, dans le jeu**, et `LevelEditor` disparaît à
+  terme ; (b) `LevelEditor` reste l'outil, **retargé** aux trois couches et aux entités — le
+  texte d'origine du `LOT-11` —, avec l'essai immédiat d'`EX-EDIT-008` pour la boucle « modifier →
+  constater », et `EX-EDIT-030` est refondue ; (c) les deux, l'un après l'autre. **Recommandation
+  de l'audit : (b).** Le `LOT-86` a payé la séparation pour qu'un outil d'auteur et un jeu
+  n'aient plus à partager une technologie ; reconstruire l'éditeur en QML dans le jeu défait ce
+  choix, et le `LOT-11` est sur le chemin du slice. La décision se prend **au démarrage du
+  `LOT-11`**, et elle refond `EX-EDIT-030` dans un sens ou dans l'autre.
+- **La portée identité du châssis d'édition.** `hmi::identityTokens()` et `hmi::applyFont()`
+  chargent encore `Pixelify Sans` et `Press Start 2P`, que plus aucun écran du jeu n'emploie
+  depuis le `LOT-87`, qui a explicitement laissé ce point ouvert. Suivre la charte v2, ou décider
+  qu'un outil de développeur reste en pixel : candidat naturel, le `LOT-69`.
+- **La production des 214 images du cahier des assets.** Le `LOT-87` a écrit le cahier et la
+  chaîne de réception (`receive_ui_assets.py`), et n'a jamais lancé la production (T2.6) : par
+  quel générateur, quand, et qui relit. Sans elles, chaque écran est un aplat ; avec elles, aucune
+  ligne de QML ne change. Ce n'est pas un lot — c'est une commande à passer.
 
 - **Profondeur du bac à sable.** Le `LOT-41` compose des quêtes par gabarit et le `LOT-45` les
   distribue par rang. Faut-il en rester à ce contenu déduit, ou écrire par-dessus quelques quêtes à
@@ -1450,9 +1550,10 @@ et le lint **échoue** sur les cinq.
 Cet échec était **voulu**, et c'était le seul mécanisme empêchant la dette de grossir en silence.
 Il est **éteint** : le [LOT-77](@ref lot-77) a écrit `regles-dnd.md`, `rpg.md`, `combat.md`,
 `inventaire.md` et `contenu.md`, soit **69 exigences** qui portent les cinq familles, et a posé la
-rubrique « Exigences couvertes » sur les 25 lots qui les implémentent. Le lint compte désormais
+rubrique « Exigences couvertes » sur les 25 lots qui les implémentent. Le lint comptait alors
 **339 exigences déclarées et 339 référencées**, sans aucune entrée ajoutée à la liste des
-exceptions.
+exceptions ; il en compte 352 le 14 septembre 2026, les `LOT-86` et `LOT-87` ayant ajouté les
+leurs (`EX-IHM-100` à `EX-IHM-105`, la charte v2).
 
 Écrire la moitié RPG de la spécification était le vrai chantier de fond, celui dont dépendait tout
 le reste — d'où un lot dédié plutôt qu'une ligne dans « à trancher ».
@@ -1474,21 +1575,25 @@ ajouteront :
 
 | Élément | Poids | Retiré par |
 |---|---|---|
-| Atelier de dessin pixel art (`Source/HMI/Editor/Pixel*`) | ~2 975 lignes | `LOT-69` |
-| Widgets pixel art (`Source/HMI/Interface/Pixel*`) | ~640 lignes | `LOT-66` |
-| Écrans de plateforme (`LevelSelectScreen`, `LevelCompleteScreen`) | 622 lignes | `LOT-67` |
-| Maquettes `SelectionNiveau`, `FinDeNiveau` + clés `level.*` | — | `LOT-67` |
+| Atelier de dessin pixel art (`Source/HMI/Editor/Pixel*`) | ~2 975 lignes | `LOT-69` — **reste à faire** |
+| Widgets pixel art (`Source/HMI/Interface/Pixel*`) | ~640 lignes | `LOT-66` ✔ |
+| Écrans de plateforme (`LevelSelectScreen`, `LevelCompleteScreen`) | 622 lignes | `LOT-67` ✔ |
+| Maquettes `SelectionNiveau`, `FinDeNiveau` + clés `level.*` | — | `LOT-67` ✔ |
+| Couche Qt Widgets des écrans du jeu (`MainWindow` à 2 472 lignes, pile d'écrans, `.design-mockups/`, outillage du `LOT-85`) | −3 879 lignes | `LOT-86` ✔ |
+| Charte v1 des écrans QML (treize contrôles, neuf jetons, polices pixel du jeu) | — | `LOT-87` ✔ |
 
-Soit **plus de 4 200 lignes**. Chaque suppression est portée par le lot qui la rend possible,
-**jamais reportée** à un lot de ménage : du code mort qu'on garde « pour plus tard » se remet à
-coûter dès la première refactorisation qui le traverse.
+Le premier audit comptait **plus de 4 200 lignes** ; les deux refontes d'interface en ont retiré
+davantage encore. Chaque suppression est portée par le lot qui la rend possible, **jamais
+reportée** à un lot de ménage : du code mort qu'on garde « pour plus tard » se remet à coûter dès
+la première refactorisation qui le traverse. Ne reste que l'atelier, au `LOT-69`.
 
 À décider à part : `Documentation/Heritage/` pèse **520 fichiers et 3,7 Mo** — l'archive du
 programme de lots d'un autre projet, hors Doxygen. L'historique git la conserve de toute façon.
 
 ### 9.4 Le socle technique tient, mais trois préconditions manquent
 
-Ce qui est sain : **927 tests verts** sur 129 fichiers, une CI durcie (`/W4 /WX`, `clang-tidy` et
+Ce qui est sain : **927 tests verts** sur 129 fichiers au premier audit — **1 046 sur 140** le
+14 septembre 2026 —, une CI durcie (`/W4 /WX`, `clang-tidy` et
 Doxygen épinglés), un cœur déjà purgé de 63 000 lignes au [LOT-01](@ref lot-01) et déjà réorienté
 vers le RPG top-down par les `LOT-06`, `LOT-07` et `LOT-08`. Le format v3 **porte déjà les
 entités**
@@ -1510,7 +1615,11 @@ Ce qui manque avant d'ajouter des dizaines de catalogues :
   ne portait le travail C++. C'est l'audit qui l'a trouvé.
 - **`Source/Elements/Levels/` est vide.** Le jeu n'a aucune carte à charger ; `loadDeliveredLevel`
   (`test_render_budget.cpp`) est du code mort et la fixture `rejeu-test-deplacement.json` est
-  orpheline depuis la purge.
+  orpheline depuis la purge. **Toujours vrai le 14 septembre 2026** : le [LOT-86](@ref lot-86)
+  l'a reconstaté — le viewport n'affiche aucune scène, « Nouvelle partie » ouvre la fiche — et les
+  treize écrans se vérifient par un sélecteur de développement faute d'un niveau pour y mener. La
+  première carte arrive avec le contenu du [LOT-27](@ref lot-27), sa destination avec le
+  [LOT-09](@ref lot-09).
 
 ### 9.5 La collision de numéros est bloquante, et bien plus large qu'estimé
 
@@ -1552,42 +1661,82 @@ spécification ne désignant pas un lot existant de ce programme. La classificat
 couple (fichier, numéro) et non par fichier : `rendu-technique.md` cite le `LOT-07` courant et le
 `LOT-H-08` hérité à onze lignes d'écart.
 
+### 9.6 Second audit, 14 septembre 2026 : ce qui avait dérivé en dix jours
+
+Cette page a été relue contre `origin/main` après la livraison du [LOT-87](@ref lot-87). Le lint
+était vert ; il ne l'aurait pas été si cette dérive lui avait été visible, et c'est ce qui vaut
+d'être consigné : ce qu'il ne vérifie pas vieillit en silence.
+
+- **Un prérequis illisible par la règle.** Le `LOT-27` déclarait « phases B, C et D complètes » ;
+  le calcul d'ordre n'y lisait aucun lot et plaçait le *vertical slice* au rang 5, « prêt ». Il
+  déclare désormais ses onze prérequis en numéros, et le chemin critique du §6 en découle. Règle
+  pour la suite : **une dépendance s'écrit `LOT-NN`, ou elle n'existe pas.**
+- **Deux lots hors de la page.** Les `LOT-85` (abandonné), `LOT-86` et `LOT-87` ont été décidés
+  et livrés sans passer par ici ; le compte de tête les ignorait, comme l'index `lots.md`
+  ignorait quatre lots livrés (`LOT-14`, `LOT-18`, `LOT-39`, `LOT-86`). Corrigé.
+- **Des sections écrites contre des classes retirées.** `core::LevelSequence`, `hmi::Progression`
+  (retirés au `LOT-67`), `PixelFrameWidget` (au `LOT-66`), `hmi::ScreenFlow` comme navigation du
+  jeu (c'est désormais celle du châssis d'édition ; le jeu navigue par `hmi::ScreenRouter`) : les
+  `LOT-09`, `LOT-15`, `LOT-16`, `LOT-17` et `LOT-24` décrivaient un dépôt qui n'existe plus. Leurs
+  « problèmes » sont réécrits contre l'état réel ; leurs périmètres ne changent pas.
+- **Des écrans à dessiner qui existent.** Dialogue, journal, marchand, carte du monde, compagnie
+  (guilde et équipe fondues), compétences et sorts, HUD de combat : tous existent en QML sur
+  `PendingData`. Les lots `LOT-15`, `LOT-16`, `LOT-24`, `LOT-25`, `LOT-26`, `LOT-29`, `LOT-42` et
+  `LOT-45` **branchent** un écran, ils n'en dessinent plus — chaque section le dit maintenant.
+- **Une décision de la page contredite par un lot livré.** « L'éditeur devient un mode de l'arène,
+  sans application séparée » (§8) et « le `LOT-11` vise l'édition dans la scène » (§10) contre les
+  deux exécutables du `LOT-86`. Le point est remis en « à trancher », avec une recommandation, et
+  le `LOT-11` ne démarre pas sans lui.
+- **Une charte décrite au passé.** Le §8 tenait le parchemin du `LOT-66` pour la charte ; le
+  `LOT-87` l'a remplacée par la charte v2 des maquettes. Trois choses restent ouvertes après lui,
+  toutes en §8 : la portée identité de l'éditeur, la production des 214 images, et la refonte
+  d'`EX-EDIT-030`.
+- **Des chiffres.** 29 lots livrés au lieu de 31, 927 tests au lieu de 1 046, 280 Mo au lieu de
+  785 dans l'introduction, « huit lots livrés sur quatre-vingts » au §10, une fenêtre du §10
+  (déclarer les ressources de la fiche avant le `LOT-13`) présentée comme ouverte alors qu'elle
+  s'est refermée sans être saisie. Tous repris.
+
+Ce que l'audit n'a **pas** fait : découper, fusionner ou réordonner un lot à la main. L'ordre
+reste calculé ; il a seulement reçu une dépendance qu'il ne voyait pas.
+
 ---
 
 ## 10. Ce qu'il faut anticiper, tant que rien n'est construit
 
-**Huit lots sont livrés sur les quatre-vingts que compte le programme.** Presque tout ce que cette filière modifie n'existe pas
-encore : ni la fiche de personnage, ni l'inventaire, ni le combat, ni l'éditeur multi-couches, ni le
-graphe de cartes. C'est un avantage considérable et **temporaire** — chaque décision prise
-maintenant coûte une écriture ; la même, prise dans dix lots, coûte une réécriture plus la migration
-de ce qui s'est construit dessus.
+**Trente et un lots sont livrés sur les quatre-vingt-sept que compte le programme** (huit au
+premier audit). La fiche de personnage, l'inventaire, la bascule de combat et tous les écrans
+existent désormais ; le combat lui-même, l'éditeur multi-couches, les dialogues et le graphe de
+cartes, non. L'avantage était **temporaire**, et le tableau ci-dessous le montre : chaque décision
+prise à temps a coûté une écriture ; celle qui ne l'a pas été coûte maintenant une rétro-adaptation.
 
-Huit choses méritent donc d'être décidées avant, et non après.
+Huit choses méritaient d'être décidées avant, et non après ; voici où chacune en est.
 
 | À anticiper | Coût aujourd'hui | Coût si on attend |
 |---|---|---|
-| **Retirer les exigences de plateforme** (`EX-GP-030/031/032`, `EX-LVL-010`→`015`, `EX-IHM-003/004/005`) — porté par le `LOT-67` | Une passe de rédaction : elles ne décrivent **rien de construit** pour le RPG | Les `LOT-09`→`17` se bâtissent dessus, puis il faut les défaire |
-| **La charte visuelle** (`LOT-66`) | Seuls les écrans hérités existent | Chaque écran RPG livré entre-temps est à refaire |
-| **Viser directement l'édition dans la scène** au `LOT-11` au lieu de la refondre au `LOT-69` | Le `LOT-11` n'est pas commencé : il suffit qu'il vise cette cible | Construire l'éditeur multi-couches, puis le remplacer |
+| ~~**Retirer les exigences de plateforme**~~ (`EX-GP-030/031/032`, `EX-LVL-010`→`015`, `EX-IHM-005`) — fait au [LOT-67](@ref lot-67) | Une passe de rédaction, faite avant que les `LOT-09`→`17` ne se bâtissent dessus | — |
+| ~~**La charte visuelle**~~ (`LOT-66`) — faite, puis **remplacée** par la charte v2 du [LOT-87](@ref lot-87) | Les écrans livrés entre les deux (`LOT-68`, `LOT-38`, `LOT-86`) ont été transcrits une fois : c'est le coût de droite, payé, pour treize écrans | — |
+| **Viser directement l'édition dans la scène** au `LOT-11` au lieu de la refondre au `LOT-69` | **À trancher** (§8) : le [LOT-86](@ref lot-86) a séparé l'éditeur dans son propre exécutable, ce que cette ligne n'avait pas prévu | Construire l'éditeur multi-couches, puis le remplacer |
 | ~~**La brique de chargement JSON**~~ — fait au [LOT-79](@ref lot-79) | Six lecteurs factorisés, et un échec qui nomme le fichier et la ligne | Vingt et plus, chacun avec sa validation manuscrite |
 | ~~**Les tests paramétrés**~~ — fait au [LOT-79](@ref lot-79) | Capacité créée sur une suite encore petite | À créer quand même, mais avec des dizaines de tests déjà écrits autrement |
-| **L'horloge et le repos** (`LOT-70`) | Le `LOT-13` n'existe pas : la fiche peut naître en déclarant ses ressources et leur cadence | Rétro-adapter la fiche, puis les quinze classes |
-| **Les champs `"source"` et `"statut"` au schéma** (`LOT-32`) | Une ligne, avant le premier catalogue | Une migration de tous les catalogues livrés |
+| **L'horloge et le repos** (`LOT-70`) — **fenêtre fermée** | Le [LOT-13](@ref lot-13) est livré sans que la fiche déclare ressources ni cadence | Rétro-adapter la fiche au `LOT-70`, puis tenir la règle pour les quinze classes : c'est ce coût-ci qui est dû |
+| ~~**Les champs `"source"` et `"statut"` au schéma**~~ — fait au [LOT-32](@ref lot-32) et au [LOT-36](@ref lot-36) | `source` est requis par `common.schema.json` ; les quatre classes provisoires portent leur `statut` | — |
 | ~~**Désambiguïser les numéros hérités**~~ — fait au [LOT-78](@ref lot-78) | 201 renvois préfixés `LOT-H-NN` dans dix specs, plus la règle de lint qui l'empêche de revenir | Ambiguïté silencieuse, invisible au lint comme à Doxygen |
 
 Deux d'entre elles sont plus que des économies.
 
 **Le `LOT-11` ne doit pas être construit puis refondu.** Le `LOT-69` était écrit comme une refonte
-parce qu'il a été conçu après ; mais l'éditeur multi-couches n'étant pas commencé, la bonne décision
-est que le `LOT-11` **vise d'emblée** l'édition dans la scène. Le `LOT-69` a donc été **réécrit en
-conséquence** : il ne reste que le retrait de l'atelier de dessin, qui est une suppression, pas une
-réécriture — et il n'a plus besoin ni du Colisée ni du socle de classe pour cela.
+parce qu'il a été conçu après ; l'éditeur multi-couches n'étant pas commencé, la page concluait que
+le `LOT-11` devait **viser d'emblée** l'édition dans la scène, et le `LOT-69` a été réduit au
+retrait de l'atelier de dessin. La moitié « suppression » tient toujours ; la moitié « dans la
+scène » a été rattrapée par le [LOT-86](@ref lot-86), qui a fait de l'éditeur un exécutable à part.
+Elle est à trancher au §8, **avant** le `LOT-11`, et le raisonnement de cette ligne reste le bon :
+construire puis remplacer coûte le double.
 
-**`MapEntity` existe déjà et n'alimente rien.** Le format v3 porte `{ type, position, properties }`
-avec un contrat explicite — « `Core` ne connaît aucune sémantique de `type` » — mais aucun
-consommateur hors des tests : ni le rendu, ni l'ECS, ni l'éditeur. Le `LOT-10` (entités et
-interaction) est le premier à pouvoir s'y brancher, et il doit le faire plutôt que d'inventer un
-second conteneur d'entités à côté.
+~~**`MapEntity` existe déjà et n'alimente rien.**~~ Le format v3 portait `{ type, position,
+properties }` sans consommateur hors des tests. **Fait au [LOT-10](@ref lot-10)** :
+`core::MapEntitySpawner` en fait des entités, `core::WorldFlags` retient ce qui leur est arrivé, et
+le `LOT-15` (PNJ) comme le `LOT-09` (portails) s'ajoutent à sa table de familles plutôt que
+d'inventer un second conteneur.
 
 ---
 
@@ -1597,9 +1746,10 @@ Ces vingt et un lots avaient chacun leur dossier `LOT-NN-nom/`. Ils sont absorb�
 la feuille de route ait **une seule source de vérité** : deux documents décrivant le même
 programme divergent, et l'audit a montré qu'ils avaient déjà commencé à le faire.
 
-> Le `LOT-08` a été **livré** entre-temps. Il n'est donc plus ici : comme les sept lots qui le
-> précèdent, il garde son dossier `LOT-08-tuiles-rpg/` et son `epic.md`, qui porte ce que sa
-> réalisation a tranché — de l'histoire, pas du programme.
+> Les `LOT-08`, `LOT-10`, `LOT-12`, `LOT-13`, `LOT-14` et `LOT-18` ont été **livrés** entre-temps.
+> Ils ne sont donc plus ici : comme les sept premiers lots, chacun garde son dossier et son
+> `epic.md`, qui porte ce que sa réalisation a tranché — de l'histoire, pas du programme. Restent
+> seize lots, `LOT-09`, `LOT-11`, `LOT-15` à `LOT-17` et `LOT-19` à `LOT-29`.
 
 Leurs **ancres Doxygen sont conservées** (`{#lot-09}`, `{#lot-13}`…), si bien que tous les
 renvois `@ref lot-NN` des spécifications continuent de résoudre. Seuls les `@subpage` de
@@ -1607,23 +1757,28 @@ renvois `@ref lot-NN` des spécifications continuent de résoudre. Seuls les `@s
 
 > **Contenu d'origine, corrections signalées.** Le texte de chaque epic est repris tel quel.
 > Là où l'audit l'a contredit — l'éditeur du `LOT-11`, la mort du `LOT-21`, le repos du
-> `LOT-25` — la correction figure dans les sections 5, 9 et 10 ci-dessus, qui font foi.
+> `LOT-25` — la correction figure dans les sections 5, 9 et 10 ci-dessus, qui font foi. Le second
+> audit (§9.6) a en outre réécrit, **dans** les sections, ce qui décrivait des classes retirées ou
+> des écrans déjà dessinés : ces passages sont marqués « *État au 14 septembre 2026* ».
 
 ### LOT-09 — Graphe de cartes et transitions {#lot-09}
 
 > Statut : **à faire**.
-> Prérequis : [LOT-04](@ref lot-04), [LOT-06](@ref lot-06).
+> Prérequis : [LOT-04](@ref lot-04), [LOT-06](@ref lot-06), [LOT-10](@ref lot-10) (les portails
+> sont des entités de carte).
 
 #### Objectif
 
-Remplacer la **séquence linéaire** de tableaux héritée par un **monde de cartes connectées**, où
-chaque carte a des sorties nommées vers d'autres cartes, et où l'on peut revenir sur ses pas.
+Donner au jeu un **monde de cartes connectées**, où chaque carte a des sorties nommées vers
+d'autres cartes, et où l'on peut revenir sur ses pas.
 
 #### Le problème
 
-`core::LevelSequence` est une **liste ordonnée** : tableau 1, puis 2, puis 3. C'est la structure
-d'un jeu de niveaux discrets, pas d'un monde. Un RPG a besoin d'un **graphe** : un village ouvre
-sur une forêt et sur une auberge, la forêt ramène au village, le donjon a trois entrées.
+*État au 14 septembre 2026.* La **séquence linéaire** héritée (`core::LevelSequence` : tableau 1,
+puis 2, puis 3) a été retirée par le [LOT-67](@ref lot-67) avec la notion de niveau discret, et rien
+ne l'a remplacée : la tuile de sortie **ramène au menu**, et « Nouvelle partie » n'a aucune carte à
+ouvrir (`Source/Elements/Levels/` est vide). Un RPG a besoin d'un **graphe** : un village ouvre sur
+une forêt et sur une auberge, la forêt ramène au village, le donjon a trois entrées.
 
 #### Périmètre
 
@@ -1631,11 +1786,13 @@ sur une forêt et sur une auberge, la forêt ramène au village, le donjon a tro
   portail référence `(carte cible, nom du point d'arrivée)` — jamais des coordonnées brutes, qui
   se désynchroniseraient au moindre redimensionnement de la carte cible.
 - Chargement de carte **à chaud**, sans repasser par un écran de sélection.
-- Transition visuelle (fondu) côté `hmi::ScreenFlow`.
+- Transition visuelle (fondu) côté jeu — dans le jumeau QML de `GameViewForm`, piloté par
+  `hmi::ScreenRouter` ; `hmi::ScreenFlow` est la navigation du châssis d'édition, pas celle du jeu.
+- Les portails sont une **famille d'entités** de la table du [LOT-10](@ref lot-10) : ils se
+  posent, se détruisent et se recréent avec la carte, et `core::WorldFlags` retient ce qui a eu
+  lieu de part et d'autre.
 - **Validation au chargement** : un portail dont la carte ou le point d'arrivée n'existe pas est
   une erreur explicite, pas un plantage à la traversée (`EX-NFR-040`).
-
-`LevelSequence` disparaît ou devient un cas dégénéré du graphe — à trancher à l'implémentation.
 
 #### Exigences couvertes
 
@@ -1660,15 +1817,26 @@ sur une forêt et sur une auberge, la forêt ramène au village, le donjon a tro
 Rendre l'éditeur hérité capable d'éditer les **trois couches** et de poser des **entités** avec
 leurs propriétés — c'est-à-dire de produire le contenu du RPG sans écrire de JSON à la main.
 
+#### La décision préalable
+
+*État au 14 septembre 2026.* Ce lot ne démarre pas avant que le §8 ait tranché **où vit
+l'édition** : le §10 voulait l'édition dans la scène, depuis le jeu ; le [LOT-86](@ref lot-86) a
+depuis fait de l'éditeur un exécutable Qt Widgets à part, `LevelEditor`, et d'un jeu qui ne lie
+pas Qt Widgets. La recommandation de l'audit est de **retarger `LevelEditor`** — ce que décrit le
+texte ci-dessous — et de refondre `EX-EDIT-030` ; l'autre lecture réécrit ce lot.
+
 #### Ce qui est déjà là
 
-L'éditeur du dépôt d'origine est un poste de travail complet, et il est **entièrement conservé** :
-peinture à la souris, outils rectangle et sélection, liaison de mécanismes, undo/redo, essai
-immédiat, bibliothèque d'assets à vignettes avec rechargement à chaud et détection des références
-avant suppression, atelier pixel art intégré. Ce lot **retarge**, il ne reconstruit pas.
+L'éditeur du dépôt d'origine est un poste de travail complet, et il est **entièrement conservé**
+dans `LevelEditor` : peinture à la souris, outils rectangle et sélection, liaison de mécanismes,
+undo/redo, essai immédiat, bibliothèque d'assets à vignettes avec rechargement à chaud et
+détection des références avant suppression. Ce lot **retarge**, il ne reconstruit pas. L'atelier
+pixel art, lui, part au `LOT-69` : ce lot ne s'engage pas sur lui.
 
 Le `LOT-01` a retiré l'outil « Parcours » et le panneau « Propriétés », qui ne pilotaient que des
-réglages de plateforme.
+réglages de plateforme. Le [LOT-39](@ref lot-39) fournit un **marqueur généré** pour toute clé
+d'asset sans image : l'éditeur est son premier consommateur, et peut poser une créature du
+bestiaire avant qu'aucune illustration n'existe.
 
 #### Périmètre
 
@@ -1696,7 +1864,7 @@ reprise.
 
 - Édition des trois couches avec undo/redo complet.
 - Pose d'un PNJ, d'un coffre et d'un portail, avec leurs propriétés, puis essai immédiat.
-- Aucune régression sur l'édition existante (peinture, sélection, liaisons, atelier pixel art).
+- Aucune régression sur l'édition existante (peinture, sélection, liaisons, panneau de textures).
 - Avertissement visible quand une zone de rencontre n'est pas un terrain tactique valide.
 
 ### LOT-15 — PNJ et dialogues {#lot-15}
@@ -1717,9 +1885,13 @@ Parler à un PNJ via un arbre de dialogue scripté, avec choix, conditions et je
 - `DialogueRunner` : machine à états **pure**, testable headless. Elle ne connaît ni Qt, ni le
   rendu, ni le monde — elle consomme un graphe et une source de drapeaux, elle produit un nœud
   courant et des choix.
-- `DialogueMode` (`LOT-05`) : le monde est **gelé** pendant la conversation.
-- Widget Qt sur `DesignTokens` / `PixelFrameWidget` / `BitmapFont`.
-- Tout le texte via `hmi::Localization` — **aucun libellé en dur** (`EX-REN-033`).
+- `DialogueMode` (`LOT-05`) : le monde est **gelé** pendant la conversation — un troisième
+  `IGameMode`, à côté d'`ExplorationMode` et du `CombatMode` du [LOT-18](@ref lot-18).
+- *État au 14 septembre 2026.* **L'écran existe** : `DialogueForm.ui.qml` ([LOT-68](@ref lot-68),
+  restylé en charte v2 au [LOT-87](@ref lot-87)) sur `PendingData`. Ce lot écrit la vue-modèle
+  C++ (`Source/HMI/Runtime/`) qui le remplace dans le jumeau ; le formulaire ne change pas. Les
+  172 jetons détourés du corpus (§2) fournissent les portraits des interlocuteurs.
+- Tout le texte passe par le catalogue de traduction — **aucun libellé en dur** (`EX-REN-033`).
 
 #### Ce qui fait la qualité de ce lot
 
@@ -1751,11 +1923,13 @@ journal de quêtes.
 
 #### Périmètre
 
-- `Source/Core/Rpg/WorldFlags.{h,cpp}` : ensemble de drapeaux nommés, posés et lus par les
-  dialogues, les entités de carte et les rencontres. C'est le **substrat** : coffre déjà ouvert
-  (`LOT-10`), ennemi vaincu (`LOT-18`), PNJ déjà rencontré.
+- *État au 14 septembre 2026.* `core::WorldFlags` (`Source/Core/Gameplay/`) **existe depuis le
+  [LOT-10](@ref lot-10)** : ensemble de drapeaux nommés, à clés libres précisément pour que ce
+  lot y écrive les siens sans toucher au fichier. Le coffre ouvert (`LOT-10`) et l'ennemi vaincu
+  ([LOT-18](@ref lot-18)) y sont déjà. Ce lot n'a pas de substrat à créer.
 - `Quest.{h,cpp}` : étapes, conditions d'avancement, récompenses. Défini en **JSON**.
-- Journal de quêtes (contenu ; l'écran vient au `LOT-24` ou avec l'IHM RPG).
+- Journal de quêtes : **l'écran existe** (`JournalForm.ui.qml`, [LOT-87](@ref lot-87)) sur
+  `PendingData` ; ce lot lui donne sa vue-modèle.
 - Persistance dans `SaveGame` (`LOT-17`).
 
 #### Note de conception
@@ -1783,15 +1957,16 @@ entités, une fois dans les quêtes — et diverge.
 
 #### Objectif
 
-Remplacer la progression héritée — qui ne retenait qu'un **tableau atteint** — par un état de
-partie complet et versionné.
+Donner au jeu un état de partie complet et versionné, qu'on sauvegarde et qu'on reprend.
 
 #### Le problème
 
-`hmi::Progression` stocke un identifiant de séquence, un nom de tableau courant et un ensemble de
-tableaux terminés. C'était suffisant pour un jeu de niveaux discrets ; c'est sans rapport avec un
-monde persistant où le joueur a une position, un inventaire, des quêtes en cours et un monde qui a
-gardé la trace de ses actes.
+*État au 14 septembre 2026.* La progression héritée (`hmi::Progression`, un tableau atteint) a
+été retirée par le [LOT-67](@ref lot-67) avec l'entrée « Continuer » du menu, qui n'avait plus
+rien à reprendre. **Rien ne persiste** aujourd'hui hors les options ; le menu du
+[LOT-87](@ref lot-87) réserve à ce lot ses entrées « Continuer » et « Charger », grisées jusqu'à
+lui. Un monde persistant a un joueur qui a une position, un inventaire, des quêtes en cours, et un
+monde qui a gardé la trace de ses actes.
 
 #### Périmètre
 
@@ -1802,9 +1977,8 @@ gardé la trace de ses actes.
   une liste dès maintenant, pas un champ unique qu'on pluraliserait plus tard) ;
 - l'inventaire et l'équipement ;
 - les drapeaux de monde et les entités consommées (coffres, ennemis vaincus) ;
-- les quêtes et leur étape.
-
-`hmi::Progression` disparaît ou devient un cas dégénéré.
+- les quêtes et leur étape ;
+- l'état de découverte des lieux, dès que le `LOT-42` l'écrira.
 
 #### Règles de format
 
@@ -1842,6 +2016,12 @@ d'inatteignabilité. Il vient du solveur d'IA du dépôt d'origine ; le `LOT-01`
 sauvé** de la purge et déplacé dans `Core/World/` **pour ce lot précis**.
 
 C'est exactement le calcul « quelles cases puis-je atteindre avec ce budget de déplacement ».
+
+*État au 14 septembre 2026.* Le [LOT-18](@ref lot-18) a livré la bascule : `core::Encounter`
+place les combattants en formation **relative au déclencheur**, et `hmi::CombatMode` gèle déjà
+la passe de déplacement libre en attendant le budget de ce lot. Le HUD de combat
+(`CombatHudForm.ui.qml`, [LOT-87](@ref lot-87)) existe sur `PendingData` ; ce lot et le
+[LOT-20](@ref lot-20) sont ceux qui commencent à le remplir.
 
 #### Périmètre
 
@@ -1900,7 +2080,9 @@ Un combat se termine de trois façons, et les trois doivent être couvertes :
 - **fuite** : les alliés quittent la zone.
 
 Une machine à états qui n'en couvre que deux laisse un combat qui ne finit jamais — le pire des
-défauts, parce qu'il bloque le joueur sans message d'erreur.
+défauts, parce qu'il bloque le joueur sans message d'erreur. Le [LOT-18](@ref lot-18) sait déjà
+**consommer** ces trois issues (`core::CombatOutcome` : l'ennemi vaincu devient un drapeau de
+monde, la fuite et la défaite n'en posent aucun) ; ce lot les **produit**.
 
 #### Exigences couvertes
 
@@ -1930,8 +2112,9 @@ inconscience et mort.
 - `Source/Core/Combat/Attack.{h,cpp}` : jet d'attaque = d20 + modificateur de caractéristique +
   bonus de maîtrise, contre la CA de la cible.
 - `Damage.{h,cpp}` : types de dégâts, résistances, vulnérabilités, immunités.
-- `Condition.{h,cpp}` : à terre, entravé, empoisonné, inconscient — et leur effet sur les jets.
-- Jets de sauvegarde contre la mort.
+- ~~`Condition.{h,cpp}` et jets de sauvegarde contre la mort~~ — **au `LOT-72`** (conditions,
+  agonie et mort, fusionnés à l'audit) : ce lot livre l'attaque, les dégâts et le journal, et
+  s'arrête aux PV bornés à 0.
 
 #### Les règles à ne pas se tromper
 
@@ -2065,7 +2248,12 @@ C'est le lot qui transforme une machine à états correcte en un combat qu'on a 
 
 #### Périmètre
 
-- `Source/HMI/Game/CombatHud.{h,cpp}` : bandeau d'ordre d'initiative, PV, conditions actives.
+- *État au 14 septembre 2026.* **Le cadre existe** : `CombatHudForm.ui.qml`
+  ([LOT-87](@ref lot-87), maquette 01) — bandeau d'initiative, journal, roue et barre d'actions,
+  fiche de la cible — sur `PendingData` (12 clés `combat_hud.*`, 10 clés `hud.*`). Ce lot écrit
+  la vue-modèle C++ qui les remplace dans le jumeau, sans toucher au formulaire, et retire de
+  `hmi::GameHud` les budgets de sauts et de dashs du jeu de plateforme, que le
+  [LOT-67](@ref lot-67) lui a laissés.
 - **Surbrillance de grille** via `SpriteBatch` / `ComposedScene` — le calque `EditorOverlay` hérité
   se réemploie tel quel pour les cases atteignables et les portées.
 - **Curseur de ciblage** clavier et manette (pas seulement souris : cf. critère ci-dessous).
@@ -2110,7 +2298,9 @@ classes.
 - `SpellSlots` : emplacements par niveau, consommés à l'incantation, restaurés au repos.
 - `Concentration` : un seul sort concentré à la fois ; il tombe si le lanceur subit des dégâts
   (jet de sauvegarde) ou en incante un autre.
-- Catalogue de sorts en **JSON** (`EX-VIS-007`).
+- Catalogue de sorts en **JSON** (`EX-VIS-007`), extrait par le `LOT-35`.
+- *État au 14 septembre 2026.* **L'écran existe** : `SkillsForm.ui.qml` ([LOT-87](@ref lot-87),
+  maquette 10, compétences et sorts) sur `PendingData` ; ce lot et le `LOT-35` l'alimentent.
 - Branchement sur les gabarits d'effet de zone du `LOT-22` — aucune géométrie nouvelle.
 - Effets **hors combat** aussi : un sort d'utilité en exploration passe par le même catalogue.
 
@@ -2150,7 +2340,8 @@ Boucler la boucle économique : gagner du butin, le vendre, acheter mieux.
   **même** contenu, sinon le joueur peut relancer jusqu'au bon tirage.
 - Or et valeur des objets.
 - `Shop.{h,cpp}` : achat, vente, marge du marchand, stock.
-- IHM marchand, sur le système de design existant.
+- *État au 14 septembre 2026.* **L'écran existe** : `MerchantForm.ui.qml` ([LOT-68](@ref lot-68),
+  restylé au [LOT-87](@ref lot-87)) sur `PendingData` ; ce lot lui donne sa vue-modèle.
 
 #### Le piège du tirage
 
@@ -2171,7 +2362,15 @@ la partie, pas de l'horloge — `deriveSeed(baseSeed, step, entityId)` existe po
 ### LOT-27 — Contenu du *vertical slice* {#lot-27}
 
 > Statut : **à faire**.
-> Prérequis : phases B, C et D complètes.
+> Prérequis : phases B, C et D complètes — soit [LOT-09](@ref lot-09), [LOT-11](@ref lot-11),
+> [LOT-15](@ref lot-15), [LOT-16](@ref lot-16), [LOT-17](@ref lot-17), [LOT-19](@ref lot-19),
+> [LOT-20](@ref lot-20), [LOT-21](@ref lot-21), [LOT-22](@ref lot-22), [LOT-23](@ref lot-23),
+> [LOT-24](@ref lot-24).
+
+> **Prérequis écrits en numéros au second audit** (§9.6). « Phases B, C et D » n'était lisible
+> par personne d'autre qu'un humain : le lint n'y voyait aucun lot, et plaçait ce lot « prêt » au
+> rang 5. La liste ci-dessus est la lecture littérale des trois phases (`lots.md`) : ce qui n'y
+> figure pas n'est pas requis par le slice.
 
 #### Objectif
 
@@ -2289,7 +2488,8 @@ l'unicité du personnage**. Concrètement, au moment d'aborder ce lot, ces préc
 - `TurnOrder` est **multi-alliés** dès le `LOT-20`, avec un test qui monte quatre alliés ;
 - `SaveGame` stocke une **liste** de personnages dès le `LOT-17`, pas un champ unique ;
 - les écrans de fiche et d'inventaire sont conçus pour un **sélecteur de personnage**, même quand
-  ils n'en affichent qu'un.
+  ils n'en affichent qu'un — et `CompanyForm.ui.qml` ([LOT-87](@ref lot-87)) montre déjà six
+  places d'équipe, dont une seule occupée.
 
 Si l'un de ces points a dérivé en chemin, ce lot redevient une refonte — c'est le signal
 d'alarme à surveiller pendant les phases C et D.

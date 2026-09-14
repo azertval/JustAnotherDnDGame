@@ -48,7 +48,7 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
     (`DesignStudio/Main.ui.qml`) pose chaque brique dans ses états, dans l'atelier comme dans le jeu
     (`--screen=Gallery`).
 
-- **Refonte de l'IHM sur Qt Quick, avec la conception séparée du code** (`LOT-86`, en cours).
+- **Refonte de l'IHM sur Qt Quick, avec la conception séparée du code** (`LOT-86`).
   L'objectif n'est pas technique : **un artiste doit pouvoir modifier les interfaces sans ouvrir un
   fichier source**, en travaillant directement dans Qt Design Studio.
   - **Deux applications, deux technologies d'IHM.** `JustAnotherDnDGame` est le jeu, en Qt Quick,
