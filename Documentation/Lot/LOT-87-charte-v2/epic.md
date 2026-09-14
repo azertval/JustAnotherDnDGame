@@ -615,6 +615,44 @@ contributeur à y nommer, et `credits.json` en accueillera une le jour où il en
 |---|---|---|
 | ![maquette 07](references/07_Credit_Mockup.png) | ![crédits à 1080p](captures/t3-3-credits-1080p.png) | ![crédits à 720p](captures/t3-3-credits-720p.png) |
 
+### T3.4 — La fiche de personnage (maquette 03)
+
+Un grand parchemin relié en trois colonnes : portrait et six médaillons à gauche ; identité, jauges,
+sceau et paraphe au centre ; dix-huit compétences à droite.
+
+- **Score et modificateur séparés.** `CharacterSheetModel` gagne `values`, la table des valeurs
+  formatées par clé. `hmi::characterSheetValues` produisait déjà `sheet.ability.<id>.score` et
+  `.modifier` séparément, pour la roue de la planche 1 ; rien n'est recalculé en QML. La doublure
+  suit.
+- **Les compétences** sont une `ListView` sur le modèle existant. La brique `SkillRow` porte une
+  pastille pleine si la compétence est maîtrisée : la marque « • » de la valeur passe à la pastille
+  et quitte la case.
+- **Deux briques** : `FieldRow` (étiquette sur plaquette, valeur sur ligne réglée) et `SkillRow`,
+  ajoutées à la galerie.
+- **Vérifié** : la force de la copie déployée de `demonstration-brenna.json` passée de 15 à 18
+  change le médaillon (18, +4) et, avec lui, Athlétisme (+4 → +6) ; donnée restaurée ensuite.
+
+En attente (`PendingData`) : le **matricule** (`character_sheet.registration`), le **seuil du
+niveau suivant** qui remplit la jauge d'expérience (`character_sheet.experience.next_level`,
+`LOT-74`), et le **portrait** (`character_sheet.portrait`).
+
+Écarts :
+
+- **Pas de portrait.** Le plan le voulait tiré d'un jeton du corpus déclaré au manifeste ; le corpus
+  n'est pas versionné, et l'extraire relève de la chaîne du `LOT-30`, pas de cet écran. Le cadre
+  prend son état `empty`.
+- **Les constantes de combat restent sur la fiche**, en médaillons dérivés sur le filigrane de la
+  colonne gauche (CA, initiative, vitesse, maîtrise, perception passive). La maquette ne les montre
+  pas, mais la v1 les affichait ; les retirer aurait fait perdre une donnée réelle. Les **jets de
+  sauvegarde**, eux, quittent l'écran : ils n'ont pas de place sur la maquette, et le modèle les
+  garde (`savingThrows`) pour l'écran qui les accueillera.
+- Les abréviations des caractéristiques (FOR, DEX…) sont écrites dans le formulaire, traduites par
+  `qsTr`. Le lexique des règles ne porte que les noms complets.
+
+| Maquette | 1920 × 1080 | 1280 × 720 |
+|---|---|---|
+| ![maquette 03](references/03_Character_Sheet_Mockup.png) | ![fiche à 1080p](captures/t3-4-fiche-1080p.png) | ![fiche à 720p](captures/t3-4-fiche-720p.png) |
+
 ## Exigences couvertes
 
 - [`EX-IHM-070`](@ref EX-IHM-070), [`EX-IHM-075`](@ref EX-IHM-075), [`EX-IHM-076`](@ref EX-IHM-076),

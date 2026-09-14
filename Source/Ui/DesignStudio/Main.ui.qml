@@ -340,6 +340,14 @@ Rectangle {
                         StatMedallion { kind: "derived"; label: "CA"; value: "15" }
                     }
 
+                    ColumnLayout {
+                        spacing: Tokens.gapSmall
+
+                        FieldRow { Layout.preferredWidth: 560 * Tokens.uiScale; label: "Nom"; value: "Brenna" }
+                        SkillRow { Layout.preferredWidth: 480 * Tokens.uiScale; skillId: "athletics"; label: "Athlétisme"; value: "+5"; proficient: true }
+                        SkillRow { Layout.preferredWidth: 480 * Tokens.uiScale; skillId: "stealth"; label: "Discrétion"; value: "+1" }
+                    }
+
                     SectionBanner {
                         Layout.alignment: Qt.AlignHCenter
                         text: "Filtres"

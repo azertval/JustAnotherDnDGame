@@ -4,52 +4,107 @@
 <context>
     <name>CharacterSheetForm.ui</name>
     <message>
-        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="101"/>
-        <source>Caractéristiques</source>
-        <translation>Abilities</translation>
+        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="143"/>
+        <source>FOR</source>
+        <translation>STR</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="140"/>
-        <source>En jeu</source>
-        <translation>In play</translation>
+        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="153"/>
+        <source>DEX</source>
+        <translation>DEX</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="145"/>
+        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="163"/>
+        <source>CON</source>
+        <translation>CON</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="173"/>
+        <source>INT</source>
+        <translation>INT</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="183"/>
+        <source>SAG</source>
+        <translation>WIS</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="193"/>
+        <source>CHA</source>
+        <translation>CHA</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="207"/>
+        <source>CA</source>
+        <translation>AC</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="208"/>
+        <source>INIT.</source>
+        <translation>INIT.</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="209"/>
+        <source>VITESSE</source>
+        <translation>SPEED</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="210"/>
+        <source>MAÎTRISE</source>
+        <translation>PROF.</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="211"/>
+        <source>PERC. PASS.</source>
+        <translation>PASS. PERC.</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="223"/>
+        <source>Identité du personnage</source>
+        <translation>Character identity</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="232"/>
+        <source>Nom</source>
+        <translation>Name</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="233"/>
+        <source>Classe</source>
+        <translation>Class</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="234"/>
+        <source>Niveau</source>
+        <translation>Level</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="235"/>
+        <source>Origine</source>
+        <translation>Background</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="236"/>
+        <source>Espèce</source>
+        <translation>Species</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="237"/>
+        <source>Matricule</source>
+        <translation>Registration</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="255"/>
         <source>Points de vie</source>
         <translation>Hit Points</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="146"/>
-        <source>Classe d&apos;armure</source>
-        <translation>Armor Class</translation>
-    </message>
-    <message>
-        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="147"/>
-        <source>Initiative</source>
-        <translation>Initiative</translation>
-    </message>
-    <message>
-        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="148"/>
-        <source>Vitesse</source>
-        <translation>Speed</translation>
-    </message>
-    <message>
-        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="149"/>
-        <source>Maîtrise</source>
-        <translation>Proficiency</translation>
-    </message>
-    <message>
-        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="150"/>
-        <source>Perception passive</source>
-        <translation>Passive Perception</translation>
-    </message>
-    <message>
-        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="151"/>
+        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="284"/>
         <source>Expérience</source>
         <translation>Experience</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="161"/>
+        <location filename="../../Ui/Screens/CharacterSheetForm.ui.qml" line="366"/>
         <source>Compétences</source>
         <translation>Skills</translation>
     </message>

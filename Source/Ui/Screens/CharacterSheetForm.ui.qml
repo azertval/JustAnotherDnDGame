@@ -1,194 +1,402 @@
 import QtQuick
-import QtQuick.Layouts
 import Jadg.Ui
 
 /*!
-    Fiche de personnage — FORMULAIRE, côté conception (LOT-86).
+    Fiche de personnage -- FORMULAIRE, cote conception (LOT-87, T3.4 ; maquette 03).
 
-    Ce fichier appartient à l'artiste. Il s'ouvre et se modifie dans Qt Design Studio, et rien de
-    ce qu'on y déplace, colore ou anime ne demande de recompiler quoi que ce soit.
+    Transcrit de la maquette `03_Character_Sheet_Mockup.png` (1536 x 1024), cotes ramenees a
+    1920 x 1080 puis multipliees par `Tokens.uiScale`. Un grand parchemin relie, en trois colonnes :
 
-    C'est un `.ui.qml` : le sous-ensemble DÉCLARATIF de QML. Aucune fonction, aucun bloc de code,
-    aucun gestionnaire impératif — c'est ce que Design Studio sait relire et réenregistrer sans
-    l'abîmer, et `scripts/check_ui_layers.py` le vérifie. La logique vit dans `CharacterSheet.qml`,
-    son jumeau côté développeur.
+    - a gauche, le portrait rond entoure des six medaillons de caracteristiques, et sous eux les
+      constantes de combat en medaillons derives (sur la rose des vents en filigrane) ;
+    - au centre, l'identite du personnage : nom, classe, niveau, origine, espece, matricule, les
+      jauges de vie et d'experience, le sceau, l'ecusson et le paraphe ;
+    - a droite, les dix-huit competences, pastille de maitrise, icone, nom et modificateur.
 
-    Le suffixe `Form` n'est pas décoratif : sans lui, le formulaire et son jumeau déclareraient tous
-    deux un type nommé `CharacterSheet`, et le module refuserait de se charger.
-
-    Les propriétés ci-dessous portent des VALEURS D'EXEMPLE. Elles ne sont pas décoratives : sans
-    elles, Design Studio afficherait un écran vide et aucune mise en page ne pourrait s'y juger. À
-    l'exécution, le jumeau les remplace par celles de la vue-modèle.
+    Les proprietes portent des VALEURS D'EXEMPLE, pour que la mise en page se juge dans l'atelier ;
+    le jumeau les remplace par celles de la vue-modele.
 */
-RpgScreenFrame {
+Item {
     id: root
 
-    // --- Ce que l'écran reçoit ------------------------------------------------------------
+    // --- Identite ---------------------------------------------------------------------------------
     property string characterName: "Brenna Pierrefonte"
-    property string species: "Naine des collines"
+    property string className: "Guerrière"
+    property string level: "3"
     property string background: "Artisane de guilde"
-    property string classAndLevel: "Guerrière 3"
-    property string experience: "900"
+    property string species: "Naine des collines"
+    property string registration: "—"
+    property url portrait: ""
 
-    property string hitPoints: "25 / 30"
+    // --- Jauges : le texte, et le remplissage de 0 a 1 --------------------------------------------
+    property string hitPointsText: "25 / 30"
+    property real hitPointsRatio: 25 / 30
+    property string experienceText: "900 / —"
+    property real experienceRatio: 0
+
+    // --- Caracteristiques : score et modificateur, separes ----------------------------------------
+    property string strengthScore: "16"
+    property string strengthModifier: "+3"
+    property string dexterityScore: "12"
+    property string dexterityModifier: "+1"
+    property string constitutionScore: "15"
+    property string constitutionModifier: "+2"
+    property string intelligenceScore: "10"
+    property string intelligenceModifier: "+0"
+    property string wisdomScore: "13"
+    property string wisdomModifier: "+1"
+    property string charismaScore: "8"
+    property string charismaModifier: "-1"
+
+    // --- Constantes de combat ---------------------------------------------------------------------
     property string armorClass: "16"
     property string initiative: "+1"
     property string speed: "9 m"
     property string proficiencyBonus: "+2"
     property string passivePerception: "11"
 
-    property var abilities: exampleAbilities
+    /// Les competences : un modele aux roles `rowId`, `label`, `value` (`+5 •` si maitrisee).
     property var skills: exampleSkills
 
-    // Jeux d'exemple, uniquement pour la conception. Le jumeau les écrase au lancement.
-    //
-    // Des `ListModel` et non des tableaux JavaScript, et la raison mérite d'être écrite : un
-    // tableau n'expose que `modelData` à son délégué, là où un modèle expose ses RÔLES. Les deux
-    // formes ne se délèguent donc pas pareil, et un écran validé sur des tableaux se serait
-    // affiché vide dès qu'on lui aurait branché la vraie vue-modèle -- sans la moindre erreur.
-    // Le jeu d'exemple doit avoir exactement la forme des vraies données, sinon il ne prouve rien.
-    readonly property ListModel exampleAbilities: ListModel {
-        ListElement { rowId: "strength"; label: "Force"; value: "16 (+3)" }
-        ListElement { rowId: "dexterity"; label: "Dextérité"; value: "12 (+1)" }
-        ListElement { rowId: "constitution"; label: "Constitution"; value: "15 (+2)" }
-        ListElement { rowId: "intelligence"; label: "Intelligence"; value: "10 (+0)" }
-        ListElement { rowId: "wisdom"; label: "Sagesse"; value: "13 (+1)" }
-        ListElement { rowId: "charisma"; label: "Charisme"; value: "8 (-1)" }
-    }
+    // Un `ListModel` et non un tableau : il a la forme exacte du vrai modele (des ROLES), sans quoi
+    // un ecran valide sur l'exemple s'afficherait vide une fois branche.
     readonly property ListModel exampleSkills: ListModel {
         ListElement { rowId: "athletics"; label: "Athlétisme"; value: "+5 •" }
         ListElement { rowId: "stealth"; label: "Discrétion"; value: "+1" }
-        ListElement { rowId: "perception"; label: "Perception"; value: "+1" }
+        ListElement { rowId: "perception"; label: "Perception"; value: "+3 •" }
         ListElement { rowId: "insight"; label: "Intuition"; value: "+1" }
     }
 
-    title: root.characterName
+    width: 1920
+    height: 1080
 
-    content: [
-        ColumnLayout {
-            Layout.fillWidth: true
-            spacing: Tokens.spaceSmall
+    Rectangle {
+        anchors.fill: parent
+        color: Tokens.frameEdge
+    }
+
+    // --- Le parchemin relie (maquette : 20, 15 -> 1515, 1010) --------------------------------------
+    PanelFrame {
+        id: sheet
+
+        x: 24 * Tokens.uiScale
+        y: 16 * Tokens.uiScale
+        width: 1872 * Tokens.uiScale
+        height: 1048 * Tokens.uiScale
+        material: "parchment"
+        bound: true
+        padding: 0
+
+        // Les deux separations verticales entre colonnes (maquette : x 550 et 1090).
+        Rectangle {
+            x: (688 - 24) * Tokens.uiScale
+            y: 40 * Tokens.uiScale
+            width: Tokens.strokeWidth
+            height: parent.height - 80 * Tokens.uiScale
+            color: Tokens.border
+        }
+
+        Rectangle {
+            x: (1360 - 24) * Tokens.uiScale
+            y: 40 * Tokens.uiScale
+            width: Tokens.strokeWidth
+            height: parent.height - 80 * Tokens.uiScale
+            color: Tokens.border
+        }
+    }
+
+    // === Colonne gauche : portrait et caracteristiques ============================================
+
+    // Fanion d'ecusson, en haut de la colonne (maquette : 255, 15 -> 370, 140).
+    FixedArt {
+        x: 319 * Tokens.uiScale
+        y: 16 * Tokens.uiScale
+        width: 128 * Tokens.uiScale
+        height: 160 * Tokens.uiScale
+        key: "ui/ornament/crest-pennant"
+    }
+
+    // Rose des vents en filigrane (maquette : 130, 590 -> 470, 930).
+    FixedArt {
+        x: 175 * Tokens.uiScale
+        y: 620 * Tokens.uiScale
+        width: 400 * Tokens.uiScale
+        height: 400 * Tokens.uiScale
+        key: "ui/ornament/compass-watermark/parchment"
+    }
+
+    // Portrait rond (maquette : centre 310, 355).
+    PortraitFrame {
+        x: (388 - 150) * Tokens.uiScale
+        y: (374 - 150) * Tokens.uiScale
+        shape: "round"
+        size: 300 * Tokens.uiScale
+        source: root.portrait
+    }
+
+    // Les six medaillons, aux centres releves sur la maquette.
+    StatMedallion {
+        x: (246 - 70) * Tokens.uiScale
+        y: (174 - 70) * Tokens.uiScale
+        width: 140 * Tokens.uiScale
+        height: 140 * Tokens.uiScale
+        label: qsTr("FOR")
+        value: root.strengthScore
+        modifier: root.strengthModifier
+    }
+
+    StatMedallion {
+        x: (531 - 70) * Tokens.uiScale
+        y: (174 - 70) * Tokens.uiScale
+        width: 140 * Tokens.uiScale
+        height: 140 * Tokens.uiScale
+        label: qsTr("DEX")
+        value: root.dexterityScore
+        modifier: root.dexterityModifier
+    }
+
+    StatMedallion {
+        x: (129 - 70) * Tokens.uiScale
+        y: (359 - 70) * Tokens.uiScale
+        width: 140 * Tokens.uiScale
+        height: 140 * Tokens.uiScale
+        label: qsTr("CON")
+        value: root.constitutionScore
+        modifier: root.constitutionModifier
+    }
+
+    StatMedallion {
+        x: (635 - 70) * Tokens.uiScale
+        y: (359 - 70) * Tokens.uiScale
+        width: 140 * Tokens.uiScale
+        height: 140 * Tokens.uiScale
+        label: qsTr("INT")
+        value: root.intelligenceScore
+        modifier: root.intelligenceModifier
+    }
+
+    StatMedallion {
+        x: (215 - 70) * Tokens.uiScale
+        y: (533 - 70) * Tokens.uiScale
+        width: 140 * Tokens.uiScale
+        height: 140 * Tokens.uiScale
+        label: qsTr("SAG")
+        value: root.wisdomScore
+        modifier: root.wisdomModifier
+    }
+
+    StatMedallion {
+        x: (531 - 70) * Tokens.uiScale
+        y: (533 - 70) * Tokens.uiScale
+        width: 140 * Tokens.uiScale
+        height: 140 * Tokens.uiScale
+        label: qsTr("CHA")
+        value: root.charismaScore
+        modifier: root.charismaModifier
+    }
+
+    // Constantes de combat, en medaillons derives, sur le filigrane (ecart a la maquette : elle ne
+    // les montre pas, mais la fiche les porte, et les retirer aurait perdu une donnee reelle).
+    Grid {
+        anchors.horizontalCenter: parent.left
+        anchors.horizontalCenterOffset: 375 * Tokens.uiScale
+        y: 700 * Tokens.uiScale
+        columns: 3
+        spacing: Tokens.gapMedium
+
+        StatMedallion { kind: "derived"; label: qsTr("CA"); value: root.armorClass }
+        StatMedallion { kind: "derived"; label: qsTr("INIT."); value: root.initiative }
+        StatMedallion { kind: "derived"; label: qsTr("VITESSE"); value: root.speed }
+        StatMedallion { kind: "derived"; label: qsTr("MAÎTRISE"); value: root.proficiencyBonus }
+        StatMedallion { kind: "derived"; label: qsTr("PERC. PASS."); value: root.passivePerception }
+    }
+
+    // === Colonne centrale : identite =================================================================
+
+    TitlePlate {
+        anchors.horizontalCenter: parent.left
+        anchors.horizontalCenterOffset: 1010 * Tokens.uiScale
+        y: 58 * Tokens.uiScale
+        // Largeur bornee a la colonne : la plaque suit son titre, et deborderait sur les competences.
+        width: 640 * Tokens.uiScale
+        material: "black"
+        text: qsTr("Identité du personnage")
+    }
+
+    Column {
+        x: 719 * Tokens.uiScale
+        y: 168 * Tokens.uiScale
+        width: 580 * Tokens.uiScale
+        spacing: 10 * Tokens.uiScale
+
+        FieldRow { width: parent.width; label: qsTr("Nom"); value: root.characterName }
+        FieldRow { width: parent.width; label: qsTr("Classe"); value: root.className }
+        FieldRow { width: parent.width; label: qsTr("Niveau"); value: root.level }
+        FieldRow { width: parent.width; label: qsTr("Origine"); value: root.background }
+        FieldRow { width: parent.width; label: qsTr("Espèce"); value: root.species }
+        FieldRow { width: parent.width; label: qsTr("Matricule"); value: root.registration }
+    }
+
+    // Jauges (maquette : vie 580, 550 -> 1030, 640 ; experience 580, 670 -> 1030, 760).
+    Column {
+        x: 725 * Tokens.uiScale
+        y: 590 * Tokens.uiScale
+        width: 560 * Tokens.uiScale
+        spacing: Tokens.gapSmall
+
+        Item {
+            width: parent.width
+            height: 40 * Tokens.uiScale
+
+            FieldRow {
+                anchors.left: parent.left
+                width: 220 * Tokens.uiScale
+                tagWidth: 220 * Tokens.uiScale
+                label: qsTr("Points de vie")
+                value: ""
+            }
 
             Text {
-                // `horizontalAlignment` sur un texte qui remplit la largeur, plutot que
-                // `Layout.alignment` : cette derniere centre l'ELEMENT dans la cellule, et un
-                // element large comme sa cellule est deja centre -- son texte, lui, reste a gauche.
-                Layout.fillWidth: true
-                horizontalAlignment: Text.AlignHCenter
-                text: root.species + " · " + root.background + " · " + root.classAndLevel
-                color: Tokens.textMuted
+                anchors.right: parent.right
+                anchors.verticalCenter: parent.verticalCenter
+                text: root.hitPointsText
+                color: Tokens.text
                 font.family: Tokens.bodyFamily
-                font.pixelSize: Tokens.body
-            }
-        },
-        // --- Corps : caractéristiques | constantes | compétences ---------------------------
-        RowLayout {
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-            spacing: Tokens.spaceExtraLarge
-
-            // Caractéristiques
-            ColumnLayout {
-                Layout.alignment: Qt.AlignTop
-                // `Layout.fillWidth` et NON une fraction de `parent.width` : lier la taille d'un
-                // enfant à celle de son propre layout crée une boucle, que Qt interrompt au bout
-                // de deux passes en signalant une « réorganisation récursive ». La mise en page
-                // s'affichait quand même -- mais dans un état arbitraire.
-                Layout.fillWidth: true
-                spacing: Tokens.spaceSmall
-
-                Text {
-                    text: qsTr("Caractéristiques")
-                    color: Tokens.accent
-                    font.family: Tokens.bodyFamily
-                    font.pixelSize: Tokens.body
-                }
-                Repeater {
-                    model: root.abilities
-                    // L'enveloppe EXIGE ses rôles du modèle (`required`), ce qui les rend
-                    // vérifiables : un modèle qui ne les fournirait pas échoue au chargement, au
-                    // lieu d'afficher des lignes vides. `SheetLine` porte déjà `label` et `value`
-                    // et ne peut pas les redéclarer -- d'où l'enveloppe plutôt qu'un accès
-                    // `model.<rôle>`, que `qmllint` signale à juste titre comme non qualifié.
-                    delegate: Item {
-                        id: abilityRow
-                        required property string label
-                        required property string value
-                        Layout.fillWidth: true
-                        implicitHeight: abilityLine.implicitHeight
-                        SheetLine {
-                            id: abilityLine
-                            anchors.fill: parent
-                            label: abilityRow.label
-                            value: abilityRow.value
-                        }
-                    }
-                }
-            }
-
-            // Constantes de combat
-            ColumnLayout {
-                Layout.alignment: Qt.AlignTop
-                // `Layout.fillWidth` et NON une fraction de `parent.width` : lier la taille d'un
-                // enfant à celle de son propre layout crée une boucle, que Qt interrompt au bout
-                // de deux passes en signalant une « réorganisation récursive ». La mise en page
-                // s'affichait quand même -- mais dans un état arbitraire.
-                Layout.fillWidth: true
-                spacing: Tokens.spaceSmall
-
-                Text {
-                    text: qsTr("En jeu")
-                    color: Tokens.accent
-                    font.family: Tokens.bodyFamily
-                    font.pixelSize: Tokens.body
-                }
-                SheetLine { Layout.fillWidth: true; label: qsTr("Points de vie"); value: root.hitPoints }
-                SheetLine { Layout.fillWidth: true; label: qsTr("Classe d'armure"); value: root.armorClass }
-                SheetLine { Layout.fillWidth: true; label: qsTr("Initiative"); value: root.initiative }
-                SheetLine { Layout.fillWidth: true; label: qsTr("Vitesse"); value: root.speed }
-                SheetLine { Layout.fillWidth: true; label: qsTr("Maîtrise"); value: root.proficiencyBonus }
-                SheetLine { Layout.fillWidth: true; label: qsTr("Perception passive"); value: root.passivePerception }
-                SheetLine { Layout.fillWidth: true; label: qsTr("Expérience"); value: root.experience }
-            }
-
-            // Compétences
-            ColumnLayout {
-                Layout.alignment: Qt.AlignTop
-                Layout.fillWidth: true
-                spacing: Tokens.spaceSmall
-
-                Text {
-                    text: qsTr("Compétences")
-                    color: Tokens.accent
-                    font.family: Tokens.bodyFamily
-                    font.pixelSize: Tokens.body
-                }
-                // Une `ListView` et non un `Repeater` : les dix-huit compétences ne tiennent pas
-                // dans la hauteur d'une fenêtre 720p, et un `Repeater` les aurait laissées déborder
-                // hors du cadre -- rognées, sans que rien ne le signale. C'est exactement le défaut
-                // qui s'était produit trois fois du côté des widgets.
-                ListView {
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    clip: true
-                    spacing: Tokens.spaceSmall
-                    model: root.skills
-                    boundsBehavior: Flickable.StopAtBounds
-                    delegate: Item {
-                        id: skillRow
-                        required property string label
-                        required property string value
-                        width: ListView.view.width
-                        implicitHeight: skillLine.implicitHeight
-                        SheetLine {
-                            id: skillLine
-                            anchors.fill: parent
-                            label: skillRow.label
-                            value: skillRow.value
-                        }
-                    }
-                }
+                font.pixelSize: Tokens.fontBody
             }
         }
-    ]
+
+        Gauge {
+            width: parent.width
+            kind: "health"
+            value: root.hitPointsRatio
+        }
+
+        Item {
+            width: parent.width
+            height: 56 * Tokens.uiScale
+
+            FieldRow {
+                anchors.left: parent.left
+                anchors.bottom: parent.bottom
+                width: 220 * Tokens.uiScale
+                tagWidth: 220 * Tokens.uiScale
+                label: qsTr("Expérience")
+                value: ""
+            }
+
+            Text {
+                anchors.right: parent.right
+                anchors.bottom: parent.bottom
+                anchors.bottomMargin: Tokens.gapSmall
+                text: root.experienceText
+                color: Tokens.text
+                font.family: Tokens.bodyFamily
+                font.pixelSize: Tokens.fontBody
+            }
+        }
+
+        Gauge {
+            width: parent.width
+            kind: "experience"
+            value: root.experienceRatio
+        }
+    }
+
+    // Le pied de l'identite : sceau, ecusson, paraphe (maquette : 555, 835 -> 1080, 1005).
+    PanelFrame {
+        x: 700 * Tokens.uiScale
+        y: 872 * Tokens.uiScale
+        width: 648 * Tokens.uiScale
+        height: 170 * Tokens.uiScale
+        material: "parchment"
+        subpanel: true
+        padding: 0
+
+        FixedArt {
+            x: 60 * Tokens.uiScale
+            anchors.verticalCenter: parent.verticalCenter
+            width: 120 * Tokens.uiScale
+            height: 120 * Tokens.uiScale
+            key: "ui/ornament/wax-seal"
+        }
+
+        FixedArt {
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.top: parent.top
+            anchors.topMargin: -40 * Tokens.uiScale
+            width: 112 * Tokens.uiScale
+            height: 112 * Tokens.uiScale
+            key: "ui/ornament/crossed-crest"
+        }
+
+        // Le paraphe est une piece sans lettres ; le nom s'y ecrit par le jeu, en italique.
+        Item {
+            anchors.right: parent.right
+            anchors.rightMargin: 40 * Tokens.uiScale
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 24 * Tokens.uiScale
+            width: 256 * Tokens.uiScale
+            height: 64 * Tokens.uiScale
+
+            FixedArt {
+                anchors.fill: parent
+                key: "ui/ornament/signature-flourish"
+            }
+
+            Text {
+                anchors.centerIn: parent
+                text: root.characterName
+                color: Tokens.text
+                font.family: Tokens.loreFamily
+                font.italic: true
+                font.pixelSize: Tokens.fontSectionTitle
+            }
+        }
+    }
+
+    // === Colonne droite : competences =================================================================
+
+    TitlePlate {
+        anchors.horizontalCenter: parent.left
+        anchors.horizontalCenterOffset: 1625 * Tokens.uiScale
+        y: 58 * Tokens.uiScale
+        width: 460 * Tokens.uiScale
+        material: "black"
+        text: qsTr("Compétences")
+    }
+
+    ListView {
+        x: 1400 * Tokens.uiScale
+        y: 150 * Tokens.uiScale
+        width: 450 * Tokens.uiScale
+        height: 880 * Tokens.uiScale
+        clip: true
+        interactive: false
+        model: root.skills
+
+        // Une enveloppe et non `SkillRow` directement : la brique porte deja `label` et `value`, et un
+        // delegue ne peut pas redeclarer en `required` une propriete de son type.
+        delegate: Item {
+            id: skillEntry
+
+            required property string rowId
+            required property string label
+            required property string value
+
+            width: ListView.view.width
+            height: skillLine.implicitHeight
+
+            SkillRow {
+                id: skillLine
+
+                anchors.fill: parent
+                skillId: skillEntry.rowId
+                label: skillEntry.label
+                // La maitrise est portee par la pastille : le point de la ligne de texte s'efface.
+                value: skillEntry.value.replace(" •", "")
+                proficient: skillEntry.value.indexOf("•") >= 0
+            }
+        }
+    }
 }

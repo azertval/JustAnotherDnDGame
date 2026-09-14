@@ -50,6 +50,14 @@ QString CharacterSheetModel::value(const char* key) const {
     return toQt(found->second);
 }
 
+QVariantMap CharacterSheetModel::values() const {
+    QVariantMap table;
+    for (const auto& [key, text] : _values) {
+        table.insert(toQt(key), text.empty() ? QString::fromUtf8(EMPTY_MARK) : toQt(text));
+    }
+    return table;
+}
+
 void CharacterSheetModel::loadDemonstrationCharacter() {
     // Le chargement est PARTAGE avec l'inventaire : les deux ecrans decrivent le meme personnage,
     // et deux chargements separes auraient pu ne pas voir le meme equipement -- alors que la
