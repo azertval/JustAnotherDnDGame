@@ -102,6 +102,7 @@ $(function(){initNavTree('test__game__mode_8cpp.html','',''); });
 <code>#include &quot;<a class="el" href="LevelOutcome_8h_source.html">Core/Levels/LevelOutcome.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="PlayerInput_8h_source.html">Core/Physics/PlayerInput.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="CombatMode_8h_source.html">HMI/Game/CombatMode.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="DialogueMode_8h_source.html">HMI/Game/DialogueMode.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="ExplorationMode_8h_source.html">HMI/Game/ExplorationMode.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="IGameMode_8h_source.html">HMI/Game/IGameMode.h</a>&quot;</code><br />
 </div><table class="memberdecls">
@@ -121,13 +122,17 @@ Functions</h2></td></tr>
 <tr class="memdesc:a7901a711cd504600ac7fd2ef3822127f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le mode combat <b>gèle</b> le monde : ni déplacement libre, ni mécanismes, ni évaluation d'issue de niveau — et l'ordre appelé reste celui qu'il annonce.  <br /></td></tr>
 <tr class="memitem:a4fca7b7ffa4ed48e7eee3163aac42d22" id="r_a4fca7b7ffa4ed48e7eee3163aac42d22"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a4fca7b7ffa4ed48e7eee3163aac42d22">TEST</a> (ModeDeJeuTest, LeModeCombatEstNommeEtSansEtat)</td></tr>
 <tr class="memdesc:a4fca7b7ffa4ed48e7eee3163aac42d22"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le mode combat se nomme, et ne garde aucun état d'un pas à l'autre.  <br /></td></tr>
+<tr class="memitem:aa7c0d848bb7d75ac3577b727bf1facc4" id="r_aa7c0d848bb7d75ac3577b727bf1facc4"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#aa7c0d848bb7d75ac3577b727bf1facc4">TEST</a> (ModeDeJeuTest, LeModeDialogueGeleLExploration)</td></tr>
+<tr class="memdesc:aa7c0d848bb7d75ac3577b727bf1facc4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le mode dialogue <b>gèle</b> l'exploration : sur une conversation de six cents pas, joueur appuyant sur les directions et sur « interagir », aucun pas d'exploration n'est consommé (<span class="tt">LOT-15</span>).  <br /></td></tr>
+<tr class="memitem:a9f33389e58cec1853d153c4db48cf95f" id="r_a9f33389e58cec1853d153c4db48cf95f"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a9f33389e58cec1853d153c4db48cf95f">TEST</a> (ModeDeJeuTest, LeModeDialogueEstNommeEtSansEtat)</td></tr>
+<tr class="memdesc:a9f33389e58cec1853d153c4db48cf95f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le mode dialogue se nomme, distinctement des deux autres, et ne garde aucun état.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Tests unitaires du mode de jeu : l'ordre des passes du pas fixe (<span class="tt">EX-ARCH-002</span>, LOT-05). </p>
 <p><span class="tt"><a class="el" href="classhmi_1_1GameSession.html" title="Simule et rend un seul niveau (déjà validé, en mémoire), indépendamment de toute infrastructure d&#39;écr...">hmi::GameSession</a></span> exige un atlas, un lot de sprites et une police : impossible à instancier sans fenêtre. C'est précisément ce que l'extraction corrige — l'<b>ordre des passes</b> vit désormais dans un objet qui ne parle que de <span class="tt"><a class="el" href="namespacecore.html" title="Espace de noms du moteur et de la logique de jeu.">core</a>::</span>, et se vérifie contre une implémentation d'essai qui enregistre la séquence des appels sans rien simuler. </p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
 <a id="aabd48f3dbfd71ad4b836130ff9fae0d8" name="aabd48f3dbfd71ad4b836130ff9fae0d8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aabd48f3dbfd71ad4b836130ff9fae0d8">&#9670;&#160;</a></span>TEST() <span class="overload">[1/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aabd48f3dbfd71ad4b836130ff9fae0d8">&#9670;&#160;</a></span>TEST() <span class="overload">[1/9]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -156,7 +161,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a4fca7b7ffa4ed48e7eee3163aac42d22" name="a4fca7b7ffa4ed48e7eee3163aac42d22"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4fca7b7ffa4ed48e7eee3163aac42d22">&#9670;&#160;</a></span>TEST() <span class="overload">[2/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a4fca7b7ffa4ed48e7eee3163aac42d22">&#9670;&#160;</a></span>TEST() <span class="overload">[2/9]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -185,7 +190,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a7901a711cd504600ac7fd2ef3822127f" name="a7901a711cd504600ac7fd2ef3822127f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7901a711cd504600ac7fd2ef3822127f">&#9670;&#160;</a></span>TEST() <span class="overload">[3/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a7901a711cd504600ac7fd2ef3822127f">&#9670;&#160;</a></span>TEST() <span class="overload">[3/9]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -215,8 +220,70 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a9f33389e58cec1853d153c4db48cf95f" name="a9f33389e58cec1853d153c4db48cf95f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9f33389e58cec1853d153c4db48cf95f">&#9670;&#160;</a></span>TEST() <span class="overload">[4/9]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TEST </td>
+          <td>(</td>
+          <td class="paramtype">ModeDeJeuTest</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">LeModeDialogueEstNommeEtSansEtat</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Le mode dialogue se nomme, distinctement des deux autres, et ne garde aucun état. </p>
+<p><b>Cas de test :</b> <b>Le mode dialogue est nomme et sans etat.</b><br  />
+ <b>Categorie :</b> Unitaire · Mode de jeu<br  />
+ <b>Criticite :</b> Mineur<br  />
+ <b>Etapes :</b><br  />
+ 1. Avancer deux instances distinctes du mode de deux pas chacune.<br  />
+ <b>Resultat attendu :</b> Les deux sequences sont identiques ; le nom « dialogue » differe d'« exploration » et de « combat ». </p>
+
+</div>
+</div>
+<a id="aa7c0d848bb7d75ac3577b727bf1facc4" name="aa7c0d848bb7d75ac3577b727bf1facc4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa7c0d848bb7d75ac3577b727bf1facc4">&#9670;&#160;</a></span>TEST() <span class="overload">[5/9]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TEST </td>
+          <td>(</td>
+          <td class="paramtype">ModeDeJeuTest</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">LeModeDialogueGeleLExploration</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Le mode dialogue <b>gèle</b> l'exploration : sur une conversation de six cents pas, joueur appuyant sur les directions et sur « interagir », aucun pas d'exploration n'est consommé (<span class="tt">LOT-15</span>). </p>
+<p><b>Cas de test :</b> <b>Le mode dialogue gele l'exploration.</b><br  />
+ <b>Categorie :</b> Unitaire · Mode de jeu<br  />
+ <b>Criticite :</b> Critique<br  />
+ <b>Etapes :</b><br  />
+ 1. Avancer le mode dialogue de 600 pas fixes, avec une intention qui pousse a droite et vers le bas et presse la touche d'interaction.<br  />
+2. Comparer chaque pas a passOrder().<br  />
+</p><ol type="1">
+<li>Compter les passes d'exploration appelees.<br  />
+ <b>Resultat attendu :</b> Chaque pas joue exactement l'ordre annonce ; moveCharacter, updateMechanisms, detectEvents, updateMechanismVisuals et evaluateOutcome ne sont jamais appeles ; l'issue reste Playing. </li>
+</ol>
+
+</div>
+</div>
 <a id="a2bc58a8ce882c49b887ae4513a94be05" name="a2bc58a8ce882c49b887ae4513a94be05"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2bc58a8ce882c49b887ae4513a94be05">&#9670;&#160;</a></span>TEST() <span class="overload">[4/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a2bc58a8ce882c49b887ae4513a94be05">&#9670;&#160;</a></span>TEST() <span class="overload">[6/9]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -245,7 +312,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a69f14ed48a6f8ac12d798a67790004f5" name="a69f14ed48a6f8ac12d798a67790004f5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a69f14ed48a6f8ac12d798a67790004f5">&#9670;&#160;</a></span>TEST() <span class="overload">[5/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a69f14ed48a6f8ac12d798a67790004f5">&#9670;&#160;</a></span>TEST() <span class="overload">[7/9]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -275,7 +342,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="acd8285613e24fd14d3db5a515a44e1a1" name="acd8285613e24fd14d3db5a515a44e1a1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acd8285613e24fd14d3db5a515a44e1a1">&#9670;&#160;</a></span>TEST() <span class="overload">[6/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#acd8285613e24fd14d3db5a515a44e1a1">&#9670;&#160;</a></span>TEST() <span class="overload">[8/9]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -304,7 +371,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a83aed158ab7e6bb09b7e426fd1ea5fbe" name="a83aed158ab7e6bb09b7e426fd1ea5fbe"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a83aed158ab7e6bb09b7e426fd1ea5fbe">&#9670;&#160;</a></span>TEST() <span class="overload">[7/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a83aed158ab7e6bb09b7e426fd1ea5fbe">&#9670;&#160;</a></span>TEST() <span class="overload">[9/9]</span></h2>
 
 <div class="memitem">
 <div class="memproto">

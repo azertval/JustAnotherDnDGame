@@ -12,7 +12,8 @@ var searchData=
   ['glyphs_9',['glyphs',['../structhmi_1_1FontMetrics.html#af8edf913ecf02975f75b9d41f9acff65',1,'hmi::FontMetrics']]],
   ['government_10',['government',['../structcore_1_1Region.html#ab2fcfb2827210b97d085a810023d1196',1,'core::Region::government'],['../structhmi_1_1MapRegion.html#a325fc962037f6fdbb94fbab81e2e86e2',1,'hmi::MapRegion::government']]],
   ['grade_11',['grade',['../structcore_1_1RegionAppraisal.html#a9cea16e7edc28da4c20902d603d19cf6',1,'core::RegionAppraisal']]],
-  ['gravity_12',['gravity',['../structcore_1_1PhysicsConfig.html#abca056c01e3263ccc8d5e3adbd174e91',1,'core::PhysicsConfig']]],
-  ['groundpoundspeed_13',['groundPoundSpeed',['../structcore_1_1PhysicsConfig.html#a2072e171d44c396a1d3fc28e738224d0',1,'core::PhysicsConfig']]],
-  ['group_14',['group',['../structhmi_1_1EditorActionSpec.html#a8a67cad23c73abe7095578e00c818b81',1,'hmi::EditorActionSpec']]]
+  ['graph_12',['graph',['../structcore_1_1DialogueLoad.html#a2d0bdba2a17ecccc54ad3d9dcfb20a36',1,'core::DialogueLoad::graph'],['../structhmi_1_1DialogueModel_1_1Session.html#a06d4e0952d1b0a59c408725a795b88e2',1,'hmi::DialogueModel::Session::graph']]],
+  ['gravity_13',['gravity',['../structcore_1_1PhysicsConfig.html#abca056c01e3263ccc8d5e3adbd174e91',1,'core::PhysicsConfig']]],
+  ['groundpoundspeed_14',['groundPoundSpeed',['../structcore_1_1PhysicsConfig.html#a2072e171d44c396a1d3fc28e738224d0',1,'core::PhysicsConfig']]],
+  ['group_15',['group',['../structhmi_1_1EditorActionSpec.html#a8a67cad23c73abe7095578e00c818b81',1,'hmi::EditorActionSpec']]]
 ];

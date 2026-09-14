@@ -11,7 +11,9 @@ var searchData=
   ['noactiveturn_8',['NoActiveTurn',['../namespacecore.html#a8e11f0df61439a2de165b4019062e0e4a8cb45f47274f0e76f8d60401f43b0fb7',1,'core::NoActiveTurn'],['../namespacecore.html#ac0c9dc39aafc4bad02c96a9659df0c1ba8cb45f47274f0e76f8d60401f43b0fb7',1,'core::NoActiveTurn']]],
   ['none_9',['None',['../namespacecore.html#a3fca58c67ec139153d0204122e9c32e0a6adf97f83acf6453d4a6a4b1070f3754',1,'core::None'],['../namespacecore.html#af2a63d18c9ef40479ebdc204e726e823a6adf97f83acf6453d4a6a4b1070f3754',1,'core::None'],['../namespacecore.html#ab1c6c3303c34c417c9a3b6ac3ddb066da6adf97f83acf6453d4a6a4b1070f3754',1,'core::None'],['../namespacehmi.html#a08b7877ee84a5db1b0da3837b70c3af7a6adf97f83acf6453d4a6a4b1070f3754',1,'hmi::None'],['../namespacehmi.html#afee4dd05bda0b2293c4a99a73cb7eb8fa6adf97f83acf6453d4a6a4b1070f3754',1,'hmi::None'],['../namespacehmi.html#a230be1a1c12291d0b11fd55063ec7406a6adf97f83acf6453d4a6a4b1070f3754',1,'hmi::None'],['../namespacehmi.html#ae064c48cb814db754a1228bda7b8d77da6adf97f83acf6453d4a6a4b1070f3754',1,'hmi::None'],['../namespacehmi.html#af951fa0fccb19bed92c122562085977aa6adf97f83acf6453d4a6a4b1070f3754',1,'hmi::None']]],
   ['normal_10',['Normal',['../namespacecore.html#aff494cc4070ea4489c3d5ee57178f7c9a960b44c579bc2f6818d2daaf9e4c16f0',1,'core::Normal'],['../namespacecore.html#aee1e9954e6e76342687aaa9dcf3cbc5aa960b44c579bc2f6818d2daaf9e4c16f0',1,'core::Normal']]],
-  ['notescapable_11',['NotEscapable',['../namespacecore.html#ae1ab268fb5658f04b32b785790e7c082aa6bdb933c351cf222821ac7c5dd158b6',1,'core']]],
-  ['notincombat_12',['NotInCombat',['../namespacecore.html#ae1ab268fb5658f04b32b785790e7c082a9e21f7ee0cee28526201edff8a19f87b',1,'core']]],
-  ['notplaced_13',['NotPlaced',['../namespacecore.html#ac0c9dc39aafc4bad02c96a9659df0c1bada099a58dee575669ba6db4611297762',1,'core']]]
+  ['notawaiting_11',['NotAwaiting',['../namespacecore.html#adefc12cd0a71ea980213f083ce537aa1a5dd12ab928172267ae6783ddc3a88bf3',1,'core']]],
+  ['notescapable_12',['NotEscapable',['../namespacecore.html#ae1ab268fb5658f04b32b785790e7c082aa6bdb933c351cf222821ac7c5dd158b6',1,'core']]],
+  ['notincombat_13',['NotInCombat',['../namespacecore.html#ae1ab268fb5658f04b32b785790e7c082a9e21f7ee0cee28526201edff8a19f87b',1,'core']]],
+  ['notplaced_14',['NotPlaced',['../namespacecore.html#ac0c9dc39aafc4bad02c96a9659df0c1bada099a58dee575669ba6db4611297762',1,'core']]],
+  ['notstarted_15',['NotStarted',['../namespacecore.html#adbe3368bf4f687b1ab2120308d322c0aafa7be7845bc42b3491d9d0377958be94',1,'core']]]
 ];

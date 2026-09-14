@@ -4,6 +4,8 @@ var dir_e63fac7525d4addf9f5e759ec10d14ef =
     [ "CombatMode.h", "CombatMode_8h.html", "CombatMode_8h" ],
     [ "DiagnosticsHud.cpp", "DiagnosticsHud_8cpp.html", "DiagnosticsHud_8cpp" ],
     [ "DiagnosticsHud.h", "DiagnosticsHud_8h.html", "DiagnosticsHud_8h" ],
+    [ "DialogueMode.cpp", "DialogueMode_8cpp.html", null ],
+    [ "DialogueMode.h", "DialogueMode_8h.html", "DialogueMode_8h" ],
     [ "ExplorationMode.cpp", "ExplorationMode_8cpp.html", null ],
     [ "ExplorationMode.h", "ExplorationMode_8h.html", "ExplorationMode_8h" ],
     [ "GameEvents.cpp", "GameEvents_8cpp.html", "GameEvents_8cpp" ],

@@ -12,6 +12,7 @@ var dir_7c7356e692772728ab91d19f773c60c4 =
     [ "LOT-12-des-caracteristiques-jets", "dir_27a68e08a72146ed4a04cb6cd5a2797d.html", null ],
     [ "LOT-13-fiche-de-personnage", "dir_6ec51d3329454be19df7ee64d07756ef.html", null ],
     [ "LOT-14-inventaire-et-equipement", "dir_8b1f1d5242bf2aa6dd5f47b10638060b.html", null ],
+    [ "LOT-15-pnj-dialogues", "dir_95acfd44f8c9acadd33f779f31f2eb27.html", null ],
     [ "LOT-18-bascule-exploration-combat", "dir_fe7a714086135a64def029325f62fba4.html", null ],
     [ "LOT-19-grille-tactique", "dir_0bc1f44a5e2cc11771ed23acb9a7caec.html", null ],
     [ "LOT-20-initiative-tour-par-tour", "dir_ff53945995db0592a7a559075ccd928d.html", null ],

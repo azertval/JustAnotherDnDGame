@@ -5,5 +5,6 @@ var searchData=
   ['activeresources_2',['activeResources',['../classhmi_1_1ArenaModel.html#acec275728c52d22710aa959fcaf1d361',1,'hmi::ArenaModel']]],
   ['allies_3',['allies',['../classhmi_1_1ArenaModel.html#a7d21e77d0ce4548c070298f47d8e3b73',1,'hmi::ArenaModel']]],
   ['arenaname_4',['arenaName',['../classhmi_1_1ArenaModel.html#a3f4b527afceb64310bee5a8f634f6e26',1,'hmi::ArenaModel']]],
-  ['armorclass_5',['armorClass',['../classhmi_1_1CharacterSheetModel.html#aef1462f1780f2fe512c821a89caf9b2d',1,'hmi::CharacterSheetModel::armorClass'],['../classhmi_1_1InventoryModel.html#a4cacfd023745688b23985288a0183e95',1,'hmi::InventoryModel::armorClass']]]
+  ['armorclass_5',['armorClass',['../classhmi_1_1CharacterSheetModel.html#aef1462f1780f2fe512c821a89caf9b2d',1,'hmi::CharacterSheetModel::armorClass'],['../classhmi_1_1InventoryModel.html#a4cacfd023745688b23985288a0183e95',1,'hmi::InventoryModel::armorClass']]],
+  ['attitude_6',['attitude',['../classhmi_1_1DialogueModel.html#a78b3e3e0b7b59100c7f821085555c6a7',1,'hmi::DialogueModel']]]
 ];

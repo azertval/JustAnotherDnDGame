@@ -10,6 +10,8 @@ var dir_de25d93b7b4ef75f45504127491f58b5 =
     [ "CharacterSheet.h", "CharacterSheet_8h.html", "CharacterSheet_8h" ],
     [ "Check.cpp", "Check_8cpp.html", "Check_8cpp" ],
     [ "Check.h", "Check_8h.html", "Check_8h" ],
+    [ "Dialogue.cpp", "Dialogue_8cpp.html", "Dialogue_8cpp" ],
+    [ "Dialogue.h", "Dialogue_8h.html", "Dialogue_8h" ],
     [ "Dice.cpp", "Dice_8cpp.html", "Dice_8cpp" ],
     [ "Dice.h", "Dice_8h.html", "Dice_8h" ],
     [ "Equipment.cpp", "Equipment_8cpp.html", "Equipment_8cpp" ],

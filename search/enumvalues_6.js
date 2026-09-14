@@ -3,10 +3,11 @@ var searchData=
   ['game_0',['Game',['../classhmi_1_1ScreenRouter.html#a82f878c3ef3a0d8b924af7bbca4b37f7a63d72051e901c069f8aa1b32aa0c43bb',1,'hmi::ScreenRouter::Game'],['../namespacehmi.html#a168b24f798c2e6d06beb9472a071528da63d72051e901c069f8aa1b32aa0c43bb',1,'hmi::Game']]],
   ['gargantuan_1',['Gargantuan',['../namespacecore.html#ae6c6faeaa28aa7b90280f4dc39237204a15c00858f0c61bab56fc244aaeb165d0',1,'core']]],
   ['gear_2',['Gear',['../namespacehmi.html#a874cdf4b3785a41ee4cfc4ae882c2df5afb845762a66c26782f477febab5344dc',1,'hmi']]],
-  ['governmentcorruption_3',['GovernmentCorruption',['../namespacecore.html#a1471b5a70feb139829909360f5b07940ab581cd8e9b61b71e5f3d39c384a643b8',1,'core']]],
-  ['grappled_4',['Grappled',['../namespacecore.html#aae82873d6c7bd0b4db085354c50e1493aa6a928f3388475a9635f44ac382ba759',1,'core']]],
-  ['grass_5',['Grass',['../namespacecore.html#ace99a1be913e6294e42e9ebb145eb875aaac9a63596f76a62bb9f61a5dd7c0d25',1,'core']]],
-  ['grid_6',['Grid',['../namespacehmi.html#a0076ce0092efe8d8df165966481a5830a5174d1309f275ba6f275db3af9eb3e18',1,'hmi']]],
-  ['ground_7',['Ground',['../namespacecore.html#ab0cf50b7ad0dce1357c85662e0fb7e5da3519d51443d41746a097cd54cd5c11cf',1,'core']]],
-  ['groundobstacle_8',['GroundObstacle',['../classcore_1_1BattleGrid.html#afa362bf2c8a692ba969b6a319c7a987fa9359d5f3ea6721150c54b95c46f49cba',1,'core::BattleGrid']]]
+  ['giveitem_3',['GiveItem',['../namespacecore.html#aae1dbf957fd7a423de4c11a60fc2d680aeaa3a4cb48824c4da06052ae4b8822ee',1,'core']]],
+  ['governmentcorruption_4',['GovernmentCorruption',['../namespacecore.html#a1471b5a70feb139829909360f5b07940ab581cd8e9b61b71e5f3d39c384a643b8',1,'core']]],
+  ['grappled_5',['Grappled',['../namespacecore.html#aae82873d6c7bd0b4db085354c50e1493aa6a928f3388475a9635f44ac382ba759',1,'core']]],
+  ['grass_6',['Grass',['../namespacecore.html#ace99a1be913e6294e42e9ebb145eb875aaac9a63596f76a62bb9f61a5dd7c0d25',1,'core']]],
+  ['grid_7',['Grid',['../namespacehmi.html#a0076ce0092efe8d8df165966481a5830a5174d1309f275ba6f275db3af9eb3e18',1,'hmi']]],
+  ['ground_8',['Ground',['../namespacecore.html#ab0cf50b7ad0dce1357c85662e0fb7e5da3519d51443d41746a097cd54cd5c11cf',1,'core']]],
+  ['groundobstacle_9',['GroundObstacle',['../classcore_1_1BattleGrid.html#afa362bf2c8a692ba969b6a319c7a987fa9359d5f3ea6721150c54b95c46f49cba',1,'core::BattleGrid']]]
 ];

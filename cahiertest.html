@@ -93,9 +93,9 @@ $(function(){initNavTree('cahiertest.html','',''); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md_CahierTest"></a></p>
-<p><b>1085 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
+<p><b>1102 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md5"></a>
-Tests unitaires (1070)</h1>
+Tests unitaires (1087)</h1>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md6"></a>
 Core</h2>
 <p><b><span class="tt"><a class="el" href="test__core_8cpp.html" title="Tests unitaires de la bibliothèque Core (amorçage).">test_core.cpp</a></span></b></p>
@@ -2927,7 +2927,7 @@ Vérifie que <span class="tt">marqueur.width</span> vaut <span class="tt">famill
 Vérifie que <span class="tt">peints</span> vaut <span class="tt">static_cast&lt;int&gt;(attendues.size())</span>.  </td></tr>
 </table>
 <h3 class="doxsection"><a class="anchor" id="autotoc_md16"></a>
-Rpg (69)</h3>
+Rpg (81)</h3>
 <p><b><span class="tt"><a class="el" href="test__bestiary_8cpp.html" title="Tests du bestiaire de base (LOT-33) : les 94 profils chargent, et dix sont rejoues contre des valeurs...">test_bestiary.cpp</a></span></b></p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -3177,6 +3177,176 @@ Vérifie que <span class="tt">paliers.size()</span> vaut <span class="tt">6U</sp
 Vérifie que <span class="tt">dc</span> est strictement supérieur à <span class="tt">precedent</span>.<br  />
 Vérifie que <span class="tt">seuil("tres-facile")</span> vaut <span class="tt">5</span>.<br  />
 Vérifie que <span class="tt">seuil("quasi-impossible")</span> vaut <span class="tt">30</span>.  </td></tr>
+</table>
+<p><b><span class="tt"><a class="el" href="test__dialogue_8cpp.html" title="Tests unitaires des dialogues (LOT-15) : chargement et refus des graphes mal formés,...">test_dialogue.cpp</a></span></b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>DialogueTest.LeDialogueDeDemonstrationSeChargeEtSesReferencesExistent</b> (Bloquant)<br  />
+<sub><span class="tt"><a class="el" href="test__dialogue_8cpp.html" title="Tests unitaires des dialogues (LOT-15) : chargement et refus des graphes mal formés,...">Source/Test/Unit/Core/Rpg/test_dialogue.cpp</a>:125</span></sub>  </td><td class="markdownTableBodyNone">Le dialogue du heraut se charge et ses references existent.  </td><td class="markdownTableBodyNone">1. Charger Source/Elements/World/dialogues.<br  />
+2. Charger competences, degres de difficulte, objets et langues.<br  />
+3. Valider les references du heraut.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">dialogues().errors.empty()</span> est vrai.<br  />
+Vérifie que <span class="tt">echelle().errors.empty()</span> est vrai.<br  />
+Vérifie que <span class="tt">heraut</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">heraut-&gt;nodes.size()</span> est supérieur ou égal à <span class="tt">10U</span>.<br  />
+Vérifie que <span class="tt">std::ranges::count(heraut-&gt;nodes, <a class="el" href="namespacecore.html#a5e072fb2a50712986a2e81fa54b3fc73a9e2941b3c81256fac10392aaca4ccfde" title="Un drapeau de monde oriente la suite.">core::DialogueNodeKind::Condition</a>, &amp;<a class="el" href="structcore_1_1DialogueNode.html#a21e1a941843d0185321b0fea95190623">core::DialogueNode::kind</a>)</span> est supérieur ou égal à <span class="tt">2</span>.<br  />
+Vérifie que <span class="tt">std::ranges::any_of(heraut-&gt;nodes, [](const <a class="el" href="structcore_1_1DialogueNode.html" title="Un nœud du graphe.">core::DialogueNode</a>&amp; n) { return n.kind == <a class="el" href="namespacecore.html#a5e072fb2a50712986a2e81fa54b3fc73a060bf2d587991d8f090a1309b285291c" title="Un jet de compétence contre un degré de difficulté, et ses deux suites.">core::DialogueNodeKind::Check</a> &amp;&amp; n.skill == "persuasion"; })</span> est vrai.<br  />
+Vérifie que <span class="tt">erreurs.empty()</span> est vrai.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>DialogueTest.LeDialogueDuHerautSeParcourtEnHeadless</b> (Bloquant)<br  />
+<sub><span class="tt"><a class="el" href="test__dialogue_8cpp.html" title="Tests unitaires des dialogues (LOT-15) : chargement et refus des graphes mal formés,...">Source/Test/Unit/Core/Rpg/test_dialogue.cpp</a>:168</span></sub>  </td><td class="markdownTableBodyNone">Le dialogue du heraut se parcourt sans fenetre.  </td><td class="markdownTableBodyNone">1. Ouvrir la conversation avec un interlocuteur parlant le commun, +20 aux jets.<br  />
+ 2. Demander la Marque, continuer, demander l'inscription, convaincre.<br  />
+3. Continuer jusqu'a la fin.<br  />
+4. Rouvrir une seconde conversation sur les memes drapeaux, demander l'inscription.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">heraut</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">premiere.start()</span> vaut <span class="tt"><a class="el" href="namespacecore.html#adbe3368bf4f687b1ab2120308d322c0aaf0ab72293be96072c5f5ad74dfd7f6b5" title="Une réplique est affichée, le joueur doit répondre.">core::DialogueState::AwaitingChoice</a></span>.<br  />
+Vérifie que <span class="tt">premiere.lineKey()</span> vaut <span class="tt">"dialogue.heraut-colisee.presentation"</span>.<br  />
+Vérifie que <span class="tt">drapeaux.isSet(RENCONTRE)</span> est vrai.<br  />
+Vérifie que <span class="tt">identifiants(premiere.choices())</span> vaut <span class="tt">(std::vector&lt;std::string&gt;{"marque", "inscription", "partir"})</span>.<br  />
+Vérifie que <span class="tt">premiere.attitude()</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ade7d6c98b6c0942fee991823b7e237a7af2fcec7e6a3f80c8d00485a09a735c2d">core::DialogueAttitude::Indifferent</a></span>.<br  />
+Vérifie que <span class="tt">premiere.choose("marque")</span> vaut <span class="tt"><a class="el" href="namespacecore.html#adefc12cd0a71ea980213f083ce537aa1a9b6545e4cea9b4ad4979d41bb9170e2b" title="La conversation a avancé.">core::ChoiceResult::Advanced</a></span>.<br  />
+Vérifie que <span class="tt">premiere.lineKey()</span> vaut <span class="tt">"dialogue.heraut-colisee.marque"</span>.<br  />
+Vérifie que <span class="tt">identifiants(premiere.choices())</span> vaut <span class="tt">(std::vector&lt;std::string&gt;{"continue"})</span>.<br  />
+Vérifie que <span class="tt">premiere.choices().front().textKey</span> vaut <span class="tt">"dialogue.continue"</span>.<br  />
+Vérifie que <span class="tt">premiere.choose("continue")</span> vaut <span class="tt"><a class="el" href="namespacecore.html#adefc12cd0a71ea980213f083ce537aa1a9b6545e4cea9b4ad4979d41bb9170e2b" title="La conversation a avancé.">core::ChoiceResult::Advanced</a></span>.<br  />
+Vérifie que <span class="tt">premiere.lineKey()</span> vaut <span class="tt">"dialogue.heraut-colisee.retour"</span>.<br  />
+Vérifie que <span class="tt">premiere.choose("inscription")</span> vaut <span class="tt"><a class="el" href="namespacecore.html#adefc12cd0a71ea980213f083ce537aa1a9b6545e4cea9b4ad4979d41bb9170e2b" title="La conversation a avancé.">core::ChoiceResult::Advanced</a></span>.<br  />
+Vérifie que <span class="tt">premiere.lineKey()</span> vaut <span class="tt">"dialogue.heraut-colisee.demande"</span>.<br  />
+Vérifie que <span class="tt">identifiants(demande)</span> vaut <span class="tt">(std::vector&lt;std::string&gt;{"convaincre", "renoncer"})</span>.<br  />
+Vérifie que <span class="tt">demande.front().checkSkill</span> vaut <span class="tt">"persuasion"</span>.<br  />
+Vérifie que <span class="tt">premiere.choose("convaincre")</span> vaut <span class="tt"><a class="el" href="namespacecore.html#adefc12cd0a71ea980213f083ce537aa1a9b6545e4cea9b4ad4979d41bb9170e2b" title="La conversation a avancé.">core::ChoiceResult::Advanced</a></span>.<br  />
+Vérifie que <span class="tt">premiere.lastCheck().has_value()</span> est vrai.<br  />
+Vérifie que <span class="tt">premiere.lastCheck()-&gt;skill</span> vaut <span class="tt">"persuasion"</span>.<br  />
+Vérifie que <span class="tt">premiere.lastCheck()-&gt;result.target</span> vaut <span class="tt">15</span>.<br  />
+Vérifie que <span class="tt">premiere.lastCheck()-&gt;result.succeeded()</span> est vrai.<br  />
+Vérifie que <span class="tt">drapeaux.isSet(<a class="el" href="namespacecore.html#acadb420f48a33466a637a863e9c8e814" title="quest/&lt;quête&gt;/started — le drapeau qu&#39;une action « démarrer une quête » pose.">core::questStartedFlag</a>("champion-du-colisee"))</span> est vrai.<br  />
+Vérifie que <span class="tt">premiere.lineKey()</span> vaut <span class="tt">"dialogue.heraut-colisee.accepte-replique"</span>.<br  />
+Vérifie que <span class="tt">premiere.attitude()</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ade7d6c98b6c0942fee991823b7e237a7a03fdbf12e03a4cd1409b84abe2b631df">core::DialogueAttitude::Friendly</a></span>.<br  />
+Vérifie que <span class="tt">premiere.choose("continue")</span> vaut <span class="tt"><a class="el" href="namespacecore.html#adefc12cd0a71ea980213f083ce537aa1a9b6545e4cea9b4ad4979d41bb9170e2b" title="La conversation a avancé.">core::ChoiceResult::Advanced</a></span>.<br  />
+Vérifie que <span class="tt">premiere.state()</span> vaut <span class="tt"><a class="el" href="namespacecore.html#adbe3368bf4f687b1ab2120308d322c0aa0157fbb99be9622bdaa6e544270c0622" title="La conversation a atteint une fin.">core::DialogueState::Ended</a></span>.<br  />
+Vérifie que <span class="tt">premiere.choices().empty()</span> est vrai.<br  />
+Vérifie que <span class="tt">premiere.choose("continue")</span> vaut <span class="tt"><a class="el" href="namespacecore.html#adefc12cd0a71ea980213f083ce537aa1a5dd12ab928172267ae6783ddc3a88bf3" title="Aucune réplique n&#39;attend de réponse.">core::ChoiceResult::NotAwaiting</a></span>.<br  />
+Vérifie que <span class="tt">seconde.start()</span> vaut <span class="tt"><a class="el" href="namespacecore.html#adbe3368bf4f687b1ab2120308d322c0aaf0ab72293be96072c5f5ad74dfd7f6b5" title="Une réplique est affichée, le joueur doit répondre.">core::DialogueState::AwaitingChoice</a></span>.<br  />
+Vérifie que <span class="tt">seconde.lineKey()</span> vaut <span class="tt">"dialogue.heraut-colisee.retour"</span>.<br  />
+Vérifie que <span class="tt">seconde.choose("inscription")</span> vaut <span class="tt"><a class="el" href="namespacecore.html#adefc12cd0a71ea980213f083ce537aa1a9b6545e4cea9b4ad4979d41bb9170e2b" title="La conversation a avancé.">core::ChoiceResult::Advanced</a></span>.<br  />
+Vérifie que <span class="tt">seconde.lineKey()</span> vaut <span class="tt">"dialogue.heraut-colisee.deja-inscrit"</span>.<br  />
+Vérifie que <span class="tt">seconde.choose("continue")</span> vaut <span class="tt"><a class="el" href="namespacecore.html#adefc12cd0a71ea980213f083ce537aa1a9b6545e4cea9b4ad4979d41bb9170e2b" title="La conversation a avancé.">core::ChoiceResult::Advanced</a></span>.<br  />
+Vérifie que <span class="tt">seconde.state()</span> vaut <span class="tt"><a class="el" href="namespacecore.html#adbe3368bf4f687b1ab2120308d322c0aa0157fbb99be9622bdaa6e544270c0622" title="La conversation a atteint une fin.">core::DialogueState::Ended</a></span>.<br  />
+Vérifie que <span class="tt">traverses.size()</span> est supérieur ou égal à <span class="tt">10U</span>.<br  />
+Vérifie que <span class="tt">contient(premiere.journal(), "jet : jet-persuasion (persuasion)")</span> est vrai.<br  />
+Vérifie que <span class="tt">contient(premiere.journal(), "quete demarree : champion-du-colisee")</span> est vrai.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>DialogueTest.UnEchecMeneALAutreSuiteEtFermeLaReponseConditionnelle</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__dialogue_8cpp.html" title="Tests unitaires des dialogues (LOT-15) : chargement et refus des graphes mal formés,...">Source/Test/Unit/Core/Rpg/test_dialogue.cpp</a>:239</span></sub>  </td><td class="markdownTableBodyNone">Un echec de Persuasion ferme la reponse de retentative.  </td><td class="markdownTableBodyNone">1. Parcourir jusqu'a la demande avec -20 aux jets.<br  />
+2. Convaincre.<br  />
+ 3. Continuer, redemander l'inscription.<br  />
+4. Choisir « convaincre » malgre tout.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">heraut</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">runner.start()</span> vaut <span class="tt"><a class="el" href="namespacecore.html#adbe3368bf4f687b1ab2120308d322c0aaf0ab72293be96072c5f5ad74dfd7f6b5" title="Une réplique est affichée, le joueur doit répondre.">core::DialogueState::AwaitingChoice</a></span>.<br  />
+Vérifie que <span class="tt">runner.choose("inscription")</span> vaut <span class="tt"><a class="el" href="namespacecore.html#adefc12cd0a71ea980213f083ce537aa1a9b6545e4cea9b4ad4979d41bb9170e2b" title="La conversation a avancé.">core::ChoiceResult::Advanced</a></span>.<br  />
+Vérifie que <span class="tt">runner.choose("convaincre")</span> vaut <span class="tt"><a class="el" href="namespacecore.html#adefc12cd0a71ea980213f083ce537aa1a9b6545e4cea9b4ad4979d41bb9170e2b" title="La conversation a avancé.">core::ChoiceResult::Advanced</a></span>.<br  />
+Vérifie que <span class="tt">runner.lastCheck().has_value()</span> est vrai.<br  />
+Vérifie que <span class="tt">runner.lastCheck()-&gt;result.succeeded()</span> est faux.<br  />
+Vérifie que <span class="tt">runner.lineKey()</span> vaut <span class="tt">"dialogue.heraut-colisee.refuse-replique"</span>.<br  />
+Vérifie que <span class="tt">runner.attitude()</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ade7d6c98b6c0942fee991823b7e237a7aa62a927d0ab6a08f916aa9f5ec0306e4">core::DialogueAttitude::Hostile</a></span>.<br  />
+Vérifie que <span class="tt">drapeaux.isSet(ECHEC)</span> est vrai.<br  />
+Vérifie que <span class="tt">drapeaux.isSet(<a class="el" href="namespacecore.html#acadb420f48a33466a637a863e9c8e814" title="quest/&lt;quête&gt;/started — le drapeau qu&#39;une action « démarrer une quête » pose.">core::questStartedFlag</a>("champion-du-colisee"))</span> est faux.<br  />
+Vérifie que <span class="tt">runner.choose("continue")</span> vaut <span class="tt"><a class="el" href="namespacecore.html#adefc12cd0a71ea980213f083ce537aa1a9b6545e4cea9b4ad4979d41bb9170e2b" title="La conversation a avancé.">core::ChoiceResult::Advanced</a></span>.<br  />
+Vérifie que <span class="tt">runner.choose("inscription")</span> vaut <span class="tt"><a class="el" href="namespacecore.html#adefc12cd0a71ea980213f083ce537aa1a9b6545e4cea9b4ad4979d41bb9170e2b" title="La conversation a avancé.">core::ChoiceResult::Advanced</a></span>.<br  />
+Vérifie que <span class="tt">identifiants(runner.choices())</span> vaut <span class="tt">(std::vector&lt;std::string&gt;{"renoncer"})</span>.<br  />
+Vérifie que <span class="tt">runner.choose("convaincre")</span> vaut <span class="tt"><a class="el" href="namespacecore.html#adefc12cd0a71ea980213f083ce537aa1a453e6aa38d87b28ccae545967c53004f" title="Aucune réponse proposée ne porte cet identifiant — ou sa condition ne tient plus.">core::ChoiceResult::Unavailable</a></span>.<br  />
+Vérifie que <span class="tt">runner.choose("inexistante")</span> vaut <span class="tt"><a class="el" href="namespacecore.html#adefc12cd0a71ea980213f083ce537aa1a453e6aa38d87b28ccae545967c53004f" title="Aucune réponse proposée ne porte cet identifiant — ou sa condition ne tient plus.">core::ChoiceResult::Unavailable</a></span>.<br  />
+Vérifie que <span class="tt">runner.lineKey()</span> vaut <span class="tt">"dialogue.heraut-colisee.demande"</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>DialogueTest.UnDialogueEstRefuseFauteDeLangueCommune</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__dialogue_8cpp.html" title="Tests unitaires des dialogues (LOT-15) : chargement et refus des graphes mal formés,...">Source/Test/Unit/Core/Rpg/test_dialogue.cpp</a>:276</span></sub>  </td><td class="markdownTableBodyNone">Un dialogue est refuse faute de langue commune.  </td><td class="markdownTableBodyNone">1. Ouvrir le heraut (commun) avec un interlocuteur qui ne parle que le nain.<br  />
+ 2. Tenter une reponse.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">heraut</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">runner.start()</span> vaut <span class="tt"><a class="el" href="namespacecore.html#adbe3368bf4f687b1ab2120308d322c0aaf48b206184b7442983452ea4c3e88a3a" title="Elle n&#39;a pas eu lieu : aucune langue commune (EX-RPG-042).">core::DialogueState::Refused</a></span>.<br  />
+Vérifie que <span class="tt">drapeaux.size()</span> vaut <span class="tt">0U</span>.<br  />
+Vérifie que <span class="tt">runner.currentLine()</span> vaut <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">runner.choices().empty()</span> est vrai.<br  />
+Vérifie que <span class="tt">runner.choose("marque")</span> vaut <span class="tt"><a class="el" href="namespacecore.html#adefc12cd0a71ea980213f083ce537aa1a5dd12ab928172267ae6783ddc3a88bf3" title="Aucune réplique n&#39;attend de réponse.">core::ChoiceResult::NotAwaiting</a></span>.<br  />
+Vérifie que <span class="tt">contient(runner.journal(), "aucune langue commune (common)")</span> est vrai.<br  />
+Vérifie que <span class="tt">runner.start()</span> vaut <span class="tt"><a class="el" href="namespacecore.html#adbe3368bf4f687b1ab2120308d322c0aaf48b206184b7442983452ea4c3e88a3a" title="Elle n&#39;a pas eu lieu : aucune langue commune (EX-RPG-042).">core::DialogueState::Refused</a></span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>DialogueTest.UnGrapheMalFormeEstRejeteAuChargement</b> (Bloquant)<br  />
+<sub><span class="tt"><a class="el" href="test__dialogue_8cpp.html" title="Tests unitaires des dialogues (LOT-15) : chargement et refus des graphes mal formés,...">Source/Test/Unit/Core/Rpg/test_dialogue.cpp</a>:305</span></sub>  </td><td class="markdownTableBodyNone">Les graphes mal formes sont refuses au chargement.  </td><td class="markdownTableBodyNone">1. Lire une serie de graphes fautifs : cible inconnue, entree inconnue, choix vide, reponse sans identifiant, reponses toutes conditionnelles, cycle sans reponse, monologue en boucle, orphelin, impasse, difficulte chiffree, noeud en double, type inconnu, sans fin, sans langue.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">lu.graph.has_value()</span> est faux.<br  />
+Vérifie que <span class="tt">contient(lu.errors, un.motif)</span> est vrai.<br  />
+Vérifie que <span class="tt">contient(lu.errors, "essai.json")</span> est vrai.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>DialogueTest.UneBouclePasseeParUnChoixEstUnHubVoulu</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__dialogue_8cpp.html" title="Tests unitaires des dialogues (LOT-15) : chargement et refus des graphes mal formés,...">Source/Test/Unit/Core/Rpg/test_dialogue.cpp</a>:377</span></sub>  </td><td class="markdownTableBodyNone">Une boucle par une replique a reponses est acceptee.  </td><td class="markdownTableBodyNone">1. Lire un graphe ou une question revient au menu par une replique et une action.<br  />
+ 2. Le jouer trois tours de boucle, puis partir.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">lu.graph.has_value()</span> est vrai.<br  />
+Vérifie que <span class="tt">runner.start()</span> vaut <span class="tt"><a class="el" href="namespacecore.html#adbe3368bf4f687b1ab2120308d322c0aaf0ab72293be96072c5f5ad74dfd7f6b5" title="Une réplique est affichée, le joueur doit répondre.">core::DialogueState::AwaitingChoice</a></span>.<br  />
+Vérifie que <span class="tt">runner.choose("encore")</span> vaut <span class="tt"><a class="el" href="namespacecore.html#adefc12cd0a71ea980213f083ce537aa1a9b6545e4cea9b4ad4979d41bb9170e2b" title="La conversation a avancé.">core::ChoiceResult::Advanced</a></span>.<br  />
+Vérifie que <span class="tt">runner.choose("continue")</span> vaut <span class="tt"><a class="el" href="namespacecore.html#adefc12cd0a71ea980213f083ce537aa1a9b6545e4cea9b4ad4979d41bb9170e2b" title="La conversation a avancé.">core::ChoiceResult::Advanced</a></span>.<br  />
+Vérifie que <span class="tt">runner.lineKey()</span> vaut <span class="tt">"dialogue.essai.menu"</span>.<br  />
+Vérifie que <span class="tt">runner.choose("partir")</span> vaut <span class="tt"><a class="el" href="namespacecore.html#adefc12cd0a71ea980213f083ce537aa1a9b6545e4cea9b4ad4979d41bb9170e2b" title="La conversation a avancé.">core::ChoiceResult::Advanced</a></span>.<br  />
+Vérifie que <span class="tt">runner.state()</span> vaut <span class="tt"><a class="el" href="namespacecore.html#adbe3368bf4f687b1ab2120308d322c0aa0157fbb99be9622bdaa6e544270c0622" title="La conversation a atteint une fin.">core::DialogueState::Ended</a></span>.<br  />
+Vérifie que <span class="tt">drapeaux.isSet("vu")</span> est vrai.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>DialogueTest.LesActionsTouchentLeMonde</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__dialogue_8cpp.html" title="Tests unitaires des dialogues (LOT-15) : chargement et refus des graphes mal formés,...">Source/Test/Unit/Core/Rpg/test_dialogue.cpp</a>:414</span></sub>  </td><td class="markdownTableBodyNone">Les quatre actions d'un dialogue s'appliquent.  </td><td class="markdownTableBodyNone">1. Jouer un noeud qui pose puis retire un drapeau, donne trois torches et demarre une quete.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">lu.graph.has_value()</span> est vrai.<br  />
+Vérifie que <span class="tt">runner.start()</span> vaut <span class="tt"><a class="el" href="namespacecore.html#adbe3368bf4f687b1ab2120308d322c0aa0157fbb99be9622bdaa6e544270c0622" title="La conversation a atteint une fin.">core::DialogueState::Ended</a></span>.<br  />
+Vérifie que <span class="tt">drapeaux.isSet("porte")</span> est faux.<br  />
+Vérifie que <span class="tt">drapeaux.isSet("quest/le-puits/started")</span> est vrai.<br  />
+Vérifie que <span class="tt">receveur.recus.size()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">receveur.recus.front()</span> vaut <span class="tt">(std::pair&lt;std::string, int&gt;{"torche", 3})</span>.<br  />
+Vérifie que <span class="tt">pose</span> diffère de <span class="tt">journal.end()</span>.<br  />
+Vérifie que <span class="tt">retire</span> diffère de <span class="tt">journal.end()</span>.<br  />
+Vérifie que <span class="tt">pose</span> est strictement inférieur à <span class="tt">retire</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>DialogueTest.UnDialogueSeRejoueAGraineFixee</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__dialogue_8cpp.html" title="Tests unitaires des dialogues (LOT-15) : chargement et refus des graphes mal formés,...">Source/Test/Unit/Core/Rpg/test_dialogue.cpp</a>:452</span></sub>  </td><td class="markdownTableBodyNone">Un dialogue se rejoue a l'identique a graine fixee.  </td><td class="markdownTableBodyNone">1. Jouer le heraut jusqu'au jet, sans bonus, a la graine 42, deux fois.<br  />
+2. Le jouer sur une plage de graines.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">heraut</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">jouer(42).first</span> vaut <span class="tt">jouer(42).first</span>.<br  />
+Vérifie que <span class="tt">reussi</span> est vrai.<br  />
+Vérifie que <span class="tt">rate</span> est vrai.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>DialogueTest.LesDialoguesSontTraduitsEnFrancaisEtEnAnglais</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__dialogue_8cpp.html" title="Tests unitaires des dialogues (LOT-15) : chargement et refus des graphes mal formés,...">Source/Test/Unit/Core/Rpg/test_dialogue.cpp</a>:489</span></sub>  </td><td class="markdownTableBodyNone">Les dialogues sont traduits en francais et en anglais.  </td><td class="markdownTableBodyNone">1. Lire fr.lang et en.lang.<br  />
+2. Pour chaque dialogue livre, fabriquer ses cles.<br  />
+ 3. Ajouter les cles de l'ecran (quitter, refus, jet).  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">dialogues().dialogues.empty()</span> est faux.<br  />
+Vérifie que <span class="tt">trouve != langue-&gt;end() &amp;&amp; !trouve-&gt;second.empty()</span> est vrai.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>DialogueTest.LesDegresDeDifficulteSeChargent</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__dialogue_8cpp.html" title="Tests unitaires des dialogues (LOT-15) : chargement et refus des graphes mal formés,...">Source/Test/Unit/Core/Rpg/test_dialogue.cpp</a>:526</span></sub>  </td><td class="markdownTableBodyNone">Les degres de difficulte se chargent.  </td><td class="markdownTableBodyNone">1. Charger rules/difficulty.json.<br  />
+2. Charger un chemin inexistant.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">echelle().errors.empty()</span> est vrai.<br  />
+Vérifie que <span class="tt">echelle().tiers.size()</span> vaut <span class="tt">6U</span>.<br  />
+Vérifie que <span class="tt">echelle().find("moyenne")</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">echelle().find("moyenne")-&gt;dc</span> vaut <span class="tt">15</span>.<br  />
+Vérifie que <span class="tt">echelle().find("quasi-impossible")</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">echelle().find("quasi-impossible")-&gt;dc</span> vaut <span class="tt">30</span>.<br  />
+Vérifie que <span class="tt">echelle().find("inventee")</span> vaut <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">absente.tiers.empty()</span> est vrai.<br  />
+Vérifie que <span class="tt">absente.errors.empty()</span> est faux.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>DialogueTest.LaFicheEcouteUnPnjAvecSesLanguesEtSesModificateurs</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__dialogue_8cpp.html" title="Tests unitaires des dialogues (LOT-15) : chargement et refus des graphes mal formés,...">Source/Test/Unit/Core/Rpg/test_dialogue.cpp</a>:551</span></sub>  </td><td class="markdownTableBodyNone">La fiche ecoute un PNJ : langues et modificateurs.  </td><td class="markdownTableBodyNone">1. Charger la fiche de demonstration.<br  />
+2. L'envelopper dans CharacterListener.<br  />
+ 3. Interroger ses langues, ses modificateurs de Persuasion et d'Athletisme.<br  />
+4. Lui donner un objet.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">brenna.errors.empty()</span> est vrai.<br  />
+Vérifie que <span class="tt">auditeur.speaks("common")</span> est vrai.<br  />
+Vérifie que <span class="tt">auditeur.speaks("elvish")</span> est vrai.<br  />
+Vérifie que <span class="tt">auditeur.speaks("dwarvish")</span> est vrai.<br  />
+Vérifie que <span class="tt">auditeur.speaks("orc")</span> est faux.<br  />
+Vérifie que <span class="tt">persuasion.size()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">persuasion.front().source</span> vaut <span class="tt">"charisma"</span>.<br  />
+Vérifie que <span class="tt">persuasion.front().value</span> vaut <span class="tt">brenna.sheet.modifier(core::Ability::Charisma)</span>.<br  />
+Vérifie que <span class="tt">athletisme.size()</span> vaut <span class="tt">2U</span>.<br  />
+Vérifie que <span class="tt">athletisme[1].source</span> vaut <span class="tt">"maitrise"</span>.<br  />
+Vérifie que <span class="tt">athletisme[0].value + athletisme[1].value</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a29026a1c7235970e3f432ac5d08229ad">core::skillModifier</a>(brenna.sheet, experience, competences, "athletics").value</span>.<br  />
+Vérifie que <span class="tt">auditeur.skillModifiers("inexistante").empty()</span> est vrai.<br  />
+Vérifie que <span class="tt">std::ranges::any_of(brenna.inventory.backpack, [](const <a class="el" href="structcore_1_1InventoryStack.html" title="Une ligne du sac : un identifiant de catalogue et une quantité.">core::InventoryStack</a>&amp; s) { return s.itemId == "corde-en-soie-15-m"; })</span> est vrai.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>DialogueTest.UnPnjDeCarteOuvreSonDialogue</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__dialogue_8cpp.html" title="Tests unitaires des dialogues (LOT-15) : chargement et refus des graphes mal formés,...">Source/Test/Unit/Core/Rpg/test_dialogue.cpp</a>:600</span></sub>  </td><td class="markdownTableBodyNone">Un PNJ de carte ouvre son dialogue.  </td><td class="markdownTableBodyNone">1. Chercher la famille « npc » dans la table des interactifs.<br  />
+2. Lire trois entites : un PNJ avec dialogue, un PNJ muet, un coffre.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">famille</span> diffère de <span class="tt"><a class="el" href="namespacecore.html#a07f40df9fbe2a910d1e99b9756220fea" title="Les familles connues : coffre, panneau (LOT-10), PNJ (LOT-15).">core::knownInteractableKinds()</a>.end()</span>.<br  />
+Vérifie que <span class="tt">famille-&gt;consumable</span> est faux.<br  />
+Vérifie que <span class="tt">declencheur.has_value()</span> est vrai.<br  />
+Vérifie que <span class="tt">declencheur-&gt;dialogueId</span> vaut <span class="tt">HERAUT</span>.<br  />
+Vérifie que <span class="tt">declencheur-&gt;position</span> vaut <span class="tt">(<a class="el" href="structcore_1_1GridPosition.html" title="Position d&#39;une case dans la grille d&#39;un niveau, en coordonnées entières.">core::GridPosition</a>{4, 2})</span>.<br  />
+Vérifie que <span class="tt">core::dialogueTriggerFor(muet).has_value()</span> est faux.<br  />
+Vérifie que <span class="tt">core::dialogueTriggerFor(coffre).has_value()</span> est faux.  </td></tr>
 </table>
 <p><b><span class="tt"><a class="el" href="test__dice_8cpp.html" title="Tests des des, des caracteristiques et de l&#39;echelle (LOT-12, EX-NFR-002).">test_dice.cpp</a></span></b></p>
 <table class="markdownTable">
@@ -4780,7 +4950,7 @@ Vérifie que <span class="tt">key.empty()</span> est faux.<br  />
 Vérifie que <span class="tt">localization.text(key)</span> diffère de <span class="tt">key</span>.  </td></tr>
 </table>
 <h3 class="doxsection"><a class="anchor" id="autotoc_md23"></a>
-Game (28)</h3>
+Game (30)</h3>
 <p><b><span class="tt"><a class="el" href="test__diagnostics__hud_8cpp.html" title="Tests unitaires de la moyenne glissante de cadence et du choix de contenu du compteur de diagnostic (...">test_diagnostics_hud.cpp</a></span></b></p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -4894,38 +5064,51 @@ Vérifie que <span class="tt">surUneCle[1]</span> vaut <span class="tt">"Cle"</s
 <th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>ModeDeJeuTest.OrdreAppeleIdentiqueALOrdreAnnonce</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__game__mode_8cpp.html" title="Tests unitaires du mode de jeu : l&#39;ordre des passes du pas fixe (EX-ARCH-002, LOT-05).">Source/Test/Unit/HMI/Game/test_game_mode.cpp</a>:98</span></sub>  </td><td class="markdownTableBodyNone">L'ordre des passes appele est celui annonce.  </td><td class="markdownTableBodyNone">1. Avancer le mode d'exploration d'un pas fixe sur des passes qui enregistrent leurs appels.<br  />
+<sub><span class="tt"><a class="el" href="test__game__mode_8cpp.html" title="Tests unitaires du mode de jeu : l&#39;ordre des passes du pas fixe (EX-ARCH-002, LOT-05).">Source/Test/Unit/HMI/Game/test_game_mode.cpp</a>:99</span></sub>  </td><td class="markdownTableBodyNone">L'ordre des passes appele est celui annonce.  </td><td class="markdownTableBodyNone">1. Avancer le mode d'exploration d'un pas fixe sur des passes qui enregistrent leurs appels.<br  />
 2. Comparer la sequence enregistree a passOrder().  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">outcome</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a60398ec3835dd2882a7d3a9eaddb65aaac9dbb2b7c84159b632d71e512eba8428" title="Partie en cours.">core::LevelOutcome::Playing</a></span>.<br  />
 Vérifie que <span class="tt">passes.calls()</span> vaut <span class="tt">announcedOrder(mode)</span>.  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>ModeDeJeuTest.SequenceStableSur600Pas</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__game__mode_8cpp.html" title="Tests unitaires du mode de jeu : l&#39;ordre des passes du pas fixe (EX-ARCH-002, LOT-05).">Source/Test/Unit/HMI/Game/test_game_mode.cpp</a>:119</span></sub>  </td><td class="markdownTableBodyNone">600 pas produisent 600 fois la meme sequence de passes.  </td><td class="markdownTableBodyNone">1. Avancer le mode de 600 pas fixes, avec une intention qui change a chaque pas.<br  />
+<sub><span class="tt"><a class="el" href="test__game__mode_8cpp.html" title="Tests unitaires du mode de jeu : l&#39;ordre des passes du pas fixe (EX-ARCH-002, LOT-05).">Source/Test/Unit/HMI/Game/test_game_mode.cpp</a>:120</span></sub>  </td><td class="markdownTableBodyNone">600 pas produisent 600 fois la meme sequence de passes.  </td><td class="markdownTableBodyNone">1. Avancer le mode de 600 pas fixes, avec une intention qui change a chaque pas.<br  />
 2. Comparer la sequence de chaque pas a celle du premier.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">passes.calls()</span> vaut <span class="tt">expected</span>.  </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>ModeDeJeuTest.EchecDeclencheSesConsequencesApresLEvaluation</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__game__mode_8cpp.html" title="Tests unitaires du mode de jeu : l&#39;ordre des passes du pas fixe (EX-ARCH-002, LOT-05).">Source/Test/Unit/HMI/Game/test_game_mode.cpp</a>:144</span></sub>  </td><td class="markdownTableBodyNone">Un echec declenche ses consequences apres l'evaluation.  </td><td class="markdownTableBodyNone">1. Avancer le mode d'un pas sur des passes qui repondent Lost a l'evaluation.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">outcome</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a60398ec3835dd2882a7d3a9eaddb65aaab578b733cbb788fc6ad208314d2c4c2b" title="Le personnage a touché un danger ou est sorti par le bas (EX-GP-031).">core::LevelOutcome::Lost</a></span>.<br  />
+<sub><span class="tt"><a class="el" href="test__game__mode_8cpp.html" title="Tests unitaires du mode de jeu : l&#39;ordre des passes du pas fixe (EX-ARCH-002, LOT-05).">Source/Test/Unit/HMI/Game/test_game_mode.cpp</a>:145</span></sub>  </td><td class="markdownTableBodyNone">Un echec declenche ses consequences apres l'evaluation.  </td><td class="markdownTableBodyNone">1. Avancer le mode d'un pas sur des passes qui repondent Lost a l'evaluation.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">outcome</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a60398ec3835dd2882a7d3a9eaddb65aaab578b733cbb788fc6ad208314d2c4c2b" title="Le personnage a touché un danger ou est sorti par le bas (EX-GP-031).">core::LevelOutcome::Lost</a></span>.<br  />
 Vérifie que <span class="tt">passes.calls().size()</span> est supérieur ou égal à <span class="tt">2u</span>.<br  />
 Vérifie que <span class="tt">passes.calls().back()</span> vaut <span class="tt">"onLevelLost"</span>.<br  />
 Vérifie que <span class="tt">passes.calls()[passes.calls().size() - 2]</span> vaut <span class="tt">"evaluateOutcome"</span>.  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>ModeDeJeuTest.ReussiteNeDeclenchePasLesConsequencesDUnEchec</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__game__mode_8cpp.html" title="Tests unitaires du mode de jeu : l&#39;ordre des passes du pas fixe (EX-ARCH-002, LOT-05).">Source/Test/Unit/HMI/Game/test_game_mode.cpp</a>:166</span></sub>  </td><td class="markdownTableBodyNone">Une reussite ne declenche pas les consequences d'un echec.  </td><td class="markdownTableBodyNone">1. Avancer le mode d'un pas sur des passes qui repondent Won a l'evaluation.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">outcome</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a60398ec3835dd2882a7d3a9eaddb65aaa19abd416eb9fe03ae7400a22446956a5" title="Le personnage a atteint la sortie (EX-GP-030).">core::LevelOutcome::Won</a></span>.<br  />
+<sub><span class="tt"><a class="el" href="test__game__mode_8cpp.html" title="Tests unitaires du mode de jeu : l&#39;ordre des passes du pas fixe (EX-ARCH-002, LOT-05).">Source/Test/Unit/HMI/Game/test_game_mode.cpp</a>:167</span></sub>  </td><td class="markdownTableBodyNone">Une reussite ne declenche pas les consequences d'un echec.  </td><td class="markdownTableBodyNone">1. Avancer le mode d'un pas sur des passes qui repondent Won a l'evaluation.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">outcome</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a60398ec3835dd2882a7d3a9eaddb65aaa19abd416eb9fe03ae7400a22446956a5" title="Le personnage a atteint la sortie (EX-GP-030).">core::LevelOutcome::Won</a></span>.<br  />
 Vérifie que <span class="tt">passes.calls()</span> vaut <span class="tt">announcedOrder(mode)</span>.  </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>ModeDeJeuTest.ModeSansEtatEtNomme</b> (Mineur)<br  />
-<sub><span class="tt"><a class="el" href="test__game__mode_8cpp.html" title="Tests unitaires du mode de jeu : l&#39;ordre des passes du pas fixe (EX-ARCH-002, LOT-05).">Source/Test/Unit/HMI/Game/test_game_mode.cpp</a>:186</span></sub>  </td><td class="markdownTableBodyNone">Le mode d'exploration est sans etat et se nomme.  </td><td class="markdownTableBodyNone">1. Charger puis decharger le mode.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">passes.calls().empty()</span> est vrai.<br  />
+<sub><span class="tt"><a class="el" href="test__game__mode_8cpp.html" title="Tests unitaires du mode de jeu : l&#39;ordre des passes du pas fixe (EX-ARCH-002, LOT-05).">Source/Test/Unit/HMI/Game/test_game_mode.cpp</a>:187</span></sub>  </td><td class="markdownTableBodyNone">Le mode d'exploration est sans etat et se nomme.  </td><td class="markdownTableBodyNone">1. Charger puis decharger le mode.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">passes.calls().empty()</span> est vrai.<br  />
 Vérifie que <span class="tt">mode.name()</span> vaut <span class="tt">"exploration"</span>.  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>ModeDeJeuTest.LeModeCombatGeleLeMonde</b> (Critique)<br  />
-<sub><span class="tt"><a class="el" href="test__game__mode_8cpp.html" title="Tests unitaires du mode de jeu : l&#39;ordre des passes du pas fixe (EX-ARCH-002, LOT-05).">Source/Test/Unit/HMI/Game/test_game_mode.cpp</a>:207</span></sub>  </td><td class="markdownTableBodyNone">Le mode combat gele le monde.  </td><td class="markdownTableBodyNone">1. Avancer le mode combat d'un pas fixe sur des passes qui enregistrent leurs appels.<br  />
+<sub><span class="tt"><a class="el" href="test__game__mode_8cpp.html" title="Tests unitaires du mode de jeu : l&#39;ordre des passes du pas fixe (EX-ARCH-002, LOT-05).">Source/Test/Unit/HMI/Game/test_game_mode.cpp</a>:208</span></sub>  </td><td class="markdownTableBodyNone">Le mode combat gele le monde.  </td><td class="markdownTableBodyNone">1. Avancer le mode combat d'un pas fixe sur des passes qui enregistrent leurs appels.<br  />
 2. Comparer la sequence a passOrder().<br  />
 3. Verifier l'absence des passes d'exploration.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">passes.calls()</span> vaut <span class="tt">announcedOrder(mode)</span>.<br  />
 Vérifie que <span class="tt">issue</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a60398ec3835dd2882a7d3a9eaddb65aaac9dbb2b7c84159b632d71e512eba8428" title="Partie en cours.">core::LevelOutcome::Playing</a></span>.<br  />
 Vérifie que <span class="tt">std::ranges::find(passes.calls(), gelee)</span> vaut <span class="tt">passes.calls().end()</span>.  </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>ModeDeJeuTest.LeModeCombatEstNommeEtSansEtat</b> (Mineur)<br  />
-<sub><span class="tt"><a class="el" href="test__game__mode_8cpp.html" title="Tests unitaires du mode de jeu : l&#39;ordre des passes du pas fixe (EX-ARCH-002, LOT-05).">Source/Test/Unit/HMI/Game/test_game_mode.cpp</a>:235</span></sub>  </td><td class="markdownTableBodyNone">Le mode combat est nomme et sans etat.  </td><td class="markdownTableBodyNone">1. Avancer deux instances distinctes du mode d'un meme pas.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">premier.name()</span> vaut <span class="tt">"combat"</span>.<br  />
+<sub><span class="tt"><a class="el" href="test__game__mode_8cpp.html" title="Tests unitaires du mode de jeu : l&#39;ordre des passes du pas fixe (EX-ARCH-002, LOT-05).">Source/Test/Unit/HMI/Game/test_game_mode.cpp</a>:236</span></sub>  </td><td class="markdownTableBodyNone">Le mode combat est nomme et sans etat.  </td><td class="markdownTableBodyNone">1. Avancer deux instances distinctes du mode d'un meme pas.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">premier.name()</span> vaut <span class="tt">"combat"</span>.<br  />
 Vérifie que <span class="tt">premier.name()</span> diffère de <span class="tt"><a class="el" href="classhmi_1_1ExplorationMode.html" title="Le mode par défaut : le personnage parcourt la carte, les mécanismes répondent, la caméra suit,...">hmi::ExplorationMode</a>{}.name()</span>.<br  />
+Vérifie que <span class="tt">passesA.calls()</span> vaut <span class="tt">passesB.calls()</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>ModeDeJeuTest.LeModeDialogueGeleLExploration</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__game__mode_8cpp.html" title="Tests unitaires du mode de jeu : l&#39;ordre des passes du pas fixe (EX-ARCH-002, LOT-05).">Source/Test/Unit/HMI/Game/test_game_mode.cpp</a>:263</span></sub>  </td><td class="markdownTableBodyNone">Le mode dialogue gele l'exploration.  </td><td class="markdownTableBodyNone">1. Avancer le mode dialogue de 600 pas fixes, avec une intention qui pousse a droite et vers le bas et presse la touche d'interaction.<br  />
+2. Comparer chaque pas a passOrder().<br  />
+ 3. Compter les passes d'exploration appelees.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">mode.step(passes, pousse, FIXED_DELTA)</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a60398ec3835dd2882a7d3a9eaddb65aaac9dbb2b7c84159b632d71e512eba8428" title="Partie en cours.">core::LevelOutcome::Playing</a></span>.<br  />
+Vérifie que <span class="tt">joue</span> vaut <span class="tt">announcedOrder(mode)</span>.<br  />
+Vérifie que <span class="tt">std::ranges::find(passes.calls(), gelee)</span> vaut <span class="tt">passes.calls().end()</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>ModeDeJeuTest.LeModeDialogueEstNommeEtSansEtat</b> (Mineur)<br  />
+<sub><span class="tt"><a class="el" href="test__game__mode_8cpp.html" title="Tests unitaires du mode de jeu : l&#39;ordre des passes du pas fixe (EX-ARCH-002, LOT-05).">Source/Test/Unit/HMI/Game/test_game_mode.cpp</a>:302</span></sub>  </td><td class="markdownTableBodyNone">Le mode dialogue est nomme et sans etat.  </td><td class="markdownTableBodyNone">1. Avancer deux instances distinctes du mode de deux pas chacune.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">premier.name()</span> vaut <span class="tt">"dialogue"</span>.<br  />
+Vérifie que <span class="tt">premier.name()</span> diffère de <span class="tt"><a class="el" href="classhmi_1_1ExplorationMode.html" title="Le mode par défaut : le personnage parcourt la carte, les mécanismes répondent, la caméra suit,...">hmi::ExplorationMode</a>{}.name()</span>.<br  />
+Vérifie que <span class="tt">premier.name()</span> diffère de <span class="tt"><a class="el" href="classhmi_1_1CombatMode.html" title="Le second mode de jeu : le combat se déroule sur la carte d&#39;exploration, mais l&#39;exploration,...">hmi::CombatMode</a>{}.name()</span>.<br  />
 Vérifie que <span class="tt">passesA.calls()</span> vaut <span class="tt">passesB.calls()</span>.  </td></tr>
 </table>
 <h3 class="doxsection"><a class="anchor" id="autotoc_md24"></a>
@@ -7198,7 +7381,7 @@ Vérifie que <span class="tt">hmi::qtKeyToHmiKey(Qt::Key_Home).has_value()</span
 Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a1b53de392afb0dfdf5cdef4543fb672d" title="Traduit un code Qt::Key en hmi::Key.">hmi::qtKeyToHmiKey</a>(-1).has_value()</span> est faux.  </td></tr>
 </table>
 <h3 class="doxsection"><a class="anchor" id="autotoc_md26"></a>
-Interface (59)</h3>
+Interface (62)</h3>
 <p><b><span class="tt"><a class="el" href="test__application__theme_8cpp.html" title="Tests unitaires du thème de l&#39;IHM : modèle de feuille de style (LOT-56 TACHE-02, EX-IHM-050,...">test_application_theme.cpp</a></span></b></p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -7346,6 +7529,50 @@ Vérifie que <span class="tt">values.at("tokens.spacing.small")</span> vaut <spa
 Vérifie que <span class="tt">values.at("tokens.typography.screenTitle.pointSize")</span> vaut <span class="tt">std::to_string(<a class="el" href="namespacehmi.html#abc068660f97a7130175d11f2755ff340" title="Jetons du châssis d&#39;édition en thème sombre (défaut) : variables, editorLightTokens() (LOT-56 TACHE-0...">hmi::editorDarkTokens()</a>.typography.screenTitle.pointSize)</span>.<br  />
 Vérifie que <span class="tt">hmi::buildStyleSheetValues(hmi::editorDarkTokens(), 0).at("identity.size.body")</span> vaut <span class="tt">std::to_string(base.body)</span>.<br  />
 Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a014e8fac21fdb33837a37724048e9ee3" title="Table de substitution marqueur -&gt; valeur pour le modèle de feuille de style (LOT-56 TACHE-02),...">hmi::buildStyleSheetValues</a>(<a class="el" href="namespacehmi.html#abc068660f97a7130175d11f2755ff340" title="Jetons du châssis d&#39;édition en thème sombre (défaut) : variables, editorLightTokens() (LOT-56 TACHE-0...">hmi::editorDarkTokens()</a>, -4).at("identity.size.body")</span> vaut <span class="tt">std::to_string(base.body)</span>.  </td></tr>
+</table>
+<p><b><span class="tt"><a class="el" href="test__dialogue__screen_8cpp.html" title="Tests unitaires de ce que l&#39;écran de dialogue affiche (LOT-15) : réplique, réponses,...">test_dialogue_screen.cpp</a></span></b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>DialogueScreenTest.UneRepliqueAnnonceLeJetDeSaReponse</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__dialogue__screen_8cpp.html" title="Tests unitaires de ce que l&#39;écran de dialogue affiche (LOT-15) : réplique, réponses,...">Source/Test/Unit/HMI/Interface/test_dialogue_screen.cpp</a>:74</span></sub>  </td><td class="markdownTableBodyNone">L'ecran de dialogue annonce le jet avant le choix.  </td><td class="markdownTableBodyNone">1. Ouvrir un dialogue de garde hostile.<br  />
+2. Lire les valeurs de l'ecran.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">runner.start()</span> vaut <span class="tt"><a class="el" href="namespacecore.html#adbe3368bf4f687b1ab2120308d322c0aaf0ab72293be96072c5f5ad74dfd7f6b5" title="Une réplique est affichée, le joueur doit répondre.">core::DialogueState::AwaitingChoice</a></span>.<br  />
+Vérifie que <span class="tt">v.speakerName</span> vaut <span class="tt">"&lt;dialogue.garde.speaker&gt;"</span>.<br  />
+Vérifie que <span class="tt">v.attitude</span> vaut <span class="tt">"&lt;dialogue.attitude.hostile&gt;"</span>.<br  />
+Vérifie que <span class="tt">v.line</span> vaut <span class="tt">"&lt;dialogue.garde.halte&gt;"</span>.<br  />
+Vérifie que <span class="tt">v.replies.size()</span> vaut <span class="tt">2U</span>.<br  />
+Vérifie que <span class="tt">v.replies[0].id</span> vaut <span class="tt">"negocier"</span>.<br  />
+Vérifie que <span class="tt">v.replies[0].label</span> vaut <span class="tt">"&lt;dialogue.garde.halte.negocier&gt;"</span>.<br  />
+Vérifie que <span class="tt">v.replies[0].value</span> vaut <span class="tt">"[&lt;rpg.skill.animal_handling&gt;]"</span>.<br  />
+Vérifie que <span class="tt">v.replies[1].value</span> vaut <span class="tt">""</span>.<br  />
+Vérifie que <span class="tt">v.checkOutcome.empty()</span> est vrai.<br  />
+Vérifie que <span class="tt">v.finished</span> est faux.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>DialogueScreenTest.LeJetSeRestitueSurLaRepliqueQuiSuit</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__dialogue__screen_8cpp.html" title="Tests unitaires de ce que l&#39;écran de dialogue affiche (LOT-15) : réplique, réponses,...">Source/Test/Unit/HMI/Interface/test_dialogue_screen.cpp</a>:108</span></sub>  </td><td class="markdownTableBodyNone">Le jet se restitue sur la replique qui suit, puis s'efface.  </td><td class="markdownTableBodyNone">1. Negocier (bonus +30 contre 10).<br  />
+2. Lire les valeurs.<br  />
+3. Continuer jusqu'a la fin.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">runner.start()</span> vaut <span class="tt"><a class="el" href="namespacecore.html#adbe3368bf4f687b1ab2120308d322c0aaf0ab72293be96072c5f5ad74dfd7f6b5" title="Une réplique est affichée, le joueur doit répondre.">core::DialogueState::AwaitingChoice</a></span>.<br  />
+Vérifie que <span class="tt">runner.choose("negocier")</span> vaut <span class="tt"><a class="el" href="namespacecore.html#adefc12cd0a71ea980213f083ce537aa1a9b6545e4cea9b4ad4979d41bb9170e2b" title="La conversation a avancé.">core::ChoiceResult::Advanced</a></span>.<br  />
+Vérifie que <span class="tt">apres.attitude</span> vaut <span class="tt">"&lt;dialogue.attitude.friendly&gt;"</span>.<br  />
+Vérifie que <span class="tt">apres.checkOutcome</span> vaut <span class="tt">"&lt;rpg.skill.animal_handling&gt; : " + total + " contre 10 -- &lt;dialogue.check.success&gt;"</span>.<br  />
+Vérifie que <span class="tt">apres.replies.size()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">apres.replies[0].id</span> vaut <span class="tt">"continue"</span>.<br  />
+Vérifie que <span class="tt">apres.replies[0].label</span> vaut <span class="tt">"&lt;dialogue.continue&gt;"</span>.<br  />
+Vérifie que <span class="tt">runner.choose("continue")</span> vaut <span class="tt"><a class="el" href="namespacecore.html#adefc12cd0a71ea980213f083ce537aa1a9b6545e4cea9b4ad4979d41bb9170e2b" title="La conversation a avancé.">core::ChoiceResult::Advanced</a></span>.<br  />
+Vérifie que <span class="tt">fin.finished</span> est vrai.<br  />
+Vérifie que <span class="tt">fin.checkOutcome.empty()</span> est vrai.<br  />
+Vérifie que <span class="tt">fin.replies.size()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">fin.replies[0].id</span> vaut <span class="tt">std::string(hmi::DIALOGUE_LEAVE_REPLY)</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>DialogueScreenTest.UnRefusMontreLeRefusEtQuitter</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__dialogue__screen_8cpp.html" title="Tests unitaires de ce que l&#39;écran de dialogue affiche (LOT-15) : réplique, réponses,...">Source/Test/Unit/HMI/Interface/test_dialogue_screen.cpp</a>:147</span></sub>  </td><td class="markdownTableBodyNone">L'ecran montre le refus faute de langue commune.  </td><td class="markdownTableBodyNone">1. Ouvrir le dialogue du garde avec un interlocuteur qui ne parle que l'elfique.<br  />
+ 2. Lire les valeurs.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">runner.start()</span> vaut <span class="tt"><a class="el" href="namespacecore.html#adbe3368bf4f687b1ab2120308d322c0aaf48b206184b7442983452ea4c3e88a3a" title="Elle n&#39;a pas eu lieu : aucune langue commune (EX-RPG-042).">core::DialogueState::Refused</a></span>.<br  />
+Vérifie que <span class="tt">v.line</span> vaut <span class="tt">"&lt;dialogue.refused&gt;"</span>.<br  />
+Vérifie que <span class="tt">v.finished</span> est faux.<br  />
+Vérifie que <span class="tt">v.replies.size()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">v.replies[0].id</span> vaut <span class="tt">std::string(hmi::DIALOGUE_LEAVE_REPLY)</span>.<br  />
+Vérifie que <span class="tt">v.replies[0].label</span> vaut <span class="tt">"&lt;dialogue.leave&gt;"</span>.  </td></tr>
 </table>
 <p><b><span class="tt"><a class="el" href="test__editor__actions_8cpp.html" title="Tests unitaires du catalogue d&#39;actions et de la géométrie des icônes de l&#39;éditeur (LOT-56 TACHE-04,...">test_editor_actions.cpp</a></span></b></p>
 <table class="markdownTable">

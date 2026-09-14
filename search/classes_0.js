@@ -32,5 +32,6 @@ var searchData=
   ['atlas_29',['Atlas',['../structcore_1_1Atlas.html',1,'core']]],
   ['atlasregion_30',['AtlasRegion',['../structcore_1_1AtlasRegion.html',1,'core']]],
   ['audioengine_31',['AudioEngine',['../classhmi_1_1AudioEngine.html',1,'hmi']]],
-  ['autotilecell_32',['AutotileCell',['../structhmi_1_1AutotileCell.html',1,'hmi']]]
+  ['autotilecell_32',['AutotileCell',['../structhmi_1_1AutotileCell.html',1,'hmi']]],
+  ['availablechoice_33',['AvailableChoice',['../structcore_1_1AvailableChoice.html',1,'core']]]
 ];

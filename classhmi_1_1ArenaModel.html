@@ -205,10 +205,10 @@ Private Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>La vue-modèle de l'arène : composer deux camps, lancer, jouer, rejouer. </p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md918"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md931"></a>
 Ce qu'elle tient, et ce qu'elle ne décide pas</h2>
 <p>Elle tient une <span class="tt"><a class="el" href="classcore_1_1ArenaSession.html" title="Une session d&#39;arène : la carte, la composition, et le combat qui s&#39;y joue.">core::ArenaSession</a></span> — la première session de jeu à tenir un <span class="tt"><a class="el" href="classcore_1_1CombatState.html" title="Un combat, du montage de la rencontre à sa fin.">core::CombatState</a></span> — et les catalogues dont l'écran compose son affrontement : le bestiaire (<span class="tt">LOT-33</span>), le personnage de démonstration (<span class="tt">LOT-38</span>), les arènes et les Marques Héroïques. Elle ne décide <b>rien</b> du combat : chaque geste de l'écran devient un appel à la session, et ce que l'écran affiche est relu de la machine à états après chaque geste.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md919"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md932"></a>
 Pourquoi une liste de cases et non une scène</h2>
 <p>L'écran de l'arène est un écran de développeur, en QML, sans charte (feuille de route, §5) : il dessine la grille lui-même, depuis <span class="tt"><a class="el" href="#a6d2087f27d85d91e9ead3bfca9eb49fa" title="Une entrée par case, ligne par ligne : {column, row, wall, occupant, side, reachable,...">cells</a></span>, plutôt que par la surface de rendu — qui n'affiche encore aucune scène. C'est l'IHM de combat (<span class="tt">LOT-24</span>) qui dessinera le combat sur la carte ; elle lira la même session, par les mêmes appels.</p>
 <p>Un seul signal, <span class="tt"><a class="el" href="#a279bb9f9ff32e8573df589640baa7775">changed</a></span>, pour tout ce qui découle d'un geste : la grille, l'ordre, le journal et l'issue changent ensemble, et les distinguer n'épargnerait aucun rafraîchissement. </p>

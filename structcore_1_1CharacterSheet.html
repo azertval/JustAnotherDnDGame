@@ -129,6 +129,8 @@ Public Attributes</h2></td></tr>
 <tr class="memdesc:ad9f5e6c341a1df8f0646a09b05067643"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compétences maîtrisées, par identifiant du catalogue.  <br /></td></tr>
 <tr class="memitem:a74fd59e8a9d1e2de82abdba2792be1ec" id="r_a74fd59e8a9d1e2de82abdba2792be1ec"><td class="memItemLeft">std::set&lt; <a class="el" href="namespacecore.html#a97f31c7914a6cfc54cc026a77da58fd1">Ability</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a74fd59e8a9d1e2de82abdba2792be1ec">savingThrowProficiencies</a></td></tr>
 <tr class="memdesc:a74fd59e8a9d1e2de82abdba2792be1ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Jets de sauvegarde maîtrisés.  <br /></td></tr>
+<tr class="memitem:af4449f47520b2b4db9d35eb0e2abb9b5" id="r_af4449f47520b2b4db9d35eb0e2abb9b5"><td class="memItemLeft">std::set&lt; std::string &gt;&#160;</td><td class="memItemRight"><a class="el" href="#af4449f47520b2b4db9d35eb0e2abb9b5">languages</a></td></tr>
+<tr class="memdesc:af4449f47520b2b4db9d35eb0e2abb9b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Langues parlées, par identifiant du catalogue (<span class="tt">EX-RPG-042</span>, <span class="tt">LOT-15</span>).  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>La fiche d'une créature jouable ou non : héros, PNJ, ennemi. </p>
@@ -328,6 +330,23 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="af4449f47520b2b4db9d35eb0e2abb9b5" name="af4449f47520b2b4db9d35eb0e2abb9b5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af4449f47520b2b4db9d35eb0e2abb9b5">&#9670;&#160;</a></span>languages</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::set&lt;std::string&gt; core::CharacterSheet::languages</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Langues parlées, par identifiant du catalogue (<span class="tt">EX-RPG-042</span>, <span class="tt">LOT-15</span>). </p>
+<p>Celles de l'espèce, recopiées à la construction, plus celles que la fiche <b>choisit</b> — un historique en accorde un nombre, pas une liste. Elles ne sont pas décoratives : un dialogue se refuse faute de langue commune (<span class="tt"><a class="el" href="classcore_1_1DialogueRunner.html" title="La machine à états qui joue un dialogue.">core::DialogueRunner</a></span>). </p>
 
 </div>
 </div>

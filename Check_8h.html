@@ -95,7 +95,8 @@ $(function(){initNavTree('Check_8h.html','',''); });
 
 <p>Le jet de d20 : avantage, désavantage, seuil, restitution (<span class="tt">EX-DND-002</span>, <span class="tt">EX-DND-003</span>).  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;span&gt;</code><br />
+<div class="textblock"><code>#include &lt;filesystem&gt;</code><br />
+<code>#include &lt;span&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
 <code>#include &lt;string_view&gt;</code><br />
 <code>#include &lt;vector&gt;</code><br />
@@ -109,6 +110,10 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un modificateur, avec <b>son origine</b> — sans quoi le jet n'est pas restituable.  <a href="structcore_1_1Modifier.html#details">More...</a><br /></td></tr>
 <tr class="memitem:core_3A_3ACheckResult" id="r_core_3A_3ACheckResult"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1CheckResult.html">core::CheckResult</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le résultat complet d'un jet, et de quoi le reconstituer (<span class="tt">EX-DND-003</span>).  <a href="structcore_1_1CheckResult.html#details">More...</a><br /></td></tr>
+<tr class="memitem:core_3A_3ADifficultyTier" id="r_core_3A_3ADifficultyTier"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1DifficultyTier.html">core::DifficultyTier</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un degré de difficulté nommé : « moyenne », 15.  <a href="structcore_1_1DifficultyTier.html#details">More...</a><br /></td></tr>
+<tr class="memitem:core_3A_3ADifficultyScale" id="r_core_3A_3ADifficultyScale"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1DifficultyScale.html">core::DifficultyScale</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">L'échelle des degrés de difficulté, telle que <span class="tt">rules/difficulty.json</span> la déclare (<span class="tt">EX-DND-021</span>, <span class="tt">LOT-15</span>).  <a href="structcore_1_1DifficultyScale.html#details">More...</a><br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-namespaces" class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
@@ -131,6 +136,8 @@ Functions</h2></td></tr>
 <tr class="memdesc:a0cca681f3d6c00074710ceecdddab6f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lance un d20 contre un seuil.  <br /></td></tr>
 <tr class="memitem:aa60bb21d8cc45167ae840ea21c3b844c" id="r_aa60bb21d8cc45167ae840ea21c3b844c"><td class="memItemLeft">std::string_view&#160;</td><td class="memItemRight"><a class="el" href="namespacecore.html#aa60bb21d8cc45167ae840ea21c3b844c">core::rollStanceName</a> (<a class="el" href="namespacecore.html#aff494cc4070ea4489c3d5ee57178f7c9">RollStance</a> stance) noexcept</td></tr>
 <tr class="memdesc:aa60bb21d8cc45167ae840ea21c3b844c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nom textuel d'une posture, pour les journaux et la restitution.  <br /></td></tr>
+<tr class="memitem:a74c7918e1f4c894c1449f94dfff55730" id="r_a74c7918e1f4c894c1449f94dfff55730"><td class="memItemLeft"><a class="el" href="structcore_1_1DifficultyScale.html">DifficultyScale</a>&#160;</td><td class="memItemRight"><a class="el" href="namespacecore.html#a74c7918e1f4c894c1449f94dfff55730">core::loadDifficultyScale</a> (const std::filesystem::path &amp;path)</td></tr>
+<tr class="memdesc:a74c7918e1f4c894c1449f94dfff55730"><td class="mdescLeft">&#160;</td><td class="mdescRight">Charge l'échelle des degrés de difficulté.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-var-members" class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>

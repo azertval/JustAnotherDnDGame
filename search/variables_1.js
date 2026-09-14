@@ -10,7 +10,7 @@ var searchData=
   ['actedthisround_7',['actedThisRound',['../structcore_1_1Combatant.html#a956cd5e749ca3cdd94241445037e25d7',1,'core::Combatant']]],
   ['action_8',['action',['../structhmi_1_1LinkGestureDecision.html#a82612d60258eb16f959bcc9f948e5daf',1,'hmi::LinkGestureDecision::action'],['../structhmi_1_1TextureAssignDecision.html#ae1cbf005293b6615883a6ee5e58a77d0',1,'hmi::TextureAssignDecision::action'],['../structhmi_1_1KeyBindingIconEntry.html#aea48399a23732011146fb79d8a533ad5',1,'hmi::KeyBindingIconEntry::action']]],
   ['action_5fresource_9',['ACTION_RESOURCE',['../namespacecore.html#a7593d494012f47485e1173a68a1209c1',1,'core']]],
-  ['actions_10',['actions',['../structcore_1_1Creature.html#a1110a88139ff4efdf089b4032e498b21',1,'core::Creature']]],
+  ['actions_10',['actions',['../structcore_1_1Creature.html#a1110a88139ff4efdf089b4032e498b21',1,'core::Creature::actions'],['../structcore_1_1DialogueNode.html#ab737ab57d7dae91c2623abab564b71f4',1,'core::DialogueNode::actions']]],
   ['active_11',['active',['../structhmi_1_1PlaneParallax.html#a4775613ece5cb19ac4ce0bab136d6262',1,'hmi::PlaneParallax']]],
   ['advance_12',['advance',['../structhmi_1_1GlyphMetrics.html#a0f6dca5920b1522a9d96c60cec883e2d',1,'hmi::GlyphMetrics']]],
   ['after_13',['after',['../structhmi_1_1PixelHistoryEntry.html#a8e2843ed5440e08255206e9f3a9827b5',1,'hmi::PixelHistoryEntry']]],
@@ -44,8 +44,9 @@ var searchData=
   ['atlaswidth_41',['atlasWidth',['../structhmi_1_1SceneTextures.html#a306ea6dde62238a5a85e3514cc959d92',1,'hmi::SceneTextures']]],
   ['attackability_42',['attackAbility',['../structcore_1_1DerivedStats.html#a032674d22be164e28116e6c3eab974f6',1,'core::DerivedStats']]],
   ['attackbonus_43',['attackBonus',['../structcore_1_1StrikeKit.html#a5e3424acf47b72793b5dad488e8a81b3',1,'core::StrikeKit::attackBonus'],['../structcore_1_1CreatureAction.html#a49afbead69aff36c76a198c5e6aa26b0',1,'core::CreatureAction::attackBonus']]],
-  ['autotile_5fconfiguration_5fcount_44',['AUTOTILE_CONFIGURATION_COUNT',['../namespacehmi.html#a58aec3b5e8b7ff780934f969eb35febb',1,'hmi']]],
-  ['autotile_5fsheet_5fside_45',['AUTOTILE_SHEET_SIDE',['../namespacehmi.html#a645fa51fe9636c77f3b67558bb094d23',1,'hmi']]],
-  ['ax_46',['ax',['../structhmi_1_1LineQuad.html#ab5c2f6803c2cdae87e0b50d4eb8589c1',1,'hmi::LineQuad']]],
-  ['ay_47',['ay',['../structhmi_1_1LineQuad.html#aa9e7c817ab1c5e01364faed685182a69',1,'hmi::LineQuad']]]
+  ['attitude_44',['attitude',['../structcore_1_1DialogueNode.html#a86f2bf91ba9193f3d532b3f43908f955',1,'core::DialogueNode::attitude'],['../structcore_1_1DialogueGraph.html#a10cdcfc2e508d50478ff9575eec602d9',1,'core::DialogueGraph::attitude'],['../structhmi_1_1DialogueScreenValues.html#afbdd2fdf4e1f0079965d3d2b7837c150',1,'hmi::DialogueScreenValues::attitude']]],
+  ['autotile_5fconfiguration_5fcount_45',['AUTOTILE_CONFIGURATION_COUNT',['../namespacehmi.html#a58aec3b5e8b7ff780934f969eb35febb',1,'hmi']]],
+  ['autotile_5fsheet_5fside_46',['AUTOTILE_SHEET_SIDE',['../namespacehmi.html#a645fa51fe9636c77f3b67558bb094d23',1,'hmi']]],
+  ['ax_47',['ax',['../structhmi_1_1LineQuad.html#ab5c2f6803c2cdae87e0b50d4eb8589c1',1,'hmi::LineQuad']]],
+  ['ay_48',['ay',['../structhmi_1_1LineQuad.html#aa9e7c817ab1c5e01364faed685182a69',1,'hmi::LineQuad']]]
 ];

@@ -16,7 +16,8 @@ var searchData=
   ['font_13',['Font',['../namespacehmi.html#a0030e1768b551f6d1bc0a9fa566d2003a194f5394ae2e9c74dc3c441b92862d1d',1,'hmi']]],
   ['force_14',['Force',['../namespacecore.html#aae5ed49bedbf68049f008e4efac2edfda9eb6b78a99cdb6ffd3d40d18621d9f80',1,'core']]],
   ['foreground_15',['Foreground',['../namespacehmi.html#a9b5452f2d3a1019a3229b90a4f000919a45bd1d5b32931106efbf1a82fe6a732f',1,'hmi::Foreground'],['../namespacehmi.html#acaf7f33926fae2f8294ef4ee5d24ba52a45bd1d5b32931106efbf1a82fe6a732f',1,'hmi::Foreground']]],
-  ['frightened_16',['Frightened',['../namespacecore.html#aae82873d6c7bd0b4db085354c50e1493a76cc2c3b1bffba51a59c7e9d971bdfe1',1,'core']]],
-  ['front_17',['Front',['../namespacecore.html#a6dc89438a55a80980ab04f7da513f731a5835bab1ade0060909e31a06af2e2cde',1,'core']]],
-  ['full_18',['Full',['../namespacecore.html#ab1c6c3303c34c417c9a3b6ac3ddb066dabbd47109890259c0127154db1af26c75',1,'core']]]
+  ['friendly_16',['Friendly',['../namespacecore.html#ade7d6c98b6c0942fee991823b7e237a7a03fdbf12e03a4cd1409b84abe2b631df',1,'core']]],
+  ['frightened_17',['Frightened',['../namespacecore.html#aae82873d6c7bd0b4db085354c50e1493a76cc2c3b1bffba51a59c7e9d971bdfe1',1,'core']]],
+  ['front_18',['Front',['../namespacecore.html#a6dc89438a55a80980ab04f7da513f731a5835bab1ade0060909e31a06af2e2cde',1,'core']]],
+  ['full_19',['Full',['../namespacecore.html#ab1c6c3303c34c417c9a3b6ac3ddb066dabbd47109890259c0127154db1af26c75',1,'core']]]
 ];

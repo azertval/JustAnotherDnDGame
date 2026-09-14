@@ -1,14 +1,14 @@
 var searchData=
 [
-  ['8_20—_20les_20compétences_20et_20sorts_20maquette_2010_0',['T3.8 — Les compétences et sorts (maquette 10)',['../lot-87.html#autotoc_md720',1,'']]],
+  ['8_20—_20les_20compétences_20et_20sorts_20maquette_2010_0',['T3.8 — Les compétences et sorts (maquette 10)',['../lot-87.html#autotoc_md732',1,'']]],
   ['8_20communication_20inter_20systèmes_1',['8. Communication inter-systèmes',['../spec-architecture.html#autotoc_md267',1,'']]],
-  ['8_20décisions_20prises_20et_20questions_20restantes_2',['8. Décisions prises et questions restantes',['../roadmap.html#autotoc_md764',1,'']]],
+  ['8_20décisions_20prises_20et_20questions_20restantes_2',['8. Décisions prises et questions restantes',['../roadmap.html#autotoc_md776',1,'']]],
   ['8_20directions_3',['8 directions',['../guide-physique.html#autotoc_md209',1,'5. Dash 8 directions'],['../lot-06.html',1,'LOT-06 — Déplacement top-down 8 directions']]],
   ['8_20identité_20visuelle_20des_20écrans_20du_20jeu_20lot_20h_2068_4',['8. Identité visuelle des écrans du jeu (LOT-H-68)',['../spec-interface-ihm.html#autotoc_md358',1,'']]],
   ['8_20palette_20organisée_20par_20catégories_20lot_20h_2027_5',['8. Palette organisée par catégories (LOT-H-27)',['../spec-editeur.html#autotoc_md324',1,'']]],
   ['8_20tests_6',['8. Tests',['../spec-conventions.html#autotoc_md304',1,'']]],
   ['80_20—_20factions_20panthéon_20et_20organisations_7',['&lt;span class=&quot;tt&quot;&gt;LOT-80&lt;/span&gt; — Factions, panthéon et organisations',['../roadmap.html#lot-80',1,'']]],
-  ['81_8',['Input (81)',['../cahiertest.html#autotoc_md25',1,'']]],
+  ['81_8',['81',['../cahiertest.html#autotoc_md25',1,'Input (81)'],['../cahiertest.html#autotoc_md16',1,'Rpg (81)']]],
   ['81_20—_20descripteurs_20de_20terrain_20et_20règles_20de_20zone_20des_20treize_20régions_9',['&lt;span class=&quot;tt&quot;&gt;LOT-81&lt;/span&gt; — Descripteurs de terrain et règles de zone des treize régions',['../roadmap.html#lot-81',1,'']]],
   ['82_20—_20peuplement_20civil_20_3a_20pnj_20marchands_20et_20quêtes_10',['&lt;span class=&quot;tt&quot;&gt;LOT-82&lt;/span&gt; — Peuplement civil : PNJ, marchands et quêtes',['../roadmap.html#lot-82',1,'']]],
   ['83_20—_20compagnie_20_3a_20rangs_20de_20guilde_20niveau_20d_20équipe_20et_20quartier_20général_11',['&lt;span class=&quot;tt&quot;&gt;LOT-83&lt;/span&gt; — Compagnie : rangs de Guilde, niveau d&apos;équipe et quartier général',['../roadmap.html#lot-83',1,'']]],

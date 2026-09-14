@@ -359,6 +359,38 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un modificateur, avec <b>son origine</b> — sans quoi le jet n'est pas restituable.  <a href="structcore_1_1Modifier.html#details">More...</a><br /></td></tr>
 <tr class="memitem:CheckResult" id="r_CheckResult"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1CheckResult.html">CheckResult</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le résultat complet d'un jet, et de quoi le reconstituer (<span class="tt">EX-DND-003</span>).  <a href="structcore_1_1CheckResult.html#details">More...</a><br /></td></tr>
+<tr class="memitem:DifficultyTier" id="r_DifficultyTier"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1DifficultyTier.html">DifficultyTier</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un degré de difficulté nommé : « moyenne », 15.  <a href="structcore_1_1DifficultyTier.html#details">More...</a><br /></td></tr>
+<tr class="memitem:DifficultyScale" id="r_DifficultyScale"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1DifficultyScale.html">DifficultyScale</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">L'échelle des degrés de difficulté, telle que <span class="tt">rules/difficulty.json</span> la déclare (<span class="tt">EX-DND-021</span>, <span class="tt">LOT-15</span>).  <a href="structcore_1_1DifficultyScale.html#details">More...</a><br /></td></tr>
+<tr class="memitem:FlagCondition" id="r_FlagCondition"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1FlagCondition.html">FlagCondition</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">« Le drapeau <code>flag</code> est levé » — ou, si <code>expected</code> est faux, « ne l'est pas ».  <a href="structcore_1_1FlagCondition.html#details">More...</a><br /></td></tr>
+<tr class="memitem:DialogueChoice" id="r_DialogueChoice"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1DialogueChoice.html">DialogueChoice</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une réponse proposée au joueur.  <a href="structcore_1_1DialogueChoice.html#details">More...</a><br /></td></tr>
+<tr class="memitem:DialogueAction" id="r_DialogueAction"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1DialogueAction.html">DialogueAction</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un effet d'un nœud d'action.  <a href="structcore_1_1DialogueAction.html#details">More...</a><br /></td></tr>
+<tr class="memitem:DialogueNode" id="r_DialogueNode"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1DialogueNode.html">DialogueNode</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un nœud du graphe.  <a href="structcore_1_1DialogueNode.html#details">More...</a><br /></td></tr>
+<tr class="memitem:DialogueGraph" id="r_DialogueGraph"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1DialogueGraph.html">DialogueGraph</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un dialogue : l'interlocuteur et le graphe de sa conversation.  <a href="structcore_1_1DialogueGraph.html#details">More...</a><br /></td></tr>
+<tr class="memitem:DialogueLoad" id="r_DialogueLoad"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1DialogueLoad.html">DialogueLoad</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un dialogue lu, ou ce qui l'en empêche.  <a href="structcore_1_1DialogueLoad.html#details">More...</a><br /></td></tr>
+<tr class="memitem:DialogueReferences" id="r_DialogueReferences"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1DialogueReferences.html">DialogueReferences</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les catalogues contre lesquels un dialogue vérifie ce qu'il <b>nomme</b>.  <a href="structcore_1_1DialogueReferences.html#details">More...</a><br /></td></tr>
+<tr class="memitem:DialogueCatalog" id="r_DialogueCatalog"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1DialogueCatalog.html">DialogueCatalog</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les dialogues d'un dossier, et ce qui n'a pas pu l'être.  <a href="structcore_1_1DialogueCatalog.html#details">More...</a><br /></td></tr>
+<tr class="memitem:DialogueListener" id="r_DialogueListener"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classcore_1_1DialogueListener.html">DialogueListener</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Celui qui parle <b>au</b> PNJ, tel que le runner a besoin de le connaître.  <a href="classcore_1_1DialogueListener.html#details">More...</a><br /></td></tr>
+<tr class="memitem:CharacterListener" id="r_CharacterListener"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classcore_1_1CharacterListener.html">CharacterListener</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un personnage, sa fiche et son sac, comme interlocuteur d'un PNJ.  <a href="classcore_1_1CharacterListener.html#details">More...</a><br /></td></tr>
+<tr class="memitem:AvailableChoice" id="r_AvailableChoice"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1AvailableChoice.html">AvailableChoice</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une réponse que le joueur peut donner <b>maintenant</b>, conditions évaluées.  <a href="structcore_1_1AvailableChoice.html#details">More...</a><br /></td></tr>
+<tr class="memitem:DialogueCheck" id="r_DialogueCheck"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1DialogueCheck.html">DialogueCheck</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un jet de compétence joué en conversation, de quoi le restituer (<span class="tt">EX-DND-003</span>).  <a href="structcore_1_1DialogueCheck.html#details">More...</a><br /></td></tr>
+<tr class="memitem:DialogueRunner" id="r_DialogueRunner"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classcore_1_1DialogueRunner.html">DialogueRunner</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">La machine à états qui <b>joue</b> un dialogue.  <a href="classcore_1_1DialogueRunner.html#details">More...</a><br /></td></tr>
+<tr class="memitem:DialogueTrigger" id="r_DialogueTrigger"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1DialogueTrigger.html">DialogueTrigger</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un PNJ relevé sur la carte, et le dialogue qu'il ouvre.  <a href="structcore_1_1DialogueTrigger.html#details">More...</a><br /></td></tr>
 <tr class="memitem:Dice" id="r_Dice"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1Dice.html">Dice</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une expression de dés analysée : <span class="tt">2d6+3</span>, <span class="tt">1d8</span>, <span class="tt">4</span>.  <a href="structcore_1_1Dice.html#details">More...</a><br /></td></tr>
 <tr class="memitem:DiceRoll" id="r_DiceRoll"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1DiceRoll.html">DiceRoll</a></td></tr>
@@ -614,6 +646,38 @@ Enumerations</h2></td></tr>
 , <a class="el" href="#aff494cc4070ea4489c3d5ee57178f7c9ae755d083f9085a585ef791919be5a004">Disadvantage</a>
  }</td></tr>
 <tr class="memdesc:aff494cc4070ea4489c3d5ee57178f7c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Comment le d20 est lancé.  <a href="#aff494cc4070ea4489c3d5ee57178f7c9">More...</a><br /></td></tr>
+<tr class="memitem:a5e072fb2a50712986a2e81fa54b3fc73" id="r_a5e072fb2a50712986a2e81fa54b3fc73"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#a5e072fb2a50712986a2e81fa54b3fc73">DialogueNodeKind</a> { <br />
+&#160;&#160;<a class="el" href="#a5e072fb2a50712986a2e81fa54b3fc73a4803e6b9e63dabf04de980788d6a13c4">Line</a>
+, <a class="el" href="#a5e072fb2a50712986a2e81fa54b3fc73a9e2941b3c81256fac10392aaca4ccfde">Condition</a>
+, <a class="el" href="#a5e072fb2a50712986a2e81fa54b3fc73a004bf6c9a40003140292e97330236c53">Action</a>
+, <a class="el" href="#a5e072fb2a50712986a2e81fa54b3fc73a060bf2d587991d8f090a1309b285291c">Check</a>
+, <br />
+&#160;&#160;<a class="el" href="#a5e072fb2a50712986a2e81fa54b3fc73a87557f11575c0ad78e4e28abedc13b6e">End</a>
+<br />
+ }</td></tr>
+<tr class="memdesc:a5e072fb2a50712986a2e81fa54b3fc73"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ce que fait un nœud.  <a href="#a5e072fb2a50712986a2e81fa54b3fc73">More...</a><br /></td></tr>
+<tr class="memitem:ade7d6c98b6c0942fee991823b7e237a7" id="r_ade7d6c98b6c0942fee991823b7e237a7"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#ade7d6c98b6c0942fee991823b7e237a7">DialogueAttitude</a> { <a class="el" href="#ade7d6c98b6c0942fee991823b7e237a7a03fdbf12e03a4cd1409b84abe2b631df">Friendly</a>
+, <a class="el" href="#ade7d6c98b6c0942fee991823b7e237a7af2fcec7e6a3f80c8d00485a09a735c2d">Indifferent</a>
+, <a class="el" href="#ade7d6c98b6c0942fee991823b7e237a7aa62a927d0ab6a08f916aa9f5ec0306e4">Hostile</a>
+ }</td></tr>
+<tr class="memdesc:ade7d6c98b6c0942fee991823b7e237a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">L'attitude de l'interlocuteur, dans le vocabulaire des règles : amical, indifférent, hostile (<em>Guide du Maître</em>, « Interactions sociales »).  <a href="#ade7d6c98b6c0942fee991823b7e237a7">More...</a><br /></td></tr>
+<tr class="memitem:aae1dbf957fd7a423de4c11a60fc2d680" id="r_aae1dbf957fd7a423de4c11a60fc2d680"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#aae1dbf957fd7a423de4c11a60fc2d680">DialogueActionKind</a> { <a class="el" href="#aae1dbf957fd7a423de4c11a60fc2d680af7728eea36126ba401b5df30bb93f528">SetFlag</a>
+, <a class="el" href="#aae1dbf957fd7a423de4c11a60fc2d680ac23574157c4f45657c36e9ce5d40eab7">ClearFlag</a>
+, <a class="el" href="#aae1dbf957fd7a423de4c11a60fc2d680aeaa3a4cb48824c4da06052ae4b8822ee">GiveItem</a>
+, <a class="el" href="#aae1dbf957fd7a423de4c11a60fc2d680ab4acbcc4471115237765689879d1aeb2">StartQuest</a>
+ }</td></tr>
+<tr class="memdesc:aae1dbf957fd7a423de4c11a60fc2d680"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ce qu'un nœud d'action fait au monde.  <a href="#aae1dbf957fd7a423de4c11a60fc2d680">More...</a><br /></td></tr>
+<tr class="memitem:adbe3368bf4f687b1ab2120308d322c0a" id="r_adbe3368bf4f687b1ab2120308d322c0a"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#adbe3368bf4f687b1ab2120308d322c0a">DialogueState</a> { <a class="el" href="#adbe3368bf4f687b1ab2120308d322c0aafa7be7845bc42b3491d9d0377958be94">NotStarted</a>
+, <a class="el" href="#adbe3368bf4f687b1ab2120308d322c0aaf0ab72293be96072c5f5ad74dfd7f6b5">AwaitingChoice</a>
+, <a class="el" href="#adbe3368bf4f687b1ab2120308d322c0aa0157fbb99be9622bdaa6e544270c0622">Ended</a>
+, <a class="el" href="#adbe3368bf4f687b1ab2120308d322c0aaf48b206184b7442983452ea4c3e88a3a">Refused</a>
+ }</td></tr>
+<tr class="memdesc:adbe3368bf4f687b1ab2120308d322c0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Où en est une conversation.  <a href="#adbe3368bf4f687b1ab2120308d322c0a">More...</a><br /></td></tr>
+<tr class="memitem:adefc12cd0a71ea980213f083ce537aa1" id="r_adefc12cd0a71ea980213f083ce537aa1"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#adefc12cd0a71ea980213f083ce537aa1">ChoiceResult</a> { <a class="el" href="#adefc12cd0a71ea980213f083ce537aa1a9b6545e4cea9b4ad4979d41bb9170e2b">Advanced</a>
+, <a class="el" href="#adefc12cd0a71ea980213f083ce537aa1a453e6aa38d87b28ccae545967c53004f">Unavailable</a>
+, <a class="el" href="#adefc12cd0a71ea980213f083ce537aa1a5dd12ab928172267ae6783ddc3a88bf3">NotAwaiting</a>
+ }</td></tr>
+<tr class="memdesc:adefc12cd0a71ea980213f083ce537aa1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ce qu'une réponse a produit.  <a href="#adefc12cd0a71ea980213f083ce537aa1">More...</a><br /></td></tr>
 <tr class="memitem:a7ad0450d2b476419d40745fbfa9ac105" id="r_a7ad0450d2b476419d40745fbfa9ac105"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#a7ad0450d2b476419d40745fbfa9ac105">ArmorCategory</a> { <a class="el" href="#a7ad0450d2b476419d40745fbfa9ac105a9914a0ce04a7b7b6a8e39bec55064b82">Light</a>
 , <a class="el" href="#a7ad0450d2b476419d40745fbfa9ac105a87f8a6ab85c9ced3702b4ea641ad4bb5">Medium</a>
 , <a class="el" href="#a7ad0450d2b476419d40745fbfa9ac105af9ffe67a20da9cbff56b420fca4bd491">Heavy</a>
@@ -827,7 +891,7 @@ Functions</h2></td></tr>
 <tr class="memitem:ade4da2a70cde1d986371a29343746637" id="r_ade4da2a70cde1d986371a29343746637"><td class="memItemLeft"><a class="el" href="structcore_1_1InteractionOutcome.html">InteractionOutcome</a>&#160;</td><td class="memItemRight"><a class="el" href="#ade4da2a70cde1d986371a29343746637">interact</a> (const <a class="el" href="structcore_1_1InteractionTarget.html">InteractionTarget</a> &amp;target, <a class="el" href="classcore_1_1WorldFlags.html">WorldFlags</a> &amp;flags)</td></tr>
 <tr class="memdesc:ade4da2a70cde1d986371a29343746637"><td class="mdescLeft">&#160;</td><td class="mdescRight">Résout une interaction sur une cible désignée, en levant son drapeau s'il y a lieu.  <br /></td></tr>
 <tr class="memitem:a07f40df9fbe2a910d1e99b9756220fea" id="r_a07f40df9fbe2a910d1e99b9756220fea"><td class="memItemLeft">const std::vector&lt; <a class="el" href="structcore_1_1InteractableKind.html">InteractableKind</a> &gt; &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a07f40df9fbe2a910d1e99b9756220fea">knownInteractableKinds</a> ()</td></tr>
-<tr class="memdesc:a07f40df9fbe2a910d1e99b9756220fea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les familles connues de ce lot. Le <span class="tt">LOT-15</span> et le <span class="tt">LOT-09</span> en ajouteront.  <br /></td></tr>
+<tr class="memdesc:a07f40df9fbe2a910d1e99b9756220fea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les familles connues : coffre, panneau (<span class="tt">LOT-10</span>), PNJ (<span class="tt">LOT-15</span>).  <br /></td></tr>
 <tr class="memitem:adb2706947c6f0111c0cdd008fde5779e" id="r_adb2706947c6f0111c0cdd008fde5779e"><td class="memItemLeft">std::size_t&#160;</td><td class="memItemRight"><a class="el" href="#adb2706947c6f0111c0cdd008fde5779e">spawnMapEntities</a> (<a class="el" href="classcore_1_1World.html">World</a> &amp;world, const <a class="el" href="classcore_1_1Level.html">Level</a> &amp;level, std::string_view mapName, const std::function&lt; void(<a class="el" href="structcore_1_1Entity.html">Entity</a>, const <a class="el" href="structcore_1_1MapEntity.html">MapEntity</a> &amp;)&gt; &amp;onEntity={})</td></tr>
 <tr class="memdesc:adb2706947c6f0111c0cdd008fde5779e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Peuple un <span class="tt"><a class="el" href="classcore_1_1World.html" title="Point d&#39;entrée unique de la simulation : possède les entités, les composants et les systèmes.">World</a></span> d'une <b>entité par objet</b> de la couche <span class="tt">objects</span>.  <br /></td></tr>
 <tr class="memitem:a1a6b22027beb38aaf525b6dff5d3d2b8" id="r_a1a6b22027beb38aaf525b6dff5d3d2b8"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a1a6b22027beb38aaf525b6dff5d3d2b8">keyForEntity</a> (std::string_view mapName, std::string_view entityType, int column, int row)</td></tr>
@@ -927,8 +991,34 @@ Functions</h2></td></tr>
 <tr class="memdesc:a0cca681f3d6c00074710ceecdddab6f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lance un d20 contre un seuil.  <br /></td></tr>
 <tr class="memitem:aa60bb21d8cc45167ae840ea21c3b844c" id="r_aa60bb21d8cc45167ae840ea21c3b844c"><td class="memItemLeft">std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#aa60bb21d8cc45167ae840ea21c3b844c">rollStanceName</a> (<a class="el" href="#aff494cc4070ea4489c3d5ee57178f7c9">RollStance</a> stance) noexcept</td></tr>
 <tr class="memdesc:aa60bb21d8cc45167ae840ea21c3b844c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nom textuel d'une posture, pour les journaux et la restitution.  <br /></td></tr>
+<tr class="memitem:a74c7918e1f4c894c1449f94dfff55730" id="r_a74c7918e1f4c894c1449f94dfff55730"><td class="memItemLeft"><a class="el" href="structcore_1_1DifficultyScale.html">DifficultyScale</a>&#160;</td><td class="memItemRight"><a class="el" href="#a74c7918e1f4c894c1449f94dfff55730">loadDifficultyScale</a> (const std::filesystem::path &amp;path)</td></tr>
+<tr class="memdesc:a74c7918e1f4c894c1449f94dfff55730"><td class="mdescLeft">&#160;</td><td class="mdescRight">Charge l'échelle des degrés de difficulté.  <br /></td></tr>
 <tr class="memitem:ac2a445eb023b8dc4823076b19427e5c9" id="r_ac2a445eb023b8dc4823076b19427e5c9"><td class="memItemLeft">constexpr <a class="el" href="#aff494cc4070ea4489c3d5ee57178f7c9">RollStance</a>&#160;</td><td class="memItemRight"><a class="el" href="#ac2a445eb023b8dc4823076b19427e5c9">rollStance</a> (int advantageSources, int disadvantageSources) noexcept</td></tr>
 <tr class="memdesc:ac2a445eb023b8dc4823076b19427e5c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Détermine la posture depuis le <b>nombre de sources</b> de chaque type (<span class="tt">EX-DND-002</span>).  <br /></td></tr>
+<tr class="memitem:a347e7bf6ba1e8cb5d99a494c8c90411f" id="r_a347e7bf6ba1e8cb5d99a494c8c90411f"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a347e7bf6ba1e8cb5d99a494c8c90411f">dialogueSpeakerKey</a> (std::string_view dialogueId)</td></tr>
+<tr class="memdesc:a347e7bf6ba1e8cb5d99a494c8c90411f"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">dialogue.&lt;dialogue&gt;.speaker</span> — le nom de l'interlocuteur.  <br /></td></tr>
+<tr class="memitem:ae9f2a47a81336a2d0f7a526b0f585608" id="r_ae9f2a47a81336a2d0f7a526b0f585608"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#ae9f2a47a81336a2d0f7a526b0f585608">dialogueLineKey</a> (std::string_view dialogueId, std::string_view nodeId)</td></tr>
+<tr class="memdesc:ae9f2a47a81336a2d0f7a526b0f585608"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">dialogue.&lt;dialogue&gt;.&lt;nœud&gt;</span> — le texte d'une réplique.  <br /></td></tr>
+<tr class="memitem:ae06673ab0442d9711873e9bfffedaf89" id="r_ae06673ab0442d9711873e9bfffedaf89"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#ae06673ab0442d9711873e9bfffedaf89">dialogueChoiceKey</a> (std::string_view dialogueId, std::string_view nodeId, std::string_view choiceId)</td></tr>
+<tr class="memdesc:ae06673ab0442d9711873e9bfffedaf89"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">dialogue.&lt;dialogue&gt;.&lt;nœud&gt;.&lt;réponse&gt;</span> — le texte d'une réponse.  <br /></td></tr>
+<tr class="memitem:a07385d9b9ea590d3a3b7b11bd820b891" id="r_a07385d9b9ea590d3a3b7b11bd820b891"><td class="memItemLeft">std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#a07385d9b9ea590d3a3b7b11bd820b891">dialogueAttitudeName</a> (<a class="el" href="#ade7d6c98b6c0942fee991823b7e237a7">DialogueAttitude</a> attitude) noexcept</td></tr>
+<tr class="memdesc:a07385d9b9ea590d3a3b7b11bd820b891"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">friendly</span>, <span class="tt">indifferent</span>, <span class="tt">hostile</span> — le mot de la donnée.  <br /></td></tr>
+<tr class="memitem:a58479e55baaecd8fde393467a4db7236" id="r_a58479e55baaecd8fde393467a4db7236"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a58479e55baaecd8fde393467a4db7236">dialogueAttitudeKey</a> (<a class="el" href="#ade7d6c98b6c0942fee991823b7e237a7">DialogueAttitude</a> attitude)</td></tr>
+<tr class="memdesc:a58479e55baaecd8fde393467a4db7236"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">dialogue.attitude.&lt;friendly|indifferent|hostile&gt;</span>.  <br /></td></tr>
+<tr class="memitem:af99529282dcc81f361efd8083c95d377" id="r_af99529282dcc81f361efd8083c95d377"><td class="memItemLeft">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight"><a class="el" href="#af99529282dcc81f361efd8083c95d377">dialogueTextKeys</a> (const <a class="el" href="structcore_1_1DialogueGraph.html">DialogueGraph</a> &amp;graph)</td></tr>
+<tr class="memdesc:af99529282dcc81f361efd8083c95d377"><td class="mdescLeft">&#160;</td><td class="mdescRight">Toutes les clés de traduction qu'un graphe réclame, sans doublon.  <br /></td></tr>
+<tr class="memitem:acadb420f48a33466a637a863e9c8e814" id="r_acadb420f48a33466a637a863e9c8e814"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#acadb420f48a33466a637a863e9c8e814">questStartedFlag</a> (std::string_view questId)</td></tr>
+<tr class="memdesc:acadb420f48a33466a637a863e9c8e814"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">quest/&lt;quête&gt;/started</span> — le drapeau qu'une action « démarrer une quête » pose.  <br /></td></tr>
+<tr class="memitem:a7ca203540a075321cb431c2a237b45a3" id="r_a7ca203540a075321cb431c2a237b45a3"><td class="memItemLeft"><a class="el" href="structcore_1_1DialogueLoad.html">DialogueLoad</a>&#160;</td><td class="memItemRight"><a class="el" href="#a7ca203540a075321cb431c2a237b45a3">readDialogue</a> (std::string_view json, std::string_view origin)</td></tr>
+<tr class="memdesc:a7ca203540a075321cb431c2a237b45a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lit et <b>valide</b> un dialogue.  <br /></td></tr>
+<tr class="memitem:a8c3c19eb55ce28a2afd54fd1b89fc51d" id="r_a8c3c19eb55ce28a2afd54fd1b89fc51d"><td class="memItemLeft"><a class="el" href="structcore_1_1DialogueLoad.html">DialogueLoad</a>&#160;</td><td class="memItemRight"><a class="el" href="#a8c3c19eb55ce28a2afd54fd1b89fc51d">loadDialogue</a> (const std::filesystem::path &amp;path)</td></tr>
+<tr class="memdesc:a8c3c19eb55ce28a2afd54fd1b89fc51d"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt"><a class="el" href="#a7ca203540a075321cb431c2a237b45a3" title="Lit et valide un dialogue.">readDialogue</a></span> depuis un fichier.  <br /></td></tr>
+<tr class="memitem:abbf7a5f897999fab03defc95912da572" id="r_abbf7a5f897999fab03defc95912da572"><td class="memItemLeft">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight"><a class="el" href="#abbf7a5f897999fab03defc95912da572">validateDialogueReferences</a> (const <a class="el" href="structcore_1_1DialogueGraph.html">DialogueGraph</a> &amp;graph, const <a class="el" href="structcore_1_1DialogueReferences.html">DialogueReferences</a> &amp;references)</td></tr>
+<tr class="memdesc:abbf7a5f897999fab03defc95912da572"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les références d'un graphe que les catalogues ne connaissent pas.  <br /></td></tr>
+<tr class="memitem:ac987504eccca3df6b5dab801b1736bd2" id="r_ac987504eccca3df6b5dab801b1736bd2"><td class="memItemLeft"><a class="el" href="structcore_1_1DialogueCatalog.html">DialogueCatalog</a>&#160;</td><td class="memItemRight"><a class="el" href="#ac987504eccca3df6b5dab801b1736bd2">loadDialogues</a> (const std::filesystem::path &amp;directory)</td></tr>
+<tr class="memdesc:ac987504eccca3df6b5dab801b1736bd2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Charge les dialogues de <code class="param">directory</code> (<span class="tt">Source/Elements/World/dialogues</span>).  <br /></td></tr>
+<tr class="memitem:ac8e8c2031667df66e1dbb70f7e64d3b8" id="r_ac8e8c2031667df66e1dbb70f7e64d3b8"><td class="memItemLeft">std::optional&lt; <a class="el" href="structcore_1_1DialogueTrigger.html">DialogueTrigger</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#ac8e8c2031667df66e1dbb70f7e64d3b8">dialogueTriggerFor</a> (const <a class="el" href="structcore_1_1MapEntity.html">MapEntity</a> &amp;entity)</td></tr>
+<tr class="memdesc:ac8e8c2031667df66e1dbb70f7e64d3b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lit <code class="param">entity</code> comme un PNJ à qui parler, s'il en est un.  <br /></td></tr>
 <tr class="memitem:a76e3cf52c7e664a785fc4cabad9e571a" id="r_a76e3cf52c7e664a785fc4cabad9e571a"><td class="memItemLeft">std::optional&lt; <a class="el" href="structcore_1_1Dice.html">Dice</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a76e3cf52c7e664a785fc4cabad9e571a">parseDice</a> (std::string_view notation)</td></tr>
 <tr class="memdesc:a76e3cf52c7e664a785fc4cabad9e571a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Analyse une notation <span class="tt">NdF</span>, <span class="tt">NdF+M</span>, <span class="tt">NdF-M</span> ou une valeur fixe.  <br /></td></tr>
 <tr class="memitem:a58d791281d7fcab412851036c03c94bd" id="r_a58d791281d7fcab412851036c03c94bd"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a58d791281d7fcab412851036c03c94bd">formatDice</a> (const <a class="el" href="structcore_1_1Dice.html">Dice</a> &amp;dice)</td></tr>
@@ -1094,6 +1184,14 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
 <tr class="memdesc:a3e638fa357e74af32512b3eb91a6fcf6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hauteur du personnage, en unités monde.  <br /></td></tr>
 <tr class="memitem:a42b6dd302d4b68da1f4bdd439884b338" id="r_a42b6dd302d4b68da1f4bdd439884b338"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#a42b6dd302d4b68da1f4bdd439884b338">D20_FACES</a> = 20</td></tr>
 <tr class="memdesc:a42b6dd302d4b68da1f4bdd439884b338"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nombre de faces du dé de résolution. Le d20 est la mécanique centrale du jeu.  <br /></td></tr>
+<tr class="memitem:a006cfa27ffaf19379846a0d2c1963c00" id="r_a006cfa27ffaf19379846a0d2c1963c00"><td class="memItemLeft">constexpr std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#a006cfa27ffaf19379846a0d2c1963c00">DIALOGUE_CONTINUE_CHOICE</a> = &quot;continue&quot;</td></tr>
+<tr class="memdesc:a006cfa27ffaf19379846a0d2c1963c00"><td class="mdescLeft">&#160;</td><td class="mdescRight">Identifiant de la réponse implicite d'une réplique sans choix : « Continuer ».  <br /></td></tr>
+<tr class="memitem:af7ee0f1291696687c17746182965ce8a" id="r_af7ee0f1291696687c17746182965ce8a"><td class="memItemLeft">constexpr std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#af7ee0f1291696687c17746182965ce8a">DIALOGUE_CONTINUE_KEY</a> = &quot;dialogue.continue&quot;</td></tr>
+<tr class="memdesc:af7ee0f1291696687c17746182965ce8a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clé de traduction de la réponse implicite.  <br /></td></tr>
+<tr class="memitem:a9d88411f2638378a427c3aeb435d7590" id="r_a9d88411f2638378a427c3aeb435d7590"><td class="memItemLeft">constexpr std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#a9d88411f2638378a427c3aeb435d7590">NPC_ENTITY_TYPE</a> = &quot;npc&quot;</td></tr>
+<tr class="memdesc:a9d88411f2638378a427c3aeb435d7590"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type d'entité de carte d'un PNJ.  <br /></td></tr>
+<tr class="memitem:ae2e3fb1ff10ddbebb4cdf1b1636afb25" id="r_ae2e3fb1ff10ddbebb4cdf1b1636afb25"><td class="memItemLeft">constexpr std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#ae2e3fb1ff10ddbebb4cdf1b1636afb25">NPC_DIALOGUE_PROPERTY</a> = &quot;dialogue&quot;</td></tr>
+<tr class="memdesc:ae2e3fb1ff10ddbebb4cdf1b1636afb25"><td class="mdescLeft">&#160;</td><td class="mdescRight">Propriété d'un PNJ qui nomme son dialogue.  <br /></td></tr>
 <tr class="memitem:ab6f6a87729df10e41e9fa1e5f74c4d76" id="r_ab6f6a87729df10e41e9fa1e5f74c4d76"><td class="memItemLeft">constexpr std::size_t&#160;</td><td class="memItemRight"><a class="el" href="#ab6f6a87729df10e41e9fa1e5f74c4d76">EQUIPMENT_SLOT_COUNT</a> = 16</td></tr>
 <tr class="memdesc:ab6f6a87729df10e41e9fa1e5f74c4d76"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nombre d'emplacements, pour dimensionner les tableaux qui les indexent.  <br /></td></tr>
 <tr class="memitem:a511d502baab5befb28a3742b65ee1e61" id="r_a511d502baab5befb28a3742b65ee1e61"><td class="memItemLeft">constexpr float&#160;</td><td class="memItemRight"><a class="el" href="#a511d502baab5befb28a3742b65ee1e61">METERS_PER_TILE</a> = 1.5f</td></tr>
@@ -1308,6 +1406,38 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
 <tr><td class="fieldname"><a id="ab1c6c3303c34c417c9a3b6ac3ddb066dabbd47109890259c0127154db1af26c75" name="ab1c6c3303c34c417c9a3b6ac3ddb066dabbd47109890259c0127154db1af26c75"></a>Full&#160;</td><td class="fielddoc"><p>La totalité des niveaux — barde, clerc, druide, ensorceleur, magicien. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="ab1c6c3303c34c417c9a3b6ac3ddb066dac84677e99721f89f0b5430df9f431a1d" name="ab1c6c3303c34c417c9a3b6ac3ddb066dac84677e99721f89f0b5430df9f431a1d"></a>Pact&#160;</td><td class="fielddoc"><p><b>Magie de pacte</b> : n'entre pas dans la somme (<span class="tt">EX-RPG-052</span>). </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="adefc12cd0a71ea980213f083ce537aa1" name="adefc12cd0a71ea980213f083ce537aa1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adefc12cd0a71ea980213f083ce537aa1">&#9670;&#160;</a></span>ChoiceResult</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="#adefc12cd0a71ea980213f083ce537aa1">core::ChoiceResult</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Ce qu'une réponse a produit. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="adefc12cd0a71ea980213f083ce537aa1a9b6545e4cea9b4ad4979d41bb9170e2b" name="adefc12cd0a71ea980213f083ce537aa1a9b6545e4cea9b4ad4979d41bb9170e2b"></a>Advanced&#160;</td><td class="fielddoc"><p>La conversation a avancé. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="adefc12cd0a71ea980213f083ce537aa1a453e6aa38d87b28ccae545967c53004f" name="adefc12cd0a71ea980213f083ce537aa1a453e6aa38d87b28ccae545967c53004f"></a>Unavailable&#160;</td><td class="fielddoc"><p>Aucune réponse proposée ne porte cet identifiant — ou sa condition ne tient plus. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="adefc12cd0a71ea980213f083ce537aa1a5dd12ab928172267ae6783ddc3a88bf3" name="adefc12cd0a71ea980213f083ce537aa1a5dd12ab928172267ae6783ddc3a88bf3"></a>NotAwaiting&#160;</td><td class="fielddoc"><p>Aucune réplique n'attend de réponse. </p>
 </td></tr>
 </table>
 
@@ -1713,6 +1843,138 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
 
 </div>
 </div>
+<a id="aae1dbf957fd7a423de4c11a60fc2d680" name="aae1dbf957fd7a423de4c11a60fc2d680"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aae1dbf957fd7a423de4c11a60fc2d680">&#9670;&#160;</a></span>DialogueActionKind</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="#aae1dbf957fd7a423de4c11a60fc2d680">core::DialogueActionKind</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Ce qu'un nœud d'action fait au monde. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="aae1dbf957fd7a423de4c11a60fc2d680af7728eea36126ba401b5df30bb93f528" name="aae1dbf957fd7a423de4c11a60fc2d680af7728eea36126ba401b5df30bb93f528"></a>SetFlag&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aae1dbf957fd7a423de4c11a60fc2d680ac23574157c4f45657c36e9ce5d40eab7" name="aae1dbf957fd7a423de4c11a60fc2d680ac23574157c4f45657c36e9ce5d40eab7"></a>ClearFlag&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aae1dbf957fd7a423de4c11a60fc2d680aeaa3a4cb48824c4da06052ae4b8822ee" name="aae1dbf957fd7a423de4c11a60fc2d680aeaa3a4cb48824c4da06052ae4b8822ee"></a>GiveItem&#160;</td><td class="fielddoc"><p>Donne un objet à l'interlocuteur du PNJ (<span class="tt"><a class="el" href="classcore_1_1DialogueListener.html#ab913b0303d4a9067ea84fcca7b082c9f" title="Reçoit un objet que le PNJ lui donne.">core::DialogueListener::receiveItem</a></span>). </p>
+</td></tr>
+<tr><td class="fieldname"><a id="aae1dbf957fd7a423de4c11a60fc2d680ab4acbcc4471115237765689879d1aeb2" name="aae1dbf957fd7a423de4c11a60fc2d680ab4acbcc4471115237765689879d1aeb2"></a>StartQuest&#160;</td><td class="fielddoc"><p>Démarre une quête : pose <span class="tt">core::questStartedFlag(id)</span>, que le <span class="tt">LOT-16</span> lira. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="ade7d6c98b6c0942fee991823b7e237a7" name="ade7d6c98b6c0942fee991823b7e237a7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ade7d6c98b6c0942fee991823b7e237a7">&#9670;&#160;</a></span>DialogueAttitude</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="#ade7d6c98b6c0942fee991823b7e237a7">core::DialogueAttitude</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>L'attitude de l'interlocuteur, dans le vocabulaire des règles : amical, indifférent, hostile (<em>Guide du Maître</em>, « Interactions sociales »). </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ade7d6c98b6c0942fee991823b7e237a7a03fdbf12e03a4cd1409b84abe2b631df" name="ade7d6c98b6c0942fee991823b7e237a7a03fdbf12e03a4cd1409b84abe2b631df"></a>Friendly&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ade7d6c98b6c0942fee991823b7e237a7af2fcec7e6a3f80c8d00485a09a735c2d" name="ade7d6c98b6c0942fee991823b7e237a7af2fcec7e6a3f80c8d00485a09a735c2d"></a>Indifferent&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ade7d6c98b6c0942fee991823b7e237a7aa62a927d0ab6a08f916aa9f5ec0306e4" name="ade7d6c98b6c0942fee991823b7e237a7aa62a927d0ab6a08f916aa9f5ec0306e4"></a>Hostile&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+<a id="a5e072fb2a50712986a2e81fa54b3fc73" name="a5e072fb2a50712986a2e81fa54b3fc73"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5e072fb2a50712986a2e81fa54b3fc73">&#9670;&#160;</a></span>DialogueNodeKind</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="#a5e072fb2a50712986a2e81fa54b3fc73">core::DialogueNodeKind</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Ce que fait un nœud. </p>
+<p>Deux natures, et la différence compte pour la validation : une <b>réplique</b> attend le joueur, les trois nœuds <b>automatiques</b> (condition, action, jet) s'enchaînent sans lui, et <span class="tt">End</span> clôt. Un cycle qui ne passe par aucune réplique à choix tournerait sans fin — c'est la définition du « cycle non intentionnel » que le chargement refuse. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a5e072fb2a50712986a2e81fa54b3fc73a4803e6b9e63dabf04de980788d6a13c4" name="a5e072fb2a50712986a2e81fa54b3fc73a4803e6b9e63dabf04de980788d6a13c4"></a>Line&#160;</td><td class="fielddoc"><p>L'interlocuteur parle ; le joueur répond par un choix, ou continue. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a5e072fb2a50712986a2e81fa54b3fc73a9e2941b3c81256fac10392aaca4ccfde" name="a5e072fb2a50712986a2e81fa54b3fc73a9e2941b3c81256fac10392aaca4ccfde"></a>Condition&#160;</td><td class="fielddoc"><p>Un drapeau de monde oriente la suite. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a5e072fb2a50712986a2e81fa54b3fc73a004bf6c9a40003140292e97330236c53" name="a5e072fb2a50712986a2e81fa54b3fc73a004bf6c9a40003140292e97330236c53"></a>Action&#160;</td><td class="fielddoc"><p>Des effets sur le monde : poser un drapeau, donner un objet, démarrer une quête. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a5e072fb2a50712986a2e81fa54b3fc73a060bf2d587991d8f090a1309b285291c" name="a5e072fb2a50712986a2e81fa54b3fc73a060bf2d587991d8f090a1309b285291c"></a>Check&#160;</td><td class="fielddoc"><p>Un jet de compétence contre un degré de difficulté, et ses deux suites. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a5e072fb2a50712986a2e81fa54b3fc73a87557f11575c0ad78e4e28abedc13b6e" name="a5e072fb2a50712986a2e81fa54b3fc73a87557f11575c0ad78e4e28abedc13b6e"></a>End&#160;</td><td class="fielddoc"><p>La conversation se termine. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="adbe3368bf4f687b1ab2120308d322c0a" name="adbe3368bf4f687b1ab2120308d322c0a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adbe3368bf4f687b1ab2120308d322c0a">&#9670;&#160;</a></span>DialogueState</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="#adbe3368bf4f687b1ab2120308d322c0a">core::DialogueState</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Où en est une conversation. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="adbe3368bf4f687b1ab2120308d322c0aafa7be7845bc42b3491d9d0377958be94" name="adbe3368bf4f687b1ab2120308d322c0aafa7be7845bc42b3491d9d0377958be94"></a>NotStarted&#160;</td><td class="fielddoc"><p><span class="tt">start</span> n'a pas encore été appelé. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="adbe3368bf4f687b1ab2120308d322c0aaf0ab72293be96072c5f5ad74dfd7f6b5" name="adbe3368bf4f687b1ab2120308d322c0aaf0ab72293be96072c5f5ad74dfd7f6b5"></a>AwaitingChoice&#160;</td><td class="fielddoc"><p>Une réplique est affichée, le joueur doit répondre. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="adbe3368bf4f687b1ab2120308d322c0aa0157fbb99be9622bdaa6e544270c0622" name="adbe3368bf4f687b1ab2120308d322c0aa0157fbb99be9622bdaa6e544270c0622"></a>Ended&#160;</td><td class="fielddoc"><p>La conversation a atteint une fin. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="adbe3368bf4f687b1ab2120308d322c0aaf48b206184b7442983452ea4c3e88a3a" name="adbe3368bf4f687b1ab2120308d322c0aaf48b206184b7442983452ea4c3e88a3a"></a>Refused&#160;</td><td class="fielddoc"><p>Elle n'a pas eu lieu : aucune langue commune (<span class="tt">EX-RPG-042</span>). </p>
+</td></tr>
+</table>
+
+</div>
+</div>
 <a id="ad77756d2c98fad50a0b353e7924843a5" name="ad77756d2c98fad50a0b353e7924843a5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad77756d2c98fad50a0b353e7924843a5">&#9670;&#160;</a></span>EncumbranceLevel</h2>
 
@@ -1970,7 +2232,7 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
 </div><div class="memdoc">
 
 <p>Comment un combattant se déplace : au sol, ou en vol. </p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md895"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md902"></a>
 L'altitude est un attribut, jamais une géométrie</h2>
 <p>Le jeu est vu de dessus, et sa grille n'a pas de hauteur. Donner une altitude aux cases — une grille par étage, ou une case « en l'air » au-dessus d'une autre — ferait de chaque requête de portée, de chemin et d'occupation une requête en trois dimensions, pour un contenu qui n'en a besoin qu'au passage d'un dragon. Le vol est donc une <b>manière de traverser</b> la même grille :</p>
 <ul>
@@ -2545,7 +2807,7 @@ L'altitude est un attribut, jamais une géométrie</h2>
 </div><div class="memdoc">
 
 <p>Vrai si <code class="param">first</code> joue avant <code class="param">second</code>. </p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md906"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md913"></a>
 La règle de départage</h2>
 <p>Manuel des Joueurs, « Initiative » (PDF p. 191) : les combattants se classent du plus haut résultat au plus bas, et « en cas d'égalité », c'est le MD qui tranche entre ses créatures, les joueurs entre leurs personnages, et le MD encore entre un monstre et un personnage. Le jeu n'a pas de MD : la règle doit être <b>écrite</b>, et elle ne peut pas dépendre de l'ordre dans lequel les combattants ont été rangés en mémoire (<span class="tt">EX-CBT-010</span>). Dans l'ordre :</p>
 <ol type="1">
@@ -2968,10 +3230,10 @@ La règle de départage</h2>
 </div><div class="memdoc">
 
 <p>Peint le marqueur d'une clé d'asset. </p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md908"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md915"></a>
 Pourquoi un marqueur plutôt qu'une image manquante</h2>
 <p><span class="tt">EX-CNT-041</span> : le jeu doit tourner <b>complet</b> avant qu'aucune illustration ne soit produite. Sans marqueur, trois cents entrées s'afficheraient comme des trous, la production graphique deviendrait un préalable bloquant, et rien ne pourrait être joué ni relu avant elle. Avec, elle devient un <b>remplacement progressif</b> : on remplace un marqueur par une image, une à la fois, et le jeu ne cesse jamais d'être jouable.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md909"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md916"></a>
 Déterministe, et c'est le point</h2>
 <p>La même clé donne <b>toujours</b> le même marqueur — même teinte, même figure. Un marqueur tiré au hasard changerait à chaque lancement : le loup ne serait plus reconnaissable d'une partie à l'autre, deux captures d'écran du même combat différeraient, et un test ne pourrait rien en dire. La teinte est donc dérivée de la clé elle-même, par un hachage stable écrit ici plutôt qu'emprunté à <span class="tt">std::hash</span>, dont la valeur n'est <b>pas</b> garantie d'une plateforme ou d'une version de bibliothèque à l'autre.</p>
 <p>Le marqueur reste <b>manifestement</b> un marqueur : deux diagonales barrent la vignette, de sorte qu'on ne le prenne jamais pour une illustration définitive livrée un peu vite.</p>
@@ -3497,6 +3759,211 @@ Déterministe, et c'est le point</h2>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Une graine dérivée, propre à ce triplet. </dd></dl>
+
+</div>
+</div>
+<a id="a58479e55baaecd8fde393467a4db7236" name="a58479e55baaecd8fde393467a4db7236"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a58479e55baaecd8fde393467a4db7236">&#9670;&#160;</a></span>dialogueAttitudeKey()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string core::dialogueAttitudeKey </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#ade7d6c98b6c0942fee991823b7e237a7">DialogueAttitude</a></td>          <td class="paramname"><span class="paramname"><em>attitude</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p><span class="tt">dialogue.attitude.&lt;friendly|indifferent|hostile&gt;</span>. </p>
+
+</div>
+</div>
+<a id="a07385d9b9ea590d3a3b7b11bd820b891" name="a07385d9b9ea590d3a3b7b11bd820b891"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07385d9b9ea590d3a3b7b11bd820b891">&#9670;&#160;</a></span>dialogueAttitudeName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string_view core::dialogueAttitudeName </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#ade7d6c98b6c0942fee991823b7e237a7">DialogueAttitude</a></td>          <td class="paramname"><span class="paramname"><em>attitude</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p><span class="tt">friendly</span>, <span class="tt">indifferent</span>, <span class="tt">hostile</span> — le mot de la donnée. </p>
+
+</div>
+</div>
+<a id="ae06673ab0442d9711873e9bfffedaf89" name="ae06673ab0442d9711873e9bfffedaf89"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae06673ab0442d9711873e9bfffedaf89">&#9670;&#160;</a></span>dialogueChoiceKey()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string core::dialogueChoiceKey </td>
+          <td>(</td>
+          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>dialogueId</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>nodeId</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>choiceId</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p><span class="tt">dialogue.&lt;dialogue&gt;.&lt;nœud&gt;.&lt;réponse&gt;</span> — le texte d'une réponse. </p>
+
+</div>
+</div>
+<a id="ae9f2a47a81336a2d0f7a526b0f585608" name="ae9f2a47a81336a2d0f7a526b0f585608"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae9f2a47a81336a2d0f7a526b0f585608">&#9670;&#160;</a></span>dialogueLineKey()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string core::dialogueLineKey </td>
+          <td>(</td>
+          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>dialogueId</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>nodeId</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p><span class="tt">dialogue.&lt;dialogue&gt;.&lt;nœud&gt;</span> — le texte d'une réplique. </p>
+
+</div>
+</div>
+<a id="a347e7bf6ba1e8cb5d99a494c8c90411f" name="a347e7bf6ba1e8cb5d99a494c8c90411f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a347e7bf6ba1e8cb5d99a494c8c90411f">&#9670;&#160;</a></span>dialogueSpeakerKey()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string core::dialogueSpeakerKey </td>
+          <td>(</td>
+          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>dialogueId</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p><span class="tt">dialogue.&lt;dialogue&gt;.speaker</span> — le nom de l'interlocuteur. </p>
+
+</div>
+</div>
+<a id="af99529282dcc81f361efd8083c95d377" name="af99529282dcc81f361efd8083c95d377"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af99529282dcc81f361efd8083c95d377">&#9670;&#160;</a></span>dialogueTextKeys()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::string &gt; core::dialogueTextKeys </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structcore_1_1DialogueGraph.html">DialogueGraph</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>graph</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Toutes les clés de traduction qu'un graphe réclame, sans doublon. </p>
+<p>Celles qu'il <b>fabrique</b> — interlocuteur, répliques, réponses, attitudes employées — et la réponse implicite s'il en a l'usage. C'est la liste qu'un test confronte aux deux catalogues. </p>
+
+</div>
+</div>
+<a id="ac8e8c2031667df66e1dbb70f7e64d3b8" name="ac8e8c2031667df66e1dbb70f7e64d3b8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac8e8c2031667df66e1dbb70f7e64d3b8">&#9670;&#160;</a></span>dialogueTriggerFor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::optional&lt; <a class="el" href="structcore_1_1DialogueTrigger.html">DialogueTrigger</a> &gt; core::dialogueTriggerFor </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structcore_1_1MapEntity.html">MapEntity</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>entity</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Lit <code class="param">entity</code> comme un PNJ à qui parler, s'il en est un. </p>
+<p>Un PNJ <b>sans</b> dialogue n'est pas un déclencheur : il se voit et ne répond pas. Le refuser comme carte invalide ferait disparaître un figurant dont le dialogue n'est pas encore écrit.</p>
+<dl class="section return"><dt>Returns</dt><dd>Le déclencheur, ou <span class="tt">std::nullopt</span> si l'entité n'est pas un PNJ ou ne nomme aucun dialogue. </dd></dl>
 
 </div>
 </div>
@@ -4301,7 +4768,8 @@ Déterministe, et c'est le point</h2>
 </table>
 </div><div class="memdoc">
 
-<p>Les familles connues de ce lot. Le <span class="tt">LOT-15</span> et le <span class="tt">LOT-09</span> en ajouteront. </p>
+<p>Les familles connues : coffre, panneau (<span class="tt">LOT-10</span>), PNJ (<span class="tt">LOT-15</span>). </p>
+<p>Le <span class="tt">LOT-09</span> ajoutera les portails. </p>
 
 </div>
 </div>
@@ -4573,6 +5041,95 @@ Déterministe, et c'est le point</h2>
 <p>Le fichier ne porte que des <b>choix</b> — espèce, classe, historique, valeurs de caractéristique avant augmentation, niveau visé. Tout le reste est dérivé ici par <span class="tt"><a class="el" href="#ae5471fabe4f247c99a3c50293f59f91e" title="Construit une fiche depuis une espèce, une classe et un historique.">buildCharacterSheet</a></span> et par la montée en expérience : points de vie, classe d'armure, valeurs finales, bonus de maîtrise. Écrire ces valeurs dans le fichier en ferait une <b>seconde source</b>, qui différerait de la première au premier ajustement de règle — et personne ne saurait laquelle croit.</p>
 <p>Le niveau s'atteint par <b>gain d'expérience</b>, le même chemin qu'une partie empruntera : donc les mêmes points de vie qu'un personnage monté en jouant, et non une variante propre au chargement.</p>
 <p>Ne lève jamais (<span class="tt">EX-NFR-040</span>) : un fichier absent, mal formé ou référençant un identifiant inconnu rend une fiche partielle <b>et</b> une erreur nommée (<span class="tt">EX-CNT-010</span>). </p>
+
+</div>
+</div>
+<a id="a8c3c19eb55ce28a2afd54fd1b89fc51d" name="a8c3c19eb55ce28a2afd54fd1b89fc51d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8c3c19eb55ce28a2afd54fd1b89fc51d">&#9670;&#160;</a></span>loadDialogue()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structcore_1_1DialogueLoad.html">DialogueLoad</a> core::loadDialogue </td>
+          <td>(</td>
+          <td class="paramtype">const std::filesystem::path &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p><span class="tt"><a class="el" href="#a7ca203540a075321cb431c2a237b45a3" title="Lit et valide un dialogue.">readDialogue</a></span> depuis un fichier. </p>
+
+</div>
+</div>
+<a id="ac987504eccca3df6b5dab801b1736bd2" name="ac987504eccca3df6b5dab801b1736bd2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac987504eccca3df6b5dab801b1736bd2">&#9670;&#160;</a></span>loadDialogues()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structcore_1_1DialogueCatalog.html">DialogueCatalog</a> core::loadDialogues </td>
+          <td>(</td>
+          <td class="paramtype">const std::filesystem::path &amp;</td>          <td class="paramname"><span class="paramname"><em>directory</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Charge les dialogues de <code class="param">directory</code> (<span class="tt">Source/Elements/World/dialogues</span>). </p>
+<p>Un fichier refusé n'empêche pas les autres de se charger ; son identifiant doit être le nom du fichier, pour qu'un dialogue se retrouve depuis la carte qui le nomme. Ne lève jamais. </p>
+
+</div>
+</div>
+<a id="a74c7918e1f4c894c1449f94dfff55730" name="a74c7918e1f4c894c1449f94dfff55730"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a74c7918e1f4c894c1449f94dfff55730">&#9670;&#160;</a></span>loadDifficultyScale()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structcore_1_1DifficultyScale.html">DifficultyScale</a> core::loadDifficultyScale </td>
+          <td>(</td>
+          <td class="paramtype">const std::filesystem::path &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Charge l'échelle des degrés de difficulté. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td><span class="tt">Source/Elements/Rpg/rules/difficulty.json</span>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>L'échelle et ses erreurs, un degré sans identifiant ou sans nombre étant écarté en le nommant. Ne lève jamais (<span class="tt">EX-NFR-040</span>). </dd></dl>
 
 </div>
 </div>
@@ -5969,6 +6526,81 @@ Déterministe, et c'est le point</h2>
 
 </div>
 </div>
+<a id="acadb420f48a33466a637a863e9c8e814" name="acadb420f48a33466a637a863e9c8e814"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acadb420f48a33466a637a863e9c8e814">&#9670;&#160;</a></span>questStartedFlag()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string core::questStartedFlag </td>
+          <td>(</td>
+          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>questId</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p><span class="tt">quest/&lt;quête&gt;/started</span> — le drapeau qu'une action « démarrer une quête » pose. </p>
+<p>Les quêtes lisent des drapeaux (<span class="tt">LOT-16</span>, note de conception) : démarrer une quête depuis un dialogue n'a donc besoin d'aucun objet quête, et le journal du <span class="tt">LOT-16</span> n'aura qu'à lire ce drapeau. Une clé fabriquée, pour que les deux lots ne puissent pas l'écrire différemment. </p>
+
+</div>
+</div>
+<a id="a7ca203540a075321cb431c2a237b45a3" name="a7ca203540a075321cb431c2a237b45a3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7ca203540a075321cb431c2a237b45a3">&#9670;&#160;</a></span>readDialogue()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structcore_1_1DialogueLoad.html">DialogueLoad</a> core::readDialogue </td>
+          <td>(</td>
+          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>json</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>origin</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Lit et <b>valide</b> un dialogue. </p>
+<p>Refusé au chargement, jamais découvert en jeu :</p>
+<ul>
+<li>un champ manquant, une nature de nœud inconnue, deux nœuds de même identifiant ;</li>
+<li>un <b>nœud cible inconnu</b> — entrée, réponse, suite, branche de condition ou de jet ;</li>
+<li>un <b>choix vide</b> : une réplique dont la liste de réponses existe mais est vide, une réponse sans identifiant, deux réponses de même identifiant, ou une réplique dont <b>toutes</b> les réponses sont conditionnelles — que les drapeaux les masquent toutes, et le joueur resterait devant une réplique sans issue ;</li>
+<li>un <b>cycle non intentionnel</b> : une boucle qui ne passe par aucune réplique à réponses. Une boucle qui revient à une réplique à réponses est un « hub » voulu (« Autre chose ? ») ; une boucle de conditions et d'actions tournerait sans fin, et une boucle de répliques sans réponse enfermerait le joueur dans un monologue ;</li>
+<li>un <b>nœud orphelin</b>, que rien n'atteint depuis l'entrée — presque toujours une faute de frappe dans une cible ;</li>
+<li>une <b>impasse</b> : un nœud d'où aucune fin n'est atteignable.</li>
+</ul>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">json</td><td>Le texte du document. </td></tr>
+    <tr><td class="paramname">origin</td><td>Le nom du fichier, pour les messages. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="acfecbe35ed7427415d02c52fcea70388" name="acfecbe35ed7427415d02c52fcea70388"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#acfecbe35ed7427415d02c52fcea70388">&#9670;&#160;</a></span>readJsonObject()</h2>
 
@@ -7044,6 +7676,38 @@ Déterministe, et c'est le point</h2>
 
 </div>
 </div>
+<a id="abbf7a5f897999fab03defc95912da572" name="abbf7a5f897999fab03defc95912da572"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abbf7a5f897999fab03defc95912da572">&#9670;&#160;</a></span>validateDialogueReferences()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::string &gt; core::validateDialogueReferences </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structcore_1_1DialogueGraph.html">DialogueGraph</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>graph</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structcore_1_1DialogueReferences.html">DialogueReferences</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>references</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Les références d'un graphe que les catalogues ne connaissent pas. </p>
+<p>Une compétence mal orthographiée, un degré de difficulté inventé, un objet ou une langue inconnus : chacun ferait un jet contre rien ou un cadeau vide, ce qui se joue et ne se voit pas. </p>
+
+</div>
+</div>
 <a name="doc-var-members" id="doc-var-members"></a><h2 id="header-doc-var-members" class="groupheader">Variable Documentation</h2>
 <a id="a7593d494012f47485e1173a68a1209c1" name="a7593d494012f47485e1173a68a1209c1"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7593d494012f47485e1173a68a1209c1">&#9670;&#160;</a></span>ACTION_RESOURCE</h2>
@@ -7308,6 +7972,54 @@ Déterministe, et c'est le point</h2>
 
 <p>Vrai dans les builds de <b>développement</b> (Debug), faux en <b>Release</b>. </p>
 <p>S'appuie sur <span class="tt">NDEBUG</span> (défini par le compilateur en Release). Sert à n'inclure que dans les builds de développement des éléments d'outillage (par exemple des boutons de débogage de l'interface), à utiliser de préférence avec <span class="tt">if constexpr</span> pour éliminer le code en Release. </p>
+
+</div>
+</div>
+<a id="a006cfa27ffaf19379846a0d2c1963c00" name="a006cfa27ffaf19379846a0d2c1963c00"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a006cfa27ffaf19379846a0d2c1963c00">&#9670;&#160;</a></span>DIALOGUE_CONTINUE_CHOICE</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string_view core::DIALOGUE_CONTINUE_CHOICE = &quot;continue&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Identifiant de la réponse implicite d'une réplique sans choix : « Continuer ». </p>
+
+</div>
+</div>
+<a id="af7ee0f1291696687c17746182965ce8a" name="af7ee0f1291696687c17746182965ce8a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af7ee0f1291696687c17746182965ce8a">&#9670;&#160;</a></span>DIALOGUE_CONTINUE_KEY</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string_view core::DIALOGUE_CONTINUE_KEY = &quot;dialogue.continue&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Clé de traduction de la réponse implicite. </p>
 
 </div>
 </div>
@@ -7796,6 +8508,54 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
 </div><div class="memdoc">
 
 <p>Le déplacement, compté en <b>cases</b> (<span class="tt"><a class="el" href="#a29156af7de7653ab4fa06d96b0c881a1" title="Le budget de déplacement d&#39;une vitesse de speedMeters, en cases entières.">core::movementBudget</a></span>). </p>
+
+</div>
+</div>
+<a id="ae2e3fb1ff10ddbebb4cdf1b1636afb25" name="ae2e3fb1ff10ddbebb4cdf1b1636afb25"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae2e3fb1ff10ddbebb4cdf1b1636afb25">&#9670;&#160;</a></span>NPC_DIALOGUE_PROPERTY</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string_view core::NPC_DIALOGUE_PROPERTY = &quot;dialogue&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Propriété d'un PNJ qui nomme son dialogue. </p>
+
+</div>
+</div>
+<a id="a9d88411f2638378a427c3aeb435d7590" name="a9d88411f2638378a427c3aeb435d7590"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9d88411f2638378a427c3aeb435d7590">&#9670;&#160;</a></span>NPC_ENTITY_TYPE</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string_view core::NPC_ENTITY_TYPE = &quot;npc&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Type d'entité de carte d'un PNJ. </p>
 
 </div>
 </div>

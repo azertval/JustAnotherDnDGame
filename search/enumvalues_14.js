@@ -2,14 +2,15 @@ var searchData=
 [
   ['ui_0',['UI',['../namespacehmi.html#a9b5452f2d3a1019a3229b90a4f000919a71ff71526d15db86eb50fcac245d183b',1,'hmi']]],
   ['ui_1',['Ui',['../namespacehmi.html#acd4bd1bd5a7edb4000f6de915686c897a730b1d2ffece9a1c748a54cd0bb0e363',1,'hmi']]],
-  ['unconscious_2',['Unconscious',['../namespacecore.html#aae82873d6c7bd0b4db085354c50e1493acb6b56b0daf97dc9660af8977785a0e8',1,'core']]],
-  ['undo_3',['Undo',['../namespacehmi.html#aa4f5968d7b564d555f29fdc5d2fc9585a1cdc076b28f70afac5fcedadf99fa119',1,'hmi::Undo'],['../namespacehmi.html#ab269aabb94611e449a8e7427969874f5a1cdc076b28f70afac5fcedadf99fa119',1,'hmi::Undo']]],
-  ['unencumbered_4',['Unencumbered',['../namespacecore.html#ad77756d2c98fad50a0b353e7924843a5ae0c8631adc840f2dc3d7ad58f3353734',1,'core']]],
-  ['unknowntiletype_5',['UnknownTileType',['../namespacecore.html#af2a63d18c9ef40479ebdc204e726e823a5ffd7fe49fd2b1afb8178546f7a39b8e',1,'core']]],
-  ['unlink_6',['Unlink',['../namespacehmi.html#ace704959d626f266592987f16eb2f3d5ac1a39b6a60f8b2f87e23d60ab649d994',1,'hmi']]],
-  ['unreachable_7',['Unreachable',['../namespacecore.html#ac0c9dc39aafc4bad02c96a9659df0c1ba4bed942140642650ca78039de000796a',1,'core']]],
-  ['unresolvedmechanism_8',['UnresolvedMechanism',['../namespacecore.html#af2a63d18c9ef40479ebdc204e726e823a05250c1ea0ea6727aa6506464d5af1bb',1,'core']]],
-  ['unsupportedformatversion_9',['UnsupportedFormatVersion',['../namespacecore.html#af2a63d18c9ef40479ebdc204e726e823a7d194788f42fea83b92833f89101a8f4',1,'core']]],
-  ['unsupportedversion_10',['UnsupportedVersion',['../namespacecore.html#a3fca58c67ec139153d0204122e9c32e0a0f89bc98e9b12bdeda0604e57bdc0518',1,'core::UnsupportedVersion'],['../namespacehmi.html#a08b7877ee84a5db1b0da3837b70c3af7a0f89bc98e9b12bdeda0604e57bdc0518',1,'hmi::UnsupportedVersion'],['../namespacehmi.html#afee4dd05bda0b2293c4a99a73cb7eb8fa0f89bc98e9b12bdeda0604e57bdc0518',1,'hmi::UnsupportedVersion'],['../namespacehmi.html#a230be1a1c12291d0b11fd55063ec7406a0f89bc98e9b12bdeda0604e57bdc0518',1,'hmi::UnsupportedVersion'],['../namespacehmi.html#ae064c48cb814db754a1228bda7b8d77da0f89bc98e9b12bdeda0604e57bdc0518',1,'hmi::UnsupportedVersion']]],
-  ['up_11',['Up',['../namespacehmi.html#a7bd1f14c12b142d5227ad2560e7c5e88a258f49887ef8d14ac268c92b02503aaa',1,'hmi::Up'],['../namespacehmi.html#a83c98e56e30eafa606048853f7962e48a258f49887ef8d14ac268c92b02503aaa',1,'hmi::Up']]]
+  ['unavailable_2',['Unavailable',['../namespacecore.html#adefc12cd0a71ea980213f083ce537aa1a453e6aa38d87b28ccae545967c53004f',1,'core']]],
+  ['unconscious_3',['Unconscious',['../namespacecore.html#aae82873d6c7bd0b4db085354c50e1493acb6b56b0daf97dc9660af8977785a0e8',1,'core']]],
+  ['undo_4',['Undo',['../namespacehmi.html#aa4f5968d7b564d555f29fdc5d2fc9585a1cdc076b28f70afac5fcedadf99fa119',1,'hmi::Undo'],['../namespacehmi.html#ab269aabb94611e449a8e7427969874f5a1cdc076b28f70afac5fcedadf99fa119',1,'hmi::Undo']]],
+  ['unencumbered_5',['Unencumbered',['../namespacecore.html#ad77756d2c98fad50a0b353e7924843a5ae0c8631adc840f2dc3d7ad58f3353734',1,'core']]],
+  ['unknowntiletype_6',['UnknownTileType',['../namespacecore.html#af2a63d18c9ef40479ebdc204e726e823a5ffd7fe49fd2b1afb8178546f7a39b8e',1,'core']]],
+  ['unlink_7',['Unlink',['../namespacehmi.html#ace704959d626f266592987f16eb2f3d5ac1a39b6a60f8b2f87e23d60ab649d994',1,'hmi']]],
+  ['unreachable_8',['Unreachable',['../namespacecore.html#ac0c9dc39aafc4bad02c96a9659df0c1ba4bed942140642650ca78039de000796a',1,'core']]],
+  ['unresolvedmechanism_9',['UnresolvedMechanism',['../namespacecore.html#af2a63d18c9ef40479ebdc204e726e823a05250c1ea0ea6727aa6506464d5af1bb',1,'core']]],
+  ['unsupportedformatversion_10',['UnsupportedFormatVersion',['../namespacecore.html#af2a63d18c9ef40479ebdc204e726e823a7d194788f42fea83b92833f89101a8f4',1,'core']]],
+  ['unsupportedversion_11',['UnsupportedVersion',['../namespacecore.html#a3fca58c67ec139153d0204122e9c32e0a0f89bc98e9b12bdeda0604e57bdc0518',1,'core::UnsupportedVersion'],['../namespacehmi.html#a08b7877ee84a5db1b0da3837b70c3af7a0f89bc98e9b12bdeda0604e57bdc0518',1,'hmi::UnsupportedVersion'],['../namespacehmi.html#afee4dd05bda0b2293c4a99a73cb7eb8fa0f89bc98e9b12bdeda0604e57bdc0518',1,'hmi::UnsupportedVersion'],['../namespacehmi.html#a230be1a1c12291d0b11fd55063ec7406a0f89bc98e9b12bdeda0604e57bdc0518',1,'hmi::UnsupportedVersion'],['../namespacehmi.html#ae064c48cb814db754a1228bda7b8d77da0f89bc98e9b12bdeda0604e57bdc0518',1,'hmi::UnsupportedVersion']]],
+  ['up_12',['Up',['../namespacehmi.html#a7bd1f14c12b142d5227ad2560e7c5e88a258f49887ef8d14ac268c92b02503aaa',1,'hmi::Up'],['../namespacehmi.html#a83c98e56e30eafa606048853f7962e48a258f49887ef8d14ac268c92b02503aaa',1,'hmi::Up']]]
 ];
