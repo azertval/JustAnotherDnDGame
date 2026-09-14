@@ -328,6 +328,8 @@ if(WINDEPLOYQT_EXE)
             --no-translations --compiler-runtime
             "$<TARGET_FILE:LevelEditor>"
         COMMENT "Déploiement des DLL Qt + runtime à côté de l'éditeur (windeployqt)")
+    # Le déploiement du jeu vise le même `bin/` : jamais en même temps (Source/CMakeLists.txt).
+    set_property(TARGET LevelEditor PROPERTY JOB_POOL_LINK deploiement_qt)
 else()
     message(STATUS "LevelEditor : windeployqt introuvable, DLL Qt non déployées "
         "automatiquement (exécution possible depuis un environnement Qt).")

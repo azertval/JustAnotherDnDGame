@@ -148,6 +148,8 @@ if(WINDEPLOYQT_EXE)
             --qmldir "${CMAKE_CURRENT_SOURCE_DIR}/Game/Qml"
             "$<TARGET_FILE:JustAnotherDnDGame>"
         COMMENT "Déploiement des DLL Qt + modules QML à côté du jeu (windeployqt)")
+    # Le déploiement de l'éditeur vise le même `bin/` : jamais en même temps (Source/CMakeLists.txt).
+    set_property(TARGET JustAnotherDnDGame PROPERTY JOB_POOL_LINK deploiement_qt)
 
     # --no-translations ci-dessus reste le bon réglage : windeployqt déploierait la trentaine de
     # catalogues de Qt, alors que l'IHM du projet a le sien. Mais **les boutons standard des boîtes
