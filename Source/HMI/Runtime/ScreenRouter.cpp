@@ -42,7 +42,7 @@ namespace {
     return ScreenRouter::Screen::Menu;
 }
 
-// Les deux énumérations décrivent les mêmes neuf écrans, dans le même ordre : la conversion est
+// Les deux énumérations décrivent les mêmes huit écrans, dans le même ordre : la conversion est
 // donc un simple changement de type. C'est une hypothèse, et une hypothèse tacite se casse en
 // silence — le jour où quelqu'un insère un écran au milieu d'une des deux, la fiche s'ouvrirait
 // à la place de l'inventaire, sans la moindre erreur. Ces vérifications la rendent explicite, et

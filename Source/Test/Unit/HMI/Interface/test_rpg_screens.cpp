@@ -39,16 +39,16 @@ using hmi::rpgScreens;
 }  // namespace
 
 /**
- * @brief Les neuf écrans sont déclarés, et le cycle les traverse tous avant de revenir au premier.
- * \castest{<b>Le cycle de navigation traverse les neuf ecrans et revient au premier.</b><br/>
+ * @brief Les huit écrans sont déclarés, et le cycle les traverse tous avant de revenir au premier.
+ * \castest{<b>Le cycle de navigation traverse les huit ecrans et revient au premier.</b><br/>
  * \tcat Unitaire · Ecrans du RPG<br/>
  * \tcrit Critique<br/>
- * \tetapes 1. Partir du premier ecran.<br/>2. Appeler nextRpgScreen neuf fois en notant chaque
+ * \tetapes 1. Partir du premier ecran.<br/>2. Appeler nextRpgScreen huit fois en notant chaque
  * ecran atteint.<br/>
- * \tattendu Les neuf ecrans sont atteints une fois chacun, et le neuvieme pas ramene au premier.
+ * \tattendu Les huit ecrans sont atteints une fois chacun, et le huitieme pas ramene au premier.
  * }
  */
-TEST(RpgScreensTest, LeCycleTraverseLesNeufEcrans) {
+TEST(RpgScreensTest, LeCycleTraverseLesHuitEcrans) {
     ASSERT_EQ(rpgScreens().size(), hmi::RPG_SCREEN_COUNT);
 
     const RpgScreenId first = rpgScreens().front().id;

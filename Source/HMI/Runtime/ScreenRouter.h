@@ -65,7 +65,7 @@ public:
     };
     Q_ENUM(Screen)
 
-    /// Lequel des neuf écrans du RPG est ouvert, quand `currentScreen` vaut `RpgScreen`.
+    /// Lequel des huit écrans du RPG est ouvert, quand `currentScreen` vaut `RpgScreen`.
     enum class RpgScreen {
         CharacterSheet,
         Skills,

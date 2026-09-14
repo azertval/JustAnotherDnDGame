@@ -30,7 +30,7 @@
 
 namespace hmi {
 
-/// Les huit écrans du RPG. L'ordre est celui du **cycle** de navigation
+/// Les neuf écrans du RPG. L'ordre est celui du **cycle** de navigation
 /// (`nextRpgScreen`/`previousRpgScreen`) et celui de la table de `rpgScreens()`.
 enum class RpgScreenId {
     CharacterSheet,  ///< Fiche de personnage (remplie par le `LOT-38`).

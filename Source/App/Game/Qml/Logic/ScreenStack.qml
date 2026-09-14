@@ -21,7 +21,7 @@ import Jadg.App
     renommé fait échouer le contrôle, pas le jeu.
 
     Chaque écran est enveloppé dans un `Component` : il n'est construit qu'une fois choisi. Les
-    treize écrans ne vivent jamais tous en même temps.
+    quatorze écrans ne vivent jamais tous en même temps.
 
     `--screen=<Nom>` court-circuite le routeur. C'est un outil de vérification, pas un chemin de
     jeu : les écrans dessinés mais pas encore alimentés ne sont atteignables par aucun autre moyen.
