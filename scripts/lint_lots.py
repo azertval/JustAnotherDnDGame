@@ -26,8 +26,9 @@ Ce lint les refuse en CI. Il vérifie :
 12. tout ``LOT-NN`` cité dans une **spécification** désigne un lot **de ce programme** ; un renvoi
     au programme hérité de ``ProjectGaming`` s'écrit ``LOT-H-NN`` ;
 13. le **tableau d'avancement** en tête de feuille de route est exactement la suite que produit la
-    règle d'ordre — *à chaque pas, parmi les lots dont tous les prérequis sont faits, celui qui en
-    débloque le plus*.
+    règle d'ordre — *à chaque pas, parmi les lots dont tous les prérequis sont faits, celui du
+    jalon de version le plus proche ; à jalon égal, celui qui en débloque le plus* ;
+14. chaque lot restant figure dans **un jalon de version** du tableau en tête de page, et un seul.
 
 Les lots livrés (``LOT-01`` à ``LOT-07``) et absorbés (``LOT-08`` à ``LOT-29``) sont exclus des
 contrôles 1, 2 et 5 : leur texte est repris tel quel de leurs epics d'origine, et les sections 5, 9
@@ -215,6 +216,28 @@ def prerequis_effectifs(amont: dict, aval_declare: dict, sections: dict) -> dict
     return effectifs
 
 
+JALON_RE = re.compile(r'^\| \*{0,2}`(0\.\d+\.\d+)`\*{0,2} \|[^|]*\|([^|]*)\|', re.M)
+
+
+def jalons(texte: str) -> dict:
+    """{lot: rang du jalon de version}, lu dans le tableau « Version » en tête de page.
+
+    Les jalons sont des états jouables successifs (0.0.1 le slice, 0.0.2 les régions…). Un lot
+    d'un jalon ultérieur ne démarre pas tant que le jalon courant a un lot prêt : c'est la seule
+    priorité que le graphe ne dit pas, et la seule que l'auteur fixe à la main. Une plage
+    « `LOT-51` → `LOT-65` » couvre ses intermédiaires.
+    """
+    rangs: dict = {}
+    for rang, m in enumerate(JALON_RE.finditer(texte), 1):
+        cellule = m.group(2)
+        for a, b in re.findall(r'`LOT-(\d+)` → `LOT-(\d+)`', cellule):
+            for n in range(int(a), int(b) + 1):
+                rangs.setdefault(numero(n), rang)
+        for n in LOT_RE.findall(cellule):
+            rangs.setdefault(numero(n), rang)
+    return rangs
+
+
 def descendants(lot: str, enfants: dict, restants: set) -> set:
     """Les lots restants qu'un lot débloque, directement ou en cascade."""
     vus: set = set()
@@ -231,8 +254,11 @@ def ordre_execution(texte: str):
     """La suite d'exécution des lots restants, ce que chacun attend et ce qu'il débloque.
 
     **La règle, en une phrase :** à chaque pas, on prend, parmi les lots dont tous les prérequis
-    sont faits, **celui qui en débloque le plus** — à égalité, le plus petit numéro ; un lot qui
-    en couvre d'autres passe en dernier, parce que c'est une série et non un lot.
+    sont faits, **celui du jalon de version le plus proche** ; à jalon égal, **celui qui en
+    débloque le plus** — à égalité, le plus petit numéro ; un lot qui en couvre d'autres passe en
+    dernier, parce que c'est une série et non un lot. Le jalon prime : sans lui, le calcul
+    plaçait les factions du bac à sable (`0.0.2`) avant le contenu du slice (`0.0.1`), parce
+    qu'elles débloquaient davantage.
 
     Le critère n'est pas le numéro. Il l'a été un temps, et il donnait une suite déterministe mais
     bête : elle plaçait le `LOT-10` et le `LOT-12` devant le `LOT-30`, alors que ce dernier
@@ -267,6 +293,7 @@ def ordre_execution(texte: str):
             if dep in enfants:
                 enfants[dep].add(lot)
 
+    rang_jalon = jalons(texte)
     faits = set(lots_livres())
     restants = set(effectifs)
     suite: list = []
@@ -285,7 +312,8 @@ def ordre_execution(texte: str):
         # de la suite ferait croire qu'on la traverse d'un bloc avant de reprendre le programme.
         # Le départage ne la choisit donc que lorsqu'elle est seule en lice — jamais de blocage,
         # puisque `prets` finit par ne plus contenir qu'elle.
-        lot = max(prets, key=lambda x: (not couverts_par.get(x), portee[x], -int(x[4:])))
+        lot = max(prets, key=lambda x: (not couverts_par.get(x), -rang_jalon.get(x, 99),
+                                        portee[x], -int(x[4:])))
         suite.append(lot)
         portees[lot] = portee[lot]
         faits.add(lot)
@@ -507,6 +535,16 @@ def main() -> int:
                  "règle d'ordre (§6) ; %d ligne(s) à corriger, à commencer par : %s"
                  % (len(manquantes) or 1,
                     manquantes[0] if manquantes else "(l'ordre des lignes)"))
+
+    # ---- 14 : chaque lot restant a un jalon de version, et un seul ----
+    rang_jalon = jalons(texte)
+    restants_tous = [l for l in sections if l not in livres]
+    for lot in sorted(restants_tous):
+        if lot not in rang_jalon:
+            r.erreur("%s ne figure dans aucun jalon de version (tableau « Version » en tête de page)" % lot)
+    for lot in sorted(rang_jalon):
+        if lot not in sections and lot not in livres:
+            r.erreur("le tableau des jalons cite %s, qui n'existe pas" % lot)
 
     # ---- 12 : les renvois des spécifications désignent un lot de ce programme ----
     connus = set(sections) | livres

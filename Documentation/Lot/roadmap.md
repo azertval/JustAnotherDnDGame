@@ -73,9 +73,9 @@ le slice.
 | `0.0.4` | Le **plan pénombral**, second monde du Sourcebook | `LOT-90` |
 | **`0.1.0`** | **Le bac à sable de Tanares, complet** : la somme des quatre, relue et équilibrée d'un bloc — la version de contenu final | aucun lot propre : c'est le tag posé quand le dernier lot de la `0.0.4` est livré |
 
-L'ordre d'exécution ne suit pas ces jalons ligne à ligne — il est calculé (§6) — mais un lot d'un
-jalon ultérieur ne démarre pas tant que le jalon courant a un lot prêt : c'est la seule règle de
-priorité que le calcul ne porte pas.
+Les jalons **priment** dans le calcul de l'ordre (§6) : un lot d'un jalon ultérieur ne démarre pas
+tant que le jalon courant a un lot prêt, et `scripts/lint_lots.py` refuse un lot restant qui ne
+figure dans aucun jalon (règle 14).
 
 **Quelle date pour la `0.0.1` ?** Aucune n'est annoncée ici, et ce n'est pas une prudence de
 principe : les trente et un lots livrés l'ont été entre le 3 et le 14 septembre 2026, soit une
@@ -89,7 +89,8 @@ régions. Ce tableau donne le **reste à faire**, pas une date.
 
 L'ordre ci-dessous n'est pas arbitré : il est **calculé** depuis le graphe de dépendances, par la
 règle de la **section 6** — *à chaque pas, parmi les lots dont tous les prérequis sont faits,
-celui qui en débloque le plus* — et vérifié en intégration continue par `scripts/lint_lots.py`.
+celui du jalon de version le plus proche ; à jalon égal, celui qui en débloque le plus* — et
+vérifié en intégration continue par `scripts/lint_lots.py`.
 Le détail de chaque lot est en section 5 (filière contenu) et en section 11 (lots absorbés) ; ce
 tableau n'en porte volontairement aucun.
 
@@ -101,38 +102,38 @@ tableau n'en porte volontairement aucun.
 | 4 | `LOT-15` | PNJ et dialogues | 14 | prêt |
 | 5 | `LOT-21` | Attaques, dégâts et états | 14 | en attente |
 | 6 | `LOT-22` | Portée, ligne de vue et zones d'effet | 13 | en attente |
-| 7 | `LOT-80` | Factions, panthéon et organisations | 13 | prêt |
-| 8 | `LOT-11` | Éditeur multi-couches et placement d'entités | 12 | prêt |
-| 9 | `LOT-16` | Quêtes et drapeaux de monde | 12 | en attente |
-| 10 | `LOT-09` | Graphe de cartes et transitions | 11 | prêt |
-| 11 | `LOT-23` | IA tactique ennemie | 11 | en attente |
-| 12 | `LOT-17` | Sauvegarde riche | 10 | en attente |
-| 13 | `LOT-24` | IHM de combat | 10 | en attente |
-| 14 | `LOT-27` | Contenu du *vertical slice* | 9 | en attente |
-| 15 | `LOT-81` | Descripteurs de terrain et règles de zone des treize régions | 8 | prêt |
-| 16 | `LOT-40` | Générateur de terrain | 7 | en attente |
-| 17 | `LOT-44` | Noms, tables aléatoires et contenu d'ambiance | 7 | prêt |
-| 18 | `LOT-46` | Créatures de Tanares | 7 | prêt |
-| 19 | `LOT-89` | Dons, objets magiques et consommables de Tanares | 7 | prêt |
-| 20 | `LOT-26` | Butin, marchands, économie | 6 | en attente |
-| 21 | `LOT-41` | Peuplement : rencontres et créatures | 6 | en attente |
-| 22 | `LOT-70` | Horloge, calendrier et lune | 5 | prêt |
-| 23 | `LOT-82` | Peuplement civil : PNJ, marchands et quêtes | 5 | en attente |
-| 24 | `LOT-35` | Sorts et états | 2 | prêt |
-| 25 | `LOT-42` | Voyage et carte du monde | 2 | en attente |
-| 26 | `LOT-84` | Les 31 tables de progression de classe | 2 | prêt |
-| 27 | `LOT-29` | Groupe de quatre personnages | 1 | en attente |
-| 28 | `LOT-45` | Guilde des Aventuriers : rangs et contrats | 1 | en attente |
-| 29 | `LOT-47` | Socle de classe, et le guerrier comme preuve | 1 | en attente |
+| 7 | `LOT-11` | Éditeur multi-couches et placement d'entités | 12 | prêt |
+| 8 | `LOT-16` | Quêtes et drapeaux de monde | 12 | en attente |
+| 9 | `LOT-09` | Graphe de cartes et transitions | 11 | prêt |
+| 10 | `LOT-23` | IA tactique ennemie | 11 | en attente |
+| 11 | `LOT-17` | Sauvegarde riche | 10 | en attente |
+| 12 | `LOT-24` | IHM de combat | 10 | en attente |
+| 13 | `LOT-27` | Contenu du *vertical slice* | 9 | en attente |
+| 14 | `LOT-28` | Audio, effets et version `0.0.1` | 0 | en attente |
+| 15 | `LOT-88` | Spécifications : retrait de l'héritage plateforme | 0 | prêt |
+| 16 | `LOT-81` | Descripteurs de terrain et règles de zone des treize régions | 8 | prêt |
+| 17 | `LOT-40` | Générateur de terrain | 7 | en attente |
+| 18 | `LOT-44` | Noms, tables aléatoires et contenu d'ambiance | 7 | prêt |
+| 19 | `LOT-46` | Créatures de Tanares | 7 | prêt |
+| 20 | `LOT-89` | Dons, objets magiques et consommables de Tanares | 7 | prêt |
+| 21 | `LOT-26` | Butin, marchands, économie | 6 | en attente |
+| 22 | `LOT-41` | Peuplement : rencontres et créatures | 6 | en attente |
+| 23 | `LOT-80` | Factions, panthéon et organisations | 6 | prêt |
+| 24 | `LOT-70` | Horloge, calendrier et lune | 5 | prêt |
+| 25 | `LOT-82` | Peuplement civil : PNJ, marchands et quêtes | 5 | en attente |
+| 26 | `LOT-35` | Sorts et états | 2 | prêt |
+| 27 | `LOT-42` | Voyage et carte du monde | 2 | en attente |
+| 28 | `LOT-29` | Groupe de quatre personnages | 1 | en attente |
+| 29 | `LOT-45` | Guilde des Aventuriers : rangs et contrats | 1 | en attente |
 | 30 | `LOT-74` | Expérience et progression | 1 | en attente |
 | 31 | `LOT-25` | Sorts et capacités de classe | 0 | en attente |
-| 32 | `LOT-28` | Audio, effets et version `0.0.1` | 0 | en attente |
-| 33 | `LOT-49` | Contrôle de cohérence du contenu | 0 | prêt |
-| 34 | `LOT-69` | Retrait de l'atelier pixel art | 0 | en attente |
-| 35 | `LOT-72` | Conditions, agonie et mort | 0 | en attente |
-| 36 | `LOT-75` | Campement et repos dans le monde | 0 | en attente |
-| 37 | `LOT-83` | Compagnie : rangs de Guilde, niveau d'équipe et quartier général | 0 | en attente |
-| 38 | `LOT-88` | Spécifications : retrait de l'héritage plateforme | 0 | prêt |
+| 32 | `LOT-49` | Contrôle de cohérence du contenu | 0 | prêt |
+| 33 | `LOT-69` | Retrait de l'atelier pixel art | 0 | en attente |
+| 34 | `LOT-72` | Conditions, agonie et mort | 0 | en attente |
+| 35 | `LOT-75` | Campement et repos dans le monde | 0 | en attente |
+| 36 | `LOT-84` | Les 31 tables de progression de classe | 2 | prêt |
+| 37 | `LOT-47` | Socle de classe, et le guerrier comme preuve | 1 | en attente |
+| 38 | `LOT-83` | Compagnie : rangs de Guilde, niveau d'équipe et quartier général | 0 | en attente |
 | 39 | `LOT-90` | Le plan pénombral | 0 | en attente |
 | 40 | `LOT-51` → `LOT-65` | une classe par lot | 0 | en attente |
 
@@ -1159,7 +1160,7 @@ région ; une auberge garantit un repos non interrompu ; l'horloge avance du mon
 
 ### `LOT-80` — Factions, panthéon et organisations {#lot-80}
 
-*Prérequis : `LOT-37`. Alimente [LOT-16](@ref lot-16), `LOT-82`.*
+*Prérequis : `LOT-37`. Alimente `LOT-82`.*
 
 Détaché du `LOT-37` à l'audit : les **5 factions** (avec leurs 15 entreprises et 23 secrets, qui
 sont des gabarits de quête tout faits), **18 divinités** avec domaines, **13 organisations** à
@@ -1172,8 +1173,10 @@ République — `Magic Access` seul ne l'exprime pas), vers `Source/Elements/Wor
 
 Ce sont les entités **transverses aux régions**, et elles servent un autre consommateur que l'atlas :
 une faction porte des objectifs qui se traduisent en quêtes, un panthéon porte des domaines qui se
-traduisent en capacités. C'est ce qui rend le [LOT-16](@ref lot-16) écrivable plutôt qu'improvisable
-— et c'est aussi pourquoi ce lot peut arriver après le `LOT-37` sans retarder le graphe de cartes.
+traduisent en capacités. C'est ce qui rend les quêtes **par gabarit** du `LOT-82` écrivables plutôt
+qu'improvisées. Le [LOT-16](@ref lot-16) n'en dépend pas : le slice (`0.0.1`) n'a qu'une quête,
+écrite à la main — ce lot est de la `0.0.2`, et le lien qui le plaçait avant le slice a été retiré
+le 14 septembre 2026.
 
 *Acceptation* — toute faction, divinité ou organisation citée par une région du `LOT-37` existe dans
 le catalogue ; chaque faction déclare au moins un objectif exploitable comme gabarit de quête ;
@@ -1402,8 +1405,15 @@ Cette section donne donc **une suite unique**, et la règle qui la produit.
 
 ### La règle
 
-> **À chaque pas, on prend, parmi les lots dont tous les prérequis sont faits, celui qui en
-> débloque le plus.** À égalité, le plus petit numéro.
+> **À chaque pas, on prend, parmi les lots dont tous les prérequis sont faits, celui du jalon de
+> version le plus proche ; à jalon égal, celui qui en débloque le plus.** À égalité, le plus petit
+> numéro.
+
+Le jalon prime, et c'est un ajout du 14 septembre 2026 : sans lui, le calcul plaçait les factions
+du bac à sable (`0.0.2`) au rang 7, devant le contenu du slice (`0.0.1`), parce qu'elles
+débloquaient davantage — un ordre exact pour le graphe, faux pour le programme. Le jalon est la
+seule priorité que le graphe ne dit pas, et la seule que l'auteur fixe à la main, dans le tableau
+en tête de page.
 
 « Débloque » se compte : c'est le nombre de lots restants qui dépendent de celui-ci, directement
 ou en cascade. Le `LOT-30` en débloque **quarante-neuf** sur soixante-neuf, le `LOT-10` vingt-cinq,
@@ -1636,7 +1646,7 @@ eux-mêmes.
 | `LOT-72` | Conditions, agonie et mort | `LOT-12`, `LOT-21`, `LOT-35` | — |
 | `LOT-74` | Expérience et progression | `LOT-13`, `LOT-16`, `LOT-20` | `LOT-83` |
 | `LOT-75` | Campement et repos dans le monde | `LOT-41`, `LOT-42`, `LOT-70` | — |
-| `LOT-80` | Factions, panthéon et organisations | `LOT-37` | `LOT-16`, `LOT-82` |
+| `LOT-80` | Factions, panthéon et organisations | `LOT-37` | `LOT-82` |
 | `LOT-81` | Descripteurs de terrain et règles de zone des treize régions | `LOT-37` | `LOT-40` |
 | `LOT-82` | Peuplement civil : PNJ, marchands et quêtes | `LOT-15`, `LOT-26`, `LOT-34`, `LOT-41`, `LOT-44`, `LOT-80` | `LOT-42`, `LOT-45` |
 | `LOT-83` | Compagnie : rangs de Guilde, niveau d'équipe et quartier général | `LOT-29`, `LOT-45`, `LOT-74` | — |
