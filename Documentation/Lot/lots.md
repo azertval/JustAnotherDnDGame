@@ -60,6 +60,7 @@ c'est un identifiant stable, jamais réordonné.
 - @subpage lot-19
 - @subpage lot-20
 - @subpage lot-50
+- @subpage lot-15
 
 ## Feuille de route
 
