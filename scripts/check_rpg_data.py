@@ -82,6 +82,8 @@ FAMILLES = {
     'feats': 'feat',
     # Atlas (LOT-37).
     'regions': 'region',
+    # Le Colisee (LOT-50) : les arenes sont des donnees de lieu, une par variante regionale.
+    'arena': 'arena',
     'locations': 'location',
     # Fiches de personnage (LOT-38). Seule famille de ce dossier a decrire une INSTANCE et non un
     # catalogue : une espece est un modele dont on tire des personnages, une fiche EST un
@@ -99,6 +101,7 @@ REGLES = {
     'experience': 'experience',
     'character-creation': 'character-creation',
     'encumbrance': 'encumbrance',
+    'heroic-marks': 'heroic-marks',
 }
 
 # Énumération fermée d'un schéma ↔ catégorie du lexique. `equivalence` exige l'égalité des deux

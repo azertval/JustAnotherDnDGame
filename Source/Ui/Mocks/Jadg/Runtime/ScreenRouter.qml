@@ -14,7 +14,8 @@ QtObject {
         Options,
         Pause,
         Credits,
-        RpgScreen
+        RpgScreen,
+        Arena
     }
 
     enum RpgScreen {
@@ -44,6 +45,8 @@ QtObject {
     function quitToMenu() {}
     function openCredits() {}
     function closeCredits() {}
+    function openArena() {}
+    function closeArena() {}
     function openRpgScreen(screen) {}
     function closeRpgScreen() {}
     function nextRpgScreen() {}

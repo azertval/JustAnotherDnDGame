@@ -1,0 +1,15 @@
+{
+  "id": "arena-of-the-future",
+  "name": "Arena of the Future",
+  "source": "tanares",
+  "status": {
+    "provisoire": true,
+    "raison": "La region de l'Arene du Futur n'a pas ete relue dans le Sourcebook ; l'Empire central est un choix de commodite (LOT-50).",
+    "retraitSi": "La relecture des livres (LOT-46 ou LOT-80) confirme ou corrige la region ; le champ status disparait alors."
+  },
+  "region": "central-empire",
+  "map": "arena-of-the-future.json",
+  "lethal": false,
+  "heroicMark": true,
+  "description": "L'arene non letale de l'Empire : deux camps y reglent un litige par leurs champions, sous la protection du rituel de Marque Heroique de l'Eglise evolutionniste. Personne n'y meurt, et un affrontement s'y rejoue autant de fois qu'il le faut."
+}

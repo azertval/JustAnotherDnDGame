@@ -64,6 +64,11 @@ TEST(ScreenFlowTest, TransitionsAutoriseesMenentALEcranAttendu) {
     EXPECT_EQ(resolveTransition(menu, ScreenEvent::OpenRpgScreen)->screen, ScreenId::RpgScreen);
     EXPECT_EQ(resolveTransition(game, ScreenEvent::OpenRpgScreen)->screen, ScreenId::RpgScreen);
     EXPECT_EQ(resolveTransition(pause, ScreenEvent::OpenRpgScreen)->screen, ScreenId::RpgScreen);
+    // Le Colisee (LOT-50) : un mode du jeu, ouvert depuis le menu et refermé vers lui.
+    const ScreenState arena{.screen = ScreenId::Arena, .optionsReturnTo = ScreenId::Menu};
+    EXPECT_EQ(resolveTransition(menu, ScreenEvent::OpenArena)->screen, ScreenId::Arena);
+    EXPECT_EQ(resolveTransition(arena, ScreenEvent::CloseArena)->screen, ScreenId::Menu);
+    EXPECT_EQ(resolveTransition(arena, ScreenEvent::OpenMenu)->screen, ScreenId::Menu);
     // Aperçu en direct / onglet Rejeu (LOT-ANNEXE-21) : ramène au Menu une fois la lecture
     // terminée (même convention que l'ancien "Regarder l'IA jouer", LOT-ANNEXE-18).
 }
@@ -111,6 +116,7 @@ TEST(ScreenFlowTest, TransitionInterditeEstRefusee) {
     const ScreenState editor{.screen = ScreenId::Editor, .optionsReturnTo = ScreenId::Menu};
     const ScreenState menu{.screen = ScreenId::Menu, .optionsReturnTo = ScreenId::Menu};
     const ScreenState game{.screen = ScreenId::Game, .optionsReturnTo = ScreenId::Menu};
+    const ScreenState pause{.screen = ScreenId::Pause, .optionsReturnTo = ScreenId::Menu};
 
     EXPECT_EQ(resolveTransition(editor, ScreenEvent::OpenPause), std::nullopt);
     EXPECT_EQ(resolveTransition(menu, ScreenEvent::OpenPause), std::nullopt);
@@ -123,6 +129,10 @@ TEST(ScreenFlowTest, TransitionInterditeEstRefusee) {
     // Ecrans du RPG (LOT-68) : l'editeur n'y mene pas -- ce sont des ecrans de JOUEUR.
     EXPECT_EQ(resolveTransition(editor, ScreenEvent::OpenRpgScreen), std::nullopt);
     EXPECT_EQ(resolveTransition(menu, ScreenEvent::CloseRpgScreen), std::nullopt);
+    // L'arene ne s'ouvre pas depuis une partie ni depuis la pause (LOT-50).
+    EXPECT_EQ(resolveTransition(game, ScreenEvent::OpenArena), std::nullopt);
+    EXPECT_EQ(resolveTransition(pause, ScreenEvent::OpenArena), std::nullopt);
+    EXPECT_EQ(resolveTransition(menu, ScreenEvent::CloseArena), std::nullopt);
 }
 
 /**

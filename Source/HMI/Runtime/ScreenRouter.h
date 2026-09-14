@@ -62,6 +62,8 @@ public:
         Pause,
         Credits,
         RpgScreen,
+        /// Le Colisée (`LOT-50`).
+        Arena,
     };
     Q_ENUM(Screen)
 
@@ -95,6 +97,10 @@ public:
     Q_INVOKABLE void quitToMenu();
     Q_INVOKABLE void openCredits();
     Q_INVOKABLE void closeCredits();
+
+    /// Ouvre le Colisée depuis le menu, et en revient. Un mode du jeu, pas un écran du RPG.
+    Q_INVOKABLE void openArena();
+    Q_INVOKABLE void closeArena();
 
     /// Ouvre un écran du RPG. L'écran d'où l'on vient est retenu par la table : refermer y revient,
     /// qu'on soit venu du menu, du jeu ou de la pause.

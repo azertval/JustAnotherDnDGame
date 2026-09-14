@@ -21,7 +21,7 @@ import Jadg.App
     renommé fait échouer le contrôle, pas le jeu.
 
     Chaque écran est enveloppé dans un `Component` : il n'est construit qu'une fois choisi. Les
-    quatorze écrans ne vivent jamais tous en même temps.
+    quinze écrans ne vivent jamais tous en même temps.
 
     `--screen=<Nom>` court-circuite le routeur. C'est un outil de vérification, pas un chemin de
     jeu : les écrans dessinés mais pas encore alimentés ne sont atteignables par aucun autre moyen.
@@ -32,7 +32,7 @@ Item {
     /// Écran imposé au lancement, ou chaîne vide pour laisser le routeur décider.
     property string forcedScreen: ""
 
-    /// Les quatorze écrans, dans l'ordre où le sélecteur de développement les fait défiler, puis
+    /// Les quinze écrans, dans l'ordre où le sélecteur de développement les fait défiler, puis
     /// la galerie des briques de la charte v2 (LOT-87) -- qui n'est pas un écran du jeu, et que le
     /// routeur ne désigne jamais.
     /// Le même vocabulaire que `--screen=` : deux listes différentes auraient fini par diverger,
@@ -40,7 +40,7 @@ Item {
     readonly property var screenNames: [
         "MainMenu", "GameView", "Pause", "Options", "Credits",
         "CharacterSheet", "Skills", "Inventory", "Journal", "WorldMap", "Dialogue",
-        "Merchant", "Company", "CombatHud", "Gallery"
+        "Merchant", "Company", "CombatHud", "Arena", "Gallery"
     ]
 
     Component { id: menuScreen; MainMenu {} }
@@ -57,6 +57,7 @@ Item {
     Component { id: merchantScreen; Merchant {} }
     Component { id: companyScreen; Company {} }
     Component { id: combatHudScreen; CombatHud {} }
+    Component { id: arenaScreen; Arena {} }
     // La galerie est le point d'entrée de l'atelier (`DesignStudio/Main.ui.qml`), posée telle quelle :
     // aucun jumeau, rien à câbler -- c'est ce qui prouve que les briques se résolvent au jeu comme à
     // l'atelier.
@@ -116,6 +117,7 @@ Item {
         case ScreenRouter.Pause:     return pauseScreen
         case ScreenRouter.RpgScreen: return root.rpgScreen(ScreenRouter.currentRpgScreen)
         case ScreenRouter.Game:      return gameScreen
+        case ScreenRouter.Arena:     return arenaScreen
         }
         return menuScreen
     }
@@ -153,6 +155,7 @@ Item {
         case "Merchant":       return merchantScreen
         case "Company":        return companyScreen
         case "CombatHud":      return combatHudScreen
+        case "Arena":          return arenaScreen
         case "Gallery":        return galleryScreen
         }
         return menuScreen

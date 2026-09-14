@@ -31,6 +31,10 @@ enum class ScreenId {
     /// seule page. Les y déclarer un par un aurait multiplié par huit les transitions à écrire
     /// pour n'exprimer, huit fois, que la même règle.
     RpgScreen,
+    /// Le Colisée (`LOT-50`) : la mise en place d'un affrontement et sa grille. Un écran de
+    /// premier niveau, comme `Game`, parce que l'arène est un **mode du jeu** et non l'un des
+    /// écrans du RPG qui se consultent depuis une partie.
+    Arena,
 };
 
 /// Événement pouvant déclencher une transition d'écran. Un seul événement `OpenOptions`/
@@ -52,6 +56,9 @@ enum class ScreenEvent {
     /// `optionsReturnTo` le fait pour Options.
     OpenRpgScreen,
     CloseRpgScreen,
+    /// Ouvre le Colisée depuis le menu ; `CloseArena` y revient.
+    OpenArena,
+    CloseArena,
 };
 
 /// Habillage de fenêtre associé à un écran : ce que chaque `showXxx()` répétait à la main

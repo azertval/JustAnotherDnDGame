@@ -34,6 +34,7 @@ ScreenDressing dressingFor(ScreenId screen) noexcept {
         case ScreenId::Options:
         case ScreenId::Credits:
         case ScreenId::RpgScreen:
+        case ScreenId::Arena:
             // Même habillage que Menu : page du QStackedWidget, jamais un recouvrement.
             //
             // Les écrans du RPG (LOT-68) partagent ce cas, et c'est une DECISION, pas un
@@ -88,6 +89,22 @@ std::optional<ScreenState> resolveTransition(const ScreenState& current,
                     return ScreenState{.screen = ScreenId::RpgScreen,
                                        .optionsReturnTo = ScreenId::Menu,
                                        .rpgReturnTo = ScreenId::Menu};
+                // Le Colisée (LOT-50) s'ouvre depuis le menu — « Nouvelle partie », tant que
+                // c'est la seule carte jouable — et seulement de là : c'est un mode du jeu, pas
+                // un écran qu'on consulte pendant une partie. Le jour où l'arène
+                // s'ouvrira depuis le monde comme une carte ordinaire (LOT-42), ce sera par
+                // `Game`, pas par cet événement.
+                case ScreenEvent::OpenArena:
+                    return ScreenState{.screen = ScreenId::Arena,
+                                       .optionsReturnTo = ScreenId::Menu};
+                default:
+                    return std::nullopt;
+            }
+        case ScreenId::Arena:
+            switch (event) {
+                case ScreenEvent::CloseArena:
+                case ScreenEvent::OpenMenu:
+                    return ScreenState{.screen = ScreenId::Menu, .optionsReturnTo = ScreenId::Menu};
                 default:
                     return std::nullopt;
             }

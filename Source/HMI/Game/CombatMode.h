@@ -48,8 +48,10 @@ namespace hmi {
  *
  * Sans état, donc, comme `hmi::ExplorationMode` : le mode ne décide que de l'ordre. Le tour
  * courant est une mémoire, et elle vit dans `core::CombatState` (`LOT-20`), hors de ce mode pour la
- * même raison ; la brancher sur la session de jeu est l'affaire de l'IHM de combat (`LOT-24`) et de
- * l'arène (`LOT-50`).
+ * même raison. Le Colisée (`LOT-50`) est le premier lieu du jeu qui la **tient**, dans
+ * `core::ArenaSession`, sans passer par ce mode : l'arène est une carte à elle seule, et rien n'y
+ * est à geler. La brancher sur la session de jeu — sur une carte d'exploration gelée — reste
+ * l'affaire de l'IHM de combat (`LOT-24`).
  */
 class CombatMode final : public IGameMode {
 public:

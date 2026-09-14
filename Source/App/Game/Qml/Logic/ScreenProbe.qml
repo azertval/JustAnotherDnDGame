@@ -6,8 +6,8 @@ import Jadg.Runtime
     Sélecteur d'écrans -- OUTIL DE VÉRIFICATION, côté développeur (LOT-86).
 
     Deux boutons posés par-dessus l'interface, qui font défiler les écrans et la galerie. Ils existent
-    parce que le viewport du jeu n'affiche encore aucune scène (`Source/Elements/Levels/` est vide
-    par construction depuis le `LOT-01`) : sans eux, les sept écrans dessinés mais pas encore
+    parce que le viewport du jeu n'affiche encore aucune scène (`Source/Elements/Levels/` ne porte
+    que la carte de l'arène du `LOT-50`, que l'écran du Colisée dessine lui-même) : sans eux, les sept écrans dessinés mais pas encore
     alimentés ne sont atteignables par aucun chemin de jeu, et ne se vérifient donc pas.
 
     **Ce n'est pas une fonctionnalité, et le code le garantit** : `visible` se lie à
@@ -18,7 +18,7 @@ import Jadg.Runtime
     Ce n'est pas de la paresse mais ce qui lui évite d'écrire la moindre couleur -- `EX-IHM-105`
     tient alors sans qu'on lui invente d'exception, et une exception dans un contrôle automatique
     finit toujours par en couvrir une deuxième. Ce qui le distingue de l'interface n'est donc pas sa
-    teinte mais son libellé, « n/14 · NomDÉcran », qui ne peut être pris pour du contenu de jeu.
+    teinte mais son libellé, « n/15 · NomDÉcran », qui ne peut être pris pour du contenu de jeu.
 
     Il se pose en **bas** de la fenêtre : le haut porte le bandeau de titre de chaque écran, et une
     barre en travers y rendait les captures de vérification inutilisables -- justement celles qu'il
