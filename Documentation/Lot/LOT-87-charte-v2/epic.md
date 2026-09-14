@@ -848,6 +848,81 @@ Les neuf tâches sont faites, **une PR par tâche, empilées** : #28 (T3.1, fusi
 #36. Aucune image du cahier n'est encore produite : tous les écrans sont posés sur les aplats de
 repli des briques, et les captures jugent la mise en page. La porte 3 attend la revue.
 
+## Phase 4 — le cadre du HUD
+
+### T4.1 — Le HUD de jeu (maquette 01), sans la scène
+
+Le cadre de la maquette, posé **par-dessus** la surface de rendu : ni fond ni panneau plein écran,
+tout ce qui n'est pas un bloc laisse voir la scène. La scène elle-même reste le viewport QRhi en
+pixel art ; la scène isométrique peinte de la maquette n'est pas un objectif du moteur (charte v2,
+« ce qui est écarté »).
+
+- **Un châssis, deux formulaires.** `HudFrame` (`Controls/`) porte ce que la vue de jeu et le
+  combat partagent : l'hôte de la surface de rendu, le personnage actif (portrait HUD et pastille de
+  niveau, plaque du nom, jauges de vie et d'expérience), la colonne des quatre membres, la barre de
+  boussole, la mini-carte, les quêtes, le jour et le lieu, les raccourcis de navigation et
+  l'indicateur de mode. `GameViewForm` le pose en mode `exploration`, avec le rappel « aucune carte
+  à jouer » ; `CombatHudForm` en mode `combat`, et y ajoute ce qui n'appartient qu'au combat :
+  journal, ordre d'initiative, roue et barre de huit actions, fiche de la cible. Même motif que
+  `ScreenPage` au T3.9 : le cadre dans le châssis, le propre de l'écran dans le formulaire.
+- **Le HUD de combat se superpose au viewport**, qu'il pose lui aussi dans l'hôte : c'est un écran
+  du routeur, que la pile charge **à la place** de la vue de jeu, et sans surface à lui il aurait
+  masqué la scène au lieu de l'encadrer.
+- **Tout est en attente** (`PendingData`), comme le plan le veut : **10 clés `hud.*`**, lues à
+  l'identique par les deux jumeaux, et **12 clés `combat_hud.*`**, relevées par
+  `list_pending_bindings.py`. L'exploration et le groupe (`LOT-19`, `LOT-20`) et le combat
+  tactique (`LOT-24`) remplaceront `PendingData` dans les jumeaux, sans toucher aux formulaires. Le
+  cadre l'annonce sous la boussole (« HUD dessiné, données à venir »), sur un aplat : sous le cadre,
+  c'est la scène, dont rien ne garantit le contraste.
+- **Les listes suivent `SheetRowModel`** (`label`, `value`), ce que `PendingData.rows()` pose : un
+  membre porte son nom, ses points de vie (`42 / 52`) et un rôle facultatif `ratio` qui remplit sa
+  jauge — le formulaire ne découpe pas la chaîne, Qt Design Studio y refusant tout appel de
+  fonction (`qmllint` 6.11 le signale) —, une quête son titre
+  et son objectif (la première est la quête suivie), une ligne du journal son texte et le tour
+  qu'elle ouvre (`ally`, `enemy`), une action son nom et ses charges.
+- **Clavier d'abord.** Chaque case d'action écrit sa touche dessous, et les touches `1` à `8` du
+  jumeau choisissent l'action que la roue affiche. Les raccourcis de navigation ouvrent l'inventaire,
+  le journal, la carte et les options par le routeur, depuis la vue de jeu comme depuis le combat.
+- **Deux jetons relevés**, comme la charte le laissait au T4.1 : `textAlly` (`#74e4fc`, « Tour de
+  Kaelith Voss », zone (72, 692, 228, 710)) et `textEnemy` (`#ac443c`, « Tour de l'ennemi »,
+  (72, 806, 190, 824)), mesure « trait » sur la maquette 01, ajoutés à
+  `measure_mockup_palette.py` (`--check` : 12 rôles, 0 divergence). L'or de la quête suivie est
+  `goldLight`, déjà relevé. Le camp se lit **aussi** à sa marque — losange pour un allié, rond pour
+  un ennemi —, jamais à sa seule teinte.
+- **Deux briques**, dans la galerie : `ActionSlot` (`ui/slot/action`, nom écrit dans la case tant que
+  l'icône manque, charges, raccourci) et `OrnateRoundButton` (`ui/button/round` et son icône
+  `ui/icon/nav/*`, libellé dans le rond tant que l'icône manque). Pas `RoundButton` : le nom est pris
+  par `QtQuick.Controls`.
+- **Plus aucun formulaire n'emploie les contrôles v1** (`RpgScreenFrame`, `ParchmentFrame`,
+  `Cabochon`, `TitleBanner`, `MenuEntry`, `FocusFleuron`, `Sheet*`) : ils ne se citent plus
+  qu'entre eux, et partent au T5.2.
+
+Écarts :
+
+- **Deux modes, pas trois.** La maquette écrit « Exploration · Tactique · Aventure » ; le moteur ne
+  connaît que `exploration` et `combat` (`IGameMode::name()`). « Aventure » reviendra avec un mode
+  qui la porte.
+- **Pas de boutons de zoom** sur la mini-carte : il n'y a pas encore de carte locale à agrandir
+  (`EX-IHM-072`). La mini-carte est une image en attente (`hud.minimap`).
+- **Un ordre d'initiative**, absent de la maquette, sous la boussole : la feuille de route du
+  `LOT-24` le demande, et la v1 l'affichait. La fiche de la cible garde de même ses **états**.
+- **Pas d'icône de classe** à droite des membres ni d'icône par ligne du journal : aucune pièce du
+  cahier ne les porte. Le membre actif est marqué par `FocusMark` (`EX-IHM-071`).
+- **Boussole fixe** (O, N, E), comme sur la carte du monde (T3.6) : la caméra ne tourne pas.
+- **Quatre raccourcis** : Sac, Quêtes, Carte, Options — les icônes de la maquette (sac, livre,
+  parchemin, roue dentée), prises dans `ui/icon/nav`.
+
+`jadg_en.ts` est régénéré (`update_translations`) : outre les chaînes du HUD, il rattrape celles de
+`ScreenPage` (T3.9) et du jumeau de la carte (T3.6), que le fichier n'avait pas encore.
+
+| Maquette | Combat, 1920 × 1080 | Combat, 1280 × 720 |
+|---|---|---|
+| ![maquette 01](references/01_InGame_HUD_Mockup.png) | ![combat à 1080p](captures/t4-1-combat-1080p.png) | ![combat à 720p](captures/t4-1-combat-720p.png) |
+
+| Exploration, 1920 × 1080 | Exploration, 1280 × 720 |
+|---|---|
+| ![exploration à 1080p](captures/t4-1-exploration-1080p.png) | ![exploration à 720p](captures/t4-1-exploration-720p.png) |
+
 ## Exigences couvertes
 
 - [`EX-IHM-070`](@ref EX-IHM-070), [`EX-IHM-075`](@ref EX-IHM-075), [`EX-IHM-076`](@ref EX-IHM-076),

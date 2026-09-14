@@ -188,6 +188,21 @@ Rectangle {
                         }
                     }
 
+                    RowLayout {
+                        spacing: Tokens.gapSmall
+
+                        ActionSlot { label: "Arc long"; shortcut: "1"; active: true }
+                        ActionSlot { label: "Potion"; quantity: "3"; shortcut: "2" }
+                        ActionSlot { label: "Piège"; shortcut: "3"; enabled: false }
+
+                        Item { Layout.preferredWidth: Tokens.gapLarge }
+
+                        OrnateRoundButton { text: "Sac" }
+                        OrnateRoundButton { text: "Carte"; forcedState: "hover" }
+                        OrnateRoundButton { text: "Options"; forcedState: "pressed" }
+                        OrnateRoundButton { text: "Quêtes"; enabled: false }
+                    }
+
                     SectionBanner {
                         Layout.fillWidth: true
                         material: "dark"

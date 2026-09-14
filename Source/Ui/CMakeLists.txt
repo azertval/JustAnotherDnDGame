@@ -68,6 +68,9 @@ set(JADG_UI_QML_FILES
     Controls/LedgerList.ui.qml
     Controls/SpellEntry.ui.qml
     Controls/ScreenPage.ui.qml
+    Controls/ActionSlot.ui.qml
+    Controls/OrnateRoundButton.ui.qml
+    Controls/HudFrame.ui.qml
     Screens/CharacterSheetForm.ui.qml
     Screens/InventoryForm.ui.qml
     Screens/JournalForm.ui.qml
