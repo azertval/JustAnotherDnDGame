@@ -33,6 +33,8 @@ add_library(Core STATIC
     Resources/AssetKey.cpp
     Resources/AssetMarker.cpp
     Combat/CombatTransition.cpp
+    Combat/BattleGrid.cpp
+    Combat/Pathfinding.cpp
     Rpg/RpgEnumNames.cpp
     Rpg/Multiclassing.cpp
     Levels/TileMap.cpp

@@ -26,9 +26,10 @@ void CombatMode::onLoad(IGameModePasses& passes) {
 
 core::LevelOutcome CombatMode::step(IGameModePasses& passes, const core::PlayerInput& input,
                                     float fixedDelta) {
-    // L'intention du joueur n'est pas consommee par un deplacement libre : elle alimentera le
-    // budget de deplacement du tour (LOT-19). La recevoir sans l'employer est deliberé -- la
-    // signature est celle du mode, et l'ignorer ici est ce qui GELE le monde.
+    // L'intention du joueur n'est pas consommee par un deplacement libre : le deplacement d'un
+    // combattant se choisit parmi les cases de core::ReachableArea (LOT-19), et c'est le tour actif
+    // (LOT-20) qui le demandera. La recevoir sans l'employer est delibere -- la signature est celle
+    // du mode, et l'ignorer ici est ce qui GELE le monde.
     (void)input;
 
     // Interpolation (EX-ARCH-031) : meme raison qu'en exploration, et meme place -- avant tout ce
