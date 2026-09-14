@@ -28,8 +28,9 @@ institution du monde, et l'arène livrée ici est celle que le jeu final gardera
   jouable et non létale ; Feargus, létale ; le duel de baguettes de la Magocratie), les huit
   Marques Héroïques dans `Source/Elements/Rpg/rules/heroic-marks.json`, et leurs deux schémas.
 - **L'écran de mise en place et de jeu** : `hmi::ArenaModel` (`Source/HMI/Runtime/`), le
-  formulaire `ArenaForm.ui.qml` et son jumeau `Arena.qml`, l'entrée « Arène » du menu principal,
-  l'écran `Arena` de la table de navigation (`hmi::ScreenId::Arena`, `OpenArena`/`CloseArena`).
+  formulaire `ArenaForm.ui.qml` et son jumeau `Arena.qml`, ouvert par « Nouvelle partie » depuis
+  le menu principal, l'écran `Arena` de la table de navigation (`hmi::ScreenId::Arena`,
+  `OpenArena`/`CloseArena`).
 
 Il ne livre ni attaque, ni IA, ni IHM de combat sur la carte : le coup qui s'y joue est un **coup
 d'essai** (ci-dessous), et l'écran dessine la grille lui-même. Il ne livre pas non plus l'ouverture
@@ -117,10 +118,12 @@ lance rien.
 
 ## Relevé en chemin
 
-- **Le menu principal a sept entrées.** « Arène » s'intercale entre « Charger une partie » et
-  « Options » : la maquette du `LOT-87` n'en prévoyait pas, et l'entrée n'a pas d'icône. L'arène
-  est un mode du jeu, et un mode du jeu se trouve dans le menu, pas dans un sélecteur de
-  développement.
+- **« Nouvelle partie » ouvre l'arène** (décision de l'auteur, le jour de la livraison). C'est la
+  seule carte jouable du jeu tant que le `LOT-27` n'en livre pas d'autre, et l'arène est un mode du
+  jeu, pas un outil de vérification : elle se trouve dans le menu, pas dans un sélecteur de
+  développement. Le formulaire du menu garde ses six entrées de la maquette ; la vue de jeu reste
+  atteignable par `--screen=GameView`, et c'est le seul appel du câblage qui changera le jour où
+  une partie s'ouvrira sur le monde.
 - **Les commentaires qui disaient `Source/Elements/Levels/` vide** (`GameViewportItem.h`,
   `GameViewForm.ui.qml`, `ScreenProbe.qml`, le README du dossier) disent maintenant ce qu'il porte.
 - **`check_rpg_data.py`** connaît deux familles de plus : `arena` (sous `World/`) et la règle
@@ -139,7 +142,7 @@ lance rien.
 ## Critères d'acceptation
 
 - **Un affrontement se met en place, se joue et se rejoue sans quitter le jeu.** ✔ Depuis le menu
-  principal, l'entrée « Arène » ; composer, lancer, jouer case par case, rejouer, recomposer.
+  principal, « Nouvelle partie » ; composer, lancer, jouer case par case, rejouer, recomposer.
 - **À graine et composition égales, deux exécutions donnent le même déroulé.** ✔ Vérifié par test
   sur une escarmouche à cinq, journal complet ; une autre graine donne un autre journal.
 - **Aucun combattant n'y meurt définitivement.** ✔ À l'issue, tous relevés à leurs points de vie

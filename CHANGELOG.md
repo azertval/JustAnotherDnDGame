@@ -25,7 +25,7 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
   - **La donnée** : trois arènes du Sourcebook dans `Source/Elements/World/arena/` (`lethal`,
     `heroicMark`, `map`), les huit Marques Héroïques en règle, et leurs deux schémas ;
     `check_rpg_data.py` connaît les deux familles.
-  - **L'écran** : « Arène » au menu principal ; un écran de développeur en QML, sans charte, qui
+  - **L'écran** : « Nouvelle partie » ouvre l'arène ; un écran de développeur en QML, sans charte, qui
     compose deux camps depuis le bestiaire et le personnage de démonstration, choisit une Marque et
     une graine, lance, joue case par case, rejoue. `hmi::ScreenId::Arena` dans la table de
     navigation, `hmi::ArenaModel` dans `Jadg.Runtime`, sa doublure pour l'atelier.

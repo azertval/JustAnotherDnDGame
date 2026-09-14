@@ -19,6 +19,11 @@ import Jadg.Runtime
 
     Le profil est une donnee en attente (`PendingData`, cles `main_menu.profile.*`) : aucun lot ne
     tient encore de profil de joueur.
+
+    « Nouvelle partie » ouvre le COLISEE (LOT-50) : c'est la seule carte jouable du jeu tant que le
+    contenu du vertical slice (LOT-27) n'en livre pas d'autre, et l'arene est un mode du jeu, pas
+    un outil de verification. Le jour ou une partie s'ouvrira sur le monde, c'est ce seul appel qui
+    changera (`openGame`) ; la vue de jeu reste atteignable par `--screen=GameView`.
 */
 MainMenuForm {
     id: root
@@ -32,8 +37,7 @@ MainMenuForm {
 
     /// Les entrees, dans l'ordre de l'ecran : l'indice est celui de `currentIndex`.
     readonly property var entries: [root.continueEntry, root.newGameEntry, root.loadGameEntry,
-                                    root.arenaEntry, root.optionsEntry, root.creditsEntry,
-                                    root.quitEntry]
+                                    root.optionsEntry, root.creditsEntry, root.quitEntry]
 
     Keys.onUpPressed: root.step(-1)
     Keys.onDownPressed: root.step(1)
@@ -69,11 +73,10 @@ MainMenuForm {
         if (!root.entries[root.currentIndex].enabled)
             return;
         switch (root.currentIndex) {
-        case 1: ScreenRouter.openGame(); break
-        case 3: ScreenRouter.openArena(); break
-        case 4: ScreenRouter.openOptions(); break
-        case 5: ScreenRouter.openCredits(); break
-        case 6: Qt.quit(); break
+        case 1: ScreenRouter.openArena(); break
+        case 3: ScreenRouter.openOptions(); break
+        case 4: ScreenRouter.openCredits(); break
+        case 5: Qt.quit(); break
         }
     }
 
@@ -93,23 +96,18 @@ MainMenuForm {
         function onClicked() { root.choose(2) }
     }
     Connections {
-        target: root.arenaEntry
-        function onHoveredChanged() { if (root.arenaEntry.hovered) root.point(3) }
+        target: root.optionsEntry
+        function onHoveredChanged() { if (root.optionsEntry.hovered) root.point(3) }
         function onClicked() { root.choose(3) }
     }
     Connections {
-        target: root.optionsEntry
-        function onHoveredChanged() { if (root.optionsEntry.hovered) root.point(4) }
+        target: root.creditsEntry
+        function onHoveredChanged() { if (root.creditsEntry.hovered) root.point(4) }
         function onClicked() { root.choose(4) }
     }
     Connections {
-        target: root.creditsEntry
-        function onHoveredChanged() { if (root.creditsEntry.hovered) root.point(5) }
-        function onClicked() { root.choose(5) }
-    }
-    Connections {
         target: root.quitEntry
-        function onHoveredChanged() { if (root.quitEntry.hovered) root.point(6) }
-        function onClicked() { root.choose(6) }
+        function onHoveredChanged() { if (root.quitEntry.hovered) root.point(5) }
+        function onClicked() { root.choose(5) }
     }
 }

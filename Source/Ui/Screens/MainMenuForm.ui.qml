@@ -11,7 +11,7 @@ import Jadg.Ui
     - la scene en fond (`ui/background/menu-scene`) ; tant qu'elle n'est pas livree, la carte de
       Tanares extraite du corpus tient sa place, sous un degrade de `panel` qui porte la lisibilite
       du tiers gauche -- le decor reste visible, comme la maquette le veut ;
-    - le logotype en haut a gauche, et sous lui sept entrees a icone (la septieme, l'Arene, est du LOT-50 et n'a pas d'icone dans la maquette) ;
+    - le logotype en haut a gauche, et sous lui six entrees a icone ;
     - l'encart de profil en haut a droite, la citation en bas a gauche, la version en bas a droite.
 
     **Six entrees, dont deux sans destination.** « Continuer » et « Charger une partie » attendent
@@ -46,7 +46,6 @@ Item {
     property alias continueEntry: continueControl
     property alias newGameEntry: newGameControl
     property alias loadGameEntry: loadGameControl
-    property alias arenaEntry: arenaControl
     property alias optionsEntry: optionsControl
     property alias creditsEntry: creditsControl
     property alias quitEntry: quitControl
@@ -104,7 +103,7 @@ Item {
         width: 608 * Tokens.uiScale
     }
 
-    // --- Les sept entrees (maquette : 150, 355 -> 540, 805 ; pas de 88 px a 1080p ; l'Arene s'intercale) -----------------
+    // --- Les six entrees (maquette : 150, 355 -> 540, 805 ; pas de 88 px a 1080p) -----------------
     Column {
         id: entries
 
@@ -161,9 +160,10 @@ Item {
 
             FocusMark { anchors.verticalCenter: parent.verticalCenter; opacity: root.currentIndex === 3 ? 1 : 0 }
             OrnateButton {
-                id: arenaControl
+                id: optionsControl
                 kind: "menu"
-                text: qsTr("Arène")
+                iconKey: "ui/icon/menu/options"
+                text: qsTr("Options")
                 highlighted: root.currentIndex === 3
                 focusPolicy: Qt.NoFocus
             }
@@ -174,10 +174,10 @@ Item {
 
             FocusMark { anchors.verticalCenter: parent.verticalCenter; opacity: root.currentIndex === 4 ? 1 : 0 }
             OrnateButton {
-                id: optionsControl
+                id: creditsControl
                 kind: "menu"
-                iconKey: "ui/icon/menu/options"
-                text: qsTr("Options")
+                iconKey: "ui/icon/menu/credits"
+                text: qsTr("Crédits")
                 highlighted: root.currentIndex === 4
                 focusPolicy: Qt.NoFocus
             }
@@ -188,25 +188,11 @@ Item {
 
             FocusMark { anchors.verticalCenter: parent.verticalCenter; opacity: root.currentIndex === 5 ? 1 : 0 }
             OrnateButton {
-                id: creditsControl
-                kind: "menu"
-                iconKey: "ui/icon/menu/credits"
-                text: qsTr("Crédits")
-                highlighted: root.currentIndex === 5
-                focusPolicy: Qt.NoFocus
-            }
-        }
-
-        Row {
-            spacing: Tokens.gapSmall
-
-            FocusMark { anchors.verticalCenter: parent.verticalCenter; opacity: root.currentIndex === 6 ? 1 : 0 }
-            OrnateButton {
                 id: quitControl
                 kind: "menu"
                 iconKey: "ui/icon/menu/quit"
                 text: qsTr("Quitter")
-                highlighted: root.currentIndex === 6
+                highlighted: root.currentIndex === 5
                 focusPolicy: Qt.NoFocus
             }
         }

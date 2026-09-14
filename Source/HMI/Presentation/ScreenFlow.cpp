@@ -89,8 +89,9 @@ std::optional<ScreenState> resolveTransition(const ScreenState& current,
                     return ScreenState{.screen = ScreenId::RpgScreen,
                                        .optionsReturnTo = ScreenId::Menu,
                                        .rpgReturnTo = ScreenId::Menu};
-                // Le Colisée (LOT-50) s'ouvre depuis le menu, et seulement de là : c'est un mode
-                // du jeu, pas un écran qu'on consulte pendant une partie. Le jour où l'arène
+                // Le Colisée (LOT-50) s'ouvre depuis le menu — « Nouvelle partie », tant que
+                // c'est la seule carte jouable — et seulement de là : c'est un mode du jeu, pas
+                // un écran qu'on consulte pendant une partie. Le jour où l'arène
                 // s'ouvrira depuis le monde comme une carte ordinaire (LOT-42), ce sera par
                 // `Game`, pas par cet événement.
                 case ScreenEvent::OpenArena:
