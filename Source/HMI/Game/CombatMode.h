@@ -41,13 +41,15 @@ namespace hmi {
  *
  * ## Ce que ce mode ne fait pas encore
  *
- * Ni initiative, ni tour actif, ni résolution d'action : c'est le `LOT-20`. Ce lot-ci livre la
- * **bascule** — geler le monde, monter la rencontre, en revenir sans rien perdre — et l'état de la
- * rencontre engagée vit dans `core::EncounterRun`, hors de ce mode, précisément pour que
- * l'aller-retour se vérifie sans fenêtre.
+ * Ni initiative, ni tour actif, ni résolution d'action. Le `LOT-18` livre la **bascule** — geler le
+ * monde, monter la rencontre, en revenir sans rien perdre — et l'état de la rencontre engagée vit
+ * dans `core::EncounterRun`, hors de ce mode, précisément pour que l'aller-retour se vérifie sans
+ * fenêtre.
  *
  * Sans état, donc, comme `hmi::ExplorationMode` : le mode ne décide que de l'ordre. Le tour
- * courant, lui, sera une mémoire, et c'est le `LOT-20` qui la portera.
+ * courant est une mémoire, et elle vit dans `core::CombatState` (`LOT-20`), hors de ce mode pour la
+ * même raison ; la brancher sur la session de jeu est l'affaire de l'IHM de combat (`LOT-24`) et de
+ * l'arène (`LOT-50`).
  */
 class CombatMode final : public IGameMode {
 public:

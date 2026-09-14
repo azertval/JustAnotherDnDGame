@@ -6,6 +6,32 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **Initiative et tour par tour** (`LOT-20`, `EX-CBT-010`, `EX-CBT-011`, `EX-CBT-012`). Le combat a
+  son horloge : qui joue avant qui, ce qu'un tour permet, et comment un combat finit.
+  - **L'initiative est jetée une fois, et départagée par une règle écrite.** Total, modificateur,
+    Dextérité, alliés avant ennemis, identifiant — l'ordre de la donnée, jamais celui de la mémoire.
+    La relance d'un d20 que le Manuel laisse au MD est écartée : elle ferait dépendre l'ordre du
+    nombre d'égalités survenues avant. Cent vingt ordres d'insertion donnent la même suite.
+  - **Le tour ne finit que sur demande** (`endTurn`) : épuiser ses ressources ne termine rien. Le
+    curseur du round est une **place**, pas un indice — un renfort ou un fuyard ne fait sauter aucun
+    tour, et un renfort rangé après la place en cours joue ce round-ci.
+  - **L'économie d'action est une liste** (`core::ActionEconomy`) : la troisième économie des
+    Marques Héroïques se déclare, une réaction s'octroie. Chaque ressource revient au début du tour
+    de son porteur, jamais à la fin du tour courant ; le déplacement se fractionne.
+  - **Les trois fins** — victoire, défaite, fuite —, évaluées après chaque changement. Une salve qui
+    abat les deux camps est une défaite, quel que soit l'ordre des cibles ; un ennemi en fuite
+    compte pour la victoire ; une rencontre dont on ne fuit pas refuse la sortie d'un allié.
+  - **Neuf crochets nommés** (`core::CombatHook`), des repères d'initiative fixe qui perdent les
+    égalités (repaire à 20, renforts à 0), un acteur flottant, des compteurs par tour, round,
+    rencontre et jour, et une mémoire d'immunité par couple (créature, source). Ce qu'un abonné
+    change se règle en sortant de l'appel, jamais au milieu d'une annonce.
+  - **La grille est remplie** : `core::mountEncounter` pose le groupe et la rencontre en nommant
+    chaque refus ; `moverFor` dit qui l'on traverse (un allié, un ennemi à deux tailles d'écart).
+  - Un combat à cinq se joue sans fenêtre jusqu'à sa fin et se rejoue à l'identique ; un autre en
+    monte quatre alliés.
+  - **Corrigé en chemin** (`LOT-19`) : traverser la case d'une autre créature coûte double, comme
+    le dit le Manuel. Le défaut était latent tant que personne ne traversait personne.
+
 - **Grille tactique et déplacement** (`LOT-19`, `EX-CBT-020`, `EX-DND-051`). Le combat a sa grille :
   qui se tient où, jusqu'où l'on va ce tour-ci, et par où.
   - **La règle vient du Manuel, et elle a contredit la feuille de route.** « Jouer sur un

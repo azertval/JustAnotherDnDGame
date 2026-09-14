@@ -32,7 +32,7 @@ sections 9 et 10 rapportent l'audit et ce qu'il faut anticiper ; la section 11 p
 
 ## État d'avancement {#roadmap-avancement}
 
-**Trente-deux lots livrés, cinquante-trois restants.** Le prochain est le [LOT-20](@ref lot-20).
+**Trente-trois lots livrés, cinquante-deux restants.** Le prochain est le `LOT-50`.
 
 Livrés : `LOT-01` à `LOT-08` (le socle : fork et purge, `HmiLib`, `LevelData`, format de carte
 version 3, modes de jeu, déplacement top-down, tri par profondeur, tuiles RPG), `LOT-77`, `LOT-78`
@@ -57,7 +57,8 @@ parce que décidés après elle : le [LOT-86](@ref lot-86) (l'IHM du jeu en Qt Q
 exécutable, modifiable par un artiste sans compilateur) et le [LOT-87](@ref lot-87) (la **charte
 v2**, tirée des dix maquettes du pack UI, et les treize écrans transcrits dessus), enfin le
 [LOT-19](@ref lot-19) (la grille tactique : occupation par emprise, cases atteignables au budget,
-chemin déterministe), premier lot du combat proprement dit.
+chemin déterministe), premier lot du combat proprement dit, et le [LOT-20](@ref lot-20)
+(l'initiative, le tour par tour et ses crochets, les trois fins d'un combat).
 Chacun garde son dossier et son `epic.md`. Le `LOT-85` (outillage Qt Designer) a été **abandonné**
 au profit du `LOT-86` et son numéro n'est pas réattribué.
 
@@ -69,7 +70,7 @@ le slice.
 
 | Version | Ce qu'elle rend jouable | Lots |
 |---|---|---|
-| `0.0.1` | Le *vertical slice* : un village, un donjon, un combat tactique complet, une sauvegarde ; l'arène comme banc d'essai ; des spécifications qui décrivent ce jeu | `LOT-20`, `LOT-50`, `LOT-21`, `LOT-22`, `LOT-23`, `LOT-24`, `LOT-15`, `LOT-16`, `LOT-17`, `LOT-09`, `LOT-11`, `LOT-27`, `LOT-28`, `LOT-88` |
+| `0.0.1` | Le *vertical slice* : un village, un donjon, un combat tactique complet, une sauvegarde ; l'arène comme banc d'essai ; des spécifications qui décrivent ce jeu | `LOT-50`, `LOT-21`, `LOT-22`, `LOT-23`, `LOT-24`, `LOT-15`, `LOT-16`, `LOT-17`, `LOT-09`, `LOT-11`, `LOT-27`, `LOT-28`, `LOT-88` |
 | `0.0.2` | Le bac à sable des **treize régions** : terrain généré, peuplement déduit des statistiques régionales, voyage, calendrier lunaire, économie, Guilde, groupe de quatre | `LOT-80`, `LOT-81`, `LOT-40`, `LOT-44`, `LOT-46`, `LOT-89`, `LOT-26`, `LOT-41`, `LOT-70`, `LOT-82`, `LOT-35`, `LOT-42`, `LOT-45`, `LOT-74`, `LOT-75`, `LOT-72`, `LOT-25`, `LOT-29`, `LOT-49`, `LOT-69` |
 | `0.0.3` | Les **seize classes** du *Player's Guide* et leurs sous-classes, le Colisée comme institution, la compagnie et son quartier général | `LOT-84`, `LOT-47`, `LOT-51` → `LOT-65`, `LOT-83` |
 | `0.0.4` | Le **plan pénombral**, second monde du Sourcebook | `LOT-90` |
@@ -80,13 +81,13 @@ tant que le jalon courant a un lot prêt, et `scripts/lint_lots.py` refuse un lo
 figure dans aucun jalon (règle 14).
 
 **Quelle date pour la `0.0.1` ?** Aucune n'est annoncée ici, et ce n'est pas une prudence de
-principe : les trente-deux lots livrés l'ont été entre le 3 et le 14 septembre 2026, soit une
+principe : les trente-trois lots livrés l'ont été entre le 3 et le 14 septembre 2026, soit une
 cadence observée qui, prise au pied de la lettre, placerait la version dans trois semaines. Cette
 extrapolation est fausse, et il vaut mieux l'écrire que la laisser deviner : les lots livrés sont
 des lots de **socle**, de **catalogues** déjà extraits et d'**écrans** dessinés sur des données en
-attente. Ceux qui restent sont des lots de **moteur** — l'initiative, les attaques, les
-dialogues, l'éditeur, le graphe de cartes — dont seule la grille tactique du `LOT-19`, livrée le
-14 septembre, donne une première mesure de cadence, puis les
+attente. Ceux qui restent sont des lots de **moteur** — les attaques, l'IA, les dialogues,
+l'éditeur, le graphe de cartes — dont seuls la grille tactique du `LOT-19` et le tour du `LOT-20`,
+livrés le 14 septembre, donnent une première mesure de cadence, puis les
 catalogues restants (82 créatures de Tanares, 31 tables de progression) et le peuplement de dix
 régions. Ce tableau donne le **reste à faire**, pas une date.
 
@@ -99,45 +100,44 @@ tableau n'en porte volontairement aucun.
 
 | # | Lot | Objet | Débloque | Statut |
 |---|---|---|---|---|
-| 1 | `LOT-20` | Initiative et tour par tour | 18 | **prochain** |
-| 2 | `LOT-50` | Le Colisée : bac à sable de combat | 16 | en attente |
-| 3 | `LOT-15` | PNJ et dialogues | 14 | prêt |
-| 4 | `LOT-21` | Attaques, dégâts et états | 14 | en attente |
-| 5 | `LOT-22` | Portée, ligne de vue et zones d'effet | 13 | prêt |
-| 6 | `LOT-11` | Éditeur multi-couches et placement d'entités | 12 | prêt |
-| 7 | `LOT-16` | Quêtes et drapeaux de monde | 12 | en attente |
-| 8 | `LOT-09` | Graphe de cartes et transitions | 11 | prêt |
-| 9 | `LOT-23` | IA tactique ennemie | 11 | en attente |
-| 10 | `LOT-17` | Sauvegarde riche | 10 | en attente |
-| 11 | `LOT-24` | IHM de combat | 10 | en attente |
-| 12 | `LOT-27` | Contenu du *vertical slice* | 9 | en attente |
-| 13 | `LOT-28` | Audio, effets et version `0.0.1` | 0 | en attente |
-| 14 | `LOT-88` | Spécifications : retrait de l'héritage plateforme | 0 | prêt |
-| 15 | `LOT-81` | Descripteurs de terrain et règles de zone des treize régions | 8 | prêt |
-| 16 | `LOT-40` | Générateur de terrain | 7 | en attente |
-| 17 | `LOT-44` | Noms, tables aléatoires et contenu d'ambiance | 7 | prêt |
-| 18 | `LOT-46` | Créatures de Tanares | 7 | prêt |
-| 19 | `LOT-89` | Dons, objets magiques et consommables de Tanares | 7 | prêt |
-| 20 | `LOT-26` | Butin, marchands, économie | 6 | en attente |
-| 21 | `LOT-41` | Peuplement : rencontres et créatures | 6 | en attente |
-| 22 | `LOT-80` | Factions, panthéon et organisations | 6 | prêt |
-| 23 | `LOT-70` | Horloge, calendrier et lune | 5 | prêt |
-| 24 | `LOT-82` | Peuplement civil : PNJ, marchands et quêtes | 5 | en attente |
-| 25 | `LOT-35` | Sorts et états | 2 | prêt |
-| 26 | `LOT-42` | Voyage et carte du monde | 2 | en attente |
-| 27 | `LOT-29` | Groupe de quatre personnages | 1 | en attente |
-| 28 | `LOT-45` | Guilde des Aventuriers : rangs et contrats | 1 | en attente |
-| 29 | `LOT-74` | Expérience et progression | 1 | en attente |
-| 30 | `LOT-25` | Sorts et capacités de classe | 0 | en attente |
-| 31 | `LOT-49` | Contrôle de cohérence du contenu | 0 | prêt |
-| 32 | `LOT-69` | Retrait de l'atelier pixel art | 0 | en attente |
-| 33 | `LOT-72` | Conditions, agonie et mort | 0 | en attente |
-| 34 | `LOT-75` | Campement et repos dans le monde | 0 | en attente |
-| 35 | `LOT-84` | Les 31 tables de progression de classe | 2 | prêt |
-| 36 | `LOT-47` | Socle de classe, et le guerrier comme preuve | 1 | en attente |
-| 37 | `LOT-83` | Compagnie : rangs de Guilde, niveau d'équipe et quartier général | 0 | en attente |
-| 38 | `LOT-90` | Le plan pénombral | 0 | en attente |
-| 39 | `LOT-51` → `LOT-65` | une classe par lot | 0 | en attente |
+| 1 | `LOT-50` | Le Colisée : bac à sable de combat | 16 | **prochain** |
+| 2 | `LOT-15` | PNJ et dialogues | 14 | prêt |
+| 3 | `LOT-21` | Attaques, dégâts et états | 14 | en attente |
+| 4 | `LOT-22` | Portée, ligne de vue et zones d'effet | 13 | prêt |
+| 5 | `LOT-11` | Éditeur multi-couches et placement d'entités | 12 | prêt |
+| 6 | `LOT-16` | Quêtes et drapeaux de monde | 12 | en attente |
+| 7 | `LOT-09` | Graphe de cartes et transitions | 11 | prêt |
+| 8 | `LOT-23` | IA tactique ennemie | 11 | en attente |
+| 9 | `LOT-17` | Sauvegarde riche | 10 | en attente |
+| 10 | `LOT-24` | IHM de combat | 10 | en attente |
+| 11 | `LOT-27` | Contenu du *vertical slice* | 9 | en attente |
+| 12 | `LOT-28` | Audio, effets et version `0.0.1` | 0 | en attente |
+| 13 | `LOT-88` | Spécifications : retrait de l'héritage plateforme | 0 | prêt |
+| 14 | `LOT-81` | Descripteurs de terrain et règles de zone des treize régions | 8 | prêt |
+| 15 | `LOT-40` | Générateur de terrain | 7 | en attente |
+| 16 | `LOT-44` | Noms, tables aléatoires et contenu d'ambiance | 7 | prêt |
+| 17 | `LOT-46` | Créatures de Tanares | 7 | prêt |
+| 18 | `LOT-89` | Dons, objets magiques et consommables de Tanares | 7 | prêt |
+| 19 | `LOT-26` | Butin, marchands, économie | 6 | en attente |
+| 20 | `LOT-41` | Peuplement : rencontres et créatures | 6 | en attente |
+| 21 | `LOT-80` | Factions, panthéon et organisations | 6 | prêt |
+| 22 | `LOT-70` | Horloge, calendrier et lune | 5 | prêt |
+| 23 | `LOT-82` | Peuplement civil : PNJ, marchands et quêtes | 5 | en attente |
+| 24 | `LOT-35` | Sorts et états | 2 | prêt |
+| 25 | `LOT-42` | Voyage et carte du monde | 2 | en attente |
+| 26 | `LOT-29` | Groupe de quatre personnages | 1 | en attente |
+| 27 | `LOT-45` | Guilde des Aventuriers : rangs et contrats | 1 | en attente |
+| 28 | `LOT-74` | Expérience et progression | 1 | en attente |
+| 29 | `LOT-25` | Sorts et capacités de classe | 0 | en attente |
+| 30 | `LOT-49` | Contrôle de cohérence du contenu | 0 | prêt |
+| 31 | `LOT-69` | Retrait de l'atelier pixel art | 0 | en attente |
+| 32 | `LOT-72` | Conditions, agonie et mort | 0 | en attente |
+| 33 | `LOT-75` | Campement et repos dans le monde | 0 | en attente |
+| 34 | `LOT-84` | Les 31 tables de progression de classe | 2 | prêt |
+| 35 | `LOT-47` | Socle de classe, et le guerrier comme preuve | 1 | en attente |
+| 36 | `LOT-83` | Compagnie : rangs de Guilde, niveau d'équipe et quartier général | 0 | en attente |
+| 37 | `LOT-90` | Le plan pénombral | 0 | en attente |
+| 38 | `LOT-51` → `LOT-65` | une classe par lot | 0 | en attente |
 
 **Débloque** — combien de lots restants dépendent de celui-ci, directement ou en cascade. C'est le
 critère de priorité, et il se relit sur la ligne.
@@ -421,7 +421,7 @@ que le socle doit **prévoir** (une interface, un champ, un événement) et ce q
 
 | Domaine | Ce que les livres exigent, chiffres en main | Ce que le socle doit prévoir | Lot porteur |
 |---|---|---|---|
-| **Tour et initiative** | Actions légendaires (réserve de 3, dépensées en fin de tour d'autrui) ; actions de repaire à l'initiative 20 ; renforts entrant à l'initiative 0 ; un acteur **flottant** qui joue avant n'importe quel tour (*Law of Time*) ; une fenêtre de réaction **avant le premier tour** (*Natural Strategist*) ; octroi d'une réaction supplémentaire à un allié ; fenêtre « une créature *déclare* une attaque » (postures du moine) ; une **troisième économie d'action** (Heroic Action) ; compteurs « une fois par rencontre » et immunités 24 h par couple (créature, source) | La machine à états du tour expose des **points d'insertion** nommés (début de round, avant le premier tour, fin de tour de X, initiative fixe N, à la déclaration d'une attaque) et des compteurs à portée (tour, rencontre, jour) ; l'économie d'action est une **liste** de ressources par tour, pas trois booléens | [LOT-20](@ref lot-20) |
+| **Tour et initiative** | Actions légendaires (réserve de 3, dépensées en fin de tour d'autrui) ; actions de repaire à l'initiative 20 ; renforts entrant à l'initiative 0 ; un acteur **flottant** qui joue avant n'importe quel tour (*Law of Time*) ; une fenêtre de réaction **avant le premier tour** (*Natural Strategist*) ; octroi d'une réaction supplémentaire à un allié ; fenêtre « une créature *déclare* une attaque » (postures du moine) ; une **troisième économie d'action** (Heroic Action) ; compteurs « une fois par rencontre » et immunités 24 h par couple (créature, source) | La machine à états du tour expose des **points d'insertion** nommés (début de round, avant le premier tour, fin de tour de X, initiative fixe N, à la déclaration d'une attaque) et des compteurs à portée (tour, rencontre, jour) ; l'économie d'action est une **liste** de ressources par tour, pas trois booléens — **posé au [LOT-20](@ref lot-20)** : `core::CombatHook` (neuf crochets), repères d'initiative fixe qui perdent les égalités, acteur flottant (`interject`), `core::ActionEconomy` (`declare`, `grant`), `core::ScopedCounters` (tour, round, rencontre, jour) et `core::ImmunityLedger` par couple (créature, source) | [LOT-20](@ref lot-20) |
 | **Le dé** | d20 brut exposé (*Omen*, *Augurs*, plancher à 10) ; relance **avant** résolution ; modificateur ajouté **après** avoir vu le résultat (*Future Guard*) ; résultats de d20 **stockés** puis substitués ; « si les deux d20 de l'avantage touchent » ; super-avantage à 3d20 | `core::Check` (livré) reste le seul mécanisme, mais son résultat est un **objet** (dés bruts, modificateurs avec origine, seuil, issue, `EX-DND-003`) que des crochets peuvent lire et amender avant que l'issue ne soit figée | [LOT-21](@ref lot-21) |
 | **Dégâts et points de vie** | Dégâts typés avec **drapeaux de source** (magique, adamantium, sort) ; conversion de type (*Shadowcaster*, zone *Maelstrom*) ; « ignore résistances et PV temporaires » ; dégâts redirigés (*Life Link*), différés, par case parcourue ; échange et transfert de PV ; réserves ablatives (*Exoskeleton*, 80 PV) ; PV **mis en commun** (monture) ; PV temporaires sans plafond ; **PV de structures** ; phases par seuil (*Battle Fury* sous 50 %) ; déclencheurs à la mort (spawn, explosion) ; seuil de jets de mort **variable** (Cultist : 4 échecs) ; régénération conditionnelle | Un **pipeline** de dégâts à étapes nommées (source → conversion → résistances → réserves → PV) où chaque étape est un point d'insertion, et un événement « seuil franchi » / « mort » ; les PV sont une pile de réserves, pas un entier | [LOT-21](@ref lot-21), [LOT-72](@ref lot-72) |
 | **Conditions et afflictions** | Marqueurs **empilables** (poison ×4) ; saignement ; « couvert de lave », « mouillé », « chargé » ; malédictions à **tick quotidien ou hebdomadaire**, levées seulement par *remove curse* ou *wish* ; épuisement à niveaux utilisé comme **coût** ; cécité permanente, mutisme ; malus par paliers (Insanity −1/−2/−3) ; folies aléatoires | Une condition est une **source datée** avec durée en tours **ou en temps de jeu**, empilable et recalculée (`EX-DND-040`) ; une couche « affliction persistante » qui survit au combat et se réveille à l'horloge | [LOT-72](@ref lot-72), `LOT-70` |
@@ -907,7 +907,15 @@ Arena* règle les **litiges civils** (avec champions à louer), chaque région a
 Magocratie), les **paris** se résolvent par un combat simulé hors écran, et les Marques Héroïques
 exigent une **troisième économie d'action** bornée à la zone du rituel. Ce lot livre le mode et la
 première arène ; les variantes sont des **données de lieu** (`LOT-37`, livré) et la troisième
-économie d'action est un crochet réservé au `LOT-20`.
+économie d'action est une ressource déclarée (`core::ActionEconomy::declare`), crochet posé au
+[LOT-20](@ref lot-20).
+
+*État au 14 septembre 2026.* Le tour existe : l'écran de mise en place enrôle chaque camp
+(`core::CombatState::enlist`, ou `core::mountEncounter` pour une rencontre écrite), place les
+combattants en disant pourquoi une case est refusée, et lance le combat à graine fixée
+(`start`) — le rejeu exact est vérifié par test. La première carte jouable de ce lot est aussi le
+premier endroit où `core::CombatState` sera branché sur une session de jeu : `hmi::CombatMode` gèle
+le monde, mais ne tient pas encore le combat.
 
 Sa vertu la plus durable est de n'être **jamais du code jetable** : c'est une zone du jeu final,
 avec ses combats de gloire, sa Marque Héroïque à gagner et son statut social — le monde de Tanares
@@ -1103,6 +1111,11 @@ tours **ou** en temps de jeu (`LOT-70`), et la couche « affliction persistante 
 Le seuil de jets contre la mort est **par personnage** (le Cultiste meurt au quatrième échec). Les
 **maladies** du Sourcebook (la peste de Goldraft : DD 17, −1d6 PV maximum par aube ; les brumes de
 Mistvale) sont des afflictions persistantes de cette couche, déclenchées par une zone du `LOT-81`.
+
+*État au 14 septembre 2026.* Un combattant à 0 PV est `core::CombatantStatus::Down`, et ses tours
+sont **passés** par `core::CombatState` ([LOT-20](@ref lot-20)) : ce lot lui rend un tour de jet
+contre la mort, et y greffe la surprise — ni déplacement ni action au premier tour, pas de réaction
+avant sa fin.
 
 **Le piège.** Une condition n'est pas un booléen sur la fiche. Deux sources peuvent poser
 « empoisonné » avec deux durées différentes ; retirer l'une ne doit pas retirer l'autre. C'est le
@@ -1478,7 +1491,7 @@ valeurs codées en dur, exactement ce que [`EX-VIS-007`](@ref EX-VIS-007) interd
 
 | Quand | Lots | Pourquoi là |
 |---|---|---|
-| **Démarrable maintenant** | [LOT-20](@ref lot-20) | Le tour : la bascule du [LOT-18](@ref lot-18) et la grille du [LOT-19](@ref lot-19) sont livrées, et le combat est le chemin critique du *vertical slice* |
+| **Démarrable maintenant** | `LOT-50` | L'arène est le **banc d'essai** des mécaniques de combat : la grille du [LOT-19](@ref lot-19) et le tour du [LOT-20](@ref lot-20) sont livrés ; elle livre la première carte, et les attaques du [LOT-21](@ref lot-21) s'y vérifient |
 | Démarrables, en parallèle du combat | [LOT-15](@ref lot-15), [LOT-11](@ref lot-11), [LOT-09](@ref lot-09) | Dialogues, éditeur et graphe de cartes n'attendent plus rien ; la règle leur préfère seulement ce qui débloque davantage |
 | Avec [LOT-09](@ref lot-09) | `LOT-80` | L'atlas du `LOT-37` est livré : le graphe de cartes a ses nœuds, il lui manque les entités transverses |
 | Après `LOT-34` (livré) | `LOT-49` | Catalogue réel, puis contrôle de ses valeurs — un filet, pas un maillon |
@@ -1487,9 +1500,8 @@ valeurs codées en dur, exactement ce que [`EX-VIS-007`](@ref EX-VIS-007) interd
 | Avec [LOT-11](@ref lot-11) | `LOT-69` | Ce lot retire l'atelier pixel art devenu sans objet ; l'édition dans la scène est à trancher au `LOT-11` (§8) |
 | Après [LOT-11](@ref lot-11) | `LOT-81`, puis `LOT-40` | Les descripteurs, puis le générateur qui les consomme |
 | Avec [LOT-21](@ref lot-21) | `LOT-72` | Conditions, agonie et mort appartiennent au combat |
-| Avec [LOT-20](@ref lot-20) | `LOT-74` | L'expérience se gagne à la fin d'un combat |
+| Après [LOT-20](@ref lot-20) (livré) | `LOT-74` | L'expérience se gagne à la fin d'un combat (`core::CombatHook::CombatEnded`) |
 | Avant `LOT-47` | `LOT-84` | Les 31 tables sont de la donnée : elles précèdent le socle qui les lit |
-| Après [LOT-20](@ref lot-20), avant [LOT-21](@ref lot-21) | `LOT-50` | L'arène est le **banc d'essai** des mécaniques de combat : elle arrive dès que la grille et le tour existent, livre la première carte, et les attaques s'y vérifient |
 | Après [LOT-21](@ref lot-21) | `LOT-47` | Le socle de classe, éprouvé dans l'arène |
 | Démarrable maintenant | `LOT-88` | Une passe de rédaction sur les spécifications, avant que les lots de moteur ne citent des exigences de plateforme |
 | Après `LOT-34` et `LOT-43` (livrés) | `LOT-89` | De la donnée : dons, objets magiques, consommables |
@@ -1551,10 +1563,11 @@ lots, dont la fiche de personnage et sa maquette. **Ces sept-là sont livrés.**
 Le chemin critique restant est celui du **combat**, et c'est la plus longue chaîne de prérequis
 qui mène au slice depuis que celui-ci déclare les siens en numéros :
 
-[LOT-20](@ref lot-20) → `LOT-50` → [LOT-21](@ref lot-21) →
-[LOT-23](@ref lot-23) → [LOT-24](@ref lot-24) → [LOT-27](@ref lot-27)
+`LOT-50` → [LOT-21](@ref lot-21) → [LOT-23](@ref lot-23) → [LOT-24](@ref lot-24) →
+[LOT-27](@ref lot-27)
 
-Six lots depuis la livraison de la grille tactique ([LOT-19](@ref lot-19)) — l'arène du `LOT-50` s'y intercale comme banc d'essai des attaques —, avec le [LOT-22](@ref lot-22) (portée et ligne de vue) en parallèle du `LOT-21`, exigé
+Cinq lots depuis la livraison du tour par tour ([LOT-20](@ref lot-20)) — l'arène du `LOT-50` s'y
+intercale comme banc d'essai des attaques —, avec le [LOT-22](@ref lot-22) (portée et ligne de vue) en parallèle du `LOT-21`, exigé
 par l'IA du `LOT-23`. Deux chaînes plus courtes y aboutissent aussi et se mènent **en parallèle** :
 [LOT-15](@ref lot-15) → [LOT-16](@ref lot-16) → [LOT-17](@ref lot-17) → `LOT-27` (dialogues, quêtes,
 sauvegarde — quatre lots), et [LOT-09](@ref lot-09) → `LOT-17`, [LOT-11](@ref lot-11) → `LOT-27`
@@ -1612,10 +1625,10 @@ digraph filiere {
   subgraph cluster_combat { label="Chemin critique restant : le combat"; style=dashed;
     L18 [label="LOT-18\nBascule\n(livré)", style="rounded,filled", fillcolor=grey90];
     L19 [label="LOT-19\nGrille tactique\n(livré)", style="rounded,filled", fillcolor=grey90];
-    L20 [label="LOT-20\nInitiative"];
+    L20 [label="LOT-20\nInitiative\n(livré)", style="rounded,filled", fillcolor=grey90];
     L21 [label="LOT-21\nAttaques"]; L22 [label="LOT-22\nLigne de vue"];
     L23 [label="LOT-23\nIA tactique"]; L24 [label="LOT-24\nIHM de combat"];
-    L19 -> L20 -> L21 -> L23 -> L24 -> L27; L19 -> L22 -> L23; L21 -> L24;
+    L20 -> L21 -> L23 -> L24 -> L27; L19 -> L22 -> L23; L21 -> L24;
     L20 -> L50 -> L21;
   }
   L15 [label="LOT-15\nDialogues"]; L16 [label="LOT-16\nQuêtes"]; L17 [label="LOT-17\nSauvegarde"];
@@ -2353,68 +2366,6 @@ reconstruire — un format qui casse lui fait perdre sa partie.
 - Un champ inconnu est ignoré **et préservé** à la réécriture.
 - Testable headless.
 
-### LOT-20 — Initiative et tour par tour {#lot-20}
-
-> Statut : **à faire**.
-> Prérequis : [LOT-12](@ref lot-12) (jet d'initiative), [LOT-19](@ref lot-19).
-> Exigences couvertes : `EX-CBT-010`, `EX-CBT-011`, `EX-CBT-012`, `EX-VIS-004` (un combat tactique
-> complet, avec l'attaque et l'IHM qui suivent).
-
-#### Objectif
-
-Ordonnancer les combattants par initiative et structurer le tour : mouvement, action, action bonus,
-réaction.
-
-#### Périmètre
-
-- `Source/Core/Combat/TurnOrder.{h,cpp}` : ordre d'initiative, **multi-alliés dès maintenant**
-  (décision de cadrage : un héros au départ, quatre à terme — l'ordre n'a aucune raison de
-  supposer un seul allié, même si le contenu n'en propose qu'un).
-- `CombatState.{h,cpp}` : machine à états **explicite** — début de round, tour actif, fin de tour,
-  fin de combat. Pas de drapeaux épars : un état nommé, des transitions nommées.
-- Égalités d'initiative : départage déterministe et documenté.
-- Entrée et sortie d'un combattant **en cours** de combat (renfort, fuite).
-- *État au 14 septembre 2026.* La grille du [LOT-19](@ref lot-19) attend ce lot sur trois points
-  qu'elle a laissés ouverts faute de tour : attribuer les `core::CombatantId` et poser sur
-  `core::BattleGrid` les placements que `core::beginEncounter` calcule déjà (en refusant ceux qui
-  tombent dans un mur, avec leur raison) ; dire qui l'on peut traverser
-  (`core::Mover::canPassThrough`, vide aujourd'hui, donc personne) ; et dépenser le budget d'un
-  tour sur `core::ReachableArea`, plutôt que sur l'intention libre que `hmi::CombatMode` gèle.
-- *Contraintes du corpus (§4bis).* La machine à états expose des **points d'insertion nommés**
-  — début de round, **avant le premier tour** (réaction du Dragonblade), fin de tour d'un
-  combattant (actions légendaires, réserve de 3), initiative fixe 20 (actions de repaire) et 0
-  (renforts), à la déclaration d'une attaque (postures du moine) — un acteur **flottant** qui joue
-  avant n'importe quel tour (*Law of Time*), l'octroi d'une réaction à un allié, et une économie
-  d'action qui est une **liste** de ressources par tour : la Heroic Action du `LOT-50` en est la
-  troisième. Des compteurs à portée (tour, rencontre, jour) et une mémoire d'immunité 24 h par
-  couple (créature, source). Aucun de ces crochets n'a de consommateur dans ce lot ; tous en
-  auront un, et les poser après coûte une refonte de la machine.
-
-#### Les trois fins
-
-Un combat se termine de trois façons, et les trois doivent être couvertes :
-
-- **victoire** : tous les ennemis à 0 PV ;
-- **défaite** : tous les alliés à 0 PV ;
-- **fuite** : les alliés quittent la zone.
-
-Une machine à états qui n'en couvre que deux laisse un combat qui ne finit jamais — le pire des
-défauts, parce qu'il bloque le joueur sans message d'erreur. Le [LOT-18](@ref lot-18) sait déjà
-**consommer** ces trois issues (`core::CombatOutcome` : l'ennemi vaincu devient un drapeau de
-monde, la fuite et la défaite n'en posent aucun) ; ce lot les **produit**.
-
-#### Exigences couvertes
-
-`EX-CBT-*` (initiative, structure du tour, conditions de fin).
-
-#### Critères d'acceptation
-
-- Un combat à cinq combattants se déroule **en headless** du premier round à une condition de fin.
-- Les **trois** conditions de fin sont couvertes par un test chacune.
-- Un test monte **quatre alliés** : rien dans l'ordre d'initiative ni dans la machine à états ne
-  suppose un héros unique.
-- Rejeu à graine fixe strictement reproductible, ordre d'initiative compris.
-
 ### LOT-21 — Attaques, dégâts et états {#lot-21}
 
 > Statut : **à faire**.
@@ -2452,6 +2403,16 @@ traversent un **pipeline à étapes nommées** — source (drapeaux magique, ada
 conversion de type → résistances (contournables) → réserves (PV temporaires, réserves ablatives,
 PV mis en commun) → PV — avec un événement à chaque seuil franchi et à la mort ; les PV sont une
 pile de réserves, pas un entier. Les **structures** ont des PV.
+
+*État au 14 septembre 2026.* Le tour du [LOT-20](@ref lot-20) attend ce lot à trois endroits :
+le pipeline de dégâts **se termine** dans `core::CombatState::applyDamage`, qui borne à 0, met à
+terre et évalue l'issue — une salve entière passe en un appel (`std::span<const HitPointChange>`)
+pour qu'une zone qui abat les deux camps soit une défaite quel que soit l'ordre des cibles ; la
+déclaration d'une attaque s'annonce par `CombatState::declareAttack` **avant** le jet
+(`CombatHook::AttackDeclared`) ; et l'attaque d'opportunité dépense la réaction du porteur
+(`CombatState::economy(id)->spend(REACTION_RESOURCE)`), qui ne revient qu'au début de son tour.
+Les actions nommées (se précipiter, se désengager, esquiver, se tenir prêt) sont des usages de
+`ACTION_RESOURCE`.
 
 #### Le journal de combat
 
@@ -2531,6 +2492,14 @@ qui ne peut pas riposter (ou l'inverse, plus rageant encore).
 
 Donner aux ennemis un comportement de combat crédible, **déterministe** et testable sans GPU.
 
+*État au 14 septembre 2026.* L'IA joue dans le tour du [LOT-20](@ref lot-20) comme le joueur
+(`EX-CBT-050`) : `core::CombatState::reachableArea` et `move` pour le déplacement du tour,
+`core::findPath` pour viser au-delà, `spend` et `endTurn` pour le reste. Un test du `LOT-20` mène
+déjà une escarmouche à cinq avec la tactique la plus pauvre — marcher vers l'ennemi le plus proche,
+frapper au contact — et la rejoue à l'identique : c'est la ligne de base à battre. Le choix du vol
+pour une créature qui vole et marche est à reprendre ici (`profileFor` vole si le vol est plus
+rapide).
+
 #### La décision de conception
 
 **Heuristiques pondérées, pas de réseau de neurones.**
@@ -2605,6 +2574,12 @@ C'est le lot qui transforme une machine à états correcte en un combat qu'on a 
 - **Prévisualisations** avant validation : chemin emprunté, cases atteintes par un gabarit,
   probabilité de toucher.
 - **Journal de combat** défilant, alimenté par les entrées auditables du `LOT-21`.
+- *État au 14 septembre 2026.* Le **bandeau d'initiative** lit `core::CombatState::turnOrder()` et
+  `activeCombatant()` ; les cases surlignées sont celles de `CombatState::reachableArea()`, qui
+  tient compte de ce qui **reste** du déplacement ; les crochets (`core::CombatHook`) donnent au
+  journal et aux animations les instants à montrer. Brancher la machine sur la session de jeu
+  — `hmi::CombatMode` gèle le monde, mais ne tient pas le combat — est à faire ici ou au `LOT-50`,
+  au premier des deux.
 - Animations d'attaque via `AnimationCatalog`.
 
 #### Le critère qui est souvent oublié
@@ -2836,7 +2811,8 @@ l'unicité du personnage**. Concrètement, au moment d'aborder ce lot, ces préc
 être en place :
 
 - `CharacterSheet` est un objet **autonome** (`LOT-13`), jamais un singleton joueur ;
-- `TurnOrder` est **multi-alliés** dès le `LOT-20`, avec un test qui monte quatre alliés ;
+- `TurnOrder` est **multi-alliés** dès le [LOT-20](@ref lot-20), avec un test qui monte quatre
+  alliés — **tenu** : `CombatStateTest.QuatreAlliesSansHerosUnique` ;
 - `SaveGame` stocke une **liste** de personnages dès le `LOT-17`, pas un champ unique ;
 - les écrans de fiche et d'inventaire sont conçus pour un **sélecteur de personnage**, même quand
   ils n'en affichent qu'un — et `CompanyForm.ui.qml` ([LOT-87](@ref lot-87)) montre déjà six

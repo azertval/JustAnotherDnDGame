@@ -21,8 +21,8 @@ std::vector<std::string_view> ExplorationMode::passOrder() const {
 void ExplorationMode::onLoad(IGameModePasses& passes) {
     // Rien a preparer : l'etat d'entree d'un niveau (personnage a l'entree, mecanismes et budgets
     // remis) est pose par le chargement de l'orchestrateur, comme avant l'extraction. Le crochet
-    // existe pour les modes qui en auront besoin -- le combat, qui devra rouler l'initiative avant
-    // le premier pas (LOT-20).
+    // existe pour les modes qui en auront besoin. L'initiative, elle, ne passe pas par ici : c'est
+    // core::CombatState::start (LOT-20).
     (void)passes;
 }
 

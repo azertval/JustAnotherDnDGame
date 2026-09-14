@@ -19,17 +19,17 @@ std::vector<std::string_view> CombatMode::passOrder() const {
 
 void CombatMode::onLoad(IGameModePasses& passes) {
     // Rien a preparer : le montage de la rencontre a eu lieu AVANT la bascule de mode
-    // (core::beginEncounter), et l'initiative arrive au LOT-20. Le crochet reste, parce que c'est
-    // ici que le premier tour se roulera.
+    // (core::beginEncounter), et l'initiative est jetee par core::CombatState::start (LOT-20), qui
+    // ne depend d'aucune passe. Le crochet reste pour ce qui tient a l'affichage.
     (void)passes;
 }
 
 core::LevelOutcome CombatMode::step(IGameModePasses& passes, const core::PlayerInput& input,
                                     float fixedDelta) {
     // L'intention du joueur n'est pas consommee par un deplacement libre : le deplacement d'un
-    // combattant se choisit parmi les cases de core::ReachableArea (LOT-19), et c'est le tour actif
-    // (LOT-20) qui le demandera. La recevoir sans l'employer est delibere -- la signature est celle
-    // du mode, et l'ignorer ici est ce qui GELE le monde.
+    // combattant se choisit parmi les cases de core::ReachableArea (LOT-19), et se paie par
+    // core::CombatState::move (LOT-20). La recevoir sans l'employer est delibere -- la signature
+    // est celle du mode, et l'ignorer ici est ce qui GELE le monde.
     (void)input;
 
     // Interpolation (EX-ARCH-031) : meme raison qu'en exploration, et meme place -- avant tout ce

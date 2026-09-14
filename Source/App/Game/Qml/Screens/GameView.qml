@@ -7,7 +7,7 @@ import Jadg.Runtime
 
     La session de jeu se branchera ici quand il y aura un niveau a jouer. Le cadre du HUD est
     dessine, et chacune de ses valeurs porte une cle `hud.*` qui aboutit a `PendingData` jusqu'a
-    l'exploration et au groupe (`LOT-19`, `LOT-20`) : ils remplaceront `PendingData` ici, sans
+    l'IHM de combat et au groupe (`LOT-24`, `LOT-29`) : ils remplaceront `PendingData` ici, sans
     toucher au formulaire. Les memes cles alimentent le cadre du HUD de combat (`CombatHud.qml`).
 
     Les raccourcis de navigation ouvrent l'inventaire, le journal, la carte et les options par le
