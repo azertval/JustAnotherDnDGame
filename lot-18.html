@@ -102,7 +102,7 @@ Objectif</h1>
 <p>Déclencher une rencontre depuis l'exploration, geler le monde, monter les combattants, et en revenir — <b>sans que le joueur perde quoi que ce soit au passage</b>.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md492"></a>
 Ce que ce lot livre, et ce qu'il ne livre pas</h1>
-<p>Il livre la <b>bascule</b>, pas le combat. Ni initiative, ni tour actif, ni résolution d'action : ce sont les <a class="el" href="roadmap-010.html#lot-19" title="LOT-19 — Grille tactique et déplacement">LOT-19</a> et <a class="el" href="roadmap-010.html#lot-20" title="LOT-20 — Initiative et tour par tour">LOT-20</a>. Séparer les deux n'est pas un découpage administratif — un aller-retour qui perd la position du personnage est un défaut qu'on ne voit plus une fois qu'il y a des tours à jouer par-dessus, et qu'on n'aurait jamais isolé.</p>
+<p>Il livre la <b>bascule</b>, pas le combat. Ni initiative, ni tour actif, ni résolution d'action : ce sont les <a class="el" href="roadmap.html#lot-19" title="LOT-19 — Grille tactique et déplacement">LOT-19</a> et <a class="el" href="roadmap.html#lot-20" title="LOT-20 — Initiative et tour par tour">LOT-20</a>. Séparer les deux n'est pas un découpage administratif — un aller-retour qui perd la position du personnage est un défaut qu'on ne voit plus une fois qu'il y a des tours à jouer par-dessus, et qu'on n'aurait jamais isolé.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md493"></a>
 L'aller-retour est PUR, et c'est ce qui le rend vérifiable</h1>
 <p>Le critère d'acceptation demandait que le montage et le démontage d'une rencontre se testent <b>headless</b>. Ils le sont, parce que rien de ce qui décide n'est dans un widget :</p>
@@ -143,16 +143,16 @@ Ce que le mode combat gèle, et pourquoi</h1>
 <tr class="markdownTableHead">
 <th class="markdownTableHeadNone">Passe retirée  </th><th class="markdownTableHeadNone">Pourquoi  </th></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><span class="tt">moveCharacter</span>  </td><td class="markdownTableBodyNone">le déplacement suit le <b>budget du tour</b> (<a class="el" href="roadmap-010.html#lot-19" title="LOT-19 — Grille tactique et déplacement">LOT-19</a>), pas l'intention libre du joueur ; la laisser donnerait un combat où l'on marche pendant le tour d'un autre  </td></tr>
+<td class="markdownTableBodyNone"><span class="tt">moveCharacter</span>  </td><td class="markdownTableBodyNone">le déplacement suit le <b>budget du tour</b> (<a class="el" href="roadmap.html#lot-19" title="LOT-19 — Grille tactique et déplacement">LOT-19</a>), pas l'intention libre du joueur ; la laisser donnerait un combat où l'on marche pendant le tour d'un autre  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><span class="tt">updateMechanisms</span>  </td><td class="markdownTableBodyNone">une plaque de pression qui s'enfoncerait au milieu d'un tour ferait dépendre le combat d'une règle qu'aucun livre ne décrit  </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><span class="tt">evaluateOutcome</span>  </td><td class="markdownTableBodyNone">tomber à zéro point de vie est une issue du <b>combat</b>, pas du niveau ; l'évaluer ici rechargerait le niveau au lieu d'ouvrir l'agonie (<a class="el" href="roadmap-010.html#lot-72" title="&lt;tt&gt;LOT-72&lt;/tt&gt; — Conditions, agonie et mort">LOT-72</a>)  </td></tr>
+<td class="markdownTableBodyNone"><span class="tt">evaluateOutcome</span>  </td><td class="markdownTableBodyNone">tomber à zéro point de vie est une issue du <b>combat</b>, pas du niveau ; l'évaluer ici rechargerait le niveau au lieu d'ouvrir l'agonie (<a class="el" href="roadmap.html#lot-72" title="&lt;tt&gt;LOT-72&lt;/tt&gt; — Conditions, agonie et mort">LOT-72</a>)  </td></tr>
 </table>
 <p>Ce qui reste tourne parce que le combat demeure une <b>scène</b> : particules et secousse d'écran finissent ce qu'elles ont commencé, les animations continuent — un combattant immobile respire — et la caméra suit. Un test compare la séquence réellement appelée à celle que le mode annonce, et vérifie qu'aucune passe gelée n'y figure.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md500"></a>
 Le personnage de démonstration</h1>
-<p><span class="tt">Rpg/encounters/nuee-de-rats.json</span> : trois bêtes du SRD (<a class="el" href="lot-33.html" title="LOT-33 — Bestiaire de base">LOT-33</a>), seules créatures livrées à ce jour. Déclarée <b>provisoire</b> avec son critère de retrait — elle disparaît quand le contenu du <a class="el" href="roadmap-010.html#lot-27" title="LOT-27 — Contenu du &lt;em&gt;vertical slice&lt;/em&gt;">LOT-27</a> fournira ses propres rencontres.</p>
+<p><span class="tt">Rpg/encounters/nuee-de-rats.json</span> : trois bêtes du SRD (<a class="el" href="lot-33.html" title="LOT-33 — Bestiaire de base">LOT-33</a>), seules créatures livrées à ce jour. Déclarée <b>provisoire</b> avec son critère de retrait — elle disparaît quand le contenu du <a class="el" href="roadmap.html#lot-27" title="LOT-27 — Contenu du &lt;em&gt;vertical slice&lt;/em&gt;">LOT-27</a> fournira ses propres rencontres.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md501"></a>
 Critères d'acceptation</h1>
 <ul>
@@ -176,6 +176,7 @@ Critères d'acceptation</h1>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a href="index.html">JustAnotherDnDGame</a></li><li class="navelem"><a href="lots.html">Lots</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.16.1 </li>
   </ul>
 </div>

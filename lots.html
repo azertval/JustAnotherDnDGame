@@ -93,14 +93,14 @@ $(function(){initNavTree('lots.html','',''); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md_Lot_2lots"></a></p>
-<p>Le travail est découpé en <b>lots</b> (un incrément livrable par lot). Un lot <b>démarré</b> reçoit son sous-dossier <span class="tt">LOT-XX-nom/</span> avec un <span class="tt">epic.md</span> (objectif, périmètre, critères d'acceptation) ; les lots <b>à venir</b> vivent dans la <a class="el" href="roadmap-010.html" title="Feuille de route 0.1.0">feuille de route</a>, qui est leur unique source de vérité. Les lots référencent les <a class="el" href="specifications.html" title="Spécifications">spécifications</a> via les identifiants d'exigences <span class="tt">EX-…</span>.</p>
+<p>Le travail est découpé en <b>lots</b> (un incrément livrable par lot). Un lot <b>démarré</b> reçoit son sous-dossier <span class="tt">LOT-XX-nom/</span> avec un <span class="tt">epic.md</span> (objectif, périmètre, critères d'acceptation) ; les lots <b>à venir</b> vivent dans la <a class="el" href="roadmap.html" title="Feuille de route — le bac à sable de Tanares">feuille de route</a>, qui est leur unique source de vérité. Les lots référencent les <a class="el" href="specifications.html" title="Spécifications">spécifications</a> via les identifiants d'exigences <span class="tt">EX-…</span>.</p>
 <blockquote class="doxtable">
 <p><b>Pourquoi les lots à venir n'ont pas de dossier.</b> Ils en avaient un, vide de tout travail et écrit contre des familles d'exigences qui n'existent pas encore. Deux documents décrivant le même programme divergent — ils avaient déjà commencé. Un dossier se crée désormais <b>au démarrage</b> du lot, pas des années avant. </p>
 </blockquote>
 <p>Contrairement aux spécifications, les lots <b>conservent</b> leur numéro (<span class="tt">LOT-XX</span>) : c'est un identifiant stable, jamais réordonné.</p>
 <blockquote class="doxtable">
 <p><b>Numérotation repartie à <span class="tt">LOT-01</span>, et les deux plages se recouvrent désormais.</b> Ce dépôt est dérivé de <span class="tt">ProjectGaming</span> (jeu de plateforme livré en <span class="tt">0.1.3</span> après 74 lots). Son programme de lots est archivé en lecture seule sous <span class="tt">Documentation/Heritage/Lot/</span>.</p>
-<p>On a longtemps pu écrire que les deux ensembles « ne se croisaient jamais ». <b>Ce n'est plus vrai</b> : la feuille de route atteint <span class="tt">LOT-84</span> et recouvre entièrement la plage héritée. Les spécifications portent <b>208 renvois <span class="tt">LOT-NN</span> ambigus dans douze fichiers</b>, que ni le lint ni Doxygen ne signalent. Le <span class="tt">LOT-78</span> les classe et préfixe les renvois hérités en <span class="tt">LOT-H-XX</span> ; il doit précéder la création du premier dossier de lot au-delà du <span class="tt">LOT-29</span>. D'ici là, un <span class="tt">LOT-XX</span> cité dans une spécification <b>peut désigner l'un ou l'autre programme</b>. </p>
+<p>On a longtemps pu écrire que les deux ensembles « ne se croisaient jamais ». <b>Ce n'est plus vrai</b> : le programme atteint <span class="tt">LOT-87</span> et recouvre entièrement la plage héritée. Un renvoi au programme hérité s'écrit donc <span class="tt">LOT-H-XX</span> — le <span class="tt">LOT-78</span> a préfixé les 201 renvois des spécifications, et <span class="tt">scripts/lint_lots.py</span> refuse tout <span class="tt">LOT-XX</span> de spécification qui ne désigne pas un lot de ce programme. </p>
 </blockquote>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md693"></a>
 Lots</h1>
@@ -131,16 +131,20 @@ Lots</h1>
 <li><a class="el" href="lot-67.html" title="LOT-67 — Menus et vocabulaire d&#39;un RPG">LOT-67 — Menus et vocabulaire d'un RPG</a></li>
 <li><a class="el" href="lot-68.html" title="LOT-68 — Le châssis des écrans du RPG">LOT-68 — Le châssis des écrans du RPG</a></li>
 <li><a class="el" href="lot-38.html" title="LOT-38 — Fiche de personnage : maquette et interface">LOT-38 — Fiche de personnage : maquette et interface</a></li>
+<li><a class="el" href="lot-14.html" title="LOT-14 — Inventaire et équipement">LOT-14 — Inventaire et équipement</a></li>
+<li><a class="el" href="lot-18.html" title="LOT-18 — Bascule exploration ↔ combat">LOT-18 — Bascule exploration ↔ combat</a></li>
+<li><a class="el" href="lot-39.html" title="LOT-39 — Plomberie des clés d&#39;assets">LOT-39 — Plomberie des clés d'assets</a></li>
+<li><a class="el" href="lot-86.html" title="LOT-86 — Refonte de l&#39;IHM sur Qt Quick">LOT-86 — Refonte de l'IHM sur Qt Quick</a></li>
 <li><a class="el" href="lot-87.html" title="LOT-87 — Charte v2 et intégration des maquettes">LOT-87 — Charte v2 et intégration des maquettes</a></li>
 </ul>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md694"></a>
 Feuille de route</h1>
 <ul>
-<li><a class="el" href="roadmap-010.html" title="Feuille de route 0.1.0">Feuille de route 0.1.0</a> — le programme complet : ce que le corpus <span class="tt">Documentation/SourceBook/</span> permet d'en tirer, les lots <span class="tt">LOT-08</span> à <span class="tt">LOT-84</span>, et l'audit qui a confronté le tout à l'état réel du dépôt.</li>
+<li><a class="el" href="roadmap.html" title="Feuille de route — le bac à sable de Tanares">Feuille de route — le bac à sable de Tanares</a> — le programme complet du bac à sable de Tanares : ce que le corpus <span class="tt">Documentation/SourceBook/</span> permet d'en tirer, les lots <span class="tt">LOT-09</span> à <span class="tt">LOT-90</span> par jalon de version, et les audits qui ont confronté le tout au dépôt et aux livres.</li>
 </ul>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md695"></a>
 Programme</h1>
-<p>La cible est un <b>bac à sable</b> dans l'univers complet de Tanares : dix régions jouables, treize espèces, seize classes, cent-soixante-seize créatures. Le <em>vertical slice</em> du <span class="tt">LOT-27</span> — « un personnage explore une carte top-down, parle à un PNJ, déclenche une rencontre, gagne un combat tactique au d20 » — reste le jalon qui prouve la boucle avant qu'on la généralise.</p>
+<p>La cible est un <b>bac à sable</b> dans l'univers complet de Tanares : treize régions jouables, treize espèces, seize classes, cent-soixante-seize créatures. Le <em>vertical slice</em> du <span class="tt">LOT-27</span> — « un personnage explore une carte top-down, parle à un PNJ, déclenche une rencontre, gagne un combat tactique au d20 » — reste le jalon qui prouve la boucle avant qu'on la généralise.</p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
 <th class="markdownTableHeadNone">Phase  </th><th class="markdownTableHeadNone">Lots  </th><th class="markdownTableHeadNone">Objet  </th></tr>
@@ -153,11 +157,15 @@ Programme</h1>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">D — Combat tactique  </td><td class="markdownTableBodyNone"><span class="tt">LOT-18</span> → <span class="tt">LOT-24</span>  </td><td class="markdownTableBodyNone">Bascule exploration ↔ combat, grille tactique, initiative, attaques, ligne de vue, IA, IHM de combat  </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">E — Contenu et finition  </td><td class="markdownTableBodyNone"><span class="tt">LOT-25</span> → <span class="tt">LOT-29</span>  </td><td class="markdownTableBodyNone">Sorts, économie, contenu du slice, audio et version <span class="tt">0.2.0</span>, groupe de quatre personnages  </td></tr>
+<td class="markdownTableBodyNone">E — Contenu et finition  </td><td class="markdownTableBodyNone"><span class="tt">LOT-25</span> → <span class="tt">LOT-29</span>  </td><td class="markdownTableBodyNone">Sorts, économie, contenu du slice, audio et version <span class="tt">0.0.1</span> (le slice ; la <span class="tt">0.1.0</span> est le bac à sable complet), groupe de quatre personnages  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">F — Filière contenu  </td><td class="markdownTableBodyNone"><span class="tt">LOT-30</span> → <span class="tt">LOT-84</span>  </td><td class="markdownTableBodyNone">Préconditions (spécification RPG, numéros, chargement de données), extraction du corpus, catalogues, monde et peuplement, une classe par lot, refonte IHM, mécaniques manquantes  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">G — Refonte de l'interface  </td><td class="markdownTableBodyNone"><span class="tt">LOT-85</span> → <span class="tt">LOT-87</span>  </td><td class="markdownTableBodyNone">Décidés hors de la feuille de route : <span class="tt">LOT-85</span> abandonné, <span class="tt">LOT-86</span> (Qt Quick, deux exécutables) et <span class="tt">LOT-87</span> (charte v2) livrés  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">H — Relecture des livres  </td><td class="markdownTableBodyNone"><span class="tt">LOT-88</span> → <span class="tt">LOT-90</span>  </td><td class="markdownTableBodyNone">Ajoutés au second audit : retrait de l'héritage plateforme des spécifications, dons et objets magiques de Tanares, le plan pénombral  </td></tr>
 </table>
-<p>La phase F compte <b>48 lots à venir</b> — quatre numéros (<span class="tt">LOT-31</span>, <span class="tt">LOT-48</span>, <span class="tt">LOT-71</span>, <span class="tt">LOT-73</span>) ayant été retirés par fusion et n'étant pas réattribués, et ses trois préconditions (<span class="tt">LOT-77</span>, <span class="tt">LOT-78</span>, <span class="tt">LOT-79</span>) étant livrées. Elle <b>ne suit pas</b> les précédentes : elle s'entrelace avec B à E, chacun de ses lots servant un lot des phases antérieures qui, sans lui, se bâtirait sur un catalogue fictif. L'ordre d'exécution recommandé, le chemin critique jusqu'au <span class="tt">LOT-27</span> et le graphe complet des dépendances sont donnés par la <a class="el" href="roadmap-010.html" title="Feuille de route 0.1.0">feuille de route</a>, §6 — et vérifiés en CI par <span class="tt">scripts/lint_lots.py</span>.</p>
+<p>La filière (phases F et H) compte <b>38 lots à venir</b> — quatre numéros (<span class="tt">LOT-31</span>, <span class="tt">LOT-48</span>, <span class="tt">LOT-71</span>, <span class="tt">LOT-73</span>) ayant été retirés par fusion et n'étant pas réattribués, et seize de ses lots étant livrés, dont ses trois préconditions (<span class="tt">LOT-77</span>, <span class="tt">LOT-78</span>, <span class="tt">LOT-79</span>). Elle <b>ne suit pas</b> les précédentes : elle s'entrelace avec B à E, chacun de ses lots servant un lot des phases antérieures qui, sans lui, se bâtirait sur un catalogue fictif. L'ordre d'exécution recommandé, le chemin critique jusqu'au <span class="tt">LOT-27</span> et le graphe complet des dépendances sont donnés par la <a class="el" href="roadmap.html" title="Feuille de route — le bac à sable de Tanares">feuille de route</a>, §6 — et vérifiés en CI par <span class="tt">scripts/lint_lots.py</span>.</p>
 <p>Décisions de cadrage actées avant le <span class="tt">LOT-01</span> : règles <b>d20 maison</b> (compatible SRD dans sa structure, sans en dépendre), combat <b>sur la carte d'exploration</b> (grille dérivée de la couche collision), <b>un héros au départ et quatre à terme</b> (rien ne suppose l'unicité), échelle <b>1 case = 1,5 m</b>. </p>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
