@@ -469,7 +469,6 @@ rpg.journal.title = Quest Journal
 rpg.world_map.title = World Map
 rpg.dialogue.title = Dialogue
 rpg.merchant.title = Merchant
-rpg.guild_board.title = Guild Board
 rpg.combat_hud.title = Combat
 
 rpg.block.identity = Identity
@@ -537,7 +536,7 @@ rpg.slot.ring = Ring
 # Labels taken from the five BLANK plates of `VTT/Blank Sheets RPG (1).pdf`. Skill and ability
 # names are the LEXICON's (rpg.glossary.csv), not synonyms: `check_glossary.py` guards these two
 # namespaces the way it already guards conditions.
-rpg.team_sheet.title = Team Sheet
+rpg.company.title = Mercenary Company
 
 rpg.ability.strength = Strength
 rpg.ability.dexterity = Dexterity

@@ -204,39 +204,6 @@
     </message>
 </context>
 <context>
-    <name>GuildBoardForm.ui</name>
-    <message>
-        <location filename="../../Ui/Screens/GuildBoardForm.ui.qml" line="21"/>
-        <source>Tableau de la Guilde</source>
-        <translation>Guild Board</translation>
-    </message>
-    <message>
-        <location filename="../../Ui/Screens/GuildBoardForm.ui.qml" line="36"/>
-        <source>Contrats</source>
-        <translation>Contracts</translation>
-    </message>
-    <message>
-        <location filename="../../Ui/Screens/GuildBoardForm.ui.qml" line="53"/>
-        <source>Contrat</source>
-        <translation>Contract</translation>
-    </message>
-    <message>
-        <location filename="../../Ui/Screens/GuildBoardForm.ui.qml" line="60"/>
-        <source>Commanditaire</source>
-        <translation>Patron</translation>
-    </message>
-    <message>
-        <location filename="../../Ui/Screens/GuildBoardForm.ui.qml" line="61"/>
-        <source>Rang</source>
-        <translation>Rank</translation>
-    </message>
-    <message>
-        <location filename="../../Ui/Screens/GuildBoardForm.ui.qml" line="62"/>
-        <source>Récompense</source>
-        <translation>Reward</translation>
-    </message>
-</context>
-<context>
     <name>InventoryForm.ui</name>
     <message>
         <location filename="../../Ui/Screens/InventoryForm.ui.qml" line="103"/>
@@ -568,89 +535,6 @@
     </message>
 </context>
 <context>
-    <name>TeamSheetForm.ui</name>
-    <message>
-        <location filename="../../Ui/Screens/TeamSheetForm.ui.qml" line="33"/>
-        <source>Feuille d&apos;équipe</source>
-        <translation>Team Sheet</translation>
-    </message>
-    <message>
-        <location filename="../../Ui/Screens/TeamSheetForm.ui.qml" line="51"/>
-        <source>Équipe</source>
-        <translation>Team</translation>
-    </message>
-    <message>
-        <location filename="../../Ui/Screens/TeamSheetForm.ui.qml" line="52"/>
-        <source>Nom de l&apos;équipe</source>
-        <translation>Team Name</translation>
-    </message>
-    <message>
-        <location filename="../../Ui/Screens/TeamSheetForm.ui.qml" line="53"/>
-        <source>Points de carrière</source>
-        <translation>Career Points</translation>
-    </message>
-    <message>
-        <location filename="../../Ui/Screens/TeamSheetForm.ui.qml" line="54"/>
-        <source>Renommée</source>
-        <translation>Fame</translation>
-    </message>
-    <message>
-        <location filename="../../Ui/Screens/TeamSheetForm.ui.qml" line="55"/>
-        <source>Prestige</source>
-        <translation>Prestige</translation>
-    </message>
-    <message>
-        <location filename="../../Ui/Screens/TeamSheetForm.ui.qml" line="56"/>
-        <source>Bénéficiaire</source>
-        <translation>Beneficiary</translation>
-    </message>
-    <message>
-        <location filename="../../Ui/Screens/TeamSheetForm.ui.qml" line="57"/>
-        <source>Style</source>
-        <translation>Style</translation>
-    </message>
-    <message>
-        <location filename="../../Ui/Screens/TeamSheetForm.ui.qml" line="58"/>
-        <source>Spécialisation</source>
-        <translation>Specialization</translation>
-    </message>
-    <message>
-        <location filename="../../Ui/Screens/TeamSheetForm.ui.qml" line="64"/>
-        <source>Membres</source>
-        <translation>Team Members</translation>
-    </message>
-    <message>
-        <location filename="../../Ui/Screens/TeamSheetForm.ui.qml" line="75"/>
-        <source>Relations</source>
-        <translation>Relations</translation>
-    </message>
-    <message>
-        <location filename="../../Ui/Screens/TeamSheetForm.ui.qml" line="88"/>
-        <source>Blason</source>
-        <translation>Coat of Arms</translation>
-    </message>
-    <message>
-        <location filename="../../Ui/Screens/TeamSheetForm.ui.qml" line="95"/>
-        <source>Rêve</source>
-        <translation>Dream</translation>
-    </message>
-    <message>
-        <location filename="../../Ui/Screens/TeamSheetForm.ui.qml" line="102"/>
-        <source>Dessein caché</source>
-        <translation>Hidden Agenda</translation>
-    </message>
-    <message>
-        <location filename="../../Ui/Screens/TeamSheetForm.ui.qml" line="109"/>
-        <source>Récompenses légendaires</source>
-        <translation>Legendary Rewards</translation>
-    </message>
-    <message>
-        <location filename="../../Ui/Screens/TeamSheetForm.ui.qml" line="116"/>
-        <source>Quartier général</source>
-        <translation>Team Headquarters</translation>
-    </message>
-</context>
-<context>
     <name>WorldMapForm.ui</name>
     <message numerus="yes">
         <location filename="../../Ui/Screens/WorldMapForm.ui.qml" line="153"/>
@@ -709,6 +593,149 @@
         <location filename="../../Ui/Screens/WorldMapForm.ui.qml" line="435"/>
         <source>Options</source>
         <translation>Options</translation>
+    </message>
+</context>
+<context>
+    <name>CompanyForm.ui</name>
+    <message>
+        <location filename="../../Ui/Screens/CompanyForm.ui.qml" line="113"/>
+        <source>Équipe de mercenaires</source>
+        <translation>Mercenary Company</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/CompanyForm.ui.qml" line="124"/>
+        <source>Équipe</source>
+        <translation>Company</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/CompanyForm.ui.qml" line="132"/>
+        <source>Recrutement</source>
+        <translation>Recruitment</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/CompanyForm.ui.qml" line="140"/>
+        <source>Contrats</source>
+        <translation>Contracts</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/CompanyForm.ui.qml" line="148"/>
+        <source>Réserve</source>
+        <translation>Reserve</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/CompanyForm.ui.qml" line="215"/>
+        <source>CARRIÈRE</source>
+        <translation>CAREER</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/CompanyForm.ui.qml" line="216"/>
+        <source>NIVEAU</source>
+        <translation>LEVEL</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/CompanyForm.ui.qml" line="217"/>
+        <source>PRESTIGE</source>
+        <translation>PRESTIGE</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/CompanyForm.ui.qml" line="218"/>
+        <source>RENOMMÉE</source>
+        <translation>FAME</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/CompanyForm.ui.qml" line="223"/>
+        <source>Membres de l'équipe</source>
+        <translation>Company members</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/CompanyForm.ui.qml" line="253"/>
+        <source>Place libre</source>
+        <translation>Free slot</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/CompanyForm.ui.qml" line="277"/>
+        <source>Base principale</source>
+        <translation>Main base</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/CompanyForm.ui.qml" line="283"/>
+        <source>Niveau %1</source>
+        <translation>Level %1</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/CompanyForm.ui.qml" line="328"/>
+        <source>État du bâtiment</source>
+        <translation>Building condition</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/CompanyForm.ui.qml" line="345"/>
+        <source>Bâtiments construits</source>
+        <translation>Buildings</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/CompanyForm.ui.qml" line="393"/>
+        <source>Personnel de la base</source>
+        <translation>Base staff</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/CompanyForm.ui.qml" line="438"/>
+        <source>Hauts faits</source>
+        <translation>Deeds</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/CompanyForm.ui.qml" line="494"/>
+        <source>Spécialisation &amp; style</source>
+        <translation>Specialization &amp; style</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/CompanyForm.ui.qml" line="501"/>
+        <source>Spécialisation</source>
+        <translation>Specialization</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/CompanyForm.ui.qml" line="502"/>
+        <source>Style</source>
+        <translation>Style</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/CompanyForm.ui.qml" line="503"/>
+        <source>Rang</source>
+        <translation>Rank</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/CompanyForm.ui.qml" line="514"/>
+        <source>Trésors de la base</source>
+        <translation>Base treasures</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/CompanyForm.ui.qml" line="547"/>
+        <source>Mercenaires à engager</source>
+        <translation>Mercenaries for hire</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/CompanyForm.ui.qml" line="558"/>
+        <source>Contrats de la Guilde</source>
+        <translation>Guild contracts</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/CompanyForm.ui.qml" line="574"/>
+        <source>Contrat</source>
+        <translation>Contract</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/CompanyForm.ui.qml" line="586"/>
+        <source>Commanditaire</source>
+        <translation>Patron</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/CompanyForm.ui.qml" line="588"/>
+        <source>Récompense</source>
+        <translation>Reward</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/CompanyForm.ui.qml" line="595"/>
+        <source>Mercenaires au repos</source>
+        <translation>Resting mercenaries</translation>
     </message>
 </context>
 </TS>

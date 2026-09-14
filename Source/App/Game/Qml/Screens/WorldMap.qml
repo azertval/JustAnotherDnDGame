@@ -108,7 +108,7 @@ WorldMapForm {
     }
     Connections {
         target: root.companyButton
-        function onClicked() { ScreenRouter.openRpgScreen(ScreenRouter.TeamSheet) }
+        function onClicked() { ScreenRouter.openRpgScreen(ScreenRouter.Company) }
     }
     Connections {
         target: root.optionsButton

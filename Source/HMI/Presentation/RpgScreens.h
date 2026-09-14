@@ -39,15 +39,14 @@ enum class RpgScreenId {
     WorldMap,        ///< Carte du monde (`LOT-42`).
     Dialogue,        ///< Dialogue avec un PNJ (`LOT-15`).
     Merchant,        ///< Marchand (`LOT-26`).
-    GuildBoard,      ///< Tableau de la Guilde des Aventuriers (`LOT-45`).
-    CombatHud,       ///< Affichage tête haute de combat (`LOT-24`).
-    /// Feuille d'**équipe** (planche 5 de la maquette Tanares, `LOT-38`) : renommée, blason,
-    /// quartier général. Remplie par la Guilde (`LOT-45`, `LOT-83`).
-    TeamSheet,
+    /// Équipe de **mercenaires** (maquette 09, `LOT-87` T3.7) : la feuille d'équipe (`LOT-38`)
+    /// et le tableau de la Guilde réunis en quatre onglets. Remplie par `LOT-45` et `LOT-83`.
+    Company,
+    CombatHud,  ///< Affichage tête haute de combat (`LOT-24`).
 };
 
 /// Nombre d'écrans du catalogue.
-inline constexpr std::size_t RPG_SCREEN_COUNT = 9;
+inline constexpr std::size_t RPG_SCREEN_COUNT = 8;
 
 /**
  * @brief Règle de **superposition** d'un écran (`EX-IHM-091`) : ce qui met le jeu en pause et ce

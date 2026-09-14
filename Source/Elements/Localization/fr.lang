@@ -471,7 +471,6 @@ rpg.journal.title = Journal de quêtes
 rpg.world_map.title = Carte du monde
 rpg.dialogue.title = Dialogue
 rpg.merchant.title = Marchand
-rpg.guild_board.title = Tableau de la Guilde
 rpg.combat_hud.title = Combat
 
 rpg.block.identity = Identité
@@ -539,7 +538,7 @@ rpg.slot.ring = Anneau
 # Libelles releves sur les cinq planches VIERGES de `VTT/Blank Sheets RPG (1).pdf`. Les noms de
 # competences et de caracteristiques sont ceux du LEXIQUE (rpg.glossary.csv) et non des synonymes :
 # `check_glossary.py` controle ces deux espaces de noms, comme il controle deja les etats.
-rpg.team_sheet.title = Feuille d'équipe
+rpg.company.title = Équipe de mercenaires
 
 rpg.ability.strength = Force
 rpg.ability.dexterity = Dextérité

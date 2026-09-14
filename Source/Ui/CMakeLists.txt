@@ -65,15 +65,15 @@ set(JADG_UI_QML_FILES
     Controls/FieldRow.ui.qml
     Controls/SkillRow.ui.qml
     Controls/MapMarker.ui.qml
+    Controls/LedgerList.ui.qml
     Screens/CharacterSheetForm.ui.qml
     Screens/InventoryForm.ui.qml
     Screens/JournalForm.ui.qml
     Screens/WorldMapForm.ui.qml
     Screens/DialogueForm.ui.qml
     Screens/MerchantForm.ui.qml
-    Screens/GuildBoardForm.ui.qml
     Screens/CombatHudForm.ui.qml
-    Screens/TeamSheetForm.ui.qml
+    Screens/CompanyForm.ui.qml
     Screens/MainMenuForm.ui.qml
     Screens/OptionsForm.ui.qml
     Screens/PauseForm.ui.qml

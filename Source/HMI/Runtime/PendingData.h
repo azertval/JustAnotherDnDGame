@@ -25,8 +25,8 @@ namespace hmi {
  *
  * ## Le problème que cette classe résout
  *
- * Sept des neuf écrans du RPG — journal, carte, dialogue, marchand, guilde, ATH de combat, feuille
- * d'équipe — n'ont aujourd'hui **aucune donnée** : les lots qui les produiront n'existent pas
+ * Plusieurs écrans du RPG — journal, dialogue, marchand, ATH de combat, et l'essentiel de l'équipe
+ * de mercenaires — n'ont aujourd'hui **aucune donnée** : les lots qui les produiront n'existent pas
  * encore. Leur **mise en page**, elle, est décidée, et la jeter en attendant reviendrait à la
  * redessiner plus tard, différemment, sans que personne ne se souvienne de ce qui avait été
  * tranché.

@@ -62,9 +62,8 @@ qt_add_qml_module(JustAnotherDnDGame
         Game/Qml/Screens/WorldMap.qml
         Game/Qml/Screens/Dialogue.qml
         Game/Qml/Screens/Merchant.qml
-        Game/Qml/Screens/GuildBoard.qml
         Game/Qml/Screens/CombatHud.qml
-        Game/Qml/Screens/TeamSheet.qml
+        Game/Qml/Screens/Company.qml
         Game/Qml/Screens/MainMenu.qml
         Game/Qml/Screens/Options.qml
         Game/Qml/Screens/Pause.qml
