@@ -1,0 +1,29 @@
+# Codecov : couverture des lignes ajoutées par une PR (refonte de la CI, phase 1).
+#
+# Le cliquet bloquant reste `COVERAGE_THRESHOLD_PERCENT` dans .github/workflows/ci.yml. Codecov ne
+# fait que MONTRER : ses deux statuts sont informatifs, pour qu'aucun seuil ne soit écrit à deux
+# endroits ni ne bloque un merge sans avoir été décidé.
+coverage:
+  precision: 2
+  round: down
+  status:
+    # Couverture globale et écart avec la base.
+    project:
+      default:
+        informational: true
+    # Couverture des seules lignes modifiées par la PR : ce que le cliquet global ne voit pas.
+    patch:
+      default:
+        target: 85%
+        informational: true
+
+comment:
+  layout: "condensed_header, diff, flags, files"
+  # Pas de commentaire sur une PR qui ne change pas la couverture (documentation, CI, données).
+  require_changes: true
+
+# Les tests eux-mêmes sont déjà exclus à la mesure (`--excluded_sources` d'OpenCppCoverage) ;
+# rappelé ici pour qu'un changement de mesure ne les fasse pas compter en silence.
+ignore:
+  - "Source/Test/**"
+  - "External/**"

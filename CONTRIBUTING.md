@@ -48,13 +48,23 @@ La portée correspond en général au module (`core`, `hmi`, `elements`, `test`,
 - Les actions GitHub sont **épinglées par SHA** de commit, le tag en commentaire ; **Dependabot**
   (`.github/dependabot.yml`) propose leur mise à jour chaque semaine, en une PR. L'installation de
   Qt n'est écrite qu'une fois : `.github/actions/setup-qt/action.yml`.
+- **Lire une PR sans ouvrir de log** : les tests des trois builds sont publiés en commentaire et en
+  check run (`test-report`) ; la couverture des lignes ajoutées est commentée par **Codecov**
+  (informatif, le seul seuil bloquant reste celui de `ci.yml`) ; les avertissements MSVC, les
+  assertions GoogleTest, les écarts `clang-format` et les diagnostics `clang-tidy` (en SARIF, onglet
+  *Security > Code scanning*) s'affichent en **annotation sur la ligne** ; chaque job écrit un
+  **résumé** en tête du run.
+- **`CHANGELOG`** (`changelog.yml`) : une PR doit ajouter au moins une ligne à `## [Non publié]`,
+  ou porter le label **`no-changelog`** si elle n'apporte rien de notable (CI interne, coquille,
+  PR de publication d'une version). Dependabot en est exempté.
 
 ## Publier une version
 1. Bumper `VERSION` dans le `project()` du `CMakeLists.txt` racine — **seul** endroit où le numéro
    est écrit : il alimente `core::Engine::version()` à la compilation, et `scripts/build_docs.py`
    l'injecte dans la documentation générée. Rien d'autre à aligner à la main.
 2. Dans `CHANGELOG.md`, transformer `## [Non publié]` en `## [X.Y.Z] - AAAA-MM-JJ`, lui ajouter un
-   chapeau de jalon, et rouvrir un `## [Non publié]` vide au-dessus.
+   chapeau de jalon, et rouvrir un `## [Non publié]` vide au-dessus. Cette PR n'ajoute rien à la
+   section : lui poser le label `no-changelog`.
 3. Vérifier les notes que produira la release :
    `python scripts/extract_release_notes.py vX.Y.Z` — le workflow lit **cette** section du
    CHANGELOG (`--notes-file`) et **échoue** si elle est absente.
@@ -80,7 +90,8 @@ La portée correspond en général au module (`core`, `hmi`, `elements`, `test`,
    (`cppcoreguidelines-*`, `modernize-*`, `performance-*`, `readability-*`) restent visibles mais
    non bloquantes (triage complet hors périmètre du `LOT-58`, voir
    `Documentation/Lot/LOT-58-verification-release-analyse/tache-03-clang-tidy.md`).
-6. Le `CHANGELOG.md` (section *Unreleased*) est mis à jour si pertinent.
+6. Le `CHANGELOG.md` (section `## [Non publié]`) consigne l'apport de la PR — vérifié en CI
+   (`changelog.yml`) ; sinon, label `no-changelog`.
 7. Si `QT_VERSION_MINIMUM` (`Source/HMI/CMakeLists.txt`) a changé, `env.QT_VERSION` de `ci.yml` et
    `release.yml` doit être bumpé à l'identique — vérifié automatiquement par
    `python scripts/check_qt_version_pin.py` (job `lint-exigences`), pas seulement par relecture.

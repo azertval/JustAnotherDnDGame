@@ -6,6 +6,21 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **CI : voir dans la PR** (refonte de la chaîne d'outillage, phase 1). Savoir ce qui a cassé sans
+  ouvrir un log.
+  - **Résultats des tests** des builds Debug, Release et Ninja publiés en commentaire de PR et en
+    check run : échecs avec leur message, tests ajoutés ou retirés.
+  - **Couverture des lignes ajoutées** commentée par Codecov, à titre informatif : le cliquet
+    bloquant reste celui de `ci.yml`.
+  - **Annotations sur la ligne** : avertissements MSVC, assertions GoogleTest en échec, écarts
+    `clang-format`, et tous les diagnostics `clang-tidy` — bloquants ou non — convertis en SARIF
+    (`scripts/clang_tidy_sarif.py`) et visibles dans *Code scanning*.
+  - **Un résumé en tête de chaque job** : nombre de tests et les plus lents, couverture, taille des
+    exécutables, diagnostics `clang-tidy` par famille, verdict de chaque contrôle du référentiel.
+    Ces contrôles s'exécutent désormais tous, même après un premier échec.
+  - **CHANGELOG vérifié en PR** (`changelog.yml`, `scripts/check_changelog.py`) : une ligne ajoutée
+    à cette section, ou le label `no-changelog`.
+
 - **CI : plus vite, plus propre** (refonte de la chaîne d'outillage, phase 0).
   - **Compilation parallèle sous Visual Studio** (`/MP`) : MSBuild compilait les fichiers d'un
     projet un par un, et les jobs `vs` prenaient deux fois le temps du job Ninja.
