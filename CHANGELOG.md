@@ -25,6 +25,9 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
     défilent (souris, molette, flèches) quand elles dépassent le panneau (`OrnateScrollBar`). Un nom
     de `credits.json` peut désormais être un libellé traduit, pour une mention qui n'est pas un nom
     propre.
+- **Nightly ne tourne plus sur les PR.** Une PR qui touchait `Source/Fuzz/`, `Source/Benchmark/` ou le
+  workflow lançait toute la nuit (fuzzing, clang-tidy complet, Qt suivant…) ; il ne part plus qu'à
+  2 h 17 UTC, ou à la demande (*Run workflow*).
 
 - **CI : Qt, données, vitrine** (refonte de la chaîne d'outillage, phase 4). La filière contenu et
   l'interface ont les mêmes garde-fous que le C++.
