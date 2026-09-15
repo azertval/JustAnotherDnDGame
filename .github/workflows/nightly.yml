@@ -279,8 +279,11 @@ jobs:
         with:
           persist-credentials: false
 
+      # Deux commandes : --version s'appliquerait sinon aussi à Ninja.
       - name: Install cppcheck ${{ env.CPPCHECK_VERSION }} et Ninja
-        run: choco install cppcheck --version=${{ env.CPPCHECK_VERSION }} ninja -y --no-progress --allow-downgrade
+        run: |
+          choco install cppcheck --version=${{ env.CPPCHECK_VERSION }} -y --no-progress --allow-downgrade
+          choco install ninja -y --no-progress
 
       - name: Configure (compile_commands.json, Core et HmiLib)
         shell: cmd  # zizmor: ignore[misfeature] -- vcvars64.bat et CMake doivent partager un processus
@@ -329,7 +332,9 @@ jobs:
           persist-credentials: false
 
       - name: Install LLVM (clang-cl, libFuzzer) ${{ env.LLVM_VERSION }} et Ninja
-        run: choco install llvm --version=${{ env.LLVM_VERSION }} ninja -y --no-progress --allow-downgrade
+        run: |
+          choco install llvm --version=${{ env.LLVM_VERSION }} -y --no-progress --allow-downgrade
+          choco install ninja -y --no-progress
 
       - name: Build des cibles de fuzzing (clang-cl, ASan)
         shell: cmd  # zizmor: ignore[misfeature] -- vcvars64.bat et CMake doivent partager un processus
@@ -436,6 +441,11 @@ jobs:
           cmake -S . -B build/bench -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_BENCHMARKS=ON -DBUILD_TESTING=OFF -DBUILD_EDITOR_QT=OFF || exit /b 1
           cmake --build build/bench --target Benchmarks || exit /b 1
           build\bench\bin\Benchmarks.exe --benchmark_min_time=1s --benchmark_format=json --benchmark_out=benchmarks.json || exit /b 1
+
+      # L'action bascule sur la branche d'historique dans le checkout, même quand on lui interdit de
+      # la télécharger (PR) : elle doit exister localement. Dépôt public, donc sans jeton.
+      - name: Recuperer la branche d'historique
+        run: git fetch --depth=1 origin benchmarks:benchmarks
 
       - name: Historique et alerte
         uses: benchmark-action/github-action-benchmark@4322e5726e6334590d251fc4f92bec0efafc45dc # v1.22.2
@@ -593,8 +603,10 @@ jobs:
           curl -fsSLO "$base/$archive"
           curl -fsSLO "$base/$archive.sha256"
           sha256sum -c "$archive.sha256"
-          tar -xzf "$archive"
-          echo "$RUNNER_TEMP" >> "$GITHUB_PATH"
+          mkdir -p lychee
+          tar -xzf "$archive" -C lychee
+          # L'archive range l'exécutable dans un sous-dossier : on le cherche plutôt que de le supposer.
+          dirname "$(find "$RUNNER_TEMP/lychee" -type f -name lychee | head -n 1)" >> "$GITHUB_PATH"
 
       - name: Liens internes de la documentation
         id: lychee
