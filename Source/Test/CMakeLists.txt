@@ -273,17 +273,26 @@ target_compile_definitions(UnitTests PRIVATE
 # Tests des vues-modeles Qt Quick (LOT-24) : elles lisent leurs catalogues a cote de
 # l'executable, comme le jeu ; l'executable de test est donc dans le meme `bin`, et attend que le
 # jeu y ait deploye ses donnees.
-add_executable(RuntimeTests
-    Unit/HMI/Runtime/test_arena_model.cpp
-)
+# Ajoute conditionnellement, meme garde que Qt6::Gui/TextureLoader.cpp plus haut : JadgRuntime
+# n'existe pas sous ENABLE_ASAN (job sanitize, sans Qt -- voir Source/CMakeLists.txt,
+# JADG_GAME_ENABLED), et un lien vers une cible absente casserait ce build sans rapport avec le code.
+if(TARGET JadgRuntime)
+    add_executable(RuntimeTests
+        Unit/HMI/Runtime/test_arena_model.cpp
+    )
 
-target_link_libraries(RuntimeTests PRIVATE
-    JadgRuntime
-    GTest::gtest_main
-    project_warnings
-    project_options
-)
-add_dependencies(RuntimeTests JustAnotherDnDGame)
+    target_link_libraries(RuntimeTests PRIVATE
+        JadgRuntime
+        GTest::gtest_main
+        project_warnings
+        project_options
+    )
+    # Absent quand JustAnotherDnDGame n'est pas construit (BUILD_EDITOR_QT=OFF) : add_dependencies
+    # exige que la cible existe deja, contrairement a target_link_libraries.
+    if(TARGET JustAnotherDnDGame)
+        add_dependencies(RuntimeTests JustAnotherDnDGame)
+    endif()
+endif()
 
 # Tests d'intégration : plusieurs briques assemblées collaborant de bout en bout.
 add_executable(IntegrationTests
@@ -347,7 +356,9 @@ target_compile_definitions(SystemTests PRIVATE
 # Studio n'etait pas touche, ses cibles ne se recouvrant pas de la meme facon -- exactement le
 # genre d'ecart entre generateurs que le job `build-ninja` existe pour attraper.
 gtest_discover_tests(UnitTests DISCOVERY_MODE PRE_TEST PROPERTIES LABELS unitaire TIMEOUT 300)
-gtest_discover_tests(RuntimeTests DISCOVERY_MODE PRE_TEST PROPERTIES LABELS unitaire TIMEOUT 300)
+if(TARGET RuntimeTests)
+    gtest_discover_tests(RuntimeTests DISCOVERY_MODE PRE_TEST PROPERTIES LABELS unitaire TIMEOUT 300)
+endif()
 gtest_discover_tests(IntegrationTests DISCOVERY_MODE PRE_TEST
                      PROPERTIES LABELS integration TIMEOUT 300)
 gtest_discover_tests(SystemTests DISCOVERY_MODE PRE_TEST PROPERTIES LABELS systeme TIMEOUT 900)

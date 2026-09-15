@@ -717,7 +717,8 @@ TurnPlan planTurn(const ArenaSession& session, CombatantId actor, const Behavior
                                (*moi.attaques)[frappe.indice].label + " depuis " +
                                caseTexte(ancre) + " (jet requis " + std::to_string(frappe.requis) +
                                std::string(nomDePosture(frappe.posture)) + raisons + ")";
-            proposer({.exces = exces(menaces), .attaque = true, .score = candidat.score},
+            const long long scoreCandidat = candidat.score;
+            proposer({.exces = exces(menaces), .attaque = true, .score = scoreCandidat},
                      std::move(candidat));
         }
     }
@@ -752,7 +753,8 @@ TurnPlan planTurn(const ArenaSession& session, CombatantId actor, const Behavior
             esquive.action = TurnAction::Dodge;
             esquive.score = base - poidsMenace * eval.menace(ancre, true) - opportunites;
             esquive.summary += ", esquive";
-            proposer({.exces = exces(menaces), .attaque = false, .score = esquive.score},
+            const long long scoreEsquive = esquive.score;
+            proposer({.exces = exces(menaces), .attaque = false, .score = scoreEsquive},
                      std::move(esquive));
         }
         if (action && opportunites > 0) {
@@ -760,7 +762,8 @@ TurnPlan planTurn(const ArenaSession& session, CombatantId actor, const Behavior
             desengage.action = TurnAction::Disengage;
             desengage.score = base - cases[indice].menace;
             desengage.summary += ", en se desengageant";
-            proposer({.exces = exces(menaces), .attaque = false, .score = desengage.score},
+            const long long scoreDesengage = desengage.score;
+            proposer({.exces = exces(menaces), .attaque = false, .score = scoreDesengage},
                      std::move(desengage));
         }
     }
@@ -785,7 +788,8 @@ TurnPlan planTurn(const ArenaSession& session, CombatantId actor, const Behavior
             course.summary = "ia " + profile.id + " " + nomDe(combat, actor) +
                              " : se precipite en " + caseTexte(*but) + " vers " +
                              nomDe(combat, approche->cible);
-            proposer({.exces = exces(menaces), .attaque = false, .score = course.score},
+            const long long scoreCourse = course.score;
+            proposer({.exces = exces(menaces), .attaque = false, .score = scoreCourse},
                      std::move(course));
         }
     }
