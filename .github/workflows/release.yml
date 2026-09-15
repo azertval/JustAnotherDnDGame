@@ -9,7 +9,7 @@ name: Release
 # Chaque release porte, à côté des zips du jeu, un zip de symboles (.pdb) par configuration et un
 # fichier SHA256SUMS (scripts/package_release.ps1, scripts/write_sha256sums.ps1).
 #
-# Depuis le LOT-38, l'unique application `JustAnotherDnDGame` est une app **Qt** : le job installe Qt
+# Depuis le LOT-38, l'unique application `JustAnotherRpgGame` est une app **Qt** : le job installe Qt
 # (comme la CI), construit avec le **runtime MSVC dynamique** (les DLL Qt officielles sont en /MD ;
 # un CRT statique provoquerait des incohérences d'allocation), et empaquette **tout le dossier de
 # l'exécutable** — `windeployqt` (POST_BUILD, Source/HMI/CMakeLists.txt) y a déposé les DLL Qt, le
@@ -93,19 +93,19 @@ jobs:
         # Tout le dossier de l'exécutable (exe, DLL Qt + platforms/ par windeployqt, runtime, assets),
         # les .pdb dans une archive à part : voir scripts/package_release.ps1.
         run: |
-          ./scripts/package_release.ps1 -BinDir build-release/bin/Debug -Name JustAnotherDnDGame-debug -OutDir dist
+          ./scripts/package_release.ps1 -BinDir build-release/bin/Debug -Name JustAnotherRpgGame-debug -OutDir dist
           Push-Location dist
-          ../scripts/write_sha256sums.ps1 -Path JustAnotherDnDGame-debug.zip, JustAnotherDnDGame-debug-symbols.zip
+          ../scripts/write_sha256sums.ps1 -Path JustAnotherRpgGame-debug.zip, JustAnotherRpgGame-debug-symbols.zip
           Pop-Location
 
       # L'archive, décompressée ailleurs, doit lancer le jeu et rendre une image (phase 3) : sinon
       # debug-latest garde la version précédente, qui elle fonctionnait.
       - name: Test de fumee de l'archive
         shell: pwsh
-        run: ./scripts/smoke_test_release.ps1 -Zip dist/JustAnotherDnDGame-debug.zip
+        run: ./scripts/smoke_test_release.ps1 -Zip dist/JustAnotherRpgGame-debug.zip
 
       # Prouve que chaque fichier publié sort de CE workflow sur CE commit :
-      # `gh attestation verify JustAnotherDnDGame-debug.zip --repo <propriétaire>/JustAnotherDnDGame`.
+      # `gh attestation verify JustAnotherRpgGame-debug.zip --repo <propriétaire>/JustAnotherRpgGame`.
       - name: Attestation de provenance
         uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
         with:
@@ -121,9 +121,9 @@ jobs:
         # pire, un échec laisse la version précédente en place.
         run: |
           $tag = 'debug-latest'
-          $files = @('dist/JustAnotherDnDGame-debug.zip', 'dist/JustAnotherDnDGame-debug-symbols.zip', 'dist/SHA256SUMS')
+          $files = @('dist/JustAnotherRpgGame-debug.zip', 'dist/JustAnotherRpgGame-debug-symbols.zip', 'dist/SHA256SUMS')
           $notes = "Build Debug automatique du dernier commit sur main ($env:GITHUB_SHA). " +
-                   "Décompresser JustAnotherDnDGame-debug.zip et lancer JustAnotherDnDGame.exe. " +
+                   "Décompresser JustAnotherRpgGame-debug.zip et lancer JustAnotherRpgGame.exe. " +
                    "Les symboles (.pdb) sont dans l'archive -symbols, les empreintes dans SHA256SUMS."
 
           # Le tag est déplacé par l'API, pas par `git push` : le checkout ne garde aucun jeton
@@ -143,7 +143,7 @@ jobs:
             gh release edit $tag --notes $notes --prerelease
           } else {
             gh release create $tag @files --verify-tag --prerelease `
-              --title "JustAnotherDnDGame — Debug (dernier main)" --notes $notes
+              --title "JustAnotherRpgGame — Debug (dernier main)" --notes $notes
           }
           if ($LASTEXITCODE -ne 0) { throw "Échec de la publication de $tag." }
 
@@ -250,8 +250,8 @@ jobs:
         env:
           VERSION: ${{ github.ref_name }}
         run: |
-          ./scripts/package_release.ps1 -BinDir build-debug/bin/Debug -Name "JustAnotherDnDGame-$env:VERSION-debug" -OutDir dist
-          ./scripts/package_release.ps1 -BinDir build-prod/bin/Release -Name "JustAnotherDnDGame-$env:VERSION-release" -OutDir dist
+          ./scripts/package_release.ps1 -BinDir build-debug/bin/Debug -Name "JustAnotherRpgGame-$env:VERSION-debug" -OutDir dist
+          ./scripts/package_release.ps1 -BinDir build-prod/bin/Release -Name "JustAnotherRpgGame-$env:VERSION-release" -OutDir dist
           Push-Location dist
           ../scripts/write_sha256sums.ps1 -Path (Get-ChildItem -Filter *.zip | Sort-Object Name).Name
           Pop-Location
@@ -262,8 +262,8 @@ jobs:
         env:
           VERSION: ${{ github.ref_name }}
         run: |
-          ./scripts/smoke_test_release.ps1 -Zip "dist/JustAnotherDnDGame-$env:VERSION-debug.zip"
-          ./scripts/smoke_test_release.ps1 -Zip "dist/JustAnotherDnDGame-$env:VERSION-release.zip"
+          ./scripts/smoke_test_release.ps1 -Zip "dist/JustAnotherRpgGame-$env:VERSION-debug.zip"
+          ./scripts/smoke_test_release.ps1 -Zip "dist/JustAnotherRpgGame-$env:VERSION-release.zip"
 
       - name: Attestation de provenance
         uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2

@@ -1,5 +1,5 @@
 # SPDX-FileCopyrightText: 2026 Valentin Eloy
-# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 
 # Jadg.Ui : les écrans du jeu, en QML déclaratif -- le territoire de la conception (LOT-87).
 #
@@ -37,6 +37,7 @@ set(JADG_UI_QML_FILES
     Controls/OrnateTab.ui.qml
     Controls/OrnateCheck.ui.qml
     Controls/OrnateSlider.ui.qml
+    Controls/OrnateScrollBar.ui.qml
     Controls/OrnateCombo.ui.qml
     Controls/StatMedallion.ui.qml
     Controls/PortraitFrame.ui.qml

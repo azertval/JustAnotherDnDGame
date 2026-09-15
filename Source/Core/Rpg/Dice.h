@@ -1,5 +1,5 @@
 // SPDX-FileCopyrightText: 2026 Valentin Eloy
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 
 #pragma once
 
@@ -47,7 +47,7 @@ struct Dice {
 };
 
 /**
- * @brief Le détail d'un lancer, pour que le joueur puisse le reconstituer (`EX-DND-003`).
+ * @brief Le détail d'un lancer, pour que le joueur puisse le reconstituer (`EX-REG-003`).
  *
  * Chaque dé est conservé, pas seulement le total. Un jeu de rôle au dé dont le joueur ne peut pas
  * reconstituer pourquoi il a échoué se joue comme une machine à sous — et c'est aussi le seul

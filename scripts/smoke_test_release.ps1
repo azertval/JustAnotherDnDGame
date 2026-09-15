@@ -8,7 +8,7 @@
     le runtime : le zip est alors complet en apparence et le jeu ne s'ouvre pas (refonte de la CI,
     phase 3).
 
-    Le script décompresse l'archive dans un dossier neuf, lance `JustAnotherDnDGame.exe
+    Le script décompresse l'archive dans un dossier neuf, lance `JustAnotherRpgGame.exe
     --screenshot=<png>` — le mode du jeu qui charge l'interface, rend une image et quitte seul — et
     exige :
       - un code de sortie 0 dans le délai (1 = QML non chargé ou capture refusée, 2 = délai interne) ;
@@ -21,7 +21,7 @@
 
     Utilisé par .github/workflows/release.yml avant toute publication, et par le job `smoke` de
     nightly.yml. Rejouable en local :
-    `pwsh scripts/smoke_test_release.ps1 -Zip dist/JustAnotherDnDGame-debug.zip -Screenshot smoke.png`
+    `pwsh scripts/smoke_test_release.ps1 -Zip dist/JustAnotherRpgGame-debug.zip -Screenshot smoke.png`
 
 .PARAMETER Zip
     L'archive du jeu produite par scripts/package_release.ps1.
@@ -64,8 +64,8 @@ try {
     New-Item -ItemType Directory -Force -Path $game, (Split-Path -Parent $Screenshot) | Out-Null
     Expand-Archive -LiteralPath $archive -DestinationPath $game -Force
 
-    $exe = Join-Path $game 'JustAnotherDnDGame.exe'
-    if (-not (Test-Path -LiteralPath $exe)) { throw "JustAnotherDnDGame.exe absent de l'archive $archive." }
+    $exe = Join-Path $game 'JustAnotherRpgGame.exe'
+    if (-not (Test-Path -LiteralPath $exe)) { throw "JustAnotherRpgGame.exe absent de l'archive $archive." }
     if (Test-Path -LiteralPath $Screenshot) { Remove-Item -LiteralPath $Screenshot -Force }
 
     Write-Host "Lancement : $exe --screenshot=$Screenshot"

@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://justanotherdndgame.local/rpg/language.schema.json",
+  "$id": "https://justanotherrpggame.local/rpg/language.schema.json",
   "title": "Langue",
   "description": "Une des seize langues, avec son ecriture et ses locuteurs typiques. Elles ne sont PAS decoratives (EX-RPG-042) : chaque bloc de creature declare ses langues, chaque espece en accorde, et un dialogue doit pouvoir etre refuse faute de langue commune -- sans quoi un monde a treize especes parle partout la meme.",
   "type": "object",
@@ -36,7 +36,7 @@
   "additionalProperties": false,
   "allOf": [
     {
-      "$ref": "https://justanotherdndgame.local/rpg/common.schema.json#/$defs/entree"
+      "$ref": "https://justanotherrpggame.local/rpg/common.schema.json#/$defs/entree"
     }
   ]
 }

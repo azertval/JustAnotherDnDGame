@@ -1,5 +1,5 @@
 // SPDX-FileCopyrightText: 2026 Valentin Eloy
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 
 #pragma once
 
@@ -43,7 +43,7 @@ namespace app {
  *
  * @param argc            Nombre d'arguments de la ligne de commande.
  * @param argv            Arguments de la ligne de commande.
- * @param applicationName Nom porté par la bannière de démarrage (« JustAnotherDnDGame », «
+ * @param applicationName Nom porté par la bannière de démarrage (« JustAnotherRpgGame », «
  * LevelEditor »).
  * @return Le puits mémoire de la session en développement, `nullptr` en release.
  */

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Valentin Eloy
-# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 """Releve de la palette de la charte v2 sur les maquettes du LOT-87 (T2.1).
 
 Meme regle que le `LOT-66` sur les feuilles de personnage : **une couleur se releve, elle ne se

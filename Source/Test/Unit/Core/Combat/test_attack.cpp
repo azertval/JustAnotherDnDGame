@@ -1,9 +1,9 @@
 // SPDX-FileCopyrightText: 2026 Valentin Eloy
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 
 /**
  * @file test_attack.cpp
- * @brief Tests de l'attaque (`LOT-21`, `EX-CBT-030`, `EX-CBT-031`, `EX-DND-003`) : 1 et 20
+ * @brief Tests de l'attaque (`LOT-21`, `EX-CBT-030`, `EX-CBT-031`, `EX-REG-003`) : 1 et 20
  * naturels, jet amendable, journal, circonstances de la grille, profils du bestiaire et de la
  * fiche.
  *
@@ -143,7 +143,7 @@ TEST(AttackTest, UnUnNaturelRateMemeAuDessusDeLaCA) {
 }
 
 /**
- * @brief Chaque jet produit une entree de journal complete et lisible (EX-DND-003).
+ * @brief Chaque jet produit une entree de journal complete et lisible (EX-REG-003).
  * \castest{<b>Une attaque touchee et une attaque ratee s'ecrivent au journal avec le de, chaque
  * modificateur et son origine, la CA, l'issue, les des de degats, leur type et les PV.</b><br/>
  * \tcat Unitaire · Combat<br/>

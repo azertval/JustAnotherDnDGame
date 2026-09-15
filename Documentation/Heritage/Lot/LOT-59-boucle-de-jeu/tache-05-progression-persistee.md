@@ -32,7 +32,7 @@ second.
   `currentGameLevelName` : le tableau suivant devient `Progression::currentLevel`.
 - `Source/HMI/Interface/MainWindow.{h,cpp}` — chargement au démarrage, écriture en fin de tableau
   (`openLevelComplete`, après la transition).
-- `Source/HMI/CMakeLists.txt` (compiler `Progression.cpp` dans `JustAnotherDnDGame`).
+- `Source/HMI/CMakeLists.txt` (compiler `Progression.cpp` dans `JustAnotherRpgGame`).
 - `Source/Test/Unit/HMI/Game/test_progression.cpp` (nouveau).
 - `Source/Test/CMakeLists.txt` (compiler `Progression.cpp` dans `UnitTests`).
 - `.gitignore` — vérifié : `Settings/` produit à l'exécution vit sous `build/` (déjà ignoré en

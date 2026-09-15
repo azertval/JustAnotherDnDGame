@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Lint du graphe de lots de JustAnotherDnDGame.
+"""Lint du graphe de lots de JustAnotherRpgGame.
 
 La feuille de route ``Documentation/Lot/roadmap.md`` est l'**unique source de vérité** des
 lots à venir. Un document de cette taille dérive : les comptes vieillissent, un lien de dépendance

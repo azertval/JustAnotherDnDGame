@@ -86,7 +86,7 @@ trois nouveaux types, sans en inventer un quatrième.
 - **Bug corrigé en cours de lot : `Source/Elements/Assets/atlas.png` non régénéré.** L'agrandissement
   de la grille procédurale (5×5 → 6×6, ci-dessus) change la géométrie que `TextureAtlas::loadFromFile`
   attend, mais le fichier PNG **versionné** n'est pas recalculé automatiquement — seule
-  `JustAnotherDnDGame.exe --export-atlas=<chemin>` le fait (`LOT-39`). L'avoir oublié ici a produit trois
+  `JustAnotherRpgGame.exe --export-atlas=<chemin>` le fait (`LOT-39`). L'avoir oublié ici a produit trois
   symptômes distincts en aval, tous constatés en essai manuel : personnage mal recadré en mouvement
   (lignes de la grille décalées), `Key`/`LockedDoor` lues dans une case hors bornes de l'ancien
   fichier (invisibles), et les trois nouveaux mécanismes en noir en mode Physique. Régénéré ; ajout

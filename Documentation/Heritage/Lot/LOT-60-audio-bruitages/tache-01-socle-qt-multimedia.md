@@ -16,7 +16,7 @@ qu'un joueur le signale.
 
 ## Travail à réaliser
 - **Trouver `Qt6::Multimedia`** dans `Source/HMI/CMakeLists.txt`, en composant additionnel, en
-  conservant la garde existante : sans Qt, la cible `JustAnotherDnDGame` est ignorée sans faire échouer
+  conservant la garde existante : sans Qt, la cible `JustAnotherRpgGame` est ignorée sans faire échouer
   la configuration.
 - **CI** : ajouter `modules: qtmultimedia` à chaque étape `install-qt-action` de `ci.yml` **et** de
   `release.yml`. Les quatre jobs concernés doivent être traités — en oublier un se manifeste par un

@@ -25,7 +25,7 @@ Window {
     // -- ils ne peuvent pas se désynchroniser, faute d'un chemin par lequel le faire.
     visibility: OptionsModel.fullscreen ? Window.FullScreen : Window.Windowed
     color: Tokens.background
-    title: "JustAnotherDnDGame"
+    title: "JustAnotherRpgGame"
 
     /*!
         La palette des contrôles Qt, tirée des jetons.

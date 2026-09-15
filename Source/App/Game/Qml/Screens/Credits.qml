@@ -9,7 +9,8 @@ import Jadg.Runtime
     deux `CreditsModel`, un par colonne. Leur langue suit le reglage : changer de langue dans les
     options relit les titres et les roles.
 
-    `Echap` et le bouton Retour ramenent au menu par le routeur.
+    `Echap` et le bouton Retour ramenent au menu par le routeur. Haut et bas font defiler les
+    sections quand elles depassent le panneau.
 */
 CreditsForm {
     id: root
@@ -36,6 +37,8 @@ CreditsForm {
     }
 
     Keys.onEscapePressed: ScreenRouter.closeCredits()
+    Keys.onUpPressed: root.scrollBar.decrease()
+    Keys.onDownPressed: root.scrollBar.increase()
 
     Connections {
         target: root.backButton

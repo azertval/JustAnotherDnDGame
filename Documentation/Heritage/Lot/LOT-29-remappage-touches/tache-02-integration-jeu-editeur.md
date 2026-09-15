@@ -81,7 +81,7 @@ Avec les valeurs par défaut de TACHE-01, le comportement observable doit rester
   de cadrage de l'épic (section « Filet de sécurité manette ») pour le détail complet et les tests
   de régression associés.
 - **Écart constaté (TACHE-01)** : `GameKeyBindings.cpp`/`EditorKeyBindings.cpp` sont compilés
-  directement dans les cibles `JustAnotherDnDGame` et `UnitTests` (comme `PlayerInputMapper.cpp`),
+  directement dans les cibles `JustAnotherRpgGame` et `UnitTests` (comme `PlayerInputMapper.cpp`),
   pas dans la bibliothèque `Core` — `Core` lie `nlohmann_json` en `PRIVATE`, ce lien ne se propage
   donc pas. Corrigé en ajoutant `nlohmann_json::nlohmann_json` directement aux deux cibles
   (`Source/HMI/CMakeLists.txt`, `Source/Test/CMakeLists.txt`).

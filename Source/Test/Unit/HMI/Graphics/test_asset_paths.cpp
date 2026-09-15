@@ -1,5 +1,5 @@
 // SPDX-FileCopyrightText: 2026 Valentin Eloy
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 
 /**
  * @file test_asset_paths.cpp
@@ -18,7 +18,7 @@ class TemporaryDirectory {
 public:
     TemporaryDirectory()
         : _path(std::filesystem::temp_directory_path() /
-                ("JustAnotherDnDGame_AssetPathsTest_" +
+                ("JustAnotherRpgGame_AssetPathsTest_" +
                  std::to_string(reinterpret_cast<std::uintptr_t>(this)))) {
         std::filesystem::create_directories(_path);
     }
@@ -93,7 +93,7 @@ TEST(AssetPathsTest, AssetAbsentSignaleSansException) {
  */
 TEST(AssetPathsTest, DossierInexistantSansException) {
     const hmi::AssetPaths assetPaths(std::filesystem::temp_directory_path() /
-                                     "JustAnotherDnDGame_DossierQuiNexistePas");
+                                     "JustAnotherRpgGame_DossierQuiNexistePas");
 
     EXPECT_EQ(assetPaths.resolve("atlas.png"), std::nullopt);
 }

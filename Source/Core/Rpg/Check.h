@@ -1,11 +1,11 @@
 // SPDX-FileCopyrightText: 2026 Valentin Eloy
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 
 #pragma once
 
 /**
  * @file Core/Rpg/Check.h
- * @brief Le jet de d20 : avantage, désavantage, seuil, restitution (`EX-DND-002`, `EX-DND-003`).
+ * @brief Le jet de d20 : avantage, désavantage, seuil, restitution (`EX-REG-002`, `EX-REG-003`).
  */
 
 #include <filesystem>
@@ -24,7 +24,7 @@ inline constexpr int D20_FACES = 20;
 /**
  * @brief Comment le d20 est lancé.
  *
- * `Advantage` et `Disadvantage` **ne se cumulent pas** (`EX-DND-002`) : plusieurs sources
+ * `Advantage` et `Disadvantage` **ne se cumulent pas** (`EX-REG-002`) : plusieurs sources
  * d'avantage donnent un avantage, et une source de chaque s'annule entièrement. C'est
  * `rollStance` qui applique cette règle, à partir du décompte des sources — jamais l'appelant, qui
  * aurait à arbitrer une pile de bonus contre toutes les autres à chaque capacité ajoutée.
@@ -36,7 +36,7 @@ enum class RollStance {
 };
 
 /**
- * @brief Détermine la posture depuis le **nombre de sources** de chaque type (`EX-DND-002`).
+ * @brief Détermine la posture depuis le **nombre de sources** de chaque type (`EX-REG-002`).
  *
  * Deux avantages et un désavantage donnent `Normal`, pas `Advantage` : la règle annule, elle ne
  * compte pas. C'est contre-intuitif la première fois, et c'est précisément pour cela que la
@@ -59,7 +59,7 @@ struct Modifier {
 };
 
 /**
- * @brief Le résultat complet d'un jet, et de quoi le reconstituer (`EX-DND-003`).
+ * @brief Le résultat complet d'un jet, et de quoi le reconstituer (`EX-REG-003`).
  *
  * Tout y est : les dés obtenus (deux si avantage ou désavantage), celui qui a été **retenu**, les
  * modificateurs avec leur origine, le seuil visé et l'issue. « Vous échouez » n'apprend rien ;
@@ -101,7 +101,7 @@ struct CheckResult {
         return total >= target;
     }
 
-    /// @brief Restitution lisible du jet, modificateurs et origines compris (`EX-DND-003`).
+    /// @brief Restitution lisible du jet, modificateurs et origines compris (`EX-REG-003`).
     [[nodiscard]] std::string describe() const;
 };
 
@@ -110,7 +110,7 @@ struct CheckResult {
  *
  * @param target Seuil visé : un degré de difficulté (`Source/Elements/Rpg/rules/difficulty.json`)
  *               ou une classe d'armure. **Jamais un littéral dans le code appelant**
- *               (`EX-DND-021`) : un nombre nu dans un `if` ne dit pas ce qu'il représente, et
+ *               (`EX-REG-021`) : un nombre nu dans un `if` ne dit pas ce qu'il représente, et
  *               régler l'équilibre du jeu ne doit pas demander de recompiler.
  * @param modifiers Les modificateurs, **avec leur origine**.
  * @param stance Avantage, désavantage, ou ni l'un ni l'autre — voir `rollStance`.
@@ -132,7 +132,7 @@ struct DifficultyTier {
 
 /**
  * @brief L'échelle des degrés de difficulté, telle que `rules/difficulty.json` la déclare
- *        (`EX-DND-021`, `LOT-15`).
+ *        (`EX-REG-021`, `LOT-15`).
  *
  * Un contenu écrit « Persuasion, difficulté **moyenne** » et non « Persuasion 15 » : le nombre est
  * une règle, et régler l'équilibre du jeu ne doit toucher qu'un fichier. C'est la lecture qui

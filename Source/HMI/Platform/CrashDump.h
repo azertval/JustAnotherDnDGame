@@ -1,5 +1,5 @@
 // SPDX-FileCopyrightText: 2026 Valentin Eloy
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 
 #pragma once
 
@@ -33,7 +33,7 @@ inline constexpr unsigned long kFatalErrorExceptionCode = 0xE04A4447UL;
  * caractère hors `[A-Za-z0-9.-]` devient `_`, pour qu'une version comme `0.1.0+dev` reste un nom de
  * fichier sûr.
  *
- * @param application Nom de l'application (`JustAnotherDnDGame`, `LevelEditor`).
+ * @param application Nom de l'application (`JustAnotherRpgGame`, `LevelEditor`).
  * @param version     Version du binaire (`core::Engine::version()`).
  * @param localTime   Heure locale du plantage.
  * @return Le nom du fichier, sans dossier.

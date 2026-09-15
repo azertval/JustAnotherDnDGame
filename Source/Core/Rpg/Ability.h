@@ -1,11 +1,11 @@
 // SPDX-FileCopyrightText: 2026 Valentin Eloy
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 
 #pragma once
 
 /**
  * @file Core/Rpg/Ability.h
- * @brief Les six caractéristiques et leur modificateur (`EX-DND-010`).
+ * @brief Les six caractéristiques et leur modificateur (`EX-REG-010`).
  */
 
 #include <optional>
@@ -15,7 +15,7 @@
 namespace core {
 
 /**
- * @brief Une des six caractéristiques d'un personnage ou d'une créature (`EX-DND-010`).
+ * @brief Une des six caractéristiques d'un personnage ou d'une créature (`EX-REG-010`).
  *
  * Ensemble **fermé** : six valeurs, fixées par les règles. Les noms textuels sont ceux du lexique
  * (`LOT-30`) et de `common.schema.json`, et `scripts/check_rpg_data.py` vérifie que les trois

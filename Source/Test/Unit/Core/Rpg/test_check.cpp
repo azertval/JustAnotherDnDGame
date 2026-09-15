@@ -1,9 +1,9 @@
 // SPDX-FileCopyrightText: 2026 Valentin Eloy
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 
 /**
  * @file test_check.cpp
- * @brief Tests du jet de d20 : avantage, seuil, restitution (LOT-12, EX-DND-002, EX-DND-003).
+ * @brief Tests du jet de d20 : avantage, seuil, restitution (LOT-12, EX-REG-002, EX-REG-003).
  */
 
 #include <array>
@@ -24,7 +24,7 @@ constexpr std::uint64_t GRAINE = 20260905U;
 const std::filesystem::path DIFFICULTE =
     std::filesystem::path(JADG_RPG_RULES_DIR) / "difficulty.json";
 
-/// @brief Le seuil d'un palier nomme, lu dans la DONNEE -- jamais un litteral (EX-DND-021).
+/// @brief Le seuil d'un palier nomme, lu dans la DONNEE -- jamais un litteral (EX-REG-021).
 [[nodiscard]] int seuil(std::string_view palier) {
     const core::JsonDocument document = core::readJsonObjectFromFile(DIFFICULTE, 0);
     EXPECT_TRUE(document.ok()) << DIFFICULTE.string() << " : " << document.message;
@@ -160,7 +160,7 @@ TEST(CheckTest, ModificateursEtRestitution) {
     EXPECT_EQ(resultat.succeeded(), resultat.total >= cible);
 
     // « Vous echouez » n'apprend rien ; la restitution doit permettre de reconstituer le jet
-    // (EX-DND-003).
+    // (EX-REG-003).
     const std::string restitution = resultat.describe();
     EXPECT_NE(restitution.find("Dexterite"), std::string::npos);
     EXPECT_NE(restitution.find("maitrise"), std::string::npos);
@@ -175,7 +175,7 @@ TEST(CheckTest, ModificateursEtRestitution) {
  * \tcrit Majeur<br/>
  * \tetapes 1. Lire les paliers de difficulty.json.<br/>
  * \tattendu Six paliers, de 5 a 30, en ordre croissant -- aucun n'est ecrit dans le code
- * (EX-DND-021).
+ * (EX-REG-021).
  * }
  */
 TEST(CheckTest, EchelleDeDifficulteEnDonnee) {

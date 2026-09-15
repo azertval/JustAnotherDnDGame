@@ -1,11 +1,11 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://justanotherdndgame.local/rpg/spell.schema.json",
+  "$id": "https://justanotherrpggame.local/rpg/spell.schema.json",
   "title": "Sort",
   "description": "Un sort est une COMBINAISON DECLAREE de mecanismes existants, jamais une fonction (EX-RPG-050). Un sort dont l'effet n'entre dans aucun mecanisme porte `narratif: true` (EX-RPG-051) : le catalogue reste enumerable, et aucun sort ne tombe en silence dans un cas par defaut.",
   "allOf": [
     {
-      "$ref": "https://justanotherdndgame.local/rpg/common.schema.json#/$defs/entree"
+      "$ref": "https://justanotherrpggame.local/rpg/common.schema.json#/$defs/entree"
     }
   ],
   "type": "object",
@@ -24,7 +24,7 @@
       "description": "0 = sort mineur (cantrip)."
     },
     "school": {
-      "$ref": "https://justanotherdndgame.local/rpg/common.schema.json#/$defs/magicSchool"
+      "$ref": "https://justanotherrpggame.local/rpg/common.schema.json#/$defs/magicSchool"
     },
     "castingTime": {
       "type": "string",
@@ -68,16 +68,16 @@
       "type": "boolean"
     },
     "damage": {
-      "$ref": "https://justanotherdndgame.local/rpg/common.schema.json#/$defs/des"
+      "$ref": "https://justanotherrpggame.local/rpg/common.schema.json#/$defs/des"
     },
     "damageType": {
-      "$ref": "https://justanotherdndgame.local/rpg/common.schema.json#/$defs/damageType"
+      "$ref": "https://justanotherrpggame.local/rpg/common.schema.json#/$defs/damageType"
     },
     "savingThrow": {
-      "$ref": "https://justanotherdndgame.local/rpg/common.schema.json#/$defs/ability"
+      "$ref": "https://justanotherrpggame.local/rpg/common.schema.json#/$defs/ability"
     },
     "appliesCondition": {
-      "$ref": "https://justanotherdndgame.local/rpg/common.schema.json#/$defs/conditionRef"
+      "$ref": "https://justanotherrpggame.local/rpg/common.schema.json#/$defs/conditionRef"
     },
     "text": {
       "type": "string",

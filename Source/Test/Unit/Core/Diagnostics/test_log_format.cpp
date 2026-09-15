@@ -1,5 +1,5 @@
 // SPDX-FileCopyrightText: 2026 Valentin Eloy
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 
 /**
  * @file test_log_format.cpp
@@ -48,10 +48,10 @@ TEST(LogFormatTest, LigneContientTousLesChamps) {
 TEST(LogFormatTest, CheminReduitAuNomDeFichier) {
     const std::string line =
         core::formatLogLine("00:00:00", core::LogLevel::Info, "Core",
-                            "D:\\JustAnotherDnDGame\\Source\\Core\\Foo.cpp", 7, "x");
+                            "D:\\JustAnotherRpgGame\\Source\\Core\\Foo.cpp", 7, "x");
 
     EXPECT_NE(line.find("Foo.cpp:7"), std::string::npos);
-    EXPECT_EQ(line.find("JustAnotherDnDGame"), std::string::npos);
+    EXPECT_EQ(line.find("JustAnotherRpgGame"), std::string::npos);
     EXPECT_EQ(line.find("Source"), std::string::npos);
 }
 

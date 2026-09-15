@@ -98,7 +98,7 @@ jobs:
       - name: Annotations du compilateur et des tests
         run: echo "::add-matcher::.github/problem-matchers/msvc.json"
 
-      # Nécessaire pour construire l'application Qt (JustAnotherDnDGame, LOT-34). Définition unique
+      # Nécessaire pour construire l'application Qt (JustAnotherRpgGame, LOT-34). Définition unique
       # des modules et de l'action : .github/actions/setup-qt/action.yml.
       - name: Install Qt
         uses: ./.github/actions/setup-qt
@@ -143,10 +143,10 @@ jobs:
 
       - name: Verifier que l'executable est bien produit
         shell: pwsh
-        # Si Qt n'est pas résolu, la cible JustAnotherDnDGame est ignorée et le build « réussit » sans
+        # Si Qt n'est pas résolu, la cible JustAnotherRpgGame est ignorée et le build « réussit » sans
         # produire d'application : une panne muette que seul ce contrôle rend visible.
         run: |
-          $exe = 'build/vs/bin/Debug/JustAnotherDnDGame.exe'
+          $exe = 'build/vs/bin/Debug/JustAnotherRpgGame.exe'
           if (-not (Test-Path $exe)) { throw "Executable absent : $exe" }
           Write-Host "OK : $exe"
 
@@ -213,7 +213,7 @@ jobs:
           python scripts/ci_summary.py --title "Debug (preset vs)"
           --junit test-results/junit-debug.xml
           --coverage coverage.xml --threshold ${{ env.COVERAGE_THRESHOLD_PERCENT }}
-          --file build/vs/bin/Debug/JustAnotherDnDGame.exe
+          --file build/vs/bin/Debug/JustAnotherRpgGame.exe
 
   build-test-release:
     # Les deux jobs ci-dessus (et l'historique de la CI avant ce lot) ne construisent et ne testent
@@ -270,7 +270,7 @@ jobs:
       - name: Verifier que l'executable est bien produit
         shell: pwsh
         run: |
-          $exe = 'build/vs/bin/Release/JustAnotherDnDGame.exe'
+          $exe = 'build/vs/bin/Release/JustAnotherRpgGame.exe'
           if (-not (Test-Path $exe)) { throw "Executable absent : $exe" }
           Write-Host "OK : $exe"
 
@@ -279,7 +279,7 @@ jobs:
         run: >-
           python scripts/ci_summary.py --title "Release (preset vs-release)"
           --junit test-results/junit-release.xml
-          --file build/vs/bin/Release/JustAnotherDnDGame.exe
+          --file build/vs/bin/Release/JustAnotherRpgGame.exe
 
   build-ninja:
     # Le preset `vs` s'appuie sur MSBuild, qui établit lui-même l'environnement MSVC ; le preset
@@ -343,10 +343,10 @@ jobs:
 
       - name: Verifier que l'executable est bien produit
         shell: pwsh
-        # Sans Qt, la cible JustAnotherDnDGame est ignorée et le build « réussit » sans exécutable :
+        # Sans Qt, la cible JustAnotherRpgGame est ignorée et le build « réussit » sans exécutable :
         # c'est exactement la panne que ce lot corrige, donc on l'érige en contrôle.
         run: |
-          foreach ($exe in @('build/ninja/bin/JustAnotherDnDGame.exe', 'build/ninja/bin/LevelEditor.exe')) {
+          foreach ($exe in @('build/ninja/bin/JustAnotherRpgGame.exe', 'build/ninja/bin/LevelEditor.exe')) {
             if (-not (Test-Path $exe)) { throw "Executable absent : $exe" }
             Write-Host "OK : $exe"
           }
@@ -372,7 +372,7 @@ jobs:
         run: >-
           python scripts/ci_summary.py --title "Ninja (preset ninja) et qmllint"
           --junit test-results/junit-ninja.xml
-          --file build/ninja/bin/JustAnotherDnDGame.exe
+          --file build/ninja/bin/JustAnotherRpgGame.exe
           --file build/ninja/bin/LevelEditor.exe
 
   sanitize:

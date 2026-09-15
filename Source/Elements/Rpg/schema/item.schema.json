@@ -1,11 +1,11 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://justanotherdndgame.local/rpg/item.schema.json",
+  "$id": "https://justanotherrpggame.local/rpg/item.schema.json",
   "title": "Objet",
   "description": "Tout objet transportable qui n'est ni une arme ni une armure : materiel d'aventurier, outils, montures, marchandises, babioles, objets magiques. Les tables d'equipement des Basic Rules en sont la source (LOT-34). Le prix est en pieces de CUIVRE : une seule unite interne evite les conversions dispersees, et l'affichage en po/pa/pc reste une affaire de presentation.",
   "allOf": [
     {
-      "$ref": "https://justanotherdndgame.local/rpg/common.schema.json#/$defs/entree"
+      "$ref": "https://justanotherrpggame.local/rpg/common.schema.json#/$defs/entree"
     }
   ],
   "type": "object",
@@ -23,7 +23,7 @@
       "description": "Famille d'usage : outil, materiel, monture, marchandise, babiole, objet magique."
     },
     "price": {
-      "$ref": "https://justanotherdndgame.local/rpg/common.schema.json#/$defs/money"
+      "$ref": "https://justanotherrpggame.local/rpg/common.schema.json#/$defs/money"
     },
     "weightGrams": {
       "type": "integer",

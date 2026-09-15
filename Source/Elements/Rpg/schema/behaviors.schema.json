@@ -1,11 +1,11 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://justanotherdndgame.local/rpg/behaviors.schema.json",
+  "$id": "https://justanotherrpggame.local/rpg/behaviors.schema.json",
   "title": "Profils de comportement",
   "description": "Les profils de l'IA tactique (LOT-23) et les regles qui les attribuent aux creatures. Le Guide du Maitre (chapitre 8, PDF p. 247-255) donne ce que l'IA sait -- l'etat ensanglante, le jet requis, l'abri, la prise en tenaille -- ; les POIDS ne sont dans aucun livre : ils sont ecrits ici, et non dans le C++ (EX-VIS-007), pour qu'un ennemi s'ajuste sans recompiler. Chaque poids est un pourcentage : 100 compte un point de degat attendu pour un point.",
   "allOf": [
     {
-      "$ref": "https://justanotherdndgame.local/rpg/common.schema.json#/$defs/entree"
+      "$ref": "https://justanotherrpggame.local/rpg/common.schema.json#/$defs/entree"
     }
   ],
   "type": "object",

@@ -664,8 +664,8 @@
       "transparent": true,
       "displaySizes": [[532, 332], [450, 282]],
       "lettering": true,
-      "description": "Le titre « Just Another D&D Game » en capitales dorées en relief sur un étendard grenat déchiré, adossé à un anneau de boussole. Seule pièce du cahier qui porte des lettres : un logotype est un dessin, et le nom du jeu ne se traduit pas.",
-      "prompt": "Game logotype: the words 'JUST ANOTHER' above 'D&D GAME' in carved, bevelled gold Roman capitals in the spirit of Cinzel, with a red gem set in the ampersand; behind them a torn garnet cloth banner and a large gold compass ring with a four-pointed star.",
+      "description": "Le titre « Just Another RPG Game » en capitales dorées en relief sur un étendard grenat déchiré, adossé à un anneau de boussole. Seule pièce du cahier qui porte des lettres : un logotype est un dessin, et le nom du jeu ne se traduit pas.",
+      "prompt": "Game logotype: the words 'JUST ANOTHER' above 'RPG GAME' in carved, bevelled gold Roman capitals in the spirit of Cinzel, with a red gem set between the two lines; behind them a torn garnet cloth banner and a large gold compass ring with a four-pointed star.",
       "mockups": [
         {
           "file": "06_Main_Menu_Mockup.png",

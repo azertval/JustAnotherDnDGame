@@ -84,7 +84,7 @@ navigable au clavier/souris, action confirmée par Entrée/clic).
   (alignement horizontal) est repris tel quel des deux côtés.
 - Les deux nouveaux écrans ne dessinent **pas** le bouton de langue (`LanguageSelector`) —
   contrairement à `OptionsScreen`, ce ne sont pas des écrans de premier niveau.
-- Écart de build `nlohmann_json`/cible `JustAnotherDnDGame` : voir TACHE-02 (constaté au premier build
+- Écart de build `nlohmann_json`/cible `JustAnotherRpgGame` : voir TACHE-02 (constaté au premier build
   complet incluant `main.cpp`, pas spécifique à cette tâche).
 
 ## Définition de fait (DoD)

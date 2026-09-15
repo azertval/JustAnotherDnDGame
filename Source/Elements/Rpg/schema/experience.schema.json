@@ -1,11 +1,11 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://justanotherdndgame.local/rpg/experience.schema.json",
+  "$id": "https://justanotherrpggame.local/rpg/experience.schema.json",
   "title": "Table d'experience",
   "description": "Les seuils de points d'experience et le bonus de maitrise, du niveau 1 au niveau 20. EX-VIS-007 interdit qu'une valeur de regle apparaisse dans le C++ : equilibrer la progression d'un RPG ne doit pas demander de recompiler, et sans equilibrage un RPG n'est pas jouable. Source : la table << Points d'experience / Niveau / Bonus de maitrise >> des Basic Rules p. 11.",
   "allOf": [
     {
-      "$ref": "https://justanotherdndgame.local/rpg/common.schema.json#/$defs/entree"
+      "$ref": "https://justanotherrpggame.local/rpg/common.schema.json#/$defs/entree"
     }
   ],
   "type": "object",

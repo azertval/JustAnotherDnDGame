@@ -1,11 +1,11 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://justanotherdndgame.local/rpg/dialogue.schema.json",
+  "$id": "https://justanotherrpggame.local/rpg/dialogue.schema.json",
   "title": "Dialogue",
   "description": "Une conversation avec un PNJ (LOT-15) : un graphe de noeuds -- repliques, conditions sur drapeau, actions, jets de competence, fins. AUCUN TEXTE : chaque replique et chaque reponse ont une cle de traduction FABRIQUEE depuis les identifiants (dialogue.<id>.<noeud>[.<reponse>]), resolue dans fr.lang et en.lang. Ce schema dit la forme ; ce qu'il ne peut pas dire -- cibles inconnues, cycles sans reponse, orphelins, impasses -- est refuse par core::readDialogue au chargement.",
   "allOf": [
     {
-      "$ref": "https://justanotherdndgame.local/rpg/common.schema.json#/$defs/entree"
+      "$ref": "https://justanotherrpggame.local/rpg/common.schema.json#/$defs/entree"
     }
   ],
   "type": "object",
@@ -27,7 +27,7 @@
           "minItems": 1,
           "uniqueItems": true,
           "items": {
-            "$ref": "https://justanotherdndgame.local/rpg/common.schema.json#/$defs/id"
+            "$ref": "https://justanotherrpggame.local/rpg/common.schema.json#/$defs/id"
           },
           "description": "Langues du PNJ (Rpg/languages/). Aucune en commun avec le personnage : le dialogue est refuse (EX-RPG-042)."
         },
@@ -149,7 +149,7 @@
                     "type": "object",
                     "properties": {
                       "type": { "const": "giveItem" },
-                      "item": { "$ref": "https://justanotherdndgame.local/rpg/common.schema.json#/$defs/id" },
+                      "item": { "$ref": "https://justanotherrpggame.local/rpg/common.schema.json#/$defs/id" },
                       "quantity": { "type": "integer", "minimum": 1 }
                     },
                     "required": ["type", "item"],
@@ -159,7 +159,7 @@
                     "type": "object",
                     "properties": {
                       "type": { "const": "startQuest" },
-                      "quest": { "$ref": "https://justanotherdndgame.local/rpg/common.schema.json#/$defs/id" }
+                      "quest": { "$ref": "https://justanotherrpggame.local/rpg/common.schema.json#/$defs/id" }
                     },
                     "required": ["type", "quest"],
                     "additionalProperties": false
@@ -177,13 +177,13 @@
             "id": true,
             "type": { "const": "check" },
             "skill": {
-              "$ref": "https://justanotherdndgame.local/rpg/common.schema.json#/$defs/id",
+              "$ref": "https://justanotherrpggame.local/rpg/common.schema.json#/$defs/id",
               "description": "Competence (Rpg/skills/)."
             },
             "difficulty": {
               "type": "string",
               "minLength": 1,
-              "description": "Degre de difficulte NOMME (rules/difficulty.json), jamais un nombre (EX-DND-021)."
+              "description": "Degre de difficulte NOMME (rules/difficulty.json), jamais un nombre (EX-REG-021)."
             },
             "success": { "$ref": "#/$defs/nodeId" },
             "failure": { "$ref": "#/$defs/nodeId" }

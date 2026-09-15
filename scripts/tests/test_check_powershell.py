@@ -1,5 +1,5 @@
 # SPDX-FileCopyrightText: 2026 Valentin Eloy
-# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 
 """Lint PowerShell (scripts/check_powershell.py) : ce qui se vérifie sans PowerShell.
 

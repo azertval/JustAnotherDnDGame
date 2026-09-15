@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Valentin Eloy
-# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 
-"""Lint des identifiants d'exigences (EX-...) de JustAnotherDnDGame.
+"""Lint des identifiants d'exigences (EX-...) de JustAnotherRpgGame.
 
 Vérifie que les identifiants d'exigences forment un référentiel cohérent :
 - chaque exigence est **déclarée exactement une fois** (ancre Doxygen
@@ -16,7 +16,7 @@ Vérifie que les identifiants d'exigences forment un référentiel cohérent :
 - toute référence à une **famille entière** (``EX-XXX-*``) désigne une famille qui existe.
 
 Ce dernier contrôle comble un angle mort : ``ID_RE`` ne capte que ``EX-XXX-NNN``, si bien qu'un
-``EX-DND-*`` cité par une dizaine d'epics n'était **ni** une déclaration **ni** une référence — et
+``EX-REG-*`` cité par une dizaine d'epics n'était **ni** une déclaration **ni** une référence — et
 passait donc au vert alors qu'aucune exigence de cette famille n'existait nulle part.
 
 Usage :
@@ -30,7 +30,7 @@ import sys
 ID_RE = re.compile(r'EX-[A-Z]+-[0-9]+')
 ANCHOR_RE = re.compile(r'\\anchor\s+(EX-[A-Z]+-[0-9]+)')
 SPLIT_RE = re.compile(r'(EX-[A-Z]+)-([0-9]+)')
-# Référence à une famille entière : `EX-DND-*`. Volontairement distincte d'ID_RE, qui exige des
+# Référence à une famille entière : `EX-REG-*`. Volontairement distincte d'ID_RE, qui exige des
 # chiffres — c'est cette distinction qui laissait passer les familles inexistantes.
 FAMILY_REF_RE = re.compile(r'EX-([A-Z]+)-\*')
 

@@ -1,6 +1,6 @@
 ﻿<#
 .SYNOPSIS
-    Configure, construit et teste JustAnotherDnDGame dans un environnement MSVC correct.
+    Configure, construit et teste JustAnotherRpgGame dans un environnement MSVC correct.
 
 .DESCRIPTION
     Les générateurs Ninja et Makefiles n'établissent pas l'environnement MSVC : ils héritent des
@@ -31,7 +31,7 @@
     Supprimer le répertoire de build avant de configurer.
 
 .PARAMETER Target
-    Cible precise a construire au lieu de tout (ex. « JustAnotherDnDGame_qmllint », engendree par
+    Cible precise a construire au lieu de tout (ex. « JustAnotherRpgGame_qmllint », engendree par
     qt_add_qml_module et qui verifie tous les .qml du module).
 
 .PARAMETER QtPath
@@ -61,7 +61,7 @@ param(
     [string]$QtPath,
 
     # Cible precise a construire au lieu de tout. Sert notamment au controle QML :
-    #   scripts/build.ps1 -Target JustAnotherDnDGame_qmllint
+    #   scripts/build.ps1 -Target JustAnotherRpgGame_qmllint
     # Passer par ce script et non par `cmake` directement n'est pas une preference : `cmake` seul
     # herite d'un terminal sans environnement MSVC, et echoue sur un <array> introuvable.
     [string]$Target
@@ -166,9 +166,9 @@ finally {
 # Emplacement de l'exécutable : le générateur Visual Studio est multi-configuration (sous-dossier
 # par configuration), Ninja ne l'est pas.
 $exe = switch ($Preset) {
-    'vs'         { "$buildDir\bin\Debug\JustAnotherDnDGame.exe" }
-    'vs-release' { "$buildDir\bin\Release\JustAnotherDnDGame.exe" }
-    default      { "$buildDir\bin\JustAnotherDnDGame.exe" }
+    'vs'         { "$buildDir\bin\Debug\JustAnotherRpgGame.exe" }
+    'vs-release' { "$buildDir\bin\Release\JustAnotherRpgGame.exe" }
+    default      { "$buildDir\bin\JustAnotherRpgGame.exe" }
 }
 if (Test-Path $exe) {
     Write-Host "`nExécutable : $exe" -ForegroundColor Green
