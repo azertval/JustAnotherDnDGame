@@ -189,8 +189,8 @@ endif()
 # contre la même STL. Toutes nos cibles sont instrumentées (`fuzzer-no-link`) : le fuzzer ne mute
 # bien que ce dont il voit la couverture, et le lecteur de niveaux vit dans Core, pas dans le
 # harnais. AddressSanitizer en plus, globalement, pour la même raison que ENABLE_ASAN ci-dessus.
-# Configuration attendue : Ninja, RelWithDebInfo (/MD, que l'ASan de clang-cl exige), PCH et
-# avertissements bloquants désactivés — voir le job `fuzz` de .github/workflows/nightly.yml.
+# Configuration attendue : Ninja, RelWithDebInfo, PCH et avertissements bloquants désactivés — voir
+# le job `fuzz` de .github/workflows/nightly.yml.
 if(BUILD_FUZZERS)
     if(NOT (MSVC AND CMAKE_CXX_COMPILER_ID STREQUAL "Clang"))
         message(FATAL_ERROR
@@ -203,6 +203,10 @@ if(BUILD_FUZZERS)
         message(FATAL_ERROR "BUILD_FUZZERS active déjà AddressSanitizer : retirer ENABLE_ASAN.")
     endif()
     add_compile_options(-fsanitize=fuzzer-no-link -fsanitize=address)
+    # CRT statique (/MT) pour tout le build : la bibliothèque libFuzzer que distribue LLVM est
+    # compilée ainsi, et l'éditeur de liens refuse de la mêler à des objets /MD (« mismatch detected
+    # for 'RuntimeLibrary' », constaté sur le runner). Doit précéder la création de toute cible.
+    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded")
 endif()
 
 # --- Dépendances tierces (External/) ---
