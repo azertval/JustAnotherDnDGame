@@ -61,6 +61,9 @@ jobs:
     timeout-minutes: 60
     permissions:
       contents: write
+      # Attestation de provenance (phase 3) : le jeton OIDC signe, le dépôt conserve l'attestation.
+      id-token: write
+      attestations: write
 
     steps:
       - name: Checkout
@@ -94,6 +97,19 @@ jobs:
           Push-Location dist
           ../scripts/write_sha256sums.ps1 -Path JustAnotherDnDGame-debug.zip, JustAnotherDnDGame-debug-symbols.zip
           Pop-Location
+
+      # L'archive, décompressée ailleurs, doit lancer le jeu et rendre une image (phase 3) : sinon
+      # debug-latest garde la version précédente, qui elle fonctionnait.
+      - name: Test de fumee de l'archive
+        shell: pwsh
+        run: ./scripts/smoke_test_release.ps1 -Zip dist/JustAnotherDnDGame-debug.zip
+
+      # Prouve que chaque fichier publié sort de CE workflow sur CE commit :
+      # `gh attestation verify JustAnotherDnDGame-debug.zip --repo <propriétaire>/JustAnotherDnDGame`.
+      - name: Attestation de provenance
+        uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
+        with:
+          subject-checksums: dist/SHA256SUMS
 
       - name: Publish rolling release
         shell: pwsh
@@ -186,6 +202,8 @@ jobs:
     timeout-minutes: 90
     permissions:
       contents: write
+      id-token: write
+      attestations: write
 
     steps:
       - name: Checkout
@@ -237,6 +255,20 @@ jobs:
           Push-Location dist
           ../scripts/write_sha256sums.ps1 -Path (Get-ChildItem -Filter *.zip | Sort-Object Name).Name
           Pop-Location
+
+      # Les deux archives jouables, avant la publication : une version publiée ne se remplace pas.
+      - name: Test de fumee des archives
+        shell: pwsh
+        env:
+          VERSION: ${{ github.ref_name }}
+        run: |
+          ./scripts/smoke_test_release.ps1 -Zip "dist/JustAnotherDnDGame-$env:VERSION-debug.zip"
+          ./scripts/smoke_test_release.ps1 -Zip "dist/JustAnotherDnDGame-$env:VERSION-release.zip"
+
+      - name: Attestation de provenance
+        uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
+        with:
+          subject-checksums: dist/SHA256SUMS
 
       # Les notes viennent du CHANGELOG plutôt que de `--generate-notes`, qui ne produit qu'une
       # liste brute de messages de commit — illisible pour le non-développeur à qui la release

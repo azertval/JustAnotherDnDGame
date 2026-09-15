@@ -42,4 +42,4 @@ core::defaultLogger().setMinimumLevel(core::LogLevel::Info);
 JADG_ASSERT(index < taille, "index hors bornes");
 ```
 
-Réf. : guide de conventions §10 ; lot [LOT-02](../../../Documentation/Lot/LOT-02-journalisation/epic.md).
+Réf. : guide de conventions §10 ; lot [LOT-02](../../../Documentation/Heritage/Lot/LOT-02-journalisation/epic.md).

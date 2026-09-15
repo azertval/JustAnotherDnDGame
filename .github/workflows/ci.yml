@@ -486,8 +486,10 @@ jobs:
       - name: clang-tidy sur les fichiers modifies par la PR
         id: tidy
         shell: pwsh
-        # Diff contre la base de la PR : seuls les fichiers Source/*.cpp (hors Source/Test) reellement
-        # touches sont analyses. --diff-filter=ACMR exclut les fichiers supprimes (sinon clang-tidy
+        # Diff contre la base de la PR : seuls les fichiers Source/*.cpp reellement touches sont
+        # analyses -- hors Source/Test, et hors Source/Fuzz et Source/Benchmark, que cette
+        # configuration ne compile pas (options BUILD_FUZZERS / BUILD_BENCHMARKS) : sans ligne de
+        # commande dans compile_commands.json, clang-tidy echouerait sur leurs inclusions. --diff-filter=ACMR exclut les fichiers supprimes (sinon clang-tidy
         # echouerait a les trouver).
         # Relance manuelle (workflow_dispatch) : pas de base de PR, on compare a la branche par defaut.
         # Passees par l'environnement et non interpolees dans le script : un nom de branche n'est
@@ -497,7 +499,7 @@ jobs:
         run: |
           git fetch origin "$env:BASE_REF" --depth=1
           $files = git diff --name-only --diff-filter=ACMR "origin/$env:BASE_REF...HEAD" -- 'Source/*.cpp' |
-            Where-Object { $_ -notmatch '^Source/Test/' }
+            Where-Object { $_ -notmatch '^Source/(Test|Fuzz|Benchmark)/' }
 
           if (-not $files) {
             Write-Host "Aucun fichier Source/*.cpp modifie par cette PR : rien a analyser."
@@ -714,6 +716,13 @@ jobs:
         if: ${{ !cancelled() }}
         run: python3 scripts/clang_tidy_sarif.py --auto-test
 
+      # Même raison pour la fusion des SARIF de la nuit (MSVC /analyze, cppcheck) : elle ne tourne
+      # que dans nightly.yml, et une lecture d'URI cassée y rendrait Code scanning vide sans erreur.
+      - name: Fusion des SARIF de la nuit
+        id: merge_sarif
+        if: ${{ !cancelled() }}
+        run: python3 scripts/merge_sarif.py --auto-test
+
       # Parité du poste (phase 2). Un outil épinglé à deux endroits l'est à la même version :
       # clang-format dans ce fichier et dans .pre-commit-config.yaml, Doxygen ici et dans docs.yml.
       - name: Versions d'outils coherentes CI / hooks / docs
@@ -777,6 +786,7 @@ jobs:
             Catalogues RPG=${{ steps.rpg_data.outcome }}
             Cahier des assets=${{ steps.assets_brief.outcome }}
             Convertisseur clang-tidy vers SARIF=${{ steps.tidy_sarif.outcome }}
+            Fusion des SARIF de la nuit=${{ steps.merge_sarif.outcome }}
             Versions d'outils CI / hooks / docs=${{ steps.tool_pins.outcome }}
             Garde-fou binaires=${{ steps.binaries.outcome }}
             JSON valides=${{ steps.json_files.outcome }}

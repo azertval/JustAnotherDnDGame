@@ -108,7 +108,7 @@ le périmètre récupère en fonctions d'édition ce qu'il n'a plus à dépenser
   n'invalide le reste, et le socle des tâches 01 à 05 plus 08 correspond au périmètre initialement
   cadré, habillage compris.
 - **Amende le non-objectif « pas d'édition d'assets graphiques »** de
-  [`editeur-niveaux.md`](../../Specification/editeur-niveaux.md) (section 5) de façon ciblée :
+  [`editeur-niveaux.md`](../../../Specification/editeur-niveaux.md) (section 5) de façon ciblée :
   l'éditeur de niveaux continue d'agencer des tuiles existantes sans générer de sprites procéduraux ;
   seul ce canevas dédié édite les fichiers d'assets eux-mêmes.
 

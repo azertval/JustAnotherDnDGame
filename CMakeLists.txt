@@ -85,6 +85,8 @@ option(ENABLE_WARNINGS_AS_ERRORS "Traiter les avertissements comme des erreurs" 
 option(ENABLE_ASAN "Activer AddressSanitizer" OFF)
 option(ENABLE_PCH "Activer les en-têtes précompilés (Source/pch.h)" ON)
 option(ENABLE_COMPILER_CACHE "Compiler à travers sccache s'il est trouvé (hors Visual Studio)" ON)
+option(BUILD_FUZZERS "Construire les cibles libFuzzer de Source/Fuzz (clang-cl uniquement)" OFF)
+option(BUILD_BENCHMARKS "Construire les mesures de performance de Source/Benchmark" OFF)
 
 # --- Cache de compilation (refonte de la CI, phase 2) ---
 # sccache rejoue le résultat d'une compilation déjà faite, sur le poste comme sur le runner : un
@@ -182,6 +184,27 @@ if(ENABLE_ASAN)
     endif()
 endif()
 
+# --- Fuzzing des lecteurs de données (refonte de la CI, phase 3) ---
+# libFuzzer n'existe pas chez MSVC : il faut clang-cl, qui lit les mêmes options que cl.exe et lie
+# contre la même STL. Toutes nos cibles sont instrumentées (`fuzzer-no-link`) : le fuzzer ne mute
+# bien que ce dont il voit la couverture, et le lecteur de niveaux vit dans Core, pas dans le
+# harnais. AddressSanitizer en plus, globalement, pour la même raison que ENABLE_ASAN ci-dessus.
+# Configuration attendue : Ninja, RelWithDebInfo (/MD, que l'ASan de clang-cl exige), PCH et
+# avertissements bloquants désactivés — voir le job `fuzz` de .github/workflows/nightly.yml.
+if(BUILD_FUZZERS)
+    if(NOT (MSVC AND CMAKE_CXX_COMPILER_ID STREQUAL "Clang"))
+        message(FATAL_ERROR
+            "BUILD_FUZZERS exige clang-cl (compilateur actuel : ${CMAKE_CXX_COMPILER_ID}).\n"
+            "  cmake -S . -B build/fuzz -G Ninja -DCMAKE_CXX_COMPILER=clang-cl "
+            "-DCMAKE_BUILD_TYPE=RelWithDebInfo -DBUILD_FUZZERS=ON -DBUILD_TESTING=OFF "
+            "-DBUILD_EDITOR_QT=OFF -DENABLE_PCH=OFF -DENABLE_WARNINGS_AS_ERRORS=OFF")
+    endif()
+    if(ENABLE_ASAN)
+        message(FATAL_ERROR "BUILD_FUZZERS active déjà AddressSanitizer : retirer ENABLE_ASAN.")
+    endif()
+    add_compile_options(-fsanitize=fuzzer-no-link -fsanitize=address)
+endif()
+
 # --- Dépendances tierces (External/) ---
 add_subdirectory(External)
 
@@ -192,4 +215,12 @@ add_subdirectory(Source)
 if(BUILD_TESTING)
     enable_testing()
     add_subdirectory(Source/Test)
+endif()
+
+if(BUILD_FUZZERS)
+    add_subdirectory(Source/Fuzz)
+endif()
+
+if(BUILD_BENCHMARKS)
+    add_subdirectory(Source/Benchmark)
 endif()

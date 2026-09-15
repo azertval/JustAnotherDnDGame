@@ -32,3 +32,21 @@ FetchContent_Declare(
 )
 set(JSON_BuildTests OFF CACHE INTERNAL "")
 FetchContent_MakeAvailable(nlohmann_json)
+
+# --- Google Benchmark (mesures de performance, refonte de la CI phase 3) ---
+# Seulement avec BUILD_BENCHMARKS : ni le jeu ni les tests n'en dépendent. Ses propres tests et son
+# -Werror sont coupés : on mesure notre code, on ne vérifie pas la bibliothèque.
+if(BUILD_BENCHMARKS)
+    FetchContent_Declare(
+        benchmark
+        GIT_REPOSITORY https://github.com/google/benchmark.git
+        GIT_TAG        v1.9.5
+        GIT_SHALLOW    TRUE
+    )
+    set(BENCHMARK_ENABLE_TESTING OFF CACHE BOOL "" FORCE)
+    set(BENCHMARK_ENABLE_GTEST_TESTS OFF CACHE BOOL "" FORCE)
+    set(BENCHMARK_ENABLE_INSTALL OFF CACHE BOOL "" FORCE)
+    set(BENCHMARK_ENABLE_WERROR OFF CACHE BOOL "" FORCE)
+    set(BENCHMARK_INSTALL_DOCS OFF CACHE BOOL "" FORCE)
+    FetchContent_MakeAvailable(benchmark)
+endif()

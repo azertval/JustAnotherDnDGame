@@ -114,7 +114,7 @@ couche à construire.
   autonome. La tâche 6 (thème clair de l'éditeur) est explicitement la première à retirer si le lot
   doit être resserré : elle emporte alors `EX-IHM-054` avec elle, sans rien invalider d'autre — la
   séparation des deux portées, elle, reste acquise depuis la TACHE-01.
-- **Amende le statut « brouillon » de [`interface-ihm.md`](../../Specification/interface-ihm.md)** en y
+- **Amende le statut « brouillon » de [`interface-ihm.md`](../../../Specification/interface-ihm.md)** en y
   ajoutant une section 6 : la spécification cadrait la refonte `LOT-34` → `LOT-39` sans jamais exiger
   quoi que ce soit sur l'apparence.
 
