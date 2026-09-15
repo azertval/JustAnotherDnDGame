@@ -45,7 +45,8 @@ inline constexpr unsigned long kFatalErrorExceptionCode = 0xE04A4447UL;
  * @brief Écrit un minidump du processus courant.
  *
  * Le dossier parent est créé au besoin. Sans @p exception, le dump porte l'état de tous les threads
- * au moment de l'appel, sans contexte d'exception.
+ * au moment de l'appel, sans contexte d'exception. L'écriture a lieu sur un thread dédié, que
+ * l'appelant attend ; en cas d'échec, `GetLastError()` en donne la raison.
  *
  * @param path      Chemin du fichier `.dmp` à écrire (écrasé s'il existe).
  * @param exception Contexte de l'exception à consigner, ou `nullptr`.

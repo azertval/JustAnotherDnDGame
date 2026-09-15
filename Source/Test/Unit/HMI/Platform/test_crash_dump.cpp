@@ -119,7 +119,7 @@ TEST(CrashDumpFileName, RemplaceLesCaracteresHorsNomDeFichier) {
  */
 TEST_F(CrashDumpTest, EcritUnMinidumpSansExceptionEtCreeLeDossier) {
     const std::filesystem::path path = directory_ / "sous-dossier" / "etat.dmp";
-    ASSERT_TRUE(hmi::writeMiniDump(path, nullptr));
+    ASSERT_TRUE(hmi::writeMiniDump(path, nullptr)) << "GetLastError = " << GetLastError();
     ASSERT_TRUE(std::filesystem::exists(path));
     EXPECT_EQ(signature(path), "MDMP");
 }
@@ -136,7 +136,7 @@ TEST_F(CrashDumpTest, EcritUnMinidumpSansExceptionEtCreeLeDossier) {
  */
 TEST_F(CrashDumpTest, EcritUnMinidumpAvecLeContexteDUneException) {
     const std::filesystem::path path = directory_ / "exception.dmp";
-    ASSERT_TRUE(dumpFromStructuredException(&path));
+    ASSERT_TRUE(dumpFromStructuredException(&path)) << "GetLastError = " << GetLastError();
     EXPECT_EQ(signature(path), "MDMP");
     EXPECT_GT(std::filesystem::file_size(path), 1024U);
 }

@@ -87,6 +87,29 @@ LONG WINAPI onUnhandledException(EXCEPTION_POINTERS* exception) {
     return EXCEPTION_EXECUTE_HANDLER;
 }
 
+/// Écriture d'un dump confiée à un thread dédié (writeMiniDump).
+struct DumpJob {
+    HANDLE file = INVALID_HANDLE_VALUE;
+    MINIDUMP_EXCEPTION_INFORMATION exception{};
+    bool withException = false;
+    BOOL written = FALSE;
+    DWORD error = ERROR_SUCCESS;
+};
+
+DWORD WINAPI writeDumpJob(LPVOID parameter) {
+    auto* const job = static_cast<DumpJob*>(parameter);
+    // Piles, contexte, modules chargés et déchargés, et la mémoire que les piles désignent : de
+    // quoi lire les variables locales et un objet pointé, pour quelques Mio plutôt que tout le tas.
+    const auto type =
+        static_cast<MINIDUMP_TYPE>(MiniDumpWithIndirectlyReferencedMemory | MiniDumpScanMemory |
+                                   MiniDumpWithThreadInfo | MiniDumpWithUnloadedModules);
+    job->written =
+        MiniDumpWriteDump(GetCurrentProcess(), GetCurrentProcessId(), job->file, type,
+                          job->withException ? &job->exception : nullptr, nullptr, nullptr);
+    job->error = job->written != FALSE ? ERROR_SUCCESS : GetLastError();
+    return 0;
+}
+
 }  // namespace
 
 std::string crashDumpFileName(std::string_view application, std::string_view version,
@@ -124,21 +147,30 @@ bool writeMiniDump(const std::filesystem::path& path, _EXCEPTION_POINTERS* excep
         return false;
     }
 
-    MINIDUMP_EXCEPTION_INFORMATION exceptionInformation{};
-    exceptionInformation.ThreadId = GetCurrentThreadId();
-    exceptionInformation.ExceptionPointers = exception;
-    exceptionInformation.ClientPointers = FALSE;
+    DumpJob job;
+    job.file = file;
+    job.exception.ThreadId = GetCurrentThreadId();
+    job.exception.ExceptionPointers = exception;
+    job.exception.ClientPointers = FALSE;
+    job.withException = exception != nullptr;
 
-    // Piles, contexte, modules chargés et déchargés, et la mémoire que les piles désignent : de
-    // quoi lire les variables locales et un objet pointé, pour quelques Mio plutôt que tout le tas.
-    const auto type =
-        static_cast<MINIDUMP_TYPE>(MiniDumpWithIndirectlyReferencedMemory | MiniDumpScanMemory |
-                                   MiniDumpWithThreadInfo | MiniDumpWithUnloadedModules);
-    const BOOL written =
-        MiniDumpWriteDump(GetCurrentProcess(), GetCurrentProcessId(), file, type,
-                          exception != nullptr ? &exceptionInformation : nullptr, nullptr, nullptr);
+    // Sur un thread à part : un thread qui se décrit lui-même pendant que dbghelp suspend et lit
+    // les piles donne un dump incomplet ou un échec, selon la configuration -- vu en CI sous le
+    // générateur Visual Studio en Debug, jamais sous Ninja. Le thread du plantage attend, sa pile
+    // reste lisible. Repli sur un appel direct si le thread ne peut pas être créé.
+    const HANDLE worker = CreateThread(nullptr, 0, &writeDumpJob, &job, 0, nullptr);
+    if (worker != nullptr) {
+        WaitForSingleObject(worker, INFINITE);
+        CloseHandle(worker);
+    } else {
+        writeDumpJob(&job);
+    }
     CloseHandle(file);
-    return written != FALSE;
+    if (job.written == FALSE) {
+        SetLastError(job.error);
+        return false;
+    }
+    return true;
 }
 
 void installCrashDumpWriter(std::filesystem::path directory, std::string application,
@@ -158,10 +190,10 @@ void installCrashDumpWriter(std::filesystem::path directory, std::string applica
 }
 
 void triggerCrashForTest() {
-    // Adresse nulle lue par un pointeur volatile : l'optimiseur ne peut pas en déduire que la
-    // lecture est indéfinie et la retirer.
-    int* volatile target = nullptr;
-    std::printf("%d\n", *target);
+    // Une violation d'accès LEVÉE, et non provoquée : même code de sortie et même chemin par le
+    // filtre qu'un vrai déréférencement nul, sans comportement indéfini que l'optimiseur pourrait
+    // retirer ni que les analyseurs statiques signaleraient à raison.
+    RaiseException(EXCEPTION_ACCESS_VIOLATION, EXCEPTION_NONCONTINUABLE, 0, nullptr);
     std::abort();
 }
 
