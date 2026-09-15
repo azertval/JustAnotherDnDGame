@@ -3,6 +3,14 @@
 
 cmake_minimum_required(VERSION 3.21)
 
+# Format des informations de débogage MSVC piloté par CMAKE_MSVC_DEBUG_INFORMATION_FORMAT au lieu
+# d'un /Zi écrit dans CMAKE_CXX_FLAGS_DEBUG (CMP0141, CMake 3.25). Sans effet par défaut : Debug
+# reste en /Zi. Nécessaire au cache de compilation ci-dessous, et doit précéder project(), qui
+# initialise les drapeaux.
+if(POLICY CMP0141)
+    cmake_policy(SET CMP0141 NEW)
+endif()
+
 # VERSION est la **source unique de vérité** du numéro de version : `core::Engine::version()` le
 # reçoit par définition de compilation (Source/Core/CMakeLists.txt), et `scripts/build_docs.py`
 # l'injecte dans le `PROJECT_NUMBER` de Doxygen à la génération (le Doxyfile versionné ne le porte
@@ -76,6 +84,52 @@ option(BUILD_TESTING "Construire les tests (GoogleTest)" ON)
 option(ENABLE_WARNINGS_AS_ERRORS "Traiter les avertissements comme des erreurs" ON)
 option(ENABLE_ASAN "Activer AddressSanitizer" OFF)
 option(ENABLE_PCH "Activer les en-têtes précompilés (Source/pch.h)" ON)
+option(ENABLE_COMPILER_CACHE "Compiler à travers sccache s'il est trouvé (hors Visual Studio)" ON)
+
+# --- Cache de compilation (refonte de la CI, phase 2) ---
+# sccache rejoue le résultat d'une compilation déjà faite, sur le poste comme sur le runner : un
+# changement de branche entre deux worktrees, ou un second push sur une PR, ne recompile que ce qui
+# a changé. Mesuré sur le preset `ninja` : 487 s à froid, 247 s cache plein. Les fichiers compilés
+# sous en-tête précompilé (/Yu, /Fp) ne sont pas cachables et restent compilés à chaque fois ; les
+# autres (tests, dépendances, cibles sans PCH) le sont — désactiver les PCH n'y gagnerait rien à
+# froid.
+#
+# Actif dès que `sccache` est dans le PATH (scripts/setup_dev.ps1 l'installe à la version de
+# ci.yml). Le générateur Visual Studio n'est pas concerné : MSBuild ignore les lanceurs.
+# Un lanceur imposé par l'appelant (variable ou environnement) est respecté.
+if(ENABLE_COMPILER_CACHE
+   AND NOT CMAKE_GENERATOR MATCHES "Visual Studio"
+   AND NOT DEFINED CMAKE_CXX_COMPILER_LAUNCHER
+   AND NOT DEFINED ENV{CMAKE_CXX_COMPILER_LAUNCHER})
+    find_program(SCCACHE_PROGRAM sccache)
+    # MSVC localisé : Ninja retrouve les en-têtes inclus en filtrant les lignes /showIncludes par leur
+    # préfixe, détecté par CMake. En français, ce préfixe contient des espaces insécables
+    # (« Remarque : inclusion du fichier : »). sccache 0.18 les SUPPRIME quand il réémet la sortie
+    # d'une compilation cachable, et les laisse sur une compilation qu'il ne cache pas (sous en-tête
+    # précompilé) : aucun préfixe ne filtre les deux, et Ninja perd des dépendances d'en-têtes —
+    # modifier un .h ne recompile plus ce qui l'inclut, sans un message (constaté par `ninja -t deps`
+    # le 15 septembre 2026). Avec un préfixe non ASCII, le cache n'est donc PAS activé. Les runners
+    # de la CI ont un MSVC anglais (« Note: including file: ») et ne sont pas concernés.
+    set(_jadg_cache_prefix_ok TRUE)
+    if(SCCACHE_PROGRAM AND MSVC AND NOT CMAKE_CL_SHOWINCLUDES_PREFIX MATCHES "^[ -~]*$")
+        set(_jadg_cache_prefix_ok FALSE)
+        message(STATUS
+            "Cache de compilation non activé : MSVC écrit /showIncludes dans une langue que sccache "
+            "réécrit, et Ninja perdrait des dépendances d'en-têtes. Installer le module linguistique "
+            "anglais de Visual Studio et définir VSLANG=1033 pour en profiter.")
+    endif()
+    if(SCCACHE_PROGRAM AND _jadg_cache_prefix_ok)
+        set(CMAKE_CXX_COMPILER_LAUNCHER "${SCCACHE_PROGRAM}")
+        if(MSVC)
+            # /Z7 (informations dans chaque .obj) au lieu de /Zi : /Zi fait écrire tous les fichiers
+            # d'une cible dans un même .pdb, ce qu'aucun cache ne sait rejouer. L'éditeur de liens
+            # produit toujours le .pdb de l'exécutable.
+            set(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT "$<$<CONFIG:Debug,RelWithDebInfo>:Embedded>")
+        endif()
+        message(STATUS "Cache de compilation : ${SCCACHE_PROGRAM} "
+                       "(-DENABLE_COMPILER_CACHE=OFF pour s'en passer)")
+    endif()
+endif()
 
 # --- Avertissements (appliqués uniquement à NOS cibles, pas aux dépendances) ---
 add_library(project_warnings INTERFACE)

@@ -6,6 +6,29 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **CI : parité du poste** (refonte de la chaîne d'outillage, phase 2). La CI confirme ce que le
+  poste a déjà vérifié, elle ne le découvre plus.
+  - **Hooks avant chaque commit** (`.pre-commit-config.yaml`) : clang-format, ruff, actionlint,
+    zizmor, gitleaks, conflits de fusion et de casse, YAML, JSON (invalide, clé en double, BOM),
+    garde-fou binaires, et format du message de commit. Rejoués sur tout le dépôt par le job
+    `pre-commit` de la CI.
+  - **`scripts/setup_dev.ps1`** compare les outils du poste aux versions de `ci.yml`, qu'il lit
+    sans en recopier aucune, et installe ce qui diverge avec `-Install`.
+  - **`scripts/check.py`** rejoue en une commande les contrôles du job `lint-exigences`, lus dans
+    `ci.yml`, puis les hooks.
+  - **Cache de compilation sccache** sur les presets Ninja (jobs Ninja, ASan et clang-tidy de la CI,
+    et poste où `sccache` est dans le PATH) : un build refait à cache plein passe de 487 s à 247 s.
+    **Inactif avec un MSVC en français** : sccache y réécrit la sortie `/showIncludes`, et Ninja
+    perdrait des dépendances d'en-têtes ; CMake le détecte et s'en passe.
+  - **Garde-fou binaires** : aucun fichier au-delà de 5 Mio, et un binaire doit appartenir à une
+    famille déclarée `binary` dans `.gitattributes`.
+  - **Versions croisées vérifiées** (`scripts/check_tool_pins.py`) : clang-format dans `ci.yml` et
+    dans les hooks, Doxygen dans `ci.yml` et `docs.yml`.
+  - **`.clangd`** pour les diagnostics clang-tidy dans l'éditeur ; **`build.ps1 -Label`** pour ne
+    lancer qu'un étage de tests.
+  - Écartés, avec leur raison dans `.pre-commit-config.yaml` : `qmlformat` (Qt 6.11 dé-indente les
+    blocs de documentation QML), `ruff format` et le reformatage des JSON écrits à la main.
+
 - **CI : voir dans la PR** (refonte de la chaîne d'outillage, phase 1). Savoir ce qui a cassé sans
   ouvrir un log.
   - **Résultats des tests** des builds Debug, Release et Ninja publiés en commentaire de PR et en

@@ -3,8 +3,38 @@
 ## Conventions de code
 Voir [`Documentation/Specification/conventions.md`](Documentation/Specification/conventions.md). Le code doit être formaté (`clang-format`) et compiler sans avertissement avant tout commit.
 
+## Poste de développement
+Le poste exécute les mêmes outils que la CI, aux mêmes versions, lues dans `env:` de
+`.github/workflows/ci.yml` — aucune version n'est écrite ailleurs.
+- **Vérifier** : `powershell -ExecutionPolicy Bypass -File scripts/setup_dev.ps1` affiche chaque
+  outil avec la version attendue et la version trouvée. **Installer** ce qui diverge :
+  `… setup_dev.ps1 -Install` (`-WhatIf` pour voir sans rien faire) — LLVM, Doxygen et
+  OpenCppCoverage par winget, sccache par son archive officielle, pre-commit, clang-format et
+  jsonschema par pip ; puis les hooks du clone. Visual Studio et Qt ne sont que vérifiés.
+- **Hooks** (`.pre-commit-config.yaml`) : avant chaque commit, clang-format, ruff, actionlint,
+  zizmor, gitleaks, conflits de fusion et de casse, YAML, JSON (`scripts/check_json_files.py`) et
+  garde-fou binaires (`scripts/check_binary_files.py`) ; à la rédaction du message, son format. À
+  installer **dans chaque worktree** : `pre-commit install`. Tout rejouer :
+  `pre-commit run --all-files`. Le job `pre-commit` de la CI les rejoue sur tout le dépôt.
+- **Tous les contrôles du référentiel en une commande** : `py -3 scripts/check.py`. Il lit les
+  étapes du job `lint-exigences` dans `ci.yml` et les exécute, puis lance les hooks — un contrôle
+  ajouté à la CI y est rejoué sans qu'on y pense.
+- **Cache de compilation** : dès que `sccache` est dans le PATH, les presets Ninja compilent à
+  travers lui (`ENABLE_COMPILER_CACHE`, `CMakeLists.txt`) ; le preset `vs` n'est pas concerné.
+  Avec un MSVC en français, CMake ne l'active pas : sccache réécrit les lignes `/showIncludes` et
+  Ninja perdrait des dépendances d'en-têtes. Module linguistique anglais de Visual Studio et
+  `VSLANG=1033` pour en profiter.
+- **Tests d'un seul étage** : `scripts/build.ps1 -Label unitaire` (ou `integration`, `systeme`).
+- **Éditeur** : `.clangd` branche clangd sur `build/ninja/compile_commands.json` et les checks de
+  `.clang-tidy`.
+- **Binaires** : aucun fichier au-delà de 5 Mio, et un fichier binaire doit avoir une extension
+  déclarée `binary` dans `.gitattributes` — l'y déclarer est la décision d'admettre une nouvelle
+  famille d'assets.
+
 ## Messages de commit — Conventional Commits
-Format : `<type>(<portée facultative>): <description à l'impératif>`
+Format : `<type>(<portée facultative>): <description à l'impératif>`, ou, sur une branche de lot,
+`LOT-NN — <description>` (tiret cadratin). Vérifié par le hook `commit-msg`
+(`scripts/check_commit_message.py`) ; les messages de fusion, `Revert` et `fixup!` sont admis.
 
 Types :
 | Type | Usage |
@@ -72,6 +102,7 @@ La portée correspond en général au module (`core`, `hmi`, `elements`, `test`,
 - **Documentation** (`docs.yml`) : génère la Doxygen et la publie sur la branche **`gh-pages`** (lisible en ligne via GitHub Pages).
 
 ## Avant d'ouvrir une PR
+0. `py -3 scripts/check.py` est vert (contrôles du référentiel et hooks).
 1. `cmake --build --preset vs` compile sans avertissement.
 2. `ctest --preset vs` passe à 100 %.
 3. `cmake --preset vs && cmake --build --preset vs-release && ctest --preset vs-release` compile et

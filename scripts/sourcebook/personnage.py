@@ -69,7 +69,6 @@ from __future__ import annotations
 
 import json
 import re
-import unicodedata
 from dataclasses import dataclass, field
 
 from .corpus import Corpus
@@ -778,7 +777,7 @@ def _traits_du_lexique(bloc: str, traits_raciaux: dict) -> list[dict]:
         retenues.append((debut, fin, francais))
 
     traits = []
-    for numero, (debut, fin, francais) in enumerate(retenues):
+    for numero, (_debut, fin, francais) in enumerate(retenues):
         borne = retenues[numero + 1][0] if numero + 1 < len(retenues) else len(bloc)
         texte = normaliser(bloc[fin:borne]).lstrip(' .')
         nom = traits_raciaux[francais]

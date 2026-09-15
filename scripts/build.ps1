@@ -22,6 +22,11 @@
 .PARAMETER Test
     Exécuter CTest après la construction.
 
+.PARAMETER Label
+    Ne lancer que les tests d'un étage : « unitaire », « integration » ou « systeme » (labels CTest
+    de Source/Test/CMakeLists.txt). Implique -Test. Pour une boucle de développement rapide ; le
+    cycle complet reste à lancer avant de pousser.
+
 .PARAMETER Clean
     Supprimer le répertoire de build avant de configurer.
 
@@ -47,6 +52,9 @@ param(
     [string]$Preset = 'ninja',
 
     [switch]$Test,
+
+    [ValidateSet('unitaire', 'integration', 'systeme')]
+    [string]$Label,
 
     [switch]$Clean,
 
@@ -143,7 +151,11 @@ try {
     } else {
         Invoke-Step 'Construction'      { cmake --build --preset $Preset }
     }
-    if ($Test) {
+    if ($Label) {
+        # Pas `$Label` dans le bloc : Invoke-Step a un paramètre du même nom, qui le masquerait.
+        $ctestLabel = $Label
+        Invoke-Step "Tests (CTest, $Label)" { ctest --preset $Preset -L $ctestLabel }
+    } elseif ($Test) {
         Invoke-Step 'Tests (CTest)'     { ctest --preset $Preset }
     }
 }

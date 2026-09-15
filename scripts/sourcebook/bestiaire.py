@@ -85,7 +85,6 @@ from __future__ import annotations
 
 import json
 import re
-import unicodedata
 from dataclasses import dataclass, field
 
 from .catalogues import catalogue_francais, identifiant, index_avec_lexique
