@@ -53,7 +53,11 @@ repos:
     rev: 2f3dbd354aa118b539dee99d8eed05a83097a199  # frozen: v1.7.12.24
     hooks:
       # Syntaxe des workflows : expression mal formée, `needs` inconnu, sortie d'étape inexistante.
+      # actionlint passe aussi chaque `run:` à shellcheck S'IL le trouve : présent sur le runner
+      # Linux, absent d'un poste Windows. Embarqué dans l'environnement du hook pour que les deux
+      # voient les mêmes remarques.
       - id: actionlint
+        additional_dependencies: [ shellcheck-py==0.11.0.1 ]
 
   - repo: https://github.com/zizmorcore/zizmor-pre-commit
     rev: fa412071e4f5d44d44f9e365f4676f9df92456a2  # frozen: v1.30.1

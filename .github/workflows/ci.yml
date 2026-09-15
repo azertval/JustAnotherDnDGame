@@ -589,6 +589,7 @@ jobs:
               echo "$checked fichier(s) vérifié(s), aucun écart."
             else
               echo "$checked fichier(s) vérifié(s), **$(echo "$bad" | wc -l) mal formaté(s)** :"
+              # shellcheck disable=SC2016 # backticks Markdown littéraux, pas une substitution
               echo "$bad" | sed 's/^/- `/; s/$/`/'
             fi
           } >> "$GITHUB_STEP_SUMMARY"
