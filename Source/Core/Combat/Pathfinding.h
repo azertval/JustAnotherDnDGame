@@ -10,6 +10,7 @@
  */
 
 #include <cstddef>
+#include <cstdint>
 #include <functional>
 #include <optional>
 #include <vector>
@@ -83,11 +84,14 @@ struct Path {
  *
  * ## Le départage est une règle, pas un hasard
  *
- * Deux chemins de même coût existent presque toujours. Parmi les prédécesseurs qui atteignent une
- * case au meilleur coût, on retient **celui d'indice de case le plus petit** (ligne, puis colonne).
- * Cette définition ne dépend pas de l'ordre d'exploration : `core::findPath` la partage, et le
- * chemin qu'il rend vers une case atteignable est celui que rend `pathTo`, pas un autre de même
- * coût.
+ * Deux chemins de même coût existent presque toujours. L'exploration retient **tous** les
+ * prédécesseurs qui atteignent une case à son meilleur coût ; c'est la remontée, qui connaît
+ * l'arrivée, qui choisit : **le prédécesseur le plus proche de la droite qui joint le départ à
+ * l'arrivée**, et à égalité celui d'indice de case le plus petit (ligne, puis colonne). Le chemin
+ * ne monte donc pas pour redescendre quand un autre chemin de même coût suit la droite — c'est lui
+ * que la prévisualisation du déplacement dessine (`LOT-24`). Cette définition ne dépend pas de
+ * l'ordre d'exploration : `core::findPath` la partage, et le chemin qu'il rend vers une case
+ * atteignable est celui que rend `pathTo`, pas un autre de même coût.
  */
 class ReachableArea {
 public:
@@ -135,7 +139,8 @@ private:
     GridPosition _origin{};
     int _budget = 0;
     std::vector<int> _costs;
-    std::vector<int> _previous;
+    /// Par case, le masque de ses prédécesseurs au meilleur coût (un bit par voisin).
+    std::vector<std::uint8_t> _predecessors;
     std::vector<bool> _endable;
 };
 

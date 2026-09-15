@@ -26,31 +26,13 @@ QtObject {
     property bool enemyAi: true
     readonly property int gridColumns: 6
     readonly property int gridRows: 4
-    readonly property var cells: [
-        { column: 0, row: 0, wall: true,  occupant: "", side: "", reachable: false, active: false, down: false, hitPoints: "", hitPointsRatio: 1 },
-        { column: 1, row: 0, wall: true,  occupant: "", side: "", reachable: false, active: false, down: false, hitPoints: "", hitPointsRatio: 1 },
-        { column: 2, row: 0, wall: true,  occupant: "", side: "", reachable: false, active: false, down: false, hitPoints: "", hitPointsRatio: 1 },
-        { column: 3, row: 0, wall: true,  occupant: "", side: "", reachable: false, active: false, down: false, hitPoints: "", hitPointsRatio: 1 },
-        { column: 4, row: 0, wall: true,  occupant: "", side: "", reachable: false, active: false, down: false, hitPoints: "", hitPointsRatio: 1 },
-        { column: 5, row: 0, wall: true,  occupant: "", side: "", reachable: false, active: false, down: false, hitPoints: "", hitPointsRatio: 1 },
-        { column: 0, row: 1, wall: true,  occupant: "", side: "", reachable: false, active: false, down: false, hitPoints: "", hitPointsRatio: 1 },
-        { column: 1, row: 1, wall: false, occupant: "Brenna", side: "allies", reachable: false, active: true, down: false, hitPoints: "30/30", hitPointsRatio: 1 },
-        { column: 2, row: 1, wall: false, occupant: "", side: "", reachable: true, active: false, down: false, hitPoints: "", hitPointsRatio: 1 },
-        { column: 3, row: 1, wall: false, occupant: "", side: "", reachable: true, active: false, down: false, hitPoints: "", hitPointsRatio: 1 },
-        { column: 4, row: 1, wall: false, occupant: "Gobelin", side: "enemies", reachable: false, active: false, down: false, hitPoints: "7/7", hitPointsRatio: 1 },
-        { column: 5, row: 1, wall: true,  occupant: "", side: "", reachable: false, active: false, down: false, hitPoints: "", hitPointsRatio: 1 },
-        { column: 0, row: 2, wall: true,  occupant: "", side: "", reachable: false, active: false, down: false, hitPoints: "", hitPointsRatio: 1 },
-        { column: 1, row: 2, wall: false, occupant: "", side: "", reachable: true, active: false, down: false, hitPoints: "", hitPointsRatio: 1 },
-        { column: 2, row: 2, wall: false, occupant: "", side: "", reachable: true, active: false, down: false, hitPoints: "", hitPointsRatio: 1 },
-        { column: 3, row: 2, wall: false, occupant: "", side: "", reachable: false, active: false, down: false, hitPoints: "", hitPointsRatio: 1 },
-        { column: 4, row: 2, wall: false, occupant: "Loup", side: "enemies", reachable: false, active: false, down: true, hitPoints: "0/11", hitPointsRatio: 0 },
-        { column: 5, row: 2, wall: true,  occupant: "", side: "", reachable: false, active: false, down: false, hitPoints: "", hitPointsRatio: 1 },
-        { column: 0, row: 3, wall: true,  occupant: "", side: "", reachable: false, active: false, down: false, hitPoints: "", hitPointsRatio: 1 },
-        { column: 1, row: 3, wall: true,  occupant: "", side: "", reachable: false, active: false, down: false, hitPoints: "", hitPointsRatio: 1 },
-        { column: 2, row: 3, wall: true,  occupant: "", side: "", reachable: false, active: false, down: false, hitPoints: "", hitPointsRatio: 1 },
-        { column: 3, row: 3, wall: true,  occupant: "", side: "", reachable: false, active: false, down: false, hitPoints: "", hitPointsRatio: 1 },
-        { column: 4, row: 3, wall: true,  occupant: "", side: "", reachable: false, active: false, down: false, hitPoints: "", hitPointsRatio: 1 },
-        { column: 5, row: 3, wall: true,  occupant: "", side: "", reachable: false, active: false, down: false, hitPoints: "", hitPointsRatio: 1 }
+    readonly property var fighters: [
+        { column: 1, row: 1, footprint: 1, side: "allies", active: true, down: false, hitPoints: "30/30", hitPointsRatio: 1 },
+        { column: 4, row: 1, footprint: 1, side: "enemies", active: false, down: false, hitPoints: "ensanglante", hitPointsRatio: 0.5 },
+        { column: 4, row: 2, footprint: 1, side: "enemies", active: false, down: true, hitPoints: "a terre", hitPointsRatio: 0 }
+    ]
+    readonly property var reachableCells: [
+        { column: 2, row: 1 }, { column: 3, row: 1 }, { column: 1, row: 2 }, { column: 2, row: 2 }
     ]
     readonly property var turnOrder: [
         { name: "Brenna", total: 17, side: "allies", active: true, down: false },
@@ -89,6 +71,7 @@ QtObject {
     function disengage() {}
     function dash() {}
     function moveCursor(columns, rows) {}
+    function pointCursor(column, row) {}
     function centerCursor() {}
     function cycleTarget(step) {}
     function selectAction(index) {}

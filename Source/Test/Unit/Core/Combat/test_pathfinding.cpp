@@ -283,7 +283,7 @@ TEST(PathfindingTest, MemeEntreeMemeChemin) {
         core::findPath(petite, {.combatant = HEROS}, {2, 0});
     ASSERT_TRUE(versLaDroite.has_value());
     EXPECT_EQ(versLaDroite->steps, (std::vector<core::GridPosition>{{1, 0}, {2, 0}}))
-        << "(1,0) et (1,1) atteignent (2,0) au meme cout : (1,0) a le plus petit indice";
+        << "(1,0) et (1,1) atteignent (2,0) au meme cout : (1,0) est sur la droite";
     const std::optional<core::Path> versLeBas =
         core::findPath(petite, {.combatant = HEROS}, {0, 2});
     ASSERT_TRUE(versLeBas.has_value());
@@ -300,6 +300,46 @@ TEST(PathfindingTest, MemeEntreeMemeChemin) {
         ASSERT_TRUE(chemin.has_value());
         EXPECT_EQ(chemin->steps, reference->steps);
         EXPECT_EQ(chemin->cost, reference->cost);
+    }
+}
+
+/**
+ * @brief Le chemin suit la droite entre le depart et l'arrivee : il ne monte pas pour redescendre.
+ * \castest{<b>Sur une grille ouverte, le chemin retenu parmi ceux de meme cout est le plus proche
+ * de la droite depart-arrivee, et reste dans la boite qui les englobe.</b><br/>
+ * \tcat Unitaire · Combat<br/>
+ * \tcrit Critique<br/>
+ * \tetapes 1. Grille ouverte 11x11, heros au centre (5,5).<br/>2. Demander le chemin vers (9,3),
+ * en haut a droite, par l'aire et par A*.<br/>3. Verifier toute destination de l'aire.<br/>
+ * \tattendu Vers (9,3) : (6,4) (7,4) (8,3) (9,3), jamais (8,2) ; vers toute destination, aucun pas
+ * ne sort du rectangle entre le depart et l'arrivee.
+ * }
+ */
+TEST(PathfindingTest, LeCheminSuitLaDroite) {
+    const core::BattleGrid grille = grilleOuverte(11);
+    const core::ReachableArea aire(grille, {.combatant = HEROS}, 6);
+
+    const std::optional<core::Path> hautDroite = aire.pathTo({9, 3});
+    ASSERT_TRUE(hautDroite.has_value());
+    EXPECT_EQ(hautDroite->steps, (std::vector<core::GridPosition>{{6, 4}, {7, 4}, {8, 3}, {9, 3}}))
+        << "l'ancien departage par plus petit indice montait en (8,2) avant de redescendre";
+    EXPECT_EQ(core::findPath(grille, {.combatant = HEROS}, {9, 3})->steps, hautDroite->steps);
+
+    for (const core::GridPosition destination : aire.destinations()) {
+        const std::optional<core::Path> chemin = aire.pathTo(destination);
+        ASSERT_TRUE(chemin.has_value());
+        const int colonneMin = std::min(5, destination.column);
+        const int colonneMax = std::max(5, destination.column);
+        const int ligneMin = std::min(5, destination.row);
+        const int ligneMax = std::max(5, destination.row);
+        for (const core::GridPosition pas : chemin->steps) {
+            EXPECT_GE(pas.column, colonneMin)
+                << "vers " << destination.column << "," << destination.row;
+            EXPECT_LE(pas.column, colonneMax)
+                << "vers " << destination.column << "," << destination.row;
+            EXPECT_GE(pas.row, ligneMin) << "vers " << destination.column << "," << destination.row;
+            EXPECT_LE(pas.row, ligneMax) << "vers " << destination.column << "," << destination.row;
+        }
     }
 }
 

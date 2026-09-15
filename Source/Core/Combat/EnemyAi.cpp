@@ -176,7 +176,9 @@ public:
         return liste;
     }
 
-    /// Le nombre d'ennemis debout qui peuvent frapper l'ancre sans bouger.
+    /// Le nombre d'ennemis debout qui peuvent frapper l'ancre **au contact** sans bouger. Un tireur
+    /// ne compte pas : sa portee couvre l'arene, et la cle anti-suicide n'interdirait plus rien
+    /// d'autre que d'approcher ; il pese dans `menace`.
     [[nodiscard]] int menacesImmediates(GridPosition ancre) const {
         int total = 0;
         const Footprint ici = empriseEn(ancre);
@@ -185,8 +187,9 @@ public:
                 continue;
             }
             const int distance = ecart(ennemi.emprise.anchor, ennemi.emprise.side, ancre, ici.side);
-            const bool frappe = std::ranges::any_of(
-                *ennemi.attaques, [&](const AttackProfile& a) { return porte(a, distance); });
+            const bool frappe = std::ranges::any_of(*ennemi.attaques, [&](const AttackProfile& a) {
+                return a.kind == AttackKind::Melee && porte(a, distance);
+            });
             if (frappe && hasLineOfSight(_grille, ennemi.emprise, ici)) {
                 ++total;
             }
@@ -398,12 +401,18 @@ private:
     std::vector<std::vector<GridPosition>> _mobilite;
 };
 
-/// L'ordre d'un candidat : moins d'exces de menace, puis attaquer, puis le score. Un candidat ne
-/// remplace le meilleur que s'il le bat strictement : a egalite, le premier examine reste.
+/// L'ordre d'un candidat : moins d'exces de menace, puis attaquer, puis avancer vers l'ennemi,
+/// puis le score, puis le moins de deplacement. Un candidat ne remplace le meilleur que s'il le
+/// bat strictement : a egalite, le premier examine reste. « Avancer » est une cle et non un
+/// poids : la menace d'un round entier pese plus que quelques cases d'approche, et une IA qui ne
+/// peut pas attaquer resterait hors de portee — ou reculerait — a jamais. Le deplacement departage
+/// les cases equivalentes : sans lui, la premiere examinee — le coin haut-gauche — l'emportait.
 struct Cle {
     int exces = 0;
     bool attaque = false;
+    bool progresse = false;
     long long score = 0;
+    int deplacement = 0;
 
     [[nodiscard]] bool meilleureQue(const Cle& autre) const noexcept {
         if (exces != autre.exces) {
@@ -412,7 +421,13 @@ struct Cle {
         if (attaque != autre.attaque) {
             return attaque;
         }
-        return score > autre.score;
+        if (progresse != autre.progresse) {
+            return progresse;
+        }
+        if (score != autre.score) {
+            return score > autre.score;
+        }
+        return deplacement < autre.deplacement;
     }
 };
 
@@ -688,6 +703,10 @@ TurnPlan planTurn(const ArenaSession& session, CombatantId actor, const Behavior
                                          eval.opportunites(*zone, ancre)});
     }
 
+    const auto deplacementVers = [&](GridPosition ancre) {
+        return zone->costTo(ancre).value_or(0);
+    };
+
     // Attaquer : chaque case, chaque cible, chaque attaque.
     for (std::size_t indice = 0; action && indice < ancres.size(); ++indice) {
         const GridPosition ancre = ancres[indice];
@@ -718,18 +737,26 @@ TurnPlan planTurn(const ArenaSession& session, CombatantId actor, const Behavior
                                caseTexte(ancre) + " (jet requis " + std::to_string(frappe.requis) +
                                std::string(nomDePosture(frappe.posture)) + raisons + ")";
             const long long scoreCandidat = candidat.score;
-            proposer({.exces = exces(menaces), .attaque = true, .score = scoreCandidat},
+            proposer({.exces = exces(menaces),
+                      .attaque = true,
+                      .progresse = true,
+                      .score = scoreCandidat,
+                      .deplacement = deplacementVers(ancre)},
                      std::move(candidat));
         }
     }
 
-    // Sans attaque : s'approcher, se precipiter, esquiver, ou tenir.
+    // Sans attaque : s'approcher, se precipiter, esquiver, ou tenir. Un candidat « progresse »
+    // s'il laisse moins de chemin jusqu'a l'ennemi que la case de depart.
     const std::optional<Approche> approche = approcheLaPlusCourte(combat, eval);
+    const long long resteOrigine = approche.has_value() ? approche->chemin.cost : 0;
     for (std::size_t indice = 0; indice < ancres.size(); ++indice) {
         const GridPosition ancre = ancres[indice];
         const int menaces = cases[indice].menaces;
         const long long reste =
             approche.has_value() ? resteDApproche(combat, eval, *approche, *zone, ancre) : 0;
+        const bool progresse = reste < resteOrigine;
+        const int deplacement = deplacementVers(ancre);
         const long long opportunites = cases[indice].opportunites;
         const long long base =
             -static_cast<long long>(profile.approachPerTile) * UNITES_PAR_POINT * reste;
@@ -746,7 +773,12 @@ TurnPlan planTurn(const ArenaSession& session, CombatantId actor, const Behavior
                        .score = base - cases[indice].menace - opportunites};
         tenir.summary = qui + (vers.has_value() ? " : avance en " + caseTexte(ancre) + cible
                                                 : std::string(" : tient sa place"));
-        proposer({.exces = exces(menaces), .attaque = false, .score = tenir.score}, tenir);
+        proposer({.exces = exces(menaces),
+                  .attaque = false,
+                  .progresse = progresse,
+                  .score = tenir.score,
+                  .deplacement = deplacement},
+                 tenir);
 
         if (action && profile.dodgeWhenThreatened && menaces > 0) {
             TurnPlan esquive = tenir;
@@ -754,7 +786,11 @@ TurnPlan planTurn(const ArenaSession& session, CombatantId actor, const Behavior
             esquive.score = base - poidsMenace * eval.menace(ancre, true) - opportunites;
             esquive.summary += ", esquive";
             const long long scoreEsquive = esquive.score;
-            proposer({.exces = exces(menaces), .attaque = false, .score = scoreEsquive},
+            proposer({.exces = exces(menaces),
+                      .attaque = false,
+                      .progresse = progresse,
+                      .score = scoreEsquive,
+                      .deplacement = deplacement},
                      std::move(esquive));
         }
         if (action && opportunites > 0) {
@@ -763,7 +799,11 @@ TurnPlan planTurn(const ArenaSession& session, CombatantId actor, const Behavior
             desengage.score = base - cases[indice].menace;
             desengage.summary += ", en se desengageant";
             const long long scoreDesengage = desengage.score;
-            proposer({.exces = exces(menaces), .attaque = false, .score = scoreDesengage},
+            proposer({.exces = exces(menaces),
+                      .attaque = false,
+                      .progresse = progresse,
+                      .score = scoreDesengage,
+                      .deplacement = deplacement},
                      std::move(desengage));
         }
     }
@@ -789,7 +829,11 @@ TurnPlan planTurn(const ArenaSession& session, CombatantId actor, const Behavior
                              " : se precipite en " + caseTexte(*but) + " vers " +
                              nomDe(combat, approche->cible);
             const long long scoreCourse = course.score;
-            proposer({.exces = exces(menaces), .attaque = false, .score = scoreCourse},
+            proposer({.exces = exces(menaces),
+                      .attaque = false,
+                      .progresse = reste < resteOrigine,
+                      .score = scoreCourse,
+                      .deplacement = loin.costTo(*but).value_or(0)},
                      std::move(course));
         }
     }
@@ -864,6 +908,7 @@ bool playTurn(ArenaSession& session, const BehaviorCatalog& catalog) {
     }
 
     // Reculer apres avoir frappe : vers une case moins menacee, si elle bat strictement la sienne.
+    // A menace egale, la moins loin : on ne file pas jusqu'au premier coin de la salle.
     if (plan.action == TurnAction::Attack && profil->retreatAfterAttack && toujoursLui()) {
         const Evaluateur eval(session, *actif, *profil);
         const std::optional<ReachableArea> zone = combat.reachableArea();
@@ -873,9 +918,11 @@ bool playTurn(ArenaSession& session, const BehaviorCatalog& catalog) {
                 return Cle{
                     .exces = std::max(0, eval.menacesImmediates(ancre) - profil->toleratedThreats),
                     .attaque = false,
+                    .progresse = false,
                     .score = -poids * eval.menace(ancre, false) -
                              static_cast<long long>(profil->opportunityTaken) *
-                                 eval.opportunites(*zone, ancre)};
+                                 eval.opportunites(*zone, ancre),
+                    .deplacement = zone->costTo(ancre).value_or(0)};
             };
             Cle meilleure = cleEn(zone->origin());
             std::optional<GridPosition> recul;

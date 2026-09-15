@@ -35,15 +35,18 @@ namespace hmi {
  * Elle ne décide **rien** du combat : chaque geste de l'écran devient un appel à la session, et
  * ce que l'écran affiche est relu de la machine à états après chaque geste.
  *
- * ## Pourquoi une liste de cases et non une scène
+ * ## Signal et notification de changement
  *
- * L'écran de l'arène est un écran de développeur, en QML, sans charte (feuille de route, §5) : il
- * dessine la grille lui-même, depuis `cells`, plutôt que par la surface de rendu — qui n'affiche
- * encore aucune scène. C'est l'IHM de combat (`LOT-24`) qui dessinera le combat sur la carte ;
- * elle lira la même session, par les mêmes appels.
+ * `changed` couvre tout ce que l'interface affiche : la composition, la grille, l'ordre, le journal
+ * et l'issue changent ensemble, et les distinguer n'épargnerait aucun rafraîchissement à ces
+ * propriétés, toutes relues d'un coup.
  *
- * Un seul signal, `changed`, pour tout ce qui découle d'un geste : la grille, l'ordre, le
- * journal et l'issue changent ensemble, et les distinguer n'épargnerait aucun rafraîchissement.
+ * La surface de rendu (`hmi::ArenaViewportItem`, `LOT-86` Phase 5+) n'a besoin de reprendre un
+ * instantané que lorsque la grille de combat elle-même a pu changer — pas à chaque geste de
+ * composition (enrôler, retirer, marquer, régler la graine ou l'IA), qui ne touche encore à aucune
+ * session montée. `combatSceneChanged`, émis en plus de `changed` aux seuls gestes qui mutent la
+ * grille (`core::ArenaSession::mount`, un déplacement, une attaque, un retrait, la fin du tour, un
+ * rejeu), lui épargne ces recompositions inutiles.
  */
 class ArenaModel : public QObject {
     Q_OBJECT
@@ -72,16 +75,21 @@ class ArenaModel : public QObject {
     Q_PROPERTY(bool enemyAi READ enemyAi WRITE setEnemyAi NOTIFY changed)
     Q_PROPERTY(int gridColumns READ gridColumns NOTIFY changed)
     Q_PROPERTY(int gridRows READ gridRows NOTIFY changed)
-    /// Une entrée par case, ligne par ligne : `{column, row, wall, occupant, side, reachable,
-    /// active, down, hitPoints, hitPointsRatio}` -- la part de vie restante, de 0 à 1, pour la
-    /// jauge de la case. Un ennemi ne montre pas ses points de vie : « ensanglanté » sous la
-    /// moitié, comme le *Guide du Maître* le laisse voir (`LOT-24`).
-    Q_PROPERTY(QVariantList cells READ cells NOTIFY changed)
+    // --- Le calque d'interface de la grille -----------------------------------------------------
+    // Ce que QRhi ne dessine pas : des losanges de jetons et du texte. Une entrée par combattant,
+    // une par case atteignable — jamais une par case de la grille, dont les centaines de délégués
+    // recréés à chaque geste faisaient monter la mémoire (`LOT-86` Phase 7).
 
+    /// Les combattants sur la grille : `{column, row, footprint, side, active, down, hitPoints,
+    /// hitPointsRatio}`. Les points de vie d'un ennemi restent secrets : `ensanglante`, `a terre`
+    /// ou rien (Guide du Maître, chapitre 8).
+    Q_PROPERTY(QVariantList fighters READ fighters NOTIFY changed)
+    /// Les cases où le combattant actif peut finir son déplacement : `{column, row}`.
+    Q_PROPERTY(QVariantList reachableCells READ reachableCells NOTIFY changed)
     // --- Le ciblage (`LOT-24`) -----------------------------------------------------------------
     // Tout ce qui suit le curseur a son propre signal, `cursorChanged` : un pas de curseur ne doit
-    // pas reconstruire les centaines de cases de la scène, qui ne lisent que `cells`. Un geste qui
-    // change le combat émet `changed`, et `changed` entraîne `cursorChanged`.
+    // pas reconstruire le calque de la grille, qui ne lit que `changed`. Un geste qui change le
+    // combat émet `changed`, et `changed` entraîne `cursorChanged`.
 
     /// La case visée par le curseur de ciblage, au clavier et à la manette.
     Q_PROPERTY(int cursorColumn READ cursorColumn NOTIFY cursorChanged)
@@ -120,7 +128,8 @@ public:
     void setEnemyAi(bool enabled);
     [[nodiscard]] int gridColumns() const;
     [[nodiscard]] int gridRows() const;
-    [[nodiscard]] QVariantList cells() const;
+    [[nodiscard]] QVariantList fighters() const;
+    [[nodiscard]] QVariantList reachableCells() const;
     [[nodiscard]] int cursorColumn() const noexcept {
         return _cursor.column;
     }
@@ -134,6 +143,18 @@ public:
     [[nodiscard]] QString activeName() const;
     [[nodiscard]] QString activeResources() const;
     [[nodiscard]] QStringList journal() const;
+
+    /**
+     * @brief La session, en lecture seule, pour la surface de rendu (`hmi::ArenaViewportItem`).
+     *
+     * Pas une propriété QML : le QML n'a rien à lire d'une session. Elle vit sur le fil graphique ;
+     * le rendu ne la lit que dans `synchronize()`, fil graphique bloqué, et n'en garde qu'un
+     * instantané en valeurs (`hmi::snapshotArenaScene`) — jamais ce pointeur.
+     * @return La session, `nullptr` si les catalogues n'ont donné aucune arène jouable.
+     */
+    [[nodiscard]] const core::ArenaSession* session() const noexcept {
+        return _session.get();
+    }
 
     /// Enrôle une entrée du `roster` dans un camp. Sans effet pendant un combat.
     Q_INVOKABLE void addAlly(const QString& id);
@@ -149,6 +170,8 @@ public:
     Q_INVOKABLE void tapCell(int column, int row);
     /// Déplace le curseur d'une case, sans sortir de la grille.
     Q_INVOKABLE void moveCursor(int columns, int rows);
+    /// Pose le curseur sur une case (le survol de la souris). Hors de la grille, ou déjà là : rien.
+    Q_INVOKABLE void pointCursor(int column, int row);
     /// Ramène le curseur sur le combattant actif.
     Q_INVOKABLE void centerCursor();
     /// Pose le curseur sur l'ennemi debout suivant (@p step = 1) ou précédent (-1), du plus proche
@@ -177,12 +200,20 @@ signals:
     void changed();
     /// Le curseur, l'action choisie, la prévisualisation ou le chemin ont changé.
     void cursorChanged();
+    /// `changed` restreint à ce qui peut avoir mué la grille de combat : la surface de rendu
+    /// (`hmi::ArenaViewportItem`) s'y abonne seule, pour ne reprendre un instantané qu'à ces
+    /// gestes-là plutôt qu'à chaque changement de composition.
+    void combatSceneChanged();
 
 private:
     struct Fighter;
     struct Catalogs;
 
     void loadCatalogs();
+    /// `emit changed()` puis `emit combatSceneChanged()` : aux gestes qui mutent la grille de
+    /// combat (`core::ArenaSession::mount`, un déplacement, une attaque, un retrait, la fin du
+    /// tour, un rejeu, un retour à une composition neuve).
+    void emitSceneChanged();
     [[nodiscard]] std::optional<Fighter> fighterFor(const QString& id, core::CombatSide side) const;
     [[nodiscard]] core::ArenaBout composeBout() const;
     void refreshMessage(const core::ArenaMount& mount);

@@ -47,6 +47,9 @@ add_library(HmiLib STATIC
     Graphics/RenderMode.cpp
     Graphics/TileAppearance.cpp
     Graphics/SkinCatalog.cpp
+    Graphics/ArenaAppearanceCatalog.cpp
+    Graphics/ArenaSceneComposer.cpp
+    Graphics/ArenaAnimationDriver.cpp
     Graphics/AnimationCatalog.cpp
     Graphics/PlayerSprite.cpp
     Graphics/TileAutotile.cpp

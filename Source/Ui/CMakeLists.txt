@@ -58,9 +58,7 @@ set(JADG_UI_QML_FILES
     Controls/ActionSlot.ui.qml
     Controls/OrnateRoundButton.ui.qml
     Controls/HudFrame.ui.qml
-    # Le Colisee (LOT-50, habillage du 14 septembre 2026) : la scene isometrique et sa case.
-    Controls/ArenaScene.ui.qml
-    Controls/ArenaTile.ui.qml
+    # Le Colisee (LOT-50) : la marque de ciblage. La scene elle-meme (LOT-86 Phase 7) est rendue par QRhi.
     Controls/ArenaMark.ui.qml
     Screens/CharacterSheetForm.ui.qml
     Screens/InventoryForm.ui.qml

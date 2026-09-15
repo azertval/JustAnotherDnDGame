@@ -10,7 +10,10 @@ import Jadg.Runtime
     la session d'arene (`core::ArenaSession`) qui tient la machine a etats, et ce qui se voit ici
     est relu apres chaque geste.
 
-    Le combat se joue entierement au clavier ou a la manette (LOT-24), par les memes gestes :
+    Le combat se joue au clavier ou a la manette (LOT-24), par les memes gestes, ou a la souris :
+    le survol pose le curseur, le clic se deplace sur la case ou attaque l'ennemi qui l'occupe
+    (`ArenaModel::tapCell`). La case sous le pointeur vient du cadrage du rendu
+    (`ArenaViewport.cellAt`), le seul qui sache ou les cases sont dessinees.
 
     | Geste | Clavier | Manette |
     |---|---|---|
@@ -44,7 +47,6 @@ ArenaForm {
     enemyAi: arena.enemyAi
     gridColumns: arena.gridColumns
     gridRows: arena.gridRows
-    cells: arena.cells
     turnOrder: arena.turnOrder
     activeName: arena.activeName
     activeResources: arena.activeResources
@@ -54,7 +56,28 @@ ArenaForm {
     cursorColumn: arena.cursorColumn
     cursorRow: arena.cursorRow
     pathCells: arena.pathCells
+    fighters: arena.fighters
+    reachableCells: arena.reachableCells
     gamepadConnected: pad.connected
+    gridTileWidth: viewport.tileWidth
+    gridTileHeight: viewport.tileHeight
+    gridOriginX: viewport.originX
+    gridOriginY: viewport.originY
+
+    // La surface de rendu QRhi, posee dans l'hote que le formulaire reserve (LOT-86 Phase 6) --
+    // meme mecanisme que `GameViewport` sur la vue d'exploration (`GameView.qml`) : un type C++
+    // (`Jadg.Runtime`), invisible a l'atelier, que le cadre du formulaire recouvre par-dessus.
+    ArenaViewport {
+        id: viewport
+
+        parent: root.viewportHost
+        anchors.fill: parent
+        // La meme marge que le calque de ciblage du formulaire : les deux couvrent le meme
+        // rectangle, et le calque se cale sur le cadrage que la surface publie.
+        anchors.margins: Tokens.gapMedium
+        model: root.arena
+        clearColor: Tokens.panelRaised
+    }
 
     onFighterChosen: (id, ally) => ally ? arena.addAlly(id) : arena.addEnemy(id)
     onAllyRemoved: (index) => arena.removeAlly(index)
@@ -63,7 +86,20 @@ ArenaForm {
     onSeedEdited: (value) => arena.seed = value
     onEnemyAiToggled: (value) => arena.enemyAi = value
     onLaunchRequested: arena.launch()
-    onCellTapped: (column, row) => arena.tapCell(column, row)
+    onGridHovered: (x, y) => {
+        const cell = viewport.cellAt(x, y)
+        if (cell.x >= 0) {
+            arena.pointCursor(cell.x, cell.y)
+        }
+    }
+    onGridClicked: (x, y) => {
+        const cell = viewport.cellAt(x, y)
+        if (cell.x >= 0) {
+            arena.tapCell(cell.x, cell.y)
+        }
+        // Un clic ne doit pas priver le clavier de l'ecran.
+        root.forceActiveFocus()
+    }
     onEndTurnRequested: arena.endTurn()
     onActionChosen: (index) => arena.selectAction(index)
     onWithdrawRequested: arena.withdraw()

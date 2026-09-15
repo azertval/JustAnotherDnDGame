@@ -48,6 +48,7 @@ add_library(Core STATIC
     Combat/Flanking.cpp
     Combat/EnemyAi.cpp
     Combat/CombatPreview.cpp
+    Combat/IsoProjection.cpp
     Rpg/RpgEnumNames.cpp
     Rpg/Multiclassing.cpp
     Levels/TileMap.cpp

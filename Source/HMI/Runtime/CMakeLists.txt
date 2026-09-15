@@ -15,7 +15,8 @@
 # à la main, et ajouter un type se fait en écrivant la macro dans son en-tête.
 #
 # Les vues-modèles ne connaissent ni Quick ni Widgets (EX-IHM-101, `check_ui_layers.py`) ; seule
-# `GameViewportItem`, la surface de rendu, lie Quick -- c'est un item de scène, pas un modèle.
+# `GameViewportItem` et `ArenaViewportItem`, les surfaces de rendu, lient Quick -- ce sont des items de
+# scène, pas des modèles.
 
 qt_add_qml_module(JadgRuntime
     URI Jadg.Runtime
@@ -34,6 +35,17 @@ qt_add_qml_module(JadgRuntime
         DemonstrationCharacter.h DemonstrationCharacter.cpp
         GameViewportItem.h GameViewportItem.cpp
         ArenaModel.h ArenaModel.cpp
+        # La scene de combat du Colisee sur QRhi (LOT-86 Phase 5) : l'item, et le pipeline 2D qu'il
+        # est le premier ecran du jeu a faire tourner -- jusqu'ici compile dans l'editeur seul.
+        ArenaViewportItem.h ArenaViewportItem.cpp
+        ../Graphics/ArenaSceneRenderer.cpp
+        ../Graphics/SceneResources.cpp
+        ../Graphics/SpriteBatch.cpp
+        ../Graphics/SpriteRenderer.cpp
+        ../Graphics/TextureLoader.cpp
+        ../Graphics/TextureAtlas.cpp
+        ../Graphics/TextureCache.cpp
+        ../Graphics/BitmapFont.cpp
         DialogueModel.h DialogueModel.cpp
         # La manette du jeu Qt Quick (LOT-24) : le sondage XInput, jusqu'ici compile dans
         # l'editeur seul, devient un QObject qui emet des appuis nommes.
@@ -51,6 +63,16 @@ qt_add_resources(JadgRuntime "JadgCredits"
     PREFIX "/jadg/credits"
     BASE "${PROJECT_SOURCE_DIR}/Source/Elements/Credits"
     FILES "${PROJECT_SOURCE_DIR}/Source/Elements/Credits/credits.json"
+)
+
+# Les shaders du pipeline 2D, embarques comme dans l'editeur : `hmi::SpriteBatch` les charge depuis
+# les ressources (`:/shaders/...`), et le jeu n'en avait pas tant qu'aucun ecran ne dessinait par QRhi.
+qt6_add_shaders(JadgRuntime "jadg_runtime_shaders"
+    PREFIX "/shaders"
+    BASE "${PROJECT_SOURCE_DIR}/Source/HMI/Graphics/Shaders"
+    FILES
+        ${PROJECT_SOURCE_DIR}/Source/HMI/Graphics/Shaders/sprite.vert
+        ${PROJECT_SOURCE_DIR}/Source/HMI/Graphics/Shaders/sprite.frag
 )
 
 target_include_directories(JadgRuntime

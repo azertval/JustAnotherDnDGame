@@ -35,12 +35,15 @@
  * sont des données (`Source/Elements/Rpg/rules/behaviors.json`, `EX-VIS-007`), pas des constantes.
  * Et deux garde-fous, qui sont des règles de l'IA et non des poids :
  *
- * - **Le suicide.** Une IA ne finit pas son tour à portée de plus d'ennemis que son profil n'en
+ * - **Le suicide.** Une IA ne finit pas son tour au contact de plus d'ennemis que son profil n'en
  *   tolère (`toleratedThreats`) quand une case qui en tolère moins existait : la comparaison est
- *   **lexicographique**, l'excès d'abord, le score ensuite.
- * - **Le blocage.** Une IA qui peut attaquer attaque ; une IA qui ne le peut pas se rapproche de sa
- *   cible, en se précipitant si le chemin est long. Le prudent choisit **d'où** frapper, et
- *   **recule** après : il ne se cache pas indéfiniment.
+ *   **lexicographique**, l'excès d'abord, le score ensuite. Seules les attaques **de contact**
+ *   comptent : un tireur couvre toute l'arène, et le compter interdirait d'approcher.
+ * - **Le blocage.** Une IA qui peut attaquer attaque ; une IA qui ne le peut pas **avance** vers sa
+ *   cible — c'est une clé de la comparaison, avant le score, sans quoi la menace d'un round entier
+ *   la tiendrait hors de portée à jamais —, en se précipitant si le chemin est long. Le prudent
+ *   choisit **d'où** frapper, et **recule** après, à menace égale le moins loin possible : il ne
+ *   se cache pas indéfiniment.
  *
  * ## Déterministe, en entiers
  *
@@ -141,7 +144,7 @@ struct BehaviorProfile {
     int opportunityTaken = 100;
     /// Le prix d'une case entre soi et la cible, en pour cent d'un point de dégât.
     int approachPerTile = 100;
-    /// Combien d'ennemis peuvent frapper la case de fin de tour sans bouger, au plus.
+    /// Combien d'ennemis peuvent frapper la case de fin de tour au contact, sans bouger, au plus.
     int toleratedThreats = 2;
     /// Le jet requis au-delà duquel on ne prend pas l'attaque d'opportunité (21 : toujours).
     int opportunityMaximumRoll = 21;

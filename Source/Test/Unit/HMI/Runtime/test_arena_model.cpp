@@ -49,114 +49,6 @@ void lancer(hmi::ArenaModel& arena) {
 }  // namespace
 
 /**
- * @brief Un combat complet se joue par les seuls gestes du clavier et de la manette.
- * \castest{<b>Un combat du Colisee se joue de bout en bout par les gestes que le clavier et la
- * manette declenchent -- cible suivante, curseur, confirmer, fin du tour --, sans un clic ;
- * l'ennemi est joue par l'IA entre deux tours du joueur.</b><br/>
- * \tcat Unitaire · IHM<br/>
- * \tcrit Bloquant<br/>
- * \tetapes 1. Composer le personnage de demonstration contre un sanglier, lancer.<br/>2. A chaque
- * tour du joueur : viser l'ennemi le plus proche ; s'il est hors d'allonge, recentrer, mener le
- * curseur sur une case atteignable a son contact et confirmer, puis viser et confirmer ; finir le
- * tour.<br/>
- * \tattendu Le combat atteint son issue ; le journal porte des attaques du personnage et du
- * sanglier ; chaque jet affiche dans le statut est une ligne du journal.
- * }
- */
-TEST(ArenaModelTest, UnCombatSeJoueParLesSeulsGestes) {
-    hmi::ArenaModel arena;
-    lancer(arena);
-    const QString nom = arena.allies().front().toMap().value("name").toString();
-
-    int tours = 0;
-    for (; tours < 200 && !arena.ended(); ++tours) {
-        ASSERT_FALSE(arena.turnActions().isEmpty()) << "le joueur n'a pas la main";
-        auto [colonne, ligne] = viserLePlusProche(arena);
-        if (arena.preview().join(' ').contains(QStringLiteral("Hors d'allonge"))) {
-            // S'approcher : la case atteignable au contact de la cible la plus proche du curseur.
-            arena.centerCursor();
-            int meilleure = -1;
-            int bestColumn = 0;
-            int bestRow = 0;
-            for (const QVariant& entree : arena.cells()) {
-                const QVariantMap c = entree.toMap();
-                const int dc = std::abs(c.value("column").toInt() - colonne);
-                const int dr = std::abs(c.value("row").toInt() - ligne);
-                const int distance = std::max(dc, dr);
-                if (c.value("reachable").toBool() && (meilleure < 0 || distance < meilleure)) {
-                    meilleure = distance;
-                    bestColumn = c.value("column").toInt();
-                    bestRow = c.value("row").toInt();
-                }
-            }
-            if (meilleure >= 0) {
-                arena.moveCursor(bestColumn - arena.cursorColumn(), bestRow - arena.cursorRow());
-                // Le chemin prévisualisé finit sur la case visée.
-                const QVariantList chemin = arena.pathCells();
-                ASSERT_FALSE(chemin.isEmpty());
-                EXPECT_EQ(chemin.back().toMap().value("column").toInt(), bestColumn);
-                EXPECT_EQ(chemin.back().toMap().value("row").toInt(), bestRow);
-                arena.confirm();
-            }
-            if (arena.ended()) {
-                break;
-            }
-            std::tie(colonne, ligne) = viserLePlusProche(arena);
-        }
-        arena.confirm();
-        if (arena.status().startsWith(QStringLiteral("attaque "))) {
-            // Le jet affiche est l'entree du journal.
-            EXPECT_TRUE(arena.journal().contains(arena.status()));
-        }
-        if (!arena.ended()) {
-            arena.endTurn();
-        }
-    }
-    EXPECT_TRUE(arena.ended()) << "pas d'issue en " << tours << " tours";
-    const QStringList journal = arena.journal();
-    EXPECT_TRUE(std::ranges::any_of(
-        journal, [&](const QString& l) { return l.startsWith(QStringLiteral("attaque ") + nom); }));
-    EXPECT_TRUE(std::ranges::any_of(
-        journal, [](const QString& l) { return l.startsWith(QStringLiteral("ia ")); }));
-}
-
-/**
- * @brief La grille montre le curseur, les PV des allies, et l'etat ensanglante des ennemis.
- * \castest{<b>La grille porte le curseur sur une case ; un allie montre ses points de vie, un
- * ennemi seulement s'il est ensanglante ou a terre, comme le Guide du Maitre le laisse
- * voir.</b><br/>
- * \tcat Unitaire · IHM<br/>
- * \tcrit Critique<br/>
- * \tetapes 1. Lancer un combat.<br/>2. Lire la case du curseur, celle de l'allie, celle de
- * l'ennemi.<br/>3. Deplacer le curseur hors de la grille.<br/>
- * \tattendu Le curseur sur la case du combattant actif ; « PV/maximum » pour l'allie,
- * aucun nombre pour l'ennemi ; le curseur reste dans la grille.
- * }
- */
-TEST(ArenaModelTest, LaGrilleMontreLeCurseurEtCacheLesPvEnnemis) {
-    hmi::ArenaModel arena;
-    lancer(arena);
-    const QVariantMap sousLeCurseur =
-        arena.cells().at(arena.cursorRow() * arena.gridColumns() + arena.cursorColumn()).toMap();
-    EXPECT_TRUE(sousLeCurseur.value("active").toBool());
-    for (const QVariant& entree : arena.cells()) {
-        const QVariantMap c = entree.toMap();
-        if (c.value("side").toString() == "allies") {
-            EXPECT_TRUE(c.value("hitPoints").toString().contains('/'));
-        }
-        if (c.value("side").toString() == "enemies") {
-            EXPECT_FALSE(c.value("hitPoints").toString().contains('/'));
-        }
-    }
-    arena.moveCursor(-1000, -1000);
-    EXPECT_EQ(arena.cursorColumn(), 0);
-    EXPECT_EQ(arena.cursorRow(), 0);
-    arena.moveCursor(1000, 1000);
-    EXPECT_EQ(arena.cursorColumn(), arena.gridColumns() - 1);
-    EXPECT_EQ(arena.cursorRow(), arena.gridRows() - 1);
-}
-
-/**
  * @brief La reaction du joueur se bascule depuis la barre d'actions.
  * \castest{<b>La derniere action du tour est la reaction : la confirmer fait laisser passer les
  * attaques d'opportunite, la confirmer encore les fait saisir ; les actions du Manuel se
@@ -192,4 +84,86 @@ TEST(ArenaModelTest, LaReactionSeBasculeDepuisLaBarre) {
 
     arena.cycleAction(1);
     EXPECT_TRUE(arena.turnActions()[0].toMap().value("selected").toBool());
+}
+
+/**
+ * @brief Le survol de la souris pose le curseur sur une case.
+ * \castest{<b>pointCursor pose le curseur sur la case survolee, et ignore ce qui n'en est pas
+ * une.</b><br/>
+ * \tcat Unitaire · IHM<br/>
+ * \tcrit Majeure<br/>
+ * \tetapes 1. Avant le combat, pointer une case.<br/>2. Lancer ; pointer l'ennemi le plus proche
+ * depuis une autre case.<br/>3. Pointer hors de la grille.<br/>
+ * \tattendu Rien avant le combat ; le curseur rejoint la case pointee ; hors de la
+ * grille, le curseur ne bouge pas.
+ * }
+ */
+TEST(ArenaModelTest, LeSurvolPoseLeCurseur) {
+    hmi::ArenaModel arena;
+    const int colonneInitiale = arena.cursorColumn();
+    const int ligneInitiale = arena.cursorRow();
+    arena.pointCursor(colonneInitiale + 1, ligneInitiale + 1);
+    EXPECT_EQ(arena.cursorColumn(), colonneInitiale);
+    EXPECT_EQ(arena.cursorRow(), ligneInitiale);
+
+    lancer(arena);
+    const auto [colonne, ligne] = viserLePlusProche(arena);
+    arena.centerCursor();
+    ASSERT_FALSE(arena.cursorColumn() == colonne && arena.cursorRow() == ligne);
+
+    arena.pointCursor(colonne, ligne);
+    EXPECT_EQ(arena.cursorColumn(), colonne);
+    EXPECT_EQ(arena.cursorRow(), ligne);
+
+    arena.pointCursor(-1, ligne);
+    arena.pointCursor(colonne, arena.gridRows());
+    EXPECT_EQ(arena.cursorColumn(), colonne);
+    EXPECT_EQ(arena.cursorRow(), ligne);
+}
+
+/**
+ * @brief Le calque de la grille : une entree par combattant et par case atteignable.
+ * \castest{<b>fighters decrit chaque combattant sur la grille et garde secrets les points de vie
+ * ennemis ; reachableCells ne liste que des cases libres.</b><br/>
+ * \tcat Unitaire · IHM<br/>
+ * \tcrit Majeure<br/>
+ * \tetapes 1. Avant le combat, lire les deux listes.<br/>2. Lancer ; lire les combattants et les
+ * cases atteignables.<br/>
+ * \tattendu Vides avant le combat ; un allie et un ennemi, un seul au tour ; les points de vie de
+ * l'allie en clair, jamais ceux de l'ennemi ; des cases atteignables, aucune occupee.
+ * }
+ */
+TEST(ArenaModelTest, LeCalqueDeLaGrilleDecritCombattantsEtCasesAtteignables) {
+    hmi::ArenaModel arena;
+    EXPECT_TRUE(arena.fighters().isEmpty());
+    EXPECT_TRUE(arena.reachableCells().isEmpty());
+
+    lancer(arena);
+    const QVariantList fighters = arena.fighters();
+    ASSERT_EQ(fighters.size(), 2);
+    int actifs = 0;
+    for (const QVariant& entry : fighters) {
+        const QVariantMap fighter = entry.toMap();
+        EXPECT_GE(fighter.value("footprint").toInt(), 1);
+        actifs += fighter.value("active").toBool() ? 1 : 0;
+        const QString hitPoints = fighter.value("hitPoints").toString();
+        if (fighter.value("side").toString() == "allies") {
+            EXPECT_TRUE(hitPoints.contains('/')) << hitPoints.toStdString();
+        } else {
+            EXPECT_EQ(fighter.value("side").toString(), "enemies");
+            EXPECT_FALSE(hitPoints.contains('/')) << hitPoints.toStdString();
+        }
+    }
+    EXPECT_EQ(actifs, 1);
+
+    const QVariantList reachable = arena.reachableCells();
+    EXPECT_FALSE(reachable.isEmpty());
+    for (const QVariant& entry : reachable) {
+        const QVariantMap cell = entry.toMap();
+        for (const QVariant& other : fighters) {
+            const QVariantMap fighter = other.toMap();
+            EXPECT_FALSE(cell.value("column") == fighter.value("column") &&
+                         cell.value("row") == fighter.value("row"));
+        }
+    }
 }

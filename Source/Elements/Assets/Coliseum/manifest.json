@@ -26,6 +26,18 @@
     "retiarius",
     "archer"
   ],
+  "paleSlabs": [
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+    "10",
+    "11",
+    "13",
+    "14",
+    "15"
+  ],
   "files": {
     "characters/bram/attack.png": {
       "size": [
