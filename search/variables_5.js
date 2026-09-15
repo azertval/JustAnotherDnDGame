@@ -32,10 +32,11 @@ var searchData=
   ['exactwidth_29',['exactWidth',['../structhmi_1_1AssetDimensionContract.html#a015753f5803f0909672ea0aa2f24ccdf',1,'hmi::AssetDimensionContract']]],
   ['exit_30',['exit',['../structcore_1_1LevelData.html#a4de7478d6d6835f1024213a54f75cff2',1,'core::LevelData::exit'],['../structcore_1_1LevelDraft_1_1State.html#a0c8bf71167d1fc600f3c454fc230c768',1,'core::LevelDraft::State::exit']]],
   ['expected_31',['expected',['../structcore_1_1FlagCondition.html#a65b6aab1bec27094d3f4d5fea9fe417e',1,'core::FlagCondition']]],
-  ['experience_32',['experience',['../structcore_1_1ExperienceLevel.html#a183cfeb9efc4f74a3300ebc67a05ad36',1,'core::ExperienceLevel::experience'],['../structhmi_1_1CharacterSheetContext.html#a218f73411e99569ae93fde562d70424e',1,'hmi::CharacterSheetContext::experience'],['../structhmi_1_1DemonstrationState.html#adbfb0421909790b9ddba0cee3a59b9b2',1,'hmi::DemonstrationState::experience']]],
-  ['experiencepoints_33',['experiencePoints',['../structcore_1_1CharacterSheet.html#aa1c2dffd68f832ebdfdfb79428399c70',1,'core::CharacterSheet']]],
-  ['explicitkey_34',['explicitKey',['../structcore_1_1ExpectedAssetKey.html#af4c061be4e72494398eef6e44787977a',1,'core::ExpectedAssetKey']]],
-  ['exploration_35',['exploration',['../structcore_1_1EncounterRun.html#aa18a27458ab47992bc990d3ba9d02142',1,'core::EncounterRun']]],
-  ['extralarge_36',['extraLarge',['../structhmi_1_1SpacingTokens.html#a59d9c911529cb98e4072423479fc6a26',1,'hmi::SpacingTokens']]],
-  ['extrasmall_37',['extraSmall',['../structhmi_1_1SpacingTokens.html#a559d14e7f1003c0591f98f378a7e08d3',1,'hmi::SpacingTokens']]]
+  ['expecteddamage_32',['expectedDamage',['../structcore_1_1AttackPreview.html#add5a42d183ddc7d4ae467c83f4c0867f',1,'core::AttackPreview']]],
+  ['experience_33',['experience',['../structcore_1_1ExperienceLevel.html#a183cfeb9efc4f74a3300ebc67a05ad36',1,'core::ExperienceLevel::experience'],['../structhmi_1_1CharacterSheetContext.html#a218f73411e99569ae93fde562d70424e',1,'hmi::CharacterSheetContext::experience'],['../structhmi_1_1DemonstrationState.html#adbfb0421909790b9ddba0cee3a59b9b2',1,'hmi::DemonstrationState::experience']]],
+  ['experiencepoints_34',['experiencePoints',['../structcore_1_1CharacterSheet.html#aa1c2dffd68f832ebdfdfb79428399c70',1,'core::CharacterSheet']]],
+  ['explicitkey_35',['explicitKey',['../structcore_1_1ExpectedAssetKey.html#af4c061be4e72494398eef6e44787977a',1,'core::ExpectedAssetKey']]],
+  ['exploration_36',['exploration',['../structcore_1_1EncounterRun.html#aa18a27458ab47992bc990d3ba9d02142',1,'core::EncounterRun']]],
+  ['extralarge_37',['extraLarge',['../structhmi_1_1SpacingTokens.html#a59d9c911529cb98e4072423479fc6a26',1,'hmi::SpacingTokens']]],
+  ['extrasmall_38',['extraSmall',['../structhmi_1_1SpacingTokens.html#a559d14e7f1003c0591f98f378a7e08d3',1,'hmi::SpacingTokens']]]
 ];

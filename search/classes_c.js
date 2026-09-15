@@ -15,5 +15,6 @@ var searchData=
   ['mountrefusal_12',['MountRefusal',['../structcore_1_1MountRefusal.html',1,'core']]],
   ['movementsystem_13',['MovementSystem',['../classcore_1_1MovementSystem.html',1,'core']]],
   ['moveoutcome_14',['MoveOutcome',['../structcore_1_1MoveOutcome.html',1,'core']]],
-  ['mover_15',['Mover',['../structcore_1_1Mover.html',1,'core']]]
+  ['movepreview_15',['MovePreview',['../structcore_1_1MovePreview.html',1,'core']]],
+  ['mover_16',['Mover',['../structcore_1_1Mover.html',1,'core']]]
 ];

@@ -1,5 +1,6 @@
 var dir_de30a5e97846502980314378552e8c47 =
 [
+    [ "test_button_repeat.cpp", "test__button__repeat_8cpp.html", "test__button__repeat_8cpp" ],
     [ "test_editor_key_bindings.cpp", "test__editor__key__bindings_8cpp.html", "test__editor__key__bindings_8cpp" ],
     [ "test_game_key_bindings.cpp", "test__game__key__bindings_8cpp.html", "test__game__key__bindings_8cpp" ],
     [ "test_gamepad_bindings.cpp", "test__gamepad__bindings_8cpp.html", "test__gamepad__bindings_8cpp" ],

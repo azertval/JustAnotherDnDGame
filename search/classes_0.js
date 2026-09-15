@@ -37,10 +37,11 @@ var searchData=
   ['attackcontext_34',['AttackContext',['../structcore_1_1AttackContext.html',1,'core']]],
   ['attackhooks_35',['AttackHooks',['../classcore_1_1AttackHooks.html',1,'core']]],
   ['attackoutcome_36',['AttackOutcome',['../structcore_1_1AttackOutcome.html',1,'core']]],
-  ['attackprofile_37',['AttackProfile',['../structcore_1_1AttackProfile.html',1,'core']]],
-  ['attackrange_38',['AttackRange',['../structcore_1_1AttackRange.html',1,'core']]],
-  ['attackroll_39',['AttackRoll',['../structcore_1_1AttackRoll.html',1,'core']]],
-  ['audioengine_40',['AudioEngine',['../classhmi_1_1AudioEngine.html',1,'hmi']]],
-  ['autotilecell_41',['AutotileCell',['../structhmi_1_1AutotileCell.html',1,'hmi']]],
-  ['availablechoice_42',['AvailableChoice',['../structcore_1_1AvailableChoice.html',1,'core']]]
+  ['attackpreview_37',['AttackPreview',['../structcore_1_1AttackPreview.html',1,'core']]],
+  ['attackprofile_38',['AttackProfile',['../structcore_1_1AttackProfile.html',1,'core']]],
+  ['attackrange_39',['AttackRange',['../structcore_1_1AttackRange.html',1,'core']]],
+  ['attackroll_40',['AttackRoll',['../structcore_1_1AttackRoll.html',1,'core']]],
+  ['audioengine_41',['AudioEngine',['../classhmi_1_1AudioEngine.html',1,'hmi']]],
+  ['autotilecell_42',['AutotileCell',['../structhmi_1_1AutotileCell.html',1,'hmi']]],
+  ['availablechoice_43',['AvailableChoice',['../structcore_1_1AvailableChoice.html',1,'core']]]
 ];

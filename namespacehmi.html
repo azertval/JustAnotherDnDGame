@@ -325,6 +325,7 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Position d'une case dans la planche de raccords, en cases (origine haut-gauche).  <a href="structhmi_1_1AutotileCell.html#details">More...</a><br /></td></tr>
 <tr class="memitem:TileSkinTag" id="r_TileSkinTag"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1TileSkinTag.html">TileSkinTag</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type de tuile et voisinage solide d'une entité affichée, pour la résolution de son skin.  <a href="structhmi_1_1TileSkinTag.html#details">More...</a><br /></td></tr>
+<tr class="memitem:ButtonRepeat" id="r_ButtonRepeat"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1ButtonRepeat.html">ButtonRepeat</a></td></tr>
 <tr class="memitem:EditorKeyBindings" id="r_EditorKeyBindings"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1EditorKeyBindings.html">EditorKeyBindings</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Association action d'éditeur -&gt; touche, avec persistance JSON (<span class="tt">EX-CTRL-012</span>, <span class="tt">LOT-29</span>).  <a href="classhmi_1_1EditorKeyBindings.html#details">More...</a><br /></td></tr>
 <tr class="memitem:GameKeyBindings" id="r_GameKeyBindings"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1GameKeyBindings.html">GameKeyBindings</a></td></tr>
@@ -425,6 +426,8 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le personnage de démonstration et tout ce qu'il faut pour le recalculer : la fiche, ce qu'il porte, et les catalogues (<span class="tt">LOT-87</span>, T3.5).  <a href="structhmi_1_1DemonstrationState.html#details">More...</a><br /></td></tr>
 <tr class="memitem:DialogueModel" id="r_DialogueModel"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1DialogueModel.html">DialogueModel</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">La vue-modèle de l'écran de dialogue : elle tient un <span class="tt"><a class="el" href="classcore_1_1DialogueRunner.html" title="La machine à états qui joue un dialogue.">core::DialogueRunner</a></span> et rien d'autre ne décide.  <a href="classhmi_1_1DialogueModel.html#details">More...</a><br /></td></tr>
+<tr class="memitem:GamepadNavigator" id="r_GamepadNavigator"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1GamepadNavigator.html">GamepadNavigator</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">La manette pour un écran Qt Quick : chaque appui devient un signal nommé (<span class="tt">LOT-24</span>).  <a href="classhmi_1_1GamepadNavigator.html#details">More...</a><br /></td></tr>
 <tr class="memitem:GameViewportItem" id="r_GameViewportItem"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1GameViewportItem.html">GameViewportItem</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Surface QRhi du jeu, composée avec le reste de l'interface QML.  <a href="classhmi_1_1GameViewportItem.html#details">More...</a><br /></td></tr>
 <tr class="memitem:InventoryModel" id="r_InventoryModel"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1InventoryModel.html">InventoryModel</a></td></tr>
@@ -1451,6 +1454,10 @@ Variables</h2></td></tr>
 <tr class="memdesc:addf51de4fb2efedfe740f68247706f7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Types de tuile dont la matière n'occupe <b>pas</b> toute la case, et qui doivent donc être détourées à l'affichage plutôt que dessinées en carré plein.  <br /></td></tr>
 <tr class="memitem:aa9e6d80a32a4e383a6413ef674feef96" id="r_aa9e6d80a32a4e383a6413ef674feef96"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#aa9e6d80a32a4e383a6413ef674feef96">SILHOUETTE_TILE_TYPE_COUNT</a> = static_cast&lt;int&gt;(SILHOUETTE_TILE_TYPES.size())</td></tr>
 <tr class="memdesc:aa9e6d80a32a4e383a6413ef674feef96"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nombre de types de tuile à silhouette (voir <span class="tt"><a class="el" href="#addf51de4fb2efedfe740f68247706f7e" title="Types de tuile dont la matière n&#39;occupe pas toute la case, et qui doivent donc être détourées à l&#39;aff...">SILHOUETTE_TILE_TYPES</a></span>).  <br /></td></tr>
+<tr class="memitem:a9ab13e58906fc19eaceaa84921d13f32" id="r_a9ab13e58906fc19eaceaa84921d13f32"><td class="memItemLeft">constexpr std::chrono::milliseconds&#160;</td><td class="memItemRight"><a class="el" href="#a9ab13e58906fc19eaceaa84921d13f32">BUTTON_REPEAT_DELAY</a> {350}</td></tr>
+<tr class="memdesc:a9ab13e58906fc19eaceaa84921d13f32"><td class="mdescLeft">&#160;</td><td class="mdescRight">Délai avant la première répétition d'un bouton tenu.  <br /></td></tr>
+<tr class="memitem:a19c4e889b587eee63318fd97be53024d" id="r_a19c4e889b587eee63318fd97be53024d"><td class="memItemLeft">constexpr std::chrono::milliseconds&#160;</td><td class="memItemRight"><a class="el" href="#a19c4e889b587eee63318fd97be53024d">BUTTON_REPEAT_INTERVAL</a> {110}</td></tr>
+<tr class="memdesc:a19c4e889b587eee63318fd97be53024d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Intervalle entre deux répétitions.  <br /></td></tr>
 <tr class="memitem:af2f4a1af04682540c1b84611a24aa42c" id="r_af2f4a1af04682540c1b84611a24aa42c"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#af2f4a1af04682540c1b84611a24aa42c">EDITOR_ACTION_COUNT</a> = 10</td></tr>
 <tr class="memdesc:af2f4a1af04682540c1b84611a24aa42c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nombre d'actions d'éditeur remappables (<span class="tt"><a class="el" href="#aa4f5968d7b564d555f29fdc5d2fc9585" title="Action d&#39;éditeur logique, remappable indépendamment de la touche physique.">EditorAction</a></span>).  <br /></td></tr>
 <tr class="memitem:ab42b3bed825ef5b3664995a516c4eb8d" id="r_ab42b3bed825ef5b3664995a516c4eb8d"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#ab42b3bed825ef5b3664995a516c4eb8d">GAME_ACTION_COUNT</a> = 7</td></tr>
@@ -10080,7 +10087,7 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Nom lisible d'un terme de règle — caractéristique, emplacement d'équipement, condition. </p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md972"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md979"></a>
 Pourquoi ceux-là ne passent pas par <span class="tt">qsTr</span></h2>
 <p>La chrome des écrans (« Points de vie », « Nouvelle partie ») s'écrit en français <b>dans le fichier QML</b>, et Qt la traduit par sa source. Ces libellés-ci ne le peuvent pas : leur clé est <b>calculée</b> (<span class="tt">rpg.ability.</span> + l'identifiant que le modèle rend), et <span class="tt">qsTr</span> exige une chaîne littérale — c'est ce qui permet à <span class="tt">lupdate</span> de l'extraire sans exécuter le programme.</p>
 <p>Ce n'est pas qu'une contrainte technique. Ces termes sont un <b>lexique</b> : <span class="tt">rpg.glossary.csv</span> garantit une seule traduction par terme de règle dans tout le jeu, et <span class="tt">scripts/check_glossary.py</span> le vérifie. Les disperser en littéraux dans les écrans casserait précisément cette garantie.</p>
@@ -11972,6 +11979,54 @@ Pourquoi ceux-là ne passent pas par <span class="tt">qsTr</span></h2>
 </div><div class="memdoc">
 
 <p>Sous-dossier des fonds de niveau, relatif au dossier d'assets (<span class="tt">LOT-44</span>). </p>
+
+</div>
+</div>
+<a id="a9ab13e58906fc19eaceaa84921d13f32" name="a9ab13e58906fc19eaceaa84921d13f32"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9ab13e58906fc19eaceaa84921d13f32">&#9670;&#160;</a></span>BUTTON_REPEAT_DELAY</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::chrono::milliseconds hmi::BUTTON_REPEAT_DELAY {350}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Délai avant la première répétition d'un bouton tenu. </p>
+
+</div>
+</div>
+<a id="a19c4e889b587eee63318fd97be53024d" name="a19c4e889b587eee63318fd97be53024d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a19c4e889b587eee63318fd97be53024d">&#9670;&#160;</a></span>BUTTON_REPEAT_INTERVAL</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::chrono::milliseconds hmi::BUTTON_REPEAT_INTERVAL {110}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Intervalle entre deux répétitions. </p>
 
 </div>
 </div>

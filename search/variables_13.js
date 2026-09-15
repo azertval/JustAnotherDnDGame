@@ -56,7 +56,7 @@ var searchData=
   ['stackable_53',['stackable',['../structcore_1_1Item.html#ac478ce0b3683cef9a26c562c3ff5e718',1,'core::Item']]],
   ['stacks_54',['stacks',['../structcore_1_1HitPointReserve.html#a3524f70e6085b7602005fc0ab120ef21',1,'core::HitPointReserve']]],
   ['stage_55',['stage',['../structcore_1_1DamageStep.html#a333b38c6f83f6dfff0128d0c7da7161c',1,'core::DamageStep']]],
-  ['stance_56',['stance',['../structcore_1_1TurnPlan.html#a7d63368b90a14776be9f2f34c08ce07d',1,'core::TurnPlan::stance'],['../structcore_1_1CheckResult.html#a02f0ef9fa92d345a09c99040c18e811d',1,'core::CheckResult::stance']]],
+  ['stance_56',['stance',['../structcore_1_1AttackPreview.html#a06a9af404fb5a101cab8548476a13033',1,'core::AttackPreview::stance'],['../structcore_1_1TurnPlan.html#a7d63368b90a14776be9f2f34c08ce07d',1,'core::TurnPlan::stance'],['../structcore_1_1CheckResult.html#a02f0ef9fa92d345a09c99040c18e811d',1,'core::CheckResult::stance']]],
   ['start_57',['start',['../structcore_1_1DialogueGraph.html#abb4ebd5c8bdf5d0d20fd286b8421cbca',1,'core::DialogueGraph']]],
   ['statistics_58',['statistics',['../structcore_1_1Region.html#aa5106f49a5fe7972e76eeb126bf1a9a2',1,'core::Region']]],
   ['status_59',['status',['../structcore_1_1Combatant.html#ab6cf7866788f382c788b36d2ce194215',1,'core::Combatant::status'],['../structcore_1_1PlayableClass.html#a5ec31462412f02fbeb85a9384f4ce6a5',1,'core::PlayableClass::status']]],

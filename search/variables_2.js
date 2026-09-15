@@ -20,7 +20,9 @@ var searchData=
   ['box_17',['box',['../structcore_1_1TriggerWeight.html#ab974e361606ec4249ab88f8e305c2480',1,'core::TriggerWeight']]],
   ['burrow_18',['burrow',['../structcore_1_1CreatureSpeed.html#a279a2e0ca9c7dacec5321ca51777d61d',1,'core::CreatureSpeed']]],
   ['button_5fcount_19',['BUTTON_COUNT',['../classhmi_1_1InputState.html#a692a4d893cae9b15948b3d1081bbafeb',1,'hmi::InputState']]],
-  ['bx_20',['bx',['../structhmi_1_1LineQuad.html#a203b268e3040f841fa7089fc58391d22',1,'hmi::LineQuad']]],
-  ['by_21',['by',['../structhmi_1_1LineQuad.html#aea263b042537c77e3ffbebe64b772a27',1,'hmi::LineQuad']]],
-  ['bypassedby_22',['bypassedBy',['../structcore_1_1DamageAffinity.html#aee4369403d75f62d22159671ceb8a216',1,'core::DamageAffinity']]]
+  ['button_5frepeat_5fdelay_20',['BUTTON_REPEAT_DELAY',['../namespacehmi.html#a9ab13e58906fc19eaceaa84921d13f32',1,'hmi']]],
+  ['button_5frepeat_5finterval_21',['BUTTON_REPEAT_INTERVAL',['../namespacehmi.html#a19c4e889b587eee63318fd97be53024d',1,'hmi']]],
+  ['bx_22',['bx',['../structhmi_1_1LineQuad.html#a203b268e3040f841fa7089fc58391d22',1,'hmi::LineQuad']]],
+  ['by_23',['by',['../structhmi_1_1LineQuad.html#aea263b042537c77e3ffbebe64b772a27',1,'hmi::LineQuad']]],
+  ['bypassedby_24',['bypassedBy',['../structcore_1_1DamageAffinity.html#aee4369403d75f62d22159671ceb8a216',1,'core::DamageAffinity']]]
 ];

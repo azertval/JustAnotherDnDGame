@@ -7,6 +7,9 @@ var searchData=
   ['classandlevel_4',['classAndLevel',['../classhmi_1_1CharacterSheetModel.html#ab1cebb312ed46e9efb3d7f2dee2df4bd',1,'hmi::CharacterSheetModel']]],
   ['clearcolor_5',['clearColor',['../classhmi_1_1GameViewportItem.html#a127c42d7f8e5427edd5524401727fda9',1,'hmi::GameViewportItem']]],
   ['column_6',['column',['../classhmi_1_1CreditsModel.html#ac32e49e3c58599f9004eb3bb6a69ba3e',1,'hmi::CreditsModel']]],
-  ['currentrpgscreen_7',['currentRpgScreen',['../classhmi_1_1ScreenRouter.html#a68efd81277570018b5f1043310abb730',1,'hmi::ScreenRouter']]],
-  ['currentscreen_8',['currentScreen',['../classhmi_1_1ScreenRouter.html#ae6f4f69704239e7f7561382ecb88426c',1,'hmi::ScreenRouter']]]
+  ['connected_7',['connected',['../classhmi_1_1GamepadNavigator.html#ab04ee136a3e4440ecee3d83329008045',1,'hmi::GamepadNavigator']]],
+  ['currentrpgscreen_8',['currentRpgScreen',['../classhmi_1_1ScreenRouter.html#a68efd81277570018b5f1043310abb730',1,'hmi::ScreenRouter']]],
+  ['currentscreen_9',['currentScreen',['../classhmi_1_1ScreenRouter.html#ae6f4f69704239e7f7561382ecb88426c',1,'hmi::ScreenRouter']]],
+  ['cursorcolumn_10',['cursorColumn',['../classhmi_1_1ArenaModel.html#a67ebea315e7a25c384ce1ead30cb2298',1,'hmi::ArenaModel']]],
+  ['cursorrow_11',['cursorRow',['../classhmi_1_1ArenaModel.html#a87d807cfc6a3bcb337f4b01daae1b565',1,'hmi::ArenaModel']]]
 ];

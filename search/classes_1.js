@@ -9,5 +9,6 @@ var searchData=
   ['behaviorcatalog_6',['BehaviorCatalog',['../structcore_1_1BehaviorCatalog.html',1,'core']]],
   ['behaviorprofile_7',['BehaviorProfile',['../structcore_1_1BehaviorProfile.html',1,'core']]],
   ['bestiary_8',['Bestiary',['../structcore_1_1Bestiary.html',1,'core']]],
-  ['bitmapfont_9',['BitmapFont',['../classhmi_1_1BitmapFont.html',1,'hmi']]]
+  ['bitmapfont_9',['BitmapFont',['../classhmi_1_1BitmapFont.html',1,'hmi']]],
+  ['buttonrepeat_10',['ButtonRepeat',['../classhmi_1_1ButtonRepeat.html',1,'hmi']]]
 ];

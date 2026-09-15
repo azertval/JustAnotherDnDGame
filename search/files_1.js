@@ -10,5 +10,6 @@ var searchData=
   ['bitmapfont_2eh_7',['BitmapFont.h',['../BitmapFont_8h.html',1,'']]],
   ['bootstrap_2ecpp_8',['Bootstrap.cpp',['../Bootstrap_8cpp.html',1,'']]],
   ['bootstrap_2eh_9',['Bootstrap.h',['../Bootstrap_8h.html',1,'']]],
-  ['buildconfig_2eh_10',['BuildConfig.h',['../BuildConfig_8h.html',1,'']]]
+  ['buildconfig_2eh_10',['BuildConfig.h',['../BuildConfig_8h.html',1,'']]],
+  ['buttonrepeat_2eh_11',['ButtonRepeat.h',['../ButtonRepeat_8h.html',1,'']]]
 ];

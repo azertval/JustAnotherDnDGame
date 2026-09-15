@@ -22,7 +22,7 @@ var searchData=
   ['replies_19',['replies',['../structhmi_1_1DialogueScreenValues.html#a4b59187e06129e3bf78ba18bd4e97d2f',1,'hmi::DialogueScreenValues']]],
   ['report_20',['report',['../structcore_1_1AttackOutcome.html#a92144a357860544f1d22c734ec761d15',1,'core::AttackOutcome']]],
   ['requiredmechanisms_21',['requiredMechanisms',['../structcore_1_1Creature.html#ace09660f1aa10b5cbdb5e3fa5ea3f5aa',1,'core::Creature::requiredMechanisms'],['../structcore_1_1Species.html#a4ab4a90ee00916567663a6c456bb1d7d',1,'core::Species::requiredMechanisms']]],
-  ['requiredroll_22',['requiredRoll',['../structcore_1_1TurnPlan.html#ac393c9a154c07900b7db6594d3eafa5b',1,'core::TurnPlan']]],
+  ['requiredroll_22',['requiredRoll',['../structcore_1_1AttackPreview.html#a51ffd26eb40dee217746d53bbf8d01ef',1,'core::AttackPreview::requiredRoll'],['../structcore_1_1TurnPlan.html#ac393c9a154c07900b7db6594d3eafa5b',1,'core::TurnPlan::requiredRoll']]],
   ['requiresattunement_23',['requiresAttunement',['../structcore_1_1Item.html#a738829051583f957920534d3c35a5488',1,'core::Item']]],
   ['reserves_24',['reserves',['../structcore_1_1Combatant.html#aee6b98def7c1a4a96f1808fd5980aae2',1,'core::Combatant']]],
   ['result_25',['result',['../structcore_1_1ArenaAttack.html#ac76958ea2b70a358e54e91c9f64a9af1',1,'core::ArenaAttack::result'],['../structcore_1_1MoveOutcome.html#a1215e29cee906b7db549100a128a1cfd',1,'core::MoveOutcome::result'],['../structcore_1_1DialogueCheck.html#ae2537605277fe4200cd90f7370a87367',1,'core::DialogueCheck::result']]],

@@ -55,9 +55,10 @@ var searchData=
   ['monospacebody_52',['monospaceBody',['../structhmi_1_1TypographyTokens.html#a1aa0ced064a83a2dbed4f92171037f51',1,'hmi::TypographyTokens']]],
   ['movement_53',['movement',['../structcore_1_1CombatantProfile.html#a39bdcb49ec9955df4be07f7c7a812824',1,'core::CombatantProfile']]],
   ['movement_5fresource_54',['MOVEMENT_RESOURCE',['../namespacecore.html#a7ab9475b62f44395c8e5f7e30a3f32f5',1,'core']]],
-  ['movespeed_55',['moveSpeed',['../structcore_1_1PhysicsConfig.html#a0fdb33afff65f36642d32a0714f9a642',1,'core::PhysicsConfig::moveSpeed'],['../structcore_1_1TopDownConfig.html#a07b8edf2f44cc4d0c3c845848380e869',1,'core::TopDownConfig::moveSpeed']]],
-  ['moveto_56',['moveTo',['../structcore_1_1TurnPlan.html#aed79b0f34ec2c99d4dab0cce97ab1a36',1,'core::TurnPlan']]],
-  ['movex_57',['moveX',['../structcore_1_1PlayerInput.html#adce05fa0a13062c53bfef04c63b85623',1,'core::PlayerInput']]],
-  ['movey_58',['moveY',['../structcore_1_1PlayerInput.html#abcac0b75aeffc17a50a48e9a6208c1e2',1,'core::PlayerInput']]],
-  ['multipleoftilesize_59',['multipleOfTileSize',['../structhmi_1_1AssetDimensionContract.html#a5ceebbd36c48fe51e3e7b7983c98499f',1,'hmi::AssetDimensionContract']]]
+  ['movementleft_55',['movementLeft',['../structcore_1_1MovePreview.html#a398c7015721e20bf512e70a32f5db73d',1,'core::MovePreview']]],
+  ['movespeed_56',['moveSpeed',['../structcore_1_1PhysicsConfig.html#a0fdb33afff65f36642d32a0714f9a642',1,'core::PhysicsConfig::moveSpeed'],['../structcore_1_1TopDownConfig.html#a07b8edf2f44cc4d0c3c845848380e869',1,'core::TopDownConfig::moveSpeed']]],
+  ['moveto_57',['moveTo',['../structcore_1_1TurnPlan.html#aed79b0f34ec2c99d4dab0cce97ab1a36',1,'core::TurnPlan']]],
+  ['movex_58',['moveX',['../structcore_1_1PlayerInput.html#adce05fa0a13062c53bfef04c63b85623',1,'core::PlayerInput']]],
+  ['movey_59',['moveY',['../structcore_1_1PlayerInput.html#abcac0b75aeffc17a50a48e9a6208c1e2',1,'core::PlayerInput']]],
+  ['multipleoftilesize_60',['multipleOfTileSize',['../structhmi_1_1AssetDimensionContract.html#a5ceebbd36c48fe51e3e7b7983c98499f',1,'hmi::AssetDimensionContract']]]
 ];

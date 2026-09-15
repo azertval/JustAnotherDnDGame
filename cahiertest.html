@@ -93,9 +93,9 @@ $(function(){initNavTree('cahiertest.html','',''); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md_CahierTest"></a></p>
-<p><b>1134 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
+<p><b>1140 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md5"></a>
-Tests unitaires (1119)</h1>
+Tests unitaires (1125)</h1>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md6"></a>
 Core</h2>
 <p><b><span class="tt"><a class="el" href="test__core_8cpp.html" title="Tests unitaires de la bibliothèque Core (amorçage).">test_core.cpp</a></span></b></p>
@@ -108,7 +108,7 @@ Core</h2>
 2. Executer le scenario et verifier les assertions.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">engine.version().empty()</span> est faux.  </td></tr>
 </table>
 <h3 class="doxsection"><a class="anchor" id="autotoc_md7"></a>
-Combat (87)</h3>
+Combat (89)</h3>
 <p><b><span class="tt"><a class="el" href="test__action__economy_8cpp.html" title="Tests de l&#39;économie d&#39;action et des mémoires à portée (LOT-20, EX-CBT-011).">test_action_economy.cpp</a></span></b></p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -562,6 +562,54 @@ Vérifie que <span class="tt">grille.isObstructed({1, 1})</span> est faux.<br  /
 Vérifie que <span class="tt">grille.isObstructed({2, 2})</span> est faux.<br  />
 Vérifie que <span class="tt">grille.place(HEROS, {3, 3})</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a56ee2c3f69200e700ac0f1b65dc413b4af429e45eaf722cbbb524b40a0313aa67">core::PlacementResult::Placed</a></span>.<br  />
 Vérifie que <span class="tt">grille.placeObject({3, 3}, {.kind = "barricade"})</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a56ee2c3f69200e700ac0f1b65dc413b4abbd86c81e760279d9731d5cac811ba50" title="L&#39;emprise touche une case déjà tenue par un autre combattant, ou déjà chargée d&#39;un objet.">core::PlacementResult::Occupied</a></span>.  </td></tr>
+</table>
+<p><b><span class="tt"><a class="el" href="test__combat__preview_8cpp.html" title="Tests unitaires de la prévisualisation de combat (LOT-24) : ce que l&#39;écran montre avant l&#39;engagement ...">test_combat_preview.cpp</a></span></b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>CombatPreviewTest.LaPrevisualisationEstLeJet</b> (Bloquant)<br  />
+<sub><span class="tt"><a class="el" href="test__combat__preview_8cpp.html" title="Tests unitaires de la prévisualisation de combat (LOT-24) : ce que l&#39;écran montre avant l&#39;engagement ...">Source/Test/Unit/Core/Combat/test_combat_preview.cpp</a>:87</span></sub>  </td><td class="markdownTableBodyNone">Ce que l'ecran montre avant l'attaque &ndash; CA abri compris, posture, sources d'avantage et de desavantage, chance de toucher &ndash; est exactement ce que le jet jette.  </td><td class="markdownTableBodyNone">1. Une attaque au contact d'un ennemi pris en tenaille, dans une arene a tenaille.<br  />
+2. Un tir a longue portee, a travers un allie, sur une cible qui esquive.<br  />
+3. Une cible hors de portee.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">session.start()</span> est vrai.<br  />
+Vérifie que <span class="tt">session.combat().activeCombatant()</span> vaut <span class="tt">CombatantId{1}</span>.<br  />
+Vérifie que <span class="tt">apercu.has_value()</span> est vrai.<br  />
+Vérifie que <span class="tt">apercu-&gt;stance</span> vaut <span class="tt"><a class="el" href="namespacecore.html#aff494cc4070ea4489c3d5ee57178f7c9a1b2430d20c750dada9aaaed48b4eb8f1">core::RollStance::Advantage</a></span>.<br  />
+Vérifie que <span class="tt">apercu-&gt;advantages</span> vaut <span class="tt">(std::vector&lt;std::string&gt;{"prise en tenaille"})</span>.<br  />
+Vérifie que <span class="tt">apercu-&gt;requiredRoll</span> vaut <span class="tt">8</span>.<br  />
+Vérifie que <span class="tt">apercu-&gt;hitPercent()</span> vaut <span class="tt">88</span>.<br  />
+Vérifie que <span class="tt">session.start()</span> est vrai.<br  />
+Vérifie que <span class="tt">session.combat().activeCombatant()</span> vaut <span class="tt">CombatantId{3}</span>.<br  />
+Vérifie que <span class="tt">session.dodge()</span> est vrai.<br  />
+Vérifie que <span class="tt">session.endTurn()</span> est vrai.<br  />
+Vérifie que <span class="tt">session.combat().activeCombatant()</span> vaut <span class="tt">CombatantId{1}</span>.<br  />
+Vérifie que <span class="tt">apercu.has_value()</span> est vrai.<br  />
+Vérifie que <span class="tt">apercu-&gt;cover</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a0ddd67c0966fb31bf8c2de44a63d6999ac48615a1bc4197056d522af276aa5a85" title="Au moins la moitié du corps : +2 à la CA et aux sauvegardes de Dextérité.">core::Cover::Half</a></span>.<br  />
+Vérifie que <span class="tt">apercu-&gt;armorClass</span> vaut <span class="tt">14</span>.<br  />
+Vérifie que <span class="tt">apercu-&gt;stance</span> vaut <span class="tt"><a class="el" href="namespacecore.html#aff494cc4070ea4489c3d5ee57178f7c9ae755d083f9085a585ef791919be5a004">core::RollStance::Disadvantage</a></span>.<br  />
+Vérifie que <span class="tt">apercu-&gt;disadvantages.size()</span> vaut <span class="tt">2U</span>.<br  />
+Vérifie que <span class="tt">session.start()</span> est vrai.<br  />
+Vérifie que <span class="tt">apercu.has_value()</span> est vrai.<br  />
+Vérifie que <span class="tt">apercu-&gt;check</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a1c2689aacd9707ef3d8c556e9f2bf840ab3e0302fd4814646ffa6de166cddc38a" title="Hors d&#39;allonge, ou au-delà de la longue portée (core::inReach).">core::TargetCheck::OutOfReach</a></span>.<br  />
+Vérifie que <span class="tt">apercu-&gt;hitChance</span> vaut <span class="tt">0</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#aa16398d9f2424d88762163aa2bfe850e" title="La première attaque du combattant actif qui peut viser target — celle que le geste « attaquer » chois...">core::firstValidAttack</a>(session, CombatantId{2}).has_value()</span> est faux.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a331ece5830ae73d553faf88ddecc116c" title="L&#39;attaque attackIndex du combattant actif contre target, telle qu&#39;elle serait jetée maintenant.">core::previewAttack</a>(session, CombatantId{2}, 3).has_value()</span> est faux.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>CombatPreviewTest.LeDeplacementSePrevisualiseEtLOpportuniteSeDecline</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__combat__preview_8cpp.html" title="Tests unitaires de la prévisualisation de combat (LOT-24) : ce que l&#39;écran montre avant l&#39;engagement ...">Source/Test/Unit/Core/Combat/test_combat_preview.cpp</a>:159</span></sub>  </td><td class="markdownTableBodyNone">La previsualisation d'un deplacement donne le chemin, le deplacement restant et qui frappera en chemin ; un combattant dont le joueur laisse passer les opportunites ne frappe pas.  </td><td class="markdownTableBodyNone">1. Une heroine au contact d'un ogre ; previsualiser un pas qui sort de son allonge.<br  />
+2. Le joueur dit que l'ogre laisse passer ; previsualiser, puis jouer le pas.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">session.start()</span> est vrai.<br  />
+Vérifie que <span class="tt">session.combat().activeCombatant()</span> vaut <span class="tt">CombatantId{1}</span>.<br  />
+Vérifie que <span class="tt">pas.path.has_value()</span> est vrai.<br  />
+Vérifie que <span class="tt">pas.path-&gt;cost</span> vaut <span class="tt">2</span>.<br  />
+Vérifie que <span class="tt">pas.movementLeft</span> vaut <span class="tt">4</span>.<br  />
+Vérifie que <span class="tt">pas.opportunities</span> vaut <span class="tt">(std::vector&lt;CombatantId&gt;{CombatantId{2}})</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#ac10191346bb1e11cc0c720ea9f4a5c79" title="Le déplacement du combattant actif jusqu&#39;à destination.">core::previewMove</a>(session, {9, 9}).path.has_value()</span> est faux.<br  />
+Vérifie que <span class="tt">session.takesOpportunities(CombatantId{2})</span> est vrai.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#ac10191346bb1e11cc0c720ea9f4a5c79" title="Le déplacement du combattant actif jusqu&#39;à destination.">core::previewMove</a>(session, {2, 5}).opportunities.empty()</span> est vrai.<br  />
+Vérifie que <span class="tt">session.move({2, 5}).result</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ac0c9dc39aafc4bad02c96a9659df0c1ba95bfdefaaf01553cbf21ccd942855c69">core::MoveResult::Moved</a></span>.<br  />
+Vérifie que <span class="tt">std::ranges::none_of( session.journal(), [](const std::string&amp; l) { return l.starts_with("opportunite : "); })</span> est vrai.<br  />
+Vérifie que <span class="tt">session.combat().find(CombatantId{2})-&gt;economy.remaining(core::REACTION_RESOURCE)</span> vaut <span class="tt">1</span>.<br  />
+Vérifie que <span class="tt">session.takesOpportunities(CombatantId{2})</span> est faux.  </td></tr>
 </table>
 <p><b><span class="tt"><a class="el" href="test__combat__state_8cpp.html" title="Tests de la machine à états du combat : initiative, tour, crochets, entrées et sorties,...">test_combat_state.cpp</a></span></b></p>
 <table class="markdownTable">
@@ -1060,10 +1108,10 @@ Vérifie que <span class="tt">plan.action</span> vaut <span class="tt"><a class=
 Vérifie que <span class="tt">plan.moveTo.has_value()</span> est vrai.<br  />
 Vérifie que <span class="tt"><a class="el" href="namespacecore.html#aba1d28cef88c61f722b2b034a8415f10" title="Vrai si les deux emprises se voient : un segment dégagé relie un point de grille de l&#39;une à un point ...">core::hasLineOfSight</a>(session.combat().grid(), {.anchor = *plan.moveTo, .side = 1}, {.anchor = {7, 3}, .side = 1})</span> est vrai.<br  />
 Vérifie que <span class="tt">core::playTurn(session, profils)</span> est vrai.<br  />
-Vérifie que <span class="tt">std::ranges::any_of(journal, [](const std::string&amp; l) { return l.starts_with("attaque Archere -&gt; Heros"); })</span> est vrai.  </td></tr>
+Vérifie que <span class="tt">std::ranges::any_of( journal, [](const std::string&amp; l) { return l.starts_with("attaque Archere -&gt; Heros"); })</span> est vrai.  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>EnemyAiTest.SePrecipiterEtChoisirSesOpportunites</b> (Critique)<br  />
-<sub><span class="tt"><a class="el" href="test__enemy__ai_8cpp.html" title="Tests unitaires de l&#39;IA tactique (LOT-23) : la prise en tenaille du Guide du Maître,...">Source/Test/Unit/Core/Combat/test_enemy_ai.cpp</a>:407</span></sub>  </td><td class="markdownTableBodyNone">Une IA qui ne peut attaquer se precipite vers l'ennemi le plus proche ; une IA prudente laisse passer une attaque d'opportunite dont le jet requis depasse son seuil, une agressive la prend.  </td><td class="markdownTableBodyNone">1. Un gobelin agressif a quinze cases d'un heros ; jouer son tour.<br  />
+<sub><span class="tt"><a class="el" href="test__enemy__ai_8cpp.html" title="Tests unitaires de l&#39;IA tactique (LOT-23) : la prise en tenaille du Guide du Maître,...">Source/Test/Unit/Core/Combat/test_enemy_ai.cpp</a>:406</span></sub>  </td><td class="markdownTableBodyNone">Une IA qui ne peut attaquer se precipite vers l'ennemi le plus proche ; une IA prudente laisse passer une attaque d'opportunite dont le jet requis depasse son seuil, une agressive la prend.  </td><td class="markdownTableBodyNone">1. Un gobelin agressif a quinze cases d'un heros ; jouer son tour.<br  />
 2. Un ogre au contact d'un heros a CA 20 (+4 : jet requis 16) ; le heros s'eloigne, l'ogre prudent puis agressif.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">session.start()</span> est vrai.<br  />
 Vérifie que <span class="tt">core::playTurn(session, profils)</span> est vrai.<br  />
 Vérifie que <span class="tt">std::ranges::any_of(session.journal(), [](const std::string&amp; l) { return l.starts_with("precipitation Gobelin"); })</span> est vrai.<br  />
@@ -1074,7 +1122,7 @@ Vérifie que <span class="tt">session.move({2, 5}).result</span> vaut <span clas
 Vérifie que <span class="tt">prises</span> vaut <span class="tt">std::string(profil) == "aggressive" ? 1 : 0</span>.  </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>EnemyAiTest.UnCombatIaContreIaSeTermineToujoursEtSeRejoue</b> (Bloquant)<br  />
-<sub><span class="tt"><a class="el" href="test__enemy__ai_8cpp.html" title="Tests unitaires de l&#39;IA tactique (LOT-23) : la prise en tenaille du Guide du Maître,...">Source/Test/Unit/Core/Combat/test_enemy_ai.cpp</a>:456</span></sub>  </td><td class="markdownTableBodyNone">Sur des configurations generees &ndash; salles, piliers, compositions, profils, tireurs, tenaille ou non &ndash;, un combat joue par l'IA des deux cotes atteint son issue ; a graine fixee, deux parties donnent le meme journal.  </td><td class="markdownTableBodyNone">1. Pour trente graines, generer une salle de 10 a 16 cases sur 8 a 10 avec des piliers, deux a quatre combattants par camp, chacun avec un profil livre, un tiers de tireurs, la tenaille une fois sur deux.<br  />
+<sub><span class="tt"><a class="el" href="test__enemy__ai_8cpp.html" title="Tests unitaires de l&#39;IA tactique (LOT-23) : la prise en tenaille du Guide du Maître,...">Source/Test/Unit/Core/Combat/test_enemy_ai.cpp</a>:455</span></sub>  </td><td class="markdownTableBodyNone">Sur des configurations generees &ndash; salles, piliers, compositions, profils, tireurs, tenaille ou non &ndash;, un combat joue par l'IA des deux cotes atteint son issue ; a graine fixee, deux parties donnent le meme journal.  </td><td class="markdownTableBodyNone">1. Pour trente graines, generer une salle de 10 a 16 cases sur 8 a 10 avec des piliers, deux a quatre combattants par camp, chacun avec un profil livre, un tiers de tireurs, la tenaille une fois sur deux.<br  />
 2. Jouer par l'IA jusqu'a l'issue, avec une garde de 600 tours.<br  />
 3. Une graine sur trois, rejouer par <span class="tt">replay</span>.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">profils.errors.empty()</span> est vrai.<br  />
 Vérifie que <span class="tt">montage.refusals.empty()</span> est vrai.<br  />
@@ -7358,7 +7406,20 @@ Vérifie que <span class="tt">textures.widthFor(broken)</span> vaut <span class=
 Vérifie que <span class="tt">textures.heightFor(broken)</span> vaut <span class="tt"><a class="el" href="namespacehmi.html#a75cfef1e5eb0b5569ebd42c004d73ce3" title="Côté, en pixels, du damier de repli généré par défaut (une case, EX-ARCH-021).">hmi::MISSING_TEXTURE_SIZE</a></span>.  </td></tr>
 </table>
 <h3 class="doxsection"><a class="anchor" id="autotoc_md25"></a>
-Input (81)</h3>
+Input (82)</h3>
+<p><b><span class="tt"><a class="el" href="test__button__repeat_8cpp.html" title="Tests unitaires de la répétition d&#39;un bouton de manette tenu (LOT-24).">test_button_repeat.cpp</a></span></b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>ButtonRepeatTest.UnAppuiPuisUneRepetitionReguliere</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__button__repeat_8cpp.html" title="Tests unitaires de la répétition d&#39;un bouton de manette tenu (LOT-24).">Source/Test/Unit/HMI/Input/test_button_repeat.cpp</a>:18</span></sub>  </td><td class="markdownTableBodyNone">La croix de la manette tenue deplace le curseur d'une case a l'appui, puis se repete apres le delai, a intervalle regulier ; relachee, elle s'arrete, et un nouvel appui repart du debut.  </td><td class="markdownTableBodyNone">1. Appuyer a t = 0, tenir jusqu'a 600 ms en sondant toutes les 16 ms.<br  />
+2. Relacher, puis rappuyer.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">pas</span> vaut <span class="tt">(std::vector&lt;long long&gt;{0, 352, 464, 576})</span>.<br  />
+Vérifie que <span class="tt">bouton.update(false, debut + 620ms)</span> est faux.<br  />
+Vérifie que <span class="tt">bouton.update(false, debut + 700ms)</span> est faux.<br  />
+Vérifie que <span class="tt">bouton.update(true, debut + 716ms)</span> est vrai.<br  />
+Vérifie que <span class="tt">bouton.update(true, debut + 732ms)</span> est faux.  </td></tr>
+</table>
 <p><b><span class="tt"><a class="el" href="test__editor__key__bindings_8cpp.html" title="Tests unitaires du remappage des touches de l&#39;éditeur (EditorKeyBindings, EX-CTRL-012).">test_editor_key_bindings.cpp</a></span></b></p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -8561,9 +8622,52 @@ Vérifie que <span class="tt">missing.empty()</span> est vrai.<br  />
 Vérifie que <span class="tt">regions.size()</span> vaut <span class="tt">atlas.regions.size()</span>.<br  />
 Vérifie que <span class="tt">locations</span> vaut <span class="tt">atlas.locations.size()</span>.  </td></tr>
 </table>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md29"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md29"></a>
+Runtime (3)</h3>
+<p><b><span class="tt"><a class="el" href="test__arena__model_8cpp.html" title="Tests de la vue-modèle du Colisée (LOT-24) : un combat joué par les seuls gestes du clavier et de la ...">test_arena_model.cpp</a></span></b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>ArenaModelTest.UnCombatSeJoueParLesSeulsGestes</b> (Bloquant)<br  />
+<sub><span class="tt"><a class="el" href="test__arena__model_8cpp.html" title="Tests de la vue-modèle du Colisée (LOT-24) : un combat joué par les seuls gestes du clavier et de la ...">Source/Test/Unit/HMI/Runtime/test_arena_model.cpp</a>:53</span></sub>  </td><td class="markdownTableBodyNone">Un combat du Colisee se joue de bout en bout par les gestes que le clavier et la manette declenchent &ndash; cible suivante, curseur, confirmer, fin du tour &ndash;, sans un clic ; l'ennemi est joue par l'IA entre deux tours du joueur.  </td><td class="markdownTableBodyNone">1. Composer le personnage de demonstration contre un sanglier, lancer.<br  />
+2. A chaque tour du joueur : viser l'ennemi le plus proche ; s'il est hors d'allonge, recentrer, mener le curseur sur une case atteignable a son contact et confirmer, puis viser et confirmer ; finir le tour.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">arena.turnActions().isEmpty()</span> est faux.<br  />
+Vérifie que <span class="tt">chemin.isEmpty()</span> est faux.<br  />
+Vérifie que <span class="tt">chemin.back().toMap().value("column").toInt()</span> vaut <span class="tt">bestColumn</span>.<br  />
+Vérifie que <span class="tt">chemin.back().toMap().value("row").toInt()</span> vaut <span class="tt">bestRow</span>.<br  />
+Vérifie que <span class="tt">arena.journal().contains(arena.status())</span> est vrai.<br  />
+Vérifie que <span class="tt">arena.ended()</span> est vrai.<br  />
+Vérifie que <span class="tt">std::ranges::any_of( journal, [&amp;](const QString&amp; l) { return l.startsWith(QStringLiteral("attaque ") + nom); })</span> est vrai.<br  />
+Vérifie que <span class="tt">std::ranges::any_of( journal, [](const QString&amp; l) { return l.startsWith(QStringLiteral("ia ")); })</span> est vrai.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>ArenaModelTest.LaGrilleMontreLeCurseurEtCacheLesPvEnnemis</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__arena__model_8cpp.html" title="Tests de la vue-modèle du Colisée (LOT-24) : un combat joué par les seuls gestes du clavier et de la ...">Source/Test/Unit/HMI/Runtime/test_arena_model.cpp</a>:125</span></sub>  </td><td class="markdownTableBodyNone">La grille porte le curseur sur une case ; un allie montre ses points de vie, un ennemi seulement s'il est ensanglante ou a terre, comme le Guide du Maitre le laisse voir.  </td><td class="markdownTableBodyNone">1. Lancer un combat.<br  />
+2. Lire la case du curseur, celle de l'allie, celle de l'ennemi.<br  />
+3. Deplacer le curseur hors de la grille.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">sousLeCurseur.value("active").toBool()</span> est vrai.<br  />
+Vérifie que <span class="tt">c.value("hitPoints").toString().contains('/')</span> est vrai.<br  />
+Vérifie que <span class="tt">c.value("hitPoints").toString().contains('/')</span> est faux.<br  />
+Vérifie que <span class="tt">arena.cursorColumn()</span> vaut <span class="tt">0</span>.<br  />
+Vérifie que <span class="tt">arena.cursorRow()</span> vaut <span class="tt">0</span>.<br  />
+Vérifie que <span class="tt">arena.cursorColumn()</span> vaut <span class="tt">arena.gridColumns() - 1</span>.<br  />
+Vérifie que <span class="tt">arena.cursorRow()</span> vaut <span class="tt">arena.gridRows() - 1</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>ArenaModelTest.LaReactionSeBasculeDepuisLaBarre</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__arena__model_8cpp.html" title="Tests de la vue-modèle du Colisée (LOT-24) : un combat joué par les seuls gestes du clavier et de la ...">Source/Test/Unit/HMI/Runtime/test_arena_model.cpp</a>:161</span></sub>  </td><td class="markdownTableBodyNone">La derniere action du tour est la reaction : la confirmer fait laisser passer les attaques d'opportunite, la confirmer encore les fait saisir ; les actions du Manuel se choisissent au numero et en boucle.  </td><td class="markdownTableBodyNone">1. Lancer ; lire les actions.<br  />
+2. Choisir la derniere, confirmer, relire ; confirmer encore.<br  />
+3. Passer a l'action suivante depuis la derniere.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">actions.size()</span> est supérieur ou égal à <span class="tt">5</span>.<br  />
+Vérifie que <span class="tt">actions[derniere - 3].toMap().value("kind").toString()</span> vaut <span class="tt">"dodge"</span>.<br  />
+Vérifie que <span class="tt">actions[derniere - 2].toMap().value("kind").toString()</span> vaut <span class="tt">"disengage"</span>.<br  />
+Vérifie que <span class="tt">actions[derniere - 1].toMap().value("kind").toString()</span> vaut <span class="tt">"dash"</span>.<br  />
+Vérifie que <span class="tt">actions[derniere].toMap().value("kind").toString()</span> vaut <span class="tt">"reaction"</span>.<br  />
+Vérifie que <span class="tt">arena.turnActions()[derniere].toMap().value("selected").toBool()</span> est vrai.<br  />
+Vérifie que <span class="tt">arena.preview().isEmpty()</span> est faux.<br  />
+Vérifie que <span class="tt">apres</span> diffère de <span class="tt">avant</span>.<br  />
+Vérifie que <span class="tt">arena.turnActions()[derniere].toMap().value("label").toString()</span> vaut <span class="tt">avant</span>.<br  />
+Vérifie que <span class="tt">arena.turnActions()[0].toMap().value("selected").toBool()</span> est vrai.  </td></tr>
+</table>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md30"></a>
 Tests d'intégration (13)</h1>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md30"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md31"></a>
 Animation Personnage — <span class="tt">test_animation_personnage.cpp</span> (6)</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -8604,7 +8708,7 @@ Vérifie que <span class="tt">animation.elapsed</span> vaut <span class="tt">0.0
 2. Avancer le systeme dix pas.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">animation.clipIndex</span> vaut <span class="tt">0</span>.<br  />
 Vérifie que <span class="tt">animation.frameIndex</span> vaut <span class="tt">0</span>.  </td></tr>
 </table>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md31"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md32"></a>
 Boucle Simulation — <span class="tt">test_boucle_simulation.cpp</span> (2)</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -8620,7 +8724,7 @@ Vérifie que <span class="tt">position.x</span> vaut <span class="tt">6.0f * tot
 2. Executer le scenario et verifier les assertions.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">firstPosition.x</span> vaut <span class="tt">secondPosition.x</span>, à <span class="tt">TOLERANCE</span> près.<br  />
 Vérifie que <span class="tt">firstPosition.y</span> vaut <span class="tt">secondPosition.y</span>, à <span class="tt">TOLERANCE</span> près.  </td></tr>
 </table>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md32"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md33"></a>
 Ecs Mouvement — <span class="tt">test_ecs_mouvement.cpp</span> (4)</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -8647,7 +8751,7 @@ Vérifie que <span class="tt">fastPosition.y</span> vaut <span class="tt">4.0f</
 <sub><span class="tt"><a class="el" href="test__ecs__mouvement_8cpp.html" title="Tests d&#39;intégration de l&#39;ECS : entités + composants + système de mouvement assemblés dans un World,...">Source/Test/Integration/test_ecs_mouvement.cpp</a>:117</span></sub>  </td><td class="markdownTableBodyNone">Enregistré dans le World, le système s'exécute via World::update (chaîne complète).  </td><td class="markdownTableBodyNone">1. Mettre en place le contexte du test (arrangement).<br  />
 2. Executer le scenario et verifier les assertions.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">position.x</span> vaut <span class="tt">10.0f * steps * STEP</span>, à <span class="tt">TOLERANCE</span> près.  </td></tr>
 </table>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md33"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md34"></a>
 Niveau Ecs — <span class="tt">test_niveau_ecs.cpp</span> (1)</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -8662,9 +8766,9 @@ Vérifie que <span class="tt">tilesByPosition.at({0, 0})</span> vaut <span class
 Vérifie que <span class="tt">tilesByPosition.at({1, 0})</span> vaut <span class="tt">static_cast&lt;int&gt;(<a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875ae41480b6bbfbf7407974a88d3d34f4fa">core::TileType::Solid</a>)</span>.<br  />
 Vérifie que <span class="tt">tilesByPosition.at({1, 1})</span> vaut <span class="tt">static_cast&lt;int&gt;(<a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875afef46e5063ce3dc78b8ae64fa474241d">core::TileType::Exit</a>)</span>.  </td></tr>
 </table>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md34"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md35"></a>
 Tests système (2)</h1>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md35"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md36"></a>
 Éditeur de niveaux — <span class="tt">test_parcours_edition.cpp</span> (2)</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">

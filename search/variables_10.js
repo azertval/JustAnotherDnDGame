@@ -13,7 +13,7 @@ var searchData=
   ['parallaxy_10',['parallaxY',['../structcore_1_1Plane.html#a388829d6b755b4169ad07da62a016747',1,'core::Plane']]],
   ['parentspecies_11',['parentSpecies',['../structcore_1_1Species.html#afd48c8cd4a1ee3cdbb385d5f24e425df',1,'core::Species']]],
   ['particle_5fquad_5fsize_12',['PARTICLE_QUAD_SIZE',['../namespacehmi.html#ae5973dd2d98049262bf4fb2bd91357a3',1,'hmi']]],
-  ['path_13',['path',['../structcore_1_1MoveOutcome.html#ae13ab19e77db88e5ebc3d71a512c9680',1,'core::MoveOutcome::path'],['../structhmi_1_1FileOperationResult.html#aee4bac40c5c8e4b073df50d24367e9bd',1,'hmi::FileOperationResult::path']]],
+  ['path_13',['path',['../structcore_1_1MovePreview.html#ab86b376dcf6ad7747700c577a0a4cc13',1,'core::MovePreview::path'],['../structcore_1_1MoveOutcome.html#ae13ab19e77db88e5ebc3d71a512c9680',1,'core::MoveOutcome::path'],['../structhmi_1_1FileOperationResult.html#aee4bac40c5c8e4b073df50d24367e9bd',1,'hmi::FileOperationResult::path']]],
   ['pendinglink_14',['pendingLink',['../structhmi_1_1LinkOverlayState.html#a981072e45759cbbe1e6c897e08f5964b',1,'hmi::LinkOverlayState']]],
   ['percent_15',['percent',['../structcore_1_1RegionSpeciesShare.html#a10931c8c5278bd4cac24347d1d3b0706',1,'core::RegionSpeciesShare']]],
   ['permanent_16',['permanent',['../structhmi_1_1EditorStatusLines.html#a63cbc8311346c2cc10cde63858deaef9',1,'hmi::EditorStatusLines']]],

@@ -19,6 +19,7 @@ var dir_7c7356e692772728ab91d19f773c60c4 =
     [ "LOT-21-attaques-degats-etats", "dir_725758edb876ddb7ea24c4895ebe8116.html", null ],
     [ "LOT-22-portee-ligne-de-vue", "dir_0b8b5ea02ad3c37259d7057f848d1cb5.html", null ],
     [ "LOT-23-ia-tactique", "dir_27ed593f9d64eb6120cca1dad98a1c48.html", null ],
+    [ "LOT-24-ihm-combat", "dir_cb02117331f3b85296aa8b97afba50c6.html", null ],
     [ "LOT-30-chaine-extraction-corpus", "dir_1a572379fa9a8d4a5955449e90cfed1b.html", null ],
     [ "LOT-32-schemas-donnees-rpg", "dir_42f5d2e71022fc997214f45730d4f996.html", null ],
     [ "LOT-33-bestiaire-de-base", "dir_d099c8ae0edc1c87bb187eaf82af2103.html", null ],

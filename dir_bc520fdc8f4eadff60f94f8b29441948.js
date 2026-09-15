@@ -12,6 +12,8 @@ var dir_bc520fdc8f4eadff60f94f8b29441948 =
     [ "BattleGrid.h", "BattleGrid_8h.html", "BattleGrid_8h" ],
     [ "CombatCounters.cpp", "CombatCounters_8cpp.html", null ],
     [ "CombatCounters.h", "CombatCounters_8h.html", "CombatCounters_8h" ],
+    [ "CombatPreview.cpp", "CombatPreview_8cpp.html", "CombatPreview_8cpp" ],
+    [ "CombatPreview.h", "CombatPreview_8h.html", "CombatPreview_8h" ],
     [ "CombatState.cpp", "CombatState_8cpp.html", "CombatState_8cpp" ],
     [ "CombatState.h", "CombatState_8h.html", "CombatState_8h" ],
     [ "CombatTransition.cpp", "CombatTransition_8cpp.html", "CombatTransition_8cpp" ],
