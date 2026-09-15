@@ -21,6 +21,9 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
   - **Archives lancées avant publication** (`scripts/smoke_test_release.ps1`) et **attestation de
     provenance** de chaque fichier publié (`gh attestation verify`).
   - Six liens relatifs cassés de la documentation réparés, trouvés par le nouveau contrôle.
+  - **Premier défaut trouvé par le fuzzing** : un nombre JSON hors de portée (`1e400`) faisait lever
+    `readJsonObject` au lieu de rendre un échec décrit — n'importe quel catalogue ainsi écrit
+    arrêtait le jeu. Corrigé, avec son test.
 
 - **CI : parité du poste** (refonte de la chaîne d'outillage, phase 2). La CI confirme ce que le
   poste a déjà vérifié, elle ne le découvre plus.

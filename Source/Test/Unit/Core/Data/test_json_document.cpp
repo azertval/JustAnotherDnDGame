@@ -159,6 +159,28 @@ TEST(JsonDocument, SitueLErreurDeSyntaxeALaLigne) {
 }
 
 /**
+ * @brief Un nombre hors de portee est un echec decrit, pas une exception.
+ * \castest{<b>Un nombre JSON trop grand pour etre represente ne fait pas lever la lecture.</b><br/>
+ * \tcat Unitaire · Brique de lecture JSON<br/>
+ * \tcrit Critique<br/>
+ * \tetapes 1. Lire un objet dont une valeur vaut 1e400.<br/>2. Lire un tableau dont l'unique nombre
+ * porte un exposant de quatorze chiffres (entree trouvee par le fuzzing de nuit).<br/>
+ * \tattendu Les deux lectures echouent avec ParseError, en nommant l'origine, sans lever :
+ * nlohmann signale ce cas par `out_of_range` et non `parse_error`, et un catalogue ecrit `1e400`
+ * faisait sortir l'exception de la brique (EX-NFR-040).
+ * }
+ */
+TEST(JsonDocument, NeLevePasSurUnNombreHorsDePortee) {
+    core::JsonDocument doc{};
+    ASSERT_NO_THROW(doc = core::readJsonObject(R"({"octets": 723e404})", 1, "essai.json"));
+    EXPECT_EQ(doc.error, core::JsonReadError::ParseError);
+    EXPECT_NE(doc.message.find("essai.json"), std::string::npos);
+
+    ASSERT_NO_THROW(doc = core::readJsonObject("[444444444444444E44444444444449]", 1));
+    EXPECT_EQ(doc.error, core::JsonReadError::ParseError);
+}
+
+/**
  * @brief Un fichier absent produit un echec decrit, jamais une exception.
  * \castest{<b>Un fichier absent est un echec decrit, pas une exception.</b><br/>
  * \tcat Unitaire · Brique de lecture JSON<br/>
