@@ -72,6 +72,12 @@ JsonDocument readJsonObject(std::string_view json, int supportedVersion, std::st
         const TextPosition position = positionOf(json, e.byte);
         return failure(JsonReadError::ParseError,
                        prefix(origin, position) + "JSON malforme : " + e.what(), position);
+    } catch (const nlohmann::json::exception& e) {
+        // Un texte bien formé que nlohmann ne sait pas représenter : un nombre hors de portée
+        // (`1e400`) lève `out_of_range`, pas `parse_error`, et sans position. Trouvé par le fuzzing
+        // de nuit : sans cette garde, l'exception franchissait la brique.
+        return failure(JsonReadError::ParseError,
+                       prefix(origin, {}) + "JSON illisible : " + e.what());
     }
 
     if (!root.is_object()) {

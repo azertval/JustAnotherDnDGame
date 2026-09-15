@@ -73,6 +73,18 @@ La portée correspond en général au module (`core`, `hmi`, `elements`, `test`,
   que les tests passent **sur ce commit** en Debug et en Release (job `test-tag`). Chaque release
   porte aussi un zip de **symboles** (`.pdb`) par configuration, sans lequel un plantage de la
   version livrée est illisible, et un fichier **`SHA256SUMS`** (`sha256sum -c SHA256SUMS`).
+  Avant toute publication, chaque archive jouable est **décompressée et lancée**
+  (`scripts/smoke_test_release.ps1` : le jeu doit rendre une image et quitter seul), et chaque
+  fichier reçoit une **attestation de provenance** :
+  `gh attestation verify <archive>.zip --repo azertval/JustAnotherDnDGame` prouve qu'il sort de ce
+  workflow et de ce commit.
+- **Nuit** (`nightly.yml`, 02 h 17 UTC, non bloquant) : clang-tidy sur tout `Source/`, tests en
+  ordre aléatoire répété (la graine est dans le résumé), MSVC `/analyze` et cppcheck, fuzzing des
+  lecteurs de données (`Source/Fuzz`, libFuzzer de MSVC), mesures de performance avec historique
+  (`Source/Benchmark`, branche `benchmarks`), lancement de l'archive Release, build contre la
+  version de Qt suivante, liens de la documentation (`lychee.toml`). Une PR qui modifie ce workflow
+  ou ses sources l'exécute en version courte. Les analyses vont dans *Security > Code scanning*,
+  chacune dans sa catégorie ; **CodeQL** (`codeql.yml`) y ajoute les siennes sur chaque PR.
 - Tous les workflows se relancent à la main depuis l'onglet **Actions** (`workflow_dispatch`),
   sans commit vide. Un nouveau push sur une PR **annule** le run précédent.
 - Les actions GitHub sont **épinglées par SHA** de commit, le tag en commentaire ; **Dependabot**

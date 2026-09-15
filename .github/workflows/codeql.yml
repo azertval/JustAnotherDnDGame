@@ -1,0 +1,74 @@
+name: CodeQL
+
+# Analyse sémantique interprocédurale (refonte de la CI, phase 3), gratuite pour un dépôt public.
+# Elle trouve des familles que clang-tidy ne voit pas, parce qu'elle suit une valeur à travers les
+# appels : usage après libération, débordement arithmétique qui devient une taille, indice non borné
+# venu d'un fichier de données. Résultats dans Security > Code scanning et en annotation de PR.
+#
+# C++ en `build-mode: none` : CodeQL lit les sources sans les compiler. Le build MSVC complet
+# coûterait un quart d'heure par PR pour une précision marginale ; les en-têtes Qt, absents du
+# runner, rendent seulement l'analyse des écrans moins profonde. Python (scripts/) et les workflows
+# eux-mêmes sont analysés dans le même run.
+#
+# Pas un contrôle requis : une alerte se trie dans Code scanning, elle ne bloque pas un merge.
+on:
+  pull_request:
+    branches: [ main ]
+  # Sur main : la référence contre laquelle chaque PR est comparée, et les alertes du dépôt.
+  push:
+    branches: [ main ]
+  # Chaque semaine : les requêtes de CodeQL s'enrichissent sans que le code change.
+  schedule:
+    - cron: '41 3 * * 1'
+  workflow_dispatch:
+
+concurrency:
+  group: codeql-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  analyze:
+    name: analyze (${{ matrix.language }})
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 60
+    permissions:
+      contents: read
+      security-events: write
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Windows : les en-têtes de la STL MSVC et du SDK Windows y sont, ceux que le code inclut.
+          - language: c-cpp
+            runner: windows-2022
+          - language: python
+            runner: ubuntu-latest
+          - language: actions
+            runner: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Initialiser CodeQL
+        uses: github/codeql-action/init@cdf488f595d80d6e07e03d4674febd5ab45fa938 # v4.37.9
+        with:
+          languages: ${{ matrix.language }}
+          build-mode: none
+          # Les requêtes de sécurité étendues, sans la suite « quality » : le style et la lisibilité
+          # sont l'affaire de clang-tidy et de ruff, déjà en place.
+          queries: security-extended
+          config: |
+            paths-ignore:
+              - External
+              - Documentation
+
+      - name: Analyser
+        uses: github/codeql-action/analyze@cdf488f595d80d6e07e03d4674febd5ab45fa938 # v4.37.9
+        with:
+          category: /language:${{ matrix.language }}

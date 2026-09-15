@@ -6,7 +6,7 @@
 > configuration à côté de l'exécutable.
 
 ## Objectif
-`EX-CTRL-012` (souhaitée, [`controles.md`](../../Specification/controles.md)) demande un mapping
+`EX-CTRL-012` (souhaitée, [`controles.md`](../../../Specification/controles.md)) demande un mapping
 actions-logiques ↔ touches **reconfigurable**, au minimum via un fichier de configuration.
 Aujourd'hui, il n'existe **aucune** couche d'indirection : `hmi::Key` (codes virtuels Win32) est lu
 en dur partout où une touche compte — `HMI/Input/PlayerInputMapper.cpp` (jeu) et

@@ -6,6 +6,25 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **CI : nuit et profondeur** (refonte de la chaîne d'outillage, phase 3). Les défauts lents à
+  trouver se cherchent la nuit, sans allonger une PR.
+  - **`nightly.yml`**, non bloquant : clang-tidy sur tout `Source/` (tendance par famille), tests
+    en ordre aléatoire répété à graine affichée, MSVC `/analyze` et cppcheck en SARIF, build contre
+    la version de Qt suivante, liens internes de la documentation (lychee, hors ligne).
+  - **Fuzzing des lecteurs de données** (`Source/Fuzz`, `-DBUILD_FUZZERS=ON`, libFuzzer de MSVC) :
+    l'enveloppe JSON, les niveaux, les dialogues, l'habillage et les traductions, sous
+    AddressSanitizer, avec un corpus qui grandit d'une nuit à l'autre.
+  - **Mesures de performance** (`Source/Benchmark`, Google Benchmark) : déplacement, ligne de vue,
+    abri, tour d'IA, chargement de niveau ; historique dans la branche `benchmarks`, alerte au-delà
+    de 150 %.
+  - **CodeQL** (`codeql.yml`) sur chaque PR : C++ sans build, Python et workflows.
+  - **Archives lancées avant publication** (`scripts/smoke_test_release.ps1`) et **attestation de
+    provenance** de chaque fichier publié (`gh attestation verify`).
+  - Six liens relatifs cassés de la documentation réparés, trouvés par le nouveau contrôle.
+  - **Premier défaut trouvé par le fuzzing** : un nombre JSON hors de portée (`1e400`) faisait lever
+    `readJsonObject` au lieu de rendre un échec décrit — n'importe quel catalogue ainsi écrit
+    arrêtait le jeu. Corrigé, avec son test.
+
 - **CI : parité du poste** (refonte de la chaîne d'outillage, phase 2). La CI confirme ce que le
   poste a déjà vérifié, elle ne le découvre plus.
   - **Hooks avant chaque commit** (`.pre-commit-config.yaml`) : clang-format, ruff, actionlint,

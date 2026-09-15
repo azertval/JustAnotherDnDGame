@@ -1,0 +1,18 @@
+# Vérification des liens de la documentation (job `links` de .github/workflows/nightly.yml).
+#
+# Hors ligne : seuls les liens vers des fichiers du dépôt sont vérifiés. Un lien externe mort est un
+# défaut réel mais pas le nôtre, et un site indisponible une nuit ne doit pas rougir le run.
+#
+# Sur le poste : lychee --config lychee.toml './**/*.md'
+
+offline = true
+no_progress = true
+# Les ancres (#section) ne sont pas vérifiées (`include_fragments` laissé à sa valeur par défaut) :
+# les titres français accentués ne se traduisent pas en ancres de la même façon selon le moteur de
+# rendu (GitHub, Doxygen).
+exclude_path = [
+  "External",
+  "build",
+  "Documentation/generated",
+  "\\.claude",
+]

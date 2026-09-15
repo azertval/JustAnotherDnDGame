@@ -12,6 +12,8 @@ finissent par diverger sans que rien ne le signale. Ici :
   pareil : le hook reformaterait un fichier que la CI refuse, ou l'inverse.
 - **Doxygen** : `DOXYGEN_VERSION` de ci.yml (qui valide la doc en PR) et de docs.yml (qui la
   publie).
+- **LLVM, sccache, aqtinstall** dans nightly.yml (phase 3), et aqtinstall dans release.yml : la
+  nuit analyse le code que la PR a construit, et la release le construit avec le même Qt.
 
 Usage :
   python scripts/check_tool_pins.py
@@ -22,6 +24,8 @@ import sys
 
 CI = os.path.join('.github', 'workflows', 'ci.yml')
 DOCS = os.path.join('.github', 'workflows', 'docs.yml')
+NIGHTLY = os.path.join('.github', 'workflows', 'nightly.yml')
+RELEASE = os.path.join('.github', 'workflows', 'release.yml')
 PRE_COMMIT = '.pre-commit-config.yaml'
 
 
@@ -40,6 +44,14 @@ PAIRS = [
      (PRE_COMMIT, CLANG_FORMAT_RE, 'rev de mirrors-clang-format (# frozen: vX)')),
     ('Doxygen', (CI, env_value('DOXYGEN_VERSION'), 'DOXYGEN_VERSION'),
      (DOCS, env_value('DOXYGEN_VERSION'), 'DOXYGEN_VERSION')),
+    ('LLVM (nuit)', (CI, env_value('LLVM_VERSION'), 'LLVM_VERSION'),
+     (NIGHTLY, env_value('LLVM_VERSION'), 'LLVM_VERSION')),
+    ('sccache (nuit)', (CI, env_value('SCCACHE_VERSION'), 'SCCACHE_VERSION'),
+     (NIGHTLY, env_value('SCCACHE_VERSION'), 'SCCACHE_VERSION')),
+    ('aqtinstall (nuit)', (CI, env_value('AQT_SOURCE'), 'AQT_SOURCE'),
+     (NIGHTLY, env_value('AQT_SOURCE'), 'AQT_SOURCE')),
+    ('aqtinstall (release)', (CI, env_value('AQT_SOURCE'), 'AQT_SOURCE'),
+     (RELEASE, env_value('AQT_SOURCE'), 'AQT_SOURCE')),
 ]
 
 

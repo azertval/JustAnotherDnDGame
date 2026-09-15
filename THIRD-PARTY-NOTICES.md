@@ -29,6 +29,7 @@ permissives, donc compatibles avec la GPL dans ce sens.
 | [Qt](https://www.qt.io/) | 6.11.2 (`win64_msvc2022_64`) | **LGPLv3** | Provisionné hors dépôt | **Oui** — DLL déployées à côté de l'exécutable (`windeployqt`) |
 | [GoogleTest](https://github.com/google/googletest) | v1.15.2 | BSD 3-Clause | FetchContent | Non — tests seulement |
 | [nlohmann/json](https://github.com/nlohmann/json) | v3.11.3 | MIT | FetchContent | Non — en-têtes compilés dans l'exécutable |
+| [Google Benchmark](https://github.com/google/benchmark) | v1.9.5 | Apache 2.0 | FetchContent, avec `BUILD_BENCHMARKS` | Non — mesures de performance seulement |
 | [aqtinstall](https://github.com/miurahr/aqtinstall) | commit épinglé | MIT | Outil de build | Non |
 
 `DirectX` ne figure pas ici : il provient du **Windows SDK** et relève de sa licence, comme tout

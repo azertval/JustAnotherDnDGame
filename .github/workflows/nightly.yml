@@ -1,0 +1,628 @@
+name: Nightly
+
+# Tout ce qui est lent, ou utile sans devoir bloquer un merge (refonte de la CI, phase 3). La PR
+# garde ce qui doit l'arrêter ; la nuit cherche les défauts qu'on ne trouve qu'en y passant du temps :
+# clang-tidy sur tout le dépôt, tests en ordre aléatoire répété, deux analyseurs statiques de plus,
+# fuzzing des lecteurs de données, historique des performances, lancement réel de l'archive livrée,
+# la prochaine version de Qt, et les liens de la documentation.
+#
+# Aucun de ces jobs n'est un contrôle requis. Un job rouge la nuit est un défaut à trier, pas une PR
+# bloquée ; les résultats d'analyse vont dans Security > Code scanning, chacun dans sa catégorie.
+on:
+  schedule:
+    # 02 h 17 UTC : hors de l'heure pile, où GitHub retarde les planifications de tous les dépôts.
+    - cron: '17 2 * * *'
+  workflow_dispatch:
+  # Une modification de CE workflow ou de ce qu'il est seul à exécuter se prouve sur sa PR, pas la
+  # première nuit après le merge. Les jobs y tournent en version courte (voir `fuzz`, `benchmarks`).
+  pull_request:
+    branches: [ main ]
+    paths:
+      - .github/workflows/nightly.yml
+      - Source/Fuzz/**
+      - Source/Benchmark/**
+      - scripts/merge_sarif.py
+      - scripts/smoke_test_release.ps1
+      - lychee.toml
+
+concurrency:
+  group: nightly-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  # Mêmes versions que ci.yml, vérifiées par scripts/check_qt_version_pin.py et
+  # scripts/check_tool_pins.py : la nuit analyse le code que la PR a construit, pas un voisin.
+  QT_VERSION: '6.11.2'
+  AQT_SOURCE: 'git+https://github.com/miurahr/aqtinstall.git@16db45a70b5905ad596941b223469bc86a56901e'
+  LLVM_VERSION: 20.1.8
+  SCCACHE_VERSION: 0.18.0
+  # Propres à la nuit.
+  CPPCHECK_VERSION: 2.19.0
+  LYCHEE_VERSION: 0.24.2
+
+jobs:
+  tidy-full:
+    # Le job clang-tidy de la PR n'analyse que le diff : la dette existante n'était comptée nulle
+    # part. Ici, tout Source/ (hors tests), sans bloquer : le tableau par famille en tête du run et
+    # la catégorie `clang-tidy-nightly` de Code scanning disent si elle monte ou descend, et
+    # permettront un jour de rendre une famille bloquante en connaissance de cause.
+    runs-on: windows-2022
+    timeout-minutes: 150
+    permissions:
+      contents: read
+      security-events: write
+    env:
+      SCCACHE_GHA_ENABLED: 'true'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Cache de compilation (sccache ${{ env.SCCACHE_VERSION }})
+        uses: mozilla-actions/sccache-action@fc920bf0ec8de6ee65d409111f7ec508035751ba # v0.0.11
+        with:
+          version: v${{ env.SCCACHE_VERSION }}
+
+      - name: Install Qt
+        uses: ./.github/actions/setup-qt
+        with:
+          version: ${{ env.QT_VERSION }}
+          aqtsource: ${{ env.AQT_SOURCE }}
+
+      - name: Install LLVM (clang-tidy) ${{ env.LLVM_VERSION }}
+        run: choco install llvm --version=${{ env.LLVM_VERSION }} -y --no-progress --allow-downgrade
+
+      - name: Install Ninja
+        run: choco install ninja -y --no-progress
+
+      - name: Configure et build (Ninja, sans PCH, en-tetes AUTOUIC/AUTOMOC)
+        # Même configuration que le job clang-tidy de ci.yml, et pour les mêmes raisons (PCH MSVC
+        # illisible par clang, en-têtes ui_*.h engendrés par le build).
+        shell: cmd  # zizmor: ignore[misfeature] -- vcvars64.bat et CMake doivent partager un processus
+        run: |
+          for /f "usebackq tokens=*" %%i in (`"%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath`) do (
+            call "%%i\VC\Auxiliary\Build\vcvars64.bat" || exit /b 1
+          )
+          cmake -S . -B build/ninja-tidy -G Ninja -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DENABLE_PCH=OFF || exit /b 1
+          cmake --build build/ninja-tidy || exit /b 1
+        env:
+          CMAKE_PREFIX_PATH: ${{ env.QT_ROOT_DIR }}
+
+      - name: clang-tidy sur tout Source/ (hors tests)
+        id: tidy
+        shell: pwsh
+        # Les fichiers sont ceux de compile_commands.json : un .cpp qu'aucune cible ne compile
+        # (Source/Fuzz, Source/Benchmark hors de leurs options) n'a pas de ligne de commande à
+        # analyser. Quatre analyses à la fois, un journal par fichier concaténé ensuite : les
+        # sorties parallèles ne s'entremêlent pas. Le code de sortie de clang-tidy est ignoré, la
+        # nuit mesure et ne bloque pas.
+        run: |
+          $root = (Get-Location).Path
+          $files = @(Get-Content build/ninja-tidy/compile_commands.json -Raw | ConvertFrom-Json |
+            ForEach-Object { [System.IO.Path]::GetFullPath($_.file) } |
+            Where-Object { $_.StartsWith("$root\Source\", 'OrdinalIgnoreCase') -and
+                           $_ -notmatch '\\Source\\Test\\' -and $_ -match '\.cpp$' } |
+            Sort-Object -Unique)
+          Write-Host "$($files.Count) fichiers a analyser."
+          "analysed=$($files.Count)" >> $env:GITHUB_OUTPUT
+          New-Item -ItemType Directory -Force tidy-logs | Out-Null
+          $files | ForEach-Object -ThrottleLimit 4 -Parallel {
+            $log = Join-Path 'tidy-logs' (([System.IO.Path]::GetFileName($_)) + '-' + [guid]::NewGuid() + '.log')
+            & 'C:\Program Files\LLVM\bin\clang-tidy.exe' -p build\ninja-tidy --quiet `
+              --extra-arg=-Wno-unused-command-line-argument $_ 2>$null | Out-File -Encoding utf8 $log
+          }
+          Get-ChildItem tidy-logs -Filter *.log | Get-Content | Out-File -Encoding utf8 clang-tidy.log
+          exit 0
+
+      - name: Diagnostics clang-tidy en SARIF
+        if: ${{ !cancelled() && hashFiles('clang-tidy.log') != '' }}
+        env:
+          ANALYSED: ${{ steps.tidy.outputs.analysed }}
+        run: >-
+          python scripts/clang_tidy_sarif.py clang-tidy.log -o clang-tidy-nightly.sarif
+          --root "$env:GITHUB_WORKSPACE" --analysed "$env:ANALYSED"
+          --clang-tidy-version "$env:LLVM_VERSION" --summary "$env:GITHUB_STEP_SUMMARY"
+
+      - name: Envoyer le SARIF a Code scanning
+        if: ${{ !cancelled() && hashFiles('clang-tidy-nightly.sarif') != '' }}
+        uses: github/codeql-action/upload-sarif@cdf488f595d80d6e07e03d4674febd5ab45fa938 # v4.37.9
+        with:
+          sarif_file: clang-tidy-nightly.sarif
+          category: clang-tidy-nightly
+
+  shuffle:
+    # Un test qui ne passe que parce que le précédent a préparé quelque chose est une bombe à
+    # retardement. CTest lance chaque test dans son propre processus : l'ordre n'y joue pas. Ici au
+    # contraire, chaque exécutable enchaîne tous ses tests dans un ordre tiré au hasard, plusieurs
+    # fois. La graine change chaque nuit et s'affiche : un échec se rejoue à l'identique avec
+    # `--gtest_shuffle --gtest_random_seed=<graine>`.
+    runs-on: windows-2022
+    timeout-minutes: 120
+    env:
+      SCCACHE_GHA_ENABLED: 'true'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Cache de compilation (sccache ${{ env.SCCACHE_VERSION }})
+        uses: mozilla-actions/sccache-action@fc920bf0ec8de6ee65d409111f7ec508035751ba # v0.0.11
+        with:
+          version: v${{ env.SCCACHE_VERSION }}
+
+      - name: Annotations du compilateur et des tests
+        run: echo "::add-matcher::.github/problem-matchers/msvc.json"
+
+      - name: Install Qt
+        uses: ./.github/actions/setup-qt
+        with:
+          version: ${{ env.QT_VERSION }}
+          aqtsource: ${{ env.AQT_SOURCE }}
+
+      - name: Install Ninja
+        run: choco install ninja -y --no-progress
+
+      - name: Graine de la nuit
+        id: seed
+        shell: bash
+        # GoogleTest accepte une graine de 1 à 99999 (0 voudrait dire « l'heure »).
+        env:
+          RUN_NUMBER: ${{ github.run_number }}
+        run: echo "value=$(( RUN_NUMBER % 99999 + 1 ))" >> "$GITHUB_OUTPUT"
+
+      - name: Build et tests en ordre aleatoire repete
+        id: shuffle
+        shell: cmd  # zizmor: ignore[misfeature] -- vcvars64.bat et CMake doivent partager un processus
+        env:
+          SEED: ${{ steps.seed.outputs.value }}
+        # Répétitions dosées par étage : l'unitaire est rapide, le système ne l'est pas.
+        run: |
+          for /f "usebackq tokens=*" %%i in (`"%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath`) do (
+            call "%%i\VC\Auxiliary\Build\vcvars64.bat" || exit /b 1
+          )
+          cmake --preset ninja || exit /b 1
+          cmake --build --preset ninja || exit /b 1
+          set FAILED=0
+          echo Graine : %SEED%
+          build\ninja\bin\UnitTests.exe --gtest_shuffle --gtest_repeat=3 --gtest_random_seed=%SEED% --gtest_brief=1 || set FAILED=1
+          if exist build\ninja\bin\RuntimeTests.exe (
+            build\ninja\bin\RuntimeTests.exe --gtest_shuffle --gtest_repeat=3 --gtest_random_seed=%SEED% --gtest_brief=1 || set FAILED=1
+          )
+          build\ninja\bin\IntegrationTests.exe --gtest_shuffle --gtest_repeat=2 --gtest_random_seed=%SEED% --gtest_brief=1 || set FAILED=1
+          build\ninja\bin\SystemTests.exe --gtest_shuffle --gtest_random_seed=%SEED% --gtest_brief=1 || set FAILED=1
+          exit /b %FAILED%
+
+      - name: Resume du job
+        if: ${{ !cancelled() }}
+        shell: bash
+        env:
+          OUTCOME: ${{ steps.shuffle.outcome }}
+          SEED: ${{ steps.seed.outputs.value }}
+        run: |
+          if [ "$OUTCOME" = success ]; then
+            verdict="tous verts, dans un ordre aléatoire répété (unitaires et runtime ×3, intégration ×2, système ×1)."
+          else
+            verdict="**échec** (\`$OUTCOME\`) : le test fautif est dans le log. Rejouer : \`<Suite>.exe --gtest_shuffle --gtest_random_seed=$SEED\`."
+          fi
+          printf '### Tests en ordre aléatoire (graine %s)\n\n%s\n' "$SEED" "$verdict" >> "$GITHUB_STEP_SUMMARY"
+
+  msvc-analyze:
+    # L'analyseur statique de Microsoft : déjà sur le runner, gratuit, et bon sur ce que clang-tidy
+    # connaît mal (annotations SAL, API Windows). Core et HmiLib seulement, sans Qt ni tests : le code
+    # du jeu que rien d'autre n'analyse en profondeur. Sortie SARIF native, un fichier par unité de
+    # compilation, fusionnés par scripts/merge_sarif.py. Ne bloque pas.
+    runs-on: windows-2022
+    timeout-minutes: 90
+    permissions:
+      contents: read
+      security-events: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Install Ninja
+        run: choco install ninja -y --no-progress
+
+      - name: Build sous /analyze (Core, HmiLib)
+        shell: cmd  # zizmor: ignore[misfeature] -- vcvars64.bat et CMake doivent partager un processus
+        # CXXFLAGS s'ajoute aux drapeaux par défaut de CMake à la première configuration. Sans
+        # /analyze:log, chaque rapport s'écrit à côté de son .obj. /analyze:external- : pas de
+        # diagnostic dans les en-têtes <...> (STL, nlohmann). Avertissements non bloquants — /analyze
+        # en émet que /W4 ne connaît pas — et pas de sccache, qui ne rejoue pas ces rapports.
+        env:
+          CXXFLAGS: /analyze /analyze:external- /analyze:log:format:sarif
+        run: |
+          for /f "usebackq tokens=*" %%i in (`"%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath`) do (
+            call "%%i\VC\Auxiliary\Build\vcvars64.bat" || exit /b 1
+          )
+          cmake -S . -B build/analyze -G Ninja -DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTING=OFF -DBUILD_EDITOR_QT=OFF -DENABLE_PCH=OFF -DENABLE_WARNINGS_AS_ERRORS=OFF -DENABLE_COMPILER_CACHE=OFF || exit /b 1
+          cmake --build build/analyze --target Core HmiLib || exit /b 1
+
+      - name: Fusion des rapports SARIF
+        if: ${{ !cancelled() }}
+        run: >-
+          python scripts/merge_sarif.py build/analyze -o msvc-analyze.sarif
+          --root "$env:GITHUB_WORKSPACE" --title "MSVC /analyze (Core, HmiLib)"
+          --summary "$env:GITHUB_STEP_SUMMARY"
+
+      - name: Envoyer le SARIF a Code scanning
+        if: ${{ !cancelled() && hashFiles('msvc-analyze.sarif') != '' }}
+        uses: github/codeql-action/upload-sarif@cdf488f595d80d6e07e03d4674febd5ab45fa938 # v4.37.9
+        with:
+          sarif_file: msvc-analyze.sarif
+          category: msvc-analyze
+
+  cppcheck:
+    # Un second avis sans compilation, complémentaire de clang-tidy sur les erreurs de logique
+    # simples. Catégories error, warning, performance et portability : peu de faux positifs, pas de
+    # style (clang-tidy s'en charge). Les commandes de compilation viennent d'une configuration
+    # Ninja sans Qt, donc Core et HmiLib. Ne bloque pas.
+    runs-on: windows-2022
+    timeout-minutes: 60
+    permissions:
+      contents: read
+      security-events: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      # Deux commandes : --version s'appliquerait sinon aussi à Ninja.
+      - name: Install cppcheck ${{ env.CPPCHECK_VERSION }} et Ninja
+        run: |
+          choco install cppcheck --version=${{ env.CPPCHECK_VERSION }} -y --no-progress --allow-downgrade
+          choco install ninja -y --no-progress
+
+      - name: Configure (compile_commands.json, Core et HmiLib)
+        shell: cmd  # zizmor: ignore[misfeature] -- vcvars64.bat et CMake doivent partager un processus
+        run: |
+          for /f "usebackq tokens=*" %%i in (`"%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath`) do (
+            call "%%i\VC\Auxiliary\Build\vcvars64.bat" || exit /b 1
+          )
+          cmake -S . -B build/cppcheck -G Ninja -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DBUILD_TESTING=OFF -DBUILD_EDITOR_QT=OFF -DENABLE_PCH=OFF -DENABLE_COMPILER_CACHE=OFF || exit /b 1
+
+      - name: cppcheck
+        run: >-
+          & "C:\Program Files\Cppcheck\cppcheck.exe"
+          --project=build/cppcheck/compile_commands.json
+          --file-filter=*/Source/*
+          --enable=warning,performance,portability
+          --inline-suppr --std=c++20 --library=windows -j 4
+          --output-format=sarif --output-file=cppcheck.sarif
+
+      - name: Fusion et resume
+        if: ${{ !cancelled() && hashFiles('cppcheck.sarif') != '' }}
+        run: >-
+          python scripts/merge_sarif.py cppcheck.sarif -o cppcheck-merged.sarif
+          --root "$env:GITHUB_WORKSPACE" --title "cppcheck $env:CPPCHECK_VERSION (Core, HmiLib)"
+          --summary "$env:GITHUB_STEP_SUMMARY"
+
+      - name: Envoyer le SARIF a Code scanning
+        if: ${{ !cancelled() && hashFiles('cppcheck-merged.sarif') != '' }}
+        uses: github/codeql-action/upload-sarif@cdf488f595d80d6e07e03d4674febd5ab45fa938 # v4.37.9
+        with:
+          sarif_file: cppcheck-merged.sarif
+          category: cppcheck
+
+  fuzz:
+    # Les lecteurs de données promettent de rendre une erreur décrite, jamais de lever ni de lire
+    # hors bornes : libFuzzer, sous MSVC et AddressSanitizer, cherche l'entrée qui dément cette
+    # promesse (Source/Fuzz). Le corpus grandit d'une nuit à l'autre (cache) à partir des fichiers
+    # réels du dépôt. Une entrée fautive fait échouer le job et part en artefact, prête à rejouer :
+    # `fuzz_<cible>.exe <fichier>`.
+    runs-on: windows-2022
+    timeout-minutes: 90
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Install Ninja
+        run: choco install ninja -y --no-progress
+
+      - name: Build des cibles de fuzzing (MSVC /fsanitize=fuzzer, ASan)
+        shell: cmd  # zizmor: ignore[misfeature] -- vcvars64.bat et CMake doivent partager un processus
+        run: |
+          for /f "usebackq tokens=*" %%i in (`"%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath`) do (
+            call "%%i\VC\Auxiliary\Build\vcvars64.bat" || exit /b 1
+          )
+          cmake -S . -B build/fuzz -G Ninja -DCMAKE_BUILD_TYPE=RelWithDebInfo -DBUILD_FUZZERS=ON -DBUILD_TESTING=OFF -DBUILD_EDITOR_QT=OFF -DENABLE_PCH=OFF -DENABLE_COMPILER_CACHE=OFF || exit /b 1
+          cmake --build build/fuzz --target fuzz_json fuzz_level fuzz_dialogue fuzz_skins fuzz_localization || exit /b 1
+
+      - name: Restaurer le corpus des nuits precedentes
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: fuzz-corpus
+          key: fuzz-corpus-${{ github.run_id }}
+          restore-keys: fuzz-corpus-
+
+      - name: Fuzzing
+        id: fuzz
+        shell: pwsh
+        env:
+          # Dix minutes par cible la nuit ; deux sur une PR, qui prouve le montage, pas l'absence de défaut.
+          SECONDS_PER_TARGET: ${{ github.event_name == 'pull_request' && '120' || '600' }}
+        run: |
+          $failed = @()
+          $rows = @()
+          New-Item -ItemType Directory -Force crashes | Out-Null
+          foreach ($target in 'json', 'level', 'dialogue', 'skins', 'localization') {
+            $corpus = "fuzz-corpus/$target"
+            New-Item -ItemType Directory -Force $corpus | Out-Null
+            $seeds = @(Get-Content "build/fuzz/fuzz/$target.seeds" | Where-Object { $_ })
+            Write-Host "::group::fuzz_$target ($env:SECONDS_PER_TARGET s, amorces : $($seeds -join ', '))"
+            # Le premier dossier est le corpus, que libFuzzer enrichit ; les suivants ne sont que lus.
+            $output = & "build/fuzz/bin/fuzz_$target.exe" $corpus @seeds `
+              "-max_total_time=$env:SECONDS_PER_TARGET" -rss_limit_mb=2048 -timeout=10 `
+              "-artifact_prefix=crashes/$target-" -print_final_stats=1 2>&1
+            $code = $LASTEXITCODE
+            $output | ForEach-Object { Write-Host $_ }
+            Write-Host '::endgroup::'
+            $runs = ($output | Select-String 'stat::number_of_executed_units:\s*(\d+)' |
+              Select-Object -Last 1).Matches.Groups[1].Value
+            $size = @(Get-ChildItem $corpus -File).Count
+            if ($code -ne 0) { $failed += $target }
+            $verdict = if ($code -eq 0) { '✅' } else { "❌ code $code" }
+            $rows += "| ``fuzz_$target`` | $runs | $size | $verdict |"
+          }
+          $summary = @('### Fuzzing des lecteurs de données', '',
+                       '| Cible | Exécutions | Corpus | Verdict |', '|---|---|---|---|') + $rows
+          $summary -join "`n" | Out-File -Append -Encoding utf8 $env:GITHUB_STEP_SUMMARY
+          if ($failed) {
+            Write-Error "Défaut trouvé par : $($failed -join ', '). Entrées fautives dans l'artefact fuzz-crashes."
+            exit 1
+          }
+
+      - name: Conserver les entrees fautives
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: fuzz-crashes
+          path: crashes/
+          if-no-files-found: ignore
+
+      # Même après un défaut : le corpus reste le meilleur point de départ de la nuit suivante.
+      - name: Conserver le corpus
+        if: ${{ !cancelled() }}
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: fuzz-corpus
+          key: fuzz-corpus-${{ github.run_id }}
+
+  benchmarks:
+    # Déplacement, ligne de vue, IA et chargement de niveau en Release (Source/Benchmark). La nuit,
+    # chaque mesure s'ajoute à l'historique de la branche `benchmarks` (données et graphique
+    # `dev/bench/index.html`) ; au-delà de 150 % de la mesure précédente, une alerte est commentée
+    # sur le commit. Les runners partagés sont bruités : c'est la tendance qui compte, pas une nuit.
+    runs-on: windows-2022
+    timeout-minutes: 60
+    permissions:
+      # Écrire l'historique dans la branche `benchmarks`, commenter une alerte sur le commit.
+      contents: write
+    env:
+      SCCACHE_GHA_ENABLED: 'true'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Cache de compilation (sccache ${{ env.SCCACHE_VERSION }})
+        uses: mozilla-actions/sccache-action@fc920bf0ec8de6ee65d409111f7ec508035751ba # v0.0.11
+        with:
+          version: v${{ env.SCCACHE_VERSION }}
+
+      - name: Install Ninja
+        run: choco install ninja -y --no-progress
+
+      - name: Build et mesures (Release)
+        shell: cmd  # zizmor: ignore[misfeature] -- vcvars64.bat et CMake doivent partager un processus
+        run: |
+          for /f "usebackq tokens=*" %%i in (`"%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath`) do (
+            call "%%i\VC\Auxiliary\Build\vcvars64.bat" || exit /b 1
+          )
+          cmake -S . -B build/bench -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_BENCHMARKS=ON -DBUILD_TESTING=OFF -DBUILD_EDITOR_QT=OFF || exit /b 1
+          cmake --build build/bench --target Benchmarks || exit /b 1
+          build\bench\bin\Benchmarks.exe --benchmark_min_time=1s --benchmark_format=json --benchmark_out=benchmarks.json || exit /b 1
+
+      # L'action bascule sur la branche d'historique dans le checkout, même quand on lui interdit de
+      # la télécharger (PR) : elle doit exister localement. Dépôt public, donc sans jeton.
+      - name: Recuperer la branche d'historique
+        run: git fetch --depth=1 origin benchmarks:benchmarks
+
+      - name: Historique et alerte
+        uses: benchmark-action/github-action-benchmark@4322e5726e6334590d251fc4f92bec0efafc45dc # v1.22.2
+        with:
+          name: Combat et niveaux (Release, windows-2022)
+          tool: googlecpp
+          output-file-path: benchmarks.json
+          gh-pages-branch: benchmarks
+          benchmark-data-dir-path: dev/bench
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          # Une PR ne réécrit pas l'historique de main, et ne le lit pas non plus : sa mesure
+          # s'affiche dans le résumé du job, sans comparaison.
+          auto-push: ${{ github.event_name != 'pull_request' }}
+          skip-fetch-gh-pages: ${{ github.event_name == 'pull_request' }}
+          alert-threshold: '150%'
+          comment-on-alert: ${{ github.event_name != 'pull_request' }}
+          fail-on-alert: false
+          summary-always: true
+
+  smoke:
+    # L'archive Release que publie un tag n'était jamais lancée avant sa publication : release.yml
+    # lance désormais chaque archive (scripts/smoke_test_release.ps1). Ce job fait de même chaque
+    # nuit sur la configuration Release avec symboles, que seul un tag construisait, pour que la
+    # panne se voie avant le jour de la version. La capture part en artefact.
+    runs-on: windows-2022
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Install Qt
+        uses: ./.github/actions/setup-qt
+        with:
+          version: ${{ env.QT_VERSION }}
+          aqtsource: ${{ env.AQT_SOURCE }}
+
+      - name: Configure (Release autonome avec symboles, comme release.yml)
+        run: >
+          cmake -S . -B build-prod -G "Visual Studio 17 2022" -A x64
+          -DBUILD_TESTING=OFF
+          "-DCMAKE_CXX_FLAGS_RELEASE=/O2 /Ob2 /DNDEBUG /Zi"
+          "-DCMAKE_EXE_LINKER_FLAGS_RELEASE=/INCREMENTAL:NO /DEBUG /OPT:REF /OPT:ICF"
+          "-DCMAKE_SHARED_LINKER_FLAGS_RELEASE=/INCREMENTAL:NO /DEBUG /OPT:REF /OPT:ICF"
+        env:
+          CMAKE_PREFIX_PATH: ${{ env.QT_ROOT_DIR }}
+
+      - name: Build (Release)
+        run: cmake --build build-prod --config Release
+
+      - name: Package et lancement de l'archive
+        shell: pwsh
+        run: |
+          ./scripts/package_release.ps1 -BinDir build-prod/bin/Release -Name JustAnotherDnDGame-nightly-release -OutDir dist
+          ./scripts/smoke_test_release.ps1 -Zip dist/JustAnotherDnDGame-nightly-release.zip -Screenshot smoke/release.png
+
+      - name: Conserver la capture
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: smoke-screenshot
+          path: smoke/
+          if-no-files-found: ignore
+
+  qt-next:
+    # Le passage à Qt 6.11 a coûté un aqtinstall pris depuis git et un module renommé, découverts le
+    # jour de la montée. Ce job construit et teste contre la version de Qt la plus récente publiée
+    # au-dessus de QT_VERSION, s'il en existe une : ce qu'elle casse se sait des semaines à l'avance.
+    # Informatif : `continue-on-error` garde la nuit verte, le verdict est dans le résumé.
+    runs-on: windows-2022
+    timeout-minutes: 90
+    continue-on-error: true
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Version de Qt suivante
+        id: next
+        shell: pwsh
+        run: |
+          python -m pip install --quiet "$env:AQT_SOURCE"
+          $listing = python -m aqt list-qt windows desktop
+          $current = [version]$env:QT_VERSION
+          $newer = @($listing -split '\s+' | Where-Object { $_ -match '^6\.\d+\.\d+$' } |
+            ForEach-Object { [version]$_ } | Where-Object { $_ -gt $current } | Sort-Object)
+          if ($newer.Count -eq 0) {
+            Write-Host "Aucune version de Qt publiée au-dessus de $current."
+            "version=" >> $env:GITHUB_OUTPUT
+            "### Qt suivant`n`nAucune version publiée au-dessus de Qt $current : rien à essayer." >> $env:GITHUB_STEP_SUMMARY
+          } else {
+            $version = $newer[-1].ToString()
+            Write-Host "Qt suivant : $version"
+            "version=$version" >> $env:GITHUB_OUTPUT
+          }
+
+      - name: Install Qt ${{ steps.next.outputs.version }}
+        if: ${{ steps.next.outputs.version != '' }}
+        uses: ./.github/actions/setup-qt
+        with:
+          version: ${{ steps.next.outputs.version }}
+          aqtsource: ${{ env.AQT_SOURCE }}
+
+      - name: Configure, build et tests
+        id: build
+        if: ${{ steps.next.outputs.version != '' }}
+        run: |
+          cmake --preset vs
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          cmake --build --preset vs
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          ctest --preset vs
+        env:
+          CMAKE_PREFIX_PATH: ${{ env.QT_ROOT_DIR }}
+
+      - name: Resume du job
+        if: ${{ !cancelled() && steps.next.outputs.version != '' }}
+        shell: bash
+        env:
+          NEXT: ${{ steps.next.outputs.version }}
+          OUTCOME: ${{ steps.build.outcome }}
+        run: |
+          if [ "$OUTCOME" = success ]; then
+            verdict="le projet se construit et ses tests passent : la montée ne demandera que de changer \`QT_VERSION\`."
+          else
+            verdict="**échec** (\`$OUTCOME\`) : ce que la montée cassera est dans le log de l'étape."
+          fi
+          printf '### Qt suivant : %s\n\n%s\n' "$NEXT" "$verdict" >> "$GITHUB_STEP_SUMMARY"
+
+  links:
+    # Les liens relatifs entre documents (feuille de route, lots, spécifications, cahier de test)
+    # cassent en silence au renommage d'un dossier : six l'étaient à l'ouverture de ce job. lychee
+    # vérifie hors ligne que chaque lien vers un fichier du dépôt aboutit (lychee.toml) ; les liens
+    # externes ne sont pas visités, un site indisponible ne rougit pas la nuit.
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Install lychee ${{ env.LYCHEE_VERSION }}
+        # L'archive officielle, vérifiée contre l'empreinte publiée avec elle.
+        run: |
+          set -euo pipefail
+          base="https://github.com/lycheeverse/lychee/releases/download/lychee-v${LYCHEE_VERSION}"
+          archive="lychee-x86_64-unknown-linux-gnu.tar.gz"
+          cd "$RUNNER_TEMP"
+          curl -fsSLO "$base/$archive"
+          curl -fsSLO "$base/$archive.sha256"
+          sha256sum -c "$archive.sha256"
+          mkdir -p lychee
+          tar -xzf "$archive" -C lychee
+          # L'archive range l'exécutable dans un sous-dossier : on le cherche plutôt que de le supposer.
+          dirname "$(find "$RUNNER_TEMP/lychee" -type f -name lychee | head -n 1)" >> "$GITHUB_PATH"
+
+      - name: Liens internes de la documentation
+        id: lychee
+        run: lychee --config lychee.toml --format markdown --output lychee.md './**/*.md'
+
+      - name: Resume du job
+        if: ${{ !cancelled() }}
+        env:
+          OUTCOME: ${{ steps.lychee.outcome }}
+        run: |
+          {
+            echo '### Liens de la documentation'
+            echo
+            if [ "$OUTCOME" = success ]; then
+              echo 'Tous les liens internes aboutissent.'
+            else
+              echo "**Liens cassés** (\`$OUTCOME\`) :"
+              echo
+              cat lychee.md 2>/dev/null || true
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"

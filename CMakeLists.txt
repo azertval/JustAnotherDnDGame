@@ -85,6 +85,8 @@ option(ENABLE_WARNINGS_AS_ERRORS "Traiter les avertissements comme des erreurs" 
 option(ENABLE_ASAN "Activer AddressSanitizer" OFF)
 option(ENABLE_PCH "Activer les en-têtes précompilés (Source/pch.h)" ON)
 option(ENABLE_COMPILER_CACHE "Compiler à travers sccache s'il est trouvé (hors Visual Studio)" ON)
+option(BUILD_FUZZERS "Construire les cibles libFuzzer de Source/Fuzz (clang-cl uniquement)" OFF)
+option(BUILD_BENCHMARKS "Construire les mesures de performance de Source/Benchmark" OFF)
 
 # --- Cache de compilation (refonte de la CI, phase 2) ---
 # sccache rejoue le résultat d'une compilation déjà faite, sur le poste comme sur le runner : un
@@ -182,6 +184,31 @@ if(ENABLE_ASAN)
     endif()
 endif()
 
+# --- Fuzzing des lecteurs de données (refonte de la CI, phase 3) ---
+# libFuzzer avec le compilateur MSVC lui-même (/fsanitize=fuzzer, Visual Studio 2022 17.0+), et
+# l'AddressSanitizer de MSVC que le job `sanitize` de ci.yml éprouve déjà. clang-cl a été essayé et
+# écarté : sous son ASan, le `catch` d'une exception C++ recevait un objet invalide (lu dans une
+# mémoire déjà libérée), si bien que chaque lecteur JSON « plantait » sur l'entrée vide.
+#
+# Toutes nos cibles sont instrumentées pour la couverture (/fsanitize-coverage) : le fuzzer ne mute
+# bien que ce dont il voit les branches, et le lecteur de niveaux vit dans Core, pas dans le harnais.
+# ASan globalement, pour la même raison que ENABLE_ASAN ci-dessus. Configuration attendue : Ninja,
+# RelWithDebInfo, sans PCH ni cache de compilation — voir le job `fuzz` de nightly.yml.
+if(BUILD_FUZZERS)
+    if(NOT MSVC OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+        message(FATAL_ERROR
+            "BUILD_FUZZERS exige le compilateur MSVC (cl.exe), pas ${CMAKE_CXX_COMPILER_ID}.\n"
+            "  cmake -S . -B build/fuzz -G Ninja -DCMAKE_BUILD_TYPE=RelWithDebInfo -DBUILD_FUZZERS=ON "
+            "-DBUILD_TESTING=OFF -DBUILD_EDITOR_QT=OFF -DENABLE_PCH=OFF -DENABLE_COMPILER_CACHE=OFF")
+    endif()
+    if(ENABLE_ASAN)
+        message(FATAL_ERROR "BUILD_FUZZERS active déjà AddressSanitizer : retirer ENABLE_ASAN.")
+    endif()
+    add_compile_options(/fsanitize=address
+        /fsanitize-coverage=inline-8bit-counters /fsanitize-coverage=edge
+        /fsanitize-coverage=trace-cmp /fsanitize-coverage=trace-div)
+endif()
+
 # --- Dépendances tierces (External/) ---
 add_subdirectory(External)
 
@@ -192,4 +219,12 @@ add_subdirectory(Source)
 if(BUILD_TESTING)
     enable_testing()
     add_subdirectory(Source/Test)
+endif()
+
+if(BUILD_FUZZERS)
+    add_subdirectory(Source/Fuzz)
+endif()
+
+if(BUILD_BENCHMARKS)
+    add_subdirectory(Source/Benchmark)
 endif()

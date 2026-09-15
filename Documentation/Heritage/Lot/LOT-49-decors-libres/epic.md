@@ -2,7 +2,7 @@
 
 > Statut : **fait**. Prérequis : [LOT-40](@ref lot-40) (calques), [LOT-41](@ref lot-41)
 > (bascule), [LOT-44](@ref lot-44) (format de niveau versionné). Concrétise
-> [`decors.md`](../../Specification/decors.md).
+> [`decors.md`](../../../Specification/decors.md).
 
 ## Objectif
 Livrer les **calques de décor** — arrière-plan, décor, premier plan — demandés dès l'origine et

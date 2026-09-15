@@ -79,7 +79,7 @@ devient unique, et ce qui ne sert qu'à un outil s'efface quand cet outil n'est 
 - **L'information d'état se calcule à part.** Le choix de ce qu'affiche la barre d'état est une
   décision, pas un rendu : elle est exposée en fonction pure et testée sans Qt, sur le patron déjà
   retenu pour le HUD au `LOT-52`.
-- **Étend [`interface-ihm.md`](../../Specification/interface-ihm.md)** d'une section 7 : la
+- **Étend [`interface-ihm.md`](../../../Specification/interface-ihm.md)** d'une section 7 : la
   spécification cadrait l'existence des panneaux, jamais la répartition de l'information entre eux.
 
 ## Exigences couvertes
