@@ -1,5 +1,17 @@
 var NAVTREEINDEX32 =
 {
+"structcore_1_1ArenaCatalog.html#aa5a4289e2488f0c96540e80388c6d44a":[14,0,0,7,2],
+"structcore_1_1ArenaContestant.html":[13,0,1,8],
+"structcore_1_1ArenaContestant.html":[14,0,0,8],
+"structcore_1_1ArenaContestant.html#a190e47f103f3dadbf460e7a18a3ad843":[13,0,1,8,1],
+"structcore_1_1ArenaContestant.html#a190e47f103f3dadbf460e7a18a3ad843":[14,0,0,8,1],
+"structcore_1_1ArenaContestant.html#a1ae64e52f560402dc6c25bc8cf2b0895":[13,0,1,8,4],
+"structcore_1_1ArenaContestant.html#a1ae64e52f560402dc6c25bc8cf2b0895":[14,0,0,8,4],
+"structcore_1_1ArenaContestant.html#a6fcb6b725ceab85eb60fa4fe5aac2878":[13,0,1,8,3],
+"structcore_1_1ArenaContestant.html#a6fcb6b725ceab85eb60fa4fe5aac2878":[14,0,0,8,3],
+"structcore_1_1ArenaContestant.html#a86a1bacc54063ba082ffcae7c8b456fc":[13,0,1,8,0],
+"structcore_1_1ArenaContestant.html#a86a1bacc54063ba082ffcae7c8b456fc":[14,0,0,8,0],
+"structcore_1_1ArenaContestant.html#abc7382a0078f0c8b9fe97d472e456fe2":[13,0,1,8,2],
 "structcore_1_1ArenaContestant.html#abc7382a0078f0c8b9fe97d472e456fe2":[14,0,0,8,2],
 "structcore_1_1ArenaEntryPoint.html":[13,0,1,3],
 "structcore_1_1ArenaEntryPoint.html":[14,0,0,3],
@@ -237,17 +249,5 @@ var NAVTREEINDEX32 =
 "structcore_1_1BattleGrid_1_1Placement.html#a0cc8960ddfdeb2bb29dea52217b4449f":[14,0,0,22,0,0],
 "structcore_1_1BattleGrid_1_1Placement.html#a79278bf1e30cb6ef4a4e6784c3233870":[13,0,1,22,0,1],
 "structcore_1_1BattleGrid_1_1Placement.html#a79278bf1e30cb6ef4a4e6784c3233870":[14,0,0,22,0,1],
-"structcore_1_1BattleGrid_1_1Zone.html":[13,0,1,22,1],
-"structcore_1_1BattleGrid_1_1Zone.html":[14,0,0,22,1],
-"structcore_1_1BattleGrid_1_1Zone.html#a1981a5485a0015784d9111bad8bc409a":[13,0,1,22,1,0],
-"structcore_1_1BattleGrid_1_1Zone.html#a1981a5485a0015784d9111bad8bc409a":[14,0,0,22,1,0],
-"structcore_1_1BattleGrid_1_1Zone.html#aca2ea625cf023fd58d81eaacfe915ffa":[13,0,1,22,1,1],
-"structcore_1_1BattleGrid_1_1Zone.html#aca2ea625cf023fd58d81eaacfe915ffa":[14,0,0,22,1,1],
-"structcore_1_1BehaviorAssignment.html":[13,0,1,56],
-"structcore_1_1BehaviorAssignment.html":[14,0,0,56],
-"structcore_1_1BehaviorAssignment.html#a8e47f1edea0e9543c1b837e27ae1e565":[13,0,1,56,0],
-"structcore_1_1BehaviorAssignment.html#a8e47f1edea0e9543c1b837e27ae1e565":[14,0,0,56,0],
-"structcore_1_1BehaviorAssignment.html#a9938541990c3932daab1f21158c51ff2":[13,0,1,56,1],
-"structcore_1_1BehaviorAssignment.html#a9938541990c3932daab1f21158c51ff2":[14,0,0,56,1],
-"structcore_1_1BehaviorAssignment.html#ac1cdabc37c4fe9400b03b13f7a1bc085":[13,0,1,56,2]
+"structcore_1_1BattleGrid_1_1Zone.html":[13,0,1,22,1]
 };

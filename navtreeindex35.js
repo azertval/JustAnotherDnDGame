@@ -1,5 +1,17 @@
 var NAVTREEINDEX35 =
 {
+"structcore_1_1DialogueChoice.html#aa672747635867c99d94e57c086ee3593":[14,0,0,162,2],
+"structcore_1_1DialogueGraph.html":[13,0,1,165],
+"structcore_1_1DialogueGraph.html":[14,0,0,165],
+"structcore_1_1DialogueGraph.html#a0abe9aac355cd5c8d26a2a5a9d9e3d7a":[13,0,1,165,0],
+"structcore_1_1DialogueGraph.html#a0abe9aac355cd5c8d26a2a5a9d9e3d7a":[14,0,0,165,0],
+"structcore_1_1DialogueGraph.html#a10cdcfc2e508d50478ff9575eec602d9":[13,0,1,165,1],
+"structcore_1_1DialogueGraph.html#a10cdcfc2e508d50478ff9575eec602d9":[14,0,0,165,1],
+"structcore_1_1DialogueGraph.html#aa65057d45e4b6e3bb60eb8604b7a7cc4":[13,0,1,165,4],
+"structcore_1_1DialogueGraph.html#aa65057d45e4b6e3bb60eb8604b7a7cc4":[14,0,0,165,4],
+"structcore_1_1DialogueGraph.html#ab69f79e0bcd11a1eba05ee928ffe1af4":[13,0,1,165,3],
+"structcore_1_1DialogueGraph.html#ab69f79e0bcd11a1eba05ee928ffe1af4":[14,0,0,165,3],
+"structcore_1_1DialogueGraph.html#abb4ebd5c8bdf5d0d20fd286b8421cbca":[13,0,1,165,5],
 "structcore_1_1DialogueGraph.html#abb4ebd5c8bdf5d0d20fd286b8421cbca":[14,0,0,165,5],
 "structcore_1_1DialogueGraph.html#af650b0e96525b9ba524d4e3f0c9e29f7":[13,0,1,165,2],
 "structcore_1_1DialogueGraph.html#af650b0e96525b9ba524d4e3f0c9e29f7":[14,0,0,165,2],
@@ -237,17 +249,5 @@ var NAVTREEINDEX35 =
 "structcore_1_1ExplorationSnapshot.html#aa1c093bdc8294f3afb7cb55802c8a91d":[14,0,0,37,3],
 "structcore_1_1ExplorationSnapshot.html#aa5d820019e101216aec7f2113d850f1e":[13,0,1,37,0],
 "structcore_1_1ExplorationSnapshot.html#aa5d820019e101216aec7f2113d850f1e":[14,0,0,37,0],
-"structcore_1_1ExplorationSnapshot.html#aed763efd480c62dac0fd4f5d960162a3":[13,0,1,37,1],
-"structcore_1_1ExplorationSnapshot.html#aed763efd480c62dac0fd4f5d960162a3":[14,0,0,37,1],
-"structcore_1_1FlagCondition.html":[13,0,1,161],
-"structcore_1_1FlagCondition.html":[14,0,0,161],
-"structcore_1_1FlagCondition.html#a65b6aab1bec27094d3f4d5fea9fe417e":[13,0,1,161,1],
-"structcore_1_1FlagCondition.html#a65b6aab1bec27094d3f4d5fea9fe417e":[14,0,0,161,1],
-"structcore_1_1FlagCondition.html#a79b84d286e43fcd5a482e35bb4b30ac8":[13,0,1,161,0],
-"structcore_1_1FlagCondition.html#a79b84d286e43fcd5a482e35bb4b30ac8":[14,0,0,161,0],
-"structcore_1_1FlagCondition.html#a7e384ba05f9f7f1aba0963586097c037":[13,0,1,161,2],
-"structcore_1_1FlagCondition.html#a7e384ba05f9f7f1aba0963586097c037":[14,0,0,161,2],
-"structcore_1_1Footprint.html":[13,0,1,61],
-"structcore_1_1Footprint.html":[14,0,0,61],
-"structcore_1_1Footprint.html#a8429adb7f4998ae8b685f96cf1b5861c":[13,0,1,61,0]
+"structcore_1_1ExplorationSnapshot.html#aed763efd480c62dac0fd4f5d960162a3":[13,0,1,37,1]
 };

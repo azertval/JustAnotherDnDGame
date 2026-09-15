@@ -1371,6 +1371,14 @@ Functions</h2></td></tr>
 <tr class="memdesc:a3126473350fe705bf2fac20bc6194c62"><td class="mdescLeft">&#160;</td><td class="mdescRight">Peint une icône à la taille demandée, recolorée depuis les jetons.  <br /></td></tr>
 <tr class="memitem:a00629522279a61cffd0c68ae26c3fca0" id="r_a00629522279a61cffd0c68ae26c3fca0"><td class="memItemLeft"><a class="el" href="#a57dcf8ac7fd26c90a8741e698c896580">EditorThemeMode</a>&#160;</td><td class="memItemRight"><a class="el" href="#a00629522279a61cffd0c68ae26c3fca0">resolveEffectiveEditorTheme</a> (<a class="el" href="#a796b5dfcf1d9de2fb2552d51af677646">EditorThemeSetting</a> setting, bool systemPrefersDark) noexcept</td></tr>
 <tr class="memdesc:a00629522279a61cffd0c68ae26c3fca0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Résout le thème effectif à appliquer.  <br /></td></tr>
+<tr class="memitem:a0c06cbf1bf3c8f1d58a5c581e17e3666" id="r_a0c06cbf1bf3c8f1d58a5c581e17e3666"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a0c06cbf1bf3c8f1d58a5c581e17e3666">crashDumpFileName</a> (std::string_view application, std::string_view version, const std::tm &amp;localTime)</td></tr>
+<tr class="memdesc:a0c06cbf1bf3c8f1d58a5c581e17e3666"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nom du fichier d'un minidump : <span class="tt">&lt;application&gt;_&lt;version&gt;_&lt;AAAAMMJJ_HHMMSS&gt;.dmp</span>.  <br /></td></tr>
+<tr class="memitem:a1acfbf8f1ffce943900246a61f336bf7" id="r_a1acfbf8f1ffce943900246a61f336bf7"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a1acfbf8f1ffce943900246a61f336bf7">writeMiniDump</a> (const std::filesystem::path &amp;path, _EXCEPTION_POINTERS *exception)</td></tr>
+<tr class="memdesc:a1acfbf8f1ffce943900246a61f336bf7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Écrit un minidump du processus courant.  <br /></td></tr>
+<tr class="memitem:aabf51fbbdb0a8cdb119dc1c28fa88980" id="r_aabf51fbbdb0a8cdb119dc1c28fa88980"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aabf51fbbdb0a8cdb119dc1c28fa88980">installCrashDumpWriter</a> (std::filesystem::path directory, std::string application, std::string version)</td></tr>
+<tr class="memdesc:aabf51fbbdb0a8cdb119dc1c28fa88980"><td class="mdescLeft">&#160;</td><td class="mdescRight">Installe l'écriture d'un minidump sur toute fin anormale du processus.  <br /></td></tr>
+<tr class="memitem:a3482171b78c19d4cd5a16786cc13c330" id="r_a3482171b78c19d4cd5a16786cc13c330"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a3482171b78c19d4cd5a16786cc13c330">triggerCrashForTest</a> ()</td></tr>
+<tr class="memdesc:a3482171b78c19d4cd5a16786cc13c330"><td class="mdescLeft">&#160;</td><td class="mdescRight">Déclenche volontairement une violation d'accès, pour éprouver installCrashDumpWriter.  <br /></td></tr>
 <tr class="memitem:a18648161d8a6c752202b6034613a947b" id="r_a18648161d8a6c752202b6034613a947b"><td class="memItemLeft">std::filesystem::path&#160;</td><td class="memItemRight"><a class="el" href="#a18648161d8a6c752202b6034613a947b">executableDirectory</a> ()</td></tr>
 <tr class="memdesc:a18648161d8a6c752202b6034613a947b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dossier contenant l'exécutable en cours, pour localiser les ressources copiées à côté (niveaux, catalogues de traduction, logs).  <br /></td></tr>
 <tr class="memitem:ad2b3435349dd004d6768a14a49f5dacc" id="r_ad2b3435349dd004d6768a14a49f5dacc"><td class="memItemLeft">std::map&lt; std::string, std::string &gt;&#160;</td><td class="memItemRight"><a class="el" href="#ad2b3435349dd004d6768a14a49f5dacc">characterSheetValues</a> (const <a class="el" href="structhmi_1_1CharacterSheetContext.html">CharacterSheetContext</a> &amp;context)</td></tr>
@@ -1570,6 +1578,8 @@ Variables</h2></td></tr>
 <tr class="memdesc:a1a8d24174b415e8452f331c030addee6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nombre d'actions d'éditeur remappables ayant une commande effective (<span class="tt"><a class="el" href="#af2f4a1af04682540c1b84611a24aa42c" title="Nombre d&#39;actions d&#39;éditeur remappables (EditorAction).">EDITOR_ACTION_COUNT</a></span> moins <span class="tt">TextureAssignTool</span>).  <br /></td></tr>
 <tr class="memitem:a79233aca7f9d19b332463ae81582a3d1" id="r_a79233aca7f9d19b332463ae81582a3d1"><td class="memItemLeft">constexpr std::size_t&#160;</td><td class="memItemRight"><a class="el" href="#a79233aca7f9d19b332463ae81582a3d1">EDITOR_WORKSPACE_COUNT</a> = 3</td></tr>
 <tr class="memdesc:a79233aca7f9d19b332463ae81582a3d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nombre d'espaces, déclaré au plus près de l'énumération qu'il compte.  <br /></td></tr>
+<tr class="memitem:a71b3644be39aea9fcff1d4ffdf126963" id="r_a71b3644be39aea9fcff1d4ffdf126963"><td class="memItemLeft">constexpr unsigned long&#160;</td><td class="memItemRight"><a class="el" href="#a71b3644be39aea9fcff1d4ffdf126963">kFatalErrorExceptionCode</a> = 0xE04A4447UL</td></tr>
+<tr class="memdesc:a71b3644be39aea9fcff1d4ffdf126963"><td class="mdescLeft">&#160;</td><td class="mdescRight">Code de l'exception levée pour transformer une fin anormale (std::terminate, appel virtuel pur, paramètre invalide de la CRT) en exception structurée, que le filtre sait écrire : « JADG ».  <br /></td></tr>
 <tr class="memitem:a28af23097f4afb7b262687a468fcf913" id="r_a28af23097f4afb7b262687a468fcf913"><td class="memItemLeft">constexpr std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#a28af23097f4afb7b262687a468fcf913">DIALOGUE_LEAVE_REPLY</a> = &quot;leave&quot;</td></tr>
 <tr class="memdesc:a28af23097f4afb7b262687a468fcf913"><td class="mdescLeft">&#160;</td><td class="mdescRight">Identifiant de la ligne « Quitter la conversation », quand plus rien n'attend de réponse.  <br /></td></tr>
 <tr class="memitem:ae54af503d82aa33bf9e298ef1a96f275" id="r_ae54af503d82aa33bf9e298ef1a96f275"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#ae54af503d82aa33bf9e298ef1a96f275">IDENTITY_BASE_HEIGHT</a> = 360</td></tr>
@@ -5599,6 +5609,52 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="a0c06cbf1bf3c8f1d58a5c581e17e3666" name="a0c06cbf1bf3c8f1d58a5c581e17e3666"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0c06cbf1bf3c8f1d58a5c581e17e3666">&#9670;&#160;</a></span>crashDumpFileName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string hmi::crashDumpFileName </td>
+          <td>(</td>
+          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>application</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>version</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::tm &amp;</td>          <td class="paramname"><span class="paramname"><em>localTime</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Nom du fichier d'un minidump : <span class="tt">&lt;application&gt;_&lt;version&gt;_&lt;AAAAMMJJ_HHMMSS&gt;.dmp</span>. </p>
+<p>La version y figure pour retrouver sans ouvrir le fichier l'archive de symboles qui le lit. Tout caractère hors <span class="tt">[A-Za-z0-9.-]</span> devient <span class="tt">_</span>, pour qu'une version comme <span class="tt">0.1.0+dev</span> reste un nom de fichier sûr.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">application</td><td>Nom de l'application (<span class="tt">JustAnotherDnDGame</span>, <span class="tt">LevelEditor</span>). </td></tr>
+    <tr><td class="paramname">version</td><td>Version du binaire (<span class="tt"><a class="el" href="classcore_1_1Engine.html#a80c1e60da14c218b7846ff3201a325a6" title="Retourne la version du moteur, telle que déclarée par le système de build.">core::Engine::version()</a></span>). </td></tr>
+    <tr><td class="paramname">localTime</td><td>Heure locale du plantage. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Le nom du fichier, sans dossier. </dd></dl>
+
+</div>
+</div>
 <a id="a4e6bdeca2a66b069fe3b093ee6670f0e" name="a4e6bdeca2a66b069fe3b093ee6670f0e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4e6bdeca2a66b069fe3b093ee6670f0e">&#9670;&#160;</a></span>createTexture()</h2>
 
@@ -7312,6 +7368,44 @@ Variables</h2></td></tr>
 
 <p>Rectangle écran du pixel image <span class="tt">(x, y)</span>, au zoom et décalage de vue donnés. </p>
 <p>Fonction <b>pure</b> : ne dépend que de <code class="param">view</code>, jamais des bornes de l'image — c'est elle qui garantit que la grille, le pixel survolé et le tracé de sélection (TACHE-06) s'accordent toujours exactement, puisqu'ils l'appellent tous. </p>
+
+</div>
+</div>
+<a id="aabf51fbbdb0a8cdb119dc1c28fa88980" name="aabf51fbbdb0a8cdb119dc1c28fa88980"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aabf51fbbdb0a8cdb119dc1c28fa88980">&#9670;&#160;</a></span>installCrashDumpWriter()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::installCrashDumpWriter </td>
+          <td>(</td>
+          <td class="paramtype">std::filesystem::path</td>          <td class="paramname"><span class="paramname"><em>directory</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string</td>          <td class="paramname"><span class="paramname"><em>application</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string</td>          <td class="paramname"><span class="paramname"><em>version</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Installe l'écriture d'un minidump sur toute fin anormale du processus. </p>
+<p>Couvre l'exception structurée non attrapée (violation d'accès, division par zéro…), et, en les convertissant en exception <span class="tt"><a class="el" href="#a71b3644be39aea9fcff1d4ffdf126963" title="Code de l&#39;exception levée pour transformer une fin anormale (std::terminate, appel virtuel pur,...">kFatalErrorExceptionCode</a></span>, <span class="tt">std::terminate</span> (exception C++ non attrapée), l'appel d'une fonction virtuelle pure et le paramètre invalide passé à la CRT. Le processus se termine ensuite, sans la boîte de dialogue du rapport d'erreurs Windows.</p>
+<p>À appeler une fois, au plus tôt dans <span class="tt"><a class="el" href="Editor_2Main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="Point d&#39;entrée du programme.">main</a></span>, après l'installation du journal : le chemin du dump y est consigné avant la sortie.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">directory</td><td>Dossier où écrire les dumps (créé au premier plantage). </td></tr>
+    <tr><td class="paramname">application</td><td>Nom de l'application, repris dans le nom du fichier. </td></tr>
+    <tr><td class="paramname">version</td><td>Version du binaire, reprise dans le nom du fichier. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -10629,7 +10723,7 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Nom lisible d'un terme de règle — caractéristique, emplacement d'équipement, condition. </p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md994"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md995"></a>
 Pourquoi ceux-là ne passent pas par <span class="tt">qsTr</span></h2>
 <p>La chrome des écrans (« Points de vie », « Nouvelle partie ») s'écrit en français <b>dans le fichier QML</b>, et Qt la traduit par sa source. Ces libellés-ci ne le peuvent pas : leur clé est <b>calculée</b> (<span class="tt">rpg.ability.</span> + l'identifiant que le modèle rend), et <span class="tt">qsTr</span> exige une chaîne littérale — c'est ce qui permet à <span class="tt">lupdate</span> de l'extraire sans exécuter le programme.</p>
 <p>Ce n'est pas qu'une contrainte technique. Ces termes sont un <b>lexique</b> : <span class="tt">rpg.glossary.csv</span> garantit une seule traduction par terme de règle dans tout le jeu, et <span class="tt">scripts/check_glossary.py</span> le vérifie. Les disperser en littéraux dans les écrans casserait précisément cette garantie.</p>
@@ -11907,6 +12001,26 @@ Pourquoi ceux-là ne passent pas par <span class="tt">qsTr</span></h2>
 
 </div>
 </div>
+<a id="a3482171b78c19d4cd5a16786cc13c330" name="a3482171b78c19d4cd5a16786cc13c330"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3482171b78c19d4cd5a16786cc13c330">&#9670;&#160;</a></span>triggerCrashForTest()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::triggerCrashForTest </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Déclenche volontairement une violation d'accès, pour éprouver installCrashDumpWriter. </p>
+<p>Utilisé par l'option <span class="tt">--crash-test</span> du jeu, que le test de fumée de la release lance pour prouver que l'archive livrée écrit bien son dump. </p>
+
+</div>
+</div>
 <a id="a818f4f148a4770efc762293601c6753b" name="a818f4f148a4770efc762293601c6753b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a818f4f148a4770efc762293601c6753b">&#9670;&#160;</a></span>triggerScreenShake()</h2>
 
@@ -12439,6 +12553,38 @@ Pourquoi ceux-là ne passent pas par <span class="tt">qsTr</span></h2>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="a1acfbf8f1ffce943900246a61f336bf7" name="a1acfbf8f1ffce943900246a61f336bf7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1acfbf8f1ffce943900246a61f336bf7">&#9670;&#160;</a></span>writeMiniDump()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool hmi::writeMiniDump </td>
+          <td>(</td>
+          <td class="paramtype">const std::filesystem::path &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">_EXCEPTION_POINTERS *</td>          <td class="paramname"><span class="paramname"><em>exception</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Écrit un minidump du processus courant. </p>
+<p>Le dossier parent est créé au besoin. Sans <code class="param">exception</code>, le dump porte l'état de tous les threads au moment de l'appel, sans contexte d'exception. L'écriture a lieu sur un thread dédié, que l'appelant attend. Si le dump riche (mémoire référencée par les piles) échoue, des dumps réduits sont tentés, qui gardent piles et contexte (sans l'état étendu du processeur) ; si tous échouent, <span class="tt">GetLastError()</span> en donne la raison.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>Chemin du fichier <span class="tt">.dmp</span> à écrire (écrasé s'il existe). </td></tr>
+    <tr><td class="paramname">exception</td><td>Contexte de l'exception à consigner, ou <span class="tt">nullptr</span>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><span class="tt">true</span> si le fichier a été écrit. </dd></dl>
 
 </div>
 </div>
@@ -13298,6 +13444,30 @@ Pourquoi ceux-là ne passent pas par <span class="tt">qsTr</span></h2>
 </div><div class="memdoc">
 
 <p>Nombre d'actions d'éditeur remappables ayant une commande effective (<span class="tt"><a class="el" href="#af2f4a1af04682540c1b84611a24aa42c" title="Nombre d&#39;actions d&#39;éditeur remappables (EditorAction).">EDITOR_ACTION_COUNT</a></span> moins <span class="tt">TextureAssignTool</span>). </p>
+
+</div>
+</div>
+<a id="a71b3644be39aea9fcff1d4ffdf126963" name="a71b3644be39aea9fcff1d4ffdf126963"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a71b3644be39aea9fcff1d4ffdf126963">&#9670;&#160;</a></span>kFatalErrorExceptionCode</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned long hmi::kFatalErrorExceptionCode = 0xE04A4447UL</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Code de l'exception levée pour transformer une fin anormale (std::terminate, appel virtuel pur, paramètre invalide de la CRT) en exception structurée, que le filtre sait écrire : « JADG ». </p>
 
 </div>
 </div>

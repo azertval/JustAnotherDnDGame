@@ -1,5 +1,9 @@
 var NAVTREEINDEX3 =
 {
+"WorldFlags_8h_source.html":[15,0,3,2,4,8],
+"WorldMapModel_8cpp.html":[15,0,3,5,10,28],
+"WorldMapModel_8h.html":[15,0,3,5,10,29],
+"WorldMapModel_8h_source.html":[15,0,3,5,10,29],
 "WorldMapRegions_8cpp.html":[15,0,3,5,9,16],
 "WorldMapRegions_8h.html":[15,0,3,5,9,17],
 "WorldMapRegions_8h_source.html":[15,0,3,5,9,17],
@@ -42,13 +46,14 @@ var NAVTREEINDEX3 =
 "cahiertest.html#autotoc_md27":[5,0,1,7],
 "cahiertest.html#autotoc_md28":[5,0,1,8],
 "cahiertest.html#autotoc_md29":[5,0,1,9],
-"cahiertest.html#autotoc_md30":[5,1],
-"cahiertest.html#autotoc_md31":[5,1,0],
-"cahiertest.html#autotoc_md32":[5,1,1],
-"cahiertest.html#autotoc_md33":[5,1,2],
-"cahiertest.html#autotoc_md34":[5,1,3],
-"cahiertest.html#autotoc_md35":[5,2],
-"cahiertest.html#autotoc_md36":[5,2,0],
+"cahiertest.html#autotoc_md30":[5,0,1,10],
+"cahiertest.html#autotoc_md31":[5,1],
+"cahiertest.html#autotoc_md32":[5,1,0],
+"cahiertest.html#autotoc_md33":[5,1,1],
+"cahiertest.html#autotoc_md34":[5,1,2],
+"cahiertest.html#autotoc_md35":[5,1,3],
+"cahiertest.html#autotoc_md36":[5,2],
+"cahiertest.html#autotoc_md37":[5,2,0],
 "cahiertest.html#autotoc_md5":[5,0],
 "cahiertest.html#autotoc_md6":[5,0,0],
 "cahiertest.html#autotoc_md7":[5,0,0,0],
@@ -244,10 +249,5 @@ var NAVTREEINDEX3 =
 "classcore_1_1BattleGrid.html#ab7d7cbb5a4348e90c82deae5bfd2e3c1":[14,0,0,22,29],
 "classcore_1_1BattleGrid.html#abd943492bc2fc0b8ac1269bf46baaf0d":[13,0,1,22,7],
 "classcore_1_1BattleGrid.html#abd943492bc2fc0b8ac1269bf46baaf0d":[14,0,0,22,7],
-"classcore_1_1BattleGrid.html#acdd16ed28a4efcaba589fb1f6c76a561":[13,0,1,22,38],
-"classcore_1_1BattleGrid.html#acdd16ed28a4efcaba589fb1f6c76a561":[14,0,0,22,38],
-"classcore_1_1BattleGrid.html#acfb41d95fe00ce6b35df57404320d9b8":[13,0,1,22,6],
-"classcore_1_1BattleGrid.html#acfb41d95fe00ce6b35df57404320d9b8":[14,0,0,22,6],
-"classcore_1_1BattleGrid.html#ad268f78729d34e98bd7fca885900cad7":[13,0,1,22,19],
-"classcore_1_1BattleGrid.html#ad268f78729d34e98bd7fca885900cad7":[14,0,0,22,19]
+"classcore_1_1BattleGrid.html#acdd16ed28a4efcaba589fb1f6c76a561":[13,0,1,22,38]
 };

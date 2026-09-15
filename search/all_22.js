@@ -6,8 +6,8 @@ var searchData=
   ['walk_3',['walk',['../structcore_1_1CreatureSpeed.html#a2b416bcbeaa0806afa62407f8094cc9e',1,'core::CreatureSpeed::walk'],['../structhmi_1_1ArenaFigureAnimationSet.html#a2a7d3fd79061a4eb489aa9f5d991df4e',1,'hmi::ArenaFigureAnimationSet::walk']]],
   ['wall_4',['Wall',['../namespacecore.html#ace99a1be913e6294e42e9ebb145eb875a94e8a499539d1a472f3b5dbbb85508c0',1,'core::Wall'],['../namespacehmi.html#a3aefab663a13beaed4fec7f172fb4a67a94e8a499539d1a472f3b5dbbb85508c0',1,'hmi::Wall']]],
   ['wall_5',['wall',['../structhmi_1_1ArenaTileAppearance.html#ad896f61618f62de0bd218f761e687ce9',1,'hmi::ArenaTileAppearance']]],
-  ['wall_20jump_20et_20wall_20slide_6',['6. Wall jump et wall slide',['../guide-physique.html#autotoc_md211',1,'']]],
-  ['wall_20slide_7',['6. Wall jump et wall slide',['../guide-physique.html#autotoc_md211',1,'']]],
+  ['wall_20jump_20et_20wall_20slide_6',['6. Wall jump et wall slide',['../guide-physique.html#autotoc_md212',1,'']]],
+  ['wall_20slide_7',['6. Wall jump et wall slide',['../guide-physique.html#autotoc_md212',1,'']]],
   ['wallcontactenter_8',['WallContactEnter',['../namespacehmi.html#a3a61aed1c8e95c289c829398d48488deae164c7e6f4e61a4633466ea5d59a3f97',1,'hmi']]],
   ['walldecoration_9',['WallDecoration',['../namespacehmi.html#a3aefab663a13beaed4fec7f172fb4a67aa275e84942f845eea0c75e0bbcb6ee3d',1,'hmi']]],
   ['wallfeature_10',['WallFeature',['../namespacehmi.html#a9da4795fe7ae9a1a208f6f8a3348ae8d',1,'hmi']]],
@@ -33,7 +33,7 @@ var searchData=
   ['whilewalking_30',['WhileWalking',['../namespacehmi.html#a3222e3cf5f453d3a55c104456a615430a56876e48dbe57b9eb2e66e54c6576eaf',1,'hmi']]],
   ['who_31',['who',['../structcore_1_1MountRefusal.html#a91f08ac0f54c84a8984cb2383815f334',1,'core::MountRefusal']]],
   ['wholelevel_32',['WholeLevel',['../namespacecore.html#a5c6444096b9bc21a78b1f1157e9070b6a3080b25e8fedb44c9a9a494d7278490e',1,'core']]],
-  ['widget_20ensuite_33',['Le canevas : la géométrie d&apos;abord, le widget ensuite',['../guide-atelier-pixel-art.html#autotoc_md41',1,'']]],
+  ['widget_20ensuite_33',['Le canevas : la géométrie d&apos;abord, le widget ensuite',['../guide-atelier-pixel-art.html#autotoc_md42',1,'']]],
   ['width_34',['width',['../structcore_1_1AreaOfEffect.html#ae773b8fadcd9a2f762d3a51448937f62',1,'core::AreaOfEffect::width'],['../structcore_1_1AtlasRegion.html#ae9205702dd6b5eaef583116869e8ce73',1,'core::AtlasRegion::width'],['../structcore_1_1CameraZone.html#a5d8f7e78711fe2f1a955cf1778396c0b',1,'core::CameraZone::width'],['../structcore_1_1AssetFamilyDefinition.html#af2f83a989894f03374336dda4e5c4b02',1,'core::AssetFamilyDefinition::width'],['../structcore_1_1MarkerImage.html#a8d35a9f90d4868939569032c1eb20046',1,'core::MarkerImage::width'],['../structhmi_1_1PixelScreenRect.html#a1faa8f68e60ed1bd37e93000522f2395',1,'hmi::PixelScreenRect::width'],['../structhmi_1_1PixelCanvasRealSize.html#abc80f0693238581f707e1297cc183dcc',1,'hmi::PixelCanvasRealSize::width'],['../structhmi_1_1PixelClipboard.html#aea4369b92a8101317629b3b18017dcb6',1,'hmi::PixelClipboard::width'],['../structhmi_1_1PlanePixelSize.html#ae776fb02366114a35b91e3d66d00c1b9',1,'hmi::PlanePixelSize::width'],['../structhmi_1_1ArenaTexture.html#a7043c5af674a5fc1adb4fe0847a14a9d',1,'hmi::ArenaTexture::width'],['../structhmi_1_1BackgroundTexture.html#ab18ec8f5e5e87aa50d124b0499fea7be',1,'hmi::BackgroundTexture::width'],['../structhmi_1_1PlaneTexture.html#af861bccde07b5e4b11dcb23cbb15b213',1,'hmi::PlaneTexture::width'],['../structhmi_1_1ProceduralAtlasImage.html#a5e64957b189f33bd6abcf1ffb2466253',1,'hmi::ProceduralAtlasImage::width'],['../structhmi_1_1GlyphMetrics.html#af476724edbc829c82317e16dbe27f7b0',1,'hmi::GlyphMetrics::width'],['../structhmi_1_1TextExtent.html#abf2494a60e2a43a26ff0eedf66e93a02',1,'hmi::TextExtent::width'],['../structhmi_1_1ProceduralFontImage.html#a7b05a9788959b7ef83867164b9a1d7e4',1,'hmi::ProceduralFontImage::width'],['../structhmi_1_1SpriteQuad.html#a7f473f58edf9e7c97b268324b914cfaf',1,'hmi::SpriteQuad::width'],['../structhmi_1_1RoomBounds.html#aafb711f5650f2bbadbad71aadec73076',1,'hmi::RoomBounds::width'],['../structhmi_1_1DecodedImage.html#adf724d1823f51b2e78a1da608dd94a7e',1,'hmi::DecodedImage::width'],['../structhmi_1_1LoadedTexture.html#a1530f7a7b5a8c3b036b8ec279c55b330',1,'hmi::LoadedTexture::width'],['../structhmi_1_1SkinTexture.html#a53c67da5bb3274996e0523bfa844b429',1,'hmi::SkinTexture::width'],['../classcore_1_1BattleGrid.html#ab7d7cbb5a4348e90c82deae5bfd2e3c1',1,'core::BattleGrid::width()'],['../classcore_1_1TileMap.html#aacb0302300621bb9fb43c89bbddfef0d',1,'core::TileMap::width()'],['../structhmi_1_1PixelRegion.html#a90d7af7f0a2052c84de2f0b310546b73',1,'hmi::PixelRegion::width()'],['../classhmi_1_1TextureAtlas.html#a6408ca8d697d60ac8d5da5290b157726',1,'hmi::TextureAtlas::width()']]],
   ['widthfor_35',['widthFor',['../structhmi_1_1SceneTextures.html#acfdc279bc1f8f78d0781b2d6a2e2c633',1,'hmi::SceneTextures']]],
   ['widthpixels_36',['widthPixels',['../structhmi_1_1PlaneEditStatusInfo.html#ad0f4abfe0c33aa6f2514b169437a267b',1,'hmi::PlaneEditStatusInfo']]],
@@ -54,7 +54,7 @@ var searchData=
   ['workspaceselector_51',['workspaceSelector',['../classhmi_1_1MainWindow.html#a027b04a3b312514563ce3a0d81600192',1,'hmi::MainWindow']]],
   ['workspacesettingsname_52',['workspaceSettingsName',['../classhmi_1_1MainWindow.html#a5136cda0984d0b96d9ae1c6051adb0ea',1,'hmi::MainWindow']]],
   ['workspacesforpanel_53',['workspacesForPanel',['../namespacehmi.html#a03a0fe6ee48e4c601c49463e13dc2453',1,'hmi']]],
-  ['world_54',['World',['../guide-ecs.html#autotoc_md106',1,'Le &lt;a class=&quot;el&quot; href=&quot;classcore_1_1World.html&quot; title=&quot;core::World&quot;&gt;World&lt;/a&gt;'],['../classcore_1_1World.html',1,'core::World']]],
+  ['world_54',['World',['../guide-ecs.html#autotoc_md107',1,'Le &lt;a class=&quot;el&quot; href=&quot;classcore_1_1World.html&quot; title=&quot;core::World&quot;&gt;World&lt;/a&gt;'],['../classcore_1_1World.html',1,'core::World']]],
   ['world_2019_55',['World (19)',['../cahiertest.html#autotoc_md18',1,'']]],
   ['world_2ecpp_56',['World.cpp',['../World_8cpp.html',1,'']]],
   ['world_2eh_57',['World.h',['../World_8h.html',1,'']]],
@@ -75,5 +75,6 @@ var searchData=
   ['wouldresizedrop_72',['wouldResizeDrop',['../classhmi_1_1GameViewport.html#aca00d4e9745dab6b1f0139407b78bd62',1,'hmi::GameViewport']]],
   ['wouldresizedropcontent_73',['wouldResizeDropContent',['../classcore_1_1LevelDraft.html#a7bb1c529de03797c0e158a1f13b39084',1,'core::LevelDraft']]],
   ['write_74',['write',['../classcore_1_1ConsoleLogSink.html#a832f603dba5ba9ecaa75b1314ed6b84d',1,'core::ConsoleLogSink::write()'],['../classcore_1_1FileLogSink.html#a5edba3663d5a45d0e7de1ddf5a9caf03',1,'core::FileLogSink::write()'],['../classcore_1_1ILogSink.html#ab0e09a7994cb3ee96744c6ebb1755585',1,'core::ILogSink::write()'],['../classcore_1_1MemoryLogSink.html#a7e1c23f28325a73a36c7b837759c0c05',1,'core::MemoryLogSink::write()']]],
-  ['writeregion_75',['writeRegion',['../namespacehmi.html#a5c0696a5aefa22650536ad018edc2d72',1,'hmi']]]
+  ['writeminidump_75',['writeMiniDump',['../namespacehmi.html#a1acfbf8f1ffce943900246a61f336bf7',1,'hmi']]],
+  ['writeregion_76',['writeRegion',['../namespacehmi.html#a5c0696a5aefa22650536ad018edc2d72',1,'hmi']]]
 ];

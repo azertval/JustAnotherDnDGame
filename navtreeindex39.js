@@ -1,5 +1,17 @@
 var NAVTREEINDEX39 =
 {
+"structcore_1_1Transform.html#a445458d76abe4de694e70ad88441d93f":[14,0,0,91,1],
+"structcore_1_1Transform.html#a944094d20677cd32afa8804686f9c1a9":[13,0,1,91,2],
+"structcore_1_1Transform.html#a944094d20677cd32afa8804686f9c1a9":[14,0,0,91,2],
+"structcore_1_1Transform.html#a95083539c843b0577d8f8c324c4e6b27":[13,0,1,91,0],
+"structcore_1_1Transform.html#a95083539c843b0577d8f8c324c4e6b27":[14,0,0,91,0],
+"structcore_1_1TriggerWeight.html":[13,0,1,106],
+"structcore_1_1TriggerWeight.html":[14,0,0,106],
+"structcore_1_1TriggerWeight.html#ab974e361606ec4249ab88f8e305c2480":[13,0,1,106,0],
+"structcore_1_1TriggerWeight.html#ab974e361606ec4249ab88f8e305c2480":[14,0,0,106,0],
+"structcore_1_1TriggerWeight.html#ad9218afee67e67972af3efef1550191b":[13,0,1,106,1],
+"structcore_1_1TriggerWeight.html#ad9218afee67e67972af3efef1550191b":[14,0,0,106,1],
+"structcore_1_1TurnPlan.html":[13,0,1,58],
 "structcore_1_1TurnPlan.html":[14,0,0,58],
 "structcore_1_1TurnPlan.html#a1d6fa6424b7f686fc371dd9625f1db32":[13,0,1,58,4],
 "structcore_1_1TurnPlan.html#a1d6fa6424b7f686fc371dd9625f1db32":[14,0,0,58,4],
@@ -237,17 +249,5 @@ var NAVTREEINDEX39 =
 "structhmi_1_1ArenaTexture.html#a7043c5af674a5fc1adb4fe0847a14a9d":[14,0,1,72,2],
 "structhmi_1_1ArenaTexture.html#ad85a99e2fb9a298f7cc81852b5ae6779":[13,0,2,72,1],
 "structhmi_1_1ArenaTexture.html#ad85a99e2fb9a298f7cc81852b5ae6779":[14,0,1,72,1],
-"structhmi_1_1ArenaTexture.html#adfd3a466c8dd0e3838d24e1652d1344a":[13,0,2,72,0],
-"structhmi_1_1ArenaTexture.html#adfd3a466c8dd0e3838d24e1652d1344a":[14,0,1,72,0],
-"structhmi_1_1ArenaTileAppearance.html":[13,0,2,68],
-"structhmi_1_1ArenaTileAppearance.html":[14,0,1,68],
-"structhmi_1_1ArenaTileAppearance.html#a075570a1dc1ff501100e80b16b48d394":[13,0,2,68,4],
-"structhmi_1_1ArenaTileAppearance.html#a075570a1dc1ff501100e80b16b48d394":[14,0,1,68,4],
-"structhmi_1_1ArenaTileAppearance.html#a45b37983a1de87932d4cb10c3985af42":[13,0,2,68,1],
-"structhmi_1_1ArenaTileAppearance.html#a45b37983a1de87932d4cb10c3985af42":[14,0,1,68,1],
-"structhmi_1_1ArenaTileAppearance.html#a7be2702593f7499af665c431c2da8c4d":[13,0,2,68,0],
-"structhmi_1_1ArenaTileAppearance.html#a7be2702593f7499af665c431c2da8c4d":[14,0,1,68,0],
-"structhmi_1_1ArenaTileAppearance.html#a9e20acd2f093ee0d764d2ac299c7ef88":[13,0,2,68,2],
-"structhmi_1_1ArenaTileAppearance.html#a9e20acd2f093ee0d764d2ac299c7ef88":[14,0,1,68,2],
-"structhmi_1_1ArenaTileAppearance.html#ad896f61618f62de0bd218f761e687ce9":[13,0,2,68,3]
+"structhmi_1_1ArenaTexture.html#adfd3a466c8dd0e3838d24e1652d1344a":[13,0,2,72,0]
 };

@@ -1,5 +1,17 @@
 var NAVTREEINDEX34 =
 {
+"structcore_1_1CombatantPlacement.html#abb3f684f43cc0b01e6030b93c71a1a32":[14,0,0,54,0],
+"structcore_1_1CombatantProfile.html":[13,0,1,28],
+"structcore_1_1CombatantProfile.html":[14,0,0,28],
+"structcore_1_1CombatantProfile.html#a025818f10d93efa6ad3544b9f5d0c908":[13,0,1,28,12],
+"structcore_1_1CombatantProfile.html#a025818f10d93efa6ad3544b9f5d0c908":[14,0,0,28,12],
+"structcore_1_1CombatantProfile.html#a032fe17fa529b1a5d47c96bf8139bcc5":[13,0,1,28,11],
+"structcore_1_1CombatantProfile.html#a032fe17fa529b1a5d47c96bf8139bcc5":[14,0,0,28,11],
+"structcore_1_1CombatantProfile.html#a0e93aedad6e03dc07a91298babe5a459":[13,0,1,28,1],
+"structcore_1_1CombatantProfile.html#a0e93aedad6e03dc07a91298babe5a459":[14,0,0,28,1],
+"structcore_1_1CombatantProfile.html#a28fe20ab1fc26414cddebd7e282c939c":[13,0,1,28,4],
+"structcore_1_1CombatantProfile.html#a28fe20ab1fc26414cddebd7e282c939c":[14,0,0,28,4],
+"structcore_1_1CombatantProfile.html#a39bdcb49ec9955df4be07f7c7a812824":[13,0,1,28,9],
 "structcore_1_1CombatantProfile.html#a39bdcb49ec9955df4be07f7c7a812824":[14,0,0,28,9],
 "structcore_1_1CombatantProfile.html#a56bfe782f09a73dadfb8dc635ae4566b":[13,0,1,28,2],
 "structcore_1_1CombatantProfile.html#a56bfe782f09a73dadfb8dc635ae4566b":[14,0,0,28,2],
@@ -237,17 +249,5 @@ var NAVTREEINDEX34 =
 "structcore_1_1DialogueChoice.html#a5cfd6f304ca98215a6d2e5e3dc1b706a":[14,0,0,162,0],
 "structcore_1_1DialogueChoice.html#a8a3e5c521871b317326d89b6ba3ca064":[13,0,1,162,1],
 "structcore_1_1DialogueChoice.html#a8a3e5c521871b317326d89b6ba3ca064":[14,0,0,162,1],
-"structcore_1_1DialogueChoice.html#aa672747635867c99d94e57c086ee3593":[13,0,1,162,2],
-"structcore_1_1DialogueChoice.html#aa672747635867c99d94e57c086ee3593":[14,0,0,162,2],
-"structcore_1_1DialogueGraph.html":[13,0,1,165],
-"structcore_1_1DialogueGraph.html":[14,0,0,165],
-"structcore_1_1DialogueGraph.html#a0abe9aac355cd5c8d26a2a5a9d9e3d7a":[13,0,1,165,0],
-"structcore_1_1DialogueGraph.html#a0abe9aac355cd5c8d26a2a5a9d9e3d7a":[14,0,0,165,0],
-"structcore_1_1DialogueGraph.html#a10cdcfc2e508d50478ff9575eec602d9":[13,0,1,165,1],
-"structcore_1_1DialogueGraph.html#a10cdcfc2e508d50478ff9575eec602d9":[14,0,0,165,1],
-"structcore_1_1DialogueGraph.html#aa65057d45e4b6e3bb60eb8604b7a7cc4":[13,0,1,165,4],
-"structcore_1_1DialogueGraph.html#aa65057d45e4b6e3bb60eb8604b7a7cc4":[14,0,0,165,4],
-"structcore_1_1DialogueGraph.html#ab69f79e0bcd11a1eba05ee928ffe1af4":[13,0,1,165,3],
-"structcore_1_1DialogueGraph.html#ab69f79e0bcd11a1eba05ee928ffe1af4":[14,0,0,165,3],
-"structcore_1_1DialogueGraph.html#abb4ebd5c8bdf5d0d20fd286b8421cbca":[13,0,1,165,5]
+"structcore_1_1DialogueChoice.html#aa672747635867c99d94e57c086ee3593":[13,0,1,162,2]
 };

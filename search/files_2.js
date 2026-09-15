@@ -41,9 +41,11 @@ var searchData=
   ['core_2ecpp_38',['Core.cpp',['../Core_8cpp.html',1,'']]],
   ['core_2eh_39',['Core.h',['../Core_8h.html',1,'']]],
   ['corelog_2eh_40',['CoreLog.h',['../CoreLog_8h.html',1,'']]],
-  ['credits_2emd_41',['CREDITS.md',['../Assets_2CREDITS_8md.html',1,'(Global Namespace)'],['../Audio_2CREDITS_8md.html',1,'(Global Namespace)']]],
-  ['creditscatalog_2ecpp_42',['CreditsCatalog.cpp',['../CreditsCatalog_8cpp.html',1,'']]],
-  ['creditscatalog_2eh_43',['CreditsCatalog.h',['../CreditsCatalog_8h.html',1,'']]],
-  ['creditsmodel_2ecpp_44',['CreditsModel.cpp',['../CreditsModel_8cpp.html',1,'']]],
-  ['creditsmodel_2eh_45',['CreditsModel.h',['../CreditsModel_8h.html',1,'']]]
+  ['crashdump_2ecpp_41',['CrashDump.cpp',['../CrashDump_8cpp.html',1,'']]],
+  ['crashdump_2eh_42',['CrashDump.h',['../CrashDump_8h.html',1,'']]],
+  ['credits_2emd_43',['CREDITS.md',['../Assets_2CREDITS_8md.html',1,'(Global Namespace)'],['../Audio_2CREDITS_8md.html',1,'(Global Namespace)']]],
+  ['creditscatalog_2ecpp_44',['CreditsCatalog.cpp',['../CreditsCatalog_8cpp.html',1,'']]],
+  ['creditscatalog_2eh_45',['CreditsCatalog.h',['../CreditsCatalog_8h.html',1,'']]],
+  ['creditsmodel_2ecpp_46',['CreditsModel.cpp',['../CreditsModel_8cpp.html',1,'']]],
+  ['creditsmodel_2eh_47',['CreditsModel.h',['../CreditsModel_8h.html',1,'']]]
 ];

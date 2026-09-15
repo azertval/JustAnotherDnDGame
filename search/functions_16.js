@@ -27,5 +27,6 @@ var searchData=
   ['wouldresizedrop_24',['wouldResizeDrop',['../classhmi_1_1GameViewport.html#aca00d4e9745dab6b1f0139407b78bd62',1,'hmi::GameViewport']]],
   ['wouldresizedropcontent_25',['wouldResizeDropContent',['../classcore_1_1LevelDraft.html#a7bb1c529de03797c0e158a1f13b39084',1,'core::LevelDraft']]],
   ['write_26',['write',['../classcore_1_1ConsoleLogSink.html#a832f603dba5ba9ecaa75b1314ed6b84d',1,'core::ConsoleLogSink::write()'],['../classcore_1_1FileLogSink.html#a5edba3663d5a45d0e7de1ddf5a9caf03',1,'core::FileLogSink::write()'],['../classcore_1_1ILogSink.html#ab0e09a7994cb3ee96744c6ebb1755585',1,'core::ILogSink::write()'],['../classcore_1_1MemoryLogSink.html#a7e1c23f28325a73a36c7b837759c0c05',1,'core::MemoryLogSink::write()']]],
-  ['writeregion_27',['writeRegion',['../namespacehmi.html#a5c0696a5aefa22650536ad018edc2d72',1,'hmi']]]
+  ['writeminidump_27',['writeMiniDump',['../namespacehmi.html#a1acfbf8f1ffce943900246a61f336bf7',1,'hmi']]],
+  ['writeregion_28',['writeRegion',['../namespacehmi.html#a5c0696a5aefa22650536ad018edc2d72',1,'hmi']]]
 ];

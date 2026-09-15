@@ -1,5 +1,10 @@
 var NAVTREEINDEX4 =
 {
+"classcore_1_1BattleGrid.html#acdd16ed28a4efcaba589fb1f6c76a561":[14,0,0,22,38],
+"classcore_1_1BattleGrid.html#acfb41d95fe00ce6b35df57404320d9b8":[13,0,1,22,6],
+"classcore_1_1BattleGrid.html#acfb41d95fe00ce6b35df57404320d9b8":[14,0,0,22,6],
+"classcore_1_1BattleGrid.html#ad268f78729d34e98bd7fca885900cad7":[13,0,1,22,19],
+"classcore_1_1BattleGrid.html#ad268f78729d34e98bd7fca885900cad7":[14,0,0,22,19],
 "classcore_1_1BattleGrid.html#ad541c35faece5fef76b23fe5cab9ca11":[13,0,1,22,8],
 "classcore_1_1BattleGrid.html#ad541c35faece5fef76b23fe5cab9ca11":[14,0,0,22,8],
 "classcore_1_1BattleGrid.html#adf5ddd3fe14b482355ca202829a5df64":[13,0,1,22,20],
@@ -244,10 +249,5 @@ var NAVTREEINDEX4 =
 "classcore_1_1ConsoleLogSink.html#a832f603dba5ba9ecaa75b1314ed6b84d":[14,0,0,72,0],
 "classcore_1_1DamagePipeline.html":[13,0,1,50],
 "classcore_1_1DamagePipeline.html":[14,0,0,50],
-"classcore_1_1DamagePipeline.html#a01ca4dadd1149ce79923deadb2fc22de":[13,0,1,50,3],
-"classcore_1_1DamagePipeline.html#a01ca4dadd1149ce79923deadb2fc22de":[14,0,0,50,3],
-"classcore_1_1DamagePipeline.html#a03fcd203ed5822ecc5970512e181e0bf":[13,0,1,50,0],
-"classcore_1_1DamagePipeline.html#a03fcd203ed5822ecc5970512e181e0bf":[14,0,0,50,0],
-"classcore_1_1DamagePipeline.html#a26df699e34a74d91e4d796c135adffd0":[13,0,1,50,4],
-"classcore_1_1DamagePipeline.html#a26df699e34a74d91e4d796c135adffd0":[14,0,0,50,4]
+"classcore_1_1DamagePipeline.html#a01ca4dadd1149ce79923deadb2fc22de":[13,0,1,50,3]
 };

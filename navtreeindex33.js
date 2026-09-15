@@ -1,5 +1,17 @@
 var NAVTREEINDEX33 =
 {
+"structcore_1_1BattleGrid_1_1Zone.html":[14,0,0,22,1],
+"structcore_1_1BattleGrid_1_1Zone.html#a1981a5485a0015784d9111bad8bc409a":[13,0,1,22,1,0],
+"structcore_1_1BattleGrid_1_1Zone.html#a1981a5485a0015784d9111bad8bc409a":[14,0,0,22,1,0],
+"structcore_1_1BattleGrid_1_1Zone.html#aca2ea625cf023fd58d81eaacfe915ffa":[13,0,1,22,1,1],
+"structcore_1_1BattleGrid_1_1Zone.html#aca2ea625cf023fd58d81eaacfe915ffa":[14,0,0,22,1,1],
+"structcore_1_1BehaviorAssignment.html":[13,0,1,56],
+"structcore_1_1BehaviorAssignment.html":[14,0,0,56],
+"structcore_1_1BehaviorAssignment.html#a8e47f1edea0e9543c1b837e27ae1e565":[13,0,1,56,0],
+"structcore_1_1BehaviorAssignment.html#a8e47f1edea0e9543c1b837e27ae1e565":[14,0,0,56,0],
+"structcore_1_1BehaviorAssignment.html#a9938541990c3932daab1f21158c51ff2":[13,0,1,56,1],
+"structcore_1_1BehaviorAssignment.html#a9938541990c3932daab1f21158c51ff2":[14,0,0,56,1],
+"structcore_1_1BehaviorAssignment.html#ac1cdabc37c4fe9400b03b13f7a1bc085":[13,0,1,56,2],
 "structcore_1_1BehaviorAssignment.html#ac1cdabc37c4fe9400b03b13f7a1bc085":[14,0,0,56,2],
 "structcore_1_1BehaviorAssignment.html#af53d91c860f0a21788a99123fe71c1e5":[13,0,1,56,3],
 "structcore_1_1BehaviorAssignment.html#af53d91c860f0a21788a99123fe71c1e5":[14,0,0,56,3],
@@ -237,17 +249,5 @@ var NAVTREEINDEX33 =
 "structcore_1_1CombatantPlacement.html":[14,0,0,54],
 "structcore_1_1CombatantPlacement.html#a3a66f7f7bba4f852f870ad96fe903f4d":[13,0,1,54,1],
 "structcore_1_1CombatantPlacement.html#a3a66f7f7bba4f852f870ad96fe903f4d":[14,0,0,54,1],
-"structcore_1_1CombatantPlacement.html#abb3f684f43cc0b01e6030b93c71a1a32":[13,0,1,54,0],
-"structcore_1_1CombatantPlacement.html#abb3f684f43cc0b01e6030b93c71a1a32":[14,0,0,54,0],
-"structcore_1_1CombatantProfile.html":[13,0,1,28],
-"structcore_1_1CombatantProfile.html":[14,0,0,28],
-"structcore_1_1CombatantProfile.html#a025818f10d93efa6ad3544b9f5d0c908":[13,0,1,28,12],
-"structcore_1_1CombatantProfile.html#a025818f10d93efa6ad3544b9f5d0c908":[14,0,0,28,12],
-"structcore_1_1CombatantProfile.html#a032fe17fa529b1a5d47c96bf8139bcc5":[13,0,1,28,11],
-"structcore_1_1CombatantProfile.html#a032fe17fa529b1a5d47c96bf8139bcc5":[14,0,0,28,11],
-"structcore_1_1CombatantProfile.html#a0e93aedad6e03dc07a91298babe5a459":[13,0,1,28,1],
-"structcore_1_1CombatantProfile.html#a0e93aedad6e03dc07a91298babe5a459":[14,0,0,28,1],
-"structcore_1_1CombatantProfile.html#a28fe20ab1fc26414cddebd7e282c939c":[13,0,1,28,4],
-"structcore_1_1CombatantProfile.html#a28fe20ab1fc26414cddebd7e282c939c":[14,0,0,28,4],
-"structcore_1_1CombatantProfile.html#a39bdcb49ec9955df4be07f7c7a812824":[13,0,1,28,9]
+"structcore_1_1CombatantPlacement.html#abb3f684f43cc0b01e6030b93c71a1a32":[13,0,1,54,0]
 };

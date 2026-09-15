@@ -97,7 +97,7 @@ $(function(){initNavTree('namespaceapp.html','',''); });
 Functions</h2></td></tr>
 <tr class="memitem:a99e2262fe01e3479aadd450aab2579dc" id="r_a99e2262fe01e3479aadd450aab2579dc"><td class="memItemLeft">std::optional&lt; std::string_view &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a99e2262fe01e3479aadd450aab2579dc">commandLineOption</a> (int argc, char **argv, std::string_view name)</td></tr>
 <tr class="memitem:a96bd993236840537bb7357f87a3aab7a" id="r_a96bd993236840537bb7357f87a3aab7a"><td class="memItemLeft"><a class="el" href="classcore_1_1MemoryLogSink.html">core::MemoryLogSink</a> *&#160;</td><td class="memItemRight"><a class="el" href="#a96bd993236840537bb7357f87a3aab7a">installLogging</a> (int argc, char **argv, std::string_view applicationName)</td></tr>
-<tr class="memdesc:a96bd993236840537bb7357f87a3aab7a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Installe les puits de journalisation et résout le niveau minimum.  <br /></td></tr>
+<tr class="memdesc:a96bd993236840537bb7357f87a3aab7a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Installe les puits de journalisation, résout le niveau minimum, puis l'écriture d'un minidump sous <span class="tt">Crashes/</span> en cas de plantage.  <br /></td></tr>
 <tr class="memitem:a96fb419a6918480c58eb69bfa2fdc7cd" id="r_a96fb419a6918480c58eb69bfa2fdc7cd"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a96fb419a6918480c58eb69bfa2fdc7cd">installQtTranslations</a> (std::string_view language)</td></tr>
 <tr class="memdesc:a96fb419a6918480c58eb69bfa2fdc7cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Installe le catalogue de traduction de <b>Qt lui-même</b> pour la langue de l'IHM.  <br /></td></tr>
 </table>
@@ -161,10 +161,11 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Installe les puits de journalisation et résout le niveau minimum. </p>
+<p>Installe les puits de journalisation, résout le niveau minimum, puis l'écriture d'un minidump sous <span class="tt">Crashes/</span> en cas de plantage. </p>
 <p>En développement : console et capture mémoire (exportable depuis les Options). Dans les deux configurations : fichier horodaté sous <span class="tt">Logs/</span>, vidé à chaque message — c'est ce qui reste lisible après un arrêt brutal, y compris en release où il n'y a ni console ni bouton d'export à atteindre après coup.</p>
 <p>Le niveau vient de <span class="tt">JADG_LOG_LEVEL</span> puis, prioritairement, de <span class="tt">--log-level=&lt;trace|info|warning|
 error&gt;</span>. Une valeur non reconnue est ignorée et signalée dans le journal, jamais fatale (<span class="tt">EX-NFR-040</span>).</p>
+<p><span class="tt">--crash-test</span> provoque ensuite un plantage volontaire : c'est ce que lance le test de fumée de la release pour prouver que l'archive livrée écrit son minidump (<span class="tt"><a class="el" href="namespacehmi.html#aabf51fbbdb0a8cdb119dc1c28fa88980" title="Installe l&#39;écriture d&#39;un minidump sur toute fin anormale du processus.">hmi::installCrashDumpWriter</a></span>).</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">argc</td><td>Nombre d'arguments de la ligne de commande. </td></tr>

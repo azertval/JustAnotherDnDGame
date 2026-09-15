@@ -178,6 +178,9 @@ var NAVTREEINDEX0 =
 "Core_8cpp.html":[15,0,3,2,13],
 "Core_8h.html":[15,0,3,2,14],
 "Core_8h_source.html":[15,0,3,2,14],
+"CrashDump_8cpp.html":[15,0,3,5,8,0],
+"CrashDump_8h.html":[15,0,3,5,8,1],
+"CrashDump_8h_source.html":[15,0,3,5,8,1],
 "CreditsCatalog_8cpp.html":[15,0,3,5,9,2],
 "CreditsCatalog_8h.html":[15,0,3,5,9,3],
 "CreditsCatalog_8h_source.html":[15,0,3,5,9,3],
@@ -246,8 +249,5 @@ var NAVTREEINDEX0 =
 "Encounter_8cpp.html":[15,0,3,2,0,20],
 "Encounter_8h.html":[15,0,3,2,0,21],
 "Encounter_8h_source.html":[15,0,3,2,0,21],
-"EnemyAi_8cpp.html":[15,0,3,2,0,22],
-"EnemyAi_8h.html":[15,0,3,2,0,23],
-"EnemyAi_8h_source.html":[15,0,3,2,0,23],
-"EntityManager_8cpp.html":[15,0,3,2,3,7]
+"EnemyAi_8cpp.html":[15,0,3,2,0,22]
 };
