@@ -49,6 +49,7 @@ add_executable(UnitTests
     Unit/Core/Combat/test_arena.cpp
     Unit/Core/Combat/test_enemy_ai.cpp
     Unit/Core/Combat/test_combat_preview.cpp
+    Unit/Core/Combat/test_iso_projection.cpp
     Unit/Core/Resources/test_asset_keys.cpp
     Unit/Core/Rpg/test_rpg_enums.cpp
     Unit/Core/Rpg/test_multiclassing.cpp
@@ -99,6 +100,8 @@ add_executable(UnitTests
     Unit/HMI/Graphics/test_background_fit.cpp
     Unit/HMI/Graphics/test_render_mode.cpp
     Unit/HMI/Graphics/test_skin_catalog.cpp
+    Unit/HMI/Graphics/test_arena_appearance_catalog.cpp
+    Unit/HMI/Graphics/test_arena_scene_composer.cpp
     Unit/HMI/Graphics/test_tile_autotile.cpp
     Unit/HMI/Graphics/test_tile_skin_resolution.cpp
     Unit/HMI/Graphics/test_texture_resolution.cpp
