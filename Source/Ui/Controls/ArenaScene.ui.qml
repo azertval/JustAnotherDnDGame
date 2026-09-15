@@ -25,6 +25,11 @@ Item {
     property int gridColumns: 0
     property int gridRows: 0
     property var cells: []
+    /// Le curseur de ciblage et le chemin jusqu'a lui (LOT-24), dans leur propre calque.
+    property bool showCursor: false
+    property int cursorColumn: 0
+    property int cursorRow: 0
+    property var pathCells: []
 
     signal cellTapped(int column, int row)
 
@@ -71,5 +76,31 @@ Item {
             hitPointsRatio: modelData.hitPointsRatio
             pointer.onClicked: root.cellTapped(modelData.column, modelData.row)
         }
+    }
+
+    // --- Le calque du ciblage (LOT-24) : le chemin, puis le curseur -----------------------------
+    // Au-dessus de toute la scene : c'est de l'interface, pas du decor. Place a la profondeur de
+    // sa case, le curseur etait coupe par le sol des cases dessinees devant lui.
+    Repeater {
+        model: root.pathCells
+
+        ArenaMark {
+            kind: "path"
+            x: root.originX + (modelData.column - modelData.row) * root.tileWidth / 2
+            y: root.originY + (modelData.column + modelData.row) * root.tileHeight / 2
+            z: root.diagonals + 1
+            width: root.tileWidth
+            height: root.tileHeight
+        }
+    }
+
+    ArenaMark {
+        kind: "cursor"
+        visible: root.showCursor
+        x: root.originX + (root.cursorColumn - root.cursorRow) * root.tileWidth / 2
+        y: root.originY + (root.cursorColumn + root.cursorRow) * root.tileHeight / 2
+        z: root.diagonals + 2
+        width: root.tileWidth
+        height: root.tileHeight
     }
 }

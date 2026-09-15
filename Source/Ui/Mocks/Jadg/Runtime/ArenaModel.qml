@@ -62,6 +62,19 @@ QtObject {
     readonly property var journal: [ "montage : 1 allies, 2 ennemis, 0 refus", "initiative Brenna #1 = 17",
                                      "round 1", "debut du tour Brenna #1" ]
 
+    readonly property int cursorColumn: 3
+    readonly property int cursorRow: 1
+    readonly property var pathCells: [ { column: 2, row: 1 }, { column: 3, row: 1 } ]
+    readonly property var turnActions: [
+        { label: "Epee longue", kind: "attack", enabled: true, selected: true },
+        { label: "Esquiver", kind: "dodge", enabled: true, selected: false },
+        { label: "Se desengager", kind: "disengage", enabled: true, selected: false },
+        { label: "Se precipiter", kind: "dash", enabled: true, selected: false },
+        { label: "Reaction : saisir les opportunites", kind: "reaction", enabled: true, selected: false }
+    ]
+    readonly property var preview: [ "Deplacement : 2 case(s), il en restera 2.",
+                                     "Attaque d'opportunite : Gobelin" ]
+
     signal changed()
 
     function addAlly(id) {}
@@ -75,6 +88,12 @@ QtObject {
     function dodge() {}
     function disengage() {}
     function dash() {}
+    function moveCursor(columns, rows) {}
+    function centerCursor() {}
+    function cycleTarget(step) {}
+    function selectAction(index) {}
+    function cycleAction(step) {}
+    function confirm() {}
     function withdraw() {}
     function replay() {}
     function backToSetup() {}

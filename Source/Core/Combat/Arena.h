@@ -308,6 +308,34 @@ public:
     /// @brief Le profil de comportement qui joue ce combattant, vide si c'est le joueur (`LOT-23`).
     [[nodiscard]] const std::string& behaviorOf(CombatantId combatant) const;
 
+    /**
+     * @brief Le joueur laisse passer, ou non, les attaques d'opportunité de ce combattant
+     *        (`LOT-24`).
+     *
+     * Le Manuel dit qu'une créature « peut » frapper le fuyard. Le choix se fait **avant** que
+     * l'ennemi ne bouge, comme on tient une réaction prête : suspendre le déplacement d'autrui au
+     * milieu de son chemin pour poser la question ferait d'un tour d'IA une suite de fenêtres.
+     * Il survit au rejeu, dont les identifiants sont les mêmes. Vrai par défaut.
+     */
+    void setTakesOpportunities(CombatantId combatant, bool takes);
+    [[nodiscard]] bool takesOpportunities(CombatantId combatant) const {
+        return !_declinesOpportunities.contains(combatant);
+    }
+
+    /**
+     * @brief Les créatures qui frapperaient le combattant actif s'il allait en @p destination,
+     *        chacune une fois, dans l'ordre où elles frapperaient — la prévisualisation du
+     *        déplacement. Même règle que `move`, politique et choix du joueur compris.
+     */
+    [[nodiscard]] std::vector<CombatantId> previewOpportunities(GridPosition destination) const;
+
+    /**
+     * @brief Les circonstances qu'ajoute la session à une attaque : l'esquive de la cible, la prise
+     *        en tenaille. Celles de la grille sont dans `core::attackCircumstances`.
+     */
+    [[nodiscard]] AttackCircumstances circumstancesAgainst(CombatantId attacker, CombatantId target,
+                                                           const AttackProfile& profile) const;
+
     /// @brief Qui décide des attaques d'opportunité. Sans politique, chacune est prise.
     void setOpportunityPolicy(OpportunityPolicy policy) {
         _opportunityPolicy = std::move(policy);
@@ -362,6 +390,11 @@ private:
     /// la prise en tenaille au corps à corps, si l'arène la joue.
     [[nodiscard]] AttackContext contextAgainst(CombatantId attacker, CombatantId target,
                                                const AttackProfile& profile) const;
+    /// Vrai si @p reactor frappe @p mover quand il passe de @p from à @p to : hostile, debout, la
+    /// réaction disponible, l'allonge quittée, le fuyard vu, et ni le joueur ni la politique ne
+    /// la déclinent.
+    [[nodiscard]] bool provokes(CombatantId mover, CombatantId reactor, GridPosition from,
+                                GridPosition to) const;
     /// La première attaque au corps à corps d'un combattant, ou `nullptr`.
     [[nodiscard]] const AttackProfile* meleeAttack(CombatantId combatant) const;
 
@@ -372,6 +405,7 @@ private:
     std::map<CombatantId, std::vector<AttackProfile>> _attacks;
     std::map<CombatantId, std::string> _behaviors;
     OpportunityPolicy _opportunityPolicy;
+    std::set<CombatantId> _declinesOpportunities;
     AttackHooks _attackHooks;
     DamagePipeline _damagePipeline;
     std::set<CombatantId> _dodging;

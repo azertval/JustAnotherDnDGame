@@ -61,6 +61,7 @@ set(JADG_UI_QML_FILES
     # Le Colisee (LOT-50, habillage du 14 septembre 2026) : la scene isometrique et sa case.
     Controls/ArenaScene.ui.qml
     Controls/ArenaTile.ui.qml
+    Controls/ArenaMark.ui.qml
     Screens/CharacterSheetForm.ui.qml
     Screens/InventoryForm.ui.qml
     Screens/JournalForm.ui.qml

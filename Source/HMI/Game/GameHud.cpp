@@ -7,23 +7,6 @@
 
 namespace hmi {
 
-namespace {
-
-// Remplace la premiere occurrence de "%1" par value (pas de dependance Qt : GameSession/GameHud
-// restent utilisables hors interface, meme discipline que le reste de Core/Game).
-std::string formatCount(const std::string& templateText, int value) {
-    const std::string placeholder = "%1";
-    const std::size_t position = templateText.find(placeholder);
-    if (position == std::string::npos) {
-        return templateText;
-    }
-    std::string result = templateText;
-    result.replace(position, placeholder.size(), std::to_string(value));
-    return result;
-}
-
-}  // namespace
-
 // Lignes a afficher pour l'affichage tete haute d'un pas de simulation donne (voir en-tete).
 std::vector<std::string> gameHudLines(const std::string& levelName,
                                       const Localization& localization, bool overlappingKey) {

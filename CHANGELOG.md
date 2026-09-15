@@ -6,6 +6,26 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **IHM de combat** (`LOT-24`, `EX-IHM-003`, `EX-CBT-020`). Le combat du Colisée se lit avant de se
+  jouer, et se joue sans souris.
+  - **Un curseur de ciblage** au clavier (flèches, Tab, Entrée, 1 à 9, Espace) et **à la manette**
+    (croix, X, A, LB / RB, Y) : le jeu Qt Quick lit enfin la manette (`hmi::GamepadNavigator`), la
+    croix se répète quand on la tient.
+  - **Une prévisualisation qui est le jet** (`core::previewAttack`, `core::previewMove`) : le chemin
+    tracé jusqu'au curseur et ce qu'il restera de déplacement, qui frappera en chemin ; ou l'attaque,
+    son jet requis et sa chance de toucher, la CA abri compris, chaque source d'avantage et de
+    désavantage. Un test compare la prévisualisation au jet jeté ensuite.
+  - **La barre d'actions** : les attaques, esquiver, se désengager, se précipiter, et la réaction —
+    le joueur choisit de **laisser passer** les attaques d'opportunité de son combattant.
+  - **Les PV des ennemis ne s'affichent plus** : « ensanglanté » sous la moitié, comme le *Guide du
+    Maître* le laisse voir, et comme l'IA le lit.
+  - Le curseur a son propre calque et son propre signal : le déplacer ne reconstruit plus la scène.
+  - L'écran du Colisée traduit en anglais, vues-modèles comprises ; un exécutable de test pour les
+    vues-modèles (`RuntimeTests`).
+  - Hors du lot, nommément : le combat sur la carte d'exploration et le HUD qui s'y superpose, que
+    le jeu Qt Quick n'a pas encore (repris au `LOT-27`), les gabarits de zone (avec les sorts), le
+    journal traduit (il vient du `Core`).
+
 - **IA tactique ennemie** (`LOT-23`, `EX-CBT-050`). Les ennemis du Colisée jouent seuls, par les
   règles du *Guide du Maître* (chapitre 8, « Le combat ») et les mêmes actions que le joueur.
   - **Ce que la table sait, et rien de plus** : l'état **ensanglanté** d'un adversaire sous la

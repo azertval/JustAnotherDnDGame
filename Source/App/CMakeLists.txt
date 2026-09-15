@@ -100,10 +100,11 @@ endforeach()
 # un repli honnete -- et le message dit pourquoi, plutot que de laisser chercher.
 find_package(Qt6 ${QT_VERSION_MINIMUM} QUIET COMPONENTS LinguistTools)
 if(Qt6LinguistTools_FOUND)
-    # Les textes à traduire vivent dans les DEUX modules : les formulaires (Jadg.Ui) et les jumeaux
-    # (Jadg.App). Un seul catalogue, extrait des deux cibles.
+    # Les textes à traduire vivent dans les formulaires (Jadg.Ui), les jumeaux (Jadg.App), et depuis
+    # le LOT-24 les vues-modèles (Jadg.Runtime), dont les `tr()` disent la prévisualisation de combat.
+    # Un seul catalogue, extrait des trois cibles.
     qt_add_translations(JustAnotherDnDGame
-        SOURCE_TARGETS JustAnotherDnDGame JadgUi
+        SOURCE_TARGETS JustAnotherDnDGame JadgUi JadgRuntime
         TS_FILES ${PROJECT_SOURCE_DIR}/Source/Elements/Localization/jadg_en.ts
         RESOURCE_PREFIX "/i18n"
     )

@@ -307,6 +307,7 @@ ArenaMount ArenaSession::mount(const ArenaBout& bout) {
     _combat = std::make_unique<CombatState>(BattleGrid(_level));
     _attacks.clear();
     _behaviors.clear();
+    // Les choix de reaction du joueur survivent au rejeu : les memes identifiants, le meme choix.
     _dodging.clear();
     _disengaged.clear();
     _journal.clear();
@@ -495,6 +496,69 @@ bool ArenaSession::disengage() {
     return true;
 }
 
+bool ArenaSession::provokes(CombatantId mover, CombatantId reactor, GridPosition from,
+                            GridPosition to) const {
+    const Combatant* mobile = _combat->find(mover);
+    const Combatant* c = _combat->find(reactor);
+    const AttackProfile* coup = meleeAttack(reactor);
+    if (mobile == nullptr || c == nullptr || coup == nullptr ||
+        c->profile.side == mobile->profile.side || c->status != CombatantStatus::Standing ||
+        c->economy.remaining(REACTION_RESOURCE) <= 0 || _declinesOpportunities.contains(reactor)) {
+        return false;
+    }
+    const std::optional<int> avant = gridDistanceFrom(*_combat, mover, from, reactor);
+    const std::optional<int> apres = gridDistanceFrom(*_combat, mover, to, reactor);
+    if (!avant.has_value() || !apres.has_value() || *avant > coup->reach || *apres <= coup->reach) {
+        return false;
+    }
+    // « Une creature hostile, situee dans votre champ de vision » : vue depuis la case qu'elle
+    // quitte.
+    const std::optional<GridPosition> ancre = _combat->grid().positionOf(reactor);
+    const bool voit =
+        ancre.has_value() &&
+        hasLineOfSight(_combat->grid(), {.anchor = from, .side = _combat->grid().sideOf(mover)},
+                       {.anchor = *ancre, .side = _combat->grid().sideOf(reactor)});
+    return voit && (!_opportunityPolicy || _opportunityPolicy(*this, reactor, mover));
+}
+
+std::vector<CombatantId> ArenaSession::previewOpportunities(GridPosition destination) const {
+    std::vector<CombatantId> opportunistes;
+    const std::optional<CombatantId> actif = _combat->activeCombatant();
+    const std::optional<ReachableArea> zone = _combat->reachableArea();
+    if (!actif.has_value() || !zone.has_value() || _disengaged.contains(*actif)) {
+        return opportunistes;
+    }
+    const std::optional<Path> chemin = zone->pathTo(destination);
+    if (!chemin.has_value()) {
+        return opportunistes;
+    }
+    std::vector<GridPosition> cases{zone->origin()};
+    cases.insert(cases.end(), chemin->steps.begin(), chemin->steps.end());
+    // Chacun ne frappe qu'une fois : sa reaction est depensee au premier coup.
+    for (std::size_t i = 0; i + 1 < cases.size(); ++i) {
+        for (const CombatantId autre : _combat->combatants()) {
+            if (std::ranges::find(opportunistes, autre) == opportunistes.end() &&
+                provokes(*actif, autre, cases[i], cases[i + 1])) {
+                opportunistes.push_back(autre);
+            }
+        }
+    }
+    return opportunistes;
+}
+
+void ArenaSession::setTakesOpportunities(CombatantId combatant, bool takes) {
+    if (takes) {
+        _declinesOpportunities.erase(combatant);
+    } else {
+        _declinesOpportunities.insert(combatant);
+    }
+}
+
+AttackCircumstances ArenaSession::circumstancesAgainst(CombatantId attacker, CombatantId target,
+                                                       const AttackProfile& profile) const {
+    return contextAgainst(attacker, target, profile).circumstances;
+}
+
 bool ArenaSession::dash() {
     const std::optional<CombatantId> actif = _combat->activeCombatant();
     if (!actif.has_value() || !_combat->spend(ACTION_RESOURCE)) {
@@ -543,35 +607,12 @@ MoveOutcome ArenaSession::move(GridPosition destination) {
         // Les cases successives de l'ancre, depart compris, et la premiere sortie d'allonge.
         std::vector<GridPosition> cases{zone->origin()};
         cases.insert(cases.end(), chemin->steps.begin(), chemin->steps.end());
-        const Combatant* mobile = _combat->find(*actif);
         std::optional<std::size_t> sortie;
         std::vector<CombatantId> opportunistes;
         if (!_disengaged.contains(*actif)) {
             for (std::size_t i = 0; i + 1 < cases.size() && !sortie.has_value(); ++i) {
                 for (const CombatantId autre : _combat->combatants()) {
-                    const Combatant* c = _combat->find(autre);
-                    const AttackProfile* coup = meleeAttack(autre);
-                    if (c == nullptr || coup == nullptr ||
-                        c->profile.side == mobile->profile.side ||
-                        c->status != CombatantStatus::Standing ||
-                        c->economy.remaining(REACTION_RESOURCE) <= 0) {
-                        continue;
-                    }
-                    const std::optional<int> avant =
-                        gridDistanceFrom(*_combat, *actif, cases[i], autre);
-                    const std::optional<int> apres =
-                        gridDistanceFrom(*_combat, *actif, cases[i + 1], autre);
-                    // « Une creature hostile, situee dans votre champ de vision » : vue depuis la
-                    // case qu'elle quitte.
-                    const std::optional<GridPosition> ancre = _combat->grid().positionOf(autre);
-                    const bool voit =
-                        ancre.has_value() &&
-                        hasLineOfSight(_combat->grid(),
-                                       {.anchor = cases[i], .side = _combat->grid().sideOf(*actif)},
-                                       {.anchor = *ancre, .side = _combat->grid().sideOf(autre)});
-                    if (avant.has_value() && apres.has_value() && *avant <= coup->reach &&
-                        *apres > coup->reach && voit &&
-                        (!_opportunityPolicy || _opportunityPolicy(*this, autre, *actif))) {
+                    if (provokes(*actif, autre, cases[i], cases[i + 1])) {
                         opportunistes.push_back(autre);
                     }
                 }

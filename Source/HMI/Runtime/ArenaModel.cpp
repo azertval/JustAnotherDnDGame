@@ -10,6 +10,7 @@
 #include <utility>
 
 #include "Core/Combat/BattleGrid.h"
+#include "Core/Combat/CombatPreview.h"
 #include "Core/Combat/EnemyAi.h"
 #include "Core/Levels/LevelLoader.h"
 #include "HMI/HmiLog.h"
@@ -58,6 +59,8 @@ constexpr const char* CHARACTER_PREFIX = "character:";
 }  // namespace
 
 ArenaModel::ArenaModel(QObject* parent) : QObject(parent), _catalogs(std::make_unique<Catalogs>()) {
+    // Ce qui change le combat change aussi ce que le curseur montre.
+    connect(this, &ArenaModel::changed, this, &ArenaModel::cursorChanged);
     loadCatalogs();
 }
 
@@ -153,6 +156,38 @@ void ArenaModel::playAiTurns() {
     if (ended()) {
         _status = toQt(_session->journal().back());
     }
+    followActive();
+}
+
+void ArenaModel::followActive() {
+    if (_session == nullptr || !_inCombat) {
+        _followed.reset();
+        return;
+    }
+    const std::optional<core::CombatantId> active = _session->combat().activeCombatant();
+    if (active == _followed) {
+        return;
+    }
+    _followed = active;
+    _selectedAction = 0;
+    if (active.has_value()) {
+        if (const std::optional<core::GridPosition> cell =
+                _session->combat().grid().positionOf(*active)) {
+            _cursor = *cell;
+        }
+    }
+}
+
+std::optional<core::CombatantId> ArenaModel::playerTurn() const {
+    if (_session == nullptr || !_inCombat || ended() ||
+        _session->combat().phase() != core::CombatPhase::TurnActive) {
+        return std::nullopt;
+    }
+    const std::optional<core::CombatantId> active = _session->combat().activeCombatant();
+    if (!active.has_value() || !_session->behaviorOf(*active).empty()) {
+        return std::nullopt;
+    }
+    return active;
 }
 
 // --- Lecture ----------------------------------------------------------------------------------
@@ -283,17 +318,26 @@ QVariantList ArenaModel::cells() const {
                               {"hitPointsRatio", 1.0}};
             if (const std::optional<core::CombatantId> id = grid.occupantAt(cell)) {
                 if (const core::Combatant* combatant = _session->combat().find(*id)) {
-                    entry["occupant"] = toQt(combatant->profile.name);
-                    entry["side"] = sideName(combatant->profile.side);
+                    const core::CombatantProfile& profile = combatant->profile;
+                    const bool down = combatant->status == core::CombatantStatus::Down;
+                    entry["occupant"] = toQt(profile.name);
+                    entry["side"] = sideName(profile.side);
                     entry["active"] = active == *id;
-                    entry["down"] = combatant->status == core::CombatantStatus::Down;
-                    entry["hitPoints"] = QString::number(combatant->profile.currentHitPoints) +
-                                         "/" + QString::number(combatant->profile.maximumHitPoints);
-                    // La jauge d'un ennemi (`ArenaCell`) lit une part, pas un texte.
-                    const int maximum = std::max(1, combatant->profile.maximumHitPoints);
-                    entry["hitPointsRatio"] = std::clamp(
-                        static_cast<double>(combatant->profile.currentHitPoints) / maximum, 0.0,
-                        1.0);
+                    entry["down"] = down;
+                    if (profile.side == core::CombatSide::Allies) {
+                        entry["hitPoints"] = QString::number(profile.currentHitPoints) + "/" +
+                                             QString::number(profile.maximumHitPoints);
+                        const int maximum = std::max(1, profile.maximumHitPoints);
+                        entry["hitPointsRatio"] = std::clamp(
+                            static_cast<double>(profile.currentHitPoints) / maximum, 0.0, 1.0);
+                    } else {
+                        // Guide du Maitre, chapitre 8 : les points de vie d'un monstre se suivent
+                        // en secret ; sous la moitie, il est ensanglante, et cela se voit.
+                        const bool bloodied = core::isBloodied(profile);
+                        entry["hitPoints"] =
+                            down ? tr("a terre") : (bloodied ? tr("ensanglante") : QString());
+                        entry["hitPointsRatio"] = down ? 0.0 : (bloodied ? 0.5 : 1.0);
+                    }
                 }
             }
             list << entry;
@@ -525,75 +569,409 @@ void ArenaModel::launch() {
     emit changed();
 }
 
+namespace {
+
+/// Une action du tour telle que l'écran la propose.
+enum class TurnActionKind { Attack, Dodge, Disengage, Dash, Reaction };
+
+struct TurnActionEntry {
+    TurnActionKind kind = TurnActionKind::Attack;
+    std::size_t attack = 0;
+    QString label;
+};
+
+/// Les actions du combattant @p active : ses attaques, puis les actions du Manuel, puis sa
+/// réaction.
+[[nodiscard]] std::vector<TurnActionEntry> turnActionsOf(const core::ArenaSession& session,
+                                                         core::CombatantId active) {
+    std::vector<TurnActionEntry> entries;
+    if (const std::vector<core::AttackProfile>* attacks = session.attacks(active)) {
+        for (std::size_t i = 0; i < attacks->size(); ++i) {
+            entries.push_back(
+                {.kind = TurnActionKind::Attack, .attack = i, .label = toQt((*attacks)[i].label)});
+        }
+    }
+    entries.push_back(
+        {.kind = TurnActionKind::Dodge, .attack = 0, .label = ArenaModel::tr("Esquiver")});
+    entries.push_back(
+        {.kind = TurnActionKind::Disengage, .attack = 0, .label = ArenaModel::tr("Se desengager")});
+    entries.push_back(
+        {.kind = TurnActionKind::Dash, .attack = 0, .label = ArenaModel::tr("Se precipiter")});
+    entries.push_back({.kind = TurnActionKind::Reaction,
+                       .attack = 0,
+                       .label = session.takesOpportunities(active)
+                                    ? ArenaModel::tr("Reaction : saisir les opportunites")
+                                    : ArenaModel::tr("Reaction : laisser passer")});
+    return entries;
+}
+
+[[nodiscard]] QString kindName(TurnActionKind kind) {
+    switch (kind) {
+        case TurnActionKind::Attack:
+            return QStringLiteral("attack");
+        case TurnActionKind::Dodge:
+            return QStringLiteral("dodge");
+        case TurnActionKind::Disengage:
+            return QStringLiteral("disengage");
+        case TurnActionKind::Dash:
+            return QStringLiteral("dash");
+        case TurnActionKind::Reaction:
+            return QStringLiteral("reaction");
+    }
+    return {};
+}
+
+[[nodiscard]] QStringList joined(const std::vector<std::string>& sources) {
+    QStringList list;
+    for (const std::string& source : sources) {
+        list << toQt(source);
+    }
+    return list;
+}
+
+}  // namespace
+
+QVariantList ArenaModel::pathCells() const {
+    QVariantList list;
+    if (!playerTurn().has_value() || _session->combat().grid().occupantAt(_cursor).has_value()) {
+        return list;
+    }
+    const std::optional<core::ReachableArea> area = _session->combat().reachableArea();
+    const std::optional<core::Path> path =
+        area.has_value() ? area->pathTo(_cursor) : std::optional<core::Path>{};
+    if (path.has_value()) {
+        for (const core::GridPosition cell : path->steps) {
+            list << QVariantMap{{"column", cell.column}, {"row", cell.row}};
+        }
+    }
+    return list;
+}
+
+QVariantList ArenaModel::turnActions() const {
+    QVariantList list;
+    const std::optional<core::CombatantId> active = playerTurn();
+    if (!active.has_value()) {
+        return list;
+    }
+    const core::Combatant* combatant = _session->combat().find(*active);
+    const bool action =
+        combatant != nullptr && combatant->economy.remaining(core::ACTION_RESOURCE) > 0;
+    const std::vector<TurnActionEntry> entries = turnActionsOf(*_session, *active);
+    for (std::size_t i = 0; i < entries.size(); ++i) {
+        const bool needsAction = entries[i].kind != TurnActionKind::Reaction;
+        list << QVariantMap{{"label", entries[i].label},
+                            {"kind", kindName(entries[i].kind)},
+                            {"enabled", !needsAction || action},
+                            {"selected", static_cast<int>(i) == _selectedAction}};
+    }
+    return list;
+}
+
+QStringList ArenaModel::preview() const {
+    QStringList lines;
+    const std::optional<core::CombatantId> active = playerTurn();
+    if (!active.has_value()) {
+        return lines;
+    }
+    const core::CombatState& combat = _session->combat();
+    const std::vector<TurnActionEntry> entries = turnActionsOf(*_session, *active);
+    const TurnActionEntry& chosen = entries[static_cast<std::size_t>(
+        std::clamp(_selectedAction, 0, static_cast<int>(entries.size()) - 1))];
+    switch (chosen.kind) {
+        case TurnActionKind::Dodge:
+            lines << tr(
+                "Esquiver : les attaques contre lui sont desavantagees jusqu'a son prochain "
+                "tour, s'il voit l'attaquant.");
+            return lines;
+        case TurnActionKind::Disengage:
+            lines << tr(
+                "Se desengager : ses deplacements ne provoquent plus d'attaque "
+                "d'opportunite ce tour-ci.");
+            return lines;
+        case TurnActionKind::Dash:
+            lines << tr("Se precipiter : un deplacement supplementaire egal a sa vitesse.");
+            return lines;
+        case TurnActionKind::Reaction:
+            lines << (_session->takesOpportunities(*active)
+                          ? tr("Il frappera l'ennemi qui quitte son allonge. Confirmer pour le "
+                               "laisser passer.")
+                          : tr("Il laissera passer l'ennemi qui quitte son allonge. Confirmer "
+                               "pour frapper."));
+            return lines;
+        case TurnActionKind::Attack:
+            break;
+    }
+
+    const std::optional<core::CombatantId> occupant = combat.grid().occupantAt(_cursor);
+    const core::Combatant* self = combat.find(*active);
+    const core::Combatant* other = occupant.has_value() ? combat.find(*occupant) : nullptr;
+    if (other != nullptr && self != nullptr && other->profile.side != self->profile.side) {
+        const std::optional<core::AttackPreview> attack =
+            core::previewAttack(*_session, *occupant, chosen.attack);
+        if (!attack.has_value()) {
+            return lines;
+        }
+        lines << toQt(attack->label) + QStringLiteral(" -> ") + toQt(other->profile.name) +
+                     (other->status == core::CombatantStatus::Down
+                          ? tr(" (a terre)")
+                          : (core::isBloodied(other->profile) ? tr(" (ensanglante)") : QString()));
+        switch (attack->check) {
+            case core::TargetCheck::Valid:
+                break;
+            case core::TargetCheck::OutOfReach:
+                lines << tr("Hors d'allonge ou de portee.");
+                return lines;
+            case core::TargetCheck::TotalCover:
+                lines << tr("Cible hors de vue : abri total.");
+                return lines;
+            case core::TargetCheck::NotOnGrid:
+                lines << tr("Cible invalide.");
+                return lines;
+        }
+        lines << tr("Jet requis %1 : %2 % de chances de toucher")
+                     .arg(attack->requiredRoll)
+                     .arg(attack->hitPercent());
+        lines << (attack->cover == core::Cover::None
+                      ? tr("CA %1").arg(attack->armorClass)
+                      : tr("CA %1, dont %2")
+                            .arg(attack->armorClass)
+                            .arg(toQt(std::string(core::coverLabel(attack->cover)))));
+        if (!attack->advantages.empty()) {
+            lines << tr("Avantage : %1").arg(joined(attack->advantages).join(QStringLiteral(", ")));
+        }
+        if (!attack->disadvantages.empty()) {
+            lines << tr("Desavantage : %1")
+                         .arg(joined(attack->disadvantages).join(QStringLiteral(", ")));
+        }
+        return lines;
+    }
+    if (other != nullptr) {
+        lines << toQt(other->profile.name);
+        return lines;
+    }
+    const core::MovePreview move = core::previewMove(*_session, _cursor);
+    if (!move.path.has_value()) {
+        lines << tr("Case hors d'atteinte ce tour-ci.");
+        return lines;
+    }
+    lines << tr("Deplacement : %1 case(s), il en restera %2.")
+                 .arg(move.path->cost)
+                 .arg(move.movementLeft);
+    if (!move.opportunities.empty()) {
+        QStringList names;
+        for (const core::CombatantId id : move.opportunities) {
+            names << toQt(combat.find(id)->profile.name);
+        }
+        lines << tr("Attaque d'opportunite : %1").arg(names.join(QStringLiteral(", ")));
+    }
+    return lines;
+}
+
+void ArenaModel::attackAt(core::CombatantId target, std::optional<std::size_t> index) {
+    // La premiere attaque qui peut viser la cible : l'epee au contact, l'arc a distance. Sans
+    // aucune, la premiere, pour que le refus dise pourquoi.
+    const std::size_t chosen =
+        index.has_value() ? *index : core::firstValidAttack(*_session, target).value_or(0);
+    const core::ArenaAttack attack = _session->attack(target, chosen);
+    switch (attack.result) {
+        case core::ArenaActionResult::Done:
+            // L'entree du journal elle-meme : chaque jet affiche se retrouve au journal.
+            _status = attack.outcome.has_value() ? toQt(attack.outcome->describe()) : QString();
+            break;
+        case core::ArenaActionResult::OutOfReach:
+            _status = tr("Hors d'allonge ou de portee.");
+            break;
+        case core::ArenaActionResult::TotalCover:
+            _status = tr("Cible hors de vue : abri total.");
+            break;
+        case core::ArenaActionResult::NoAction:
+            _status = tr("L'action de ce tour est deja depensee.");
+            break;
+        case core::ArenaActionResult::NoAttack:
+            _status = tr("Ce combattant n'a aucune attaque.");
+            break;
+        case core::ArenaActionResult::NoActiveTurn:
+        case core::ArenaActionResult::InvalidTarget:
+            _status = tr("Attaque refusee.");
+            break;
+    }
+}
+
+void ArenaModel::moveTo(core::GridPosition cell) {
+    const core::MoveOutcome move = _session->move(cell);
+    switch (move.result) {
+        case core::MoveResult::Moved:
+            _status = tr("Deplacement : %1 case(s).").arg(move.path.cost);
+            break;
+        case core::MoveResult::Unreachable:
+            _status = tr("Case hors de portee de ce qui reste du deplacement.");
+            break;
+        case core::MoveResult::NoActiveTurn:
+        case core::MoveResult::NotPlaced:
+            _status = tr("Aucun combattant a deplacer.");
+            break;
+    }
+    // Une attaque d'opportunite a pu terminer le combat.
+    if (ended()) {
+        _status = toQt(_session->journal().back());
+    }
+}
+
 void ArenaModel::tapCell(int column, int row) {
     if (_session == nullptr || !_inCombat || ended()) {
         return;
     }
     core::CombatState& combat = _session->combat();
-    const core::GridPosition cell{.column = column, .row = row};
     const std::optional<core::CombatantId> active = combat.activeCombatant();
     if (!active.has_value()) {
         return;
     }
-    if (const std::optional<core::CombatantId> target = combat.grid().occupantAt(cell)) {
+    _cursor = {.column = column, .row = row};
+    if (const std::optional<core::CombatantId> target = combat.grid().occupantAt(_cursor)) {
         const core::Combatant* attacker = combat.find(*active);
         const core::Combatant* defender = combat.find(*target);
         if (attacker != nullptr && defender != nullptr &&
             defender->profile.side != attacker->profile.side) {
-            // La premiere attaque qui peut viser la cible : l'epee au contact, l'arc a distance.
-            // Sans aucune, la premiere, pour que le refus dise pourquoi.
-            std::size_t index = 0;
-            if (const std::vector<core::AttackProfile>* profiles = _session->attacks(*active)) {
-                for (std::size_t i = 0; i < profiles->size(); ++i) {
-                    if (core::checkTarget(combat, *active, *target, (*profiles)[i]) ==
+            // L'attaque choisie dans la barre si elle peut viser la cible, sinon la premiere qui
+            // le peut : le clic ne refuse pas un tir que l'arc aurait reussi.
+            std::optional<std::size_t> index;
+            const std::vector<TurnActionEntry> entries = turnActionsOf(*_session, *active);
+            if (_selectedAction >= 0 && _selectedAction < static_cast<int>(entries.size())) {
+                const TurnActionEntry& chosen = entries[static_cast<std::size_t>(_selectedAction)];
+                if (chosen.kind == TurnActionKind::Attack &&
+                    core::checkTarget(combat, *active, *target,
+                                      (*_session->attacks(*active))[chosen.attack]) ==
                         core::TargetCheck::Valid) {
-                        index = i;
-                        break;
-                    }
+                    index = chosen.attack;
                 }
             }
-            const core::ArenaAttack attack = _session->attack(*target, index);
-            switch (attack.result) {
-                case core::ArenaActionResult::Done:
-                    _status =
-                        attack.outcome.has_value() ? toQt(attack.outcome->describe()) : QString();
-                    break;
-                case core::ArenaActionResult::OutOfReach:
-                    _status = QStringLiteral("Hors d'allonge ou de portee.");
-                    break;
-                case core::ArenaActionResult::TotalCover:
-                    _status = QStringLiteral("Cible hors de vue : abri total.");
-                    break;
-                case core::ArenaActionResult::NoAction:
-                    _status = QStringLiteral("L'action de ce tour est deja depensee.");
-                    break;
-                case core::ArenaActionResult::NoAttack:
-                    _status = QStringLiteral("Ce combattant n'a aucune attaque.");
-                    break;
-                case core::ArenaActionResult::NoActiveTurn:
-                case core::ArenaActionResult::InvalidTarget:
-                    _status = QStringLiteral("Attaque refusee.");
-                    break;
-            }
+            attackAt(*target, index);
             emit changed();
             return;
         }
     }
-    const core::MoveOutcome move = _session->move(cell);
-    switch (move.result) {
-        case core::MoveResult::Moved:
-            _status = QStringLiteral("Deplacement : ") + QString::number(move.path.cost) +
-                      QStringLiteral(" case(s).");
-            break;
-        case core::MoveResult::Unreachable:
-            _status = QStringLiteral("Case hors de portee de ce qui reste du deplacement.");
-            break;
-        case core::MoveResult::NoActiveTurn:
-        case core::MoveResult::NotPlaced:
-            _status = QStringLiteral("Aucun combattant a deplacer.");
-            break;
-    }
+    moveTo(_cursor);
     emit changed();
+}
+
+void ArenaModel::moveCursor(int columns, int rows) {
+    if (_session == nullptr || !_inCombat) {
+        return;
+    }
+    const core::BattleGrid& grid = _session->combat().grid();
+    _cursor = {.column = std::clamp(_cursor.column + columns, 0, grid.width() - 1),
+               .row = std::clamp(_cursor.row + rows, 0, grid.height() - 1)};
+    emit cursorChanged();
+}
+
+void ArenaModel::centerCursor() {
+    if (_session == nullptr || !_inCombat) {
+        return;
+    }
+    if (const std::optional<core::CombatantId> active = _session->combat().activeCombatant()) {
+        if (const std::optional<core::GridPosition> cell =
+                _session->combat().grid().positionOf(*active)) {
+            _cursor = *cell;
+        }
+    }
+    emit cursorChanged();
+}
+
+void ArenaModel::cycleTarget(int step) {
+    const std::optional<core::CombatantId> active = playerTurn();
+    if (!active.has_value() || step == 0) {
+        return;
+    }
+    const core::CombatState& combat = _session->combat();
+    const core::CombatSide side = combat.find(*active)->profile.side;
+    std::vector<std::pair<int, core::CombatantId>> targets;
+    for (const core::CombatantId id : combat.combatants()) {
+        const core::Combatant* c = combat.find(id);
+        const std::optional<int> distance = core::gridDistance(combat, *active, id);
+        if (c != nullptr && c->profile.side != side &&
+            c->status == core::CombatantStatus::Standing && distance.has_value()) {
+            targets.emplace_back(*distance, id);
+        }
+    }
+    if (targets.empty()) {
+        return;
+    }
+    std::ranges::sort(targets);
+    const std::optional<core::CombatantId> current = combat.grid().occupantAt(_cursor);
+    const auto found = std::ranges::find(
+        targets, current, [](const auto& t) { return std::optional<core::CombatantId>(t.second); });
+    const int count = static_cast<int>(targets.size());
+    int next = step > 0 ? 0 : count - 1;
+    if (found != targets.end()) {
+        next = ((static_cast<int>(found - targets.begin()) + step) % count + count) % count;
+    }
+    _cursor = *combat.grid().positionOf(targets[static_cast<std::size_t>(next)].second);
+    emit cursorChanged();
+}
+
+void ArenaModel::selectAction(int index) {
+    const std::optional<core::CombatantId> active = playerTurn();
+    if (!active.has_value()) {
+        return;
+    }
+    const int count = static_cast<int>(turnActionsOf(*_session, *active).size());
+    if (index < 0 || index >= count) {
+        return;
+    }
+    _selectedAction = index;
+    emit cursorChanged();
+}
+
+void ArenaModel::cycleAction(int step) {
+    const std::optional<core::CombatantId> active = playerTurn();
+    if (!active.has_value()) {
+        return;
+    }
+    const int count = static_cast<int>(turnActionsOf(*_session, *active).size());
+    _selectedAction = ((_selectedAction + step) % count + count) % count;
+    emit cursorChanged();
+}
+
+void ArenaModel::confirm() {
+    const std::optional<core::CombatantId> active = playerTurn();
+    if (!active.has_value()) {
+        return;
+    }
+    const std::vector<TurnActionEntry> entries = turnActionsOf(*_session, *active);
+    const TurnActionEntry chosen = entries[static_cast<std::size_t>(
+        std::clamp(_selectedAction, 0, static_cast<int>(entries.size()) - 1))];
+    switch (chosen.kind) {
+        case TurnActionKind::Attack: {
+            const core::CombatState& combat = _session->combat();
+            const std::optional<core::CombatantId> occupant = combat.grid().occupantAt(_cursor);
+            if (!occupant.has_value()) {
+                moveTo(_cursor);
+            } else if (combat.find(*occupant)->profile.side != combat.find(*active)->profile.side) {
+                attackAt(*occupant, chosen.attack);
+            } else {
+                _status = tr("Rien a faire sur cette case.");
+            }
+            emit changed();
+            return;
+        }
+        case TurnActionKind::Dodge:
+            dodge();
+            return;
+        case TurnActionKind::Disengage:
+            disengage();
+            return;
+        case TurnActionKind::Dash:
+            dash();
+            return;
+        case TurnActionKind::Reaction: {
+            const bool takes = !_session->takesOpportunities(*active);
+            _session->setTakesOpportunities(*active, takes);
+            _status = takes ? tr("Il frappera l'ennemi qui quitte son allonge.")
+                            : tr("Il laissera passer l'ennemi qui quitte son allonge.");
+            emit changed();
+            return;
+        }
+    }
 }
 
 void ArenaModel::dodge() {
