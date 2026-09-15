@@ -98,15 +98,31 @@ struct DumpJob {
 
 DWORD WINAPI writeDumpJob(LPVOID parameter) {
     auto* const job = static_cast<DumpJob*>(parameter);
-    // Piles, contexte, modules chargés et déchargés, et la mémoire que les piles désignent : de
-    // quoi lire les variables locales et un objet pointé, pour quelques Mio plutôt que tout le tas.
-    const auto type =
+    // D'abord le dump riche : piles, contexte, modules chargés et déchargés, et la mémoire que les
+    // piles désignent -- de quoi lire les variables locales et un objet pointé, pour quelques Mio.
+    // Ce balayage lit des pages qui peuvent disparaître entre la lecture et l'écriture
+    // (ERROR_INVALID_USER_BUFFER, vu sur le runner de CI et jamais sur le poste) : le second essai
+    // se passe de la mémoire référencée et garde le contexte de l'exception. Un dump réduit vaut
+    // mieux que pas de dump.
+    const std::array<MINIDUMP_TYPE, 2> attempts = {
         static_cast<MINIDUMP_TYPE>(MiniDumpWithIndirectlyReferencedMemory | MiniDumpScanMemory |
-                                   MiniDumpWithThreadInfo | MiniDumpWithUnloadedModules);
-    job->written =
-        MiniDumpWriteDump(GetCurrentProcess(), GetCurrentProcessId(), job->file, type,
-                          job->withException ? &job->exception : nullptr, nullptr, nullptr);
-    job->error = job->written != FALSE ? ERROR_SUCCESS : GetLastError();
+                                   MiniDumpWithThreadInfo | MiniDumpWithUnloadedModules),
+        static_cast<MINIDUMP_TYPE>(MiniDumpNormal | MiniDumpWithThreadInfo |
+                                   MiniDumpWithUnloadedModules),
+    };
+    for (const MINIDUMP_TYPE type : attempts) {
+        LARGE_INTEGER start{};
+        SetFilePointerEx(job->file, start, nullptr, FILE_BEGIN);
+        SetEndOfFile(job->file);
+        job->written =
+            MiniDumpWriteDump(GetCurrentProcess(), GetCurrentProcessId(), job->file, type,
+                              job->withException ? &job->exception : nullptr, nullptr, nullptr);
+        if (job->written != FALSE) {
+            job->error = ERROR_SUCCESS;
+            return 0;
+        }
+        job->error = GetLastError();
+    }
     return 0;
 }
 

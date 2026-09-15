@@ -10,6 +10,7 @@
  * le nom du fichier, et l'écriture d'un dump lisible, avec et sans contexte d'exception.
  */
 
+#include <cstdint>
 #include <cstdio>
 #include <ctime>
 #include <filesystem>
@@ -56,6 +57,30 @@ std::string signature(const std::filesystem::path& path) {
     std::string bytes(4, '\0');
     stream.read(bytes.data(), 4);
     return bytes;
+}
+
+/// @return `true` si le répertoire de flux du minidump contient un flux d'exception
+/// (`ExceptionStream`, type 6) : le dump porte bien le contexte du plantage.
+bool hasExceptionStream(const std::filesystem::path& path) {
+    std::ifstream stream(path, std::ios::binary);
+    const auto readUInt32 = [&stream]() {
+        unsigned char bytes[4] = {};
+        stream.read(reinterpret_cast<char*>(bytes), 4);
+        return static_cast<std::uint32_t>(bytes[0]) | (static_cast<std::uint32_t>(bytes[1]) << 8) |
+               (static_cast<std::uint32_t>(bytes[2]) << 16) |
+               (static_cast<std::uint32_t>(bytes[3]) << 24);
+    };
+    stream.seekg(8);  // signature, version
+    const std::uint32_t streams = readUInt32();
+    const std::uint32_t directory = readUInt32();
+    for (std::uint32_t index = 0; index < streams && stream; ++index) {
+        stream.seekg(static_cast<std::streamoff>(directory) +
+                     12 * static_cast<std::streamoff>(index));
+        if (readUInt32() == 6) {
+            return true;
+        }
+    }
+    return false;
 }
 
 /// Filtre SEH : écrit le dump avec le contexte de l'exception, puis la déclare traitée.
@@ -122,6 +147,7 @@ TEST_F(CrashDumpTest, EcritUnMinidumpSansExceptionEtCreeLeDossier) {
     ASSERT_TRUE(hmi::writeMiniDump(path, nullptr)) << "GetLastError = " << GetLastError();
     ASSERT_TRUE(std::filesystem::exists(path));
     EXPECT_EQ(signature(path), "MDMP");
+    EXPECT_FALSE(hasExceptionStream(path));
 }
 
 /**
@@ -131,7 +157,7 @@ TEST_F(CrashDumpTest, EcritUnMinidumpSansExceptionEtCreeLeDossier) {
  * \tcrit Critique<br/>
  * \tetapes 1. Lever une exception structurée, l'attraper dans un filtre SEH qui écrit le
  * dump.<br/>2. Lire la signature et la taille.<br/>
- * \tattendu Le dump est écrit (signature MDMP) et porte plus qu'un en-tête.
+ * \tattendu Le dump est écrit (signature MDMP) et porte un flux d'exception.
  * }
  */
 TEST_F(CrashDumpTest, EcritUnMinidumpAvecLeContexteDUneException) {
@@ -139,6 +165,7 @@ TEST_F(CrashDumpTest, EcritUnMinidumpAvecLeContexteDUneException) {
     ASSERT_TRUE(dumpFromStructuredException(&path)) << "GetLastError = " << GetLastError();
     EXPECT_EQ(signature(path), "MDMP");
     EXPECT_GT(std::filesystem::file_size(path), 1024U);
+    EXPECT_TRUE(hasExceptionStream(path));
 }
 
 /**

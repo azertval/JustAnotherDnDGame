@@ -46,7 +46,9 @@ inline constexpr unsigned long kFatalErrorExceptionCode = 0xE04A4447UL;
  *
  * Le dossier parent est créé au besoin. Sans @p exception, le dump porte l'état de tous les threads
  * au moment de l'appel, sans contexte d'exception. L'écriture a lieu sur un thread dédié, que
- * l'appelant attend ; en cas d'échec, `GetLastError()` en donne la raison.
+ * l'appelant attend. Si le dump riche (mémoire référencée par les piles) échoue, un dump réduit est
+ * tenté, qui garde piles et contexte ; en cas d'échec des deux, `GetLastError()` en donne la
+ * raison.
  *
  * @param path      Chemin du fichier `.dmp` à écrire (écrasé s'il existe).
  * @param exception Contexte de l'exception à consigner, ou `nullptr`.
