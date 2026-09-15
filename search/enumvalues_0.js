@@ -17,7 +17,7 @@ var searchData=
   ['arena_14',['Arena',['../classhmi_1_1ScreenRouter.html#a82f878c3ef3a0d8b924af7bbca4b37f7a6fa3f3daa9f9a6282d58c913b73b8dc4',1,'hmi::ScreenRouter::Arena'],['../namespacehmi.html#a168b24f798c2e6d06beb9472a071528da6fa3f3daa9f9a6282d58c913b73b8dc4',1,'hmi::Arena']]],
   ['assign_15',['Assign',['../namespacehmi.html#a76066d550faf628786294c82cd2d12a4a185b7133db22230701a857c059360cc2',1,'hmi']]],
   ['atlas_16',['Atlas',['../namespacehmi.html#a484fc821d307ce050da2a61ed1760a8daa6567816e007283cf9781c35b95dd56f',1,'hmi::Atlas'],['../namespacehmi.html#a0030e1768b551f6d1bc0a9fa566d2003aa6567816e007283cf9781c35b95dd56f',1,'hmi::Atlas'],['../namespacehmi.html#ac32d81972d12a0b2475fc009eefee225aa6567816e007283cf9781c35b95dd56f',1,'hmi::Atlas']]],
-  ['attack_17',['Attack',['../namespacecore.html#a004daf868d7dad4026ff9b7d3d75a11dadcfafcb4323b102c7e204555d313ba0a',1,'core']]],
+  ['attack_17',['Attack',['../namespacecore.html#a004daf868d7dad4026ff9b7d3d75a11dadcfafcb4323b102c7e204555d313ba0a',1,'core::Attack'],['../namespacehmi.html#ad5ace887c9d040dd9cd8b5649a5ab9b3adcfafcb4323b102c7e204555d313ba0a',1,'hmi::Attack']]],
   ['attackdeclared_18',['AttackDeclared',['../namespacecore.html#a942a0cabc5c97e0e10dfb8a148e26fb9a5a4f89385b5dfc0953b794f3df6378af',1,'core']]],
   ['autotilesheet_19',['AutotileSheet',['../namespacehmi.html#a0030e1768b551f6d1bc0a9fa566d2003a43d654bfc07197e5e982b9e03f64477f',1,'hmi']]],
   ['awaitingchoice_20',['AwaitingChoice',['../namespacecore.html#adbe3368bf4f687b1ab2120308d322c0aaf0ab72293be96072c5f5ad74dfd7f6b5',1,'core']]]

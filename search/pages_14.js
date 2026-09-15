@@ -40,7 +40,7 @@ var searchData=
   ['jouer_37',['Regarder l&apos;IA jouer',['../manuel-mode-ia.html',1,'manuel']]],
   ['jouer_20sans_20quitter_20l_20éditeur_38',['Essai immédiat : jouer sans quitter l&apos;éditeur',['../guide-editeur.html#autotoc_md124',1,'']]],
   ['joueur_39',['joueur',['../lot-13.html#autotoc_md480',1,'&lt;span class=&quot;tt&quot;&gt;CharacterSheet&lt;/span&gt; est un objet autonome, jamais un singleton joueur'],['../manuel-partager-niveau.html#autotoc_md902',1,'Choisir comment la caméra suit le joueur']]],
-  ['joueur_20ne_20s_20arrête_20que_20sur_20une_20réplique_40',['Le joueur ne s&apos;arrête que sur une réplique',['../classcore_1_1DialogueRunner.html#autotoc_md949',1,'']]],
+  ['joueur_20ne_20s_20arrête_20que_20sur_20une_20réplique_40',['Le joueur ne s&apos;arrête que sur une réplique',['../classcore_1_1DialogueRunner.html#autotoc_md951',1,'']]],
   ['joueur_20voit_41',['joueur voit',['../lot-67.html#autotoc_md683',1,'Ce que le joueur voit'],['../lot-68.html#autotoc_md691',1,'Ce que le joueur voit']]],
   ['joueurs_20est_20un_20scan_20et_20sa_20graisse_20ment_42',['Le &lt;em&gt;Manuel des Joueurs&lt;/em&gt; est un scan, et sa graisse ment',['../lot-36.html#autotoc_md612',1,'']]],
   ['jour_43',['jour',['../lot-33.html#autotoc_md595',1,'Cinq défauts du lexique que les 94 noms ont mis au jour'],['../lot-43.html#autotoc_md654',1,'Trois défauts du corpus que ce lot a mis au jour']]],
@@ -53,7 +53,7 @@ var searchData=
   ['jours_50',['9.6 Second audit, 14 septembre 2026 : ce qui avait dérivé en dix jours',['../roadmap.html#autotoc_md823',1,'']]],
   ['json_51',['Chargement JSON',['../guide-niveaux.html#autotoc_md181',1,'']]],
   ['json_20liste_20de_20tuiles_20objets_52',['Format retenu (JSON, liste de tuiles-objets)',['../spec-niveaux.html#autotoc_md372',1,'']]],
-  ['jumeau_20qt_20quick_20de_20qrhiwidget_53',['Le jumeau Qt Quick de &lt;span class=&quot;tt&quot;&gt;QRhiWidget&lt;/span&gt;',['../classhmi_1_1GameViewportItem.html#autotoc_md971',1,'']]],
+  ['jumeau_20qt_20quick_20de_20qrhiwidget_53',['Le jumeau Qt Quick de &lt;span class=&quot;tt&quot;&gt;QRhiWidget&lt;/span&gt;',['../classhmi_1_1GameViewportItem.html#autotoc_md986',1,'']]],
   ['jump_20et_20wall_20slide_54',['6. Wall jump et wall slide',['../guide-physique.html#autotoc_md211',1,'']]],
   ['jusqu_20au_20vertical_20slice_55',['Le chemin critique jusqu&apos;au &lt;em&gt;vertical slice&lt;/em&gt;',['../roadmap.html#autotoc_md806',1,'']]],
   ['justanotherdndgame_56',['JustAnotherDnDGame',['../index.html',1,'']]]

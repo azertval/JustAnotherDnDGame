@@ -26,6 +26,8 @@ var dir_bc520fdc8f4eadff60f94f8b29441948 =
     [ "EnemyAi.h", "EnemyAi_8h.html", "EnemyAi_8h" ],
     [ "Flanking.cpp", "Flanking_8cpp.html", "Flanking_8cpp" ],
     [ "Flanking.h", "Flanking_8h.html", "Flanking_8h" ],
+    [ "IsoProjection.cpp", "IsoProjection_8cpp.html", null ],
+    [ "IsoProjection.h", "IsoProjection_8h.html", "IsoProjection_8h" ],
     [ "LineOfSight.cpp", "LineOfSight_8cpp.html", "LineOfSight_8cpp" ],
     [ "LineOfSight.h", "LineOfSight_8h.html", "LineOfSight_8h" ],
     [ "Pathfinding.cpp", "Pathfinding_8cpp.html", "Pathfinding_8cpp" ],

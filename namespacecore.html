@@ -216,6 +216,8 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les profils, les règles d'attribution dans l'ordre, et ce qui n'a pas pu être lu.  <a href="structcore_1_1BehaviorCatalog.html#details">More...</a><br /></td></tr>
 <tr class="memitem:TurnPlan" id="r_TurnPlan"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1TurnPlan.html">TurnPlan</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un tour décidé : où aller, puis quoi faire.  <a href="structcore_1_1TurnPlan.html#details">More...</a><br /></td></tr>
+<tr class="memitem:IsoProjection" id="r_IsoProjection"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classcore_1_1IsoProjection.html">IsoProjection</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">La projection isométrique d'une grille de combat de <span class="tt"><a class="el" href="classcore_1_1IsoProjection.html#a7071db9aa9e11df307d86bb82e1d0d64">columns</a></span> × <span class="tt"><a class="el" href="classcore_1_1IsoProjection.html#aa92e712a6807b3add7963853af2a4c87">rows</a></span> cases.  <a href="classcore_1_1IsoProjection.html#details">More...</a><br /></td></tr>
 <tr class="memitem:GridPoint" id="r_GridPoint"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1GridPoint.html">GridPoint</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un point de la grille, en <b>demi-cases</b> : la case (c, r) va de (2c, 2r) à (2c+2, 2r+2).  <a href="structcore_1_1GridPoint.html#details">More...</a><br /></td></tr>
 <tr class="memitem:Footprint" id="r_Footprint"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1Footprint.html">Footprint</a></td></tr>
@@ -1363,6 +1365,16 @@ Variables</h2></td></tr>
 <tr class="memdesc:a5979311d6479176f341e393e4cdbe72a"><td class="mdescLeft">&#160;</td><td class="mdescRight">La source des points de vie temporaires du Manuel : ils ne se cumulent pas.  <br /></td></tr>
 <tr class="memitem:afcdc54b3ea46877a04d40a7840bffe57" id="r_afcdc54b3ea46877a04d40a7840bffe57"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#afcdc54b3ea46877a04d40a7840bffe57">CHANCE_SCALE</a> = 400</td></tr>
 <tr class="memdesc:afcdc54b3ea46877a04d40a7840bffe57"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une chance, en <b>quatre-centièmes</b> : 400 est la certitude.  <br /></td></tr>
+<tr class="memitem:af799f9a001af9c8b79f0bcba667414f9" id="r_af799f9a001af9c8b79f0bcba667414f9"><td class="memItemLeft">constexpr float&#160;</td><td class="memItemRight"><a class="el" href="#af799f9a001af9c8b79f0bcba667414f9">ARENA_DIAMOND_RATIO</a> = 0.62f</td></tr>
+<tr class="memdesc:af799f9a001af9c8b79f0bcba667414f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rapport hauteur / largeur du losange : celui des tuiles de la planche du Colisée.  <br /></td></tr>
+<tr class="memitem:a0809421c57413530edb434f979be6c91" id="r_a0809421c57413530edb434f979be6c91"><td class="memItemLeft">constexpr float&#160;</td><td class="memItemRight"><a class="el" href="#a0809421c57413530edb434f979be6c91">ARENA_WALL_RISE</a> = 0.85f</td></tr>
+<tr class="memdesc:a0809421c57413530edb434f979be6c91"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hauteur réservée aux murs au-dessus du losange du fond, en largeurs de losange.  <br /></td></tr>
+<tr class="memitem:a22d5d53f02f772ded5473ac549669522" id="r_a22d5d53f02f772ded5473ac549669522"><td class="memItemLeft">constexpr float&#160;</td><td class="memItemRight"><a class="el" href="#a22d5d53f02f772ded5473ac549669522">ARENA_SHEET_TILE_WIDTH_PIXELS</a> = 86.0f</td></tr>
+<tr class="memdesc:a22d5d53f02f772ded5473ac549669522"><td class="mdescLeft">&#160;</td><td class="mdescRight">Largeur, en pixels, d'une tuile de la planche du Colisée (<span class="tt">ArenaTile.ui.qml</span>).  <br /></td></tr>
+<tr class="memitem:a1a4c329aaeb417effaeae4ebc3e4044c" id="r_a1a4c329aaeb417effaeae4ebc3e4044c"><td class="memItemLeft">constexpr float&#160;</td><td class="memItemRight"><a class="el" href="#a1a4c329aaeb417effaeae4ebc3e4044c">ARENA_PIXELS_PER_UNIT</a> = 16.0f</td></tr>
+<tr class="memdesc:a1a4c329aaeb417effaeae4ebc3e4044c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pixels par unité monde (<span class="tt">EX-ARCH-021</span>, <span class="tt"><a class="el" href="classhmi_1_1Camera2D.html#a3d1d52a7653c7a3dca5eb2e5a5990f88" title="Nombre de pixels par unité monde (EX-ARCH-021).">hmi::Camera2D::PIXELS_PER_UNIT</a></span>), recopié ici parce que <span class="tt">Core</span> ne voit pas <span class="tt">HMI</span>.  <br /></td></tr>
+<tr class="memitem:a9bbed90b2580e314ee6fb37cca5eee7d" id="r_a9bbed90b2580e314ee6fb37cca5eee7d"><td class="memItemLeft">constexpr float&#160;</td><td class="memItemRight"><a class="el" href="#a9bbed90b2580e314ee6fb37cca5eee7d">ARENA_TILE_WIDTH_UNITS</a></td></tr>
+<tr class="memdesc:a9bbed90b2580e314ee6fb37cca5eee7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Largeur par défaut du losange, en unités monde : au zoom 1, une tuile de la planche s'affiche à sa taille native.  <br /></td></tr>
 <tr class="memitem:a2a9202a1a89eacaec610bdc83b0ff272" id="r_a2a9202a1a89eacaec610bdc83b0ff272"><td class="memItemLeft">constexpr <a class="el" href="structcore_1_1Entity.html">Entity</a>&#160;</td><td class="memItemRight"><a class="el" href="#a2a9202a1a89eacaec610bdc83b0ff272">INVALID_ENTITY</a> {<a class="el" href="structcore_1_1Entity.html#a215ee621f52074b73615e4c567820e38">Entity::INVALID_INDEX</a>, 0}</td></tr>
 <tr class="memdesc:a2a9202a1a89eacaec610bdc83b0ff272"><td class="mdescLeft">&#160;</td><td class="mdescRight">Entité invalide conventionnelle : ne désigne jamais une entité vivante.  <br /></td></tr>
 <tr class="memitem:a2b3cb5d42063608aa724d3b47aab0a6e" id="r_a2b3cb5d42063608aa724d3b47aab0a6e"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#a2b3cb5d42063608aa724d3b47aab0a6e">PLAYER_CLIP_IDLE</a> = 0</td></tr>
@@ -3418,7 +3430,7 @@ L'altitude est un attribut, jamais une géométrie</h2>
 </div><div class="memdoc">
 
 <p>Vrai si <code class="param">first</code> joue avant <code class="param">second</code>. </p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md944"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md946"></a>
 La règle de départage</h2>
 <p>Manuel des Joueurs, « Initiative » (PDF p. 191) : les combattants se classent du plus haut résultat au plus bas, et « en cas d'égalité », c'est le MD qui tranche entre ses créatures, les joueurs entre leurs personnages, et le MD encore entre un monstre et un personnage. Le jeu n'a pas de MD : la règle doit être <b>écrite</b>, et elle ne peut pas dépendre de l'ordre dans lequel les combattants ont été rangés en mémoire (<span class="tt">EX-CBT-010</span>). Dans l'ordre :</p>
 <ol type="1">
@@ -3966,10 +3978,10 @@ La règle de départage</h2>
 </div><div class="memdoc">
 
 <p>Peint le marqueur d'une clé d'asset. </p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md946"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md948"></a>
 Pourquoi un marqueur plutôt qu'une image manquante</h2>
 <p><span class="tt">EX-CNT-041</span> : le jeu doit tourner <b>complet</b> avant qu'aucune illustration ne soit produite. Sans marqueur, trois cents entrées s'afficheraient comme des trous, la production graphique deviendrait un préalable bloquant, et rien ne pourrait être joué ni relu avant elle. Avec, elle devient un <b>remplacement progressif</b> : on remplace un marqueur par une image, une à la fois, et le jeu ne cesse jamais d'être jouable.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md947"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md949"></a>
 Déterministe, et c'est le point</h2>
 <p>La même clé donne <b>toujours</b> le même marqueur — même teinte, même figure. Un marqueur tiré au hasard changerait à chaque lancement : le loup ne serait plus reconnaissable d'une partie à l'autre, deux captures d'écran du même combat différeraient, et un test ne pourrait rien en dire. La teinte est donc dérivée de la clé elle-même, par un hachage stable écrit ici plutôt qu'emprunté à <span class="tt">std::hash</span>, dont la valeur n'est <b>pas</b> garantie d'une plateforme ou d'une version de bibliothèque à l'autre.</p>
 <p>Le marqueur reste <b>manifestement</b> un marqueur : deux diagonales barrent la vignette, de sorte qu'on ne le prenne jamais pour une illustration définitive livrée un peu vite.</p>
@@ -10063,6 +10075,30 @@ Déterministe, et c'est le point</h2>
 
 </div>
 </div>
+<a id="af799f9a001af9c8b79f0bcba667414f9" name="af799f9a001af9c8b79f0bcba667414f9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af799f9a001af9c8b79f0bcba667414f9">&#9670;&#160;</a></span>ARENA_DIAMOND_RATIO</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float core::ARENA_DIAMOND_RATIO = 0.62f</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Rapport hauteur / largeur du losange : celui des tuiles de la planche du Colisée. </p>
+
+</div>
+</div>
 <a id="a93cf3e3bbcfd17745d5f4084773b1a4a" name="a93cf3e3bbcfd17745d5f4084773b1a4a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a93cf3e3bbcfd17745d5f4084773b1a4a">&#9670;&#160;</a></span>ARENA_ENTRY_ENTITY_TYPE</h2>
 
@@ -10084,6 +10120,30 @@ Déterministe, et c'est le point</h2>
 </div><div class="memdoc">
 
 <p>Type d'entité de carte qui marque un point d'entrée de l'arène (<span class="tt">Source/Elements/Levels/</span>). </p>
+
+</div>
+</div>
+<a id="a1a4c329aaeb417effaeae4ebc3e4044c" name="a1a4c329aaeb417effaeae4ebc3e4044c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1a4c329aaeb417effaeae4ebc3e4044c">&#9670;&#160;</a></span>ARENA_PIXELS_PER_UNIT</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float core::ARENA_PIXELS_PER_UNIT = 16.0f</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Pixels par unité monde (<span class="tt">EX-ARCH-021</span>, <span class="tt"><a class="el" href="classhmi_1_1Camera2D.html#a3d1d52a7653c7a3dca5eb2e5a5990f88" title="Nombre de pixels par unité monde (EX-ARCH-021).">hmi::Camera2D::PIXELS_PER_UNIT</a></span>), recopié ici parce que <span class="tt">Core</span> ne voit pas <span class="tt">HMI</span>. </p>
 
 </div>
 </div>
@@ -10112,6 +10172,30 @@ Déterministe, et c'est le point</h2>
 
 </div>
 </div>
+<a id="a22d5d53f02f772ded5473ac549669522" name="a22d5d53f02f772ded5473ac549669522"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a22d5d53f02f772ded5473ac549669522">&#9670;&#160;</a></span>ARENA_SHEET_TILE_WIDTH_PIXELS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float core::ARENA_SHEET_TILE_WIDTH_PIXELS = 86.0f</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Largeur, en pixels, d'une tuile de la planche du Colisée (<span class="tt">ArenaTile.ui.qml</span>). </p>
+
+</div>
+</div>
 <a id="ad0cadfeea4d0cb712df6feb11ff12b9d" name="ad0cadfeea4d0cb712df6feb11ff12b9d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad0cadfeea4d0cb712df6feb11ff12b9d">&#9670;&#160;</a></span>ARENA_SIDE_PROPERTY</h2>
 
@@ -10133,6 +10217,58 @@ Déterministe, et c'est le point</h2>
 </div><div class="memdoc">
 
 <p>Propriété d'un point d'entrée : le camp qu'il accueille, <span class="tt">"allies"</span> ou <span class="tt">"enemies"</span>. </p>
+
+</div>
+</div>
+<a id="a9bbed90b2580e314ee6fb37cca5eee7d" name="a9bbed90b2580e314ee6fb37cca5eee7d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9bbed90b2580e314ee6fb37cca5eee7d">&#9670;&#160;</a></span>ARENA_TILE_WIDTH_UNITS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float core::ARENA_TILE_WIDTH_UNITS</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">                                          =</div>
+<div class="line"><a class="code hl_variable" href="#a22d5d53f02f772ded5473ac549669522">ARENA_SHEET_TILE_WIDTH_PIXELS</a> / <a class="code hl_variable" href="#a1a4c329aaeb417effaeae4ebc3e4044c">ARENA_PIXELS_PER_UNIT</a></div>
+<div class="ttc" id="anamespacecore_html_a1a4c329aaeb417effaeae4ebc3e4044c"><div class="ttname"><a href="#a1a4c329aaeb417effaeae4ebc3e4044c">core::ARENA_PIXELS_PER_UNIT</a></div><div class="ttdeci">constexpr float ARENA_PIXELS_PER_UNIT</div><div class="ttdoc">Pixels par unité monde (EX-ARCH-021, hmi::Camera2D::PIXELS_PER_UNIT), recopié ici parce que Core ne v...</div><div class="ttdef"><b>Definition</b> IsoProjection.h:59</div></div>
+<div class="ttc" id="anamespacecore_html_a22d5d53f02f772ded5473ac549669522"><div class="ttname"><a href="#a22d5d53f02f772ded5473ac549669522">core::ARENA_SHEET_TILE_WIDTH_PIXELS</a></div><div class="ttdeci">constexpr float ARENA_SHEET_TILE_WIDTH_PIXELS</div><div class="ttdoc">Largeur, en pixels, d&#39;une tuile de la planche du Colisée (ArenaTile.ui.qml).</div><div class="ttdef"><b>Definition</b> IsoProjection.h:55</div></div>
+</div><!-- fragment -->
+<p>Largeur par défaut du losange, en unités monde : au zoom 1, une tuile de la planche s'affiche à sa taille native. </p>
+
+</div>
+</div>
+<a id="a0809421c57413530edb434f979be6c91" name="a0809421c57413530edb434f979be6c91"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0809421c57413530edb434f979be6c91">&#9670;&#160;</a></span>ARENA_WALL_RISE</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float core::ARENA_WALL_RISE = 0.85f</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Hauteur réservée aux murs au-dessus du losange du fond, en largeurs de losange. </p>
 
 </div>
 </div>

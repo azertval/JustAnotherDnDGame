@@ -219,6 +219,36 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Résultat d'une lecture de description : soit une <span class="tt"><a class="el" href="structhmi_1_1AnimationDescription.html" title="Description d&#39;animation d&#39;un asset : disposition de sa spritesheet et ses clips.">AnimationDescription</a></span>, soit une <b>erreur</b> décrite.  <a href="structhmi_1_1AnimationDescriptionResult.html#details">More...</a><br /></td></tr>
 <tr class="memitem:AnimationCatalog" id="r_AnimationCatalog"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1AnimationCatalog.html">AnimationCatalog</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lecture, validation et traduction en région de texture du format <span class="tt">nom-asset.anim.json</span>.  <a href="classhmi_1_1AnimationCatalog.html#details">More...</a><br /></td></tr>
+<tr class="memitem:ArenaFigureAnimationSet" id="r_ArenaFigureAnimationSet"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1ArenaFigureAnimationSet.html">ArenaFigureAnimationSet</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le jeu de clips d'UNE figurine, un par action existante sur sa planche.  <a href="structhmi_1_1ArenaFigureAnimationSet.html#details">More...</a><br /></td></tr>
+<tr class="memitem:ArenaFigureAnimationLoad" id="r_ArenaFigureAnimationLoad"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1ArenaFigureAnimationLoad.html">ArenaFigureAnimationLoad</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Résultat de la lecture des <span class="tt">.anim.json</span> d'un dossier de planche.  <a href="structhmi_1_1ArenaFigureAnimationLoad.html#details">More...</a><br /></td></tr>
+<tr class="memitem:ArenaCombatantAnimation" id="r_ArenaCombatantAnimation"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1ArenaCombatantAnimation.html">ArenaCombatantAnimation</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">L'état d'animation d'UN combattant : son action, le clip qui la joue, l'image et le temps écoulé depuis le début de cette image.  <a href="structhmi_1_1ArenaCombatantAnimation.html#details">More...</a><br /></td></tr>
+<tr class="memitem:ArenaAnimationDriver" id="r_ArenaAnimationDriver"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1ArenaAnimationDriver.html">ArenaAnimationDriver</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pilote l'animation des figurines du Colisée, par combattant, au temps réel du rendu.  <a href="classhmi_1_1ArenaAnimationDriver.html#details">More...</a><br /></td></tr>
+<tr class="memitem:ArenaFigureAnimation" id="r_ArenaFigureAnimation"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1ArenaFigureAnimation.html">ArenaFigureAnimation</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">L'animation d'une figurine : l'indice de l'image courante dans sa bande.  <a href="structhmi_1_1ArenaFigureAnimation.html#details">More...</a><br /></td></tr>
+<tr class="memitem:ArenaAnimationState" id="r_ArenaAnimationState"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1ArenaAnimationState.html">ArenaAnimationState</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">L'état d'animation des figurines, par combattant.  <a href="structhmi_1_1ArenaAnimationState.html#details">More...</a><br /></td></tr>
+<tr class="memitem:ArenaTileAppearance" id="r_ArenaTileAppearance"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1ArenaTileAppearance.html">ArenaTileAppearance</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ce qu'une case porte, dérivé de sa seule position dans la grille de combat.  <a href="structhmi_1_1ArenaTileAppearance.html#details">More...</a><br /></td></tr>
+<tr class="memitem:FigureAppearance" id="r_FigureAppearance"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1FigureAppearance.html">FigureAppearance</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">La figurine d'un combattant : le dossier de la planche, et son nombre d'images.  <a href="structhmi_1_1FigureAppearance.html#details">More...</a><br /></td></tr>
+<tr class="memitem:ArenaAppearanceCatalog" id="r_ArenaAppearanceCatalog"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1ArenaAppearanceCatalog.html">ArenaAppearanceCatalog</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Catalogue d'apparence du Colisée : figurines par côté, dalles de sol, chargé depuis <span class="tt">Source/Elements/Assets/Coliseum/manifest.json</span> (<span class="tt"><a class="el" href="classhmi_1_1ArenaAppearanceCatalog.html#aac0e01f4a75f827056fcde0486e94970">heroes</a></span>, <span class="tt"><a class="el" href="classhmi_1_1ArenaAppearanceCatalog.html#a5a65215a2c570bee2905e867fe6e565f">gladiators</a></span>, <span class="tt"><a class="el" href="classhmi_1_1ArenaAppearanceCatalog.html#acb7e8c905b598bab04a1c65e0b1c0e21">heroFrames</a></span>, <span class="tt"><a class="el" href="classhmi_1_1ArenaAppearanceCatalog.html#a4b484538e997620e36be580223a9d94f">enemyFrames</a></span>, <span class="tt"><a class="el" href="classhmi_1_1ArenaAppearanceCatalog.html#aa37d1c44745446f26980ee570d84f526">paleSlabs</a></span>).  <a href="classhmi_1_1ArenaAppearanceCatalog.html#details">More...</a><br /></td></tr>
+<tr class="memitem:ArenaAppearanceCatalogResult" id="r_ArenaAppearanceCatalogResult"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1ArenaAppearanceCatalogResult.html">ArenaAppearanceCatalogResult</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Résultat d'une lecture de catalogue : soit un <span class="tt"><a class="el" href="classhmi_1_1ArenaAppearanceCatalog.html" title="Catalogue d&#39;apparence du Colisée : figurines par côté, dalles de sol, chargé depuis Source/Elements/A...">ArenaAppearanceCatalog</a></span>, soit une erreur.  <a href="structhmi_1_1ArenaAppearanceCatalogResult.html#details">More...</a><br /></td></tr>
+<tr class="memitem:ArenaTexture" id="r_ArenaTexture"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1ArenaTexture.html">ArenaTexture</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une texture liable et ses dimensions en pixels (pour normaliser les UV).  <a href="structhmi_1_1ArenaTexture.html#details">More...</a><br /></td></tr>
+<tr class="memitem:ArenaSceneTextures" id="r_ArenaSceneTextures"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1ArenaSceneTextures.html">ArenaSceneTextures</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les textures du Colisée, adressées par leur chemin sous <span class="tt">Source/Elements/Assets/Coliseum/</span> (<span class="tt">"terrain/sand.png"</span>, <span class="tt">"characters/bram/idle.png"</span>).  <a href="structhmi_1_1ArenaSceneTextures.html#details">More...</a><br /></td></tr>
+<tr class="memitem:ArenaFigureSnapshot" id="r_ArenaFigureSnapshot"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1ArenaFigureSnapshot.html">ArenaFigureSnapshot</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ce qu'une figurine dessine d'un combattant, copié de la session.  <a href="structhmi_1_1ArenaFigureSnapshot.html#details">More...</a><br /></td></tr>
+<tr class="memitem:ArenaSceneSnapshot" id="r_ArenaSceneSnapshot"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1ArenaSceneSnapshot.html">ArenaSceneSnapshot</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">La scène de combat <b>en valeurs</b> : ce que la composition lit, et rien d'autre.  <a href="structhmi_1_1ArenaSceneSnapshot.html#details">More...</a><br /></td></tr>
+<tr class="memitem:ArenaSceneRenderer" id="r_ArenaSceneRenderer"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1ArenaSceneRenderer.html">ArenaSceneRenderer</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ce qui dessine le Colisée : ressources GPU, textures de la planche, animation des figurines, et la passe qui soumet la scène composée.  <a href="classhmi_1_1ArenaSceneRenderer.html#details">More...</a><br /></td></tr>
 <tr class="memitem:AssetDimensionContract" id="r_AssetDimensionContract"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1AssetDimensionContract.html">AssetDimensionContract</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dimensions attendues d'une famille d'assets.  <a href="structhmi_1_1AssetDimensionContract.html#details">More...</a><br /></td></tr>
 <tr class="memitem:AssetValidation" id="r_AssetValidation"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1AssetValidation.html">AssetValidation</a></td></tr>
@@ -416,6 +446,8 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une région telle que la carte la montre : son repère et sa fiche.  <a href="structhmi_1_1MapRegion.html#details">More...</a><br /></td></tr>
 <tr class="memitem:ArenaModel" id="r_ArenaModel"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1ArenaModel.html">ArenaModel</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">La vue-modèle de l'arène : composer deux camps, lancer, jouer, rejouer.  <a href="classhmi_1_1ArenaModel.html#details">More...</a><br /></td></tr>
+<tr class="memitem:ArenaViewportItem" id="r_ArenaViewportItem"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1ArenaViewportItem.html">ArenaViewportItem</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Surface QRhi de la scène de combat du Colisée : la grille, l'enceinte et les figurines, dessinées par le pipeline 2D du jeu au lieu de quelques centaines de délégués QML.  <a href="classhmi_1_1ArenaViewportItem.html#details">More...</a><br /></td></tr>
 <tr class="memitem:CharacterSheetModel" id="r_CharacterSheetModel"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1CharacterSheetModel.html">CharacterSheetModel</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vue-modèle de la fiche : ce que le jeu <b>sait dire</b> d'un personnage.  <a href="classhmi_1_1CharacterSheetModel.html#details">More...</a><br /></td></tr>
 <tr class="memitem:CreditsModel" id="r_CreditsModel"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1CreditsModel.html">CreditsModel</a></td></tr>
@@ -574,6 +606,42 @@ Enumerations</h2></td></tr>
 <br />
  }</td></tr>
 <tr class="memdesc:afee4dd05bda0b2293c4a99a73cb7eb8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Catégorie d'échec de lecture d'une description d'animation (même esprit que <span class="tt"><a class="el" href="#ae064c48cb814db754a1228bda7b8d77d" title="Catégorie d&#39;échec de lecture d&#39;un skins.json (même esprit que core::LevelValidationError).">hmi::SkinCatalogError</a></span>/<span class="tt"><a class="el" href="namespacecore.html#af2a63d18c9ef40479ebdc204e726e823" title="Catégorie d&#39;échec de chargement/validation d&#39;un niveau (LOT-15, EX-EDIT-012).">core::LevelValidationError</a></span>).  <a href="#afee4dd05bda0b2293c4a99a73cb7eb8f">More...</a><br /></td></tr>
+<tr class="memitem:ad5ace887c9d040dd9cd8b5649a5ab9b3" id="r_ad5ace887c9d040dd9cd8b5649a5ab9b3"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#ad5ace887c9d040dd9cd8b5649a5ab9b3">ArenaFigureAction</a> : std::uint8_t { <br />
+&#160;&#160;<a class="el" href="#ad5ace887c9d040dd9cd8b5649a5ab9b3ae599161956d626eda4cb0a5ffb85271c">Idle</a>
+, <a class="el" href="#ad5ace887c9d040dd9cd8b5649a5ab9b3a7a16a854f32231a8df9326136b09ee62">Walk</a>
+, <a class="el" href="#ad5ace887c9d040dd9cd8b5649a5ab9b3adcfafcb4323b102c7e204555d313ba0a">Attack</a>
+, <a class="el" href="#ad5ace887c9d040dd9cd8b5649a5ab9b3aebfe5e1791db03c4cd6ab95801e0977d">Hit</a>
+, <br />
+&#160;&#160;<a class="el" href="#ad5ace887c9d040dd9cd8b5649a5ab9b3a6097f89e3092d4ccd249c9d479785c1f">Death</a>
+<br />
+ }</td></tr>
+<tr class="memdesc:ad5ace887c9d040dd9cd8b5649a5ab9b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Action jouée par la figurine d'un combattant, une par fichier de sa planche.  <a href="#ad5ace887c9d040dd9cd8b5649a5ab9b3">More...</a><br /></td></tr>
+<tr class="memitem:a9da4795fe7ae9a1a208f6f8a3348ae8d" id="r_a9da4795fe7ae9a1a208f6f8a3348ae8d"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#a9da4795fe7ae9a1a208f6f8a3348ae8d">WallFeature</a> : std::uint8_t { <br />
+&#160;&#160;<a class="el" href="#a9da4795fe7ae9a1a208f6f8a3348ae8da6adf97f83acf6453d4a6a4b1070f3754">None</a>
+, <a class="el" href="#a9da4795fe7ae9a1a208f6f8a3348ae8da4cd8413207629a963225f4314b53adcd">Plain</a>
+, <a class="el" href="#a9da4795fe7ae9a1a208f6f8a3348ae8da45671f70ac97ff86643523f29eb4d3b9">Corner</a>
+, <a class="el" href="#a9da4795fe7ae9a1a208f6f8a3348ae8da4f827dd784b5493dcfb54d285bd2652c">BannerSpot</a>
+, <br />
+&#160;&#160;<a class="el" href="#a9da4795fe7ae9a1a208f6f8a3348ae8daef37bb80980786c95c64dfcfbd2943e9">TorchSpot</a>
+<br />
+ }</td></tr>
+<tr class="memdesc:a9da4795fe7ae9a1a208f6f8a3348ae8d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ce que porte l'enceinte sur une case de mur.  <a href="#a9da4795fe7ae9a1a208f6f8a3348ae8d">More...</a><br /></td></tr>
+<tr class="memitem:a931e4dfdcb2eb27e505c66bc92291f72" id="r_a931e4dfdcb2eb27e505c66bc92291f72"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#a931e4dfdcb2eb27e505c66bc92291f72">ArenaAppearanceError</a> : std::uint8_t { <br />
+&#160;&#160;<a class="el" href="#a931e4dfdcb2eb27e505c66bc92291f72a6adf97f83acf6453d4a6a4b1070f3754">None</a>
+, <a class="el" href="#a931e4dfdcb2eb27e505c66bc92291f72a2767828026039e8ba7b38973cbb701f2">FileNotFound</a>
+, <a class="el" href="#a931e4dfdcb2eb27e505c66bc92291f72ae41199faa7290c167f70f314c5e6c165">ParseError</a>
+, <a class="el" href="#a931e4dfdcb2eb27e505c66bc92291f72a0f89bc98e9b12bdeda0604e57bdc0518">UnsupportedVersion</a>
+, <br />
+&#160;&#160;<a class="el" href="#a931e4dfdcb2eb27e505c66bc92291f72aa809debdbe0cae246d363461916d924d">MalformedStructure</a>
+<br />
+ }</td></tr>
+<tr class="memdesc:a931e4dfdcb2eb27e505c66bc92291f72"><td class="mdescLeft">&#160;</td><td class="mdescRight">Catégorie d'échec de lecture (même esprit que <span class="tt"><a class="el" href="#ae064c48cb814db754a1228bda7b8d77d" title="Catégorie d&#39;échec de lecture d&#39;un skins.json (même esprit que core::LevelValidationError).">hmi::SkinCatalogError</a></span>).  <a href="#a931e4dfdcb2eb27e505c66bc92291f72">More...</a><br /></td></tr>
+<tr class="memitem:a3aefab663a13beaed4fec7f172fb4a67" id="r_a3aefab663a13beaed4fec7f172fb4a67"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#a3aefab663a13beaed4fec7f172fb4a67">ArenaDepthSlot</a> : std::int32_t { <a class="el" href="#a3aefab663a13beaed4fec7f172fb4a67a94e8a499539d1a472f3b5dbbb85508c0">Wall</a> = 0
+, <a class="el" href="#a3aefab663a13beaed4fec7f172fb4a67aa275e84942f845eea0c75e0bbcb6ee3d">WallDecoration</a>
+, <a class="el" href="#a3aefab663a13beaed4fec7f172fb4a67ad25b4bd4c72aa2c07ee87adb10b59f16">Gate</a>
+, <a class="el" href="#a3aefab663a13beaed4fec7f172fb4a67a666df2f48cd16f38212c093999248769">Figure</a>
+ }</td></tr>
+<tr class="memdesc:a3aefab663a13beaed4fec7f172fb4a67"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rang d'une pièce à l'intérieur d'une même profondeur : l'ordre d'empilement de la brique <span class="tt">ArenaTile</span>, du sol vers le ciel.  <a href="#a3aefab663a13beaed4fec7f172fb4a67">More...</a><br /></td></tr>
 <tr class="memitem:a0030e1768b551f6d1bc0a9fa566d2003" id="r_a0030e1768b551f6d1bc0a9fa566d2003"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#a0030e1768b551f6d1bc0a9fa566d2003">AssetFamily</a> { <br />
 &#160;&#160;<a class="el" href="#a0030e1768b551f6d1bc0a9fa566d2003aa6567816e007283cf9781c35b95dd56f">Atlas</a>
 , <a class="el" href="#a0030e1768b551f6d1bc0a9fa566d2003ab9f26e792765678622367e1d286be9ff">TileSkin</a>
@@ -1047,6 +1115,24 @@ Functions</h2></td></tr>
 <tr class="memdesc:a89b12465488e01b1f3b8bfaa0e7bf26a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Traduit l'issue d'un pas de simulation en événement.  <br /></td></tr>
 <tr class="memitem:a588a6cab9c35f77c19c1f0e3a5ee6d20" id="r_a588a6cab9c35f77c19c1f0e3a5ee6d20"><td class="memItemLeft">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a588a6cab9c35f77c19c1f0e3a5ee6d20">gameHudLines</a> (const std::string &amp;levelName, const <a class="el" href="classhmi_1_1Localization.html">Localization</a> &amp;localization, bool overlappingKey=false)</td></tr>
 <tr class="memdesc:a588a6cab9c35f77c19c1f0e3a5ee6d20"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lignes à afficher pour l'affichage tête haute d'un pas de simulation donné.  <br /></td></tr>
+<tr class="memitem:ac88b5c42864d2a0910bf9831321e47a0" id="r_ac88b5c42864d2a0910bf9831321e47a0"><td class="memItemLeft"><a class="el" href="structhmi_1_1ArenaFigureAnimationLoad.html">ArenaFigureAnimationLoad</a>&#160;</td><td class="memItemRight"><a class="el" href="#ac88b5c42864d2a0910bf9831321e47a0">loadArenaFigureAnimations</a> (const std::filesystem::path &amp;sheetDirectory)</td></tr>
+<tr class="memdesc:ac88b5c42864d2a0910bf9831321e47a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lit le jeu de clips d'une figurine depuis les <span class="tt">.anim.json</span> de son dossier de planche.  <br /></td></tr>
+<tr class="memitem:adc16b2d32ccdf3518ee030c1dc65efc3" id="r_adc16b2d32ccdf3518ee030c1dc65efc3"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#adc16b2d32ccdf3518ee030c1dc65efc3">advanceArenaAnimation</a> (<a class="el" href="structhmi_1_1ArenaCombatantAnimation.html">ArenaCombatantAnimation</a> &amp;state, float realDeltaSeconds)</td></tr>
+<tr class="memdesc:adc16b2d32ccdf3518ee030c1dc65efc3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fait avancer l'animation d'UN combattant d'un pas de temps réel.  <br /></td></tr>
+<tr class="memitem:ae3ab2165b6e3cf5d2c84394f3a95bf9e" id="r_ae3ab2165b6e3cf5d2c84394f3a95bf9e"><td class="memItemLeft">std::int32_t&#160;</td><td class="memItemRight"><a class="el" href="#ae3ab2165b6e3cf5d2c84394f3a95bf9e">arenaDepthSortOrder</a> (float footWorldY, <a class="el" href="#a3aefab663a13beaed4fec7f172fb4a67">ArenaDepthSlot</a> slot) noexcept</td></tr>
+<tr class="memdesc:ae3ab2165b6e3cf5d2c84394f3a95bf9e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ordre de tri d'une pièce de la bande de profondeur du Colisée.  <br /></td></tr>
+<tr class="memitem:a57f0685fbcb7a858faa871e9620c5fb9" id="r_a57f0685fbcb7a858faa871e9620c5fb9"><td class="memItemLeft">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a57f0685fbcb7a858faa871e9620c5fb9">arenaTexturePaths</a> (const <a class="el" href="classhmi_1_1ArenaAppearanceCatalog.html">ArenaAppearanceCatalog</a> &amp;catalog)</td></tr>
+<tr class="memdesc:a57f0685fbcb7a858faa871e9620c5fb9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tous les chemins de texture que la composition peut demander pour <code class="param">catalog</code> : sols, pièces d'enceinte, dalles claires, bandes des figurines.  <br /></td></tr>
+<tr class="memitem:aa0d7669255f79f79f2cd34ed1d8f939d" id="r_aa0d7669255f79f79f2cd34ed1d8f939d"><td class="memItemLeft"><a class="el" href="structhmi_1_1ArenaSceneSnapshot.html">ArenaSceneSnapshot</a>&#160;</td><td class="memItemRight"><a class="el" href="#aa0d7669255f79f79f2cd34ed1d8f939d">snapshotArenaScene</a> (const <a class="el" href="classcore_1_1ArenaSession.html">core::ArenaSession</a> &amp;session)</td></tr>
+<tr class="memdesc:aa0d7669255f79f79f2cd34ed1d8f939d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tire de <code class="param">session</code> l'instantané que la composition dessine (lecture seule).  <br /></td></tr>
+<tr class="memitem:afe9a7dccf1cdb4d3819a262d9f62a7ae" id="r_afe9a7dccf1cdb4d3819a262d9f62a7ae"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#afe9a7dccf1cdb4d3819a262d9f62a7ae">composeArenaScene</a> (<a class="el" href="classhmi_1_1ComposedScene.html">ComposedScene</a> &amp;scene, const <a class="el" href="structhmi_1_1ArenaSceneSnapshot.html">ArenaSceneSnapshot</a> &amp;snapshot, const <a class="el" href="classhmi_1_1ArenaAppearanceCatalog.html">ArenaAppearanceCatalog</a> &amp;catalog, const <a class="el" href="structhmi_1_1ArenaAnimationState.html">ArenaAnimationState</a> &amp;animation, const <a class="el" href="classcore_1_1IsoProjection.html">core::IsoProjection</a> &amp;projection, const <a class="el" href="structhmi_1_1ArenaSceneTextures.html">ArenaSceneTextures</a> &amp;textures)</td></tr>
+<tr class="memdesc:afe9a7dccf1cdb4d3819a262d9f62a7ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compose la scène de combat dans un tampon réutilisé, depuis un instantané.  <br /></td></tr>
+<tr class="memitem:a0a8f03ca4b08c01b38b6a3ac93a72a1c" id="r_a0a8f03ca4b08c01b38b6a3ac93a72a1c"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a0a8f03ca4b08c01b38b6a3ac93a72a1c">composeArenaScene</a> (<a class="el" href="classhmi_1_1ComposedScene.html">ComposedScene</a> &amp;scene, const <a class="el" href="classcore_1_1ArenaSession.html">core::ArenaSession</a> &amp;session, const <a class="el" href="classhmi_1_1ArenaAppearanceCatalog.html">ArenaAppearanceCatalog</a> &amp;catalog, const <a class="el" href="structhmi_1_1ArenaAnimationState.html">ArenaAnimationState</a> &amp;animation, const <a class="el" href="classcore_1_1IsoProjection.html">core::IsoProjection</a> &amp;projection, const <a class="el" href="structhmi_1_1ArenaSceneTextures.html">ArenaSceneTextures</a> &amp;textures)</td></tr>
+<tr class="memdesc:a0a8f03ca4b08c01b38b6a3ac93a72a1c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compose la scène de combat dans un tampon réutilisé.  <br /></td></tr>
+<tr class="memitem:a4bd9a39cfe7925c05ca584dad92ccfa3" id="r_a4bd9a39cfe7925c05ca584dad92ccfa3"><td class="memItemLeft"><a class="el" href="classhmi_1_1ComposedScene.html">ComposedScene</a>&#160;</td><td class="memItemRight"><a class="el" href="#a4bd9a39cfe7925c05ca584dad92ccfa3">composeArenaScene</a> (const <a class="el" href="classcore_1_1ArenaSession.html">core::ArenaSession</a> &amp;session, const <a class="el" href="classhmi_1_1ArenaAppearanceCatalog.html">ArenaAppearanceCatalog</a> &amp;catalog, const <a class="el" href="structhmi_1_1ArenaAnimationState.html">ArenaAnimationState</a> &amp;animation, const <a class="el" href="classcore_1_1IsoProjection.html">core::IsoProjection</a> &amp;projection, const <a class="el" href="structhmi_1_1ArenaSceneTextures.html">ArenaSceneTextures</a> &amp;textures)</td></tr>
+<tr class="memdesc:a4bd9a39cfe7925c05ca584dad92ccfa3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compose la scène de combat dans une scène neuve, <b>triée</b>.  <br /></td></tr>
+<tr class="memitem:a2d572b49065ad901c6e2704b8d515c78" id="r_a2d572b49065ad901c6e2704b8d515c78"><td class="memItemLeft"><a class="el" href="classhmi_1_1Camera2D.html">Camera2D</a>&#160;</td><td class="memItemRight"><a class="el" href="#a2d572b49065ad901c6e2704b8d515c78">arenaCamera</a> (const <a class="el" href="classcore_1_1IsoProjection.html">core::IsoProjection</a> &amp;projection, int pixelWidth, int pixelHeight)</td></tr>
+<tr class="memdesc:a2d572b49065ad901c6e2704b8d515c78"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le cadrage du Colisée : la scène entière, centrée, dans une surface de <code class="param">pixelWidth</code> × <code class="param">pixelHeight</code> pixels physiques.  <br /></td></tr>
 <tr class="memitem:ab940bcb1480c0e6616726dd361be3c1d" id="r_ab940bcb1480c0e6616726dd361be3c1d"><td class="memItemLeft">const char *&#160;</td><td class="memItemRight"><a class="el" href="#ab940bcb1480c0e6616726dd361be3c1d">assetFamilyName</a> (<a class="el" href="#a0030e1768b551f6d1bc0a9fa566d2003">AssetFamily</a> family) noexcept</td></tr>
 <tr class="memdesc:ab940bcb1480c0e6616726dd361be3c1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nom lisible d'une famille d'assets, utilisé dans les messages de journalisation.  <br /></td></tr>
 <tr class="memitem:a842c2e980bf7c8686d4a549d583d6866" id="r_a842c2e980bf7c8686d4a549d583d6866"><td class="memItemLeft"><a class="el" href="structhmi_1_1AssetDimensionContract.html">AssetDimensionContract</a>&#160;</td><td class="memItemRight"><a class="el" href="#a842c2e980bf7c8686d4a549d583d6866">assetDimensionContract</a> (<a class="el" href="#a0030e1768b551f6d1bc0a9fa566d2003">AssetFamily</a> family) noexcept</td></tr>
@@ -1373,6 +1459,16 @@ Variables</h2></td></tr>
 <tr class="memdesc:afe37194ec48fcceeedcad65b760773b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fenêtre de la moyenne glissante de cadence, en secondes : assez courte pour rester réactive à une vraie dégradation, assez longue pour lisser le bruit d'une image à l'autre.  <br /></td></tr>
 <tr class="memitem:aab9ebfc2ebacc5718532a560bfd830ea" id="r_aab9ebfc2ebacc5718532a560bfd830ea"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#aab9ebfc2ebacc5718532a560bfd830ea">GAME_EVENT_COUNT</a> = static_cast&lt;int&gt;(<a class="el" href="#a3a61aed1c8e95c289c829398d48488dea99db5176aa7f82eeb3e4dff344934eeb">GameEvent::PauseOpened</a>) + 1</td></tr>
 <tr class="memdesc:aab9ebfc2ebacc5718532a560bfd830ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nombre de valeurs de <span class="tt"><a class="el" href="#a3a61aed1c8e95c289c829398d48488de" title="Événement discret survenu sur un pas de simulation ou une action d&#39;interface.">GameEvent</a></span> — pour les tests d'exhaustivité (parcours de l'énumération).  <br /></td></tr>
+<tr class="memitem:a65b2c16b6aab8dd5aa2fa49fd1cb872b" id="r_a65b2c16b6aab8dd5aa2fa49fd1cb872b"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#a65b2c16b6aab8dd5aa2fa49fd1cb872b">ARENA_FIGURE_FRAME_WIDTH_PIXELS</a> = 48</td></tr>
+<tr class="memdesc:a65b2c16b6aab8dd5aa2fa49fd1cb872b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Largeur d'une image des bandes d'animation de la planche, en pixels (<span class="tt">manifest.json</span>, <span class="tt">frame</span>).  <br /></td></tr>
+<tr class="memitem:a0752b5fe488b44093f9b2b6bc67f66fb" id="r_a0752b5fe488b44093f9b2b6bc67f66fb"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#a0752b5fe488b44093f9b2b6bc67f66fb">ARENA_FIGURE_FRAME_HEIGHT_PIXELS</a> = 64</td></tr>
+<tr class="memdesc:a0752b5fe488b44093f9b2b6bc67f66fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hauteur d'une image des bandes d'animation, en pixels.  <br /></td></tr>
+<tr class="memitem:ab9ad6be84062fc2abf87c40184677eae" id="r_ab9ad6be84062fc2abf87c40184677eae"><td class="memItemLeft">constexpr float&#160;</td><td class="memItemRight"><a class="el" href="#ab9ad6be84062fc2abf87c40184677eae">ARENA_FIGURE_SCALE</a> = 1.25f</td></tr>
+<tr class="memdesc:ab9ad6be84062fc2abf87c40184677eae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Agrandissement de la figurine par rapport à la planche (<span class="tt">ArenaTile.ui.qml</span>, <span class="tt">1.25</span>).  <br /></td></tr>
+<tr class="memitem:a285a9d5f6120f739e72d9195791c8d22" id="r_a285a9d5f6120f739e72d9195791c8d22"><td class="memItemLeft">constexpr float&#160;</td><td class="memItemRight"><a class="el" href="#a285a9d5f6120f739e72d9195791c8d22">ARENA_DOWN_ENEMY_ALPHA</a> = 0.45f</td></tr>
+<tr class="memdesc:a285a9d5f6120f739e72d9195791c8d22"><td class="mdescLeft">&#160;</td><td class="mdescRight">Opacité d'un ennemi à terre (<span class="tt">ArenaTile.ui.qml</span>, <span class="tt">0.45</span>).  <br /></td></tr>
+<tr class="memitem:a6eee874c358054b54267845295a6068c" id="r_a6eee874c358054b54267845295a6068c"><td class="memItemLeft">constexpr std::int32_t&#160;</td><td class="memItemRight"><a class="el" href="#a6eee874c358054b54267845295a6068c">ARENA_DEPTH_SLOTS</a> = 4</td></tr>
+<tr class="memdesc:a6eee874c358054b54267845295a6068c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nombre de rangs par profondeur : le multiplicateur de <span class="tt"><a class="el" href="#a551d45820ca5a6e720a6a89e1c70c120" title="Ordre de profondeur d&#39;une primitive, à partir du pied de son quad.">depthSortOrder</a></span> dans le <span class="tt">sortOrder</span>.  <br /></td></tr>
 <tr class="memitem:a5d007c47b6f8696b0b71cf94afe65d18" id="r_a5d007c47b6f8696b0b71cf94afe65d18"><td class="memItemLeft">const std::string&#160;</td><td class="memItemRight"><a class="el" href="#a5d007c47b6f8696b0b71cf94afe65d18">FONTS_SUBDIRECTORY</a> = &quot;Fonts/&quot;</td></tr>
 <tr class="memdesc:a5d007c47b6f8696b0b71cf94afe65d18"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sous-dossier des assets de police, relatif au dossier d'assets (<span class="tt">LOT-52</span>).  <br /></td></tr>
 <tr class="memitem:a4498c346debb5bb213dbe5742ddc7b19" id="r_a4498c346debb5bb213dbe5742ddc7b19"><td class="memItemLeft">constexpr float&#160;</td><td class="memItemRight"><a class="el" href="#a4498c346debb5bb213dbe5742ddc7b19">LANDING_SHAKE_AMPLITUDE_PIXELS</a> = 2.0f</td></tr>
@@ -1675,6 +1771,98 @@ Variables</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><a id="ac32d81972d12a0b2475fc009eefee225a6da8e67225fdcfa78c3ea5dc3154b849" name="ac32d81972d12a0b2475fc009eefee225a6da8e67225fdcfa78c3ea5dc3154b849"></a>Override&#160;</td><td class="fielddoc"><p>Texture assignée <b>par instance</b> à la case, désignée par <span class="tt"><a class="el" href="structhmi_1_1TileAppearance.html#a785246a0c5ccb220dedafb953211e5f2" title="Index dans hmi::SceneTextures::skins (source Skin) ou hmi::SceneTextures::objects (source Override) ;...">hmi::TileAppearance::skinIndex</a></span> (index dans <span class="tt"><a class="el" href="structhmi_1_1SceneTextures.html#ac8c29b5d6b09f1c5c2e64854717bec0c" title="Textures assignées par instance (EX-EDIT-043, LOT-45), adressées par index.">hmi::SceneTextures::objects</a></span>) — prioritaire sur <span class="tt">Skin</span> (<span class="tt">EX-EDIT-043</span>, <span class="tt">LOT-45</span>). </p>
 </td></tr>
+</table>
+
+</div>
+</div>
+<a id="a931e4dfdcb2eb27e505c66bc92291f72" name="a931e4dfdcb2eb27e505c66bc92291f72"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a931e4dfdcb2eb27e505c66bc92291f72">&#9670;&#160;</a></span>ArenaAppearanceError</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="#a931e4dfdcb2eb27e505c66bc92291f72">hmi::ArenaAppearanceError</a> : std::uint8_t</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Catégorie d'échec de lecture (même esprit que <span class="tt"><a class="el" href="#ae064c48cb814db754a1228bda7b8d77d" title="Catégorie d&#39;échec de lecture d&#39;un skins.json (même esprit que core::LevelValidationError).">hmi::SkinCatalogError</a></span>). </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a931e4dfdcb2eb27e505c66bc92291f72a6adf97f83acf6453d4a6a4b1070f3754" name="a931e4dfdcb2eb27e505c66bc92291f72a6adf97f83acf6453d4a6a4b1070f3754"></a>None&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a931e4dfdcb2eb27e505c66bc92291f72a2767828026039e8ba7b38973cbb701f2" name="a931e4dfdcb2eb27e505c66bc92291f72a2767828026039e8ba7b38973cbb701f2"></a>FileNotFound&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a931e4dfdcb2eb27e505c66bc92291f72ae41199faa7290c167f70f314c5e6c165" name="a931e4dfdcb2eb27e505c66bc92291f72ae41199faa7290c167f70f314c5e6c165"></a>ParseError&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a931e4dfdcb2eb27e505c66bc92291f72a0f89bc98e9b12bdeda0604e57bdc0518" name="a931e4dfdcb2eb27e505c66bc92291f72a0f89bc98e9b12bdeda0604e57bdc0518"></a>UnsupportedVersion&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a931e4dfdcb2eb27e505c66bc92291f72aa809debdbe0cae246d363461916d924d" name="a931e4dfdcb2eb27e505c66bc92291f72aa809debdbe0cae246d363461916d924d"></a>MalformedStructure&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+<a id="a3aefab663a13beaed4fec7f172fb4a67" name="a3aefab663a13beaed4fec7f172fb4a67"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3aefab663a13beaed4fec7f172fb4a67">&#9670;&#160;</a></span>ArenaDepthSlot</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="#a3aefab663a13beaed4fec7f172fb4a67">hmi::ArenaDepthSlot</a> : std::int32_t</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Rang d'une pièce à l'intérieur d'une même profondeur : l'ordre d'empilement de la brique <span class="tt">ArenaTile</span>, du sol vers le ciel. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a3aefab663a13beaed4fec7f172fb4a67a94e8a499539d1a472f3b5dbbb85508c0" name="a3aefab663a13beaed4fec7f172fb4a67a94e8a499539d1a472f3b5dbbb85508c0"></a>Wall&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a3aefab663a13beaed4fec7f172fb4a67aa275e84942f845eea0c75e0bbcb6ee3d" name="a3aefab663a13beaed4fec7f172fb4a67aa275e84942f845eea0c75e0bbcb6ee3d"></a>WallDecoration&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a3aefab663a13beaed4fec7f172fb4a67ad25b4bd4c72aa2c07ee87adb10b59f16" name="a3aefab663a13beaed4fec7f172fb4a67ad25b4bd4c72aa2c07ee87adb10b59f16"></a>Gate&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a3aefab663a13beaed4fec7f172fb4a67a666df2f48cd16f38212c093999248769" name="a3aefab663a13beaed4fec7f172fb4a67a666df2f48cd16f38212c093999248769"></a>Figure&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+<a id="ad5ace887c9d040dd9cd8b5649a5ab9b3" name="ad5ace887c9d040dd9cd8b5649a5ab9b3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad5ace887c9d040dd9cd8b5649a5ab9b3">&#9670;&#160;</a></span>ArenaFigureAction</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="#ad5ace887c9d040dd9cd8b5649a5ab9b3">hmi::ArenaFigureAction</a> : std::uint8_t</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Action jouée par la figurine d'un combattant, une par fichier de sa planche. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ad5ace887c9d040dd9cd8b5649a5ab9b3ae599161956d626eda4cb0a5ffb85271c" name="ad5ace887c9d040dd9cd8b5649a5ab9b3ae599161956d626eda4cb0a5ffb85271c"></a>Idle&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad5ace887c9d040dd9cd8b5649a5ab9b3a7a16a854f32231a8df9326136b09ee62" name="ad5ace887c9d040dd9cd8b5649a5ab9b3a7a16a854f32231a8df9326136b09ee62"></a>Walk&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad5ace887c9d040dd9cd8b5649a5ab9b3adcfafcb4323b102c7e204555d313ba0a" name="ad5ace887c9d040dd9cd8b5649a5ab9b3adcfafcb4323b102c7e204555d313ba0a"></a>Attack&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad5ace887c9d040dd9cd8b5649a5ab9b3aebfe5e1791db03c4cd6ab95801e0977d" name="ad5ace887c9d040dd9cd8b5649a5ab9b3aebfe5e1791db03c4cd6ab95801e0977d"></a>Hit&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad5ace887c9d040dd9cd8b5649a5ab9b3a6097f89e3092d4ccd249c9d479785c1f" name="ad5ace887c9d040dd9cd8b5649a5ab9b3a6097f89e3092d4ccd249c9d479785c1f"></a>Death&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
 </div>
@@ -3066,6 +3254,39 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="a9da4795fe7ae9a1a208f6f8a3348ae8d" name="a9da4795fe7ae9a1a208f6f8a3348ae8d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9da4795fe7ae9a1a208f6f8a3348ae8d">&#9670;&#160;</a></span>WallFeature</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="#a9da4795fe7ae9a1a208f6f8a3348ae8d">hmi::WallFeature</a> : std::uint8_t</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Ce que porte l'enceinte sur une case de mur. </p>
+<p>Un pan plein partout, sauf trois exceptions écrites par <span class="tt">ArenaTile.ui.qml</span> : une colonne aux quatre angles, une bannière tous les cinq pas sur les bords haut et bas, une torche tous les quatre pas sur les bords gauche et droit. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a9da4795fe7ae9a1a208f6f8a3348ae8da6adf97f83acf6453d4a6a4b1070f3754" name="a9da4795fe7ae9a1a208f6f8a3348ae8da6adf97f83acf6453d4a6a4b1070f3754"></a>None&#160;</td><td class="fielddoc"><p>La case n'est pas un mur (<span class="tt"><a class="el" href="structhmi_1_1ArenaTileAppearance.html#ad896f61618f62de0bd218f761e687ce9">ArenaTileAppearance::wall</a></span> faux) — valeur de repli. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a9da4795fe7ae9a1a208f6f8a3348ae8da4cd8413207629a963225f4314b53adcd" name="a9da4795fe7ae9a1a208f6f8a3348ae8da4cd8413207629a963225f4314b53adcd"></a>Plain&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a9da4795fe7ae9a1a208f6f8a3348ae8da45671f70ac97ff86643523f29eb4d3b9" name="a9da4795fe7ae9a1a208f6f8a3348ae8da45671f70ac97ff86643523f29eb4d3b9"></a>Corner&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a9da4795fe7ae9a1a208f6f8a3348ae8da4f827dd784b5493dcfb54d285bd2652c" name="a9da4795fe7ae9a1a208f6f8a3348ae8da4f827dd784b5493dcfb54d285bd2652c"></a>BannerSpot&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a9da4795fe7ae9a1a208f6f8a3348ae8daef37bb80980786c95c64dfcfbd2943e9" name="a9da4795fe7ae9a1a208f6f8a3348ae8daef37bb80980786c95c64dfcfbd2943e9"></a>TorchSpot&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
 <a id="a105226a84e7eee6e32a6d20a57502b5b" name="a105226a84e7eee6e32a6d20a57502b5b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a105226a84e7eee6e32a6d20a57502b5b">&#9670;&#160;</a></span>activeCameraZoneIndex()</h2>
@@ -3129,6 +3350,36 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>La langue de l'IHM telle que les réglages la persistent (« fr » par défaut). </dd></dl>
+
+</div>
+</div>
+<a id="adc16b2d32ccdf3518ee030c1dc65efc3" name="adc16b2d32ccdf3518ee030c1dc65efc3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adc16b2d32ccdf3518ee030c1dc65efc3">&#9670;&#160;</a></span>advanceArenaAnimation()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::advanceArenaAnimation </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structhmi_1_1ArenaCombatantAnimation.html">ArenaCombatantAnimation</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>state</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>realDeltaSeconds</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Fait avancer l'animation d'UN combattant d'un pas de temps réel. </p>
+<p>Fonction pure (<span class="tt">EX-ARCH-011</span>, même patron que <span class="tt"><a class="el" href="namespacecore.html#a209ceac8415ddadd8463746b94934eed" title="Fait progresser une seule animation d&#39;un pas fixe (image courante, bouclage/bascule).">core::advanceAnimation</a></span>, dont elle reprend la logique de bouclage/arrêt pour un jeu à un seul clip) : une pose unique ou sans clips n'avance jamais (aucune dérive de <span class="tt">elapsed</span>, <span class="tt">EX-NFR-040</span>) ; un clip bouclé revient à la première image ; un clip ponctuel (<span class="tt">loop: false</span>) s'arrête net sur la dernière et n'accumule plus de temps — <span class="tt"><a class="el" href="classhmi_1_1ArenaAnimationDriver.html#a403fe6d04640d4ef69ca8e85cc5e0b2c" title="Fait avancer toutes les animations suivies d&#39;un pas de temps réel, et ramène sur Idle toute action po...">ArenaAnimationDriver::advance</a></span> décide ensuite s'il faut y répondre. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">state</td><td>État à faire avancer. </td></tr>
+    <tr><td class="paramname">realDeltaSeconds</td><td>Temps écoulé depuis le dernier appel, en secondes. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -3607,6 +3858,109 @@ Variables</h2></td></tr>
 <p>Charge le modèle de feuille de style du <b>châssis d'édition</b> (<span class="tt">:/resources/theme-editor.qss</span>), le substitue avec <code class="param">editorTokens</code> et l'applique à l'<b>application</b>. </p>
 <p>Repli explicite : fichier absent/illisible ou marqueur inconnu -&gt; avertissement journalisé, l'application reste utilisable sans feuille de style (comportement historique de <span class="tt">main.cpp</span>, non régressé).</p>
 <p>Ne porte <b>plus</b> la portée identité depuis le <span class="tt">LOT-73</span> (<span class="tt">EX-IHM-082</span>) : celle-ci se pose sur la pile d'écrans (<span class="tt">identityStyleSheet</span>). Les deux vivaient dans la même feuille applicative, si bien qu'un changement de facteur d'agrandissement — préoccupation des seuls écrans du jeu — repolissait les 862 widgets de l'application, cinq secondes durant en Debug. </p>
+
+</div>
+</div>
+<a id="a2d572b49065ad901c6e2704b8d515c78" name="a2d572b49065ad901c6e2704b8d515c78"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2d572b49065ad901c6e2704b8d515c78">&#9670;&#160;</a></span>arenaCamera()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classhmi_1_1Camera2D.html">Camera2D</a> hmi::arenaCamera </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classcore_1_1IsoProjection.html">core::IsoProjection</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>projection</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>pixelWidth</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>pixelHeight</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Le cadrage du Colisée : la scène entière, centrée, dans une surface de <code class="param">pixelWidth</code> × <code class="param">pixelHeight</code> pixels physiques. </p>
+<p>La <b>seule</b> géométrie de l'arène à l'écran : le rendu la soumet, et l'élément Qt Quick (<span class="tt"><a class="el" href="classhmi_1_1ArenaViewportItem.html" title="Surface QRhi de la scène de combat du Colisée : la grille, l&#39;enceinte et les figurines,...">hmi::ArenaViewportItem</a></span>) s'en sert pour poser le calque d'interface et traduire le pointeur en case. Deux cadrages recalculés chacun de leur côté ne tombent jamais au même pixel — le zoom est arrondi à l'entier (<span class="tt"><a class="el" href="classhmi_1_1Camera2D.html#a197df5a46fa35ccf6c17df58662b16bb" title="Facteur de zoom ajustant un contenu à une surface disponible, sans zone hors champ.">Camera2D::fitZoom</a></span>). </p>
+
+</div>
+</div>
+<a id="ae3ab2165b6e3cf5d2c84394f3a95bf9e" name="ae3ab2165b6e3cf5d2c84394f3a95bf9e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae3ab2165b6e3cf5d2c84394f3a95bf9e">&#9670;&#160;</a></span>arenaDepthSortOrder()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::int32_t hmi::arenaDepthSortOrder </td>
+          <td>(</td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>footWorldY</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#a3aefab663a13beaed4fec7f172fb4a67">ArenaDepthSlot</a></td>          <td class="paramname"><span class="paramname"><em>slot</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Ordre de tri d'une pièce de la bande de profondeur du Colisée. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">footWorldY</td><td>Ordonnée du sommet bas du losange (ou de l'emprise) qui porte la pièce. </td></tr>
+    <tr><td class="paramname">slot</td><td>Rang de la pièce dans sa case. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a57f0685fbcb7a858faa871e9620c5fb9" name="a57f0685fbcb7a858faa871e9620c5fb9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a57f0685fbcb7a858faa871e9620c5fb9">&#9670;&#160;</a></span>arenaTexturePaths()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::string &gt; hmi::arenaTexturePaths </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classhmi_1_1ArenaAppearanceCatalog.html">ArenaAppearanceCatalog</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>catalog</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Tous les chemins de texture que la composition peut demander pour <code class="param">catalog</code> : sols, pièces d'enceinte, dalles claires, bandes des figurines. </p>
+<p>Tenue ici, à côté des chemins que la composition écrit, pour que le rendu charge exactement ce qu'elle résout — ni une pièce oubliée (qui tomberait sur le damier), ni une de trop. </p>
 
 </div>
 </div>
@@ -4441,6 +4795,161 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Le décalage effectivement applicable. </dd></dl>
+
+</div>
+</div>
+<a id="afe9a7dccf1cdb4d3819a262d9f62a7ae" name="afe9a7dccf1cdb4d3819a262d9f62a7ae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe9a7dccf1cdb4d3819a262d9f62a7ae">&#9670;&#160;</a></span>composeArenaScene() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::composeArenaScene </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classhmi_1_1ComposedScene.html">ComposedScene</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>scene</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structhmi_1_1ArenaSceneSnapshot.html">ArenaSceneSnapshot</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>snapshot</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classhmi_1_1ArenaAppearanceCatalog.html">ArenaAppearanceCatalog</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>catalog</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structhmi_1_1ArenaAnimationState.html">ArenaAnimationState</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>animation</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classcore_1_1IsoProjection.html">core::IsoProjection</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>projection</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structhmi_1_1ArenaSceneTextures.html">ArenaSceneTextures</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>textures</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Compose la scène de combat dans un tampon réutilisé, depuis un instantané. </p>
+<p>Le tampon n'est <b>ni vidé ni trié</b> : même contrat que <span class="tt"><a class="el" href="#a649774d217a61e4b37f00d309fa3b60e" title="Compose les entités affichables d&#39;un monde ECS en primitives.">hmi::composeWorldSprites</a></span>, l'appelant enchaîne <span class="tt">clear()</span>, les compositions, puis <span class="tt">sort()</span>. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">scene</td><td>Scène à remplir. </td></tr>
+    <tr><td class="paramname">snapshot</td><td>La grille et les figurines, en valeurs. </td></tr>
+    <tr><td class="paramname">catalog</td><td>Rôle des cases et figurines. </td></tr>
+    <tr><td class="paramname">animation</td><td>Image courante de chaque figurine. </td></tr>
+    <tr><td class="paramname">projection</td><td>Projection isométrique de la grille. </td></tr>
+    <tr><td class="paramname">textures</td><td>Textures liables. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a0a8f03ca4b08c01b38b6a3ac93a72a1c" name="a0a8f03ca4b08c01b38b6a3ac93a72a1c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0a8f03ca4b08c01b38b6a3ac93a72a1c">&#9670;&#160;</a></span>composeArenaScene() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::composeArenaScene </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classhmi_1_1ComposedScene.html">ComposedScene</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>scene</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classcore_1_1ArenaSession.html">core::ArenaSession</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>session</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classhmi_1_1ArenaAppearanceCatalog.html">ArenaAppearanceCatalog</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>catalog</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structhmi_1_1ArenaAnimationState.html">ArenaAnimationState</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>animation</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classcore_1_1IsoProjection.html">core::IsoProjection</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>projection</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structhmi_1_1ArenaSceneTextures.html">ArenaSceneTextures</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>textures</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Compose la scène de combat dans un tampon réutilisé. </p>
+<p>Équivaut à composer <span class="tt">snapshotArenaScene(session)</span> : un seul chemin de composition. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">scene</td><td>Scène à remplir. </td></tr>
+    <tr><td class="paramname">session</td><td>La session d'arène, lue seulement. </td></tr>
+    <tr><td class="paramname">catalog</td><td>Rôle des cases et figurines. </td></tr>
+    <tr><td class="paramname">animation</td><td>Image courante de chaque figurine. </td></tr>
+    <tr><td class="paramname">projection</td><td>Projection isométrique de la grille (ses dimensions devraient être celles de la grille ; la composition parcourt la grille). </td></tr>
+    <tr><td class="paramname">textures</td><td>Textures liables. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a4bd9a39cfe7925c05ca584dad92ccfa3" name="a4bd9a39cfe7925c05ca584dad92ccfa3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4bd9a39cfe7925c05ca584dad92ccfa3">&#9670;&#160;</a></span>composeArenaScene() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classhmi_1_1ComposedScene.html">ComposedScene</a> hmi::composeArenaScene </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classcore_1_1ArenaSession.html">core::ArenaSession</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>session</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classhmi_1_1ArenaAppearanceCatalog.html">ArenaAppearanceCatalog</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>catalog</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structhmi_1_1ArenaAnimationState.html">ArenaAnimationState</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>animation</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classcore_1_1IsoProjection.html">core::IsoProjection</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>projection</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structhmi_1_1ArenaSceneTextures.html">ArenaSceneTextures</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>textures</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Compose la scène de combat dans une scène neuve, <b>triée</b>. </p>
+<p>Commodité pour les tests et les captures ; le rendu garde un tampon et appelle la forme ci-dessus. </p>
 
 </div>
 </div>
@@ -7341,6 +7850,39 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="ac88b5c42864d2a0910bf9831321e47a0" name="ac88b5c42864d2a0910bf9831321e47a0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac88b5c42864d2a0910bf9831321e47a0">&#9670;&#160;</a></span>loadArenaFigureAnimations()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structhmi_1_1ArenaFigureAnimationLoad.html">ArenaFigureAnimationLoad</a> hmi::loadArenaFigureAnimations </td>
+          <td>(</td>
+          <td class="paramtype">const std::filesystem::path &amp;</td>          <td class="paramname"><span class="paramname"><em>sheetDirectory</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Lit le jeu de clips d'une figurine depuis les <span class="tt">.anim.json</span> de son dossier de planche. </p>
+<p>Réutilise <span class="tt"><a class="el" href="classhmi_1_1AnimationCatalog.html#a66c97eb76d512128122986f77856aef8" title="Lit une description depuis un fichier.">hmi::AnimationCatalog::loadFromFile</a></span> pour chacun des cinq fichiers possibles (<span class="tt">idle.anim.json</span>, <span class="tt">walk.anim.json</span>, <span class="tt">attack.anim.json</span>, <span class="tt">hit.anim.json</span>, <span class="tt">death.anim.json</span>) : cette fonction ne parse rien elle-même, elle ne fait qu'assembler les cinq lectures. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sheetDirectory</td><td>Dossier de la figurine (ex. <span class="tt">Coliseum/characters/bram</span>). </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="aaf18529e7061f72c5c481ea2f30b6909" name="aaf18529e7061f72c5c481ea2f30b6909"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aaf18529e7061f72c5c481ea2f30b6909">&#9670;&#160;</a></span>loadDemonstrationState()</h2>
 
@@ -10087,7 +10629,7 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Nom lisible d'un terme de règle — caractéristique, emplacement d'équipement, condition. </p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md979"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md994"></a>
 Pourquoi ceux-là ne passent pas par <span class="tt">qsTr</span></h2>
 <p>La chrome des écrans (« Points de vie », « Nouvelle partie ») s'écrit en français <b>dans le fichier QML</b>, et Qt la traduit par sa source. Ces libellés-ci ne le peuvent pas : leur clé est <b>calculée</b> (<span class="tt">rpg.ability.</span> + l'identifiant que le modèle rend), et <span class="tt">qsTr</span> exige une chaîne littérale — c'est ce qui permet à <span class="tt">lupdate</span> de l'extraire sans exécuter le programme.</p>
 <p>Ce n'est pas qu'une contrainte technique. Ces termes sont un <b>lexique</b> : <span class="tt">rpg.glossary.csv</span> garantit une seule traduction par terme de règle dans tout le jeu, et <span class="tt">scripts/check_glossary.py</span> le vérifie. Les disperser en littéraux dans les écrans casserait précisément cette garantie.</p>
@@ -10557,6 +11099,33 @@ Pourquoi ceux-là ne passent pas par <span class="tt">qsTr</span></h2>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><span class="tt">"single"</span> ou <span class="tt">"bitmask16"</span> (chaîne statique, jamais nulle). </dd></dl>
+
+</div>
+</div>
+<a id="aa0d7669255f79f79f2cd34ed1d8f939d" name="aa0d7669255f79f79f2cd34ed1d8f939d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa0d7669255f79f79f2cd34ed1d8f939d">&#9670;&#160;</a></span>snapshotArenaScene()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structhmi_1_1ArenaSceneSnapshot.html">ArenaSceneSnapshot</a> hmi::snapshotArenaScene </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classcore_1_1ArenaSession.html">core::ArenaSession</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>session</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Tire de <code class="param">session</code> l'instantané que la composition dessine (lecture seule). </p>
 
 </div>
 </div>
@@ -11910,6 +12479,126 @@ Pourquoi ceux-là ne passent pas par <span class="tt">qsTr</span></h2>
 </div>
 </div>
 <a name="doc-var-members" id="doc-var-members"></a><h2 id="header-doc-var-members" class="groupheader">Variable Documentation</h2>
+<a id="a6eee874c358054b54267845295a6068c" name="a6eee874c358054b54267845295a6068c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6eee874c358054b54267845295a6068c">&#9670;&#160;</a></span>ARENA_DEPTH_SLOTS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::int32_t hmi::ARENA_DEPTH_SLOTS = 4</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Nombre de rangs par profondeur : le multiplicateur de <span class="tt"><a class="el" href="#a551d45820ca5a6e720a6a89e1c70c120" title="Ordre de profondeur d&#39;une primitive, à partir du pied de son quad.">depthSortOrder</a></span> dans le <span class="tt">sortOrder</span>. </p>
+
+</div>
+</div>
+<a id="a285a9d5f6120f739e72d9195791c8d22" name="a285a9d5f6120f739e72d9195791c8d22"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a285a9d5f6120f739e72d9195791c8d22">&#9670;&#160;</a></span>ARENA_DOWN_ENEMY_ALPHA</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float hmi::ARENA_DOWN_ENEMY_ALPHA = 0.45f</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Opacité d'un ennemi à terre (<span class="tt">ArenaTile.ui.qml</span>, <span class="tt">0.45</span>). </p>
+
+</div>
+</div>
+<a id="a0752b5fe488b44093f9b2b6bc67f66fb" name="a0752b5fe488b44093f9b2b6bc67f66fb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0752b5fe488b44093f9b2b6bc67f66fb">&#9670;&#160;</a></span>ARENA_FIGURE_FRAME_HEIGHT_PIXELS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int hmi::ARENA_FIGURE_FRAME_HEIGHT_PIXELS = 64</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Hauteur d'une image des bandes d'animation, en pixels. </p>
+
+</div>
+</div>
+<a id="a65b2c16b6aab8dd5aa2fa49fd1cb872b" name="a65b2c16b6aab8dd5aa2fa49fd1cb872b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a65b2c16b6aab8dd5aa2fa49fd1cb872b">&#9670;&#160;</a></span>ARENA_FIGURE_FRAME_WIDTH_PIXELS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int hmi::ARENA_FIGURE_FRAME_WIDTH_PIXELS = 48</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Largeur d'une image des bandes d'animation de la planche, en pixels (<span class="tt">manifest.json</span>, <span class="tt">frame</span>). </p>
+
+</div>
+</div>
+<a id="ab9ad6be84062fc2abf87c40184677eae" name="ab9ad6be84062fc2abf87c40184677eae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab9ad6be84062fc2abf87c40184677eae">&#9670;&#160;</a></span>ARENA_FIGURE_SCALE</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float hmi::ARENA_FIGURE_SCALE = 1.25f</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Agrandissement de la figurine par rapport à la planche (<span class="tt">ArenaTile.ui.qml</span>, <span class="tt">1.25</span>). </p>
+
+</div>
+</div>
 <a id="a58aec3b5e8b7ff780934f969eb35febb" name="a58aec3b5e8b7ff780934f969eb35febb"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a58aec3b5e8b7ff780934f969eb35febb">&#9670;&#160;</a></span>AUTOTILE_CONFIGURATION_COUNT</h2>
 

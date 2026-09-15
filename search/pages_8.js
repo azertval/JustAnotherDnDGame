@@ -19,6 +19,5 @@ var searchData=
   ['87_20—_20cahier_20des_20assets_20de_20la_20charte_20v2_16',['LOT-87 — Cahier des assets de la charte v2',['../lot-87-cahier-assets.html',1,'lot-87']]],
   ['87_20—_20charte_20v2_20et_20intégration_20des_20maquettes_17',['LOT-87 — Charte v2 et intégration des maquettes',['../lot-87.html',1,'lots']]],
   ['88_20—_20spécifications_20_3a_20retrait_20de_20l_20héritage_20plateforme_18',['&lt;span class=&quot;tt&quot;&gt;LOT-88&lt;/span&gt; — Spécifications : retrait de l&apos;héritage plateforme',['../roadmap.html#lot-88',1,'']]],
-  ['89_19',['Combat (89)',['../cahiertest.html#autotoc_md7',1,'']]],
-  ['89_20—_20dons_20objets_20magiques_20et_20consommables_20de_20tanares_20',['&lt;span class=&quot;tt&quot;&gt;LOT-89&lt;/span&gt; — Dons, objets magiques et consommables de Tanares',['../roadmap.html#lot-89',1,'']]]
+  ['89_20—_20dons_20objets_20magiques_20et_20consommables_20de_20tanares_19',['&lt;span class=&quot;tt&quot;&gt;LOT-89&lt;/span&gt; — Dons, objets magiques et consommables de Tanares',['../roadmap.html#lot-89',1,'']]]
 ];

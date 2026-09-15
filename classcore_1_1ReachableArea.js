@@ -13,6 +13,6 @@ var classcore_1_1ReachableArea =
     [ "_endable", "classcore_1_1ReachableArea.html#a4509418225650f92a60c32373491ff22", null ],
     [ "_height", "classcore_1_1ReachableArea.html#abd76cafd28d6f2d9ccd77040891afa32", null ],
     [ "_origin", "classcore_1_1ReachableArea.html#a8bb3aaf2f0a80a65acd064a5b689d8cf", null ],
-    [ "_previous", "classcore_1_1ReachableArea.html#abf7ccb55e81e07a188931eec67843669", null ],
+    [ "_predecessors", "classcore_1_1ReachableArea.html#a4dab4a5fa6e95846d396970d6fbaee11", null ],
     [ "_width", "classcore_1_1ReachableArea.html#a472812fb78167fc27cc884f358dc75ce", null ]
 ];

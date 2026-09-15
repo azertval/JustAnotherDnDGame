@@ -185,8 +185,8 @@ Ce que le <em>Guide du Maître</em> en dit</h2>
 Ce que ce fichier décide, et que le Guide ne dit pas</h2>
 <p>Les <b>poids</b> : combien pèse une cible ensanglantée, une menace subie, une case à parcourir. Ce sont des données (<span class="tt">Source/Elements/Rpg/rules/behaviors.json</span>, <span class="tt">EX-VIS-007</span>), pas des constantes. Et deux garde-fous, qui sont des règles de l'IA et non des poids :</p>
 <ul>
-<li><b>Le suicide.</b> Une IA ne finit pas son tour à portée de plus d'ennemis que son profil n'en tolère (<span class="tt">toleratedThreats</span>) quand une case qui en tolère moins existait : la comparaison est <b>lexicographique</b>, l'excès d'abord, le score ensuite.</li>
-<li><b>Le blocage.</b> Une IA qui peut attaquer attaque ; une IA qui ne le peut pas se rapproche de sa cible, en se précipitant si le chemin est long. Le prudent choisit <b>d'où</b> frapper, et <b>recule</b> après : il ne se cache pas indéfiniment.</li>
+<li><b>Le suicide.</b> Une IA ne finit pas son tour au contact de plus d'ennemis que son profil n'en tolère (<span class="tt">toleratedThreats</span>) quand une case qui en tolère moins existait : la comparaison est <b>lexicographique</b>, l'excès d'abord, le score ensuite. Seules les attaques <b>de contact</b> comptent : un tireur couvre toute l'arène, et le compter interdirait d'approcher.</li>
+<li><b>Le blocage.</b> Une IA qui peut attaquer attaque ; une IA qui ne le peut pas <b>avance</b> vers sa cible — c'est une clé de la comparaison, avant le score, sans quoi la menace d'un round entier la tiendrait hors de portée à jamais —, en se précipitant si le chemin est long. Le prudent choisit <b>d'où</b> frapper, et <b>recule</b> après, à menace égale le moins loin possible : il ne se cache pas indéfiniment.</li>
 </ul>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md936"></a>
 Déterministe, en entiers</h2>

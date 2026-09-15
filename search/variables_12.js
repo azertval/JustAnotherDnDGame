@@ -41,7 +41,7 @@ var searchData=
   ['round_38',['round',['../structcore_1_1CombatEvent.html#a97914f3398b74771f153eb64c622bf6b',1,'core::CombatEvent']]],
   ['row_39',['row',['../structcore_1_1GridPosition.html#ac6f7abc29fe595daf6d2efc341701589',1,'core::GridPosition::row'],['../structhmi_1_1RoomBounds.html#a1eacf6e3d973a83b8ed5c4f5f5ef5d62',1,'hmi::RoomBounds::row'],['../structhmi_1_1AutotileCell.html#af0563e130bf797a533e67e0991494450',1,'hmi::AutotileCell::row']]],
   ['rowoffset_40',['rowOffset',['../structcore_1_1EncounterCombatant.html#adee00c242215fb6f4bccfc875b6f583d',1,'core::EncounterCombatant']]],
-  ['rows_41',['rows',['../structhmi_1_1SkinSection.html#a57e6adcbf198c9092de2a0f033c57e12',1,'hmi::SkinSection::rows'],['../structhmi_1_1RpgContentBlock.html#a0b2ec16652fe9f2435fafdb5ff9a23f2',1,'hmi::RpgContentBlock::rows']]],
+  ['rows_41',['rows',['../structhmi_1_1SkinSection.html#a57e6adcbf198c9092de2a0f033c57e12',1,'hmi::SkinSection::rows'],['../structhmi_1_1ArenaSceneSnapshot.html#a8dcc627c3bd9b2ec21b1d5ae0a8d2bd1',1,'hmi::ArenaSceneSnapshot::rows'],['../structhmi_1_1RpgContentBlock.html#a0b2ec16652fe9f2435fafdb5ff9a23f2',1,'hmi::RpgContentBlock::rows']]],
   ['rpg_5fscreen_5fcount_42',['RPG_SCREEN_COUNT',['../namespacehmi.html#a93db3bafe6aeaebee6e483836f313055',1,'hmi']]],
   ['rpgreturnto_43',['rpgReturnTo',['../structhmi_1_1ScreenState.html#a35d36781ddd45df8818932eb54d7a616',1,'hmi::ScreenState']]],
   ['rules_44',['rules',['../structhmi_1_1DemonstrationState.html#af73eaf8a173c729d1afac7853bd36e92',1,'hmi::DemonstrationState']]],

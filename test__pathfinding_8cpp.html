@@ -125,6 +125,8 @@ Functions</h2></td></tr>
 <tr class="memdesc:a77db9563b9f9505ac11a70b084e4bf0d"><td class="mdescLeft">&#160;</td><td class="mdescRight">On traverse un allie si la requete le permet, jamais un ennemi, et l'on ne finit sur aucun.  <br /></td></tr>
 <tr class="memitem:aaeaa021b8bc56e7f752fc8391924c7ce" id="r_aaeaa021b8bc56e7f752fc8391924c7ce"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#aaeaa021b8bc56e7f752fc8391924c7ce">TEST</a> (PathfindingTest, MemeEntreeMemeChemin)</td></tr>
 <tr class="memdesc:aaeaa021b8bc56e7f752fc8391924c7ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Meme entree, meme chemin : le departage est une regle ecrite.  <br /></td></tr>
+<tr class="memitem:adbcfdf10387ead56c454e396b737aef7" id="r_adbcfdf10387ead56c454e396b737aef7"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#adbcfdf10387ead56c454e396b737aef7">TEST</a> (PathfindingTest, LeCheminSuitLaDroite)</td></tr>
+<tr class="memdesc:adbcfdf10387ead56c454e396b737aef7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le chemin suit la droite entre le depart et l'arrivee : il ne monte pas pour redescendre.  <br /></td></tr>
 <tr class="memitem:a4a87bd4bb9a97dd20bda1485ee1c4781" id="r_a4a87bd4bb9a97dd20bda1485ee1c4781"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a4a87bd4bb9a97dd20bda1485ee1c4781">TEST</a> (PathfindingTest, LAireEtAStarRendentLeMemeChemin)</td></tr>
 <tr class="memdesc:a4a87bd4bb9a97dd20bda1485ee1c4781"><td class="mdescLeft">&#160;</td><td class="mdescRight">A* et l'aire atteignable rendent le meme chemin vers toute case atteignable.  <br /></td></tr>
 <tr class="memitem:aa9dd907423d5d7ddeb561cdb5f3c6b87" id="r_aa9dd907423d5d7ddeb561cdb5f3c6b87"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#aa9dd907423d5d7ddeb561cdb5f3c6b87">TEST</a> (PathfindingTest, UnCheminImpossibleEstRefuse)</td></tr>
@@ -141,7 +143,7 @@ Functions</h2></td></tr>
 <p>La règle vérifiée est celle du Manuel des Joueurs, « Jouer sur un quadrillage » : entrer dans une case coûte 1, même en diagonale ; 2 en terrain difficile, à condition de pouvoir le payer ; et l'on ne passe pas en diagonale par le coin d'un mur. </p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
 <a id="a4a87bd4bb9a97dd20bda1485ee1c4781" name="a4a87bd4bb9a97dd20bda1485ee1c4781"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4a87bd4bb9a97dd20bda1485ee1c4781">&#9670;&#160;</a></span>TEST() <span class="overload">[1/12]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a4a87bd4bb9a97dd20bda1485ee1c4781">&#9670;&#160;</a></span>TEST() <span class="overload">[1/13]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -172,7 +174,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="ae9ed0b4f28b93d07dfab367f58fbda7e" name="ae9ed0b4f28b93d07dfab367f58fbda7e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae9ed0b4f28b93d07dfab367f58fbda7e">&#9670;&#160;</a></span>TEST() <span class="overload">[2/12]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ae9ed0b4f28b93d07dfab367f58fbda7e">&#9670;&#160;</a></span>TEST() <span class="overload">[2/13]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -204,8 +206,39 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="adbcfdf10387ead56c454e396b737aef7" name="adbcfdf10387ead56c454e396b737aef7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adbcfdf10387ead56c454e396b737aef7">&#9670;&#160;</a></span>TEST() <span class="overload">[3/13]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TEST </td>
+          <td>(</td>
+          <td class="paramtype">PathfindingTest</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">LeCheminSuitLaDroite</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Le chemin suit la droite entre le depart et l'arrivee : il ne monte pas pour redescendre. </p>
+<p><b>Cas de test :</b> <b>Sur une grille ouverte, le chemin retenu parmi ceux de meme cout est le plus proche de la droite depart-arrivee, et reste dans la boite qui les englobe.</b><br  />
+ <b>Categorie :</b> Unitaire · Combat<br  />
+ <b>Criticite :</b> Critique<br  />
+ <b>Etapes :</b><br  />
+ 1. Grille ouverte 11x11, heros au centre (5,5).<br  />
+2. Demander le chemin vers (9,3), en haut a droite, par l'aire et par A*.<br  />
+3. Verifier toute destination de l'aire.<br  />
+ <b>Resultat attendu :</b> Vers (9,3) : (6,4) (7,4) (8,3) (9,3), jamais (8,2) ; vers toute destination, aucun pas ne sort du rectangle entre le depart et l'arrivee. </p>
+
+</div>
+</div>
 <a id="a51ff10a203af9f0bad3bef3c3ad5c34b" name="a51ff10a203af9f0bad3bef3c3ad5c34b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a51ff10a203af9f0bad3bef3c3ad5c34b">&#9670;&#160;</a></span>TEST() <span class="overload">[3/12]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a51ff10a203af9f0bad3bef3c3ad5c34b">&#9670;&#160;</a></span>TEST() <span class="overload">[4/13]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -236,7 +269,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a8602a60d6eed582485cab4278596de0e" name="a8602a60d6eed582485cab4278596de0e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8602a60d6eed582485cab4278596de0e">&#9670;&#160;</a></span>TEST() <span class="overload">[4/12]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a8602a60d6eed582485cab4278596de0e">&#9670;&#160;</a></span>TEST() <span class="overload">[5/13]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -267,7 +300,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="aaeaa021b8bc56e7f752fc8391924c7ce" name="aaeaa021b8bc56e7f752fc8391924c7ce"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaeaa021b8bc56e7f752fc8391924c7ce">&#9670;&#160;</a></span>TEST() <span class="overload">[5/12]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aaeaa021b8bc56e7f752fc8391924c7ce">&#9670;&#160;</a></span>TEST() <span class="overload">[6/13]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -298,7 +331,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="ad3a9f802851335abd4230994f41b40e2" name="ad3a9f802851335abd4230994f41b40e2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad3a9f802851335abd4230994f41b40e2">&#9670;&#160;</a></span>TEST() <span class="overload">[6/12]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ad3a9f802851335abd4230994f41b40e2">&#9670;&#160;</a></span>TEST() <span class="overload">[7/13]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -328,7 +361,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a77db9563b9f9505ac11a70b084e4bf0d" name="a77db9563b9f9505ac11a70b084e4bf0d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a77db9563b9f9505ac11a70b084e4bf0d">&#9670;&#160;</a></span>TEST() <span class="overload">[7/12]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a77db9563b9f9505ac11a70b084e4bf0d">&#9670;&#160;</a></span>TEST() <span class="overload">[8/13]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -358,7 +391,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="aa9dd907423d5d7ddeb561cdb5f3c6b87" name="aa9dd907423d5d7ddeb561cdb5f3c6b87"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa9dd907423d5d7ddeb561cdb5f3c6b87">&#9670;&#160;</a></span>TEST() <span class="overload">[8/12]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aa9dd907423d5d7ddeb561cdb5f3c6b87">&#9670;&#160;</a></span>TEST() <span class="overload">[9/13]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -388,7 +421,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a0e03f326eb6962b77a5e46f50f4532c6" name="a0e03f326eb6962b77a5e46f50f4532c6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0e03f326eb6962b77a5e46f50f4532c6">&#9670;&#160;</a></span>TEST() <span class="overload">[9/12]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a0e03f326eb6962b77a5e46f50f4532c6">&#9670;&#160;</a></span>TEST() <span class="overload">[10/13]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -419,7 +452,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a8d6e4d2a632ac411d24ad4f39a192e21" name="a8d6e4d2a632ac411d24ad4f39a192e21"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8d6e4d2a632ac411d24ad4f39a192e21">&#9670;&#160;</a></span>TEST() <span class="overload">[10/12]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a8d6e4d2a632ac411d24ad4f39a192e21">&#9670;&#160;</a></span>TEST() <span class="overload">[11/13]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -449,7 +482,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="ac08ce973faf19e1ec4d8003372c01d03" name="ac08ce973faf19e1ec4d8003372c01d03"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac08ce973faf19e1ec4d8003372c01d03">&#9670;&#160;</a></span>TEST() <span class="overload">[11/12]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ac08ce973faf19e1ec4d8003372c01d03">&#9670;&#160;</a></span>TEST() <span class="overload">[12/13]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -479,7 +512,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a4ca07b8d7cd0a4a5ebb0faeada77bcf1" name="a4ca07b8d7cd0a4a5ebb0faeada77bcf1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4ca07b8d7cd0a4a5ebb0faeada77bcf1">&#9670;&#160;</a></span>TEST() <span class="overload">[12/12]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a4ca07b8d7cd0a4a5ebb0faeada77bcf1">&#9670;&#160;</a></span>TEST() <span class="overload">[13/13]</span></h2>
 
 <div class="memitem">
 <div class="memproto">

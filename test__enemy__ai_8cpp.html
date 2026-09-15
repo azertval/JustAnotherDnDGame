@@ -125,6 +125,12 @@ Functions</h2></td></tr>
 <tr class="memdesc:a4c97b99610bdf098fafb6f8f1bbc5a1f"><td class="mdescLeft">&#160;</td><td class="mdescRight">L'IA lit l'etat ensanglante, jamais les points de vie (EX-CBT-050).  <br /></td></tr>
 <tr class="memitem:a59552bd44d58ebf7c5a922da461f3ab1" id="r_a59552bd44d58ebf7c5a922da461f3ab1"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a59552bd44d58ebf7c5a922da461f3ab1">TEST</a> (EnemyAiTest, PasDeSuicideQuandUneCaseSureExiste)</td></tr>
 <tr class="memdesc:a59552bd44d58ebf7c5a922da461f3ab1"><td class="mdescLeft">&#160;</td><td class="mdescRight">L'IA ne finit pas son tour a portee de trois ennemis quand une case sure existait.  <br /></td></tr>
+<tr class="memitem:a5d1d931fe526424c96a2f28975eabf99" id="r_a5d1d931fe526424c96a2f28975eabf99"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a5d1d931fe526424c96a2f28975eabf99">TEST</a> (EnemyAiTest, UnTireurNeComptePasDansLAntiSuicide)</td></tr>
+<tr class="memdesc:a5d1d931fe526424c96a2f28975eabf99"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un tireur ne compte pas dans la cle anti-suicide : sa portee couvre l'arene.  <br /></td></tr>
+<tr class="memitem:a07fce2f224f31d6622388462cf1c85df" id="r_a07fce2f224f31d6622388462cf1c85df"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a07fce2f224f31d6622388462cf1c85df">TEST</a> (EnemyAiTest, SansAttaquePossibleChaqueProfilAvance)</td></tr>
+<tr class="memdesc:a07fce2f224f31d6622388462cf1c85df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sans attaque possible, chaque profil avance : la menace ne le tient pas a distance.  <br /></td></tr>
+<tr class="memitem:ac8a0ff87a6b80c975569063c86087bd6" id="r_ac8a0ff87a6b80c975569063c86087bd6"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#ac8a0ff87a6b80c975569063c86087bd6">TEST</a> (EnemyAiTest, LeRepliVaALaCaseSureLaPlusProche)</td></tr>
+<tr class="memdesc:ac8a0ff87a6b80c975569063c86087bd6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le repli apres l'attaque va a la case sure la plus proche, pas au coin de la salle.  <br /></td></tr>
 <tr class="memitem:aebd28491e7b90bc8723cc5595c134cb9" id="r_aebd28491e7b90bc8723cc5595c134cb9"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#aebd28491e7b90bc8723cc5595c134cb9">TEST</a> (EnemyAiTest, LArchereChercheLaVue)</td></tr>
 <tr class="memdesc:aebd28491e7b90bc8723cc5595c134cb9"><td class="mdescLeft">&#160;</td><td class="mdescRight">L'archere cherche la case d'ou elle voit, tire, et n'attaque jamais a travers un mur.  <br /></td></tr>
 <tr class="memitem:a5e542f86693e6d4820d8f273dd4e8b99" id="r_a5e542f86693e6d4820d8f273dd4e8b99"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a5e542f86693e6d4820d8f273dd4e8b99">TEST</a> (EnemyAiTest, SePrecipiterEtChoisirSesOpportunites)</td></tr>
@@ -136,7 +142,7 @@ Functions</h2></td></tr>
 <div class="textblock"><p>Tests unitaires de l'IA tactique (<span class="tt">LOT-23</span>) : la prise en tenaille du <em>Guide du Maître</em>, le jet requis et l'espérance de dégâts, les profils en données, ce que l'IA sait, le suicide, le blocage et le rejeu. </p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
 <a id="aebd28491e7b90bc8723cc5595c134cb9" name="aebd28491e7b90bc8723cc5595c134cb9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aebd28491e7b90bc8723cc5595c134cb9">&#9670;&#160;</a></span>TEST() <span class="overload">[1/9]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aebd28491e7b90bc8723cc5595c134cb9">&#9670;&#160;</a></span>TEST() <span class="overload">[1/12]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -166,7 +172,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a98457b4b2e1f53207a8dd63c20526b9b" name="a98457b4b2e1f53207a8dd63c20526b9b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a98457b4b2e1f53207a8dd63c20526b9b">&#9670;&#160;</a></span>TEST() <span class="overload">[2/9]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a98457b4b2e1f53207a8dd63c20526b9b">&#9670;&#160;</a></span>TEST() <span class="overload">[2/12]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -195,8 +201,38 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="ac8a0ff87a6b80c975569063c86087bd6" name="ac8a0ff87a6b80c975569063c86087bd6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac8a0ff87a6b80c975569063c86087bd6">&#9670;&#160;</a></span>TEST() <span class="overload">[3/12]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TEST </td>
+          <td>(</td>
+          <td class="paramtype">EnemyAiTest</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">LeRepliVaALaCaseSureLaPlusProche</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Le repli apres l'attaque va a la case sure la plus proche, pas au coin de la salle. </p>
+<p><b>Cas de test :</b> <b>Une archere prudente tire puis recule juste hors de portee du heros, vers la case la plus proche de lui.</b><br  />
+ <b>Categorie :</b> Unitaire · Combat<br  />
+ <b>Criticite :</b> Critique<br  />
+ <b>Etapes :</b><br  />
+ 1. Salle 20x8, heros de contact en (16,3), archere prudente en (10,3) a sept cases de portee : le heros atteint en un tour toute case de la colonne 9 et au-dela, et elle ne peut tirer que de la.<br  />
+2. Jouer le tour de l'archere.<br  />
+ <b>Resultat attendu :</b> Un tir au journal, puis un repli en colonne 8 : hors de portee, et au moins de deplacement. Avant la correction, a menace egale le plus petit indice l'emportait, et elle filait en colonne 4. </p>
+
+</div>
+</div>
 <a id="af376624402db300ebf08ed2f346d944f" name="af376624402db300ebf08ed2f346d944f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af376624402db300ebf08ed2f346d944f">&#9670;&#160;</a></span>TEST() <span class="overload">[3/9]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#af376624402db300ebf08ed2f346d944f">&#9670;&#160;</a></span>TEST() <span class="overload">[4/12]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -227,7 +263,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a4c97b99610bdf098fafb6f8f1bbc5a1f" name="a4c97b99610bdf098fafb6f8f1bbc5a1f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4c97b99610bdf098fafb6f8f1bbc5a1f">&#9670;&#160;</a></span>TEST() <span class="overload">[4/9]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a4c97b99610bdf098fafb6f8f1bbc5a1f">&#9670;&#160;</a></span>TEST() <span class="overload">[5/12]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -258,7 +294,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a59552bd44d58ebf7c5a922da461f3ab1" name="a59552bd44d58ebf7c5a922da461f3ab1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a59552bd44d58ebf7c5a922da461f3ab1">&#9670;&#160;</a></span>TEST() <span class="overload">[5/9]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a59552bd44d58ebf7c5a922da461f3ab1">&#9670;&#160;</a></span>TEST() <span class="overload">[6/12]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -287,8 +323,38 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a07fce2f224f31d6622388462cf1c85df" name="a07fce2f224f31d6622388462cf1c85df"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07fce2f224f31d6622388462cf1c85df">&#9670;&#160;</a></span>TEST() <span class="overload">[7/12]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TEST </td>
+          <td>(</td>
+          <td class="paramtype">EnemyAiTest</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">SansAttaquePossibleChaqueProfilAvance</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sans attaque possible, chaque profil avance : la menace ne le tient pas a distance. </p>
+<p><b>Cas de test :</b> <b>Dans une salle aux dimensions de l'arene, un ennemi de chaque profil qui ne peut pas encore frapper se rapproche a chaque tour, jusqu'a attaquer.</b><br  />
+ <b>Categorie :</b> Unitaire · Combat<br  />
+ <b>Criticite :</b> Bloquant<br  />
+ <b>Etapes :</b><br  />
+ 1. Salle 20x14, heros en (3,6) (+4, 1d8+2), ennemi de contact en (16,6) a treize cases, pour chacun des profils livres.<br  />
+2. Le heros passe son tour ; jouer l'ennemi par l'IA, jusqu'a six tours.<br  />
+ <b>Resultat attendu :</b> Tant qu'il n'a pas attaque, la distance au heros diminue strictement a chaque tour de l'ennemi ; il attaque au plus tard au troisieme. Avant la correction, un prudent s'arretait au bord de la zone de menace et reculait quand le heros avancait. </p>
+
+</div>
+</div>
 <a id="a5e542f86693e6d4820d8f273dd4e8b99" name="a5e542f86693e6d4820d8f273dd4e8b99"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5e542f86693e6d4820d8f273dd4e8b99">&#9670;&#160;</a></span>TEST() <span class="overload">[6/9]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a5e542f86693e6d4820d8f273dd4e8b99">&#9670;&#160;</a></span>TEST() <span class="overload">[8/12]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -318,7 +384,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a8b73141e0812afdafd0f050d81cd52ff" name="a8b73141e0812afdafd0f050d81cd52ff"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8b73141e0812afdafd0f050d81cd52ff">&#9670;&#160;</a></span>TEST() <span class="overload">[7/9]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a8b73141e0812afdafd0f050d81cd52ff">&#9670;&#160;</a></span>TEST() <span class="overload">[9/12]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -348,8 +414,38 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a5d1d931fe526424c96a2f28975eabf99" name="a5d1d931fe526424c96a2f28975eabf99"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5d1d931fe526424c96a2f28975eabf99">&#9670;&#160;</a></span>TEST() <span class="overload">[10/12]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TEST </td>
+          <td>(</td>
+          <td class="paramtype">EnemyAiTest</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">UnTireurNeComptePasDansLAntiSuicide</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Un tireur ne compte pas dans la cle anti-suicide : sa portee couvre l'arene. </p>
+<p><b>Cas de test :</b> <b>Deux archers allies qui couvrent toute la salle n'empechent pas un prudent d'aller frapper le heros au contact.</b><br  />
+ <b>Categorie :</b> Unitaire · Combat<br  />
+ <b>Criticite :</b> Bloquant<br  />
+ <b>Etapes :</b><br  />
+ 1. Salle 12x8 : un heros de contact en (7,3), deux archers allies en (2,2) et (2,5) dont la portee couvre la salle, un gobelin prudent (tolere une menace) en (5,3).<br  />
+2. Planifier le tour du gobelin.<br  />
+ <b>Resultat attendu :</b> Une attaque contre le heros depuis une case au contact. Avant la correction, toute case etait a portee des deux archers, la case de contact en depassait le seuil, et le gobelin fuyait. </p>
+
+</div>
+</div>
 <a id="a54e658ed6c022932f813043bb7c69781" name="a54e658ed6c022932f813043bb7c69781"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a54e658ed6c022932f813043bb7c69781">&#9670;&#160;</a></span>TEST() <span class="overload">[8/9]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a54e658ed6c022932f813043bb7c69781">&#9670;&#160;</a></span>TEST() <span class="overload">[11/12]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -380,7 +476,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a4ee09c20299ff1fdd88d758471db4b64" name="a4ee09c20299ff1fdd88d758471db4b64"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4ee09c20299ff1fdd88d758471db4b64">&#9670;&#160;</a></span>TEST() <span class="overload">[9/9]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a4ee09c20299ff1fdd88d758471db4b64">&#9670;&#160;</a></span>TEST() <span class="overload">[12/12]</span></h2>
 
 <div class="memitem">
 <div class="memproto">

@@ -124,17 +124,18 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:a8bb3aaf2f0a80a65acd064a5b689d8cf" id="r_a8bb3aaf2f0a80a65acd064a5b689d8cf"><td class="memItemLeft"><a class="el" href="structcore_1_1GridPosition.html">GridPosition</a>&#160;</td><td class="memItemRight"><a class="el" href="#a8bb3aaf2f0a80a65acd064a5b689d8cf">_origin</a> {}</td></tr>
 <tr class="memitem:a732afb30ce42ef61595a3e9f52ab3d59" id="r_a732afb30ce42ef61595a3e9f52ab3d59"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a732afb30ce42ef61595a3e9f52ab3d59">_budget</a> = 0</td></tr>
 <tr class="memitem:acceb25ac5f3321dd2216d34f105b848b" id="r_acceb25ac5f3321dd2216d34f105b848b"><td class="memItemLeft">std::vector&lt; int &gt;&#160;</td><td class="memItemRight"><a class="el" href="#acceb25ac5f3321dd2216d34f105b848b">_costs</a></td></tr>
-<tr class="memitem:abf7ccb55e81e07a188931eec67843669" id="r_abf7ccb55e81e07a188931eec67843669"><td class="memItemLeft">std::vector&lt; int &gt;&#160;</td><td class="memItemRight"><a class="el" href="#abf7ccb55e81e07a188931eec67843669">_previous</a></td></tr>
+<tr class="memitem:a4dab4a5fa6e95846d396970d6fbaee11" id="r_a4dab4a5fa6e95846d396970d6fbaee11"><td class="memItemLeft">std::vector&lt; std::uint8_t &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a4dab4a5fa6e95846d396970d6fbaee11">_predecessors</a></td></tr>
+<tr class="memdesc:a4dab4a5fa6e95846d396970d6fbaee11"><td class="mdescLeft">&#160;</td><td class="mdescRight">Par case, le masque de ses prédécesseurs au meilleur coût (un bit par voisin).  <br /></td></tr>
 <tr class="memitem:a4509418225650f92a60c32373491ff22" id="r_a4509418225650f92a60c32373491ff22"><td class="memItemLeft">std::vector&lt; bool &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a4509418225650f92a60c32373491ff22">_endable</a></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Les cases qu'un combattant peut atteindre ce tour-ci, et par où. </p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md942"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md944"></a>
 La règle du Manuel, et pourquoi elle n'est pas un parcours en largeur</h2>
 <p>Manuel des Joueurs, « Jouer sur un quadrillage » : entrer dans une case coûte <b>1</b>, même en <b>diagonale</b> ; entrer dans une case de terrain difficile coûte <b>2</b>, et il faut qu'il reste de quoi payer ; on ne passe pas en diagonale par le <b>coin</b> d'un mur. Trois faits qu'un parcours en largeur à quatre voisins — <span class="tt"><a class="el" href="classcore_1_1GridDistanceField.html" title="Distance de plus court chemin en nombre de cases (4-connexité, respectant les cases statiquement soli...">core::GridDistanceField</a></span>, sauvé de la purge pour ce lot — ne sait pas exprimer : il ignore les diagonales, et tous ses pas coûtent un. La case d'une créature qu'on <b>traverse</b> compte, elle aussi, pour du terrain difficile (« Se déplacer au milieu d'autres créatures », PDF p. 193), en vol comme au sol. Il reste l'outil de la récompense de progression (<span class="tt">EX-IA-023</span>), et ce calcul-ci est un Dijkstra sur les huit voisins.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md943"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md945"></a>
 Le départage est une règle, pas un hasard</h2>
-<p>Deux chemins de même coût existent presque toujours. Parmi les prédécesseurs qui atteignent une case au meilleur coût, on retient <b>celui d'indice de case le plus petit</b> (ligne, puis colonne). Cette définition ne dépend pas de l'ordre d'exploration : <span class="tt"><a class="el" href="namespacecore.html#ad018fcc5c0c0bcabf187d6ae09568067" title="Le meilleur chemin de mover jusqu&#39;à destination, sans limite de budget.">core::findPath</a></span> la partage, et le chemin qu'il rend vers une case atteignable est celui que rend <span class="tt"><a class="el" href="#a432ca85fca1abce130cc687720e5a537" title="Le chemin jusqu&#39;à anchor, ou std::nullopt si l&#39;on ne peut pas y finir.">pathTo</a></span>, pas un autre de même coût. </p>
+<p>Deux chemins de même coût existent presque toujours. L'exploration retient <b>tous</b> les prédécesseurs qui atteignent une case à son meilleur coût ; c'est la remontée, qui connaît l'arrivée, qui choisit : <b>le prédécesseur le plus proche de la droite qui joint le départ à l'arrivée</b>, et à égalité celui d'indice de case le plus petit (ligne, puis colonne). Le chemin ne monte donc pas pour redescendre quand un autre chemin de même coût suit la droite — c'est lui que la prévisualisation du déplacement dessine (<span class="tt">LOT-24</span>). Cette définition ne dépend pas de l'ordre d'exploration : <span class="tt"><a class="el" href="namespacecore.html#ad018fcc5c0c0bcabf187d6ae09568067" title="Le meilleur chemin de mover jusqu&#39;à destination, sans limite de budget.">core::findPath</a></span> la partage, et le chemin qu'il rend vers une case atteignable est celui que rend <span class="tt"><a class="el" href="#a432ca85fca1abce130cc687720e5a537" title="Le chemin jusqu&#39;à anchor, ou std::nullopt si l&#39;on ne peut pas y finir.">pathTo</a></span>, pas un autre de même coût. </p>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a2d820d86892363951dfcd7b14dbd71e5" name="a2d820d86892363951dfcd7b14dbd71e5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2d820d86892363951dfcd7b14dbd71e5">&#9670;&#160;</a></span>ReachableArea()</h2>
@@ -469,8 +470,8 @@ Le départage est une règle, pas un hasard</h2>
 
 </div>
 </div>
-<a id="abf7ccb55e81e07a188931eec67843669" name="abf7ccb55e81e07a188931eec67843669"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abf7ccb55e81e07a188931eec67843669">&#9670;&#160;</a></span>_previous</h2>
+<a id="a4dab4a5fa6e95846d396970d6fbaee11" name="a4dab4a5fa6e95846d396970d6fbaee11"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4dab4a5fa6e95846d396970d6fbaee11">&#9670;&#160;</a></span>_predecessors</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -479,7 +480,7 @@ Le départage est une règle, pas un hasard</h2>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt;int&gt; core::ReachableArea::_previous</td>
+          <td class="memname">std::vector&lt;std::uint8_t&gt; core::ReachableArea::_predecessors</td>
         </tr>
       </table>
   </td>
@@ -488,6 +489,8 @@ Le départage est une règle, pas un hasard</h2>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Par case, le masque de ses prédécesseurs au meilleur coût (un bit par voisin). </p>
 
 </div>
 </div>

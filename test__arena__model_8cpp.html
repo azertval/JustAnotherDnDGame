@@ -108,50 +108,19 @@ $(function(){initNavTree('test__arena__model_8cpp.html','',''); });
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:aebf6d29addade776d4a594f026be37e5" id="r_aebf6d29addade776d4a594f026be37e5"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#aebf6d29addade776d4a594f026be37e5">TEST</a> (ArenaModelTest, UnCombatSeJoueParLesSeulsGestes)</td></tr>
-<tr class="memdesc:aebf6d29addade776d4a594f026be37e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un combat complet se joue par les seuls gestes du clavier et de la manette.  <br /></td></tr>
-<tr class="memitem:a0b8b1caec61d6a4f94da8e4e98fa1f34" id="r_a0b8b1caec61d6a4f94da8e4e98fa1f34"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a0b8b1caec61d6a4f94da8e4e98fa1f34">TEST</a> (ArenaModelTest, LaGrilleMontreLeCurseurEtCacheLesPvEnnemis)</td></tr>
-<tr class="memdesc:a0b8b1caec61d6a4f94da8e4e98fa1f34"><td class="mdescLeft">&#160;</td><td class="mdescRight">La grille montre le curseur, les PV des allies, et l'etat ensanglante des ennemis.  <br /></td></tr>
 <tr class="memitem:a736ec17d377d79b57adbcf277050bc97" id="r_a736ec17d377d79b57adbcf277050bc97"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a736ec17d377d79b57adbcf277050bc97">TEST</a> (ArenaModelTest, LaReactionSeBasculeDepuisLaBarre)</td></tr>
 <tr class="memdesc:a736ec17d377d79b57adbcf277050bc97"><td class="mdescLeft">&#160;</td><td class="mdescRight">La reaction du joueur se bascule depuis la barre d'actions.  <br /></td></tr>
+<tr class="memitem:a07700c6f1c69684a64c389ec3eb166c6" id="r_a07700c6f1c69684a64c389ec3eb166c6"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a07700c6f1c69684a64c389ec3eb166c6">TEST</a> (ArenaModelTest, LeSurvolPoseLeCurseur)</td></tr>
+<tr class="memdesc:a07700c6f1c69684a64c389ec3eb166c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le survol de la souris pose le curseur sur une case.  <br /></td></tr>
+<tr class="memitem:aaf7f7bcb60310b2506faa76fc23e701c" id="r_aaf7f7bcb60310b2506faa76fc23e701c"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#aaf7f7bcb60310b2506faa76fc23e701c">TEST</a> (ArenaModelTest, LeCalqueDeLaGrilleDecritCombattantsEtCasesAtteignables)</td></tr>
+<tr class="memdesc:aaf7f7bcb60310b2506faa76fc23e701c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le calque de la grille : une entree par combattant et par case atteignable.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Tests de la vue-modèle du Colisée (<span class="tt">LOT-24</span>) : un combat joué par les seuls gestes du clavier et de la manette, ce que la grille montre et cache, la réaction du joueur. </p>
 <p>La vue-modèle charge ses catalogues à côté de l'exécutable, comme le jeu : ces tests tournent dans le dossier <span class="tt">bin</span> où le jeu déploie ses données. </p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
-<a id="a0b8b1caec61d6a4f94da8e4e98fa1f34" name="a0b8b1caec61d6a4f94da8e4e98fa1f34"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0b8b1caec61d6a4f94da8e4e98fa1f34">&#9670;&#160;</a></span>TEST() <span class="overload">[1/3]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">TEST </td>
-          <td>(</td>
-          <td class="paramtype">ArenaModelTest</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">LaGrilleMontreLeCurseurEtCacheLesPvEnnemis</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>La grille montre le curseur, les PV des allies, et l'etat ensanglante des ennemis. </p>
-<p><b>Cas de test :</b> <b>La grille porte le curseur sur une case ; un allie montre ses points de vie, un ennemi seulement s'il est ensanglante ou a terre, comme le Guide du Maitre le laisse voir.</b><br  />
- <b>Categorie :</b> Unitaire · IHM<br  />
- <b>Criticite :</b> Critique<br  />
- <b>Etapes :</b><br  />
- 1. Lancer un combat.<br  />
-2. Lire la case du curseur, celle de l'allie, celle de l'ennemi.<br  />
-3. Deplacer le curseur hors de la grille.<br  />
- <b>Resultat attendu :</b> Le curseur sur la case du combattant actif ; « PV/maximum » pour l'allie, aucun nombre pour l'ennemi ; le curseur reste dans la grille. </p>
-
-</div>
-</div>
 <a id="a736ec17d377d79b57adbcf277050bc97" name="a736ec17d377d79b57adbcf277050bc97"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a736ec17d377d79b57adbcf277050bc97">&#9670;&#160;</a></span>TEST() <span class="overload">[2/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a736ec17d377d79b57adbcf277050bc97">&#9670;&#160;</a></span>TEST() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -181,8 +150,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="aebf6d29addade776d4a594f026be37e5" name="aebf6d29addade776d4a594f026be37e5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aebf6d29addade776d4a594f026be37e5">&#9670;&#160;</a></span>TEST() <span class="overload">[3/3]</span></h2>
+<a id="aaf7f7bcb60310b2506faa76fc23e701c" name="aaf7f7bcb60310b2506faa76fc23e701c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaf7f7bcb60310b2506faa76fc23e701c">&#9670;&#160;</a></span>TEST() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -195,19 +164,50 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">UnCombatSeJoueParLesSeulsGestes</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+          <td class="paramtype">LeCalqueDeLaGrilleDecritCombattantsEtCasesAtteignables</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Un combat complet se joue par les seuls gestes du clavier et de la manette. </p>
-<p><b>Cas de test :</b> <b>Un combat du Colisee se joue de bout en bout par les gestes que le clavier et la manette declenchent &ndash; cible suivante, curseur, confirmer, fin du tour &ndash;, sans un clic ; l'ennemi est joue par l'IA entre deux tours du joueur.</b><br  />
+<p>Le calque de la grille : une entree par combattant et par case atteignable. </p>
+<p><b>Cas de test :</b> <b>fighters decrit chaque combattant sur la grille et garde secrets les points de vie ennemis ; reachableCells ne liste que des cases libres.</b><br  />
  <b>Categorie :</b> Unitaire · IHM<br  />
- <b>Criticite :</b> Bloquant<br  />
+ <b>Criticite :</b> Majeure<br  />
  <b>Etapes :</b><br  />
- 1. Composer le personnage de demonstration contre un sanglier, lancer.<br  />
-2. A chaque tour du joueur : viser l'ennemi le plus proche ; s'il est hors d'allonge, recentrer, mener le curseur sur une case atteignable a son contact et confirmer, puis viser et confirmer ; finir le tour.<br  />
- <b>Resultat attendu :</b> Le combat atteint son issue ; le journal porte des attaques du personnage et du sanglier ; chaque jet affiche dans le statut est une ligne du journal. </p>
+ 1. Avant le combat, lire les deux listes.<br  />
+2. Lancer ; lire les combattants et les cases atteignables.<br  />
+ <b>Resultat attendu :</b> Vides avant le combat ; un allie et un ennemi, un seul au tour ; les points de vie de l'allie en clair, jamais ceux de l'ennemi ; des cases atteignables, aucune occupee. </p>
+
+</div>
+</div>
+<a id="a07700c6f1c69684a64c389ec3eb166c6" name="a07700c6f1c69684a64c389ec3eb166c6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07700c6f1c69684a64c389ec3eb166c6">&#9670;&#160;</a></span>TEST() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TEST </td>
+          <td>(</td>
+          <td class="paramtype">ArenaModelTest</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">LeSurvolPoseLeCurseur</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Le survol de la souris pose le curseur sur une case. </p>
+<p><b>Cas de test :</b> <b>pointCursor pose le curseur sur la case survolee, et ignore ce qui n'en est pas une.</b><br  />
+ <b>Categorie :</b> Unitaire · IHM<br  />
+ <b>Criticite :</b> Majeure<br  />
+ <b>Etapes :</b><br  />
+ 1. Avant le combat, pointer une case.<br  />
+2. Lancer ; pointer l'ennemi le plus proche depuis une autre case.<br  />
+3. Pointer hors de la grille.<br  />
+ <b>Resultat attendu :</b> Rien avant le combat ; le curseur rejoint la case pointee ; hors de la grille, le curseur ne bouge pas. </p>
 
 </div>
 </div>

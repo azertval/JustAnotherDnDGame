@@ -24,5 +24,6 @@ var searchData=
   ['button_5frepeat_5finterval_21',['BUTTON_REPEAT_INTERVAL',['../namespacehmi.html#a19c4e889b587eee63318fd97be53024d',1,'hmi']]],
   ['bx_22',['bx',['../structhmi_1_1LineQuad.html#a203b268e3040f841fa7089fc58391d22',1,'hmi::LineQuad']]],
   ['by_23',['by',['../structhmi_1_1LineQuad.html#aea263b042537c77e3ffbebe64b772a27',1,'hmi::LineQuad']]],
-  ['bypassedby_24',['bypassedBy',['../structcore_1_1DamageAffinity.html#aee4369403d75f62d22159671ceb8a216',1,'core::DamageAffinity']]]
+  ['bypassedby_24',['bypassedBy',['../structcore_1_1DamageAffinity.html#aee4369403d75f62d22159671ceb8a216',1,'core::DamageAffinity']]],
+  ['bypath_25',['byPath',['../structhmi_1_1ArenaSceneTextures.html#ab07d86253bc7879c97f16804139f1fa4',1,'hmi::ArenaSceneTextures']]]
 ];
