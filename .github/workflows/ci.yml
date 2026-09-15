@@ -73,12 +73,22 @@ jobs:
     # Borne haute : un job bloqué (test qui ne termine pas, runner figé) échoue au lieu d'occuper le
     # runner six heures, la valeur par défaut de GitHub. Large marge sur la durée observée.
     timeout-minutes: 60
+    permissions:
+      contents: read
+      # Codecov authentifie l'envoi par OIDC : aucun jeton à stocker en secret.
+      id-token: write
 
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
+
+      # Avertissements MSVC et assertions GoogleTest en annotations sur la ligne du diff (phase 1) :
+      # /WX bloquait déjà, mais le message était enfoui dans le log. Actif pour toutes les étapes
+      # suivantes du job ; définition unique dans .github/problem-matchers/msvc.json.
+      - name: Annotations du compilateur et des tests
+        run: echo "::add-matcher::.github/problem-matchers/msvc.json"
 
       # Nécessaire pour construire l'application Qt (JustAnotherDnDGame, LOT-34). Définition unique
       # des modules et de l'action : .github/actions/setup-qt/action.yml.
@@ -99,7 +109,19 @@ jobs:
         run: cmake --build --preset vs
 
       - name: Test (CTest)
-        run: ctest --preset vs
+        # Rapport JUnit : un cas par test GoogleTest (gtest_discover_tests), publié dans la PR par le
+        # job test-report. Chemin absolu : --output-junit est sinon relatif au dossier de build.
+        run: |
+          New-Item -ItemType Directory -Force test-results | Out-Null
+          ctest --preset vs --output-junit "$env:GITHUB_WORKSPACE/test-results/junit-debug.xml"
+
+      - name: Conserver le rapport de tests
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: junit-debug
+          path: test-results/
+          if-no-files-found: ignore
 
       - name: Verifier que l'executable est bien produit
         shell: pwsh
@@ -167,6 +189,28 @@ jobs:
             coverage.xml
             coverage-html/
 
+      # Couverture des lignes AJOUTÉES par la PR, commentée dans la PR (phase 1). Le cliquet global
+      # ci-dessus laisse passer 300 lignes non testées tant que la moyenne tient ; Codecov les
+      # montre. Informatif (codecov.yml) : le seul seuil bloquant reste celui de ce fichier.
+      # Pas de Dependabot ici : ses PR n'ont pas de jeton OIDC et ne touchent pas au C++.
+      - name: Envoyer la couverture a Codecov
+        if: ${{ !cancelled() && hashFiles('coverage.xml') != '' && github.actor != 'dependabot[bot]' }}
+        uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f # v7.0.0
+        with:
+          files: coverage.xml
+          disable_search: true
+          use_oidc: true
+          # Un service tiers indisponible ne doit pas rendre la PR rouge.
+          fail_ci_if_error: false
+
+      - name: Resume du job
+        if: ${{ !cancelled() }}
+        run: >-
+          python scripts/ci_summary.py --title "Debug (preset vs)"
+          --junit test-results/junit-debug.xml
+          --coverage coverage.xml --threshold ${{ env.COVERAGE_THRESHOLD_PERCENT }}
+          --file build/vs/bin/Debug/JustAnotherDnDGame.exe
+
   build-test-release:
     # Les deux jobs ci-dessus (et l'historique de la CI avant ce lot) ne construisent et ne testent
     # qu'en Debug. Le premier build Release avait lieu dans release.yml, DÉCLENCHÉ PAR LE TAG : une
@@ -180,6 +224,9 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
+
+      - name: Annotations du compilateur et des tests
+        run: echo "::add-matcher::.github/problem-matchers/msvc.json"
 
       - name: Install Qt
         uses: ./.github/actions/setup-qt
@@ -196,7 +243,17 @@ jobs:
         run: cmake --build --preset vs-release
 
       - name: Test (CTest, Release)
-        run: ctest --preset vs-release
+        run: |
+          New-Item -ItemType Directory -Force test-results | Out-Null
+          ctest --preset vs-release --output-junit "$env:GITHUB_WORKSPACE/test-results/junit-release.xml"
+
+      - name: Conserver le rapport de tests
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: junit-release
+          path: test-results/
+          if-no-files-found: ignore
 
       - name: Verifier que l'executable est bien produit
         shell: pwsh
@@ -204,6 +261,13 @@ jobs:
           $exe = 'build/vs/bin/Release/JustAnotherDnDGame.exe'
           if (-not (Test-Path $exe)) { throw "Executable absent : $exe" }
           Write-Host "OK : $exe"
+
+      - name: Resume du job
+        if: ${{ !cancelled() }}
+        run: >-
+          python scripts/ci_summary.py --title "Release (preset vs-release)"
+          --junit test-results/junit-release.xml
+          --file build/vs/bin/Release/JustAnotherDnDGame.exe
 
   build-ninja:
     # Le preset `vs` s'appuie sur MSBuild, qui établit lui-même l'environnement MSVC ; le preset
@@ -218,6 +282,9 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
+
+      - name: Annotations du compilateur et des tests
+        run: echo "::add-matcher::.github/problem-matchers/msvc.json"
 
       - name: Install Qt
         uses: ./.github/actions/setup-qt
@@ -239,7 +306,8 @@ jobs:
           )
           cmake --preset ninja || exit /b 1
           cmake --build --preset ninja || exit /b 1
-          ctest --preset ninja || exit /b 1
+          if not exist test-results mkdir test-results
+          ctest --preset ninja --output-junit "%GITHUB_WORKSPACE%\test-results\junit-ninja.xml" || exit /b 1
           rem Controle statique des .qml (LOT-86, EX-IHM-100). La cible est ENGENDREE par
           rem qt_add_qml_module : elle connait les chemins d'import de chaque module, qu'il
           rem faudrait sinon recomposer a la main -- et qui divergeraient au premier ecran ajoute.
@@ -256,6 +324,22 @@ jobs:
             Write-Host "OK : $exe"
           }
 
+      - name: Conserver le rapport de tests
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: junit-ninja
+          path: test-results/
+          if-no-files-found: ignore
+
+      - name: Resume du job
+        if: ${{ !cancelled() }}
+        run: >-
+          python scripts/ci_summary.py --title "Ninja (preset ninja) et qmllint"
+          --junit test-results/junit-ninja.xml
+          --file build/ninja/bin/JustAnotherDnDGame.exe
+          --file build/ninja/bin/LevelEditor.exe
+
   sanitize:
     # ENABLE_ASAN existe depuis le LOT-01 et n'etait cable dans aucun workflow : EX-NFR-003
     # (empreinte memoire, verifiable via AddressSanitizer) etait orpheline. Ce job instrumente les
@@ -270,10 +354,14 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Annotations du compilateur et des tests
+        run: echo "::add-matcher::.github/problem-matchers/msvc.json"
+
       - name: Install Ninja
         run: choco install ninja -y --no-progress
 
       - name: Configure, build et execution sous AddressSanitizer
+        id: asan
         shell: cmd
         # Tout dans UN SEUL step : chaque step GitHub Actions demarre un cmd.exe neuf, et
         # l'effet de vcvars64.bat (PATH, dont le dossier de la DLL runtime ASan) ne survit pas
@@ -290,6 +378,19 @@ jobs:
           build\ninja-asan\bin\IntegrationTests.exe || exit /b 1
           build\ninja-asan\bin\SystemTests.exe || exit /b 1
 
+      - name: Resume du job
+        if: ${{ !cancelled() }}
+        shell: bash
+        env:
+          OUTCOME: ${{ steps.asan.outcome }}
+        run: |
+          if [ "$OUTCOME" = success ]; then
+            verdict="UnitTests, IntegrationTests et SystemTests exécutés sous ASan **sans rapport**."
+          else
+            verdict="**Échec** (\`$OUTCOME\`) : compilation, ou rapport ASan dans le log de l'étape."
+          fi
+          printf '### AddressSanitizer\n\n%s\n' "$verdict" >> "$GITHUB_STEP_SUMMARY"
+
   clang-tidy:
     # .clang-tidy est complet depuis le debut du projet et n'etait execute nulle part (LOT-58) :
     # conventions.md le presentait comme de l'outillage « en place », a tort. Analyse ciblee sur le
@@ -301,6 +402,10 @@ jobs:
     # windows-2022 (pas Linux) : le code inclut Direct3D 11/Windows.h, indisponibles sous Linux.
     runs-on: windows-2022
     timeout-minutes: 60
+    permissions:
+      contents: read
+      # Envoi du SARIF à Code scanning (annotations sur le diff, phase 1).
+      security-events: write
 
     steps:
       - name: Checkout
@@ -343,6 +448,7 @@ jobs:
           cmake --build build/ninja-tidy || exit /b 1
 
       - name: clang-tidy sur les fichiers modifies par la PR
+        id: tidy
         shell: pwsh
         # Diff contre la base de la PR : seuls les fichiers Source/*.cpp (hors Source/Test) reellement
         # touches sont analyses. --diff-filter=ACMR exclut les fichiers supprimes (sinon clang-tidy
@@ -359,20 +465,51 @@ jobs:
 
           if (-not $files) {
             Write-Host "Aucun fichier Source/*.cpp modifie par cette PR : rien a analyser."
+            "analysed=0" >> $env:GITHUB_OUTPUT
             exit 0
           }
 
           Write-Host "Fichiers analyses :`n$($files -join "`n")"
+          "analysed=$(@($files).Count)" >> $env:GITHUB_OUTPUT
+          # Créé d'emblée : un run sans aucun diagnostic produit un SARIF vide, pas une étape sautée.
+          New-Item -ItemType File -Force clang-tidy.log | Out-Null
           $clangTidy = "C:\Program Files\LLVM\bin\clang-tidy.exe"
           $failed = $false
           foreach ($f in $files) {
-            & $clangTidy -p build\ninja-tidy --extra-arg=-Wno-unused-command-line-argument $f
+            # La sortie standard (les diagnostics) est aussi copiée dans clang-tidy.log, que l'étape
+            # suivante convertit en SARIF. $LASTEXITCODE reste celui de clang-tidy, pas du Tee.
+            & $clangTidy -p build\ninja-tidy --extra-arg=-Wno-unused-command-line-argument $f |
+              Tee-Object -FilePath clang-tidy.log -Append
             if ($LASTEXITCODE -ne 0) { $failed = $true }
           }
           if ($failed) {
             Write-Error "clang-tidy : au moins une violation bloquante (bugprone-*)."
             exit 1
           }
+
+      # Même sortie, rendue lisible (phase 1) : chaque diagnostic, bloquant ou non, devient une
+      # annotation sur sa ligne dans la PR, et le tableau par famille s'affiche en tête du run.
+      # Aucun contrôle ajouté -- le verdict reste celui de l'étape précédente.
+      - name: Diagnostics clang-tidy en SARIF
+        if: ${{ !cancelled() && hashFiles('clang-tidy.log') != '' }}
+        env:
+          ANALYSED: ${{ steps.tidy.outputs.analysed }}
+        run: >-
+          python scripts/clang_tidy_sarif.py clang-tidy.log -o clang-tidy.sarif
+          --root "$env:GITHUB_WORKSPACE" --analysed "$env:ANALYSED"
+          --clang-tidy-version "$env:LLVM_VERSION" --summary "$env:GITHUB_STEP_SUMMARY"
+
+      - name: Envoyer le SARIF a Code scanning
+        if: ${{ !cancelled() && hashFiles('clang-tidy.sarif') != '' }}
+        uses: github/codeql-action/upload-sarif@cdf488f595d80d6e07e03d4674febd5ab45fa938 # v4.37.9
+        with:
+          sarif_file: clang-tidy.sarif
+          category: clang-tidy
+
+      - name: Resume du job (aucun fichier analyse)
+        if: ${{ !cancelled() && steps.tidy.outputs.analysed == '0' }}
+        run: |
+          "### clang-tidy`n`nAucun fichier ``Source/*.cpp`` modifié par cette PR : rien à analyser." >> $env:GITHUB_STEP_SUMMARY
 
   format:
     # CONTRIBUTING.md exige un code formate (clang-format) avant tout commit depuis le debut du
@@ -392,10 +529,33 @@ jobs:
         # garanties de version que le job clang-tidy (LOT-58), sans installer tout LLVM.
         run: pip install "clang-format==${{ env.LLVM_VERSION }}"
 
+      # Chaque écart de formatage en annotation sur sa ligne (phase 1).
+      - name: Annotations clang-format
+        run: echo "::add-matcher::.github/problem-matchers/clang-format.json"
+
       - name: Verifier le formatage (Source/, hors External/)
+        # bash de GitHub tourne en -o pipefail : l'échec de xargs traverse le tee.
         run: |
           clang-format --version
-          git ls-files 'Source/*.cpp' 'Source/*.h' | xargs clang-format --dry-run --Werror --style=file
+          git ls-files 'Source/*.cpp' 'Source/*.h' > checked-files.txt
+          xargs clang-format --dry-run --Werror --style=file < checked-files.txt 2>&1 | tee clang-format.log
+
+      - name: Resume du job
+        if: ${{ !cancelled() }}
+        run: |
+          checked=$(wc -l < checked-files.txt 2>/dev/null || echo 0)
+          bad=$(grep -o '^[^:]*:[0-9]*:[0-9]*: error: .*\[-Wclang-format-violations\]' clang-format.log 2>/dev/null |
+            cut -d: -f1 | sort -u || true)
+          {
+            echo '### clang-format'
+            echo
+            if [ -z "$bad" ]; then
+              echo "$checked fichier(s) vérifié(s), aucun écart."
+            else
+              echo "$checked fichier(s) vérifié(s), **$(echo "$bad" | wc -l) mal formaté(s)** :"
+              echo "$bad" | sed 's/^/- `/; s/$/`/'
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
 
   lint-exigences:
     # Contrôle du référentiel d'exigences (EX-...) : unicité des déclarations et
@@ -409,6 +569,8 @@ jobs:
           persist-credentials: false
 
       - name: Lint des identifiants d'exigences
+        id: exigences
+        if: ${{ !cancelled() }}
         run: python3 scripts/lint_exigences.py
 
       # Garde-fou de la feuille de route : elle est l'unique source de verite des lots a venir,
@@ -416,9 +578,13 @@ jobs:
       # declare d'un seul cote, un lot absent du tableau d'ordre, un compte annonce faux, une
       # exigence revendiquee deux fois, ou un diagramme qui trace une fleche que rien ne declare.
       - name: Lint du graphe de lots
+        id: lots
+        if: ${{ !cancelled() }}
         run: python3 scripts/lint_lots.py
 
       - name: Version de Qt coherente CMake / CI (EX-BUILD-010)
+        id: qt_pin
+        if: ${{ !cancelled() }}
         run: python3 scripts/check_qt_version_pin.py
 
       # Garde-fou de la separation conception / code (LOT-86). Le depot a deja paye deux fois le
@@ -426,14 +592,20 @@ jobs:
       # la palette d'identite ecrite DEUX fois sans que rien ne relie les copies. Une regle qui
       # n'est pas verifiee n'est pas une regle, c'est une intention.
       - name: Separation conception / code (EX-IHM-100 a EX-IHM-105)
+        id: ui_layers
+        if: ${{ !cancelled() }}
         run: python3 scripts/check_ui_layers.py
 
       - name: Contrat des formulaires avec Qt Design Studio (LOT-87)
         # Ce qu'un formulaire nomme doit se resoudre SANS le jeu, et chaque type C++ a sa doublure
         # pour l'atelier. Textuel, sans Qt.
+        id: designer
+        if: ${{ !cancelled() }}
         run: python3 scripts/check_qml_designer_compat.py
 
       - name: Cahier de test a jour
+        id: cahier
+        if: ${{ !cancelled() }}
         run: python3 scripts/generate_cahier_test.py --check
 
       # Table d'autorite des termes de regle (LOT-30). Le lexique est une donnee VERSIONNEE ; les
@@ -441,6 +613,8 @@ jobs:
       # script s'auto-teste avant de se prononcer : aucune cle de regle n'existe encore, et un
       # controle vert par vacuite ne prouve rien -- c'est la panne du LOT-78.
       - name: Lexique de regles respecte par les catalogues de traduction
+        id: glossary
+        if: ${{ !cancelled() }}
         run: python3 scripts/check_glossary.py
 
       # Manifeste du corpus (LOT-30, etendu aux ressources VTT au LOT-38). Les PDF ne sont pas sur
@@ -449,6 +623,8 @@ jobs:
       # Il verifie ce qui EST versionne : que le manifeste se charge, que ses champs sont admis, et
       # que la logique d'empreinte fonctionne, eprouvee sur un corpus fictif ecrit en temporaire.
       - name: Manifeste du corpus bien forme (EX-CNT-020)
+        id: corpus
+        if: ${{ !cancelled() }}
         run: python3 scripts/check_corpus_manifest.py
 
       # Illustrations extraites du corpus (LOT-67). Le corpus n'est pas sur le runner et ne le
@@ -456,6 +632,8 @@ jobs:
       # ce qui EST versionne -- les images, leur manifeste, et le lien entre les deux et le code
       # qui les nomme. Sans dependance : hashlib et une lecture d'en-tete JPEG.
       - name: Illustrations conformes a leur manifeste (EX-IHM-076)
+        id: ui_assets
+        if: ${{ !cancelled() }}
         run: python3 scripts/check_ui_assets.py
 
       # Les cles d'assets d'ENTITE (LOT-39). Ce controle echoue sur une cle orpheline -- une
@@ -464,6 +642,8 @@ jobs:
       # d'avancement, pas un defaut. Le faire echouer la-dessus rendrait le depot rouge jusqu'a la
       # derniere illustration livree, et plus personne ne lirait sa sortie.
       - name: Cles d'assets d'entite (EX-CNT-040, EX-CNT-041)
+        id: asset_keys
+        if: ${{ !cancelled() }}
         run: python3 scripts/check_asset_keys.py
 
       # Contrats des catalogues RPG (LOT-32). jsonschema est la seule dependance externe de la
@@ -472,9 +652,12 @@ jobs:
       # resultat local. Le script s'auto-teste sur scripts/fixtures/rpg/ avant de se prononcer --
       # aucun catalogue n'existe encore, et un validateur qui n'a rien valide ne prouve rien.
       - name: Installer jsonschema ${{ env.JSONSCHEMA_VERSION }}
+        if: ${{ !cancelled() }}
         run: pip install "jsonschema==${{ env.JSONSCHEMA_VERSION }}"
 
       - name: Catalogues RPG valides contre leurs schemas (EX-CNT-010)
+        id: rpg_data
+        if: ${{ !cancelled() }}
         run: python3 scripts/check_rpg_data.py
 
       # Cahier des assets de la charte v2 (LOT-87, T2.4). Dans ce job parce qu'il lui faut le meme
@@ -482,7 +665,54 @@ jobs:
       # Tokens.qml, chaque zone tient dans sa maquette, chaque ecran consomme une piece, et la page
       # de documentation est a jour du JSON dont elle est engendree.
       - name: Cahier des assets conforme (EX-IHM-075, EX-IHM-053)
+        id: assets_brief
+        if: ${{ !cancelled() }}
         run: python3 scripts/check_assets_brief.py
+
+      # Le convertisseur du job clang-tidy ne s'exécute que sur une PR qui touche au C++ : cassé, il
+      # rendrait une PR sans annotation, indiscernable d'une PR propre. Son auto-test tourne donc ici,
+      # sur chaque PR.
+      - name: Convertisseur clang-tidy vers SARIF
+        id: tidy_sarif
+        if: ${{ !cancelled() }}
+        run: python3 scripts/clang_tidy_sarif.py --auto-test
+
+      # Un tableau des contrôles en tête du run (phase 1). Chaque contrôle ci-dessus s'exécute même
+      # si un précédent a échoué : une PR voit d'un coup tout ce qu'elle casse, au lieu de le
+      # découvrir un push à la fois.
+      - name: Resume du job
+        if: ${{ !cancelled() }}
+        env:
+          OUTCOMES: |
+            Identifiants d'exigences=${{ steps.exigences.outcome }}
+            Graphe de lots=${{ steps.lots.outcome }}
+            Version de Qt CMake / CI=${{ steps.qt_pin.outcome }}
+            Séparation conception / code=${{ steps.ui_layers.outcome }}
+            Contrat Qt Design Studio=${{ steps.designer.outcome }}
+            Cahier de test à jour=${{ steps.cahier.outcome }}
+            Lexique de règles=${{ steps.glossary.outcome }}
+            Manifeste du corpus=${{ steps.corpus.outcome }}
+            Illustrations et manifeste=${{ steps.ui_assets.outcome }}
+            Clés d'assets d'entité=${{ steps.asset_keys.outcome }}
+            Catalogues RPG=${{ steps.rpg_data.outcome }}
+            Cahier des assets=${{ steps.assets_brief.outcome }}
+            Convertisseur clang-tidy vers SARIF=${{ steps.tidy_sarif.outcome }}
+        run: |
+          {
+            echo '### Contrôles du référentiel'
+            echo
+            echo '| Contrôle | Verdict |'
+            echo '|---|---|'
+            while IFS='=' read -r label outcome; do
+              [ -z "$label" ] && continue
+              case "$outcome" in
+                success) verdict='✅ vert' ;;
+                failure) verdict='❌ **rouge**' ;;
+                *) verdict="⏭️ $outcome" ;;
+              esac
+              echo "| $label | $verdict |"
+            done <<< "$OUTCOMES"
+          } >> "$GITHUB_STEP_SUMMARY"
 
   docs:
     # Génère la documentation Doxygen (garde-fou WARN_AS_ERROR) pour valider la
@@ -514,4 +744,55 @@ jobs:
         run: doxygen --version
 
       - name: Generate documentation
+        id: doxygen
         run: python3 scripts/build_docs.py
+
+      - name: Resume du job
+        if: ${{ !cancelled() }}
+        env:
+          OUTCOME: ${{ steps.doxygen.outcome }}
+        run: |
+          if [ "$OUTCOME" = success ]; then
+            verdict="générée sans avertissement (WARN_AS_ERROR)."
+          else
+            verdict="**échec** (\`$OUTCOME\`) : les avertissements sont dans le log de l'étape."
+          fi
+          printf '### Documentation\n\nDoxygen %s : %s\n' "$DOXYGEN_VERSION" "$verdict" >> "$GITHUB_STEP_SUMMARY"
+
+  test-report:
+    # Les 1 146 tests n'étaient visibles qu'en ouvrant le log (phase 1). Ce job publie les rapports
+    # JUnit des trois builds en check run et en commentaire de PR : échecs avec leur message, tests
+    # ajoutés ou retirés, écart de durée. Un même test lancé par Debug, Release et Ninja compte pour
+    # un test et trois exécutions.
+    #
+    # Un job à part, sur Linux, plutôt qu'une étape des builds : les droits d'écriture ne sont
+    # accordés qu'ici, à un job qui ne compile ni n'exécute rien du dépôt. Pas de workflow_run (le
+    # montage recommandé pour les forks) : il exécuterait avec des droits d'écriture des artefacts
+    # produits par la PR, et ce dépôt n'a pas de contributeur externe.
+    needs: [ build-test-coverage, build-test-release, build-ninja ]
+    # Même en cas d'échec des builds : c'est justement là que le rapport sert. Les PR de Dependabot
+    # reçoivent un jeton en lecture seule, la publication y échouerait.
+    if: ${{ !cancelled() && github.actor != 'dependabot[bot]' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      checks: write
+      pull-requests: write
+
+    steps:
+      - name: Recuperer les rapports JUnit
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          pattern: junit-*
+          path: test-results
+
+      - name: Publier les resultats de tests
+        uses: EnricoMi/publish-unit-test-result-action@d0a4676d0e0b938bc201470d88276b7c74c712b3 # v2.24.0
+        with:
+          files: test-results/**/*.xml
+          check_name: Tests (Debug, Release, Ninja)
+          # Le commentaire est mis à jour à chaque push, pas dupliqué.
+          comment_mode: always
+          # Le verdict des tests appartient aux jobs de build ; ce job ne fait que le montrer.
+          action_fail: false
