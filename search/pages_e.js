@@ -159,7 +159,7 @@ var searchData=
   ['dans_20un_20jeu_20vidéo_156',['Pourquoi journaliser dans un jeu vidéo',['../guide-journalisation.html#autotoc_md157',1,'']]],
   ['dans_20un_20même_20niveau_20mode_20«_20par_20salle_20»_157',['Mélanger plusieurs tailles de caméra dans un même niveau (mode « Par salle »)',['../manuel-partager-niveau.html#autotoc_md903',1,'']]],
   ['dash_208_20directions_158',['5. Dash 8 directions',['../guide-physique.html#autotoc_md210',1,'']]],
-  ['data_2011_159',['Data (11)',['../cahiertest.html#autotoc_md8',1,'']]],
+  ['data_2012_159',['Data (12)',['../cahiertest.html#autotoc_md8',1,'']]],
   ['date_20du_20lot_2062_202026_2008_2012_160',['Mesures de référence, à la date du &lt;span class=&quot;tt&quot;&gt;LOT-62&lt;/span&gt; (2026-08-12)',['../guide-rendu.html#autotoc_md255',1,'']]],
   ['de_200_201_200_161',['Ressenti (game feel) — ⚠️ réglage fin reporté au-delà de &lt;span class=&quot;tt&quot;&gt;0.1.0&lt;/span&gt;',['../spec-gameplay.html#autotoc_md343',1,'']]],
   ['de_2020_162',['Un 20 naturel n&apos;est pas un total de 20',['../lot-12.html#autotoc_md471',1,'']]],

@@ -93,9 +93,9 @@ $(function(){initNavTree('cahiertest.html','',''); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md_CahierTest"></a></p>
-<p><b>1185 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
+<p><b>1186 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md5"></a>
-Tests unitaires (1170)</h1>
+Tests unitaires (1171)</h1>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md6"></a>
 Core</h2>
 <p><b><span class="tt"><a class="el" href="test__core_8cpp.html" title="Tests unitaires de la bibliothèque Core (amorçage).">test_core.cpp</a></span></b></p>
@@ -1472,7 +1472,7 @@ Vérifie que <span class="tt">ordre.slotAfter(*suivante).has_value()</span> est 
 Vérifie que <span class="tt">ordre.firstSlot()-&gt;combatant()</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a91235fd72a18c305c494723774630841" title="Identifiant d&#39;un combattant sur la grille.">core::CombatantId</a>{1}</span>.  </td></tr>
 </table>
 <h3 class="doxsection"><a class="anchor" id="autotoc_md8"></a>
-Data (11)</h3>
+Data (12)</h3>
 <p><b><span class="tt"><a class="el" href="test__json__document_8cpp.html" title="Brique de lecture JSON partagée (EX-CNT-012) et premiers tests paramétrés du dépôt.">test_json_document.cpp</a></span></b></p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -1511,21 +1511,29 @@ Vérifie que <span class="tt">doc.error</span> vaut <span class="tt"><a class="e
 Vérifie que <span class="tt">doc.position.line</span> vaut <span class="tt">3</span>.<br  />
 Vérifie que <span class="tt">doc.message.find("essai.json:3")</span> diffère de <span class="tt">std::string::npos</span>.  </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><b>JsonDocument.NeLevePasSurUnFichierAbsent</b> (Critique)<br  />
-<sub><span class="tt"><a class="el" href="test__json__document_8cpp.html" title="Brique de lecture JSON partagée (EX-CNT-012) et premiers tests paramétrés du dépôt.">Source/Test/Unit/Core/Data/test_json_document.cpp</a>:163</span></sub>  </td><td class="markdownTableBodyNone">Un fichier absent est un echec decrit, pas une exception.  </td><td class="markdownTableBodyNone">1. Lire un fichier qui n'existe pas.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">doc.ok()</span> est faux.<br  />
-Vérifie que <span class="tt">doc.error</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a3fca58c67ec139153d0204122e9c32e0a2767828026039e8ba7b38973cbb701f2" title="Fichier absent ou illisible.">core::JsonReadError::FileNotFound</a></span>.  </td></tr>
+<td class="markdownTableBodyNone"><b>JsonDocument.NeLevePasSurUnNombreHorsDePortee</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__json__document_8cpp.html" title="Brique de lecture JSON partagée (EX-CNT-012) et premiers tests paramétrés du dépôt.">Source/Test/Unit/Core/Data/test_json_document.cpp</a>:163</span></sub>  </td><td class="markdownTableBodyNone">Un nombre JSON trop grand pour etre represente ne fait pas lever la lecture.  </td><td class="markdownTableBodyNone">1. Lire un objet dont une valeur vaut 1e400.<br  />
+2. Lire un tableau dont l'unique nombre porte un exposant de quatorze chiffres (entree trouvee par le fuzzing de nuit).  </td><td class="markdownTableBodyNone"><span class="tt">ASSERT_NO_THROW(doc = <a class="el" href="namespacecore.html#acfecbe35ed7427415d02c52fcea70388" title="Lit l&#39;enveloppe commune d&#39;un catalogue : JSON bien formé, racine objet, garde de version.">core::readJsonObject</a>(R"({"octets": 723e404})", 1, "essai.json"))</span><br  />
+Vérifie que <span class="tt">doc.error</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a3fca58c67ec139153d0204122e9c32e0ae41199faa7290c167f70f314c5e6c165" title="JSON malformé, ou racine qui n&#39;est pas un objet.">core::JsonReadError::ParseError</a></span>.<br  />
+Vérifie que <span class="tt">doc.message.find("essai.json")</span> diffère de <span class="tt">std::string::npos</span>.<br  />
+<span class="tt">ASSERT_NO_THROW(doc = <a class="el" href="namespacecore.html#acfecbe35ed7427415d02c52fcea70388" title="Lit l&#39;enveloppe commune d&#39;un catalogue : JSON bien formé, racine objet, garde de version.">core::readJsonObject</a>("[444444444444444E44444444444449]", 1))</span><br  />
+Vérifie que <span class="tt">doc.error</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a3fca58c67ec139153d0204122e9c32e0ae41199faa7290c167f70f314c5e6c165" title="JSON malformé, ou racine qui n&#39;est pas un objet.">core::JsonReadError::ParseError</a></span>.  </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><b>JsonDocument.NommeLeFichierDansSesMessages</b> (Majeure)<br  />
-<sub><span class="tt"><a class="el" href="test__json__document_8cpp.html" title="Brique de lecture JSON partagée (EX-CNT-012) et premiers tests paramétrés du dépôt.">Source/Test/Unit/Core/Data/test_json_document.cpp</a>:180</span></sub>  </td><td class="markdownTableBodyNone">Un echec de lecture de fichier nomme ce fichier.  </td><td class="markdownTableBodyNone">1. Lire une fixture JSON tronquee depuis le disque.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">doc.ok()</span> est faux.<br  />
-Vérifie que <span class="tt">doc.message.find("tronque.json")</span> diffère de <span class="tt">std::string::npos</span>.  </td></tr>
+<td class="markdownTableBodyNone"><b>JsonDocument.NeLevePasSurUnFichierAbsent</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__json__document_8cpp.html" title="Brique de lecture JSON partagée (EX-CNT-012) et premiers tests paramétrés du dépôt.">Source/Test/Unit/Core/Data/test_json_document.cpp</a>:185</span></sub>  </td><td class="markdownTableBodyNone">Un fichier absent est un echec decrit, pas une exception.  </td><td class="markdownTableBodyNone">1. Lire un fichier qui n'existe pas.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">doc.ok()</span> est faux.<br  />
+Vérifie que <span class="tt">doc.error</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a3fca58c67ec139153d0204122e9c32e0a2767828026039e8ba7b38973cbb701f2" title="Fichier absent ou illisible.">core::JsonReadError::FileNotFound</a></span>.  </td></tr>
 <tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>JsonDocument.NommeLeFichierDansSesMessages</b> (Majeure)<br  />
+<sub><span class="tt"><a class="el" href="test__json__document_8cpp.html" title="Brique de lecture JSON partagée (EX-CNT-012) et premiers tests paramétrés du dépôt.">Source/Test/Unit/Core/Data/test_json_document.cpp</a>:202</span></sub>  </td><td class="markdownTableBodyNone">Un echec de lecture de fichier nomme ce fichier.  </td><td class="markdownTableBodyNone">1. Lire une fixture JSON tronquee depuis le disque.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">doc.ok()</span> est faux.<br  />
+Vérifie que <span class="tt">doc.message.find("tronque.json")</span> diffère de <span class="tt">std::string::npos</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>FixtureJson.ProduitLaCategorieAnnoncee</b> (Majeure)<br  />
-<sub><span class="tt"><a class="el" href="test__json__document_8cpp.html" title="Brique de lecture JSON partagée (EX-CNT-012) et premiers tests paramétrés du dépôt.">Source/Test/Unit/Core/Data/test_json_document.cpp</a>:220</span></sub>  </td><td class="markdownTableBodyNone">Chaque fixture JSON produit la categorie d'echec attendue.  </td><td class="markdownTableBodyNone">1. Lire chacune des six fixtures de Fixtures/Json.<br  />
+<sub><span class="tt"><a class="el" href="test__json__document_8cpp.html" title="Brique de lecture JSON partagée (EX-CNT-012) et premiers tests paramétrés du dépôt.">Source/Test/Unit/Core/Data/test_json_document.cpp</a>:242</span></sub>  </td><td class="markdownTableBodyNone">Chaque fixture JSON produit la categorie d'echec attendue.  </td><td class="markdownTableBodyNone">1. Lire chacune des six fixtures de Fixtures/Json.<br  />
 2. Comparer la categorie d'echec obtenue a celle annoncee par le nom du fichier.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">doc.error</span> vaut <span class="tt">attente.attendu</span>.<br  />
 Vérifie que <span class="tt">doc.message.empty()</span> est faux.  </td></tr>
-<tr class="markdownTableRowOdd">
+<tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>FixtureJsonCouverture.AucuneFixtureOrpheline</b> (Mineure)<br  />
-<sub><span class="tt"><a class="el" href="test__json__document_8cpp.html" title="Brique de lecture JSON partagée (EX-CNT-012) et premiers tests paramétrés du dépôt.">Source/Test/Unit/Core/Data/test_json_document.cpp</a>:262</span></sub>  </td><td class="markdownTableBodyNone">Aucune fixture n'est presente sans etre lue par un test.  </td><td class="markdownTableBodyNone">1. Parcourir le dossier de fixtures.<br  />
+<sub><span class="tt"><a class="el" href="test__json__document_8cpp.html" title="Brique de lecture JSON partagée (EX-CNT-012) et premiers tests paramétrés du dépôt.">Source/Test/Unit/Core/Data/test_json_document.cpp</a>:284</span></sub>  </td><td class="markdownTableBodyNone">Aucune fixture n'est presente sans etre lue par un test.  </td><td class="markdownTableBodyNone">1. Parcourir le dossier de fixtures.<br  />
 2. Verifier que chaque fichier figure dans la liste des cas instancies.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">std::filesystem::is_directory(FIXTURES)</span> est vrai.<br  />
 Vérifie que <span class="tt">std::find(couvertes.begin(), couvertes.end(), nom)</span> diffère de <span class="tt">couvertes.end()</span>.  </td></tr>
 </table>
