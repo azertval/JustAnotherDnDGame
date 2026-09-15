@@ -89,6 +89,11 @@ Thumbs.db
 Desktop.ini
 __pycache__/
 *.pyc
+# Environnement Python des scripts, recréé par `uv sync --locked` (phase 4).
+.venv/
+.pytest_cache/
+# Rapports JUnit que les jobs de CI écrivent à la racine (pytest, ctest).
+/test-results/
 
 # Module QML de developpement, ENGENDRE a la configuration (LOT-86). Il rend Source/Ui importable
 # tel quel -- c'est ce qui permet au .qmlproject de l'artiste de resoudre Jadg.Ui sans connaitre

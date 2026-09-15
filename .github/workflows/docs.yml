@@ -1,10 +1,23 @@
-name: Documentation
+name: Documentation et site qualité
 
-# À chaque intégration sur main, génère la Doxygen et la publie sur la branche gh-pages.
+# Publie sur gh-pages, à chaque intégration sur main (refonte de la chaîne d'outillage, phase 4) :
+#   /            la Doxygen (le README pointe vers elle)
+#   /qualite/    la page qualité : couverture par domaine, dernières mesures de performance, liens
+#   /qualite/couverture/    le rapport HTML d'OpenCppCoverage
+#   /qualite/performances/  les courbes de github-action-benchmark (branche `benchmarks`)
+#
+# gh-pages est remplacée en entier à chaque publication : tout ce qu'elle porte est reconstruit ici,
+# rien n'y survit par accident. C'est pourquoi les mesures nocturnes vivent dans leur propre branche
+# (nightly.yml) et sont recopiées, et pourquoi la couverture est mesurée ici plutôt que lue dans un
+# run de PR, dont le commit n'est pas celui de main.
 on:
   push:
     branches: [ main ]
-  # Relance manuelle sans commit vide ; le job ne publie que depuis main (voir `if`).
+  # Après la nuit : les mesures de performance du jour rejoignent le site. La couverture n'est pas
+  # remesurée (le code n'a pas changé) ; elle est reprise du site déjà publié.
+  schedule:
+    - cron: '17 5 * * *'
+  # Relance manuelle sans commit vide ; rien n'est publié hors de main (voir `if`).
   workflow_dispatch:
 
 # Deux merges rapprochés : seul le site du dernier compte, le déploiement précédent est annulé.
@@ -20,16 +33,17 @@ env:
   # généré par le binaire qui a validé la PR, sinon une doc verte en CI pourrait
   # échouer au déploiement. Voir le commentaire de ci.yml.
   DOXYGEN_VERSION: 1.16.1
+  # Mêmes Qt, aqtinstall et OpenCppCoverage que le job build-test-coverage de ci.yml
+  # (scripts/check_qt_version_pin.py, scripts/check_tool_pins.py).
+  QT_VERSION: '6.11.2'
+  AQT_SOURCE: 'git+https://github.com/miurahr/aqtinstall.git@16db45a70b5905ad596941b223469bc86a56901e'
+  OPENCPPCOVERAGE_VERSION: 0.9.9.0
 
 jobs:
-  deploy-docs:
+  doxygen:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    # Seul ce job écrit (branche gh-pages).
-    permissions:
-      contents: write
-
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -57,9 +71,126 @@ jobs:
       - name: Generate documentation
         run: python3 scripts/build_docs.py
 
+      - name: Conserver la documentation
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: site-api
+          path: Documentation/generated/html/
+          retention-days: 3
+
+  coverage:
+    # Le build Debug et les trois suites sous OpenCppCoverage, comme le job build-test-coverage de
+    # ci.yml et par le même script. Sans seuil : ce job mesure pour publier, la PR a déjà tranché.
+    if: github.ref == 'refs/heads/main' && github.event_name != 'schedule'
+    runs-on: windows-2022
+    timeout-minutes: 60
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Install Qt
+        uses: ./.github/actions/setup-qt
+        with:
+          version: ${{ env.QT_VERSION }}
+          aqtsource: ${{ env.AQT_SOURCE }}
+
+      - name: Configure (CMake)
+        run: cmake --preset vs
+        env:
+          CMAKE_PREFIX_PATH: ${{ env.QT_ROOT_DIR }}
+
+      - name: Build
+        run: cmake --build --preset vs
+
+      - name: Install OpenCppCoverage ${{ env.OPENCPPCOVERAGE_VERSION }}
+        run: choco install opencppcoverage --version=${{ env.OPENCPPCOVERAGE_VERSION }} -y --no-progress --allow-downgrade
+
+      - name: Couverture (UnitTests + IntegrationTests + SystemTests, fusionnes)
+        run: ./scripts/coverage.ps1 -BinDir build/vs/bin/Debug -OutDir coverage
+
+      - name: Conserver la couverture
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: site-coverage
+          path: |
+            coverage/coverage.xml
+            coverage/coverage-html/
+          retention-days: 3
+
+  publish:
+    needs: [ doxygen, coverage ]
+    # La documentation se publie même si la couverture a échoué ou n'a pas été mesurée (nuit) : la
+    # page qualité reprend alors celle du site en place, ou dit qu'elle manque.
+    if: ${{ !cancelled() && needs.doxygen.result == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    # Seul ce job écrit (branche gh-pages).
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Recuperer la documentation
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: site-api
+          path: site
+
+      - name: Recuperer la couverture
+        if: ${{ needs.coverage.result == 'success' }}
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: site-coverage
+          path: coverage
+
+      # Branches lues sans jeton d'écriture (dépôt public) : les mesures nocturnes, et le site en
+      # place pour y reprendre la couverture quand elle n'a pas été remesurée.
+      - name: Mesures nocturnes et site en place
+        env:
+          REPO_URL: ${{ github.server_url }}/${{ github.repository }}.git
+        run: |
+          set -euo pipefail
+          if git ls-remote --exit-code --heads "$REPO_URL" benchmarks > /dev/null; then
+            git clone --depth 1 --branch benchmarks "$REPO_URL" "$RUNNER_TEMP/benchmarks"
+          fi
+          if [ ! -f coverage/coverage.xml ] && git ls-remote --exit-code --heads "$REPO_URL" gh-pages > /dev/null; then
+            git clone --depth 1 --branch gh-pages "$REPO_URL" "$RUNNER_TEMP/published"
+            if [ -f "$RUNNER_TEMP/published/qualite/coverage.xml" ]; then
+              mkdir -p coverage
+              cp "$RUNNER_TEMP/published/qualite/coverage.xml" coverage/coverage.xml
+              cp -r "$RUNNER_TEMP/published/qualite/couverture" coverage/coverage-html
+            fi
+          fi
+
+      - name: Assembler la page qualite
+        env:
+          COMMIT: ${{ github.sha }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          python3 scripts/build_quality_site.py --site site \
+            --coverage coverage/coverage.xml --coverage-html coverage/coverage-html \
+            --benchmarks "$RUNNER_TEMP/benchmarks/dev/bench" \
+            --commit "$COMMIT" --run-url "$RUN_URL"
+          # Le Cobertura suit le site : la publication de la nuit le reprend sans remesurer.
+          if [ -f coverage/coverage.xml ]; then cp coverage/coverage.xml site/qualite/coverage.xml; fi
+          python3 - >> "$GITHUB_STEP_SUMMARY" <<'EOF'
+          import json
+          summary = json.load(open('site/qualite/summary.json', encoding='utf-8'))
+          coverage = summary['coverage']
+          print('### Site qualité\n')
+          print('- Couverture : %s' % ('%.2f %%' % coverage['percent'] if coverage else 'absente'))
+          benchmarks = summary['benchmarks']
+          print('- Mesures de performance : %s' % (len(benchmarks['benches']) if benchmarks else 'aucune'))
+          EOF
+
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@84c30a85c19949d7eee79c4ff27748b70285e453 # v4.1.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: Documentation/generated/html
+          publish_dir: site
           publish_branch: gh-pages

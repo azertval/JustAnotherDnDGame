@@ -1,8 +1,8 @@
 # Cahier de test {#cahiertest}
 
-**1186 cas de test**, générés depuis les blocs `\castest{...}` du code par `scripts/generate_cahier_test.py` (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de `Source/Test/` pour rester lisibles page par page.
+**1191 cas de test**, générés depuis les blocs `\castest{...}` du code par `scripts/generate_cahier_test.py` (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de `Source/Test/` pour rester lisibles page par page.
 
-## Tests unitaires (1171)
+## Tests unitaires (1176)
 
 ### Core
 
@@ -1982,6 +1982,18 @@
 | **LocalizationTest.LangueAbsenteEstRecuperable** (Majeur)<br/><sub>`Source/Test/Unit/HMI/Localization/test_localization.cpp:152`</sub> | Charger une langue absente échoue proprement et conserve la langue active (récupérable). | 1. Mettre en place le contexte du test (arrangement).<br/>2. Executer le scenario et verifier les assertions. | Vérifie que `localization.loadLanguage("xx")` est faux.<br/>Vérifie que `localization.activeLanguage()` vaut `"fr"`.<br/>Vérifie que `localization.text("menu.quitter")` vaut `"Quitter"`. |
 | **LocalizationTest.CatalogueFrancaisLivreSeCharge** (Majeur)<br/><sub>`Source/Test/Unit/HMI/Localization/test_localization.cpp:173`</sub> | Le catalogue français livré (Source/Elements/Localization) se charge et résout ses clés. | 1. Mettre en place le contexte du test (arrangement).<br/>2. Executer le scenario et verifier les assertions. | Vérifie que `localization.loadDefaultLanguage("fr")` est vrai.<br/>Vérifie que `localization.activeLanguage()` vaut `"fr"`.<br/>Vérifie que `localization.text("menu.quit")` vaut `"Quitter"`.<br/>Vérifie que `localization.text("menu.new_game")` vaut `"Nouvelle partie"`. |
 | **LocalizationTest.LesDeuxCataloguesDeclarentLesMemesCles** (Majeur)<br/><sub>`Source/Test/Unit/HMI/Localization/test_localization.cpp:201`</sub> | Les catalogues francais et anglais declarent les memes cles. | 1. Charger fr.lang et en.lang.<br/>2. Comparer les ensembles de cles dans les deux sens. | Vérifie que `french.empty()` est faux.<br/>Vérifie que `english.empty()` est faux.<br/>Vérifie que `english.count(key) > 0` est vrai.<br/>Vérifie que `french.count(key) > 0` est vrai.<br/>Vérifie que `french.size()` vaut `english.size()`. |
+
+#### Platform (5)
+
+**`test_crash_dump.cpp`**
+
+| Titre (criticité) | Brief | Étapes | Résultat attendu |
+|---|---|---|---|
+| **CrashDumpFileName.PorteApplicationVersionEtHorodatage** (Majeur)<br/><sub>`Source/Test/Unit/HMI/Platform/test_crash_dump.cpp:108`</sub> | Le nom d'un minidump porte l'application, la version et l'heure du plantage. | 1. Composer le nom pour JustAnotherDnDGame 0.0.4 au 15/09/2026 21:04:07. | Vérifie que `hmi::crashDumpFileName("JustAnotherDnDGame", "0.0.4", fixedTime())` vaut `"JustAnotherDnDGame_0.0.4_20260915_210407.dmp"`. |
+| **CrashDumpFileName.RemplaceLesCaracteresHorsNomDeFichier** (Majeur)<br/><sub>`Source/Test/Unit/HMI/Platform/test_crash_dump.cpp:123`</sub> | Les caractères hors nom de fichier sont remplacés dans le nom du minidump. | 1. Composer le nom pour « Level Editor » en version « 0.1.0+dev/x ». | Vérifie que `hmi::crashDumpFileName("Level Editor", "0.1.0+dev/x", fixedTime())` vaut `"Level_Editor_0.1.0_dev_x_20260915_210407.dmp"`. |
+| **CrashDumpTest.EcritUnMinidumpSansExceptionEtCreeLeDossier** (Critique)<br/><sub>`Source/Test/Unit/HMI/Platform/test_crash_dump.cpp:137`</sub> | Un minidump de l'état courant s'écrit, dossier parent créé au besoin. | 1. Écrire un dump sans contexte d'exception dans un sous-dossier inexistant.<br/>2. Lire les quatre premiers octets. | Vérifie que `hmi::writeMiniDump(path, nullptr)` est vrai.<br/>Vérifie que `std::filesystem::exists(path)` est vrai.<br/>Vérifie que `signature(path)` vaut `"MDMP"`.<br/>Vérifie que `hasExceptionStream(path)` est faux. |
+| **CrashDumpTest.EcritUnMinidumpAvecLeContexteDUneException** (Critique)<br/><sub>`Source/Test/Unit/HMI/Platform/test_crash_dump.cpp:155`</sub> | Un minidump s'écrit avec le contexte d'une exception structurée. | 1. Lever une exception structurée, l'attraper dans un filtre SEH qui écrit le dump.<br/>2. Lire la signature et la taille. | Vérifie que `dumpFromStructuredException(&path)` est vrai.<br/>Vérifie que `signature(path)` vaut `"MDMP"`.<br/>Vérifie que `std::filesystem::file_size(path)` est strictement supérieur à `1024U`.<br/>Vérifie que `hasExceptionStream(path)` est vrai. |
+| **CrashDumpTest.EchoueSansLeverSurUnCheminImpossible** (Majeur)<br/><sub>`Source/Test/Unit/HMI/Platform/test_crash_dump.cpp:173`</sub> | Un chemin de minidump impossible échoue sans exception ni plantage. | 1. Écrire un dump sous un nom interdit par Windows (« a?b.dmp »). | Vérifie que `hmi::writeMiniDump(directory_ / "a?b.dmp", nullptr)` est faux. |
 
 #### Presentation (13)
 

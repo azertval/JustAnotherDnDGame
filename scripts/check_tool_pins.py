@@ -14,6 +14,8 @@ finissent par diverger sans que rien ne le signale. Ici :
   publie).
 - **LLVM, sccache, aqtinstall** dans nightly.yml (phase 3), et aqtinstall dans release.yml : la
   nuit analyse le code que la PR a construit, et la release le construit avec le même Qt.
+- **aqtinstall et OpenCppCoverage** dans docs.yml (phase 4) : le site publie la couverture de main,
+  mesurée comme celle qui fait passer ou échouer une PR.
 
 Usage :
   python scripts/check_tool_pins.py
@@ -52,6 +54,11 @@ PAIRS = [
      (NIGHTLY, env_value('AQT_SOURCE'), 'AQT_SOURCE')),
     ('aqtinstall (release)', (CI, env_value('AQT_SOURCE'), 'AQT_SOURCE'),
      (RELEASE, env_value('AQT_SOURCE'), 'AQT_SOURCE')),
+    ('aqtinstall (site qualité)', (CI, env_value('AQT_SOURCE'), 'AQT_SOURCE'),
+     (DOCS, env_value('AQT_SOURCE'), 'AQT_SOURCE')),
+    ('OpenCppCoverage (site qualité)',
+     (CI, env_value('OPENCPPCOVERAGE_VERSION'), 'OPENCPPCOVERAGE_VERSION'),
+     (DOCS, env_value('OPENCPPCOVERAGE_VERSION'), 'OPENCPPCOVERAGE_VERSION')),
 ]
 
 

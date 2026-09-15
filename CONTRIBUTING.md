@@ -9,22 +9,40 @@ Le poste exécute les mêmes outils que la CI, aux mêmes versions, lues dans `e
 - **Vérifier** : `powershell -ExecutionPolicy Bypass -File scripts/setup_dev.ps1` affiche chaque
   outil avec la version attendue et la version trouvée. **Installer** ce qui diverge :
   `… setup_dev.ps1 -Install` (`-WhatIf` pour voir sans rien faire) — LLVM, Doxygen et
-  OpenCppCoverage par winget, sccache par son archive officielle, pre-commit, clang-format et
-  jsonschema par pip ; puis les hooks du clone. Visual Studio et Qt ne sont que vérifiés.
+  OpenCppCoverage par winget, sccache par son archive officielle, pre-commit, clang-format et uv
+  par pip, PSScriptAnalyzer depuis la PowerShell Gallery ; puis l'environnement Python et les hooks
+  du clone. Visual Studio et Qt ne sont que vérifiés.
+- **Python des scripts** (`pyproject.toml`, `uv.lock`) : `uv sync --locked` crée `.venv/` avec
+  exactement les dépendances du runner (jsonschema, pytest). Tests des scripts : `uv run pytest`.
 - **Hooks** (`.pre-commit-config.yaml`) : avant chaque commit, clang-format, ruff, actionlint,
   zizmor, gitleaks, conflits de fusion et de casse, YAML, JSON (`scripts/check_json_files.py`) et
   garde-fou binaires (`scripts/check_binary_files.py`) ; à la rédaction du message, son format. À
   installer **dans chaque worktree** : `pre-commit install`. Tout rejouer :
   `pre-commit run --all-files`. Le job `pre-commit` de la CI les rejoue sur tout le dépôt.
-- **Tous les contrôles du référentiel en une commande** : `py -3 scripts/check.py`. Il lit les
-  étapes du job `lint-exigences` dans `ci.yml` et les exécute, puis lance les hooks — un contrôle
-  ajouté à la CI y est rejoué sans qu'on y pense.
+- **Tous les contrôles du référentiel en une commande** : `uv run scripts/check.py`. Il lit les
+  étapes du job `lint-exigences` dans `ci.yml` et les exécute (pytest et PSScriptAnalyzer compris),
+  puis lance les hooks — un contrôle ajouté à la CI y est rejoué sans qu'on y pense.
 - **Cache de compilation** : dès que `sccache` est dans le PATH, les presets Ninja compilent à
   travers lui (`ENABLE_COMPILER_CACHE`, `CMakeLists.txt`) ; le preset `vs` n'est pas concerné.
   Avec un MSVC en français, CMake ne l'active pas : sccache réécrit les lignes `/showIncludes` et
   Ninja perdrait des dépendances d'en-têtes. Module linguistique anglais de Visual Studio et
   `VSLANG=1033` pour en profiter.
 - **Tests d'un seul étage** : `scripts/build.ps1 -Label unitaire` (ou `integration`, `systeme`).
+- **Tests Qt Quick** (`Source/Test/Qml`, cible `QmlTests`, étage `unitaire`) : chaque `.ui.qml` de
+  `Jadg.Ui` se construit sans avertissement, les briques se comportent comme la galerie le suppose,
+  et chaque écran ressemble à sa **capture de référence** (`Source/Test/Qml/References`, rendu
+  logiciel à 960 × 540). Un écran modifié **volontairement** : régénérer ses références avec
+  `JADG_UPDATE_REFERENCES=1` puis `ctest --preset ninja -R QmlTests`, et relire les images dans le
+  diff. En cas d'écart, la capture et l'image des différences sont dans `build/<preset>/qml-captures`.
+- **Traductions** : une chaîne ajoutée à un écran se traduit dans la même PR.
+  `cmake --build --preset ninja --target update_translations` met `jadg_en.ts` à jour du code (les
+  chaînes retirées en sortent), Qt Linguist le traduit, `scripts/check_translations.py` le vérifie —
+  le job `build-ninja` rejoue les deux premiers.
+- **Plantages** : le jeu et l'éditeur écrivent un minidump sous `Crashes/`, à côté de `Logs/`. Le
+  lire : ouvrir le `.dmp` dans Visual Studio avec le zip de **symboles** de la même version (son nom
+  porte la version). `JustAnotherDnDGame.exe --crash-test` provoque un plantage pour l'éprouver.
+- **Couverture sur le poste** : `powershell -File scripts/coverage.ps1 -BinDir build/vs/bin/Debug`
+  (même script que la CI), rapport dans `coverage-html/`.
 - **Éditeur** : `.clangd` branche clangd sur `build/ninja/compile_commands.json` et les checks de
   `.clang-tidy`.
 - **Binaires** : aucun fichier au-delà de 5 Mio, et un fichier binaire doit avoir une extension
@@ -88,8 +106,10 @@ La portée correspond en général au module (`core`, `hmi`, `elements`, `test`,
 - Tous les workflows se relancent à la main depuis l'onglet **Actions** (`workflow_dispatch`),
   sans commit vide. Un nouveau push sur une PR **annule** le run précédent.
 - Les actions GitHub sont **épinglées par SHA** de commit, le tag en commentaire ; **Dependabot**
-  (`.github/dependabot.yml`) propose leur mise à jour chaque semaine, en une PR. L'installation de
-  Qt n'est écrite qu'une fois : `.github/actions/setup-qt/action.yml`.
+  (`.github/dependabot.yml`) propose leur mise à jour chaque semaine, en une PR, ainsi que celle des
+  dépendances Python (`uv.lock`). **Renovate** (`renovate.json`) ne suit que ce que Dependabot ne
+  lit pas : les `GIT_TAG` de FetchContent (`External/CMakeLists.txt`). L'installation de Qt n'est
+  écrite qu'une fois : `.github/actions/setup-qt/action.yml`.
 - **Lire une PR sans ouvrir de log** : les tests des trois builds sont publiés en commentaire et en
   check run (`test-report`) ; la couverture des lignes ajoutées est commentée par **Codecov**
   (informatif, le seul seuil bloquant reste celui de `ci.yml`) ; les avertissements MSVC, les
@@ -111,10 +131,13 @@ La portée correspond en général au module (`core`, `hmi`, `elements`, `test`,
    `python scripts/extract_release_notes.py vX.Y.Z` — le workflow lit **cette** section du
    CHANGELOG (`--notes-file`) et **échoue** si elle est absente.
 4. Merger, puis poser le tag sur le commit de merge : `git tag vX.Y.Z && git push origin vX.Y.Z`.
-- **Documentation** (`docs.yml`) : génère la Doxygen et la publie sur la branche **`gh-pages`** (lisible en ligne via GitHub Pages).
+- **Documentation et site qualité** (`docs.yml`) : à chaque merge, publie sur **`gh-pages`** la
+  Doxygen (racine du site) et la page **qualité** (`/qualite/`) : couverture de `main` par domaine
+  et son rapport détaillé, dernières mesures de performance de la nuit et leurs courbes. Republiée
+  chaque matin pour y faire entrer les mesures de la nuit.
 
 ## Avant d'ouvrir une PR
-0. `py -3 scripts/check.py` est vert (contrôles du référentiel et hooks).
+0. `uv run scripts/check.py` est vert (contrôles du référentiel, tests des scripts et hooks).
 1. `cmake --build --preset vs` compile sans avertissement.
 2. `ctest --preset vs` passe à 100 %.
 3. `cmake --preset vs && cmake --build --preset vs-release && ctest --preset vs-release` compile et

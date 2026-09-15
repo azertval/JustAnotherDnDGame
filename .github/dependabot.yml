@@ -4,13 +4,14 @@
 # commit non. Le prix de cet épinglage est qu'il ne bouge plus jamais seul — ce fichier le fait
 # bouger, par PR, pour qu'une montée de version reste une décision relue et passée par la CI.
 #
-# Hors de portée de Dependabot, suivi à la main :
-# - les versions d'outils écrites dans `env:` de ci.yml (LLVM, Doxygen, OpenCppCoverage,
-#   jsonschema, AQT_SOURCE, SCCACHE_VERSION, PRE_COMMIT_VERSION) — ni manifeste pip, ni paquet,
-#   seulement du texte ;
+# Hors de portée de Dependabot :
+# - les `GIT_TAG` de FetchContent (External/CMakeLists.txt) — Dependabot ne lit pas CMake ; suivis par
+#   Renovate (renovate.json, phase 4), qui ne suit QUE cela ;
+# - les versions d'outils écrites dans `env:` de ci.yml (LLVM, Doxygen, OpenCppCoverage, AQT_SOURCE,
+#   SCCACHE_VERSION, PRE_COMMIT_VERSION, UV_VERSION, PSSCRIPTANALYZER_VERSION) — seulement du texte,
+#   suivi à la main ;
 # - les hooks de .pre-commit-config.yaml — `pre-commit autoupdate --freeze`, puis
-#   `scripts/check_tool_pins.py` pour clang-format ;
-# - les `GIT_TAG` de FetchContent (External/CMakeLists.txt) — Dependabot ne lit pas CMake.
+#   `scripts/check_tool_pins.py` pour clang-format.
 version: 2
 updates:
   - package-ecosystem: github-actions
@@ -32,3 +33,18 @@ updates:
         patterns: [ "*" ]
     commit-message:
       prefix: ci
+
+  # Dépendances Python des scripts (phase 4) : pyproject.toml et uv.lock. jsonschema, pytest et Pillow
+  # sont épinglés à la version exacte ; Dependabot met à jour les deux fichiers dans la même PR.
+  - package-ecosystem: uv
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: monday
+    cooldown:
+      default-days: 7
+    groups:
+      python:
+        patterns: [ "*" ]
+    commit-message:
+      prefix: build

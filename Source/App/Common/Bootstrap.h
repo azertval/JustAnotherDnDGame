@@ -26,7 +26,8 @@ class MemoryLogSink;
 namespace app {
 
 /**
- * @brief Installe les puits de journalisation et résout le niveau minimum.
+ * @brief Installe les puits de journalisation, résout le niveau minimum, puis l'écriture d'un
+ *        minidump sous `Crashes/` en cas de plantage.
  *
  * En développement : console et capture mémoire (exportable depuis les Options). Dans les deux
  * configurations : fichier horodaté sous `Logs/`, vidé à chaque message — c'est ce qui reste
@@ -36,6 +37,9 @@ namespace app {
  * Le niveau vient de `JADG_LOG_LEVEL` puis, prioritairement, de `--log-level=<trace|info|warning|
  * error>`. Une valeur non reconnue est ignorée et signalée dans le journal, jamais fatale
  * (`EX-NFR-040`).
+ *
+ * `--crash-test` provoque ensuite un plantage volontaire : c'est ce que lance le test de fumée de
+ * la release pour prouver que l'archive livrée écrit son minidump (`hmi::installCrashDumpWriter`).
  *
  * @param argc            Nombre d'arguments de la ligne de commande.
  * @param argv            Arguments de la ligne de commande.

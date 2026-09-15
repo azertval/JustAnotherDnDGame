@@ -13,8 +13,10 @@
     trouvée) et échoue si un écart existe. Avec -Install, il installe ce qui manque ou diverge :
       - winget pour LLVM (clang-tidy, clangd), Doxygen et OpenCppCoverage ;
       - l'archive officielle pour sccache, que winget ne publie pas à la version épinglée ;
-      - pip (lanceur `py`) pour pre-commit, clang-format et jsonschema ;
-    puis installe les hooks de .pre-commit-config.yaml dans le clone courant.
+      - pip (lanceur `py`) pour pre-commit, clang-format et uv ;
+      - le paquet de la PowerShell Gallery pour PSScriptAnalyzer, dans les modules de l'utilisateur ;
+    puis crée l'environnement Python du dépôt (`uv sync --locked`, versions de uv.lock) et installe
+    les hooks de .pre-commit-config.yaml dans le clone courant.
 
     Ne sont que vérifiés, jamais installés : Visual Studio (outils C++ x64) et Qt, trop lourds et
     trop personnels pour un script. Pour Qt, la version attendue est `QT_VERSION`.
@@ -58,8 +60,8 @@ function Read-CiEnv {
 }
 
 $ci = Read-CiEnv $ciPath
-$required = 'LLVM_VERSION', 'DOXYGEN_VERSION', 'OPENCPPCOVERAGE_VERSION', 'JSONSCHEMA_VERSION',
-            'SCCACHE_VERSION', 'PRE_COMMIT_VERSION', 'QT_VERSION'
+$required = 'LLVM_VERSION', 'DOXYGEN_VERSION', 'OPENCPPCOVERAGE_VERSION', 'UV_VERSION',
+            'PSSCRIPTANALYZER_VERSION', 'SCCACHE_VERSION', 'PRE_COMMIT_VERSION', 'QT_VERSION'
 foreach ($name in $required) {
     if (-not $ci.ContainsKey($name)) {
         throw "$name introuvable dans le bloc env: de $ciPath : la lecture est à corriger."
@@ -131,9 +133,23 @@ $tools = @(
             elseif ($py) { Get-VersionFrom (Invoke-Quiet $py @('-3', '-m', 'pre_commit', '--version')) }
         }
     },
+    # Les dépendances Python des scripts (jsonschema, pytest, Pillow) ne sont pas listées : elles
+    # sont dans uv.lock, et `uv sync --locked` les installe à l'identique en fin de -Install.
     [pscustomobject]@{
-        Name = 'jsonschema'; Expected = $ci.JSONSCHEMA_VERSION; Kind = 'pip'; Package = 'jsonschema'
-        Detect = { Get-PipVersion 'jsonschema' }
+        Name = 'uv'; Expected = $ci.UV_VERSION; Kind = 'pip'; Package = 'uv'
+        Detect = {
+            $exe = Find-Exe 'uv'
+            if ($exe) { Get-VersionFrom (Invoke-Quiet $exe @('--version')) }
+            else { Get-PipVersion 'uv' }
+        }
+    },
+    [pscustomobject]@{
+        Name = 'PSScriptAnalyzer'; Expected = $ci.PSSCRIPTANALYZER_VERSION; Kind = 'psgallery'; Package = 'PSScriptAnalyzer'
+        Detect = {
+            $module = Get-Module -ListAvailable PSScriptAnalyzer |
+                Where-Object { $_.Version -eq [version]$ci.PSSCRIPTANALYZER_VERSION } | Select-Object -First 1
+            if ($module) { "$($module.Version)" }
+        }
     },
     [pscustomobject]@{
         Name = 'clang-format'; Expected = $ci.LLVM_VERSION; Kind = 'pip'; Package = 'clang-format'
@@ -188,6 +204,7 @@ function Test-VersionMatch {
 # --- Installation -------------------------------------------------------------------------------
 
 function Install-Tool {
+    [CmdletBinding(SupportsShouldProcess = $true)]
     param($Tool)
     switch ($Tool.Kind) {
         'pip' {
@@ -214,7 +231,7 @@ function Install-Tool {
             if ($PSCmdlet.ShouldProcess($url, "Télécharger dans $sccacheHome et l'ajouter au PATH utilisateur")) {
                 $zip = Join-Path $env:TEMP "$name.zip"
                 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-                Invoke-WebRequest -UseBasicParsing $url -OutFile $zip
+                Invoke-WebRequest -UseBasicParsing -Uri $url -OutFile $zip
                 $extract = Join-Path $env:TEMP $name
                 if (Test-Path $extract) { Remove-Item -Recurse -Force $extract }
                 Expand-Archive $zip $extract
@@ -226,6 +243,21 @@ function Install-Tool {
                     [Environment]::SetEnvironmentVariable('Path', ($userPath.TrimEnd(';') + ";$sccacheHome").TrimStart(';'), 'User')
                 }
                 $env:PATH = "$sccacheHome;$env:PATH"
+            }
+        }
+        'psgallery' {
+            # Le paquet est un zip : l'extraire dans les modules de l'utilisateur évite
+            # Install-Module, qui exige sous Windows PowerShell 5.1 le fournisseur NuGet, installé
+            # pour toute la machine.
+            $version = $Tool.Expected
+            $url = "https://www.powershellgallery.com/api/v2/package/$($Tool.Package)/$version"
+            $modules = Join-Path ([Environment]::GetFolderPath('MyDocuments')) 'WindowsPowerShell\Modules'
+            $target = Join-Path $modules "$($Tool.Package)\$version"
+            if ($PSCmdlet.ShouldProcess($url, "Extraire dans $target")) {
+                $zip = Join-Path $env:TEMP "$($Tool.Package).$version.zip"
+                [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+                Invoke-WebRequest -UseBasicParsing -Uri $url -OutFile $zip
+                Expand-Archive $zip $target -Force
             }
         }
     }
@@ -284,6 +316,19 @@ if (-not $Install) {
 foreach ($tool in $mismatches) {
     Write-Host "==> $($tool.Name) $($tool.Expected)" -ForegroundColor Cyan
     Install-Tool $tool
+}
+
+# L'environnement Python des scripts, aux versions de uv.lock (celles du runner).
+if ($PSCmdlet.ShouldProcess($repoRoot, 'uv sync --locked (.venv)')) {
+    Push-Location $repoRoot
+    try {
+        $uv = Find-Exe 'uv'
+        if ($uv) { & $uv sync --locked } else { & $py -3 -m uv sync --locked }
+        if ($LASTEXITCODE -ne 0) { throw "uv sync --locked : échec ($LASTEXITCODE)." }
+    }
+    finally {
+        Pop-Location
+    }
 }
 
 # Les hooks s'installent par clone ET par worktree : chacun a son propre dossier .git/hooks effectif.
