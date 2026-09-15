@@ -185,28 +185,28 @@ if(ENABLE_ASAN)
 endif()
 
 # --- Fuzzing des lecteurs de données (refonte de la CI, phase 3) ---
-# libFuzzer n'existe pas chez MSVC : il faut clang-cl, qui lit les mêmes options que cl.exe et lie
-# contre la même STL. Toutes nos cibles sont instrumentées (`fuzzer-no-link`) : le fuzzer ne mute
-# bien que ce dont il voit la couverture, et le lecteur de niveaux vit dans Core, pas dans le
-# harnais. AddressSanitizer en plus, globalement, pour la même raison que ENABLE_ASAN ci-dessus.
-# Configuration attendue : Ninja, RelWithDebInfo, PCH et avertissements bloquants désactivés — voir
-# le job `fuzz` de .github/workflows/nightly.yml.
+# libFuzzer avec le compilateur MSVC lui-même (/fsanitize=fuzzer, Visual Studio 2022 17.0+), et
+# l'AddressSanitizer de MSVC que le job `sanitize` de ci.yml éprouve déjà. clang-cl a été essayé et
+# écarté : sous son ASan, le `catch` d'une exception C++ recevait un objet invalide (lu dans une
+# mémoire déjà libérée), si bien que chaque lecteur JSON « plantait » sur l'entrée vide.
+#
+# Toutes nos cibles sont instrumentées pour la couverture (/fsanitize-coverage) : le fuzzer ne mute
+# bien que ce dont il voit les branches, et le lecteur de niveaux vit dans Core, pas dans le harnais.
+# ASan globalement, pour la même raison que ENABLE_ASAN ci-dessus. Configuration attendue : Ninja,
+# RelWithDebInfo, sans PCH ni cache de compilation — voir le job `fuzz` de nightly.yml.
 if(BUILD_FUZZERS)
-    if(NOT (MSVC AND CMAKE_CXX_COMPILER_ID STREQUAL "Clang"))
+    if(NOT MSVC OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
         message(FATAL_ERROR
-            "BUILD_FUZZERS exige clang-cl (compilateur actuel : ${CMAKE_CXX_COMPILER_ID}).\n"
-            "  cmake -S . -B build/fuzz -G Ninja -DCMAKE_CXX_COMPILER=clang-cl "
-            "-DCMAKE_BUILD_TYPE=RelWithDebInfo -DBUILD_FUZZERS=ON -DBUILD_TESTING=OFF "
-            "-DBUILD_EDITOR_QT=OFF -DENABLE_PCH=OFF -DENABLE_WARNINGS_AS_ERRORS=OFF")
+            "BUILD_FUZZERS exige le compilateur MSVC (cl.exe), pas ${CMAKE_CXX_COMPILER_ID}.\n"
+            "  cmake -S . -B build/fuzz -G Ninja -DCMAKE_BUILD_TYPE=RelWithDebInfo -DBUILD_FUZZERS=ON "
+            "-DBUILD_TESTING=OFF -DBUILD_EDITOR_QT=OFF -DENABLE_PCH=OFF -DENABLE_COMPILER_CACHE=OFF")
     endif()
     if(ENABLE_ASAN)
         message(FATAL_ERROR "BUILD_FUZZERS active déjà AddressSanitizer : retirer ENABLE_ASAN.")
     endif()
-    add_compile_options(-fsanitize=fuzzer-no-link -fsanitize=address)
-    # CRT statique (/MT) pour tout le build : la bibliothèque libFuzzer que distribue LLVM est
-    # compilée ainsi, et l'éditeur de liens refuse de la mêler à des objets /MD (« mismatch detected
-    # for 'RuntimeLibrary' », constaté sur le runner). Doit précéder la création de toute cible.
-    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded")
+    add_compile_options(/fsanitize=address
+        /fsanitize-coverage=inline-8bit-counters /fsanitize-coverage=edge
+        /fsanitize-coverage=trace-cmp /fsanitize-coverage=trace-div)
 endif()
 
 # --- Dépendances tierces (External/) ---

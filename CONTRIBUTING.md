@@ -80,7 +80,7 @@ La portée correspond en général au module (`core`, `hmi`, `elements`, `test`,
   workflow et de ce commit.
 - **Nuit** (`nightly.yml`, 02 h 17 UTC, non bloquant) : clang-tidy sur tout `Source/`, tests en
   ordre aléatoire répété (la graine est dans le résumé), MSVC `/analyze` et cppcheck, fuzzing des
-  lecteurs de données (`Source/Fuzz`, clang-cl), mesures de performance avec historique
+  lecteurs de données (`Source/Fuzz`, libFuzzer de MSVC), mesures de performance avec historique
   (`Source/Benchmark`, branche `benchmarks`), lancement de l'archive Release, build contre la
   version de Qt suivante, liens de la documentation (`lychee.toml`). Une PR qui modifie ce workflow
   ou ses sources l'exécute en version courte. Les analyses vont dans *Security > Code scanning*,

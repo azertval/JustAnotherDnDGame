@@ -318,7 +318,7 @@ jobs:
 
   fuzz:
     # Les lecteurs de données promettent de rendre une erreur décrite, jamais de lever ni de lire
-    # hors bornes : libFuzzer, sous clang-cl et AddressSanitizer, cherche l'entrée qui dément cette
+    # hors bornes : libFuzzer, sous MSVC et AddressSanitizer, cherche l'entrée qui dément cette
     # promesse (Source/Fuzz). Le corpus grandit d'une nuit à l'autre (cache) à partir des fichiers
     # réels du dépôt. Une entrée fautive fait échouer le job et part en artefact, prête à rejouer :
     # `fuzz_<cible>.exe <fichier>`.
@@ -331,18 +331,16 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Install LLVM (clang-cl, libFuzzer) ${{ env.LLVM_VERSION }} et Ninja
-        run: |
-          choco install llvm --version=${{ env.LLVM_VERSION }} -y --no-progress --allow-downgrade
-          choco install ninja -y --no-progress
+      - name: Install Ninja
+        run: choco install ninja -y --no-progress
 
-      - name: Build des cibles de fuzzing (clang-cl, ASan)
+      - name: Build des cibles de fuzzing (MSVC /fsanitize=fuzzer, ASan)
         shell: cmd  # zizmor: ignore[misfeature] -- vcvars64.bat et CMake doivent partager un processus
         run: |
           for /f "usebackq tokens=*" %%i in (`"%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath`) do (
             call "%%i\VC\Auxiliary\Build\vcvars64.bat" || exit /b 1
           )
-          cmake -S . -B build/fuzz -G Ninja "-DCMAKE_CXX_COMPILER=C:/Program Files/LLVM/bin/clang-cl.exe" -DCMAKE_BUILD_TYPE=RelWithDebInfo -DBUILD_FUZZERS=ON -DBUILD_TESTING=OFF -DBUILD_EDITOR_QT=OFF -DENABLE_PCH=OFF -DENABLE_WARNINGS_AS_ERRORS=OFF -DENABLE_COMPILER_CACHE=OFF || exit /b 1
+          cmake -S . -B build/fuzz -G Ninja -DCMAKE_BUILD_TYPE=RelWithDebInfo -DBUILD_FUZZERS=ON -DBUILD_TESTING=OFF -DBUILD_EDITOR_QT=OFF -DENABLE_PCH=OFF -DENABLE_COMPILER_CACHE=OFF || exit /b 1
           cmake --build build/fuzz --target fuzz_json fuzz_level fuzz_dialogue fuzz_skins fuzz_localization || exit /b 1
 
       - name: Restaurer le corpus des nuits precedentes

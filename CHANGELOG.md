@@ -11,7 +11,7 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
   - **`nightly.yml`**, non bloquant : clang-tidy sur tout `Source/` (tendance par famille), tests
     en ordre aléatoire répété à graine affichée, MSVC `/analyze` et cppcheck en SARIF, build contre
     la version de Qt suivante, liens internes de la documentation (lychee, hors ligne).
-  - **Fuzzing des lecteurs de données** (`Source/Fuzz`, `-DBUILD_FUZZERS=ON` sous clang-cl) :
+  - **Fuzzing des lecteurs de données** (`Source/Fuzz`, `-DBUILD_FUZZERS=ON`, libFuzzer de MSVC) :
     l'enveloppe JSON, les niveaux, les dialogues, l'habillage et les traductions, sous
     AddressSanitizer, avec un corpus qui grandit d'une nuit à l'autre.
   - **Mesures de performance** (`Source/Benchmark`, Google Benchmark) : déplacement, ligne de vue,
