@@ -328,8 +328,10 @@ TEST(PathfindingTest, LeCheminSuitLaDroite) {
     for (const core::GridPosition destination : aire.destinations()) {
         const std::optional<core::Path> chemin = aire.pathTo(destination);
         ASSERT_TRUE(chemin.has_value());
-        const auto [colonneMin, colonneMax] = std::minmax(5, destination.column);
-        const auto [ligneMin, ligneMax] = std::minmax(5, destination.row);
+        const int colonneMin = std::min(5, destination.column);
+        const int colonneMax = std::max(5, destination.column);
+        const int ligneMin = std::min(5, destination.row);
+        const int ligneMax = std::max(5, destination.row);
         for (const core::GridPosition pas : chemin->steps) {
             EXPECT_GE(pas.column, colonneMin)
                 << "vers " << destination.column << "," << destination.row;
