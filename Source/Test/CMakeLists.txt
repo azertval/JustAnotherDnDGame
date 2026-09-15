@@ -181,6 +181,15 @@ if(Qt6_FOUND)
         # temoin, relu pixel par pixel. Se saute proprement si la machine n'offre aucune interface
         # QRhi -- c'est le seul test qui protege la nettete du pixel art.
         Unit/HMI/Graphics/test_rhi_offscreen.cpp
+        # La scene du Colisee rendue hors ecran (LOT-86 Phase 5) : creation, recreation sur une autre
+        # interface QRhi, liberation, et une image qui n'est pas que le fond.
+        Unit/HMI/Graphics/test_arena_scene_renderer.cpp
+        ../HMI/Graphics/ArenaSceneRenderer.cpp
+        ../HMI/Graphics/SceneResources.cpp
+        ../HMI/Graphics/SpriteRenderer.cpp
+        ../HMI/Graphics/TextureAtlas.cpp
+        ../HMI/Graphics/TextureCache.cpp
+        ../HMI/Graphics/BitmapFont.cpp
         # Table de correspondance Qt <-> Win32 (LOT-57 TACHE-04) : logique PURE, mais qui lit les
         # constantes de <qnamespace.h> -- elle depend des en-tetes Qt, jamais d'une QApplication.
         # Elle vit donc ici plutot qu'avec les autres sources HMI/Input compilees sans condition.

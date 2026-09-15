@@ -20,7 +20,8 @@ Une regle qui n'est pas verifiee n'est pas une regle : c'est une intention.
 CE QUI EST VERIFIE
 ------------------
 1. Presentation et Runtime (les vues-modeles) ne connaissent ni Qt Quick ni Qt Widgets ; seule la
-   surface de rendu (Runtime/GameViewportItem) lie Quick, et rien ne lie Widgets.
+   surface de rendu (Runtime/GameViewportItem, Runtime/ArenaViewportItem) lie Quick, et rien ne
+   lie Widgets.
 2. Core ne connait pas Qt du tout.
 3. La cible du JEU ne lie pas Qt6::Widgets.
 4. Les ecrans et controles de Source/Ui sont des `.ui.qml` sans code imperatif ; le cablage vit
@@ -49,7 +50,13 @@ PRESENTATION = ROOT / "Source" / "HMI" / "Presentation"
 # Les vues-modeles exposees au QML (module Jadg.Runtime, LOT-87) : meme regle que Presentation, a
 # l'exception nommee de la surface de rendu, qui EST un item Qt Quick.
 RUNTIME = ROOT / "Source" / "HMI" / "Runtime"
-RUNTIME_QUICK_ALLOWED = ("GameViewportItem.h", "GameViewportItem.cpp")
+RUNTIME_QUICK_ALLOWED = (
+    "GameViewportItem.h",
+    "GameViewportItem.cpp",
+    # La scene de combat du Colisee (LOT-86 Phase 5) : une seconde surface de rendu.
+    "ArenaViewportItem.h",
+    "ArenaViewportItem.cpp",
+)
 CORE = ROOT / "Source" / "Core"
 UI = ROOT / "Source" / "Ui"
 UI_THEME = UI / "Theme"

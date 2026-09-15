@@ -63,9 +63,9 @@ struct Composer {
 }
 
 void composeTile(const Composer& composer, const ArenaAppearanceCatalog& catalog,
-                 const core::BattleGrid& grid, core::GridPosition cell, std::string& path) {
-    const ArenaTileAppearance appearance = catalog.tileAppearance(
-        cell, grid.width(), grid.height(), grid.isObstructed(cell, core::Locomotion::Walk));
+                 const ArenaSceneSnapshot& snapshot, core::GridPosition cell, std::string& path) {
+    const ArenaTileAppearance appearance =
+        catalog.tileAppearance(cell, snapshot.columns, snapshot.rows, snapshot.isObstructed(cell));
     const core::Rect bounds = composer.projection.tileBounds(cell);
     const float tileHeight = bounds.size.y;
     const float centerX = bounds.position.x + bounds.size.x / 2.0f;
@@ -121,23 +121,14 @@ void composeTile(const Composer& composer, const ArenaAppearanceCatalog& catalog
 }
 
 void composeFigure(const Composer& composer, const ArenaAppearanceCatalog& catalog,
-                   const ArenaAnimationState& animation, const core::CombatState& combat,
-                   const core::Combatant& combatant, std::string& path) {
-    // Sorti : il a quitte la grille et l'ordre, il n'a plus de figurine.
-    if (combatant.status == core::CombatantStatus::Withdrawn) {
-        return;
-    }
-    const core::BattleGrid& grid = combat.grid();
-    const std::optional<core::GridPosition> anchor = grid.positionOf(combatant.id);
-    if (!anchor.has_value()) {
-        return;
-    }
-    const core::CombatSide side = combatant.profile.side;
-    const FigureAppearance figure = catalog.figureFor(combatant.profile.name, side);
+                   const ArenaAnimationState& animation, const ArenaFigureSnapshot& combatant,
+                   std::string& path) {
+    const core::CombatSide side = combatant.side;
+    const FigureAppearance figure = catalog.figureFor(combatant.name, side);
     if (figure.sheet.empty() || figure.frameCount <= 0) {
         return;
     }
-    const bool down = combatant.status == core::CombatantStatus::Down;
+    const bool down = combatant.down;
     const bool ally = side == core::CombatSide::Allies;
 
     path.assign(ally ? "characters/" : "enemies/");
@@ -155,14 +146,15 @@ void composeFigure(const Composer& composer, const ArenaAppearanceCatalog& catal
 
     // Une emprise de n cases : une figurine centree dessus, n fois plus grande, au pied de
     // l'emprise.
-    const int footprint = std::max(1, grid.sideOf(combatant.id));
+    const core::GridPosition anchor = combatant.anchor;
+    const int footprint = std::max(1, combatant.footprint);
     const float extent = static_cast<float>(footprint);
     const core::Vector2 center =
-        composer.projection.gridToWorld({static_cast<float>(anchor->column) + extent / 2.0f,
-                                         static_cast<float>(anchor->row) + extent / 2.0f});
+        composer.projection.gridToWorld({static_cast<float>(anchor.column) + extent / 2.0f,
+                                         static_cast<float>(anchor.row) + extent / 2.0f});
     const float footY =
         composer.projection
-            .gridToWorld(gridPoint(anchor->column + footprint, anchor->row + footprint))
+            .gridToWorld(gridPoint(anchor.column + footprint, anchor.row + footprint))
             .y;
     const float tileHeight = composer.projection.tileHeight();
 
@@ -193,7 +185,72 @@ std::int32_t arenaDepthSortOrder(float footWorldY, ArenaDepthSlot slot) noexcept
     return depthSortOrder(footWorldY) * ARENA_DEPTH_SLOTS + static_cast<std::int32_t>(slot);
 }
 
-void composeArenaScene(ComposedScene& scene, const core::ArenaSession& session,
+std::vector<std::string> arenaTexturePaths(const ArenaAppearanceCatalog& catalog) {
+    std::vector<std::string> paths{std::string(SAND),   std::string(STONE),  std::string(WALL),
+                                   std::string(COLUMN), std::string(BANNER), std::string(TORCH),
+                                   std::string(ARCH)};
+    for (const std::string& slab : catalog.paleSlabs()) {
+        paths.push_back("coliseum/" + slab + ".png");
+    }
+    // Un allie a terre montre sa bande de mort ; un ennemi, sa bande de repos estompee.
+    for (const std::string& hero : catalog.heroes()) {
+        paths.push_back("characters/" + hero + "/idle.png");
+        paths.push_back("characters/" + hero + "/death.png");
+    }
+    for (const std::string& gladiator : catalog.gladiators()) {
+        paths.push_back("enemies/" + gladiator + "/idle.png");
+    }
+    return paths;
+}
+
+bool ArenaSceneSnapshot::isObstructed(core::GridPosition cell) const noexcept {
+    if (cell.column < 0 || cell.row < 0 || cell.column >= columns || cell.row >= rows) {
+        return false;
+    }
+    const std::size_t index =
+        static_cast<std::size_t>(cell.row) * static_cast<std::size_t>(columns) +
+        static_cast<std::size_t>(cell.column);
+    return index < obstructed.size() && obstructed[index];
+}
+
+ArenaSceneSnapshot snapshotArenaScene(const core::ArenaSession& session) {
+    const core::CombatState& combat = session.combat();
+    const core::BattleGrid& grid = combat.grid();
+
+    ArenaSceneSnapshot snapshot;
+    snapshot.columns = std::max(0, grid.width());
+    snapshot.rows = std::max(0, grid.height());
+    snapshot.obstructed.reserve(static_cast<std::size_t>(snapshot.columns) *
+                                static_cast<std::size_t>(snapshot.rows));
+    for (int row = 0; row < snapshot.rows; ++row) {
+        for (int column = 0; column < snapshot.columns; ++column) {
+            snapshot.obstructed.push_back(
+                grid.isObstructed({.column = column, .row = row}, core::Locomotion::Walk));
+        }
+    }
+
+    for (const core::CombatantId id : combat.combatants()) {
+        const core::Combatant* const combatant = combat.find(id);
+        // Sorti : il a quitte la grille et l'ordre, il n'a plus de figurine.
+        if (combatant == nullptr || combatant->status == core::CombatantStatus::Withdrawn) {
+            continue;
+        }
+        const std::optional<core::GridPosition> anchor = grid.positionOf(id);
+        if (!anchor.has_value()) {
+            continue;
+        }
+        snapshot.figures.push_back(
+            ArenaFigureSnapshot{.id = id,
+                                .name = combatant->profile.name,
+                                .side = combatant->profile.side,
+                                .down = combatant->status == core::CombatantStatus::Down,
+                                .anchor = *anchor,
+                                .footprint = std::max(1, grid.sideOf(id))});
+    }
+    return snapshot;
+}
+
+void composeArenaScene(ComposedScene& scene, const ArenaSceneSnapshot& snapshot,
                        const ArenaAppearanceCatalog& catalog, const ArenaAnimationState& animation,
                        const core::IsoProjection& projection, const ArenaSceneTextures& textures) {
     const Composer composer{
@@ -204,18 +261,20 @@ void composeArenaScene(ComposedScene& scene, const core::ArenaSession& session,
     // Un seul tampon de chemin pour toute la scene : apres la premiere image, plus d'allocation.
     std::string path;
 
-    const core::CombatState& combat = session.combat();
-    const core::BattleGrid& grid = combat.grid();
-    for (int row = 0; row < grid.height(); ++row) {
-        for (int column = 0; column < grid.width(); ++column) {
-            composeTile(composer, catalog, grid, {.column = column, .row = row}, path);
+    for (int row = 0; row < snapshot.rows; ++row) {
+        for (int column = 0; column < snapshot.columns; ++column) {
+            composeTile(composer, catalog, snapshot, {.column = column, .row = row}, path);
         }
     }
-    for (const core::CombatantId id : combat.combatants()) {
-        if (const core::Combatant* combatant = combat.find(id)) {
-            composeFigure(composer, catalog, animation, combat, *combatant, path);
-        }
+    for (const ArenaFigureSnapshot& figure : snapshot.figures) {
+        composeFigure(composer, catalog, animation, figure, path);
     }
+}
+
+void composeArenaScene(ComposedScene& scene, const core::ArenaSession& session,
+                       const ArenaAppearanceCatalog& catalog, const ArenaAnimationState& animation,
+                       const core::IsoProjection& projection, const ArenaSceneTextures& textures) {
+    composeArenaScene(scene, snapshotArenaScene(session), catalog, animation, projection, textures);
 }
 
 ComposedScene composeArenaScene(const core::ArenaSession& session,

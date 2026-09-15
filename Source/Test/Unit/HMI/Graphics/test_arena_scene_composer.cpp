@@ -11,6 +11,7 @@
 #include <cmath>
 #include <cstdint>
 #include <iterator>
+#include <memory>
 #include <optional>
 #include <string>
 #include <vector>
@@ -447,4 +448,97 @@ TEST_F(ArenaSceneComposerTest, LectureSeule) {
         EXPECT_FLOAT_EQ(a.sprite.x, b.sprite.x);
         EXPECT_FLOAT_EQ(a.sprite.y, b.sprite.y);
     }
+}
+
+/**
+ * @brief L'instantane porte tout ce que la composition dessine : compose apres la mort de la
+ *        session, il donne exactement la scene de la session vivante.
+ * \castest{<b>L'instantane en valeurs survit a sa session (LOT-86 Phase 5).</b><br/>
+ * \tcat Unitaire · Composeur de la scene de l'arene<br/>
+ * \tcrit Bloquant<br/>
+ * \tetapes 1. Abattre Bram, faire sortir Cid, tirer l'instantane.<br/>
+ *          2. Detruire une copie de la session, composer l'instantane.<br/>
+ * \tattendu Grille 5x4, 13 cases obstruees, 4 figurines (Cid absent, Bram a terre) ; memes quads,
+ * dans le meme ordre, que la composition depuis la session.
+ * }
+ */
+TEST_F(ArenaSceneComposerTest, InstantaneSurvitALaSession) {
+    ASSERT_TRUE(session.start());
+    session.combat().applyDamage(idOf(session, "Bram"), 100);
+    ASSERT_EQ(session.combat().withdraw(idOf(session, "Cid")), core::WithdrawResult::Withdrawn);
+
+    hmi::ArenaSceneSnapshot snapshot;
+    {
+        const auto ephemeral = std::make_unique<core::ArenaSession>(piste());
+        ASSERT_TRUE(ephemeral->mount(affrontement()).refusals.empty());
+        ASSERT_TRUE(ephemeral->start());
+        ephemeral->combat().applyDamage(idOf(*ephemeral, "Bram"), 100);
+        ASSERT_EQ(ephemeral->combat().withdraw(idOf(*ephemeral, "Cid")),
+                  core::WithdrawResult::Withdrawn);
+        snapshot = hmi::snapshotArenaScene(*ephemeral);
+        EXPECT_EQ(snapshot, hmi::snapshotArenaScene(session));
+    }
+
+    EXPECT_EQ(snapshot.columns, 5);
+    EXPECT_EQ(snapshot.rows, 4);
+    EXPECT_EQ(std::count(snapshot.obstructed.begin(), snapshot.obstructed.end(), true), 13);
+    ASSERT_EQ(snapshot.figures.size(), 4U);
+    EXPECT_TRUE(std::none_of(snapshot.figures.begin(), snapshot.figures.end(),
+                             [](const hmi::ArenaFigureSnapshot& f) { return f.name == "Cid"; }));
+    const auto bram =
+        std::find_if(snapshot.figures.begin(), snapshot.figures.end(),
+                     [](const hmi::ArenaFigureSnapshot& f) { return f.name == "Bram"; });
+    ASSERT_NE(bram, snapshot.figures.end());
+    EXPECT_TRUE(bram->down);
+    EXPECT_EQ(bram->anchor, (core::GridPosition{.column = 1, .row = 1}));
+
+    hmi::ComposedScene fromSnapshot;
+    hmi::composeArenaScene(fromSnapshot, snapshot, appearance, animation, projection,
+                           sceneTextures);
+    fromSnapshot.sort();
+    const hmi::ComposedScene fromSession = compose();
+    ASSERT_EQ(fromSnapshot.size(), fromSession.size());
+    for (std::size_t index = 0; index < fromSession.size(); ++index) {
+        const hmi::ComposedQuad& a = fromSnapshot.quads()[index];
+        const hmi::ComposedQuad& b = fromSession.quads()[index];
+        EXPECT_EQ(a.texture, b.texture) << "quad " << index;
+        EXPECT_EQ(a.sortOrder, b.sortOrder) << "quad " << index;
+        EXPECT_FLOAT_EQ(a.sprite.x, b.sprite.x) << "quad " << index;
+        EXPECT_FLOAT_EQ(a.sprite.u0, b.sprite.u0) << "quad " << index;
+        EXPECT_FLOAT_EQ(a.sprite.a, b.sprite.a) << "quad " << index;
+    }
+}
+
+/**
+ * @brief Charger exactement `arenaTexturePaths` suffit : aucune piece composee ne tombe sur le
+ *        damier.
+ * \castest{<b>La liste des textures couvre tout ce que la composition demande.</b><br/>
+ * \tcat Unitaire · Composeur de la scene de l'arene<br/>
+ * \tcrit Majeur<br/>
+ * \tetapes 1. Lier chaque chemin de arenaTexturePaths a une texture, et le damier a une autre.<br/>
+ *          2. Composer la piste avec un allie a terre.<br/>
+ * \tattendu Les 40 quads, aucun sur le damier ; la liste n'a pas de doublon.
+ * }
+ */
+TEST_F(ArenaSceneComposerTest, ListeDesTexturesCouvreLaComposition) {
+    const std::vector<std::string> paths = hmi::arenaTexturePaths(appearance);
+    std::vector<std::string> sorted = paths;
+    std::sort(sorted.begin(), sorted.end());
+    EXPECT_EQ(std::adjacent_find(sorted.begin(), sorted.end()), sorted.end());
+
+    hmi::ArenaSceneTextures listed;
+    std::uintptr_t next = 1;
+    for (const std::string& path : paths) {
+        listed.byPath[path] = hmi::ArenaTexture{handle(next++), 48, 64};
+    }
+    listed.missing = hmi::ArenaTexture{handle(9999), 16, 16};
+
+    ASSERT_TRUE(session.start());
+    session.combat().applyDamage(idOf(session, "Bram"), 100);
+    const hmi::ComposedScene scene =
+        hmi::composeArenaScene(session, appearance, animation, projection, listed);
+    EXPECT_EQ(scene.size(), static_cast<std::size_t>(FLOOR_QUADS + STRUCTURE_QUADS + 5));
+    EXPECT_TRUE(std::none_of(
+        scene.quads().begin(), scene.quads().end(),
+        [&](const hmi::ComposedQuad& quad) { return quad.texture == listed.missing.texture; }));
 }

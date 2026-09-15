@@ -8,7 +8,11 @@
 #include <map>
 #include <string>
 #include <string_view>
+#include <vector>
 
+#include "Core/Combat/BattleGrid.h"  // core::CombatantId
+#include "Core/Combat/TurnOrder.h"   // core::CombatSide
+#include "Core/Levels/GridPosition.h"
 #include "HMI/Graphics/ComposedScene.h"
 #include "HMI/Graphics/RenderLayer.h"
 
@@ -54,11 +58,18 @@
  * rectangles et du texte d'interface, pas des pièces de la planche, et le curseur de ciblage reste
  * en QML (`LOT-24`).
  *
- * ## Lecture seule
+ * ## Lecture seule, et par instantané
  *
  * La session n'est vue que par `const core::ArenaSession&` (`EX-ARCH-012`) : aucune méthode
  * mutante n'est appelable, et c'est le compilateur qui le garantit — `combat()` et `grid()` n'y
  * rendent que leur version `const`.
+ *
+ * Elle n'est lue qu'**une fois**, par `snapshotArenaScene`, qui en extrait ce que la composition
+ * dessine — la grille et les figurines — **en valeurs** (`LOT-86` Phase 5). La composition ne lit
+ * que cet instantané. C'est ce qui permet au rendu Qt Quick (`hmi::ArenaViewportItem`) de composer
+ * sur le fil de rendu une session qui vit sur le fil graphique : l'instantané se prend dans
+ * `synchronize()`, pendant que le fil graphique est bloqué, et ne garde aucun pointeur vers elle.
+ * `core::CombatState` n'est pas copiable ; l'instantané ne copie que ce qui se dessine.
  */
 
 namespace core {
@@ -130,11 +141,76 @@ struct ArenaSceneTextures {
     }
 };
 
+/// @brief Ce qu'une figurine dessine d'un combattant, copié de la session.
+struct ArenaFigureSnapshot {
+    core::CombatantId id{};
+    /// Nom du combattant : c'est lui qui choisit la planche (`ArenaAppearanceCatalog::figureFor`).
+    std::string name;
+    core::CombatSide side = core::CombatSide::Allies;
+    /// À terre (`core::CombatantStatus::Down`) ; un combattant sorti n'a pas d'instantané.
+    bool down = false;
+    /// Coin haut-gauche de son emprise.
+    core::GridPosition anchor{};
+    /// Côté de son emprise, en cases (au moins 1).
+    int footprint = 1;
+
+    friend bool operator==(const ArenaFigureSnapshot&, const ArenaFigureSnapshot&) = default;
+};
+
 /**
- * @brief Compose la scène de combat dans un tampon réutilisé.
+ * @brief La scène de combat **en valeurs** : ce que la composition lit, et rien d'autre.
+ *
+ * Ne tient aucun pointeur, aucune référence : il survit à la session dont il est tiré, et traverse
+ * sans risque la frontière entre le fil graphique et le fil de rendu.
+ */
+struct ArenaSceneSnapshot {
+    int columns = 0;
+    int rows = 0;
+    /// Une entrée par case, ligne par ligne : vrai si la case obstrue le sol
+    /// (`BattleGrid::isObstructed`, `Locomotion::Walk`) — ce que l'enceinte habille.
+    std::vector<bool> obstructed;
+    /// Les combattants sur la grille, dans l'ordre de `CombatState::combatants()`. Les sortis
+    /// (`Withdrawn`) et ceux qui n'ont pas de case n'y sont pas.
+    std::vector<ArenaFigureSnapshot> figures;
+
+    /// @return Vrai si @p cell est dans la grille et obstrue le sol.
+    [[nodiscard]] bool isObstructed(core::GridPosition cell) const noexcept;
+
+    friend bool operator==(const ArenaSceneSnapshot&, const ArenaSceneSnapshot&) = default;
+};
+
+/**
+ * @brief Tous les chemins de texture que la composition peut demander pour @p catalog : sols,
+ *        pièces d'enceinte, dalles claires, bandes des figurines.
+ *
+ * Tenue ici, à côté des chemins que la composition écrit, pour que le rendu charge exactement ce
+ * qu'elle résout — ni une pièce oubliée (qui tomberait sur le damier), ni une de trop.
+ */
+[[nodiscard]] std::vector<std::string> arenaTexturePaths(const ArenaAppearanceCatalog& catalog);
+
+/// @brief Tire de @p session l'instantané que la composition dessine (lecture seule).
+[[nodiscard]] ArenaSceneSnapshot snapshotArenaScene(const core::ArenaSession& session);
+
+/**
+ * @brief Compose la scène de combat dans un tampon réutilisé, depuis un instantané.
  *
  * Le tampon n'est **ni vidé ni trié** : même contrat que `hmi::composeWorldSprites`, l'appelant
  * enchaîne `clear()`, les compositions, puis `sort()`.
+ * @param scene      Scène à remplir.
+ * @param snapshot   La grille et les figurines, en valeurs.
+ * @param catalog    Rôle des cases et figurines.
+ * @param animation  Image courante de chaque figurine.
+ * @param projection Projection isométrique de la grille.
+ * @param textures   Textures liables.
+ */
+void composeArenaScene(ComposedScene& scene, const ArenaSceneSnapshot& snapshot,
+                       const ArenaAppearanceCatalog& catalog, const ArenaAnimationState& animation,
+                       const core::IsoProjection& projection, const ArenaSceneTextures& textures);
+
+/**
+ * @brief Compose la scène de combat dans un tampon réutilisé.
+ *
+ * Équivaut à composer `snapshotArenaScene(session)` : un seul chemin de composition.
  * @param scene      Scène à remplir.
  * @param session    La session d'arène, lue seulement.
  * @param catalog    Rôle des cases et figurines.

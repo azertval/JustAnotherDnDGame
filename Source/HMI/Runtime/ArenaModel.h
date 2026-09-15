@@ -135,6 +135,18 @@ public:
     [[nodiscard]] QString activeResources() const;
     [[nodiscard]] QStringList journal() const;
 
+    /**
+     * @brief La session, en lecture seule, pour la surface de rendu (`hmi::ArenaViewportItem`).
+     *
+     * Pas une propriété QML : le QML n'a rien à lire d'une session. Elle vit sur le fil graphique ;
+     * le rendu ne la lit que dans `synchronize()`, fil graphique bloqué, et n'en garde qu'un
+     * instantané en valeurs (`hmi::snapshotArenaScene`) — jamais ce pointeur.
+     * @return La session, `nullptr` si les catalogues n'ont donné aucune arène jouable.
+     */
+    [[nodiscard]] const core::ArenaSession* session() const noexcept {
+        return _session.get();
+    }
+
     /// Enrôle une entrée du `roster` dans un camp. Sans effet pendant un combat.
     Q_INVOKABLE void addAlly(const QString& id);
     Q_INVOKABLE void addEnemy(const QString& id);
