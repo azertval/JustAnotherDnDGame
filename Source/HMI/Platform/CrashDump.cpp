@@ -90,33 +90,52 @@ LONG WINAPI onUnhandledException(EXCEPTION_POINTERS* exception) {
 /// Écriture d'un dump confiée à un thread dédié (writeMiniDump).
 struct DumpJob {
     HANDLE file = INVALID_HANDLE_VALUE;
-    MINIDUMP_EXCEPTION_INFORMATION exception{};
-    bool withException = false;
+    EXCEPTION_POINTERS* original = nullptr;
+    DWORD threadId = 0;
+    // Copie du contexte réduite à la structure CONTEXT de base (voir writeDumpJob).
+    EXCEPTION_RECORD recordCopy{};
+    CONTEXT contextCopy{};
+    EXCEPTION_POINTERS pointersCopy{};
     BOOL written = FALSE;
     DWORD error = ERROR_SUCCESS;
 };
 
 DWORD WINAPI writeDumpJob(LPVOID parameter) {
     auto* const job = static_cast<DumpJob*>(parameter);
-    // D'abord le dump riche : piles, contexte, modules chargés et déchargés, et la mémoire que les
-    // piles désignent -- de quoi lire les variables locales et un objet pointé, pour quelques Mio.
-    // Ce balayage lit des pages qui peuvent disparaître entre la lecture et l'écriture
-    // (ERROR_INVALID_USER_BUFFER, vu sur le runner de CI et jamais sur le poste) : le second essai
-    // se passe de la mémoire référencée et garde le contexte de l'exception. Un dump réduit vaut
-    // mieux que pas de dump.
-    const std::array<MINIDUMP_TYPE, 2> attempts = {
+    // Piles, contexte, modules chargés et déchargés, et la mémoire que les piles désignent : de
+    // quoi lire les variables locales et un objet pointé, pour quelques Mio plutôt que tout le tas.
+    const auto rich =
         static_cast<MINIDUMP_TYPE>(MiniDumpWithIndirectlyReferencedMemory | MiniDumpScanMemory |
-                                   MiniDumpWithThreadInfo | MiniDumpWithUnloadedModules),
-        static_cast<MINIDUMP_TYPE>(MiniDumpNormal | MiniDumpWithThreadInfo |
-                                   MiniDumpWithUnloadedModules),
+                                   MiniDumpWithThreadInfo | MiniDumpWithUnloadedModules);
+    const auto reduced = static_cast<MINIDUMP_TYPE>(MiniDumpNormal | MiniDumpWithThreadInfo |
+                                                    MiniDumpWithUnloadedModules);
+
+    // Sur une partie des runners de CI (et jamais sur le poste, sans AVX-512), MiniDumpWriteDump
+    // refuse le contexte d'exception d'origine : ERROR_INVALID_USER_BUFFER. Le contexte porte alors
+    // un état étendu du processeur (CONTEXT_XSTATE) dont la taille dépend de la machine. Les essais
+    // suivants passent une copie limitée au CONTEXT de base, puis les pointeurs d'origine lus par
+    // ReadProcessMemory (ClientPointers). Un dump sans l'état AVX vaut mieux que pas de dump.
+    struct Attempt {
+        MINIDUMP_TYPE type;
+        EXCEPTION_POINTERS* pointers;
+        BOOL clientPointers;
     };
-    for (const MINIDUMP_TYPE type : attempts) {
+    const std::array<Attempt, 3> attempts = {{
+        {rich, job->original, FALSE},
+        {reduced, job->original != nullptr ? &job->pointersCopy : nullptr, FALSE},
+        {reduced, job->original, TRUE},
+    }};
+    for (const Attempt& attempt : attempts) {
         LARGE_INTEGER start{};
         SetFilePointerEx(job->file, start, nullptr, FILE_BEGIN);
         SetEndOfFile(job->file);
-        job->written =
-            MiniDumpWriteDump(GetCurrentProcess(), GetCurrentProcessId(), job->file, type,
-                              job->withException ? &job->exception : nullptr, nullptr, nullptr);
+        MINIDUMP_EXCEPTION_INFORMATION information{};
+        information.ThreadId = job->threadId;
+        information.ExceptionPointers = attempt.pointers;
+        information.ClientPointers = attempt.clientPointers;
+        job->written = MiniDumpWriteDump(
+            GetCurrentProcess(), GetCurrentProcessId(), job->file, attempt.type,
+            attempt.pointers != nullptr ? &information : nullptr, nullptr, nullptr);
         if (job->written != FALSE) {
             job->error = ERROR_SUCCESS;
             return 0;
@@ -165,10 +184,17 @@ bool writeMiniDump(const std::filesystem::path& path, _EXCEPTION_POINTERS* excep
 
     DumpJob job;
     job.file = file;
-    job.exception.ThreadId = GetCurrentThreadId();
-    job.exception.ExceptionPointers = exception;
-    job.exception.ClientPointers = FALSE;
-    job.withException = exception != nullptr;
+    job.threadId = GetCurrentThreadId();
+    job.original = exception;
+    if (exception != nullptr && exception->ExceptionRecord != nullptr &&
+        exception->ContextRecord != nullptr) {
+        job.recordCopy = *exception->ExceptionRecord;
+        job.recordCopy.ExceptionRecord = nullptr;  // pas d'exception imbriquée dans la copie
+        job.contextCopy = *exception->ContextRecord;
+        job.contextCopy.ContextFlags &= ~(CONTEXT_XSTATE & ~CONTEXT_AMD64);
+        job.pointersCopy.ExceptionRecord = &job.recordCopy;
+        job.pointersCopy.ContextRecord = &job.contextCopy;
+    }
 
     // Sur un thread à part : un thread qui se décrit lui-même pendant que dbghelp suspend et lit
     // les piles donne un dump incomplet ou un échec, selon la configuration -- vu en CI sous le
