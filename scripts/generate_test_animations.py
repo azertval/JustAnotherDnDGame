@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Valentin Eloy
-# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 
-"""Genere des skins de tuiles ANIMES de demonstration pour JustAnotherDnDGame (LOT-46).
+"""Genere des skins de tuiles ANIMES de demonstration pour JustAnotherRpgGame (LOT-46).
 
 Chaque asset est une spritesheet horizontale (les images se suivent de gauche a droite,
 un seul rang de TILE pixels de haut) accompagnee de son fichier `<asset>.anim.json`

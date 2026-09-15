@@ -1,5 +1,5 @@
 # SPDX-FileCopyrightText: 2026 Valentin Eloy
-# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 
 # Modules de code source
 #
@@ -24,11 +24,11 @@ add_subdirectory(Core)
 # qui compilent les sources pures directement), la configuration n'échoue pas — l'application est
 # simplement ignorée. Fournir Qt via CMAKE_PREFIX_PATH (ou l'action CI install-qt-action) pour
 # l'activer, ou passer -DBUILD_EDITOR_QT=OFF pour l'ignorer explicitement.
-option(BUILD_EDITOR_QT "Construire l'éditeur Qt (JustAnotherDnDGame). Nécessite Qt6." ON)
+option(BUILD_EDITOR_QT "Construire l'éditeur Qt (JustAnotherRpgGame). Nécessite Qt6." ON)
 # Vrai quand Qt est trouvé ET voulu : les trois répertoires Qt (HMI après HmiLib, Ui, App) le lisent.
 set(JADG_GAME_ENABLED ON)
 if(NOT BUILD_EDITOR_QT)
-    message(STATUS "JustAnotherDnDGame : désactivé (BUILD_EDITOR_QT=OFF).")
+    message(STATUS "JustAnotherRpgGame : désactivé (BUILD_EDITOR_QT=OFF).")
     set(JADG_GAME_ENABLED OFF)
 endif()
 
@@ -95,7 +95,7 @@ if(NOT Qt6_FOUND)
     # tests. Passer inaperçu est précisément ce qui rendait l'absence d'exe difficile à diagnostiquer.
     if(Qt6_FOUND)
         message(WARNING
-            "JustAnotherDnDGame : Qt6 ${Qt6_VERSION} trouvé (${Qt6_DIR}), mais inférieur à la version "
+            "JustAnotherRpgGame : Qt6 ${Qt6_VERSION} trouvé (${Qt6_DIR}), mais inférieur à la version "
             "minimale requise ${QT_VERSION_MINIMUM} — cible ignorée, AUCUN EXÉCUTABLE ne sera produit.\n"
             "Installer au moins Qt ${QT_VERSION_MINIMUM} (ou désigner une autre installation via "
             "-DCMAKE_PREFIX_PATH), ou passer -DBUILD_EDITOR_QT=OFF pour ne construire que les tests.")
@@ -114,7 +114,7 @@ if(NOT Qt6_FOUND)
                 endif()
             endforeach()
             message(WARNING
-                "JustAnotherDnDGame : Qt6 ${Qt6_VERSION} est bien installé (${Qt6_DIR}), mais il manque "
+                "JustAnotherRpgGame : Qt6 ${Qt6_VERSION} est bien installé (${Qt6_DIR}), mais il manque "
                 "le(s) module(s) : ${_qt_missing} — cible ignorée, AUCUN EXÉCUTABLE ne sera produit.\n"
                 "ShaderTools (l'outil `qsb`) et GuiPrivate (les en-têtes QRhi) sont exigés depuis le "
                 "LOT-69 TACHE-02 : le rendu passe par QRhi, plus par Direct3D 11 en direct.\n"
@@ -126,7 +126,7 @@ if(NOT Qt6_FOUND)
                 "Passer -DBUILD_EDITOR_QT=OFF pour ne construire que les tests, sans cet avertissement.")
         else()
             message(WARNING
-                "JustAnotherDnDGame : Qt6 introuvable, cible ignorée — AUCUN EXÉCUTABLE ne sera produit.\n"
+                "JustAnotherRpgGame : Qt6 introuvable, cible ignorée — AUCUN EXÉCUTABLE ne sera produit.\n"
                 "Version minimale requise : ${QT_VERSION_MINIMUM}.\n"
                 "Emplacements examinés : ${_qt_hints}\n"
                 "Corriger en installant Qt via l'installateur officiel, ou en désignant l'installation :\n"
@@ -141,13 +141,13 @@ if(JADG_GAME_ENABLED AND NOT Qt6_VERSION VERSION_EQUAL QT_VERSION_MINIMUM)
     # Avertissement, pas erreur (cf. TACHE-01) : interdire de construire sur une version voisine
     # coûterait plus qu'il ne rapporterait. Le but est qu'un écart soit visible, pas interdit.
     message(WARNING
-        "JustAnotherDnDGame : Qt6 ${Qt6_VERSION} trouvé (${Qt6_DIR}), différent de la version de "
+        "JustAnotherRpgGame : Qt6 ${Qt6_VERSION} trouvé (${Qt6_DIR}), différent de la version de "
         "référence ${QT_VERSION_MINIMUM} (celle validée par la CI) — le build peut diverger de la "
         "CI sans que rien d'autre ne le signale.")
 endif()
 
 if(JADG_GAME_ENABLED)
-    message(STATUS "JustAnotherDnDGame : Qt6 ${Qt6_VERSION} trouvé (${Qt6_DIR}).")
+    message(STATUS "JustAnotherRpgGame : Qt6 ${Qt6_VERSION} trouvé (${Qt6_DIR}).")
 endif()
 
 if(JADG_GAME_ENABLED)

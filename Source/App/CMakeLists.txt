@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: 2026 Valentin Eloy
-# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 
-# JustAnotherDnDGame : le jeu, en Qt Quick (LOT-86), et son module QML `Jadg.App` (LOT-87).
+# JustAnotherRpgGame : le jeu, en Qt Quick (LOT-86), et son module QML `Jadg.App` (LOT-87).
 #
 # L'exécutable porte le troisième module : la fenêtre (`Main.qml`), la pile d'écrans (`Logic/`) et
 # les JUMEAUX de câblage des écrans (`Screens/<Écran>.qml`), un par formulaire de `Jadg.Ui`. C'est
@@ -15,7 +15,7 @@
 
 set(CMAKE_AUTOMOC ON)
 
-add_executable(JustAnotherDnDGame
+add_executable(JustAnotherRpgGame
     Game/Main.cpp
     Common/Bootstrap.cpp
     # Le son : le volume des options doit atteindre un moteur reel (EX-IHM-083).
@@ -26,7 +26,7 @@ add_executable(JustAnotherDnDGame
 # plugin (`optional plugin`, `linktarget`), et c'est le plugin lié qui enregistre les types quand
 # l'engine rencontre `import Jadg.Runtime`. Aucune macro d'import dans le C++ : Qt le fait à
 # l'édition de liens.
-target_link_libraries(JustAnotherDnDGame PRIVATE
+target_link_libraries(JustAnotherRpgGame PRIVATE
     HmiLib
     JadgRuntime
     JadgRuntimeplugin
@@ -46,7 +46,7 @@ target_link_libraries(JustAnotherDnDGame PRIVATE
 # Écrans : chaque jumeau porte le nom du formulaire sans le suffixe `Form`, dans le même
 # sous-dossier. `python scripts/list_pending_bindings.py` donne l'inventaire des liaisons en
 # attente, dérivé de ces fichiers.
-qt_add_qml_module(JustAnotherDnDGame
+qt_add_qml_module(JustAnotherRpgGame
     URI Jadg.App
     VERSION 1.0
     QML_FILES
@@ -80,7 +80,7 @@ qt_add_qml_module(JustAnotherDnDGame
 #
 # Neutralisé pour les cibles QML seulement, jamais pour le dépôt : `/W4 /WX` reste la règle
 # (EX-NFR-013), et C4702 continue d'être une erreur partout ailleurs, y compris dans l'éditeur.
-foreach(_qml_target JustAnotherDnDGame JadgUi JadgRuntime)
+foreach(_qml_target JustAnotherRpgGame JadgUi JadgRuntime)
     target_compile_options(${_qml_target} PRIVATE /wd4702)
 endforeach()
 
@@ -103,8 +103,8 @@ if(Qt6LinguistTools_FOUND)
     # Les textes à traduire vivent dans les formulaires (Jadg.Ui), les jumeaux (Jadg.App), et depuis
     # le LOT-24 les vues-modèles (Jadg.Runtime), dont les `tr()` disent la prévisualisation de combat.
     # Un seul catalogue, extrait des trois cibles.
-    qt_add_translations(JustAnotherDnDGame
-        SOURCE_TARGETS JustAnotherDnDGame JadgUi JadgRuntime
+    qt_add_translations(JustAnotherRpgGame
+        SOURCE_TARGETS JustAnotherRpgGame JadgUi JadgRuntime
         TS_FILES ${PROJECT_SOURCE_DIR}/Source/Elements/Localization/jadg_en.ts
         RESOURCE_PREFIX "/i18n"
         # Une chaîne retirée du code quitte le catalogue : gardée en `vanished`, elle ferait croire
@@ -112,30 +112,30 @@ if(Qt6LinguistTools_FOUND)
         LUPDATE_OPTIONS -no-obsolete
     )
 else()
-    message(STATUS "JustAnotherDnDGame : LinguistTools absent, le jeu ne parlera que francais "
+    message(STATUS "JustAnotherRpgGame : LinguistTools absent, le jeu ne parlera que francais "
         "(sa langue source). Installer le module qttools pour produire les catalogues.")
 endif()
 
 # Fichier de configuration du serveur de langage QML : ce qui donne complétion et diagnostics dans
 # un éditeur, sans que la conception ait à décrire les chemins d'import à la main.
-set_target_properties(JustAnotherDnDGame PROPERTIES QT_QML_GENERATE_QMLLS_INI ON)
+set_target_properties(JustAnotherRpgGame PROPERTIES QT_QML_GENERATE_QMLLS_INI ON)
 
 # Éditer un écran sans rien reconstruire (EX-IHM-100) : le chemin que `JADG_QML_FROM_SOURCE=1` place
 # en tête des imports. Posé par Source/Ui/CMakeLists.txt, qui y engendre le `qmldir` de dev.
-target_compile_definitions(JustAnotherDnDGame PRIVATE JADG_QML_DEV_IMPORT_PATH="${JADG_QML_DEV_DIR}")
+target_compile_definitions(JustAnotherRpgGame PRIVATE JADG_QML_DEV_IMPORT_PATH="${JADG_QML_DEV_DIR}")
 
 # Racine d'inclusion Source/ (pour les includes "App/...", "HMI/..." et "Core/...").
-target_include_directories(JustAnotherDnDGame PRIVATE ${PROJECT_SOURCE_DIR}/Source)
+target_include_directories(JustAnotherRpgGame PRIVATE ${PROJECT_SOURCE_DIR}/Source)
 # Réduit la surface de Windows.h, évite les macros min/max, API Unicode.
-target_compile_definitions(JustAnotherDnDGame PRIVATE WIN32_LEAN_AND_MEAN NOMINMAX UNICODE _UNICODE)
+target_compile_definitions(JustAnotherRpgGame PRIVATE WIN32_LEAN_AND_MEAN NOMINMAX UNICODE _UNICODE)
 if(ENABLE_PCH)
-    target_precompile_headers(JustAnotherDnDGame PRIVATE ${PROJECT_SOURCE_DIR}/Source/pch.h)
+    target_precompile_headers(JustAnotherRpgGame PRIVATE ${PROJECT_SOURCE_DIR}/Source/pch.h)
 endif()
 
 
 # Données de jeu à côté de l'exécutable : la cible est déclarée dans Source/HMI (les deux binaires
 # sortent dans le même répertoire, une seule copie les sert).
-add_dependencies(JustAnotherDnDGame CopyGameData)
+add_dependencies(JustAnotherRpgGame CopyGameData)
 
 # Déploiement Qt : copie les DLL Qt (plateforme, styles, plugins QML) à côté du jeu pour que
 # l'utilisateur final n'ait **aucune bibliothèque à installer**. `--qmldir` : sans lui, windeployqt
@@ -145,15 +145,15 @@ get_target_property(_qmake_exe Qt6::qmake IMPORTED_LOCATION)
 get_filename_component(_qt_bin_dir "${_qmake_exe}" DIRECTORY)
 find_program(WINDEPLOYQT_EXE windeployqt HINTS "${_qt_bin_dir}")
 if(WINDEPLOYQT_EXE)
-    add_custom_command(TARGET JustAnotherDnDGame POST_BUILD
+    add_custom_command(TARGET JustAnotherRpgGame POST_BUILD
         COMMAND "${WINDEPLOYQT_EXE}"
             --no-translations --compiler-runtime
             --qmldir "${PROJECT_SOURCE_DIR}/Source/Ui"
             --qmldir "${CMAKE_CURRENT_SOURCE_DIR}/Game/Qml"
-            "$<TARGET_FILE:JustAnotherDnDGame>"
+            "$<TARGET_FILE:JustAnotherRpgGame>"
         COMMENT "Déploiement des DLL Qt + modules QML à côté du jeu (windeployqt)")
     # Le déploiement de l'éditeur vise le même `bin/` : jamais en même temps (Source/CMakeLists.txt).
-    set_property(TARGET JustAnotherDnDGame PROPERTY JOB_POOL_LINK deploiement_qt)
+    set_property(TARGET JustAnotherRpgGame PROPERTY JOB_POOL_LINK deploiement_qt)
 
     # --no-translations ci-dessus reste le bon réglage : windeployqt déploierait la trentaine de
     # catalogues de Qt, alors que l'IHM du projet a le sien. Mais **les boutons standard des boîtes
@@ -166,14 +166,14 @@ if(WINDEPLOYQT_EXE)
     set(_qt_translations_dir "${_qt_prefix}/translations")
     foreach(_lang fr en)
         if(EXISTS "${_qt_translations_dir}/qtbase_${_lang}.qm")
-            add_custom_command(TARGET JustAnotherDnDGame POST_BUILD
+            add_custom_command(TARGET JustAnotherRpgGame POST_BUILD
                 COMMAND ${CMAKE_COMMAND} -E copy_if_different
                     "${_qt_translations_dir}/qtbase_${_lang}.qm"
-                    "$<TARGET_FILE_DIR:JustAnotherDnDGame>/Translations/qtbase_${_lang}.qm"
+                    "$<TARGET_FILE_DIR:JustAnotherRpgGame>/Translations/qtbase_${_lang}.qm"
                 COMMENT "Copie du catalogue Qt qtbase_${_lang}.qm")
         endif()
     endforeach()
 else()
-    message(STATUS "JustAnotherDnDGame : windeployqt introuvable, DLL Qt non déployées "
+    message(STATUS "JustAnotherRpgGame : windeployqt introuvable, DLL Qt non déployées "
         "automatiquement (exécution possible depuis un environnement Qt).")
 endif()

@@ -7,7 +7,7 @@ Le site a besoin d'une porte d'entrée. `index.md` devient la page principale Do
 
 ## Travail à réaliser
 - Rédiger `Documentation/index.md` avec, a minima :
-  - **Pitch** : ce qu'est JustAnotherDnDGame (jeu 2D C++/DirectX, moteur maison from-scratch).
+  - **Pitch** : ce qu'est JustAnotherRpgGame (jeu 2D C++/DirectX, moteur maison from-scratch).
   - **Technologies & architecture en bref** : C++20, Direct3D 11, ECS dans `Core`, séparation `Core`/`HMI`/`Elements`.
   - **État d'avancement** : lots livrés (LOT-01→03) et lot courant.
   - **Navigation** : liens vers les **Spécifications**, les **Lots** et le **Manuel** (via `@subpage` — cf. TACHE-04/05/06), et un renvoi vers la **référence de code** (namespaces/classes).

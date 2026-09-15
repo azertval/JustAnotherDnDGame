@@ -67,7 +67,7 @@ Un test en éprouve quatorze :
 | **Cycle non intentionnel** | voir ci-dessous |
 | **Orphelin** | un nœud que rien n'atteint est presque toujours une cible mal orthographiée ailleurs |
 | **Impasse** | un nœud d'où aucune fin n'est atteignable enferme le joueur |
-| **Difficulté chiffrée** | `EX-DND-021` : un contenu écrit « moyenne », jamais « 15 » |
+| **Difficulté chiffrée** | `EX-REG-021` : un contenu écrit « moyenne », jamais « 15 » |
 | Nœud en double, nature inconnue, graphe sans fin, PNJ sans langue | formes invalides |
 
 **Qu'est-ce qu'un cycle non intentionnel.** Les dialogues bouclent, et c'est voulu : « Autre

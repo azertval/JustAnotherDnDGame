@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Valentin Eloy
-# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 
 """Assemble le site qualité publié sur gh-pages (refonte de la chaîne d'outillage, phase 4).
 
@@ -165,8 +165,8 @@ def render(summary):
     benchmarks = summary.get('benchmarks')
     parts = ['<!doctype html><html lang="fr"><head><meta charset="utf-8">',
              '<meta name="viewport" content="width=device-width,initial-scale=1">',
-             '<title>Qualité de JustAnotherDnDGame</title><style>%s</style></head><body><main>' % STYLE,
-             '<h1>Qualité de JustAnotherDnDGame</h1>',
+             '<title>Qualité de JustAnotherRpgGame</title><style>%s</style></head><body><main>' % STYLE,
+             '<h1>Qualité de JustAnotherRpgGame</h1>',
              '<p class="meta">Publié le %s depuis <code>%s</code>%s.</p>' % (
                  esc(summary['generated']), esc(summary.get('commit') or '?'),
                  (' — <a href="%s">run</a>' % esc(summary['run_url'])) if summary.get('run_url') else ''),

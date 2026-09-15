@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://justanotherdndgame.local/rpg/feat.schema.json",
+  "$id": "https://justanotherrpggame.local/rpg/feat.schema.json",
   "title": "Don",
   "description": "Un des quarante-deux dons. Le nom fait autorite depuis le LEXIQUE (LOT-30) et non depuis le livre : les titres de dons du Manuel des Joueurs sont des scans mutiles, et les deux sources francaises ne traduisent pas pareil -- << Adepte des elements >> contre << Adepte elementaire >>. `variantes` conserve la graphie du livre pour que la correspondance reste tracable.",
   "type": "object",
@@ -39,7 +39,7 @@
   "additionalProperties": false,
   "allOf": [
     {
-      "$ref": "https://justanotherdndgame.local/rpg/common.schema.json#/$defs/entree"
+      "$ref": "https://justanotherrpggame.local/rpg/common.schema.json#/$defs/entree"
     }
   ]
 }

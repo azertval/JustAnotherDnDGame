@@ -1,5 +1,5 @@
 // SPDX-FileCopyrightText: 2026 Valentin Eloy
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 
 #pragma once
 
@@ -362,7 +362,7 @@ enum class ChoiceResult {
     NotAwaiting,
 };
 
-/// @brief Un jet de compétence joué en conversation, de quoi le restituer (`EX-DND-003`).
+/// @brief Un jet de compétence joué en conversation, de quoi le restituer (`EX-REG-003`).
 struct DialogueCheck {
     std::string nodeId;
     std::string skill;

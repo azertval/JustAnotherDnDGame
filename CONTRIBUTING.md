@@ -1,4 +1,4 @@
-# Contribuer à JustAnotherDnDGame
+# Contribuer à JustAnotherRpgGame
 
 ## Conventions de code
 Voir [`Documentation/Specification/conventions.md`](Documentation/Specification/conventions.md). Le code doit être formaté (`clang-format`) et compiler sans avertissement avant tout commit.
@@ -40,7 +40,7 @@ Le poste exécute les mêmes outils que la CI, aux mêmes versions, lues dans `e
   le job `build-ninja` rejoue les deux premiers.
 - **Plantages** : le jeu et l'éditeur écrivent un minidump sous `Crashes/`, à côté de `Logs/`. Le
   lire : ouvrir le `.dmp` dans Visual Studio avec le zip de **symboles** de la même version (son nom
-  porte la version). `JustAnotherDnDGame.exe --crash-test` provoque un plantage pour l'éprouver.
+  porte la version). `JustAnotherRpgGame.exe --crash-test` provoque un plantage pour l'éprouver.
 - **Couverture sur le poste** : `powershell -File scripts/coverage.ps1 -BinDir build/vs/bin/Debug`
   (même script que la CI), rapport dans `coverage-html/`.
 - **Éditeur** : `.clangd` branche clangd sur `build/ninja/compile_commands.json` et les checks de
@@ -94,7 +94,7 @@ La portée correspond en général au module (`core`, `hmi`, `elements`, `test`,
   Avant toute publication, chaque archive jouable est **décompressée et lancée**
   (`scripts/smoke_test_release.ps1` : le jeu doit rendre une image et quitter seul), et chaque
   fichier reçoit une **attestation de provenance** :
-  `gh attestation verify <archive>.zip --repo azertval/JustAnotherDnDGame` prouve qu'il sort de ce
+  `gh attestation verify <archive>.zip --repo azertval/JustAnotherRpgGame` prouve qu'il sort de ce
   workflow et de ce commit.
 - **Nuit** (`nightly.yml`, 02 h 17 UTC, non bloquant) : clang-tidy sur tout `Source/`, tests en
   ordre aléatoire répété (la graine est dans le résumé), MSVC `/analyze` et cppcheck, fuzzing des

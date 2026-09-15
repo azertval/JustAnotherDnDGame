@@ -71,7 +71,7 @@ PAGE_LANGUES = 38
 REGION_LANGUES = (300, 130, 570, 420)
 
 # -- Degres de difficulte -------------------------------------------------------------------------
-# Basic Rules p. 64, table << Tache / DD >>. EX-DND-021 interdit qu'un nombre de difficulte
+# Basic Rules p. 64, table << Tache / DD >>. EX-REG-021 interdit qu'un nombre de difficulte
 # apparaisse litteralement dans le code : ces six paliers sont une donnee, extraite comme le reste.
 PAGE_DIFFICULTE = 64
 REGION_DIFFICULTE = (85, 500, 240, 600)
@@ -318,7 +318,7 @@ def dons(corpus: Corpus, lexique: list, cache=None) -> Catalogue:
 
 
 # -- Degres de difficulte -------------------------------------------------------------------------
-# Basic Rules p. 64, table << Tache / DD >>. EX-DND-021 interdit qu'un nombre de difficulte
+# Basic Rules p. 64, table << Tache / DD >>. EX-REG-021 interdit qu'un nombre de difficulte
 # apparaisse litteralement dans le code : ces six paliers sont une donnee, extraite comme le reste.
 PAGE_DIFFICULTE = 64
 REGION_DIFFICULTE = (85, 500, 240, 600)
@@ -546,7 +546,7 @@ def difficulte(corpus: Corpus, cache=None) -> dict:
         raise OptionsError(
             "difficulte : %d paliers extraits page %d des Basic Rules, 6 attendus. Une echelle "
             'amputee ferait retomber les seuils manquants sur une valeur ecrite en dur, ce que '
-            "EX-DND-021 interdit." % (len(paliers), PAGE_DIFFICULTE))
+            "EX-REG-021 interdit." % (len(paliers), PAGE_DIFFICULTE))
     if [p['dc'] for p in paliers] != sorted(p['dc'] for p in paliers):
         raise OptionsError(
             'difficulte : les paliers ne sont pas croissants — %s. '

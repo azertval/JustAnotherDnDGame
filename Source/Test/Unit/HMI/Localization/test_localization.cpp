@@ -1,5 +1,5 @@
 // SPDX-FileCopyrightText: 2026 Valentin Eloy
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 
 /**
  * @file test_localization.cpp
@@ -47,12 +47,12 @@ TEST(LocalizationTest, AnalyseIgnoreCommentairesEtEspaces) {
         "# commentaire\n"
         "\n"
         "menu.quitter = Quitter\n"
-        "  menu.titre   =   JustAnotherDnDGame  \n"
+        "  menu.titre   =   JustAnotherRpgGame  \n"
         "# autre commentaire\n");
 
     ASSERT_EQ(strings.size(), 2u);
     EXPECT_EQ(strings.at("menu.quitter"), "Quitter");
-    EXPECT_EQ(strings.at("menu.titre"), "JustAnotherDnDGame");
+    EXPECT_EQ(strings.at("menu.titre"), "JustAnotherRpgGame");
 }
 
 /**

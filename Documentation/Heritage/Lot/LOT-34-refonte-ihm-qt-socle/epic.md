@@ -43,7 +43,7 @@ l'intégration Qt ↔ D3D11 avant d'y bâtir l'IHM.
 - **`HMI` devient une bibliothèque de rendu** (au lieu de l'exécutable) : `GraphicsDevice`,
   `SpriteBatch`, `SpriteRenderer`, `TextureAtlas`, `Camera2D`, `TileVisuals`, `RoomGrid`,
   `BitmapFont`, `FlagIcons` restent tels quels et sont liés par la nouvelle cible.
-- **Nouvelle cible exécutable Qt** `JustAnotherDnDGame` (`Source/Editor/`) : `QApplication`,
+- **Nouvelle cible exécutable Qt** `JustAnotherRpgGame` (`Source/Editor/`) : `QApplication`,
   `QMainWindow`, un `QWindow` viewport embarqué via `QWidget::createWindowContainer`.
 - **Pont D3D11 ↔ Qt** : le `winId()` (HWND) du `QWindow` est passé à `hmi::GraphicsDevice(HWND, w, h)`
   (signature déjà existante) ; `resizeEvent`/`exposeEvent` du viewport → `graphics.resize(...)`.
@@ -56,7 +56,7 @@ l'intégration Qt ↔ D3D11 avant d'y bâtir l'IHM.
   `LOT-33`). **XInput manette conservé** (sondage dans le tick, throttling `LOT-33` réutilisé).
 - **Build** : `find_package(Qt6 COMPONENTS Widgets Gui)`, `CMAKE_AUTOMOC/AUTOUIC/AUTORCC ON` ;
   provisionnement Qt documenté (local + CI, voir Décisions). `HMI` et `Editor` lient `Core`.
-- **Coexistence** : l'ancien exécutable `JustAnotherDnDGame` (boucle `main.cpp` + `hmi::Window`) **reste
+- **Coexistence** : l'ancien exécutable `JustAnotherRpgGame` (boucle `main.cpp` + `hmi::Window`) **reste
   compilé et jouable** — aucune régression de jeu pendant toute la migration.
 - Documentation (guide d'architecture IHM, provisionnement Qt), tests de la logique nouvelle
   découplée de Qt.
@@ -90,7 +90,7 @@ l'intégration Qt ↔ D3D11 avant d'y bâtir l'IHM.
   impose de **déployer les DLL Qt** à côté du binaire via **`windeployqt`** (Core/Gui/Widgets +
   plugin `platforms/qwindows.dll`) avant de packager l'archive `debug-latest`. À anticiper : c'est le
   changement le plus visible par rapport au modèle `FetchContent` header-only. Le basculement effectif
-  de la release sur `JustAnotherDnDGame` (et le retrait de l'ancien exe) est finalisé au
+  de la release sur `JustAnotherRpgGame` (et le retrait de l'ancien exe) est finalisé au
   [LOT-38](@ref lot-38).
 - **Coexistence des deux exécutables jusqu'à parité** : ne jamais laisser le jeu injouable entre deux
   lots ; l'ancien chemin est retiré seulement quand le nouveau couvre tout (LOT-38).
@@ -114,8 +114,8 @@ l'intégration Qt ↔ D3D11 avant d'y bâtir l'IHM.
 | [TACHE-04](tache-04-niveau-jouable-doc.md) | Chargement/affichage/jeu d'un niveau dans le viewport ; documentation & vérification | `Source/Editor`, `Documentation` | ✅ |
 
 ## Critères d'acceptation du lot
-1. `cmake --preset vs` configure et compile la nouvelle cible `JustAnotherDnDGame` **et** l'ancien
-   `JustAnotherDnDGame`, Qt6 étant provisionné localement ; le provisionnement est **documenté et
+1. `cmake --preset vs` configure et compile la nouvelle cible `JustAnotherRpgGame` **et** l'ancien
+   `JustAnotherRpgGame`, Qt6 étant provisionné localement ; le provisionnement est **documenté et
    reproductible** en CI (`windows-2022`).
 2. La fenêtre Qt affiche un niveau chargé **au rendu D3D11 identique** à l'exécutable historique
    (mêmes tuiles, même caméra, même interpolation).

@@ -1,7 +1,7 @@
 # LOT-01 — Fork, purge et remise à nu {#lot-01}
 
 > Statut : **fait** (vérification automatisée : configuration CMake, build `Core` et
-> `JustAnotherDnDGame` sans avertissement en `/W4 /WX`, exécutable produit). La vérification IHM
+> `JustAnotherRpgGame` sans avertissement en `/W4 /WX`, exécutable produit). La vérification IHM
 > manuelle — menu, éditeur, chargement d'une carte — reste à faire par l'utilisateur, comme pour
 > tout lot touchant moteur et rendu.
 > Prérequis : aucun. C'est le premier lot du dépôt.
@@ -90,7 +90,7 @@ signature ni l'ordre des passes.
 
 ### Identité du dépôt
 
-Renommage `ProjectGaming` → `JustAnotherDnDGame` (cibles CMake, binaire, documentation, workflows)
+Renommage `ProjectGaming` → `JustAnotherRpgGame` (cibles CMake, binaire, documentation, workflows)
 et préfixe de macro `PROJECTGAMING_` → `JADG_`. Version remise à `0.1.0`. Le programme de lots
 d'origine est déplacé en lecture seule sous `Documentation/Heritage/`.
 
@@ -98,14 +98,14 @@ d'origine est déplacé en lecture seule sous `Documentation/Heritage/`.
 
 Aucune exigence nouvelle : ce lot **retire**. Les catégories `EX-GP-*` (gameplay de plateforme) et
 `EX-IA-*` (solveur autonome) passent en **héritage, hors périmètre** — jamais renumérotées, la
-règle du dépôt l'interdit. Les catégories du RPG (`EX-EXP-*`, `EX-DND-*`, `EX-CBT-*`, `EX-RPG-*`)
+règle du dépôt l'interdit. Les catégories du RPG (`EX-EXP-*`, `EX-REG-*`, `EX-CBT-*`, `EX-RPG-*`)
 sont créées par les lots qui les concrétisent.
 
 ## Critères d'acceptation
 
 - Tag `archive/platformer-v0.1.3` posé **avant** toute suppression.
 - `grep -rn "gravity" Source/` ne renvoie plus rien.
-- Configuration CMake réussie, `Core` et `JustAnotherDnDGame` compilés sans avertissement en
+- Configuration CMake réussie, `Core` et `JustAnotherRpgGame` compilés sans avertissement en
   `/W4 /WX`, exécutable produit.
 - Le nombre de tests survivants est mesuré et publié : il devient l'oracle de référence des lots
   `LOT-02` à `LOT-05`, tous des refactorings à comportement constant.

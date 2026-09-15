@@ -2,7 +2,7 @@
 
 > Statut : **à faire** (`LOT-77` écrit ce document ; `LOT-13`, `LOT-25`, `LOT-36`, `LOT-43`,
 > `LOT-47`, `LOT-51` → `LOT-65` et `LOT-74` l'implémentent). Dépend de
-> [`regles-dnd.md`](@ref spec-regles-dnd) et de [`contenu.md`](@ref spec-contenu).
+> [`regles-d20.md`](@ref spec-regles-d20) et de [`contenu.md`](@ref spec-contenu).
 
 Le personnage est l'agrégat que tout le reste du jeu consulte. Ce document dit ce qu'il agrège, d'où
 viennent les valeurs, et comment une classe s'ajoute sans que le moteur ait à la connaître — ce
@@ -41,7 +41,7 @@ dernier point étant la condition pour que **seize classes** soient tenables par
   code : c'est le seul format où une erreur de niveau se voit à l'œil nu.
 
 - \anchor EX-RPG-021 **EX-RPG-021** — Une **ressource de classe** se décrit **génériquement** :
-  une quantité, une **cadence de récupération** (`EX-DND-031`), et ce qu'elle alimente. Rage, ki,
+  une quantité, une **cadence de récupération** (`EX-REG-031`), et ce qu'elle alimente. Rage, ki,
   points de sorcellerie, second souffle et inspiration bardique sont la **même structure** avec des
   valeurs différentes. Sans cette généricité, chaque classe ajouterait son propre compteur au moteur
   du repos, et le moteur du repos finirait par connaître les seize classes.
@@ -59,7 +59,7 @@ dernier point étant la condition pour que **seize classes** soient tenables par
 ## 4. Progression
 
 - \anchor EX-RPG-030 **EX-RPG-030** — Les **sources d'expérience** sont définies et exhaustives :
-  victoire au combat selon le facteur de puissance des adversaires (`EX-DND-050`), achèvement de
+  victoire au combat selon le facteur de puissance des adversaires (`EX-REG-050`), achèvement de
   quête, et **découverte de lieu** — cette dernière propre au bac à sable, où l'exploration doit
   récompenser autant que le combat. Trois systèmes consommaient l'expérience sans qu'aucun n'en
   produise ; c'est la définition même d'un trou de spécification.

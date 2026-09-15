@@ -489,7 +489,7 @@ dispose librement de tout ce que le jeu sait déjà dire. C'est la même fronti�
 du commerce, et c'est la bonne.
 
 ## Traçabilité
-Tout ceci relève de `Source/HMI` — depuis le `LOT-H-38`, l'unique application Qt `JustAnotherDnDGame` (rendu
+Tout ceci relève de `Source/HMI` — depuis le `LOT-H-38`, l'unique application Qt `JustAnotherRpgGame` (rendu
 de jeu Direct3D 11 + widgets Qt répartis par domaine) ; les assets Qt déclaratifs vivent dans
 `Source/Elements`. La logique testable (édition, validation, remappage) reste découplée de l'UI et
 couverte par des tests (`EX-NFR-010`, `EX-NFR-020`). Détail du séquencement : lots

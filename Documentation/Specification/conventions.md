@@ -62,7 +62,7 @@ Dans un `.cpp`, du plus proche au plus général, chaque groupe trié et sépar�
 
 ## 5. Architecture (dépendances entre modules)
 - **`Core`** : logique/moteur, **indépendant** de la présentation. Ne connaît ni DirectX ni la fenêtre.
-- **`HMI`** : dépend de `Core`, jamais l'inverse. L'unique application **Qt** (`JustAnotherDnDGame`) : rendu Direct3D 11 du jeu, entrées, et widgets Qt de l'IHM hors-jeu.
+- **`HMI`** : dépend de `Core`, jamais l'inverse. L'unique application **Qt** (`JustAnotherRpgGame`) : rendu Direct3D 11 du jeu, entrées, et widgets Qt de l'IHM hors-jeu.
 - **`Elements`** : données/assets statiques, aucun code exécutable — dont les **assets Qt déclaratifs** (`.ui`, `.qrc`, thèmes `.qss`).
 - Aucune dépendance cyclique. `Core` reste testable sans fenêtre ni GPU.
 

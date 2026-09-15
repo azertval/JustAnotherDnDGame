@@ -6,6 +6,26 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **Fan game non commercial : licence, crédits et nom.** Le projet dit enfin ce qu'il est — un jeu
+  gratuit, non officiel, inspiré de *Dungeons & Dragons* et de *Tanares* — et sa licence cesse de
+  le contredire.
+  - **Licence non commerciale.** La GPL v3 autorisait la vente du jeu ; le code passe sous
+    **PolyForm Noncommercial 1.0.0** (`LICENSE`, ~690 en-têtes SPDX) et les contenus originaux sous
+    **CC BY-NC-SA 4.0** (`LICENSE-CONTENT`). Le code reste lisible, mais n'est plus *open source* au
+    sens de l'OSI. Qt, en lien dynamique sous LGPLv3, n'en est pas affecté.
+  - **Univers et ayants droit nommés** (`README.md`, `THIRD-PARTY-NOTICES.md`, écran *Crédits*) :
+    Wizards of the Coast, Black Book Éditions, Dragori Games ; non-affiliation ; attribution
+    CC BY 4.0 du SRD 5.1. `THIRD-PARTY-NOTICES.md` gagne aussi les polices Cinzel et IM Fell
+    English, qui y manquaient.
+  - **`JustAnotherDnDGame` devient `JustAnotherRpgGame`** : cible CMake, exécutable, archives de
+    release, dossier de réglages Qt (les options et la progression locales repartent de zéro),
+    documentation. Le titre affiché et le logotype disent « Just Another RPG Game ». La famille
+    d'exigences `EX-DND` devient `EX-REG` (`regles-d20.md`).
+  - **Crédits défilants** : la section *Univers et inspirations* rejoint l'écran, dont les colonnes
+    défilent (souris, molette, flèches) quand elles dépassent le panneau (`OrnateScrollBar`). Un nom
+    de `credits.json` peut désormais être un libellé traduit, pour une mention qui n'est pas un nom
+    propre.
+
 - **CI : Qt, données, vitrine** (refonte de la chaîne d'outillage, phase 4). La filière contenu et
   l'interface ont les mêmes garde-fous que le C++.
   - **Tests Qt Quick** (`QmlTests`) : les 47 fichiers `.ui.qml` de `Jadg.Ui` se construisent sans un
@@ -301,7 +321,7 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
   - **Corrigé en chemin** (`LOT-19`) : traverser la case d'une autre créature coûte double, comme
     le dit le Manuel. Le défaut était latent tant que personne ne traversait personne.
 
-- **Grille tactique et déplacement** (`LOT-19`, `EX-CBT-020`, `EX-DND-051`). Le combat a sa grille :
+- **Grille tactique et déplacement** (`LOT-19`, `EX-CBT-020`, `EX-REG-051`). Le combat a sa grille :
   qui se tient où, jusqu'où l'on va ce tour-ci, et par où.
   - **La règle vient du Manuel, et elle a contredit la feuille de route.** « Jouer sur un
     quadrillage » : une case coûte 1 **même en diagonale**, 2 en terrain difficile — à condition
@@ -374,7 +394,7 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 - **Refonte de l'IHM sur Qt Quick, avec la conception séparée du code** (`LOT-86`).
   L'objectif n'est pas technique : **un artiste doit pouvoir modifier les interfaces sans ouvrir un
   fichier source**, en travaillant directement dans Qt Design Studio.
-  - **Deux applications, deux technologies d'IHM.** `JustAnotherDnDGame` est le jeu, en Qt Quick,
+  - **Deux applications, deux technologies d'IHM.** `JustAnotherRpgGame` est le jeu, en Qt Quick,
     sur `QGuiApplication` ; `LevelEditor` est l'éditeur de niveaux, inchangé, en Qt Widgets. Ils
     partagent `Core`, le rendu, les entrées, l'audio et l'amorçage — jamais une technologie
     d'interface. Le jeu **ne lie pas `Qt6::Widgets`**, et c'est la garantie qui porte tout le lot :
@@ -942,14 +962,14 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
   - **Deux arrondis qui ne se voient pas.** `(score - 10) / 2` tronque vers zéro en C++ : un score
     de 7 donnerait `-1` au lieu de `-2`, et le personnage serait moins pénalisé qu'il ne doit
     l'être sur chacun de ses jets, pendant toute la partie. Et avantage plus désavantage
-    **s'annulent** (`EX-DND-002`), y compris à deux contre un — la règle annule, elle ne compte
+    **s'annulent** (`EX-REG-002`), y compris à deux contre un — la règle annule, elle ne compte
     pas. Les deux ont leur cas de test explicite.
   - **Un 20 naturel n'est pas un total de 20** : `isNaturalTwenty()` regarde le dé retenu. Les
     confondre rendrait critique un jet sur deux à haut niveau, et passerait pour de l'équilibrage.
-  - **La restitution est une exigence, pas un journal** (`EX-DND-003`) : les **deux** dés sont
+  - **La restitution est une exigence, pas un journal** (`EX-REG-003`) : les **deux** dés sont
     conservés en cas d'avantage, et chaque modificateur porte son origine —
     `d20 (avantage : 7, 14) = 14 + 3 (Dexterite) + 2 (maitrise) = 19 >= 15 : reussite`.
-  - **Les degrés de difficulté sont une donnée** (`EX-DND-021`), extraits de la table « Tâche / DD »
+  - **Les degrés de difficulté sont une donnée** (`EX-REG-021`), extraits de la table « Tâche / DD »
     des *Basic Rules* : six paliers de 5 à 30. Le test lui-même lit le seuil dans le fichier plutôt
     que d'écrire `15`.
   - **Une case vaut 1,5 m**, figé dans une constante nommée. La conversion mètres ↔ cases existe
@@ -1171,9 +1191,9 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
     tenue pour acquise qu'après avoir vu le lint refuser un `LOT-99` délibérément injecté.
 
 - **La moitié RPG de la spécification** (`LOT-77`). Cinq familles d'exigences étaient **fantômes** —
-  `EX-CNT`, `EX-DND`, `EX-RPG`, `EX-CBT`, `EX-INV` — citées par une vingtaine de lots sans qu'aucun
+  `EX-CNT`, `EX-REG`, `EX-RPG`, `EX-CBT`, `EX-INV` — citées par une vingtaine de lots sans qu'aucun
   document ne les porte. Cinq documents les portent désormais, pour **69 exigences** :
-  `regles-dnd.md` (le jet d20, la maîtrise, le temps et le repos, les conditions), `rpg.md` (la
+  `regles-d20.md` (le jet d20, la maîtrise, le temps et le repos, les conditions), `rpg.md` (la
   fiche comme agrégat dérivé, classes et ressources, progression, sorts), `combat.md` (tour, espace,
   attaque, agonie), `inventaire.md` (équipement, encombrement, monnaie) et `contenu.md` (provenance,
   contrats, extraction, ce qu'une donnée promet).
@@ -1337,7 +1357,7 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
   - Le constructeur positionnel est retiré d'emblée, sans l'étape `[[deprecated]]` prévue : dix
     sites d'appel seulement, la béquille coûtait plus qu'elle ne rapportait.
 
-- **Fork : `ProjectGaming` devient `JustAnotherDnDGame`** (`LOT-01`). Le dépôt est dérivé du jeu de
+- **Fork : `ProjectGaming` devient `JustAnotherRpgGame`** (`LOT-01`). Le dépôt est dérivé du jeu de
   plateforme/puzzle en vue de côté livré en `0.1.3`, dont il reprend le moteur et retire tout le
   gameplay propre à la vue de côté, pour devenir un **RPG en vue de dessus** : exploration temps
   réel façon Zelda, rencontres en combat tactique au tour par tour régi par un système d20 maison.
@@ -3008,7 +3028,7 @@ versionné pendant des semaines sans qu'aucune Pull Request ne le signale.
   historique (`hmi::buildProceduralAtlasImage`, extraite telle quelle, sans régression), sans jamais
   bloquer le rendu (`EX-NFR-040`). Interface publique de `TextureAtlas` inchangée ; `tile`/
   `playerFrameRegion` rendues `static` (pure arithmétique de grille) et testées sans GPU. Un outil de
-  développement (`JustAnotherDnDGame.exe --export-atlas=<chemin>`) régénère l'atlas de base depuis la
+  développement (`JustAnotherRpgGame.exe --export-atlas=<chemin>`) régénère l'atlas de base depuis la
   génération procédurale de référence.
 
 - **Feuille de route LOT-40 → LOT-55 — Programme d'habillage : textures, animations, décors** :
@@ -3060,7 +3080,7 @@ versionné pendant des semaines sans qu'aucune Pull Request ne le signale.
 
 - **LOT-34 → LOT-38 — Refonte de l'IHM vers Qt** (`EX-IHM-*`, `EX-BUILD-010`) : toute l'interface
   hors-jeu (menu, options, remappage clavier/manette, éditeur de niveaux) est désormais une
-  application **Qt 6** (`JustAnotherDnDGame`), le **rendu in-game restant Direct3D 11** embarqué dans un
+  application **Qt 6** (`JustAnotherRpgGame`), le **rendu in-game restant Direct3D 11** embarqué dans un
   viewport (`hmi::GameViewport`, `QWindow` + `HWND`). Fenêtres dockables (`QDockWidget` : Palette,
   Outils, Niveaux) à disposition persistée (`QSettings`, `EX-IHM-011`), palette en arbre
   (`QTreeView`), navigateur de niveaux (recherche, créer/renommer/dupliquer/supprimer). Mises en
@@ -3109,7 +3129,7 @@ versionné pendant des semaines sans qu'aucune Pull Request ne le signale.
     consignée dans `CONTRIBUTING.md`.
 - **LOT-38 (Étape B) — Retrait du legacy & réorganisation** : suppression de l'IHM « maison »
   (écrans `IScreen`/`ScreenManager`, widgets d'éditeur, police bitmap, fenêtre Win32) et de
-  l'exécutable historique ; `Source/HMI` devient l'unique cible (`JustAnotherDnDGame`), code réparti par
+  l'exécutable historique ; `Source/HMI` devient l'unique cible (`JustAnotherRpgGame`), code réparti par
   domaine (`Platform`/`Input`/`Graphics`/`Game`/`Localization`/`Interface`/`Editor`). Documentation
   (guides écrans/éditeur/rendu/entrées) et journalisation mises à jour en conséquence.
 

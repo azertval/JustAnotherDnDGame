@@ -17,7 +17,7 @@ lignes** de `MainWindow.cpp` : une seule technologie d'IHM devait servir deux be
 
 | Cible | Technologie | Point d'entrée |
 |---|---|---|
-| `JustAnotherDnDGame` | Qt Quick, `QGuiApplication` | `Source/App/Game/Main.cpp` |
+| `JustAnotherRpgGame` | Qt Quick, `QGuiApplication` | `Source/App/Game/Main.cpp` |
 | `LevelEditor` | Qt Widgets, `QApplication` | `Source/App/Editor/Main.cpp` |
 
 Elles partagent `Core`, `HMI/Graphics`, `HMI/Game`, `HMI/Input`, `HMI/Audio` et l'amorçage
@@ -56,7 +56,7 @@ répertoire de ses fichiers** :
 |---|---|---|---|
 | `Jadg.Ui` | `Source/Ui` | formulaires, contrôles, jetons, galerie — **QML pur** | bibliothèque statique `JadgUi`, `designersupported` |
 | `Jadg.Runtime` | `Source/HMI/Runtime` | les types C++ exposés au QML (`QML_ELEMENT`) | bibliothèque statique `JadgRuntime` |
-| `Jadg.App` | `Source/App` (fichiers sous `Game/Qml/`) | la fenêtre, la pile d'écrans, les jumeaux | l'exécutable `JustAnotherDnDGame` |
+| `Jadg.App` | `Source/App` (fichiers sous `Game/Qml/`) | la fenêtre, la pile d'écrans, les jumeaux | l'exécutable `JustAnotherRpgGame` |
 
 **Pourquoi trois, et pourquoi là.** Qt Design Studio ne charge aucun plugin C++ du projet : un
 module qui mêle formulaires et types C++ est résolvable par le jeu et pas par l'atelier. `Jadg.Ui`
@@ -249,7 +249,7 @@ d'un œil devant l'écran au bon moment.
 écran de la charte v2 se capture à 1920 × 1080 et à 1280 × 720, à côté de sa maquette :
 
 ```
-JustAnotherDnDGame --screen=MainMenu --window-size=1920x1080 --screenshot=menu-1080p.png
+JustAnotherRpgGame --screen=MainMenu --window-size=1920x1080 --screenshot=menu-1080p.png
 ```
 
 ## Voir aussi

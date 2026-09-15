@@ -10,7 +10,7 @@
 > [LOT-27](@ref lot-27), `LOT-47` et `LOT-72`.
 > Exigences couvertes : `EX-CBT-030` (l'attaque contre une CA recalculée depuis ses sources),
 > `EX-CBT-031` (le critique double les dés), `EX-CBT-032` (dégâts typés, jamais de type par
-> défaut), et `EX-DND-003` pour chaque attaque. Aucune exigence ajoutée.
+> défaut), et `EX-REG-003` pour chaque attaque. Aucune exigence ajoutée.
 
 ## Objectif
 

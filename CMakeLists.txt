@@ -1,5 +1,5 @@
 # SPDX-FileCopyrightText: 2026 Valentin Eloy
-# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 
 cmake_minimum_required(VERSION 3.21)
 
@@ -15,7 +15,7 @@ endif()
 # reçoit par définition de compilation (Source/Core/CMakeLists.txt), et `scripts/build_docs.py`
 # l'injecte dans le `PROJECT_NUMBER` de Doxygen à la génération (le Doxyfile versionné ne le porte
 # pas). Bumper ici, et nulle part ailleurs, avant de poser le tag `vX.Y.Z`.
-project(JustAnotherDnDGame
+project(JustAnotherRpgGame
     VERSION 0.1.0
     DESCRIPTION "RPG 2D en vue de dessus, exploration temps reel et combat tactique d20, en C++/Qt QRhi"
     LANGUAGES CXX)

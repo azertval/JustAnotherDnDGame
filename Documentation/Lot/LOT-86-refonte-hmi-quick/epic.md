@@ -153,7 +153,7 @@ Qt, vrai depuis le `LOT-01` et qu'un seul `QString` suffirait à rendre faux.
   compilateur C++ n'ait été lancé**.
 - **Test du développeur** — le `git diff` du test précédent ne touche que `Source/Ui/**` et
   `Source/Elements/**`. Aucun `.cpp`, aucun `.h`, aucun fichier engendré.
-- Deux exécutables : `JustAnotherDnDGame` (Qt Quick, ne lie pas `Qt6::Widgets`) et `LevelEditor`.
+- Deux exécutables : `JustAnotherRpgGame` (Qt Quick, ne lie pas `Qt6::Widgets`) et `LevelEditor`.
 - `scripts/check_ui_layers.py` vert, et les quatre garde-fous devenus sans objet retirés.
 - Build `/W4 /WX` sans avertissement ✔
 - `ctest` : **1011/1011** ✔

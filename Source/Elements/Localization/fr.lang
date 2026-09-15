@@ -4,8 +4,8 @@
 # Seul le premier '=' separe la cle de la valeur ; les espaces de bordure sont retires.
 
 # Menu principal
-# Titre AFFICHE du jeu : « Just Another D&D Game », avec espaces et esperluette.
-# A ne pas confondre avec l'identifiant technique « JustAnotherDnDGame » (cible CMake,
+# Titre AFFICHE du jeu : « Just Another RPG Game », avec espaces.
+# A ne pas confondre avec l'identifiant technique « JustAnotherRpgGame » (cible CMake,
 # binaire, depot, prefixe de macro JADG_) : un renommage global de l'un a deja ecrase
 # l'autre une fois (LOT-01). Les deux sont distincts, et doivent le rester.
 menu.new_game = Nouvelle partie
@@ -26,7 +26,7 @@ pause.quit_confirm_title = Quitter vers le menu ?
 pause.quit_confirm_text = La partie en cours sera perdue. Quitter vers le menu ?
 
 # Fenetre principale et barre de menus
-window.title = Just Another D&D Game — Éditeur
+window.title = Just Another RPG Game — Éditeur
 menubar.main_menu = Menu principal
 menubar.quit = Quitter
 menubar.file = Fichier

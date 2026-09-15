@@ -1,11 +1,11 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://justanotherdndgame.local/rpg/character-creation.schema.json",
+  "$id": "https://justanotherrpggame.local/rpg/character-creation.schema.json",
   "title": "Constantes de creation de personnage",
   "description": "Les deux nombres que la construction d'une fiche emploie et qui sont des REGLES, non des choix d'implementation : la classe d'armure sans armure et le plafond d'une valeur de caracteristique. EX-VIS-007 interdit qu'ils vivent dans le C++ -- un `10` nu dans un calcul de CA ne dit pas ce qu'il represente, et l'ajuster demanderait une recompilation. Chacun porte la PHRASE du livre qui l'atteste : une constante extraite sans son attestation est une constante tapee de memoire.",
   "allOf": [
     {
-      "$ref": "https://justanotherdndgame.local/rpg/common.schema.json#/$defs/entree"
+      "$ref": "https://justanotherrpggame.local/rpg/common.schema.json#/$defs/entree"
     }
   ],
   "type": "object",

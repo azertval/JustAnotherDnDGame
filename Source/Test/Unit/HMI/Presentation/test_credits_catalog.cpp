@@ -1,5 +1,5 @@
 // SPDX-FileCopyrightText: 2026 Valentin Eloy
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 
 /**
  * @file test_credits_catalog.cpp
@@ -74,6 +74,51 @@ TEST(CreditsCatalogTest, LibelleNonTraduitRetombeSurLeFrancais) {
     ASSERT_TRUE(result.ok()) << result.error;
     EXPECT_EQ(result.sections[1].title, "Audio");
     EXPECT_EQ(result.sections[1].lines[0].role, "Bruitages");
+}
+
+/**
+ * @brief Un nom peut être un libellé traduit, pour une mention qui n'est pas un nom propre.
+ * \castest{<b>Une mention des crédits se traduit comme un rôle.</b><br/>
+ * \tcat Unitaire · Crédits<br/>
+ * \tcrit Majeur<br/>
+ * \tetapes 1. Lire en anglais une ligne dont les noms mêlent une chaîne, un libellé traduit et un
+ * libellé qui n'a que le français.<br/>
+ * \tattendu La chaîne est inchangée, le libellé est anglais, le troisième retombe sur le français.
+ * }
+ */
+TEST(CreditsCatalogTest, NomTraduitSuitLaLangue) {
+    const hmi::CreditsResult result = hmi::readCredits(
+        R"({"sections":[{"id":"story","title":{"fr":"Univers"},"lines":[{"role":{"fr":"R"},)"
+        R"("names":["Dragori Games, Inc.",{"fr":"Fan game non officiel","en":"Unofficial fan game"},)"
+        R"({"fr":"Non commercial"}]}]}]})",
+        "en");
+    ASSERT_TRUE(result.ok()) << result.error;
+    EXPECT_EQ(
+        result.sections[0].lines[0].names,
+        (std::vector<std::string>{"Dragori Games, Inc.", "Unofficial fan game", "Non commercial"}));
+}
+
+/**
+ * @brief Un nom ni chaîne ni libellé traduit fait échouer la lecture.
+ * \castest{<b>Un nom de crédits illisible fait échouer la lecture.</b><br/>
+ * \tcat Unitaire · Crédits<br/>
+ * \tcrit Majeur<br/>
+ * \tetapes 1. Lire une ligne dont un nom est un nombre, puis une autre dont un nom est un libellé
+ * vide.<br/>
+ * \tattendu Les deux lectures échouent.
+ * }
+ */
+TEST(CreditsCatalogTest, NomIllisibleRefuse) {
+    EXPECT_FALSE(
+        hmi::readCredits(
+            R"({"sections":[{"id":"x","title":{"fr":"X"},"lines":[{"role":{"fr":"R"},"names":[3]}]}]})",
+            "fr")
+            .ok());
+    EXPECT_FALSE(
+        hmi::readCredits(
+            R"({"sections":[{"id":"x","title":{"fr":"X"},"lines":[{"role":{"fr":"R"},"names":[{"en":""}]}]}]})",
+            "fr")
+            .ok());
 }
 
 /**

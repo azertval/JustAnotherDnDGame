@@ -15,7 +15,7 @@
 [project]
 name = "jadg-scripts"
 version = "0"
-description = "Outillage Python de JustAnotherDnDGame (contrôles, génération, CI)"
+description = "Outillage Python de JustAnotherRpgGame (contrôles, génération, CI)"
 requires-python = ">=3.12"
 dependencies = []
 

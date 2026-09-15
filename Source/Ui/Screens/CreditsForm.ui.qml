@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Controls
 import QtQuick.Layouts
 import Jadg.Ui
 
@@ -25,6 +26,8 @@ Item {
     property string version: "0.0.0"
 
     property alias backButton: backControl
+    /// La barre de defilement des sections : le jumeau la fait avancer au clavier.
+    property alias scrollBar: creditsScrollBar
 
     width: 1920
     height: 1080
@@ -68,53 +71,72 @@ Item {
         height: 752 * Tokens.uiScale
         padding: 0
 
-        RowLayout {
+        // Les sections defilent quand elles depassent le panneau : la barre se loge dans la marge
+        // droite, et les colonnes gardent leur largeur qu'elle soit la ou non -- une largeur qui
+        // suivrait la barre relancerait le retour a la ligne, donc la hauteur, donc la barre.
+        Flickable {
+            id: creditsScroll
+
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.top: parent.top
             anchors.bottom: quote.top
             anchors.leftMargin: 40 * Tokens.uiScale
-            anchors.rightMargin: 40 * Tokens.uiScale
+            anchors.rightMargin: 14 * Tokens.uiScale
             anchors.topMargin: 80 * Tokens.uiScale
             anchors.bottomMargin: Tokens.gapMedium
-            spacing: 56 * Tokens.uiScale
+            clip: true
+            contentWidth: width
+            contentHeight: creditsColumns.implicitHeight
+            boundsBehavior: Flickable.StopAtBounds
 
-            ColumnLayout {
-                Layout.alignment: Qt.AlignTop
-                Layout.fillWidth: true
-                Layout.preferredWidth: 1
-                spacing: Tokens.gapLarge
-
-                Repeater {
-                    model: root.leftSections
-
-                    CreditSection {
-                        required property var modelData
-
-                        Layout.fillWidth: true
-                        title: modelData.title
-                        iconKey: modelData.iconKey
-                        lines: modelData.lines
-                    }
-                }
+            ScrollBar.vertical: OrnateScrollBar {
+                id: creditsScrollBar
             }
 
-            ColumnLayout {
-                Layout.alignment: Qt.AlignTop
-                Layout.fillWidth: true
-                Layout.preferredWidth: 1
-                spacing: Tokens.gapLarge
+            RowLayout {
+                id: creditsColumns
 
-                Repeater {
-                    model: root.rightSections
+                width: creditsScroll.width - 26 * Tokens.uiScale
+                spacing: 56 * Tokens.uiScale
 
-                    CreditSection {
-                        required property var modelData
+                ColumnLayout {
+                    Layout.alignment: Qt.AlignTop
+                    Layout.fillWidth: true
+                    Layout.preferredWidth: 1
+                    spacing: Tokens.gapLarge
 
-                        Layout.fillWidth: true
-                        title: modelData.title
-                        iconKey: modelData.iconKey
-                        lines: modelData.lines
+                    Repeater {
+                        model: root.leftSections
+
+                        CreditSection {
+                            required property var modelData
+
+                            Layout.fillWidth: true
+                            title: modelData.title
+                            iconKey: modelData.iconKey
+                            lines: modelData.lines
+                        }
+                    }
+                }
+
+                ColumnLayout {
+                    Layout.alignment: Qt.AlignTop
+                    Layout.fillWidth: true
+                    Layout.preferredWidth: 1
+                    spacing: Tokens.gapLarge
+
+                    Repeater {
+                        model: root.rightSections
+
+                        CreditSection {
+                            required property var modelData
+
+                            Layout.fillWidth: true
+                            title: modelData.title
+                            iconKey: modelData.iconKey
+                            lines: modelData.lines
+                        }
                     }
                 }
             }

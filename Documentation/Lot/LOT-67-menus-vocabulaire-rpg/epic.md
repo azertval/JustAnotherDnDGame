@@ -26,7 +26,7 @@ exigences — et remplace le décor du menu principal par la **carte du monde de
 | | Avant | Après |
 |---|---|---|
 | Menu principal | Continuer · Nouvelle partie · Choisir un niveau · Mode Édition · Options · Crédits · Quitter, sur un paysage de plateforme tracé en pavés | Nouvelle partie · Mode Édition · Options · Crédits · Quitter, sur la **carte du monde** |
-| Titre du menu | un bandeau « Just Another D&D Game » | aucun : le fond dit déjà où l'on est |
+| Titre du menu | un bandeau « Just Another RPG Game » | aucun : le fond dit déjà où l'on est |
 | Écran de pause | Reprendre · Recommencer le niveau · Options · Quitter | Reprendre · Options · Quitter |
 | Fin de niveau | un écran de bilan (temps, morts, sauts) | il n'y en a plus |
 

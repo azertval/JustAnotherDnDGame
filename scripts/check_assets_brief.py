@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Valentin Eloy
-# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 """Garde-fou du cahier des assets de la charte v2 (LOT-87, T2.4).
 
 Le cahier dit a un generateur d'images ce qu'il faut produire : chaque cadre, plaque, bouton, fond

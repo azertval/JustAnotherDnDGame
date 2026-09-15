@@ -53,7 +53,7 @@ Le [LOT-19](@ref lot-19) attendait ce lot sur trois points, faute de tour :
 
 L'initiative est un test de Dextérité (Manuel des Joueurs, « Initiative », PDF p. 191) : elle passe
 par `core::rollCheck` comme tout autre jet, et le résultat reste **restituable**
-(`Combatant::initiativeRoll`, `EX-DND-003`). Elle est jetée **une fois**, à `start`, par identifiant
+(`Combatant::initiativeRoll`, `EX-REG-003`). Elle est jetée **une fois**, à `start`, par identifiant
 croissant — à graine égale, les mêmes dés tombent sur les mêmes combattants —, et l'ordre ne bouge
 plus (`EX-CBT-010`).
 

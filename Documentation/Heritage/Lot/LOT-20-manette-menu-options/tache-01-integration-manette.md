@@ -48,7 +48,7 @@ change.
   | Start | `Escape` |
   | Épaule droite (RB) | `Shift` (dash, `EX-CTRL-013`) |
 
-- **`Source/HMI/CMakeLists.txt`** : ajoute `xinput` à `target_link_libraries(JustAnotherDnDGame
+- **`Source/HMI/CMakeLists.txt`** : ajoute `xinput` à `target_link_libraries(JustAnotherRpgGame
   PRIVATE …)`.
 - **`Documentation/Specification/controles.md`** : retire le marqueur « ⚠️ souhaité » d'
   `EX-CTRL-002` (implémentée).

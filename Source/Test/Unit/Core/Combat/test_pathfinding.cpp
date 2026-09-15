@@ -1,10 +1,10 @@
 // SPDX-FileCopyrightText: 2026 Valentin Eloy
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 
 /**
  * @file test_pathfinding.cpp
  * @brief Tests du déplacement d'un tour : budget, cases atteignables, chemin déterministe
- *        (`LOT-19`, `EX-CBT-020`, `EX-DND-051`).
+ *        (`LOT-19`, `EX-CBT-020`, `EX-REG-051`).
  *
  * La règle vérifiée est celle du Manuel des Joueurs, « Jouer sur un quadrillage » : entrer dans une
  * case coûte 1, même en diagonale ; 2 en terrain difficile, à condition de pouvoir le payer ; et

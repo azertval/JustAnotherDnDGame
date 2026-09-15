@@ -499,8 +499,8 @@ jobs:
       - name: Package et lancement de l'archive
         shell: pwsh
         run: |
-          ./scripts/package_release.ps1 -BinDir build-prod/bin/Release -Name JustAnotherDnDGame-nightly-release -OutDir dist
-          ./scripts/smoke_test_release.ps1 -Zip dist/JustAnotherDnDGame-nightly-release.zip -Screenshot smoke/release.png
+          ./scripts/package_release.ps1 -BinDir build-prod/bin/Release -Name JustAnotherRpgGame-nightly-release -OutDir dist
+          ./scripts/smoke_test_release.ps1 -Zip dist/JustAnotherRpgGame-nightly-release.zip -Screenshot smoke/release.png
 
       - name: Conserver la capture
         if: ${{ !cancelled() }}

@@ -1,5 +1,5 @@
 // SPDX-FileCopyrightText: 2026 Valentin Eloy
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 
 #pragma once
 
@@ -148,7 +148,7 @@ struct CharacterSheet {
 };
 
 /**
- * @brief Ce qu'une montée de niveau a produit — de quoi le dire au joueur (`EX-DND-003`).
+ * @brief Ce qu'une montée de niveau a produit — de quoi le dire au joueur (`EX-REG-003`).
  *
  * Le détail, pas seulement le total : un joueur qui gagne deux niveaux d'un coup doit pouvoir
  * reconstituer ce qui vient d'arriver, et un test doit pouvoir vérifier chaque marche.

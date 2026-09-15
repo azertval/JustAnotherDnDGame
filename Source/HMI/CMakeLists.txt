@@ -1,9 +1,9 @@
 # SPDX-FileCopyrightText: 2026 Valentin Eloy
-# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 
-# Couche de présentation HMI : **application Qt** (`JustAnotherDnDGame`).
+# Couche de présentation HMI : **application Qt** (`JustAnotherRpgGame`).
 #
-# Depuis le LOT-38, l'IHM « maison » et l'exécutable historique `JustAnotherDnDGame` ont été retirés :
+# Depuis le LOT-38, l'IHM « maison » et l'exécutable historique `JustAnotherRpgGame` ont été retirés :
 # l'unique application est l'éditeur Qt, qui embarque le rendu Direct3D 11 du jeu dans un viewport et
 # l'entoure de panneaux d'édition. Le code est réparti par domaine, au plus près de l'architecture
 # d'origine du projet :
@@ -164,7 +164,7 @@ endif()
 # =============================================================================================
 # Deux applications (LOT-86)
 #
-#   JustAnotherDnDGame  le JEU      -- Qt Quick, QGuiApplication, ne lie PAS Qt6::Widgets ;
+#   JustAnotherRpgGame  le JEU      -- Qt Quick, QGuiApplication, ne lie PAS Qt6::Widgets ;
 #   LevelEditor         l'ÉDITEUR   -- Qt Widgets, QApplication, docks et arbres.
 #
 # Elles partagent Core, HmiLib, Graphics, Game, Input, Audio et l'amorçage (App/Common) — tout ce
@@ -297,27 +297,27 @@ qt6_add_shaders(LevelEditor "jadg_shaders"
 add_custom_target(CopyGameData ALL
     COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${PROJECT_SOURCE_DIR}/Source/Elements/Localization
-        $<TARGET_FILE_DIR:JustAnotherDnDGame>/Localization
+        $<TARGET_FILE_DIR:JustAnotherRpgGame>/Localization
     COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${PROJECT_SOURCE_DIR}/Source/Elements/Levels
-        $<TARGET_FILE_DIR:JustAnotherDnDGame>/Levels
+        $<TARGET_FILE_DIR:JustAnotherRpgGame>/Levels
     COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${PROJECT_SOURCE_DIR}/Source/Elements/Assets
-        $<TARGET_FILE_DIR:JustAnotherDnDGame>/Assets
+        $<TARGET_FILE_DIR:JustAnotherRpgGame>/Assets
     COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${PROJECT_SOURCE_DIR}/Source/Elements/Audio
-        $<TARGET_FILE_DIR:JustAnotherDnDGame>/Audio
+        $<TARGET_FILE_DIR:JustAnotherRpgGame>/Audio
     # Catalogues RPG (LOT-38) : espèces, classes, historiques, compétences, règles et fiches.
     COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${PROJECT_SOURCE_DIR}/Source/Elements/Rpg
-        $<TARGET_FILE_DIR:JustAnotherDnDGame>/Rpg
+        $<TARGET_FILE_DIR:JustAnotherRpgGame>/Rpg
     # Atlas du monde (LOT-37) et ancres des regions sur la carte (LOT-87, T3.6).
     COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${PROJECT_SOURCE_DIR}/Source/Elements/World
-        $<TARGET_FILE_DIR:JustAnotherDnDGame>/World
+        $<TARGET_FILE_DIR:JustAnotherRpgGame>/World
     COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${PROJECT_SOURCE_DIR}/Source/Elements/Maps
-        $<TARGET_FILE_DIR:JustAnotherDnDGame>/Maps
+        $<TARGET_FILE_DIR:JustAnotherRpgGame>/Maps
     COMMENT "Copie des données de jeu (traductions, cartes, assets, audio, catalogues RPG)")
 add_dependencies(LevelEditor CopyGameData)
 

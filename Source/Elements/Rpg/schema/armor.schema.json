@@ -1,11 +1,11 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://justanotherdndgame.local/rpg/armor.schema.json",
+  "$id": "https://justanotherrpggame.local/rpg/armor.schema.json",
   "title": "Armure",
   "description": "Une ligne de la table des armures. La classe d'armure y est DECOMPOSEE -- base, contribution de Dexterite, plafond -- plutot que donnee en formule textuelle : une formule dans une donnee est du code deguise, que le moteur devrait interpreter.",
   "allOf": [
     {
-      "$ref": "https://justanotherdndgame.local/rpg/common.schema.json#/$defs/entree"
+      "$ref": "https://justanotherrpggame.local/rpg/common.schema.json#/$defs/entree"
     }
   ],
   "type": "object",
@@ -48,7 +48,7 @@
       "type": "boolean"
     },
     "price": {
-      "$ref": "https://justanotherdndgame.local/rpg/common.schema.json#/$defs/money"
+      "$ref": "https://justanotherrpggame.local/rpg/common.schema.json#/$defs/money"
     },
     "weightGrams": {
       "type": "integer",

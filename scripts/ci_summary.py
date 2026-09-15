@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Valentin Eloy
-# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 
 """Écrit le résumé d'un job de build dans GITHUB_STEP_SUMMARY.
 
@@ -15,7 +15,7 @@ avant les tests. Une source absente est dite absente, pas passée sous silence.
 
 Usage :
   python scripts/ci_summary.py --title "Debug (vs)" --junit test-results/junit-debug.xml \
-      --coverage coverage.xml --threshold 85 --file build/vs/bin/Debug/JustAnotherDnDGame.exe
+      --coverage coverage.xml --threshold 85 --file build/vs/bin/Debug/JustAnotherRpgGame.exe
 """
 import argparse
 import os

@@ -1,5 +1,5 @@
 // SPDX-FileCopyrightText: 2026 Valentin Eloy
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 
 // Vertex shader du pipeline 2D (LOT-69 TACHE-02) : projette la position monde et transmet UV et
 // teinte. Écrit en GLSL 4.40 pour `qsb`, qui le traduit vers HLSL/SPIR-V/MSL selon le backend

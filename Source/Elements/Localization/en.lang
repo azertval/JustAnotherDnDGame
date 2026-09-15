@@ -3,8 +3,8 @@
 # translated. Blank lines and lines starting with # are ignored.
 
 # Main menu
-# Titre AFFICHE du jeu : « Just Another D&D Game », avec espaces et esperluette.
-# A ne pas confondre avec l'identifiant technique « JustAnotherDnDGame » (cible CMake,
+# Titre AFFICHE du jeu : « Just Another RPG Game », avec espaces.
+# A ne pas confondre avec l'identifiant technique « JustAnotherRpgGame » (cible CMake,
 # binaire, depot, prefixe de macro JADG_) : un renommage global de l'un a deja ecrase
 # l'autre une fois (LOT-01). Les deux sont distincts, et doivent le rester.
 menu.new_game = New Game
@@ -24,7 +24,7 @@ pause.quit_confirm_title = Quit to menu?
 pause.quit_confirm_text = The current game will be lost. Quit to menu?
 
 # Main window and menu bar
-window.title = Just Another D&D Game — Editor
+window.title = Just Another RPG Game — Editor
 menubar.main_menu = Main menu
 menubar.quit = Quit
 menubar.file = File

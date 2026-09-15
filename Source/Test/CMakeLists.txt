@@ -1,5 +1,5 @@
 # SPDX-FileCopyrightText: 2026 Valentin Eloy
-# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 
 # Tests unitaires (GoogleTest).
 include(GoogleTest)
@@ -301,10 +301,10 @@ if(TARGET JadgRuntime)
         project_warnings
         project_options
     )
-    # Absent quand JustAnotherDnDGame n'est pas construit (BUILD_EDITOR_QT=OFF) : add_dependencies
+    # Absent quand JustAnotherRpgGame n'est pas construit (BUILD_EDITOR_QT=OFF) : add_dependencies
     # exige que la cible existe deja, contrairement a target_link_libraries.
-    if(TARGET JustAnotherDnDGame)
-        add_dependencies(RuntimeTests JustAnotherDnDGame)
+    if(TARGET JustAnotherRpgGame)
+        add_dependencies(RuntimeTests JustAnotherRpgGame)
     endif()
 endif()
 

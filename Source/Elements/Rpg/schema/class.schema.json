@@ -1,11 +1,11 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://justanotherdndgame.local/rpg/class.schema.json",
+  "$id": "https://justanotherrpggame.local/rpg/class.schema.json",
   "title": "Classe",
-  "description": "Une classe jouable. Sa TABLE DE PROGRESSION est une donnee a part entiere (LOT-84, 31 tables detectees dans le corpus) : une ligne par niveau, jamais une regle en C++. Les ressources declarent ELLES-MEMES leur cadence de recuperation (EX-DND-031), sans quoi chacun des quinze lots de classes modifierait le code du repos, et la quinzieme modification casserait la premiere.",
+  "description": "Une classe jouable. Sa TABLE DE PROGRESSION est une donnee a part entiere (LOT-84, 31 tables detectees dans le corpus) : une ligne par niveau, jamais une regle en C++. Les ressources declarent ELLES-MEMES leur cadence de recuperation (EX-REG-031), sans quoi chacun des quinze lots de classes modifierait le code du repos, et la quinzieme modification casserait la premiere.",
   "allOf": [
     {
-      "$ref": "https://justanotherdndgame.local/rpg/common.schema.json#/$defs/entree"
+      "$ref": "https://justanotherrpggame.local/rpg/common.schema.json#/$defs/entree"
     }
   ],
   "type": "object",
@@ -29,14 +29,14 @@
     "primaryAbility": {
       "type": "array",
       "items": {
-        "$ref": "https://justanotherdndgame.local/rpg/common.schema.json#/$defs/ability"
+        "$ref": "https://justanotherrpggame.local/rpg/common.schema.json#/$defs/ability"
       },
       "uniqueItems": true
     },
     "savingThrowProficiencies": {
       "type": "array",
       "items": {
-        "$ref": "https://justanotherdndgame.local/rpg/common.schema.json#/$defs/ability"
+        "$ref": "https://justanotherrpggame.local/rpg/common.schema.json#/$defs/ability"
       },
       "uniqueItems": true,
       "minItems": 2,
@@ -66,7 +66,7 @@
           "features": {
             "type": "array",
             "items": {
-              "$ref": "https://justanotherdndgame.local/rpg/common.schema.json#/$defs/id"
+              "$ref": "https://justanotherrpggame.local/rpg/common.schema.json#/$defs/id"
             },
             "uniqueItems": true
           },
@@ -99,7 +99,7 @@
         "type": "object",
         "properties": {
           "id": {
-            "$ref": "https://justanotherdndgame.local/rpg/common.schema.json#/$defs/id"
+            "$ref": "https://justanotherrpggame.local/rpg/common.schema.json#/$defs/id"
           },
           "name": {
             "type": "string",
@@ -113,7 +113,7 @@
               "at-will",
               "dawn"
             ],
-            "description": "Cadence de recuperation declaree PAR LA RESSOURCE (EX-DND-031) : le mecanisme de repos ne connait aucune classe en particulier."
+            "description": "Cadence de recuperation declaree PAR LA RESSOURCE (EX-REG-031) : le mecanisme de repos ne connait aucune classe en particulier."
           }
         },
         "required": [

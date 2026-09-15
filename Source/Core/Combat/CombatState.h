@@ -1,5 +1,5 @@
 // SPDX-FileCopyrightText: 2026 Valentin Eloy
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 
 #pragma once
 
@@ -213,7 +213,7 @@ struct Combatant {
     CombatantProfile profile;
     CombatantStatus status = CombatantStatus::Standing;
     ActionEconomy economy;
-    /// Le jet d'initiative, restituable (`EX-DND-003`). Vide pour un acteur flottant et pour un
+    /// Le jet d'initiative, restituable (`EX-REG-003`). Vide pour un acteur flottant et pour un
     /// combattant entré à une initiative imposée.
     std::optional<CheckResult> initiativeRoll;
     /// Pour un acteur flottant : a-t-il déjà joué ce round-ci ?

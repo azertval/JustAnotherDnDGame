@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://justanotherdndgame.local/rpg/common.schema.json",
+  "$id": "https://justanotherrpggame.local/rpg/common.schema.json",
   "title": "Definitions partagees des catalogues RPG",
   "description": "Ce fichier ne decrit aucune famille : il porte les briques que toutes reutilisent. Une definition ecrite deux fois diverge -- c'est la lecon des six lecteurs JSON du LOT-79, transposee aux contrats.",
 
@@ -39,7 +39,7 @@
     },
 
     "narratif": {
-      "description": "Declare que l'effet de cette donnee n'entre dans aucun mecanisme et n'est pas joue (EX-DND-041, EX-RPG-051). Une entree qu'on croit implementee et qui ne fait rien coute bien plus cher a diagnostiquer qu'une entree declaree non jouee.",
+      "description": "Declare que l'effet de cette donnee n'entre dans aucun mecanisme et n'est pas joue (EX-REG-041, EX-RPG-051). Une entree qu'on croit implementee et qui ne fait rien coute bien plus cher a diagnostiquer qu'une entree declaree non jouee.",
       "type": "boolean"
     },
 

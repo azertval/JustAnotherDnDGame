@@ -1,11 +1,11 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://justanotherdndgame.local/rpg/encumbrance.schema.json",
+  "$id": "https://justanotherrpggame.local/rpg/encumbrance.schema.json",
   "title": "Capacite de charge et encombrement",
   "description": "Ce qu'un personnage peut porter, et ce qui lui arrive quand il porte trop. Toutes les bornes sont exprimees en GRAMMES PAR POINT DE FORCE, et non en kilogrammes : le corpus ecrit << votre valeur de Force multipliee par 7,5 >> en kg, mais les poids d'objets sont deja en grammes entiers dans les catalogues (LOT-34), et melanger les deux unites dans une somme est exactement l'erreur qu'une unite unique supprime. EX-VIS-007 interdit que ces nombres vivent dans le C++ : un `7500` nu dans un calcul de charge ne dit pas ce qu'il represente. Chacun porte la PHRASE du livre qui l'atteste.",
   "allOf": [
     {
-      "$ref": "https://justanotherdndgame.local/rpg/common.schema.json#/$defs/entree"
+      "$ref": "https://justanotherrpggame.local/rpg/common.schema.json#/$defs/entree"
     }
   ],
   "type": "object",

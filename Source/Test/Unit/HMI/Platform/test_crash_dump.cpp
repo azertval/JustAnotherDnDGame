@@ -1,5 +1,5 @@
 // SPDX-FileCopyrightText: 2026 Valentin Eloy
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 
 /**
  * @file test_crash_dump.cpp
@@ -108,14 +108,14 @@ bool dumpFromStructuredException(const std::filesystem::path* path) {
  * \castest{<b>Le nom d'un minidump porte l'application, la version et l'heure du plantage.</b><br/>
  * \tcat Unitaire · Crash Dump<br/>
  * \tcrit Majeur<br/>
- * \tetapes 1. Composer le nom pour JustAnotherDnDGame 0.0.4 au 15/09/2026 21:04:07.<br/>
- * \tattendu JustAnotherDnDGame_0.0.4_20260915_210407.dmp : l'archive de symboles se retrouve sans
+ * \tetapes 1. Composer le nom pour JustAnotherRpgGame 0.0.4 au 15/09/2026 21:04:07.<br/>
+ * \tattendu JustAnotherRpgGame_0.0.4_20260915_210407.dmp : l'archive de symboles se retrouve sans
  * ouvrir le fichier.
  * }
  */
 TEST(CrashDumpFileName, PorteApplicationVersionEtHorodatage) {
-    EXPECT_EQ(hmi::crashDumpFileName("JustAnotherDnDGame", "0.0.4", fixedTime()),
-              "JustAnotherDnDGame_0.0.4_20260915_210407.dmp");
+    EXPECT_EQ(hmi::crashDumpFileName("JustAnotherRpgGame", "0.0.4", fixedTime()),
+              "JustAnotherRpgGame_0.0.4_20260915_210407.dmp");
 }
 
 /**

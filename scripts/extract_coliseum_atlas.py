@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Valentin Eloy
-# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 """Découpe de la planche de production du Colisée (LOT-50, habillage de l'arène).
 
 La direction artistique de l'arène est une PLANCHE : `production_source_atlas.png` (1536 × 1024),
