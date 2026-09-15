@@ -56,6 +56,19 @@ ArenaForm {
     pathCells: arena.pathCells
     gamepadConnected: pad.connected
 
+    // La surface de rendu QRhi, posee dans l'hote que le formulaire reserve (LOT-86 Phase 6) --
+    // meme mecanisme que `GameViewport` sur la vue d'exploration (`GameView.qml`) : un type C++
+    // (`Jadg.Runtime`), invisible a l'atelier, que le cadre du formulaire recouvre par-dessus.
+    ArenaViewport {
+        parent: root.viewportHost
+        anchors.fill: parent
+        // La meme marge que le calque d'interface (`ArenaScene`, dans le formulaire) : les deux
+        // ajustent leur grille a la meme surface disponible.
+        anchors.margins: Tokens.gapMedium
+        model: root.arena
+        clearColor: Tokens.panelRaised
+    }
+
     onFighterChosen: (id, ally) => ally ? arena.addAlly(id) : arena.addEnemy(id)
     onAllyRemoved: (index) => arena.removeAlly(index)
     onEnemyRemoved: (index) => arena.removeEnemy(index)

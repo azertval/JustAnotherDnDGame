@@ -17,9 +17,13 @@ import Jadg.Ui
     les touches et les boutons en gestes. Les couleurs
     viennent des jetons pour que l'ecran ne jure pas au milieu du jeu, sans pretendre a la charte.
 
-    Depuis le 14 septembre 2026, la grille est la scene isometrique `ArenaScene` : sol, enceinte
-    et figurines animees viennent de la planche de production du Colisee
-    (`Source/Elements/Assets/Coliseum/`). Le cadre de l'ecran, lui, reste celui du developpeur.
+    Depuis le LOT-86 (Phase 6), la grille se dessine par le pipeline QRhi du jeu, pose dans
+    `viewportHost` par le jumeau (`ArenaViewport`, type C++ que l'atelier ne connait pas) : sol,
+    enceinte et figurines animees viennent de la planche de production du Colisee
+    (`Source/Elements/Assets/Coliseum/`), composees en primitives plutot qu'en delegues QML. Par
+    dessus, `ArenaScene` ne porte plus que l'interface : surbrillances, jauges, points de vie, et
+    le curseur de ciblage avec son chemin (LOT-24). Le cadre de l'ecran, lui, reste celui du
+    developpeur.
 */
 Item {
     id: root
@@ -51,6 +55,11 @@ Item {
     /// Le chemin jusqu'au curseur : `{column, row}` (LOT-24).
     property var pathCells: []
     property bool gamepadConnected: false
+
+    /// L'hote de la surface de rendu. La surface elle-meme (`ArenaViewport`) est un type C++ que
+    /// l'atelier ne connait pas : c'est le jumeau qui la pose ici, a l'execution -- meme mecanisme
+    /// que `HudFrame.viewportHost` pour la vue d'exploration (LOT-86 Phase 6).
+    property alias viewportHost: viewportHost
 
     // --- Ce que le jumeau ecoute -------------------------------------------------------------
     signal fighterChosen(string id, bool ally)
@@ -382,8 +391,12 @@ Item {
     }
 
     // --- La grille, au centre -----------------------------------------------------------------
+    // L'hote de la surface de rendu (LOT-86 Phase 6) : sol, enceinte et figurines animees viennent
+    // desormais du pipeline QRhi du jeu (`ArenaViewport`, pose ici par le jumeau), au lieu de
+    // centaines de delegues QML detruits et recrees a chaque geste de combat. Ce que le jumeau ne
+    // pose pas encore s'y voit comme un aplat au panneau.
     Rectangle {
-        id: gridHost
+        id: viewportHost
 
         x: setupColumn.x + setupColumn.width + Tokens.gapLarge
         y: setupColumn.y
@@ -392,20 +405,23 @@ Item {
         color: Tokens.panelRaised
         border.color: Tokens.panelEdge
         border.width: Tokens.strokeWidth
+    }
 
-        // La scene isometrique du Colisee : sol, enceinte, surbrillances, figurines animees.
-        ArenaScene {
-            anchors.fill: parent
-            anchors.margins: Tokens.gapMedium
-            gridColumns: root.gridColumns
-            gridRows: root.gridRows
-            cells: root.cells
-            showCursor: root.inCombat && !root.ended
-            cursorColumn: root.cursorColumn
-            cursorRow: root.cursorRow
-            pathCells: root.pathCells
-            onCellTapped: (column, row) => root.cellTapped(column, row)
-        }
+    // Le calque d'interface au-dessus de la scene rendue : surbrillances, jauges et points de vie
+    // -- des rectangles et du texte, pas des pieces de la planche (`LOT-86` Phase 3) -- et, par
+    // dessus, le curseur de ciblage et son chemin (LOT-24). Au-dessus de `viewportHost` dans l'ordre
+    // de peinture : c'est ce qui le garde visible par-dessus la scene que le jumeau y pose.
+    ArenaScene {
+        anchors.fill: viewportHost
+        anchors.margins: Tokens.gapMedium
+        gridColumns: root.gridColumns
+        gridRows: root.gridRows
+        cells: root.cells
+        showCursor: root.inCombat && !root.ended
+        cursorColumn: root.cursorColumn
+        cursorRow: root.cursorRow
+        pathCells: root.pathCells
+        onCellTapped: (column, row) => root.cellTapped(column, row)
     }
 
     // --- Ordre et journal, a droite -----------------------------------------------------------

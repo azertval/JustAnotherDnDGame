@@ -66,6 +66,11 @@ ArenaModel::ArenaModel(QObject* parent) : QObject(parent), _catalogs(std::make_u
 
 ArenaModel::~ArenaModel() = default;
 
+void ArenaModel::emitSceneChanged() {
+    emit changed();
+    emit combatSceneChanged();
+}
+
 void ArenaModel::loadCatalogs() {
     const std::filesystem::path root = executableDirectory();
     Catalogs& c = *_catalogs;
@@ -561,12 +566,13 @@ void ArenaModel::launch() {
     refreshMessage(mount);
     if (mount.allies.empty() || mount.enemies.empty()) {
         _status += QStringLiteral(" Un camp est vide apres le montage : rien a lancer.");
-        emit changed();
+        // Le montage a deja pose ce qu'il a pu sur la grille : la scene en a ete changee.
+        emitSceneChanged();
         return;
     }
     _inCombat = _session->start();
     playAiTurns();
-    emit changed();
+    emitSceneChanged();
 }
 
 namespace {
@@ -846,12 +852,12 @@ void ArenaModel::tapCell(int column, int row) {
                 }
             }
             attackAt(*target, index);
-            emit changed();
+            emitSceneChanged();
             return;
         }
     }
     moveTo(_cursor);
-    emit changed();
+    emitSceneChanged();
 }
 
 void ArenaModel::moveCursor(int columns, int rows) {
@@ -951,7 +957,7 @@ void ArenaModel::confirm() {
             } else {
                 _status = tr("Rien a faire sur cette case.");
             }
-            emit changed();
+            emitSceneChanged();
             return;
         }
         case TurnActionKind::Dodge:
@@ -1013,7 +1019,7 @@ void ArenaModel::endTurn() {
         _status = toQt(_session->journal().back());
         static_cast<void>(outcome);
     }
-    emit changed();
+    emitSceneChanged();
 }
 
 void ArenaModel::withdraw() {
@@ -1032,7 +1038,7 @@ void ArenaModel::withdraw() {
             break;
     }
     playAiTurns();
-    emit changed();
+    emitSceneChanged();
 }
 
 void ArenaModel::replay() {
@@ -1044,7 +1050,7 @@ void ArenaModel::replay() {
     _status = QStringLiteral("Rejeu a la graine ") + QString::number(_seed) +
               (_status.isEmpty() ? QString() : QStringLiteral(" ; ") + _status);
     playAiTurns();
-    emit changed();
+    emitSceneChanged();
 }
 
 void ArenaModel::backToSetup() {
@@ -1054,7 +1060,7 @@ void ArenaModel::backToSetup() {
     _inCombat = false;
     resetSession();
     _status.clear();
-    emit changed();
+    emitSceneChanged();
 }
 
 }  // namespace hmi

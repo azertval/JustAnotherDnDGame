@@ -34,9 +34,11 @@ namespace hmi {
  * la couleur d'effacement, et, si la scène a changé depuis sa dernière copie, l'instantané
  * `hmi::ArenaSceneSnapshot`. Il ne garde aucun pointeur vers le modèle ni vers la session.
  *
- * « A changé » se compte ici : chaque `ArenaModel::changed` avance `sceneRevision`, et le peintre
- * ne reprend un instantané que si le numéro diffère du sien. Un pas de curseur (`cursorChanged`)
- * n'en provoque aucun — le curseur et le chemin restent dessinés en QML par-dessus (`LOT-24`).
+ * « A changé » se compte ici : chaque `ArenaModel::combatSceneChanged` avance `sceneRevision`, et le
+ * peintre ne reprend un instantané que si le numéro diffère du sien. Ni un pas de curseur
+ * (`cursorChanged`) ni un geste de composition (`changed` seul, roster ou camp édité avant le
+ * montage) n'en provoquent : le premier reste dessiné en QML par-dessus (`LOT-24`), le second ne
+ * touche encore à aucune grille.
  *
  * ## Ce que fait le peintre
  *

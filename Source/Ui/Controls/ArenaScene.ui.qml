@@ -2,13 +2,20 @@ import QtQuick
 import Jadg.Ui
 
 /*!
-    La scene isometrique du Colisee (LOT-50, habillage du 14 septembre 2026).
+    La scene isometrique du Colisee -- le calque d'INTERFACE, au-dessus du rendu (LOT-86 Phase 6).
 
     Projette la grille de combat (`cells`, une entree par case, ligne par ligne) en losanges
-    isometriques et pose sur chaque case une brique `ArenaTile` : le sol, le mur ou la colonne
-    d'enceinte, la surbrillance, le combattant anime, sa jauge. Les pieces viennent de la planche
-    de production du Colisee (`Source/Elements/Assets/Coliseum/`, decoupee par
-    `scripts/extract_coliseum_atlas.py`).
+    isometriques et pose sur chaque case une brique `ArenaTile` : la surbrillance, la jauge et les
+    points de vie -- des rectangles et du texte, pas des pieces de la planche. Le sol, l'enceinte
+    et les combattants animes viennent desormais du pipeline QRhi du jeu (`ArenaViewport`), pose
+    dans l'hote que ce calque recouvre.
+
+    Les deux partagent le meme rapport de losange (`core::ARENA_DIAMOND_RATIO`, la meme valeur que
+    `diamondRatio` ci-dessous) et le meme cadrage centre, mais pas le meme calcul : ce calque
+    ajuste `tileWidth` en continu a l'element, la camera du moteur (`hmi::Camera2D::fitZoom`)
+    arrondit son zoom a l'entier pixel le plus proche pour un rendu net. L'alignement entre les
+    deux reste donc approximatif -- suffisant pour situer une surbrillance sur la bonne case, pas
+    garanti au pixel pres ; un reglage plus fin est laisse a un lot ulterieur.
 
     La projection : une case (c, r) a son losange en x = (c - r) * L/2, y = (c + r) * H/2, ou L
     est la largeur du losange et H sa hauteur (H = 0,62 L : les tuiles de la planche sont dessinees

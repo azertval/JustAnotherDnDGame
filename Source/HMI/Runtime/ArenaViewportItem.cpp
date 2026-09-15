@@ -98,8 +98,10 @@ void ArenaViewportItem::setModel(ArenaModel* model) {
     disconnect(_modelDestroyedConnection);
     _model = model;
     if (model != nullptr) {
+        // `combatSceneChanged`, pas `changed` : un geste de composition (enrôler, retirer, marquer,
+        // graine, IA) ne mute encore aucune grille, et ne doit pas faire reprendre un instantané.
         _modelChangedConnection =
-            connect(model, &ArenaModel::changed, this, &ArenaViewportItem::invalidateScene);
+            connect(model, &ArenaModel::combatSceneChanged, this, &ArenaViewportItem::invalidateScene);
         // Le QPointer se vide seul ; il reste à redessiner une scène vide.
         _modelDestroyedConnection =
             connect(model, &QObject::destroyed, this, &ArenaViewportItem::invalidateScene);

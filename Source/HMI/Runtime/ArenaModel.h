@@ -35,15 +35,26 @@ namespace hmi {
  * Elle ne décide **rien** du combat : chaque geste de l'écran devient un appel à la session, et
  * ce que l'écran affiche est relu de la machine à états après chaque geste.
  *
- * ## Pourquoi une liste de cases et non une scène
+ * ## Pourquoi une liste de cases, en plus de la session
  *
- * L'écran de l'arène est un écran de développeur, en QML, sans charte (feuille de route, §5) : il
- * dessine la grille lui-même, depuis `cells`, plutôt que par la surface de rendu — qui n'affiche
- * encore aucune scène. C'est l'IHM de combat (`LOT-24`) qui dessinera le combat sur la carte ;
- * elle lira la même session, par les mêmes appels.
+ * L'écran de l'arène est un écran de développeur, en QML, sans charte (feuille de route, §5). Le
+ * sol, l'enceinte et les figurines viennent de la surface de rendu (`hmi::ArenaViewportItem`,
+ * `LOT-86`), qui lit `session()` directement ; `cells` ne porte plus que ce que cette surface ne
+ * dessine pas — surbrillances, jauges, points de vie, et la zone sensible au clic — pour le calque
+ * d'interface que le formulaire pose par-dessus (`Source/Ui/Controls/ArenaScene.ui.qml`). C'est
+ * l'IHM de combat (`LOT-24`) qui dessinera le combat sur la carte ; elle lira la même session, par
+ * les mêmes appels.
  *
- * Un seul signal, `changed`, pour tout ce qui découle d'un geste : la grille, l'ordre, le
- * journal et l'issue changent ensemble, et les distinguer n'épargnerait aucun rafraîchissement.
+ * `changed` couvre tout ce que l'écran QML affiche : la composition, la grille, l'ordre, le journal
+ * et l'issue changent ensemble, et les distinguer n'épargnerait aucun rafraîchissement à ces
+ * propriétés, toutes relues d'un coup par le formulaire.
+ *
+ * La surface de rendu (`hmi::ArenaViewportItem`, `LOT-86` Phase 5) n'a besoin de reprendre un
+ * instantané que lorsque la grille de combat elle-même a pu changer — pas à chaque geste de
+ * composition (enrôler, retirer, marquer, régler la graine ou l'IA), qui ne touche encore à aucune
+ * session montée. `combatSceneChanged`, émis en plus de `changed` aux seuls gestes qui mutent la
+ * grille (`core::ArenaSession::mount`, un déplacement, une attaque, un retrait, la fin du tour, un
+ * rejeu), lui épargne ces recompositions inutiles.
  */
 class ArenaModel : public QObject {
     Q_OBJECT
@@ -189,12 +200,20 @@ signals:
     void changed();
     /// Le curseur, l'action choisie, la prévisualisation ou le chemin ont changé.
     void cursorChanged();
+    /// `changed` restreint à ce qui peut avoir mué la grille de combat : la surface de rendu
+    /// (`hmi::ArenaViewportItem`) s'y abonne seule, pour ne reprendre un instantané qu'à ces
+    /// gestes-là plutôt qu'à chaque changement de composition.
+    void combatSceneChanged();
 
 private:
     struct Fighter;
     struct Catalogs;
 
     void loadCatalogs();
+    /// `emit changed()` puis `emit combatSceneChanged()` : aux gestes qui mutent la grille de
+    /// combat (`core::ArenaSession::mount`, un déplacement, une attaque, un retrait, la fin du
+    /// tour, un rejeu, un retour à une composition neuve).
+    void emitSceneChanged();
     [[nodiscard]] std::optional<Fighter> fighterFor(const QString& id, core::CombatSide side) const;
     [[nodiscard]] core::ArenaBout composeBout() const;
     void refreshMessage(const core::ArenaMount& mount);
