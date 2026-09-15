@@ -818,6 +818,19 @@ void ArenaModel::moveCursor(int columns, int rows) {
     emit cursorChanged();
 }
 
+void ArenaModel::pointCursor(int column, int row) {
+    if (_session == nullptr || !_inCombat) {
+        return;
+    }
+    const core::BattleGrid& grid = _session->combat().grid();
+    if (column < 0 || row < 0 || column >= grid.width() || row >= grid.height() ||
+        (_cursor.column == column && _cursor.row == row)) {
+        return;
+    }
+    _cursor = {.column = column, .row = row};
+    emit cursorChanged();
+}
+
 void ArenaModel::centerCursor() {
     if (_session == nullptr || !_inCombat) {
         return;

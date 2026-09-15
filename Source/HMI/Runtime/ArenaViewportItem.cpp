@@ -3,13 +3,17 @@
 
 #include "HMI/Runtime/ArenaViewportItem.h"
 
+#include <QQuickWindow>
 #include <algorithm>
 #include <chrono>
+#include <optional>
 
 #include <rhi/qrhi.h>
 
+#include "Core/Combat/IsoProjection.h"
 #include "HMI/Graphics/ArenaSceneComposer.h"
 #include "HMI/Graphics/ArenaSceneRenderer.h"
+#include "HMI/Graphics/Camera2D.h"
 #include "HMI/HmiLog.h"
 #include "HMI/Platform/ExecutableDirectory.h"
 
@@ -88,26 +92,95 @@ void ArenaViewportRenderer::render(QRhiCommandBuffer* commandBuffer) {
 
 }  // namespace
 
-ArenaViewportItem::ArenaViewportItem(QQuickItem* parent) : QQuickRhiItem(parent) {}
+struct ArenaViewportItem::Framing {
+    core::IsoProjection projection;
+    Camera2D camera;
+    /// Pixels de texture par unité d'élément, sur chaque axe.
+    qreal pixelsPerItemX;
+    qreal pixelsPerItemY;
+};
+
+ArenaViewportItem::ArenaViewportItem(QQuickItem* parent) : QQuickRhiItem(parent) {
+    // La texture d'appui suit la taille et le ratio de l'écran : c'est sa taille que le rendu
+    // cadre.
+    connect(this, &QQuickRhiItem::effectiveColorBufferSizeChanged, this,
+            &ArenaViewportItem::framingChanged);
+    connect(this, &QQuickItem::widthChanged, this, &ArenaViewportItem::framingChanged);
+    connect(this, &QQuickItem::heightChanged, this, &ArenaViewportItem::framingChanged);
+}
+
+ArenaViewportItem::Framing ArenaViewportItem::framing() const {
+    const ArenaModel* const model = _model.data();
+    core::IsoProjection projection(model != nullptr ? model->gridColumns() : 0,
+                                   model != nullptr ? model->gridRows() : 0);
+    // La taille réelle de la texture une fois le rendu passé ; avant, celle qu'il prendra.
+    QSize pixels = effectiveColorBufferSize();
+    if (pixels.isEmpty()) {
+        const qreal ratio = window() != nullptr ? window()->effectiveDevicePixelRatio() : 1.0;
+        pixels = QSize(qRound(width() * ratio), qRound(height() * ratio));
+    }
+    Camera2D camera = arenaCamera(projection, pixels.width(), pixels.height());
+    return Framing{
+        .projection = projection,
+        .camera = camera,
+        .pixelsPerItemX = width() > 0.0 ? std::max(1, pixels.width()) / width() : 1.0,
+        .pixelsPerItemY = height() > 0.0 ? std::max(1, pixels.height()) / height() : 1.0};
+}
+
+qreal ArenaViewportItem::tileWidth() const {
+    const Framing f = framing();
+    const core::Vector2 left = f.camera.worldToScreen({0.0f, 0.0f});
+    const core::Vector2 right = f.camera.worldToScreen({f.projection.tileWidth(), 0.0f});
+    return (right.x - left.x) / f.pixelsPerItemX;
+}
+
+qreal ArenaViewportItem::tileHeight() const {
+    const Framing f = framing();
+    const core::Vector2 top = f.camera.worldToScreen({0.0f, 0.0f});
+    const core::Vector2 bottom = f.camera.worldToScreen({0.0f, f.projection.tileHeight()});
+    return (bottom.y - top.y) / f.pixelsPerItemY;
+}
+
+qreal ArenaViewportItem::originX() const {
+    const Framing f = framing();
+    return f.camera.worldToScreen(f.projection.origin()).x / f.pixelsPerItemX;
+}
+
+qreal ArenaViewportItem::originY() const {
+    const Framing f = framing();
+    return f.camera.worldToScreen(f.projection.origin()).y / f.pixelsPerItemY;
+}
+
+QPoint ArenaViewportItem::cellAt(qreal x, qreal y) const {
+    const Framing f = framing();
+    const core::Vector2 world = f.camera.screenToWorld(
+        {static_cast<float>(x * f.pixelsPerItemX), static_cast<float>(y * f.pixelsPerItemY)});
+    const std::optional<core::GridPosition> cell = f.projection.worldToTile(world);
+    return cell.has_value() ? QPoint(cell->column, cell->row) : QPoint(-1, -1);
+}
 
 void ArenaViewportItem::setModel(ArenaModel* model) {
     if (_model == model) {
         return;
     }
     disconnect(_modelChangedConnection);
+    disconnect(_modelGridConnection);
     disconnect(_modelDestroyedConnection);
     _model = model;
     if (model != nullptr) {
+        _modelGridConnection =
+            connect(model, &ArenaModel::changed, this, &ArenaViewportItem::framingChanged);
         // `combatSceneChanged`, pas `changed` : un geste de composition (enrôler, retirer, marquer,
         // graine, IA) ne mute encore aucune grille, et ne doit pas faire reprendre un instantané.
-        _modelChangedConnection =
-            connect(model, &ArenaModel::combatSceneChanged, this, &ArenaViewportItem::invalidateScene);
+        _modelChangedConnection = connect(model, &ArenaModel::combatSceneChanged, this,
+                                          &ArenaViewportItem::invalidateScene);
         // Le QPointer se vide seul ; il reste à redessiner une scène vide.
         _modelDestroyedConnection =
             connect(model, &QObject::destroyed, this, &ArenaViewportItem::invalidateScene);
     }
     invalidateScene();
     emit modelChanged();
+    emit framingChanged();
 }
 
 void ArenaViewportItem::setClearColor(const QColor& color) {

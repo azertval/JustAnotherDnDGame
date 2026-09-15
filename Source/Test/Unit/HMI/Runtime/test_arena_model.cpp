@@ -85,3 +85,38 @@ TEST(ArenaModelTest, LaReactionSeBasculeDepuisLaBarre) {
     arena.cycleAction(1);
     EXPECT_TRUE(arena.turnActions()[0].toMap().value("selected").toBool());
 }
+
+/**
+ * @brief Le survol de la souris pose le curseur sur une case.
+ * \castest{<b>pointCursor pose le curseur sur la case survolee, et ignore ce qui n'en est pas
+ * une.</b><br/>
+ * \tcat Unitaire · IHM<br/>
+ * \tcrit Majeure<br/>
+ * \tetapes 1. Avant le combat, pointer une case.<br/>2. Lancer ; pointer l'ennemi le plus proche
+ * depuis une autre case.<br/>3. Pointer hors de la grille.<br/>
+ * \tattendu Rien avant le combat ; le curseur rejoint la case pointee ; hors de la
+ * grille, le curseur ne bouge pas.
+ * }
+ */
+TEST(ArenaModelTest, LeSurvolPoseLeCurseur) {
+    hmi::ArenaModel arena;
+    const int colonneInitiale = arena.cursorColumn();
+    const int ligneInitiale = arena.cursorRow();
+    arena.pointCursor(colonneInitiale + 1, ligneInitiale + 1);
+    EXPECT_EQ(arena.cursorColumn(), colonneInitiale);
+    EXPECT_EQ(arena.cursorRow(), ligneInitiale);
+
+    lancer(arena);
+    const auto [colonne, ligne] = viserLePlusProche(arena);
+    arena.centerCursor();
+    ASSERT_FALSE(arena.cursorColumn() == colonne && arena.cursorRow() == ligne);
+
+    arena.pointCursor(colonne, ligne);
+    EXPECT_EQ(arena.cursorColumn(), colonne);
+    EXPECT_EQ(arena.cursorRow(), ligne);
+
+    arena.pointCursor(-1, ligne);
+    arena.pointCursor(colonne, arena.gridRows());
+    EXPECT_EQ(arena.cursorColumn(), colonne);
+    EXPECT_EQ(arena.cursorRow(), ligne);
+}

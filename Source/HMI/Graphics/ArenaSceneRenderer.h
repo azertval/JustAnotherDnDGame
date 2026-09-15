@@ -10,9 +10,11 @@
 #include <vector>
 
 #include "Core/Combat/BattleGrid.h"  // core::CombatantId
+#include "Core/Combat/IsoProjection.h"
 #include "HMI/Graphics/ArenaAnimationDriver.h"
 #include "HMI/Graphics/ArenaAppearanceCatalog.h"
 #include "HMI/Graphics/ArenaSceneComposer.h"
+#include "HMI/Graphics/Camera2D.h"
 #include "HMI/Graphics/ComposedScene.h"
 #include "HMI/Graphics/SceneResources.h"
 #include "HMI/Graphics/TextureLoader.h"
@@ -28,6 +30,18 @@ class QRhiResourceUpdateBatch;
  */
 
 namespace hmi {
+
+/**
+ * @brief Le cadrage du Colisée : la scène entière, centrée, dans une surface de @p pixelWidth ×
+ *        @p pixelHeight pixels physiques.
+ *
+ * La **seule** géométrie de l'arène à l'écran : le rendu la soumet, et l'élément Qt Quick
+ * (`hmi::ArenaViewportItem`) s'en sert pour poser le calque d'interface et traduire le pointeur en
+ * case. Deux cadrages recalculés chacun de leur côté ne tombent jamais au même pixel — le zoom est
+ * arrondi à l'entier (`Camera2D::fitZoom`).
+ */
+[[nodiscard]] Camera2D arenaCamera(const core::IsoProjection& projection, int pixelWidth,
+                                   int pixelHeight);
 
 /**
  * @brief Ce qui dessine le Colisée : ressources GPU, textures de la planche, animation des

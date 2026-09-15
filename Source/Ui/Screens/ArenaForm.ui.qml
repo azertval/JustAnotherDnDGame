@@ -54,6 +54,15 @@ Item {
     property var pathCells: []
     property bool gamepadConnected: false
 
+    /// Le cadrage de la grille dans la surface de rendu, en unites d'element : celui du rendu
+    /// lui-meme (`ArenaViewport`), relaye par le jumeau. Le calque de ciblage ne le recalcule pas --
+    /// le zoom du rendu est arrondi a l'entier, un calcul parallele tomberait a cote des cases.
+    /// Les valeurs par defaut ne servent qu'a l'atelier.
+    property real gridTileWidth: 64
+    property real gridTileHeight: 40
+    property real gridOriginX: 0
+    property real gridOriginY: 0
+
     /// L'hote de la surface de rendu. La surface elle-meme (`ArenaViewport`) est un type C++ que
     /// l'atelier ne connait pas : c'est le jumeau qui la pose ici, a l'execution -- meme mecanisme
     /// que `HudFrame.viewportHost` pour la vue d'exploration (LOT-86 Phase 6).
@@ -67,7 +76,10 @@ Item {
     signal seedEdited(int value)
     signal enemyAiToggled(bool value)
     signal launchRequested()
-    signal cellTapped(int column, int row)
+    /// Le pointeur au-dessus de la grille, et le clic : en coordonnees de la surface de rendu, que
+    /// le jumeau traduit en case (`ArenaViewport.cellAt`).
+    signal gridHovered(real x, real y)
+    signal gridClicked(real x, real y)
     signal endTurnRequested()
     signal actionChosen(int index)
     signal withdrawRequested()
@@ -371,6 +383,14 @@ Item {
         }
         Text {
             width: parent.width
+            text: qsTr("Souris : survol, viser ; clic, se deplacer ou attaquer.")
+            color: Tokens.textOnPanelMuted
+            font.family: Tokens.bodyFamily
+            font.pixelSize: Tokens.fontCaption
+            wrapMode: Text.WordWrap
+        }
+        Text {
+            width: parent.width
             text: qsTr("Clavier : fleches, le curseur ; Entree, confirmer ; Tab, cible suivante ; 1 a 9 ou Page precedente / suivante, l'action ; Retour arriere, recentrer ; Espace, fin du tour.")
             color: Tokens.textOnPanelMuted
             font.family: Tokens.bodyFamily
@@ -410,19 +430,14 @@ Item {
     // par-dessus la scene rendue par le jumeau (`ArenaViewport`). La scene elle-meme (sol,
     // enceinte, figurines, surbrillances, jauges, points de vie) est dessimee par QRhi, pas
     // par des delegues QML (`ArenaSceneComposer`).
+    // Meme rectangle que la surface de rendu (le jumeau la pose dans `viewportHost`, a la meme
+    // marge) : les coordonnees du calque sont celles de la surface.
     Item {
+        id: targetingLayer
+
         anchors.fill: viewportHost
         anchors.margins: Tokens.gapMedium
         visible: root.inCombat && !root.ended
-
-        readonly property real diamondRatio: 0.62
-        readonly property real wallRise: 0.85
-        readonly property int diagonals: Math.max(1, root.gridColumns + root.gridRows)
-        readonly property real tileWidth: Math.max(8, Math.min(width / (diagonals / 2),
-                                                               height / (diagonals / 2 * diamondRatio + wallRise)))
-        readonly property real tileHeight: tileWidth * diamondRatio
-        readonly property real originX: (width - diagonals / 2 * tileWidth) / 2 + (root.gridRows - 1) * tileWidth / 2
-        readonly property real originY: (height - (diagonals / 2 * tileHeight + wallRise * tileWidth)) / 2 + wallRise * tileWidth
 
         // Chemin de ciblage (LOT-24)
         Repeater {
@@ -430,22 +445,28 @@ Item {
 
             ArenaMark {
                 kind: "path"
-                x: parent.originX + (modelData.column - modelData.row) * parent.tileWidth / 2
-                y: parent.originY + (modelData.column + modelData.row) * parent.tileHeight / 2
-                z: parent.diagonals + 1
-                width: parent.tileWidth
-                height: parent.tileHeight
+                x: root.gridOriginX + (modelData.column - modelData.row) * root.gridTileWidth / 2
+                y: root.gridOriginY + (modelData.column + modelData.row) * root.gridTileHeight / 2
+                width: root.gridTileWidth
+                height: root.gridTileHeight
             }
         }
 
         // Curseur de ciblage (LOT-24)
         ArenaMark {
             kind: "cursor"
-            x: parent.originX + (root.cursorColumn - root.cursorRow) * parent.tileWidth / 2
-            y: parent.originY + (root.cursorColumn + root.cursorRow) * parent.tileHeight / 2
-            z: parent.diagonals + 2
-            width: parent.tileWidth
-            height: parent.tileHeight
+            x: root.gridOriginX + (root.cursorColumn - root.cursorRow) * root.gridTileWidth / 2
+            y: root.gridOriginY + (root.cursorColumn + root.cursorRow) * root.gridTileHeight / 2
+            width: root.gridTileWidth
+            height: root.gridTileHeight
+        }
+
+        // La souris : le survol vise, le clic se deplace ou attaque.
+        MouseArea {
+            anchors.fill: parent
+            hoverEnabled: true
+            onPositionChanged: (mouse) => root.gridHovered(mouse.x, mouse.y)
+            onClicked: (mouse) => root.gridClicked(mouse.x, mouse.y)
         }
     }
 

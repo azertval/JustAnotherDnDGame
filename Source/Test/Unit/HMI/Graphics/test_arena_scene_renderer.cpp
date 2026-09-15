@@ -16,6 +16,7 @@
 #include <cstddef>
 #include <filesystem>
 #include <memory>
+#include <optional>
 #include <string>
 #include <utility>
 
@@ -280,4 +281,46 @@ TEST(ArenaSceneRendererTest, RecreationSurUneAutreInterface) {
     EXPECT_EQ(renderer.textures().byPath.size(), hmi::arenaTexturePaths(renderer.catalog()).size());
     EXPECT_GT(paintedPixels(renderFrame(*second, renderer, secondTarget)), 0U);
     EXPECT_EQ(renderer.composed().size(), PISTE_QUADS);
+}
+
+/**
+ * @brief Le cadrage du rendu ramène chaque case à elle-même : le pointeur tombe sur la case
+ * dessinée.
+ * \castest{<b>Le centre de chaque case, projete a l'ecran par le cadrage du rendu, redevient la
+ * meme case.</b><br/>
+ * \tcat Unitaire · Rendu QRhi de l'arene<br/>
+ * \tcrit Critique<br/>
+ * \tetapes 1. Pour plusieurs grilles et surfaces (zoom entier et zoom inferieur a 1), cadrer par
+ *          arenaCamera.<br/>2. Projeter le centre de chaque case a l'ecran, puis revenir au monde
+ *          et a la case.<br/>3. Revenir d'un coin de la surface, hors de la scene.<br/>
+ * \tattendu Chaque centre redevient sa case, dans la surface ; le coin n'est aucune case.
+ * }
+ */
+TEST(ArenaSceneRendererTest, LeCadrageRameneChaqueCaseAElleMeme) {
+    struct Cas {
+        int columns;
+        int rows;
+        int width;
+        int height;
+    };
+    for (const Cas cas : {Cas{12, 9, 1280, 720}, Cas{12, 9, 200, 150}, Cas{5, 14, 777, 1003}}) {
+        const core::IsoProjection projection(cas.columns, cas.rows);
+        const hmi::Camera2D camera = hmi::arenaCamera(projection, cas.width, cas.height);
+        for (int row = 0; row < cas.rows; ++row) {
+            for (int column = 0; column < cas.columns; ++column) {
+                const core::Vector2 screen =
+                    camera.worldToScreen(projection.tileToWorld({.column = column, .row = row}));
+                EXPECT_GE(screen.x, 0.0f);
+                EXPECT_LE(screen.x, static_cast<float>(cas.width));
+                EXPECT_GE(screen.y, 0.0f);
+                EXPECT_LE(screen.y, static_cast<float>(cas.height));
+                const std::optional<core::GridPosition> cell =
+                    projection.worldToTile(camera.screenToWorld(screen));
+                ASSERT_TRUE(cell.has_value()) << column << ", " << row;
+                EXPECT_EQ(cell->column, column);
+                EXPECT_EQ(cell->row, row);
+            }
+        }
+        EXPECT_FALSE(projection.worldToTile(camera.screenToWorld({0.0f, 0.0f})).has_value());
+    }
 }

@@ -25,6 +25,18 @@ constexpr float FRAMING_MARGIN = 0.95f;
 
 }  // namespace
 
+Camera2D arenaCamera(const core::IsoProjection& projection, int pixelWidth, int pixelHeight) {
+    const int width = std::max(1, pixelWidth);
+    const int height = std::max(1, pixelHeight);
+    const core::Vector2 size = projection.sceneSize();
+    Camera2D camera(width, height);
+    camera.setCenter({size.x / 2.0f, size.y / 2.0f});
+    camera.setZoom(Camera2D::fitZoom(static_cast<float>(width), static_cast<float>(height),
+                                     std::max(size.x, 1.0f), std::max(size.y, 1.0f),
+                                     FRAMING_MARGIN));
+    return camera;
+}
+
 ArenaSceneRenderer::ArenaSceneRenderer(std::filesystem::path coliseumDirectory)
     : _directory(std::move(coliseumDirectory)) {
     // Lectures de fichiers, une fois : ni le catalogue ni les clips ne touchent au GPU, et une
@@ -160,14 +172,7 @@ void ArenaSceneRenderer::render(QRhiCommandBuffer* commandBuffer, QRhiRenderTarg
     // Cadrage : la scène entière, centrée. La projection isométrique a déjà placé les pièces en
     // unités monde ; la caméra ne fait que déplacer et agrandir, en aval.
     const QSize pixels = target->pixelSize();
-    const int width = std::max(1, pixels.width());
-    const int height = std::max(1, pixels.height());
-    const core::Vector2 size = projection.sceneSize();
-    Camera2D camera(width, height);
-    camera.setCenter({size.x / 2.0f, size.y / 2.0f});
-    camera.setZoom(Camera2D::fitZoom(static_cast<float>(width), static_cast<float>(height),
-                                     std::max(size.x, 1.0f), std::max(size.y, 1.0f),
-                                     FRAMING_MARGIN));
+    const Camera2D camera = arenaCamera(projection, pixels.width(), pixels.height());
 
     SpriteBatch& sprites = _resources.sprites();
     sprites.beginFrame();

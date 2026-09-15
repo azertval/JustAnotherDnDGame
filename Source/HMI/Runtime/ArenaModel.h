@@ -157,6 +157,8 @@ public:
     Q_INVOKABLE void tapCell(int column, int row);
     /// Déplace le curseur d'une case, sans sortir de la grille.
     Q_INVOKABLE void moveCursor(int columns, int rows);
+    /// Pose le curseur sur une case (le survol de la souris). Hors de la grille, ou déjà là : rien.
+    Q_INVOKABLE void pointCursor(int column, int row);
     /// Ramène le curseur sur le combattant actif.
     Q_INVOKABLE void centerCursor();
     /// Pose le curseur sur l'ennemi debout suivant (@p step = 1) ou précédent (-1), du plus proche

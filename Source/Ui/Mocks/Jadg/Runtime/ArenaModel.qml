@@ -89,6 +89,7 @@ QtObject {
     function disengage() {}
     function dash() {}
     function moveCursor(columns, rows) {}
+    function pointCursor(column, row) {}
     function centerCursor() {}
     function cycleTarget(step) {}
     function selectAction(index) {}

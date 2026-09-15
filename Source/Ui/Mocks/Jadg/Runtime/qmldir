@@ -8,5 +8,6 @@ GameViewport 1.0 GameViewport.qml
 CreditsModel 1.0 CreditsModel.qml
 WorldMapModel 1.0 WorldMapModel.qml
 ArenaModel 1.0 ArenaModel.qml
+ArenaViewport 1.0 ArenaViewport.qml
 DialogueModel 1.0 DialogueModel.qml
 GamepadNavigator 1.0 GamepadNavigator.qml
