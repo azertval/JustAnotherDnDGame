@@ -35,21 +35,13 @@ namespace hmi {
  * Elle ne décide **rien** du combat : chaque geste de l'écran devient un appel à la session, et
  * ce que l'écran affiche est relu de la machine à états après chaque geste.
  *
- * ## Pourquoi une liste de cases, en plus de la session
+ * ## Signal et notification de changement
  *
- * L'écran de l'arène est un écran de développeur, en QML, sans charte (feuille de route, §5). Le
- * sol, l'enceinte et les figurines viennent de la surface de rendu (`hmi::ArenaViewportItem`,
- * `LOT-86`), qui lit `session()` directement ; `cells` ne porte plus que ce que cette surface ne
- * dessine pas — surbrillances, jauges, points de vie, et la zone sensible au clic — pour le calque
- * d'interface que le formulaire pose par-dessus (`Source/Ui/Controls/ArenaScene.ui.qml`). C'est
- * l'IHM de combat (`LOT-24`) qui dessinera le combat sur la carte ; elle lira la même session, par
- * les mêmes appels.
- *
- * `changed` couvre tout ce que l'écran QML affiche : la composition, la grille, l'ordre, le journal
+ * `changed` couvre tout ce que l'interface affiche : la composition, la grille, l'ordre, le journal
  * et l'issue changent ensemble, et les distinguer n'épargnerait aucun rafraîchissement à ces
- * propriétés, toutes relues d'un coup par le formulaire.
+ * propriétés, toutes relues d'un coup.
  *
- * La surface de rendu (`hmi::ArenaViewportItem`, `LOT-86` Phase 5) n'a besoin de reprendre un
+ * La surface de rendu (`hmi::ArenaViewportItem`, `LOT-86` Phase 5+) n'a besoin de reprendre un
  * instantané que lorsque la grille de combat elle-même a pu changer — pas à chaque geste de
  * composition (enrôler, retirer, marquer, régler la graine ou l'IA), qui ne touche encore à aucune
  * session montée. `combatSceneChanged`, émis en plus de `changed` aux seuls gestes qui mutent la
@@ -83,12 +75,6 @@ class ArenaModel : public QObject {
     Q_PROPERTY(bool enemyAi READ enemyAi WRITE setEnemyAi NOTIFY changed)
     Q_PROPERTY(int gridColumns READ gridColumns NOTIFY changed)
     Q_PROPERTY(int gridRows READ gridRows NOTIFY changed)
-    /// Une entrée par case, ligne par ligne : `{column, row, wall, occupant, side, reachable,
-    /// active, down, hitPoints, hitPointsRatio}` -- la part de vie restante, de 0 à 1, pour la
-    /// jauge de la case. Un ennemi ne montre pas ses points de vie : « ensanglanté » sous la
-    /// moitié, comme le *Guide du Maître* le laisse voir (`LOT-24`).
-    Q_PROPERTY(QVariantList cells READ cells NOTIFY changed)
-
     // --- Le ciblage (`LOT-24`) -----------------------------------------------------------------
     // Tout ce qui suit le curseur a son propre signal, `cursorChanged` : un pas de curseur ne doit
     // pas reconstruire les centaines de cases de la scène, qui ne lisent que `cells`. Un geste qui
@@ -131,7 +117,6 @@ public:
     void setEnemyAi(bool enabled);
     [[nodiscard]] int gridColumns() const;
     [[nodiscard]] int gridRows() const;
-    [[nodiscard]] QVariantList cells() const;
     [[nodiscard]] int cursorColumn() const noexcept {
         return _cursor.column;
     }

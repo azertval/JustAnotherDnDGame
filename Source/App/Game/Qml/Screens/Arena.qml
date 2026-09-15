@@ -44,7 +44,6 @@ ArenaForm {
     enemyAi: arena.enemyAi
     gridColumns: arena.gridColumns
     gridRows: arena.gridRows
-    cells: arena.cells
     turnOrder: arena.turnOrder
     activeName: arena.activeName
     activeResources: arena.activeResources

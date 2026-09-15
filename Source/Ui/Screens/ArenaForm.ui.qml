@@ -7,23 +7,22 @@ import Jadg.Ui
 
     Un ECRAN DE DEVELOPPEUR, sans maquette et sans charte, comme la feuille de route le dit : le
     bac a sable ou l'on compose deux camps, lance un affrontement, le joue case par case et le
-    rejoue a graine fixee. Il dessine la grille lui-meme, depuis `cells`, parce que la surface de
-    rendu n'affiche encore aucune scene ; l'IHM de combat (LOT-24) la dessinera sur la carte.
+    rejoue a graine fixee.
 
     Trois zones : a gauche la composition (le roster, les deux camps, la graine), puis en combat les
-    actions du tour, la previsualisation de la case visee et les commandes ; au centre la grille,
-    son curseur et le chemin ; a droite l'ordre d'initiative et le journal. Depuis le LOT-24, le
-    combat se joue entierement au clavier ou a la manette : le formulaire montre, le jumeau traduit
-    les touches et les boutons en gestes. Les couleurs
+    actions du tour, la previsualisation de la case visee et les commandes ; au centre la grille
+    rendue par QRhi avec son curseur et chemin de ciblage (LOT-24) ; a droite l'ordre d'initiative
+    et le journal. Depuis le LOT-24, le combat se joue entierement au clavier ou a la manette :
+    le formulaire montre, le jumeau traduit les touches et les boutons en gestes. Les couleurs
     viennent des jetons pour que l'ecran ne jure pas au milieu du jeu, sans pretendre a la charte.
 
-    Depuis le LOT-86 (Phase 6), la grille se dessine par le pipeline QRhi du jeu, pose dans
-    `viewportHost` par le jumeau (`ArenaViewport`, type C++ que l'atelier ne connait pas) : sol,
-    enceinte et figurines animees viennent de la planche de production du Colisee
-    (`Source/Elements/Assets/Coliseum/`), composees en primitives plutot qu'en delegues QML. Par
-    dessus, `ArenaScene` ne porte plus que l'interface : surbrillances, jauges, points de vie, et
-    le curseur de ciblage avec son chemin (LOT-24). Le cadre de l'ecran, lui, reste celui du
-    developpeur.
+    Depuis le LOT-86 (Phase 7), la grille entiere (sol, enceinte, figurines, surbrillances,
+    jauges, points de vie) se dessine par le pipeline QRhi du jeu, pose dans `viewportHost` par
+    le jumeau (`ArenaViewport`, type C++ que l'atelier ne connait pas) : toutes les pieces de la
+    planche de production du Colisee (`Source/Elements/Assets/Coliseum/`), composees en primitives
+    par `hmi::ArenaSceneComposer`, plutot qu'en delegues QML. Par-dessus, un simple calque
+    d'interface pour le curseur de ciblage et son chemin (LOT-24). Le cadre de l'ecran, lui,
+    reste celui du developpeur.
 */
 Item {
     id: root
@@ -41,7 +40,6 @@ Item {
     property bool enemyAi: true
     property int gridColumns: 0
     property int gridRows: 0
-    property var cells: []
     property var turnOrder: []
     property string activeName: ""
     property string activeResources: ""
@@ -407,21 +405,48 @@ Item {
         border.width: Tokens.strokeWidth
     }
 
-    // Le calque d'interface au-dessus de la scene rendue : surbrillances, jauges et points de vie
-    // -- des rectangles et du texte, pas des pieces de la planche (`LOT-86` Phase 3) -- et, par
-    // dessus, le curseur de ciblage et son chemin (LOT-24). Au-dessus de `viewportHost` dans l'ordre
-    // de peinture : c'est ce qui le garde visible par-dessus la scene que le jumeau y pose.
-    ArenaScene {
+    // Le calque d'interface au-dessus de la scene rendue : curseur de ciblage et chemin (LOT-24).
+    // Au-dessus de `viewportHost` dans l'ordre de peinture : c'est ce qui le garde visible
+    // par-dessus la scene rendue par le jumeau (`ArenaViewport`). La scene elle-meme (sol,
+    // enceinte, figurines, surbrillances, jauges, points de vie) est dessimee par QRhi, pas
+    // par des delegues QML (`ArenaSceneComposer`).
+    Item {
         anchors.fill: viewportHost
         anchors.margins: Tokens.gapMedium
-        gridColumns: root.gridColumns
-        gridRows: root.gridRows
-        cells: root.cells
-        showCursor: root.inCombat && !root.ended
-        cursorColumn: root.cursorColumn
-        cursorRow: root.cursorRow
-        pathCells: root.pathCells
-        onCellTapped: (column, row) => root.cellTapped(column, row)
+        visible: root.inCombat && !root.ended
+
+        readonly property real diamondRatio: 0.62
+        readonly property real wallRise: 0.85
+        readonly property int diagonals: Math.max(1, root.gridColumns + root.gridRows)
+        readonly property real tileWidth: Math.max(8, Math.min(width / (diagonals / 2),
+                                                               height / (diagonals / 2 * diamondRatio + wallRise)))
+        readonly property real tileHeight: tileWidth * diamondRatio
+        readonly property real originX: (width - diagonals / 2 * tileWidth) / 2 + (root.gridRows - 1) * tileWidth / 2
+        readonly property real originY: (height - (diagonals / 2 * tileHeight + wallRise * tileWidth)) / 2 + wallRise * tileWidth
+
+        // Chemin de ciblage (LOT-24)
+        Repeater {
+            model: root.pathCells
+
+            ArenaMark {
+                kind: "path"
+                x: parent.originX + (modelData.column - modelData.row) * parent.tileWidth / 2
+                y: parent.originY + (modelData.column + modelData.row) * parent.tileHeight / 2
+                z: parent.diagonals + 1
+                width: parent.tileWidth
+                height: parent.tileHeight
+            }
+        }
+
+        // Curseur de ciblage (LOT-24)
+        ArenaMark {
+            kind: "cursor"
+            x: parent.originX + (root.cursorColumn - root.cursorRow) * parent.tileWidth / 2
+            y: parent.originY + (root.cursorColumn + root.cursorRow) * parent.tileHeight / 2
+            z: parent.diagonals + 2
+            width: parent.tileWidth
+            height: parent.tileHeight
+        }
     }
 
     // --- Ordre et journal, a droite -----------------------------------------------------------

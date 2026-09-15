@@ -299,58 +299,6 @@ int ArenaModel::gridRows() const {
     return _catalogs->level.has_value() ? _catalogs->level->tileMap().height() : 0;
 }
 
-QVariantList ArenaModel::cells() const {
-    QVariantList list;
-    if (!_catalogs->level.has_value()) {
-        return list;
-    }
-    const core::BattleGrid& grid = _session->combat().grid();
-    const std::optional<core::CombatantId> active = _session->combat().activeCombatant();
-    const std::optional<core::ReachableArea> area =
-        _inCombat ? _session->combat().reachableArea() : std::nullopt;
-    for (int row = 0; row < grid.height(); ++row) {
-        for (int column = 0; column < grid.width(); ++column) {
-            const core::GridPosition cell{.column = column, .row = row};
-            QVariantMap entry{{"column", column},
-                              {"row", row},
-                              {"wall", grid.isObstructed(cell, core::Locomotion::Walk)},
-                              {"occupant", QString()},
-                              {"side", QString()},
-                              {"reachable", area.has_value() && area->canEndAt(cell)},
-                              {"active", false},
-                              {"down", false},
-                              {"hitPoints", QString()},
-                              {"hitPointsRatio", 1.0}};
-            if (const std::optional<core::CombatantId> id = grid.occupantAt(cell)) {
-                if (const core::Combatant* combatant = _session->combat().find(*id)) {
-                    const core::CombatantProfile& profile = combatant->profile;
-                    const bool down = combatant->status == core::CombatantStatus::Down;
-                    entry["occupant"] = toQt(profile.name);
-                    entry["side"] = sideName(profile.side);
-                    entry["active"] = active == *id;
-                    entry["down"] = down;
-                    if (profile.side == core::CombatSide::Allies) {
-                        entry["hitPoints"] = QString::number(profile.currentHitPoints) + "/" +
-                                             QString::number(profile.maximumHitPoints);
-                        const int maximum = std::max(1, profile.maximumHitPoints);
-                        entry["hitPointsRatio"] = std::clamp(
-                            static_cast<double>(profile.currentHitPoints) / maximum, 0.0, 1.0);
-                    } else {
-                        // Guide du Maitre, chapitre 8 : les points de vie d'un monstre se suivent
-                        // en secret ; sous la moitie, il est ensanglante, et cela se voit.
-                        const bool bloodied = core::isBloodied(profile);
-                        entry["hitPoints"] =
-                            down ? tr("a terre") : (bloodied ? tr("ensanglante") : QString());
-                        entry["hitPointsRatio"] = down ? 0.0 : (bloodied ? 0.5 : 1.0);
-                    }
-                }
-            }
-            list << entry;
-        }
-    }
-    return list;
-}
-
 QVariantList ArenaModel::turnOrder() const {
     QVariantList list;
     if (_session == nullptr || !_inCombat) {
