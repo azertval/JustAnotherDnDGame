@@ -204,6 +204,14 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le catalogue des rencontres, et ce qui n'a pas pu être lu.  <a href="structcore_1_1EncounterCatalog.html#details">More...</a><br /></td></tr>
 <tr class="memitem:CombatantPlacement" id="r_CombatantPlacement"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1CombatantPlacement.html">CombatantPlacement</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un combattant <b>placé</b> : sa créature, et sa case sur la carte.  <a href="structcore_1_1CombatantPlacement.html#details">More...</a><br /></td></tr>
+<tr class="memitem:BehaviorProfile" id="r_BehaviorProfile"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1BehaviorProfile.html">BehaviorProfile</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un profil de comportement : des poids, en pour cent, et deux règles.  <a href="structcore_1_1BehaviorProfile.html#details">More...</a><br /></td></tr>
+<tr class="memitem:BehaviorAssignment" id="r_BehaviorAssignment"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1BehaviorAssignment.html">BehaviorAssignment</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une règle d'attribution : un trait, une créature, ou le goût du tir.  <a href="structcore_1_1BehaviorAssignment.html#details">More...</a><br /></td></tr>
+<tr class="memitem:BehaviorCatalog" id="r_BehaviorCatalog"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1BehaviorCatalog.html">BehaviorCatalog</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les profils, les règles d'attribution dans l'ordre, et ce qui n'a pas pu être lu.  <a href="structcore_1_1BehaviorCatalog.html#details">More...</a><br /></td></tr>
+<tr class="memitem:TurnPlan" id="r_TurnPlan"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1TurnPlan.html">TurnPlan</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un tour décidé : où aller, puis quoi faire.  <a href="structcore_1_1TurnPlan.html#details">More...</a><br /></td></tr>
 <tr class="memitem:GridPoint" id="r_GridPoint"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1GridPoint.html">GridPoint</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un point de la grille, en <b>demi-cases</b> : la case (c, r) va de (2c, 2r) à (2c+2, 2r+2).  <a href="structcore_1_1GridPoint.html#details">More...</a><br /></td></tr>
 <tr class="memitem:Footprint" id="r_Footprint"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1Footprint.html">Footprint</a></td></tr>
@@ -484,6 +492,8 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-typedef-members" class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>
+<tr class="memitem:a838239698e3440af150c5de8127b830e" id="r_a838239698e3440af150c5de8127b830e"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#a838239698e3440af150c5de8127b830e">OpportunityPolicy</a></td></tr>
+<tr class="memdesc:a838239698e3440af150c5de8127b830e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Décide si <code class="param">reactor</code> prend l'attaque d'opportunité que <code class="param">mover</code> lui offre.  <br /></td></tr>
 <tr class="memitem:a70920b2a35cc8c7a80281c47514c3d97" id="r_a70920b2a35cc8c7a80281c47514c3d97"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#a70920b2a35cc8c7a80281c47514c3d97">AttackRollListener</a> = std::function&lt;void(<a class="el" href="structcore_1_1AttackRoll.html">AttackRoll</a>&amp;, <a class="el" href="classcore_1_1DeterministicRandom.html">DeterministicRandom</a>&amp;)&gt;</td></tr>
 <tr class="memdesc:a70920b2a35cc8c7a80281c47514c3d97"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un point d'insertion d'un jet d'attaque.  <br /></td></tr>
 <tr class="memitem:aec8883b9ba0315c5d8d5b710a34d03d4" id="r_aec8883b9ba0315c5d8d5b710a34d03d4"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#aec8883b9ba0315c5d8d5b710a34d03d4">CombatListener</a> = std::function&lt;void(<a class="el" href="classcore_1_1CombatState.html">CombatState</a>&amp;, const <a class="el" href="structcore_1_1CombatEvent.html">CombatEvent</a>&amp;)&gt;</td></tr>
@@ -641,6 +651,16 @@ Enumerations</h2></td></tr>
 <br />
  }</td></tr>
 <tr class="memdesc:aabf3d04e881096180d288d8c6ad9fcf6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les étapes du pipeline, <b>dans l'ordre</b> où elles s'exécutent.  <a href="#aabf3d04e881096180d288d8c6ad9fcf6">More...</a><br /></td></tr>
+<tr class="memitem:a004daf868d7dad4026ff9b7d3d75a11d" id="r_a004daf868d7dad4026ff9b7d3d75a11d"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#a004daf868d7dad4026ff9b7d3d75a11d">TurnAction</a> : std::uint8_t { <br />
+&#160;&#160;<a class="el" href="#a004daf868d7dad4026ff9b7d3d75a11dadcfafcb4323b102c7e204555d313ba0a">Attack</a>
+, <a class="el" href="#a004daf868d7dad4026ff9b7d3d75a11da3663598d5c5858b5a6040b1bbed4f187">Dash</a>
+, <a class="el" href="#a004daf868d7dad4026ff9b7d3d75a11dab01b83048682460e96eb4bd2482b8c32">Dodge</a>
+, <a class="el" href="#a004daf868d7dad4026ff9b7d3d75a11da79e21afc57b7daacab6d6325caffc75f">Disengage</a>
+, <br />
+&#160;&#160;<a class="el" href="#a004daf868d7dad4026ff9b7d3d75a11da0f68101772bd5397ef8eb1b632798652">Wait</a>
+<br />
+ }</td></tr>
+<tr class="memdesc:a004daf868d7dad4026ff9b7d3d75a11d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ce que l'IA fait de son action.  <a href="#a004daf868d7dad4026ff9b7d3d75a11d">More...</a><br /></td></tr>
 <tr class="memitem:a5de8069e593ab57dab3a12c60b40b717" id="r_a5de8069e593ab57dab3a12c60b40b717"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#a5de8069e593ab57dab3a12c60b40b717">CombatSide</a> : std::uint8_t { <a class="el" href="#a5de8069e593ab57dab3a12c60b40b717a4ff52320ad589c7346c8562c2c715fd6">Allies</a>
 , <a class="el" href="#a5de8069e593ab57dab3a12c60b40b717af181304e789fd0882df5cb02d232fc69">Enemies</a>
  }</td></tr>
@@ -988,6 +1008,36 @@ Functions</h2></td></tr>
 <tr class="memdesc:a707734069fc72e63f6f67a8ef9f60dcc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Charge les rencontres depuis leur dossier (<span class="tt">Rpg/encounters/</span>).  <br /></td></tr>
 <tr class="memitem:a63e47d6c989b07bf0c2c7e0a568d1e02" id="r_a63e47d6c989b07bf0c2c7e0a568d1e02"><td class="memItemLeft">std::vector&lt; <a class="el" href="structcore_1_1CombatantPlacement.html">CombatantPlacement</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a63e47d6c989b07bf0c2c7e0a568d1e02">placeCombatants</a> (const <a class="el" href="structcore_1_1Encounter.html">Encounter</a> &amp;encounter, <a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> trigger)</td></tr>
 <tr class="memdesc:a63e47d6c989b07bf0c2c7e0a568d1e02"><td class="mdescLeft">&#160;</td><td class="mdescRight">Place les combattants d'une rencontre autour de <code class="param">trigger</code>.  <br /></td></tr>
+<tr class="memitem:a1e9bfbd96616376fcd64474e6a97e576" id="r_a1e9bfbd96616376fcd64474e6a97e576"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a1e9bfbd96616376fcd64474e6a97e576">attackBonusOf</a> (const <a class="el" href="structcore_1_1AttackProfile.html">AttackProfile</a> &amp;profile) noexcept</td></tr>
+<tr class="memdesc:a1e9bfbd96616376fcd64474e6a97e576"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le bonus d'un profil d'attaque : la somme de ses modificateurs.  <br /></td></tr>
+<tr class="memitem:af84ad8124a57185c58954cb4b674c203" id="r_af84ad8124a57185c58954cb4b674c203"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#af84ad8124a57185c58954cb4b674c203">hitChance</a> (int required, <a class="el" href="#aff494cc4070ea4489c3d5ee57178f7c9">RollStance</a> stance) noexcept</td></tr>
+<tr class="memdesc:af84ad8124a57185c58954cb4b674c203"><td class="mdescLeft">&#160;</td><td class="mdescRight">La chance de toucher, en quatre-centièmes, pour un résultat requis et une posture.  <br /></td></tr>
+<tr class="memitem:a0e8f35f10be28c0f0d86c823d708bab0" id="r_a0e8f35f10be28c0f0d86c823d708bab0"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a0e8f35f10be28c0f0d86c823d708bab0">criticalChance</a> (int criticalThreshold, <a class="el" href="#aff494cc4070ea4489c3d5ee57178f7c9">RollStance</a> stance) noexcept</td></tr>
+<tr class="memdesc:a0e8f35f10be28c0f0d86c823d708bab0"><td class="mdescLeft">&#160;</td><td class="mdescRight">La chance d'un critique, en quatre-centièmes, pour un seuil critique et une posture.  <br /></td></tr>
+<tr class="memitem:acbf44083989292fcedfb7dfaad861317" id="r_acbf44083989292fcedfb7dfaad861317"><td class="memItemLeft">long long&#160;</td><td class="memItemRight"><a class="el" href="#acbf44083989292fcedfb7dfaad861317">expectedDamage</a> (const <a class="el" href="structcore_1_1AttackProfile.html">AttackProfile</a> &amp;profile, int armorClass, <a class="el" href="#aff494cc4070ea4489c3d5ee57178f7c9">RollStance</a> stance) noexcept</td></tr>
+<tr class="memdesc:acbf44083989292fcedfb7dfaad861317"><td class="mdescLeft">&#160;</td><td class="mdescRight">L'espérance de dégâts d'une attaque, en <b>huit-centièmes</b> de point de dégât.  <br /></td></tr>
+<tr class="memitem:a71acb15a48b4ccfba9c5fb43dcd8fee2" id="r_a71acb15a48b4ccfba9c5fb43dcd8fee2"><td class="memItemLeft"><a class="el" href="structcore_1_1BehaviorCatalog.html">BehaviorCatalog</a>&#160;</td><td class="memItemRight"><a class="el" href="#a71acb15a48b4ccfba9c5fb43dcd8fee2">loadBehaviors</a> (const std::filesystem::path &amp;file)</td></tr>
+<tr class="memdesc:a71acb15a48b4ccfba9c5fb43dcd8fee2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Charge les profils (<span class="tt">Source/Elements/Rpg/rules/behaviors.json</span>).  <br /></td></tr>
+<tr class="memitem:a055fef48903e3b743dc6440d3223375c" id="r_a055fef48903e3b743dc6440d3223375c"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a055fef48903e3b743dc6440d3223375c">behaviorFor</a> (const <a class="el" href="structcore_1_1Creature.html">Creature</a> &amp;creature, const <a class="el" href="structcore_1_1BehaviorCatalog.html">BehaviorCatalog</a> &amp;catalog)</td></tr>
+<tr class="memdesc:a055fef48903e3b743dc6440d3223375c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le profil d'une créature du bestiaire : la première règle qui la désigne, sinon le profil par défaut.  <br /></td></tr>
+<tr class="memitem:ac40f7658883a2ff354dd23d9e75731c5" id="r_ac40f7658883a2ff354dd23d9e75731c5"><td class="memItemLeft"><a class="el" href="structcore_1_1TurnPlan.html">TurnPlan</a>&#160;</td><td class="memItemRight"><a class="el" href="#ac40f7658883a2ff354dd23d9e75731c5">planTurn</a> (const <a class="el" href="classcore_1_1ArenaSession.html">ArenaSession</a> &amp;session, <a class="el" href="#a91235fd72a18c305c494723774630841">CombatantId</a> actor, const <a class="el" href="structcore_1_1BehaviorProfile.html">BehaviorProfile</a> &amp;profile)</td></tr>
+<tr class="memdesc:ac40f7658883a2ff354dd23d9e75731c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Décide le tour de <code class="param">actor</code>, qui doit être le combattant actif de la session.  <br /></td></tr>
+<tr class="memitem:ac58007f3f78da7cfddceb7509d3f5bbc" id="r_ac58007f3f78da7cfddceb7509d3f5bbc"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#ac58007f3f78da7cfddceb7509d3f5bbc">shouldTakeOpportunity</a> (const <a class="el" href="classcore_1_1ArenaSession.html">ArenaSession</a> &amp;session, <a class="el" href="#a91235fd72a18c305c494723774630841">CombatantId</a> reactor, <a class="el" href="#a91235fd72a18c305c494723774630841">CombatantId</a> mover, const <a class="el" href="structcore_1_1BehaviorProfile.html">BehaviorProfile</a> &amp;profile)</td></tr>
+<tr class="memdesc:ac58007f3f78da7cfddceb7509d3f5bbc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vrai si <code class="param">reactor</code>, joué par <code class="param">profile</code>, prend l'attaque d'opportunité sur <code class="param">mover</code> : sa première attaque au contact, à un jet requis au plus égal à <span class="tt">opportunityMaximumRoll</span>.  <br /></td></tr>
+<tr class="memitem:a591c53d86ebc974b8661e312d96ec12a" id="r_a591c53d86ebc974b8661e312d96ec12a"><td class="memItemLeft"><a class="el" href="#a838239698e3440af150c5de8127b830e">OpportunityPolicy</a>&#160;</td><td class="memItemRight"><a class="el" href="#a591c53d86ebc974b8661e312d96ec12a">aiOpportunityPolicy</a> (const <a class="el" href="structcore_1_1BehaviorCatalog.html">BehaviorCatalog</a> &amp;catalog)</td></tr>
+<tr class="memdesc:a591c53d86ebc974b8661e312d96ec12a"><td class="mdescLeft">&#160;</td><td class="mdescRight">La politique d'opportunité d'une session où l'IA joue certains combattants : chacun d'eux décide par son profil, les autres prennent toutes leurs attaques.  <br /></td></tr>
+<tr class="memitem:a927dac700bedb90e5d0bb43bfeb537df" id="r_a927dac700bedb90e5d0bb43bfeb537df"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a927dac700bedb90e5d0bb43bfeb537df">playTurn</a> (<a class="el" href="classcore_1_1ArenaSession.html">ArenaSession</a> &amp;session, const <a class="el" href="structcore_1_1BehaviorCatalog.html">BehaviorCatalog</a> &amp;catalog)</td></tr>
+<tr class="memdesc:a927dac700bedb90e5d0bb43bfeb537df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Joue le tour du combattant actif selon son profil, et le termine.  <br /></td></tr>
+<tr class="memitem:a4614784f31f78b56e87ec55af65262a8" id="r_a4614784f31f78b56e87ec55af65262a8"><td class="memItemLeft">constexpr bool&#160;</td><td class="memItemRight"><a class="el" href="#a4614784f31f78b56e87ec55af65262a8">isBloodied</a> (const <a class="el" href="structcore_1_1CombatantProfile.html">CombatantProfile</a> &amp;profile) noexcept</td></tr>
+<tr class="memdesc:a4614784f31f78b56e87ec55af65262a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vrai si le combattant a <b>moins de la moitié</b> de ses points de vie : ensanglanté, ce que le <em>Guide du Maître</em> laisse voir à la table.  <br /></td></tr>
+<tr class="memitem:a5914f428c3fbb6a6de8d9be7b2c69fae" id="r_a5914f428c3fbb6a6de8d9be7b2c69fae"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#a5914f428c3fbb6a6de8d9be7b2c69fae">requiredRoll</a> (int armorClass, int attackBonus) noexcept</td></tr>
+<tr class="memdesc:a5914f428c3fbb6a6de8d9be7b2c69fae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le résultat minimal au d20 pour toucher : la CA moins le bonus d'attaque (<em>Guide du Maître</em>, « Gérer les foules »).  <br /></td></tr>
+<tr class="memitem:a26d9961b3be7f887f30dfdf151e8c767" id="r_a26d9961b3be7f887f30dfdf151e8c767"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a26d9961b3be7f887f30dfdf151e8c767">crossesOppositeSides</a> (<a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> a, <a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> b, <a class="el" href="structcore_1_1Footprint.html">Footprint</a> target) noexcept</td></tr>
+<tr class="memdesc:a26d9961b3be7f887f30dfdf151e8c767"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vrai si la ligne entre les centres des cases <code class="param">a</code> et <code class="param">b</code> passe par deux côtés opposés de l'emplacement <code class="param">target</code>.  <br /></td></tr>
+<tr class="memitem:a26d6a0a3082a3c9ce76ab6958711ac13" id="r_a26d6a0a3082a3c9ce76ab6958711ac13"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a26d6a0a3082a3c9ce76ab6958711ac13">isFlankedFrom</a> (const <a class="el" href="classcore_1_1CombatState.html">CombatState</a> &amp;combat, <a class="el" href="#a91235fd72a18c305c494723774630841">CombatantId</a> attacker, <a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> attackerAnchor, <a class="el" href="#a91235fd72a18c305c494723774630841">CombatantId</a> target)</td></tr>
+<tr class="memdesc:a26d6a0a3082a3c9ce76ab6958711ac13"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vrai si <code class="param">attacker</code>, ancré en <code class="param">attackerAnchor</code>, prend <code class="param">target</code> en tenaille avec au moins un allié debout.  <br /></td></tr>
+<tr class="memitem:aa5addda291b02ded7b8439d8b16be3f8" id="r_aa5addda291b02ded7b8439d8b16be3f8"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#aa5addda291b02ded7b8439d8b16be3f8">isFlanked</a> (const <a class="el" href="classcore_1_1CombatState.html">CombatState</a> &amp;combat, <a class="el" href="#a91235fd72a18c305c494723774630841">CombatantId</a> attacker, <a class="el" href="#a91235fd72a18c305c494723774630841">CombatantId</a> target)</td></tr>
+<tr class="memdesc:aa5addda291b02ded7b8439d8b16be3f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">La même règle, l'attaquant à sa place sur la grille. Faux s'il n'y est pas.  <br /></td></tr>
 <tr class="memitem:a5d1d182841a7266b06a3220835bd1144" id="r_a5d1d182841a7266b06a3220835bd1144"><td class="memItemLeft">std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#a5d1d182841a7266b06a3220835bd1144">coverLabel</a> (<a class="el" href="#a0ddd67c0966fb31bf8c2de44a63d6999">Cover</a> cover) noexcept</td></tr>
 <tr class="memdesc:a5d1d182841a7266b06a3220835bd1144"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le nom d'un abri tel que le journal l'écrit : « abri partiel », « abri important ».  <br /></td></tr>
 <tr class="memitem:aef818c5b82795fc59c0d259e968762cd" id="r_aef818c5b82795fc59c0d259e968762cd"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#aef818c5b82795fc59c0d259e968762cd">isSightClear</a> (const <a class="el" href="classcore_1_1BattleGrid.html">BattleGrid</a> &amp;grid, <a class="el" href="structcore_1_1GridPoint.html">GridPoint</a> a, <a class="el" href="structcore_1_1GridPoint.html">GridPoint</a> b)</td></tr>
@@ -1301,6 +1351,8 @@ Variables</h2></td></tr>
 <tr class="memdesc:ab682036a643ab5c1e7f219f5f94bf9d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type de la couche <span class="tt">objects</span> qui déclenche une rencontre.  <br /></td></tr>
 <tr class="memitem:a5979311d6479176f341e393e4cdbe72a" id="r_a5979311d6479176f341e393e4cdbe72a"><td class="memItemLeft">constexpr std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#a5979311d6479176f341e393e4cdbe72a">TEMPORARY_HIT_POINTS</a> = &quot;points de vie temporaires&quot;</td></tr>
 <tr class="memdesc:a5979311d6479176f341e393e4cdbe72a"><td class="mdescLeft">&#160;</td><td class="mdescRight">La source des points de vie temporaires du Manuel : ils ne se cumulent pas.  <br /></td></tr>
+<tr class="memitem:afcdc54b3ea46877a04d40a7840bffe57" id="r_afcdc54b3ea46877a04d40a7840bffe57"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#afcdc54b3ea46877a04d40a7840bffe57">CHANCE_SCALE</a> = 400</td></tr>
+<tr class="memdesc:afcdc54b3ea46877a04d40a7840bffe57"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une chance, en <b>quatre-centièmes</b> : 400 est la certitude.  <br /></td></tr>
 <tr class="memitem:a2a9202a1a89eacaec610bdc83b0ff272" id="r_a2a9202a1a89eacaec610bdc83b0ff272"><td class="memItemLeft">constexpr <a class="el" href="structcore_1_1Entity.html">Entity</a>&#160;</td><td class="memItemRight"><a class="el" href="#a2a9202a1a89eacaec610bdc83b0ff272">INVALID_ENTITY</a> {<a class="el" href="structcore_1_1Entity.html#a215ee621f52074b73615e4c567820e38">Entity::INVALID_INDEX</a>, 0}</td></tr>
 <tr class="memdesc:a2a9202a1a89eacaec610bdc83b0ff272"><td class="mdescLeft">&#160;</td><td class="mdescRight">Entité invalide conventionnelle : ne désigne jamais une entité vivante.  <br /></td></tr>
 <tr class="memitem:a2b3cb5d42063608aa724d3b47aab0a6e" id="r_a2b3cb5d42063608aa724d3b47aab0a6e"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#a2b3cb5d42063608aa724d3b47aab0a6e">PLAYER_CLIP_IDLE</a> = 0</td></tr>
@@ -1455,6 +1507,27 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
 </div><div class="memdoc">
 
 <p>Un point d'insertion : reçoit les dégâts d'une cible, et l'état du combat s'il y en a un. </p>
+
+</div>
+</div>
+<a id="a838239698e3440af150c5de8127b830e" name="a838239698e3440af150c5de8127b830e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a838239698e3440af150c5de8127b830e">&#9670;&#160;</a></span>OpportunityPolicy</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#a838239698e3440af150c5de8127b830e">core::OpportunityPolicy</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line"> </div>
+<div class="line">std::function&lt;bool(<span class="keyword">const</span> <a class="code hl_class" href="classcore_1_1ArenaSession.html">ArenaSession</a>&amp;, <a class="code hl_enumeration" href="#a91235fd72a18c305c494723774630841">CombatantId</a> reactor, <a class="code hl_enumeration" href="#a91235fd72a18c305c494723774630841">CombatantId</a> mover)&gt;</div>
+<div class="ttc" id="aclasscore_1_1ArenaSession_html"><div class="ttname"><a href="classcore_1_1ArenaSession.html">core::ArenaSession</a></div><div class="ttdoc">Une session d&#39;arène : la carte, la composition, et le combat qui s&#39;y joue.</div><div class="ttdef"><b>Definition</b> Arena.h:221</div></div>
+<div class="ttc" id="anamespacecore_html_a91235fd72a18c305c494723774630841"><div class="ttname"><a href="#a91235fd72a18c305c494723774630841">core::CombatantId</a></div><div class="ttdeci">CombatantId</div><div class="ttdoc">Identifiant d&#39;un combattant sur la grille.</div><div class="ttdef"><b>Definition</b> BattleGrid.h:38</div></div>
+</div><!-- fragment -->
+<p>Décide si <code class="param">reactor</code> prend l'attaque d'opportunité que <code class="param">mover</code> lui offre. </p>
+<p>Le Manuel dit qu'une créature « peut » la prendre : c'est une décision, et c'est à qui commande la créature de la prendre — le comportement (<span class="tt">LOT-23</span>), l'écran de combat (<span class="tt">LOT-24</span>). </p>
 
 </div>
 </div>
@@ -2730,7 +2803,7 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
 </div><div class="memdoc">
 
 <p>Comment un combattant se déplace : au sol, ou en vol. </p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md916"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md919"></a>
 L'altitude est un attribut, jamais une géométrie</h2>
 <p>Le jeu est vu de dessus, et sa grille n'a pas de hauteur. Donner une altitude aux cases — une grille par étage, ou une case « en l'air » au-dessus d'une autre — ferait de chaque requête de portée, de chemin et d'occupation une requête en trois dimensions, pour un contenu qui n'en a besoin qu'au passage d'un dragon. Le vol est donc une <b>manière de traverser</b> la même grille :</p>
 <ul>
@@ -3137,6 +3210,38 @@ L'altitude est un attribut, jamais une géométrie</h2>
 
 </div>
 </div>
+<a id="a004daf868d7dad4026ff9b7d3d75a11d" name="a004daf868d7dad4026ff9b7d3d75a11d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a004daf868d7dad4026ff9b7d3d75a11d">&#9670;&#160;</a></span>TurnAction</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="#a004daf868d7dad4026ff9b7d3d75a11d">core::TurnAction</a> : std::uint8_t</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Ce que l'IA fait de son action. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a004daf868d7dad4026ff9b7d3d75a11dadcfafcb4323b102c7e204555d313ba0a" name="a004daf868d7dad4026ff9b7d3d75a11dadcfafcb4323b102c7e204555d313ba0a"></a>Attack&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a004daf868d7dad4026ff9b7d3d75a11da3663598d5c5858b5a6040b1bbed4f187" name="a004daf868d7dad4026ff9b7d3d75a11da3663598d5c5858b5a6040b1bbed4f187"></a>Dash&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a004daf868d7dad4026ff9b7d3d75a11dab01b83048682460e96eb4bd2482b8c32" name="a004daf868d7dad4026ff9b7d3d75a11dab01b83048682460e96eb4bd2482b8c32"></a>Dodge&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a004daf868d7dad4026ff9b7d3d75a11da79e21afc57b7daacab6d6325caffc75f" name="a004daf868d7dad4026ff9b7d3d75a11da79e21afc57b7daacab6d6325caffc75f"></a>Disengage&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a004daf868d7dad4026ff9b7d3d75a11da0f68101772bd5397ef8eb1b632798652" name="a004daf868d7dad4026ff9b7d3d75a11da0f68101772bd5397ef8eb1b632798652"></a>Wait&#160;</td><td class="fielddoc"><p>Rien : un tour sans action utile, qui se termine quand même. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
 <a id="ae1ab268fb5658f04b32b785790e7c082" name="ae1ab268fb5658f04b32b785790e7c082"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae1ab268fb5658f04b32b785790e7c082">&#9670;&#160;</a></span>WithdrawResult</h2>
 
@@ -3303,7 +3408,7 @@ L'altitude est un attribut, jamais une géométrie</h2>
 </div><div class="memdoc">
 
 <p>Vrai si <code class="param">first</code> joue avant <code class="param">second</code>. </p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md931"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md939"></a>
 La règle de départage</h2>
 <p>Manuel des Joueurs, « Initiative » (PDF p. 191) : les combattants se classent du plus haut résultat au plus bas, et « en cas d'égalité », c'est le MD qui tranche entre ses créatures, les joueurs entre leurs personnages, et le MD encore entre un monstre et un personnage. Le jeu n'a pas de MD : la règle doit être <b>écrite</b>, et elle ne peut pas dépendre de l'ordre dans lequel les combattants ont été rangés en mémoire (<span class="tt">EX-CBT-010</span>). Dans l'ordre :</p>
 <ol type="1">
@@ -3436,6 +3541,34 @@ La règle de départage</h2>
 <p>La case que vise un personnage, d'après son orientation. </p>
 <p>L'orientation est un vecteur libre (<span class="tt"><a class="el" href="structcore_1_1Actor.html#ada4c84a898de6c67b5d303ad876b61a0" title="Orientation courante, en vecteur unitaire du monde (y vers le bas).">core::Actor::facing</a></span>) et la case visée est <b>la voisine</b> dans la direction dominante — jamais une diagonale. Un personnage qui regarde à 30° vise la case de droite, pas celle du coin : viser en diagonale rendrait la cible imprévisible sur une manette analogique, alors que le joueur doit savoir ce qu'il désigne avant d'appuyer.</p>
 <p>Une orientation nulle ne vise rien et renvoie la case du personnage lui-même : c'est le cas d'un <span class="tt">facing</span> non initialisé, et rendre une voisine arbitraire ferait ouvrir un coffre que le joueur ne regarde pas. </p>
+
+</div>
+</div>
+<a id="a591c53d86ebc974b8661e312d96ec12a" name="a591c53d86ebc974b8661e312d96ec12a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a591c53d86ebc974b8661e312d96ec12a">&#9670;&#160;</a></span>aiOpportunityPolicy()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a838239698e3440af150c5de8127b830e">OpportunityPolicy</a> core::aiOpportunityPolicy </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structcore_1_1BehaviorCatalog.html">BehaviorCatalog</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>catalog</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>La politique d'opportunité d'une session où l'IA joue certains combattants : chacun d'eux décide par son profil, les autres prennent toutes leurs attaques. </p>
+<p>Le catalogue doit vivre aussi longtemps que la session. </p>
 
 </div>
 </div>
@@ -3823,10 +3956,10 @@ La règle de départage</h2>
 </div><div class="memdoc">
 
 <p>Peint le marqueur d'une clé d'asset. </p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md933"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md941"></a>
 Pourquoi un marqueur plutôt qu'une image manquante</h2>
 <p><span class="tt">EX-CNT-041</span> : le jeu doit tourner <b>complet</b> avant qu'aucune illustration ne soit produite. Sans marqueur, trois cents entrées s'afficheraient comme des trous, la production graphique deviendrait un préalable bloquant, et rien ne pourrait être joué ni relu avant elle. Avec, elle devient un <b>remplacement progressif</b> : on remplace un marqueur par une image, une à la fois, et le jeu ne cesse jamais d'être jouable.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md934"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md942"></a>
 Déterministe, et c'est le point</h2>
 <p>La même clé donne <b>toujours</b> le même marqueur — même teinte, même figure. Un marqueur tiré au hasard changerait à chaque lancement : le loup ne serait plus reconnaissable d'une partie à l'autre, deux captures d'écran du même combat différeraient, et un test ne pourrait rien en dire. La teinte est donc dérivée de la clé elle-même, par un hachage stable écrit ici plutôt qu'emprunté à <span class="tt">std::hash</span>, dont la valeur n'est <b>pas</b> garantie d'une plateforme ou d'une version de bibliothèque à l'autre.</p>
 <p>Le marqueur reste <b>manifestement</b> un marqueur : deux diagonales barrent la vignette, de sorte qu'on ne le prenne jamais pour une illustration définitive livrée un peu vite.</p>
@@ -3838,6 +3971,33 @@ Déterministe, et c'est le point</h2>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="a1e9bfbd96616376fcd64474e6a97e576" name="a1e9bfbd96616376fcd64474e6a97e576"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1e9bfbd96616376fcd64474e6a97e576">&#9670;&#160;</a></span>attackBonusOf()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int core::attackBonusOf </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structcore_1_1AttackProfile.html">AttackProfile</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>profile</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Le bonus d'un profil d'attaque : la somme de ses modificateurs. </p>
 
 </div>
 </div>
@@ -3963,6 +4123,37 @@ Déterministe, et c'est le point</h2>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="a055fef48903e3b743dc6440d3223375c" name="a055fef48903e3b743dc6440d3223375c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a055fef48903e3b743dc6440d3223375c">&#9670;&#160;</a></span>behaviorFor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string core::behaviorFor </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structcore_1_1Creature.html">Creature</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>creature</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structcore_1_1BehaviorCatalog.html">BehaviorCatalog</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>catalog</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Le profil d'une créature du bestiaire : la première règle qui la désigne, sinon le profil par défaut. </p>
 
 </div>
 </div>
@@ -4519,6 +4710,37 @@ Déterministe, et c'est le point</h2>
 
 </div>
 </div>
+<a id="a0e8f35f10be28c0f0d86c823d708bab0" name="a0e8f35f10be28c0f0d86c823d708bab0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0e8f35f10be28c0f0d86c823d708bab0">&#9670;&#160;</a></span>criticalChance()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int core::criticalChance </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>criticalThreshold</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#aff494cc4070ea4489c3d5ee57178f7c9">RollStance</a></td>          <td class="paramname"><span class="paramname"><em>stance</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>La chance d'un critique, en quatre-centièmes, pour un seuil critique et une posture. </p>
+
+</div>
+</div>
 <a id="a7a167c903e311c5d67c0dedf3292eaa5" name="a7a167c903e311c5d67c0dedf3292eaa5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7a167c903e311c5d67c0dedf3292eaa5">&#9670;&#160;</a></span>crossedBelow()</h2>
 
@@ -4553,6 +4775,43 @@ Déterministe, et c'est le point</h2>
 
 <p>Vrai si l'événement fait passer les points de vie <b>sous</b> la fraction <code class="param">numerator</code> / <code class="param">denominator</code> du maximum — « sous 50 % » s'écrit <span class="tt">(e, 1, 2)</span>. </p>
 <p>Franchir, pas être sous : une créature déjà sous la moitié qui reprend un coup ne déclenche pas une seconde fois sa <em>Battle Fury</em>. </p>
+
+</div>
+</div>
+<a id="a26d9961b3be7f887f30dfdf151e8c767" name="a26d9961b3be7f887f30dfdf151e8c767"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a26d9961b3be7f887f30dfdf151e8c767">&#9670;&#160;</a></span>crossesOppositeSides()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool core::crossesOppositeSides </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcore_1_1GridPosition.html">GridPosition</a></td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcore_1_1GridPosition.html">GridPosition</a></td>          <td class="paramname"><span class="paramname"><em>b</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcore_1_1Footprint.html">Footprint</a></td>          <td class="paramname"><span class="paramname"><em>target</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Vrai si la ligne entre les centres des cases <code class="param">a</code> et <code class="param">b</code> passe par deux côtés opposés de l'emplacement <code class="param">target</code>. </p>
+<p>La géométrie seule : ni l'adjacence, ni la vue, ni l'état des créatures. </p>
 
 </div>
 </div>
@@ -5331,6 +5590,43 @@ Déterministe, et c'est le point</h2>
 
 </div>
 </div>
+<a id="acbf44083989292fcedfb7dfaad861317" name="acbf44083989292fcedfb7dfaad861317"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acbf44083989292fcedfb7dfaad861317">&#9670;&#160;</a></span>expectedDamage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">long long core::expectedDamage </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structcore_1_1AttackProfile.html">AttackProfile</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>profile</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>armorClass</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#aff494cc4070ea4489c3d5ee57178f7c9">RollStance</a></td>          <td class="paramname"><span class="paramname"><em>stance</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>L'espérance de dégâts d'une attaque, en <b>huit-centièmes</b> de point de dégât. </p>
+<p><span class="tt">chance × dégâts moyens + chance de critique × moyenne des dés</span>, les dégâts moyens en demi-points pour rester entier. Les résistances de la cible n'y entrent pas : la table ne les connaît pas avant de les avoir vues jouer (<span class="tt">EX-CBT-050</span>). </p>
+
+</div>
+</div>
 <a id="aacd09bfbf70df9627195ed54b58a0297" name="aacd09bfbf70df9627195ed54b58a0297"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aacd09bfbf70df9627195ed54b58a0297">&#9670;&#160;</a></span>fileName()</h2>
 
@@ -5906,6 +6202,38 @@ Déterministe, et c'est le point</h2>
 
 </div>
 </div>
+<a id="af84ad8124a57185c58954cb4b674c203" name="af84ad8124a57185c58954cb4b674c203"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af84ad8124a57185c58954cb4b674c203">&#9670;&#160;</a></span>hitChance()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int core::hitChance </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>required</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#aff494cc4070ea4489c3d5ee57178f7c9">RollStance</a></td>          <td class="paramname"><span class="paramname"><em>stance</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>La chance de toucher, en quatre-centièmes, pour un résultat requis et une posture. </p>
+<p>Un 1 rate toujours, un 20 touche toujours : la chance d'un seul dé est entre 1 et 19 vingtièmes. Avec l'avantage, on rate si les deux dés ratent ; avec le désavantage, on touche si les deux dés touchent. </p>
+
+</div>
+</div>
 <a id="a58f349d22c971141da56b91273d5d29d" name="a58f349d22c971141da56b91273d5d29d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a58f349d22c971141da56b91273d5d29d">&#9670;&#160;</a></span>inReach()</h2>
 
@@ -5969,6 +6297,111 @@ Déterministe, et c'est le point</h2>
 
 <p>Résout une interaction sur une cible désignée, en levant son drapeau s'il y a lieu. </p>
 <p><b>C'est ici que « deux fois ne donne qu'une fois » se joue.</b> Le drapeau est levé et sa valeur de retour dit s'il était neuf ; l'appelant n'a pas à demander d'abord puis à écrire ensuite, séquence dans laquelle un second appel pourrait se glisser. </p>
+
+</div>
+</div>
+<a id="a4614784f31f78b56e87ec55af65262a8" name="a4614784f31f78b56e87ec55af65262a8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4614784f31f78b56e87ec55af65262a8">&#9670;&#160;</a></span>isBloodied()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool core::isBloodied </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structcore_1_1CombatantProfile.html">CombatantProfile</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>profile</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Vrai si le combattant a <b>moins de la moitié</b> de ses points de vie : ensanglanté, ce que le <em>Guide du Maître</em> laisse voir à la table. </p>
+
+</div>
+</div>
+<a id="aa5addda291b02ded7b8439d8b16be3f8" name="aa5addda291b02ded7b8439d8b16be3f8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa5addda291b02ded7b8439d8b16be3f8">&#9670;&#160;</a></span>isFlanked()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool core::isFlanked </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classcore_1_1CombatState.html">CombatState</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>combat</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#a91235fd72a18c305c494723774630841">CombatantId</a></td>          <td class="paramname"><span class="paramname"><em>attacker</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#a91235fd72a18c305c494723774630841">CombatantId</a></td>          <td class="paramname"><span class="paramname"><em>target</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>La même règle, l'attaquant à sa place sur la grille. Faux s'il n'y est pas. </p>
+
+</div>
+</div>
+<a id="a26d6a0a3082a3c9ce76ab6958711ac13" name="a26d6a0a3082a3c9ce76ab6958711ac13"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a26d6a0a3082a3c9ce76ab6958711ac13">&#9670;&#160;</a></span>isFlankedFrom()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool core::isFlankedFrom </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classcore_1_1CombatState.html">CombatState</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>combat</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#a91235fd72a18c305c494723774630841">CombatantId</a></td>          <td class="paramname"><span class="paramname"><em>attacker</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcore_1_1GridPosition.html">GridPosition</a></td>          <td class="paramname"><span class="paramname"><em>attackerAnchor</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#a91235fd72a18c305c494723774630841">CombatantId</a></td>          <td class="paramname"><span class="paramname"><em>target</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Vrai si <code class="param">attacker</code>, ancré en <code class="param">attackerAnchor</code>, prend <code class="param">target</code> en tenaille avec au moins un allié debout. </p>
+<p>Chacun des deux doit être debout, adjacent à la cible (distance 1, emprises comprises) et la voir (<span class="tt"><a class="el" href="#aba1d28cef88c61f722b2b034a8415f10" title="Vrai si les deux emprises se voient : un segment dégagé relie un point de grille de l&#39;une à un point ...">core::hasLineOfSight</a></span>) ; une case de l'emprise de l'un et une case de l'emprise de l'autre doivent être alignées par leurs centres sur deux côtés opposés de la cible. L'ancre supposée sert l'IA (<span class="tt">LOT-23</span>), qui juge une case avant d'y aller. </p>
 
 </div>
 </div>
@@ -6295,6 +6728,33 @@ Déterministe, et c'est le point</h2>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>L'atlas et la liste des échecs. Ne lève jamais (<span class="tt">EX-NFR-040</span>). Un dossier absent produit une erreur, pas un atlas vide : un monde vide se confondrait avec un monde non installé. </dd></dl>
+
+</div>
+</div>
+<a id="a71acb15a48b4ccfba9c5fb43dcd8fee2" name="a71acb15a48b4ccfba9c5fb43dcd8fee2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a71acb15a48b4ccfba9c5fb43dcd8fee2">&#9670;&#160;</a></span>loadBehaviors()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structcore_1_1BehaviorCatalog.html">BehaviorCatalog</a> core::loadBehaviors </td>
+          <td>(</td>
+          <td class="paramtype">const std::filesystem::path &amp;</td>          <td class="paramname"><span class="paramname"><em>file</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Charge les profils (<span class="tt">Source/Elements/Rpg/rules/behaviors.json</span>). </p>
 
 </div>
 </div>
@@ -7741,6 +8201,43 @@ Déterministe, et c'est le point</h2>
 
 </div>
 </div>
+<a id="ac40f7658883a2ff354dd23d9e75731c5" name="ac40f7658883a2ff354dd23d9e75731c5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac40f7658883a2ff354dd23d9e75731c5">&#9670;&#160;</a></span>planTurn()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structcore_1_1TurnPlan.html">TurnPlan</a> core::planTurn </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classcore_1_1ArenaSession.html">ArenaSession</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>session</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#a91235fd72a18c305c494723774630841">CombatantId</a></td>          <td class="paramname"><span class="paramname"><em>actor</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structcore_1_1BehaviorProfile.html">BehaviorProfile</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>profile</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Décide le tour de <code class="param">actor</code>, qui doit être le combattant actif de la session. </p>
+<p>Toutes les cases où finir le déplacement (<span class="tt"><a class="el" href="classcore_1_1ReachableArea.html" title="Les cases qu&#39;un combattant peut atteindre ce tour-ci, et par où.">core::ReachableArea</a></span>), et la case de départ, sont examinées avec chaque attaque et chaque ennemi debout ; si aucune attaque n'est possible, les cases le long du chemin vers l'ennemi le plus proche (<span class="tt"><a class="el" href="#ad018fcc5c0c0bcabf187d6ae09568067" title="Le meilleur chemin de mover jusqu&#39;à destination, sans limite de budget.">core::findPath</a></span>). Rien n'est joué. </p>
+
+</div>
+</div>
 <a id="a15c89d2a138a59d257f395dcf95efc26" name="a15c89d2a138a59d257f395dcf95efc26"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a15c89d2a138a59d257f395dcf95efc26">&#9670;&#160;</a></span>playerClipSet()</h2>
 
@@ -7825,6 +8322,31 @@ Déterministe, et c'est le point</h2>
 
 <p>Coin haut-gauche du personnage <b>centré</b> dans la tuile (<code class="param">column</code>, <code class="param">row</code>). </p>
 <p>Marges symétriques : la boîte 0,4 × 0,8 est centrée dans la tuile 1×1 (repère haut-gauche, <span class="tt">y</span> vers le bas). Évite de faire apparaître le personnage collé à un bord de la tuile. </p>
+
+</div>
+</div>
+<a id="a927dac700bedb90e5d0bb43bfeb537df" name="a927dac700bedb90e5d0bb43bfeb537df"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a927dac700bedb90e5d0bb43bfeb537df">&#9670;&#160;</a></span>playTurn()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool core::playTurn </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classcore_1_1ArenaSession.html">ArenaSession</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>session</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structcore_1_1BehaviorCatalog.html">BehaviorCatalog</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>catalog</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Joue le tour du combattant actif selon son profil, et le termine. </p>
+<p>Le plan passe par les actions de la session, <b>les mêmes que celles du joueur</b> : <span class="tt">move</span>, <span class="tt">attack</span>, <span class="tt">dash</span>, <span class="tt">dodge</span>, <span class="tt">disengage</span>, <span class="tt">endTurn</span>. La décision s'écrit au journal avant d'être jouée. Une attaque d'opportunité qui abat l'IA en chemin met fin à son tour.</p>
+<dl class="section return"><dt>Returns</dt><dd>Faux si le combattant actif n'a pas de profil connu ou si aucun tour n'est en cours. </dd></dl>
 
 </div>
 </div>
@@ -8245,6 +8767,37 @@ Déterministe, et c'est le point</h2>
 
 </div>
 </div>
+<a id="a5914f428c3fbb6a6de8d9be7b2c69fae" name="a5914f428c3fbb6a6de8d9be7b2c69fae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5914f428c3fbb6a6de8d9be7b2c69fae">&#9670;&#160;</a></span>requiredRoll()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int core::requiredRoll </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>armorClass</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>attackBonus</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Le résultat minimal au d20 pour toucher : la CA moins le bonus d'attaque (<em>Guide du Maître</em>, « Gérer les foules »). </p>
+
+</div>
+</div>
 <a id="ab1a4d741effe8706e8261be043b9224a" name="ab1a4d741effe8706e8261be043b9224a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab1a4d741effe8706e8261be043b9224a">&#9670;&#160;</a></span>resolveAttack()</h2>
 
@@ -8616,6 +9169,47 @@ Déterministe, et c'est le point</h2>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="ac58007f3f78da7cfddceb7509d3f5bbc" name="ac58007f3f78da7cfddceb7509d3f5bbc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac58007f3f78da7cfddceb7509d3f5bbc">&#9670;&#160;</a></span>shouldTakeOpportunity()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool core::shouldTakeOpportunity </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classcore_1_1ArenaSession.html">ArenaSession</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>session</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#a91235fd72a18c305c494723774630841">CombatantId</a></td>          <td class="paramname"><span class="paramname"><em>reactor</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#a91235fd72a18c305c494723774630841">CombatantId</a></td>          <td class="paramname"><span class="paramname"><em>mover</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structcore_1_1BehaviorProfile.html">BehaviorProfile</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>profile</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Vrai si <code class="param">reactor</code>, joué par <code class="param">profile</code>, prend l'attaque d'opportunité sur <code class="param">mover</code> : sa première attaque au contact, à un jet requis au plus égal à <span class="tt">opportunityMaximumRoll</span>. </p>
 
 </div>
 </div>
@@ -9449,6 +10043,30 @@ Déterministe, et c'est le point</h2>
 </div><div class="memdoc">
 
 <p>L'action bonus. </p>
+
+</div>
+</div>
+<a id="afcdc54b3ea46877a04d40a7840bffe57" name="afcdc54b3ea46877a04d40a7840bffe57"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afcdc54b3ea46877a04d40a7840bffe57">&#9670;&#160;</a></span>CHANCE_SCALE</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int core::CHANCE_SCALE = 400</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Une chance, en <b>quatre-centièmes</b> : 400 est la certitude. </p>
 
 </div>
 </div>

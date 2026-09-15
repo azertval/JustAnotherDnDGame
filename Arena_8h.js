@@ -10,6 +10,7 @@ var Arena_8h =
     [ "core::ArenaMount", "structcore_1_1ArenaMount.html", "structcore_1_1ArenaMount" ],
     [ "core::ArenaAttack", "structcore_1_1ArenaAttack.html", "structcore_1_1ArenaAttack" ],
     [ "core::ArenaSession", "classcore_1_1ArenaSession.html", "classcore_1_1ArenaSession" ],
+    [ "core::OpportunityPolicy", "namespacecore.html#a838239698e3440af150c5de8127b830e", null ],
     [ "core::ArenaActionResult", "namespacecore.html#ac011cdb67f4c31ececbaaceeace4cbed", [
       [ "core::ArenaActionResult::Done", "namespacecore.html#ac011cdb67f4c31ececbaaceeace4cbedaf92965e2c8a7afb3c1b9a5c09a263636", null ],
       [ "core::ArenaActionResult::NoActiveTurn", "namespacecore.html#ac011cdb67f4c31ececbaaceeace4cbeda8cb45f47274f0e76f8d60401f43b0fb7", null ],

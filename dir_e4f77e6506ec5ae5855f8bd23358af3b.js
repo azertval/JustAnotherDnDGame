@@ -8,6 +8,7 @@ var dir_e4f77e6506ec5ae5855f8bd23358af3b =
     [ "test_combat_state.cpp", "test__combat__state_8cpp.html", "test__combat__state_8cpp" ],
     [ "test_damage.cpp", "test__damage_8cpp.html", "test__damage_8cpp" ],
     [ "test_encounter.cpp", "test__encounter_8cpp.html", "test__encounter_8cpp" ],
+    [ "test_enemy_ai.cpp", "test__enemy__ai_8cpp.html", "test__enemy__ai_8cpp" ],
     [ "test_line_of_sight.cpp", "test__line__of__sight_8cpp.html", "test__line__of__sight_8cpp" ],
     [ "test_pathfinding.cpp", "test__pathfinding_8cpp.html", "test__pathfinding_8cpp" ],
     [ "test_turn_order.cpp", "test__turn__order_8cpp.html", "test__turn__order_8cpp" ]

@@ -1,5 +1,6 @@
 var structcore_1_1Arena =
 [
+    [ "flanking", "structcore_1_1Arena.html#adf0e533e88a5eec78428fb8aa968121a", null ],
     [ "heroicMark", "structcore_1_1Arena.html#ac94004109e28fd4008da32a510627f51", null ],
     [ "id", "structcore_1_1Arena.html#aa01a7c4e5ff4f09e615a81e9c5524a28", null ],
     [ "lethal", "structcore_1_1Arena.html#a8478b7a828a592fc2e494a63a47521d9", null ],

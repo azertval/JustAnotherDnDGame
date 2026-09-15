@@ -1,6 +1,7 @@
 var structhmi_1_1ArenaModel_1_1Catalogs =
 [
     [ "arenas", "structhmi_1_1ArenaModel_1_1Catalogs.html#a5e0d619f88afff95159c1365175f8881", null ],
+    [ "behaviors", "structhmi_1_1ArenaModel_1_1Catalogs.html#a4ba85985877c14350142f32c7d658795", null ],
     [ "bestiary", "structhmi_1_1ArenaModel_1_1Catalogs.html#a956024d97966afc5962d5709bb54404e", null ],
     [ "character", "structhmi_1_1ArenaModel_1_1Catalogs.html#a1cfa5c52a6ac83c70f00eaab9955e234", null ],
     [ "characterArmorClass", "structhmi_1_1ArenaModel_1_1Catalogs.html#a0452f33a0126ec8ddca8020ecdbbdd99", null ],

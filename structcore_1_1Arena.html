@@ -111,11 +111,30 @@ Public Attributes</h2></td></tr>
 <tr class="memdesc:a8478b7a828a592fc2e494a63a47521d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vrai si l'on y meurt.  <br /></td></tr>
 <tr class="memitem:ac94004109e28fd4008da32a510627f51" id="r_ac94004109e28fd4008da32a510627f51"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#ac94004109e28fd4008da32a510627f51">heroicMark</a> = true</td></tr>
 <tr class="memdesc:ac94004109e28fd4008da32a510627f51"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vrai si le rituel de Marque Héroïque s'y pratique : les combattants sont relevés à la fin, et disposent de la troisième économie d'action.  <br /></td></tr>
+<tr class="memitem:adf0e533e88a5eec78428fb8aa968121a" id="r_adf0e533e88a5eec78428fb8aa968121a"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#adf0e533e88a5eec78428fb8aa968121a">flanking</a> = false</td></tr>
+<tr class="memdesc:adf0e533e88a5eec78428fb8aa968121a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vrai si la <b>prise en tenaille</b>, règle optionnelle du <em>Guide du Maître</em>, s'y joue (<span class="tt"><a class="el" href="namespacecore.html#aa5addda291b02ded7b8439d8b16be3f8" title="La même règle, l&#39;attaquant à sa place sur la grille. Faux s&#39;il n&#39;y est pas.">core::isFlanked</a></span>).  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Une arène, telle que la donnée la décrit (<span class="tt">Source/Elements/World/arena/</span>). </p>
 <p>Les variantes régionales du Sourcebook — l'Arène du Futur non létale, Feargus la létale, les Braves des débutants, le duel de baguettes de la Magocratie — sont des <b>données</b>, pas des modes : ce qui les distingue tient dans trois champs. </p>
 </div><a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Member Data Documentation</h2>
+<a id="adf0e533e88a5eec78428fb8aa968121a" name="adf0e533e88a5eec78428fb8aa968121a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adf0e533e88a5eec78428fb8aa968121a">&#9670;&#160;</a></span>flanking</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool core::Arena::flanking = false</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Vrai si la <b>prise en tenaille</b>, règle optionnelle du <em>Guide du Maître</em>, s'y joue (<span class="tt"><a class="el" href="namespacecore.html#aa5addda291b02ded7b8439d8b16be3f8" title="La même règle, l&#39;attaquant à sa place sur la grille. Faux s&#39;il n&#39;y est pas.">core::isFlanked</a></span>). </p>
+<p>Faux par défaut : une règle optionnelle s'active, elle ne se présume pas. </p>
+
+</div>
+</div>
 <a id="ac94004109e28fd4008da32a510627f51" name="ac94004109e28fd4008da32a510627f51"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac94004109e28fd4008da32a510627f51">&#9670;&#160;</a></span>heroicMark</h2>
 

@@ -93,9 +93,9 @@ $(function(){initNavTree('cahiertest.html','',''); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md_CahierTest"></a></p>
-<p><b>1125 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
+<p><b>1134 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md5"></a>
-Tests unitaires (1110)</h1>
+Tests unitaires (1119)</h1>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md6"></a>
 Core</h2>
 <p><b><span class="tt"><a class="el" href="test__core_8cpp.html" title="Tests unitaires de la bibliothèque Core (amorçage).">test_core.cpp</a></span></b></p>
@@ -108,7 +108,7 @@ Core</h2>
 2. Executer le scenario et verifier les assertions.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">engine.version().empty()</span> est faux.  </td></tr>
 </table>
 <h3 class="doxsection"><a class="anchor" id="autotoc_md7"></a>
-Combat (78)</h3>
+Combat (87)</h3>
 <p><b><span class="tt"><a class="el" href="test__action__economy_8cpp.html" title="Tests de l&#39;économie d&#39;action et des mémoires à portée (LOT-20, EX-CBT-011).">test_action_economy.cpp</a></span></b></p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -965,6 +965,125 @@ Vérifie que <span class="tt">a-&gt;defeatFlagKey</span> diffère de <span class
 <sub><span class="tt"><a class="el" href="test__encounter_8cpp.html" title="Tests de l&#39;aller-retour exploration ↔ combat (LOT-18, EX-CBT-001).">Source/Test/Unit/Core/Combat/test_encounter.cpp</a>:296</span></sub>  </td><td class="markdownTableBodyNone">Ce qui n'est pas un declencheur n'en devient pas un.  </td><td class="markdownTableBodyNone">1. Lire une entite d'un autre type.<br  />
 2. Lire une entite de rencontre sans encounterId.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a930b849a4d1c903dd56b8f5fe14d26ca" title="Lit entity comme un déclencheur de rencontre, s&#39;il en est un.">core::encounterTriggerFor</a>(coffre, "grotte").has_value()</span> est faux.<br  />
 Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a930b849a4d1c903dd56b8f5fe14d26ca" title="Lit entity comme un déclencheur de rencontre, s&#39;il en est un.">core::encounterTriggerFor</a>(sansRencontre, "grotte").has_value()</span> est faux.  </td></tr>
+</table>
+<p><b><span class="tt"><a class="el" href="test__enemy__ai_8cpp.html" title="Tests unitaires de l&#39;IA tactique (LOT-23) : la prise en tenaille du Guide du Maître,...">test_enemy_ai.cpp</a></span></b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>FlankingTest.LaLigneDesCentresTranche</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__enemy__ai_8cpp.html" title="Tests unitaires de l&#39;IA tactique (LOT-23) : la prise en tenaille du Guide du Maître,...">Source/Test/Unit/Core/Combat/test_enemy_ai.cpp</a>:110</span></sub>  </td><td class="markdownTableBodyNone">Deux allies prennent un ennemi en tenaille si la ligne entre leurs centres passe par deux cotes ou deux angles opposes de son emplacement, s'ils lui sont adjacents, debout, et le voient.  </td><td class="markdownTableBodyNone">1. Un ennemi en (5,5) ; tester la geometrie de cotes opposes, d'angles opposes, d'une position en L et de deux cases du meme cote.<br  />
+2. Un ennemi de taille G en (5,5)-(6,6).<br  />
+3. Dans un combat : l'allie a terre, puis un mur entre l'allie et l'ennemi.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a26d9961b3be7f887f30dfdf151e8c767" title="Vrai si la ligne entre les centres des cases a et b passe par deux côtés opposés de l&#39;emplacement tar...">core::crossesOppositeSides</a>({4, 5}, {6, 5}, moyen)</span> est vrai.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a26d9961b3be7f887f30dfdf151e8c767" title="Vrai si la ligne entre les centres des cases a et b passe par deux côtés opposés de l&#39;emplacement tar...">core::crossesOppositeSides</a>({5, 4}, {5, 6}, moyen)</span> est vrai.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a26d9961b3be7f887f30dfdf151e8c767" title="Vrai si la ligne entre les centres des cases a et b passe par deux côtés opposés de l&#39;emplacement tar...">core::crossesOppositeSides</a>({4, 4}, {6, 6}, moyen)</span> est vrai.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a26d9961b3be7f887f30dfdf151e8c767" title="Vrai si la ligne entre les centres des cases a et b passe par deux côtés opposés de l&#39;emplacement tar...">core::crossesOppositeSides</a>({6, 4}, {4, 6}, moyen)</span> est vrai.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a26d9961b3be7f887f30dfdf151e8c767" title="Vrai si la ligne entre les centres des cases a et b passe par deux côtés opposés de l&#39;emplacement tar...">core::crossesOppositeSides</a>({4, 5}, {6, 6}, moyen)</span> est faux.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a26d9961b3be7f887f30dfdf151e8c767" title="Vrai si la ligne entre les centres des cases a et b passe par deux côtés opposés de l&#39;emplacement tar...">core::crossesOppositeSides</a>({4, 4}, {6, 5}, moyen)</span> est faux.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a26d9961b3be7f887f30dfdf151e8c767" title="Vrai si la ligne entre les centres des cases a et b passe par deux côtés opposés de l&#39;emplacement tar...">core::crossesOppositeSides</a>({4, 4}, {4, 6}, moyen)</span> est faux.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a26d9961b3be7f887f30dfdf151e8c767" title="Vrai si la ligne entre les centres des cases a et b passe par deux côtés opposés de l&#39;emplacement tar...">core::crossesOppositeSides</a>({4, 5}, {5, 4}, moyen)</span> est faux.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a26d9961b3be7f887f30dfdf151e8c767" title="Vrai si la ligne entre les centres des cases a et b passe par deux côtés opposés de l&#39;emplacement tar...">core::crossesOppositeSides</a>({4, 5}, {7, 6}, grand)</span> est vrai.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a26d9961b3be7f887f30dfdf151e8c767" title="Vrai si la ligne entre les centres des cases a et b passe par deux côtés opposés de l&#39;emplacement tar...">core::crossesOppositeSides</a>({4, 4}, {7, 7}, grand)</span> est vrai.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a26d9961b3be7f887f30dfdf151e8c767" title="Vrai si la ligne entre les centres des cases a et b passe par deux côtés opposés de l&#39;emplacement tar...">core::crossesOppositeSides</a>({4, 5}, {5, 7}, grand)</span> est faux.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#aa5addda291b02ded7b8439d8b16be3f8" title="La même règle, l&#39;attaquant à sa place sur la grille. Faux s&#39;il n&#39;y est pas.">core::isFlanked</a>(session.combat(), CombatantId{1}, CombatantId{3})</span> est vrai.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#aa5addda291b02ded7b8439d8b16be3f8" title="La même règle, l&#39;attaquant à sa place sur la grille. Faux s&#39;il n&#39;y est pas.">core::isFlanked</a>(session.combat(), CombatantId{2}, CombatantId{3})</span> est vrai.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a26d6a0a3082a3c9ce76ab6958711ac13" title="Vrai si attacker, ancré en attackerAnchor, prend target en tenaille avec au moins un allié debout.">core::isFlankedFrom</a>(session.combat(), CombatantId{1}, {4, 2}, CombatantId{3})</span> est faux.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#aa5addda291b02ded7b8439d8b16be3f8" title="La même règle, l&#39;attaquant à sa place sur la grille. Faux s&#39;il n&#39;y est pas.">core::isFlanked</a>(session.combat(), CombatantId{3}, CombatantId{1})</span> est faux.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#aa5addda291b02ded7b8439d8b16be3f8" title="La même règle, l&#39;attaquant à sa place sur la grille. Faux s&#39;il n&#39;y est pas.">core::isFlanked</a>(session.combat(), CombatantId{1}, CombatantId{3})</span> est faux.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a26d9961b3be7f887f30dfdf151e8c767" title="Vrai si la ligne entre les centres des cases a et b passe par deux côtés opposés de l&#39;emplacement tar...">core::crossesOppositeSides</a>({4, 4}, {6, 2}, {.anchor = {5, 3}, .side = 1})</span> est vrai.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#aa5addda291b02ded7b8439d8b16be3f8" title="La même règle, l&#39;attaquant à sa place sur la grille. Faux s&#39;il n&#39;y est pas.">core::isFlanked</a>(murs.combat(), CombatantId{1}, CombatantId{3})</span> est faux.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>FlankingTest.LaTenailleDonneLAvantageDansLArene</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__enemy__ai_8cpp.html" title="Tests unitaires de l&#39;IA tactique (LOT-23) : la prise en tenaille du Guide du Maître,...">Source/Test/Unit/Core/Combat/test_enemy_ai.cpp</a>:164</span></sub>  </td><td class="markdownTableBodyNone">Dans une arene a prise en tenaille, une attaque au corps a corps contre un ennemi pris en tenaille est jetee avec avantage, et le journal le dit ; ailleurs, non.  </td><td class="markdownTableBodyNone">1. Deux allies de part et d'autre d'un ennemi, le premier joue.<br  />
+2. Il attaque, dans une arene avec tenaille puis sans.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">session.start()</span> est vrai.<br  />
+Vérifie que <span class="tt">session.combat().activeCombatant()</span> vaut <span class="tt">CombatantId{1}</span>.<br  />
+Vérifie que <span class="tt">attaque.outcome.has_value()</span> est vrai.<br  />
+Vérifie que <span class="tt">attaque.outcome-&gt;roll.check.stance</span> vaut <span class="tt">tenaille ? <a class="el" href="namespacecore.html#aff494cc4070ea4489c3d5ee57178f7c9a1b2430d20c750dada9aaaed48b4eb8f1">core::RollStance::Advantage</a> : <a class="el" href="namespacecore.html#aff494cc4070ea4489c3d5ee57178f7c9a960b44c579bc2f6818d2daaf9e4c16f0">core::RollStance::Normal</a></span>.<br  />
+Vérifie que <span class="tt">attaque.outcome-&gt;describe().find("prise en tenaille") != std::string::npos</span> vaut <span class="tt">tenaille</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>EnemyAiTest.LeJetRequisEtLEsperanceSuiventLeGuide</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__enemy__ai_8cpp.html" title="Tests unitaires de l&#39;IA tactique (LOT-23) : la prise en tenaille du Guide du Maître,...">Source/Test/Unit/Core/Combat/test_enemy_ai.cpp</a>:195</span></sub>  </td><td class="markdownTableBodyNone">Le jet requis est la CA moins le bonus d'attaque ; la chance de toucher et l'esperance de degats en decoulent, en entiers.  </td><td class="markdownTableBodyNone">1. L'exemple du Guide : des orcs a +5 contre un guerrier a CA 19.<br  />
+2. La chance d'un jet requis de 14, normal, avec avantage, avec desavantage ; d'un jet requis de 1 et de 25.<br  />
+3. L'esperance d'un gobelin (+4, 1d6+2) contre CA 15, et contre CA 15 avec un seuil critique a 19.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">core::requiredRoll(19, 5)</span> vaut <span class="tt">14</span>.<br  />
+Vérifie que <span class="tt">core::hitChance(14, core::RollStance::Normal)</span> vaut <span class="tt">140</span>.<br  />
+Vérifie que <span class="tt">core::hitChance(14, core::RollStance::Advantage)</span> vaut <span class="tt">231</span>.<br  />
+Vérifie que <span class="tt">core::hitChance(14, core::RollStance::Disadvantage)</span> vaut <span class="tt">49</span>.<br  />
+Vérifie que <span class="tt">core::hitChance(1, core::RollStance::Normal)</span> vaut <span class="tt">380</span>.<br  />
+Vérifie que <span class="tt">core::hitChance(25, core::RollStance::Normal)</span> vaut <span class="tt">20</span>.<br  />
+Vérifie que <span class="tt">core::criticalChance(20, core::RollStance::Normal)</span> vaut <span class="tt">20</span>.<br  />
+Vérifie que <span class="tt">core::criticalChance(19, core::RollStance::Advantage)</span> vaut <span class="tt">400 - 18 * 18</span>.<br  />
+Vérifie que <span class="tt">core::attackBonusOf(gobelin)</span> vaut <span class="tt">4</span>.<br  />
+Vérifie que <span class="tt">core::expectedDamage(gobelin, 15, core::RollStance::Normal)</span> vaut <span class="tt">2340</span>.<br  />
+Vérifie que <span class="tt">core::expectedDamage(gobelin, 15, core::RollStance::Normal)</span> vaut <span class="tt">11 * 200 + 7 * 40</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>EnemyAiTest.LesProfilsSontDesDonnees</b> (Bloquant)<br  />
+<sub><span class="tt"><a class="el" href="test__enemy__ai_8cpp.html" title="Tests unitaires de l&#39;IA tactique (LOT-23) : la prise en tenaille du Guide du Maître,...">Source/Test/Unit/Core/Combat/test_enemy_ai.cpp</a>:229</span></sub>  </td><td class="markdownTableBodyNone">Les profils de comportement livres se chargent sans erreur, ne tolerent jamais trois menaces, et s'attribuent aux creatures par leurs regles.  </td><td class="markdownTableBodyNone">1. Charger behaviors.json.<br  />
+2. Charger le bestiaire, lire le profil du loup (Tactique de groupe), du sanglier et du singe.<br  />
+3. Un sanglier synthetique qui tire plus fort qu'il ne mord.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">profils.errors.empty()</span> est vrai.<br  />
+Vérifie que <span class="tt">profil</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">profil-&gt;toleratedThreats</span> est inférieur ou égal à <span class="tt">2</span>.<br  />
+Vérifie que <span class="tt">profil-&gt;approachPerTile</span> est strictement supérieur à <span class="tt">0</span>.<br  />
+Vérifie que <span class="tt">profils.defaultBehavior</span> vaut <span class="tt">"aggressive"</span>.<br  />
+Vérifie que <span class="tt">trouver("wolf")</span> diffère de <span class="tt">bestiaire.creatures.end()</span>.<br  />
+Vérifie que <span class="tt">trouver("boar")</span> diffère de <span class="tt">bestiaire.creatures.end()</span>.<br  />
+Vérifie que <span class="tt">trouver("ape")</span> diffère de <span class="tt">bestiaire.creatures.end()</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a055fef48903e3b743dc6440d3223375c" title="Le profil d&#39;une créature du bestiaire : la première règle qui la désigne, sinon le profil par défaut.">core::behaviorFor</a>(*trouver("wolf"), profils)</span> vaut <span class="tt">"pack"</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a055fef48903e3b743dc6440d3223375c" title="Le profil d&#39;une créature du bestiaire : la première règle qui la désigne, sinon le profil par défaut.">core::behaviorFor</a>(*trouver("boar"), profils)</span> vaut <span class="tt">"aggressive"</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a055fef48903e3b743dc6440d3223375c" title="Le profil d&#39;une créature du bestiaire : la première règle qui la désigne, sinon le profil par défaut.">core::behaviorFor</a>(*trouver("ape"), profils)</span> vaut <span class="tt">"archer"</span>.<br  />
+Vérifie que <span class="tt">core::behaviorFor(tireur, profils)</span> vaut <span class="tt">"archer"</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>EnemyAiTest.LIaNeLitQueLEtatEnsanglante</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__enemy__ai_8cpp.html" title="Tests unitaires de l&#39;IA tactique (LOT-23) : la prise en tenaille du Guide du Maître,...">Source/Test/Unit/Core/Combat/test_enemy_ai.cpp</a>:286</span></sub>  </td><td class="markdownTableBodyNone">Les points de vie d'un adversaire restent secrets : deux cibles qui ne different que par des points de vie au-dessus de la moitie sont indiscernables ; une cible ensanglantee est preferee.  </td><td class="markdownTableBodyNone">1. Un gobelin agressif au contact de deux heros identiques, a 20/20 et 11/20.<br  />
+2. Planifier son tour.<br  />
+3. Le second passe a 9/20, planifier encore.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">session.start()</span> est vrai.<br  />
+Vérifie que <span class="tt">session.combat().activeCombatant()</span> vaut <span class="tt">CombatantId{3}</span>.<br  />
+Vérifie que <span class="tt">plein.action</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a004daf868d7dad4026ff9b7d3d75a11dadcfafcb4323b102c7e204555d313ba0a">core::TurnAction::Attack</a></span>.<br  />
+Vérifie que <span class="tt">plein.target</span> vaut <span class="tt">CombatantId{1}</span>.<br  />
+Vérifie que <span class="tt">entame.target</span> vaut <span class="tt">CombatantId{1}</span>.<br  />
+Vérifie que <span class="tt">entame.score</span> vaut <span class="tt">plein.score</span>.<br  />
+Vérifie que <span class="tt">ensanglante.target</span> vaut <span class="tt">CombatantId{2}</span>.<br  />
+Vérifie que <span class="tt">ensanglante.score</span> est strictement supérieur à <span class="tt">plein.score</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>EnemyAiTest.PasDeSuicideQuandUneCaseSureExiste</b> (Bloquant)<br  />
+<sub><span class="tt"><a class="el" href="test__enemy__ai_8cpp.html" title="Tests unitaires de l&#39;IA tactique (LOT-23) : la prise en tenaille du Guide du Maître,...">Source/Test/Unit/Core/Combat/test_enemy_ai.cpp</a>:326</span></sub>  </td><td class="markdownTableBodyNone">Aucun profil ne finit son tour a portee immediate de trois ennemis quand une case moins exposee etait atteignable.  </td><td class="markdownTableBodyNone">1. Trois heros inoffensifs en (6,2), (6,4) et (7,3), le dernier ensanglante ; la case (6,3) les touche tous, et c'est la seule d'ou le gobelin prend le heros ensanglante en tenaille avec son complice en (8,3) : la plus rentable, et la seule dangereuse. D'autres cases frappent au plus deux heros.<br  />
+2. Pour chaque profil livre, jouer le tour du gobelin.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">session.start()</span> est vrai.<br  />
+Vérifie que <span class="tt">session.combat().activeCombatant()</span> vaut <span class="tt">CombatantId{4}</span>.<br  />
+Vérifie que <span class="tt">core::playTurn(session, profils)</span> est vrai.<br  />
+Vérifie que <span class="tt">aPortee</span> est inférieur ou égal à <span class="tt">2</span>.<br  />
+Vérifie que <span class="tt">fin</span> diffère de <span class="tt">(GridPosition{6, 3})</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>EnemyAiTest.LArchereChercheLaVue</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__enemy__ai_8cpp.html" title="Tests unitaires de l&#39;IA tactique (LOT-23) : la prise en tenaille du Guide du Maître,...">Source/Test/Unit/Core/Combat/test_enemy_ai.cpp</a>:372</span></sub>  </td><td class="markdownTableBodyNone">Une IA archere cachee de sa cible par un pilier se deplace jusqu'a une case qui la voit et tire ; elle n'essaie jamais un tir que la ligne de vue refuse.  </td><td class="markdownTableBodyNone">1. Une archere en (5,3), un heros en (7,3) derriere un pilier en (6,3).<br  />
+2. Jouer son tour par l'IA.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">session.start()</span> est vrai.<br  />
+Vérifie que <span class="tt">session.combat().activeCombatant()</span> vaut <span class="tt">CombatantId{2}</span>.<br  />
+Vérifie que <span class="tt">plan.action</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a004daf868d7dad4026ff9b7d3d75a11dadcfafcb4323b102c7e204555d313ba0a">core::TurnAction::Attack</a></span>.<br  />
+Vérifie que <span class="tt">plan.moveTo.has_value()</span> est vrai.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#aba1d28cef88c61f722b2b034a8415f10" title="Vrai si les deux emprises se voient : un segment dégagé relie un point de grille de l&#39;une à un point ...">core::hasLineOfSight</a>(session.combat().grid(), {.anchor = *plan.moveTo, .side = 1}, {.anchor = {7, 3}, .side = 1})</span> est vrai.<br  />
+Vérifie que <span class="tt">core::playTurn(session, profils)</span> est vrai.<br  />
+Vérifie que <span class="tt">std::ranges::any_of(journal, [](const std::string&amp; l) { return l.starts_with("attaque Archere -&gt; Heros"); })</span> est vrai.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>EnemyAiTest.SePrecipiterEtChoisirSesOpportunites</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__enemy__ai_8cpp.html" title="Tests unitaires de l&#39;IA tactique (LOT-23) : la prise en tenaille du Guide du Maître,...">Source/Test/Unit/Core/Combat/test_enemy_ai.cpp</a>:407</span></sub>  </td><td class="markdownTableBodyNone">Une IA qui ne peut attaquer se precipite vers l'ennemi le plus proche ; une IA prudente laisse passer une attaque d'opportunite dont le jet requis depasse son seuil, une agressive la prend.  </td><td class="markdownTableBodyNone">1. Un gobelin agressif a quinze cases d'un heros ; jouer son tour.<br  />
+2. Un ogre au contact d'un heros a CA 20 (+4 : jet requis 16) ; le heros s'eloigne, l'ogre prudent puis agressif.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">session.start()</span> est vrai.<br  />
+Vérifie que <span class="tt">core::playTurn(session, profils)</span> est vrai.<br  />
+Vérifie que <span class="tt">std::ranges::any_of(session.journal(), [](const std::string&amp; l) { return l.starts_with("precipitation Gobelin"); })</span> est vrai.<br  />
+Vérifie que <span class="tt">session.combat().grid().positionOf(CombatantId{2})-&gt;column</span> est strictement supérieur à <span class="tt">7</span>.<br  />
+Vérifie que <span class="tt">session.start()</span> est vrai.<br  />
+Vérifie que <span class="tt">session.combat().activeCombatant()</span> vaut <span class="tt">CombatantId{1}</span>.<br  />
+Vérifie que <span class="tt">session.move({2, 5}).result</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ac0c9dc39aafc4bad02c96a9659df0c1ba95bfdefaaf01553cbf21ccd942855c69">core::MoveResult::Moved</a></span>.<br  />
+Vérifie que <span class="tt">prises</span> vaut <span class="tt">std::string(profil) == "aggressive" ? 1 : 0</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>EnemyAiTest.UnCombatIaContreIaSeTermineToujoursEtSeRejoue</b> (Bloquant)<br  />
+<sub><span class="tt"><a class="el" href="test__enemy__ai_8cpp.html" title="Tests unitaires de l&#39;IA tactique (LOT-23) : la prise en tenaille du Guide du Maître,...">Source/Test/Unit/Core/Combat/test_enemy_ai.cpp</a>:456</span></sub>  </td><td class="markdownTableBodyNone">Sur des configurations generees &ndash; salles, piliers, compositions, profils, tireurs, tenaille ou non &ndash;, un combat joue par l'IA des deux cotes atteint son issue ; a graine fixee, deux parties donnent le meme journal.  </td><td class="markdownTableBodyNone">1. Pour trente graines, generer une salle de 10 a 16 cases sur 8 a 10 avec des piliers, deux a quatre combattants par camp, chacun avec un profil livre, un tiers de tireurs, la tenaille une fois sur deux.<br  />
+2. Jouer par l'IA jusqu'a l'issue, avec une garde de 600 tours.<br  />
+3. Une graine sur trois, rejouer par <span class="tt">replay</span>.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">profils.errors.empty()</span> est vrai.<br  />
+Vérifie que <span class="tt">montage.refusals.empty()</span> est vrai.<br  />
+Vérifie que <span class="tt">session.start()</span> est vrai.<br  />
+Vérifie que <span class="tt">tours</span> est supérieur ou égal à <span class="tt">0</span>.<br  />
+Vérifie que <span class="tt">session.outcome().has_value()</span> est vrai.<br  />
+Vérifie que <span class="tt">jouerParLIa(session, profils)</span> vaut <span class="tt">tours</span>.<br  />
+Vérifie que <span class="tt">session.journal()</span> vaut <span class="tt">journal</span>.<br  />
+Vérifie que <span class="tt">longest</span> est strictement supérieur à <span class="tt">0</span>.  </td></tr>
 </table>
 <p><b><span class="tt"><a class="el" href="test__line__of__sight_8cpp.html" title="Tests de la ligne de vue et de l&#39;abri (LOT-22, EX-CBT-021) : symétrie vérifiée exhaustivement sur des...">test_line_of_sight.cpp</a></span></b></p>
 <table class="markdownTable">
