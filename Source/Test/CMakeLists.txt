@@ -102,6 +102,7 @@ add_executable(UnitTests
     Unit/HMI/Graphics/test_skin_catalog.cpp
     Unit/HMI/Graphics/test_arena_appearance_catalog.cpp
     Unit/HMI/Graphics/test_arena_scene_composer.cpp
+    Unit/HMI/Graphics/test_arena_animation_driver.cpp
     Unit/HMI/Graphics/test_tile_autotile.cpp
     Unit/HMI/Graphics/test_tile_skin_resolution.cpp
     Unit/HMI/Graphics/test_texture_resolution.cpp
