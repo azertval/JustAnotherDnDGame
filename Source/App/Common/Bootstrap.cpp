@@ -23,6 +23,7 @@
 #include "Core/Diagnostics/Logger.h"
 #include "Core/Diagnostics/MemoryLogSink.h"
 #include "HMI/HmiLog.h"
+#include "HMI/Platform/CrashDump.h"
 #include "HMI/Platform/ExecutableDirectory.h"
 
 namespace app {
@@ -120,6 +121,18 @@ core::MemoryLogSink* installLogging(int argc, char** argv, std::string_view appl
     // contre quel Qt le binaire signale a ete construit, sans dependre d'une reproduction locale.
     HMI_LOG_INFO(name + " " + core::Engine::version() + " (compile avec Qt " + QT_VERSION_STR +
                  ").");
+
+    // Minidump sur plantage (phase 4 de la refonte de l'outillage), a cote des journaux : un
+    // plantage vu en jouant se lit ensuite dans Visual Studio avec l'archive de symboles de la
+    // version. Installe APRES le journal, qui consigne le chemin du dump.
+    hmi::installCrashDumpWriter(hmi::executableDirectory() / "Crashes", name,
+                                core::Engine::version());
+    // Plantage volontaire : le test de fumee de la release prouve ainsi que l'archive livree ecrit
+    // son dump, ce qu'aucun test en processus ne peut montrer (filtre installe, DbgHelp deploye).
+    if (commandLineOption(argc, argv, "--crash-test")) {
+        HMI_LOG_WARNING("--crash-test : plantage volontaire.");
+        hmi::triggerCrashForTest();
+    }
     return sessionLog;
 }
 

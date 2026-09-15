@@ -1,0 +1,36 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": [
+    "Renovate ne suit ici que ce que Dependabot ne sait pas lire (refonte de la CI, phase 4) : les GIT_TAG de FetchContent dans les CMakeLists.",
+    "Les actions GitHub et l'environnement Python (uv.lock) restent à Dependabot (.github/dependabot.yml) : deux robots sur la même dépendance ouvriraient deux PR.",
+    "Le motif est éprouvé par scripts/tests/test_renovate_config.py sur External/CMakeLists.txt : une déclaration qu'il ne lirait plus cesserait d'être suivie sans bruit."
+  ],
+  "extends": ["config:recommended"],
+  "enabledManagers": ["custom.regex"],
+  "timezone": "Europe/Paris",
+  "schedule": ["before 6am on monday"],
+  "minimumReleaseAge": "7 days",
+  "semanticCommits": "enabled",
+  "semanticCommitType": "build",
+  "semanticCommitScope": "deps",
+  "labels": ["no-changelog"],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "GIT_TAG d'un FetchContent_Declare hébergé sur GitHub",
+      "managerFilePatterns": ["/(^|/)CMakeLists\\.txt$/"],
+      "matchStrings": [
+        "GIT_REPOSITORY\\s+https://github\\.com/(?<depName>[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+?)(?:\\.git)?\\s+GIT_TAG\\s+(?<currentValue>v?[0-9][0-9A-Za-z.+-]*)\\s"
+      ],
+      "datasourceTemplate": "github-tags"
+    }
+  ],
+  "packageRules": [
+    {
+      "description": "Une montée majeure d'une bibliothèque C++ se relit à part : jamais regroupée, jamais en automerge.",
+      "matchManagers": ["custom.regex"],
+      "matchUpdateTypes": ["major"],
+      "dependencyDashboardApproval": true
+    }
+  ]
+}

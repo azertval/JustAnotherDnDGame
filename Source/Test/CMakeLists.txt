@@ -125,6 +125,7 @@ add_executable(UnitTests
     Unit/HMI/Audio/test_sound_triggers.cpp
     Unit/HMI/Localization/test_localization.cpp
     Unit/HMI/Diagnostics/test_session_log.cpp
+    Unit/HMI/Platform/test_crash_dump.cpp
     Unit/HMI/Audio/test_sound_catalog.cpp
     Unit/HMI/Presentation/test_credits_catalog.cpp
     Unit/HMI/Presentation/test_inventory_screen.cpp
@@ -305,6 +306,47 @@ if(TARGET JadgRuntime)
     if(TARGET JustAnotherDnDGame)
         add_dependencies(RuntimeTests JustAnotherDnDGame)
     endif()
+endif()
+
+# Tests Qt Quick de Jadg.Ui (refonte de la chaîne d'outillage, phase 4) : chaque formulaire et chaque
+# brique se construit sans avertissement, les briques se comportent comme la galerie le suppose, et
+# chaque écran ressemble à sa capture de référence (Qml/References). Détail : Qml/QmlTestSetup.cpp.
+#
+# Même garde que RuntimeTests : Jadg.Ui n'existe pas sans Qt (job sanitize). QuickTest fait partie de
+# qtdeclarative, installé partout où Jadg.Ui se construit.
+if(TARGET JadgUi)
+    find_package(Qt6 QUIET COMPONENTS QuickTest QuickControls2)
+endif()
+if(TARGET JadgUi AND TARGET Qt6::QuickTest)
+    qt_add_executable(QmlTests Qml/QmlTestSetup.cpp)
+    set_target_properties(QmlTests PROPERTIES
+        AUTOMOC ON
+        # HORS de bin/ : windeployqt y dépose les DLL et les modules QML qu'utilise le JEU, sans
+        # QtTest. Depuis son propre dossier, l'exécutable charge tout Qt depuis l'installation
+        # (PATH ci-dessous), et ne court pas après le déploiement de l'application.
+        RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/qmltests)
+    target_link_libraries(QmlTests PRIVATE
+        JadgUi
+        JadgUiplugin
+        Qt6::QuickTest
+        Qt6::QuickControls2
+        Qt6::Quick
+        Qt6::Qml
+        project_warnings
+        project_options
+    )
+    target_compile_definitions(QmlTests PRIVATE
+        # Les tst_*.qml sont lus dans les sources : en ajouter un ne demande pas de reconstruire.
+        QUICK_TEST_SOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}/Qml"
+        JADG_QML_REFERENCES_DIR="${CMAKE_CURRENT_SOURCE_DIR}/Qml/References"
+        JADG_QML_CAPTURES_DIR="${CMAKE_BINARY_DIR}/qml-captures"
+        JADG_FONTS_DIR="${PROJECT_SOURCE_DIR}/Source/Elements/Assets/Fonts")
+    # `offscreen` : aucune fenêtre visible, sur le poste comme sur le runner.
+    add_test(NAME QmlTests COMMAND QmlTests -platform offscreen)
+    set_tests_properties(QmlTests PROPERTIES
+        LABELS unitaire
+        TIMEOUT 300
+        ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:$<TARGET_FILE_DIR:Qt6::Core>")
 endif()
 
 # Tests d'intégration : plusieurs briques assemblées collaborant de bout en bout.

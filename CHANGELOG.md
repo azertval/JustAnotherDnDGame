@@ -6,6 +6,28 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **CI : Qt, données, vitrine** (refonte de la chaîne d'outillage, phase 4). La filière contenu et
+  l'interface ont les mêmes garde-fous que le C++.
+  - **Tests Qt Quick** (`QmlTests`) : les 47 fichiers `.ui.qml` de `Jadg.Ui` se construisent sans un
+    avertissement, les boutons et cases de la charte v2 déduisent le bon état, et les **15 écrans
+    sont comparés à leur capture de référence** (rendu logiciel, identique sur le poste et le
+    runner). Une couleur de jeton changée fait échouer 12 écrans sur 15.
+  - **Traductions vérifiées** (`scripts/check_translations.py`) : aucune traduction inachevée ou
+    disparue, marqueurs `%1` identiques ; `build-ninja` relance `lupdate` pour prouver que le
+    catalogue est à jour du code. Deux chaînes qu'il manquait déjà (l'aide souris de l'arène, une
+    étiquette de la galerie de l'atelier) traduites, trois entrées mortes retirées.
+  - **Minidump sur plantage** : le jeu et l'éditeur écrivent `Crashes/<application>_<version>_<date>.dmp`,
+    lisible avec le zip de symboles de la release ; le test de fumée des archives le prouve
+    (`--crash-test`). Les archives n'embarquent plus `Logs/` ni `Crashes/` du poste qui les construit.
+  - **Scripts Python** : dépendances figées par `uv.lock` (jsonschema quitte `ci.yml`), **pytest**
+    (`scripts/tests`) qui rend nommés et comptés les auto-tests et chaque fixture RPG, rapport dans
+    la PR avec ceux des builds.
+  - **Scripts PowerShell** lus par **PSScriptAnalyzer** (compatibilité Windows PowerShell 5.1
+    comprise) ; deux défauts de `setup_dev.ps1` corrigés.
+  - **Site qualité** sur gh-pages (`/qualite/`) : couverture de `main` par domaine, rapport détaillé,
+    dernières mesures de performance et leurs courbes, à côté de la Doxygen.
+  - **Renovate** pour les `GIT_TAG` de FetchContent, **Dependabot** pour `uv.lock`.
+
 - **CI : nuit et profondeur** (refonte de la chaîne d'outillage, phase 3). Les défauts lents à
   trouver se cherchent la nuit, sans allonger une PR.
   - **`nightly.yml`**, non bloquant : clang-tidy sur tout `Source/` (tendance par famille), tests

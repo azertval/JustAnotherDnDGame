@@ -21,7 +21,9 @@ WORKFLOWS = [os.path.join('.github', 'workflows', 'ci.yml'),
              os.path.join('.github', 'workflows', 'release.yml'),
              # La nuit (phase 3) analyse et teste le code avec le même Qt ; son job `qt-next` essaie la
              # version suivante, calculée à l'exécution, sans écrire de second `QT_VERSION:`.
-             os.path.join('.github', 'workflows', 'nightly.yml')]
+             os.path.join('.github', 'workflows', 'nightly.yml'),
+             # Le site qualité (phase 4) mesure la couverture de main avec le même Qt.
+             os.path.join('.github', 'workflows', 'docs.yml')]
 
 CMAKE_VERSION_RE = re.compile(r'^\s*set\(QT_VERSION_MINIMUM\s+"([^"]+)"\)\s*$', re.MULTILINE)
 WORKFLOW_VERSION_RE = re.compile(r'^\s*QT_VERSION:\s*[\'"]([^\'"]+)[\'"]\s*$', re.MULTILINE)

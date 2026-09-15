@@ -132,6 +132,7 @@ add_library(HmiLib STATIC
     Interface/ActionCatalog.cpp
     # Plateforme.
     Platform/ExecutableDirectory.cpp
+    Platform/CrashDump.cpp
 )
 
 # `PUBLIC` sur la racine d'inclusion et sur Core : tout consommateur de HmiLib (l'application, les
@@ -140,6 +141,8 @@ target_include_directories(HmiLib PUBLIC ${PROJECT_SOURCE_DIR}/Source)
 target_link_libraries(HmiLib
     PUBLIC Core
     PRIVATE project_warnings project_options
+    # MiniDumpWriteDump (Platform/CrashDump.cpp) : bibliothèque système, présente sur tout Windows.
+    PRIVATE dbghelp
     # Les *KeyBindings et les catalogues persistent en JSON. Core le propage depuis le LOT-79,
     # mais HmiLib le redemande explicitement : ses en-tetes en dependent pour leur compte.
     PUBLIC nlohmann_json::nlohmann_json)

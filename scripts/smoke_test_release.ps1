@@ -13,6 +13,10 @@
     exige :
       - un code de sortie 0 dans le délai (1 = QML non chargé ou capture refusée, 2 = délai interne) ;
       - une image PNG écrite, qui n'est pas d'une seule couleur (une fenêtre noire n'est pas un jeu).
+    Puis il relance le jeu avec `--crash-test`, qui plante volontairement (phase 4), et exige :
+      - une fin par violation d'accès (0xC0000005), sans boîte de dialogue qui bloquerait le runner ;
+      - un minidump sous Crashes/, signature MDMP, dont le chemin est consigné dans le journal.
+    C'est la seule preuve que l'archive livrée écrit bien son dump : filtre installé, DbgHelp chargé.
     En cas d'échec, la fin du journal du jeu (Logs/) est affichée.
 
     Utilisé par .github/workflows/release.yml avant toute publication, et par le job `smoke` de
@@ -107,6 +111,41 @@ try {
     }
     Write-Host ("OK : le jeu de $(Split-Path -Leaf $archive) se lance et rend une image " +
                 "($width x $height, $($colors.Count) couleurs échantillonnées).")
+
+    # --- Plantage volontaire : le minidump est-il écrit ? ----------------------------------------
+    Write-Host "Lancement : $exe --crash-test"
+    $crash = Start-Process -FilePath $exe -ArgumentList '--crash-test' -WorkingDirectory $game -PassThru
+    if (-not $crash.WaitForExit($TimeoutSeconds * 1000)) {
+        $crash.Kill()
+        Show-GameLog $game
+        throw "--crash-test : le jeu ne s'est pas arrêté en $TimeoutSeconds s (boîte de dialogue ?)."
+    }
+    $crash.WaitForExit()
+    $accessViolation = -1073741819  # 0xC0000005, en entier signé
+    if ($crash.ExitCode -ne $accessViolation) {
+        Show-GameLog $game
+        throw ("--crash-test : code de sortie $($crash.ExitCode) (0x{0:X8}), violation d'accès 0xC0000005 attendue." -f $crash.ExitCode)
+    }
+    $dumps = @(Get-ChildItem -LiteralPath (Join-Path $game 'Crashes') -Filter '*.dmp' -File -ErrorAction SilentlyContinue)
+    # Exactement un : l'archive n'en livre aucun (package_release.ps1 écarte Crashes/), et le
+    # lancement ci-dessus en écrit un seul.
+    if ($dumps.Count -ne 1) {
+        Show-GameLog $game
+        throw "--crash-test : $($dumps.Count) minidump(s) dans Crashes/, un seul attendu (l'archive en livre-t-elle ?)."
+    }
+    $bytes = [System.IO.File]::ReadAllBytes($dumps[0].FullName)
+    $signature = [System.Text.Encoding]::ASCII.GetString($bytes, 0, [Math]::Min(4, $bytes.Length))
+    if ($signature -ne 'MDMP') {
+        throw "--crash-test : $($dumps[0].Name) n'est pas un minidump (signature « $signature »)."
+    }
+    $logged = Get-ChildItem -LiteralPath (Join-Path $game 'Logs') -File |
+        Select-String -SimpleMatch $dumps[0].Name -Quiet
+    if (-not $logged) {
+        Show-GameLog $game
+        throw "--crash-test : le journal ne cite pas $($dumps[0].Name)."
+    }
+    Write-Host ("OK : le plantage volontaire écrit $($dumps[0].Name) " +
+                "($([Math]::Round($dumps[0].Length / 1KB)) Kio), cité dans le journal.")
 }
 finally {
     # La capture demandée par -Screenshot vit hors de ce dossier et reste.

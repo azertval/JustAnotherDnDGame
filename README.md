@@ -18,6 +18,7 @@ de Qt, qui retient **Direct3D 11** par défaut sous Windows.
 > État actuel : le moteur est nu — le déplacement top-down arrive au `LOT-06`.
 
 - 📖 **Documentation en ligne** : <https://azertval.github.io/JustAnotherDnDGame/>
+- 📊 **Qualité** (couverture, performances) : <https://azertval.github.io/JustAnotherDnDGame/qualite/>
 - ⬇️ **Télécharger la dernière version** : <https://github.com/azertval/JustAnotherDnDGame/releases/latest>
   (préversion roulante du dernier `main` : <https://github.com/azertval/JustAnotherDnDGame/releases/tag/debug-latest>)
 

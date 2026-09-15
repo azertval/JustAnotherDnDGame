@@ -12,6 +12,14 @@
     du jeu, plutot que d'etre jetes ou d'alourdir l'archive que telecharge un joueur. Les .ilk
     (base du linker incremental) ne servent a rien hors du poste qui les a produits : ecartes.
 
+    Les dossiers qu'ECRIT le jeu en s'executant -- `Logs/` et `Crashes/` (minidumps, phase 4) -- sont
+    ecartes aussi : un lancement depuis le dossier de build (test de fumee, capture) les y laisse, et
+    l'archive livrerait alors les journaux et les plantages du poste qui l'a construite.
+
+    Lire un minidump d'une version livree : decompresser `<Name>-symbols.zip` a cote du jeu de la
+    MEME version, ouvrir le `.dmp` de `Crashes/` dans Visual Studio (Fichier > Ouvrir), puis
+    "Deboguer en mode natif uniquement". Le nom du dump porte la version qui l'a ecrit.
+
     Le script n'ecrit que dans OutDir et dans un dossier temporaire qu'il supprime ; le dossier de
     build n'est jamais modifie. Utilise par .github/workflows/release.yml, rejouable en local :
     `pwsh scripts/package_release.ps1 -BinDir build/vs/bin/Debug -Name JustAnotherDnDGame-debug`.
@@ -52,6 +60,10 @@ try {
     Copy-Item -Path (Join-Path $source '*') -Destination $gameStage -Recurse -Force
 
     Get-ChildItem -LiteralPath $gameStage -Recurse -File -Filter '*.ilk' | Remove-Item -Force
+    foreach ($runtime in 'Logs', 'Crashes') {
+        $folder = Join-Path $gameStage $runtime
+        if (Test-Path -LiteralPath $folder) { Remove-Item -LiteralPath $folder -Recurse -Force }
+    }
 
     $pdbs = @(Get-ChildItem -LiteralPath $gameStage -Recurse -File -Filter '*.pdb')
     foreach ($pdb in $pdbs) {

@@ -107,6 +107,9 @@ if(Qt6LinguistTools_FOUND)
         SOURCE_TARGETS JustAnotherDnDGame JadgUi JadgRuntime
         TS_FILES ${PROJECT_SOURCE_DIR}/Source/Elements/Localization/jadg_en.ts
         RESOURCE_PREFIX "/i18n"
+        # Une chaîne retirée du code quitte le catalogue : gardée en `vanished`, elle ferait croire
+        # le catalogue plus complet qu'il n'est (scripts/check_translations.py la refuse).
+        LUPDATE_OPTIONS -no-obsolete
     )
 else()
     message(STATUS "JustAnotherDnDGame : LinguistTools absent, le jeu ne parlera que francais "
