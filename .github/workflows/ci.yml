@@ -5,6 +5,19 @@ name: CI
 on:
   pull_request:
     branches: [ main ]
+  # Relance manuelle (onglet Actions) sans pousser de commit vide.
+  workflow_dispatch:
+
+# Un nouveau push sur la branche d'une PR rend le run précédent sans objet : on l'annule au lieu de
+# laisser trois runs de la même branche occuper les runners Windows en parallèle.
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+# Aucun job de ce workflow n'écrit dans le dépôt : jeton en lecture seule, explicitement, plutôt que
+# de dépendre du réglage par défaut du dépôt.
+permissions:
+  contents: read
 
 env:
   # Version de Qt épinglée (EX-BUILD-010), identique à `QT_VERSION_MINIMUM` dans
@@ -57,36 +70,22 @@ jobs:
   build-test-coverage:
     # Épinglé : windows-latest (image 2025) ne fournit pas le générateur VS 2022.
     runs-on: windows-2022
+    # Borne haute : un job bloqué (test qui ne termine pas, runner figé) échoue au lieu d'occuper le
+    # runner six heures, la valeur par défaut de GitHub. Large marge sur la durée observée.
+    timeout-minutes: 60
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
 
-      # Qt n'est pas gérable par FetchContent (SDK volumineux) : on le provisionne via aqtinstall
-      # (action dédiée, avec cache). Nécessaire pour construire la cible éditeur Qt
-      # (JustAnotherDnDGame, LOT-34) ; l'exécutable historique et les tests n'en dépendent pas.
+      # Nécessaire pour construire l'application Qt (JustAnotherDnDGame, LOT-34). Définition unique
+      # des modules et de l'action : .github/actions/setup-qt/action.yml.
       - name: Install Qt
-        uses: jurplel/install-qt-action@v4
+        uses: ./.github/actions/setup-qt
         with:
           version: ${{ env.QT_VERSION }}
-          host: windows
-          target: desktop
-          arch: win64_msvc2022_64
-          # qtmultimedia : module audio (LOT-60) -- Qt6::Multimedia (QSoundEffect) est un composant
-          # additionnel de l'installation Qt, pas une dependance tierce separee.
-          # qtshadertools : fournit `qsb`, le compilateur de shaders exige par le rendu QRhi
-          # (LOT-69 TACHE-02). qtcanvaspainter : peinture 2D acceleree (LOT-69), nouveau en 6.11.
-          # Un nom de module inconnu fait echouer aqt : ces trois lignes valent donc verification
-          # que le provisionnement de 6.11.2 fournit bien ce dont les taches suivantes dependent.
-          #
-          # Qt Quick (LOT-86) n'y figure PAS volontairement : il fait partie de l'installation de
-          # base d'aqtinstall, et ajouter un nom de module qui n'en est pas un ferait echouer le
-          # provisionnement pour tout le monde. Si l'hypothese est fausse, rien ne passe
-          # inapercu : find_package NOMME les modules manquants, et l'etape « Verifier que
-          # l'executable est bien produit » echoue franchement. C'est le bon endroit pour
-          # l'apprendre -- pas une supposition ecrite ici.
-          modules: qtmultimedia qtshadertools qtcanvaspainter
-          cache: true
           aqtsource: ${{ env.AQT_SOURCE }}
 
       - name: Configure (CMake)
@@ -161,7 +160,7 @@ jobs:
           }
 
       - name: Upload coverage report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: coverage
           path: |
@@ -174,26 +173,18 @@ jobs:
     # casse Release-only (variable lue uniquement par une assertion, donc inutilisée sous NDEBUG,
     # cf. 90f85254) n'était découverte qu'après un tag public. Ce job la découvre en PR (LOT-58).
     runs-on: windows-2022
+    timeout-minutes: 60
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
 
       - name: Install Qt
-        uses: jurplel/install-qt-action@v4
+        uses: ./.github/actions/setup-qt
         with:
           version: ${{ env.QT_VERSION }}
-          host: windows
-          target: desktop
-          arch: win64_msvc2022_64
-          # qtmultimedia : module audio (LOT-60) -- Qt6::Multimedia (QSoundEffect) est un composant
-          # additionnel de l'installation Qt, pas une dependance tierce separee.
-          # qtshadertools : fournit `qsb`, le compilateur de shaders exige par le rendu QRhi
-          # (LOT-69 TACHE-02). qtcanvaspainter : peinture 2D acceleree (LOT-69), nouveau en 6.11.
-          # Un nom de module inconnu fait echouer aqt : ces trois lignes valent donc verification
-          # que le provisionnement de 6.11.2 fournit bien ce dont les taches suivantes dependent.
-          modules: qtmultimedia qtshadertools qtcanvaspainter
-          cache: true
           aqtsource: ${{ env.AQT_SOURCE }}
 
       - name: Configure (CMake)
@@ -220,26 +211,18 @@ jobs:
     # silencieusement cessé de fonctionner. Ce job garantit que les deux générateurs restent
     # utilisables — et vérifie au passage la détection automatique de Qt (via QT_ROOT_DIR).
     runs-on: windows-2022
+    timeout-minutes: 60
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
 
       - name: Install Qt
-        uses: jurplel/install-qt-action@v4
+        uses: ./.github/actions/setup-qt
         with:
           version: ${{ env.QT_VERSION }}
-          host: windows
-          target: desktop
-          arch: win64_msvc2022_64
-          # qtmultimedia : module audio (LOT-60) -- Qt6::Multimedia (QSoundEffect) est un composant
-          # additionnel de l'installation Qt, pas une dependance tierce separee.
-          # qtshadertools : fournit `qsb`, le compilateur de shaders exige par le rendu QRhi
-          # (LOT-69 TACHE-02). qtcanvaspainter : peinture 2D acceleree (LOT-69), nouveau en 6.11.
-          # Un nom de module inconnu fait echouer aqt : ces trois lignes valent donc verification
-          # que le provisionnement de 6.11.2 fournit bien ce dont les taches suivantes dependent.
-          modules: qtmultimedia qtshadertools qtcanvaspainter
-          cache: true
           aqtsource: ${{ env.AQT_SOURCE }}
 
       - name: Install Ninja
@@ -279,10 +262,13 @@ jobs:
     # trois executables de test (jamais l'application Qt/D3D11, injouable sans affichage) et les
     # execute -- meme etablissement de l'environnement MSVC que build-ninja (LOT-58).
     runs-on: windows-2022
+    timeout-minutes: 60
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
 
       - name: Install Ninja
         run: choco install ninja -y --no-progress
@@ -314,28 +300,19 @@ jobs:
     # dans les logs sans faire echouer le job : un triage complet est hors budget de ce lot.
     # windows-2022 (pas Linux) : le code inclut Direct3D 11/Windows.h, indisponibles sous Linux.
     runs-on: windows-2022
+    timeout-minutes: 60
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Install Qt
-        uses: jurplel/install-qt-action@v4
+        uses: ./.github/actions/setup-qt
         with:
           version: ${{ env.QT_VERSION }}
-          host: windows
-          target: desktop
-          arch: win64_msvc2022_64
-          # qtmultimedia : module audio (LOT-60) -- Qt6::Multimedia (QSoundEffect) est un composant
-          # additionnel de l'installation Qt, pas une dependance tierce separee.
-          # qtshadertools : fournit `qsb`, le compilateur de shaders exige par le rendu QRhi
-          # (LOT-69 TACHE-02). qtcanvaspainter : peinture 2D acceleree (LOT-69), nouveau en 6.11.
-          # Un nom de module inconnu fait echouer aqt : ces trois lignes valent donc verification
-          # que le provisionnement de 6.11.2 fournit bien ce dont les taches suivantes dependent.
-          modules: qtmultimedia qtshadertools qtcanvaspainter
-          cache: true
           aqtsource: ${{ env.AQT_SOURCE }}
 
       - name: Install LLVM (clang-tidy) ${{ env.LLVM_VERSION }}
@@ -370,9 +347,14 @@ jobs:
         # Diff contre la base de la PR : seuls les fichiers Source/*.cpp (hors Source/Test) reellement
         # touches sont analyses. --diff-filter=ACMR exclut les fichiers supprimes (sinon clang-tidy
         # echouerait a les trouver).
+        # Relance manuelle (workflow_dispatch) : pas de base de PR, on compare a la branche par defaut.
+        # Passees par l'environnement et non interpolees dans le script : un nom de branche n'est
+        # jamais du code PowerShell.
+        env:
+          BASE_REF: ${{ github.base_ref || github.event.repository.default_branch }}
         run: |
-          git fetch origin "${{ github.base_ref }}" --depth=1
-          $files = git diff --name-only --diff-filter=ACMR "origin/${{ github.base_ref }}...HEAD" -- 'Source/*.cpp' |
+          git fetch origin "$env:BASE_REF" --depth=1
+          $files = git diff --name-only --diff-filter=ACMR "origin/$env:BASE_REF...HEAD" -- 'Source/*.cpp' |
             Where-Object { $_ -notmatch '^Source/Test/' }
 
           if (-not $files) {
@@ -398,9 +380,12 @@ jobs:
     # pousse pas de commit de reformatage. Sur Linux (contrairement a clang-tidy) : clang-format
     # n'a pas besoin des en-tetes Direct3D/Windows, seulement du texte source.
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
 
       - name: Install clang-format ${{ env.LLVM_VERSION }}
         # Le paquet PyPI redistribue les binaires officiels LLVM : meme mecanisme et memes
@@ -416,9 +401,12 @@ jobs:
     # Contrôle du référentiel d'exigences (EX-...) : unicité des déclarations et
     # absence de référence orpheline. Léger et portable (Python), donc sur Linux.
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
 
       - name: Lint des identifiants d'exigences
         run: python3 scripts/lint_exigences.py
@@ -501,9 +489,12 @@ jobs:
     # doc dès la PR, avec la même version de Doxygen que le déploiement (docs.yml).
     # Évite qu'une doc cassée n'atteigne main où seul docs.yml la construisait.
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
 
       - name: Install Graphviz
         run: sudo apt-get update && sudo apt-get install -y graphviz

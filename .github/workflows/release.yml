@@ -4,7 +4,10 @@ name: Release
 # - push sur main  -> reconstruit la release "roulante" debug-latest (préversion Debug autonome,
 #   toujours à jour avec le dernier commit intégré).
 # - tag "vX.Y.Z"   -> publie une release versionnée (non préversion), avec les exécutables Debug
-#   ET Release, chacun autonome.
+#   ET Release, chacun autonome -- seulement si le tag est sur main et que les tests passent sur
+#   ce commit (job test-tag).
+# Chaque release porte, à côté des zips du jeu, un zip de symboles (.pdb) par configuration et un
+# fichier SHA256SUMS (scripts/package_release.ps1, scripts/write_sha256sums.ps1).
 #
 # Depuis le LOT-38, l'unique application `JustAnotherDnDGame` est une app **Qt** : le job installe Qt
 # (comme la CI), construit avec le **runtime MSVC dynamique** (les DLL Qt officielles sont en /MD ;
@@ -16,9 +19,20 @@ on:
   push:
     branches: [ main ]
     tags: [ 'v*.*.*' ]
+  # Relance manuelle sans commit vide : depuis main, reconstruit debug-latest ; depuis un tag, la
+  # release versionnée (qui échoue si elle existe déjà : une version publiée ne se remplace pas).
+  workflow_dispatch:
 
+# Deux runs du même ref ne publient jamais en même temps. Sur main, le plus récent rend le précédent
+# sans objet : annulé. Sur un tag, jamais : une release versionnée à moitié publiée est pire qu'une
+# release en retard.
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref_type == 'branch' }}
+
+# Lecture seule par défaut ; seuls les jobs qui publient demandent l'écriture.
 permissions:
-  contents: write
+  contents: read
 
 env:
   # Version de Qt épinglée (EX-BUILD-010), identique à `QT_VERSION_MINIMUM` dans
@@ -38,30 +52,27 @@ env:
 
 jobs:
   rolling-debug:
-    if: github.ref_type == 'branch'
+    # Uniquement main : une relance manuelle depuis une autre branche ne doit pas publier
+    # debug-latest. Pas de job de test ici : le commit est arrive sur main par une PR dont la CI est
+    # un controle requis.
+    if: github.ref == 'refs/heads/main'
     # Épinglé : windows-latest (image 2025) ne fournit pas le générateur VS 2022.
     runs-on: windows-2022
+    timeout-minutes: 60
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
 
       # Qt est nécessaire pour construire l'application (cf. ci.yml).
       - name: Install Qt
-        uses: jurplel/install-qt-action@v4
+        uses: ./.github/actions/setup-qt
         with:
           version: ${{ env.QT_VERSION }}
-          host: windows
-          target: desktop
-          arch: win64_msvc2022_64
-          # qtmultimedia : module audio (LOT-60) -- Qt6::Multimedia (QSoundEffect) est un composant
-          # additionnel de l'installation Qt, pas une dependance tierce separee.
-          # qtshadertools : fournit `qsb`, le compilateur de shaders exige par le rendu QRhi
-          # (LOT-69 TACHE-02). qtcanvaspainter : peinture 2D acceleree (LOT-69), nouveau en 6.11.
-          # Un nom de module inconnu fait echouer aqt : ces trois lignes valent donc verification
-          # que le provisionnement de 6.11.2 fournit bien ce dont les taches suivantes dependent.
-          modules: qtmultimedia qtshadertools qtcanvaspainter
-          cache: true
           aqtsource: ${{ env.AQT_SOURCE }}
 
       - name: Configure (Debug autonome, sans tests)
@@ -74,50 +85,118 @@ jobs:
       - name: Build
         run: cmake --build build-release --config Debug
 
-      - name: Package
+      - name: Package (jeu, symboles, empreintes)
         shell: pwsh
+        # Tout le dossier de l'exécutable (exe, DLL Qt + platforms/ par windeployqt, runtime, assets),
+        # les .pdb dans une archive à part : voir scripts/package_release.ps1.
         run: |
-          New-Item -ItemType Directory -Force -Path package | Out-Null
-          # Tout le dossier de l'exécutable : JustAnotherDnDGame.exe, DLL Qt + platforms/ (windeployqt),
-          # runtime du compilateur, et les assets Levels/ Localization/ (POST_BUILD CMake).
-          Copy-Item build-release/bin/Debug/* package/ -Recurse -Force
-          Compress-Archive -Path package/* -DestinationPath JustAnotherDnDGame-debug.zip -Force
+          ./scripts/package_release.ps1 -BinDir build-release/bin/Debug -Name JustAnotherDnDGame-debug -OutDir dist
+          Push-Location dist
+          ../scripts/write_sha256sums.ps1 -Path JustAnotherDnDGame-debug.zip, JustAnotherDnDGame-debug-symbols.zip
+          Pop-Location
 
       - name: Publish rolling release
         shell: pwsh
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        # Idempotent : la release n'est jamais supprimée. L'ancienne séquence « delete puis create »
+        # laissait le dépôt SANS debug-latest dès que la création échouait (réseau, quota). Ici le
+        # tag est déplacé sur le commit, puis les fichiers sont remplacés un à un (--clobber) : au
+        # pire, un échec laisse la version précédente en place.
         run: |
-          # Recrée une release « roulante » pointant sur le dernier main.
-          gh release delete debug-latest --yes --cleanup-tag 2>$null
-          gh release create debug-latest JustAnotherDnDGame-debug.zip `
-            --title "JustAnotherDnDGame — Debug (dernier main)" `
-            --notes "Build Debug automatique du dernier commit sur main. Décompresser et lancer JustAnotherDnDGame.exe." `
-            --prerelease
+          $tag = 'debug-latest'
+          $files = @('dist/JustAnotherDnDGame-debug.zip', 'dist/JustAnotherDnDGame-debug-symbols.zip', 'dist/SHA256SUMS')
+          $notes = "Build Debug automatique du dernier commit sur main ($env:GITHUB_SHA). " +
+                   "Décompresser JustAnotherDnDGame-debug.zip et lancer JustAnotherDnDGame.exe. " +
+                   "Les symboles (.pdb) sont dans l'archive -symbols, les empreintes dans SHA256SUMS."
 
-  versioned-release:
+          # Le tag est déplacé par l'API, pas par `git push` : le checkout ne garde aucun jeton
+          # (persist-credentials: false), seul le GH_TOKEN de cette étape peut écrire.
+          gh api "repos/$env:GITHUB_REPOSITORY/git/refs/tags/$tag" *> $null
+          if ($LASTEXITCODE -eq 0) {
+            gh api -X PATCH "repos/$env:GITHUB_REPOSITORY/git/refs/tags/$tag" -f sha=$env:GITHUB_SHA -F force=true
+          } else {
+            gh api -X POST "repos/$env:GITHUB_REPOSITORY/git/refs" -f ref="refs/tags/$tag" -f sha=$env:GITHUB_SHA
+          }
+          if ($LASTEXITCODE -ne 0) { throw "Impossible de placer le tag $tag sur $env:GITHUB_SHA." }
+
+          gh release view $tag *> $null
+          if ($LASTEXITCODE -eq 0) {
+            gh release upload $tag @files --clobber
+            if ($LASTEXITCODE -ne 0) { throw "Échec de l'envoi des fichiers sur $tag." }
+            gh release edit $tag --notes $notes --prerelease
+          } else {
+            gh release create $tag @files --verify-tag --prerelease `
+              --title "JustAnotherDnDGame — Debug (dernier main)" --notes $notes
+          }
+          if ($LASTEXITCODE -ne 0) { throw "Échec de la publication de $tag." }
+
+  test-tag:
+    # Le build de release est BUILD_TESTING=OFF, et un tag peut être posé sur n'importe quel commit :
+    # rien ne garantissait qu'une archive versionnée sorte d'un code testé. Ce job l'exige, sur le
+    # commit EXACT du tag, dans les deux configurations livrées.
     if: github.ref_type == 'tag'
     runs-on: windows-2022
+    timeout-minutes: 90
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      # CONTRIBUTING : le tag se pose sur le commit de merge. Un tag sur une branche de travail
+      # publierait un code qui n'est jamais passé par la CI d'une PR.
+      - name: Le tag désigne un commit de main
+        shell: pwsh
+        run: |
+          git fetch origin main
+          git merge-base --is-ancestor $env:GITHUB_SHA origin/main
+          if ($LASTEXITCODE -ne 0) { throw "Le tag $env:GITHUB_REF_NAME ($env:GITHUB_SHA) n'est pas sur main." }
+          Write-Host "OK : $env:GITHUB_SHA est sur main."
 
       - name: Install Qt
-        uses: jurplel/install-qt-action@v4
+        uses: ./.github/actions/setup-qt
         with:
           version: ${{ env.QT_VERSION }}
-          host: windows
-          target: desktop
-          arch: win64_msvc2022_64
-          # qtmultimedia : module audio (LOT-60) -- Qt6::Multimedia (QSoundEffect) est un composant
-          # additionnel de l'installation Qt, pas une dependance tierce separee.
-          # qtshadertools : fournit `qsb`, le compilateur de shaders exige par le rendu QRhi
-          # (LOT-69 TACHE-02). qtcanvaspainter : peinture 2D acceleree (LOT-69), nouveau en 6.11.
-          # Un nom de module inconnu fait echouer aqt : ces trois lignes valent donc verification
-          # que le provisionnement de 6.11.2 fournit bien ce dont les taches suivantes dependent.
-          modules: qtmultimedia qtshadertools qtcanvaspainter
-          cache: true
+          aqtsource: ${{ env.AQT_SOURCE }}
+
+      - name: Configure (CMake)
+        run: cmake --preset vs
+        env:
+          CMAKE_PREFIX_PATH: ${{ env.QT_ROOT_DIR }}
+
+      - name: Build (Debug)
+        run: cmake --build --preset vs
+
+      - name: Test (Debug)
+        run: ctest --preset vs
+
+      - name: Build (Release)
+        run: cmake --build --preset vs-release
+
+      - name: Test (Release)
+        run: ctest --preset vs-release
+
+  versioned-release:
+    if: github.ref_type == 'tag'
+    needs: test-tag
+    runs-on: windows-2022
+    timeout-minutes: 90
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
+
+      - name: Install Qt
+        uses: ./.github/actions/setup-qt
+        with:
+          version: ${{ env.QT_VERSION }}
           aqtsource: ${{ env.AQT_SOURCE }}
 
       - name: Configure (Debug autonome, sans tests)
@@ -130,27 +209,34 @@ jobs:
       - name: Build (Debug)
         run: cmake --build build-debug --config Debug
 
-      - name: Configure (Release autonome, sans tests)
+      # Release AVEC symboles. Les drapeaux par défaut de CMake pour MSVC en Release (`/O2 /Ob2
+      # /DNDEBUG`, lien `/INCREMENTAL:NO`) ne produisent aucun .pdb : un plantage de la version
+      # livrée serait illisible. `/Zi` n'écrit que le .pdb, sans changer le code généré ; `/DEBUG`
+      # désactiverait par défaut `/OPT:REF` et `/OPT:ICF`, remis explicitement pour que l'exécutable
+      # reste celui qu'aurait produit un Release sans symboles.
+      - name: Configure (Release autonome avec symboles, sans tests)
         run: >
           cmake -S . -B build-prod -G "Visual Studio 17 2022" -A x64
           -DBUILD_TESTING=OFF
+          "-DCMAKE_CXX_FLAGS_RELEASE=/O2 /Ob2 /DNDEBUG /Zi"
+          "-DCMAKE_EXE_LINKER_FLAGS_RELEASE=/INCREMENTAL:NO /DEBUG /OPT:REF /OPT:ICF"
+          "-DCMAKE_SHARED_LINKER_FLAGS_RELEASE=/INCREMENTAL:NO /DEBUG /OPT:REF /OPT:ICF"
         env:
           CMAKE_PREFIX_PATH: ${{ env.QT_ROOT_DIR }}
 
       - name: Build (Release)
         run: cmake --build build-prod --config Release
 
-      - name: Package
+      - name: Package (jeu, symboles, empreintes)
         shell: pwsh
+        env:
+          VERSION: ${{ github.ref_name }}
         run: |
-          New-Item -ItemType Directory -Force -Path package-debug, package-release | Out-Null
-
-          # Tout le dossier de l'exécutable (exe + DLL Qt + platforms/ + runtime + assets).
-          Copy-Item build-debug/bin/Debug/* package-debug/ -Recurse -Force
-          Compress-Archive -Path package-debug/* -DestinationPath "JustAnotherDnDGame-${{ github.ref_name }}-debug.zip" -Force
-
-          Copy-Item build-prod/bin/Release/* package-release/ -Recurse -Force
-          Compress-Archive -Path package-release/* -DestinationPath "JustAnotherDnDGame-${{ github.ref_name }}-release.zip" -Force
+          ./scripts/package_release.ps1 -BinDir build-debug/bin/Debug -Name "JustAnotherDnDGame-$env:VERSION-debug" -OutDir dist
+          ./scripts/package_release.ps1 -BinDir build-prod/bin/Release -Name "JustAnotherDnDGame-$env:VERSION-release" -OutDir dist
+          Push-Location dist
+          ../scripts/write_sha256sums.ps1 -Path (Get-ChildItem -Filter *.zip | Sort-Object Name).Name
+          Pop-Location
 
       # Les notes viennent du CHANGELOG plutôt que de `--generate-notes`, qui ne produit qu'une
       # liste brute de messages de commit — illisible pour le non-développeur à qui la release
@@ -158,15 +244,18 @@ jobs:
       # interrompre le workflow qu'ouvrir une release aux notes vides, qui ne se corrige pas
       # proprement. Cette étape est donc volontairement AVANT la publication.
       - name: Notes de release depuis le CHANGELOG
-        run: python scripts/extract_release_notes.py "${{ github.ref_name }}" -o release-notes.md
+        env:
+          VERSION: ${{ github.ref_name }}
+        run: python scripts/extract_release_notes.py "$env:VERSION" -o release-notes.md
 
       - name: Publish versioned release
         shell: pwsh
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ github.ref_name }}
         run: |
-          gh release create "${{ github.ref_name }}" `
-            "JustAnotherDnDGame-${{ github.ref_name }}-debug.zip" `
-            "JustAnotherDnDGame-${{ github.ref_name }}-release.zip" `
-            --title "${{ github.ref_name }}" `
+          $files = @(Get-ChildItem -Path dist -File | ForEach-Object FullName)
+          gh release create "$env:VERSION" @files --verify-tag `
+            --title "$env:VERSION" `
             --notes-file release-notes.md
+          if ($LASTEXITCODE -ne 0) { throw "Échec de la publication de $env:VERSION." }

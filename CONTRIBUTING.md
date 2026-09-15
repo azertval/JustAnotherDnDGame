@@ -39,7 +39,15 @@ La portée correspond en général au module (`core`, `hmi`, `elements`, `test`,
   dans la **Release roulante `debug-latest`** (préversion, toujours à jour). À chaque tag
   `vX.Y.Z` poussé, publie une **Release versionnée** (non préversion) avec les exécutables
   **Debug et Release**, chacun autonome — destinés aux non-développeurs (télécharger,
-  décompresser, lancer).
+  décompresser, lancer). La release versionnée n'est publiée que si le tag est **sur `main`** et
+  que les tests passent **sur ce commit** en Debug et en Release (job `test-tag`). Chaque release
+  porte aussi un zip de **symboles** (`.pdb`) par configuration, sans lequel un plantage de la
+  version livrée est illisible, et un fichier **`SHA256SUMS`** (`sha256sum -c SHA256SUMS`).
+- Tous les workflows se relancent à la main depuis l'onglet **Actions** (`workflow_dispatch`),
+  sans commit vide. Un nouveau push sur une PR **annule** le run précédent.
+- Les actions GitHub sont **épinglées par SHA** de commit, le tag en commentaire ; **Dependabot**
+  (`.github/dependabot.yml`) propose leur mise à jour chaque semaine, en une PR. L'installation de
+  Qt n'est écrite qu'une fois : `.github/actions/setup-qt/action.yml`.
 
 ## Publier une version
 1. Bumper `VERSION` dans le `project()` du `CMakeLists.txt` racine — **seul** endroit où le numéro

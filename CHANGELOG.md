@@ -6,6 +6,20 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **CI : plus vite, plus propre** (refonte de la chaîne d'outillage, phase 0).
+  - **Compilation parallèle sous Visual Studio** (`/MP`) : MSBuild compilait les fichiers d'un
+    projet un par un, et les jobs `vs` prenaient deux fois le temps du job Ninja.
+  - **Un run obsolète est annulé** au push suivant sur la même PR ; chaque job a un **délai
+    maximal** au lieu des six heures par défaut ; le jeton est **en lecture seule** sauf dans les
+    jobs qui publient, et aucun checkout ne le conserve.
+  - **L'installation de Qt est écrite une fois** (`.github/actions/setup-qt`) au lieu de six.
+  - **Tous les workflows se relancent à la main** (`workflow_dispatch`).
+  - **Actions épinglées par SHA**, mises à jour par **Dependabot** une fois par semaine.
+  - **Release** : une version n'est publiée que depuis un tag **sur `main`** dont les tests passent
+    en Debug et en Release ; `debug-latest` n'est plus supprimée puis recréée, elle est mise à jour
+    sur place ; chaque release porte ses **symboles `.pdb`** (Release compris, jusqu'ici sans) dans
+    une archive à part, et un fichier **`SHA256SUMS`**.
+
 - **Colisée : deux bugs vus en jouant.**
   - **L'IA ne fuit plus le combat** (`LOT-23`). Trois causes dans la comparaison des candidats
     (`core::planTurn`) : la clé anti-suicide comptait les tireurs sur toute leur portée, donc toute
