@@ -80,8 +80,9 @@ et qu'on la menace, ou **se désengager** si le chemin provoque une attaque d'op
 frappé, un profil prudent ou archer **recule** vers une case moins menacée, si elle en existe une.
 
 Le meilleur candidat se choisit dans un **ordre lexicographique** : d'abord le moins d'ennemis en
-excès sur ce que le profil tolère, puis attaquer plutôt que ne pas attaquer, puis le score. À
-égalité, le premier examiné reste.
+excès sur ce que le profil tolère, puis attaquer plutôt que ne pas attaquer, puis **avancer** vers
+l'ennemi plutôt que tenir ou reculer, puis le score, puis le moins de déplacement. À égalité, le
+premier examiné reste.
 
 ## Les deux défauts à prévenir, et comment
 
@@ -94,8 +95,21 @@ score y envoie les cinq profils.
 
 **Le blocage.** Trois règles le rendent impossible sur une carte connexe : une IA qui **peut**
 attaquer attaque ; une IA qui ne le peut pas **avance** le long d'un chemin dont la longueur décroît
-(`approachPerTile` n'est jamais nul, le schéma l'impose) ; chaque tour se **termine**
-(`core::ArenaSession::endTurn`), qu'il ait servi ou non. Le test génère trente salles — de 10 à 16
+— c'est une **clé** de la comparaison, avant le score, depuis la correction ci-dessous ; chaque tour
+se **termine** (`core::ArenaSession::endTurn`), qu'il ait servi ou non.
+
+*Corrigé après livraison, en jouant au Colisée.* L'IA fuyait. (1) L'avance n'était qu'un poids
+(`approachPerTile`) face à la menace, qui vaut un round entier de dégâts dès qu'une case est à
+« vitesse + allonge » d'un héros et rien au-delà : sur la carte 20×14 de l'arène, un prudent
+s'arrêtait au bord de cette zone et reculait quand le héros avançait — les tests, joués dans des
+salles de 10 à 16 cases où la zone couvre tout, ne le voyaient pas. (2) « À portée de trois
+ennemis » comptait les tireurs sur toute leur portée : dès deux arcs ou armes de jet en face, toute
+case atteignable dépassait `toleratedThreats`, et comme l'excès passe avant l'attaque, la case de
+contact perdait contre n'importe quelle case lointaine. Seules les attaques **de contact** comptent
+désormais ; un tireur pèse dans la menace. (3) À score égal, le premier candidat examiné
+l'emportait, donc la case de plus petit indice : le repli après attaque filait au coin haut-gauche,
+et un tireur allait y tirer. Le dernier critère de la comparaison est désormais le moins de
+déplacement. Le test génère trente salles — de 10 à 16
 cases sur 8 à 10, des piliers, deux à quatre combattants par camp, tous les profils, un tiers de
 tireurs, la tenaille une fois sur deux — et joue chaque combat par l'IA des deux côtés : tous
 atteignent leur issue avant la garde de 600 tours.
@@ -120,9 +134,9 @@ rejeu d'une graine sur trois du test de terminaison redonne **le même journal**
 - **La menace ne compte pas l'abri.** L'abri de chaque case contre chaque tireur doublait le coût
   d'un tour pour une nuance de deux points de CA ; un tireur qui marche trouve de toute façon sa
   case. L'abri compte, en revanche, dans le choix de la cible et dans le jet réel.
-- **« À portée de trois ennemis »** se lit « trois ennemis peuvent frapper la case **sans bouger** » :
-  mesurée avec leur déplacement, presque toute case d'une arène est à portée de tout le monde, et le
-  critère n'aurait rien interdit.
+- **« À portée de trois ennemis »** se lit « trois ennemis peuvent frapper la case **au contact,
+  sans bouger** » : mesurée avec leur déplacement, ou avec la portée d'un tireur, presque toute case
+  d'une arène est à portée de tout le monde, et le critère n'aurait rien interdit — ou tout.
 - **La tenaille est optionnelle, et activée au Colisée.** Le Guide la présente comme une règle
   optionnelle ; l'arène est le banc d'essai du combat, et c'est la seule règle de positionnement de
   ces pages. Une arène sans le champ ne la joue pas.

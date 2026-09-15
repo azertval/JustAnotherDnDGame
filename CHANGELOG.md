@@ -6,6 +6,24 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **Colisée : deux bugs vus en jouant.**
+  - **L'IA ne fuit plus le combat** (`LOT-23`). Trois causes dans la comparaison des candidats
+    (`core::planTurn`) : la clé anti-suicide comptait les tireurs sur toute leur portée, donc toute
+    case atteignable dépassait le seuil dès deux archers ou armes de jet en face, et la case de
+    contact perdait contre n'importe quelle case lointaine — elle ne compte plus que les attaques
+    **de contact** ; la menace d'un round entier, une marche d'escalier au bord de la zone où
+    l'ennemi peut frapper, pesait plus que quelques cases d'approche, et un prudent restait hors de
+    portée ou reculait — **avancer** quand on ne peut pas attaquer est désormais une **clé**, avant
+    le score ; enfin, à score égal, le premier candidat examiné l'emportait, c'est-à-dire la case
+    de plus petit indice : le repli après attaque filait au coin haut-gauche, et un tireur allait y
+    tirer — à score égal, toute famille de candidats préfère désormais la case qui demande le moins
+    de déplacement. Trois tests, dont un dans une salle aux dimensions de l'arène.
+  - **Le chemin prévisualisé suit la droite** (`LOT-19`). Le départage « prédécesseur d'indice le
+    plus petit » faisait monter le chemin pour le redescendre, d'où un tracé en triangle vers une
+    case en haut à droite. L'exploration retient tous les prédécesseurs au meilleur coût, et la
+    remontée choisit le plus proche de la droite départ→arrivée, à égalité le plus petit indice ;
+    `findPath` et `ReachableArea::pathTo` restent d'accord sur deux cents cartes.
+
 - **IHM de combat** (`LOT-24`, `EX-IHM-003`, `EX-CBT-020`). Le combat du Colisée se lit avant de se
   jouer, et se joue sans souris.
   - **Un curseur de ciblage** au clavier (flèches, Tab, Entrée, 1 à 9, Espace) et **à la manette**

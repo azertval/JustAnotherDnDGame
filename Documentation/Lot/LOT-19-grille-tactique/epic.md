@@ -53,10 +53,18 @@ soit une règle explicite ; il en fallait une qui tienne **deux** algorithmes d'
 `ReachableArea` (Dijkstra borné par le budget, pour le tour du joueur) et `findPath` (A*, sans
 budget, pour l'IA du [LOT-23](@ref lot-23) qui marche vers une cible lointaine).
 
-La règle : **parmi les prédécesseurs qui atteignent une case à son meilleur coût, on retient celui
-d'indice de case le plus petit** (ligne, puis colonne). Elle se définit sur le graphe, pas sur
-l'ordre d'exploration : l'ordre des voisins, celui de la file, l'algorithme lui-même n'y changent
-rien.
+La règle : **parmi les prédécesseurs qui atteignent une case à son meilleur coût, on retient le
+plus proche de la droite qui joint le départ à l'arrivée**, et à égalité celui d'indice de case le
+plus petit (ligne, puis colonne). Elle se définit sur le graphe, pas sur l'ordre d'exploration :
+l'ordre des voisins, celui de la file, l'algorithme lui-même n'y changent rien. L'exploration
+retient donc **tous** les prédécesseurs au meilleur coût (un masque de huit bits par case), et
+c'est la remontée, qui connaît l'arrivée, qui choisit.
+
+*Corrigé après livraison* : la première règle ne retenait que le plus petit indice, indépendamment
+de l'arrivée. Vers une case en haut à droite, le chemin montait d'abord (la rangée la plus haute
+gagne toujours) puis redescendait — la prévisualisation du déplacement (`LOT-24`) dessinait un
+triangle là où le joueur attendait une ligne. La droite départ→arrivée est le seul critère qui ne
+dépende ni de l'orientation ni de la position sur la carte.
 
 Encore faut-il que l'A* voie tous ces prédécesseurs. Arrêté à la première sortie de la destination,
 il rend un chemin **juste**, mais pas toujours **le** chemin : un prédécesseur de même coût et

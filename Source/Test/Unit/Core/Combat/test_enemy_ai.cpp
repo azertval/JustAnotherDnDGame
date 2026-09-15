@@ -368,6 +368,137 @@ TEST(EnemyAiTest, PasDeSuicideQuandUneCaseSureExiste) {
 }
 
 /**
+ * @brief Un tireur ne compte pas dans la cle anti-suicide : sa portee couvre l'arene.
+ * \castest{<b>Deux archers allies qui couvrent toute la salle n'empechent pas un prudent d'aller
+ * frapper le heros au contact.</b><br/>
+ * \tcat Unitaire · Combat<br/>
+ * \tcrit Bloquant<br/>
+ * \tetapes 1. Salle 12x8 : un heros de contact en (7,3), deux archers allies en (2,2) et (2,5)
+ * dont la portee couvre la salle, un gobelin prudent (tolere une menace) en (5,3).<br/>2. Planifier
+ * le tour du gobelin.<br/>
+ * \tattendu Une attaque contre le heros depuis une case au contact. Avant la correction, toute case
+ * etait a portee des deux archers, la case de contact en depassait le seuil, et le gobelin fuyait.
+ * }
+ */
+TEST(EnemyAiTest, UnTireurNeComptePasDansLAntiSuicide) {
+    const core::BehaviorCatalog profils = catalogue();
+    core::ArenaBout bout{.seed = 4, .lethal = false, .heroicMark = false};
+    core::ArenaContestant gobelin = combattant("Gobelin", CombatSide::Enemies, {5, 3}, "cautious");
+    gobelin.profile.initiativeModifier = 100;
+    bout.contestants = {combattant("Contact", CombatSide::Allies, {7, 3}),
+                        archer("Nord", CombatSide::Allies, {2, 2}, {}),
+                        archer("Sud", CombatSide::Allies, {2, 5}, {}), gobelin};
+    core::ArenaSession session(salle(12, 8));
+    session.mount(bout);
+    ASSERT_TRUE(session.start());
+    ASSERT_EQ(session.combat().activeCombatant(), CombatantId{4});
+
+    const core::TurnPlan plan = core::planTurn(session, CombatantId{4}, *profils.find("cautious"));
+    EXPECT_EQ(plan.action, core::TurnAction::Attack) << plan.summary;
+    EXPECT_EQ(plan.target, CombatantId{1}) << plan.summary;
+    EXPECT_EQ(plan.immediateThreats, 1) << "seul le heros de contact menace la case de fin";
+}
+
+/**
+ * @brief Sans attaque possible, chaque profil avance : la menace ne le tient pas a distance.
+ * \castest{<b>Dans une salle aux dimensions de l'arene, un ennemi de chaque profil qui ne peut pas
+ * encore frapper se rapproche a chaque tour, jusqu'a attaquer.</b><br/>
+ * \tcat Unitaire · Combat<br/>
+ * \tcrit Bloquant<br/>
+ * \tetapes 1. Salle 20x14, heros en (3,6) (+4, 1d8+2), ennemi de contact en (16,6) a treize cases,
+ * pour chacun des profils livres.<br/>2. Le heros passe son tour ; jouer l'ennemi par l'IA, jusqu'a
+ * six tours.<br/>
+ * \tattendu Tant qu'il n'a pas attaque, la distance au heros diminue strictement a chaque tour de
+ * l'ennemi ; il attaque au plus tard au troisieme. Avant la correction, un prudent s'arretait au
+ * bord de la zone de menace et reculait quand le heros avancait.
+ * }
+ */
+TEST(EnemyAiTest, SansAttaquePossibleChaqueProfilAvance) {
+    const core::BehaviorCatalog profils = catalogue();
+    for (const core::BehaviorProfile& profil : profils.profiles) {
+        core::ArenaBout bout{.seed = 21, .lethal = false, .heroicMark = false};
+        core::ArenaContestant heros =
+            combattant("Heros", CombatSide::Allies, {3, 6}, {}, 30, 12, 4, "1d8+2");
+        heros.profile.initiativeModifier = -100;
+        core::ArenaContestant ennemi =
+            combattant("Ennemi", CombatSide::Enemies, {16, 6}, profil.id, 30);
+        ennemi.profile.initiativeModifier = 100;
+        bout.contestants = {heros, ennemi};
+        core::ArenaSession session(salle(20, 14));
+        session.mount(bout);
+        ASSERT_TRUE(session.start());
+
+        const auto aAttaque = [&] {
+            return std::ranges::any_of(session.journal(), [](const std::string& l) {
+                return l.starts_with("attaque Ennemi");
+            });
+        };
+        int distance = *core::gridDistance(session.combat(), CombatantId{2}, CombatantId{1});
+        ASSERT_EQ(distance, 13);
+        int toursEnnemi = 0;
+        for (int tour = 0; tour < 12 && !aAttaque(); ++tour) {
+            if (session.combat().activeCombatant() == CombatantId{1}) {
+                ASSERT_TRUE(session.endTurn());
+                continue;
+            }
+            ASSERT_TRUE(core::playTurn(session, profils)) << profil.id;
+            ++toursEnnemi;
+            if (aAttaque()) {
+                break;
+            }
+            const int apres =
+                *core::gridDistance(session.combat(), CombatantId{2}, CombatantId{1});
+            EXPECT_LT(apres, distance) << profil.id << ", tour " << toursEnnemi << " : "
+                                       << session.journal().back();
+            distance = apres;
+        }
+        EXPECT_TRUE(aAttaque()) << profil.id;
+        EXPECT_LE(toursEnnemi, 3) << profil.id;
+    }
+}
+
+/**
+ * @brief Le repli apres l'attaque va a la case sure la plus proche, pas au coin de la salle.
+ * \castest{<b>Une archere prudente tire puis recule juste hors de portee du heros, vers la case la
+ * plus proche de lui.</b><br/>
+ * \tcat Unitaire · Combat<br/>
+ * \tcrit Critique<br/>
+ * \tetapes 1. Salle 20x8, heros de contact en (16,3), archere prudente en (10,3) a sept cases de
+ * portee : le heros atteint en un tour toute case de la colonne 9 et au-dela, et elle ne peut tirer
+ * que de la.<br/>2. Jouer le tour de l'archere.<br/>
+ * \tattendu Un tir au journal, puis un repli en colonne 8 : hors de portee, et au moins de
+ * deplacement. Avant la correction, a menace egale le plus petit indice l'emportait, et elle filait
+ * en colonne 4.
+ * }
+ */
+TEST(EnemyAiTest, LeRepliVaALaCaseSureLaPlusProche) {
+    const core::BehaviorCatalog profils = catalogue();
+    core::ArenaBout bout{.seed = 8, .lethal = false, .heroicMark = false};
+    core::ArenaContestant heros = combattant("Heros", CombatSide::Allies, {16, 3}, {}, 30);
+    heros.profile.initiativeModifier = -100;
+    core::ArenaContestant tireuse = archer("Archere", CombatSide::Enemies, {10, 3}, "cautious");
+    tireuse.attacks[0].range = core::AttackRange{.normal = 7, .maximum = 7};
+    tireuse.profile.initiativeModifier = 100;
+    bout.contestants = {heros, tireuse};
+    core::ArenaSession session(salle(20, 8));
+    session.mount(bout);
+    ASSERT_TRUE(session.start());
+    ASSERT_EQ(session.combat().activeCombatant(), CombatantId{2});
+    ASSERT_TRUE(core::playTurn(session, profils));
+
+    const std::vector<std::string>& journal = session.journal();
+    EXPECT_TRUE(std::ranges::any_of(
+        journal, [](const std::string& l) { return l.starts_with("attaque Archere -> Heros"); }));
+    EXPECT_TRUE(std::ranges::any_of(
+        journal, [](const std::string& l) { return l.find(": recule en") != std::string::npos; }));
+    const GridPosition fin = *session.combat().grid().positionOf(CombatantId{2});
+    EXPECT_EQ(fin.column, 8) << "en " << fin.column << "," << fin.row;
+    // Hors de la zone, les cases de la colonne 8 sont equivalentes : le plus petit indice reste le
+    // second critere, et la ligne 1 en est.
+    EXPECT_EQ(fin.row, 1) << "en " << fin.column << "," << fin.row;
+}
+
+/**
  * @brief L'archere cherche la case d'ou elle voit, tire, et n'attaque jamais a travers un mur.
  * \castest{<b>Une IA archere cachee de sa cible par un pilier se deplace jusqu'a une case qui la
  * voit et tire ; elle n'essaie jamais un tir que la ligne de vue refuse.</b><br/>
