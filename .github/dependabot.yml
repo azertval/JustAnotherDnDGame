@@ -1,0 +1,31 @@
+# Mises à jour automatiques des dépendances que Dependabot sait lire.
+#
+# Les actions GitHub sont épinglées par SHA de commit (le tag en commentaire) : un tag se réécrit, un
+# commit non. Le prix de cet épinglage est qu'il ne bouge plus jamais seul — ce fichier le fait
+# bouger, par PR, pour qu'une montée de version reste une décision relue et passée par la CI.
+#
+# Hors de portée de Dependabot, suivi à la main :
+# - les versions d'outils écrites dans `env:` de ci.yml (LLVM, Doxygen, OpenCppCoverage,
+#   jsonschema, AQT_SOURCE) — ni manifeste pip, ni paquet, seulement du texte ;
+# - les `GIT_TAG` de FetchContent (External/CMakeLists.txt) — Dependabot ne lit pas CMake.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    # "/" couvre .github/workflows ; l'action composite setup-qt se déclare à part.
+    directories:
+      - "/"
+      - "/.github/actions/*"
+    schedule:
+      interval: weekly
+      day: monday
+    # Une version d'action publiée depuis moins d'une semaine n'est pas proposée : le temps qu'une
+    # publication compromise soit repérée et retirée en amont, avant qu'elle n'atteigne le runner.
+    cooldown:
+      default-days: 7
+    # Une PR par semaine pour toutes les actions, plutôt qu'une par action : chacune coûte un run
+    # complet de la CI Windows.
+    groups:
+      actions:
+        patterns: [ "*" ]
+    commit-message:
+      prefix: ci

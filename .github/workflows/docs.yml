@@ -4,9 +4,16 @@ name: Documentation
 on:
   push:
     branches: [ main ]
+  # Relance manuelle sans commit vide ; le job ne publie que depuis main (voir `if`).
+  workflow_dispatch:
+
+# Deux merges rapprochés : seul le site du dernier compte, le déploiement précédent est annulé.
+concurrency:
+  group: docs-${{ github.ref }}
+  cancel-in-progress: true
 
 permissions:
-  contents: write
+  contents: read
 
 env:
   # Même version épinglée que le job `docs` de ci.yml : le site publié doit être
@@ -16,11 +23,18 @@ env:
 
 jobs:
   deploy-docs:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    timeout-minutes: 30
+    # Seul ce job écrit (branche gh-pages).
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
 
       - name: Install Graphviz
         run: sudo apt-get update && sudo apt-get install -y graphviz
@@ -44,7 +58,7 @@ jobs:
         run: python3 scripts/build_docs.py
 
       - name: Deploy to gh-pages
-        uses: peaceiris/actions-gh-pages@v4
+        uses: peaceiris/actions-gh-pages@84c30a85c19949d7eee79c4ff27748b70285e453 # v4.1.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: Documentation/generated/html

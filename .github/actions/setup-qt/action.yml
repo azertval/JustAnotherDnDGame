@@ -1,0 +1,46 @@
+name: Installer Qt
+description: >
+  Provisionne Qt pour le build MSVC x64, avec la liste de modules du projet. Unique définition de
+  l'installation, partagée par ci.yml et release.yml : la prochaine montée de Qt ou le prochain
+  module se changent ici, et nulle part ailleurs.
+
+# La VERSION n'est pas écrite ici mais reçue en entrée : `scripts/check_qt_version_pin.py` lit
+# `env.QT_VERSION` dans chaque workflow et le compare à `QT_VERSION_MINIMUM` (EX-BUILD-010). Déplacer
+# la version dans ce fichier retirerait ce contrôle sans le remplacer.
+inputs:
+  version:
+    description: Version de Qt, `env.QT_VERSION` du workflow appelant.
+    required: true
+  aqtsource:
+    description: Source d'aqtinstall, `env.AQT_SOURCE` du workflow appelant.
+    required: true
+
+runs:
+  using: composite
+  steps:
+    # Qt n'est pas gérable par FetchContent (SDK volumineux) : on le provisionne via aqtinstall
+    # (action dédiée, avec cache). install-qt-action exporte QT_ROOT_DIR dans l'environnement du
+    # job, que les étapes suivantes passent en CMAKE_PREFIX_PATH.
+    - name: Install Qt
+      # Épinglé par SHA (tag v4.4.0) : un tag se réécrit, un commit non. Mis à jour par Dependabot.
+      uses: jurplel/install-qt-action@bcb88e3bed2e992f5f9e24c0f9e364a231d278eb # v4.4.0
+      with:
+        version: ${{ inputs.version }}
+        host: windows
+        target: desktop
+        arch: win64_msvc2022_64
+        # qtmultimedia : module audio (LOT-60) -- Qt6::Multimedia (QSoundEffect) est un composant
+        # additionnel de l'installation Qt, pas une dependance tierce separee.
+        # qtshadertools : fournit `qsb`, le compilateur de shaders exige par le rendu QRhi
+        # (LOT-69 TACHE-02). qtcanvaspainter : peinture 2D acceleree (LOT-69), nouveau en 6.11.
+        # Un nom de module inconnu fait echouer aqt : ces trois lignes valent donc verification
+        # que le provisionnement fournit bien ce dont le code depend.
+        #
+        # Qt Quick (LOT-86) n'y figure PAS volontairement : il fait partie de l'installation de
+        # base d'aqtinstall, et ajouter un nom de module qui n'en est pas un ferait echouer le
+        # provisionnement pour tout le monde. Si l'hypothese est fausse, rien ne passe
+        # inapercu : find_package NOMME les modules manquants, et l'etape « Verifier que
+        # l'executable est bien produit » echoue franchement.
+        modules: qtmultimedia qtshadertools qtcanvaspainter
+        cache: true
+        aqtsource: ${{ inputs.aqtsource }}

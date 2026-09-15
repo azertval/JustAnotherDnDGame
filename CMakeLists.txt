@@ -95,6 +95,18 @@ else()
     endif()
 endif()
 
+# --- Compilation parallèle sous Visual Studio ---
+# MSBuild compile les fichiers d'un projet UN PAR UN sans /MP : à code identique, le preset `vs`
+# prenait deux fois le temps du preset `ninja`, qui parallélise lui-même. Portée globale (dépendances
+# comprises) : l'option ne change que l'ordonnancement, jamais le code produit. Inutile sous Ninja.
+# Pas de `jobs` dans les presets `vs` en plus : /m:N lancerait N projets ayant chacun autant de
+# compilateurs que de cœurs, soit N × cœurs processus cl.exe — de quoi épuiser les 16 Gio du runner
+# comme d'un poste. Les projets s'enchaînant surtout en série (Core, puis HMI, puis le reste), /MP
+# seul occupe déjà tous les cœurs.
+if(MSVC AND CMAKE_GENERATOR MATCHES "Visual Studio")
+    add_compile_options(/MP)
+endif()
+
 # --- Options de compilation transverses (sanitizers) ---
 add_library(project_options INTERFACE)
 if(ENABLE_ASAN)
