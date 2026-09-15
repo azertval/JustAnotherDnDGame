@@ -1,0 +1,12 @@
+# Configuration de zizmor (hook de .pre-commit-config.yaml et job `pre-commit` de ci.yml, phase 2).
+#
+# Chaque audit désactivé ici l'est pour une raison écrite ; un écart ponctuel se signale plutôt en
+# ligne, sur la ligne concernée (`# zizmor: ignore[audit] -- raison`).
+rules:
+  # zizmor recommande la syntaxe `uses: $/.github/actions/…` (GitHub, juillet 2026) pour l'action
+  # composite setup-qt. actionlint 1.7.12, l'autre hook, la refuse comme référence mal formée : les
+  # deux ne peuvent pas être verts en même temps. `./` reste valide et éprouvé à chaque run ; à
+  # reprendre quand actionlint connaîtra la nouvelle forme (Dependabot n'en suit pas les hooks :
+  # `pre-commit autoupdate --freeze`).
+  self-repository:
+    disable: true

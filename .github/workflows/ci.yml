@@ -59,6 +59,12 @@ env:
   # les messages de diagnostic et la stricte conformite d'un validateur evoluent d'une version a
   # l'autre, et un controle qui ne predit pas le resultat local ne sert qu'a agacer.
   JSONSCHEMA_VERSION: 4.26.0
+  # Cache de compilation des jobs Ninja (phase 2) : le CMakeLists racine l'utilise dès qu'il est
+  # dans le PATH, et `scripts/setup_dev.ps1` installe cette même version sur le poste.
+  SCCACHE_VERSION: 0.18.0
+  # Moteur des hooks de .pre-commit-config.yaml (phase 2), même version sur le poste
+  # (`scripts/setup_dev.ps1`). Les versions des hooks eux-mêmes sont épinglées dans ce fichier-là.
+  PRE_COMMIT_VERSION: 4.6.2
   # Seuil de couverture (LOT-58, TACHE-05) : cliquet anti-régression, pas un objectif. Mesuré
   # localement le 2026-08-10 (build Ninja Debug, UnitTests+IntegrationTests+SystemTests fusionnés) :
   # 93.66 % (8602/9184 lignes). Seuil calé avec une marge explicite de ~8.5 points — voir
@@ -276,12 +282,22 @@ jobs:
     # utilisables — et vérifie au passage la détection automatique de Qt (via QT_ROOT_DIR).
     runs-on: windows-2022
     timeout-minutes: 60
+    env:
+      SCCACHE_GHA_ENABLED: 'true'
 
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
+
+      # Cache de compilation (phase 2), stocké dans le cache GitHub Actions. Le CMakeLists racine
+      # l'active dès que `sccache` est dans le PATH. Le cache d'une PR ne sert qu'à cette PR (la CI
+      # ne tourne pas sur main) : le gain vient au deuxième push. Statistiques en fin de job.
+      - name: Cache de compilation (sccache ${{ env.SCCACHE_VERSION }})
+        uses: mozilla-actions/sccache-action@fc920bf0ec8de6ee65d409111f7ec508035751ba # v0.0.11
+        with:
+          version: v${{ env.SCCACHE_VERSION }}
 
       - name: Annotations du compilateur et des tests
         run: echo "::add-matcher::.github/problem-matchers/msvc.json"
@@ -296,7 +312,7 @@ jobs:
         run: choco install ninja -y --no-progress
 
       - name: Configure, build et test (Ninja, environnement x64)
-        shell: cmd
+        shell: cmd  # zizmor: ignore[misfeature] -- vcvars64.bat et CMake doivent partager un processus
         # vcvars64.bat doit être appelé dans le MÊME processus que CMake : son effet est
         # l'environnement du shell, que `run` ne conserve pas d'une étape à l'autre. vswhere
         # localise l'installation sans coder en dur l'édition de Visual Studio de l'image.
@@ -347,12 +363,22 @@ jobs:
     # execute -- meme etablissement de l'environnement MSVC que build-ninja (LOT-58).
     runs-on: windows-2022
     timeout-minutes: 60
+    env:
+      SCCACHE_GHA_ENABLED: 'true'
 
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
+
+      # Cache de compilation (phase 2), stocké dans le cache GitHub Actions. Le CMakeLists racine
+      # l'active dès que `sccache` est dans le PATH. Le cache d'une PR ne sert qu'à cette PR (la CI
+      # ne tourne pas sur main) : le gain vient au deuxième push. Statistiques en fin de job.
+      - name: Cache de compilation (sccache ${{ env.SCCACHE_VERSION }})
+        uses: mozilla-actions/sccache-action@fc920bf0ec8de6ee65d409111f7ec508035751ba # v0.0.11
+        with:
+          version: v${{ env.SCCACHE_VERSION }}
 
       - name: Annotations du compilateur et des tests
         run: echo "::add-matcher::.github/problem-matchers/msvc.json"
@@ -362,7 +388,7 @@ jobs:
 
       - name: Configure, build et execution sous AddressSanitizer
         id: asan
-        shell: cmd
+        shell: cmd  # zizmor: ignore[misfeature] -- vcvars64.bat et CMake doivent partager un processus
         # Tout dans UN SEUL step : chaque step GitHub Actions demarre un cmd.exe neuf, et
         # l'effet de vcvars64.bat (PATH, dont le dossier de la DLL runtime ASan) ne survit pas
         # d'un step a l'autre. Executer les .exe dans un step separe les fait echouer avant meme
@@ -406,6 +432,8 @@ jobs:
       contents: read
       # Envoi du SARIF à Code scanning (annotations sur le diff, phase 1).
       security-events: write
+    env:
+      SCCACHE_GHA_ENABLED: 'true'
 
     steps:
       - name: Checkout
@@ -413,6 +441,14 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
+
+      # Cache de compilation (phase 2), stocké dans le cache GitHub Actions. Le CMakeLists racine
+      # l'active dès que `sccache` est dans le PATH. Le cache d'une PR ne sert qu'à cette PR (la CI
+      # ne tourne pas sur main) : le gain vient au deuxième push. Statistiques en fin de job.
+      - name: Cache de compilation (sccache ${{ env.SCCACHE_VERSION }})
+        uses: mozilla-actions/sccache-action@fc920bf0ec8de6ee65d409111f7ec508035751ba # v0.0.11
+        with:
+          version: v${{ env.SCCACHE_VERSION }}
 
       - name: Install Qt
         uses: ./.github/actions/setup-qt
@@ -426,7 +462,7 @@ jobs:
       - name: Configure (Ninja, compile_commands.json, sans PCH)
         # ENABLE_PCH=OFF : le fichier .pch genere par MSVC n'est pas un format que clang-tidy sait
         # lire, l'analyse echouerait sur chaque fichier avec un message qui ne parle pas de PCH.
-        shell: cmd
+        shell: cmd  # zizmor: ignore[misfeature] -- vcvars64.bat et CMake doivent partager un processus
         run: |
           for /f "usebackq tokens=*" %%i in (`"%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath`) do (
             call "%%i\VC\Auxiliary\Build\vcvars64.bat" || exit /b 1
@@ -440,7 +476,7 @@ jobs:
         # ce build, tout fichier incluant "ui_*.h" (widgets avec un formulaire .ui) echoue a l'analyse
         # avec "file not found", une erreur de configuration CI, pas un defaut du code (confirme en
         # premiere execution reelle -- voir tache-03-clang-tidy.md).
-        shell: cmd
+        shell: cmd  # zizmor: ignore[misfeature] -- vcvars64.bat et CMake doivent partager un processus
         run: |
           for /f "usebackq tokens=*" %%i in (`"%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath`) do (
             call "%%i\VC\Auxiliary\Build\vcvars64.bat" || exit /b 1
@@ -553,6 +589,7 @@ jobs:
               echo "$checked fichier(s) vérifié(s), aucun écart."
             else
               echo "$checked fichier(s) vérifié(s), **$(echo "$bad" | wc -l) mal formaté(s)** :"
+              # shellcheck disable=SC2016 # backticks Markdown littéraux, pas une substitution
               echo "$bad" | sed 's/^/- `/; s/$/`/'
             fi
           } >> "$GITHUB_STEP_SUMMARY"
@@ -677,6 +714,49 @@ jobs:
         if: ${{ !cancelled() }}
         run: python3 scripts/clang_tidy_sarif.py --auto-test
 
+      # Parité du poste (phase 2). Un outil épinglé à deux endroits l'est à la même version :
+      # clang-format dans ce fichier et dans .pre-commit-config.yaml, Doxygen ici et dans docs.yml.
+      - name: Versions d'outils coherentes CI / hooks / docs
+        id: tool_pins
+        if: ${{ !cancelled() }}
+        run: python3 scripts/check_tool_pins.py
+
+      # Mêmes scripts que les hooks du poste, mais sur TOUT le dépôt : un commit passé avec
+      # --no-verify, ou d'avant les hooks, est rattrapé ici.
+      - name: Garde-fou binaires (taille, familles declarees dans .gitattributes)
+        id: binaries
+        if: ${{ !cancelled() }}
+        run: python3 scripts/check_binary_files.py --all
+
+      - name: JSON valides, sans cle en double ni BOM
+        id: json_files
+        if: ${{ !cancelled() }}
+        run: python3 scripts/check_json_files.py --all
+
+      # Ces trois-là ne s'exécutent en vrai que sur le poste (hook commit-msg, ou fichiers indexés) :
+      # leur auto-test prouve ici qu'ils savent encore refuser.
+      - name: Auto-test du controle des messages de commit
+        id: hooks_self_test
+        if: ${{ !cancelled() }}
+        run: python3 scripts/check_commit_message.py --auto-test
+
+      - name: Auto-test du garde-fou binaires
+        id: binaries_self_test
+        if: ${{ !cancelled() }}
+        run: python3 scripts/check_binary_files.py --auto-test
+
+      - name: Auto-test du controle JSON
+        id: json_self_test
+        if: ${{ !cancelled() }}
+        run: python3 scripts/check_json_files.py --auto-test
+
+      # scripts/check.py rejoue ce job sur le poste en lisant ses étapes ICI : sa lecture cassée le
+      # rendrait vert par vacuité.
+      - name: Lecture de ce job par scripts/check.py
+        id: check_reader
+        if: ${{ !cancelled() }}
+        run: python3 scripts/check.py --auto-test
+
       # Un tableau des contrôles en tête du run (phase 1). Chaque contrôle ci-dessus s'exécute même
       # si un précédent a échoué : une PR voit d'un coup tout ce qu'elle casse, au lieu de le
       # découvrir un push à la fois.
@@ -697,6 +777,13 @@ jobs:
             Catalogues RPG=${{ steps.rpg_data.outcome }}
             Cahier des assets=${{ steps.assets_brief.outcome }}
             Convertisseur clang-tidy vers SARIF=${{ steps.tidy_sarif.outcome }}
+            Versions d'outils CI / hooks / docs=${{ steps.tool_pins.outcome }}
+            Garde-fou binaires=${{ steps.binaries.outcome }}
+            JSON valides=${{ steps.json_files.outcome }}
+            Auto-test du message de commit=${{ steps.hooks_self_test.outcome }}
+            Auto-test du garde-fou binaires=${{ steps.binaries_self_test.outcome }}
+            Auto-test du contrôle JSON=${{ steps.json_self_test.outcome }}
+            Lecture du job par scripts/check.py=${{ steps.check_reader.outcome }}
         run: |
           {
             echo '### Contrôles du référentiel'
@@ -713,6 +800,49 @@ jobs:
               echo "| $label | $verdict |"
             done <<< "$OUTCOMES"
           } >> "$GITHUB_STEP_SUMMARY"
+
+  pre-commit:
+    # Les hooks du poste (.pre-commit-config.yaml), rejoués sur tout le dépôt (phase 2) : ruff,
+    # actionlint, zizmor, conflits de fusion et de casse, YAML, JSON, binaires. Le poste qui a
+    # installé les hooks les a déjà passés ; ce job rattrape celui qui ne l'a pas fait, et prouve que
+    # la configuration fonctionne ailleurs que sur Windows.
+    # Sautés ici : `clang-format`, que le job `format` vérifie déjà avec ses annotations ;
+    # `gitleaks`, qui ne lit que les fichiers indexés et n'aurait rien à lire.
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Installer pre-commit ${{ env.PRE_COMMIT_VERSION }}
+        run: pip install "pre-commit==${PRE_COMMIT_VERSION}"
+
+      # Les environnements des hooks : leurs versions sont dans .pre-commit-config.yaml, d'où la clé.
+      - name: Cache des environnements de hooks
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/.cache/pre-commit
+          key: pre-commit-${{ runner.os }}-${{ hashFiles('.pre-commit-config.yaml') }}
+
+      - name: Hooks sur tout le depot
+        id: hooks
+        env:
+          SKIP: clang-format,gitleaks
+        run: pre-commit run --all-files --show-diff-on-failure --color always
+
+      - name: Resume du job
+        if: ${{ !cancelled() }}
+        env:
+          OUTCOME: ${{ steps.hooks.outcome }}
+        run: |
+          if [ "$OUTCOME" = success ]; then
+            verdict="tous verts sur l'ensemble du dépôt."
+          else
+            verdict="**échec** (\`$OUTCOME\`) : le hook fautif et son diff sont dans le log de l'étape. Rejouer sur le poste : \`pre-commit run --all-files\`."
+          fi
+          printf '### Hooks pre-commit\n\n%s\n' "$verdict" >> "$GITHUB_STEP_SUMMARY"
 
   docs:
     # Génère la documentation Doxygen (garde-fou WARN_AS_ERROR) pour valider la

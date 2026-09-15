@@ -46,7 +46,7 @@ import re
 import unicodedata
 from dataclasses import dataclass
 
-from .corpus import Corpus, CorpusError
+from .corpus import Corpus
 from .extraction import Extracteur
 
 SORTIE = 'Source/Elements/Localization/rpg.glossary.csv'

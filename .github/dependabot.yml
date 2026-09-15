@@ -6,7 +6,10 @@
 #
 # Hors de portée de Dependabot, suivi à la main :
 # - les versions d'outils écrites dans `env:` de ci.yml (LLVM, Doxygen, OpenCppCoverage,
-#   jsonschema, AQT_SOURCE) — ni manifeste pip, ni paquet, seulement du texte ;
+#   jsonschema, AQT_SOURCE, SCCACHE_VERSION, PRE_COMMIT_VERSION) — ni manifeste pip, ni paquet,
+#   seulement du texte ;
+# - les hooks de .pre-commit-config.yaml — `pre-commit autoupdate --freeze`, puis
+#   `scripts/check_tool_pins.py` pour clang-format ;
 # - les `GIT_TAG` de FetchContent (External/CMakeLists.txt) — Dependabot ne lit pas CMake.
 version: 2
 updates:

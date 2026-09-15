@@ -1,0 +1,26 @@
+# ruff : lint des scripts Python (refonte de la chaîne d'outillage, phase 2).
+#
+# Version épinglée dans .pre-commit-config.yaml, qui l'exécute sur le poste avant chaque commit et
+# dans le job `pre-commit` de ci.yml.
+#
+# Jeu de règles EXPLICITE : sans `select`, le jeu par défaut change avec la version de ruff, et une
+# montée de version rendrait le dépôt rouge sans que rien n'y ait changé. On retient ce qui signale
+# un défaut, pas un style :
+# - E4, E7, E9 : erreurs de syntaxe et d'instruction (pycodestyle, sans la mise en page) ;
+# - F : pyflakes (import mort, nom indéfini, variable jamais lue) ;
+# - B : bugbear (argument par défaut mutable, exception avalée, variable de boucle ignorée).
+#
+# Pas de `ruff format` : il réécrirait ~10 000 lignes des 41 scripts sans rien corriger. À décider
+# à part, dans un commit qui ne contient que cela.
+target-version = "py312"
+line-length = 100
+
+[lint]
+select = ["E4", "E7", "E9", "F", "B"]
+ignore = [
+    # `l` et `O` comme noms : un choix de lisibilité, pas un défaut.
+    "E741",
+    # `zip(strict=...)` : ajouter `strict=True` changerait le comportement de 8 appels existants ;
+    # chacun serait à examiner, ce que la phase 2 ne fait pas.
+    "B905",
+]

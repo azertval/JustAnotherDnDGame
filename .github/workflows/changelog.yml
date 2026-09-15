@@ -41,6 +41,7 @@ jobs:
           if [ "$EXEMPT" = true ]; then
             python3 scripts/check_changelog.py --auto-test
             echo "::notice::PR exemptée (label no-changelog ou Dependabot) : CHANGELOG non vérifié."
+            # shellcheck disable=SC2016 # backticks Markdown littéraux, pas une substitution
             printf '### CHANGELOG\n\nPR exemptée (label `no-changelog` ou Dependabot).\n' >> "$GITHUB_STEP_SUMMARY"
             exit 0
           fi

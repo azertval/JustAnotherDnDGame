@@ -43,7 +43,7 @@ from dataclasses import dataclass, field
 
 from .corpus import Corpus
 from .extraction import Extracteur
-from .glossaire import lire_csv, normaliser, normaliser_cle
+from .glossaire import normaliser, normaliser_cle
 from .mise_en_page import colonnes_de_page
 
 SORTIE_RPG = 'Source/Elements/Rpg'
