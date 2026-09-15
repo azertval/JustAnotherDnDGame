@@ -585,6 +585,74 @@ struct TurnActionEntry {
 
 }  // namespace
 
+QVariantList ArenaModel::fighters() const {
+    QVariantList list;
+    if (_session == nullptr || !_inCombat) {
+        return list;
+    }
+    const core::CombatState& combat = _session->combat();
+    const std::optional<core::CombatantId> active =
+        ended() ? std::nullopt : combat.activeCombatant();
+    for (const core::CombatantId id : combat.combatants()) {
+        const core::Combatant* const combatant = combat.find(id);
+        // Sorti : plus de figurine, plus d'interface.
+        if (combatant == nullptr || combatant->status == core::CombatantStatus::Withdrawn) {
+            continue;
+        }
+        const std::optional<core::GridPosition> anchor = combat.grid().positionOf(id);
+        if (!anchor.has_value()) {
+            continue;
+        }
+        const core::CombatantProfile& profile = combatant->profile;
+        const bool down = combatant->status == core::CombatantStatus::Down;
+        QString hitPoints;
+        double ratio = 1.0;
+        if (profile.side == core::CombatSide::Allies) {
+            hitPoints = QString::number(profile.currentHitPoints) + "/" +
+                        QString::number(profile.maximumHitPoints);
+            ratio = std::clamp(static_cast<double>(profile.currentHitPoints) /
+                                   std::max(1, profile.maximumHitPoints),
+                               0.0, 1.0);
+        } else {
+            // Guide du Maitre, chapitre 8 : les points de vie d'un monstre se suivent en secret ;
+            // sous la moitie, il est ensanglante, et cela se voit.
+            const bool bloodied = core::isBloodied(profile);
+            hitPoints = down ? tr("a terre") : (bloodied ? tr("ensanglante") : QString());
+            ratio = down ? 0.0 : (bloodied ? 0.5 : 1.0);
+        }
+        list << QVariantMap{{"column", anchor->column},
+                            {"row", anchor->row},
+                            {"footprint", std::max(1, combat.grid().sideOf(id))},
+                            {"side", sideName(profile.side)},
+                            {"active", active == id},
+                            {"down", down},
+                            {"hitPoints", hitPoints},
+                            {"hitPointsRatio", ratio}};
+    }
+    return list;
+}
+
+QVariantList ArenaModel::reachableCells() const {
+    QVariantList list;
+    if (_session == nullptr || !_inCombat || ended()) {
+        return list;
+    }
+    const core::BattleGrid& grid = _session->combat().grid();
+    const std::optional<core::ReachableArea> area = _session->combat().reachableArea();
+    if (!area.has_value()) {
+        return list;
+    }
+    for (int row = 0; row < grid.height(); ++row) {
+        for (int column = 0; column < grid.width(); ++column) {
+            const core::GridPosition cell{.column = column, .row = row};
+            if (area->canEndAt(cell) && !grid.occupantAt(cell).has_value()) {
+                list << QVariantMap{{"column", column}, {"row", row}};
+            }
+        }
+    }
+    return list;
+}
+
 QVariantList ArenaModel::pathCells() const {
     QVariantList list;
     if (!playerTurn().has_value() || _session->combat().grid().occupantAt(_cursor).has_value()) {

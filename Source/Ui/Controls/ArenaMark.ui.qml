@@ -8,29 +8,31 @@ import Jadg.Ui
     projection. Il ne dessine qu'un losange de jetons :
 
     - `cursor` : le contour d'or epais de la case visee par le curseur de ciblage ;
-    - `path` : un petit losange d'or plein sur une case que le deplacement traverserait.
+    - `path` : un petit losange d'or plein sur une case que le deplacement traverserait ;
+    - `reachable` : un losange pale sur une case ou le combattant actif peut finir son deplacement.
 
-    Les marques vivent dans leur propre calque, au-dessus des cases : deplacer le curseur ne
-    reconstruit pas les centaines de cases de la scene, seulement ces quelques marques.
+    Les marques vivent dans leur propre calque, au-dessus de la scene rendue : deplacer le curseur
+    ne reconstruit que ces quelques marques.
 */
 Item {
     id: root
 
-    /// `cursor` ou `path`.
+    /// `cursor`, `path` ou `reachable`.
     property string kind: "cursor"
 
     readonly property bool cursor: root.kind === "cursor"
+    readonly property bool reachable: root.kind === "reachable"
 
     Rectangle {
         id: diamond
 
         anchors.centerIn: parent
-        width: root.width * (root.cursor ? 0.7 : 0.26)
+        width: root.width * (root.cursor ? 0.7 : (root.reachable ? 0.62 : 0.26))
         height: width
-        color: root.cursor ? "transparent" : Tokens.goldLight
-        opacity: root.cursor ? 1 : 0.7
-        border.color: Tokens.goldLight
-        border.width: root.cursor ? 4 : 0
+        color: root.cursor ? "transparent" : (root.reachable ? Tokens.textAlly : Tokens.goldLight)
+        opacity: root.cursor ? 1 : (root.reachable ? 0.28 : 0.7)
+        border.color: root.reachable ? Tokens.textAlly : Tokens.goldLight
+        border.width: root.cursor ? 4 : (root.reachable ? 2 : 0)
         transform: [
             Rotation { angle: 45; origin.x: diamond.width / 2; origin.y: diamond.height / 2 },
             Scale { yScale: root.height / root.width; origin.y: diamond.height / 2 }

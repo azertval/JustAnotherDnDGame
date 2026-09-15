@@ -75,10 +75,21 @@ class ArenaModel : public QObject {
     Q_PROPERTY(bool enemyAi READ enemyAi WRITE setEnemyAi NOTIFY changed)
     Q_PROPERTY(int gridColumns READ gridColumns NOTIFY changed)
     Q_PROPERTY(int gridRows READ gridRows NOTIFY changed)
+    // --- Le calque d'interface de la grille -----------------------------------------------------
+    // Ce que QRhi ne dessine pas : des losanges de jetons et du texte. Une entrée par combattant,
+    // une par case atteignable — jamais une par case de la grille, dont les centaines de délégués
+    // recréés à chaque geste faisaient monter la mémoire (`LOT-86` Phase 7).
+
+    /// Les combattants sur la grille : `{column, row, footprint, side, active, down, hitPoints,
+    /// hitPointsRatio}`. Les points de vie d'un ennemi restent secrets : `ensanglante`, `a terre`
+    /// ou rien (Guide du Maître, chapitre 8).
+    Q_PROPERTY(QVariantList fighters READ fighters NOTIFY changed)
+    /// Les cases où le combattant actif peut finir son déplacement : `{column, row}`.
+    Q_PROPERTY(QVariantList reachableCells READ reachableCells NOTIFY changed)
     // --- Le ciblage (`LOT-24`) -----------------------------------------------------------------
     // Tout ce qui suit le curseur a son propre signal, `cursorChanged` : un pas de curseur ne doit
-    // pas reconstruire les centaines de cases de la scène, qui ne lisent que `cells`. Un geste qui
-    // change le combat émet `changed`, et `changed` entraîne `cursorChanged`.
+    // pas reconstruire le calque de la grille, qui ne lit que `changed`. Un geste qui change le
+    // combat émet `changed`, et `changed` entraîne `cursorChanged`.
 
     /// La case visée par le curseur de ciblage, au clavier et à la manette.
     Q_PROPERTY(int cursorColumn READ cursorColumn NOTIFY cursorChanged)
@@ -117,6 +128,8 @@ public:
     void setEnemyAi(bool enabled);
     [[nodiscard]] int gridColumns() const;
     [[nodiscard]] int gridRows() const;
+    [[nodiscard]] QVariantList fighters() const;
+    [[nodiscard]] QVariantList reachableCells() const;
     [[nodiscard]] int cursorColumn() const noexcept {
         return _cursor.column;
     }

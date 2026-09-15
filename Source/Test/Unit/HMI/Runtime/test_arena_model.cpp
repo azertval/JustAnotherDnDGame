@@ -120,3 +120,50 @@ TEST(ArenaModelTest, LeSurvolPoseLeCurseur) {
     EXPECT_EQ(arena.cursorColumn(), colonne);
     EXPECT_EQ(arena.cursorRow(), ligne);
 }
+
+/**
+ * @brief Le calque de la grille : une entree par combattant et par case atteignable.
+ * \castest{<b>fighters decrit chaque combattant sur la grille et garde secrets les points de vie
+ * ennemis ; reachableCells ne liste que des cases libres.</b><br/>
+ * \tcat Unitaire · IHM<br/>
+ * \tcrit Majeure<br/>
+ * \tetapes 1. Avant le combat, lire les deux listes.<br/>2. Lancer ; lire les combattants et les
+ * cases atteignables.<br/>
+ * \tattendu Vides avant le combat ; un allie et un ennemi, un seul au tour ; les points de vie de
+ * l'allie en clair, jamais ceux de l'ennemi ; des cases atteignables, aucune occupee.
+ * }
+ */
+TEST(ArenaModelTest, LeCalqueDeLaGrilleDecritCombattantsEtCasesAtteignables) {
+    hmi::ArenaModel arena;
+    EXPECT_TRUE(arena.fighters().isEmpty());
+    EXPECT_TRUE(arena.reachableCells().isEmpty());
+
+    lancer(arena);
+    const QVariantList fighters = arena.fighters();
+    ASSERT_EQ(fighters.size(), 2);
+    int actifs = 0;
+    for (const QVariant& entry : fighters) {
+        const QVariantMap fighter = entry.toMap();
+        EXPECT_GE(fighter.value("footprint").toInt(), 1);
+        actifs += fighter.value("active").toBool() ? 1 : 0;
+        const QString hitPoints = fighter.value("hitPoints").toString();
+        if (fighter.value("side").toString() == "allies") {
+            EXPECT_TRUE(hitPoints.contains('/')) << hitPoints.toStdString();
+        } else {
+            EXPECT_EQ(fighter.value("side").toString(), "enemies");
+            EXPECT_FALSE(hitPoints.contains('/')) << hitPoints.toStdString();
+        }
+    }
+    EXPECT_EQ(actifs, 1);
+
+    const QVariantList reachable = arena.reachableCells();
+    EXPECT_FALSE(reachable.isEmpty());
+    for (const QVariant& entry : reachable) {
+        const QVariantMap cell = entry.toMap();
+        for (const QVariant& other : fighters) {
+            const QVariantMap fighter = other.toMap();
+            EXPECT_FALSE(cell.value("column") == fighter.value("column") &&
+                         cell.value("row") == fighter.value("row"));
+        }
+    }
+}

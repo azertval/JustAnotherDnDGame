@@ -56,6 +56,8 @@ ArenaForm {
     cursorColumn: arena.cursorColumn
     cursorRow: arena.cursorRow
     pathCells: arena.pathCells
+    fighters: arena.fighters
+    reachableCells: arena.reachableCells
     gamepadConnected: pad.connected
     gridTileWidth: viewport.tileWidth
     gridTileHeight: viewport.tileHeight
