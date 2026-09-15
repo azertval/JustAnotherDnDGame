@@ -305,8 +305,8 @@ TEST(PathfindingTest, MemeEntreeMemeChemin) {
 
 /**
  * @brief Le chemin suit la droite entre le depart et l'arrivee : il ne monte pas pour redescendre.
- * \castest{<b>Sur une grille ouverte, le chemin retenu parmi ceux de meme cout est le plus proche de
- * la droite depart-arrivee, et reste dans la boite qui les englobe.</b><br/>
+ * \castest{<b>Sur une grille ouverte, le chemin retenu parmi ceux de meme cout est le plus proche
+ * de la droite depart-arrivee, et reste dans la boite qui les englobe.</b><br/>
  * \tcat Unitaire · Combat<br/>
  * \tcrit Critique<br/>
  * \tetapes 1. Grille ouverte 11x11, heros au centre (5,5).<br/>2. Demander le chemin vers (9,3),
@@ -331,8 +331,10 @@ TEST(PathfindingTest, LeCheminSuitLaDroite) {
         const auto [colonneMin, colonneMax] = std::minmax(5, destination.column);
         const auto [ligneMin, ligneMax] = std::minmax(5, destination.row);
         for (const core::GridPosition pas : chemin->steps) {
-            EXPECT_GE(pas.column, colonneMin) << "vers " << destination.column << "," << destination.row;
-            EXPECT_LE(pas.column, colonneMax) << "vers " << destination.column << "," << destination.row;
+            EXPECT_GE(pas.column, colonneMin)
+                << "vers " << destination.column << "," << destination.row;
+            EXPECT_LE(pas.column, colonneMax)
+                << "vers " << destination.column << "," << destination.row;
             EXPECT_GE(pas.row, ligneMin) << "vers " << destination.column << "," << destination.row;
             EXPECT_LE(pas.row, ligneMax) << "vers " << destination.column << "," << destination.row;
         }

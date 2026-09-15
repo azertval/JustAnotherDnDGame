@@ -49,7 +49,8 @@ constexpr const char* FIELD_ENEMY_FRAMES = "enemyFrames";
 [[nodiscard]] bool readStringArray(const nlohmann::json& root, const char* field,
                                    std::vector<std::string>& out, std::string& error) {
     if (!root.contains(field) || !root[field].is_array() || root[field].empty()) {
-        error = std::string("Le champ « ") + field + " » est absent ou n'est pas un tableau non vide.";
+        error =
+            std::string("Le champ « ") + field + " » est absent ou n'est pas un tableau non vide.";
         return false;
     }
     for (const nlohmann::json& entry : root[field]) {
@@ -65,7 +66,8 @@ constexpr const char* FIELD_ENEMY_FRAMES = "enemyFrames";
 [[nodiscard]] bool readPositiveInt(const nlohmann::json& root, const char* field, int& out,
                                    std::string& error) {
     if (!root.contains(field) || !root[field].is_number_integer() || root[field].get<int>() <= 0) {
-        error = std::string("Le champ « ") + field + " » est absent ou n'est pas un entier positif.";
+        error =
+            std::string("Le champ « ") + field + " » est absent ou n'est pas un entier positif.";
         return false;
     }
     out = root[field].get<int>();
@@ -78,7 +80,8 @@ ArenaAppearanceCatalogResult ArenaAppearanceCatalog::loadFromString(std::string_
     return fromDocument(core::readJsonObject(json, FORMAT_VERSION, "arena_appearance"));
 }
 
-ArenaAppearanceCatalogResult ArenaAppearanceCatalog::fromDocument(const core::JsonDocument& document) {
+ArenaAppearanceCatalogResult ArenaAppearanceCatalog::fromDocument(
+    const core::JsonDocument& document) {
     if (!document.ok()) {
         return failure(document.message, mapError(document.error));
     }
@@ -101,12 +104,13 @@ ArenaAppearanceCatalogResult ArenaAppearanceCatalog::fromDocument(const core::Js
         .catalog = std::move(catalog), .error = {}, .errorCode = ArenaAppearanceError::None};
 }
 
-ArenaAppearanceCatalogResult ArenaAppearanceCatalog::loadFromFile(const std::filesystem::path& path) {
+ArenaAppearanceCatalogResult ArenaAppearanceCatalog::loadFromFile(
+    const std::filesystem::path& path) {
     return fromDocument(core::readJsonObjectFromFile(path, FORMAT_VERSION));
 }
 
 ArenaTileAppearance ArenaAppearanceCatalog::tileAppearance(core::GridPosition cell, int columns,
-                                                            int rows, bool wall) const {
+                                                           int rows, bool wall) const {
     // Transcription de ArenaTile.ui.qml:57-84 (LOT-50) : les booleens y sont independants, portes
     // ici comme un role unique pour un mur (mutuellement exclusifs par construction : bannerSpot
     // exige d'etre sur un bord haut/bas, torchSpot sur un bord gauche/droit).
@@ -133,8 +137,7 @@ ArenaTileAppearance ArenaAppearanceCatalog::tileAppearance(core::GridPosition ce
     appearance.gateSpot =
         cell.column == 0 || cell.column == columns - 1 || cell.row == 0 || cell.row == rows - 1;
 
-    if (!_paleSlabs.empty() &&
-        (cell.column * 3 + cell.row * 5 + cell.column * cell.row) % 7 == 0) {
+    if (!_paleSlabs.empty() && (cell.column * 3 + cell.row * 5 + cell.column * cell.row) % 7 == 0) {
         appearance.slab = true;
         appearance.slabVariant =
             (cell.column * 3 + cell.row * 5) % static_cast<int>(_paleSlabs.size());
@@ -144,7 +147,7 @@ ArenaTileAppearance ArenaAppearanceCatalog::tileAppearance(core::GridPosition ce
 }
 
 FigureAppearance ArenaAppearanceCatalog::figureFor(std::string_view name,
-                                                    core::CombatSide side) const {
+                                                   core::CombatSide side) const {
     const std::vector<std::string>& roster =
         side == core::CombatSide::Allies ? _heroes : _gladiators;
     const int frames = side == core::CombatSide::Allies ? _heroFrames : _enemyFrames;
@@ -154,11 +157,11 @@ FigureAppearance ArenaAppearanceCatalog::figureFor(std::string_view name,
     // Transcription de ArenaTile.ui.qml:73-74 : le nom choisit la figurine, pour qu'elle reste la
     // meme d'un tour a l'autre sans etat a tenir. `roster.size()` remplace le `4` litteral du QML :
     // le nombre de figurines n'est plus une constante dupliquee.
-    const int index = name.empty()
-                          ? 0
-                          : (static_cast<int>(name.size()) * 7 +
-                             static_cast<unsigned char>(name.front())) %
-                                static_cast<int>(roster.size());
+    const int index =
+        name.empty()
+            ? 0
+            : (static_cast<int>(name.size()) * 7 + static_cast<unsigned char>(name.front())) %
+                  static_cast<int>(roster.size());
     return {roster[static_cast<std::size_t>(index)], frames};
 }
 

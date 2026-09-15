@@ -30,7 +30,8 @@ constexpr const char* REFERENCE_JSON = R"({
 })";
 
 hmi::ArenaAppearanceCatalog referenceCatalog() {
-    hmi::ArenaAppearanceCatalogResult result = hmi::ArenaAppearanceCatalog::loadFromString(REFERENCE_JSON);
+    hmi::ArenaAppearanceCatalogResult result =
+        hmi::ArenaAppearanceCatalog::loadFromString(REFERENCE_JSON);
     EXPECT_TRUE(result.ok()) << result.error;
     return result.ok() ? *result.catalog : hmi::ArenaAppearanceCatalog{};
 }
@@ -57,7 +58,8 @@ TEST(ArenaAppearanceCatalogTest, LectureDeReference) {
 
 /**
  * @brief Un champ absent, vide ou mal type est refuse, en nommant le champ en cause.
- * \castest{<b>Un catalogue dont un champ obligatoire manque, est vide ou mal type est refuse.</b><br/>
+ * \castest{<b>Un catalogue dont un champ obligatoire manque, est vide ou mal type est
+ * refuse.</b><br/>
  * \tcat Unitaire · Catalogue d'apparence de l'arene<br/>
  * \tcrit Majeur<br/>
  * \tetapes 1. Lire des variantes du JSON de reference, chacune avec un defaut.<br/>
@@ -73,7 +75,8 @@ TEST(ArenaAppearanceCatalogTest, ChampsInvalidesRefuses) {
         R"({"heroes": [1], "gladiators": ["a"], "paleSlabs": ["01"], "heroFrames": 1, "enemyFrames": 1})",
     };
     for (const std::string& json : invalides) {
-        const hmi::ArenaAppearanceCatalogResult result = hmi::ArenaAppearanceCatalog::loadFromString(json);
+        const hmi::ArenaAppearanceCatalogResult result =
+            hmi::ArenaAppearanceCatalog::loadFromString(json);
         EXPECT_FALSE(result.ok()) << json;
         EXPECT_EQ(result.errorCode, hmi::ArenaAppearanceError::MalformedStructure) << json;
     }
@@ -81,7 +84,8 @@ TEST(ArenaAppearanceCatalogTest, ChampsInvalidesRefuses) {
 
 /**
  * @brief Les quatre angles d'une grille portent une colonne, jamais une banniere ou une torche.
- * \castest{<b>Sur une grille 10 x 8 murée, les quatre angles portent `WallFeature::Corner`.</b><br/>
+ * \castest{<b>Sur une grille 10 x 8 murée, les quatre angles portent
+ * `WallFeature::Corner`.</b><br/>
  * \tcat Unitaire · Catalogue d'apparence de l'arene<br/>
  * \tcrit Bloquant<br/>
  * \tetapes 1. Lire le role des quatre coins, wall = vrai.<br/>
@@ -93,8 +97,8 @@ TEST(ArenaAppearanceCatalogTest, LesAnglesPortentUneColonne) {
     constexpr int COLUMNS = 10;
     constexpr int ROWS = 8;
     for (const core::GridPosition coin :
-        {core::GridPosition{0, 0}, core::GridPosition{COLUMNS - 1, 0}, core::GridPosition{0, ROWS - 1},
-         core::GridPosition{COLUMNS - 1, ROWS - 1}}) {
+         {core::GridPosition{0, 0}, core::GridPosition{COLUMNS - 1, 0},
+          core::GridPosition{0, ROWS - 1}, core::GridPosition{COLUMNS - 1, ROWS - 1}}) {
         const hmi::ArenaTileAppearance role = catalog.tileAppearance(coin, COLUMNS, ROWS, true);
         EXPECT_TRUE(role.wall);
         EXPECT_EQ(role.wallFeature, hmi::WallFeature::Corner);
@@ -178,7 +182,8 @@ TEST(ArenaAppearanceCatalogTest, LaPorteEstSurLeBordSeulement) {
 /**
  * @brief La dalle claire suit exactement la formule de `ArenaTile.ui.qml:84,88-89`.
  * \castest{<b>Le sol d'une case non muree porte une dalle quand
- * `(colonne*3 + ligne*5 + colonne*ligne) % 7 == 0`, a l'indice `(colonne*3 + ligne*5) % 10`.</b><br/>
+ * `(colonne*3 + ligne*5 + colonne*ligne) % 7 == 0`, a l'indice `(colonne*3 + ligne*5) %
+ * 10`.</b><br/>
  * \tcat Unitaire · Catalogue d'apparence de l'arene<br/>
  * \tcrit Critique<br/>
  * \tetapes 1. Calculer le role de chaque case interieure d'une grille 10 x 8.<br/>2. Comparer a la
@@ -223,14 +228,14 @@ TEST(ArenaAppearanceCatalogTest, LaFigurineEstDeterministeEtDependDuCote) {
     const hmi::FigureAppearance allie2 = catalog.figureFor("Gorlak", core::CombatSide::Allies);
     EXPECT_EQ(allie1.sheet, allie2.sheet);
     EXPECT_NE(std::find(catalog.heroes().begin(), catalog.heroes().end(), allie1.sheet),
-             catalog.heroes().end());
+              catalog.heroes().end());
     EXPECT_EQ(allie1.frameCount, catalog.heroFrames());
 
     const hmi::FigureAppearance ennemi1 = catalog.figureFor("Gorlak", core::CombatSide::Enemies);
     const hmi::FigureAppearance ennemi2 = catalog.figureFor("Gorlak", core::CombatSide::Enemies);
     EXPECT_EQ(ennemi1.sheet, ennemi2.sheet);
     EXPECT_NE(std::find(catalog.gladiators().begin(), catalog.gladiators().end(), ennemi1.sheet),
-             catalog.gladiators().end());
+              catalog.gladiators().end());
     EXPECT_EQ(ennemi1.frameCount, catalog.enemyFrames());
 }
 
@@ -247,13 +252,13 @@ TEST(ArenaAppearanceCatalogTest, LaFigurineEstDeterministeEtDependDuCote) {
  */
 TEST(ArenaAppearanceCatalogTest, LaFigurineSuitLaFormuleQml) {
     const hmi::ArenaAppearanceCatalog catalog = referenceCatalog();
-    for (const std::string& nom : {std::string("Aldric"), std::string("B"), std::string("Zephyrine"),
-                                   std::string("kaelith_voss")}) {
-        const int indiceAttendu = (static_cast<int>(nom.size()) * 7 +
-                                   static_cast<unsigned char>(nom.front())) %
-                                  static_cast<int>(catalog.heroes().size());
+    for (const std::string& nom : {std::string("Aldric"), std::string("B"),
+                                   std::string("Zephyrine"), std::string("kaelith_voss")}) {
+        const int indiceAttendu =
+            (static_cast<int>(nom.size()) * 7 + static_cast<unsigned char>(nom.front())) %
+            static_cast<int>(catalog.heroes().size());
         EXPECT_EQ(catalog.figureFor(nom, core::CombatSide::Allies).sheet,
-                 catalog.heroes()[static_cast<std::size_t>(indiceAttendu)])
+                  catalog.heroes()[static_cast<std::size_t>(indiceAttendu)])
             << nom;
     }
 }
@@ -287,7 +292,8 @@ TEST(ArenaAppearanceCatalogTest, ManifesteLivreValide) {
         std::filesystem::path(JADG_ASSETS_DIR) / "Coliseum" / "manifest.json";
     ASSERT_TRUE(std::filesystem::exists(path)) << path.string();
 
-    const hmi::ArenaAppearanceCatalogResult result = hmi::ArenaAppearanceCatalog::loadFromFile(path);
+    const hmi::ArenaAppearanceCatalogResult result =
+        hmi::ArenaAppearanceCatalog::loadFromFile(path);
     ASSERT_TRUE(result.ok()) << result.error;
 
     EXPECT_FALSE(result.catalog->heroes().empty());

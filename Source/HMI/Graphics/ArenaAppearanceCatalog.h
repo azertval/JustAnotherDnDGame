@@ -93,15 +93,16 @@ public:
     static constexpr int FORMAT_VERSION = 1;
 
     [[nodiscard]] static ArenaAppearanceCatalogResult loadFromString(std::string_view json);
-    [[nodiscard]] static ArenaAppearanceCatalogResult loadFromFile(const std::filesystem::path& path);
+    [[nodiscard]] static ArenaAppearanceCatalogResult loadFromFile(
+        const std::filesystem::path& path);
 
     /**
      * @brief Le rôle visuel d'une case, dans une grille de @p columns × @p rows.
      * @param cell    Case à qualifier.
      * @param columns Nombre de colonnes de la grille.
      * @param rows    Nombre de lignes de la grille.
-     * @param wall    Vrai si la case obstrue le sol (`BattleGrid::isObstructed`, `Locomotion::Walk`)
-     *                — cette table le reçoit, elle ne le recalcule pas.
+     * @param wall    Vrai si la case obstrue le sol (`BattleGrid::isObstructed`,
+     * `Locomotion::Walk`) — cette table le reçoit, elle ne le recalcule pas.
      */
     [[nodiscard]] ArenaTileAppearance tileAppearance(core::GridPosition cell, int columns, int rows,
                                                      bool wall) const;
@@ -131,7 +132,8 @@ public:
     }
 
 private:
-    [[nodiscard]] static ArenaAppearanceCatalogResult fromDocument(const core::JsonDocument& document);
+    [[nodiscard]] static ArenaAppearanceCatalogResult fromDocument(
+        const core::JsonDocument& document);
 
     std::vector<std::string> _heroes;
     std::vector<std::string> _gladiators;

@@ -55,8 +55,12 @@ struct SceneQml {
         return std::max(8.0f, std::min(largeur / (diagonals() / 2),
                                        hauteur / (diagonals() / 2 * diamondRatio + wallRise)));
     }
-    [[nodiscard]] float tileHeight() const { return tileWidth() * diamondRatio; }
-    [[nodiscard]] float sceneWidth() const { return diagonals() / 2 * tileWidth(); }
+    [[nodiscard]] float tileHeight() const {
+        return tileWidth() * diamondRatio;
+    }
+    [[nodiscard]] float sceneWidth() const {
+        return diagonals() / 2 * tileWidth();
+    }
     [[nodiscard]] float sceneHeight() const {
         return diagonals() / 2 * tileHeight() + wallRise * tileWidth();
     }
@@ -154,8 +158,8 @@ TEST(IsoProjectionTest, LaCaseCentraleEstAuCentre) {
 
 /**
  * @brief Le sens des axes : une colonne descend à droite, une ligne descend à gauche.
- * \castest{<b>Garde contre l'erreur de signe : un pas de colonne déplace le centre de (+L/2 ; +H/2),
- * un pas de ligne de (−L/2 ; +H/2).</b><br/>
+ * \castest{<b>Garde contre l'erreur de signe : un pas de colonne déplace le centre de (+L/2 ;
+ * +H/2), un pas de ligne de (−L/2 ; +H/2).</b><br/>
  * \tcat Unitaire · Combat<br/>
  * \tcrit Bloquant<br/>
  * \tetapes 1. Comparer les centres de (1, 1), (2, 1) et (1, 2) sur une grille 4 × 3.<br/>2. Lire
@@ -175,10 +179,10 @@ TEST(IsoProjectionTest, LeSensDesAxes) {
     expectPoint(ligneSuivante - centre, -5.0f, 3.1f);
 
     const core::Rect boite = projection.tileBounds({1, 1});
-    expectPoint(projection.gridToWorld({1.0f, 1.0f}), boite.left() + 5.0f, boite.top());      // haut
-    expectPoint(projection.gridToWorld({2.0f, 1.0f}), boite.right(), boite.top() + 3.1f);     // droit
-    expectPoint(projection.gridToWorld({2.0f, 2.0f}), boite.left() + 5.0f, boite.bottom());   // bas
-    expectPoint(projection.gridToWorld({1.0f, 2.0f}), boite.left(), boite.top() + 3.1f);      // gauche
+    expectPoint(projection.gridToWorld({1.0f, 1.0f}), boite.left() + 5.0f, boite.top());   // haut
+    expectPoint(projection.gridToWorld({2.0f, 1.0f}), boite.right(), boite.top() + 3.1f);  // droit
+    expectPoint(projection.gridToWorld({2.0f, 2.0f}), boite.left() + 5.0f, boite.bottom());  // bas
+    expectPoint(projection.gridToWorld({1.0f, 2.0f}), boite.left(), boite.top() + 3.1f);  // gauche
     expectPoint(projection.gridToWorld({1.5f, 1.5f}), boite.left() + 5.0f, boite.top() + 3.1f);
 }
 
@@ -307,7 +311,8 @@ TEST(IsoProjectionTest, ConformeALaSceneQml) {
 
         for (int r = 0; r < cas.lignes; ++r) {
             for (int c = 0; c < cas.colonnes; ++c) {
-                const core::Vector2 pixel = decalage + projection.tileBounds({c, r}).position * echelle;
+                const core::Vector2 pixel =
+                    decalage + projection.tileBounds({c, r}).position * echelle;
                 EXPECT_NEAR(pixel.x, qml.x(c, r), 1e-2f) << "case (" << c << ", " << r << ")";
                 EXPECT_NEAR(pixel.y, qml.y(c, r), 1e-2f) << "case (" << c << ", " << r << ")";
             }

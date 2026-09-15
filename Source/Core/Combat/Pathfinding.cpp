@@ -162,8 +162,7 @@ bool relax(std::vector<int>& costs, Predecessors& predecessors, std::size_t next
             const GridPosition candidate{current.column - NEIGHBOURS[rank].first,
                                          current.row - NEIGHBOURS[rank].second};
             if (!best.has_value() || deviation(candidate) < deviation(*best) ||
-                (deviation(candidate) == deviation(*best) &&
-                 indexOf(candidate) < indexOf(*best))) {
+                (deviation(candidate) == deviation(*best) && indexOf(candidate) < indexOf(*best))) {
                 best = candidate;
             }
         }

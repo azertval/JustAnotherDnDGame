@@ -446,10 +446,9 @@ TEST(EnemyAiTest, SansAttaquePossibleChaqueProfilAvance) {
             if (aAttaque()) {
                 break;
             }
-            const int apres =
-                *core::gridDistance(session.combat(), CombatantId{2}, CombatantId{1});
-            EXPECT_LT(apres, distance) << profil.id << ", tour " << toursEnnemi << " : "
-                                       << session.journal().back();
+            const int apres = *core::gridDistance(session.combat(), CombatantId{2}, CombatantId{1});
+            EXPECT_LT(apres, distance)
+                << profil.id << ", tour " << toursEnnemi << " : " << session.journal().back();
             distance = apres;
         }
         EXPECT_TRUE(aAttaque()) << profil.id;

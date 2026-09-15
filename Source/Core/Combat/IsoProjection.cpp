@@ -44,14 +44,14 @@ Vector2 IsoProjection::worldToGrid(const Vector2& world) const noexcept {
 }
 
 Vector2 IsoProjection::tileToWorld(GridPosition tile) const noexcept {
-    return gridToWorld({static_cast<float>(tile.column) + 0.5f, static_cast<float>(tile.row) + 0.5f});
+    return gridToWorld(
+        {static_cast<float>(tile.column) + 0.5f, static_cast<float>(tile.row) + 0.5f});
 }
 
 Rect IsoProjection::tileBounds(GridPosition tile) const noexcept {
     const Vector2 depart = origin();
-    const Vector2 coin{
-        depart.x + static_cast<float>(tile.column - tile.row) * _tileWidth / 2.0f,
-        depart.y + static_cast<float>(tile.column + tile.row) * tileHeight() / 2.0f};
+    const Vector2 coin{depart.x + static_cast<float>(tile.column - tile.row) * _tileWidth / 2.0f,
+                       depart.y + static_cast<float>(tile.column + tile.row) * tileHeight() / 2.0f};
     return {coin, {_tileWidth, tileHeight()}};
 }
 

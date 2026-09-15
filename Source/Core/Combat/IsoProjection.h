@@ -26,8 +26,8 @@
  *
  * où L est la largeur du losange, H = 0,62 L sa hauteur (l'angle des tuiles de la planche, pas le
  * 2:1 classique), et (originX, originY) le coin haut-gauche de la boîte du losange de la case
- * (0, 0). Le coin de grille (c, r) tombe ainsi sur le **sommet haut** du losange de la case, (c + 1,
- * r) sur son sommet droit, (c, r + 1) sur son sommet gauche, (c + 1, r + 1) sur son sommet bas.
+ * (0, 0). Le coin de grille (c, r) tombe ainsi sur le **sommet haut** du losange de la case, (c +
+ * 1, r) sur son sommet droit, (c, r + 1) sur son sommet gauche, (c + 1, r + 1) sur son sommet bas.
  *
  * La scène a son coin haut-gauche en (0, 0) du monde : la case (0, rows − 1) touche le bord
  * gauche, la case (columns − 1, 0) le bord droit, la case (columns − 1, rows − 1) le bord bas, et
@@ -60,7 +60,8 @@ inline constexpr float ARENA_PIXELS_PER_UNIT = 16.0f;
 
 /// Largeur par défaut du losange, en unités monde : au zoom 1, une tuile de la planche s'affiche à
 /// sa taille native.
-inline constexpr float ARENA_TILE_WIDTH_UNITS = ARENA_SHEET_TILE_WIDTH_PIXELS / ARENA_PIXELS_PER_UNIT;
+inline constexpr float ARENA_TILE_WIDTH_UNITS =
+    ARENA_SHEET_TILE_WIDTH_PIXELS / ARENA_PIXELS_PER_UNIT;
 
 /**
  * @brief La projection isométrique d'une grille de combat de `columns` × `rows` cases.
@@ -79,17 +80,28 @@ public:
      * @param wallRise     Hauteur réservée aux murs du fond, en largeurs de losange (>= 0).
      */
     IsoProjection(int columns, int rows, float tileWidth = ARENA_TILE_WIDTH_UNITS,
-                  float diamondRatio = ARENA_DIAMOND_RATIO, float wallRise = ARENA_WALL_RISE) noexcept;
+                  float diamondRatio = ARENA_DIAMOND_RATIO,
+                  float wallRise = ARENA_WALL_RISE) noexcept;
 
-    [[nodiscard]] int columns() const noexcept { return _columns; }
-    [[nodiscard]] int rows() const noexcept { return _rows; }
+    [[nodiscard]] int columns() const noexcept {
+        return _columns;
+    }
+    [[nodiscard]] int rows() const noexcept {
+        return _rows;
+    }
 
     /// @return La largeur L du losange, en unités monde.
-    [[nodiscard]] float tileWidth() const noexcept { return _tileWidth; }
+    [[nodiscard]] float tileWidth() const noexcept {
+        return _tileWidth;
+    }
     /// @return La hauteur H = ratio · L du losange, en unités monde.
-    [[nodiscard]] float tileHeight() const noexcept { return _tileWidth * _diamondRatio; }
+    [[nodiscard]] float tileHeight() const noexcept {
+        return _tileWidth * _diamondRatio;
+    }
     /// @return La hauteur réservée aux murs du fond, en unités monde (`wallRise · L`).
-    [[nodiscard]] float wallHeight() const noexcept { return _tileWidth * _wallRise; }
+    [[nodiscard]] float wallHeight() const noexcept {
+        return _tileWidth * _wallRise;
+    }
 
     /**
      * @brief Nombre de demi-losanges qui font la largeur de la scène : `columns + rows`, au moins 1

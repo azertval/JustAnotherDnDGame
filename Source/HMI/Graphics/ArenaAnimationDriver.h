@@ -11,8 +11,8 @@
 #include <string_view>
 #include <vector>
 
-#include "Core/Combat/BattleGrid.h"       // core::CombatantId
-#include "Core/Ecs/AnimationClip.h"       // core::ClipSet
+#include "Core/Combat/BattleGrid.h"  // core::CombatantId
+#include "Core/Ecs/AnimationClip.h"  // core::ClipSet
 #include "HMI/Graphics/ArenaAnimationState.h"
 
 /**

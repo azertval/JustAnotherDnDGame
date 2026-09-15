@@ -703,7 +703,9 @@ TurnPlan planTurn(const ArenaSession& session, CombatantId actor, const Behavior
                                          eval.opportunites(*zone, ancre)});
     }
 
-    const auto deplacementVers = [&](GridPosition ancre) { return zone->costTo(ancre).value_or(0); };
+    const auto deplacementVers = [&](GridPosition ancre) {
+        return zone->costTo(ancre).value_or(0);
+    };
 
     // Attaquer : chaque case, chaque cible, chaque attaque.
     for (std::size_t indice = 0; action && indice < ancres.size(); ++indice) {

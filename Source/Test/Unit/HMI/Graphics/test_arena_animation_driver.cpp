@@ -42,8 +42,7 @@ std::shared_ptr<const ClipSet> loopingClip(const char* name, int frameCount, flo
     return clips;
 }
 
-std::shared_ptr<const ClipSet> oneShotClip(const char* name, int frameCount,
-                                           float frameDuration) {
+std::shared_ptr<const ClipSet> oneShotClip(const char* name, int frameCount, float frameDuration) {
     AnimationClip clip;
     clip.name = name;
     for (int i = 0; i < frameCount; ++i) {

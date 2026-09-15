@@ -119,7 +119,7 @@ void ArenaAnimationDriver::setFigureAnimations(std::string sheet, ArenaFigureAni
 }
 
 void ArenaAnimationDriver::play(core::CombatantId combatant, std::string_view sheet,
-                                 ArenaFigureAction action) {
+                                ArenaFigureAction action) {
     ArenaCombatantAnimation& state = _states[combatant];
     if (state.action == ArenaFigureAction::Death) {
         return;  // un mort ne se relance jamais.
@@ -135,8 +135,7 @@ void ArenaAnimationDriver::play(core::CombatantId combatant, std::string_view sh
         clips = found != _figures.end() ? found->second.idle : nullptr;
     }
 
-    const bool continuous =
-        action == ArenaFigureAction::Idle || action == ArenaFigureAction::Walk;
+    const bool continuous = action == ArenaFigureAction::Idle || action == ArenaFigureAction::Walk;
     if (continuous && state.action == action && state.clips == clips) {
         return;  // deja en cours : ne pas repartir de l'image 0.
     }
