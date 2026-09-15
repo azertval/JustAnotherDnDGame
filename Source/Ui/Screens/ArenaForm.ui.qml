@@ -31,6 +31,7 @@ Item {
     property var enemies: []
     property var marks: []
     property int seed: 0
+    property bool enemyAi: true
     property int gridColumns: 0
     property int gridRows: 0
     property var cells: []
@@ -45,11 +46,13 @@ Item {
     signal enemyRemoved(int index)
     signal markChosen(bool ally, int index, string markId)
     signal seedEdited(int value)
+    signal enemyAiToggled(bool value)
     signal launchRequested()
     signal cellTapped(int column, int row)
     signal endTurnRequested()
     signal dodgeRequested()
     signal disengageRequested()
+    signal dashRequested()
     signal withdrawRequested()
     signal replayRequested()
     signal backRequested()
@@ -236,6 +239,11 @@ Item {
                 onValueModified: root.seedEdited(value)
             }
         }
+        CheckBox {
+            text: qsTr("Ennemis joues par l'IA")
+            checked: root.enemyAi
+            onToggled: root.enemyAiToggled(checked)
+        }
         Button {
             width: parent.width
             text: qsTr("Lancer l'affrontement")
@@ -292,6 +300,11 @@ Item {
             text: qsTr("Se desengager")
             enabled: !root.ended
             onClicked: root.disengageRequested()
+        }
+        Button {
+            text: qsTr("Se precipiter")
+            enabled: !root.ended
+            onClicked: root.dashRequested()
         }
         Button {
             text: qsTr("Fin du tour")

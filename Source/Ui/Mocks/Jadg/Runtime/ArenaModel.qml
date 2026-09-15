@@ -23,6 +23,7 @@ QtObject {
     readonly property var marks: [ "bruiser", "brute", "commander", "controller", "healer",
                                    "shooter", "tactician", "tank" ]
     property int seed: 2026
+    property bool enemyAi: true
     readonly property int gridColumns: 6
     readonly property int gridRows: 4
     readonly property var cells: [
@@ -73,6 +74,7 @@ QtObject {
     function endTurn() {}
     function dodge() {}
     function disengage() {}
+    function dash() {}
     function withdraw() {}
     function replay() {}
     function backToSetup() {}

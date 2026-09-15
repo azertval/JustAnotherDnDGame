@@ -35,6 +35,10 @@
       "type": "boolean",
       "description": "Vrai si le rituel de Marque Heroique s'y pratique : les combattants sont releves a la fin du combat et disposent de la troisieme economie d'action. Absent vaut vrai."
     },
+    "flanking": {
+      "type": "boolean",
+      "description": "Vrai si la prise en tenaille, regle optionnelle du Guide du Maitre (chapitre 8), s'y joue : avantage au corps a corps pour deux allies places de part et d'autre d'un ennemi. Absent vaut faux : une regle optionnelle s'active, elle ne se presume pas (LOT-23)."
+    },
     "description": {
       "type": "string",
       "minLength": 1

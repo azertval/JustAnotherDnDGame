@@ -28,6 +28,7 @@ ArenaForm {
     enemies: arena.enemies
     marks: arena.marks
     seed: arena.seed
+    enemyAi: arena.enemyAi
     gridColumns: arena.gridColumns
     gridRows: arena.gridRows
     cells: arena.cells
@@ -41,11 +42,13 @@ ArenaForm {
     onEnemyRemoved: (index) => arena.removeEnemy(index)
     onMarkChosen: (ally, index, markId) => arena.assignMark(ally, index, markId)
     onSeedEdited: (value) => arena.seed = value
+    onEnemyAiToggled: (value) => arena.enemyAi = value
     onLaunchRequested: arena.launch()
     onCellTapped: (column, row) => arena.tapCell(column, row)
     onEndTurnRequested: arena.endTurn()
     onDodgeRequested: arena.dodge()
     onDisengageRequested: arena.disengage()
+    onDashRequested: arena.dash()
     onWithdrawRequested: arena.withdraw()
     onReplayRequested: arena.replay()
     onBackRequested: arena.backToSetup()

@@ -47,6 +47,7 @@ add_executable(UnitTests
     Unit/Core/Combat/test_line_of_sight.cpp
     Unit/Core/Combat/test_area_of_effect.cpp
     Unit/Core/Combat/test_arena.cpp
+    Unit/Core/Combat/test_enemy_ai.cpp
     Unit/Core/Resources/test_asset_keys.cpp
     Unit/Core/Rpg/test_rpg_enums.cpp
     Unit/Core/Rpg/test_multiclassing.cpp

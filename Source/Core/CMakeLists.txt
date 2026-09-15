@@ -45,6 +45,8 @@ add_library(Core STATIC
     Combat/LineOfSight.cpp
     Combat/AreaOfEffect.cpp
     Combat/Arena.cpp
+    Combat/Flanking.cpp
+    Combat/EnemyAi.cpp
     Rpg/RpgEnumNames.cpp
     Rpg/Multiclassing.cpp
     Levels/TileMap.cpp

@@ -5,12 +5,14 @@
 
 #include <cstdint>
 #include <filesystem>
+#include <functional>
 #include <map>
 #include <memory>
 #include <optional>
 #include <set>
 #include <string>
 #include <string_view>
+#include <utility>
 #include <vector>
 
 #include "Core/Combat/CombatState.h"
@@ -121,6 +123,10 @@ struct Arena {
     /// Vrai si le rituel de Marque Héroïque s'y pratique : les combattants sont relevés à la fin,
     /// et disposent de la troisième économie d'action.
     bool heroicMark = true;
+    /// Vrai si la **prise en tenaille**, règle optionnelle du *Guide du Maître*, s'y joue
+    /// (`core::isFlanked`). Faux par défaut : une règle optionnelle s'active, elle ne se présume
+    /// pas.
+    bool flanking = false;
 };
 
 /// @brief Le catalogue des arènes, et ce qui n'a pas pu être lu.
@@ -144,6 +150,9 @@ struct ArenaContestant {
     std::optional<GridPosition> position;
     /// Rôle de Marque Héroïque revendiqué (`core::HeroicMark::id`), ou vide.
     std::string markId;
+    /// Le profil de comportement qui le joue (`core::BehaviorProfile::id`, `LOT-23`), ou vide
+    /// pour un combattant que le joueur commande.
+    std::string behavior;
 };
 
 /// @brief Une composition d'affrontement : qui, contre qui, à quelle graine, sous quelle règle.
@@ -152,7 +161,20 @@ struct ArenaBout {
     std::uint64_t seed = 0;
     bool lethal = false;
     bool heroicMark = true;
+    /// La prise en tenaille du *Guide du Maître* (`core::Arena::flanking`).
+    bool flanking = false;
 };
+
+class ArenaSession;
+
+/**
+ * @brief Décide si @p reactor prend l'attaque d'opportunité que @p mover lui offre.
+ *
+ * Le Manuel dit qu'une créature « peut » la prendre : c'est une décision, et c'est à qui commande
+ * la créature de la prendre — le comportement (`LOT-23`), l'écran de combat (`LOT-24`).
+ */
+using OpportunityPolicy =
+    std::function<bool(const ArenaSession&, CombatantId reactor, CombatantId mover)>;
 
 /// @brief Ce que le montage d'un affrontement a produit : les enrôlés par camp, et les refus.
 struct ArenaMount {
@@ -272,6 +294,31 @@ public:
     bool disengage();
 
     /**
+     * @brief L'action *se précipiter* : le combattant actif gagne, pour ce tour, un déplacement
+     *        supplémentaire égal à sa vitesse (Manuel, chapitre 9).
+     * @return Faux sans tour actif, ou sans action.
+     */
+    bool dash();
+
+    /// @brief Vrai si le combattant esquive — ce que la table voit, et donc ce que l'IA lit.
+    [[nodiscard]] bool isDodging(CombatantId combatant) const {
+        return _dodging.contains(combatant);
+    }
+
+    /// @brief Le profil de comportement qui joue ce combattant, vide si c'est le joueur (`LOT-23`).
+    [[nodiscard]] const std::string& behaviorOf(CombatantId combatant) const;
+
+    /// @brief Qui décide des attaques d'opportunité. Sans politique, chacune est prise.
+    void setOpportunityPolicy(OpportunityPolicy policy) {
+        _opportunityPolicy = std::move(policy);
+    }
+
+    /// @brief Ajoute une ligne au journal : la décision d'un comportement, pour qu'elle se relise.
+    void note(std::string line) {
+        record(std::move(line));
+    }
+
+    /**
      * @brief Déplace le combattant actif ; le chemin est payé sur son budget restant.
      *
      * **Attaque d'opportunité** (Manuel, chapitre 9) : quand le chemin sort de l'allonge d'une
@@ -280,8 +327,9 @@ public:
      * ne sorte de sa zone d'allonge », avec sa première attaque au corps à corps, et dépense sa
      * réaction. Le déplacement s'arrête à la dernière case où l'on peut se tenir avant la sortie,
      * les attaques se jouent par identifiant croissant, et le déplacement reprend si le combattant
-     * tient encore debout. Dans l'arène, **chaque** créature éligible frappe : il n'y a pas encore
-     * d'interface pour décliner (`LOT-24`) ni de comportement pour choisir (`LOT-23`).
+     * tient encore debout. Chaque créature éligible frappe si la politique d'opportunité
+     * (`setOpportunityPolicy`) l'accepte — toutes, sans politique : l'écran qui laisse le joueur
+     * décliner est au `LOT-24`, le comportement qui choisit au `LOT-23`.
      */
     MoveOutcome move(GridPosition destination);
 
@@ -310,8 +358,10 @@ private:
     std::optional<AttackOutcome> resolveAndRecord(CombatantId attacker, CombatantId target,
                                                   const AttackProfile& profile,
                                                   const std::string& prefix);
-    /// Les circonstances qu'ajoute la session : l'esquive de la cible, si elle voit l'attaquant.
-    [[nodiscard]] AttackContext contextAgainst(CombatantId attacker, CombatantId target) const;
+    /// Les circonstances qu'ajoute la session : l'esquive de la cible, si elle voit l'attaquant ;
+    /// la prise en tenaille au corps à corps, si l'arène la joue.
+    [[nodiscard]] AttackContext contextAgainst(CombatantId attacker, CombatantId target,
+                                               const AttackProfile& profile) const;
     /// La première attaque au corps à corps d'un combattant, ou `nullptr`.
     [[nodiscard]] const AttackProfile* meleeAttack(CombatantId combatant) const;
 
@@ -320,6 +370,8 @@ private:
     DeterministicRandom _random{0};
     std::unique_ptr<CombatState> _combat;
     std::map<CombatantId, std::vector<AttackProfile>> _attacks;
+    std::map<CombatantId, std::string> _behaviors;
+    OpportunityPolicy _opportunityPolicy;
     AttackHooks _attackHooks;
     DamagePipeline _damagePipeline;
     std::set<CombatantId> _dodging;
