@@ -40,7 +40,7 @@ Item {
     readonly property var screenNames: [
         "MainMenu", "GameView", "Pause", "Options", "Credits",
         "CharacterSheet", "Skills", "Inventory", "Journal", "WorldMap", "Dialogue",
-        "Merchant", "Company", "CombatHud", "Arena", "Gallery"
+        "Merchant", "Company", "CombatHud", "Arena", "Gallery", "AssetGallery"
     ]
 
     Component { id: menuScreen; MainMenu {} }
@@ -62,6 +62,8 @@ Item {
     // aucun jumeau, rien à câbler -- c'est ce qui prouve que les briques se résolvent au jeu comme à
     // l'atelier.
     Component { id: galleryScreen; Ui.Main {} }
+    // La galerie des ASSETS : un outil de debug, lui non plus pas un ecran du jeu.
+    Component { id: assetGalleryScreen; AssetGallery {} }
 
     Loader {
         anchors.fill: parent
@@ -157,6 +159,7 @@ Item {
         case "CombatHud":      return combatHudScreen
         case "Arena":          return arenaScreen
         case "Gallery":        return galleryScreen
+        case "AssetGallery":   return assetGalleryScreen
         }
         return menuScreen
     }

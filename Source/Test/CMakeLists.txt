@@ -105,6 +105,7 @@ add_executable(UnitTests
     Unit/HMI/Graphics/test_render_mode.cpp
     Unit/HMI/Graphics/test_skin_catalog.cpp
     Unit/HMI/Graphics/test_arena_appearance_catalog.cpp
+    Unit/HMI/Graphics/test_asset_gallery.cpp
     Unit/HMI/Graphics/test_arena_scene_composer.cpp
     Unit/HMI/Graphics/test_arena_animation_driver.cpp
     Unit/HMI/Graphics/test_tile_autotile.cpp
@@ -194,6 +195,9 @@ if(Qt6_FOUND)
         # interface QRhi, liberation, et une image qui n'est pas que le fond.
         Unit/HMI/Graphics/test_arena_scene_renderer.cpp
         ../HMI/Graphics/ArenaSceneRenderer.cpp
+        # La galerie des assets hors ecran : chargement de ce qui est voulu, liberation du reste.
+        Unit/HMI/Graphics/test_asset_gallery_renderer.cpp
+        ../HMI/Graphics/AssetGalleryRenderer.cpp
         ../HMI/Graphics/SceneResources.cpp
         ../HMI/Graphics/SpriteRenderer.cpp
         ../HMI/Graphics/TextureAtlas.cpp

@@ -56,6 +56,9 @@ RUNTIME_QUICK_ALLOWED = (
     # La scene de combat du Colisee (LOT-86 Phase 5) : une seconde surface de rendu.
     "ArenaViewportItem.h",
     "ArenaViewportItem.cpp",
+    # La galerie des assets, outil de debug : une troisieme surface de rendu.
+    "AssetGalleryItem.h",
+    "AssetGalleryItem.cpp",
 )
 CORE = ROOT / "Source" / "Core"
 UI = ROOT / "Source" / "Ui"
