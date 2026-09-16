@@ -6,6 +6,11 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **Analyse statique : les 896 alertes clang-tidy de Code scanning corrigées.** Sur les cent
+  fichiers signalés, les réécritures mécaniques sont appliquées, les fonctions trop complexes
+  découpées en étapes nommées, et quelques défauts réels corrigés : conversions élargissantes
+  après une multiplication, arrondi manuel, compteurs de boucle flottants, déréférencement
+  possible d'un dock nul dans l'éditeur. Neuf `NOLINT` restent, chacun justifié en ligne.
 - **Galerie des assets, un outil de débug.** `--screen=AssetGallery` (ou le sélecteur d'écrans en
   build de développement) montre tous les assets livrés d'un coup : PNJ, héros et gladiateurs du
   Colisée, pièces de la planche, textures des scènes, skins animés. Chaque forme occupe un bloc —
