@@ -43,7 +43,7 @@ l'arête (pavés, sable).
 | **T1 — La maquette de style** | `atelier/prompts/maquette.txt` et `atelier/scripts/maquette.py` (l'envoi : prompt + référence d'échelle composée des figurines d'Anariel et de Jade sur la grille de losanges). Tours jusqu'à approbation ; la maquette retenue va dans `atelier/ancres/maquette.png`. | **L'auteur approuve** ; le risque de l'angle est tranché. |
 | **T2 — Le bloc A** | `atelier/prompts/style.txt`, écrit depuis la maquette approuvée : pas de pixel, trait, palette du sol et de la pierre, lumière, tuile. | Relu par l'auteur. |
 | **T3 — La disposition et la découpe** | `atelier/dispositions/<id>.json` (cellules nommées : sols, pièces hautes, grandes pièces ; emprise en cases, hauteur) ; `scripts/extract_texture_sheet.py` en déduit la grille, le gabarit, le bloc C, la découpe et la clé `scene/<lieu>/<nom>` de chaque texture ; `check_assets_brief.py` valide les dispositions. | `extract_texture_sheet.py --check` reproduit le dossier ; `check_assets_brief.py` vert. |
-| **T4 — La planche du Colisée** | Bloc B depuis la fiche du Colisée (l'Illu Die Arena de Martpart), disposition « Colisée » : sable, gradins, loges, couloirs, vestiaires, portes, torches, bannières. Remplace la planche du `LOT-50` au rendu de l'arène. | Découpée par le script ; l'arène se dessine avec. |
+| **T4 — La planche du Colisée** | Bloc B depuis la fiche d'Arenarea, réduit aux phrases de l'Arena of Fate, disposition « Colisée » : sable, gradins, loges, couloirs, vestiaires, portes, torches, bannières. Remplace la planche du `LOT-50` au rendu de l'arène. | Découpée par le script ; l'arène se dessine avec. |
 | **T5 — Martpart et la spécification** | La planche de Martpart se **commande** (envoi prêt) depuis sa seule fiche d'atlas, bloc A intouché ; `Documentation/Specification/` dit les deux identités, scène et interface. | Envoi préparé sans rédaction à la main ; spécification relue. |
 
 ## Journal
@@ -114,7 +114,7 @@ l'arête (pavés, sable).
   - *Disposition du Colisée* (T3, alors sur une planche 1536 × 1024 au pas 2) : 36 cellules — 15 sols, 17 pièces hautes (murs, arches, gradins,
     escaliers, torches et bannières en deux orientations, pilier, brasero, banc, râtelier),
     4 grandes pièces (porte des combattants, loge) ; bloc B depuis la fiche de Martpart, sujet :
-    l'Illu Die Arena. Tests : `scripts/tests/test_extract_texture_sheet.py` (13, dont la découpe
+    l'Illu Die Arena (remplacé ensuite par l'Arena of Fate, voir plus bas). Tests : `scripts/tests/test_extract_texture_sheet.py` (13, dont la découpe
     d'une planche synthétique et son `--check`).
 - **16 septembre 2026, T2 fait** : le bloc A (`style.txt` v1) est relu par l'auteur.
 - **16 septembre 2026, planches plus grandes et au pas 4** (demande de l'auteur). Le 1536 × 1024
@@ -130,3 +130,11 @@ l'arête (pavés, sable).
   figurines) ; c'est la réduction qui gagne en netteté. Le bloc A porte désormais `{PAS}`,
   `{LOSANGE_L}` et `{LOSANGE_H}`, remplis depuis la disposition, sans autre changement ; le bloc C
   précise que la maquette est au pas 2 et la planche à son propre pas.
+- **16 septembre 2026, le Colisée est l'Arena of Fate d'Arenarea** (*décision de l'auteur*). Le
+  bloc B recopiait la fiche entière de Martpart : marché, ruelles, vie nocturne — autant d'étals
+  et de lanternes que le générateur aurait dessinés sur une planche d'arène. Et le rattachement à
+  l'Illu Die Arena était une supposition de Claude, que la feuille de route ne portait pas.
+  *Décisions* : la disposition désigne `central-empire-the-capital-city-arenarea` ; le champ
+  `locationExcerpt` restreint le bloc B à des phrases de la fiche, **vérifiées mot pour mot**
+  par `valider` (le bloc B cite le livre, il ne le récrit pas) ; le Colisée en cite deux, celles
+  de l'Arena of Fate, et son sujet exclut le quartier alentour.

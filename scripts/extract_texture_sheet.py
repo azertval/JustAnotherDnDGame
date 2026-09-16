@@ -207,9 +207,20 @@ def valider(disposition: dict) -> list[str]:
         fautes.append(f"{ident} : préfixe de clé « {disposition['keyPrefix']} » invalide (LOT-39).")
     if not disposition["keyPrefix"].startswith("scene/"):
         fautes.append(f"{ident} : une texture de scène a une clé « scene/… ».")
-    if not (LIEUX / f"{disposition['location']}.json").is_file():
+    fiche = LIEUX / f"{disposition['location']}.json"
+    if not fiche.is_file():
         fautes.append(f"{ident} : lieu « {disposition['location']} » absent de l'atlas : le bloc B "
                       "se rédige depuis sa fiche.")
+    else:
+        description = json.loads(fiche.read_text(encoding="utf-8"))["description"]
+        extraits = disposition.get("locationExcerpt", [])
+        if not isinstance(extraits, list) or not all(isinstance(e, str) and e for e in extraits):
+            fautes.append(f"{ident} : « locationExcerpt » attend une liste de phrases.")
+        else:
+            for extrait in extraits:
+                if extrait not in description:
+                    fautes.append(f"{ident} : extrait absent de la fiche « {disposition['location']} » "
+                                  f"(le bloc B cite le livre, il ne le récrit pas) : « {extrait[:60]}… »")
     for nom, classe in disposition["classes"].items():
         a, b = classe.get("footprint", (0, 0))
         if a < 1 or b < 1 or classe.get("rise", -1) < 0:
@@ -265,8 +276,16 @@ def bloc_a(disposition: dict) -> str:
 
 
 def bloc_b(disposition: dict) -> str:
+    """Le lieu, cité du livre : la fiche d'atlas entière, ou les seules phrases de `locationExcerpt`.
+
+    Une planche peut ne montrer qu'une partie de son lieu -- l'Arène du Destin n'est qu'une phrase de
+    la fiche d'Arenarea. Recopier toute la fiche ferait dessiner au générateur les casinos et les
+    fontaines du quartier ; les extraits restent des citations, vérifiées mot pour mot par `valider`.
+    """
     fiche = json.loads((LIEUX / f"{disposition['location']}.json").read_text(encoding="utf-8"))
-    return (f"PLACE: {fiche['name']}, as the world atlas describes it: {fiche['description']}\n\n"
+    extraits = disposition.get("locationExcerpt")
+    texte = " ".join(extraits) if extraits else fiche["description"]
+    return (f"PLACE: {fiche['name']}, as the world atlas describes it: {texte}\n\n"
             f"SUBJECT OF THIS SHEET: {disposition['subject']}.")
 
 

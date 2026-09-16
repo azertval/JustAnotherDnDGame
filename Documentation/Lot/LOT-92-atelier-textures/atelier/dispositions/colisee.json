@@ -1,9 +1,13 @@
 {
   "version": 1,
   "id": "colisee",
-  "title": "Le Colisée — version finale (LOT-09)",
-  "location": "central-empire-the-capital-city-martpart",
-  "subject": "the Illu Die Arena at the heart of the market district: a magically lit gladiator arena with sand, tiered stands, noble boxes, vaulted corridors under the stands and locker rooms for the fighters",
+  "title": "Le Colisée — l'Arène du Destin d'Arenarea, version finale (LOT-09)",
+  "location": "central-empire-the-capital-city-arenarea",
+  "locationExcerpt": [
+    "Famed for the Arena of Fate, where combat and politics shape the empire, the district caters to elite nobles and officials with upscale shops and homes.",
+    "This district is a nexus for political intrigue, with decisions sealed in the Arena either by the battles or whispered conversations."
+  ],
+  "subject": "the Arena of Fate itself, and nothing of the district around it: a grand noble arena of marble and stone where combat and politics meet, with sand, tiered stands, noble boxes, vaulted corridors under the stands and locker rooms for the fighters",
   "keyPrefix": "scene/coliseum",
   "installRoot": "Source/Elements/Assets/Scene/coliseum",
   "sheet": { "size": [2560, 1440], "scale": 4 },

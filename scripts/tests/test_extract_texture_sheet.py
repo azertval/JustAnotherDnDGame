@@ -66,6 +66,7 @@ def test_une_grande_piece_a_gauche_s_allonge_sur_l_arete_haut_gauche(colisee):
     (lambda d: d.update(keyPrefix='ui/coliseum'), 'scene/'),
     (lambda d: d.update(location='lieu-inexistant'), "absent de l'atlas"),
     (lambda d: d['cells'][0].update({'class': 'inconnue'}), 'inconnue'),
+    (lambda d: d.update(locationExcerpt=['A market with lantern-lit stalls.']), 'extrait absent'),
     (lambda d: d.update(sheet={'size': [2560, 1450], 'scale': 4}), 'multiples de 16'),
     (lambda d: d.update(sheet={'size': [4096, 2048], 'scale': 4}), 'au plus 3840'),
     (lambda d: d.update(sheet={'size': [3200, 800], 'scale': 2}), 'rapport'),
@@ -84,6 +85,14 @@ def test_le_bloc_c_nomme_chaque_cellule_de_sa_planche_dans_l_ordre(colisee):
         for rang, cellule in enumerate(cellules, 1):
             assert f"{rang}. {cellule['prompt']}" in texte
         assert f"{rang + 1}. " not in texte
+
+
+def test_le_bloc_b_ne_cite_que_les_extraits(colisee):
+    texte = T.bloc_b(colisee)
+    assert 'Arena of Fate' in texte
+    assert 'Golden Chalice Casino' not in texte
+    del colisee['locationExcerpt']
+    assert 'Golden Chalice Casino' in T.bloc_b(colisee)
 
 
 def test_le_bloc_a_prend_le_pas_de_la_disposition(colisee):
