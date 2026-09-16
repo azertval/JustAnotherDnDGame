@@ -1,5 +1,5 @@
 // SPDX-FileCopyrightText: 2026 Valentin Eloy
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 
 #include "Core/Rpg/Check.h"
 
@@ -18,7 +18,7 @@ CheckResult rollCheck(int target, std::span<const Modifier> modifiers, RollStanc
 
     // Les DEUX des sont conserves en cas d'avantage ou de desavantage, pas seulement celui qui est
     // retenu : c'est ce que le joueur veut voir pour comprendre ce que son avantage lui a rapporte
-    // (EX-DND-003).
+    // (EX-REG-003).
     resultat.dice.push_back(random.nextInt(1, D20_FACES));
     if (stance != RollStance::Normal) {
         resultat.dice.push_back(random.nextInt(1, D20_FACES));

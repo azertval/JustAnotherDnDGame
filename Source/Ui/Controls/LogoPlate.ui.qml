@@ -2,7 +2,7 @@ import QtQuick
 import Jadg.Ui
 
 /*!
-    Le logotype du jeu : « Just Another D&D Game » sur son etendard grenat (LOT-87, T3.1).
+    Le logotype du jeu : « Just Another RPG Game » sur son etendard grenat (LOT-87, T3.1).
 
     Piece `ui/plate/logo`, la seule du cahier qui porte des lettres : un logotype est un dessin, et
     le nom du jeu ne se traduit pas. Tant qu'elle n'est pas livree, la brique dessine son repli --
@@ -42,7 +42,7 @@ Item {
 
             Text {
                 anchors.horizontalCenter: parent.horizontalCenter
-                text: "D&D Game"
+                text: "RPG Game"
                 color: Tokens.goldLight
                 font.family: Tokens.titleFamily
                 font.pixelSize: Tokens.fontDisplay * root.width / (532 * Tokens.uiScale)

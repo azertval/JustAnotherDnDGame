@@ -10,8 +10,8 @@ constante, ni en `switch`, ni en table codée en dur. Ce document porte les exig
 **filière données** : d'où vient une donnée, ce qu'elle promet, et comment le moteur se comporte
 quand elle promet plus qu'il ne sait tenir.
 
-Il ne dit pas *ce que* contiennent les catalogues — c'est l'objet de [`regles-dnd.md`](@ref
-spec-regles-dnd), [`rpg.md`](@ref spec-rpg), [`combat.md`](@ref spec-combat) et
+Il ne dit pas *ce que* contiennent les catalogues — c'est l'objet de [`regles-d20.md`](@ref
+spec-regles-d20), [`rpg.md`](@ref spec-rpg), [`combat.md`](@ref spec-combat) et
 [`inventaire.md`](@ref spec-inventaire). Il dit *comment* ils sont produits, validés et honorés.
 
 ## 1. Provenance

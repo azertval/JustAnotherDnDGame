@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Valentin Eloy
-# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 
-"""Genere des textures d'objets interactifs de TEST pour JustAnotherDnDGame (LOT-45).
+"""Genere des textures d'objets interactifs de TEST pour JustAnotherRpgGame (LOT-45).
 
 Ces images sont volontairement schematiques : elles servent a verifier que la surcharge de
 texture par instance fonctionne (assignation, priorite sur le skin), pas a habiller le jeu. Un

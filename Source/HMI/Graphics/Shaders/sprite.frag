@@ -1,5 +1,5 @@
 // SPDX-FileCopyrightText: 2026 Valentin Eloy
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 
 // Fragment shader du pipeline 2D (LOT-69 TACHE-02) : échantillonne la texture liée et la multiplie
 // par la teinte du sommet. L'échantillonnage est *nearest* -- fixé par le `QRhiSampler` côté C++,

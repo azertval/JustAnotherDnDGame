@@ -40,7 +40,7 @@ changer l'interface** ni les appelants, avec **repli procédural** si l'asset ma
   vérifier (aucune signature publique modifiée).
 - **Parité des régions** : conserver la convention de grille existante pour ne rien casser, puis faire
   évoluer l'atlas.
-- **Copie d'assets** : brancher la copie POST_BUILD sur la cible `JustAnotherDnDGame`
+- **Copie d'assets** : brancher la copie POST_BUILD sur la cible `JustAnotherRpgGame`
   (`Assets/` → à côté de l'exe), et le déploiement release.
 
 ## Définition de fait (DoD)
@@ -59,5 +59,5 @@ contrairement à `TextureAtlas.cpp` (chargement fichier + repli, dépendant de Q
 génération procédurale historique est extraite telle quelle (même sortie, non-régression) dans
 `Source/HMI/Graphics/ProceduralAtlas.{h,cpp}` (pur, testé par `test_procedural_atlas.cpp`), servant
 à la fois de repli et de générateur pour l'atlas de base
-(`JustAnotherDnDGame.exe --export-atlas=...`, cf. TACHE-03). Grille de l'atlas fichier livré identique à
+(`JustAnotherRpgGame.exe --export-atlas=...`, cf. TACHE-03). Grille de l'atlas fichier livré identique à
 la grille procédurale (parité vérifiée par export + rechargement, dimensions 80×112).

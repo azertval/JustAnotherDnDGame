@@ -1,5 +1,5 @@
 // SPDX-FileCopyrightText: 2026 Valentin Eloy
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 
 #pragma once
 
@@ -46,9 +46,11 @@ struct CreditsResult {
  * lignes quand le projet en a dix : les écrire dans le formulaire aurait mêlé des noms propres à la
  * mise en page, que la conception retouche. Le formulaire ne contient aucun nom.
  *
- * Titres et rôles portent une traduction par langue (`{"fr": …, "en": …}`), les noms n'en ont
- * pas. Une langue absente d'un libellé retombe sur le français, langue source des écrans : un
- * crédit s'affiche toujours, même incomplètement traduit.
+ * Titres et rôles portent une traduction par langue (`{"fr": …, "en": …}`). Un nom est d'ordinaire
+ * une chaîne, qui ne se traduit pas ; il peut aussi être un libellé traduit, pour une mention qui
+ * n'est pas un nom propre (« fan game non officiel »). Une langue absente d'un libellé retombe sur
+ * le français, langue source des écrans : un crédit s'affiche toujours, même incomplètement
+ * traduit.
  *
  * Logique **pure**, sans Qt ni disque (`EX-NFR-010`) : le modèle QML lit le fichier et passe le
  * texte. Une section malformée fait échouer toute la lecture, jamais des crédits partiels — une

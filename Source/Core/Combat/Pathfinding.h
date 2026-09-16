@@ -1,12 +1,12 @@
 // SPDX-FileCopyrightText: 2026 Valentin Eloy
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 
 #pragma once
 
 /**
  * @file Core/Combat/Pathfinding.h
  * @brief Le déplacement d'un tour : le budget, les cases atteignables et le chemin
- *        (`LOT-19`, `EX-CBT-020`, `EX-DND-051`).
+ *        (`LOT-19`, `EX-CBT-020`, `EX-REG-051`).
  */
 
 #include <cstddef>
@@ -26,7 +26,7 @@ struct Creature;
 /**
  * @brief Le budget de déplacement d'une vitesse de @p speedMeters, en cases entières.
  *
- * Une case vaut 1,5 m (`EX-DND-051`, `core::METERS_PER_TILE`) : 9 m font 6 cases. Une vitesse qui
+ * Une case vaut 1,5 m (`EX-REG-051`, `core::METERS_PER_TILE`) : 9 m font 6 cases. Une vitesse qui
  * ne tombe pas juste — 10 m après un malus d'encombrement de 3 m sur 13 m — est **arrondie à la
  * case inférieure** : le livre dépense la vitesse « par segments de 1,50 mètre », et un segment
  * entamé n'en est pas un. Arrondir au plus proche ferait gagner une case à qui porte trop.

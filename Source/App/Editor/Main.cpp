@@ -1,5 +1,5 @@
 // SPDX-FileCopyrightText: 2026 Valentin Eloy
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 
 /**
  * @file App/Editor/Main.cpp
@@ -44,7 +44,7 @@ int main(int argc, char** argv) {
     hmi::applyApplicationStyle();
     // Identité de l'application : sert de portée aux réglages persistés (QSettings — disposition
     // des panneaux de l'éditeur, EX-IHM-011).
-    QCoreApplication::setOrganizationName(QStringLiteral("JustAnotherDnDGame"));
+    QCoreApplication::setOrganizationName(QStringLiteral("JustAnotherRpgGame"));
     QCoreApplication::setApplicationName(QStringLiteral("Editor"));
 
     // La langue est celle que l'IHM persiste (QSettings, même clé que hmi::MainWindow) : les deux

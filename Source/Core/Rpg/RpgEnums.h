@@ -1,5 +1,5 @@
 // SPDX-FileCopyrightText: 2026 Valentin Eloy
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 
 #pragma once
 
@@ -41,7 +41,7 @@ enum class DamageType {
 };
 
 /**
- * @brief État affectant une créature (`EX-DND-040`, `EX-CNT-011`).
+ * @brief État affectant une créature (`EX-REG-040`, `EX-CNT-011`).
  *
  * Ensemble **fermé** : quinze valeurs. `Exhaustion` est la seule à ne pas être binaire — elle se
  * mesure en six niveaux — mais elle reste une condition, et l'omettre de cette liste (comme le

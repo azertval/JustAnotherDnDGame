@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://justanotherdndgame.local/rpg/character.schema.json",
+  "$id": "https://justanotherrpggame.local/rpg/character.schema.json",
   "title": "Fiche de personnage",
   "description": "Les CHOIX qui constituent un personnage : espece, classe, historique, valeurs de caracteristique avant augmentation, niveau vise. Rien de DERIVE n'y figure -- ni points de vie, ni classe d'armure, ni valeurs finales : le moteur les calcule (core::buildCharacterSheet, LOT-13), et une valeur ecrite des deux cotes finit par differer d'un cote. Premiere famille de ce dossier a decrire une INSTANCE et non un catalogue : une espece est un modele dont on tire des personnages, un personnage EST une instance.",
   "type": "object",
@@ -13,15 +13,15 @@
     "mecanismesRequis": true,
     "narratif": true,
     "speciesId": {
-      "$ref": "https://justanotherdndgame.local/rpg/common.schema.json#/$defs/id",
+      "$ref": "https://justanotherrpggame.local/rpg/common.schema.json#/$defs/id",
       "description": "Identifiant d'une espece du catalogue. Un identifiant inconnu s'affiche en tiret plutot qu'en clair : une cle n'est pas une donnee."
     },
     "classId": {
-      "$ref": "https://justanotherdndgame.local/rpg/common.schema.json#/$defs/id",
+      "$ref": "https://justanotherrpggame.local/rpg/common.schema.json#/$defs/id",
       "description": "Identifiant d'une classe du catalogue."
     },
     "backgroundId": {
-      "$ref": "https://justanotherdndgame.local/rpg/common.schema.json#/$defs/id",
+      "$ref": "https://justanotherrpggame.local/rpg/common.schema.json#/$defs/id",
       "description": "Identifiant d'un historique du catalogue."
     },
     "level": {
@@ -33,7 +33,7 @@
     "skillProficiencies": {
       "type": "array",
       "items": {
-        "$ref": "https://justanotherdndgame.local/rpg/common.schema.json#/$defs/id"
+        "$ref": "https://justanotherrpggame.local/rpg/common.schema.json#/$defs/id"
       },
       "uniqueItems": true,
       "description": "Competences maitrisees EN PLUS de celles que l'historique donne : celles-la sont deja dans le catalogue de l'historique, et les repeter ici en ferait une seconde source."
@@ -41,13 +41,13 @@
     "languages": {
       "type": "array",
       "items": {
-        "$ref": "https://justanotherdndgame.local/rpg/common.schema.json#/$defs/id"
+        "$ref": "https://justanotherrpggame.local/rpg/common.schema.json#/$defs/id"
       },
       "uniqueItems": true,
       "description": "Langues CHOISIES (LOT-15, EX-RPG-042) : un historique en accorde un nombre, pas une liste, et la fiche dit lesquelles. Celles de l'espece sont recopiees au chargement ; les repeter ici en ferait une seconde source."
     },
     "baseAbilities": {
-      "$ref": "https://justanotherdndgame.local/rpg/common.schema.json#/$defs/abilityScores",
+      "$ref": "https://justanotherrpggame.local/rpg/common.schema.json#/$defs/abilityScores",
       "description": "Les six valeurs AVANT augmentation d'espece. L'espece les augmente au chargement, dans la limite lue dans rules/character-creation.json."
     },
     "inventory": {
@@ -105,7 +105,7 @@
   "additionalProperties": false,
   "allOf": [
     {
-      "$ref": "https://justanotherdndgame.local/rpg/common.schema.json#/$defs/entree"
+      "$ref": "https://justanotherrpggame.local/rpg/common.schema.json#/$defs/entree"
     }
   ]
 }

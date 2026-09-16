@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Valentin Eloy
-# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 
-"""Genere des fonds de niveau de TEST pour JustAnotherDnDGame (LOT-44, etoffes en LOT-65).
+"""Genere des fonds de niveau de TEST pour JustAnotherRpgGame (LOT-44, etoffes en LOT-65).
 
 Cette image est volontairement schematique : elle sert a verifier que le rendu du fond
 fonctionne (calque Background, ratio preserve, recadrage par le centre), pas a habiller

@@ -430,9 +430,9 @@ que le socle doit **prévoir** (une interface, un champ, un événement) et ce q
 | Domaine | Ce que les livres exigent, chiffres en main | Ce que le socle doit prévoir | Lot porteur |
 |---|---|---|---|
 | **Tour et initiative** | Actions légendaires (réserve de 3, dépensées en fin de tour d'autrui) ; actions de repaire à l'initiative 20 ; renforts entrant à l'initiative 0 ; un acteur **flottant** qui joue avant n'importe quel tour (*Law of Time*) ; une fenêtre de réaction **avant le premier tour** (*Natural Strategist*) ; octroi d'une réaction supplémentaire à un allié ; fenêtre « une créature *déclare* une attaque » (postures du moine) ; une **troisième économie d'action** (Heroic Action) ; compteurs « une fois par rencontre » et immunités 24 h par couple (créature, source) | La machine à états du tour expose des **points d'insertion** nommés (début de round, avant le premier tour, fin de tour de X, initiative fixe N, à la déclaration d'une attaque) et des compteurs à portée (tour, rencontre, jour) ; l'économie d'action est une **liste** de ressources par tour, pas trois booléens — **posé au [LOT-20](@ref lot-20)** : `core::CombatHook` (neuf crochets), repères d'initiative fixe qui perdent les égalités, acteur flottant (`interject`), `core::ActionEconomy` (`declare`, `grant`), `core::ScopedCounters` (tour, round, rencontre, jour) et `core::ImmunityLedger` par couple (créature, source) | [LOT-20](@ref lot-20) |
-| **Le dé** | d20 brut exposé (*Omen*, *Augurs*, plancher à 10) ; relance **avant** résolution ; modificateur ajouté **après** avoir vu le résultat (*Future Guard*) ; résultats de d20 **stockés** puis substitués ; « si les deux d20 de l'avantage touchent » ; super-avantage à 3d20 | `core::Check` (livré) reste le seul mécanisme, mais son résultat est un **objet** (dés bruts, modificateurs avec origine, seuil, issue, `EX-DND-003`) que des crochets peuvent lire et amender avant que l'issue ne soit figée | [LOT-21](@ref lot-21) |
+| **Le dé** | d20 brut exposé (*Omen*, *Augurs*, plancher à 10) ; relance **avant** résolution ; modificateur ajouté **après** avoir vu le résultat (*Future Guard*) ; résultats de d20 **stockés** puis substitués ; « si les deux d20 de l'avantage touchent » ; super-avantage à 3d20 | `core::Check` (livré) reste le seul mécanisme, mais son résultat est un **objet** (dés bruts, modificateurs avec origine, seuil, issue, `EX-REG-003`) que des crochets peuvent lire et amender avant que l'issue ne soit figée | [LOT-21](@ref lot-21) |
 | **Dégâts et points de vie** | Dégâts typés avec **drapeaux de source** (magique, adamantium, sort) ; conversion de type (*Shadowcaster*, zone *Maelstrom*) ; « ignore résistances et PV temporaires » ; dégâts redirigés (*Life Link*), différés, par case parcourue ; échange et transfert de PV ; réserves ablatives (*Exoskeleton*, 80 PV) ; PV **mis en commun** (monture) ; PV temporaires sans plafond ; **PV de structures** ; phases par seuil (*Battle Fury* sous 50 %) ; déclencheurs à la mort (spawn, explosion) ; seuil de jets de mort **variable** (Cultist : 4 échecs) ; régénération conditionnelle | Un **pipeline** de dégâts à étapes nommées (source → conversion → résistances → réserves → PV) où chaque étape est un point d'insertion, et un événement « seuil franchi » / « mort » ; les PV sont une pile de réserves, pas un entier | [LOT-21](@ref lot-21), [LOT-72](@ref lot-72) |
-| **Conditions et afflictions** | Marqueurs **empilables** (poison ×4) ; saignement ; « couvert de lave », « mouillé », « chargé » ; malédictions à **tick quotidien ou hebdomadaire**, levées seulement par *remove curse* ou *wish* ; épuisement à niveaux utilisé comme **coût** ; cécité permanente, mutisme ; malus par paliers (Insanity −1/−2/−3) ; folies aléatoires | Une condition est une **source datée** avec durée en tours **ou en temps de jeu**, empilable et recalculée (`EX-DND-040`) ; une couche « affliction persistante » qui survit au combat et se réveille à l'horloge | [LOT-72](@ref lot-72), `LOT-70` |
+| **Conditions et afflictions** | Marqueurs **empilables** (poison ×4) ; saignement ; « couvert de lave », « mouillé », « chargé » ; malédictions à **tick quotidien ou hebdomadaire**, levées seulement par *remove curse* ou *wish* ; épuisement à niveaux utilisé comme **coût** ; cécité permanente, mutisme ; malus par paliers (Insanity −1/−2/−3) ; folies aléatoires | Une condition est une **source datée** avec durée en tours **ou en temps de jeu**, empilable et recalculée (`EX-REG-040`) ; une couche « affliction persistante » qui survit au combat et se réveille à l'horloge | [LOT-72](@ref lot-72), `LOT-70` |
 | **La grille** | Zones à **règle locale** sur la carte (zone du rituel des Marques ; combat interdit ; aucun soin ; type de dégâts aléatoire) ; objets **destructibles** posés sur la grille (toiles CA 10 / 10 PV) ; terrain difficile créé en combat ; téléportation, échange de positions, déplacement forcé avec dégâts de collision ; **vol et vol stationnaire** partout (dragons, drakes, ailes) sur un jeu vu de dessus ; requête « une case où l'on peut se cacher » | La grille porte des **propriétés de zone** déclarées par la carte (`EX-LVL-018`) que le combat lit ; les objets de grille sont des entités à PV ; **l'altitude est un attribut**, jamais une géométrie — décision **écrite au [LOT-19](@ref lot-19)** : un volant survole les obstacles de sol (eau profonde, falaise) et ignore le terrain difficile, mais pas les murs, et reste ciblable à portée | [LOT-19](@ref lot-19), [LOT-22](@ref lot-22) |
 | **L'adversaire** | Tactiques de meute et bonus d'adjacence (+1 par drake, max +5) ; lanceurs de sorts ; boss de repaire (actions de repaire, effets régionaux, ×3 rencontres à 6 miles) ; formes alternatives (*Change Shape* → second bloc) | Les profils de comportement en JSON (`LOT-23`) savent lire les traits de groupe ; un bloc peut **référencer** un autre bloc | [LOT-23](@ref lot-23), `LOT-46` |
 | **Ressources de classe** | Au moins **six modèles** : réserve dépensée (ki, Courage) ; **jauge montante** à paliers de malus et transformation forcée (Insanity) ; automate positionnel à six cases (Cycle of Redemption) ; postures avec interruptions déclaratives (Way of the Animals) ; points à **gain événementiel** (Soul Points, +1 par mort à 15 ft) ; cadence « un pouvoir par round » + accumulation de marques (Dragonblade) ; tampon « prochain surge » + journal FIFO de deux éléments (Elementalist) ; second système d'emplacements (pacte) ; « N usages par sort » (classes simplifiées) | `EX-RPG-021` reste vraie — une ressource est une donnée — mais la « ressource générique » est une **famille** de six modèles, chacun avec sa cadence, et non un compteur ; le socle en livre l'interface et le guerrier n'en prouve qu'un | `LOT-47` |
@@ -926,7 +926,7 @@ supprimées, et rien ne doit s'en apercevoir.
 > prémisse : ce lot affirmait que l'éditeur est « un outil Qt séparé », et le premier audit l'avait
 > déclaré faux au nom d'`EX-EDIT-030` (« un éditeur intégré à l'application, et **non un outil
 > séparé** »). Le [LOT-86](@ref lot-86) a depuis scindé l'IHM en **deux exécutables** —
-> `JustAnotherDnDGame` en Qt Quick, qui ne lie pas `Qt6::Widgets` (`EX-IHM-102`), et `LevelEditor`
+> `JustAnotherRpgGame` en Qt Quick, qui ne lie pas `Qt6::Widgets` (`EX-IHM-102`), et `LevelEditor`
 > en Qt Widgets — si bien que la prémisse est redevenue vraie, et qu'`EX-EDIT-030` est aujourd'hui
 > contredite par le dépôt. Ce que cela change pour l'édition dans la scène est **à trancher** au
 > `LOT-11` (§8) ; cela ne change rien à ce lot-ci.
@@ -988,7 +988,7 @@ l'identique, panneau de textures compris.
 *Prérequis : [LOT-13](@ref lot-13). **Débloque `LOT-51`→`LOT-65`, [LOT-25](@ref lot-25),
 `LOT-75` et `LOT-42`.***
 
-*Exigences couvertes : `EX-DND-030`, `EX-DND-031`, `EX-DND-032`.*
+*Exigences couvertes : `EX-REG-030`, `EX-REG-031`, `EX-REG-032`.*
 
 > **Élargi au second audit.** « Horloge et cycle jour/nuit » ne suffit pas : les livres datent
 > tout. Un **calendrier** de 12 mois × 30 jours et 7 jours nommés (an 1298), des saisons et des
@@ -1035,7 +1035,7 @@ pendant un combat ; elle survit à une sauvegarde et à un rechargement.
 
 *Prérequis : [LOT-12](@ref lot-12), [LOT-21](@ref lot-21), `LOT-35`.*
 
-*Exigences couvertes : `EX-DND-040`, `EX-DND-041`, `EX-CBT-040`, `EX-CBT-041`, `EX-CBT-042`.*
+*Exigences couvertes : `EX-REG-040`, `EX-REG-041`, `EX-CBT-040`, `EX-CBT-041`, `EX-CBT-042`.*
 
 > **Fusionné à l'audit.** Ce lot a absorbé l'ancien `LOT-73` (agonie et mort). Les jets de
 > sauvegarde contre la mort sont une **application** du système de conditions — inconscient,
@@ -1077,7 +1077,7 @@ aujourd'hui absente de tout document.
 
 `EX-GP-030`/`031`/`032`, qui décrivaient la mort du jeu de plateforme, ont été retirées par le
 [LOT-67](@ref lot-67) avec la notion de niveau discret. Ce lot ne les rouvre pas : la mort, en
-combat comme hors combat, se spécifie dans les familles `EX-DND` et `EX-CBT` qu'il couvre.
+combat comme hors combat, se spécifie dans les familles `EX-REG` et `EX-CBT` qu'il couvre.
 
 *Acceptation* — deux sources de la même condition, retrait de l'une, l'autre tient ; une condition
 expire au bon tour ; chaque état du catalogue `LOT-35` a un effet observable, ou est explicitement
@@ -1088,7 +1088,7 @@ le compteur ; mourir en exploration a un effet défini, et ce n'est pas « redé
 
 *Prérequis : [LOT-13](@ref lot-13), [LOT-20](@ref lot-20), [LOT-16](@ref lot-16).*
 
-*Exigences couvertes : `EX-RPG-030`, `EX-RPG-031`, `EX-RPG-032`, `EX-DND-050` (le facteur de
+*Exigences couvertes : `EX-RPG-030`, `EX-RPG-031`, `EX-RPG-032`, `EX-REG-050` (le facteur de
 puissance, échelle unique du dosage, des rangs et de l'expérience).*
 
 **Les sources** d'expérience, qui manquent entièrement : victoire au combat selon le facteur de
@@ -1684,7 +1684,7 @@ Source/Core/Time/
   GameClock.{h,cpp}, Calendar, Rest  ← date, phase de lune, repos court et long (LOT-70)
 
 Documentation/Specification/
-  contenu.md, regles-dnd.md, combat.md, rpg.md, inventaire.md   ← (LOT-77, livré)
+  contenu.md, regles-d20.md, combat.md, rpg.md, inventaire.md   ← (LOT-77, livré)
 Documentation/Lot/LOT-87-charte-v2/
   assets-brief.{md,json}, references/   ← le cahier des 214 images et les dix maquettes (LOT-87)
 ```
@@ -1834,18 +1834,18 @@ dépassent et conditionnent son exécution.
 
 Le dépôt compte **13 familles réelles pour 269 exigences** (`EX-ARCH`, `EX-BUILD`, `EX-CTRL`,
 `EX-DEC`, `EX-EDIT`, `EX-EXP`, `EX-GP`, `EX-IA`, `EX-IHM`, `EX-LVL`, `EX-NFR`, `EX-REN`, `EX-VIS`).
-Cinq autres sont référencées par une vingtaine d'epics et **n'existent pas** : `EX-DND-*`,
-`EX-RPG-*`, `EX-INV-*`, `EX-CBT-*` et `EX-CNT-*`. Les documents censés les porter — `regles-dnd.md`,
+Cinq autres sont référencées par une vingtaine d'epics et **n'existent pas** : `EX-REG-*`,
+`EX-RPG-*`, `EX-INV-*`, `EX-CBT-*` et `EX-CNT-*`. Les documents censés les porter — `regles-d20.md`,
 `combat.md`, `rpg.md`, `contenu.md` — sont absents.
 
 **Le garde-fou, lui, est réparé.** Il ne l'était pas : `scripts/lint_exigences.py` ne filtrait que
-sur `EX-[A-Z]+-[0-9]+`, si bien qu'un `EX-DND-*` n'était **ni** une déclaration **ni** une
+sur `EX-[A-Z]+-[0-9]+`, si bien qu'un `EX-REG-*` n'était **ni** une déclaration **ni** une
 référence, et que la CI passait au vert sur cinq familles inexistantes. Une seconde expression,
 `FAMILY_REF_RE = re.compile(r'EX-([A-Z]+)-\*')`, capte désormais les références de famille entière
 et le lint **échoue** sur les cinq.
 
 Cet échec était **voulu**, et c'était le seul mécanisme empêchant la dette de grossir en silence.
-Il est **éteint** : le [LOT-77](@ref lot-77) a écrit `regles-dnd.md`, `rpg.md`, `combat.md`,
+Il est **éteint** : le [LOT-77](@ref lot-77) a écrit `regles-d20.md`, `rpg.md`, `combat.md`,
 `inventaire.md` et `contenu.md`, soit **69 exigences** qui portent les cinq familles, et a posé la
 rubrique « Exigences couvertes » sur les 25 lots qui les implémentent. Le lint comptait alors
 **339 exigences déclarées et 339 référencées**, sans aucune entrée ajoutée à la liste des
@@ -2010,7 +2010,7 @@ spécifications relues comme des entrants. Ce qu'elle a changé :
   décrivent encore un jeu de plateforme), `LOT-89` (20 dons, 29 objets magiques, consommables),
   `LOT-90` (le plan pénombral) ; `LOT-85` inscrit parmi les numéros retirés ;
 - une liste de ce qui est **écarté**, nommément, au §8 ;
-- sept exigences sans lot rattachées (`EX-VIS-002/003/004`, `EX-DND-031/050`, `EX-IHM-003`,
+- sept exigences sans lot rattachées (`EX-VIS-002/003/004`, `EX-REG-031/050`, `EX-IHM-003`,
   `EX-RPG-042`), et `EX-INV-030` (la monnaie) rendue au `LOT-26`.
 
 ---
@@ -2315,7 +2315,7 @@ règle pas. Un sort est une **donnée** ; le C++ ne porte que les *mécanismes* 
 
 #### Exigences couvertes
 
-`EX-DND-*`.
+`EX-REG-*`.
 
 #### Critères d'acceptation
 

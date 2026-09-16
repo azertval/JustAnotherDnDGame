@@ -228,8 +228,8 @@ Le cahier compte **80 pièces**, qui engendrent **214 images** (une par état ou
 - **`ui/plate/field-tag`** — Petite étiquette sombre en flèche vers la droite, qui nomme un champ de la fiche.
   *Prompt propre :* « Small dark label tag with a thin gold edge, square left end and an arrow-shaped right end; uniform middle. »
   *Repli :* `panel`, `accent`.
-- **`ui/plate/logo`** — Le titre « Just Another D&D Game » en capitales dorées en relief sur un étendard grenat déchiré, adossé à un anneau de boussole. Seule pièce du cahier qui porte des lettres : un logotype est un dessin, et le nom du jeu ne se traduit pas.
-  *Prompt propre :* « Game logotype: the words 'JUST ANOTHER' above 'D&D GAME' in carved, bevelled gold Roman capitals in the spirit of Cinzel, with a red gem set in the ampersand; behind them a torn garnet cloth banner and a large gold compass ring with a four-pointed star. »
+- **`ui/plate/logo`** — Le titre « Just Another RPG Game » en capitales dorées en relief sur un étendard grenat déchiré, adossé à un anneau de boussole. Seule pièce du cahier qui porte des lettres : un logotype est un dessin, et le nom du jeu ne se traduit pas.
+  *Prompt propre :* « Game logotype: the words 'JUST ANOTHER' above 'RPG GAME' in carved, bevelled gold Roman capitals in the spirit of Cinzel, with a red gem set between the two lines; behind them a torn garnet cloth banner and a large gold compass ring with a four-pointed star. »
   *Repli :* `gem`, `goldLight`.
 - **`ui/plate/quote`** — Cartouche sombre étroit, fleuron d'or à chaque bout ; porte une citation en `loreFamily`.
   *Prompt propre :* « Narrow dark cartouche with a thin gold filet and a round gold fleuron at each end; uniform middle. »

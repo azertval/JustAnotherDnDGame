@@ -1,9 +1,9 @@
 // SPDX-FileCopyrightText: 2026 Valentin Eloy
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 
 /**
  * @file App/Game/Main.cpp
- * @brief Point d'entrée du **jeu** (`JustAnotherDnDGame`) — Qt Quick, sans un seul widget.
+ * @brief Point d'entrée du **jeu** (`JustAnotherRpgGame`) — Qt Quick, sans un seul widget.
  *
  * `QGuiApplication` et non `QApplication` : la cible ne lie pas `Qt6::Widgets`, et ce n'est pas un
  * détail de dépendance mais la garantie qui porte tout le `LOT-86`. Un widget ne peut pas
@@ -75,13 +75,13 @@ void registerIdentityFonts() {
  * @return Code de sortie du processus (0 en cas de succès).
  */
 int main(int argc, char** argv) {
-    core::MemoryLogSink* const sessionLog = app::installLogging(argc, argv, "JustAnotherDnDGame");
+    core::MemoryLogSink* const sessionLog = app::installLogging(argc, argv, "JustAnotherRpgGame");
 
     // Identite de l'application AVANT toute lecture de reglage : c'est elle qui designe la portee
     // des QSettings. Lire la synchronisation verticale avant de la poser aurait interroge une
     // portee vide -- le reglage aurait paru absent, et sa valeur par defaut se serait appliquee a
     // chaque lancement sans que rien ne le signale.
-    QCoreApplication::setOrganizationName(QStringLiteral("JustAnotherDnDGame"));
+    QCoreApplication::setOrganizationName(QStringLiteral("JustAnotherRpgGame"));
     QCoreApplication::setApplicationName(QStringLiteral("Game"));
     // Lue par le menu principal (`Qt.application.version`) : le numero reste celui du `project()`
     // racine, sans type C++ de plus a exposer ni doublure a tenir pour l'atelier.
@@ -281,6 +281,6 @@ int main(int argc, char** argv) {
     engine.loadFromModule("Jadg.App", "Main");
 
     const int code = QGuiApplication::exec();
-    HMI_LOG_INFO("Arret de JustAnotherDnDGame (code " + std::to_string(code) + ").");
+    HMI_LOG_INFO("Arret de JustAnotherRpgGame (code " + std::to_string(code) + ").");
     return code;
 }

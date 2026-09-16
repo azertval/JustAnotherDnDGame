@@ -91,6 +91,6 @@ Ces objectifs sont détaillés dans [`gameplay.md`](gameplay.md), [`controles.md
 [`rendu-technique.md`](rendu-technique.md), [`niveaux.md`](niveaux.md),
 [`exigences-non-fonctionnelles.md`](exigences-non-fonctionnelles.md),
 [`editeur-niveaux.md`](editeur-niveaux.md) et [`architecture.md`](architecture.md). Les
-spécifications propres au RPG (`exploration.md`, `regles-dnd.md`, `combat.md`, `rpg.md`) sont
+spécifications propres au RPG (`exploration.md`, `regles-d20.md`, `combat.md`, `rpg.md`) sont
 créées par les lots qui les concrétisent. Chaque lot de `../Lot/` référence les exigences `EX-…`
 qu'il couvre.

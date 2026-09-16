@@ -1,4 +1,4 @@
-# JustAnotherDnDGame
+# JustAnotherRpgGame
 
 RPG 2D **en vue de dessus** développé **from scratch** en **C++20 / Qt QRhi** (Direct3D 11 sous
 Windows), sans moteur tiers : exploration en temps réel façon Zelda, et rencontres en **combat

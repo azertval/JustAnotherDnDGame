@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Valentin Eloy
-# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 """Réception des images produites pour la charte v2 (LOT-87, T2.6).
 
 Le cahier des assets (`assets-brief.json`, T2.4) dit à un générateur d'images ce qu'il doit

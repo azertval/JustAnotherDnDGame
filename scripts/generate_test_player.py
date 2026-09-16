@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Valentin Eloy
-# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 
-"""Genere une spritesheet de personnage de TEST pour JustAnotherDnDGame (LOT-48, livree en LOT-65).
+"""Genere une spritesheet de personnage de TEST pour JustAnotherRpgGame (LOT-48, livree en LOT-65).
 
 `Player/` ne contenait jusqu'ici aucun fichier : le personnage retombait systematiquement sur la
 silhouette procedurale historique (`atlas.png`) faute d'un seul asset livre, alors que le contrat

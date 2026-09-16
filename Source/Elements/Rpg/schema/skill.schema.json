@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://justanotherdndgame.local/rpg/skill.schema.json",
+  "$id": "https://justanotherrpggame.local/rpg/skill.schema.json",
   "title": "Competence",
   "description": "Une des dix-huit competences, et la caracteristique dont elle depend. Le LOT-13 les suppose sans jamais dire d'ou elles viennent : elles viennent d'ici. La caracteristique associee est une DONNEE et non une table en C++, parce qu'une regle optionnelle courante la remplace (un jet d'Intelligence (Athletisme) pour se rappeler comment on grimpe).",
   "type": "object",
@@ -15,7 +15,7 @@
     "ability": {
       "allOf": [
         {
-          "$ref": "https://justanotherdndgame.local/rpg/common.schema.json#/$defs/ability"
+          "$ref": "https://justanotherrpggame.local/rpg/common.schema.json#/$defs/ability"
         }
       ],
       "description": "La caracteristique par defaut du jet. Attestee page 64 des Basic Rules."
@@ -30,7 +30,7 @@
   "additionalProperties": false,
   "allOf": [
     {
-      "$ref": "https://justanotherdndgame.local/rpg/common.schema.json#/$defs/entree"
+      "$ref": "https://justanotherrpggame.local/rpg/common.schema.json#/$defs/entree"
     }
   ]
 }

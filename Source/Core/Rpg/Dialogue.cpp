@@ -1,5 +1,5 @@
 // SPDX-FileCopyrightText: 2026 Valentin Eloy
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 
 #include "Core/Rpg/Dialogue.h"
 
@@ -251,7 +251,7 @@ void lireJet(const Json& brut, DialogueNode& noeud, Rapport& rapport) {
     noeud.skill = exiger(brut, "skill", noeud.id, rapport);
     if (const auto seuil = brut.find("difficulty");
         seuil != brut.end() && seuil->is_number_integer()) {
-        // Un nombre nu est le defaut que `EX-DND-021` interdit : il ne dit pas ce qu'il vaut, et
+        // Un nombre nu est le defaut que `EX-REG-021` interdit : il ne dit pas ce qu'il vaut, et
         // regler l'equilibre demanderait de relire chaque dialogue.
         rapport.noeud(noeud.id,
                       "'difficulty' nomme un degre de rules/difficulty.json, jamais un "
@@ -716,7 +716,7 @@ std::vector<Modifier> CharacterListener::skillModifiers(std::string_view skillId
         return modificateurs;
     }
     // Detaille, et non le total de `skillModifier` : « +3 (charisma) + 2 (maitrise) » se
-    // restitue, « +5 » ne dit pas d'ou il vient (EX-DND-003). La regle reste la sienne.
+    // restitue, « +5 » ne dit pas d'ou il vient (EX-REG-003). La regle reste la sienne.
     const SkillCheckModifier total = skillModifier(_sheet, _experience, _skills, skillId);
     const int caracteristique = _sheet.modifier(competence->ability);
     modificateurs.push_back({std::string(abilityName(competence->ability)), caracteristique});

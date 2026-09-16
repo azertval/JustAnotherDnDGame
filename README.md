@@ -1,8 +1,8 @@
-# JustAnotherDnDGame
+# JustAnotherRpgGame
 
-[![CI](https://github.com/azertval/JustAnotherDnDGame/actions/workflows/ci.yml/badge.svg)](https://github.com/azertval/JustAnotherDnDGame/actions/workflows/ci.yml)
-[![Documentation](https://github.com/azertval/JustAnotherDnDGame/actions/workflows/docs.yml/badge.svg)](https://github.com/azertval/JustAnotherDnDGame/actions/workflows/docs.yml)
-[![Release](https://github.com/azertval/JustAnotherDnDGame/actions/workflows/release.yml/badge.svg)](https://github.com/azertval/JustAnotherDnDGame/releases/latest)
+[![CI](https://github.com/azertval/JustAnotherRpgGame/actions/workflows/ci.yml/badge.svg)](https://github.com/azertval/JustAnotherRpgGame/actions/workflows/ci.yml)
+[![Documentation](https://github.com/azertval/JustAnotherRpgGame/actions/workflows/docs.yml/badge.svg)](https://github.com/azertval/JustAnotherRpgGame/actions/workflows/docs.yml)
+[![Release](https://github.com/azertval/JustAnotherRpgGame/actions/workflows/release.yml/badge.svg)](https://github.com/azertval/JustAnotherRpgGame/releases/latest)
 ![C++20](https://img.shields.io/badge/C%2B%2B-20-00599C)
 ![Qt QRhi](https://img.shields.io/badge/Qt%20QRhi-Direct3D%2011-8A2BE2)
 
@@ -11,20 +11,24 @@ tiers : exploration en temps réel façon Zelda, et rencontres en **combat tacti
 tour** régi par un système **d20** maison. Le rendu passe par **QRhi**, la couche d'accès au GPU
 de Qt, qui retient **Direct3D 11** par défaut sous Windows.
 
+> **Fan game non commercial.** Ce jeu gratuit s'inspire des univers de *Dungeons & Dragons* et de
+> *Tanares*, sans affiliation ni approbation de leurs ayants droit (Wizards of the Coast, Dragori
+> Games). Voir [Licence](#licence).
+
 > **Dérivé de `ProjectGaming`.** Ce dépôt reprend le moteur d'un jeu de plateforme/puzzle en vue
 > de côté livré en `0.1.3` (ECS, boucle à pas fixe, balayage AABB, chargeur de niveaux, rendu,
 > éditeur, IHM Qt) et en a retiré tout le gameplay propre à la vue de côté. L'historique git est
 > conservé ; le programme de lots d'origine reste consultable sous `Documentation/Heritage/`.
 > État actuel : le moteur est nu — le déplacement top-down arrive au `LOT-06`.
 
-- 📖 **Documentation en ligne** : <https://azertval.github.io/JustAnotherDnDGame/>
-- 📊 **Qualité** (couverture, performances) : <https://azertval.github.io/JustAnotherDnDGame/qualite/>
-- ⬇️ **Télécharger la dernière version** : <https://github.com/azertval/JustAnotherDnDGame/releases/latest>
-  (préversion roulante du dernier `main` : <https://github.com/azertval/JustAnotherDnDGame/releases/tag/debug-latest>)
+- 📖 **Documentation en ligne** : <https://azertval.github.io/JustAnotherRpgGame/>
+- 📊 **Qualité** (couverture, performances) : <https://azertval.github.io/JustAnotherRpgGame/qualite/>
+- ⬇️ **Télécharger la dernière version** : <https://github.com/azertval/JustAnotherRpgGame/releases/latest>
+  (préversion roulante du dernier `main` : <https://github.com/azertval/JustAnotherRpgGame/releases/tag/debug-latest>)
 
 ## Description
 
-JustAnotherDnDGame est un RPG en vue de dessus bâti sur un moteur de jeu 2D maison. Ses partis
+JustAnotherRpgGame est un RPG en vue de dessus bâti sur un moteur de jeu 2D maison. Ses partis
 pris :
 
 - **Séparation stricte** entre la logique (`Core`) et la présentation (`HMI`) :
@@ -38,7 +42,7 @@ pris :
   jamais en dur dans le C++ — l'équilibrage ne demande pas de recompiler.
 
 Le *quoi* et le *pourquoi* sont décrits dans les
-[spécifications](https://azertval.github.io/JustAnotherDnDGame/) ; le *comment* dans le
+[spécifications](https://azertval.github.io/JustAnotherRpgGame/) ; le *comment* dans le
 **Guide du développeur** et la référence de code Doxygen.
 
 ## Fonctionnalités du moteur (état actuel)
@@ -126,7 +130,7 @@ générés dans `build/`).
   `LOT-69` : c'est la première version fournissant Qt Canvas Painter. Installer Qt ≥ 6.11 avec
   `aqtinstall` demande une version de l'outil plus récente que celle publiée sur PyPI — voir
   [`External/README.md`](External/README.md).
-  Sans Qt, la cible `JustAnotherDnDGame` est **ignorée** (avertissement explicite) : seuls les tests se
+  Sans Qt, la cible `JustAnotherRpgGame` est **ignorée** (avertissement explicite) : seuls les tests se
   construisent.
 
 ### Depuis Visual Studio (recommandé)
@@ -218,37 +222,55 @@ de `docs` (`docs.yml`, informatif).
 
 ## Licence
 
-JustAnotherDnDGame est distribué sous **GNU General Public License v3.0 ou ultérieure**
-(`GPL-3.0-or-later`). Le texte complet est dans [`LICENSE`](LICENSE).
+**JustAnotherRpgGame est un fan game gratuit et sans but commercial.** Il ne se vend pas, ne se
+monnaye pas, et ses licences interdisent à quiconque d'en faire un usage commercial.
 
-```
-Copyright (C) 2026 Valentin Eloy
+| Ce qui est couvert | Licence | Texte |
+|---|---|---|
+| Le **code** du projet (`Source/**/*.h`, `*.cpp`, `*.qml`, `scripts/`, `CMakeLists.txt`…) | **PolyForm Noncommercial 1.0.0** (`PolyForm-Noncommercial-1.0.0`) | [`LICENSE`](LICENSE) |
+| Les **contenus originaux** du projet (textes, données, images et sons créés pour lui) | **Creative Commons BY-NC-SA 4.0** (`CC-BY-NC-SA-4.0`) | [`LICENSE-CONTENT`](LICENSE-CONTENT) |
+| Les **ressources et bibliothèques tierces** (Kenney, polices, Qt…) | leur licence propre (CC0, SIL OFL, LGPLv3, MIT…) | [`THIRD-PARTY-NOTICES.md`](THIRD-PARTY-NOTICES.md) |
+| Les **univers, règles et marques** dont le jeu s'inspire (Dungeons & Dragons, Tanares) | **aucune** : ils restent la propriété de leurs ayants droit | ci-dessous |
 
-Ce programme est un logiciel libre : vous pouvez le redistribuer et/ou le modifier
-selon les termes de la GNU General Public License telle que publiée par la Free
-Software Foundation, soit la version 3 de cette licence, soit (à votre choix)
-toute version ultérieure.
+Ce que cela implique concrètement :
 
-Ce programme est distribué dans l'espoir qu'il sera utile, mais SANS AUCUNE
-GARANTIE, ni explicite ni implicite, y compris les garanties de COMMERCIALISATION
-ou d'ADAPTATION À UN USAGE PARTICULIER. Voir la GNU General Public License pour
-plus de détails.
-```
+- **Lire, étudier, modifier et partager le code gratuitement : oui**, pour tout usage non commercial
+  (personnel, amateur, éducatif), à condition de transmettre la licence et la ligne
+  `Required Notice` en tête de [`LICENSE`](LICENSE).
+- **Vendre le jeu, un dérivé ou un service fondé dessus : non.** Ce n'est donc **pas** une licence
+  *open source* au sens de l'OSI, qui exige d'autoriser le commerce : le code est **ouvert en
+  lecture**, pas libre de tout usage.
+- **Qt reste sous LGPLv3**, en lien dynamique : la LGPLv3 n'impose rien à la licence de
+  l'application qui l'utilise, tant que ses DLL restent remplaçables. Les obligations propres à Qt
+  sont détaillées dans [`THIRD-PARTY-NOTICES.md`](THIRD-PARTY-NOTICES.md).
+- Les en-têtes `SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0` marquent le **code**, et lui
+  seul. Un `.png` ou un `.wav` du dépôt n'est pas sous PolyForm pour autant.
 
-Ce que cela implique concrètement, et qui n'est pas toujours évident :
+### Fan game, univers et marques
 
-- **L'usage commercial n'est pas interdit** — une licence open source ne peut pas le restreindre
-  (définition de l'Open Source, clause 6). Ce que la GPL garantit à la place est plus fort dans les
-  faits : *toute* redistribution, commerciale ou non, d'une version modifiée **doit en publier le
-  source** sous la même licence. Personne ne peut refermer le projet.
-- **Le copyleft se propage.** Tout code lié à JustAnotherDnDGame doit être compatible GPL-3.0.
-- **Qt reste sous LGPLv3**, en lien dynamique — les deux licences sont compatibles, la LGPLv3
-  autorisant explicitement la redistribution sous GPLv3. Les obligations propres à Qt sont
-  détaillées dans [`THIRD-PARTY-NOTICES.md`](THIRD-PARTY-NOTICES.md).
-- Les **ressources** (graphismes, sons, polices) ont leurs propres licences — CC0 et SIL OFL —
-  indépendantes de celle du code, et recensées dans le même fichier.
-- Les en-têtes `SPDX-License-Identifier: GPL-3.0-or-later` marquent le **code** du projet, et lui
-  seul. Un `.png` ou un `.wav` du dépôt n'est pas sous GPL pour autant.
+JustAnotherRpgGame est une **œuvre de fan, non officielle**. Il s'inspire de deux univers qui ne lui
+appartiennent pas, et **aucune licence du projet ne s'étend à eux** :
+
+- **Dungeons & Dragons** — *Dungeons & Dragons*, *D&D* et les noms de produits de Wizards of the
+  Coast sont des **marques de Wizards of the Coast LLC**. Les manuels de la 5ᵉ édition en français
+  (*Manuel des Joueurs*, *Guide du Maître*, *Manuel des Monstres*) sont © Wizards of the Coast LLC,
+  version française **Black Book Éditions** ; les *Basic Rules* en français sont une traduction
+  communautaire d'[AideDD](https://www.aidedd.org/).
+- **Tanares** — l'univers de *Tanares*, le *Player's Guide to Tanares* et le *Tanares Sourcebook*
+  sont © **Dragori Games, Inc.** « Tanares », « Penumbral Plane » et les autres noms réservés par
+  l'éditeur sont son *Product Identity*.
+
+Le projet n'est **ni affilié, ni approuvé, ni soutenu** par Wizards of the Coast, Black Book Éditions
+ou Dragori Games. Les livres eux-mêmes ne sont pas dans le dépôt. Tout ayant droit qui souhaite le
+retrait d'un élément peut le demander : il sera retiré.
+
+Une partie des règles provient du **System Reference Document 5.1**, seule partie de D&D ouverte à
+tous :
+
+> This work includes material taken from the System Reference Document 5.1 (“SRD 5.1”) by Wizards of
+> the Coast LLC and available at <https://dnd.wizards.com/resources/systems-reference-document>. The
+> SRD 5.1 is licensed under the Creative Commons Attribution 4.0 International License available at
+> <https://creativecommons.org/licenses/by/4.0/legalcode>.
 
 Ces mentions sont aussi affichées **dans le jeu**, à l'écran *Crédits* — la LGPLv3 de Qt et la SIL
 OFL des polices l'exigent, et un joueur qui n'ouvrira jamais ce dépôt doit pouvoir les lire.

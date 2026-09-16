@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Chaîne d'extraction du corpus source de JustAnotherDnDGame (LOT-30).
+"""Chaîne d'extraction du corpus source de JustAnotherRpgGame (LOT-30).
 
 ``Documentation/SourceBook/`` rassemble huit PDF — environ 1 200 pages, 280 Mo — dont sortiront
 les créatures, l'équipement, les sorts, les espèces, les classes et les dix régions du jeu. Ce

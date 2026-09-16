@@ -1,5 +1,5 @@
 // SPDX-FileCopyrightText: 2026 Valentin Eloy
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 
 #pragma once
 
@@ -13,7 +13,7 @@
  *        couleurs, espacements, typographie et tailles de l'application.
  *
  * Logique **pure** (aucune dépendance Qt/GPU), testable hors instance d'application
- * (`EX-NFR-010`) — compilée à la fois dans `JustAnotherDnDGame` et directement dans `UnitTests`,
+ * (`EX-NFR-010`) — compilée à la fois dans `JustAnotherRpgGame` et directement dans `UnitTests`,
  * comme `hmi::ProceduralFont` ou `hmi::TileVisuals`.
  *
  * Deux portées d'habillage partagent la structure `DesignTokens` (mêmes rôles, mêmes échelles,

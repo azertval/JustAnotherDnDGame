@@ -1,7 +1,7 @@
 # Combat tactique {#spec-combat}
 
 > Statut : **à faire** (`LOT-77` écrit ce document ; `LOT-18` → `LOT-24`, `LOT-72` et `LOT-74`
-> l'implémentent). Dépend de [`regles-dnd.md`](@ref spec-regles-dnd) (le jet, les conditions) et de
+> l'implémentent). Dépend de [`regles-d20.md`](@ref spec-regles-d20) (le jet, les conditions) et de
 > [`exploration.md`](@ref spec-exploration) (la couche de collision, l'orientation).
 
 Ce document concrétise [`EX-VIS-004`](@ref EX-VIS-004) — « résoudre un combat tactique complet au
@@ -59,7 +59,7 @@ c'est le **temps**, pas le lieu.
 
 ## 4. Attaque et dégâts
 
-- \anchor EX-CBT-030 **EX-CBT-030** — Une attaque est un jet d'attaque (`EX-DND-020`) opposé à la
+- \anchor EX-CBT-030 **EX-CBT-030** — Une attaque est un jet d'attaque (`EX-REG-020`) opposé à la
   **classe d'armure** de la cible. La classe d'armure est **recalculée depuis ses sources**
   (équipement porté, capacités actives, conditions), jamais accumulée : une classe de personnage
   peut la calculer autrement — sans armure, à partir d'une autre caractéristique — et un total

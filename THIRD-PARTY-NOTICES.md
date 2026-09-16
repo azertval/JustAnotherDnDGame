@@ -1,26 +1,57 @@
 # Mentions de tiers
 
-Ce fichier recense les composants tiers redistribués avec JustAnotherDnDGame, ou dont il dépend au
+Ce fichier recense les composants tiers redistribués avec JustAnotherRpgGame, ou dont il dépend au
 build, avec leur licence. Il ne remplace pas les fichiers de licence livrés à côté des ressources
 concernées : il y renvoie.
 
-JustAnotherDnDGame lui-même est sous **GPL-3.0-or-later** ([`LICENSE`](LICENSE)).
+JustAnotherRpgGame est un **fan game non commercial**. Son code est sous **PolyForm Noncommercial
+1.0.0** ([`LICENSE`](LICENSE)), ses contenus originaux sous **CC BY-NC-SA 4.0**
+([`LICENSE-CONTENT`](LICENSE-CONTENT)).
 
-> **À ne pas confondre.** Les en-têtes `SPDX-License-Identifier: GPL-3.0-or-later` marquent le
-> **code du projet** — `Source/**/*.h`, `Source/**/*.cpp`, `scripts/*.py`, les `CMakeLists.txt` — et
-> **rien d'autre**. Les images, les sons, les polices et les bibliothèques tierces gardent chacun
-> leur propre licence, listée ci-dessous. Voir un fichier `.cpp` marqué GPL ne dit **rien** de la
-> licence d'un `.png` du même dépôt.
+> **À ne pas confondre.** Les en-têtes `SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0`
+> marquent le **code du projet** — `Source/**/*.h`, `Source/**/*.cpp`, `scripts/*.py`, les
+> `CMakeLists.txt` — et **rien d'autre**. Les images, les sons, les polices, les bibliothèques
+> tierces et les univers dont le jeu s'inspire gardent chacun leur propre régime, listé ci-dessous.
+> Voir un fichier `.cpp` marqué PolyForm ne dit **rien** de la licence d'un `.png` du même dépôt.
 
 Ces mentions sont également affichées **dans le jeu**, à l'écran *Crédits* : un utilisateur qui
 n'ouvrira jamais ce fichier doit tout de même savoir que le jeu embarque Qt sous LGPLv3 et des
-ressources sous CC0 et SIL OFL. La LGPLv3 et la SIL OFL l'exigent ; le CC0 non, mais le projet
-crédite quand même.
+ressources sous CC0 et SIL OFL, et qu'il emprunte à Dungeons & Dragons et à Tanares. La LGPLv3 et
+la SIL OFL l'exigent ; le CC0 non, mais le projet crédite quand même.
 
-Compatibilité vérifiée : la **LGPLv3 autorise explicitement** la redistribution de l'ensemble sous
-**GPLv3** (article 2 de la LGPLv3), donc Qt et ce projet cohabitent sans conflit. Les licences des
-ressources (CC0, SIL OFL) et celles des bibliothèques de test (BSD 3-Clause, MIT) sont toutes
-permissives, donc compatibles avec la GPL dans ce sens.
+Compatibilité vérifiée : la **LGPLv3** n'impose rien à la licence d'une application **liée
+dynamiquement** à la bibliothèque, donc Qt et une licence non commerciale cohabitent sans conflit.
+Les licences des ressources (CC0, SIL OFL) et celles des bibliothèques (MIT, BSD 3-Clause,
+Apache 2.0) sont permissives : elles autorisent leur usage dans un projet sous une autre licence,
+à charge d'en conserver les mentions.
+
+## Univers, règles et marques
+
+Le jeu s'inspire de deux univers de jeu de rôle **qui ne lui appartiennent pas**. Aucune licence du
+projet ne s'étend à eux, et le projet n'est **ni affilié, ni approuvé, ni soutenu** par leurs ayants
+droit. Les livres ne sont pas versionnés (`Documentation/SourceBook/`, hors dépôt) ; les données
+qui en sont extraites portent leur provenance dans un champ `"source"` imposé par schéma.
+
+| Univers ou ouvrage | Ayant droit | Régime | Ce que le jeu en tire |
+|---|---|---|---|
+| **System Reference Document 5.1** | Wizards of the Coast LLC | **CC BY 4.0** — seule partie ouverte | mécaniques du d20 (`"source": "srd"`) |
+| *Dungeons & Dragons*, *D&D* | Wizards of the Coast LLC | **marques déposées** | inspiration ; aucune marque dans le nom ni le logo du jeu |
+| *Manuel des Joueurs*, *Guide du Maître*, *Manuel des Monstres* (5ᵉ éd., VF) | © Wizards of the Coast LLC, VF Black Book Éditions | tous droits réservés | règles, vocabulaire et bestiaire (`"source": "phb-fr"`) |
+| *Basic Rules* en français | © Wizards of the Coast LLC, traduction communautaire [AideDD](https://www.aidedd.org/) | tous droits réservés | règles de base |
+| *Player's Guide to Tanares*, *Tanares Sourcebook*, feuilles de personnage, cartes VTT | © **Dragori Games, Inc.** | tous droits réservés ; « Tanares », « Penumbral Plane » et les noms réservés sont *Product Identity* | monde, régions, espèces, dialogues (`"source": "tanares"`) ; cartes du monde `Source/Elements/Assets/UI/world-map*.jpg` ([`illustrations.json`](Source/Elements/Assets/UI/illustrations.json)) |
+
+Attribution exigée par la CC BY 4.0 du SRD :
+
+> This work includes material taken from the System Reference Document 5.1 (“SRD 5.1”) by Wizards of
+> the Coast LLC and available at <https://dnd.wizards.com/resources/systems-reference-document>. The
+> SRD 5.1 is licensed under the Creative Commons Attribution 4.0 International License available at
+> <https://creativecommons.org/licenses/by/4.0/legalcode>.
+
+**Pourquoi c'est tenable, et jusqu'où.** Le projet est privé, gratuit et non commercial. Ce statut ne
+vaut **pas** autorisation : la politique de *fan content* de Wizards of the Coast exclut
+explicitement les jeux, même gratuits, et Dragori Games ne publie aucune politique équivalente.
+Toute diffusion publique supposerait donc l'accord écrit de Dragori Games pour Tanares, et de ne
+garder de D&D que le SRD. Un ayant droit qui demande le retrait d'un élément l'obtient.
 
 ## Bibliothèques
 
@@ -58,6 +89,8 @@ que l'index.
 |---|---|---|---|
 | Graphismes | `Source/Elements/Assets/` | **CC0 1.0** (packs Kenney) ; le reste **généré par script** | [`Assets/CREDITS.md`](Source/Elements/Assets/CREDITS.md) |
 | Bruitages | `Source/Elements/Audio/` | **CC0 1.0** (packs Kenney) | [`Audio/CREDITS.md`](Source/Elements/Audio/CREDITS.md) |
+| Police *Cinzel* | `Source/Elements/Assets/Fonts/` | SIL Open Font License 1.1 | `Cinzel-LICENSE.txt` |
+| Police *IM Fell English* | `Source/Elements/Assets/Fonts/` | SIL Open Font License 1.1 | `IMFellEnglish-LICENSE.txt` |
 | Police *Inter* | `Source/Elements/Assets/Fonts/` | SIL Open Font License 1.1 | `Inter-LICENSE.txt` |
 | Police *Pixelify Sans* | `Source/Elements/Assets/Fonts/` | SIL Open Font License 1.1 | `PixelifySans-LICENSE.txt` |
 | Police *Press Start 2P* | `Source/Elements/Assets/Fonts/` | SIL Open Font License 1.1 | `PressStart2P-LICENSE.txt` |

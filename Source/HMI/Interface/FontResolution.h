@@ -1,5 +1,5 @@
 // SPDX-FileCopyrightText: 2026 Valentin Eloy
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 
 #pragma once
 
@@ -10,7 +10,7 @@
  * @brief Résolution de la famille de police de l'IHM (`LOT-56` TACHE-03, `EX-IHM-052`).
  *
  * Logique **pure** (aucune dépendance Qt/GPU), testable hors instance d'application
- * (`EX-NFR-010`) — compilée à la fois dans `JustAnotherDnDGame` et directement dans `UnitTests`,
+ * (`EX-NFR-010`) — compilée à la fois dans `JustAnotherRpgGame` et directement dans `UnitTests`,
  * comme `HMI/Interface/DesignTokens.cpp`.
  */
 

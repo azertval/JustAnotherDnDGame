@@ -12,21 +12,12 @@ on:
   schedule:
     # 02 h 17 UTC : hors de l'heure pile, où GitHub retarde les planifications de tous les dépôts.
     - cron: '17 2 * * *'
+  # Jamais sur une PR : la nuit ne tourne qu'à l'heure planifiée, ou à la demande (Actions > Nightly >
+  # Run workflow) pour éprouver une modification de ce workflow avant sa première nuit.
   workflow_dispatch:
-  # Une modification de CE workflow ou de ce qu'il est seul à exécuter se prouve sur sa PR, pas la
-  # première nuit après le merge. Les jobs y tournent en version courte (voir `fuzz`, `benchmarks`).
-  pull_request:
-    branches: [ main ]
-    paths:
-      - .github/workflows/nightly.yml
-      - Source/Fuzz/**
-      - Source/Benchmark/**
-      - scripts/merge_sarif.py
-      - scripts/smoke_test_release.ps1
-      - lychee.toml
 
 concurrency:
-  group: nightly-${{ github.event.pull_request.number || github.ref }}
+  group: nightly-${{ github.ref }}
   cancel-in-progress: true
 
 permissions:
@@ -354,8 +345,8 @@ jobs:
         id: fuzz
         shell: pwsh
         env:
-          # Dix minutes par cible la nuit ; deux sur une PR, qui prouve le montage, pas l'absence de défaut.
-          SECONDS_PER_TARGET: ${{ github.event_name == 'pull_request' && '120' || '600' }}
+          # Dix minutes par cible.
+          SECONDS_PER_TARGET: '600'
         run: |
           $failed = @()
           $rows = @()
@@ -454,12 +445,9 @@ jobs:
           gh-pages-branch: benchmarks
           benchmark-data-dir-path: dev/bench
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          # Une PR ne réécrit pas l'historique de main, et ne le lit pas non plus : sa mesure
-          # s'affiche dans le résumé du job, sans comparaison.
-          auto-push: ${{ github.event_name != 'pull_request' }}
-          skip-fetch-gh-pages: ${{ github.event_name == 'pull_request' }}
+          auto-push: true
           alert-threshold: '150%'
-          comment-on-alert: ${{ github.event_name != 'pull_request' }}
+          comment-on-alert: true
           fail-on-alert: false
           summary-always: true
 
@@ -499,8 +487,8 @@ jobs:
       - name: Package et lancement de l'archive
         shell: pwsh
         run: |
-          ./scripts/package_release.ps1 -BinDir build-prod/bin/Release -Name JustAnotherDnDGame-nightly-release -OutDir dist
-          ./scripts/smoke_test_release.ps1 -Zip dist/JustAnotherDnDGame-nightly-release.zip -Screenshot smoke/release.png
+          ./scripts/package_release.ps1 -BinDir build-prod/bin/Release -Name JustAnotherRpgGame-nightly-release -OutDir dist
+          ./scripts/smoke_test_release.ps1 -Zip dist/JustAnotherRpgGame-nightly-release.zip -Screenshot smoke/release.png
 
       - name: Conserver la capture
         if: ${{ !cancelled() }}

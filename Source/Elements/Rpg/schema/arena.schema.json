@@ -1,11 +1,11 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://justanotherdndgame.local/rpg/arena.schema.json",
+  "$id": "https://justanotherrpggame.local/rpg/arena.schema.json",
   "title": "Arene",
   "description": "Une arene de Tanares (LOT-50) : un lieu ou deux camps reglent un litige par leurs champions. Les variantes regionales du Sourcebook -- l'Arene du Futur non letale, Feargus la letale, le duel de baguettes de la Magocratie -- sont des DONNEES, pas des modes : ce qui les distingue tient dans trois champs. Une arene sans carte existe dans le monde sans etre encore un lieu jouable.",
   "allOf": [
     {
-      "$ref": "https://justanotherdndgame.local/rpg/common.schema.json#/$defs/entree"
+      "$ref": "https://justanotherrpggame.local/rpg/common.schema.json#/$defs/entree"
     }
   ],
   "type": "object",

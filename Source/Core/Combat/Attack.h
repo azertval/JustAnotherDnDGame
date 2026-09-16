@@ -1,12 +1,12 @@
 // SPDX-FileCopyrightText: 2026 Valentin Eloy
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 
 #pragma once
 
 /**
  * @file Core/Combat/Attack.h
  * @brief L'attaque : un jet de d20 contre la classe d'armure, amendable avant d'être figé, puis
- *        les dégâts (`LOT-21`, `EX-CBT-030`, `EX-CBT-031`, `EX-DND-003`).
+ *        les dégâts (`LOT-21`, `EX-CBT-030`, `EX-CBT-031`, `EX-REG-003`).
  *
  * ## Ce que dit le Manuel, et où chaque règle vit
  *
@@ -78,7 +78,7 @@ struct AttackRange {
 /**
  * @brief Ce qu'un combattant sait frapper : une arme, une morsure, un coup à mains nues.
  *
- * Les modificateurs du jet portent **leur origine** (`EX-DND-003`) : « Force +3 », « maîtrise +2 »,
+ * Les modificateurs du jet portent **leur origine** (`EX-REG-003`) : « Force +3 », « maîtrise +2 »,
  * ou le bonus d'un bloc de bestiaire tel que le livre l'imprime. Les dégâts sont une liste de
  * clauses typées : une morsure venimeuse en a deux.
  */
@@ -296,7 +296,7 @@ private:
 /**
  * @brief Jette le d20 d'une attaque : crochets, dés, amendements, puis l'issue.
  *
- * La posture se déduit des **nombres** de sources (`core::rollStance`, `EX-DND-002`). L'issue :
+ * La posture se déduit des **nombres** de sources (`core::rollStance`, `EX-REG-002`). L'issue :
  * un 1 naturel rate ; un résultat au moins égal au seuil critique touche et est critique ; sinon,
  * le total atteint ou dépasse la CA.
  */
@@ -312,7 +312,7 @@ struct AttackOutcome {
     std::optional<DamageReport> report;
 
     /**
-     * @brief L'entrée de journal (`EX-DND-003`) : qui, quoi, le d20 et chaque modificateur avec
+     * @brief L'entrée de journal (`EX-REG-003`) : qui, quoi, le d20 et chaque modificateur avec
      *        son origine, la CA, l'issue, les dés de dégâts, chaque étape qui les a changés, et les
      *        points de vie avant et après.
      *

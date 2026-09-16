@@ -5,7 +5,7 @@
 > Prérequis : [`LOT-12`](@ref lot-12). Alimente [LOT-14](@ref lot-14), [LOT-27](@ref lot-27),
 > [LOT-38](@ref lot-38), [LOT-74](@ref lot-74).
 >
-> Exigences couvertes : [`EX-DND-010`](@ref EX-DND-010), [`EX-DND-011`](@ref EX-DND-011),
+> Exigences couvertes : [`EX-REG-010`](@ref EX-REG-010), [`EX-REG-011`](@ref EX-REG-011),
 > [`EX-RPG-001`](@ref EX-RPG-001).
 
 ## Objectif

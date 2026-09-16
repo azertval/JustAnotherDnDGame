@@ -1,5 +1,5 @@
 # SPDX-FileCopyrightText: 2026 Valentin Eloy
-# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 
 """Réglages communs des tests des scripts (refonte de la chaîne d'outillage, phase 4).
 

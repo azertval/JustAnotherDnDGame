@@ -10,7 +10,7 @@
 l'échec volontaire du lint d'exigences.
 
 Le dépôt comptait **13 familles réelles pour 269 exigences**, et **cinq familles fantômes** —
-`EX-CNT-*`, `EX-DND-*`, `EX-RPG-*`, `EX-CBT-*`, `EX-INV-*` — référencées par la feuille de route
+`EX-CNT-*`, `EX-REG-*`, `EX-RPG-*`, `EX-CBT-*`, `EX-INV-*` — référencées par la feuille de route
 sans qu'aucun document ne les porte. Le garde-fou avait été réparé avant ce lot (`FAMILY_REF_RE`
 dans `lint_exigences.py`), ce qui rendait la CI **rouge à dessein** jusqu'à ce que les documents
 existent. Ce lot est ce qui la remet au vert — et c'est la seule façon légitime de le faire.
@@ -21,7 +21,7 @@ Cinq documents, **69 exigences**, insérés dans l'ordre de lecture de `specific
 
 | Document | Famille | Exigences | Ce qu'il fixe |
 |---|---|---|---|
-| `Specification/regles-dnd.md` | `EX-DND-*` | 15 | Le jet d20, les caractéristiques, la maîtrise, le temps et le repos, les conditions, les échelles |
+| `Specification/regles-d20.md` | `EX-REG-*` | 15 | Le jet d20, les caractéristiques, la maîtrise, le temps et le repos, les conditions, les échelles |
 | `Specification/rpg.md` | `EX-RPG-*` | 17 | La fiche comme agrégat dérivé, espèces, classes et ressources, progression, options, sorts |
 | `Specification/combat.md` | `EX-CBT-*` | 14 | Bascule, tour, espace, attaque et dégâts, agonie et mort, l'adversaire |
 | `Specification/inventaire.md` | `EX-INV-*` | 8 | Emplacements d'équipement, encombrement, monnaie, commerce, butin |

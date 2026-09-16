@@ -4,8 +4,8 @@
 > 968/968, `clang-format`, les six lints, cahier de test et Doxygen verts).
 > Prérequis : **aucun**. Pur `Core`, zéro dépendance.
 >
-> Exigences couvertes : [`EX-DND-002`](@ref EX-DND-002), [`EX-DND-003`](@ref EX-DND-003),
-> [`EX-DND-021`](@ref EX-DND-021), [`EX-NFR-002`](@ref EX-NFR-002).
+> Exigences couvertes : [`EX-REG-002`](@ref EX-REG-002), [`EX-REG-003`](@ref EX-REG-003),
+> [`EX-REG-021`](@ref EX-REG-021), [`EX-NFR-002`](@ref EX-NFR-002).
 
 ## Objectif
 
@@ -54,7 +54,7 @@ chacun de ses jets, pendant toute la partie — et la formule *a l'air* juste. L
 distingue les deux arrondis est explicitement écrit : `abilityModifier(7) == -2`.
 
 **L'annulation de l'avantage.** Deux sources d'avantage contre une de désavantage donnent
-**normal**, pas avantage : la règle annule, elle ne compte pas (`EX-DND-002`). C'est
+**normal**, pas avantage : la règle annule, elle ne compte pas (`EX-REG-002`). C'est
 contre-intuitif la première fois, et c'est pourquoi la décision vit dans une seule fonction —
 `rollStance` — plutôt que chez chaque appelant, qui aurait à arbitrer sa pile de bonus contre
 toutes les autres à chaque capacité ajoutée.
@@ -68,7 +68,7 @@ confondre rendrait critique un jet sur deux à haut niveau, et le défaut passer
 
 ## La restitution n'est pas un journal, c'est une exigence
 
-`EX-DND-003` demande que tout jet soit reconstituable : le dé, les modificateurs **avec leur
+`EX-REG-003` demande que tout jet soit reconstituable : le dé, les modificateurs **avec leur
 origine**, le seuil et l'issue. `CheckResult` conserve donc les **deux** dés en cas d'avantage —
 pas seulement celui qui a été retenu — et chaque modificateur porte sa source.
 
@@ -80,7 +80,7 @@ praticable quand une capacité ne s'applique pas.
 
 ## Ce qui est figé ailleurs qu'en dur
 
-**Les degrés de difficulté sont une donnée** (`EX-DND-021`), extraits de la table « Tâche / DD »
+**Les degrés de difficulté sont une donnée** (`EX-REG-021`), extraits de la table « Tâche / DD »
 des *Basic Rules* p. 64 : six paliers, de 5 à 30. Aucun nombre de difficulté n'apparaît
 littéralement dans le code — régler l'équilibre du jeu ne doit pas demander de recompiler, et une
 valeur nue dans un `if` ne dit pas ce qu'elle représente. Le test lui-même lit le seuil dans le

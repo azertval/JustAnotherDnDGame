@@ -22,7 +22,7 @@
 
     Le script n'ecrit que dans OutDir et dans un dossier temporaire qu'il supprime ; le dossier de
     build n'est jamais modifie. Utilise par .github/workflows/release.yml, rejouable en local :
-    `pwsh scripts/package_release.ps1 -BinDir build/vs/bin/Debug -Name JustAnotherDnDGame-debug`.
+    `pwsh scripts/package_release.ps1 -BinDir build/vs/bin/Debug -Name JustAnotherRpgGame-debug`.
 
 .PARAMETER BinDir
     Dossier de l'executable a empaqueter (ex. build-release/bin/Debug).
@@ -43,9 +43,9 @@ param(
 $ErrorActionPreference = 'Stop'
 
 $source = (Resolve-Path -LiteralPath $BinDir).Path
-if (-not (Test-Path -LiteralPath (Join-Path $source 'JustAnotherDnDGame.exe'))) {
+if (-not (Test-Path -LiteralPath (Join-Path $source 'JustAnotherRpgGame.exe'))) {
     # Meme panne muette que celle gardee par ci.yml : sans Qt, le build reussit sans application.
-    throw "JustAnotherDnDGame.exe absent de $source : rien a empaqueter."
+    throw "JustAnotherRpgGame.exe absent de $source : rien a empaqueter."
 }
 
 New-Item -ItemType Directory -Force -Path $OutDir | Out-Null

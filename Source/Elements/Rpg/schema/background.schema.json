@@ -1,11 +1,11 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://justanotherdndgame.local/rpg/background.schema.json",
+  "$id": "https://justanotherrpggame.local/rpg/background.schema.json",
   "title": "Historique",
   "description": "Les 6 historiques des Basic Rules et les 7 du Player's Guide (LOT-36).",
   "allOf": [
     {
-      "$ref": "https://justanotherdndgame.local/rpg/common.schema.json#/$defs/entree"
+      "$ref": "https://justanotherrpggame.local/rpg/common.schema.json#/$defs/entree"
     }
   ],
   "type": "object",
@@ -20,14 +20,14 @@
     "skillProficiencies": {
       "type": "array",
       "items": {
-        "$ref": "https://justanotherdndgame.local/rpg/common.schema.json#/$defs/id"
+        "$ref": "https://justanotherrpggame.local/rpg/common.schema.json#/$defs/id"
       },
       "uniqueItems": true
     },
     "toolProficiencies": {
       "type": "array",
       "items": {
-        "$ref": "https://justanotherdndgame.local/rpg/common.schema.json#/$defs/id"
+        "$ref": "https://justanotherrpggame.local/rpg/common.schema.json#/$defs/id"
       },
       "uniqueItems": true
     },
@@ -39,7 +39,7 @@
     "equipment": {
       "type": "array",
       "items": {
-        "$ref": "https://justanotherdndgame.local/rpg/common.schema.json#/$defs/id"
+        "$ref": "https://justanotherrpggame.local/rpg/common.schema.json#/$defs/id"
       },
       "uniqueItems": true
     },

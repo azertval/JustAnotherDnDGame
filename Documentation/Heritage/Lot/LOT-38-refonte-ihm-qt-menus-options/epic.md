@@ -9,7 +9,7 @@ Achever la migration de **toute l'UI hors-jeu** vers Qt en portant le **menu pri
 **Options** et les écrans de **remappage** (touches jeu, touches éditeur, manette), puis **retirer la
 pile d'UI maison devenue morte** (écrans, `SpriteBatch` d'UI, police bitmap, `hmi::Window`, ancienne
 boucle). À la fin du lot, il n'existe **qu'une seule technologie d'UI** (Qt) ; **seul le rendu
-in-game reste D3D11**, et l'ancien exécutable `JustAnotherDnDGame` est supprimé au profit du nouveau.
+in-game reste D3D11**, et l'ancien exécutable `JustAnotherRpgGame` est supprimé au profit du nouveau.
 
 ## Périmètre
 
@@ -73,7 +73,7 @@ in-game reste D3D11**, et l'ancien exécutable `JustAnotherDnDGame` est supprim�
 | [TACHE-04](tache-04-nettoyage-tests-doc.md) | Nettoyage tests, documentation (menu/options/contrôles) & vérification | `Source/Test`, `Documentation` | ✅ |
 
 > La cible `Source/Editor` mentionnée au cadrage n'a jamais existé : la migration a abouti à un
-> **exécutable unique** `JustAnotherDnDGame` construit depuis `Source/HMI`, avec l'interface répartie
+> **exécutable unique** `JustAnotherRpgGame` construit depuis `Source/HMI`, avec l'interface répartie
 > entre `Source/HMI/Interface` (menus, options, remappage) et `Source/HMI/Editor` (panneaux et
 > gestes d'édition). Les emplacements ci-dessus reflètent le résultat livré.
 

@@ -1,11 +1,11 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://justanotherdndgame.local/rpg/encounter.schema.json",
+  "$id": "https://justanotherrpggame.local/rpg/encounter.schema.json",
   "title": "Rencontre",
   "description": "Qui se dresse, et en quelle formation, quand un combat s'engage (LOT-18). Une rencontre dit QUI et OU LES UNS PAR RAPPORT AUX AUTRES, jamais OU sur la carte : les positions sont relatives au declencheur, si bien qu'une meme rencontre se joue partout ou un declencheur la nomme. Des coordonnees absolues feraient apparaitre les memes ennemis au meme endroit a chaque fois, ou hors de la carte.",
   "allOf": [
     {
-      "$ref": "https://justanotherdndgame.local/rpg/common.schema.json#/$defs/entree"
+      "$ref": "https://justanotherrpggame.local/rpg/common.schema.json#/$defs/entree"
     }
   ],
   "type": "object",

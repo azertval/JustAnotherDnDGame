@@ -1,5 +1,5 @@
 # SPDX-FileCopyrightText: 2026 Valentin Eloy
-# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 """Garde-fou : la separation conception / code ne doit pas rederiver (LOT-86).
 
 POURQUOI CE CONTROLE EXISTE
@@ -170,11 +170,11 @@ def check_game_does_not_link_widgets(failures: list[str]) -> int:
         return 0
     text = read(APP_CMAKE)
     match = re.search(
-        r"target_link_libraries\(JustAnotherDnDGame\s+PRIVATE(.*?)\)", text, re.DOTALL
+        r"target_link_libraries\(JustAnotherRpgGame\s+PRIVATE(.*?)\)", text, re.DOTALL
     )
     if match is None:
         failures.append(
-            f"{relative(APP_CMAKE)} : bloc target_link_libraries(JustAnotherDnDGame PRIVATE …) "
+            f"{relative(APP_CMAKE)} : bloc target_link_libraries(JustAnotherRpgGame PRIVATE …) "
             f"introuvable. La regle 3 ne peut pas etre verifiee."
         )
         return 0

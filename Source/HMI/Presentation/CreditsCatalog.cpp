@@ -1,5 +1,5 @@
 // SPDX-FileCopyrightText: 2026 Valentin Eloy
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 
 #include "HMI/Presentation/CreditsCatalog.h"
 
@@ -86,11 +86,17 @@ CreditsResult readCredits(std::string_view json, std::string_view language) {
                                " » : aucun nom.");
             }
             for (const nlohmann::json& name : names) {
-                if (!name.is_string() || name.get<std::string>().empty()) {
+                // Un nom propre s'écrit tel quel ; une mention (« fan game non officiel ») se
+                // traduit comme un rôle.
+                std::optional<std::string> text = translated(name, language);
+                if (name.is_string() && !name.get<std::string>().empty()) {
+                    text = name.get<std::string>();
+                }
+                if (!text) {
                     return failure("section « " + section.id + " », rôle « " + line.role +
                                    " » : un nom vide.");
                 }
-                line.names.push_back(name.get<std::string>());
+                line.names.push_back(std::move(*text));
             }
             section.lines.push_back(std::move(line));
         }

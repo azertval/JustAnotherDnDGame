@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://justanotherdndgame.local/rpg/multiclassing.schema.json",
+  "$id": "https://justanotherrpggame.local/rpg/multiclassing.schema.json",
   "title": "Multiclassage",
   "description": "La regle du multiclassage, en un seul document : prerequis de caracteristique, maitrises obtenues, et cumul des emplacements de sorts. C'est la regle la plus facile a implementer de travers et la plus difficile a detecter ensuite (EX-RPG-041) -- un lanceur multiclasse mal calcule reste jouable, simplement faux. Source : Manuel des Joueurs p. 165-167, SEULE source complete ; les Basic Rules y renvoient. La table d'emplacements est recoupee contre la progression du magicien des Basic Rules, dont l'OCR du Manuel escamote les cellules valant 1.",
   "type": "object",
@@ -20,7 +20,7 @@
         "type": "object",
         "properties": {
           "class": {
-            "$ref": "https://justanotherdndgame.local/rpg/common.schema.json#/$defs/id"
+            "$ref": "https://justanotherrpggame.local/rpg/common.schema.json#/$defs/id"
           },
           "className": {
             "type": "string",
@@ -47,7 +47,7 @@
         "type": "object",
         "properties": {
           "class": {
-            "$ref": "https://justanotherdndgame.local/rpg/common.schema.json#/$defs/id"
+            "$ref": "https://justanotherrpggame.local/rpg/common.schema.json#/$defs/id"
           },
           "className": {
             "type": "string",
@@ -106,7 +106,7 @@
         "type": "object",
         "properties": {
           "class": {
-            "$ref": "https://justanotherdndgame.local/rpg/common.schema.json#/$defs/id"
+            "$ref": "https://justanotherrpggame.local/rpg/common.schema.json#/$defs/id"
           },
           "progression": {
             "type": "string",
@@ -139,7 +139,7 @@
   "additionalProperties": false,
   "allOf": [
     {
-      "$ref": "https://justanotherdndgame.local/rpg/common.schema.json#/$defs/entree"
+      "$ref": "https://justanotherrpggame.local/rpg/common.schema.json#/$defs/entree"
     }
   ]
 }

@@ -4,7 +4,7 @@
 > 954/954, `clang-format`, les six lints, cahier de test et Doxygen verts).
 > Prérequis : [`LOT-32`](@ref lot-32). Alimente [LOT-13](@ref lot-13), `LOT-36`.
 >
-> Exigences couvertes : [`EX-DND-012`](@ref EX-DND-012), [`EX-RPG-040`](@ref EX-RPG-040),
+> Exigences couvertes : [`EX-REG-012`](@ref EX-REG-012), [`EX-RPG-040`](@ref EX-RPG-040),
 > [`EX-RPG-041`](@ref EX-RPG-041), [`EX-RPG-042`](@ref EX-RPG-042).
 
 ## Objectif

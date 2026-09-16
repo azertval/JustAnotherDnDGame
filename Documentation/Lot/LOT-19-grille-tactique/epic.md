@@ -6,7 +6,7 @@
 > Prérequis : [LOT-18](@ref lot-18) (la bascule), et en amont [LOT-04](@ref lot-04) (la grille de
 > collision), [LOT-12](@ref lot-12) (l'échelle de 1,5 m), [LOT-13](@ref lot-13) (la vitesse de la
 > fiche).
-> Exigences couvertes : `EX-CBT-020`, `EX-DND-051`. Aucune exigence ajoutée.
+> Exigences couvertes : `EX-CBT-020`, `EX-REG-051`. Aucune exigence ajoutée.
 
 ## Objectif
 
