@@ -282,3 +282,10 @@ l'arête (pavés, sable).
   **le seuil**, en marches au tour 1, trop plat au tour 2 (91 %). La classe `floor` du modèle
   précise « aussi large et aussi haut que le contour, jamais plus plat » ; `commande martpart 3`
   préparé, dont seul le seuil sera pris s'il passe. Rien n'est installé.
+- **16 septembre 2026, Martpart, tour 3.** 18 pièces lues ; façade retournée par `_orienter`.
+  **Les six sols encore aplatis** (270 × 154 px pour un losange de 272 × 168 : 86 à 91 % de
+  couverture) malgré la classe « jamais plus plat » ; le seuil porte en outre une dalle en relief.
+  Seul le tour 1 a tenu la forme des sols, dessinés plus petits (≈ 200 px de large). Rien n'est
+  pris de ce tour. *Tour 4* (*décision de l'auteur*, plutôt que retirer le seuil) : le bloc C
+  répète pour **chaque sol** sa largeur et sa hauteur en pixels, sommet à sommet ; le seuil devient
+  « le pavé de la rue, une grande dalle lisse encastrée à niveau, rien en relief ».

@@ -381,7 +381,11 @@ def bloc_c(disposition: dict, numero: int = 1) -> str:
         cellule = pose["cellule"]
         classe = disposition["classes"][cellule["class"]]
         hausse = classe["rise"] * s
-        detail = f"at most {hausse} px above its footprint" if hausse else "flat"
+        # aux tours 2 et 3 de Martpart, des losanges de 270 × 154 pour 272 × 168 : la taille dite une
+        # fois en tête du bloc ne suffit pas, chaque sol la répète
+        detail = (f"at most {hausse} px above its footprint" if hausse else
+                  f"flat, exactly {2 * DEMI_L * s} px wide and {2 * DEMI_H * s} px tall from its top "
+                  "corner to its bottom corner, never flatter")
         lignes.append(f"{rang}. {cellule['prompt']} ({classe['description']}; {detail}).")
     return "\n".join(lignes)
 
