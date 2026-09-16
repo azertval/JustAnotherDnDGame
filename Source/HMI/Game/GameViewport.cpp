@@ -251,18 +251,18 @@ bool GameViewport::paintActiveRegion(int originColumn, int originRow,
             if (!core::isVisualLayerTileType(type)) {
                 if (!_refusalReported) {
                     _refusalReported = true;
-                    emit statusMessage(statusText("status.layer_tile_refused")
-                                           .arg(QString::fromStdString(
-                                               std::string{core::tileTypeName(type)})));
+                    emit statusMessage(
+                        statusText("status.layer_tile_refused")
+                            .arg(QString::fromStdString(std::string{core::tileTypeName(type)})));
                 }
                 return false;
             }
         }
     }
-    const bool changed = block.size() == 1 && block.front().size() == 1
-                             ? _draft.paintLayerTile(*_activeLayer, originColumn, originRow,
-                                                     block.front().front())
-                             : _draft.paintLayerRegion(*_activeLayer, originColumn, originRow, block);
+    const bool changed =
+        block.size() == 1 && block.front().size() == 1
+            ? _draft.paintLayerTile(*_activeLayer, originColumn, originRow, block.front().front())
+            : _draft.paintLayerRegion(*_activeLayer, originColumn, originRow, block);
     if (changed) {
         _dirty = true;
         markDraftMutated();
@@ -1512,11 +1512,10 @@ void GameViewport::handleEntityPress(const QMouseEvent* event) {
             break;
         case hmi::EntityGestureAction::Place: {
             const core::EntityKind* const kind = core::findEntityKind(_entityKindToPlace);
-            core::MapEntity entity =
-                kind != nullptr ? core::makeEntity(*kind, decision.cell)
-                                : core::MapEntity{.type = _entityKindToPlace,
-                                                  .position = decision.cell,
-                                                  .properties = {}};
+            core::MapEntity entity = kind != nullptr ? core::makeEntity(*kind, decision.cell)
+                                                     : core::MapEntity{.type = _entityKindToPlace,
+                                                                       .position = decision.cell,
+                                                                       .properties = {}};
             if (const std::optional<std::size_t> placed = _draft.placeEntity(std::move(entity))) {
                 _dirty = true;
                 markDraftMutated();

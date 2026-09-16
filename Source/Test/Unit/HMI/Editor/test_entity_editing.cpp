@@ -18,6 +18,7 @@
 
 #include <gtest/gtest.h>
 
+#include "Core/Combat/Arena.h"
 #include "Core/Combat/TacticalTerrain.h"
 #include "Core/Levels/LevelDraft.h"
 #include "Core/Levels/LevelLoader.h"
@@ -212,14 +213,15 @@ TEST(EditionEntitesTest, GlisserDeplaceLEntiteSaisie) {
 TEST(EditionEntitesTest, ChoixProposesParLePanneau) {
     hmi::EditorReferences references;
     references.world = core::buildWorldGraph(
-        {core::WorldMapInput{.mapId = "foret",
-                             .name = "Forêt",
-                             .entities = {core::MapEntity{
-                                 .type = "spawnPoint",
-                                 .position = {},
-                                 .properties = {{"name", std::string{"lisiere"}}}}},
-                             .loadError = {}},
-         core::WorldMapInput{.mapId = "village", .name = "Village", .entities = {}, .loadError = {}}});
+        {core::WorldMapInput{
+             .mapId = "foret",
+             .name = "Forêt",
+             .entities = {core::MapEntity{.type = "spawnPoint",
+                                          .position = {},
+                                          .properties = {{"name", std::string{"lisiere"}}}}},
+             .loadError = {}},
+         core::WorldMapInput{
+             .mapId = "village", .name = "Village", .entities = {}, .loadError = {}}});
     const std::vector<core::MapEntity> edited = {core::MapEntity{
         .type = "spawnPoint", .position = {}, .properties = {{"name", std::string{"puits"}}}}};
     const core::EntityReferenceContext context =
@@ -272,31 +274,32 @@ TEST(EditionEntitesTest, CataloguesLivresAlimententLEditeur) {
  * \castest{<b>Les avertissements de l'editeur.</b><br/>
  * \tcat Unitaire · Edition d'entites<br/>
  * \tcrit Majeur<br/>
- * \tetapes 1. Traduire un dialogue inconnu, un combattant dans un mur et une zone trop etroite.<br/>
+ * \tetapes 1. Traduire un dialogue inconnu, un combattant dans un mur et une zone trop
+ * etroite.<br/>
  * \tattendu Trois lignes, references d'abord, avec leurs cles et arguments.
  * }
  */
 TEST(EditionEntitesTest, AvertissementsDeLEditeur) {
     const std::vector<core::MapEntity> entities = {
         core::MapEntity{.type = "npc", .position = {.column = 1, .row = 1}, .properties = {}},
-        core::MapEntity{.type = "encounter", .position = {.column = 3, .row = 2}, .properties = {}}};
-    const std::vector<core::EntityIssue> issues = {core::EntityIssue{
-        .entityIndex = 0,
-        .code = core::EntityIssueCode::UnknownDialogue,
-        .key = "dialogue",
-        .value = "absent"}};
+        core::MapEntity{
+            .type = "encounter", .position = {.column = 3, .row = 2}, .properties = {}}};
+    const std::vector<core::EntityIssue> issues = {
+        core::EntityIssue{.entityIndex = 0,
+                          .code = core::EntityIssueCode::UnknownDialogue,
+                          .key = "dialogue",
+                          .value = "absent"}};
     core::EncounterTerrain terrain;
     terrain.entityIndex = 1;
     terrain.encounterId = "nuee-de-rats";
     terrain.area.resize(5);
     terrain.requiredCells = 24;
-    terrain.issues = {
-        core::TacticalIssue{.code = core::TacticalIssueCode::CombatantObstructed,
-                            .creatureId = "rat",
-                            .cell = {.column = 4, .row = 2}},
-        core::TacticalIssue{.code = core::TacticalIssueCode::AreaTooNarrow,
-                            .creatureId = {},
-                            .cell = {.column = 3, .row = 2}}};
+    terrain.issues = {core::TacticalIssue{.code = core::TacticalIssueCode::CombatantObstructed,
+                                          .creatureId = "rat",
+                                          .cell = {.column = 4, .row = 2}},
+                      core::TacticalIssue{.code = core::TacticalIssueCode::AreaTooNarrow,
+                                          .creatureId = {},
+                                          .cell = {.column = 3, .row = 2}}};
 
     const std::vector<hmi::EditorDiagnostic> lines =
         hmi::editorDiagnostics(entities, issues, {terrain});
@@ -338,8 +341,8 @@ TEST(EditionEntitesTest, ClesTraduitesDansLesDeuxCatalogues) {
         }
     }
     for (const char* const key :
-         {"dock.layers", "dock.entities", "tool.entity", "status.help_entity",
-          "layers.root_legacy", "layers.root_collision", "layers.kind.ground", "layers.kind.decor"}) {
+         {"dock.layers", "dock.entities", "tool.entity", "status.help_entity", "layers.root_legacy",
+          "layers.root_collision", "layers.kind.ground", "layers.kind.decor"}) {
         keys.emplace_back(key);
     }
     for (const std::string& language : {"fr", "en"}) {

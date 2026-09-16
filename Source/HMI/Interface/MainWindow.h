@@ -291,7 +291,7 @@ private:
     /// Placement/inspection de décors (dock Décors, `LOT-57` amendement) — contenait déjà tout ce
     /// qui concerne les décors (`ToolPanel`, `LOT-56` TACHE-04) avant d'y accueillir aussi
     /// l'inspecteur déplacé du panneau Textures. La barre d'outils reste hors de ce panneau.
-    LinkPanel* _links;        ///< Liste/gestion des liaisons de mécanismes (dock Liens, LOT-37).
+    LinkPanel* _links;  ///< Liste/gestion des liaisons de mécanismes (dock Liens, LOT-37).
     LayersPanel* _layers = nullptr;    ///< Couches de la carte (dock Couches, LOT-11).
     EntityPanel* _entities = nullptr;  ///< Entités de la carte (dock Entités, LOT-11).
     /// Catalogues référencés par les entités (`LOT-11`), possédés ici et prêtés au viewport.

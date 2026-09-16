@@ -39,18 +39,16 @@ constexpr int INTEGER_MAXIMUM = 9999;
 }
 
 [[nodiscard]] QString valueText(const core::PropertyValue& value) {
-    return std::visit(
-        [](const auto& held) -> QString {
-            using Held = std::decay_t<decltype(held)>;
-            if (std::is_same_v<Held, bool>) {
-                return held ? QStringLiteral("true") : QStringLiteral("false");
-            }
-            if (std::is_same_v<Held, std::string>) {
-                return QString::fromStdString(held);
-            }
-            return QString::number(held);
-        },
-        value);
+    if (const auto* const flag = std::get_if<bool>(&value)) {
+        return *flag ? QStringLiteral("true") : QStringLiteral("false");
+    }
+    if (const auto* const text = std::get_if<std::string>(&value)) {
+        return QString::fromStdString(*text);
+    }
+    if (const auto* const integer = std::get_if<std::int64_t>(&value)) {
+        return QString::number(*integer);
+    }
+    return QString::number(std::get<double>(value));
 }
 
 [[nodiscard]] QString cellText(core::GridPosition position) {
@@ -73,15 +71,16 @@ EntityPanel::EntityPanel(QWidget* parent)
             emit kindToPlaceChanged(QString::fromStdString(kindToPlace()));
         }
     });
-    connect(_ui->entityTable->selectionModel(), &QItemSelectionModel::selectionChanged, this, [this] {
-        if (_rebuilding) {
-            return;
-        }
-        const QModelIndexList rows = _ui->entityTable->selectionModel()->selectedRows();
-        emit entitySelected(rows.isEmpty() ? std::nullopt
-                                           : std::make_optional(static_cast<std::size_t>(
-                                                 rows.constFirst().row())));
-    });
+    connect(_ui->entityTable->selectionModel(), &QItemSelectionModel::selectionChanged, this,
+            [this] {
+                if (_rebuilding) {
+                    return;
+                }
+                const QModelIndexList rows = _ui->entityTable->selectionModel()->selectedRows();
+                emit entitySelected(rows.isEmpty() ? std::nullopt
+                                                   : std::make_optional(static_cast<std::size_t>(
+                                                         rows.constFirst().row())));
+            });
     connect(_ui->removeButton, &QPushButton::clicked, this, [this] {
         if (_selected) {
             emit removeRequested(*_selected);
@@ -120,7 +119,8 @@ void EntityPanel::rebuildKinds() {
     _ui->kindCombo->addItem(text("entities.select_only", QStringLiteral("(sélection seule)")),
                             QString{});
     for (const core::EntityKind& kind : core::knownEntityKinds()) {
-        const QString type = QString::fromUtf8(kind.type.data(), static_cast<qsizetype>(kind.type.size()));
+        const QString type =
+            QString::fromUtf8(kind.type.data(), static_cast<qsizetype>(kind.type.size()));
         _ui->kindCombo->addItem(kindLabel(type.toStdString()), type);
     }
     const int index = _ui->kindCombo->findData(current);
@@ -149,7 +149,8 @@ void EntityPanel::rebuildTable() {
 
 void EntityPanel::rebuildForm() {
     const core::MapEntity* const entity = _selected ? &_entities[*_selected] : nullptr;
-    const core::EntityKind* const kind = entity != nullptr ? core::findEntityKind(entity->type) : nullptr;
+    const core::EntityKind* const kind =
+        entity != nullptr ? core::findEntityKind(entity->type) : nullptr;
 
     std::vector<std::vector<std::string>> choices;
     if (kind != nullptr) {
@@ -157,9 +158,10 @@ void EntityPanel::rebuildForm() {
             choices.push_back(entityChoices(spec, *entity, _context));
         }
     }
-    const bool unchanged = _formIndex == _selected && _formChoices == choices &&
-                           ((entity == nullptr && !_formEntity) ||
-                            (entity != nullptr && _formEntity && sameEntity(*entity, *_formEntity)));
+    const bool unchanged =
+        _formIndex == _selected && _formChoices == choices &&
+        ((entity == nullptr && !_formEntity) ||
+         (entity != nullptr && _formEntity && sameEntity(*entity, *_formEntity)));
     if (unchanged && _form->rowCount() > 0) {
         return;
     }
@@ -190,10 +192,9 @@ void EntityPanel::rebuildForm() {
     }
     const std::size_t index = *_selected;
     _ui->selectionLabel->setText(
-        kind != nullptr
-            ? kindLabel(entity->type) + QStringLiteral(" ") + cellText(entity->position)
-            : text("entities.unknown_kind", QStringLiteral("%1"))
-                  .arg(QString::fromStdString(entity->type)));
+        kind != nullptr ? kindLabel(entity->type) + QStringLiteral(" ") + cellText(entity->position)
+                        : text("entities.unknown_kind", QStringLiteral("%1"))
+                              .arg(QString::fromStdString(entity->type)));
 
     if (kind != nullptr) {
         for (std::size_t specIndex = 0; specIndex < kind->properties.size(); ++specIndex) {
@@ -215,7 +216,8 @@ void EntityPanel::rebuildForm() {
                         combo->addItem(text("entities.none", QStringLiteral("(aucun)")), QString{});
                     }
                     for (const std::string& choice : choices[specIndex]) {
-                        combo->addItem(QString::fromStdString(choice), QString::fromStdString(choice));
+                        combo->addItem(QString::fromStdString(choice),
+                                       QString::fromStdString(choice));
                     }
                     const QString current = valueText(value);
                     int currentIndex = combo->findData(current);
@@ -225,11 +227,11 @@ void EntityPanel::rebuildForm() {
                     }
                     combo->setCurrentIndex((std::max)(currentIndex, 0));
                     const auto commit = [this, index, key, combo] {
-                        const QString chosen = combo->currentIndex() >= 0 &&
-                                                       combo->currentText() ==
-                                                           combo->itemText(combo->currentIndex())
-                                                   ? combo->currentData().toString()
-                                                   : combo->currentText().trimmed();
+                        const QString chosen =
+                            combo->currentIndex() >= 0 &&
+                                    combo->currentText() == combo->itemText(combo->currentIndex())
+                                ? combo->currentData().toString()
+                                : combo->currentText().trimmed();
                         emit propertyChanged(index, key, core::PropertyValue{chosen.toStdString()});
                     };
                     connect(combo, &QComboBox::activated, this, [commit](int) { commit(); });
@@ -242,8 +244,8 @@ void EntityPanel::rebuildForm() {
                 case core::EntityPropertyKind::Text: {
                     auto* const edit = new QLineEdit(valueText(value), _ui->propertiesForm);
                     connect(edit, &QLineEdit::editingFinished, this, [this, index, key, edit] {
-                        emit propertyChanged(index, key,
-                                             core::PropertyValue{edit->text().trimmed().toStdString()});
+                        emit propertyChanged(
+                            index, key, core::PropertyValue{edit->text().trimmed().toStdString()});
                     });
                     _form->addRow(label, edit);
                     break;
@@ -287,7 +289,8 @@ void EntityPanel::rebuildForm() {
 void EntityPanel::rebuildWarnings() {
     _ui->warningList->clear();
     if (_diagnostics.empty()) {
-        auto* const none = new QListWidgetItem(text("entities.warnings_none", {}), _ui->warningList);
+        auto* const none =
+            new QListWidgetItem(text("entities.warnings_none", {}), _ui->warningList);
         none->setFlags(Qt::ItemIsEnabled);
         return;
     }
@@ -299,11 +302,11 @@ void EntityPanel::rebuildWarnings() {
             const std::string& argument = diagnostic.args[position];
             const bool entityType =
                 diagnostic.kind == EditorDiagnosticKind::Reference && position == 0;
-            message = message.arg(entityType ? kindLabel(argument) : QString::fromStdString(argument));
+            message =
+                message.arg(entityType ? kindLabel(argument) : QString::fromStdString(argument));
         }
-        auto* const item =
-            new QListWidgetItem(cellText(diagnostic.cell) + QStringLiteral(" ") + message,
-                                _ui->warningList);
+        auto* const item = new QListWidgetItem(
+            cellText(diagnostic.cell) + QStringLiteral(" ") + message, _ui->warningList);
         item->setData(Qt::UserRole, QVariant::fromValue<qulonglong>(diagnostic.entityIndex));
     }
 }

@@ -11,10 +11,10 @@
 #include <utility>
 #include <vector>
 
+#include "Core/Combat/TacticalTerrain.h"
 #include "Core/Ecs/Components/Animation.h"
 #include "Core/Ecs/Entity.h"
 #include "Core/Ecs/World.h"
-#include "Core/Combat/TacticalTerrain.h"
 #include "Core/Levels/GridPosition.h"
 #include "HMI/Editor/LayerView.h"
 #include "HMI/Graphics/LayerVisibility.h"
@@ -108,8 +108,7 @@ public:
                 const std::optional<std::pair<core::GridPosition, core::GridPosition>>& highlight,
                 const LinkOverlayState& linkOverlay, RenderMode mode,
                 bool showTextureOverrides = false, float deltaSeconds = 0.0f,
-                const LayerVisibility& visibility = {},
-                const PlaneVisibility& planeVisibility = {},
+                const LayerVisibility& visibility = {}, const PlaneVisibility& planeVisibility = {},
                 const DraftEntityOverlay& entityOverlay = {});
 
     /**

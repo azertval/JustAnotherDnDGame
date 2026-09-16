@@ -51,7 +51,8 @@ LayersPanel::LayersPanel(QWidget* parent)
         const LayerSlot slot = slotOf(item);
         const bool visible = item->checkState() == Qt::Checked;
         const std::size_t position = static_cast<std::size_t>(_ui->layerList->row(item));
-        if (position < _snapshot.displays.size() && _snapshot.displays[position].visible != visible) {
+        if (position < _snapshot.displays.size() &&
+            _snapshot.displays[position].visible != visible) {
             QMetaObject::invokeMethod(
                 this, [this, slot, visible] { emit visibilityRequested(slot, visible); },
                 Qt::QueuedConnection);
@@ -135,10 +136,11 @@ void LayersPanel::rebuild() {
         }
         item->setFlags(flags);
         item->setCheckState(_snapshot.displays[position].visible ? Qt::Checked : Qt::Unchecked);
-        const QString kindLabel =
-            row.kind == core::LayerKind::Decor    ? text("layers.kind.decor", QStringLiteral("Décor"))
-            : row.kind == core::LayerKind::Ground ? text("layers.kind.ground", QStringLiteral("Sol"))
-                                                  : rowLabel(row);
+        const QString kindLabel = row.kind == core::LayerKind::Decor
+                                      ? text("layers.kind.decor", QStringLiteral("Décor"))
+                                  : row.kind == core::LayerKind::Ground
+                                      ? text("layers.kind.ground", QStringLiteral("Sol"))
+                                      : rowLabel(row);
         item->setToolTip(kindLabel + QStringLiteral(" — ") + text("layers.visible_tooltip", {}));
         if (row.slot == _snapshot.active) {
             _ui->layerList->setCurrentItem(item);
@@ -159,7 +161,8 @@ void LayersPanel::updateButtons() {
     _ui->moveForwardButton->setEnabled(slot.has_value() && position > 1);
     _ui->moveBackwardButton->setEnabled(slot.has_value() && position >= 1 && position < count - 1);
 
-    const bool hasRow = position >= 0 && static_cast<std::size_t>(position) < _snapshot.displays.size();
+    const bool hasRow =
+        position >= 0 && static_cast<std::size_t>(position) < _snapshot.displays.size();
     _ui->opacitySlider->setEnabled(hasRow);
     const int value =
         hasRow ? static_cast<int>(std::lround(
@@ -191,8 +194,8 @@ LayerSlot LayersPanel::slotOf(const QListWidgetItem* item) const {
     if (item == nullptr) {
         return std::nullopt;
     }
-    const int data = item->data(Qt::UserRole).toInt();
-    return data == ROOT_SLOT ? LayerSlot{} : LayerSlot{static_cast<std::size_t>(data)};
+    const int slotValue = item->data(Qt::UserRole).toInt();
+    return slotValue == ROOT_SLOT ? LayerSlot{} : LayerSlot{static_cast<std::size_t>(slotValue)};
 }
 
 QString LayersPanel::text(const char* key, const QString& fallback) const {

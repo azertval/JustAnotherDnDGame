@@ -13,9 +13,10 @@ std::vector<LayerRow> layerRows(const std::vector<core::TileLayer>& layers) {
     const bool hasVisual = std::ranges::any_of(
         layers, [](const core::TileLayer& layer) { return core::isVisualLayerKind(layer.kind); });
     std::vector<LayerRow> rows;
-    rows.push_back(LayerRow{.slot = std::nullopt,
-                            .kind = hasVisual ? core::LayerKind::Collision : core::LayerKind::Legacy,
-                            .name = {}});
+    rows.push_back(
+        LayerRow{.slot = std::nullopt,
+                 .kind = hasVisual ? core::LayerKind::Collision : core::LayerKind::Legacy,
+                 .name = {}});
     for (std::size_t index = 0; index < layers.size(); ++index) {
         if (core::isVisualLayerKind(layers[index].kind)) {
             rows.push_back(

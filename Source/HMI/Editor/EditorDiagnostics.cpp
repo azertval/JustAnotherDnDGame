@@ -43,9 +43,9 @@ const char* tacticalIssueKey(core::TacticalIssueCode code) noexcept {
     return "diagnostic.terrain_too_narrow";
 }
 
-std::vector<EditorDiagnostic> editorDiagnostics(const std::vector<core::MapEntity>& entities,
-                                                const std::vector<core::EntityIssue>& issues,
-                                                const std::vector<core::EncounterTerrain>& terrains) {
+std::vector<EditorDiagnostic> editorDiagnostics(
+    const std::vector<core::MapEntity>& entities, const std::vector<core::EntityIssue>& issues,
+    const std::vector<core::EncounterTerrain>& terrains) {
     std::vector<EditorDiagnostic> lines;
     for (const core::EntityIssue& issue : issues) {
         if (issue.entityIndex >= entities.size()) {

@@ -22,7 +22,8 @@ EntityGestureDecision resolveEntityPress(const core::LevelDraft& draft, core::Gr
         return EntityGestureDecision{
             .action = EntityGestureAction::Select, .entityIndex = *occupant, .cell = cell};
     }
-    return EntityGestureDecision{.action = EntityGestureAction::Deselect, .entityIndex = 0, .cell = cell};
+    return EntityGestureDecision{
+        .action = EntityGestureAction::Deselect, .entityIndex = 0, .cell = cell};
 }
 
 EntityGestureDecision resolveEntityRelease(std::optional<std::size_t> grabbed,

@@ -139,16 +139,16 @@ IconGeometry iconGeometry(IconId id) {
             // Une epingle plantee sur une case (LOT-11) : tete pleine (accent), tige, et la case au
             // sol -- « poser quelque chose ici », distinct du pinceau qui couvre la case.
             return IconGeometry{{
-                IconStroke{
-                    .points = {IconPoint{.x = 0.20F, .y = 0.85F}, IconPoint{.x = 0.80F, .y = 0.85F}},
-                    .closed = false,
-                    .filled = false,
-                    .color = IconColorRole::Foreground},
-                IconStroke{
-                    .points = {IconPoint{.x = 0.50F, .y = 0.45F}, IconPoint{.x = 0.50F, .y = 0.85F}},
-                    .closed = false,
-                    .filled = false,
-                    .color = IconColorRole::Foreground},
+                IconStroke{.points = {IconPoint{.x = 0.20F, .y = 0.85F},
+                                      IconPoint{.x = 0.80F, .y = 0.85F}},
+                           .closed = false,
+                           .filled = false,
+                           .color = IconColorRole::Foreground},
+                IconStroke{.points = {IconPoint{.x = 0.50F, .y = 0.45F},
+                                      IconPoint{.x = 0.50F, .y = 0.85F}},
+                           .closed = false,
+                           .filled = false,
+                           .color = IconColorRole::Foreground},
                 IconStroke{.points = circlePoints(0.50F, 0.30F, 0.16F),
                            .closed = true,
                            .filled = true,

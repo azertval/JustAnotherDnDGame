@@ -97,13 +97,13 @@ namespace {
 // invalider proprement une disposition sauvegardée devenue incompatible (`restoreState`).
 constexpr int LAYOUT_VERSION =
     10;  // 10 : panneaux Couches et Entites (LOT-11)
-        // 9 : retrait du panneau Décors avec le système de décors (LOT-69 TACHE-04)
-        // 8 : espaces de travail exclusifs, une disposition par espace (LOT-68)
-        // 7 : panneau de palette de l'atelier pixel art rejoint le regroupement (LOT-54 TACHE-07)
-        // 6 : atelier pixel art (canevas + historique) rejoint le regroupement Niveaux/Liens
-        //     (LOT-54 TACHE-04)
-        // 5 : panneau Outils devenu Decors (barre d'outils + inspecteur), Textures sort du
-        //     regroupement en onglets (LOT-57, amendement post-essai manuel)
+         // 9 : retrait du panneau Décors avec le système de décors (LOT-69 TACHE-04)
+         // 8 : espaces de travail exclusifs, une disposition par espace (LOT-68)
+         // 7 : panneau de palette de l'atelier pixel art rejoint le regroupement (LOT-54 TACHE-07)
+         // 6 : atelier pixel art (canevas + historique) rejoint le regroupement Niveaux/Liens
+         //     (LOT-54 TACHE-04)
+         // 5 : panneau Outils devenu Decors (barre d'outils + inspecteur), Textures sort du
+         //     regroupement en onglets (LOT-57, amendement post-essai manuel)
 
 // Clés de persistance (portée application ; l'organisation/appli sont fixées dans `main`,
 // HMI/Main.cpp).
@@ -461,8 +461,8 @@ void MainWindow::connectMapPanels() {
 }
 
 void MainWindow::reloadEditorReferences() {
-    _references = std::make_unique<EditorReferences>(
-        hmi::loadEditorReferences(hmi::executableDirectory()));
+    _references =
+        std::make_unique<EditorReferences>(hmi::loadEditorReferences(hmi::executableDirectory()));
     _viewport->setEditorReferences(_references.get());
 }
 
@@ -892,9 +892,9 @@ void MainWindow::buildUi() {
     // _suppressPanelFocusTracking) ne peut venir que d'un choix explicite de l'utilisateur :
     // cliquer un onglet ou fermer/rouvrir le panneau. Meme principe pour un detachement
     // (topLevelChanged), toujours explicite, jamais gardee.
-    for (QDockWidget* const dock : {_ui->LevelsPanel, _ui->LinksPanel, _ui->EntitiesPanel,
-                                    _ui->PixelCanvasPanel, _ui->PixelHistoryPanel,
-                                    _ui->PixelPalettePanel}) {
+    for (QDockWidget* const dock :
+         {_ui->LevelsPanel, _ui->LinksPanel, _ui->EntitiesPanel, _ui->PixelCanvasPanel,
+          _ui->PixelHistoryPanel, _ui->PixelPalettePanel}) {
         connect(dock, &QDockWidget::visibilityChanged, this, [this](bool) {
             if (!_suppressPanelFocusTracking) {
                 _userPickedTab = true;

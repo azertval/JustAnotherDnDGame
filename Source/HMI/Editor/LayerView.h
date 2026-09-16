@@ -50,7 +50,8 @@ struct LayerRow {
                                          LayerSlot active);
 
 /// @brief Opacité par défaut de la collision **par-dessus** des couches visuelles : assez pour voir
-///        où l'on bute, assez peu pour voir le sol dessous. Décision d'ergonomie, sans effet en jeu.
+///        où l'on bute, assez peu pour voir le sol dessous. Décision d'ergonomie, sans effet en
+///        jeu.
 inline constexpr float DEFAULT_COLLISION_OVERLAY_OPACITY = 0.55F;
 
 /// @brief Comment une couche est montrée dans l'éditeur.

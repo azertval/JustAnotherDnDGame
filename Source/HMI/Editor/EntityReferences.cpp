@@ -24,16 +24,19 @@ namespace {
 
 EditorReferences loadEditorReferences(const std::filesystem::path& root) {
     EditorReferences references;
-    if (const std::filesystem::path dialogues = root / "World" / "dialogues"; isDirectory(dialogues)) {
+    if (const std::filesystem::path dialogues = root / "World" / "dialogues";
+        isDirectory(dialogues)) {
         for (const core::DialogueGraph& graph : core::loadDialogues(dialogues).dialogues) {
             references.dialogues.push_back(graph.id);
         }
         std::ranges::sort(references.dialogues);
     }
-    if (const std::filesystem::path encounters = root / "Rpg" / "encounters"; isDirectory(encounters)) {
+    if (const std::filesystem::path encounters = root / "Rpg" / "encounters";
+        isDirectory(encounters)) {
         references.encounters = core::loadEncounters(encounters);
     }
-    if (const std::filesystem::path creatures = root / "Rpg" / "creatures"; isDirectory(creatures)) {
+    if (const std::filesystem::path creatures = root / "Rpg" / "creatures";
+        isDirectory(creatures)) {
         references.bestiary = core::loadBestiary(creatures);
     }
     references.world = core::loadWorldGraph(root / "Levels");

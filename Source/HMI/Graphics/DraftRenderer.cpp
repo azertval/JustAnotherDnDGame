@@ -504,10 +504,10 @@ void DraftRenderer::rebuild(const core::LevelDraft& draft) {
                     continue;  // case vide : aucune entité (grille éparse, comme en jeu).
                 }
                 const core::Entity entity = _world.createEntity();
-                _world.addComponent(entity,
-                                    core::Transform{core::Vector2{static_cast<float>(column),
-                                                                  static_cast<float>(row)},
-                                                    core::Vector2{1.0f, 1.0f}, 0.0f});
+                _world.addComponent(
+                    entity, core::Transform{
+                                core::Vector2{static_cast<float>(column), static_cast<float>(row)},
+                                core::Vector2{1.0f, 1.0f}, 0.0f});
                 core::Sprite sprite;
                 sprite.region = regionForTile(type);
                 sprite.tint = core::Color{1.0f, 1.0f, 1.0f, opacity};
@@ -517,10 +517,10 @@ void DraftRenderer::rebuild(const core::LevelDraft& draft) {
                 _world.addComponent(entity, sprite);
                 // Marque d'habillage (LOT-42), identique a celle posee en jeu : c'est ce qui fait
                 // que le canevas de l'editeur montre exactement ce que le joueur verra.
-                _world.addComponent(entity,
-                                    TileSkinTag{type, solidNeighborMask(map, column, row),
-                                                textureOverrideAt(draft.textureOverrides(),
-                                                                  core::GridPosition{column, row})});
+                _world.addComponent(
+                    entity, TileSkinTag{type, solidNeighborMask(map, column, row),
+                                        textureOverrideAt(draft.textureOverrides(),
+                                                          core::GridPosition{column, row})});
                 if (decor) {
                     _world.addComponent(entity, RenderLayerTag{RenderLayer::Object});
                 }
@@ -628,17 +628,18 @@ void DraftRenderer::composeEntities(const core::LevelDraft& draft,
             if (terrain.entityIndex != *overlay.selectedEntity) {
                 continue;
             }
-            const bool narrow = std::ranges::any_of(terrain.issues, [](const core::TacticalIssue& issue) {
-                return issue.code == core::TacticalIssueCode::AreaTooNarrow;
-            });
+            const bool narrow =
+                std::ranges::any_of(terrain.issues, [](const core::TacticalIssue& issue) {
+                    return issue.code == core::TacticalIssueCode::AreaTooNarrow;
+                });
             for (const core::GridPosition& cell : terrain.area) {
                 addOverlayRect(static_cast<float>(cell.column), static_cast<float>(cell.row), 1.0f,
                                1.0f, narrow ? 1.0f : 0.30f, narrow ? 0.55f : 0.70f,
                                narrow ? 0.10f : 1.00f, 0.18f, OVERLAY_ORDER_TERRAIN);
             }
             for (const core::CombatantPlacement& placement : terrain.placements) {
-                const bool refused =
-                    std::ranges::any_of(terrain.issues, [&placement](const core::TacticalIssue& issue) {
+                const bool refused = std::ranges::any_of(
+                    terrain.issues, [&placement](const core::TacticalIssue& issue) {
                         return issue.code != core::TacticalIssueCode::AreaTooNarrow &&
                                issue.cell == placement.position;
                     });
@@ -658,7 +659,8 @@ void DraftRenderer::composeEntities(const core::LevelDraft& draft,
         const float y = static_cast<float>(entity.position.row);
         // Marqueur genere de la famille (LOT-39) : aucune illustration n'est requise pour poser un
         // PNJ ou un portail, et deux familles ne se confondent pas.
-        if (const LoadedTexture* const marker = _cache.markerTexture(entityMarkerKey(entity.type))) {
+        if (const LoadedTexture* const marker =
+                _cache.markerTexture(entityMarkerKey(entity.type))) {
             SpriteQuad quad;
             quad.x = x + MARKER_INSET;
             quad.y = y + MARKER_INSET;
