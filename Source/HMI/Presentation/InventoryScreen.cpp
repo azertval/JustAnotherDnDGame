@@ -127,9 +127,12 @@ ItemSheet itemSheet(std::string_view itemId, const core::ItemLookup& lookup) {
         return sheet;
     }
     if (const core::Item* const item = findItem(lookup, itemId); item != nullptr) {
-        sheet.kind = item->category == "tool"
-                         ? "Outil"
-                         : (item->category == "mount" ? "Monture" : "Matériel");
+        sheet.kind = "Matériel";
+        if (item->category == "tool") {
+            sheet.kind = "Outil";
+        } else if (item->category == "mount") {
+            sheet.kind = "Monture";
+        }
         sheet.weight = kilograms(item->weightGrams);
         sheet.text = item->text;
     }

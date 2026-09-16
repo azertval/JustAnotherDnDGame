@@ -98,7 +98,7 @@ std::filesystem::path LevelBrowserPanel::selectedPath() const {
         return {};
     }
     const QVariant pathData = _proxy->mapToSource(proxyIndex).data(PATH_ROLE);
-    return std::filesystem::path(pathData.toString().toStdString());
+    return {pathData.toString().toStdString()};
 }
 
 void LevelBrowserPanel::onNew() {

@@ -112,7 +112,7 @@ bool Localization::loadLanguage(const std::string& language) {
 // réapparaît dans la langue par défaut, et une clé inconnue s'affiche telle quelle (utile
 // pour repérer un oubli sans planter).
 std::string Localization::text(std::string_view key) const {
-    const std::string lookup(key);
+    std::string lookup(key);  // non const : rendu par déplacement quand la clé est inconnue
     if (const auto active = _activeStrings.find(lookup); active != _activeStrings.end()) {
         return active->second;
     }

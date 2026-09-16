@@ -58,13 +58,6 @@ constexpr std::int32_t OVERLAY_ORDER_ENTITIES = 6;
 // (LOT-69 TACHE-04) : seul leur rang relatif compte.
 constexpr std::int32_t OVERLAY_ORDER_HANDLE_DARK = 7;
 constexpr std::int32_t OVERLAY_ORDER_HANDLE_BRIGHT = 8;
-// Parcours de plateforme mobile (LOT-63) : dernier calque d'édition -- un repère de placement,
-// jamais masqué par une manipulation en cours.
-constexpr std::int32_t OVERLAY_ORDER_PLATFORM_PATH = 9;
-// Course d'un danger mobile (LOT-67) : juste au-dessus du parcours des plateformes, teinte
-// distincte -- les deux peuvent se croiser sans qu'on confonde le sur quoi on marche et le qui
-// tue.
-constexpr std::int32_t OVERLAY_ORDER_MOVER_PATH = 10;
 }  // namespace
 
 DraftRenderer::DraftRenderer(SpriteBatch& batch, const TextureAtlas& atlas, TextureCache& cache)
@@ -212,16 +205,16 @@ void DraftRenderer::composeGrid(const core::LevelDraft& draft) {
 
     // Grille de cases : lignes fines, faible alpha (repere de placement, EX-EDIT-023).
     constexpr float LINE = 0.035F;  // epaisseur en unites monde (fraction de case)
-    constexpr float lineAlpha = 0.18F;
+    constexpr float LINE_ALPHA = 0.18F;
     const auto w = static_cast<float>(width);
     const auto h = static_cast<float>(height);
     for (int column = 0; column <= width; ++column) {
         add(lineQuad(static_cast<float>(column) - (LINE * 0.5F), 0.0F, LINE, h, 1.0F, 1.0F, 1.0F,
-                     lineAlpha));
+                     LINE_ALPHA));
     }
     for (int row = 0; row <= height; ++row) {
         add(lineQuad(0.0F, static_cast<float>(row) - (LINE * 0.5F), w, LINE, 1.0F, 1.0F, 1.0F,
-                     lineAlpha));
+                     LINE_ALPHA));
     }
 
     // Frontieres de salles (RoomGrid, LOT-32), a la taille RESOLUE du niveau (LOT-64 : reglable,
@@ -231,14 +224,16 @@ void DraftRenderer::composeGrid(const core::LevelDraft& draft) {
     const int roomWidthTiles = framing.roomWidthTiles.value_or(core::DEFAULT_ROOM_WIDTH_TILES);
     const int roomHeightTiles = framing.roomHeightTiles.value_or(core::DEFAULT_ROOM_HEIGHT_TILES);
     constexpr float ROOM_LINE = 0.09F;
-    constexpr float roomLineAlpha = 0.5F;
+    constexpr float ROOM_LINE_ALPHA = 0.5F;
     for (int column = 0; column * roomWidthTiles <= width; ++column) {
         const float x = static_cast<float>(std::min(column * roomWidthTiles, width));
-        add(lineQuad(x - (ROOM_LINE * 0.5F), 0.0F, ROOM_LINE, h, 1.0F, 0.85F, 0.3F, roomLineAlpha));
+        add(lineQuad(x - (ROOM_LINE * 0.5F), 0.0F, ROOM_LINE, h, 1.0F, 0.85F, 0.3F,
+                     ROOM_LINE_ALPHA));
     }
     for (int row = 0; row * roomHeightTiles <= height; ++row) {
         const float y = static_cast<float>(std::min(row * roomHeightTiles, height));
-        add(lineQuad(0.0F, y - (ROOM_LINE * 0.5F), w, ROOM_LINE, 1.0F, 0.85F, 0.3F, roomLineAlpha));
+        add(lineQuad(0.0F, y - (ROOM_LINE * 0.5F), w, ROOM_LINE, 1.0F, 0.85F, 0.3F,
+                     ROOM_LINE_ALPHA));
     }
 }
 
@@ -365,6 +360,31 @@ void DraftRenderer::composeCameraFraming(const core::LevelDraft& draft) {
     }
 }
 
+namespace {
+
+// Pour chaque ligne : index parmi les liens partageant son declencheur (ceux qui la precedent) et
+// nombre total de ces liens.
+void computeLinkFanOut(const std::vector<LinkRow>& rows, std::vector<int>& fanIndex,
+                       std::vector<int>& fanCount) {
+    for (std::size_t i = 0; i < rows.size(); ++i) {
+        int index = 0;
+        int count = 0;
+        for (std::size_t j = 0; j < rows.size(); ++j) {
+            if (rows[j].trigger != rows[i].trigger) {
+                continue;
+            }
+            if (j < i) {
+                ++index;
+            }
+            ++count;
+        }
+        fanIndex[i] = index;
+        fanCount[i] = count;
+    }
+}
+
+}  // namespace
+
 // Compose les liens de mecanismes (fleches declencheur -> cible) sur le calque d'edition.
 void DraftRenderer::composeLinks(const core::LevelDraft& draft, const LinkOverlayState& overlay) {
     const std::vector<LinkRow> rows = buildLinkRows(draft);
@@ -376,20 +396,7 @@ void DraftRenderer::composeLinks(const core::LevelDraft& draft, const LinkOverla
     // index et nombre total de liens partageant le meme declencheur, pour chaque ligne.
     std::vector<int> fanIndex(rows.size(), 0);
     std::vector<int> fanCount(rows.size(), 1);
-    for (std::size_t i = 0; i < rows.size(); ++i) {
-        int index = 0;
-        int count = 0;
-        for (std::size_t j = 0; j < rows.size(); ++j) {
-            if (rows[j].trigger == rows[i].trigger) {
-                if (j < i) {
-                    ++index;
-                }
-                ++count;
-            }
-        }
-        fanIndex[i] = index;
-        fanCount[i] = count;
-    }
+    computeLinkFanOut(rows, fanIndex, fanCount);
 
     const core::AtlasRegion solid = hmi::TextureAtlas::tile(0, 0);  // region opaque unie (teintee).
     const auto atlasWidth = static_cast<float>(_atlas.width());
@@ -524,7 +531,8 @@ void DraftRenderer::rebuild(const core::LevelDraft& draft) {
                                         .neighborMask = solidNeighborMask(map, column, row),
                                         .overrideAsset = textureOverrideAt(
                                             draft.textureOverrides(),
-                                            core::GridPosition{.column = column, .row = row})});
+                                            core::GridPosition{.column = column, .row = row}),
+                                        .animatedFrame = std::nullopt});
                 if (decor) {
                     _world.addComponent(entity, RenderLayerTag{RenderLayer::Object});
                 }
@@ -629,78 +637,81 @@ void DraftRenderer::composeEntities(const core::LevelDraft& draft,
     // combattant -- verte si elle tient, rouge si le montage la refuserait.
     if (overlay.showTerrain && overlay.selectedEntity && overlay.terrains != nullptr) {
         for (const core::EncounterTerrain& terrain : *overlay.terrains) {
-            if (terrain.entityIndex != *overlay.selectedEntity) {
-                continue;
-            }
-            const bool narrow =
-                std::ranges::any_of(terrain.issues, [](const core::TacticalIssue& issue) {
-                    return issue.code == core::TacticalIssueCode::AreaTooNarrow;
-                });
-            for (const core::GridPosition& cell : terrain.area) {
-                addOverlayRect(static_cast<float>(cell.column), static_cast<float>(cell.row), 1.0F,
-                               1.0F, narrow ? 1.0F : 0.30F, narrow ? 0.55F : 0.70F,
-                               narrow ? 0.10F : 1.00F, 0.18F, OVERLAY_ORDER_TERRAIN);
-            }
-            for (const core::CombatantPlacement& placement : terrain.placements) {
-                const bool refused = std::ranges::any_of(
-                    terrain.issues, [&placement](const core::TacticalIssue& issue) {
-                        return issue.code != core::TacticalIssueCode::AreaTooNarrow &&
-                               issue.cell == placement.position;
-                    });
-                constexpr float INSET = 0.2F;
-                addOverlayRect(static_cast<float>(placement.position.column) + INSET,
-                               static_cast<float>(placement.position.row) + INSET,
-                               1.0F - (2 * INSET), 1.0F - (2 * INSET), refused ? 0.95F : 0.25F,
-                               refused ? 0.20F : 0.85F, refused ? 0.20F : 0.35F, 0.55F,
-                               OVERLAY_ORDER_TERRAIN);
+            if (terrain.entityIndex == *overlay.selectedEntity) {
+                composeEncounterTerrain(terrain);
             }
         }
     }
 
-    constexpr float MARKER_INSET = 0.12F;
     for (std::size_t index = 0; index < entities.size(); ++index) {
-        const core::MapEntity& entity = entities[index];
-        const auto x = static_cast<float>(entity.position.column);
-        const auto y = static_cast<float>(entity.position.row);
-        // Marqueur genere de la famille (LOT-39) : aucune illustration n'est requise pour poser un
-        // PNJ ou un portail, et deux familles ne se confondent pas.
-        if (const LoadedTexture* const marker =
-                _cache.markerTexture(entityMarkerKey(entity.type))) {
-            SpriteQuad quad;
-            quad.x = x + MARKER_INSET;
-            quad.y = y + MARKER_INSET;
-            quad.width = 1.0F - (2 * MARKER_INSET);
-            quad.height = 1.0F - (2 * MARKER_INSET);
-            quad.u0 = 0.0F;
-            quad.v0 = 0.0F;
-            quad.u1 = 1.0F;
-            quad.v1 = 1.0F;
-            quad.r = 1.0F;
-            quad.g = 1.0F;
-            quad.b = 1.0F;
-            quad.a = 1.0F;
-            _scene.addSprite(RenderLayer::EditorOverlay, marker->handle(), OVERLAY_ORDER_ENTITIES,
-                             quad);
-        } else {
-            addOverlayRect(x + MARKER_INSET, y + MARKER_INSET, 1.0F - (2 * MARKER_INSET),
-                           1.0F - (2 * MARKER_INSET), 1.0F, 0.0F, 1.0F, 0.8F,
-                           OVERLAY_ORDER_ENTITIES);
-        }
-        if (overlay.selectedEntity == index) {
-            // Cadre double ton, meme convention que les poignees (lisible sur tout fond).
-            constexpr float THICK = 0.08F;
-            for (const auto& [order, r, g, b, grow] :
-                 {std::tuple{OVERLAY_ORDER_HANDLE_DARK, 0.05F, 0.05F, 0.05F, THICK},
-                  std::tuple{OVERLAY_ORDER_HANDLE_BRIGHT, 1.0F, 0.95F, 0.35F, 0.0F}}) {
-                const float left = x - grow;
-                const float top = y - grow;
-                const float size = 1.0F + (2 * grow);
-                addOverlayRect(left, top, size, THICK, r, g, b, 1.0F, order);
-                addOverlayRect(left, top + size - THICK, size, THICK, r, g, b, 1.0F, order);
-                addOverlayRect(left, top, THICK, size, r, g, b, 1.0F, order);
-                addOverlayRect(left + size - THICK, top, THICK, size, r, g, b, 1.0F, order);
-            }
-        }
+        composeEntityMarker(entities[index], overlay.selectedEntity == index);
+    }
+}
+
+void DraftRenderer::composeEncounterTerrain(const core::EncounterTerrain& terrain) {
+    const bool narrow = std::ranges::any_of(terrain.issues, [](const core::TacticalIssue& issue) {
+        return issue.code == core::TacticalIssueCode::AreaTooNarrow;
+    });
+    for (const core::GridPosition& cell : terrain.area) {
+        addOverlayRect(static_cast<float>(cell.column), static_cast<float>(cell.row), 1.0F, 1.0F,
+                       narrow ? 1.0F : 0.30F, narrow ? 0.55F : 0.70F, narrow ? 0.10F : 1.00F, 0.18F,
+                       OVERLAY_ORDER_TERRAIN);
+    }
+    for (const core::CombatantPlacement& placement : terrain.placements) {
+        const bool refused =
+            std::ranges::any_of(terrain.issues, [&placement](const core::TacticalIssue& issue) {
+                return issue.code != core::TacticalIssueCode::AreaTooNarrow &&
+                       issue.cell == placement.position;
+            });
+        constexpr float INSET = 0.2F;
+        addOverlayRect(static_cast<float>(placement.position.column) + INSET,
+                       static_cast<float>(placement.position.row) + INSET, 1.0F - (2 * INSET),
+                       1.0F - (2 * INSET), refused ? 0.95F : 0.25F, refused ? 0.20F : 0.85F,
+                       refused ? 0.20F : 0.35F, 0.55F, OVERLAY_ORDER_TERRAIN);
+    }
+}
+
+void DraftRenderer::composeEntityMarker(const core::MapEntity& entity, bool selected) {
+    constexpr float MARKER_INSET = 0.12F;
+    const auto x = static_cast<float>(entity.position.column);
+    const auto y = static_cast<float>(entity.position.row);
+    // Marqueur genere de la famille (LOT-39) : aucune illustration n'est requise pour poser un
+    // PNJ ou un portail, et deux familles ne se confondent pas.
+    if (const LoadedTexture* const marker = _cache.markerTexture(entityMarkerKey(entity.type))) {
+        SpriteQuad quad;
+        quad.x = x + MARKER_INSET;
+        quad.y = y + MARKER_INSET;
+        quad.width = 1.0F - (2 * MARKER_INSET);
+        quad.height = 1.0F - (2 * MARKER_INSET);
+        quad.u0 = 0.0F;
+        quad.v0 = 0.0F;
+        quad.u1 = 1.0F;
+        quad.v1 = 1.0F;
+        quad.r = 1.0F;
+        quad.g = 1.0F;
+        quad.b = 1.0F;
+        quad.a = 1.0F;
+        _scene.addSprite(RenderLayer::EditorOverlay, marker->handle(), OVERLAY_ORDER_ENTITIES,
+                         quad);
+    } else {
+        addOverlayRect(x + MARKER_INSET, y + MARKER_INSET, 1.0F - (2 * MARKER_INSET),
+                       1.0F - (2 * MARKER_INSET), 1.0F, 0.0F, 1.0F, 0.8F, OVERLAY_ORDER_ENTITIES);
+    }
+    if (!selected) {
+        return;
+    }
+    // Cadre double ton, meme convention que les poignees (lisible sur tout fond).
+    constexpr float THICK = 0.08F;
+    for (const auto& [order, r, g, b, grow] :
+         {std::tuple{OVERLAY_ORDER_HANDLE_DARK, 0.05F, 0.05F, 0.05F, THICK},
+          std::tuple{OVERLAY_ORDER_HANDLE_BRIGHT, 1.0F, 0.95F, 0.35F, 0.0F}}) {
+        const float left = x - grow;
+        const float top = y - grow;
+        const float size = 1.0F + (2 * grow);
+        addOverlayRect(left, top, size, THICK, r, g, b, 1.0F, order);
+        addOverlayRect(left, top + size - THICK, size, THICK, r, g, b, 1.0F, order);
+        addOverlayRect(left, top, THICK, size, r, g, b, 1.0F, order);
+        addOverlayRect(left + size - THICK, top, THICK, size, r, g, b, 1.0F, order);
     }
 }
 

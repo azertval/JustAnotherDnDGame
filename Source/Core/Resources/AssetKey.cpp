@@ -76,6 +76,109 @@ std::string defaultAssetKeyFor(std::string_view family, std::string_view id) {
     return std::string(family) + "/" + std::string(id);
 }
 
+namespace {
+
+/// Une entree de la table des familles, lue champ par champ ; un champ absent garde son defaut.
+[[nodiscard]] AssetFamilyDefinition readFamilyDefinition(const nlohmann::json& entree) {
+    AssetFamilyDefinition famille;
+    if (const auto nom = entree.find("name"); nom != entree.end() && nom->is_string()) {
+        famille.name = nom->get<std::string>();
+    }
+    if (const auto largeur = entree.find("width");
+        largeur != entree.end() && largeur->is_number_integer()) {
+        famille.width = largeur->get<int>();
+    }
+    if (const auto hauteur = entree.find("height");
+        hauteur != entree.end() && hauteur->is_number_integer()) {
+        famille.height = hauteur->get<int>();
+    }
+    if (const auto dossiers = entree.find("catalogues");
+        dossiers != entree.end() && dossiers->is_array()) {
+        for (const nlohmann::json& dossier : *dossiers) {
+            if (dossier.is_string()) {
+                famille.catalogues.push_back(dossier.get<std::string>());
+            }
+        }
+    }
+    return famille;
+}
+
+/// Le champ texte @p champ de @p racine, ou une chaine vide s'il est absent ou d'un autre type.
+[[nodiscard]] std::string champTexte(const nlohmann::json& racine, const char* champ) {
+    if (const auto trouve = racine.find(champ); trouve != racine.end() && trouve->is_string()) {
+        return trouve->get<std::string>();
+    }
+    return {};
+}
+
+/// Les fichiers `.json` d'un dossier de catalogue, tries.
+[[nodiscard]] std::vector<std::filesystem::path> fichiersDeCatalogue(
+    const std::filesystem::path& chemin, std::error_code& code) {
+    std::vector<std::filesystem::path> fichiers;
+    for (const auto& entree : std::filesystem::directory_iterator(chemin, code)) {
+        if (entree.is_regular_file(code) && entree.path().extension() == ".json") {
+            fichiers.push_back(entree.path());
+        }
+    }
+    std::ranges::sort(fichiers);
+    return fichiers;
+}
+
+/// La cle qu'attend le fichier de catalogue @p fichier de la famille @p famille, ou rien (erreur
+/// consignee dans @p errors).
+[[nodiscard]] std::optional<ExpectedAssetKey> cleAttenduePour(const std::filesystem::path& fichier,
+                                                              const AssetFamilyDefinition& famille,
+                                                              const AssetFamilyTable& families,
+                                                              std::vector<std::string>& errors) {
+    const JsonDocument document = readJsonObjectFromFile(fichier, 0);
+    if (!document.ok()) {
+        errors.push_back(document.message);
+        return std::nullopt;
+    }
+    const std::string identifiant = champTexte(document.root, "id");
+    if (identifiant.empty()) {
+        errors.push_back(fichier.filename().string() + " : entree sans identifiant.");
+        return std::nullopt;
+    }
+
+    // Une DEROGATION explicite l'emporte : deux entrees peuvent partager une
+    // illustration. Elle doit en revanche etre bien formee et nommer une famille
+    // connue -- c'est la seule chose qui fasse echouer la verification, une cle sans
+    // image n'etant qu'un etat d'avancement (EX-CNT-041).
+    const std::string ecrite = champTexte(document.root, "asset");
+    if (!ecrite.empty()) {
+        const std::optional<AssetKey> decomposee = parseAssetKey(ecrite);
+        if (!decomposee.has_value()) {
+            errors.push_back(fichier.filename().string() + " : cle d'asset malformee ('" + ecrite +
+                             "').");
+            return std::nullopt;
+        }
+        if (families.find(decomposee->family) == nullptr) {
+            errors.push_back(fichier.filename().string() +
+                             " : cle d'asset orpheline, famille inconnue ('" + decomposee->family +
+                             "').");
+            return std::nullopt;
+        }
+        return ExpectedAssetKey{.key = ecrite,
+                                .family = decomposee->family,
+                                .sourceFile = fichier.filename().string(),
+                                .explicitKey = true};
+    }
+
+    const std::string defaut = defaultAssetKeyFor(famille.name, identifiant);
+    if (defaut.empty()) {
+        errors.push_back(fichier.filename().string() + " : identifiant '" + identifiant +
+                         "' ne peut pas former une cle d'asset.");
+        return std::nullopt;
+    }
+    return ExpectedAssetKey{.key = defaut,
+                            .family = famille.name,
+                            .sourceFile = fichier.filename().string(),
+                            .explicitKey = false};
+}
+
+}  // namespace
+
 AssetFamilyTable loadAssetFamilies(const std::filesystem::path& familiesFile) {
     AssetFamilyTable table;
     const JsonDocument document = readJsonObjectFromFile(familiesFile, VERSION_ATTENDUE);
@@ -93,26 +196,7 @@ AssetFamilyTable loadAssetFamilies(const std::filesystem::path& familiesFile) {
         if (!entree.is_object()) {
             continue;
         }
-        AssetFamilyDefinition famille;
-        if (const auto nom = entree.find("name"); nom != entree.end() && nom->is_string()) {
-            famille.name = nom->get<std::string>();
-        }
-        if (const auto largeur = entree.find("width");
-            largeur != entree.end() && largeur->is_number_integer()) {
-            famille.width = largeur->get<int>();
-        }
-        if (const auto hauteur = entree.find("height");
-            hauteur != entree.end() && hauteur->is_number_integer()) {
-            famille.height = hauteur->get<int>();
-        }
-        if (const auto dossiers = entree.find("catalogues");
-            dossiers != entree.end() && dossiers->is_array()) {
-            for (const nlohmann::json& dossier : *dossiers) {
-                if (dossier.is_string()) {
-                    famille.catalogues.push_back(dossier.get<std::string>());
-                }
-            }
-        }
+        AssetFamilyDefinition famille = readFamilyDefinition(entree);
         if (famille.name.empty() || !segmentValide(famille.name)) {
             table.errors.push_back(familiesFile.string() + " : famille au nom invalide ('" +
                                    famille.name + "').");
@@ -147,69 +231,11 @@ std::vector<ExpectedAssetKey> expectedAssetKeys(const std::filesystem::path& rpg
                                  famille.name + "').");
                 continue;
             }
-            std::vector<std::filesystem::path> fichiers;
-            for (const auto& entree : std::filesystem::directory_iterator(chemin, code)) {
-                if (entree.is_regular_file(code) && entree.path().extension() == ".json") {
-                    fichiers.push_back(entree.path());
+            for (const std::filesystem::path& fichier : fichiersDeCatalogue(chemin, code)) {
+                if (std::optional<ExpectedAssetKey> attendue =
+                        cleAttenduePour(fichier, famille, families, errors)) {
+                    attendues.push_back(std::move(*attendue));
                 }
-            }
-            std::ranges::sort(fichiers);
-
-            for (const std::filesystem::path& fichier : fichiers) {
-                const JsonDocument document = readJsonObjectFromFile(fichier, 0);
-                if (!document.ok()) {
-                    errors.push_back(document.message);
-                    continue;
-                }
-                std::string identifiant;
-                if (const auto id = document.root.find("id");
-                    id != document.root.end() && id->is_string()) {
-                    identifiant = id->get<std::string>();
-                }
-                if (identifiant.empty()) {
-                    errors.push_back(fichier.filename().string() + " : entree sans identifiant.");
-                    continue;
-                }
-
-                // Une DEROGATION explicite l'emporte : deux entrees peuvent partager une
-                // illustration. Elle doit en revanche etre bien formee et nommer une famille
-                // connue -- c'est la seule chose qui fasse echouer la verification, une cle sans
-                // image n'etant qu'un etat d'avancement (EX-CNT-041).
-                std::string ecrite;
-                if (const auto asset = document.root.find("asset");
-                    asset != document.root.end() && asset->is_string()) {
-                    ecrite = asset->get<std::string>();
-                }
-                if (!ecrite.empty()) {
-                    const std::optional<AssetKey> decomposee = parseAssetKey(ecrite);
-                    if (!decomposee.has_value()) {
-                        errors.push_back(fichier.filename().string() +
-                                         " : cle d'asset malformee ('" + ecrite + "').");
-                        continue;
-                    }
-                    if (families.find(decomposee->family) == nullptr) {
-                        errors.push_back(fichier.filename().string() +
-                                         " : cle d'asset orpheline, famille inconnue ('" +
-                                         decomposee->family + "').");
-                        continue;
-                    }
-                    attendues.push_back({.key = ecrite,
-                                         .family = decomposee->family,
-                                         .sourceFile = fichier.filename().string(),
-                                         .explicitKey = true});
-                    continue;
-                }
-
-                const std::string defaut = defaultAssetKeyFor(famille.name, identifiant);
-                if (defaut.empty()) {
-                    errors.push_back(fichier.filename().string() + " : identifiant '" +
-                                     identifiant + "' ne peut pas former une cle d'asset.");
-                    continue;
-                }
-                attendues.push_back({.key = defaut,
-                                     .family = famille.name,
-                                     .sourceFile = fichier.filename().string(),
-                                     .explicitKey = false});
             }
         }
     }

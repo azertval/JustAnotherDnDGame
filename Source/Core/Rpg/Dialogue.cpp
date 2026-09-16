@@ -4,6 +4,8 @@
 #include "Core/Rpg/Dialogue.h"
 
 #include <algorithm>
+#include <cstdint>
+#include <functional>
 #include <map>
 #include <set>
 #include <system_error>
@@ -120,6 +122,70 @@ private:
     return std::move(*valeur);
 }
 
+/// Une reponse d'une replique, ou rien si elle est inutilisable (erreur consignee).
+[[nodiscard]] std::optional<DialogueChoice> lireReponse(const Json& reponse,
+                                                        const std::string& noeudId,
+                                                        std::set<std::string>& vus,
+                                                        bool& uneSansCondition, Rapport& rapport) {
+    if (!reponse.is_object()) {
+        rapport.noeud(noeudId, "une reponse n'est pas un objet.");
+        return std::nullopt;
+    }
+    DialogueChoice choix;
+    const auto id = texte(reponse, "id");
+    if (!id) {
+        rapport.noeud(noeudId, "choix vide : une reponse n'a pas d'identifiant.");
+        return std::nullopt;
+    }
+    choix.id = *id;
+    if (!vus.insert(choix.id).second) {
+        rapport.noeud(noeudId, "reponse '" + choix.id + "' en double.");
+    }
+    if (choix.id == DIALOGUE_CONTINUE_CHOICE) {
+        rapport.noeud(noeudId, "l'identifiant 'continue' est reserve a la reponse implicite.");
+    }
+    choix.next = exiger(reponse, "next", noeudId + "' / reponse '" + choix.id, rapport);
+    if (const auto condition = reponse.find("condition"); condition != reponse.end()) {
+        choix.condition = conditionDepuis(*condition);
+        if (!choix.condition) {
+            rapport.noeud(noeudId, "reponse '" + choix.id +
+                                       "' : condition sans 'flag' ou 'isSet' non booleen.");
+        }
+    } else {
+        uneSansCondition = true;
+    }
+    return choix;
+}
+
+/// Les reponses d'une replique (`choices`), deja reconnu comme present.
+void lireReponses(const Json& reponses, DialogueNode& noeud, Rapport& rapport) {
+    if (!reponses.is_array()) {
+        rapport.noeud(noeud.id, "'choices' n'est pas un tableau.");
+        return;
+    }
+    if (reponses.empty()) {
+        // Le « choix vide » du critere d'acceptation : le joueur resterait devant une replique
+        // sans rien a repondre.
+        rapport.noeud(noeud.id, "choix vide : 'choices' ne propose aucune reponse.");
+        return;
+    }
+    std::set<std::string> vus;
+    bool uneSansCondition = false;
+    for (const Json& reponse : reponses) {
+        if (std::optional<DialogueChoice> choix =
+                lireReponse(reponse, noeud.id, vus, uneSansCondition, rapport)) {
+            noeud.choices.push_back(std::move(*choix));
+        }
+    }
+    if (!noeud.choices.empty() && !uneSansCondition) {
+        // Des drapeaux qui les masqueraient toutes laisseraient une replique sans issue, et
+        // cela ne se decouvrirait qu'en jeu, dans l'etat de monde precis qui la produit.
+        rapport.noeud(noeud.id,
+                      "toutes les reponses sont conditionnelles : il en faut une toujours "
+                      "proposee.");
+    }
+}
+
 void lireReplique(const Json& brut, DialogueNode& noeud, Rapport& rapport) {
     const auto reponses = brut.find("choices");
     const bool aSuite = brut.contains("next");
@@ -127,56 +193,9 @@ void lireReplique(const Json& brut, DialogueNode& noeud, Rapport& rapport) {
         if (aSuite) {
             rapport.noeud(noeud.id, "une replique a des reponses OU une suite, pas les deux.");
         }
-        if (!reponses->is_array()) {
-            rapport.noeud(noeud.id, "'choices' n'est pas un tableau.");
+        lireReponses(*reponses, noeud, rapport);
+        if (!reponses->is_array() || reponses->empty()) {
             return;
-        }
-        if (reponses->empty()) {
-            // Le « choix vide » du critere d'acceptation : le joueur resterait devant une replique
-            // sans rien a repondre.
-            rapport.noeud(noeud.id, "choix vide : 'choices' ne propose aucune reponse.");
-            return;
-        }
-        std::set<std::string> vus;
-        bool uneSansCondition = false;
-        for (const Json& reponse : *reponses) {
-            if (!reponse.is_object()) {
-                rapport.noeud(noeud.id, "une reponse n'est pas un objet.");
-                continue;
-            }
-            DialogueChoice choix;
-            const auto id = texte(reponse, "id");
-            if (!id) {
-                rapport.noeud(noeud.id, "choix vide : une reponse n'a pas d'identifiant.");
-                continue;
-            }
-            choix.id = *id;
-            if (!vus.insert(choix.id).second) {
-                rapport.noeud(noeud.id, "reponse '" + choix.id + "' en double.");
-            }
-            if (choix.id == DIALOGUE_CONTINUE_CHOICE) {
-                rapport.noeud(noeud.id,
-                              "l'identifiant 'continue' est reserve a la reponse implicite.");
-            }
-            choix.next = exiger(reponse, "next", noeud.id + "' / reponse '" + choix.id, rapport);
-            if (const auto condition = reponse.find("condition"); condition != reponse.end()) {
-                choix.condition = conditionDepuis(*condition);
-                if (!choix.condition) {
-                    rapport.noeud(noeud.id,
-                                  "reponse '" + choix.id +
-                                      "' : condition sans 'flag' ou 'isSet' non booleen.");
-                }
-            } else {
-                uneSansCondition = true;
-            }
-            noeud.choices.push_back(std::move(choix));
-        }
-        if (!noeud.choices.empty() && !uneSansCondition) {
-            // Des drapeaux qui les masqueraient toutes laisseraient une replique sans issue, et
-            // cela ne se decouvrirait qu'en jeu, dans l'etat de monde precis qui la produit.
-            rapport.noeud(noeud.id,
-                          "toutes les reponses sont conditionnelles : il en faut une toujours "
-                          "proposee.");
         }
     } else if (aSuite) {
         noeud.next = exiger(brut, "next", noeud.id, rapport);
@@ -204,44 +223,53 @@ void lireCondition(const Json& brut, DialogueNode& noeud, Rapport& rapport) {
     noeud.whenFalse = exiger(brut, "else", noeud.id, rapport);
 }
 
+/// Un effet d'un noeud d'action, ou rien si son type est inconnu (erreur consignee).
+[[nodiscard]] std::optional<DialogueAction> lireEffet(const Json& effet, const std::string& noeudId,
+                                                      Rapport& rapport) {
+    const auto type = effet.is_object() ? texte(effet, "type") : std::nullopt;
+    DialogueAction action;
+    const char* champ = nullptr;
+    if (type == "setFlag") {
+        action.kind = DialogueActionKind::SetFlag;
+        champ = "flag";
+    } else if (type == "clearFlag") {
+        action.kind = DialogueActionKind::ClearFlag;
+        champ = "flag";
+    } else if (type == "giveItem") {
+        action.kind = DialogueActionKind::GiveItem;
+        champ = "item";
+    } else if (type == "startQuest") {
+        action.kind = DialogueActionKind::StartQuest;
+        champ = "quest";
+    } else {
+        rapport.noeud(noeudId,
+                      "action de type inconnu (setFlag, clearFlag, giveItem, "
+                      "startQuest).");
+        return std::nullopt;
+    }
+    action.target = exiger(effet, champ, noeudId, rapport);
+    if (action.kind != DialogueActionKind::GiveItem) {
+        return action;
+    }
+    if (const auto quantite = effet.find("quantity"); quantite != effet.end()) {
+        if (!quantite->is_number_integer() || quantite->get<int>() < 1) {
+            rapport.noeud(noeudId, "'quantity' doit etre un entier positif.");
+        } else {
+            action.quantity = quantite->get<int>();
+        }
+    }
+    return action;
+}
+
 void lireAction(const Json& brut, DialogueNode& noeud, Rapport& rapport) {
     const auto effets = brut.find("actions");
     if (effets == brut.end() || !effets->is_array() || effets->empty()) {
         rapport.noeud(noeud.id, "'actions' absent, vide ou non tableau.");
     } else {
         for (const Json& effet : *effets) {
-            const auto type = effet.is_object() ? texte(effet, "type") : std::nullopt;
-            DialogueAction action;
-            const char* champ = nullptr;
-            if (type == "setFlag") {
-                action.kind = DialogueActionKind::SetFlag;
-                champ = "flag";
-            } else if (type == "clearFlag") {
-                action.kind = DialogueActionKind::ClearFlag;
-                champ = "flag";
-            } else if (type == "giveItem") {
-                action.kind = DialogueActionKind::GiveItem;
-                champ = "item";
-            } else if (type == "startQuest") {
-                action.kind = DialogueActionKind::StartQuest;
-                champ = "quest";
-            } else {
-                rapport.noeud(noeud.id,
-                              "action de type inconnu (setFlag, clearFlag, giveItem, "
-                              "startQuest).");
-                continue;
+            if (std::optional<DialogueAction> action = lireEffet(effet, noeud.id, rapport)) {
+                noeud.actions.push_back(std::move(*action));
             }
-            action.target = exiger(effet, champ, noeud.id, rapport);
-            if (action.kind == DialogueActionKind::GiveItem) {
-                if (const auto quantite = effet.find("quantity"); quantite != effet.end()) {
-                    if (!quantite->is_number_integer() || quantite->get<int>() < 1) {
-                        rapport.noeud(noeud.id, "'quantity' doit etre un entier positif.");
-                    } else {
-                        action.quantity = quantite->get<int>();
-                    }
-                }
-            }
-            noeud.actions.push_back(std::move(action));
         }
     }
     noeud.next = exiger(brut, "next", noeud.id, rapport);
@@ -297,27 +325,26 @@ void lireJet(const Json& brut, DialogueNode& noeud, Rapport& rapport) {
     return noeud.kind == DialogueNodeKind::Line && !noeud.choices.empty();
 }
 
-/**
- * Les controles de graphe, sur un graphe dont chaque noeud est lu et chaque cible existe. Les
- * faire sur un graphe incomplet produirait des orphelins et des impasses qui ne sont que l'ombre
- * d'une cible mal orthographiee.
- */
-void controlerLeGraphe(const DialogueGraph& graphe, Rapport& rapport) {
-    std::map<std::string, std::size_t, std::less<>> indices;
-    for (std::size_t i = 0; i < graphe.nodes.size(); ++i) {
-        indices.emplace(graphe.nodes[i].id, i);
-    }
-    const auto indiceDe = [&indices](const std::string& id) { return indices.find(id)->second; };
+/// Indice de chaque noeud du graphe, par identifiant.
+using IndicesDeNoeuds = std::map<std::string, std::size_t, std::less<>>;
 
-    // Orphelins : ce que rien n'atteint depuis l'entree.
+/// Indice d'un noeud dont l'existence est deja controlee.
+[[nodiscard]] std::size_t indiceDe(const IndicesDeNoeuds& indices, const std::string& id) {
+    return indices.find(id)->second;
+}
+
+/// Orphelins : ce que rien n'atteint depuis l'entree. @return Les noeuds atteints.
+[[nodiscard]] std::vector<bool> signalerLesOrphelins(const DialogueGraph& graphe,
+                                                     const IndicesDeNoeuds& indices,
+                                                     Rapport& rapport) {
     std::vector<bool> atteint(graphe.nodes.size(), false);
-    std::vector<std::size_t> pile{indiceDe(graphe.start)};
+    std::vector<std::size_t> pile{indiceDe(indices, graphe.start)};
     atteint[pile.back()] = true;
     while (!pile.empty()) {
         const std::size_t i = pile.back();
         pile.pop_back();
         for (const std::string* cible : ciblesDe(graphe.nodes[i])) {
-            const std::size_t j = indiceDe(*cible);
+            const std::size_t j = indiceDe(indices, *cible);
             if (!atteint[j]) {
                 atteint[j] = true;
                 pile.push_back(j);
@@ -330,54 +357,68 @@ void controlerLeGraphe(const DialogueGraph& graphe, Rapport& rapport) {
                           "orphelin : aucun chemin ne l'atteint depuis '" + graphe.start + "'.");
         }
     }
+    return atteint;
+}
 
-    // Cycles non intentionnels : une boucle qui ne traverse aucun arret. Parcours en profondeur
-    // restreint aux noeuds qui ne sont pas des arrets -- une arete vers un arret termine le chemin.
-    enum class Couleur { Blanc, Gris, Noir };
-    std::vector<Couleur> couleurs(graphe.nodes.size(), Couleur::Blanc);
+/// La trace d'un cycle : le chemin depuis la premiere occurrence de @p j, puis @p j.
+[[nodiscard]] std::string traceDuCycle(const DialogueGraph& graphe,
+                                       const std::vector<std::size_t>& chemin, std::size_t j) {
+    const auto debut = std::ranges::find(chemin, j);
+    std::string trace;
+    for (auto k = debut; k != chemin.end(); ++k) {
+        trace += graphe.nodes[*k].id + " -> ";
+    }
+    trace += graphe.nodes[j].id;
+    return trace;
+}
+
+/// Cycles non intentionnels : une boucle qui ne traverse aucun arret. Parcours en profondeur
+/// restreint aux noeuds qui ne sont pas des arrets -- une arete vers un arret termine le chemin.
+void signalerLesCycles(const DialogueGraph& graphe, const IndicesDeNoeuds& indices,
+                       Rapport& rapport) {
+    enum class Couleur : std::uint8_t { BLANC, GRIS, NOIR };
+    std::vector<Couleur> couleurs(graphe.nodes.size(), Couleur::BLANC);
     std::vector<std::size_t> chemin;
     std::set<std::string> dejaSignales;
     const std::function<void(std::size_t)> visiter = [&](std::size_t i) {
-        couleurs[i] = Couleur::Gris;
+        couleurs[i] = Couleur::GRIS;
         chemin.push_back(i);
         for (const std::string* cible : ciblesDe(graphe.nodes[i])) {
-            const std::size_t j = indiceDe(*cible);
+            const std::size_t j = indiceDe(indices, *cible);
             if (estUnArret(graphe.nodes[j])) {
                 continue;
             }
-            if (couleurs[j] == Couleur::Gris) {
-                const auto debut = std::ranges::find(chemin, j);
-                std::string trace;
-                for (auto k = debut; k != chemin.end(); ++k) {
-                    trace += graphe.nodes[*k].id + " -> ";
-                }
-                trace += graphe.nodes[j].id;
-                if (dejaSignales.insert(graphe.nodes[j].id).second) {
-                    rapport.noeud(graphe.nodes[j].id,
-                                  "cycle non intentionnel, sans reponse a donner : " + trace + ".");
-                }
-            } else if (couleurs[j] == Couleur::Blanc) {
+            if (couleurs[j] == Couleur::BLANC) {
                 visiter(j);
+            } else if (couleurs[j] == Couleur::GRIS &&
+                       dejaSignales.insert(graphe.nodes[j].id).second) {
+                rapport.noeud(graphe.nodes[j].id,
+                              "cycle non intentionnel, sans reponse a donner : " +
+                                  traceDuCycle(graphe, chemin, j) + ".");
             }
         }
         chemin.pop_back();
-        couleurs[i] = Couleur::Noir;
+        couleurs[i] = Couleur::NOIR;
     };
     for (std::size_t i = 0; i < graphe.nodes.size(); ++i) {
-        if (couleurs[i] == Couleur::Blanc && !estUnArret(graphe.nodes[i])) {
+        if (couleurs[i] == Couleur::BLANC && !estUnArret(graphe.nodes[i])) {
             visiter(i);
         }
     }
+}
 
-    // Impasses : les noeuds atteints d'ou aucune fin n'est atteignable. Parcours inverse depuis
-    // les fins.
+/// Impasses : les noeuds atteints d'ou aucune fin n'est atteignable. Parcours inverse depuis
+/// les fins.
+void signalerLesImpasses(const DialogueGraph& graphe, const IndicesDeNoeuds& indices,
+                         const std::vector<bool>& atteint, Rapport& rapport) {
     std::vector<std::vector<std::size_t>> predecesseurs(graphe.nodes.size());
     for (std::size_t i = 0; i < graphe.nodes.size(); ++i) {
         for (const std::string* cible : ciblesDe(graphe.nodes[i])) {
-            predecesseurs[indiceDe(*cible)].push_back(i);
+            predecesseurs[indiceDe(indices, *cible)].push_back(i);
         }
     }
     std::vector<bool> menaUneFin(graphe.nodes.size(), false);
+    std::vector<std::size_t> pile;
     for (std::size_t i = 0; i < graphe.nodes.size(); ++i) {
         if (graphe.nodes[i].kind == DialogueNodeKind::End) {
             menaUneFin[i] = true;
@@ -399,6 +440,21 @@ void controlerLeGraphe(const DialogueGraph& graphe, Rapport& rapport) {
             rapport.noeud(graphe.nodes[i].id, "impasse : aucune fin n'est atteignable d'ici.");
         }
     }
+}
+
+/**
+ * Les controles de graphe, sur un graphe dont chaque noeud est lu et chaque cible existe. Les
+ * faire sur un graphe incomplet produirait des orphelins et des impasses qui ne sont que l'ombre
+ * d'une cible mal orthographiee.
+ */
+void controlerLeGraphe(const DialogueGraph& graphe, Rapport& rapport) {
+    IndicesDeNoeuds indices;
+    for (std::size_t i = 0; i < graphe.nodes.size(); ++i) {
+        indices.emplace(graphe.nodes[i].id, i);
+    }
+    const std::vector<bool> atteint = signalerLesOrphelins(graphe, indices, rapport);
+    signalerLesCycles(graphe, indices, rapport);
+    signalerLesImpasses(graphe, indices, atteint, rapport);
 }
 
 [[nodiscard]] std::vector<std::filesystem::path> fichiersJson(const std::filesystem::path& dossier,
@@ -488,6 +544,125 @@ std::string questStartedFlag(std::string_view questId) {
 
 // ---------------------------------------------------------------------------------------------
 
+namespace {
+
+/// Les langues et l'attitude de l'interlocuteur (`speaker`).
+void lireInterlocuteur(const Json& racine, DialogueGraph& graphe, Rapport& rapport) {
+    const auto interlocuteur = racine.find("speaker");
+    if (interlocuteur == racine.end() || !interlocuteur->is_object()) {
+        rapport.document("champ 'speaker' absent ou non objet.");
+        return;
+    }
+    const auto langues = interlocuteur->find("languages");
+    if (langues == interlocuteur->end() || !langues->is_array() || langues->empty()) {
+        // Sans langue declaree, « refuse faute de langue commune » ne se deciderait jamais :
+        // le PNJ parlerait a tout le monde, ce que `EX-RPG-042` interdit de supposer.
+        rapport.document(
+            "'speaker.languages' absent ou vide : un PNJ parle au moins une "
+            "langue.");
+    } else {
+        for (const Json& langue : *langues) {
+            if (langue.is_string() && !langue.get<std::string>().empty()) {
+                graphe.speakerLanguages.push_back(langue.get<std::string>());
+            } else {
+                rapport.document(
+                    "'speaker.languages' contient une valeur qui n'est pas un "
+                    "identifiant.");
+            }
+        }
+    }
+    if (const auto attitude = interlocuteur->find("attitude"); attitude != interlocuteur->end()) {
+        const auto lue =
+            attitude->is_string() ? attitudeDepuis(attitude->get<std::string>()) : std::nullopt;
+        if (lue) {
+            graphe.attitude = *lue;
+        } else {
+            rapport.document("'speaker.attitude' inconnue (friendly, indifferent, hostile).");
+        }
+    }
+}
+
+/// Un noeud du graphe, ou rien s'il est inutilisable (erreur consignee).
+[[nodiscard]] std::optional<DialogueNode> lireNoeud(const Json& brut, std::set<std::string>& vus,
+                                                    Rapport& rapport) {
+    if (!brut.is_object()) {
+        rapport.document("un noeud n'est pas un objet.");
+        return std::nullopt;
+    }
+    DialogueNode noeud;
+    if (const auto id = texte(brut, "id")) {
+        noeud.id = *id;
+    } else {
+        rapport.document("un noeud n'a pas d'identifiant.");
+        return std::nullopt;
+    }
+    if (!vus.insert(noeud.id).second) {
+        rapport.noeud(noeud.id, "identifiant en double.");
+        return std::nullopt;
+    }
+    const auto type = texte(brut, "type");
+    const auto nature = type ? natureDepuis(*type) : std::nullopt;
+    if (!nature) {
+        rapport.noeud(noeud.id, "type inconnu (line, condition, action, check, end) : '" +
+                                    type.value_or("") + "'.");
+        return std::nullopt;
+    }
+    noeud.kind = *nature;
+    switch (noeud.kind) {
+        case DialogueNodeKind::Line:
+            lireReplique(brut, noeud, rapport);
+            break;
+        case DialogueNodeKind::Condition:
+            lireCondition(brut, noeud, rapport);
+            break;
+        case DialogueNodeKind::Action:
+            lireAction(brut, noeud, rapport);
+            break;
+        case DialogueNodeKind::Check:
+            lireJet(brut, noeud, rapport);
+            break;
+        case DialogueNodeKind::End:
+            break;
+    }
+    return noeud;
+}
+
+/// Les noeuds du graphe (`nodes`).
+void lireNoeuds(const Json& racine, DialogueGraph& graphe, Rapport& rapport) {
+    const auto noeuds = racine.find("nodes");
+    if (noeuds == racine.end() || !noeuds->is_array() || noeuds->empty()) {
+        rapport.document("champ 'nodes' absent, vide ou non tableau.");
+        return;
+    }
+    std::set<std::string> vus;
+    for (const Json& brut : *noeuds) {
+        if (std::optional<DialogueNode> noeud = lireNoeud(brut, vus, rapport)) {
+            graphe.nodes.push_back(std::move(*noeud));
+        }
+    }
+}
+
+/// Les cibles, une fois tous les noeuds connus.
+void controlerLesCibles(const DialogueGraph& graphe, Rapport& rapport) {
+    if (!graphe.start.empty() && !graphe.nodes.empty() && graphe.find(graphe.start) == nullptr) {
+        rapport.document("noeud cible inconnu : l'entree 'start' nomme '" + graphe.start + "'.");
+    }
+    for (const DialogueNode& noeud : graphe.nodes) {
+        for (const std::string* cible : ciblesDe(noeud)) {
+            if (!cible->empty() && graphe.find(*cible) == nullptr) {
+                rapport.noeud(noeud.id, "noeud cible inconnu : '" + *cible + "'.");
+            }
+        }
+    }
+    const bool fin = std::ranges::any_of(
+        graphe.nodes, [](const DialogueNode& n) { return n.kind == DialogueNodeKind::End; });
+    if (!graphe.nodes.empty() && !fin) {
+        rapport.document("aucun noeud 'end' : la conversation ne pourrait pas se terminer.");
+    }
+}
+
+}  // namespace
+
 DialogueLoad readDialogue(std::string_view json, std::string_view origin) {
     DialogueLoad resultat;
     Rapport rapport(origin);
@@ -511,105 +686,9 @@ DialogueLoad readDialogue(std::string_view json, std::string_view origin) {
         rapport.document("champ 'start' absent ou vide.");
     }
 
-    const auto interlocuteur = racine.find("speaker");
-    if (interlocuteur == racine.end() || !interlocuteur->is_object()) {
-        rapport.document("champ 'speaker' absent ou non objet.");
-    } else {
-        const auto langues = interlocuteur->find("languages");
-        if (langues == interlocuteur->end() || !langues->is_array() || langues->empty()) {
-            // Sans langue declaree, « refuse faute de langue commune » ne se deciderait jamais :
-            // le PNJ parlerait a tout le monde, ce que `EX-RPG-042` interdit de supposer.
-            rapport.document(
-                "'speaker.languages' absent ou vide : un PNJ parle au moins une "
-                "langue.");
-        } else {
-            for (const Json& langue : *langues) {
-                if (langue.is_string() && !langue.get<std::string>().empty()) {
-                    graphe.speakerLanguages.push_back(langue.get<std::string>());
-                } else {
-                    rapport.document(
-                        "'speaker.languages' contient une valeur qui n'est pas un "
-                        "identifiant.");
-                }
-            }
-        }
-        if (const auto attitude = interlocuteur->find("attitude");
-            attitude != interlocuteur->end()) {
-            const auto lue =
-                attitude->is_string() ? attitudeDepuis(attitude->get<std::string>()) : std::nullopt;
-            if (lue) {
-                graphe.attitude = *lue;
-            } else {
-                rapport.document("'speaker.attitude' inconnue (friendly, indifferent, hostile).");
-            }
-        }
-    }
-
-    const auto noeuds = racine.find("nodes");
-    if (noeuds == racine.end() || !noeuds->is_array() || noeuds->empty()) {
-        rapport.document("champ 'nodes' absent, vide ou non tableau.");
-    } else {
-        std::set<std::string> vus;
-        for (const Json& brut : *noeuds) {
-            if (!brut.is_object()) {
-                rapport.document("un noeud n'est pas un objet.");
-                continue;
-            }
-            DialogueNode noeud;
-            if (const auto id = texte(brut, "id")) {
-                noeud.id = *id;
-            } else {
-                rapport.document("un noeud n'a pas d'identifiant.");
-                continue;
-            }
-            if (!vus.insert(noeud.id).second) {
-                rapport.noeud(noeud.id, "identifiant en double.");
-                continue;
-            }
-            const auto type = texte(brut, "type");
-            const auto nature = type ? natureDepuis(*type) : std::nullopt;
-            if (!nature) {
-                rapport.noeud(noeud.id, "type inconnu (line, condition, action, check, end) : '" +
-                                            type.value_or("") + "'.");
-                continue;
-            }
-            noeud.kind = *nature;
-            switch (noeud.kind) {
-                case DialogueNodeKind::Line:
-                    lireReplique(brut, noeud, rapport);
-                    break;
-                case DialogueNodeKind::Condition:
-                    lireCondition(brut, noeud, rapport);
-                    break;
-                case DialogueNodeKind::Action:
-                    lireAction(brut, noeud, rapport);
-                    break;
-                case DialogueNodeKind::Check:
-                    lireJet(brut, noeud, rapport);
-                    break;
-                case DialogueNodeKind::End:
-                    break;
-            }
-            graphe.nodes.push_back(std::move(noeud));
-        }
-    }
-
-    // Les cibles, une fois tous les noeuds connus.
-    if (!graphe.start.empty() && !graphe.nodes.empty() && graphe.find(graphe.start) == nullptr) {
-        rapport.document("noeud cible inconnu : l'entree 'start' nomme '" + graphe.start + "'.");
-    }
-    for (const DialogueNode& noeud : graphe.nodes) {
-        for (const std::string* cible : ciblesDe(noeud)) {
-            if (!cible->empty() && graphe.find(*cible) == nullptr) {
-                rapport.noeud(noeud.id, "noeud cible inconnu : '" + *cible + "'.");
-            }
-        }
-    }
-    const bool fin = std::ranges::any_of(
-        graphe.nodes, [](const DialogueNode& n) { return n.kind == DialogueNodeKind::End; });
-    if (!graphe.nodes.empty() && !fin) {
-        rapport.document("aucun noeud 'end' : la conversation ne pourrait pas se terminer.");
-    }
+    lireInterlocuteur(racine, graphe, rapport);
+    lireNoeuds(racine, graphe, rapport);
+    controlerLesCibles(graphe, rapport);
 
     if (rapport.vide()) {
         controlerLeGraphe(graphe, rapport);
@@ -632,13 +711,39 @@ DialogueLoad loadDialogue(const std::filesystem::path& path) {
     return readDialogue(lu.root.dump(), path.string());
 }
 
+namespace {
+
+/// Les references d'un noeud (competence, degre, objet) vers les catalogues du jeu.
+void verifierLesReferencesDuNoeud(const DialogueNode& noeud, const std::string& dialogueId,
+                                  const DialogueReferences& references,
+                                  std::vector<std::string>& erreurs) {
+    const auto signaler = [&](const std::string& message) {
+        erreurs.push_back("dialogue '" + dialogueId + "' : noeud '" + noeud.id + "' : " + message);
+    };
+    if (noeud.kind == DialogueNodeKind::Check) {
+        if (references.skills != nullptr && references.skills->find(noeud.skill) == nullptr) {
+            signaler("competence inconnue '" + noeud.skill + "'.");
+        }
+        if (references.difficulty != nullptr &&
+            references.difficulty->find(noeud.difficulty) == nullptr) {
+            signaler("degre de difficulte inconnu '" + noeud.difficulty + "'.");
+        }
+    }
+    if (noeud.kind != DialogueNodeKind::Action || !references.itemExists) {
+        return;
+    }
+    for (const DialogueAction& action : noeud.actions) {
+        if (action.kind == DialogueActionKind::GiveItem && !references.itemExists(action.target)) {
+            signaler("objet inconnu '" + action.target + "'.");
+        }
+    }
+}
+
+}  // namespace
+
 std::vector<std::string> validateDialogueReferences(const DialogueGraph& graph,
                                                     const DialogueReferences& references) {
     std::vector<std::string> erreurs;
-    const auto signaler = [&](std::string_view noeud, const std::string& message) {
-        erreurs.push_back("dialogue '" + graph.id + "' : noeud '" + std::string(noeud) +
-                          "' : " + message);
-    };
     if (references.languageExists) {
         for (const std::string& langue : graph.speakerLanguages) {
             if (!references.languageExists(langue)) {
@@ -648,23 +753,7 @@ std::vector<std::string> validateDialogueReferences(const DialogueGraph& graph,
         }
     }
     for (const DialogueNode& noeud : graph.nodes) {
-        if (noeud.kind == DialogueNodeKind::Check) {
-            if (references.skills != nullptr && references.skills->find(noeud.skill) == nullptr) {
-                signaler(noeud.id, "competence inconnue '" + noeud.skill + "'.");
-            }
-            if (references.difficulty != nullptr &&
-                references.difficulty->find(noeud.difficulty) == nullptr) {
-                signaler(noeud.id, "degre de difficulte inconnu '" + noeud.difficulty + "'.");
-            }
-        }
-        if (noeud.kind == DialogueNodeKind::Action && references.itemExists) {
-            for (const DialogueAction& action : noeud.actions) {
-                if (action.kind == DialogueActionKind::GiveItem &&
-                    !references.itemExists(action.target)) {
-                    signaler(noeud.id, "objet inconnu '" + action.target + "'.");
-                }
-            }
-        }
+        verifierLesReferencesDuNoeud(noeud, graph.id, references, erreurs);
     }
     return erreurs;
 }

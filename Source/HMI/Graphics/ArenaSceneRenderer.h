@@ -134,10 +134,10 @@ public:
      * @param commandBuffer    Tampon de commandes de l'image.
      * @param target           Cible de rendu ; sa taille en pixels fixe le cadrage.
      * @param realDeltaSeconds Temps écoulé depuis l'image précédente, pour l'animation.
-     * @param clear            Couleur d'effacement, composantes `[0, 1]`.
+     * @param clear            Couleur d'effacement : quatre composantes RGBA `[0, 1]`.
      */
     void render(QRhiCommandBuffer* commandBuffer, QRhiRenderTarget* target, float realDeltaSeconds,
-                const float clear[4]);
+                const float* clear);
 
     /// @return Vrai si une figurine est à l'écran : l'image suivante doit être demandée.
     [[nodiscard]] bool animating() const noexcept {

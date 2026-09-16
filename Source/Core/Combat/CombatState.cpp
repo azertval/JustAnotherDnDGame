@@ -104,22 +104,33 @@ bool CombatState::start(DeterministicRandom& random) {
     }
     _phase = CombatPhase::Starting;
     _advancePending = true;
-    dispatch({.hook = CombatHook::BeforeFirstTurn, .round = 0});
+    dispatch({.hook = CombatHook::BeforeFirstTurn,
+              .round = 0,
+              .combatant = std::nullopt,
+              .target = std::nullopt,
+              .marker = {}});
     return true;
 }
 
 // --- Lecture ---------------------------------------------------------------------------------
 
-const Combatant* CombatState::find(CombatantId combatant) const {
+namespace {
+
+/// L'identifiant vaut sa position plus un : la même recherche, constante ou non.
+template <typename Combatants>
+auto* findIn(Combatants& combatants, CombatantId combatant) {
     const auto index = static_cast<std::size_t>(combatant);
-    if (index == 0 || index > _combatants.size()) {
-        return nullptr;
-    }
-    return &_combatants[index - 1];
+    return index == 0 || index > combatants.size() ? nullptr : &combatants[index - 1];
+}
+
+}  // namespace
+
+const Combatant* CombatState::find(CombatantId combatant) const {
+    return findIn(_combatants, combatant);
 }
 
 Combatant* CombatState::findMutable(CombatantId combatant) {
-    return const_cast<Combatant*>(std::as_const(*this).find(combatant));
+    return findIn(_combatants, combatant);
 }
 
 std::vector<CombatantId> CombatState::combatants() const {
@@ -209,7 +220,8 @@ bool CombatState::declareAttack(CombatantId attacker, CombatantId target) {
     dispatch({.hook = CombatHook::AttackDeclared,
               .round = _round,
               .combatant = attacker,
-              .target = target});
+              .target = target,
+              .marker = {}});
     return true;
 }
 
@@ -229,7 +241,11 @@ EnlistResult CombatState::join(CombatantProfile profile, GridPosition anchor,
     if (!joined.profile.floating) {
         rollInitiative(joined, random);
     }
-    dispatch({.hook = CombatHook::CombatantJoined, .round = _round, .combatant = result.combatant});
+    dispatch({.hook = CombatHook::CombatantJoined,
+              .round = _round,
+              .combatant = result.combatant,
+              .target = std::nullopt,
+              .marker = {}});
     return result;
 }
 
@@ -247,7 +263,11 @@ EnlistResult CombatState::joinAtInitiative(CombatantProfile profile, GridPositio
     if (!joined.profile.floating) {
         takeFixedInitiative(joined, initiative);
     }
-    dispatch({.hook = CombatHook::CombatantJoined, .round = _round, .combatant = result.combatant});
+    dispatch({.hook = CombatHook::CombatantJoined,
+              .round = _round,
+              .combatant = result.combatant,
+              .target = std::nullopt,
+              .marker = {}});
     return result;
 }
 
@@ -264,7 +284,11 @@ WithdrawResult CombatState::withdraw(CombatantId combatant) {
     static_cast<void>(_grid.remove(combatant));
     static_cast<void>(_order.remove(combatant));
     std::erase(_interjections, combatant);
-    dispatch({.hook = CombatHook::CombatantLeft, .round = _round, .combatant = combatant});
+    dispatch({.hook = CombatHook::CombatantLeft,
+              .round = _round,
+              .combatant = combatant,
+              .target = std::nullopt,
+              .marker = {}});
     return WithdrawResult::Withdrawn;
 }
 
@@ -347,7 +371,8 @@ EnlistResult CombatState::admit(CombatantProfile profile, std::optional<GridPosi
                            .status = status,
                            .economy = ActionEconomy::standard(movement),
                            .initiativeRoll = std::nullopt,
-                           .actedThisRound = false});
+                           .actedThisRound = false,
+                           .reserves = {}});
     return {.combatant = id, .placement = PlacementResult::Placed};
 }
 
@@ -465,24 +490,35 @@ bool CombatState::reachEndIfDecided() {
     _active.reset();
     _interjections.clear();
     _advancePending = false;
-    dispatch({.hook = CombatHook::CombatEnded, .round = _round});
+    dispatch({.hook = CombatHook::CombatEnded,
+              .round = _round,
+              .combatant = std::nullopt,
+              .target = std::nullopt,
+              .marker = {}});
     _counters.clear(CounterScope::Turn);
     _counters.clear(CounterScope::Round);
     _counters.clear(CounterScope::Encounter);
     return true;
 }
 
-void CombatState::step() {
-    _advancePending = false;
-
+bool CombatState::startInterjection() {
     while (!_interjections.empty()) {
         const CombatantId actor = _interjections.front();
         _interjections.pop_front();
         const Combatant* found = find(actor);
         if (found != nullptr && found->status == CombatantStatus::Standing) {
             startTurn(actor);
-            return;
+            return true;
         }
+    }
+    return false;
+}
+
+void CombatState::step() {
+    _advancePending = false;
+
+    if (startInterjection()) {
+        return;
     }
 
     std::optional<TurnSlot> next;
@@ -520,7 +556,11 @@ void CombatState::step() {
         _counters.clear(CounterScope::Round);
         _phase = CombatPhase::RoundStart;
         _advancePending = true;
-        dispatch({.hook = CombatHook::RoundStart, .round = _round});
+        dispatch({.hook = CombatHook::RoundStart,
+                  .round = _round,
+                  .combatant = std::nullopt,
+                  .target = std::nullopt,
+                  .marker = {}});
         return;
     }
 
@@ -528,8 +568,11 @@ void CombatState::step() {
     _advancePending = true;
     if (!next->entry.has_value()) {
         _phase = CombatPhase::RoundStart;
-        dispatch(
-            {.hook = CombatHook::InitiativeCount, .round = _round, .marker = next->marker.name});
+        dispatch({.hook = CombatHook::InitiativeCount,
+                  .round = _round,
+                  .combatant = std::nullopt,
+                  .target = std::nullopt,
+                  .marker = next->marker.name});
         return;
     }
     const Combatant* found = find(next->entry->combatant);
@@ -547,13 +590,21 @@ void CombatState::startTurn(CombatantId combatant) {
     // autre (`EX-CBT-011`).
     actor->economy.refresh();
     _phase = CombatPhase::TurnActive;
-    dispatch({.hook = CombatHook::TurnStart, .round = _round, .combatant = combatant});
+    dispatch({.hook = CombatHook::TurnStart,
+              .round = _round,
+              .combatant = combatant,
+              .target = std::nullopt,
+              .marker = {}});
 }
 
 void CombatState::finishTurn() {
     const CombatantId ending = *_active;
     _phase = CombatPhase::TurnEnd;
-    dispatch({.hook = CombatHook::TurnEnd, .round = _round, .combatant = ending});
+    dispatch({.hook = CombatHook::TurnEnd,
+              .round = _round,
+              .combatant = ending,
+              .target = std::nullopt,
+              .marker = {}});
     _counters.clear(CounterScope::Turn);
     _active.reset();
 }

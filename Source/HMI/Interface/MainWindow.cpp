@@ -107,23 +107,18 @@ constexpr int LAYOUT_VERSION =
 
 // Clés de persistance (portée application ; l'organisation/appli sont fixées dans `main`,
 // HMI/Main.cpp).
-constexpr char GEOMETRY_KEY[] = "mainWindow/geometry";
-constexpr char STATE_KEY[] = "mainWindow/state";
+constexpr const char* GEOMETRY_KEY = "mainWindow/geometry";
+constexpr const char* STATE_KEY = "mainWindow/state";
 // Réglage de mise en avant automatique des panneaux (LOT-57 TACHE-02) : local à MainWindow, pas
 // une extension d'ApplicationTheme.cpp (qui concerne le thème, pas ce comportement).
-constexpr char FOLLOW_ACTIVE_TOOL_KEY[] = "panels/followActiveTool";
+constexpr const char* FOLLOW_ACTIVE_TOOL_KEY = "panels/followActiveTool";
 // Espace de travail actif (LOT-68) : meme portee QSettings que la disposition et le theme.
-constexpr char WORKSPACE_KEY[] = "mainWindow/workspace";
+constexpr const char* WORKSPACE_KEY = "mainWindow/workspace";
 /// Opacite des reperes du mode creation (pelure d'oignon, plans voisins) : assez visible pour
 /// situer, assez efface pour qu'on ne confonde jamais un repere avec ce qu'on peint.
 constexpr float PLANE_REFERENCE_OPACITY = 0.45F;
 // Reglage "contraindre a la palette" de l'atelier pixel art (LOT-54 TACHE-07).
-constexpr char CONSTRAIN_TO_PALETTE_KEY[] = "pixelEditor/constrainToPalette";
-
-// Personnage de demonstration affiche par l'ecran de fiche (LOT-38). Un seul litteral, et il est
-// PROVISOIRE : le groupe du LOT-29 et la sauvegarde du LOT-17 diront quel personnage la fiche
-// montre, et cette constante disparaitra avec eux. La nommer ici rend ce provisoire visible.
-constexpr char DEMONSTRATION_CHARACTER_FILE[] = "demonstration-brenna.json";
+constexpr const char* CONSTRAIN_TO_PALETTE_KEY = "pixelEditor/constrainToPalette";
 
 }  // namespace
 
@@ -530,7 +525,7 @@ void MainWindow::connectPlanesPanel() {
             });
 }
 
-std::filesystem::path MainWindow::planesDirectory() const {
+std::filesystem::path MainWindow::planesDirectory() {
     return hmi::executableDirectory() / "Levels" / "Plans";
 }
 
@@ -875,6 +870,17 @@ void MainWindow::buildUi() {
     _pixelPalettePanel = new PixelPalettePanel(_ui->PixelPalettePanel);
     _ui->PixelPalettePanel->setWidget(_pixelPalettePanel);
 
+    groupDockPanels();
+    connectToolActions();
+    buildPixelPalette();
+    connectPixelCommands();
+    connectEditorCommands();
+    buildThemeMenu();
+    buildViewMenu();
+    buildStatusBar();
+}
+
+void MainWindow::groupDockPanels() {
     // Regroupement par defaut des panneaux Niveaux/Liens/Atelier/Historique/Palette en onglets
     // (LOT-57 TACHE-02, etendu LOT-54 TACHE-04/TACHE-07) : chacun reste individuellement
     // deplacable/detachable/refermable (EX-IHM-010), seule la disposition par defaut change.
@@ -902,7 +908,9 @@ void MainWindow::buildUi() {
         });
         connect(dock, &QDockWidget::topLevelChanged, this, [this](bool) { _userPickedTab = true; });
     }
+}
 
+void MainWindow::connectToolActions() {
     // Outils de niveau : la liste est DERIVEE du catalogue, jamais recopiee ici. C'est ce qui
     // garantit qu'un outil ajoute au catalogue est relie au viewport par construction -- une
     // liste ecrite a la main le rendrait cochable dans la barre d'outils sans le brancher, et
@@ -969,7 +977,9 @@ void MainWindow::buildUi() {
     connect(_pixelHistoryPanel, &PixelHistoryPanel::jumpRequested, _pixelCanvas,
             &PixelCanvas::jumpHistoryTo);
     _pixelHistoryPanel->refresh(_pixelCanvas->history());  // etat initial (historique vide).
+}
 
+void MainWindow::buildPixelPalette() {
     // Palette de projet de l'atelier pixel art (LOT-54 TACHE-07) : donnee d'auteur persistee dans
     // Assets/palettes.json, distincte des jetons de design (epic.md, decision de cadrage).
     _pixelPalette =
@@ -1045,7 +1055,9 @@ void MainWindow::buildUi() {
                 _pixelCanvas->setCurrentColor(color);
                 refreshStatusHelp();
             });
+}
 
+void MainWindow::connectPixelCommands() {
     // Commandes de fichier de l'atelier pixel art (LOT-54 TACHE-05).
     connect(_actions->action(hmi::IconId::PixelOpen), &QAction::triggered, this,
             [this] { openPixelAssetOpenDialog(); });
@@ -1079,7 +1091,9 @@ void MainWindow::buildUi() {
     _pixelMenu->addAction(_actions->action(hmi::IconId::PixelFlipVertical));
     _pixelMenu->addAction(_actions->action(hmi::IconId::PixelRotateClockwise));
     _pixelMenu->addAction(_actions->action(hmi::IconId::PixelRotateCounterClockwise));
+}
 
+void MainWindow::connectEditorCommands() {
     // Ctrl+S ecrit ce que l'espace courant edite : le PNG du plan en mode creation, le JSON du
     // niveau partout ailleurs (LOT-69 TACHE-08). Deux notions de « modifie » distinctes depuis le
     // LOT-54 -- le canevas et le brouillon -- donc deux enregistrements distincts.
@@ -1157,7 +1171,9 @@ void MainWindow::buildUi() {
         _userPickedTab =
             false;  // repart sur la mise en avant automatique, disposition remise a neuf.
     });
+}
 
+void MainWindow::buildThemeMenu() {
     // Thème clair/sombre de l'éditeur (LOT-56 TACHE-06) : réglage Système/Clair/Sombre, persisté,
     // sans effet sur l'identité du jeu (menu principal/Options), qui reste toujours sombre.
     _themeMenu = _ui->themeMenu;
@@ -1202,6 +1218,9 @@ void MainWindow::buildUi() {
                     _actions->refreshIcons(hmi::currentEditorTokens());
                 }
             });
+}
+
+void MainWindow::buildViewMenu() {
     // Commandes de VUE, en tete du menu Affichage : ce sont les seules qui agissent tout de
     // suite ; tout le reste du menu est un reglage, range en sous-menu.
     QAction* const firstViewSeparator = _ui->viewMenu->actions().constFirst();
@@ -1255,13 +1274,13 @@ void MainWindow::buildUi() {
         hmi::RenderLayer::Background, hmi::RenderLayer::Plane,  hmi::RenderLayer::Shadow,
         hmi::RenderLayer::Tile,       hmi::RenderLayer::Object, hmi::RenderLayer::Player,
         hmi::RenderLayer::Foreground};
-    const std::array<QAction*, 7> LAYER_ACTIONS{_ui->actLayerBackground, _ui->actLayerPlaneBehind,
-                                                _ui->actLayerShadow,     _ui->actLayerTileSkin,
-                                                _ui->actLayerObjects,    _ui->actLayerPlayer,
-                                                _ui->actLayerPlaneFront};
+    const std::array<QAction*, 7> layerActions{_ui->actLayerBackground, _ui->actLayerPlaneBehind,
+                                               _ui->actLayerShadow,     _ui->actLayerTileSkin,
+                                               _ui->actLayerObjects,    _ui->actLayerPlayer,
+                                               _ui->actLayerPlaneFront};
     for (std::size_t i = 0; i < LAYER_ORDER.size(); ++i) {
         const hmi::RenderLayer layer = LAYER_ORDER[i];
-        QAction* const act = LAYER_ACTIONS[i];
+        QAction* const act = layerActions[i];
         connect(act, &QAction::toggled, _viewport,
                 [this, layer](bool checked) { _viewport->setLayerVisible(layer, checked); });
         _layerVisibilityActions[i] = act;
@@ -1279,7 +1298,9 @@ void MainWindow::buildUi() {
     // Bascule Physique/Texture : posee plus haut avec les autres commandes de vue (LOT-68). Elle
     // n'apparait plus qu'a CET endroit -- elle figurait jusqu'ici trois fois (barre d'outils, menu
     // Niveau, menu Affichage), ce qui obligeait a deviner laquelle faisait autorite.
+}
 
+void MainWindow::buildStatusBar() {
     // Barre d'état structurée (LOT-57 TACHE-01) : zones permanentes, ajoutées via
     // addPermanentWidget -- jamais recouvertes par un message transitoire (showMessage), à
     // l'inverse de l'ancienne chaîne unique `status.edit_help`. Largeur minimale sur les zones qui
@@ -1475,21 +1496,21 @@ void MainWindow::applyWorkspace(EditorWorkspace workspace) {
     const hmi::WorkspaceDressing dressing = hmi::dressingForWorkspace(workspace);
     // L'editeur est TOUJOURS en edition depuis le LOT-86 : il n'a plus d'autre etat a etre. Cette
     // condition interrogeait la machine a etats des ecrans, qui appartient desormais au jeu.
-    constexpr bool toolBarsAllowed = true;
-    _toolBar->setVisible(dressing.levelToolBarVisible && toolBarsAllowed);
-    _pixelToolBar->setVisible(dressing.pixelToolBarVisible && toolBarsAllowed);
+    constexpr bool TOOL_BARS_ALLOWED = true;
+    _toolBar->setVisible(dressing.levelToolBarVisible && TOOL_BARS_ALLOWED);
+    _pixelToolBar->setVisible(dressing.pixelToolBarVisible && TOOL_BARS_ALLOWED);
     _pixelMenu->menuAction()->setVisible(dressing.workshopMenuVisible);
 
     // Panneaux : la table decide, la fenetre applique. Aucune condition ecrite en dur sur un dock.
-    const auto PANELS = workspacePanels();
-    constexpr bool editing = true;
-    for (const auto& [dock, panel] : PANELS) {
+    const auto panels = workspacePanels();
+    constexpr bool EDITING = true;
+    for (const auto& [dock, panel] : panels) {
         const bool belongsHere =
             hmi::workspaceMaskContains(hmi::workspacesForPanel(panel), workspace);
         // La bascule de visibilite du menu suit : un panneau d'un autre espace n'a pas a etre
         // proposable depuis celui-ci.
         dock->toggleViewAction()->setVisible(belongsHere);
-        dock->setVisible(belongsHere && editing);
+        dock->setVisible(belongsHere && EDITING);
     }
 
     // Disposition propre a l'espace, si on y est deja venu.
@@ -1498,7 +1519,7 @@ void MainWindow::applyWorkspace(EditorWorkspace workspace) {
         restoreState(state, LAYOUT_VERSION);
         // restoreState reaffiche les docks tels qu'ils etaient enregistres, y compris ceux de
         // l'autre espace si une disposition ancienne en portait : on les remasque.
-        for (const auto& [dock, panel] : PANELS) {
+        for (const auto& [dock, panel] : panels) {
             if (!hmi::workspaceMaskContains(hmi::workspacesForPanel(panel), workspace)) {
                 dock->setVisible(false);
             }
@@ -1681,6 +1702,15 @@ void MainWindow::raisePanel(hmi::PanelId panel) {
         case hmi::PanelId::PixelHistory:
             dock = _ui->PixelHistoryPanel;
             break;
+        // Panneaux qu'aucun outil ne met en avant (hmi::panelForTool/panelForPixelTool ne les
+        // renvoient jamais) : aucun dock designe, comme avant l'enumeration explicite.
+        case hmi::PanelId::Palette:
+        case hmi::PanelId::Planes:
+        case hmi::PanelId::PixelPalette:
+            break;
+    }
+    if (dock == nullptr) {
+        return;  // panneau sans dock propre : rien a mettre au premier plan.
     }
     // raise() met l'onglet au premier plan sans voler le focus clavier au canevas -- une
     // suggestion, jamais une confiscation (ligne rouge de cette tache).

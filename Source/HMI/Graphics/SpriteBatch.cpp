@@ -8,6 +8,7 @@
 #include <QMatrix4x4>
 #include <QSize>
 #include <algorithm>
+#include <array>
 #include <cmath>
 #include <cstdint>
 #include <cstring>
@@ -47,10 +48,10 @@ constexpr int PROJECTION_BYTES = 16 * static_cast<int>(sizeof(float));
 // la ramene a celle du backend (Direct3D 11 sous Windows).
 QMatrix4x4 toClipMatrix(QRhi* rhi, const DirectX::XMFLOAT4X4& projection) {
     const QMatrix4x4 columnMajor(
-        projection.m[0][0], projection.m[1][0], projection.m[2][0], projection.m[3][0],
-        projection.m[0][1], projection.m[1][1], projection.m[2][1], projection.m[3][1],
-        projection.m[0][2], projection.m[1][2], projection.m[2][2], projection.m[3][2],
-        projection.m[0][3], projection.m[1][3], projection.m[2][3], projection.m[3][3]);
+        projection(0, 0), projection(1, 0), projection(2, 0), projection(3, 0),  //
+        projection(0, 1), projection(1, 1), projection(2, 1), projection(3, 1),  //
+        projection(0, 2), projection(1, 2), projection(2, 2), projection(3, 2),  //
+        projection(0, 3), projection(1, 3), projection(2, 3), projection(3, 3));
     return rhi->clipSpaceCorrMatrix() * columnMajor;
 }
 
@@ -277,11 +278,11 @@ void SpriteBatch::draw(const SpriteQuad& quad) {
     // `rotation` radians autour du centre -- a rotation nulle (cosR=1, sinR=0), coincide avec le
     // rectangle aligne d'origine (meme formule que draw(LineQuad), coins pousses dans le meme
     // ordre attendu par le tampon d'indices).
-    const float offsetsX[4] = {-halfWidth, halfWidth, halfWidth, -halfWidth};
-    const float offsetsY[4] = {-halfHeight, -halfHeight, halfHeight, halfHeight};
-    const float us[4] = {quad.u0, quad.u1, quad.u1, quad.u0};
-    const float vs[4] = {quad.v0, quad.v0, quad.v1, quad.v1};
-    for (int i = 0; i < 4; ++i) {
+    const std::array<float, 4> offsetsX = {-halfWidth, halfWidth, halfWidth, -halfWidth};
+    const std::array<float, 4> offsetsY = {-halfHeight, -halfHeight, halfHeight, halfHeight};
+    const std::array<float, 4> us = {quad.u0, quad.u1, quad.u1, quad.u0};
+    const std::array<float, 4> vs = {quad.v0, quad.v0, quad.v1, quad.v1};
+    for (std::size_t i = 0; i < 4; ++i) {
         const float x = centerX + (offsetsX[i] * cosR) - (offsetsY[i] * sinR);
         const float y = centerY + (offsetsX[i] * sinR) + (offsetsY[i] * cosR);
         _vertices.push_back(Vertex{.x = x,
@@ -351,7 +352,7 @@ void SpriteBatch::end() {
 
 // Televerse l'image enregistree et l'emet en une passe de rendu.
 void SpriteBatch::submit(QRhiCommandBuffer* commandBuffer, QRhiRenderTarget* target,
-                         QRhiResourceUpdateBatch* updates, const float clear[4]) {
+                         QRhiResourceUpdateBatch* updates, const float* clear) {
     closeBatch();
 
     const QColor clearColor = QColor::fromRgbF(clear[0], clear[1], clear[2], clear[3]);

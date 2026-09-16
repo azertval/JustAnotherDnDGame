@@ -27,6 +27,26 @@ constexpr int SANS_GARDE_DE_VERSION = 0;
     return (trouve != objet.end() && trouve->is_number_integer()) ? trouve->get<int>() : 0;
 }
 
+/// Les combattants d'une rencontre ; une entree sans creature est signalee puis ignoree.
+void lireCombattants(const nlohmann::json& combattants, const std::filesystem::path& chemin,
+                     Encounter& rencontre, std::vector<std::string>& erreurs) {
+    for (const nlohmann::json& entree : combattants) {
+        if (!entree.is_object()) {
+            continue;
+        }
+        EncounterCombatant combattant;
+        combattant.creatureId = lireTexte(entree, "creatureId");
+        combattant.columnOffset = lireEntier(entree, "columnOffset");
+        combattant.rowOffset = lireEntier(entree, "rowOffset");
+        if (combattant.creatureId.empty()) {
+            erreurs.push_back(chemin.filename().string() +
+                              " : combattant sans identifiant de creature.");
+            continue;
+        }
+        rencontre.combatants.push_back(std::move(combattant));
+    }
+}
+
 }  // namespace
 
 const Encounter* EncounterCatalog::find(std::string_view id) const {
@@ -79,21 +99,7 @@ EncounterCatalog loadEncounters(const std::filesystem::path& encountersDir) {
                                        " : rencontre sans aucun combattant.");
             continue;
         }
-        for (const nlohmann::json& entree : *combattants) {
-            if (!entree.is_object()) {
-                continue;
-            }
-            EncounterCombatant combattant;
-            combattant.creatureId = lireTexte(entree, "creatureId");
-            combattant.columnOffset = lireEntier(entree, "columnOffset");
-            combattant.rowOffset = lireEntier(entree, "rowOffset");
-            if (combattant.creatureId.empty()) {
-                catalogue.errors.push_back(chemin.filename().string() +
-                                           " : combattant sans identifiant de creature.");
-                continue;
-            }
-            rencontre.combatants.push_back(std::move(combattant));
-        }
+        lireCombattants(*combattants, chemin, rencontre, catalogue.errors);
         if (rencontre.combatants.empty()) {
             continue;  // deja signale ci-dessus
         }

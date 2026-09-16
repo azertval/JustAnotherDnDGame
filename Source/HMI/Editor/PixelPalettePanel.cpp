@@ -33,7 +33,7 @@ QColor toQColor(std::uint32_t color) {
 QIcon swatchIcon(std::uint32_t color) {
     QPixmap pixmap(16, 16);
     pixmap.fill(toQColor(color));
-    return QIcon(pixmap);
+    return {pixmap};
 }
 
 }  // namespace

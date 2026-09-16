@@ -14,6 +14,30 @@
 
 namespace hmi {
 
+namespace {
+
+// Decodage d'abord : la validation des dimensions (pure, EX-REN-007) doit s'intercaler entre
+// le decodage et l'upload GPU, sinon un asset de travers est deja devenu une texture. Rend
+// std::nullopt (avec journal) si l'image est illisible ou non conforme.
+std::optional<DecodedImage> decodeValidatedImage(const std::filesystem::path& path,
+                                                 const std::string& fileName, AssetFamily family) {
+    std::optional<DecodedImage> image = decodeImageFile(path);
+    if (!image) {
+        GRAPHICS_LOG_WARNING("Asset " + fileName + " illisible ou format non supporte (" +
+                             path.string() + ").");
+        return std::nullopt;
+    }
+
+    const AssetValidation validation = validateAsset(family, fileName, image->width, image->height);
+    if (!validation.valid) {
+        GRAPHICS_LOG_WARNING(validation.message);
+        return std::nullopt;
+    }
+    return image;
+}
+
+}  // namespace
+
 // Construit un cache vide pour un device et un dossier d'assets donnes.
 TextureCache::TextureCache(const RhiContext& context, AssetPaths paths)
     : _context(context), _paths(std::move(paths)) {}
@@ -29,18 +53,8 @@ std::optional<LoadedTexture> TextureCache::load(const std::string& fileName, Ass
         return std::nullopt;
     }
 
-    // Decodage d'abord : la validation des dimensions (pure, EX-REN-007) doit s'intercaler entre
-    // le decodage et l'upload GPU, sinon un asset de travers est deja devenu une texture.
-    const std::optional<DecodedImage> image = decodeImageFile(*path);
+    const std::optional<DecodedImage> image = decodeValidatedImage(*path, fileName, family);
     if (!image) {
-        GRAPHICS_LOG_WARNING("Asset " + fileName + " illisible ou format non supporte (" +
-                             path->string() + ").");
-        return std::nullopt;
-    }
-
-    const AssetValidation validation = validateAsset(family, fileName, image->width, image->height);
-    if (!validation.valid) {
-        GRAPHICS_LOG_WARNING(validation.message);
         return std::nullopt;
     }
 

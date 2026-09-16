@@ -110,6 +110,106 @@ ExperienceTable loadExperienceTable(const std::filesystem::path& path) {
     return table;
 }
 
+namespace {
+
+// Les six valeurs de BASE, avant augmentation d'espece. Les six sont exigees : une fiche a
+// cinq caracteristiques n'existe pas, et laisser la sixieme a zero donnerait un modificateur
+// de -5 que rien ne signalerait.
+[[nodiscard]] std::array<int, 6> lireCaracteristiquesDeBase(const nlohmann::json& racine,
+                                                            const std::filesystem::path& path,
+                                                            std::vector<std::string>& erreurs) {
+    std::array<int, 6> base{};
+    const auto caracteristiques = racine.find("baseAbilities");
+    if (caracteristiques == racine.end() || !caracteristiques->is_object()) {
+        erreurs.push_back(path.string() + " : champ 'baseAbilities' absent ou non objet.");
+        return base;
+    }
+    for (const Ability caracteristique : allAbilities()) {
+        const std::string nom{abilityName(caracteristique)};
+        const auto valeur = caracteristiques->find(nom);
+        if (valeur == caracteristiques->end() || !valeur->is_number_integer()) {
+            erreurs.push_back(path.string() + " : caracteristique '" + nom + "' absente.");
+            continue;
+        }
+        base[static_cast<std::size_t>(caracteristique)] = valeur->get<int>();
+    }
+    return base;
+}
+
+// Les chaines du tableau @p champ de @p racine, ajoutees a @p sortie ; le reste est ignore.
+void lireEnsembleDeTextes(const nlohmann::json& racine, const char* champ,
+                          std::set<std::string>& sortie) {
+    const auto tableau = racine.find(champ);
+    if (tableau == racine.end() || !tableau->is_array()) {
+        return;
+    }
+    for (const auto& element : *tableau) {
+        if (element.is_string()) {
+            sortie.insert(element.get<std::string>());
+        }
+    }
+}
+
+// Les objets portes, par emplacement ; un emplacement inconnu est signale et ignore.
+void lireEquipes(const nlohmann::json& inventaire, const std::filesystem::path& path,
+                 LoadedCharacterSheet& resultat) {
+    const auto portes = inventaire.find("equipped");
+    if (portes == inventaire.end() || !portes->is_object()) {
+        return;
+    }
+    for (const auto& [nom, valeur] : portes->items()) {
+        const std::optional<EquipmentSlot> emplacement = parseEquipmentSlot(nom);
+        if (!emplacement.has_value()) {
+            resultat.errors.push_back(path.string() + " : emplacement d'equipement '" + nom +
+                                      "' inconnu du moteur.");
+            continue;
+        }
+        if (valeur.is_string()) {
+            static_cast<void>(equip(resultat.inventory, *emplacement, valeur.get<std::string>()));
+        }
+    }
+}
+
+// Le contenu du sac ; une ligne sans identifiant est ignoree, une quantite absente vaut 1.
+void lireSac(const nlohmann::json& inventaire, Inventory& sortie) {
+    const auto sac = inventaire.find("backpack");
+    if (sac == inventaire.end() || !sac->is_array()) {
+        return;
+    }
+    for (const auto& ligne : *sac) {
+        if (!ligne.is_object()) {
+            continue;
+        }
+        const auto identifiant = ligne.find("itemId");
+        if (identifiant == ligne.end() || !identifiant->is_string()) {
+            continue;
+        }
+        const auto quantite = ligne.find("quantity");
+        addToBackpack(
+            sortie, identifiant->get<std::string>(),
+            (quantite != ligne.end() && quantite->is_number_integer()) ? quantite->get<int>() : 1);
+    }
+}
+
+// Ce que le personnage PORTE (LOT-14). Rien n'en est derive ici : ni classe d'armure, ni poids
+// total, ni encombrement. `core::derivedStatsFor` les recalcule depuis ce contenu a chaque
+// lecture, et c'est ce qui les empeche de deriver.
+void lireInventaire(const nlohmann::json& racine, const std::filesystem::path& path,
+                    LoadedCharacterSheet& resultat) {
+    const auto inventaire = racine.find("inventory");
+    if (inventaire == racine.end() || !inventaire->is_object()) {
+        return;
+    }
+    lireEquipes(*inventaire, path, resultat);
+    lireSac(*inventaire, resultat.inventory);
+    if (const auto bourse = inventaire->find("purseCopper");
+        bourse != inventaire->end() && bourse->is_number_integer()) {
+        resultat.inventory.purseCopper = bourse->get<int>();
+    }
+}
+
+}  // namespace
+
 LoadedCharacterSheet loadCharacterSheet(const std::filesystem::path& path,
                                         const CharacterOptions& options,
                                         const CharacterCreationRules& rules,
@@ -127,25 +227,8 @@ LoadedCharacterSheet loadCharacterSheet(const std::filesystem::path& path,
                                                                       : std::string{};
     };
 
-    // Les six valeurs de BASE, avant augmentation d'espece. Les six sont exigees : une fiche a
-    // cinq caracteristiques n'existe pas, et laisser la sixieme a zero donnerait un modificateur
-    // de -5 que rien ne signalerait.
-    std::array<int, 6> base{};
-    const auto caracteristiques = document.root.find("baseAbilities");
-    if (caracteristiques == document.root.end() || !caracteristiques->is_object()) {
-        resultat.errors.push_back(path.string() + " : champ 'baseAbilities' absent ou non objet.");
-    } else {
-        for (const Ability caracteristique : allAbilities()) {
-            const std::string nom{abilityName(caracteristique)};
-            const auto valeur = caracteristiques->find(nom);
-            if (valeur == caracteristiques->end() || !valeur->is_number_integer()) {
-                resultat.errors.push_back(path.string() + " : caracteristique '" + nom +
-                                          "' absente.");
-                continue;
-            }
-            base[static_cast<std::size_t>(caracteristique)] = valeur->get<int>();
-        }
-    }
+    const std::array<int, 6> base =
+        lireCaracteristiquesDeBase(document.root, path, resultat.errors);
 
     // Les trois choix sont resolus DANS LE CATALOGUE, et un identifiant inconnu est signale : une
     // fiche qui reference une espece absente s'afficherait sans vitesse ni augmentation, ce qui
@@ -184,68 +267,13 @@ LoadedCharacterSheet loadCharacterSheet(const std::filesystem::path& path,
         }
     }
 
-    const auto competences = document.root.find("skillProficiencies");
-    if (competences != document.root.end() && competences->is_array()) {
-        for (const auto& element : *competences) {
-            if (element.is_string()) {
-                resultat.sheet.skillProficiencies.insert(element.get<std::string>());
-            }
-        }
-    }
+    lireEnsembleDeTextes(document.root, "skillProficiencies", resultat.sheet.skillProficiencies);
 
     // Les langues CHOISIES (LOT-15) : un historique en accorde un nombre, et la fiche dit
     // lesquelles. Celles de l'espece sont deja la, recopiees par `buildCharacterSheet`.
-    const auto langues = document.root.find("languages");
-    if (langues != document.root.end() && langues->is_array()) {
-        for (const auto& element : *langues) {
-            if (element.is_string()) {
-                resultat.sheet.languages.insert(element.get<std::string>());
-            }
-        }
-    }
+    lireEnsembleDeTextes(document.root, "languages", resultat.sheet.languages);
 
-    // Ce que le personnage PORTE (LOT-14). Rien n'en est derive ici : ni classe d'armure, ni poids
-    // total, ni encombrement. `core::derivedStatsFor` les recalcule depuis ce contenu a chaque
-    // lecture, et c'est ce qui les empeche de deriver.
-    const auto inventaire = document.root.find("inventory");
-    if (inventaire != document.root.end() && inventaire->is_object()) {
-        if (const auto portes = inventaire->find("equipped");
-            portes != inventaire->end() && portes->is_object()) {
-            for (const auto& [nom, valeur] : portes->items()) {
-                const std::optional<EquipmentSlot> emplacement = parseEquipmentSlot(nom);
-                if (!emplacement.has_value()) {
-                    resultat.errors.push_back(path.string() + " : emplacement d'equipement '" +
-                                              nom + "' inconnu du moteur.");
-                    continue;
-                }
-                if (valeur.is_string()) {
-                    static_cast<void>(
-                        equip(resultat.inventory, *emplacement, valeur.get<std::string>()));
-                }
-            }
-        }
-        if (const auto sac = inventaire->find("backpack");
-            sac != inventaire->end() && sac->is_array()) {
-            for (const auto& ligne : *sac) {
-                if (!ligne.is_object()) {
-                    continue;
-                }
-                const auto identifiant = ligne.find("itemId");
-                if (identifiant == ligne.end() || !identifiant->is_string()) {
-                    continue;
-                }
-                const auto quantite = ligne.find("quantity");
-                addToBackpack(resultat.inventory, identifiant->get<std::string>(),
-                              (quantite != ligne.end() && quantite->is_number_integer())
-                                  ? quantite->get<int>()
-                                  : 1);
-            }
-        }
-        if (const auto bourse = inventaire->find("purseCopper");
-            bourse != inventaire->end() && bourse->is_number_integer()) {
-            resultat.inventory.purseCopper = bourse->get<int>();
-        }
-    }
+    lireInventaire(document.root, path, resultat);
 
     return resultat;
 }

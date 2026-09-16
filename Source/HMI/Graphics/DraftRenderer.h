@@ -28,7 +28,8 @@
 
 namespace core {
 class LevelDraft;
-}
+struct MapEntity;
+}  // namespace core
 
 namespace hmi {
 
@@ -188,6 +189,10 @@ private:
     /// Compose les entités (marqueur généré du `LOT-39` par famille), la sélection, et le terrain
     /// de la rencontre sélectionnée (`LOT-11`).
     void composeEntities(const core::LevelDraft& draft, const DraftEntityOverlay& overlay);
+    /// Compose le terrain d'une rencontre : sa zone, puis la case voulue de chaque combattant.
+    void composeEncounterTerrain(const core::EncounterTerrain& terrain);
+    /// Compose le marqueur d'une entité et, si @p selected, son cadre de sélection.
+    void composeEntityMarker(const core::MapEntity& entity, bool selected);
     /// Ajoute un quad uni teinté @p (x, y, w, h) au calque d'édition, rang @p order.
     void addOverlayRect(float x, float y, float width, float height, float r, float g, float b,
                         float a, std::int32_t order);

@@ -74,12 +74,12 @@ std::map<std::string, std::string> inventoryValues(const InventoryContext& conte
 
     // La bourse, répartie en or, argent et cuivre : le modèle ne compte qu'en cuivre, et cette
     // répartition est une règle d'AFFICHAGE.
-    int or_ = 0;
+    int pieceDOr = 0;
     int argent = 0;
     int cuivre = 0;
-    splitPurse(sac.purseCopper, or_, argent, cuivre);
-    valeurs["inventory.purse"] = std::to_string(or_) + " po " + std::to_string(argent) + " pa " +
-                                 std::to_string(cuivre) + " pc";
+    splitPurse(sac.purseCopper, pieceDOr, argent, cuivre);
+    valeurs["inventory.purse"] = std::to_string(pieceDOr) + " po " + std::to_string(argent) +
+                                 " pa " + std::to_string(cuivre) + " pc";
 
     // La charge : ce que le personnage porte, contre ce qu'il PEUT porter. Les deux en kilogrammes
     // à l'écran, alors que le modèle compte en grammes -- un sac de 12 450 g ne se lit pas.

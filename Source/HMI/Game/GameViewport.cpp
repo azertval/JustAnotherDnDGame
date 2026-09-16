@@ -11,6 +11,7 @@
 #include <QSettings>
 #include <QWheelEvent>
 #include <algorithm>
+#include <array>
 #include <cmath>
 #include <filesystem>
 #include <optional>
@@ -600,13 +601,10 @@ void GameViewport::invalidateAsset(const std::string& fileName) {
 
 bool GameViewport::linkExists(core::GridPosition switchPosition,
                               core::GridPosition targetPosition) const {
-    for (const core::Mechanism& mechanism : _draft.mechanisms()) {
-        if (mechanism.switchPosition == switchPosition &&
-            mechanism.doorPosition == targetPosition) {
-            return true;
-        }
-    }
-    return false;
+    return std::ranges::any_of(_draft.mechanisms(), [&](const core::Mechanism& mechanism) {
+        return mechanism.switchPosition == switchPosition &&
+               mechanism.doorPosition == targetPosition;
+    });
 }
 
 void GameViewport::handleLinkClick(const QMouseEvent* event) {
@@ -681,53 +679,64 @@ void GameViewport::tick(float elapsedSeconds) {
     // appel simplement absent) -- aucun pas n'est consommé tant que la pause dure. Le rendu, lui,
     // continue ci-dessous : la scène reste dessinée derrière l'écran de pause.
     if (!_paused) {
-        const int steps = _timestep.advance(elapsedSeconds);
-        _lastSimulationSteps = steps;  // pas consommés à cette image (LOT-62 TACHE-02).
-        const float fixedDelta = _timestep.fixedDeltaSeconds();
-        for (int step = 0; step < steps; ++step) {
-            core::LevelOutcome outcome = core::LevelOutcome::Playing;
-            if (_session) {
-                outcome = _session->update(_input, fixedDelta);
-            }
-            // Bilan du tableau (LOT-68) : compte au PAS, pour la meme raison que les sons
-            // ci-dessous -- une mesure a l'image dependrait de la cadence de rendu.
-            if (_session && _gameMode) {}
-            // Sons de jeu (LOT-60 TACHE-03) : un evenement par pas, jamais par image de rendu --
-            // lastStepEvents() reflete exactement CE pas, celui qui vient de s'executer.
-            if (_session && (_audioEngine != nullptr)) {
-                for (const GameEvent gameEvent : _session->lastStepEvents()) {
-                    if (const std::optional<std::string> soundId = soundForEvent(gameEvent)) {
-                        _audioEngine->play(*soundId);
-                    }
-                }
-            }
-            if (_session && outcome == core::LevelOutcome::Won) {
-                _input.beginFrame();
-                if (_gameMode) {
-                    // La sortie de la carte ne TERMINE plus rien (LOT-67) : il n'y a ni tableau
-                    // suivant, ni ecran de fin. Elle ramene au menu, faute de destination -- et
-                    // c'est un provisoire assume : la sortie redeviendra une TRANSITION, vers la
-                    // carte que le graphe du LOT-09 designera. Y laisser un ecran de fin de
-                    // sequence aurait ete plus spectaculaire et plus faux.
-                    HMI_LOG_INFO(
-                        "Jeu : sortie atteinte ; sans graphe de cartes (LOT-09), retour "
-                        "au menu.");
-                    _gameMode = false;
-                    _session.reset();
-                    emit exitToMenuRequested();
-                } else {
-                    stopPlaytest();  // essai éditeur : retour à l'édition
-                }
-                break;
-            }
-            _input.beginFrame();
-        }
+        advanceSimulation(elapsedSeconds);
     } else {
         // Consomme les fronts (ex. bouton B tenu en ouvrant la pause) sans avancer la simulation
         // -- sinon un appui encore maintenu à la reprise ferait osciller entrée/sortie de pause
         // (piège documenté par TACHE-02).
         _input.beginFrame();
     }
+}
+
+void GameViewport::advanceSimulation(float elapsedSeconds) {
+    const int steps = _timestep.advance(elapsedSeconds);
+    _lastSimulationSteps = steps;  // pas consommés à cette image (LOT-62 TACHE-02).
+    const float fixedDelta = _timestep.fixedDeltaSeconds();
+    for (int step = 0; step < steps; ++step) {
+        if (!simulateStep(fixedDelta)) {
+            break;
+        }
+    }
+}
+
+bool GameViewport::simulateStep(float fixedDelta) {
+    core::LevelOutcome outcome = core::LevelOutcome::Playing;
+    if (_session) {
+        outcome = _session->update(_input, fixedDelta);
+    }
+    // Bilan du tableau (LOT-68) : compte au PAS, pour la meme raison que les sons
+    // ci-dessous -- une mesure a l'image dependrait de la cadence de rendu.
+    if (_session && _gameMode) {}
+    // Sons de jeu (LOT-60 TACHE-03) : un evenement par pas, jamais par image de rendu --
+    // lastStepEvents() reflete exactement CE pas, celui qui vient de s'executer.
+    if (_session && (_audioEngine != nullptr)) {
+        for (const GameEvent gameEvent : _session->lastStepEvents()) {
+            if (const std::optional<std::string> soundId = soundForEvent(gameEvent)) {
+                _audioEngine->play(*soundId);
+            }
+        }
+    }
+    if (_session && outcome == core::LevelOutcome::Won) {
+        _input.beginFrame();
+        if (_gameMode) {
+            // La sortie de la carte ne TERMINE plus rien (LOT-67) : il n'y a ni tableau
+            // suivant, ni ecran de fin. Elle ramene au menu, faute de destination -- et
+            // c'est un provisoire assume : la sortie redeviendra une TRANSITION, vers la
+            // carte que le graphe du LOT-09 designera. Y laisser un ecran de fin de
+            // sequence aurait ete plus spectaculaire et plus faux.
+            HMI_LOG_INFO(
+                "Jeu : sortie atteinte ; sans graphe de cartes (LOT-09), retour "
+                "au menu.");
+            _gameMode = false;
+            _session.reset();
+            emit exitToMenuRequested();
+        } else {
+            stopPlaytest();  // essai éditeur : retour à l'édition
+        }
+        return false;
+    }
+    _input.beginFrame();
+    return true;
 }
 
 // Crée (ou recrée) les ressources graphiques quand QRhiWidget fournit son interface de rendu.
@@ -802,9 +811,9 @@ void GameViewport::renderFrame(QRhiCommandBuffer* commandBuffer, float deltaSeco
     // surface qui appartient tour a tour aux deux portees (hmi::viewportClearColor).
     const hmi::DesignColor clearColor =
         hmi::viewportClearColor(/*editorMode=*/!_session, hmi::currentEditorTokens());
-    const float clear[4] = {static_cast<float>(clearColor.r) / 255.0F,
-                            static_cast<float>(clearColor.g) / 255.0F,
-                            static_cast<float>(clearColor.b) / 255.0F, 1.0F};
+    const std::array<float, 4> clear = {static_cast<float>(clearColor.r) / 255.0F,
+                                        static_cast<float>(clearColor.g) / 255.0F,
+                                        static_cast<float>(clearColor.b) / 255.0F, 1.0F};
     if (_session) {
         _session->render(pixelWidth(), pixelHeight(), _renderMode, _timestep.interpolationAlpha());
         renderDiagnosticsOverlay(pixelWidth(), pixelHeight());
@@ -835,7 +844,7 @@ void GameViewport::renderFrame(QRhiCommandBuffer* commandBuffer, float deltaSeco
     }
     // Téléversement unique puis passe unique : c'est ici, et nulle part ailleurs, que le GPU voit
     // l'image (cf. `hmi::SpriteBatch`, enregistrement en deux phases).
-    _scene.sprites().submit(commandBuffer, renderTarget(), _scene.context().updates, clear);
+    _scene.sprites().submit(commandBuffer, renderTarget(), _scene.context().updates, clear.data());
 }
 
 void GameViewport::renderDiagnosticsOverlay(int viewportWidth, int viewportHeight) {
@@ -899,31 +908,7 @@ void GameViewport::keyPressEvent(QKeyEvent* event) {
     // les autres touches alimentent le jeu -- jamais pendant une pause, où le focus clavier
     // revient à l'écran de pause (MainWindow::applyScreenDressing), pas au viewport.
     if (_session) {
-        if (event->key() == Qt::Key_Escape) {
-            if (_paused) {
-                return;  // ne devrait pas arriver (focus sur l'écran de pause) ; robustesse
-            }
-            if (_gameMode) {
-                emit pauseRequested();
-            } else {
-                stopPlaytest();
-            }
-            return;
-        }
-        if (_paused) {
-            return;
-        }
-        // Compteur de diagnostic (F9, LOT-62 TACHE-02) : touche dédiée non remappable, même statut
-        // que F8 (bascule de rendu) -- jamais transmise au jeu comme entrée (return immédiat).
-        if (!event->isAutoRepeat() && event->key() == Qt::Key_F9) {
-            toggleDiagnosticsOverlay();
-            return;
-        }
-        if (!event->isAutoRepeat()) {
-            if (const std::optional<hmi::Key> key = qtKeyToHmiKey(event->key())) {
-                _input.onKeyDown(*key);
-            }
-        }
+        handleSessionKeyPress(event);
         return;
     }
 
@@ -955,6 +940,35 @@ void GameViewport::keyPressEvent(QKeyEvent* event) {
     }
     if (const std::optional<hmi::Key> key = qtKeyToHmiKey(event->key())) {
         _input.onKeyDown(*key);
+    }
+}
+
+// Touche en mode jeu/essai (voir keyPressEvent).
+void GameViewport::handleSessionKeyPress(QKeyEvent* event) {
+    if (event->key() == Qt::Key_Escape) {
+        if (_paused) {
+            return;  // ne devrait pas arriver (focus sur l'écran de pause) ; robustesse
+        }
+        if (_gameMode) {
+            emit pauseRequested();
+        } else {
+            stopPlaytest();
+        }
+        return;
+    }
+    if (_paused) {
+        return;
+    }
+    // Compteur de diagnostic (F9, LOT-62 TACHE-02) : touche dédiée non remappable, même statut
+    // que F8 (bascule de rendu) -- jamais transmise au jeu comme entrée (return immédiat).
+    if (!event->isAutoRepeat() && event->key() == Qt::Key_F9) {
+        toggleDiagnosticsOverlay();
+        return;
+    }
+    if (!event->isAutoRepeat()) {
+        if (const std::optional<hmi::Key> key = qtKeyToHmiKey(event->key())) {
+            _input.onKeyDown(*key);
+        }
     }
 }
 
@@ -1371,9 +1385,9 @@ void GameViewport::syncEditingState() {
 }
 
 void GameViewport::refreshDiagnostics() {
-    static const hmi::EditorReferences EMPTY_REFERENCES;
+    static const hmi::EditorReferences emptyReferences;
     const hmi::EditorReferences& references =
-        _references != nullptr ? *_references : EMPTY_REFERENCES;
+        _references != nullptr ? *_references : emptyReferences;
     // L'identifiant de la carte editee est le nom de son fichier (save() ecrit <nom>.json).
     _referenceContext = hmi::referenceContext(references, _draft.name(), _draft.entities());
     const std::vector<core::EntityIssue> issues =

@@ -397,6 +397,14 @@ private:
                                 GridPosition to) const;
     /// La première attaque au corps à corps d'un combattant, ou `nullptr`.
     [[nodiscard]] const AttackProfile* meleeAttack(CombatantId combatant) const;
+    /// Le premier pas de @p cases qui sort de l'allonge d'un ennemi, et ceux qu'il provoque,
+    /// ajoutés à @p reactors ; vide pour un combattant désengagé.
+    [[nodiscard]] std::optional<std::size_t> firstProvokingStep(
+        CombatantId mover, const std::vector<GridPosition>& cases,
+        std::vector<CombatantId>& reactors) const;
+    /// Les attaques d'opportunité de @p reactors contre @p mover, tant qu'il est debout, que le
+    /// combat dure et que l'opportuniste l'est aussi.
+    void takeOpportunities(CombatantId mover, const std::vector<CombatantId>& reactors);
 
     Level _level;
     ArenaBout _bout;

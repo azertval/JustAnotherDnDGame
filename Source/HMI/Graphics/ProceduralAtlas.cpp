@@ -4,6 +4,7 @@
 #include "HMI/Graphics/ProceduralAtlas.h"
 
 #include <array>
+#include <cstdint>
 #include <optional>
 
 #include "Core/Levels/TileType.h"
@@ -87,11 +88,11 @@ bool inRange(int value, int low, int high) {
 
 // Largeur des bras : ecartes du corps ou resserres (variation de pose entre images d'un meme
 // clip, LOT-18).
-enum class ArmPose { WIDE, TUCKED };
+enum class ArmPose : std::uint8_t { WIDE, TUCKED };
 
 // Position des jambes : neutre, ecartee (course), ou resserree/raccourcie (saut, jambes
 // repliees en un seul bloc, pieds ne touchant pas la ligne du bas).
-enum class LegPose { NEUTRAL, APART, TUCKED };
+enum class LegPose : std::uint8_t { NEUTRAL, APART, TUCKED };
 
 // Tete (lignes 0-3) : cheveux, puis peau avec cheveux sur les cotes, puis nuque. Fixe : aucune
 // pose ne fait bouger la tete (LOT-18 se limite aux bras/jambes). Extrait de playerPixel

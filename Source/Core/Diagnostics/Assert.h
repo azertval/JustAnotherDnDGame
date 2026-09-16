@@ -44,9 +44,12 @@ void handleAssertionFailure(const char* condition, const char* message, const ch
 #ifdef NDEBUG
 #define JADG_ASSERT(condition, message) ((void)0)
 #else
+// La branche vide plutot qu'un `if (!(condition))` : une condition composee (`a && b`) ne se
+// lit plus, une fois niee par la macro, comme une expression a simplifier par De Morgan.
 #define JADG_ASSERT(condition, message)                                              \
     do {                                                                             \
-        if (!(condition)) {                                                          \
+        if (static_cast<bool>(condition)) {                                          \
+        } else {                                                                     \
             ::core::handleAssertionFailure(#condition, message, __FILE__, __LINE__); \
         }                                                                            \
     } while (false)

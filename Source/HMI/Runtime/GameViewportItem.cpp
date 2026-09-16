@@ -44,7 +44,12 @@ void GameViewportRenderer::initialize(QRhiCommandBuffer* /*commandBuffer*/) {
 void GameViewportRenderer::synchronize(QQuickRhiItem* item) {
     // Le SEUL instant où les deux fils peuvent se parler sans verrou : le fil graphique est bloqué.
     // Tout ce que la simulation produira devra passer par ici — pour l'instant, une couleur.
-    auto* const viewport = static_cast<GameViewportItem*>(item);
+    // Le moteur ne passe que l'élément qui a créé ce rendu (createRenderer) : qobject_cast ne
+    // peut échouer, et reste une vérification bon marché plutôt qu'un transtypage aveugle.
+    auto* const viewport = qobject_cast<GameViewportItem*>(item);
+    if (viewport == nullptr) {
+        return;
+    }
     _clearColor = viewport->clearColor();
 }
 

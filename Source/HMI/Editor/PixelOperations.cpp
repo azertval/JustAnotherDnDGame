@@ -3,6 +3,7 @@
 
 #include "HMI/Editor/PixelOperations.h"
 
+#include <array>
 #include <cstdlib>
 #include <utility>
 #include <vector>
@@ -35,7 +36,7 @@ PixelRegion expand(PixelRegion region, int x, int y) noexcept {
 // l'enveloppe des regions touchees. Partagee par drawLine (pose une couleur) et eraseLine (efface)
 // pour que les deux gestes de glisser restent alignes sur le meme trace, sans dupliquer le pas.
 template <typename PerPixel>
-PixelRegion walkLine(int x0, int y0, int x1, int y1, PerPixel&& perPixel) {
+PixelRegion walkLine(int x0, int y0, int x1, int y1, const PerPixel& perPixel) {
     const int dx = std::abs(x1 - x0);
     const int sx = x0 < x1 ? 1 : -1;
     const int dy = -std::abs(y1 - y0);
@@ -116,7 +117,8 @@ PixelRegion floodFill(DecodedImage& image, int x, int y, std::uint32_t color) {
         const auto [currentX, currentY] = pending.back();
         pending.pop_back();
 
-        static constexpr int NEIGHBOR_OFFSETS[4][2] = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+        static constexpr std::array<std::array<int, 2>, 4> NEIGHBOR_OFFSETS = {
+            {{1, 0}, {-1, 0}, {0, 1}, {0, -1}}};
         for (const auto& offset : NEIGHBOR_OFFSETS) {
             const int neighborX = currentX + offset[0];
             const int neighborY = currentY + offset[1];

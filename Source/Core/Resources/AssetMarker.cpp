@@ -104,7 +104,8 @@ MarkerImage assetMarker(std::string_view key, int width, int height) {
                 std::fabs(static_cast<double>(y) - attendueMontante) <= epaisseur;
             // Deux diagonales barrent la vignette : un marqueur doit se voir COMME un marqueur, et
             // ne jamais passer pour une illustration definitive livree un peu vite.
-            image.pixels[static_cast<std::size_t>((y * width) + x)] = surDiagonale ? trait : fond;
+            image.pixels[(static_cast<std::size_t>(y) * static_cast<std::size_t>(width)) +
+                         static_cast<std::size_t>(x)] = surDiagonale ? trait : fond;
         }
     }
     return image;

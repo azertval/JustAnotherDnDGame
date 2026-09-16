@@ -202,7 +202,8 @@ void GameSession::loadLevel(core::Level level) {
                                     .neighborMask = solidNeighborMask(sceneMap, column, row),
                                     .overrideAsset = textureOverrideAt(
                                         levelRef.textureOverrides(),
-                                        core::GridPosition{.column = column, .row = row})});
+                                        core::GridPosition{.column = column, .row = row}),
+                                    .animatedFrame = std::nullopt});
             // Une tuile de DECOR partage la profondeur du personnage (LOT-07) : un arbre plus bas
             // que lui le cache, un arbre plus haut passe derriere. Le sol, lui, reste sous tout le
             // monde -- il n'a pas de pied, on marche dessus (EX-REN-018).
@@ -692,8 +693,11 @@ void GameSession::spawnPlaytestEntities() {
 }
 
 void GameSession::updatePlaytestInteraction(const core::PlayerInput& input, float fixedDelta) {
-    if (_playtestMessageStepsLeft > 0 && --_playtestMessageStepsLeft == 0) {
-        _playtestMessage.reset();
+    if (_playtestMessageStepsLeft > 0) {
+        --_playtestMessageStepsLeft;
+        if (_playtestMessageStepsLeft == 0) {
+            _playtestMessage.reset();
+        }
     }
     if (!input.interactPressed || _playtestEntities.empty()) {
         return;

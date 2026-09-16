@@ -103,12 +103,12 @@ public:
      *        partagé, utilisé aussi bien par le jeu réel (via `update(const InputState&, float)`,
      *        qui ne fait plus que traduire puis déléguer ici) que par la lecture d'un rejeu
      *        (`hmi::ReplayPlayback`), sans aucune divergence possible entre les deux chemins.
-     * @param input      Intention de jeu déjà résolue (entrée réelle traduite, ou rejeu
+     * @param intent     Intention de jeu déjà résolue (entrée réelle traduite, ou rejeu
      * enregistré).
      * @param fixedDelta Durée du pas fixe, en secondes.
      * @return L'issue : `Playing`, `Won` (l'appelant décide), ou `Lost` (niveau déjà rechargé).
      */
-    core::LevelOutcome update(const core::PlayerInput& input, float fixedDelta);
+    core::LevelOutcome update(const core::PlayerInput& intent, float fixedDelta);
 
     /// Recharge le niveau courant (personnage à l'entrée, mécanismes et budgets remis).
     void reload();

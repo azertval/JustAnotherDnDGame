@@ -308,61 +308,20 @@ public:
             const std::vector<Footprint> abris = corps(_moi.id, cible.id, ancre);
             const Cover abri = coverFrom(_grille, ici, cible.emprise, abris);
             const int ca = cible.combattant->profile.armorClass + coverBonus(abri);
-            int allieAuContact = 0;
-            bool allieEnsanglante = false;
-            for (const Present& allie : _allies) {
-                if (ecart(allie.emprise.anchor, allie.emprise.side, cible.emprise.anchor,
-                          cible.emprise.side) == 1) {
-                    ++allieAuContact;
-                    allieEnsanglante = allieEnsanglante || isBloodied(allie.combattant->profile);
-                }
-            }
-            long long pourcent = _profil.damageDealt;
-            if (isBloodied(cible.combattant->profile)) {
-                pourcent += _profil.bloodiedTarget;
-            }
-            pourcent += static_cast<long long>(_profil.focusFire) * allieAuContact;
-            if (allieEnsanglante) {
-                pourcent += _profil.protectBloodiedAlly;
-            }
+            const long long pourcent = pourcentContre(cible);
 
             for (std::size_t i = 0; i < _moi.attaques->size(); ++i) {
                 const AttackProfile& attaque = (*_moi.attaques)[i];
                 if (!porte(attaque, distance)) {
                     continue;
                 }
-                Frappe frappe{.cible = cible.id, .indice = i};
-                int avantages = 0;
-                int desavantages = 0;
-                if (attaque.kind == AttackKind::Melee && _session.bout().flanking &&
-                    isFlankedFrom(_combat, _moi.id, ancre, cible.id)) {
-                    ++avantages;
-                    frappe.circonstances.emplace_back("prise en tenaille");
-                }
-                if (attaque.kind == AttackKind::Ranged) {
-                    if (attaque.range.has_value() && distance > attaque.range->normal) {
-                        ++desavantages;
-                        frappe.circonstances.emplace_back("longue portee");
-                    }
-                    if (!auContact.has_value()) {
-                        auContact = std::ranges::any_of(_ennemis, [&](const Present& e) {
-                            return ecart(ancre, ici.side, e.emprise.anchor, e.emprise.side) == 1 &&
-                                   hasLineOfSight(_grille, e.emprise, ici);
-                        });
-                    }
-                    if (*auContact) {
-                        ++desavantages;
-                        frappe.circonstances.emplace_back("tir au contact d'un ennemi");
-                    }
-                }
-                if (_session.isDodging(cible.id) && hasLineOfSight(_grille, cible.emprise, ici)) {
-                    ++desavantages;
-                    frappe.circonstances.emplace_back("esquive de la cible");
-                }
+                Frappe frappe{.cible = cible.id, .indice = i, .circonstances = {}};
+                const RollStance posture =
+                    postureDe(attaque, cible, ancre, distance, auContact, frappe);
                 if (abri != Cover::None) {
                     frappe.circonstances.emplace_back(coverLabel(abri));
                 }
-                frappe.posture = rollStance(avantages, desavantages);
+                frappe.posture = posture;
                 frappe.requis = requiredRoll(ca, attackBonusOf(attaque));
                 frappe.valeur = expectedDamage(attaque, ca, frappe.posture) * pourcent;
                 liste.push_back(std::move(frappe));
@@ -378,6 +337,71 @@ public:
     }
 
 private:
+    /// Le pourcentage du profil contre @p cible : les degats, plus une cible ensanglantee, les
+    /// allies a son contact, et un allie ensanglante a proteger.
+    [[nodiscard]] long long pourcentContre(const Present& cible) const {
+        int allieAuContact = 0;
+        bool allieEnsanglante = false;
+        for (const Present& allie : _allies) {
+            if (ecart(allie.emprise.anchor, allie.emprise.side, cible.emprise.anchor,
+                      cible.emprise.side) == 1) {
+                ++allieAuContact;
+                allieEnsanglante = allieEnsanglante || isBloodied(allie.combattant->profile);
+            }
+        }
+        long long pourcent = _profil.damageDealt;
+        if (isBloodied(cible.combattant->profile)) {
+            pourcent += _profil.bloodiedTarget;
+        }
+        pourcent += static_cast<long long>(_profil.focusFire) * allieAuContact;
+        if (allieEnsanglante) {
+            pourcent += _profil.protectBloodiedAlly;
+        }
+        return pourcent;
+    }
+
+    /// Les sources d'avantage et de desavantage d'une attaque depuis l'ancre, notees dans
+    /// @p frappe, et la posture qu'elles donnent. @p auContact est calcule au premier tir.
+    [[nodiscard]] RollStance postureDe(const AttackProfile& attaque, const Present& cible,
+                                       GridPosition ancre, int distance,
+                                       std::optional<bool>& auContact, Frappe& frappe) const {
+        const Footprint ici = empriseEn(ancre);
+        int avantages = 0;
+        int desavantages = 0;
+        if (attaque.kind == AttackKind::Melee && _session.bout().flanking &&
+            isFlankedFrom(_combat, _moi.id, ancre, cible.id)) {
+            ++avantages;
+            frappe.circonstances.emplace_back("prise en tenaille");
+        }
+        if (attaque.kind == AttackKind::Ranged) {
+            if (attaque.range.has_value() && distance > attaque.range->normal) {
+                ++desavantages;
+                frappe.circonstances.emplace_back("longue portee");
+            }
+            if (!auContact.has_value()) {
+                auContact = ennemiAuContact(ancre);
+            }
+            if (*auContact) {
+                ++desavantages;
+                frappe.circonstances.emplace_back("tir au contact d'un ennemi");
+            }
+        }
+        if (_session.isDodging(cible.id) && hasLineOfSight(_grille, cible.emprise, ici)) {
+            ++desavantages;
+            frappe.circonstances.emplace_back("esquive de la cible");
+        }
+        return rollStance(avantages, desavantages);
+    }
+
+    /// Vrai si un ennemi qui voit l'acteur se tient a une case de l'ancre.
+    [[nodiscard]] bool ennemiAuContact(GridPosition ancre) const {
+        const Footprint ici = empriseEn(ancre);
+        return std::ranges::any_of(_ennemis, [&](const Present& e) {
+            return ecart(ancre, ici.side, e.emprise.anchor, e.emprise.side) == 1 &&
+                   hasLineOfSight(_grille, e.emprise, ici);
+        });
+    }
+
     /// Les ancres d'ou un ennemi peut frapper au prochain round : la sienne et celles qu'il
     /// atteint.
     [[nodiscard]] std::vector<GridPosition> destinationsDe(const Present& ennemi) const {
@@ -662,9 +686,147 @@ std::string behaviorFor(const Creature& creature, const BehaviorCatalog& catalog
 
 // --- Le tour ----------------------------------------------------------------------------------
 
+namespace {
+
+/// Les menaces au-dela de ce que le profil tolere.
+[[nodiscard]] int excesDe(const BehaviorProfile& profile, int menaces) noexcept {
+    return std::max(0, menaces - profile.toleratedThreats);
+}
+
+/// Attaquer @p frappe depuis @p ancre, avec la ligne de journal qui le dit.
+[[nodiscard]] TurnPlan planAttaque(const CombatState& combat, const BehaviorProfile& profile,
+                                   const Present& moi, GridPosition origine, GridPosition ancre,
+                                   const Evaluateur::Frappe& frappe, int menaces, long long cout) {
+    TurnPlan candidat{.actor = moi.id,
+                      .moveTo = ancre == origine ? std::nullopt : std::optional(ancre),
+                      .action = TurnAction::Attack,
+                      .target = frappe.cible,
+                      .attackIndex = frappe.indice,
+                      .dashTo = std::nullopt,
+                      .requiredRoll = frappe.requis,
+                      .stance = frappe.posture,
+                      .immediateThreats = menaces,
+                      .score = frappe.valeur - cout,
+                      .summary = {}};
+    std::string raisons;
+    for (const std::string& c : frappe.circonstances) {
+        raisons.append(", ").append(c);
+    }
+    candidat.summary = "ia " + profile.id + " " + nomDe(combat, moi.id) + " : attaque " +
+                       nomDe(combat, frappe.cible) + " avec " +
+                       (*moi.attaques)[frappe.indice].label + " depuis " + caseTexte(ancre) +
+                       " (jet requis " + std::to_string(frappe.requis) +
+                       std::string(nomDePosture(frappe.posture)) + raisons + ")";
+    return candidat;
+}
+
+/// Finir le deplacement en @p ancre sans attaquer, ou tenir sa place si c'est l'origine.
+[[nodiscard]] TurnPlan planTenir(const CombatState& combat, const BehaviorProfile& profile,
+                                 CombatantId actor, const std::optional<Approche>& approche,
+                                 GridPosition origine, GridPosition ancre, int menaces,
+                                 long long score) {
+    const std::optional<GridPosition> vers = ancre == origine ? std::nullopt : std::optional(ancre);
+    const std::string qui = "ia " + profile.id + " " + nomDe(combat, actor);
+    const std::string cible =
+        approche.has_value() ? " vers " + nomDe(combat, approche->cible) : std::string();
+
+    TurnPlan tenir{.actor = actor,
+                   .moveTo = vers,
+                   .action = TurnAction::Wait,
+                   .target = std::nullopt,
+                   .dashTo = std::nullopt,
+                   .immediateThreats = menaces,
+                   .score = score,
+                   .summary = {}};
+    tenir.summary = qui + (vers.has_value() ? " : avance en " + caseTexte(ancre) + cible
+                                            : std::string(" : tient sa place"));
+    return tenir;
+}
+
+/// Se precipiter : la vitesse une seconde fois, jusqu'au plus loin du chemin d'approche.
+template <typename Proposer>
+void proposerCourse(const CombatState& combat, const BehaviorProfile& profile,
+                    const Evaluateur& eval, const ReachableArea& zone, const Approche& approche,
+                    long long resteOrigine, const Proposer& proposer) {
+    if (approche.chemin.steps.empty()) {
+        return;
+    }
+    const Present& moi = eval.moi();
+    const CombatantId actor = moi.id;
+    const ReachableArea loin(combat.grid(), combat.moverFor(actor),
+                             zone.budget() + moi.combattant->profile.movement);
+    const std::optional<GridPosition> but = plusLoinSurLeChemin(approche.chemin, loin);
+    if (!but.has_value()) {
+        return;
+    }
+    const int menaces = eval.menacesImmediates(*but);
+    const long long reste = std::max(0, approche.chemin.cost - loin.costTo(*but).value_or(0));
+    TurnPlan course{
+        .actor = actor,
+        .moveTo = std::nullopt,
+        .action = TurnAction::Dash,
+        .target = std::nullopt,
+        .dashTo = *but,
+        .immediateThreats = menaces,
+        .score = (-static_cast<long long>(profile.approachPerTile) * UNITES_PAR_POINT * reste) -
+                 (eval.poidsMenace() * eval.menace(*but, false)) -
+                 (static_cast<long long>(profile.opportunityTaken) * eval.opportunites(loin, *but)),
+        .summary = {}};
+    course.summary = "ia " + profile.id + " " + nomDe(combat, actor) + " : se precipite en " +
+                     caseTexte(*but) + " vers " + nomDe(combat, approche.cible);
+    const long long scoreCourse = course.score;
+    proposer({.exces = excesDe(profile, menaces),
+              .attaque = false,
+              .progresse = reste < resteOrigine,
+              .score = scoreCourse,
+              .deplacement = loin.costTo(*but).value_or(0)},
+             std::move(course));
+}
+
+/// Reculer apres avoir frappe : vers une case moins menacee, si elle bat strictement la sienne.
+/// A menace egale, la moins loin : on ne file pas jusqu'au premier coin de la salle.
+void reculerApresAttaque(ArenaSession& session, CombatantId actif, const BehaviorProfile& profil) {
+    const CombatState& combat = session.combat();
+    const Evaluateur eval(session, actif, profil);
+    const std::optional<ReachableArea> zone = combat.reachableArea();
+    if (!eval.valide() || !zone.has_value()) {
+        return;
+    }
+    const long long poids = eval.poidsMenace();
+    const auto cleEn = [&](GridPosition ancre) {
+        return Cle{.exces = std::max(0, eval.menacesImmediates(ancre) - profil.toleratedThreats),
+                   .attaque = false,
+                   .progresse = false,
+                   .score = (-poids * eval.menace(ancre, false)) -
+                            (static_cast<long long>(profil.opportunityTaken) *
+                             eval.opportunites(*zone, ancre)),
+                   .deplacement = zone->costTo(ancre).value_or(0)};
+    };
+    Cle meilleure = cleEn(zone->origin());
+    std::optional<GridPosition> recul;
+    for (const GridPosition ancre : zone->destinations()) {
+        const Cle cle = cleEn(ancre);
+        if (cle.meilleureQue(meilleure)) {
+            meilleure = cle;
+            recul = ancre;
+        }
+    }
+    if (recul.has_value()) {
+        session.note("ia " + profil.id + " " + nomDe(combat, actif) + " : recule en " +
+                     caseTexte(*recul));
+        static_cast<void>(session.move(*recul));
+    }
+}
+
+}  // namespace
+
 TurnPlan planTurn(const ArenaSession& session, CombatantId actor, const BehaviorProfile& profile) {
     const CombatState& combat = session.combat();
-    TurnPlan plan{.actor = actor};
+    TurnPlan plan{.actor = actor,
+                  .moveTo = std::nullopt,
+                  .target = std::nullopt,
+                  .dashTo = std::nullopt,
+                  .summary = {}};
     const Evaluateur eval(session, actor, profile);
     const std::optional<ReachableArea> zone = combat.reachableArea();
     if (!eval.valide() || !zone.has_value() || combat.activeCombatant() != actor) {
@@ -686,7 +848,7 @@ TurnPlan planTurn(const ArenaSession& session, CombatantId actor, const Behavior
             plan = std::move(candidat);
         }
     };
-    const auto exces = [&](int menaces) { return std::max(0, menaces - profile.toleratedThreats); };
+    const auto exces = [&](int menaces) { return excesDe(profile, menaces); };
 
     // Ce qu'une case coute, calcule une fois : les deux familles de candidats le relisent.
     struct Case {
@@ -717,25 +879,8 @@ TurnPlan planTurn(const ArenaSession& session, CombatantId actor, const Behavior
         const int menaces = cases[indice].menaces;
         const long long cout = cases[indice].menace + cases[indice].opportunites;
         for (const Evaluateur::Frappe& frappe : frappes) {
-            TurnPlan candidat{
-                .actor = actor,
-                .moveTo = ancre == zone->origin() ? std::nullopt : std::optional(ancre),
-                .action = TurnAction::Attack,
-                .target = frappe.cible,
-                .attackIndex = frappe.indice,
-                .requiredRoll = frappe.requis,
-                .stance = frappe.posture,
-                .immediateThreats = menaces,
-                .score = frappe.valeur - cout};
-            std::string raisons;
-            for (const std::string& c : frappe.circonstances) {
-                raisons += ", " + c;
-            }
-            candidat.summary = "ia " + profile.id + " " + nomDe(combat, actor) + " : attaque " +
-                               nomDe(combat, frappe.cible) + " avec " +
-                               (*moi.attaques)[frappe.indice].label + " depuis " +
-                               caseTexte(ancre) + " (jet requis " + std::to_string(frappe.requis) +
-                               std::string(nomDePosture(frappe.posture)) + raisons + ")";
+            TurnPlan candidat =
+                planAttaque(combat, profile, moi, zone->origin(), ancre, frappe, menaces, cout);
             const long long scoreCandidat = candidat.score;
             proposer({.exces = exces(menaces),
                       .attaque = true,
@@ -760,19 +905,9 @@ TurnPlan planTurn(const ArenaSession& session, CombatantId actor, const Behavior
         const long long opportunites = cases[indice].opportunites;
         const long long base =
             -static_cast<long long>(profile.approachPerTile) * UNITES_PAR_POINT * reste;
-        const std::optional<GridPosition> vers =
-            ancre == zone->origin() ? std::nullopt : std::optional(ancre);
-        const std::string qui = "ia " + profile.id + " " + nomDe(combat, actor);
-        const std::string cible =
-            approche.has_value() ? " vers " + nomDe(combat, approche->cible) : std::string();
 
-        TurnPlan tenir{.actor = actor,
-                       .moveTo = vers,
-                       .action = TurnAction::Wait,
-                       .immediateThreats = menaces,
-                       .score = base - cases[indice].menace - opportunites};
-        tenir.summary = qui + (vers.has_value() ? " : avance en " + caseTexte(ancre) + cible
-                                                : std::string(" : tient sa place"));
+        const TurnPlan tenir = planTenir(combat, profile, actor, approche, zone->origin(), ancre,
+                                         menaces, base - cases[indice].menace - opportunites);
         proposer({.exces = exces(menaces),
                   .attaque = false,
                   .progresse = progresse,
@@ -808,34 +943,8 @@ TurnPlan planTurn(const ArenaSession& session, CombatantId actor, const Behavior
         }
     }
 
-    // Se precipiter : la vitesse une seconde fois, jusqu'au plus loin du chemin d'approche.
-    if (action && approche.has_value() && !approche->chemin.steps.empty()) {
-        const ReachableArea loin(combat.grid(), combat.moverFor(actor),
-                                 zone->budget() + moi.combattant->profile.movement);
-        if (const std::optional<GridPosition> but = plusLoinSurLeChemin(approche->chemin, loin)) {
-            const int menaces = eval.menacesImmediates(*but);
-            const long long reste =
-                std::max(0, approche->chemin.cost - loin.costTo(*but).value_or(0));
-            TurnPlan course{.actor = actor,
-                            .action = TurnAction::Dash,
-                            .dashTo = *but,
-                            .immediateThreats = menaces,
-                            .score = (-static_cast<long long>(profile.approachPerTile) *
-                                      UNITES_PAR_POINT * reste) -
-                                     (poidsMenace * eval.menace(*but, false)) -
-                                     (static_cast<long long>(profile.opportunityTaken) *
-                                      eval.opportunites(loin, *but))};
-            course.summary = "ia " + profile.id + " " + nomDe(combat, actor) +
-                             " : se precipite en " + caseTexte(*but) + " vers " +
-                             nomDe(combat, approche->cible);
-            const long long scoreCourse = course.score;
-            proposer({.exces = exces(menaces),
-                      .attaque = false,
-                      .progresse = reste < resteOrigine,
-                      .score = scoreCourse,
-                      .deplacement = loin.costTo(*but).value_or(0)},
-                     std::move(course));
-        }
+    if (action && approche.has_value()) {
+        proposerCourse(combat, profile, eval, *zone, *approche, resteOrigine, proposer);
     }
     return plan;
 }
@@ -907,38 +1016,8 @@ bool playTurn(ArenaSession& session, const BehaviorCatalog& catalog) {
             break;
     }
 
-    // Reculer apres avoir frappe : vers une case moins menacee, si elle bat strictement la sienne.
-    // A menace egale, la moins loin : on ne file pas jusqu'au premier coin de la salle.
     if (plan.action == TurnAction::Attack && profil->retreatAfterAttack && toujoursLui()) {
-        const Evaluateur eval(session, *actif, *profil);
-        const std::optional<ReachableArea> zone = combat.reachableArea();
-        if (eval.valide() && zone.has_value()) {
-            const long long poids = eval.poidsMenace();
-            const auto cleEn = [&](GridPosition ancre) {
-                return Cle{
-                    .exces = std::max(0, eval.menacesImmediates(ancre) - profil->toleratedThreats),
-                    .attaque = false,
-                    .progresse = false,
-                    .score = (-poids * eval.menace(ancre, false)) -
-                             (static_cast<long long>(profil->opportunityTaken) *
-                              eval.opportunites(*zone, ancre)),
-                    .deplacement = zone->costTo(ancre).value_or(0)};
-            };
-            Cle meilleure = cleEn(zone->origin());
-            std::optional<GridPosition> recul;
-            for (const GridPosition ancre : zone->destinations()) {
-                const Cle cle = cleEn(ancre);
-                if (cle.meilleureQue(meilleure)) {
-                    meilleure = cle;
-                    recul = ancre;
-                }
-            }
-            if (recul.has_value()) {
-                session.note("ia " + profil->id + " " + nomDe(combat, *actif) + " : recule en " +
-                             caseTexte(*recul));
-                static_cast<void>(session.move(*recul));
-            }
-        }
+        reculerApresAttaque(session, *actif, *profil);
     }
     if (toujoursLui()) {
         static_cast<void>(session.endTurn());

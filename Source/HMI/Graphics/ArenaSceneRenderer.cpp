@@ -60,7 +60,10 @@ ArenaSceneRenderer::ArenaSceneRenderer(std::filesystem::path coliseumDirectory)
         const std::string directory = _catalog.sheetDirectory(sheet, side);
         ArenaFigureAnimationLoad load = loadArenaFigureAnimations(_directory / directory);
         for (const std::string& error : load.errors) {
-            GRAPHICS_LOG_WARNING("Arene : animation de " + sheet + ", " + error);
+            std::string message = "Arene : animation de " + sheet;
+            message += ", ";
+            message += error;
+            GRAPHICS_LOG_WARNING(message);
         }
         _bandFrameWidths[directory + "/idle.png"] = load.idleFrameWidth;
         _bandFrameWidths[directory + "/death.png"] = load.deathFrameWidth;
@@ -166,7 +169,7 @@ void ArenaSceneRenderer::setSnapshot(ArenaSceneSnapshot snapshot) {
 }
 
 void ArenaSceneRenderer::render(QRhiCommandBuffer* commandBuffer, QRhiRenderTarget* target,
-                                float realDeltaSeconds, const float clear[4]) {
+                                float realDeltaSeconds, const float* clear) {
     if (!created() || commandBuffer == nullptr || target == nullptr) {
         return;
     }

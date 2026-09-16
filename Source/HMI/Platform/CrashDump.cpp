@@ -104,11 +104,15 @@ DWORD WINAPI writeDumpJob(LPVOID parameter) {
     auto* const job = static_cast<DumpJob*>(parameter);
     // Piles, contexte, modules chargés et déchargés, et la mémoire que les piles désignent : de
     // quoi lire les variables locales et un objet pointé, pour quelques Mio plutôt que tout le tas.
+    // NOLINTBEGIN(clang-analyzer-optin.core.EnumCastOutOfRange)
+    // MINIDUMP_TYPE est un ensemble de drapeaux : leur union n'est aucun énumérateur, et c'est
+    // ainsi que l'API dbghelp la demande.
     const auto rich =
         static_cast<MINIDUMP_TYPE>(MiniDumpWithIndirectlyReferencedMemory | MiniDumpScanMemory |
                                    MiniDumpWithThreadInfo | MiniDumpWithUnloadedModules);
     const auto reduced = static_cast<MINIDUMP_TYPE>(MiniDumpNormal | MiniDumpWithThreadInfo |
                                                     MiniDumpWithUnloadedModules);
+    // NOLINTEND(clang-analyzer-optin.core.EnumCastOutOfRange)
 
     // Sur une partie des runners de CI (et jamais sur le poste, sans AVX-512), MiniDumpWriteDump
     // refuse le contexte d'exception d'origine : ERROR_INVALID_USER_BUFFER. Le contexte porte alors

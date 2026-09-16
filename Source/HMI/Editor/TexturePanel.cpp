@@ -63,28 +63,19 @@ namespace hmi {
 namespace {
 
 // Colonnes de l'arbre : le type, le fichier assigne, et son mode de decoupage.
-constexpr int COLUMN_TYPE = 0;
 constexpr int COLUMN_ASSET = 1;
 constexpr int COLUMN_MODE = 2;
 constexpr int COLUMN_COUNT = 3;
 
 // Colonnes du tableau des surcharges de la section « Objets » (LOT-45) : position et asset.
-constexpr int OBJECTS_COLUMN_POSITION = 0;
-constexpr int OBJECTS_COLUMN_ASSET = 1;
 constexpr int OBJECTS_COLUMN_COUNT = 2;
 
 // Colonnes du tableau des zones de camera dessinees a la main (section « Cadrage », LOT-64).
-constexpr int CAMERA_FRAMING_ZONES_COLUMN_X = 0;
-constexpr int CAMERA_FRAMING_ZONES_COLUMN_Y = 1;
-constexpr int CAMERA_FRAMING_ZONES_COLUMN_WIDTH = 2;
-constexpr int CAMERA_FRAMING_ZONES_COLUMN_HEIGHT = 3;
 constexpr int CAMERA_FRAMING_ZONES_COLUMN_COUNT = 4;
 
 // Colonnes de l'arbre de la section « Animations » (LOT-47) : famille de mecanisme, fichier
 // assigne, diagnostic des clips manquants.
-constexpr int ANIMATIONS_COLUMN_TYPE = 0;
 constexpr int ANIMATIONS_COLUMN_ASSET = 1;
-constexpr int ANIMATIONS_COLUMN_DIAGNOSTIC = 2;
 constexpr int ANIMATIONS_COLUMN_COUNT = 3;
 
 // Intervalle de la minuterie d'apercu (LOT-47 TACHE-04) : temps reel (comme l'apercu d'edition de

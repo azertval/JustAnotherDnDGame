@@ -43,10 +43,42 @@ CameraFramingConfig resolveCameraFraming(const std::optional<CameraFramingConfig
         return *declared;
     }
     if (levelWidth <= DEFAULT_ROOM_WIDTH_TILES && levelHeight <= DEFAULT_ROOM_HEIGHT_TILES) {
-        return CameraFramingConfig{.mode = CameraFramingMode::WholeLevel};
+        return CameraFramingConfig{.mode = CameraFramingMode::WholeLevel,
+                                   .roomWidthTiles = std::nullopt,
+                                   .roomHeightTiles = std::nullopt,
+                                   .zones = {}};
     }
-    return CameraFramingConfig{.mode = CameraFramingMode::PerRoom};
+    return CameraFramingConfig{.mode = CameraFramingMode::PerRoom,
+                               .roomWidthTiles = std::nullopt,
+                               .roomHeightTiles = std::nullopt,
+                               .zones = {}};
 }
+
+namespace {
+
+// Une zone dessinee a la main doit etre entierement dans le niveau et de taille non nulle.
+std::optional<std::string> validateCameraZone(const CameraZone& zone, std::size_t index,
+                                              int levelWidth, int levelHeight) {
+    const std::string prefix = "cameraFraming.zones[" + std::to_string(index) + "]";
+    if (zone.width <= 0) {
+        return prefix + ".width doit etre superieur a zero";
+    }
+    if (zone.height <= 0) {
+        return prefix + ".height doit etre superieur a zero";
+    }
+    if (zone.x < 0 || zone.y < 0) {
+        return prefix + " a une position negative";
+    }
+    if (zone.x + zone.width > levelWidth) {
+        return prefix + " depasse la largeur du niveau";
+    }
+    if (zone.y + zone.height > levelHeight) {
+        return prefix + " depasse la hauteur du niveau";
+    }
+    return std::nullopt;
+}
+
+}  // namespace
 
 // Valide un cadrage declare (EX-LVL-004, voir en-tete).
 std::optional<std::string> validateCameraFramingConfig(const CameraFramingConfig& config,
@@ -57,22 +89,9 @@ std::optional<std::string> validateCameraFramingConfig(const CameraFramingConfig
         return "cameraFraming.zones renseigne pour un mode qui n'est pas 'perRoom'";
     }
     for (std::size_t index = 0; index < config.zones.size(); ++index) {
-        const CameraZone& zone = config.zones[index];
-        const std::string prefix = "cameraFraming.zones[" + std::to_string(index) + "]";
-        if (zone.width <= 0) {
-            return prefix + ".width doit etre superieur a zero";
-        }
-        if (zone.height <= 0) {
-            return prefix + ".height doit etre superieur a zero";
-        }
-        if (zone.x < 0 || zone.y < 0) {
-            return prefix + " a une position negative";
-        }
-        if (zone.x + zone.width > levelWidth) {
-            return prefix + " depasse la largeur du niveau";
-        }
-        if (zone.y + zone.height > levelHeight) {
-            return prefix + " depasse la hauteur du niveau";
+        if (std::optional<std::string> error =
+                validateCameraZone(config.zones[index], index, levelWidth, levelHeight)) {
+            return error;
         }
     }
 

@@ -29,14 +29,11 @@ DirectX::XMFLOAT4X4 screenProjectionMatrix(int viewportWidth, int viewportHeight
     const float width = viewportWidth > 0 ? static_cast<float>(viewportWidth) : 1.0F;
     const float height = viewportHeight > 0 ? static_cast<float>(viewportHeight) : 1.0F;
 
-    DirectX::XMFLOAT4X4 projection{};
-    projection._11 = 2.0F / width;
-    projection._22 = -2.0F / height;
-    projection._33 = 1.0F;
-    projection._41 = -1.0F;
-    projection._42 = 1.0F;
-    projection._44 = 1.0F;
-    return projection;
+    // Lignes de la matrice (_11.._14, _21.._24, ...), les autres coefficients a zero.
+    return {2.0F / width, 0.0F,           0.0F, 0.0F,  //
+            0.0F,         -2.0F / height, 0.0F, 0.0F,  //
+            0.0F,         0.0F,           1.0F, 0.0F,  //
+            -1.0F,        1.0F,           0.0F, 1.0F};
 }
 
 // Compose une chaine en quads sur le calque UI, ancree a une position ecran.

@@ -55,7 +55,7 @@ std::string sanitizePlaneBaseName(const std::string& name) {
     if (first >= last) {
         return {};
     }
-    return std::string(first, last);
+    return {first, last};
 }
 
 // Compose un nom de fichier de plan unique pour un niveau donne.
@@ -76,7 +76,10 @@ std::string uniquePlaneFileName(const std::string& levelName,
     // Suffixe numerique croissant, jamais un identifiant aleatoire : un dossier de plans doit
     // rester lisible a l'oeil, et un plan se retrouver sans ouvrir l'editeur.
     for (std::size_t index = 2; index <= existing.size() + 2; ++index) {
-        candidate = base + '-' + std::to_string(index) + PLANE_FILE_EXTENSION;
+        candidate = base;
+        candidate += '-';
+        candidate += std::to_string(index);
+        candidate += PLANE_FILE_EXTENSION;
         if (!taken(candidate)) {
             return candidate;
         }

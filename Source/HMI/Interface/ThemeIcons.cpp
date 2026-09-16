@@ -71,7 +71,7 @@ QIcon themeIcon(IconId id, int pixelSize, const DesignTokens& tokens) {
         painter.drawPath(path);
     }
 
-    return QIcon(pixmap);
+    return {pixmap};
 }
 
 }  // namespace hmi

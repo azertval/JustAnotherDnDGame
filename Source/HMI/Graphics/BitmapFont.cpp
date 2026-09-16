@@ -24,58 +24,87 @@ BitmapFont::BitmapFont(const RhiContext& context) {
     generateProcedural(context);
 }
 
-// Essaie de charger Assets/Fonts/font.png + font.json. true si les deux ont ete charges, valides,
-// et la texture creee avec succes.
-bool BitmapFont::loadFromAssets(const RhiContext& context) {
-    const AssetPaths assetPaths(executableDirectory() / "Assets");
+namespace {
 
+// Charge l'image de la police et valide ses dimensions. std::nullopt (avec journal) si l'asset est
+// absent, illisible ou hors contrat.
+std::optional<LoadedTexture> loadFontImage(const RhiContext& context, const AssetPaths& assetPaths,
+                                           std::filesystem::path& imagePathOut) {
     const std::optional<std::filesystem::path> imagePath =
-        assetPaths.resolve(FONTS_SUBDIRECTORY + FONT_ASSET_FILE_NAME);
+        assetPaths.resolve(FONTS_SUBDIRECTORY + BitmapFont::FONT_ASSET_FILE_NAME);
     if (!imagePath) {
-        GRAPHICS_LOG_INFO("BitmapFont : asset '" + FONTS_SUBDIRECTORY + FONT_ASSET_FILE_NAME +
+        GRAPHICS_LOG_INFO("BitmapFont : asset '" + FONTS_SUBDIRECTORY +
+                          BitmapFont::FONT_ASSET_FILE_NAME +
                           "' absent, repli sur la police procedurale");
-        return false;
+        return std::nullopt;
     }
     std::optional<LoadedTexture> loaded = loadTextureFromFile(context, *imagePath);
     if (!loaded) {
         GRAPHICS_LOG_WARNING("BitmapFont : echec du chargement de '" + imagePath->string() +
                              "', repli sur la police procedurale");
-        return false;
+        return std::nullopt;
     }
-    const AssetValidation dimensionValidation =
-        validateAsset(AssetFamily::Font, FONT_ASSET_FILE_NAME, loaded->width, loaded->height);
+    const AssetValidation dimensionValidation = validateAsset(
+        AssetFamily::Font, BitmapFont::FONT_ASSET_FILE_NAME, loaded->width, loaded->height);
     if (!dimensionValidation.valid) {
         GRAPHICS_LOG_WARNING("BitmapFont : " + dimensionValidation.message +
                              " Repli sur la police procedurale.");
-        return false;
+        return std::nullopt;
     }
+    imagePathOut = *imagePath;
+    return loaded;
+}
 
+// Charge les metriques de la police et verifie leur coherence avec la texture. std::nullopt (avec
+// journal) si le fichier est absent, invalide ou incoherent.
+std::optional<FontMetrics> loadFontMetrics(const AssetPaths& assetPaths, int textureWidth,
+                                           int textureHeight) {
     const std::optional<std::filesystem::path> metricsPath =
-        assetPaths.resolve(FONTS_SUBDIRECTORY + FONT_METRICS_FILE_NAME);
+        assetPaths.resolve(FONTS_SUBDIRECTORY + BitmapFont::FONT_METRICS_FILE_NAME);
     if (!metricsPath) {
         GRAPHICS_LOG_WARNING("BitmapFont : fichier de metriques '" + FONTS_SUBDIRECTORY +
-                             FONT_METRICS_FILE_NAME + "' absent, repli sur la police procedurale");
-        return false;
+                             BitmapFont::FONT_METRICS_FILE_NAME +
+                             "' absent, repli sur la police procedurale");
+        return std::nullopt;
     }
     const FontMetricsResult metricsResult = loadFontMetricsFromFile(*metricsPath);
     if (!metricsResult.ok()) {
         GRAPHICS_LOG_WARNING("BitmapFont : " + metricsResult.error +
                              " Repli sur la police procedurale.");
-        return false;
+        return std::nullopt;
     }
     const AssetValidation coherence = validateFontMetricsAgainstTexture(
-        *metricsResult.metrics, FONT_ASSET_FILE_NAME, loaded->width, loaded->height);
+        *metricsResult.metrics, BitmapFont::FONT_ASSET_FILE_NAME, textureWidth, textureHeight);
     if (!coherence.valid) {
         GRAPHICS_LOG_WARNING("BitmapFont : " + coherence.message +
                              " Repli sur la police procedurale.");
+        return std::nullopt;
+    }
+    return *metricsResult.metrics;
+}
+
+}  // namespace
+
+// Essaie de charger Assets/Fonts/font.png + font.json. true si les deux ont ete charges, valides,
+// et la texture creee avec succes.
+bool BitmapFont::loadFromAssets(const RhiContext& context) {
+    const AssetPaths assetPaths(executableDirectory() / "Assets");
+
+    std::filesystem::path imagePath;
+    std::optional<LoadedTexture> loaded = loadFontImage(context, assetPaths, imagePath);
+    if (!loaded) {
+        return false;
+    }
+    std::optional<FontMetrics> metrics = loadFontMetrics(assetPaths, loaded->width, loaded->height);
+    if (!metrics) {
         return false;
     }
 
     _textureWidth = loaded->width;
     _textureHeight = loaded->height;
     _texture = std::move(loaded->texture);
-    _metrics = *metricsResult.metrics;
-    GRAPHICS_LOG_INFO("BitmapFont : police chargee depuis '" + imagePath->string() + "'");
+    _metrics = std::move(*metrics);
+    GRAPHICS_LOG_INFO("BitmapFont : police chargee depuis '" + imagePath.string() + "'");
     return true;
 }
 

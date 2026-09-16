@@ -9,6 +9,7 @@
 #include <QPushButton>
 #include <QTreeWidget>
 #include <QTreeWidgetItem>
+#include <array>
 
 #include "Core/Levels/LevelDraft.h"
 #include "HMI/Graphics/Parallax.h"
@@ -21,7 +22,7 @@ namespace {
 
 // Densites proposees, dans l'ordre de la liste deroulante. Meme jeu que le format (EX-DEC-041) :
 // une valeur en plus ici serait refusee au chargement, donc invisible jusqu'a la relecture.
-constexpr int DENSITIES[] = {core::PLANE_NATIVE_PIXELS_PER_UNIT, 8, 4};
+constexpr std::array<int, 3> DENSITIES = {core::PLANE_NATIVE_PIXELS_PER_UNIT, 8, 4};
 
 // Rang d'un plan porte par l'element de liste : l'ordre visuel EST l'ordre du modele, mais le lire
 // depuis la donnee plutot que depuis la position evite de dependre d'un tri involontaire.
@@ -101,7 +102,10 @@ void PlanesPanel::connectControls() {
         }
         emit isolateToggled(selectedIndex().value_or(0), checked);
     });
+    connectSettingControls();
+}
 
+void PlanesPanel::connectSettingControls() {
     connect(_ui->densityCombo, &QComboBox::currentIndexChanged, this, [this](int) {
         if (_refreshing) {
             return;

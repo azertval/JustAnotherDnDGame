@@ -41,6 +41,34 @@ std::optional<DecodedImage> decodeImageFile(const std::filesystem::path& path) {
     return decoded;
 }
 
+namespace {
+
+// Ecriture atomique : fichier temporaire dans le meme dossier (donc le meme volume, condition
+// pour que le remplacement soit atomique), puis remplacement en une seule operation. Un
+// QFileSystemWatcher de rechargement a chaud (LOT-43) ne voit ainsi jamais de fichier tronque.
+bool savePngAtomically(const QImage& output, const std::filesystem::path& path,
+                       const std::filesystem::path& directory) {
+    std::error_code error;
+    const std::filesystem::path temporary =
+        directory / (path.stem().wstring() + L".tmp" + path.extension().wstring());
+    if (!output.save(QString::fromStdWString(temporary.wstring()), "PNG")) {
+        GRAPHICS_LOG_WARNING("TextureLoader : echec d'ecriture temporaire pour '" + path.string() +
+                             "'");
+        std::filesystem::remove(temporary, error);
+        return false;
+    }
+    std::filesystem::rename(temporary, path, error);
+    if (error) {
+        GRAPHICS_LOG_WARNING("TextureLoader : echec du remplacement atomique pour '" +
+                             path.string() + "'");
+        std::filesystem::remove(temporary, error);
+        return false;
+    }
+    return true;
+}
+
+}  // namespace
+
 // Écrit un fichier PNG depuis des pixels RGBA déjà en mémoire — symétrique de decodeImageFile.
 bool encodeImageFile(const std::filesystem::path& path, const DecodedImage& image) {
     if (image.width <= 0 || image.height <= 0 ||
@@ -61,29 +89,14 @@ bool encodeImageFile(const std::filesystem::path& path, const DecodedImage& imag
 
     // Format_RGBA8888 : le meme format non premultiplie que decodeImageFile lit -- aucune
     // conversion de canal, l'aller-retour restitue exactement les memes pixels.
+    // QImage n'accepte qu'un tampon d'octets : relire les pixels 32 bits octet par octet est
+    // l'usage voulu (et le passage par void* est refuse par bugprone-casting-through-void).
+    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
     const QImage output(reinterpret_cast<const uchar*>(image.pixels.data()), image.width,
                         image.height, static_cast<int>(image.width * sizeof(std::uint32_t)),
                         QImage::Format_RGBA8888);
 
-    // Ecriture atomique : fichier temporaire dans le meme dossier (donc le meme volume, condition
-    // pour que le remplacement soit atomique), puis remplacement en une seule operation. Un
-    // QFileSystemWatcher de rechargement a chaud (LOT-43) ne voit ainsi jamais de fichier tronque.
-    const std::filesystem::path temporary =
-        directory / (path.stem().wstring() + L".tmp" + path.extension().wstring());
-    if (!output.save(QString::fromStdWString(temporary.wstring()), "PNG")) {
-        GRAPHICS_LOG_WARNING("TextureLoader : echec d'ecriture temporaire pour '" + path.string() +
-                             "'");
-        std::filesystem::remove(temporary, error);
-        return false;
-    }
-    std::filesystem::rename(temporary, path, error);
-    if (error) {
-        GRAPHICS_LOG_WARNING("TextureLoader : echec du remplacement atomique pour '" +
-                             path.string() + "'");
-        std::filesystem::remove(temporary, error);
-        return false;
-    }
-    return true;
+    return savePngAtomically(output, path, directory);
 }
 
 // Crée une texture GPU à partir de pixels RGBA déjà décodés.

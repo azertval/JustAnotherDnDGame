@@ -35,6 +35,22 @@ constexpr int MAX_MODIFIER = 999;
     return valeur;
 }
 
+/// Le modificateur signe qui suit un de (`+2`, `-1`), ecrit dans @p dice. @return false si la
+/// notation est invalide a cet endroit.
+[[nodiscard]] bool lireModificateur(std::string_view notation, std::size_t& position, Dice& dice) {
+    const char signe = notation[position];
+    if (signe != '+' && signe != '-') {
+        return false;
+    }
+    ++position;
+    const std::optional<int> modificateur = lireEntier(notation, position);
+    if (!modificateur.has_value() || *modificateur > MAX_MODIFIER) {
+        return false;
+    }
+    dice.modifier = signe == '-' ? -*modificateur : *modificateur;
+    return true;
+}
+
 }  // namespace
 
 std::optional<Dice> parseDice(std::string_view notation) {
@@ -71,17 +87,8 @@ std::optional<Dice> parseDice(std::string_view notation) {
         return position == notation.size() ? std::optional<Dice>{dice} : std::nullopt;
     }
 
-    if (position < notation.size()) {
-        const char signe = notation[position];
-        if (signe != '+' && signe != '-') {
-            return std::nullopt;
-        }
-        ++position;
-        const std::optional<int> modificateur = lireEntier(notation, position);
-        if (!modificateur.has_value() || *modificateur > MAX_MODIFIER) {
-            return std::nullopt;
-        }
-        dice.modifier = signe == '-' ? -*modificateur : *modificateur;
+    if (position < notation.size() && !lireModificateur(notation, position, dice)) {
+        return std::nullopt;
     }
 
     // Un residu apres le modificateur -- « 1d6+2x » -- n'est pas une notation a moitie valide :

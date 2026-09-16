@@ -100,82 +100,96 @@ const Armor* EquipmentCatalog::findArmor(std::string_view id) const {
     return trouve == armors.end() ? nullptr : &*trouve;
 }
 
+namespace {
+
+[[nodiscard]] Weapon lireArme(const nlohmann::json& racine, const std::string& fichier,
+                              std::vector<std::string>& erreurs) {
+    Weapon arme;
+    arme.id = lireTexte(racine, "id");
+    arme.name = lireTexte(racine, "name");
+    arme.source = lireTexte(racine, "source");
+    arme.category = lireTexte(racine, "category");
+    arme.ranged = lireBooleen(racine, "ranged");
+    arme.price = lireEntier(racine, "price");
+    arme.weightGrams = lireEntier(racine, "weightGrams");
+    arme.text = lireTexte(racine, "text");
+    if (const auto proprietes = racine.find("properties");
+        proprietes != racine.end() && proprietes->is_array()) {
+        for (const nlohmann::json& propriete : *proprietes) {
+            if (propriete.is_string()) {
+                arme.properties.push_back(propriete.get<std::string>());
+            }
+        }
+    }
+    for (const auto& [cle, portee] :
+         {std::pair{"rangeNormal", &arme.rangeNormal}, std::pair{"rangeLong", &arme.rangeLong}}) {
+        if (const auto valeur = racine.find(cle); valeur != racine.end() && valeur->is_number()) {
+            *portee = valeur->get<float>();
+        }
+    }
+    const std::string des = lireTexte(racine, "damage");
+    if (!des.empty()) {
+        arme.damage = parseDice(des);
+        if (!arme.damage.has_value()) {
+            erreurs.push_back(fichier + " : notation de des illisible ('" + des + "').");
+        }
+    }
+    const std::string type = lireTexte(racine, "damageType");
+    if (!type.empty()) {
+        arme.damageType = parseDamageType(type);
+        if (!arme.damageType.has_value()) {
+            erreurs.push_back(fichier + " : type de degats '" + type + "' inconnu du moteur.");
+        }
+    }
+    return arme;
+}
+
+[[nodiscard]] std::optional<Armor> lireArmure(const nlohmann::json& racine,
+                                              const std::string& fichier,
+                                              std::vector<std::string>& erreurs) {
+    Armor armure;
+    armure.id = lireTexte(racine, "id");
+    armure.name = lireTexte(racine, "name");
+    armure.source = lireTexte(racine, "source");
+    const std::optional<ArmorCategory> categorie =
+        parseArmorCategory(lireTexte(racine, "category"));
+    if (!categorie.has_value()) {
+        erreurs.push_back(fichier + " : categorie d'armure inconnue.");
+        return std::nullopt;
+    }
+    armure.category = *categorie;
+    armure.baseArmorClass = lireEntier(racine, "baseArmorClass");
+    armure.dexterityBonus = lireBooleen(racine, "dexterityBonus");
+    if (const auto plafond = racine.find("dexterityBonusMax");
+        plafond != racine.end() && plafond->is_number_integer()) {
+        armure.dexterityBonusMax = plafond->get<int>();
+    }
+    if (const auto force = racine.find("strengthRequired");
+        force != racine.end() && force->is_number_integer()) {
+        armure.strengthRequired = force->get<int>();
+    }
+    armure.stealthDisadvantage = lireBooleen(racine, "stealthDisadvantage");
+    armure.price = lireEntier(racine, "price");
+    armure.weightGrams = lireEntier(racine, "weightGrams");
+    return armure;
+}
+
+}  // namespace
+
 EquipmentCatalog loadEquipment(const std::filesystem::path& weaponsDir,
                                const std::filesystem::path& armorsDir) {
     EquipmentCatalog catalogue;
 
     balayer(weaponsDir, catalogue.errors,
             [&catalogue](const nlohmann::json& racine, const std::string& fichier) {
-                Weapon arme;
-                arme.id = lireTexte(racine, "id");
-                arme.name = lireTexte(racine, "name");
-                arme.source = lireTexte(racine, "source");
-                arme.category = lireTexte(racine, "category");
-                arme.ranged = lireBooleen(racine, "ranged");
-                arme.price = lireEntier(racine, "price");
-                arme.weightGrams = lireEntier(racine, "weightGrams");
-                arme.text = lireTexte(racine, "text");
-                if (const auto proprietes = racine.find("properties");
-                    proprietes != racine.end() && proprietes->is_array()) {
-                    for (const nlohmann::json& propriete : *proprietes) {
-                        if (propriete.is_string()) {
-                            arme.properties.push_back(propriete.get<std::string>());
-                        }
-                    }
-                }
-                for (const auto& [cle, portee] : {std::pair{"rangeNormal", &arme.rangeNormal},
-                                                  std::pair{"rangeLong", &arme.rangeLong}}) {
-                    if (const auto valeur = racine.find(cle);
-                        valeur != racine.end() && valeur->is_number()) {
-                        *portee = valeur->get<float>();
-                    }
-                }
-                const std::string des = lireTexte(racine, "damage");
-                if (!des.empty()) {
-                    arme.damage = parseDice(des);
-                    if (!arme.damage.has_value()) {
-                        catalogue.errors.push_back(fichier + " : notation de des illisible ('" +
-                                                   des + "').");
-                    }
-                }
-                const std::string type = lireTexte(racine, "damageType");
-                if (!type.empty()) {
-                    arme.damageType = parseDamageType(type);
-                    if (!arme.damageType.has_value()) {
-                        catalogue.errors.push_back(fichier + " : type de degats '" + type +
-                                                   "' inconnu du moteur.");
-                    }
-                }
-                catalogue.weapons.push_back(std::move(arme));
+                catalogue.weapons.push_back(lireArme(racine, fichier, catalogue.errors));
             });
 
     balayer(armorsDir, catalogue.errors,
             [&catalogue](const nlohmann::json& racine, const std::string& fichier) {
-                Armor armure;
-                armure.id = lireTexte(racine, "id");
-                armure.name = lireTexte(racine, "name");
-                armure.source = lireTexte(racine, "source");
-                const std::optional<ArmorCategory> categorie =
-                    parseArmorCategory(lireTexte(racine, "category"));
-                if (!categorie.has_value()) {
-                    catalogue.errors.push_back(fichier + " : categorie d'armure inconnue.");
-                    return;
+                if (std::optional<Armor> armure = lireArmure(racine, fichier, catalogue.errors)) {
+                    catalogue.armors.push_back(std::move(*armure));
                 }
-                armure.category = *categorie;
-                armure.baseArmorClass = lireEntier(racine, "baseArmorClass");
-                armure.dexterityBonus = lireBooleen(racine, "dexterityBonus");
-                if (const auto plafond = racine.find("dexterityBonusMax");
-                    plafond != racine.end() && plafond->is_number_integer()) {
-                    armure.dexterityBonusMax = plafond->get<int>();
-                }
-                if (const auto force = racine.find("strengthRequired");
-                    force != racine.end() && force->is_number_integer()) {
-                    armure.strengthRequired = force->get<int>();
-                }
-                armure.stealthDisadvantage = lireBooleen(racine, "stealthDisadvantage");
-                armure.price = lireEntier(racine, "price");
-                armure.weightGrams = lireEntier(racine, "weightGrams");
-                catalogue.armors.push_back(std::move(armure));
             });
 
     std::ranges::sort(catalogue.weapons, {}, &Weapon::id);

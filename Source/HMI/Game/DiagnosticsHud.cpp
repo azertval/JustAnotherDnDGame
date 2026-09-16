@@ -3,6 +3,7 @@
 
 #include "HMI/Game/DiagnosticsHud.h"
 
+#include <array>
 #include <cstdio>
 
 #include "HMI/Localization/Localization.h"
@@ -37,9 +38,9 @@ std::string formatTwoCounts(const std::string& templateText, int first, int seco
 
 // Une decimale, sans dependance Qt/locale (std::to_string tronque a l'entier pour un float).
 std::string formatOneDecimal(float value) {
-    char buffer[32];
-    std::snprintf(buffer, sizeof(buffer), "%.1f", static_cast<double>(value));
-    return std::string(buffer);
+    std::array<char, 32> buffer{};
+    std::snprintf(buffer.data(), buffer.size(), "%.1f", static_cast<double>(value));
+    return {buffer.data()};
 }
 
 }  // namespace

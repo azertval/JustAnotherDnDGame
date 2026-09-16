@@ -3,17 +3,14 @@
 
 #include "HMI/Graphics/TileSilhouette.h"
 
+#include <algorithm>
 #include <cstddef>
 
 namespace hmi {
 
 bool hasSilhouette(core::TileType type) noexcept {
-    for (const core::TileType candidate : SILHOUETTE_TILE_TYPES) {
-        if (candidate == type) {
-            return true;
-        }
-    }
-    return false;
+    return std::ranges::any_of(SILHOUETTE_TILE_TYPES,
+                               [type](core::TileType candidate) { return candidate == type; });
 }
 
 bool isInsideSilhouette(core::TileType type, int localX, int localY, int tileSize) noexcept {

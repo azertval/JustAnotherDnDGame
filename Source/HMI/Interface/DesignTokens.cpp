@@ -215,7 +215,7 @@ DesignColor viewportClearColor(bool editorMode, const DesignTokens& activeEditor
 std::string toCssColor(DesignColor color) {
     std::array<char, 8> buffer{};
     std::snprintf(buffer.data(), buffer.size(), "#%02x%02x%02x", color.r, color.g, color.b);
-    return std::string(buffer.data());
+    return {buffer.data()};
 }
 
 std::string toCssRgba(DesignColor color) {

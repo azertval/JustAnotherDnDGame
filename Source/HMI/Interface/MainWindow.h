@@ -142,7 +142,7 @@ private:
     /// rechargement des assets.
     void reloadEditorReferences();
     /// @return Le dossier des images de plans, à côté des niveaux.
-    [[nodiscard]] std::filesystem::path planesDirectory() const;
+    [[nodiscard]] static std::filesystem::path planesDirectory();
     /// Crée un plan : un PNG entièrement transparent aux dimensions exactes, puis l'entrée dans le
     /// brouillon. Les deux vont ensemble — une entrée sans fichier afficherait un damier.
     void createPlane();
@@ -152,6 +152,28 @@ private:
 
     /// Crée les panneaux (contenu des docks du `.ui`) et branche les actions de la barre de menus.
     void buildUi();
+    /// Regroupe les docks en onglets par domaine et suit les choix d'onglet de l'utilisateur.
+    /// Appelée par `buildUi`.
+    void groupDockPanels();
+    /// Relie les actions d'outils (niveau et pixel art) et les signaux du canevas pixel art.
+    /// Appelée par `buildUi`.
+    void connectToolActions();
+    /// Charge la palette de projet de l'atelier pixel art et branche son panneau. Appelée par
+    /// `buildUi`.
+    void buildPixelPalette();
+    /// Branche les commandes de fichier et de région de l'atelier pixel art et leur menu. Appelée
+    /// par `buildUi`.
+    void connectPixelCommands();
+    /// Branche les commandes principales de l'éditeur et les répartit dans les menus. Appelée par
+    /// `buildUi`.
+    void connectEditorCommands();
+    /// Construit le sélecteur de thème clair/sombre de l'éditeur. Appelée par `buildUi`.
+    void buildThemeMenu();
+    /// Remplit le menu Affichage : vue, panneaux, espaces de travail, calques. Appelée par
+    /// `buildUi`.
+    void buildViewMenu();
+    /// Crée les zones permanentes de la barre d'état. Appelée par `buildUi`.
+    void buildStatusBar();
     void restoreLayout();
     void saveLayout();
     /// Ouvre la boîte de dialogue de redimensionnement du niveau (avec confirmation si
@@ -261,7 +283,7 @@ private:
     [[nodiscard]] QString text(const char* key) const;
 
     /// Affiche l'éditeur (viewport + docks + barre de menu).
-    void showEditor();
+    static void showEditor();
     /// Montre/masque tous les panneaux dockables.
     void setDocksVisible(bool visible);
 

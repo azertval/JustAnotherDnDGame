@@ -5,6 +5,7 @@
 
 #include <QVariantMap>
 #include <algorithm>
+#include <cstdint>
 #include <cstdlib>
 #include <filesystem>
 #include <utility>
@@ -56,6 +57,23 @@ namespace {
 
 constexpr const char* CHARACTER_PREFIX = "character:";
 
+/// Journalise chaque erreur d'un catalogue, précédée de @p prefix.
+void logErrors(const std::string& prefix, const std::vector<std::string>& errors) {
+    for (const std::string& error : errors) {
+        HMI_LOG_WARNING(prefix + error);
+    }
+}
+
+/// @return La première arène qui a une carte, ou nullptr.
+[[nodiscard]] const core::Arena* firstPlayableArena(const core::ArenaCatalog& catalog) {
+    for (const core::Arena& arena : catalog.arenas) {
+        if (!arena.map.empty()) {
+            return &arena;
+        }
+    }
+    return nullptr;
+}
+
 }  // namespace
 
 ArenaModel::ArenaModel(QObject* parent) : QObject(parent), _catalogs(std::make_unique<Catalogs>()) {
@@ -76,9 +94,7 @@ void ArenaModel::loadCatalogs() {
     Catalogs& c = *_catalogs;
 
     c.bestiary = core::loadBestiary(root / "Rpg" / "creatures");
-    for (const std::string& error : c.bestiary.errors) {
-        HMI_LOG_WARNING("Arene : bestiaire, " + error);
-    }
+    logErrors("Arene : bestiaire, ", c.bestiary.errors);
     if (c.bestiary.creatures.empty()) {
         c.problems << QStringLiteral("bestiaire vide");
     }
@@ -103,27 +119,16 @@ void ArenaModel::loadCatalogs() {
     }
 
     c.arenas = core::loadArenas(root / "World" / "arena");
-    for (const std::string& error : c.arenas.errors) {
-        HMI_LOG_WARNING("Arene : catalogue, " + error);
-    }
+    logErrors("Arene : catalogue, ", c.arenas.errors);
     c.marks = core::loadHeroicMarks(root / "Rpg" / "rules" / "heroic-marks.json");
-    for (const std::string& error : c.marks.errors) {
-        HMI_LOG_WARNING("Arene : marques heroiques, " + error);
-    }
+    logErrors("Arene : marques heroiques, ", c.marks.errors);
     c.behaviors = core::loadBehaviors(root / "Rpg" / "rules" / "behaviors.json");
-    for (const std::string& error : c.behaviors.errors) {
-        HMI_LOG_WARNING("Arene : profils de comportement, " + error);
-    }
+    logErrors("Arene : profils de comportement, ", c.behaviors.errors);
     if (c.behaviors.profiles.empty()) {
         c.problems << QStringLiteral("aucun profil d'IA : les ennemis se commandent a la main");
     }
 
-    for (const core::Arena& arena : c.arenas.arenas) {
-        if (!arena.map.empty()) {
-            c.playable = &arena;
-            break;
-        }
-    }
+    c.playable = firstPlayableArena(c.arenas);
     if (c.playable == nullptr) {
         c.problems << QStringLiteral("aucune arene n'a de carte");
         return;
@@ -388,7 +393,8 @@ std::optional<ArenaModel::Fighter> ArenaModel::fighterFor(const QString& id,
                        .contestant = {.profile = std::move(profile),
                                       .attacks = std::move(attacks),
                                       .position = std::nullopt,
-                                      .markId = {}}};
+                                      .markId = {},
+                                      .behavior = {}}};
     }
     const core::Creature* creature = _catalogs->bestiary.find(id.toStdString());
     if (creature == nullptr) {
@@ -398,7 +404,8 @@ std::optional<ArenaModel::Fighter> ArenaModel::fighterFor(const QString& id,
                    .contestant = {.profile = core::profileFor(*creature, side),
                                   .attacks = core::attacksFor(*creature).attacks,
                                   .position = std::nullopt,
-                                  .markId = {}}};
+                                  .markId = {},
+                                  .behavior = {}}};
 }
 
 void ArenaModel::addAlly(const QString& id) {
@@ -450,6 +457,7 @@ void ArenaModel::assignMark(bool ally, int index, const QString& markId) {
 
 core::ArenaBout ArenaModel::composeBout() const {
     core::ArenaBout bout{
+        .contestants = {},
         .seed = static_cast<std::uint64_t>(static_cast<unsigned>(_seed)),
         .lethal = _catalogs->playable != nullptr && _catalogs->playable->lethal,
         .heroicMark = _catalogs->playable == nullptr || _catalogs->playable->heroicMark,
@@ -526,10 +534,10 @@ void ArenaModel::launch() {
 namespace {
 
 /// Une action du tour telle que l'écran la propose.
-enum class TurnActionKind { Attack, Dodge, Disengage, Dash, Reaction };
+enum class TurnActionKind : std::uint8_t { ATTACK, DODGE, DISENGAGE, DASH, REACTION };
 
 struct TurnActionEntry {
-    TurnActionKind kind = TurnActionKind::Attack;
+    TurnActionKind kind = TurnActionKind::ATTACK;
     std::size_t attack = 0;
     QString label;
 };
@@ -542,16 +550,16 @@ struct TurnActionEntry {
     if (const std::vector<core::AttackProfile>* attacks = session.attacks(active)) {
         for (std::size_t i = 0; i < attacks->size(); ++i) {
             entries.push_back(
-                {.kind = TurnActionKind::Attack, .attack = i, .label = toQt((*attacks)[i].label)});
+                {.kind = TurnActionKind::ATTACK, .attack = i, .label = toQt((*attacks)[i].label)});
         }
     }
     entries.push_back(
-        {.kind = TurnActionKind::Dodge, .attack = 0, .label = ArenaModel::tr("Esquiver")});
+        {.kind = TurnActionKind::DODGE, .attack = 0, .label = ArenaModel::tr("Esquiver")});
     entries.push_back(
-        {.kind = TurnActionKind::Disengage, .attack = 0, .label = ArenaModel::tr("Se desengager")});
+        {.kind = TurnActionKind::DISENGAGE, .attack = 0, .label = ArenaModel::tr("Se desengager")});
     entries.push_back(
-        {.kind = TurnActionKind::Dash, .attack = 0, .label = ArenaModel::tr("Se precipiter")});
-    entries.push_back({.kind = TurnActionKind::Reaction,
+        {.kind = TurnActionKind::DASH, .attack = 0, .label = ArenaModel::tr("Se precipiter")});
+    entries.push_back({.kind = TurnActionKind::REACTION,
                        .attack = 0,
                        .label = session.takesOpportunities(active)
                                     ? ArenaModel::tr("Reaction : saisir les opportunites")
@@ -561,18 +569,54 @@ struct TurnActionEntry {
 
 [[nodiscard]] QString kindName(TurnActionKind kind) {
     switch (kind) {
-        case TurnActionKind::Attack:
+        case TurnActionKind::ATTACK:
             return QStringLiteral("attack");
-        case TurnActionKind::Dodge:
+        case TurnActionKind::DODGE:
             return QStringLiteral("dodge");
-        case TurnActionKind::Disengage:
+        case TurnActionKind::DISENGAGE:
             return QStringLiteral("disengage");
-        case TurnActionKind::Dash:
+        case TurnActionKind::DASH:
             return QStringLiteral("dash");
-        case TurnActionKind::Reaction:
+        case TurnActionKind::REACTION:
             return QStringLiteral("reaction");
     }
     return {};
+}
+
+/// Ce que l'écran montre de la santé d'un combattant : un texte et une jauge.
+struct HealthDisplay {
+    QString hitPoints;
+    double ratio = 1.0;
+};
+
+[[nodiscard]] HealthDisplay healthDisplayOf(const core::CombatantProfile& profile, bool down) {
+    HealthDisplay display;
+    if (profile.side == core::CombatSide::Allies) {
+        display.hitPoints = QString::number(profile.currentHitPoints) + "/" +
+                            QString::number(profile.maximumHitPoints);
+        display.ratio = std::clamp(
+            static_cast<double>(profile.currentHitPoints) / std::max(1, profile.maximumHitPoints),
+            0.0, 1.0);
+        return display;
+    }
+    // Guide du Maitre, chapitre 8 : les points de vie d'un monstre se suivent en secret ;
+    // sous la moitie, il est ensanglante, et cela se voit.
+    if (down) {
+        display.hitPoints = ArenaModel::tr("a terre");
+        display.ratio = 0.0;
+    } else if (core::isBloodied(profile)) {
+        display.hitPoints = ArenaModel::tr("ensanglante");
+        display.ratio = 0.5;
+    }
+    return display;
+}
+
+/// L'état visible d'une cible, à accoler à son nom : à terre, ou ensanglantée.
+[[nodiscard]] QString targetStateSuffix(const core::Combatant& target) {
+    if (target.status == core::CombatantStatus::Down) {
+        return ArenaModel::tr(" (a terre)");
+    }
+    return core::isBloodied(target.profile) ? ArenaModel::tr(" (ensanglante)") : QString();
 }
 
 [[nodiscard]] QStringList joined(const std::vector<std::string>& sources) {
@@ -605,29 +649,15 @@ QVariantList ArenaModel::fighters() const {
         }
         const core::CombatantProfile& profile = combatant->profile;
         const bool down = combatant->status == core::CombatantStatus::Down;
-        QString hitPoints;
-        double ratio = 1.0;
-        if (profile.side == core::CombatSide::Allies) {
-            hitPoints = QString::number(profile.currentHitPoints) + "/" +
-                        QString::number(profile.maximumHitPoints);
-            ratio = std::clamp(static_cast<double>(profile.currentHitPoints) /
-                                   std::max(1, profile.maximumHitPoints),
-                               0.0, 1.0);
-        } else {
-            // Guide du Maitre, chapitre 8 : les points de vie d'un monstre se suivent en secret ;
-            // sous la moitie, il est ensanglante, et cela se voit.
-            const bool bloodied = core::isBloodied(profile);
-            hitPoints = down ? tr("a terre") : (bloodied ? tr("ensanglante") : QString());
-            ratio = down ? 0.0 : (bloodied ? 0.5 : 1.0);
-        }
+        const HealthDisplay health = healthDisplayOf(profile, down);
         list << QVariantMap{{"column", anchor->column},
                             {"row", anchor->row},
                             {"footprint", std::max(1, combat.grid().sideOf(id))},
                             {"side", sideName(profile.side)},
                             {"active", active == id},
                             {"down", down},
-                            {"hitPoints", hitPoints},
-                            {"hitPointsRatio", ratio}};
+                            {"hitPoints", health.hitPoints},
+                            {"hitPointsRatio", health.ratio}};
     }
     return list;
 }
@@ -680,7 +710,7 @@ QVariantList ArenaModel::turnActions() const {
         combatant != nullptr && combatant->economy.remaining(core::ACTION_RESOURCE) > 0;
     const std::vector<TurnActionEntry> entries = turnActionsOf(*_session, *active);
     for (std::size_t i = 0; i < entries.size(); ++i) {
-        const bool needsAction = entries[i].kind != TurnActionKind::Reaction;
+        const bool needsAction = entries[i].kind != TurnActionKind::REACTION;
         list << QVariantMap{{"label", entries[i].label},
                             {"kind", kindName(entries[i].kind)},
                             {"enabled", !needsAction || action},
@@ -700,27 +730,27 @@ QStringList ArenaModel::preview() const {
     const TurnActionEntry& chosen = entries[static_cast<std::size_t>(
         std::clamp(_selectedAction, 0, static_cast<int>(entries.size()) - 1))];
     switch (chosen.kind) {
-        case TurnActionKind::Dodge:
+        case TurnActionKind::DODGE:
             lines << tr(
                 "Esquiver : les attaques contre lui sont desavantagees jusqu'a son prochain "
                 "tour, s'il voit l'attaquant.");
             return lines;
-        case TurnActionKind::Disengage:
+        case TurnActionKind::DISENGAGE:
             lines << tr(
                 "Se desengager : ses deplacements ne provoquent plus d'attaque "
                 "d'opportunite ce tour-ci.");
             return lines;
-        case TurnActionKind::Dash:
+        case TurnActionKind::DASH:
             lines << tr("Se precipiter : un deplacement supplementaire egal a sa vitesse.");
             return lines;
-        case TurnActionKind::Reaction:
+        case TurnActionKind::REACTION:
             lines << (_session->takesOpportunities(*active)
                           ? tr("Il frappera l'ennemi qui quitte son allonge. Confirmer pour le "
                                "laisser passer.")
                           : tr("Il laissera passer l'ennemi qui quitte son allonge. Confirmer "
                                "pour frapper."));
             return lines;
-        case TurnActionKind::Attack:
+        case TurnActionKind::ATTACK:
             break;
     }
 
@@ -734,9 +764,7 @@ QStringList ArenaModel::preview() const {
             return lines;
         }
         lines << toQt(attack->label) + QStringLiteral(" -> ") + toQt(other->profile.name) +
-                     (other->status == core::CombatantStatus::Down
-                          ? tr(" (a terre)")
-                          : (core::isBloodied(other->profile) ? tr(" (ensanglante)") : QString()));
+                     targetStateSuffix(*other);
         switch (attack->check) {
             case core::TargetCheck::Valid:
                 break;
@@ -860,7 +888,7 @@ void ArenaModel::tapCell(int column, int row) {
             const std::vector<TurnActionEntry> entries = turnActionsOf(*_session, *active);
             if (_selectedAction >= 0 && std::cmp_less(_selectedAction, entries.size())) {
                 const TurnActionEntry& chosen = entries[static_cast<std::size_t>(_selectedAction)];
-                if (chosen.kind == TurnActionKind::Attack &&
+                if (chosen.kind == TurnActionKind::ATTACK &&
                     core::checkTarget(combat, *active, *target,
                                       (*_session->attacks(*active))[chosen.attack]) ==
                         core::TargetCheck::Valid) {
@@ -976,7 +1004,7 @@ void ArenaModel::confirm() {
     const TurnActionEntry chosen = entries[static_cast<std::size_t>(
         std::clamp(_selectedAction, 0, static_cast<int>(entries.size()) - 1))];
     switch (chosen.kind) {
-        case TurnActionKind::Attack: {
+        case TurnActionKind::ATTACK: {
             const core::CombatState& combat = _session->combat();
             const std::optional<core::CombatantId> occupant = combat.grid().occupantAt(_cursor);
             if (!occupant.has_value()) {
@@ -989,16 +1017,16 @@ void ArenaModel::confirm() {
             emitSceneChanged();
             return;
         }
-        case TurnActionKind::Dodge:
+        case TurnActionKind::DODGE:
             dodge();
             return;
-        case TurnActionKind::Disengage:
+        case TurnActionKind::DISENGAGE:
             disengage();
             return;
-        case TurnActionKind::Dash:
+        case TurnActionKind::DASH:
             dash();
             return;
-        case TurnActionKind::Reaction: {
+        case TurnActionKind::REACTION: {
             const bool takes = !_session->takesOpportunities(*active);
             _session->setTakesOpportunities(*active, takes);
             _status = takes ? tr("Il frappera l'ennemi qui quitte son allonge.")

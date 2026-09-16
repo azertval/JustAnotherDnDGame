@@ -118,6 +118,18 @@ constexpr int SANS_GARDE_DE_VERSION = 0;
     return "?";
 }
 
+/// La derniere case ou l'on peut se tenir, au plus tard @p sortie : on ne s'arrete pas sur la case
+/// d'un allie qu'on traverse. Zero si aucune avant.
+[[nodiscard]] std::size_t derniereCaseTenable(const ReachableArea& zone,
+                                              const std::vector<GridPosition>& cases,
+                                              std::size_t sortie) {
+    std::size_t arret = sortie;
+    while (arret > 0 && !zone.canEndAt(cases[arret])) {
+        --arret;
+    }
+    return arret;
+}
+
 }  // namespace
 
 // --- Points d'entree --------------------------------------------------------------------------
@@ -607,20 +619,8 @@ MoveOutcome ArenaSession::move(GridPosition destination) {
         // Les cases successives de l'ancre, depart compris, et la premiere sortie d'allonge.
         std::vector<GridPosition> cases{zone->origin()};
         cases.insert(cases.end(), chemin->steps.begin(), chemin->steps.end());
-        std::optional<std::size_t> sortie;
         std::vector<CombatantId> opportunistes;
-        if (!_disengaged.contains(*actif)) {
-            for (std::size_t i = 0; i + 1 < cases.size() && !sortie.has_value(); ++i) {
-                for (const CombatantId autre : _combat->combatants()) {
-                    if (provokes(*actif, autre, cases[i], cases[i + 1])) {
-                        opportunistes.push_back(autre);
-                    }
-                }
-                if (!opportunistes.empty()) {
-                    sortie = i;
-                }
-            }
-        }
+        const std::optional<std::size_t> sortie = firstProvokingStep(*actif, cases, opportunistes);
         if (!sortie.has_value()) {
             const MoveOutcome pas = _combat->move(destination);
             if (pas.result == MoveResult::Moved) {
@@ -632,10 +632,7 @@ MoveOutcome ArenaSession::move(GridPosition destination) {
 
         // On ne s'arrete pas sur la case d'un allie qu'on traverse : l'attaque tombe a la derniere
         // case ou l'on peut se tenir avant la sortie.
-        std::size_t arret = *sortie;
-        while (arret > 0 && !zone->canEndAt(cases[arret])) {
-            --arret;
-        }
+        const std::size_t arret = derniereCaseTenable(*zone, cases, *sortie);
         if (arret > 0) {
             const MoveOutcome pas = _combat->move(cases[arret]);
             if (pas.result == MoveResult::Moved) {
@@ -643,20 +640,44 @@ MoveOutcome ArenaSession::move(GridPosition destination) {
                 cumuler(pas);
             }
         }
-        for (const CombatantId opportuniste : opportunistes) {
-            const Combatant* cible = _combat->find(*actif);
-            const Combatant* c = _combat->find(opportuniste);
-            if (cible == nullptr || cible->status != CombatantStatus::Standing ||
-                _combat->phase() == CombatPhase::Ended || c == nullptr ||
-                c->status != CombatantStatus::Standing) {
-                break;
-            }
-            const AttackProfile coup = *meleeAttack(opportuniste);
-            static_cast<void>(_combat->economy(opportuniste)->spend(REACTION_RESOURCE));
-            static_cast<void>(resolveAndRecord(opportuniste, *actif, coup, "opportunite : "));
-        }
+        takeOpportunities(*actif, opportunistes);
     }
     return parcours;
+}
+
+std::optional<std::size_t> ArenaSession::firstProvokingStep(
+    CombatantId mover, const std::vector<GridPosition>& cases,
+    std::vector<CombatantId>& reactors) const {
+    std::optional<std::size_t> sortie;
+    if (_disengaged.contains(mover)) {
+        return sortie;
+    }
+    for (std::size_t i = 0; i + 1 < cases.size() && !sortie.has_value(); ++i) {
+        for (const CombatantId autre : _combat->combatants()) {
+            if (provokes(mover, autre, cases[i], cases[i + 1])) {
+                reactors.push_back(autre);
+            }
+        }
+        if (!reactors.empty()) {
+            sortie = i;
+        }
+    }
+    return sortie;
+}
+
+void ArenaSession::takeOpportunities(CombatantId mover, const std::vector<CombatantId>& reactors) {
+    for (const CombatantId opportuniste : reactors) {
+        const Combatant* cible = _combat->find(mover);
+        const Combatant* c = _combat->find(opportuniste);
+        if (cible == nullptr || cible->status != CombatantStatus::Standing ||
+            _combat->phase() == CombatPhase::Ended || c == nullptr ||
+            c->status != CombatantStatus::Standing) {
+            break;
+        }
+        const AttackProfile coup = *meleeAttack(opportuniste);
+        static_cast<void>(_combat->economy(opportuniste)->spend(REACTION_RESOURCE));
+        static_cast<void>(resolveAndRecord(opportuniste, mover, coup, "opportunite : "));
+    }
 }
 
 bool ArenaSession::endTurn() {

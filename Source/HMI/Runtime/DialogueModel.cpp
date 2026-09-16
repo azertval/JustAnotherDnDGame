@@ -48,6 +48,23 @@ namespace {
     return core::deriveSeed(0x15D1A106ULL, compteur++, 0);
 }
 
+/// Garde les dialogues dont toutes les références se résolvent ; journalise les autres.
+[[nodiscard]] std::vector<core::DialogueGraph> validDialogues(
+    std::vector<core::DialogueGraph> graphes, const core::DialogueReferences& references) {
+    std::vector<core::DialogueGraph> valides;
+    for (core::DialogueGraph& graphe : graphes) {
+        const std::vector<std::string> erreurs =
+            core::validateDialogueReferences(graphe, references);
+        for (const std::string& error : erreurs) {
+            HMI_LOG_WARNING("Dialogue : " + error);
+        }
+        if (erreurs.empty()) {
+            valides.push_back(std::move(graphe));
+        }
+    }
+    return valides;
+}
+
 }  // namespace
 
 struct DialogueModel::Session {
@@ -96,18 +113,7 @@ DialogueModel::DialogueModel(QObject* parent)
     references.languageExists = [root](std::string_view id) {
         return std::filesystem::exists(root / "Rpg" / "languages" / (std::string(id) + ".json"));
     };
-    std::vector<core::DialogueGraph> valides;
-    for (core::DialogueGraph& graphe : s.dialogues.dialogues) {
-        const std::vector<std::string> erreurs =
-            core::validateDialogueReferences(graphe, references);
-        for (const std::string& error : erreurs) {
-            HMI_LOG_WARNING("Dialogue : " + error);
-        }
-        if (erreurs.empty()) {
-            valides.push_back(std::move(graphe));
-        }
-    }
-    s.dialogues.dialogues = std::move(valides);
+    s.dialogues.dialogues = validDialogues(std::move(s.dialogues.dialogues), references);
     refresh();
 }
 
