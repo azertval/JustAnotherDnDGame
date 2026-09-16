@@ -14,6 +14,10 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
   zoome à la molette, une minicarte situe la vue. Seuls les blocs à l'écran sont dessinés, ceux
   d'un anneau autour gardent leur texture, les autres la libèrent après deux secondes. Ce n'est
   pas un écran du jeu, et il n'appartient à aucun lot de la feuille de route.
+  - **Spécification** : tout asset livré doit y paraître (`EX-CNT-042`). Un test parcourt toutes
+    les images de `Assets/` et échoue sur celle que la galerie ne montre pas, hors exclusions
+    nommées (planches sources, atlas, interface, polices) ; portraits, joueur, objets, fonds et
+    skins fixes y entrent donc aussi.
 
 - **Atelier des textures : la scène a son style (LOT-92).** Une maquette approuvée par l'auteur
   fixe le style de la scène — pixel art isométrique, soir, lanternes, pierre et bois sombres —

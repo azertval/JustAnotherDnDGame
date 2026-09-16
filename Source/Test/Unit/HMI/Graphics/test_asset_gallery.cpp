@@ -218,3 +218,32 @@ TEST(AssetGalleryTest, AssetsLivres) {
     }
     EXPECT_FALSE(hmi::layoutAssetGallery(catalog).blocs.empty());
 }
+
+/**
+ * @brief Toute image livrée paraît dans la galerie, ou relève d'une exclusion nommée
+ * (`EX-CNT-042`).
+ * \castest{<b>Aucun asset livré n'échappe à la galerie.</b><br/>
+ * \tcat Unitaire · Galerie des assets<br/>
+ * \tcrit Bloquant<br/>
+ * \tetapes 1. Lire le catalogue de Source/Elements/Assets. 2. Parcourir toutes les images
+ * livrées.<br/>
+ * \tattendu Chaque PNG ou JPEG est une forme de la galerie, ou une planche source, l'atlas, une
+ * image d'interface ou une police ; les portraits de PNJ et les skins fixes y sont.
+ * }
+ */
+TEST(AssetGalleryTest, ToutAssetLivreEstDansLaGalerie) {
+    const std::filesystem::path root(JADG_ASSETS_DIR);
+    const hmi::AssetGalleryCatalog catalog = hmi::AssetGalleryCatalog::load(root);
+    for (const std::string& path : hmi::assetGalleryUnlisted(root, catalog)) {
+        ADD_FAILURE() << path
+                      << " : image livrée absente de la galerie des assets (EX-CNT-042). "
+                         "L'ajouter à AssetGalleryCatalog::load, ou nommer son exclusion dans "
+                         "assetGalleryExcludes.";
+    }
+
+    EXPECT_TRUE(hmi::assetGalleryExcludes("Scene/martpart/planche-1.png"));
+    EXPECT_TRUE(hmi::assetGalleryExcludes("Coliseum/production_source_atlas.png"));
+    EXPECT_TRUE(hmi::assetGalleryExcludes("UI/world-map.jpg"));
+    EXPECT_FALSE(hmi::assetGalleryExcludes("Scene/martpart/street.png"));
+    EXPECT_FALSE(hmi::assetGalleryExcludes("Npc/anariel/portrait.png"));
+}

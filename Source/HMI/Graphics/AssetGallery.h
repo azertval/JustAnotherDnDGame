@@ -5,6 +5,7 @@
 
 #include <filesystem>
 #include <string>
+#include <string_view>
 #include <vector>
 
 /**
@@ -73,11 +74,16 @@ struct AssetGalleryFamily {
 /**
  * @brief L'inventaire de la galerie, lu dans les manifestes des assets livrés.
  *
- * Familles lues, dans cet ordre, chacune seulement si son manifeste existe :
- * - `Npc/manifest.json` : chaque PNJ × chaque animation, d'après son `.anim.json` ;
+ * Familles lues, dans cet ordre, chacune seulement si elle existe :
+ * - `Npc/manifest.json` : chaque PNJ × chaque animation, d'après son `.anim.json`, et son portrait
+ * ;
  * - `Coliseum/manifest.json` : héros × animations, gladiateurs, puis les pièces de la planche ;
  * - `Scene/<disposition>/manifest.json` : les textures de l'atelier (LOT-92), par classe ;
- * - `Skins/*.anim.json` : les tuiles animées.
+ * - `Player/`, `Skins/`, `Objects/`, `Backgrounds/` : toutes leurs images, animées quand un
+ *   `.anim.json` les accompagne.
+ *
+ * Tout asset livré doit y paraître (`EX-CNT-042`) : `hmi::assetGalleryUnlisted` nomme ceux qui n'y
+ * sont pas, et un test l'exige vide.
  *
  * Un manifeste illisible est une erreur **nommée**, jamais un arrêt : la galerie montre le reste.
  */
@@ -90,6 +96,22 @@ struct AssetGalleryCatalog {
     /// @return Le nombre total de formes.
     [[nodiscard]] std::size_t entryCount() const noexcept;
 };
+
+/**
+ * @brief Les images livrées qui ne sont pas des assets à montrer, par règle nommée : les planches
+ *        sources des ateliers (`Scene/…/planche-*.png`, `Coliseum/production_source_atlas.png`),
+ *        l'atlas procédural (`atlas.png`), l'interface (`UI/`) et les polices (`Fonts/`).
+ * @param path Chemin relatif à la racine des assets, séparateurs `/`.
+ */
+[[nodiscard]] bool assetGalleryExcludes(std::string_view path) noexcept;
+
+/**
+ * @brief Les images livrées (PNG, JPEG) que la galerie ne montre pas et qu'aucune exclusion ne
+ *        couvre : ce que `EX-CNT-042` interdit.
+ * @return Chemins relatifs à @p assetsRoot, triés ; vide quand la galerie est complète.
+ */
+[[nodiscard]] std::vector<std::string> assetGalleryUnlisted(const std::filesystem::path& assetsRoot,
+                                                            const AssetGalleryCatalog& catalog);
 
 /**
  * @brief Un bloc : l'emprise d'une forme plus une case de marge tout autour, en cases.

@@ -518,7 +518,7 @@ Rectangle {
             }
             Text {
                 visible: gallery.errors.length > 0
-                text: "%1 manifeste(s) illisible(s) : %2".arg(gallery.errors.length).arg(gallery.errors.join(" ; "))
+                text: "%1 problème(s) : %2".arg(gallery.errors.length).arg(gallery.errors.join(" ; "))
                 color: Tokens.textEnemy
                 font.pixelSize: Tokens.fontCaption
             }

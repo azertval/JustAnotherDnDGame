@@ -4,9 +4,14 @@
 #include "HMI/Graphics/AssetGallery.h"
 
 #include <algorithm>
+#include <array>
 #include <cmath>
+#include <fstream>
 #include <map>
+#include <set>
+#include <string_view>
 #include <system_error>
+#include <tuple>
 #include <utility>
 
 #include <nlohmann/json.hpp>
@@ -50,6 +55,23 @@ using json = nlohmann::json;
         return {fallbackX, fallbackY};
     }
     return {(*found)[0].get<int>(), (*found)[1].get<int>()};
+}
+
+/// Largeur et hauteur d'un PNG, lues dans son en-tête IHDR ; (0, 0) si ce n'est pas un PNG lisible.
+[[nodiscard]] std::pair<int, int> pngSize(const std::filesystem::path& path) {
+    std::ifstream file(path, std::ios::binary);
+    std::array<unsigned char, 24> header{};
+    if (!file.read(reinterpret_cast<char*>(header.data()), header.size()) || header[1] != 'P' ||
+        header[2] != 'N' || header[3] != 'G') {
+        return {0, 0};
+    }
+    const auto bigEndian = [&](std::size_t offset) {
+        return static_cast<int>((static_cast<unsigned>(header[offset]) << 24U) |
+                                (static_cast<unsigned>(header[offset + 1]) << 16U) |
+                                (static_cast<unsigned>(header[offset + 2]) << 8U) |
+                                static_cast<unsigned>(header[offset + 3]));
+    };
+    return {bigEndian(16), bigEndian(20)};
 }
 
 /**
@@ -118,6 +140,15 @@ void readNpcs(const std::filesystem::path& root, AssetGalleryCatalog& catalog) {
                                   catalog.errors)) {
                 family.entries.push_back(std::move(entry));
             }
+        }
+        const auto [width, height] = pngSize(root / "Npc" / npc / "portrait.png");
+        if (width > 0) {
+            family.entries.push_back(AssetGalleryEntry{.family = family.title,
+                                                       .model = npc,
+                                                       .form = "portrait",
+                                                       .path = "Npc/" + npc + "/portrait.png",
+                                                       .frameWidth = width,
+                                                       .frameHeight = height});
         }
     }
     if (!family.entries.empty()) {
@@ -246,31 +277,40 @@ void readScenes(const std::filesystem::path& root, AssetGalleryCatalog& catalog)
     }
 }
 
-void readSkins(const std::filesystem::path& root, AssetGalleryCatalog& catalog) {
-    std::vector<std::filesystem::path> descriptors;
+/**
+ * @brief Toutes les images d'un dossier : animée si un `<nom>.anim.json` l'accompagne, fixe sinon.
+ */
+void readFolder(const std::filesystem::path& root, AssetGalleryCatalog& catalog, const char* title,
+                const char* directory) {
+    std::vector<std::filesystem::path> images;
     std::error_code error;
-    for (const auto& item : std::filesystem::directory_iterator(root / "Skins", error)) {
-        const std::string fileName = item.path().filename().string();
-        if (item.is_regular_file() && fileName.ends_with(".anim.json")) {
-            descriptors.push_back(item.path());
+    for (const auto& item : std::filesystem::directory_iterator(root / directory, error)) {
+        if (item.is_regular_file() && item.path().extension() == ".png") {
+            images.push_back(item.path());
         }
     }
-    std::sort(descriptors.begin(), descriptors.end());
-    AssetGalleryFamily family{.title = "Skins", .directory = "Skins", .entries = {}};
-    for (const std::filesystem::path& descriptor : descriptors) {
-        const std::string stem = stemOf(descriptor.filename().string());
-        std::error_code ignored;
-        if (!std::filesystem::is_regular_file(descriptor.parent_path() / (stem + ".png"),
-                                              ignored)) {
-            continue;
-        }
+    std::sort(images.begin(), images.end());
+    AssetGalleryFamily family{.title = title, .directory = directory, .entries = {}};
+    for (const std::filesystem::path& image : images) {
+        const std::string stem = stemOf(image.filename().string());
         AssetGalleryEntry entry{.family = family.title,
-                                .model = "skins",
+                                .model = directory,
                                 .form = stem,
-                                .path = "Skins/" + stem + ".png"};
-        if (readAnimatedEntry(entry, descriptor, catalog.errors)) {
-            family.entries.push_back(std::move(entry));
+                                .path = std::string(directory) + "/" + stem + ".png"};
+        const std::filesystem::path descriptor = image.parent_path() / (stem + ".anim.json");
+        std::error_code ignored;
+        if (std::filesystem::is_regular_file(descriptor, ignored)) {
+            if (!readAnimatedEntry(entry, descriptor, catalog.errors)) {
+                continue;
+            }
+        } else {
+            std::tie(entry.frameWidth, entry.frameHeight) = pngSize(image);
+            if (entry.frameWidth <= 0) {
+                catalog.errors.push_back(image.generic_string() + " : PNG illisible");
+                continue;
+            }
         }
+        family.entries.push_back(std::move(entry));
     }
     if (!family.entries.empty()) {
         catalog.families.push_back(std::move(family));
@@ -288,8 +328,45 @@ AssetGalleryCatalog AssetGalleryCatalog::load(const std::filesystem::path& asset
     readNpcs(assetsRoot, catalog);
     readColiseum(assetsRoot, catalog);
     readScenes(assetsRoot, catalog);
-    readSkins(assetsRoot, catalog);
+    readFolder(assetsRoot, catalog, "Joueur", "Player");
+    readFolder(assetsRoot, catalog, "Skins", "Skins");
+    readFolder(assetsRoot, catalog, "Objets", "Objects");
+    readFolder(assetsRoot, catalog, "Fonds", "Backgrounds");
     return catalog;
+}
+
+bool assetGalleryExcludes(std::string_view path) noexcept {
+    const std::size_t slash = path.rfind('/');
+    const std::string_view fileName =
+        slash == std::string_view::npos ? path : path.substr(slash + 1);
+    return path == "atlas.png" || path == "Coliseum/production_source_atlas.png" ||
+           path.starts_with("UI/") || path.starts_with("Fonts/") ||
+           (path.starts_with("Scene/") && fileName.starts_with("planche-"));
+}
+
+std::vector<std::string> assetGalleryUnlisted(const std::filesystem::path& assetsRoot,
+                                              const AssetGalleryCatalog& catalog) {
+    std::set<std::string> listed;
+    for (const AssetGalleryFamily& family : catalog.families) {
+        for (const AssetGalleryEntry& entry : family.entries) {
+            listed.insert(entry.path);
+        }
+    }
+    std::vector<std::string> unlisted;
+    std::error_code error;
+    for (auto it = std::filesystem::recursive_directory_iterator(assetsRoot, error);
+         !error && it != std::filesystem::recursive_directory_iterator(); it.increment(error)) {
+        const std::string extension = it->path().extension().string();
+        if (!it->is_regular_file() || (extension != ".png" && extension != ".jpg")) {
+            continue;
+        }
+        const std::string path = std::filesystem::relative(it->path(), assetsRoot).generic_string();
+        if (!listed.contains(path) && !assetGalleryExcludes(path)) {
+            unlisted.push_back(path);
+        }
+    }
+    std::sort(unlisted.begin(), unlisted.end());
+    return unlisted;
 }
 
 std::size_t AssetGalleryCatalog::entryCount() const noexcept {

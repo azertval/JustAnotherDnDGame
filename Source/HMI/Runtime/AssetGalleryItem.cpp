@@ -87,6 +87,13 @@ AssetGalleryItem::AssetGalleryItem(QQuickItem* parent) : QQuickRhiItem(parent) {
         _errors.push_back(QString::fromStdString(error));
         HMI_LOG_WARNING("Galerie des assets : " + error);
     }
+    // EX-CNT-042 : un asset livré que la galerie ne montre pas se dit au lancement, pas seulement
+    // en intégration continue.
+    for (const std::string& path : assetGalleryUnlisted(root, _catalog)) {
+        const std::string message = path + " : image livree absente de la galerie";
+        _errors.push_back(QString::fromStdString(message));
+        HMI_LOG_WARNING("Galerie des assets : " + message);
+    }
     HMI_LOG_INFO("Galerie des assets : " + std::to_string(_layout.blocs.size()) + " formes, " +
                  std::to_string(_catalog.families.size()) + " familles.");
     if (!_layout.blocs.empty()) {
