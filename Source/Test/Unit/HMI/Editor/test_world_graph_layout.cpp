@@ -45,6 +45,15 @@ float distance(core::Vector2 a, core::Vector2 b) {
 
 }  // namespace
 
+/**
+ * @brief Un graphe vide se dispose sans nœud, sans flèche et sans rayon.
+ * \castest{<b>Un graphe vide ne dessine rien.</b><br/>
+ * \tcat Unitaire · Graphe du monde<br/>
+ * \tcrit Mineur<br/>
+ * \tetapes 1. Disposer un graphe sans carte ni portail.<br/>
+ * \tattendu Aucun noeud, aucune fleche, rayon nul.
+ * }
+ */
 TEST(WorldGraphLayout, GrapheVideSansNoeudNiFleche) {
     const hmi::WorldGraphLayout disposition = hmi::layoutWorldGraph(core::WorldGraph{});
     EXPECT_TRUE(disposition.nodes.empty());
@@ -52,6 +61,15 @@ TEST(WorldGraphLayout, GrapheVideSansNoeudNiFleche) {
     EXPECT_FLOAT_EQ(disposition.circleRadius, 0.0f);
 }
 
+/**
+ * @brief Une carte seule se place au centre, avec son nom.
+ * \castest{<b>Une carte seule est au centre.</b><br/>
+ * \tcat Unitaire · Graphe du monde<br/>
+ * \tcrit Mineur<br/>
+ * \tetapes 1. Disposer un graphe d'une seule carte.<br/>
+ * \tattendu Un noeud reel, au centre, qui porte le nom de la carte.
+ * }
+ */
 TEST(WorldGraphLayout, UneSeuleCarteAuCentre) {
     core::WorldGraph graphe;
     graphe.maps = {carte("seule")};
@@ -62,6 +80,16 @@ TEST(WorldGraphLayout, UneSeuleCarteAuCentre) {
     EXPECT_FALSE(disposition.nodes[0].ghost);
 }
 
+/**
+ * @brief Les cartes se rangent sur le cercle par identifiant, la première en haut, puis dans le
+ * sens horaire.
+ * \castest{<b>Les cartes sont rangees sur le cercle.</b><br/>
+ * \tcat Unitaire · Graphe du monde<br/>
+ * \tcrit Majeur<br/>
+ * \tetapes 1. Disposer trois cartes donnees dans le desordre.<br/>
+ * \tattendu Ordre a, b, c ; toutes sur le cercle ; a en haut, b a droite.
+ * }
+ */
 TEST(WorldGraphLayout, CartesSurLeCercleTrieesParIdentifiantPremiereEnHaut) {
     core::WorldGraph graphe;
     graphe.maps = {carte("c"), carte("a"), carte("b")};
@@ -78,6 +106,17 @@ TEST(WorldGraphLayout, CartesSurLeCercleTrieesParIdentifiantPremiereEnHaut) {
     EXPECT_GT(disposition.nodes[1].center.x, 0.0f);  // puis sens horaire
 }
 
+/**
+ * @brief Le rayon du cercle a un plancher, puis croît pour tenir l'écart entre deux cartes
+ * voisines.
+ * \castest{<b>Le rayon du cercle espace les cartes.</b><br/>
+ * \tcat Unitaire · Graphe du monde<br/>
+ * \tcrit Majeur<br/>
+ * \tetapes 1. Calculer le rayon de 0 a 41 cartes.<br/>
+ * \tattendu Nul jusqu'a une carte, plancher a deux, corde jamais sous l'ecart voulu, rayon
+ * croissant.
+ * }
+ */
 TEST(WorldGraphLayout, RayonPlancherPuisCroissantPourQueLesEtiquettesNeSeChevauchentPas) {
     EXPECT_FLOAT_EQ(hmi::worldGraphCircleRadius(0), 0.0f);
     EXPECT_FLOAT_EQ(hmi::worldGraphCircleRadius(1), 0.0f);
@@ -91,6 +130,15 @@ TEST(WorldGraphLayout, RayonPlancherPuisCroissantPourQueLesEtiquettesNeSeChevauc
     }
 }
 
+/**
+ * @brief Deux dispositions du même graphe sont identiques.
+ * \castest{<b>La disposition est deterministe.</b><br/>
+ * \tcat Unitaire · Graphe du monde<br/>
+ * \tcrit Majeur<br/>
+ * \tetapes 1. Disposer deux fois le meme graphe, fantome compris.<br/>
+ * \tattendu Memes noeuds aux memes places, meme nombre de fleches.
+ * }
+ */
 TEST(WorldGraphLayout, DispositionDeterministe) {
     core::WorldGraph graphe;
     graphe.maps = {carte("a"), carte("b")};
@@ -105,6 +153,15 @@ TEST(WorldGraphLayout, DispositionDeterministe) {
     EXPECT_EQ(premiere.edges.size(), seconde.edges.size());
 }
 
+/**
+ * @brief Une carte illisible reste un nœud, marqué et porteur de son erreur.
+ * \castest{<b>Une carte illisible reste un noeud marque.</b><br/>
+ * \tcat Unitaire · Graphe du monde<br/>
+ * \tcrit Majeur<br/>
+ * \tetapes 1. Disposer une carte en erreur de chargement et une carte saine.<br/>
+ * \tattendu Le premier noeud est marque illisible avec son erreur, le second non.
+ * }
+ */
 TEST(WorldGraphLayout, CarteIllisibleResteUnNoeudMarque) {
     core::WorldGraph graphe;
     graphe.maps = {carte("abimee", "JSON invalide"), carte("saine")};
@@ -115,6 +172,16 @@ TEST(WorldGraphLayout, CarteIllisibleResteUnNoeudMarque) {
     EXPECT_FALSE(disposition.nodes[1].unreadable);
 }
 
+/**
+ * @brief Les portails vers une carte inconnue, ou sans cible, mènent à un fantôme par identifiant.
+ * \castest{<b>Les cibles inconnues deviennent des fantomes.</b><br/>
+ * \tcat Unitaire · Graphe du monde<br/>
+ * \tcrit Majeur<br/>
+ * \tetapes 1. Disposer quatre portails : deux vers une carte inconnue, deux sans cible.<br/>
+ * \tattendu Deux fantomes apres les cartes reelles, sur le cercle ; quatre fleches cassees vers
+ * eux.
+ * }
+ */
 TEST(WorldGraphLayout, CiblesInconnuesRegroupeesEnUnFantomeParIdentifiant) {
     core::WorldGraph graphe;
     graphe.maps = {carte("a"), carte("b")};
@@ -141,6 +208,15 @@ TEST(WorldGraphLayout, CiblesInconnuesRegroupeesEnUnFantomeParIdentifiant) {
     EXPECT_NEAR(disposition.nodes[3].center.length(), disposition.circleRadius, 0.01f);
 }
 
+/**
+ * @brief Les portails d'une même paire ordonnée se dessinent en une flèche, avec leur compte.
+ * \castest{<b>Les portails d'une meme paire font une fleche.</b><br/>
+ * \tcat Unitaire · Graphe du monde<br/>
+ * \tcrit Majeur<br/>
+ * \tetapes 1. Disposer deux portails de a vers b et un de b vers a.<br/>
+ * \tattendu Deux fleches : a vers b comptant 2, b vers a comptant 1.
+ * }
+ */
 TEST(WorldGraphLayout, PortailsDUneMemePaireOrdonneeDessinesUneFoisAvecLeurCompte) {
     core::WorldGraph graphe;
     graphe.maps = {carte("a"), carte("b")};
@@ -158,6 +234,16 @@ TEST(WorldGraphLayout, PortailsDUneMemePaireOrdonneeDessinesUneFoisAvecLeurCompt
     EXPECT_EQ(disposition.edges[1].count(), 1U);
 }
 
+/**
+ * @brief Une flèche est cassée dès qu'un de ses portails l'est, avec le statut du premier non
+ * résolu.
+ * \castest{<b>Une fleche est cassee des qu'un portail l'est.</b><br/>
+ * \tcat Unitaire · Graphe du monde<br/>
+ * \tcrit Majeur<br/>
+ * \tetapes 1. Disposer trois portails de a vers b, dont deux non resolus.<br/>
+ * \tattendu Une fleche cassee, au statut du premier non resolu, comptant 3.
+ * }
+ */
 TEST(WorldGraphLayout, FlecheCasseeDesQuUnPortailLEstStatutDuPremierNonResolu) {
     core::WorldGraph graphe;
     graphe.maps = {carte("a"), carte("b")};
@@ -170,6 +256,15 @@ TEST(WorldGraphLayout, FlecheCasseeDesQuUnPortailLEstStatutDuPremierNonResolu) {
     EXPECT_EQ(disposition.edges[0].count(), 3U);
 }
 
+/**
+ * @brief Un portail vers une carte illisible vise cette carte, pas un fantôme.
+ * \castest{<b>Une cible illisible reste la carte.</b><br/>
+ * \tcat Unitaire · Graphe du monde<br/>
+ * \tcrit Mineur<br/>
+ * \tetapes 1. Disposer un portail vers une carte en erreur de chargement.<br/>
+ * \tattendu Deux noeuds, une fleche cassee vers la carte illisible.
+ * }
+ */
 TEST(WorldGraphLayout, CibleIllisibleVisePasUnFantomeMaisLaCarte) {
     core::WorldGraph graphe;
     graphe.maps = {carte("a"), carte("b", "illisible")};
@@ -181,6 +276,15 @@ TEST(WorldGraphLayout, CibleIllisibleVisePasUnFantomeMaisLaCarte) {
     EXPECT_TRUE(disposition.edges[0].broken);
 }
 
+/**
+ * @brief Un portail vers sa propre carte est une boucle, au-dessus du nœud.
+ * \castest{<b>Un portail vers sa propre carte est une boucle.</b><br/>
+ * \tcat Unitaire · Graphe du monde<br/>
+ * \tcrit Mineur<br/>
+ * \tetapes 1. Disposer un portail de a vers a.<br/>2. Calculer son trace.<br/>
+ * \tattendu Une boucle au-dessus et a droite du noeud, sur son bord.
+ * }
+ */
 TEST(WorldGraphLayout, PortailVersSaPropreCarteEstUneBoucle) {
     core::WorldGraph graphe;
     graphe.maps = {carte("a")};
@@ -196,6 +300,15 @@ TEST(WorldGraphLayout, PortailVersSaPropreCarteEstUneBoucle) {
                 hmi::WORLD_GRAPH_NODE_RADIUS, 0.01f);
 }
 
+/**
+ * @brief Une flèche part du bord de sa source et arrive au bord de sa cible.
+ * \castest{<b>Une fleche va de bord a bord.</b><br/>
+ * \tcat Unitaire · Graphe du monde<br/>
+ * \tcrit Mineur<br/>
+ * \tetapes 1. Calculer le trace d'une fleche de a vers b.<br/>
+ * \tattendu Depart et arrivee a un rayon de noeud des deux centres.
+ * }
+ */
 TEST(WorldGraphLayout, TraceDUneFlecheDuBordSourceAuBordCible) {
     core::WorldGraph graphe;
     graphe.maps = {carte("a"), carte("b")};
@@ -208,6 +321,15 @@ TEST(WorldGraphLayout, TraceDUneFlecheDuBordSourceAuBordCible) {
                 0.01f);
 }
 
+/**
+ * @brief L'aller et le retour entre deux cartes se décalent pour ne pas se superposer.
+ * \castest{<b>Les fleches opposees se decalent.</b><br/>
+ * \tcat Unitaire · Graphe du monde<br/>
+ * \tcrit Mineur<br/>
+ * \tetapes 1. Calculer les traces de a vers b et de b vers a.<br/>
+ * \tattendu Leurs pastilles ne se confondent pas.
+ * }
+ */
 TEST(WorldGraphLayout, FlechesOpposeesDecaleesPourNePasSeSuperposer) {
     core::WorldGraph graphe;
     graphe.maps = {carte("a"), carte("b")};
@@ -218,6 +340,15 @@ TEST(WorldGraphLayout, FlechesOpposeesDecaleesPourNePasSeSuperposer) {
     EXPECT_GT(distance(aller.badge, retour.badge), 1.0f);
 }
 
+/**
+ * @brief Le pointeur désigne le nœud qu'il survole, bord compris.
+ * \castest{<b>Le pointeur designe le noeud survole.</b><br/>
+ * \tcat Unitaire · Graphe du monde<br/>
+ * \tcrit Majeur<br/>
+ * \tetapes 1. Designer le centre d'un noeud, puis son bord, puis un point vide.<br/>
+ * \tattendu Le noeud, le noeud, rien.
+ * }
+ */
 TEST(WorldGraphLayout, NodeAtTrouveLeNoeudSousLePointeur) {
     core::WorldGraph graphe;
     graphe.maps = {carte("a"), carte("b")};
@@ -232,6 +363,16 @@ TEST(WorldGraphLayout, NodeAtTrouveLeNoeudSousLePointeur) {
               std::nullopt);
 }
 
+/**
+ * @brief Entre deux nœuds qui se recouvrent, le plus proche l'emporte, puis le plus petit indice.
+ * \castest{<b>Deux noeuds recouverts se departagent.</b><br/>
+ * \tcat Unitaire · Graphe du monde<br/>
+ * \tcrit Mineur<br/>
+ * \tetapes 1. Designer le point equidistant de deux noeuds, puis un point plus proche du
+ * second.<br/>
+ * \tattendu Le premier a egalite, le plus proche sinon.
+ * }
+ */
 TEST(WorldGraphLayout, NodeAtDepartageParLePlusPetitIndice) {
     hmi::WorldGraphLayout disposition;
     disposition.nodes.resize(2);
@@ -243,6 +384,15 @@ TEST(WorldGraphLayout, NodeAtDepartageParLePlusPetitIndice) {
               std::optional<std::size_t>(1));  // le plus proche l'emporte
 }
 
+/**
+ * @brief Le pointeur désigne une flèche ou une boucle par sa pastille.
+ * \castest{<b>Le pointeur designe une fleche ou une boucle.</b><br/>
+ * \tcat Unitaire · Graphe du monde<br/>
+ * \tcrit Mineur<br/>
+ * \tetapes 1. Designer la pastille d'une fleche, celle d'une boucle, puis un point lointain.<br/>
+ * \tattendu La fleche, la boucle, rien.
+ * }
+ */
 TEST(WorldGraphLayout, EdgeAtTrouveLaFlecheEtLaBoucle) {
     core::WorldGraph graphe;
     graphe.maps = {carte("a"), carte("b")};

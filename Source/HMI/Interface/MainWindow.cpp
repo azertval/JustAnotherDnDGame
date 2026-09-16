@@ -1090,8 +1090,10 @@ void MainWindow::buildUi() {
         }
         _viewport->save();
         // Une carte enregistree peut avoir change ses points d'arrivee ou son nom : les portails
-        // des AUTRES cartes se valident contre le fichier (LOT-11).
+        // des AUTRES cartes se valident contre le fichier, et le graphe du monde le montre
+        // (LOT-11).
         reloadEditorReferences();
+        _levels->refreshWorldGraph();
     });
     connect(_actions->action(hmi::IconId::Playtest), &QAction::triggered, _viewport,
             [this] { _viewport->startPlaytest(); });

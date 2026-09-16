@@ -1,8 +1,8 @@
 # LOT-11 — Éditeur multi-couches et placement d'entités {#lot-11}
 
 > Statut : **livré, en attente de la vérification IHM manuelle** (vérification automatisée : build
-> Debug `/W4 /WX` sans avertissement, `ctest` vert, lints d'exigences et de lots verts ; captures
-> de `LevelEditor` relues).
+> Debug `/W4 /WX` sans avertissement, `ctest` à **1278/1278** (1145 au `LOT-24`), lints d'exigences
+> et de lots verts, cahier de test régénéré ; captures de `LevelEditor` relues).
 > Prérequis : [LOT-04](@ref lot-04) (le format à couches et entités), [LOT-08](@ref lot-08) (le
 > vocabulaire de terrain), [LOT-10](@ref lot-10) (les entités de carte et l'interaction).
 > Alimente [LOT-27](@ref lot-27) (le contenu du slice se produit dans l'éditeur), `LOT-40` (le
