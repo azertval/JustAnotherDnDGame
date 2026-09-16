@@ -12,9 +12,15 @@
 #include <utility>
 #include <vector>
 
+#include "Core/Combat/TacticalTerrain.h"
 #include "Core/Levels/GridPosition.h"
 #include "Core/Levels/LevelDraft.h"
+#include "Core/Levels/LevelProperties.h"
+#include "Core/Levels/TileLayer.h"
 #include "Core/Levels/TileType.h"
+#include "Core/World/EntityKinds.h"
+#include "HMI/Editor/EditorDiagnostics.h"
+#include "HMI/Editor/LayerView.h"
 #include "Core/Math/Rect.h"
 #include "Core/Time/FixedTimestep.h"
 #include "HMI/Editor/EditContextTarget.h"
@@ -47,6 +53,7 @@ class DraftRenderer;
 class Localization;
 class BitmapFont;
 class AudioEngine;
+struct EditorReferences;
 }  // namespace hmi
 
 namespace hmi {
@@ -462,7 +469,63 @@ public:
     void setPlaneIsolated(std::size_t index, bool isolate);
     /// @}
 
+    /**
+     * @name Couches de tuiles (`LOT-11`)
+     *
+     * Le pinceau, le rectangle, la copie et le collage visent la **couche active** : la grille
+     * racine (collision) par défaut, ou une couche visuelle choisie dans le panneau « Couches ».
+     * Ajout, retrait, ordre et nom passent par `core::LevelDraft`, donc par l'historique ;
+     * visibilité et opacité sont une aide d'édition, ni annulable ni enregistrée.
+     * @{
+     */
+    void setActiveLayer(LayerSlot slot);
+    [[nodiscard]] LayerSlot activeLayer() const noexcept {
+        return _activeLayer;
+    }
+    [[nodiscard]] const LayerViewState& layerView() const noexcept {
+        return _layerView;
+    }
+    void setMapLayerVisible(LayerSlot slot, bool visible);
+    void setMapLayerOpacity(LayerSlot slot, float opacity);
+    /// Ajoute une couche visuelle et la rend active.
+    void addMapLayer(core::LayerKind kind, const std::string& name);
+    void removeMapLayer(std::size_t index);
+    void moveMapLayer(std::size_t index, bool forward);
+    void renameMapLayer(std::size_t index, const std::string& name);
+    /// @}
+
+    /**
+     * @name Entités de carte (`LOT-11`)
+     * @{
+     */
+    /// Catalogues que les entités référencent (non possédés, fournis par `MainWindow`) ; relance
+    /// la validation. `nullptr` : rien n'est vérifié hors de la carte.
+    void setEditorReferences(const EditorReferences* references);
+    /// Famille posée par l'outil « Entité » ; vide pour la simple sélection.
+    void setEntityKindToPlace(std::string type);
+    void selectEntity(std::optional<std::size_t> index);
+    [[nodiscard]] std::optional<std::size_t> selectedEntity() const noexcept {
+        return _selectedEntity;
+    }
+    void setEntityProperty(std::size_t index, const std::string& key, core::PropertyValue value);
+    void removeEntity(std::size_t index);
+    /// @return Les avertissements courants : références cassées et terrain tactique.
+    [[nodiscard]] const std::vector<EditorDiagnostic>& diagnostics() const noexcept {
+        return _diagnostics;
+    }
+    /// @return Le contexte de validation courant (catalogues + points d'arrivée du brouillon).
+    [[nodiscard]] const core::EntityReferenceContext& entityReferenceContext() const noexcept {
+        return _referenceContext;
+    }
+    /// @}
+
 signals:
+    /// La couche active a changé (panneau, annulation qui la retire, ouverture d'une carte).
+    void activeLayerChanged(hmi::LayerSlot slot);
+    /// Visibilité ou opacité d'une couche a changé.
+    void layerViewChanged();
+    /// L'entité sélectionnée a changé (clic, pose, retrait, annulation).
+    void entitySelectionChanged(std::optional<std::size_t> index);
     /// Message d'état à afficher (enregistrement, essai, erreur de validation…).
     void statusMessage(const QString& message);
     /// Demande de retour au menu principal (fin de la séquence de niveaux -- plus depuis `LOT-59`
@@ -581,6 +644,20 @@ private:
     /// Invalide le rendu du brouillon et notifie les panneaux dépendants (`draftChanged`) — à
     /// appeler après toute mutation de `_draft` (peinture, lien, undo/redo, chargement…).
     void markDraftMutated();
+    /// Réaligne la couche active, les réglages de couches et l'entité sélectionnée sur le
+    /// brouillon, puis recalcule les avertissements (`LOT-11`). Appelée par `markDraftMutated`.
+    void syncEditingState();
+    /// Recalcule références et terrain tactique des entités du brouillon.
+    void refreshDiagnostics();
+    /// Remplit @p block (indexé `[ligne][colonne]`) sur la couche active ; signale un type refusé
+    /// par une couche visuelle. @return `true` si le brouillon a changé.
+    bool paintActiveRegion(int originColumn, int originRow,
+                           const std::vector<std::vector<core::TileType>>& block);
+    /// @return La grille de la couche active.
+    [[nodiscard]] const core::TileMap& activeLayerTiles() const;
+    /// Appui, glisser et relâchement de l'outil « Entité ».
+    void handleEntityPress(const QMouseEvent* event);
+    void handleEntityRelease(const QMouseEvent* event);
 
     [[nodiscard]] int pixelWidth() const;
     [[nodiscard]] int pixelHeight() const;
@@ -689,6 +766,22 @@ private:
     /// Session de jeu de l'essai immédiat ; nulle en mode édition (essai ajouté au LOT-35
     /// TACHE-04).
     std::optional<hmi::GameSession> _session;
+
+    // --- Couches et entités (LOT-11) ---
+    LayerSlot _activeLayer;          ///< Couche peinte ; la grille racine par défaut.
+    hmi::LayerViewState _layerView;  ///< Visibilité et opacité par couche (aide d'édition).
+    /// Vrai si un type refusé par la couche active a déjà été signalé pendant le geste en cours :
+    /// un glisser de pinceau ne répète pas le même message à chaque case.
+    bool _refusalReported = false;
+    const EditorReferences* _references = nullptr;  ///< Catalogues, non possédés.
+    std::string _entityKindToPlace;                 ///< Famille posée par l'outil « Entité ».
+    std::optional<std::size_t> _selectedEntity;
+    /// Entité saisie à l'appui (outil « Entité »), déplacée au relâchement si la case change.
+    std::optional<std::size_t> _grabbedEntity;
+    core::GridPosition _entityPressCell{};
+    core::EntityReferenceContext _referenceContext;
+    std::vector<core::EncounterTerrain> _terrains;
+    std::vector<EditorDiagnostic> _diagnostics;
 };
 
 }  // namespace hmi

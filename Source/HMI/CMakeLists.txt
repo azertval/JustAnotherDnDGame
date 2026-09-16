@@ -113,6 +113,10 @@ add_library(HmiLib STATIC
     Editor/PixelAssetIO.cpp
     Editor/PixelPalette.cpp
     Editor/PixelAutotilePreview.cpp
+    Editor/LayerView.cpp
+    Editor/EntityGesture.cpp
+    Editor/EntityReferences.cpp
+    Editor/EditorDiagnostics.cpp
     # Interface : logique d'écrans et de thème, sans widget.
     Presentation/ScreenFlow.cpp
     Presentation/RpgScreens.cpp
@@ -225,6 +229,8 @@ add_executable(LevelEditor
     Editor/PalettePanel.cpp
     Editor/LevelBrowserPanel.cpp
     Editor/LinkPanel.cpp
+    Editor/LayersPanel.cpp
+    Editor/EntityPanel.cpp
     Editor/TexturePanel.cpp
     Editor/AssetThumbnailView.cpp
     Editor/PixelCanvas.cpp
@@ -238,6 +244,8 @@ add_executable(LevelEditor
     ${ELEMENTS_UI}/TexturePanel.ui
     ${ELEMENTS_UI}/PlanesPanel.ui
     ${ELEMENTS_UI}/LevelBrowserPanel.ui
+    ${ELEMENTS_UI}/LayersPanel.ui
+    ${ELEMENTS_UI}/EntityPanel.ui
     ${ELEMENTS_UI}/AssetThumbnailView.ui
 )
 

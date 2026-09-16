@@ -31,6 +31,9 @@ enum class PanelId {
     Levels,
     Links,
     Textures,
+    // Couches et entites de la carte (LOT-11).
+    Layers,
+    Entities,
     // Espace des plans picturaux (LOT-69).
     Planes,
     // Espace de l'atelier pixel art.
@@ -42,7 +45,7 @@ enum class PanelId {
 /// Nombre de panneaux, declare au plus pres de l'enumeration qu'il compte. Sert de garde de
 /// **completude** a la repartition par espace de travail (`hmi::workspacesForPanel`, `LOT-68`) :
 /// un panneau ajoute sans espace resterait affiche dans les deux, ce qu'un test interdit.
-inline constexpr std::size_t PANEL_COUNT = 8;
+inline constexpr std::size_t PANEL_COUNT = 10;
 
 /// Une entrée de la table : l'outil @p tool met en avant le panneau @p panel.
 struct PanelFocusEntry {
@@ -51,7 +54,7 @@ struct PanelFocusEntry {
 };
 
 /// Nombre d'entrées de la table (tous les outils n'ont pas de panneau dédié).
-constexpr int PANEL_FOCUS_CATALOG_COUNT = 2;
+constexpr int PANEL_FOCUS_CATALOG_COUNT = 3;
 
 /// @return La table complète outil → panneau.
 [[nodiscard]] const std::array<PanelFocusEntry, PANEL_FOCUS_CATALOG_COUNT>& panelFocusCatalog();

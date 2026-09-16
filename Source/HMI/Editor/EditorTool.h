@@ -31,13 +31,16 @@ namespace hmi {
  * `core::CameraFramingConfig::zones` au relâchement (`core::LevelDraft::addCameraZone`) ; les
  * zones existantes se retirent depuis le tableau de la section « Cadrage » du panneau Textures,
  * pas depuis le canevas.
+ * `Entity` (`LOT-11`) pose, sélectionne, déplace et retire les entités de carte — PNJ, coffres,
+ * portails, points d'arrivée… — voir `hmi::resolveEntityPress` ; leurs propriétés s'éditent dans
+ * le panneau « Entités ».
  */
-enum class EditorTool { Paint, Rectangle, Selection, Link, TextureAssign, CameraZone };
+enum class EditorTool { Paint, Rectangle, Selection, Link, TextureAssign, CameraZone, Entity };
 
 /// Nombre d'outils d'édition, déclaré au plus près de l'énumération qu'il compte. Sert de garde
 /// de **complétude** : le catalogue d'actions doit exposer exactement autant d'outils de niveau
 /// (`hmi::editorActionCatalog`), ce qu'un test vérifie — sans quoi un outil ajouté à
 /// l'énumération peut apparaître dans la barre d'outils sans jamais être relié au viewport.
-inline constexpr std::size_t EDITOR_TOOL_COUNT = 6;
+inline constexpr std::size_t EDITOR_TOOL_COUNT = 7;
 
 }  // namespace hmi

@@ -22,9 +22,12 @@
 #include "Core/Levels/LevelOutcome.h"
 #include "Core/Levels/LevelWriter.h"
 #include "Core/Levels/TileMap.h"
+#include "Core/Levels/TileTypeName.h"
 #include "Core/Math/Vector2.h"
 #include "HMI/Audio/AudioEngine.h"
 #include "HMI/Audio/SoundTriggers.h"
+#include "HMI/Editor/EntityGesture.h"
+#include "HMI/Editor/EntityReferences.h"
 #include "HMI/Editor/LevelFileOperations.h"
 #include "HMI/Editor/LevelNameValidation.h"
 #include "HMI/Editor/LinkGeometry.h"
@@ -224,10 +227,54 @@ std::optional<core::GridPosition> GameViewport::cellAt(const QMouseEvent* event)
 
 void GameViewport::paintAt(const QMouseEvent* event) {
     if (const std::optional<core::GridPosition> cell = cellAt(event)) {
+        if (_activeLayer) {
+            // Couche visuelle (LOT-11) : meme chemin que le rectangle, une case a la fois.
+            paintActiveRegion(cell->column, cell->row, {{_activeTile}});
+            return;
+        }
         _draft.paintTile(cell->column, cell->row, _activeTile);
         _dirty = true;
         markDraftMutated();
     }
+}
+
+bool GameViewport::paintActiveRegion(int originColumn, int originRow,
+                                     const std::vector<std::vector<core::TileType>>& block) {
+    if (!_activeLayer) {
+        _draft.paintRegion(originColumn, originRow, block);
+        _dirty = true;
+        markDraftMutated();
+        return true;
+    }
+    for (const std::vector<core::TileType>& row : block) {
+        for (const core::TileType type : row) {
+            if (!core::isVisualLayerTileType(type)) {
+                if (!_refusalReported) {
+                    _refusalReported = true;
+                    emit statusMessage(statusText("status.layer_tile_refused")
+                                           .arg(QString::fromStdString(
+                                               std::string{core::tileTypeName(type)})));
+                }
+                return false;
+            }
+        }
+    }
+    const bool changed = block.size() == 1 && block.front().size() == 1
+                             ? _draft.paintLayerTile(*_activeLayer, originColumn, originRow,
+                                                     block.front().front())
+                             : _draft.paintLayerRegion(*_activeLayer, originColumn, originRow, block);
+    if (changed) {
+        _dirty = true;
+        markDraftMutated();
+    }
+    return changed;
+}
+
+const core::TileMap& GameViewport::activeLayerTiles() const {
+    if (_activeLayer && *_activeLayer < _draft.layers().size()) {
+        return _draft.layers()[*_activeLayer].tiles;
+    }
+    return _draft.tileMap();
 }
 
 core::GridPosition GameViewport::clampedCell(const QMouseEvent* event) {
@@ -251,9 +298,7 @@ void GameViewport::applyRectangle(core::GridPosition a, core::GridPosition b) {
         static_cast<std::size_t>(maxRow - minRow + 1),
         std::vector<core::TileType>(static_cast<std::size_t>(maxColumn - minColumn + 1),
                                     _activeTile));
-    _draft.paintRegion(minColumn, minRow, block);  // un seul snapshot undo pour tout le rectangle
-    _dirty = true;
-    markDraftMutated();
+    paintActiveRegion(minColumn, minRow, block);  // un seul snapshot undo pour tout le rectangle
 }
 
 // Ajoute une zone de camera dessinee a la main (outil CameraZone, EX-LVL-007, EX-EDIT-029) : meme
@@ -284,7 +329,7 @@ void GameViewport::copySelection() {
     }
     const core::GridPosition mn = _selection->first;
     const core::GridPosition mx = _selection->second;
-    const core::TileMap& map = _draft.tileMap();
+    const core::TileMap& map = activeLayerTiles();  // la couche active (LOT-11).
     _clipboard.clear();
     for (int row = mn.row; row <= mx.row; ++row) {
         std::vector<core::TileType> line;
@@ -301,10 +346,10 @@ void GameViewport::pasteClipboard() {
     if (_clipboard.empty() || !_hoverCell) {
         return;
     }
-    _draft.paintRegion(_hoverCell->column, _hoverCell->row, _clipboard);
-    _dirty = true;
-    markDraftMutated();
-    emit statusMessage(statusText("status.region_pasted"));
+    if (paintActiveRegion(_hoverCell->column, _hoverCell->row, _clipboard)) {
+        emit statusMessage(statusText("status.region_pasted"));
+    }
+    _refusalReported = false;
 }
 
 std::optional<std::pair<core::GridPosition, core::GridPosition>> GameViewport::highlight() const {
@@ -321,6 +366,7 @@ std::optional<std::pair<core::GridPosition, core::GridPosition>> GameViewport::h
 }
 
 void GameViewport::markDraftMutated() {
+    syncEditingState();
     if (_draftRenderer) {
         _draftRenderer->invalidate();
     }
@@ -775,9 +821,14 @@ void GameViewport::renderFrame(QRhiCommandBuffer* commandBuffer, float deltaSeco
         // sinon l'auteur ne sait pas ce qui est deja habille sans que ca encombre les autres
         // outils.
         const bool showTextureOverrides = _tool == hmi::EditorTool::TextureAssign;
+        _draftRenderer->setLayerView(_layerView);
+        hmi::DraftEntityOverlay entityOverlay;
+        entityOverlay.selectedEntity = _selectedEntity;
+        entityOverlay.terrains = &_terrains;
+        entityOverlay.showTerrain = _tool == hmi::EditorTool::Entity;
         _draftRenderer->render(_draft, _camera, _showGrid, highlight(), linkOverlay, _renderMode,
                                showTextureOverrides, deltaSeconds, _layerVisibility,
-                               _planeVisibility);
+                               _planeVisibility, entityOverlay);
     }
     // Téléversement unique puis passe unique : c'est ici, et nulle part ailleurs, que le GPU voit
     // l'image (cf. `hmi::SpriteBatch`, enregistrement en deux phases).
@@ -889,6 +940,11 @@ void GameViewport::keyPressEvent(QKeyEvent* event) {
     if (event->isAutoRepeat()) {
         return;
     }
+    // Retrait de l'entite selectionnee (outil Entite, LOT-11) : Suppr, comme dans tout editeur.
+    if (event->key() == Qt::Key_Delete && _tool == hmi::EditorTool::Entity && _selectedEntity) {
+        removeEntity(*_selectedEntity);
+        return;
+    }
     if (const std::optional<hmi::Key> key = qtKeyToHmiKey(event->key());
         key && *key == _editorBindings.key(hmi::EditorAction::TextureAssignTool)) {
         setTool(hmi::EditorTool::TextureAssign);
@@ -962,6 +1018,11 @@ void GameViewport::openLevel(const std::filesystem::path& path) {
     }
     stopPlaytest();  // sort d'un éventuel essai en cours
     _draft = core::LevelDraft::fromLevel(*loaded.level);
+    // Couches et entites (LOT-11) : une carte ouverte repart de sa collision, tout affiche, rien de
+    // selectionne -- les reglages de la carte precedente n'ont aucun sens pour celle-ci.
+    _layerView.reset();
+    setActiveLayer(std::nullopt);
+    selectEntity(std::nullopt);
     _dirty = false;
     _pendingLink.reset();
     _selectedLink.reset();
@@ -1182,6 +1243,9 @@ void GameViewport::mousePressEvent(QMouseEvent* event) {
         case hmi::EditorTool::TextureAssign:
             handleTextureAssignClick(event, /*rightClick=*/false);
             break;
+        case hmi::EditorTool::Entity:
+            handleEntityPress(event);
+            break;
     }
 }
 
@@ -1204,6 +1268,10 @@ void GameViewport::mouseReleaseEvent(QMouseEvent* event) {
     if (event->button() != Qt::LeftButton) {
         return;
     }
+    if (_tool == hmi::EditorTool::Entity) {
+        handleEntityRelease(event);
+    }
+    _refusalReported = false;
     if (_dragging) {
         _dragCurrent = clampedCell(event);
         if (_tool == hmi::EditorTool::Rectangle) {
@@ -1278,6 +1346,208 @@ void GameViewport::wheelEvent(QWheelEvent* event) {
     }
     _manualZoom =
         std::clamp(_manualZoom + static_cast<float>(notches), minManualZoom(), maxManualZoom());
+}
+
+// --- Couches et entites (LOT-11) ---
+
+void GameViewport::syncEditingState() {
+    const LayerSlot active = validActiveLayer(_draft.layers(), _activeLayer);
+    _layerView.sync(_draft.layers().size());
+    if (active != _activeLayer) {
+        _activeLayer = active;
+        emit activeLayerChanged(_activeLayer);
+    }
+    if (_selectedEntity && *_selectedEntity >= _draft.entities().size()) {
+        _selectedEntity.reset();
+        emit entitySelectionChanged(_selectedEntity);
+    }
+    if (_grabbedEntity && *_grabbedEntity >= _draft.entities().size()) {
+        _grabbedEntity.reset();
+    }
+    refreshDiagnostics();
+}
+
+void GameViewport::refreshDiagnostics() {
+    static const hmi::EditorReferences EMPTY_REFERENCES;
+    const hmi::EditorReferences& references =
+        _references != nullptr ? *_references : EMPTY_REFERENCES;
+    // L'identifiant de la carte editee est le nom de son fichier (save() ecrit <nom>.json).
+    _referenceContext = hmi::referenceContext(references, _draft.name(), _draft.entities());
+    const std::vector<core::EntityIssue> issues =
+        core::validateMapEntities(_draft.entities(), _referenceContext);
+    _terrains = core::analyzeEncounterTerrain(_draft.tileMap(), _draft.entities(),
+                                              references.encounters, &references.bestiary);
+    _diagnostics = hmi::editorDiagnostics(_draft.entities(), issues, _terrains);
+}
+
+void GameViewport::setActiveLayer(LayerSlot slot) {
+    const LayerSlot valid = validActiveLayer(_draft.layers(), slot);
+    if (valid == _activeLayer) {
+        return;
+    }
+    _activeLayer = valid;
+    _selection.reset();  // une selection copiee d'une autre couche tromperait le collage.
+    emit activeLayerChanged(_activeLayer);
+}
+
+void GameViewport::setMapLayerVisible(LayerSlot slot, bool visible) {
+    _layerView.setVisible(slot, visible);
+    if (_draftRenderer) {
+        _draftRenderer->invalidate();
+    }
+    emit layerViewChanged();
+}
+
+void GameViewport::setMapLayerOpacity(LayerSlot slot, float opacity) {
+    _layerView.setOpacity(slot, opacity);
+    if (_draftRenderer) {
+        _draftRenderer->invalidate();
+    }
+    emit layerViewChanged();
+}
+
+void GameViewport::addMapLayer(core::LayerKind kind, const std::string& name) {
+    const std::optional<std::size_t> index = _draft.addLayer(kind, name);
+    if (!index) {
+        return;
+    }
+    _dirty = true;
+    markDraftMutated();
+    setActiveLayer(*index);
+}
+
+void GameViewport::removeMapLayer(std::size_t index) {
+    if (_draft.removeLayer(index)) {
+        _dirty = true;
+        markDraftMutated();
+    }
+}
+
+void GameViewport::moveMapLayer(std::size_t index, bool forward) {
+    const std::optional<std::size_t> moved = _draft.moveLayer(index, forward);
+    if (!moved || *moved == index) {
+        return;
+    }
+    _layerView.swap(index, *moved);
+    const bool followActive = _activeLayer == index;
+    _dirty = true;
+    markDraftMutated();
+    if (followActive) {
+        setActiveLayer(*moved);
+    }
+}
+
+void GameViewport::renameMapLayer(std::size_t index, const std::string& name) {
+    if (!name.empty() && _draft.renameLayer(index, name)) {
+        _dirty = true;
+        markDraftMutated();
+    }
+}
+
+void GameViewport::setEditorReferences(const EditorReferences* references) {
+    _references = references;
+    refreshDiagnostics();
+    emit draftChanged();  // les panneaux relisent avertissements et choix proposes.
+}
+
+void GameViewport::setEntityKindToPlace(std::string type) {
+    _entityKindToPlace = std::move(type);
+}
+
+void GameViewport::selectEntity(std::optional<std::size_t> index) {
+    if (index && *index >= _draft.entities().size()) {
+        index.reset();
+    }
+    if (index == _selectedEntity) {
+        return;
+    }
+    _selectedEntity = index;
+    emit entitySelectionChanged(_selectedEntity);
+}
+
+void GameViewport::setEntityProperty(std::size_t index, const std::string& key,
+                                     core::PropertyValue value) {
+    if (_draft.setEntityProperty(index, key, std::move(value))) {
+        _dirty = true;
+        markDraftMutated();
+    }
+}
+
+void GameViewport::removeEntity(std::size_t index) {
+    if (!_draft.removeEntity(index)) {
+        return;
+    }
+    if (_selectedEntity == index) {
+        _selectedEntity.reset();
+        emit entitySelectionChanged(_selectedEntity);
+    } else if (_selectedEntity && *_selectedEntity > index) {
+        selectEntity(*_selectedEntity - 1);  // la meme entite, un rang plus haut.
+    }
+    _grabbedEntity.reset();
+    _dirty = true;
+    markDraftMutated();
+    emit statusMessage(statusText("status.entity_removed"));
+}
+
+void GameViewport::handleEntityPress(const QMouseEvent* event) {
+    const std::optional<core::GridPosition> cell = cellAt(event);
+    if (!cell) {
+        return;
+    }
+    const bool forcePlace = event->modifiers().testFlag(Qt::ControlModifier);
+    const hmi::EntityGestureDecision decision =
+        hmi::resolveEntityPress(_draft, *cell, _entityKindToPlace, forcePlace);
+    _grabbedEntity.reset();
+    switch (decision.action) {
+        case hmi::EntityGestureAction::Ignore:
+        case hmi::EntityGestureAction::Move:  // jamais rendu a l'appui.
+            break;
+        case hmi::EntityGestureAction::Deselect:
+            selectEntity(std::nullopt);
+            break;
+        case hmi::EntityGestureAction::Select:
+            selectEntity(decision.entityIndex);
+            _grabbedEntity = decision.entityIndex;
+            _entityPressCell = decision.cell;
+            break;
+        case hmi::EntityGestureAction::Place: {
+            const core::EntityKind* const kind = core::findEntityKind(_entityKindToPlace);
+            core::MapEntity entity =
+                kind != nullptr ? core::makeEntity(*kind, decision.cell)
+                                : core::MapEntity{.type = _entityKindToPlace,
+                                                  .position = decision.cell,
+                                                  .properties = {}};
+            if (const std::optional<std::size_t> placed = _draft.placeEntity(std::move(entity))) {
+                _dirty = true;
+                markDraftMutated();
+                selectEntity(*placed);
+                const std::string labelKey = "entities.kind." + _entityKindToPlace;
+                emit statusMessage(statusText("status.entity_placed")
+                                       .arg(statusText(labelKey.c_str()))
+                                       .arg(decision.cell.column)
+                                       .arg(decision.cell.row));
+            }
+            break;
+        }
+    }
+}
+
+void GameViewport::handleEntityRelease(const QMouseEvent* event) {
+    const std::optional<core::GridPosition> cell = cellAt(event);
+    const std::optional<std::size_t> grabbed = _grabbedEntity;
+    _grabbedEntity.reset();
+    if (!cell) {
+        return;
+    }
+    const hmi::EntityGestureDecision decision =
+        hmi::resolveEntityRelease(grabbed, _entityPressCell, *cell);
+    if (decision.action == hmi::EntityGestureAction::Move &&
+        _draft.moveEntity(decision.entityIndex, decision.cell)) {
+        _dirty = true;
+        markDraftMutated();
+        emit statusMessage(
+            statusText("status.entity_moved").arg(decision.cell.column).arg(decision.cell.row));
+    }
 }
 
 }  // namespace hmi
