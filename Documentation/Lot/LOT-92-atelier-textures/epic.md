@@ -1,14 +1,15 @@
 # LOT-92 — Atelier des textures : le style de la scène par maquette, une planche par lieu {#lot-92}
 
-> Statut : **en cours, ouvert le 16 septembre 2026.** T0 à T5 faits, Martpart installé ; reste la
-> relecture de la spécification par l'auteur, puis la livraison.
+> Statut : **livré le 16 septembre 2026** (ouvert le même jour). Vérification : build Debug et `ctest` à
+> **1280/1281** (la capture de l'arène, jouée sur demande, est sautée), `pytest` de l'atelier à 28/28, `extract_texture_sheet.py --check` vert pour le Colisée
+> et Martpart, `check_assets_brief.py`, lints d'exigences et de lots verts, cahier de test
+> régénéré (1275 cas) ; maquette approuvée et spécification relue par l'auteur ; arène capturée
+> hors écran et relue.
 > Prérequis : [LOT-50](@ref lot-50) (la planche du Colisée et `extract_coliseum_atlas.py`),
 > [LOT-91](@ref lot-91) (la méthode de l'atelier des PNJ), [LOT-39](@ref lot-39) (les clés
 > d'assets et le cahier), [LOT-37](@ref lot-37) (l'atlas, dont le bloc B lit les lieux).
 > Alimente : [LOT-09](@ref lot-09), `LOT-93`, `LOT-95`, `LOT-42`.
->
-> Tant que le lot n'est pas livré, ce dossier fait échouer le contrôle 6 de `lint_lots.py` (un
-> dossier vaut livraison) : la section de la feuille de route le quitte dans la PR de livraison.
+> Exigences couvertes : `EX-VIS-008`, `EX-VIS-009` (détail plus bas).
 
 ## Objectif
 
@@ -16,6 +17,37 @@ Les figurines ont une méthode (`LOT-91`), pas les textures. Ce lot donne à la 
 écrit**, fixé par une maquette approuvée par l'auteur, puis une méthode pour commander une planche
 de textures **par lieu**, depuis le descriptif du lieu dans l'atlas. Première planche : le Colisée
 final du `LOT-09`, qui remplace celle du `LOT-50`.
+
+## Ce que ce lot livre
+
+- **La Capitale dans l'atlas** : la Capitale et ses douze quartiers, lus dans l'encart du
+  Sourcebook ; 94 → 107 lieux ; filigranes retirés des treize fiches qui les portaient.
+- **Le style de la scène, écrit** : la maquette approuvée (`atelier/ancres/maquette.png`) et le
+  bloc A (`atelier/prompts/style.txt`), qui en relève trait, lumière et palettes de matière.
+- **L'atelier** (`scripts/extract_texture_sheet.py`) : une disposition JSON déclare les cellules,
+  et en déduit planches, gabarit, bloc C, découpe par pièces, contrôle d'orientation, miroirs,
+  palette de 64 couleurs commune au lieu et manifeste ; `--check` reproduit l'installation sans
+  rien écrire ; `check_assets_brief.py` valide les dispositions. Un lieu sans cellules propres
+  nomme un **modèle** (`dispositions/modeles/quartier.json`) et se commande depuis sa seule fiche.
+- **Deux planches installées** : le Colisée (36 textures, `Assets/Scene/coliseum/`), que l'arène
+  dessine désormais, et Martpart (22 textures, `Assets/Scene/martpart/`).
+- **La spécification des deux identités** : `EX-VIS-008` (la scène en pixel art isométrique) et
+  `EX-VIS-009` (l'interface à la charte v2, et leur frontière), `EX-IHM-070` et `EX-ARCH-022`
+  précisées en renvoi.
+
+## Ce qui reste hors du lot, nommément
+
+- **Au [LOT-09](@ref lot-09)** : retirer la planche du `LOT-50` (ses figurines servent encore) ;
+  poser une texture par l'`anchor` de son manifeste — le composeur de l'arène suppose
+  (34, hauteur − 42), faux pour une pièce libre élargie ; poser les grandes pièces du Colisée
+  (portes, loges) et ses gradins, que la grille de combat n'emploie pas encore.
+- **Écart consigné dans `EX-VIS-008`, non tranché** : le facteur d'affichage de la scène n'est pas
+  entier (cadrage à la fenêtre, figurines × 1,25), et les pixels d'art n'ont pas tous la même
+  taille à l'écran.
+- **Poids des planches recomposées** : la planche de Martpart pèse 1,5 Mio ; les allègements
+  essayés n'étaient pas fidèles (journal).
+- **Les autres lieux de la Capitale** (Arenarea, le bas-fond, la variante noble de l'Arène du
+  Destin) se commandent au fil de l'eau par les lots qui les posent (`LOT-96`, [LOT-27](@ref lot-27)).
 
 ## Les décisions
 
