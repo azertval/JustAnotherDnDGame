@@ -1,0 +1,255 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>SkinCatalog.h</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#pragma once
+
+#include &lt;filesystem&gt;
+#include &lt;map&gt;
+#include &lt;optional&gt;
+#include &lt;string&gt;
+#include &lt;string_view&gt;
+#include &lt;vector&gt;
+
+#include "Core/Levels/TileType.h"
+
+/**
+ * @file HMI/Graphics/SkinCatalog.h
+ * @brief Association type de tuile â asset et mode de rendu, groupÃ©e en jeux nommÃ©s
+ *        (`EX-EDIT-042`, `EX-EDIT-024`).
+ */
+
+#include "Core/Data/JsonDocument.h"
+
+namespace hmi {
+
+/**
+ * @brief ManiÃ¨re dont l'asset d'un type de tuile est dÃ©coupÃ© Ã  l'affichage (`EX-EDIT-025`).
+ *
+ * Le mode est portÃ© **par type**, jamais par jeu : un mÃªme jeu contient des types Ã  raccords (les
+ * solides) et des types Ã  image unique (dangers, mÃ©canismes). Un mode global forcerait des
+ * exceptions dans le code de rendu.
+ */
+enum class SkinMode {
+    /// Image unique, utilisÃ©e telle quelle. Seul mode qui ait un sens pour un type dont le
+    /// voisinage n'en a pas : dangers, interrupteurs, portes, blocs, pentes et arrondis.
+    Single,
+    /// Planche de 4Ã4 cases, dont celle affichÃ©e est choisie selon les quatre voisins solides
+    /// (`hmi::autotileCell`). DÃ©-rÃ©pÃ©tition et bords distincts de l'intÃ©rieur.
+    Bitmask16,
+};
+
+/**
+ * @brief Nom persistÃ© d'un mode de skin (valeur Ã©crite dans `skins.json`).
+ * @param mode Mode Ã  nommer.
+ * @return `"single"` ou `"bitmask16"` (chaÃ®ne statique, jamais nulle).
+ */
+[[nodiscard]] const char* skinModeName(SkinMode mode) noexcept;
+
+/**
+ * @brief Mode de skin correspondant Ã  un nom lu dans un fichier.
+ * @param name Nom lu.
+ * @return Le mode correspondant, ou `std::nullopt` si @p name n'en dÃ©signe aucun â un mode
+ *         inconnu est une donnÃ©e invalide Ã  signaler, jamais un mode devinÃ©.
+ */
+[[nodiscard]] std::optional&lt;SkinMode&gt; skinModeFromName(std::string_view name) noexcept;
+
+/// @brief Apparence assignÃ©e Ã  un type de tuile : le fichier Ã  utiliser et son dÃ©coupage.
+struct SkinEntry {
+    /// Nom de fichier, relatif au dossier `Assets/Skins/`. Jamais un chemin absolu : la
+    /// configuration doit rester valable sur un autre poste.
+    std::string asset;
+    SkinMode mode = SkinMode::Single;
+
+<span style = "background-color:#dfd">    [[nodiscard]] friend bool operator==(const SkinEntry&amp; lhs, const SkinEntry&amp; rhs) {
+        return lhs.asset == rhs.asset &amp;&amp; lhs.mode == rhs.mode;
+    }</span>
+};
+
+/**
+ * @brief CatÃ©gorie d'Ã©chec de lecture d'un `skins.json` (mÃªme esprit que
+ *        `core::LevelValidationError`).
+ *
+ * ComplÃ¨te le message technique d'un code **programmatique**, pour qu'un appelant puisse rÃ©agir
+ * sans analyser le texte du message â une comparaison de sous-chaÃ®nes se casserait Ã  la premiÃ¨re
+ * reformulation.
+ */
+enum class SkinCatalogError {
+    None,                ///&lt; Pas d'erreur.
+    FileNotFound,        ///&lt; Fichier absent. Cas **lÃ©gitime**, pas une anomalie (voir ci-dessous).
+    ParseError,          ///&lt; JSON malformÃ©, ou racine qui n'est pas un objet.
+    UnsupportedVersion,  ///&lt; NumÃ©ro de version supÃ©rieur Ã  `SkinCatalog::FORMAT_VERSION`.
+    MalformedStructure,  ///&lt; Structure inattendue (Â« jeux Â» absent, entrÃ©e sans Â« asset Â»â¦).
+};
+
+// Le resultat contient un SkinCatalog par valeur : il ne peut etre defini qu'apres la classe. Une
+// declaration de fonction, elle, peut renvoyer un type incomplet â d'ou cette annonce.
+struct SkinCatalogResult;
+
+/**
+ * @brief Catalogue des jeux de skins : `(jeu, type de tuile) â { asset, mode }`.
+ *
+ * **Configuration de prÃ©sentation, jamais donnÃ©e de simulation.** Ce catalogue ne transite ni par
+ * `core::Level`, ni par `core::LevelDraft` ni son undo/redo : un changement d'habillage n'est pas
+ * une modification du niveau. Seule la *dÃ©signation* du jeu par un niveau relÃ¨ve du format de
+ * niveau, et c'est l'objet du LOT-44.
+ *
+ * Logique **pure** (aucune dÃ©pendance GPU ni Qt), testable en isolation (`EX-NFR-010`). Aucune
+ * lecture ne lÃ¨ve d'exception vers l'appelant (`EX-NFR-040`) : toute erreur est dÃ©crite dans un
+ * `hmi::SkinCatalogResult`.
+ */
+class SkinCatalog {
+public:
+    /**
+     * @brief Version du format Ã©crite dans le fichier, et plus Ã©levÃ©e qui soit lue.
+     *
+     * Le champ est prÃ©sent dÃ¨s la crÃ©ation du format : l'ajouter coÃ»te une ligne aujourd'hui, une
+     * migration une fois des fichiers dans la nature. Un fichier de version **supÃ©rieure** est
+     * refusÃ© plutÃ´t que lu au mieux â c'est prÃ©cisÃ©ment ce que le champ sert Ã  Ã©viter.
+     */
+    static constexpr int FORMAT_VERSION = 1;
+
+    /**
+     * @brief Lit un catalogue depuis une chaÃ®ne JSON.
+     * @param json Contenu JSON.
+     * @return Le catalogue, ou une erreur dÃ©crite. Ne lÃ¨ve jamais.
+     */
+    [[nodiscard]] static SkinCatalogResult loadFromString(std::string_view json);
+
+    /**
+     * @brief Lit un catalogue depuis un fichier.
+     *
+     * Un fichier **absent** produit un Ã©chec de code `FileNotFound` : c'est Ã  l'appelant de
+     * dÃ©cider qu'un catalogue vide est un Ã©tat de dÃ©part lÃ©gitime (ce qu'il est), car lui seul
+     * sait s'il attendait un fichier livrÃ© ou une configuration utilisateur pas encore Ã©crite.
+     * @param path Chemin du fichier.
+     * @return Le catalogue, ou une erreur dÃ©crite. Ne lÃ¨ve jamais.
+     */
+    [[nodiscard]] static SkinCatalogResult loadFromFile(const std::filesystem::path&amp; path);
+
+private:
+    /**
+     * @brief Construit le rÃ©sultat depuis l'enveloppe dÃ©jÃ  lue par `core::readJsonObject`.
+     *
+     * JSON bien formÃ©, racine objet et garde de version sont vÃ©rifiÃ©s **avant** d'arriver ici :
+     * c'est la brique partagÃ©e du `LOT-79` (`EX-CNT-012`), et ce catalogue n'a plus Ã  les
+     * rÃ©implÃ©menter pour son compte.
+     */
+    [[nodiscard]] static SkinCatalogResult fromDocument(const core::JsonDocument&amp; document);
+
+public:
+    /// @return La reprÃ©sentation JSON du catalogue, relisible par `loadFromString`.
+    [[nodiscard]] std::string toJsonString() const;
+
+    /**
+     * @brief Ãcrit le catalogue dans un fichier, en crÃ©ant les dossiers parents au besoin.
+     * @param path Chemin de destination (typiquement `executableDirectory()/Assets/skins.json`).
+     * @return true si l'Ã©criture a rÃ©ussi. Ne lÃ¨ve jamais.
+     */
+    [[nodiscard]] bool saveToFile(const std::filesystem::path&amp; path) const;
+
+    /**
+     * @brief RÃ©sout l'apparence d'un type de tuile dans un jeu donnÃ©.
+     *
+     * Repli sur le jeu par dÃ©faut si @p setName ne dÃ©signe aucun jeu : un niveau qui rÃ©fÃ©rence un
+     * jeu supprimÃ© doit rester affichable, dÃ©gradÃ© plutÃ´t qu'illisible (`EX-NFR-040`).
+     * @param setName Nom du jeu voulu. Vide pour demander explicitement le jeu par dÃ©faut.
+     * @param type Type de tuile.
+     * @return L'entrÃ©e assignÃ©e, ou `std::nullopt` si le type n'est pas skinnÃ© â auquel cas
+     *         l'appelant affiche le damier de repli (`hmi::MissingTexture`).
+     */
+    [[nodiscard]] std::optional&lt;SkinEntry&gt; resolve(std::string_view setName,
+                                                   core::TileType type) const;
+
+    /// @return Le nom du jeu par dÃ©faut (vide si le catalogue ne contient aucun jeu).
+<span style = "background-color:#dfd">    [[nodiscard]] const std::string&amp; defaultSetName() const noexcept {
+        return _defaultSet;
+    }</span>
+
+    /**
+     * @brief DÃ©signe le jeu par dÃ©faut.
+     * @param setName Nom du jeu. Sans effet si aucun jeu ne porte ce nom.
+     * @return true si le jeu existe et a Ã©tÃ© retenu.
+     */
+    [[nodiscard]] bool setDefaultSetName(const std::string&amp; setName);
+
+    /// @return Les noms des jeux, par ordre alphabÃ©tique (ordre stable d'affichage et d'Ã©criture).
+    [[nodiscard]] std::vector&lt;std::string&gt; setNames() const;
+
+    /// @brief CrÃ©e un jeu vide s'il n'existe pas. @param setName Nom du jeu.
+    void addSet(const std::string&amp; setName);
+
+    /**
+     * @brief Assigne une apparence Ã  un type de tuile dans un jeu, en crÃ©ant le jeu au besoin.
+     * @param setName Nom du jeu.
+     * @param type Type de tuile.
+     * @param entry Apparence Ã  assigner.
+     */
+    void assign(const std::string&amp; setName, core::TileType type, SkinEntry entry);
+
+    /**
+     * @brief Retire l'assignation d'un type de tuile dans un jeu (le type redevient non skinnÃ©).
+     * @param setName Nom du jeu.
+     * @param type Type de tuile.
+     */
+    void clearAssignment(const std::string&amp; setName, core::TileType type);
+
+    /**
+     * @brief Assignations d'un jeu, sans repli sur le jeu par dÃ©faut.
+     * @param setName Nom du jeu.
+     * @return Les entrÃ©es du jeu, ordonnÃ©es par type ; vide si le jeu n'existe pas.
+     */
+    [[nodiscard]] std::map&lt;core::TileType, SkinEntry&gt; assignments(std::string_view setName) const;
+
+private:
+    // std::map (et non unordered_map) : l'ordre de parcours est deterministe, ce qui rend
+    // l'ecriture du fichier stable d'une execution a l'autre â un diff de skins.json ne doit
+    // montrer que ce que l'utilisateur a change.
+    std::map&lt;std::string, std::map&lt;core::TileType, SkinEntry&gt;, std::less&lt;&gt;&gt; _sets;
+    std::string _defaultSet;
+};
+
+/**
+ * @brief RÃ©sultat d'une lecture de catalogue : soit un `SkinCatalog`, soit une **erreur** dÃ©crite.
+ *
+ * En cas de succÃ¨s, `catalog` est renseignÃ©, `error` est vide et `errorCode` vaut `None`. MÃªme
+ * patron que `core::LevelLoadResult` : aucune exception ne franchit la frontiÃ¨re de lecture
+ * (`EX-NFR-040`).
+ */
+struct SkinCatalogResult {
+    std::optional&lt;SkinCatalog&gt; catalog;
+    std::string error;
+    SkinCatalogError errorCode = SkinCatalogError::None;
+
+    /// @return true si la lecture a rÃ©ussi.
+<span style = "background-color:#dfd">    [[nodiscard]] bool ok() const noexcept {
+        return catalog.has_value();
+    }</span>
+};
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

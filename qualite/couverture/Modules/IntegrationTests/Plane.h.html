@@ -1,0 +1,121 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>Plane.h</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#pragma once
+
+#include &lt;cstddef&gt;
+#include &lt;string&gt;
+
+/**
+ * @file Core/Levels/Plane.h
+ * @brief Plan pictural d'un niveau : image couvrant le niveau entier (`EX-DEC-040`, LOT-69).
+ */
+
+namespace core {
+
+/**
+ * @brief Position d'un plan dans l'ordonnancement de rendu, relativement au personnage
+ *        (`EX-DEC-042`).
+ *
+ * **Deux valeurs, pas trois.** Le systÃ¨me de dÃ©cors qu'il remplace en dÃ©clarait trois
+ * (`Background`, `Decor`, `Foreground`) mais la projection vers les calques de rendu en Ã©crasait
+ * dÃ©jÃ  deux sur la mÃªme : les trois couches de conception n'exprimaient que **deux** intentions de
+ * superposition. On acte la simplification plutÃ´t que de la reproduire.
+ *
+ * `Core` ne connaÃ®t pas `hmi::RenderLayer` (`EX-NFR-011`) : la projection vers les calques de rendu
+ * est le travail de `HMI`.
+ */
+enum class PlaneDepth {
+    /// DerriÃ¨re les tuiles physiques.
+    Behind,
+    /// Devant le personnage (`EX-DEC-042`) : c'est le moyen de lecture qui distingue d'un coup
+    /// d'Åil le dÃ©cor traversable du dÃ©cor physique.
+    Front,
+};
+
+/**
+ * @brief Plan pictural : image couvrant **tout** le niveau, avec sa densitÃ©, sa parallaxe et sa
+ *        profondeur (`EX-DEC-040` Ã  `EX-DEC-043`).
+ *
+ * DonnÃ©e pure (`EX-ARCH-011`), sur le patron de `Mechanism` / `DangerLink` / `TileTextureOverride`
+ * (`Source/Core/Levels/Level.h`) : vecteur annexe de `Level` / `LevelDraft`, keyÃ© par **rang** dans
+ * le vecteur. **L'ordre du vecteur est significatif** : il dÃ©termine la superposition Ã  l'intÃ©rieur
+ * d'une mÃªme profondeur.
+ *
+ * Un plan n'a **ni position ni rotation**, contrairement au dÃ©cor-sprite qu'il remplace : il couvre
+ * le niveau entier par construction. Ce qui le distingue d'un autre plan, c'est sa **densitÃ©**, sa
+ * **parallaxe** et sa **profondeur**.
+ *
+ * Le nom de fichier est une simple chaÃ®ne : `Core` ne vÃ©rifie pas son existence (`EX-NFR-011`), un
+ * plan pointant un fichier absent reste un niveau valide (`EX-LVL-004` ne le rejette pas) â c'est
+ * `HMI` qui replie sur un damier visible (`EX-NFR-040`).
+ */
+struct Plane {
+    /// Nom du fichier PNG, relatif au dossier des plans (rÃ©solu cÃ´tÃ© `HMI`).
+    std::string fileName;
+    /// DensitÃ© en pixels par unitÃ© monde (`EX-DEC-041`) : 16 (natif), 8 ou 4.
+    int pixelsPerUnit = 16;
+    /// Facteur de dÃ©filement horizontal (`EX-DEC-043`) ; 1 = solidaire du niveau.
+    float parallaxX = 1.0f;
+    /// Facteur de dÃ©filement vertical (`EX-DEC-043`) ; 1 = solidaire du niveau.
+    float parallaxY = 1.0f;
+    /// OpacitÃ© de composition, dans `[0, 1]` ; 1 = opaque.
+    float opacity = 1.0f;
+    /// CÃ´tÃ© de l'ordonnancement de rendu (`EX-DEC-042`).
+    PlaneDepth depth = PlaneDepth::Behind;
+};
+
+/// DensitÃ© **native** d'un plan, en pixels par unitÃ© monde â mÃªme valeur que l'Ã©chelle de rendu
+/// (`hmi::Camera2D::PIXELS_PER_UNIT`), que `Core` ne peut pas inclure (`EX-NFR-011`).
+inline constexpr int PLANE_NATIVE_PIXELS_PER_UNIT = 16;
+
+/**
+ * @brief DensitÃ© acceptÃ©e pour un plan (`EX-DEC-041`).
+ *
+ * `pixelsPerUnit` est un **entier** et non une Ã©numÃ©ration : il sert directement au calcul des
+ * dimensions attendues (`width * pixelsPerUnit`), et une Ã©numÃ©ration imposerait une table de
+ * conversion Ã  chaque site d'appel. La contrainte est donc validÃ©e au **chargement**, pas portÃ©e
+ * par le type.
+ * @param pixelsPerUnit DensitÃ© Ã  vÃ©rifier.
+ * @return `true` si la densitÃ© vaut 4, 8 ou 16.
+ */
+<span style = "background-color:#dfd">[[nodiscard]] constexpr bool isValidPlaneDensity(int pixelsPerUnit) noexcept {
+    return pixelsPerUnit == 4 || pixelsPerUnit == 8 ||</span>
+           pixelsPerUnit == PLANE_NATIVE_PIXELS_PER_UNIT;
+<span style = "background-color:#dfd">}</span>
+
+/// Nombre maximal de plans par niveau (`EX-DEC-044`) : borne le coÃ»t dans le **format**, plutÃ´t que
+/// de le laisser Ã  l'usage.
+inline constexpr std::size_t MAX_PLANES_PER_LEVEL = 16;
+
+/// Dimension maximale, en pixels, d'une texture de plan sur un axe (`EX-DEC-044`) â limite de
+/// Direct3D 11 au *feature level* 11.
+inline constexpr int MAX_PLANE_TEXTURE_EXTENT = 16384;
+
+}  // namespace core</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

@@ -3,7 +3,7 @@ var searchData=
   ['écarté_20à_20la_20relecture_20des_20livres_0',['Écarté à la relecture des livres',['../roadmap.html#autotoc_md815',1,'']]],
   ['échanger_1',['2. Échanger',['../spec-inventaire.html#autotoc_md370',1,'']]],
   ['échantillonner_20plutôt_20que_20réagir_20_3a_20hmi_3a_3ainputstate_20hmi_3a_3ainputstate_2',['Échantillonner plutôt que réagir : &lt;a class=&quot;el&quot; href=&quot;classhmi_1_1InputState.html&quot; title=&quot;hmi::InputState&quot;&gt;hmi::InputState&lt;/a&gt;',['../guide-entrees.html#autotoc_md138',1,'']]],
-  ['échelles_3',['6. Échelles',['../spec-regles-dnd.html#autotoc_md382',1,'']]],
+  ['échelles_3',['6. Échelles',['../spec-regles-d20.html#autotoc_md382',1,'']]],
   ['écrans_20navigation_20et_20boucle_20de_20jeu_4',['Écrans, navigation et boucle de jeu',['../guide-ecrans.html',1,'guide']]],
   ['écrire_20un_20png_20sans_20jamais_20laisser_20de_20fichier_20tronqué_5',['Écrire un PNG sans jamais laisser de fichier tronqué',['../guide-atelier-pixel-art.html#autotoc_md39',1,'']]],
   ['éditer_20un_20écran_20sans_20rien_20reconstruire_6',['Éditer un écran sans rien reconstruire',['../guide-ihm-qt.html#autotoc_md151',1,'']]],

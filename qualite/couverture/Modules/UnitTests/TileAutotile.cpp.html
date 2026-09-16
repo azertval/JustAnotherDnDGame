@@ -1,0 +1,173 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>TileAutotile.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#include "HMI/Graphics/TileAutotile.h"
+
+#include &lt;array&gt;
+
+namespace hmi {
+
+namespace {
+
+// Correspondance masque -&gt; case de la planche, une entree par configuration (index = masque).
+//
+// Convention de lecture : la case dessine la silhouette de la tuile, donc les cotes ou la MATIERE
+// s'arrete. Un bit a 1 = voisin solide = aucun bord a dessiner de ce cote.
+//
+// L'index de la planche est simplement le masque lu en base 4 (colonne = masque % 4, ligne =
+// masque / 4). La table est neanmoins ecrite en clair plutot que calculee : elle documente ce que
+// l'auteur d'une planche doit dessiner dans chaque case, ce qu'une formule ne dirait pas. C'est
+// aussi ce qui la rend verifiable configuration par configuration.
+constexpr std::array&lt;AutotileCell, AUTOTILE_CONFIGURATION_COUNT&gt; CELL_BY_MASK{{
+    // 0  ---- : aucun voisin solide -&gt; tuile isolee, bordee sur ses quatre cotes.
+    AutotileCell{.column = 0, .row = 0},
+    // 1  U--- : voisin en haut -&gt; extremite basse d'une colonne (ouverte vers le haut).
+    AutotileCell{.column = 1, .row = 0},
+    // 2  -R-- : voisin a droite -&gt; extremite gauche d'une rangee.
+    AutotileCell{.column = 2, .row = 0},
+    // 3  UR-- : haut + droite -&gt; coin exterieur bas-gauche.
+    AutotileCell{.column = 3, .row = 0},
+    // 4  --D- : voisin en bas -&gt; extremite haute d'une colonne.
+    AutotileCell{.column = 0, .row = 1},
+    // 5  U-D- : haut + bas -&gt; segment vertical de colonne (bords a gauche et a droite).
+    AutotileCell{.column = 1, .row = 1},
+    // 6  -RD- : droite + bas -&gt; coin exterieur haut-gauche.
+    AutotileCell{.column = 2, .row = 1},
+    // 7  URD- : haut + droite + bas -&gt; bord gauche d'une masse.
+    AutotileCell{.column = 3, .row = 1},
+    // 8  ---L : voisin a gauche -&gt; extremite droite d'une rangee.
+    AutotileCell{.column = 0, .row = 2},
+    // 9  U--L : haut + gauche -&gt; coin exterieur bas-droite.
+    AutotileCell{.column = 1, .row = 2},
+    // 10 -R-L : gauche + droite -&gt; segment horizontal (bords en haut et en bas).
+    AutotileCell{.column = 2, .row = 2},
+    // 11 UR-L : haut + droite + gauche -&gt; bord bas d'une masse.
+    AutotileCell{.column = 3, .row = 2},
+    // 12 --DL : bas + gauche -&gt; coin exterieur haut-droite.
+    AutotileCell{.column = 0, .row = 3},
+    // 13 U-DL : haut + bas + gauche -&gt; bord droit d'une masse.
+    AutotileCell{.column = 1, .row = 3},
+    // 14 -RDL : droite + bas + gauche -&gt; bord haut d'une masse (le dessus d'une plateforme).
+    AutotileCell{.column = 2, .row = 3},
+    // 15 URDL : les quatre voisins solides -&gt; interieur plein, invisible depuis l'exterieur.
+    AutotileCell{.column = 3, .row = 3},
+}};
+
+// Interieur plein : masque dont les quatre bits sont a 1.
+constexpr std::uint8_t FULL_MASK = NEIGHBOR_UP | NEIGHBOR_RIGHT | NEIGHBOR_DOWN | NEIGHBOR_LEFT;
+
+// Vrai si la case designee est solide, l'exterieur de la grille comptant comme solide (voir la
+// convention documentee dans l'en-tete).
+<span style = "background-color:#dfd">[[nodiscard]] bool isSolidOrOutside(const core::TileMap&amp; tiles, int column, int row) noexcept {
+    if (!tiles.inBounds(column, row)) {
+        return true;</span>
+    }
+<span style = "background-color:#dfd">    return tiles.isSolid(column, row);
+}</span>
+
+}  // namespace
+
+<span style = "background-color:#dfd">std::uint8_t solidNeighborMask(const core::TileMap&amp; tiles, int column, int row) noexcept {
+    std::uint8_t mask = 0;
+    if (isSolidOrOutside(tiles, column, row - 1)) {
+        mask |= NEIGHBOR_UP;</span>
+    }
+<span style = "background-color:#dfd">    if (isSolidOrOutside(tiles, column + 1, row)) {
+        mask |= NEIGHBOR_RIGHT;</span>
+    }
+<span style = "background-color:#dfd">    if (isSolidOrOutside(tiles, column, row + 1)) {
+        mask |= NEIGHBOR_DOWN;</span>
+    }
+<span style = "background-color:#dfd">    if (isSolidOrOutside(tiles, column - 1, row)) {
+        mask |= NEIGHBOR_LEFT;</span>
+    }
+<span style = "background-color:#dfd">    return mask;
+}</span>
+
+<span style = "background-color:#dfd">AutotileCell autotileCell(std::uint8_t mask) noexcept {</span>
+    // Seuls les quatre bits de poids faible portent du sens : masquer plutot que supposer
+    // l'appelant discipline evite un depassement de table sur une valeur inattendue.
+<span style = "background-color:#dfd">    return CELL_BY_MASK[mask &amp; FULL_MASK];
+}</span>
+
+<span style = "background-color:#dfd">AutotileCell autotileRepresentativeCell() noexcept {
+    return CELL_BY_MASK[FULL_MASK];
+}</span>
+
+<span style = "background-color:#dfd">std::string_view autotileConfigurationLabelKey(std::uint8_t mask) noexcept {</span>
+    // Une cle par masque (0-15), meme ordre et meme sens que CELL_BY_MASK ci-dessus : lire les
+    // deux tables cote a cote est ce qui garantit qu'elles ne divergent jamais silencieusement.
+    static constexpr std::array&lt;std::string_view, AUTOTILE_CONFIGURATION_COUNT&gt; KEYS{{
+        "autotile.config.0",
+        "autotile.config.1",
+        "autotile.config.2",
+        "autotile.config.3",
+        "autotile.config.4",
+        "autotile.config.5",
+        "autotile.config.6",
+        "autotile.config.7",
+        "autotile.config.8",
+        "autotile.config.9",
+        "autotile.config.10",
+        "autotile.config.11",
+        "autotile.config.12",
+        "autotile.config.13",
+        "autotile.config.14",
+        "autotile.config.15",
+    }};
+<span style = "background-color:#dfd">    return KEYS[mask &amp; FULL_MASK];
+}</span>
+
+<span style = "background-color:#dfd">std::array&lt;std::uint8_t, 9&gt; autotileAssemblyMasks() noexcept {
+    std::array&lt;std::uint8_t, 9&gt; masks{};
+    for (int row = 0; row &lt; 3; ++row) {
+        for (int column = 0; column &lt; 3; ++column) {
+            std::uint8_t mask = 0;</span>
+            // Bloc 3x3 plein et flottant : un voisin ne compte solide que s'il appartient lui
+            // aussi au bloc (jamais l'exterieur, a l'inverse de solidNeighborMask) -- c'est ce qui
+            // montre les quatre bords ET l'interieur dans un seul assemblage compact.
+<span style = "background-color:#dfd">            if (row &gt; 0) {
+                mask |= NEIGHBOR_UP;</span>
+            }
+<span style = "background-color:#dfd">            if (column &lt; 2) {
+                mask |= NEIGHBOR_RIGHT;</span>
+            }
+<span style = "background-color:#dfd">            if (row &lt; 2) {
+                mask |= NEIGHBOR_DOWN;</span>
+            }
+<span style = "background-color:#dfd">            if (column &gt; 0) {
+                mask |= NEIGHBOR_LEFT;</span>
+            }
+<span style = "background-color:#dfd">            masks[(static_cast&lt;std::size_t&gt;(row) * 3) + static_cast&lt;std::size_t&gt;(column)] = mask;
+        }
+    }
+    return masks;
+}</span>
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

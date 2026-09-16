@@ -23,7 +23,7 @@ var searchData=
   ['même_20niveau_20mode_20«_20par_20salle_20»_20',['Mélanger plusieurs tailles de caméra dans un même niveau (mode « Par salle »)',['../manuel-partager-niveau.html#autotoc_md904',1,'']]],
   ['même_20une_20entité_21',['Un type inconnu produit tout de même une entité',['../lot-10.html#autotoc_md465',1,'']]],
   ['maître_20en_20dit_22',['Ce que le &lt;em&gt;Guide du Maître&lt;/em&gt; en dit',['../EnemyAi_8h.html#autotoc_md935',1,'']]],
-  ['maîtrise_23',['2. Caractéristiques et maîtrise',['../spec-regles-dnd.html#autotoc_md378',1,'']]],
+  ['maîtrise_23',['2. Caractéristiques et maîtrise',['../spec-regles-d20.html#autotoc_md378',1,'']]],
   ['machine_20à_20états_20_3a_20hmi_3a_3ascreenflow_24',['La machine à états : &lt;span class=&quot;tt&quot;&gt;hmi::ScreenFlow&lt;/span&gt;',['../guide-ecrans.html#autotoc_md97',1,'']]],
   ['macros_20de_20journalisation_20par_20catégorie_25',['Les macros de journalisation, par catégorie',['../guide-journalisation.html#autotoc_md162',1,'']]],
   ['magiques_26',['LOT-34 — Équipement, monnaie, objets magiques',['../lot-34.html',1,'lots']]],

@@ -12,7 +12,7 @@ var searchData=
   ['2_20—_20vérifié_20le_2013_20septembre_202026_9',['Où en est la phase 2 — vérifié le 13 septembre 2026',['../lot-87.html#autotoc_md760',1,'']]],
   ['2_20actions_20du_20jeu_20mapping_20logique_10',['2. Actions du jeu (mapping logique)',['../spec-controles.html#autotoc_md288',1,'']]],
   ['2_20architecture_20maintenabilité_11',['2. Architecture &amp;amp; maintenabilité',['../spec-exigences.html#autotoc_md332',1,'']]],
-  ['2_20caractéristiques_20et_20maîtrise_12',['2. Caractéristiques et maîtrise',['../spec-regles-dnd.html#autotoc_md378',1,'']]],
+  ['2_20caractéristiques_20et_20maîtrise_12',['2. Caractéristiques et maîtrise',['../spec-regles-d20.html#autotoc_md378',1,'']]],
   ['2_20conception_20lignes_20directrices_13',['2. Conception (lignes directrices)',['../spec-niveaux.html#autotoc_md374',1,'']]],
   ['2_20contrats_20avant_20données_14',['2. Contrats avant données',['../spec-contenu.html#autotoc_md281',1,'']]],
   ['2_20espèce_20et_20historique_15',['2. Espèce et historique',['../spec-rpg.html#autotoc_md390',1,'']]],

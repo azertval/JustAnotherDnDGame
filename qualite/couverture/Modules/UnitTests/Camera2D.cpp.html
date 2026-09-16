@@ -1,0 +1,146 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>Camera2D.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#include "HMI/Graphics/Camera2D.h"
+
+#include &lt;algorithm&gt;
+#include &lt;cmath&gt;
+
+namespace hmi {
+
+// Declenche (ou relance) une secousse d'ecran (voir en-tete).
+<span style = "background-color:#dfd">void triggerScreenShake(ScreenShakeState&amp; state, float amplitudePixels, float duration) noexcept {
+    state.amplitudePixels = amplitudePixels;
+    state.elapsed = 0.0f;
+    state.duration = duration;
+}</span>
+
+// Avance une secousse d'ecran d'un pas fixe (voir en-tete).
+<span style = "background-color:#dfd">void advanceScreenShake(ScreenShakeState&amp; state, float fixedDelta) noexcept {
+    if (state.elapsed &lt; state.duration) {
+        state.elapsed = (std::min)(state.duration, state.elapsed + fixedDelta);</span>
+    }
+<span style = "background-color:#dfd">}</span>
+
+// Decalage courant d'une secousse d'ecran, en pixels ENTIERS (voir en-tete).
+<span style = "background-color:#dfd">core::Vector2 screenShakeOffset(const ScreenShakeState&amp; state) noexcept {
+    if (state.duration &lt;= 0.0f || state.elapsed &gt;= state.duration) {
+        return core::Vector2{0.0f, 0.0f};  // terminee (ou jamais declenchee) : aucun decalage.</span>
+    }
+<span style = "background-color:#dfd">    const float remaining = 1.0f - (state.elapsed / state.duration);  // 1 -&gt; 0
+    const float rawOffsetY = state.amplitudePixels * remaining;
+    return core::Vector2{0.0f, std::round(rawOffsetY)};
+}</span>
+
+// Construit une camÃ©ra pour une surface de rendu donnÃ©e.
+Camera2D::Camera2D(int viewportWidth, int viewportHeight)
+<span style = "background-color:#dfd">    : _viewportWidth(viewportWidth), _viewportHeight(viewportHeight) {}</span>
+
+// Met Ã  jour les dimensions de la surface de rendu (redimensionnement).
+<span style = "background-color:#fdd">void Camera2D::setViewportSize(int viewportWidth, int viewportHeight) {
+    _viewportWidth = viewportWidth;
+    _viewportHeight = viewportHeight;
+}</span>
+
+// Place le centre de la camÃ©ra.
+<span style = "background-color:#dfd">void Camera2D::setCenter(const core::Vector2&amp; worldCenter) {
+    _center = worldCenter;
+}</span>
+
+// RÃ¨gle le facteur de zoom.
+<span style = "background-color:#dfd">void Camera2D::setZoom(float zoom) {
+    _zoom = zoom;
+}</span>
+
+// L'Ã©chelle effective, en pixels par unitÃ© monde (PIXELS_PER_UNIT Ã zoom).
+<span style = "background-color:#dfd">float Camera2D::scale() const {
+    return PIXELS_PER_UNIT * _zoom;
+}</span>
+
+// Matrice de projection monde â clip, pour le vertex shader.
+// La matrice (ligne-major DirectXMath) transformant une position monde en clip.
+<span style = "background-color:#dfd">DirectX::XMFLOAT4X4 Camera2D::projectionMatrix() const {</span>
+    // Ãchelle monde â clip sur chaque axe : la moitiÃ© d'Ã©cran (viewport/2 pixels) doit
+    // couvrir 1 en NDC. L'axe Y est inversÃ© (monde Y-bas, NDC Y-haut).
+<span style = "background-color:#dfd">    const float scaleX = scale() * 2.0f / static_cast&lt;float&gt;(_viewportWidth);
+    const float scaleY = scale() * 2.0f / static_cast&lt;float&gt;(_viewportHeight);</span>
+    // Secousse d'ecran (LOT-53 TACHE-03) : decalage en pixels -&gt; NDC, ajoute a la translation
+    // SEULEMENT (jamais a _center) -- convertit un decalage ecran (Y vers le bas) en decalage NDC
+    // (Y vers le haut), d'ou le signe oppose sur l'axe Y par rapport a translateX.
+<span style = "background-color:#dfd">    const float shakeNdcX = _shakeOffsetPixels.x * (2.0f / static_cast&lt;float&gt;(_viewportWidth));
+    const float shakeNdcY = _shakeOffsetPixels.y * (2.0f / static_cast&lt;float&gt;(_viewportHeight));
+    const float translateX = (-_center.x * scaleX) + shakeNdcX;
+    const float translateY = (_center.y * scaleY) - shakeNdcY;</span>
+
+    // Ligne-major, appliquÃ©e en `position * matrice` (convention DirectXMath) :
+    // clip.x =  scaleX * (x - cx) ; clip.y = -scaleY * (y - cy) ; clip.z = 0 ; clip.w = 1.
+<span style = "background-color:#dfd">    return DirectX::XMFLOAT4X4(scaleX, 0.0f, 0.0f, 0.0f,   //</span>
+                               0.0f, -scaleY, 0.0f, 0.0f,  //
+                               0.0f, 0.0f, 1.0f, 0.0f,     //
+                               translateX, translateY, 0.0f, 1.0f);
+<span style = "background-color:#dfd">}</span>
+
+// Convertit une position monde en pixels Ã©cran.
+// Position en pixels (origine haut-gauche, Y-bas).
+<span style = "background-color:#dfd">core::Vector2 Camera2D::worldToScreen(const core::Vector2&amp; world) const {
+    const float halfWidth = static_cast&lt;float&gt;(_viewportWidth) * 0.5f;
+    const float halfHeight = static_cast&lt;float&gt;(_viewportHeight) * 0.5f;
+    return core::Vector2{(world.x - _center.x) * scale() + halfWidth,</span>
+                         (world.y - _center.y) * scale() + halfHeight};
+<span style = "background-color:#dfd">}</span>
+
+// Convertit une position Ã©cran (pixels) en unitÃ©s monde.
+// Position en unitÃ©s monde.
+<span style = "background-color:#dfd">core::Vector2 Camera2D::screenToWorld(const core::Vector2&amp; screen) const {
+    const float halfWidth = static_cast&lt;float&gt;(_viewportWidth) * 0.5f;
+    const float halfHeight = static_cast&lt;float&gt;(_viewportHeight) * 0.5f;
+    return core::Vector2{(screen.x - halfWidth) / scale() + _center.x,</span>
+                         (screen.y - halfHeight) / scale() + _center.y};
+<span style = "background-color:#dfd">}</span>
+
+// Rectangle du monde effectivement cadre par la camera (base du culling, EX-NFR-005).
+// Le rectangle visible, en unites monde (coin haut-gauche + dimensions).
+<span style = "background-color:#dfd">core::Rect Camera2D::visibleBounds() const {
+    const core::Vector2 topLeft = screenToWorld(core::Vector2{0.0f, 0.0f});
+    const core::Vector2 size{static_cast&lt;float&gt;(_viewportWidth) / scale(),</span>
+                             static_cast&lt;float&gt;(_viewportHeight) / scale()};
+<span style = "background-color:#dfd">    return core::Rect{topLeft, size};
+}</span>
+
+// Facteur de zoom ajustant un contenu a une surface disponible, sans zone hors champ (LOT-16) :
+// entier tant qu'il est &gt;= 1 (nettete pixel art), fractionnaire seulement si necessaire.
+float Camera2D::fitZoom(float availableWidth, float availableHeight, float contentWidth,
+<span style = "background-color:#dfd">                        float contentHeight, float margin) {
+    const float fitX = availableWidth / (contentWidth * PIXELS_PER_UNIT);
+    const float fitY = availableHeight / (contentHeight * PIXELS_PER_UNIT);
+    const float rawZoom = (std::min)(fitX, fitY) * margin;
+    return rawZoom &gt;= 1.0f ? std::floor(rawZoom) : rawZoom;
+}</span>
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

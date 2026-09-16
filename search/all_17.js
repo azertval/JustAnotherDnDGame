@@ -333,7 +333,7 @@ var searchData=
   ['le_20guide_20ne_20dit_20pas_330',['Ce que ce fichier décide, et que le Guide ne dit pas',['../EnemyAi_8h.html#autotoc_md936',1,'']]],
   ['le_20header_20commentaires_20simples_20dans_20le_20cpp_331',['Doxygen dans le header, commentaires simples // dans le .cpp',['../spec-conventions.html#autotoc_md303',1,'']]],
   ['le_20hud_20de_20jeu_20maquette_2001_20sans_20la_20scène_332',['T4.1 — Le HUD de jeu (maquette 01), sans la scène',['../lot-87.html#autotoc_md773',1,'']]],
-  ['le_20jet_333',['1. Le jet',['../spec-regles-dnd.html#autotoc_md377',1,'']]],
+  ['le_20jet_333',['1. Le jet',['../spec-regles-d20.html#autotoc_md377',1,'']]],
   ['le_20jeu_334',['Télécharger et lancer le jeu',['../manuel-telecharger.html',1,'manuel']]],
   ['le_20jeu_20et_20observabilité_335',['2. Pont avec le jeu et observabilité',['../spec-ia.html#autotoc_md349',1,'']]],
   ['le_20joueur_336',['Choisir comment la caméra suit le joueur',['../manuel-partager-niveau.html#autotoc_md903',1,'']]],

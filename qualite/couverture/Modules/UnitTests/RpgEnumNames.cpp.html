@@ -1,0 +1,245 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>RpgEnumNames.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#include "Core/Rpg/RpgEnumNames.h"
+
+#include &lt;array&gt;
+#include &lt;cstddef&gt;
+#include &lt;functional&gt;
+#include &lt;unordered_map&gt;
+
+namespace core {
+
+namespace {
+
+// Hacheur transparent : permet d'interroger une table a cles std::string avec un std::string_view
+// sans construire de chaine temporaire a chaque appel (C++20, heterogeneous lookup). Meme patron
+// que Core/Levels/TileTypeName.cpp.
+struct TransparentStringHash {
+    using is_transparent = void;
+
+<span style = "background-color:#dfd">    [[nodiscard]] std::size_t operator()(std::string_view text) const noexcept {
+        return std::hash&lt;std::string_view&gt;{}(text);
+    }</span>
+};
+
+// Les tables inverses sont construites A PARTIR des fonctions de nommage, jamais saisies a la
+// main : c'est ce qui garantit que l'aller-retour est exact par construction, et non par
+// vigilance. Une seconde table ecrite en dur divergerait de la premiere au premier ajout.
+template &lt;typename Enum, typename Nommer&gt;
+[[nodiscard]] std::optional&lt;Enum&gt; parseAvec(std::span&lt;const Enum&gt; valeurs, Nommer nommer,
+<span style = "background-color:#dfd">                                            std::string_view name) {</span>
+    // Construite une seule fois, a la premiere analyse (initialisation locale statique, sure vis
+    // a vis des threads depuis C++11). La table est propre a l'instanciation du modele, donc une
+    // par enumeration.
+    static const std::unordered_map&lt;std::string, Enum, TransparentStringHash, std::equal_to&lt;&gt;&gt;
+<span style = "background-color:#dfd">        table = [valeurs, nommer] {</span>
+            std::unordered_map&lt;std::string, Enum, TransparentStringHash, std::equal_to&lt;&gt;&gt;
+<span style = "background-color:#dfd">                construite;
+            construite.reserve(valeurs.size());
+            for (const Enum valeur : valeurs) {
+                construite.emplace(nommer(valeur), valeur);</span>
+            }
+<span style = "background-color:#dfd">            return construite;
+        }();</span>
+
+<span style = "background-color:#dfd">    const auto trouve = table.find(name);
+    return trouve == table.end() ? std::nullopt : std::optional&lt;Enum&gt;{trouve-&gt;second};
+}</span>
+
+constexpr std::array DAMAGE_TYPES = {
+    DamageType::Acid,    DamageType::Bludgeoning, DamageType::Cold,     DamageType::Fire,
+    DamageType::Force,   DamageType::Lightning,   DamageType::Necrotic, DamageType::Piercing,
+    DamageType::Poison,  DamageType::Psychic,     DamageType::Radiant,  DamageType::Slashing,
+    DamageType::Thunder,
+};
+
+constexpr std::array CONDITIONS = {
+    Condition::Blinded,    Condition::Charmed,   Condition::Deafened,      Condition::Exhaustion,
+    Condition::Frightened, Condition::Grappled,  Condition::Incapacitated, Condition::Invisible,
+    Condition::Paralyzed,  Condition::Petrified, Condition::Poisoned,      Condition::Prone,
+    Condition::Restrained, Condition::Stunned,   Condition::Unconscious,
+};
+
+constexpr std::array MAGIC_SCHOOLS = {
+    MagicSchool::Abjuration,  MagicSchool::Conjuration,   MagicSchool::Divination,
+    MagicSchool::Enchantment, MagicSchool::Evocation,     MagicSchool::Illusion,
+    MagicSchool::Necromancy,  MagicSchool::Transmutation,
+};
+
+constexpr std::array CREATURE_SIZES = {
+    CreatureSize::Tiny,  CreatureSize::Small, CreatureSize::Medium,
+    CreatureSize::Large, CreatureSize::Huge,  CreatureSize::Gargantuan,
+};
+
+}  // namespace
+
+<span style = "background-color:#dfd">std::string damageTypeName(DamageType type) {</span>
+    // switch exhaustif sans default : un DamageType ajoute sans nom casse la compilation au lieu
+    // de retomber sur un nom arbitraire (EX-CNT-011).
+<span style = "background-color:#dfd">    switch (type) {</span>
+        case DamageType::Acid:
+<span style = "background-color:#dfd">            return "acid";</span>
+        case DamageType::Bludgeoning:
+<span style = "background-color:#dfd">            return "bludgeoning";</span>
+        case DamageType::Cold:
+<span style = "background-color:#dfd">            return "cold";</span>
+        case DamageType::Fire:
+<span style = "background-color:#dfd">            return "fire";</span>
+        case DamageType::Force:
+<span style = "background-color:#dfd">            return "force";</span>
+        case DamageType::Lightning:
+<span style = "background-color:#dfd">            return "lightning";</span>
+        case DamageType::Necrotic:
+<span style = "background-color:#dfd">            return "necrotic";</span>
+        case DamageType::Piercing:
+<span style = "background-color:#dfd">            return "piercing";</span>
+        case DamageType::Poison:
+<span style = "background-color:#dfd">            return "poison";</span>
+        case DamageType::Psychic:
+<span style = "background-color:#dfd">            return "psychic";</span>
+        case DamageType::Radiant:
+<span style = "background-color:#dfd">            return "radiant";</span>
+        case DamageType::Slashing:
+<span style = "background-color:#dfd">            return "slashing";</span>
+        case DamageType::Thunder:
+<span style = "background-color:#dfd">            return "thunder";</span>
+    }
+<span style = "background-color:#fdd">    return {};  // inatteignable : le switch ci-dessus est exhaustif.</span>
+<span style = "background-color:#dfd">}</span>
+
+<span style = "background-color:#dfd">std::string conditionName(Condition condition) {
+    switch (condition) {</span>
+        case Condition::Blinded:
+<span style = "background-color:#dfd">            return "blinded";</span>
+        case Condition::Charmed:
+<span style = "background-color:#dfd">            return "charmed";</span>
+        case Condition::Deafened:
+<span style = "background-color:#dfd">            return "deafened";</span>
+        case Condition::Exhaustion:
+<span style = "background-color:#dfd">            return "exhaustion";</span>
+        case Condition::Frightened:
+<span style = "background-color:#dfd">            return "frightened";</span>
+        case Condition::Grappled:
+<span style = "background-color:#dfd">            return "grappled";</span>
+        case Condition::Incapacitated:
+<span style = "background-color:#dfd">            return "incapacitated";</span>
+        case Condition::Invisible:
+<span style = "background-color:#dfd">            return "invisible";</span>
+        case Condition::Paralyzed:
+<span style = "background-color:#dfd">            return "paralyzed";</span>
+        case Condition::Petrified:
+<span style = "background-color:#dfd">            return "petrified";</span>
+        case Condition::Poisoned:
+<span style = "background-color:#dfd">            return "poisoned";</span>
+        case Condition::Prone:
+<span style = "background-color:#dfd">            return "prone";</span>
+        case Condition::Restrained:
+<span style = "background-color:#dfd">            return "restrained";</span>
+        case Condition::Stunned:
+<span style = "background-color:#dfd">            return "stunned";</span>
+        case Condition::Unconscious:
+<span style = "background-color:#dfd">            return "unconscious";</span>
+    }
+<span style = "background-color:#fdd">    return {};</span>
+<span style = "background-color:#dfd">}</span>
+
+<span style = "background-color:#dfd">std::string magicSchoolName(MagicSchool school) {
+    switch (school) {</span>
+        case MagicSchool::Abjuration:
+<span style = "background-color:#dfd">            return "abjuration";</span>
+        case MagicSchool::Conjuration:
+<span style = "background-color:#dfd">            return "conjuration";</span>
+        case MagicSchool::Divination:
+<span style = "background-color:#dfd">            return "divination";</span>
+        case MagicSchool::Enchantment:
+<span style = "background-color:#dfd">            return "enchantment";</span>
+        case MagicSchool::Evocation:
+<span style = "background-color:#dfd">            return "evocation";</span>
+        case MagicSchool::Illusion:
+<span style = "background-color:#dfd">            return "illusion";</span>
+        case MagicSchool::Necromancy:
+<span style = "background-color:#dfd">            return "necromancy";</span>
+        case MagicSchool::Transmutation:
+<span style = "background-color:#dfd">            return "transmutation";</span>
+    }
+<span style = "background-color:#fdd">    return {};</span>
+<span style = "background-color:#dfd">}</span>
+
+<span style = "background-color:#dfd">std::string creatureSizeName(CreatureSize size) {
+    switch (size) {</span>
+        case CreatureSize::Tiny:
+<span style = "background-color:#dfd">            return "tiny";</span>
+        case CreatureSize::Small:
+<span style = "background-color:#dfd">            return "small";</span>
+        case CreatureSize::Medium:
+<span style = "background-color:#dfd">            return "medium";</span>
+        case CreatureSize::Large:
+<span style = "background-color:#dfd">            return "large";</span>
+        case CreatureSize::Huge:
+<span style = "background-color:#dfd">            return "huge";</span>
+        case CreatureSize::Gargantuan:
+<span style = "background-color:#dfd">            return "gargantuan";</span>
+    }
+<span style = "background-color:#fdd">    return {};</span>
+<span style = "background-color:#dfd">}</span>
+
+<span style = "background-color:#dfd">std::optional&lt;DamageType&gt; parseDamageType(std::string_view name) {
+    return parseAvec&lt;DamageType&gt;(allDamageTypes(), damageTypeName, name);
+}</span>
+
+<span style = "background-color:#dfd">std::optional&lt;Condition&gt; parseCondition(std::string_view name) {
+    return parseAvec&lt;Condition&gt;(allConditions(), conditionName, name);
+}</span>
+
+<span style = "background-color:#dfd">std::optional&lt;MagicSchool&gt; parseMagicSchool(std::string_view name) {
+    return parseAvec&lt;MagicSchool&gt;(allMagicSchools(), magicSchoolName, name);
+}</span>
+
+<span style = "background-color:#dfd">std::optional&lt;CreatureSize&gt; parseCreatureSize(std::string_view name) {
+    return parseAvec&lt;CreatureSize&gt;(allCreatureSizes(), creatureSizeName, name);
+}</span>
+
+<span style = "background-color:#dfd">std::span&lt;const DamageType&gt; allDamageTypes() {
+    return DAMAGE_TYPES;
+}</span>
+
+<span style = "background-color:#dfd">std::span&lt;const Condition&gt; allConditions() {
+    return CONDITIONS;
+}</span>
+
+<span style = "background-color:#dfd">std::span&lt;const MagicSchool&gt; allMagicSchools() {
+    return MAGIC_SCHOOLS;
+}</span>
+
+<span style = "background-color:#dfd">std::span&lt;const CreatureSize&gt; allCreatureSizes() {
+    return CREATURE_SIZES;
+}</span>
+
+}  // namespace core</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

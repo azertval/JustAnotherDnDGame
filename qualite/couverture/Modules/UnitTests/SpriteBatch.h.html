@@ -1,0 +1,215 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>SpriteBatch.h</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#pragma once
+
+#include &lt;cstddef&gt;
+#include &lt;memory&gt;
+#include &lt;unordered_map&gt;
+#include &lt;vector&gt;
+
+#include &lt;DirectXMath.h&gt;
+
+#include "HMI/Graphics/Quad.h"
+#include "HMI/Graphics/RenderLayer.h"
+
+class QRhi;
+class QRhiBuffer;
+class QRhiCommandBuffer;
+class QRhiGraphicsPipeline;
+class QRhiRenderPassDescriptor;
+class QRhiRenderTarget;
+class QRhiResourceUpdateBatch;
+class QRhiSampler;
+class QRhiShaderResourceBindings;
+class QRhiTexture;
+
+/**
+ * @file HMI/Graphics/SpriteBatch.h
+ * @brief Pipeline de rendu 2D sur **QRhi** : accumule des quads texturÃ©s et les dessine par lots
+ *        (`EX-REN-050`, LOT-69 TACHE-02).
+ *
+ * Les primitives elles-mÃªmes (`hmi::SpriteQuad`, `hmi::LineQuad`) vivent depuis `LOT-40` dans
+ * `HMI/Graphics/Quad.h`, sans dÃ©pendance graphique, pour que la **composition** du rendu puisse
+ * les manipuler sans GPU (`EX-NFR-004`). Ce fichier les rÃ©expose : le contrat public de
+ * `SpriteBatch` vis-Ã -vis de ses appelants est inchangÃ©.
+ */
+
+namespace hmi {
+
+/**
+ * @brief Dessine des quads texturÃ©s au travers de QRhi, avec transparence et Ã©chantillonnage
+ *        *nearest* (pixel art).
+ *
+ * Usage inchangÃ© pour les appelants : `begin(projection, texture)`, un ou plusieurs `draw(quad)`,
+ * puis `end()`. Ce qui change est **quand** le GPU voit ces quads.
+ *
+ * **Deux phases, contrairement Ã  la version Direct3D 11.** QRhi interdit de tÃ©lÃ©verser un tampon
+ * pendant une passe de rendu : impossible donc de rÃ©Ã©crire le tampon de sommets entre deux
+ * `drawIndexed`, comme le faisait `Map(WRITE_DISCARD)`. La classe **enregistre** donc toute l'image
+ * cÃ´tÃ© CPU â sommets accumulÃ©s bout Ã  bout, plus une liste de lots (texture, projection, plage de
+ * quads) â et n'Ã©met quoi que ce soit qu'au `submit()` final : un tÃ©lÃ©versement unique, puis une
+ * passe contenant un appel de dessin par lot. Le dÃ©coupage en lots, et donc le nombre d'appels,
+ * est **strictement le mÃªme** qu'avant : c'est `hmi::ComposedScene` qui le dÃ©cide, pas ce fichier.
+ *
+ * La projection est portÃ©e **par lot** et non par image : le HUD (`EX-REN-047`) se dessine en
+ * coordonnÃ©es Ã©cran dans la mÃªme image que le monde. Elle transite par un tampon uniforme adressÃ©
+ * Ã  dÃ©calage dynamique, un emplacement par lot.
+ */
+class SpriteBatch {
+public:
+    /**
+     * @brief Construit le pipeline (shaders, tampons, Ã©chantillonneur) sur une interface QRhi.
+     * @param rhi Interface de rendu, non possÃ©dÃ©e ; doit survivre Ã  l'objet.
+     */
+    explicit SpriteBatch(QRhi* rhi);
+
+    ~SpriteBatch();
+
+    SpriteBatch(const SpriteBatch&amp;) = delete;
+    SpriteBatch&amp; operator=(const SpriteBatch&amp;) = delete;
+
+    /// @return L'interface de rendu servie par cette instance (comparaison de perte de contexte).
+    [[nodiscard]] QRhi* rhi() const noexcept {
+        return _rhi;
+    }
+
+    /// Ouvre l'enregistrement d'une image : vide les sommets et les lots de la prÃ©cÃ©dente.
+    void beginFrame();
+
+    /**
+     * @brief DÃ©marre un lot : fixe la texture Ã©chantillonnÃ©e et la projection.
+     * @param projection Matrice de projection monde â clip (fournie par la camÃ©ra).
+     * @param texture    Texture Ã  Ã©chantillonner (identitÃ© opaque, `hmi::TextureHandle`), non
+     *                   possÃ©dÃ©e ; `nullptr` rend le lot muet.
+     */
+    void begin(const DirectX::XMFLOAT4X4&amp; projection, TextureHandle texture);
+
+    /**
+     * @brief Ajoute un quad au lot courant.
+     * @param quad Quad Ã  dessiner (unitÃ©s monde, UV normalisÃ©es, teinte).
+     */
+    void draw(const SpriteQuad&amp; quad);
+
+    /**
+     * @brief Ajoute un segment Ã©pais (orientÃ© librement) au lot courant.
+     * @param line Segment Ã  dessiner (unitÃ©s monde, UV normalisÃ©es, teinte). Sans effet si les
+     *             deux extrÃ©mitÃ©s coÃ¯ncident (segment dÃ©gÃ©nÃ©rÃ©).
+     */
+    void draw(const LineQuad&amp; line);
+
+    /// Termine le lot : fige la plage de quads enregistrÃ©e. Un lot vide n'Ã©mettra aucun dessin.
+    void end();
+
+    /**
+     * @brief TÃ©lÃ©verse l'image enregistrÃ©e et l'Ã©met en une passe de rendu.
+     *
+     * Ã appeler **une fois par image**, hors de toute passe ouverte : la mÃ©thode ouvre et referme
+     * la sienne. Le fond est effacÃ© Ã  @p clear, y compris si aucun lot n'a Ã©tÃ© enregistrÃ© â sans
+     * quoi une image sans contenu afficherait le rÃ©sidu de la prÃ©cÃ©dente.
+     * @param commandBuffer Tampon de commandes de l'image (fourni par `QRhiWidget::render`).
+     * @param target        Cible de rendu de l'image.
+     * @param updates       Lot de mises Ã  jour Ã  soumettre avec les sommets (tÃ©lÃ©versements de
+     *                      textures accumulÃ©s pendant la composition) ; peut Ãªtre `nullptr`.
+     * @param clear         Couleur d'effacement, composantes `[0, 1]`.
+     */
+    void submit(QRhiCommandBuffer* commandBuffer, QRhiRenderTarget* target,
+                QRhiResourceUpdateBatch* updates, const float clear[4]);
+
+private:
+    /// Sommet envoyÃ© au GPU : position monde (x, y), UV, couleur RVBA.
+    struct Vertex {
+        float x;
+        float y;
+        float u;
+        float v;
+        float r;
+        float g;
+        float b;
+        float a;
+    };
+
+    /// Un lot enregistrÃ© : une texture, une projection, une plage contiguÃ« de quads.
+    struct Batch {
+        QRhiTexture* texture = nullptr;
+        /// DÃ©calage du bloc de projection de ce lot dans le tampon uniforme, en octets.
+        int uniformOffset = 0;
+        /// Rang du premier quad du lot dans le tampon de sommets.
+        std::size_t firstQuad = 0;
+        /// Nombre de quads du lot.
+        std::size_t quadCount = 0;
+    };
+
+    /// Nombre de quads couverts par le tampon d'indices, et donc par un seul appel de dessin.
+    static constexpr std::size_t MAXIMUM_QUADS = 65536 / 4;
+
+    /// CrÃ©e (ou recrÃ©e) le pipeline pour la passe de rendu donnÃ©e. Idempotent.
+    bool ensurePipeline(QRhiRenderTarget* target);
+    /// Redimensionne le tampon de sommets si l'image enregistrÃ©e n'y tient pas.
+    bool ensureVertexCapacity(std::size_t quadCount);
+    /// Redimensionne le tampon uniforme pour @p batchCount emplacements de projection.
+    bool ensureUniformCapacity(std::size_t batchCount);
+    /// @return Les liaisons de ressources associÃ©es Ã  @p texture, crÃ©Ã©es Ã  la premiÃ¨re rencontre.
+    QRhiShaderResourceBindings* bindingsFor(QRhiTexture* texture);
+    /// Ferme le lot en cours d'enregistrement, s'il y en a un.
+    void closeBatch();
+
+    QRhi* _rhi;  // non possÃ©dÃ©
+    std::unique_ptr&lt;QRhiBuffer&gt; _vertexBuffer;
+    std::unique_ptr&lt;QRhiBuffer&gt; _indexBuffer;
+    std::unique_ptr&lt;QRhiBuffer&gt; _uniformBuffer;
+    std::unique_ptr&lt;QRhiSampler&gt; _sampler;
+    std::unique_ptr&lt;QRhiGraphicsPipeline&gt; _pipeline;
+    /// Descripteur de la passe pour laquelle `_pipeline` a Ã©tÃ© construit : un changement de cible
+    /// (redimensionnement du widget, changement de fenÃªtre) impose de le reconstruire.
+<span style = "background-color:#dfd">    QRhiRenderPassDescriptor* _pipelinePass = nullptr;</span>
+    /// Liaisons par texture, gardÃ©es d'une image Ã  l'autre : les recrÃ©er Ã  chaque lot allouerait
+    /// des ressources GPU des centaines de fois par seconde.
+    std::unordered_map&lt;QRhiTexture*, std::unique_ptr&lt;QRhiShaderResourceBindings&gt;&gt; _bindings;
+    /// Liaisons de rÃ©fÃ©rence, construites une fois : QRhi exige que toutes les liaisons employÃ©es
+    /// par un pipeline soient *layout-compatibles* avec celles fournies Ã  sa crÃ©ation.
+    std::unique_ptr&lt;QRhiShaderResourceBindings&gt; _layoutBindings;
+    /// TÃ©lÃ©versement du tampon d'indices, en attente de la premiÃ¨re image : un tampon immuable se
+    /// remplit une seule fois, et son lot ne peut Ãªtre soumis qu'avec une image.
+<span style = "background-color:#dfd">    QRhiResourceUpdateBatch* _pendingIndexUpload = nullptr;</span>
+    /// CapacitÃ© du tampon uniforme, en nombre d'emplacements de projection.
+<span style = "background-color:#dfd">    std::size_t _uniformSlots = 0;</span>
+    /// Taille alignÃ©e d'un bloc de projection, imposÃ©e par le matÃ©riel.
+<span style = "background-color:#dfd">    int _uniformStride = 0;</span>
+
+    std::vector&lt;Vertex&gt; _vertices;
+    std::vector&lt;Batch&gt; _batches;
+    /// Lot en cours d'enregistrement (entre `begin()` et `end()`), s'il y en a un.
+<span style = "background-color:#dfd">    Batch _current{};
+    bool _recording = false;</span>
+    /// Projections des lots, dans l'ordre d'enregistrement (tÃ©lÃ©versÃ©es d'un bloc au `submit`).
+    std::vector&lt;DirectX::XMFLOAT4X4&gt; _projections;
+};
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

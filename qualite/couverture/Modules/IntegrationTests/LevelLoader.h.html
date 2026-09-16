@@ -1,0 +1,136 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>LevelLoader.h</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#pragma once
+
+#include &lt;filesystem&gt;
+#include &lt;optional&gt;
+#include &lt;string&gt;
+#include &lt;string_view&gt;
+
+#include "Core/Levels/Level.h"
+
+/**
+ * @file Core/Levels/LevelLoader.h
+ * @brief Chargement d'un niveau depuis le format JSON (liste de tuiles-objets).
+ */
+
+namespace core {
+
+/**
+ * @brief CatÃ©gorie d'Ã©chec de chargement/validation d'un niveau (LOT-15, `EX-EDIT-012`).
+ *
+ * ComplÃ¨te le message technique (`LevelLoadResult::error`) d'un code **programmatique**, pour
+ * qu'un appelant (l'Ã©diteur) puisse traduire une erreur en message non-codeur sans dÃ©pendre du
+ * texte exact du message â une correspondance de sous-chaÃ®nes s'y casserait silencieusement au
+ * moindre changement de formulation.
+ */
+enum class LevelValidationError {
+    None,                      ///&lt; Pas d'erreur (chargement rÃ©ussi).
+    ParseError,                ///&lt; JSON malformÃ©, champ obligatoire manquant, ou de mauvais type.
+    UnknownTileType,           ///&lt; Type de tuile non reconnu.
+    OutOfBounds,               ///&lt; Tuile positionnÃ©e hors des dimensions dÃ©clarÃ©es.
+    DuplicatePosition,         ///&lt; Deux tuiles Ã  la mÃªme position.
+    MissingSwitchId,           ///&lt; Interrupteur sans identifiant.
+    DuplicateSwitchId,         ///&lt; Deux interrupteurs partagent le mÃªme identifiant.
+    InvalidEntryCount,         ///&lt; ZÃ©ro ou plusieurs tuiles d'entrÃ©e (une seule attendue).
+    InvalidExitCount,          ///&lt; ZÃ©ro ou plusieurs tuiles de sortie (une seule attendue).
+    UnresolvedMechanism,       ///&lt; Porte ou danger commutÃ© liÃ© Ã  un identifiant d'interrupteur
+                               ///&lt; inexistant.
+    FileNotFound,              ///&lt; Fichier de niveau introuvable sur disque.
+    UnsupportedFormatVersion,  ///&lt; `"version"` du fichier supÃ©rieure Ã  celle gÃ©rÃ©e (`EX-LVL-005`).
+    InvalidCameraFraming,      ///&lt; Cadrage de camÃ©ra invalide (`EX-LVL-006`) : mode inconnu, taille
+                               ///&lt; de salle nulle/supÃ©rieure au niveau, ou paramÃ¨tre Ã©tranger au
+                               ///&lt; mode retenu.
+};
+
+/**
+ * @brief Version courante du format de niveau JSON (`EX-LVL-005`).
+ *
+ * Ãcrite par `LevelWriter` dans le champ racine `"version"`. Un fichier sans ce champ est lu
+ * comme la version initiale (0), sans erreur ni avertissement â rÃ©trocompatibilitÃ© des niveaux
+ * antÃ©rieurs Ã  ce champ (`LOT-44`). Une version supÃ©rieure Ã  celle-ci est une erreur exploitable
+ * (`LevelValidationError::UnsupportedFormatVersion`), pas une lecture au mieux.
+ *
+ * Version 2 (`LOT-64`) : ajout du champ optionnel `"cameraFraming"` (`EX-LVL-006`). Un fichier de
+ * version antÃ©rieure, sans ce champ, se charge sans erreur -- la rÃ¨gle de repli
+ * (`core::resolveCameraFraming`) reproduit exactement le comportement historique.
+ *
+ * Version 3 (`LOT-04`) : **couches de tuiles** (`"layers"`, `core::TileLayer`) et **entitÃ©s**
+ * (`"entities"`, `core::MapEntity`), les deux optionnels. `"layers"` ne porte que les couches
+ * **visibles** (sol, dÃ©cor) : la grille de collision d'une carte est son tableau racine
+ * `"tiles"`, celui qui porte dÃ©jÃ  l'entrÃ©e, la sortie et les mÃ©canismes â une couche
+ * `"collision"` dÃ©clarÃ©e est refusÃ©e (`EX-LVL-016`). Cette grille racine est **promue** en couche
+ * de tÃªte, de rÃ´le `LayerKind::Collision`, ou `LayerKind::Legacy` quand la carte ne dÃ©clare aucune
+ * couche : aucun fichier existant n'a besoin d'Ãªtre touchÃ©, et rien de son comportement ne change.
+ *
+ * Toute clÃ© non reconnue dans une couche ou une entitÃ© est rangÃ©e dans ses propriÃ©tÃ©s libres
+ * (`core::PropertyMap`) et **rÃ©Ã©mise** Ã  l'Ã©criture : un fichier produit par une version
+ * ultÃ©rieure de l'Ã©diteur traverse une version antÃ©rieure sans rien perdre.
+ */
+inline constexpr int LEVEL_FORMAT_VERSION = 3;
+
+/**
+ * @brief RÃ©sultat d'un chargement de niveau : soit un `Level`, soit une **erreur** dÃ©crite.
+ *
+ * En cas de succÃ¨s, `level` contient le niveau, `error` est vide et `errorCode` vaut `None`. En
+ * cas d'Ã©chec (rÃ©cupÃ©rable, `EX-NFR-040`), `level` est vide, `error` dÃ©crit le problÃ¨me de faÃ§on
+ * exploitable pour les journaux/tests, et `errorCode` catÃ©gorise l'Ã©chec pour un traitement
+ * programmatique (traduction non-codeur, LOT-15).
+ */
+struct LevelLoadResult {
+    std::optional&lt;Level&gt; level;
+    std::string error;
+    LevelValidationError errorCode = LevelValidationError::None;
+
+    /// @return true si le chargement a rÃ©ussi.
+<span style = "background-color:#dfd">    [[nodiscard]] bool ok() const noexcept {
+        return level.has_value();
+    }</span>
+};
+
+/**
+ * @brief Charge un niveau au format **JSON** (objet `{name, width, height, tiles}` oÃ¹ `tiles`
+ *        est une liste d'objets `{x, y, type, â¦}`), `EX-LVL-001`/`EX-LVL-003`.
+ *
+ * Le chargement ne lÃ¨ve **aucune exception** vers l'appelant : toute erreur (JSON malformÃ©,
+ * champ manquant, type de tuile inconnu, tuile hors bornes, liaison de mÃ©canisme non rÃ©solueâ¦)
+ * est renvoyÃ©e dans le `LevelLoadResult`. La **validation mÃ©tier** additionnelle (unicitÃ© de
+ * l'entrÃ©e/sortie, positions en double) relÃ¨ve de la validation du niveau.
+ */
+class LevelLoader {
+public:
+    /// @brief Charge un niveau depuis une chaÃ®ne JSON. @param json Contenu JSON. @return RÃ©sultat.
+    [[nodiscard]] static LevelLoadResult loadFromString(std::string_view json);
+
+    /// @brief Charge un niveau depuis un fichier. @param path Chemin du fichier. @return RÃ©sultat.
+    [[nodiscard]] static LevelLoadResult loadFromFile(const std::filesystem::path&amp; path);
+};
+
+}  // namespace core</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

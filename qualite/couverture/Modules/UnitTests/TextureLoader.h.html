@@ -1,0 +1,132 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>TextureLoader.h</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#pragma once
+
+#include &lt;cstdint&gt;
+#include &lt;filesystem&gt;
+#include &lt;memory&gt;
+#include &lt;optional&gt;
+#include &lt;vector&gt;
+
+#include "HMI/Graphics/RenderLayer.h"
+
+class QRhiTexture;
+
+/**
+ * @file HMI/Graphics/TextureLoader.h
+ * @brief Chargement de textures GPU depuis des fichiers image (`EX-REN-041`), au travers de QRhi.
+ */
+
+namespace hmi {
+
+struct RhiContext;
+
+/// Pixels RGBA dÃ©codÃ©s d'un fichier image, alpha **non prÃ©multipliÃ©** (cohÃ©rent avec le mÃ©lange
+/// du pipeline de `SpriteBatch`, `SrcAlpha`/`OneMinusSrcAlpha`), au format `RGBA8`.
+struct DecodedImage {
+    int width = 0;
+    int height = 0;
+    std::vector&lt;std::uint32_t&gt; pixels;
+};
+
+/**
+ * @brief Texture GPU chargÃ©e (RAII).
+ *
+ * Le pointeur est **partagÃ©** et non exclusif : le cache de textures (`hmi::TextureCache`) range
+ * ses entrÃ©es dans un registre qui les copie, et une mÃªme texture peut Ãªtre servie Ã  plusieurs
+ * consommateurs le temps d'une image.
+ */
+struct LoadedTexture {
+    std::shared_ptr&lt;QRhiTexture&gt; texture;
+    int width = 0;
+    int height = 0;
+
+    /// @return L'identitÃ© opaque de la texture, telle que la composition la manipule.
+<span style = "background-color:#dfd">    [[nodiscard]] TextureHandle handle() const noexcept {
+        return texture.get();
+    }</span>
+};
+
+/**
+ * @brief DÃ©code un fichier image (PNG au minimum) en pixels RGBA.
+ * @param path Chemin du fichier image.
+ * @return L'image dÃ©codÃ©e, ou `std::nullopt` si le fichier est absent/illisible/format non
+ *         supportÃ© (erreur rÃ©cupÃ©rable, `EX-NFR-040` â jamais d'exception ici).
+ */
+[[nodiscard]] std::optional&lt;DecodedImage&gt; decodeImageFile(const std::filesystem::path&amp; path);
+
+/**
+ * @brief Ãcrit un fichier PNG depuis des pixels RGBA dÃ©jÃ  en mÃ©moire â symÃ©trique de
+ *        `decodeImageFile`.
+ *
+ * Ãcriture **atomique** : les pixels sont d'abord Ã©crits dans un fichier temporaire du mÃªme
+ * dossier, puis ce fichier remplace @p path en une seule opÃ©ration (`std::filesystem::rename`).
+ * Une interruption (crash, disque plein en cours d'Ã©criture) laisse donc soit l'ancien fichier
+ * intact, soit le nouveau complet, jamais un fichier tronquÃ© â ce qui importe d'autant plus que le
+ * rechargement Ã  chaud (`LOT-43`) peut lire pendant l'Ã©criture. Le fichier temporaire ne subsiste
+ * ni aprÃ¨s un succÃ¨s ni aprÃ¨s un Ã©chec.
+ *
+ * Le format en mÃ©moire reste `Format_RGBA8888` (alpha non prÃ©multipliÃ©), comme au dÃ©codage :
+ * dÃ©coder puis rÃ©encoder restitue exactement les mÃªmes pixels, canal alpha compris.
+ * @param path  Chemin du fichier PNG Ã  Ã©crire.
+ * @param image Image Ã  encoder (dimensions strictement positives, `pixels.size() == width *
+ *              height`).
+ * @return `true` en cas de succÃ¨s, `false` sinon (dossier de destination absent, image invalide,
+ *         Ã©chec d'Ã©criture â jamais d'exception, `EX-NFR-040`).
+ */
+[[nodiscard]] bool encodeImageFile(const std::filesystem::path&amp; path, const DecodedImage&amp; image);
+
+/**
+ * @brief CrÃ©e une texture GPU Ã  partir de pixels RGBA dÃ©jÃ  dÃ©codÃ©s.
+ *
+ * Le tÃ©lÃ©versement des pixels est **diffÃ©rÃ©** : il est dÃ©posÃ© dans le lot de mises Ã  jour de
+ * l'image en cours (`hmi::RhiContext::updates`), que l'appelant soumet avant d'ouvrir sa passe de
+ * rendu. C'est la contrainte de QRhi qui l'impose, pas un choix d'optimisation â un tÃ©lÃ©versement
+ * ne peut pas avoir lieu au milieu d'une passe.
+ * @param context Interface de rendu et lot de mises Ã  jour de l'image courante.
+ * @param width   Largeur en pixels (doit Ãªtre strictement positive).
+ * @param height  Hauteur en pixels (doit Ãªtre strictement positive).
+ * @param pixels  Pixels `RGBA8`, taille attendue `width * height`.
+ * @return La texture chargÃ©e, ou `std::nullopt` en cas d'Ã©chec de crÃ©ation cÃ´tÃ© GPU.
+ */
+[[nodiscard]] std::optional&lt;LoadedTexture&gt; createTexture(const RhiContext&amp; context, int width,
+                                                         int height,
+                                                         const std::vector&lt;std::uint32_t&gt;&amp; pixels);
+
+/**
+ * @brief DÃ©code un fichier image puis crÃ©e la texture GPU correspondante.
+ * @param context Interface de rendu et lot de mises Ã  jour de l'image courante.
+ * @param path    Chemin du fichier image.
+ * @return La texture chargÃ©e, ou `std::nullopt` si le dÃ©codage ou la crÃ©ation GPU Ã©choue.
+ */
+[[nodiscard]] std::optional&lt;LoadedTexture&gt; loadTextureFromFile(const RhiContext&amp; context,
+                                                               const std::filesystem::path&amp; path);
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

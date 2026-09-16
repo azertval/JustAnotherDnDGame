@@ -1,0 +1,210 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>ArenaSceneRenderer.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#include "HMI/Graphics/ArenaSceneRenderer.h"
+
+#include &lt;algorithm&gt;
+#include &lt;optional&gt;
+#include &lt;utility&gt;
+
+#include &lt;rhi/qrhi.h&gt;
+
+#include "Core/Combat/IsoProjection.h"
+#include "HMI/Graphics/Camera2D.h"
+#include "HMI/Graphics/GraphicsLog.h"
+#include "HMI/Graphics/MissingTexture.h"
+#include "HMI/Graphics/SpriteBatch.h"
+#include "HMI/Graphics/SpriteRenderer.h"
+
+namespace hmi {
+
+namespace {
+
+/// Marge du cadrage : la scÃ¨ne entiÃ¨re tient dans la surface, sans toucher ses bords.
+constexpr float FRAMING_MARGIN = 0.95f;
+
+}  // namespace
+
+<span style = "background-color:#dfd">Camera2D arenaCamera(const core::IsoProjection&amp; projection, int pixelWidth, int pixelHeight) {
+    const int width = std::max(1, pixelWidth);
+    const int height = std::max(1, pixelHeight);
+    const core::Vector2 size = projection.sceneSize();
+    Camera2D camera(width, height);
+    camera.setCenter({size.x / 2.0f, size.y / 2.0f});
+    camera.setZoom(Camera2D::fitZoom(static_cast&lt;float&gt;(width), static_cast&lt;float&gt;(height),</span>
+                                     std::max(size.x, 1.0f), std::max(size.y, 1.0f),
+                                     FRAMING_MARGIN));
+<span style = "background-color:#dfd">    return camera;
+}</span>
+
+ArenaSceneRenderer::ArenaSceneRenderer(std::filesystem::path coliseumDirectory)
+<span style = "background-color:#dfd">    : _directory(std::move(coliseumDirectory)) {</span>
+    // Lectures de fichiers, une fois : ni le catalogue ni les clips ne touchent au GPU, et une
+    // recrÃ©ation des ressources n'a pas Ã  les relire.
+<span style = "background-color:#dfd">    ArenaAppearanceCatalogResult catalog =</span>
+        ArenaAppearanceCatalog::loadFromFile(_directory / "manifest.json");
+<span style = "background-color:#dfd">    if (catalog.ok()) {
+        _catalog = std::move(*catalog.catalog);
+    } else {</span>
+<span style = "background-color:#fdd">        GRAPHICS_LOG_WARNING("Arene : manifeste du Colisee illisible, " + catalog.error);</span>
+    }
+
+<span style = "background-color:#dfd">    const auto declare = [this](const std::string&amp; folder, const std::string&amp; sheet) {
+        ArenaFigureAnimationLoad load = loadArenaFigureAnimations(_directory / folder / sheet);
+        for (const std::string&amp; error : load.errors) {</span>
+<span style = "background-color:#fdd">            GRAPHICS_LOG_WARNING("Arene : animation de " + sheet + ", " + error);</span>
+        }
+<span style = "background-color:#dfd">        _animation.setFigureAnimations(sheet, std::move(load.clips));
+    };
+    for (const std::string&amp; hero : _catalog.heroes()) {
+        declare("characters", hero);
+    }
+    for (const std::string&amp; gladiator : _catalog.gladiators()) {
+        declare("enemies", gladiator);
+    }
+}</span>
+
+<span style = "background-color:#dfd">ArenaSceneRenderer::~ArenaSceneRenderer() {
+    release();
+}</span>
+
+<span style = "background-color:#dfd">bool ArenaSceneRenderer::ensureResources(QRhi* rhi) {
+    if (rhi == nullptr) {
+        return false;</span>
+    }
+<span style = "background-color:#dfd">    if (created() &amp;&amp; _rhi == rhi) {
+        return true;</span>
+    }
+    // Une autre interface : tout ce qui a Ã©tÃ© crÃ©Ã© appartient Ã  l'ancienne et ne doit plus servir.
+<span style = "background-color:#dfd">    release();</span>
+
+<span style = "background-color:#dfd">    _rhi = rhi;
+    _pendingUploads = rhi-&gt;nextResourceUpdateBatch();
+    _resources.create(rhi, _pendingUploads);
+    loadTextures();
+    _resources.setFrameUpdates(nullptr);
+    GRAPHICS_LOG_INFO("Arene : ressources QRhi creees (" + std::string(rhi-&gt;backendName()) + ", " +</span>
+                      std::to_string(_textures.byPath.size()) + " textures).");
+<span style = "background-color:#dfd">    return true;
+}</span>
+
+<span style = "background-color:#dfd">void ArenaSceneRenderer::loadTextures() {
+    const RhiContext&amp; context = _resources.context();</span>
+
+<span style = "background-color:#dfd">    const ProceduralAtlasImage checker = buildMissingTextureImage();
+    if (std::optional&lt;LoadedTexture&gt; missing =</span>
+            createTexture(context, checker.width, checker.height, checker.pixels)) {
+<span style = "background-color:#dfd">        _missing = std::move(*missing);
+        _textures.missing = ArenaTexture{_missing.handle(), _missing.width, _missing.height};
+    }</span>
+
+<span style = "background-color:#dfd">    const std::vector&lt;std::string&gt; paths = arenaTexturePaths(_catalog);
+    _loaded.reserve(paths.size());
+    for (const std::string&amp; path : paths) {
+        std::optional&lt;LoadedTexture&gt; texture = loadTextureFromFile(context, _directory / path);
+        if (!texture.has_value()) {</span>
+            // La composition retombe sur le damier : une piÃ¨ce manquante se voit, sans planter.
+<span style = "background-color:#fdd">            GRAPHICS_LOG_WARNING(missingTextureWarning(path));
+            continue;</span>
+        }
+<span style = "background-color:#dfd">        _textures.byPath[path] = ArenaTexture{texture-&gt;handle(), texture-&gt;width, texture-&gt;height};
+        _loaded.push_back(std::move(*texture));
+    }
+}</span>
+
+<span style = "background-color:#dfd">void ArenaSceneRenderer::release() noexcept {</span>
+    // L'ordre : ce qui dÃ©signe une texture, puis les textures, puis la grappe qui porte le
+    // pipeline. Le lot de crÃ©ation jamais soumis est rendu Ã  QRhi, qui en garde un nombre bornÃ©.
+<span style = "background-color:#dfd">    _composed.clear();
+    _textures.byPath.clear();
+    _textures.missing = ArenaTexture{};
+    _loaded.clear();
+    _missing = LoadedTexture{};
+    if (_pendingUploads != nullptr) {
+        _pendingUploads-&gt;release();
+        _pendingUploads = nullptr;</span>
+    }
+<span style = "background-color:#dfd">    _resources.release();
+    _rhi = nullptr;
+}</span>
+
+<span style = "background-color:#dfd">void ArenaSceneRenderer::setSnapshot(ArenaSceneSnapshot snapshot) {
+    _snapshot = std::move(snapshot);</span>
+
+<span style = "background-color:#dfd">    std::set&lt;core::CombatantId&gt; present;
+    for (const ArenaFigureSnapshot&amp; figure : _snapshot.figures) {
+        present.insert(figure.id);
+        if (!_animated.contains(figure.id)) {</span>
+            // Seulement Ã  l'arrivÃ©e : rejouer le repos Ã  chaque instantanÃ© couperait une action en
+            // cours. DÃ©clencher attaque et coup d'aprÃ¨s les Ã©vÃ©nements est l'affaire de l'appelant.
+<span style = "background-color:#dfd">            _animation.play(figure.id, _catalog.figureFor(figure.name, figure.side).sheet,</span>
+                            ArenaFigureAction::Idle);
+        }
+<span style = "background-color:#dfd">    }
+    for (const core::CombatantId id : _animated) {
+        if (!present.contains(id)) {
+            _animation.remove(id);</span>
+        }
+<span style = "background-color:#dfd">    }
+    _animated = std::move(present);
+}</span>
+
+void ArenaSceneRenderer::render(QRhiCommandBuffer* commandBuffer, QRhiRenderTarget* target,
+<span style = "background-color:#dfd">                                float realDeltaSeconds, const float clear[4]) {
+    if (!created() || commandBuffer == nullptr || target == nullptr) {</span>
+<span style = "background-color:#fdd">        return;</span>
+    }
+    // Le lot de cette image : celui de la crÃ©ation s'il attend encore, sinon un neuf. `submit` le
+    // soumet avec l'ouverture de sa passe, qui en prend la propriÃ©tÃ©.
+<span style = "background-color:#dfd">    QRhiResourceUpdateBatch* const updates = _pendingUploads != nullptr</span>
+                                                 ? std::exchange(_pendingUploads, nullptr)
+                                                 : _rhi-&gt;nextResourceUpdateBatch();
+<span style = "background-color:#dfd">    _resources.setFrameUpdates(updates);</span>
+
+<span style = "background-color:#dfd">    _animation.advance(std::max(0.0f, realDeltaSeconds));
+    const ArenaAnimationState animation = _animation.snapshot();
+    const core::IsoProjection projection(_snapshot.columns, _snapshot.rows);</span>
+
+<span style = "background-color:#dfd">    _composed.clear();
+    composeArenaScene(_composed, _snapshot, _catalog, animation, projection, _textures);
+    _composed.sort();</span>
+
+    // Cadrage : la scÃ¨ne entiÃ¨re, centrÃ©e. La projection isomÃ©trique a dÃ©jÃ  placÃ© les piÃ¨ces en
+    // unitÃ©s monde ; la camÃ©ra ne fait que dÃ©placer et agrandir, en aval.
+<span style = "background-color:#dfd">    const QSize pixels = target-&gt;pixelSize();
+    const Camera2D camera = arenaCamera(projection, pixels.width(), pixels.height());</span>
+
+<span style = "background-color:#dfd">    SpriteBatch&amp; sprites = _resources.sprites();
+    sprites.beginFrame();
+    submitComposedScene(sprites, camera.projectionMatrix(), _composed);
+    sprites.submit(commandBuffer, target, updates, clear);
+    _resources.setFrameUpdates(nullptr);
+}</span>
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

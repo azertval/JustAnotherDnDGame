@@ -1,0 +1,411 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>SpriteBatch.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#include "HMI/Graphics/SpriteBatch.h"
+
+#include &lt;QColor&gt;
+#include &lt;QFile&gt;
+#include &lt;QMatrix4x4&gt;
+#include &lt;QSize&gt;
+#include &lt;algorithm&gt;
+#include &lt;cmath&gt;
+#include &lt;cstdint&gt;
+#include &lt;cstring&gt;
+#include &lt;stdexcept&gt;
+#include &lt;string&gt;
+
+#include &lt;rhi/qrhi.h&gt;
+
+#include "HMI/Graphics/GraphicsLog.h"
+
+namespace hmi {
+
+namespace {
+
+// Charge un shader precompile (.qsb) depuis les ressources de l'executable. Un shader absent est
+// une erreur de BUILD, pas un etat d'execution recuperable : la ressource est embarquee par
+// qt6_add_shaders, elle ne peut manquer que si la compilation n'a pas eu lieu.
+<span style = "background-color:#dfd">QShader loadShader(const char* resourcePath) {
+    QFile file(QString::fromLatin1(resourcePath));
+    if (!file.open(QIODevice::ReadOnly)) {</span>
+<span style = "background-color:#fdd">        throw std::runtime_error(std::string("Shader introuvable dans les ressources : ") +</span>
+                                 resourcePath);
+    }
+<span style = "background-color:#dfd">    const QShader shader = QShader::fromSerialized(file.readAll());
+    if (!shader.isValid()) {</span>
+<span style = "background-color:#fdd">        throw std::runtime_error(std::string("Shader illisible : ") + resourcePath);</span>
+    }
+<span style = "background-color:#dfd">    return shader;
+}</span>
+
+// Taille d'un bloc de projection : une matrice 4x4 de flottants.
+constexpr int PROJECTION_BYTES = 16 * static_cast&lt;int&gt;(sizeof(float));
+
+// Convertit la matrice ligne-major de DirectXMath (convention `position * matrice`) en QMatrix4x4
+// (convention `matrice * position`, comme GLSL) : c'est exactement sa transposee. La correction
+// d'espace de clip de QRhi est appliquee par-dessus -- le shader ecrit en convention OpenGL, QRhi
+// la ramene a celle du backend (Direct3D 11 sous Windows).
+<span style = "background-color:#dfd">QMatrix4x4 toClipMatrix(QRhi* rhi, const DirectX::XMFLOAT4X4&amp; projection) {
+    const QMatrix4x4 columnMajor(</span>
+        projection.m[0][0], projection.m[1][0], projection.m[2][0], projection.m[3][0],
+        projection.m[0][1], projection.m[1][1], projection.m[2][1], projection.m[3][1],
+        projection.m[0][2], projection.m[1][2], projection.m[2][2], projection.m[3][2],
+        projection.m[0][3], projection.m[1][3], projection.m[2][3], projection.m[3][3]);
+<span style = "background-color:#dfd">    return rhi-&gt;clipSpaceCorrMatrix() * columnMajor;
+}</span>
+
+}  // namespace
+
+// Construit le pipeline (shaders, tampons, echantillonneur) sur une interface QRhi.
+<span style = "background-color:#dfd">SpriteBatch::SpriteBatch(QRhi* rhi) : _rhi(rhi) {
+    if (_rhi == nullptr) {</span>
+<span style = "background-color:#fdd">        throw std::runtime_error("SpriteBatch : QRhi nul");</span>
+    }
+<span style = "background-color:#dfd">    _vertices.reserve(MAXIMUM_QUADS * 4);</span>
+
+    // Tampon d'indices immuable : deux triangles par quad (0,1,2, 0,2,3). Indices 16 bits, d'ou le
+    // plafond de MAXIMUM_QUADS quads par appel de dessin.
+<span style = "background-color:#dfd">    std::vector&lt;std::uint16_t&gt; indices(MAXIMUM_QUADS * 6);
+    for (std::size_t quad = 0; quad &lt; MAXIMUM_QUADS; ++quad) {
+        const auto base = static_cast&lt;std::uint16_t&gt;(quad * 4);
+        const std::size_t offset = quad * 6;
+        indices[offset + 0] = static_cast&lt;std::uint16_t&gt;(base + 0);
+        indices[offset + 1] = static_cast&lt;std::uint16_t&gt;(base + 1);
+        indices[offset + 2] = static_cast&lt;std::uint16_t&gt;(base + 2);
+        indices[offset + 3] = static_cast&lt;std::uint16_t&gt;(base + 0);
+        indices[offset + 4] = static_cast&lt;std::uint16_t&gt;(base + 2);
+        indices[offset + 5] = static_cast&lt;std::uint16_t&gt;(base + 3);
+    }
+    _indexBuffer.reset(</span>
+        _rhi-&gt;newBuffer(QRhiBuffer::Immutable, QRhiBuffer::IndexBuffer,
+                        static_cast&lt;quint32&gt;(indices.size() * sizeof(std::uint16_t))));
+<span style = "background-color:#dfd">    if (!_indexBuffer-&gt;create()) {</span>
+<span style = "background-color:#fdd">        throw std::runtime_error("SpriteBatch : echec de creation du tampon d'indices");</span>
+    }
+    // Le contenu d'un tampon immuable se televerse une fois, dans son propre lot soumis a part :
+    // ce tampon vit plus longtemps qu'une image, il ne dÃ©pend d'aucune passe.
+<span style = "background-color:#dfd">    QRhiResourceUpdateBatch* const initial = _rhi-&gt;nextResourceUpdateBatch();
+    initial-&gt;uploadStaticBuffer(_indexBuffer.get(), indices.data());
+    _pendingIndexUpload = initial;</span>
+
+    // Echantillonnage *nearest* (pixel art net), bords fixes : l'invariant de nettete du portage
+    // (EX-ARCH-022). Aucun mipmap -- une texture de pixel art ne se filtre pas.
+<span style = "background-color:#dfd">    _sampler.reset(_rhi-&gt;newSampler(QRhiSampler::Nearest, QRhiSampler::Nearest, QRhiSampler::None,</span>
+                                    QRhiSampler::ClampToEdge, QRhiSampler::ClampToEdge));
+<span style = "background-color:#dfd">    if (!_sampler-&gt;create()) {</span>
+<span style = "background-color:#fdd">        throw std::runtime_error("SpriteBatch : echec de creation de l'echantillonneur");</span>
+    }
+
+<span style = "background-color:#dfd">    _uniformStride = _rhi-&gt;ubufAligned(PROJECTION_BYTES);
+    if (!ensureUniformCapacity(64)) {</span>
+<span style = "background-color:#fdd">        throw std::runtime_error("SpriteBatch : echec de creation du tampon uniforme");</span>
+    }
+<span style = "background-color:#dfd">    if (!ensureVertexCapacity(2048)) {</span>
+<span style = "background-color:#fdd">        throw std::runtime_error("SpriteBatch : echec de creation du tampon de sommets");</span>
+    }
+
+<span style = "background-color:#dfd">    GRAPHICS_LOG_TRACE("SpriteBatch : pipeline 2D cree sur QRhi (" +</span>
+                       std::string(_rhi-&gt;backendName()) + ")");
+<span style = "background-color:#dfd">}</span>
+
+<span style = "background-color:#dfd">SpriteBatch::~SpriteBatch() = default;</span>
+
+// Redimensionne le tampon uniforme pour `batchCount` emplacements de projection.
+<span style = "background-color:#dfd">bool SpriteBatch::ensureUniformCapacity(std::size_t batchCount) {
+    if (batchCount &lt;= _uniformSlots &amp;&amp; _uniformBuffer) {
+        return true;</span>
+    }
+<span style = "background-color:#dfd">    const std::size_t slotCount = batchCount * 2;  // marge : evite de recreer a chaque lot ajoute
+    auto buffer = std::unique_ptr&lt;QRhiBuffer&gt;(_rhi-&gt;newBuffer(</span>
+        QRhiBuffer::Dynamic, QRhiBuffer::UniformBuffer,
+        static_cast&lt;quint32&gt;(slotCount * static_cast&lt;std::size_t&gt;(_uniformStride))));
+<span style = "background-color:#dfd">    if (!buffer-&gt;create()) {</span>
+<span style = "background-color:#fdd">        return false;</span>
+    }
+<span style = "background-color:#dfd">    _uniformBuffer = std::move(buffer);
+    _uniformSlots = slotCount;</span>
+    // Les liaisons referencent le tampon : elles deviennent caduques avec lui.
+<span style = "background-color:#dfd">    _bindings.clear();
+    _layoutBindings.reset();
+    return true;
+}</span>
+
+// Redimensionne le tampon de sommets si l'image enregistree n'y tient pas.
+<span style = "background-color:#dfd">bool SpriteBatch::ensureVertexCapacity(std::size_t quadCount) {
+    const quint32 needed = static_cast&lt;quint32&gt;(quadCount * 4 * sizeof(Vertex));
+    if (_vertexBuffer &amp;&amp; _vertexBuffer-&gt;size() &gt;= needed) {
+        return true;</span>
+    }
+<span style = "background-color:#dfd">    auto buffer = std::unique_ptr&lt;QRhiBuffer&gt;(</span>
+        _rhi-&gt;newBuffer(QRhiBuffer::Dynamic, QRhiBuffer::VertexBuffer, needed * 2));
+<span style = "background-color:#dfd">    if (!buffer-&gt;create()) {</span>
+<span style = "background-color:#fdd">        return false;</span>
+    }
+<span style = "background-color:#dfd">    _vertexBuffer = std::move(buffer);
+    return true;
+}</span>
+
+// Liaisons de ressources associees a une texture, creees a la premiere rencontre.
+<span style = "background-color:#dfd">QRhiShaderResourceBindings* SpriteBatch::bindingsFor(QRhiTexture* texture) {
+    const auto found = _bindings.find(texture);
+    if (found != _bindings.end()) {
+        return found-&gt;second.get();</span>
+    }
+<span style = "background-color:#dfd">    auto bindings = std::unique_ptr&lt;QRhiShaderResourceBindings&gt;(_rhi-&gt;newShaderResourceBindings());
+    bindings-&gt;setBindings({</span>
+        QRhiShaderResourceBinding::uniformBufferWithDynamicOffset(
+            0, QRhiShaderResourceBinding::VertexStage, _uniformBuffer.get(), PROJECTION_BYTES),
+        QRhiShaderResourceBinding::sampledTexture(1, QRhiShaderResourceBinding::FragmentStage,
+                                                  texture, _sampler.get()),
+    });
+<span style = "background-color:#dfd">    if (!bindings-&gt;create()) {</span>
+<span style = "background-color:#fdd">        GRAPHICS_LOG_WARNING("SpriteBatch : echec de creation des liaisons de ressources");
+        return nullptr;</span>
+    }
+<span style = "background-color:#dfd">    QRhiShaderResourceBindings* const raw = bindings.get();
+    _bindings.emplace(texture, std::move(bindings));
+    return raw;
+}</span>
+
+// Cree (ou recree) le pipeline pour la passe de rendu donnee.
+<span style = "background-color:#dfd">bool SpriteBatch::ensurePipeline(QRhiRenderTarget* target) {
+    QRhiRenderPassDescriptor* const pass = target-&gt;renderPassDescriptor();
+    if (_pipeline &amp;&amp; _pipelinePass == pass) {</span>
+<span style = "background-color:#fdd">        return true;</span>
+    }
+
+    // Liaisons de reference : jamais utilisees pour dessiner, seulement pour decrire la
+    // disposition attendue par le pipeline (QRhi n'exige que la compatibilite de disposition).
+<span style = "background-color:#dfd">    if (!_layoutBindings) {
+        _layoutBindings.reset(_rhi-&gt;newShaderResourceBindings());
+        _layoutBindings-&gt;setBindings({</span>
+            QRhiShaderResourceBinding::uniformBufferWithDynamicOffset(
+                0, QRhiShaderResourceBinding::VertexStage, _uniformBuffer.get(), PROJECTION_BYTES),
+            QRhiShaderResourceBinding::sampledTexture(1, QRhiShaderResourceBinding::FragmentStage,
+                                                      nullptr, _sampler.get()),
+        });
+<span style = "background-color:#dfd">        if (!_layoutBindings-&gt;create()) {</span>
+<span style = "background-color:#fdd">            GRAPHICS_LOG_WARNING("SpriteBatch : echec de creation des liaisons de reference");
+            return false;</span>
+        }
+    }
+
+<span style = "background-color:#dfd">    auto pipeline = std::unique_ptr&lt;QRhiGraphicsPipeline&gt;(_rhi-&gt;newGraphicsPipeline());
+    pipeline-&gt;setShaderStages({</span>
+        {QRhiShaderStage::Vertex, loadShader(":/shaders/sprite.vert.qsb")},
+        {QRhiShaderStage::Fragment, loadShader(":/shaders/sprite.frag.qsb")},
+    });
+
+<span style = "background-color:#dfd">    QRhiVertexInputLayout inputLayout;
+    inputLayout.setBindings({{static_cast&lt;quint32&gt;(sizeof(Vertex))}});
+    inputLayout.setAttributes({</span>
+        {0, 0, QRhiVertexInputAttribute::Float2, 0},
+        {0, 1, QRhiVertexInputAttribute::Float2, 2 * sizeof(float)},
+        {0, 2, QRhiVertexInputAttribute::Float4, 4 * sizeof(float)},
+    });
+<span style = "background-color:#dfd">    pipeline-&gt;setVertexInputLayout(inputLayout);
+    pipeline-&gt;setShaderResourceBindings(_layoutBindings.get());
+    pipeline-&gt;setRenderPassDescriptor(pass);
+    pipeline-&gt;setTopology(QRhiGraphicsPipeline::Triangles);</span>
+    // Rendu 2D : les quads peuvent etre vus des deux cotes (un segment oriente peut Â« retourner Â»
+    // son quadrilatere), et il n'y a ni profondeur ni pochoir a ecrire.
+<span style = "background-color:#dfd">    pipeline-&gt;setCullMode(QRhiGraphicsPipeline::None);
+    pipeline-&gt;setDepthTest(false);
+    pipeline-&gt;setDepthWrite(false);</span>
+
+    // Fusion alpha, alpha NON premultiplie -- meme equation que l'etat Direct3D 11 d'origine.
+<span style = "background-color:#dfd">    QRhiGraphicsPipeline::TargetBlend blend;
+    blend.enable = true;
+    blend.srcColor = QRhiGraphicsPipeline::SrcAlpha;
+    blend.dstColor = QRhiGraphicsPipeline::OneMinusSrcAlpha;
+    blend.opColor = QRhiGraphicsPipeline::Add;
+    blend.srcAlpha = QRhiGraphicsPipeline::One;
+    blend.dstAlpha = QRhiGraphicsPipeline::OneMinusSrcAlpha;
+    blend.opAlpha = QRhiGraphicsPipeline::Add;
+    pipeline-&gt;setTargetBlends({blend});</span>
+
+<span style = "background-color:#dfd">    if (!pipeline-&gt;create()) {</span>
+<span style = "background-color:#fdd">        GRAPHICS_LOG_WARNING("SpriteBatch : echec de creation du pipeline graphique");
+        return false;</span>
+    }
+<span style = "background-color:#dfd">    _pipeline = std::move(pipeline);
+    _pipelinePass = pass;
+    return true;
+}</span>
+
+// Ouvre l'enregistrement d'une image.
+<span style = "background-color:#dfd">void SpriteBatch::beginFrame() {
+    _vertices.clear();
+    _batches.clear();
+    _projections.clear();
+    _recording = false;
+}</span>
+
+// Demarre un lot : fixe la texture echantillonnee et la projection.
+<span style = "background-color:#dfd">void SpriteBatch::begin(const DirectX::XMFLOAT4X4&amp; projection, TextureHandle texture) {
+    closeBatch();
+    _current = Batch{};
+    _current.texture = static_cast&lt;QRhiTexture*&gt;(texture);
+    _current.firstQuad = _vertices.size() / 4;
+    _current.uniformOffset = static_cast&lt;int&gt;(_projections.size()) * _uniformStride;
+    _projections.push_back(projection);
+    _recording = true;
+}</span>
+
+// Ferme le lot en cours d'enregistrement, s'il y en a un.
+<span style = "background-color:#dfd">void SpriteBatch::closeBatch() {
+    if (!_recording) {
+        return;</span>
+    }
+<span style = "background-color:#dfd">    _current.quadCount = _vertices.size() / 4 - _current.firstQuad;
+    if (_current.quadCount &gt; 0 &amp;&amp; _current.texture != nullptr) {
+        _batches.push_back(_current);</span>
+    }
+<span style = "background-color:#dfd">    _recording = false;
+}</span>
+
+// Ajoute un quad au lot courant.
+<span style = "background-color:#dfd">void SpriteBatch::draw(const SpriteQuad&amp; quad) {
+    const float halfWidth = quad.width * 0.5f;
+    const float halfHeight = quad.height * 0.5f;
+    const float centerX = quad.x + halfWidth;
+    const float centerY = quad.y + halfHeight;
+    const float cosR = std::cos(quad.rotation);
+    const float sinR = std::sin(quad.rotation);</span>
+
+    // Coins relatifs au centre (haut-gauche, haut-droit, bas-droit, bas-gauche), tournes de
+    // `rotation` radians autour du centre -- a rotation nulle (cosR=1, sinR=0), coincide avec le
+    // rectangle aligne d'origine (meme formule que draw(LineQuad), coins pousses dans le meme
+    // ordre attendu par le tampon d'indices).
+<span style = "background-color:#dfd">    const float offsetsX[4] = {-halfWidth, halfWidth, halfWidth, -halfWidth};
+    const float offsetsY[4] = {-halfHeight, -halfHeight, halfHeight, halfHeight};
+    const float us[4] = {quad.u0, quad.u1, quad.u1, quad.u0};
+    const float vs[4] = {quad.v0, quad.v0, quad.v1, quad.v1};
+    for (int i = 0; i &lt; 4; ++i) {
+        const float x = centerX + offsetsX[i] * cosR - offsetsY[i] * sinR;
+        const float y = centerY + offsetsX[i] * sinR + offsetsY[i] * cosR;
+        _vertices.push_back(Vertex{x, y, us[i], vs[i], quad.r, quad.g, quad.b, quad.a});
+    }
+}</span>
+
+// Ajoute un segment epais (oriente librement) au lot courant.
+<span style = "background-color:#fdd">void SpriteBatch::draw(const LineQuad&amp; line) {
+    const float dx = line.bx - line.ax;
+    const float dy = line.by - line.ay;
+    const float length = std::sqrt(dx * dx + dy * dy);
+    if (length &lt; 1e-6f) {
+        return;  // segment degenere : rien a dessiner.</span>
+    }
+
+    // Decalage perpendiculaire (normale unitaire x demi-epaisseur), de part et d'autre du segment.
+<span style = "background-color:#fdd">    const float nx = -dy / length * (line.thickness * 0.5f);
+    const float ny = dx / length * (line.thickness * 0.5f);</span>
+
+    // Quatre coins, meme ordre que draw(SpriteQuad) (le tampon d'indices attend un quadrilatere
+    // convexe coherent, peu importe son orientation) : a+n, b+n, b-n, a-n.
+<span style = "background-color:#fdd">    _vertices.push_back(</span>
+        Vertex{line.ax + nx, line.ay + ny, line.u0, line.v0, line.r, line.g, line.b, line.a});
+<span style = "background-color:#fdd">    _vertices.push_back(</span>
+        Vertex{line.bx + nx, line.by + ny, line.u1, line.v0, line.r, line.g, line.b, line.a});
+<span style = "background-color:#fdd">    _vertices.push_back(</span>
+        Vertex{line.bx - nx, line.by - ny, line.u1, line.v1, line.r, line.g, line.b, line.a});
+<span style = "background-color:#fdd">    _vertices.push_back(</span>
+        Vertex{line.ax - nx, line.ay - ny, line.u0, line.v1, line.r, line.g, line.b, line.a});
+<span style = "background-color:#fdd">}</span>
+
+// Termine le lot : fige la plage de quads enregistree.
+<span style = "background-color:#dfd">void SpriteBatch::end() {
+    closeBatch();
+}</span>
+
+// Televerse l'image enregistree et l'emet en une passe de rendu.
+void SpriteBatch::submit(QRhiCommandBuffer* commandBuffer, QRhiRenderTarget* target,
+<span style = "background-color:#dfd">                         QRhiResourceUpdateBatch* updates, const float clear[4]) {
+    closeBatch();</span>
+
+<span style = "background-color:#dfd">    const QColor clearColor = QColor::fromRgbF(clear[0], clear[1], clear[2], clear[3]);
+    const std::size_t quadCount = _vertices.size() / 4;</span>
+
+    // Le lot de televersement du tampon d'indices n'a pas encore ete soumis (premiere image) :
+    // il doit l'etre avant tout dessin qui s'en sert.
+<span style = "background-color:#dfd">    if (_pendingIndexUpload != nullptr) {
+        if (updates != nullptr) {
+            updates-&gt;merge(_pendingIndexUpload);
+        } else {</span>
+<span style = "background-color:#fdd">            updates = _pendingIndexUpload;</span>
+        }
+<span style = "background-color:#dfd">        _pendingIndexUpload = nullptr;</span>
+    }
+
+<span style = "background-color:#dfd">    const bool drawable = quadCount &gt; 0 &amp;&amp; ensureVertexCapacity(quadCount) &amp;&amp;</span>
+                          ensureUniformCapacity(_projections.size()) &amp;&amp; ensurePipeline(target);
+<span style = "background-color:#dfd">    if (drawable) {
+        if (updates == nullptr) {</span>
+<span style = "background-color:#fdd">            updates = _rhi-&gt;nextResourceUpdateBatch();</span>
+        }
+<span style = "background-color:#dfd">        updates-&gt;updateDynamicBuffer(_vertexBuffer.get(), 0,</span>
+                                     static_cast&lt;quint32&gt;(_vertices.size() * sizeof(Vertex)),
+                                     _vertices.data());
+<span style = "background-color:#dfd">        for (std::size_t index = 0; index &lt; _projections.size(); ++index) {
+            const QMatrix4x4 clipMatrix = toClipMatrix(_rhi, _projections[index]);
+            updates-&gt;updateDynamicBuffer(</span>
+                _uniformBuffer.get(),
+                static_cast&lt;quint32&gt;(index * static_cast&lt;std::size_t&gt;(_uniformStride)),
+                PROJECTION_BYTES, clipMatrix.constData());
+<span style = "background-color:#dfd">        }</span>
+    }
+
+<span style = "background-color:#dfd">    commandBuffer-&gt;beginPass(target, clearColor, {1.0f, 0}, updates);
+    if (drawable) {
+        const QSize pixelSize = target-&gt;pixelSize();
+        commandBuffer-&gt;setGraphicsPipeline(_pipeline.get());
+        commandBuffer-&gt;setViewport({0.0f, 0.0f, static_cast&lt;float&gt;(pixelSize.width()),</span>
+                                    static_cast&lt;float&gt;(pixelSize.height())});
+<span style = "background-color:#dfd">        for (const Batch&amp; batch : _batches) {
+            QRhiShaderResourceBindings* const bindings = bindingsFor(batch.texture);
+            if (bindings == nullptr) {</span>
+<span style = "background-color:#fdd">                continue;</span>
+            }
+<span style = "background-color:#dfd">            const QRhiCommandBuffer::DynamicOffset offset{</span>
+                0, static_cast&lt;quint32&gt;(batch.uniformOffset)};
+<span style = "background-color:#dfd">            commandBuffer-&gt;setShaderResources(bindings, 1, &amp;offset);
+            const quint32 vertexOffset = static_cast&lt;quint32&gt;(batch.firstQuad * 4 * sizeof(Vertex));
+            const QRhiCommandBuffer::VertexInput vertexInput(_vertexBuffer.get(), vertexOffset);
+            commandBuffer-&gt;setVertexInput(0, 1, &amp;vertexInput, _indexBuffer.get(), 0,</span>
+                                          QRhiCommandBuffer::IndexUInt16);
+            // Un appel de dessin ne peut couvrir plus de quads que n'en indexe le tampon
+            // d'indices (16 bits) : un lot plus gros est tronque plutot que de lire hors bornes.
+<span style = "background-color:#dfd">            const std::size_t drawnQuads = (std::min)(batch.quadCount, MAXIMUM_QUADS);
+            commandBuffer-&gt;drawIndexed(static_cast&lt;quint32&gt;(drawnQuads * 6));
+        }</span>
+    }
+<span style = "background-color:#dfd">    commandBuffer-&gt;endPass();
+}</span>
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

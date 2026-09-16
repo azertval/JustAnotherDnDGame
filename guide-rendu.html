@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.16.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>JustAnotherDnDGame: Rendu 2D : de l&#39;ECS à l&#39;écran</title>
+<title>JustAnotherRpgGame: Rendu 2D : de l&#39;ECS à l&#39;écran</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">JustAnotherDnDGame<span id="projectnumber">&#160;0.1.0</span>
+   <div id="projectname">JustAnotherRpgGame<span id="projectnumber">&#160;0.1.0</span>
    </div>
    <div id="projectbrief">Jeu de rôle tactique au d20, vue de dessus, en C++/Qt</div>
   </td>
@@ -193,7 +193,7 @@ Le pipeline de textures depuis fichiers, et son repli procédural</h2>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md229"></a>
 <span class="tt">Source/Elements/Assets/</span> : convention et régénération</h2>
 <p>L'atlas de base (<span class="tt">Source/Elements/Assets/atlas.png</span>) suit la même grille que la génération procédurale (voir <span class="tt">Source/Elements/Assets/README.md</span> pour le détail des dimensions) : <b>remplacer le fichier suffit</b> à changer l'apparence du jeu, sans toucher au code, tant que la grille est respectée. Il est copié à côté de l'exécutable au build (patron CMake <span class="tt">POST_BUILD</span> de <span class="tt">Levels</span>/<span class="tt">Localization</span>, <span class="tt">Source/HMI/CMakeLists.txt</span>).</p>
-<p>Pour régénérer cet atlas de base à partir de la génération procédurale de référence (après une évolution de <span class="tt">buildProceduralAtlasImage</span>, ou pour repartir d'une base propre) : <span class="tt">JustAnotherDnDGame.exe --export-atlas=&lt;chemin&gt;.png</span> — option de développement traitée tout au début de <span class="tt"><a class="el" href="Editor_2Main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="Point d&#39;entrée du programme.">main()</a></span>, <b>avant</b> l'ouverture de toute fenêtre : elle écrit le fichier PNG et quitte immédiatement (code <span class="tt">0</span> en cas de succès). Il n'y a pas, à ce stade, de rechargement à chaud dans l'éditeur — remplacer l'asset puis relancer l'application.</p>
+<p>Pour régénérer cet atlas de base à partir de la génération procédurale de référence (après une évolution de <span class="tt">buildProceduralAtlasImage</span>, ou pour repartir d'une base propre) : <span class="tt">JustAnotherRpgGame.exe --export-atlas=&lt;chemin&gt;.png</span> — option de développement traitée tout au début de <span class="tt"><a class="el" href="Editor_2Main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="Point d&#39;entrée du programme.">main()</a></span>, <b>avant</b> l'ouverture de toute fenêtre : elle écrit le fichier PNG et quitte immédiatement (code <span class="tt">0</span> en cas de succès). Il n'y a pas, à ce stade, de rechargement à chaud dans l'éditeur — remplacer l'asset puis relancer l'application.</p>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md230"></a>
 Les images du personnage : pourquoi elles vivent dans le même atlas</h2>
 <p>Depuis LOT-17 (silhouette statique) puis LOT-18 (animation), <span class="tt">TextureAtlas</span> ne génère pas que la grille de tuiles : une grille supplémentaire est ajoutée <b>sous</b> la grille de tuiles, où vivent les <b>images de la silhouette humanoïde</b> (<span class="tt">playerFrameRegion(clip, frameIndex)</span>) — tête, cheveux, torse/manches, mains, jambes, chaussures, chacun une couleur distincte, le reste transparent. Chaque image reste <b>carrée</b> (16×16, exactement comme une tuile) : <span class="tt">SpriteRenderer::render</span> multiplie ses dimensions en pixels par <span class="tt">Transform::scale</span> (cf. plus bas), et c'est cette échelle — <span class="tt"><a class="el" href="namespacecore.html#a6b2b8e5dc4a0b610cc1225c14e1ce5cb">core::playerSize()</a></span>, déjà non uniforme (0,4×0,8 unité monde) — qui donne à elle seule au personnage sa proportion finale deux fois plus haute que large. Une région déjà non carrée <b>doublerait</b> cet effet (bug réellement rencontré en LOT-17, corrigé aussitôt) : chaque image est donc dessinée <b>pré-compressée</b> de moitié en hauteur dans son canevas carré, pour retrouver ses proportions naturelles une fois étirée par l'échelle du <span class="tt">Transform</span>.</p>
@@ -444,7 +444,7 @@ Voir aussi</h1>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a href="index.html">JustAnotherDnDGame</a></li><li class="navelem"><a href="guide.html">Guide du développeur</a></li>
+    <li class="navelem"><a href="index.html">JustAnotherRpgGame</a></li><li class="navelem"><a href="guide.html">Guide du développeur</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.16.1 </li>
   </ul>
 </div>

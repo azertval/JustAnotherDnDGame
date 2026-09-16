@@ -1,0 +1,209 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>ScreenFlow.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#include "HMI/Presentation/ScreenFlow.h"
+
+namespace hmi {
+
+<span style = "background-color:#dfd">ScreenDressing dressingFor(ScreenId screen) noexcept {
+    switch (screen) {</span>
+        case ScreenId::Menu:
+<span style = "background-color:#dfd">            return ScreenDressing{.docksVisible = false,</span>
+                                  .menuBarVisible = false,
+                                  .toolBarVisible = false,
+                                  .pixelToolBarVisible = false,
+                                  .editingCommandsEnabled = false,
+                                  .gamepadNavigationActive = true,
+                                  .overlayVisible = false};
+        case ScreenId::Editor:
+<span style = "background-color:#dfd">            return ScreenDressing{.docksVisible = true,</span>
+                                  .menuBarVisible = true,
+                                  .toolBarVisible = true,
+                                  .pixelToolBarVisible = true,
+                                  .editingCommandsEnabled = true,
+                                  .gamepadNavigationActive = false,
+                                  .overlayVisible = false};
+        case ScreenId::Game:
+<span style = "background-color:#dfd">            return ScreenDressing{.docksVisible = false,</span>
+                                  .menuBarVisible = false,
+                                  .toolBarVisible = false,
+                                  .pixelToolBarVisible = false,
+                                  .editingCommandsEnabled = false,
+                                  .gamepadNavigationActive = false,
+                                  .overlayVisible = false};
+        case ScreenId::Options:
+        case ScreenId::Credits:
+        case ScreenId::RpgScreen:
+        case ScreenId::Arena:
+            // MÃªme habillage que Menu : page du QStackedWidget, jamais un recouvrement.
+            //
+            // Les Ã©crans du RPG (LOT-68) partagent ce cas, et c'est une DECISION, pas un
+            // rangement : ceux qui se consultent en marchant (EX-IHM-091) mÃ©riteront un
+            // recouvrement le jour oÃ¹ il y aura une scÃ¨ne Ã  laisser voir derriÃ¨re eux. Tant que
+            // Â« Nouvelle partie Â» n'a pas de carte Ã  charger, ce recouvrement se peindrait sur du
+            // vide -- on l'Ã©crira avec le contenu du LOT-27, qui pourra le montrer.
+<span style = "background-color:#dfd">            return ScreenDressing{.docksVisible = false,</span>
+                                  .menuBarVisible = false,
+                                  .toolBarVisible = false,
+                                  .pixelToolBarVisible = false,
+                                  .editingCommandsEnabled = false,
+                                  .gamepadNavigationActive = true,
+                                  .overlayVisible = false};
+        case ScreenId::Pause:
+            // Recouvrement par-dessus Game (EX-GP-041) : mÃªme habillage que Game (la
+            // scÃ¨ne reste dessinÃ©e derriÃ¨re), sauf navigation manette (menu de recouvrement,
+            // pas de personnage Ã  piloter) et overlayVisible.
+<span style = "background-color:#dfd">            return ScreenDressing{.docksVisible = false,</span>
+                                  .menuBarVisible = false,
+                                  .toolBarVisible = false,
+                                  .pixelToolBarVisible = false,
+                                  .editingCommandsEnabled = false,
+                                  .gamepadNavigationActive = true,
+                                  .overlayVisible = true};
+    }
+<span style = "background-color:#fdd">    return ScreenDressing{};</span>
+<span style = "background-color:#dfd">}</span>
+
+std::optional&lt;ScreenState&gt; resolveTransition(const ScreenState&amp; current,
+<span style = "background-color:#dfd">                                             ScreenEvent event) noexcept {
+    switch (current.screen) {</span>
+        case ScreenId::Menu:
+<span style = "background-color:#dfd">            switch (event) {</span>
+                case ScreenEvent::OpenMenu:
+<span style = "background-color:#fdd">                    return ScreenState{.screen = ScreenId::Menu, .optionsReturnTo = ScreenId::Menu};</span>
+                case ScreenEvent::OpenEditor:
+<span style = "background-color:#dfd">                    return ScreenState{.screen = ScreenId::Editor,</span>
+                                       .optionsReturnTo = ScreenId::Menu};
+                case ScreenEvent::OpenGame:
+<span style = "background-color:#dfd">                    return ScreenState{.screen = ScreenId::Game, .optionsReturnTo = ScreenId::Menu};</span>
+                case ScreenEvent::OpenOptions:
+<span style = "background-color:#dfd">                    return ScreenState{.screen = ScreenId::Options,</span>
+                                       .optionsReturnTo = ScreenId::Menu};
+                case ScreenEvent::OpenCredits:
+<span style = "background-color:#dfd">                    return ScreenState{.screen = ScreenId::Credits,</span>
+                                       .optionsReturnTo = ScreenId::Menu};
+                // Depuis le menu, les Ã©crans du RPG s'ouvrent en ECHAFAUDAGE (LOT-68) : Â« Nouvelle
+                // partie Â» n'a pas de carte Ã  charger tant que le LOT-27 n'en livre pas une, et
+                // huit Ã©crans qu'on ne peut pas atteindre ne se valident pas.
+                case ScreenEvent::OpenRpgScreen:
+<span style = "background-color:#dfd">                    return ScreenState{.screen = ScreenId::RpgScreen,</span>
+                                       .optionsReturnTo = ScreenId::Menu,
+                                       .rpgReturnTo = ScreenId::Menu};
+                // Le ColisÃ©e (LOT-50) s'ouvre depuis le menu â Â« Nouvelle partie Â», tant que
+                // c'est la seule carte jouable â et seulement de lÃ  : c'est un mode du jeu, pas
+                // un Ã©cran qu'on consulte pendant une partie. Le jour oÃ¹ l'arÃ¨ne
+                // s'ouvrira depuis le monde comme une carte ordinaire (LOT-42), ce sera par
+                // `Game`, pas par cet Ã©vÃ©nement.
+                case ScreenEvent::OpenArena:
+<span style = "background-color:#dfd">                    return ScreenState{.screen = ScreenId::Arena,</span>
+                                       .optionsReturnTo = ScreenId::Menu};
+                default:
+<span style = "background-color:#dfd">                    return std::nullopt;</span>
+            }
+        case ScreenId::Arena:
+<span style = "background-color:#dfd">            switch (event) {</span>
+                case ScreenEvent::CloseArena:
+                case ScreenEvent::OpenMenu:
+<span style = "background-color:#dfd">                    return ScreenState{.screen = ScreenId::Menu, .optionsReturnTo = ScreenId::Menu};</span>
+                default:
+<span style = "background-color:#fdd">                    return std::nullopt;</span>
+            }
+        case ScreenId::Credits:
+<span style = "background-color:#dfd">            switch (event) {</span>
+                case ScreenEvent::CloseCredits:
+<span style = "background-color:#dfd">                    return ScreenState{.screen = ScreenId::Menu, .optionsReturnTo = ScreenId::Menu};</span>
+                default:
+<span style = "background-color:#fdd">                    return std::nullopt;</span>
+            }
+        case ScreenId::Editor:
+<span style = "background-color:#dfd">            switch (event) {</span>
+                case ScreenEvent::OpenMenu:
+<span style = "background-color:#dfd">                    return ScreenState{.screen = ScreenId::Menu, .optionsReturnTo = ScreenId::Menu};</span>
+                default:
+<span style = "background-color:#dfd">                    return std::nullopt;</span>
+            }
+        case ScreenId::Game:
+<span style = "background-color:#dfd">            switch (event) {</span>
+                case ScreenEvent::OpenMenu:
+<span style = "background-color:#dfd">                    return ScreenState{.screen = ScreenId::Menu, .optionsReturnTo = ScreenId::Menu};</span>
+                case ScreenEvent::OpenPause:
+<span style = "background-color:#dfd">                    return ScreenState{.screen = ScreenId::Pause,</span>
+                                       .optionsReturnTo = ScreenId::Menu};
+                // Depuis le jeu : la fiche, l'inventaire ou la carte s'ouvrent et se referment sur
+                // la partie en cours. C'est `hmi::pausesGame` qui dit lequel suspend la simulation
+                // (EX-IHM-091), pas cette table -- elle ne connaÃ®t pas les huit Ã©crans.
+                case ScreenEvent::OpenRpgScreen:
+<span style = "background-color:#dfd">                    return ScreenState{.screen = ScreenId::RpgScreen,</span>
+                                       .optionsReturnTo = ScreenId::Menu,
+                                       .rpgReturnTo = ScreenId::Game};
+                default:
+<span style = "background-color:#dfd">                    return std::nullopt;</span>
+            }
+        case ScreenId::Options:
+<span style = "background-color:#dfd">            switch (event) {</span>
+                case ScreenEvent::CloseOptions:
+<span style = "background-color:#dfd">                    return ScreenState{.screen = current.optionsReturnTo,</span>
+                                       .optionsReturnTo = ScreenId::Menu};
+                default:
+<span style = "background-color:#fdd">                    return std::nullopt;</span>
+            }
+        case ScreenId::Pause:
+<span style = "background-color:#dfd">            switch (event) {</span>
+                case ScreenEvent::ResumePause:
+<span style = "background-color:#dfd">                    return ScreenState{.screen = ScreenId::Game, .optionsReturnTo = ScreenId::Menu};</span>
+                case ScreenEvent::QuitPauseToMenu:
+<span style = "background-color:#dfd">                    return ScreenState{.screen = ScreenId::Menu, .optionsReturnTo = ScreenId::Menu};</span>
+                case ScreenEvent::OpenOptions:
+<span style = "background-color:#dfd">                    return ScreenState{.screen = ScreenId::Options,</span>
+                                       .optionsReturnTo = ScreenId::Pause};
+                case ScreenEvent::OpenRpgScreen:
+<span style = "background-color:#dfd">                    return ScreenState{.screen = ScreenId::RpgScreen,</span>
+                                       .optionsReturnTo = ScreenId::Menu,
+                                       .rpgReturnTo = ScreenId::Pause};
+                default:
+<span style = "background-color:#dfd">                    return std::nullopt;</span>
+            }
+        case ScreenId::RpgScreen:
+<span style = "background-color:#dfd">            switch (event) {</span>
+                // Un seul retour, vers l'Ã©cran d'oÃ¹ l'on vient. Le PASSAGE d'un Ã©cran du RPG Ã  un
+                // autre n'est pas une transition de cette machine : les huit vivent sur une seule
+                // page (`hmi::RpgScreenHost`), et c'est ce qui permet d'aller de la fiche au
+                // journal sans repasser par le menu (EX-IHM-090).
+                case ScreenEvent::CloseRpgScreen:
+<span style = "background-color:#dfd">                    return ScreenState{.screen = current.rpgReturnTo,</span>
+                                       .optionsReturnTo = ScreenId::Menu,
+                                       .rpgReturnTo = ScreenId::Menu};
+                default:
+<span style = "background-color:#fdd">                    return std::nullopt;</span>
+            }
+    }
+<span style = "background-color:#fdd">    return std::nullopt;</span>
+<span style = "background-color:#dfd">}</span>
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

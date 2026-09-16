@@ -1,0 +1,316 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>DesignTokens.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#include "HMI/Interface/DesignTokens.h"
+
+#include &lt;algorithm&gt;
+#include &lt;array&gt;
+#include &lt;cmath&gt;
+#include &lt;cstdio&gt;
+
+namespace hmi {
+
+namespace {
+
+// Ãchelles partagÃ©es par les deux portÃ©es (TACHE-01) : seules les couleurs diffÃ¨rent entre elles.
+constexpr SpacingTokens SHARED_SPACING{};
+
+// Echelle typographique partagee par les deux portees. La FAMILLE, elle, ne l'est pas : chaque
+// portee la pose apres appel (LOT-68) -- c'est le seul champ de TypographyTokens qui les separe.
+<span style = "background-color:#dfd">[[nodiscard]] TypographyTokens sharedTypography() noexcept {
+    TypographyTokens typography;
+    typography.screenTitle = TypographyLevel{</span>
+        .pointSize = 32, .weight = 700};  // QFont::Bold -- titre du menu/des Options.
+<span style = "background-color:#dfd">    typography.sectionTitle = TypographyLevel{</span>
+        .pointSize = 16, .weight = 700};  // Boutons de navigation, titres de panneau.
+<span style = "background-color:#dfd">    typography.body = TypographyLevel{.pointSize = 10, .weight = 400};  // QFont::Normal
+    typography.caption = TypographyLevel{.pointSize = 9, .weight = 400};
+    typography.monospaceBody = TypographyLevel{.pointSize = 10, .weight = 400};
+    return typography;
+}</span>
+
+constexpr SizeTokens SHARED_SIZE{};
+
+// IdentitÃ© du jeu (menu principal, Ã©cran Options, jeu) : reprend les couleurs du thÃ¨me historique
+// (fond sombre, accent ambre), dÃ©sormais nommÃ©es par rÃ´le plutÃ´t qu'Ã©parpillÃ©es en littÃ©raux.
+<span style = "background-color:#dfd">[[nodiscard]] DesignTokens buildIdentityTokens() noexcept {
+    DesignTokens tokens;</span>
+    // Palette du PARCHEMIN DE TANARES (LOT-66, EX-IHM-070). Chaque teinte est RELEVEE sur
+    // `Documentation/SourceBook/Character_Sheets_Tanares.pdf` -- histogramme quantifie par paliers
+    // de 16 des pages rendues -- et non choisie a vue. La raison est la meme que pour les regles
+    // chiffrees (EX-CNT-020) : une couleur inventee ressemble a la source sans en venir, et rien
+    // ne le dit jamais. Les valeurs ci-dessous sont les teintes DOMINANTES de ces pages.
+<span style = "background-color:#dfd">    tokens.color.background = DesignColor{.r = 0xd0, .g = 0xc0, .b = 0xa0};  // parchemin vieilli
+    tokens.color.surface = DesignColor{.r = 0xe0, .g = 0xd0, .b = 0xb0};     // champ de la feuille
+    tokens.color.surfaceAlt = DesignColor{.r = 0xf0, .g = 0xe0, .b = 0xd0};  // encadre clair
+    tokens.color.border = DesignColor{.r = 0x90, .g = 0x70, .b = 0x30};      // brun dore
+    tokens.color.text = DesignColor{.r = 0x30, .g = 0x20, .b = 0x00};        // encre sepia
+    tokens.color.textMuted = DesignColor{.r = 0x70, .g = 0x50, .b = 0x20};   // encre delavee
+    tokens.color.accent = DesignColor{.r = 0xc0, .g = 0xa0, .b = 0x60};      // or des filets
+    tokens.color.accentHover = DesignColor{.r = 0xc0, .g = 0xb0, .b = 0x80};</span>
+    // `error` est le SEUL role qui ne vienne pas des feuilles : une feuille de personnage n'a pas
+    // d'etat d'erreur a montrer. Rouge de garance assombri, choisi pour tenir le contraste sur le
+    // parchemin -- et signale ici comme non atteste plutot que passe sous silence.
+<span style = "background-color:#dfd">    tokens.color.error = DesignColor{.r = 0x8a, .g = 0x2f, .b = 0x20};</span>
+    // Cadre de parchemin : un trait exterieur d'encre, un filet ornemental dore en retrait, et
+    // l'ombre que le cadre porte sur le fond. Ce ne sont plus des biseaux : la lumiere ne vient
+    // plus d'en haut a gauche, il n'y a plus de relief a simuler. Ce qui doit rester LISIBLE,
+    // c'est l'ecart entre le trait et le filet -- deux traits de meme valeur ne composent pas un
+    // encadrement, ils composent une bordure epaisse.
+<span style = "background-color:#dfd">    tokens.color.frameEdge = DesignColor{.r = 0x30, .g = 0x20, .b = 0x00};
+    tokens.color.frameOrnament = DesignColor{.r = 0x90, .g = 0x70, .b = 0x30};
+    tokens.color.frameShadow = DesignColor{.r = 0x70, .g = 0x50, .b = 0x20};</span>
+    // Grenat des cabochons et de la plaque du bandeau (LOT-76). RELEVE, comme le reste de cette
+    // palette : dominante quantifiee des pixels franchement rouges du cabochon de la planche 3,
+    // mesuree separement sur DEUX angles opposes -- qui donnent la meme valeur. Le grenat profond
+    // est celui du fond de la plaque du bandeau de titre, sur la meme feuille.
+    //
+    // Ces deux-la repondent au seul reproche que le LOT-66 se faisait a lui-meme : `error` restait
+    // la seule teinte inventee, faute d'etat d'erreur sur une feuille de personnage. Le rouge, lui,
+    // y est -- il n'etait simplement pas la ou on le cherchait.
+<span style = "background-color:#dfd">    tokens.color.gem = DesignColor{.r = 0x70, .g = 0x10, .b = 0x10};
+    tokens.color.gemShadow = DesignColor{.r = 0x40, .g = 0x00, .b = 0x00};
+    tokens.spacing = SHARED_SPACING;
+    tokens.typography = sharedTypography();
+    tokens.typography.family = FontRole::Identity;  // titrage a empattements (LOT-68).
+    tokens.size = SHARED_SIZE;
+    return tokens;
+}</span>
+
+// ChÃ¢ssis d'Ã©dition, thÃ¨me sombre (variable, TACHE-06 lui ajoute un jeu clair) : palette neutre
+// proche de l'identitÃ©, mÃªme accent ambre pour la cohÃ©rence visuelle de l'ensemble (critÃ¨re
+// d'acceptation 1 du lot : une seule apparence, aucune couture entre les deux portÃ©es).
+<span style = "background-color:#dfd">[[nodiscard]] DesignTokens buildEditorDarkTokens() noexcept {
+    DesignTokens tokens;
+    tokens.color.background = DesignColor{.r = 0x1e, .g = 0x22, .b = 0x2b};
+    tokens.color.surface = DesignColor{.r = 0x26, .g = 0x2b, .b = 0x36};
+    tokens.color.surfaceAlt = DesignColor{.r = 0x2d, .g = 0x33, .b = 0x40};
+    tokens.color.border = DesignColor{.r = 0x3a, .g = 0x41, .b = 0x50};
+    tokens.color.text = DesignColor{.r = 0xe6, .g = 0xe8, .b = 0xee};
+    tokens.color.textMuted = DesignColor{.r = 0x9a, .g = 0xa1, .b = 0xb0};
+    tokens.color.accent = DesignColor{.r = 0xff, .g = 0xd1, .b = 0x33};
+    tokens.color.accentHover = DesignColor{.r = 0xff, .g = 0xdb, .b = 0x5c};
+    tokens.color.error = DesignColor{.r = 0xff, .g = 0x6b, .b = 0x6b};</span>
+    // Le chassis ne dessine aucun cadre : ces trois roles y servent de bordure eclaircie /
+    // assombrie, deja necessaires aux separateurs et aux barres de titre de dock.
+<span style = "background-color:#dfd">    tokens.color.frameEdge = DesignColor{.r = 0x14, .g = 0x17, .b = 0x1e};
+    tokens.color.frameOrnament = DesignColor{.r = 0x4a, .g = 0x52, .b = 0x63};
+    tokens.color.frameShadow = DesignColor{.r = 0x1a, .g = 0x1e, .b = 0x26};</span>
+    // Le chassis ne dessine aucune gemme : ces deux roles n'y ont pas d'ornement a peindre. Ils
+    // existent parce que la structure est COMMUNE par construction -- c'est ce qui garantit qu'un
+    // role ajoute a une portee existe dans l'autre. Ils y prennent le rouge d'alerte de la portee,
+    // en clair et en profond, pour qu'un widget partage qui les lirait par erreur reste lisible
+    // plutot que d'y trouver un grenat de parchemin.
+<span style = "background-color:#dfd">    tokens.color.gem = DesignColor{.r = 0xff, .g = 0x6b, .b = 0x6b};
+    tokens.color.gemShadow = DesignColor{.r = 0x8a, .g = 0x2b, .b = 0x2b};
+    tokens.spacing = SHARED_SPACING;
+    tokens.typography = sharedTypography();
+    tokens.size = SHARED_SIZE;
+    return tokens;
+}</span>
+
+// Chassis d'edition, theme CLAIR (LOT-56 TACHE-06) : pas le sombre invers -- ecarts de luminosite
+// entre fond/surface/bordure/lignes alternees choisis independamment, accent assombri (l'ambre vif
+// du theme sombre manque de contraste utilise comme texte sur un fond clair).
+<span style = "background-color:#dfd">[[nodiscard]] DesignTokens buildEditorLightTokens() noexcept {
+    DesignTokens tokens;
+    tokens.color.background = DesignColor{.r = 0xf5, .g = 0xf6, .b = 0xf8};
+    tokens.color.surface = DesignColor{.r = 0xff, .g = 0xff, .b = 0xff};
+    tokens.color.surfaceAlt = DesignColor{.r = 0xec, .g = 0xee, .b = 0xf2};
+    tokens.color.border = DesignColor{.r = 0xc9, .g = 0xce, .b = 0xd6};
+    tokens.color.text = DesignColor{.r = 0x1c, .g = 0x21, .b = 0x28};
+    tokens.color.textMuted = DesignColor{.r = 0x5b, .g = 0x64, .b = 0x72};
+    tokens.color.accent = DesignColor{.r = 0xb3, .g = 0x6b, .b = 0x00};
+    tokens.color.accentHover = DesignColor{.r = 0xcc, .g = 0x7a, .b = 0x00};
+    tokens.color.error = DesignColor{.r = 0xc0, .g = 0x26, .b = 0x26};</span>
+    // Theme clair : le biseau "clair" est plus SOMBRE que la surface (une surface blanche n'a pas
+    // de plus clair qu'elle) -- inverser mecaniquement le theme sombre produirait deux biseaux
+    // invisibles.
+<span style = "background-color:#dfd">    tokens.color.frameEdge = DesignColor{.r = 0x9d, .g = 0xa4, .b = 0xb0};
+    tokens.color.frameOrnament = DesignColor{.r = 0xe1, .g = 0xe5, .b = 0xeb};
+    tokens.color.frameShadow = DesignColor{.r = 0xb5, .g = 0xbc, .b = 0xc6};</span>
+    // Meme raison que dans le theme sombre : aucune gemme peinte, mais le role existe.
+<span style = "background-color:#dfd">    tokens.color.gem = DesignColor{.r = 0xc0, .g = 0x26, .b = 0x26};
+    tokens.color.gemShadow = DesignColor{.r = 0x81, .g = 0x1a, .b = 0x1a};
+    tokens.spacing = SHARED_SPACING;
+    tokens.typography = sharedTypography();
+    tokens.size = SHARED_SIZE;
+    return tokens;
+}</span>
+
+// Ajoute les quatorze roles de couleur d'une portee au tableau de substitution, sous le prefixe
+// donne (ex. "identity.color.background" -&gt; "#1a1f29").
+void addColorValues(std::unordered_map&lt;std::string, std::string&gt;&amp; values, const std::string&amp; prefix,
+<span style = "background-color:#dfd">                    const ColorTokens&amp; color) {
+    values[prefix + ".background"] = toCssColor(color.background);
+    values[prefix + ".surface"] = toCssColor(color.surface);
+    values[prefix + ".surfaceAlt"] = toCssColor(color.surfaceAlt);
+    values[prefix + ".border"] = toCssColor(color.border);
+    values[prefix + ".text"] = toCssColor(color.text);
+    values[prefix + ".textMuted"] = toCssColor(color.textMuted);
+    values[prefix + ".accent"] = toCssColor(color.accent);
+    values[prefix + ".accentHover"] = toCssColor(color.accentHover);
+    values[prefix + ".error"] = toCssColor(color.error);
+    values[prefix + ".gem"] = toCssColor(color.gem);
+    values[prefix + ".gemShadow"] = toCssColor(color.gemShadow);
+    values[prefix + ".frameEdge"] = toCssColor(color.frameEdge);
+    values[prefix + ".frameOrnament"] = toCssColor(color.frameOrnament);
+    values[prefix + ".frameShadow"] = toCssColor(color.frameShadow);
+}</span>
+
+}  // namespace
+
+<span style = "background-color:#fdd">DesignColor mixColor(DesignColor from, DesignColor to, float ratio) noexcept {
+    const float t = std::clamp(ratio, 0.0f, 1.0f);
+    const auto blend = [t](std::uint8_t a, std::uint8_t b) {
+        const float mixed = (static_cast&lt;float&gt;(a) * (1.0f - t)) + (static_cast&lt;float&gt;(b) * t);</span>
+        // std::lround plutot qu'un + 0.5 tronque : ce dernier arrondit mal les valeurs negatives
+        // et depend du mode d'arrondi courant. Les composantes sont positives ici, mais la forme
+        // fautive se recopie.
+<span style = "background-color:#fdd">        return static_cast&lt;std::uint8_t&gt;(std::lround(mixed));
+    };
+    return DesignColor{.r = blend(from.r, to.r),</span>
+                       .g = blend(from.g, to.g),
+                       .b = blend(from.b, to.b),
+                       .a = blend(from.a, to.a)};
+<span style = "background-color:#fdd">}</span>
+
+<span style = "background-color:#dfd">const IdentityBaseScale&amp; identityBaseScale() noexcept {</span>
+    static const IdentityBaseScale scale;
+<span style = "background-color:#dfd">    return scale;
+}</span>
+
+<span style = "background-color:#dfd">const char* genericCssFamily(FontRole role) noexcept {
+    switch (role) {</span>
+        case FontRole::Identity:
+            // Le titrage a empattements se rapproche davantage d'une chasse fixe que d'une
+            // lineale, pour le repli generique : si la
+            // police embarquee manque, autant que le repli garde des colonnes alignees.
+<span style = "background-color:#dfd">            return "monospace";</span>
+        case FontRole::Ui:
+<span style = "background-color:#fdd">            return "sans-serif";</span>
+    }
+<span style = "background-color:#fdd">    return "sans-serif";</span>
+<span style = "background-color:#dfd">}</span>
+
+<span style = "background-color:#dfd">const DesignTokens&amp; identityTokens() noexcept {
+    static const DesignTokens tokens = buildIdentityTokens();
+    return tokens;
+}</span>
+
+<span style = "background-color:#dfd">const DesignTokens&amp; editorDarkTokens() noexcept {
+    static const DesignTokens tokens = buildEditorDarkTokens();
+    return tokens;
+}</span>
+
+<span style = "background-color:#dfd">const DesignTokens&amp; editorLightTokens() noexcept {
+    static const DesignTokens tokens = buildEditorLightTokens();
+    return tokens;
+}</span>
+
+<span style = "background-color:#dfd">DesignColor viewportClearColor(bool editorMode, const DesignTokens&amp; activeEditorTokens) noexcept {
+    return editorMode ? activeEditorTokens.color.background : identityTokens().color.background;
+}</span>
+
+<span style = "background-color:#dfd">std::string toCssColor(DesignColor color) {
+    std::array&lt;char, 8&gt; buffer{};
+    std::snprintf(buffer.data(), buffer.size(), "#%02x%02x%02x", color.r, color.g, color.b);
+    return std::string(buffer.data());
+}</span>
+
+<span style = "background-color:#dfd">std::string toCssRgba(DesignColor color) {
+    return "rgba(" + std::to_string(color.r) + ", " + std::to_string(color.g) + ", " +</span>
+           std::to_string(color.b) + ", " + std::to_string(color.a) + ")";
+<span style = "background-color:#dfd">}</span>
+
+namespace {
+
+// Composante -&gt; canal lineaire WCAG (gamma sRGB inverse).
+<span style = "background-color:#dfd">[[nodiscard]] double linearChannel(std::uint8_t component) noexcept {
+    const double c = static_cast&lt;double&gt;(component) / 255.0;
+    return c &lt;= 0.04045 ? c / 12.92 : std::pow((c + 0.055) / 1.055, 2.4);
+}</span>
+
+}  // namespace
+
+<span style = "background-color:#dfd">double relativeLuminance(DesignColor color) noexcept {
+    return (0.2126 * linearChannel(color.r)) + (0.7152 * linearChannel(color.g)) +</span>
+           (0.0722 * linearChannel(color.b));
+<span style = "background-color:#dfd">}</span>
+
+<span style = "background-color:#dfd">double contrastRatio(DesignColor a, DesignColor b) noexcept {
+    const double la = relativeLuminance(a);
+    const double lb = relativeLuminance(b);
+    const double lighter = std::max(la, lb);
+    const double darker = std::min(la, lb);
+    return (lighter + 0.05) / (darker + 0.05);
+}</span>
+
+std::unordered_map&lt;std::string, std::string&gt; buildStyleSheetValues(const DesignTokens&amp; editorTokens,
+<span style = "background-color:#dfd">                                                                   int identityScale) {
+    std::unordered_map&lt;std::string, std::string&gt; values;
+    addColorValues(values, "identity.color", identityTokens().color);
+    addColorValues(values, "editor.color", editorTokens.color);</span>
+    // Echelle d'espacement : partagee entre les deux portees (DesignTokensTest.
+    // LesDeuxPorteesPartagentLesMemesEchelles), la source choisie ici est arbitraire.
+<span style = "background-color:#dfd">    const SpacingTokens&amp; spacing = identityTokens().spacing;
+    values["tokens.spacing.extraSmall"] = std::to_string(spacing.extraSmall);
+    values["tokens.spacing.small"] = std::to_string(spacing.small);
+    values["tokens.spacing.medium"] = std::to_string(spacing.medium);
+    values["tokens.spacing.large"] = std::to_string(spacing.large);
+    values["tokens.spacing.extraLarge"] = std::to_string(spacing.extraLarge);</span>
+    // Echelle typographique (LOT-56 TACHE-03) : elle aussi partagee entre les deux portees.
+<span style = "background-color:#dfd">    const TypographyTokens&amp; typography = identityTokens().typography;</span>
+    // Familles de police : valeur par defaut PURE (mot-cle generique). hmi::applyStyleSheet
+    // l'ecrase par le nom REELLEMENT enregistre quand il y en a un. Les declarer ici, et non
+    // seulement cote Qt, garantit que tout marqueur du modele a une valeur meme hors application
+    // -- et qu'une police manquante degrade au lieu de laisser un marqueur non resolu.
+    // Grandeurs de la portee identite : multipliees par le facteur ENTIER (LOT-68). Le facteur
+    // est borne a 1 au minimum -- une valeur nulle ou negative reduirait les ecrans a rien.
+<span style = "background-color:#dfd">    const int scale = identityScale &lt; 1 ? 1 : identityScale;
+    const IdentityBaseScale&amp; base = identityBaseScale();
+    values["identity.size.screenTitle"] = std::to_string(base.screenTitle * scale);
+    values["identity.size.sectionTitle"] = std::to_string(base.sectionTitle * scale);
+    values["identity.size.body"] = std::to_string(base.body * scale);
+    values["identity.size.caption"] = std::to_string(base.caption * scale);
+    values["identity.space.small"] = std::to_string(base.spaceSmall * scale);
+    values["identity.space.medium"] = std::to_string(base.spaceMedium * scale);
+    values["identity.space.large"] = std::to_string(base.spaceLarge * scale);
+    values["identity.space.extraLarge"] = std::to_string(base.spaceExtraLarge * scale);
+    values["identity.frame.thickness"] = std::to_string(base.frameThickness * scale);
+    values["identity.font.body"] = genericCssFamily(identityTokens().typography.family);
+    values["identity.font.title"] = genericCssFamily(identityTokens().typography.family);
+    values["tokens.typography.screenTitle.pointSize"] =</span>
+        std::to_string(typography.screenTitle.pointSize);
+<span style = "background-color:#dfd">    values["tokens.typography.sectionTitle.pointSize"] =</span>
+        std::to_string(typography.sectionTitle.pointSize);
+<span style = "background-color:#dfd">    return values;
+}</span>
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

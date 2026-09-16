@@ -1,0 +1,143 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>AssetKey.h</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#pragma once
+
+/**
+ * @file Core/Resources/AssetKey.h
+ * @brief Les **clÃ©s d'assets d'entitÃ©** : comment une donnÃ©e dÃ©signe son illustration (`LOT-39`,
+ *        `EX-CNT-040`, `EX-CNT-041`).
+ */
+
+#include &lt;filesystem&gt;
+#include &lt;optional&gt;
+#include &lt;string&gt;
+#include &lt;string_view&gt;
+#include &lt;vector&gt;
+
+namespace core {
+
+/**
+ * @brief Une famille d'assets d'entitÃ© : ce qu'elle illustre, et le contrat de dimensions.
+ *
+ * Lue dans la **donnÃ©e** (`Assets/Entities/families.json`), jamais Ã©numÃ©rÃ©e en C++. Le `LOT-08` a
+ * fixÃ© le vocabulaire des tuiles de terrain ; celui-ci fixe celui des entitÃ©s, et il grandira â
+ * sorts, PNJ, quartiers de guilde. Une Ã©numÃ©ration fermÃ©e obligerait chaque lot suivant Ã 
+ * recompiler pour ajouter une famille.
+ */
+struct AssetFamilyDefinition {
+    /// Premier segment de la clÃ© : `beast`, `item`, `species`â¦
+    std::string name;
+    /// Dimensions attendues du fichier image, en pixels.
+    int width = 0;
+    int height = 0;
+    /// Les dossiers de catalogue dont **chaque entrÃ©e** attend une illustration de cette famille.
+    std::vector&lt;std::string&gt; catalogues;
+};
+
+/// @brief La table des familles, et ce qui n'a pas pu Ãªtre lu.
+struct AssetFamilyTable {
+    std::vector&lt;AssetFamilyDefinition&gt; families;
+    std::vector&lt;std::string&gt; errors;
+
+    [[nodiscard]] const AssetFamilyDefinition* find(std::string_view name) const;
+<span style = "background-color:#dfd">    [[nodiscard]] bool ok() const {
+        return errors.empty() &amp;&amp; !families.empty();
+    }</span>
+};
+
+/// @brief Charge la table des familles depuis `Assets/Entities/families.json`.
+[[nodiscard]] AssetFamilyTable loadAssetFamilies(const std::filesystem::path&amp; familiesFile);
+
+/**
+ * @brief Une clÃ© d'asset dÃ©composÃ©e : sa famille, et ce qu'elle dÃ©signe dedans.
+ */
+struct AssetKey {
+    std::string family;
+    std::string id;
+
+    [[nodiscard]] friend bool operator==(const AssetKey&amp;, const AssetKey&amp;) noexcept = default;
+};
+
+/**
+ * @brief Vrai si @p key respecte la syntaxe d'une clÃ© d'asset.
+ *
+ * `famille/identifiant`, en minuscules, chiffres et tirets simples â la mÃªme expression que celle
+ * du schÃ©ma JSON (`common.schema.json`, `$defs/assetKey`), pour que la donnÃ©e refusÃ©e Ã  la
+ * validation soit exactement celle que le moteur refuse.
+ *
+ * **Ce n'est jamais un chemin de fichier** (`EX-CNT-040`) : un chemin dans une donnÃ©e de rÃ¨gle lie
+ * le catalogue Ã  l'arborescence du disque, et tout dÃ©placement de dossier casse alors des
+ * crÃ©atures. La clÃ©, elle, survit Ã  n'importe quel rangement.
+ */
+[[nodiscard]] bool isValidAssetKey(std::string_view key);
+
+/// @brief DÃ©compose @p key. `std::nullopt` si elle est malformÃ©e â jamais devinÃ©e.
+[[nodiscard]] std::optional&lt;AssetKey&gt; parseAssetKey(std::string_view key);
+
+/**
+ * @brief La clÃ© **par dÃ©faut** d'une entrÃ©e : `famille/identifiant`.
+ *
+ * Une donnÃ©e n'a pas Ã  Ã©crire sa clÃ© quand celle-ci se dÃ©duit : trois cents entrÃ©es porteraient
+ * alors trois cents lignes recopiÃ©es, et la premiÃ¨re faute de frappe donnerait une crÃ©ature sans
+ * image sans que rien ne l'explique. Le champ `asset` d'une donnÃ©e sert donc Ã  **dÃ©roger** â deux
+ * entrÃ©es qui partagent une illustration â, pas Ã  rÃ©pÃ©ter.
+ *
+ * @return La clÃ©, ou une chaÃ®ne vide si @p family ou @p id ne respecte pas la syntaxe.
+ */
+[[nodiscard]] std::string defaultAssetKeyFor(std::string_view family, std::string_view id);
+
+/// @brief Une clÃ© attendue par le manifeste : ce qu'elle illustre, et d'oÃ¹ elle vient.
+struct ExpectedAssetKey {
+    std::string key;
+    std::string family;
+    /// Le fichier de catalogue qui l'attend â de quoi remonter Ã  la donnÃ©e sans la chercher.
+    std::string sourceFile;
+    /// Vrai si la donnÃ©e a **dÃ©rogÃ©** en Ã©crivant son propre `asset`.
+    bool explicitKey = false;
+};
+
+/**
+ * @brief ÃnumÃ¨re les clÃ©s qu'attendent les catalogues de @p rpgDir, selon @p families.
+ *
+ * Le manifeste est **dÃ©rivÃ©**, jamais tenu Ã  la main : un fichier de manifeste commitÃ© divergerait
+ * du catalogue au premier ajout de crÃ©ature, et c'est la copie oubliÃ©e qu'on lit six mois plus
+ * tard. Le dÃ©river Ã  chaque appel coÃ»te un balayage de dossier et ne peut pas mentir.
+ *
+ * @param rpgDir   Racine des catalogues (`Source/Elements/Rpg`).
+ * @param families La table des familles.
+ * @param errors   ReÃ§oit les clÃ©s **orphelines** : une dÃ©rogation malformÃ©e, ou qui nomme une
+ *                 famille inconnue. C'est le seul cas qui doit faire Ã©chouer une vÃ©rification â
+ *                 une clÃ© sans image, elle, est un Ã©tat d'avancement (`EX-CNT-041`).
+ */
+[[nodiscard]] std::vector&lt;ExpectedAssetKey&gt; expectedAssetKeys(const std::filesystem::path&amp; rpgDir,
+                                                              const AssetFamilyTable&amp; families,
+                                                              std::vector&lt;std::string&gt;&amp; errors);
+
+}  // namespace core</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

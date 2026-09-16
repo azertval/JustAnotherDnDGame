@@ -1,0 +1,329 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>Atlas.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#include "Core/World/Atlas.h"
+
+#include &lt;algorithm&gt;
+#include &lt;array&gt;
+#include &lt;functional&gt;
+#include &lt;iterator&gt;
+#include &lt;set&gt;
+#include &lt;system_error&gt;
+#include &lt;utility&gt;
+
+#include "Core/Data/JsonDocument.h"
+
+namespace core {
+
+namespace {
+
+// Les entrees de catalogue ne portent pas de champ `version` : ce sont des donnees, pas des
+// documents de format. `0` desactive la garde de version, comme le fait deja le bestiaire.
+constexpr int SANS_GARDE_DE_VERSION = 0;
+
+constexpr std::array&lt;std::string_view, kRegionGradeCount&gt; NOMS_DE_NOTE{"veryLow", "low", "normal",
+                                                                       "high", "veryHigh"};
+
+// Dans l'ordre de `RegionAxis`, et dans celui ou le livre les imprime.
+constexpr std::array&lt;std::string_view, kRegionAxisCount&gt; NOMS_D_AXE{
+    "citizenFreedom", "crimeAndViolence", "economicProsperity", "governmentCorruption",
+    "magicAccess",    "monsterPresence",  "politicalStability"};
+
+// Un champ obligatoire absent est une donnee invalide, jamais une valeur par defaut : rendre
+// false et remplir `raison` plutot que lever (EX-NFR-040).
+[[nodiscard]] bool lireTexte(const nlohmann::json&amp; objet, const char* champ, std::string&amp; sortie,
+<span style = "background-color:#dfd">                             std::string&amp; raison) {
+    const auto trouve = objet.find(champ);
+    if (trouve == objet.end() || !trouve-&gt;is_string()) {</span>
+<span style = "background-color:#fdd">        raison = std::string{"champ '"} + champ + "' absent ou non textuel";
+        return false;</span>
+    }
+<span style = "background-color:#dfd">    sortie = trouve-&gt;get&lt;std::string&gt;();
+    return true;
+}</span>
+
+<span style = "background-color:#dfd">[[nodiscard]] std::string lireTexteFacultatif(const nlohmann::json&amp; objet, const char* champ) {
+    const auto trouve = objet.find(champ);
+    return (trouve != objet.end() &amp;&amp; trouve-&gt;is_string()) ? trouve-&gt;get&lt;std::string&gt;()</span>
+                                                          : std::string{};
+<span style = "background-color:#dfd">}</span>
+
+// `null` est une valeur du schema, pas une absence : le livre ecrit parfois une population sans
+// chiffre. La distinguer de zero est tout l'objet de l'optional.
+[[nodiscard]] std::optional&lt;int&gt; lireEntierFacultatif(const nlohmann::json&amp; objet,
+<span style = "background-color:#dfd">                                                      const char* champ) {
+    const auto trouve = objet.find(champ);
+    if (trouve == objet.end() || !trouve-&gt;is_number_integer()) {</span>
+<span style = "background-color:#fdd">        return std::nullopt;</span>
+    }
+<span style = "background-color:#dfd">    return trouve-&gt;get&lt;int&gt;();
+}</span>
+
+<span style = "background-color:#dfd">[[nodiscard]] std::vector&lt;std::string&gt; lireTextes(const nlohmann::json&amp; objet, const char* champ) {
+    std::vector&lt;std::string&gt; valeurs;
+    const auto trouve = objet.find(champ);
+    if (trouve == objet.end() || !trouve-&gt;is_array()) {</span>
+<span style = "background-color:#fdd">        return valeurs;</span>
+    }
+<span style = "background-color:#dfd">    for (const auto&amp; element : *trouve) {
+        if (element.is_string()) {
+            valeurs.push_back(element.get&lt;std::string&gt;());
+        }
+    }
+    return valeurs;
+}</span>
+
+[[nodiscard]] bool lireStatistique(const nlohmann::json&amp; parent, std::string_view nomAxe,
+<span style = "background-color:#dfd">                                   RegionStatistic&amp; sortie, std::string&amp; raison) {
+    const auto trouve = parent.find(nomAxe);
+    if (trouve == parent.end() || !trouve-&gt;is_array() || trouve-&gt;empty()) {</span>
+<span style = "background-color:#fdd">        raison = std::string{"axe '"} + std::string{nomAxe} + "' absent ou vide";
+        return false;</span>
+    }
+<span style = "background-color:#dfd">    for (const auto&amp; element : *trouve) {
+        if (!element.is_object()) {</span>
+<span style = "background-color:#fdd">            raison = std::string{"axe '"} + std::string{nomAxe} + "' : appreciation non objet";
+            return false;</span>
+        }
+<span style = "background-color:#dfd">        const auto note = element.find("grade");
+        if (note == element.end() || !note-&gt;is_string()) {</span>
+<span style = "background-color:#fdd">            raison = std::string{"axe '"} + std::string{nomAxe} + "' : note absente";
+            return false;</span>
+        }
+<span style = "background-color:#dfd">        const std::optional&lt;RegionGrade&gt; valeur = regionGradeFromName(note-&gt;get&lt;std::string&gt;());
+        if (!valeur.has_value()) {</span>
+            // Une note inconnue n'est PAS rabattue sur `normal` : ce serait une region paisible
+            // par accident, indiscernable d'une region paisible par conception.
+<span style = "background-color:#fdd">            raison = std::string{"axe '"} + std::string{nomAxe} + "' : note '" +</span>
+                     note-&gt;get&lt;std::string&gt;() + "' hors des cinq valeurs";
+<span style = "background-color:#fdd">            return false;</span>
+        }
+<span style = "background-color:#dfd">        sortie.appraisals.push_back(</span>
+            RegionAppraisal{*valeur, lireTexteFacultatif(element, "scope")});
+<span style = "background-color:#dfd">    }
+    return true;
+}</span>
+
+[[nodiscard]] bool lirePopulation(const nlohmann::json&amp; objet, RegionPopulation&amp; sortie,
+<span style = "background-color:#dfd">                                  std::string&amp; raison) {
+    const auto trouve = objet.find("population");
+    if (trouve == objet.end() || !trouve-&gt;is_object()) {</span>
+<span style = "background-color:#fdd">        raison = "champ 'population' absent ou non objet";
+        return false;</span>
+    }
+<span style = "background-color:#dfd">    sortie.total = lireEntierFacultatif(*trouve, "total");
+    sortie.otherPercent = lireEntierFacultatif(*trouve, "otherPercent");</span>
+
+<span style = "background-color:#dfd">    const auto especes = trouve-&gt;find("species");
+    if (especes == trouve-&gt;end() || !especes-&gt;is_array() || especes-&gt;empty()) {</span>
+<span style = "background-color:#fdd">        raison = "champ 'population/species' absent ou vide";
+        return false;</span>
+    }
+<span style = "background-color:#dfd">    for (const auto&amp; element : *especes) {
+        RegionSpeciesShare part;
+        if (!element.is_object() || !lireTexte(element, "species", part.species, raison) ||</span>
+            !lireTexte(element, "label", part.label, raison)) {
+<span style = "background-color:#fdd">            raison = "population/species : " + raison;
+            return false;</span>
+        }
+<span style = "background-color:#dfd">        const std::optional&lt;int&gt; pourcent = lireEntierFacultatif(element, "percent");
+        if (!pourcent.has_value()) {</span>
+<span style = "background-color:#fdd">            raison = "population/species : champ 'percent' absent ou non entier";
+            return false;</span>
+        }
+<span style = "background-color:#dfd">        part.percent = *pourcent;
+        sortie.species.push_back(std::move(part));
+    }
+    return true;
+}</span>
+
+[[nodiscard]] bool lireRegion(const nlohmann::json&amp; racine, const std::string&amp; fichier,
+<span style = "background-color:#dfd">                              Region&amp; sortie, std::vector&lt;std::string&gt;&amp; erreurs) {
+    std::string raison;</span>
+    if (!lireTexte(racine, "id", sortie.id, raison) ||
+        !lireTexte(racine, "name", sortie.name, raison) ||
+        !lireTexte(racine, "source", sortie.source, raison) ||
+        !lireTexte(racine, "government", sortie.government, raison) ||
+<span style = "background-color:#dfd">        !lireTexte(racine, "faction", sortie.faction, raison) ||</span>
+        !lirePopulation(racine, sortie.population, raison)) {
+<span style = "background-color:#fdd">        erreurs.push_back(fichier + " : " + raison + '.');
+        return false;</span>
+    }
+
+<span style = "background-color:#dfd">    const auto statistiques = racine.find("statistics");
+    if (statistiques == racine.end() || !statistiques-&gt;is_object()) {</span>
+<span style = "background-color:#fdd">        erreurs.push_back(fichier + " : champ 'statistics' absent ou non objet.");
+        return false;</span>
+    }
+<span style = "background-color:#dfd">    for (std::size_t rang = 0; rang &lt; kRegionAxisCount; ++rang) {
+        if (!lireStatistique(*statistiques, NOMS_D_AXE[rang], sortie.statistics[rang], raison)) {</span>
+<span style = "background-color:#fdd">            erreurs.push_back(fichier + " : " + raison + '.');
+            return false;</span>
+        }
+<span style = "background-color:#dfd">    }</span>
+
+<span style = "background-color:#dfd">    sortie.neighbors = lireTextes(racine, "neighbors");
+    sortie.locations = lireTextes(racine, "locations");
+    return true;
+}</span>
+
+[[nodiscard]] bool lireLieu(const nlohmann::json&amp; racine, const std::string&amp; fichier,
+<span style = "background-color:#dfd">                            Location&amp; sortie, std::vector&lt;std::string&gt;&amp; erreurs) {
+    std::string raison;</span>
+    if (!lireTexte(racine, "id", sortie.id, raison) ||
+        !lireTexte(racine, "name", sortie.name, raison) ||
+<span style = "background-color:#dfd">        !lireTexte(racine, "source", sortie.source, raison) ||</span>
+        !lireTexte(racine, "region", sortie.region, raison)) {
+<span style = "background-color:#fdd">        erreurs.push_back(fichier + " : " + raison + '.');
+        return false;</span>
+    }
+<span style = "background-color:#dfd">    sortie.description = lireTexteFacultatif(racine, "description");
+    return true;
+}</span>
+
+// Le dossier est BALAYE : une liste de noms ecrite en C++ serait une seconde source de verite, et
+// le premier lieu ajoute par le LOT-80 en sortirait invisible.
+[[nodiscard]] std::vector&lt;std::filesystem::path&gt; fichiersJson(
+<span style = "background-color:#dfd">    const std::filesystem::path&amp; dossier) {
+    std::vector&lt;std::filesystem::path&gt; fichiers;
+    std::error_code code;
+    for (const auto&amp; entree : std::filesystem::directory_iterator(dossier, code)) {
+        if (entree.is_regular_file(code) &amp;&amp; entree.path().extension() == ".json") {
+            fichiers.push_back(entree.path());
+        }
+    }
+    std::ranges::sort(fichiers);
+    return fichiers;
+}</span>
+
+}  // namespace
+
+<span style = "background-color:#dfd">std::string_view regionGradeName(RegionGrade grade) {
+    return NOMS_DE_NOTE[static_cast&lt;std::size_t&gt;(grade)];
+}</span>
+
+<span style = "background-color:#dfd">std::optional&lt;RegionGrade&gt; regionGradeFromName(std::string_view name) {
+    const auto trouve = std::ranges::find(NOMS_DE_NOTE, name);
+    if (trouve == NOMS_DE_NOTE.end()) {
+        return std::nullopt;</span>
+    }
+<span style = "background-color:#dfd">    return static_cast&lt;RegionGrade&gt;(std::distance(NOMS_DE_NOTE.begin(), trouve));
+}</span>
+
+<span style = "background-color:#dfd">std::string_view regionAxisName(RegionAxis axis) {
+    return NOMS_D_AXE[static_cast&lt;std::size_t&gt;(axis)];
+}</span>
+
+<span style = "background-color:#dfd">const Region* Atlas::findRegion(std::string_view id) const {
+    const auto trouve = std::ranges::find(regions, id, &amp;Region::id);
+    return trouve == regions.end() ? nullptr : &amp;*trouve;
+}</span>
+
+<span style = "background-color:#dfd">const Location* Atlas::findLocation(std::string_view id) const {
+    const auto trouve = std::ranges::find(locations, id, &amp;Location::id);
+    return trouve == locations.end() ? nullptr : &amp;*trouve;
+}</span>
+
+<span style = "background-color:#dfd">std::vector&lt;std::string&gt; Atlas::unreachableFrom(std::string_view from) const {
+    std::set&lt;std::string, std::less&lt;&gt;&gt; vues;
+    if (findRegion(from) != nullptr) {
+        std::vector&lt;std::string&gt; pile{std::string{from}};
+        vues.insert(std::string{from});
+        while (!pile.empty()) {
+            const std::string courante = std::move(pile.back());
+            pile.pop_back();
+            const Region* region = findRegion(courante);
+            if (region == nullptr) {</span>
+<span style = "background-color:#fdd">                continue;</span>
+            }
+<span style = "background-color:#dfd">            for (const std::string&amp; voisin : region-&gt;neighbors) {
+                if (findRegion(voisin) != nullptr &amp;&amp; vues.insert(voisin).second) {
+                    pile.push_back(voisin);</span>
+                }
+<span style = "background-color:#dfd">            }
+        }
+    }
+    std::vector&lt;std::string&gt; isolees;
+    for (const Region&amp; region : regions) {
+        if (!vues.contains(region.id)) {
+            isolees.push_back(region.id);</span>
+        }
+<span style = "background-color:#dfd">    }
+    return isolees;
+}</span>
+
+<span style = "background-color:#dfd">Atlas loadAtlas(const std::filesystem::path&amp; directory) {
+    Atlas atlas;</span>
+
+<span style = "background-color:#dfd">    std::error_code code;
+    if (!std::filesystem::is_directory(directory, code)) {</span>
+        // Un dossier absent n'est PAS un monde vide : les deux se ressemblent a l'execution, et
+        // confondre &lt;&lt; pas installe &gt;&gt; avec &lt;&lt; aucune region &gt;&gt; fait chercher longtemps du
+        // mauvais cote.
+<span style = "background-color:#dfd">        atlas.errors.push_back(directory.string() + " : dossier d'atlas absent ou illisible.");
+        return atlas;</span>
+    }
+
+<span style = "background-color:#dfd">    for (const std::filesystem::path&amp; chemin : fichiersJson(directory / "regions")) {
+        const std::string nom = chemin.filename().string();
+        const JsonDocument document = readJsonObjectFromFile(chemin, SANS_GARDE_DE_VERSION);
+        if (!document.ok()) {</span>
+<span style = "background-color:#fdd">            atlas.errors.push_back(document.message);
+            continue;</span>
+        }
+<span style = "background-color:#dfd">        Region region;
+        if (lireRegion(document.root, nom, region, atlas.errors)) {
+            atlas.regions.push_back(std::move(region));</span>
+        }
+<span style = "background-color:#dfd">    }</span>
+
+<span style = "background-color:#dfd">    for (const std::filesystem::path&amp; chemin : fichiersJson(directory / "locations")) {
+        const std::string nom = chemin.filename().string();
+        const JsonDocument document = readJsonObjectFromFile(chemin, SANS_GARDE_DE_VERSION);
+        if (!document.ok()) {</span>
+<span style = "background-color:#fdd">            atlas.errors.push_back(document.message);
+            continue;</span>
+        }
+<span style = "background-color:#dfd">        Location lieu;
+        if (lireLieu(document.root, nom, lieu, atlas.errors)) {
+            atlas.locations.push_back(std::move(lieu));</span>
+        }
+<span style = "background-color:#dfd">    }</span>
+
+<span style = "background-color:#dfd">    if (atlas.regions.empty()) {</span>
+<span style = "background-color:#fdd">        atlas.errors.push_back(directory.string() +</span>
+                               " : aucune region lue. Un atlas sans region n'est pas un monde.");
+    }
+
+<span style = "background-color:#dfd">    std::ranges::sort(atlas.regions, {}, &amp;Region::id);
+    std::ranges::sort(atlas.locations, {}, &amp;Location::id);
+    return atlas;
+}</span>
+
+}  // namespace core</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

@@ -1,0 +1,111 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>LevelScene.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#include "Core/Levels/LevelScene.h"
+
+#include &lt;cstdint&gt;
+
+#include "Core/Ecs/Components/Transform.h"
+#include "Core/Ecs/World.h"
+#include "Core/Levels/Level.h"
+#include "Core/Levels/TileLayer.h"
+#include "Core/Levels/TileMap.h"
+#include "Core/Math/Vector2.h"
+#include "Core/Physics/Aabb.h"
+
+namespace core {
+
+namespace {
+
+// Peuple le monde des tuiles non vides d'UNE grille. @p order ordonne les sprites entre couches :
+// le sol est dessine avant le decor, et sous lui.
+void buildLayerEntities(
+    World&amp; world, const TileMap&amp; map, LayerKind kind, std::int32_t order,
+    const std::function&lt;AtlasRegion(TileType)&gt;&amp; regionForTile,
+<span style = "background-color:#dfd">    const std::function&lt;void(Entity, LayerKind, TileType, int, int)&gt;&amp; onTileEntity) {
+    for (int row = 0; row &lt; map.height(); ++row) {
+        for (int column = 0; column &lt; map.width(); ++column) {
+            const TileType type = map.tile(column, row);
+            if (type == TileType::Empty) {
+                continue;</span>
+            }
+<span style = "background-color:#dfd">            const Entity entity = world.createEntity();</span>
+
+<span style = "background-color:#dfd">            Transform transform;
+            transform.position = Vector2{static_cast&lt;float&gt;(column), static_cast&lt;float&gt;(row)};
+            world.addComponent(entity, transform);</span>
+
+<span style = "background-color:#dfd">            Sprite sprite;
+            sprite.region = regionForTile(type);</span>
+            // `layer` ordonne les sprites d'un **meme** calque de rendu : le rang de la couche y
+            // suffit, une carte a une couche (le cas legacy) retombant sur 0 comme avant le
+            // LOT-04. Le calque lui-meme est une notion de presentation (hmi::RenderLayer,
+            // LOT-40) que `Core` ignore (EX-NFR-011).
+<span style = "background-color:#dfd">            sprite.layer = order;
+            world.addComponent(entity, sprite);</span>
+
+            // La presentation attache ici ses propres composants (habillage) : Core fournit le
+            // point d'accroche, sans rien savoir de ce qui s'y greffe.
+<span style = "background-color:#dfd">            if (onTileEntity) {
+                onTileEntity(entity, kind, type, column, row);</span>
+            }
+<span style = "background-color:#dfd">        }
+    }
+}</span>
+
+}  // namespace
+
+// Peuple un World d'une entite (Transform + Sprite) par tuile non vide de chaque couche VISIBLE du
+// niveau. Les plans picturaux (LOT-69) ne sont pas des entites : HMI les compose directement.
+void buildLevelScene(
+    World&amp; world, const Level&amp; level, const std::function&lt;AtlasRegion(TileType)&gt;&amp; regionForTile,
+<span style = "background-color:#dfd">    const std::function&lt;void(Entity, LayerKind, TileType, int, int)&gt;&amp; onTileEntity) {</span>
+    // Une carte sans couche declaree -- un Level construit directement, sans passer par le
+    // chargeur -- n'a que sa grille racine : c'est le comportement d'avant le LOT-04, conserve tel
+    // quel plutot que de faire dependre le rendu d'une promotion faite ailleurs.
+<span style = "background-color:#dfd">    if (level.layers().empty()) {</span>
+<span style = "background-color:#fdd">        buildLayerEntities(world, level.tileMap(), LayerKind::Legacy, 0, regionForTile,</span>
+                           onTileEntity);
+<span style = "background-color:#fdd">        return;</span>
+    }
+
+<span style = "background-color:#dfd">    std::int32_t order = 0;
+    for (const TileLayer&amp; layer : level.layers()) {</span>
+        // La couche de collision est un MASQUE, pas une image : un tonneau infranchissable pose
+        // sur une dalle se voit par le decor, jamais par la collision. La dessiner recouvrirait le
+        // sol de tuiles fantomes (EX-LVL-016).
+<span style = "background-color:#dfd">        if (layer.kind == LayerKind::Collision) {
+            continue;</span>
+        }
+<span style = "background-color:#dfd">        buildLayerEntities(world, layer.tiles, layer.kind, order, regionForTile, onTileEntity);
+        ++order;
+    }
+}</span>
+
+}  // namespace core</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

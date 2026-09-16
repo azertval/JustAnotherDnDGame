@@ -1,0 +1,129 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>GridDistanceField.h</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#pragma once
+
+#include &lt;vector&gt;
+
+#include "Core/Levels/GridPosition.h"
+#include "Core/Levels/TileMap.h"
+
+/**
+ * @file Core/World/GridDistanceField.h
+ * @brief Champ de distances de plus court chemin sur la grille, respectant les murs (amendement
+ * `LOT-ANNEXE-08`, `EX-IA-023`).
+ */
+
+namespace core {
+
+/**
+ * @brief Distance de plus court chemin en nombre de cases (4-connexitÃ©, respectant les cases
+ * statiquement solides d'un `core::TileMap`), prÃ©-calculÃ©e une fois par BFS multi-source depuis une
+ * case cible.
+ *
+ * Sert de base Ã  la rÃ©compense de progression (`EX-IA-023`). La propriÃ©tÃ© recherchÃ©e est que
+ * *tout pas rapprochant du but sur un chemin rÃ©ellement empruntable* soit rÃ©compensÃ©, y compris
+ * un dÃ©tour imposÃ© par un mur : une distance Ã  vol d'oiseau pÃ©naliserait ce dÃ©tour, et
+ * dirigerait donc l'agent contre la seule solution disponible.
+ *
+ * Le coÃ»t est bornÃ© par construction : un unique BFS Ã  quatre voisins, sans pondÃ©ration ni
+ * replanification, puis des lectures `O(1)`. La distance se compte en nombre de cases, jamais en
+ * coÃ»t de dÃ©placement -- il n'y a pas de planificateur de chemin ici.
+ *
+ * Accepte n'importe quelle `core::TileMap`, et c'est le choix de cette grille qui fixe ce que
+ * Â« empruntable Â» veut dire :
+ * - `core::Level::tileMap()` ne connaÃ®t que la soliditÃ© **statique** ;
+ * - `core::MechanismController::collisionMap()` connaÃ®t en plus l'Ã©tat **courant** des portes,
+ *   solides tant qu'elles sont fermÃ©es (le contrÃ´leur les gÃ¨re dynamiquement, `TileMap::isSolid`
+ *   les ignore).
+ *
+ * Une porte verrouillÃ©e encore fermÃ©e doit Ãªtre vue comme un mur, sans quoi le champ mesure la
+ * progression le long d'un chemin qui n'existe pas et la clÃ© qui l'ouvre ne raccourcit rien.
+ */
+class GridDistanceField {
+public:
+    /**
+     * @brief Calcule le champ par BFS Ã  partir de l'unique case @p target.
+     * @param tileMap Grille de collision (cases solides/non-solides) --
+     * `core::MechanismController:: collisionMap()` pour respecter l'Ã©tat courant des portes,
+     * `core::Level::tileMap()` pour la seule soliditÃ© statique.
+     * @param target  Case cible (typiquement `core::Level::exit()`), point de dÃ©part du BFS.
+     */
+    GridDistanceField(const core::TileMap&amp; tileMap, const core::GridPosition&amp; target);
+
+    /**
+     * @brief Calcule le champ par BFS **multi-source** Ã  partir de @p targets.
+     *
+     * GÃ©nÃ©ralise le constructeur Ã  cible unique : la distance renvoyÃ©e par `distance()` est celle
+     * au **plus proche** Ã©lÃ©ment de @p targets, ce qui permet de faire cohabiter la sortie du
+     * niveau avec les positions des dÃ©clencheurs (`core::Mechanism::switchPosition`) pas encore
+     * rÃ©solus comme cibles concurrentes -- l'objectif immÃ©diat le plus proche, sans hiÃ©rarchie ni
+     * connaissance de l'ordre de rÃ©solution attendu.
+     * @param tileMap Grille de collision (voir constructeur Ã  cible unique).
+     * @param targets Cases cibles ; une case hors-grille ou solide est simplement ignorÃ©e (garde
+     *        dÃ©fensive, ne fait pas Ã©chouer les autres cibles). Vide -&gt; champ entiÃ¨rement
+     *        inatteignable.
+     */
+    GridDistanceField(const core::TileMap&amp; tileMap, const std::vector&lt;core::GridPosition&gt;&amp; targets);
+
+    /**
+     * @brief Distance de plus court chemin, en nombre de cases, depuis @p position jusqu'Ã  la case
+     * cible passÃ©e au constructeur.
+     * @param position Case dont on veut la distance ; hors-grille traitÃ©e comme inatteignable.
+     * @return La distance en cases, ou la sentinelle `largeur * hauteur` (borne supÃ©rieure stricte
+     *         de toute distance atteignable sur la grille) si @p position est hors-grille ou ne
+     * peut atteindre la cible par aucun chemin de cases non solides.
+     */
+    [[nodiscard]] int distance(const core::GridPosition&amp; position) const noexcept;
+
+    /**
+     * @brief La cible est-elle atteignable depuis @p position par un chemin de cases non solides ?
+     *
+     * Distingue une distance rÃ©elle de la **sentinelle** rendue par `distance()`, que rien ne
+     * permet sinon de reconnaÃ®tre : la sentinelle vaut `largeur Ã hauteur`, soit `576` sur une
+     * grille `24 Ã 24`, et une progression calculÃ©e entre une case atteignable et une case qui ne
+     * l'est pas vaudrait donc `Â±576` sur un seul pas.
+     * @param position Case Ã  tester ; hors-grille traitÃ©e comme inatteignable.
+     */
+    [[nodiscard]] bool isReachable(const core::GridPosition&amp; position) const noexcept;
+
+    /// @return La sentinelle rendue par `distance()` pour une case inatteignable
+    /// (`largeur Ã hauteur`), borne supÃ©rieure stricte de toute distance atteignable â donc aussi
+    /// la seule constante de normalisation qui ne dÃ©pende pas du niveau chargÃ©.
+<span style = "background-color:#dfd">    [[nodiscard]] int unreachableDistance() const noexcept {
+        return _width * _height;
+    }</span>
+
+private:
+    int _width;
+    int _height;
+    std::vector&lt;int&gt; _distances;
+};
+
+}  // namespace core</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

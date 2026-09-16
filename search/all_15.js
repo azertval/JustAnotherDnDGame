@@ -25,14 +25,14 @@ var searchData=
   ['jamais_20une_20géométrie_22',['jamais une géométrie',['../lot-19.html#autotoc_md520',1,'L&apos;altitude est un attribut, jamais une géométrie'],['../namespacecore.html#autotoc_md923',1,'L&apos;altitude est un attribut, jamais une géométrie']]],
   ['jauges_23',['Jauges',['../lot-87-cahier-assets.html#lot-87-cahier-gauge',1,'']]],
   ['jetée_20une_20fois_20départagée_20par_20une_20règle_20écrite_24',['L&apos;initiative : jetée une fois, départagée par une règle écrite',['../lot-20.html#autotoc_md532',1,'']]],
-  ['jet_25',['1. Le jet',['../spec-regles-dnd.html#autotoc_md377',1,'']]],
+  ['jet_25',['1. Le jet',['../spec-regles-d20.html#autotoc_md377',1,'']]],
   ['jet_20qui_20est_20un_20objet_26',['jet qui est un objet',['../lot-21.html#autotoc_md545',1,'Un jet qui est un objet'],['../Attack_8h.html#autotoc_md921',1,'Un jet qui est un objet']]],
   ['jetons_27',['jetons',['../guide-conception-qds.html#autotoc_md72',1,'Les contrôles Qt prennent la couleur des jetons'],['../lot-87.html#autotoc_md755',1,'T2.2 — Les jetons']]],
   ['jetons_20_3a_20le_20seul_20endroit_20où_20s_20écrit_20une_20couleur_28',['Les jetons : le seul endroit où s&apos;écrit une couleur',['../guide-conception-qds.html#autotoc_md68',1,'']]],
   ['jetons_20_3a_20une_20seule_20source_20deux_20portées_20étanches_29',['Les jetons : une seule source, deux portées étanches',['../guide-design-ihm.html#autotoc_md80',1,'']]],
   ['jetons_20purs_20à_20une_20application_20habillée_30',['De jetons purs à une application habillée',['../guide-design-ihm.html#autotoc_md81',1,'']]],
   ['jets_31',['LOT-12 — Dés, caractéristiques, jets',['../lot-12.html',1,'lots']]],
-  ['jets_20trois_20usages_32',['3. Trois jets, trois usages',['../spec-regles-dnd.html#autotoc_md379',1,'']]],
+  ['jets_20trois_20usages_32',['3. Trois jets, trois usages',['../spec-regles-d20.html#autotoc_md379',1,'']]],
   ['jeu_33',['jeu',['../guide-ecrans.html',1,'Écrans, navigation et boucle de jeu'],['../spec-gameplay.html#autotoc_md346',1,'4. États de jeu'],['../manuel-jouer.html#autotoc_md883',1,'Contrôles en jeu'],['../guide-ecrans.html#autotoc_md100',1,'Le viewport partagé : éditeur &lt;b&gt;et&lt;/b&gt; jeu'],['../guide-ihm-qt.html#autotoc_md149',1,'Les trois couches du jeu'],['../lot-05.html',1,'LOT-05 — Modes de jeu'],['../guide-boucle.html#autotoc_md55',1,'Qu&apos;est-ce qu&apos;une boucle de jeu ?'],['../manuel-telecharger.html',1,'Télécharger et lancer le jeu']]],
   ['jeu_20et_20observabilité_34',['2. Pont avec le jeu et observabilité',['../spec-ia.html#autotoc_md349',1,'']]],
   ['jeu_20et_20outillage_35',['5. Intégration au jeu et outillage',['../spec-ia.html#autotoc_md352',1,'']]],
@@ -80,5 +80,5 @@ var searchData=
   ['jumpspeed_77',['jumpSpeed',['../structcore_1_1PhysicsConfig.html#a0c37db23188588851424c06d9183bfa1',1,'core::PhysicsConfig']]],
   ['jumpto_78',['jumpTo',['../classhmi_1_1PixelHistory.html#a7b852d4e2ec5be8ce02fe8eb811f7ed2',1,'hmi::PixelHistory']]],
   ['jusqu_20au_20vertical_20slice_79',['Le chemin critique jusqu&apos;au &lt;em&gt;vertical slice&lt;/em&gt;',['../roadmap.html#autotoc_md807',1,'']]],
-  ['justanotherdndgame_80',['JustAnotherDnDGame',['../index.html',1,'']]]
+  ['justanotherrpggame_80',['JustAnotherRpgGame',['../index.html',1,'']]]
 ];

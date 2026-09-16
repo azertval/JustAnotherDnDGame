@@ -1,0 +1,212 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>ProceduralFont.h</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#pragma once
+
+#include &lt;cstddef&gt;
+#include &lt;cstdint&gt;
+#include &lt;filesystem&gt;
+#include &lt;optional&gt;
+#include &lt;string&gt;
+#include &lt;string_view&gt;
+#include &lt;unordered_map&gt;
+#include &lt;vector&gt;
+
+#include "HMI/Graphics/AssetContract.h"  // hmi::AssetValidation
+
+/**
+ * @file HMI/Graphics/ProceduralFont.h
+ * @brief MÃ©triques de police bitmap, mesure pure de texte, lecture JSON et repli procÃ©dural
+ *        (`LOT-52`) â logique pure, sans GPU ni Qt (`EX-NFR-010`).
+ */
+
+namespace hmi {
+
+/// Position, taille et avance horizontale d'un glyphe dans l'atlas de police, en pixels.
+struct GlyphMetrics {
+    int x = 0;
+    int y = 0;
+    int width = 0;
+    int height = 0;
+    /// Distance horizontale jusqu'au glyphe suivant (peut diffÃ©rer de `width`).
+    int advance = 0;
+};
+
+/**
+ * @brief MÃ©triques d'une police bitmap : rÃ©gion et avance de chaque point de code couvert.
+ *
+ * DonnÃ©e **pure** (`EX-NFR-010`) : ne rÃ©fÃ©rence ni fichier ni GPU, seulement ce qu'il faut pour
+ * mesurer et composer du texte en quads. Un point de code absent retombe sur
+ * `replacementCodePoint` (substitution dÃ©terministe, `EX-NFR-040`) â jamais un trou silencieux ni
+ * un plantage.
+ */
+struct FontMetrics {
+    /// Hauteur d'une ligne, en pixels (avance verticale d'un retour Ã  la ligne `\n`).
+    int lineHeight = 0;
+    /// Point de code substituÃ© Ã  un caractÃ¨re non couvert par `glyphs` (typiquement `?`).
+    char32_t replacementCodePoint = U'?';
+    /// Point de code â mÃ©triques de son glyphe dans l'atlas.
+    std::unordered_map&lt;char32_t, GlyphMetrics&gt; glyphs;
+
+    /**
+     * @brief MÃ©triques effectives d'un point de code, avec substitution.
+     * @param codePoint Point de code cherchÃ©.
+     * @return Ses mÃ©triques si couvert ; sinon celles de `replacementCodePoint` s'il l'est ;
+     *         sinon `nullptr` (police corrompue au point de n'avoir mÃªme pas de remplacement).
+     */
+    [[nodiscard]] const GlyphMetrics* glyph(char32_t codePoint) const;
+};
+
+/// Dimensions mesurÃ©es d'un texte, en pixels (Ã  l'Ã©chelle demandÃ©e).
+struct TextExtent {
+    float width = 0.0f;
+    float height = 0.0f;
+};
+
+/**
+ * @brief DÃ©code le point de code UTF-8 suivant d'une chaÃ®ne.
+ *
+ * La mesure et la composition du texte (`hmi::TextRenderer`) doivent parcourir des **points de
+ * code**, pas des octets : un caractÃ¨re accentuÃ© du catalogue de traduction (`EX-REN-033`) occupe
+ * plusieurs octets en UTF-8.
+ * @param text  ChaÃ®ne UTF-8 parcourue.
+ * @param index DÃ©calage en octets ; avancÃ© jusqu'au dÃ©but du point de code suivant.
+ * @return Le point de code dÃ©codÃ© ; `0xFFFD` (caractÃ¨re de remplacement Unicode) sur une sÃ©quence
+ *         invalide ou tronquÃ©e (avance alors d'un seul octet, jamais de plantage).
+ */
+[[nodiscard]] char32_t nextUtf8CodePoint(std::string_view text, std::size_t&amp; index) noexcept;
+
+/**
+ * @brief Largeur et hauteur qu'occuperait `text` avec `metrics`, Ã  l'Ã©chelle `scale`.
+ *
+ * Fonction **pure**, sans GPU (`EX-NFR-010`) : c'est ce qui permet de cadrer un affichage sans le
+ * dessiner (ancrage, `hmi::TextRenderer`). Un retour Ã  la ligne (`\n`) revient Ã  une largeur nulle
+ * et ajoute une `lineHeight` ; un caractÃ¨re non couvert (mÃªme aprÃ¨s substitution) n'avance pas.
+ * @param metrics MÃ©triques de la police mesurÃ©e.
+ * @param text    Texte UTF-8 mesurÃ©.
+ * @param scale   Facteur d'Ã©chelle appliquÃ© aux dimensions.
+ * @return La largeur de la ligne la plus longue et la hauteur totale (au moins une ligne).
+ */
+[[nodiscard]] TextExtent measureText(const FontMetrics&amp; metrics, std::string_view text,
+                                     float scale = 1.0f) noexcept;
+
+/// Pixels d'un atlas de police gÃ©nÃ©rÃ© en mÃ©moire, au format `R8G8B8A8_UNORM` (ordre mÃ©moire
+/// R,G,B,A), ligne par ligne (haut en bas).
+struct ProceduralFontImage {
+    int width = 0;
+    int height = 0;
+    std::vector&lt;std::uint32_t&gt; pixels;
+};
+
+/// Atlas de police procÃ©dural complet : ses pixels et les mÃ©triques qui les dÃ©crivent.
+struct ProceduralFont {
+    ProceduralFontImage image;
+    FontMetrics metrics;
+};
+
+/**
+ * @brief GÃ©nÃ¨re, en mÃ©moire, une police bitmap minimale et dÃ©terministe (repli sans asset).
+ *
+ * Couvre l'ASCII imprimable (0x20-0x7E) et les lettres accentuÃ©es du franÃ§ais
+ * (`Ã© Ã¨ Ã  Ã§ Ã¹ Ãª Ã® Ã´ Ã»` et majuscules), en glyphes 5Ã7 pixels **blancs** sur fond transparent
+ * (colorables par la teinte du quad, comme `hmi::buildProceduralAtlasImage`, `LOT-39`). Chasse
+ * fixe (une seule avance pour tous les glyphes) : simple et suffisant pour un repli de secours.
+ * Aucune dÃ©pendance fichier/GPU : le jeu reste lisible mÃªme sans aucun asset de police
+ * (`EX-NFR-040`).
+ * @return L'image gÃ©nÃ©rÃ©e et ses mÃ©triques, prÃªtes pour `hmi::BitmapFont`.
+ */
+[[nodiscard]] ProceduralFont buildProceduralFont();
+
+/// Version du format de mÃ©triques Ã©crite dans le fichier, et plus Ã©levÃ©e qui soit lue
+/// (`hmi::loadFontMetricsFromString`).
+inline constexpr int FONT_METRICS_FORMAT_VERSION = 1;
+
+/**
+ * @brief CatÃ©gorie d'Ã©chec de lecture d'un fichier de mÃ©triques (mÃªme esprit que
+ *        `hmi::AnimationCatalogError`).
+ */
+enum class FontMetricsError {
+    None,                ///&lt; Pas d'erreur.
+    FileNotFound,        ///&lt; Fichier absent. Cas attendu (repli procÃ©dural), pas une anomalie.
+    ParseError,          ///&lt; JSON malformÃ©, ou racine qui n'est pas un objet.
+    UnsupportedVersion,  ///&lt; NumÃ©ro de version supÃ©rieur Ã  `FONT_METRICS_FORMAT_VERSION`.
+    MalformedStructure,  ///&lt; Structure inattendue (glyphe sans rÃ©gion, point de code invalideâ¦).
+};
+
+/**
+ * @brief RÃ©sultat d'une lecture de mÃ©triques : soit des `FontMetrics`, soit une erreur dÃ©crite.
+ *        MÃªme patron que `hmi::AnimationDescriptionResult` (`EX-NFR-040`).
+ */
+struct FontMetricsResult {
+    std::optional&lt;FontMetrics&gt; metrics;
+    std::string error;
+    FontMetricsError errorCode = FontMetricsError::None;
+
+    /// @return true si la lecture a rÃ©ussi.
+<span style = "background-color:#dfd">    [[nodiscard]] bool ok() const noexcept {
+        return metrics.has_value();
+    }</span>
+};
+
+/**
+ * @brief Lit des mÃ©triques de police depuis une chaÃ®ne JSON.
+ *
+ * Format : `{"version":1,"lineHeight":10,"replacement":"?","glyphs":[{"char":"A","x":0,"y":0,
+ * "width":6,"height":10,"advance":6}, ...]}`. `"replacement"` est optionnel (`?` par dÃ©faut).
+ * @param json Contenu JSON.
+ * @return Les mÃ©triques, ou une erreur dÃ©crite. Ne lÃ¨ve jamais.
+ */
+[[nodiscard]] FontMetricsResult loadFontMetricsFromString(std::string_view json);
+
+/**
+ * @brief Lit des mÃ©triques de police depuis un fichier.
+ * @param path Chemin du fichier.
+ * @return Les mÃ©triques, ou une erreur dÃ©crite (`FileNotFound` pour un fichier absent, cas
+ *         attendu qui ne doit produire aucun avertissement cÃ´tÃ© appelant). Ne lÃ¨ve jamais.
+ */
+[[nodiscard]] FontMetricsResult loadFontMetricsFromFile(const std::filesystem::path&amp; path);
+
+/**
+ * @brief Valide la cohÃ©rence entre des mÃ©triques et les dimensions **dÃ©codÃ©es** du PNG associÃ©.
+ *
+ * SÃ©parÃ©e de la lecture JSON : les dimensions rÃ©elles ne sont connues qu'aprÃ¨s dÃ©codage du PNG,
+ * en aval (mÃªme frontiÃ¨re que `hmi::AnimationCatalog::validateAgainstTexture`).
+ * @param metrics       MÃ©triques dÃ©jÃ  lues.
+ * @param fileName      Nom logique de l'asset, repris dans le message d'erreur.
+ * @param textureWidth  Largeur dÃ©codÃ©e du PNG, en pixels.
+ * @param textureHeight Hauteur dÃ©codÃ©e du PNG, en pixels.
+ * @return Le verdict, avec un message exploitable si non conforme (une rÃ©gion de glyphe hors des
+ *         bornes de la texture, ou une hauteur de ligne non positive).
+ */
+[[nodiscard]] AssetValidation validateFontMetricsAgainstTexture(const FontMetrics&amp; metrics,
+                                                                const std::string&amp; fileName,
+                                                                int textureWidth,
+                                                                int textureHeight);
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

@@ -137,7 +137,7 @@ var searchData=
   ['d_20une_20page_20à_20l_20autre_134',['Sa gouttière bouge d&apos;une page à l&apos;autre',['../lot-36.html#autotoc_md615',1,'']]],
   ['d_20unités_20et_20de_20repère_135',['Conventions d&apos;unités et de repère',['../guide-maths.html#autotoc_md174',1,'']]],
   ['d0_136',['D0',['../namespacehmi.html#a83c98e56e30eafa606048853f7962e48a0e3e06c992d1ead056a6861bb46b28a8',1,'hmi']]],
-  ['d20_137',['Règles d20',['../spec-regles-dnd.html',1,'specifications']]],
+  ['d20_137',['Règles d20',['../spec-regles-d20.html',1,'specifications']]],
   ['d20_5ffaces_138',['D20_FACES',['../namespacecore.html#a42b6dd302d4b68da1f4bdd439884b338',1,'core']]],
   ['damage_139',['damage',['../structcore_1_1AttackProfile.html#ab3db8d1b3f2e69e95aeb55f50fb46050',1,'core::AttackProfile::damage'],['../structcore_1_1AttackOutcome.html#a92fa3556e6fe981e561be4d8e896318f',1,'core::AttackOutcome::damage'],['../structcore_1_1DamageRequest.html#a1c34ec2760c59f2a9b0c5adb0d395c49',1,'core::DamageRequest::damage'],['../structcore_1_1CreatureAction.html#a2d614ee79e5d776ba6f490f6e20aedc7',1,'core::CreatureAction::damage'],['../structcore_1_1Weapon.html#a68520b1a13724b2da2d55c0cc056c472',1,'core::Weapon::damage'],['../structcore_1_1DerivedStats.html#a19069ad5cee5bd2ae14964650bb902d7',1,'core::DerivedStats::damage'],['../structhmi_1_1ItemSheet.html#a1a1609cb7ec8cf89f08b53db1725a304',1,'hmi::ItemSheet::damage'],['../classcore_1_1CombatState.html#afafb334909b80667445bd12b5e8a8e4b',1,'core::CombatState::damage()']]],
   ['damage_2ecpp_140',['Damage.cpp',['../Damage_8cpp.html',1,'']]],

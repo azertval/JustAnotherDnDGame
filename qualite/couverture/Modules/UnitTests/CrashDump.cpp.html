@@ -1,0 +1,268 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>CrashDump.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#include "HMI/Platform/CrashDump.h"
+
+#include &lt;array&gt;
+#include &lt;cstdio&gt;
+#include &lt;cstdlib&gt;
+#include &lt;exception&gt;
+#include &lt;string&gt;
+#include &lt;system_error&gt;
+#include &lt;utility&gt;
+
+#include &lt;Windows.h&gt;
+
+// dbghelp.h exige Windows.h avant lui.
+#include &lt;DbgHelp.h&gt;
+
+#include "HMI/HmiLog.h"
+
+namespace hmi {
+namespace {
+
+/// RÃ©glages retenus par installCrashDumpWriter. Lus depuis le filtre : aucune allocation n'y a lieu
+/// avant l'Ã©criture du dump, le tas pouvant Ãªtre la cause du plantage.
+struct CrashDumpSettings {
+    std::filesystem::path directory;
+    std::string application;
+    std::string version;
+};
+
+<span style = "background-color:#fdd">CrashDumpSettings&amp; settings() {
+    static CrashDumpSettings instance;
+    return instance;
+}</span>
+
+<span style = "background-color:#fdd">[[noreturn]] void raiseFatalError() {
+    RaiseException(kFatalErrorExceptionCode, EXCEPTION_NONCONTINUABLE, 0, nullptr);</span>
+    // RaiseException avec EXCEPTION_NONCONTINUABLE ne revient pas ; si un dÃ©bogueur reprend quand
+    // mÃªme l'exÃ©cution, on ne poursuit pas dans un Ã©tat incohÃ©rent.
+<span style = "background-color:#fdd">    std::abort();
+}</span>
+
+<span style = "background-color:#fdd">void onTerminate() {
+    raiseFatalError();
+}</span>
+
+<span style = "background-color:#fdd">void onPureCall() {
+    raiseFatalError();
+}</span>
+
+void onInvalidParameter(const wchar_t* /*expression*/, const wchar_t* /*function*/,
+<span style = "background-color:#fdd">                        const wchar_t* /*file*/, unsigned int /*line*/, uintptr_t /*reserved*/) {
+    raiseFatalError();
+}</span>
+
+<span style = "background-color:#fdd">LONG WINAPI onUnhandledException(EXCEPTION_POINTERS* exception) {</span>
+    // Un seul dump : un second plantage pendant l'Ã©criture (tas corrompu) terminerait sinon en
+    // boucle, ou Ã©craserait le premier fichier par un dump inutilisable.
+    static LONG entered = 0;
+<span style = "background-color:#fdd">    if (InterlockedExchange(&amp;entered, 1) != 0) {
+        return EXCEPTION_EXECUTE_HANDLER;</span>
+    }
+
+<span style = "background-color:#fdd">    const CrashDumpSettings&amp; current = settings();
+    const std::time_t now = std::time(nullptr);
+    std::tm local{};
+    localtime_s(&amp;local, &amp;now);
+    const std::filesystem::path path =</span>
+        current.directory / crashDumpFileName(current.application, current.version, local);
+<span style = "background-color:#fdd">    const bool written = writeMiniDump(path, exception);</span>
+
+<span style = "background-color:#fdd">    const unsigned long code =</span>
+        exception != nullptr &amp;&amp; exception-&gt;ExceptionRecord != nullptr
+            ? static_cast&lt;unsigned long&gt;(exception-&gt;ExceptionRecord-&gt;ExceptionCode)
+            : 0UL;
+<span style = "background-color:#fdd">    std::array&lt;char, 16&gt; codeText{};
+    std::snprintf(codeText.data(), codeText.size(), "0x%08lX", code);
+    if (written) {
+        HMI_LOG_ERROR(std::string("Plantage (exception ") + codeText.data() +</span>
+                      ") : minidump ecrit dans " + path.string());
+<span style = "background-color:#fdd">    } else {
+        HMI_LOG_ERROR(std::string("Plantage (exception ") + codeText.data() +</span>
+                      ") : minidump NON ecrit (" + path.string() + ")");
+    }
+    // FileLogSink Ã©crit et vide son tampon Ã  chaque message : la ligne est sur le disque.
+<span style = "background-color:#fdd">    return EXCEPTION_EXECUTE_HANDLER;
+}</span>
+
+/// Ãcriture d'un dump confiÃ©e Ã  un thread dÃ©diÃ© (writeMiniDump).
+struct DumpJob {
+    HANDLE file = INVALID_HANDLE_VALUE;
+    EXCEPTION_POINTERS* original = nullptr;
+    DWORD threadId = 0;
+    // Copie du contexte rÃ©duite Ã  la structure CONTEXT de base (voir writeDumpJob).
+    EXCEPTION_RECORD recordCopy{};
+    CONTEXT contextCopy{};
+    EXCEPTION_POINTERS pointersCopy{};
+    BOOL written = FALSE;
+    DWORD error = ERROR_SUCCESS;
+};
+
+<span style = "background-color:#dfd">DWORD WINAPI writeDumpJob(LPVOID parameter) {
+    auto* const job = static_cast&lt;DumpJob*&gt;(parameter);</span>
+    // Piles, contexte, modules chargÃ©s et dÃ©chargÃ©s, et la mÃ©moire que les piles dÃ©signent : de
+    // quoi lire les variables locales et un objet pointÃ©, pour quelques Mio plutÃ´t que tout le tas.
+<span style = "background-color:#dfd">    const auto rich =</span>
+        static_cast&lt;MINIDUMP_TYPE&gt;(MiniDumpWithIndirectlyReferencedMemory | MiniDumpScanMemory |
+                                   MiniDumpWithThreadInfo | MiniDumpWithUnloadedModules);
+<span style = "background-color:#dfd">    const auto reduced = static_cast&lt;MINIDUMP_TYPE&gt;(MiniDumpNormal | MiniDumpWithThreadInfo |</span>
+                                                    MiniDumpWithUnloadedModules);
+
+    // Sur une partie des runners de CI (et jamais sur le poste, sans AVX-512), MiniDumpWriteDump
+    // refuse le contexte d'exception d'origine : ERROR_INVALID_USER_BUFFER. Le contexte porte alors
+    // un Ã©tat Ã©tendu du processeur (CONTEXT_XSTATE) dont la taille dÃ©pend de la machine. Les essais
+    // suivants passent une copie limitÃ©e au CONTEXT de base, puis les pointeurs d'origine lus par
+    // ReadProcessMemory (ClientPointers). Un dump sans l'Ã©tat AVX vaut mieux que pas de dump.
+    struct Attempt {
+        MINIDUMP_TYPE type;
+        EXCEPTION_POINTERS* pointers;
+        BOOL clientPointers;
+    };
+    const std::array&lt;Attempt, 3&gt; attempts = {{
+<span style = "background-color:#dfd">        {rich, job-&gt;original, FALSE},
+        {reduced, job-&gt;original != nullptr ? &amp;job-&gt;pointersCopy : nullptr, FALSE},
+        {reduced, job-&gt;original, TRUE},</span>
+    }};
+<span style = "background-color:#dfd">    for (const Attempt&amp; attempt : attempts) {
+        LARGE_INTEGER start{};
+        SetFilePointerEx(job-&gt;file, start, nullptr, FILE_BEGIN);
+        SetEndOfFile(job-&gt;file);
+        MINIDUMP_EXCEPTION_INFORMATION information{};
+        information.ThreadId = job-&gt;threadId;
+        information.ExceptionPointers = attempt.pointers;
+        information.ClientPointers = attempt.clientPointers;
+        job-&gt;written = MiniDumpWriteDump(</span>
+            GetCurrentProcess(), GetCurrentProcessId(), job-&gt;file, attempt.type,
+            attempt.pointers != nullptr ? &amp;information : nullptr, nullptr, nullptr);
+<span style = "background-color:#dfd">        if (job-&gt;written != FALSE) {
+            job-&gt;error = ERROR_SUCCESS;
+            return 0;</span>
+        }
+<span style = "background-color:#fdd">        job-&gt;error = GetLastError();
+    }
+    return 0;</span>
+<span style = "background-color:#dfd">}</span>
+
+}  // namespace
+
+std::string crashDumpFileName(std::string_view application, std::string_view version,
+<span style = "background-color:#dfd">                              const std::tm&amp; localTime) {
+    std::array&lt;char, 32&gt; stamp{};
+    std::strftime(stamp.data(), stamp.size(), "%Y%m%d_%H%M%S", &amp;localTime);</span>
+
+<span style = "background-color:#dfd">    std::string name;
+    name.reserve(application.size() + version.size() + 24);
+    const auto append = [&amp;name](std::string_view part) {
+        for (const char c : part) {
+            const bool safe = (c &gt;= 'A' &amp;&amp; c &lt;= 'Z') || (c &gt;= 'a' &amp;&amp; c &lt;= 'z') ||</span>
+                              (c &gt;= '0' &amp;&amp; c &lt;= '9') || c == '.' || c == '-';
+<span style = "background-color:#dfd">            name.push_back(safe ? c : '_');</span>
+        }
+<span style = "background-color:#dfd">    };
+    append(application);
+    name.push_back('_');
+    append(version);
+    name.push_back('_');
+    name.append(stamp.data());
+    name.append(".dmp");
+    return name;
+}</span>
+
+<span style = "background-color:#dfd">bool writeMiniDump(const std::filesystem::path&amp; path, _EXCEPTION_POINTERS* exception) {
+    std::error_code error;
+    if (path.has_parent_path()) {
+        std::filesystem::create_directories(path.parent_path(), error);</span>
+    }
+
+<span style = "background-color:#dfd">    const HANDLE file = CreateFileW(path.c_str(), GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS,</span>
+                                    FILE_ATTRIBUTE_NORMAL, nullptr);
+<span style = "background-color:#dfd">    if (file == INVALID_HANDLE_VALUE) {
+        return false;</span>
+    }
+
+<span style = "background-color:#dfd">    DumpJob job;
+    job.file = file;
+    job.threadId = GetCurrentThreadId();
+    job.original = exception;
+    if (exception != nullptr &amp;&amp; exception-&gt;ExceptionRecord != nullptr &amp;&amp;</span>
+        exception-&gt;ContextRecord != nullptr) {
+<span style = "background-color:#dfd">        job.recordCopy = *exception-&gt;ExceptionRecord;
+        job.recordCopy.ExceptionRecord = nullptr;  // pas d'exception imbriquÃ©e dans la copie
+        job.contextCopy = *exception-&gt;ContextRecord;
+        job.contextCopy.ContextFlags &amp;= ~(CONTEXT_XSTATE &amp; ~CONTEXT_AMD64);
+        job.pointersCopy.ExceptionRecord = &amp;job.recordCopy;
+        job.pointersCopy.ContextRecord = &amp;job.contextCopy;</span>
+    }
+
+    // Sur un thread Ã  part : un thread qui se dÃ©crit lui-mÃªme pendant que dbghelp suspend et lit
+    // les piles donne un dump incomplet ou un Ã©chec, selon la configuration -- vu en CI sous le
+    // gÃ©nÃ©rateur Visual Studio en Debug, jamais sous Ninja. Le thread du plantage attend, sa pile
+    // reste lisible. Repli sur un appel direct si le thread ne peut pas Ãªtre crÃ©Ã©.
+<span style = "background-color:#dfd">    const HANDLE worker = CreateThread(nullptr, 0, &amp;writeDumpJob, &amp;job, 0, nullptr);
+    if (worker != nullptr) {
+        WaitForSingleObject(worker, INFINITE);
+        CloseHandle(worker);
+    } else {</span>
+<span style = "background-color:#fdd">        writeDumpJob(&amp;job);</span>
+    }
+<span style = "background-color:#dfd">    CloseHandle(file);
+    if (job.written == FALSE) {</span>
+<span style = "background-color:#fdd">        SetLastError(job.error);
+        return false;</span>
+    }
+<span style = "background-color:#dfd">    return true;
+}</span>
+
+void installCrashDumpWriter(std::filesystem::path directory, std::string application,
+<span style = "background-color:#fdd">                            std::string version) {
+    CrashDumpSettings&amp; current = settings();
+    current.directory = std::move(directory);
+    current.application = std::move(application);
+    current.version = std::move(version);</span>
+
+<span style = "background-color:#fdd">    SetUnhandledExceptionFilter(&amp;onUnhandledException);
+    std::set_terminate(&amp;onTerminate);
+    _set_purecall_handler(&amp;onPureCall);
+    _set_invalid_parameter_handler(&amp;onInvalidParameter);</span>
+    // abort() ne passe par aucun des chemins ci-dessus : sans ce rÃ©glage, la CRT afficherait sa
+    // boÃ®te Â« abort() has been called Â» en Debug au lieu de laisser std::terminate conclure.
+<span style = "background-color:#fdd">    _set_abort_behavior(0, _WRITE_ABORT_MSG | _CALL_REPORTFAULT);
+}</span>
+
+<span style = "background-color:#fdd">void triggerCrashForTest() {</span>
+    // Une violation d'accÃ¨s LEVÃE, et non provoquÃ©e : mÃªme code de sortie et mÃªme chemin par le
+    // filtre qu'un vrai dÃ©rÃ©fÃ©rencement nul, sans comportement indÃ©fini que l'optimiseur pourrait
+    // retirer ni que les analyseurs statiques signaleraient Ã  raison.
+<span style = "background-color:#fdd">    RaiseException(EXCEPTION_ACCESS_VIOLATION, EXCEPTION_NONCONTINUABLE, 0, nullptr);
+    std::abort();
+}</span>
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

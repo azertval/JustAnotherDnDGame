@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.16.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>JustAnotherDnDGame: /home/runner/work/JustAnotherDnDGame/JustAnotherDnDGame/Source/Core/Rpg/Inventory.h Source File</title>
+<title>JustAnotherRpgGame: /home/runner/work/JustAnotherDnDGame/JustAnotherDnDGame/Source/Core/Rpg/Inventory.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">JustAnotherDnDGame<span id="projectnumber">&#160;0.1.0</span>
+   <div id="projectname">JustAnotherRpgGame<span id="projectnumber">&#160;0.1.0</span>
    </div>
    <div id="projectbrief">Jeu de rôle tactique au d20, vue de dessus, en C++/Qt</div>
   </td>
@@ -93,7 +93,7 @@ $(function(){initNavTree('Inventory_8h_source.html','',''); });
 </div><!--header-->
 <div class="contents">
 <a href="Inventory_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">// SPDX-FileCopyrightText: 2026 Valentin Eloy</span></div>
-<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment">// SPDX-License-Identifier: GPL-3.0-or-later</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment">// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0</span></div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#pragma once</span></div>
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span></div>
@@ -264,7 +264,7 @@ $(function(){initNavTree('Inventory_8h_source.html','',''); });
 <div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>                                           <span class="keyword">const</span> <a class="code hl_struct" href="structcore_1_1EncumbranceRules.html">EncumbranceRules</a>&amp; carrying);</div>
 <div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span> </div>
 <div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>}  <span class="comment">// namespace core</span></div>
-<div class="ttc" id="aAbility_8h_html"><div class="ttname"><a href="Ability_8h.html">Ability.h</a></div><div class="ttdoc">Les six caractéristiques et leur modificateur (EX-DND-010).</div></div>
+<div class="ttc" id="aAbility_8h_html"><div class="ttname"><a href="Ability_8h.html">Ability.h</a></div><div class="ttdoc">Les six caractéristiques et leur modificateur (EX-REG-010).</div></div>
 <div class="ttc" id="aDice_8h_html"><div class="ttname"><a href="Dice_8h.html">Dice.h</a></div><div class="ttdoc">Notation de dés NdF+M : analyse, évaluation, bornes (EX-NFR-002).</div></div>
 <div class="ttc" id="aEquipment_8h_html"><div class="ttname"><a href="Equipment_8h.html">Equipment.h</a></div><div class="ttdoc">Armes, armures et le calcul de la classe d&#39;armure (LOT-34).</div></div>
 <div class="ttc" id="aRpgEnums_8h_html"><div class="ttname"><a href="RpgEnums_8h.html">RpgEnums.h</a></div><div class="ttdoc">Les quatre énumérations fermées du RPG : dégâts, conditions, écoles, tailles.</div></div>
@@ -278,7 +278,7 @@ $(function(){initNavTree('Inventory_8h_source.html','',''); });
 <div class="ttc" id="anamespacecore_html_a6f31013a1f37d04e5e8f8748f7799219"><div class="ttname"><a href="namespacecore.html#a6f31013a1f37d04e5e8f8748f7799219">core::equipmentSlotName</a></div><div class="ttdeci">std::string_view equipmentSlotName(EquipmentSlot slot)</div><div class="ttdoc">Nom textuel d&#39;un emplacement, tel que la donnée et les clés de traduction l&#39;écrivent.</div><div class="ttdef"><b>Definition</b> Inventory.cpp:65</div></div>
 <div class="ttc" id="anamespacecore_html_a6f489a122d9d233c3bdbe93d7e8469a7"><div class="ttname"><a href="namespacecore.html#a6f489a122d9d233c3bdbe93d7e8469a7">core::addToBackpack</a></div><div class="ttdeci">void addToBackpack(Inventory &amp;inventory, const std::string &amp;itemId, int quantity)</div><div class="ttdoc">Ajoute quantity exemplaires de itemId au sac, en empilant si la ligne existe déjà.</div><div class="ttdef"><b>Definition</b> Inventory.cpp:157</div></div>
 <div class="ttc" id="anamespacecore_html_a8ddb5a787feab8431b23b406bf78fb07"><div class="ttname"><a href="namespacecore.html#a8ddb5a787feab8431b23b406bf78fb07">core::removeFromBackpack</a></div><div class="ttdeci">int removeFromBackpack(Inventory &amp;inventory, const std::string &amp;itemId, int quantity)</div><div class="ttdoc">Retire quantity exemplaires de itemId.</div><div class="ttdef"><b>Definition</b> Inventory.cpp:169</div></div>
-<div class="ttc" id="anamespacecore_html_a97f31c7914a6cfc54cc026a77da58fd1"><div class="ttname"><a href="namespacecore.html#a97f31c7914a6cfc54cc026a77da58fd1">core::Ability</a></div><div class="ttdeci">Ability</div><div class="ttdoc">Une des six caractéristiques d&#39;un personnage ou d&#39;une créature (EX-DND-010).</div><div class="ttdef"><b>Definition</b> Ability.h:24</div></div>
+<div class="ttc" id="anamespacecore_html_a97f31c7914a6cfc54cc026a77da58fd1"><div class="ttname"><a href="namespacecore.html#a97f31c7914a6cfc54cc026a77da58fd1">core::Ability</a></div><div class="ttdeci">Ability</div><div class="ttdoc">Une des six caractéristiques d&#39;un personnage ou d&#39;une créature (EX-REG-010).</div><div class="ttdef"><b>Definition</b> Ability.h:24</div></div>
 <div class="ttc" id="anamespacecore_html_a97f31c7914a6cfc54cc026a77da58fd1a5a455a612047a34ede7a6c564fa67c0a"><div class="ttname"><a href="namespacecore.html#a97f31c7914a6cfc54cc026a77da58fd1a5a455a612047a34ede7a6c564fa67c0a">core::Ability::Strength</a></div><div class="ttdeci">@ Strength</div><div class="ttdef"><b>Definition</b> Ability.h:25</div></div>
 <div class="ttc" id="anamespacecore_html_a98be44354174d01b7cd1e67bdae8fab5"><div class="ttname"><a href="namespacecore.html#a98be44354174d01b7cd1e67bdae8fab5">core::unequip</a></div><div class="ttdeci">std::string unequip(Inventory &amp;inventory, EquipmentSlot slot)</div><div class="ttdoc">Retire ce que slot porte.</div><div class="ttdef"><b>Definition</b> Inventory.cpp:153</div></div>
 <div class="ttc" id="anamespacecore_html_a9a5cbcc72fe725bdada14f1b5a38e3d1"><div class="ttname"><a href="namespacecore.html#a9a5cbcc72fe725bdada14f1b5a38e3d1">core::derivedStatsFor</a></div><div class="ttdeci">DerivedStats derivedStatsFor(const CharacterSheet &amp;sheet, const Inventory &amp;inventory, const ItemLookup &amp;lookup, const CharacterCreationRules &amp;creation, const EncumbranceRules &amp;carrying)</div><div class="ttdoc">Calcule tout ce que l&#39;équipement porté produit, depuis la fiche et les catalogues.</div><div class="ttdef"><b>Definition</b> Inventory.cpp:270</div></div>

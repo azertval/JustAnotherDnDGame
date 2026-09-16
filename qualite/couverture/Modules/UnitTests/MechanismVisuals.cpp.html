@@ -1,0 +1,173 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>MechanismVisuals.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#include "HMI/Graphics/MechanismVisuals.h"
+
+#include &lt;memory&gt;
+
+#include "Core/Ecs/Systems/AnimationSystem.h"
+#include "HMI/Graphics/GraphicsLog.h"
+
+namespace hmi {
+
+namespace {
+
+// Bascule l'animation d'un mecanisme vers preferredClip s'il existe dans clips ; sinon replie sur
+// fallbackClip (clip d'etat cible) s'il existe ; sinon reste sur le premier clip du jeu (repli
+// lisible, LOT-47 TACHE-02) et journalise UNE fois l'asset et le clip manquants -- jamais pour un
+// simple clip de TRANSITION absent (bascule directe, cas legitime, silencieux). Meme patron que
+// core::MechanismController, qui journalise deja depuis une fonction par ailleurs testee (LOT-19).
+void setMechanismClip(core::Animation&amp; animation, const core::ClipSet&amp; clips,
+                      const std::string&amp; preferredClip, const std::string&amp; fallbackClip,
+<span style = "background-color:#dfd">                      const std::string&amp; assetKey, std::set&lt;std::string&gt;&amp; warnedMissingClips) {
+    int index = clips.indexOf(preferredClip);
+    if (index &lt; 0 &amp;&amp; preferredClip != fallbackClip) {
+        index = clips.indexOf(fallbackClip);  // transition absente : bascule directe, silencieuse.</span>
+    }
+<span style = "background-color:#dfd">    if (index &lt; 0) {</span>
+        // Le clip d'ETAT cible lui-meme est introuvable (pas seulement une transition absente) :
+        // repli lisible + un seul message par (asset, clip d'etat).
+<span style = "background-color:#dfd">        const std::string key = assetKey + "|" + fallbackClip;
+        if (warnedMissingClips.insert(key).second) {
+            GRAPHICS_LOG_WARNING("Mecanisme : clip d'etat '" + fallbackClip +</span>
+                                 "' introuvable dans '" + assetKey +
+                                 "' -- repli sur le premier clip disponible (LOT-47).");
+        }
+<span style = "background-color:#dfd">        index = 0;  // repli lisible : ClipSet::clipAt borne deja les index invalides/jeu vide.
+    }
+    if (index == animation.clipIndex) {
+        return;  // deja sur ce clip (ex. deja replie sur l'etat cible) : ne pas redemarrer l'image.</span>
+    }
+<span style = "background-color:#dfd">    animation.clipIndex = index;
+    animation.frameIndex = 0;
+    animation.elapsed = 0.0F;
+}</span>
+
+}  // namespace
+
+<span style = "background-color:#dfd">bool isStatefulMechanism(core::TileType type) noexcept {
+    switch (type) {</span>
+        case core::TileType::Door:
+        case core::TileType::Switch:
+        case core::TileType::PressurePlate:
+        case core::TileType::Key:
+        case core::TileType::LockedDoor:
+<span style = "background-color:#fdd">            return true;</span>
+        default:
+<span style = "background-color:#dfd">            return false;</span>
+    }
+<span style = "background-color:#dfd">}</span>
+
+<span style = "background-color:#dfd">std::optional&lt;std::string&gt; mechanismTargetClip(core::TileType type, bool active) noexcept {
+    switch (type) {</span>
+        case core::TileType::Door:
+<span style = "background-color:#dfd">            return active ? MECHANISM_CLIP_DOOR_OPEN : MECHANISM_CLIP_DOOR_CLOSED;</span>
+        case core::TileType::Switch:
+<span style = "background-color:#dfd">            return active ? MECHANISM_CLIP_SWITCH_ACTIVE : MECHANISM_CLIP_SWITCH_INACTIVE;</span>
+        case core::TileType::PressurePlate:
+<span style = "background-color:#dfd">            return active ? MECHANISM_CLIP_PLATE_PRESSED : MECHANISM_CLIP_PLATE_RELEASED;</span>
+        case core::TileType::Key:
+            // active == cle ramassee (meme booleen que la porte verrouillee liee, EX-GP-023) :
+            // collected masque la cle, present l'affiche.
+<span style = "background-color:#dfd">            return active ? MECHANISM_CLIP_KEY_COLLECTED : MECHANISM_CLIP_KEY_PRESENT;</span>
+        case core::TileType::LockedDoor:
+<span style = "background-color:#dfd">            return active ? MECHANISM_CLIP_LOCKED_DOOR_OPEN : MECHANISM_CLIP_LOCKED_DOOR_CLOSED;</span>
+        default:
+<span style = "background-color:#dfd">            return std::nullopt;  // type sans etat : aucune demande de clip.</span>
+    }
+<span style = "background-color:#dfd">}</span>
+
+std::optional&lt;std::string&gt; mechanismTransitionClip(core::TileType type, bool wasActive,
+<span style = "background-color:#dfd">                                                   bool isActive) noexcept {
+    if (type != core::TileType::Door || wasActive == isActive) {</span>
+        // Seule la porte transitionne visiblement (LOT-47 TACHE-02) ; les autres familles basculent
+        // directement sur leur clip d'etat cible. Aucun changement : rien a declencher.
+<span style = "background-color:#dfd">        return std::nullopt;</span>
+    }
+<span style = "background-color:#dfd">    return isActive ? MECHANISM_CLIP_DOOR_OPENING : MECHANISM_CLIP_DOOR_CLOSING;
+}</span>
+
+<span style = "background-color:#dfd">std::vector&lt;std::string&gt; mechanismExpectedClips(core::TileType type) {
+    switch (type) {</span>
+        case core::TileType::Door:
+<span style = "background-color:#dfd">            return {MECHANISM_CLIP_DOOR_CLOSED, MECHANISM_CLIP_DOOR_OPENING,</span>
+                    MECHANISM_CLIP_DOOR_OPEN, MECHANISM_CLIP_DOOR_CLOSING};
+        case core::TileType::Switch:
+<span style = "background-color:#dfd">            return {MECHANISM_CLIP_SWITCH_INACTIVE, MECHANISM_CLIP_SWITCH_ACTIVE};</span>
+        case core::TileType::PressurePlate:
+<span style = "background-color:#fdd">            return {MECHANISM_CLIP_PLATE_RELEASED, MECHANISM_CLIP_PLATE_PRESSED};</span>
+        case core::TileType::Key:
+<span style = "background-color:#fdd">            return {MECHANISM_CLIP_KEY_PRESENT, MECHANISM_CLIP_KEY_COLLECTED};</span>
+        case core::TileType::LockedDoor:
+<span style = "background-color:#fdd">            return {MECHANISM_CLIP_LOCKED_DOOR_CLOSED, MECHANISM_CLIP_LOCKED_DOOR_OPEN};</span>
+        default:
+<span style = "background-color:#fdd">            return {};</span>
+    }
+<span style = "background-color:#dfd">}</span>
+
+core::AtlasRegion advanceMechanismVisual(MechanismVisualState&amp; state,
+                                         const AnimationDescription&amp; description,
+                                         core::TileType type, bool active,
+                                         const std::string&amp; assetKey, float fixedDelta,
+<span style = "background-color:#dfd">                                         std::set&lt;std::string&gt;&amp; warnedMissingClips) {
+    const bool changed = !state.initialized || active != state.previousActive;
+    if (!state.animation.clips) {</span>
+        // Premiere rencontre de cet asset pour cette instance : copie immuable du jeu de clips
+        // (meme patron que advanceTileAnimations, SpriteRenderer.cpp, LOT-46 TACHE-05).
+<span style = "background-color:#dfd">        state.animation.clips = std::make_shared&lt;core::ClipSet&gt;(description.clips);</span>
+    }
+<span style = "background-color:#dfd">    if (changed) {
+        const std::string targetClip = mechanismTargetClip(type, active).value_or(std::string{});
+        std::string preferredClip = targetClip;
+        if (state.initialized) {</span>
+            // Pas le tout premier calcul (chargement/rechargement de niveau) : une transition est
+            // possible. Au premier calcul, on rejoint l'etat cible directement, sans transition.
+<span style = "background-color:#dfd">            if (const std::optional&lt;std::string&gt; transition =</span>
+                    mechanismTransitionClip(type, state.previousActive, active)) {
+<span style = "background-color:#dfd">                preferredClip = *transition;
+            }</span>
+        }
+<span style = "background-color:#dfd">        setMechanismClip(state.animation, *state.animation.clips, preferredClip, targetClip,</span>
+                         assetKey, warnedMissingClips);
+<span style = "background-color:#dfd">        state.previousActive = active;
+        state.initialized = true;
+    }
+    core::advanceAnimation(state.animation, fixedDelta);
+    return AnimationCatalog::currentFrameRegion(description, state.animation);
+}</span>
+
+float mechanismDiagnosticAlpha(RenderMode mode, bool active, float activeAlpha,
+<span style = "background-color:#dfd">                               float inactiveAlpha) noexcept {
+    if (mode != RenderMode::Physique) {
+        return 1.0F;  // mode Texture : l'etat se voit au clip, jamais a l'alpha (LOT-47 TACHE-03).</span>
+    }
+<span style = "background-color:#dfd">    return active ? activeAlpha : inactiveAlpha;
+}</span>
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

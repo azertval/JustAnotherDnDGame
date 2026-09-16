@@ -1,0 +1,139 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>TextureAtlas.h</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#pragma once
+
+#include &lt;memory&gt;
+
+#include "Core/Ecs/Components/Sprite.h"
+#include "HMI/Graphics/ProceduralAtlas.h"
+#include "HMI/Graphics/RenderLayer.h"
+
+class QRhiTexture;
+
+/**
+ * @file HMI/Graphics/TextureAtlas.h
+ * @brief Atlas de textures (spritesheet) et ses rÃ©gions de tuiles.
+ */
+
+namespace hmi {
+
+struct RhiContext;
+
+/**
+ * @brief Texture d'atlas et table de rÃ©gions, chargÃ©e depuis un **fichier image** avec repli
+ *        **procÃ©dural** (`EX-REN-041`/`EX-REN-042`).
+ *
+ * Ã la construction, l'atlas essaie de charger `Assets/atlas.png` (Ã  cÃ´tÃ© de l'exÃ©cutable,
+ * `hmi::AssetPaths`/`hmi::TextureLoader`) : une grille de tuiles 16Ã16, complÃ©tÃ©e d'une **grille
+ * d'images du personnage** (silhouette animÃ©e â repos, course, saut, `EX-REN-011`/`EX-REN-012`)
+ * sous la grille. Si l'asset est absent ou illisible, l'atlas retombe sans plantage
+ * (`EX-NFR-040`) sur une gÃ©nÃ©ration **procÃ©durale** Ã©quivalente (`hmi::buildProceduralAtlasImage`,
+ * couleurs distinctes par tuile, dont une avec des zones **transparentes** pour valider le rendu
+ * alpha). Chaque image de personnage reste **carrÃ©e** (16Ã16, comme une tuile) : le rendu
+ * (`SpriteRenderer`) la multiplie par `Transform::scale`, dÃ©jÃ  non uniforme
+ * (`core::playerSize()`), qui donne Ã  elle seule la silhouette sa proportion finale deux fois plus
+ * haute que large â une rÃ©gion dÃ©jÃ  non carrÃ©e doublerait cet effet. L'**interface** (vue de
+ * texture, dimensions, rÃ©gions) est stable, indÃ©pendante du chemin (fichier ou procÃ©dural) qui
+ * l'a produite. Ressources Direct3D en RAII (`ComPtr`).
+ */
+class TextureAtlas {
+public:
+    /// Nom du fichier d'atlas attendu dans le dossier d'assets (`Assets/atlas.png`).
+    static constexpr const char* ATLAS_FILE_NAME = "atlas.png";
+
+    /// CÃ´tÃ© d'une tuile, en pixels (`EX-ARCH-021`).
+    static constexpr int TILE_SIZE = 16;
+    /// Nombre de tuiles par ligne et par colonne dans la grille de tuiles gÃ©nÃ©rÃ©e. `6` depuis
+    /// l'ajout de la clÃ©/porte verrouillÃ©e/plateforme mobile (`EX-GP-023`/`EX-GP-026`, `LOT-63`) :
+    /// `5` (25 cases, depuis l'ajout des pentes/arrondis de plafond, `EX-GP-006`) ne laissait plus
+    /// qu'une case libre aprÃ¨s la clÃ© et la porte verrouillÃ©e, insuffisant pour la plateforme.
+    static constexpr int TILES_PER_SIDE = 6;
+    /// CÃ´tÃ© d'une image d'animation du personnage, en pixels. **CarrÃ©e** (= `TILE_SIZE`) : le
+    /// ratio 1:2 final vient de `Transform::scale` (`core::playerSize`), pas de la rÃ©gion.
+    static constexpr int PLAYER_FRAME_SIZE = TILE_SIZE;
+    /// Nombre de colonnes de la grille d'images du personnage (largeur de la grille de tuiles,
+    /// rÃ©utilisÃ©e telle quelle).
+    static constexpr int PLAYER_FRAME_COLUMNS = TILES_PER_SIDE;
+
+    /**
+     * @brief Charge l'atlas (fichier, avec repli procÃ©dural) et crÃ©e la texture GPU associÃ©e.
+     * @param context Interface de rendu et lot de mises Ã  jour de l'image courante.
+     */
+    explicit TextureAtlas(const RhiContext&amp; context);
+
+    /// @return L'identitÃ© opaque de la texture d'atlas (non possÃ©dÃ©e par l'appelant).
+<span style = "background-color:#fdd">    [[nodiscard]] TextureHandle textureHandle() const {
+        return _texture.get();
+    }</span>
+
+    /// @return Largeur de l'atlas, en pixels.
+<span style = "background-color:#fdd">    [[nodiscard]] int width() const {
+        return _width;
+    }</span>
+
+    /// @return Hauteur de l'atlas, en pixels.
+<span style = "background-color:#fdd">    [[nodiscard]] int height() const {
+        return _height;
+    }</span>
+
+    /**
+     * @brief RÃ©gion (en pixels) de la tuile Ã  une position de la grille.
+     *
+     * Pure arithmÃ©tique de grille (aucun Ã©tat d'instance) : `static`, testable sans GPU
+     * (`EX-NFR-010`) et sans dÃ©pendre de l'origine (fichier ou procÃ©durale) de l'atlas.
+     * @param column Colonne de la tuile (0 Ã  TILES_PER_SIDE-1).
+     * @param row    Ligne de la tuile (0 Ã  TILES_PER_SIDE-1).
+     * @return La rÃ©gion d'atlas correspondante, en pixels.
+     */
+    [[nodiscard]] static core::AtlasRegion tile(int column, int row);
+
+    /**
+     * @brief RÃ©gion (en pixels) d'une image d'animation du personnage, sous la grille de tuiles.
+     *
+     * Pure arithmÃ©tique de grille (aucun Ã©tat d'instance) : `static`, testable sans GPU
+     * (`EX-NFR-010`).
+     * @param clip       Clip d'animation du personnage (`hmi::PlayerClipKind`, `EX-REN-012`).
+     * @param frameIndex Index de l'image dans le clip (0-based).
+     * @return La rÃ©gion d'atlas (16Ã16, carrÃ©e) de cette image (`EX-REN-011`).
+     */
+    [[nodiscard]] static core::AtlasRegion playerFrameRegion(PlayerClipKind clip, int frameIndex);
+
+private:
+    /// Essaie de charger `Assets/atlas.png`. @return true si la texture a Ã©tÃ© crÃ©Ã©e avec succÃ¨s.
+    bool loadFromFile(const RhiContext&amp; context);
+    /// GÃ©nÃ¨re l'atlas procÃ©dural (`hmi::buildProceduralAtlasImage`) et crÃ©e la texture associÃ©e.
+    void generateProcedural(const RhiContext&amp; context);
+
+<span style = "background-color:#dfd">    int _width = 0;
+    int _height = 0;</span>
+    std::shared_ptr&lt;QRhiTexture&gt; _texture;
+};
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

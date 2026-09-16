@@ -1,0 +1,604 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>ProceduralFont.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#include "HMI/Graphics/ProceduralFont.h"
+
+#include &lt;algorithm&gt;
+#include &lt;array&gt;
+#include &lt;fstream&gt;
+#include &lt;ios&gt;
+#include &lt;sstream&gt;
+#include &lt;utility&gt;
+
+#include &lt;nlohmann/json.hpp&gt;
+
+namespace hmi {
+
+namespace {
+
+// Nombre de colonnes et de lignes de pixels d'un glyphe de base (le corps de la lettre).
+constexpr int GLYPH_COLUMNS = 5;
+constexpr int GLYPH_ROWS = 7;
+
+// Dimensions d'une cellule de glyphe dans l'atlas : corps 5x7 + zone d'accents au-dessus + une
+// ligne de cedille en dessous.
+constexpr int CELL_WIDTH = 6;
+constexpr int CELL_HEIGHT = 10;
+constexpr int BODY_TOP = 2;  // ligne ou commence le corps du glyphe dans la cellule
+
+// Nombre de cellules par ligne dans l'atlas genere.
+constexpr int COLUMNS = 16;
+
+// Premier et dernier code ASCII imprimable couverts par la table de base.
+constexpr char32_t ASCII_FIRST = 0x20;  // espace
+constexpr char32_t ASCII_LAST = 0x7E;   // ~
+
+// Motif d'un glyphe : 7 lignes de 5 pixels (bit 4 = colonne de gauche).
+using Pattern = std::array&lt;std::uint8_t, GLYPH_ROWS&gt;;
+
+// Table des glyphes ASCII imprimables (0x20 a 0x7E), un motif 5x7 par caractere. Chaque octet code
+// une ligne : les 5 bits de poids faible sont les colonnes, le bit 4 (valeur 16) etant la colonne
+// de gauche. Police pixel art Â« from scratch Â», suffisante pour un repli de secours lisible.
+constexpr std::array&lt;Pattern, (ASCII_LAST - ASCII_FIRST) + 1&gt; ASCII_FONT = {{
+    {0b00000, 0b00000, 0b00000, 0b00000, 0b00000, 0b00000, 0b00000},  // ' '
+    {0b00100, 0b00100, 0b00100, 0b00100, 0b00100, 0b00000, 0b00100},  // '!'
+    {0b01010, 0b01010, 0b01010, 0b00000, 0b00000, 0b00000, 0b00000},  // '"'
+    {0b01010, 0b11111, 0b01010, 0b01010, 0b11111, 0b01010, 0b00000},  // '#'
+    {0b00100, 0b01111, 0b10100, 0b01110, 0b00101, 0b11110, 0b00100},  // '$'
+    {0b11001, 0b11010, 0b00010, 0b00100, 0b01000, 0b01011, 0b10011},  // '%'
+    {0b01100, 0b10010, 0b10100, 0b01000, 0b10101, 0b10010, 0b01101},  // '&amp;'
+    {0b00100, 0b00100, 0b01000, 0b00000, 0b00000, 0b00000, 0b00000},  // '\''
+    {0b00010, 0b00100, 0b01000, 0b01000, 0b01000, 0b00100, 0b00010},  // '('
+    {0b01000, 0b00100, 0b00010, 0b00010, 0b00010, 0b00100, 0b01000},  // ')'
+    {0b00000, 0b00100, 0b10101, 0b01110, 0b10101, 0b00100, 0b00000},  // '*'
+    {0b00000, 0b00100, 0b00100, 0b11111, 0b00100, 0b00100, 0b00000},  // '+'
+    {0b00000, 0b00000, 0b00000, 0b00000, 0b00100, 0b00100, 0b01000},  // ','
+    {0b00000, 0b00000, 0b00000, 0b01110, 0b00000, 0b00000, 0b00000},  // '-'
+    {0b00000, 0b00000, 0b00000, 0b00000, 0b00000, 0b00110, 0b00110},  // '.'
+    {0b00001, 0b00010, 0b00010, 0b00100, 0b01000, 0b01000, 0b10000},  // '/'
+    {0b01110, 0b10001, 0b10011, 0b10101, 0b11001, 0b10001, 0b01110},  // '0'
+    {0b00100, 0b01100, 0b00100, 0b00100, 0b00100, 0b00100, 0b01110},  // '1'
+    {0b01110, 0b10001, 0b00001, 0b00010, 0b00100, 0b01000, 0b11111},  // '2'
+    {0b11111, 0b00010, 0b00100, 0b00010, 0b00001, 0b10001, 0b01110},  // '3'
+    {0b00010, 0b00110, 0b01010, 0b10010, 0b11111, 0b00010, 0b00010},  // '4'
+    {0b11111, 0b10000, 0b11110, 0b00001, 0b00001, 0b10001, 0b01110},  // '5'
+    {0b00110, 0b01000, 0b10000, 0b11110, 0b10001, 0b10001, 0b01110},  // '6'
+    {0b11111, 0b00001, 0b00010, 0b00100, 0b01000, 0b01000, 0b01000},  // '7'
+    {0b01110, 0b10001, 0b10001, 0b01110, 0b10001, 0b10001, 0b01110},  // '8'
+    {0b01110, 0b10001, 0b10001, 0b01111, 0b00001, 0b00010, 0b01100},  // '9'
+    {0b00000, 0b00110, 0b00110, 0b00000, 0b00110, 0b00110, 0b00000},  // ':'
+    {0b00000, 0b00110, 0b00110, 0b00000, 0b00110, 0b00100, 0b01000},  // ';'
+    {0b00010, 0b00100, 0b01000, 0b10000, 0b01000, 0b00100, 0b00010},  // '&lt;'
+    {0b00000, 0b00000, 0b11111, 0b00000, 0b11111, 0b00000, 0b00000},  // '='
+    {0b01000, 0b00100, 0b00010, 0b00001, 0b00010, 0b00100, 0b01000},  // '&gt;'
+    {0b01110, 0b10001, 0b00001, 0b00010, 0b00100, 0b00000, 0b00100},  // '?'
+    {0b01110, 0b10001, 0b10111, 0b10101, 0b10111, 0b10000, 0b01110},  // '@'
+    {0b01110, 0b10001, 0b10001, 0b11111, 0b10001, 0b10001, 0b10001},  // 'A'
+    {0b11110, 0b10001, 0b10001, 0b11110, 0b10001, 0b10001, 0b11110},  // 'B'
+    {0b01110, 0b10001, 0b10000, 0b10000, 0b10000, 0b10001, 0b01110},  // 'C'
+    {0b11110, 0b10001, 0b10001, 0b10001, 0b10001, 0b10001, 0b11110},  // 'D'
+    {0b11111, 0b10000, 0b10000, 0b11110, 0b10000, 0b10000, 0b11111},  // 'E'
+    {0b11111, 0b10000, 0b10000, 0b11110, 0b10000, 0b10000, 0b10000},  // 'F'
+    {0b01110, 0b10001, 0b10000, 0b10111, 0b10001, 0b10001, 0b01111},  // 'G'
+    {0b10001, 0b10001, 0b10001, 0b11111, 0b10001, 0b10001, 0b10001},  // 'H'
+    {0b11111, 0b00100, 0b00100, 0b00100, 0b00100, 0b00100, 0b11111},  // 'I'
+    {0b00111, 0b00010, 0b00010, 0b00010, 0b00010, 0b10010, 0b01100},  // 'J'
+    {0b10001, 0b10010, 0b10100, 0b11000, 0b10100, 0b10010, 0b10001},  // 'K'
+    {0b10000, 0b10000, 0b10000, 0b10000, 0b10000, 0b10000, 0b11111},  // 'L'
+    {0b10001, 0b11011, 0b10101, 0b10101, 0b10001, 0b10001, 0b10001},  // 'M'
+    {0b10001, 0b10001, 0b11001, 0b10101, 0b10011, 0b10001, 0b10001},  // 'N'
+    {0b01110, 0b10001, 0b10001, 0b10001, 0b10001, 0b10001, 0b01110},  // 'O'
+    {0b11110, 0b10001, 0b10001, 0b11110, 0b10000, 0b10000, 0b10000},  // 'P'
+    {0b01110, 0b10001, 0b10001, 0b10001, 0b10101, 0b10010, 0b01101},  // 'Q'
+    {0b11110, 0b10001, 0b10001, 0b11110, 0b10100, 0b10010, 0b10001},  // 'R'
+    {0b01111, 0b10000, 0b10000, 0b01110, 0b00001, 0b00001, 0b11110},  // 'S'
+    {0b11111, 0b00100, 0b00100, 0b00100, 0b00100, 0b00100, 0b00100},  // 'T'
+    {0b10001, 0b10001, 0b10001, 0b10001, 0b10001, 0b10001, 0b01110},  // 'U'
+    {0b10001, 0b10001, 0b10001, 0b10001, 0b10001, 0b01010, 0b00100},  // 'V'
+    {0b10001, 0b10001, 0b10001, 0b10101, 0b10101, 0b11011, 0b10001},  // 'W'
+    {0b10001, 0b10001, 0b01010, 0b00100, 0b01010, 0b10001, 0b10001},  // 'X'
+    {0b10001, 0b10001, 0b01010, 0b00100, 0b00100, 0b00100, 0b00100},  // 'Y'
+    {0b11111, 0b00001, 0b00010, 0b00100, 0b01000, 0b10000, 0b11111},  // 'Z'
+    {0b01110, 0b01000, 0b01000, 0b01000, 0b01000, 0b01000, 0b01110},  // '['
+    {0b10000, 0b01000, 0b01000, 0b00100, 0b00010, 0b00010, 0b00001},  // '\\'
+    {0b01110, 0b00010, 0b00010, 0b00010, 0b00010, 0b00010, 0b01110},  // ']'
+    {0b00100, 0b01010, 0b10001, 0b00000, 0b00000, 0b00000, 0b00000},  // '^'
+    {0b00000, 0b00000, 0b00000, 0b00000, 0b00000, 0b00000, 0b11111},  // '_'
+    {0b01000, 0b00100, 0b00010, 0b00000, 0b00000, 0b00000, 0b00000},  // '`'
+    {0b00000, 0b00000, 0b01110, 0b00001, 0b01111, 0b10001, 0b01111},  // 'a'
+    {0b10000, 0b10000, 0b10110, 0b11001, 0b10001, 0b10001, 0b11110},  // 'b'
+    {0b00000, 0b00000, 0b01110, 0b10001, 0b10000, 0b10001, 0b01110},  // 'c'
+    {0b00001, 0b00001, 0b01101, 0b10011, 0b10001, 0b10001, 0b01111},  // 'd'
+    {0b00000, 0b00000, 0b01110, 0b10001, 0b11111, 0b10000, 0b01110},  // 'e'
+    {0b00110, 0b01001, 0b01000, 0b11100, 0b01000, 0b01000, 0b01000},  // 'f'
+    {0b00000, 0b00000, 0b01111, 0b10001, 0b01111, 0b00001, 0b01110},  // 'g'
+    {0b10000, 0b10000, 0b10110, 0b11001, 0b10001, 0b10001, 0b10001},  // 'h'
+    {0b00100, 0b00000, 0b01100, 0b00100, 0b00100, 0b00100, 0b01110},  // 'i'
+    {0b00010, 0b00000, 0b00110, 0b00010, 0b00010, 0b10010, 0b01100},  // 'j'
+    {0b10000, 0b10000, 0b10010, 0b10100, 0b11000, 0b10100, 0b10010},  // 'k'
+    {0b01100, 0b00100, 0b00100, 0b00100, 0b00100, 0b00100, 0b01110},  // 'l'
+    {0b00000, 0b00000, 0b11010, 0b10101, 0b10101, 0b10101, 0b10101},  // 'm'
+    {0b00000, 0b00000, 0b10110, 0b11001, 0b10001, 0b10001, 0b10001},  // 'n'
+    {0b00000, 0b00000, 0b01110, 0b10001, 0b10001, 0b10001, 0b01110},  // 'o'
+    {0b00000, 0b00000, 0b11110, 0b10001, 0b11110, 0b10000, 0b10000},  // 'p'
+    {0b00000, 0b00000, 0b01111, 0b10001, 0b01111, 0b00001, 0b00001},  // 'q'
+    {0b00000, 0b00000, 0b10110, 0b11001, 0b10000, 0b10000, 0b10000},  // 'r'
+    {0b00000, 0b00000, 0b01111, 0b10000, 0b01110, 0b00001, 0b11110},  // 's'
+    {0b01000, 0b01000, 0b11100, 0b01000, 0b01000, 0b01001, 0b00110},  // 't'
+    {0b00000, 0b00000, 0b10001, 0b10001, 0b10001, 0b10011, 0b01101},  // 'u'
+    {0b00000, 0b00000, 0b10001, 0b10001, 0b10001, 0b01010, 0b00100},  // 'v'
+    {0b00000, 0b00000, 0b10001, 0b10001, 0b10101, 0b10101, 0b01010},  // 'w'
+    {0b00000, 0b00000, 0b10001, 0b01010, 0b00100, 0b01010, 0b10001},  // 'x'
+    {0b00000, 0b00000, 0b10001, 0b10001, 0b01111, 0b00001, 0b01110},  // 'y'
+    {0b00000, 0b00000, 0b11111, 0b00010, 0b00100, 0b01000, 0b11111},  // 'z'
+    {0b00110, 0b00100, 0b00100, 0b01000, 0b00100, 0b00100, 0b00110},  // '{'
+    {0b00100, 0b00100, 0b00100, 0b00100, 0b00100, 0b00100, 0b00100},  // '|'
+    {0b01100, 0b00100, 0b00100, 0b00010, 0b00100, 0b00100, 0b01100},  // '}'
+    {0b00000, 0b00000, 0b01000, 0b10101, 0b00010, 0b00000, 0b00000},  // '~'
+}};
+
+// Signe diacritique appliquÃ© a une lettre de base pour former une lettre accentuee.
+enum class Accent { ACUTE, GRAVE, CIRCUMFLEX, DIAERESIS, CEDILLA };
+
+// Motif d'un accent superieur (2 lignes de 5 pixels), place au-dessus du corps.
+using TopAccent = std::array&lt;std::uint8_t, 2&gt;;
+
+<span style = "background-color:#dfd">TopAccent topAccentPattern(Accent accent) noexcept {
+    switch (accent) {</span>
+        case Accent::ACUTE:
+<span style = "background-color:#dfd">            return {0b00010, 0b00100};</span>
+        case Accent::GRAVE:
+<span style = "background-color:#dfd">            return {0b01000, 0b00100};</span>
+        case Accent::CIRCUMFLEX:
+<span style = "background-color:#dfd">            return {0b00100, 0b01010};</span>
+        case Accent::DIAERESIS:
+<span style = "background-color:#dfd">            return {0b01010, 0b00000};</span>
+        case Accent::CEDILLA:
+            break;
+    }
+<span style = "background-color:#fdd">    return {0b00000, 0b00000};</span>
+<span style = "background-color:#dfd">}</span>
+
+// Une lettre accentuee : son point de code, la lettre ASCII de base et le diacritique.
+struct AccentedGlyph {
+    char32_t codePoint;
+    char base;
+    Accent accent;
+};
+
+// Lettres accentuees francaises couvertes, composees a partir des lettres de base. Les points de
+// code sont ecrits en valeur numerique (pas en litteral `U'e'`) pour rester independants de
+// l'encodage du fichier source.
+constexpr std::array&lt;AccentedGlyph, 21&gt; ACCENTED_GLYPHS = {{
+    {.codePoint = 0x00E0, .base = 'a', .accent = Accent::GRAVE},       // a
+    {.codePoint = 0x00E2, .base = 'a', .accent = Accent::CIRCUMFLEX},  // a
+    {.codePoint = 0x00E4, .base = 'a', .accent = Accent::DIAERESIS},   // a
+    {.codePoint = 0x00E7, .base = 'c', .accent = Accent::CEDILLA},     // c
+    {.codePoint = 0x00E9, .base = 'e', .accent = Accent::ACUTE},       // e
+    {.codePoint = 0x00E8, .base = 'e', .accent = Accent::GRAVE},       // e
+    {.codePoint = 0x00EA, .base = 'e', .accent = Accent::CIRCUMFLEX},  // e
+    {.codePoint = 0x00EB, .base = 'e', .accent = Accent::DIAERESIS},   // e
+    {.codePoint = 0x00EE, .base = 'i', .accent = Accent::CIRCUMFLEX},  // i
+    {.codePoint = 0x00EF, .base = 'i', .accent = Accent::DIAERESIS},   // i
+    {.codePoint = 0x00F4, .base = 'o', .accent = Accent::CIRCUMFLEX},  // o
+    {.codePoint = 0x00F6, .base = 'o', .accent = Accent::DIAERESIS},   // o
+    {.codePoint = 0x00F9, .base = 'u', .accent = Accent::GRAVE},       // u
+    {.codePoint = 0x00FB, .base = 'u', .accent = Accent::CIRCUMFLEX},  // u
+    {.codePoint = 0x00FC, .base = 'u', .accent = Accent::DIAERESIS},   // u
+    {.codePoint = 0x00C0, .base = 'A', .accent = Accent::GRAVE},       // A
+    {.codePoint = 0x00C2, .base = 'A', .accent = Accent::CIRCUMFLEX},  // A
+    {.codePoint = 0x00C7, .base = 'C', .accent = Accent::CEDILLA},     // C
+    {.codePoint = 0x00C9, .base = 'E', .accent = Accent::ACUTE},       // E
+    {.codePoint = 0x00C8, .base = 'E', .accent = Accent::GRAVE},       // E
+    {.codePoint = 0x00CA, .base = 'E', .accent = Accent::CIRCUMFLEX},  // E
+}};
+
+// Assemble une couleur RVBA (octets) en un pixel R8G8B8A8_UNORM (ordre memoire R,G,B,A).
+std::uint32_t pack(std::uint8_t red, std::uint8_t green, std::uint8_t blue,
+<span style = "background-color:#dfd">                   std::uint8_t alpha) noexcept {
+    return static_cast&lt;std::uint32_t&gt;(red) | (static_cast&lt;std::uint32_t&gt;(green) &lt;&lt; 8) |</span>
+           (static_cast&lt;std::uint32_t&gt;(blue) &lt;&lt; 16) | (static_cast&lt;std::uint32_t&gt;(alpha) &lt;&lt; 24);
+<span style = "background-color:#dfd">}</span>
+
+constexpr std::uint32_t GLYPH_PIXEL = 0xFFFFFFFFU;  // blanc opaque, colorable par teinte
+
+}  // namespace
+
+// Metriques effectives d'un point de code, avec substitution.
+<span style = "background-color:#dfd">const GlyphMetrics* FontMetrics::glyph(char32_t codePoint) const {
+    auto found = glyphs.find(codePoint);
+    if (found != glyphs.end()) {
+        return &amp;found-&gt;second;</span>
+    }
+<span style = "background-color:#dfd">    if (codePoint == replacementCodePoint) {</span>
+<span style = "background-color:#fdd">        return nullptr;  // deja le remplacement, et absent : rien a substituer de plus</span>
+    }
+<span style = "background-color:#dfd">    found = glyphs.find(replacementCodePoint);
+    return found == glyphs.end() ? nullptr : &amp;found-&gt;second;
+}</span>
+
+// Decode le point de code UTF-8 suivant d'une chaine.
+<span style = "background-color:#dfd">char32_t nextUtf8CodePoint(std::string_view text, std::size_t&amp; index) noexcept {
+    const auto lead = static_cast&lt;unsigned char&gt;(text[index]);
+    if (lead &lt; 0x80) {
+        index += 1;
+        return lead;</span>
+    }
+
+<span style = "background-color:#dfd">    int continuationBytes = 0;
+    char32_t codePoint = 0;
+    if ((lead &amp; 0xE0) == 0xC0) {
+        continuationBytes = 1;
+        codePoint = lead &amp; 0x1FU;</span>
+<span style = "background-color:#fdd">    } else if ((lead &amp; 0xF0) == 0xE0) {
+        continuationBytes = 2;
+        codePoint = lead &amp; 0x0FU;
+    } else if ((lead &amp; 0xF8) == 0xF0) {
+        continuationBytes = 3;
+        codePoint = lead &amp; 0x07U;
+    } else {
+        index += 1;  // octet de tete invalide : on avance d'un octet
+        return 0xFFFD;</span>
+    }
+
+<span style = "background-color:#dfd">    for (int byte = 1; byte &lt;= continuationBytes; ++byte) {
+        if (index + static_cast&lt;std::size_t&gt;(byte) &gt;= text.size()) {</span>
+<span style = "background-color:#fdd">            index = text.size();
+            return 0xFFFD;</span>
+        }
+<span style = "background-color:#dfd">        const auto continuation =</span>
+            static_cast&lt;unsigned char&gt;(text[index + static_cast&lt;std::size_t&gt;(byte)]);
+<span style = "background-color:#dfd">        if ((continuation &amp; 0xC0) != 0x80) {</span>
+<span style = "background-color:#fdd">            index += 1;  // sequence tronquee : on avance d'un octet et on signale
+            return 0xFFFD;</span>
+        }
+<span style = "background-color:#dfd">        codePoint = (codePoint &lt;&lt; 6) | (continuation &amp; 0x3FU);
+    }
+    index += static_cast&lt;std::size_t&gt;(continuationBytes) + 1;
+    return codePoint;
+}</span>
+
+// Largeur et hauteur qu'occuperait text avec metrics, a l'echelle scale.
+<span style = "background-color:#dfd">TextExtent measureText(const FontMetrics&amp; metrics, std::string_view text, float scale) noexcept {
+    TextExtent extent;
+    extent.height = static_cast&lt;float&gt;(metrics.lineHeight) * scale;
+    if (text.empty()) {
+        return extent;</span>
+    }
+
+<span style = "background-color:#dfd">    float lineWidth = 0.0F;
+    float maxWidth = 0.0F;
+    int lineCount = 1;
+    std::size_t index = 0;
+    while (index &lt; text.size()) {
+        const char32_t codePoint = nextUtf8CodePoint(text, index);
+        if (codePoint == U'\n') {</span>
+<span style = "background-color:#fdd">            maxWidth = std::max(maxWidth, lineWidth);
+            lineWidth = 0.0F;
+            ++lineCount;
+            continue;</span>
+        }
+<span style = "background-color:#dfd">        if (const GlyphMetrics* glyph = metrics.glyph(codePoint)) {
+            lineWidth += static_cast&lt;float&gt;(glyph-&gt;advance) * scale;</span>
+        }
+<span style = "background-color:#dfd">    }
+    maxWidth = std::max(maxWidth, lineWidth);</span>
+
+<span style = "background-color:#dfd">    extent.width = maxWidth;
+    extent.height = static_cast&lt;float&gt;(metrics.lineHeight) * static_cast&lt;float&gt;(lineCount) * scale;
+    return extent;
+}</span>
+
+// Genere, en memoire, une police bitmap minimale et deterministe.
+<span style = "background-color:#dfd">ProceduralFont buildProceduralFont() {
+    const int asciiCount = static_cast&lt;int&gt;(ASCII_FONT.size());
+    const int glyphCount = asciiCount + static_cast&lt;int&gt;(ACCENTED_GLYPHS.size());
+    const int rows = (glyphCount + COLUMNS - 1) / COLUMNS;</span>
+
+<span style = "background-color:#dfd">    ProceduralFont result;
+    result.image.width = COLUMNS * CELL_WIDTH;
+    result.image.height = rows * CELL_HEIGHT;
+    result.image.pixels.assign(static_cast&lt;std::size_t&gt;(result.image.width) *</span>
+                                   static_cast&lt;std::size_t&gt;(result.image.height),
+                               pack(0, 0, 0, 0));
+<span style = "background-color:#dfd">    result.metrics.lineHeight = CELL_HEIGHT;
+    result.metrics.replacementCodePoint = U'?';</span>
+
+<span style = "background-color:#dfd">    auto&amp; pixels = result.image.pixels;
+    const int textureWidth = result.image.width;</span>
+
+    // Dessine le corps 5x7 d'une lettre dans la cellule d'indice donne.
+<span style = "background-color:#dfd">    const auto blitBody = [&amp;](int cellIndex, const Pattern&amp; pattern) {
+        const int originX = (cellIndex % COLUMNS) * CELL_WIDTH;
+        const int originY = (cellIndex / COLUMNS) * CELL_HEIGHT;
+        for (int row = 0; row &lt; GLYPH_ROWS; ++row) {
+            for (int column = 0; column &lt; GLYPH_COLUMNS; ++column) {
+                const bool lit = (pattern[static_cast&lt;std::size_t&gt;(row)] &amp;</span>
+                                  (1U &lt;&lt; (GLYPH_COLUMNS - 1 - column))) != 0;
+<span style = "background-color:#dfd">                if (lit) {
+                    const int x = originX + column;
+                    const int y = originY + BODY_TOP + row;
+                    pixels[(static_cast&lt;std::size_t&gt;(y) * static_cast&lt;std::size_t&gt;(textureWidth)) +</span>
+                           static_cast&lt;std::size_t&gt;(x)] = GLYPH_PIXEL;
+                }
+<span style = "background-color:#dfd">            }
+        }
+    };</span>
+
+    // Ajoute un accent superieur (2 lignes) au-dessus du corps, dans la meme cellule.
+<span style = "background-color:#dfd">    const auto blitTopAccent = [&amp;](int cellIndex, const TopAccent&amp; accent) {
+        const int originX = (cellIndex % COLUMNS) * CELL_WIDTH;
+        const int originY = (cellIndex / COLUMNS) * CELL_HEIGHT;
+        for (int row = 0; std::cmp_less(row, accent.size()); ++row) {
+            for (int column = 0; column &lt; GLYPH_COLUMNS; ++column) {
+                const bool lit = (accent[static_cast&lt;std::size_t&gt;(row)] &amp;</span>
+                                  (1U &lt;&lt; (GLYPH_COLUMNS - 1 - column))) != 0;
+<span style = "background-color:#dfd">                if (lit) {
+                    const int x = originX + column;
+                    const int y = originY + row;
+                    pixels[(static_cast&lt;std::size_t&gt;(y) * static_cast&lt;std::size_t&gt;(textureWidth)) +</span>
+                           static_cast&lt;std::size_t&gt;(x)] = GLYPH_PIXEL;
+                }
+<span style = "background-color:#dfd">            }
+        }
+    };</span>
+
+    // Ajoute une cedille sous le corps (derniere ligne de la cellule).
+<span style = "background-color:#dfd">    const auto blitCedilla = [&amp;](int cellIndex) {
+        const int originX = (cellIndex % COLUMNS) * CELL_WIDTH;
+        const int originY = (cellIndex / COLUMNS) * CELL_HEIGHT;
+        constexpr std::uint8_t CEDILLA = 0b01100;
+        for (int column = 0; column &lt; GLYPH_COLUMNS; ++column) {
+            const bool lit = (CEDILLA &amp; (1U &lt;&lt; (GLYPH_COLUMNS - 1 - column))) != 0;
+            if (lit) {
+                const int x = originX + column;
+                const int y = originY + CELL_HEIGHT - 1;
+                pixels[(static_cast&lt;std::size_t&gt;(y) * static_cast&lt;std::size_t&gt;(textureWidth)) +</span>
+                       static_cast&lt;std::size_t&gt;(x)] = GLYPH_PIXEL;
+            }
+<span style = "background-color:#dfd">        }
+    };</span>
+
+<span style = "background-color:#dfd">    const auto registerGlyph = [&amp;](char32_t codePoint, int cellIndex) {
+        GlyphMetrics metrics;
+        metrics.x = (cellIndex % COLUMNS) * CELL_WIDTH;
+        metrics.y = (cellIndex / COLUMNS) * CELL_HEIGHT;
+        metrics.width = CELL_WIDTH;
+        metrics.height = CELL_HEIGHT;
+        metrics.advance = CELL_WIDTH;  // chasse fixe
+        result.metrics.glyphs[codePoint] = metrics;
+    };</span>
+
+<span style = "background-color:#dfd">    for (int glyph = 0; glyph &lt; asciiCount; ++glyph) {
+        blitBody(glyph, ASCII_FONT[static_cast&lt;std::size_t&gt;(glyph)]);
+        registerGlyph(ASCII_FIRST + static_cast&lt;char32_t&gt;(glyph), glyph);
+    }</span>
+
+<span style = "background-color:#dfd">    for (int accented = 0; std::cmp_less(accented, ACCENTED_GLYPHS.size()); ++accented) {
+        const AccentedGlyph&amp; entry = ACCENTED_GLYPHS[static_cast&lt;std::size_t&gt;(accented)];
+        const int cellIndex = asciiCount + accented;
+        blitBody(cellIndex, ASCII_FONT[static_cast&lt;std::size_t&gt;(entry.base - ASCII_FIRST)]);
+        if (entry.accent == Accent::CEDILLA) {
+            blitCedilla(cellIndex);
+        } else {
+            blitTopAccent(cellIndex, topAccentPattern(entry.accent));</span>
+        }
+<span style = "background-color:#dfd">        registerGlyph(entry.codePoint, cellIndex);
+    }</span>
+
+    // Alias : espace insecable et guillemets typographiques rediriges vers un glyphe couvert,
+    // plutot qu'un trou silencieux (EX-NFR-040).
+<span style = "background-color:#dfd">    result.metrics.glyphs[0x00A0] = result.metrics.glyphs[U' '];
+    result.metrics.glyphs[0x2018] = result.metrics.glyphs[U'\''];
+    result.metrics.glyphs[0x2019] = result.metrics.glyphs[U'\''];
+    result.metrics.glyphs[0x2013] = result.metrics.glyphs[U'-'];
+    result.metrics.glyphs[0x2014] = result.metrics.glyphs[U'-'];</span>
+
+<span style = "background-color:#dfd">    return result;
+}</span>
+
+namespace {
+
+// Noms des champs du format de metriques (voir HMI/Graphics/README.md), nommes plutot que
+// repetes en litteraux -- meme discipline que hmi::AnimationCatalog.
+constexpr const char* FIELD_VERSION = "version";
+constexpr const char* FIELD_LINE_HEIGHT = "lineHeight";
+constexpr const char* FIELD_REPLACEMENT = "replacement";
+constexpr const char* FIELD_GLYPHS = "glyphs";
+constexpr const char* FIELD_CHAR = "char";
+constexpr const char* FIELD_X = "x";
+constexpr const char* FIELD_Y = "y";
+constexpr const char* FIELD_WIDTH = "width";
+constexpr const char* FIELD_HEIGHT = "height";
+constexpr const char* FIELD_ADVANCE = "advance";
+
+<span style = "background-color:#dfd">[[nodiscard]] FontMetricsResult metricsFailure(std::string message, FontMetricsError code) {
+    return FontMetricsResult{</span>
+        .metrics = std::nullopt, .error = std::move(message), .errorCode = code};
+<span style = "background-color:#dfd">}</span>
+
+// Decode une chaine JSON attendue comme UN SEUL point de code UTF-8 (champ "char"/"replacement").
+<span style = "background-color:#dfd">[[nodiscard]] std::optional&lt;char32_t&gt; singleCodePoint(const std::string&amp; utf8) {
+    if (utf8.empty()) {</span>
+<span style = "background-color:#fdd">        return std::nullopt;</span>
+    }
+<span style = "background-color:#dfd">    std::size_t index = 0;
+    const char32_t codePoint = nextUtf8CodePoint(utf8, index);
+    if (index != utf8.size()) {</span>
+<span style = "background-color:#fdd">        return std::nullopt;  // plus d'un point de code : champ invalide</span>
+    }
+<span style = "background-color:#dfd">    return codePoint;
+}</span>
+
+}  // namespace
+
+// Lit des metriques de police depuis une chaine JSON.
+<span style = "background-color:#dfd">FontMetricsResult loadFontMetricsFromString(std::string_view json) {</span>
+    // accept() puis parse(..., allow_exceptions=false) : aucune exception ne doit franchir cette
+    // frontiere (EX-NFR-040), meme patron que hmi::AnimationCatalog::loadFromString.
+<span style = "background-color:#dfd">    if (!nlohmann::json::accept(json)) {
+        return metricsFailure("JSON malforme.", FontMetricsError::ParseError);</span>
+    }
+<span style = "background-color:#dfd">    const nlohmann::json root = nlohmann::json::parse(json, nullptr, false);
+    if (!root.is_object()) {</span>
+<span style = "background-color:#fdd">        return metricsFailure("La racine du document n'est pas un objet.",</span>
+                              FontMetricsError::ParseError);
+    }
+
+<span style = "background-color:#dfd">    int version = FONT_METRICS_FORMAT_VERSION;
+    if (root.contains(FIELD_VERSION)) {
+        if (!root[FIELD_VERSION].is_number_integer()) {</span>
+<span style = "background-color:#fdd">            return metricsFailure("Le champ Â« version Â» n'est pas un entier.",</span>
+                                  FontMetricsError::MalformedStructure);
+        }
+<span style = "background-color:#dfd">        version = root[FIELD_VERSION].get&lt;int&gt;();</span>
+    }
+<span style = "background-color:#dfd">    if (version &gt; FONT_METRICS_FORMAT_VERSION) {
+        return metricsFailure("Version de format " + std::to_string(version) +</span>
+                                  " non geree (cette version du jeu lit jusqu'a " +
+                                  std::to_string(FONT_METRICS_FORMAT_VERSION) + ").",
+                              FontMetricsError::UnsupportedVersion);
+    }
+
+<span style = "background-color:#dfd">    if (!root.contains(FIELD_LINE_HEIGHT) || !root[FIELD_LINE_HEIGHT].is_number_integer() ||</span>
+        root[FIELD_LINE_HEIGHT].get&lt;int&gt;() &lt;= 0) {
+<span style = "background-color:#fdd">        return metricsFailure("Le champ Â« lineHeight Â» est absent ou n'est pas un entier positif.",</span>
+                              FontMetricsError::MalformedStructure);
+    }
+
+<span style = "background-color:#dfd">    FontMetrics metrics;
+    metrics.lineHeight = root[FIELD_LINE_HEIGHT].get&lt;int&gt;();
+    metrics.replacementCodePoint = U'?';
+    if (root.contains(FIELD_REPLACEMENT)) {
+        if (!root[FIELD_REPLACEMENT].is_string()) {</span>
+<span style = "background-color:#fdd">            return metricsFailure("Le champ Â« replacement Â» n'est pas une chaine.",</span>
+                                  FontMetricsError::MalformedStructure);
+        }
+        const std::optional&lt;char32_t&gt; replacement =
+<span style = "background-color:#dfd">            singleCodePoint(root[FIELD_REPLACEMENT].get&lt;std::string&gt;());
+        if (!replacement) {</span>
+<span style = "background-color:#fdd">            return metricsFailure("Le champ Â« replacement Â» doit contenir exactement un caractere.",</span>
+                                  FontMetricsError::MalformedStructure);
+        }
+<span style = "background-color:#dfd">        metrics.replacementCodePoint = *replacement;</span>
+    }
+
+<span style = "background-color:#dfd">    if (!root.contains(FIELD_GLYPHS) || !root[FIELD_GLYPHS].is_array() ||</span>
+        root[FIELD_GLYPHS].empty()) {
+<span style = "background-color:#fdd">        return metricsFailure("Le champ Â« glyphs Â» est absent, n'est pas un tableau, ou est vide.",</span>
+                              FontMetricsError::MalformedStructure);
+    }
+
+<span style = "background-color:#dfd">    for (const nlohmann::json&amp; glyphJson : root[FIELD_GLYPHS]) {
+        if (!glyphJson.is_object() || !glyphJson.contains(FIELD_CHAR) ||</span>
+            !glyphJson[FIELD_CHAR].is_string()) {
+<span style = "background-color:#fdd">            return metricsFailure("Un glyphe n'a pas de champ Â« char Â» exploitable.",</span>
+                                  FontMetricsError::MalformedStructure);
+        }
+        const std::optional&lt;char32_t&gt; codePoint =
+<span style = "background-color:#dfd">            singleCodePoint(glyphJson[FIELD_CHAR].get&lt;std::string&gt;());
+        if (!codePoint) {</span>
+<span style = "background-color:#fdd">            return metricsFailure(</span>
+                "Le champ Â« char Â» d'un glyphe doit contenir exactement un caractere.",
+                FontMetricsError::MalformedStructure);
+        }
+
+<span style = "background-color:#dfd">        const bool hasIntegerFields =</span>
+            glyphJson.contains(FIELD_X) &amp;&amp; glyphJson[FIELD_X].is_number_integer() &amp;&amp;
+            glyphJson.contains(FIELD_Y) &amp;&amp; glyphJson[FIELD_Y].is_number_integer() &amp;&amp;
+            glyphJson.contains(FIELD_WIDTH) &amp;&amp; glyphJson[FIELD_WIDTH].is_number_integer() &amp;&amp;
+            glyphJson.contains(FIELD_HEIGHT) &amp;&amp; glyphJson[FIELD_HEIGHT].is_number_integer() &amp;&amp;
+            glyphJson.contains(FIELD_ADVANCE) &amp;&amp; glyphJson[FIELD_ADVANCE].is_number_integer();
+<span style = "background-color:#dfd">        if (!hasIntegerFields) {</span>
+<span style = "background-color:#fdd">            return metricsFailure(</span>
+                "Le glyphe Â« " + glyphJson[FIELD_CHAR].get&lt;std::string&gt;() +
+                    " Â» n'a pas tous les champs Â« x/y/width/height/advance Â» exploitables "
+                    "(entiers).",
+                FontMetricsError::MalformedStructure);
+        }
+
+<span style = "background-color:#dfd">        GlyphMetrics glyph;
+        glyph.x = glyphJson[FIELD_X].get&lt;int&gt;();
+        glyph.y = glyphJson[FIELD_Y].get&lt;int&gt;();
+        glyph.width = glyphJson[FIELD_WIDTH].get&lt;int&gt;();
+        glyph.height = glyphJson[FIELD_HEIGHT].get&lt;int&gt;();
+        glyph.advance = glyphJson[FIELD_ADVANCE].get&lt;int&gt;();
+        if (glyph.x &lt; 0 || glyph.y &lt; 0 || glyph.width &lt;= 0 || glyph.height &lt;= 0 ||</span>
+            glyph.advance &lt; 0) {
+<span style = "background-color:#fdd">            return metricsFailure("Le glyphe Â« " + glyphJson[FIELD_CHAR].get&lt;std::string&gt;() +</span>
+                                      " Â» a des dimensions ou une position invalides.",
+                                  FontMetricsError::MalformedStructure);
+        }
+<span style = "background-color:#dfd">        metrics.glyphs[*codePoint] = glyph;
+    }</span>
+
+<span style = "background-color:#dfd">    return FontMetricsResult{</span>
+        .metrics = std::move(metrics), .error = {}, .errorCode = FontMetricsError::None};
+<span style = "background-color:#dfd">}</span>
+
+// Lit des metriques de police depuis un fichier.
+<span style = "background-color:#dfd">FontMetricsResult loadFontMetricsFromFile(const std::filesystem::path&amp; path) {
+    std::ifstream file(path);
+    if (!file) {
+        return metricsFailure("Fichier introuvable ou illisible : " + path.string(),</span>
+                              FontMetricsError::FileNotFound);
+    }
+<span style = "background-color:#fdd">    std::ostringstream contents;
+    contents &lt;&lt; file.rdbuf();
+    return loadFontMetricsFromString(contents.str());</span>
+<span style = "background-color:#dfd">}</span>
+
+// Valide la coherence entre des metriques et les dimensions decodees du PNG associe.
+AssetValidation validateFontMetricsAgainstTexture(const FontMetrics&amp; metrics,
+                                                  const std::string&amp; fileName, int textureWidth,
+<span style = "background-color:#dfd">                                                  int textureHeight) {
+    if (metrics.lineHeight &lt;= 0) {</span>
+<span style = "background-color:#fdd">        return AssetValidation{</span>
+            .valid = false,
+            .message = "Police " + fileName + " refusee : hauteur de ligne non positive."};
+    }
+<span style = "background-color:#dfd">    for (const auto&amp; [codePoint, glyph] : metrics.glyphs) {
+        const bool withinBounds = glyph.x &gt;= 0 &amp;&amp; glyph.y &gt;= 0 &amp;&amp; glyph.width &gt; 0 &amp;&amp;</span>
+                                  glyph.height &gt; 0 &amp;&amp; glyph.x + glyph.width &lt;= textureWidth &amp;&amp;
+                                  glyph.y + glyph.height &lt;= textureHeight;
+<span style = "background-color:#dfd">        if (!withinBounds) {
+            std::ostringstream hex;
+            hex &lt;&lt; std::hex &lt;&lt; static_cast&lt;std::uint32_t&gt;(codePoint);
+            return AssetValidation{.valid = false,</span>
+                                   .message = "Police " + fileName + " refusee : le glyphe U+" +
+                                              hex.str() +
+                                              " reference une region hors des bornes de l'image (" +
+                                              std::to_string(textureWidth) + "x" +
+                                              std::to_string(textureHeight) + " px)."};
+        }
+<span style = "background-color:#dfd">    }
+    return AssetValidation{.valid = true, .message = std::string{}};
+}</span>
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

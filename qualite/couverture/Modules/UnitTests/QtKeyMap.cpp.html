@@ -1,0 +1,117 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>QtKeyMap.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#include "HMI/Input/QtKeyMap.h"
+
+#include &lt;QtGlobal&gt;
+
+#include &lt;qnamespace.h&gt;
+
+namespace hmi {
+
+<span style = "background-color:#dfd">std::optional&lt;hmi::Key&gt; qtKeyToHmiKey(int qtKey) {
+    switch (qtKey) {</span>
+        case Qt::Key_Escape:
+<span style = "background-color:#dfd">            return hmi::Key::Escape;</span>
+        case Qt::Key_Tab:
+        case Qt::Key_Backtab:
+<span style = "background-color:#dfd">            return hmi::Key::Tab;</span>
+        case Qt::Key_Return:
+        case Qt::Key_Enter:
+<span style = "background-color:#dfd">            return hmi::Key::Enter;</span>
+        case Qt::Key_Backspace:
+<span style = "background-color:#dfd">            return hmi::Key::Backspace;</span>
+        case Qt::Key_Shift:
+<span style = "background-color:#dfd">            return hmi::Key::Shift;</span>
+        case Qt::Key_Control:
+<span style = "background-color:#dfd">            return hmi::Key::Control;</span>
+        case Qt::Key_Space:
+<span style = "background-color:#dfd">            return hmi::Key::Space;</span>
+        case Qt::Key_Left:
+<span style = "background-color:#dfd">            return hmi::Key::Left;</span>
+        case Qt::Key_Up:
+<span style = "background-color:#dfd">            return hmi::Key::Up;</span>
+        case Qt::Key_Right:
+<span style = "background-color:#dfd">            return hmi::Key::Right;</span>
+        case Qt::Key_Down:
+<span style = "background-color:#dfd">            return hmi::Key::Down;</span>
+        case Qt::Key_F1:
+<span style = "background-color:#dfd">            return hmi::Key::F1;</span>
+        case Qt::Key_F2:
+<span style = "background-color:#dfd">            return hmi::Key::F2;</span>
+        case Qt::Key_F10:
+<span style = "background-color:#dfd">            return hmi::Key::F10;</span>
+        default:
+            break;
+    }
+    // Lettres AâZ et chiffres 0â9 : Qt reprend les valeurs ASCII majuscules, identiques aux codes
+    // virtuels Win32 â conversion directe.
+<span style = "background-color:#dfd">    if ((qtKey &gt;= Qt::Key_0 &amp;&amp; qtKey &lt;= Qt::Key_9) || (qtKey &gt;= Qt::Key_A &amp;&amp; qtKey &lt;= Qt::Key_Z)) {
+        return static_cast&lt;hmi::Key&gt;(qtKey);</span>
+    }
+<span style = "background-color:#dfd">    return std::nullopt;
+}</span>
+
+<span style = "background-color:#dfd">int hmiKeyToQtKey(hmi::Key key) {
+    switch (key) {</span>
+        case hmi::Key::Escape:
+<span style = "background-color:#dfd">            return Qt::Key_Escape;</span>
+        case hmi::Key::Tab:
+<span style = "background-color:#dfd">            return Qt::Key_Tab;</span>
+        case hmi::Key::Enter:
+<span style = "background-color:#dfd">            return Qt::Key_Return;</span>
+        case hmi::Key::Backspace:
+<span style = "background-color:#dfd">            return Qt::Key_Backspace;</span>
+        case hmi::Key::Shift:
+<span style = "background-color:#dfd">            return Qt::Key_Shift;</span>
+        case hmi::Key::Control:
+<span style = "background-color:#dfd">            return Qt::Key_Control;</span>
+        case hmi::Key::Space:
+<span style = "background-color:#dfd">            return Qt::Key_Space;</span>
+        case hmi::Key::Left:
+<span style = "background-color:#dfd">            return Qt::Key_Left;</span>
+        case hmi::Key::Up:
+<span style = "background-color:#dfd">            return Qt::Key_Up;</span>
+        case hmi::Key::Right:
+<span style = "background-color:#dfd">            return Qt::Key_Right;</span>
+        case hmi::Key::Down:
+<span style = "background-color:#dfd">            return Qt::Key_Down;</span>
+        case hmi::Key::F1:
+<span style = "background-color:#dfd">            return Qt::Key_F1;</span>
+        case hmi::Key::F2:
+<span style = "background-color:#dfd">            return Qt::Key_F2;</span>
+        case hmi::Key::F10:
+<span style = "background-color:#dfd">            return Qt::Key_F10;</span>
+        default:
+            // Lettres A-Z, chiffres 0-9 : meme valeur Win32 &lt;-&gt; Qt (cf. qtKeyToHmiKey ci-dessus).
+<span style = "background-color:#dfd">            return static_cast&lt;int&gt;(key);</span>
+    }
+<span style = "background-color:#dfd">}</span>
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

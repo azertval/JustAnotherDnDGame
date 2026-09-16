@@ -1,0 +1,145 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>PixelPalette.h</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#pragma once
+
+#include &lt;cstdint&gt;
+#include &lt;filesystem&gt;
+#include &lt;string&gt;
+#include &lt;string_view&gt;
+#include &lt;vector&gt;
+
+#include "HMI/Graphics/TextureLoader.h"
+
+/**
+ * @file HMI/Editor/PixelPalette.h
+ * @brief Palette de projet persistÃ©e, extraction depuis un asset et contrainte de couleur
+ *        (`LOT-54` TACHE-07, `EX-REN-042`).
+ *
+ * **DonnÃ©e d'auteur**, distincte des jetons de design (`HMI/Interface/DesignTokens.h`) : cette
+ * palette habille le **contenu du jeu**, les jetons habillent l'**application** â les deux ne se
+ * mÃ©langent jamais (epic.md, dÃ©cision de cadrage).
+ */
+
+namespace hmi {
+
+/// Une entrÃ©e nommÃ©e de la palette de projet.
+struct PixelPaletteEntry {
+    std::string name;
+    std::uint32_t color = 0xFF000000u;  ///&lt; `R8G8B8A8_UNORM` (LOT-54 TACHE-01).
+
+    [[nodiscard]] friend bool operator==(const PixelPaletteEntry&amp;,
+                                         const PixelPaletteEntry&amp;) noexcept = default;
+};
+
+/**
+ * @brief Palette de couleurs nommÃ©es du projet, lue/Ã©crite dans `Assets/palettes.json`.
+ *
+ * Logique **pure** (aucune dÃ©pendance Qt/GPU au-delÃ  de `std::filesystem`/JSON), testable en
+ * isolation (`EX-NFR-010`). Aucune lecture ni Ã©criture ne lÃ¨ve d'exception (`EX-NFR-040`) : un
+ * fichier **absent** produit une palette **vide**, traitÃ©e comme un Ã©tat de dÃ©part lÃ©gitime â pas
+ * une erreur Ã  signaler â et un fichier malformÃ© ignore l'entrÃ©e fautive plutÃ´t que d'abandonner
+ * toute la palette.
+ */
+class PixelPalette {
+public:
+    /// Version du format Ã©crite dans le fichier.
+    static constexpr int FORMAT_VERSION = 1;
+
+    /// @return La palette lue depuis @p json ; vide (et journalisÃ©e) si malformÃ©e. Ne lÃ¨ve jamais.
+    [[nodiscard]] static PixelPalette loadFromString(std::string_view json);
+
+    /// @return La palette lue depuis @p path ; vide si le fichier est absent ou illisible (Ã©tat de
+    ///         dÃ©part lÃ©gitime, pas une erreur). Ne lÃ¨ve jamais.
+    [[nodiscard]] static PixelPalette loadFromFile(const std::filesystem::path&amp; path);
+
+    /// @return La reprÃ©sentation JSON de la palette, relisible par `loadFromString`.
+    [[nodiscard]] std::string toJsonString() const;
+
+    /// Ãcrit la palette dans un fichier, en crÃ©ant les dossiers parents au besoin.
+    /// @return true si l'Ã©criture a rÃ©ussi. Ne lÃ¨ve jamais.
+    [[nodiscard]] bool saveToFile(const std::filesystem::path&amp; path) const;
+
+    /// @return Les entrÃ©es de la palette, dans l'ordre d'affichage/Ã©criture.
+<span style = "background-color:#dfd">    [[nodiscard]] const std::vector&lt;PixelPaletteEntry&gt;&amp; entries() const noexcept {
+        return _entries;
+    }</span>
+
+    /// Ajoute une entrÃ©e en fin de palette.
+    void add(std::string name, std::uint32_t color);
+    /// Retire l'entrÃ©e @p index. @return true si l'index Ã©tait valide.
+    bool removeAt(std::size_t index);
+    /// Renomme l'entrÃ©e @p index. @return true si l'index Ã©tait valide.
+    bool renameAt(std::size_t index, std::string newName);
+    /// DÃ©place l'entrÃ©e @p from Ã  la position @p to (rÃ©ordonnancement). @return true si les deux
+    /// index Ã©taient valides.
+    bool moveEntry(std::size_t from, std::size_t to);
+
+private:
+    std::vector&lt;PixelPaletteEntry&gt; _entries;
+};
+
+/// Une couleur extraite, avec son nombre d'occurrences dans l'image.
+struct PixelPaletteExtractionEntry {
+    std::uint32_t color = 0;
+    int count = 0;
+};
+
+/**
+ * @brief Couleurs effectivement prÃ©sentes dans une image, dans un ordre **dÃ©terministe**.
+ *
+ * Fonction **pure**. Un pixel totalement transparent (alpha nul) n'est **jamais** une couleur â
+ * c'est la gomme, pas une entrÃ©e de palette (mÃªme rÃ¨gle que `hmi::constrainToPalette` ci-dessous) :
+ * une image entiÃ¨rement transparente produit donc une liste vide. L'ordre (premiÃ¨re apparition,
+ * balayage ligne par ligne) est stable d'un appel Ã  l'autre sur la mÃªme image.
+ * @param image Image consultÃ©e.
+ * @return Les couleurs prÃ©sentes, chacune avec son nombre d'occurrences.
+ */
+[[nodiscard]] std::vector&lt;PixelPaletteExtractionEntry&gt; extractPalette(const DecodedImage&amp; image);
+
+/**
+ * @brief Couleur de @p palette la plus proche de @p color (mode Â« contraindre Ã  la palette Â»).
+ *
+ * Fonction **pure**, distance euclidienne sur les seuls canaux RVB (l'alpha d'origine est toujours
+ * prÃ©servÃ©, voir ci-dessous). Le dÃ©partage entre couleurs Ã©quidistantes retient la **premiÃ¨re**
+ * rencontrÃ©e dans @p palette â dÃ©terministe et stable, pour qu'un mÃªme geste sur une mÃªme image
+ * produise toujours le mÃªme rÃ©sultat.
+ *
+ * Un pixel **totalement transparent** (alpha nul) est renvoyÃ© **inchangÃ©** : ce n'est pas une
+ * couleur mais l'Ã©tat Â« gomme Â», qui doit rester accessible mÃªme en mode contraint. Une **palette
+ * vide** laisse Ã©galement la couleur inchangÃ©e plutÃ´t que de produire une couleur indÃ©finie.
+ * @param color   Couleur posÃ©e par le geste courant.
+ * @param palette Couleurs de la palette (gÃ©nÃ©ralement `PixelPalette::entries()`, projetÃ©es sur
+ *                leur seul champ `color`).
+ * @return La couleur contrainte, alpha d'origine prÃ©servÃ©.
+ */
+[[nodiscard]] std::uint32_t nearestPaletteColor(std::uint32_t color,
+                                                const std::vector&lt;std::uint32_t&gt;&amp; palette) noexcept;
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

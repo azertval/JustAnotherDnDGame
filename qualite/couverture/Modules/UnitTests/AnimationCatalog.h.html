@@ -1,0 +1,198 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>AnimationCatalog.h</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#pragma once
+
+#include &lt;filesystem&gt;
+#include &lt;optional&gt;
+#include &lt;string&gt;
+#include &lt;string_view&gt;
+
+#include "Core/Ecs/AnimationClip.h"
+#include "Core/Ecs/Components/Animation.h"
+#include "Core/Ecs/Components/Sprite.h"  // core::AtlasRegion
+#include "HMI/Graphics/AssetContract.h"  // hmi::AssetValidation
+
+/**
+ * @file HMI/Graphics/AnimationCatalog.h
+ * @brief Lecture et validation du format `nom-asset.anim.json` (`LOT-46` TACHE-03).
+ */
+
+#include "Core/Data/JsonDocument.h"
+
+namespace hmi {
+
+/**
+ * @brief CatÃ©gorie d'Ã©chec de lecture d'une description d'animation (mÃªme esprit que
+ *        `hmi::SkinCatalogError`/`core::LevelValidationError`).
+ */
+enum class AnimationCatalogError {
+    None,                 ///&lt; Pas d'erreur.
+    FileNotFound,         ///&lt; Fichier absent. Cas **lÃ©gitime** (image fixe), pas une anomalie.
+    ParseError,           ///&lt; JSON malformÃ©, ou racine qui n'est pas un objet.
+    UnsupportedVersion,   ///&lt; NumÃ©ro de version supÃ©rieur Ã  `AnimationCatalog::FORMAT_VERSION`.
+    MalformedStructure,   ///&lt; Structure inattendue (clip sans Â« frames Â», `next` inexistantâ¦).
+    IncoherentFrameSize,  ///&lt; Taille d'image dÃ©clarÃ©e incohÃ©rente avec les dimensions du PNG.
+};
+
+/**
+ * @brief Description d'animation d'un asset : disposition de sa spritesheet et ses clips.
+ *
+ * DonnÃ©e **pure** (`EX-NFR-010`) : la spritesheet est supposÃ©e **horizontale** (les images se
+ * suivent de gauche Ã  droite, un seul rang) â voir `AnimationCatalog::frameRegion`.
+ */
+struct AnimationDescription {
+    /// Largeur d'une image, en pixels.
+    int frameWidth = 0;
+    /// Hauteur d'une image, en pixels.
+    int frameHeight = 0;
+    /// Clips dÃ©crits par le fichier, adressables par nom (`core::ClipSet`, `LOT-46` TACHE-01).
+    core::ClipSet clips;
+};
+
+/**
+ * @brief RÃ©sultat d'une lecture de description : soit une `AnimationDescription`, soit une
+ *        **erreur** dÃ©crite. MÃªme patron que `hmi::SkinCatalogResult` (`EX-NFR-040`).
+ */
+struct AnimationDescriptionResult {
+    std::optional&lt;AnimationDescription&gt; description;
+    std::string error;
+    AnimationCatalogError errorCode = AnimationCatalogError::None;
+
+    /// @return true si la lecture a rÃ©ussi.
+<span style = "background-color:#dfd">    [[nodiscard]] bool ok() const noexcept {
+        return description.has_value();
+    }</span>
+};
+
+/**
+ * @brief Lecture, validation et traduction en rÃ©gion de texture du format `nom-asset.anim.json`.
+ *
+ * Logique **pure** (aucune dÃ©pendance GPU/Qt/fichier au-delÃ  de la lecture elle-mÃªme) : ne rÃ©alise
+ * ni chargement PNG ni mise en cache â c'est `hmi::TextureCache` qui compose ce catalogue avec
+ * `hmi::AssetPaths` et mÃ©moÃ¯se le rÃ©sultat, exactement comme il compose dÃ©jÃ  `hmi::TextureLoader`
+ * (`LOT-46` TACHE-03).
+ */
+class AnimationCatalog {
+public:
+    /// Version du format Ã©crite dans le fichier, et plus Ã©levÃ©e qui soit lue (voir
+    /// `hmi::SkinCatalog::FORMAT_VERSION` pour le mÃªme choix de cadrage).
+    static constexpr int FORMAT_VERSION = 1;
+
+    /// DurÃ©e d'image par dÃ©faut (secondes), utilisÃ©e quand un clip omet Â« frameDuration Â».
+    static constexpr float DEFAULT_FRAME_DURATION_SECONDS = 0.1f;
+
+    /**
+     * @brief Lit une description depuis une chaÃ®ne JSON.
+     * @param json Contenu JSON.
+     * @return La description, ou une erreur dÃ©crite. Ne lÃ¨ve jamais.
+     */
+    [[nodiscard]] static AnimationDescriptionResult loadFromString(std::string_view json);
+
+    /**
+     * @brief Lit une description depuis un fichier.
+     *
+     * Un fichier **absent** produit un Ã©chec de code `FileNotFound` : c'est le cas par dÃ©faut
+     * (asset non animÃ©) et il ne doit produire **aucun avertissement** cÃ´tÃ© appelant â Ã 
+     * distinguer d'un fichier prÃ©sent mais invalide (`EX-NFR-040`).
+     * @param path Chemin du fichier.
+     * @return La description, ou une erreur dÃ©crite. Ne lÃ¨ve jamais.
+     */
+    [[nodiscard]] static AnimationDescriptionResult loadFromFile(const std::filesystem::path&amp; path);
+
+private:
+    /**
+     * @brief Construit le rÃ©sultat depuis l'enveloppe dÃ©jÃ  lue par `core::readJsonObject`.
+     *
+     * JSON bien formÃ©, racine objet et garde de version sont vÃ©rifiÃ©s **avant** d'arriver ici :
+     * c'est la brique partagÃ©e du `LOT-79` (`EX-CNT-012`), et ce catalogue n'a plus Ã  les
+     * rÃ©implÃ©menter pour son compte.
+     */
+    [[nodiscard]] static AnimationDescriptionResult fromDocument(
+        const core::JsonDocument&amp; document);
+
+public:
+    /**
+     * @brief Nom du fichier de description associÃ© Ã  un asset : mÃªme nom, extension remplacÃ©e.
+     * @param assetFileName Nom logique de l'asset (ex. Â« water.png Â»).
+     * @return Le nom du descripteur (ex. Â« water.anim.json Â»).
+     */
+    [[nodiscard]] static std::string descriptorFileName(std::string_view assetFileName);
+
+    /**
+     * @brief Valide la cohÃ©rence entre la description et les dimensions **dÃ©codÃ©es** du PNG.
+     *
+     * Spritesheet horizontale (`frameRegion`) : la hauteur du PNG doit Ã©galer `frameHeight` (un
+     * seul rang), sa largeur doit Ãªtre un multiple positif de `frameWidth`, et chaque indice
+     * d'image rÃ©fÃ©rencÃ© par un clip doit dÃ©signer une position existante dans ce rang. SÃ©parÃ©e de
+     * la lecture JSON (`loadFromString`) : les dimensions rÃ©elles ne sont connues qu'aprÃ¨s
+     * dÃ©codage du PNG, en aval (`EX-REN-007`, mÃªme frontiÃ¨re que `hmi::validateAsset`).
+     * @param description   Description dÃ©jÃ  lue.
+     * @param fileName      Nom logique de l'asset, repris dans le message d'erreur.
+     * @param textureWidth  Largeur dÃ©codÃ©e du PNG, en pixels.
+     * @param textureHeight Hauteur dÃ©codÃ©e du PNG, en pixels.
+     * @return Le verdict, avec un message exploitable si non conforme.
+     */
+    [[nodiscard]] static AssetValidation validateAgainstTexture(
+        const AnimationDescription&amp; description, const std::string&amp; fileName, int textureWidth,
+        int textureHeight);
+
+    /**
+     * @brief RÃ©gion (en pixels) d'une image de la spritesheet, par son indice.
+     *
+     * Disposition horizontale (`EX-NFR-010`, fonction **pure**) : l'image d'indice @p
+     * frameSheetIndex occupe le rectangle `[indice * frameWidth, 0, frameWidth, frameHeight]`.
+     * Ne borne pas @p frameSheetIndex : c'est `validateAgainstTexture` qui rejette les indices
+     * hors bornes en amont, une fois les dimensions rÃ©elles connues.
+     * @param description    Description fournissant `frameWidth`/`frameHeight`.
+     * @param frameSheetIndex Indice de l'image dans la spritesheet (0-based).
+     * @return La rÃ©gion correspondante.
+     */
+    [[nodiscard]] static core::AtlasRegion frameRegion(const AnimationDescription&amp; description,
+                                                       int frameSheetIndex);
+
+    /**
+     * @brief RÃ©gion de l'image **courante** d'une animation en cours, d'aprÃ¨s son Ã©tat
+     *        (`core::Animation`) et la description de son asset (`LOT-46` TACHE-05).
+     *
+     * Traduit `animation.clipIndex`/`frameIndex` (indices rÃ©solus par `core::AnimationSystem`/
+     * `core::advanceAnimation`) en indice de spritesheet via `AnimationClip::frames`, puis en
+     * rÃ©gion via `frameRegion`. Fonction **pure**, sans accÃ¨s au jeu de clips au-delÃ  de ce que
+     * porte dÃ©jÃ  `animation.clips` : repli sur la premiÃ¨re image si l'animation n'a pas (ou plus)
+     * de jeu de clips valide (`EX-NFR-040`).
+     * @param description Description de l'asset animÃ© (fournit `frameWidth`/`frameHeight`).
+     * @param animation   Ãtat d'animation courant (typiquement l'horloge partagÃ©e d'un asset de
+     *                    tuile, `LOT-46` TACHE-05).
+     * @return La rÃ©gion Ã  Ã©chantillonner pour l'image courante.
+     */
+    [[nodiscard]] static core::AtlasRegion currentFrameRegion(
+        const AnimationDescription&amp; description, const core::Animation&amp; animation);
+};
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

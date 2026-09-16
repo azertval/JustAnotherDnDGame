@@ -1,0 +1,117 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>DiagnosticsHud.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#include "HMI/Game/DiagnosticsHud.h"
+
+#include &lt;cstdio&gt;
+
+#include "HMI/Localization/Localization.h"
+
+namespace hmi {
+
+namespace {
+
+// Remplace la premiere occurrence de placeholder ("%1", "%2"...) par value (pas de dependance Qt,
+// meme discipline que hmi::gameHudLines).
+std::string formatPlaceholder(const std::string&amp; templateText, const std::string&amp; placeholder,
+<span style = "background-color:#dfd">                              const std::string&amp; value) {
+    const std::size_t position = templateText.find(placeholder);
+    if (position == std::string::npos) {</span>
+<span style = "background-color:#fdd">        return templateText;</span>
+    }
+<span style = "background-color:#dfd">    std::string result = templateText;
+    result.replace(position, placeholder.size(), value);
+    return result;
+}</span>
+
+// Remplace "%1" (patron a un seul compte).
+<span style = "background-color:#dfd">std::string formatCount(const std::string&amp; templateText, const std::string&amp; value) {
+    return formatPlaceholder(templateText, "%1", value);
+}</span>
+
+// Remplace "%1" PUIS "%2" -- ligne des primitives (composees / soumises).
+<span style = "background-color:#dfd">std::string formatTwoCounts(const std::string&amp; templateText, int first, int second) {
+    return formatPlaceholder(formatPlaceholder(templateText, "%1", std::to_string(first)), "%2",</span>
+                             std::to_string(second));
+<span style = "background-color:#dfd">}</span>
+
+// Une decimale, sans dependance Qt/locale (std::to_string tronque a l'entier pour un float).
+<span style = "background-color:#dfd">std::string formatOneDecimal(float value) {</span>
+    char buffer[32];
+<span style = "background-color:#dfd">    std::snprintf(buffer, sizeof(buffer), "%.1f", static_cast&lt;double&gt;(value));
+    return std::string(buffer);
+}</span>
+
+}  // namespace
+
+// Ajoute la duree d'une image ecoulee et purge les echantillons sortis de la fenetre (voir
+// en-tete).
+<span style = "background-color:#dfd">void FrameRateAverage::addSample(float deltaSeconds) noexcept {
+    if (deltaSeconds &lt;= 0.0f) {
+        return;  // robustesse : un appelant ne doit jamais en produire (cf. contrat de l'en-tete).</span>
+    }
+<span style = "background-color:#dfd">    _recentDeltas.push_back(deltaSeconds);
+    _accumulatedSeconds += deltaSeconds;
+    while (_accumulatedSeconds &gt; DIAGNOSTICS_FPS_WINDOW_SECONDS &amp;&amp; _recentDeltas.size() &gt; 1) {
+        _accumulatedSeconds -= _recentDeltas.front();
+        _recentDeltas.pop_front();
+    }
+}</span>
+
+// Cadence moyenne sur la fenetre courante (voir en-tete : 0 si aucun echantillon).
+<span style = "background-color:#dfd">float FrameRateAverage::framesPerSecond() const noexcept {
+    if (_recentDeltas.empty() || _accumulatedSeconds &lt;= 0.0f) {
+        return 0.0f;</span>
+    }
+<span style = "background-color:#dfd">    return static_cast&lt;float&gt;(_recentDeltas.size()) / _accumulatedSeconds;
+}</span>
+
+// Oublie tous les echantillons (voir en-tete).
+<span style = "background-color:#dfd">void FrameRateAverage::reset() noexcept {
+    _recentDeltas.clear();
+    _accumulatedSeconds = 0.0f;
+}</span>
+
+// Compose les lignes du compteur de diagnostic a partir de valeurs deja mesurees (voir en-tete).
+std::vector&lt;std::string&gt; composeDiagnosticsHudLines(const DiagnosticsMeasurements&amp; measurements,
+<span style = "background-color:#dfd">                                                    const Localization&amp; localization) {
+    std::vector&lt;std::string&gt; lines;
+    lines.push_back(</span>
+        formatCount(localization.text("diag.fps"), formatOneDecimal(measurements.framesPerSecond)));
+<span style = "background-color:#dfd">    lines.push_back(formatTwoCounts(localization.text("diag.primitives"),</span>
+                                    measurements.sceneStatistics.considered,
+                                    measurements.sceneStatistics.submitted));
+<span style = "background-color:#dfd">    lines.push_back(formatCount(localization.text("diag.batches"),</span>
+                                std::to_string(measurements.sceneStatistics.batches)));
+<span style = "background-color:#dfd">    lines.push_back(</span>
+        formatCount(localization.text("diag.steps"), std::to_string(measurements.simulationSteps)));
+<span style = "background-color:#dfd">    return lines;
+}</span>
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

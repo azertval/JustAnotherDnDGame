@@ -1,0 +1,285 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>AnimationCatalog.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#include "HMI/Graphics/AnimationCatalog.h"
+
+#include &lt;fstream&gt;
+#include &lt;set&gt;
+#include &lt;sstream&gt;
+#include &lt;utility&gt;
+
+#include &lt;nlohmann/json.hpp&gt;
+
+#include "Core/Data/JsonDocument.h"
+
+namespace hmi {
+
+namespace {
+
+// Noms des champs du format (voir epic LOT-46 TACHE-03) : nommes plutot que repetes en litteraux,
+// meme discipline que hmi::SkinCatalog.
+constexpr const char* FIELD_VERSION = "version";
+constexpr const char* FIELD_FRAME_WIDTH = "frameWidth";
+constexpr const char* FIELD_FRAME_HEIGHT = "frameHeight";
+constexpr const char* FIELD_CLIPS = "clips";
+constexpr const char* FIELD_FRAMES = "frames";
+constexpr const char* FIELD_FRAME_DURATION = "frameDuration";
+constexpr const char* FIELD_LOOP = "loop";
+constexpr const char* FIELD_NEXT = "next";
+
+// Construit un resultat d'echec. Ne journalise rien : contrairement a hmi::SkinCatalog, le fichier
+// absent (cas par defaut, silencieux) et le fichier invalide (anomalie) empruntent tous deux ce
+// chemin -- c'est a l'appelant (hmi::TextureCache) de decider, a partir du code d'erreur, s'il doit
+// journaliser (EX-NFR-040).
+// Traduction de la categorie partagee (LOT-79) vers celle, documentee, de ce catalogue. Le
+// `switch` est exhaustif et sans `default` : ajouter une categorie d'un cote fait echouer la
+// compilation plutot que de tomber silencieusement dans un cas par defaut.
+<span style = "background-color:#dfd">[[nodiscard]] AnimationCatalogError mapError(core::JsonReadError code) {
+    switch (code) {</span>
+        case core::JsonReadError::None:
+<span style = "background-color:#fdd">            return AnimationCatalogError::None;</span>
+        case core::JsonReadError::FileNotFound:
+<span style = "background-color:#dfd">            return AnimationCatalogError::FileNotFound;</span>
+        case core::JsonReadError::ParseError:
+<span style = "background-color:#dfd">            return AnimationCatalogError::ParseError;</span>
+        case core::JsonReadError::UnsupportedVersion:
+<span style = "background-color:#dfd">            return AnimationCatalogError::UnsupportedVersion;</span>
+        case core::JsonReadError::MalformedStructure:
+<span style = "background-color:#fdd">            return AnimationCatalogError::MalformedStructure;</span>
+    }
+<span style = "background-color:#fdd">    return AnimationCatalogError::ParseError;</span>
+<span style = "background-color:#dfd">}</span>
+
+<span style = "background-color:#dfd">[[nodiscard]] AnimationDescriptionResult failure(std::string message, AnimationCatalogError code) {
+    return AnimationDescriptionResult{</span>
+        .description = std::nullopt, .error = std::move(message), .errorCode = code};
+<span style = "background-color:#dfd">}</span>
+
+// Issue de l'analyse d'UN clip (voir parseClip ci-dessous) : soit le clip, soit -- exclusif -- de
+// quoi construire l'echec a renvoyer par loadFromString (message + code).
+struct ClipParseResult {
+    std::optional&lt;core::AnimationClip&gt; clip;
+    std::string error;
+    AnimationCatalogError errorCode = AnimationCatalogError::None;
+};
+
+// Analyse l'entree JSON `clips.&lt;name&gt;` en un core::AnimationClip. Ne journalise rien (comme
+// failure() ci-dessus) : l'erreur, precise, remonte jusqu'a l'appelant de loadFromString.
+<span style = "background-color:#dfd">[[nodiscard]] ClipParseResult parseClip(const std::string&amp; name, const nlohmann::json&amp; clipJson) {
+    if (!clipJson.is_object()) {</span>
+<span style = "background-color:#fdd">        return {.clip = std::nullopt,</span>
+                .error = "Le clip Â« " + name + " Â» n'est pas un objet.",
+                .errorCode = AnimationCatalogError::MalformedStructure};
+    }
+<span style = "background-color:#dfd">    if (!clipJson.contains(FIELD_FRAMES) || !clipJson[FIELD_FRAMES].is_array() ||</span>
+        clipJson[FIELD_FRAMES].empty()) {
+<span style = "background-color:#dfd">        return {.clip = std::nullopt,</span>
+                .error = "Le clip Â« " + name + " Â» n'a pas de champ Â« frames Â» exploitable.",
+                .errorCode = AnimationCatalogError::MalformedStructure};
+    }
+
+<span style = "background-color:#dfd">    core::AnimationClip clip;
+    clip.name = name;
+    for (const nlohmann::json&amp; frameJson : clipJson[FIELD_FRAMES]) {
+        if (!frameJson.is_number_integer() || frameJson.get&lt;int&gt;() &lt; 0) {
+            return {.clip = std::nullopt,</span>
+                    .error = "Le clip Â« " + name +
+                             " Â» contient un indice d'image invalide (entier positif attendu).",
+                    .errorCode = AnimationCatalogError::MalformedStructure};
+        }
+<span style = "background-color:#dfd">        clip.frames.push_back(frameJson.get&lt;int&gt;());
+    }</span>
+
+<span style = "background-color:#dfd">    clip.frameDuration = AnimationCatalog::DEFAULT_FRAME_DURATION_SECONDS;
+    if (clipJson.contains(FIELD_FRAME_DURATION)) {
+        if (!clipJson[FIELD_FRAME_DURATION].is_number() ||</span>
+            clipJson[FIELD_FRAME_DURATION].get&lt;float&gt;() &lt; 0.0F) {
+<span style = "background-color:#fdd">            return {.clip = std::nullopt,</span>
+                    .error = "Le champ Â« frameDuration Â» du clip Â« " + name +
+                             " Â» doit etre un nombre positif ou nul.",
+                    .errorCode = AnimationCatalogError::MalformedStructure};
+        }
+<span style = "background-color:#dfd">        clip.frameDuration = clipJson[FIELD_FRAME_DURATION].get&lt;float&gt;();</span>
+    }
+
+    // Absent : boucle (comportement historique, EX-REN-012). Present mais pas un booleen : donnee
+    // invalide, jamais devinee.
+<span style = "background-color:#dfd">    bool loop = true;
+    if (clipJson.contains(FIELD_LOOP)) {
+        if (!clipJson[FIELD_LOOP].is_boolean()) {</span>
+<span style = "background-color:#fdd">            return {.clip = std::nullopt,</span>
+                    .error = "Le champ Â« loop Â» du clip Â« " + name + " Â» n'est pas un booleen.",
+                    .errorCode = AnimationCatalogError::MalformedStructure};
+        }
+<span style = "background-color:#dfd">        loop = clipJson[FIELD_LOOP].get&lt;bool&gt;();</span>
+    }
+<span style = "background-color:#dfd">    clip.endMode = loop ? core::ClipEndMode::Loop : core::ClipEndMode::OneShot;</span>
+
+<span style = "background-color:#dfd">    if (clipJson.contains(FIELD_NEXT)) {
+        if (!clipJson[FIELD_NEXT].is_string()) {</span>
+<span style = "background-color:#fdd">            return {.clip = std::nullopt,</span>
+                    .error = "Le champ Â« next Â» du clip Â« " + name + " Â» n'est pas une chaine.",
+                    .errorCode = AnimationCatalogError::MalformedStructure};
+        }
+<span style = "background-color:#dfd">        clip.nextClip = clipJson[FIELD_NEXT].get&lt;std::string&gt;();</span>
+    }
+
+<span style = "background-color:#dfd">    return {.clip = std::move(clip), .error = {}, .errorCode = AnimationCatalogError::None};</span>
+<span style = "background-color:#fdd">}</span>
+
+}  // namespace
+
+<span style = "background-color:#dfd">AnimationDescriptionResult AnimationCatalog::loadFromString(std::string_view json) {
+    return fromDocument(core::readJsonObject(json, FORMAT_VERSION, "*.anim.json", FIELD_VERSION));
+}</span>
+
+<span style = "background-color:#dfd">AnimationDescriptionResult AnimationCatalog::fromDocument(const core::JsonDocument&amp; document) {
+    if (!document.ok()) {
+        return failure(document.message, mapError(document.error));</span>
+    }
+<span style = "background-color:#dfd">    const nlohmann::json&amp; root = document.root;</span>
+
+    if (!root.contains(FIELD_FRAME_WIDTH) || !root[FIELD_FRAME_WIDTH].is_number_integer() ||
+<span style = "background-color:#dfd">        !root.contains(FIELD_FRAME_HEIGHT) || !root[FIELD_FRAME_HEIGHT].is_number_integer()) {</span>
+<span style = "background-color:#fdd">        return failure("Champs Â« frameWidth Â»/Â« frameHeight Â» absents ou non entiers.",</span>
+                       AnimationCatalogError::MalformedStructure);
+    }
+<span style = "background-color:#dfd">    const int frameWidth = root[FIELD_FRAME_WIDTH].get&lt;int&gt;();
+    const int frameHeight = root[FIELD_FRAME_HEIGHT].get&lt;int&gt;();
+    if (frameWidth &lt;= 0 || frameHeight &lt;= 0) {</span>
+<span style = "background-color:#fdd">        return failure("Â« frameWidth Â»/Â« frameHeight Â» doivent etre strictement positifs.",</span>
+                       AnimationCatalogError::MalformedStructure);
+    }
+
+<span style = "background-color:#dfd">    if (!root.contains(FIELD_CLIPS) || !root[FIELD_CLIPS].is_object()) {</span>
+<span style = "background-color:#fdd">        return failure("Le champ Â« clips Â» est absent ou n'est pas un objet.",</span>
+                       AnimationCatalogError::MalformedStructure);
+    }
+
+<span style = "background-color:#dfd">    core::ClipSet clips;
+    std::set&lt;std::string&gt; names;</span>
+    // Premiere passe : chaque clip, valide independamment des autres (dont son nom).
+<span style = "background-color:#dfd">    for (const auto&amp; [name, clipJson] : root[FIELD_CLIPS].items()) {
+        ClipParseResult parsed = parseClip(name, clipJson);
+        if (!parsed.clip) {
+            return failure(std::move(parsed.error), parsed.errorCode);</span>
+        }
+<span style = "background-color:#dfd">        names.insert(name);
+        clips.addClip(std::move(*parsed.clip));
+    }</span>
+
+    // Seconde passe : Â« next Â» doit designer un clip du MEME fichier -- verifie une fois tous les
+    // noms connus, pour ne pas dependre de l'ordre d'iteration de l'objet JSON.
+<span style = "background-color:#dfd">    for (const std::string&amp; name : names) {
+        const core::AnimationClip&amp; clip = clips.clipAt(clips.indexOf(name));
+        if (clip.endMode == core::ClipEndMode::OneShot &amp;&amp; !clip.nextClip.empty() &amp;&amp;</span>
+            !names.contains(clip.nextClip)) {
+<span style = "background-color:#dfd">            return failure("Le clip Â« " + name + " Â» designe un clip suivant inexistant (Â« " +</span>
+                               clip.nextClip + " Â»).",
+                           AnimationCatalogError::MalformedStructure);
+        }
+<span style = "background-color:#dfd">    }</span>
+
+<span style = "background-color:#dfd">    AnimationDescription description;
+    description.frameWidth = frameWidth;
+    description.frameHeight = frameHeight;
+    description.clips = std::move(clips);
+    return AnimationDescriptionResult{.description = std::move(description),</span>
+                                      .error = {},
+                                      .errorCode = AnimationCatalogError::None};
+<span style = "background-color:#dfd">}</span>
+
+<span style = "background-color:#dfd">AnimationDescriptionResult AnimationCatalog::loadFromFile(const std::filesystem::path&amp; path) {
+    return fromDocument(core::readJsonObjectFromFile(path, FORMAT_VERSION, FIELD_VERSION));
+}</span>
+
+<span style = "background-color:#dfd">std::string AnimationCatalog::descriptorFileName(std::string_view assetFileName) {
+    return std::filesystem::path(assetFileName).replace_extension(".anim.json").string();
+}</span>
+
+AssetValidation AnimationCatalog::validateAgainstTexture(const AnimationDescription&amp; description,
+                                                         const std::string&amp; fileName,
+<span style = "background-color:#dfd">                                                         int textureWidth, int textureHeight) {</span>
+    // Disposition horizontale, un seul rang (frameRegion) : la hauteur du PNG doit egaler
+    // frameHeight, et sa largeur etre un multiple positif de frameWidth.
+    if (textureHeight != description.frameHeight || description.frameWidth &lt;= 0 ||
+<span style = "background-color:#dfd">        textureWidth % description.frameWidth != 0 || textureWidth &lt; description.frameWidth) {
+        return AssetValidation{</span>
+            .valid = false,
+            .message = "Animation " + fileName + " refusee : image " +
+                       std::to_string(textureWidth) + "x" + std::to_string(textureHeight) +
+                       " px incoherente avec une image de " +
+                       std::to_string(description.frameWidth) + "x" +
+                       std::to_string(description.frameHeight) +
+                       " px sur un seul rang (largeur multiple de " +
+                       std::to_string(description.frameWidth) + " px attendue)."};
+    }
+
+<span style = "background-color:#dfd">    const int frameCount = textureWidth / description.frameWidth;
+    for (int index = 0; index &lt; description.clips.clipCount(); ++index) {
+        const core::AnimationClip&amp; clip = description.clips.clipAt(index);
+        for (const int frame : clip.frames) {
+            if (frame &lt; 0 || frame &gt;= frameCount) {
+                return AssetValidation{.valid = false,</span>
+                                       .message = "Animation " + fileName +
+                                                  " refusee : le clip Â« " + clip.name +
+                                                  " Â» reference l'image " + std::to_string(frame) +
+                                                  ", hors bornes (la spritesheet en contient " +
+                                                  std::to_string(frameCount) + ")."};
+            }
+<span style = "background-color:#dfd">        }
+    }</span>
+
+<span style = "background-color:#dfd">    return AssetValidation{.valid = true, .message = std::string{}};
+}</span>
+
+core::AtlasRegion AnimationCatalog::frameRegion(const AnimationDescription&amp; description,
+<span style = "background-color:#dfd">                                                int frameSheetIndex) {
+    return core::AtlasRegion{.x = frameSheetIndex * description.frameWidth,</span>
+                             .y = 0,
+                             .width = description.frameWidth,
+                             .height = description.frameHeight};
+<span style = "background-color:#dfd">}</span>
+
+core::AtlasRegion AnimationCatalog::currentFrameRegion(const AnimationDescription&amp; description,
+<span style = "background-color:#dfd">                                                       const core::Animation&amp; animation) {
+    if (!animation.clips || animation.clips-&gt;clipCount() == 0) {</span>
+<span style = "background-color:#fdd">        return frameRegion(description, 0);</span>
+    }
+<span style = "background-color:#dfd">    const core::AnimationClip&amp; clip = animation.clips-&gt;clipAt(animation.clipIndex);
+    if (clip.frames.empty()) {</span>
+<span style = "background-color:#fdd">        return frameRegion(description, 0);</span>
+    }
+<span style = "background-color:#dfd">    const bool inBounds = animation.frameIndex &gt;= 0 &amp;&amp;</span>
+                          static_cast&lt;std::size_t&gt;(animation.frameIndex) &lt; clip.frames.size();
+<span style = "background-color:#dfd">    const int frameIndexInClip = inBounds ? animation.frameIndex : 0;
+    return frameRegion(description, clip.frames[static_cast&lt;std::size_t&gt;(frameIndexInClip)]);
+}</span>
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

@@ -1,0 +1,136 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>PlaneVisuals.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#include "HMI/Graphics/PlaneVisuals.h"
+
+#include &lt;algorithm&gt;
+#include &lt;cstdint&gt;
+
+#include "HMI/Editor/PlaneFileNaming.h"
+#include "HMI/Graphics/GraphicsLog.h"
+#include "HMI/Graphics/Parallax.h"
+
+namespace hmi {
+
+// Projette la profondeur d'un plan sur le calque de rendu correspondant.
+<span style = "background-color:#dfd">RenderLayer planeRenderLayer(core::PlaneDepth depth) noexcept {
+    switch (depth) {</span>
+        case core::PlaneDepth::Behind:
+<span style = "background-color:#dfd">            return RenderLayer::Plane;</span>
+        case core::PlaneDepth::Front:
+<span style = "background-color:#dfd">            return RenderLayer::Foreground;</span>
+    }
+<span style = "background-color:#fdd">    return RenderLayer::Plane;</span>
+<span style = "background-color:#dfd">}</span>
+
+// Compose les plans picturaux d'un niveau, dans l'ordre declare.
+void composePlanes(ComposedScene&amp; scene, const std::vector&lt;core::Plane&gt;&amp; planes,
+                   const std::vector&lt;PlaneTexture&gt;&amp; textures, int levelWidth, int levelHeight,
+                   RenderMode mode, const PlaneVisibility&amp; visibility,
+<span style = "background-color:#dfd">                   const PlaneParallax&amp; parallax) {
+    if (mode != RenderMode::Texture || levelWidth &lt;= 0 || levelHeight &lt;= 0) {
+        return;  // mode Physique : lecture nue des collisions, aucun habillage (EX-REN-046).</span>
+    }
+
+<span style = "background-color:#dfd">    const std::size_t count = (std::min)(planes.size(), textures.size());
+    for (std::size_t rank = 0; rank &lt; count; ++rank) {
+        if (!visibility.visible(rank)) {
+            continue;</span>
+        }
+<span style = "background-color:#dfd">        const PlaneTexture&amp; texture = textures[rank];
+        if (texture.texture == nullptr) {
+            continue;</span>
+        }
+<span style = "background-color:#dfd">        const core::Plane&amp; plane = planes[rank];</span>
+
+        // Decalage de parallaxe (EX-DEC-043), par axe. Trois etapes dans CET ordre :
+        // 1. le decalage relatif au centre de la salle (jamais absolu : EX-REN-015) ;
+        // 2. le bornage, sans lequel le bord du plan se decouvrirait en fin de course ;
+        // 3. l'arrondi au pixel ecran, sans lequel le pixel art tremblerait.
+        // Inverser 2 et 3 laisserait un decalage borne fractionnaire : l'arrondi doit venir en
+        // dernier.
+<span style = "background-color:#dfd">        core::Vector2 origin{0.0f, 0.0f};
+        if (parallax.active) {</span>
+<span style = "background-color:#fdd">            const core::Rect planeBounds{</span>
+                core::Vector2{0.0f, 0.0f},
+                core::Vector2{static_cast&lt;float&gt;(levelWidth), static_cast&lt;float&gt;(levelHeight)}};
+<span style = "background-color:#fdd">            const core::Vector2 factor{plane.parallaxX, plane.parallaxY};</span>
+            const core::Vector2 rendered =
+<span style = "background-color:#fdd">                parallaxRenderPosition(origin, factor, parallax.cameraBounds);</span>
+            const core::Vector2 clamped =
+<span style = "background-color:#fdd">                clampPlaneOffset(rendered - origin, planeBounds, parallax.cameraBounds);
+            origin = roundToScreenPixel(origin + clamped, parallax.pixelsPerWorldUnit);</span>
+        }
+
+<span style = "background-color:#dfd">        SpriteQuad quad;
+        quad.x = origin.x;
+        quad.y = origin.y;
+        quad.width = static_cast&lt;float&gt;(levelWidth);
+        quad.height = static_cast&lt;float&gt;(levelHeight);</span>
+        // UV pleines, quelle que soit la densite : l'image EST le niveau a son echelle propre.
+<span style = "background-color:#dfd">        quad.u0 = 0.0f;
+        quad.v0 = 0.0f;
+        quad.u1 = 1.0f;
+        quad.v1 = 1.0f;</span>
+        // Opacite (EX-DEC-040) portee par la teinte : le pipeline multiplie deja texture x teinte,
+        // aucun etat de melange supplementaire n'est necessaire.
+<span style = "background-color:#dfd">        quad.a = std::clamp(plane.opacity, 0.0f, 1.0f);</span>
+
+        // `sortOrder` = rang du plan : depart le tri fin a l'interieur d'un calque quand deux plans
+        // partagent la meme image, cas ou le rang de texture ne les departage pas.
+<span style = "background-color:#dfd">        scene.addSprite(planeRenderLayer(plane.depth), texture.texture,</span>
+                        static_cast&lt;std::int32_t&gt;(rank), quad);
+        // Second axe du budget (EX-NFR-043) : ce qui est REELLEMENT lie, repli en damier compris.
+        // Le poids exige par le format, lui, se lit sans GPU (hmi::planesTextureMemoryBytes) --
+        // deux questions distinctes, et c'est la seconde que plafonne le test de budget.
+<span style = "background-color:#dfd">        scene.addTextureBytes(static_cast&lt;std::size_t&gt;((std::max)(texture.width, 0)) *</span>
+                              static_cast&lt;std::size_t&gt;((std::max)(texture.height, 0)) *
+                              PLANE_TEXTURE_BYTES_PER_PIXEL);
+<span style = "background-color:#dfd">    }
+}</span>
+
+// Memoire de texture qu'un plan exige du format.
+std::size_t planeTextureMemoryBytes(const core::Plane&amp; plane, int levelWidth,
+<span style = "background-color:#dfd">                                    int levelHeight) noexcept {
+    const PlanePixelSize size = planePixelSize(levelWidth, levelHeight, plane.pixelsPerUnit);
+    return static_cast&lt;std::size_t&gt;(size.width) * static_cast&lt;std::size_t&gt;(size.height) *</span>
+           PLANE_TEXTURE_BYTES_PER_PIXEL;
+<span style = "background-color:#dfd">}</span>
+
+// Somme sur tous les plans d'un niveau.
+std::size_t planesTextureMemoryBytes(const std::vector&lt;core::Plane&gt;&amp; planes, int levelWidth,
+<span style = "background-color:#dfd">                                     int levelHeight) noexcept {
+    std::size_t total = 0;
+    for (const core::Plane&amp; plane : planes) {
+        total += planeTextureMemoryBytes(plane, levelWidth, levelHeight);
+    }
+    return total;
+}</span>
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

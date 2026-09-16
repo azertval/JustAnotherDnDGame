@@ -1,0 +1,132 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>SoundCatalog.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#include "HMI/Audio/SoundCatalog.h"
+
+#include &lt;utility&gt;
+
+#include &lt;nlohmann/json.hpp&gt;
+
+#include "Core/Data/JsonDocument.h"
+#include "HMI/Audio/AudioLog.h"
+
+namespace hmi {
+
+namespace {
+
+// Noms des champs du format. Nommes plutot que repetes en litteraux : le lecteur et l'ecrivain ne
+// peuvent pas diverger sur une faute de frappe (meme discipline que hmi::SkinCatalog).
+constexpr const char* FIELD_VERSION = "version";
+constexpr const char* FIELD_SOUNDS = "sons";
+
+// Traduction de la categorie partagee (LOT-79) vers celle, documentee, de ce catalogue. Les cinq
+// categories coincident ; la fonction existe pour que l'ajout d'une categorie d'un cote fasse
+// echouer la compilation plutot que de tomber dans un cas par defaut.
+<span style = "background-color:#dfd">[[nodiscard]] SoundCatalogError mapError(core::JsonReadError code) {
+    switch (code) {</span>
+        case core::JsonReadError::None:
+<span style = "background-color:#fdd">            return SoundCatalogError::None;</span>
+        case core::JsonReadError::FileNotFound:
+<span style = "background-color:#dfd">            return SoundCatalogError::FileNotFound;</span>
+        case core::JsonReadError::ParseError:
+<span style = "background-color:#fdd">            return SoundCatalogError::ParseError;</span>
+        case core::JsonReadError::UnsupportedVersion:
+<span style = "background-color:#dfd">            return SoundCatalogError::UnsupportedVersion;</span>
+        case core::JsonReadError::MalformedStructure:
+<span style = "background-color:#fdd">            return SoundCatalogError::MalformedStructure;</span>
+    }
+<span style = "background-color:#fdd">    return SoundCatalogError::ParseError;</span>
+<span style = "background-color:#dfd">}</span>
+
+// Construit un resultat d'echec, en journalisant la raison en un point unique (meme patron que
+// hmi::SkinCatalog::failure).
+<span style = "background-color:#dfd">[[nodiscard]] SoundCatalogResult failure(std::string message, SoundCatalogError code) {
+    AUDIO_LOG_WARNING("sounds.json : " + message);
+    return SoundCatalogResult{</span>
+        .catalog = std::nullopt, .error = std::move(message), .errorCode = code};
+<span style = "background-color:#dfd">}</span>
+
+}  // namespace
+
+<span style = "background-color:#dfd">SoundCatalogResult SoundCatalog::loadFromString(std::string_view json) {
+    return fromDocument(core::readJsonObject(json, FORMAT_VERSION, "sounds.json", FIELD_VERSION));
+}</span>
+
+<span style = "background-color:#dfd">SoundCatalogResult SoundCatalog::fromDocument(const core::JsonDocument&amp; document) {
+    if (!document.ok()) {
+        return failure(document.message, mapError(document.error));</span>
+    }
+<span style = "background-color:#dfd">    const nlohmann::json&amp; root = document.root;</span>
+
+<span style = "background-color:#dfd">    SoundCatalog catalog;</span>
+
+<span style = "background-color:#dfd">    if (root.contains(FIELD_SOUNDS)) {
+        if (!root[FIELD_SOUNDS].is_object()) {</span>
+<span style = "background-color:#fdd">            return failure("Le champ Â« sons Â» n'est pas un objet.",</span>
+                           SoundCatalogError::MalformedStructure);
+        }
+<span style = "background-color:#dfd">        for (const auto&amp; [eventId, fileJson] : root[FIELD_SOUNDS].items()) {
+            if (!fileJson.is_string() || fileJson.get&lt;std::string&gt;().empty()) {
+                return failure("Evenement Â« " + eventId + " Â» sans fichier exploitable.",</span>
+                               SoundCatalogError::MalformedStructure);
+            }
+<span style = "background-color:#dfd">            catalog.assign(eventId, fileJson.get&lt;std::string&gt;());
+        }</span>
+    }
+
+<span style = "background-color:#dfd">    return SoundCatalogResult{</span>
+        .catalog = std::move(catalog), .error = {}, .errorCode = SoundCatalogError::None};
+<span style = "background-color:#dfd">}</span>
+
+<span style = "background-color:#dfd">SoundCatalogResult SoundCatalog::loadFromFile(const std::filesystem::path&amp; path) {
+    return fromDocument(core::readJsonObjectFromFile(path, FORMAT_VERSION, FIELD_VERSION));
+}</span>
+
+<span style = "background-color:#dfd">std::optional&lt;std::string&gt; SoundCatalog::resolve(std::string_view eventId) const {
+    const auto entry = _sounds.find(eventId);
+    if (entry == _sounds.end()) {
+        return std::nullopt;</span>
+    }
+<span style = "background-color:#dfd">    return entry-&gt;second;
+}</span>
+
+<span style = "background-color:#dfd">std::vector&lt;std::string&gt; SoundCatalog::eventIds() const {
+    std::vector&lt;std::string&gt; ids;
+    ids.reserve(_sounds.size());
+    for (const auto&amp; entry : _sounds) {
+        ids.push_back(entry.first);
+    }
+    return ids;  // deja triees : _sounds est un std::map.
+}</span>
+
+<span style = "background-color:#dfd">void SoundCatalog::assign(const std::string&amp; eventId, std::string file) {
+    _sounds[eventId] = std::move(file);
+}</span>
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

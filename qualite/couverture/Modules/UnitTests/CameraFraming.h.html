@@ -1,0 +1,139 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>CameraFraming.h</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#pragma once
+
+#include &lt;optional&gt;
+#include &lt;string&gt;
+#include &lt;string_view&gt;
+#include &lt;vector&gt;
+
+/**
+ * @file Core/Levels/CameraFraming.h
+ * @brief Mode de cadrage de camÃ©ra portÃ© par le niveau (`EX-LVL-006`, `EX-REN-016`, LOT-64).
+ */
+
+namespace core {
+
+/**
+ * @brief Mode de cadrage de camÃ©ra d'un niveau (`EX-REN-016`) : dÃ©cision de **conception**, pas
+ *        une rÃ¨gle dÃ©duite de ses dimensions.
+ */
+enum class CameraFramingMode {
+    WholeLevel,  ///&lt; Le niveau entier tient dans le cadre (`EX-REN-013`).
+    PerRoom,     ///&lt; Cadrage salle par salle, coupure nette au franchissement (`EX-REN-015`).
+    Follow,      ///&lt; CamÃ©ra de suivi du personnage (zone morte, anticipation, bornage).
+};
+
+/// Nom JSON du mode (symÃ©trique Ã  `parseCameraFramingMode`), pour la sÃ©rialisation.
+[[nodiscard]] std::string_view cameraFramingModeName(CameraFramingMode mode) noexcept;
+
+/// ReconnaÃ®t le nom JSON d'un mode ; `std::nullopt` si non reconnu (mode inconnu, `EX-LVL-004`).
+[[nodiscard]] std::optional&lt;CameraFramingMode&gt; parseCameraFramingMode(
+    std::string_view name) noexcept;
+
+/**
+ * @brief Taille de salle par dÃ©faut du mode *par salle*, en cases.
+ *
+ * MÃªmes valeurs historiques que `hmi::RoomGrid` (`LOT-32`), dÃ©sormais une **valeur par dÃ©faut**
+ * plutÃ´t que la seule vÃ©ritÃ© (`tache-01`) : un niveau peut la personnaliser. DupliquÃ©es ici plutÃ´t
+ * que lues depuis `hmi::RoomGrid` : `Core` ne dÃ©pend jamais de `HMI` (`EX-ARCH-011`).
+ */
+inline constexpr int DEFAULT_ROOM_WIDTH_TILES = 24;
+inline constexpr int DEFAULT_ROOM_HEIGHT_TILES = 14;
+
+/**
+ * @brief Rectangle de camÃ©ra dessinÃ© Ã  la main par le level designer (mode *par salle*), en cases.
+ *
+ * Quand `CameraFramingConfig::zones` en porte au moins un, il **remplace entiÃ¨rement** le
+ * dÃ©coupage automatique en grille uniforme (`roomWidthTiles`/`roomHeightTiles`) : c'est ce qui
+ * permet de mÃ©langer plusieurs tailles de camÃ©ra dans un mÃªme niveau, chaque zone Ã©tant une
+ * salle de la taille voulue par l'auteur plutÃ´t qu'une cellule d'une grille rÃ©guliÃ¨re.
+ */
+struct CameraZone {
+    int x = 0;
+    int y = 0;
+    int width = 1;
+    int height = 1;
+
+    [[nodiscard]] bool operator==(const CameraZone&amp;) const noexcept = default;
+};
+
+/**
+ * @brief Cadrage de camÃ©ra rÃ©solu d'un niveau : le mode retenu et ses paramÃ¨tres.
+ *
+ * `roomWidthTiles`/`roomHeightTiles` ont deux usages selon le mode : en `PerRoom`, la taille de
+ * chaque salle du dÃ©coupage **automatique** en grille (ignorÃ©e si `zones` est non vide) ; en
+ * `Follow`, la taille fixe de la zone visible par la camÃ©ra de suivi. `std::nullopt` signifie
+ * Â« taille par dÃ©faut Â» (`DEFAULT_ROOM_WIDTH_TILES`/`DEFAULT_ROOM_HEIGHT_TILES`), jamais une taille
+ * de zÃ©ro case. Sans objet dans les deux cas pour `WholeLevel`.
+ */
+struct CameraFramingConfig {
+<span style = "background-color:#dfd">    CameraFramingMode mode = CameraFramingMode::WholeLevel;</span>
+    std::optional&lt;int&gt; roomWidthTiles;
+    std::optional&lt;int&gt; roomHeightTiles;
+    /**
+     * Zones de camÃ©ra dessinÃ©es Ã  la main (mode `PerRoom` uniquement) : si non vide, remplace
+     * entiÃ¨rement le dÃ©coupage automatique en grille â la **premiÃ¨re** zone de la liste qui
+     * contient la position du personnage est active (l'ordre porte donc la prioritÃ© en cas de
+     * chevauchement, mÃªme convention que la superposition des dÃ©cors) ; si aucune zone ne la
+     * contient, repli sur le cadrage niveau entier (jamais un Ã©tat indÃ©fini).
+     */
+    std::vector&lt;CameraZone&gt; zones;
+
+    [[nodiscard]] bool operator==(const CameraFramingConfig&amp;) const noexcept = default;
+};
+
+/**
+ * @brief RÃ©sout le cadrage effectif d'un niveau Ã  partir du champ **dÃ©clarÃ©** (peut Ãªtre absent).
+ *
+ * Unique endroit incarnant la rÃ¨gle de repli (`EX-LVL-006`) : un niveau **sans** mode dÃ©clarÃ© est
+ * cadrÃ© sur le niveau entier s'il tient dans une salle de taille par dÃ©faut, et par salle sinon.
+ * Un mode dÃ©clarÃ© explicitement est retournÃ© tel quel, sans substitution.
+ * @param declared    Cadrage dÃ©clarÃ© dans le fichier, ou `std::nullopt` si le champ est absent.
+ * @param levelWidth  Largeur du niveau, en cases (&gt; 0).
+ * @param levelHeight Hauteur du niveau, en cases (&gt; 0).
+ * @return Le cadrage effectif Ã  appliquer.
+ */
+[[nodiscard]] CameraFramingConfig resolveCameraFraming(
+    const std::optional&lt;CameraFramingConfig&gt;&amp; declared, int levelWidth, int levelHeight) noexcept;
+
+/**
+ * @brief Valide un cadrage dÃ©clarÃ© (`EX-LVL-004`) : taille de vue nulle/nÃ©gative ou supÃ©rieure au
+ *        niveau, zone hors bornes ou de taille nulle, ou paramÃ¨tre Ã©tranger au mode retenu
+ *        (`roomWidthTiles`/`roomHeightTiles` hors `PerRoom`/`Follow`, `zones` hors `PerRoom`).
+ * @param config      Cadrage dÃ©clarÃ© Ã  valider.
+ * @param levelWidth  Largeur du niveau, en cases.
+ * @param levelHeight Hauteur du niveau, en cases.
+ * @return Un message d'erreur exploitable nommant le champ fautif, ou `std::nullopt` si valide.
+ */
+[[nodiscard]] std::optional&lt;std::string&gt; validateCameraFramingConfig(
+    const CameraFramingConfig&amp; config, int levelWidth, int levelHeight);
+
+}  // namespace core</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

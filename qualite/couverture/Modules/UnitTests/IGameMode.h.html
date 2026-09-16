@@ -1,0 +1,141 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>IGameMode.h</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#pragma once
+
+#include &lt;string_view&gt;
+#include &lt;vector&gt;
+
+#include "Core/Levels/LevelOutcome.h"
+#include "Core/Physics/PlayerInput.h"
+
+/**
+ * @file HMI/Game/IGameMode.h
+ * @brief Mode de jeu : l'**ordre des passes** d'un pas fixe, sÃ©parÃ© de l'orchestrateur (`LOT-05`).
+ */
+
+namespace hmi {
+
+/**
+ * @brief Les passes d'un pas fixe, telles que l'orchestrateur les offre Ã  un mode de jeu.
+ *
+ * Chaque mÃ©thode est **une** passe : elle fait ce que son nom dit, ni plus ni moins, et ne dÃ©cide
+ * jamais de ce qui vient aprÃ¨s. C'est le mode (`hmi::IGameMode`) qui les enchaÃ®ne â c'est lÃ  toute
+ * la sÃ©paration qu'apporte le `LOT-05` (`EX-ARCH-002`).
+ *
+ * Interface **sans Qt et sans GPU**, ne parlant que de `core::` : c'est ce qui rend un mode de jeu
+ * testable sans fenÃªtre, alors que `hmi::GameSession` â son unique implÃ©mentation rÃ©elle â exige
+ * un atlas, un lot de sprites et une police. Un mode se vÃ©rifie donc contre une implÃ©mentation
+ * d'essai qui **enregistre** l'ordre des appels, sans simuler quoi que ce soit.
+ */
+class IGameModePasses {
+public:
+<span style = "background-color:#dfd">    IGameModePasses() = default;
+    virtual ~IGameModePasses() = default;</span>
+    IGameModePasses(const IGameModePasses&amp;) = delete;
+    IGameModePasses&amp; operator=(const IGameModePasses&amp;) = delete;
+    IGameModePasses(IGameModePasses&amp;&amp;) = delete;
+    IGameModePasses&amp; operator=(IGameModePasses&amp;&amp;) = delete;
+
+    /// Fige la position **courante** de chaque entitÃ© mobile comme sa position Â« prÃ©cÃ©dente Â»,
+    /// avant que le pas ne la modifie (interpolation de rendu, `EX-ARCH-031`).
+    virtual void snapshotPreviousPositions() = 0;
+    /// Avance les particules dÃ©jÃ  Ã©mises (`LOT-53`), avant que ce pas n'en Ã©mette de nouvelles.
+    virtual void advanceParticles(float fixedDelta) = 0;
+    /// Fait dÃ©croÃ®tre la secousse d'Ã©cran courante (`LOT-53`).
+    virtual void advanceScreenShake(float fixedDelta) = 0;
+    /// DÃ©place le personnage selon l'intention de ce pas.
+    virtual void moveCharacter(const core::PlayerInput&amp; input, float fixedDelta) = 0;
+    /// Avance les animations d'entitÃ©s et l'horloge des tuiles animÃ©es (`EX-REN-012`).
+    virtual void advanceAnimations(float fixedDelta) = 0;
+    /// Recadre la camÃ©ra selon le mode de cadrage rÃ©solu du niveau (`EX-LVL-006`).
+    virtual void updateCamera(float fixedDelta) = 0;
+    /// RÃ©sout les mÃ©canismes Ã  partir de la boÃ®te du personnage et de son intention.
+    virtual void updateMechanisms(const core::PlayerInput&amp; input) = 0;
+    /// RelÃ¨ve les transitions du pas (personnage, mÃ©canismes) en Ã©vÃ©nements de jeu (`LOT-60`).
+    virtual void detectEvents() = 0;
+    /// Projette l'Ã©tat logique des mÃ©canismes sur leur apparence (`LOT-47`, `EX-REN-006`).
+    virtual void updateMechanismVisuals(float fixedDelta) = 0;
+    /// @return L'issue du niveau pour ce pas, sans rien y changer.
+    [[nodiscard]] virtual core::LevelOutcome evaluateOutcome() = 0;
+    /// ConsÃ©quences d'un Ã©chec : Ã©clatement, secousse, puis rechargement du niveau.
+    virtual void onLevelLost() = 0;
+};
+
+/**
+ * @brief Un **mode de jeu** : l'ordre dans lequel les passes d'un pas fixe s'enchaÃ®nent.
+ *
+ * `hmi::GameSession` mÃªlait deux rÃ´les â orchestrateur (monde ECS, camÃ©ra, Ã©vÃ©nements, HUD, pas
+ * fixe, interpolation) et mode de jeu (l'ordre des passes lui-mÃªme). Tant qu'il n'y avait qu'un
+ * genre, la confusion ne coÃ»tait rien. Le RPG a besoin d'au moins **trois** ordres diffÃ©rents :
+ * exploration (dÃ©placement, animation, camÃ©ra, mÃ©canismes, issue), dialogue (monde gelÃ©, seul le
+ * runner de dialogue avance, `LOT-15`) et combat (initiative, tour actif, rÃ©solution d'action â
+ * l'exploration ne tourne plus du tout, `LOT-18`). Sans cette sÃ©paration, les trois s'entasseraient
+ * en `if` dans une fonction dÃ©jÃ  longue.
+ *
+ * La sÃ©lection se fait par **polymorphisme**, jamais par un `if (mode == â¦)` dans l'orchestrateur.
+ */
+class IGameMode {
+public:
+<span style = "background-color:#dfd">    IGameMode() = default;
+    virtual ~IGameMode() = default;</span>
+    IGameMode(const IGameMode&amp;) = delete;
+    IGameMode&amp; operator=(const IGameMode&amp;) = delete;
+    IGameMode(IGameMode&amp;&amp;) = delete;
+    IGameMode&amp; operator=(IGameMode&amp;&amp;) = delete;
+
+    /// @return Le nom du mode, pour les diagnostics et les journaux.
+    [[nodiscard]] virtual std::string_view name() const = 0;
+
+    /**
+     * @brief L'ordre des passes que `step()` enchaÃ®ne, nommÃ©es, pour les diagnostics.
+     *
+     * Documentation **exÃ©cutable** : un test compare cette liste Ã  la sÃ©quence rÃ©ellement appelÃ©e,
+     * de sorte qu'un ordre modifiÃ© sans mettre la liste Ã  jour Ã©choue au lieu de mentir.
+     */
+    [[nodiscard]] virtual std::vector&lt;std::string_view&gt; passOrder() const = 0;
+
+    /// AppelÃ© quand le mode devient actif, une fois le niveau chargÃ©.
+    virtual void onLoad(IGameModePasses&amp; passes) = 0;
+
+    /**
+     * @brief Avance d'un pas fixe, en enchaÃ®nant les passes dans l'ordre propre au mode.
+     * @param passes     Les passes offertes par l'orchestrateur.
+     * @param input      Intention de jeu dÃ©jÃ  rÃ©solue pour ce pas.
+     * @param fixedDelta DurÃ©e du pas fixe, en secondes.
+     * @return L'issue du niveau Ã  l'issue du pas.
+     */
+    virtual core::LevelOutcome step(IGameModePasses&amp; passes, const core::PlayerInput&amp; input,
+                                    float fixedDelta) = 0;
+
+    /// AppelÃ© quand le mode cesse d'Ãªtre actif (bascule vers un autre mode, ou fin de session).
+    virtual void onUnload(IGameModePasses&amp; passes) = 0;
+};
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

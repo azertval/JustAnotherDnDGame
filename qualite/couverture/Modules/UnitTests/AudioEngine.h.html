@@ -1,0 +1,144 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>AudioEngine.h</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#pragma once
+
+#include &lt;cstddef&gt;
+#include &lt;filesystem&gt;
+#include &lt;memory&gt;
+#include &lt;string&gt;
+#include &lt;unordered_map&gt;
+#include &lt;vector&gt;
+
+class QSoundEffect;
+
+/**
+ * @file HMI/Audio/AudioEngine.h
+ * @brief Socle de lecture audio : enveloppe fine autour de `QSoundEffect` (`EX-REN-047`).
+ */
+
+namespace hmi {
+
+/**
+ * @brief Lecture d'Ã©chantillons courts Ã  faible latence, avec volume global et repli muet.
+ *
+ * Enveloppe fine autour de `QSoundEffect` (Qt Multimedia) : ouverture du pÃ©riphÃ©rique de sortie Ã 
+ * la construction, un `QSoundEffect` par Ã©chantillon prÃ©chargÃ©, arrÃªt propre Ã  la destruction
+ * (RAII, `EX-NFR-041`). Aucune exception ne franchit cette frontiÃ¨re (`EX-NFR-040`) : un
+ * pÃ©riphÃ©rique absent, un fichier introuvable ou une lecture demandÃ©e alors que le moteur est
+ * Â« muet Â» ne font jamais rien de plus qu'un avertissement journalisÃ© une seule fois.
+ *
+ * **Aucune dÃ©pendance dans `Core`** : cette classe vit exclusivement dans `HMI`
+ * (`EX-ARCH-012`, `EX-NFR-010`). La simulation expose des transitions d'Ã©tat ; c'est ce moteur,
+ * pilotÃ© par `HMI/Audio/SoundTriggers` (LOT-60 TACHE-03), qui dÃ©cide qu'une transition fait du
+ * bruit.
+ */
+class AudioEngine {
+public:
+    /// Ãtiquette du constructeur qui force l'Ã©tat Â« muet Â», sans tenter d'ouvrir de pÃ©riphÃ©rique â
+    /// rÃ©servÃ© aux tests : le comportement en l'absence de pÃ©riphÃ©rique doit Ãªtre vÃ©rifiable sans
+    /// dÃ©pendre du matÃ©riel audio rÃ©el de la machine qui exÃ©cute les tests.
+    enum class ForceMuted { Yes };
+
+    /// Ouvre le pÃ©riphÃ©rique de sortie par dÃ©faut. Un Ã©chec (aucun pÃ©riphÃ©rique) place le moteur en
+    /// Ã©tat muet et journalise un avertissement une seule fois â jamais une exception.
+    AudioEngine();
+
+    /// Construit un moteur dÃ©jÃ  muet, sans toucher au pÃ©riphÃ©rique rÃ©el (tests, `ForceMuted::Yes`).
+    explicit AudioEngine(ForceMuted);
+
+    ~AudioEngine();
+
+    AudioEngine(const AudioEngine&amp;) = delete;
+    AudioEngine&amp; operator=(const AudioEngine&amp;) = delete;
+    AudioEngine(AudioEngine&amp;&amp;) = delete;
+    AudioEngine&amp; operator=(AudioEngine&amp;&amp;) = delete;
+
+    /// @return true si le moteur ne produira aucun son (pÃ©riphÃ©rique absent, ou forcÃ© pour les
+    ///         tests).
+<span style = "background-color:#dfd">    [[nodiscard]] bool muted() const noexcept {
+        return _muted;
+    }</span>
+
+    /**
+     * @brief RÃ¨gle le volume global, appliquÃ© immÃ©diatement Ã  tous les Ã©chantillons prÃ©chargÃ©s.
+     * @param volume Volume voulu. Hors [0, 1], ramenÃ© Ã  l'extrÃ©mitÃ© la plus proche â jamais
+     *        propagÃ© tel quel (une valeur nÃ©gative ou explosÃ©e ne doit jamais atteindre
+     *        `QSoundEffect`).
+     */
+    void setVolume(float volume);
+
+    /// @return Le volume global courant, toujours dans [0, 1].
+<span style = "background-color:#dfd">    [[nodiscard]] float volume() const noexcept {
+        return _volume;
+    }</span>
+
+    /**
+     * @brief PrÃ©charge un Ã©chantillon sous un identifiant logique.
+     *
+     * Ã appeler au dÃ©marrage pour chaque son du catalogue (`HMI/Audio/SoundCatalog`, TACHE-02) :
+     * `QSoundEffect` charge son fichier de faÃ§on asynchrone, jouer immÃ©diatement aprÃ¨s
+     * construction ne produit rien. PrÃ©charger ici, jamais au premier dÃ©clenchement. PrÃ©pare en
+     * rÃ©alitÃ© `MAX_INSTANCES_PER_EVENT` Ã©chantillons identiques (une petite rÃ©serve), pour qu'un
+     * mÃªme Ã©vÃ©nement dÃ©clenchÃ© en rafale se recouvre sans s'interrompre lui-mÃªme de faÃ§on audible.
+     * @param id Identifiant logique (ex. "saut"). Un second appel avec le mÃªme identifiant
+     *        remplace la rÃ©serve prÃ©cÃ©dente.
+     * @param file Chemin du fichier WAV. Un fichier absent ne fait pas Ã©chouer l'appel : la
+     *        lecture ultÃ©rieure de cet identifiant restera silencieuse.
+     */
+    void preload(const std::string&amp; id, const std::filesystem::path&amp; file);
+
+    /**
+     * @brief Joue l'Ã©chantillon prÃ©chargÃ© sous cet identifiant.
+     *
+     * Sans effet si le moteur est muet, si @p id n'a jamais Ã©tÃ© prÃ©chargÃ©, ou si le fichier
+     * associÃ© n'a pas pu Ãªtre chargÃ© â jamais une erreur pour l'appelant (`EX-NFR-040`). Choisit
+     * une instance parmi la rÃ©serve prÃ©chargÃ©e (tourniquet) : un mÃªme Ã©vÃ©nement dÃ©clenchÃ© plus de
+     * `MAX_INSTANCES_PER_EVENT` fois dans le mÃªme instant rÃ©utilise la plus ancienne plutÃ´t que
+     * d'empiler indÃ©finiment des lectures superposÃ©es.
+     * @param id Identifiant prÃ©chargÃ© par `preload`.
+     */
+    void play(const std::string&amp; id);
+
+private:
+    /// Nombre d'instances prÃ©chargÃ©es par Ã©vÃ©nement â plafonne le recouvrement audible d'un mÃªme
+    /// son dÃ©clenchÃ© en rafale, sans l'empÃªcher complÃ¨tement (`TACHE-02`).
+    static constexpr std::size_t MAX_INSTANCES_PER_EVENT = 3;
+
+    struct Sample {
+        std::vector&lt;std::unique_ptr&lt;QSoundEffect&gt;&gt; instances;
+        std::size_t nextInstance = 0;  ///&lt; Tourniquet : prochaine instance a reutiliser.
+    };
+
+    std::unordered_map&lt;std::string, Sample&gt; _samples;
+<span style = "background-color:#dfd">    float _volume = 1.0f;</span>
+<span style = "background-color:#fdd">    bool _muted = false;</span>
+};
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

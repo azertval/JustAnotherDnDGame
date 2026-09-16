@@ -1,0 +1,225 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>ComponentPool.h</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#pragma once
+
+#include &lt;cstddef&gt;
+#include &lt;vector&gt;
+
+#include "Core/Diagnostics/Assert.h"
+#include "Core/Ecs/Entity.h"
+
+/**
+ * @file Core/Ecs/ComponentPool.h
+ * @brief Stockage typÃ© des composants d'un ECS sous forme de sparse set.
+ */
+
+namespace core {
+
+/**
+ * @brief Interface type-effacÃ©e d'une pool de composants.
+ *
+ * Permet au ::core::World de dÃ©tenir des pools de types hÃ©tÃ©rogÃ¨nes dans un mÃªme
+ * conteneur et d'agir dessus sans connaÃ®tre le type concret â notamment pour
+ * retirer les composants d'une entitÃ© dÃ©truite dans **toutes** les pools.
+ */
+class IComponentPool {
+public:
+<span style = "background-color:#dfd">    virtual ~IComponentPool() = default;</span>
+
+    /**
+     * @brief Retire le composant d'une entitÃ© s'il existe.
+     * @param entity EntitÃ© Ã©ventuellement porteuse d'un composant.
+     * @return `true` si un composant a Ã©tÃ© retirÃ©, `false` sinon.
+     */
+    virtual bool removeIfPresent(Entity entity) = 0;
+};
+
+/**
+ * @brief Stockage dense des composants d'un type `T`, indexÃ© par entitÃ© (sparse set).
+ *
+ * Combine deux structures pour concilier itÃ©ration rapide et accÃ¨s direct :
+ * - un tableau **dense** de composants, contigu en mÃ©moire (itÃ©ration
+ *   cache-friendly par les systÃ¨mes) et son tableau parallÃ¨le des entitÃ©s
+ *   propriÃ©taires ;
+ * - un tableau **creux** indexÃ© par ::core::Entity::index, associant chaque
+ *   entitÃ© Ã  la position de son composant dans le tableau dense (accÃ¨s en temps
+ *   constant).
+ *
+ * La suppression se fait par *swap-and-pop* : le composant retirÃ© est Ã©changÃ©
+ * avec le dernier avant d'Ãªtre retranchÃ©, ce qui maintient la densitÃ© sans
+ * dÃ©caler tout le tableau.
+ *
+ * @warning Les rÃ©fÃ©rences renvoyÃ©es par get() sont invalidÃ©es par tout add()
+ *          (rÃ©allocation possible) ou remove() (dÃ©placement du dernier Ã©lÃ©ment).
+ *          Ne pas conserver une rÃ©fÃ©rence Ã  un composant au-delÃ  de telles
+ *          opÃ©rations sur la mÃªme pool.
+ *
+ * @tparam T Type de composant stockÃ©. Doit Ãªtre une donnÃ©e pure (`EX-ARCH-011`).
+ */
+template &lt;typename T&gt;
+class ComponentPool : public IComponentPool {
+public:
+    /// Position dense rÃ©servÃ©e signifiant Â« aucun composant pour cette entitÃ© Â».
+    static constexpr std::size_t INVALID_POSITION = ~std::size_t{0};
+
+    /**
+     * @brief Attache un composant Ã  une entitÃ©.
+     * @param entity    EntitÃ© destinataire ; ne doit pas dÃ©jÃ  possÃ©der ce composant.
+     * @param component Valeur du composant Ã  copier dans le tableau dense.
+     * @pre L'entitÃ© ne possÃ¨de pas encore de composant de ce type (has() == false).
+     */
+<span style = "background-color:#dfd">    void add(Entity entity, const T&amp; component) {
+        JADG_ASSERT(!has(entity), "L'entite possede deja ce composant.");</span>
+
+<span style = "background-color:#dfd">        ensureSparseSize(entity.index);
+        _sparse[entity.index] = _components.size();
+        _components.push_back(component);
+        _entities.push_back(entity);
+    }</span>
+
+    /**
+     * @brief Retire le composant d'une entitÃ© (swap-and-pop).
+     * @param entity EntitÃ© dont le composant est retirÃ©.
+     * @pre L'entitÃ© possÃ¨de ce composant (has() == true).
+     */
+<span style = "background-color:#dfd">    void remove(Entity entity) {
+        JADG_ASSERT(has(entity), "L'entite ne possede pas ce composant.");</span>
+
+<span style = "background-color:#dfd">        const std::size_t removed = _sparse[entity.index];
+        const std::size_t last = _components.size() - 1;</span>
+
+        // Swap-and-pop : on remonte le dernier Ã©lÃ©ment Ã  la place du supprimÃ©
+        // pour garder le tableau dense contigu, puis on met Ã  jour le creux de
+        // l'entitÃ© dÃ©placÃ©e pour qu'il pointe vers sa nouvelle position.
+<span style = "background-color:#dfd">        _components[removed] = _components[last];
+        _entities[removed] = _entities[last];
+        _sparse[_entities[removed].index] = removed;</span>
+
+<span style = "background-color:#dfd">        _components.pop_back();
+        _entities.pop_back();
+        _sparse[entity.index] = INVALID_POSITION;
+    }</span>
+
+    /**
+     * @brief Retire le composant d'une entitÃ© s'il existe (sans prÃ©condition).
+     * @param entity EntitÃ© Ã©ventuellement porteuse du composant.
+     * @return `true` si un composant a Ã©tÃ© retirÃ©, `false` s'il n'y en avait pas.
+     */
+<span style = "background-color:#dfd">    bool removeIfPresent(Entity entity) override {
+        if (!has(entity)) {
+            return false;</span>
+        }
+<span style = "background-color:#dfd">        remove(entity);
+        return true;
+    }</span>
+
+    /**
+     * @brief Indique si une entitÃ© possÃ¨de un composant de ce type.
+     * @param entity EntitÃ© testÃ©e.
+     * @return `true` si un composant est associÃ© Ã  cette entitÃ© (gÃ©nÃ©ration incluse).
+     */
+<span style = "background-color:#dfd">    [[nodiscard]] bool has(Entity entity) const {
+        if (entity.index &gt;= _sparse.size()) {
+            return false;</span>
+        }
+<span style = "background-color:#dfd">        const std::size_t position = _sparse[entity.index];</span>
+        // Position valide et pointant une entrÃ©e dont l'entitÃ© correspond
+        // exactement (l'Ã©galitÃ© inclut la gÃ©nÃ©ration : un handle pÃ©rimÃ© Ã©choue).
+<span style = "background-color:#dfd">        return position != INVALID_POSITION &amp;&amp; _entities[position] == entity;
+    }</span>
+
+    /**
+     * @brief AccÃ¨de au composant d'une entitÃ© (lecture-Ã©criture).
+     * @param entity EntitÃ© porteuse du composant.
+     * @return Une rÃ©fÃ©rence sur le composant stockÃ©.
+     * @pre L'entitÃ© possÃ¨de ce composant (has() == true).
+     */
+<span style = "background-color:#dfd">    [[nodiscard]] T&amp; get(Entity entity) {
+        JADG_ASSERT(has(entity), "L'entite ne possede pas ce composant.");
+        return _components[_sparse[entity.index]];
+    }</span>
+
+    /**
+     * @brief AccÃ¨de au composant d'une entitÃ© (lecture seule).
+     * @param entity EntitÃ© porteuse du composant.
+     * @return Une rÃ©fÃ©rence constante sur le composant stockÃ©.
+     * @pre L'entitÃ© possÃ¨de ce composant (has() == true).
+     */
+    [[nodiscard]] const T&amp; get(Entity entity) const {
+        JADG_ASSERT(has(entity), "L'entite ne possede pas ce composant.");
+        return _components[_sparse[entity.index]];
+    }
+
+    /// @return Nombre de composants actuellement stockÃ©s.
+<span style = "background-color:#dfd">    [[nodiscard]] std::size_t size() const {
+        return _components.size();
+    }</span>
+
+    /// @return `true` si la pool ne contient aucun composant.
+    [[nodiscard]] bool empty() const {
+        return _components.empty();
+    }
+
+    /**
+     * @brief EntitÃ©s possÃ©dant un composant, dans l'ordre du tableau dense.
+     * @return Une rÃ©fÃ©rence constante sur le tableau dense des entitÃ©s.
+     */
+<span style = "background-color:#dfd">    [[nodiscard]] const std::vector&lt;Entity&gt;&amp; entities() const {
+        return _entities;
+    }</span>
+
+    /**
+     * @brief Composants stockÃ©s, dans l'ordre du tableau dense.
+     * @return Une rÃ©fÃ©rence constante sur le tableau dense des composants.
+     */
+<span style = "background-color:#dfd">    [[nodiscard]] const std::vector&lt;T&gt;&amp; components() const {
+        return _components;
+    }</span>
+
+private:
+    /**
+     * @brief Agrandit le tableau creux pour qu'il couvre un index d'entitÃ© donnÃ©.
+     * @param index Index d'entitÃ© Ã  rendre adressable dans le tableau creux.
+     */
+<span style = "background-color:#dfd">    void ensureSparseSize(Entity::Index index) {
+        if (index &gt;= _sparse.size()) {
+            _sparse.resize(static_cast&lt;std::size_t&gt;(index) + 1, INVALID_POSITION);</span>
+        }
+<span style = "background-color:#dfd">    }</span>
+
+    /// Tableau dense des composants (contigu, cache-friendly).
+    std::vector&lt;T&gt; _components;
+    /// EntitÃ©s propriÃ©taires, parallÃ¨le Ã  `_components`.
+    std::vector&lt;Entity&gt; _entities;
+    /// Position dense de chaque entitÃ©, indexÃ© par Entity::index (INVALID_POSITION si absente).
+    std::vector&lt;std::size_t&gt; _sparse;
+};
+
+}  // namespace core</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.16.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>JustAnotherDnDGame: Cahier de test</title>
+<title>JustAnotherRpgGame: Cahier de test</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">JustAnotherDnDGame<span id="projectnumber">&#160;0.1.0</span>
+   <div id="projectname">JustAnotherRpgGame<span id="projectnumber">&#160;0.1.0</span>
    </div>
    <div id="projectbrief">Jeu de rôle tactique au d20, vue de dessus, en C++/Qt</div>
   </td>
@@ -93,9 +93,9 @@ $(function(){initNavTree('cahiertest.html','',''); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md_CahierTest"></a></p>
-<p><b>1191 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
+<p><b>1193 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md5"></a>
-Tests unitaires (1176)</h1>
+Tests unitaires (1178)</h1>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md6"></a>
 Core</h2>
 <p><b><span class="tt"><a class="el" href="test__core_8cpp.html" title="Tests unitaires de la bibliothèque Core (amorçage).">test_core.cpp</a></span></b></p>
@@ -319,13 +319,13 @@ Vérifie que <span class="tt">letale.outcome().has_value()</span> est vrai.<br  
 Vérifie que <span class="tt">journalLetal.back()</span> diffère de <span class="tt">"marque heroique : tous releves"</span>.<br  />
 Vérifie que <span class="tt">std::ranges::any_of(letale.combat().combatants(), [&amp;](CombatantId id) { return letale.combat().find(id)-&gt;status == <a class="el" href="namespacecore.html#ab77b88490327a0c26ec09d4f6126e382a08a38277b0309070706f6652eeae9a53" title="À 0 point de vie : il garde sa place dans l&#39;ordre, et ses tours sont passés tant qu&#39;il n&#39;est pas rele...">core::CombatantStatus::Down</a>; })</span> est vrai.  </td></tr>
 </table>
-<p><b><span class="tt"><a class="el" href="test__attack_8cpp.html" title="Tests de l&#39;attaque (LOT-21, EX-CBT-030, EX-CBT-031, EX-DND-003) : 1 et 20 naturels,...">test_attack.cpp</a></span></b></p>
+<p><b><span class="tt"><a class="el" href="test__attack_8cpp.html" title="Tests de l&#39;attaque (LOT-21, EX-CBT-030, EX-CBT-031, EX-REG-003) : 1 et 20 naturels,...">test_attack.cpp</a></span></b></p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
 <th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>AttackTest.UnVingtNaturelToucheEtDoubleLesDes</b> (Bloquant)<br  />
-<sub><span class="tt"><a class="el" href="test__attack_8cpp.html" title="Tests de l&#39;attaque (LOT-21, EX-CBT-030, EX-CBT-031, EX-DND-003) : 1 et 20 naturels,...">Source/Test/Unit/Core/Combat/test_attack.cpp</a>:88</span></sub>  </td><td class="markdownTableBodyNone">Un 20 naturel touche une CA hors d'atteinte, est un critique, et double les des de degats sans doubler le modificateur.  </td><td class="markdownTableBodyNone">1. L'heroine (+5, 1d8+3) attaque un gobelin a la CA 40.<br  />
+<sub><span class="tt"><a class="el" href="test__attack_8cpp.html" title="Tests de l&#39;attaque (LOT-21, EX-CBT-030, EX-CBT-031, EX-REG-003) : 1 et 20 naturels,...">Source/Test/Unit/Core/Combat/test_attack.cpp</a>:88</span></sub>  </td><td class="markdownTableBodyNone">Un 20 naturel touche une CA hors d'atteinte, est un critique, et double les des de degats sans doubler le modificateur.  </td><td class="markdownTableBodyNone">1. L'heroine (+5, 1d8+3) attaque un gobelin a la CA 40.<br  />
 2. Le d20 est force a 20.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">issue.has_value()</span> est vrai.<br  />
 Vérifie que <span class="tt">issue-&gt;roll.hit</span> est vrai.<br  />
 Vérifie que <span class="tt">issue-&gt;roll.critical</span> est vrai.<br  />
@@ -338,7 +338,7 @@ Vérifie que <span class="tt">ligne.find("critique (20 naturel)")</span> diffèr
 Vérifie que <span class="tt">ligne.find("(des doubles)")</span> diffère de <span class="tt">std::string::npos</span>.  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>AttackTest.UnUnNaturelRateMemeAuDessusDeLaCA</b> (Bloquant)<br  />
-<sub><span class="tt"><a class="el" href="test__attack_8cpp.html" title="Tests de l&#39;attaque (LOT-21, EX-CBT-030, EX-CBT-031, EX-DND-003) : 1 et 20 naturels,...">Source/Test/Unit/Core/Combat/test_attack.cpp</a>:120</span></sub>  </td><td class="markdownTableBodyNone">Un 1 naturel rate toujours, meme quand le total depasse la classe d'armure.  </td><td class="markdownTableBodyNone">1. L'heroine attaque avec +30 un gobelin a la CA 5.<br  />
+<sub><span class="tt"><a class="el" href="test__attack_8cpp.html" title="Tests de l&#39;attaque (LOT-21, EX-CBT-030, EX-CBT-031, EX-REG-003) : 1 et 20 naturels,...">Source/Test/Unit/Core/Combat/test_attack.cpp</a>:120</span></sub>  </td><td class="markdownTableBodyNone">Un 1 naturel rate toujours, meme quand le total depasse la classe d'armure.  </td><td class="markdownTableBodyNone">1. L'heroine attaque avec +30 un gobelin a la CA 5.<br  />
 2. Le d20 est force a 1.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">issue.has_value()</span> est vrai.<br  />
 Vérifie que <span class="tt">issue-&gt;roll.check.total</span> vaut <span class="tt">31</span>.<br  />
 Vérifie que <span class="tt">issue-&gt;roll.hit</span> est faux.<br  />
@@ -347,14 +347,14 @@ Vérifie que <span class="tt">duel.combat.find(CombatantId{2})-&gt;profile.curre
 Vérifie que <span class="tt">issue-&gt;describe()</span> vaut <span class="tt">"attaque Heroine -&gt; Gobelin (Epee longue) : d20 = 1 + 30 (benediction) = 31 contre " "CA 5 : rate (1 naturel)"</span>.  </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>AttackTest.ChaqueJetProduitUneEntreeDeJournalComplete</b> (Critique)<br  />
-<sub><span class="tt"><a class="el" href="test__attack_8cpp.html" title="Tests de l&#39;attaque (LOT-21, EX-CBT-030, EX-CBT-031, EX-DND-003) : 1 et 20 naturels,...">Source/Test/Unit/Core/Combat/test_attack.cpp</a>:147</span></sub>  </td><td class="markdownTableBodyNone">Une attaque touchee et une attaque ratee s'ecrivent au journal avec le de, chaque modificateur et son origine, la CA, l'issue, les des de degats, leur type et les PV.  </td><td class="markdownTableBodyNone">1. Le d20 force a 12, contre CA 15 : touche.<br  />
+<sub><span class="tt"><a class="el" href="test__attack_8cpp.html" title="Tests de l&#39;attaque (LOT-21, EX-CBT-030, EX-CBT-031, EX-REG-003) : 1 et 20 naturels,...">Source/Test/Unit/Core/Combat/test_attack.cpp</a>:147</span></sub>  </td><td class="markdownTableBodyNone">Une attaque touchee et une attaque ratee s'ecrivent au journal avec le de, chaque modificateur et son origine, la CA, l'issue, les des de degats, leur type et les PV.  </td><td class="markdownTableBodyNone">1. Le d20 force a 12, contre CA 15 : touche.<br  />
 2. Le d20 force a 4 : rate.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">touche.has_value() &amp;&amp; touche-&gt;report.has_value()</span> est vrai.<br  />
 Vérifie que <span class="tt">touche-&gt;describe()</span> vaut <span class="tt">attendu</span>.<br  />
 Vérifie que <span class="tt">rate.has_value()</span> est vrai.<br  />
 Vérifie que <span class="tt">rate-&gt;describe()</span> vaut <span class="tt">"attaque Heroine -&gt; Gobelin (Epee longue) : d20 = 4 + 3 (Force) + " "2 (maitrise) = 9 contre CA 15 : rate"</span>.  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>AttackTest.LeJetSAmendeAvantQueLIssueNeSoitFigee</b> (Critique)<br  />
-<sub><span class="tt"><a class="el" href="test__attack_8cpp.html" title="Tests de l&#39;attaque (LOT-21, EX-CBT-030, EX-CBT-031, EX-DND-003) : 1 et 20 naturels,...">Source/Test/Unit/Core/Combat/test_attack.cpp</a>:180</span></sub>  </td><td class="markdownTableBodyNone">Un greffon ajoute une source de desavantage avant le jet, relance un de apres le jet, ajoute un modificateur apres avoir vu le total ; l'issue tient compte des trois.  </td><td class="markdownTableBodyNone">1. Avant le jet : un desavantage et un seuil critique a 19.<br  />
+<sub><span class="tt"><a class="el" href="test__attack_8cpp.html" title="Tests de l&#39;attaque (LOT-21, EX-CBT-030, EX-CBT-031, EX-REG-003) : 1 et 20 naturels,...">Source/Test/Unit/Core/Combat/test_attack.cpp</a>:180</span></sub>  </td><td class="markdownTableBodyNone">Un greffon ajoute une source de desavantage avant le jet, relance un de apres le jet, ajoute un modificateur apres avoir vu le total ; l'issue tient compte des trois.  </td><td class="markdownTableBodyNone">1. Avant le jet : un desavantage et un seuil critique a 19.<br  />
 2. Apres les des : substituer 19 au premier de et 19 au second.<br  />
 3. Avant l'issue : +5 si le total rate.<br  />
 4. Un attaquant avantage et desavantage a la fois.<br  />
@@ -371,7 +371,7 @@ Vérifie que <span class="tt">jet.check.dice.size()</span> vaut <span class="tt"
 Vérifie que <span class="tt">jet.check.target</span> vaut <span class="tt">10</span>.  </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>AttackTest.LaGrilleDitLaPorteeEtLesCirconstances</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__attack_8cpp.html" title="Tests de l&#39;attaque (LOT-21, EX-CBT-030, EX-CBT-031, EX-DND-003) : 1 et 20 naturels,...">Source/Test/Unit/Core/Combat/test_attack.cpp</a>:242</span></sub>  </td><td class="markdownTableBodyNone">L'allonge se mesure entre emprises, et un tir est desavantage au contact d'un ennemi ou au-dela de sa portee normale.  </td><td class="markdownTableBodyNone">1. Un ogre de taille G ancre en (5,5), un archer en (7,5), un guerrier en (2,2).<br  />
+<sub><span class="tt"><a class="el" href="test__attack_8cpp.html" title="Tests de l&#39;attaque (LOT-21, EX-CBT-030, EX-CBT-031, EX-REG-003) : 1 et 20 naturels,...">Source/Test/Unit/Core/Combat/test_attack.cpp</a>:242</span></sub>  </td><td class="markdownTableBodyNone">L'allonge se mesure entre emprises, et un tir est desavantage au contact d'un ennemi ou au-dela de sa portee normale.  </td><td class="markdownTableBodyNone">1. Un ogre de taille G ancre en (5,5), un archer en (7,5), un guerrier en (2,2).<br  />
 2. Mesurer les distances ; l'allonge d'une attaque de 1 et de 2 cases.<br  />
 3. L'archer tire au contact de l'ogre ; puis a 5 cases avec une portee 4/12.<br  />
 4. Une cible a terre.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">combat.start(hasard)</span> est vrai.<br  />
@@ -387,7 +387,7 @@ Vérifie que <span class="tt"><a class="el" href="namespacecore.html#adb9ad64086
 Vérifie que <span class="tt"><a class="el" href="namespacecore.html#ab1a4d741effe8706e8261be043b9224a" title="Résout une attaque dans le combat : déclaration, jet, dégâts, points de vie.">core::resolveAttack</a>(combat, CombatantId{1}, CombatantId{4}, arc, hasard).has_value()</span> est faux.  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>AttackTest.LesProfilsSeTirentDuBestiaireEtDeLaFiche</b> (Critique)<br  />
-<sub><span class="tt"><a class="el" href="test__attack_8cpp.html" title="Tests de l&#39;attaque (LOT-21, EX-CBT-030, EX-CBT-031, EX-DND-003) : 1 et 20 naturels,...">Source/Test/Unit/Core/Combat/test_attack.cpp</a>:289</span></sub>  </td><td class="markdownTableBodyNone">Les attaques d'une creature se lisent de son bloc ; celles d'un personnage de son arme, de sa Force ou de sa Dexterite et de sa maitrise ; le coup a mains nues vaut 1 + Force ; aucune creature livree n'a de degats sans type.  </td><td class="markdownTableBodyNone">1. Une creature a quatre actions : allonge 3 m, sans allonge, sans type, sans degats.<br  />
+<sub><span class="tt"><a class="el" href="test__attack_8cpp.html" title="Tests de l&#39;attaque (LOT-21, EX-CBT-030, EX-CBT-031, EX-REG-003) : 1 et 20 naturels,...">Source/Test/Unit/Core/Combat/test_attack.cpp</a>:289</span></sub>  </td><td class="markdownTableBodyNone">Les attaques d'une creature se lisent de son bloc ; celles d'un personnage de son arme, de sa Force ou de sa Dexterite et de sa maitrise ; le coup a mains nues vaut 1 + Force ; aucune creature livree n'a de degats sans type.  </td><td class="markdownTableBodyNone">1. Une creature a quatre actions : allonge 3 m, sans allonge, sans type, sans degats.<br  />
 2. Une fiche de Force 16 et Dexterite 18, maitrise +2 : epee longue, rapiere de finesse, filet, mains nues, arme non maitrisee.<br  />
 3. Charger le bestiaire livre.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">attaques.attacks.size()</span> vaut <span class="tt">2U</span>.<br  />
 Vérifie que <span class="tt">attaques.attacks[0].reach</span> vaut <span class="tt">2</span>.<br  />
@@ -411,7 +411,7 @@ Vérifie que <span class="tt">lues.refused.empty()</span> est vrai.<br  />
 Vérifie que <span class="tt">total</span> est strictement supérieur à <span class="tt">bestiaire.creatures.size() / 2</span>.  </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>AttackTest.LAbriChangeLaCAUneFois</b> (Bloquant)<br  />
-<sub><span class="tt"><a class="el" href="test__attack_8cpp.html" title="Tests de l&#39;attaque (LOT-21, EX-CBT-030, EX-CBT-031, EX-DND-003) : 1 et 20 naturels,...">Source/Test/Unit/Core/Combat/test_attack.cpp</a>:374</span></sub>  </td><td class="markdownTableBodyNone">Une cible derriere un muret gagne +2 a sa CA ; un greffon qui pose le meme abri ne l'ajoute pas une seconde fois ; un abri important par-dessus porte le bonus a +5, pas a +7 ; un abri total n'est pas un bonus.  </td><td class="markdownTableBodyNone">1. Un archer en (0,1), un gobelin a la CA 15 en (3,1), un muret en (2,1).<br  />
+<sub><span class="tt"><a class="el" href="test__attack_8cpp.html" title="Tests de l&#39;attaque (LOT-21, EX-CBT-030, EX-CBT-031, EX-REG-003) : 1 et 20 naturels,...">Source/Test/Unit/Core/Combat/test_attack.cpp</a>:374</span></sub>  </td><td class="markdownTableBodyNone">Une cible derriere un muret gagne +2 a sa CA ; un greffon qui pose le meme abri ne l'ajoute pas une seconde fois ; un abri important par-dessus porte le bonus a +5, pas a +7 ; un abri total n'est pas un bonus.  </td><td class="markdownTableBodyNone">1. Un archer en (0,1), un gobelin a la CA 15 en (3,1), un muret en (2,1).<br  />
 2. Tirer, d20 force a 12.<br  />
 3. Tirer avec un greffon qui pose l'abri partiel, puis l'abri total.<br  />
 4. Tirer avec un greffon qui pose l'abri important.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">combat.grid().placeObject({2, 1}, {.kind = "muret", .hitPoints = 10, .blocksMovement = true, .cover = <a class="el" href="namespacecore.html#a0ddd67c0966fb31bf8c2de44a63d6999ac48615a1bc4197056d522af276aa5a85" title="Au moins la moitié du corps : +2 à la CA et aux sauvegardes de Dextérité.">core::Cover::Half</a>, .damageTraits = {}})</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a56ee2c3f69200e700ac0f1b65dc413b4af429e45eaf722cbbb524b40a0313aa67">core::PlacementResult::Placed</a></span>.<br  />
@@ -432,7 +432,7 @@ Vérifie que <span class="tt">important-&gt;roll.amendments.size()</span> vaut <
 Vérifie que <span class="tt">important-&gt;roll.hit</span> est faux.  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>AttackTest.ViserDemandeLaPorteeEtLaVue</b> (Critique)<br  />
-<sub><span class="tt"><a class="el" href="test__attack_8cpp.html" title="Tests de l&#39;attaque (LOT-21, EX-CBT-030, EX-CBT-031, EX-DND-003) : 1 et 20 naturels,...">Source/Test/Unit/Core/Combat/test_attack.cpp</a>:442</span></sub>  </td><td class="markdownTableBodyNone">Une cible derriere un mur ne se vise pas, ni a distance ni au contact par le coin de deux murs ; au-dela de la longue portee non plus ; un ennemi adjacent qui ne voit pas le tireur ne lui impose pas le desavantage du tir au contact.  </td><td class="markdownTableBodyNone">1. Un archer en (1,1), un gobelin en (2,2) derriere deux murs en (2,1) et (1,2), un loup en (0,3), un rat en (5,5).<br  />
+<sub><span class="tt"><a class="el" href="test__attack_8cpp.html" title="Tests de l&#39;attaque (LOT-21, EX-CBT-030, EX-CBT-031, EX-REG-003) : 1 et 20 naturels,...">Source/Test/Unit/Core/Combat/test_attack.cpp</a>:442</span></sub>  </td><td class="markdownTableBodyNone">Une cible derriere un mur ne se vise pas, ni a distance ni au contact par le coin de deux murs ; au-dela de la longue portee non plus ; un ennemi adjacent qui ne voit pas le tireur ne lui impose pas le desavantage du tir au contact.  </td><td class="markdownTableBodyNone">1. Un archer en (1,1), un gobelin en (2,2) derriere deux murs en (2,1) et (1,2), un loup en (0,3), un rat en (5,5).<br  />
 2. Verifier chaque cible, a distance (portee 2/3) et au contact.<br  />
 3. Les circonstances du tir vers le loup.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">combat.start(hasard)</span> est vrai.<br  />
 Vérifie que <span class="tt"><a class="el" href="namespacecore.html#ae19c39c376647e74514462b13d834e06" title="La distance en cases entre deux combattants, emprises comprises : zéro contact impossible,...">core::gridDistance</a>(combat, CombatantId{1}, CombatantId{2})</span> vaut <span class="tt">1</span>.<br  />
@@ -444,7 +444,7 @@ Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a7365293652
 Vérifie que <span class="tt"><a class="el" href="namespacecore.html#adb9ad640862c6901d33d96c181f4c9e0" title="Ce que la grille sait dire des circonstances d&#39;une attaque (Manuel, chapitre 9).">core::attackCircumstances</a>(combat, CombatantId{1}, CombatantId{3}, arc) .disadvantages.empty()</span> est vrai.  </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>AttackTest.LesPorteesSeLisentDansLaDonnee</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__attack_8cpp.html" title="Tests de l&#39;attaque (LOT-21, EX-CBT-030, EX-CBT-031, EX-DND-003) : 1 et 20 naturels,...">Source/Test/Unit/Core/Combat/test_attack.cpp</a>:486</span></sub>  </td><td class="markdownTableBodyNone">Chaque arme qui se tire ou se lance porte ses portees ; l'arc long tire a 30/120 cases, la hallebarde frappe a 2, la dague se lance a 4/12 ; le squelette tire a 16/64.  </td><td class="markdownTableBodyNone">1. Charger le catalogue d'armes et le bestiaire livres.<br  />
+<sub><span class="tt"><a class="el" href="test__attack_8cpp.html" title="Tests de l&#39;attaque (LOT-21, EX-CBT-030, EX-CBT-031, EX-REG-003) : 1 et 20 naturels,...">Source/Test/Unit/Core/Combat/test_attack.cpp</a>:486</span></sub>  </td><td class="markdownTableBodyNone">Chaque arme qui se tire ou se lance porte ses portees ; l'arc long tire a 30/120 cases, la hallebarde frappe a 2, la dague se lance a 4/12 ; le squelette tire a 16/64.  </td><td class="markdownTableBodyNone">1. Charger le catalogue d'armes et le bestiaire livres.<br  />
 2. Pour chaque arme : portees presentes si et seulement si elle a les munitions ou le lancer.<br  />
 3. Tirer les profils de l'arc long, de la hallebarde, de la dague (lancee), de l'epee longue (qui ne se lance pas) et du squelette.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">catalogue.errors.empty()</span> est vrai.<br  />
 Vérifie que <span class="tt">catalogue.weapons.size()</span> vaut <span class="tt">37U</span>.<br  />
@@ -1608,7 +1608,7 @@ Vérifie que <span class="tt">line.find("message test")</span> diffère de <span
 <td class="markdownTableBodyNone"><b>LogFormatTest.CheminReduitAuNomDeFichier</b> (Majeur)<br  />
 <sub><span class="tt"><a class="el" href="test__log__format_8cpp.html" title="Tests unitaires du formatage des lignes de log.">Source/Test/Unit/Core/Diagnostics/test_log_format.cpp</a>:40</span></sub>  </td><td class="markdownTableBodyNone">Le chemin source est réduit à son nom de fichier dans la ligne.  </td><td class="markdownTableBodyNone">1. Mettre en place le contexte du test (arrangement).<br  />
 2. Executer le scenario et verifier les assertions.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">line.find("Foo.cpp:7")</span> diffère de <span class="tt">std::string::npos</span>.<br  />
-Vérifie que <span class="tt">line.find("JustAnotherDnDGame")</span> vaut <span class="tt">std::string::npos</span>.<br  />
+Vérifie que <span class="tt">line.find("JustAnotherRpgGame")</span> vaut <span class="tt">std::string::npos</span>.<br  />
 Vérifie que <span class="tt">line.find("Source")</span> vaut <span class="tt">std::string::npos</span>.  </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>LogFormatTest.FileNameIsoleLeNom</b> (Majeur)<br  />
@@ -3786,19 +3786,19 @@ Vérifie que <span class="tt">premiere.sheetIndex</span> vaut <span class="tt">0
 Vérifie que <span class="tt">personnage.armorClass</span> vaut <span class="tt">lus.rules.unarmoredArmorClass + personnage.modifier(core::Ability::Dexterity)</span>.<br  />
 Vérifie que <span class="tt">personnage.ability(caracteristique)</span> est inférieur ou égal à <span class="tt">lus.rules.maximumAbilityScore</span>.  </td></tr>
 </table>
-<p><b><span class="tt"><a class="el" href="test__check_8cpp.html" title="Tests du jet de d20 : avantage, seuil, restitution (LOT-12, EX-DND-002, EX-DND-003).">test_check.cpp</a></span></b></p>
+<p><b><span class="tt"><a class="el" href="test__check_8cpp.html" title="Tests du jet de d20 : avantage, seuil, restitution (LOT-12, EX-REG-002, EX-REG-003).">test_check.cpp</a></span></b></p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
 <th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>CheckTest.AvantageEtDesavantageGardentLeBonDe</b> (Critique)<br  />
-<sub><span class="tt"><a class="el" href="test__check_8cpp.html" title="Tests du jet de d20 : avantage, seuil, restitution (LOT-12, EX-DND-002, EX-DND-003).">Source/Test/Unit/Core/Rpg/test_check.cpp</a>:47</span></sub>  </td><td class="markdownTableBodyNone">L'avantage garde le meilleur de deux des, le desavantage le pire.  </td><td class="markdownTableBodyNone">1. Lancer mille jets avec avantage, puis mille avec desavantage.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">avantage.dice.size()</span> vaut <span class="tt">2U</span>.<br  />
+<sub><span class="tt"><a class="el" href="test__check_8cpp.html" title="Tests du jet de d20 : avantage, seuil, restitution (LOT-12, EX-REG-002, EX-REG-003).">Source/Test/Unit/Core/Rpg/test_check.cpp</a>:47</span></sub>  </td><td class="markdownTableBodyNone">L'avantage garde le meilleur de deux des, le desavantage le pire.  </td><td class="markdownTableBodyNone">1. Lancer mille jets avec avantage, puis mille avec desavantage.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">avantage.dice.size()</span> vaut <span class="tt">2U</span>.<br  />
 Vérifie que <span class="tt">avantage.keptDie</span> vaut <span class="tt">std::max(avantage.dice[0], avantage.dice[1])</span>.<br  />
 Vérifie que <span class="tt">desavantage.dice.size()</span> vaut <span class="tt">2U</span>.<br  />
 Vérifie que <span class="tt">desavantage.keptDie</span> vaut <span class="tt">std::min(desavantage.dice[0], desavantage.dice[1])</span>.  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>CheckTest.AvantageEtDesavantageSAnnulent</b> (Critique)<br  />
-<sub><span class="tt"><a class="el" href="test__check_8cpp.html" title="Tests du jet de d20 : avantage, seuil, restitution (LOT-12, EX-DND-002, EX-DND-003).">Source/Test/Unit/Core/Rpg/test_check.cpp</a>:72</span></sub>  </td><td class="markdownTableBodyNone">Avantage et desavantage s'annulent entierement, et ne se cumulent jamais.  </td><td class="markdownTableBodyNone">1. Determiner la posture pour 0/0, 1/0, 0/1, 1/1 et 2/1 sources.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">core::rollStance(0, 0)</span> vaut <span class="tt"><a class="el" href="namespacecore.html#aff494cc4070ea4489c3d5ee57178f7c9a960b44c579bc2f6818d2daaf9e4c16f0">core::RollStance::Normal</a></span>.<br  />
+<sub><span class="tt"><a class="el" href="test__check_8cpp.html" title="Tests du jet de d20 : avantage, seuil, restitution (LOT-12, EX-REG-002, EX-REG-003).">Source/Test/Unit/Core/Rpg/test_check.cpp</a>:72</span></sub>  </td><td class="markdownTableBodyNone">Avantage et desavantage s'annulent entierement, et ne se cumulent jamais.  </td><td class="markdownTableBodyNone">1. Determiner la posture pour 0/0, 1/0, 0/1, 1/1 et 2/1 sources.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">core::rollStance(0, 0)</span> vaut <span class="tt"><a class="el" href="namespacecore.html#aff494cc4070ea4489c3d5ee57178f7c9a960b44c579bc2f6818d2daaf9e4c16f0">core::RollStance::Normal</a></span>.<br  />
 Vérifie que <span class="tt">core::rollStance(1, 0)</span> vaut <span class="tt"><a class="el" href="namespacecore.html#aff494cc4070ea4489c3d5ee57178f7c9a1b2430d20c750dada9aaaed48b4eb8f1">core::RollStance::Advantage</a></span>.<br  />
 Vérifie que <span class="tt">core::rollStance(0, 1)</span> vaut <span class="tt"><a class="el" href="namespacecore.html#aff494cc4070ea4489c3d5ee57178f7c9ae755d083f9085a585ef791919be5a004">core::RollStance::Disadvantage</a></span>.<br  />
 Vérifie que <span class="tt">core::rollStance(1, 1)</span> vaut <span class="tt"><a class="el" href="namespacecore.html#aff494cc4070ea4489c3d5ee57178f7c9a960b44c579bc2f6818d2daaf9e4c16f0">core::RollStance::Normal</a></span>.<br  />
@@ -3808,7 +3808,7 @@ Vérifie que <span class="tt">core::rollStance(3, 0)</span> vaut <span class="tt
 Vérifie que <span class="tt">resultat.dice.size()</span> vaut <span class="tt">1U</span>.  </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>CheckTest.NaturelsDistinguesDuTotal</b> (Critique)<br  />
-<sub><span class="tt"><a class="el" href="test__check_8cpp.html" title="Tests du jet de d20 : avantage, seuil, restitution (LOT-12, EX-DND-002, EX-DND-003).">Source/Test/Unit/Core/Rpg/test_check.cpp</a>:99</span></sub>  </td><td class="markdownTableBodyNone">Un 1 ou 20 naturel se distingue d'un total de 1 ou 20.  </td><td class="markdownTableBodyNone">1. Lancer jusqu'a obtenir un 20 naturel et un 1 naturel.<br  />
+<sub><span class="tt"><a class="el" href="test__check_8cpp.html" title="Tests du jet de d20 : avantage, seuil, restitution (LOT-12, EX-REG-002, EX-REG-003).">Source/Test/Unit/Core/Rpg/test_check.cpp</a>:99</span></sub>  </td><td class="markdownTableBodyNone">Un 1 ou 20 naturel se distingue d'un total de 1 ou 20.  </td><td class="markdownTableBodyNone">1. Lancer jusqu'a obtenir un 20 naturel et un 1 naturel.<br  />
  2. Construire un resultat de total 20 obtenu avec un de de 8.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">resultat.isNaturalTwenty()</span> est vrai.<br  />
 Vérifie que <span class="tt">resultat.isNaturalOne()</span> est faux.<br  />
 Vérifie que <span class="tt">resultat.isNaturalOne()</span> est vrai.<br  />
@@ -3818,7 +3818,7 @@ Vérifie que <span class="tt">unVu</span> est vrai.<br  />
 Vérifie que <span class="tt">total20.isNaturalTwenty()</span> est faux.  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>CheckTest.ModificateursEtRestitution</b> (Critique)<br  />
-<sub><span class="tt"><a class="el" href="test__check_8cpp.html" title="Tests du jet de d20 : avantage, seuil, restitution (LOT-12, EX-DND-002, EX-DND-003).">Source/Test/Unit/Core/Rpg/test_check.cpp</a>:139</span></sub>  </td><td class="markdownTableBodyNone">Les modificateurs d'un jet s'appliquent et conservent leur origine.  </td><td class="markdownTableBodyNone">1. Lancer un jet avec +3 de Dexterite et +2 de maitrise.<br  />
+<sub><span class="tt"><a class="el" href="test__check_8cpp.html" title="Tests du jet de d20 : avantage, seuil, restitution (LOT-12, EX-REG-002, EX-REG-003).">Source/Test/Unit/Core/Rpg/test_check.cpp</a>:139</span></sub>  </td><td class="markdownTableBodyNone">Les modificateurs d'un jet s'appliquent et conservent leur origine.  </td><td class="markdownTableBodyNone">1. Lancer un jet avec +3 de Dexterite et +2 de maitrise.<br  />
  2. Lire la restitution.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">cible</span> vaut <span class="tt">15</span>.<br  />
 Vérifie que <span class="tt">resultat.total</span> vaut <span class="tt">resultat.keptDie + 5</span>.<br  />
 Vérifie que <span class="tt">resultat.target</span> vaut <span class="tt">cible</span>.<br  />
@@ -3829,7 +3829,7 @@ Vérifie que <span class="tt">restitution.find(std::to_string(cible))</span> dif
 Vérifie que <span class="tt">restitution.find(std::to_string(resultat.total))</span> diffère de <span class="tt">std::string::npos</span>.  </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>CheckTest.EchelleDeDifficulteEnDonnee</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__check_8cpp.html" title="Tests du jet de d20 : avantage, seuil, restitution (LOT-12, EX-DND-002, EX-DND-003).">Source/Test/Unit/Core/Rpg/test_check.cpp</a>:173</span></sub>  </td><td class="markdownTableBodyNone">L'echelle de difficulte est une donnee complete et croissante.  </td><td class="markdownTableBodyNone">1. Lire les paliers de difficulty.json.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">document.ok()</span> est vrai.<br  />
+<sub><span class="tt"><a class="el" href="test__check_8cpp.html" title="Tests du jet de d20 : avantage, seuil, restitution (LOT-12, EX-REG-002, EX-REG-003).">Source/Test/Unit/Core/Rpg/test_check.cpp</a>:173</span></sub>  </td><td class="markdownTableBodyNone">L'echelle de difficulte est une donnee complete et croissante.  </td><td class="markdownTableBodyNone">1. Lire les paliers de difficulty.json.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">document.ok()</span> est vrai.<br  />
 Vérifie que <span class="tt">paliers.size()</span> vaut <span class="tt">6U</span>.<br  />
 Vérifie que <span class="tt">dc</span> est strictement supérieur à <span class="tt">precedent</span>.<br  />
 Vérifie que <span class="tt">seuil("tres-facile")</span> vaut <span class="tt">5</span>.<br  />
@@ -4313,7 +4313,7 @@ Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a103e367d14
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>RpgEnumsTest.LesEnumerationsCoincidentAvecLesSchemas</b> (Critique)<br  />
 <sub><span class="tt"><a class="el" href="test__rpg__enums_8cpp.html" title="Tests des enumerations RPG et de leur coincidence avec les schemas (LOT-32, EX-CNT-011).">Source/Test/Unit/Core/Rpg/test_rpg_enums.cpp</a>:152</span></sub>  </td><td class="markdownTableBodyNone">Les enumerations partagees entre le C++ et les schemas JSON sont identiques.  </td><td class="markdownTableBodyNone">1. Lire les enumerations <span class="tt">damageType</span>, <span class="tt">conditionRef</span> et <span class="tt">magicSchool</span> de <span class="tt">common.schema.json</span>.<br  />
- 2. Les comparer aux noms produits par <span class="tt"><a class="el" href="namespacecore.html#aae5ed49bedbf68049f008e4efac2edfd" title="Type de dégâts infligés (EX-CBT-032, EX-CNT-011).">core::DamageType</a></span>, <span class="tt"><a class="el" href="namespacecore.html#aae82873d6c7bd0b4db085354c50e1493" title="État affectant une créature (EX-DND-040, EX-CNT-011).">core::Condition</a></span> et <span class="tt"><a class="el" href="namespacecore.html#acb09396acc95973b3ca488c497bbddb2" title="École de magie d&#39;un sort (EX-CNT-011).">core::MagicSchool</a></span>.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">nomsDuMoteur(core::allDamageTypes(), core::damageTypeName)</span> vaut <span class="tt">enumDuSchema("damageType")</span>.<br  />
+ 2. Les comparer aux noms produits par <span class="tt"><a class="el" href="namespacecore.html#aae5ed49bedbf68049f008e4efac2edfd" title="Type de dégâts infligés (EX-CBT-032, EX-CNT-011).">core::DamageType</a></span>, <span class="tt"><a class="el" href="namespacecore.html#aae82873d6c7bd0b4db085354c50e1493" title="État affectant une créature (EX-REG-040, EX-CNT-011).">core::Condition</a></span> et <span class="tt"><a class="el" href="namespacecore.html#acb09396acc95973b3ca488c497bbddb2" title="École de magie d&#39;un sort (EX-CNT-011).">core::MagicSchool</a></span>.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">nomsDuMoteur(core::allDamageTypes(), core::damageTypeName)</span> vaut <span class="tt">enumDuSchema("damageType")</span>.<br  />
 Vérifie que <span class="tt">nomsDuMoteur(core::allConditions(), core::conditionName)</span> vaut <span class="tt">enumDuSchema("conditionRef")</span>.<br  />
 Vérifie que <span class="tt">nomsDuMoteur(core::allMagicSchools(), core::magicSchoolName)</span> vaut <span class="tt">enumDuSchema("magicSchool")</span>.<br  />
 Vérifie que <span class="tt">nomsDuMoteur(core::allCreatureSizes(), core::creatureSizeName)</span> vaut <span class="tt">enumDuSchema("size")</span>.  </td></tr>
@@ -8869,7 +8869,7 @@ Localization (9)</h3>
 <sub><span class="tt"><a class="el" href="test__localization_8cpp.html" title="Tests unitaires du catalogue de traduction : analyse, repli, changement de langue.">Source/Test/Unit/HMI/Localization/test_localization.cpp</a>:35</span></sub>  </td><td class="markdownTableBodyNone">L'analyse ignore les lignes vides et les commentaires, et retire les espaces autour de '='.  </td><td class="markdownTableBodyNone">1. Mettre en place le contexte du test (arrangement).<br  />
 2. Executer le scenario et verifier les assertions.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">strings.size()</span> vaut <span class="tt">2u</span>.<br  />
 Vérifie que <span class="tt">strings.at("menu.quitter")</span> vaut <span class="tt">"Quitter"</span>.<br  />
-Vérifie que <span class="tt">strings.at("menu.titre")</span> vaut <span class="tt">"JustAnotherDnDGame"</span>.  </td></tr>
+Vérifie que <span class="tt">strings.at("menu.titre")</span> vaut <span class="tt">"JustAnotherRpgGame"</span>.  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>LocalizationTest.AnalyseConserveEgalDansLaValeur</b> (Majeur)<br  />
 <sub><span class="tt"><a class="el" href="test__localization_8cpp.html" title="Tests unitaires du catalogue de traduction : analyse, repli, changement de langue.">Source/Test/Unit/HMI/Localization/test_localization.cpp</a>:60</span></sub>  </td><td class="markdownTableBodyNone">Seul le premier '=' sépare ; un '=' dans la valeur est conservé.  </td><td class="markdownTableBodyNone">1. Mettre en place le contexte du test (arrangement).<br  />
@@ -8924,7 +8924,7 @@ Platform (5)</h3>
 <th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>CrashDumpFileName.PorteApplicationVersionEtHorodatage</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__crash__dump_8cpp.html" title="Minidump sur plantage (HMI/Platform/CrashDump) : nom du fichier et écriture réelle.">Source/Test/Unit/HMI/Platform/test_crash_dump.cpp</a>:108</span></sub>  </td><td class="markdownTableBodyNone">Le nom d'un minidump porte l'application, la version et l'heure du plantage.  </td><td class="markdownTableBodyNone">1. Composer le nom pour JustAnotherDnDGame 0.0.4 au 15/09/2026 21:04:07.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a0c06cbf1bf3c8f1d58a5c581e17e3666" title="Nom du fichier d&#39;un minidump : &lt;application&gt;_&lt;version&gt;_&lt;AAAAMMJJ_HHMMSS&gt;.dmp.">hmi::crashDumpFileName</a>("JustAnotherDnDGame", "0.0.4", fixedTime())</span> vaut <span class="tt">"JustAnotherDnDGame_0.0.4_20260915_210407.dmp"</span>.  </td></tr>
+<sub><span class="tt"><a class="el" href="test__crash__dump_8cpp.html" title="Minidump sur plantage (HMI/Platform/CrashDump) : nom du fichier et écriture réelle.">Source/Test/Unit/HMI/Platform/test_crash_dump.cpp</a>:108</span></sub>  </td><td class="markdownTableBodyNone">Le nom d'un minidump porte l'application, la version et l'heure du plantage.  </td><td class="markdownTableBodyNone">1. Composer le nom pour JustAnotherRpgGame 0.0.4 au 15/09/2026 21:04:07.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a0c06cbf1bf3c8f1d58a5c581e17e3666" title="Nom du fichier d&#39;un minidump : &lt;application&gt;_&lt;version&gt;_&lt;AAAAMMJJ_HHMMSS&gt;.dmp.">hmi::crashDumpFileName</a>("JustAnotherRpgGame", "0.0.4", fixedTime())</span> vaut <span class="tt">"JustAnotherRpgGame_0.0.4_20260915_210407.dmp"</span>.  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>CrashDumpFileName.RemplaceLesCaracteresHorsNomDeFichier</b> (Majeur)<br  />
 <sub><span class="tt"><a class="el" href="test__crash__dump_8cpp.html" title="Minidump sur plantage (HMI/Platform/CrashDump) : nom du fichier et écriture réelle.">Source/Test/Unit/HMI/Platform/test_crash_dump.cpp</a>:123</span></sub>  </td><td class="markdownTableBodyNone">Les caractères hors nom de fichier sont remplacés dans le nom du minidump.  </td><td class="markdownTableBodyNone">1. Composer le nom pour « Level Editor » en version « 0.1.0+dev/x ».  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a0c06cbf1bf3c8f1d58a5c581e17e3666" title="Nom du fichier d&#39;un minidump : &lt;application&gt;_&lt;version&gt;_&lt;AAAAMMJJ_HHMMSS&gt;.dmp.">hmi::crashDumpFileName</a>("Level Editor", "0.1.0+dev/x", fixedTime())</span> vaut <span class="tt">"Level_Editor_0.1.0_dev_x_20260915_210407.dmp"</span>.  </td></tr>
@@ -8947,7 +8947,7 @@ Vérifie que <span class="tt">hasExceptionStream(path)</span> est vrai.  </td></
 <sub><span class="tt"><a class="el" href="test__crash__dump_8cpp.html" title="Minidump sur plantage (HMI/Platform/CrashDump) : nom du fichier et écriture réelle.">Source/Test/Unit/HMI/Platform/test_crash_dump.cpp</a>:173</span></sub>  </td><td class="markdownTableBodyNone">Un chemin de minidump impossible échoue sans exception ni plantage.  </td><td class="markdownTableBodyNone">1. Écrire un dump sous un nom interdit par Windows (« a?b.dmp »).  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a1acfbf8f1ffce943900246a61f336bf7" title="Écrit un minidump du processus courant.">hmi::writeMiniDump</a>(directory_ / "a?b.dmp", nullptr)</span> est faux.  </td></tr>
 </table>
 <h3 class="doxsection"><a class="anchor" id="autotoc_md29"></a>
-Presentation (13)</h3>
+Presentation (15)</h3>
 <p><b><span class="tt"><a class="el" href="test__credits__catalog_8cpp.html" title="Tests unitaires de la lecture des crédits (LOT-87, T3.3).">test_credits_catalog.cpp</a></span></b></p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -8968,16 +8968,24 @@ Vérifie que <span class="tt">result.sections[1].column</span> vaut <span class=
 Vérifie que <span class="tt">result.sections[1].title</span> vaut <span class="tt">"Audio"</span>.<br  />
 Vérifie que <span class="tt">result.sections[1].lines[0].role</span> vaut <span class="tt">"Bruitages"</span>.  </td></tr>
 <tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>CreditsCatalogTest.NomTraduitSuitLaLangue</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__credits__catalog_8cpp.html" title="Tests unitaires de la lecture des crédits (LOT-87, T3.3).">Source/Test/Unit/HMI/Presentation/test_credits_catalog.cpp</a>:81</span></sub>  </td><td class="markdownTableBodyNone">Une mention des crédits se traduit comme un rôle.  </td><td class="markdownTableBodyNone">1. Lire en anglais une ligne dont les noms mêlent une chaîne, un libellé traduit et un libellé qui n'a que le français.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">result.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt">result.sections[0].lines[0].names</span> vaut <span class="tt">(std::vector&lt;std::string&gt;{"Dragori Games, Inc.", "Unofficial fan game", "Non commercial"})</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>CreditsCatalogTest.NomIllisibleRefuse</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__credits__catalog_8cpp.html" title="Tests unitaires de la lecture des crédits (LOT-87, T3.3).">Source/Test/Unit/HMI/Presentation/test_credits_catalog.cpp</a>:103</span></sub>  </td><td class="markdownTableBodyNone">Un nom de crédits illisible fait échouer la lecture.  </td><td class="markdownTableBodyNone">1. Lire une ligne dont un nom est un nombre, puis une autre dont un nom est un libellé vide.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a45a16f6daf05b3e3e37dbe025a9006a6" title="Lit les crédits dans une langue.">hmi::readCredits</a>( R"({"sections":[{"id":"x","title":{"fr":"X"},"lines":[{"role":{"fr":"R"},"names":[3]}]}]})", "fr") .ok()</span> est faux.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a45a16f6daf05b3e3e37dbe025a9006a6" title="Lit les crédits dans une langue.">hmi::readCredits</a>( R"({"sections":[{"id":"x","title":{"fr":"X"},"lines":[{"role":{"fr":"R"},"names":[{"en":""}]}]}]})", "fr") .ok()</span> est faux.  </td></tr>
+<tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>CreditsCatalogTest.LigneSansNomFaitEchouerLaLecture</b> (Critique)<br  />
-<sub><span class="tt"><a class="el" href="test__credits__catalog_8cpp.html" title="Tests unitaires de la lecture des crédits (LOT-87, T3.3).">Source/Test/Unit/HMI/Presentation/test_credits_catalog.cpp</a>:81</span></sub>  </td><td class="markdownTableBodyNone">Une ligne de crédits sans nom fait échouer la lecture.  </td><td class="markdownTableBodyNone">1. Lire un JSON dont la seule ligne a une liste de noms vide.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">result.ok()</span> est faux.<br  />
+<sub><span class="tt"><a class="el" href="test__credits__catalog_8cpp.html" title="Tests unitaires de la lecture des crédits (LOT-87, T3.3).">Source/Test/Unit/HMI/Presentation/test_credits_catalog.cpp</a>:126</span></sub>  </td><td class="markdownTableBodyNone">Une ligne de crédits sans nom fait échouer la lecture.  </td><td class="markdownTableBodyNone">1. Lire un JSON dont la seule ligne a une liste de noms vide.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">result.ok()</span> est faux.<br  />
 Vérifie que <span class="tt">result.sections.empty()</span> est vrai.<br  />
 Vérifie que <span class="tt">result.error.find("x")</span> diffère de <span class="tt">std::string::npos</span>.  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>CreditsCatalogTest.ColonneHorsBornesRefusee</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__credits__catalog_8cpp.html" title="Tests unitaires de la lecture des crédits (LOT-87, T3.3).">Source/Test/Unit/HMI/Presentation/test_credits_catalog.cpp</a>:99</span></sub>  </td><td class="markdownTableBodyNone">Une section de crédits hors des deux colonnes est refusée.  </td><td class="markdownTableBodyNone">1. Lire une section de colonne 2.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">result.ok()</span> est faux.  </td></tr>
+<sub><span class="tt"><a class="el" href="test__credits__catalog_8cpp.html" title="Tests unitaires de la lecture des crédits (LOT-87, T3.3).">Source/Test/Unit/HMI/Presentation/test_credits_catalog.cpp</a>:144</span></sub>  </td><td class="markdownTableBodyNone">Une section de crédits hors des deux colonnes est refusée.  </td><td class="markdownTableBodyNone">1. Lire une section de colonne 2.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">result.ok()</span> est faux.  </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>CreditsCatalogTest.FichierLivreSeLitDansLesDeuxLangues</b> (Critique)<br  />
-<sub><span class="tt"><a class="el" href="test__credits__catalog_8cpp.html" title="Tests unitaires de la lecture des crédits (LOT-87, T3.3).">Source/Test/Unit/HMI/Presentation/test_credits_catalog.cpp</a>:115</span></sub>  </td><td class="markdownTableBodyNone">Le fichier de crédits livré se lit en français et en anglais.  </td><td class="markdownTableBodyNone">1. Lire <span class="tt">Source/Elements/Credits/credits.json</span> en français, puis en anglais.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">file</span> est vrai.<br  />
+<sub><span class="tt"><a class="el" href="test__credits__catalog_8cpp.html" title="Tests unitaires de la lecture des crédits (LOT-87, T3.3).">Source/Test/Unit/HMI/Presentation/test_credits_catalog.cpp</a>:160</span></sub>  </td><td class="markdownTableBodyNone">Le fichier de crédits livré se lit en français et en anglais.  </td><td class="markdownTableBodyNone">1. Lire <span class="tt">Source/Elements/Credits/credits.json</span> en français, puis en anglais.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">file</span> est vrai.<br  />
 Vérifie que <span class="tt">result.ok()</span> est vrai.<br  />
 Vérifie que <span class="tt">left &amp;&amp; right</span> est vrai.  </td></tr>
 </table>
@@ -9259,7 +9267,7 @@ Vérifie que <span class="tt">level.cameraFraming().zones[1]</span> vaut <span c
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a href="index.html">JustAnotherDnDGame</a></li>
+    <li class="navelem"><a href="index.html">JustAnotherRpgGame</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.16.1 </li>
   </ul>
 </div>

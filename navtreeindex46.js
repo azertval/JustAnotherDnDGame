@@ -13,6 +13,8 @@ var NAVTREEINDEX46 =
 "test__crash__dump_8cpp.html#affbe12358556bcd9d806f80f958a51ba":[15,0,3,6,3,1,8,0,4],
 "test__credits__catalog_8cpp.html":[15,0,3,6,3,1,9,0],
 "test__credits__catalog_8cpp.html#a0b59737f81d8be657e1ebd6fcf6be881":[15,0,3,6,3,1,9,0,0],
+"test__credits__catalog_8cpp.html#a1d49b866dc7ffdc0724e1ea3a6c2d36f":[15,0,3,6,3,1,9,0,6],
+"test__credits__catalog_8cpp.html#a235633aed6866aa7865f04ba5e63ad39":[15,0,3,6,3,1,9,0,5],
 "test__credits__catalog_8cpp.html#a3a8cccf5f4f818e2e49e9d2791aa5c55":[15,0,3,6,3,1,9,0,1],
 "test__credits__catalog_8cpp.html#a9146a28c2d490c889830e908bed49b28":[15,0,3,6,3,1,9,0,2],
 "test__credits__catalog_8cpp.html#ae6859fe4232070f85cb2b340fd20c65f":[15,0,3,6,3,1,9,0,3],
@@ -247,7 +249,5 @@ var NAVTREEINDEX46 =
 "test__gamepad__probe_8cpp.html":[15,0,3,6,3,1,5,5],
 "test__gamepad__probe_8cpp.html#a8791ddd7f6f622a0abafe9885e38f550":[15,0,3,6,3,1,5,5,2],
 "test__gamepad__probe_8cpp.html#ae16382a36aef62e2d7cbbf70375a5eba":[15,0,3,6,3,1,5,5,1],
-"test__gamepad__probe_8cpp.html#af70b2c51bf69a9677846c59134cf2e26":[15,0,3,6,3,1,5,5,0],
-"test__grid__distance__field_8cpp.html":[15,0,3,6,3,0,11,1],
-"test__grid__distance__field_8cpp.html#a118b79f16a9a373bc156d192e64d51cf":[15,0,3,6,3,0,11,1,5]
+"test__gamepad__probe_8cpp.html#af70b2c51bf69a9677846c59134cf2e26":[15,0,3,6,3,1,5,5,0]
 };

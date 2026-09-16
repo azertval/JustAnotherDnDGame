@@ -1,0 +1,969 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>Dialogue.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#include "Core/Rpg/Dialogue.h"
+
+#include &lt;algorithm&gt;
+#include &lt;map&gt;
+#include &lt;set&gt;
+#include &lt;system_error&gt;
+#include &lt;utility&gt;
+#include &lt;variant&gt;
+
+#include "Core/Data/JsonDocument.h"
+#include "Core/Gameplay/WorldFlags.h"
+#include "Core/Rpg/Ability.h"
+#include "Core/Rpg/CharacterSheet.h"
+#include "Core/Rpg/Inventory.h"
+#include "Core/Rpg/Skill.h"
+
+namespace core {
+
+namespace {
+
+// Un dialogue est une donnee, pas un document de format : pas de champ `version`.
+constexpr int SANS_GARDE_DE_VERSION = 0;
+
+using Json = nlohmann::json;
+
+/// Rassemble les erreurs d'un document, chacune prefixee de son origine et de son noeud.
+class Rapport {
+public:
+<span style = "background-color:#dfd">    explicit Rapport(std::string_view origine) : _origine(origine) {}</span>
+
+<span style = "background-color:#dfd">    void document(const std::string&amp; message) {
+        _erreurs.push_back(_origine + " : " + message);
+    }
+    void noeud(std::string_view noeud, const std::string&amp; message) {
+        _erreurs.push_back(_origine + " : noeud '" + std::string(noeud) + "' : " + message);
+    }
+    [[nodiscard]] bool vide() const noexcept {
+        return _erreurs.empty();
+    }
+    [[nodiscard]] std::vector&lt;std::string&gt; extraire() {
+        return std::move(_erreurs);
+    }</span>
+
+private:
+    std::string _origine;
+    std::vector&lt;std::string&gt; _erreurs;
+};
+
+<span style = "background-color:#dfd">[[nodiscard]] std::optional&lt;std::string&gt; texte(const Json&amp; objet, const char* champ) {
+    const auto trouve = objet.find(champ);
+    if (trouve == objet.end() || !trouve-&gt;is_string() || trouve-&gt;get&lt;std::string&gt;().empty()) {
+        return std::nullopt;</span>
+    }
+<span style = "background-color:#dfd">    return trouve-&gt;get&lt;std::string&gt;();
+}</span>
+
+<span style = "background-color:#dfd">[[nodiscard]] std::optional&lt;DialogueAttitude&gt; attitudeDepuis(std::string_view mot) {
+    if (mot == "friendly") {
+        return DialogueAttitude::Friendly;</span>
+    }
+<span style = "background-color:#dfd">    if (mot == "indifferent") {
+        return DialogueAttitude::Indifferent;</span>
+    }
+<span style = "background-color:#dfd">    if (mot == "hostile") {
+        return DialogueAttitude::Hostile;</span>
+    }
+<span style = "background-color:#fdd">    return std::nullopt;</span>
+<span style = "background-color:#dfd">}</span>
+
+<span style = "background-color:#dfd">[[nodiscard]] std::optional&lt;DialogueNodeKind&gt; natureDepuis(std::string_view mot) {
+    if (mot == "line") {
+        return DialogueNodeKind::Line;</span>
+    }
+<span style = "background-color:#dfd">    if (mot == "condition") {
+        return DialogueNodeKind::Condition;</span>
+    }
+<span style = "background-color:#dfd">    if (mot == "action") {
+        return DialogueNodeKind::Action;</span>
+    }
+<span style = "background-color:#dfd">    if (mot == "check") {
+        return DialogueNodeKind::Check;</span>
+    }
+<span style = "background-color:#dfd">    if (mot == "end") {
+        return DialogueNodeKind::End;</span>
+    }
+<span style = "background-color:#dfd">    return std::nullopt;
+}</span>
+
+/// Lit `{ "flag": ..., "isSet": ... }`. `isSet` absent vaut vrai : Â« si le drapeau est leve Â».
+<span style = "background-color:#dfd">[[nodiscard]] std::optional&lt;FlagCondition&gt; conditionDepuis(const Json&amp; objet) {
+    if (!objet.is_object()) {</span>
+<span style = "background-color:#fdd">        return std::nullopt;</span>
+    }
+<span style = "background-color:#dfd">    const auto drapeau = texte(objet, "flag");
+    if (!drapeau) {</span>
+<span style = "background-color:#fdd">        return std::nullopt;</span>
+    }
+<span style = "background-color:#dfd">    FlagCondition condition;
+    condition.flag = *drapeau;
+    if (const auto attendu = objet.find("isSet"); attendu != objet.end()) {
+        if (!attendu-&gt;is_boolean()) {</span>
+<span style = "background-color:#fdd">            return std::nullopt;</span>
+        }
+<span style = "background-color:#dfd">        condition.expected = attendu-&gt;get&lt;bool&gt;();
+    }
+    return condition;
+}</span>
+
+/// Exige un champ texte, et le nomme s'il manque.
+[[nodiscard]] std::string exiger(const Json&amp; objet, const char* champ, std::string_view noeud,
+<span style = "background-color:#dfd">                                 Rapport&amp; rapport) {
+    auto valeur = texte(objet, champ);
+    if (!valeur) {</span>
+<span style = "background-color:#fdd">        rapport.noeud(noeud, std::string("champ '") + champ + "' absent ou vide.");
+        return {};</span>
+    }
+<span style = "background-color:#dfd">    return std::move(*valeur);
+}</span>
+
+<span style = "background-color:#dfd">void lireReplique(const Json&amp; brut, DialogueNode&amp; noeud, Rapport&amp; rapport) {
+    const auto reponses = brut.find("choices");
+    const bool aSuite = brut.contains("next");
+    if (reponses != brut.end()) {
+        if (aSuite) {</span>
+<span style = "background-color:#fdd">            rapport.noeud(noeud.id, "une replique a des reponses OU une suite, pas les deux.");</span>
+        }
+<span style = "background-color:#dfd">        if (!reponses-&gt;is_array()) {</span>
+<span style = "background-color:#fdd">            rapport.noeud(noeud.id, "'choices' n'est pas un tableau.");
+            return;</span>
+        }
+<span style = "background-color:#dfd">        if (reponses-&gt;empty()) {</span>
+            // Le Â« choix vide Â» du critere d'acceptation : le joueur resterait devant une replique
+            // sans rien a repondre.
+<span style = "background-color:#dfd">            rapport.noeud(noeud.id, "choix vide : 'choices' ne propose aucune reponse.");
+            return;</span>
+        }
+<span style = "background-color:#dfd">        std::set&lt;std::string&gt; vus;
+        bool uneSansCondition = false;
+        for (const Json&amp; reponse : *reponses) {
+            if (!reponse.is_object()) {</span>
+<span style = "background-color:#fdd">                rapport.noeud(noeud.id, "une reponse n'est pas un objet.");
+                continue;</span>
+            }
+<span style = "background-color:#dfd">            DialogueChoice choix;
+            const auto id = texte(reponse, "id");
+            if (!id) {
+                rapport.noeud(noeud.id, "choix vide : une reponse n'a pas d'identifiant.");
+                continue;</span>
+            }
+<span style = "background-color:#dfd">            choix.id = *id;
+            if (!vus.insert(choix.id).second) {</span>
+<span style = "background-color:#fdd">                rapport.noeud(noeud.id, "reponse '" + choix.id + "' en double.");</span>
+            }
+<span style = "background-color:#dfd">            if (choix.id == DIALOGUE_CONTINUE_CHOICE) {</span>
+<span style = "background-color:#fdd">                rapport.noeud(noeud.id,</span>
+                              "l'identifiant 'continue' est reserve a la reponse implicite.");
+            }
+<span style = "background-color:#dfd">            choix.next = exiger(reponse, "next", noeud.id + "' / reponse '" + choix.id, rapport);
+            if (const auto condition = reponse.find("condition"); condition != reponse.end()) {
+                choix.condition = conditionDepuis(*condition);
+                if (!choix.condition) {</span>
+<span style = "background-color:#fdd">                    rapport.noeud(noeud.id,</span>
+                                  "reponse '" + choix.id +
+                                      "' : condition sans 'flag' ou 'isSet' non booleen.");
+                }
+<span style = "background-color:#dfd">            } else {
+                uneSansCondition = true;
+            }
+            noeud.choices.push_back(std::move(choix));
+        }
+        if (!noeud.choices.empty() &amp;&amp; !uneSansCondition) {</span>
+            // Des drapeaux qui les masqueraient toutes laisseraient une replique sans issue, et
+            // cela ne se decouvrirait qu'en jeu, dans l'etat de monde precis qui la produit.
+<span style = "background-color:#dfd">            rapport.noeud(noeud.id,</span>
+                          "toutes les reponses sont conditionnelles : il en faut une toujours "
+                          "proposee.");
+        }
+<span style = "background-color:#dfd">    } else if (aSuite) {
+        noeud.next = exiger(brut, "next", noeud.id, rapport);
+    } else {</span>
+<span style = "background-color:#fdd">        rapport.noeud(noeud.id, "replique sans reponses ni suite ('choices' ou 'next').");</span>
+    }
+<span style = "background-color:#dfd">    if (const auto attitude = brut.find("attitude"); attitude != brut.end()) {
+        const auto lue =</span>
+            attitude-&gt;is_string() ? attitudeDepuis(attitude-&gt;get&lt;std::string&gt;()) : std::nullopt;
+<span style = "background-color:#dfd">        if (!lue) {</span>
+<span style = "background-color:#fdd">            rapport.noeud(noeud.id, "attitude inconnue (friendly, indifferent, hostile).");</span>
+        }
+<span style = "background-color:#dfd">        noeud.attitude = lue;
+    }
+}</span>
+
+<span style = "background-color:#dfd">void lireCondition(const Json&amp; brut, DialogueNode&amp; noeud, Rapport&amp; rapport) {
+    const auto condition = conditionDepuis(brut);
+    if (!condition) {</span>
+<span style = "background-color:#fdd">        rapport.noeud(noeud.id, "condition sans 'flag', ou 'isSet' non booleen.");
+    } else {</span>
+<span style = "background-color:#dfd">        noeud.condition = *condition;</span>
+    }
+<span style = "background-color:#dfd">    noeud.whenTrue = exiger(brut, "then", noeud.id, rapport);
+    noeud.whenFalse = exiger(brut, "else", noeud.id, rapport);
+}</span>
+
+<span style = "background-color:#dfd">void lireAction(const Json&amp; brut, DialogueNode&amp; noeud, Rapport&amp; rapport) {
+    const auto effets = brut.find("actions");
+    if (effets == brut.end() || !effets-&gt;is_array() || effets-&gt;empty()) {</span>
+<span style = "background-color:#fdd">        rapport.noeud(noeud.id, "'actions' absent, vide ou non tableau.");
+    } else {</span>
+<span style = "background-color:#dfd">        for (const Json&amp; effet : *effets) {
+            const auto type = effet.is_object() ? texte(effet, "type") : std::nullopt;
+            DialogueAction action;
+            const char* champ = nullptr;
+            if (type == "setFlag") {
+                action.kind = DialogueActionKind::SetFlag;
+                champ = "flag";
+            } else if (type == "clearFlag") {
+                action.kind = DialogueActionKind::ClearFlag;
+                champ = "flag";
+            } else if (type == "giveItem") {
+                action.kind = DialogueActionKind::GiveItem;
+                champ = "item";
+            } else if (type == "startQuest") {
+                action.kind = DialogueActionKind::StartQuest;
+                champ = "quest";
+            } else {</span>
+<span style = "background-color:#fdd">                rapport.noeud(noeud.id,</span>
+                              "action de type inconnu (setFlag, clearFlag, giveItem, "
+                              "startQuest).");
+<span style = "background-color:#fdd">                continue;</span>
+            }
+<span style = "background-color:#dfd">            action.target = exiger(effet, champ, noeud.id, rapport);
+            if (action.kind == DialogueActionKind::GiveItem) {
+                if (const auto quantite = effet.find("quantity"); quantite != effet.end()) {
+                    if (!quantite-&gt;is_number_integer() || quantite-&gt;get&lt;int&gt;() &lt; 1) {</span>
+<span style = "background-color:#fdd">                        rapport.noeud(noeud.id, "'quantity' doit etre un entier positif.");
+                    } else {</span>
+<span style = "background-color:#dfd">                        action.quantity = quantite-&gt;get&lt;int&gt;();</span>
+                    }
+<span style = "background-color:#dfd">                }</span>
+            }
+<span style = "background-color:#dfd">            noeud.actions.push_back(std::move(action));
+        }</span>
+    }
+<span style = "background-color:#dfd">    noeud.next = exiger(brut, "next", noeud.id, rapport);
+}</span>
+
+<span style = "background-color:#dfd">void lireJet(const Json&amp; brut, DialogueNode&amp; noeud, Rapport&amp; rapport) {
+    noeud.skill = exiger(brut, "skill", noeud.id, rapport);
+    if (const auto seuil = brut.find("difficulty");
+        seuil != brut.end() &amp;&amp; seuil-&gt;is_number_integer()) {</span>
+        // Un nombre nu est le defaut que `EX-REG-021` interdit : il ne dit pas ce qu'il vaut, et
+        // regler l'equilibre demanderait de relire chaque dialogue.
+<span style = "background-color:#dfd">        rapport.noeud(noeud.id,</span>
+                      "'difficulty' nomme un degre de rules/difficulty.json, jamais un "
+                      "nombre.");
+<span style = "background-color:#dfd">    } else {
+        noeud.difficulty = exiger(brut, "difficulty", noeud.id, rapport);
+    }
+    noeud.onSuccess = exiger(brut, "success", noeud.id, rapport);
+    noeud.onFailure = exiger(brut, "failure", noeud.id, rapport);
+}</span>
+
+/// Les cibles d'un noeud, dans l'ordre de la donnee.
+<span style = "background-color:#dfd">[[nodiscard]] std::vector&lt;const std::string*&gt; ciblesDe(const DialogueNode&amp; noeud) {
+    std::vector&lt;const std::string*&gt; cibles;
+    switch (noeud.kind) {</span>
+        case DialogueNodeKind::Line:
+<span style = "background-color:#dfd">            if (noeud.choices.empty()) {
+                cibles.push_back(&amp;noeud.next);</span>
+            }
+<span style = "background-color:#dfd">            for (const DialogueChoice&amp; choix : noeud.choices) {
+                cibles.push_back(&amp;choix.next);
+            }
+            break;</span>
+        case DialogueNodeKind::Condition:
+<span style = "background-color:#dfd">            cibles.push_back(&amp;noeud.whenTrue);
+            cibles.push_back(&amp;noeud.whenFalse);
+            break;</span>
+        case DialogueNodeKind::Action:
+<span style = "background-color:#dfd">            cibles.push_back(&amp;noeud.next);
+            break;</span>
+        case DialogueNodeKind::Check:
+<span style = "background-color:#dfd">            cibles.push_back(&amp;noeud.onSuccess);
+            cibles.push_back(&amp;noeud.onFailure);</span>
+            break;
+        case DialogueNodeKind::End:
+            break;
+    }
+<span style = "background-color:#dfd">    return cibles;
+}</span>
+
+/// Un noeud ou le joueur CHOISIT : le seul par lequel une boucle a le droit de passer.
+<span style = "background-color:#dfd">[[nodiscard]] bool estUnArret(const DialogueNode&amp; noeud) {
+    return noeud.kind == DialogueNodeKind::Line &amp;&amp; !noeud.choices.empty();
+}</span>
+
+/**
+ * Les controles de graphe, sur un graphe dont chaque noeud est lu et chaque cible existe. Les
+ * faire sur un graphe incomplet produirait des orphelins et des impasses qui ne sont que l'ombre
+ * d'une cible mal orthographiee.
+ */
+<span style = "background-color:#dfd">void controlerLeGraphe(const DialogueGraph&amp; graphe, Rapport&amp; rapport) {
+    std::map&lt;std::string, std::size_t, std::less&lt;&gt;&gt; indices;
+    for (std::size_t i = 0; i &lt; graphe.nodes.size(); ++i) {
+        indices.emplace(graphe.nodes[i].id, i);
+    }
+    const auto indiceDe = [&amp;indices](const std::string&amp; id) { return indices.find(id)-&gt;second; };</span>
+
+    // Orphelins : ce que rien n'atteint depuis l'entree.
+<span style = "background-color:#dfd">    std::vector&lt;bool&gt; atteint(graphe.nodes.size(), false);
+    std::vector&lt;std::size_t&gt; pile{indiceDe(graphe.start)};
+    atteint[pile.back()] = true;
+    while (!pile.empty()) {
+        const std::size_t i = pile.back();
+        pile.pop_back();
+        for (const std::string* cible : ciblesDe(graphe.nodes[i])) {
+            const std::size_t j = indiceDe(*cible);
+            if (!atteint[j]) {
+                atteint[j] = true;
+                pile.push_back(j);
+            }
+        }
+    }
+    for (std::size_t i = 0; i &lt; graphe.nodes.size(); ++i) {
+        if (!atteint[i]) {
+            rapport.noeud(graphe.nodes[i].id,</span>
+                          "orphelin : aucun chemin ne l'atteint depuis '" + graphe.start + "'.");
+        }
+<span style = "background-color:#dfd">    }</span>
+
+    // Cycles non intentionnels : une boucle qui ne traverse aucun arret. Parcours en profondeur
+    // restreint aux noeuds qui ne sont pas des arrets -- une arete vers un arret termine le chemin.
+    enum class Couleur { Blanc, Gris, Noir };
+<span style = "background-color:#dfd">    std::vector&lt;Couleur&gt; couleurs(graphe.nodes.size(), Couleur::Blanc);
+    std::vector&lt;std::size_t&gt; chemin;
+    std::set&lt;std::string&gt; dejaSignales;
+    const std::function&lt;void(std::size_t)&gt; visiter = [&amp;](std::size_t i) {
+        couleurs[i] = Couleur::Gris;
+        chemin.push_back(i);
+        for (const std::string* cible : ciblesDe(graphe.nodes[i])) {
+            const std::size_t j = indiceDe(*cible);
+            if (estUnArret(graphe.nodes[j])) {
+                continue;</span>
+            }
+<span style = "background-color:#dfd">            if (couleurs[j] == Couleur::Gris) {
+                const auto debut = std::ranges::find(chemin, j);
+                std::string trace;
+                for (auto k = debut; k != chemin.end(); ++k) {
+                    trace += graphe.nodes[*k].id + " -&gt; ";
+                }
+                trace += graphe.nodes[j].id;
+                if (dejaSignales.insert(graphe.nodes[j].id).second) {
+                    rapport.noeud(graphe.nodes[j].id,</span>
+                                  "cycle non intentionnel, sans reponse a donner : " + trace + ".");
+                }
+<span style = "background-color:#dfd">            } else if (couleurs[j] == Couleur::Blanc) {
+                visiter(j);
+            }</span>
+        }
+<span style = "background-color:#dfd">        chemin.pop_back();
+        couleurs[i] = Couleur::Noir;
+    };
+    for (std::size_t i = 0; i &lt; graphe.nodes.size(); ++i) {
+        if (couleurs[i] == Couleur::Blanc &amp;&amp; !estUnArret(graphe.nodes[i])) {
+            visiter(i);</span>
+        }
+<span style = "background-color:#dfd">    }</span>
+
+    // Impasses : les noeuds atteints d'ou aucune fin n'est atteignable. Parcours inverse depuis
+    // les fins.
+<span style = "background-color:#dfd">    std::vector&lt;std::vector&lt;std::size_t&gt;&gt; predecesseurs(graphe.nodes.size());
+    for (std::size_t i = 0; i &lt; graphe.nodes.size(); ++i) {
+        for (const std::string* cible : ciblesDe(graphe.nodes[i])) {
+            predecesseurs[indiceDe(*cible)].push_back(i);
+        }
+    }
+    std::vector&lt;bool&gt; menaUneFin(graphe.nodes.size(), false);
+    for (std::size_t i = 0; i &lt; graphe.nodes.size(); ++i) {
+        if (graphe.nodes[i].kind == DialogueNodeKind::End) {
+            menaUneFin[i] = true;
+            pile.push_back(i);</span>
+        }
+<span style = "background-color:#dfd">    }
+    while (!pile.empty()) {
+        const std::size_t i = pile.back();
+        pile.pop_back();
+        for (const std::size_t j : predecesseurs[i]) {
+            if (!menaUneFin[j]) {
+                menaUneFin[j] = true;
+                pile.push_back(j);</span>
+            }
+<span style = "background-color:#dfd">        }
+    }
+    for (std::size_t i = 0; i &lt; graphe.nodes.size(); ++i) {
+        if (atteint[i] &amp;&amp; !menaUneFin[i]) {
+            rapport.noeud(graphe.nodes[i].id, "impasse : aucune fin n'est atteignable d'ici.");</span>
+        }
+<span style = "background-color:#dfd">    }
+}</span>
+
+[[nodiscard]] std::vector&lt;std::filesystem::path&gt; fichiersJson(const std::filesystem::path&amp; dossier,
+<span style = "background-color:#dfd">                                                              std::error_code&amp; code) {
+    std::vector&lt;std::filesystem::path&gt; fichiers;
+    for (const auto&amp; entree : std::filesystem::directory_iterator(dossier, code)) {
+        if (entree.is_regular_file(code) &amp;&amp; entree.path().extension() == ".json") {
+            fichiers.push_back(entree.path());
+        }
+    }
+    std::ranges::sort(fichiers);
+    return fichiers;
+}</span>
+
+}  // namespace
+
+// ---------------------------------------------------------------------------------------------
+
+<span style = "background-color:#dfd">bool FlagCondition::holds(const WorldFlags&amp; flags) const {
+    return flags.isSet(flag) == expected;
+}</span>
+
+<span style = "background-color:#dfd">const DialogueNode* DialogueGraph::find(std::string_view nodeId) const {
+    const auto trouve = std::ranges::find(nodes, nodeId, &amp;DialogueNode::id);
+    return trouve == nodes.end() ? nullptr : &amp;*trouve;
+}</span>
+
+<span style = "background-color:#dfd">std::string dialogueSpeakerKey(std::string_view dialogueId) {
+    return "dialogue." + std::string(dialogueId) + ".speaker";
+}</span>
+
+<span style = "background-color:#dfd">std::string dialogueLineKey(std::string_view dialogueId, std::string_view nodeId) {
+    return "dialogue." + std::string(dialogueId) + '.' + std::string(nodeId);
+}</span>
+
+std::string dialogueChoiceKey(std::string_view dialogueId, std::string_view nodeId,
+<span style = "background-color:#dfd">                              std::string_view choiceId) {
+    return dialogueLineKey(dialogueId, nodeId) + '.' + std::string(choiceId);
+}</span>
+
+<span style = "background-color:#dfd">std::string_view dialogueAttitudeName(DialogueAttitude attitude) noexcept {
+    switch (attitude) {</span>
+        case DialogueAttitude::Friendly:
+<span style = "background-color:#dfd">            return "friendly";</span>
+        case DialogueAttitude::Indifferent:
+<span style = "background-color:#dfd">            return "indifferent";</span>
+        case DialogueAttitude::Hostile:
+<span style = "background-color:#dfd">            return "hostile";</span>
+    }
+<span style = "background-color:#fdd">    return "indifferent";</span>
+<span style = "background-color:#dfd">}</span>
+
+<span style = "background-color:#dfd">std::string dialogueAttitudeKey(DialogueAttitude attitude) {
+    return "dialogue.attitude." + std::string(dialogueAttitudeName(attitude));
+}</span>
+
+<span style = "background-color:#dfd">std::vector&lt;std::string&gt; dialogueTextKeys(const DialogueGraph&amp; graph) {
+    std::vector&lt;std::string&gt; cles;
+    const auto ajouter = [&amp;cles](std::string cle) {
+        if (std::ranges::find(cles, cle) == cles.end()) {
+            cles.push_back(std::move(cle));</span>
+        }
+<span style = "background-color:#dfd">    };
+    ajouter(dialogueSpeakerKey(graph.id));
+    ajouter(dialogueAttitudeKey(graph.attitude));
+    for (const DialogueNode&amp; noeud : graph.nodes) {
+        if (noeud.kind != DialogueNodeKind::Line) {
+            continue;</span>
+        }
+<span style = "background-color:#dfd">        ajouter(dialogueLineKey(graph.id, noeud.id));
+        if (noeud.attitude) {
+            ajouter(dialogueAttitudeKey(*noeud.attitude));</span>
+        }
+<span style = "background-color:#dfd">        if (noeud.choices.empty()) {
+            ajouter(std::string(DIALOGUE_CONTINUE_KEY));</span>
+        }
+<span style = "background-color:#dfd">        for (const DialogueChoice&amp; choix : noeud.choices) {
+            ajouter(dialogueChoiceKey(graph.id, noeud.id, choix.id));
+        }
+    }
+    return cles;
+}</span>
+
+<span style = "background-color:#dfd">std::string questStartedFlag(std::string_view questId) {
+    return "quest/" + std::string(questId) + "/started";
+}</span>
+
+// ---------------------------------------------------------------------------------------------
+
+<span style = "background-color:#dfd">DialogueLoad readDialogue(std::string_view json, std::string_view origin) {
+    DialogueLoad resultat;
+    Rapport rapport(origin);</span>
+
+<span style = "background-color:#dfd">    const JsonDocument document = readJsonObject(json, SANS_GARDE_DE_VERSION, origin);
+    if (!document.ok()) {</span>
+<span style = "background-color:#fdd">        resultat.errors.push_back(std::string(origin) + " : " + document.message);
+        return resultat;</span>
+    }
+<span style = "background-color:#dfd">    const Json&amp; racine = document.root;</span>
+
+<span style = "background-color:#dfd">    DialogueGraph graphe;
+    if (const auto id = texte(racine, "id")) {
+        graphe.id = *id;
+    } else {</span>
+<span style = "background-color:#fdd">        rapport.document("champ 'id' absent ou vide.");</span>
+<span style = "background-color:#dfd">    }
+    if (const auto entree = texte(racine, "start")) {
+        graphe.start = *entree;
+    } else {</span>
+<span style = "background-color:#fdd">        rapport.document("champ 'start' absent ou vide.");</span>
+<span style = "background-color:#dfd">    }</span>
+
+<span style = "background-color:#dfd">    const auto interlocuteur = racine.find("speaker");
+    if (interlocuteur == racine.end() || !interlocuteur-&gt;is_object()) {</span>
+<span style = "background-color:#fdd">        rapport.document("champ 'speaker' absent ou non objet.");
+    } else {</span>
+<span style = "background-color:#dfd">        const auto langues = interlocuteur-&gt;find("languages");
+        if (langues == interlocuteur-&gt;end() || !langues-&gt;is_array() || langues-&gt;empty()) {</span>
+            // Sans langue declaree, Â« refuse faute de langue commune Â» ne se deciderait jamais :
+            // le PNJ parlerait a tout le monde, ce que `EX-RPG-042` interdit de supposer.
+<span style = "background-color:#dfd">            rapport.document(</span>
+                "'speaker.languages' absent ou vide : un PNJ parle au moins une "
+                "langue.");
+<span style = "background-color:#dfd">        } else {
+            for (const Json&amp; langue : *langues) {
+                if (langue.is_string() &amp;&amp; !langue.get&lt;std::string&gt;().empty()) {
+                    graphe.speakerLanguages.push_back(langue.get&lt;std::string&gt;());
+                } else {</span>
+<span style = "background-color:#fdd">                    rapport.document(</span>
+                        "'speaker.languages' contient une valeur qui n'est pas un "
+                        "identifiant.");
+<span style = "background-color:#dfd">                }
+            }</span>
+        }
+<span style = "background-color:#dfd">        if (const auto attitude = interlocuteur-&gt;find("attitude");
+            attitude != interlocuteur-&gt;end()) {
+            const auto lue =</span>
+                attitude-&gt;is_string() ? attitudeDepuis(attitude-&gt;get&lt;std::string&gt;()) : std::nullopt;
+<span style = "background-color:#dfd">            if (lue) {
+                graphe.attitude = *lue;
+            } else {</span>
+<span style = "background-color:#fdd">                rapport.document("'speaker.attitude' inconnue (friendly, indifferent, hostile).");</span>
+            }
+<span style = "background-color:#dfd">        }
+    }</span>
+
+<span style = "background-color:#dfd">    const auto noeuds = racine.find("nodes");
+    if (noeuds == racine.end() || !noeuds-&gt;is_array() || noeuds-&gt;empty()) {</span>
+<span style = "background-color:#fdd">        rapport.document("champ 'nodes' absent, vide ou non tableau.");
+    } else {</span>
+<span style = "background-color:#dfd">        std::set&lt;std::string&gt; vus;
+        for (const Json&amp; brut : *noeuds) {
+            if (!brut.is_object()) {</span>
+<span style = "background-color:#fdd">                rapport.document("un noeud n'est pas un objet.");
+                continue;</span>
+            }
+<span style = "background-color:#dfd">            DialogueNode noeud;
+            if (const auto id = texte(brut, "id")) {
+                noeud.id = *id;
+            } else {</span>
+<span style = "background-color:#fdd">                rapport.document("un noeud n'a pas d'identifiant.");
+                continue;</span>
+<span style = "background-color:#dfd">            }
+            if (!vus.insert(noeud.id).second) {
+                rapport.noeud(noeud.id, "identifiant en double.");
+                continue;</span>
+            }
+<span style = "background-color:#dfd">            const auto type = texte(brut, "type");
+            const auto nature = type ? natureDepuis(*type) : std::nullopt;
+            if (!nature) {
+                rapport.noeud(noeud.id, "type inconnu (line, condition, action, check, end) : '" +</span>
+                                            type.value_or("") + "'.");
+<span style = "background-color:#dfd">                continue;</span>
+            }
+<span style = "background-color:#dfd">            noeud.kind = *nature;
+            switch (noeud.kind) {</span>
+                case DialogueNodeKind::Line:
+<span style = "background-color:#dfd">                    lireReplique(brut, noeud, rapport);
+                    break;</span>
+                case DialogueNodeKind::Condition:
+<span style = "background-color:#dfd">                    lireCondition(brut, noeud, rapport);
+                    break;</span>
+                case DialogueNodeKind::Action:
+<span style = "background-color:#dfd">                    lireAction(brut, noeud, rapport);
+                    break;</span>
+                case DialogueNodeKind::Check:
+<span style = "background-color:#dfd">                    lireJet(brut, noeud, rapport);</span>
+                    break;
+                case DialogueNodeKind::End:
+                    break;
+            }
+<span style = "background-color:#dfd">            graphe.nodes.push_back(std::move(noeud));
+        }
+    }</span>
+
+    // Les cibles, une fois tous les noeuds connus.
+<span style = "background-color:#dfd">    if (!graphe.start.empty() &amp;&amp; !graphe.nodes.empty() &amp;&amp; graphe.find(graphe.start) == nullptr) {
+        rapport.document("noeud cible inconnu : l'entree 'start' nomme '" + graphe.start + "'.");</span>
+    }
+<span style = "background-color:#dfd">    for (const DialogueNode&amp; noeud : graphe.nodes) {
+        for (const std::string* cible : ciblesDe(noeud)) {
+            if (!cible-&gt;empty() &amp;&amp; graphe.find(*cible) == nullptr) {
+                rapport.noeud(noeud.id, "noeud cible inconnu : '" + *cible + "'.");
+            }
+        }
+    }
+    const bool fin = std::ranges::any_of(
+        graphe.nodes, [](const DialogueNode&amp; n) { return n.kind == DialogueNodeKind::End; });
+    if (!graphe.nodes.empty() &amp;&amp; !fin) {
+        rapport.document("aucun noeud 'end' : la conversation ne pourrait pas se terminer.");</span>
+    }
+
+<span style = "background-color:#dfd">    if (rapport.vide()) {
+        controlerLeGraphe(graphe, rapport);</span>
+    }
+<span style = "background-color:#dfd">    if (!rapport.vide()) {
+        resultat.errors = rapport.extraire();
+        return resultat;</span>
+    }
+<span style = "background-color:#dfd">    resultat.graph = std::move(graphe);
+    return resultat;
+}</span>
+
+<span style = "background-color:#dfd">DialogueLoad loadDialogue(const std::filesystem::path&amp; path) {
+    const JsonDocument lu = readJsonObjectFromFile(path, SANS_GARDE_DE_VERSION);
+    if (!lu.ok()) {</span>
+<span style = "background-color:#fdd">        DialogueLoad echec;
+        echec.errors.push_back(path.string() + " : " + lu.message);
+        return echec;</span>
+    }
+<span style = "background-color:#dfd">    return readDialogue(lu.root.dump(), path.string());
+}</span>
+
+std::vector&lt;std::string&gt; validateDialogueReferences(const DialogueGraph&amp; graph,
+<span style = "background-color:#dfd">                                                    const DialogueReferences&amp; references) {
+    std::vector&lt;std::string&gt; erreurs;
+    const auto signaler = [&amp;](std::string_view noeud, const std::string&amp; message) {</span>
+<span style = "background-color:#fdd">        erreurs.push_back("dialogue '" + graph.id + "' : noeud '" + std::string(noeud) +</span>
+                          "' : " + message);
+<span style = "background-color:#dfd">    };
+    if (references.languageExists) {
+        for (const std::string&amp; langue : graph.speakerLanguages) {
+            if (!references.languageExists(langue)) {</span>
+<span style = "background-color:#fdd">                erreurs.push_back("dialogue '" + graph.id + "' : langue inconnue '" + langue +</span>
+                                  "'.");
+            }
+<span style = "background-color:#dfd">        }</span>
+    }
+<span style = "background-color:#dfd">    for (const DialogueNode&amp; noeud : graph.nodes) {
+        if (noeud.kind == DialogueNodeKind::Check) {
+            if (references.skills != nullptr &amp;&amp; references.skills-&gt;find(noeud.skill) == nullptr) {</span>
+<span style = "background-color:#fdd">                signaler(noeud.id, "competence inconnue '" + noeud.skill + "'.");</span>
+            }
+<span style = "background-color:#dfd">            if (references.difficulty != nullptr &amp;&amp;</span>
+                references.difficulty-&gt;find(noeud.difficulty) == nullptr) {
+<span style = "background-color:#fdd">                signaler(noeud.id, "degre de difficulte inconnu '" + noeud.difficulty + "'.");</span>
+            }
+        }
+<span style = "background-color:#dfd">        if (noeud.kind == DialogueNodeKind::Action &amp;&amp; references.itemExists) {
+            for (const DialogueAction&amp; action : noeud.actions) {
+                if (action.kind == DialogueActionKind::GiveItem &amp;&amp;</span>
+                    !references.itemExists(action.target)) {
+<span style = "background-color:#fdd">                    signaler(noeud.id, "objet inconnu '" + action.target + "'.");</span>
+                }
+<span style = "background-color:#dfd">            }</span>
+        }
+<span style = "background-color:#dfd">    }
+    return erreurs;
+}</span>
+
+<span style = "background-color:#dfd">const DialogueGraph* DialogueCatalog::find(std::string_view id) const {
+    const auto trouve = std::ranges::find(dialogues, id, &amp;DialogueGraph::id);
+    return trouve == dialogues.end() ? nullptr : &amp;*trouve;
+}</span>
+
+<span style = "background-color:#dfd">DialogueCatalog loadDialogues(const std::filesystem::path&amp; directory) {
+    DialogueCatalog catalogue;
+    std::error_code code;
+    if (!std::filesystem::is_directory(directory, code)) {</span>
+<span style = "background-color:#fdd">        catalogue.errors.push_back(directory.string() + " : dossier absent ou illisible.");
+        return catalogue;</span>
+    }
+<span style = "background-color:#dfd">    for (const std::filesystem::path&amp; chemin : fichiersJson(directory, code)) {
+        DialogueLoad lu = loadDialogue(chemin);
+        catalogue.errors.insert(catalogue.errors.end(), lu.errors.begin(), lu.errors.end());
+        if (!lu.graph) {</span>
+<span style = "background-color:#fdd">            continue;</span>
+        }
+<span style = "background-color:#dfd">        if (lu.graph-&gt;id != chemin.stem().string()) {</span>
+            // Une carte nomme un dialogue par son identifiant ; un fichier qui en porte un autre
+            // se chargerait et ne s'ouvrirait jamais.
+<span style = "background-color:#fdd">            catalogue.errors.push_back(chemin.string() + " : l'identifiant '" + lu.graph-&gt;id +</span>
+                                       "' doit etre le nom du fichier.");
+<span style = "background-color:#fdd">            continue;</span>
+        }
+<span style = "background-color:#dfd">        catalogue.dialogues.push_back(std::move(*lu.graph));
+    }
+    return catalogue;
+}</span>
+
+// ---------------------------------------------------------------------------------------------
+
+CharacterListener::CharacterListener(const CharacterSheet&amp; sheet, Inventory&amp; inventory,
+                                     const ExperienceTable&amp; experience, const SkillCatalog&amp; skills)
+<span style = "background-color:#dfd">    : _sheet(sheet), _inventory(inventory), _experience(experience), _skills(skills) {}</span>
+
+<span style = "background-color:#dfd">bool CharacterListener::speaks(std::string_view languageId) const {
+    return _sheet.languages.contains(std::string(languageId));
+}</span>
+
+<span style = "background-color:#dfd">std::vector&lt;Modifier&gt; CharacterListener::skillModifiers(std::string_view skillId) const {
+    std::vector&lt;Modifier&gt; modificateurs;
+    const SkillDefinition* competence = _skills.find(skillId);
+    if (competence == nullptr) {
+        return modificateurs;</span>
+    }
+    // Detaille, et non le total de `skillModifier` : Â« +3 (charisma) + 2 (maitrise) Â» se
+    // restitue, Â« +5 Â» ne dit pas d'ou il vient (EX-REG-003). La regle reste la sienne.
+<span style = "background-color:#dfd">    const SkillCheckModifier total = skillModifier(_sheet, _experience, _skills, skillId);
+    const int caracteristique = _sheet.modifier(competence-&gt;ability);
+    modificateurs.push_back({std::string(abilityName(competence-&gt;ability)), caracteristique});
+    if (total.proficient) {
+        modificateurs.push_back({"maitrise", total.value - caracteristique});</span>
+    }
+<span style = "background-color:#dfd">    return modificateurs;
+}</span>
+
+<span style = "background-color:#dfd">void CharacterListener::receiveItem(std::string_view itemId, int quantity) {
+    addToBackpack(_inventory, std::string(itemId), quantity);
+}</span>
+
+// ---------------------------------------------------------------------------------------------
+
+DialogueRunner::DialogueRunner(const DialogueGraph&amp; graph, WorldFlags&amp; flags,
+                               DialogueListener&amp; listener, const DifficultyScale&amp; difficulty,
+                               DeterministicRandom&amp; random)
+<span style = "background-color:#dfd">    : _graph(graph), _flags(flags), _listener(listener), _difficulty(difficulty), _random(random) {}</span>
+
+<span style = "background-color:#dfd">DialogueState DialogueRunner::start() {
+    if (_state != DialogueState::NotStarted) {
+        return _state;</span>
+    }
+<span style = "background-color:#dfd">    const bool commune = std::ranges::any_of(
+        _graph.speakerLanguages, [this](const std::string&amp; l) { return _listener.speaks(l); });
+    if (!commune) {</span>
+        // Refuse AVANT tout noeud : une conversation qui n'a pas lieu ne pose aucun drapeau, sans
+        // quoi un PNJ qu'on ne comprend pas ferait avancer une quete.
+<span style = "background-color:#dfd">        std::string langues;
+        for (const std::string&amp; l : _graph.speakerLanguages) {
+            langues += (langues.empty() ? "" : ", ") + l;
+        }
+        _journal.push_back("refus : aucune langue commune (" + langues + ")");
+        _state = DialogueState::Refused;
+        return _state;</span>
+    }
+<span style = "background-color:#dfd">    _journal.push_back("debut : " + _graph.id);
+    _automaticSteps = 0;
+    advanceTo(_graph.start);
+    return _state;
+}</span>
+
+<span style = "background-color:#dfd">ChoiceResult DialogueRunner::choose(std::string_view choiceId) {
+    if (_state != DialogueState::AwaitingChoice || _current == nullptr) {
+        return ChoiceResult::NotAwaiting;</span>
+    }
+<span style = "background-color:#dfd">    std::string suite;
+    if (_current-&gt;choices.empty()) {
+        if (choiceId != DIALOGUE_CONTINUE_CHOICE) {</span>
+<span style = "background-color:#fdd">            return ChoiceResult::Unavailable;</span>
+        }
+<span style = "background-color:#dfd">        suite = _current-&gt;next;
+    } else {
+        const auto choix = std::ranges::find(_current-&gt;choices, choiceId, &amp;DialogueChoice::id);</span>
+        // La condition est REEVALUEE : entre l'affichage et le geste, un drapeau a pu changer, et
+        // l'ecran ne doit pas pouvoir faire passer une reponse que la donnee n'offre plus.
+<span style = "background-color:#dfd">        if (choix == _current-&gt;choices.end() ||</span>
+            (choix-&gt;condition &amp;&amp; !choix-&gt;condition-&gt;holds(_flags))) {
+<span style = "background-color:#dfd">            return ChoiceResult::Unavailable;</span>
+        }
+<span style = "background-color:#dfd">        suite = choix-&gt;next;
+    }
+    _journal.push_back("reponse : " + std::string(choiceId));
+    _automaticSteps = 0;
+    _lastCheck.reset();
+    advanceTo(suite);
+    return ChoiceResult::Advanced;
+}</span>
+
+<span style = "background-color:#dfd">void DialogueRunner::advanceTo(const std::string&amp; nodeId) {
+    std::string id = nodeId;
+    while (true) {
+        const DialogueNode* noeud = _graph.find(id);</span>
+        // La validation rend ces deux gardes inatteignables pour un graphe charge ; un graphe
+        // construit a la main peut les atteindre, et il vaut mieux finir que boucler ou planter.
+<span style = "background-color:#dfd">        if (noeud == nullptr) {</span>
+<span style = "background-color:#fdd">            _journal.push_back("erreur : noeud inconnu '" + id + "', fin forcee");
+            _current = nullptr;
+            _state = DialogueState::Ended;
+            return;</span>
+        }
+<span style = "background-color:#dfd">        if (++_automaticSteps &gt; _graph.nodes.size() + 1) {</span>
+<span style = "background-color:#fdd">            _journal.push_back("erreur : boucle sans reponse, fin forcee");
+            _current = nullptr;
+            _state = DialogueState::Ended;
+            return;</span>
+        }
+<span style = "background-color:#dfd">        switch (noeud-&gt;kind) {</span>
+            case DialogueNodeKind::Line:
+<span style = "background-color:#dfd">                _journal.push_back("replique : " + noeud-&gt;id);
+                _current = noeud;
+                _state = DialogueState::AwaitingChoice;
+                return;</span>
+            case DialogueNodeKind::End:
+<span style = "background-color:#dfd">                _journal.push_back("fin : " + noeud-&gt;id);
+                _current = nullptr;
+                _state = DialogueState::Ended;
+                return;</span>
+            case DialogueNodeKind::Condition: {
+<span style = "background-color:#dfd">                const bool tient = noeud-&gt;condition.holds(_flags);
+                _journal.push_back("condition : " + noeud-&gt;id + " (" + noeud-&gt;condition.flag +</span>
+                                   (tient ? ") tient" : ") ne tient pas"));
+<span style = "background-color:#dfd">                id = tient ? noeud-&gt;whenTrue : noeud-&gt;whenFalse;
+                break;</span>
+            }
+            case DialogueNodeKind::Action:
+<span style = "background-color:#dfd">                _journal.push_back("action : " + noeud-&gt;id);
+                for (const DialogueAction&amp; action : noeud-&gt;actions) {
+                    apply(action);
+                }
+                id = noeud-&gt;next;
+                break;</span>
+            case DialogueNodeKind::Check:
+<span style = "background-color:#dfd">                runCheck(*noeud);
+                id = (_lastCheck &amp;&amp; _lastCheck-&gt;nodeId == noeud-&gt;id &amp;&amp;</span>
+                      _lastCheck-&gt;result.succeeded())
+                         ? noeud-&gt;onSuccess
+                         : noeud-&gt;onFailure;
+                break;
+        }
+<span style = "background-color:#dfd">    }</span>
+<span style = "background-color:#fdd">}</span>
+
+<span style = "background-color:#dfd">void DialogueRunner::apply(const DialogueAction&amp; action) {
+    switch (action.kind) {</span>
+        case DialogueActionKind::SetFlag:
+<span style = "background-color:#dfd">            _flags.set(action.target);
+            _journal.push_back("drapeau pose : " + action.target);
+            break;</span>
+        case DialogueActionKind::ClearFlag:
+<span style = "background-color:#dfd">            _flags.clear(action.target);
+            _journal.push_back("drapeau retire : " + action.target);
+            break;</span>
+        case DialogueActionKind::GiveItem:
+<span style = "background-color:#dfd">            _listener.receiveItem(action.target, action.quantity);
+            _journal.push_back("objet donne : " + action.target + " x" +</span>
+                               std::to_string(action.quantity));
+<span style = "background-color:#dfd">            break;</span>
+        case DialogueActionKind::StartQuest:
+<span style = "background-color:#dfd">            _flags.set(questStartedFlag(action.target));
+            _journal.push_back("quete demarree : " + action.target);</span>
+            break;
+    }
+<span style = "background-color:#dfd">}</span>
+
+<span style = "background-color:#dfd">void DialogueRunner::runCheck(const DialogueNode&amp; node) {
+    const DifficultyTier* degre = _difficulty.find(node.difficulty);
+    if (degre == nullptr) {</span>
+        // Un degre inconnu ne se jette pas contre 0 -- tout reussirait. L'echec est la suite
+        // prudente, et le journal le dit.
+<span style = "background-color:#fdd">        _lastCheck.reset();
+        _journal.push_back("jet : " + node.id + " -- degre inconnu '" + node.difficulty +</span>
+                           "', echec");
+<span style = "background-color:#fdd">        return;</span>
+    }
+<span style = "background-color:#dfd">    const std::vector&lt;Modifier&gt; modificateurs = _listener.skillModifiers(node.skill);
+    DialogueCheck jet;
+    jet.nodeId = node.id;
+    jet.skill = node.skill;
+    jet.difficulty = node.difficulty;
+    jet.result = rollCheck(degre-&gt;dc, modificateurs, RollStance::Normal, _random);
+    _journal.push_back("jet : " + node.id + " (" + node.skill + ") " + jet.result.describe());
+    _lastCheck = std::move(jet);
+}</span>
+
+<span style = "background-color:#dfd">const DialogueNode* DialogueRunner::currentLine() const {
+    return _state == DialogueState::AwaitingChoice ? _current : nullptr;
+}</span>
+
+<span style = "background-color:#dfd">std::string DialogueRunner::lineKey() const {
+    const DialogueNode* ligne = currentLine();
+    return ligne == nullptr ? std::string{} : dialogueLineKey(_graph.id, ligne-&gt;id);
+}</span>
+
+<span style = "background-color:#dfd">DialogueAttitude DialogueRunner::attitude() const {
+    const DialogueNode* ligne = currentLine();
+    return (ligne != nullptr &amp;&amp; ligne-&gt;attitude) ? *ligne-&gt;attitude : _graph.attitude;
+}</span>
+
+<span style = "background-color:#dfd">std::vector&lt;AvailableChoice&gt; DialogueRunner::choices() const {
+    std::vector&lt;AvailableChoice&gt; proposees;
+    const DialogueNode* ligne = currentLine();
+    if (ligne == nullptr) {
+        return proposees;</span>
+    }
+<span style = "background-color:#dfd">    const auto competenceJetee = [this](const std::string&amp; cible) {
+        const DialogueNode* suite = _graph.find(cible);
+        return (suite != nullptr &amp;&amp; suite-&gt;kind == DialogueNodeKind::Check) ? suite-&gt;skill</span>
+                                                                            : std::string{};
+<span style = "background-color:#dfd">    };
+    if (ligne-&gt;choices.empty()) {
+        proposees.push_back({std::string(DIALOGUE_CONTINUE_CHOICE),</span>
+                             std::string(DIALOGUE_CONTINUE_KEY), competenceJetee(ligne-&gt;next)});
+<span style = "background-color:#dfd">        return proposees;</span>
+    }
+<span style = "background-color:#dfd">    for (const DialogueChoice&amp; choix : ligne-&gt;choices) {
+        if (choix.condition &amp;&amp; !choix.condition-&gt;holds(_flags)) {
+            continue;</span>
+        }
+<span style = "background-color:#dfd">        proposees.push_back({choix.id, dialogueChoiceKey(_graph.id, ligne-&gt;id, choix.id),</span>
+                             competenceJetee(choix.next)});
+<span style = "background-color:#dfd">    }
+    return proposees;
+}</span>
+
+// ---------------------------------------------------------------------------------------------
+
+<span style = "background-color:#dfd">std::optional&lt;DialogueTrigger&gt; dialogueTriggerFor(const MapEntity&amp; entity) {
+    if (entity.type != NPC_ENTITY_TYPE) {
+        return std::nullopt;</span>
+    }
+<span style = "background-color:#dfd">    const auto trouve = entity.properties.find(std::string(NPC_DIALOGUE_PROPERTY));
+    if (trouve == entity.properties.end()) {
+        return std::nullopt;</span>
+    }
+<span style = "background-color:#dfd">    const std::string* dialogue = std::get_if&lt;std::string&gt;(&amp;trouve-&gt;second);
+    if (dialogue == nullptr || dialogue-&gt;empty()) {</span>
+<span style = "background-color:#fdd">        return std::nullopt;</span>
+    }
+<span style = "background-color:#dfd">    return DialogueTrigger{*dialogue, entity.position};
+}</span>
+
+}  // namespace core</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

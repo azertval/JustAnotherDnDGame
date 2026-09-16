@@ -25,13 +25,13 @@ var specifications =
       [ "Exigences retirées", "spec-gameplay.html#gp-retirees", null ],
       [ "Traçabilité", "spec-gameplay.html#autotoc_md347", null ]
     ] ],
-    [ "Règles d20", "spec-regles-dnd.html", [
-      [ "1. Le jet", "spec-regles-dnd.html#autotoc_md377", null ],
-      [ "2. Caractéristiques et maîtrise", "spec-regles-dnd.html#autotoc_md378", null ],
-      [ "3. Trois jets, trois usages", "spec-regles-dnd.html#autotoc_md379", null ],
-      [ "4. Temps, repos et récupération", "spec-regles-dnd.html#autotoc_md380", null ],
-      [ "5. Conditions", "spec-regles-dnd.html#autotoc_md381", null ],
-      [ "6. Échelles", "spec-regles-dnd.html#autotoc_md382", null ]
+    [ "Règles d20", "spec-regles-d20.html", [
+      [ "1. Le jet", "spec-regles-d20.html#autotoc_md377", null ],
+      [ "2. Caractéristiques et maîtrise", "spec-regles-d20.html#autotoc_md378", null ],
+      [ "3. Trois jets, trois usages", "spec-regles-d20.html#autotoc_md379", null ],
+      [ "4. Temps, repos et récupération", "spec-regles-d20.html#autotoc_md380", null ],
+      [ "5. Conditions", "spec-regles-d20.html#autotoc_md381", null ],
+      [ "6. Échelles", "spec-regles-d20.html#autotoc_md382", null ]
     ] ],
     [ "Personnage et progression", "spec-rpg.html", [
       [ "1. La fiche", "spec-rpg.html#autotoc_md389", null ],

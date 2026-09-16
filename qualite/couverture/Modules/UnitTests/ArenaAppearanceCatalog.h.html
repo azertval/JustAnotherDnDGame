@@ -1,0 +1,182 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>ArenaAppearanceCatalog.h</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#pragma once
+
+#include &lt;cstdint&gt;
+#include &lt;filesystem&gt;
+#include &lt;optional&gt;
+#include &lt;string&gt;
+#include &lt;string_view&gt;
+#include &lt;vector&gt;
+
+#include "Core/Combat/TurnOrder.h"
+#include "Core/Levels/GridPosition.h"
+
+namespace core {
+struct JsonDocument;
+}
+
+/**
+ * @file HMI/Graphics/ArenaAppearanceCatalog.h
+ * @brief RÃ´le de case et figurine du ColisÃ©e, portÃ©s en `HMI` pur depuis `ArenaTile.ui.qml`
+ *        (LOT-50, lignes 57-84) pour que `hmi::composeArenaScene` les lise sans repasser par QML.
+ */
+
+namespace hmi {
+
+/**
+ * @brief Ce que porte l'enceinte sur une case de mur.
+ *
+ * Un pan plein partout, sauf trois exceptions Ã©crites par `ArenaTile.ui.qml` : une colonne aux
+ * quatre angles, une banniÃ¨re tous les cinq pas sur les bords haut et bas, une torche tous les
+ * quatre pas sur les bords gauche et droit.
+ */
+enum class WallFeature : std::uint8_t {
+    /// La case n'est pas un mur (`ArenaTileAppearance::wall` faux) â valeur de repli.
+    None,
+    Plain,
+    Corner,
+    BannerSpot,
+    TorchSpot,
+};
+
+/**
+ * @brief Ce qu'une case porte, dÃ©rivÃ© de sa seule position dans la grille de combat.
+ *
+ * `wall` est une donnÃ©e d'entrÃ©e (`BattleGrid::isObstructed`, au sol) : cette table n'en dÃ©cide
+ * pas, elle en dÃ©duit le dÃ©tail visuel. `gateSpot` et `slab` sont indÃ©pendants de `wallFeature` â
+ * une case franchissable du bord peut aussi bien porter une dalle claire qu'une case de sable.
+ */
+struct ArenaTileAppearance {
+    bool wall = false;
+    WallFeature wallFeature = WallFeature::None;
+    /// Vrai sur une case franchissable du bord de la grille : l'arche de porte s'y dessine.
+    bool gateSpot = false;
+    /// Vrai si le sol porte une dalle claire du tileset plutÃ´t que le sable.
+    bool slab = false;
+    /// Indice dans `ArenaAppearanceCatalog::paleSlabs()` â valide seulement si `slab` est vrai.
+    int slabVariant = 0;
+};
+
+/// @brief La figurine d'un combattant : le dossier de la planche, et son nombre d'images.
+struct FigureAppearance {
+    /// Nom de dossier sous `characters/` (alliÃ©) ou `enemies/` (ennemi), vide si le catalogue n'a
+    /// aucune figurine pour ce cÃ´tÃ©.
+    std::string sheet;
+    int frameCount = 0;
+};
+
+/// @brief CatÃ©gorie d'Ã©chec de lecture (mÃªme esprit que `hmi::SkinCatalogError`).
+enum class ArenaAppearanceError : std::uint8_t {
+    None,
+    FileNotFound,
+    ParseError,
+    UnsupportedVersion,
+    MalformedStructure,
+};
+
+// Le resultat contient un ArenaAppearanceCatalog par valeur : voir SkinCatalogResult pour la
+// raison de cette annonce.
+struct ArenaAppearanceCatalogResult;
+
+/**
+ * @brief Catalogue d'apparence du ColisÃ©e : figurines par cÃ´tÃ©, dalles de sol, chargÃ© depuis
+ *        `Source/Elements/Assets/Coliseum/manifest.json` (`heroes`, `gladiators`, `heroFrames`,
+ *        `enemyFrames`, `paleSlabs`).
+ *
+ * Logique **pure** (aucune dÃ©pendance Qt ni GPU, `EX-NFR-010`), testable sur des grilles connues
+ * sans construire de `BattleGrid`. Aucune lecture ne lÃ¨ve d'exception (`EX-NFR-040`).
+ */
+class ArenaAppearanceCatalog {
+public:
+    static constexpr int FORMAT_VERSION = 1;
+
+    [[nodiscard]] static ArenaAppearanceCatalogResult loadFromString(std::string_view json);
+    [[nodiscard]] static ArenaAppearanceCatalogResult loadFromFile(
+        const std::filesystem::path&amp; path);
+
+    /**
+     * @brief Le rÃ´le visuel d'une case, dans une grille de @p columns Ã @p rows.
+     * @param cell    Case Ã  qualifier.
+     * @param columns Nombre de colonnes de la grille.
+     * @param rows    Nombre de lignes de la grille.
+     * @param wall    Vrai si la case obstrue le sol (`BattleGrid::isObstructed`,
+     * `Locomotion::Walk`) â cette table le reÃ§oit, elle ne le recalcule pas.
+     */
+    [[nodiscard]] ArenaTileAppearance tileAppearance(core::GridPosition cell, int columns, int rows,
+                                                     bool wall) const;
+
+    /**
+     * @brief La figurine d'un combattant, choisie d'aprÃ¨s son nom pour rester la mÃªme d'un tour Ã 
+     *        l'autre â sans Ã©tat Ã  tenir Ã  jour.
+     * @param name Nom du combattant (`core::CombatantProfile::name`).
+     * @param side Son cÃ´tÃ© : `characters/` pour un alliÃ©, `enemies/` pour un ennemi.
+     */
+    [[nodiscard]] FigureAppearance figureFor(std::string_view name, core::CombatSide side) const;
+
+<span style = "background-color:#dfd">    [[nodiscard]] const std::vector&lt;std::string&gt;&amp; heroes() const noexcept {
+        return _heroes;
+    }
+    [[nodiscard]] const std::vector&lt;std::string&gt;&amp; gladiators() const noexcept {
+        return _gladiators;
+    }
+    [[nodiscard]] const std::vector&lt;std::string&gt;&amp; paleSlabs() const noexcept {
+        return _paleSlabs;
+    }
+    [[nodiscard]] int heroFrames() const noexcept {
+        return _heroFrames;
+    }
+    [[nodiscard]] int enemyFrames() const noexcept {
+        return _enemyFrames;
+    }</span>
+
+private:
+    [[nodiscard]] static ArenaAppearanceCatalogResult fromDocument(
+        const core::JsonDocument&amp; document);
+
+    std::vector&lt;std::string&gt; _heroes;
+    std::vector&lt;std::string&gt; _gladiators;
+    std::vector&lt;std::string&gt; _paleSlabs;
+    int _heroFrames = 0;
+    int _enemyFrames = 0;
+};
+
+/// @brief RÃ©sultat d'une lecture de catalogue : soit un `ArenaAppearanceCatalog`, soit une erreur.
+struct ArenaAppearanceCatalogResult {
+    std::optional&lt;ArenaAppearanceCatalog&gt; catalog;
+    std::string error;
+    ArenaAppearanceError errorCode = ArenaAppearanceError::None;
+
+<span style = "background-color:#dfd">    [[nodiscard]] bool ok() const noexcept {
+        return catalog.has_value();
+    }</span>
+};
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

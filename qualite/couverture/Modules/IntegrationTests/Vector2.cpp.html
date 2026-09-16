@@ -1,0 +1,151 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>Vector2.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#include "Core/Math/Vector2.h"
+
+#include &lt;cmath&gt;
+
+#include "Core/Math/MathUtils.h"
+
+namespace core {
+
+// Construit un vecteur Ã  partir de ses composantes.
+<span style = "background-color:#dfd">Vector2::Vector2(float xComponent, float yComponent) : x(xComponent), y(yComponent) {}</span>
+
+// Ajoute un autre vecteur composante Ã  composante.
+// Une rÃ©fÃ©rence sur ce vecteur, modifiÃ©.
+<span style = "background-color:#dfd">Vector2&amp; Vector2::operator+=(const Vector2&amp; other) {
+    x += other.x;
+    y += other.y;
+    return *this;
+}</span>
+
+// Soustrait un autre vecteur composante Ã  composante.
+// Une rÃ©fÃ©rence sur ce vecteur, modifiÃ©.
+<span style = "background-color:#dfd">Vector2&amp; Vector2::operator-=(const Vector2&amp; other) {
+    x -= other.x;
+    y -= other.y;
+    return *this;
+}</span>
+
+// Met le vecteur Ã  l'Ã©chelle par un scalaire.
+// Une rÃ©fÃ©rence sur ce vecteur, modifiÃ©.
+<span style = "background-color:#dfd">Vector2&amp; Vector2::operator*=(float scalar) {
+    x *= scalar;
+    y *= scalar;
+    return *this;
+}</span>
+
+// Divise le vecteur par un scalaire.
+// Une rÃ©fÃ©rence sur ce vecteur, modifiÃ©.
+<span style = "background-color:#dfd">Vector2&amp; Vector2::operator/=(float scalar) {
+    x /= scalar;
+    y /= scalar;
+    return *this;
+}</span>
+
+// Produit scalaire avec un autre vecteur.
+// La somme des produits composante Ã  composante.
+<span style = "background-color:#dfd">float Vector2::dot(const Vector2&amp; other) const {
+    return (x * other.x) + (y * other.y);
+}</span>
+
+// CarrÃ© de la longueur euclidienne (Ã©vite une racine carrÃ©e).
+// `x*x + y*y`.
+<span style = "background-color:#dfd">float Vector2::lengthSquared() const {
+    return (x * x) + (y * y);
+}</span>
+
+// Longueur euclidienne du vecteur.
+// `sqrt(x*x + y*y)`.
+<span style = "background-color:#dfd">float Vector2::length() const {
+    return std::sqrt(lengthSquared());
+}</span>
+
+// Renvoie le vecteur normalisÃ© (longueur 1).
+// Un vecteur unitaire de mÃªme direction ; le vecteur nul si la longueur
+// est nÃ©gligeable (aucune direction dÃ©finie).
+<span style = "background-color:#dfd">Vector2 Vector2::normalized() const {
+    const float magnitude = length();
+    if (magnitude &lt;= EPSILON) {</span>
+        // Le vecteur nul (ou quasi nul) n'a pas de direction : on renvoie zÃ©ro.
+<span style = "background-color:#dfd">        return Vector2{};</span>
+    }
+<span style = "background-color:#dfd">    return Vector2{x / magnitude, y / magnitude};
+}</span>
+
+// Somme de deux vecteurs.
+// Le vecteur somme.
+<span style = "background-color:#dfd">Vector2 operator+(const Vector2&amp; lhs, const Vector2&amp; rhs) {
+    return Vector2{lhs.x + rhs.x, lhs.y + rhs.y};
+}</span>
+
+// DiffÃ©rence de deux vecteurs.
+// Le vecteur diffÃ©rence `lhs - rhs`.
+<span style = "background-color:#dfd">Vector2 operator-(const Vector2&amp; lhs, const Vector2&amp; rhs) {
+    return Vector2{lhs.x - rhs.x, lhs.y - rhs.y};
+}</span>
+
+// Produit d'un vecteur par un scalaire.
+// Le vecteur mis Ã  l'Ã©chelle.
+<span style = "background-color:#dfd">Vector2 operator*(const Vector2&amp; vector, float scalar) {
+    return Vector2{vector.x * scalar, vector.y * scalar};
+}</span>
+
+// Produit d'un scalaire par un vecteur (commutatif).
+// Le vecteur mis Ã  l'Ã©chelle.
+<span style = "background-color:#dfd">Vector2 operator*(float scalar, const Vector2&amp; vector) {
+    return vector * scalar;
+}</span>
+
+// Division d'un vecteur par un scalaire.
+// Le vecteur divisÃ©.
+<span style = "background-color:#dfd">Vector2 operator/(const Vector2&amp; vector, float scalar) {
+    return Vector2{vector.x / scalar, vector.y / scalar};
+}</span>
+
+// OpposÃ© d'un vecteur.
+// Le vecteur de composantes opposÃ©es.
+<span style = "background-color:#dfd">Vector2 operator-(const Vector2&amp; vector) {
+    return Vector2{-vector.x, -vector.y};
+}</span>
+
+// ÃgalitÃ© approchÃ©e entre deux vecteurs (comparaison par tolÃ©rance).
+// `true` si les composantes coÃ¯ncident Ã  la tolÃ©rance prÃ¨s.
+<span style = "background-color:#dfd">bool operator==(const Vector2&amp; lhs, const Vector2&amp; rhs) {
+    return approximatelyEqual(lhs.x, rhs.x) &amp;&amp; approximatelyEqual(lhs.y, rhs.y);
+}</span>
+
+// InÃ©galitÃ© approchÃ©e entre deux vecteurs.
+// `true` si les vecteurs diffÃ¨rent au-delÃ  de la tolÃ©rance.
+<span style = "background-color:#dfd">bool operator!=(const Vector2&amp; lhs, const Vector2&amp; rhs) {
+    return !(lhs == rhs);
+}</span>
+
+}  // namespace core</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

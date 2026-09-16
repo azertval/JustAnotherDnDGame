@@ -1,0 +1,403 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>CharacterSheet.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#include "Core/Rpg/CharacterSheet.h"
+
+#include &lt;algorithm&gt;
+#include &lt;utility&gt;
+
+#include "Core/Data/JsonDocument.h"
+#include "Core/Rpg/Scale.h"
+
+namespace core {
+
+namespace {
+
+// La table d'experience ne porte pas de champ `version` : c'est une donnee de regle, pas un
+// document de format.
+constexpr int SANS_GARDE_DE_VERSION = 0;
+
+// Le gain de points de vie d'un niveau ne descend jamais sous 1. Une Constitution desastreuse fait
+// gagner peu de points de vie ; elle n'en fait pas perdre.
+constexpr int GAIN_MINIMAL_PAR_NIVEAU = 1;
+
+}  // namespace
+
+<span style = "background-color:#dfd">CharacterCreationRules loadCharacterCreationRules(const std::filesystem::path&amp; path) {
+    CharacterCreationRules regles;
+    const JsonDocument document = readJsonObjectFromFile(path, SANS_GARDE_DE_VERSION);
+    if (!document.ok()) {</span>
+<span style = "background-color:#fdd">        regles.errors.push_back(document.message);
+        return regles;</span>
+    }
+<span style = "background-color:#dfd">    for (const auto&amp; [champ, sortie] :
+         {std::pair{"unarmoredArmorClass", &amp;regles.unarmoredArmorClass},
+          std::pair{"maximumAbilityScore", &amp;regles.maximumAbilityScore}}) {
+        const auto trouve = document.root.find(champ);
+        if (trouve == document.root.end() || !trouve-&gt;is_number_integer()) {</span>
+            // Une regle absente ne se devine pas : lui donner une valeur par defaut la ferait
+            // passer pour une regle du jeu, alors que ce serait une valeur inventee par le
+            // chargeur.
+<span style = "background-color:#fdd">            regles.errors.push_back(path.string() + " : champ '" + champ +</span>
+                                    "' absent ou non entier.");
+<span style = "background-color:#fdd">            continue;</span>
+        }
+<span style = "background-color:#dfd">        *sortie = trouve-&gt;get&lt;int&gt;();
+    }
+    return regles;
+}</span>
+
+// -- Table d'experience -----------------------------------------------------------------------
+
+<span style = "background-color:#dfd">int ExperienceTable::levelFor(int experiencePoints) const {
+    int atteint = 0;
+    for (const ExperienceLevel&amp; ligne : levels) {
+        if (experiencePoints &gt;= ligne.experience) {
+            atteint = std::max(atteint, ligne.level);</span>
+        }
+<span style = "background-color:#dfd">    }
+    return atteint;
+}</span>
+
+<span style = "background-color:#dfd">int ExperienceTable::proficiencyBonusAt(int level) const {
+    const auto trouve = std::ranges::find(levels, level, &amp;ExperienceLevel::level);
+    return trouve == levels.end() ? 0 : trouve-&gt;proficiencyBonus;
+}</span>
+
+<span style = "background-color:#dfd">int ExperienceTable::thresholdAt(int level) const {
+    const auto trouve = std::ranges::find(levels, level, &amp;ExperienceLevel::level);
+    return trouve == levels.end() ? 0 : trouve-&gt;experience;
+}</span>
+
+<span style = "background-color:#dfd">int ExperienceTable::maximumLevel() const {
+    int maximum = 0;
+    for (const ExperienceLevel&amp; ligne : levels) {
+        maximum = std::max(maximum, ligne.level);
+    }
+    return maximum;
+}</span>
+
+<span style = "background-color:#dfd">ExperienceTable loadExperienceTable(const std::filesystem::path&amp; path) {
+    ExperienceTable table;
+    const JsonDocument document = readJsonObjectFromFile(path, SANS_GARDE_DE_VERSION);
+    if (!document.ok()) {</span>
+        // Le message porte deja le fichier et la ligne (EX-CNT-010).
+<span style = "background-color:#fdd">        table.errors.push_back(document.message);
+        return table;</span>
+    }
+<span style = "background-color:#dfd">    const auto niveaux = document.root.find("levels");
+    if (niveaux == document.root.end() || !niveaux-&gt;is_array()) {</span>
+<span style = "background-color:#fdd">        table.errors.push_back(path.string() + " : champ 'levels' absent ou non tableau.");
+        return table;</span>
+    }
+<span style = "background-color:#dfd">    for (const auto&amp; element : *niveaux) {
+        if (!element.is_object()) {</span>
+<span style = "background-color:#fdd">            continue;</span>
+        }
+<span style = "background-color:#dfd">        const auto niveau = element.find("level");
+        const auto px = element.find("experience");
+        const auto bonus = element.find("proficiencyBonus");</span>
+        if (niveau == element.end() || !niveau-&gt;is_number_integer() || px == element.end() ||
+<span style = "background-color:#dfd">            !px-&gt;is_number_integer() || bonus == element.end() || !bonus-&gt;is_number_integer()) {</span>
+<span style = "background-color:#fdd">            table.errors.push_back(path.string() + " : ligne de table incomplete.");
+            continue;</span>
+        }
+<span style = "background-color:#dfd">        table.levels.push_back({niveau-&gt;get&lt;int&gt;(), px-&gt;get&lt;int&gt;(), bonus-&gt;get&lt;int&gt;()});
+    }
+    std::ranges::sort(table.levels, {}, &amp;ExperienceLevel::level);
+    return table;
+}</span>
+
+LoadedCharacterSheet loadCharacterSheet(const std::filesystem::path&amp; path,
+                                        const CharacterOptions&amp; options,
+                                        const CharacterCreationRules&amp; rules,
+<span style = "background-color:#dfd">                                        const ExperienceTable&amp; table) {
+    LoadedCharacterSheet resultat;
+    const JsonDocument document = readJsonObjectFromFile(path, SANS_GARDE_DE_VERSION);
+    if (!document.ok()) {</span>
+<span style = "background-color:#fdd">        resultat.errors.push_back(document.message);
+        return resultat;</span>
+    }
+
+<span style = "background-color:#dfd">    const auto texte = [&amp;document](const char* champ) {
+        const auto trouve = document.root.find(champ);
+        return (trouve != document.root.end() &amp;&amp; trouve-&gt;is_string()) ? trouve-&gt;get&lt;std::string&gt;()</span>
+                                                                      : std::string{};
+<span style = "background-color:#dfd">    };</span>
+
+    // Les six valeurs de BASE, avant augmentation d'espece. Les six sont exigees : une fiche a
+    // cinq caracteristiques n'existe pas, et laisser la sixieme a zero donnerait un modificateur
+    // de -5 que rien ne signalerait.
+<span style = "background-color:#dfd">    std::array&lt;int, 6&gt; base{};
+    const auto caracteristiques = document.root.find("baseAbilities");
+    if (caracteristiques == document.root.end() || !caracteristiques-&gt;is_object()) {</span>
+<span style = "background-color:#fdd">        resultat.errors.push_back(path.string() + " : champ 'baseAbilities' absent ou non objet.");
+    } else {</span>
+<span style = "background-color:#dfd">        for (const Ability caracteristique : allAbilities()) {
+            const std::string nom{abilityName(caracteristique)};
+            const auto valeur = caracteristiques-&gt;find(nom);
+            if (valeur == caracteristiques-&gt;end() || !valeur-&gt;is_number_integer()) {</span>
+<span style = "background-color:#fdd">                resultat.errors.push_back(path.string() + " : caracteristique '" + nom +</span>
+                                          "' absente.");
+<span style = "background-color:#fdd">                continue;</span>
+            }
+<span style = "background-color:#dfd">            base[static_cast&lt;std::size_t&gt;(caracteristique)] = valeur-&gt;get&lt;int&gt;();
+        }</span>
+    }
+
+    // Les trois choix sont resolus DANS LE CATALOGUE, et un identifiant inconnu est signale : une
+    // fiche qui reference une espece absente s'afficherait sans vitesse ni augmentation, ce qui
+    // ressemble a un personnage faible et non a une donnee fausse.
+<span style = "background-color:#dfd">    const std::string especeId = texte("speciesId");
+    const std::string classeId = texte("classId");
+    const std::string historiqueId = texte("backgroundId");
+    const Species* const espece = options.findSpecies(especeId);
+    const PlayableClass* const classe = options.findClass(classeId);
+    const Background* const historique = options.findBackground(historiqueId);
+    if (espece == nullptr) {</span>
+<span style = "background-color:#fdd">        resultat.errors.push_back(path.string() + " : espece inconnue '" + especeId + "'.");</span>
+    }
+<span style = "background-color:#dfd">    if (classe == nullptr) {</span>
+<span style = "background-color:#fdd">        resultat.errors.push_back(path.string() + " : classe inconnue '" + classeId + "'.");</span>
+    }
+<span style = "background-color:#dfd">    if (historique == nullptr) {</span>
+<span style = "background-color:#fdd">        resultat.errors.push_back(path.string() + " : historique inconnu '" + historiqueId + "'.");</span>
+    }
+
+    // La fiche est CONSTRUITE, jamais recopiee : points de vie, classe d'armure, valeurs finales
+    // et seuil d'experience sont derives par la regle (LOT-13). Les ecrire dans le fichier en
+    // ferait une seconde source, qui differerait de la premiere au premier ajustement de regle.
+<span style = "background-color:#dfd">    resultat.sheet =</span>
+        buildCharacterSheet(texte("name"), base, espece, classe, historique, rules, table);
+
+<span style = "background-color:#dfd">    const auto niveau = document.root.find("level");
+    if (niveau != document.root.end() &amp;&amp; niveau-&gt;is_number_integer() &amp;&amp; classe != nullptr) {</span>
+        // Monter par l'EXPERIENCE, et non en posant le niveau : c'est le meme chemin que celui
+        // qu'une partie empruntera, donc les memes points de vie et le meme bonus de maitrise.
+<span style = "background-color:#dfd">        const int cible = niveau-&gt;get&lt;int&gt;();
+        const int seuil = table.thresholdAt(cible);
+        if (seuil &gt; resultat.sheet.experiencePoints) {
+            gainExperience(resultat.sheet, table, classe-&gt;hitDie,</span>
+                           seuil - resultat.sheet.experiencePoints);
+        }
+    }
+
+<span style = "background-color:#dfd">    const auto competences = document.root.find("skillProficiencies");
+    if (competences != document.root.end() &amp;&amp; competences-&gt;is_array()) {
+        for (const auto&amp; element : *competences) {
+            if (element.is_string()) {
+                resultat.sheet.skillProficiencies.insert(element.get&lt;std::string&gt;());
+            }
+        }</span>
+    }
+
+    // Les langues CHOISIES (LOT-15) : un historique en accorde un nombre, et la fiche dit
+    // lesquelles. Celles de l'espece sont deja la, recopiees par `buildCharacterSheet`.
+<span style = "background-color:#dfd">    const auto langues = document.root.find("languages");
+    if (langues != document.root.end() &amp;&amp; langues-&gt;is_array()) {
+        for (const auto&amp; element : *langues) {
+            if (element.is_string()) {
+                resultat.sheet.languages.insert(element.get&lt;std::string&gt;());
+            }
+        }</span>
+    }
+
+    // Ce que le personnage PORTE (LOT-14). Rien n'en est derive ici : ni classe d'armure, ni poids
+    // total, ni encombrement. `core::derivedStatsFor` les recalcule depuis ce contenu a chaque
+    // lecture, et c'est ce qui les empeche de deriver.
+<span style = "background-color:#dfd">    const auto inventaire = document.root.find("inventory");
+    if (inventaire != document.root.end() &amp;&amp; inventaire-&gt;is_object()) {
+        if (const auto portes = inventaire-&gt;find("equipped");
+            portes != inventaire-&gt;end() &amp;&amp; portes-&gt;is_object()) {
+            for (const auto&amp; [nom, valeur] : portes-&gt;items()) {
+                const std::optional&lt;EquipmentSlot&gt; emplacement = parseEquipmentSlot(nom);
+                if (!emplacement.has_value()) {</span>
+<span style = "background-color:#fdd">                    resultat.errors.push_back(path.string() + " : emplacement d'equipement '" +</span>
+                                              nom + "' inconnu du moteur.");
+<span style = "background-color:#fdd">                    continue;</span>
+                }
+<span style = "background-color:#dfd">                if (valeur.is_string()) {
+                    static_cast&lt;void&gt;(</span>
+                        equip(resultat.inventory, *emplacement, valeur.get&lt;std::string&gt;()));
+<span style = "background-color:#dfd">                }
+            }
+        }
+        if (const auto sac = inventaire-&gt;find("backpack");
+            sac != inventaire-&gt;end() &amp;&amp; sac-&gt;is_array()) {
+            for (const auto&amp; ligne : *sac) {
+                if (!ligne.is_object()) {</span>
+<span style = "background-color:#fdd">                    continue;</span>
+                }
+<span style = "background-color:#dfd">                const auto identifiant = ligne.find("itemId");
+                if (identifiant == ligne.end() || !identifiant-&gt;is_string()) {</span>
+<span style = "background-color:#fdd">                    continue;</span>
+                }
+<span style = "background-color:#dfd">                const auto quantite = ligne.find("quantity");
+                addToBackpack(resultat.inventory, identifiant-&gt;get&lt;std::string&gt;(),</span>
+                              (quantite != ligne.end() &amp;&amp; quantite-&gt;is_number_integer())
+                                  ? quantite-&gt;get&lt;int&gt;()
+                                  : 1);
+<span style = "background-color:#dfd">            }
+        }
+        if (const auto bourse = inventaire-&gt;find("purseCopper");
+            bourse != inventaire-&gt;end() &amp;&amp; bourse-&gt;is_number_integer()) {
+            resultat.inventory.purseCopper = bourse-&gt;get&lt;int&gt;();
+        }</span>
+    }
+
+<span style = "background-color:#dfd">    return resultat;
+}</span>
+
+// -- Fiche ---------------------------------------------------------------------------------------
+
+<span style = "background-color:#dfd">float CharacterSheet::speedInTiles() const {
+    return tilesFromMeters(speedMeters);
+}</span>
+
+<span style = "background-color:#dfd">int proficiencyBonus(const CharacterSheet&amp; sheet, const ExperienceTable&amp; table) {
+    return table.proficiencyBonusAt(sheet.level);
+}</span>
+
+<span style = "background-color:#dfd">int savingThrowModifier(const CharacterSheet&amp; sheet, const ExperienceTable&amp; table, Ability which) {
+    const int maitrise =</span>
+        sheet.savingThrowProficiencies.contains(which) ? proficiencyBonus(sheet, table) : 0;
+<span style = "background-color:#dfd">    return sheet.modifier(which) + maitrise;
+}</span>
+
+SkillCheckModifier skillModifier(const CharacterSheet&amp; sheet, const ExperienceTable&amp; table,
+<span style = "background-color:#dfd">                                 const SkillCatalog&amp; catalog, std::string_view skillId) {
+    const SkillDefinition* competence = catalog.find(skillId);
+    if (competence == nullptr) {</span>
+        // Une competence inconnue ne se devine pas : renvoyer un modificateur nu SANS le dire
+        // laisserait croire a une maitrise absente plutot qu'a une donnee manquante.
+<span style = "background-color:#dfd">        return {};</span>
+    }
+<span style = "background-color:#dfd">    SkillCheckModifier resultat;
+    resultat.found = true;
+    resultat.proficient = sheet.skillProficiencies.contains(std::string{skillId});
+    resultat.value = sheet.modifier(competence-&gt;ability) +</span>
+                     (resultat.proficient ? proficiencyBonus(sheet, table) : 0);
+<span style = "background-color:#dfd">    return resultat;
+}</span>
+
+<span style = "background-color:#dfd">int maximumHitPointsFor(int hitDie, int level, int constitutionModifier) {
+    if (hitDie &lt;= 0 || level &lt;= 0) {</span>
+<span style = "background-color:#fdd">        return 0;</span>
+    }
+    // Niveau 1 : le MAXIMUM du de. La regle du livre, et la raison pour laquelle un magicien de
+    // niveau 1 n'a pas 3 points de vie.
+<span style = "background-color:#dfd">    int total = hitDie + constitutionModifier;</span>
+    // Niveaux suivants : la valeur fixe de la classe, &lt;&lt; la valeur moyenne (arrondie au superieur)
+    // du de &gt;&gt; (Basic Rules p. 11) -- soit (de / 2) + 1 pour tout de pair, et tous le sont.
+<span style = "background-color:#dfd">    const int moyenne = (hitDie / 2) + 1;
+    for (int niveau = 2; niveau &lt;= level; ++niveau) {
+        total += std::max(moyenne + constitutionModifier, GAIN_MINIMAL_PAR_NIVEAU);
+    }
+    return std::max(total, GAIN_MINIMAL_PAR_NIVEAU);
+}</span>
+
+LevelUpResult gainExperience(CharacterSheet&amp; sheet, const ExperienceTable&amp; table, int hitDie,
+<span style = "background-color:#dfd">                             int amount) {
+    LevelUpResult resultat;
+    resultat.previousLevel = sheet.level;
+    resultat.newLevel = sheet.level;
+    resultat.previousProficiencyBonus = table.proficiencyBonusAt(sheet.level);
+    resultat.newProficiencyBonus = resultat.previousProficiencyBonus;
+    if (amount &lt;= 0) {</span>
+        // Perdre de l'experience n'est pas une regle de ce jeu. L'accepter en silence ferait
+        // DESCENDRE un personnage de niveau, et le defaut passerait pour de l'equilibrage.
+<span style = "background-color:#dfd">        return resultat;</span>
+    }
+
+<span style = "background-color:#dfd">    sheet.experiencePoints += amount;
+    const int atteint = std::min(table.levelFor(sheet.experiencePoints), table.maximumLevel());
+    if (atteint &lt;= sheet.level) {
+        return resultat;</span>
+    }
+
+<span style = "background-color:#dfd">    const int avant = sheet.maximumHitPoints;
+    sheet.level = atteint;
+    sheet.maximumHitPoints =</span>
+        maximumHitPointsFor(hitDie, sheet.level, sheet.modifier(Ability::Constitution));
+    // Les points de vie COURANTS montent du meme gain, pas jusqu'au maximum : monter de niveau
+    // n'est pas un soin, et rendre toute sa vie a un personnage blesse ferait de la montee de
+    // niveau une potion gratuite.
+<span style = "background-color:#dfd">    sheet.currentHitPoints += sheet.maximumHitPoints - avant;</span>
+
+<span style = "background-color:#dfd">    resultat.newLevel = sheet.level;
+    resultat.hitPointsGained = sheet.maximumHitPoints - avant;
+    resultat.newProficiencyBonus = table.proficiencyBonusAt(sheet.level);
+    return resultat;
+}</span>
+
+CharacterSheet buildCharacterSheet(std::string name, const std::array&lt;int, 6&gt;&amp; baseAbilities,
+                                   const Species* species, const PlayableClass* playableClass,
+                                   const Background* background,
+                                   const CharacterCreationRules&amp; rules,
+<span style = "background-color:#dfd">                                   const ExperienceTable&amp; table) {
+    CharacterSheet fiche;
+    fiche.name = std::move(name);
+    fiche.abilities = baseAbilities;</span>
+
+<span style = "background-color:#dfd">    if (species != nullptr) {
+        fiche.speciesId = species-&gt;id;
+        fiche.speedMeters = species-&gt;speed;
+        fiche.languages.insert(species-&gt;languages.begin(), species-&gt;languages.end());
+        for (const Ability caracteristique : allAbilities()) {
+            fiche.abilities[static_cast&lt;std::size_t&gt;(caracteristique)] = abilityScoreWith(</span>
+                *species, caracteristique, baseAbilities[static_cast&lt;std::size_t&gt;(caracteristique)],
+                rules.maximumAbilityScore);
+<span style = "background-color:#dfd">        }</span>
+    }
+
+<span style = "background-color:#dfd">    if (playableClass != nullptr) {
+        fiche.classId = playableClass-&gt;id;
+        for (const Ability caracteristique : playableClass-&gt;savingThrowProficiencies) {
+            fiche.savingThrowProficiencies.insert(caracteristique);
+        }
+        fiche.maximumHitPoints = maximumHitPointsFor(playableClass-&gt;hitDie, fiche.level,</span>
+                                                     fiche.modifier(Ability::Constitution));
+    }
+<span style = "background-color:#dfd">    fiche.currentHitPoints = fiche.maximumHitPoints;</span>
+
+<span style = "background-color:#dfd">    if (background != nullptr) {
+        fiche.backgroundId = background-&gt;id;
+        for (const std::string&amp; competence : background-&gt;skillProficiencies) {
+            fiche.skillProficiencies.insert(competence);
+        }</span>
+    }
+
+    // La classe d'armure sans armure, LUE DANS LA DONNEE, plus le modificateur de Dexterite.
+    // L'armure portee la remplacera au LOT-14, qui livre les armures.
+<span style = "background-color:#dfd">    fiche.armorClass = rules.unarmoredArmorClass + fiche.modifier(Ability::Dexterity);
+    fiche.experiencePoints = table.thresholdAt(fiche.level);
+    return fiche;
+}</span>
+
+}  // namespace core</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

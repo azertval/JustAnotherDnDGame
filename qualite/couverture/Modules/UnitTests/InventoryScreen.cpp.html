@@ -1,0 +1,217 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>InventoryScreen.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#include "HMI/Presentation/InventoryScreen.h"
+
+#include &lt;algorithm&gt;
+#include &lt;utility&gt;
+
+#include "Core/Rpg/Dice.h"
+#include "Core/Rpg/Equipment.h"
+
+namespace hmi {
+namespace {
+
+<span style = "background-color:#dfd">[[nodiscard]] const core::Item* findItem(const core::ItemLookup&amp; lookup, std::string_view id) {
+    return lookup.items != nullptr ? lookup.items-&gt;find(id) : nullptr;
+}</span>
+
+<span style = "background-color:#dfd">[[nodiscard]] const core::Weapon* findWeapon(const core::ItemLookup&amp; lookup, std::string_view id) {
+    return lookup.equipment != nullptr ? lookup.equipment-&gt;findWeapon(id) : nullptr;
+}</span>
+
+<span style = "background-color:#dfd">[[nodiscard]] const core::Armor* findArmor(const core::ItemLookup&amp; lookup, std::string_view id) {
+    return lookup.equipment != nullptr ? lookup.equipment-&gt;findArmor(id) : nullptr;
+}</span>
+
+/// @return Le nom du catalogue, ou l'identifiant : un objet inconnu doit se VOIR, pas disparaÃ®tre.
+<span style = "background-color:#dfd">[[nodiscard]] std::string nameOf(const core::ItemLookup&amp; lookup, std::string_view id) {
+    if (const core::Weapon* const weapon = findWeapon(lookup, id); weapon != nullptr) {
+        return weapon-&gt;name;</span>
+    }
+<span style = "background-color:#dfd">    if (const core::Armor* const armor = findArmor(lookup, id); armor != nullptr) {
+        return armor-&gt;name;</span>
+    }
+<span style = "background-color:#dfd">    if (const core::Item* const item = findItem(lookup, id); item != nullptr) {
+        return item-&gt;name;</span>
+    }
+<span style = "background-color:#fdd">    return std::string(id);</span>
+<span style = "background-color:#dfd">}</span>
+
+/// @return Un poids en grammes, en kilogrammes Ã  une dÃ©cimale (Â« 1,5 kg Â») -- comme l'inventaire
+/// v1.
+<span style = "background-color:#dfd">[[nodiscard]] std::string kilograms(int grams) {
+    const int tenths = (std::max(grams, 0) + 50) / 100;
+    return std::to_string(tenths / 10) + "," + std::to_string(tenths % 10) + " kg";
+}</span>
+
+<span style = "background-color:#dfd">[[nodiscard]] std::string armorKind(core::ArmorCategory category) {
+    switch (category) {</span>
+        case core::ArmorCategory::Light:
+<span style = "background-color:#dfd">            return "Armure lÃ©gÃ¨re";</span>
+        case core::ArmorCategory::Medium:
+<span style = "background-color:#fdd">            return "Armure intermÃ©diaire";</span>
+        case core::ArmorCategory::Heavy:
+<span style = "background-color:#fdd">            return "Armure lourde";</span>
+        case core::ArmorCategory::Shield:
+<span style = "background-color:#dfd">            return "Bouclier";</span>
+    }
+<span style = "background-color:#fdd">    return "Armure";</span>
+<span style = "background-color:#dfd">}</span>
+
+}  // namespace
+
+<span style = "background-color:#dfd">ItemFamily familyOf(std::string_view itemId, const core::ItemLookup&amp; lookup) {
+    if (findWeapon(lookup, itemId) != nullptr || findArmor(lookup, itemId) != nullptr) {
+        return ItemFamily::Equipment;</span>
+    }
+<span style = "background-color:#dfd">    if (const core::Item* const item = findItem(lookup, itemId); item != nullptr) {
+        if (item-&gt;category == "gear") {
+            return ItemFamily::Gear;</span>
+        }
+<span style = "background-color:#dfd">        if (item-&gt;category == "tool") {
+            return ItemFamily::Tools;</span>
+        }
+    }
+<span style = "background-color:#fdd">    return ItemFamily::Other;</span>
+<span style = "background-color:#dfd">}</span>
+
+std::vector&lt;InventoryCell&gt; backpackCells(const core::Inventory&amp; inventory,
+<span style = "background-color:#dfd">                                         const core::ItemLookup&amp; lookup, ItemFamily filter) {
+    std::vector&lt;InventoryCell&gt; cells;
+    for (const core::InventoryStack&amp; stack : inventory.backpack) {
+        if (stack.quantity &lt;= 0) {</span>
+<span style = "background-color:#fdd">            continue;</span>
+        }
+<span style = "background-color:#dfd">        const ItemFamily family = familyOf(stack.itemId, lookup);
+        if (filter != ItemFamily::All &amp;&amp; family != filter) {
+            continue;</span>
+        }
+<span style = "background-color:#dfd">        cells.push_back(InventoryCell{.itemId = stack.itemId,</span>
+                                      .name = nameOf(lookup, stack.itemId),
+                                      .quantity = stack.quantity,
+                                      .family = family});
+<span style = "background-color:#dfd">    }
+    return cells;
+}</span>
+
+<span style = "background-color:#dfd">ItemSheet itemSheet(std::string_view itemId, const core::ItemLookup&amp; lookup) {
+    ItemSheet sheet;
+    sheet.name = nameOf(lookup, itemId);
+    sheet.equippable = naturalSlot(itemId, lookup).has_value();
+    if (const core::Weapon* const weapon = findWeapon(lookup, itemId); weapon != nullptr) {</span>
+<span style = "background-color:#fdd">        sheet.kind =</span>
+            std::string(weapon-&gt;category == "martial" ? "Arme de guerre" : "Arme courante") +
+            (weapon-&gt;ranged ? " Ã  distance" : "");
+<span style = "background-color:#fdd">        if (weapon-&gt;damage) {
+            sheet.damage = core::formatDice(*weapon-&gt;damage);</span>
+        }
+<span style = "background-color:#fdd">        sheet.weight = kilograms(weapon-&gt;weightGrams);
+        sheet.text = weapon-&gt;text;
+        return sheet;</span>
+    }
+<span style = "background-color:#dfd">    if (const core::Armor* const armor = findArmor(lookup, itemId); armor != nullptr) {
+        sheet.kind = armorKind(armor-&gt;category);
+        if (armor-&gt;category == core::ArmorCategory::Shield) {
+            sheet.armor = "+" + std::to_string(armor-&gt;baseArmorClass);
+        } else {
+            sheet.armor = "CA " + std::to_string(armor-&gt;baseArmorClass);
+            if (armor-&gt;dexterityBonus) {
+                sheet.armor +=</span>
+                    armor-&gt;dexterityBonusMax
+                        ? " + Dex (max " + std::to_string(*armor-&gt;dexterityBonusMax) + ")"
+                        : " + Dex";
+            }
+        }
+<span style = "background-color:#dfd">        sheet.weight = kilograms(armor-&gt;weightGrams);
+        return sheet;</span>
+    }
+<span style = "background-color:#dfd">    if (const core::Item* const item = findItem(lookup, itemId); item != nullptr) {
+        sheet.kind = item-&gt;category == "tool"</span>
+                         ? "Outil"
+                         : (item-&gt;category == "mount" ? "Monture" : "MatÃ©riel");
+<span style = "background-color:#dfd">        sheet.weight = kilograms(item-&gt;weightGrams);
+        sheet.text = item-&gt;text;</span>
+    }
+<span style = "background-color:#dfd">    return sheet;
+}</span>
+
+std::optional&lt;core::EquipmentSlot&gt; naturalSlot(std::string_view itemId,
+<span style = "background-color:#dfd">                                               const core::ItemLookup&amp; lookup) {
+    if (const core::Weapon* const weapon = findWeapon(lookup, itemId); weapon != nullptr) {
+        return weapon-&gt;ranged ? core::EquipmentSlot::Ranged : core::EquipmentSlot::MainHand;</span>
+    }
+<span style = "background-color:#dfd">    if (const core::Armor* const armor = findArmor(lookup, itemId); armor != nullptr) {
+        return armor-&gt;category == core::ArmorCategory::Shield ? core::EquipmentSlot::OffHand</span>
+                                                              : core::EquipmentSlot::Torso;
+    }
+<span style = "background-color:#dfd">    return std::nullopt;
+}</span>
+
+bool equipFromBackpack(core::Inventory&amp; inventory, std::string_view itemId,
+<span style = "background-color:#dfd">                       const core::ItemLookup&amp; lookup) {
+    const std::optional&lt;core::EquipmentSlot&gt; slot = naturalSlot(itemId, lookup);
+    if (!slot) {
+        return false;</span>
+    }
+<span style = "background-color:#dfd">    const std::string id(itemId);
+    if (core::removeFromBackpack(inventory, id, 1) != 1) {</span>
+<span style = "background-color:#fdd">        return false;</span>
+    }
+<span style = "background-color:#dfd">    std::string previous = core::equip(inventory, *slot, id);
+    if (!previous.empty()) {
+        core::addToBackpack(inventory, previous, 1);</span>
+    }
+<span style = "background-color:#dfd">    return true;
+}</span>
+
+<span style = "background-color:#dfd">bool unequipToBackpack(core::Inventory&amp; inventory, core::EquipmentSlot slot) {
+    std::string removed = core::unequip(inventory, slot);
+    if (removed.empty()) {
+        return false;</span>
+    }
+<span style = "background-color:#dfd">    core::addToBackpack(inventory, removed, 1);
+    return true;
+}</span>
+
+<span style = "background-color:#dfd">bool dropFromBackpack(core::Inventory&amp; inventory, std::string_view itemId) {
+    return core::removeFromBackpack(inventory, std::string(itemId), 1) == 1;
+}</span>
+
+<span style = "background-color:#dfd">void sortBackpack(core::Inventory&amp; inventory, const core::ItemLookup&amp; lookup) {
+    std::stable_sort(</span>
+        inventory.backpack.begin(), inventory.backpack.end(),
+<span style = "background-color:#dfd">        [&amp;lookup](const core::InventoryStack&amp; left, const core::InventoryStack&amp; right) {
+            const std::string leftName = nameOf(lookup, left.itemId);
+            const std::string rightName = nameOf(lookup, right.itemId);
+            return leftName != rightName ? leftName &lt; rightName : left.itemId &lt; right.itemId;
+        });
+}</span>
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

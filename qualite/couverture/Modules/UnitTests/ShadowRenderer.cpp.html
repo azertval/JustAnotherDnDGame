@@ -1,0 +1,118 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>ShadowRenderer.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#include "HMI/Graphics/ShadowRenderer.h"
+
+#include &lt;cmath&gt;
+
+#include "Core/Ecs/Components/Transform.h"
+#include "Core/Ecs/World.h"
+#include "Core/Levels/TileMap.h"
+#include "Core/Levels/TileType.h"
+#include "HMI/Graphics/Camera2D.h"
+#include "HMI/Graphics/PreviousPosition.h"
+#include "HMI/Graphics/TileSilhouette.h"
+#include "HMI/Graphics/TileSkinTag.h"
+#include "HMI/Graphics/TileVisuals.h"
+
+namespace hmi {
+
+namespace {
+
+// Indique si une entite-tuile projette une ombre. Une porte n'est jamais core::isSolid (son type
+// statique reste TileType::Door quel que soit l'etat du mecanisme) : sa solidite REELLE est lue
+// dans doorCollision, si fourni -- seul cas ou l'ombre depend d'autre chose que du type statique.
+bool castsShadow(const TileSkinTag&amp; tag, const core::Transform&amp; transform,
+<span style = "background-color:#dfd">                 const core::TileMap* doorCollision) {
+    if (core::isSolid(tag.type) || hasSilhouette(tag.type)) {
+        return true;</span>
+    }
+<span style = "background-color:#dfd">    if (tag.type == core::TileType::Door &amp;&amp; doorCollision != nullptr) {
+        const int column = static_cast&lt;int&gt;(std::lround(transform.position.x));
+        const int row = static_cast&lt;int&gt;(std::lround(transform.position.y));
+        return doorCollision-&gt;inBounds(column, row) &amp;&amp; doorCollision-&gt;isSolid(column, row);</span>
+    }
+<span style = "background-color:#dfd">    return false;
+}</span>
+
+}  // namespace
+
+// Compose une ombre decalee pour chaque tuile physique visible, sur RenderLayer::Shadow.
+void composeShadows(ComposedScene&amp; scene, core::World&amp; world, RenderMode mode,
+                    const SceneTextures&amp; textures, float interpolationAlpha,
+<span style = "background-color:#dfd">                    const core::TileMap* doorCollision) {
+    if (mode != RenderMode::Texture) {</span>
+<span style = "background-color:#fdd">        return;  // mode Physique : lecture nue des collisions, aucune ombre (EX-REN-046).</span>
+    }
+
+<span style = "background-color:#dfd">    world.view&lt;core::Transform, TileSkinTag&gt;().each(
+        [&amp;](core::Entity entity, const core::Transform&amp; transform, const TileSkinTag&amp; tag) {
+            if (!castsShadow(tag, transform, doorCollision)) {
+                return;</span>
+            }
+
+            // Meme region que le mode Physique et que le detourage de silhouette (LOT-42) : deja
+            // opaque exactement la ou la matiere est presente, transparente ailleurs -- reutilisee
+            // telle quelle, jamais un skin (l'ombre ignore le jeu de skins courant).
+<span style = "background-color:#dfd">            const core::AtlasRegion region = regionForTile(tag.type);
+            const float atlasWidth = static_cast&lt;float&gt;(textures.atlasWidth);
+            const float atlasHeight = static_cast&lt;float&gt;(textures.atlasHeight);
+            const float worldWidth =</span>
+                static_cast&lt;float&gt;(region.width) / Camera2D::PIXELS_PER_UNIT * transform.scale.x;
+<span style = "background-color:#dfd">            const float worldHeight =</span>
+                static_cast&lt;float&gt;(region.height) / Camera2D::PIXELS_PER_UNIT * transform.scale.y;
+
+            // Interpolee comme le sprite de la meme entite (bloc poussable en mouvement,
+            // EX-ARCH-031) : jamais recalculee, seulement lue.
+<span style = "background-color:#dfd">            core::Vector2 position = transform.position;
+            if (world.hasComponent&lt;PreviousPosition&gt;(entity)) {
+                const core::Vector2 previous = world.getComponent&lt;PreviousPosition&gt;(entity).value;
+                position = previous + (transform.position - previous) * interpolationAlpha;</span>
+            }
+<span style = "background-color:#dfd">            position.x += SHADOW_OFFSET_X;
+            position.y += SHADOW_OFFSET_Y;</span>
+
+<span style = "background-color:#dfd">            SpriteQuad quad;
+            quad.x = position.x;
+            quad.y = position.y;
+            quad.width = worldWidth;
+            quad.height = worldHeight;
+            quad.u0 = static_cast&lt;float&gt;(region.x) / atlasWidth;
+            quad.v0 = static_cast&lt;float&gt;(region.y) / atlasHeight;
+            quad.u1 = static_cast&lt;float&gt;(region.x + region.width) / atlasWidth;
+            quad.v1 = static_cast&lt;float&gt;(region.y + region.height) / atlasHeight;
+            quad.r = 0.0f;
+            quad.g = 0.0f;
+            quad.b = 0.0f;
+            quad.a = SHADOW_OPACITY;
+            scene.addSprite(RenderLayer::Shadow, textures.atlas, 0, quad);
+        });
+}</span>
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

@@ -1,0 +1,317 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>ArenaSceneComposer.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#include "HMI/Graphics/ArenaSceneComposer.h"
+
+#include &lt;algorithm&gt;
+#include &lt;optional&gt;
+#include &lt;string&gt;
+#include &lt;vector&gt;
+
+#include "Core/Combat/Arena.h"
+#include "Core/Combat/IsoProjection.h"
+#include "HMI/Graphics/ArenaAnimationState.h"
+#include "HMI/Graphics/ArenaAppearanceCatalog.h"
+
+namespace hmi {
+
+namespace {
+
+// Chemins de la planche, repris de ArenaTile.ui.qml.
+constexpr std::string_view SAND = "terrain/sand.png";
+constexpr std::string_view STONE = "terrain/stone.png";
+constexpr std::string_view WALL = "structures/wall.png";
+constexpr std::string_view COLUMN = "structures/column_large.png";
+constexpr std::string_view BANNER = "structures/banner_01.png";
+constexpr std::string_view TORCH = "structures/torch_01.png";
+constexpr std::string_view ARCH = "structures/arch.png";
+
+// Marges basses des pieces, en hauteurs de losange (anchors.bottomMargin de ArenaTile.ui.qml).
+constexpr float WALL_BOTTOM_MARGIN = 0.12f;
+constexpr float DECORATION_BOTTOM_MARGIN = 0.3f;
+constexpr float GATE_BOTTOM_MARGIN = 0.1f;
+constexpr float FIGURE_BOTTOM_MARGIN = 0.42f;
+
+/// Ce qui ne change pas d'une piece a l'autre : la projection, les textures et le tampon.
+struct Composer {
+    ComposedScene&amp; scene;
+    const core::IsoProjection&amp; projection;
+    const ArenaSceneTextures&amp; textures;
+    /// Unites monde par pixel de planche : une tuile de 86 px occupe la largeur du losange.
+    float unitsPerPixel;
+
+    /// Une piece de planche a sa taille native, centree sur @p centerX, son bord bas a @p bottomY.
+    void addStanding(RenderLayer layer, std::string_view path, float centerX, float bottomY,
+<span style = "background-color:#dfd">                     std::int32_t sortOrder) const {
+        const ArenaTexture&amp; texture = textures.resolve(path);
+        if (texture.texture == nullptr) {
+            return;</span>
+        }
+<span style = "background-color:#dfd">        const float width = static_cast&lt;float&gt;(texture.width) * unitsPerPixel;
+        const float height = static_cast&lt;float&gt;(texture.height) * unitsPerPixel;
+        SpriteQuad quad;
+        quad.x = centerX - width / 2.0f;
+        quad.y = bottomY - height;
+        quad.width = width;
+        quad.height = height;
+        scene.addSprite(layer, texture.texture, sortOrder, quad);
+    }</span>
+};
+
+<span style = "background-color:#dfd">[[nodiscard]] core::Vector2 gridPoint(int column, int row) {
+    return {static_cast&lt;float&gt;(column), static_cast&lt;float&gt;(row)};
+}</span>
+
+void composeTile(const Composer&amp; composer, const ArenaAppearanceCatalog&amp; catalog,
+<span style = "background-color:#dfd">                 const ArenaSceneSnapshot&amp; snapshot, core::GridPosition cell, std::string&amp; path) {</span>
+    const ArenaTileAppearance appearance =
+<span style = "background-color:#dfd">        catalog.tileAppearance(cell, snapshot.columns, snapshot.rows, snapshot.isObstructed(cell));
+    const core::Rect bounds = composer.projection.tileBounds(cell);
+    const float tileHeight = bounds.size.y;
+    const float centerX = bounds.position.x + bounds.size.x / 2.0f;
+    const float bottomY = bounds.position.y + tileHeight;</span>
+
+    // --- Le sol : etire sur la boite du losange, comme l'Image en anchors.fill ---------------
+<span style = "background-color:#dfd">    if (appearance.slab) {</span>
+<span style = "background-color:#fdd">        path.assign("coliseum/");
+        path.append(catalog.paleSlabs()[static_cast&lt;std::size_t&gt;(appearance.slabVariant)]);
+        path.append(".png");
+    } else {</span>
+<span style = "background-color:#dfd">        path.assign(appearance.wall ? STONE : SAND);</span>
+    }
+<span style = "background-color:#dfd">    if (const ArenaTexture&amp; floor = composer.textures.resolve(path); floor.texture != nullptr) {
+        SpriteQuad quad;
+        quad.x = bounds.position.x;
+        quad.y = bounds.position.y;
+        quad.width = bounds.size.x;
+        quad.height = tileHeight;
+        composer.scene.addSprite(RenderLayer::Tile, floor.texture, core::IsoProjection::depth(cell),</span>
+                                 quad);
+    }
+
+    // --- L'enceinte : des pieces debout, triees au pied de la case --------------------------
+<span style = "background-color:#dfd">    switch (appearance.wallFeature) {</span>
+        case WallFeature::None:
+<span style = "background-color:#fdd">            break;</span>
+        case WallFeature::Corner:
+<span style = "background-color:#dfd">            composer.addStanding(RenderLayer::Object, COLUMN, centerX,</span>
+                                 bottomY - tileHeight * WALL_BOTTOM_MARGIN,
+                                 arenaDepthSortOrder(bottomY, ArenaDepthSlot::Wall));
+<span style = "background-color:#dfd">            break;</span>
+        case WallFeature::Plain:
+        case WallFeature::BannerSpot:
+        case WallFeature::TorchSpot:
+<span style = "background-color:#dfd">            composer.addStanding(RenderLayer::Object, WALL, centerX,</span>
+                                 bottomY - tileHeight * WALL_BOTTOM_MARGIN,
+                                 arenaDepthSortOrder(bottomY, ArenaDepthSlot::Wall));
+            break;
+    }
+<span style = "background-color:#dfd">    if (appearance.wallFeature == WallFeature::BannerSpot ||</span>
+        appearance.wallFeature == WallFeature::TorchSpot) {
+<span style = "background-color:#dfd">        composer.addStanding(RenderLayer::Object,</span>
+                             appearance.wallFeature == WallFeature::BannerSpot ? BANNER : TORCH,
+                             centerX, bottomY - tileHeight * DECORATION_BOTTOM_MARGIN,
+                             arenaDepthSortOrder(bottomY, ArenaDepthSlot::WallDecoration));
+    }
+<span style = "background-color:#dfd">    if (appearance.gateSpot) {
+        composer.addStanding(RenderLayer::Object, ARCH, centerX,</span>
+                             bottomY - tileHeight * GATE_BOTTOM_MARGIN,
+                             arenaDepthSortOrder(bottomY, ArenaDepthSlot::Gate));
+    }
+<span style = "background-color:#dfd">}</span>
+
+void composeFigure(const Composer&amp; composer, const ArenaAppearanceCatalog&amp; catalog,
+                   const ArenaAnimationState&amp; animation, const ArenaFigureSnapshot&amp; combatant,
+<span style = "background-color:#dfd">                   std::string&amp; path) {
+    const core::CombatSide side = combatant.side;
+    const FigureAppearance figure = catalog.figureFor(combatant.name, side);
+    if (figure.sheet.empty() || figure.frameCount &lt;= 0) {</span>
+<span style = "background-color:#fdd">        return;</span>
+    }
+<span style = "background-color:#dfd">    const bool down = combatant.down;
+    const bool ally = side == core::CombatSide::Allies;</span>
+
+<span style = "background-color:#dfd">    path.assign(ally ? "characters/" : "enemies/");
+    path.append(figure.sheet);
+    path.append(down &amp;&amp; ally ? "/death.png" : "/idle.png");
+    const ArenaTexture&amp; texture = composer.textures.resolve(path);
+    if (texture.texture == nullptr) {
+        return;</span>
+    }
+
+    // A terre, la figurine s'arrete sur la derniere image ; debout, elle suit l'animation, ramenee
+    // dans sa bande.
+<span style = "background-color:#dfd">    const int frame = down ? figure.frameCount - 1</span>
+                           : std::clamp(animation.frameOf(combatant.id), 0, figure.frameCount - 1);
+
+    // Une emprise de n cases : une figurine centree dessus, n fois plus grande, au pied de
+    // l'emprise.
+<span style = "background-color:#dfd">    const core::GridPosition anchor = combatant.anchor;
+    const int footprint = std::max(1, combatant.footprint);
+    const float extent = static_cast&lt;float&gt;(footprint);</span>
+    const core::Vector2 center =
+<span style = "background-color:#dfd">        composer.projection.gridToWorld({static_cast&lt;float&gt;(anchor.column) + extent / 2.0f,</span>
+                                         static_cast&lt;float&gt;(anchor.row) + extent / 2.0f});
+<span style = "background-color:#dfd">    const float footY =</span>
+        composer.projection
+            .gridToWorld(gridPoint(anchor.column + footprint, anchor.row + footprint))
+            .y;
+<span style = "background-color:#dfd">    const float tileHeight = composer.projection.tileHeight();</span>
+
+<span style = "background-color:#dfd">    const float scale = composer.unitsPerPixel * ARENA_FIGURE_SCALE * extent;
+    SpriteQuad quad;
+    quad.width = static_cast&lt;float&gt;(ARENA_FIGURE_FRAME_WIDTH_PIXELS) * scale;
+    quad.height = static_cast&lt;float&gt;(ARENA_FIGURE_FRAME_HEIGHT_PIXELS) * scale;
+    quad.x = center.x - quad.width / 2.0f;
+    quad.y = footY - tileHeight * FIGURE_BOTTOM_MARGIN * extent - quad.height;
+    if (texture.width &gt; 0 &amp;&amp; texture.height &gt; 0) {
+        const float frameWidth = static_cast&lt;float&gt;(ARENA_FIGURE_FRAME_WIDTH_PIXELS);
+        quad.u0 = static_cast&lt;float&gt;(frame) * frameWidth / static_cast&lt;float&gt;(texture.width);
+        quad.u1 = static_cast&lt;float&gt;(frame + 1) * frameWidth / static_cast&lt;float&gt;(texture.width);
+        quad.v0 = 0.0f;
+        quad.v1 = std::min(1.0f, static_cast&lt;float&gt;(ARENA_FIGURE_FRAME_HEIGHT_PIXELS) /</span>
+                                     static_cast&lt;float&gt;(texture.height));
+    }
+<span style = "background-color:#dfd">    if (down &amp;&amp; !ally) {
+        quad.a = ARENA_DOWN_ENEMY_ALPHA;</span>
+    }
+<span style = "background-color:#dfd">    composer.scene.addSprite(RenderLayer::Player, texture.texture,</span>
+                             arenaDepthSortOrder(footY, ArenaDepthSlot::Figure), quad);
+<span style = "background-color:#dfd">}</span>
+
+}  // namespace
+
+<span style = "background-color:#dfd">std::int32_t arenaDepthSortOrder(float footWorldY, ArenaDepthSlot slot) noexcept {
+    return depthSortOrder(footWorldY) * ARENA_DEPTH_SLOTS + static_cast&lt;std::int32_t&gt;(slot);
+}</span>
+
+<span style = "background-color:#dfd">std::vector&lt;std::string&gt; arenaTexturePaths(const ArenaAppearanceCatalog&amp; catalog) {
+    std::vector&lt;std::string&gt; paths{std::string(SAND),   std::string(STONE),  std::string(WALL),</span>
+                                   std::string(COLUMN), std::string(BANNER), std::string(TORCH),
+                                   std::string(ARCH)};
+<span style = "background-color:#dfd">    for (const std::string&amp; slab : catalog.paleSlabs()) {
+        paths.push_back("coliseum/" + slab + ".png");
+    }</span>
+    // Un allie a terre montre sa bande de mort ; un ennemi, sa bande de repos estompee.
+<span style = "background-color:#dfd">    for (const std::string&amp; hero : catalog.heroes()) {
+        paths.push_back("characters/" + hero + "/idle.png");
+        paths.push_back("characters/" + hero + "/death.png");
+    }
+    for (const std::string&amp; gladiator : catalog.gladiators()) {
+        paths.push_back("enemies/" + gladiator + "/idle.png");
+    }
+    return paths;
+}</span>
+
+<span style = "background-color:#dfd">bool ArenaSceneSnapshot::isObstructed(core::GridPosition cell) const noexcept {
+    if (cell.column &lt; 0 || cell.row &lt; 0 || cell.column &gt;= columns || cell.row &gt;= rows) {</span>
+<span style = "background-color:#fdd">        return false;</span>
+    }
+<span style = "background-color:#dfd">    const std::size_t index =</span>
+        static_cast&lt;std::size_t&gt;(cell.row) * static_cast&lt;std::size_t&gt;(columns) +
+        static_cast&lt;std::size_t&gt;(cell.column);
+<span style = "background-color:#dfd">    return index &lt; obstructed.size() &amp;&amp; obstructed[index];
+}</span>
+
+<span style = "background-color:#dfd">ArenaSceneSnapshot snapshotArenaScene(const core::ArenaSession&amp; session) {
+    const core::CombatState&amp; combat = session.combat();
+    const core::BattleGrid&amp; grid = combat.grid();</span>
+
+<span style = "background-color:#dfd">    ArenaSceneSnapshot snapshot;
+    snapshot.columns = std::max(0, grid.width());
+    snapshot.rows = std::max(0, grid.height());
+    snapshot.obstructed.reserve(static_cast&lt;std::size_t&gt;(snapshot.columns) *</span>
+                                static_cast&lt;std::size_t&gt;(snapshot.rows));
+<span style = "background-color:#dfd">    for (int row = 0; row &lt; snapshot.rows; ++row) {
+        for (int column = 0; column &lt; snapshot.columns; ++column) {
+            snapshot.obstructed.push_back(</span>
+                grid.isObstructed({.column = column, .row = row}, core::Locomotion::Walk));
+<span style = "background-color:#dfd">        }
+    }</span>
+
+<span style = "background-color:#dfd">    for (const core::CombatantId id : combat.combatants()) {
+        const core::Combatant* const combatant = combat.find(id);</span>
+        // Sorti : il a quitte la grille et l'ordre, il n'a plus de figurine.
+<span style = "background-color:#dfd">        if (combatant == nullptr || combatant-&gt;status == core::CombatantStatus::Withdrawn) {
+            continue;</span>
+        }
+<span style = "background-color:#dfd">        const std::optional&lt;core::GridPosition&gt; anchor = grid.positionOf(id);
+        if (!anchor.has_value()) {</span>
+<span style = "background-color:#fdd">            continue;</span>
+        }
+<span style = "background-color:#dfd">        snapshot.figures.push_back(</span>
+            ArenaFigureSnapshot{.id = id,
+                                .name = combatant-&gt;profile.name,
+                                .side = combatant-&gt;profile.side,
+                                .down = combatant-&gt;status == core::CombatantStatus::Down,
+                                .anchor = *anchor,
+                                .footprint = std::max(1, grid.sideOf(id))});
+<span style = "background-color:#dfd">    }
+    return snapshot;
+}</span>
+
+void composeArenaScene(ComposedScene&amp; scene, const ArenaSceneSnapshot&amp; snapshot,
+                       const ArenaAppearanceCatalog&amp; catalog, const ArenaAnimationState&amp; animation,
+<span style = "background-color:#dfd">                       const core::IsoProjection&amp; projection, const ArenaSceneTextures&amp; textures) {
+    const Composer composer{</span>
+        .scene = scene,
+        .projection = projection,
+        .textures = textures,
+<span style = "background-color:#dfd">        .unitsPerPixel = projection.tileWidth() / core::ARENA_SHEET_TILE_WIDTH_PIXELS};</span>
+    // Un seul tampon de chemin pour toute la scene : apres la premiere image, plus d'allocation.
+<span style = "background-color:#dfd">    std::string path;</span>
+
+<span style = "background-color:#dfd">    for (int row = 0; row &lt; snapshot.rows; ++row) {
+        for (int column = 0; column &lt; snapshot.columns; ++column) {
+            composeTile(composer, catalog, snapshot, {.column = column, .row = row}, path);
+        }
+    }
+    for (const ArenaFigureSnapshot&amp; figure : snapshot.figures) {
+        composeFigure(composer, catalog, animation, figure, path);
+    }
+}</span>
+
+void composeArenaScene(ComposedScene&amp; scene, const core::ArenaSession&amp; session,
+                       const ArenaAppearanceCatalog&amp; catalog, const ArenaAnimationState&amp; animation,
+<span style = "background-color:#dfd">                       const core::IsoProjection&amp; projection, const ArenaSceneTextures&amp; textures) {
+    composeArenaScene(scene, snapshotArenaScene(session), catalog, animation, projection, textures);
+}</span>
+
+ComposedScene composeArenaScene(const core::ArenaSession&amp; session,
+                                const ArenaAppearanceCatalog&amp; catalog,
+                                const ArenaAnimationState&amp; animation,
+                                const core::IsoProjection&amp; projection,
+<span style = "background-color:#dfd">                                const ArenaSceneTextures&amp; textures) {
+    ComposedScene scene;
+    composeArenaScene(scene, session, catalog, animation, projection, textures);
+    scene.sort();
+    return scene;
+}</span>
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

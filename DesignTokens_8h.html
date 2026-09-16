@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.16.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>JustAnotherDnDGame: /home/runner/work/JustAnotherDnDGame/JustAnotherDnDGame/Source/HMI/Interface/DesignTokens.h File Reference</title>
+<title>JustAnotherRpgGame: /home/runner/work/JustAnotherDnDGame/JustAnotherDnDGame/Source/HMI/Interface/DesignTokens.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">JustAnotherDnDGame<span id="projectnumber">&#160;0.1.0</span>
+   <div id="projectname">JustAnotherRpgGame<span id="projectnumber">&#160;0.1.0</span>
    </div>
    <div id="projectbrief">Jeu de rôle tactique au d20, vue de dessus, en C++/Qt</div>
   </td>
@@ -157,7 +157,7 @@ Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Jetons de design de l'IHM Qt (<span class="tt">LOT-56</span>, <span class="tt">EX-IHM-050</span>, <span class="tt">EX-IHM-051</span>) : source unique des couleurs, espacements, typographie et tailles de l'application. </p>
-<p>Logique <b>pure</b> (aucune dépendance Qt/GPU), testable hors instance d'application (<span class="tt">EX-NFR-010</span>) — compilée à la fois dans <span class="tt">JustAnotherDnDGame</span> et directement dans <span class="tt">UnitTests</span>, comme <span class="tt"><a class="el" href="structhmi_1_1ProceduralFont.html" title="Atlas de police procédural complet : ses pixels et les métriques qui les décrivent.">hmi::ProceduralFont</a></span> ou <span class="tt">hmi::TileVisuals</span>.</p>
+<p>Logique <b>pure</b> (aucune dépendance Qt/GPU), testable hors instance d'application (<span class="tt">EX-NFR-010</span>) — compilée à la fois dans <span class="tt">JustAnotherRpgGame</span> et directement dans <span class="tt">UnitTests</span>, comme <span class="tt"><a class="el" href="structhmi_1_1ProceduralFont.html" title="Atlas de police procédural complet : ses pixels et les métriques qui les décrivent.">hmi::ProceduralFont</a></span> ou <span class="tt">hmi::TileVisuals</span>.</p>
 <p>Deux portées d'habillage partagent la structure <span class="tt">DesignTokens</span> (mêmes rôles, mêmes échelles, mêmes tailles ; seules les couleurs diffèrent) :</p><ul>
 <li><span class="tt">identityTokens()</span> — l'<b>identité du jeu</b> (menu principal, écran Options, jeu) : invariante, ne suit jamais aucun réglage d'affichage.</li>
 <li><span class="tt">editorDarkTokens()</span> — le <b>châssis d'édition</b> (panneaux, barre d'outils, barre d'état, barre de menus de l'éditeur, boîtes de dialogue ouvertes depuis lui) : variable, thème sombre par défaut ; <span class="tt">editorLightTokens()</span> (<span class="tt">LOT-56</span> TACHE-06) lui ajoute un second jeu de valeurs.</li>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.16.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>JustAnotherDnDGame: /home/runner/work/JustAnotherDnDGame/JustAnotherDnDGame/Source/Core/Rpg/Check.h File Reference</title>
+<title>JustAnotherRpgGame: /home/runner/work/JustAnotherDnDGame/JustAnotherDnDGame/Source/Core/Rpg/Check.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">JustAnotherDnDGame<span id="projectnumber">&#160;0.1.0</span>
+   <div id="projectname">JustAnotherRpgGame<span id="projectnumber">&#160;0.1.0</span>
    </div>
    <div id="projectbrief">Jeu de rôle tactique au d20, vue de dessus, en C++/Qt</div>
   </td>
@@ -93,7 +93,7 @@ $(function(){initNavTree('Check_8h.html','',''); });
 </div><!--header-->
 <div class="contents">
 
-<p>Le jet de d20 : avantage, désavantage, seuil, restitution (<span class="tt">EX-DND-002</span>, <span class="tt">EX-DND-003</span>).  
+<p>Le jet de d20 : avantage, désavantage, seuil, restitution (<span class="tt">EX-REG-002</span>, <span class="tt">EX-REG-003</span>).  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;filesystem&gt;</code><br />
 <code>#include &lt;span&gt;</code><br />
@@ -109,11 +109,11 @@ Classes</h2></td></tr>
 <tr class="memitem:core_3A_3AModifier" id="r_core_3A_3AModifier"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1Modifier.html">core::Modifier</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un modificateur, avec <b>son origine</b> — sans quoi le jet n'est pas restituable.  <a href="structcore_1_1Modifier.html#details">More...</a><br /></td></tr>
 <tr class="memitem:core_3A_3ACheckResult" id="r_core_3A_3ACheckResult"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1CheckResult.html">core::CheckResult</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le résultat complet d'un jet, et de quoi le reconstituer (<span class="tt">EX-DND-003</span>).  <a href="structcore_1_1CheckResult.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le résultat complet d'un jet, et de quoi le reconstituer (<span class="tt">EX-REG-003</span>).  <a href="structcore_1_1CheckResult.html#details">More...</a><br /></td></tr>
 <tr class="memitem:core_3A_3ADifficultyTier" id="r_core_3A_3ADifficultyTier"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1DifficultyTier.html">core::DifficultyTier</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un degré de difficulté nommé : « moyenne », 15.  <a href="structcore_1_1DifficultyTier.html#details">More...</a><br /></td></tr>
 <tr class="memitem:core_3A_3ADifficultyScale" id="r_core_3A_3ADifficultyScale"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1DifficultyScale.html">core::DifficultyScale</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">L'échelle des degrés de difficulté, telle que <span class="tt">rules/difficulty.json</span> la déclare (<span class="tt">EX-DND-021</span>, <span class="tt">LOT-15</span>).  <a href="structcore_1_1DifficultyScale.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">L'échelle des degrés de difficulté, telle que <span class="tt">rules/difficulty.json</span> la déclare (<span class="tt">EX-REG-021</span>, <span class="tt">LOT-15</span>).  <a href="structcore_1_1DifficultyScale.html#details">More...</a><br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-namespaces" class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
@@ -131,7 +131,7 @@ Enumerations</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:ac2a445eb023b8dc4823076b19427e5c9" id="r_ac2a445eb023b8dc4823076b19427e5c9"><td class="memItemLeft">constexpr <a class="el" href="namespacecore.html#aff494cc4070ea4489c3d5ee57178f7c9">RollStance</a>&#160;</td><td class="memItemRight"><a class="el" href="namespacecore.html#ac2a445eb023b8dc4823076b19427e5c9">core::rollStance</a> (int advantageSources, int disadvantageSources) noexcept</td></tr>
-<tr class="memdesc:ac2a445eb023b8dc4823076b19427e5c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Détermine la posture depuis le <b>nombre de sources</b> de chaque type (<span class="tt">EX-DND-002</span>).  <br /></td></tr>
+<tr class="memdesc:ac2a445eb023b8dc4823076b19427e5c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Détermine la posture depuis le <b>nombre de sources</b> de chaque type (<span class="tt">EX-REG-002</span>).  <br /></td></tr>
 <tr class="memitem:a0cca681f3d6c00074710ceecdddab6f7" id="r_a0cca681f3d6c00074710ceecdddab6f7"><td class="memItemLeft"><a class="el" href="structcore_1_1CheckResult.html">CheckResult</a>&#160;</td><td class="memItemRight"><a class="el" href="namespacecore.html#a0cca681f3d6c00074710ceecdddab6f7">core::rollCheck</a> (int target, std::span&lt; const <a class="el" href="structcore_1_1Modifier.html">Modifier</a> &gt; modifiers, <a class="el" href="namespacecore.html#aff494cc4070ea4489c3d5ee57178f7c9">RollStance</a> stance, <a class="el" href="classcore_1_1DeterministicRandom.html">DeterministicRandom</a> &amp;random)</td></tr>
 <tr class="memdesc:a0cca681f3d6c00074710ceecdddab6f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lance un d20 contre un seuil.  <br /></td></tr>
 <tr class="memitem:aa60bb21d8cc45167ae840ea21c3b844c" id="r_aa60bb21d8cc45167ae840ea21c3b844c"><td class="memItemLeft">std::string_view&#160;</td><td class="memItemRight"><a class="el" href="namespacecore.html#aa60bb21d8cc45167ae840ea21c3b844c">core::rollStanceName</a> (<a class="el" href="namespacecore.html#aff494cc4070ea4489c3d5ee57178f7c9">RollStance</a> stance) noexcept</td></tr>
@@ -145,7 +145,7 @@ Variables</h2></td></tr>
 <tr class="memdesc:a42b6dd302d4b68da1f4bdd439884b338"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nombre de faces du dé de résolution. Le d20 est la mécanique centrale du jeu.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Le jet de d20 : avantage, désavantage, seuil, restitution (<span class="tt">EX-DND-002</span>, <span class="tt">EX-DND-003</span>). </p>
+<div class="textblock"><p>Le jet de d20 : avantage, désavantage, seuil, restitution (<span class="tt">EX-REG-002</span>, <span class="tt">EX-REG-003</span>). </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <div id="page-nav" class="page-nav-panel">

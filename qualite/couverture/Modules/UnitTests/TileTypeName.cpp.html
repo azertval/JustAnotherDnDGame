@@ -1,0 +1,126 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>TileTypeName.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#include "Core/Levels/TileTypeName.h"
+
+#include &lt;cstddef&gt;
+#include &lt;functional&gt;
+#include &lt;unordered_map&gt;
+
+namespace core {
+
+namespace {
+
+// Hacheur transparent : permet d'interroger une table a cles std::string avec un std::string_view
+// sans construire de chaine temporaire a chaque appel (C++20, heterogeneous lookup).
+struct TransparentStringHash {
+    using is_transparent = void;
+
+<span style = "background-color:#dfd">    [[nodiscard]] std::size_t operator()(std::string_view text) const noexcept {
+        return std::hash&lt;std::string_view&gt;{}(text);
+    }</span>
+};
+
+}  // namespace
+
+<span style = "background-color:#dfd">std::string tileTypeName(TileType type) {</span>
+    // switch exhaustif sans default (meme patron que keyName/screenName ailleurs dans le projet) :
+    // un TileType ajoute sans nom casse la compilation au lieu de retomber sur un nom arbitraire.
+<span style = "background-color:#dfd">    switch (type) {</span>
+        case TileType::Empty:
+<span style = "background-color:#dfd">            return "empty";  // jamais emis dans un niveau : les cases vides sont omises de 'tiles'.</span>
+        case TileType::Solid:
+<span style = "background-color:#dfd">            return "solid";</span>
+        case TileType::Danger:
+<span style = "background-color:#dfd">            return "danger";</span>
+        case TileType::Entry:
+<span style = "background-color:#dfd">            return "entry";</span>
+        case TileType::Exit:
+<span style = "background-color:#dfd">            return "exit";</span>
+        case TileType::Switch:
+<span style = "background-color:#dfd">            return "switch";</span>
+        case TileType::Door:
+<span style = "background-color:#dfd">            return "door";</span>
+        case TileType::PressurePlate:
+<span style = "background-color:#dfd">            return "pressurePlate";</span>
+        case TileType::Block:
+<span style = "background-color:#dfd">            return "block";</span>
+        case TileType::Key:
+<span style = "background-color:#dfd">            return "key";</span>
+        case TileType::LockedDoor:
+<span style = "background-color:#dfd">            return "lockedDoor";</span>
+        case TileType::Grass:
+<span style = "background-color:#dfd">            return "grass";</span>
+        case TileType::Dirt:
+<span style = "background-color:#dfd">            return "dirt";</span>
+        case TileType::Sand:
+<span style = "background-color:#dfd">            return "sand";</span>
+        case TileType::Water:
+<span style = "background-color:#dfd">            return "water";</span>
+        case TileType::DeepWater:
+<span style = "background-color:#dfd">            return "deepWater";</span>
+        case TileType::Wall:
+<span style = "background-color:#dfd">            return "wall";</span>
+        case TileType::Cliff:
+<span style = "background-color:#dfd">            return "cliff";</span>
+        case TileType::Bridge:
+<span style = "background-color:#dfd">            return "bridge";</span>
+        case TileType::Stairs:
+<span style = "background-color:#dfd">            return "stairs";</span>
+    }
+<span style = "background-color:#fdd">    return "empty";  // inatteignable : le switch ci-dessus couvre tout l'enum.</span>
+<span style = "background-color:#dfd">}</span>
+
+<span style = "background-color:#dfd">std::optional&lt;TileType&gt; parseTileType(std::string_view name) {</span>
+    // Table construite une fois a partir de tileTypeName : la reciprocite des deux conversions est
+    // ainsi structurelle, pas seulement testee. Ajouter un TileType suffit donc a le rendre
+    // lisible -- la borne d'iteration vient de core::TILE_TYPE_COUNT (Core/Levels/TileType.h),
+    // seule source de verite de la fin de l'enumeration depuis le LOT-74 : il n'y a plus de
+    // dernier enumerateur recopie ici, donc plus rien a mettre a jour a la main. Les cles sont des
+    // std::string (proprietaires) : tileTypeName renvoie une valeur, dont un string_view ne
+    // survivrait pas.
+    using NameTable =
+        std::unordered_map&lt;std::string, TileType, TransparentStringHash, std::equal_to&lt;&gt;&gt;;
+<span style = "background-color:#dfd">    static const NameTable byName = [] {
+        NameTable table;
+        for (int raw = 0; raw &lt; TILE_TYPE_COUNT; ++raw) {
+            const auto type = static_cast&lt;TileType&gt;(raw);
+            table.emplace(tileTypeName(type), type);
+        }
+        return table;
+    }();</span>
+
+<span style = "background-color:#dfd">    const auto found = byName.find(name);
+    if (found == byName.end()) {
+        return std::nullopt;</span>
+    }
+<span style = "background-color:#dfd">    return found-&gt;second;
+}</span>
+
+}  // namespace core</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

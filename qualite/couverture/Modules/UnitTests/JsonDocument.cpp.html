@@ -1,0 +1,154 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>JsonDocument.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#include "Core/Data/JsonDocument.h"
+
+#include &lt;fstream&gt;
+#include &lt;sstream&gt;
+#include &lt;utility&gt;
+
+namespace core {
+
+namespace {
+
+/// @brief Construit un Ã©chec, en un point unique pour que tous se ressemblent.
+[[nodiscard]] JsonDocument failure(JsonReadError code, std::string message,
+<span style = "background-color:#dfd">                                   TextPosition position = {}) {
+    return JsonDocument{.root = nlohmann::json::object(),</span>
+                        .error = code,
+                        .message = std::move(message),
+                        .position = position,
+                        .version = 0};
+<span style = "background-color:#dfd">}</span>
+
+/// @brief PrÃ©fixe Â« fichier:ligne:colonne : Â» d'un message, rÃ©duit Ã  ce qui est connu.
+<span style = "background-color:#dfd">[[nodiscard]] std::string prefix(std::string_view origin, TextPosition position) {
+    std::string out;
+    if (!origin.empty()) {
+        out += std::string(origin);</span>
+    }
+<span style = "background-color:#dfd">    if (position.line &gt; 0) {
+        if (!out.empty()) {
+            out += ':';</span>
+        }
+<span style = "background-color:#dfd">        out += std::to_string(position.line) + ':' + std::to_string(position.column);</span>
+    }
+<span style = "background-color:#dfd">    if (!out.empty()) {
+        out += " : ";</span>
+    }
+<span style = "background-color:#dfd">    return out;
+}</span>
+
+}  // namespace
+
+<span style = "background-color:#dfd">TextPosition positionOf(std::string_view text, std::size_t byteOffset) {
+    if (byteOffset == 0 || byteOffset &gt; text.size()) {
+        return {};</span>
+    }
+    // `byte` de nlohmann est 1-indexÃ© et dÃ©signe l'octet **fautif** : on compte ce qui prÃ©cÃ¨de.
+<span style = "background-color:#dfd">    const std::size_t limit = byteOffset - 1;
+    int line = 1;
+    int column = 1;
+    for (std::size_t i = 0; i &lt; limit; ++i) {
+        if (text[i] == '\n') {
+            ++line;
+            column = 1;
+        } else {
+            ++column;</span>
+        }
+<span style = "background-color:#dfd">    }
+    return {line, column};
+}</span>
+
+JsonDocument readJsonObject(std::string_view json, int supportedVersion, std::string_view origin,
+<span style = "background-color:#dfd">                            std::string_view versionField) {</span>
+    // `parse` en mode non-lanÃ§ant renverrait `discarded` sans dire **oÃ¹**. On laisse donc
+    // l'exception se produire ici, Ã  l'intÃ©rieur de la brique, pour en extraire la position â et
+    // aucune ne franchit cette frontiÃ¨re (EX-NFR-040).
+<span style = "background-color:#dfd">    nlohmann::json root;</span>
+    try {
+<span style = "background-color:#dfd">        root = nlohmann::json::parse(json);
+    } catch (const nlohmann::json::parse_error&amp; e) {
+        const TextPosition position = positionOf(json, e.byte);
+        return failure(JsonReadError::ParseError,</span>
+                       prefix(origin, position) + "JSON malforme : " + e.what(), position);
+<span style = "background-color:#dfd">    } catch (const nlohmann::json::exception&amp; e) {</span>
+        // Un texte bien formÃ© que nlohmann ne sait pas reprÃ©senter : un nombre hors de portÃ©e
+        // (`1e400`) lÃ¨ve `out_of_range`, pas `parse_error`, et sans position. TrouvÃ© par le fuzzing
+        // de nuit : sans cette garde, l'exception franchissait la brique.
+<span style = "background-color:#dfd">        return failure(JsonReadError::ParseError,</span>
+                       prefix(origin, {}) + "JSON illisible : " + e.what());
+<span style = "background-color:#fdd">    }</span>
+
+<span style = "background-color:#dfd">    if (!root.is_object()) {
+        return failure(JsonReadError::ParseError,</span>
+                       prefix(origin, {}) + "La racine du document n'est pas un objet.");
+    }
+
+    // Version absente : vaut 1. Un catalogue Ã©crit avant que le format ne se versionne reste
+    // lisible, ce qui Ã©vite d'avoir Ã  rÃ©Ã©crire les fichiers existants au premier versionnage.
+<span style = "background-color:#dfd">    int version = 1;
+    const std::string field(versionField);
+    if (root.contains(field)) {
+        if (!root[field].is_number_integer()) {
+            return failure(JsonReadError::MalformedStructure,</span>
+                           prefix(origin, {}) + "Le champ Â« " + field + " Â» n'est pas un entier.");
+        }
+<span style = "background-color:#dfd">        version = root[field].get&lt;int&gt;();</span>
+    }
+<span style = "background-color:#dfd">    if (supportedVersion &gt; 0 &amp;&amp; version &gt; supportedVersion) {
+        return failure(JsonReadError::UnsupportedVersion,</span>
+                       prefix(origin, {}) + "Version de format " + std::to_string(version) +
+                           " non geree (cette version du jeu lit jusqu'a " +
+                           std::to_string(supportedVersion) + ").");
+    }
+
+<span style = "background-color:#dfd">    return JsonDocument{.root = std::move(root),</span>
+                        .error = JsonReadError::None,
+                        .message = {},
+                        .position = {},
+                        .version = version};
+<span style = "background-color:#dfd">}</span>
+
+JsonDocument readJsonObjectFromFile(const std::filesystem::path&amp; path, int supportedVersion,
+<span style = "background-color:#dfd">                                    std::string_view versionField) {
+    std::ifstream file(path);
+    if (!file) {
+        return failure(JsonReadError::FileNotFound,</span>
+                       "Fichier introuvable ou illisible : " + path.string());
+    }
+<span style = "background-color:#dfd">    std::ostringstream contents;
+    contents &lt;&lt; file.rdbuf();
+    const std::string text = contents.str();</span>
+    // Le nom du fichier entre dans les messages : Â« sounds.json:12:5 : â¦ Â» se corrige, Â« JSON
+    // malforme Â» ne se corrige pas.
+<span style = "background-color:#dfd">    return readJsonObject(text, supportedVersion, path.filename().string(), versionField);
+}</span>
+
+}  // namespace core</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

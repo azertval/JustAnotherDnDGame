@@ -24,14 +24,14 @@
 */
 var NAVTREE =
 [
-  [ "JustAnotherDnDGame", "index.html", [
+  [ "JustAnotherRpgGame", "index.html", [
     [ "En bref", "index.html#autotoc_md1", null ],
     [ "Origine", "index.html#autotoc_md2", null ],
     [ "Avancement", "index.html#autotoc_md3", null ],
     [ "Navigation", "index.html#autotoc_md4", null ],
     [ "Guide du développeur", "guide.html", "guide" ],
     [ "Cahier de test", "cahiertest.html", [
-      [ "Tests unitaires (1176)", "cahiertest.html#autotoc_md5", [
+      [ "Tests unitaires (1178)", "cahiertest.html#autotoc_md5", [
         [ "Core", "cahiertest.html#autotoc_md6", [
           [ "Combat (102)", "cahiertest.html#autotoc_md7", null ],
           [ "Data (12)", "cahiertest.html#autotoc_md8", null ],
@@ -56,7 +56,7 @@ var NAVTREE =
           [ "Interface (62)", "cahiertest.html#autotoc_md26", null ],
           [ "Localization (9)", "cahiertest.html#autotoc_md27", null ],
           [ "Platform (5)", "cahiertest.html#autotoc_md28", null ],
-          [ "Presentation (13)", "cahiertest.html#autotoc_md29", null ],
+          [ "Presentation (15)", "cahiertest.html#autotoc_md29", null ],
           [ "Runtime (3)", "cahiertest.html#autotoc_md30", null ]
         ] ]
       ] ],
@@ -181,10 +181,10 @@ var NAVTREEINDEX =
 "structhmi_1_1SkinEntry.html#a261f088f4cc42c2fc6c25396497286a9",
 "test__animation__clip_8cpp.html#ad0a2aa8e6160daaed8fb13e11c1173ac",
 "test__component__pool_8cpp.html#a808cfcbdb450bc190c8d5ce6ecbdaf54",
-"test__grid__distance__field_8cpp.html#a37c833135b5e21b0bfe26dda37df1077",
-"test__math__utils_8cpp.html#a9d12b523fceca021be608afd579b893f",
-"test__rect_8cpp.html#a262502d213bb9ba3744c7ea4cffe6f8c",
-"test__vector2_8cpp.html#a2c531654668e9e4258b1b420c616153d"
+"test__grid__distance__field_8cpp.html",
+"test__math__utils_8cpp.html",
+"test__quad__recorder_8cpp.html#ac3194807343f4de441734f164be179f1",
+"test__vector2_8cpp.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

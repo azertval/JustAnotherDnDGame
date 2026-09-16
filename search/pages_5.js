@@ -10,7 +10,7 @@ var searchData=
   ['5_20architecture_20dépendances_20entre_20modules_7',['5. Architecture (dépendances entre modules)',['../spec-conventions.html#autotoc_md298',1,'']]],
   ['5_20assets_8',['5. Assets',['../spec-contenu.html#autotoc_md284',1,'']]],
   ['5_20audio_9',['5. Audio',['../spec-rendu-technique.html#autotoc_md387',1,'']]],
-  ['5_20conditions_10',['5. Conditions',['../spec-regles-dnd.html#autotoc_md381',1,'']]],
+  ['5_20conditions_10',['5. Conditions',['../spec-regles-d20.html#autotoc_md381',1,'']]],
   ['5_20dash_208_20directions_11',['5. Dash 8 directions',['../guide-physique.html#autotoc_md211',1,'']]],
   ['5_20intégration_20au_20jeu_20et_20outillage_12',['5. Intégration au jeu et outillage',['../spec-ia.html#autotoc_md352',1,'']]],
   ['5_20la_20collision_20de_20numéros_20est_20bloquante_20et_20bien_20plus_20large_20qu_20estimé_13',['9.5 La collision de numéros est bloquante, et bien plus large qu&apos;estimé',['../roadmap.html#autotoc_md823',1,'']]],

@@ -1,0 +1,137 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>ActionEconomy.h</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#pragma once
+
+/**
+ * @file Core/Combat/ActionEconomy.h
+ * @brief Ce qu'un tour permet de faire, et ce qui en reste (`LOT-20`, `EX-CBT-011`).
+ */
+
+#include &lt;string&gt;
+#include &lt;string_view&gt;
+#include &lt;vector&gt;
+
+namespace core {
+
+/// @brief L'action du tour (Manuel des Joueurs, Â« Votre tour Â»).
+inline constexpr std::string_view ACTION_RESOURCE = "action";
+/// @brief L'action bonus.
+inline constexpr std::string_view BONUS_ACTION_RESOURCE = "bonusAction";
+/// @brief La rÃ©action, qui se dÃ©pense aussi **hors** de son tour.
+inline constexpr std::string_view REACTION_RESOURCE = "reaction";
+/// @brief Le dÃ©placement, comptÃ© en **cases** (`core::movementBudget`).
+inline constexpr std::string_view MOVEMENT_RESOURCE = "movement";
+
+/// @brief Une ressource du tour : ce qu'on en reÃ§oit Ã  chaque tour, et ce qu'il en reste.
+struct ActionResource {
+    std::string id;
+    /// Ce que le dÃ©but du tour du porteur restaure.
+    int perTurn = 0;
+    int remaining = 0;
+};
+
+/**
+ * @brief L'Ã©conomie d'action d'un combattant : une **liste** de ressources, pas trois boolÃ©ens.
+ *
+ * ## Pourquoi une liste
+ *
+ * Le Manuel donne quatre ressources â action, action bonus, rÃ©action, dÃ©placement â, et les livres
+ * de Tanares en ajoutent : la *Heroic Action* des Marques HÃ©roÃ¯ques (`LOT-50`) est une **troisiÃ¨me
+ * Ã©conomie d'action**, et une capacitÃ© octroie une rÃ©action supplÃ©mentaire Ã  un alliÃ©. Trois
+ * boolÃ©ens auraient demandÃ© une refonte au premier ajout ; une ressource de plus est ici un appel
+ * Ã  `declare`.
+ *
+ * ## Quand une ressource revient
+ *
+ * **Au dÃ©but du tour de son porteur**, et Ã  aucun autre moment (`EX-CBT-011`). C'est ce qui rend
+ * la rÃ©action dÃ©pensable hors de son tour : restaurÃ©e Ã  la fin du tour courant, une rÃ©action
+ * dÃ©pensÃ©e pendant le tour d'un ennemi reviendrait avant que cet ennemi ait fini, et une attaque
+ * d'opportunitÃ© se jouerait deux fois dans le mÃªme round.
+ *
+ * ## Le dÃ©placement se fractionne
+ *
+ * `EX-CBT-011` dit chaque ressource Â« consommable une seule fois Â». Pour le dÃ©placement, c'est le
+ * **budget** qui ne se consomme qu'une fois : le Manuel laisse Â« dÃ©cider si vous voulez d'abord
+ * vous dÃ©placer ou agir Â», et permet de rÃ©partir sa vitesse autour de l'action â trois cases, une
+ * attaque, trois cases. Ce qui ne se fait pas, c'est retrouver des cases dans le mÃªme tour.
+ */
+class ActionEconomy {
+public:
+    /**
+     * @brief L'Ã©conomie du Manuel : une action, une action bonus, une rÃ©action, et @p movement
+     *        cases de dÃ©placement â toutes disponibles.
+     */
+    [[nodiscard]] static ActionEconomy standard(int movement);
+
+    /**
+     * @brief DÃ©clare une ressource, ou change ce qu'un tour en restaure, et la remplit.
+     *
+     * Une ressource dÃ©jÃ  dÃ©clarÃ©e garde sa place dans la liste : l'ordre des ressources est celui
+     * de leur premiÃ¨re dÃ©claration, et ne change pas d'une partie Ã  l'autre.
+     */
+    void declare(std::string_view id, int perTurn);
+
+    [[nodiscard]] bool has(std::string_view id) const;
+    /// @brief Ce qu'il reste de la ressource, ou 0 si elle n'est pas dÃ©clarÃ©e.
+    [[nodiscard]] int remaining(std::string_view id) const;
+
+    /**
+     * @brief DÃ©pense @p amount de la ressource.
+     * @return Faux, et **rien n'est dÃ©pensÃ©**, si la ressource est inconnue, s'il n'en reste pas
+     *         assez, ou si @p amount n'est pas positif : on ne paie pas une case de terrain
+     *         difficile Ã  moitiÃ©.
+     */
+    bool spend(std::string_view id, int amount = 1);
+
+    /**
+     * @brief Octroie @p amount de la ressource au-delÃ  de ce que le tour restaure â une rÃ©action
+     *        offerte par un alliÃ©.
+     *
+     * L'octroi vaut jusqu'Ã  ce qu'il soit dÃ©pensÃ© ou jusqu'au prochain dÃ©but de tour du porteur,
+     * qui remet chaque ressource Ã  son `perTurn`. Une ressource inconnue est dÃ©clarÃ©e avec un
+     * `perTurn` nul : elle n'existe que le temps de l'octroi.
+     */
+    void grant(std::string_view id, int amount = 1);
+
+    /// @brief Le dÃ©but du tour du porteur : chaque ressource revient Ã  son `perTurn`.
+    void refresh();
+
+<span style = "background-color:#dfd">    [[nodiscard]] const std::vector&lt;ActionResource&gt;&amp; resources() const noexcept {
+        return _resources;
+    }</span>
+
+private:
+    [[nodiscard]] ActionResource* find(std::string_view id);
+    [[nodiscard]] const ActionResource* find(std::string_view id) const;
+
+    std::vector&lt;ActionResource&gt; _resources;
+};
+
+}  // namespace core</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

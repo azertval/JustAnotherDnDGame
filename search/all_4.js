@@ -21,7 +21,7 @@ var searchData=
   ['4_20progression_18',['4. Progression',['../spec-rpg.html#autotoc_md392',1,'']]],
   ['4_20publier_20votre_20niveau_19',['4. Publier votre niveau',['../manuel-partager-niveau.html#autotoc_md905',1,'']]],
   ['4_20saut_20et_20game_20feel_20',['4. Saut et &lt;em&gt;game feel&lt;/em&gt;',['../guide-physique.html#autotoc_md210',1,'']]],
-  ['4_20temps_20repos_20et_20récupération_21',['4. Temps, repos et récupération',['../spec-regles-dnd.html#autotoc_md380',1,'']]],
+  ['4_20temps_20repos_20et_20récupération_21',['4. Temps, repos et récupération',['../spec-regles-d20.html#autotoc_md380',1,'']]],
   ['40_22',['Ne dessiner que ce qui se voit : le culling (&lt;span class=&quot;tt&quot;&gt;LOT-40&lt;/span&gt;)',['../guide-rendu.html#autotoc_md234',1,'']]],
   ['40_20—_20générateur_20de_20terrain_23',['&lt;span class=&quot;tt&quot;&gt;LOT-40&lt;/span&gt; — Générateur de terrain',['../roadmap.html#lot-40',1,'']]],
   ['40_20→_20lot_2055_24',['Le programme d&apos;habillage, livré (&lt;span class=&quot;tt&quot;&gt;LOT-40&lt;/span&gt; → &lt;span class=&quot;tt&quot;&gt;LOT-55&lt;/span&gt;)',['../guide-rendu.html#autotoc_md252',1,'']]],

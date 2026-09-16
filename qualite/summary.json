@@ -1,8 +1,153 @@
 {
-  "generated": "2026-09-16 05:29 UTC",
-  "commit": "0efad242f",
-  "run_url": "https://github.com/azertval/JustAnotherDnDGame/actions/runs/35059687593",
-  "coverage": null,
+  "generated": "2026-09-16 11:30 UTC",
+  "commit": "4ecab7dc4",
+  "run_url": "https://github.com/azertval/JustAnotherDnDGame/actions/runs/35089581732",
+  "coverage": {
+    "percent": 90.4,
+    "covered": 15053,
+    "valid": 16652,
+    "files": 272,
+    "areas": [
+      {
+        "name": "Core",
+        "covered": 3,
+        "valid": 3,
+        "percent": 100.0
+      },
+      {
+        "name": "Core/Combat",
+        "covered": 3140,
+        "valid": 3325,
+        "percent": 94.44
+      },
+      {
+        "name": "Core/Data",
+        "covered": 66,
+        "valid": 67,
+        "percent": 98.51
+      },
+      {
+        "name": "Core/Diagnostics",
+        "covered": 142,
+        "valid": 150,
+        "percent": 94.67
+      },
+      {
+        "name": "Core/Ecs",
+        "covered": 448,
+        "valid": 456,
+        "percent": 98.25
+      },
+      {
+        "name": "Core/Gameplay",
+        "covered": 162,
+        "valid": 172,
+        "percent": 94.19
+      },
+      {
+        "name": "Core/Levels",
+        "covered": 1063,
+        "valid": 1118,
+        "percent": 95.08
+      },
+      {
+        "name": "Core/Math",
+        "covered": 122,
+        "valid": 124,
+        "percent": 98.39
+      },
+      {
+        "name": "Core/Physics",
+        "covered": 107,
+        "valid": 111,
+        "percent": 96.4
+      },
+      {
+        "name": "Core/Resources",
+        "covered": 184,
+        "valid": 213,
+        "percent": 86.38
+      },
+      {
+        "name": "Core/Rpg",
+        "covered": 1878,
+        "valid": 2068,
+        "percent": 90.81
+      },
+      {
+        "name": "Core/Time",
+        "covered": 23,
+        "valid": 23,
+        "percent": 100.0
+      },
+      {
+        "name": "Core/World",
+        "covered": 209,
+        "valid": 250,
+        "percent": 83.6
+      },
+      {
+        "name": "HMI/Audio",
+        "covered": 87,
+        "valid": 121,
+        "percent": 71.9
+      },
+      {
+        "name": "HMI/Diagnostics",
+        "covered": 8,
+        "valid": 20,
+        "percent": 40.0
+      },
+      {
+        "name": "HMI/Editor",
+        "covered": 1186,
+        "valid": 1347,
+        "percent": 88.05
+      },
+      {
+        "name": "HMI/Game",
+        "covered": 133,
+        "valid": 139,
+        "percent": 95.68
+      },
+      {
+        "name": "HMI/Graphics",
+        "covered": 2467,
+        "valid": 3000,
+        "percent": 82.23
+      },
+      {
+        "name": "HMI/Input",
+        "covered": 542,
+        "valid": 616,
+        "percent": 87.99
+      },
+      {
+        "name": "HMI/Interface",
+        "covered": 321,
+        "valid": 350,
+        "percent": 91.71
+      },
+      {
+        "name": "HMI/Localization",
+        "covered": 83,
+        "valid": 85,
+        "percent": 97.65
+      },
+      {
+        "name": "HMI/Platform",
+        "covered": 70,
+        "valid": 126,
+        "percent": 55.56
+      },
+      {
+        "name": "HMI/Presentation",
+        "covered": 379,
+        "valid": 417,
+        "percent": 90.89
+      }
+    ]
+  },
   "benchmarks": {
     "suite": "Combat et niveaux (Release, windows-2022)",
     "runs": 1,
@@ -47,6 +192,6 @@
       }
     ]
   },
-  "coverage_html": false,
+  "coverage_html": true,
   "benchmarks_page": true
 }

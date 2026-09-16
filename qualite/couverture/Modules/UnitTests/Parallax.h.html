@@ -1,0 +1,160 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>Parallax.h</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#pragma once
+
+#include "Core/Levels/CameraFraming.h"
+#include "Core/Math/Rect.h"
+#include "Core/Math/Vector2.h"
+
+/**
+ * @file HMI/Graphics/Parallax.h
+ * @brief DÃ©calage de parallaxe, bornage d'un plan et dÃ©cision d'activation (`EX-DEC-043`, LOT-69).
+ *
+ * Le facteur n'est plus une constante par couche : il est **portÃ© par le plan** (`core::Plane`),
+ * rÃ©glable niveau par niveau, et **par axe**. Ces fonctions ne connaissent que des nombres â elles
+ * ignorent d'oÃ¹ ils viennent.
+ */
+
+namespace hmi {
+
+/// Facteur **neutre** : le contenu est solidaire du niveau et ne subit aucun dÃ©calage.
+inline constexpr float PARALLAX_FACTOR_NONE = 1.0f;
+
+/**
+ * @brief Calcule la position de **rendu** d'un contenu, dÃ©calÃ©e par sa parallaxe.
+ *
+ * Fonction **pure**, sans Ã©tat (LOT-49 TACHE-03) : le dÃ©calage est calculÃ© **relativement au
+ * centre de la salle courante** (@p cameraBounds, le rectangle cadrÃ© par la camÃ©ra â solidaire de
+ * la salle, `EX-REN-015`) et non en espace niveau absolu. Formulation : la position de rendu est
+ * le centre de la salle, plus le dÃ©placement du contenu **par rapport Ã  ce centre**, mis Ã 
+ * l'Ã©chelle du facteur â de sorte qu'Ã  facteur `1.0` (`PARALLAX_FACTOR_NONE`) la position est
+ * **inchangÃ©e**, et que deux contenus Ã  la mÃªme position relative dans deux salles diffÃ©rentes se
+ * retrouvent au mÃªme endroit Ã  l'Ã©cran, quelle que soit la position absolue de chaque salle.
+ *
+ * C'est le seul comportement cohÃ©rent avec une camÃ©ra Ã  coupure nette entre salles
+ * (`EX-REN-015`, `LOT-32`) : un dÃ©calage absolu en espace niveau ferait sauter le contenu Ã  chaque
+ * bascule (artefact visible) ; ce dÃ©calage-ci se replace au moment exact oÃ¹ toute l'image change
+ * dÃ©jÃ  (invisible). Un dÃ©calage absolu a Ã©tÃ© envisagÃ© au cadrage du `LOT-69`, au motif qu'un plan
+ * continu n'a pas de repÃ¨re ponctuel ; il a Ã©tÃ© Ã©cartÃ© pour cette raison prÃ©cise.
+ * @param modelPosition Position en espace **modÃ¨le**, en unitÃ©s monde â **jamais modifiÃ©e** par
+ *                      cette fonction : la parallaxe est purement visuelle (`EX-ARCH-012`).
+ * @param factor        Facteur de parallaxe **par axe** (`core::Plane::parallaxX`/`parallaxY`).
+ * @param cameraBounds  Rectangle cadrÃ© par la camÃ©ra (`hmi::Camera2D::visibleBounds`), en unitÃ©s
+ *                      monde.
+ * @return La position Ã  utiliser pour le rendu (et le culling) de ce contenu.
+ */
+[[nodiscard]] core::Vector2 parallaxRenderPosition(core::Vector2 modelPosition,
+                                                   core::Vector2 factor,
+                                                   const core::Rect&amp; cameraBounds) noexcept;
+
+/**
+ * @brief Inverse de `parallaxRenderPosition` : retrouve la position **modÃ¨le** Ã©quivalente Ã  un
+ * point exprimÃ© en espace de rendu (`LOT-50` TACHE-02).
+ *
+ * NÃ©cessaire Ã  l'Ã©diteur : le curseur converti par `hmi::Camera2D::screenToWorld` est comparable
+ * Ã  la position de **rendu** d'un contenu parallaxÃ© (c'est elle qui occupe l'Ã©cran), jamais
+ * directement Ã  sa position modÃ¨le dÃ¨s que le facteur diffÃ¨re de `1.0`. Cette fonction ramÃ¨ne donc
+ * un point d'Ã©cran dans l'espace modÃ¨le, pour que ce qu'on manipule reste visuellement Â« collÃ© Â»
+ * au curseur quel que soit son facteur de parallaxe.
+ * @param renderPosition Position en espace de rendu, en unitÃ©s monde.
+ * @param factor         Facteur de parallaxe **par axe**.
+ * @param cameraBounds   MÃªme rectangle camÃ©ra que celui utilisÃ© pour `parallaxRenderPosition`.
+ * @return La position modÃ¨le correspondante ; l'axe est laissÃ© **inchangÃ©** si son facteur est nul
+ *         (robustesse â un facteur nul n'est pas inversible).
+ */
+[[nodiscard]] core::Vector2 parallaxModelPosition(core::Vector2 renderPosition,
+                                                  core::Vector2 factor,
+                                                  const core::Rect&amp; cameraBounds) noexcept;
+
+/**
+ * @brief Borne le dÃ©calage d'un plan pour qu'il **couvre toujours** le cadrage.
+ *
+ * Un plan couvre exactement le niveau ; le translater dÃ©couvre donc son bord, et une bande vide
+ * apparaÃ®trait au bout du dÃ©calage. L'alternative Â« que l'artiste peigne des marges Â» est un
+ * piÃ¨ge : la marge nÃ©cessaire dÃ©pend du facteur **et** de la taille de salle â personne ne la
+ * calculera juste, et l'erreur ne se verrait qu'au bord d'un niveau, en jeu.
+ *
+ * Le bornage est fait **par axe**, indÃ©pendamment. Si le plan est plus **petit** que le cadrage sur
+ * un axe (aucune translation ne peut le couvrir), le dÃ©calage y est ramenÃ© Ã  zÃ©ro : le plan reste
+ * alignÃ© sur le niveau, ce qui est le moindre mal et reste stable.
+ * @param offset       DÃ©calage souhaitÃ©, en unitÃ©s monde.
+ * @param planeBounds  Rectangle couvert par le plan **avant** dÃ©calage (typiquement le niveau).
+ * @param cameraBounds Rectangle cadrÃ© par la camÃ©ra, Ã  couvrir.
+ * @return Le dÃ©calage effectivement applicable.
+ */
+[[nodiscard]] core::Vector2 clampPlaneOffset(core::Vector2 offset, const core::Rect&amp; planeBounds,
+                                             const core::Rect&amp; cameraBounds) noexcept;
+
+/**
+ * @brief DÃ©cide si la parallaxe des plans s'applique, selon le mode de cadrage et le drapeau du
+ *        niveau (`EX-DEC-043`, `EX-REN-016`).
+ *
+ * **Table pure**, plutÃ´t qu'une condition dissÃ©minÃ©e dans la session de jeu :
+ *
+ * - **`Follow` â active.** Seul mode oÃ¹ la camÃ©ra dÃ©file, donc le seul oÃ¹ la parallaxe se lit.
+ *   Inverse la dÃ©cision du `LOT-64`, qui l'avait coupÃ©e parce qu'un **dÃ©cor** est un objet collÃ© au
+ *   contenu et paraissait Â« suivre Â» la camÃ©ra ; un plan est un fond, l'argument tombe.
+ * - **`PerRoom` â active.** Formule relative Ã  la salle, donc sans saut Ã  la bascule
+ *   (`EX-REN-015`).
+ * - **`WholeLevel` â neutralisÃ©e.** La camÃ©ra ne bouge pas : le dÃ©calage serait une constante, donc
+ *   un simple dÃ©salignement du plan par rapport aux tuiles.
+ *
+ * Le drapeau est **par niveau**, mais la neutralisation en `WholeLevel` est une rÃ¨gle du moteur :
+ * un level designer qui coche Â« parallaxe Â» sur un niveau `WholeLevel` ne verrait rien. L'interface
+ * grise donc la case dans ce mode et l'explique (`TACHE-08`), sinon c'est un dÃ©faut perÃ§u.
+ * @param mode      Mode de cadrage du niveau.
+ * @param levelFlag Drapeau `parallax` dÃ©clarÃ© par le niveau (`core::Level::parallaxEnabled`).
+ * @return `true` si le dÃ©calage doit Ãªtre appliquÃ© aux plans.
+ */
+[[nodiscard]] constexpr bool planeParallaxActive(core::CameraFramingMode mode,
+<span style = "background-color:#dfd">                                                 bool levelFlag) noexcept {
+    if (!levelFlag) {
+        return false;</span>
+    }
+<span style = "background-color:#dfd">    return mode != core::CameraFramingMode::WholeLevel;
+}</span>
+
+/**
+ * @brief Arrondit une position monde au pixel Ã©cran le plus proche, pour un zoom pixel art net.
+ *
+ * Un dÃ©calage de parallaxe fractionnaire produirait une image floue ou tremblante : le zoom de la
+ * camÃ©ra est entier quand c'est possible (`EX-ARCH-022`), mais un dÃ©calage de parallaxe
+ * quelconque, lui, ne l'est pas â cette fonction referme cet Ã©cart, **aprÃ¨s** application de la
+ * parallaxe **et** de son bornage. Fonction **pure**, sans dÃ©pendance GPU.
+ * @param worldPosition     Position Ã  arrondir, en unitÃ©s monde.
+ * @param pixelsPerWorldUnit Ãchelle courante (`hmi::Camera2D::PIXELS_PER_UNIT * zoom`) ; @p
+ *                      worldPosition est renvoyÃ©e inchangÃ©e si cette valeur n'est pas strictement
+ *                      positive (robustesse).
+ * @return La position arrondie au pixel Ã©cran entier le plus proche.
+ */
+[[nodiscard]] core::Vector2 roundToScreenPixel(core::Vector2 worldPosition,
+                                               float pixelsPerWorldUnit) noexcept;
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

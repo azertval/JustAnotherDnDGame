@@ -1,0 +1,180 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>RenderLayer.h</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#pragma once
+
+#include &lt;cstdint&gt;
+
+/**
+ * @file HMI/Graphics/RenderLayer.h
+ * @brief Ordonnancement de calques **unique et explicite** du rendu (`EX-REN-014`).
+ */
+
+namespace hmi {
+
+/**
+ * @brief Calques de dessin, du plus **arriÃ¨re** au plus **avant** (`EX-REN-014`, `EX-DEC-002`).
+ *
+ * L'**ordre de dÃ©claration est l'ordre de dessin** : une valeur dÃ©clarÃ©e plus bas est dessinÃ©e
+ * par-dessus les prÃ©cÃ©dentes. C'est le **seul** ordonnancement de calques du projet â aucun lot ne
+ * doit en inventer un concurrent, sous peine de rendre l'ordre visuel dÃ©pendant de qui dessine en
+ * dernier (`EX-REN-014`).
+ *
+ * Toutes les valeurs sont rÃ©servÃ©es **dÃ¨s `LOT-40`**, mÃªme celles qu'aucun code n'utilise encore
+ * (`Background` en `LOT-44`, `Plane`/`Foreground` en `LOT-49`, `Shadow` en `LOT-55`, `Object` en
+ * `LOT-45`, `UI` en `LOT-52`) : c'est prÃ©cisÃ©ment cette anticipation qui Ã©vite qu'un lot suivant
+ * rÃ©invente son propre empilement. Seules `Tile`, `Player` et `EditorOverlay` sont utilisÃ©es Ã  ce
+ * jour, et elles reproduisent exactement l'ordre d'avant le lot (tuiles sous personnage, aides
+ * d'Ã©dition au-dessus de tout).
+ *
+ * `Foreground` est **au-dessus** de `Player` par construction : c'est le contrat de lecture Â« ce
+ * qui passe devant le personnage n'est pas physique Â» (`EX-DEC-042`).
+ *
+ * Le nombre de **plans picturaux** d'un niveau est libre (`LOT-69`), mais aucun n'ajoute de valeur
+ * ici : les plans occupent `Plane` ou `Foreground` selon leur profondeur, et leur **rang** dans la
+ * liste du niveau les ordonne Ã  l'intÃ©rieur du calque. Donner une valeur d'Ã©numÃ©ration Ã  chaque
+ * plan figerait dans le rendu ce que le format dÃ©clare variable, et ferait enfler
+ * `RENDER_LAYER_COUNT`, donc `hmi::LayerVisibility`.
+ *
+ * Notion de **prÃ©sentation** (`HMI`) : `Core` l'ignore et continue de ne connaÃ®tre que
+ * `core::Sprite::layer`, entier de tri **fin Ã  l'intÃ©rieur** d'un calque (`EX-NFR-011`).
+ */
+enum class RenderLayer : std::int32_t {
+    /// Image de fond du niveau (`LOT-44`, `EX-REN-044`).
+    Background = 0,
+    /// Plans picturaux **derriÃ¨re** les tuiles, Ã©ventuellement en parallaxe (`LOT-69`,
+    /// `EX-DEC-042`). NommÃ© `Decor` jusqu'au `LOT-69` : laisser un calque porter le nom d'un
+    /// systÃ¨me retirÃ© serait exactement la dette que `EX-REN-014` cherche Ã  Ã©viter.
+    Plane,
+    /// Ombres portÃ©es des tuiles solides (`LOT-55`, `EX-REN-045`).
+    Shadow,
+    /// Tuiles physiques du niveau â le seul calque peuplÃ© avant `LOT-42`.
+    Tile,
+    /// Objets interactifs (interrupteurs, portes, dangers) et **dÃ©cor traversÃ©** : tout ce qui
+    /// partage la profondeur du personnage (`LOT-45`/`LOT-47`, `LOT-07`).
+    Object,
+    /// Personnage joueur. MÃªme **bande de profondeur** que `Object` depuis le `LOT-07` : les deux
+    /// s'ordonnent entre eux par le Y de leur pied, pas par leur rang de calque.
+    Player,
+    /// Plans picturaux **devant** le personnage (`LOT-69`, `EX-DEC-042`).
+    Foreground,
+    /// Texte et interface en scÃ¨ne (`LOT-52`, `EX-REN-031`).
+    UI,
+    /// Aides d'Ã©dition : grille de repÃ¨re, liens de mÃ©canismes, aperÃ§u de sÃ©lection.
+    EditorOverlay,
+};
+
+/**
+ * @brief Le calque appartient-il Ã  la **bande de profondeur** ?
+ *
+ * Dans une vue de dessus, Â« devant Â» et Â« derriÃ¨re Â» ne se dÃ©cident plus par un rang de calque
+ * fixe mais par la **position** : le personnage passe devant ce qui est au-dessus de lui Ã 
+ * l'Ã©cran, derriÃ¨re ce qui est en dessous. Les primitives d'une bande de profondeur s'ordonnent
+ * donc entre elles par leur `sortOrder` â le Y de leur pied (`hmi::depthSortOrder`) â **avant**
+ * tout regroupement de texture.
+ *
+ * C'est le prix Ã  payer, et il est assumÃ© : regrouper par texture d'abord ferait passer tout le
+ * dÃ©cor devant le personnage, ou tout derriÃ¨re, selon l'ordre d'apparition des textures. Un
+ * personnage et un arbre n'ayant jamais la mÃªme texture, il n'existe aucun ordre de calque qui
+ * rende les deux cas justes â seule la profondeur le peut, au prix de passes de dessin
+ * supplÃ©mentaires (`EX-REN-018`).
+ */
+<span style = "background-color:#dfd">[[nodiscard]] constexpr bool sortsByDepth(RenderLayer layer) noexcept {
+    return layer == RenderLayer::Object || layer == RenderLayer::Player;
+}</span>
+
+/**
+ * @brief Bande de tri d'un calque : `Object` et `Player` en partagent **une seule**.
+ *
+ * Sans cela, le rang de calque trancherait avant la profondeur et le personnage passerait
+ * **toujours** devant un objet, quelle que soit sa position â exactement ce que le tri par Y doit
+ * corriger. Tous les autres calques restent leur propre bande : un plan pictural ne se mÃ©lange
+ * jamais au dÃ©cor, et les aides d'Ã©dition restent au-dessus de tout (`EX-REN-014`).
+ */
+<span style = "background-color:#dfd">[[nodiscard]] constexpr std::int32_t renderBand(RenderLayer layer) noexcept {
+    return static_cast&lt;std::int32_t&gt;(sortsByDepth(layer) ? RenderLayer::Object : layer);
+}</span>
+
+/**
+ * @brief IdentitÃ© **opaque** d'une texture liÃ©e, du point de vue de la composition.
+ *
+ * La composition du rendu ne fait que **comparer** et **regrouper** des textures ; elle n'a
+ * jamais besoin d'en connaÃ®tre le type Direct3D. Ce typage volontairement opaque permet de la
+ * garder libre de toute dÃ©pendance GPU (et donc testable sans carte, `EX-NFR-004`) : cÃ´tÃ©
+ * soumission, `hmi::SpriteBatch` reconvertit la valeur en `QRhiTexture*`, seule couche qui en
+ * connaisse le type rÃ©el. Une valeur nulle dÃ©signe Â« aucune texture liÃ©e Â».
+ */
+using TextureHandle = void*;
+
+/**
+ * @brief Composant de prÃ©sentation fixant le calque de dessin d'une entitÃ©.
+ *
+ * Vit cÃ´tÃ© `HMI` (comme `hmi::PreviousPosition`) : `Core` ne connaÃ®t pas `RenderLayer`
+ * (`EX-NFR-011`). Une entitÃ© **sans** ce composant est dessinÃ©e sur `RenderLayer::Tile`, qui est le
+ * cas de trÃ¨s loin le plus frÃ©quent (toutes les tuiles d'un niveau) â l'absence de composant est
+ * donc le dÃ©faut utile, et non un oubli.
+ */
+struct RenderLayerTag {
+    /// Calque de dessin de l'entitÃ©.
+    RenderLayer value = RenderLayer::Tile;
+};
+
+/// Calque appliquÃ© Ã  une entitÃ© dÃ©pourvue de `hmi::RenderLayerTag`.
+inline constexpr RenderLayer DEFAULT_RENDER_LAYER = RenderLayer::Tile;
+
+/**
+ * @brief Nom lisible d'un calque, pour la journalisation et les messages d'Ã©chec de test.
+ * @param layer Calque Ã  nommer.
+ * @return Le nom du calque (chaÃ®ne statique, jamais nulle).
+ */
+<span style = "background-color:#fdd">[[nodiscard]] constexpr const char* renderLayerName(RenderLayer layer) noexcept {
+    switch (layer) {</span>
+        case RenderLayer::Background:
+<span style = "background-color:#fdd">            return "Background";</span>
+        case RenderLayer::Plane:
+<span style = "background-color:#fdd">            return "Plane";</span>
+        case RenderLayer::Shadow:
+<span style = "background-color:#fdd">            return "Shadow";</span>
+        case RenderLayer::Tile:
+<span style = "background-color:#fdd">            return "Tile";</span>
+        case RenderLayer::Object:
+<span style = "background-color:#fdd">            return "Object";</span>
+        case RenderLayer::Player:
+<span style = "background-color:#fdd">            return "Player";</span>
+        case RenderLayer::Foreground:
+<span style = "background-color:#fdd">            return "Foreground";</span>
+        case RenderLayer::UI:
+<span style = "background-color:#fdd">            return "UI";</span>
+        case RenderLayer::EditorOverlay:
+<span style = "background-color:#fdd">            return "EditorOverlay";</span>
+    }
+<span style = "background-color:#fdd">    return "Inconnu";
+}</span>
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

@@ -1,0 +1,175 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>Equipment.h</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#pragma once
+
+/**
+ * @file Core/Rpg/Equipment.h
+ * @brief Armes, armures et le calcul de la classe d'armure (`LOT-34`).
+ */
+
+#include &lt;filesystem&gt;
+#include &lt;optional&gt;
+#include &lt;string&gt;
+#include &lt;string_view&gt;
+#include &lt;vector&gt;
+
+#include "Core/Rpg/Dice.h"
+#include "Core/Rpg/RpgEnums.h"
+
+namespace core {
+
+struct CharacterSheet;
+struct CharacterCreationRules;
+
+/// @brief CatÃ©gorie d'armure. Ensemble **fermÃ©** : le livre n'en connaÃ®t pas d'autre.
+enum class ArmorCategory {
+    Light,
+    Medium,
+    Heavy,
+    /// Le bouclier n'est **pas** une armure : il *ajoute* Ã  la classe d'armure au lieu de la
+    /// remplacer. Le ranger dans la mÃªme Ã©numÃ©ration vient du livre, qui le met dans la mÃªme
+    /// table ; les confondre dans le calcul donnerait un personnage en bouclier seul avec une CA
+    /// de 2.
+    Shield,
+};
+
+/// @brief Une armure ou un bouclier du catalogue.
+struct Armor {
+    std::string id;
+    std::string name;
+    std::string source;
+    ArmorCategory category = ArmorCategory::Light;
+    /// Classe d'armure de base â ou le **bonus** du bouclier, qui s'ajoute.
+    int baseArmorClass = 0;
+    /// Vrai si le modificateur de DextÃ©ritÃ© s'ajoute.
+    bool dexterityBonus = false;
+    /// Plafond du modificateur de DextÃ©ritÃ©, s'il y en a un (`+2` sur les armures intermÃ©diaires).
+    std::optional&lt;int&gt; dexterityBonusMax;
+    /// Force exigÃ©e pour ne pas Ãªtre ralenti. Absente si l'armure n'en demande pas.
+    std::optional&lt;int&gt; strengthRequired;
+    bool stealthDisadvantage = false;
+    /// Prix en **piÃ¨ces de cuivre** â l'unitÃ© interne du projet (`LOT-32`).
+    int price = 0;
+    /// Poids en **grammes**.
+    int weightGrams = 0;
+};
+
+/// @brief Une arme du catalogue.
+struct Weapon {
+    std::string id;
+    std::string name;
+    std::string source;
+    /// `simple` ou `martial`.
+    std::string category;
+    bool ranged = false;
+    /// DÃ©s de dÃ©gÃ¢ts. **Absents** pour le filet, qui n'inflige rien et entrave.
+    std::optional&lt;Dice&gt; damage;
+    std::optional&lt;DamageType&gt; damageType;
+<span style = "background-color:#dfd">    int price = 0;
+    int weightGrams = 0;</span>
+    /// Les propriÃ©tÃ©s, telles que le livre les Ã©crit â en toutes lettres, et en franÃ§ais.
+    std::string text;
+    /// Les mÃªmes, **structurÃ©es** (`finesse`, `light`, `reach`, `thrown`...), tirÃ©es de la colonne
+    /// des propriÃ©tÃ©s **Ã  l'extraction** (`LOT-22`). Une rÃ¨gle qui en dÃ©pend â la caractÃ©ristique
+    /// d'attaque d'une arme de finesse, l'allonge d'une hallebarde â les lit ici, jamais dans la
+    /// prose de `text`.
+    std::vector&lt;std::string&gt; properties;
+    /// PortÃ©e normale, en **mÃ¨tres**, telle que le livre l'Ã©crit (Â« portÃ©e 24 m/96 m Â»). Absente
+    /// pour une arme qui ne se tire ni ne se lance.
+    std::optional&lt;float&gt; rangeNormal;
+    /// Longue portÃ©e, en mÃ¨tres.
+    std::optional&lt;float&gt; rangeLong;
+};
+
+/// @brief Vrai si l'arme porte la propriÃ©tÃ© @p property (`"finesse"`, `"reach"`, `"thrown"`...).
+[[nodiscard]] bool hasProperty(const Weapon&amp; weapon, std::string_view property);
+
+/// @brief Les deux catalogues chargÃ©s, et ce qui n'a pas pu l'Ãªtre.
+struct EquipmentCatalog {
+    std::vector&lt;Weapon&gt; weapons;
+    std::vector&lt;Armor&gt; armors;
+    std::vector&lt;std::string&gt; errors;
+
+    [[nodiscard]] const Weapon* findWeapon(std::string_view id) const;
+    [[nodiscard]] const Armor* findArmor(std::string_view id) const;
+};
+
+/// @brief Charge les armes et les armures depuis leurs dossiers.
+[[nodiscard]] EquipmentCatalog loadEquipment(const std::filesystem::path&amp; weaponsDir,
+                                             const std::filesystem::path&amp; armorsDir);
+
+/**
+ * @brief La classe d'armure d'un personnage, armure et bouclier compris.
+ *
+ * **Les trois formes de la table du livre disent trois rÃ¨gles diffÃ©rentes**, et les rÃ©duire Ã  leur
+ * premier nombre est la faute qui ne se voit pas :
+ *
+ * - `11 + Mod.Dex` â le modificateur de DextÃ©ritÃ© s'ajoute **sans plafond** (armures lÃ©gÃ¨res) ;
+ * - `14 + Mod.Dex (max +2)` â il s'ajoute **plafonnÃ© Ã  2** (armures intermÃ©diaires) ;
+ * - `18` â il ne s'ajoute **pas du tout** (armures lourdes).
+ *
+ * Appliquer la DextÃ©ritÃ© au harnois rendrait le personnage plus rÃ©sistant, jamais moins : le
+ * dÃ©faut ne provoque aucune erreur et passe pour de l'Ã©quilibrage.
+ *
+ * Sans armure, la base vient de la **donnÃ©e** (`rules/character-creation.json`, `LOT-13`) et non
+ * d'un `10` Ã©crit ici (`EX-VIS-007`).
+ *
+ * @param sheet La fiche, pour son modificateur de DextÃ©ritÃ©.
+ * @param rules Les constantes de crÃ©ation, pour la base sans armure.
+ * @param armor L'armure portÃ©e, ou `nullptr`.
+ * @param shield Le bouclier portÃ©, ou `nullptr`.
+ */
+[[nodiscard]] int armorClassFor(const CharacterSheet&amp; sheet, const CharacterCreationRules&amp; rules,
+                                const Armor* armor, const Armor* shield);
+
+/// @brief Une ligne d'inventaire : un objet et sa quantitÃ©.
+struct InventoryEntry {
+    /// Poids unitaire, en grammes.
+    int weightGrams = 0;
+    /// QuantitÃ©. Une quantitÃ© nulle ou nÃ©gative ne pÃ¨se rien.
+    int quantity = 1;
+};
+
+/**
+ * @brief Le poids total d'un inventaire, en **grammes**.
+ *
+ * Une seule unitÃ©, et c'est la raison d'Ãªtre de cette fonction : le livre Ã©crit des kilogrammes et
+ * des grammes dans la mÃªme table â Â« 6,5 kg Â», Â« 500 g Â» â, et mÃ©langer les deux dans un total
+ * donnerait un sac de cinq cents kilos pour une poignÃ©e de flÃ©chettes. La conversion est faite Ã 
+ * l'extraction ; ici tout est dÃ©jÃ  en grammes.
+ */
+[[nodiscard]] int totalWeightGrams(const std::vector&lt;InventoryEntry&gt;&amp; entries);
+
+/// @brief Nom textuel d'une catÃ©gorie d'armure, tel que la donnÃ©e l'Ã©crit.
+[[nodiscard]] std::string_view armorCategoryName(ArmorCategory category);
+/// @brief Inverse d'`armorCategoryName`. `std::nullopt` si le nom est inconnu â jamais devinÃ©.
+[[nodiscard]] std::optional&lt;ArmorCategory&gt; parseArmorCategory(std::string_view name);
+
+}  // namespace core</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

@@ -1,0 +1,322 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>ComposedScene.h</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#pragma once
+
+#include &lt;cstddef&gt;
+#include &lt;cstdint&gt;
+#include &lt;optional&gt;
+#include &lt;string&gt;
+#include &lt;vector&gt;
+
+#include "Core/Math/Rect.h"
+#include "HMI/Graphics/LayerVisibility.h"
+#include "HMI/Graphics/Quad.h"
+#include "HMI/Graphics/RenderLayer.h"
+#include "HMI/Graphics/RenderMode.h"
+#include "HMI/Graphics/TileAppearance.h"
+
+/**
+ * @file HMI/Graphics/ComposedScene.h
+ * @brief Composition du rendu : liste ordonnÃ©e des primitives d'une image, **sans GPU**
+ *        (`EX-NFR-004`, `EX-NFR-005`).
+ */
+
+namespace core {
+class World;
+}
+
+namespace hmi {
+
+/// Nature d'une primitive composÃ©e : rectangle alignÃ© aux axes, ou segment Ã©pais orientÃ©.
+enum class QuadKind {
+    /// `hmi::SpriteQuad` : rectangle alignÃ© sur les axes.
+    Sprite,
+    /// `hmi::LineQuad` : segment Ã©pais, orientÃ© librement.
+    Line,
+};
+
+/**
+ * @brief Une primitive prÃªte Ã  soumettre, avec tout ce qui dÃ©termine **quand** la dessiner.
+ *
+ * Les deux primitives possibles sont stockÃ©es cÃ´te Ã  cÃ´te plutÃ´t que dans une union ou un
+ * `std::variant` : la composition doit rester une simple liste ordonnÃ©e, parcourue en sÃ©quence par
+ * la soumission comme par les tests. Le surcoÃ»t mÃ©moire (quelques dizaines d'octets par primitive,
+ * dans un tampon rÃ©utilisÃ© d'une image Ã  l'autre) est sans commune mesure avec la complexitÃ©
+ * qu'introduirait un accÃ¨s polymorphe sur le chemin de dessin.
+ */
+struct ComposedQuad {
+    /// Calque de dessin (critÃ¨re de tri **prioritaire**, `EX-REN-014`).
+    RenderLayer layer = DEFAULT_RENDER_LAYER;
+    /// Texture liÃ©e (identitÃ© opaque) ; `nullptr` = primitive non dessinable.
+    TextureHandle texture = nullptr;
+    /// Rang de **premiÃ¨re apparition** de la texture dans la scÃ¨ne (critÃ¨re de regroupement).
+    int textureRank = 0;
+    /// Tri **fin Ã  l'intÃ©rieur** d'un calque et d'une texture (`core::Sprite::layer`).
+    std::int32_t sortOrder = 0;
+    /// Laquelle des deux primitives ci-dessous est valide.
+    QuadKind kind = QuadKind::Sprite;
+    /// Primitive rectangle, valide si `kind == QuadKind::Sprite`.
+    SpriteQuad sprite{};
+    /// Primitive segment, valide si `kind == QuadKind::Line`.
+    LineQuad line{};
+};
+
+/**
+ * @brief Sous-divisions de profondeur par unitÃ© monde, pour la quantification du tri par Y.
+ *
+ * Le rendu est du pixel art Ã  16 px/unitÃ© (`EX-ARCH-021`) : deux sprites dont les pieds sont
+ * distants de moins d'un pixel ne peuvent pas se dÃ©partager **Ã  l'Ã©cran**, et les dÃ©partager dans
+ * le tri ne ferait que les faire scintiller au grÃ© des arrondis flottants. Quantifier au pixel est
+ * donc Ã  la fois suffisant et stabilisateur.
+ */
+inline constexpr float DEPTH_SUBDIVISIONS_PER_UNIT = 16.0f;
+
+/**
+ * @brief Ordre de profondeur d'une primitive, Ã  partir du **pied** de son quad.
+ *
+ * Le pied â le bord **bas** â et non le coin haut : c'est le point de contact avec le sol qui
+ * dÃ©cide de la profondeur. Deux sprites de hauteurs diffÃ©rentes posÃ©s sur la mÃªme case doivent
+ * s'ordonner de la mÃªme faÃ§on, ce que leur coin haut ne dit pas (`EX-REN-018`).
+ *
+ * Fonction **pure**, sans GPU. Un Y plus grand (plus bas Ã  l'Ã©cran, `y` vers le bas) donne un
+ * ordre plus grand, donc un dessin **plus tard**, donc au-dessus.
+ * @param footWorldY OrdonnÃ©e du bord bas du quad, en unitÃ©s monde.
+ * @return L'ordre de tri correspondant.
+ */
+[[nodiscard]] std::int32_t depthSortOrder(float footWorldY) noexcept;
+
+/**
+ * @brief Compteurs d'une image composÃ©e, pour l'observabilitÃ© du volume soumis (`EX-NFR-005`).
+ */
+struct SceneStatistics {
+    /// Primitives examinÃ©es par la composition (avant culling).
+    int considered = 0;
+    /// Primitives Ã©cartÃ©es parce qu'invisibles (culling).
+    int culled = 0;
+    /// Primitives conservÃ©es, donc soumises au GPU.
+    int submitted = 0;
+    /// Passes `begin/end` nÃ©cessaires : nombre de groupes contigus de mÃªme texture.
+    int batches = 0;
+    /// MÃ©moire de texture des **plans picturaux** liÃ©s par cette image, en octets
+    /// (`EX-NFR-043`, `LOT-69` TACHE-09).
+    ///
+    /// Second axe d'observabilitÃ©, Ã  cÃ´tÃ© des compteurs de primitives : les plans ajoutent **un
+    /// seul quad** chacun mais occupent une texture Ã  l'Ã©chelle du niveau â un plafond exprimÃ© en
+    /// primitives ne les verrait pas grossir. Seuls les plans l'alimentent : les autres primitives
+    /// se partagent l'atlas, dont le coÃ»t ne dÃ©pend ni du niveau ni de leur nombre.
+    std::size_t textureBytes = 0;
+};
+
+/**
+ * @brief Liste **ordonnÃ©e** des primitives d'une image, indÃ©pendante de Direct3D.
+ *
+ * SÃ©pare la **composition** (quels quads, dans quel ordre, avec quelle texture â logique pure) de
+ * la **soumission** (`hmi::SpriteBatch`, GPU). C'est cette sÃ©paration qui rend l'ordre des
+ * calques, le regroupement par texture et le culling **assertables sans GPU** (`EX-NFR-004`),
+ * plutÃ´t que vÃ©rifiables Ã  l'Åil. MÃªme principe que `hmi::buildProceduralAtlasImage` (pur, testÃ©)
+ * vis-Ã -vis de `hmi::TextureAtlas` (GPU).
+ *
+ * Ordre de dessin, Ã©tabli par `sort()` : **calque** (`RenderLayer`, ordre fixe et prioritaire),
+ * puis **texture** (regroupement, dans l'ordre de premiÃ¨re apparition), puis `sortOrder`
+ * (`core::Sprite::layer`, tri fin existant) â **jamais** l'inverse : regrouper par texture ne doit
+ * pouvoir rÃ©ordonner deux primitives de calques diffÃ©rents sous aucun prÃ©texte. Le tri est
+ * **stable**, donc Ã  clÃ© Ã©gale l'ordre de composition est prÃ©servÃ©.
+ *
+ * Le regroupement se fait sur le **rang de premiÃ¨re apparition** de la texture, pas sur la valeur
+ * du pointeur : l'ordre de dessin de deux textures d'un mÃªme calque reste ainsi dÃ©terministe d'une
+ * exÃ©cution Ã  l'autre.
+ *
+ * L'instance est un **tampon rÃ©utilisÃ©** d'une image Ã  l'autre (`clear()` conserve la capacitÃ©) :
+ * la composition n'alloue plus aprÃ¨s les premiÃ¨res images, et le rendu ne paie aucun dÃ©tour
+ * d'inspection.
+ */
+class ComposedScene {
+public:
+    /**
+     * @brief Marge de culling, en unitÃ©s monde, ajoutÃ©e de chaque cÃ´tÃ© du cadrage visible.
+     *
+     * Une case entiÃ¨re : une entitÃ© Ã  cheval sur la frontiÃ¨re (personnage, dÃ©cor dÃ©bordant, effet)
+     * doit rester composÃ©e, sinon elle disparaÃ®trait avant d'Ãªtre sortie de l'Ã©cran.
+     */
+    static constexpr float CULLING_MARGIN_UNITS = 1.0f;
+
+    /// Vide la scÃ¨ne (capacitÃ© conservÃ©e) et remet les compteurs Ã  zÃ©ro. Le cadrage est conservÃ©.
+    void clear() noexcept;
+
+    /**
+     * @brief Restreint la composition aux primitives visibles dans un cadrage donnÃ©
+     *        (`EX-NFR-005`).
+     * @param worldBounds Rectangle cadrÃ© par la camÃ©ra, en unitÃ©s monde (la marge est ajoutÃ©e
+     *                    par la scÃ¨ne, l'appelant n'a pas Ã  la connaÃ®tre).
+     */
+    void setVisibleBounds(const core::Rect&amp; worldBounds) noexcept;
+
+    /// DÃ©sactive le culling : toutes les primitives ajoutÃ©es sont conservÃ©es.
+    void clearVisibleBounds() noexcept;
+
+    /// @return `true` si un cadrage a Ã©tÃ© fixÃ©, donc si le culling est actif.
+<span style = "background-color:#dfd">    [[nodiscard]] bool isCullingEnabled() const noexcept {
+        return _visibleBounds.has_value();
+    }</span>
+
+    /**
+     * @brief Rectangle rÃ©ellement utilisÃ© pour le culling : le cadrage Ã©largi de la marge.
+     * @pre `isCullingEnabled()`.
+     * @return Le cadrage augmentÃ© de `CULLING_MARGIN_UNITS` de chaque cÃ´tÃ©.
+     */
+    [[nodiscard]] core::Rect cullingBounds() const noexcept;
+
+    /**
+     * @brief Ajoute un rectangle texturÃ© Ã  la scÃ¨ne, s'il est visible.
+     * @param layer     Calque de dessin.
+     * @param texture   Texture liÃ©e (identitÃ© opaque).
+     * @param sortOrder Tri fin Ã  l'intÃ©rieur du calque et de la texture.
+     * @param quad      Primitive Ã  composer (unitÃ©s monde).
+     * @return `true` si la primitive a Ã©tÃ© conservÃ©e, `false` si le culling l'a Ã©cartÃ©e.
+     */
+    bool addSprite(RenderLayer layer, TextureHandle texture, std::int32_t sortOrder,
+                   const SpriteQuad&amp; quad);
+
+    /**
+     * @brief Ajoute un segment Ã©pais Ã  la scÃ¨ne, s'il est visible.
+     * @param layer     Calque de dessin.
+     * @param texture   Texture liÃ©e (identitÃ© opaque).
+     * @param sortOrder Tri fin Ã  l'intÃ©rieur du calque et de la texture.
+     * @param quad      Primitive Ã  composer (unitÃ©s monde).
+     * @return `true` si la primitive a Ã©tÃ© conservÃ©e, `false` si le culling l'a Ã©cartÃ©e.
+     */
+    bool addLine(RenderLayer layer, TextureHandle texture, std::int32_t sortOrder,
+                 const LineQuad&amp; quad);
+
+    /**
+     * @brief DÃ©clare la mÃ©moire de texture d'une primitive dÃ©jÃ  ajoutÃ©e (`EX-NFR-043`).
+     *
+     * SÃ©parÃ© de `addSprite` plutÃ´t qu'ajoutÃ© Ã  `hmi::SpriteQuad` : seuls les plans picturaux
+     * portent une texture dont la taille dÃ©pend du niveau, et grossir chaque primitive de la scÃ¨ne
+     * â atlas, damier, texte, particules â de deux champs jamais lus coÃ»terait sur le chemin
+     * parcouru des centaines de fois par image, pour une information qu'un seul Ã©metteur possÃ¨de.
+     * @param bytes Poids de la texture liÃ©e, en octets.
+     */
+    void addTextureBytes(std::size_t bytes) noexcept;
+
+    /// Ordonne la scÃ¨ne (calque, puis texture, puis `sortOrder`), de faÃ§on **stable**.
+    void sort();
+
+    /// @return Les primitives composÃ©es, dans l'ordre de dessin aprÃ¨s `sort()`.
+<span style = "background-color:#dfd">    [[nodiscard]] const std::vector&lt;ComposedQuad&gt;&amp; quads() const noexcept {
+        return _quads;
+    }</span>
+
+    /// @return Le nombre de primitives conservÃ©es.
+<span style = "background-color:#dfd">    [[nodiscard]] std::size_t size() const noexcept {
+        return _quads.size();
+    }</span>
+
+    /// @return Le nombre de passes `begin/end` : groupes **contigus** de mÃªme texture.
+    [[nodiscard]] int batchCount() const noexcept;
+
+    /// @return Les compteurs de l'image composÃ©e (`EX-NFR-005`).
+    [[nodiscard]] SceneStatistics statistics() const noexcept;
+
+private:
+    /// Rang de premiÃ¨re apparition d'une texture, ajoutÃ©e Ã  la table si elle est nouvelle.
+    [[nodiscard]] int textureRank(TextureHandle texture);
+    /// @return `true` si la boÃ®te englobante est visible (ou si le culling est dÃ©sactivÃ©).
+    [[nodiscard]] bool isVisible(const core::Rect&amp; bounds) const;
+
+    std::vector&lt;ComposedQuad&gt; _quads;
+    std::vector&lt;TextureHandle&gt; _textureOrder;
+    /// Cadrage **marge comprise**, calculÃ© une fois par `setVisibleBounds` : c'est le rectangle
+    /// comparÃ© Ã  chaque primitive, sur un chemin parcouru des centaines de fois par image.
+    std::optional&lt;core::Rect&gt; _visibleBounds;
+    int _considered = 0;
+    int _culled = 0;
+    std::size_t _textureBytes = 0;
+};
+
+/**
+ * @brief RÃ©sumÃ© des compteurs d'une image, pour la journalisation de diagnostic (`EX-NFR-005`).
+ * @param statistics Compteurs Ã  formater.
+ * @return Une ligne lisible : composÃ©es, Ã©cartÃ©es, soumises, passes.
+ */
+[[nodiscard]] std::string formatSceneStatistics(const SceneStatistics&amp; statistics);
+
+/**
+ * @brief BoÃ®te englobante d'un rectangle texturÃ©, en unitÃ©s monde.
+ * @param quad Primitive Ã  borner.
+ * @return Son rectangle englobant.
+ */
+[[nodiscard]] core::Rect spriteQuadBounds(const SpriteQuad&amp; quad) noexcept;
+
+/**
+ * @brief BoÃ®te englobante d'un segment Ã©pais, en unitÃ©s monde.
+ *
+ * Englobe les deux extrÃ©mitÃ©s **et** l'Ã©paisseur (Ã©largie d'une demi-Ã©paisseur de chaque cÃ´tÃ©) :
+ * un segment horizontal ou vertical aurait sinon une boÃ®te d'aire nulle, systÃ©matiquement Ã©cartÃ©e
+ * par le culling.
+ * @param quad Primitive Ã  borner.
+ * @return Son rectangle englobant.
+ */
+[[nodiscard]] core::Rect lineQuadBounds(const LineQuad&amp; quad) noexcept;
+
+/**
+ * @brief Compose les entitÃ©s affichables d'un monde ECS en primitives.
+ *
+ * Parcourt les entitÃ©s portant un `core::Transform` **et** un `core::Sprite`, rÃ©sout la rÃ©gion
+ * d'atlas en coordonnÃ©es de texture normalisÃ©es, applique l'interpolation de rendu
+ * (`hmi::PreviousPosition`) et empile un `hmi::SpriteQuad` par entitÃ©. Lecture **seule** de l'ECS
+ * (`EX-ARCH-012`) : ni la simulation ni l'interpolation ne sont affectÃ©es, y compris pour une
+ * entitÃ© Ã©cartÃ©e par le culling (elle reste simulÃ©e, elle n'est simplement pas dessinÃ©e).
+ *
+ * Le calque de chaque entitÃ© vient de son `hmi::RenderLayerTag`, ou vaut
+ * `hmi::DEFAULT_RENDER_LAYER` en son absence ; `core::Sprite::layer` reste le tri **fin** Ã 
+ * l'intÃ©rieur de ce calque.
+ *
+ * L'apparence de chaque entitÃ© â texture liÃ©e et rÃ©gion Ã©chantillonnÃ©e â est rÃ©solue **ici**, Ã  la
+ * composition, par `hmi::resolveTileAppearance` (`LOT-41`) : changer de mode de rendu ne
+ * reconstruit donc jamais la scÃ¨ne ECS.
+ * @param scene              ScÃ¨ne Ã  remplir (non vidÃ©e : la composition peut Ãªtre cumulative).
+ * @param world              Monde dont on lit `Transform`, `Sprite`, `PreviousPosition`,
+ *                           `RenderLayerTag`.
+ * @param mode               Mode de rendu courant (`EX-REN-046`).
+ * @param textures           Textures liables et leurs dimensions (atlas et damier de repli).
+ * @param interpolationAlpha Facteur d'interpolation `[0, 1[` entre le pas de simulation prÃ©cÃ©dent
+ *                           et le pas courant (`EX-ARCH-031`) ; `0` reproduit le rendu non
+ *                           interpolÃ©.
+ * @param visibility         Jeu de visibilitÃ©s par calque du mode d'inspection de l'Ã©diteur
+ *                           (`hmi::LayerVisibility`, `LOT-51`, `EX-EDIT-044`) : tout visible par
+ *                           dÃ©faut, donc sans effet pour `hmi::GameSession` qui ne le fournit
+ *                           jamais.
+ */
+void composeWorldSprites(ComposedScene&amp; scene, core::World&amp; world, RenderMode mode,
+                         const SceneTextures&amp; textures, float interpolationAlpha,
+                         const LayerVisibility&amp; visibility = LayerVisibility{});
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

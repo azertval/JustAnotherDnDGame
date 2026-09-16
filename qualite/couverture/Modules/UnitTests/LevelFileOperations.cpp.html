@@ -1,0 +1,173 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>LevelFileOperations.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#include "HMI/Editor/LevelFileOperations.h"
+
+#include &lt;algorithm&gt;
+#include &lt;system_error&gt;
+#include &lt;utility&gt;
+
+#include "Core/Levels/LevelDraft.h"
+#include "Core/Levels/LevelLoader.h"
+#include "Core/Levels/LevelWriter.h"
+#include "HMI/Editor/LevelNameValidation.h"
+
+namespace hmi {
+
+namespace {
+
+// Charge un niveau, en fait un brouillon renommÃ©, valide, Ã©crit Ã  `target`. Facteur commun Ã 
+// rename/duplicate. Renvoie un FileOperationResult (jamais d'exception).
+[[nodiscard]] FileOperationResult writeRenamed(const std::filesystem::path&amp; source,
+                                               const std::string&amp; newName,
+<span style = "background-color:#dfd">                                               const std::filesystem::path&amp; target) {
+    core::LevelLoadResult loaded = core::LevelLoader::loadFromFile(source);
+    if (!loaded.ok()) {</span>
+<span style = "background-color:#fdd">        return FileOperationResult::failure("Niveau source illisible : " + loaded.error);</span>
+    }
+<span style = "background-color:#dfd">    core::LevelDraft draft = core::LevelDraft::fromLevel(*loaded.level);
+    draft.setName(newName);
+    core::LevelLoadResult validated = draft.toLevel();
+    if (!validated.ok()) {</span>
+<span style = "background-color:#fdd">        return FileOperationResult::failure("Niveau invalide : " + validated.error);</span>
+    }
+<span style = "background-color:#dfd">    if (!core::LevelWriter::saveToFile(*validated.level, target)) {</span>
+<span style = "background-color:#fdd">        return FileOperationResult::failure("Ãchec de l'Ã©criture du fichier.");</span>
+    }
+<span style = "background-color:#dfd">    return FileOperationResult::success(target);
+}</span>
+
+}  // namespace
+
+LevelFileOperations::LevelFileOperations(std::filesystem::path levelsDir)
+<span style = "background-color:#dfd">    : _dir(std::move(levelsDir)) {}</span>
+
+<span style = "background-color:#dfd">std::filesystem::path LevelFileOperations::pathForName(const std::string&amp; name) const {
+    return _dir / (name + ".json");
+}</span>
+
+<span style = "background-color:#dfd">std::vector&lt;std::filesystem::path&gt; LevelFileOperations::list() const {
+    std::vector&lt;std::filesystem::path&gt; levels;
+    std::error_code error;
+    if (!std::filesystem::is_directory(_dir, error)) {</span>
+<span style = "background-color:#fdd">        return levels;  // dossier absent : liste vide (robustesse).</span>
+    }
+<span style = "background-color:#dfd">    for (const std::filesystem::directory_entry&amp; entry :
+         std::filesystem::directory_iterator(_dir, error)) {</span>
+        // "sequence-" est un prÃ©fixe rÃ©servÃ© aux fichiers de sÃ©quence de contenu (LOT-59
+        // TACHE-04, sequence-demo.json, EX-LVL-013), qui vivent volontairement Ã  cÃ´tÃ© des niveaux
+        // (le chargeur y vÃ©rifie que chaque niveau rÃ©fÃ©rencÃ© existe dans le mÃªme dossier) sans en
+        // Ãªtre un : les exclure Ã©vite qu'ils apparaissent comme un niveau ouvrable dans ce
+        // panneau (le format ne correspond pas, l'ouverture Ã©chouerait).
+<span style = "background-color:#dfd">        if (entry.is_regular_file(error) &amp;&amp; entry.path().extension() == ".json" &amp;&amp;</span>
+            entry.path().filename().string().rfind("sequence-", 0) != 0) {
+<span style = "background-color:#dfd">            levels.push_back(entry.path());
+        }
+    }
+    std::ranges::sort(levels, [](const auto&amp; lhs, const auto&amp; rhs) {
+        return lhs.filename().string() &lt; rhs.filename().string();
+    });
+    return levels;
+}</span>
+
+FileOperationResult LevelFileOperations::create(const std::string&amp; name, int width,
+<span style = "background-color:#dfd">                                                int height) const {
+    const std::string trimmed = hmi::trimLevelName(name);
+    if (!hmi::isValidLevelName(name)) {
+        return FileOperationResult::failure("Nom de niveau invalide.");</span>
+    }
+<span style = "background-color:#dfd">    if (width &lt; 2 || height &lt; 1) {</span>
+<span style = "background-color:#fdd">        return FileOperationResult::failure("Dimensions trop petites.");</span>
+    }
+<span style = "background-color:#dfd">    const std::filesystem::path target = pathForName(trimmed);
+    std::error_code error;
+    if (std::filesystem::exists(target, error)) {
+        return FileOperationResult::failure("Un niveau porte dÃ©jÃ  ce nom.");</span>
+    }
+    // Niveau minimal valide : grille vide + une entrÃ©e et une sortie distinctes (coins bas).
+<span style = "background-color:#dfd">    core::LevelDraft draft = core::LevelDraft::empty(trimmed, width, height);
+    draft.setEntry(0, height - 1);
+    draft.setExit(width - 1, height - 1);
+    core::LevelLoadResult validated = draft.toLevel();
+    if (!validated.ok()) {</span>
+<span style = "background-color:#fdd">        return FileOperationResult::failure("Niveau invalide : " + validated.error);</span>
+    }
+<span style = "background-color:#dfd">    if (!core::LevelWriter::saveToFile(*validated.level, target)) {</span>
+<span style = "background-color:#fdd">        return FileOperationResult::failure("Ãchec de l'Ã©criture du fichier.");</span>
+    }
+<span style = "background-color:#dfd">    return FileOperationResult::success(target);
+}</span>
+
+FileOperationResult LevelFileOperations::rename(const std::filesystem::path&amp; source,
+<span style = "background-color:#dfd">                                                const std::string&amp; newName) const {
+    std::error_code error;
+    if (!std::filesystem::exists(source, error)) {</span>
+<span style = "background-color:#fdd">        return FileOperationResult::failure("Niveau introuvable.");</span>
+    }
+<span style = "background-color:#dfd">    const std::string trimmed = hmi::trimLevelName(newName);
+    if (!hmi::isValidLevelName(newName)) {</span>
+<span style = "background-color:#fdd">        return FileOperationResult::failure("Nom de niveau invalide.");</span>
+    }
+<span style = "background-color:#dfd">    const std::filesystem::path target = pathForName(trimmed);
+    if (target != source &amp;&amp; std::filesystem::exists(target, error)) {</span>
+<span style = "background-color:#fdd">        return FileOperationResult::failure("Un niveau porte dÃ©jÃ  ce nom.");</span>
+    }
+<span style = "background-color:#dfd">    const FileOperationResult written = writeRenamed(source, trimmed, target);
+    if (written.ok() &amp;&amp; target != source) {
+        std::filesystem::remove(source, error);  // retire l'ancien fichier (Ã©chec non bloquant).</span>
+    }
+<span style = "background-color:#dfd">    return written;
+}</span>
+
+<span style = "background-color:#dfd">FileOperationResult LevelFileOperations::duplicate(const std::filesystem::path&amp; source) const {
+    std::error_code error;
+    if (!std::filesystem::exists(source, error)) {</span>
+<span style = "background-color:#fdd">        return FileOperationResult::failure("Niveau introuvable.");</span>
+    }
+<span style = "background-color:#dfd">    const std::string base = source.stem().string();</span>
+    // Cherche un nom de copie disponible : Â« base (copie) Â», Â« base (copie 2) Â», â¦
+<span style = "background-color:#dfd">    std::string candidate = base + " (copie)";
+    for (int index = 2; std::filesystem::exists(pathForName(candidate), error); ++index) {
+        candidate = base + " (copie " + std::to_string(index) + ")";
+    }
+    return writeRenamed(source, candidate, pathForName(candidate));
+}</span>
+
+<span style = "background-color:#dfd">FileOperationResult LevelFileOperations::remove(const std::filesystem::path&amp; source) {
+    std::error_code error;
+    if (!std::filesystem::exists(source, error)) {</span>
+<span style = "background-color:#fdd">        return FileOperationResult::failure("Niveau introuvable.");</span>
+    }
+<span style = "background-color:#dfd">    if (!std::filesystem::remove(source, error)) {</span>
+<span style = "background-color:#fdd">        return FileOperationResult::failure("Ãchec de la suppression.");</span>
+    }
+<span style = "background-color:#dfd">    return FileOperationResult::success(source);
+}</span>
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

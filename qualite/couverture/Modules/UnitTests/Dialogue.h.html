@@ -1,0 +1,514 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>Dialogue.h</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#pragma once
+
+/**
+ * @file Core/Rpg/Dialogue.h
+ * @brief Les dialogues : un graphe de nÅuds Ã©crit en JSON, validÃ© au chargement, et la machine Ã 
+ *        Ã©tats pure qui le joue (`LOT-15`, `EX-VIS-003`, `EX-RPG-042`).
+ */
+
+#include &lt;cstddef&gt;
+#include &lt;filesystem&gt;
+#include &lt;functional&gt;
+#include &lt;optional&gt;
+#include &lt;string&gt;
+#include &lt;string_view&gt;
+#include &lt;vector&gt;
+
+#include "Core/Levels/GridPosition.h"
+#include "Core/Levels/MapEntity.h"
+#include "Core/Math/DeterministicRandom.h"
+#include "Core/Rpg/Check.h"
+
+namespace core {
+
+class WorldFlags;
+struct SkillCatalog;
+struct CharacterSheet;
+struct Inventory;
+struct ExperienceTable;
+
+// ---------------------------------------------------------------------------------------------
+// Le graphe
+// ---------------------------------------------------------------------------------------------
+
+/**
+ * @brief Ce que fait un nÅud.
+ *
+ * Deux natures, et la diffÃ©rence compte pour la validation : une **rÃ©plique** attend le joueur,
+ * les trois nÅuds **automatiques** (condition, action, jet) s'enchaÃ®nent sans lui, et `End` clÃ´t.
+ * Un cycle qui ne passe par aucune rÃ©plique Ã  choix tournerait sans fin â c'est la dÃ©finition du
+ * Â« cycle non intentionnel Â» que le chargement refuse.
+ */
+enum class DialogueNodeKind {
+    /// L'interlocuteur parle ; le joueur rÃ©pond par un choix, ou continue.
+    Line,
+    /// Un drapeau de monde oriente la suite.
+    Condition,
+    /// Des effets sur le monde : poser un drapeau, donner un objet, dÃ©marrer une quÃªte.
+    Action,
+    /// Un jet de compÃ©tence contre un degrÃ© de difficultÃ©, et ses deux suites.
+    Check,
+    /// La conversation se termine.
+    End,
+};
+
+/**
+ * @brief L'attitude de l'interlocuteur, dans le vocabulaire des rÃ¨gles : amical, indiffÃ©rent,
+ *        hostile (*Guide du MaÃ®tre*, Â« Interactions sociales Â»).
+ */
+enum class DialogueAttitude {
+    Friendly,
+    Indifferent,
+    Hostile,
+};
+
+/// @brief Â« Le drapeau @c flag est levÃ© Â» â ou, si @c expected est faux, Â« ne l'est pas Â».
+struct FlagCondition {
+    std::string flag;
+    bool expected = true;
+
+    /// @brief Vrai si les drapeaux satisfont la condition.
+    [[nodiscard]] bool holds(const WorldFlags&amp; flags) const;
+};
+
+/// @brief Une rÃ©ponse proposÃ©e au joueur.
+struct DialogueChoice {
+    /// Identifiant, unique dans sa rÃ©plique : il fabrique la clÃ© de traduction.
+    std::string id;
+    /// NÅud oÃ¹ mÃ¨ne la rÃ©ponse.
+    std::string next;
+    /// Absente : la rÃ©ponse est toujours proposÃ©e. PrÃ©sente : proposÃ©e seulement si elle tient.
+    std::optional&lt;FlagCondition&gt; condition;
+};
+
+/// @brief Ce qu'un nÅud d'action fait au monde.
+enum class DialogueActionKind {
+    SetFlag,
+    ClearFlag,
+    /// Donne un objet Ã  l'interlocuteur du PNJ (`core::DialogueListener::receiveItem`).
+    GiveItem,
+    /// DÃ©marre une quÃªte : pose `core::questStartedFlag(id)`, que le `LOT-16` lira.
+    StartQuest,
+};
+
+/// @brief Un effet d'un nÅud d'action.
+struct DialogueAction {
+    DialogueActionKind kind = DialogueActionKind::SetFlag;
+    /// Le drapeau, l'objet ou la quÃªte visÃ©.
+    std::string target;
+    /// Pour `GiveItem` seulement.
+    int quantity = 1;
+};
+
+/**
+ * @brief Un nÅud du graphe.
+ *
+ * Une structure unique plutÃ´t qu'une hiÃ©rarchie : les cinq natures partagent l'identifiant et la
+ * suite, et un graphe se parcourt, se valide et se sÃ©rialise mieux Ã  plat. Seuls les champs de sa
+ * nature sont renseignÃ©s.
+ */
+struct DialogueNode {
+    std::string id;
+    DialogueNodeKind kind = DialogueNodeKind::End;
+
+    /// `Line` : les rÃ©ponses. Vide si la rÃ©plique n'a qu'une suite (`next`).
+    std::vector&lt;DialogueChoice&gt; choices;
+    /// `Line` sans rÃ©ponses, et `Action` : le nÅud suivant.
+    std::string next;
+    /// `Line` : l'attitude le temps de cette rÃ©plique ; absente, celle du graphe.
+    std::optional&lt;DialogueAttitude&gt; attitude;
+
+    /// `Condition` : ce qui est testÃ©, et les deux suites.
+    FlagCondition condition;
+    std::string whenTrue;
+    std::string whenFalse;
+
+    /// `Action` : les effets, dans l'ordre.
+    std::vector&lt;DialogueAction&gt; actions;
+
+    /// `Check` : la compÃ©tence, le degrÃ© de difficultÃ© (**nommÃ©**, jamais un nombre), les suites.
+    std::string skill;
+    std::string difficulty;
+    std::string onSuccess;
+    std::string onFailure;
+};
+
+/**
+ * @brief Un dialogue : l'interlocuteur et le graphe de sa conversation.
+ *
+ * **Le graphe ne porte aucun texte.** Chaque rÃ©plique, chaque rÃ©ponse et le nom de
+ * l'interlocuteur ont une clÃ© **fabriquÃ©e** depuis les identifiants (`dialogueLineKey`,
+ * `dialogueChoiceKey`, `dialogueSpeakerKey`), rÃ©solue dans le catalogue de traduction
+ * (`EX-REN-033`). Un texte Ã©crit dans le JSON serait du franÃ§ais en dur ; une clÃ© Ã©crite Ã  la main
+ * pourrait Ãªtre fausse. FabriquÃ©e, elle ne peut qu'exister ou manquer, et un test vÃ©rifie qu'elle
+ * existe dans les deux langues.
+ */
+struct DialogueGraph {
+    std::string id;
+    /// Le nÅud d'entrÃ©e.
+    std::string start;
+    /// Les langues de l'interlocuteur. Aucune en commun avec le personnage : dialogue refusÃ©.
+    std::vector&lt;std::string&gt; speakerLanguages;
+    /// L'attitude de dÃ©part de l'interlocuteur.
+    DialogueAttitude attitude = DialogueAttitude::Indifferent;
+    std::vector&lt;DialogueNode&gt; nodes;
+
+    /// @brief Le nÅud portant cet identifiant, ou `nullptr`.
+    [[nodiscard]] const DialogueNode* find(std::string_view nodeId) const;
+};
+
+/// @brief Identifiant de la rÃ©ponse implicite d'une rÃ©plique sans choix : Â« Continuer Â».
+inline constexpr std::string_view DIALOGUE_CONTINUE_CHOICE = "continue";
+/// @brief ClÃ© de traduction de la rÃ©ponse implicite.
+inline constexpr std::string_view DIALOGUE_CONTINUE_KEY = "dialogue.continue";
+
+/// @brief `dialogue.&lt;dialogue&gt;.speaker` â le nom de l'interlocuteur.
+[[nodiscard]] std::string dialogueSpeakerKey(std::string_view dialogueId);
+/// @brief `dialogue.&lt;dialogue&gt;.&lt;nÅud&gt;` â le texte d'une rÃ©plique.
+[[nodiscard]] std::string dialogueLineKey(std::string_view dialogueId, std::string_view nodeId);
+/// @brief `dialogue.&lt;dialogue&gt;.&lt;nÅud&gt;.&lt;rÃ©ponse&gt;` â le texte d'une rÃ©ponse.
+[[nodiscard]] std::string dialogueChoiceKey(std::string_view dialogueId, std::string_view nodeId,
+                                            std::string_view choiceId);
+/// @brief `dialogue.attitude.&lt;friendly|indifferent|hostile&gt;`.
+[[nodiscard]] std::string dialogueAttitudeKey(DialogueAttitude attitude);
+/// @brief `friendly`, `indifferent`, `hostile` â le mot de la donnÃ©e.
+[[nodiscard]] std::string_view dialogueAttitudeName(DialogueAttitude attitude) noexcept;
+
+/**
+ * @brief Toutes les clÃ©s de traduction qu'un graphe rÃ©clame, sans doublon.
+ *
+ * Celles qu'il **fabrique** â interlocuteur, rÃ©pliques, rÃ©ponses, attitudes employÃ©es â et la
+ * rÃ©ponse implicite s'il en a l'usage. C'est la liste qu'un test confronte aux deux catalogues.
+ */
+[[nodiscard]] std::vector&lt;std::string&gt; dialogueTextKeys(const DialogueGraph&amp; graph);
+
+/**
+ * @brief `quest/&lt;quÃªte&gt;/started` â le drapeau qu'une action Â« dÃ©marrer une quÃªte Â» pose.
+ *
+ * Les quÃªtes lisent des drapeaux (`LOT-16`, note de conception) : dÃ©marrer une quÃªte depuis un
+ * dialogue n'a donc besoin d'aucun objet quÃªte, et le journal du `LOT-16` n'aura qu'Ã  lire ce
+ * drapeau. Une clÃ© fabriquÃ©e, pour que les deux lots ne puissent pas l'Ã©crire diffÃ©remment.
+ */
+[[nodiscard]] std::string questStartedFlag(std::string_view questId);
+
+// ---------------------------------------------------------------------------------------------
+// Le chargement, et ce qu'il refuse
+// ---------------------------------------------------------------------------------------------
+
+/**
+ * @brief Un dialogue lu, ou ce qui l'en empÃªche.
+ *
+ * **Un graphe mal formÃ© n'est pas un graphe** : dÃ¨s qu'une erreur est relevÃ©e, `graph` reste vide.
+ * Toutes les erreurs sont listÃ©es d'un coup, chacune nommant son fichier et son nÅud â un auteur
+ * qui corrige une faute pour dÃ©couvrir la suivante au chargement d'aprÃ¨s perd son aprÃ¨s-midi.
+ */
+struct DialogueLoad {
+    std::optional&lt;DialogueGraph&gt; graph;
+    std::vector&lt;std::string&gt; errors;
+};
+
+/**
+ * @brief Lit et **valide** un dialogue.
+ *
+ * RefusÃ© au chargement, jamais dÃ©couvert en jeu :
+ *
+ * - un champ manquant, une nature de nÅud inconnue, deux nÅuds de mÃªme identifiant ;
+ * - un **nÅud cible inconnu** â entrÃ©e, rÃ©ponse, suite, branche de condition ou de jet ;
+ * - un **choix vide** : une rÃ©plique dont la liste de rÃ©ponses existe mais est vide, une rÃ©ponse
+ *   sans identifiant, deux rÃ©ponses de mÃªme identifiant, ou une rÃ©plique dont **toutes** les
+ *   rÃ©ponses sont conditionnelles â que les drapeaux les masquent toutes, et le joueur resterait
+ *   devant une rÃ©plique sans issue ;
+ * - un **cycle non intentionnel** : une boucle qui ne passe par aucune rÃ©plique Ã  rÃ©ponses. Une
+ *   boucle qui revient Ã  une rÃ©plique Ã  rÃ©ponses est un Â« hub Â» voulu (Â« Autre chose ? Â») ; une
+ *   boucle de conditions et d'actions tournerait sans fin, et une boucle de rÃ©pliques sans rÃ©ponse
+ *   enfermerait le joueur dans un monologue ;
+ * - un **nÅud orphelin**, que rien n'atteint depuis l'entrÃ©e â presque toujours une faute de
+ *   frappe dans une cible ;
+ * - une **impasse** : un nÅud d'oÃ¹ aucune fin n'est atteignable.
+ *
+ * @param json   Le texte du document.
+ * @param origin Le nom du fichier, pour les messages.
+ */
+[[nodiscard]] DialogueLoad readDialogue(std::string_view json, std::string_view origin);
+
+/// @brief `readDialogue` depuis un fichier.
+[[nodiscard]] DialogueLoad loadDialogue(const std::filesystem::path&amp; path);
+
+/**
+ * @brief Les catalogues contre lesquels un dialogue vÃ©rifie ce qu'il **nomme**.
+ *
+ * Un catalogue absent (pointeur nul, fonction vide) n'est pas vÃ©rifiÃ© : le test d'un graphe n'a
+ * pas Ã  charger les deux cents objets du jeu pour Ã©prouver une condition.
+ */
+struct DialogueReferences {
+    const SkillCatalog* skills = nullptr;
+    const DifficultyScale* difficulty = nullptr;
+    std::function&lt;bool(std::string_view)&gt; itemExists;
+    std::function&lt;bool(std::string_view)&gt; languageExists;
+};
+
+/**
+ * @brief Les rÃ©fÃ©rences d'un graphe que les catalogues ne connaissent pas.
+ *
+ * Une compÃ©tence mal orthographiÃ©e, un degrÃ© de difficultÃ© inventÃ©, un objet ou une langue
+ * inconnus : chacun ferait un jet contre rien ou un cadeau vide, ce qui se joue et ne se voit pas.
+ */
+[[nodiscard]] std::vector&lt;std::string&gt; validateDialogueReferences(
+    const DialogueGraph&amp; graph, const DialogueReferences&amp; references);
+
+/// @brief Les dialogues d'un dossier, et ce qui n'a pas pu l'Ãªtre.
+struct DialogueCatalog {
+    std::vector&lt;DialogueGraph&gt; dialogues;
+    std::vector&lt;std::string&gt; errors;
+
+    /// @brief Le dialogue portant cet identifiant, ou `nullptr`.
+    [[nodiscard]] const DialogueGraph* find(std::string_view id) const;
+};
+
+/**
+ * @brief Charge les dialogues de @p directory (`Source/Elements/World/dialogues`).
+ *
+ * Un fichier refusÃ© n'empÃªche pas les autres de se charger ; son identifiant doit Ãªtre le nom du
+ * fichier, pour qu'un dialogue se retrouve depuis la carte qui le nomme. Ne lÃ¨ve jamais.
+ */
+[[nodiscard]] DialogueCatalog loadDialogues(const std::filesystem::path&amp; directory);
+
+// ---------------------------------------------------------------------------------------------
+// Qui Ã©coute
+// ---------------------------------------------------------------------------------------------
+
+/**
+ * @brief Celui qui parle **au** PNJ, tel que le runner a besoin de le connaÃ®tre.
+ *
+ * Trois questions et un geste, rien de plus : le runner ne voit ni fiche, ni inventaire, ni groupe.
+ * Le jour oÃ¹ le groupe de quatre existera (`LOT-29`), Â« connaÃ®t-il cette langue Â» deviendra Â« l'un
+ * d'eux la connaÃ®t-il Â» dans une autre implÃ©mentation, et le runner n'en saura rien.
+ */
+class DialogueListener {
+public:
+<span style = "background-color:#dfd">    DialogueListener() = default;
+    virtual ~DialogueListener() = default;</span>
+    DialogueListener(const DialogueListener&amp;) = delete;
+    DialogueListener&amp; operator=(const DialogueListener&amp;) = delete;
+    DialogueListener(DialogueListener&amp;&amp;) = delete;
+    DialogueListener&amp; operator=(DialogueListener&amp;&amp;) = delete;
+
+    /// @return Vrai s'il parle cette langue.
+    [[nodiscard]] virtual bool speaks(std::string_view languageId) const = 0;
+    /// @return Les modificateurs d'un jet de cette compÃ©tence, avec leur origine.
+    [[nodiscard]] virtual std::vector&lt;Modifier&gt; skillModifiers(std::string_view skillId) const = 0;
+    /// ReÃ§oit un objet que le PNJ lui donne.
+    virtual void receiveItem(std::string_view itemId, int quantity) = 0;
+};
+
+/**
+ * @brief Un personnage, sa fiche et son sac, comme interlocuteur d'un PNJ.
+ *
+ * Le modificateur de compÃ©tence est celui de la fiche (`core::skillModifier`) : caractÃ©ristique,
+ * plus la maÃ®trise si la compÃ©tence est maÃ®trisÃ©e â une seule rÃ¨gle pour la fiche affichÃ©e et pour
+ * le jet jouÃ©.
+ */
+class CharacterListener final : public DialogueListener {
+public:
+    CharacterListener(const CharacterSheet&amp; sheet, Inventory&amp; inventory,
+                      const ExperienceTable&amp; experience, const SkillCatalog&amp; skills);
+
+    [[nodiscard]] bool speaks(std::string_view languageId) const override;
+    [[nodiscard]] std::vector&lt;Modifier&gt; skillModifiers(std::string_view skillId) const override;
+    void receiveItem(std::string_view itemId, int quantity) override;
+
+private:
+    const CharacterSheet&amp; _sheet;
+    Inventory&amp; _inventory;
+    const ExperienceTable&amp; _experience;
+    const SkillCatalog&amp; _skills;
+};
+
+// ---------------------------------------------------------------------------------------------
+// Le runner
+// ---------------------------------------------------------------------------------------------
+
+/// @brief OÃ¹ en est une conversation.
+enum class DialogueState {
+    /// `start` n'a pas encore Ã©tÃ© appelÃ©.
+    NotStarted,
+    /// Une rÃ©plique est affichÃ©e, le joueur doit rÃ©pondre.
+    AwaitingChoice,
+    /// La conversation a atteint une fin.
+    Ended,
+    /// Elle n'a pas eu lieu : aucune langue commune (`EX-RPG-042`).
+    Refused,
+};
+
+/// @brief Une rÃ©ponse que le joueur peut donner **maintenant**, conditions Ã©valuÃ©es.
+struct AvailableChoice {
+    std::string id;
+    std::string textKey;
+    /// Si la rÃ©ponse mÃ¨ne Ã  un jet : la compÃ©tence jetÃ©e â l'Ã©cran l'annonce avant qu'on la
+    /// choisisse, comme une table l'annonce (Â« [Persuasion] Â»). Vide sinon.
+    std::string checkSkill;
+};
+
+/// @brief Ce qu'une rÃ©ponse a produit.
+enum class ChoiceResult {
+    /// La conversation a avancÃ©.
+    Advanced,
+    /// Aucune rÃ©ponse proposÃ©e ne porte cet identifiant â ou sa condition ne tient plus.
+    Unavailable,
+    /// Aucune rÃ©plique n'attend de rÃ©ponse.
+    NotAwaiting,
+};
+
+/// @brief Un jet de compÃ©tence jouÃ© en conversation, de quoi le restituer (`EX-REG-003`).
+struct DialogueCheck {
+    std::string nodeId;
+    std::string skill;
+    std::string difficulty;
+    CheckResult result;
+};
+
+/**
+ * @brief La machine Ã  Ã©tats qui **joue** un dialogue.
+ *
+ * ## Pure, et c'est tout son intÃ©rÃªt
+ *
+ * Elle ne connaÃ®t ni Qt, ni le rendu, ni le monde : elle consomme un graphe, des drapeaux, un
+ * interlocuteur et une suite alÃ©atoire, et produit une rÃ©plique courante et des rÃ©ponses. Un
+ * dialogue se joue donc **en test**, nÅud par nÅud, sans fenÃªtre : c'est ce qui permet de vÃ©rifier
+ * un arbre de vingt nÅuds sans le cliquer. L'Ã©cran n'affiche que ce qu'elle dÃ©cide.
+ *
+ * ## Le joueur ne s'arrÃªte que sur une rÃ©plique
+ *
+ * Conditions, actions et jets s'enchaÃ®nent **dans le mÃªme appel** jusqu'Ã  la prochaine rÃ©plique ou
+ * Ã  la fin : l'Ã©cran ne voit jamais un nÅud automatique, et une conversation n'a que deux Ã©tats
+ * observables â une rÃ©plique qui attend, ou une fin.
+ *
+ * ## Rejouable
+ *
+ * La suite alÃ©atoire est **fournie** et le runner n'en crÃ©e aucune : Ã  graine Ã©gale, les mÃªmes
+ * rÃ©ponses donnent les mÃªmes jets. Le journal (`journal`) retrace chaque nÅud traversÃ©, chaque
+ * effet et chaque jet dÃ©taillÃ© â c'est lui qu'un test compare.
+ *
+ * Les rÃ©fÃ©rences (graphe, drapeaux, interlocuteur, Ã©chelle, suite) doivent survivre au runner.
+ */
+class DialogueRunner {
+public:
+    DialogueRunner(const DialogueGraph&amp; graph, WorldFlags&amp; flags, DialogueListener&amp; listener,
+                   const DifficultyScale&amp; difficulty, DeterministicRandom&amp; random);
+
+    /**
+     * @brief Ouvre la conversation.
+     *
+     * **RefusÃ©e** si l'interlocuteur ne parle aucune des langues du PNJ : rien n'est alors jouÃ©,
+     * aucun drapeau n'est posÃ©. Sinon, avance jusqu'Ã  la premiÃ¨re rÃ©plique.
+     * Sans effet si la conversation est dÃ©jÃ  ouverte.
+     */
+    DialogueState start();
+
+    /// @brief Donne la rÃ©ponse @p choiceId, puis avance jusqu'Ã  la rÃ©plique suivante ou la fin.
+    ChoiceResult choose(std::string_view choiceId);
+
+<span style = "background-color:#dfd">    [[nodiscard]] DialogueState state() const noexcept {
+        return _state;
+    }</span>
+
+    /// @return La rÃ©plique affichÃ©e, ou `nullptr` si aucune n'attend.
+    [[nodiscard]] const DialogueNode* currentLine() const;
+    /// @return La clÃ© de traduction de la rÃ©plique affichÃ©e, ou une chaÃ®ne vide.
+    [[nodiscard]] std::string lineKey() const;
+    /// @return L'attitude courante : celle de la rÃ©plique si elle en dÃ©clare une, sinon celle du
+    ///         graphe.
+    [[nodiscard]] DialogueAttitude attitude() const;
+    /// @return Les rÃ©ponses proposÃ©es **maintenant**, dans l'ordre de la donnÃ©e, conditions
+    ///         Ã©valuÃ©es. Vide si aucune rÃ©plique n'attend.
+    [[nodiscard]] std::vector&lt;AvailableChoice&gt; choices() const;
+    /// @return Le jet de compÃ©tence jouÃ© par le **dernier geste** (ouverture ou rÃ©ponse), s'il y
+    ///         en a eu un â l'Ã©cran l'annonce sur la rÃ©plique qui en dÃ©coule, pas sur les
+    ///         suivantes.
+<span style = "background-color:#dfd">    [[nodiscard]] const std::optional&lt;DialogueCheck&gt;&amp; lastCheck() const noexcept {
+        return _lastCheck;
+    }</span>
+    /// @return Le journal de la conversation, une ligne par nÅud, effet ou jet.
+<span style = "background-color:#dfd">    [[nodiscard]] const std::vector&lt;std::string&gt;&amp; journal() const noexcept {
+        return _journal;
+    }
+    [[nodiscard]] const DialogueGraph&amp; graph() const noexcept {
+        return _graph;
+    }</span>
+
+private:
+    void advanceTo(const std::string&amp; nodeId);
+    void apply(const DialogueAction&amp; action);
+    void runCheck(const DialogueNode&amp; node);
+
+    const DialogueGraph&amp; _graph;
+    WorldFlags&amp; _flags;
+    DialogueListener&amp; _listener;
+    const DifficultyScale&amp; _difficulty;
+    DeterministicRandom&amp; _random;
+
+<span style = "background-color:#dfd">    DialogueState _state = DialogueState::NotStarted;
+    const DialogueNode* _current = nullptr;</span>
+    std::optional&lt;DialogueCheck&gt; _lastCheck;
+    std::vector&lt;std::string&gt; _journal;
+    /// NÅuds automatiques traversÃ©s depuis le dernier geste â la garde contre une donnÃ©e qui aurait
+    /// Ã©chappÃ© Ã  la validation.
+<span style = "background-color:#dfd">    std::size_t _automaticSteps = 0;</span>
+};
+
+// ---------------------------------------------------------------------------------------------
+// Sur la carte
+// ---------------------------------------------------------------------------------------------
+
+/// @brief Type d'entitÃ© de carte d'un PNJ.
+inline constexpr std::string_view NPC_ENTITY_TYPE = "npc";
+/// @brief PropriÃ©tÃ© d'un PNJ qui nomme son dialogue.
+inline constexpr std::string_view NPC_DIALOGUE_PROPERTY = "dialogue";
+
+/// @brief Un PNJ relevÃ© sur la carte, et le dialogue qu'il ouvre.
+struct DialogueTrigger {
+    std::string dialogueId;
+    GridPosition position;
+};
+
+/**
+ * @brief Lit @p entity comme un PNJ Ã  qui parler, s'il en est un.
+ *
+ * Un PNJ **sans** dialogue n'est pas un dÃ©clencheur : il se voit et ne rÃ©pond pas. Le refuser
+ * comme carte invalide ferait disparaÃ®tre un figurant dont le dialogue n'est pas encore Ã©crit.
+ *
+ * @return Le dÃ©clencheur, ou `std::nullopt` si l'entitÃ© n'est pas un PNJ ou ne nomme aucun
+ *         dialogue.
+ */
+[[nodiscard]] std::optional&lt;DialogueTrigger&gt; dialogueTriggerFor(const MapEntity&amp; entity);
+
+}  // namespace core</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

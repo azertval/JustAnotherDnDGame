@@ -1,0 +1,152 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>PixelHistory.h</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#pragma once
+
+#include &lt;cstddef&gt;
+#include &lt;string_view&gt;
+#include &lt;vector&gt;
+
+#include "HMI/Editor/PixelOperations.h"
+
+/**
+ * @file HMI/Editor/PixelHistory.h
+ * @brief Historique nommÃ©, annulation et rÃ©tablissement du canevas pixel art (LOT-54 TACHE-02).
+ *
+ * **Local au canevas**, totalement indÃ©pendant de `core::LevelDraft` : annuler un coup de pinceau
+ * n'annule jamais une action d'Ã©dition de niveau, et rÃ©ciproquement (critÃ¨re d'acceptation du
+ * lot). Sans dÃ©pendance Qt/GPU (`EX-NFR-010`).
+ */
+
+namespace hmi {
+
+/**
+ * @brief Type d'une opÃ©ration d'historique â dÃ©termine sa clÃ© de traduction (`EX-REN-033`).
+ *
+ * Ce nom sert deux fois : dans le libellÃ© de l'action Â« Annuler *â¦* Â» (TACHE-04) et dans le
+ * panneau d'historique visuel. D'autres membres rejoignent cette Ã©numÃ©ration aux tÃ¢ches
+ * suivantes (dÃ©placement de rÃ©gion, symÃ©tries, rotations, coller â TACHE-06).
+ */
+enum class PixelOperationKind {
+    Brush,
+    Eraser,
+    Fill,
+    // Outils de rÃ©gion (LOT-54 TACHE-06).
+    Move,
+    FlipHorizontal,
+    FlipVertical,
+    RotateClockwise,
+    RotateCounterClockwise,
+    Paste,
+};
+
+/**
+ * @brief ClÃ© de traduction dÃ©crivant une opÃ©ration.
+ * @param kind Type d'opÃ©ration.
+ * @return La clÃ© (existe dans les deux catalogues, `fr.lang`/`en.lang`).
+ */
+[[nodiscard]] std::string_view pixelOperationTranslationKey(PixelOperationKind kind) noexcept;
+
+/**
+ * @brief Une entrÃ©e d'historique : la rÃ©gion affectÃ©e, son contenu avant et aprÃ¨s l'opÃ©ration.
+ *
+ * MÃ©moriser la rÃ©gion plutÃ´t qu'une copie complÃ¨te de l'image borne le coÃ»t mÃ©moire de
+ * l'historique (Ã©pic, section Â« DÃ©coupage Â» TACHE-02). `before`/`after` ont pour taille
+ * `region.width() * region.height()` (capturÃ©s via `hmi::readRegion`).
+ */
+struct PixelHistoryEntry {
+    PixelOperationKind kind = PixelOperationKind::Brush;
+    PixelRegion region;
+    std::vector&lt;std::uint32_t&gt; before;
+    std::vector&lt;std::uint32_t&gt; after;
+};
+
+/**
+ * @brief Pile d'annulation/rÃ©tablissement nommÃ©e d'un canevas pixel art.
+ *
+ * MÃªme sÃ©mantique que l'historique de `core::LevelDraft` (deux piles, la nouvelle opÃ©ration aprÃ¨s
+ * une annulation vide la pile de rÃ©tablissement) â mais un tampon de pixels et un
+ * `core::LevelDraft` sont deux mondes disjoints, d'oÃ¹ une classe sÃ©parÃ©e plutÃ´t qu'un partage de
+ * code qui les couplerait.
+ */
+class PixelHistory {
+public:
+    /// @param maxDepth Nombre maximal d'entrÃ©es conservÃ©es dans la pile d'annulation ; au-delÃ ,
+    ///                 les plus anciennes sont oubliÃ©es (coÃ»t mÃ©moire bornÃ©).
+    explicit PixelHistory(std::size_t maxDepth = 100);
+
+    /**
+     * @brief Enregistre une opÃ©ration dÃ©jÃ  appliquÃ©e au tampon.
+     *
+     * Vide la pile de rÃ©tablissement (une branche de refaire abandonnÃ©e ne redevient jamais
+     * valide aprÃ¨s une nouvelle opÃ©ration â historique linÃ©aire classique). Si la profondeur
+     * dÃ©passe `maxDepth`, l'entrÃ©e la plus ancienne est oubliÃ©e : l'Ã©tat courant du tampon n'est
+     * jamais affectÃ©, seule la portÃ©e de l'annulation recule.
+     */
+    void push(PixelOperationKind kind, PixelRegion region, std::vector&lt;std::uint32_t&gt; before,
+              std::vector&lt;std::uint32_t&gt; after);
+
+    /// Annule la derniÃ¨re opÃ©ration sur @p image. @return `false`, sans effet, si `!canUndo()`.
+    bool undo(DecodedImage&amp; image);
+
+    /// RÃ©tablit la derniÃ¨re opÃ©ration annulÃ©e sur @p image. @return `false`, sans effet, si
+    /// `!canRedo()`.
+    bool redo(DecodedImage&amp; image);
+
+    /**
+     * @brief Revient Ã  l'Ã©tat immÃ©diatement aprÃ¨s l'entrÃ©e @p index de `appliedEntries()`, en un
+     *        seul appel plutÃ´t que par annulations successives.
+     * @param image Image ramenÃ©e Ã  cet Ã©tat.
+     * @param index Index (0-based) dans `appliedEntries()`.
+     * @return `false`, sans effet, si @p index est hors bornes.
+     */
+    bool jumpTo(DecodedImage&amp; image, std::size_t index);
+
+    /// @return `true` si `undo()` aurait un effet.
+    [[nodiscard]] bool canUndo() const noexcept {
+        return !_applied.empty();
+    }
+    /// @return `true` si `redo()` aurait un effet.
+<span style = "background-color:#dfd">    [[nodiscard]] bool canRedo() const noexcept {
+        return !_undone.empty();
+    }</span>
+
+    /// @return Les opÃ©rations actuellement appliquÃ©es, dans l'ordre chronologique â de quoi
+    ///         alimenter le panneau d'historique visuel (TACHE-04) et le libellÃ© Â« Annuler â¦ Â».
+<span style = "background-color:#dfd">    [[nodiscard]] const std::vector&lt;PixelHistoryEntry&gt;&amp; appliedEntries() const noexcept {
+        return _applied;
+    }</span>
+
+private:
+    std::size_t _maxDepth;
+    std::vector&lt;PixelHistoryEntry&gt; _applied;  ///&lt; Pile d'annulation, plus ancienne en premier.
+    std::vector&lt;PixelHistoryEntry&gt; _undone;   ///&lt; Pile de rÃ©tablissement, plus rÃ©cente en dernier.
+};
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

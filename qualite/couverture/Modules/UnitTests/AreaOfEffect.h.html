@@ -1,0 +1,144 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>AreaOfEffect.h</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#pragma once
+
+/**
+ * @file Core/Combat/AreaOfEffect.h
+ * @brief Les zones d'effet sur la grille tactique (`LOT-22`) : cÃ´ne, cube, cylindre, ligne,
+ *        sphÃ¨re.
+ *
+ * ## Ce que dit le Manuel
+ *
+ * Chapitre 10, Â« Zones d'effet Â» : chaque zone a un **point d'origine**, et l'effet Â« s'Ã©tend en
+ * lignes droites Â» depuis ce point â un emplacement qu'aucune ligne droite ne relie Ã  l'origine
+ * n'est pas dans la zone, et seul un abri total bloque ces lignes. Puis les cinq formes :
+ *
+ * - **cÃ´ne** â sa largeur en un point Ã©gale la distance Ã  l'origine ; l'origine n'est pas incluse ;
+ * - **cube** â l'origine est sur une face ; la taille est l'arÃªte ; l'origine n'est pas incluse ;
+ * - **cylindre** â l'origine est le centre du disque de base ; incluse ;
+ * - **ligne** â une longueur et une largeur ; l'origine n'est pas incluse ;
+ * - **sphÃ¨re** â un rayon depuis l'origine ; incluse.
+ *
+ * ## Sur la grille : la moitiÃ© d'une case
+ *
+ * Le Manuel ne dit pas quelles cases une forme couvre. Une case est **dans la zone si la forme en
+ * couvre au moins la moitiÃ©** â la rÃ¨gle du *Guide du MaÃ®tre* pour les zones circulaires, Ã©tendue
+ * aux autres formes plutÃ´t que d'en inventer une par forme. La surface se calcule exactement : un
+ * cÃ´ne, un cube et une ligne sont des polygones dÃ©coupÃ©s par la case ; un disque s'intÃ¨gre.
+ *
+ * Le point d'origine est un `core::GridPoint`, en demi-cases : un coin de case pour une boule de
+ * feu lancÃ©e sur une intersection, le milieu de l'arÃªte d'une crÃ©ature pour un souffle en ligne,
+ * son centre pour une aura. Â« L'origine n'est pas incluse Â» tombe alors de la gÃ©omÃ©trie : un cÃ´ne
+ * qui part du bord d'une crÃ©ature ne couvre rien de sa case.
+ *
+ * ## L'altitude
+ *
+ * Le jeu n'a pas de hauteur (`core::Locomotion`) : un cylindre est son disque, une sphÃ¨re le sien.
+ * Les deux formes restent distinctes parce que le Manuel les distingue, et qu'un sort les nomme.
+ *
+ * ## Hors de ce fichier
+ *
+ * Le dÃ©placement de l'origine derriÃ¨re un obstacle quand l'incantateur vise un point qu'il ne voit
+ * pas, et les sorts qui emploient ces zones : avec les classes, qui les apportent.
+ */
+
+#include &lt;cstdint&gt;
+#include &lt;optional&gt;
+#include &lt;vector&gt;
+
+#include "Core/Combat/BattleGrid.h"
+#include "Core/Combat/LineOfSight.h"
+#include "Core/Levels/GridPosition.h"
+
+namespace core {
+
+class CombatState;
+
+/// @brief Les cinq formes du Manuel.
+enum class AreaShape : std::uint8_t {
+    Cone,
+    Cube,
+    Cylinder,
+    Line,
+    Sphere,
+};
+
+/**
+ * @brief Une zone posÃ©e sur la grille.
+ *
+ * Les tailles sont en **cases** (`core::areaTilesFromMeters` pour celles du corpus, en mÃ¨tres).
+ */
+struct AreaOfEffect {
+    AreaShape shape = AreaShape::Sphere;
+    /// Le point d'origine, en demi-cases.
+    GridPoint origin;
+    /// Un point vers lequel s'Ã©tendent le cÃ´ne, le cube et la ligne ; ignorÃ© par la sphÃ¨re et le
+    /// cylindre. Confondu avec l'origine, la zone est vide : sans direction, rien ne s'Ã©tend.
+    GridPoint toward;
+    /// Rayon (sphÃ¨re, cylindre), longueur (cÃ´ne, ligne) ou arÃªte (cube), en cases.
+    int size = 1;
+    /// Largeur d'une ligne, en cases. IgnorÃ©e par les autres formes.
+<span style = "background-color:#dfd">    int width = 1;</span>
+};
+
+/**
+ * @brief Une taille de zone du corpus, en cases : 6 m font 4 cases, 4,50 m en font 3.
+ *
+ * Arrondie **vers le bas** : une zone ne dÃ©borde jamais de ce que le texte promet. Vide pour une
+ * taille nulle ou nÃ©gative.
+ */
+[[nodiscard]] std::optional&lt;int&gt; areaTilesFromMeters(float meters);
+
+/**
+ * @brief Les cases qu'une forme couvre au moins Ã  moitiÃ©, dans une grille de @p columns Ã
+ *        @p rows, **sans** obstacle : le gabarit seul.
+ *
+ * OrdonnÃ©es par ligne puis par colonne.
+ */
+[[nodiscard]] std::vector&lt;GridPosition&gt; areaTemplate(const AreaOfEffect&amp; area, int columns,
+                                                     int rows);
+
+/**
+ * @brief Les cases rÃ©ellement atteintes : le gabarit, moins celles qu'aucune ligne droite ne relie
+ *        Ã  l'origine sans traverser ce qui arrÃªte la vue.
+ *
+ * Une case est atteinte si un segment dÃ©gagÃ© (`core::isSightClear`) relie l'origine Ã  l'un de ses
+ * quatre coins : c'est le mÃªme compte que l'abri total, et une cible qu'il protÃ¨ge entiÃ¨rement de
+ * l'origine est hors de la zone. Une case qui arrÃªte elle-mÃªme la vue â le mur â n'est pas un
+ * emplacement de la zone : l'effet s'y heurte.
+ */
+[[nodiscard]] std::vector&lt;GridPosition&gt; affectedCells(const BattleGrid&amp; grid,
+                                                      const AreaOfEffect&amp; area);
+
+/// @brief Les combattants dont une case au moins est atteinte, par identifiant croissant.
+[[nodiscard]] std::vector&lt;CombatantId&gt; combatantsInArea(const CombatState&amp; combat,
+                                                        const AreaOfEffect&amp; area);
+
+}  // namespace core</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

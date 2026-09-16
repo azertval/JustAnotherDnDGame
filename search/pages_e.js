@@ -135,7 +135,7 @@ var searchData=
   ['d_20une_20ligne_20_3a_20core_3a_3aformatlogline_20core_3a_3aformatlogline_132',['Le format d&apos;une ligne : &lt;a class=&quot;el&quot; href=&quot;namespacecore.html#aafa85d91ee91c84b123fff01f147615e&quot; title=&quot;core::formatLogLine&quot;&gt;core::formatLogLine&lt;/a&gt;',['../guide-journalisation.html#autotoc_md165',1,'']]],
   ['d_20une_20page_20à_20l_20autre_133',['Sa gouttière bouge d&apos;une page à l&apos;autre',['../lot-36.html#autotoc_md615',1,'']]],
   ['d_20unités_20et_20de_20repère_134',['Conventions d&apos;unités et de repère',['../guide-maths.html#autotoc_md174',1,'']]],
-  ['d20_135',['Règles d20',['../spec-regles-dnd.html',1,'specifications']]],
+  ['d20_135',['Règles d20',['../spec-regles-d20.html',1,'specifications']]],
   ['dangereuse_136',['Comparaison flottante : pourquoi l&apos;égalité stricte est dangereuse',['../guide-maths.html#autotoc_md175',1,'']]],
   ['dangers_20avancés_20lot_2031_137',['Dangers avancés (&lt;span class=&quot;tt&quot;&gt;LOT-31&lt;/span&gt;)',['../guide-niveaux.html#autotoc_md193',1,'']]],
   ['dangers_20avancés_20lot_20h_2031_138',['Dangers avancés LOT H 31',['../spec-editeur.html#autotoc_md327',1,'9. Dangers avancés (&lt;span class=&quot;tt&quot;&gt;LOT-H-31&lt;/span&gt;)'],['../spec-gameplay.html#autotoc_md341',1,'Dangers avancés (&lt;span class=&quot;tt&quot;&gt;LOT-H-31&lt;/span&gt;)']]],

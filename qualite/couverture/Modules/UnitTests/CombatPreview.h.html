@@ -1,0 +1,121 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>CombatPreview.h</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#pragma once
+
+/**
+ * @file Core/Combat/CombatPreview.h
+ * @brief Ce que l'Ã©cran de combat montre **avant** que le joueur ne s'engage (`LOT-24`,
+ *        `EX-CBT-020`, `EX-IHM-003`).
+ *
+ * ## Une prÃ©visualisation qui ne ment pas
+ *
+ * Une prÃ©visualisation qui calcule Ã  part finit par diverger du jet : l'Ã©cran promet 55 %, et le
+ * journal Ã©crit une CA que l'Ã©cran n'a jamais montrÃ©e. Tout ici passe donc par **les fonctions du
+ * jet rÃ©el** â `core::checkTarget` pour la cible, `core::attackCircumstances` et
+ * `core::ArenaSession::circumstancesAgainst` pour les sources d'avantage et de dÃ©savantage,
+ * `core::coverBetween` pour l'abri, `core::rollStance` pour la posture â et la chance de toucher
+ * vient du jet requis du *Guide du MaÃ®tre*, comme pour l'IA (`core::hitChance`). Un test compare la
+ * prÃ©visualisation au jet que la session jette ensuite : mÃªme CA, mÃªme posture, mÃªmes sources.
+ *
+ * Ce qu'elle ne peut pas savoir : ce qu'un greffon `BeforeRoll` changera au jet (une capacitÃ© de
+ * classe), et les dÃ©s. Le premier n'existe encore pour personne ; les seconds sont le jeu.
+ *
+ * ## Le dÃ©placement
+ *
+ * Le chemin est celui de `core::ReachableArea::pathTo`, que `move` suivra ; les attaques
+ * d'opportunitÃ© sont celles que `move` dÃ©clenchera (`core::ArenaSession::previewOpportunities`),
+ * choix du joueur et politique de l'IA compris.
+ */
+
+#include &lt;cstddef&gt;
+#include &lt;optional&gt;
+#include &lt;string&gt;
+#include &lt;vector&gt;
+
+#include "Core/Combat/Arena.h"
+#include "Core/Combat/Attack.h"
+
+namespace core {
+
+/// @brief Une attaque telle qu'elle serait jetÃ©e.
+struct AttackPreview {
+    /// `Valid`, ou pourquoi on ne peut pas viser.
+    TargetCheck check = TargetCheck::NotOnGrid;
+    std::size_t attackIndex = 0;
+    std::string label;
+    /// La CA visÃ©e, abri compris.
+<span style = "background-color:#dfd">    int armorClass = 0;
+    Cover cover = Cover::None;</span>
+    /// Le jet requis du *Guide du MaÃ®tre* : la CA visÃ©e moins le bonus d'attaque.
+<span style = "background-color:#dfd">    int requiredRoll = 0;
+    RollStance stance = RollStance::Normal;</span>
+    std::vector&lt;std::string&gt; advantages;
+    std::vector&lt;std::string&gt; disadvantages;
+    /// La chance de toucher, en quatre-centiÃ¨mes (`core::CHANCE_SCALE`).
+<span style = "background-color:#dfd">    int hitChance = 0;</span>
+    /// L'espÃ©rance de dÃ©gÃ¢ts, en huit-centiÃ¨mes de point (`core::expectedDamage`).
+<span style = "background-color:#dfd">    long long expectedDamage = 0;</span>
+
+    /// @brief La chance en pour cent, arrondie au plus proche.
+<span style = "background-color:#dfd">    [[nodiscard]] int hitPercent() const noexcept {
+        return (hitChance * 100 + 200) / 400;
+    }</span>
+};
+
+/**
+ * @brief L'attaque @p attackIndex du combattant actif contre @p target, telle qu'elle serait
+ *        jetÃ©e maintenant.
+ * @return Vide sans tour actif, sans attaque de cet indice, ou si la cible est inconnue.
+ */
+[[nodiscard]] std::optional&lt;AttackPreview&gt; previewAttack(const ArenaSession&amp; session,
+                                                         CombatantId target,
+                                                         std::size_t attackIndex);
+
+/**
+ * @brief La premiÃ¨re attaque du combattant actif qui peut viser @p target â celle que le geste
+ *        Â« attaquer Â» choisit quand le joueur n'en a pas dÃ©signÃ©.
+ */
+[[nodiscard]] std::optional&lt;std::size_t&gt; firstValidAttack(const ArenaSession&amp; session,
+                                                          CombatantId target);
+
+/// @brief Un dÃ©placement tel qu'il serait jouÃ©.
+struct MovePreview {
+    /// Le chemin, dÃ©part exclu ; vide si la case n'est pas une fin de dÃ©placement permise.
+    std::optional&lt;Path&gt; path;
+    /// Les cases de dÃ©placement qui resteraient.
+    int movementLeft = 0;
+    /// Qui frapperait en chemin, dans l'ordre.
+    std::vector&lt;CombatantId&gt; opportunities;
+};
+
+/// @brief Le dÃ©placement du combattant actif jusqu'Ã  @p destination.
+[[nodiscard]] MovePreview previewMove(const ArenaSession&amp; session, GridPosition destination);
+
+}  // namespace core</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

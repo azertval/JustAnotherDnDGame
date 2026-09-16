@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.16.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>JustAnotherDnDGame: IHM Qt — deux applications, deux technologies</title>
+<title>JustAnotherRpgGame: IHM Qt — deux applications, deux technologies</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">JustAnotherDnDGame<span id="projectnumber">&#160;0.1.0</span>
+   <div id="projectname">JustAnotherRpgGame<span id="projectnumber">&#160;0.1.0</span>
    </div>
    <div id="projectbrief">Jeu de rôle tactique au d20, vue de dessus, en C++/Qt</div>
   </td>
@@ -107,7 +107,7 @@ Pourquoi deux binaires</h1>
 <tr class="markdownTableHead">
 <th class="markdownTableHeadNone">Cible  </th><th class="markdownTableHeadNone">Technologie  </th><th class="markdownTableHeadNone">Point d'entrée  </th></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><span class="tt">JustAnotherDnDGame</span>  </td><td class="markdownTableBodyNone">Qt Quick, <span class="tt">QGuiApplication</span>  </td><td class="markdownTableBodyNone"><span class="tt"><a class="el" href="Game_2Main_8cpp.html" title="Point d&#39;entrée du jeu (JustAnotherDnDGame) — Qt Quick, sans un seul widget.">Source/App/Game/Main.cpp</a></span>  </td></tr>
+<td class="markdownTableBodyNone"><span class="tt">JustAnotherRpgGame</span>  </td><td class="markdownTableBodyNone">Qt Quick, <span class="tt">QGuiApplication</span>  </td><td class="markdownTableBodyNone"><span class="tt"><a class="el" href="Game_2Main_8cpp.html" title="Point d&#39;entrée du jeu (JustAnotherRpgGame) — Qt Quick, sans un seul widget.">Source/App/Game/Main.cpp</a></span>  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><span class="tt">LevelEditor</span>  </td><td class="markdownTableBodyNone">Qt Widgets, <span class="tt">QApplication</span>  </td><td class="markdownTableBodyNone"><span class="tt"><a class="el" href="Editor_2Main_8cpp.html" title="Point d&#39;entrée de l&#39;éditeur de niveaux (LevelEditor) — Qt Widgets.">Source/App/Editor/Main.cpp</a></span>  </td></tr>
 </table>
@@ -134,7 +134,7 @@ Les trois modules QML</h1>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><span class="tt">Jadg.Runtime</span>  </td><td class="markdownTableBodyNone"><span class="tt">Source/HMI/Runtime</span>  </td><td class="markdownTableBodyNone">les types C++ exposés au QML (<span class="tt">QML_ELEMENT</span>)  </td><td class="markdownTableBodyNone">bibliothèque statique <span class="tt">JadgRuntime</span>  </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><span class="tt">Jadg.App</span>  </td><td class="markdownTableBodyNone"><span class="tt">Source/App</span> (fichiers sous <span class="tt">Game/Qml/</span>)  </td><td class="markdownTableBodyNone">la fenêtre, la pile d'écrans, les jumeaux  </td><td class="markdownTableBodyNone">l'exécutable <span class="tt">JustAnotherDnDGame</span>  </td></tr>
+<td class="markdownTableBodyNone"><span class="tt">Jadg.App</span>  </td><td class="markdownTableBodyNone"><span class="tt">Source/App</span> (fichiers sous <span class="tt">Game/Qml/</span>)  </td><td class="markdownTableBodyNone">la fenêtre, la pile d'écrans, les jumeaux  </td><td class="markdownTableBodyNone">l'exécutable <span class="tt">JustAnotherRpgGame</span>  </td></tr>
 </table>
 <p><b>Pourquoi trois, et pourquoi là.</b> Qt Design Studio ne charge aucun plugin C++ du projet : un module qui mêle formulaires et types C++ est résolvable par le jeu et pas par l'atelier. <span class="tt">Jadg.Ui</span> est donc pur, et n'importe jamais <span class="tt">Jadg.Runtime</span> — seuls les jumeaux le font, et l'atelier le remplace par les doublures de <span class="tt">Source/Ui/Mocks/</span>. Quant au « là » : <span class="tt">qt_add_qml_module</span> calcule le chemin de ressource de chaque fichier relativement au CMakeLists.txt qui l'appelle. Un module déclaré depuis un autre répertoire oblige à réécrire ces chemins un par un, par des alias, et c'est cette plomberie qui a coûté 125 commits à une branche abandonnée. <b>Aucun alias de ressource dans ce dépôt</b>, et <span class="tt">check_qml_designer_compat.py</span> le vérifie.</p>
 <p>La découverte de Qt et <span class="tt">QT_VERSION_MINIMUM</span> vivent dans <span class="tt">Source/CMakeLists.txt</span> : les cibles importées d'un <span class="tt">find_package</span> ne sont visibles que sous le répertoire qui l'a appelé, et trois répertoires frères en dépendent.</p>
@@ -187,7 +187,7 @@ La navigation</h1>
 </ul>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md155"></a>
 Les réglages, et ce qu'ils atteignent</h1>
-<p><span class="tt"><a class="el" href="classhmi_1_1OptionsModel.html" title="Vue-modèle des options : lit et persiste les réglages, et publie leur changement.">hmi::OptionsModel</a></span> ne fait que <b>persister et prévenir</b> ; c'est <span class="tt"><a class="el" href="Game_2Main_8cpp.html" title="Point d&#39;entrée du jeu (JustAnotherDnDGame) — Qt Quick, sans un seul widget.">App/Game/Main.cpp</a></span> qui branche chaque signal sur ce qu'il atteint. La vue-modèle ignore ainsi le moteur audio, la fenêtre et les traducteurs — c'est précisément la frontière que le lot établit.</p>
+<p><span class="tt"><a class="el" href="classhmi_1_1OptionsModel.html" title="Vue-modèle des options : lit et persiste les réglages, et publie leur changement.">hmi::OptionsModel</a></span> ne fait que <b>persister et prévenir</b> ; c'est <span class="tt"><a class="el" href="Game_2Main_8cpp.html" title="Point d&#39;entrée du jeu (JustAnotherRpgGame) — Qt Quick, sans un seul widget.">App/Game/Main.cpp</a></span> qui branche chaque signal sur ce qu'il atteint. La vue-modèle ignore ainsi le moteur audio, la fenêtre et les traducteurs — c'est précisément la frontière que le lot établit.</p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
 <th class="markdownTableHeadNone">Réglage  </th><th class="markdownTableHeadNone">Atteint  </th><th class="markdownTableHeadNone">Quand  </th></tr>
@@ -212,7 +212,7 @@ Les réglages, et ce qu'ils atteignent</h1>
 Vérifier une interface sans la regarder</h1>
 <p><span class="tt">--screenshot=&lt;chemin&gt;</span> capture la fenêtre <b>par Qt lui-même</b>. Les API de capture de Windows rendent une image <b>noire</b> d'une fenêtre Qt Quick, dessinée par le GPU : seul Qt sait relire son propre graphe de scène. La vérification visuelle des écrans devient ainsi reproductible, au lieu de dépendre d'un œil devant l'écran au bon moment.</p>
 <p><span class="tt">--window-size=&lt;largeur&gt;x&lt;hauteur&gt;</span> impose la taille de la fenêtre, sans passer par le plein écran — qui écrirait le réglage du joueur et donnerait la taille de son moniteur. C'est ainsi que chaque écran de la charte v2 se capture à 1920 × 1080 et à 1280 × 720, à côté de sa maquette :</p>
-<div class="fragment"><div class="line">JustAnotherDnDGame --screen=MainMenu --window-size=1920x1080 --screenshot=menu-1080p.png</div>
+<div class="fragment"><div class="line">JustAnotherRpgGame --screen=MainMenu --window-size=1920x1080 --screenshot=menu-1080p.png</div>
 </div><!-- fragment --><h1 class="doxsection"><a class="anchor" id="autotoc_md157"></a>
 Voir aussi</h1>
 <ul>
@@ -236,7 +236,7 @@ Voir aussi</h1>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a href="index.html">JustAnotherDnDGame</a></li><li class="navelem"><a href="guide.html">Guide du développeur</a></li>
+    <li class="navelem"><a href="index.html">JustAnotherRpgGame</a></li><li class="navelem"><a href="guide.html">Guide du développeur</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.16.1 </li>
   </ul>
 </div>

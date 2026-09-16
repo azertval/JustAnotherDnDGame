@@ -1,0 +1,128 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>Localization.h</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#pragma once
+
+#include &lt;filesystem&gt;
+#include &lt;string&gt;
+#include &lt;string_view&gt;
+#include &lt;unordered_map&gt;
+
+/**
+ * @file HMI/Localization/Localization.h
+ * @brief Catalogue de traduction : rÃ©solution des textes d'interface par clÃ© et par langue.
+ */
+
+namespace hmi {
+
+/**
+ * @brief Catalogue de traduction (i18n) : associe des **clÃ©s** stables Ã  des chaÃ®nes selon
+ *        la **langue active**, avec repli sur la langue par dÃ©faut.
+ *
+ * Tous les textes affichÃ©s passent par une clÃ© (`EX-REN-033`) : le code ne contient aucun
+ * libellÃ© en dur. Les traductions sont chargÃ©es depuis un **fichier par langue**
+ * (`&lt;langue&gt;.lang`, format `clÃ© = valeur`, UTF-8), ce qui rend l'ajout d'une langue trivial.
+ * La rÃ©solution suit un **repli dÃ©terministe** : langue active, puis langue par dÃ©faut, puis
+ * la clÃ© elle-mÃªme â jamais de plantage (`EX-NFR-040`). Le catalogue est une logique pure,
+ * sans fenÃªtre ni GPU, donc testable en isolation (`EX-NFR-010`).
+ */
+class Localization {
+public:
+    /**
+     * @brief Construit un catalogue vide.
+     * @param directory Dossier contenant les fichiers `&lt;langue&gt;.lang` (pour les chargements
+     *                  par fichier). Optionnel : les tests peuvent injecter des tables en mÃ©moire.
+     */
+    explicit Localization(std::filesystem::path directory = {});
+
+    /**
+     * @brief Analyse un contenu `clÃ© = valeur` en table de traductions.
+     * @param content Texte source (UTF-8). Les lignes vides et les lignes dÃ©butant par `#`
+     *                (commentaires) sont ignorÃ©es ; les espaces autour de `=` sont retirÃ©s ;
+     *                un `=` prÃ©sent dans la valeur est conservÃ© (seul le premier sÃ©pare).
+     * @return La table clÃ© â valeur.
+     */
+    [[nodiscard]] static std::unordered_map&lt;std::string, std::string&gt; parseCatalog(
+        std::string_view content);
+
+    /**
+     * @brief DÃ©finit la langue **par dÃ©faut** (source de repli) et l'active dessus.
+     * @param language Identifiant de langue (ex. Â« fr Â»).
+     * @param strings  Table de traductions dÃ©jÃ  analysÃ©e.
+     */
+    void setDefaultCatalog(std::string language,
+                           std::unordered_map&lt;std::string, std::string&gt; strings);
+
+    /**
+     * @brief DÃ©finit la langue **active** Ã  partir d'une table dÃ©jÃ  analysÃ©e.
+     * @param language Identifiant de langue.
+     * @param strings  Table de traductions dÃ©jÃ  analysÃ©e.
+     */
+    void setActiveCatalog(std::string language,
+                          std::unordered_map&lt;std::string, std::string&gt; strings);
+
+    /**
+     * @brief Charge la langue **par dÃ©faut** depuis `&lt;directory&gt;/&lt;language&gt;.lang` et l'active.
+     * @param language Identifiant de langue (nom de fichier sans extension).
+     * @return true si le fichier a Ã©tÃ© lu ; false (rÃ©cupÃ©rable) s'il est absent ou illisible.
+     */
+    [[nodiscard]] bool loadDefaultLanguage(const std::string&amp; language);
+
+    /**
+     * @brief Charge la langue **active** depuis `&lt;directory&gt;/&lt;language&gt;.lang`.
+     * @param language Identifiant de langue (nom de fichier sans extension).
+     * @return true si le fichier a Ã©tÃ© lu ; false (rÃ©cupÃ©rable) s'il est absent ou illisible
+     *         â la langue active prÃ©cÃ©dente est alors conservÃ©e.
+     */
+    [[nodiscard]] bool loadLanguage(const std::string&amp; language);
+
+    /**
+     * @brief RÃ©sout le texte associÃ© Ã  @p key.
+     * @param key ClÃ© de traduction (ex. Â« menu.quitter Â»).
+     * @return La chaÃ®ne de la langue active, sinon celle de la langue par dÃ©faut, sinon la clÃ©.
+     */
+    [[nodiscard]] std::string text(std::string_view key) const;
+
+    /// @return L'identifiant de la langue active.
+<span style = "background-color:#dfd">    [[nodiscard]] const std::string&amp; activeLanguage() const noexcept {
+        return _activeLanguage;
+    }</span>
+
+private:
+    /// Lit tout le contenu d'un fichier texte. @return true et remplit @p out en cas de succÃ¨s.
+    [[nodiscard]] static bool readFile(const std::filesystem::path&amp; path, std::string&amp; out);
+
+    std::filesystem::path _directory;
+    std::string _defaultLanguage;
+    std::string _activeLanguage;
+    std::unordered_map&lt;std::string, std::string&gt; _defaultStrings;
+    std::unordered_map&lt;std::string, std::string&gt; _activeStrings;
+};
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

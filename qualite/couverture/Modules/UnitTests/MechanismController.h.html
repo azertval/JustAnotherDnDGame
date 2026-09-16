@@ -1,0 +1,182 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>MechanismController.h</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#pragma once
+
+#include &lt;cstddef&gt;
+#include &lt;vector&gt;
+
+#include "Core/Levels/Level.h"
+#include "Core/Levels/TileMap.h"
+#include "Core/Levels/TileType.h"
+#include "Core/Physics/Aabb.h"
+
+/**
+ * @file Core/Gameplay/MechanismController.h
+ * @brief Comportement des mÃ©canismes interrupteurâporte : Ã©tat + grille de collision.
+ */
+
+namespace core {
+
+/**
+ * @brief Poids posÃ© sur un dÃ©clencheur par autre chose que le personnage (`EX-GP-025`, `LOT-65`
+ *        TACHE-06).
+ *
+ * Jusqu'ici, `MechanismController` ne recevait que la boÃ®te du **joueur** : la formule Â« poids
+ * suffisant Â» de `EX-GP-025` Ã©tait donc sans objet, et l'idiome de puzzle le plus classique du
+ * genre â poser un poids sur une plaque pour tenir une porte ouverte **et repartir** â Ã©tait hors
+ * d'atteinte. Ce type porte ce qu'il faut pour qu'un **bloc poussable** (`EX-GP-022`) compte comme
+ * un poids : sa boÃ®te rÃ©elle et sa masse. Volontairement minimal et sans lien avec
+ * `core::BlockController`, pour que ce contrÃ´leur reste ignorant de la maniÃ¨re dont ces boÃ®tes sont
+ * produites.
+ */
+struct TriggerWeight {
+    Aabb box;           ///&lt; BoÃ®te rÃ©elle du poids, en unitÃ©s monde.
+    float mass = 1.0F;  ///&lt; Masse, comparÃ©e au mÃªme seuil que celle du personnage.
+};
+
+/**
+ * @brief Fait vivre les mÃ©canismes **interrupteur/plaque â porte** d'un niveau (`EX-GP-020`,
+ *        `EX-GP-021`, `EX-GP-025`).
+ *
+ * Logique **pure** (aucun rendu ni fenÃªtre). Deux comportements de dÃ©clencheur, selon la tuile
+ * d'origine (figÃ©e au chargement) :
+ * - **Interrupteur** (`TileType::Switch`) : quand la boÃ®te du personnage **recouvre** la case au
+ *   **front** (premiÃ¨re frame de contact), l'Ã©tat de la porte liÃ©e **bascule** et persiste.
+ * - **Plaque de pression** (`TileType::PressurePlate`, `EX-GP-025`) : la porte reste **ouverte**
+ *   tant qu'un poids suffisant y repose (comparÃ© Ã  `MIN_TRIGGER_MASS`), et se **referme** dÃ¨s que
+ *   ce n'est plus le cas â activation **continue**, pas de front. Ce poids peut Ãªtre celui du
+ *   personnage **ou** celui d'un **bloc poussable** (`core::TriggerWeight`, `EX-GP-022`) : c'est ce
+ *   qui rend possible de poser un poids et de **repartir**, la porte restant ouverte derriÃ¨re soi.
+ *
+ * Une porte **fermÃ©e** est **solide** (bloque), **ouverte** est franchissable. Le contrÃ´leur
+ * maintient une **copie mutable** du `TileMap` (grille de **collision**) que la physique consomme,
+ * laissant la carte du `Level` intacte (source de vÃ©ritÃ©). DÃ©terministe au pas fixe (`EX-NFR-002`).
+ *
+ * **ClÃ©/porte verrouillÃ©e** (`TileType::Key`/`TileType::LockedDoor`, `EX-GP-023`) : troisiÃ¨me
+ * comportement de dÃ©clencheur, rÃ©solu depuis la **mÃªme** liste `mechanisms()` que
+ * interrupteur/plaqueâporte (`LevelLoader` les y ajoute toutes deux, aucune notion de liaison
+ * dupliquÃ©e). Une clÃ© se ramasse au contact **et** Ã  l'action Â« Interagir Â»
+ * (`core::PlayerInput::interactPressed`, `EX-CTRL-022` â son premier usage) ; le contact seul ne
+ * suffit pas, Ã  la diffÃ©rence de l'interrupteur. Une fois ramassÃ©e, la porte liÃ©e s'ouvre
+ * **dÃ©finitivement** : contrairement Ã  l'interrupteur, l'Ã©tat ne bascule plus jamais en arriÃ¨re.
+ */
+class MechanismController {
+public:
+    /// Construit le contrÃ´leur depuis @p level : portes **fermÃ©es** (solides) au dÃ©part.
+    explicit MechanismController(const Level&amp; level);
+
+    /**
+     * @brief Met Ã  jour les mÃ©canismes pour un pas : bascule les interrupteurs touchÃ©s (front),
+     *        ouvre/referme les plaques de pression selon le poids prÃ©sent, ramasse les clÃ©s
+     *        touchÃ©es avec Â« Interagir Â», applique l'Ã©tat des portes/portes verrouillÃ©es dans la
+     *        grille de collision.
+     * @param playerBox       BoÃ®te englobante du personnage, en unitÃ©s monde.
+     * @param playerMass      Masse du personnage (`core::Actor::mass`, `EX-GP-019`), comparÃ©e au
+     *                        seuil des plaques de pression (`MIN_TRIGGER_MASS`) ; sans effet sur
+     *                        les interrupteurs classiques ou les clÃ©s. Valeur par dÃ©faut = masse
+     *                        par dÃ©faut du personnage (compatibilitÃ© des appels existants).
+     * @param interactPressed Front de l'action Â« Interagir Â» (`core::PlayerInput::
+     *                        interactPressed`, `EX-CTRL-022`) pour ce pas ; seul dÃ©clencheur du
+     *                        ramassage d'une clÃ© (le contact seul ne suffit pas). Sans effet sur
+     *                        les autres mÃ©canismes. Valeur par dÃ©faut = faux (compatibilitÃ© des
+     *                        appels existants, aucun niveau sans clÃ© n'est affectÃ©).
+     * @param weights         Poids **autres que le personnage** posÃ©s sur les dÃ©clencheurs ce pas
+     *                        (blocs poussables, `EX-GP-022`) â voir `core::TriggerWeight`. Ne
+     *                        concerne que les plaques de pression Ã 
+     *                        activation continue : un bloc ne bascule pas un interrupteur et ne
+     *                        ramasse pas une clÃ©. Vide par dÃ©faut (compatibilitÃ© des appels
+     *                        existants).
+     */
+    void update(const Aabb&amp; playerBox, float playerMass = 1.0f, bool interactPressed = false,
+                const std::vector&lt;TriggerWeight&gt;&amp; weights = {});
+
+    /**
+     * @brief Une porte s'est-elle **refermÃ©e sur le personnage** au dernier `update` (`EX-GP-021`,
+     *        `LOT-65` TACHE-06) ?
+     *
+     * L'Ã©crasement est **mortel** : l'appelant (`hmi::GameSession`) traduit ce drapeau en boÃ®te
+     * de danger supplÃ©mentaire pour `core::evaluateOutcome`.
+     * Sans cela, une porte qui redevient solide sur le personnage le laisse **encastrÃ©** dans un
+     * mur, sans Ã©chec possible â prÃ©cisÃ©ment la Â« situation sans issue Â» que la conception des
+     * niveaux interdit (`Documentation/Specification/niveaux.md`, Sec. 3).
+     * @return true si au moins une porte s'est fermÃ©e sur la boÃ®te passÃ©e au dernier `update`.
+     */
+    [[nodiscard]] bool crushedPlayer() const noexcept {
+        return _crushedPlayer;
+    }
+
+    /// @return La grille de collision courante (portes Ã  jour), Ã  passer Ã  la physique.
+<span style = "background-color:#dfd">    [[nodiscard]] const TileMap&amp; collisionMap() const noexcept {
+        return _collision;
+    }</span>
+
+    /// @return Les liaisons de mÃ©canismes (positions interrupteur/porte).
+    [[nodiscard]] const std::vector&lt;Mechanism&gt;&amp; mechanisms() const noexcept {
+        return _mechanisms;
+    }
+
+    /// @return true si la porte du mÃ©canisme @p index est **ouverte** (interrupteur activÃ©).
+<span style = "background-color:#dfd">    [[nodiscard]] bool isDoorOpen(std::size_t index) const {
+        return _switchOn[index];
+    }</span>
+
+    /// @return true si le mÃ©canisme @p index est une **plaque de pression** (activation continue,
+    ///         `EX-GP-025`), false si c'est un **interrupteur** Ã  bascule classique (`EX-GP-020`).
+    ///         Distingue les deux sons de dÃ©clenchement (`hmi::SoundTriggers`, `LOT-60`).
+    [[nodiscard]] bool isContinuous(std::size_t index) const {
+        return _continuous[index];
+    }
+
+    /// @return true si le mÃ©canisme @p index est une **clÃ©** (`TileType::Key`, `EX-GP-023`), dont
+    ///         le ramassage exige l'action Â« Interagir Â» en plus du contact. SymÃ©trique de
+    ///         `isContinuous` : mÃªme donnÃ©e figÃ©e au chargement, exposÃ©e pour que l'affichage tÃªte
+    ///         haute puisse rappeler cette action au contact (`hmi::gameHudLines`, `LOT-65`).
+    [[nodiscard]] bool isKey(std::size_t index) const {
+        return _isKey[index];
+    }
+
+private:
+    TileMap _collision;  ///&lt; Copie mutable : portes Solid (fermÃ©es) / Door (ouvertes).
+    std::vector&lt;Mechanism&gt; _mechanisms;  ///&lt; Liaisons dÃ©clencheurâporte (positions).
+    std::vector&lt;bool&gt; _switchOn;         ///&lt; Ãtat de chaque dÃ©clencheur (porte ouverte ?).
+    std::vector&lt;bool&gt;
+        _playerOnSwitchPrev;  ///&lt; Le personnage Ã©tait-il sur le dÃ©clencheur au pas prÃ©cÃ©dent ?
+    std::vector&lt;bool&gt; _continuous;  ///&lt; true = plaque de pression (activation continue), figÃ© au
+                                    ///&lt; chargement ; false = interrupteur Ã  bascule classique.
+    std::vector&lt;bool&gt; _isKey;  ///&lt; true = dÃ©clencheur `TileType::Key` (ramassage par Interagir,
+                               ///&lt; ouverture dÃ©finitive), figÃ© au chargement comme `_continuous`.
+    std::vector&lt;TileType&gt;
+        _openType;  ///&lt; Type de tuile Â« porte ouverte Â» de chaque mÃ©canisme (`Door` ou
+                    ///&lt; `LockedDoor`), capturÃ© avant que le constructeur ne fige la case en
+                    ///&lt; `Solid` â la grille de collision y revient quand le mÃ©canisme s'active.
+<span style = "background-color:#dfd">    bool _crushedPlayer = false;  ///&lt; Une porte s'est refermÃ©e sur le personnage au dernier pas.</span>
+};
+
+}  // namespace core</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

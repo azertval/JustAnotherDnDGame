@@ -1,0 +1,284 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>PixelPalette.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#include "HMI/Editor/PixelPalette.h"
+
+#include &lt;array&gt;
+#include &lt;cstdio&gt;
+#include &lt;fstream&gt;
+#include &lt;optional&gt;
+#include &lt;sstream&gt;
+#include &lt;system_error&gt;
+#include &lt;unordered_map&gt;
+#include &lt;utility&gt;
+
+#include &lt;nlohmann/json.hpp&gt;
+
+#include "Core/Data/JsonDocument.h"
+#include "HMI/HmiLog.h"
+
+namespace hmi {
+
+namespace {
+
+constexpr const char* FIELD_VERSION = "version";
+constexpr const char* FIELD_COLORS = "colors";
+constexpr const char* FIELD_NAME = "name";
+constexpr const char* FIELD_COLOR = "color";
+
+// Couleur R8G8B8A8_UNORM (ordre memoire R,G,B,A, LOT-54 TACHE-01) -&gt; chaine hexadecimale
+// "#rrggbbaa", meme convention que hmi::formatColorHex (EditorStatus.cpp) : trop petite pour
+// justifier une fonction partagee entre deux fichiers independants.
+<span style = "background-color:#dfd">std::string formatColorHex(std::uint32_t color) {
+    std::array&lt;char, 10&gt; buffer{};
+    std::snprintf(buffer.data(), buffer.size(), "#%02x%02x%02x%02x",</span>
+                  static_cast&lt;unsigned&gt;(color &amp; 0xFFU), static_cast&lt;unsigned&gt;((color &gt;&gt; 8) &amp; 0xFFU),
+                  static_cast&lt;unsigned&gt;((color &gt;&gt; 16) &amp; 0xFFU),
+                  static_cast&lt;unsigned&gt;((color &gt;&gt; 24) &amp; 0xFFU));
+<span style = "background-color:#dfd">    return std::string(buffer.data());
+}</span>
+
+// Chiffre hexadecimal -&gt; valeur, sans lever (contrairement a std::stoul) : aucune exception ne
+// doit franchir la lecture d'un fichier utilisateur (EX-NFR-040).
+<span style = "background-color:#dfd">std::optional&lt;int&gt; hexNibble(char c) noexcept {
+    if (c &gt;= '0' &amp;&amp; c &lt;= '9') {
+        return c - '0';</span>
+    }
+<span style = "background-color:#dfd">    if (c &gt;= 'a' &amp;&amp; c &lt;= 'f') {
+        return c - 'a' + 10;</span>
+    }
+<span style = "background-color:#fdd">    if (c &gt;= 'A' &amp;&amp; c &lt;= 'F') {
+        return c - 'A' + 10;</span>
+    }
+<span style = "background-color:#fdd">    return std::nullopt;</span>
+<span style = "background-color:#dfd">}</span>
+
+<span style = "background-color:#dfd">std::optional&lt;std::uint8_t&gt; hexByte(char high, char low) noexcept {
+    const std::optional&lt;int&gt; h = hexNibble(high);
+    const std::optional&lt;int&gt; l = hexNibble(low);
+    if (!h || !l) {</span>
+<span style = "background-color:#fdd">        return std::nullopt;</span>
+    }
+<span style = "background-color:#dfd">    return static_cast&lt;std::uint8_t&gt;((*h &lt;&lt; 4) | *l);
+}</span>
+
+// "#rrggbb" (alpha implicite 255) ou "#rrggbbaa" -&gt; couleur R8G8B8A8_UNORM.
+<span style = "background-color:#dfd">std::optional&lt;std::uint32_t&gt; parseColorHex(const std::string&amp; text) {
+    if (text.size() != 7 &amp;&amp; text.size() != 9) {</span>
+<span style = "background-color:#fdd">        return std::nullopt;</span>
+    }
+<span style = "background-color:#dfd">    if (text[0] != '#') {</span>
+<span style = "background-color:#fdd">        return std::nullopt;</span>
+    }
+<span style = "background-color:#dfd">    const std::optional&lt;std::uint8_t&gt; r = hexByte(text[1], text[2]);
+    const std::optional&lt;std::uint8_t&gt; g = hexByte(text[3], text[4]);
+    const std::optional&lt;std::uint8_t&gt; b = hexByte(text[5], text[6]);
+    if (!r || !g || !b) {</span>
+<span style = "background-color:#fdd">        return std::nullopt;</span>
+    }
+<span style = "background-color:#dfd">    std::uint8_t a = 0xFFU;
+    if (text.size() == 9) {
+        const std::optional&lt;std::uint8_t&gt; parsedAlpha = hexByte(text[7], text[8]);
+        if (!parsedAlpha) {</span>
+<span style = "background-color:#fdd">            return std::nullopt;</span>
+        }
+<span style = "background-color:#dfd">        a = *parsedAlpha;</span>
+    }
+<span style = "background-color:#dfd">    return static_cast&lt;std::uint32_t&gt;(*r) | (static_cast&lt;std::uint32_t&gt;(*g) &lt;&lt; 8) |</span>
+           (static_cast&lt;std::uint32_t&gt;(*b) &lt;&lt; 16) | (static_cast&lt;std::uint32_t&gt;(a) &lt;&lt; 24);
+<span style = "background-color:#dfd">}</span>
+
+// Une entree individuelle de `colors` -&gt; entree de palette, ou nullopt si malformee (forme
+// inattendue, ou couleur hexadecimale invalide) -- journalise la raison, ne leve jamais (EX-NFR-
+// 040 : une entree fautive n'invalide pas le reste de la palette).
+<span style = "background-color:#dfd">std::optional&lt;PixelPaletteEntry&gt; parseColorEntry(const nlohmann::json&amp; entryJson) {</span>
+    if (!entryJson.is_object() || !entryJson.contains(FIELD_NAME) ||
+<span style = "background-color:#dfd">        !entryJson.contains(FIELD_COLOR) || !entryJson[FIELD_NAME].is_string() ||</span>
+        !entryJson[FIELD_COLOR].is_string()) {
+<span style = "background-color:#fdd">        HMI_LOG_WARNING("palettes.json : entree malformee, ignoree.");
+        return std::nullopt;</span>
+    }
+    const std::optional&lt;std::uint32_t&gt; color =
+<span style = "background-color:#dfd">        parseColorHex(entryJson[FIELD_COLOR].get&lt;std::string&gt;());
+    if (!color) {</span>
+<span style = "background-color:#fdd">        HMI_LOG_WARNING("palettes.json : couleur invalide, entree ignoree.");
+        return std::nullopt;</span>
+    }
+<span style = "background-color:#dfd">    return PixelPaletteEntry{.name = entryJson[FIELD_NAME].get&lt;std::string&gt;(), .color = *color};
+}</span>
+
+}  // namespace
+
+<span style = "background-color:#dfd">PixelPalette PixelPalette::loadFromString(std::string_view json) {
+    PixelPalette palette;</span>
+    // Enveloppe commune : brique partagee du LOT-79 (EX-CNT-012). Ce lecteur n'a pas de champ de
+    // version, d'ou la garde desactivee (0).
+<span style = "background-color:#dfd">    const core::JsonDocument document = core::readJsonObject(json, 0, "palettes.json");
+    if (!document.ok()) {
+        HMI_LOG_WARNING(document.message + " Palette vide.");
+        return palette;</span>
+    }
+<span style = "background-color:#dfd">    const nlohmann::json&amp; root = document.root;
+    if (!root.contains(FIELD_COLORS) || !root[FIELD_COLORS].is_array()) {</span>
+<span style = "background-color:#fdd">        HMI_LOG_WARNING("palettes.json : structure inattendue, palette vide.");
+        return palette;</span>
+    }
+
+<span style = "background-color:#dfd">    for (const nlohmann::json&amp; entryJson : root[FIELD_COLORS]) {
+        std::optional&lt;PixelPaletteEntry&gt; entry = parseColorEntry(entryJson);
+        if (entry) {
+            palette._entries.push_back(std::move(*entry));</span>
+        }
+<span style = "background-color:#dfd">    }
+    return palette;
+}</span>
+
+<span style = "background-color:#dfd">PixelPalette PixelPalette::loadFromFile(const std::filesystem::path&amp; path) {
+    std::ifstream file(path);
+    if (!file) {</span>
+        // Absent ou illisible : etat de depart legitime (palette vide), pas une erreur -- a la
+        // difference de skins.json (LOT-43), un projet neuf n'a simplement encore rien defini.
+<span style = "background-color:#dfd">        return PixelPalette{};</span>
+    }
+<span style = "background-color:#dfd">    std::ostringstream contents;
+    contents &lt;&lt; file.rdbuf();
+    return loadFromString(contents.str());
+}</span>
+
+<span style = "background-color:#dfd">std::string PixelPalette::toJsonString() const {
+    nlohmann::ordered_json root;
+    root[FIELD_VERSION] = FORMAT_VERSION;
+    nlohmann::ordered_json colors = nlohmann::ordered_json::array();
+    for (const PixelPaletteEntry&amp; entry : _entries) {
+        nlohmann::ordered_json entryJson;
+        entryJson[FIELD_NAME] = entry.name;
+        entryJson[FIELD_COLOR] = formatColorHex(entry.color);
+        colors.push_back(std::move(entryJson));
+    }
+    root[FIELD_COLORS] = std::move(colors);
+    return root.dump(2) + "\n";
+}</span>
+
+<span style = "background-color:#dfd">bool PixelPalette::saveToFile(const std::filesystem::path&amp; path) const {
+    std::error_code error;
+    if (path.has_parent_path()) {
+        std::filesystem::create_directories(path.parent_path(), error);</span>
+    }
+<span style = "background-color:#dfd">    std::ofstream file(path, std::ios::binary | std::ios::trunc);
+    if (!file) {</span>
+<span style = "background-color:#fdd">        HMI_LOG_WARNING("palettes.json : ecriture impossible : " + path.string());
+        return false;</span>
+    }
+<span style = "background-color:#dfd">    file &lt;&lt; toJsonString();
+    return file.good();
+}</span>
+
+<span style = "background-color:#dfd">void PixelPalette::add(std::string name, std::uint32_t color) {
+    _entries.push_back(PixelPaletteEntry{.name = std::move(name), .color = color});
+}</span>
+
+<span style = "background-color:#fdd">bool PixelPalette::removeAt(std::size_t index) {
+    if (index &gt;= _entries.size()) {
+        return false;</span>
+    }
+<span style = "background-color:#fdd">    _entries.erase(_entries.begin() + static_cast&lt;std::ptrdiff_t&gt;(index));
+    return true;
+}</span>
+
+<span style = "background-color:#fdd">bool PixelPalette::renameAt(std::size_t index, std::string newName) {
+    if (index &gt;= _entries.size()) {
+        return false;</span>
+    }
+<span style = "background-color:#fdd">    _entries[index].name = std::move(newName);
+    return true;
+}</span>
+
+<span style = "background-color:#fdd">bool PixelPalette::moveEntry(std::size_t from, std::size_t to) {
+    if (from &gt;= _entries.size() || to &gt;= _entries.size()) {
+        return false;</span>
+    }
+<span style = "background-color:#fdd">    if (from == to) {
+        return true;</span>
+    }
+<span style = "background-color:#fdd">    PixelPaletteEntry entry = _entries[from];
+    _entries.erase(_entries.begin() + static_cast&lt;std::ptrdiff_t&gt;(from));
+    _entries.insert(_entries.begin() + static_cast&lt;std::ptrdiff_t&gt;(to), std::move(entry));
+    return true;
+}</span>
+
+<span style = "background-color:#dfd">std::vector&lt;PixelPaletteExtractionEntry&gt; extractPalette(const DecodedImage&amp; image) {
+    std::vector&lt;PixelPaletteExtractionEntry&gt; result;
+    std::unordered_map&lt;std::uint32_t, std::size_t&gt; indexOf;
+    for (const std::uint32_t pixel : image.pixels) {
+        if ((pixel &gt;&gt; 24) == 0) {
+            continue;  // alpha nul : la gomme, jamais une couleur (meme regle que la contrainte).</span>
+        }
+<span style = "background-color:#dfd">        const auto found = indexOf.find(pixel);
+        if (found == indexOf.end()) {
+            indexOf.emplace(pixel, result.size());
+            result.push_back(PixelPaletteExtractionEntry{.color = pixel, .count = 1});
+        } else {
+            ++result[found-&gt;second].count;</span>
+        }
+<span style = "background-color:#dfd">    }
+    return result;
+}</span>
+
+std::uint32_t nearestPaletteColor(std::uint32_t color,
+<span style = "background-color:#dfd">                                  const std::vector&lt;std::uint32_t&gt;&amp; palette) noexcept {
+    const std::uint32_t alpha = color &amp; 0xFF000000U;
+    if (alpha == 0 || palette.empty()) {
+        return color;  // gomme, ou palette vide : couleur inchangee.</span>
+    }
+
+<span style = "background-color:#dfd">    const int r = static_cast&lt;int&gt;(color &amp; 0xFFU);
+    const int g = static_cast&lt;int&gt;((color &gt;&gt; 8) &amp; 0xFFU);
+    const int b = static_cast&lt;int&gt;((color &gt;&gt; 16) &amp; 0xFFU);</span>
+
+<span style = "background-color:#dfd">    std::uint32_t nearestRgb = palette.front() &amp; 0x00FFFFFFU;
+    long long bestDistance = -1;
+    for (const std::uint32_t entry : palette) {
+        const int entryR = static_cast&lt;int&gt;(entry &amp; 0xFFU);
+        const int entryG = static_cast&lt;int&gt;((entry &gt;&gt; 8) &amp; 0xFFU);
+        const int entryB = static_cast&lt;int&gt;((entry &gt;&gt; 16) &amp; 0xFFU);
+        const long long dr = r - entryR;
+        const long long dg = g - entryG;
+        const long long db = b - entryB;
+        const long long distance = (dr * dr) + (dg * dg) + (db * db);</span>
+        // '&lt;' strict, jamais '&lt;=' : a distance egale, la PREMIERE entree rencontree l'emporte --
+        // departage stable et deterministe (meme geste, meme resultat, a chaque execution).
+<span style = "background-color:#dfd">        if (bestDistance &lt; 0 || distance &lt; bestDistance) {
+            bestDistance = distance;
+            nearestRgb = entry &amp; 0x00FFFFFFU;</span>
+        }
+<span style = "background-color:#dfd">    }
+    return nearestRgb | alpha;
+}</span>
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

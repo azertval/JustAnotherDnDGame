@@ -1,0 +1,132 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>ScreenFlow.h</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#pragma once
+
+#include &lt;optional&gt;
+
+/**
+ * @file HMI/Presentation/ScreenFlow.h
+ * @brief Machine Ã  Ã©tats des Ã©crans de la fenÃªtre principale (`LOT-59` TACHE-01, `EX-GP-041`).
+ *
+ * Logique **pure** (aucune dÃ©pendance Qt), testable hors instance d'application (`EX-NFR-010`) â
+ * mÃªme patron que `HMI/Editor/PanelFocus.h`/`HMI/Interface/ActionCatalog.h`. `MainWindow` ne fait
+ * que suivre cette table : les `showXxx()` deviennent des consommatrices de `dressingFor()`, et
+ * toute navigation passe par `resolveTransition()` plutÃ´t que d'appeler une autre mÃ©thode
+ * directement -- une transition non dÃ©clarÃ©e ici est **refusÃ©e**, jamais silencieusement acceptÃ©e.
+ */
+
+namespace hmi {
+
+/// Ãcran actuellement affichÃ© par la fenÃªtre principale.
+enum class ScreenId {
+    Menu,
+    Editor,
+    Game,
+    Options,
+    Pause,
+    Credits,
+    /// **Un** Ã©cran du RPG est ouvert (`LOT-68`, `EX-IHM-090`). Lequel des huit n'est pas la
+    /// question de cette table : c'est celle de `hmi::RpgScreenHost`, qui les hÃ©berge tous sur une
+    /// seule page. Les y dÃ©clarer un par un aurait multipliÃ© par huit les transitions Ã  Ã©crire
+    /// pour n'exprimer, huit fois, que la mÃªme rÃ¨gle.
+    RpgScreen,
+    /// Le ColisÃ©e (`LOT-50`) : la mise en place d'un affrontement et sa grille. Un Ã©cran de
+    /// premier niveau, comme `Game`, parce que l'arÃ¨ne est un **mode du jeu** et non l'un des
+    /// Ã©crans du RPG qui se consultent depuis une partie.
+    Arena,
+};
+
+/// ÃvÃ©nement pouvant dÃ©clencher une transition d'Ã©cran. Un seul Ã©vÃ©nement `OpenOptions`/
+/// `CloseOptions` sert Menu et Pause : c'est `ScreenState::optionsReturnTo` (pas l'Ã©vÃ©nement) qui
+/// porte la diffÃ©rence, cf. plus bas.
+enum class ScreenEvent {
+    OpenMenu,
+    OpenEditor,
+    OpenGame,
+    OpenOptions,
+    CloseOptions,
+    OpenPause,
+    ResumePause,
+    QuitPauseToMenu,
+    OpenCredits,
+    CloseCredits,
+    /// Ouvre un Ã©cran du RPG. Un seul Ã©vÃ©nement pour les huit, et depuis trois Ã©crans (Menu, Game,
+    /// Pause) : c'est `ScreenState::rpgReturnTo` qui porte la diffÃ©rence, comme
+    /// `optionsReturnTo` le fait pour Options.
+    OpenRpgScreen,
+    CloseRpgScreen,
+    /// Ouvre le ColisÃ©e depuis le menu ; `CloseArena` y revient.
+    OpenArena,
+    CloseArena,
+};
+
+/// Habillage de fenÃªtre associÃ© Ã  un Ã©cran : ce que chaque `showXxx()` rÃ©pÃ©tait Ã  la main
+/// (bascule du `QStackedWidget`, docks, barre de menu, barres d'outils, navigation manette). Le
+/// choix de la page du `QStackedWidget` reste dans `MainWindow` (pointeurs de widgets Qt, hors de
+/// portÃ©e d'une table pure) ; `Pause` ne bascule d'ailleurs aucune page -- c'est un recouvrement
+/// par-dessus `Game` (`overlayVisible`), pour que la scÃ¨ne reste dessinÃ©e derriÃ¨re.
+struct ScreenDressing {
+    bool docksVisible = false;
+    bool menuBarVisible = false;
+    bool toolBarVisible = false;
+    bool pixelToolBarVisible = false;
+    bool editingCommandsEnabled = false;
+    bool gamepadNavigationActive = false;
+    bool overlayVisible = false;
+
+    friend bool operator==(const ScreenDressing&amp;, const ScreenDressing&amp;) = default;
+};
+
+/// @return L'habillage de fenÃªtre attendu pour @p screen.
+[[nodiscard]] ScreenDressing dressingFor(ScreenId screen) noexcept;
+
+/// Ãtat complet de la machine. `optionsReturnTo` n'est pertinent que lorsque `screen ==
+/// ScreenId::Options` : l'Ã©cran vers lequel `CloseOptions` revient (`Menu` ou `Pause`, selon
+/// l'origine) -- portÃ© ici plutÃ´t que par une variable Â« Ã©cran prÃ©cÃ©dent Â» posÃ©e Ã  cÃ´tÃ©
+/// (`TACHE-01`, voir epic.md).
+struct ScreenState {
+    ScreenId screen = ScreenId::Menu;
+    ScreenId optionsReturnTo = ScreenId::Menu;
+    /// Ãcran vers lequel `CloseRpgScreen` revient (`Menu`, `Game` ou `Pause`, selon l'origine).
+    /// MÃªme patron, et mÃªme raison, qu'`optionsReturnTo` : la provenance est un attribut de
+    /// l'Ã©tat, jamais une variable Â« Ã©cran prÃ©cÃ©dent Â» posÃ©e Ã  cÃ´tÃ© de la machine.
+<span style = "background-color:#dfd">    ScreenId rpgReturnTo = ScreenId::Menu;</span>
+
+    friend bool operator==(const ScreenState&amp;, const ScreenState&amp;) = default;
+};
+
+/// RÃ©sout une transition d'Ã©cran Ã  partir de l'Ã©tat courant et d'un Ã©vÃ©nement.
+/// @return Le nouvel Ã©tat, ou `std::nullopt` si @p event est interdit depuis `current.screen` --
+///         l'appelant garde alors l'Ã©tat courant inchangÃ©, jamais de bascule silencieuse
+///         (`EX-GP-041`).
+[[nodiscard]] std::optional&lt;ScreenState&gt; resolveTransition(const ScreenState&amp; current,
+                                                           ScreenEvent event) noexcept;
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

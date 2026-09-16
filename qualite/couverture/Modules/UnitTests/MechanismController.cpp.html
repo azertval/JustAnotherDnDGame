@@ -1,0 +1,151 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>MechanismController.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#include "Core/Gameplay/MechanismController.h"
+
+#include &lt;string&gt;
+
+#include "Core/Gameplay/GameplayLog.h"
+#include "Core/Levels/GridPosition.h"
+#include "Core/Levels/TileType.h"
+#include "Core/Physics/Aabb.h"
+
+namespace core {
+namespace {
+
+// La boÃ®te recouvre-t-elle la case (column, row) ? Chevauchement d'aire strictement positive.
+<span style = "background-color:#dfd">bool overlapsCell(const Aabb&amp; box, GridPosition cell) {
+    const auto left = static_cast&lt;float&gt;(cell.column);
+    const auto top = static_cast&lt;float&gt;(cell.row);
+    return box.min.x &lt; left + 1.0F &amp;&amp; box.max.x &gt; left &amp;&amp; box.min.y &lt; top + 1.0F &amp;&amp; box.max.y &gt; top;
+}</span>
+
+// Seuil de poids (masse, `core::Actor::mass`) requis pour activer une plaque de pression
+// (`EX-GP-025`) â calÃ© sur la masse par dÃ©faut du personnage, pour qu'une plaque fonctionne
+// Â« prÃªte Ã  l'emploi Â» sans configuration tant qu'aucune autre masse n'existe dans le jeu.
+constexpr float MIN_TRIGGER_MASS = 1.0F;
+
+// Un poids autre que le personnage repose-t-il sur @p cell avec une masse suffisante ? (LOT-65
+// TACHE-06.) Un poids trop leger touche la plaque sans l'enfoncer, exactement comme un personnage
+// trop leger -- meme seuil, meme regle, pas de cas particulier pour les blocs.
+<span style = "background-color:#dfd">bool weightRestsOn(const std::vector&lt;TriggerWeight&gt;&amp; weights, GridPosition cell) {
+    for (const TriggerWeight&amp; weight : weights) {</span>
+<span style = "background-color:#fdd">        if (weight.mass &gt;= MIN_TRIGGER_MASS &amp;&amp; overlapsCell(weight.box, cell)) {
+            return true;</span>
+        }
+<span style = "background-color:#fdd">    }</span>
+<span style = "background-color:#dfd">    return false;
+}</span>
+
+}  // namespace
+
+MechanismController::MechanismController(const Level&amp; level)
+<span style = "background-color:#dfd">    : _collision(level.tileMap()),  // copie de la carte : on la mutera pour les portes
+      _mechanisms(level.mechanisms()),
+      _switchOn(level.mechanisms().size(), false),
+      _playerOnSwitchPrev(level.mechanisms().size(), false) {</span>
+    // Nature de chaque dÃ©clencheur, figÃ©e d'aprÃ¨s la tuile d'origine (avant toute mutation de
+    // _collision ci-dessous â seules les portes sont rÃ©Ã©crites, jamais les dÃ©clencheurs eux-mÃªmes).
+    // _openType capture le type "porte ouverte" (Door ou LockedDoor) AVANT que la boucle suivante
+    // ne fige toutes les portes en Solid : lu aprÃ¨s coup, il serait toujours Solid.
+<span style = "background-color:#dfd">    _continuous.reserve(_mechanisms.size());
+    _isKey.reserve(_mechanisms.size());
+    _openType.reserve(_mechanisms.size());
+    for (const Mechanism&amp; mechanism : _mechanisms) {
+        const TileType triggerType =</span>
+            _collision.tile(mechanism.switchPosition.column, mechanism.switchPosition.row);
+<span style = "background-color:#dfd">        _continuous.push_back(triggerType == TileType::PressurePlate);
+        _isKey.push_back(triggerType == TileType::Key);
+        _openType.push_back(</span>
+            _collision.tile(mechanism.doorPosition.column, mechanism.doorPosition.row));
+<span style = "background-color:#dfd">    }</span>
+    // Portes fermÃ©es au dÃ©part : solides dans la grille de collision.
+<span style = "background-color:#dfd">    for (const Mechanism&amp; mechanism : _mechanisms) {
+        _collision.setTile(mechanism.doorPosition.column, mechanism.doorPosition.row,</span>
+                           TileType::Solid);
+<span style = "background-color:#dfd">    }
+}</span>
+
+void MechanismController::update(const Aabb&amp; playerBox, float playerMass, bool interactPressed,
+<span style = "background-color:#dfd">                                 const std::vector&lt;TriggerWeight&gt;&amp; weights) {
+    _crushedPlayer = false;  // etat d'un pas, jamais cumule d'un pas sur l'autre.
+    for (std::size_t index = 0; index &lt; _mechanisms.size(); ++index) {
+        const Mechanism&amp; mechanism = _mechanisms[index];
+        const bool onSwitch = overlapsCell(playerBox, mechanism.switchPosition);
+        const GridPosition door = mechanism.doorPosition;</span>
+
+<span style = "background-color:#dfd">        if (_isKey[index]) {</span>
+            // Cle (EX-GP-023) : ramassage au contact ET a l'action Â« Interagir Â» (EX-CTRL-022,
+            // son premier usage) -- le contact seul ne suffit pas, contrairement a l'interrupteur.
+            // Une fois ramassee, la porte reste ouverte DEFINITIVEMENT : jamais de retour a false,
+            // meme si le joueur revient sur la case (deja consommee) ou rappuie sur Interagir.
+<span style = "background-color:#dfd">            if (!_switchOn[index] &amp;&amp; onSwitch &amp;&amp; interactPressed) {
+                _switchOn[index] = true;
+                _collision.setTile(door.column, door.row, _openType[index]);
+                GAMEPLAY_LOG_TRACE("Cle #" + std::to_string(index) + " ramassee -&gt; porte (" +</span>
+                                   std::to_string(door.column) + ", " + std::to_string(door.row) +
+                                   ") ouverte definitivement");
+<span style = "background-color:#dfd">            }
+        } else if (_continuous[index]) {</span>
+            // Plaque de pression (EX-GP-025) : ouverte tant qu'un poids suffisant y repose,
+            // refermee des qu'il en repart â activation CONTINUE, reevaluee a chaque pas (pas de
+            // front). Le poids n'intervient QUE pour ce type de declencheur.
+<span style = "background-color:#dfd">            const bool shouldBeOpen = (onSwitch &amp;&amp; playerMass &gt;= MIN_TRIGGER_MASS) ||</span>
+                                      weightRestsOn(weights, mechanism.switchPosition);
+<span style = "background-color:#dfd">            if (shouldBeOpen != _switchOn[index]) {
+                _switchOn[index] = shouldBeOpen;
+                _collision.setTile(door.column, door.row,</span>
+                                   _switchOn[index] ? _openType[index] : TileType::Solid);
+<span style = "background-color:#dfd">                if (!_switchOn[index] &amp;&amp; overlapsCell(playerBox, door)) {</span>
+<span style = "background-color:#fdd">                    _crushedPlayer = true;  // la porte se referme sur le personnage : mortel.</span>
+                }
+<span style = "background-color:#dfd">                GAMEPLAY_LOG_TRACE("Plaque de pression #" + std::to_string(index) + " -&gt; porte (" +</span>
+                                   std::to_string(door.column) + ", " + std::to_string(door.row) +
+                                   ") " + (_switchOn[index] ? "ouverte" : "fermee"));
+            }
+<span style = "background-color:#dfd">        } else {</span>
+            // Interrupteur a bascule (EX-GP-020) : bascule au FRONT seulement, comportement
+            // inchange (rester dessus ne re-bascule pas ; le poids n'intervient pas).
+<span style = "background-color:#dfd">            if (onSwitch &amp;&amp; !_playerOnSwitchPrev[index]) {
+                _switchOn[index] = !_switchOn[index];
+                _collision.setTile(door.column, door.row,</span>
+                                   _switchOn[index] ? _openType[index] : TileType::Solid);
+<span style = "background-color:#dfd">                if (!_switchOn[index] &amp;&amp; overlapsCell(playerBox, door)) {</span>
+<span style = "background-color:#fdd">                    _crushedPlayer = true;  // la porte se referme sur le personnage : mortel.</span>
+                }
+<span style = "background-color:#dfd">                GAMEPLAY_LOG_TRACE("Interrupteur #" + std::to_string(index) + " -&gt; porte (" +</span>
+                                   std::to_string(door.column) + ", " + std::to_string(door.row) +
+                                   ") " + (_switchOn[index] ? "ouverte" : "fermee"));
+            }
+        }
+<span style = "background-color:#dfd">        _playerOnSwitchPrev[index] = onSwitch;
+    }
+}</span>
+
+}  // namespace core</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

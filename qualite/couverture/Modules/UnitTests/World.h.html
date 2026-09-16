@@ -1,0 +1,194 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>World.h</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#pragma once
+
+#include &lt;memory&gt;
+#include &lt;typeindex&gt;
+#include &lt;unordered_map&gt;
+#include &lt;vector&gt;
+
+#include "Core/Diagnostics/Assert.h"
+#include "Core/Ecs/ComponentPool.h"
+#include "Core/Ecs/Entity.h"
+#include "Core/Ecs/EntityManager.h"
+#include "Core/Ecs/ISystem.h"
+#include "Core/Ecs/View.h"
+
+/**
+ * @file Core/Ecs/World.h
+ * @brief FaÃ§ade de l'ECS : entitÃ©s, composants, vues et orchestration des systÃ¨mes.
+ */
+
+namespace core {
+
+/**
+ * @brief Point d'entrÃ©e unique de la simulation : possÃ¨de les entitÃ©s, les
+ *        composants et les systÃ¨mes.
+ *
+ * Le `World` dÃ©lÃ¨gue le cycle de vie des entitÃ©s Ã  un ::core::EntityManager,
+ * dÃ©tient une ::core::ComponentPool par type de composant (crÃ©Ã©e Ã  la demande)
+ * et exÃ©cute les systÃ¨mes enregistrÃ©s **dans l'ordre**, Ã  chaque pas de temps
+ * fixe (`EX-ARCH-030`). Il **possÃ¨de** toutes ses ressources (RAII) : aucun Ã©tat
+ * global, aucune connaissance du rendu (dÃ©pendance `HMI â Core` respectÃ©e).
+ */
+class World {
+public:
+    /**
+     * @brief CrÃ©e une nouvelle entitÃ© vivante.
+     * @return Un handle valide.
+     */
+    [[nodiscard]] Entity createEntity();
+
+    /**
+     * @brief DÃ©truit une entitÃ© et retire ses composants de toutes les pools.
+     * @param entity EntitÃ© Ã  dÃ©truire ; sans effet si elle n'est pas vivante.
+     */
+    void destroyEntity(Entity entity);
+
+    /**
+     * @brief Indique si une entitÃ© est vivante.
+     * @param entity Handle Ã  tester.
+     * @return `true` si l'entitÃ© est vivante.
+     */
+    [[nodiscard]] bool isAlive(Entity entity) const;
+
+    /**
+     * @brief Attache un composant Ã  une entitÃ©.
+     * @tparam T        Type de composant (donnÃ©e pure).
+     * @param entity    EntitÃ© destinataire (supposÃ©e vivante, sans ce composant).
+     * @param component Valeur du composant.
+     */
+    template &lt;typename T&gt;
+<span style = "background-color:#dfd">    void addComponent(Entity entity, const T&amp; component) {
+        JADG_ASSERT(isAlive(entity), "Ajout d'un composant sur une entite morte.");
+        poolFor&lt;T&gt;().add(entity, component);
+    }</span>
+
+    /**
+     * @brief Indique si une entitÃ© possÃ¨de un composant d'un type donnÃ©.
+     * @tparam T     Type de composant.
+     * @param entity EntitÃ© testÃ©e.
+     * @return `true` si le composant est prÃ©sent.
+     */
+    template &lt;typename T&gt;
+<span style = "background-color:#dfd">    [[nodiscard]] bool hasComponent(Entity entity) const {
+        const ComponentPool&lt;T&gt;* pool = findPool&lt;T&gt;();
+        return pool != nullptr &amp;&amp; pool-&gt;has(entity);
+    }</span>
+
+    /**
+     * @brief AccÃ¨de au composant d'une entitÃ© (lecture-Ã©criture).
+     * @tparam T     Type de composant.
+     * @param entity EntitÃ© porteuse du composant.
+     * @return Une rÃ©fÃ©rence sur le composant.
+     * @pre L'entitÃ© possÃ¨de ce composant (hasComponent&lt;T&gt;() == true).
+     */
+    template &lt;typename T&gt;
+<span style = "background-color:#dfd">    [[nodiscard]] T&amp; getComponent(Entity entity) {
+        JADG_ASSERT(hasComponent&lt;T&gt;(entity), "L'entite ne possede pas ce composant.");
+        return poolFor&lt;T&gt;().get(entity);
+    }</span>
+
+    /**
+     * @brief Retire le composant d'un type donnÃ© d'une entitÃ©.
+     * @tparam T     Type de composant.
+     * @param entity EntitÃ© dont le composant est retirÃ©.
+     * @pre L'entitÃ© possÃ¨de ce composant (hasComponent&lt;T&gt;() == true).
+     */
+    template &lt;typename T&gt;
+<span style = "background-color:#dfd">    void removeComponent(Entity entity) {
+        JADG_ASSERT(hasComponent&lt;T&gt;(entity), "L'entite ne possede pas ce composant.");
+        poolFor&lt;T&gt;().remove(entity);
+    }</span>
+
+    /**
+     * @brief Construit une vue sur les entitÃ©s possÃ©dant tous les composants demandÃ©s.
+     * @tparam Components Types de composants requis (distincts).
+     * @return Une ::core::View joignant les pools correspondantes.
+     */
+    template &lt;typename... Components&gt;
+<span style = "background-color:#dfd">    [[nodiscard]] View&lt;Components...&gt; view() {
+        return View&lt;Components...&gt;(poolFor&lt;Components&gt;()...);
+    }</span>
+
+    /**
+     * @brief Enregistre un systÃ¨me ; l'ordre d'enregistrement fixe l'ordre d'exÃ©cution.
+     * @param system SystÃ¨me Ã  ajouter (le `World` en prend possession).
+     */
+    void addSystem(std::unique_ptr&lt;ISystem&gt; system);
+
+    /**
+     * @brief ExÃ©cute tous les systÃ¨mes enregistrÃ©s, dans l'ordre, pour un pas fixe.
+     * @param fixedDelta DurÃ©e du pas de simulation, en secondes.
+     */
+    void update(float fixedDelta);
+
+    /// @return Nombre de systÃ¨mes enregistrÃ©s.
+    [[nodiscard]] std::size_t systemCount() const;
+
+private:
+    /**
+     * @brief RÃ©cupÃ¨re la pool du type `T`, en la crÃ©ant Ã  la premiÃ¨re demande.
+     * @tparam T Type de composant.
+     * @return Une rÃ©fÃ©rence sur la pool typÃ©e.
+     */
+    template &lt;typename T&gt;
+<span style = "background-color:#dfd">    ComponentPool&lt;T&gt;&amp; poolFor() {
+        const std::type_index key(typeid(T));
+        auto iterator = _pools.find(key);
+        if (iterator == _pools.end()) {
+            iterator = _pools.emplace(key, std::make_unique&lt;ComponentPool&lt;T&gt;&gt;()).first;</span>
+        }
+<span style = "background-color:#dfd">        return *static_cast&lt;ComponentPool&lt;T&gt;*&gt;(iterator-&gt;second.get());
+    }</span>
+
+    /**
+     * @brief RÃ©cupÃ¨re la pool du type `T` sans la crÃ©er.
+     * @tparam T Type de composant.
+     * @return Un pointeur sur la pool, ou `nullptr` si aucune pool de ce type n'existe.
+     */
+    template &lt;typename T&gt;
+<span style = "background-color:#dfd">    const ComponentPool&lt;T&gt;* findPool() const {
+        const auto iterator = _pools.find(std::type_index(typeid(T)));
+        if (iterator == _pools.end()) {
+            return nullptr;</span>
+        }
+<span style = "background-color:#dfd">        return static_cast&lt;const ComponentPool&lt;T&gt;*&gt;(iterator-&gt;second.get());
+    }</span>
+
+    /// Cycle de vie des entitÃ©s.
+    EntityManager _entities;
+    /// Pools de composants, une par type (clÃ© = type du composant).
+    std::unordered_map&lt;std::type_index, std::unique_ptr&lt;IComponentPool&gt;&gt; _pools;
+    /// SystÃ¨mes enregistrÃ©s, exÃ©cutÃ©s dans l'ordre d'insertion.
+    std::vector&lt;std::unique_ptr&lt;ISystem&gt;&gt; _systems;
+};
+
+}  // namespace core</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

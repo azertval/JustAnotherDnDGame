@@ -1,0 +1,125 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>SkinAssignments.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#include "HMI/Editor/SkinAssignments.h"
+
+#include &lt;algorithm&gt;
+#include &lt;array&gt;
+#include &lt;optional&gt;
+#include &lt;system_error&gt;
+
+#include "HMI/Editor/TileTaxonomy.h"
+
+namespace hmi {
+
+namespace {
+
+// Extensions d'image acceptees pour un skin. Le decodage (hmi::decodeImageFile) gere davantage de
+// formats, mais proposer un fichier qui ne sera pas lu serait pire que de ne pas le proposer.
+constexpr std::array&lt;const char*, 2&gt; IMAGE_EXTENSIONS{".png", ".PNG"};
+
+// Ajoute une ligne pour un type, en y reportant son assignation courante si elle existe.
+void appendRow(std::vector&lt;SkinRow&gt;&amp; rows, const SkinCatalog&amp; catalog, std::string_view setName,
+<span style = "background-color:#dfd">               const TileEntry&amp; entry) {
+    if (entry.type == core::TileType::Empty) {
+        return;  // une case vide n'affiche rien : aucune apparence a lui assigner.</span>
+    }
+<span style = "background-color:#dfd">    SkinRow row;
+    row.type = entry.type;
+    row.typeLabel = entry.label;
+    if (const std::optional&lt;SkinEntry&gt; assigned = catalog.resolve(setName, entry.type)) {
+        row.asset = assigned-&gt;asset;
+        row.mode = assigned-&gt;mode;
+    }
+    rows.push_back(std::move(row));
+}</span>
+
+// Nom du jeu effectivement consulte : le defaut du catalogue si aucun n'est demande.
+<span style = "background-color:#dfd">[[nodiscard]] std::string effectiveSetName(const SkinCatalog&amp; catalog, std::string_view setName) {
+    return setName.empty() ? catalog.defaultSetName() : std::string{setName};
+}</span>
+
+}  // namespace
+
+<span style = "background-color:#dfd">std::vector&lt;SkinSection&gt; buildSkinRows(const SkinCatalog&amp; catalog, std::string_view setName) {
+    std::vector&lt;SkinSection&gt; sections;
+    for (const TileCategory&amp; category : tileTaxonomy()) {
+        SkinSection section;
+        section.label = category.label;
+        for (const TileEntry&amp; entry : category.tiles) {
+            appendRow(section.rows, catalog, setName, entry);
+        }</span>
+        // Sous-groupes aplatis dans leur categorie : le panneau n'a qu'une assignation par type,
+        // un troisieme niveau de repli n'apporterait rien.
+<span style = "background-color:#dfd">        for (const TileSubgroup&amp; subgroup : category.subgroups) {</span>
+<span style = "background-color:#fdd">            for (const TileEntry&amp; entry : subgroup.tiles) {
+                appendRow(section.rows, catalog, setName, entry);
+            }
+        }</span>
+<span style = "background-color:#dfd">        if (!section.rows.empty()) {
+            sections.push_back(std::move(section));</span>
+        }
+<span style = "background-color:#dfd">    }
+    return sections;
+}</span>
+
+<span style = "background-color:#dfd">std::vector&lt;std::string&gt; listSkinAssets(const std::filesystem::path&amp; skinsDirectory) {
+    std::vector&lt;std::string&gt; assets;
+    std::error_code error;
+    if (!std::filesystem::is_directory(skinsDirectory, error)) {
+        return assets;  // dossier absent : liste vide (meme robustesse que LevelFileOperations).</span>
+    }
+<span style = "background-color:#dfd">    for (const std::filesystem::directory_entry&amp; entry :
+         std::filesystem::directory_iterator(skinsDirectory, error)) {
+        if (!entry.is_regular_file(error)) {</span>
+<span style = "background-color:#fdd">            continue;</span>
+        }
+<span style = "background-color:#dfd">        const std::string extension = entry.path().extension().string();
+        if (std::ranges::find(IMAGE_EXTENSIONS, extension) == std::end(IMAGE_EXTENSIONS)) {
+            continue;</span>
+        }
+<span style = "background-color:#dfd">        assets.push_back(entry.path().filename().string());
+    }
+    std::ranges::sort(assets);
+    return assets;
+}</span>
+
+void applySkinAssignment(SkinCatalog&amp; catalog, std::string_view setName, core::TileType type,
+<span style = "background-color:#dfd">                         const std::string&amp; asset, SkinMode mode) {
+    const std::string set = effectiveSetName(catalog, setName);
+    if (asset.empty()) {</span>
+        // Â« Aucun skin Â» retire l'assignation : associer un fichier de nom vide laisserait une
+        // entree que la resolution tenterait de charger a chaque image.
+<span style = "background-color:#dfd">        catalog.clearAssignment(set, type);
+        return;</span>
+    }
+<span style = "background-color:#dfd">    catalog.assign(set, type, SkinEntry{.asset = asset, .mode = mode});
+}</span>
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

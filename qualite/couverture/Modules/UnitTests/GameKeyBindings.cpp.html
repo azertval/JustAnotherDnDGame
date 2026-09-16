@@ -1,0 +1,185 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>GameKeyBindings.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#include "HMI/Input/GameKeyBindings.h"
+
+#include &lt;fstream&gt;
+#include &lt;string&gt;
+#include &lt;system_error&gt;
+
+#include &lt;nlohmann/json.hpp&gt;
+
+#include "HMI/HmiLog.h"
+
+namespace hmi {
+
+namespace {
+
+// Nom JSON de chaque action (section "jeu" de keybindings.json) - inverse implicite lors du load.
+<span style = "background-color:#dfd">[[nodiscard]] std::string actionName(GameAction action) {
+    switch (action) {</span>
+        case GameAction::MoveLeft:
+<span style = "background-color:#dfd">            return "gauche";</span>
+        case GameAction::MoveRight:
+<span style = "background-color:#dfd">            return "droite";</span>
+        case GameAction::AimUp:
+<span style = "background-color:#dfd">            return "haut";</span>
+        case GameAction::AimDown:
+<span style = "background-color:#dfd">            return "bas";</span>
+        case GameAction::Jump:
+<span style = "background-color:#dfd">            return "sauter";</span>
+        case GameAction::Dash:
+<span style = "background-color:#dfd">            return "dash";</span>
+        case GameAction::Interact:
+<span style = "background-color:#dfd">            return "interagir";</span>
+    }
+<span style = "background-color:#fdd">    return "";</span>
+<span style = "background-color:#dfd">}</span>
+
+}  // namespace
+
+<span style = "background-color:#dfd">Key GameKeyBindings::defaultKey(GameAction action) noexcept {
+    switch (action) {</span>
+        case GameAction::MoveLeft:
+<span style = "background-color:#dfd">            return Key::Left;</span>
+        case GameAction::MoveRight:
+<span style = "background-color:#dfd">            return Key::Right;</span>
+        case GameAction::AimUp:
+<span style = "background-color:#dfd">            return Key::Up;</span>
+        case GameAction::AimDown:
+<span style = "background-color:#dfd">            return Key::Down;</span>
+        case GameAction::Jump:
+<span style = "background-color:#dfd">            return Key::Space;</span>
+        case GameAction::Dash:
+<span style = "background-color:#dfd">            return Key::Shift;</span>
+        case GameAction::Interact:
+<span style = "background-color:#dfd">            return Key::E;</span>
+    }
+<span style = "background-color:#fdd">    return Key::Escape;  // inatteignable : switch exhaustif sur GameAction ci-dessus.</span>
+<span style = "background-color:#dfd">}</span>
+
+<span style = "background-color:#dfd">GameKeyBindings::GameKeyBindings() {
+    resetToDefaults();
+}</span>
+
+<span style = "background-color:#dfd">Key GameKeyBindings::key(GameAction action) const noexcept {
+    return _keys[static_cast&lt;std::size_t&gt;(action)];
+}</span>
+
+// Echange avec l'action qui detenait deja newKey, s'il y en a une : jamais deux actions sur la
+// meme touche a l'issue de l'appel.
+<span style = "background-color:#dfd">void GameKeyBindings::setKey(GameAction action, Key newKey) noexcept {
+    const auto index = static_cast&lt;std::size_t&gt;(action);
+    for (std::size_t other = 0; other &lt; _keys.size(); ++other) {
+        if (other != index &amp;&amp; _keys[other] == newKey) {
+            _keys[other] = _keys[index];
+            break;</span>
+        }
+<span style = "background-color:#dfd">    }
+    _keys[index] = newKey;
+}</span>
+
+<span style = "background-color:#dfd">void GameKeyBindings::resetToDefaults() noexcept {
+    for (std::size_t index = 0; index &lt; _keys.size(); ++index) {
+        _keys[index] = defaultKey(static_cast&lt;GameAction&gt;(index));
+    }
+}</span>
+
+// Relit le fichier existant (pour preserver la section "editeur" ecrite par EditorKeyBindings),
+// remplace uniquement la section "jeu", puis reecrit. Un fichier absent/corrompu en lecture est
+// traite comme vide (on part d'un objet JSON neuf) : jamais bloquant pour la sauvegarde.
+<span style = "background-color:#dfd">bool GameKeyBindings::save(const std::filesystem::path&amp; path) const {
+    nlohmann::json root = nlohmann::json::object();
+    std::ifstream input(path, std::ios::binary);
+    if (input) {</span>
+        try {
+<span style = "background-color:#dfd">            input &gt;&gt; root;</span>
+<span style = "background-color:#fdd">        } catch (const nlohmann::json::exception&amp;) {
+            root = nlohmann::json::object();
+        }</span>
+<span style = "background-color:#dfd">        if (!root.is_object()) {</span>
+<span style = "background-color:#fdd">            root = nlohmann::json::object();</span>
+        }
+    }
+
+<span style = "background-color:#dfd">    nlohmann::json section = nlohmann::json::object();
+    for (std::size_t index = 0; index &lt; _keys.size(); ++index) {
+        section[actionName(static_cast&lt;GameAction&gt;(index))] = static_cast&lt;int&gt;(_keys[index]);
+    }
+    root["jeu"] = std::move(section);</span>
+
+<span style = "background-color:#dfd">    std::error_code errorCode;
+    std::filesystem::create_directories(path.parent_path(), errorCode);
+    std::ofstream output(path, std::ios::binary | std::ios::trunc);
+    if (!output) {</span>
+<span style = "background-color:#fdd">        return false;</span>
+    }
+<span style = "background-color:#dfd">    const std::string dumped = root.dump(2);
+    output.write(dumped.data(), static_cast&lt;std::streamsize&gt;(dumped.size()));
+    return output.good();
+}</span>
+
+<span style = "background-color:#dfd">GameKeyBindings GameKeyBindings::load(const std::filesystem::path&amp; path) {
+    GameKeyBindings bindings;  // valeurs par defaut, ecrasees ci-dessous entree par entree.</span>
+
+<span style = "background-color:#dfd">    std::ifstream input(path, std::ios::binary);
+    if (!input) {
+        return bindings;  // fichier absent (premier lancement) : defauts, rien a signaler.</span>
+    }
+
+<span style = "background-color:#dfd">    nlohmann::json root;</span>
+    try {
+<span style = "background-color:#dfd">        input &gt;&gt; root;
+    } catch (const nlohmann::json::exception&amp; error) {
+        HMI_LOG_WARNING(std::string("keybindings.json illisible (touches de jeu) : ") +</span>
+                        error.what());
+<span style = "background-color:#dfd">        return bindings;</span>
+<span style = "background-color:#fdd">    }</span>
+
+<span style = "background-color:#dfd">    const auto section = root.find("jeu");
+    if (section == root.end() || !section-&gt;is_object()) {</span>
+<span style = "background-color:#fdd">        return bindings;  // pas de section "jeu" : defauts, fichier par ailleurs valide.</span>
+    }
+
+<span style = "background-color:#dfd">    for (std::size_t index = 0; index &lt; bindings._keys.size(); ++index) {
+        const auto entry = section-&gt;find(actionName(static_cast&lt;GameAction&gt;(index)));
+        if (entry == section-&gt;end() || !entry-&gt;is_number_integer()) {
+            continue;  // entree absente/invalide : reste a sa valeur par defaut.</span>
+        }
+<span style = "background-color:#dfd">        const int code = entry-&gt;get&lt;int&gt;();
+        if (code &lt; 0 || code &gt; 0xFF) {
+            HMI_LOG_WARNING("Code de touche hors bornes ignore dans keybindings.json (jeu).");
+            continue;</span>
+        }
+<span style = "background-color:#dfd">        bindings._keys[index] = static_cast&lt;Key&gt;(code);
+    }
+    return bindings;
+}</span>
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

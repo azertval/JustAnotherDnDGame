@@ -1,0 +1,131 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>KeyName.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#include "HMI/Input/KeyName.h"
+
+#include &lt;array&gt;
+#include &lt;iomanip&gt;
+#include &lt;sstream&gt;
+
+namespace hmi {
+
+namespace {
+// Nombre de codes de touche suivis par InputState (KEY_COUNT, InputState.h) : bornes de balayage
+// de capturedKey, identiques a celles de l'etat clavier lui-meme.
+constexpr int KEY_CODE_COUNT = 256;
+}  // namespace
+
+// Nom lisible d'une touche : les enumerateurs nommes de Key en premier (repli generique ensuite,
+// meme patron que tileTypeName/screenName ailleurs dans le projet - switch exhaustif sans default,
+// suivi d'un repli explicite plutot qu'une branche "unreachable").
+<span style = "background-color:#dfd">std::string keyDisplayName(Key key) {
+    switch (key) {</span>
+        case Key::Backspace:
+<span style = "background-color:#fdd">            return "Retour arriere";</span>
+        case Key::Tab:
+<span style = "background-color:#fdd">            return "Tab";</span>
+        case Key::Enter:
+<span style = "background-color:#fdd">            return "Entree";</span>
+        case Key::Shift:
+<span style = "background-color:#dfd">            return "Maj";</span>
+        case Key::Control:
+<span style = "background-color:#fdd">            return "Ctrl";</span>
+        case Key::Escape:
+<span style = "background-color:#fdd">            return "Echap";</span>
+        case Key::Space:
+<span style = "background-color:#dfd">            return "Espace";</span>
+        case Key::Left:
+<span style = "background-color:#dfd">            return "Fleche gauche";</span>
+        case Key::Up:
+<span style = "background-color:#fdd">            return "Fleche haut";</span>
+        case Key::Right:
+<span style = "background-color:#fdd">            return "Fleche droite";</span>
+        case Key::Down:
+<span style = "background-color:#fdd">            return "Fleche bas";</span>
+        case Key::D0:
+<span style = "background-color:#fdd">            return "0";</span>
+        case Key::A:
+<span style = "background-color:#fdd">            return "A";</span>
+        case Key::C:
+<span style = "background-color:#fdd">            return "C";</span>
+        case Key::D:
+<span style = "background-color:#fdd">            return "D";</span>
+        case Key::P:
+<span style = "background-color:#fdd">            return "P";</span>
+        case Key::Q:
+<span style = "background-color:#fdd">            return "Q";</span>
+        case Key::R:
+<span style = "background-color:#fdd">            return "R";</span>
+        case Key::S:
+<span style = "background-color:#fdd">            return "S";</span>
+        case Key::T:
+<span style = "background-color:#fdd">            return "T";</span>
+        case Key::V:
+<span style = "background-color:#fdd">            return "V";</span>
+        case Key::W:
+<span style = "background-color:#fdd">            return "W";</span>
+        case Key::Y:
+<span style = "background-color:#fdd">            return "Y";</span>
+        case Key::Z:
+<span style = "background-color:#fdd">            return "Z";</span>
+        case Key::F1:
+<span style = "background-color:#fdd">            return "F1";</span>
+        case Key::F2:
+<span style = "background-color:#fdd">            return "F2";</span>
+        case Key::F10:
+<span style = "background-color:#dfd">            return "F10";</span>
+    }
+
+<span style = "background-color:#dfd">    const int code = static_cast&lt;int&gt;(key);
+    if (code &gt;= '0' &amp;&amp; code &lt;= '9') {
+        return std::string(1, static_cast&lt;char&gt;(code));</span>
+    }
+<span style = "background-color:#dfd">    if (code &gt;= 'A' &amp;&amp; code &lt;= 'Z') {
+        return std::string(1, static_cast&lt;char&gt;(code));</span>
+    }
+<span style = "background-color:#dfd">    std::ostringstream stream;
+    stream &lt;&lt; "Touche 0x" &lt;&lt; std::hex &lt;&lt; std::uppercase &lt;&lt; std::setw(2) &lt;&lt; std::setfill('0')</span>
+           &lt;&lt; code;
+<span style = "background-color:#dfd">    return stream.str();
+}</span>
+
+<span style = "background-color:#dfd">std::optional&lt;Key&gt; capturedKey(const InputState&amp; input) {
+    for (int code = 1; code &lt; KEY_CODE_COUNT; ++code) {
+        const Key candidate = static_cast&lt;Key&gt;(code);
+        if (candidate == Key::Escape || candidate == Key::Enter) {
+            continue;  // reservees a la navigation globale : jamais capturees (LOT-29).</span>
+        }
+<span style = "background-color:#dfd">        if (input.keyPressed(candidate)) {
+            return candidate;</span>
+        }
+<span style = "background-color:#dfd">    }
+    return std::nullopt;
+}</span>
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

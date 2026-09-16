@@ -1,0 +1,107 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>FollowCamera.h</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#pragma once
+
+#include "Core/Math/Rect.h"
+#include "Core/Math/Vector2.h"
+
+/**
+ * @file HMI/Graphics/FollowCamera.h
+ * @brief CamÃ©ra de suivi du personnage : zone morte, anticipation, lissage, bornage
+ *        (`EX-REN-016`, LOT-64 TACHE-02).
+ */
+
+namespace hmi {
+
+/// Demi-taille de la zone morte, en unitÃ©s monde : le personnage se dÃ©place librement dans ce
+/// carrÃ© centrÃ© sur le point suivi sans faire bouger la camÃ©ra -- ce qui supprime le tremblement
+/// permanent d'une camÃ©ra qui collerait exactement au personnage. Deux constantes scalaires
+/// plutÃ´t qu'un `core::Vector2` : son constructeur n'est pas `constexpr`.
+///
+/// **CarrÃ©e depuis le `LOT-07`** (1,5 sur les deux axes, contre 1,5 Ã 1,0 auparavant) : un jeu de
+/// plateforme court latÃ©ralement et saute briÃ¨vement, ce qui justifiait une zone plus large que
+/// haute ; en vue de dessus, marcher vers le haut est un dÃ©placement comme un autre
+/// (`EX-EXP-001`), et une zone morte plus courte verticalement ferait dÃ©crocher la camÃ©ra plus tÃ´t
+/// dans cette direction â un biais visible sans qu'aucune rÃ¨gle ne le justifie.
+inline constexpr float FOLLOW_DEAD_ZONE_HALF_WIDTH_UNITS = 1.5f;
+inline constexpr float FOLLOW_DEAD_ZONE_HALF_HEIGHT_UNITS = 1.5f;
+/// Distance d'anticipation dans le sens du dÃ©placement, en unitÃ©s monde.
+inline constexpr float FOLLOW_ANTICIPATION_DISTANCE_UNITS = 2.5f;
+/// Temps de rÃ©ponse (lissage exponentiel) du centre retenu vers sa cible, en secondes.
+inline constexpr float FOLLOW_SMOOTHING_TIME_CONSTANT_SECONDS = 0.15f;
+/// Temps de rÃ©ponse de l'inversion de l'anticipation au changement de sens, en secondes -- plus
+/// lent que le lissage principal, pour que l'inversion se voie comme un mouvement, pas un saut.
+inline constexpr float FOLLOW_ANTICIPATION_TIME_CONSTANT_SECONDS = 0.25f;
+
+/**
+ * @brief Ãtat dÃ©terministe de la camÃ©ra de suivi, avancÃ© une fois par **pas fixe**.
+ *
+ * DonnÃ©e pure (`EX-NFR-002`), sans horloge systÃ¨me : `center` est la valeur **dÃ©jÃ  bornÃ©e** aux
+ * limites du niveau, prÃªte Ã  l'usage (mais pas encore alignÃ©e au pixel -- l'Ã©chelle de rendu, qui
+ * dÃ©pend du zoom courant, n'est connue qu'Ã  l'affichage, cf. `hmi::roundToScreenPixel`).
+ */
+struct FollowCameraState {
+    /// Point suivi par la zone morte (non lissÃ©, non alignÃ©) : ne bouge que lorsque le personnage
+    /// sort du rectangle centrÃ© dessus.
+<span style = "background-color:#dfd">    core::Vector2 anchor{};</span>
+    /// Direction d'anticipation courante, lissÃ©e : un **vecteur** depuis le `LOT-07`, de norme
+    /// au plus 1 (le vecteur nul = aucune anticipation). Un scalaire ne pouvait anticiper qu'Ã 
+    /// gauche et Ã  droite ; en vue de dessus, on marche aussi vers le haut et vers le bas.
+<span style = "background-color:#dfd">    core::Vector2 anticipation{};</span>
+    /// Centre rÃ©sultant de ce pas : cible (ancre + anticipation) lissÃ©e puis bornÃ©e au niveau.
+<span style = "background-color:#dfd">    core::Vector2 center{};</span>
+    /// Faux avant le tout premier appel : le centre dÃ©marre alors directement sur le personnage
+    /// (bornÃ©), sans lissage depuis une position par dÃ©faut arbitraire.
+<span style = "background-color:#dfd">    bool initialized = false;</span>
+};
+
+/**
+ * @brief Avance la camÃ©ra de suivi d'un pas fixe.
+ *
+ * Fonction **pure** : mÃªmes entrÃ©es, mÃªme rÃ©sultat (`EX-NFR-002`, testable sans GPU). N'affecte
+ * jamais la simulation (`EX-ARCH-012`) -- elle ne fait que lire une position dÃ©jÃ  simulÃ©e.
+ * @param previous           Ãtat du pas prÃ©cÃ©dent (`FollowCameraState{}` par dÃ©faut au premier
+ *                           appel aprÃ¨s un chargement de niveau).
+ * @param characterPosition  Position simulÃ©e du personnage (centre de sa boÃ®te), en unitÃ©s monde.
+ * @param facing             Direction de marche du personnage (`core::Actor::facing`), vecteur
+ *                           de norme au plus 1 ; le vecteur **nul** conserve la derniÃ¨re
+ *                           anticipation (immobile, rien Ã  rÃ©viser).
+ * @param levelBounds        Rectangle du niveau, en unitÃ©s monde (coin haut-gauche + dimensions).
+ * @param viewHalfExtent     Demi-largeur/demi-hauteur de la zone visible par la camÃ©ra, en unitÃ©s
+ *                           monde -- dÃ©termine la marge de bornage aux limites du niveau.
+ * @param fixedDelta         DurÃ©e du pas fixe, en secondes (`EX-REN-021`) -- jamais un delta de
+ *                           rendu, sous peine de dÃ©pendre de la frÃ©quence d'affichage.
+ * @return Le nouvel Ã©tat, dont `center` est prÃªt Ã  l'usage (bornÃ©, pas encore alignÃ© au pixel).
+ */
+[[nodiscard]] FollowCameraState advanceFollowCamera(
+    const FollowCameraState&amp; previous, core::Vector2 characterPosition, core::Vector2 facing,
+    const core::Rect&amp; levelBounds, core::Vector2 viewHalfExtent, float fixedDelta) noexcept;
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

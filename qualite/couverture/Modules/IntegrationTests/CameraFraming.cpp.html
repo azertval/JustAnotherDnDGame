@@ -1,0 +1,136 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>CameraFraming.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#include "Core/Levels/CameraFraming.h"
+
+#include &lt;cstddef&gt;
+
+namespace core {
+
+// Nom JSON du mode (voir en-tete).
+<span style = "background-color:#dfd">std::string_view cameraFramingModeName(CameraFramingMode mode) noexcept {
+    switch (mode) {</span>
+        case CameraFramingMode::WholeLevel:
+<span style = "background-color:#dfd">            return "wholeLevel";</span>
+        case CameraFramingMode::PerRoom:
+<span style = "background-color:#dfd">            return "perRoom";</span>
+        case CameraFramingMode::Follow:
+<span style = "background-color:#dfd">            return "follow";</span>
+    }
+<span style = "background-color:#fdd">    return "wholeLevel";</span>
+<span style = "background-color:#dfd">}</span>
+
+// Reconnait le nom JSON d'un mode (voir en-tete).
+<span style = "background-color:#dfd">std::optional&lt;CameraFramingMode&gt; parseCameraFramingMode(std::string_view name) noexcept {
+    if (name == "wholeLevel") {
+        return CameraFramingMode::WholeLevel;</span>
+    }
+<span style = "background-color:#dfd">    if (name == "perRoom") {
+        return CameraFramingMode::PerRoom;</span>
+    }
+<span style = "background-color:#dfd">    if (name == "follow") {
+        return CameraFramingMode::Follow;</span>
+    }
+<span style = "background-color:#dfd">    return std::nullopt;
+}</span>
+
+// Regle de repli (EX-LVL-006, voir en-tete) : reproduit EXACTEMENT la regle historique, deduite
+// de la comparaison entre les dimensions du niveau et la taille de salle par defaut -- jamais une
+// salle personnalisee, puisqu'un niveau sans champ declare n'en a par definition pas.
+CameraFramingConfig resolveCameraFraming(const std::optional&lt;CameraFramingConfig&gt;&amp; declared,
+<span style = "background-color:#dfd">                                         int levelWidth, int levelHeight) noexcept {
+    if (declared) {
+        return *declared;</span>
+    }
+<span style = "background-color:#dfd">    if (levelWidth &lt;= DEFAULT_ROOM_WIDTH_TILES &amp;&amp; levelHeight &lt;= DEFAULT_ROOM_HEIGHT_TILES) {
+        return CameraFramingConfig{.mode = CameraFramingMode::WholeLevel};</span>
+    }
+<span style = "background-color:#dfd">    return CameraFramingConfig{.mode = CameraFramingMode::PerRoom};
+}</span>
+
+// Valide un cadrage declare (EX-LVL-004, voir en-tete).
+std::optional&lt;std::string&gt; validateCameraFramingConfig(const CameraFramingConfig&amp; config,
+<span style = "background-color:#dfd">                                                       int levelWidth, int levelHeight) {</span>
+    // Zones dessinees a la main : mode PerRoom uniquement, chacune entierement dans le niveau et
+    // de taille non nulle.
+<span style = "background-color:#dfd">    if (config.mode != CameraFramingMode::PerRoom &amp;&amp; !config.zones.empty()) {
+        return "cameraFraming.zones renseigne pour un mode qui n'est pas 'perRoom'";</span>
+    }
+<span style = "background-color:#dfd">    for (std::size_t index = 0; index &lt; config.zones.size(); ++index) {
+        const CameraZone&amp; zone = config.zones[index];
+        const std::string prefix = "cameraFraming.zones[" + std::to_string(index) + "]";
+        if (zone.width &lt;= 0) {
+            return prefix + ".width doit etre superieur a zero";</span>
+        }
+<span style = "background-color:#dfd">        if (zone.height &lt;= 0) {</span>
+<span style = "background-color:#fdd">            return prefix + ".height doit etre superieur a zero";</span>
+        }
+<span style = "background-color:#dfd">        if (zone.x &lt; 0 || zone.y &lt; 0) {
+            return prefix + " a une position negative";</span>
+        }
+<span style = "background-color:#dfd">        if (zone.x + zone.width &gt; levelWidth) {
+            return prefix + " depasse la largeur du niveau";</span>
+        }
+<span style = "background-color:#dfd">        if (zone.y + zone.height &gt; levelHeight) {</span>
+<span style = "background-color:#fdd">            return prefix + " depasse la hauteur du niveau";</span>
+        }
+<span style = "background-color:#dfd">    }</span>
+
+    // Taille de vue : mode PerRoom (salle de la grille automatique) ou Follow (zone de suivi).
+<span style = "background-color:#dfd">    if (config.mode != CameraFramingMode::PerRoom &amp;&amp; config.mode != CameraFramingMode::Follow) {
+        if (config.roomWidthTiles) {
+            return "cameraFraming.roomWidthTiles renseigne pour un mode qui n'est ni 'perRoom' ni "</span>
+                   "'follow'";
+        }
+<span style = "background-color:#dfd">        if (config.roomHeightTiles) {</span>
+<span style = "background-color:#fdd">            return "cameraFraming.roomHeightTiles renseigne pour un mode qui n'est ni 'perRoom' "</span>
+                   "ni 'follow'";
+        }
+<span style = "background-color:#dfd">        return std::nullopt;</span>
+    }
+<span style = "background-color:#dfd">    if (config.roomWidthTiles) {
+        if (*config.roomWidthTiles &lt;= 0) {
+            return "cameraFraming.roomWidthTiles doit etre superieur a zero";</span>
+        }
+<span style = "background-color:#dfd">        if (*config.roomWidthTiles &gt; levelWidth) {
+            return "cameraFraming.roomWidthTiles depasse la largeur du niveau";</span>
+        }
+    }
+<span style = "background-color:#dfd">    if (config.roomHeightTiles) {
+        if (*config.roomHeightTiles &lt;= 0) {</span>
+<span style = "background-color:#fdd">            return "cameraFraming.roomHeightTiles doit etre superieur a zero";</span>
+        }
+<span style = "background-color:#dfd">        if (*config.roomHeightTiles &gt; levelHeight) {
+            return "cameraFraming.roomHeightTiles depasse la hauteur du niveau";</span>
+        }
+    }
+<span style = "background-color:#dfd">    return std::nullopt;
+}</span>
+
+}  // namespace core</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

@@ -1,0 +1,169 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>CharacterSheetValues.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#include "HMI/Presentation/CharacterSheetValues.h"
+
+#include &lt;array&gt;
+#include &lt;string&gt;
+
+namespace hmi {
+namespace {
+
+using core::Ability;
+
+/// Les six caractÃ©ristiques et le suffixe d'identifiant sous lequel l'ossature les attend.
+constexpr std::array&lt;std::pair&lt;Ability, const char*&gt;, 6&gt; ABILITIES = {{
+    {Ability::Strength, "strength"},
+    {Ability::Dexterity, "dexterity"},
+    {Ability::Constitution, "constitution"},
+    {Ability::Intelligence, "intelligence"},
+    {Ability::Wisdom, "wisdom"},
+    {Ability::Charisma, "charisma"},
+}};
+
+/// @return Un modificateur avec son signe â `+3`, `-1`, `+0`. Le signe n'est pas une coquetterie :
+///         un `3` nu se lit comme une valeur de caractÃ©ristique, et les deux se cÃ´toient sur la
+///         mÃªme ligne de la feuille.
+<span style = "background-color:#dfd">[[nodiscard]] std::string signe(int valeur) {
+    return (valeur &gt;= 0 ? "+" : "") + std::to_string(valeur);
+}</span>
+
+/// @return La vitesse en mÃ¨tres, sans dÃ©cimale inutile : Â« 9 m Â», jamais Â« 9.000000 m Â».
+<span style = "background-color:#dfd">[[nodiscard]] std::string metres(float valeur) {
+    const int entier = static_cast&lt;int&gt;(valeur);
+    std::string texte = std::to_string(entier);
+    const float reste = valeur - static_cast&lt;float&gt;(entier);
+    if (reste &gt; 0.05F) {</span>
+<span style = "background-color:#fdd">        texte += ',' + std::to_string(static_cast&lt;int&gt;(reste * 10.0F + 0.5F));</span>
+    }
+<span style = "background-color:#dfd">    return texte + " m";
+}</span>
+
+}  // namespace
+
+<span style = "background-color:#dfd">std::map&lt;std::string, std::string&gt; characterSheetValues(const CharacterSheetContext&amp; context) {
+    std::map&lt;std::string, std::string&gt; valeurs;
+    if (context.sheet == nullptr) {</span>
+        // Aucune fiche : une table VIDE, jamais des zÃ©ros. L'Ã©cran garde ses tirets, et un tiret
+        // dit Â« on ne sait pas Â» lÃ  oÃ¹ un zÃ©ro affirmerait Â« rien Â».
+<span style = "background-color:#dfd">        return valeurs;</span>
+    }
+<span style = "background-color:#dfd">    const core::CharacterSheet&amp; fiche = *context.sheet;</span>
+
+<span style = "background-color:#dfd">    const auto nomOuTiret = [&amp;context](const std::string&amp; nom) {
+        return nom.empty() ? context.emptyMark : nom;
+    };</span>
+
+<span style = "background-color:#dfd">    valeurs["sheet.name"] = nomOuTiret(fiche.name);</span>
+
+    // Les trois choix qui ont construit la fiche portent des IDENTIFIANTS ; leur nom lisible vit
+    // dans le catalogue. Un identifiant inconnu du catalogue rend le tiret plutÃ´t que l'identifiant
+    // brut : `human-variant` affichÃ© tel quel se lirait comme une donnÃ©e, alors que c'est une clÃ©.
+<span style = "background-color:#dfd">    if (context.options != nullptr) {
+        const core::Species* const espece = context.options-&gt;findSpecies(fiche.speciesId);
+        const core::PlayableClass* const classe = context.options-&gt;findClass(fiche.classId);
+        const core::Background* const historique =</span>
+            context.options-&gt;findBackground(fiche.backgroundId);
+<span style = "background-color:#dfd">        valeurs["sheet.species"] = espece != nullptr ? espece-&gt;name : context.emptyMark;
+        valeurs["sheet.class"] = classe != nullptr ? classe-&gt;name : context.emptyMark;
+        valeurs["sheet.background"] = historique != nullptr ? historique-&gt;name : context.emptyMark;
+        if (classe != nullptr &amp;&amp; classe-&gt;hitDie &gt; 0) {
+            valeurs["sheet.hit_dice"] =</span>
+                std::to_string(fiche.level) + "d" + std::to_string(classe-&gt;hitDie);
+        }
+    }
+
+<span style = "background-color:#dfd">    valeurs["sheet.level"] = std::to_string(fiche.level);</span>
+    // Â« Classe et niveau Â» est UN champ sur la planche, et deux dans le modÃ¨le.
+<span style = "background-color:#dfd">    if (const auto classe = valeurs.find("sheet.class"); classe != valeurs.end()) {
+        valeurs["sheet.class_and_level"] = classe-&gt;second + " " + std::to_string(fiche.level);
+    }
+    valeurs["sheet.experience"] = std::to_string(fiche.experiencePoints);
+    valeurs["sheet.armor_class"] = std::to_string(fiche.armorClass);
+    valeurs["sheet.hit_points_max"] = std::to_string(fiche.maximumHitPoints);</span>
+    // Les points de vie courants se lisent CONTRE leur maximum : Â« 12 Â» seul ne dit pas si le
+    // personnage va bien.
+<span style = "background-color:#dfd">    valeurs["sheet.hit_points"] =</span>
+        std::to_string(fiche.currentHitPoints) + " / " + std::to_string(fiche.maximumHitPoints);
+<span style = "background-color:#dfd">    valeurs["sheet.speed"] = metres(fiche.speedMeters);</span>
+
+    // La classe d'armure et la vitesse dependent de ce qui est PORTE (LOT-14), et la fiche les a
+    // calculees avant d'avoir un inventaire. Elles sont donc reprises des statistiques derivees
+    // quand on en fournit -- recalculees depuis l'equipement, jamais accumulees.
+<span style = "background-color:#dfd">    if (context.derived != nullptr) {</span>
+<span style = "background-color:#fdd">        valeurs["sheet.armor_class"] = std::to_string(context.derived-&gt;armorClass);
+        valeurs["sheet.speed"] = metres(context.derived-&gt;speedMeters);</span>
+    }
+<span style = "background-color:#dfd">    valeurs["sheet.initiative"] = signe(fiche.modifier(Ability::Dexterity));</span>
+
+<span style = "background-color:#dfd">    for (const auto&amp; [caracteristique, suffixe] : ABILITIES) {
+        const std::string racine = std::string("sheet.ability.") + suffixe;</span>
+        // La roue de la planche 1 porte les deux SÃPARÃMENT : le modificateur dans le grand
+        // disque, la valeur dans le petit disque accolÃ©. Une seule chaÃ®ne Â« 15 (+2) Â» obligerait
+        // le peintre Ã  la redÃ©couper, c'est-Ã -dire Ã  dÃ©faire ici ce qu'on aurait fait lÃ -bas.
+<span style = "background-color:#dfd">        valeurs[racine + ".score"] = std::to_string(fiche.ability(caracteristique));
+        valeurs[racine + ".modifier"] = signe(fiche.modifier(caracteristique));</span>
+        // Et la ligne combinÃ©e, pour un affichage en liste (Ã©cran d'ATH, cible de combat).
+<span style = "background-color:#dfd">        valeurs[racine] = valeurs[racine + ".score"] + " (" + valeurs[racine + ".modifier"] + ")";
+    }</span>
+
+<span style = "background-color:#dfd">    if (context.experience != nullptr) {
+        valeurs["sheet.proficiency_bonus"] =</span>
+            signe(core::proficiencyBonus(fiche, *context.experience));
+<span style = "background-color:#dfd">        for (const auto&amp; [caracteristique, suffixe] : ABILITIES) {
+            valeurs[std::string("sheet.save.") + suffixe] =</span>
+                signe(core::savingThrowModifier(fiche, *context.experience, caracteristique));
+<span style = "background-color:#dfd">        }</span>
+    }
+
+<span style = "background-color:#dfd">    if (context.experience != nullptr &amp;&amp; context.skills != nullptr) {
+        for (const core::SkillDefinition&amp; competence : context.skills-&gt;skills) {</span>
+            const core::SkillCheckModifier modificateur =
+<span style = "background-color:#dfd">                core::skillModifier(fiche, *context.experience, *context.skills, competence.id);
+            if (!modificateur.found) {</span>
+<span style = "background-color:#fdd">                continue;  // le catalogue ne la connaÃ®t pas : ne rien afficher plutÃ´t qu'un zÃ©ro.</span>
+            }
+            // La maÃ®trise se voit : c'est l'information que la pastille cochÃ©e porte sur la
+            // feuille, et le seul moyen de la rendre dans une ligne de texte.
+<span style = "background-color:#dfd">            valeurs[std::string("sheet.skill.") + competence.id] =</span>
+                signe(modificateur.value) + (modificateur.proficient ? " â¢" : "");
+<span style = "background-color:#dfd">        }</span>
+        // Perception passive : 10 + le modificateur de Perception, la rÃ¨gle du livre. Elle est
+        // dÃ©rivÃ©e, jamais stockÃ©e -- deux valeurs qui doivent s'accorder finissent par diverger.
+        const core::SkillCheckModifier perception =
+<span style = "background-color:#dfd">            core::skillModifier(fiche, *context.experience, *context.skills, "perception");
+        if (perception.found) {
+            valeurs["sheet.passive_perception"] = std::to_string(10 + perception.value);</span>
+        }
+    }
+
+<span style = "background-color:#dfd">    return valeurs;
+}</span>
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

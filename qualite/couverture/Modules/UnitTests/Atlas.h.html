@@ -1,0 +1,230 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>Atlas.h</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#pragma once
+
+/**
+ * @file Core/World/Atlas.h
+ * @brief Chargement de l'atlas des rÃ©gions et du graphe de cartes (`LOT-37`, `EX-CNT-010`).
+ */
+
+#include &lt;array&gt;
+#include &lt;cstddef&gt;
+#include &lt;cstdint&gt;
+#include &lt;filesystem&gt;
+#include &lt;optional&gt;
+#include &lt;string&gt;
+#include &lt;string_view&gt;
+#include &lt;vector&gt;
+
+namespace core {
+
+/**
+ * @brief Les cinq notes de l'encart Â« Regional Statistics Â» (`EX-CNT-060`).
+ *
+ * FermÃ©e, et **ordonnÃ©e du plus bas au plus haut** : une note se compare, et c'est tout l'intÃ©rÃªt
+ * de la typer. `monsterPresence &gt;= RegionGrade::High` doit vouloir dire quelque chose, sinon
+ * autant garder la chaÃ®ne du livre.
+ *
+ * Les valeurs coÃ¯ncident avec l'Ã©numÃ©ration de `region.schema.json` ; `test_atlas.cpp` le vÃ©rifie
+ * (`EX-CNT-011`).
+ */
+enum class RegionGrade : std::uint8_t {
+    VeryLow = 0,
+    Low,
+    Normal,
+    High,
+    VeryHigh,
+};
+
+/// @brief Nombre de notes â pour les parcours exhaustifs et les contrÃ´les de couverture.
+inline constexpr std::size_t kRegionGradeCount = 5;
+
+/**
+ * @brief Une apprÃ©ciation d'un axe : une note, et la portÃ©e oÃ¹ elle vaut.
+ *
+ * La portÃ©e est **vide** dans la rÃ©gion uniforme, et c'est le cas courant. Elle porte Â« north Â»,
+ * Â« underground Â» quand le livre distingue : le BenÃªnet impÃ©rial est Â« Low (south), High (north) Â»,
+ * et rien n'autorise Ã  en faire une valeur unique.
+ */
+struct RegionAppraisal {
+    RegionGrade grade = RegionGrade::Normal;
+    /// PortÃ©e, telle que le livre l'Ã©crit. Vide si l'apprÃ©ciation vaut pour toute la rÃ©gion.
+    std::string scope;
+};
+
+/**
+ * @brief Un axe de statistique rÃ©gionale : une ou plusieurs apprÃ©ciations (`EX-CNT-061`).
+ *
+ * Jamais vide â le schÃ©ma l'exige. `grade()` rend la premiÃ¨re, pour le code qui ne modÃ©lise pas
+ * les portÃ©es ; `appraisals` reste lÃ  pour celui qui les modÃ©lise.
+ */
+struct RegionStatistic {
+    std::vector&lt;RegionAppraisal&gt; appraisals;
+
+    /// @brief La note principale : celle de la premiÃ¨re apprÃ©ciation.
+<span style = "background-color:#dfd">    [[nodiscard]] RegionGrade grade() const {
+        return appraisals.empty() ? RegionGrade::Normal : appraisals.front().grade;
+    }</span>
+
+    /// @brief Vrai si la rÃ©gion n'est pas uniforme sur cet axe.
+<span style = "background-color:#dfd">    [[nodiscard]] bool varies() const {
+        return appraisals.size() &gt; 1;
+    }</span>
+};
+
+/// @brief Les sept axes, dans l'ordre oÃ¹ le livre les imprime.
+enum class RegionAxis : std::uint8_t {
+    CitizenFreedom = 0,
+    CrimeAndViolence,
+    EconomicProsperity,
+    GovernmentCorruption,
+    MagicAccess,
+    MonsterPresence,
+    PoliticalStability,
+};
+
+/// @brief Nombre d'axes.
+inline constexpr std::size_t kRegionAxisCount = 7;
+
+/// @brief La part d'une espÃ¨ce dans la population d'une rÃ©gion.
+struct RegionSpeciesShare {
+    /// ClÃ© d'espÃ¨ce, en **anglais** et au singulier. Voir la note de `loadAtlas`.
+    std::string species;
+    /// Le mot du livre, tel qu'il l'Ã©crit â Â« summer elves Â».
+    std::string label;
+    int percent = 0;
+};
+
+/**
+ * @brief La population d'une rÃ©gion.
+ *
+ * `total` est **approximatif dans la source** (Â« Around 2,300,000 Â») et absent si le livre n'en
+ * donne pas : d'oÃ¹ l'`optional`, qui distingue Â« pas de chiffre Â» de Â« zÃ©ro habitant Â».
+ */
+struct RegionPopulation {
+    std::optional&lt;int&gt; total;
+    std::vector&lt;RegionSpeciesShare&gt; species;
+    /// La part que le livre range sous Â« others Â». Absente s'il n'en donne pas.
+    std::optional&lt;int&gt; otherPercent;
+};
+
+/// @brief Un lieu nommÃ© d'une rÃ©gion : un nÅud terminal du graphe, une carte Ã  crÃ©er.
+struct Location {
+    std::string id;
+    std::string name;
+    std::string source;
+    /// Identifiant de la rÃ©gion qui le porte. Jamais vide.
+    std::string region;
+    /// Le texte du livre. Vide pour une entrÃ©e qu'il ne fait que nommer.
+    std::string description;
+};
+
+/**
+ * @brief Une rÃ©gion : un nÅud du graphe de cartes.
+ *
+ * `neighbors` porte les arÃªtes et `locations` les cartes Ã  crÃ©er â c'est le branchement direct sur
+ * le `LOT-09`, et la raison d'Ãªtre de ce catalogue.
+ */
+struct Region {
+    std::string id;
+    std::string name;
+    std::string source;
+    std::string government;
+    std::string faction;
+    RegionPopulation population;
+    /// Les sept axes, indexÃ©s par `core::RegionAxis`.
+    std::array&lt;RegionStatistic, kRegionAxisCount&gt; statistics;
+    std::vector&lt;std::string&gt; neighbors;
+    std::vector&lt;std::string&gt; locations;
+
+    /// @brief L'axe demandÃ©.
+<span style = "background-color:#dfd">    [[nodiscard]] const RegionStatistic&amp; statistic(RegionAxis axis) const {
+        return statistics[static_cast&lt;std::size_t&gt;(axis)];
+    }</span>
+};
+
+/**
+ * @brief L'atlas chargÃ©, et ce qui n'a pas pu l'Ãªtre.
+ *
+ * Les deux ensemble, comme pour le bestiaire : un atlas dont un lieu sur quatre-vingt-quatorze est
+ * illisible reste jouable, et le refuser en bloc rendrait le monde inaccessible pour une virgule.
+ */
+struct Atlas {
+    /// Les rÃ©gions chargÃ©es, triÃ©es par identifiant.
+    std::vector&lt;Region&gt; regions;
+    /// Les lieux chargÃ©s, triÃ©s par identifiant.
+    std::vector&lt;Location&gt; locations;
+    /// Un message par fichier refusÃ©, nommant le fichier et la raison.
+    std::vector&lt;std::string&gt; errors;
+
+    /// @brief La rÃ©gion portant cet identifiant, ou `nullptr`.
+    [[nodiscard]] const Region* findRegion(std::string_view id) const;
+    /// @brief Le lieu portant cet identifiant, ou `nullptr`.
+    [[nodiscard]] const Location* findLocation(std::string_view id) const;
+
+    /**
+     * @brief Les rÃ©gions que l'on ne peut pas atteindre depuis `from` en suivant `neighbors`
+     *        (`EX-CNT-062`).
+     *
+     * Vide sur un atlas sain. Ce n'est pas un contrÃ´le de plus pour le plaisir : une rÃ©gion
+     * injoignable est du contenu que personne ne verra jamais, et rien d'autre ne le signale â
+     * le jeu se lance, la rÃ©gion existe, elle n'est simplement au bout d'aucun trajet.
+     */
+    [[nodiscard]] std::vector&lt;std::string&gt; unreachableFrom(std::string_view from) const;
+};
+
+/**
+ * @brief Charge l'atlas â `regions/` et `locations/` sous le dossier donnÃ©.
+ *
+ * Les deux dossiers sont **balayÃ©s**, jamais Ã©numÃ©rÃ©s dans le code : le `LOT-80` ajoutera des
+ * lieux, et une liste Ã©crite ici les rendrait invisibles.
+ *
+ * @note **Les clÃ©s d'espÃ¨ce sont en anglais** et ne pointent pas vers le catalogue d'espÃ¨ces du
+ *       `LOT-36`, qui est en franÃ§ais et n'en couvre que la moitiÃ© â ni gÃ©ant, ni gobelinoÃ¯de, ni
+ *       kemet, ni merfolk, ni orc, ni soulborn n'y existent. La correspondance est le travail du
+ *       `LOT-39` ; la fabriquer Ã  moitiÃ© ici donnerait un champ vrai une fois sur deux, ce qui est
+ *       pire qu'un champ dont on sait qu'il ne pointe nulle part.
+ *
+ * @param directory Dossier de l'atlas (`Source/Elements/World`).
+ * @return L'atlas et la liste des Ã©checs. Ne lÃ¨ve jamais (`EX-NFR-040`). Un dossier absent produit
+ *         une erreur, pas un atlas vide : un monde vide se confondrait avec un monde non installÃ©.
+ */
+[[nodiscard]] Atlas loadAtlas(const std::filesystem::path&amp; directory);
+
+/// @brief Le nom d'une note, tel que le schÃ©ma l'Ã©crit (`veryLow`, `normal`, â¦).
+[[nodiscard]] std::string_view regionGradeName(RegionGrade grade);
+
+/// @brief La note portant ce nom de schÃ©ma, ou `std::nullopt`.
+[[nodiscard]] std::optional&lt;RegionGrade&gt; regionGradeFromName(std::string_view name);
+
+/// @brief Le nom d'un axe, tel que le schÃ©ma l'Ã©crit (`citizenFreedom`, â¦).
+[[nodiscard]] std::string_view regionAxisName(RegionAxis axis);
+
+}  // namespace core</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

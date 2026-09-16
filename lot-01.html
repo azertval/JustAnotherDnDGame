@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.16.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>JustAnotherDnDGame: LOT-01 — Fork, purge et remise à nu</title>
+<title>JustAnotherRpgGame: LOT-01 — Fork, purge et remise à nu</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">JustAnotherDnDGame<span id="projectnumber">&#160;0.1.0</span>
+   <div id="projectname">JustAnotherRpgGame<span id="projectnumber">&#160;0.1.0</span>
    </div>
    <div id="projectbrief">Jeu de rôle tactique au d20, vue de dessus, en C++/Qt</div>
   </td>
@@ -94,7 +94,7 @@ $(function(){initNavTree('lot-01.html','',''); });
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md_Lot_2LOT-01-fork-purge_2epic"></a></p>
 <blockquote class="doxtable">
-<p>Statut : <b>fait</b> (vérification automatisée : configuration CMake, build <span class="tt">Core</span> et <span class="tt">JustAnotherDnDGame</span> sans avertissement en <span class="tt">/W4 /WX</span>, exécutable produit). La vérification IHM manuelle — menu, éditeur, chargement d'une carte — reste à faire par l'utilisateur, comme pour tout lot touchant moteur et rendu. Prérequis : aucun. C'est le premier lot du dépôt. </p>
+<p>Statut : <b>fait</b> (vérification automatisée : configuration CMake, build <span class="tt">Core</span> et <span class="tt">JustAnotherRpgGame</span> sans avertissement en <span class="tt">/W4 /WX</span>, exécutable produit). La vérification IHM manuelle — menu, éditeur, chargement d'une carte — reste à faire par l'utilisateur, comme pour tout lot touchant moteur et rendu. Prérequis : aucun. C'est le premier lot du dépôt. </p>
 </blockquote>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md404"></a>
 Objectif</h1>
@@ -134,16 +134,16 @@ Conséquence assumée</h2>
 <p><span class="tt"><a class="el" href="classhmi_1_1GameSession.html#a890870ab22ce42a6b1d67f20e7209aa2" title="Simule le niveau d&#39;un pas fixe (mécanismes, blocs, physique, animation, dangers).">hmi::GameSession::update</a></span> ne déplace plus le personnage : la physique de plateforme est partie et son remplaçant top-down (<span class="tt">core::TopDownMovementSystem</span>) arrive au <span class="tt">LOT-06</span>. <b>Le jeu se lance, charge et affiche une carte, mais n'est pas jouable</b> dans cet intervalle. L'intention d'entrée est lue sans être consommée, pour que le système de déplacement se branche sans changer ni la signature ni l'ordre des passes.</p>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md411"></a>
 Identité du dépôt</h2>
-<p>Renommage <span class="tt">ProjectGaming</span> → <span class="tt">JustAnotherDnDGame</span> (cibles CMake, binaire, documentation, workflows) et préfixe de macro <span class="tt">PROJECTGAMING_</span> → <span class="tt">JADG_</span>. Version remise à <span class="tt">0.1.0</span>. Le programme de lots d'origine est déplacé en lecture seule sous <span class="tt">Documentation/Heritage/</span>.</p>
+<p>Renommage <span class="tt">ProjectGaming</span> → <span class="tt">JustAnotherRpgGame</span> (cibles CMake, binaire, documentation, workflows) et préfixe de macro <span class="tt">PROJECTGAMING_</span> → <span class="tt">JADG_</span>. Version remise à <span class="tt">0.1.0</span>. Le programme de lots d'origine est déplacé en lecture seule sous <span class="tt">Documentation/Heritage/</span>.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md412"></a>
 Exigences couvertes</h1>
-<p>Aucune exigence nouvelle : ce lot <b>retire</b>. Les catégories <span class="tt">EX-GP-*</span> (gameplay de plateforme) et <span class="tt">EX-IA-*</span> (solveur autonome) passent en <b>héritage, hors périmètre</b> — jamais renumérotées, la règle du dépôt l'interdit. Les catégories du RPG (<span class="tt">EX-EXP-*</span>, <span class="tt">EX-DND-*</span>, <span class="tt">EX-CBT-*</span>, <span class="tt">EX-RPG-*</span>) sont créées par les lots qui les concrétisent.</p>
+<p>Aucune exigence nouvelle : ce lot <b>retire</b>. Les catégories <span class="tt">EX-GP-*</span> (gameplay de plateforme) et <span class="tt">EX-IA-*</span> (solveur autonome) passent en <b>héritage, hors périmètre</b> — jamais renumérotées, la règle du dépôt l'interdit. Les catégories du RPG (<span class="tt">EX-EXP-*</span>, <span class="tt">EX-REG-*</span>, <span class="tt">EX-CBT-*</span>, <span class="tt">EX-RPG-*</span>) sont créées par les lots qui les concrétisent.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md413"></a>
 Critères d'acceptation</h1>
 <ul>
 <li>Tag <span class="tt">archive/platformer-v0.1.3</span> posé <b>avant</b> toute suppression.</li>
 <li><span class="tt">grep -rn "gravity" Source/</span> ne renvoie plus rien.</li>
-<li>Configuration CMake réussie, <span class="tt">Core</span> et <span class="tt">JustAnotherDnDGame</span> compilés sans avertissement en <span class="tt">/W4 /WX</span>, exécutable produit.</li>
+<li>Configuration CMake réussie, <span class="tt">Core</span> et <span class="tt">JustAnotherRpgGame</span> compilés sans avertissement en <span class="tt">/W4 /WX</span>, exécutable produit.</li>
 <li>Le nombre de tests survivants est mesuré et publié : il devient l'oracle de référence des lots <span class="tt">LOT-02</span> à <span class="tt">LOT-05</span>, tous des refactorings à comportement constant.</li>
 <li>Plus aucune référence à <span class="tt">ProjectGaming</span> hors <span class="tt">Documentation/Heritage/</span> et de l'historique git. </li>
 </ul>
@@ -161,7 +161,7 @@ Critères d'acceptation</h1>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a href="index.html">JustAnotherDnDGame</a></li><li class="navelem"><a href="lots.html">Lots</a></li>
+    <li class="navelem"><a href="index.html">JustAnotherRpgGame</a></li><li class="navelem"><a href="lots.html">Lots</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.16.1 </li>
   </ul>
 </div>

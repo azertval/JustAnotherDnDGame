@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.16.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>JustAnotherDnDGame: /home/runner/work/JustAnotherDnDGame/JustAnotherDnDGame/Source/Test/Unit/HMI/Presentation/test_credits_catalog.cpp File Reference</title>
+<title>JustAnotherRpgGame: /home/runner/work/JustAnotherDnDGame/JustAnotherDnDGame/Source/Test/Unit/HMI/Presentation/test_credits_catalog.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">JustAnotherDnDGame<span id="projectnumber">&#160;0.1.0</span>
+   <div id="projectname">JustAnotherRpgGame<span id="projectnumber">&#160;0.1.0</span>
    </div>
    <div id="projectbrief">Jeu de rôle tactique au d20, vue de dessus, en C++/Qt</div>
   </td>
@@ -108,6 +108,10 @@ Functions</h2></td></tr>
 <tr class="memdesc:a3a8cccf5f4f818e2e49e9d2791aa5c55"><td class="mdescLeft">&#160;</td><td class="mdescRight">Des crédits valides se lisent dans la langue demandée, noms et colonnes compris.  <br /></td></tr>
 <tr class="memitem:ae6859fe4232070f85cb2b340fd20c65f" id="r_ae6859fe4232070f85cb2b340fd20c65f"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#ae6859fe4232070f85cb2b340fd20c65f">TEST</a> (CreditsCatalogTest, LibelleNonTraduitRetombeSurLeFrancais)</td></tr>
 <tr class="memdesc:ae6859fe4232070f85cb2b340fd20c65f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un libellé sans la langue demandée retombe sur le français, langue source.  <br /></td></tr>
+<tr class="memitem:a1d49b866dc7ffdc0724e1ea3a6c2d36f" id="r_a1d49b866dc7ffdc0724e1ea3a6c2d36f"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a1d49b866dc7ffdc0724e1ea3a6c2d36f">TEST</a> (CreditsCatalogTest, NomTraduitSuitLaLangue)</td></tr>
+<tr class="memdesc:a1d49b866dc7ffdc0724e1ea3a6c2d36f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un nom peut être un libellé traduit, pour une mention qui n'est pas un nom propre.  <br /></td></tr>
+<tr class="memitem:a235633aed6866aa7865f04ba5e63ad39" id="r_a235633aed6866aa7865f04ba5e63ad39"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a235633aed6866aa7865f04ba5e63ad39">TEST</a> (CreditsCatalogTest, NomIllisibleRefuse)</td></tr>
+<tr class="memdesc:a235633aed6866aa7865f04ba5e63ad39"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un nom ni chaîne ni libellé traduit fait échouer la lecture.  <br /></td></tr>
 <tr class="memitem:af41bc1c1455cb24f878e2809cc0ebf27" id="r_af41bc1c1455cb24f878e2809cc0ebf27"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#af41bc1c1455cb24f878e2809cc0ebf27">TEST</a> (CreditsCatalogTest, LigneSansNomFaitEchouerLaLecture)</td></tr>
 <tr class="memdesc:af41bc1c1455cb24f878e2809cc0ebf27"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une ligne sans nom fait échouer toute la lecture, jamais des crédits partiels.  <br /></td></tr>
 <tr class="memitem:a0b59737f81d8be657e1ebd6fcf6be881" id="r_a0b59737f81d8be657e1ebd6fcf6be881"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a0b59737f81d8be657e1ebd6fcf6be881">TEST</a> (CreditsCatalogTest, ColonneHorsBornesRefusee)</td></tr>
@@ -119,7 +123,7 @@ Functions</h2></td></tr>
 <div class="textblock"><p>Tests unitaires de la lecture des crédits (LOT-87, T3.3). </p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
 <a id="a0b59737f81d8be657e1ebd6fcf6be881" name="a0b59737f81d8be657e1ebd6fcf6be881"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0b59737f81d8be657e1ebd6fcf6be881">&#9670;&#160;</a></span>TEST() <span class="overload">[1/5]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a0b59737f81d8be657e1ebd6fcf6be881">&#9670;&#160;</a></span>TEST() <span class="overload">[1/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -148,7 +152,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a3a8cccf5f4f818e2e49e9d2791aa5c55" name="a3a8cccf5f4f818e2e49e9d2791aa5c55"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3a8cccf5f4f818e2e49e9d2791aa5c55">&#9670;&#160;</a></span>TEST() <span class="overload">[2/5]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a3a8cccf5f4f818e2e49e9d2791aa5c55">&#9670;&#160;</a></span>TEST() <span class="overload">[2/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -177,7 +181,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a9146a28c2d490c889830e908bed49b28" name="a9146a28c2d490c889830e908bed49b28"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9146a28c2d490c889830e908bed49b28">&#9670;&#160;</a></span>TEST() <span class="overload">[3/5]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a9146a28c2d490c889830e908bed49b28">&#9670;&#160;</a></span>TEST() <span class="overload">[3/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -206,7 +210,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="ae6859fe4232070f85cb2b340fd20c65f" name="ae6859fe4232070f85cb2b340fd20c65f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae6859fe4232070f85cb2b340fd20c65f">&#9670;&#160;</a></span>TEST() <span class="overload">[4/5]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ae6859fe4232070f85cb2b340fd20c65f">&#9670;&#160;</a></span>TEST() <span class="overload">[4/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -235,7 +239,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="af41bc1c1455cb24f878e2809cc0ebf27" name="af41bc1c1455cb24f878e2809cc0ebf27"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af41bc1c1455cb24f878e2809cc0ebf27">&#9670;&#160;</a></span>TEST() <span class="overload">[5/5]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#af41bc1c1455cb24f878e2809cc0ebf27">&#9670;&#160;</a></span>TEST() <span class="overload">[5/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -260,6 +264,64 @@ Functions</h2></td></tr>
  <b>Etapes :</b><br  />
  1. Lire un JSON dont la seule ligne a une liste de noms vide.<br  />
  <b>Resultat attendu :</b> La lecture échoue, aucune section n'est rendue, l'erreur nomme la section. </p>
+
+</div>
+</div>
+<a id="a235633aed6866aa7865f04ba5e63ad39" name="a235633aed6866aa7865f04ba5e63ad39"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a235633aed6866aa7865f04ba5e63ad39">&#9670;&#160;</a></span>TEST() <span class="overload">[6/7]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TEST </td>
+          <td>(</td>
+          <td class="paramtype">CreditsCatalogTest</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">NomIllisibleRefuse</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Un nom ni chaîne ni libellé traduit fait échouer la lecture. </p>
+<p><b>Cas de test :</b> <b>Un nom de crédits illisible fait échouer la lecture.</b><br  />
+ <b>Categorie :</b> Unitaire · Crédits<br  />
+ <b>Criticite :</b> Majeur<br  />
+ <b>Etapes :</b><br  />
+ 1. Lire une ligne dont un nom est un nombre, puis une autre dont un nom est un libellé vide.<br  />
+ <b>Resultat attendu :</b> Les deux lectures échouent. </p>
+
+</div>
+</div>
+<a id="a1d49b866dc7ffdc0724e1ea3a6c2d36f" name="a1d49b866dc7ffdc0724e1ea3a6c2d36f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1d49b866dc7ffdc0724e1ea3a6c2d36f">&#9670;&#160;</a></span>TEST() <span class="overload">[7/7]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TEST </td>
+          <td>(</td>
+          <td class="paramtype">CreditsCatalogTest</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">NomTraduitSuitLaLangue</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Un nom peut être un libellé traduit, pour une mention qui n'est pas un nom propre. </p>
+<p><b>Cas de test :</b> <b>Une mention des crédits se traduit comme un rôle.</b><br  />
+ <b>Categorie :</b> Unitaire · Crédits<br  />
+ <b>Criticite :</b> Majeur<br  />
+ <b>Etapes :</b><br  />
+ 1. Lire en anglais une ligne dont les noms mêlent une chaîne, un libellé traduit et un libellé qui n'a que le français.<br  />
+ <b>Resultat attendu :</b> La chaîne est inchangée, le libellé est anglais, le troisième retombe sur le français. </p>
 
 </div>
 </div>

@@ -1,0 +1,127 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>BitmapFont.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#include "HMI/Graphics/BitmapFont.h"
+
+#include &lt;optional&gt;
+#include &lt;stdexcept&gt;
+#include &lt;utility&gt;
+
+#include "HMI/Graphics/AssetContract.h"
+#include "HMI/Graphics/AssetPaths.h"
+#include "HMI/Graphics/GraphicsLog.h"
+#include "HMI/Graphics/RhiContext.h"
+#include "HMI/Graphics/TextureLoader.h"
+#include "HMI/Platform/ExecutableDirectory.h"
+
+namespace hmi {
+
+// Charge la police (fichier, avec repli procedural) et cree la texture GPU associee.
+<span style = "background-color:#dfd">BitmapFont::BitmapFont(const RhiContext&amp; context) {
+    if (loadFromAssets(context)) {</span>
+<span style = "background-color:#fdd">        return;</span>
+    }
+<span style = "background-color:#dfd">    generateProcedural(context);
+}</span>
+
+// Essaie de charger Assets/Fonts/font.png + font.json. true si les deux ont ete charges, valides,
+// et la texture creee avec succes.
+<span style = "background-color:#dfd">bool BitmapFont::loadFromAssets(const RhiContext&amp; context) {
+    const AssetPaths assetPaths(executableDirectory() / "Assets");</span>
+
+<span style = "background-color:#dfd">    const std::optional&lt;std::filesystem::path&gt; imagePath =</span>
+        assetPaths.resolve(FONTS_SUBDIRECTORY + FONT_ASSET_FILE_NAME);
+<span style = "background-color:#dfd">    if (!imagePath) {
+        GRAPHICS_LOG_INFO("BitmapFont : asset '" + FONTS_SUBDIRECTORY + FONT_ASSET_FILE_NAME +</span>
+                          "' absent, repli sur la police procedurale");
+<span style = "background-color:#dfd">        return false;</span>
+    }
+<span style = "background-color:#fdd">    std::optional&lt;LoadedTexture&gt; loaded = loadTextureFromFile(context, *imagePath);
+    if (!loaded) {
+        GRAPHICS_LOG_WARNING("BitmapFont : echec du chargement de '" + imagePath-&gt;string() +</span>
+                             "', repli sur la police procedurale");
+<span style = "background-color:#fdd">        return false;</span>
+    }
+<span style = "background-color:#fdd">    const AssetValidation dimensionValidation =</span>
+        validateAsset(AssetFamily::Font, FONT_ASSET_FILE_NAME, loaded-&gt;width, loaded-&gt;height);
+<span style = "background-color:#fdd">    if (!dimensionValidation.valid) {
+        GRAPHICS_LOG_WARNING("BitmapFont : " + dimensionValidation.message +</span>
+                             " Repli sur la police procedurale.");
+<span style = "background-color:#fdd">        return false;</span>
+    }
+
+<span style = "background-color:#fdd">    const std::optional&lt;std::filesystem::path&gt; metricsPath =</span>
+        assetPaths.resolve(FONTS_SUBDIRECTORY + FONT_METRICS_FILE_NAME);
+<span style = "background-color:#fdd">    if (!metricsPath) {
+        GRAPHICS_LOG_WARNING("BitmapFont : fichier de metriques '" + FONTS_SUBDIRECTORY +</span>
+                             FONT_METRICS_FILE_NAME + "' absent, repli sur la police procedurale");
+<span style = "background-color:#fdd">        return false;</span>
+    }
+<span style = "background-color:#fdd">    const FontMetricsResult metricsResult = loadFontMetricsFromFile(*metricsPath);
+    if (!metricsResult.ok()) {
+        GRAPHICS_LOG_WARNING("BitmapFont : " + metricsResult.error +</span>
+                             " Repli sur la police procedurale.");
+<span style = "background-color:#fdd">        return false;</span>
+    }
+<span style = "background-color:#fdd">    const AssetValidation coherence = validateFontMetricsAgainstTexture(</span>
+        *metricsResult.metrics, FONT_ASSET_FILE_NAME, loaded-&gt;width, loaded-&gt;height);
+<span style = "background-color:#fdd">    if (!coherence.valid) {
+        GRAPHICS_LOG_WARNING("BitmapFont : " + coherence.message +</span>
+                             " Repli sur la police procedurale.");
+<span style = "background-color:#fdd">        return false;</span>
+    }
+
+<span style = "background-color:#fdd">    _textureWidth = loaded-&gt;width;
+    _textureHeight = loaded-&gt;height;
+    _texture = std::move(loaded-&gt;texture);
+    _metrics = *metricsResult.metrics;
+    GRAPHICS_LOG_INFO("BitmapFont : police chargee depuis '" + imagePath-&gt;string() + "'");
+    return true;</span>
+<span style = "background-color:#dfd">}</span>
+
+// Genere la police procedurale et cree la texture GPU associee.
+<span style = "background-color:#dfd">void BitmapFont::generateProcedural(const RhiContext&amp; context) {
+    const ProceduralFont font = buildProceduralFont();
+    std::optional&lt;LoadedTexture&gt; loaded =</span>
+        createTexture(context, font.image.width, font.image.height, font.image.pixels);
+<span style = "background-color:#dfd">    if (!loaded) {</span>
+        // Echec de creation GPU d'un contenu genere en memoire : erreur d'initialisation non
+        // recuperable (device perdu, ressources epuisees), pas un cas metier attendu -- meme
+        // discipline que TextureAtlas::generateProcedural.
+<span style = "background-color:#fdd">        throw std::runtime_error("Echec de creation de la texture de police procedurale");</span>
+    }
+
+<span style = "background-color:#dfd">    _textureWidth = loaded-&gt;width;
+    _textureHeight = loaded-&gt;height;
+    _texture = std::move(loaded-&gt;texture);
+    _metrics = font.metrics;
+    GRAPHICS_LOG_TRACE("BitmapFont : police procedurale generee");
+}</span>
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

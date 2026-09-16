@@ -1,0 +1,139 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>AssetMarker.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#include "Core/Resources/AssetMarker.h"
+
+#include &lt;algorithm&gt;
+#include &lt;cmath&gt;
+
+#include "Core/Resources/AssetKey.h"
+
+namespace core {
+namespace {
+
+// FNV-1a 32 bits, ecrit ici plutot qu'emprunte a std::hash : la valeur de ce dernier n'est PAS
+// garantie stable d'une plateforme ou d'une version de bibliotheque a l'autre, et le marqueur d'un
+// loup changerait donc de teinte au changement de compilateur -- une regression invisible en
+// developpement et visible chez le joueur.
+constexpr std::uint32_t FNV_BASE = 2166136261U;
+constexpr std::uint32_t FNV_PREMIER = 16777619U;
+
+/// Teinte -&gt; RVB, saturation et valeur fixes : les marqueurs se distinguent entre eux sans qu'aucun
+/// ne passe pour une illustration.
+<span style = "background-color:#dfd">[[nodiscard]] MarkerColor depuisTeinte(double teinte, double valeur) {
+    constexpr double SATURATION = 0.45;
+    const double secteur = std::fmod(teinte, 360.0) / 60.0;
+    const double chroma = valeur * SATURATION;
+    const double second = chroma * (1.0 - std::fabs(std::fmod(secteur, 2.0) - 1.0));
+    const double base = valeur - chroma;</span>
+
+<span style = "background-color:#dfd">    double r = 0.0;
+    double v = 0.0;
+    double b = 0.0;
+    switch (static_cast&lt;int&gt;(secteur)) {</span>
+        case 0:
+<span style = "background-color:#dfd">            r = chroma;
+            v = second;
+            break;</span>
+        case 1:
+<span style = "background-color:#dfd">            r = second;
+            v = chroma;
+            break;</span>
+        case 2:
+<span style = "background-color:#dfd">            v = chroma;
+            b = second;
+            break;</span>
+        case 3:
+<span style = "background-color:#dfd">            v = second;
+            b = chroma;
+            break;</span>
+        case 4:
+<span style = "background-color:#dfd">            r = second;
+            b = chroma;
+            break;</span>
+        default:
+<span style = "background-color:#dfd">            r = chroma;
+            b = second;</span>
+            break;
+    }
+<span style = "background-color:#dfd">    const auto octet = [base](double composante) {
+        return static_cast&lt;std::uint8_t&gt;(std::clamp((composante + base) * 255.0, 0.0, 255.0));
+    };
+    return {.r = octet(r), .g = octet(v), .b = octet(b), .a = 255};
+}</span>
+
+}  // namespace
+
+<span style = "background-color:#dfd">std::uint32_t stableAssetHash(std::string_view key) {
+    std::uint32_t empreinte = FNV_BASE;
+    for (const char lettre : key) {
+        empreinte ^= static_cast&lt;std::uint8_t&gt;(lettre);
+        empreinte *= FNV_PREMIER;
+    }
+    return empreinte;
+}</span>
+
+<span style = "background-color:#dfd">MarkerImage assetMarker(std::string_view key, int width, int height) {
+    MarkerImage image;
+    if (!isValidAssetKey(key) || width &lt;= 0 || height &lt;= 0) {</span>
+        // Une cle malformee ne recoit pas un marqueur Â« par defaut Â» : elle est refusee. Lui en
+        // donner un la ferait passer pour une entree en attente d'illustration, alors qu'elle est
+        // une faute de donnee que `expectedAssetKeys` signale.
+<span style = "background-color:#dfd">        return image;</span>
+    }
+<span style = "background-color:#dfd">    image.width = width;
+    image.height = height;
+    image.pixels.resize(static_cast&lt;std::size_t&gt;(width) * static_cast&lt;std::size_t&gt;(height));</span>
+
+<span style = "background-color:#dfd">    const std::uint32_t empreinte = stableAssetHash(key);
+    const double teinte = static_cast&lt;double&gt;(empreinte % 360U);
+    const MarkerColor fond = depuisTeinte(teinte, 0.42);
+    const MarkerColor trait = depuisTeinte(teinte, 0.78);</span>
+
+    // Epaisseur des diagonales : proportionnelle a la vignette, jamais un nombre de pixels fixe --
+    // deux pixels se voient sur 48 et disparaissent sur 128.
+<span style = "background-color:#dfd">    const double epaisseur = std::max(1.5, static_cast&lt;double&gt;(std::min(width, height)) / 24.0);
+    const double pente = static_cast&lt;double&gt;(height) / static_cast&lt;double&gt;(width);</span>
+
+<span style = "background-color:#dfd">    for (int y = 0; y &lt; height; ++y) {
+        for (int x = 0; x &lt; width; ++x) {
+            const double attendueDescendante = static_cast&lt;double&gt;(x) * pente;
+            const double attendueMontante = static_cast&lt;double&gt;(height - 1) - attendueDescendante;
+            const bool surDiagonale =</span>
+                std::fabs(static_cast&lt;double&gt;(y) - attendueDescendante) &lt;= epaisseur ||
+                std::fabs(static_cast&lt;double&gt;(y) - attendueMontante) &lt;= epaisseur;
+            // Deux diagonales barrent la vignette : un marqueur doit se voir COMME un marqueur, et
+            // ne jamais passer pour une illustration definitive livree un peu vite.
+<span style = "background-color:#dfd">            image.pixels[static_cast&lt;std::size_t&gt;((y * width) + x)] = surDiagonale ? trait : fond;
+        }
+    }
+    return image;
+}</span>
+
+}  // namespace core</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.16.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>JustAnotherDnDGame: hmi Namespace Reference</title>
+<title>JustAnotherRpgGame: hmi Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">JustAnotherDnDGame<span id="projectnumber">&#160;0.1.0</span>
+   <div id="projectname">JustAnotherRpgGame<span id="projectnumber">&#160;0.1.0</span>
    </div>
    <div id="projectbrief">Jeu de rôle tactique au d20, vue de dessus, en C++/Qt</div>
   </td>
@@ -965,7 +965,7 @@ Enumerations</h2></td></tr>
  }</td></tr>
 <tr class="memdesc:a964211f19cf43757eaaa80c3c29b0e90"><td class="mdescLeft">&#160;</td><td class="mdescRight">Événement pouvant déclencher une transition d'écran.  <a href="#a964211f19cf43757eaaa80c3c29b0e90">More...</a><br /></td></tr>
 <tr class="memitem:a97f31c7914a6cfc54cc026a77da58fd1" id="r_a97f31c7914a6cfc54cc026a77da58fd1"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#a97f31c7914a6cfc54cc026a77da58fd1">Ability</a> </td></tr>
-<tr class="memdesc:a97f31c7914a6cfc54cc026a77da58fd1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une des six caractéristiques d'un personnage ou d'une créature (<span class="tt">EX-DND-010</span>).  <a href="#a97f31c7914a6cfc54cc026a77da58fd1">More...</a><br /></td></tr>
+<tr class="memdesc:a97f31c7914a6cfc54cc026a77da58fd1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une des six caractéristiques d'un personnage ou d'une créature (<span class="tt">EX-REG-010</span>).  <a href="#a97f31c7914a6cfc54cc026a77da58fd1">More...</a><br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
@@ -1676,7 +1676,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Une des six caractéristiques d'un personnage ou d'une créature (<span class="tt">EX-DND-010</span>). </p>
+<p>Une des six caractéristiques d'un personnage ou d'une créature (<span class="tt">EX-REG-010</span>). </p>
 <p>Ensemble <b>fermé</b> : six valeurs, fixées par les règles. Les noms textuels sont ceux du lexique (<span class="tt">LOT-30</span>) et de <span class="tt">common.schema.json</span>, et <span class="tt">scripts/check_rpg_data.py</span> vérifie que les trois listes coïncident. </p>
 
 </div>
@@ -5645,7 +5645,7 @@ Variables</h2></td></tr>
 <p>La version y figure pour retrouver sans ouvrir le fichier l'archive de symboles qui le lit. Tout caractère hors <span class="tt">[A-Za-z0-9.-]</span> devient <span class="tt">_</span>, pour qu'une version comme <span class="tt">0.1.0+dev</span> reste un nom de fichier sûr.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">application</td><td>Nom de l'application (<span class="tt">JustAnotherDnDGame</span>, <span class="tt">LevelEditor</span>). </td></tr>
+    <tr><td class="paramname">application</td><td>Nom de l'application (<span class="tt">JustAnotherRpgGame</span>, <span class="tt">LevelEditor</span>). </td></tr>
     <tr><td class="paramname">version</td><td>Version du binaire (<span class="tt"><a class="el" href="classcore_1_1Engine.html#a80c1e60da14c218b7846ff3201a325a6" title="Retourne la version du moteur, telle que déclarée par le système de build.">core::Engine::version()</a></span>). </td></tr>
     <tr><td class="paramname">localTime</td><td>Heure locale du plantage. </td></tr>
   </table>
@@ -9722,7 +9722,7 @@ Variables</h2></td></tr>
 
 <p>Lit les crédits dans une langue. </p>
 <p><b>Pourquoi un fichier et non le formulaire.</b> Les attributions sont des données du projet — les licences des assets et des bibliothèques exigent qu'on les cite — et la maquette en montre vingt lignes quand le projet en a dix : les écrire dans le formulaire aurait mêlé des noms propres à la mise en page, que la conception retouche. Le formulaire ne contient aucun nom.</p>
-<p>Titres et rôles portent une traduction par langue (<span class="tt">{"fr": …, "en": …}</span>), les noms n'en ont pas. Une langue absente d'un libellé retombe sur le français, langue source des écrans : un crédit s'affiche toujours, même incomplètement traduit.</p>
+<p>Titres et rôles portent une traduction par langue (<span class="tt">{"fr": …, "en": …}</span>). Un nom est d'ordinaire une chaîne, qui ne se traduit pas ; il peut aussi être un libellé traduit, pour une mention qui n'est pas un nom propre (« fan game non officiel »). Une langue absente d'un libellé retombe sur le français, langue source des écrans : un crédit s'affiche toujours, même incomplètement traduit.</p>
 <p>Logique <b>pure</b>, sans Qt ni disque (<span class="tt">EX-NFR-010</span>) : le modèle QML lit le fichier et passe le texte. Une section malformée fait échouer toute la lecture, jamais des crédits partiels — une attribution qui disparaîtrait sans erreur est précisément ce qu'une licence interdit.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">

@@ -1,0 +1,138 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>Interaction.h</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#pragma once
+
+/**
+ * @file Core/Gameplay/Interaction.h
+ * @brief DÃ©signation et rÃ©solution de la cible d'interaction (`LOT-10`).
+ */
+
+#include &lt;string&gt;
+#include &lt;string_view&gt;
+#include &lt;vector&gt;
+
+#include "Core/Ecs/Components/Interactable.h"
+#include "Core/Levels/GridPosition.h"
+#include "Core/Math/Vector2.h"
+
+namespace core {
+
+class TileMap;
+class WorldFlags;
+
+/**
+ * @brief Une cible candidate : son composant et l'entitÃ© qui la porte.
+ *
+ * L'indice plutÃ´t que `core::Entity` : la dÃ©signation est une fonction **pure** sur une liste, et
+ * lui passer le monde entier la rendrait intestable sans ECS. L'appelant retrouve son entitÃ©.
+ */
+struct InteractionCandidate {
+    const Interactable* interactable = nullptr;
+    /// Indice libre, rendu tel quel dans le rÃ©sultat. L'appelant y met ce qu'il veut.
+    std::size_t index = 0;
+};
+
+/// @brief Ce que la dÃ©signation a trouvÃ©.
+struct InteractionTarget {
+    const Interactable* interactable = nullptr;
+    std::size_t index = 0;
+    /// La case visÃ©e, que la cible existe ou non â l'invite visuelle en a besoin.
+    GridPosition aimedCell;
+    /// Vrai si une cible a Ã©tÃ© dÃ©signÃ©e.
+<span style = "background-color:#dfd">    [[nodiscard]] bool found() const {
+        return interactable != nullptr;
+    }</span>
+};
+
+/**
+ * @brief La case que vise un personnage, d'aprÃ¨s son orientation.
+ *
+ * L'orientation est un vecteur libre (`core::Actor::facing`) et la case visÃ©e est **la voisine**
+ * dans la direction dominante â jamais une diagonale. Un personnage qui regarde Ã  30Â° vise la case
+ * de droite, pas celle du coin : viser en diagonale rendrait la cible imprÃ©visible sur une manette
+ * analogique, alors que le joueur doit savoir ce qu'il dÃ©signe avant d'appuyer.
+ *
+ * Une orientation nulle ne vise rien et renvoie la case du personnage lui-mÃªme : c'est le cas d'un
+ * `facing` non initialisÃ©, et rendre une voisine arbitraire ferait ouvrir un coffre que le joueur
+ * ne regarde pas.
+ */
+[[nodiscard]] GridPosition aimedCell(GridPosition from, Vector2 facing);
+
+/**
+ * @brief DÃ©signe la cible d'interaction d'un personnage.
+ *
+ * Trois rÃ¨gles, et chacune rÃ©pond Ã  un critÃ¨re d'acceptation du lot :
+ *
+ * 1. **La cible est sur la case visÃ©e**, celle devant l'orientation.
+ * 2. **L'interaction ne traverse pas un mur** : si la case visÃ©e est de la matiÃ¨re pleine
+ *    (`core::isSolid`), il n'y a pas de cible. Un coffre derriÃ¨re un mur se voit et ne s'ouvre pas
+ *    â sans cette rÃ¨gle, un joueur ouvrirait Ã  travers une cloison, ce qui se joue et ne se
+ *    diagnostique pas.
+ * 3. **Ã plusieurs candidats, le choix est dÃ©terministe** : la plus proche du **centre** de la case
+ *    visÃ©e, et Ã  distance Ã©gale le plus petit indice. Sans dÃ©partage, deux coffres empilÃ©s
+ *    donneraient tantÃ´t l'un tantÃ´t l'autre selon l'ordre de parcours de l'ECS, qui n'est pas
+ *    stable.
+ *
+ * Une cible dont le drapeau de consommation est dÃ©jÃ  levÃ© n'est **pas** retenue : un coffre vidÃ©
+ * n'est plus une cible, et continuer Ã  l'afficher comme telle promettrait au joueur quelque chose
+ * qui n'arrivera pas.
+ *
+ * @param from Case du personnage.
+ * @param facing Orientation du personnage.
+ * @param map La carte, pour la rÃ¨gle du mur.
+ * @param candidates Les entitÃ©s interactives de la carte.
+ * @param flags Les drapeaux de monde, pour Ã©carter ce qui est dÃ©jÃ  consommÃ©.
+ */
+[[nodiscard]] InteractionTarget findInteractionTarget(
+    GridPosition from, Vector2 facing, const TileMap&amp; map,
+    const std::vector&lt;InteractionCandidate&gt;&amp; candidates, const WorldFlags&amp; flags);
+
+/// @brief Ce qu'une interaction a produit.
+struct InteractionOutcome {
+    /// Vrai si l'interaction a eu lieu.
+    bool happened = false;
+    /// Vrai si elle vient d'Ãªtre consommÃ©e â c'est la premiÃ¨re et la derniÃ¨re fois.
+    bool consumed = false;
+    /// Type de l'entitÃ© sollicitÃ©e, pour que l'appelant sache quoi jouer.
+    std::string type;
+    /// ClÃ© de localisation Ã  afficher, si l'entitÃ© en porte une.
+    std::string promptKey;
+};
+
+/**
+ * @brief RÃ©sout une interaction sur une cible dÃ©signÃ©e, en levant son drapeau s'il y a lieu.
+ *
+ * **C'est ici que Â« deux fois ne donne qu'une fois Â» se joue.** Le drapeau est levÃ© et sa valeur
+ * de retour dit s'il Ã©tait neuf ; l'appelant n'a pas Ã  demander d'abord puis Ã  Ã©crire ensuite,
+ * sÃ©quence dans laquelle un second appel pourrait se glisser.
+ */
+InteractionOutcome interact(const InteractionTarget&amp; target, WorldFlags&amp; flags);
+
+}  // namespace core</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

@@ -1,0 +1,296 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>PixelOperations.h</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#pragma once
+
+#include &lt;cstdint&gt;
+#include &lt;optional&gt;
+#include &lt;vector&gt;
+
+#include "HMI/Graphics/TextureLoader.h"
+
+/**
+ * @file HMI/Editor/PixelOperations.h
+ * @brief OpÃ©rations pures sur un tampon de pixels RGBA (atelier pixel art, LOT-54 TACHE-02).
+ *
+ * Fonctions **libres**, sans Ã©tat, sans Qt ni GPU (`EX-NFR-010`) : ce que fait chaque outil du
+ * canevas (TACHE-03) sur `hmi::DecodedImage` â le mÃªme type que `decodeImageFile`/`encodeImageFile`
+ * (TACHE-01), pour que le canevas Ã©dite, charge et enregistre le mÃªme tampon sans conversion.
+ */
+
+namespace hmi {
+
+/**
+ * @brief Rectangle de pixels modifiÃ© par une opÃ©ration (bornes incluses).
+ *
+ * Sert Ã  borner le coÃ»t mÃ©moire de l'historique (`hmi::PixelHistory`) : une entrÃ©e mÃ©morise le
+ * contenu de cette rÃ©gion avant/aprÃ¨s plutÃ´t qu'une copie complÃ¨te de l'image.
+ */
+struct PixelRegion {
+<span style = "background-color:#dfd">    int minX = 0;
+    int minY = 0;
+    int maxX = -1;  ///&lt; `maxX &lt; minX` (valeur par dÃ©faut) : rÃ©gion vide.
+    int maxY = -1;</span>
+
+    /// @return `true` si la rÃ©gion ne couvre aucun pixel.
+<span style = "background-color:#dfd">    [[nodiscard]] constexpr bool empty() const noexcept {
+        return maxX &lt; minX || maxY &lt; minY;
+    }</span>
+    /// @return Largeur de la rÃ©gion, `0` si vide.
+<span style = "background-color:#dfd">    [[nodiscard]] constexpr int width() const noexcept {
+        return empty() ? 0 : (maxX - minX + 1);
+    }</span>
+    /// @return Hauteur de la rÃ©gion, `0` si vide.
+<span style = "background-color:#dfd">    [[nodiscard]] constexpr int height() const noexcept {
+        return empty() ? 0 : (maxY - minY + 1);
+    }</span>
+
+    /// @return `true` si les deux rÃ©gions couvrent exactement les mÃªmes pixels.
+<span style = "background-color:#dfd">    [[nodiscard]] constexpr bool operator==(const PixelRegion&amp; other) const noexcept {
+        return (empty() &amp;&amp; other.empty()) || (minX == other.minX &amp;&amp; minY == other.minY &amp;&amp;</span>
+                                              maxX == other.maxX &amp;&amp; maxY == other.maxY);
+<span style = "background-color:#dfd">    }</span>
+};
+
+/// @return `true` si `(x, y)` est dans les bornes d'une image `width` x `height`.
+<span style = "background-color:#dfd">[[nodiscard]] constexpr bool pixelInBounds(int width, int height, int x, int y) noexcept {
+    return x &gt;= 0 &amp;&amp; y &gt;= 0 &amp;&amp; x &lt; width &amp;&amp; y &lt; height;
+}</span>
+
+/**
+ * @brief Union de deux rÃ©gions (la plus petite rÃ©gion couvrant les deux).
+ *
+ * Une rÃ©gion vide n'affecte pas l'union : sert Ã  accumuler la rÃ©gion touchÃ©e par un geste complet
+ * (`hmi::PixelCanvas`, TACHE-03) Ã  partir des rÃ©gions renvoyÃ©es par chacune de ses sous-opÃ©rations
+ * (ex. plusieurs `drawLine` successifs pendant un glisser).
+ */
+[[nodiscard]] constexpr PixelRegion unionPixelRegion(const PixelRegion&amp; a,
+<span style = "background-color:#dfd">                                                     const PixelRegion&amp; b) noexcept {
+    if (a.empty()) {
+        return b;</span>
+    }
+<span style = "background-color:#dfd">    if (b.empty()) {
+        return a;</span>
+    }
+<span style = "background-color:#dfd">    return PixelRegion{</span>
+        a.minX &lt; b.minX ? a.minX : b.minX,
+        a.minY &lt; b.minY ? a.minY : b.minY,
+        a.maxX &gt; b.maxX ? a.maxX : b.maxX,
+        a.maxY &gt; b.maxY ? a.maxY : b.maxY,
+    };
+<span style = "background-color:#dfd">}</span>
+
+/**
+ * @brief Pose un pixel d'une couleur donnÃ©e.
+ * @param image Image modifiÃ©e en place.
+ * @param x     Colonne (0-based).
+ * @param y     Ligne (0-based).
+ * @param color Couleur `R8G8B8A8_UNORM` posÃ©e.
+ * @return La rÃ©gion modifiÃ©e (le seul pixel `(x, y)`), vide si `(x, y)` est hors bornes.
+ */
+PixelRegion setPixel(DecodedImage&amp; image, int x, int y, std::uint32_t color);
+
+/**
+ * @brief Efface un pixel (alpha nul), sans changer sa couleur RVB.
+ *
+ * Alpha nul, RVB **conservÃ©** plutÃ´t que mis Ã  zÃ©ro : un pixel effacÃ© puis re-colorÃ© sans jamais
+ * changer sa teinte reproduit l'attente naturelle d'une gomme.
+ * @param image Image modifiÃ©e en place.
+ * @param x     Colonne (0-based).
+ * @param y     Ligne (0-based).
+ * @return La rÃ©gion modifiÃ©e (le seul pixel `(x, y)`), vide si `(x, y)` est hors bornes.
+ */
+PixelRegion erasePixel(DecodedImage&amp; image, int x, int y);
+
+/**
+ * @brief Trace une ligne pleine entre deux positions (algorithme de Bresenham).
+ *
+ * Sans elle, un glisser rapide de souris entre deux positions successives d'un mÃªme geste laisse
+ * des pixels isolÃ©s au lieu d'un trait continu â le dÃ©faut le plus visible d'un canevas pixel art
+ * fait naÃ¯vement.
+ * @param image Image modifiÃ©e en place.
+ * @param x0    Colonne de dÃ©part.
+ * @param y0    Ligne de dÃ©part.
+ * @param x1    Colonne d'arrivÃ©e.
+ * @param y1    Ligne d'arrivÃ©e.
+ * @param color Couleur posÃ©e sur chaque pixel du tracÃ©.
+ * @return La rÃ©gion englobante des pixels effectivement posÃ©s (vide si tout le segment est hors
+ *         bornes).
+ */
+PixelRegion drawLine(DecodedImage&amp; image, int x0, int y0, int x1, int y1, std::uint32_t color);
+
+/**
+ * @brief Efface une ligne pleine entre deux positions (mÃªme tracÃ© que `drawLine`, alpha nul plutÃ´t
+ *        qu'une couleur posÃ©e).
+ *
+ * Pendant de `drawLine` pour la gomme : un glisser rapide avec la gomme doit laisser une trace
+ * continue effacÃ©e, pas des pixels effacÃ©s isolÃ©s â mÃªme dÃ©faut, mÃªme correction.
+ * @param image Image modifiÃ©e en place.
+ * @param x0    Colonne de dÃ©part.
+ * @param y0    Ligne de dÃ©part.
+ * @param x1    Colonne d'arrivÃ©e.
+ * @param y1    Ligne d'arrivÃ©e.
+ * @return La rÃ©gion englobante des pixels effectivement effacÃ©s (vide si tout le segment est hors
+ *         bornes).
+ */
+PixelRegion eraseLine(DecodedImage&amp; image, int x0, int y0, int x1, int y1);
+
+/**
+ * @brief Remplit, de proche en proche, la zone connexe (4-connexitÃ©) de mÃªme couleur que le pixel
+ *        de dÃ©part.
+ *
+ * ItÃ©ratif (file explicite), **jamais rÃ©cursif** : une rÃ©cursion sur une grande zone dÃ©borderait
+ * la pile. Sans effet â et sans parcourir quoi que ce soit â si `(x, y)` est hors bornes ou si la
+ * couleur de dÃ©part est dÃ©jÃ  @p color, ce qui Ã©vite Ã  la fois une opÃ©ration d'historique vide et
+ * une boucle sans fin sur une image dÃ©jÃ  uniforme.
+ * @param image Image modifiÃ©e en place.
+ * @param x     Colonne du point de dÃ©part.
+ * @param y     Ligne du point de dÃ©part.
+ * @param color Couleur de remplissage.
+ * @return La rÃ©gion englobante des pixels effectivement remplis (vide si sans effet).
+ */
+PixelRegion floodFill(DecodedImage&amp; image, int x, int y, std::uint32_t color);
+
+/**
+ * @brief Couleur du pixel Ã  une position donnÃ©e (outil pipette).
+ * @param image Image consultÃ©e.
+ * @param x     Colonne.
+ * @param y     Ligne.
+ * @return La couleur du pixel, ou `std::nullopt` si `(x, y)` est hors bornes.
+ */
+[[nodiscard]] std::optional&lt;std::uint32_t&gt; pickColor(const DecodedImage&amp; image, int x,
+                                                     int y) noexcept;
+
+/**
+ * @brief Copie les pixels d'une rÃ©gion, ligne par ligne â capture le Â« avant Â» ou l'Â« aprÃ¨s Â»
+ *        d'une entrÃ©e d'historique (`hmi::PixelHistory`).
+ * @param image  Image consultÃ©e.
+ * @param region RÃ©gion Ã  copier (doit Ãªtre contenue dans les bornes de @p image).
+ * @return Les pixels de la rÃ©gion, taille `region.width() * region.height()` ; vide si
+ *         @p region est vide.
+ */
+[[nodiscard]] std::vector&lt;std::uint32_t&gt; readRegion(const DecodedImage&amp; image,
+                                                    const PixelRegion&amp; region);
+
+/**
+ * @brief Ãcrit des pixels dans une rÃ©gion â inverse de `readRegion`, utilisÃ© par
+ *        `hmi::PixelHistory` pour restaurer un instantanÃ© annulÃ©/rÃ©tabli.
+ * @param image  Image modifiÃ©e en place.
+ * @param region RÃ©gion ciblÃ©e (doit Ãªtre contenue dans les bornes de @p image).
+ * @param data   Pixels Ã  Ã©crire, taille attendue `region.width() * region.height()`.
+ */
+void writeRegion(DecodedImage&amp; image, const PixelRegion&amp; region,
+                 const std::vector&lt;std::uint32_t&gt;&amp; data);
+
+/**
+ * @brief Contenu copiÃ© depuis un tampon (presse-papiers de l'atelier, `LOT-54` TACHE-06).
+ *
+ * **Distinct** du presse-papiers de l'Ã©diteur de niveaux : deux tampons sÃ©parÃ©s, visÃ©s selon le
+ * contexte d'Ã©dition actif (`hmi::PixelCanvas`, comme Annuler â `EX-IHM-062`).
+ */
+struct PixelClipboard {
+    int width = 0;
+    int height = 0;
+    std::vector&lt;std::uint32_t&gt; pixels;
+
+    /// @return `true` si le presse-papiers ne porte aucun contenu.
+<span style = "background-color:#dfd">    [[nodiscard]] bool empty() const noexcept {
+        return width &lt;= 0 || height &lt;= 0;
+    }</span>
+};
+
+/**
+ * @brief Retourne une rÃ©gion horizontalement (miroir gauche-droite), en place.
+ *
+ * Involutive : appliquer deux fois de suite restitue exactement le contenu d'origine.
+ * @param image  Image modifiÃ©e en place.
+ * @param region RÃ©gion retournÃ©e ; sans effet si vide.
+ * @return @p region telle quelle si non vide, sinon une rÃ©gion vide â jamais d'entrÃ©e d'historique
+ *         pour une rÃ©gion vide (Ã  la charge de l'appelant de ne pas en pousser une).
+ */
+PixelRegion flipHorizontal(DecodedImage&amp; image, const PixelRegion&amp; region);
+
+/// Retourne une rÃ©gion verticalement (miroir haut-bas), en place. Involutive, comme
+/// `flipHorizontal`.
+PixelRegion flipVertical(DecodedImage&amp; image, const PixelRegion&amp; region);
+
+/**
+ * @brief Pivote le contenu d'une rÃ©gion d'un quart de tour, sens horaire.
+ *
+ * La rÃ©gion d'origine est effacÃ©e (alpha nul), puis le contenu pivotÃ© (largeur/hauteur Ã©changÃ©es)
+ * est Ã©crit ancrÃ© au mÃªme coin haut-gauche â sur une rÃ©gion **non carrÃ©e**, le nouveau contour
+ * dÃ©borde donc du contour d'origine ; ce dÃ©bordement est tronquÃ© au cadre de **l'image**, jamais
+ * agrandi (`setPixel` ignore silencieusement tout pixel hors bornes).
+ * @param image  Image modifiÃ©e en place.
+ * @param region RÃ©gion pivotÃ©e ; sans effet si vide.
+ * @return L'union de la rÃ©gion effacÃ©e et de la rÃ©gion Ã©crite (pour l'historique).
+ */
+PixelRegion rotateClockwise(DecodedImage&amp; image, const PixelRegion&amp; region);
+
+/// Pivote le contenu d'une rÃ©gion d'un quart de tour, sens antihoraire (trois quarts de tour
+/// horaires, pour ne pas dupliquer la logique de rotation). MÃªmes rÃ¨gles de troncature que
+/// `rotateClockwise`.
+PixelRegion rotateCounterClockwise(DecodedImage&amp; image, const PixelRegion&amp; region);
+
+/**
+ * @brief DÃ©place le contenu d'une rÃ©gion d'un dÃ©calage donnÃ©.
+ *
+ * La rÃ©gion de dÃ©part devient transparente ; le contenu est reposÃ© au dÃ©calage donnÃ©, tronquÃ© au
+ * cadre de l'image. Un dÃ©placement entiÃ¨rement hors cadre efface la rÃ©gion de dÃ©part sans rien
+ * reposer de visible â jamais d'Ã©criture hors bornes, jamais de tampon corrompu.
+ * @param image  Image modifiÃ©e en place.
+ * @param region RÃ©gion dÃ©placÃ©e ; sans effet si vide.
+ * @param dx     DÃ©calage horizontal, en pixels.
+ * @param dy     DÃ©calage vertical, en pixels.
+ * @return L'union de la rÃ©gion quittÃ©e et de la rÃ©gion reposÃ©e (pour l'historique).
+ */
+PixelRegion moveRegion(DecodedImage&amp; image, const PixelRegion&amp; region, int dx, int dy);
+
+/**
+ * @brief Copie les pixels d'une rÃ©gion dans un presse-papiers autonome (ne rÃ©fÃ©rence plus @p
+ * image).
+ * @param image  Image consultÃ©e.
+ * @param region RÃ©gion copiÃ©e ; un presse-papiers vide si @p region est vide.
+ */
+[[nodiscard]] PixelClipboard copyRegion(const DecodedImage&amp; image, const PixelRegion&amp; region);
+
+/**
+ * @brief Colle un presse-papiers dans l'image, coin haut-gauche Ã  `(x, y)`.
+ *
+ * TronquÃ© au cadre de l'image : coller prÃ¨s d'un bord n'Ã©crit jamais hors bornes (chaque pixel
+ * passe par `setPixel`, qui ignore silencieusement les positions hors bornes).
+ * @param image     Image modifiÃ©e en place.
+ * @param clipboard Contenu Ã  coller ; sans effet si vide.
+ * @param x         Colonne du coin haut-gauche du contenu collÃ©.
+ * @param y         Ligne du coin haut-gauche du contenu collÃ©.
+ * @return La rÃ©gion effectivement Ã©crite (peut Ãªtre plus petite que @p clipboard si tronquÃ©e).
+ */
+PixelRegion pasteClipboard(DecodedImage&amp; image, const PixelClipboard&amp; clipboard, int x, int y);
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

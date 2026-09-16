@@ -1,0 +1,129 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>TopDownMovementSystem.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#include "Core/Ecs/Systems/TopDownMovementSystem.h"
+
+#include "Core/Ecs/Components/Actor.h"
+#include "Core/Ecs/Components/Collider.h"
+#include "Core/Ecs/Components/Transform.h"
+#include "Core/Ecs/Components/Velocity.h"
+#include "Core/Ecs/World.h"
+#include "Core/Math/Vector2.h"
+#include "Core/Physics/Aabb.h"
+#include "Core/Physics/SweptCollision.h"
+
+namespace core {
+
+namespace {
+
+// En deca de cette vitesse (unites/s), un acteur est considere a l'arret : la friction l'y pose
+// net plutot que de le laisser deriver indefiniment vers zero. Sous le dixieme de pixel par
+// seconde (16 px/unite), aucun mouvement n'est observable.
+constexpr float REST_SPEED = 1e-3F;
+
+// Intention de deplacement, NORMALISEE. C'est ici, et nulle part ailleurs, que se joue
+// l'isotropie : sans cette normalisation, (1, 1) donnerait une norme de racine de 2, et la
+// diagonale serait 41 % plus rapide que la marche cardinale (EX-EXP-001).
+//
+// Les composantes arrivent deja bornees a [-1, 1] par hmi::PlayerInputMapper ; une intention plus
+// courte que 1 (manette poussee a mi-course) est conservee telle quelle -- seule une intention
+// PLUS LONGUE que 1, ce que seule la diagonale produit, est ramenee sur le cercle unite.
+<span style = "background-color:#dfd">[[nodiscard]] Vector2 desiredDirection(const PlayerInput&amp; input) {
+    const Vector2 raw{input.moveX, input.moveY};
+    const float length = raw.length();
+    if (length &lt;= 1.0F) {
+        return raw;</span>
+    }
+<span style = "background-color:#dfd">    return raw * (1.0F / length);
+}</span>
+
+// Rapproche @p velocity de @p target d'au plus @p maxDelta : acceleration quand une intention est
+// donnee, friction quand elle est nulle. Le rapprochement est fait sur le VECTEUR, jamais axe par
+// axe -- composante par composante, un changement de direction en diagonale accelererait un axe
+// pendant que l'autre freine, et la vitesse resultante ne suivrait plus le cercle.
+<span style = "background-color:#dfd">[[nodiscard]] Vector2 approach(const Vector2&amp; velocity, const Vector2&amp; target, float maxDelta) {
+    const Vector2 difference = target - velocity;
+    const float distance = difference.length();
+    if (distance &lt;= maxDelta || distance &lt;= 0.0F) {
+        return target;</span>
+    }
+<span style = "background-color:#dfd">    return velocity + difference * (maxDelta / distance);
+}</span>
+
+}  // namespace
+
+void updateTopDownMovement(World&amp; world, Entity actor, const PlayerInput&amp; input,
+                           const TileMap&amp; collision, const TopDownConfig&amp; config,
+<span style = "background-color:#dfd">                           float fixedDelta) {</span>
+    if (!world.hasComponent&lt;Transform&gt;(actor) || !world.hasComponent&lt;Velocity&gt;(actor) ||
+<span style = "background-color:#dfd">        !world.hasComponent&lt;Collider&gt;(actor) || !world.hasComponent&lt;Actor&gt;(actor)) {
+        return;  // entite incomplete : rien a deplacer, jamais un plantage (EX-NFR-040)</span>
+    }
+
+<span style = "background-color:#dfd">    Transform&amp; transform = world.getComponent&lt;Transform&gt;(actor);
+    Velocity&amp; velocity = world.getComponent&lt;Velocity&gt;(actor);
+    const Collider&amp; collider = world.getComponent&lt;Collider&gt;(actor);
+    Actor&amp; actorState = world.getComponent&lt;Actor&gt;(actor);</span>
+
+    // 1. Intention -&gt; vitesse visee. A intention nulle, la cible est l'arret, et c'est la friction
+    // -- plus vive que l'acceleration -- qui gouverne le rapprochement.
+<span style = "background-color:#dfd">    const Vector2 direction = desiredDirection(input);
+    const bool moving = direction.lengthSquared() &gt; 0.0F;
+    const Vector2 targetVelocity = direction * config.moveSpeed;
+    const float rate = moving ? config.acceleration : config.friction;
+    velocity.value = approach(velocity.value, targetVelocity, rate * fixedDelta);
+    if (!moving &amp;&amp; velocity.value.length() &lt; REST_SPEED) {
+        velocity.value = Vector2{};  // pose l'arret net, sans derive residuelle</span>
+    }
+
+    // 2. Orientation : la derniere direction de marche, CONSERVEE a l'arret (EX-EXP-004). Prise de
+    // l'intention et non de la vitesse : un personnage qui pousse contre un mur regarde le mur,
+    // meme si sa vitesse y est nulle.
+<span style = "background-color:#dfd">    if (moving) {
+        actorState.facing = direction.normalized();</span>
+    }
+
+    // 3. Deplacement continu contre la grille de collision. Le balayage traite x et y de la meme
+    // facon, sans axe privilegie : c'est ce qui rend un contrÃ´leur de plateforme inutile ici, et
+    // ce qui produit le glissement le long d'un mur pris en biais (EX-EXP-002, EX-EXP-003).
+<span style = "background-color:#dfd">    const Aabb box = Aabb::fromTopLeftSize(transform.position, collider.size);
+    const SweepResult swept = sweepAabb(box, velocity.value * fixedDelta, collision);
+    transform.position = swept.position;</span>
+
+    // 4. Un axe bloque perd sa vitesse : la conserver ferait "pousser" contre le mur et relancerait
+    // le personnage des que le mur cesse, comme s'il avait accumule de l'elan contre lui.
+<span style = "background-color:#dfd">    if (swept.normal.x != 0.0F) {
+        velocity.value.x = 0.0F;</span>
+    }
+<span style = "background-color:#dfd">    if (swept.normal.y != 0.0F) {
+        velocity.value.y = 0.0F;</span>
+    }
+<span style = "background-color:#dfd">}</span>
+
+}  // namespace core</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

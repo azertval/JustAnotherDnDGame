@@ -1,0 +1,137 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>JsonDocument.h</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#pragma once
+
+#include &lt;cstddef&gt;
+#include &lt;filesystem&gt;
+#include &lt;string&gt;
+#include &lt;string_view&gt;
+
+#include &lt;nlohmann/json.hpp&gt;
+
+/**
+ * @file Core/Data/JsonDocument.h
+ * @brief Brique de lecture JSON partagÃ©e par tous les catalogues (`EX-CNT-012`).
+ */
+
+namespace core {
+
+/**
+ * @brief CatÃ©gorie d'Ã©chec de lecture d'un document JSON.
+ *
+ * Les cinq catÃ©gories que les six lecteurs du dÃ©pÃ´t avaient chacun redÃ©finies pour leur compte
+ * (`hmi::SkinCatalogError`, `hmi::SoundCatalogError`, `hmi::AnimationCatalogError`â¦). Elles sont
+ * ici **une seule fois** : deux dÃ©finitions de Â« version non gÃ©rÃ©e Â» finissent par diverger sur
+ * ce qu'elles recouvrent.
+ */
+enum class JsonReadError {
+    None,                ///&lt; Pas d'erreur.
+    FileNotFound,        ///&lt; Fichier absent ou illisible.
+    ParseError,          ///&lt; JSON malformÃ©, ou racine qui n'est pas un objet.
+    UnsupportedVersion,  ///&lt; NumÃ©ro de version supÃ©rieur Ã  celui que le lecteur sait lire.
+    MalformedStructure,  ///&lt; Structure inattendue (champ absent, type incorrectâ¦).
+};
+
+/**
+ * @brief Position d'un octet dans un texte, en **ligne et colonne** comptÃ©es Ã  partir de 1.
+ *
+ * `nlohmann` ne rapporte qu'un dÃ©calage en octets, inexploitable pour un humain devant un
+ * catalogue de mille lignes. `EX-CNT-010` exige que l'Ã©chec nomme le fichier **et la ligne**.
+ */
+struct TextPosition {
+<span style = "background-color:#dfd">    int line = 0;    ///&lt; Ligne, Ã  partir de 1. `0` si inconnue.
+    int column = 0;  ///&lt; Colonne, Ã  partir de 1. `0` si inconnue.</span>
+};
+
+/**
+ * @brief RÃ©sultat de la lecture de l'enveloppe commune d'un document JSON.
+ *
+ * Contient l'arbre parsÃ© **ou** la description de l'Ã©chec, jamais les deux. Aucune lecture ne
+ * lÃ¨ve d'exception vers l'appelant (`EX-NFR-040`).
+ */
+struct JsonDocument {
+    nlohmann::json root;                        ///&lt; L'arbre parsÃ©. Vide si `error != None`.
+<span style = "background-color:#dfd">    JsonReadError error = JsonReadError::None;  ///&lt; CatÃ©gorie d'Ã©chec.</span>
+    std::string message;                        ///&lt; Description lisible, vide si succÃ¨s.
+    TextPosition position;                      ///&lt; Position de l'erreur, si connue.
+<span style = "background-color:#dfd">    int version = 0;                            ///&lt; Version lue dans le document.</span>
+
+    /// @brief Vrai si la lecture a abouti.
+<span style = "background-color:#dfd">    [[nodiscard]] bool ok() const {
+        return error == JsonReadError::None;
+    }</span>
+};
+
+/**
+ * @brief Convertit un dÃ©calage en octets en ligne et colonne.
+ * @param text Le texte d'origine.
+ * @param byteOffset DÃ©calage, tel que rapportÃ© par `nlohmann::json::parse_error::byte`.
+ * @return La position, ou `{0, 0}` si le dÃ©calage sort du texte.
+ */
+[[nodiscard]] TextPosition positionOf(std::string_view text, std::size_t byteOffset);
+
+/**
+ * @brief Lit l'enveloppe commune d'un catalogue : JSON bien formÃ©, racine objet, garde de version.
+ *
+ * C'est la routine que les six lecteurs du dÃ©pÃ´t rÃ©implÃ©mentaient Ã  l'identique. Le champ de
+ * version **absent vaut 1** â un catalogue Ã©crit avant que le format ne se versionne reste
+ * lisible ; une version **supÃ©rieure** Ã  `supportedVersion` est refusÃ©e explicitement, jamais
+ * lue au mieux : un fichier plus rÃ©cent que le jeu contient par dÃ©finition ce que le jeu ne sait
+ * pas interprÃ©ter.
+ *
+ * @param json Contenu JSON.
+ * @param supportedVersion Version la plus Ã©levÃ©e que le lecteur sait lire. **`0` dÃ©sactive la
+ *        garde** : l'appelant porte alors sa propre catÃ©gorie d'Ã©chec de version, ce qui est le
+ *        cas du chargeur de niveaux (`core::LevelValidationError::UnsupportedFormatVersion`).
+ * @param origin Nom Ã  faire figurer dans les messages (Â« sounds.json Â»). Facultatif.
+ * @param versionField Nom du champ de version. Vaut `"version"` par dÃ©faut.
+ * @return Le document, ou l'Ã©chec dÃ©crit. Ne lÃ¨ve jamais.
+ */
+[[nodiscard]] JsonDocument readJsonObject(std::string_view json, int supportedVersion,
+                                          std::string_view origin = {},
+                                          std::string_view versionField = "version");
+
+/**
+ * @brief Comme `readJsonObject`, en lisant d'abord le fichier.
+ *
+ * Un fichier **absent** produit `FileNotFound` plutÃ´t qu'un document vide : c'est Ã  l'appelant de
+ * dÃ©cider qu'un catalogue absent est un Ã©tat de dÃ©part lÃ©gitime, et cette dÃ©cision ne peut pas
+ * Ãªtre prise ici.
+ *
+ * @param path Chemin du fichier.
+ * @param supportedVersion Version la plus Ã©levÃ©e que le lecteur sait lire.
+ * @param versionField Nom du champ de version.
+ * @return Le document, ou l'Ã©chec dÃ©crit. Ne lÃ¨ve jamais.
+ */
+[[nodiscard]] JsonDocument readJsonObjectFromFile(const std::filesystem::path&amp; path,
+                                                  int supportedVersion,
+                                                  std::string_view versionField = "version");
+
+}  // namespace core</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

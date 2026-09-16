@@ -1,0 +1,322 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>TileAppearance.h</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#pragma once
+
+#include &lt;optional&gt;
+#include &lt;string&gt;
+#include &lt;string_view&gt;
+#include &lt;vector&gt;
+
+#include "Core/Ecs/Components/Sprite.h"
+#include "HMI/Graphics/RenderLayer.h"
+#include "HMI/Graphics/RenderMode.h"
+#include "HMI/Graphics/SkinCatalog.h"
+#include "HMI/Graphics/TileSilhouette.h"
+#include "HMI/Graphics/TileSkinTag.h"
+
+/**
+ * @file HMI/Graphics/TileAppearance.h
+ * @brief Point de rÃ©solution **unique** de l'apparence d'une entitÃ© affichÃ©e (`EX-REN-046`).
+ */
+
+namespace hmi {
+
+/// Texture d'oÃ¹ provient l'apparence rÃ©solue.
+enum class AppearanceSource {
+    /// Atlas du jeu : couleur plate par type de tuile, images du personnage, aides d'Ã©dition.
+    Atlas,
+    /// Damier magenta de repli : texture attendue mais pas encore disponible (`EX-NFR-040`).
+    MissingTexture,
+    /// Skin assignÃ© au type de tuile, dÃ©signÃ© par `hmi::TileAppearance::skinIndex` (`LOT-42`).
+    Skin,
+    /// Texture assignÃ©e **par instance** Ã  la case, dÃ©signÃ©e par `hmi::TileAppearance::skinIndex`
+    /// (index dans `hmi::SceneTextures::objects`) â prioritaire sur `Skin` (`EX-EDIT-043`,
+    /// `LOT-45`).
+    Override,
+};
+
+/// Apparence rÃ©solue d'une primitive : quelle texture lier, et quelle rÃ©gion y Ã©chantillonner.
+struct TileAppearance {
+    /// Texture Ã  lier.
+    AppearanceSource source = AppearanceSource::Atlas;
+    /// RÃ©gion Ã  Ã©chantillonner **dans cette texture**, en pixels.
+    core::AtlasRegion region{};
+    /// Index dans `hmi::SceneTextures::skins` (source `Skin`) ou `hmi::SceneTextures::objects`
+    /// (source `Override`) ; vaut `-1` sinon. Un **index** plutÃ´t qu'un nom de fichier : la
+    /// composition s'exÃ©cute Ã  chaque image et ne doit ni allouer ni comparer de chaÃ®nes.
+    int skinIndex = -1;
+};
+
+/// Skin dÃ©jÃ  chargÃ©, prÃªt Ã  Ãªtre liÃ© par la composition.
+struct SkinTexture {
+    /// Nom logique du fichier (clÃ© de correspondance avec `hmi::SkinEntry::asset`).
+    std::string asset;
+    /// Type dont la **silhouette** a Ã©tÃ© appliquÃ©e Ã  l'image, s'il y a lieu (`LOT-42` TACHE-03).
+    /// Vide pour l'image d'origine, non dÃ©tourÃ©e. Un mÃªme fichier peut donc Ãªtre prÃ©sent
+    /// plusieurs fois â une entrÃ©e par dÃ©coupe â sans qu'une variante n'abÃ®me les autres.
+    std::optional&lt;core::TileType&gt; maskType;
+    /// Texture chargÃ©e (non possÃ©dÃ©e : propriÃ©tÃ© du `hmi::TextureCache`).
+    TextureHandle texture = nullptr;
+    /// Largeur de la texture, en pixels.
+    int width = 0;
+    /// Hauteur de la texture, en pixels.
+    int height = 0;
+    /// RÃ©gion de l'image **courante** Ã  Ã©chantillonner si cet asset est animÃ© (`LOT-46`
+    /// TACHE-05), `std::nullopt` sinon â image fixe, dont la rÃ©gion Ã©chantillonnÃ©e est l'image
+    /// entiÃ¨re. N'a de
+    /// sens qu'en mode `SkinMode::Single` sans silhouette : `bitmask16` et le dÃ©tourage de
+    /// silhouette excluent l'animation (limite assumÃ©e, voir `resolveTileAppearance`).
+    std::optional&lt;core::AtlasRegion&gt; animatedFrame;
+};
+
+/**
+ * @brief Textures liables par la composition d'une scÃ¨ne, et de quoi choisir laquelle lier.
+ *
+ * RegroupÃ©es en une seule donnÃ©e parce qu'elles vont toujours ensemble : une texture sans ses
+ * dimensions ne permet pas de normaliser des coordonnÃ©es de texture, et la composition doit
+ * pouvoir servir toutes les branches de `hmi::resolveTileAppearance` sans rien demander au GPU.
+ *
+ * Porte aussi le **catalogue** et le **jeu courant** (`LOT-42`) : ce sont eux qui dÃ©cident quelle
+ * texture lier, au mÃªme titre que les textures elles-mÃªmes. Les y placer garde la composition
+ * paramÃ©trÃ©e par une seule donnÃ©e, et laisse la fonction de rÃ©solution pure et testable sans GPU
+ * (`EX-NFR-004`).
+ */
+struct SceneTextures {
+    /// Atlas du jeu (`hmi::TextureAtlas::textureHandle`).
+    TextureHandle atlas = nullptr;
+    /// Largeur de l'atlas, en pixels.
+    int atlasWidth = 0;
+    /// Hauteur de l'atlas, en pixels.
+    int atlasHeight = 0;
+    /// Damier magenta de repli (`hmi::TextureCache::missingTexture`).
+    TextureHandle missing = nullptr;
+    /// Largeur du damier, en pixels.
+    int missingWidth = 0;
+    /// Hauteur du damier, en pixels.
+    int missingHeight = 0;
+
+    /// Spritesheet externe du personnage (`hmi::PLAYER_SUBDIRECTORY`/`PLAYER_SHEET_FILE_NAME`,
+    /// `LOT-48`), ou `nullptr` si absente/invalide â repli sur l'atlas (`hmi::PlayerSpriteTag::
+    /// usesCharacterSheet`), comme `hmi::TextureAtlas` retombe dÃ©jÃ  sur le procÃ©dural.
+    TextureHandle characterSheet = nullptr;
+    /// Largeur de la spritesheet du personnage, en pixels.
+    int characterSheetWidth = 0;
+    /// Hauteur de la spritesheet du personnage, en pixels.
+    int characterSheetHeight = 0;
+
+    /// Skins dÃ©jÃ  chargÃ©s, adressÃ©s par index (`hmi::TileAppearance::skinIndex`).
+    std::vector&lt;SkinTexture&gt; skins;
+    /// Catalogue des jeux de skins, ou `nullptr` si aucun n'est chargÃ© (tout retombe au damier).
+    const SkinCatalog* skinCatalog = nullptr;
+    /// Nom du jeu de skins courant. Vide pour utiliser le jeu par dÃ©faut du catalogue.
+    std::string skinSet;
+
+    /// Textures assignÃ©es **par instance** (`EX-EDIT-043`, `LOT-45`), adressÃ©es par index. `asset`
+    /// est le seul champ significatif (`maskType` toujours vide : une surcharge n'est jamais
+    /// dÃ©tourÃ©e Ã  une silhouette, contrairement Ã  un skin de type).
+    std::vector&lt;SkinTexture&gt; objects;
+
+    /**
+     * @brief Index du skin chargÃ© pour un asset et un type de tuile donnÃ©s.
+     *
+     * Compare sans jamais construire de chaÃ®ne : cette recherche a lieu pour **chaque primitive
+     * de chaque image**, et une clÃ© textuelle assemblÃ©e Ã  la volÃ©e y allouerait Ã  ce rythme.
+     * @param asset Nom du fichier cherchÃ©.
+     * @param type  Type de tuile, qui dÃ©termine si c'est la variante dÃ©tourÃ©e qu'il faut.
+     * @return Son index dans `skins`, ou `-1` si la variante voulue n'est pas chargÃ©e.
+     */
+<span style = "background-color:#dfd">    [[nodiscard]] int skinIndexOf(std::string_view asset, core::TileType type) const noexcept {
+        const bool masked = hasSilhouette(type);
+        for (std::size_t index = 0; index &lt; skins.size(); ++index) {
+            const SkinTexture&amp; skin = skins[index];
+            if (skin.asset != asset) {
+                continue;</span>
+            }
+<span style = "background-color:#dfd">            if (masked ? (skin.maskType == type) : !skin.maskType.has_value()) {
+                return static_cast&lt;int&gt;(index);</span>
+            }
+<span style = "background-color:#fdd">        }</span>
+<span style = "background-color:#dfd">        return -1;
+    }</span>
+
+    /**
+     * @brief Index de la texture d'objet chargÃ©e pour un asset donnÃ© (`EX-EDIT-043`, `LOT-45`).
+     *
+     * Pas de silhouette Ã  considÃ©rer (contrairement Ã  `skinIndexOf`) : une surcharge n'est jamais
+     * dÃ©tourÃ©e, elle s'affiche telle quelle.
+     * @param asset Nom du fichier cherchÃ©.
+     * @return Son index dans `objects`, ou `-1` si non chargÃ©.
+     */
+<span style = "background-color:#dfd">    [[nodiscard]] int objectIndexOf(std::string_view asset) const noexcept {
+        for (std::size_t index = 0; index &lt; objects.size(); ++index) {
+            if (objects[index].asset == asset) {
+                return static_cast&lt;int&gt;(index);</span>
+            }
+<span style = "background-color:#dfd">        }
+        return -1;
+    }</span>
+
+    /// @return La texture correspondant Ã  une apparence rÃ©solue (`nullptr` si non fournie).
+<span style = "background-color:#dfd">    [[nodiscard]] TextureHandle textureFor(const TileAppearance&amp; appearance) const noexcept {
+        switch (appearance.source) {</span>
+            case AppearanceSource::Atlas:
+<span style = "background-color:#dfd">                return atlas;</span>
+            case AppearanceSource::MissingTexture:
+<span style = "background-color:#dfd">                return missing;</span>
+            case AppearanceSource::Skin:
+<span style = "background-color:#dfd">                return skinAt(appearance.skinIndex) ? skinAt(appearance.skinIndex)-&gt;texture</span>
+                                                    : missing;
+            case AppearanceSource::Override:
+<span style = "background-color:#dfd">                return objectAt(appearance.skinIndex) ? objectAt(appearance.skinIndex)-&gt;texture</span>
+                                                      : missing;
+        }
+<span style = "background-color:#fdd">        return missing;</span>
+<span style = "background-color:#dfd">    }</span>
+
+    /// @return La largeur, en pixels, de la texture correspondant Ã  une apparence rÃ©solue.
+<span style = "background-color:#dfd">    [[nodiscard]] int widthFor(const TileAppearance&amp; appearance) const noexcept {
+        switch (appearance.source) {</span>
+            case AppearanceSource::Atlas:
+<span style = "background-color:#dfd">                return atlasWidth;</span>
+            case AppearanceSource::MissingTexture:
+<span style = "background-color:#dfd">                return missingWidth;</span>
+            case AppearanceSource::Skin:
+<span style = "background-color:#dfd">                return skinAt(appearance.skinIndex) ? skinAt(appearance.skinIndex)-&gt;width</span>
+                                                    : missingWidth;
+            case AppearanceSource::Override:
+<span style = "background-color:#dfd">                return objectAt(appearance.skinIndex) ? objectAt(appearance.skinIndex)-&gt;width</span>
+                                                      : missingWidth;
+        }
+<span style = "background-color:#fdd">        return missingWidth;</span>
+<span style = "background-color:#dfd">    }</span>
+
+    /// @return La hauteur, en pixels, de la texture correspondant Ã  une apparence rÃ©solue.
+<span style = "background-color:#dfd">    [[nodiscard]] int heightFor(const TileAppearance&amp; appearance) const noexcept {
+        switch (appearance.source) {</span>
+            case AppearanceSource::Atlas:
+<span style = "background-color:#dfd">                return atlasHeight;</span>
+            case AppearanceSource::MissingTexture:
+<span style = "background-color:#dfd">                return missingHeight;</span>
+            case AppearanceSource::Skin:
+<span style = "background-color:#dfd">                return skinAt(appearance.skinIndex) ? skinAt(appearance.skinIndex)-&gt;height</span>
+                                                    : missingHeight;
+            case AppearanceSource::Override:
+<span style = "background-color:#dfd">                return objectAt(appearance.skinIndex) ? objectAt(appearance.skinIndex)-&gt;height</span>
+                                                      : missingHeight;
+        }
+<span style = "background-color:#fdd">        return missingHeight;</span>
+<span style = "background-color:#dfd">    }</span>
+
+private:
+    // Acces borne au tableau de skins : un index invalide rend nullptr, ce qui fait retomber les
+    // accesseurs ci-dessus sur le damier plutot que de lire hors des bornes.
+<span style = "background-color:#dfd">    [[nodiscard]] const SkinTexture* skinAt(int index) const noexcept {
+        if (index &lt; 0 || static_cast&lt;std::size_t&gt;(index) &gt;= skins.size()) {
+            return nullptr;</span>
+        }
+<span style = "background-color:#dfd">        return &amp;skins[static_cast&lt;std::size_t&gt;(index)];
+    }</span>
+
+    // Meme garde-fou que skinAt, pour le tableau d'objets (EX-EDIT-043, LOT-45).
+<span style = "background-color:#dfd">    [[nodiscard]] const SkinTexture* objectAt(int index) const noexcept {
+        if (index &lt; 0 || static_cast&lt;std::size_t&gt;(index) &gt;= objects.size()) {
+            return nullptr;</span>
+        }
+<span style = "background-color:#dfd">        return &amp;objects[static_cast&lt;std::size_t&gt;(index)];
+    }</span>
+};
+
+/**
+ * @brief RÃ©sout l'apparence d'une entitÃ© affichÃ©e selon le mode de rendu courant.
+ *
+ * **Point d'appel unique** de cette dÃ©cision, partagÃ© par le jeu et l'Ã©diteur : c'est ce qui
+ * garantit que le canevas de l'Ã©diteur montre exactement ce que le joueur verra. Fonction
+ * **pure** (aucune dÃ©pendance GPU), appelÃ©e Ã  la **composition** et non Ã  la construction de la
+ * scÃ¨ne : basculer de mode ne reconstruit donc jamais l'ECS, seule la rÃ©solution change.
+ *
+ * Ordre de prioritÃ© en mode Texture : **surcharge par instance, puis skin de tuile, puis damier**
+ * (`LOT-45` et `LOT-42`).
+ * - `RenderMode::Physique` â la rÃ©gion d'atlas dÃ©jÃ  portÃ©e par le `core::Sprite`, c'est-Ã -dire le
+ *   rÃ©sultat de `hmi::regionForTile` â comportement strictement inchangÃ©, quel que soit le reste ;
+ * - `RenderMode::Texture` + entitÃ© portant une surcharge (`hmi::TileSkinTag::overrideAsset`)
+ *   **chargÃ©e** â l'image entiÃ¨re de la surcharge (`EX-EDIT-043`) ; une surcharge posÃ©e mais dont
+ *   l'asset est introuvable retombe **directement** sur le damier, jamais sur le skin du type
+ *   (sinon l'auteur croit son assignation prise en compte alors qu'elle est cassÃ©e) ;
+ * - `RenderMode::Texture` + entitÃ© habillable (sans surcharge) dont le type est skinnÃ© **et** dont
+ *   le skin est chargÃ© â la case du skin (l'image entiÃ¨re en mode `single`, la case choisie par
+ *   les raccords en mode `bitmask16`) ;
+ * - tout autre cas (entitÃ© sans `hmi::TileSkinTag`, type non skinnÃ©, asset absent ou refusÃ©) â le
+ *   damier magenta en entier. C'est un Ã©tat **normal** du programme d'habillage tant que tous les
+ *   types ne sont pas habillÃ©s, pas un dÃ©faut (`EX-NFR-040`).
+ *
+ * @p skinVisible et @p overrideVisible pilotent le mode d'inspection Â« dÃ©finition des textures Â»
+ * de l'Ã©diteur (`hmi::LayerVisibility`, `LOT-51`, `EX-EDIT-044`) : Ã  `true` tous les deux (le
+ * dÃ©faut), le comportement ci-dessus est **exactement** celui de `LOT-45`, sans repli diffÃ©rent.
+ * DÃ¨s que l'un des deux vaut `false`, la rÃ©solution **isole** â plus de repli sur le damier pour
+ * l'axe masquÃ© :
+ * - une surcharge dont l'axe (`overrideVisible`) est masquÃ© ne s'affiche pas du tout ;
+ * - un skin dont l'axe (`skinVisible`) est masquÃ© ne s'affiche pas du tout ;
+ * - une entitÃ© **sans** surcharge, quand `overrideVisible` seul est masquÃ©, s'affiche normalement
+ *   (le skin n'a pas besoin de la surcharge pour Ãªtre signifiant) ;
+ * - une entitÃ© sans surcharge ni skin (chargÃ©) n'affiche **rien** dÃ¨s que `skinVisible` est actif
+ *   seul (pas de damier : ce n'est pas ce qu'on isole) â alors qu'en mode composÃ© (les deux
+ *   `true`), elle affiche le damier comme avant.
+ * @param mode           Mode de rendu courant.
+ * @param physicalRegion RÃ©gion d'atlas de l'entitÃ© en mode Physique (`core::Sprite::region`).
+ * @param tag            Type et voisinage de la tuile, ou `nullptr` pour une entitÃ© non habillable
+ *                       (personnage, aides d'Ã©dition) â qui reste alors au damier en mode Texture.
+ * @param textures       Textures liables, catalogue et jeu de skins courant.
+ * @param skinVisible    Axe Â« skin de type Â» visible (`LOT-51`) ; `true` par dÃ©faut (comportement
+ *                       `LOT-45` inchangÃ© pour tout appelant qui ignore cet axe).
+ * @param overrideVisible Axe Â« surcharge par instance Â» visible (`LOT-51`) ; `true` par dÃ©faut.
+ * @return L'apparence Ã  utiliser pour composer la primitive, ou `std::nullopt` si rien ne doit Ãªtre
+ *         composÃ© pour cette entitÃ© (calque masquÃ©, ou axe isolÃ© sans rien Ã  montrer, `LOT-51`).
+ */
+[[nodiscard]] std::optional&lt;TileAppearance&gt; resolveTileAppearance(
+    RenderMode mode, const core::AtlasRegion&amp; physicalRegion, const TileSkinTag* tag,
+    const SceneTextures&amp; textures, bool skinVisible = true, bool overrideVisible = true) noexcept;
+
+/**
+ * @brief Indique si la combinaison (mode de skin, type de tuile) exclut l'animation
+ *        (`LOT-46` TACHE-05).
+ *
+ * `SkinMode::Bitmask16` (la case dÃ©pend du voisinage solide) et une silhouette dÃ©tourÃ©e
+ * (pente/arrondi, `hmi::hasSilhouette`) choisissent dÃ©jÃ  la case Ã  Ã©chantillonner dans l'image ;
+ * l'animation en ajouterait une seconde faÃ§on, jamais implÃ©mentÃ©e â limite assumÃ©e plutÃ´t que
+ * silencieuse (voir l'epic `LOT-46`). Fonction **pure**, testable sans GPU : c'est elle que
+ * `GameSession::updateTileAnimations` interroge pour dÃ©cider de signaler la combinaison au lieu
+ * de l'ignorer.
+ * @param mode Mode de dÃ©coupage du skin assignÃ©.
+ * @param type Type de tuile concernÃ©.
+ * @return `true` si l'animation doit Ãªtre ignorÃ©e pour cette combinaison.
+ */
+[[nodiscard]] bool animationExcludedForTile(SkinMode mode, core::TileType type) noexcept;
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

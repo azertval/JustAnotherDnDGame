@@ -1,0 +1,102 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>CombatPreview.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#include "Core/Combat/CombatPreview.h"
+
+#include "Core/Combat/EnemyAi.h"
+#include "Core/Combat/LineOfSight.h"
+
+namespace core {
+
+std::optional&lt;AttackPreview&gt; previewAttack(const ArenaSession&amp; session, CombatantId target,
+<span style = "background-color:#dfd">                                           std::size_t attackIndex) {
+    const CombatState&amp; combat = session.combat();
+    const std::optional&lt;CombatantId&gt; actif = combat.activeCombatant();
+    const std::vector&lt;AttackProfile&gt;* attaques =</span>
+        actif.has_value() ? session.attacks(*actif) : nullptr;
+<span style = "background-color:#dfd">    const Combatant* cible = combat.find(target);
+    if (!actif.has_value() || attaques == nullptr || attackIndex &gt;= attaques-&gt;size() ||</span>
+        cible == nullptr) {
+<span style = "background-color:#dfd">        return std::nullopt;</span>
+    }
+<span style = "background-color:#dfd">    const AttackProfile&amp; profil = (*attaques)[attackIndex];
+    AttackPreview apercu{.check = checkTarget(combat, *actif, target, profil),
+                         .attackIndex = attackIndex,
+                         .label = profil.label};</span>
+    // Les memes sources que resolveAttack, dans le meme ordre : la grille, puis la session.
+<span style = "background-color:#dfd">    const AttackCircumstances grille = attackCircumstances(combat, *actif, target, profil);
+    const AttackCircumstances session_ = session.circumstancesAgainst(*actif, target, profil);
+    for (const AttackCircumstances* source : {&amp;grille, &amp;session_}) {
+        apercu.advantages.insert(apercu.advantages.end(), source-&gt;advantages.begin(),</span>
+                                 source-&gt;advantages.end());
+<span style = "background-color:#dfd">        apercu.disadvantages.insert(apercu.disadvantages.end(), source-&gt;disadvantages.begin(),</span>
+                                    source-&gt;disadvantages.end());
+<span style = "background-color:#dfd">    }
+    apercu.stance = rollStance(static_cast&lt;int&gt;(apercu.advantages.size()),</span>
+                               static_cast&lt;int&gt;(apercu.disadvantages.size()));
+<span style = "background-color:#dfd">    apercu.cover = coverBetween(combat, *actif, target);
+    apercu.armorClass = cible-&gt;profile.armorClass + coverBonus(apercu.cover);
+    apercu.requiredRoll = requiredRoll(apercu.armorClass, attackBonusOf(profil));
+    if (apercu.check == TargetCheck::Valid) {
+        apercu.hitChance = hitChance(apercu.requiredRoll, apercu.stance, profil.criticalThreshold);
+        apercu.expectedDamage = expectedDamage(profil, apercu.armorClass, apercu.stance);</span>
+    }
+<span style = "background-color:#dfd">    return apercu;
+}</span>
+
+<span style = "background-color:#dfd">std::optional&lt;std::size_t&gt; firstValidAttack(const ArenaSession&amp; session, CombatantId target) {
+    const std::optional&lt;CombatantId&gt; actif = session.combat().activeCombatant();
+    const std::vector&lt;AttackProfile&gt;* attaques =</span>
+        actif.has_value() ? session.attacks(*actif) : nullptr;
+<span style = "background-color:#dfd">    if (attaques == nullptr) {</span>
+<span style = "background-color:#fdd">        return std::nullopt;</span>
+    }
+<span style = "background-color:#dfd">    for (std::size_t i = 0; i &lt; attaques-&gt;size(); ++i) {
+        if (checkTarget(session.combat(), *actif, target, (*attaques)[i]) == TargetCheck::Valid) {</span>
+<span style = "background-color:#fdd">            return i;</span>
+        }
+<span style = "background-color:#dfd">    }
+    return std::nullopt;
+}</span>
+
+<span style = "background-color:#dfd">MovePreview previewMove(const ArenaSession&amp; session, GridPosition destination) {
+    MovePreview apercu;
+    const std::optional&lt;ReachableArea&gt; zone = session.combat().reachableArea();
+    if (!zone.has_value()) {</span>
+<span style = "background-color:#fdd">        return apercu;</span>
+    }
+<span style = "background-color:#dfd">    apercu.path = zone-&gt;pathTo(destination);
+    apercu.movementLeft = zone-&gt;budget() - (apercu.path.has_value() ? apercu.path-&gt;cost : 0);
+    if (apercu.path.has_value()) {
+        apercu.opportunities = session.previewOpportunities(destination);</span>
+    }
+<span style = "background-color:#dfd">    return apercu;
+}</span>
+
+}  // namespace core</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

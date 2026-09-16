@@ -1,0 +1,246 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>PlaneReference.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#include "HMI/Editor/PlaneReference.h"
+
+#include &lt;algorithm&gt;
+#include &lt;cmath&gt;
+
+#include "Core/Levels/Plane.h"
+#include "Core/Levels/TileMap.h"
+#include "HMI/Graphics/ProceduralAtlas.h"
+#include "HMI/Graphics/TextureAtlas.h"
+#include "HMI/Graphics/TileVisuals.h"
+
+namespace hmi {
+
+namespace {
+
+// Extrait les composantes d'un pixel RGBA (R en poids faible, alpha NON premultiplie).
+struct Channels {
+    float r;
+    float g;
+    float b;
+    float a;
+};
+
+<span style = "background-color:#dfd">Channels unpack(std::uint32_t pixel) noexcept {
+    return Channels{static_cast&lt;float&gt;(pixel &amp; 0xFFu) / 255.0f,</span>
+                    static_cast&lt;float&gt;((pixel &gt;&gt; 8) &amp; 0xFFu) / 255.0f,
+                    static_cast&lt;float&gt;((pixel &gt;&gt; 16) &amp; 0xFFu) / 255.0f,
+                    static_cast&lt;float&gt;((pixel &gt;&gt; 24) &amp; 0xFFu) / 255.0f};
+<span style = "background-color:#dfd">}</span>
+
+<span style = "background-color:#dfd">std::uint32_t pack(const Channels&amp; channels) noexcept {
+    const auto quantize = [](float value) {
+        return static_cast&lt;std::uint32_t&gt;(std::lround(std::clamp(value, 0.0f, 1.0f) * 255.0f));
+    };
+    return quantize(channels.r) | (quantize(channels.g) &lt;&lt; 8) | (quantize(channels.b) &lt;&lt; 16) |</span>
+           (quantize(channels.a) &lt;&lt; 24);
+<span style = "background-color:#dfd">}</span>
+
+// Applique une opacite globale a l'alpha d'un pixel, sans toucher a sa couleur (alpha non
+// premultiplie : c'est exactement la meme convention que la teinte du pipeline de rendu).
+<span style = "background-color:#dfd">std::uint32_t withOpacity(std::uint32_t pixel, float opacity) noexcept {
+    if (opacity &gt;= 1.0f) {
+        return pixel;</span>
+    }
+<span style = "background-color:#fdd">    Channels channels = unpack(pixel);
+    channels.a *= std::clamp(opacity, 0.0f, 1.0f);
+    return pack(channels);</span>
+<span style = "background-color:#dfd">}</span>
+
+// Couleur plate du mode Physique pour un type de tuile : lue DANS l'atlas procedural, au centre de
+// la region du type. Aucune palette n'est redeclaree ici -- deux jeux de couleurs pour la meme
+// lecture divergeraient au premier ajustement.
+<span style = "background-color:#dfd">std::uint32_t physiqueColor(const ProceduralAtlasImage&amp; atlas, core::TileType type) {
+    const core::AtlasRegion region = regionForTile(type);
+    const int x = region.x + region.width / 2;
+    const int y = region.y + region.height / 2;
+    if (x &lt; 0 || y &lt; 0 || x &gt;= atlas.width || y &gt;= atlas.height) {</span>
+<span style = "background-color:#fdd">        return 0;  // hors atlas : transparent plutot qu'une couleur inventee.</span>
+    }
+<span style = "background-color:#dfd">    return atlas.pixels[static_cast&lt;std::size_t&gt;(y) * static_cast&lt;std::size_t&gt;(atlas.width) +</span>
+                        static_cast&lt;std::size_t&gt;(x)];
+<span style = "background-color:#dfd">}</span>
+
+}  // namespace
+
+// Compose un pixel au-dessus d'un autre (alpha-over, alpha non premultiplie).
+<span style = "background-color:#dfd">std::uint32_t alphaOver(std::uint32_t below, std::uint32_t above) noexcept {
+    const Channels top = unpack(above);
+    if (top.a &gt;= 1.0f) {
+        return above;  // opaque : rien du dessous ne subsiste, et aucun arrondi ne s'introduit.</span>
+    }
+<span style = "background-color:#dfd">    if (top.a &lt;= 0.0f) {</span>
+<span style = "background-color:#fdd">        return below;</span>
+    }
+<span style = "background-color:#dfd">    const Channels bottom = unpack(below);
+    const float alpha = top.a + bottom.a * (1.0f - top.a);
+    if (alpha &lt;= 0.0f) {</span>
+<span style = "background-color:#fdd">        return 0;</span>
+    }
+    // Formule alpha-over standard, ramenee en non premultiplie : les couleurs sont ponderees par
+    // leur propre alpha puis redivisees par l'alpha resultant.
+<span style = "background-color:#dfd">    const auto mix = [&amp;](float topColor, float bottomColor) {
+        return (topColor * top.a + bottomColor * bottom.a * (1.0f - top.a)) / alpha;
+    };
+    return pack(Channels{mix(top.r, bottom.r), mix(top.g, bottom.g), mix(top.b, bottom.b), alpha});
+}</span>
+
+// Reechantillonne une image d'une densite a une autre, par ratio entier.
+<span style = "background-color:#dfd">DecodedImage resamplePlane(const DecodedImage&amp; image, int fromPixelsPerUnit, int toPixelsPerUnit) {
+    if (fromPixelsPerUnit &lt;= 0 || toPixelsPerUnit &lt;= 0 || image.width &lt;= 0 || image.height &lt;= 0) {</span>
+<span style = "background-color:#fdd">        return DecodedImage{};</span>
+    }
+<span style = "background-color:#dfd">    if (fromPixelsPerUnit == toPixelsPerUnit) {
+        return image;</span>
+    }
+
+<span style = "background-color:#dfd">    DecodedImage result;
+    if (fromPixelsPerUnit &gt; toPixelsPerUnit) {
+        const int ratio = fromPixelsPerUnit / toPixelsPerUnit;
+        if (ratio * toPixelsPerUnit != fromPixelsPerUnit) {
+            return DecodedImage{};  // rapport non entier : refuse plutot que d'interpoler.</span>
+        }
+        // Sous-echantillonnage : un pixel sur `ratio`, jamais une moyenne -- moyenner fabriquerait
+        // des couleurs que l'artiste n'a pas posees.
+<span style = "background-color:#dfd">        result.width = image.width / ratio;
+        result.height = image.height / ratio;
+        if (result.width &lt;= 0 || result.height &lt;= 0) {</span>
+<span style = "background-color:#fdd">            return DecodedImage{};</span>
+        }
+<span style = "background-color:#dfd">        result.pixels.resize(static_cast&lt;std::size_t&gt;(result.width) *</span>
+                             static_cast&lt;std::size_t&gt;(result.height));
+<span style = "background-color:#dfd">        for (int y = 0; y &lt; result.height; ++y) {
+            for (int x = 0; x &lt; result.width; ++x) {
+                const std::size_t source =</span>
+                    static_cast&lt;std::size_t&gt;(y * ratio) * static_cast&lt;std::size_t&gt;(image.width) +
+                    static_cast&lt;std::size_t&gt;(x * ratio);
+<span style = "background-color:#dfd">                result.pixels[static_cast&lt;std::size_t&gt;(y) * static_cast&lt;std::size_t&gt;(result.width) +</span>
+                              static_cast&lt;std::size_t&gt;(x)] = image.pixels[source];
+<span style = "background-color:#dfd">            }
+        }
+        return result;</span>
+    }
+
+<span style = "background-color:#dfd">    const int ratio = toPixelsPerUnit / fromPixelsPerUnit;
+    if (ratio * fromPixelsPerUnit != toPixelsPerUnit) {</span>
+<span style = "background-color:#fdd">        return DecodedImage{};</span>
+    }
+    // Sur-echantillonnage : duplication pure (chaque pixel devient un carre `ratio` x `ratio`).
+<span style = "background-color:#dfd">    result.width = image.width * ratio;
+    result.height = image.height * ratio;
+    result.pixels.resize(static_cast&lt;std::size_t&gt;(result.width) *</span>
+                         static_cast&lt;std::size_t&gt;(result.height));
+<span style = "background-color:#dfd">    for (int y = 0; y &lt; result.height; ++y) {
+        for (int x = 0; x &lt; result.width; ++x) {
+            const std::size_t source =</span>
+                static_cast&lt;std::size_t&gt;(y / ratio) * static_cast&lt;std::size_t&gt;(image.width) +
+                static_cast&lt;std::size_t&gt;(x / ratio);
+<span style = "background-color:#dfd">            result.pixels[static_cast&lt;std::size_t&gt;(y) * static_cast&lt;std::size_t&gt;(result.width) +</span>
+                          static_cast&lt;std::size_t&gt;(x)] = image.pixels[source];
+<span style = "background-color:#dfd">        }
+    }
+    return result;
+}</span>
+
+// Construit la pelure d'oignon des tuiles : une couleur plate par type.
+<span style = "background-color:#dfd">DecodedImage buildTileOnionSkin(const core::LevelDraft&amp; draft, int pixelsPerUnit) {
+    const core::TileMap&amp; map = draft.tileMap();
+    if (!core::isValidPlaneDensity(pixelsPerUnit) || map.width() &lt;= 0 || map.height() &lt;= 0) {
+        return DecodedImage{};</span>
+    }
+
+<span style = "background-color:#dfd">    DecodedImage result;
+    result.width = map.width() * pixelsPerUnit;
+    result.height = map.height() * pixelsPerUnit;
+    result.pixels.assign(</span>
+        static_cast&lt;std::size_t&gt;(result.width) * static_cast&lt;std::size_t&gt;(result.height), 0u);
+
+<span style = "background-color:#dfd">    const ProceduralAtlasImage atlas = buildProceduralAtlasImage();
+    for (int row = 0; row &lt; map.height(); ++row) {
+        for (int column = 0; column &lt; map.width(); ++column) {
+            const core::TileType type = map.tile(column, row);
+            if (type == core::TileType::Empty) {
+                continue;  // case vide : transparente, on peint par-dessus.</span>
+            }
+<span style = "background-color:#dfd">            const std::uint32_t color = physiqueColor(atlas, type);
+            for (int y = 0; y &lt; pixelsPerUnit; ++y) {
+                const std::size_t line = static_cast&lt;std::size_t&gt;(row * pixelsPerUnit + y) *</span>
+                                             static_cast&lt;std::size_t&gt;(result.width) +
+                                         static_cast&lt;std::size_t&gt;(column * pixelsPerUnit);
+<span style = "background-color:#dfd">                std::fill_n(result.pixels.begin() + static_cast&lt;std::ptrdiff_t&gt;(line),</span>
+                            pixelsPerUnit, color);
+<span style = "background-color:#dfd">            }
+        }
+    }
+    return result;
+}</span>
+
+// Aplatit des plans en une seule image, par alpha-over dans l'ordre donne.
+DecodedImage flattenPlanes(const std::vector&lt;PlaneLayer&gt;&amp; layers, int pixelsPerUnit, int widthUnits,
+<span style = "background-color:#dfd">                           int heightUnits) {
+    if (pixelsPerUnit &lt;= 0 || widthUnits &lt;= 0 || heightUnits &lt;= 0) {</span>
+<span style = "background-color:#fdd">        return DecodedImage{};</span>
+    }
+
+<span style = "background-color:#dfd">    DecodedImage result;
+    result.width = widthUnits * pixelsPerUnit;
+    result.height = heightUnits * pixelsPerUnit;
+    result.pixels.assign(</span>
+        static_cast&lt;std::size_t&gt;(result.width) * static_cast&lt;std::size_t&gt;(result.height), 0u);
+
+<span style = "background-color:#dfd">    for (const PlaneLayer&amp; layer : layers) {
+        if (!layer.visible || layer.image == nullptr) {
+            continue;  // masquee ou absente : ignoree, comme si elle n'existait pas.</span>
+        }
+<span style = "background-color:#dfd">        const DecodedImage scaled = resamplePlane(*layer.image, layer.pixelsPerUnit, pixelsPerUnit);
+        if (scaled.width &lt;= 0 || scaled.height &lt;= 0) {</span>
+<span style = "background-color:#fdd">            continue;  // densite incompatible : ignoree plutot que deformee.</span>
+        }
+<span style = "background-color:#dfd">        const int columns = (std::min)(scaled.width, result.width);
+        const int rows = (std::min)(scaled.height, result.height);
+        for (int y = 0; y &lt; rows; ++y) {
+            for (int x = 0; x &lt; columns; ++x) {
+                const std::size_t target =</span>
+                    static_cast&lt;std::size_t&gt;(y) * static_cast&lt;std::size_t&gt;(result.width) +
+                    static_cast&lt;std::size_t&gt;(x);
+<span style = "background-color:#dfd">                const std::size_t source =</span>
+                    static_cast&lt;std::size_t&gt;(y) * static_cast&lt;std::size_t&gt;(scaled.width) +
+                    static_cast&lt;std::size_t&gt;(x);
+<span style = "background-color:#dfd">                result.pixels[target] = alphaOver(</span>
+                    result.pixels[target], withOpacity(scaled.pixels[source], layer.opacity));
+<span style = "background-color:#dfd">            }
+        }
+    }
+    return result;
+}</span>
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

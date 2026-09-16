@@ -1,0 +1,134 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>CreditsCatalog.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#include "HMI/Presentation/CreditsCatalog.h"
+
+#include &lt;optional&gt;
+#include &lt;utility&gt;
+
+#include &lt;nlohmann/json.hpp&gt;
+
+#include "Core/Data/JsonDocument.h"
+
+namespace hmi {
+namespace {
+
+constexpr int FORMAT_VERSION = 1;
+constexpr const char* SOURCE_LANGUAGE = "fr";
+
+/// Un libellÃ© traduit : la langue demandÃ©e, sinon la langue source ; rien si ni l'une ni l'autre.
+[[nodiscard]] std::optional&lt;std::string&gt; translated(const nlohmann::json&amp; label,
+<span style = "background-color:#dfd">                                                    std::string_view language) {
+    if (!label.is_object()) {
+        return std::nullopt;</span>
+    }
+<span style = "background-color:#dfd">    for (const std::string key : {std::string(language), std::string(SOURCE_LANGUAGE)}) {
+        const auto found = label.find(key);
+        if (found != label.end() &amp;&amp; found-&gt;is_string() &amp;&amp; !found-&gt;get&lt;std::string&gt;().empty()) {
+            return found-&gt;get&lt;std::string&gt;();</span>
+        }
+<span style = "background-color:#dfd">    }
+    return std::nullopt;
+}</span>
+
+<span style = "background-color:#dfd">[[nodiscard]] CreditsResult failure(std::string message) {
+    return CreditsResult{.sections = {}, .error = "credits.json : " + std::move(message)};
+}</span>
+
+}  // namespace
+
+<span style = "background-color:#dfd">CreditsResult readCredits(std::string_view json, std::string_view language) {
+    const core::JsonDocument document = core::readJsonObject(json, FORMAT_VERSION, "credits.json");
+    if (!document.ok()) {</span>
+<span style = "background-color:#fdd">        return failure(document.message);</span>
+    }
+<span style = "background-color:#dfd">    const auto sections = document.root.find("sections");
+    if (sections == document.root.end() || !sections-&gt;is_array()) {</span>
+<span style = "background-color:#fdd">        return failure("le champ Â« sections Â» manque ou n'est pas une liste.");</span>
+    }
+
+<span style = "background-color:#dfd">    CreditsResult result;
+    for (const nlohmann::json&amp; sectionJson : *sections) {
+        CreditSection section;
+        if (!sectionJson.is_object() || !sectionJson.value("id", nlohmann::json()).is_string()) {</span>
+<span style = "background-color:#fdd">            return failure("une section n'a pas d'identifiant.");</span>
+        }
+<span style = "background-color:#dfd">        section.id = sectionJson["id"].get&lt;std::string&gt;();
+        const nlohmann::json column = sectionJson.value("column", nlohmann::json(0));
+        if (!column.is_number_integer() || column.get&lt;int&gt;() &lt; 0 || column.get&lt;int&gt;() &gt; 1) {
+            return failure("section Â« " + section.id + " Â» : Â« column Â» vaut 0 ou 1.");</span>
+        }
+<span style = "background-color:#dfd">        section.column = column.get&lt;int&gt;();
+        const std::optional&lt;std::string&gt; title =</span>
+            translated(sectionJson.value("title", nlohmann::json()), language);
+<span style = "background-color:#dfd">        if (!title) {</span>
+<span style = "background-color:#fdd">            return failure("section Â« " + section.id + " Â» sans titre.");</span>
+        }
+<span style = "background-color:#dfd">        section.title = *title;</span>
+
+<span style = "background-color:#dfd">        const nlohmann::json lines = sectionJson.value("lines", nlohmann::json());
+        if (!lines.is_array() || lines.empty()) {</span>
+<span style = "background-color:#fdd">            return failure("section Â« " + section.id + " Â» sans ligne.");</span>
+        }
+<span style = "background-color:#dfd">        for (const nlohmann::json&amp; lineJson : lines) {
+            CreditLine line;
+            const std::optional&lt;std::string&gt; role =</span>
+                lineJson.is_object()
+                    ? translated(lineJson.value("role", nlohmann::json()), language)
+                    : std::nullopt;
+<span style = "background-color:#dfd">            if (!role) {</span>
+<span style = "background-color:#fdd">                return failure("section Â« " + section.id + " Â» : une ligne n'a pas de rÃ´le.");</span>
+            }
+<span style = "background-color:#dfd">            line.role = *role;
+            const nlohmann::json names = lineJson.value("names", nlohmann::json());
+            if (!names.is_array() || names.empty()) {
+                return failure("section Â« " + section.id + " Â», rÃ´le Â« " + line.role +</span>
+                               " Â» : aucun nom.");
+            }
+<span style = "background-color:#dfd">            for (const nlohmann::json&amp; name : names) {</span>
+                // Un nom propre s'Ã©crit tel quel ; une mention (Â« fan game non officiel Â») se
+                // traduit comme un rÃ´le.
+<span style = "background-color:#dfd">                std::optional&lt;std::string&gt; text = translated(name, language);
+                if (name.is_string() &amp;&amp; !name.get&lt;std::string&gt;().empty()) {
+                    text = name.get&lt;std::string&gt;();</span>
+                }
+<span style = "background-color:#dfd">                if (!text) {
+                    return failure("section Â« " + section.id + " Â», rÃ´le Â« " + line.role +</span>
+                                   " Â» : un nom vide.");
+                }
+<span style = "background-color:#dfd">                line.names.push_back(std::move(*text));
+            }
+            section.lines.push_back(std::move(line));
+        }
+        result.sections.push_back(std::move(section));
+    }
+    return result;
+}</span>
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

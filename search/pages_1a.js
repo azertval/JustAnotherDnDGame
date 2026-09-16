@@ -328,7 +328,7 @@ var searchData=
   ['premier_325',['Pourquoi purger en premier',['../lot-01.html#autotoc_md405',1,'']]],
   ['premier_20lieu_20où_20le_20combat_20est_20tenu_326',['Le premier lieu où le combat est tenu',['../lot-50.html#autotoc_md662',1,'']]],
   ['prennent_20la_20couleur_20des_20jetons_327',['Les contrôles Qt prennent la couleur des jetons',['../guide-conception-qds.html#autotoc_md72',1,'']]],
-  ['presentation_2013_328',['Presentation (13)',['../cahiertest.html#autotoc_md29',1,'']]],
+  ['presentation_2015_328',['Presentation (15)',['../cahiertest.html#autotoc_md29',1,'']]],
   ['preuve_329',['&lt;span class=&quot;tt&quot;&gt;LOT-47&lt;/span&gt; — Socle de classe, et le guerrier comme preuve',['../roadmap.html#lot-47',1,'']]],
   ['principal_330',['Le menu principal',['../manuel-jouer.html#autotoc_md882',1,'']]],
   ['principal_20maquette_2006_331',['T3.1 — Le menu principal (maquette 06)',['../lot-87.html#autotoc_md762',1,'']]],

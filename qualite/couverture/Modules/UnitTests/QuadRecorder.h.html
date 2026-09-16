@@ -1,0 +1,154 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>QuadRecorder.h</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#pragma once
+
+#include &lt;string&gt;
+#include &lt;vector&gt;
+
+#include "HMI/Graphics/ComposedScene.h"
+
+/**
+ * @file HMI/Graphics/QuadRecorder.h
+ * @brief Capture et inspection des primitives composÃ©es pour une image (`EX-NFR-004`).
+ */
+
+namespace hmi {
+
+/**
+ * @brief Capture la liste des primitives d'une image et rÃ©pond aux questions qu'un test se pose.
+ *
+ * Outil de **vÃ©rification et de diagnostic**, jamais un dÃ©tour du rendu : la production compose
+ * dans une `hmi::ComposedScene` et la soumet directement ; le recorder ne fait qu'en **copier** le
+ * rÃ©sultat, Ã  la demande, hors du chemin de dessin. Il n'y a donc aucun coÃ»t en production.
+ *
+ * Il existe parce que le programme d'habillage (`LOT-40` â `LOT-55`) empile six couches dont
+ * l'ordre, la prioritÃ© de rÃ©solution et l'isolement sont exactement le genre de rÃ¨gle qui casse
+ * silencieusement, et dont les critÃ¨res d'acceptation (Â« rendu identique Â», Â« ordre de calque
+ * correct Â») seraient sinon des vÃ©rifications Ã  l'Åil. Les prÃ©dicats offerts ici â ordre des
+ * calques, contiguÃ¯tÃ© des groupes de texture, dÃ©nombrement par calque, prÃ©sence d'une primitive Ã 
+ * une position â sont la formulation **assertable** de ces critÃ¨res, rÃ©utilisable par tous les
+ * lots suivants (`EX-NFR-004`, `EX-NFR-010`).
+ *
+ * On assertionne des **listes de primitives**, jamais des pixels : c'est prÃ©cisÃ©ment ce qui rend la
+ * vÃ©rification possible sans GPU.
+ */
+class QuadRecorder {
+public:
+    /**
+     * @brief Capture l'Ã©tat d'une scÃ¨ne composÃ©e (copie : la scÃ¨ne peut ensuite Ãªtre rÃ©utilisÃ©e).
+     * @param scene ScÃ¨ne dont on capture les primitives et les compteurs.
+     */
+    void record(const ComposedScene&amp; scene);
+
+    /// Oublie la capture courante.
+    void clear() noexcept;
+
+    /// @return Les primitives capturÃ©es, dans leur ordre de soumission.
+<span style = "background-color:#dfd">    [[nodiscard]] const std::vector&lt;ComposedQuad&gt;&amp; quads() const noexcept {
+        return _quads;
+    }</span>
+
+    /// @return Le nombre de primitives capturÃ©es.
+<span style = "background-color:#dfd">    [[nodiscard]] std::size_t size() const noexcept {
+        return _quads.size();
+    }</span>
+
+    /// @return Les compteurs de l'image capturÃ©e (composÃ©es, Ã©cartÃ©es, soumises, passes).
+<span style = "background-color:#dfd">    [[nodiscard]] const SceneStatistics&amp; statistics() const noexcept {
+        return _statistics;
+    }</span>
+
+    /**
+     * @brief VÃ©rifie que l'ordre des calques est respectÃ© (`EX-REN-014`).
+     * @return `true` si aucune primitive n'est soumise avant une primitive d'un calque
+     *         **infÃ©rieur**, quel que soit l'ordre de composition.
+     */
+    [[nodiscard]] bool isLayerOrderRespected() const;
+
+    /**
+     * @brief VÃ©rifie que chaque texture forme un seul groupe **contigu** par calque
+     *        (`EX-REN-043`).
+     *
+     * C'est la propriÃ©tÃ© qui garantit qu'une passe `begin/end` par groupe suffit : une texture qui
+     * rÃ©apparaÃ®trait plus loin **dans le mÃªme calque** imposerait une passe de plus, et signalerait
+     * un tri instable. La contiguÃ¯tÃ© ne vaut qu'Ã  calque constant : une mÃªme texture utilisÃ©e sur
+     * deux calques diffÃ©rents produit lÃ©gitimement deux passes, le calque primant sur la texture.
+     * @return `true` si aucune texture n'apparaÃ®t dans deux groupes distincts d'un mÃªme calque.
+     */
+    [[nodiscard]] bool areTextureGroupsContiguous() const;
+
+    /**
+     * @brief Suite des calques rencontrÃ©s, sans rÃ©pÃ©tition consÃ©cutive.
+     * @return Les calques dans l'ordre de premiÃ¨re apparition contiguÃ« (ex. `Tile`, `Player`).
+     */
+    [[nodiscard]] std::vector&lt;RenderLayer&gt; layerSequence() const;
+
+    /**
+     * @brief Suite des textures liÃ©es, sans rÃ©pÃ©tition consÃ©cutive : une entrÃ©e par passe
+     *        `begin/end`.
+     * @return Les identitÃ©s de texture, dans l'ordre des passes.
+     */
+    [[nodiscard]] std::vector&lt;TextureHandle&gt; textureSequence() const;
+
+    /**
+     * @brief Nombre de primitives capturÃ©es sur un calque donnÃ©.
+     * @param layer Calque comptÃ©.
+     * @return Le nombre de primitives de ce calque.
+     */
+    [[nodiscard]] int countOnLayer(RenderLayer layer) const;
+
+    /**
+     * @brief Nombre de primitives capturÃ©es liÃ©es Ã  une texture donnÃ©e.
+     * @param texture Texture comptÃ©e.
+     * @return Le nombre de primitives utilisant cette texture.
+     */
+    [[nodiscard]] int countWithTexture(TextureHandle texture) const;
+
+    /**
+     * @brief Cherche un rectangle composÃ© Ã  une position monde donnÃ©e.
+     * @param x         Abscisse attendue du coin haut-gauche, en unitÃ©s monde.
+     * @param y         OrdonnÃ©e attendue du coin haut-gauche, en unitÃ©s monde.
+     * @param tolerance Ãcart absolu tolÃ©rÃ© sur chaque axe (comparaison de flottants).
+     * @return `true` si au moins un `QuadKind::Sprite` capturÃ© est Ã  cette position.
+     */
+    [[nodiscard]] bool containsSpriteAt(float x, float y, float tolerance = 1e-4f) const;
+
+    /**
+     * @brief RÃ©sumÃ© lisible de la capture, Ã  joindre au message d'Ã©chec d'une assertion.
+     * @return Une ligne par passe : calque, texture et nombre de primitives.
+     */
+    [[nodiscard]] std::string describe() const;
+
+private:
+    std::vector&lt;ComposedQuad&gt; _quads;
+    SceneStatistics _statistics;
+};
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

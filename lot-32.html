@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.16.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>JustAnotherDnDGame: LOT-32 — Schémas de données RPG</title>
+<title>JustAnotherRpgGame: LOT-32 — Schémas de données RPG</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">JustAnotherDnDGame<span id="projectnumber">&#160;0.1.0</span>
+   <div id="projectname">JustAnotherRpgGame<span id="projectnumber">&#160;0.1.0</span>
    </div>
    <div id="projectbrief">Jeu de rôle tactique au d20, vue de dessus, en C++/Qt</div>
   </td>
@@ -104,7 +104,7 @@ Objectif</h1>
 Ce que le lot livre</h1>
 <p><b>Onze schémas</b> sous <span class="tt">Source/Elements/Rpg/schema/</span> : les dix familles annoncées — créature, objet, arme, armure, sort, espèce, classe, historique, état, type de dégâts — plus <span class="tt">common.schema.json</span>, qui porte ce que toutes réutilisent. Une définition écrite deux fois diverge ; c'est la leçon des six lecteurs JSON du <a class="el" href="lot-79.html" title="LOT-79 — Socle de chargement de données">LOT-79</a>, transposée aux contrats.</p>
 <p><b><span class="tt">scripts/check_rpg_data.py</span></b>, exécuté en CI, qui valide tout <span class="tt">Source/Elements/Rpg/**/*.json</span>.</p>
-<p><b>Trois énumérations C++</b> — <span class="tt"><a class="el" href="namespacecore.html#aae5ed49bedbf68049f008e4efac2edfd" title="Type de dégâts infligés (EX-CBT-032, EX-CNT-011).">core::DamageType</a></span> (13 valeurs), <span class="tt"><a class="el" href="namespacecore.html#aae82873d6c7bd0b4db085354c50e1493" title="État affectant une créature (EX-DND-040, EX-CNT-011).">core::Condition</a></span> (15), <span class="tt"><a class="el" href="namespacecore.html#acb09396acc95973b3ca488c497bbddb2" title="École de magie d&#39;un sort (EX-CNT-011).">core::MagicSchool</a></span> (8) — et leur correspondance nom ↔ valeur par <span class="tt">switch</span> <b>exhaustif et sans <span class="tt">default</span></b>, sur le patron exact de <span class="tt"><a class="el" href="namespacecore.html#a43329559445927c3a2d55531287292d6" title="Convertit un type de tuile en son nom textuel.">core::tileTypeName</a></span>.</p>
+<p><b>Trois énumérations C++</b> — <span class="tt"><a class="el" href="namespacecore.html#aae5ed49bedbf68049f008e4efac2edfd" title="Type de dégâts infligés (EX-CBT-032, EX-CNT-011).">core::DamageType</a></span> (13 valeurs), <span class="tt"><a class="el" href="namespacecore.html#aae82873d6c7bd0b4db085354c50e1493" title="État affectant une créature (EX-REG-040, EX-CNT-011).">core::Condition</a></span> (15), <span class="tt"><a class="el" href="namespacecore.html#acb09396acc95973b3ca488c497bbddb2" title="École de magie d&#39;un sort (EX-CNT-011).">core::MagicSchool</a></span> (8) — et leur correspondance nom ↔ valeur par <span class="tt">switch</span> <b>exhaustif et sans <span class="tt">default</span></b>, sur le patron exact de <span class="tt"><a class="el" href="namespacecore.html#a43329559445927c3a2d55531287292d6" title="Convertit un type de tuile en son nom textuel.">core::tileTypeName</a></span>.</p>
 <p><b><span class="tt"><a class="el" href="test__rpg__enums_8cpp.html" title="Tests des enumerations RPG et de leur coincidence avec les schemas (LOT-32, EX-CNT-011).">Source/Test/Unit/Core/Rpg/test_rpg_enums.cpp</a></span></b>, cinq tests, dont celui qui relie le C++ aux schémas.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md586"></a>
 Le triangle, et pourquoi chaque arête n'est contrôlée qu'une fois</h1>
@@ -124,7 +124,7 @@ Le triangle, et pourquoi chaque arête n'est contrôlée qu'une fois</h1>
 divergent</span> côté <span class="tt">ctest</span>, <span class="tt">sonic ne figure pas au lexique sous « type de dégâts »</span> côté CI.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md587"></a>
 Ce que la réalisation a tranché</h1>
-<p><b>Les énumérations sont en C++, les catalogues n'y sont pas.</b> <span class="tt"><a class="el" href="namespacecore.html#aae82873d6c7bd0b4db085354c50e1493" title="État affectant une créature (EX-DND-040, EX-CNT-011).">core::Condition</a></span> porte les quinze états ; il ne porte <b>aucun</b> de leurs effets, qui vivent dans <span class="tt">Source/Elements/Rpg/conditions/</span>. Une énumération qui porterait les effets les figerait dans le code, ce qu'<span class="tt">EX-VIS-007</span> interdit. Le catalogue existe donc <em>malgré</em> l'énumération, et pas à sa place.</p>
+<p><b>Les énumérations sont en C++, les catalogues n'y sont pas.</b> <span class="tt"><a class="el" href="namespacecore.html#aae82873d6c7bd0b4db085354c50e1493" title="État affectant une créature (EX-REG-040, EX-CNT-011).">core::Condition</a></span> porte les quinze états ; il ne porte <b>aucun</b> de leurs effets, qui vivent dans <span class="tt">Source/Elements/Rpg/conditions/</span>. Une énumération qui porterait les effets les figerait dans le code, ce qu'<span class="tt">EX-VIS-007</span> interdit. Le catalogue existe donc <em>malgré</em> l'énumération, et pas à sa place.</p>
 <p><b>Les cardinaux sont écrits dans un test.</b> 13, 15, 8. Ces nombres viennent des règles du jeu, pas du corpus. Le test de coïncidence resterait vert si les deux côtés perdaient la même valeur — lors d'une résolution de conflit, par exemple ; celui-ci ne le resterait pas.</p>
 <p><b>Un schéma décompose, il ne calcule pas.</b> La classe d'armure d'une armure est donnée en base, contribution de Dextérité et plafond, jamais en formule textuelle : une formule dans une donnée est du code déguisé, que le moteur devrait interpréter.</p>
 <p><b>Deux unités internes uniques.</b> Les prix sont en <b>pièces de cuivre</b>, les poids en <b>grammes</b>, entiers tous les deux. Le corpus mélange « 500 g » et « 2 kg », « 2 pa » et « 25 po » ; convertir à l'entrée évite des arrondis là où l'encombrement se calcule par somme, et l'affichage reste une affaire de présentation.</p>
@@ -166,7 +166,7 @@ Critères d'acceptation</h1>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a href="index.html">JustAnotherDnDGame</a></li><li class="navelem"><a href="lots.html">Lots</a></li>
+    <li class="navelem"><a href="index.html">JustAnotherRpgGame</a></li><li class="navelem"><a href="lots.html">Lots</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.16.1 </li>
   </ul>
 </div>

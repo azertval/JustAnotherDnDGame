@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.16.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>JustAnotherDnDGame: Combat tactique</title>
+<title>JustAnotherRpgGame: Combat tactique</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">JustAnotherDnDGame<span id="projectnumber">&#160;0.1.0</span>
+   <div id="projectname">JustAnotherRpgGame<span id="projectnumber">&#160;0.1.0</span>
    </div>
    <div id="projectbrief">Jeu de rôle tactique au d20, vue de dessus, en C++/Qt</div>
   </td>
@@ -94,7 +94,7 @@ $(function(){initNavTree('spec-combat.html','',''); });
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md_Specification_2combat"></a></p>
 <blockquote class="doxtable">
-<p>Statut : <b>à faire</b> (<span class="tt">LOT-77</span> écrit ce document ; <span class="tt">LOT-18</span> → <span class="tt">LOT-24</span>, <span class="tt">LOT-72</span> et <span class="tt">LOT-74</span> l'implémentent). Dépend de <a class="el" href="spec-regles-dnd.html" title="Règles d20"><span class="tt">regles-dnd.md</span></a> (le jet, les conditions) et de <a class="el" href="spec-exploration.html" title="Exploration"><span class="tt">exploration.md</span></a> (la couche de collision, l'orientation). </p>
+<p>Statut : <b>à faire</b> (<span class="tt">LOT-77</span> écrit ce document ; <span class="tt">LOT-18</span> → <span class="tt">LOT-24</span>, <span class="tt">LOT-72</span> et <span class="tt">LOT-74</span> l'implémentent). Dépend de <a class="el" href="spec-regles-d20.html" title="Règles d20"><span class="tt">regles-d20.md</span></a> (le jet, les conditions) et de <a class="el" href="spec-exploration.html" title="Exploration"><span class="tt">exploration.md</span></a> (la couche de collision, l'orientation). </p>
 </blockquote>
 <p>Ce document concrétise <a class="el" href="spec-vision.html#EX-VIS-004" title="EX-VIS-004"><span class="tt">EX-VIS-004</span></a> — « résoudre un combat tactique complet au tour par tour » — dont il détaille chaque terme : l'initiative, la portée, le jet d'attaque et la fin de rencontre.</p>
 <p>Le combat est la moitié « au tour par tour » du jeu. Il se déroule <b>sur la carte d'exploration</b>, sur une grille dérivée de la couche de collision — décision de cadrage actée avant le <span class="tt">LOT-01</span> : pas d'écran de combat séparé, pas de transition vers une arène abstraite. Ce qui change à la bascule, c'est le <b>temps</b>, pas le lieu.</p>
@@ -120,7 +120,7 @@ $(function(){initNavTree('spec-combat.html','',''); });
 <h1 class="doxsection"><a class="anchor" id="autotoc_md277"></a>
 4. Attaque et dégâts</h1>
 <ul>
-<li><a class="anchor" id="EX-CBT-030"></a><b>EX-CBT-030</b> — Une attaque est un jet d'attaque (<span class="tt">EX-DND-020</span>) opposé à la <b>classe d'armure</b> de la cible. La classe d'armure est <b>recalculée depuis ses sources</b> (équipement porté, capacités actives, conditions), jamais accumulée : une classe de personnage peut la calculer autrement — sans armure, à partir d'une autre caractéristique — et un total stocké rendrait ce cas impossible à exprimer.</li>
+<li><a class="anchor" id="EX-CBT-030"></a><b>EX-CBT-030</b> — Une attaque est un jet d'attaque (<span class="tt">EX-REG-020</span>) opposé à la <b>classe d'armure</b> de la cible. La classe d'armure est <b>recalculée depuis ses sources</b> (équipement porté, capacités actives, conditions), jamais accumulée : une classe de personnage peut la calculer autrement — sans armure, à partir d'une autre caractéristique — et un total stocké rendrait ce cas impossible à exprimer.</li>
 <li><a class="anchor" id="EX-CBT-031"></a><b>EX-CBT-031</b> — Un <b>20 naturel</b> est une réussite critique : les <b>dés</b> de dégâts sont doublés, <b>pas les modificateurs</b>. Doubler le total ferait croître la part fixe des dégâts avec le niveau, et rendrait le critique dévastateur exactement là où il devait rester une bonne surprise.</li>
 <li><a class="anchor" id="EX-CBT-032"></a><b>EX-CBT-032</b> — Les dégâts sont <b>typés</b>, et une cible peut y être <b>résistante</b>, <b>vulnérable</b> ou <b>immunisée</b>. Un type de dégâts inconnu du moteur ne doit <b>jamais</b> tomber dans un cas par défaut silencieux : c'est le scénario d'<span class="tt">EX-CNT-011</span>, et il produit un sort qui ne fait plus rien sans que personne ne le remarque.</li>
 </ul>
@@ -150,7 +150,7 @@ $(function(){initNavTree('spec-combat.html','',''); });
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a href="index.html">JustAnotherDnDGame</a></li><li class="navelem"><a href="specifications.html">Spécifications</a></li>
+    <li class="navelem"><a href="index.html">JustAnotherRpgGame</a></li><li class="navelem"><a href="specifications.html">Spécifications</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.16.1 </li>
   </ul>
 </div>

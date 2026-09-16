@@ -1,0 +1,129 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>TileType.h</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#pragma once
+
+/**
+ * @file Core/Levels/TileType.h
+ * @brief Types de tuiles d'une carte et utilitaires associÃ©s.
+ */
+
+namespace core {
+
+/**
+ * @brief Type d'une tuile de la grille d'une carte (`EX-GP-001`).
+ *
+ * `Empty` est la case traversable par dÃ©faut ; `Solid` bloque le dÃ©placement ; `Danger`
+ * provoque l'Ã©chec au contact ; `Entry`/`Exit` sont l'apparition et la sortie. `Switch`,
+ * `PressurePlate` et `Door` sont les mÃ©canismes classiques â l'interrupteur bascule au contact,
+ * la plaque reste active tant qu'un poids y repose, les deux ouvrant une porte liÃ©e.
+ * `Key`/`LockedDoor` sont la seconde paire dÃ©clencheurâcible, la clÃ© ouvrant sa porte
+ * **dÃ©finitivement**. `Block` est un bloc poussable.
+ *
+ * Le `LOT-08` y ajoute le vocabulaire du **terrain** en vue de dessus (`EX-EXP-005`) : `Grass`,
+ * `Dirt`, `Sand`, `Water` et `DeepWater` (sols, les quatre premiers traversables), `Wall` et
+ * `Cliff` (obstacles), `Bridge` et `Stairs` (passages). Il **ajoute** sans rien remplacer : le
+ * vocabulaire de puzzle hÃ©ritÃ© sert tel quel au RPG.
+ *
+ * @note Le `LOT-01` avait retirÃ© les types propres au jeu de plateforme (pentes, arrondis, blocs
+ *       rÃ©duits, plateformes mobiles, blocs volatils, dangers directionnels, mobiles et
+ *       temporisÃ©s), sans objet en vue de dessus.
+ */
+enum class TileType {
+    Empty,
+    Solid,
+    Danger,
+    Entry,
+    Exit,
+    Switch,
+    Door,
+    PressurePlate,
+    Block,
+    Key,
+    LockedDoor,
+    // --- Terrain du RPG en vue de dessus (LOT-08) ---
+    /// Herbe : le sol par dÃ©faut d'une carte extÃ©rieure.
+    Grass,
+    /// Terre battue : chemins, cours, sols d'intÃ©rieur sommaires.
+    Dirt,
+    /// Sable : plages et dÃ©serts. Traversable, comme l'herbe et la terre.
+    Sand,
+    /// Eau **peu profonde** : traversable â on y patauge. Sa distinction d'avec `DeepWater` est
+    /// la seule chose qui permette Ã  une rive d'exister.
+    Water,
+    /// Eau **profonde** : infranchissable tant qu'aucune rÃ¨gle de nage n'existe (`isSolid`).
+    DeepWater,
+    /// Mur : la matiÃ¨re pleine bÃ¢tie, distincte de `Solid` (matiÃ¨re gÃ©nÃ©rique du socle) parce que
+    /// l'Ã©diteur et l'habillage doivent pouvoir les vÃªtir diffÃ©remment.
+    Wall,
+    /// Falaise : rupture de relief infranchissable, l'obstacle **naturel** du dÃ©cor extÃ©rieur.
+    Cliff,
+    /// Pont : franchit l'eau ou un ravin. Traversable, et c'est tout son intÃ©rÃªt.
+    Bridge,
+    /// Escalier : liaison verticale d'une carte Ã  l'autre, traversable. Ce qu'il **relie** est une
+    /// donnÃ©e du graphe de cartes (`LOT-09`), jamais du type de tuile.
+    Stairs,
+};
+
+/**
+ * @brief Nombre de valeurs de `core::TileType` â **seule** source de vÃ©ritÃ© de la fin de
+ *        l'Ã©numÃ©ration (`LOT-74` TACHE-02).
+ *
+ * Ajouter un type ne demande rien d'autre que de l'ajouter ci-dessus, **avant** le dernier
+ * Ã©numÃ©rateur : cette constante suit, et ses consommateurs avec elle. L'ajouter en **fin** de
+ * liste, comme l'a fait le `LOT-08`, demande en plus de re-pointer cette seule ligne â c'est le
+ * prix d'un vocabulaire qui se lit dans son ordre d'apparition plutÃ´t qu'en dÃ©sordre.
+ *
+ * Volontairement une constante libre plutÃ´t qu'un Ã©numÃ©rateur `Count` : les `switch` sur `TileType`
+ * du projet sont **exhaustifs et sans `default`** (c'est ce qui fait que le compilateur dÃ©signe
+ * lui-mÃªme les points Ã  mettre Ã  jour), et un Ã©numÃ©rateur sentinelle les obligerait tous Ã  traiter
+ * un cas qui ne dÃ©crit aucune tuile.
+ */
+inline constexpr int TILE_TYPE_COUNT = static_cast&lt;int&gt;(TileType::Stairs) + 1;
+
+/**
+ * @brief Indique si un type de tuile bloque le dÃ©placement de maniÃ¨re **statique**.
+ *
+ * @note La soliditÃ© d'une porte dÃ©pend de son **Ã©tat** (ouverte/fermÃ©e) et la position d'un bloc
+ *       poussable Ã©volue en jeu : les deux sont rÃ©solues par la simulation, jamais par ce test
+ *       statique.
+ * @note `DeepWater` **bloque** : ce n'est pas de la matiÃ¨re, mais rien ne permet encore de la
+ *       franchir. Le jour oÃ¹ une rÃ¨gle de nage existera, elle sortira d'ici â et ce sera le seul
+ *       endroit Ã  changer, ce qui est prÃ©cisÃ©ment l'intÃ©rÃªt de l'y mettre plutÃ´t que de parsemer
+ *       le code de tests Â« sauf si c'est de l'eau Â».
+ * @param type Type de tuile.
+ * @return `true` pour la matiÃ¨re pleine (`Solid`, `Block`, `Wall`, `Cliff`) et pour l'eau
+ *         profonde.
+ */
+<span style = "background-color:#dfd">[[nodiscard]] constexpr bool isSolid(TileType type) noexcept {
+    return type == TileType::Solid || type == TileType::Block || type == TileType::Wall ||</span>
+           type == TileType::Cliff || type == TileType::DeepWater;
+<span style = "background-color:#dfd">}</span>
+
+}  // namespace core</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>
