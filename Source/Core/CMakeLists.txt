@@ -15,6 +15,7 @@ add_library(Core STATIC
     Ecs/Systems/AnimationSystem.cpp
     Ecs/Systems/ParticleSystem.cpp
     World/Atlas.cpp
+    World/EntityKinds.cpp
     World/GridDistanceField.cpp
     Gameplay/Interaction.cpp
     Gameplay/MapEntitySpawner.cpp

@@ -64,7 +64,8 @@ struct EntityPropertySpec {
     EntityPropertyKind kind = EntityPropertyKind::Text;
     EntityChoiceSource source = EntityChoiceSource::Fixed;
     std::vector<std::string_view> fixedChoices;
-    /// Une propriété requise absente (ou texte vide) est signalée ; elle n'empêche pas d'enregistrer.
+    /// Une propriété requise absente (ou texte vide) est signalée ; elle n'empêche pas
+    /// d'enregistrer.
     bool required = false;
     /// Valeur posée à la création de l'entité.
     PropertyValue defaultValue;

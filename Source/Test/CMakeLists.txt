@@ -28,6 +28,7 @@ add_executable(UnitTests
     Unit/Core/Levels/test_level_writer.cpp
     Unit/Core/Levels/test_map_layers.cpp
     Unit/Core/Levels/test_level_draft.cpp
+    Unit/Core/Levels/test_level_draft_editing.cpp
     Unit/Core/Levels/test_plane.cpp
     Unit/Core/Levels/test_level_outcome.cpp
     Unit/Core/Levels/test_tile_type_name.cpp
@@ -55,6 +56,7 @@ add_executable(UnitTests
     Unit/Core/Rpg/test_multiclassing.cpp
     Unit/Core/Rpg/test_bestiary.cpp
     Unit/Core/World/test_atlas.cpp
+    Unit/Core/World/test_entity_kinds.cpp
     Unit/Core/Rpg/test_character_options.cpp
     Unit/Core/Rpg/test_character_sheet.cpp
     Unit/Core/Levels/test_rpg_terrain.cpp

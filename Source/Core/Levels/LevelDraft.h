@@ -184,6 +184,96 @@ public:
     /** @} */
 
     /**
+     * @name Couches de tuiles (`LOT-04`, `LOT-11`)
+     *
+     * Un rang désigne une entrée de `layers()`. Seules les couches **visuelles** — sol et décor
+     * (`core::isVisualLayerKind`) — se créent, se retirent, se renomment, se déplacent et se
+     * peignent ici : la grille de collision est `tileMap()`, que peignent `paintTile` et
+     * `paintRegion`, et l'entrée `Collision` ou `Legacy` de `layers()` n'en est que le reflet.
+     *
+     * Même discipline que les plans : un rang hors bornes, une couche non visuelle ou un type de
+     * tuile refusé (`core::isVisualLayerTileType`) ne fait **rien** et n'empile **rien**.
+     * @{
+     */
+
+    /**
+     * @brief Ajoute une couche visuelle en fin de liste (la plus en avant).
+     *
+     * **Promotion d'une carte à grille unique.** Tant qu'une carte n'a aucune couche visuelle, sa
+     * grille racine vaut à la fois image et collision (`LayerKind::Legacy`) ; dès qu'elle en a une,
+     * la grille racine n'est plus dessinée (`core::buildLevelScene`). Ajouter la **première**
+     * couche visuelle y recopie donc la grille racine, types refusés mis à part : ce qu'on voyait
+     * reste ce qu'on voit, et l'auteur retire ensuite ce qui ne relève que de la collision. Une
+     * couche ajoutée à une carte qui en a déjà naît vide.
+     *
+     * @param kind `Ground` ou `Decor`.
+     * @param name Nom affiché par l'éditeur.
+     * @return Le rang de la couche créée, ou `std::nullopt` si @p kind n'est pas visuel.
+     */
+    std::optional<std::size_t> addLayer(LayerKind kind, std::string name);
+
+    /// Retire la couche visuelle au rang @p index.
+    /// @return `false` si @p index est hors bornes ou désigne une couche non visuelle.
+    bool removeLayer(std::size_t index);
+
+    /// Renomme la couche visuelle au rang @p index. Un nom identique n'empile rien.
+    bool renameLayer(std::size_t index, std::string name);
+
+    /// Change le rôle (sol ↔ décor) de la couche visuelle au rang @p index.
+    bool setLayerKind(std::size_t index, LayerKind kind);
+
+    /**
+     * @brief Échange la couche visuelle au rang @p index avec sa voisine visuelle, en avant
+     *        (@p forward) ou en arrière. L'entrée de collision ne se franchit pas : elle n'a pas
+     *        de rang de dessin.
+     * @return Le nouveau rang ; @p index inchangé si la couche est déjà au bout ;
+     *         `std::nullopt` si @p index est hors bornes ou non visuel.
+     */
+    std::optional<std::size_t> moveLayer(std::size_t index, bool forward);
+
+    /// Peint @p type en (@p column, @p row) de la couche visuelle @p index.
+    /// @return `false` (rien d'empilé) si le rang, la case ou le type est refusé, ou si la case
+    ///         porte déjà ce type.
+    bool paintLayerTile(std::size_t index, int column, int row, TileType type);
+
+    /// Applique @p block (indexé `[ligne][colonne]`) sur la couche visuelle @p index, découpé aux
+    /// bords, en **un** pas d'annulation. Un bloc contenant un type refusé est refusé en entier.
+    bool paintLayerRegion(std::size_t index, int originColumn, int originRow,
+                          const std::vector<std::vector<TileType>>& block);
+
+    /** @} */
+
+    /**
+     * @name Entités de carte (`LOT-04`, `LOT-11`)
+     *
+     * Un rang désigne une entrée de `entities()`. Plusieurs entités peuvent partager une case ;
+     * `entityAt` rend la **dernière** posée, celle qu'on voit au-dessus. Chaque mutateur empile un
+     * pas d'annulation, sauf s'il est refusé ou sans effet.
+     * @{
+     */
+
+    /// Pose @p entity en fin de liste.
+    /// @return Son rang, ou `std::nullopt` si sa case est hors de la grille (`EX-LVL-017`).
+    std::optional<std::size_t> placeEntity(MapEntity entity);
+
+    /// Déplace l'entité @p index en @p position. Refusé hors bornes ; sans effet sur place.
+    bool moveEntity(std::size_t index, GridPosition position);
+
+    /// Retire l'entité @p index.
+    bool removeEntity(std::size_t index);
+
+    /// Assigne la propriété @p key de l'entité @p index. Une valeur identique n'empile rien.
+    bool setEntityProperty(std::size_t index, const std::string& key, PropertyValue value);
+
+    /// Retire la propriété @p key de l'entité @p index, si elle l'a.
+    bool removeEntityProperty(std::size_t index, const std::string& key);
+
+    /// @return Le rang de la dernière entité posée en @p position, s'il y en a une.
+    [[nodiscard]] std::optional<std::size_t> entityAt(GridPosition position) const;
+
+    /** @} */
+
+    /**
      * @brief Redimensionne la grille (`EX-EDIT-005`).
      *
      * Agrandir complète les nouvelles cases en `Empty` ; réduire **tronque** silencieusement le
@@ -311,16 +401,14 @@ public:
 
     /// @return Les couches de tuiles du niveau (`LOT-04`), dans leur ordre de superposition.
     ///
-    /// **Portees telles quelles, pas encore editables.** Le brouillon les recoit du fichier et les
-    /// rend a l'enregistrement ; c'est le `LOT-11` qui donnera a l'editeur de quoi les creer et
-    /// les peindre. Sans ce transport, ouvrir puis enregistrer une carte multi-couches les
-    /// effacerait en silence -- exactement le genre de perte qu'un editeur ne doit jamais infliger.
+    /// Une entrée `Collision` ou `Legacy` y reflète la grille racine telle que le fichier l'a
+    /// promue ; c'est `tileMap()` qui fait foi, et `toLevel()` l'y recopie. Les couches visuelles
+    /// s'éditent par les mutateurs de couches (`LOT-11`).
     [[nodiscard]] const std::vector<TileLayer>& layers() const noexcept {
         return _layers;
     }
 
-    /// @return Les entites placees sur la carte (`LOT-04`). Portees telles quelles, comme
-    /// `layers()`, en attendant l'outillage d'edition du `LOT-11`.
+    /// @return Les entités placées sur la carte (`LOT-04`), éditées par les mutateurs d'entités.
     [[nodiscard]] const std::vector<MapEntity>& entities() const noexcept {
         return _entities;
     }
@@ -360,6 +448,14 @@ private:
     /// Logique de `paintTile`, sans `pushUndo()` : réutilisée cellule par cellule par
     /// `paintRegion` pour n'empiler qu'un seul snapshot par opération de bloc.
     void paintTileInternal(int column, int row, TileType type);
+
+    /// Vrai si @p index désigne une couche visuelle de `_layers`.
+    [[nodiscard]] bool isVisualLayerIndex(std::size_t index) const noexcept;
+
+    /// Vrai si @p index désigne une entité de `_entities`.
+    [[nodiscard]] bool isEntityIndex(std::size_t index) const noexcept {
+        return index < _entities.size();
+    }
 
     /// Logique de `setEntry`, sans `pushUndo()`.
     void setEntryInternal(int column, int row);
