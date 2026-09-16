@@ -155,6 +155,29 @@ Rôles de couche reconnus : `ground`, `decor`, et `legacy` (rôle de la grille r
 écrit) ; un rôle inconnu retombe sur `ground` plutôt que de faire échouer la carte (`EX-NFR-040`),
 et `collision` déclaré est refusé (`EX-LVL-016`).
 
+**Familles d'entités posées par l'éditeur** (`LOT-11`, `EX-EDIT-050`). Le chargeur ne connaît aucun
+type d'entité (`EX-NFR-040`) ; l'éditeur, lui, sait poser et renseigner ceux que le gameplay lit
+déjà, rassemblés dans `core::knownEntityKinds` (`Source/Core/World/EntityKinds.h`) :
+
+| `type` | Propriétés | Lue par |
+|---|---|---|
+| `chest` | — | `core::knownInteractableKinds` (`LOT-10`) |
+| `sign` | — | `core::knownInteractableKinds` (`LOT-10`) |
+| `npc` | `dialogue` (identifiant d'un dialogue accepté) | `core::dialogueTriggerFor` (`LOT-15`) |
+| `encounter` | `encounterId` (requis), `respawns` (booléen) | `core::encounterTriggerFor` (`LOT-18`) |
+| `portal` | `targetMap` (identifiant de carte), `arrival` (nom d'un point d'arrivée) — requis | graphe du monde (`LOT-09`) |
+| `spawnPoint` | `name` (requis, unique dans la carte) | graphe du monde (`LOT-09`) |
+| `arenaEntry` | `side` (`allies` ou `enemies`), `rank` (entier) | `core::arenaEntryPoints` (`LOT-50`) |
+
+L'**identifiant d'une carte** est le nom de son fichier dans `Source/Elements/Levels/`, sans
+extension. Un portail désigne sa destination par `(carte, point d'arrivée nommé)`, jamais par des
+coordonnées, qui se désynchroniseraient au premier redimensionnement de la carte cible
+(`EX-EDIT-052`) :
+```json
+{ "type": "portal", "x": 11, "y": 4, "targetMap": "foret", "arrival": "lisiere-est" }
+{ "type": "spawnPoint", "x": 1, "y": 4, "name": "porte-ouest" }
+```
+
 Coordonnées `x` = colonne, `y` = ligne, origine **haut-gauche** ; toute tuile hors des bornes
 `width × height` est invalide. Les **liaisons** interrupteur↔porte se font par **identifiant**
 (un `switch` porte un `id`, une `door` le référence via `opensWith`), schéma extensible à

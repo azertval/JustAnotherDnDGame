@@ -54,8 +54,7 @@ LevelDraft LevelDraft::fromLevel(const Level& level) {
     // s'efface simplement au premier enregistrement. Ajouter un champ a Level, c'est l'ajouter ici.
     draft._planes = level.planes();
     draft._parallaxEnabled = level.parallaxEnabled();
-    // Couches et entites (LOT-04), au titre du meme invariant : portees telles quelles jusqu'a
-    // l'enregistrement, l'editeur ne sachant pas encore les manipuler (LOT-11).
+    // Couches et entites (LOT-04), au titre du meme invariant ; le LOT-11 les rend editables.
     draft._layers = level.layers();
     draft._entities = level.entities();
     return draft;
@@ -345,6 +344,221 @@ void LevelDraft::removeCameraZone(std::size_t index) {
     _cameraFraming.zones.erase(_cameraFraming.zones.begin() + static_cast<std::ptrdiff_t>(index));
 }
 
+// --- Couches de tuiles (LOT-11) ---
+//
+// Meme discipline que les plans : les validations d'abord, le pushUndo() ensuite, jamais un pas
+// d'historique pour un geste refuse ou sans effet.
+
+namespace {
+
+// Vrai si @p layers porte au moins une couche visuelle.
+[[nodiscard]] bool hasVisualLayer(const std::vector<TileLayer>& layers) {
+    return std::ranges::any_of(
+        layers, [](const TileLayer& layer) { return isVisualLayerKind(layer.kind); });
+}
+
+// Aligne l'entree de la grille racine sur ce que ferait le chargeur a la relecture : `Collision` en
+// tete des qu'une couche visuelle existe, `Legacy` sinon. Sans cet alignement, le brouillon
+// divergerait du niveau qu'il produit -- et l'editeur afficherait l'une quand le jeu lirait
+// l'autre.
+void alignRootLayer(std::vector<TileLayer>& layers, const TileMap& root) {
+    const auto rootEntry = std::ranges::find_if(layers, [](const TileLayer& layer) {
+        return layer.kind == LayerKind::Collision || layer.kind == LayerKind::Legacy;
+    });
+    if (!hasVisualLayer(layers)) {
+        if (rootEntry != layers.end()) {
+            rootEntry->kind = LayerKind::Legacy;
+        }
+        return;
+    }
+    if (rootEntry != layers.end()) {
+        rootEntry->kind = LayerKind::Collision;
+        return;
+    }
+    layers.insert(
+        layers.begin(),
+        TileLayer{.name = {}, .kind = LayerKind::Collision, .tiles = root, .properties = {}});
+}
+
+// Vrai si chaque type de @p block se peint sur une couche visuelle.
+[[nodiscard]] bool blockIsVisual(const std::vector<std::vector<TileType>>& block) {
+    return std::ranges::all_of(block, [](const std::vector<TileType>& row) {
+        return std::ranges::all_of(row, isVisualLayerTileType);
+    });
+}
+
+}  // namespace
+
+bool LevelDraft::isVisualLayerIndex(std::size_t index) const noexcept {
+    return index < _layers.size() && isVisualLayerKind(_layers[index].kind);
+}
+
+std::optional<std::size_t> LevelDraft::addLayer(LayerKind kind, std::string name) {
+    if (!isVisualLayerKind(kind)) {
+        return std::nullopt;
+    }
+    pushUndo();
+    TileMap tiles(_tileMap.width(), _tileMap.height());
+    if (!hasVisualLayer(_layers)) {
+        // Promotion (voir l'en-tete) : la premiere couche visuelle reprend l'image de la grille
+        // unique, sans les types qui n'ont de sens qu'en collision.
+        for (int row = 0; row < _tileMap.height(); ++row) {
+            for (int column = 0; column < _tileMap.width(); ++column) {
+                const TileType type = _tileMap.tile(column, row);
+                if (isVisualLayerTileType(type)) {
+                    tiles.setTile(column, row, type);
+                }
+            }
+        }
+    }
+    _layers.push_back(TileLayer{
+        .name = std::move(name), .kind = kind, .tiles = std::move(tiles), .properties = {}});
+    alignRootLayer(_layers, _tileMap);
+    // L'alignement peut avoir insere l'entree de collision en tete : la couche creee est toujours
+    // la derniere.
+    return _layers.size() - 1;
+}
+
+bool LevelDraft::removeLayer(std::size_t index) {
+    if (!isVisualLayerIndex(index)) {
+        return false;
+    }
+    pushUndo();
+    _layers.erase(_layers.begin() + static_cast<std::ptrdiff_t>(index));
+    alignRootLayer(_layers, _tileMap);
+    return true;
+}
+
+bool LevelDraft::renameLayer(std::size_t index, std::string name) {
+    if (!isVisualLayerIndex(index) || _layers[index].name == name) {
+        return false;
+    }
+    pushUndo();
+    _layers[index].name = std::move(name);
+    return true;
+}
+
+bool LevelDraft::setLayerKind(std::size_t index, LayerKind kind) {
+    if (!isVisualLayerIndex(index) || !isVisualLayerKind(kind) || _layers[index].kind == kind) {
+        return false;
+    }
+    pushUndo();
+    _layers[index].kind = kind;
+    return true;
+}
+
+std::optional<std::size_t> LevelDraft::moveLayer(std::size_t index, bool forward) {
+    if (!isVisualLayerIndex(index)) {
+        return std::nullopt;
+    }
+    const bool atEnd = forward ? index + 1 >= _layers.size() : index == 0;
+    if (atEnd) {
+        return index;
+    }
+    const std::size_t neighbour = forward ? index + 1 : index - 1;
+    if (!isVisualLayerIndex(neighbour)) {
+        return index;  // l'entree de collision ne se franchit pas.
+    }
+    pushUndo();
+    std::swap(_layers[index], _layers[neighbour]);
+    return neighbour;
+}
+
+bool LevelDraft::paintLayerTile(std::size_t index, int column, int row, TileType type) {
+    if (!isVisualLayerIndex(index) || !isVisualLayerTileType(type)) {
+        return false;
+    }
+    TileMap& tiles = _layers[index].tiles;
+    if (!tiles.inBounds(column, row) || tiles.tile(column, row) == type) {
+        return false;
+    }
+    pushUndo();
+    _layers[index].tiles.setTile(column, row, type);
+    return true;
+}
+
+bool LevelDraft::paintLayerRegion(std::size_t index, int originColumn, int originRow,
+                                  const std::vector<std::vector<TileType>>& block) {
+    if (!isVisualLayerIndex(index) || block.empty() || !blockIsVisual(block)) {
+        return false;
+    }
+    pushUndo();
+    TileMap& tiles = _layers[index].tiles;
+    for (std::size_t rowOffset = 0; rowOffset < block.size(); ++rowOffset) {
+        const std::vector<TileType>& rowTiles = block[rowOffset];
+        for (std::size_t columnOffset = 0; columnOffset < rowTiles.size(); ++columnOffset) {
+            const int column = originColumn + static_cast<int>(columnOffset);
+            const int row = originRow + static_cast<int>(rowOffset);
+            if (tiles.inBounds(column, row)) {
+                tiles.setTile(column, row, rowTiles[columnOffset]);
+            }
+        }
+    }
+    return true;
+}
+
+// --- Entites de carte (LOT-11) ---
+
+std::optional<std::size_t> LevelDraft::placeEntity(MapEntity entity) {
+    if (!_tileMap.inBounds(entity.position.column, entity.position.row)) {
+        return std::nullopt;
+    }
+    pushUndo();
+    _entities.push_back(std::move(entity));
+    return _entities.size() - 1;
+}
+
+bool LevelDraft::moveEntity(std::size_t index, GridPosition position) {
+    if (!isEntityIndex(index) || !_tileMap.inBounds(position.column, position.row) ||
+        _entities[index].position == position) {
+        return false;
+    }
+    pushUndo();
+    _entities[index].position = position;
+    return true;
+}
+
+bool LevelDraft::removeEntity(std::size_t index) {
+    if (!isEntityIndex(index)) {
+        return false;
+    }
+    pushUndo();
+    _entities.erase(_entities.begin() + static_cast<std::ptrdiff_t>(index));
+    return true;
+}
+
+bool LevelDraft::setEntityProperty(std::size_t index, const std::string& key, PropertyValue value) {
+    if (!isEntityIndex(index) || key.empty()) {
+        return false;
+    }
+    const PropertyMap& properties = _entities[index].properties;
+    if (const auto found = properties.find(key);
+        found != properties.end() && found->second == value) {
+        return false;
+    }
+    pushUndo();
+    _entities[index].properties[key] = std::move(value);
+    return true;
+}
+
+bool LevelDraft::removeEntityProperty(std::size_t index, const std::string& key) {
+    if (!isEntityIndex(index) || !_entities[index].properties.contains(key)) {
+        return false;
+    }
+    pushUndo();
+    _entities[index].properties.erase(key);
+    return true;
+}
+
+std::optional<std::size_t> LevelDraft::entityAt(GridPosition position) const {
+    for (std::size_t index = _entities.size(); index > 0; --index) {
+        if (_entities[index - 1].position == position) {
+            return index - 1;
+        }
+    }
+    return std::nullopt;
+}
+
 void LevelDraft::resize(int width, int height) {
     pushUndo();
     _tileMap = resizedCopy(_tileMap, width, height);
@@ -466,8 +680,8 @@ void LevelDraft::pushUndo() {
 LevelLoadResult LevelDraft::toLevel() const {
     // La grille editee EST la couche de collision de la carte (LOT-04) : le brouillon n'en peint
     // qu'une, et laisser la couche de collision figee sur l'etat du fichier d'origine produirait
-    // une carte ou l'on traverse un mur qu'on voit. Les autres couches -- sol, decor -- passent
-    // telles quelles : l'editeur ne sait pas encore les toucher (LOT-11).
+    // une carte ou l'on traverse un mur qu'on voit. Les couches visuelles -- sol, decor -- sont
+    // celles que les mutateurs de couches ont peintes (LOT-11).
     std::vector<TileLayer> layers = _layers;
     for (TileLayer& layer : layers) {
         if (layer.kind == LayerKind::Collision || layer.kind == LayerKind::Legacy) {

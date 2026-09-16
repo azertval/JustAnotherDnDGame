@@ -4,11 +4,13 @@
 #include "HMI/Graphics/DraftRenderer.h"
 
 #include <algorithm>
+#include <tuple>
 
 #include "Core/Ecs/Components/Sprite.h"  // core::AtlasRegion, core::Color
 #include "Core/Ecs/Components/Transform.h"
 #include "Core/Levels/CameraFraming.h"
 #include "Core/Levels/LevelDraft.h"
+#include "Core/Levels/TileLayer.h"
 #include "Core/Levels/TileMap.h"
 #include "Core/Levels/TileType.h"
 #include "Core/Math/Rect.h"
@@ -16,10 +18,12 @@
 #include "HMI/Editor/LinkGeometry.h"
 #include "HMI/Graphics/AssetContract.h"
 #include "HMI/Graphics/Camera2D.h"
+#include "HMI/Graphics/EntityMarkers.h"
 #include "HMI/Graphics/FollowCamera.h"
 #include "HMI/Graphics/MissingTexture.h"
 #include "HMI/Graphics/Parallax.h"
 #include "HMI/Graphics/PlaneVisuals.h"
+#include "HMI/Graphics/RenderLayer.h"
 #include "HMI/Graphics/RoomGrid.h"
 #include "HMI/Graphics/ShadowRenderer.h"
 #include "HMI/Graphics/SpriteBatch.h"
@@ -42,6 +46,12 @@ constexpr std::int32_t OVERLAY_ORDER_CAMERA_FRAMING = 1;
 constexpr std::int32_t OVERLAY_ORDER_LINKS = 2;
 constexpr std::int32_t OVERLAY_ORDER_HIGHLIGHT = 3;
 constexpr std::int32_t OVERLAY_ORDER_TEXTURE_OVERRIDES = 4;
+// Couches et entites (LOT-11) : le masque de collision sous tout le reste des aides, sauf la grille
+// (il recouvre des cases entieres) ; les entites au-dessus des marqueurs d'habillage, la zone de
+// rencontre sous les entites qu'elle concerne.
+constexpr std::int32_t OVERLAY_ORDER_COLLISION_MASK = 0;
+constexpr std::int32_t OVERLAY_ORDER_TERRAIN = 5;
+constexpr std::int32_t OVERLAY_ORDER_ENTITIES = 6;
 // Poignees de manipulation (LOT-67) : contour double couleur (sombre puis clair, dessine
 // par-dessus) pour rester lisible sur tout fond (EX-EDIT-030). Valeurs heritees des poignees de
 // poignees de manipulation du LOT-50, conservees telles quelles apres le retrait de celui-ci
@@ -64,7 +74,8 @@ void DraftRenderer::render(
     const core::LevelDraft& draft, const Camera2D& camera, bool showGrid,
     const std::optional<std::pair<core::GridPosition, core::GridPosition>>& highlight,
     const LinkOverlayState& linkOverlay, RenderMode mode, bool showTextureOverrides,
-    float deltaSeconds, const LayerVisibility& visibility, const PlaneVisibility& planeVisibility) {
+    float deltaSeconds, const LayerVisibility& visibility, const PlaneVisibility& planeVisibility,
+    const DraftEntityOverlay& entityOverlay) {
     if (_dirty) {
         rebuild(draft);
         _dirty = false;
@@ -100,6 +111,7 @@ void DraftRenderer::render(
         composeShadows(_scene, _world, mode, textures, 1.0f);
     }
     composeWorldSprites(_scene, _world, mode, textures, 1.0f, visibility);
+    composeCollisionMask(draft);
     if (showGrid) {
         composeGrid(draft);
     }
@@ -111,6 +123,7 @@ void DraftRenderer::render(
     if (highlight) {
         composeHighlight(highlight->first, highlight->second);
     }
+    composeEntities(draft, entityOverlay);
     _scene.sort();
     submitComposedScene(_batch, camera.projectionMatrix(), _scene);
 }
@@ -466,34 +479,221 @@ void DraftRenderer::composeLinks(const core::LevelDraft& draft, const LinkOverla
     }
 }
 
+void DraftRenderer::setLayerView(const LayerViewState& view) {
+    if (view == _layerView) {
+        return;
+    }
+    _layerView = view;
+    _dirty = true;
+}
+
 void DraftRenderer::rebuild(const core::LevelDraft& draft) {
     _world = core::World{};  // repart d'une scène vierge
+    const core::TileMap& map = draft.tileMap();
+
+    // Une grille de tuiles devenue entites, exactement comme en jeu (GameSession::loadLevel) : le
+    // voisinage solide se lit sur la grille RACINE, la surcharge de texture par case, et une tuile
+    // de decor partage la profondeur des objets.
+    const auto addTiles = [this, &map, &draft](const core::TileMap& tiles,
+                                               std::optional<std::int32_t> order, float opacity,
+                                               bool decor) {
+        for (int row = 0; row < tiles.height(); ++row) {
+            for (int column = 0; column < tiles.width(); ++column) {
+                const core::TileType type = tiles.tile(column, row);
+                if (type == core::TileType::Empty) {
+                    continue;  // case vide : aucune entité (grille éparse, comme en jeu).
+                }
+                const core::Entity entity = _world.createEntity();
+                _world.addComponent(
+                    entity, core::Transform{
+                                core::Vector2{static_cast<float>(column), static_cast<float>(row)},
+                                core::Vector2{1.0f, 1.0f}, 0.0f});
+                core::Sprite sprite;
+                sprite.region = regionForTile(type);
+                sprite.tint = core::Color{1.0f, 1.0f, 1.0f, opacity};
+                if (order) {
+                    sprite.layer = *order;
+                }
+                _world.addComponent(entity, sprite);
+                // Marque d'habillage (LOT-42), identique a celle posee en jeu : c'est ce qui fait
+                // que le canevas de l'editeur montre exactement ce que le joueur verra.
+                _world.addComponent(
+                    entity, TileSkinTag{type, solidNeighborMask(map, column, row),
+                                        textureOverrideAt(draft.textureOverrides(),
+                                                          core::GridPosition{column, row})});
+                if (decor) {
+                    _world.addComponent(entity, RenderLayerTag{RenderLayer::Object});
+                }
+            }
+        }
+    };
+
+    const std::vector<core::TileLayer>& layers = draft.layers();
+    const bool layered = std::ranges::any_of(
+        layers, [](const core::TileLayer& layer) { return core::isVisualLayerKind(layer.kind); });
+    if (!layered) {
+        // Grille unique : image et collision a la fois, dessinee comme avant le LOT-11.
+        const LayerDisplay display = _layerView.display(std::nullopt, /*hasVisualLayers=*/false);
+        if (display.visible) {
+            addTiles(map, std::nullopt, display.opacity, /*decor=*/false);
+        }
+        return;
+    }
+    // Carte a couches : les couches visuelles, dans leur ordre ; la collision est un masque,
+    // compose a part (composeCollisionMask).
+    std::int32_t order = 0;
+    for (std::size_t index = 0; index < layers.size(); ++index) {
+        const core::TileLayer& layer = layers[index];
+        if (!core::isVisualLayerKind(layer.kind)) {
+            continue;
+        }
+        const LayerDisplay display = _layerView.display(index, /*hasVisualLayers=*/true);
+        if (display.visible) {
+            addTiles(layer.tiles, order, display.opacity, layer.kind == core::LayerKind::Decor);
+        }
+        ++order;
+    }
+}
+
+void DraftRenderer::addOverlayRect(float x, float y, float width, float height, float r, float g,
+                                   float b, float a, std::int32_t order) {
+    const float atlasWidth = static_cast<float>(_atlas.width());
+    const float atlasHeight = static_cast<float>(_atlas.height());
+    const core::AtlasRegion solid = _atlas.tile(0, 0);
+    SpriteQuad quad;
+    quad.x = x;
+    quad.y = y;
+    quad.width = width;
+    quad.height = height;
+    quad.u0 = static_cast<float>(solid.x) / atlasWidth;
+    quad.v0 = static_cast<float>(solid.y) / atlasHeight;
+    quad.u1 = static_cast<float>(solid.x + solid.width) / atlasWidth;
+    quad.v1 = static_cast<float>(solid.y + solid.height) / atlasHeight;
+    quad.r = r;
+    quad.g = g;
+    quad.b = b;
+    quad.a = a;
+    _scene.addSprite(RenderLayer::EditorOverlay, _atlas.textureHandle(), order, quad);
+}
+
+void DraftRenderer::composeCollisionMask(const core::LevelDraft& draft) {
+    const bool layered = std::ranges::any_of(draft.layers(), [](const core::TileLayer& layer) {
+        return core::isVisualLayerKind(layer.kind);
+    });
+    if (!layered) {
+        return;  // grille unique : deja dessinee comme image par rebuild().
+    }
+    const LayerDisplay display = _layerView.display(std::nullopt, /*hasVisualLayers=*/true);
+    if (!display.visible || display.opacity <= 0.0f) {
+        return;
+    }
     const core::TileMap& map = draft.tileMap();
     for (int row = 0; row < map.height(); ++row) {
         for (int column = 0; column < map.width(); ++column) {
             const core::TileType type = map.tile(column, row);
-            if (type == core::TileType::Empty) {
-                continue;  // case vide : aucune entité (grille éparse, comme en jeu).
+            // Une teinte par CATEGORIE de regle, pas par type : l'auteur lit ou l'on bute, ou l'on
+            // se blesse, ou l'on entre et sort, et ou un mecanisme agit.
+            float r = 0.0f;
+            float g = 0.0f;
+            float b = 0.0f;
+            if (core::isSolid(type)) {
+                r = 0.85f, g = 0.20f, b = 0.20f;  // obstacle
+            } else if (type == core::TileType::Danger) {
+                r = 1.00f, g = 0.55f, b = 0.10f;  // danger
+            } else if (type == core::TileType::Entry) {
+                r = 0.20f, g = 0.85f, b = 0.30f;  // entree
+            } else if (type == core::TileType::Exit) {
+                r = 0.25f, g = 0.50f, b = 1.00f;  // sortie
+            } else if (type == core::TileType::Switch || type == core::TileType::PressurePlate ||
+                       type == core::TileType::Key || type == core::TileType::Door ||
+                       type == core::TileType::LockedDoor) {
+                r = 1.00f, g = 0.85f, b = 0.20f;  // mecanisme
+            } else {
+                continue;  // terrain franchissable : rien a masquer.
             }
-            const core::Entity entity = _world.createEntity();
-            _world.addComponent(entity, core::Transform{core::Vector2{static_cast<float>(column),
-                                                                      static_cast<float>(row)},
-                                                        core::Vector2{1.0f, 1.0f}, 0.0f});
-            core::Sprite sprite;
-            sprite.region = regionForTile(type);
-            sprite.tint = core::Color{1.0f, 1.0f, 1.0f, 1.0f};
-            // Aucun calque a fixer : une entite sans `RenderLayerTag` est dessinee sur
-            // RenderLayer::Tile (hmi::DEFAULT_RENDER_LAYER), et `core::Sprite::layer` garde sa
-            // valeur par defaut -- le tri fin entre tuiles n'a pas lieu d'etre.
-            _world.addComponent(entity, sprite);
-            // Marque d'habillage (LOT-42), identique a celle posee en jeu : c'est ce qui fait que
-            // le canevas de l'editeur montre exactement ce que le joueur verra. La surcharge de
-            // texture par instance (EX-EDIT-043, LOT-45) y est resolue une fois, ici, comme le
-            // voisinage solide.
-            _world.addComponent(entity,
-                                TileSkinTag{type, solidNeighborMask(map, column, row),
-                                            textureOverrideAt(draft.textureOverrides(),
-                                                              core::GridPosition{column, row})});
+            addOverlayRect(static_cast<float>(column), static_cast<float>(row), 1.0f, 1.0f, r, g, b,
+                           display.opacity * 0.6f, OVERLAY_ORDER_COLLISION_MASK);
+        }
+    }
+}
+
+void DraftRenderer::composeEntities(const core::LevelDraft& draft,
+                                    const DraftEntityOverlay& overlay) {
+    const std::vector<core::MapEntity>& entities = draft.entities();
+
+    // Terrain de la rencontre selectionnee : la zone ou l'on se bat, puis la case voulue de chaque
+    // combattant -- verte si elle tient, rouge si le montage la refuserait.
+    if (overlay.showTerrain && overlay.selectedEntity && overlay.terrains != nullptr) {
+        for (const core::EncounterTerrain& terrain : *overlay.terrains) {
+            if (terrain.entityIndex != *overlay.selectedEntity) {
+                continue;
+            }
+            const bool narrow =
+                std::ranges::any_of(terrain.issues, [](const core::TacticalIssue& issue) {
+                    return issue.code == core::TacticalIssueCode::AreaTooNarrow;
+                });
+            for (const core::GridPosition& cell : terrain.area) {
+                addOverlayRect(static_cast<float>(cell.column), static_cast<float>(cell.row), 1.0f,
+                               1.0f, narrow ? 1.0f : 0.30f, narrow ? 0.55f : 0.70f,
+                               narrow ? 0.10f : 1.00f, 0.18f, OVERLAY_ORDER_TERRAIN);
+            }
+            for (const core::CombatantPlacement& placement : terrain.placements) {
+                const bool refused = std::ranges::any_of(
+                    terrain.issues, [&placement](const core::TacticalIssue& issue) {
+                        return issue.code != core::TacticalIssueCode::AreaTooNarrow &&
+                               issue.cell == placement.position;
+                    });
+                constexpr float INSET = 0.2f;
+                addOverlayRect(static_cast<float>(placement.position.column) + INSET,
+                               static_cast<float>(placement.position.row) + INSET, 1.0f - 2 * INSET,
+                               1.0f - 2 * INSET, refused ? 0.95f : 0.25f, refused ? 0.20f : 0.85f,
+                               refused ? 0.20f : 0.35f, 0.55f, OVERLAY_ORDER_TERRAIN);
+            }
+        }
+    }
+
+    constexpr float MARKER_INSET = 0.12f;
+    for (std::size_t index = 0; index < entities.size(); ++index) {
+        const core::MapEntity& entity = entities[index];
+        const float x = static_cast<float>(entity.position.column);
+        const float y = static_cast<float>(entity.position.row);
+        // Marqueur genere de la famille (LOT-39) : aucune illustration n'est requise pour poser un
+        // PNJ ou un portail, et deux familles ne se confondent pas.
+        if (const LoadedTexture* const marker =
+                _cache.markerTexture(entityMarkerKey(entity.type))) {
+            SpriteQuad quad;
+            quad.x = x + MARKER_INSET;
+            quad.y = y + MARKER_INSET;
+            quad.width = 1.0f - 2 * MARKER_INSET;
+            quad.height = 1.0f - 2 * MARKER_INSET;
+            quad.u0 = 0.0f;
+            quad.v0 = 0.0f;
+            quad.u1 = 1.0f;
+            quad.v1 = 1.0f;
+            quad.r = 1.0f;
+            quad.g = 1.0f;
+            quad.b = 1.0f;
+            quad.a = 1.0f;
+            _scene.addSprite(RenderLayer::EditorOverlay, marker->handle(), OVERLAY_ORDER_ENTITIES,
+                             quad);
+        } else {
+            addOverlayRect(x + MARKER_INSET, y + MARKER_INSET, 1.0f - 2 * MARKER_INSET,
+                           1.0f - 2 * MARKER_INSET, 1.0f, 0.0f, 1.0f, 0.8f, OVERLAY_ORDER_ENTITIES);
+        }
+        if (overlay.selectedEntity == index) {
+            // Cadre double ton, meme convention que les poignees (lisible sur tout fond).
+            constexpr float THICK = 0.08f;
+            for (const auto& [order, r, g, b, grow] :
+                 {std::tuple{OVERLAY_ORDER_HANDLE_DARK, 0.05f, 0.05f, 0.05f, THICK},
+                  std::tuple{OVERLAY_ORDER_HANDLE_BRIGHT, 1.0f, 0.95f, 0.35f, 0.0f}}) {
+                const float left = x - grow;
+                const float top = y - grow;
+                const float size = 1.0f + 2 * grow;
+                addOverlayRect(left, top, size, THICK, r, g, b, 1.0f, order);
+                addOverlayRect(left, top + size - THICK, size, THICK, r, g, b, 1.0f, order);
+                addOverlayRect(left, top, THICK, size, r, g, b, 1.0f, order);
+                addOverlayRect(left + size - THICK, top, THICK, size, r, g, b, 1.0f, order);
+            }
         }
     }
 }

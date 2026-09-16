@@ -7,6 +7,7 @@
 
 #include "Core/Levels/LevelProperties.h"
 #include "Core/Levels/TileMap.h"
+#include "Core/Levels/TileType.h"
 
 /**
  * @file Core/Levels/TileLayer.h
@@ -63,6 +64,63 @@ inline constexpr int LAYER_KIND_COUNT = static_cast<int>(LayerKind::Legacy) + 1;
             return "legacy";
     }
     return "ground";
+}
+
+/**
+ * @brief Vrai si une couche de rôle @p kind porte une **image** — le sol ou le décor —, et non le
+ *        masque de collision ou la grille unique d'une carte `version: 2`.
+ *
+ * C'est la distinction que l'éditeur fait entre les couches qu'on peint à part (`LOT-11`) et la
+ * grille racine, qui reste la seule où vivent l'entrée, la sortie et les mécanismes.
+ */
+[[nodiscard]] constexpr bool isVisualLayerKind(LayerKind kind) noexcept {
+    switch (kind) {
+        case LayerKind::Ground:
+        case LayerKind::Decor:
+            return true;
+        case LayerKind::Collision:
+        case LayerKind::Legacy:
+            return false;
+    }
+    return false;
+}
+
+/**
+ * @brief Vrai si @p type se peint sur une couche **visuelle** (sol ou décor, `LOT-11`).
+ *
+ * Une couche visuelle est une image : elle accepte le vide, la matière générique et tout le
+ * vocabulaire de terrain du `LOT-08`. Elle refuse ce qui n'a de sens que dans la grille de
+ * collision — entrée, sortie, mécanismes, danger, bloc poussable : ces types portent une
+ * **règle**, et une règle posée sur une couche que le gameplay ne lit pas serait un piège
+ * silencieux (une porte dessinée qu'aucun interrupteur n'ouvre). Le `switch` est exhaustif : un
+ * type ajouté sans décision ne compile pas.
+ */
+[[nodiscard]] constexpr bool isVisualLayerTileType(TileType type) noexcept {
+    switch (type) {
+        case TileType::Empty:
+        case TileType::Solid:
+        case TileType::Grass:
+        case TileType::Dirt:
+        case TileType::Sand:
+        case TileType::Water:
+        case TileType::DeepWater:
+        case TileType::Wall:
+        case TileType::Cliff:
+        case TileType::Bridge:
+        case TileType::Stairs:
+            return true;
+        case TileType::Danger:
+        case TileType::Entry:
+        case TileType::Exit:
+        case TileType::Switch:
+        case TileType::Door:
+        case TileType::PressurePlate:
+        case TileType::Block:
+        case TileType::Key:
+        case TileType::LockedDoor:
+            return false;
+    }
+    return false;
 }
 
 /**

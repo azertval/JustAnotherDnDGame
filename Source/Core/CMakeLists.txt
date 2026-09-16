@@ -15,7 +15,9 @@ add_library(Core STATIC
     Ecs/Systems/AnimationSystem.cpp
     Ecs/Systems/ParticleSystem.cpp
     World/Atlas.cpp
+    World/EntityKinds.cpp
     World/GridDistanceField.cpp
+    World/WorldGraph.cpp
     Gameplay/Interaction.cpp
     Gameplay/MapEntitySpawner.cpp
     Gameplay/MechanismController.cpp
@@ -49,6 +51,7 @@ add_library(Core STATIC
     Combat/EnemyAi.cpp
     Combat/CombatPreview.cpp
     Combat/IsoProjection.cpp
+    Combat/TacticalTerrain.cpp
     Rpg/RpgEnumNames.cpp
     Rpg/Multiclassing.cpp
     Levels/TileMap.cpp

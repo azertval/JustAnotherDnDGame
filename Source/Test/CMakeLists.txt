@@ -28,6 +28,7 @@ add_executable(UnitTests
     Unit/Core/Levels/test_level_writer.cpp
     Unit/Core/Levels/test_map_layers.cpp
     Unit/Core/Levels/test_level_draft.cpp
+    Unit/Core/Levels/test_level_draft_editing.cpp
     Unit/Core/Levels/test_plane.cpp
     Unit/Core/Levels/test_level_outcome.cpp
     Unit/Core/Levels/test_tile_type_name.cpp
@@ -50,11 +51,13 @@ add_executable(UnitTests
     Unit/Core/Combat/test_enemy_ai.cpp
     Unit/Core/Combat/test_combat_preview.cpp
     Unit/Core/Combat/test_iso_projection.cpp
+    Unit/Core/Combat/test_tactical_terrain.cpp
     Unit/Core/Resources/test_asset_keys.cpp
     Unit/Core/Rpg/test_rpg_enums.cpp
     Unit/Core/Rpg/test_multiclassing.cpp
     Unit/Core/Rpg/test_bestiary.cpp
     Unit/Core/World/test_atlas.cpp
+    Unit/Core/World/test_entity_kinds.cpp
     Unit/Core/Rpg/test_character_options.cpp
     Unit/Core/Rpg/test_character_sheet.cpp
     Unit/Core/Levels/test_rpg_terrain.cpp
@@ -62,6 +65,7 @@ add_executable(UnitTests
     Unit/Core/Physics/test_swept_collision.cpp
     Unit/Core/Physics/test_aabb_vs_aabb.cpp
     Unit/Core/World/test_grid_distance_field.cpp
+    Unit/Core/World/test_world_graph.cpp
     Unit/Core/Gameplay/test_interaction.cpp
     Unit/Core/Gameplay/test_mechanism_controller.cpp
     Unit/Core/Time/test_fixed_timestep.cpp
@@ -118,7 +122,9 @@ add_executable(UnitTests
     Unit/HMI/Graphics/test_render_budget.cpp
     Unit/HMI/Graphics/test_particle_render.cpp
     Unit/HMI/Graphics/test_screen_shake.cpp
+    Unit/HMI/Graphics/test_entity_markers.cpp
     Unit/HMI/Game/test_game_hud.cpp
+    Unit/HMI/Game/test_playtest_interaction.cpp
     Unit/HMI/Game/test_diagnostics_hud.cpp
     Unit/HMI/Game/test_game_mode.cpp
     Unit/HMI/Game/test_game_events.cpp
@@ -163,6 +169,8 @@ add_executable(UnitTests
     Unit/HMI/Editor/test_pixel_asset_io.cpp
     Unit/HMI/Editor/test_pixel_palette.cpp
     Unit/HMI/Editor/test_pixel_autotile_preview.cpp
+    Unit/HMI/Editor/test_entity_editing.cpp
+    Unit/HMI/Editor/test_world_graph_layout.cpp
 )
 
 # Encodage/decodage d'image (LOT-54 TACHE-01) : QImage (Qt) lit et ecrit le PNG, mais aucun device
@@ -371,6 +379,7 @@ target_compile_definitions(IntegrationTests PRIVATE
 # Tests système : un parcours de jeu complet sur le contenu livré, sans la couche GPU.
 add_executable(SystemTests
     Systeme/test_parcours_edition.cpp
+    Systeme/test_parcours_edition_rpg.cpp
 )
 
 target_link_libraries(SystemTests PRIVATE

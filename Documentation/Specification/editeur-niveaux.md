@@ -4,7 +4,8 @@
 > (LOT-H-14 : peinture, mécanismes, entrée/sortie, redimensionnement, undo/redo,
 > enregistrement/validation, essai immédiat ; LOT-H-15 : nommage, garde-fous, caméra, outils de
 > zone, découvrabilité ; LOT-H-16 : niveaux de grande taille, section 7 ; LOT-H-27 : palette organisée
-> par catégories repliables, section 8).
+> par catégories repliables, section 8 ; `LOT-11` : trois couches, entités, portails, graphe du monde
+> et terrain tactique, section 12).
 > Dépend de [`niveaux.md`](niveaux.md).
 
 ## Objectif
@@ -31,12 +32,24 @@ Permettre la **création et la modification de niveaux sans écrire de code**, a
 - \anchor EX-EDIT-022 **EX-EDIT-022** — Le partage des niveaux passe par **Git via une interface graphique** (type GitHub Desktop) : les niveaux sont versionnés dans le dépôt au même titre que le reste du projet. Le level designer publie et récupère les niveaux en quelques clics, **sans ligne de commande**. Un court guide d'utilisation (installation + flux publier/mettre à jour) doit être fourni dans `Documentation/` à destination des non-codeurs.
 
 ## 4. Approche d'implémentation (décidée)
-**Option retenue : éditeur intégré.** L'édition est un **mode de l'application** de jeu, réutilisant le rendu Direct3D 11 et le modèle de niveau de `Core`.
+**Option retenue : un outil d'auteur à part, et un mode intégré au jeu qui n'en est pas un.**
+L'édition de contenu vit dans `LevelEditor`, un exécutable Qt Widgets distinct du jeu ; l'édition
+**dans la scène**, depuis le jeu, est l'**arène** du `LOT-50`.
 
-- \anchor EX-EDIT-030 **EX-EDIT-030** — L'éditeur est intégré à l'application (mode éditeur), et non un outil séparé.
-- \anchor EX-EDIT-031 **EX-EDIT-031** — Le mode éditeur réutilise le **rendu D3D11** de `HMI` et le **modèle/validation de niveau** de `Core` (pas de duplication).
+- \anchor EX-EDIT-030 **EX-EDIT-030** — L'**outil d'auteur** est un exécutable distinct du jeu
+  (`LevelEditor`), qui partage le code du jeu mais pas sa technologie d'interface : le jeu ne lie
+  pas Qt Widgets (`EX-IHM-102`). Le **mode intégré** au jeu est l'arène, un bac à sable de
+  débogage où l'on pose combattants et décors et rejoue à graine fixée — pas un outil qui produit
+  du contenu versionné.
+  > **Refondue au `LOT-11`** (décision de l'auteur, 16 septembre 2026). L'exigence disait
+  > « intégré à l'application (mode éditeur), et non un outil séparé ». Le `LOT-86` a séparé
+  > l'interface en deux exécutables, et le §8 de la feuille de route a tranché : **retarger
+  > `LevelEditor`** plutôt que reconstruire l'édition dans la scène en Qt Quick. Ce qu'une édition
+  > intégrée apportait — la boucle « poser → essayer » en quelques secondes — reste servi par
+  > l'essai immédiat, dans l'éditeur (`EX-EDIT-008`, `EX-EDIT-055`).
+- \anchor EX-EDIT-031 **EX-EDIT-031** — L'éditeur réutilise le **rendu du jeu** (QRhi, `hmi::SceneResources`, composition de `HMI`) et le **modèle/validation de niveau** de `Core` (pas de duplication).
 
-Justification : un seul codebase, un rendu identique au jeu, un cycle **création → essai** immédiat et un round-trip garanti avec le format de niveau. *(Repli documenté si le temps manque : l'éditeur libre Tiled avec une couche d'import vers notre format — non retenu par défaut.)*
+Justification : un seul codebase, un rendu identique au jeu, un cycle **création → essai** immédiat et un round-trip garanti avec le format de niveau — sans imposer au jeu la technologie d'interface d'un outil d'auteur (docks, arbres, formulaires). *(Repli documenté si le temps manque : l'éditeur libre Tiled avec une couche d'import vers notre format — non retenu par défaut.)*
 
 ## 4bis. Décors & pixel art (post-MVP, intégré à l'éditeur)
 - \anchor EX-EDIT-040 **EX-EDIT-040** — L'éditeur doit permettre de **placer et transformer des décors** (position, échelle, superposition par couches) — cf. [`decors.md`](decors.md).
@@ -229,6 +242,55 @@ pouvoir habiller le niveau avec de vraies textures — sans jamais perdre la lec
   fichier PNG **transparent aux dimensions exactes** attendues ; changer sa densité rééchantillonne
   l'image existante plutôt que de la perdre. Le poids mémoire du niveau (`EX-NFR-043`) est visible
   **pendant** qu'on le dépense. Concrétisé en `LOT-H-69`.
+
+## 12. Couches, entités et monde (`LOT-11`)
+L'éditeur hérité peignait une grille unique ; le RPG en a trois (`EX-LVL-016`) et pose des objets
+qui ne sont pas des tuiles (`EX-LVL-017`). Cette section fait de `LevelEditor` l'outil qui produit
+le contenu du RPG **sans écrire de JSON à la main**.
+
+- \anchor EX-EDIT-048 **EX-EDIT-048** — L'éditeur doit peindre les **trois couches** d'une carte :
+  un **sélecteur de couche active** désigne la grille que visent le pinceau, le rectangle, la copie
+  et le collage — la **collision** (grille racine, qui porte seule l'entrée, la sortie et les
+  mécanismes) ou une couche **visuelle** (sol, décor). Une couche visuelle **refuse** les types qui
+  portent une règle (entrée, sortie, mécanismes, danger, bloc) en le disant. Couches visuelles
+  ajoutées, retirées, renommées, changées de rôle et réordonnées, chaque geste **annulable**
+  (`EX-EDIT-005`). Ajouter la première couche visuelle à une carte à grille unique y recopie
+  l'image de la grille : ce qu'on voyait en jeu reste ce qu'on voit. Concrétisé au `LOT-11`.
+- \anchor EX-EDIT-049 **EX-EDIT-049** — L'éditeur doit régler la **visibilité** et l'**opacité** de
+  chaque couche, pour voir le sol sous le décor. Ce réglage est une aide d'édition : ni annulable,
+  ni enregistré. Sur une carte à couches, la collision se montre **par-dessus** en masque coloré par
+  catégorie (obstacle, danger, entrée, sortie, mécanisme), pas en image. Concrétisé au `LOT-11`.
+- \anchor EX-EDIT-050 **EX-EDIT-050** — L'éditeur doit **poser, sélectionner, déplacer et retirer
+  des entités** par un outil dédié, et en éditer les **propriétés** dans un panneau dont le
+  formulaire est **dérivé** de la table des familles (`core::knownEntityKinds`, `niveaux.md`) — une
+  famille ou une propriété ajoutée à la table y apparaît sans toucher au panneau. Une entité
+  d'un type inconnu, et toute propriété que la table ne déclare pas, sont **montrées et
+  transportées** (`EX-EDIT-011`). Chaque geste est **annulable**. Une entité sans illustration se
+  dessine par le **marqueur généré** de sa famille (`EX-CNT-041`). Concrétisé au `LOT-11`.
+- \anchor EX-EDIT-051 **EX-EDIT-051** — Une propriété qui **référence** une donnée hors de la carte
+  doit se choisir dans ce qui existe : dialogues **acceptés** au chargement (un dialogue refusé ne se
+  propose pas), rencontres, cartes, points d'arrivée de la carte cible. Une référence cassée est
+  **signalée** dans le panneau, à sa case, sans empêcher d'enregistrer : une carte s'écrit dans le
+  désordre, le portail vers la forêt avant la forêt. Concrétisé au `LOT-11`.
+- \anchor EX-EDIT-052 **EX-EDIT-052** — L'éditeur doit poser des **portails** — une carte cible et un
+  **point d'arrivée nommé**, jamais des coordonnées — et des **points d'arrivée** dont le nom est
+  unique dans la carte (`niveaux.md`). Leur traversée en jeu relève du graphe de cartes (`LOT-09`).
+  Concrétisé au `LOT-11`.
+- \anchor EX-EDIT-053 **EX-EDIT-053** — Le navigateur de cartes doit offrir une **vue du graphe du
+  monde** : les cartes, les portails qui les relient, et, visiblement distincts, les portails
+  cassés (carte ou point d'arrivée inconnu, carte illisible). Ouvrir une carte depuis le graphe
+  suit le même garde-fou que depuis la liste (`EX-EDIT-012`). Concrétisé au `LOT-11`.
+- \anchor EX-EDIT-054 **EX-EDIT-054** — Le combat se jouant sur la carte d'exploration, l'éditeur doit
+  **avertir** quand une rencontre posée n'est pas un **terrain tactique valide** : un combattant de
+  sa formation hors de la carte, sur un obstacle ou sur un autre — selon la règle même du montage
+  d'une rencontre (`core::BattleGrid::place`) —, ou une zone atteignable en un déplacement depuis le
+  déclencheur trop petite pour la rencontre et un groupe de quatre (`core::analyzeEncounterTerrain`,
+  seuils nommés). Avec l'outil « Entité », la zone et la formation de la rencontre sélectionnée se
+  voient sur la carte. Concrétisé au `LOT-11`.
+- \anchor EX-EDIT-055 **EX-EDIT-055** — L'**essai immédiat** (`EX-EDIT-008`) doit montrer les entités
+  posées et permettre d'**interagir** avec elles (coffre, panneau, PNJ, portail), pour qu'une pose se
+  vérifie sans quitter l'éditeur. Ce que l'essai ne sait pas encore faire — traverser un portail,
+  ouvrir le dialogue — est **dit** à l'écran plutôt que tu. Concrétisé au `LOT-11`.
 
 ## Traçabilité
 L'éditeur s'appuie sur `Core` (modèle et validation de niveau, `niveaux.md`) et sur le rendu de

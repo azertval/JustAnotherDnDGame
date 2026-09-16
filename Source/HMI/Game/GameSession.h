@@ -14,6 +14,7 @@
 #include "Core/Ecs/Systems/ParticleSystem.h"
 #include "Core/Ecs/World.h"
 #include "Core/Gameplay/MechanismController.h"
+#include "Core/Gameplay/WorldFlags.h"
 #include "Core/Levels/CameraFraming.h"
 #include "Core/Levels/GridPosition.h"
 #include "Core/Levels/Level.h"
@@ -23,6 +24,7 @@
 #include "Core/Physics/TopDownConfig.h"
 #include "HMI/Game/GameEvents.h"
 #include "HMI/Game/IGameMode.h"
+#include "HMI/Game/PlaytestInteraction.h"
 #include "HMI/Graphics/Camera2D.h"
 #include "HMI/Graphics/CameraZones.h"
 #include "HMI/Graphics/FollowCamera.h"
@@ -250,6 +252,22 @@ private:
     /// caméra ni par son culling (`LOT-52` TACHE-02/03). Sans effet si `_localization` est nul.
     void renderHud(int viewportWidth, int viewportHeight);
 
+    // --- Entités de carte dans l'essai immédiat (LOT-11) ---
+    //
+    // Hors des passes du mode (IGameModePasses) : l'essai immédiat est un outil d'auteur, pas une
+    // règle de jeu, et ajouter une passe obligerait chaque mode à la connaître.
+
+    /// Peuple le monde des entités de la couche `objects` (`core::spawnMapEntities`) et les
+    /// repère pour leur marqueur. Un portail reçoit ici, et seulement ici, un `core::Interactable`
+    /// **sans drapeau ni invite** : il devient désignable dans l'essai sans entrer dans
+    /// `core::knownInteractableKinds`, que le `LOT-09` complétera quand la traversée existera.
+    void spawnPlaytestEntities();
+    /// Décompte le compte rendu affiché puis, sur un appui d'« Interagir », désigne la cible
+    /// (`core::findInteractionTarget`) et en produit le compte rendu (`hmi::PlaytestInteraction`).
+    void updatePlaytestInteraction(const core::PlayerInput& input, float fixedDelta);
+    /// Compose et soumet le marqueur de chaque entité de carte, par la caméra du monde.
+    void renderEntityMarkers();
+
     const TextureAtlas& _atlas;
     TextureCache& _cache;
     const GameKeyBindings& _gameBindings;
@@ -341,6 +359,23 @@ private:
     MechanismEventState _previousMechanismEventState;
     bool _gameEventsInitialized = false;
     std::vector<GameEvent> _lastStepEvents;
+
+    // Entites de carte de l'essai immediat (LOT-11).
+    /// Une entite de la couche `objects`, et son rang dans `core::Level::entities()`.
+    struct PlaytestEntity {
+        core::Entity entity{};
+        std::size_t mapIndex = 0;
+        std::string markerKey;
+    };
+    std::vector<PlaytestEntity> _playtestEntities;
+    /// Drapeaux de l'essai : propres a la SESSION, jamais ceux d'une partie. Survivent au
+    /// rechargement sur echec (un coffre ouvert le reste, comme en jeu), pas a la fin de l'essai.
+    core::WorldFlags _playtestFlags;
+    /// Scene des marqueurs, distincte de celle de `_renderer` (voir renderEntityMarkers).
+    ComposedScene _markerScene;
+    /// Compte rendu de la derniere interaction, et les pas pendant lesquels il reste affiche.
+    std::optional<PlaytestMessage> _playtestMessage;
+    int _playtestMessageStepsLeft = 0;
 };
 
 }  // namespace hmi

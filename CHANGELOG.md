@@ -6,6 +6,25 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **L'éditeur produit les cartes du RPG (LOT-11).** `LevelEditor` reste l'outil d'auteur — décision
+  tranchée, `EX-EDIT-030` refondue — et sait désormais tout ce qu'il faut pour écrire une carte sans
+  toucher au JSON.
+  - **Trois couches** (panneau « Couches ») : la collision, le sol et le décor, chacun peint à part,
+    montré ou masqué, estompé ; la collision se superpose en masque coloré. Ajouter le premier sol
+    reprend l'image de la carte, et une couche d'image refuse les tuiles qui portent une règle.
+  - **Entités** (outil « Entité », panneau « Entités ») : coffre, panneau, PNJ, rencontre, portail,
+    point d'arrivée, entrée d'arène — posés, déplacés, retirés, renseignés dans un formulaire tiré
+    de la table des familles. Les dialogues, rencontres, cartes et points d'arrivée se choisissent
+    dans les catalogues livrés, et une référence cassée est signalée à sa case.
+  - **Portails** : une carte cible et un point d'arrivée nommé, jamais des coordonnées ; l'onglet
+    « Graphe » du navigateur de cartes montre le monde qu'ils relient, portails cassés compris.
+  - **Terrain tactique** : une rencontre posée dans un couloir, ou dont la formation tombe dans un
+    mur, est signalée, et sa zone se voit sur la carte.
+  - **Essai immédiat** : les entités posées s'y voient, avec leur marqueur généré, et répondent à la
+    touche d'interaction.
+  - **Correctif** : la fenêtre de l'éditeur construisait tous ses panneaux deux fois — la barre
+    d'outils montrait chaque outil en double.
+
 - **Atelier des PNJ : la preuve de concept (LOT-91).** Cinq figurines animées au style du jeu,
   produites par une méthode reproductible, entrent dans le dépôt — premières des 160 fiches du
   *Character Compendium*.

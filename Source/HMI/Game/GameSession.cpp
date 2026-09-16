@@ -14,11 +14,15 @@
 #include "Core/Ecs/Components/Actor.h"
 #include "Core/Ecs/Components/Animation.h"
 #include "Core/Ecs/Components/Collider.h"
+#include "Core/Ecs/Components/Interactable.h"
 #include "Core/Ecs/Components/Sprite.h"  // core::AtlasRegion, core::Color
 #include "Core/Ecs/Components/Transform.h"
 #include "Core/Ecs/Components/Velocity.h"
 #include "Core/Ecs/Systems/TopDownMovementSystem.h"
+#include "Core/Gameplay/Interaction.h"
+#include "Core/Gameplay/MapEntitySpawner.h"
 #include "Core/Levels/LevelScene.h"
+#include "Core/Levels/MapEntity.h"
 #include "Core/Levels/TileMap.h"
 #include "Core/Levels/TileType.h"
 #include "Core/Math/Rect.h"
@@ -27,10 +31,12 @@
 #include "Core/Physics/AabbVsAabb.h"
 #include "Core/Physics/PlayerInput.h"
 #include "Core/Physics/PlayerSpawn.h"
+#include "Core/World/EntityKinds.h"
 #include "HMI/Game/ExplorationMode.h"
 #include "HMI/Game/GameHud.h"
 #include "HMI/Graphics/AnimationCatalog.h"
 #include "HMI/Graphics/BitmapFont.h"
+#include "HMI/Graphics/EntityMarkers.h"
 #include "HMI/Graphics/MechanismVisuals.h"
 #include "HMI/Graphics/Parallax.h"
 #include "HMI/Graphics/PlayerSprite.h"
@@ -239,6 +245,10 @@ void GameSession::loadLevel(core::Level level) {
         _switchEntities.push_back(switchEntity);
     }
     _switchVisuals.assign(_switchEntities.size(), MechanismVisualState{});
+    // Entites de la couche objects (LOT-11) : APRES le reperage des portes et declencheurs, qui
+    // cherchent des entites a Sprite -- les entites de carte n'en portent pas, leur marqueur est
+    // compose a part (renderEntityMarkers).
+    spawnPlaytestEntities();
     spawnPlayer(levelRef.entry());
     HMI_LOG_INFO("Niveau charge : " + levelRef.name() + " (" + std::to_string(_levelWidth) + "x" +
                  std::to_string(_levelHeight) + ")");
@@ -640,7 +650,131 @@ core::LevelOutcome GameSession::update(const core::PlayerInput& intent, float fi
     }
     // L'ORDRE des passes appartient au mode, jamais a la session (LOT-05, EX-ARCH-002) : ici, plus
     // aucun choix -- ni sequence codee en dur, ni `if (mode == ...)`, seulement une delegation.
-    return _mode->step(*this, intent, fixedDelta);
+    const core::LevelOutcome outcome = _mode->step(*this, intent, fixedDelta);
+    if (outcome != core::LevelOutcome::Lost) {
+        // Sur un echec, le niveau vient d'etre recharge sous les pieds du personnage : un appui de
+        // ce pas-la viserait depuis l'entree, pas depuis la ou le joueur a appuye.
+        updatePlaytestInteraction(intent, fixedDelta);
+    }
+    return outcome;
+}
+
+// --- Entites de carte dans l'essai immediat (LOT-11) --------------------------------------------
+
+void GameSession::spawnPlaytestEntities() {
+    _playtestEntities.clear();
+    std::size_t mapIndex = 0;
+    core::spawnMapEntities(_world, *_level, _level->name(),
+                           [this, &mapIndex](core::Entity entity, const core::MapEntity& source) {
+                               if (source.type == core::PORTAL_ENTITY_TYPE &&
+                                   !_world.hasComponent<core::Interactable>(entity)) {
+                                   // Decision (LOT-11) : le portail devient DESIGNABLE dans
+                                   // l'essai, et seulement la. Sans drapeau (il ne se consomme pas)
+                                   // ni invite (le jeu n'en affiche aucune tant que le LOT-09 ne le
+                                   // traverse pas). core::knownInteractableKinds reste inchange :
+                                   // le jeu ne gagne pas une interaction qui ne fait rien.
+                                   core::Interactable portal;
+                                   portal.type = source.type;
+                                   portal.position = source.position;
+                                   _world.addComponent(entity, portal);
+                               }
+                               _world.addComponent(entity, RenderLayerTag{RenderLayer::Object});
+                               _playtestEntities.push_back(
+                                   PlaytestEntity{entity, mapIndex, entityMarkerKey(source.type)});
+                               ++mapIndex;
+                           });
+}
+
+void GameSession::updatePlaytestInteraction(const core::PlayerInput& input, float fixedDelta) {
+    if (_playtestMessageStepsLeft > 0 && --_playtestMessageStepsLeft == 0) {
+        _playtestMessage.reset();
+    }
+    if (!input.interactPressed || _playtestEntities.empty()) {
+        return;
+    }
+
+    std::vector<core::InteractionCandidate> candidates;
+    candidates.reserve(_playtestEntities.size());
+    for (const PlaytestEntity& placed : _playtestEntities) {
+        if (_world.hasComponent<core::Interactable>(placed.entity)) {
+            candidates.push_back(core::InteractionCandidate{
+                &_world.getComponent<core::Interactable>(placed.entity), placed.mapIndex});
+        }
+    }
+    if (candidates.empty()) {
+        return;
+    }
+
+    const core::Aabb box = playerBox();
+    const core::Vector2 center = (box.min + box.max) * 0.5f;
+    const core::GridPosition cell{static_cast<int>(std::floor(center.x)),
+                                  static_cast<int>(std::floor(center.y))};
+    const core::Vector2 facing = _world.getComponent<core::Actor>(_player).facing;
+    const core::TileMap& map = _level->tileMap();
+
+    // La regle du jeu d'abord : un coffre deja vide n'est pas une cible. Faute de cible, on
+    // redesigne SANS drapeaux pour pouvoir dire « deja ouvert » -- l'auteur qui essaie sa carte
+    // doit savoir pourquoi rien ne se passe, la ou le joueur, lui, n'a rien a apprendre.
+    core::InteractionTarget target =
+        core::findInteractionTarget(cell, facing, map, candidates, _playtestFlags);
+    bool alreadyConsumed = false;
+    if (!target.found()) {
+        const core::WorldFlags noFlags;
+        target = core::findInteractionTarget(cell, facing, map, candidates, noFlags);
+        if (!target.found()) {
+            return;  // rien devant le personnage : pas de compte rendu, pas de bruit.
+        }
+        alreadyConsumed = true;
+    } else {
+        (void)core::interact(target, _playtestFlags);
+    }
+
+    const core::MapEntity& source = _level->entities()[target.index];
+    _playtestMessage = playtestInteractionMessage(source, alreadyConsumed);
+    _playtestMessageStepsLeft = playtestMessageSteps(fixedDelta);
+}
+
+// Marqueurs des entites de carte (LOT-11). Une scene A PART, soumise apres celle du monde avec la
+// meme projection : SpriteRenderer ne compose que des entites a core::Sprite resolues par l'atlas
+// ou les skins, et un marqueur genere n'est ni l'un ni l'autre. Consequence assumee : les
+// marqueurs se trient entre eux par le pied (calque Object), mais passent DEVANT le personnage au
+// lieu de s'intercaler avec lui.
+void GameSession::renderEntityMarkers() {
+    if (_playtestEntities.empty()) {
+        return;
+    }
+    // Un coffre deja ouvert s'assombrit : il reste visible, et ne se confond plus avec un plein.
+    constexpr float CONSUMED_SHADE = 0.45f;
+    constexpr float CONSUMED_ALPHA = 0.6f;
+
+    _markerScene.clear();
+    _markerScene.setVisibleBounds(_camera.visibleBounds());
+    for (const PlaytestEntity& placed : _playtestEntities) {
+        const LoadedTexture* texture = _cache.markerTexture(placed.markerKey);
+        if (texture == nullptr) {
+            continue;  // creation impossible (device perdu) : deja journalise par le cache.
+        }
+        const core::Transform& transform = _world.getComponent<core::Transform>(placed.entity);
+        SpriteQuad quad;
+        quad.x = transform.position.x;
+        quad.y = transform.position.y;
+        quad.width = 1.0f;
+        quad.height = 1.0f;
+        if (_world.hasComponent<core::Interactable>(placed.entity)) {
+            const core::Interactable& interactable =
+                _world.getComponent<core::Interactable>(placed.entity);
+            if (interactable.isConsumable() && _playtestFlags.isSet(interactable.consumedFlag)) {
+                quad.r = CONSUMED_SHADE;
+                quad.g = CONSUMED_SHADE;
+                quad.b = CONSUMED_SHADE;
+                quad.a = CONSUMED_ALPHA;
+            }
+        }
+        (void)_markerScene.addSprite(RenderLayer::Object, texture->handle(),
+                                     depthSortOrder(quad.y + quad.height), quad);
+    }
+    _markerScene.sort();
+    submitComposedScene(_batch, _camera.projectionMatrix(), _markerScene);
 }
 
 // --- Passes du pas fixe (hmi::IGameModePasses) --------------------------------------------------
@@ -774,6 +908,7 @@ void GameSession::render(int viewportWidth, int viewportHeight, RenderMode mode,
                      _levelHeight, _level->textureOverrides(), _tileAnimations, _level->planes(),
                      hmi::planeParallaxActive(_cameraFraming.mode, _level->parallaxEnabled()),
                      _mechanisms ? &_mechanisms->collisionMap() : nullptr);
+    renderEntityMarkers();
 
     renderHud(viewportWidth, viewportHeight);
 }
@@ -813,8 +948,11 @@ void GameSession::renderHud(int viewportWidth, int viewportHeight) {
         }
     }
 
-    const std::vector<std::string> lines =
-        gameHudLines(_level->name(), *_localization, overlappingKey);
+    std::vector<std::string> lines = gameHudLines(_level->name(), *_localization, overlappingKey);
+    // Compte rendu de la derniere interaction de l'essai (LOT-11), sous le nom du tableau.
+    if (_playtestMessage) {
+        lines.push_back(formatPlaytestMessage(*_playtestMessage, *_localization));
+    }
 
     _hudScene.clear();
     float lineY = HUD_MARGIN;
