@@ -158,3 +158,24 @@ l'arête (pavés, sable).
      arête **en rouge épais**, le bloc C dit que la pièce se dresse contre elle (ou monte vers
      elle), et les descriptions de cellules perdent leurs « upper-left/right ».
   *Tour 2 préparé* ; rien n'est installé du tour 1. Tests : 24.
+- **16 septembre 2026, planche du Colisée, tour 2 : installée.** *Reçu* : 1672 × 941 encore,
+  36 pièces lues sans faute. L'arête rouge améliore l'orientation sans la fixer : murs justes,
+  mais pour arches, torches, bannières, portes, loges, gradins et escaliers, la seconde pièce de
+  la paire (« the same … ») est recopiée dans le sens de la première une fois sur deux.
+  *Décision de l'auteur* : **miroir à la découpe**. Une paire ne se dessine qu'en « -left » ; la
+  cellule « -right » déclare `mirrorOf` et n'est plus demandée au générateur (27 pièces
+  dessinées, planches de 24 et 3) ; la découpe la produit par retournement horizontal (emprise
+  inversée, ancre reportée), au prix d'une lumière venue d'en haut à droite sur la pièce
+  retournée. *Contrôle d'orientation automatique* (`_orienter`), étalonné sur les tours 1 et 2
+  et concordant avec l'œil : une pièce dressée le long de son arête a son point bas du côté de
+  l'arête (indices mesurés 0,16–0,26 contre 0,74–0,85) ; une pièce qui monte vers elle
+  (`"stance": "toward"`) penche sa moitié haute de ce côté (0,41–0,45 contre 0,58–0,60). Une
+  pièce dessinée contre l'autre arête est retournée, avec un avertissement.
+  *Installation* : le tour 2 a été généré sur la disposition du commit `74adbc0ee` ; il est
+  découpé avec elle, et ses 27 pièces encore dessinées sont reposées ×4 dans la grille actuelle
+  (script d'usage unique, hors dépôt). Ces **planches recomposées** sont les sources installées
+  sous `Source/Elements/Assets/Scene/coliseum/` (`planche-1.png`, `planche-2.png`, 36 textures,
+  `manifest.json`, 480 Kio) ; `--check` les reproduit. Retournées par le contrôle : torche,
+  bannière, loge, gradins, escalier « -left ». Relu à l'œil sur une planche de contrôle (textures
+  ×3, ancres marquées) : orientations, ancres et miroirs justes. `bench` est rogné de 2 px.
+  *Reste pour T4* : que l'arène se dessine avec ces textures (composeur du `LOT-86`).

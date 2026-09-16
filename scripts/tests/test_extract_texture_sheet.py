@@ -28,7 +28,7 @@ def test_les_dispositions_de_l_atelier_sont_conformes():
 
 def test_une_grille_se_deduit_sans_chevauchement(colisee):
     poses = T.grille(colisee)
-    assert len(poses) == len(colisee['cells'])
+    assert len(poses) == len(T.dessinees(colisee)) < len(colisee['cells'])
     largeur, hauteur = T.taille_planche(colisee)
     for numero in range(1, T.planches(colisee) + 1):
         boites = [p['boite'] for p in poses if p['planche'] == numero]
@@ -147,6 +147,12 @@ def test_des_planches_se_decoupent_s_installent_et_se_reverifient(depot, colisee
     manifeste = json.loads((racine / 'manifest.json').read_text(encoding='utf-8'))
     assert len(manifeste['textures']) == len(colisee['cells'])
     assert [f['file'] for f in manifeste['sheets']] == ['planche-1.png', 'planche-2.png']
+    mur = np.asarray(Image.open(racine / 'wall-left.png'))
+    assert np.array_equal(np.asarray(Image.open(racine / 'wall-right.png')), mur[:, ::-1])
+    assert manifeste['textures']['scene/coliseum/wall-right']['mirrorOf'] == 'scene/coliseum/wall-left'
+    porte = manifeste['textures']['scene/coliseum/gate-right']
+    assert porte['footprint'] == [2, 1]
+    assert porte['anchor'][0] == porte['size'][0] - manifeste['textures']['scene/coliseum/gate-left']['anchor'][0]
     sable = manifeste['textures']['scene/coliseum/sand']
     assert (sable['size'], sable['anchor'], sable['sheet']) == ([68, 42], [34, 0], 1)
     assert Image.open(racine / 'sand.png').size == (68, 42)
@@ -203,7 +209,7 @@ def test_les_pieces_se_lisent_hors_des_cellules_dans_l_ordre(colisee):
     textures, manifeste, erreurs, _ = T.decouper(
         colisee, [T.mettre_au_format(colisee, p) for p in deformees])
     assert erreurs == []
-    assert list(manifeste['textures']) == [T.cle(colisee, c) for c in colisee['cells']]
+    assert set(manifeste['textures']) == {T.cle(colisee, c) for c in colisee['cells']}
     assert textures['scene/coliseum/sand'].size == (68, 42)
     assert manifeste['textures']['scene/coliseum/sand']['scale'] == pytest.approx(1 / (1.5 * s), rel=0.05)
 
@@ -217,3 +223,36 @@ def test_l_arete_d_une_piece_orientee_est_rouge_dans_le_gabarit(colisee):
     ox, oy = mur['origine']
     (hx, hy), _, _, (gx, gy) = [(ox + x * s, oy + y * s) for x, y in T.sommets(colisee, mur['cellule'])]
     assert image.getpixel(((hx + gx) // 2, (hy + gy) // 2))[:3] == (220, 40, 40)
+
+
+def test_un_miroir_doit_nommer_une_cellule_dessinee(colisee):
+    miroir = next(c for c in colisee['cells'] if 'mirrorOf' in c)
+    miroir['mirrorOf'] = 'inexistante'
+    assert any('mirrorOf' in f for f in T.valider(colisee))
+
+
+@pytest.mark.parametrize('arete, stance, dessin, retournee', [
+    ('left', 'along', 'bas-gauche', False),
+    ('left', 'along', 'bas-droite', True),
+    ('right', 'along', 'bas-gauche', True),
+    ('left', 'toward', 'haut-droite', True),
+    ('left', 'toward', 'haut-gauche', False),
+])
+def test_une_piece_dessinee_contre_l_autre_arete_est_retournee(colisee, arete, stance, dessin, retournee):
+    np = pytest.importorskip('numpy')
+    cellule = {'name': 'essai', 'class': 'tall', 'edge': arete, 'stance': stance, 'prompt': 'x'}
+    texture = np.zeros((100, 68, 4), dtype=np.uint8)
+    if dessin.startswith('bas'):
+        # un mur en biais : sa base descend vers le côté nommé
+        for x in range(68):
+            bas = 99 - (x * 20 // 68 if dessin == 'bas-gauche' else (67 - x) * 20 // 68)
+            texture[bas - 60:bas, x] = 255
+    else:
+        # des gradins : la moitié haute penche vers le côté nommé
+        texture[50:100, :] = 255
+        texture[0:50, :34] = 255 if dessin == 'haut-gauche' else 0
+        texture[0:50, 34:] = 255 if dessin == 'haut-droite' else 0
+    avertissements = []
+    sortie = T._orienter(colisee, cellule, texture, avertissements)
+    assert np.array_equal(sortie, texture[:, ::-1]) == retournee
+    assert bool(avertissements) == retournee

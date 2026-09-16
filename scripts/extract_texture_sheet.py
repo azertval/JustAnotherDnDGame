@@ -95,7 +95,28 @@ def pas(disposition: dict) -> int:
     return int(disposition["sheet"]["scale"])
 
 
+def source_du_miroir(disposition: dict, cellule: dict) -> dict | None:
+    """La cellule dessinée dont `cellule` est le miroir, ou None."""
+    nom = cellule.get("mirrorOf")
+    return next((c for c in disposition["cells"] if c.get("name") == nom), None) if nom else None
+
+
+def dessinees(disposition: dict) -> list[dict]:
+    """Les cellules que le générateur dessine : toutes, sauf les miroirs (`mirrorOf`).
+
+    Aux tours 1 et 2 du Colisée, la seconde pièce d'une paire orientée (« the same … ») a été
+    recopiée dans le sens de la première au lieu d'être mise en miroir, une fois sur deux. Décision
+    de l'auteur : une seule orientation se dessine, l'autre est son retournement horizontal, au
+    prix d'une lumière venue d'en haut à droite sur la pièce retournée.
+    """
+    return [c for c in disposition["cells"] if "mirrorOf" not in c]
+
+
 def emprise(disposition: dict, cellule: dict) -> tuple[int, int]:
+    source = source_du_miroir(disposition, cellule)
+    if source is not None:
+        a, b = emprise(disposition, source)
+        return b, a
     a, b = cellule.get("footprint", disposition["classes"][cellule["class"]]["footprint"])
     return int(a), int(b)
 
@@ -147,7 +168,7 @@ def grille(disposition: dict) -> list[dict]:
             })
         y += h_rangee
 
-    for cellule in disposition["cells"]:
+    for cellule in dessinees(disposition):
         cw, ch = canevas(disposition, cellule)
         w, h = (cw + 2 * MARGE) * s, (ch + 2 * MARGE) * s
         if w > largeur or h > hauteur:
@@ -238,6 +259,16 @@ def valider(disposition: dict) -> list[str]:
         vus.add(nom)
         if cellule.get("class") not in disposition["classes"]:
             fautes.append(f"{ident} : cellule « {nom} » : classe « {cellule.get('class')} » inconnue.")
+        if "mirrorOf" in cellule:
+            source = source_du_miroir(disposition, cellule)
+            if source is None or "mirrorOf" in source:
+                fautes.append(f"{ident} : cellule « {nom} » : « mirrorOf » doit nommer une cellule "
+                              "dessinée.")
+            elif source.get("class") != cellule.get("class"):
+                fautes.append(f"{ident} : cellule « {nom} » : classe différente de sa source.")
+            continue
+        if cellule.get("stance", "along") not in ("along", "toward"):
+            fautes.append(f"{ident} : cellule « {nom} » : « stance » vaut along ou toward.")
         if not cellule.get("prompt", "").strip():
             fautes.append(f"{ident} : cellule « {nom} » sans description pour le générateur.")
         if "edge" in cellule and cellule["edge"] not in ARETES:
@@ -511,6 +542,40 @@ def _poser(disposition: dict, cellule: dict, art, avertissements: list[str]):
     return texture, (b * DEMI_L, h - (a + b) * DEMI_H)
 
 
+def _orienter(disposition: dict, cellule: dict, texture, avertissements: list[str]):
+    """Contrôle l'orientation d'une pièce dressée le long de son arête, et la retourne si besoin.
+
+    Bâtie le long de l'arête gauche (du sommet gauche au sommet haut), une pièce descend vers la
+    gauche : son point le plus bas est à gauche de sa largeur ; le long de l'arête droite, à droite.
+    Au tour 2 du Colisée, cet indice (x moyen des trois rangées les plus basses, rapporté à la
+    largeur) valait de 0,16 à 0,26 ou de 0,74 à 0,85, et concordait avec l'œil. Une pièce dessinée
+    contre l'autre arête est une orientation juste de l'autre côté : elle est retournée.
+
+    Une pièce qui MONTE vers son arête (`"stance": "toward"` : gradins, escaliers) a son point bas
+    au milieu ; c'est sa moitié haute qui penche du côté de l'arête. L'indice est alors le x moyen
+    de cette moitié : 0,41 et 0,45 au tour 1, 0,58 et 0,60 au tour 2 (montés vers la droite, à l'œil
+    aussi). Les sols et les pièces sans arête ne se mesurent pas.
+    """
+    np, _, _ = _pil()
+    arete = cellule.get("edge")
+    if arete not in ("left", "right") or disposition["classes"][cellule["class"]]["rise"] == 0:
+        return texture
+    k = cle(disposition, cellule)
+    ys, xs = np.nonzero(texture[..., 3])
+    if cellule.get("stance", "along") == "toward":
+        milieu = (ys.min() + ys.max()) / 2
+        indice, marge = xs[ys <= milieu].mean() / texture.shape[1], 0.05
+    else:
+        indice, marge = xs[ys >= ys.max() - 2].mean() / texture.shape[1], 0.1
+    if abs(indice - 0.5) < marge:
+        avertissements.append(f"{k} : orientation indécise (indice {indice:.2f}), à vérifier à l'œil.")
+        return texture
+    if (indice < 0.5) != (arete == "left"):
+        avertissements.append(f"{k} : dessinée contre l'autre arête (indice {indice:.2f}), retournée.")
+        return texture[:, ::-1].copy()
+    return texture
+
+
 def decouper(disposition: dict, planches_recues: list) -> tuple[dict, dict, list[str], list[str]]:
     """Les textures des planches reçues : {clé: image}, manifeste, erreurs, avertissements.
 
@@ -556,7 +621,18 @@ def decouper(disposition: dict, planches_recues: list) -> tuple[dict, dict, list
                                    f"{COUVERTURE_SOL:.0%} attendus.")
             if not texture[..., 3].any():
                 erreurs.append(f"{k} : pièce vide.")
+            else:
+                texture = _orienter(disposition, cellule, texture, avertissements)
             brutes[k] = (cellule, numero, piece["boite"], facteur, haut, texture)
+
+    for cellule in disposition["cells"]:
+        source = source_du_miroir(disposition, cellule)
+        if source is None or cle(disposition, source) not in brutes:
+            continue
+        _, numero, boite, facteur, haut, texture = brutes[cle(disposition, source)]
+        miroir = texture[:, ::-1].copy()
+        brutes[cle(disposition, cellule)] = (cellule, numero, boite, facteur,
+                                             (miroir.shape[1] - haut[0], haut[1]), miroir)
 
     # une palette commune au lieu : quantifier pièce par pièce, ou planche par planche, donnerait
     # des palettes voisines qui ne s'accordent pas une fois les tuiles posées côte à côte
@@ -575,6 +651,8 @@ def decouper(disposition: dict, planches_recues: list) -> tuple[dict, dict, list
             fichiers[k] = {
                 "file": f"{cellule['name']}.png",
                 "class": cellule["class"],
+                **({"mirrorOf": cle(disposition, source_du_miroir(disposition, cellule))}
+                   if "mirrorOf" in cellule else {}),
                 "footprint": list(emprise(disposition, cellule)),
                 "size": [int(finale.shape[1]), int(finale.shape[0])],
                 # le sommet haut de l'emprise : le coin (0, 0) de la case qui porte la pièce
