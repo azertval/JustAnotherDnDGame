@@ -270,3 +270,15 @@ l'arête (pavés, sable).
   case, décalé de 17 px d'art pour une emprise de 2 × 1 ; elle l'est désormais sur le milieu de
   l'emprise (le Colisée, aux pièces libres d'une case, ne change pas : `--check` vert). Rien
   n'est installé.
+- **16 septembre 2026, Martpart : recomposition** (*décision de l'auteur*, plutôt qu'un tour 3
+  complet ou un étirement des sols). Les cinq sols du tour 1, les douze autres pièces du tour 2,
+  sur une planche recomposée par un script d'usage unique, hors dépôt
+  (`<TEXTURE_ATELIER>/martpart/recomposition/recompose.py`). *Piège écarté* : reposer la texture
+  découpée ×4 n'est pas fidèle — un sol dont la découpe a perdu un pixel de pointe est remesuré
+  plus étroit, donc **étiré** à la redécoupe (le seuil du tour 2 passait ainsi de 90 à 96 %, sans
+  être meilleur). On repose donc les **pixels source** de chaque pièce (sa boîte sur la planche
+  reçue, masquée à ses composantes), mis à l'échelle de sa découpe : la redécoupe de la planche
+  recomposée rend les mêmes tailles et ancres, alpha identique à 99,5 % au moins. *Reste* :
+  **le seuil**, en marches au tour 1, trop plat au tour 2 (91 %). La classe `floor` du modèle
+  précise « aussi large et aussi haut que le contour, jamais plus plat » ; `commande martpart 3`
+  préparé, dont seul le seuil sera pris s'il passe. Rien n'est installé.
