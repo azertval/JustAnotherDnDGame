@@ -50,6 +50,7 @@ add_library(Core STATIC
     Combat/EnemyAi.cpp
     Combat/CombatPreview.cpp
     Combat/IsoProjection.cpp
+    Combat/TacticalTerrain.cpp
     Rpg/RpgEnumNames.cpp
     Rpg/Multiclassing.cpp
     Levels/TileMap.cpp
