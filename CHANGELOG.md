@@ -6,6 +6,17 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **Atelier des PNJ : la preuve de concept (LOT-91).** Cinq figurines animées au style du jeu,
+  produites par une méthode reproductible, entrent dans le dépôt — premières des 160 fiches du
+  *Character Compendium*.
+  - **Assets** (`Source/Elements/Assets/Npc/`) : Anariel, Lizz, Xorius, Nakral et Jade, six bandes
+    chacun (`idle`, `walk`, `hit` en 48 × 64 ; `death`, `attack`, `cast` en 96 × 64), leurs
+    `.anim.json` et un portrait pixel art, listés par `manifest.json`.
+  - **Au Colisée**, quatre héros prennent l'apparence d'un PNJ (champ `replaces` du manifeste) ;
+    chaque bande se dessine à sa largeur réelle, centrée au même pied. Sans manifeste, rien ne
+    change.
+  - **La méthode** (`Documentation/Lot/LOT-91-atelier-pnj/`) : l'epic, le journal du PoC et son
+    verdict, et l'atelier versionné (prompts, ancres, références par PNJ, scripts).
 - **Fan game non commercial : licence, crédits et nom.** Le projet dit enfin ce qu'il est — un jeu
   gratuit, non officiel, inspiré de *Dungeons & Dragons* et de *Tanares* — et sa licence cesse de
   le contredire.
