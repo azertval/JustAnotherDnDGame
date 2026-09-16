@@ -557,20 +557,34 @@ def _poser(disposition: dict, cellule: dict, art, avertissements: list[str]):
         texture[:min(ch, h_art), :min(cw, w_art)] = art[:ch, :cw]
         texture[~_masque_emprise(disposition, cellule)] = 0
         return texture, sommets(disposition, cellule)[0]
-    if w_art > cw:
-        avertissements.append(f"{k} : {w_art} px d'art de large pour une emprise de {cw}, rognée.")
     h = max(ch, h_art)
     if h_art > ch:
         avertissements.append(f"{k} : {h_art} px d'art de haut, la classe en prévoit {ch} ; "
                               "canevas agrandi.")
-    texture = np.zeros((h, cw, 4), dtype=np.uint8)
-    gauche = 0
-    if not cellule.get("fill", True):
-        bas_x = sommets(disposition, cellule)[2][0]
-        gauche = max(0, min(cw - w_art, bas_x - w_art // 2))
-    zone = art[:, :cw - gauche]
-    texture[h - h_art:, gauche:gauche + zone.shape[1]] = zone
-    return texture, (b * DEMI_L, h - (a + b) * DEMI_H)
+    if cellule.get("fill", True):
+        if w_art > cw:
+            avertissements.append(f"{k} : {w_art} px d'art de large pour une emprise de {cw}, rognée.")
+        texture = np.zeros((h, cw, 4), dtype=np.uint8)
+        zone = art[:, :cw]
+        texture[h - h_art:, :zone.shape[1]] = zone
+        return texture, (b * DEMI_L, h - (a + b) * DEMI_H)
+    # Une pièce libre est centrée sur le sommet bas de son emprise. Plus large qu'elle, elle n'est
+    # PAS rognée : le canevas s'élargit de part et d'autre et l'ancre suit (tour 1 de Martpart : des
+    # étals de 170 px d'art pour une emprise de 102 perdaient leur côté droit). Elle déborde alors
+    # sur les cases voisines, comme tout objet isométrique plus large que sa case. Décision de
+    # l'auteur, 16 septembre 2026.
+    bas_x = sommets(disposition, cellule)[2][0]
+    debut = bas_x - w_art // 2
+    deborde_g, deborde_d = max(0, -debut), max(0, debut + w_art - cw)
+    if deborde_g or deborde_d:
+        avertissements.append(f"{k} : {w_art} px d'art de large pour une emprise de {cw} ; "
+                              f"canevas élargi ({deborde_g} à gauche, {deborde_d} à droite).")
+        debut = max(0, debut)
+    else:
+        debut = max(0, min(cw - w_art, debut))
+    texture = np.zeros((h, cw + deborde_g + deborde_d, 4), dtype=np.uint8)
+    texture[h - h_art:, debut:debut + w_art] = art
+    return texture, (b * DEMI_L + deborde_g, h - (a + b) * DEMI_H)
 
 
 def _orienter(disposition: dict, cellule: dict, texture, avertissements: list[str]):

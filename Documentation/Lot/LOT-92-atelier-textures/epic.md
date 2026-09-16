@@ -235,3 +235,27 @@ l'arête (pavés, sable).
     non tranché* : le facteur d'affichage de la scène n'est pas entier (cadrage, figurines × 1,25).
   Tests : 27 dans `test_extract_texture_sheet.py` (nouveaux : Martpart depuis sa seule fiche,
   modèle inconnu refusé, champ du fichier prioritaire).
+- **16 septembre 2026, Martpart, tour 1.** *Reçu* : une planche à fond transparent, 1672 × 941 ;
+  18 pièces dans l'ordre, style de la maquette tenu, contenu tiré de la fiche (étals à auvents,
+  panneau d'avis, marchandises, étal d'armes, bannière sur la façade) ; l'Illu Die Arena n'est pas
+  dessinée. Sols, murs, angle, lampadaire et façade justes ; le mur, dessiné contre l'autre arête,
+  est retourné par `_orienter`. *Écarts* :
+  1. `doorstep` dessiné en marches, refusé par la découpe (94 % du losange) ;
+  2. porte et fenêtre **de face**, pas le long de l'arête (l'écart de la maquette) ; le contrôle
+     d'orientation ne le voit pas, la pièce étant symétrique ;
+  3. objets et grands éléments **plus larges que leur emprise** (étals de ~170 px d'art pour 102),
+     que la découpe **rognait** ;
+  4. porte et fenêtre ~11 % plus hautes que la classe (canevas agrandi, non bloquant).
+  *Décisions* :
+  - **une pièce libre (`"fill": false`) n'est plus rognée** (*décision de l'auteur*) : centrée sur
+    le sommet bas de son emprise, elle élargit son canevas de part et d'autre et l'**ancre du
+    manifeste suit** ; elle déborde sur les cases voisines, comme tout objet isométrique plus large
+    que sa case. Une pièce pleine reste rognée à son emprise. Conséquence pour le `LOT-09` : poser
+    une texture par l'`anchor` de son manifeste, pas par un (34, hauteur − 42) supposé ;
+  - on corrige le modèle, jamais l'image : seuil « dalle plate, sans marche ni hauteur » ; porte et
+    fenêtre décrites comme « le mur de la cellule 7, vu sous le même angle, percé d'une porte /
+    d'une fenêtre ».
+  *Constat, non corrigé* : les deux grands éléments sont dessinés sur une emprise carrée plutôt
+  qu'allongée ; centrés sur le sommet bas de leur emprise de 2 × 1, ils la débordent surtout à
+  droite (18 et 52 px d'art). *Rien n'est installé du tour 1* ; `commande martpart 2` préparé.
+  Tests : 28.
