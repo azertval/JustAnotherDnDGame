@@ -1,9 +1,52 @@
 {
-  "generated": "2026-09-15 21:03 UTC",
+  "generated": "2026-09-16 05:29 UTC",
   "commit": "0efad242f",
-  "run_url": "https://github.com/azertval/JustAnotherDnDGame/actions/runs/35022397784",
+  "run_url": "https://github.com/azertval/JustAnotherDnDGame/actions/runs/35059687593",
   "coverage": null,
-  "benchmarks": null,
+  "benchmarks": {
+    "suite": "Combat et niveaux (Release, windows-2022)",
+    "runs": 1,
+    "date": "2026-09-16 02:38 UTC",
+    "commit": "0efad242f",
+    "benches": [
+      {
+        "name": "ReachableAreaDashing",
+        "value": 158352.86830356842,
+        "unit": "ns/iter",
+        "change_percent": null
+      },
+      {
+        "name": "FindPathAcrossGrid",
+        "value": 216280.85937500428,
+        "unit": "ns/iter",
+        "change_percent": null
+      },
+      {
+        "name": "LineOfSightAcrossGrid",
+        "value": 56996.785728634626,
+        "unit": "ns/iter",
+        "change_percent": null
+      },
+      {
+        "name": "CoverFromWithInterposed",
+        "value": 161408.54511970468,
+        "unit": "ns/iter",
+        "change_percent": null
+      },
+      {
+        "name": "PlanTurnFourVersusFour",
+        "value": 1107256.718750005,
+        "unit": "ns/iter",
+        "change_percent": null
+      },
+      {
+        "name": "LoadShippedLevel",
+        "value": 907769.5914266576,
+        "unit": "ns/iter",
+        "change_percent": null
+      }
+    ]
+  },
   "coverage_html": false,
-  "benchmarks_page": false
+  "benchmarks_page": true
 }
