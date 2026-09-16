@@ -258,4 +258,5 @@ l'arête (pavés, sable).
   *Constat, non corrigé* : les deux grands éléments sont dessinés sur une emprise carrée plutôt
   qu'allongée ; centrés sur le sommet bas de leur emprise de 2 × 1, ils la débordent surtout à
   droite (18 et 52 px d'art). *Rien n'est installé du tour 1* ; `commande martpart 2` préparé.
-  Tests : 28.
+  Colisée redécoupé depuis ses planches installées : seul `bench` change (rogné de 2 px, il passe
+  à 70 px d'art, ancre à 35) ; le composeur ne le pose pas ; `--check colisee` vert. Tests : 28.
