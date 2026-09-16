@@ -167,6 +167,24 @@ public:
      */
     [[nodiscard]] const LoadedTexture* missingTexture();
 
+    /**
+     * @brief Texture du **marqueur généré** d'une clé d'asset (`core::assetMarker`, `LOT-39`),
+     *        créée une seule fois à la demande.
+     *
+     * Le marqueur tient lieu d'illustration tant qu'aucune n'existe : il ne lit rien sur le disque,
+     * et la même clé donne toujours la même image. Il est peint à `ENTITY_MARKER_SIZE_PIXELS` de
+     * côté (`HMI/Graphics/EntityMarkers.h`) — une case — puisque ses consommateurs (l'éditeur,
+     * l'essai immédiat, `LOT-11`) le posent sur la case d'une entité.
+     *
+     * Mémoïsé sous sa clé, **échec compris**, dans un registre distinct des fichiers : une clé de
+     * marqueur n'est pas un nom de fichier et ne doit pas pouvoir en masquer un. `invalidateAll`
+     * le vide avec le reste.
+     * @param key Clé d'asset (`famille/identifiant`, cf. `hmi::entityMarkerKey`).
+     * @return La texture (propriété du cache), ou `nullptr` si la clé est malformée ou que la
+     *         création GPU a échoué — jamais d'exception (`EX-NFR-040`).
+     */
+    [[nodiscard]] const LoadedTexture* markerTexture(const std::string& key);
+
     /// @return Le résolveur de chemins d'assets utilisé par ce cache.
     [[nodiscard]] const AssetPaths& assetPaths() const noexcept {
         return _paths;
@@ -202,6 +220,8 @@ private:
     /// d'invalidation, conjointe entre texture et animation.
     CacheRegistry<AnimationDescription> _animationEntries;
     std::optional<LoadedTexture> _missingTexture;
+    /// Clé d'asset → texture de son marqueur généré (`markerTexture`, `LOT-11`).
+    CacheRegistry<LoadedTexture> _markerEntries;
 };
 
 /**

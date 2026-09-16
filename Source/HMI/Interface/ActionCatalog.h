@@ -63,7 +63,7 @@ struct EditorActionSpec {
 /// Nombre total d'actions du catalogue (six outils de niveau, cinq outils de canevas pixel art,
 /// onze commandes principales, quatre commandes de fichier de l'atelier, quatre commandes de
 /// région de l'atelier).
-constexpr int EDITOR_ACTION_CATALOG_COUNT = 30;
+constexpr int EDITOR_ACTION_CATALOG_COUNT = 31;
 
 /// @return Le catalogue complet, dans l'ordre d'affichage voulu de la barre d'outils : les huit
 ///         outils de niveau (ordre de la palette/du panneau Outils historique), les outils

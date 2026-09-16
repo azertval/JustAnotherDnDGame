@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>EntityPanel</class>
+ <!-- Panneau « Entites » (LOT-11) : la famille que l'outil Entite pose, la liste des entites de la
+      carte, les proprietes de l'entite selectionnee (formulaire construit en code depuis la table
+      des familles, core::knownEntityKinds), et les avertissements. Les libelles poses ici sont des
+      reperes pour Qt Designer : retranslateUi les remplace tous (EX-REN-033). -->
+ <widget class="QWidget" name="EntityPanel">
+  <layout class="QVBoxLayout" name="layout">
+   <property name="leftMargin"><number>0</number></property>
+   <property name="topMargin"><number>0</number></property>
+   <property name="rightMargin"><number>0</number></property>
+   <property name="bottomMargin"><number>0</number></property>
+   <item>
+    <layout class="QHBoxLayout" name="placeRow">
+     <item>
+      <widget class="QLabel" name="placeLabel">
+       <property name="text"><string>Poser</string></property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="kindCombo">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed"><horstretch>1</horstretch><verstretch>0</verstretch></sizepolicy>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QTableWidget" name="entityTable">
+     <property name="selectionBehavior"><enum>QAbstractItemView::SelectRows</enum></property>
+     <property name="selectionMode"><enum>QAbstractItemView::SingleSelection</enum></property>
+     <property name="editTriggers"><set>QAbstractItemView::NoEditTriggers</set></property>
+     <property name="columnCount"><number>2</number></property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="propertiesBox">
+     <property name="title"><string>Propriétés</string></property>
+     <layout class="QVBoxLayout" name="propertiesLayout">
+      <item>
+       <widget class="QLabel" name="selectionLabel">
+        <property name="wordWrap"><bool>true</bool></property>
+        <property name="text"><string>Aucune entité sélectionnée.</string></property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QWidget" name="propertiesForm"/>
+      </item>
+      <item>
+       <widget class="QPushButton" name="removeButton">
+        <property name="enabled"><bool>false</bool></property>
+        <property name="text"><string>Retirer</string></property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="warningsBox">
+     <property name="title"><string>Avertissements</string></property>
+     <layout class="QVBoxLayout" name="warningsLayout">
+      <item>
+       <widget class="QListWidget" name="warningList">
+        <property name="wordWrap"><bool>true</bool></property>
+        <property name="selectionMode"><enum>QAbstractItemView::SingleSelection</enum></property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

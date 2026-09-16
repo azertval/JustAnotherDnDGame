@@ -34,6 +34,10 @@ class Localization;
  * erreurs sont signalées à l'utilisateur, jamais silencieuses. Un double-clic (ou « Ouvrir ») émet
  * `levelOpenRequested` — le garde-fou des modifications non enregistrées est appliqué par
  * l'appelant (`MainWindow`).
+ *
+ * Un second onglet montre le **graphe du monde** (`LOT-11`, `hmi::WorldGraphView`) : les cartes du
+ * même dossier et leurs portails. Il est relu à chaque `refresh()` ; un double-clic sur une carte
+ * émet le même `levelOpenRequested` que la liste.
  */
 class LevelBrowserPanel : public QWidget {
     Q_OBJECT
@@ -42,10 +46,15 @@ public:
     explicit LevelBrowserPanel(std::filesystem::path levelsDir, QWidget* parent = nullptr);
     ~LevelBrowserPanel() override;
 
-    /// Recharge la liste depuis le dossier (après une opération ou un changement externe).
+    /// Recharge la liste depuis le dossier (après une opération ou un changement externe), puis le
+    /// graphe du monde.
     void refresh();
 
-    /// Applique la langue active (boutons, champ de recherche).
+    /// Relit le graphe du monde depuis le dossier, sans toucher à la liste (après un
+    /// enregistrement, qui peut changer les portails d'une carte sans changer les fichiers).
+    void refreshWorldGraph();
+
+    /// Applique la langue active (onglets, boutons, champ de recherche, graphe).
     void retranslateUi(const Localization& loc);
 
 signals:

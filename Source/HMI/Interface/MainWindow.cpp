@@ -57,6 +57,9 @@
 #include "HMI/Diagnostics/SessionLog.h"
 #include "HMI/Editor/AssetReferences.h"
 #include "HMI/Editor/EditorStatus.h"
+#include "HMI/Editor/EntityPanel.h"
+#include "HMI/Editor/EntityReferences.h"
+#include "HMI/Editor/LayersPanel.h"
 #include "HMI/Editor/LevelBrowserPanel.h"
 #include "HMI/Editor/LevelFileOperations.h"
 #include "HMI/Editor/LinkPanel.h"
@@ -93,13 +96,14 @@ namespace {
 // Version de la disposition sérialisée : à incrémenter si l'ensemble des docks change, pour
 // invalider proprement une disposition sauvegardée devenue incompatible (`restoreState`).
 constexpr int LAYOUT_VERSION =
-    9;  // 9 : retrait du panneau Décors avec le système de décors (LOT-69 TACHE-04)
-        // 8 : espaces de travail exclusifs, une disposition par espace (LOT-68)
-        // 7 : panneau de palette de l'atelier pixel art rejoint le regroupement (LOT-54 TACHE-07)
-        // 6 : atelier pixel art (canevas + historique) rejoint le regroupement Niveaux/Liens
-        //     (LOT-54 TACHE-04)
-        // 5 : panneau Outils devenu Decors (barre d'outils + inspecteur), Textures sort du
-        //     regroupement en onglets (LOT-57, amendement post-essai manuel)
+    10;  // 10 : panneaux Couches et Entites (LOT-11)
+         // 9 : retrait du panneau Décors avec le système de décors (LOT-69 TACHE-04)
+         // 8 : espaces de travail exclusifs, une disposition par espace (LOT-68)
+         // 7 : panneau de palette de l'atelier pixel art rejoint le regroupement (LOT-54 TACHE-07)
+         // 6 : atelier pixel art (canevas + historique) rejoint le regroupement Niveaux/Liens
+         //     (LOT-54 TACHE-04)
+         // 5 : panneau Outils devenu Decors (barre d'outils + inspecteur), Textures sort du
+         //     regroupement en onglets (LOT-57, amendement post-essai manuel)
 
 // Clés de persistance (portée application ; l'organisation/appli sont fixées dans `main`,
 // HMI/Main.cpp).
@@ -264,144 +268,10 @@ MainWindow::MainWindow(core::MemoryLogSink* sessionLog)
     // visibilite, qui est une aide d'edition.
     connectPlanesPanel();
 
-    // Panneau Textures : agit sur le catalogue dont le viewport est proprietaire, et lui signale
-    // le jeu courant. Aucune scene n'est reconstruite -- l'apparence est resolue a la composition,
-    // donc l'image suivante suffit a montrer le resultat (LOT-42).
-    _textures->setCatalog(&_viewport->skinCatalog());
-    _textures->setLevelProperties(_viewport->draft().background(), _viewport->draft().skinSet());
-    _textures->setLevelCameraFraming(_viewport->draft().cameraFraming());
-
-    // Section « Fond » (LOT-44) : les deux modifications passent par le viewport (seul
-    // proprietaire du brouillon), exactement comme le panneau Liens ci-dessus.
-    connect(_textures, &TexturePanel::backgroundChanged, _viewport, [this](const QString& name) {
-        _viewport->setLevelBackground(name.isEmpty() ? std::nullopt
-                                                     : std::make_optional(name.toStdString()));
-    });
-    connect(_textures, &TexturePanel::levelSkinSetChanged, _viewport, [this](const QString& name) {
-        _viewport->setLevelSkinSet(name.isEmpty() ? std::nullopt
-                                                  : std::make_optional(name.toStdString()));
-    });
-    // Section « Cadrage » (LOT-64, EX-EDIT-028) : meme separation.
-    connect(_textures, &TexturePanel::cameraFramingChanged, _viewport,
-            &GameViewport::setLevelCameraFraming);
-    connect(_textures, &TexturePanel::cameraZoneRemoveRequested, _viewport,
-            &GameViewport::removeCameraZone);
-
-    // Palette fidele au canevas (EX-EDIT-027) : elle interroge le MEME catalogue, et se rafraichit
-    // aux trois evenements qui rendent ses vignettes obsoletes -- bascule de mode, changement de
-    // jeu, reassignation. Peindre sans voir ce que l'on pose serait une regression d'usage.
-    _palette->setSkinSource(hmi::executableDirectory() / "Assets" / "Skins",
-                            &_viewport->skinCatalog());
-    _palette->refreshThumbnails(_viewport->renderMode(), _textures->currentSet());
-
-    connect(_textures, &TexturePanel::assignmentsChanged, this, [this] {
-        _viewport->setSkinSet(_textures->currentSet());
-        _palette->refreshThumbnails(_viewport->renderMode(), _textures->currentSet());
-    });
-    connect(_viewport, &GameViewport::renderModeChanged, this, [this](RenderMode mode) {
-        _palette->refreshThumbnails(mode, _textures->currentSet());
-    });
-
-    // Le catalogue de skins n'est reellement charge qu'a la premiere exposition du canevas
-    // (`GameViewport::ensureResources`, differe l'initialisation Direct3D) -- posterieure a ce
-    // cablage, execute a la construction de la fenetre. Sans ce rafraichissement, l'arbre de
-    // textures et la palette s'ouvrent vides et le restent jusqu'a la premiere bascule de mode ou
-    // de jeu de skins (vieux defaut : "pas de texture au lancement du mode edition").
-    connect(_viewport, &GameViewport::resourcesReady, this, [this] {
-        _textures->setCatalog(&_viewport->skinCatalog());
-        _palette->refreshThumbnails(_viewport->renderMode(), _textures->currentSet());
-    });
-
-    // Rechargement a chaud (LOT-43 TACHE-03) : un asset modifie/renomme/ajoute hors de
-    // l'application n'est repris qu'a la demande explicite -- une surveillance automatique de
-    // dossier a ete ecartee (editeurs d'image externes ecrivant en plusieurs passes, risque de
-    // recharger un fichier partiellement ecrit). Invalider le TextureCache PUIS vider les caches
-    // de vignettes, dans cet ordre : les vignettes redecoderont depuis un cache deja purge.
-    connect(_textures, &TexturePanel::reloadRequested, this, [this] {
-        _viewport->reloadAssets();
-        _textures->reloadAssets();
-        _palette->clearThumbnailCache();
-        _palette->refreshThumbnails(_viewport->renderMode(), _textures->currentSet());
-        showTransientStatusMessage(text("textures.reload_done"), 3000);
-    });
-
-    buildUi();  // contenu des docks (panneaux) + branchement des actions de la barre de menus.
-
-    // Contexte d'edition actif (LOT-54 TACHE-04, EX-IHM-062) : suit le focus clavier entre le
-    // niveau (_viewport) et l'atelier pixel art (_pixelCanvas) -- Annuler/Refaire/Copier/Coller
-    // (deja dispatches via _editContext) et la barre d'etat visent ainsi toujours le meme widget.
-    connect(qApp, &QApplication::focusChanged, this,
-            [this](QWidget*, QWidget* now) { updateActiveEditContext(now); });
-
-    // Sélectionner une tuile dans la palette définit le type peint au clic dans le viewport.
-    connect(_palette, &PalettePanel::tileSelected, _viewport,
-            [this](core::TileType type) { _viewport->setActiveTile(type); });
-    // Raccourci clavier de l'outil « Texture par instance » (LOT-45, « touche dédiée ») :
-    // resynchronise la barre d'outils (LOT-56 TACHE-04), sans reboucler (setActiveTool n'émet
-    // rien).
-    connect(_viewport, &GameViewport::toolChanged, _actions, &EditorActions::setActiveTool);
-    // Les messages d'état du viewport (enregistrement, essai, erreurs) s'affichent en bas, puis
-    // laissent la main à l'aide contextuelle (LOT-57 TACHE-01).
-    connect(_viewport, &GameViewport::statusMessage, this,
-            [this](const QString& message) { showTransientStatusMessage(message, 5000); });
-    // Barre d'état : zones permanentes (LOT-57 TACHE-01), recalculées à chaque changement
-    // pertinent -- outil, survol, zoom, brouillon (nom, modifications).
-    connect(_viewport, &GameViewport::toolChanged, this,
-            [this](hmi::EditorTool) { refreshStatusHelp(); });
-    // Mise en avant du panneau pertinent selon l'outil actif (LOT-57 TACHE-02).
-    connect(_viewport, &GameViewport::toolChanged, this, &MainWindow::applyPanelFocus);
-    connect(_viewport, &GameViewport::hoveredCellChanged, this,
-            [this](std::optional<core::GridPosition>) { refreshStatusHelp(); });
-    connect(_viewport, &GameViewport::zoomChanged, this, [this](float) { refreshStatusHelp(); });
-    // Ouvrir un niveau depuis le panneau : garde-fou des modifications non enregistrées d'abord.
-    connect(_levels, &LevelBrowserPanel::levelOpenRequested, this, [this](const QString& path) {
-        if (_viewport->isDirty()) {
-            const QMessageBox::StandardButton answer = QMessageBox::question(
-                this, text("dialog.unsaved_title"), text("dialog.unsaved_text"));
-            if (answer != QMessageBox::Yes) {
-                return;
-            }
-        }
-        _viewport->openLevel(std::filesystem::path(path.toStdString()));
-    });
-
-    // Panneau Liens : reste synchronise avec le brouillon (LOT-37) ; selectionner une ligne
-    // surligne la liaison dans le viewport, supprimer delegue au viewport (seul proprietaire).
-    // Section « Fond » (LOT-44) : meme synchronisation -- le viewport reste seul proprietaire du
-    // brouillon, le panneau ne fait que refleter fond/jeu de skins du niveau courant.
-    connect(_viewport, &GameViewport::draftChanged, this, [this] {
-        _links->refresh(_viewport->draft());
-        _textures->setLevelProperties(_viewport->draft().background(),
-                                      _viewport->draft().skinSet());
-        _textures->setLevelCameraFraming(_viewport->draft().cameraFraming());
-        _textures->refreshObjects(_viewport->draft());
-        _planes->refresh(_viewport->draft(), _viewport->selectedPlaneIndex(),
-                         _viewport->planeVisibility());
-        refreshStatusHelp();  // nom du niveau et indicateur de modification (LOT-57 TACHE-01).
-    });
-    connect(_links, &LinkPanel::linkSelected, _viewport, &GameViewport::setHighlightedLink);
-    connect(_links, &LinkPanel::deleteRequested, _viewport, &GameViewport::unlinkMechanism);
-    _links->refresh(_viewport->draft());  // etat initial (avant tout draftChanged).
-
-    // Section « Objets » (LOT-45) : meme separation que le panneau Liens -- choisir un asset arme
-    // l'outil « Texture par instance », la selection d'une ligne surligne dans le viewport, le
-    // retrait passe par le viewport (seul proprietaire du brouillon).
-    connect(_textures, &TexturePanel::textureOverrideAssetSelected, _viewport,
-            [this](const QString& fileName) {
-                _viewport->setActiveTextureAsset(
-                    fileName.isEmpty() ? std::nullopt : std::make_optional(fileName.toStdString()));
-            });
-    connect(_textures, &TexturePanel::textureOverrideSelectionChanged, _viewport,
-            &GameViewport::setHighlightedTextureOverride);
-    connect(_textures, &TexturePanel::textureOverrideRemoveRequested, _viewport,
-            &GameViewport::removeTextureOverride);
-
-    _textures->refreshObjects(_viewport->draft());  // etat initial (avant tout draftChanged).
-
-    // Panneau « Plans » (LOT-69 TACHE-08) : le panneau ne mute rien, il demande. Le viewport,
-    // seul proprietaire du brouillon, applique -- donc tout passe par l'historique, sauf la
-    // visibilite, qui est une aide d'edition.
-    connectPlanesPanel();
+    // Panneaux « Couches » et « Entites » (LOT-11), puis les catalogues que les entites
+    // referencent : la validation a besoin des deux.
+    connectMapPanels();
+    reloadEditorReferences();
 
     // Panneau Textures : agit sur le catalogue dont le viewport est proprietaire, et lui signale
     // le jeu courant. Aucune scene n'est reconstruite -- l'apparence est resolue a la composition,
@@ -459,6 +329,7 @@ MainWindow::MainWindow(core::MemoryLogSink* sessionLog)
     connect(_textures, &TexturePanel::reloadRequested, this, [this] {
         _viewport->reloadAssets();
         _textures->reloadAssets();
+        reloadEditorReferences();
         _palette->clearThumbnailCache();
         _palette->refreshThumbnails(_viewport->renderMode(), _textures->currentSet());
         showTransientStatusMessage(text("textures.reload_done"), 3000);
@@ -516,10 +387,83 @@ std::array<std::pair<QDockWidget*, hmi::PanelId>, hmi::PANEL_COUNT> MainWindow::
         {_ui->LevelsPanel, hmi::PanelId::Levels},
         {_ui->LinksPanel, hmi::PanelId::Links},
         {_ui->TexturesPanel, hmi::PanelId::Textures},
+        {_ui->LayersPanel, hmi::PanelId::Layers},
+        {_ui->EntitiesPanel, hmi::PanelId::Entities},
         {_ui->PixelCanvasPanel, hmi::PanelId::PixelCanvas},
         {_ui->PixelHistoryPanel, hmi::PanelId::PixelHistory},
         {_ui->PixelPalettePanel, hmi::PanelId::PixelPalette},
     }};
+}
+
+void MainWindow::connectMapPanels() {
+    const auto refreshLayers = [this] {
+        _layers->refresh(_viewport->draft(), _viewport->activeLayer(), _viewport->layerView());
+    };
+    const auto refreshEntities = [this] {
+        _entities->refresh(_viewport->draft(), _viewport->selectedEntity(),
+                           _viewport->entityReferenceContext(), _viewport->diagnostics());
+    };
+    connect(_viewport, &GameViewport::draftChanged, this, [refreshLayers, refreshEntities] {
+        refreshLayers();
+        refreshEntities();
+    });
+    connect(_viewport, &GameViewport::activeLayerChanged, this,
+            [refreshLayers](hmi::LayerSlot) { refreshLayers(); });
+    connect(_viewport, &GameViewport::layerViewChanged, this, refreshLayers);
+    connect(_viewport, &GameViewport::entitySelectionChanged, this,
+            [refreshEntities](std::optional<std::size_t>) { refreshEntities(); });
+
+    // Couches : le panneau demande, le viewport applique -- l'historique pour la structure, une
+    // simple aide d'edition pour la visibilite et l'opacite.
+    connect(_layers, &LayersPanel::activeLayerRequested, _viewport, &GameViewport::setActiveLayer);
+    connect(_layers, &LayersPanel::visibilityRequested, _viewport,
+            &GameViewport::setMapLayerVisible);
+    connect(_layers, &LayersPanel::opacityRequested, _viewport, &GameViewport::setMapLayerOpacity);
+    connect(_layers, &LayersPanel::addRequested, this, [this](core::LayerKind kind) {
+        const char* const nameKey = kind == core::LayerKind::Decor ? "layers.default_name.decor"
+                                                                   : "layers.default_name.ground";
+        _viewport->addMapLayer(kind, text(nameKey).toStdString());
+    });
+    connect(_layers, &LayersPanel::removeRequested, this, [this](std::size_t index) {
+        if (index >= _viewport->draft().layers().size()) {
+            return;
+        }
+        const QString name = QString::fromStdString(_viewport->draft().layers()[index].name);
+        if (QMessageBox::question(this, text("layers.remove_confirm_title"),
+                                  text("layers.remove_confirm").arg(name)) != QMessageBox::Yes) {
+            return;
+        }
+        _viewport->removeMapLayer(index);
+    });
+    connect(_layers, &LayersPanel::moveRequested, _viewport, &GameViewport::moveMapLayer);
+    connect(_layers, &LayersPanel::renameRequested, this,
+            [this](std::size_t index, const QString& name) {
+                _viewport->renameMapLayer(index, name.toStdString());
+            });
+
+    // Entites : choisir une famille a poser arme l'outil Entite, comme choisir un asset arme
+    // l'outil « Texture par instance » (LOT-45).
+    connect(_entities, &EntityPanel::kindToPlaceChanged, this, [this](const QString& type) {
+        _viewport->setEntityKindToPlace(type.toStdString());
+        if (!type.isEmpty()) {
+            _viewport->setTool(hmi::EditorTool::Entity);
+        }
+    });
+    connect(_entities, &EntityPanel::entitySelected, _viewport, &GameViewport::selectEntity);
+    connect(_entities, &EntityPanel::propertyChanged, this,
+            [this](std::size_t index, const QString& key, const core::PropertyValue& value) {
+                _viewport->setEntityProperty(index, key.toStdString(), value);
+            });
+    connect(_entities, &EntityPanel::removeRequested, _viewport, &GameViewport::removeEntity);
+
+    refreshLayers();  // etat initial (avant tout draftChanged).
+    refreshEntities();
+}
+
+void MainWindow::reloadEditorReferences() {
+    _references =
+        std::make_unique<EditorReferences>(hmi::loadEditorReferences(hmi::executableDirectory()));
+    _viewport->setEditorReferences(_references.get());
 }
 
 void MainWindow::connectPlanesPanel() {
@@ -898,6 +842,11 @@ void MainWindow::buildUi() {
     _ui->LevelsPanel->setWidget(_levels);
     _links = new LinkPanel(_ui->LinksPanel);
     _ui->LinksPanel->setWidget(_links);
+    // Couches et entites de la carte (LOT-11).
+    _layers = new LayersPanel(_ui->LayersPanel);
+    _ui->LayersPanel->setWidget(_layers);
+    _entities = new EntityPanel(_ui->EntitiesPanel);
+    _ui->EntitiesPanel->setWidget(_entities);
     // Panneau d'habillage (LOT-42) : écrit `skins.json` au chemin **déployé**, exactement comme
     // l'enregistrement d'un niveau — aucun nouveau mécanisme d'écriture.
     _textures =
@@ -935,6 +884,7 @@ void MainWindow::buildUi() {
     // et Palette restent des docks independants. Doit preceder la capture de _defaultState
     // (constructeur, apres buildUi()).
     tabifyDockWidget(_ui->LevelsPanel, _ui->LinksPanel);
+    tabifyDockWidget(_ui->LinksPanel, _ui->EntitiesPanel);
     tabifyDockWidget(_ui->PixelCanvasPanel, _ui->PixelHistoryPanel);
     tabifyDockWidget(_ui->PixelHistoryPanel, _ui->PixelPalettePanel);
     // Un changement de visibilite d'un de ces docks NON provoque par notre propre code (mise en
@@ -942,8 +892,9 @@ void MainWindow::buildUi() {
     // _suppressPanelFocusTracking) ne peut venir que d'un choix explicite de l'utilisateur :
     // cliquer un onglet ou fermer/rouvrir le panneau. Meme principe pour un detachement
     // (topLevelChanged), toujours explicite, jamais gardee.
-    for (QDockWidget* const dock : {_ui->LevelsPanel, _ui->LinksPanel, _ui->PixelCanvasPanel,
-                                    _ui->PixelHistoryPanel, _ui->PixelPalettePanel}) {
+    for (QDockWidget* const dock :
+         {_ui->LevelsPanel, _ui->LinksPanel, _ui->EntitiesPanel, _ui->PixelCanvasPanel,
+          _ui->PixelHistoryPanel, _ui->PixelPalettePanel}) {
         connect(dock, &QDockWidget::visibilityChanged, this, [this](bool) {
             if (!_suppressPanelFocusTracking) {
                 _userPickedTab = true;
@@ -1138,6 +1089,11 @@ void MainWindow::buildUi() {
             return;
         }
         _viewport->save();
+        // Une carte enregistree peut avoir change ses points d'arrivee ou son nom : les portails
+        // des AUTRES cartes se valident contre le fichier, et le graphe du monde le montre
+        // (LOT-11).
+        reloadEditorReferences();
+        _levels->refreshWorldGraph();
     });
     connect(_actions->action(hmi::IconId::Playtest), &QAction::triggered, _viewport,
             [this] { _viewport->startPlaytest(); });
@@ -1257,9 +1213,10 @@ void MainWindow::buildUi() {
     // Bascules de visibilité des docks : dynamiques, donc ajoutées ici. Elles rejoignent le
     // sous-menu « Panneaux » plutôt que la racine du menu Affichage, qui alignait vingt-trois
     // entrées à plat.
-    for (QDockWidget* const dock : {_ui->PalettePanel, _ui->PlanesPanel, _ui->LevelsPanel,
-                                    _ui->LinksPanel, _ui->TexturesPanel, _ui->PixelCanvasPanel,
-                                    _ui->PixelHistoryPanel, _ui->PixelPalettePanel}) {
+    for (QDockWidget* const dock :
+         {_ui->PalettePanel, _ui->PlanesPanel, _ui->LevelsPanel, _ui->LinksPanel, _ui->LayersPanel,
+          _ui->EntitiesPanel, _ui->TexturesPanel, _ui->PixelCanvasPanel, _ui->PixelHistoryPanel,
+          _ui->PixelPalettePanel}) {
         _ui->panelsMenu->insertAction(_ui->panelsMenu->actions().constFirst(),
                                       dock->toggleViewAction());
     }
@@ -1712,6 +1669,12 @@ void MainWindow::raisePanel(hmi::PanelId panel) {
         case hmi::PanelId::Textures:
             dock = _ui->TexturesPanel;
             break;
+        case hmi::PanelId::Layers:
+            dock = _ui->LayersPanel;
+            break;
+        case hmi::PanelId::Entities:
+            dock = _ui->EntitiesPanel;
+            break;
         case hmi::PanelId::PixelCanvas:
             dock = _ui->PixelCanvasPanel;
             break;
@@ -1983,6 +1946,8 @@ void MainWindow::retranslateUi() {
     _ui->LevelsPanel->setWindowTitle(text("dock.levels"));
     _ui->LinksPanel->setWindowTitle(text("dock.links"));
     _ui->TexturesPanel->setWindowTitle(text("dock.textures"));
+    _ui->LayersPanel->setWindowTitle(text("dock.layers"));
+    _ui->EntitiesPanel->setWindowTitle(text("dock.entities"));
     _ui->PixelCanvasPanel->setWindowTitle(text("dock.pixel_canvas"));
     _ui->PixelHistoryPanel->setWindowTitle(text("dock.pixel_history"));
     _ui->PixelPalettePanel->setWindowTitle(text("dock.pixel_palette"));
@@ -2024,6 +1989,8 @@ void MainWindow::retranslateUi() {
     _planes->retranslateUi(_loc);
     _levels->retranslateUi(_loc);
     _links->retranslateUi(_loc);
+    _layers->retranslateUi(_loc);
+    _entities->retranslateUi(_loc);
     _textures->retranslateUi(_loc);
     _pixelHistoryPanel->retranslateUi(_loc);
     _pixelPalettePanel->retranslateUi(_loc);

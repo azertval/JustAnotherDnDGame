@@ -23,7 +23,8 @@ namespace {
 constexpr hmi::PanelId ALL_PANELS[] = {
     hmi::PanelId::Palette,      hmi::PanelId::Planes,       hmi::PanelId::Levels,
     hmi::PanelId::Links,        hmi::PanelId::Textures,     hmi::PanelId::PixelCanvas,
-    hmi::PanelId::PixelHistory, hmi::PanelId::PixelPalette,
+    hmi::PanelId::PixelHistory, hmi::PanelId::PixelPalette, hmi::PanelId::Layers,
+    hmi::PanelId::Entities,
 };
 
 /// Les trois espaces de travail, même rôle de garde que `ALL_PANELS`.
@@ -34,8 +35,9 @@ constexpr hmi::EditorWorkspace ALL_WORKSPACES[] = {
 };
 
 constexpr hmi::EditorTool ALL_TOOLS[] = {
-    hmi::EditorTool::Paint, hmi::EditorTool::Rectangle,     hmi::EditorTool::Selection,
-    hmi::EditorTool::Link,  hmi::EditorTool::TextureAssign, hmi::EditorTool::CameraZone,
+    hmi::EditorTool::Paint,  hmi::EditorTool::Rectangle,     hmi::EditorTool::Selection,
+    hmi::EditorTool::Link,   hmi::EditorTool::TextureAssign, hmi::EditorTool::CameraZone,
+    hmi::EditorTool::Entity,
 };
 
 constexpr hmi::PixelTool ALL_PIXEL_TOOLS[] = {

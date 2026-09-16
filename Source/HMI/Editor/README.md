@@ -13,6 +13,7 @@ Panneaux Qt :
 
 - **Niveaux** (`LevelBrowserPanel`) — liste/recherche du dossier `Levels`, création / renommage /
   duplication / suppression, déléguant aux opérations fichiers pures.
+  Un onglet « Graphe » (`WorldGraphView`, `LOT-11`) montre les cartes du dossier et leurs portails.
 - **Liens** (`LinkPanel`) — liaisons déclencheur → cible (interrupteur/plaque → porte, danger
   commuté) du niveau courant, en regard des flèches dessinées dans le viewport (`LOT-37`).
 - **Textures** (`TexturePanel`) — panneau d'habillage unique, organisé en sections (Skins pour
@@ -33,6 +34,7 @@ Logique pure (aucune dépendance Qt/GPU, couverte par `Source/Test/Unit`) :
 - `EditorTool` — énumération de l'outil actif.
 - `LinkGesture` — machine à états du geste de liaison (`resolveLinkClick`), indépendante de Qt.
 - `LinkGeometry` — géométrie des flèches de liaison (segment, pointe, écartement anti-superposition).
+- `WorldGraphLayout` — disposition du graphe du monde (cercle, fantômes, flèches regroupées, désignation).
 - `SkinAssignments` — lignes du panneau « Textures », balayage des skins, effet d'une assignation.
 - `AssetLibrary` — balayage/filtrage d'un dossier d'assets, partagé par `AssetThumbnailView`.
 - `AssetFileOperations` — import / renommer / dupliquer / supprimer un fichier d'asset (`LOT-43`).

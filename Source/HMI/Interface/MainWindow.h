@@ -60,6 +60,9 @@ class PalettePanel;
 class PlanesPanel;
 class LevelBrowserPanel;
 class LinkPanel;
+class LayersPanel;
+class EntityPanel;
+struct EditorReferences;
 class TexturePanel;
 class PixelCanvas;
 class PixelHistoryPanel;
@@ -132,6 +135,12 @@ protected:
 private:
     /// Branche le panneau « Plans » (`LOT-69` TACHE-08) : il demande, le viewport applique.
     void connectPlanesPanel();
+    /// Branche les panneaux « Couches » et « Entités » (`LOT-11`) : même partage des rôles.
+    void connectMapPanels();
+    /// Relit les catalogues que les entités référencent (dialogues, rencontres, bestiaire,
+    /// cartes) et les confie au viewport — au démarrage, après un enregistrement de carte et au
+    /// rechargement des assets.
+    void reloadEditorReferences();
     /// @return Le dossier des images de plans, à côté des niveaux.
     [[nodiscard]] std::filesystem::path planesDirectory() const;
     /// Crée un plan : un PNG entièrement transparent aux dimensions exactes, puis l'entrée dans le
@@ -282,7 +291,11 @@ private:
     /// Placement/inspection de décors (dock Décors, `LOT-57` amendement) — contenait déjà tout ce
     /// qui concerne les décors (`ToolPanel`, `LOT-56` TACHE-04) avant d'y accueillir aussi
     /// l'inspecteur déplacé du panneau Textures. La barre d'outils reste hors de ce panneau.
-    LinkPanel* _links;        ///< Liste/gestion des liaisons de mécanismes (dock Liens, LOT-37).
+    LinkPanel* _links;  ///< Liste/gestion des liaisons de mécanismes (dock Liens, LOT-37).
+    LayersPanel* _layers = nullptr;    ///< Couches de la carte (dock Couches, LOT-11).
+    EntityPanel* _entities = nullptr;  ///< Entités de la carte (dock Entités, LOT-11).
+    /// Catalogues référencés par les entités (`LOT-11`), possédés ici et prêtés au viewport.
+    std::unique_ptr<EditorReferences> _references;
     TexturePanel* _textures;  ///< Habillage : jeu de skins et assignations (dock Textures, LOT-42).
     /// Réglages de gameplay de l'élément sélectionné et du tableau (dock Propriétés, `LOT-67`).
     /// Canevas de l'atelier pixel art (dock Atelier, LOT-54 TACHE-04) : seconde implémentation de

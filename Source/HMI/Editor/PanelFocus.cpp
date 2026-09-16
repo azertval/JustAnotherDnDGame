@@ -9,6 +9,7 @@ const std::array<PanelFocusEntry, PANEL_FOCUS_CATALOG_COUNT>& panelFocusCatalog(
     static const std::array<PanelFocusEntry, PANEL_FOCUS_CATALOG_COUNT> catalog{{
         {.tool = EditorTool::Link, .panel = PanelId::Links},
         {.tool = EditorTool::TextureAssign, .panel = PanelId::Textures},
+        {.tool = EditorTool::Entity, .panel = PanelId::Entities},
     }};
     return catalog;
 }

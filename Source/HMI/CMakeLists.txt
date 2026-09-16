@@ -65,6 +65,8 @@ add_library(HmiLib STATIC
     Graphics/Parallax.cpp
     Graphics/ProceduralFont.cpp
     Graphics/TextRenderer.cpp
+    # Marqueurs d'entite de carte (LOT-11) : cle d'asset et pixels, sans GPU.
+    Graphics/EntityMarkers.cpp
     # Entrées : état, mapping, remappage persistant.
     Input/InputState.cpp
     Input/PlayerInputMapper.cpp
@@ -87,6 +89,7 @@ add_library(HmiLib STATIC
     Game/CombatMode.cpp
     Game/DialogueMode.cpp
     Game/GameHud.cpp
+    Game/PlaytestInteraction.cpp
     Game/DiagnosticsHud.cpp
     # Éditeur : validation, taxonomie, gestes et géométrie, bibliothèque d'assets, atelier pixel.
     Editor/LevelNameValidation.cpp
@@ -113,6 +116,11 @@ add_library(HmiLib STATIC
     Editor/PixelAssetIO.cpp
     Editor/PixelPalette.cpp
     Editor/PixelAutotilePreview.cpp
+    Editor/LayerView.cpp
+    Editor/EntityGesture.cpp
+    Editor/EntityReferences.cpp
+    Editor/EditorDiagnostics.cpp
+    Editor/WorldGraphLayout.cpp
     # Interface : logique d'écrans et de thème, sans widget.
     Presentation/ScreenFlow.cpp
     Presentation/RpgScreens.cpp
@@ -225,12 +233,15 @@ add_executable(LevelEditor
     Editor/PalettePanel.cpp
     Editor/LevelBrowserPanel.cpp
     Editor/LinkPanel.cpp
+    Editor/LayersPanel.cpp
+    Editor/EntityPanel.cpp
     Editor/TexturePanel.cpp
     Editor/AssetThumbnailView.cpp
     Editor/PixelCanvas.cpp
     Editor/PixelHistoryPanel.cpp
     Editor/PixelPalettePanel.cpp
     Editor/PlanesPanel.cpp
+    Editor/WorldGraphView.cpp
     # Ressource embarquée (thème .qss) — traitée par AUTORCC.
     ${ELEMENTS_UI}/resources.qrc
     # Mises en page Qt Designer — traitées par AUTOUIC (génèrent ui_*.h).
@@ -238,6 +249,8 @@ add_executable(LevelEditor
     ${ELEMENTS_UI}/TexturePanel.ui
     ${ELEMENTS_UI}/PlanesPanel.ui
     ${ELEMENTS_UI}/LevelBrowserPanel.ui
+    ${ELEMENTS_UI}/LayersPanel.ui
+    ${ELEMENTS_UI}/EntityPanel.ui
     ${ELEMENTS_UI}/AssetThumbnailView.ui
 )
 

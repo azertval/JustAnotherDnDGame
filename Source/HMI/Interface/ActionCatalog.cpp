@@ -49,6 +49,13 @@ const std::array<EditorActionSpec, EDITOR_ACTION_CATALOG_COUNT>& editorActionCat
          .checkable = true,
          .group = EditorActionGroup::LevelTools,
          .surface = ActionSurface::ToolBarAndMenu},
+        // Outil Entite (LOT-11) : poser et editer les entites de carte.
+        {.id = IconId::ToolEntity,
+         .labelKey = "tool.entity",
+         .shortcut = "",
+         .checkable = true,
+         .group = EditorActionGroup::LevelTools,
+         .surface = ActionSurface::ToolBarAndMenu},
         // Outils du canevas pixel art (LOT-54 TACHE-04) : groupe exclusif SEPARE des outils de
         // niveau ci-dessus -- les deux groupes ne s'excluent jamais entre eux. Aucun raccourci
         // clavier dedie aujourd'hui (choix par la barre d'outils du canevas uniquement).
@@ -233,6 +240,8 @@ std::optional<EditorTool> editorActionTool(IconId id) {
             return EditorTool::TextureAssign;
         case IconId::ToolCameraZone:
             return EditorTool::CameraZone;
+        case IconId::ToolEntity:
+            return EditorTool::Entity;
         default:
             return std::nullopt;
     }
@@ -252,6 +261,8 @@ IconId editorActionForTool(EditorTool tool) {
             return IconId::ToolTextureAssign;
         case EditorTool::CameraZone:
             return IconId::ToolCameraZone;
+        case EditorTool::Entity:
+            return IconId::ToolEntity;
     }
     return IconId::ToolPaint;
 }

@@ -31,6 +31,8 @@ EditorWorkspaceMask workspacesForPanel(PanelId panel) noexcept {
         case PanelId::Levels:
         case PanelId::Links:
         case PanelId::Textures:
+        case PanelId::Layers:
+        case PanelId::Entities:
             return workspaceBit(EditorWorkspace::Level);
         case PanelId::Planes:
             // Le panneau des plans sert a les gerer PENDANT l'edition du niveau (ordre, densite,

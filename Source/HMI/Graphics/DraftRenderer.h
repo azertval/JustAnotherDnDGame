@@ -11,10 +11,12 @@
 #include <utility>
 #include <vector>
 
+#include "Core/Combat/TacticalTerrain.h"
 #include "Core/Ecs/Components/Animation.h"
 #include "Core/Ecs/Entity.h"
 #include "Core/Ecs/World.h"
 #include "Core/Levels/GridPosition.h"
+#include "HMI/Editor/LayerView.h"
 #include "HMI/Graphics/LayerVisibility.h"
 #include "HMI/Graphics/PlaneVisibility.h"
 #include "HMI/Graphics/SpriteRenderer.h"
@@ -49,6 +51,18 @@ struct LinkOverlayState {
     std::optional<core::GridPosition> pendingLink;
     /// Liaison sélectionnée dans le panneau « Liens » (déclencheur, cible) : mise en surbrillance.
     std::optional<std::pair<core::GridPosition, core::GridPosition>> selectedLink;
+};
+
+/**
+ * @brief Ce que le viewport montre des entités de carte (`LOT-11`), fourni à chaque rendu.
+ */
+struct DraftEntityOverlay {
+    /// Entité sélectionnée : cernée, et sa rencontre montrée sur le terrain.
+    std::optional<std::size_t> selectedEntity;
+    /// Verdicts de terrain tactique des rencontres de la carte (non possédés), ou `nullptr`.
+    const std::vector<core::EncounterTerrain>* terrains = nullptr;
+    /// Montrer la zone et la formation de la rencontre sélectionnée — outil « Entité » actif.
+    bool showTerrain = false;
 };
 
 /**
@@ -94,8 +108,20 @@ public:
                 const std::optional<std::pair<core::GridPosition, core::GridPosition>>& highlight,
                 const LinkOverlayState& linkOverlay, RenderMode mode,
                 bool showTextureOverrides = false, float deltaSeconds = 0.0f,
-                const LayerVisibility& visibility = {},
-                const PlaneVisibility& planeVisibility = {});
+                const LayerVisibility& visibility = {}, const PlaneVisibility& planeVisibility = {},
+                const DraftEntityOverlay& entityOverlay = {});
+
+    /**
+     * @brief Visibilité et opacité des couches de la carte (`LOT-11`).
+     *
+     * Une carte **à couches** se dessine comme en jeu — sol et décor, dans leur ordre —, et sa
+     * grille racine, qui n'est plus qu'un masque de collision, se superpose en **voiles colorés
+     * par catégorie** (obstacle, danger, entrée, sortie, mécanisme) plutôt qu'en image : c'est ce
+     * qu'elle veut dire, et deux images superposées de la même case ne se liraient pas. Une carte
+     * à grille unique se dessine comme avant le lot. Un réglage différent du précédent reconstruit
+     * la scène.
+     */
+    void setLayerView(const LayerViewState& view);
 
     /**
      * @brief Fixe le dossier où résoudre les images de plans (`Levels/Plans`), comme
@@ -157,6 +183,16 @@ private:
     /// Signale les cases portant une surcharge de texture par instance sur le calque d'édition
     /// (`EX-EDIT-043`, `LOT-45`).
     void composeTextureOverrideMarkers(const core::LevelDraft& draft);
+    /// Compose le masque de collision d'une carte à couches (voiles par catégorie, `LOT-11`).
+    void composeCollisionMask(const core::LevelDraft& draft);
+    /// Compose les entités (marqueur généré du `LOT-39` par famille), la sélection, et le terrain
+    /// de la rencontre sélectionnée (`LOT-11`).
+    void composeEntities(const core::LevelDraft& draft, const DraftEntityOverlay& overlay);
+    /// Ajoute un quad uni teinté @p (x, y, w, h) au calque d'édition, rang @p order.
+    void addOverlayRect(float x, float y, float width, float height, float r, float g, float b,
+                        float a, std::int32_t order);
+    /// Réglages de couches de la dernière reconstruction.
+    LayerViewState _layerView;
     /// Dossier des images de plans (`setPlanesDirectory`), vide tant qu'aucun n'est fixé.
     std::filesystem::path _planesDirectory;
     SpriteBatch& _batch;

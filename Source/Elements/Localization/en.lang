@@ -269,6 +269,33 @@ map.rename_prompt = New name:
 map.delete_title = Delete
 map.delete_confirm = Permanently delete “%1”?
 map.operation_failed = Operation failed
+map.tab.list = List
+map.tab.graph = Graph
+
+# Map browser: world graph view (LOT-11)
+world_graph.empty = No map in the levels folder.
+world_graph.legend.map = Map
+world_graph.legend.unreadable = Unreadable map
+world_graph.legend.ghost = Missing map
+world_graph.legend.portal = Portal
+world_graph.legend.broken = Broken portal
+world_graph.node.unreadable = unreadable
+world_graph.node.ghost = missing
+world_graph.ghost.no_target = (no target)
+world_graph.status.resolved = linked
+world_graph.status.missing_target = no target map
+world_graph.status.unknown_map = target map not in the folder
+world_graph.status.missing_arrival = no arrival point
+world_graph.status.unknown_arrival = arrival point unknown on the target map
+world_graph.status.target_unreadable = target map unreadable
+world_graph.tooltip.map = %1 (%2)
+world_graph.tooltip.open = Double-click to open the map.
+world_graph.tooltip.unreadable = Unreadable map: %1
+world_graph.tooltip.ghost = Map “%1” is not in the folder; portals name it.
+world_graph.tooltip.ghost_no_target = Portals without a target map.
+world_graph.tooltip.edge = %1 → %2
+world_graph.tooltip.portal = (%1, %2) → “%3”: %4
+world_graph.tooltip.no_arrival = (no arrival point)
 
 # Options page: tabs and labels
 tab.video = Video
@@ -354,6 +381,16 @@ keybindings.action.texture_tool = Texture tool
 
 # In-game head-up display (LOT-52, EX-IHM-003)
 hud.interact_prompt = Interact to pick up
+
+# Editor play-test: report of an interaction with a placed entity (LOT-11)
+playtest.interaction.chest_opened = Chest opened
+playtest.interaction.chest_already_opened = Chest already opened
+playtest.interaction.sign_read = Sign read
+playtest.interaction.npc_dialogue = NPC: dialogue %1
+playtest.interaction.npc_silent = NPC without dialogue
+playtest.interaction.portal = Portal to %1, arrival %2 (traversal comes with LOT-09)
+playtest.interaction.portal_incomplete = Incomplete portal: target map or arrival missing
+playtest.interaction.other = Entity %1: no interaction
 
 # In-game diagnostics overlay (LOT-62, F9, EX-NFR-001, EX-NFR-005)
 diag.fps = FPS: %1
@@ -680,3 +717,68 @@ dialogue.heraut-colisee.demande.convaincre = The stands crave fresh blood. I am 
 dialogue.heraut-colisee.demande.renoncer = Too bad. Another season.
 dialogue.heraut-colisee.accepte-replique = Hm. You have nerve, and that is what the crowd loves. Your name is on the list — may the Mark keep you.
 dialogue.heraut-colisee.refuse-replique = Fine speech. The list stays closed, and so does my patience.
+
+# Editor: layers and entities (LOT-11).
+dock.layers = Layers
+dock.entities = Entities
+tool.entity = Entity
+status.help_entity = Entity: click an empty cell to place the chosen kind · click an entity to select it, drag to move it · Del removes it · Ctrl+click places on an occupied cell
+status.layer_tile_refused = "%1" cannot be painted on a visual layer: entry, exit and mechanisms live in the collision grid.
+status.entity_placed = %1 placed at (%2, %3).
+status.entity_moved = Entity moved to (%1, %2).
+status.entity_removed = Entity removed.
+layers.root_legacy = Single grid (image and collision)
+layers.root_collision = Collision
+layers.kind.ground = Ground
+layers.kind.decor = Decor
+layers.add_ground = Add ground
+layers.add_decor = Add decor
+layers.remove = Remove
+layers.move_forward = Move up
+layers.move_backward = Move down
+layers.opacity = Opacity
+layers.visible_tooltip = Show or hide the layer in the editor (no effect in game)
+layers.active_tooltip = Layer painted by the brush, the rectangle and paste
+layers.default_name.ground = ground
+layers.default_name.decor = decor
+layers.remove_confirm_title = Remove layer
+layers.remove_confirm = Remove layer "%1"? Ctrl+Z undoes it.
+entities.place = Place
+entities.select_only = (select only)
+entities.column.type = Type
+entities.column.cell = Cell
+entities.properties = Properties
+entities.no_selection = No entity selected.
+entities.remove = Remove
+entities.unknown_kind = Kind "%1" is unknown to the editor: its properties are carried over unchanged.
+entities.none = (none)
+entities.warnings = Warnings
+entities.warnings_none = No warnings.
+entities.kind.chest = Chest
+entities.kind.sign = Sign
+entities.kind.npc = NPC
+entities.kind.encounter = Encounter
+entities.kind.portal = Portal
+entities.kind.spawnPoint = Arrival point
+entities.kind.arenaEntry = Arena entry
+entities.property.dialogue = Dialogue
+entities.property.encounterId = Encounter
+entities.property.respawns = Retriggers
+entities.property.targetMap = Target map
+entities.property.arrival = Arrival point
+entities.property.name = Name
+entities.property.side = Side
+entities.property.rank = Rank
+diagnostic.unknown_type = Entity kind "%1" is unknown to the editor.
+diagnostic.missing_property = %1: property "%2" must be filled in.
+diagnostic.wrong_value_type = %1: property "%2" has the wrong value type.
+diagnostic.invalid_choice = %1: "%3" is not an allowed value for "%2".
+diagnostic.unknown_dialogue = %1: dialogue "%3" does not exist, or was rejected when loading.
+diagnostic.unknown_encounter = %1: encounter "%3" does not exist.
+diagnostic.unknown_target_map = %1: map "%3" does not exist.
+diagnostic.unknown_arrival_point = %1: the target map has no arrival point "%3".
+diagnostic.duplicate_arrival_point = Two arrival points are named "%3".
+diagnostic.terrain_out_of_bounds = Encounter "%1": "%2" would stand off the map.
+diagnostic.terrain_obstructed = Encounter "%1": "%2" would stand on an obstacle.
+diagnostic.terrain_overlap = Encounter "%1": "%2" would overlap another combatant.
+diagnostic.terrain_too_narrow = Encounter "%1": area too narrow to fight in (%2 free cells, %3 required).

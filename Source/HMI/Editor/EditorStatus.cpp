@@ -89,6 +89,8 @@ const char* toolLabelKey(EditorTool tool) {
             return "tool.texture_assign";
         case EditorTool::CameraZone:
             return "tool.camera_zone";
+        case EditorTool::Entity:
+            return "tool.entity";
     }
     return "tool.brush";
 }
@@ -108,6 +110,8 @@ const char* toolHelpKey(EditorTool tool) {
             return "status.help_texture_assign";
         case EditorTool::CameraZone:
             return "status.help_camera_zone";
+        case EditorTool::Entity:
+            return "status.help_entity";
     }
     return "status.help_paint";
 }
