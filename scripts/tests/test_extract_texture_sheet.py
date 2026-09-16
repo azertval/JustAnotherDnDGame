@@ -256,3 +256,28 @@ def test_une_piece_dessinee_contre_l_autre_arete_est_retournee(colisee, arete, s
     sortie = T._orienter(colisee, cellule, texture, avertissements)
     assert np.array_equal(sortie, texture[:, ::-1]) == retournee
     assert bool(avertissements) == retournee
+
+
+def test_martpart_se_commande_depuis_sa_seule_fiche():
+    brut = json.loads((T.DISPOSITIONS / 'martpart.json').read_text(encoding='utf-8'))
+    assert set(brut) == {'version', 'id', 'location', 'model'}   # rien de rédigé pour ce lieu
+    martpart = T.charger('martpart')
+    assert T.valider(martpart) == []
+    assert martpart['title'] == 'Martpart'
+    assert martpart['keyPrefix'] == 'scene/martpart'
+    assert martpart['installRoot'] == 'Source/Elements/Assets/Scene/martpart'
+    fiche = json.loads((T.LIEUX / f"{martpart['location']}.json").read_text(encoding='utf-8'))
+    assert fiche['description'] in T.bloc_b(martpart)
+    assert T.planches(martpart) == 1
+
+
+def test_un_modele_inconnu_est_refuse():
+    with pytest.raises(T.DispositionError, match='introuvable'):
+        T.resoudre({'id': 'x', 'location': 'central-empire-the-capital-city-martpart', 'model': 'absent'})
+
+
+def test_un_champ_du_fichier_l_emporte_sur_le_modele():
+    disposition = T.resoudre({'id': 'x', 'model': 'quartier', 'keyPrefix': 'scene/autre',
+                              'sheet': {'size': [3840, 2160], 'scale': 4}})
+    assert disposition['keyPrefix'] == 'scene/autre'
+    assert disposition['sheet']['size'] == [3840, 2160]

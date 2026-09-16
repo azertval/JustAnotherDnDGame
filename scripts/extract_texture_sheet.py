@@ -9,7 +9,8 @@ relevées sur l'image après coup. Ici la disposition vient AVANT l'image : un J
 chaque cellule -- son nom, sa classe (sol, pièce haute, grande pièce), son emprise en cases et la
 hauteur qu'elle prend au-dessus du sol -- et tout le reste s'en déduit : la répartition des cellules
 sur une ou plusieurs planches, le gabarit de chaque planche, le bloc C du prompt, la découpe et la
-clé de chaque texture. Aucune coordonnée n'est écrite à la main.
+clé de chaque texture. Aucune coordonnée n'est écrite à la main. Un lieu sans cellules propres
+nomme un modèle (`dispositions/modeles/`) : sa planche se commande depuis sa seule fiche d'atlas.
 
 La géométrie est celle d'`IsoProjection` : un losange de 68 × 42 pixels d'art (rapport 0,62). Une
 emprise de a × b cases est un parallélogramme de (a + b) · 34 × (a + b) · 21 pixels d'art ; son
@@ -50,6 +51,7 @@ from pathlib import Path
 RACINE = Path(__file__).resolve().parent.parent
 ATELIER = RACINE / "Documentation" / "Lot" / "LOT-92-atelier-textures" / "atelier"
 DISPOSITIONS = ATELIER / "dispositions"
+MODELES = DISPOSITIONS / "modeles"
 STYLE = ATELIER / "prompts" / "style.txt"
 MAQUETTE = ATELIER / "ancres" / "maquette.png"
 PAS_MAQUETTE = 2
@@ -83,7 +85,32 @@ def charger(identifiant: str) -> dict:
     chemin = DISPOSITIONS / f"{identifiant}.json"
     if not chemin.is_file():
         raise DispositionError(f"disposition « {identifiant} » introuvable ({chemin}).")
-    return json.loads(chemin.read_text(encoding="utf-8"))
+    return resoudre(json.loads(chemin.read_text(encoding="utf-8")))
+
+
+def resoudre(disposition: dict) -> dict:
+    """La disposition complète : celle du fichier, sur son modèle (`model`) s'il en nomme un.
+
+    Un lieu qui n'a rien de plus que sa fiche d'atlas -- Martpart, au T5 -- ne se rédige pas : sa
+    disposition nomme le lieu et un modèle (`dispositions/modeles/<nom>.json`), qui porte la taille
+    des planches, les classes, le sujet et des cellules neutres (« un objet typique du lieu décrit
+    plus haut ») ; le bloc B, la fiche entière, dit au générateur ce qui rend le lieu reconnaissable.
+    Le titre vient du nom de la fiche, la clé et le dossier d'installation de l'identifiant. Tout
+    champ écrit dans le fichier l'emporte sur le modèle et sur ces valeurs déduites.
+    """
+    nom = disposition.get("model")
+    if nom is None:
+        return disposition
+    chemin = MODELES / f"{nom}.json"
+    if not NOM_RE.match(str(nom)) or not chemin.is_file():
+        raise DispositionError(f"{disposition.get('id', '?')} : modèle « {nom} » introuvable ({chemin}).")
+    modele = json.loads(chemin.read_text(encoding="utf-8"))
+    ident = disposition.get("id", "")
+    deduits: dict = {"keyPrefix": f"scene/{ident}", "installRoot": f"Source/Elements/Assets/Scene/{ident}"}
+    fiche = LIEUX / f"{disposition.get('location', '')}.json"
+    if fiche.is_file():
+        deduits["title"] = json.loads(fiche.read_text(encoding="utf-8"))["name"]
+    return {**modele, **deduits, **disposition}
 
 
 def taille_planche(disposition: dict) -> tuple[int, int]:
@@ -289,7 +316,11 @@ def valider_tout() -> tuple[int, list[str]]:
     fautes: list[str] = []
     cles: dict[str, str] = {}
     for fichier in sorted(DISPOSITIONS.glob("*.json")):
-        disposition = json.loads(fichier.read_text(encoding="utf-8"))
+        try:
+            disposition = charger(fichier.stem)
+        except DispositionError as erreur:
+            fautes.append(str(erreur))
+            continue
         if disposition.get("id") != fichier.stem:
             fautes.append(f"{fichier.name} : id « {disposition.get('id')} », le nom du fichier attendu.")
         fautes += valider(disposition)

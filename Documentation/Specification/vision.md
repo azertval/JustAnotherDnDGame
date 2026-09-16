@@ -12,7 +12,8 @@ et les mécanismes) et affronte les rencontres en **combat tactique au tour par 
 de la carte, régi par un système **d20**.
 
 - **Genre** : action-RPG d'exploration + combat tactique.
-- **Perspective** : 2D, vue de dessus, décor en tuiles multi-couches (sol / décor / collision).
+- **Perspective** : 2D, vue de dessus, décor en tuiles multi-couches (sol / décor / collision) ;
+  la scène se **dessine en isométrique** (§Identités visuelles).
 - **Session type** : progression continue dans un monde persistant, sauvegardée.
 - **Public** : joueurs appréciant l'exploration et la réflexion tactique.
 - **Plateforme** : Windows (bureau), rendu Qt QRhi (Direct3D 11).
@@ -35,6 +36,39 @@ explicite :
    *liste*. Le passage au groupe est un lot d'ajout, jamais une refonte.
 4. **Échelle : 1 case = 1,5 m** (5 ft), avec `PIXELS_PER_UNIT = 16` inchangé. Fixe portées,
    vitesses et gabarits d'effet.
+
+## Identités visuelles
+
+Le jeu a **deux identités**, une par couche de l'image, et aucune ne déborde sur l'autre. Le
+`LOT-66` avait écarté le pixel art parce qu'une police bitmap et une illustration peinte « ne
+cohabitent pas » ; la contradiction était de les mêler **dans la même couche**. Le `LOT-92` rend le
+pixel art à la scène et laisse l'interface à la charte v2 : chaque couche reste cohérente avec
+elle-même, et la frontière entre les deux est écrite, pas laissée à l'œil.
+
+- \anchor EX-VIS-008 **EX-VIS-008** — La **scène** — sols, murs, objets du monde et figurines —
+  doit être en **pixel art isométrique** : losange de **68 × 42 pixels d'art** (rapport 0,62,
+  celui d'`core::IsoProjection`), figurine de **45 px**, mur de **58 px** au-dessus de sa case.
+  Le style est **écrit** et non laissé au générateur : le bloc A de l'atelier des textures
+  (`LOT-92-atelier-textures/atelier/prompts/style.txt`), tiré de la **maquette approuvée par
+  l'auteur** (`atelier/ancres/maquette.png`), fixe le trait (contour d'un pixel, brun ou marine
+  profond, jamais noir), la lumière (soir, clé en haut à gauche, flaques de lanterne en aplats) et
+  les familles de matière relevées sur la maquette. Les textures se commandent **par lieu**, depuis
+  sa fiche d'atlas (`LOT-37`) et une **disposition** (`atelier/dispositions/`) ; elles
+  sont installées **en pixels d'art**, sur une **palette de 64 couleurs commune au lieu**, alpha
+  binaire, et échantillonnées au plus proche voisin (`EX-ARCH-022`). Les figurines de l'atelier
+  des PNJ (`LOT-91`) sont de la scène, au même pas de pixel que le sol.
+  > **Écart connu, non tranché.** Le cadrage de l'arène met une case à la largeur que la fenêtre
+  > lui laisse, et les figurines à 1,25 fois leur taille (`ARENA_FIGURE_SCALE`) : le facteur
+  > d'affichage n'est pas entier, et au plus proche voisin les pixels d'art n'ont pas tous la même
+  > taille à l'écran. L'exigence ne l'interdit pas encore ; la vue du monde du `LOT-09` la
+  > rencontrera.
+- \anchor EX-VIS-009 **EX-VIS-009** — L'**interface** — écrans, panneaux, HUD, et tout ce qui
+  **renseigne le joueur par-dessus la scène** (curseur, chemin, portées, texte ancré) — doit porter
+  la **charte v2** (`EX-IHM-070`) : images produites à 1080p et échantillonnées à tout facteur,
+  polices vectorielles embarquées (`EX-REN-032`). Aucun élément de l'interface n'est en pixel art
+  et aucun élément du monde ne porte la charte : pas de filet d'or ni de `Cinzel` dans la scène,
+  pas de police pixel ni de cadre crénelé dans les écrans. Le seul point de contact est le
+  **viewport** de la scène, qu'un écran de l'interface encadre sans le peindre.
 
 ## Boucle de gameplay
 

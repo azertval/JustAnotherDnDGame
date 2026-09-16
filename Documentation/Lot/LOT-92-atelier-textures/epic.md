@@ -1,6 +1,7 @@
 # LOT-92 — Atelier des textures : le style de la scène par maquette, une planche par lieu {#lot-92}
 
-> Statut : **en cours, ouvert le 16 septembre 2026.** T0 à T4 faits ; reste T5.
+> Statut : **en cours, ouvert le 16 septembre 2026.** T0 à T5 faits ; reste la relecture de la
+> spécification par l'auteur, puis la livraison.
 > Prérequis : [LOT-50](@ref lot-50) (la planche du Colisée et `extract_coliseum_atlas.py`),
 > [LOT-91](@ref lot-91) (la méthode de l'atelier des PNJ), [LOT-39](@ref lot-39) (les clés
 > d'assets et le cahier), [LOT-37](@ref lot-37) (l'atlas, dont le bloc B lit les lieux).
@@ -45,6 +46,11 @@ l'arête (pavés, sable).
 | **T3 — La disposition et la découpe** | `atelier/dispositions/<id>.json` (cellules nommées : sols, pièces hautes, grandes pièces ; emprise en cases, hauteur) ; `scripts/extract_texture_sheet.py` en déduit la grille, le gabarit, le bloc C, la découpe et la clé `scene/<lieu>/<nom>` de chaque texture ; `check_assets_brief.py` valide les dispositions. | `extract_texture_sheet.py --check` reproduit le dossier ; `check_assets_brief.py` vert. |
 | **T4 — La planche du Colisée** | Bloc B depuis la fiche d'Arenarea, réduit aux phrases de l'Arena of Fate, disposition « Colisée » : sable, gradins, loges, couloirs, vestiaires, portes, torches, bannières. Remplace la planche du `LOT-50` au rendu de l'arène. | Découpée par le script ; l'arène se dessine avec. |
 | **T5 — Martpart et la spécification** | La planche de Martpart se **commande** (envoi prêt) depuis sa seule fiche d'atlas, bloc A intouché ; `Documentation/Specification/` dit les deux identités, scène et interface. | Envoi préparé sans rédaction à la main ; spécification relue. |
+
+## Exigences couvertes
+
+- `EX-VIS-008` — la scène en pixel art isométrique, au style écrit par le bloc A (T1, T2, T4, T5).
+- `EX-VIS-009` — l'interface à la charte v2, et la frontière entre les deux identités (T5).
 
 ## Journal
 
@@ -203,3 +209,29 @@ l'arête (pavés, sable).
   torches, figurines à l'échelle. *Reste au `LOT-09`* : retirer la planche du `LOT-50` (ses
   figurines servent encore) ; les grandes pièces (portes, loges) et les gradins ne sont pas
   encore posés, la grille de combat n'en a pas l'usage.
+- **16 septembre 2026, T5 : Martpart se commande, la spécification dit les deux identités.**
+  *Décisions* :
+  - **Un modèle, pas une disposition rédigée.** Une disposition sans cellules écrites pour son
+    lieu nomme un modèle (`atelier/dispositions/modeles/<nom>.json`) qui porte la taille des
+    planches, les classes, le sujet et des cellules **neutres** — « un objet typique du lieu décrit
+    plus haut » — : c'est le bloc B, la fiche d'atlas **entière**, qui dit au générateur ce qui rend
+    le lieu reconnaissable. `resoudre` fusionne le fichier sur son modèle ; le titre vient du nom de
+    la fiche, `keyPrefix` (`scene/<id>`) et `installRoot` de l'identifiant ; un champ écrit dans le
+    fichier l'emporte. `martpart.json` tient en quatre champs : `version`, `id`, `location`,
+    `model`. Le Colisée garde sa disposition propre.
+  - **Modèle `quartier`** : 22 cellules, 18 dessinées, une planche 2560 × 1440 au pas 4 — six sols
+    (rue et deux variantes, place, ruelle, seuil), mur, angle, porte, fenêtre éclairée (paires en
+    miroir), éclairage de rue, quatre objets typiques, une façade sur deux cases (paire en miroir),
+    deux grands éléments libres sur deux cases. Bloc A intouché.
+  - *Préparé* : `commande martpart 1` → `<TEXTURE_ATELIER>/chatgpt/martpart-tour1/planche-1/`
+    (prompt de 7 091 caractères, maquette, gabarit). *Risque vu au prompt* : la fiche nomme l'Illu
+    Die Arena ; un « grand élément » peut la dessiner entière sur deux cases. Constat à faire au
+    tour 1, pas de correction d'avance.
+  - **Spécification** : `vision.md` gagne une section *Identités visuelles* — `EX-VIS-008` (la
+    scène : losange 68 × 42, figurine 45 px, bloc A et maquette, planche par lieu, palette de 64
+    couleurs, plus proche voisin) et `EX-VIS-009` (l'interface à la charte v2 ; ce qui renseigne le
+    joueur par-dessus la scène en relève, ce qui est du monde relève du pixel art ; le viewport est
+    le seul contact). `EX-IHM-070` et `EX-ARCH-022` sont *précisées* en renvoi. *Écart consigné,
+    non tranché* : le facteur d'affichage de la scène n'est pas entier (cadrage, figurines × 1,25).
+  Tests : 27 dans `test_extract_texture_sheet.py` (nouveaux : Martpart depuis sa seule fiche,
+  modèle inconnu refusé, champ du fichier prioritaire).

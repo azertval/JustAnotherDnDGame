@@ -182,6 +182,11 @@ souris, insuffisant à la manette, qui n'a pas de pointeur pour dire où elle en
   Cette identité est **bornée aux écrans du jeu** — le châssis d'édition conserve son apparence
   d'outil de travail et ses thèmes clair/sombre (`EX-IHM-054`), et ni parchemin ni panneau doré ne se
   répand dans ses tables et ses arbres denses.
+  > **Précisée au `LOT-92`.** Le pixel art écarté ici l'est **de l'interface** : la scène y
+  > revient (`EX-VIS-008`), et `EX-VIS-009` trace la frontière entre les deux identités — ce qui
+  > renseigne le joueur par-dessus la scène appartient à la charte v2, ce qui est du monde au pixel
+  > art.
+  >
   > **Refondue au `LOT-87`.** Elle décrivait le seul parchemin, en polices pixel (`Pixelify Sans`,
   > `Press Start 2P`), agrandi d'un facteur **entier** : à 1,5×, le trait et le filet d'un
   > encadrement tracé s'arrondissaient tous deux à la même épaisseur et la réserve de parchemin qui
