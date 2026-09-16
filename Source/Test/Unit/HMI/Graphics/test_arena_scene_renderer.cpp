@@ -13,7 +13,9 @@
  */
 
 #include <QImage>
+#include <QString>
 #include <cstddef>
+#include <cstdint>
 #include <filesystem>
 #include <memory>
 #include <optional>
@@ -59,8 +61,8 @@ struct OffscreenTarget {
     std::unique_ptr<QRhiTextureRenderTarget> renderTarget;
     std::unique_ptr<QRhiRenderPassDescriptor> pass;
 
-    explicit OffscreenTarget(QRhi& rhi)
-        : texture(rhi.newTexture(QRhiTexture::RGBA8, QSize(TARGET_SIZE, TARGET_SIZE), 1,
+    explicit OffscreenTarget(QRhi& rhi, QSize size = QSize(TARGET_SIZE, TARGET_SIZE))
+        : texture(rhi.newTexture(QRhiTexture::RGBA8, size, 1,
                                  QRhiTexture::RenderTarget | QRhiTexture::UsedAsTransferSource)) {
         EXPECT_TRUE(texture->create());
         renderTarget.reset(rhi.newTextureRenderTarget({{texture.get()}}));
@@ -148,8 +150,8 @@ hmi::ArenaSceneSnapshot snapshotDePiste() {
     return hmi::snapshotArenaScene(session);
 }
 
-/// Sols (20), enceinte (15) et figurines (4) de la piste.
-constexpr std::size_t PISTE_QUADS = 20 + 15 + 4;
+/// Sols (20), enceinte (14 : une piece par case de mur, et l'arche) et figurines (4) de la piste.
+constexpr std::size_t PISTE_QUADS = 20 + 14 + 4;
 
 }  // namespace
 
@@ -185,9 +187,10 @@ TEST(ArenaSceneRendererTest, CreationLiberationRecreation) {
             << "une piece livree n'a pas pu etre chargee";
         EXPECT_NE(renderer.textures().missing.texture, nullptr);
         // Idempotent sur la meme interface.
-        const hmi::TextureHandle sand = renderer.textures().resolve("terrain/sand.png").texture;
+        const hmi::TextureHandle sand =
+            renderer.textures().resolve("../Scene/coliseum/sand.png").texture;
         EXPECT_TRUE(renderer.ensureResources(rhi.get()));
-        EXPECT_EQ(renderer.textures().resolve("terrain/sand.png").texture, sand);
+        EXPECT_EQ(renderer.textures().resolve("../Scene/coliseum/sand.png").texture, sand);
 
         // Liberee sans avoir jamais dessine : le lot de creation doit etre rendu, pas perdu.
         renderer.release();
@@ -212,7 +215,7 @@ TEST(ArenaSceneRendererTest, CreationLiberationRecreation) {
  * \tcrit Bloquant<br/>
  * \tetapes 1. Tirer l'instantane de la piste 5x4 (quatre combattants), puis detruire la
  *             session.<br/>2. Dessiner une image hors ecran et la relire.<br/>
- * \tattendu 39 quads composes, tous sur une piece chargee (aucun damier) ; une part notable de
+ * \tattendu 38 quads composes, tous sur une piece chargee (aucun damier) ; une part notable de
  *           l'image est peinte, et le fond subsiste dans les coins.
  * }
  */
@@ -323,4 +326,59 @@ TEST(ArenaSceneRendererTest, LeCadrageRameneChaqueCaseAElleMeme) {
         }
         EXPECT_FALSE(projection.worldToTile(camera.screenToWorld({0.0f, 0.0f})).has_value());
     }
+}
+
+/**
+ * @brief Outil de revue, pas un contrôle : une arène de 20 × 14 cases ceinte de murs, rendue hors
+ *        écran et enregistrée sous le chemin de `JADG_ARENA_CAPTURE` (sauté sans la variable).
+ * \castest{<b>Capture de l'arène pour relecture à l'œil (LOT-92).</b><br/>
+ * \tcat Unitaire · Rendu QRhi de l'arene<br/>
+ * \tcrit Mineur<br/>
+ * \tetapes 1. Définir JADG_ARENA_CAPTURE, lancer ce test.<br/>2. Ouvrir l'image.<br/>
+ * \tattendu Une image 1600 × 1000 est écrite : sable, enceinte, portes, quatre figurines.
+ * }
+ */
+TEST(ArenaSceneRendererTest, CaptureDeLArenePourRelecture) {
+    const QString destination = qEnvironmentVariable("JADG_ARENA_CAPTURE");
+    if (destination.isEmpty()) {
+        GTEST_SKIP() << "JADG_ARENA_CAPTURE non définie : aucune capture demandée.";
+    }
+    const std::unique_ptr<QRhi> rhi = createOffscreenRhi();
+    if (!rhi) {
+        GTEST_SKIP() << "Aucune interface QRhi disponible sur cette machine.";
+    }
+    OffscreenTarget target(*rhi, QSize(1600, 1000));
+    hmi::ArenaSceneRenderer renderer(coliseum());
+    ASSERT_TRUE(renderer.ensureResources(rhi.get()));
+
+    // Le Colisée du LOT-50 : 20 × 14, l'enceinte au bord, une porte au milieu de chaque côté.
+    constexpr int columns = 20;
+    constexpr int rows = 14;
+    hmi::ArenaSceneSnapshot snapshot;
+    snapshot.columns = columns;
+    snapshot.rows = rows;
+    for (int row = 0; row < rows; ++row) {
+        for (int column = 0; column < columns; ++column) {
+            const bool border = row == 0 || column == 0 || row == rows - 1 || column == columns - 1;
+            const bool gate = (column == 0 || column == columns - 1) && row == rows / 2;
+            snapshot.obstructed.push_back(border && !gate);
+        }
+    }
+    const auto figure = [](std::uint32_t id, const char* name, CombatSide side, int column, int row) {
+        return hmi::ArenaFigureSnapshot{.id = core::CombatantId{id},
+                                        .name = name,
+                                        .side = side,
+                                        .down = false,
+                                        .anchor = {.column = column, .row = row},
+                                        .footprint = 1};
+    };
+    snapshot.figures = {figure(1, "Bram", CombatSide::Allies, 8, 6),
+                        figure(2, "Eve", CombatSide::Allies, 9, 8),
+                        figure(3, "Orc", CombatSide::Enemies, 11, 6),
+                        figure(4, "Rat", CombatSide::Enemies, 12, 7)};
+    renderer.setSnapshot(std::move(snapshot));
+
+    const QImage image = renderFrame(*rhi, renderer, target);
+    ASSERT_FALSE(image.isNull());
+    EXPECT_TRUE(image.save(destination)) << destination.toStdString();
 }

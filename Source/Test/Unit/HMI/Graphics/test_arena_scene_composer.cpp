@@ -50,10 +50,11 @@ hmi::ArenaAppearanceCatalog catalog() {
 /**
  * Une piste 5x4 ceinte de murs, une porte en (0, 2). Au compte :
  * - 20 sols ;
- * - 13 cases de mur : 4 colonnes aux angles, 9 pans ; une torche en (4, 2) (bord droit, ligne 2) ;
+ * - 13 cases de mur, une piece chacune (LOT-92 : une piece porte son mur) : l'angle du fond (0, 0),
+ *   trois piliers aux autres angles, huit pans et un pan a torche en (4, 2) (bord droit, ligne 2) ;
  *   aucune banniere (aucune colonne multiple de 5 hors des angles) ;
  * - 1 arche, sur la porte.
- * Soit 20 quads `Tile` et 15 quads `Object`.
+ * Soit 20 quads `Tile` et 14 quads `Object`.
  */
 core::Level piste() {
     core::TileMap carte(5, 4);
@@ -74,7 +75,7 @@ core::Level piste() {
 }
 
 constexpr int FLOOR_QUADS = 20;
-constexpr int STRUCTURE_QUADS = 15;
+constexpr int STRUCTURE_QUADS = 14;
 
 core::ArenaContestant concurrent(const std::string& nom, CombatSide camp, int colonne, int ligne) {
     const core::CombatantProfile profil{
@@ -101,23 +102,28 @@ hmi::TextureHandle handle(std::uintptr_t value) {
     return reinterpret_cast<hmi::TextureHandle>(value);
 }
 
-/// Toutes les pieces que la piste et ses combattants demandent, aux dimensions de la planche.
+/// Chemin d'une piece de scene de l'atelier (LOT-92), relatif au dossier du Colisee.
+std::string scenePiece(const std::string& name) {
+    return "../Scene/coliseum/" + name + ".png";
+}
+
+/// Hauteur d'une piece debout de l'atelier, en pixels d'art (manifeste du Colisee, classe `tall`).
+constexpr int STANDING_HEIGHT = 100;
+
+/// Toutes les pieces que la piste et ses combattants demandent, aux dimensions de l'atelier.
 hmi::ArenaSceneTextures textures(const hmi::ArenaAppearanceCatalog& appearance) {
     hmi::ArenaSceneTextures result;
     std::uintptr_t next = 1;
     const auto add = [&](const std::string& path, int width, int height) {
         result.byPath[path] = hmi::ArenaTexture{handle(next++), width, height};
     };
-    add("terrain/sand.png", 86, 56);
-    add("terrain/stone.png", 86, 56);
-    for (const std::string& slab : appearance.paleSlabs()) {
-        add("coliseum/" + slab + ".png", 50, 31);
+    for (const char* floor : {"sand", "sand-2", "sand-3", "sand-blood", "stone-slab", "gate-threshold"}) {
+        add(scenePiece(floor), 68, 42);
     }
-    add("structures/wall.png", 43, 73);
-    add("structures/column_large.png", 27, 80);
-    add("structures/banner_01.png", 19, 68);
-    add("structures/torch_01.png", 26, 71);
-    add("structures/arch.png", 59, 74);
+    for (const char* piece : {"wall-corner", "pillar", "wall-left", "wall-right", "banner-left",
+                              "banner-right", "torch-left", "torch-right", "arch-left", "arch-right"}) {
+        add(scenePiece(piece), 68, STANDING_HEIGHT);
+    }
     for (const std::string& hero : appearance.heroes()) {
         const std::string directory = appearance.sheetDirectory(hero, CombatSide::Allies);
         add(directory + "/idle.png", 240, 64);
@@ -203,7 +209,7 @@ protected:
  * \tcrit Bloquant<br/>
  * \tetapes 1. Monter cinq combattants sur la piste 5x4.<br/>
  *          2. Composer la scene.<br/>
- * \tattendu 20 quads Tile, 15 Object, 5 Player ; aucun sur un autre calque.
+ * \tattendu 20 quads Tile, 14 Object, 5 Player ; aucun sur un autre calque.
  * }
  */
 TEST_F(ArenaSceneComposerTest, NombreDeQuadsParCalque) {
@@ -243,15 +249,14 @@ TEST_F(ArenaSceneComposerTest, OrdreDesCalques) {
 }
 
 /**
- * @brief Une figurine passe devant le mur du fond et derriere le mur de devant ; sur une meme case,
- *        la torche reste devant son mur bien que son bord bas soit plus haut.
- * \castest{<b>La profondeur suit le pied de la case, et l'empilement de la brique QML.</b><br/>
+ * @brief Une figurine passe devant le mur du fond et derriere le mur de devant.
+ * \castest{<b>La profondeur suit le pied de la case.</b><br/>
  * \tcat Unitaire · Composeur de la scene de l'arene<br/>
  * \tcrit Majeur<br/>
  * \tetapes 1. Composer la scene.<br/>
- *          2. Reperer la figurine de Bram (1, 1), le pan (1, 0), le pan (1, 3), la torche (4, 2) et
- *             le pan de sa case.<br/>
- * \tattendu pan (1, 0) < Bram < pan (1, 3) ; pan (4, 2) < torche (4, 2).
+ *          2. Reperer la figurine de Bram (1, 1), le pan (1, 0), le pan (1, 3) et le pan a torche
+ *             (4, 2).<br/>
+ * \tattendu pan (1, 0) < Bram < pan (1, 3) ; la case (4, 2) porte le pan a torche, une seule piece.
  * }
  */
 TEST_F(ArenaSceneComposerTest, ProfondeurAuPiedDeLaCase) {
@@ -285,20 +290,67 @@ TEST_F(ArenaSceneComposerTest, ProfondeurAuPiedDeLaCase) {
     const hmi::ComposedQuad* back = structureAt({.column = 1, .row = 0}, hmi::ArenaDepthSlot::Wall);
     const hmi::ComposedQuad* front =
         structureAt({.column = 1, .row = 3}, hmi::ArenaDepthSlot::Wall);
-    const hmi::ComposedQuad* wall = structureAt({.column = 4, .row = 2}, hmi::ArenaDepthSlot::Wall);
     const hmi::ComposedQuad* torch =
-        structureAt({.column = 4, .row = 2}, hmi::ArenaDepthSlot::WallDecoration);
+        structureAt({.column = 4, .row = 2}, hmi::ArenaDepthSlot::Wall);
     ASSERT_NE(back, nullptr);
     ASSERT_NE(front, nullptr);
-    ASSERT_NE(wall, nullptr);
     ASSERT_NE(torch, nullptr);
 
-    EXPECT_EQ(torch->texture, sceneTextures.resolve("structures/torch_01.png").texture);
-    EXPECT_LT(torch->sprite.y + torch->sprite.height, wall->sprite.y + wall->sprite.height)
-        << "la torche est posee plus haut que son mur";
+    EXPECT_EQ(torch->texture, sceneTextures.resolve(scenePiece("torch-left")).texture);
     EXPECT_LT(indexOf(back), indexOf(bram));
     EXPECT_LT(indexOf(bram), indexOf(front));
-    EXPECT_LT(indexOf(wall), indexOf(torch));
+}
+
+/**
+ * @brief Chaque piece de l'atelier se pose par son ancre et se dresse contre l'arete du fond
+ *        parallele a son bord : pans et arche orientes, angle du fond, piliers, seuil sous la porte.
+ * \castest{<b>Le decor de l'atelier des textures (LOT-92) est pose par son ancre, dans le bon
+ * sens.</b><br/>
+ * \tcat Unitaire · Composeur de la scene de l'arene<br/>
+ * \tcrit Majeur<br/>
+ * \tetapes 1. Composer la piste 5x4.<br/>
+ *          2. Relever la piece et le sol de (1, 0), (0, 1), (0, 0), (4, 3), (0, 2).<br/>
+ * \tattendu (1, 0) wall-right et (0, 1) wall-left, dont le sommet haut du losange tombe sur le
+ * pixel (34, 58) de la texture ; (0, 0) wall-corner ; (4, 3) pillar ; (0, 2) arch-left sur
+ * gate-threshold.
+ * }
+ */
+TEST_F(ArenaSceneComposerTest, LeDecorSePoseParSonAncreDansLeBonSens) {
+    const hmi::ComposedScene composed = compose();
+    const float unitsPerArtPixel =
+        projection.tileWidth() / static_cast<float>(hmi::ARENA_SCENE_TILE_WIDTH_PIXELS);
+    const auto pieceAt = [&](core::GridPosition cell, RenderLayer layer) {
+        const core::Vector2 top = projection.gridToWorld(
+            {static_cast<float>(cell.column), static_cast<float>(cell.row)});
+        const auto found = std::find_if(
+            composed.quads().begin(), composed.quads().end(), [&](const hmi::ComposedQuad& quad) {
+                return quad.layer == layer &&
+                       std::abs(quad.sprite.x + quad.sprite.width / 2.0f - top.x) < 1e-3f &&
+                       quad.sprite.y <= top.y + 1e-3f &&
+                       quad.sprite.y + quad.sprite.height >= top.y - 1e-3f;
+            });
+        EXPECT_NE(found, composed.quads().end())
+            << "rien en (" << cell.column << ", " << cell.row << ")";
+        return found != composed.quads().end() ? &*found : nullptr;
+    };
+    const auto is = [&](const hmi::ComposedQuad* quad, const char* name) {
+        return quad != nullptr && quad->texture == sceneTextures.resolve(scenePiece(name)).texture;
+    };
+
+    const hmi::ComposedQuad* back = pieceAt({.column = 1, .row = 0}, RenderLayer::Object);
+    EXPECT_TRUE(is(back, "wall-right"));
+    const hmi::ComposedQuad* side = pieceAt({.column = 0, .row = 1}, RenderLayer::Object);
+    EXPECT_TRUE(is(side, "wall-left"));
+    ASSERT_NE(side, nullptr);
+    const core::Vector2 top = projection.gridToWorld({0.0f, 1.0f});
+    EXPECT_NEAR(side->sprite.x, top.x - 34.0f * unitsPerArtPixel, 1e-3f);
+    EXPECT_NEAR(side->sprite.y, top.y - (STANDING_HEIGHT - 42) * unitsPerArtPixel, 1e-3f);
+    EXPECT_NEAR(side->sprite.width, 68.0f * unitsPerArtPixel, 1e-3f);
+
+    EXPECT_TRUE(is(pieceAt({.column = 0, .row = 0}, RenderLayer::Object), "wall-corner"));
+    EXPECT_TRUE(is(pieceAt({.column = 4, .row = 3}, RenderLayer::Object), "pillar"));
+    EXPECT_TRUE(is(pieceAt({.column = 0, .row = 2}, RenderLayer::Object), "arch-left"));
+    EXPECT_TRUE(is(pieceAt({.column = 0, .row = 2}, RenderLayer::Tile), "gate-threshold"));
 }
 
 /**
@@ -386,7 +438,7 @@ TEST_F(ArenaSceneComposerTest, ImageCouranteBornee) {
  * \tcrit Majeur<br/>
  * \tetapes 1. Composer sans aucune texture chargee, damier fourni.<br/>
  *          2. Composer sans aucune texture ni damier.<br/>
- * \tattendu 1. Les 40 quads, tous sur le damier. 2. Aucun quad.
+ * \tattendu 1. Les 39 quads, tous sur le damier. 2. Aucun quad.
  * }
  */
 TEST_F(ArenaSceneComposerTest, RepliSurLeDamier) {
@@ -516,7 +568,7 @@ TEST_F(ArenaSceneComposerTest, InstantaneSurvitALaSession) {
  * \tcrit Majeur<br/>
  * \tetapes 1. Lier chaque chemin de arenaTexturePaths a une texture, et le damier a une autre.<br/>
  *          2. Composer la piste avec un allie a terre.<br/>
- * \tattendu Les 40 quads, aucun sur le damier ; la liste n'a pas de doublon.
+ * \tattendu Les 39 quads, aucun sur le damier ; la liste n'a pas de doublon.
  * }
  */
 TEST_F(ArenaSceneComposerTest, ListeDesTexturesCouvreLaComposition) {

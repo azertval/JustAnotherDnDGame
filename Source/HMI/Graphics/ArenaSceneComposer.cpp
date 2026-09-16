@@ -4,6 +4,7 @@
 #include "HMI/Graphics/ArenaSceneComposer.h"
 
 #include <algorithm>
+#include <array>
 #include <optional>
 #include <string>
 #include <vector>
@@ -17,20 +18,47 @@ namespace hmi {
 
 namespace {
 
-// Chemins de la planche, repris de ArenaTile.ui.qml.
-constexpr std::string_view SAND = "terrain/sand.png";
-constexpr std::string_view STONE = "terrain/stone.png";
-constexpr std::string_view WALL = "structures/wall.png";
-constexpr std::string_view COLUMN = "structures/column_large.png";
-constexpr std::string_view BANNER = "structures/banner_01.png";
-constexpr std::string_view TORCH = "structures/torch_01.png";
-constexpr std::string_view ARCH = "structures/arch.png";
+// Les textures de scene de l'atelier du LOT-92, a cote du dossier du Colisee (comme ../Npc).
+constexpr std::string_view SCENE_DIRECTORY = "../Scene/coliseum/";
 
-// Marges basses des pieces, en hauteurs de losange (anchors.bottomMargin de ArenaTile.ui.qml).
-constexpr float WALL_BOTTOM_MARGIN = 0.12f;
-constexpr float DECORATION_BOTTOM_MARGIN = 0.3f;
-constexpr float GATE_BOTTOM_MARGIN = 0.1f;
+// Les sols : le sable, ses variantes semees la ou la brique QML posait une dalle claire, la pierre
+// sous l'enceinte, le seuil sous une porte.
+constexpr std::string_view SAND = "sand";
+constexpr std::array<std::string_view, 3> SAND_VARIANTS{"sand-2", "sand-3", "sand-blood"};
+constexpr std::string_view STONE = "stone-slab";
+constexpr std::string_view THRESHOLD = "gate-threshold";
+
+// Les pieces d'enceinte : un pan, une banniere, une torche et une arche existent pour chaque arete
+// du fond (suffixe -left ou -right) ; l'angle et le pilier n'en ont pas.
+constexpr std::string_view WALL = "wall";
+constexpr std::string_view BANNER = "banner";
+constexpr std::string_view TORCH = "torch";
+constexpr std::string_view ARCH = "arch";
+constexpr std::string_view CORNER = "wall-corner";
+constexpr std::string_view PILLAR = "pillar";
+
+// Marge basse d'une figurine, en hauteurs de losange (anchors.bottomMargin de ArenaTile.ui.qml).
 constexpr float FIGURE_BOTTOM_MARGIN = 0.42f;
+
+/// Le chemin d'une piece de scene : `../Scene/coliseum/<nom><suffixe>.png`.
+void scenePath(std::string& path, std::string_view name, std::string_view suffix = {}) {
+    path.assign(SCENE_DIRECTORY);
+    path.append(name);
+    path.append(suffix);
+    path.append(".png");
+}
+
+/**
+ * @brief L'arete du fond contre laquelle se dresse une piece du bord de la grille.
+ *
+ * Le bord de la ligne 0 (et de la derniere ligne) court comme l'arete droite d'une case, du sommet
+ * haut au sommet droit ; celui de la colonne 0 (et de la derniere), comme l'arete gauche. Une piece
+ * du bord de devant se dresse contre l'arete du fond de sa case, parallele au bord : l'atelier ne
+ * dessine que des pieces du fond.
+ */
+[[nodiscard]] std::string_view edgeSuffix(core::GridPosition cell, int rows) {
+    return cell.row == 0 || cell.row == rows - 1 ? "-right" : "-left";
+}
 
 /// Ce qui ne change pas d'une piece a l'autre : la projection, les textures et le tampon.
 struct Composer {
@@ -39,21 +67,30 @@ struct Composer {
     const ArenaSceneTextures& textures;
     /// Unites monde par pixel de planche : une tuile de 86 px occupe la largeur du losange.
     float unitsPerPixel;
+    /// Unites monde par pixel d'art de l'atelier : un losange de 68 px occupe sa largeur.
+    float unitsPerScenePixel;
 
-    /// Une piece de planche a sa taille native, centree sur @p centerX, son bord bas a @p bottomY.
-    void addStanding(RenderLayer layer, std::string_view path, float centerX, float bottomY,
+    /**
+     * @brief Une piece de scene d'une case, posee par son ancre : le sommet haut du losange de sa
+     *        case tombe sur le pixel (34, hauteur - 42) de la texture.
+     *
+     * C'est l'`anchor` du manifeste de l'atelier (LOT-92) pour une emprise d'une case : la texture a
+     * la largeur du losange, le losange en occupe les 42 pixels du bas, le reste monte au-dessus.
+     */
+    void addStanding(RenderLayer layer, std::string_view path, core::Vector2 topVertex,
                      std::int32_t sortOrder) const {
         const ArenaTexture& texture = textures.resolve(path);
         if (texture.texture == nullptr) {
             return;
         }
-        const float width = static_cast<float>(texture.width) * unitsPerPixel;
-        const float height = static_cast<float>(texture.height) * unitsPerPixel;
+        const float height = static_cast<float>(texture.height);
         SpriteQuad quad;
-        quad.x = centerX - width / 2.0f;
-        quad.y = bottomY - height;
-        quad.width = width;
-        quad.height = height;
+        quad.x = topVertex.x -
+                 static_cast<float>(ARENA_SCENE_HALF_TILE_WIDTH_PIXELS) * unitsPerScenePixel;
+        quad.y = topVertex.y -
+                 (height - static_cast<float>(ARENA_SCENE_TILE_HEIGHT_PIXELS)) * unitsPerScenePixel;
+        quad.width = static_cast<float>(texture.width) * unitsPerScenePixel;
+        quad.height = height * unitsPerScenePixel;
         scene.addSprite(layer, texture.texture, sortOrder, quad);
     }
 };
@@ -68,16 +105,20 @@ void composeTile(const Composer& composer, const ArenaAppearanceCatalog& catalog
         catalog.tileAppearance(cell, snapshot.columns, snapshot.rows, snapshot.isObstructed(cell));
     const core::Rect bounds = composer.projection.tileBounds(cell);
     const float tileHeight = bounds.size.y;
-    const float centerX = bounds.position.x + bounds.size.x / 2.0f;
     const float bottomY = bounds.position.y + tileHeight;
+    const core::Vector2 topVertex =
+        composer.projection.gridToWorld(gridPoint(cell.column, cell.row));
 
     // --- Le sol : etire sur la boite du losange, comme l'Image en anchors.fill ---------------
-    if (appearance.slab) {
-        path.assign("coliseum/");
-        path.append(catalog.paleSlabs()[static_cast<std::size_t>(appearance.slabVariant)]);
-        path.append(".png");
+    if (appearance.wall) {
+        scenePath(path, STONE);
+    } else if (appearance.gateSpot) {
+        scenePath(path, THRESHOLD);
+    } else if (appearance.slab) {
+        scenePath(path, SAND_VARIANTS[static_cast<std::size_t>(appearance.slabVariant) %
+                                      SAND_VARIANTS.size()]);
     } else {
-        path.assign(appearance.wall ? STONE : SAND);
+        scenePath(path, SAND);
     }
     if (const ArenaTexture& floor = composer.textures.resolve(path); floor.texture != nullptr) {
         SpriteQuad quad;
@@ -89,35 +130,34 @@ void composeTile(const Composer& composer, const ArenaAppearanceCatalog& catalog
                                  quad);
     }
 
-    // --- L'enceinte : des pieces debout, triees au pied de la case --------------------------
-    switch (appearance.wallFeature) {
-        case WallFeature::None:
-            break;
-        case WallFeature::Corner:
-            composer.addStanding(RenderLayer::Object, COLUMN, centerX,
-                                 bottomY - tileHeight * WALL_BOTTOM_MARGIN,
-                                 arenaDepthSortOrder(bottomY, ArenaDepthSlot::Wall));
-            break;
-        case WallFeature::Plain:
-        case WallFeature::BannerSpot:
-        case WallFeature::TorchSpot:
-            composer.addStanding(RenderLayer::Object, WALL, centerX,
-                                 bottomY - tileHeight * WALL_BOTTOM_MARGIN,
-                                 arenaDepthSortOrder(bottomY, ArenaDepthSlot::Wall));
-            break;
-    }
-    if (appearance.wallFeature == WallFeature::BannerSpot ||
-        appearance.wallFeature == WallFeature::TorchSpot) {
-        composer.addStanding(RenderLayer::Object,
-                             appearance.wallFeature == WallFeature::BannerSpot ? BANNER : TORCH,
-                             centerX, bottomY - tileHeight * DECORATION_BOTTOM_MARGIN,
-                             arenaDepthSortOrder(bottomY, ArenaDepthSlot::WallDecoration));
-    }
+    // --- L'enceinte : une piece debout par case, triee au pied de la case --------------------
+    // Une piece de l'atelier porte son mur : une torche, une banniere, une arche sont un pan decore,
+    // pas une decoration posee sur un pan.
+    const std::string_view edge = edgeSuffix(cell, snapshot.rows);
     if (appearance.gateSpot) {
-        composer.addStanding(RenderLayer::Object, ARCH, centerX,
-                             bottomY - tileHeight * GATE_BOTTOM_MARGIN,
-                             arenaDepthSortOrder(bottomY, ArenaDepthSlot::Gate));
+        scenePath(path, ARCH, edge);
+    } else {
+        switch (appearance.wallFeature) {
+            case WallFeature::None:
+                return;
+            case WallFeature::Corner:
+                // L'angle du fond ferme les deux murs ; les trois autres angles sont des piliers.
+                scenePath(path, cell.column == 0 && cell.row == 0 ? CORNER : PILLAR);
+                break;
+            case WallFeature::Plain:
+                scenePath(path, WALL, edge);
+                break;
+            case WallFeature::BannerSpot:
+                scenePath(path, BANNER, edge);
+                break;
+            case WallFeature::TorchSpot:
+                scenePath(path, TORCH, edge);
+                break;
+        }
     }
+    composer.addStanding(RenderLayer::Object, path, topVertex,
+                         arenaDepthSortOrder(bottomY, appearance.gateSpot ? ArenaDepthSlot::Gate
+                                                                          : ArenaDepthSlot::Wall));
 }
 
 void composeFigure(const Composer& composer, const ArenaAppearanceCatalog& catalog,
@@ -195,11 +235,23 @@ std::int32_t arenaDepthSortOrder(float footWorldY, ArenaDepthSlot slot) noexcept
 }
 
 std::vector<std::string> arenaTexturePaths(const ArenaAppearanceCatalog& catalog) {
-    std::vector<std::string> paths{std::string(SAND),   std::string(STONE),  std::string(WALL),
-                                   std::string(COLUMN), std::string(BANNER), std::string(TORCH),
-                                   std::string(ARCH)};
-    for (const std::string& slab : catalog.paleSlabs()) {
-        paths.push_back("coliseum/" + slab + ".png");
+    std::vector<std::string> paths;
+    std::string path;
+    const auto add = [&](std::string_view name, std::string_view suffix = {}) {
+        scenePath(path, name, suffix);
+        paths.push_back(path);
+    };
+    add(SAND);
+    for (const std::string_view variant : SAND_VARIANTS) {
+        add(variant);
+    }
+    add(STONE);
+    add(THRESHOLD);
+    add(CORNER);
+    add(PILLAR);
+    for (const std::string_view piece : {WALL, BANNER, TORCH, ARCH}) {
+        add(piece, "-left");
+        add(piece, "-right");
     }
     // Un allie a terre montre sa bande de mort ; un ennemi, sa bande de repos estompee.
     for (const std::string& hero : catalog.heroes()) {
@@ -267,7 +319,9 @@ void composeArenaScene(ComposedScene& scene, const ArenaSceneSnapshot& snapshot,
         .scene = scene,
         .projection = projection,
         .textures = textures,
-        .unitsPerPixel = projection.tileWidth() / core::ARENA_SHEET_TILE_WIDTH_PIXELS};
+        .unitsPerPixel = projection.tileWidth() / core::ARENA_SHEET_TILE_WIDTH_PIXELS,
+        .unitsPerScenePixel =
+            projection.tileWidth() / static_cast<float>(ARENA_SCENE_TILE_WIDTH_PIXELS)};
     // Un seul tampon de chemin pour toute la scene : apres la premiere image, plus d'allocation.
     std::string path;
 

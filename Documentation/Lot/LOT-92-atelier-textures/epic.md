@@ -1,6 +1,6 @@
 # LOT-92 — Atelier des textures : le style de la scène par maquette, une planche par lieu {#lot-92}
 
-> Statut : **en cours, ouvert le 16 septembre 2026.** T0 à T3 faits ; T4 attend la génération de la planche du Colisée.
+> Statut : **en cours, ouvert le 16 septembre 2026.** T0 à T4 faits ; reste T5.
 > Prérequis : [LOT-50](@ref lot-50) (la planche du Colisée et `extract_coliseum_atlas.py`),
 > [LOT-91](@ref lot-91) (la méthode de l'atelier des PNJ), [LOT-39](@ref lot-39) (les clés
 > d'assets et le cahier), [LOT-37](@ref lot-37) (l'atlas, dont le bloc B lit les lieux).
@@ -179,3 +179,27 @@ l'arête (pavés, sable).
   bannière, loge, gradins, escalier « -left ». Relu à l'œil sur une planche de contrôle (textures
   ×3, ancres marquées) : orientations, ancres et miroirs justes. `bench` est rogné de 2 px.
   *Reste pour T4* : que l'arène se dessine avec ces textures (composeur du `LOT-86`).
+- **16 septembre 2026, T4 fait : l'arène se dessine avec l'atelier.** `hmi::composeArenaScene`
+  lit ses sols et son enceinte sous `Assets/Scene/coliseum/` (chemins `../Scene/coliseum/<nom>.png`
+  relatifs au dossier du Colisée, comme `../Npc`) ; les figurines restent celles du Colisée.
+  *Décisions* :
+  - **une pièce par case d'enceinte**, qui porte son mur : pan, pan à torche, pan à bannière,
+    arche sur une porte ; l'angle du fond est `wall-corner`, les trois autres des piliers
+    (14 quads d'enceinte sur la piste de test au lieu de 15 : la torche n'est plus posée sur un
+    pan) ;
+  - **l'arête** : les bords haut et bas de la grille courent comme l'arête droite d'une case
+    (`-right`), les bords gauche et droit comme l'arête gauche (`-left`) ; un mur du bord de
+    devant se dresse contre l'arête du fond de sa case, l'atelier ne dessinant que des pièces du
+    fond ;
+  - **la pose par l'ancre** : 68 px d'art pour la largeur du losange
+    (`ARENA_SCENE_TILE_WIDTH_PIXELS`), le sommet haut du losange de la case sur le pixel
+    (34, hauteur − 42) — l'`anchor` du manifeste pour une emprise d'une case ;
+  - **les sols** : `stone-slab` sous l'enceinte, `gate-threshold` sous une porte, `sand` et ses
+    trois variantes là où le catalogue semait une dalle claire.
+  *Vérifié* : 1 265 tests unitaires (nouveau : `LeDecorSePoseParSonAncreDansLeBonSens`) ; le
+  rendu QRhi charge les 22 textures de scène depuis les fichiers livrés ; capture d'une arène
+  20 × 14 hors écran (`ArenaSceneRendererTest.CaptureDeLArenePourRelecture`, jouée si
+  `JADG_ARENA_CAPTURE` nomme un fichier) relue à l'œil : enceinte orientée, portes, bannières,
+  torches, figurines à l'échelle. *Reste au `LOT-09`* : retirer la planche du `LOT-50` (ses
+  figurines servent encore) ; les grandes pièces (portes, loges) et les gradins ne sont pas
+  encore posés, la grille de combat n'en a pas l'usage.
