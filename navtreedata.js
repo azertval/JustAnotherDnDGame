@@ -31,7 +31,7 @@ var NAVTREE =
     [ "Navigation", "index.html#autotoc_md4", null ],
     [ "Guide du développeur", "guide.html", "guide" ],
     [ "Cahier de test", "cahiertest.html", [
-      [ "Tests unitaires (1256)", "cahiertest.html#autotoc_md5", [
+      [ "Tests unitaires (1259)", "cahiertest.html#autotoc_md5", [
         [ "Core", "cahiertest.html#autotoc_md6", [
           [ "Combat (112)", "cahiertest.html#autotoc_md7", null ],
           [ "Data (12)", "cahiertest.html#autotoc_md8", null ],
@@ -44,14 +44,14 @@ var NAVTREE =
           [ "Resources (9)", "cahiertest.html#autotoc_md15", null ],
           [ "Rpg (81)", "cahiertest.html#autotoc_md16", null ],
           [ "Time (7)", "cahiertest.html#autotoc_md17", null ],
-          [ "World (34)", "cahiertest.html#autotoc_md18", null ]
+          [ "World (35)", "cahiertest.html#autotoc_md18", null ]
         ] ],
         [ "HMI", "cahiertest.html#autotoc_md19", [
           [ "Audio (14)", "cahiertest.html#autotoc_md20", null ],
           [ "Diagnostics (2)", "cahiertest.html#autotoc_md21", null ],
           [ "Editor (184)", "cahiertest.html#autotoc_md22", null ],
           [ "Game (38)", "cahiertest.html#autotoc_md23", null ],
-          [ "Graphics (304)", "cahiertest.html#autotoc_md24", null ],
+          [ "Graphics (306)", "cahiertest.html#autotoc_md24", null ],
           [ "Input (82)", "cahiertest.html#autotoc_md25", null ],
           [ "Interface (62)", "cahiertest.html#autotoc_md26", null ],
           [ "Localization (9)", "cahiertest.html#autotoc_md27", null ],
@@ -75,37 +75,48 @@ var NAVTREE =
     [ "Lots", "lots.html", "lots" ],
     [ "Manuel utilisateur", "manuel.html", "manuel" ],
     [ "LOT-11 — Éditeur multi-couches et placement d'entités", "lot-11.html", [
-      [ "Objectif", "lot-11.html#autotoc_md470", null ],
-      [ "La décision préalable, tranchée", "lot-11.html#autotoc_md471", null ],
-      [ "Ce que la feuille de route supposait, et ce que le dépôt contenait", "lot-11.html#autotoc_md472", null ],
-      [ "Ce que ce lot livre", "lot-11.html#autotoc_md473", [
-        [ "Dans le <span class=\"tt\">Core</span>", "lot-11.html#autotoc_md474", null ],
-        [ "Dans <span class=\"tt\">LevelEditor</span>", "lot-11.html#autotoc_md475", null ]
+      [ "Objectif", "lot-11.html#autotoc_md471", null ],
+      [ "La décision préalable, tranchée", "lot-11.html#autotoc_md472", null ],
+      [ "Ce que la feuille de route supposait, et ce que le dépôt contenait", "lot-11.html#autotoc_md473", null ],
+      [ "Ce que ce lot livre", "lot-11.html#autotoc_md474", [
+        [ "Dans le <span class=\"tt\">Core</span>", "lot-11.html#autotoc_md475", null ],
+        [ "Dans <span class=\"tt\">LevelEditor</span>", "lot-11.html#autotoc_md476", null ]
       ] ],
-      [ "Les gestes", "lot-11.html#autotoc_md476", null ],
-      [ "Décisions prises en route", "lot-11.html#autotoc_md477", null ],
-      [ "Ce qui reste hors du lot, nommément", "lot-11.html#autotoc_md478", null ],
-      [ "Critères d'acceptation", "lot-11.html#autotoc_md479", null ]
+      [ "Les gestes", "lot-11.html#autotoc_md477", null ],
+      [ "Décisions prises en route", "lot-11.html#autotoc_md478", null ],
+      [ "Ce qui reste hors du lot, nommément", "lot-11.html#autotoc_md479", null ],
+      [ "Critères d'acceptation", "lot-11.html#autotoc_md480", null ]
     ] ],
     [ "LOT-23 — IA tactique ennemie", "lot-23.html", [
-      [ "Objectif", "lot-23.html#autotoc_md573", null ],
-      [ "Ce que ce lot livre, et ce qu'il ne livre pas", "lot-23.html#autotoc_md574", null ],
-      [ "Les règles du Guide, et où chacune vit", "lot-23.html#autotoc_md575", null ],
-      [ "Comment l'IA décide", "lot-23.html#autotoc_md576", null ],
-      [ "Les deux défauts à prévenir, et comment", "lot-23.html#autotoc_md577", null ],
-      [ "Déterministe, en entiers", "lot-23.html#autotoc_md578", null ],
-      [ "Décisions prises en route", "lot-23.html#autotoc_md579", null ],
-      [ "Ce qui reste hors du lot, nommément", "lot-23.html#autotoc_md580", null ],
-      [ "Critères d'acceptation", "lot-23.html#autotoc_md581", null ]
+      [ "Objectif", "lot-23.html#autotoc_md574", null ],
+      [ "Ce que ce lot livre, et ce qu'il ne livre pas", "lot-23.html#autotoc_md575", null ],
+      [ "Les règles du Guide, et où chacune vit", "lot-23.html#autotoc_md576", null ],
+      [ "Comment l'IA décide", "lot-23.html#autotoc_md577", null ],
+      [ "Les deux défauts à prévenir, et comment", "lot-23.html#autotoc_md578", null ],
+      [ "Déterministe, en entiers", "lot-23.html#autotoc_md579", null ],
+      [ "Décisions prises en route", "lot-23.html#autotoc_md580", null ],
+      [ "Ce qui reste hors du lot, nommément", "lot-23.html#autotoc_md581", null ],
+      [ "Critères d'acceptation", "lot-23.html#autotoc_md582", null ]
     ] ],
     [ "LOT-24 — IHM de combat", "lot-24.html", [
-      [ "Objectif", "lot-24.html#autotoc_md582", null ],
-      [ "Ce que la feuille de route supposait, et ce que le dépôt contenait", "lot-24.html#autotoc_md583", null ],
-      [ "Ce que ce lot livre", "lot-24.html#autotoc_md584", null ],
-      [ "Les commandes", "lot-24.html#autotoc_md585", null ],
-      [ "Décisions prises en route", "lot-24.html#autotoc_md586", null ],
-      [ "Ce qui reste hors du lot, nommément", "lot-24.html#autotoc_md587", null ],
-      [ "Critères d'acceptation", "lot-24.html#autotoc_md588", null ]
+      [ "Objectif", "lot-24.html#autotoc_md583", null ],
+      [ "Ce que la feuille de route supposait, et ce que le dépôt contenait", "lot-24.html#autotoc_md584", null ],
+      [ "Ce que ce lot livre", "lot-24.html#autotoc_md585", null ],
+      [ "Les commandes", "lot-24.html#autotoc_md586", null ],
+      [ "Décisions prises en route", "lot-24.html#autotoc_md587", null ],
+      [ "Ce qui reste hors du lot, nommément", "lot-24.html#autotoc_md588", null ],
+      [ "Critères d'acceptation", "lot-24.html#autotoc_md589", null ]
+    ] ],
+    [ "LOT-92 — Atelier des textures : le style de la scène par maquette, une planche par lieu", "lot-92.html", [
+      [ "Objectif", "lot-92.html#autotoc_md816", null ],
+      [ "Ce que ce lot livre", "lot-92.html#autotoc_md817", null ],
+      [ "Ce qui reste hors du lot, nommément", "lot-92.html#autotoc_md818", null ],
+      [ "Les décisions", "lot-92.html#autotoc_md819", [
+        [ "Risque : l'angle 0,62 en pixel art", "lot-92.html#autotoc_md820", null ]
+      ] ],
+      [ "Les tâches", "lot-92.html#autotoc_md821", null ],
+      [ "Exigences couvertes", "lot-92.html#autotoc_md822", null ],
+      [ "Journal", "lot-92.html#autotoc_md823", null ]
     ] ],
     [ "Crédits graphiques", "md__2home_2runner_2work_2JustAnotherDnDGame_2JustAnotherDnDGame_2Source_2Elements_2Assets_2CREDITS.html", null ],
     [ "Crédits audio", "md__2home_2runner_2work_2JustAnotherDnDGame_2JustAnotherDnDGame_2Source_2Elements_2Audio_2CREDITS.html", null ],
@@ -172,36 +183,36 @@ var NAVTREEINDEX =
 "classhmi_1_1ScreenRouter.html#a82f878c3ef3a0d8b924af7bbca4b37f7a63d72051e901c069f8aa1b32aa0c43bb",
 "classhmi_1_1TextureCache.html#a1107f9ce2c7733737b0aae9791eaacec",
 "dir_0dce02adf24e4614fa697990fdb0a34a.html",
-"guide-boucle.html#autotoc_md57",
+"guide-boucle.html#autotoc_md56",
 "lot-03.html#autotoc_md428",
 "lot-38.html#autotoc_md653",
-"namespacecore.html#a0482bd5ffd0165e722879709e592607e",
-"namespacecore.html#a942a0cabc5c97e0e10dfb8a148e26fb9a12a823e143c43755d6c40dcaf1679dad",
-"namespacecore.html#adbe3368bf4f687b1ab2120308d322c0aaf0ab72293be96072c5f5ad74dfd7f6b5",
-"namespacehmi.html#a3596257b2f41bac7871e8cb7730595d7",
-"namespacehmi.html#a931e4dfdcb2eb27e505c66bc92291f72",
-"namespacehmi.html#ad9c60c575bab3fcb92a2876cc1b11bfc",
-"roadmap.html#lot-95",
-"structcore_1_1ArenaAttack.html#ac76958ea2b70a358e54e91c9f64a9af1",
-"structcore_1_1Background.html#a6f9545625d8d0c92dedbd581e79ce052",
-"structcore_1_1Combatant.html",
-"structcore_1_1DialogueCatalog.html#accc874c7e4acadf672e56459bc0db9e6",
-"structcore_1_1EntityKind.html#ab2fde25009869fa33a999fe245b6aff1",
-"structcore_1_1Item.html#a5e31bf112f66c60ee7e5fc482c645d64",
-"structcore_1_1ParticleEffect.html#a767dd83c16b7b0072422769da07eb5e4",
-"structcore_1_1SkillDefinition.html",
-"structhmi_1_1AnimationDescriptionResult.html",
-"structhmi_1_1ColorTokens.html#a3f568f4e9ea50087da9b69cee87853dd",
-"structhmi_1_1FigureAppearance.html#a50b6ac160b5c7cdb2c8ae8d11cb5ba3b",
-"structhmi_1_1LinkRow.html#a93d02effe5cbd921e51baa5b4700076a",
-"structhmi_1_1PlaytestMessage.html",
-"structhmi_1_1SkinSection.html#ab16dff57581a7dd9fb24540406be0a0c",
-"test__aabb__vs__aabb_8cpp.html#ad4a1b135857cb91167fccac638e7e01b",
-"test__character__sheet__values_8cpp.html",
-"test__follow__camera_8cpp.html#a7cddf54160dd908d767dfaeb0f1ca744",
-"test__level__writer_8cpp.html#a0695318fd6561a23e3547ad1d2a104dd",
-"test__plane__reference_8cpp.html",
-"test__texture__assign__gesture_8cpp.html#a460fdaf819ac89a772aa8b2f27fab5d3"
+"namespacecore.html#a004daf868d7dad4026ff9b7d3d75a11da79e21afc57b7daacab6d6325caffc75f",
+"namespacecore.html#a8fe767302a92e721e28a90cc9651f2bc",
+"namespacecore.html#ad77756d2c98fad50a0b353e7924843a5",
+"namespacehmi.html#a3173a03ac9ce6550a4d84437290a64dc",
+"namespacehmi.html#a904bd9605b7079403b098a5e97e9726e",
+"namespacehmi.html#ad5ace887c9d040dd9cd8b5649a5ab9b3",
+"roadmap.html#lot-74",
+"structcore_1_1Arena.html#aa01a7c4e5ff4f09e615a81e9c5524a28",
+"structcore_1_1AttackRoll.html#afe4ca5d711250be7c4e393105844047d",
+"structcore_1_1CombatEvent.html#a814f14e7bfd2b942f3097a3842bd32a2",
+"structcore_1_1DialogueAction.html",
+"structcore_1_1EntityIssue.html#a3c11b09fa197244738e55f995f98c309",
+"structcore_1_1InventoryStack.html#a19c603affe50a67f5c8aa523afc41358",
+"structcore_1_1Particle.html#a4b703b7dc374a14eddc5c80c83b14b9b",
+"structcore_1_1SkillCatalog.html#a82416b1a90ae5d7675b6c0f1762a4c0b",
+"structcore_1_1WorldPortalLink.html#abef4017d8ca3722b82d5c969af0721c6",
+"structhmi_1_1CharacterSheetContext.html#a7a5f68455ed168e1e86a0af5fa4346ca",
+"structhmi_1_1EntityGestureDecision.html#a94ee58b87761057b997d472f1ee34f28",
+"structhmi_1_1LinkGestureDecision.html#ad132f71711d40ac61d3369a5fc4cae11",
+"structhmi_1_1PlayerSpriteTag.html",
+"structhmi_1_1SkinRow.html#a55e90df35ca96b9d1b99dabdb74251d7",
+"structhmi_1_1WorldGraphLayoutNode.html#a658ecaab804ab15790666c6e74f2d498",
+"test__character__options_8cpp.html#a85dabf020a7ad6bcc54ab6662bec6d2a",
+"test__file__log__sink_8cpp.html#ad28862e9003f426db4e7075d18861b57",
+"test__level__name__validation_8cpp.html",
+"test__plane_8cpp.html#a85b54b1df3c5f11e84e43860965888ab",
+"test__tactical__terrain_8cpp.html#ac313a7df94d07b6d1af82c6ba93fe799"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

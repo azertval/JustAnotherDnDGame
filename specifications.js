@@ -5,12 +5,13 @@ var specifications =
       [ "Concept", "spec-vision.html#autotoc_md398", [
         [ "Décisions de cadrage", "spec-vision.html#autotoc_md399", null ]
       ] ],
-      [ "Boucle de gameplay", "spec-vision.html#autotoc_md400", null ],
-      [ "Objectifs (<em>vertical slice</em>)", "spec-vision.html#autotoc_md401", null ],
-      [ "Objectifs produit (au-delà du moteur)", "spec-vision.html#autotoc_md402", null ],
-      [ "Hors périmètre (<em>vertical slice</em>)", "spec-vision.html#autotoc_md403", null ],
-      [ "Origine", "spec-vision.html#autotoc_md404", null ],
-      [ "Traçabilité", "spec-vision.html#autotoc_md405", null ]
+      [ "Identités visuelles", "spec-vision.html#autotoc_md400", null ],
+      [ "Boucle de gameplay", "spec-vision.html#autotoc_md401", null ],
+      [ "Objectifs (<em>vertical slice</em>)", "spec-vision.html#autotoc_md402", null ],
+      [ "Objectifs produit (au-delà du moteur)", "spec-vision.html#autotoc_md403", null ],
+      [ "Hors périmètre (<em>vertical slice</em>)", "spec-vision.html#autotoc_md404", null ],
+      [ "Origine", "spec-vision.html#autotoc_md405", null ],
+      [ "Traçabilité", "spec-vision.html#autotoc_md406", null ]
     ] ],
     [ "Gameplay", "spec-gameplay.html", [
       [ "1. Monde en tuiles", "spec-gameplay.html#autotoc_md342", [

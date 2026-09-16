@@ -93,9 +93,9 @@ $(function(){initNavTree('cahiertest.html','',''); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md_CahierTest"></a></p>
-<p><b>1272 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
+<p><b>1275 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md5"></a>
-Tests unitaires (1256)</h1>
+Tests unitaires (1259)</h1>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md6"></a>
 Core</h2>
 <p><b><span class="tt"><a class="el" href="test__core_8cpp.html" title="Tests unitaires de la bibliothèque Core (amorçage).">test_core.cpp</a></span></b></p>
@@ -4584,23 +4584,23 @@ Vérifie que <span class="tt">timestep.advance(0.0f)</span> vaut <span class="tt
 Vérifie que <span class="tt">timestep.advance(STEP)</span> vaut <span class="tt">1</span>.  </td></tr>
 </table>
 <h3 class="doxsection"><a class="anchor" id="autotoc_md18"></a>
-World (34)</h3>
+World (35)</h3>
 <p><b><span class="tt"><a class="el" href="test__atlas_8cpp.html" title="Tests de l&#39;atlas des régions (LOT-37) : les treize régions chargent, le graphe tient,...">test_atlas.cpp</a></span></b></p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
 <th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>AtlasTest.LesTreizeRegionsEtLeursLieuxChargentSansErreur</b> (Critique)<br  />
-<sub><span class="tt"><a class="el" href="test__atlas_8cpp.html" title="Tests de l&#39;atlas des régions (LOT-37) : les treize régions chargent, le graphe tient,...">Source/Test/Unit/Core/World/test_atlas.cpp</a>:56</span></sub>  </td><td class="markdownTableBodyNone">Les treize regions et leurs quatre-vingt-quatorze lieux se chargent tous.  </td><td class="markdownTableBodyNone">1. Charger Source/Elements/World.<br  />
+<sub><span class="tt"><a class="el" href="test__atlas_8cpp.html" title="Tests de l&#39;atlas des régions (LOT-37) : les treize régions chargent, le graphe tient,...">Source/Test/Unit/Core/World/test_atlas.cpp</a>:57</span></sub>  </td><td class="markdownTableBodyNone">Les treize regions et leurs cent sept lieux se chargent tous.  </td><td class="markdownTableBodyNone">1. Charger Source/Elements/World.<br  />
  2. Compter les regions, les lieux et les erreurs rapportees.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">atlas().errors.empty()</span> est vrai.<br  />
 Vérifie que <span class="tt">atlas().regions.size()</span> vaut <span class="tt">REGIONS_DU_LIVRE</span>.<br  />
 Vérifie que <span class="tt">atlas().locations.size()</span> vaut <span class="tt">LIEUX_DU_LIVRE</span>.  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>AtlasTest.ChaqueRegionPorteSesSeptAxes</b> (Critique)<br  />
-<sub><span class="tt"><a class="el" href="test__atlas_8cpp.html" title="Tests de l&#39;atlas des régions (LOT-37) : les treize régions chargent, le graphe tient,...">Source/Test/Unit/Core/World/test_atlas.cpp</a>:73</span></sub>  </td><td class="markdownTableBodyNone">Chaque region porte les sept statistiques regionales.  </td><td class="markdownTableBodyNone">1. Pour chaque region, lire les sept axes de l'encart.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">axe.appraisals.empty()</span> est faux.  </td></tr>
+<sub><span class="tt"><a class="el" href="test__atlas_8cpp.html" title="Tests de l&#39;atlas des régions (LOT-37) : les treize régions chargent, le graphe tient,...">Source/Test/Unit/Core/World/test_atlas.cpp</a>:74</span></sub>  </td><td class="markdownTableBodyNone">Chaque region porte les sept statistiques regionales.  </td><td class="markdownTableBodyNone">1. Pour chaque region, lire les sept axes de l'encart.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">axe.appraisals.empty()</span> est faux.  </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>AtlasTest.LEncartDeLEmpireCentralEstRejoueDepuisLeLivre</b> (Critique)<br  />
-<sub><span class="tt"><a class="el" href="test__atlas_8cpp.html" title="Tests de l&#39;atlas des régions (LOT-37) : les treize régions chargent, le graphe tient,...">Source/Test/Unit/Core/World/test_atlas.cpp</a>:95</span></sub>  </td><td class="markdownTableBodyNone">L'encart de l'Empire central concorde avec le Sourcebook.  </td><td class="markdownTableBodyNone">1. Comparer les sept notes de l'Empire central aux valeurs lues sur la page imprimee 90.<br  />
+<sub><span class="tt"><a class="el" href="test__atlas_8cpp.html" title="Tests de l&#39;atlas des régions (LOT-37) : les treize régions chargent, le graphe tient,...">Source/Test/Unit/Core/World/test_atlas.cpp</a>:96</span></sub>  </td><td class="markdownTableBodyNone">L'encart de l'Empire central concorde avec le Sourcebook.  </td><td class="markdownTableBodyNone">1. Comparer les sept notes de l'Empire central aux valeurs lues sur la page imprimee 90.<br  />
  2. Comparer l'effectif et la part de la premiere espece au bloc d'introduction.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">empire</span> diffère de <span class="tt">nullptr</span>.<br  />
 Vérifie que <span class="tt">empire-&gt;statistic(note.axis).grade()</span> vaut <span class="tt">note.grade</span>.<br  />
 Vérifie que <span class="tt">empire-&gt;statistic(note.axis).varies()</span> est faux.<br  />
@@ -4611,7 +4611,7 @@ Vérifie que <span class="tt">empire-&gt;population.species.front().species</spa
 Vérifie que <span class="tt">empire-&gt;population.species.front().percent</span> vaut <span class="tt">84</span>.  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>AtlasTest.UneRegionNonUniformePorteSesDeuxAppreciations</b> (Critique)<br  />
-<sub><span class="tt"><a class="el" href="test__atlas_8cpp.html" title="Tests de l&#39;atlas des régions (LOT-37) : les treize régions chargent, le graphe tient,...">Source/Test/Unit/Core/World/test_atlas.cpp</a>:135</span></sub>  </td><td class="markdownTableBodyNone">Une region non uniforme porte ses deux appreciations avec leur portee.  </td><td class="markdownTableBodyNone">1. Lire la liberte civique du Benenet imperial et la criminalite des Domaines straviens.<br  />
+<sub><span class="tt"><a class="el" href="test__atlas_8cpp.html" title="Tests de l&#39;atlas des régions (LOT-37) : les treize régions chargent, le graphe tient,...">Source/Test/Unit/Core/World/test_atlas.cpp</a>:136</span></sub>  </td><td class="markdownTableBodyNone">Une region non uniforme porte ses deux appreciations avec leur portee.  </td><td class="markdownTableBodyNone">1. Lire la liberte civique du Benenet imperial et la criminalite des Domaines straviens.<br  />
  2. Verifier les deux notes et les deux portees de chacune.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">benenet</span> diffère de <span class="tt">nullptr</span>.<br  />
 Vérifie que <span class="tt">liberte.appraisals.size()</span> vaut <span class="tt">2U</span>.<br  />
 Vérifie que <span class="tt">liberte.varies()</span> est vrai.<br  />
@@ -4627,45 +4627,56 @@ Vérifie que <span class="tt">crime.appraisals[1].grade</span> vaut <span class=
 Vérifie que <span class="tt">crime.appraisals[1].scope</span> vaut <span class="tt">"surface"</span>.  </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>AtlasTest.UneRegionUniformeNePorteAucunePortee</b> (Mineur)<br  />
-<sub><span class="tt"><a class="el" href="test__atlas_8cpp.html" title="Tests de l&#39;atlas des régions (LOT-37) : les treize régions chargent, le graphe tient,...">Source/Test/Unit/Core/World/test_atlas.cpp</a>:172</span></sub>  </td><td class="markdownTableBodyNone">Une region uniforme ne nomme aucune portee.  </td><td class="markdownTableBodyNone">1. Pour chaque axe ne portant qu'une appreciation, lire sa portee.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">axe.appraisals.front().scope.empty()</span> est vrai.  </td></tr>
+<sub><span class="tt"><a class="el" href="test__atlas_8cpp.html" title="Tests de l&#39;atlas des régions (LOT-37) : les treize régions chargent, le graphe tient,...">Source/Test/Unit/Core/World/test_atlas.cpp</a>:173</span></sub>  </td><td class="markdownTableBodyNone">Une region uniforme ne nomme aucune portee.  </td><td class="markdownTableBodyNone">1. Pour chaque axe ne portant qu'une appreciation, lire sa portee.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">axe.appraisals.front().scope.empty()</span> est vrai.  </td></tr>
 <tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>AtlasTest.LaCapitaleEtSesDouzeQuartiersSontRejouesDepuisLeLivre</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__atlas_8cpp.html" title="Tests de l&#39;atlas des régions (LOT-37) : les treize régions chargent, le graphe tient,...">Source/Test/Unit/Core/World/test_atlas.cpp</a>:195</span></sub>  </td><td class="markdownTableBodyNone">La Capitale et ses douze quartiers sont des lieux de l'Empire central.  </td><td class="markdownTableBodyNone">1. Resoudre la Capitale et chacun des douze quartiers, noms recopies du PDF.<br  />
+ 2. Verifier leur region et une phrase de Martpart et d'Arenarea lue sur la page.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">ville</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">ville-&gt;region</span> vaut <span class="tt">"central-empire"</span>.<br  />
+Vérifie que <span class="tt">ville-&gt;description.find("Approximately 680,000")</span> diffère de <span class="tt">std::string::npos</span>.<br  />
+Vérifie que <span class="tt">lieu</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">lieu-&gt;region</span> vaut <span class="tt">"central-empire"</span>.<br  />
+Vérifie que <span class="tt">lieu-&gt;description.empty()</span> est faux.<br  />
+Vérifie que <span class="tt">atlas().findLocation(capitale + "-martpart")-&gt;description.find( "Lantern-lit stalls and culturally blended architecture adorn cobblestone")</span> diffère de <span class="tt">std::string::npos</span>.<br  />
+Vérifie que <span class="tt">atlas().findLocation(capitale + "-arenarea")-&gt;description.find( "Famed for the Arena of Fate")</span> diffère de <span class="tt">std::string::npos</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>AtlasTest.AucunLieuSansRegion</b> (Critique)<br  />
-<sub><span class="tt"><a class="el" href="test__atlas_8cpp.html" title="Tests de l&#39;atlas des régions (LOT-37) : les treize régions chargent, le graphe tient,...">Source/Test/Unit/Core/World/test_atlas.cpp</a>:194</span></sub>  </td><td class="markdownTableBodyNone">Aucun lieu n'est orphelin de region.  </td><td class="markdownTableBodyNone">1. Pour chaque lieu, resoudre la region qu'il declare.<br  />
+<sub><span class="tt"><a class="el" href="test__atlas_8cpp.html" title="Tests de l&#39;atlas des régions (LOT-37) : les treize régions chargent, le graphe tient,...">Source/Test/Unit/Core/World/test_atlas.cpp</a>:233</span></sub>  </td><td class="markdownTableBodyNone">Aucun lieu n'est orphelin de region.  </td><td class="markdownTableBodyNone">1. Pour chaque lieu, resoudre la region qu'il declare.<br  />
  2. Verifier que cette region le cite en retour.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">region</span> diffère de <span class="tt">nullptr</span>.<br  />
 Vérifie que <span class="tt">std::ranges::find(region-&gt;locations, lieu.id)</span> diffère de <span class="tt">region-&gt;locations.end()</span>.  </td></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><b>AtlasTest.ToutLieuCiteParUneRegionExiste</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__atlas_8cpp.html" title="Tests de l&#39;atlas des régions (LOT-37) : les treize régions chargent, le graphe tient,...">Source/Test/Unit/Core/World/test_atlas.cpp</a>:213</span></sub>  </td><td class="markdownTableBodyNone">Toute region ne cite que des lieux existants.  </td><td class="markdownTableBodyNone">1. Pour chaque region, resoudre chacun des lieux qu'elle cite.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">atlas().findLocation(identifiant)</span> diffère de <span class="tt">nullptr</span>.  </td></tr>
 <tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>AtlasTest.ToutLieuCiteParUneRegionExiste</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__atlas_8cpp.html" title="Tests de l&#39;atlas des régions (LOT-37) : les treize régions chargent, le graphe tient,...">Source/Test/Unit/Core/World/test_atlas.cpp</a>:252</span></sub>  </td><td class="markdownTableBodyNone">Toute region ne cite que des lieux existants.  </td><td class="markdownTableBodyNone">1. Pour chaque region, resoudre chacun des lieux qu'elle cite.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">atlas().findLocation(identifiant)</span> diffère de <span class="tt">nullptr</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>AtlasTest.LeVoisinageEstSymetriqueEtLeGrapheConnexe</b> (Critique)<br  />
-<sub><span class="tt"><a class="el" href="test__atlas_8cpp.html" title="Tests de l&#39;atlas des régions (LOT-37) : les treize régions chargent, le graphe tient,...">Source/Test/Unit/Core/World/test_atlas.cpp</a>:231</span></sub>  </td><td class="markdownTableBodyNone">Le voisinage des regions est symetrique et le graphe connexe.  </td><td class="markdownTableBodyNone">1. Pour chaque arete, verifier que la region voisine declare la reciproque.<br  />
+<sub><span class="tt"><a class="el" href="test__atlas_8cpp.html" title="Tests de l&#39;atlas des régions (LOT-37) : les treize régions chargent, le graphe tient,...">Source/Test/Unit/Core/World/test_atlas.cpp</a>:270</span></sub>  </td><td class="markdownTableBodyNone">Le voisinage des regions est symetrique et le graphe connexe.  </td><td class="markdownTableBodyNone">1. Pour chaque arete, verifier que la region voisine declare la reciproque.<br  />
  2. Parcourir le graphe depuis la premiere region.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">autre</span> diffère de <span class="tt">nullptr</span>.<br  />
 Vérifie que <span class="tt">std::ranges::find(autre-&gt;neighbors, region.id)</span> diffère de <span class="tt">autre-&gt;neighbors.end()</span>.<br  />
 Vérifie que <span class="tt">atlas().regions.empty()</span> est faux.<br  />
 Vérifie que <span class="tt">atlas().unreachableFrom(atlas().regions.front().id).empty()</span> est vrai.  </td></tr>
-<tr class="markdownTableRowOdd">
+<tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>AtlasTest.UneRegionCoupeeDuGrapheEstSignalee</b> (Critique)<br  />
-<sub><span class="tt"><a class="el" href="test__atlas_8cpp.html" title="Tests de l&#39;atlas des régions (LOT-37) : les treize régions chargent, le graphe tient,...">Source/Test/Unit/Core/World/test_atlas.cpp</a>:256</span></sub>  </td><td class="markdownTableBodyNone">Le controle de connexite sait echouer.  </td><td class="markdownTableBodyNone">1. Retirer les aretes de Yama, dans une copie de l'atlas.<br  />
+<sub><span class="tt"><a class="el" href="test__atlas_8cpp.html" title="Tests de l&#39;atlas des régions (LOT-37) : les treize régions chargent, le graphe tient,...">Source/Test/Unit/Core/World/test_atlas.cpp</a>:295</span></sub>  </td><td class="markdownTableBodyNone">Le controle de connexite sait echouer.  </td><td class="markdownTableBodyNone">1. Retirer les aretes de Yama, dans une copie de l'atlas.<br  />
  2. Relancer le parcours depuis une autre region.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">ampute.regions.size()</span> est supérieur ou égal à <span class="tt">2U</span>.<br  />
 Vérifie que <span class="tt">cible</span> diffère de <span class="tt">nullptr</span>.<br  />
 Vérifie que <span class="tt">depart</span> diffère de <span class="tt">isolee</span>.<br  />
 Vérifie que <span class="tt">std::ranges::find(perdues, isolee)</span> diffère de <span class="tt">perdues.end()</span>.  </td></tr>
-<tr class="markdownTableRowEven">
+<tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>AtlasTest.LesNotesDuMoteurCoincidentAvecCellesDuSchema</b> (Critique)<br  />
-<sub><span class="tt"><a class="el" href="test__atlas_8cpp.html" title="Tests de l&#39;atlas des régions (LOT-37) : les treize régions chargent, le graphe tient,...">Source/Test/Unit/Core/World/test_atlas.cpp</a>:295</span></sub>  </td><td class="markdownTableBodyNone">Les notes et les axes du moteur coincident avec region.schema.json.  </td><td class="markdownTableBodyNone">1. Lire le schema LIVRE.<br  />
+<sub><span class="tt"><a class="el" href="test__atlas_8cpp.html" title="Tests de l&#39;atlas des régions (LOT-37) : les treize régions chargent, le graphe tient,...">Source/Test/Unit/Core/World/test_atlas.cpp</a>:334</span></sub>  </td><td class="markdownTableBodyNone">Les notes et les axes du moteur coincident avec region.schema.json.  </td><td class="markdownTableBodyNone">1. Lire le schema LIVRE.<br  />
  2. Y chercher les cinq notes et les sept axes que le moteur nomme.<br  />
  3. Verifier qu'une note hors des cinq est refusee.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">flux.is_open()</span> est vrai.<br  />
 Vérifie que <span class="tt">schema.find('"' + std::string{nom} + '"')</span> diffère de <span class="tt">std::string::npos</span>.<br  />
 Vérifie que <span class="tt">core::regionGradeFromName(nom)</span> vaut <span class="tt">std::optional&lt;<a class="el" href="namespacecore.html#aee1e9954e6e76342687aaa9dcf3cbc5a" title="Les cinq notes de l&#39;encart « Regional Statistics » (EX-CNT-060).">core::RegionGrade</a>&gt;{static_cast&lt;<a class="el" href="namespacecore.html#aee1e9954e6e76342687aaa9dcf3cbc5a" title="Les cinq notes de l&#39;encart « Regional Statistics » (EX-CNT-060).">core::RegionGrade</a>&gt;(rang)}</span>.<br  />
 Vérifie que <span class="tt"><a class="el" href="namespacecore.html#ae11b18a52cca73be017c8bd2989a79b9" title="La note portant ce nom de schéma, ou std::nullopt.">core::regionGradeFromName</a>("average").has_value()</span> est faux.<br  />
 Vérifie que <span class="tt">schema.find('"' + std::string{nom} + '"')</span> diffère de <span class="tt">std::string::npos</span>.  </td></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><b>AtlasTest.UnDossierAbsentEstUneErreurPasUnMondeVide</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__atlas_8cpp.html" title="Tests de l&#39;atlas des régions (LOT-37) : les treize régions chargent, le graphe tient,...">Source/Test/Unit/Core/World/test_atlas.cpp</a>:333</span></sub>  </td><td class="markdownTableBodyNone">Un dossier d'atlas absent produit une erreur, pas un monde vide.  </td><td class="markdownTableBodyNone">1. Charger un dossier qui n'existe pas.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">absent.regions.empty()</span> est vrai.<br  />
-Vérifie que <span class="tt">absent.errors.empty()</span> est faux.  </td></tr>
 <tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>AtlasTest.UnDossierAbsentEstUneErreurPasUnMondeVide</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__atlas_8cpp.html" title="Tests de l&#39;atlas des régions (LOT-37) : les treize régions chargent, le graphe tient,...">Source/Test/Unit/Core/World/test_atlas.cpp</a>:372</span></sub>  </td><td class="markdownTableBodyNone">Un dossier d'atlas absent produit une erreur, pas un monde vide.  </td><td class="markdownTableBodyNone">1. Charger un dossier qui n'existe pas.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">absent.regions.empty()</span> est vrai.<br  />
+Vérifie que <span class="tt">absent.errors.empty()</span> est faux.  </td></tr>
+<tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>AtlasTest.LesPartsDePopulationRestentPlausibles</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__atlas_8cpp.html" title="Tests de l&#39;atlas des régions (LOT-37) : les treize régions chargent, le graphe tient,...">Source/Test/Unit/Core/World/test_atlas.cpp</a>:349</span></sub>  </td><td class="markdownTableBodyNone">Les parts de population de chaque region somment a 100 % a l'arrondi pres.  </td><td class="markdownTableBodyNone">1. Pour chaque region, sommer les parts d'espece et la part &lt;&lt; others &gt;&gt;.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">part.percent</span> est strictement supérieur à <span class="tt">0</span>.<br  />
+<sub><span class="tt"><a class="el" href="test__atlas_8cpp.html" title="Tests de l&#39;atlas des régions (LOT-37) : les treize régions chargent, le graphe tient,...">Source/Test/Unit/Core/World/test_atlas.cpp</a>:388</span></sub>  </td><td class="markdownTableBodyNone">Les parts de population de chaque region somment a 100 % a l'arrondi pres.  </td><td class="markdownTableBodyNone">1. Pour chaque region, sommer les parts d'espece et la part &lt;&lt; others &gt;&gt;.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">part.percent</span> est strictement supérieur à <span class="tt">0</span>.<br  />
 Vérifie que <span class="tt">part.species.empty()</span> est faux.<br  />
 Vérifie que <span class="tt">somme</span> est supérieur ou égal à <span class="tt">97</span>.<br  />
 Vérifie que <span class="tt">somme</span> est inférieur ou égal à <span class="tt">103</span>.  </td></tr>
@@ -6336,7 +6347,7 @@ Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a8572b2f7cdb
 Vérifie que <span class="tt">localization.text(key)</span> diffère de <span class="tt">key</span>.  </td></tr>
 </table>
 <h3 class="doxsection"><a class="anchor" id="autotoc_md24"></a>
-Graphics (304)</h3>
+Graphics (306)</h3>
 <p><b><span class="tt"><a class="el" href="test__animated__tiles_8cpp.html" title="Tests unitaires des tuiles animées (LOT-46 TACHE-05) : horloge partagée par asset,...">test_animated_tiles.cpp</a></span></b></p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -6606,34 +6617,45 @@ Vérifie que <span class="tt">catalog.sheetDirectory("bram", <a class="el" href=
 <th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>ArenaSceneComposerTest.NombreDeQuadsParCalque</b> (Bloquant)<br  />
-<sub><span class="tt"><a class="el" href="test__arena__scene__composer_8cpp.html" title="Tests unitaires du composeur de la scène de combat du Colisée (Phase 3 du LOT-86) : nombre de quads,...">Source/Test/Unit/HMI/Graphics/test_arena_scene_composer.cpp</a>:201</span></sub>  </td><td class="markdownTableBodyNone">La scene composee compte exactement les quads attendus, par calque.  </td><td class="markdownTableBodyNone">1. Monter cinq combattants sur la piste 5x4.<br  />
+<sub><span class="tt"><a class="el" href="test__arena__scene__composer_8cpp.html" title="Tests unitaires du composeur de la scène de combat du Colisée (Phase 3 du LOT-86) : nombre de quads,...">Source/Test/Unit/HMI/Graphics/test_arena_scene_composer.cpp</a>:207</span></sub>  </td><td class="markdownTableBodyNone">La scene composee compte exactement les quads attendus, par calque.  </td><td class="markdownTableBodyNone">1. Monter cinq combattants sur la piste 5x4.<br  />
  2. Composer la scene.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">onLayer(scene, RenderLayer::Tile).size()</span> vaut <span class="tt">static_cast&lt;std::size_t&gt;(FLOOR_QUADS)</span>.<br  />
 Vérifie que <span class="tt">onLayer(scene, RenderLayer::Object).size()</span> vaut <span class="tt">static_cast&lt;std::size_t&gt;(STRUCTURE_QUADS)</span>.<br  />
 Vérifie que <span class="tt">onLayer(scene, RenderLayer::Player).size()</span> vaut <span class="tt">5U</span>.<br  />
 Vérifie que <span class="tt">scene.size()</span> vaut <span class="tt">static_cast&lt;std::size_t&gt;(FLOOR_QUADS + STRUCTURE_QUADS + 5)</span>.  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>ArenaSceneComposerTest.OrdreDesCalques</b> (Bloquant)<br  />
-<sub><span class="tt"><a class="el" href="test__arena__scene__composer_8cpp.html" title="Tests unitaires du composeur de la scène de combat du Colisée (Phase 3 du LOT-86) : nombre de quads,...">Source/Test/Unit/HMI/Graphics/test_arena_scene_composer.cpp</a>:221</span></sub>  </td><td class="markdownTableBodyNone">Le sol est dessine sous tout ; la bande de profondeur est triee par pied.  </td><td class="markdownTableBodyNone">1. Composer la scene (triee).  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">quads.size()</span> vaut <span class="tt">static_cast&lt;std::size_t&gt;(FLOOR_QUADS + STRUCTURE_QUADS + 5)</span>.<br  />
+<sub><span class="tt"><a class="el" href="test__arena__scene__composer_8cpp.html" title="Tests unitaires du composeur de la scène de combat du Colisée (Phase 3 du LOT-86) : nombre de quads,...">Source/Test/Unit/HMI/Graphics/test_arena_scene_composer.cpp</a>:227</span></sub>  </td><td class="markdownTableBodyNone">Le sol est dessine sous tout ; la bande de profondeur est triee par pied.  </td><td class="markdownTableBodyNone">1. Composer la scene (triee).  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">quads.size()</span> vaut <span class="tt">static_cast&lt;std::size_t&gt;(FLOOR_QUADS + STRUCTURE_QUADS + 5)</span>.<br  />
 Vérifie que <span class="tt">quads[index].layer</span> vaut <span class="tt">RenderLayer::Tile</span>.<br  />
 Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a0f6ab0e99f196e8793e69035b8f4bf98" title="Le calque appartient-il à la bande de profondeur ?">hmi::sortsByDepth</a>(quads[index].layer)</span> est vrai.<br  />
 Vérifie que <span class="tt">quads[index - 1].sortOrder</span> est inférieur ou égal à <span class="tt">quads[index].sortOrder</span>.  </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>ArenaSceneComposerTest.ProfondeurAuPiedDeLaCase</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__arena__scene__composer_8cpp.html" title="Tests unitaires du composeur de la scène de combat du Colisée (Phase 3 du LOT-86) : nombre de quads,...">Source/Test/Unit/HMI/Graphics/test_arena_scene_composer.cpp</a>:248</span></sub>  </td><td class="markdownTableBodyNone">La profondeur suit le pied de la case, et l'empilement de la brique QML.  </td><td class="markdownTableBodyNone">1. Composer la scene.<br  />
- 2. Reperer la figurine de Bram (1, 1), le pan (1, 0), le pan (1, 3), la torche (4, 2) et le pan de sa case.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">found</span> diffère de <span class="tt">quads.end()</span>.<br  />
+<sub><span class="tt"><a class="el" href="test__arena__scene__composer_8cpp.html" title="Tests unitaires du composeur de la scène de combat du Colisée (Phase 3 du LOT-86) : nombre de quads,...">Source/Test/Unit/HMI/Graphics/test_arena_scene_composer.cpp</a>:253</span></sub>  </td><td class="markdownTableBodyNone">La profondeur suit le pied de la case.  </td><td class="markdownTableBodyNone">1. Composer la scene.<br  />
+ 2. Reperer la figurine de Bram (1, 1), le pan (1, 0), le pan (1, 3) et le pan a torche (4, 2).  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">found</span> diffère de <span class="tt">quads.end()</span>.<br  />
 Vérifie que <span class="tt">bram</span> diffère de <span class="tt">nullptr</span>.<br  />
 Vérifie que <span class="tt">back</span> diffère de <span class="tt">nullptr</span>.<br  />
 Vérifie que <span class="tt">front</span> diffère de <span class="tt">nullptr</span>.<br  />
-Vérifie que <span class="tt">wall</span> diffère de <span class="tt">nullptr</span>.<br  />
 Vérifie que <span class="tt">torch</span> diffère de <span class="tt">nullptr</span>.<br  />
-Vérifie que <span class="tt">torch-&gt;texture</span> vaut <span class="tt">sceneTextures.resolve("structures/torch_01.png").texture</span>.<br  />
-Vérifie que <span class="tt">torch-&gt;sprite.y + torch-&gt;sprite.height</span> est strictement inférieur à <span class="tt">wall-&gt;sprite.y + wall-&gt;sprite.height</span>.<br  />
+Vérifie que <span class="tt">torch-&gt;texture</span> vaut <span class="tt">sceneTextures.resolve(scenePiece("torch-left")).texture</span>.<br  />
 Vérifie que <span class="tt">indexOf(back)</span> est strictement inférieur à <span class="tt">indexOf(bram)</span>.<br  />
-Vérifie que <span class="tt">indexOf(bram)</span> est strictement inférieur à <span class="tt">indexOf(front)</span>.<br  />
-Vérifie que <span class="tt">indexOf(wall)</span> est strictement inférieur à <span class="tt">indexOf(torch)</span>.  </td></tr>
+Vérifie que <span class="tt">indexOf(bram)</span> est strictement inférieur à <span class="tt">indexOf(front)</span>.  </td></tr>
 <tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>ArenaSceneComposerTest.LeDecorSePoseParSonAncreDansLeBonSens</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__arena__scene__composer_8cpp.html" title="Tests unitaires du composeur de la scène de combat du Colisée (Phase 3 du LOT-86) : nombre de quads,...">Source/Test/Unit/HMI/Graphics/test_arena_scene_composer.cpp</a>:307</span></sub>  </td><td class="markdownTableBodyNone">Le decor de l'atelier des textures (LOT-92) est pose par son ancre, dans le bon sens.  </td><td class="markdownTableBodyNone">1. Composer la piste 5x4.<br  />
+ 2. Relever la piece et le sol de (1, 0), (0, 1), (0, 0), (4, 3), (0, 2).  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">found</span> diffère de <span class="tt">composed.quads().end()</span>.<br  />
+Vérifie que <span class="tt">is(back, "wall-right")</span> est vrai.<br  />
+Vérifie que <span class="tt">is(side, "wall-left")</span> est vrai.<br  />
+Vérifie que <span class="tt">side</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">side-&gt;sprite.x</span> vaut <span class="tt">top.x - 34.0f * unitsPerArtPixel</span>, à <span class="tt">1e-3f</span> près.<br  />
+Vérifie que <span class="tt">side-&gt;sprite.y</span> vaut <span class="tt">top.y - (STANDING_HEIGHT - 42) * unitsPerArtPixel</span>, à <span class="tt">1e-3f</span> près.<br  />
+Vérifie que <span class="tt">side-&gt;sprite.width</span> vaut <span class="tt">68.0f * unitsPerArtPixel</span>, à <span class="tt">1e-3f</span> près.<br  />
+Vérifie que <span class="tt">is(pieceAt({.column = 0, .row = 0}, RenderLayer::Object), "wall-corner")</span> est vrai.<br  />
+Vérifie que <span class="tt">is(pieceAt({.column = 4, .row = 3}, RenderLayer::Object), "pillar")</span> est vrai.<br  />
+Vérifie que <span class="tt">is(pieceAt({.column = 0, .row = 2}, RenderLayer::Object), "arch-left")</span> est vrai.<br  />
+Vérifie que <span class="tt">is(pieceAt({.column = 0, .row = 2}, RenderLayer::Tile), "gate-threshold")</span> est vrai.  </td></tr>
+<tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>ArenaSceneComposerTest.ATerreEtSorti</b> (Bloquant)<br  />
-<sub><span class="tt"><a class="el" href="test__arena__scene__composer_8cpp.html" title="Tests unitaires du composeur de la scène de combat du Colisée (Phase 3 du LOT-86) : nombre de quads,...">Source/Test/Unit/HMI/Graphics/test_arena_scene_composer.cpp</a>:307</span></sub>  </td><td class="markdownTableBodyNone">Down compose une figurine, Withdrawn aucune.  </td><td class="markdownTableBodyNone">1. Demarrer le combat.<br  />
+<sub><span class="tt"><a class="el" href="test__arena__scene__composer_8cpp.html" title="Tests unitaires du composeur de la scène de combat du Colisée (Phase 3 du LOT-86) : nombre de quads,...">Source/Test/Unit/HMI/Graphics/test_arena_scene_composer.cpp</a>:359</span></sub>  </td><td class="markdownTableBodyNone">Down compose une figurine, Withdrawn aucune.  </td><td class="markdownTableBodyNone">1. Demarrer le combat.<br  />
  2. Abattre Bram (allie) et Orc (ennemi), faire sortir Cid.<br  />
  3. Composer la scene.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">session.start()</span> est vrai.<br  />
 Vérifie que <span class="tt">combat.withdraw(idOf(session, "Cid"))</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ae1ab268fb5658f04b32b785790e7c082af62dedad685b570f499b61e94084dab2">core::WithdrawResult::Withdrawn</a></span>.<br  />
@@ -6651,9 +6673,9 @@ Vérifie que <span class="tt">orc-&gt;sprite.u0</span> vaut <span class="tt">7.0
 Vérifie que <span class="tt">orc-&gt;sprite.a</span> vaut <span class="tt"><a class="el" href="namespacehmi.html#a285a9d5f6120f739e72d9195791c8d22" title="Opacité d&#39;un ennemi à terre (ArenaTile.ui.qml, 0.45).">hmi::ARENA_DOWN_ENEMY_ALPHA</a></span> (comparaison flottante).<br  />
 Vérifie que <span class="tt">cid</span> diffère de <span class="tt">eve</span>.<br  />
 Vérifie que <span class="tt">withTexture(scene, cid)</span> vaut <span class="tt">nullptr</span>.  </td></tr>
-<tr class="markdownTableRowOdd">
+<tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>ArenaSceneComposerTest.ImageCouranteBornee</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__arena__scene__composer_8cpp.html" title="Tests unitaires du composeur de la scène de combat du Colisée (Phase 3 du LOT-86) : nombre de quads,...">Source/Test/Unit/HMI/Graphics/test_arena_scene_composer.cpp</a>:354</span></sub>  </td><td class="markdownTableBodyNone">L'image courante vient de ArenaAnimationState, bornee a la bande.  </td><td class="markdownTableBodyNone">1. Donner l'image 3 a Eve et l'image 99 a Rat.<br  />
+<sub><span class="tt"><a class="el" href="test__arena__scene__composer_8cpp.html" title="Tests unitaires du composeur de la scène de combat du Colisée (Phase 3 du LOT-86) : nombre de quads,...">Source/Test/Unit/HMI/Graphics/test_arena_scene_composer.cpp</a>:406</span></sub>  </td><td class="markdownTableBodyNone">L'image courante vient de ArenaAnimationState, bornee a la bande.  </td><td class="markdownTableBodyNone">1. Donner l'image 3 a Eve et l'image 99 a Rat.<br  />
  2. Composer la scene.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">eve</span> diffère de <span class="tt">nullptr</span>.<br  />
 Vérifie que <span class="tt">eve-&gt;sprite.u0</span> vaut <span class="tt">144.0f / 240.0f</span> (comparaison flottante).<br  />
 Vérifie que <span class="tt">eve-&gt;sprite.u1</span> vaut <span class="tt">192.0f / 240.0f</span> (comparaison flottante).<br  />
@@ -6661,15 +6683,15 @@ Vérifie que <span class="tt">eve-&gt;sprite.v1</span> vaut <span class="tt">1.0
 Vérifie que <span class="tt">rat</span> diffère de <span class="tt">nullptr</span>.<br  />
 Vérifie que <span class="tt">rat-&gt;sprite.u0</span> vaut <span class="tt">7.0f * 48.0f / 384.0f</span> (comparaison flottante).<br  />
 Vérifie que <span class="tt">rat-&gt;sprite.a</span> vaut <span class="tt">1.0f</span> (comparaison flottante).  </td></tr>
-<tr class="markdownTableRowEven">
+<tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>ArenaSceneComposerTest.RepliSurLeDamier</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__arena__scene__composer_8cpp.html" title="Tests unitaires du composeur de la scène de combat du Colisée (Phase 3 du LOT-86) : nombre de quads,...">Source/Test/Unit/HMI/Graphics/test_arena_scene_composer.cpp</a>:384</span></sub>  </td><td class="markdownTableBodyNone">Repli sur le damier, puis rien.  </td><td class="markdownTableBodyNone">1. Composer sans aucune texture chargee, damier fourni.<br  />
+<sub><span class="tt"><a class="el" href="test__arena__scene__composer_8cpp.html" title="Tests unitaires du composeur de la scène de combat du Colisée (Phase 3 du LOT-86) : nombre de quads,...">Source/Test/Unit/HMI/Graphics/test_arena_scene_composer.cpp</a>:436</span></sub>  </td><td class="markdownTableBodyNone">Repli sur le damier, puis rien.  </td><td class="markdownTableBodyNone">1. Composer sans aucune texture chargee, damier fourni.<br  />
  2. Composer sans aucune texture ni damier.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">fallback.size()</span> vaut <span class="tt">static_cast&lt;std::size_t&gt;(FLOOR_QUADS + STRUCTURE_QUADS + 5)</span>.<br  />
 Vérifie que <span class="tt">std::all_of(fallback.quads().begin(), fallback.quads().end(), [&amp;](const <a class="el" href="structhmi_1_1ComposedQuad.html" title="Une primitive prête à soumettre, avec tout ce qui détermine quand la dessiner.">hmi::ComposedQuad</a>&amp; quad) { return quad.texture == onlyMissing.missing.texture; })</span> est vrai.<br  />
 Vérifie que <span class="tt">empty.size()</span> vaut <span class="tt">0U</span>.  </td></tr>
-<tr class="markdownTableRowOdd">
+<tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>ArenaSceneComposerTest.LectureSeule</b> (Bloquant)<br  />
-<sub><span class="tt"><a class="el" href="test__arena__scene__composer_8cpp.html" title="Tests unitaires du composeur de la scène de combat du Colisée (Phase 3 du LOT-86) : nombre de quads,...">Source/Test/Unit/HMI/Graphics/test_arena_scene_composer.cpp</a>:410</span></sub>  </td><td class="markdownTableBodyNone">La composition est une lecture seule (EX-ARCH-012).  </td><td class="markdownTableBodyNone">1. Demarrer le combat, relever phase, tour actif, journal et positions.<br  />
+<sub><span class="tt"><a class="el" href="test__arena__scene__composer_8cpp.html" title="Tests unitaires du composeur de la scène de combat du Colisée (Phase 3 du LOT-86) : nombre de quads,...">Source/Test/Unit/HMI/Graphics/test_arena_scene_composer.cpp</a>:462</span></sub>  </td><td class="markdownTableBodyNone">La composition est une lecture seule (EX-ARCH-012).  </td><td class="markdownTableBodyNone">1. Demarrer le combat, relever phase, tour actif, journal et positions.<br  />
  2. Composer deux fois.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">session.start()</span> est vrai.<br  />
 Vérifie que <span class="tt">session.combat().phase()</span> vaut <span class="tt">phase</span>.<br  />
 Vérifie que <span class="tt">session.combat().activeCombatant()</span> vaut <span class="tt">active</span>.<br  />
@@ -6681,9 +6703,9 @@ Vérifie que <span class="tt">a.texture</span> vaut <span class="tt">b.texture</
 Vérifie que <span class="tt">a.sortOrder</span> vaut <span class="tt">b.sortOrder</span>.<br  />
 Vérifie que <span class="tt">a.sprite.x</span> vaut <span class="tt">b.sprite.x</span> (comparaison flottante).<br  />
 Vérifie que <span class="tt">a.sprite.y</span> vaut <span class="tt">b.sprite.y</span> (comparaison flottante).  </td></tr>
-<tr class="markdownTableRowEven">
+<tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>ArenaSceneComposerTest.InstantaneSurvitALaSession</b> (Bloquant)<br  />
-<sub><span class="tt"><a class="el" href="test__arena__scene__composer_8cpp.html" title="Tests unitaires du composeur de la scène de combat du Colisée (Phase 3 du LOT-86) : nombre de quads,...">Source/Test/Unit/HMI/Graphics/test_arena_scene_composer.cpp</a>:455</span></sub>  </td><td class="markdownTableBodyNone">L'instantane en valeurs survit a sa session (LOT-86 Phase 5).  </td><td class="markdownTableBodyNone">1. Abattre Bram, faire sortir Cid, tirer l'instantane.<br  />
+<sub><span class="tt"><a class="el" href="test__arena__scene__composer_8cpp.html" title="Tests unitaires du composeur de la scène de combat du Colisée (Phase 3 du LOT-86) : nombre de quads,...">Source/Test/Unit/HMI/Graphics/test_arena_scene_composer.cpp</a>:507</span></sub>  </td><td class="markdownTableBodyNone">L'instantane en valeurs survit a sa session (LOT-86 Phase 5).  </td><td class="markdownTableBodyNone">1. Abattre Bram, faire sortir Cid, tirer l'instantane.<br  />
  2. Detruire une copie de la session, composer l'instantane.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">session.start()</span> est vrai.<br  />
 Vérifie que <span class="tt">session.combat().withdraw(idOf(session, "Cid"))</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ae1ab268fb5658f04b32b785790e7c082af62dedad685b570f499b61e94084dab2">core::WithdrawResult::Withdrawn</a></span>.<br  />
 Vérifie que <span class="tt">ephemeral-&gt;mount(affrontement()).refusals.empty()</span> est vrai.<br  />
@@ -6704,16 +6726,16 @@ Vérifie que <span class="tt">a.sortOrder</span> vaut <span class="tt">b.sortOrd
 Vérifie que <span class="tt">a.sprite.x</span> vaut <span class="tt">b.sprite.x</span> (comparaison flottante).<br  />
 Vérifie que <span class="tt">a.sprite.u0</span> vaut <span class="tt">b.sprite.u0</span> (comparaison flottante).<br  />
 Vérifie que <span class="tt">a.sprite.a</span> vaut <span class="tt">b.sprite.a</span> (comparaison flottante).  </td></tr>
-<tr class="markdownTableRowOdd">
+<tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>ArenaSceneComposerTest.ListeDesTexturesCouvreLaComposition</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__arena__scene__composer_8cpp.html" title="Tests unitaires du composeur de la scène de combat du Colisée (Phase 3 du LOT-86) : nombre de quads,...">Source/Test/Unit/HMI/Graphics/test_arena_scene_composer.cpp</a>:514</span></sub>  </td><td class="markdownTableBodyNone">La liste des textures couvre tout ce que la composition demande.  </td><td class="markdownTableBodyNone">1. Lier chaque chemin de arenaTexturePaths a une texture, et le damier a une autre.<br  />
+<sub><span class="tt"><a class="el" href="test__arena__scene__composer_8cpp.html" title="Tests unitaires du composeur de la scène de combat du Colisée (Phase 3 du LOT-86) : nombre de quads,...">Source/Test/Unit/HMI/Graphics/test_arena_scene_composer.cpp</a>:566</span></sub>  </td><td class="markdownTableBodyNone">La liste des textures couvre tout ce que la composition demande.  </td><td class="markdownTableBodyNone">1. Lier chaque chemin de arenaTexturePaths a une texture, et le damier a une autre.<br  />
  2. Composer la piste avec un allie a terre.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">std::adjacent_find(sorted.begin(), sorted.end())</span> vaut <span class="tt">sorted.end()</span>.<br  />
 Vérifie que <span class="tt">session.start()</span> est vrai.<br  />
 Vérifie que <span class="tt">scene.size()</span> vaut <span class="tt">static_cast&lt;std::size_t&gt;(FLOOR_QUADS + STRUCTURE_QUADS + 5)</span>.<br  />
 Vérifie que <span class="tt">std::none_of( scene.quads().begin(), scene.quads().end(), [&amp;](const <a class="el" href="structhmi_1_1ComposedQuad.html" title="Une primitive prête à soumettre, avec tout ce qui détermine quand la dessiner.">hmi::ComposedQuad</a>&amp; quad) { return quad.texture == listed.missing.texture; })</span> est vrai.  </td></tr>
-<tr class="markdownTableRowEven">
+<tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>ArenaSceneComposerTest.UneFigurineDeRemplacementSuitSaPropreDecoupe</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__arena__scene__composer_8cpp.html" title="Tests unitaires du composeur de la scène de combat du Colisée (Phase 3 du LOT-86) : nombre de quads,...">Source/Test/Unit/HMI/Graphics/test_arena_scene_composer.cpp</a>:549</span></sub>  </td><td class="markdownTableBodyNone">Un heros remplace se dessine depuis <span class="tt">../Npc/&lt;slug&gt;</span> ; une bande large (96 px) donne un quad deux fois plus large, centre au meme endroit, et sa derniere image a terre.  </td><td class="markdownTableBodyNone">1. Remplacer la figurine de Bram par <span class="tt">../Npc/anariel</span>, avec <span class="tt">idle.png</span> 288x64 (frameWidth 48) et <span class="tt">death.png</span> 576x64 (frameWidth 96).<br  />
+<sub><span class="tt"><a class="el" href="test__arena__scene__composer_8cpp.html" title="Tests unitaires du composeur de la scène de combat du Colisée (Phase 3 du LOT-86) : nombre de quads,...">Source/Test/Unit/HMI/Graphics/test_arena_scene_composer.cpp</a>:601</span></sub>  </td><td class="markdownTableBodyNone">Un heros remplace se dessine depuis <span class="tt">../Npc/&lt;slug&gt;</span> ; une bande large (96 px) donne un quad deux fois plus large, centre au meme endroit, et sa derniere image a terre.  </td><td class="markdownTableBodyNone">1. Remplacer la figurine de Bram par <span class="tt">../Npc/anariel</span>, avec <span class="tt">idle.png</span> 288x64 (frameWidth 48) et <span class="tt">death.png</span> 576x64 (frameWidth 96).<br  />
  2. Composer debout a l'image 5, puis a terre.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">appearance.replaceHero(sheet, "../Npc/anariel")</span> est vrai.<br  />
 Vérifie que <span class="tt">session.start()</span> est vrai.<br  />
 Vérifie que <span class="tt">repos</span> diffère de <span class="tt">nullptr</span>.<br  />
@@ -6733,7 +6755,7 @@ Vérifie que <span class="tt">mort-&gt;sprite.x + mort-&gt;sprite.width / 2.0f</
 <th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>ArenaSceneRendererTest.CreationLiberationRecreation</b> (Bloquant)<br  />
-<sub><span class="tt"><a class="el" href="test__arena__scene__renderer_8cpp.html" title="Le rendu QRhi de la scène du Colisée (LOT-86 Phase 5), hors écran : cycle de vie des ressources et un...">Source/Test/Unit/HMI/Graphics/test_arena_scene_renderer.cpp</a>:158</span></sub>  </td><td class="markdownTableBodyNone">Le cycle de vie des ressources QRhi de l'arene est sur.  </td><td class="markdownTableBodyNone">1. Creer les ressources sur une interface QRhi hors ecran, sans jamais dessiner.<br  />
+<sub><span class="tt"><a class="el" href="test__arena__scene__renderer_8cpp.html" title="Le rendu QRhi de la scène du Colisée (LOT-86 Phase 5), hors écran : cycle de vie des ressources et un...">Source/Test/Unit/HMI/Graphics/test_arena_scene_renderer.cpp</a>:160</span></sub>  </td><td class="markdownTableBodyNone">Le cycle de vie des ressources QRhi de l'arene est sur.  </td><td class="markdownTableBodyNone">1. Creer les ressources sur une interface QRhi hors ecran, sans jamais dessiner.<br  />
  2. Liberer, puis liberer encore.<br  />
  3. Recreer, dessiner une image, detruire le rendu avant l'interface.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">renderer.catalog().heroes().empty()</span> est faux.<br  />
 Vérifie que <span class="tt">renderer.ensureResources(nullptr)</span> est faux.<br  />
@@ -6744,7 +6766,7 @@ Vérifie que <span class="tt">renderer.rhi()</span> vaut <span class="tt">rhi.ge
 Vérifie que <span class="tt">renderer.textures().byPath.size()</span> vaut <span class="tt"><a class="el" href="namespacehmi.html#a57f0685fbcb7a858faa871e9620c5fb9" title="Tous les chemins de texture que la composition peut demander pour catalog : sols, pièces d&#39;enceinte,...">hmi::arenaTexturePaths</a>(renderer.catalog()).size()</span>.<br  />
 Vérifie que <span class="tt">renderer.textures().missing.texture</span> diffère de <span class="tt">nullptr</span>.<br  />
 Vérifie que <span class="tt">renderer.ensureResources(rhi.get())</span> est vrai.<br  />
-Vérifie que <span class="tt">renderer.textures().resolve("terrain/sand.png").texture</span> vaut <span class="tt">sand</span>.<br  />
+Vérifie que <span class="tt">renderer.textures().resolve("../Scene/coliseum/sand.png").texture</span> vaut <span class="tt">sand</span>.<br  />
 Vérifie que <span class="tt">renderer.created()</span> est faux.<br  />
 Vérifie que <span class="tt">renderer.rhi()</span> vaut <span class="tt">nullptr</span>.<br  />
 Vérifie que <span class="tt">renderer.textures().byPath.empty()</span> est vrai.<br  />
@@ -6752,7 +6774,7 @@ Vérifie que <span class="tt">renderer.ensureResources(rhi.get())</span> est vra
 Vérifie que <span class="tt">image.size()</span> vaut <span class="tt">QSize(TARGET_SIZE, TARGET_SIZE)</span>.  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>ArenaSceneRendererTest.SceneNonVideSurUneGrilleDeTest</b> (Bloquant)<br  />
-<sub><span class="tt"><a class="el" href="test__arena__scene__renderer_8cpp.html" title="Le rendu QRhi de la scène du Colisée (LOT-86 Phase 5), hors écran : cycle de vie des ressources et un...">Source/Test/Unit/HMI/Graphics/test_arena_scene_renderer.cpp</a>:210</span></sub>  </td><td class="markdownTableBodyNone">La scene de l'arene devient des pixels.  </td><td class="markdownTableBodyNone">1. Tirer l'instantane de la piste 5x4 (quatre combattants), puis detruire la session.<br  />
+<sub><span class="tt"><a class="el" href="test__arena__scene__renderer_8cpp.html" title="Le rendu QRhi de la scène du Colisée (LOT-86 Phase 5), hors écran : cycle de vie des ressources et un...">Source/Test/Unit/HMI/Graphics/test_arena_scene_renderer.cpp</a>:213</span></sub>  </td><td class="markdownTableBodyNone">La scene de l'arene devient des pixels.  </td><td class="markdownTableBodyNone">1. Tirer l'instantane de la piste 5x4 (quatre combattants), puis detruire la session.<br  />
 2. Dessiner une image hors ecran et la relire.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">renderer.ensureResources(rhi.get())</span> est vrai.<br  />
 Vérifie que <span class="tt">renderer.animating()</span> est vrai.<br  />
 Vérifie que <span class="tt">image.size()</span> vaut <span class="tt">QSize(TARGET_SIZE, TARGET_SIZE)</span>.<br  />
@@ -6766,7 +6788,7 @@ Vérifie que <span class="tt">renderer.composed().size()</span> vaut <span class
 Vérifie que <span class="tt">paintedPixels(empty)</span> vaut <span class="tt">0U</span>.  </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>ArenaSceneRendererTest.RecreationSurUneAutreInterface</b> (Critique)<br  />
-<sub><span class="tt"><a class="el" href="test__arena__scene__renderer_8cpp.html" title="Le rendu QRhi de la scène du Colisée (LOT-86 Phase 5), hors écran : cycle de vie des ressources et un...">Source/Test/Unit/HMI/Graphics/test_arena_scene_renderer.cpp</a>:257</span></sub>  </td><td class="markdownTableBodyNone">Le rendu de l'arene se recree sur une nouvelle interface QRhi.  </td><td class="markdownTableBodyNone">1. Creer et dessiner sur une premiere interface.<br  />
+<sub><span class="tt"><a class="el" href="test__arena__scene__renderer_8cpp.html" title="Le rendu QRhi de la scène du Colisée (LOT-86 Phase 5), hors écran : cycle de vie des ressources et un...">Source/Test/Unit/HMI/Graphics/test_arena_scene_renderer.cpp</a>:260</span></sub>  </td><td class="markdownTableBodyNone">Le rendu de l'arene se recree sur une nouvelle interface QRhi.  </td><td class="markdownTableBodyNone">1. Creer et dessiner sur une premiere interface.<br  />
 2. Appeler ensureResources avec une seconde interface, puis dessiner dessus.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">renderer.ensureResources(first.get())</span> est vrai.<br  />
 Vérifie que <span class="tt">paintedPixels(renderFrame(*first, renderer, firstTarget))</span> est strictement supérieur à <span class="tt">0U</span>.<br  />
 Vérifie que <span class="tt">renderer.ensureResources(second.get())</span> est vrai.<br  />
@@ -6776,7 +6798,7 @@ Vérifie que <span class="tt">paintedPixels(renderFrame(*second, renderer, secon
 Vérifie que <span class="tt">renderer.composed().size()</span> vaut <span class="tt">PISTE_QUADS</span>.  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>ArenaSceneRendererTest.LeCadrageRameneChaqueCaseAElleMeme</b> (Critique)<br  />
-<sub><span class="tt"><a class="el" href="test__arena__scene__renderer_8cpp.html" title="Le rendu QRhi de la scène du Colisée (LOT-86 Phase 5), hors écran : cycle de vie des ressources et un...">Source/Test/Unit/HMI/Graphics/test_arena_scene_renderer.cpp</a>:289</span></sub>  </td><td class="markdownTableBodyNone">Le centre de chaque case, projete a l'ecran par le cadrage du rendu, redevient la meme case.  </td><td class="markdownTableBodyNone">1. Pour plusieurs grilles et surfaces (zoom entier et zoom inferieur a 1), cadrer par arenaCamera.<br  />
+<sub><span class="tt"><a class="el" href="test__arena__scene__renderer_8cpp.html" title="Le rendu QRhi de la scène du Colisée (LOT-86 Phase 5), hors écran : cycle de vie des ressources et un...">Source/Test/Unit/HMI/Graphics/test_arena_scene_renderer.cpp</a>:292</span></sub>  </td><td class="markdownTableBodyNone">Le centre de chaque case, projete a l'ecran par le cadrage du rendu, redevient la meme case.  </td><td class="markdownTableBodyNone">1. Pour plusieurs grilles et surfaces (zoom entier et zoom inferieur a 1), cadrer par arenaCamera.<br  />
 2. Projeter le centre de chaque case a l'ecran, puis revenir au monde et a la case.<br  />
 3. Revenir d'un coin de la surface, hors de la scene.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">screen.x</span> est supérieur ou égal à <span class="tt">0.0f</span>.<br  />
 Vérifie que <span class="tt">screen.x</span> est inférieur ou égal à <span class="tt">static_cast&lt;float&gt;(cas.width)</span>.<br  />
@@ -6786,6 +6808,12 @@ Vérifie que <span class="tt">cell.has_value()</span> est vrai.<br  />
 Vérifie que <span class="tt">cell-&gt;column</span> vaut <span class="tt">column</span>.<br  />
 Vérifie que <span class="tt">cell-&gt;row</span> vaut <span class="tt">row</span>.<br  />
 Vérifie que <span class="tt">projection.worldToTile(camera.screenToWorld({0.0f, 0.0f})).has_value()</span> est faux.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>ArenaSceneRendererTest.CaptureDeLArenePourRelecture</b> (Mineur)<br  />
+<sub><span class="tt"><a class="el" href="test__arena__scene__renderer_8cpp.html" title="Le rendu QRhi de la scène du Colisée (LOT-86 Phase 5), hors écran : cycle de vie des ressources et un...">Source/Test/Unit/HMI/Graphics/test_arena_scene_renderer.cpp</a>:334</span></sub>  </td><td class="markdownTableBodyNone">Capture de l'arène pour relecture à l'œil (LOT-92).  </td><td class="markdownTableBodyNone">1. Définir JADG_ARENA_CAPTURE, lancer ce test.<br  />
+2. Ouvrir l'image.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">renderer.ensureResources(rhi.get())</span> est vrai.<br  />
+Vérifie que <span class="tt">image.isNull()</span> est faux.<br  />
+Vérifie que <span class="tt">image.save(destination)</span> est vrai.  </td></tr>
 </table>
 <p><b><span class="tt"><a class="el" href="test__asset__contract_8cpp.html" title="Tests unitaires du contrat de dimensions des assets graphiques (LOT-40, EX-REN-007).">test_asset_contract.cpp</a></span></b></p>
 <table class="markdownTable">

@@ -20,5 +20,8 @@ var ArenaSceneComposer_8h =
     [ "hmi::ARENA_DOWN_ENEMY_ALPHA", "namespacehmi.html#a285a9d5f6120f739e72d9195791c8d22", null ],
     [ "hmi::ARENA_FIGURE_FRAME_HEIGHT_PIXELS", "namespacehmi.html#a0752b5fe488b44093f9b2b6bc67f66fb", null ],
     [ "hmi::ARENA_FIGURE_FRAME_WIDTH_PIXELS", "namespacehmi.html#a65b2c16b6aab8dd5aa2fa49fd1cb872b", null ],
-    [ "hmi::ARENA_FIGURE_SCALE", "namespacehmi.html#ab9ad6be84062fc2abf87c40184677eae", null ]
+    [ "hmi::ARENA_FIGURE_SCALE", "namespacehmi.html#ab9ad6be84062fc2abf87c40184677eae", null ],
+    [ "hmi::ARENA_SCENE_HALF_TILE_WIDTH_PIXELS", "namespacehmi.html#a81d18f4d5de3c46d8c03d57dbefe6167", null ],
+    [ "hmi::ARENA_SCENE_TILE_HEIGHT_PIXELS", "namespacehmi.html#a07630c5687b7a33051770a6bf84123f4", null ],
+    [ "hmi::ARENA_SCENE_TILE_WIDTH_PIXELS", "namespacehmi.html#a3538a35944c598123f10fb71bd0ed21b", null ]
 ];

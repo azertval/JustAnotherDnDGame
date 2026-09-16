@@ -36,8 +36,12 @@
  *
  * | PiÃ¨ce | Calque | Tri |
  * |---|---|---|
- * | sol (sable, pierre, dalle claire) | `RenderLayer::Tile` | texture, puis profondeur de case |
- * | enceinte (mur, colonne, banniÃ¨re, torche, arche) | `RenderLayer::Object` | pied de la case |
+ * | sol (sable et variantes, pierre, seuil) | `RenderLayer::Tile` | texture, puis profondeur de case |
+ * | enceinte (pan, angle, pilier, banniÃ¨re, torche, arche) | `RenderLayer::Object` | pied de la case |
+ *
+ * Le dÃ©cor vient de l'atelier des textures (`LOT-92`, `Assets/Scene/coliseum/`) : **une** piÃ¨ce par
+ * case d'enceinte, qui porte son mur (une torche est un pan Ã  torche), dressÃ©e contre l'arÃªte du fond
+ * parallÃ¨le au bord de la grille et posÃ©e par son ancre. Les figurines restent celles du ColisÃ©e.
  * | figurine d'un combattant | `RenderLayer::Player` | pied de son emprise |
  *
  * `Object` et `Player` partagent la bande de profondeur (`hmi::sortsByDepth`) : un mur plus bas Ã 
@@ -102,6 +106,14 @@ inline constexpr int ARENA_FIGURE_FRAME_HEIGHT_PIXELS = 64;
 inline constexpr float ARENA_FIGURE_SCALE = 1.25f;
 /// OpacitÃ© d'un ennemi Ã  terre (`ArenaTile.ui.qml`, `0.45`).
 inline constexpr float ARENA_DOWN_ENEMY_ALPHA = 0.45f;
+/// Largeur du losange des textures de scÃ¨ne de l'atelier (`LOT-92`), en pixels d'art : 68 Ã 42, le
+/// rapport 0,62 d'`core::IsoProjection`. Une piÃ¨ce se pose par son ancre, le sommet haut de son
+/// emprise (`anchor` de `Assets/Scene/&lt;lieu&gt;/manifest.json`).
+inline constexpr int ARENA_SCENE_TILE_WIDTH_PIXELS = 68;
+/// Demi-largeur de ce losange : l'abscisse de l'ancre d'une piÃ¨ce d'une case.
+inline constexpr int ARENA_SCENE_HALF_TILE_WIDTH_PIXELS = ARENA_SCENE_TILE_WIDTH_PIXELS / 2;
+/// Hauteur de ce losange, en pixels d'art : il occupe le bas d'une piÃ¨ce d'une case.
+inline constexpr int ARENA_SCENE_TILE_HEIGHT_PIXELS = 42;
 
 /**
  * @brief Rang d'une piÃ¨ce Ã  l'intÃ©rieur d'une mÃªme profondeur : l'ordre d'empilement de la brique
@@ -135,8 +147,9 @@ struct ArenaTexture {
 };
 
 /**
- * @brief Les textures du ColisÃ©e, adressÃ©es par leur chemin sous `Source/Elements/Assets/Coliseum/`
- *        (`"terrain/sand.png"`, `"characters/bram/idle.png"`).
+ * @brief Les textures du ColisÃ©e, adressÃ©es par leur chemin relatif Ã 
+ *        `Source/Elements/Assets/Coliseum/` (`"../Scene/coliseum/sand.png"`,
+ *        `"characters/bram/idle.png"`).
  *
  * MÃªme rÃ´le que `hmi::SceneTextures` pour l'exploration : la composition ne demande rien au GPU.
  * Un chemin absent se lie au damier `missing` (`EX-NFR-040`) ; si lui aussi manque, la piÃ¨ce n'est

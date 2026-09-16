@@ -270,7 +270,7 @@ Classes</h2></td></tr>
 <tr class="memitem:ArenaTexture" id="r_ArenaTexture"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1ArenaTexture.html">ArenaTexture</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une texture liable et ses dimensions en pixels (pour normaliser les UV).  <a href="structhmi_1_1ArenaTexture.html#details">More...</a><br /></td></tr>
 <tr class="memitem:ArenaSceneTextures" id="r_ArenaSceneTextures"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1ArenaSceneTextures.html">ArenaSceneTextures</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les textures du Colisée, adressées par leur chemin sous <span class="tt">Source/Elements/Assets/Coliseum/</span> (<span class="tt">"terrain/sand.png"</span>, <span class="tt">"characters/bram/idle.png"</span>).  <a href="structhmi_1_1ArenaSceneTextures.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les textures du Colisée, adressées par leur chemin relatif à <span class="tt">Source/Elements/Assets/Coliseum/</span> (<span class="tt">"../Scene/coliseum/sand.png"</span>, <span class="tt">"characters/bram/idle.png"</span>).  <a href="structhmi_1_1ArenaSceneTextures.html#details">More...</a><br /></td></tr>
 <tr class="memitem:ArenaFigureSnapshot" id="r_ArenaFigureSnapshot"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1ArenaFigureSnapshot.html">ArenaFigureSnapshot</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ce qu'une figurine dessine d'un combattant, copié de la session.  <a href="structhmi_1_1ArenaFigureSnapshot.html#details">More...</a><br /></td></tr>
 <tr class="memitem:ArenaSceneSnapshot" id="r_ArenaSceneSnapshot"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1ArenaSceneSnapshot.html">ArenaSceneSnapshot</a></td></tr>
@@ -1582,6 +1582,12 @@ Variables</h2></td></tr>
 <tr class="memdesc:ab9ad6be84062fc2abf87c40184677eae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Agrandissement de la figurine par rapport à la planche (<span class="tt">ArenaTile.ui.qml</span>, <span class="tt">1.25</span>).  <br /></td></tr>
 <tr class="memitem:a285a9d5f6120f739e72d9195791c8d22" id="r_a285a9d5f6120f739e72d9195791c8d22"><td class="memItemLeft">constexpr float&#160;</td><td class="memItemRight"><a class="el" href="#a285a9d5f6120f739e72d9195791c8d22">ARENA_DOWN_ENEMY_ALPHA</a> = 0.45f</td></tr>
 <tr class="memdesc:a285a9d5f6120f739e72d9195791c8d22"><td class="mdescLeft">&#160;</td><td class="mdescRight">Opacité d'un ennemi à terre (<span class="tt">ArenaTile.ui.qml</span>, <span class="tt">0.45</span>).  <br /></td></tr>
+<tr class="memitem:a3538a35944c598123f10fb71bd0ed21b" id="r_a3538a35944c598123f10fb71bd0ed21b"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#a3538a35944c598123f10fb71bd0ed21b">ARENA_SCENE_TILE_WIDTH_PIXELS</a> = 68</td></tr>
+<tr class="memdesc:a3538a35944c598123f10fb71bd0ed21b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Largeur du losange des textures de scène de l'atelier (<span class="tt">LOT-92</span>), en pixels d'art : 68 × 42, le rapport 0,62 d'<span class="tt"><a class="el" href="classcore_1_1IsoProjection.html" title="La projection isométrique d&#39;une grille de combat de columns × rows cases.">core::IsoProjection</a></span>.  <br /></td></tr>
+<tr class="memitem:a81d18f4d5de3c46d8c03d57dbefe6167" id="r_a81d18f4d5de3c46d8c03d57dbefe6167"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#a81d18f4d5de3c46d8c03d57dbefe6167">ARENA_SCENE_HALF_TILE_WIDTH_PIXELS</a> = <a class="el" href="#a3538a35944c598123f10fb71bd0ed21b">ARENA_SCENE_TILE_WIDTH_PIXELS</a> / 2</td></tr>
+<tr class="memdesc:a81d18f4d5de3c46d8c03d57dbefe6167"><td class="mdescLeft">&#160;</td><td class="mdescRight">Demi-largeur de ce losange : l'abscisse de l'ancre d'une pièce d'une case.  <br /></td></tr>
+<tr class="memitem:a07630c5687b7a33051770a6bf84123f4" id="r_a07630c5687b7a33051770a6bf84123f4"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#a07630c5687b7a33051770a6bf84123f4">ARENA_SCENE_TILE_HEIGHT_PIXELS</a> = 42</td></tr>
+<tr class="memdesc:a07630c5687b7a33051770a6bf84123f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hauteur de ce losange, en pixels d'art : il occupe le bas d'une pièce d'une case.  <br /></td></tr>
 <tr class="memitem:a6eee874c358054b54267845295a6068c" id="r_a6eee874c358054b54267845295a6068c"><td class="memItemLeft">constexpr std::int32_t&#160;</td><td class="memItemRight"><a class="el" href="#a6eee874c358054b54267845295a6068c">ARENA_DEPTH_SLOTS</a> = 4</td></tr>
 <tr class="memdesc:a6eee874c358054b54267845295a6068c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nombre de rangs par profondeur : le multiplicateur de <span class="tt"><a class="el" href="#a551d45820ca5a6e720a6a89e1c70c120" title="Ordre de profondeur d&#39;une primitive, à partir du pied de son quad.">depthSortOrder</a></span> dans le <span class="tt">sortOrder</span>.  <br /></td></tr>
 <tr class="memitem:a5d007c47b6f8696b0b71cf94afe65d18" id="r_a5d007c47b6f8696b0b71cf94afe65d18"><td class="memItemLeft">const std::string&#160;</td><td class="memItemRight"><a class="el" href="#a5d007c47b6f8696b0b71cf94afe65d18">FONTS_SUBDIRECTORY</a> = &quot;Fonts/&quot;</td></tr>
@@ -11487,7 +11493,7 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Nom lisible d'un terme de règle — caractéristique, emplacement d'équipement, condition. </p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md1030"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md1039"></a>
 Pourquoi ceux-là ne passent pas par <span class="tt">qsTr</span></h2>
 <p>La chrome des écrans (« Points de vie », « Nouvelle partie ») s'écrit en français <b>dans le fichier QML</b>, et Qt la traduit par sa source. Ces libellés-ci ne le peuvent pas : leur clé est <b>calculée</b> (<span class="tt">rpg.ability.</span> + l'identifiant que le modèle rend), et <span class="tt">qsTr</span> exige une chaîne littérale — c'est ce qui permet à <span class="tt">lupdate</span> de l'extraire sans exécuter le programme.</p>
 <p>Ce n'est pas qu'une contrainte technique. Ces termes sont un <b>lexique</b> : <span class="tt">rpg.glossary.csv</span> garantit une seule traduction par terme de règle dans tout le jeu, et <span class="tt">scripts/check_glossary.py</span> le vérifie. Les disperser en littéraux dans les écrans casserait précisément cette garantie.</p>
@@ -13622,6 +13628,79 @@ Pourquoi ceux-là ne passent pas par <span class="tt">qsTr</span></h2>
 </div><div class="memdoc">
 
 <p>Agrandissement de la figurine par rapport à la planche (<span class="tt">ArenaTile.ui.qml</span>, <span class="tt">1.25</span>). </p>
+
+</div>
+</div>
+<a id="a81d18f4d5de3c46d8c03d57dbefe6167" name="a81d18f4d5de3c46d8c03d57dbefe6167"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a81d18f4d5de3c46d8c03d57dbefe6167">&#9670;&#160;</a></span>ARENA_SCENE_HALF_TILE_WIDTH_PIXELS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int hmi::ARENA_SCENE_HALF_TILE_WIDTH_PIXELS = <a class="el" href="#a3538a35944c598123f10fb71bd0ed21b">ARENA_SCENE_TILE_WIDTH_PIXELS</a> / 2</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Demi-largeur de ce losange : l'abscisse de l'ancre d'une pièce d'une case. </p>
+
+</div>
+</div>
+<a id="a07630c5687b7a33051770a6bf84123f4" name="a07630c5687b7a33051770a6bf84123f4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07630c5687b7a33051770a6bf84123f4">&#9670;&#160;</a></span>ARENA_SCENE_TILE_HEIGHT_PIXELS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int hmi::ARENA_SCENE_TILE_HEIGHT_PIXELS = 42</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Hauteur de ce losange, en pixels d'art : il occupe le bas d'une pièce d'une case. </p>
+
+</div>
+</div>
+<a id="a3538a35944c598123f10fb71bd0ed21b" name="a3538a35944c598123f10fb71bd0ed21b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3538a35944c598123f10fb71bd0ed21b">&#9670;&#160;</a></span>ARENA_SCENE_TILE_WIDTH_PIXELS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int hmi::ARENA_SCENE_TILE_WIDTH_PIXELS = 68</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Largeur du losange des textures de scène de l'atelier (<span class="tt">LOT-92</span>), en pixels d'art : 68 × 42, le rapport 0,62 d'<span class="tt"><a class="el" href="classcore_1_1IsoProjection.html" title="La projection isométrique d&#39;une grille de combat de columns × rows cases.">core::IsoProjection</a></span>. </p>
+<p>Une pièce se pose par son ancre, le sommet haut de son emprise (<span class="tt">anchor</span> de <span class="tt">Assets/Scene/&lt;lieu&gt;/manifest.json</span>). </p>
 
 </div>
 </div>

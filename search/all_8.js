@@ -1,11 +1,11 @@
 var searchData=
 [
-  ['8_20—_20les_20compétences_20et_20sorts_20maquette_2010_0',['T3.8 — Les compétences et sorts (maquette 10)',['../lot-87.html#autotoc_md781',1,'']]],
+  ['8_20—_20les_20compétences_20et_20sorts_20maquette_2010_0',['T3.8 — Les compétences et sorts (maquette 10)',['../lot-87.html#autotoc_md782',1,'']]],
   ['8_20communication_20inter_20systèmes_1',['8. Communication inter-systèmes',['../spec-architecture.html#autotoc_md270',1,'']]],
-  ['8_20décisions_20prises_20et_20questions_20restantes_2',['8. Décisions prises et questions restantes',['../roadmap.html#autotoc_md848',1,'']]],
+  ['8_20décisions_20prises_20et_20questions_20restantes_2',['8. Décisions prises et questions restantes',['../roadmap.html#autotoc_md857',1,'']]],
   ['8_20directions_3',['8 directions',['../guide-physique.html#autotoc_md212',1,'5. Dash 8 directions'],['../lot-06.html',1,'LOT-06 — Déplacement top-down 8 directions']]],
   ['8_20identité_20visuelle_20des_20écrans_20du_20jeu_20lot_20h_2068_4',['8. Identité visuelle des écrans du jeu (LOT-H-68)',['../spec-interface-ihm.html#autotoc_md362',1,'']]],
-  ['8_20les_20tours_202_20et_203_20nouvelle_20génération_5',['8. Les tours 2 et 3 (nouvelle génération)',['../lot-91-poc.html#autotoc_md810',1,'']]],
+  ['8_20les_20tours_202_20et_203_20nouvelle_20génération_5',['8. Les tours 2 et 3 (nouvelle génération)',['../lot-91-poc.html#autotoc_md811',1,'']]],
   ['8_20palette_20organisée_20par_20catégories_20lot_20h_2027_6',['8. Palette organisée par catégories (LOT-H-27)',['../spec-editeur.html#autotoc_md327',1,'']]],
   ['8_20tests_7',['8. Tests',['../spec-conventions.html#autotoc_md307',1,'']]],
   ['80_20—_20factions_20panthéon_20et_20organisations_8',['&lt;span class=&quot;tt&quot;&gt;LOT-80&lt;/span&gt; — Factions, panthéon et organisations',['../roadmap.html#lot-80',1,'']]],

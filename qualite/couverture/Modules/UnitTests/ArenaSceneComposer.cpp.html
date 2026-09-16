@@ -15,6 +15,7 @@
 #include "HMI/Graphics/ArenaSceneComposer.h"
 
 #include &lt;algorithm&gt;
+#include &lt;array&gt;
 #include &lt;optional&gt;
 #include &lt;string&gt;
 #include &lt;vector&gt;
@@ -28,20 +29,47 @@ namespace hmi {
 
 namespace {
 
-// Chemins de la planche, repris de ArenaTile.ui.qml.
-constexpr std::string_view SAND = "terrain/sand.png";
-constexpr std::string_view STONE = "terrain/stone.png";
-constexpr std::string_view WALL = "structures/wall.png";
-constexpr std::string_view COLUMN = "structures/column_large.png";
-constexpr std::string_view BANNER = "structures/banner_01.png";
-constexpr std::string_view TORCH = "structures/torch_01.png";
-constexpr std::string_view ARCH = "structures/arch.png";
+// Les textures de scene de l'atelier du LOT-92, a cote du dossier du Colisee (comme ../Npc).
+constexpr std::string_view SCENE_DIRECTORY = "../Scene/coliseum/";
 
-// Marges basses des pieces, en hauteurs de losange (anchors.bottomMargin de ArenaTile.ui.qml).
-constexpr float WALL_BOTTOM_MARGIN = 0.12f;
-constexpr float DECORATION_BOTTOM_MARGIN = 0.3f;
-constexpr float GATE_BOTTOM_MARGIN = 0.1f;
+// Les sols : le sable, ses variantes semees la ou la brique QML posait une dalle claire, la pierre
+// sous l'enceinte, le seuil sous une porte.
+constexpr std::string_view SAND = "sand";
+constexpr std::array&lt;std::string_view, 3&gt; SAND_VARIANTS{"sand-2", "sand-3", "sand-blood"};
+constexpr std::string_view STONE = "stone-slab";
+constexpr std::string_view THRESHOLD = "gate-threshold";
+
+// Les pieces d'enceinte : un pan, une banniere, une torche et une arche existent pour chaque arete
+// du fond (suffixe -left ou -right) ; l'angle et le pilier n'en ont pas.
+constexpr std::string_view WALL = "wall";
+constexpr std::string_view BANNER = "banner";
+constexpr std::string_view TORCH = "torch";
+constexpr std::string_view ARCH = "arch";
+constexpr std::string_view CORNER = "wall-corner";
+constexpr std::string_view PILLAR = "pillar";
+
+// Marge basse d'une figurine, en hauteurs de losange (anchors.bottomMargin de ArenaTile.ui.qml).
 constexpr float FIGURE_BOTTOM_MARGIN = 0.42f;
+
+/// Le chemin d'une piece de scene : `../Scene/coliseum/&lt;nom&gt;&lt;suffixe&gt;.png`.
+<span style = "background-color:#dfd">void scenePath(std::string&amp; path, std::string_view name, std::string_view suffix = {}) {
+    path.assign(SCENE_DIRECTORY);
+    path.append(name);
+    path.append(suffix);
+    path.append(".png");
+}</span>
+
+/**
+ * @brief L'arete du fond contre laquelle se dresse une piece du bord de la grille.
+ *
+ * Le bord de la ligne 0 (et de la derniere ligne) court comme l'arete droite d'une case, du sommet
+ * haut au sommet droit ; celui de la colonne 0 (et de la derniere), comme l'arete gauche. Une piece
+ * du bord de devant se dresse contre l'arete du fond de sa case, parallele au bord : l'atelier ne
+ * dessine que des pieces du fond.
+ */
+<span style = "background-color:#dfd">[[nodiscard]] std::string_view edgeSuffix(core::GridPosition cell, int rows) {
+    return cell.row == 0 || cell.row == rows - 1 ? "-right" : "-left";
+}</span>
 
 /// Ce qui ne change pas d'une piece a l'autre : la projection, les textures et le tampon.
 struct Composer {
@@ -50,21 +78,30 @@ struct Composer {
     const ArenaSceneTextures&amp; textures;
     /// Unites monde par pixel de planche : une tuile de 86 px occupe la largeur du losange.
     float unitsPerPixel;
+    /// Unites monde par pixel d'art de l'atelier : un losange de 68 px occupe sa largeur.
+    float unitsPerScenePixel;
 
-    /// Une piece de planche a sa taille native, centree sur @p centerX, son bord bas a @p bottomY.
-    void addStanding(RenderLayer layer, std::string_view path, float centerX, float bottomY,
+    /**
+     * @brief Une piece de scene d'une case, posee par son ancre : le sommet haut du losange de sa
+     *        case tombe sur le pixel (34, hauteur - 42) de la texture.
+     *
+     * C'est l'`anchor` du manifeste de l'atelier (LOT-92) pour une emprise d'une case : la texture a
+     * la largeur du losange, le losange en occupe les 42 pixels du bas, le reste monte au-dessus.
+     */
+    void addStanding(RenderLayer layer, std::string_view path, core::Vector2 topVertex,
 <span style = "background-color:#dfd">                     std::int32_t sortOrder) const {
         const ArenaTexture&amp; texture = textures.resolve(path);
         if (texture.texture == nullptr) {
             return;</span>
         }
-<span style = "background-color:#dfd">        const float width = static_cast&lt;float&gt;(texture.width) * unitsPerPixel;
-        const float height = static_cast&lt;float&gt;(texture.height) * unitsPerPixel;
+<span style = "background-color:#dfd">        const float height = static_cast&lt;float&gt;(texture.height);
         SpriteQuad quad;
-        quad.x = centerX - width / 2.0f;
-        quad.y = bottomY - height;
-        quad.width = width;
-        quad.height = height;
+        quad.x = topVertex.x -</span>
+                 static_cast&lt;float&gt;(ARENA_SCENE_HALF_TILE_WIDTH_PIXELS) * unitsPerScenePixel;
+<span style = "background-color:#dfd">        quad.y = topVertex.y -</span>
+                 (height - static_cast&lt;float&gt;(ARENA_SCENE_TILE_HEIGHT_PIXELS)) * unitsPerScenePixel;
+<span style = "background-color:#dfd">        quad.width = static_cast&lt;float&gt;(texture.width) * unitsPerScenePixel;
+        quad.height = height * unitsPerScenePixel;
         scene.addSprite(layer, texture.texture, sortOrder, quad);
     }</span>
 };
@@ -79,16 +116,20 @@ void composeTile(const Composer&amp; composer, const ArenaAppearanceCatalog&amp;
 <span style = "background-color:#dfd">        catalog.tileAppearance(cell, snapshot.columns, snapshot.rows, snapshot.isObstructed(cell));
     const core::Rect bounds = composer.projection.tileBounds(cell);
     const float tileHeight = bounds.size.y;
-    const float centerX = bounds.position.x + bounds.size.x / 2.0f;
     const float bottomY = bounds.position.y + tileHeight;</span>
+    const core::Vector2 topVertex =
+<span style = "background-color:#dfd">        composer.projection.gridToWorld(gridPoint(cell.column, cell.row));</span>
 
     // --- Le sol : etire sur la boite du losange, comme l'Image en anchors.fill ---------------
-<span style = "background-color:#dfd">    if (appearance.slab) {</span>
-<span style = "background-color:#fdd">        path.assign("coliseum/");
-        path.append(catalog.paleSlabs()[static_cast&lt;std::size_t&gt;(appearance.slabVariant)]);
-        path.append(".png");
-    } else {</span>
-<span style = "background-color:#dfd">        path.assign(appearance.wall ? STONE : SAND);</span>
+<span style = "background-color:#dfd">    if (appearance.wall) {
+        scenePath(path, STONE);
+    } else if (appearance.gateSpot) {
+        scenePath(path, THRESHOLD);
+    } else if (appearance.slab) {</span>
+<span style = "background-color:#fdd">        scenePath(path, SAND_VARIANTS[static_cast&lt;std::size_t&gt;(appearance.slabVariant) %</span>
+                                      SAND_VARIANTS.size()]);
+<span style = "background-color:#fdd">    } else {</span>
+<span style = "background-color:#dfd">        scenePath(path, SAND);</span>
     }
 <span style = "background-color:#dfd">    if (const ArenaTexture&amp; floor = composer.textures.resolve(path); floor.texture != nullptr) {
         SpriteQuad quad;
@@ -100,35 +141,34 @@ void composeTile(const Composer&amp; composer, const ArenaAppearanceCatalog&amp;
                                  quad);
     }
 
-    // --- L'enceinte : des pieces debout, triees au pied de la case --------------------------
-<span style = "background-color:#dfd">    switch (appearance.wallFeature) {</span>
-        case WallFeature::None:
-<span style = "background-color:#fdd">            break;</span>
-        case WallFeature::Corner:
-<span style = "background-color:#dfd">            composer.addStanding(RenderLayer::Object, COLUMN, centerX,</span>
-                                 bottomY - tileHeight * WALL_BOTTOM_MARGIN,
-                                 arenaDepthSortOrder(bottomY, ArenaDepthSlot::Wall));
-<span style = "background-color:#dfd">            break;</span>
-        case WallFeature::Plain:
-        case WallFeature::BannerSpot:
-        case WallFeature::TorchSpot:
-<span style = "background-color:#dfd">            composer.addStanding(RenderLayer::Object, WALL, centerX,</span>
-                                 bottomY - tileHeight * WALL_BOTTOM_MARGIN,
-                                 arenaDepthSortOrder(bottomY, ArenaDepthSlot::Wall));
-            break;
+    // --- L'enceinte : une piece debout par case, triee au pied de la case --------------------
+    // Une piece de l'atelier porte son mur : une torche, une banniere, une arche sont un pan decore,
+    // pas une decoration posee sur un pan.
+<span style = "background-color:#dfd">    const std::string_view edge = edgeSuffix(cell, snapshot.rows);
+    if (appearance.gateSpot) {
+        scenePath(path, ARCH, edge);
+    } else {
+        switch (appearance.wallFeature) {</span>
+            case WallFeature::None:
+<span style = "background-color:#dfd">                return;</span>
+            case WallFeature::Corner:
+                // L'angle du fond ferme les deux murs ; les trois autres angles sont des piliers.
+<span style = "background-color:#dfd">                scenePath(path, cell.column == 0 &amp;&amp; cell.row == 0 ? CORNER : PILLAR);
+                break;</span>
+            case WallFeature::Plain:
+<span style = "background-color:#dfd">                scenePath(path, WALL, edge);
+                break;</span>
+            case WallFeature::BannerSpot:
+<span style = "background-color:#fdd">                scenePath(path, BANNER, edge);
+                break;</span>
+            case WallFeature::TorchSpot:
+<span style = "background-color:#dfd">                scenePath(path, TORCH, edge);</span>
+                break;
+        }
     }
-<span style = "background-color:#dfd">    if (appearance.wallFeature == WallFeature::BannerSpot ||</span>
-        appearance.wallFeature == WallFeature::TorchSpot) {
-<span style = "background-color:#dfd">        composer.addStanding(RenderLayer::Object,</span>
-                             appearance.wallFeature == WallFeature::BannerSpot ? BANNER : TORCH,
-                             centerX, bottomY - tileHeight * DECORATION_BOTTOM_MARGIN,
-                             arenaDepthSortOrder(bottomY, ArenaDepthSlot::WallDecoration));
-    }
-<span style = "background-color:#dfd">    if (appearance.gateSpot) {
-        composer.addStanding(RenderLayer::Object, ARCH, centerX,</span>
-                             bottomY - tileHeight * GATE_BOTTOM_MARGIN,
-                             arenaDepthSortOrder(bottomY, ArenaDepthSlot::Gate));
-    }
+<span style = "background-color:#dfd">    composer.addStanding(RenderLayer::Object, path, topVertex,</span>
+                         arenaDepthSortOrder(bottomY, appearance.gateSpot ? ArenaDepthSlot::Gate
+                                                                          : ArenaDepthSlot::Wall));
 <span style = "background-color:#dfd">}</span>
 
 void composeFigure(const Composer&amp; composer, const ArenaAppearanceCatalog&amp; catalog,
@@ -206,11 +246,23 @@ void composeFigure(const Composer&amp; composer, const ArenaAppearanceCatalog&am
 }</span>
 
 <span style = "background-color:#dfd">std::vector&lt;std::string&gt; arenaTexturePaths(const ArenaAppearanceCatalog&amp; catalog) {
-    std::vector&lt;std::string&gt; paths{std::string(SAND),   std::string(STONE),  std::string(WALL),</span>
-                                   std::string(COLUMN), std::string(BANNER), std::string(TORCH),
-                                   std::string(ARCH)};
-<span style = "background-color:#dfd">    for (const std::string&amp; slab : catalog.paleSlabs()) {
-        paths.push_back("coliseum/" + slab + ".png");
+    std::vector&lt;std::string&gt; paths;
+    std::string path;
+    const auto add = [&amp;](std::string_view name, std::string_view suffix = {}) {
+        scenePath(path, name, suffix);
+        paths.push_back(path);
+    };
+    add(SAND);
+    for (const std::string_view variant : SAND_VARIANTS) {
+        add(variant);
+    }
+    add(STONE);
+    add(THRESHOLD);
+    add(CORNER);
+    add(PILLAR);
+    for (const std::string_view piece : {WALL, BANNER, TORCH, ARCH}) {
+        add(piece, "-left");
+        add(piece, "-right");
     }</span>
     // Un allie a terre montre sa bande de mort ; un ennemi, sa bande de repos estompee.
 <span style = "background-color:#dfd">    for (const std::string&amp; hero : catalog.heroes()) {
@@ -278,7 +330,9 @@ void composeArenaScene(ComposedScene&amp; scene, const ArenaSceneSnapshot&amp; s
         .scene = scene,
         .projection = projection,
         .textures = textures,
-<span style = "background-color:#dfd">        .unitsPerPixel = projection.tileWidth() / core::ARENA_SHEET_TILE_WIDTH_PIXELS};</span>
+<span style = "background-color:#dfd">        .unitsPerPixel = projection.tileWidth() / core::ARENA_SHEET_TILE_WIDTH_PIXELS,</span>
+        .unitsPerScenePixel =
+<span style = "background-color:#dfd">            projection.tileWidth() / static_cast&lt;float&gt;(ARENA_SCENE_TILE_WIDTH_PIXELS)};</span>
     // Un seul tampon de chemin pour toute la scene : apres la premiere image, plus d'allocation.
 <span style = "background-color:#dfd">    std::string path;</span>
 
