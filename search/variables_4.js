@@ -49,7 +49,7 @@ var searchData=
   ['dice_46',['dice',['../structcore_1_1DamageClause.html#a593240e65c6f77b5ded1bcb3484692f0',1,'core::DamageClause::dice'],['../structcore_1_1CheckResult.html#a07d1bf1f684a7a240509419925514011',1,'core::CheckResult::dice'],['../structcore_1_1DiceRoll.html#aa7aaa78f3af486c500fae7e77e2b5b6b',1,'core::DiceRoll::dice']]],
   ['difficult_5fterrain_5fproperty_47',['DIFFICULT_TERRAIN_PROPERTY',['../namespacecore.html#ad5a54565b7750c164a8b959b31ec3018',1,'core']]],
   ['difficulty_48',['difficulty',['../structcore_1_1DialogueNode.html#a17465fd3cadfe5ef2ab34a865ce32c10',1,'core::DialogueNode::difficulty'],['../structcore_1_1DialogueReferences.html#aaf7959ed5f546af66f47935b311bb04b',1,'core::DialogueReferences::difficulty'],['../structcore_1_1DialogueCheck.html#acf60b60b14b97e8cc1d473534399c600',1,'core::DialogueCheck::difficulty'],['../structhmi_1_1DialogueModel_1_1Session.html#a143c2d5b564393344017380c530fb528',1,'hmi::DialogueModel::Session::difficulty']]],
-  ['directory_49',['directory',['../structhmi_1_1FigureAppearance.html#a50b6ac160b5c7cdb2c8ae8d11cb5ba3b',1,'hmi::FigureAppearance']]],
+  ['directory_49',['directory',['../structhmi_1_1FigureAppearance.html#a50b6ac160b5c7cdb2c8ae8d11cb5ba3b',1,'hmi::FigureAppearance::directory'],['../structhmi_1_1AssetGalleryFamily.html#ad51a9bc820c4486dd231ce4049e8dd44',1,'hmi::AssetGalleryFamily::directory']]],
   ['dirty_50',['dirty',['../structhmi_1_1LevelStatusInfo.html#a9cd9b8b2b1e60de42886994d2ffb1310',1,'hmi::LevelStatusInfo::dirty'],['../structhmi_1_1PixelEditStatusInfo.html#a5e78865d03928b21b28f7801e71d96ca',1,'hmi::PixelEditStatusInfo::dirty']]],
   ['disadvantages_51',['disadvantages',['../structcore_1_1AttackCircumstances.html#ac9d1136de413f8e4ab2393e8dff3d349',1,'core::AttackCircumstances::disadvantages'],['../structcore_1_1AttackRoll.html#a336d74ae9da041c697992ef3c8ae0ba9',1,'core::AttackRoll::disadvantages'],['../structcore_1_1AttackPreview.html#a0f42e64ab43941c9f9c548ae4a9fb5de',1,'core::AttackPreview::disadvantages']]],
   ['displays_52',['displays',['../structhmi_1_1LayersPanel_1_1Snapshot.html#af8b5e5e733fab3260348a932dd80bf97',1,'hmi::LayersPanel::Snapshot']]],
@@ -58,5 +58,6 @@ var searchData=
   ['dooropen_55',['doorOpen',['../structhmi_1_1MechanismEventState.html#a93b52be466073c5f1eb4b61605f36c65',1,'hmi::MechanismEventState']]],
   ['doorposition_56',['doorPosition',['../structcore_1_1Mechanism.html#aff8f5698a02356618c67d7fafae8b2b7',1,'core::Mechanism']]],
   ['down_57',['down',['../structhmi_1_1ArenaFigureSnapshot.html#ad179a96ca0cb2105f0239df101b41966',1,'hmi::ArenaFigureSnapshot']]],
-  ['duration_58',['duration',['../structhmi_1_1ScreenShakeState.html#a0af939241aae31f584200a4f23d21cd7',1,'hmi::ScreenShakeState']]]
+  ['drawn_58',['drawn',['../structhmi_1_1AssetGalleryFrame.html#a89b2649772ed2a910f02f660f097736c',1,'hmi::AssetGalleryFrame']]],
+  ['duration_59',['duration',['../structhmi_1_1ScreenShakeState.html#a0af939241aae31f584200a4f23d21cd7',1,'hmi::ScreenShakeState']]]
 ];

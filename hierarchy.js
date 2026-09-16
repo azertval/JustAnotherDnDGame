@@ -38,6 +38,16 @@ var hierarchy =
     [ "core::AssetFamilyDefinition", "structcore_1_1AssetFamilyDefinition.html", null ],
     [ "core::AssetFamilyTable", "structcore_1_1AssetFamilyTable.html", null ],
     [ "hmi::AssetFileOperations", "classhmi_1_1AssetFileOperations.html", null ],
+    [ "hmi::AssetGalleryBand", "structhmi_1_1AssetGalleryBand.html", null ],
+    [ "hmi::AssetGalleryBloc", "structhmi_1_1AssetGalleryBloc.html", null ],
+    [ "hmi::AssetGalleryCatalog", "structhmi_1_1AssetGalleryCatalog.html", null ],
+    [ "hmi::AssetGalleryDrawnBloc", "structhmi_1_1AssetGalleryDrawnBloc.html", null ],
+    [ "hmi::AssetGalleryEntry", "structhmi_1_1AssetGalleryEntry.html", null ],
+    [ "hmi::AssetGalleryFamily", "structhmi_1_1AssetGalleryFamily.html", null ],
+    [ "hmi::AssetGalleryFrame", "structhmi_1_1AssetGalleryFrame.html", null ],
+    [ "hmi::AssetGalleryLayout", "structhmi_1_1AssetGalleryLayout.html", null ],
+    [ "hmi::AssetGalleryRenderer", "classhmi_1_1AssetGalleryRenderer.html", null ],
+    [ "hmi::AssetGalleryView", "structhmi_1_1AssetGalleryView.html", null ],
     [ "core::AssetKey", "structcore_1_1AssetKey.html", null ],
     [ "hmi::AssetPaths", "classhmi_1_1AssetPaths.html", null ],
     [ "hmi::AssetReference", "structhmi_1_1AssetReference.html", null ],
@@ -66,6 +76,7 @@ var hierarchy =
     [ "core::Bestiary", "structcore_1_1Bestiary.html", null ],
     [ "hmi::BitmapFont", "classhmi_1_1BitmapFont.html", null ],
     [ "hmi::ButtonRepeat", "classhmi_1_1ButtonRepeat.html", null ],
+    [ "hmi::AssetGalleryRenderer::CachedTexture", "structhmi_1_1AssetGalleryRenderer_1_1CachedTexture.html", null ],
     [ "hmi::CacheRegistry&lt; Resource &gt;", "classhmi_1_1CacheRegistry.html", null ],
     [ "hmi::Camera2D", "classhmi_1_1Camera2D.html", null ],
     [ "core::CameraFramingConfig", "structcore_1_1CameraFramingConfig.html", null ],
@@ -337,6 +348,7 @@ var hierarchy =
     ] ],
     [ "QQuickRhiItem", null, [
       [ "hmi::ArenaViewportItem", "classhmi_1_1ArenaViewportItem.html", null ],
+      [ "hmi::AssetGalleryItem", "classhmi_1_1AssetGalleryItem.html", null ],
       [ "hmi::GameViewportItem", "classhmi_1_1GameViewportItem.html", null ]
     ] ],
     [ "QRhiWidget", null, [

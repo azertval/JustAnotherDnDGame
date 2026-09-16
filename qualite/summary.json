@@ -1,12 +1,12 @@
 {
-  "generated": "2026-09-16 21:03 UTC",
-  "commit": "fac97f878",
-  "run_url": "https://github.com/azertval/JustAnotherDnDGame/actions/runs/35148935336",
+  "generated": "2026-09-16 21:26 UTC",
+  "commit": "44c95ad57",
+  "run_url": "https://github.com/azertval/JustAnotherRpgGame/actions/runs/35151026915",
   "coverage": {
-    "percent": 91.04,
-    "covered": 19078,
-    "valid": 20955,
-    "files": 285,
+    "percent": 91.07,
+    "covered": 19532,
+    "valid": 21448,
+    "files": 289,
     "areas": [
       {
         "name": "Core",
@@ -112,9 +112,9 @@
       },
       {
         "name": "HMI/Graphics",
-        "covered": 2591,
-        "valid": 3141,
-        "percent": 82.49
+        "covered": 3043,
+        "valid": 3634,
+        "percent": 83.74
       },
       {
         "name": "HMI/Input",
@@ -136,9 +136,9 @@
       },
       {
         "name": "HMI/Platform",
-        "covered": 70,
+        "covered": 72,
         "valid": 126,
-        "percent": 55.56
+        "percent": 57.14
       },
       {
         "name": "HMI/Presentation",

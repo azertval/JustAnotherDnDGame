@@ -7,6 +7,8 @@ var dir_9c2c1d58a156aa8e30c089ae7a4e31f9 =
     [ "test_arena_scene_composer.cpp", "test__arena__scene__composer_8cpp.html", "test__arena__scene__composer_8cpp" ],
     [ "test_arena_scene_renderer.cpp", "test__arena__scene__renderer_8cpp.html", "test__arena__scene__renderer_8cpp" ],
     [ "test_asset_contract.cpp", "test__asset__contract_8cpp.html", "test__asset__contract_8cpp" ],
+    [ "test_asset_gallery.cpp", "test__asset__gallery_8cpp.html", "test__asset__gallery_8cpp" ],
+    [ "test_asset_gallery_renderer.cpp", "test__asset__gallery__renderer_8cpp.html", "test__asset__gallery__renderer_8cpp" ],
     [ "test_asset_paths.cpp", "test__asset__paths_8cpp.html", "test__asset__paths_8cpp" ],
     [ "test_background_fit.cpp", "test__background__fit_8cpp.html", "test__background__fit_8cpp" ],
     [ "test_bitmap_font.cpp", "test__bitmap__font_8cpp.html", "test__bitmap__font_8cpp" ],

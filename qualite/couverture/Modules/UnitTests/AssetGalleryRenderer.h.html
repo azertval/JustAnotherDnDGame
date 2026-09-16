@@ -1,0 +1,171 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>AssetGalleryRenderer.h</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#pragma once
+
+#include &lt;cstddef&gt;
+#include &lt;filesystem&gt;
+#include &lt;map&gt;
+#include &lt;string&gt;
+#include &lt;vector&gt;
+
+#include "HMI/Graphics/ComposedScene.h"
+#include "HMI/Graphics/SceneResources.h"
+#include "HMI/Graphics/TextureLoader.h"
+
+class QRhi;
+class QRhiCommandBuffer;
+class QRhiRenderTarget;
+class QRhiResourceUpdateBatch;
+
+/**
+ * @file HMI/Graphics/AssetGalleryRenderer.h
+ * @brief Le rendu QRhi de la galerie des assets (outil de dÃ©bug), cÃ´tÃ© **fil de rendu**.
+ */
+
+namespace hmi {
+
+/// Un bloc Ã  dessiner, dÃ©jÃ  placÃ© en pixels de la cible.
+struct AssetGalleryDrawnBloc {
+    /// Texture, relative Ã  la racine des assets.
+    std::string path;
+    /// Coin haut-gauche du bloc, en pixels de la cible.
+    float x = 0.0f;
+    float y = 0.0f;
+    int columns = 3;
+    int rows = 3;
+    int footprintColumn = 1;
+    int footprintRow = 1;
+    int footprintColumns = 1;
+    int footprintRows = 1;
+    /// Taille d'une image de la bande ; 0 : la texture entiÃ¨re.
+    int frameWidth = 0;
+    int frameHeight = 0;
+    /// Rang de l'image dans la bande (pas dans le clip).
+    int frameIndex = 0;
+    bool selected = false;
+};
+
+/**
+ * @brief Ce que le fil graphique remet au rendu pour une image : **des valeurs**.
+ *
+ * La disposition et la visibilitÃ© se dÃ©cident cÃ´tÃ© item (`hmi::layoutAssetGallery`,
+ * `hmi::assetGalleryVisibility`) ; le rendu ne fait que charger ce qu'on lui demande de garder et
+ * dessiner ce qu'on lui demande de dessiner.
+ */
+struct AssetGalleryFrame {
+    /// Pixels de la cible par case.
+    float cellPixels = 68.0f;
+    /// Pixels de la cible par pixel d'art.
+    float artScale = 1.0f;
+    std::vector&lt;AssetGalleryDrawnBloc&gt; drawn;
+    /// Textures Ã  garder en mÃ©moire : celles des blocs dessinÃ©s et prÃ©chargÃ©s.
+    std::vector&lt;std::string&gt; wanted;
+    bool showGrid = true;
+    bool showFootprint = true;
+};
+
+/**
+ * @brief Dessine la galerie, et ne garde en mÃ©moire que les textures voulues.
+ *
+ * ## Le cache
+ *
+ * Une texture voulue et absente est chargÃ©e, au plus `UPLOADS_PER_FRAME` par image : un grand saut
+ * de camÃ©ra Ã©tale ses chargements au lieu de figer une image. Une texture qui n'est plus voulue
+ * est libÃ©rÃ©e aprÃ¨s `EVICTION_SECONDS`, pour qu'un aller-retour de la vue ne la recharge pas. Un
+ * fichier illisible est retenu comme tel et dessinÃ© en damier, sans nouvel essai Ã  chaque image.
+ *
+ * MÃªme cycle de vie que `hmi::ArenaSceneRenderer` : `ensureResources` depuis `initialize()`,
+ * `setFrame` depuis `synchronize()`, `render` depuis `render()`.
+ */
+class AssetGalleryRenderer {
+public:
+    static constexpr int UPLOADS_PER_FRAME = 24;
+    static constexpr float EVICTION_SECONDS = 2.0f;
+
+    explicit AssetGalleryRenderer(std::filesystem::path assetsRoot);
+    ~AssetGalleryRenderer();
+
+    AssetGalleryRenderer(const AssetGalleryRenderer&amp;) = delete;
+    AssetGalleryRenderer&amp; operator=(const AssetGalleryRenderer&amp;) = delete;
+
+    bool ensureResources(QRhi* rhi);
+    void release() noexcept;
+
+<span style = "background-color:#dfd">    [[nodiscard]] bool created() const noexcept {
+        return _resources.created();
+    }</span>
+    [[nodiscard]] QRhi* rhi() const noexcept {
+        return _rhi;
+    }
+
+    void setFrame(AssetGalleryFrame frame);
+
+    void render(QRhiCommandBuffer* commandBuffer, QRhiRenderTarget* target, float realDeltaSeconds,
+                const float clear[4]);
+
+    /// @return Le nombre de textures en mÃ©moire (chargÃ©es ou retenues illisibles).
+<span style = "background-color:#dfd">    [[nodiscard]] std::size_t cachedTextureCount() const noexcept {
+        return _cache.size();
+    }</span>
+
+    /// @return Vrai si une texture voulue attend encore son chargement.
+<span style = "background-color:#dfd">    [[nodiscard]] bool loading() const noexcept {
+        return _loading;
+    }</span>
+
+    [[nodiscard]] const ComposedScene&amp; composed() const noexcept {
+        return _composed;
+    }
+
+private:
+    struct CachedTexture {
+        LoadedTexture texture;
+        float unwantedSeconds = 0.0f;
+        bool failed = false;
+    };
+
+    void updateCache(float deltaSeconds);
+    void compose();
+
+    std::filesystem::path _root;
+    AssetGalleryFrame _frame;
+    ComposedScene _composed;
+<span style = "background-color:#dfd">    bool _loading = false;</span>
+
+<span style = "background-color:#dfd">    QRhi* _rhi = nullptr;
+    QRhiResourceUpdateBatch* _pendingUploads = nullptr;</span>
+    // AprÃ¨s les ressources : les textures meurent avant la grappe qui porte le pipeline.
+    SceneResources _resources;
+    std::map&lt;std::string, CachedTexture&gt; _cache;
+    LoadedTexture _white;
+    LoadedTexture _missing;
+};
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

@@ -31,7 +31,7 @@ var searchData=
   ['macros_20de_20journalisation_20par_20catégorie_28',['Les macros de journalisation, par catégorie',['../guide-journalisation.html#autotoc_md163',1,'']]],
   ['magiques_29',['LOT-34 — Équipement, monnaie, objets magiques',['../lot-34.html',1,'lots']]],
   ['magiques_20et_20consommables_20de_20tanares_30',['&lt;span class=&quot;tt&quot;&gt;LOT-89&lt;/span&gt; — Dons, objets magiques et consommables de Tanares',['../roadmap.html#lot-89',1,'']]],
-  ['main_31',['main',['../lot-91-poc.html#autotoc_md805',1,'2. Les références (étape E1, à la main)'],['../lot-39.html#autotoc_md660',1,'Le manifeste est dérivé, jamais tenu à la main'],['../lot-91-poc.html',1,'LOT-91 — Preuve de concept : cinq planches à la main'],['../RpgScreens_8h.html#autotoc_md1018',1,'Une table, et non huit écrans écrits à la main']]],
+  ['main_31',['main',['../lot-91-poc.html#autotoc_md805',1,'2. Les références (étape E1, à la main)'],['../lot-39.html#autotoc_md660',1,'Le manifeste est dérivé, jamais tenu à la main'],['../lot-91-poc.html',1,'LOT-91 — Preuve de concept : cinq planches à la main'],['../RpgScreens_8h.html#autotoc_md1019',1,'Une table, et non huit écrans écrits à la main']]],
   ['main_20et_20taille_20de_20suivi_20réglable_20ex_20lvl_20007_20ex_20ren_20017_32',['Mélanger plusieurs tailles de caméra : zones dessinées à la main et taille de suivi réglable (&lt;span class=&quot;tt&quot;&gt;EX-LVL-007&lt;/span&gt;, &lt;span class=&quot;tt&quot;&gt;EX-REN-017&lt;/span&gt;)',['../guide-rendu.html#autotoc_md222',1,'']]],
   ['maintenabilité_33',['2. Architecture &amp;amp; maintenabilité',['../spec-exigences.html#autotoc_md334',1,'']]],
   ['maintenant_20et_20pas_20plus_20tard_34',['Pourquoi maintenant, et pas plus tard',['../lot-04.html#autotoc_md431',1,'']]],

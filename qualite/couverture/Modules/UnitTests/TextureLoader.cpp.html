@@ -29,10 +29,10 @@ namespace hmi {
 // DÃ©code un fichier image (PNG au minimum) en pixels RGBA.
 <span style = "background-color:#dfd">std::optional&lt;DecodedImage&gt; decodeImageFile(const std::filesystem::path&amp; path) {
     QImage source(QString::fromStdWString(path.wstring()));
-    if (source.isNull()) {</span>
-<span style = "background-color:#fdd">        GRAPHICS_LOG_WARNING("TextureLoader : echec de decodage de l'image '" + path.string() +</span>
+    if (source.isNull()) {
+        GRAPHICS_LOG_WARNING("TextureLoader : echec de decodage de l'image '" + path.string() +</span>
                              "'");
-<span style = "background-color:#fdd">        return std::nullopt;</span>
+<span style = "background-color:#dfd">        return std::nullopt;</span>
     }
     // Format_RGBA8888 : quatre octets R,G,B,A en mÃ©moire, alpha NON prÃ©multipliÃ© â le mÃªme ordre
     // mÃ©moire que QRhiTexture::RGBA8, et cohÃ©rent avec le mÃ©lange du pipeline de SpriteBatch
@@ -140,8 +140,8 @@ std::optional&lt;LoadedTexture&gt; createTexture(const RhiContext&amp; context, 
 std::optional&lt;LoadedTexture&gt; loadTextureFromFile(const RhiContext&amp; context,
 <span style = "background-color:#dfd">                                                 const std::filesystem::path&amp; path) {
     const std::optional&lt;DecodedImage&gt; decoded = decodeImageFile(path);
-    if (!decoded) {</span>
-<span style = "background-color:#fdd">        return std::nullopt;</span>
+    if (!decoded) {
+        return std::nullopt;</span>
     }
 <span style = "background-color:#dfd">    return createTexture(context, decoded-&gt;width, decoded-&gt;height, decoded-&gt;pixels);
 }</span>

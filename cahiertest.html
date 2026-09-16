@@ -93,9 +93,9 @@ $(function(){initNavTree('cahiertest.html','',''); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md_CahierTest"></a></p>
-<p><b>1275 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
+<p><b>1283 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md5"></a>
-Tests unitaires (1259)</h1>
+Tests unitaires (1267)</h1>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md6"></a>
 Core</h2>
 <p><b><span class="tt"><a class="el" href="test__core_8cpp.html" title="Tests unitaires de la bibliothèque Core (amorçage).">test_core.cpp</a></span></b></p>
@@ -6347,7 +6347,7 @@ Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a8572b2f7cdb
 Vérifie que <span class="tt">localization.text(key)</span> diffère de <span class="tt">key</span>.  </td></tr>
 </table>
 <h3 class="doxsection"><a class="anchor" id="autotoc_md24"></a>
-Graphics (306)</h3>
+Graphics (314)</h3>
 <p><b><span class="tt"><a class="el" href="test__animated__tiles_8cpp.html" title="Tests unitaires des tuiles animées (LOT-46 TACHE-05) : horloge partagée par asset,...">test_animated_tiles.cpp</a></span></b></p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -6856,6 +6856,103 @@ Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#ab24a5852795
 <td class="markdownTableBodyNone"><b>AssetContractTest.ToutesLesFamillesSontNommees</b> (Mineur)<br  />
 <sub><span class="tt"><a class="el" href="test__asset__contract_8cpp.html" title="Tests unitaires du contrat de dimensions des assets graphiques (LOT-40, EX-REN-007).">Source/Test/Unit/HMI/Graphics/test_asset_contract.cpp</a>:176</span></sub>  </td><td class="markdownTableBodyNone">Chaque famille d'asset porte un nom lisible non vide.  </td><td class="markdownTableBodyNone">1. Nommer chaque famille declaree.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">name.empty()</span> est faux.<br  />
 Vérifie que <span class="tt">name</span> diffère de <span class="tt">"Inconnu"</span>.  </td></tr>
+</table>
+<p><b><span class="tt"><a class="el" href="test__asset__gallery_8cpp.html" title="Tests unitaires de la galerie des assets (outil de débug) : forme des blocs, disposition,...">test_asset_gallery.cpp</a></span></b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>AssetGalleryTest.FormeDesBlocs</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__asset__gallery_8cpp.html" title="Tests unitaires de la galerie des assets (outil de débug) : forme des blocs, disposition,...">Source/Test/Unit/HMI/Graphics/test_asset_gallery.cpp</a>:56</span></sub>  </td><td class="markdownTableBodyNone">Un bloc contient son dessin, marge comprise.  </td><td class="markdownTableBodyNone">1. Calculer le bloc d'une figure, d'une attaque large, d'un mur, d'une pièce 2×1 et d'une grande pièce.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">figure.columns</span> vaut <span class="tt">3</span>.<br  />
+Vérifie que <span class="tt">figure.rows</span> vaut <span class="tt">3</span>.<br  />
+Vérifie que <span class="tt">figure.footprintColumn</span> vaut <span class="tt">1</span>.<br  />
+Vérifie que <span class="tt">figure.footprintRow</span> vaut <span class="tt">1</span>.<br  />
+Vérifie que <span class="tt">attaque.columns</span> vaut <span class="tt">4</span>.<br  />
+Vérifie que <span class="tt">attaque.rows</span> vaut <span class="tt">3</span>.<br  />
+Vérifie que <span class="tt">attaque.footprintColumn</span> vaut <span class="tt">1</span>.<br  />
+Vérifie que <span class="tt">mur.columns</span> vaut <span class="tt">3</span>.<br  />
+Vérifie que <span class="tt">mur.rows</span> vaut <span class="tt">4</span>.<br  />
+Vérifie que <span class="tt">mur.footprintRow</span> vaut <span class="tt">2</span>.<br  />
+Vérifie que <span class="tt">large.columns</span> vaut <span class="tt">4</span>.<br  />
+Vérifie que <span class="tt">large.rows</span> vaut <span class="tt">4</span>.<br  />
+Vérifie que <span class="tt">large.footprintColumn</span> vaut <span class="tt">1</span>.<br  />
+Vérifie que <span class="tt">large.footprintRow</span> vaut <span class="tt">2</span>.<br  />
+Vérifie que <span class="tt">piece.columns</span> vaut <span class="tt">9</span>.<br  />
+Vérifie que <span class="tt">piece.rows</span> vaut <span class="tt">6</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>AssetGalleryTest.DispositionEnBandes</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__asset__gallery_8cpp.html" title="Tests unitaires de la galerie des assets (outil de débug) : forme des blocs, disposition,...">Source/Test/Unit/HMI/Graphics/test_asset_gallery.cpp</a>:94</span></sub>  </td><td class="markdownTableBodyNone">La galerie se dispose en bandes, lignes et colonnes.  </td><td class="markdownTableBodyNone">1. Disposer deux modèles de deux formes (dont un mur) sur six cases, puis sur cinq.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">layout.bands.size()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">layout.bands[0].row</span> vaut <span class="tt">0</span>.<br  />
+Vérifie que <span class="tt">layout.blocs.size()</span> vaut <span class="tt">4U</span>.<br  />
+Vérifie que <span class="tt">layout.blocs[0].entry</span> vaut <span class="tt">0</span>.<br  />
+Vérifie que <span class="tt">layout.blocs[0].row</span> vaut <span class="tt">1</span>.<br  />
+Vérifie que <span class="tt">layout.blocs[1].entry</span> vaut <span class="tt">2</span>.<br  />
+Vérifie que <span class="tt">layout.blocs[1].column</span> vaut <span class="tt">3</span>.<br  />
+Vérifie que <span class="tt">layout.blocs[1].row</span> vaut <span class="tt">1</span>.<br  />
+Vérifie que <span class="tt">layout.blocs[2].entry</span> vaut <span class="tt">1</span>.<br  />
+Vérifie que <span class="tt">layout.blocs[3].entry</span> vaut <span class="tt">3</span>.<br  />
+Vérifie que <span class="tt">layout.blocs[3].row</span> vaut <span class="tt">4</span>.<br  />
+Vérifie que <span class="tt">layout.blocs[2].row</span> vaut <span class="tt">5</span>.<br  />
+Vérifie que <span class="tt">layout.rows</span> vaut <span class="tt">8</span>.<br  />
+Vérifie que <span class="tt">layout.columns</span> vaut <span class="tt">6</span>.<br  />
+Vérifie que <span class="tt">narrow.blocs.size()</span> vaut <span class="tt">4U</span>.<br  />
+Vérifie que <span class="tt">narrow.blocs[1].column</span> vaut <span class="tt">0</span>.<br  />
+Vérifie que <span class="tt">narrow.blocs[1].row</span> vaut <span class="tt">4</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>AssetGalleryTest.VisibiliteParLaVue</b> (Bloquant)<br  />
+<sub><span class="tt"><a class="el" href="test__asset__gallery_8cpp.html" title="Tests unitaires de la galerie des assets (outil de débug) : forme des blocs, disposition,...">Source/Test/Unit/HMI/Graphics/test_asset_gallery.cpp</a>:140</span></sub>  </td><td class="markdownTableBodyNone">Seuls les blocs à l'écran sont dessinés.  </td><td class="markdownTableBodyNone">1. Classer un bloc 3×3 pour une vue qui le couvre, qui s'en écarte de deux cases, puis de sept.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a321807271cf7156d657e478bb442d8a8">hmi::assetGalleryVisibility</a>(bloc, {0.0, 0.0, 10.0, 10.0})</span> vaut <span class="tt"><a class="el" href="namespacehmi.html#a9bcda977efbe65c2ab28905feb685040ac4816e491f1e2cf4b8c26d844861d8fe" title="Le bloc touche la vue : texture chargée, quads émis.">hmi::AssetGalleryVisibility::Drawn</a></span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a321807271cf7156d657e478bb442d8a8">hmi::assetGalleryVisibility</a>(bloc, {5.0, 0.0, 10.0, 10.0})</span> vaut <span class="tt"><a class="el" href="namespacehmi.html#a9bcda977efbe65c2ab28905feb685040ad2dca836f24df89491f958bac04a8ac8" title="Le bloc est dans l&#39;anneau autour de la vue : texture gardée, rien d&#39;émis.">hmi::AssetGalleryVisibility::Preloaded</a></span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a321807271cf7156d657e478bb442d8a8">hmi::assetGalleryVisibility</a>(bloc, {10.0, 0.0, 10.0, 10.0})</span> vaut <span class="tt"><a class="el" href="namespacehmi.html#a9bcda977efbe65c2ab28905feb685040aa5ae20aa7fda5bd38bf0dce98e65bd2d" title="Hors de l&#39;anneau : la texture peut être libérée.">hmi::AssetGalleryVisibility::Unloaded</a></span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>AssetGalleryTest.ImageJouee</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__asset__gallery_8cpp.html" title="Tests unitaires de la galerie des assets (outil de débug) : forme des blocs, disposition,...">Source/Test/Unit/HMI/Graphics/test_asset_gallery.cpp</a>:160</span></sub>  </td><td class="markdownTableBodyNone">L'image jouée suit le temps.  </td><td class="markdownTableBodyNone">1. Demander l'image d'un clip bouclé et d'un clip joué une fois à plusieurs instants.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#aab46d733154ad31db3d8fa8af5afd259" title="L&#39;image jouée au temps seconds : en boucle, ou jouée une fois puis tenue ASSET_GALLERY_ONE_SHOT_HOLD_...">hmi::assetGalleryFrameRank</a>(boucle, 0.16)</span> vaut <span class="tt">1</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#aab46d733154ad31db3d8fa8af5afd259" title="L&#39;image jouée au temps seconds : en boucle, ou jouée une fois puis tenue ASSET_GALLERY_ONE_SHOT_HOLD_...">hmi::assetGalleryFrameRank</a>(boucle, 0.91)</span> vaut <span class="tt">0</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#aab46d733154ad31db3d8fa8af5afd259" title="L&#39;image jouée au temps seconds : en boucle, ou jouée une fois puis tenue ASSET_GALLERY_ONE_SHOT_HOLD_...">hmi::assetGalleryFrameRank</a>(unique, 0.35)</span> vaut <span class="tt">3</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#aab46d733154ad31db3d8fa8af5afd259" title="L&#39;image jouée au temps seconds : en boucle, ou jouée une fois puis tenue ASSET_GALLERY_ONE_SHOT_HOLD_...">hmi::assetGalleryFrameRank</a>(unique, 0.75)</span> vaut <span class="tt">3</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#aab46d733154ad31db3d8fa8af5afd259" title="L&#39;image jouée au temps seconds : en boucle, ou jouée une fois puis tenue ASSET_GALLERY_ONE_SHOT_HOLD_...">hmi::assetGalleryFrameRank</a>(unique, 1.05)</span> vaut <span class="tt">0</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#aab46d733154ad31db3d8fa8af5afd259" title="L&#39;image jouée au temps seconds : en boucle, ou jouée une fois puis tenue ASSET_GALLERY_ONE_SHOT_HOLD_...">hmi::assetGalleryFrameRank</a>(entry("fixe", 16, 16), 3.0)</span> vaut <span class="tt">0</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>AssetGalleryTest.AssetsLivres</b> (Bloquant)<br  />
+<sub><span class="tt"><a class="el" href="test__asset__gallery_8cpp.html" title="Tests unitaires de la galerie des assets (outil de débug) : forme des blocs, disposition,...">Source/Test/Unit/HMI/Graphics/test_asset_gallery.cpp</a>:183</span></sub>  </td><td class="markdownTableBodyNone">La galerie lit les assets livrés.  </td><td class="markdownTableBodyNone">1. Lire le catalogue de Source/Elements/Assets.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">npcs</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">attack</span> diffère de <span class="tt">npcs-&gt;entries.end()</span>.<br  />
+Vérifie que <span class="tt">attack-&gt;frameWidth</span> vaut <span class="tt">96</span>.<br  />
+Vérifie que <span class="tt">attack-&gt;frameCount()</span> vaut <span class="tt">8</span>.<br  />
+Vérifie que <span class="tt">attack-&gt;loop</span> est faux.<br  />
+Vérifie que <span class="tt">familyNamed(catalog, "Colisée · pièces")</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">familyNamed(catalog, "Skins")</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">std::filesystem::is_regular_file(root / value.path)</span> est vrai.<br  />
+Vérifie que <span class="tt">value.frameWidth</span> est strictement supérieur à <span class="tt">0</span>.<br  />
+Vérifie que <span class="tt">value.frameHeight</span> est strictement supérieur à <span class="tt">0</span>.<br  />
+Vérifie que <span class="tt">hmi::layoutAssetGallery(catalog).blocs.empty()</span> est faux.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>AssetGalleryTest.ToutAssetLivreEstDansLaGalerie</b> (Bloquant)<br  />
+<sub><span class="tt"><a class="el" href="test__asset__gallery_8cpp.html" title="Tests unitaires de la galerie des assets (outil de débug) : forme des blocs, disposition,...">Source/Test/Unit/HMI/Graphics/test_asset_gallery.cpp</a>:225</span></sub>  </td><td class="markdownTableBodyNone">Aucun asset livré n'échappe à la galerie.  </td><td class="markdownTableBodyNone">1. Lire le catalogue de Source/Elements/Assets. 2. Parcourir toutes les images livrées.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a11b4cbe2fcfcc3f152293f1bdf5c7f8d" title="Les images livrées qui ne sont pas des assets à montrer, par règle nommée : les planches sources des ...">hmi::assetGalleryExcludes</a>("Scene/martpart/planche-1.png")</span> est vrai.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a11b4cbe2fcfcc3f152293f1bdf5c7f8d" title="Les images livrées qui ne sont pas des assets à montrer, par règle nommée : les planches sources des ...">hmi::assetGalleryExcludes</a>("Coliseum/production_source_atlas.png")</span> est vrai.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a11b4cbe2fcfcc3f152293f1bdf5c7f8d" title="Les images livrées qui ne sont pas des assets à montrer, par règle nommée : les planches sources des ...">hmi::assetGalleryExcludes</a>("UI/world-map.jpg")</span> est vrai.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a11b4cbe2fcfcc3f152293f1bdf5c7f8d" title="Les images livrées qui ne sont pas des assets à montrer, par règle nommée : les planches sources des ...">hmi::assetGalleryExcludes</a>("Scene/martpart/street.png")</span> est faux.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a11b4cbe2fcfcc3f152293f1bdf5c7f8d" title="Les images livrées qui ne sont pas des assets à montrer, par règle nommée : les planches sources des ...">hmi::assetGalleryExcludes</a>("Npc/anariel/portrait.png")</span> est faux.  </td></tr>
+</table>
+<p><b><span class="tt"><a class="el" href="test__asset__gallery__renderer_8cpp.html" title="Le rendu de la galerie des assets hors écran : ne charger que ce qui est voulu, étaler les chargement...">test_asset_gallery_renderer.cpp</a></span></b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>AssetGalleryRendererTest.ChargementEtLiberation</b> (Bloquant)<br  />
+<sub><span class="tt"><a class="el" href="test__asset__gallery__renderer_8cpp.html" title="Le rendu de la galerie des assets hors écran : ne charger que ce qui est voulu, étaler les chargement...">Source/Test/Unit/HMI/Graphics/test_asset_gallery_renderer.cpp</a>:111</span></sub>  </td><td class="markdownTableBodyNone">La galerie ne garde que les textures voulues.  </td><td class="markdownTableBodyNone">1. Dessiner la figure au repos d'anariel. 2. Ne plus rien vouloir, 1 s puis 1,5 s.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">renderer.ensureResources(rhi.get())</span> est vrai.<br  />
+Vérifie que <span class="tt">renderer.cachedTextureCount()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">paintedPixels(image)</span> est strictement supérieur à <span class="tt">100U</span>.<br  />
+Vérifie que <span class="tt">renderer.cachedTextureCount()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">renderer.cachedTextureCount()</span> vaut <span class="tt">0U</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>AssetGalleryRendererTest.ChargementsEtalesEtFichierAbsent</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__asset__gallery__renderer_8cpp.html" title="Le rendu de la galerie des assets hors écran : ne charger que ce qui est voulu, étaler les chargement...">Source/Test/Unit/HMI/Graphics/test_asset_gallery_renderer.cpp</a>:141</span></sub>  </td><td class="markdownTableBodyNone">Les chargements s'étalent, un fichier absent ne bloque rien.  </td><td class="markdownTableBodyNone">1. Vouloir 30 textures d'un coup. 2. Dessiner une texture absente.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">renderer.ensureResources(rhi.get())</span> est vrai.<br  />
+Vérifie que <span class="tt">renderer.cachedTextureCount()</span> vaut <span class="tt">static_cast&lt;std::size_t&gt;(<a class="el" href="classhmi_1_1AssetGalleryRenderer.html#a278c3a154a2a3f62a34aeb9e57ad7cdd">hmi::AssetGalleryRenderer::UPLOADS_PER_FRAME</a>)</span>.<br  />
+Vérifie que <span class="tt">renderer.loading()</span> est vrai.<br  />
+Vérifie que <span class="tt">renderer.cachedTextureCount()</span> vaut <span class="tt">30U</span>.<br  />
+Vérifie que <span class="tt">renderer.loading()</span> est faux.<br  />
+Vérifie que <span class="tt">absent.ensureResources(rhi.get())</span> est vrai.<br  />
+Vérifie que <span class="tt">absent.cachedTextureCount()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">paintedPixels(image)</span> est strictement supérieur à <span class="tt">100U</span>.  </td></tr>
 </table>
 <p><b><span class="tt"><a class="el" href="test__asset__paths_8cpp.html" title="Tests unitaires de la résolution de chemins d&#39;assets (LOT-39, EX-NFR-010/EX-NFR-040).">test_asset_paths.cpp</a></span></b></p>
 <table class="markdownTable">

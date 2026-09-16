@@ -1,5 +1,14 @@
 var NAVTREEINDEX4 =
 {
+"classcore_1_1BattleGrid.html#a27b9d17fd8c8a7399622ce8037b758e6":[15,0,1,22,25],
+"classcore_1_1BattleGrid.html#a27b9d17fd8c8a7399622ce8037b758e6":[16,0,0,22,25],
+"classcore_1_1BattleGrid.html#a2ab4363b9ad5e7a87285f4e3fbf860b3":[15,0,1,22,34],
+"classcore_1_1BattleGrid.html#a2ab4363b9ad5e7a87285f4e3fbf860b3":[16,0,0,22,34],
+"classcore_1_1BattleGrid.html#a31889408e785ac672e553a7d52246993":[15,0,1,22,21],
+"classcore_1_1BattleGrid.html#a31889408e785ac672e553a7d52246993":[16,0,0,22,21],
+"classcore_1_1BattleGrid.html#a3f8b1a66e091a5db66010da34721bfc7":[15,0,1,22,28],
+"classcore_1_1BattleGrid.html#a3f8b1a66e091a5db66010da34721bfc7":[16,0,0,22,28],
+"classcore_1_1BattleGrid.html#a44455571fe0dd82a1262f39af39b1e65":[15,0,1,22,26],
 "classcore_1_1BattleGrid.html#a44455571fe0dd82a1262f39af39b1e65":[16,0,0,22,26],
 "classcore_1_1BattleGrid.html#a48b304db624d384b40ae4a6f34dd532b":[15,0,1,22,4],
 "classcore_1_1BattleGrid.html#a48b304db624d384b40ae4a6f34dd532b":[16,0,0,22,4],
@@ -240,14 +249,5 @@ var NAVTREEINDEX4 =
 "classcore_1_1CombatState_1_1Operation.html#a0028f8925037ccf92648d7953aa63607":[15,0,1,33,0,6],
 "classcore_1_1CombatState_1_1Operation.html#a0028f8925037ccf92648d7953aa63607":[16,0,0,33,0,6],
 "classcore_1_1CombatState_1_1Operation.html#a210783b26251f119e41b392c927501ce":[15,0,1,33,0,2],
-"classcore_1_1CombatState_1_1Operation.html#a210783b26251f119e41b392c927501ce":[16,0,0,33,0,2],
-"classcore_1_1CombatState_1_1Operation.html#a3878ba3fa9ac55009ff98dd8144d0ceb":[15,0,1,33,0,1],
-"classcore_1_1CombatState_1_1Operation.html#a3878ba3fa9ac55009ff98dd8144d0ceb":[16,0,0,33,0,1],
-"classcore_1_1CombatState_1_1Operation.html#a45deea55aa129b8d6756b4017d4a4c0f":[15,0,1,33,0,3],
-"classcore_1_1CombatState_1_1Operation.html#a45deea55aa129b8d6756b4017d4a4c0f":[16,0,0,33,0,3],
-"classcore_1_1CombatState_1_1Operation.html#a688b04622dbd07c4fc8dd40eeb7b2223":[15,0,1,33,0,0],
-"classcore_1_1CombatState_1_1Operation.html#a688b04622dbd07c4fc8dd40eeb7b2223":[16,0,0,33,0,0],
-"classcore_1_1CombatState_1_1Operation.html#a8b02d839c6e709f35e3a52a33274f3f7":[15,0,1,33,0,5],
-"classcore_1_1CombatState_1_1Operation.html#a8b02d839c6e709f35e3a52a33274f3f7":[16,0,0,33,0,5],
-"classcore_1_1CombatState_1_1Operation.html#acd70878477a9944ef09ffe31216beda9":[15,0,1,33,0,4]
+"classcore_1_1CombatState_1_1Operation.html#a210783b26251f119e41b392c927501ce":[16,0,0,33,0,2]
 };

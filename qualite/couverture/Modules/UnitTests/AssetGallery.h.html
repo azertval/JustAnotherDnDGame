@@ -1,0 +1,217 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>AssetGallery.h</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#pragma once
+
+#include &lt;filesystem&gt;
+#include &lt;string&gt;
+#include &lt;string_view&gt;
+#include &lt;vector&gt;
+
+/**
+ * @file HMI/Graphics/AssetGallery.h
+ * @brief La galerie des assets, outil de dÃ©bug : inventaire, disposition en blocs et visibilitÃ©,
+ *        **sans GPU**.
+ *
+ * Ce n'est pas un Ã©cran du jeu (dÃ©cision du 16 septembre 2026) : un banc pour voir d'un coup
+ * d'Åil tous les modÃ¨les, toutes leurs formes et toutes leurs animations, que le ColisÃ©e ne
+ * pouvait plus montrer Ã  mesure que les ateliers (PNJ, textures) en produisent.
+ */
+
+namespace hmi {
+
+/// Largeur d'une case de la galerie, en pixels d'art : celle du losange des scÃ¨nes (LOT-92).
+inline constexpr int ASSET_GALLERY_CELL_PIXELS = 68;
+
+/// Temps de tenue, en secondes, d'un clip jouÃ© une fois sur sa derniÃ¨re image avant de reprendre.
+inline constexpr double ASSET_GALLERY_ONE_SHOT_HOLD_SECONDS = 0.6;
+
+/**
+ * @brief Une forme d'un modÃ¨le : un clip d'une figure, une variante de texture, une piÃ¨ce.
+ *
+ * Tout ce qui sert Ã  la disposer est lu dans les manifestes : la galerie place un asset sans
+ * charger sa texture, c'est ce qui lui permet de ne charger que ce qui est Ã  l'Ã©cran.
+ */
+struct AssetGalleryEntry {
+    /// Nom de la famille (Â« PNJ Â», Â« ScÃ¨ne Â· martpart Â»â¦).
+    std::string family;
+    /// Le modÃ¨le : une ligne de la galerie (Â« anariel Â», Â« floor Â», Â« props Â»).
+    std::string model;
+    /// La forme : une colonne (Â« attack Â», Â« street-2 Â», Â« 06 Â»).
+    std::string form;
+    /// Chemin de la texture, relatif Ã  la racine des assets, sÃ©parateurs `/`.
+    std::string path;
+    /// Taille d'une image, en pixels. Une texture fixe n'a qu'une image, de sa taille entiÃ¨re.
+<span style = "background-color:#dfd">    int frameWidth = 0;
+    int frameHeight = 0;</span>
+    /// Indices d'images dans la bande, dans l'ordre de lecture ; vide : l'image 0.
+    std::vector&lt;int&gt; frames;
+    /// DurÃ©e d'une image, en secondes ; 0 : figÃ©e.
+<span style = "background-color:#dfd">    double frameDuration = 0.0;</span>
+    /// BouclÃ©, ou jouÃ© une fois puis tenu (`ASSET_GALLERY_ONE_SHOT_HOLD_SECONDS`).
+<span style = "background-color:#dfd">    bool loop = true;</span>
+    /// Emprise au sol, en cases.
+<span style = "background-color:#dfd">    int footprintColumns = 1;
+    int footprintRows = 1;</span>
+    /// Ancre du manifeste des scÃ¨nes, en pixels de texture ; (-1, -1) si le manifeste n'en a pas.
+<span style = "background-color:#dfd">    int anchorX = -1;
+    int anchorY = -1;</span>
+
+    /// @return Le nombre d'images jouÃ©es (au moins 1).
+<span style = "background-color:#dfd">    [[nodiscard]] int frameCount() const noexcept {
+        return frames.empty() ? 1 : static_cast&lt;int&gt;(frames.size());
+    }</span>
+};
+
+/// Une famille : une bande de la galerie.
+struct AssetGalleryFamily {
+    std::string title;
+    /// Dossier lu, relatif Ã  la racine des assets.
+    std::string directory;
+    std::vector&lt;AssetGalleryEntry&gt; entries;
+};
+
+/**
+ * @brief L'inventaire de la galerie, lu dans les manifestes des assets livrÃ©s.
+ *
+ * Familles lues, dans cet ordre, chacune seulement si elle existe :
+ * - `Npc/manifest.json` : chaque PNJ Ã chaque animation, d'aprÃ¨s son `.anim.json`, et son portrait
+ * ;
+ * - `Coliseum/manifest.json` : hÃ©ros Ã animations, gladiateurs, puis les piÃ¨ces de la planche ;
+ * - `Scene/&lt;disposition&gt;/manifest.json` : les textures de l'atelier (LOT-92), par classe ;
+ * - `Player/`, `Skins/`, `Objects/`, `Backgrounds/` : toutes leurs images, animÃ©es quand un
+ *   `.anim.json` les accompagne.
+ *
+ * Tout asset livrÃ© doit y paraÃ®tre (`EX-CNT-042`) : `hmi::assetGalleryUnlisted` nomme ceux qui n'y
+ * sont pas, et un test l'exige vide.
+ *
+ * Un manifeste illisible est une erreur **nommÃ©e**, jamais un arrÃªt : la galerie montre le reste.
+ */
+struct AssetGalleryCatalog {
+    std::vector&lt;AssetGalleryFamily&gt; families;
+    std::vector&lt;std::string&gt; errors;
+
+    [[nodiscard]] static AssetGalleryCatalog load(const std::filesystem::path&amp; assetsRoot);
+
+    /// @return Le nombre total de formes.
+    [[nodiscard]] std::size_t entryCount() const noexcept;
+};
+
+/**
+ * @brief Les images livrÃ©es qui ne sont pas des assets Ã  montrer, par rÃ¨gle nommÃ©e : les planches
+ *        sources des ateliers (`Scene/â¦/planche-*.png`, `Coliseum/production_source_atlas.png`),
+ *        l'atlas procÃ©dural (`atlas.png`), l'interface (`UI/`) et les polices (`Fonts/`).
+ * @param path Chemin relatif Ã  la racine des assets, sÃ©parateurs `/`.
+ */
+[[nodiscard]] bool assetGalleryExcludes(std::string_view path) noexcept;
+
+/**
+ * @brief Les images livrÃ©es (PNG, JPEG) que la galerie ne montre pas et qu'aucune exclusion ne
+ *        couvre : ce que `EX-CNT-042` interdit.
+ * @return Chemins relatifs Ã  @p assetsRoot, triÃ©s ; vide quand la galerie est complÃ¨te.
+ */
+[[nodiscard]] std::vector&lt;std::string&gt; assetGalleryUnlisted(const std::filesystem::path&amp; assetsRoot,
+                                                            const AssetGalleryCatalog&amp; catalog);
+
+/**
+ * @brief Un bloc : l'emprise d'une forme plus une case de marge tout autour, en cases.
+ *
+ * Le dessin peut dÃ©border de l'emprise (une attaque de 96 px, un mur de 100 px de haut) : le bloc
+ * grandit pour le contenir, marge comprise. La forme est posÃ©e pieds sur le bas de son emprise,
+ * centrÃ©e sur elle.
+ */
+struct AssetGalleryBloc {
+    int family = 0;
+    int entry = 0;
+    int column = 0;
+    int row = 0;
+    int columns = 3;
+    int rows = 3;
+    /// Coin haut-gauche de l'emprise, relatif au bloc.
+    int footprintColumn = 1;
+    int footprintRow = 1;
+};
+
+/// L'en-tÃªte d'une famille : une ligne de la galerie.
+struct AssetGalleryBand {
+    int family = 0;
+    int row = 0;
+};
+
+/// La galerie disposÃ©e : bandes, puis une ligne par modÃ¨le, une colonne par forme.
+struct AssetGalleryLayout {
+    std::vector&lt;AssetGalleryBloc&gt; blocs;
+    std::vector&lt;AssetGalleryBand&gt; bands;
+    int columns = 0;
+    int rows = 0;
+};
+
+/// @return Les dimensions du bloc d'une forme, et la place de son emprise.
+[[nodiscard]] AssetGalleryBloc assetGalleryBlocShape(const AssetGalleryEntry&amp; entry);
+
+/**
+ * @brief Dispose le catalogue : une bande par famille, une ligne par modÃ¨le, et au-delÃ  de
+ *        @p maximumColumns cases une ligne continue la suivante.
+ */
+[[nodiscard]] AssetGalleryLayout layoutAssetGallery(const AssetGalleryCatalog&amp; catalog,
+                                                    int maximumColumns = 40);
+
+/// Ce que devient un bloc pour une camÃ©ra donnÃ©e.
+enum class AssetGalleryVisibility {
+    /// Le bloc touche la vue : texture chargÃ©e, quads Ã©mis.
+    Drawn,
+    /// Le bloc est dans l'anneau autour de la vue : texture gardÃ©e, rien d'Ã©mis.
+    Preloaded,
+    /// Hors de l'anneau : la texture peut Ãªtre libÃ©rÃ©e.
+    Unloaded,
+};
+
+/// Un rectangle en cases (flottantes).
+struct AssetGalleryView {
+    double column = 0.0;
+    double row = 0.0;
+    double columns = 0.0;
+    double rows = 0.0;
+};
+
+/// Ãpaisseur de l'anneau de prÃ©chargement, en cases : un bloc ordinaire.
+inline constexpr double ASSET_GALLERY_RING_CELLS = 3.0;
+
+[[nodiscard]] AssetGalleryVisibility assetGalleryVisibility(
+    const AssetGalleryBloc&amp; bloc, const AssetGalleryView&amp; view,
+    double ringCells = ASSET_GALLERY_RING_CELLS) noexcept;
+
+/**
+ * @brief L'image jouÃ©e au temps @p seconds : en boucle, ou jouÃ©e une fois puis tenue
+ *        `ASSET_GALLERY_ONE_SHOT_HOLD_SECONDS` avant de reprendre.
+ * @return Un rang dans `entry.frames` (0 pour une forme figÃ©e).
+ */
+[[nodiscard]] int assetGalleryFrameRank(const AssetGalleryEntry&amp; entry, double seconds) noexcept;
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

@@ -36,11 +36,11 @@ namespace {
 // applique mul(float4(position, 0, 1), projection) (vecteur-ligne), la matrice transforme une
 // position en pixels en coordonnees de clip [-1, 1], l'axe Y etant inverse pour que l'ordonnee
 // croisse vers le bas de l'ecran.
-<span style = "background-color:#fdd">DirectX::XMFLOAT4X4 screenProjectionMatrix(int viewportWidth, int viewportHeight) noexcept {
+<span style = "background-color:#dfd">DirectX::XMFLOAT4X4 screenProjectionMatrix(int viewportWidth, int viewportHeight) noexcept {
     const float width = viewportWidth &gt; 0 ? static_cast&lt;float&gt;(viewportWidth) : 1.0f;
     const float height = viewportHeight &gt; 0 ? static_cast&lt;float&gt;(viewportHeight) : 1.0f;</span>
 
-<span style = "background-color:#fdd">    DirectX::XMFLOAT4X4 projection{};
+<span style = "background-color:#dfd">    DirectX::XMFLOAT4X4 projection{};
     projection._11 = 2.0f / width;
     projection._22 = -2.0f / height;
     projection._33 = 1.0f;

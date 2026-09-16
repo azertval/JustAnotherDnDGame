@@ -1,5 +1,14 @@
 var NAVTREEINDEX5 =
 {
+"classcore_1_1CombatState_1_1Operation.html#a3878ba3fa9ac55009ff98dd8144d0ceb":[15,0,1,33,0,1],
+"classcore_1_1CombatState_1_1Operation.html#a3878ba3fa9ac55009ff98dd8144d0ceb":[16,0,0,33,0,1],
+"classcore_1_1CombatState_1_1Operation.html#a45deea55aa129b8d6756b4017d4a4c0f":[15,0,1,33,0,3],
+"classcore_1_1CombatState_1_1Operation.html#a45deea55aa129b8d6756b4017d4a4c0f":[16,0,0,33,0,3],
+"classcore_1_1CombatState_1_1Operation.html#a688b04622dbd07c4fc8dd40eeb7b2223":[15,0,1,33,0,0],
+"classcore_1_1CombatState_1_1Operation.html#a688b04622dbd07c4fc8dd40eeb7b2223":[16,0,0,33,0,0],
+"classcore_1_1CombatState_1_1Operation.html#a8b02d839c6e709f35e3a52a33274f3f7":[15,0,1,33,0,5],
+"classcore_1_1CombatState_1_1Operation.html#a8b02d839c6e709f35e3a52a33274f3f7":[16,0,0,33,0,5],
+"classcore_1_1CombatState_1_1Operation.html#acd70878477a9944ef09ffe31216beda9":[15,0,1,33,0,4],
 "classcore_1_1CombatState_1_1Operation.html#acd70878477a9944ef09ffe31216beda9":[16,0,0,33,0,4],
 "classcore_1_1ComponentPool.html":[15,0,1,83],
 "classcore_1_1ComponentPool.html":[16,0,0,83],
@@ -240,14 +249,5 @@ var NAVTREEINDEX5 =
 "classcore_1_1IsoProjection.html#a17fbce083a1c72caa96c5493815c6605":[15,0,1,59,11],
 "classcore_1_1IsoProjection.html#a17fbce083a1c72caa96c5493815c6605":[16,0,0,59,11],
 "classcore_1_1IsoProjection.html#a24aceed7248fdcef5e40ec9dca774ebd":[15,0,1,59,13],
-"classcore_1_1IsoProjection.html#a24aceed7248fdcef5e40ec9dca774ebd":[16,0,0,59,13],
-"classcore_1_1IsoProjection.html#a3611a4a3ec0d9d74176e9d7946d7c8d8":[15,0,1,59,8],
-"classcore_1_1IsoProjection.html#a3611a4a3ec0d9d74176e9d7946d7c8d8":[16,0,0,59,8],
-"classcore_1_1IsoProjection.html#a3ee905819401766b03df1ab93ef97148":[15,0,1,59,0],
-"classcore_1_1IsoProjection.html#a3ee905819401766b03df1ab93ef97148":[16,0,0,59,0],
-"classcore_1_1IsoProjection.html#a497ef6c5187a9b7746c98854a3d0d547":[15,0,1,59,16],
-"classcore_1_1IsoProjection.html#a497ef6c5187a9b7746c98854a3d0d547":[16,0,0,59,16],
-"classcore_1_1IsoProjection.html#a579fd8e19777a118a1e0579143b6ba38":[15,0,1,59,20],
-"classcore_1_1IsoProjection.html#a579fd8e19777a118a1e0579143b6ba38":[16,0,0,59,20],
-"classcore_1_1IsoProjection.html#a7071db9aa9e11df307d86bb82e1d0d64":[15,0,1,59,1]
+"classcore_1_1IsoProjection.html#a24aceed7248fdcef5e40ec9dca774ebd":[16,0,0,59,13]
 };

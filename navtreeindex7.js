@@ -1,5 +1,14 @@
 var NAVTREEINDEX7 =
 {
+"classcore_1_1LevelDraft.html#af3d912d074f1625f4523373332e1c893":[15,0,1,118,18],
+"classcore_1_1LevelDraft.html#af3d912d074f1625f4523373332e1c893":[16,0,0,118,18],
+"classcore_1_1LevelDraft.html#af482091fd6c1b1c65b9d3f9a4cf3501c":[15,0,1,118,20],
+"classcore_1_1LevelDraft.html#af482091fd6c1b1c65b9d3f9a4cf3501c":[16,0,0,118,20],
+"classcore_1_1LevelDraft.html#af7c0de11232cfa5ef01a0e9cd2711676":[15,0,1,118,4],
+"classcore_1_1LevelDraft.html#af7c0de11232cfa5ef01a0e9cd2711676":[16,0,0,118,4],
+"classcore_1_1LevelDraft.html#afaced983e3b9e6538a4b83d57a11adc1":[15,0,1,118,47],
+"classcore_1_1LevelDraft.html#afaced983e3b9e6538a4b83d57a11adc1":[16,0,0,118,47],
+"classcore_1_1LevelDraft.html#afd9f6ad59cb50ecb09377b4a3b2874d2":[15,0,1,118,19],
 "classcore_1_1LevelDraft.html#afd9f6ad59cb50ecb09377b4a3b2874d2":[16,0,0,118,19],
 "classcore_1_1LevelLoader.html":[15,0,1,120],
 "classcore_1_1LevelLoader.html":[16,0,0,120],
@@ -240,14 +249,5 @@ var NAVTREEINDEX7 =
 "classcore_1_1View.html#ac20dc22d88d76018c5e34a6c502c6b8f":[15,0,1,102,8],
 "classcore_1_1View.html#ac20dc22d88d76018c5e34a6c502c6b8f":[16,0,0,102,8],
 "classcore_1_1View.html#af9deaef919667673a6f66212ed15cc54":[15,0,1,102,1],
-"classcore_1_1View.html#af9deaef919667673a6f66212ed15cc54":[16,0,0,102,1],
-"classcore_1_1View_1_1Iterator.html":[15,0,1,102,0],
-"classcore_1_1View_1_1Iterator.html":[16,0,0,102,0],
-"classcore_1_1View_1_1Iterator.html#a13677367d13dbda06aec4f6a5287e9af":[15,0,1,102,0,3],
-"classcore_1_1View_1_1Iterator.html#a13677367d13dbda06aec4f6a5287e9af":[16,0,0,102,0,3],
-"classcore_1_1View_1_1Iterator.html#a2ff93b328284c1d0facc842494e8514e":[15,0,1,102,0,0],
-"classcore_1_1View_1_1Iterator.html#a2ff93b328284c1d0facc842494e8514e":[16,0,0,102,0,0],
-"classcore_1_1View_1_1Iterator.html#a8023ce2eabf79c007797ced3a5dc7e06":[15,0,1,102,0,4],
-"classcore_1_1View_1_1Iterator.html#a8023ce2eabf79c007797ced3a5dc7e06":[16,0,0,102,0,4],
-"classcore_1_1View_1_1Iterator.html#a9b2b7209e204230168642ba185a83f2b":[15,0,1,102,0,5]
+"classcore_1_1View.html#af9deaef919667673a6f66212ed15cc54":[16,0,0,102,1]
 };

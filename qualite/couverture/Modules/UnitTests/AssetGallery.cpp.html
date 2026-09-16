@@ -1,0 +1,506 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>AssetGallery.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#include "HMI/Graphics/AssetGallery.h"
+
+#include &lt;algorithm&gt;
+#include &lt;array&gt;
+#include &lt;cmath&gt;
+#include &lt;fstream&gt;
+#include &lt;map&gt;
+#include &lt;set&gt;
+#include &lt;string_view&gt;
+#include &lt;system_error&gt;
+#include &lt;tuple&gt;
+#include &lt;utility&gt;
+
+#include &lt;nlohmann/json.hpp&gt;
+
+#include "Core/Data/JsonDocument.h"
+#include "HMI/Graphics/AnimationCatalog.h"
+
+namespace hmi {
+
+namespace {
+
+/// Version la plus Ã©levÃ©e des manifestes lus ; absente, elle vaut 1 (`core::readJsonObject`).
+constexpr int MANIFEST_VERSION = 1;
+
+using json = nlohmann::json;
+
+<span style = "background-color:#dfd">[[nodiscard]] std::string stemOf(const std::string&amp; fileName) {
+    const std::size_t dot = fileName.find('.');
+    return dot == std::string::npos ? fileName : fileName.substr(0, dot);
+}</span>
+
+<span style = "background-color:#dfd">[[nodiscard]] std::vector&lt;std::string&gt; stringList(const json&amp; root, const char* key) {
+    std::vector&lt;std::string&gt; values;
+    const auto found = root.find(key);
+    if (found == root.end() || !found-&gt;is_array()) {</span>
+<span style = "background-color:#fdd">        return values;</span>
+    }
+<span style = "background-color:#dfd">    for (const json&amp; value : *found) {
+        if (value.is_string()) {
+            values.push_back(value.get&lt;std::string&gt;());
+        }
+    }
+    return values;
+}</span>
+
+[[nodiscard]] std::pair&lt;int, int&gt; intPair(const json&amp; object, const char* key, int fallbackX,
+<span style = "background-color:#dfd">                                          int fallbackY) {
+    const auto found = object.find(key);</span>
+    if (found == object.end() || !found-&gt;is_array() || found-&gt;size() != 2 ||
+<span style = "background-color:#dfd">        !(*found)[0].is_number_integer() || !(*found)[1].is_number_integer()) {</span>
+<span style = "background-color:#fdd">        return {fallbackX, fallbackY};</span>
+    }
+<span style = "background-color:#dfd">    return {(*found)[0].get&lt;int&gt;(), (*found)[1].get&lt;int&gt;()};
+}</span>
+
+/// Largeur et hauteur d'un PNG, lues dans son en-tÃªte IHDR ; (0, 0) si ce n'est pas un PNG lisible.
+<span style = "background-color:#dfd">[[nodiscard]] std::pair&lt;int, int&gt; pngSize(const std::filesystem::path&amp; path) {
+    std::ifstream file(path, std::ios::binary);
+    std::array&lt;unsigned char, 24&gt; header{};</span>
+    if (!file.read(reinterpret_cast&lt;char*&gt;(header.data()), header.size()) || header[1] != 'P' ||
+<span style = "background-color:#dfd">        header[2] != 'N' || header[3] != 'G') {</span>
+<span style = "background-color:#fdd">        return {0, 0};</span>
+    }
+<span style = "background-color:#dfd">    const auto bigEndian = [&amp;](std::size_t offset) {
+        return static_cast&lt;int&gt;((static_cast&lt;unsigned&gt;(header[offset]) &lt;&lt; 24U) |</span>
+                                (static_cast&lt;unsigned&gt;(header[offset + 1]) &lt;&lt; 16U) |
+                                (static_cast&lt;unsigned&gt;(header[offset + 2]) &lt;&lt; 8U) |
+                                static_cast&lt;unsigned&gt;(header[offset + 3]));
+<span style = "background-color:#dfd">    };
+    return {bigEndian(16), bigEndian(20)};
+}</span>
+
+/**
+ * @brief Une forme animÃ©e, d'aprÃ¨s son `.anim.json` : le clip du nom du fichier s'il existe, le
+ *        premier sinon.
+ * @return Faux si le fichier est absent ; une erreur est ajoutÃ©e s'il est illisible.
+ */
+bool readAnimatedEntry(AssetGalleryEntry&amp; entry, const std::filesystem::path&amp; descriptor,
+<span style = "background-color:#dfd">                       std::vector&lt;std::string&gt;&amp; errors) {
+    std::error_code ignored;
+    if (!std::filesystem::is_regular_file(descriptor, ignored)) {
+        return false;</span>
+    }
+<span style = "background-color:#dfd">    const AnimationDescriptionResult result = AnimationCatalog::loadFromFile(descriptor);
+    if (!result.ok() || result.description-&gt;clips.clipCount() == 0) {</span>
+<span style = "background-color:#fdd">        errors.push_back(descriptor.generic_string() + " : " +</span>
+                         (result.ok() ? std::string("aucun clip") : result.error));
+<span style = "background-color:#fdd">        return false;</span>
+    }
+<span style = "background-color:#dfd">    const AnimationDescription&amp; description = *result.description;
+    const int named = description.clips.indexOf(stemOf(descriptor.filename().string()));
+    const core::AnimationClip&amp; clip = description.clips.clipAt(named &gt;= 0 ? named : 0);
+    entry.frameWidth = description.frameWidth;
+    entry.frameHeight = description.frameHeight;
+    entry.frames = clip.frames;
+    entry.frameDuration = clip.frameDuration;
+    entry.loop = clip.endMode == core::ClipEndMode::Loop;
+    return true;
+}</span>
+
+/// Un manifeste lu ; absent : rien, sans erreur. Illisible : une erreur nommÃ©e.
+[[nodiscard]] core::JsonDocument readManifest(const std::filesystem::path&amp; path,
+<span style = "background-color:#dfd">                                              std::vector&lt;std::string&gt;&amp; errors) {
+    core::JsonDocument document = core::readJsonObjectFromFile(path, MANIFEST_VERSION);
+    if (!document.ok() &amp;&amp; document.error != core::JsonReadError::FileNotFound) {</span>
+<span style = "background-color:#fdd">        errors.push_back(path.generic_string() + " : " + document.message);</span>
+    }
+<span style = "background-color:#dfd">    return document;
+}</span>
+
+<span style = "background-color:#dfd">void readNpcs(const std::filesystem::path&amp; root, AssetGalleryCatalog&amp; catalog) {
+    const core::JsonDocument document =</span>
+        readManifest(root / "Npc" / "manifest.json", catalog.errors);
+<span style = "background-color:#dfd">    if (!document.ok()) {</span>
+<span style = "background-color:#fdd">        return;</span>
+    }
+<span style = "background-color:#dfd">    AssetGalleryFamily family{.title = "PNJ", .directory = "Npc", .entries = {}};</span>
+    // Tous les dossiers de PNJ, pas seulement la liste `npcs` : celle-ci ne nomme que les PNJ
+    // retenus pour le jeu, et la galerie sert justement Ã  voir les autres.
+<span style = "background-color:#dfd">    std::vector&lt;std::string&gt; npcs;
+    std::error_code error;
+    for (const auto&amp; item : std::filesystem::directory_iterator(root / "Npc", error)) {
+        if (item.is_directory()) {
+            npcs.push_back(item.path().filename().string());
+        }
+    }
+    std::sort(npcs.begin(), npcs.end());
+    const std::vector&lt;std::string&gt; animations = stringList(document.root, "animations");
+    for (const std::string&amp; npc : npcs) {
+        for (const std::string&amp; animation : animations) {
+            AssetGalleryEntry entry{.family = family.title,
+                                    .model = npc,
+                                    .form = animation,
+                                    .path = "Npc/" + npc + "/" + animation + ".png"};
+            if (readAnimatedEntry(entry, root / "Npc" / npc / (animation + ".anim.json"),</span>
+                                  catalog.errors)) {
+<span style = "background-color:#dfd">                family.entries.push_back(std::move(entry));</span>
+            }
+<span style = "background-color:#dfd">        }
+        const auto [width, height] = pngSize(root / "Npc" / npc / "portrait.png");
+        if (width &gt; 0) {
+            family.entries.push_back(AssetGalleryEntry{.family = family.title,</span>
+                                                       .model = npc,
+                                                       .form = "portrait",
+                                                       .path = "Npc/" + npc + "/portrait.png",
+                                                       .frameWidth = width,
+                                                       .frameHeight = height});
+        }
+<span style = "background-color:#dfd">    }
+    if (!family.entries.empty()) {
+        catalog.families.push_back(std::move(family));</span>
+    }
+<span style = "background-color:#dfd">}</span>
+
+<span style = "background-color:#dfd">void readColiseum(const std::filesystem::path&amp; root, AssetGalleryCatalog&amp; catalog) {
+    const core::JsonDocument document =</span>
+        readManifest(root / "Coliseum" / "manifest.json", catalog.errors);
+<span style = "background-color:#dfd">    if (!document.ok()) {</span>
+<span style = "background-color:#fdd">        return;</span>
+    }
+<span style = "background-color:#dfd">    const auto figures = [&amp;](const char* title, const char* key, const char* directory,
+                             const std::vector&lt;std::string&gt;&amp; animations) {
+        AssetGalleryFamily family{.title = title, .directory = "Coliseum", .entries = {}};
+        for (const std::string&amp; name : stringList(document.root, key)) {
+            for (const std::string&amp; animation : animations) {
+                const std::string folder = std::string(directory) + "/" + name + "/";
+                AssetGalleryEntry entry{.family = family.title,
+                                        .model = name,
+                                        .form = animation,
+                                        .path = "Coliseum/" + folder + animation + ".png"};
+                if (readAnimatedEntry(</span>
+                        entry, root / "Coliseum" / directory / name / (animation + ".anim.json"),
+                        catalog.errors)) {
+<span style = "background-color:#dfd">                    family.entries.push_back(std::move(entry));</span>
+                }
+<span style = "background-color:#dfd">            }</span>
+        }
+<span style = "background-color:#dfd">        if (!family.entries.empty()) {
+            catalog.families.push_back(std::move(family));</span>
+        }
+<span style = "background-color:#dfd">    };
+    const std::vector&lt;std::string&gt; animations = stringList(document.root, "animations");
+    figures("ColisÃ©e Â· hÃ©ros", "heroes", "characters", animations);
+    figures("ColisÃ©e Â· gladiateurs", "gladiators", "enemies", animations);</span>
+
+<span style = "background-color:#dfd">    const auto files = document.root.find("files");
+    if (files == document.root.end() || !files-&gt;is_object()) {</span>
+<span style = "background-color:#fdd">        return;</span>
+    }
+<span style = "background-color:#dfd">    AssetGalleryFamily pieces{.title = "ColisÃ©e Â· piÃ¨ces", .directory = "Coliseum", .entries = {}};
+    for (const auto&amp; [key, value] : files-&gt;items()) {
+        const std::size_t slash = key.find('/');
+        if (slash == std::string::npos || !value.is_object()) {</span>
+<span style = "background-color:#fdd">            continue;</span>
+        }
+<span style = "background-color:#dfd">        const std::string folder = key.substr(0, slash);
+        if (folder == "characters" || folder == "enemies") {
+            continue;</span>
+        }
+<span style = "background-color:#dfd">        const auto [width, height] = intPair(value, "size", 0, 0);
+        pieces.entries.push_back(AssetGalleryEntry{.family = pieces.title,</span>
+                                                   .model = folder,
+                                                   .form = stemOf(key.substr(slash + 1)),
+                                                   .path = "Coliseum/" + key,
+                                                   .frameWidth = width,
+                                                   .frameHeight = height});
+<span style = "background-color:#dfd">    }</span>
+    // `nlohmann::json` range ses clÃ©s par ordre alphabÃ©tique : les dossiers se suivent dÃ©jÃ .
+<span style = "background-color:#dfd">    if (!pieces.entries.empty()) {
+        catalog.families.push_back(std::move(pieces));</span>
+    }
+<span style = "background-color:#dfd">}</span>
+
+<span style = "background-color:#dfd">[[nodiscard]] int classRank(const std::string&amp; textureClass) {
+    if (textureClass == "floor") {
+        return 0;</span>
+    }
+<span style = "background-color:#dfd">    if (textureClass == "tall") {
+        return 1;</span>
+    }
+<span style = "background-color:#dfd">    return textureClass == "wide" ? 2 : 3;
+}</span>
+
+<span style = "background-color:#dfd">void readScenes(const std::filesystem::path&amp; root, AssetGalleryCatalog&amp; catalog) {
+    std::vector&lt;std::filesystem::path&gt; dispositions;
+    std::error_code error;
+    for (const auto&amp; item : std::filesystem::directory_iterator(root / "Scene", error)) {
+        if (item.is_directory()) {
+            dispositions.push_back(item.path());
+        }
+    }
+    std::sort(dispositions.begin(), dispositions.end());
+    for (const std::filesystem::path&amp; directory : dispositions) {
+        const core::JsonDocument document =</span>
+            readManifest(directory / "manifest.json", catalog.errors);
+<span style = "background-color:#dfd">        if (!document.ok()) {</span>
+<span style = "background-color:#fdd">            continue;</span>
+        }
+<span style = "background-color:#dfd">        const auto textures = document.root.find("textures");
+        if (textures == document.root.end() || !textures-&gt;is_object()) {</span>
+<span style = "background-color:#fdd">            continue;</span>
+        }
+<span style = "background-color:#dfd">        const std::string name = directory.filename().string();</span>
+        AssetGalleryFamily family{
+<span style = "background-color:#dfd">            .title = "ScÃ¨ne Â· " + name, .directory = "Scene/" + name, .entries = {}};
+        for (const auto&amp; [key, value] : textures-&gt;items()) {
+            if (!value.is_object() || !value.contains("file") || !value["file"].is_string()) {</span>
+<span style = "background-color:#fdd">                continue;</span>
+            }
+<span style = "background-color:#dfd">            const auto [width, height] = intPair(value, "size", 0, 0);
+            const auto [columns, rows] = intPair(value, "footprint", 1, 1);
+            const auto [anchorX, anchorY] = intPair(value, "anchor", -1, -1);
+            const std::size_t slash = key.rfind('/');
+            family.entries.push_back(</span>
+                AssetGalleryEntry{.family = family.title,
+                                  .model = value.value("class", std::string("autre")),
+                                  .form = slash == std::string::npos ? key : key.substr(slash + 1),
+                                  .path = family.directory + "/" + value["file"].get&lt;std::string&gt;(),
+                                  .frameWidth = width,
+                                  .frameHeight = height,
+                                  .footprintColumns = std::max(1, columns),
+                                  .footprintRows = std::max(1, rows),
+                                  .anchorX = anchorX,
+                                  .anchorY = anchorY});
+<span style = "background-color:#dfd">        }
+        std::stable_sort(family.entries.begin(), family.entries.end(),
+                         [](const AssetGalleryEntry&amp; left, const AssetGalleryEntry&amp; right) {
+                             return classRank(left.model) &lt; classRank(right.model);
+                         });
+        if (!family.entries.empty()) {
+            catalog.families.push_back(std::move(family));</span>
+        }
+<span style = "background-color:#dfd">    }
+}</span>
+
+/**
+ * @brief Toutes les images d'un dossier : animÃ©e si un `&lt;nom&gt;.anim.json` l'accompagne, fixe sinon.
+ */
+void readFolder(const std::filesystem::path&amp; root, AssetGalleryCatalog&amp; catalog, const char* title,
+<span style = "background-color:#dfd">                const char* directory) {
+    std::vector&lt;std::filesystem::path&gt; images;
+    std::error_code error;
+    for (const auto&amp; item : std::filesystem::directory_iterator(root / directory, error)) {
+        if (item.is_regular_file() &amp;&amp; item.path().extension() == ".png") {
+            images.push_back(item.path());
+        }
+    }
+    std::sort(images.begin(), images.end());
+    AssetGalleryFamily family{.title = title, .directory = directory, .entries = {}};
+    for (const std::filesystem::path&amp; image : images) {
+        const std::string stem = stemOf(image.filename().string());
+        AssetGalleryEntry entry{.family = family.title,
+                                .model = directory,
+                                .form = stem,
+                                .path = std::string(directory) + "/" + stem + ".png"};
+        const std::filesystem::path descriptor = image.parent_path() / (stem + ".anim.json");
+        std::error_code ignored;
+        if (std::filesystem::is_regular_file(descriptor, ignored)) {
+            if (!readAnimatedEntry(entry, descriptor, catalog.errors)) {</span>
+<span style = "background-color:#fdd">                continue;</span>
+            }
+<span style = "background-color:#dfd">        } else {
+            std::tie(entry.frameWidth, entry.frameHeight) = pngSize(image);
+            if (entry.frameWidth &lt;= 0) {</span>
+<span style = "background-color:#fdd">                catalog.errors.push_back(image.generic_string() + " : PNG illisible");
+                continue;</span>
+            }
+        }
+<span style = "background-color:#dfd">        family.entries.push_back(std::move(entry));
+    }
+    if (!family.entries.empty()) {
+        catalog.families.push_back(std::move(family));</span>
+    }
+<span style = "background-color:#dfd">}</span>
+
+<span style = "background-color:#dfd">[[nodiscard]] int ceilCells(int pixels) {
+    return pixels &lt;= 0 ? 0 : (pixels + ASSET_GALLERY_CELL_PIXELS - 1) / ASSET_GALLERY_CELL_PIXELS;
+}</span>
+
+}  // namespace
+
+<span style = "background-color:#dfd">AssetGalleryCatalog AssetGalleryCatalog::load(const std::filesystem::path&amp; assetsRoot) {
+    AssetGalleryCatalog catalog;
+    readNpcs(assetsRoot, catalog);
+    readColiseum(assetsRoot, catalog);
+    readScenes(assetsRoot, catalog);
+    readFolder(assetsRoot, catalog, "Joueur", "Player");
+    readFolder(assetsRoot, catalog, "Skins", "Skins");
+    readFolder(assetsRoot, catalog, "Objets", "Objects");
+    readFolder(assetsRoot, catalog, "Fonds", "Backgrounds");
+    return catalog;
+}</span>
+
+<span style = "background-color:#dfd">bool assetGalleryExcludes(std::string_view path) noexcept {
+    const std::size_t slash = path.rfind('/');
+    const std::string_view fileName =</span>
+        slash == std::string_view::npos ? path : path.substr(slash + 1);
+<span style = "background-color:#dfd">    return path == "atlas.png" || path == "Coliseum/production_source_atlas.png" ||</span>
+           path.starts_with("UI/") || path.starts_with("Fonts/") ||
+           (path.starts_with("Scene/") &amp;&amp; fileName.starts_with("planche-"));
+<span style = "background-color:#dfd">}</span>
+
+std::vector&lt;std::string&gt; assetGalleryUnlisted(const std::filesystem::path&amp; assetsRoot,
+<span style = "background-color:#dfd">                                              const AssetGalleryCatalog&amp; catalog) {
+    std::set&lt;std::string&gt; listed;
+    for (const AssetGalleryFamily&amp; family : catalog.families) {
+        for (const AssetGalleryEntry&amp; entry : family.entries) {
+            listed.insert(entry.path);
+        }
+    }
+    std::vector&lt;std::string&gt; unlisted;
+    std::error_code error;
+    for (auto it = std::filesystem::recursive_directory_iterator(assetsRoot, error);
+         !error &amp;&amp; it != std::filesystem::recursive_directory_iterator(); it.increment(error)) {
+        const std::string extension = it-&gt;path().extension().string();
+        if (!it-&gt;is_regular_file() || (extension != ".png" &amp;&amp; extension != ".jpg")) {
+            continue;</span>
+        }
+<span style = "background-color:#dfd">        const std::string path = std::filesystem::relative(it-&gt;path(), assetsRoot).generic_string();
+        if (!listed.contains(path) &amp;&amp; !assetGalleryExcludes(path)) {</span>
+<span style = "background-color:#fdd">            unlisted.push_back(path);</span>
+        }
+<span style = "background-color:#dfd">    }
+    std::sort(unlisted.begin(), unlisted.end());
+    return unlisted;
+}</span>
+
+<span style = "background-color:#fdd">std::size_t AssetGalleryCatalog::entryCount() const noexcept {
+    std::size_t count = 0;
+    for (const AssetGalleryFamily&amp; family : families) {
+        count += family.entries.size();
+    }
+    return count;
+}</span>
+
+<span style = "background-color:#dfd">AssetGalleryBloc assetGalleryBlocShape(const AssetGalleryEntry&amp; entry) {
+    const int footprintColumns = std::max(1, entry.footprintColumns);
+    const int footprintRows = std::max(1, entry.footprintRows);</span>
+    // Le dessin monte au-dessus du bas de l'emprise ; en largeur, il est centrÃ© sur elle.
+<span style = "background-color:#dfd">    const int inner = std::max(footprintColumns, ceilCells(entry.frameWidth));
+    const int above = std::max(footprintRows, ceilCells(entry.frameHeight));
+    AssetGalleryBloc bloc;
+    bloc.columns = inner + 2;
+    bloc.rows = above + 2;
+    bloc.footprintColumn = (bloc.columns - footprintColumns) / 2;
+    bloc.footprintRow = bloc.rows - 1 - footprintRows;
+    return bloc;
+}</span>
+
+<span style = "background-color:#dfd">AssetGalleryLayout layoutAssetGallery(const AssetGalleryCatalog&amp; catalog, int maximumColumns) {
+    AssetGalleryLayout layout;
+    int row = 0;</span>
+
+    // Une ligne visuelle : ses blocs sont posÃ©s sur le mÃªme bas, une fois sa hauteur connue.
+<span style = "background-color:#dfd">    std::vector&lt;AssetGalleryBloc&gt; line;
+    int lineColumns = 0;
+    int lineRows = 0;
+    const auto flush = [&amp;] {
+        for (AssetGalleryBloc&amp; bloc : line) {
+            bloc.row = row + lineRows - bloc.rows;
+            layout.blocs.push_back(bloc);</span>
+        }
+<span style = "background-color:#dfd">        layout.columns = std::max(layout.columns, lineColumns);
+        row += lineRows;
+        line.clear();
+        lineColumns = 0;
+        lineRows = 0;
+    };</span>
+
+<span style = "background-color:#dfd">    for (int familyIndex = 0; familyIndex &lt; static_cast&lt;int&gt;(catalog.families.size());
+         ++familyIndex) {
+        const AssetGalleryFamily&amp; family = catalog.families[static_cast&lt;std::size_t&gt;(familyIndex)];
+        layout.bands.push_back(AssetGalleryBand{.family = familyIndex, .row = row});
+        ++row;</span>
+
+        // Les modÃ¨les dans l'ordre de leur premiÃ¨re forme.
+<span style = "background-color:#dfd">        std::vector&lt;std::string&gt; models;
+        std::map&lt;std::string, std::vector&lt;int&gt;&gt; byModel;
+        for (int index = 0; index &lt; static_cast&lt;int&gt;(family.entries.size()); ++index) {
+            const std::string&amp; model = family.entries[static_cast&lt;std::size_t&gt;(index)].model;
+            if (!byModel.contains(model)) {
+                models.push_back(model);</span>
+            }
+<span style = "background-color:#dfd">            byModel[model].push_back(index);
+        }
+        for (const std::string&amp; model : models) {
+            for (const int index : byModel[model]) {</span>
+                AssetGalleryBloc bloc =
+<span style = "background-color:#dfd">                    assetGalleryBlocShape(family.entries[static_cast&lt;std::size_t&gt;(index)]);
+                if (lineColumns &gt; 0 &amp;&amp; lineColumns + bloc.columns &gt; maximumColumns) {
+                    flush();</span>
+                }
+<span style = "background-color:#dfd">                bloc.family = familyIndex;
+                bloc.entry = index;
+                bloc.column = lineColumns;
+                lineColumns += bloc.columns;
+                lineRows = std::max(lineRows, bloc.rows);
+                line.push_back(bloc);
+            }
+            flush();
+        }
+    }
+    layout.rows = row;
+    return layout;
+}</span>
+
+AssetGalleryVisibility assetGalleryVisibility(const AssetGalleryBloc&amp; bloc,
+                                              const AssetGalleryView&amp; view,
+<span style = "background-color:#dfd">                                              double ringCells) noexcept {
+    const auto overlaps = [&amp;](double margin) {
+        return bloc.column &lt; view.column + view.columns + margin &amp;&amp;</span>
+               bloc.column + bloc.columns &gt; view.column - margin &amp;&amp;
+               bloc.row &lt; view.row + view.rows + margin &amp;&amp; bloc.row + bloc.rows &gt; view.row - margin;
+<span style = "background-color:#dfd">    };
+    if (overlaps(0.0)) {
+        return AssetGalleryVisibility::Drawn;</span>
+    }
+<span style = "background-color:#dfd">    return overlaps(ringCells) ? AssetGalleryVisibility::Preloaded</span>
+                               : AssetGalleryVisibility::Unloaded;
+<span style = "background-color:#dfd">}</span>
+
+<span style = "background-color:#dfd">int assetGalleryFrameRank(const AssetGalleryEntry&amp; entry, double seconds) noexcept {
+    const int count = entry.frameCount();
+    if (count &lt;= 1 || entry.frameDuration &lt;= 0.0 || seconds &lt;= 0.0) {
+        return 0;</span>
+    }
+<span style = "background-color:#dfd">    const auto step = static_cast&lt;long long&gt;(std::floor(seconds / entry.frameDuration));
+    if (entry.loop) {
+        return static_cast&lt;int&gt;(step % count);</span>
+    }
+<span style = "background-color:#dfd">    const auto hold = static_cast&lt;long long&gt;(</span>
+        std::ceil(ASSET_GALLERY_ONE_SHOT_HOLD_SECONDS / entry.frameDuration));
+<span style = "background-color:#dfd">    return static_cast&lt;int&gt;(std::min&lt;long long&gt;(step % (count + hold), count - 1));
+}</span>
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

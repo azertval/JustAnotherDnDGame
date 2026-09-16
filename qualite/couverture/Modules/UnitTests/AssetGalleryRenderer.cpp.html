@@ -1,0 +1,268 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>AssetGalleryRenderer.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#include "HMI/Graphics/AssetGalleryRenderer.h"
+
+#include &lt;algorithm&gt;
+#include &lt;cmath&gt;
+#include &lt;optional&gt;
+#include &lt;set&gt;
+#include &lt;utility&gt;
+
+#include &lt;rhi/qrhi.h&gt;
+
+#include "HMI/Graphics/GraphicsLog.h"
+#include "HMI/Graphics/MissingTexture.h"
+#include "HMI/Graphics/SpriteBatch.h"
+#include "HMI/Graphics/SpriteRenderer.h"
+#include "HMI/Graphics/TextRenderer.h"
+
+namespace hmi {
+
+namespace {
+
+struct Tint {
+    float r;
+    float g;
+    float b;
+    float a;
+};
+
+/// Les lignes de cases : discrÃ¨tes, sous tout le reste.
+constexpr Tint GRID_TINT{1.0f, 1.0f, 1.0f, 0.07f};
+/// L'emprise, et son contour : l'or de la sÃ©lection, attÃ©nuÃ©.
+constexpr Tint FOOTPRINT_FILL{0.88f, 0.64f, 0.29f, 0.12f};
+constexpr Tint FOOTPRINT_EDGE{0.88f, 0.64f, 0.29f, 0.55f};
+constexpr Tint SELECTION_EDGE{0.88f, 0.64f, 0.29f, 1.0f};
+
+void addRect(ComposedScene&amp; scene, RenderLayer layer, TextureHandle white, float x, float y,
+<span style = "background-color:#fdd">             float width, float height, Tint tint) {
+    SpriteQuad quad;
+    quad.x = x;
+    quad.y = y;
+    quad.width = width;
+    quad.height = height;
+    quad.r = tint.r;
+    quad.g = tint.g;
+    quad.b = tint.b;
+    quad.a = tint.a;
+    scene.addSprite(layer, white, 0, quad);
+}</span>
+
+void addFrame(ComposedScene&amp; scene, RenderLayer layer, TextureHandle white, float x, float y,
+<span style = "background-color:#fdd">              float width, float height, float thickness, Tint tint) {
+    addRect(scene, layer, white, x, y, width, thickness, tint);
+    addRect(scene, layer, white, x, y + height - thickness, width, thickness, tint);
+    addRect(scene, layer, white, x, y, thickness, height, tint);
+    addRect(scene, layer, white, x + width - thickness, y, thickness, height, tint);
+}</span>
+
+}  // namespace
+
+AssetGalleryRenderer::AssetGalleryRenderer(std::filesystem::path assetsRoot)
+<span style = "background-color:#dfd">    : _root(std::move(assetsRoot)) {}</span>
+
+<span style = "background-color:#dfd">AssetGalleryRenderer::~AssetGalleryRenderer() {
+    release();
+}</span>
+
+<span style = "background-color:#dfd">bool AssetGalleryRenderer::ensureResources(QRhi* rhi) {
+    if (rhi == nullptr) {</span>
+<span style = "background-color:#fdd">        return false;</span>
+    }
+<span style = "background-color:#dfd">    if (created() &amp;&amp; _rhi == rhi) {</span>
+<span style = "background-color:#fdd">        return true;</span>
+    }
+<span style = "background-color:#dfd">    release();</span>
+
+<span style = "background-color:#dfd">    _rhi = rhi;
+    _pendingUploads = rhi-&gt;nextResourceUpdateBatch();
+    _resources.create(rhi, _pendingUploads);
+    const RhiContext&amp; context = _resources.context();
+    if (std::optional&lt;LoadedTexture&gt; white = createTexture(context, 1, 1, {0xFFFFFFFFU})) {
+        _white = std::move(*white);
+    }
+    const ProceduralAtlasImage checker = buildMissingTextureImage();
+    if (std::optional&lt;LoadedTexture&gt; missing =</span>
+            createTexture(context, checker.width, checker.height, checker.pixels)) {
+<span style = "background-color:#dfd">        _missing = std::move(*missing);
+    }
+    _resources.setFrameUpdates(nullptr);
+    return true;
+}</span>
+
+<span style = "background-color:#dfd">void AssetGalleryRenderer::release() noexcept {
+    _composed.clear();
+    _cache.clear();
+    _white = LoadedTexture{};
+    _missing = LoadedTexture{};
+    if (_pendingUploads != nullptr) {</span>
+<span style = "background-color:#fdd">        _pendingUploads-&gt;release();
+        _pendingUploads = nullptr;</span>
+    }
+<span style = "background-color:#dfd">    _resources.release();
+    _rhi = nullptr;
+}</span>
+
+<span style = "background-color:#dfd">void AssetGalleryRenderer::setFrame(AssetGalleryFrame frame) {
+    _frame = std::move(frame);
+}</span>
+
+<span style = "background-color:#dfd">void AssetGalleryRenderer::updateCache(float deltaSeconds) {
+    const std::set&lt;std::string&gt; wanted(_frame.wanted.begin(), _frame.wanted.end());
+    const RhiContext&amp; context = _resources.context();</span>
+
+<span style = "background-color:#dfd">    int uploads = 0;
+    _loading = false;
+    for (const std::string&amp; path : wanted) {
+        const auto found = _cache.find(path);
+        if (found != _cache.end()) {
+            found-&gt;second.unwantedSeconds = 0.0f;
+            continue;</span>
+        }
+<span style = "background-color:#dfd">        if (uploads &gt;= UPLOADS_PER_FRAME) {
+            _loading = true;
+            continue;</span>
+        }
+<span style = "background-color:#dfd">        ++uploads;
+        CachedTexture entry;
+        if (std::optional&lt;LoadedTexture&gt; texture = loadTextureFromFile(context, _root / path)) {
+            entry.texture = std::move(*texture);
+        } else {
+            entry.failed = true;
+            GRAPHICS_LOG_WARNING("Galerie des assets : texture illisible, " + path);
+        }
+        _cache.emplace(path, std::move(entry));
+    }</span>
+
+<span style = "background-color:#dfd">    for (auto it = _cache.begin(); it != _cache.end();) {
+        if (wanted.contains(it-&gt;first)) {
+            ++it;
+            continue;</span>
+        }
+<span style = "background-color:#dfd">        it-&gt;second.unwantedSeconds += deltaSeconds;
+        it = it-&gt;second.unwantedSeconds &gt; EVICTION_SECONDS ? _cache.erase(it) : std::next(it);
+    }
+}</span>
+
+<span style = "background-color:#dfd">void AssetGalleryRenderer::compose() {
+    _composed.clear();
+    const TextureHandle white = _white.handle();
+    const float cell = std::max(1.0f, _frame.cellPixels);
+    const float line = std::max(1.0f, std::floor(_frame.artScale));</span>
+
+<span style = "background-color:#dfd">    std::int32_t order = 0;
+    for (const AssetGalleryDrawnBloc&amp; bloc : _frame.drawn) {
+        const float width = static_cast&lt;float&gt;(bloc.columns) * cell;
+        const float height = static_cast&lt;float&gt;(bloc.rows) * cell;</span>
+
+<span style = "background-color:#dfd">        if (_frame.showGrid &amp;&amp; white != nullptr) {</span>
+<span style = "background-color:#fdd">            for (int column = 0; column &lt;= bloc.columns; ++column) {
+                addRect(_composed, RenderLayer::Background, white,</span>
+                        std::round(bloc.x + static_cast&lt;float&gt;(column) * cell), bloc.y, line,
+                        height, GRID_TINT);
+<span style = "background-color:#fdd">            }
+            for (int row = 0; row &lt;= bloc.rows; ++row) {
+                addRect(_composed, RenderLayer::Background, white, bloc.x,</span>
+                        std::round(bloc.y + static_cast&lt;float&gt;(row) * cell), width, line,
+                        GRID_TINT);
+<span style = "background-color:#fdd">            }</span>
+        }
+
+<span style = "background-color:#dfd">        const float footprintX = bloc.x + static_cast&lt;float&gt;(bloc.footprintColumn) * cell;
+        const float footprintY = bloc.y + static_cast&lt;float&gt;(bloc.footprintRow) * cell;
+        const float footprintWidth = static_cast&lt;float&gt;(bloc.footprintColumns) * cell;
+        const float footprintHeight = static_cast&lt;float&gt;(bloc.footprintRows) * cell;
+        if (_frame.showFootprint &amp;&amp; white != nullptr) {</span>
+<span style = "background-color:#fdd">            addRect(_composed, RenderLayer::Shadow, white, footprintX, footprintY, footprintWidth,</span>
+                    footprintHeight, FOOTPRINT_FILL);
+<span style = "background-color:#fdd">            addFrame(_composed, RenderLayer::Shadow, white, footprintX, footprintY, footprintWidth,</span>
+                     footprintHeight, line, FOOTPRINT_EDGE);
+        }
+
+<span style = "background-color:#dfd">        const auto cached = _cache.find(bloc.path);
+        if (cached != _cache.end()) {
+            const bool failed = cached-&gt;second.failed || cached-&gt;second.texture.texture == nullptr;
+            const LoadedTexture&amp; texture = failed ? _missing : cached-&gt;second.texture;
+            if (texture.texture != nullptr &amp;&amp; texture.width &gt; 0 &amp;&amp; texture.height &gt; 0) {
+                const int frameWidth = failed || bloc.frameWidth &lt;= 0</span>
+                                           ? texture.width
+                                           : std::min(bloc.frameWidth, texture.width);
+<span style = "background-color:#dfd">                const int frameHeight = failed || bloc.frameHeight &lt;= 0</span>
+                                            ? texture.height
+                                            : std::min(bloc.frameHeight, texture.height);
+<span style = "background-color:#dfd">                const int frames = std::max(1, texture.width / std::max(1, frameWidth));
+                const int index = failed ? 0 : std::clamp(bloc.frameIndex, 0, frames - 1);</span>
+
+<span style = "background-color:#dfd">                SpriteQuad quad;
+                quad.width = static_cast&lt;float&gt;(frameWidth) * _frame.artScale;
+                quad.height = static_cast&lt;float&gt;(frameHeight) * _frame.artScale;</span>
+                // Pieds sur le bas de l'emprise, centrÃ© sur elle ; au pixel prÃ¨s, pour la nettetÃ©.
+<span style = "background-color:#dfd">                quad.x = std::round(footprintX + footprintWidth / 2.0f - quad.width / 2.0f);
+                quad.y = std::round(footprintY + footprintHeight - quad.height);
+                quad.u0 =</span>
+                    static_cast&lt;float&gt;(index * frameWidth) / static_cast&lt;float&gt;(texture.width);
+<span style = "background-color:#dfd">                quad.u1 = static_cast&lt;float&gt;((index + 1) * frameWidth) /</span>
+                          static_cast&lt;float&gt;(texture.width);
+<span style = "background-color:#dfd">                quad.v1 = static_cast&lt;float&gt;(frameHeight) / static_cast&lt;float&gt;(texture.height);
+                _composed.addSprite(RenderLayer::Tile, texture.handle(), order++, quad);</span>
+            }
+        }
+
+<span style = "background-color:#dfd">        if (bloc.selected &amp;&amp; white != nullptr) {</span>
+<span style = "background-color:#fdd">            addFrame(_composed, RenderLayer::UI, white, bloc.x, bloc.y, width, height, 2.0f * line,</span>
+                     SELECTION_EDGE);
+        }
+<span style = "background-color:#dfd">    }
+    _composed.sort();
+}</span>
+
+void AssetGalleryRenderer::render(QRhiCommandBuffer* commandBuffer, QRhiRenderTarget* target,
+<span style = "background-color:#dfd">                                  float realDeltaSeconds, const float clear[4]) {
+    if (!created() || commandBuffer == nullptr || target == nullptr) {</span>
+<span style = "background-color:#fdd">        return;</span>
+    }
+<span style = "background-color:#dfd">    QRhiResourceUpdateBatch* const updates = _pendingUploads != nullptr</span>
+                                                 ? std::exchange(_pendingUploads, nullptr)
+                                                 : _rhi-&gt;nextResourceUpdateBatch();
+<span style = "background-color:#dfd">    _resources.setFrameUpdates(updates);</span>
+
+<span style = "background-color:#dfd">    updateCache(std::max(0.0f, realDeltaSeconds));
+    compose();</span>
+
+<span style = "background-color:#dfd">    const QSize pixels = target-&gt;pixelSize();
+    SpriteBatch&amp; sprites = _resources.sprites();
+    sprites.beginFrame();
+    submitComposedScene(sprites, screenProjectionMatrix(pixels.width(), pixels.height()),</span>
+                        _composed);
+<span style = "background-color:#dfd">    sprites.submit(commandBuffer, target, updates, clear);
+    _resources.setFrameUpdates(nullptr);
+}</span>
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

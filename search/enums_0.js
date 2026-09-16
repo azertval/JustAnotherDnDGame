@@ -11,6 +11,7 @@ var searchData=
   ['arenafigureaction_8',['ArenaFigureAction',['../namespacehmi.html#ad5ace887c9d040dd9cd8b5649a5ab9b3',1,'hmi']]],
   ['armorcategory_9',['ArmorCategory',['../namespacecore.html#a7ad0450d2b476419d40745fbfa9ac105',1,'core']]],
   ['assetfamily_10',['AssetFamily',['../namespacehmi.html#a0030e1768b551f6d1bc0a9fa566d2003',1,'hmi']]],
-  ['attackkind_11',['AttackKind',['../namespacecore.html#ac7c907f80d9ec08c831616af9902aae3',1,'core']]],
-  ['attackrollstage_12',['AttackRollStage',['../namespacecore.html#ac7bf6427f29bbba33973526a5896c20d',1,'core']]]
+  ['assetgalleryvisibility_11',['AssetGalleryVisibility',['../namespacehmi.html#a9bcda977efbe65c2ab28905feb685040',1,'hmi']]],
+  ['attackkind_12',['AttackKind',['../namespacecore.html#ac7c907f80d9ec08c831616af9902aae3',1,'core']]],
+  ['attackrollstage_13',['AttackRollStage',['../namespacecore.html#ac7bf6427f29bbba33973526a5896c20d',1,'core']]]
 ];

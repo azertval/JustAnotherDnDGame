@@ -4,6 +4,8 @@ var dir_7eb0d0bc801e3eeb9c9e3cb238223789 =
     [ "ArenaModel.h", "ArenaModel_8h.html", "ArenaModel_8h" ],
     [ "ArenaViewportItem.cpp", "ArenaViewportItem_8cpp.html", "ArenaViewportItem_8cpp" ],
     [ "ArenaViewportItem.h", "ArenaViewportItem_8h.html", "ArenaViewportItem_8h" ],
+    [ "AssetGalleryItem.cpp", "AssetGalleryItem_8cpp.html", null ],
+    [ "AssetGalleryItem.h", "AssetGalleryItem_8h.html", "AssetGalleryItem_8h" ],
     [ "CharacterSheetModel.cpp", "CharacterSheetModel_8cpp.html", null ],
     [ "CharacterSheetModel.h", "CharacterSheetModel_8h.html", "CharacterSheetModel_8h" ],
     [ "CreditsModel.cpp", "CreditsModel_8cpp.html", null ],
