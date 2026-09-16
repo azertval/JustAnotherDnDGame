@@ -121,9 +121,11 @@ DWORD WINAPI writeDumpJob(LPVOID parameter) {
         BOOL clientPointers;
     };
     const std::array<Attempt, 3> attempts = {{
-        {rich, job->original, FALSE},
-        {reduced, job->original != nullptr ? &job->pointersCopy : nullptr, FALSE},
-        {reduced, job->original, TRUE},
+        {.type = rich, .pointers = job->original, .clientPointers = FALSE},
+        {.type = reduced,
+         .pointers = job->original != nullptr ? &job->pointersCopy : nullptr,
+         .clientPointers = FALSE},
+        {.type = reduced, .pointers = job->original, .clientPointers = TRUE},
     }};
     for (const Attempt& attempt : attempts) {
         LARGE_INTEGER start{};

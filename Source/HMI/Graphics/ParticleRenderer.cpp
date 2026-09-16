@@ -34,13 +34,14 @@ struct ParticleColor {
 ParticleColor colorForKind(core::ParticleKind kind) {
     switch (kind) {
         case core::ParticleKind::DashTrail:
-            return ParticleColor{0.75f, 0.9f, 1.0f};  // trainee claire et froide
+            return ParticleColor{.r = 0.75F, .g = 0.9F, .b = 1.0F};  // trainee claire et froide
         case core::ParticleKind::LandingDust:
-            return ParticleColor{0.75f, 0.65f, 0.45f};  // poussiere terreuse
+            return ParticleColor{.r = 0.75F, .g = 0.65F, .b = 0.45F};  // poussiere terreuse
         case core::ParticleKind::Death:
-            return ParticleColor{0.95f, 0.25f, 0.2f};  // eclat rouge
+            return ParticleColor{.r = 0.95F, .g = 0.25F, .b = 0.2F};  // eclat rouge
     }
-    return ParticleColor{1.0f, 1.0f, 1.0f};  // inatteignable : le switch couvre tout l'enum.
+    return ParticleColor{
+        .r = 1.0F, .g = 1.0F, .b = 1.0F};  // inatteignable : le switch couvre tout l'enum.
 }
 
 }  // namespace
@@ -54,20 +55,20 @@ void composeParticles(ComposedScene& scene, core::World& world, RenderMode mode,
     // Region opaque unie (teintee), meme patron que les segments unis de hmi::DraftRenderer :
     // aucun asset dedie, la teinte porte l'effet.
     const core::AtlasRegion solid = TextureAtlas::tile(0, 0);
-    const float atlasWidth = static_cast<float>(textures.atlasWidth);
-    const float atlasHeight = static_cast<float>(textures.atlasHeight);
+    const auto atlasWidth = static_cast<float>(textures.atlasWidth);
+    const auto atlasHeight = static_cast<float>(textures.atlasHeight);
     const float u0 = static_cast<float>(solid.x) / atlasWidth;
     const float v0 = static_cast<float>(solid.y) / atlasHeight;
     const float u1 = static_cast<float>(solid.x + solid.width) / atlasWidth;
     const float v1 = static_cast<float>(solid.y + solid.height) / atlasHeight;
 
     world.view<core::Particle>().each([&](core::Entity, const core::Particle& particle) {
-        const float fade = (particle.maxLife > 0.0f) ? (particle.life / particle.maxLife) : 0.0f;
+        const float fade = (particle.maxLife > 0.0F) ? (particle.life / particle.maxLife) : 0.0F;
         const ParticleColor color = colorForKind(particle.kind);
 
         SpriteQuad quad;
-        quad.x = particle.position.x - (PARTICLE_QUAD_SIZE * 0.5f);
-        quad.y = particle.position.y - (PARTICLE_QUAD_SIZE * 0.5f);
+        quad.x = particle.position.x - (PARTICLE_QUAD_SIZE * 0.5F);
+        quad.y = particle.position.y - (PARTICLE_QUAD_SIZE * 0.5F);
         quad.width = PARTICLE_QUAD_SIZE;
         quad.height = PARTICLE_QUAD_SIZE;
         quad.u0 = u0;

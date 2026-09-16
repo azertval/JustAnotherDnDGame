@@ -60,7 +60,7 @@ std::vector<std::filesystem::path> LevelFileOperations::list() const {
         // être un : les exclure évite qu'ils apparaissent comme un niveau ouvrable dans ce
         // panneau (le format ne correspond pas, l'ouverture échouerait).
         if (entry.is_regular_file(error) && entry.path().extension() == ".json" &&
-            entry.path().filename().string().rfind("sequence-", 0) != 0) {
+            !entry.path().filename().string().starts_with("sequence-")) {
             levels.push_back(entry.path());
         }
     }

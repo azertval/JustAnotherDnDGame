@@ -422,7 +422,7 @@ void ArenaModel::addEnemy(const QString& id) {
 }
 
 void ArenaModel::removeAlly(int index) {
-    if (_inCombat || index < 0 || index >= static_cast<int>(_allies.size())) {
+    if (_inCombat || index < 0 || std::cmp_greater_equal(index, _allies.size())) {
         return;
     }
     _allies.erase(_allies.begin() + index);
@@ -430,7 +430,7 @@ void ArenaModel::removeAlly(int index) {
 }
 
 void ArenaModel::removeEnemy(int index) {
-    if (_inCombat || index < 0 || index >= static_cast<int>(_enemies.size())) {
+    if (_inCombat || index < 0 || std::cmp_greater_equal(index, _enemies.size())) {
         return;
     }
     _enemies.erase(_enemies.begin() + index);
@@ -439,7 +439,7 @@ void ArenaModel::removeEnemy(int index) {
 
 void ArenaModel::assignMark(bool ally, int index, const QString& markId) {
     std::vector<Fighter>& camp = ally ? _allies : _enemies;
-    if (_inCombat || index < 0 || index >= static_cast<int>(camp.size())) {
+    if (_inCombat || index < 0 || std::cmp_greater_equal(index, camp.size())) {
         return;
     }
     const std::string id = markId.toStdString();
@@ -684,7 +684,7 @@ QVariantList ArenaModel::turnActions() const {
         list << QVariantMap{{"label", entries[i].label},
                             {"kind", kindName(entries[i].kind)},
                             {"enabled", !needsAction || action},
-                            {"selected", static_cast<int>(i) == _selectedAction}};
+                            {"selected", std::cmp_equal(i, _selectedAction)}};
     }
     return list;
 }
@@ -858,7 +858,7 @@ void ArenaModel::tapCell(int column, int row) {
             // le peut : le clic ne refuse pas un tir que l'arc aurait reussi.
             std::optional<std::size_t> index;
             const std::vector<TurnActionEntry> entries = turnActionsOf(*_session, *active);
-            if (_selectedAction >= 0 && _selectedAction < static_cast<int>(entries.size())) {
+            if (_selectedAction >= 0 && std::cmp_less(_selectedAction, entries.size())) {
                 const TurnActionEntry& chosen = entries[static_cast<std::size_t>(_selectedAction)];
                 if (chosen.kind == TurnActionKind::Attack &&
                     core::checkTarget(combat, *active, *target,
@@ -938,7 +938,7 @@ void ArenaModel::cycleTarget(int step) {
     const int count = static_cast<int>(targets.size());
     int next = step > 0 ? 0 : count - 1;
     if (found != targets.end()) {
-        next = ((static_cast<int>(found - targets.begin()) + step) % count + count) % count;
+        next = (((static_cast<int>(found - targets.begin()) + step) % count) + count) % count;
     }
     _cursor = *combat.grid().positionOf(targets[static_cast<std::size_t>(next)].second);
     emit cursorChanged();
@@ -963,7 +963,7 @@ void ArenaModel::cycleAction(int step) {
         return;
     }
     const int count = static_cast<int>(turnActionsOf(*_session, *active).size());
-    _selectedAction = ((_selectedAction + step) % count + count) % count;
+    _selectedAction = (((_selectedAction + step) % count) + count) % count;
     emit cursorChanged();
 }
 

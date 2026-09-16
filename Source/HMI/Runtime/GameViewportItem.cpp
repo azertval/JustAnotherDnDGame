@@ -53,7 +53,7 @@ void GameViewportRenderer::render(QRhiCommandBuffer* commandBuffer) {
     // construction, et il n'y a aucune scène à composer. La passe existe quand même, et c'est ce
     // qui se vérifie — sans elle, la texture d'appui contiendrait ce que la mémoire graphique y
     // avait laissé.
-    commandBuffer->beginPass(renderTarget(), _clearColor, {1.0f, 0});
+    commandBuffer->beginPass(renderTarget(), _clearColor, {1.0F, 0});
     commandBuffer->endPass();
 }
 

@@ -21,7 +21,7 @@ namespace hmi {
 namespace {
 
 /// Marge du cadrage : la scène entière tient dans la surface, sans toucher ses bords.
-constexpr float FRAMING_MARGIN = 0.95f;
+constexpr float FRAMING_MARGIN = 0.95F;
 
 }  // namespace
 
@@ -30,9 +30,9 @@ Camera2D arenaCamera(const core::IsoProjection& projection, int pixelWidth, int 
     const int height = std::max(1, pixelHeight);
     const core::Vector2 size = projection.sceneSize();
     Camera2D camera(width, height);
-    camera.setCenter({size.x / 2.0f, size.y / 2.0f});
+    camera.setCenter({size.x / 2.0F, size.y / 2.0F});
     camera.setZoom(Camera2D::fitZoom(static_cast<float>(width), static_cast<float>(height),
-                                     std::max(size.x, 1.0f), std::max(size.y, 1.0f),
+                                     std::max(size.x, 1.0F), std::max(size.y, 1.0F),
                                      FRAMING_MARGIN));
     return camera;
 }
@@ -105,7 +105,8 @@ void ArenaSceneRenderer::loadTextures() {
     if (std::optional<LoadedTexture> missing =
             createTexture(context, checker.width, checker.height, checker.pixels)) {
         _missing = std::move(*missing);
-        _textures.missing = ArenaTexture{_missing.handle(), _missing.width, _missing.height};
+        _textures.missing = ArenaTexture{
+            .texture = _missing.handle(), .width = _missing.width, .height = _missing.height};
     }
 
     const std::vector<std::string> paths = arenaTexturePaths(_catalog);
@@ -118,8 +119,11 @@ void ArenaSceneRenderer::loadTextures() {
             continue;
         }
         const auto band = _bandFrameWidths.find(path);
-        _textures.byPath[path] = ArenaTexture{texture->handle(), texture->width, texture->height,
-                                              band != _bandFrameWidths.end() ? band->second : 0};
+        _textures.byPath[path] =
+            ArenaTexture{.texture = texture->handle(),
+                         .width = texture->width,
+                         .height = texture->height,
+                         .frameWidth = band != _bandFrameWidths.end() ? band->second : 0};
         _loaded.push_back(std::move(*texture));
     }
 }
@@ -173,7 +177,7 @@ void ArenaSceneRenderer::render(QRhiCommandBuffer* commandBuffer, QRhiRenderTarg
                                                  : _rhi->nextResourceUpdateBatch();
     _resources.setFrameUpdates(updates);
 
-    _animation.advance(std::max(0.0f, realDeltaSeconds));
+    _animation.advance(std::max(0.0F, realDeltaSeconds));
     const ArenaAnimationState animation = _animation.snapshot();
     const core::IsoProjection projection(_snapshot.columns, _snapshot.rows);
 

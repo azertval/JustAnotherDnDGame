@@ -108,9 +108,9 @@ void DraftRenderer::render(
     // de mecanisme dans l'editeur (jamais de porte fermee/ouverte a suivre), donc pas de grille de
     // collision a transmettre.
     if (visibility.visible(RenderLayer::Shadow)) {
-        composeShadows(_scene, _world, mode, textures, 1.0f);
+        composeShadows(_scene, _world, mode, textures, 1.0F);
     }
-    composeWorldSprites(_scene, _world, mode, textures, 1.0f, visibility);
+    composeWorldSprites(_scene, _world, mode, textures, 1.0F, visibility);
     composeCollisionMask(draft);
     if (showGrid) {
         composeGrid(draft);
@@ -131,9 +131,9 @@ void DraftRenderer::render(
 // Compose le voile d'apercu d'une zone (outil Rectangle/Selection) sur le calque d'edition.
 void DraftRenderer::composeHighlight(const core::GridPosition& minimum,
                                      const core::GridPosition& maximum) {
-    const float atlasWidth = static_cast<float>(_atlas.width());
-    const float atlasHeight = static_cast<float>(_atlas.height());
-    const core::AtlasRegion solid = _atlas.tile(0, 0);
+    const auto atlasWidth = static_cast<float>(_atlas.width());
+    const auto atlasHeight = static_cast<float>(_atlas.height());
+    const core::AtlasRegion solid = hmi::TextureAtlas::tile(0, 0);
     SpriteQuad quad;
     quad.x = static_cast<float>(minimum.column);
     quad.y = static_cast<float>(minimum.row);
@@ -143,10 +143,10 @@ void DraftRenderer::composeHighlight(const core::GridPosition& minimum,
     quad.v0 = static_cast<float>(solid.y) / atlasHeight;
     quad.u1 = static_cast<float>(solid.x + solid.width) / atlasWidth;
     quad.v1 = static_cast<float>(solid.y + solid.height) / atlasHeight;
-    quad.r = 0.3f;
-    quad.g = 0.7f;
-    quad.b = 1.0f;
-    quad.a = 0.28f;  // voile bleu semi-transparent (apercu rectangle/selection)
+    quad.r = 0.3F;
+    quad.g = 0.7F;
+    quad.b = 1.0F;
+    quad.a = 0.28F;  // voile bleu semi-transparent (apercu rectangle/selection)
     _scene.addSprite(RenderLayer::EditorOverlay, _atlas.textureHandle(), OVERLAY_ORDER_HIGHLIGHT,
                      quad);
 }
@@ -155,13 +155,13 @@ void DraftRenderer::composeHighlight(const core::GridPosition& minimum,
 // marqueur au coin haut-droit de chaque case habillee, visible seulement quand l'outil dedie est
 // actif (showTextureOverrides du render()).
 void DraftRenderer::composeTextureOverrideMarkers(const core::LevelDraft& draft) {
-    const float atlasWidth = static_cast<float>(_atlas.width());
-    const float atlasHeight = static_cast<float>(_atlas.height());
-    const core::AtlasRegion solid = _atlas.tile(0, 0);
-    constexpr float MARKER_SIZE = 0.28f;  // fraction d'une case
+    const auto atlasWidth = static_cast<float>(_atlas.width());
+    const auto atlasHeight = static_cast<float>(_atlas.height());
+    const core::AtlasRegion solid = hmi::TextureAtlas::tile(0, 0);
+    constexpr float MARKER_SIZE = 0.28F;  // fraction d'une case
     for (const core::TileTextureOverride& override : draft.textureOverrides()) {
         SpriteQuad quad;
-        quad.x = static_cast<float>(override.position.column) + 1.0f - MARKER_SIZE;
+        quad.x = static_cast<float>(override.position.column) + 1.0F - MARKER_SIZE;
         quad.y = static_cast<float>(override.position.row);
         quad.width = MARKER_SIZE;
         quad.height = MARKER_SIZE;
@@ -169,10 +169,10 @@ void DraftRenderer::composeTextureOverrideMarkers(const core::LevelDraft& draft)
         quad.v0 = static_cast<float>(solid.y) / atlasHeight;
         quad.u1 = static_cast<float>(solid.x + solid.width) / atlasWidth;
         quad.v1 = static_cast<float>(solid.y + solid.height) / atlasHeight;
-        quad.r = 1.0f;
-        quad.g = 0.85f;
-        quad.b = 0.1f;
-        quad.a = 0.9f;  // jaune dore, oppose au bleu du voile de selection/rectangle
+        quad.r = 1.0F;
+        quad.g = 0.85F;
+        quad.b = 0.1F;
+        quad.a = 0.9F;  // jaune dore, oppose au bleu du voile de selection/rectangle
         _scene.addSprite(RenderLayer::EditorOverlay, _atlas.textureHandle(),
                          OVERLAY_ORDER_TEXTURE_OVERRIDES, quad);
     }
@@ -183,9 +183,9 @@ void DraftRenderer::composeGrid(const core::LevelDraft& draft) {
     const int width = draft.tileMap().width();
     const int height = draft.tileMap().height();
     const core::AtlasRegion solid =
-        _atlas.tile(0, 0);  // region opaque unie (teintee pour la ligne)
-    const float atlasWidth = static_cast<float>(_atlas.width());
-    const float atlasHeight = static_cast<float>(_atlas.height());
+        hmi::TextureAtlas::tile(0, 0);  // region opaque unie (teintee pour la ligne)
+    const auto atlasWidth = static_cast<float>(_atlas.width());
+    const auto atlasHeight = static_cast<float>(_atlas.height());
 
     // Fabrique un quad plein (UV de la region opaque) a une position/taille et teinte donnees.
     const auto lineQuad = [&](float x, float y, float w, float h, float r, float g, float b,
@@ -211,16 +211,16 @@ void DraftRenderer::composeGrid(const core::LevelDraft& draft) {
     };
 
     // Grille de cases : lignes fines, faible alpha (repere de placement, EX-EDIT-023).
-    constexpr float LINE = 0.035f;  // epaisseur en unites monde (fraction de case)
-    constexpr float lineAlpha = 0.18f;
-    const float w = static_cast<float>(width);
-    const float h = static_cast<float>(height);
+    constexpr float LINE = 0.035F;  // epaisseur en unites monde (fraction de case)
+    constexpr float lineAlpha = 0.18F;
+    const auto w = static_cast<float>(width);
+    const auto h = static_cast<float>(height);
     for (int column = 0; column <= width; ++column) {
-        add(lineQuad(static_cast<float>(column) - LINE * 0.5f, 0.0f, LINE, h, 1.0f, 1.0f, 1.0f,
+        add(lineQuad(static_cast<float>(column) - (LINE * 0.5F), 0.0F, LINE, h, 1.0F, 1.0F, 1.0F,
                      lineAlpha));
     }
     for (int row = 0; row <= height; ++row) {
-        add(lineQuad(0.0f, static_cast<float>(row) - LINE * 0.5f, w, LINE, 1.0f, 1.0f, 1.0f,
+        add(lineQuad(0.0F, static_cast<float>(row) - (LINE * 0.5F), w, LINE, 1.0F, 1.0F, 1.0F,
                      lineAlpha));
     }
 
@@ -230,15 +230,15 @@ void DraftRenderer::composeGrid(const core::LevelDraft& draft) {
     const core::CameraFramingConfig& framing = draft.cameraFraming();
     const int roomWidthTiles = framing.roomWidthTiles.value_or(core::DEFAULT_ROOM_WIDTH_TILES);
     const int roomHeightTiles = framing.roomHeightTiles.value_or(core::DEFAULT_ROOM_HEIGHT_TILES);
-    constexpr float ROOM_LINE = 0.09f;
-    constexpr float roomLineAlpha = 0.5f;
+    constexpr float ROOM_LINE = 0.09F;
+    constexpr float roomLineAlpha = 0.5F;
     for (int column = 0; column * roomWidthTiles <= width; ++column) {
         const float x = static_cast<float>(std::min(column * roomWidthTiles, width));
-        add(lineQuad(x - ROOM_LINE * 0.5f, 0.0f, ROOM_LINE, h, 1.0f, 0.85f, 0.3f, roomLineAlpha));
+        add(lineQuad(x - (ROOM_LINE * 0.5F), 0.0F, ROOM_LINE, h, 1.0F, 0.85F, 0.3F, roomLineAlpha));
     }
     for (int row = 0; row * roomHeightTiles <= height; ++row) {
         const float y = static_cast<float>(std::min(row * roomHeightTiles, height));
-        add(lineQuad(0.0f, y - ROOM_LINE * 0.5f, w, ROOM_LINE, 1.0f, 0.85f, 0.3f, roomLineAlpha));
+        add(lineQuad(0.0F, y - (ROOM_LINE * 0.5F), w, ROOM_LINE, 1.0F, 0.85F, 0.3F, roomLineAlpha));
     }
 }
 
@@ -249,9 +249,9 @@ void DraftRenderer::composeGrid(const core::LevelDraft& draft) {
 void DraftRenderer::composeCameraFraming(const core::LevelDraft& draft) {
     const int width = draft.tileMap().width();
     const int height = draft.tileMap().height();
-    const core::AtlasRegion solid = _atlas.tile(0, 0);
-    const float atlasWidth = static_cast<float>(_atlas.width());
-    const float atlasHeight = static_cast<float>(_atlas.height());
+    const core::AtlasRegion solid = hmi::TextureAtlas::tile(0, 0);
+    const auto atlasWidth = static_cast<float>(_atlas.width());
+    const auto atlasHeight = static_cast<float>(_atlas.height());
 
     const auto lineQuad = [&](float x, float y, float w, float h, float r, float g, float b,
                               float a) {
@@ -278,26 +278,26 @@ void DraftRenderer::composeCameraFraming(const core::LevelDraft& draft) {
     // distinguable de l'ambre de la grille de salles (teinte cyan).
     const auto strokeRect = [&](float x, float y, float w, float h, float thickness, float r,
                                 float g, float b, float a) {
-        add(lineQuad(x - thickness * 0.5f, y - thickness * 0.5f, w + thickness, thickness, r, g, b,
-                     a));
-        add(lineQuad(x - thickness * 0.5f, y + h - thickness * 0.5f, w + thickness, thickness, r, g,
+        add(lineQuad(x - (thickness * 0.5F), y - (thickness * 0.5F), w + thickness, thickness, r, g,
                      b, a));
-        add(lineQuad(x - thickness * 0.5f, y - thickness * 0.5f, thickness, h + thickness, r, g, b,
-                     a));
-        add(lineQuad(x + w - thickness * 0.5f, y - thickness * 0.5f, thickness, h + thickness, r, g,
+        add(lineQuad(x - (thickness * 0.5F), y + h - (thickness * 0.5F), w + thickness, thickness,
+                     r, g, b, a));
+        add(lineQuad(x - (thickness * 0.5F), y - (thickness * 0.5F), thickness, h + thickness, r, g,
                      b, a));
+        add(lineQuad(x + w - (thickness * 0.5F), y - (thickness * 0.5F), thickness, h + thickness,
+                     r, g, b, a));
     };
 
-    constexpr float FRAME_THICKNESS = 0.12f;
-    constexpr float CYAN_R = 0.35f;
-    constexpr float CYAN_G = 0.85f;
-    constexpr float CYAN_B = 1.0f;
+    constexpr float FRAME_THICKNESS = 0.12F;
+    constexpr float CYAN_R = 0.35F;
+    constexpr float CYAN_G = 0.85F;
+    constexpr float CYAN_B = 1.0F;
 
     const core::CameraFramingConfig& framing = draft.cameraFraming();
     switch (framing.mode) {
         case core::CameraFramingMode::WholeLevel:
-            strokeRect(0.0f, 0.0f, static_cast<float>(width), static_cast<float>(height),
-                       FRAME_THICKNESS, CYAN_R, CYAN_G, CYAN_B, 0.6f);
+            strokeRect(0.0F, 0.0F, static_cast<float>(width), static_cast<float>(height),
+                       FRAME_THICKNESS, CYAN_R, CYAN_G, CYAN_B, 0.6F);
             break;
         case core::CameraFramingMode::PerRoom: {
             if (!framing.zones.empty()) {
@@ -309,7 +309,7 @@ void DraftRenderer::composeCameraFraming(const core::LevelDraft& draft) {
                 for (const core::CameraZone& zone : framing.zones) {
                     strokeRect(static_cast<float>(zone.x), static_cast<float>(zone.y),
                                static_cast<float>(zone.width), static_cast<float>(zone.height),
-                               FRAME_THICKNESS, CYAN_R, CYAN_G, CYAN_B, 0.5f);
+                               FRAME_THICKNESS, CYAN_R, CYAN_G, CYAN_B, 0.5F);
                 }
                 break;
             }
@@ -322,10 +322,11 @@ void DraftRenderer::composeCameraFraming(const core::LevelDraft& draft) {
             const RoomGrid rooms(width, height, roomWidthTiles, roomHeightTiles);
             for (int row = 0; row < rooms.rows(); ++row) {
                 for (int column = 0; column < rooms.columns(); ++column) {
-                    const RoomBounds bounds = rooms.roomBounds(core::GridPosition{column, row});
+                    const RoomBounds bounds =
+                        rooms.roomBounds(core::GridPosition{.column = column, .row = row});
                     strokeRect(static_cast<float>(bounds.column), static_cast<float>(bounds.row),
                                static_cast<float>(bounds.width), static_cast<float>(bounds.height),
-                               FRAME_THICKNESS, CYAN_R, CYAN_G, CYAN_B, 0.5f);
+                               FRAME_THICKNESS, CYAN_R, CYAN_G, CYAN_B, 0.5F);
                 }
             }
             break;
@@ -335,30 +336,30 @@ void DraftRenderer::composeCameraFraming(const core::LevelDraft& draft) {
             if (!entry) {
                 break;  // pas d'entree posee : rien de significatif a previsualiser (tache-03).
             }
-            const float viewWidth = static_cast<float>(core::DEFAULT_ROOM_WIDTH_TILES);
-            const float viewHeight = static_cast<float>(core::DEFAULT_ROOM_HEIGHT_TILES);
+            const auto viewWidth = static_cast<float>(core::DEFAULT_ROOM_WIDTH_TILES);
+            const auto viewHeight = static_cast<float>(core::DEFAULT_ROOM_HEIGHT_TILES);
             // Meme regle de bornage/centrage qu'hmi::advanceFollowCamera (FollowCamera.cpp) : un
             // axe plus etroit que le cadrage centre plutot que borne -- previsualisation fidele au
             // comportement reel, pas une approximation.
             const auto clampCenter = [](float center, float levelSize, float viewSize) {
                 if (levelSize <= viewSize) {
-                    return levelSize * 0.5f;
+                    return levelSize * 0.5F;
                 }
-                return std::clamp(center, viewSize * 0.5f, levelSize - viewSize * 0.5f);
+                return std::clamp(center, viewSize * 0.5F, levelSize - (viewSize * 0.5F));
             };
-            const float centerX = clampCenter(static_cast<float>(entry->column) + 0.5f,
+            const float centerX = clampCenter(static_cast<float>(entry->column) + 0.5F,
                                               static_cast<float>(width), viewWidth);
-            const float centerY = clampCenter(static_cast<float>(entry->row) + 0.5f,
+            const float centerY = clampCenter(static_cast<float>(entry->row) + 0.5F,
                                               static_cast<float>(height), viewHeight);
-            strokeRect(centerX - viewWidth * 0.5f, centerY - viewHeight * 0.5f, viewWidth,
-                       viewHeight, FRAME_THICKNESS, CYAN_R, CYAN_G, CYAN_B, 0.6f);
+            strokeRect(centerX - (viewWidth * 0.5F), centerY - (viewHeight * 0.5F), viewWidth,
+                       viewHeight, FRAME_THICKNESS, CYAN_R, CYAN_G, CYAN_B, 0.6F);
             // Zone morte materialisee (tache-03) : plus fine, meme teinte, plus opaque (repere
             // secondaire a l'interieur du rectangle visible).
             strokeRect(centerX - FOLLOW_DEAD_ZONE_HALF_WIDTH_UNITS,
                        centerY - FOLLOW_DEAD_ZONE_HALF_HEIGHT_UNITS,
-                       FOLLOW_DEAD_ZONE_HALF_WIDTH_UNITS * 2.0f,
-                       FOLLOW_DEAD_ZONE_HALF_HEIGHT_UNITS * 2.0f, FRAME_THICKNESS * 0.6f, CYAN_R,
-                       CYAN_G, CYAN_B, 0.85f);
+                       FOLLOW_DEAD_ZONE_HALF_WIDTH_UNITS * 2.0F,
+                       FOLLOW_DEAD_ZONE_HALF_HEIGHT_UNITS * 2.0F, FRAME_THICKNESS * 0.6F, CYAN_R,
+                       CYAN_G, CYAN_B, 0.85F);
             break;
         }
     }
@@ -390,9 +391,9 @@ void DraftRenderer::composeLinks(const core::LevelDraft& draft, const LinkOverla
         fanCount[i] = count;
     }
 
-    const core::AtlasRegion solid = _atlas.tile(0, 0);  // region opaque unie (teintee).
-    const float atlasWidth = static_cast<float>(_atlas.width());
-    const float atlasHeight = static_cast<float>(_atlas.height());
+    const core::AtlasRegion solid = hmi::TextureAtlas::tile(0, 0);  // region opaque unie (teintee).
+    const auto atlasWidth = static_cast<float>(_atlas.width());
+    const auto atlasHeight = static_cast<float>(_atlas.height());
     const float u0 = static_cast<float>(solid.x) / atlasWidth;
     const float v0 = static_cast<float>(solid.y) / atlasHeight;
     const float u1 = static_cast<float>(solid.x + solid.width) / atlasWidth;
@@ -422,35 +423,35 @@ void DraftRenderer::composeLinks(const core::LevelDraft& draft, const LinkOverla
                        quad);
     };
 
-    constexpr float LINE_THICKNESS = 0.045f;
-    constexpr float HIGHLIGHT_THICKNESS = 0.08f;
-    constexpr float PENDING_THICKNESS = 0.03f;
+    constexpr float LINE_THICKNESS = 0.045F;
+    constexpr float HIGHLIGHT_THICKNESS = 0.08F;
+    constexpr float PENDING_THICKNESS = 0.03F;
 
     // Case en attente (premier clic de l'outil Lien) : voile plein pour la signaler.
     if (overlay.pendingLink) {
         SpriteQuad pendingQuad;
         pendingQuad.x = static_cast<float>(overlay.pendingLink->column);
         pendingQuad.y = static_cast<float>(overlay.pendingLink->row);
-        pendingQuad.width = 1.0f;
-        pendingQuad.height = 1.0f;
+        pendingQuad.width = 1.0F;
+        pendingQuad.height = 1.0F;
         pendingQuad.u0 = u0;
         pendingQuad.v0 = v0;
         pendingQuad.u1 = u1;
         pendingQuad.v1 = v1;
-        pendingQuad.r = 1.0f;
-        pendingQuad.g = 0.9f;
-        pendingQuad.b = 0.2f;
-        pendingQuad.a = 0.35f;
+        pendingQuad.r = 1.0F;
+        pendingQuad.g = 0.9F;
+        pendingQuad.b = 0.2F;
+        pendingQuad.a = 0.35F;
         _scene.addSprite(RenderLayer::EditorOverlay, _atlas.textureHandle(), OVERLAY_ORDER_LINKS,
                          pendingQuad);
 
         // Trait provisoire vers la case survolee, si distincte (retour visuel du geste en cours).
         if (overlay.hoveredCell && *overlay.hoveredCell != *overlay.pendingLink) {
-            const core::Vector2 from{static_cast<float>(overlay.pendingLink->column) + 0.5f,
-                                     static_cast<float>(overlay.pendingLink->row) + 0.5f};
-            const core::Vector2 to{static_cast<float>(overlay.hoveredCell->column) + 0.5f,
-                                   static_cast<float>(overlay.hoveredCell->row) + 0.5f};
-            addLine(segment(from, to, PENDING_THICKNESS, 1.0f, 0.9f, 0.2f, 0.7f));
+            const core::Vector2 from{static_cast<float>(overlay.pendingLink->column) + 0.5F,
+                                     static_cast<float>(overlay.pendingLink->row) + 0.5F};
+            const core::Vector2 to{static_cast<float>(overlay.hoveredCell->column) + 0.5F,
+                                   static_cast<float>(overlay.hoveredCell->row) + 0.5F};
+            addLine(segment(from, to, PENDING_THICKNESS, 1.0F, 0.9F, 0.2F, 0.7F));
         }
     }
 
@@ -466,10 +467,10 @@ void DraftRenderer::composeLinks(const core::LevelDraft& draft, const LinkOverla
 
         const LinkSegment line = linkSegment(row.trigger, row.target, fanIndex[i], fanCount[i]);
         const bool mechanism = row.kind == LinkKind::Mechanism;
-        const float r = mechanism ? 0.35f : 1.0f;
-        const float g = mechanism ? 0.85f : 0.45f;
-        const float b = mechanism ? 1.0f : 0.3f;
-        const float alpha = highlighted ? 0.95f : 0.65f;
+        const float r = mechanism ? 0.35F : 1.0F;
+        const float g = mechanism ? 0.85F : 0.45F;
+        const float b = mechanism ? 1.0F : 0.3F;
+        const float alpha = highlighted ? 0.95F : 0.65F;
         const float thickness = highlighted ? HIGHLIGHT_THICKNESS : LINE_THICKNESS;
 
         addLine(segment(line.a, line.b, thickness, r, g, b, alpha));
@@ -505,12 +506,13 @@ void DraftRenderer::rebuild(const core::LevelDraft& draft) {
                 }
                 const core::Entity entity = _world.createEntity();
                 _world.addComponent(
-                    entity, core::Transform{
-                                core::Vector2{static_cast<float>(column), static_cast<float>(row)},
-                                core::Vector2{1.0f, 1.0f}, 0.0f});
+                    entity, core::Transform{.position = core::Vector2{static_cast<float>(column),
+                                                                      static_cast<float>(row)},
+                                            .scale = core::Vector2{1.0F, 1.0F},
+                                            .rotation = 0.0F});
                 core::Sprite sprite;
                 sprite.region = regionForTile(type);
-                sprite.tint = core::Color{1.0f, 1.0f, 1.0f, opacity};
+                sprite.tint = core::Color{.r = 1.0F, .g = 1.0F, .b = 1.0F, .a = opacity};
                 if (order) {
                     sprite.layer = *order;
                 }
@@ -518,9 +520,11 @@ void DraftRenderer::rebuild(const core::LevelDraft& draft) {
                 // Marque d'habillage (LOT-42), identique a celle posee en jeu : c'est ce qui fait
                 // que le canevas de l'editeur montre exactement ce que le joueur verra.
                 _world.addComponent(
-                    entity, TileSkinTag{type, solidNeighborMask(map, column, row),
-                                        textureOverrideAt(draft.textureOverrides(),
-                                                          core::GridPosition{column, row})});
+                    entity, TileSkinTag{.type = type,
+                                        .neighborMask = solidNeighborMask(map, column, row),
+                                        .overrideAsset = textureOverrideAt(
+                                            draft.textureOverrides(),
+                                            core::GridPosition{.column = column, .row = row})});
                 if (decor) {
                     _world.addComponent(entity, RenderLayerTag{RenderLayer::Object});
                 }
@@ -557,9 +561,9 @@ void DraftRenderer::rebuild(const core::LevelDraft& draft) {
 
 void DraftRenderer::addOverlayRect(float x, float y, float width, float height, float r, float g,
                                    float b, float a, std::int32_t order) {
-    const float atlasWidth = static_cast<float>(_atlas.width());
-    const float atlasHeight = static_cast<float>(_atlas.height());
-    const core::AtlasRegion solid = _atlas.tile(0, 0);
+    const auto atlasWidth = static_cast<float>(_atlas.width());
+    const auto atlasHeight = static_cast<float>(_atlas.height());
+    const core::AtlasRegion solid = hmi::TextureAtlas::tile(0, 0);
     SpriteQuad quad;
     quad.x = x;
     quad.y = y;
@@ -584,7 +588,7 @@ void DraftRenderer::composeCollisionMask(const core::LevelDraft& draft) {
         return;  // grille unique : deja dessinee comme image par rebuild().
     }
     const LayerDisplay display = _layerView.display(std::nullopt, /*hasVisualLayers=*/true);
-    if (!display.visible || display.opacity <= 0.0f) {
+    if (!display.visible || display.opacity <= 0.0F) {
         return;
     }
     const core::TileMap& map = draft.tileMap();
@@ -593,26 +597,26 @@ void DraftRenderer::composeCollisionMask(const core::LevelDraft& draft) {
             const core::TileType type = map.tile(column, row);
             // Une teinte par CATEGORIE de regle, pas par type : l'auteur lit ou l'on bute, ou l'on
             // se blesse, ou l'on entre et sort, et ou un mecanisme agit.
-            float r = 0.0f;
-            float g = 0.0f;
-            float b = 0.0f;
+            float r = 0.0F;
+            float g = 0.0F;
+            float b = 0.0F;
             if (core::isSolid(type)) {
-                r = 0.85f, g = 0.20f, b = 0.20f;  // obstacle
+                r = 0.85F, g = 0.20F, b = 0.20F;  // obstacle
             } else if (type == core::TileType::Danger) {
-                r = 1.00f, g = 0.55f, b = 0.10f;  // danger
+                r = 1.00F, g = 0.55F, b = 0.10F;  // danger
             } else if (type == core::TileType::Entry) {
-                r = 0.20f, g = 0.85f, b = 0.30f;  // entree
+                r = 0.20F, g = 0.85F, b = 0.30F;  // entree
             } else if (type == core::TileType::Exit) {
-                r = 0.25f, g = 0.50f, b = 1.00f;  // sortie
+                r = 0.25F, g = 0.50F, b = 1.00F;  // sortie
             } else if (type == core::TileType::Switch || type == core::TileType::PressurePlate ||
                        type == core::TileType::Key || type == core::TileType::Door ||
                        type == core::TileType::LockedDoor) {
-                r = 1.00f, g = 0.85f, b = 0.20f;  // mecanisme
+                r = 1.00F, g = 0.85F, b = 0.20F;  // mecanisme
             } else {
                 continue;  // terrain franchissable : rien a masquer.
             }
-            addOverlayRect(static_cast<float>(column), static_cast<float>(row), 1.0f, 1.0f, r, g, b,
-                           display.opacity * 0.6f, OVERLAY_ORDER_COLLISION_MASK);
+            addOverlayRect(static_cast<float>(column), static_cast<float>(row), 1.0F, 1.0F, r, g, b,
+                           display.opacity * 0.6F, OVERLAY_ORDER_COLLISION_MASK);
         }
     }
 }
@@ -633,9 +637,9 @@ void DraftRenderer::composeEntities(const core::LevelDraft& draft,
                     return issue.code == core::TacticalIssueCode::AreaTooNarrow;
                 });
             for (const core::GridPosition& cell : terrain.area) {
-                addOverlayRect(static_cast<float>(cell.column), static_cast<float>(cell.row), 1.0f,
-                               1.0f, narrow ? 1.0f : 0.30f, narrow ? 0.55f : 0.70f,
-                               narrow ? 0.10f : 1.00f, 0.18f, OVERLAY_ORDER_TERRAIN);
+                addOverlayRect(static_cast<float>(cell.column), static_cast<float>(cell.row), 1.0F,
+                               1.0F, narrow ? 1.0F : 0.30F, narrow ? 0.55F : 0.70F,
+                               narrow ? 0.10F : 1.00F, 0.18F, OVERLAY_ORDER_TERRAIN);
             }
             for (const core::CombatantPlacement& placement : terrain.placements) {
                 const bool refused = std::ranges::any_of(
@@ -643,20 +647,21 @@ void DraftRenderer::composeEntities(const core::LevelDraft& draft,
                         return issue.code != core::TacticalIssueCode::AreaTooNarrow &&
                                issue.cell == placement.position;
                     });
-                constexpr float INSET = 0.2f;
+                constexpr float INSET = 0.2F;
                 addOverlayRect(static_cast<float>(placement.position.column) + INSET,
-                               static_cast<float>(placement.position.row) + INSET, 1.0f - 2 * INSET,
-                               1.0f - 2 * INSET, refused ? 0.95f : 0.25f, refused ? 0.20f : 0.85f,
-                               refused ? 0.20f : 0.35f, 0.55f, OVERLAY_ORDER_TERRAIN);
+                               static_cast<float>(placement.position.row) + INSET,
+                               1.0F - (2 * INSET), 1.0F - (2 * INSET), refused ? 0.95F : 0.25F,
+                               refused ? 0.20F : 0.85F, refused ? 0.20F : 0.35F, 0.55F,
+                               OVERLAY_ORDER_TERRAIN);
             }
         }
     }
 
-    constexpr float MARKER_INSET = 0.12f;
+    constexpr float MARKER_INSET = 0.12F;
     for (std::size_t index = 0; index < entities.size(); ++index) {
         const core::MapEntity& entity = entities[index];
-        const float x = static_cast<float>(entity.position.column);
-        const float y = static_cast<float>(entity.position.row);
+        const auto x = static_cast<float>(entity.position.column);
+        const auto y = static_cast<float>(entity.position.row);
         // Marqueur genere de la famille (LOT-39) : aucune illustration n'est requise pour poser un
         // PNJ ou un portail, et deux familles ne se confondent pas.
         if (const LoadedTexture* const marker =
@@ -664,35 +669,36 @@ void DraftRenderer::composeEntities(const core::LevelDraft& draft,
             SpriteQuad quad;
             quad.x = x + MARKER_INSET;
             quad.y = y + MARKER_INSET;
-            quad.width = 1.0f - 2 * MARKER_INSET;
-            quad.height = 1.0f - 2 * MARKER_INSET;
-            quad.u0 = 0.0f;
-            quad.v0 = 0.0f;
-            quad.u1 = 1.0f;
-            quad.v1 = 1.0f;
-            quad.r = 1.0f;
-            quad.g = 1.0f;
-            quad.b = 1.0f;
-            quad.a = 1.0f;
+            quad.width = 1.0F - (2 * MARKER_INSET);
+            quad.height = 1.0F - (2 * MARKER_INSET);
+            quad.u0 = 0.0F;
+            quad.v0 = 0.0F;
+            quad.u1 = 1.0F;
+            quad.v1 = 1.0F;
+            quad.r = 1.0F;
+            quad.g = 1.0F;
+            quad.b = 1.0F;
+            quad.a = 1.0F;
             _scene.addSprite(RenderLayer::EditorOverlay, marker->handle(), OVERLAY_ORDER_ENTITIES,
                              quad);
         } else {
-            addOverlayRect(x + MARKER_INSET, y + MARKER_INSET, 1.0f - 2 * MARKER_INSET,
-                           1.0f - 2 * MARKER_INSET, 1.0f, 0.0f, 1.0f, 0.8f, OVERLAY_ORDER_ENTITIES);
+            addOverlayRect(x + MARKER_INSET, y + MARKER_INSET, 1.0F - (2 * MARKER_INSET),
+                           1.0F - (2 * MARKER_INSET), 1.0F, 0.0F, 1.0F, 0.8F,
+                           OVERLAY_ORDER_ENTITIES);
         }
         if (overlay.selectedEntity == index) {
             // Cadre double ton, meme convention que les poignees (lisible sur tout fond).
-            constexpr float THICK = 0.08f;
+            constexpr float THICK = 0.08F;
             for (const auto& [order, r, g, b, grow] :
-                 {std::tuple{OVERLAY_ORDER_HANDLE_DARK, 0.05f, 0.05f, 0.05f, THICK},
-                  std::tuple{OVERLAY_ORDER_HANDLE_BRIGHT, 1.0f, 0.95f, 0.35f, 0.0f}}) {
+                 {std::tuple{OVERLAY_ORDER_HANDLE_DARK, 0.05F, 0.05F, 0.05F, THICK},
+                  std::tuple{OVERLAY_ORDER_HANDLE_BRIGHT, 1.0F, 0.95F, 0.35F, 0.0F}}) {
                 const float left = x - grow;
                 const float top = y - grow;
-                const float size = 1.0f + 2 * grow;
-                addOverlayRect(left, top, size, THICK, r, g, b, 1.0f, order);
-                addOverlayRect(left, top + size - THICK, size, THICK, r, g, b, 1.0f, order);
-                addOverlayRect(left, top, THICK, size, r, g, b, 1.0f, order);
-                addOverlayRect(left + size - THICK, top, THICK, size, r, g, b, 1.0f, order);
+                const float size = 1.0F + (2 * grow);
+                addOverlayRect(left, top, size, THICK, r, g, b, 1.0F, order);
+                addOverlayRect(left, top + size - THICK, size, THICK, r, g, b, 1.0F, order);
+                addOverlayRect(left, top, THICK, size, r, g, b, 1.0F, order);
+                addOverlayRect(left + size - THICK, top, THICK, size, r, g, b, 1.0F, order);
             }
         }
     }

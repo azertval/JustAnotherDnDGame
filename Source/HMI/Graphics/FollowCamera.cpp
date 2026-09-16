@@ -14,19 +14,19 @@ namespace {
 // jamais l'atteindre exactement en temps fini -- c'est precisement ce qui rend une inversion
 // d'anticipation "progressive" plutot que la faire sauter d'une valeur a l'autre.
 float exponentialApproach(float current, float target, float timeConstant, float dt) noexcept {
-    if (timeConstant <= 0.0f) {
+    if (timeConstant <= 0.0F) {
         return target;
     }
-    const float factor = 1.0f - std::exp(-dt / timeConstant);
-    return current + (target - current) * factor;
+    const float factor = 1.0F - std::exp(-dt / timeConstant);
+    return current + ((target - current) * factor);
 }
 
 // Ramene une coordonnee dans les limites [levelMin, levelMax] du niveau sur UN axe, avec la marge
 // du cadrage (viewHalfExtent) -- sauf si le niveau est plus etroit que le cadrage sur cet axe, cas
 // ou la camera est CENTREE plutot que bornee (sinon elle collerait a un bord, epic.md).
 float clampAxis(float value, float levelMin, float levelSize, float viewHalfExtent) noexcept {
-    if (levelSize <= viewHalfExtent * 2.0f) {
-        return levelMin + levelSize * 0.5f;
+    if (levelSize <= viewHalfExtent * 2.0F) {
+        return levelMin + (levelSize * 0.5F);
     }
     return std::clamp(value, levelMin + viewHalfExtent, levelMin + levelSize - viewHalfExtent);
 }
@@ -73,7 +73,7 @@ FollowCameraState advanceFollowCamera(const FollowCameraState& previous,
     // marcher vers le haut est un deplacement comme un autre (EX-EXP-001), et la camera doit le
     // devancer de la meme facon.
     const core::Vector2 desired =
-        facing.lengthSquared() > 0.0f ? facing.normalized() : previous.anticipation;
+        facing.lengthSquared() > 0.0F ? facing.normalized() : previous.anticipation;
     const core::Vector2 anticipation{
         exponentialApproach(previous.anticipation.x, desired.x,
                             FOLLOW_ANTICIPATION_TIME_CONSTANT_SECONDS, fixedDelta),

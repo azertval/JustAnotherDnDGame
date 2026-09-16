@@ -87,9 +87,10 @@ const int THUMBNAIL_SIZE = editorDarkTokens().size.paletteThumbnail;
 PalettePanel::PalettePanel(QWidget* parent)
     : QWidget(parent),
       _ui(std::make_unique<Ui::PalettePanel>()),
+      _tree(_ui->tree),
       _model(new QStandardItemModel(this)) {
     _ui->setupUi(this);
-    _tree = _ui->tree;
+
     _tree->setModel(_model);
     _tree->setSelectionMode(QAbstractItemView::SingleSelection);
 

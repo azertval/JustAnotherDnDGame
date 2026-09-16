@@ -40,7 +40,7 @@ namespace {
         if (frameWidth != nullptr) {
             *frameWidth = result.description->frameWidth;
         }
-        return std::make_shared<const core::ClipSet>(std::move(result.description->clips));
+        return std::make_shared<const core::ClipSet>(result.description->clips);
     }
     if (result.errorCode != AnimationCatalogError::FileNotFound) {
         errors.push_back(path.string() + " : " + result.error);

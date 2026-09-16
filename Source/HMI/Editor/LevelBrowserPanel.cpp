@@ -161,7 +161,7 @@ void LevelBrowserPanel::onDelete() {
     }
     const LevelFileOperations ops(_dir);
     HMI_LOG_INFO("Niveaux : suppression de « " + path.stem().string() + " ».");
-    reportIfError(this, t(_loc, "map.operation_failed"), ops.remove(path));
+    reportIfError(this, t(_loc, "map.operation_failed"), hmi::LevelFileOperations::remove(path));
     refresh();
 }
 

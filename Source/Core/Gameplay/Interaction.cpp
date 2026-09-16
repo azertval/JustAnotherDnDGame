@@ -41,9 +41,9 @@ GridPosition aimedCell(GridPosition from, Vector2 facing) {
     // case de droite. Viser en diagonale rendrait la cible imprevisible a la manette analogique.
     // A egalite exacte, l'horizontale l'emporte -- il faut un depart, et celui-la est ecrit.
     if (horizontal >= vertical) {
-        return {from.column + (facing.x >= 0.0F ? 1 : -1), from.row};
+        return {.column = from.column + (facing.x >= 0.0F ? 1 : -1), .row = from.row};
     }
-    return {from.column, from.row + (facing.y >= 0.0F ? 1 : -1)};
+    return {.column = from.column, .row = from.row + (facing.y >= 0.0F ? 1 : -1)};
 }
 
 InteractionTarget findInteractionTarget(GridPosition from, Vector2 facing, const TileMap& map,

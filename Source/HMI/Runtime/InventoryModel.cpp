@@ -47,7 +47,7 @@ constexpr std::array<ItemFamily, 4> FILTERS{ItemFamily::All, ItemFamily::Equipme
  */
 [[nodiscard]] std::string translationKey(std::string_view slotName) {
     std::string key(slotName);
-    std::replace(key.begin(), key.end(), '-', '_');
+    std::ranges::replace(key, '-', '_');
     return "rpg.slot." + key;
 }
 

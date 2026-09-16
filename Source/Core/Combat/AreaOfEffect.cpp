@@ -50,13 +50,13 @@ template <typename Garder, typename Couper>
     const auto surX = [](double bord) {
         return [bord](const Point& a, const Point& b) {
             const double t = (bord - a.x) / (b.x - a.x);
-            return Point{.x = bord, .y = a.y + t * (b.y - a.y)};
+            return Point{.x = bord, .y = a.y + (t * (b.y - a.y))};
         };
     };
     const auto surY = [](double bord) {
         return [bord](const Point& a, const Point& b) {
             const double t = (bord - a.y) / (b.y - a.y);
-            return Point{.x = a.x + t * (b.x - a.x), .y = bord};
+            return Point{.x = a.x + (t * (b.x - a.x)), .y = bord};
         };
     };
     polygone = decouper(polygone, [x0](const Point& p) { return p.x >= x0; }, surX(x0));
@@ -67,7 +67,7 @@ template <typename Garder, typename Couper>
     for (std::size_t i = 0; i < polygone.size(); ++i) {
         const Point& a = polygone[i];
         const Point& b = polygone[(i + 1) % polygone.size()];
-        doubleSurface += a.x * b.y - b.x * a.y;
+        doubleSurface += (a.x * b.y) - (b.x * a.y);
     }
     return std::abs(doubleSurface) / 2.0;
 }
@@ -75,8 +75,8 @@ template <typename Garder, typename Couper>
 /// Primitive de sqrt(r^2 - x^2).
 [[nodiscard]] double primitiveDemiDisque(double x, double rayon) {
     const double borne = std::clamp(x / rayon, -1.0, 1.0);
-    return 0.5 *
-           (x * std::sqrt(std::max(0.0, rayon * rayon - x * x)) + rayon * rayon * std::asin(borne));
+    return 0.5 * ((x * std::sqrt(std::max(0.0, (rayon * rayon) - (x * x)))) +
+                  (rayon * rayon * std::asin(borne)));
 }
 
 /**
@@ -95,7 +95,7 @@ template <typename Garder, typename Couper>
     std::vector<double> bornes{a, b};
     for (const double y : {y0, y1}) {
         if (std::abs(y) < rayon) {
-            const double q = std::sqrt(rayon * rayon - y * y);
+            const double q = std::sqrt((rayon * rayon) - (y * y));
             for (const double x : {-q, q}) {
                 if (x > a && x < b) {
                     bornes.push_back(x);
@@ -112,7 +112,7 @@ template <typename Garder, typename Couper>
             continue;
         }
         const double milieu = (p + q) / 2.0;
-        const double s = std::sqrt(std::max(0.0, rayon * rayon - milieu * milieu));
+        const double s = std::sqrt(std::max(0.0, (rayon * rayon) - (milieu * milieu)));
         const bool hautSurArc = s < y1;
         const bool basSurArc = -s > y0;
         if ((hautSurArc ? s : y1) <= (basSurArc ? -s : y0)) {
@@ -126,8 +126,8 @@ template <typename Garder, typename Couper>
 
 /// La forme en polygone (cone, cube, ligne), en cases ; vide si elle n'a pas de direction.
 [[nodiscard]] Polygone polygoneDe(const AreaOfEffect& zone) {
-    const double dx = static_cast<double>(zone.toward.x - zone.origin.x);
-    const double dy = static_cast<double>(zone.toward.y - zone.origin.y);
+    const auto dx = static_cast<double>(zone.toward.x - zone.origin.x);
+    const auto dy = static_cast<double>(zone.toward.y - zone.origin.y);
     const double norme = std::hypot(dx, dy);
     if (norme == 0.0 || zone.size <= 0) {
         return {};
@@ -144,8 +144,8 @@ template <typename Garder, typename Couper>
         return {};
     }
     const auto point = [&](double leLong, double enTravers) {
-        return Point{.x = o.x + leLong * u.x + enTravers * n.x,
-                     .y = o.y + leLong * u.y + enTravers * n.y};
+        return Point{.x = o.x + (leLong * u.x) + (enTravers * n.x),
+                     .y = o.y + (leLong * u.y) + (enTravers * n.y)};
     };
     if (zone.shape == AreaShape::Cone) {
         return {o, point(longueur, demiLargeur), point(longueur, -demiLargeur)};

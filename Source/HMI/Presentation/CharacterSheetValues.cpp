@@ -34,7 +34,7 @@ constexpr std::array<std::pair<Ability, const char*>, 6> ABILITIES = {{
     std::string texte = std::to_string(entier);
     const float reste = valeur - static_cast<float>(entier);
     if (reste > 0.05F) {
-        texte += ',' + std::to_string(static_cast<int>(reste * 10.0F + 0.5F));
+        texte += ',' + std::to_string(static_cast<int>((reste * 10.0F) + 0.5F));
     }
     return texte + " m";
 }

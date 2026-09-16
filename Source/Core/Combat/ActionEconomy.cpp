@@ -63,16 +63,14 @@ void ActionEconomy::refresh() {
 }
 
 ActionResource* ActionEconomy::find(std::string_view id) {
-    const auto found =
-        std::find_if(_resources.begin(), _resources.end(),
-                     [id](const ActionResource& resource) { return resource.id == id; });
+    const auto found = std::ranges::find_if(
+        _resources, [id](const ActionResource& resource) { return resource.id == id; });
     return found == _resources.end() ? nullptr : &*found;
 }
 
 const ActionResource* ActionEconomy::find(std::string_view id) const {
-    const auto found =
-        std::find_if(_resources.begin(), _resources.end(),
-                     [id](const ActionResource& resource) { return resource.id == id; });
+    const auto found = std::ranges::find_if(
+        _resources, [id](const ActionResource& resource) { return resource.id == id; });
     return found == _resources.end() ? nullptr : &*found;
 }
 

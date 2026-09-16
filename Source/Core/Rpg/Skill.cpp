@@ -68,8 +68,9 @@ SkillCatalog loadSkills(const std::filesystem::path& directory) {
                                        "' inconnue du moteur.");
             continue;
         }
-        catalogue.skills.push_back(
-            {identifiant->get<std::string>(), libelle->get<std::string>(), *lue});
+        catalogue.skills.push_back({.id = identifiant->get<std::string>(),
+                                    .name = libelle->get<std::string>(),
+                                    .ability = *lue});
     }
     std::ranges::sort(catalogue.skills, {}, &SkillDefinition::id);
     return catalogue;

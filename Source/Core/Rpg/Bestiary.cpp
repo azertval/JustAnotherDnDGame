@@ -158,8 +158,8 @@ void lireNommes(const nlohmann::json& objet, const char* champ,
     }
     for (const auto& element : *trouve) {
         if (element.is_object()) {
-            sortie.push_back(
-                {lireTexteFacultatif(element, "name"), lireTexteFacultatif(element, "text")});
+            sortie.push_back({.name = lireTexteFacultatif(element, "name"),
+                              .text = lireTexteFacultatif(element, "text")});
         }
     }
 }

@@ -71,7 +71,8 @@ std::vector<PlaneTexture> resolvePlaneTextures(TextureCache& cache,
             textures.push_back(PlaneTexture{});  // meme le damier a echoue : plan muet.
             continue;
         }
-        textures.push_back(PlaneTexture{loaded->handle(), loaded->width, loaded->height});
+        textures.push_back(PlaneTexture{
+            .texture = loaded->handle(), .width = loaded->width, .height = loaded->height});
     }
     return textures;
 }
@@ -114,8 +115,11 @@ SceneTextures sceneTextures(
         if (loaded == nullptr) {
             continue;  // absent/illisible/refuse : la resolution retombera sur le damier.
         }
-        textures.objects.push_back(SkinTexture{override.assetName, std::nullopt, loaded->handle(),
-                                               loaded->width, loaded->height});
+        textures.objects.push_back(SkinTexture{.asset = override.assetName,
+                                               .maskType = std::nullopt,
+                                               .texture = loaded->handle(),
+                                               .width = loaded->width,
+                                               .height = loaded->height});
     }
 
     textures.skinCatalog = skins;
@@ -161,8 +165,12 @@ SceneTextures sceneTextures(
             }
         }
 
-        textures.skins.push_back(SkinTexture{entry.asset, maskType, loaded->handle(), loaded->width,
-                                             loaded->height, animatedFrame});
+        textures.skins.push_back(SkinTexture{.asset = entry.asset,
+                                             .maskType = maskType,
+                                             .texture = loaded->handle(),
+                                             .width = loaded->width,
+                                             .height = loaded->height,
+                                             .animatedFrame = animatedFrame});
     }
     return textures;
 }
@@ -180,7 +188,8 @@ BackgroundTexture resolveBackgroundTexture(const std::optional<std::string>& bac
     if (texture == nullptr) {
         return {};  // meme le damier de repli n'a pas pu etre cree (device perdu).
     }
-    return BackgroundTexture{texture->handle(), texture->width, texture->height};
+    return BackgroundTexture{
+        .texture = texture->handle(), .width = texture->width, .height = texture->height};
 }
 
 // Avance l'horloge d'animation partagee des tuiles animees d'un jeu de skins courant (voir

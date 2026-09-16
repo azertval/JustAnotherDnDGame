@@ -49,10 +49,10 @@ void composePlanes(ComposedScene& scene, const std::vector<core::Plane>& planes,
         // 3. l'arrondi au pixel ecran, sans lequel le pixel art tremblerait.
         // Inverser 2 et 3 laisserait un decalage borne fractionnaire : l'arrondi doit venir en
         // dernier.
-        core::Vector2 origin{0.0f, 0.0f};
+        core::Vector2 origin{0.0F, 0.0F};
         if (parallax.active) {
             const core::Rect planeBounds{
-                core::Vector2{0.0f, 0.0f},
+                core::Vector2{0.0F, 0.0F},
                 core::Vector2{static_cast<float>(levelWidth), static_cast<float>(levelHeight)}};
             const core::Vector2 factor{plane.parallaxX, plane.parallaxY};
             const core::Vector2 rendered =
@@ -68,13 +68,13 @@ void composePlanes(ComposedScene& scene, const std::vector<core::Plane>& planes,
         quad.width = static_cast<float>(levelWidth);
         quad.height = static_cast<float>(levelHeight);
         // UV pleines, quelle que soit la densite : l'image EST le niveau a son echelle propre.
-        quad.u0 = 0.0f;
-        quad.v0 = 0.0f;
-        quad.u1 = 1.0f;
-        quad.v1 = 1.0f;
+        quad.u0 = 0.0F;
+        quad.v0 = 0.0F;
+        quad.u1 = 1.0F;
+        quad.v1 = 1.0F;
         // Opacite (EX-DEC-040) portee par la teinte : le pipeline multiplie deja texture x teinte,
         // aucun etat de melange supplementaire n'est necessaire.
-        quad.a = std::clamp(plane.opacity, 0.0f, 1.0f);
+        quad.a = std::clamp(plane.opacity, 0.0F, 1.0F);
 
         // `sortOrder` = rang du plan : depart le tri fin a l'interieur d'un calque quand deux plans
         // partagent la meme image, cas ou le rang de texture ne les departage pas.

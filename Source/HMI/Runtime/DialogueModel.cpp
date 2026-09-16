@@ -147,12 +147,14 @@ void DialogueModel::refresh() {
     } else {
         s.values = DialogueScreenValues{};
         s.values.line = ruleLabel("dialogue.unavailable", activeLanguage());
-        s.values.replies.push_back(
-            {std::string(DIALOGUE_LEAVE_REPLY), ruleLabel("dialogue.leave", activeLanguage()), {}});
+        s.values.replies.push_back({.id = std::string(DIALOGUE_LEAVE_REPLY),
+                                    .label = ruleLabel("dialogue.leave", activeLanguage()),
+                                    .value = {}});
     }
     QVector<SheetRow> lignes;
     for (const DialogueReply& reponse : s.values.replies) {
-        lignes.push_back({toQt(reponse.id), toQt(reponse.label), toQt(reponse.value)});
+        lignes.push_back(
+            {.id = toQt(reponse.id), .label = toQt(reponse.label), .value = toQt(reponse.value)});
     }
     _replies.setRows(std::move(lignes));
     emit changed();

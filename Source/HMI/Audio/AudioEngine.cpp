@@ -16,7 +16,7 @@ namespace hmi {
 
 namespace {
 [[nodiscard]] float clampVolume(float volume) noexcept {
-    return std::clamp(volume, 0.0f, 1.0f);
+    return std::clamp(volume, 0.0F, 1.0F);
 }
 }  // namespace
 
@@ -30,7 +30,7 @@ AudioEngine::AudioEngine() {
     }
 }
 
-AudioEngine::AudioEngine(ForceMuted) : _muted(true) {}
+AudioEngine::AudioEngine(ForceMuted /*unused*/) : _muted(true) {}
 
 AudioEngine::~AudioEngine() = default;
 

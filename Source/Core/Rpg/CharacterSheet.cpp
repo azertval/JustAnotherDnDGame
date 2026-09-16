@@ -102,7 +102,9 @@ ExperienceTable loadExperienceTable(const std::filesystem::path& path) {
             table.errors.push_back(path.string() + " : ligne de table incomplete.");
             continue;
         }
-        table.levels.push_back({niveau->get<int>(), px->get<int>(), bonus->get<int>()});
+        table.levels.push_back({.level = niveau->get<int>(),
+                                .experience = px->get<int>(),
+                                .proficiencyBonus = bonus->get<int>()});
     }
     std::ranges::sort(table.levels, {}, &ExperienceLevel::level);
     return table;

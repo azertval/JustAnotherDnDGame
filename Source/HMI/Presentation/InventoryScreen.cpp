@@ -179,13 +179,12 @@ bool dropFromBackpack(core::Inventory& inventory, std::string_view itemId) {
 }
 
 void sortBackpack(core::Inventory& inventory, const core::ItemLookup& lookup) {
-    std::stable_sort(
-        inventory.backpack.begin(), inventory.backpack.end(),
-        [&lookup](const core::InventoryStack& left, const core::InventoryStack& right) {
-            const std::string leftName = nameOf(lookup, left.itemId);
-            const std::string rightName = nameOf(lookup, right.itemId);
-            return leftName != rightName ? leftName < rightName : left.itemId < right.itemId;
-        });
+    std::ranges::stable_sort(inventory.backpack, [&lookup](const core::InventoryStack& left,
+                                                           const core::InventoryStack& right) {
+        const std::string leftName = nameOf(lookup, left.itemId);
+        const std::string rightName = nameOf(lookup, right.itemId);
+        return leftName != rightName ? leftName < rightName : left.itemId < right.itemId;
+    });
 }
 
 }  // namespace hmi

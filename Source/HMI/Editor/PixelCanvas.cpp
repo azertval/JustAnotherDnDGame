@@ -438,13 +438,13 @@ void PixelCanvas::wheelEvent(QWheelEvent* event) {
 
 void PixelCanvas::setUnderlay(DecodedImage image, float opacity) {
     _underlay = std::move(image);
-    _underlayOpacity = std::clamp(opacity, 0.0f, 1.0f);
+    _underlayOpacity = std::clamp(opacity, 0.0F, 1.0F);
     update();
 }
 
 void PixelCanvas::setOverlay(DecodedImage image, float opacity) {
     _overlay = std::move(image);
-    _overlayOpacity = std::clamp(opacity, 0.0f, 1.0f);
+    _overlayOpacity = std::clamp(opacity, 0.0F, 1.0F);
     update();
 }
 

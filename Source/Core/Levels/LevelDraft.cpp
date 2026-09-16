@@ -328,7 +328,7 @@ void LevelDraft::setSkinSet(std::optional<std::string> skinSet) {
 
 void LevelDraft::setCameraFraming(CameraFramingConfig cameraFraming) {
     pushUndo();
-    _cameraFraming = cameraFraming;
+    _cameraFraming = std::move(cameraFraming);
 }
 
 void LevelDraft::addCameraZone(CameraZone zone) {

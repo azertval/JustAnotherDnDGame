@@ -116,7 +116,7 @@ constexpr char FOLLOW_ACTIVE_TOOL_KEY[] = "panels/followActiveTool";
 constexpr char WORKSPACE_KEY[] = "mainWindow/workspace";
 /// Opacite des reperes du mode creation (pelure d'oignon, plans voisins) : assez visible pour
 /// situer, assez efface pour qu'on ne confonde jamais un repere avec ce qu'on peint.
-constexpr float PLANE_REFERENCE_OPACITY = 0.45f;
+constexpr float PLANE_REFERENCE_OPACITY = 0.45F;
 // Reglage "contraindre a la palette" de l'atelier pixel art (LOT-54 TACHE-07).
 constexpr char CONSTRAIN_TO_PALETTE_KEY[] = "pixelEditor/constrainToPalette";
 
@@ -165,7 +165,7 @@ MainWindow::MainWindow(core::MemoryLogSink* sessionLog)
     if (const hmi::SoundCatalogResult result =
             hmi::SoundCatalog::loadFromFile(audioDirectory / "sounds.json");
         result.ok()) {
-        _sounds = std::move(*result.catalog);
+        _sounds = *result.catalog;
     }
     for (const std::string& eventId : _sounds.eventIds()) {
         if (const std::optional<std::string> file = _sounds.resolve(eventId)) {
@@ -560,7 +560,7 @@ void MainWindow::createPlane() {
     image.width = size.width;
     image.height = size.height;
     image.pixels.assign(
-        static_cast<std::size_t>(size.width) * static_cast<std::size_t>(size.height), 0u);
+        static_cast<std::size_t>(size.width) * static_cast<std::size_t>(size.height), 0U);
 
     std::error_code error;
     std::filesystem::create_directories(planesDirectory(), error);
@@ -639,7 +639,7 @@ void MainWindow::loadPlaneIntoCanvas(std::size_t index) {
         blank.width = size.width;
         blank.height = size.height;
         blank.pixels.assign(
-            static_cast<std::size_t>(size.width) * static_cast<std::size_t>(size.height), 0u);
+            static_cast<std::size_t>(size.width) * static_cast<std::size_t>(size.height), 0U);
         image = std::move(blank);
     }
 
@@ -1740,17 +1740,17 @@ void MainWindow::updateLivePreview() {
 void MainWindow::updatePixelColorButtonIcon(std::uint32_t color) {
     constexpr int SWATCH_SIZE = 20;
     QPixmap pixmap(SWATCH_SIZE, SWATCH_SIZE);
-    pixmap.fill(QColor(static_cast<int>(color & 0xFFu), static_cast<int>((color >> 8) & 0xFFu),
-                       static_cast<int>((color >> 16) & 0xFFu),
-                       static_cast<int>((color >> 24) & 0xFFu)));
+    pixmap.fill(QColor(static_cast<int>(color & 0xFFU), static_cast<int>((color >> 8) & 0xFFU),
+                       static_cast<int>((color >> 16) & 0xFFU),
+                       static_cast<int>((color >> 24) & 0xFFU)));
     _pixelColorButton->setIcon(QIcon(pixmap));
 }
 
 void MainWindow::openPixelColorPicker() {
     const std::uint32_t current = _pixelCanvas->currentColor();
     const QColor initial(
-        static_cast<int>(current & 0xFFu), static_cast<int>((current >> 8) & 0xFFu),
-        static_cast<int>((current >> 16) & 0xFFu), static_cast<int>((current >> 24) & 0xFFu));
+        static_cast<int>(current & 0xFFU), static_cast<int>((current >> 8) & 0xFFU),
+        static_cast<int>((current >> 16) & 0xFFU), static_cast<int>((current >> 24) & 0xFFU));
     const QColor chosen = QColorDialog::getColor(initial, this, text("pixel.color_picker_title"),
                                                  QColorDialog::ShowAlphaChannel);
     if (!chosen.isValid()) {
@@ -1862,7 +1862,7 @@ void MainWindow::openPixelAssetCreateDialog() {
     hmi::DecodedImage image;
     image.width = width;
     image.height = height;
-    image.pixels.assign(static_cast<std::size_t>(width) * static_cast<std::size_t>(height), 0u);
+    image.pixels.assign(static_cast<std::size_t>(width) * static_cast<std::size_t>(height), 0U);
     _pixelCanvas->setImage(
         image);  // assetName/chemin restent vides : nouvel asset, pas encore enregistre.
     _pixelAssetPath.clear();

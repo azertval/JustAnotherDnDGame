@@ -25,7 +25,7 @@ namespace {
     if (n < 0 || n > dx) {
         return false;
     }
-    const long long y = static_cast<long long>(p.y) * dx + n * (q.y - p.y);
+    const long long y = (static_cast<long long>(p.y) * dx) + (n * (q.y - p.y));
     return y >= static_cast<long long>(y0) * dx && y <= static_cast<long long>(y1) * dx;
 }
 

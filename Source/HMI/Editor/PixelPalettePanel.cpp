@@ -39,16 +39,17 @@ QIcon swatchIcon(std::uint32_t color) {
 }  // namespace
 
 PixelPalettePanel::PixelPalettePanel(QWidget* parent)
-    : QWidget(parent), _ui(std::make_unique<Ui::PixelPalettePanel>()) {
+    : QWidget(parent),
+      _ui(std::make_unique<Ui::PixelPalettePanel>()),
+      _list(_ui->list),
+      _addButton(_ui->addButton),
+      _removeButton(_ui->removeButton),
+      _renameButton(_ui->renameButton),
+      _moveUpButton(_ui->moveUpButton),
+      _moveDownButton(_ui->moveDownButton),
+      _extractButton(_ui->extractButton),
+      _constrainCheck(_ui->constrainCheck) {
     _ui->setupUi(this);
-    _list = _ui->list;
-    _addButton = _ui->addButton;
-    _removeButton = _ui->removeButton;
-    _renameButton = _ui->renameButton;
-    _moveUpButton = _ui->moveUpButton;
-    _moveDownButton = _ui->moveDownButton;
-    _extractButton = _ui->extractButton;
-    _constrainCheck = _ui->constrainCheck;
 
     connect(_list, &QListWidget::itemSelectionChanged, this, [this] { updateButtonsEnabled(); });
     connect(_list, &QListWidget::itemActivated, this,

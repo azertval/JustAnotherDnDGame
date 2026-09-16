@@ -86,7 +86,7 @@ MarkerImage assetMarker(std::string_view key, int width, int height) {
     image.pixels.resize(static_cast<std::size_t>(width) * static_cast<std::size_t>(height));
 
     const std::uint32_t empreinte = stableAssetHash(key);
-    const double teinte = static_cast<double>(empreinte % 360U);
+    const auto teinte = static_cast<double>(empreinte % 360U);
     const MarkerColor fond = depuisTeinte(teinte, 0.42);
     const MarkerColor trait = depuisTeinte(teinte, 0.78);
 

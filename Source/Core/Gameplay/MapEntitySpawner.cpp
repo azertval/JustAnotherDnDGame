@@ -19,12 +19,12 @@ const std::vector<InteractableKind>& knownInteractableKinds() {
     // n'ecrit pas de texte affichable (EX-NFR-011).
     static const std::vector<InteractableKind> familles = {
         // Le coffre ne se prend qu'une fois -- c'est le piege que ce lot doit tenir.
-        {"chest", true, "interaction.chest"},
+        {.type = "chest", .consumable = true, .promptKey = "interaction.chest"},
         // Le panneau se relit indefiniment : rien a consommer.
-        {"sign", false, "interaction.sign"},
+        {.type = "sign", .consumable = false, .promptKey = "interaction.sign"},
         // Le PNJ se reparle : ce qu'il dit depend des drapeaux, pas d'un « deja fait » (LOT-15).
         // Son dialogue se lit de la carte par `core::dialogueTriggerFor`.
-        {"npc", false, "interaction.npc"},
+        {.type = "npc", .consumable = false, .promptKey = "interaction.npc"},
     };
     return familles;
 }
@@ -34,8 +34,8 @@ std::size_t spawnMapEntities(World& world, const Level& level, std::string_view 
     std::size_t creees = 0;
     for (const MapEntity& objet : level.entities()) {
         const Entity entite = world.createEntity();
-        world.addComponent(entite, Transform{{static_cast<float>(objet.position.column),
-                                              static_cast<float>(objet.position.row)}});
+        world.addComponent(entite, Transform{.position = {static_cast<float>(objet.position.column),
+                                                          static_cast<float>(objet.position.row)}});
 
         const auto famille =
             std::ranges::find(knownInteractableKinds(), objet.type, &InteractableKind::type);

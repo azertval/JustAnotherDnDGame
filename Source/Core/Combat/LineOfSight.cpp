@@ -155,14 +155,14 @@ public:
         }
         return pourChaqueCaseTouchee(_grille, a, b, [&](GridPosition cellule) {
             return _masque[indice(cellule)] &&
-                   rencontreBoite(a, b, 2 * cellule.column, 2 * cellule.row, 2 * cellule.column + 2,
-                                  2 * cellule.row + 2, false);
+                   rencontreBoite(a, b, 2 * cellule.column, 2 * cellule.row,
+                                  (2 * cellule.column) + 2, (2 * cellule.row) + 2, false);
         });
     }
 
 private:
     [[nodiscard]] std::size_t indice(GridPosition cellule) const noexcept {
-        return static_cast<std::size_t>(cellule.row) * static_cast<std::size_t>(_grille.width()) +
+        return (static_cast<std::size_t>(cellule.row) * static_cast<std::size_t>(_grille.width())) +
                static_cast<std::size_t>(cellule.column);
     }
 
@@ -286,10 +286,10 @@ bool isSightClear(const BattleGrid& grid, GridPoint a, GridPoint b) {
         if (p.x % 2 != 0 || p.y % 2 != 0 || q.x == p.x || q.y == p.y) {
             continue;
         }
-        const int colonneVers = q.x > p.x ? p.x / 2 : p.x / 2 - 1;
-        const int colonneAutre = q.x > p.x ? p.x / 2 - 1 : p.x / 2;
-        const int ligneVers = q.y > p.y ? p.y / 2 : p.y / 2 - 1;
-        const int ligneAutre = q.y > p.y ? p.y / 2 - 1 : p.y / 2;
+        const int colonneVers = q.x > p.x ? p.x / 2 : (p.x / 2) - 1;
+        const int colonneAutre = q.x > p.x ? (p.x / 2) - 1 : p.x / 2;
+        const int ligneVers = q.y > p.y ? p.y / 2 : (p.y / 2) - 1;
+        const int ligneAutre = q.y > p.y ? (p.y / 2) - 1 : p.y / 2;
         if (grid.blocksSight({.column = colonneVers, .row = ligneAutre}) &&
             grid.blocksSight({.column = colonneAutre, .row = ligneVers})) {
             return false;
@@ -297,8 +297,8 @@ bool isSightClear(const BattleGrid& grid, GridPoint a, GridPoint b) {
     }
     return !pourChaqueCaseTouchee(grid, a, b, [&](GridPosition cellule) {
         return grid.blocksSight(cellule) &&
-               rencontreBoite(a, b, 2 * cellule.column, 2 * cellule.row, 2 * cellule.column + 2,
-                              2 * cellule.row + 2, true);
+               rencontreBoite(a, b, 2 * cellule.column, 2 * cellule.row, (2 * cellule.column) + 2,
+                              (2 * cellule.row) + 2, true);
     });
 }
 

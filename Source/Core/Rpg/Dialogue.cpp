@@ -719,9 +719,10 @@ std::vector<Modifier> CharacterListener::skillModifiers(std::string_view skillId
     // restitue, « +5 » ne dit pas d'ou il vient (EX-REG-003). La regle reste la sienne.
     const SkillCheckModifier total = skillModifier(_sheet, _experience, _skills, skillId);
     const int caracteristique = _sheet.modifier(competence->ability);
-    modificateurs.push_back({std::string(abilityName(competence->ability)), caracteristique});
+    modificateurs.push_back(
+        {.source = std::string(abilityName(competence->ability)), .value = caracteristique});
     if (total.proficient) {
-        modificateurs.push_back({"maitrise", total.value - caracteristique});
+        modificateurs.push_back({.source = "maitrise", .value = total.value - caracteristique});
     }
     return modificateurs;
 }
@@ -800,7 +801,7 @@ void DialogueRunner::advanceTo(const std::string& nodeId) {
             return;
         }
         if (++_automaticSteps > _graph.nodes.size() + 1) {
-            _journal.push_back("erreur : boucle sans reponse, fin forcee");
+            _journal.emplace_back("erreur : boucle sans reponse, fin forcee");
             _current = nullptr;
             _state = DialogueState::Ended;
             return;
@@ -909,16 +910,18 @@ std::vector<AvailableChoice> DialogueRunner::choices() const {
                                                                             : std::string{};
     };
     if (ligne->choices.empty()) {
-        proposees.push_back({std::string(DIALOGUE_CONTINUE_CHOICE),
-                             std::string(DIALOGUE_CONTINUE_KEY), competenceJetee(ligne->next)});
+        proposees.push_back({.id = std::string(DIALOGUE_CONTINUE_CHOICE),
+                             .textKey = std::string(DIALOGUE_CONTINUE_KEY),
+                             .checkSkill = competenceJetee(ligne->next)});
         return proposees;
     }
     for (const DialogueChoice& choix : ligne->choices) {
         if (choix.condition && !choix.condition->holds(_flags)) {
             continue;
         }
-        proposees.push_back({choix.id, dialogueChoiceKey(_graph.id, ligne->id, choix.id),
-                             competenceJetee(choix.next)});
+        proposees.push_back({.id = choix.id,
+                             .textKey = dialogueChoiceKey(_graph.id, ligne->id, choix.id),
+                             .checkSkill = competenceJetee(choix.next)});
     }
     return proposees;
 }
@@ -937,7 +940,7 @@ std::optional<DialogueTrigger> dialogueTriggerFor(const MapEntity& entity) {
     if (dialogue == nullptr || dialogue->empty()) {
         return std::nullopt;
     }
-    return DialogueTrigger{*dialogue, entity.position};
+    return DialogueTrigger{.dialogueId = *dialogue, .position = entity.position};
 }
 
 }  // namespace core

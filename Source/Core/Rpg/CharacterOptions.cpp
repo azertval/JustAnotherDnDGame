@@ -45,7 +45,8 @@ void lireTraits(const nlohmann::json& objet, const char* champ, std::vector<Name
     }
     for (const auto& element : *trouve) {
         if (element.is_object()) {
-            sortie.push_back({lireTexte(element, "name"), lireTexte(element, "text")});
+            sortie.push_back(
+                {.name = lireTexte(element, "name"), .text = lireTexte(element, "text")});
         }
     }
 }
@@ -214,8 +215,8 @@ CharacterOptions loadCharacterOptions(const std::filesystem::path& speciesDir,
                 }
                 if (const auto capacite = racine.find("feature");
                     capacite != racine.end() && capacite->is_object()) {
-                    historique.feature =
-                        NamedTrait{lireTexte(*capacite, "name"), lireTexte(*capacite, "text")};
+                    historique.feature = NamedTrait{.name = lireTexte(*capacite, "name"),
+                                                    .text = lireTexte(*capacite, "text")};
                 }
                 options.backgrounds.push_back(std::move(historique));
             });

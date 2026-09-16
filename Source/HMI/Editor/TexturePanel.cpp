@@ -154,7 +154,7 @@ constexpr std::array<core::CameraFramingMode, 3> CAMERA_FRAMING_MODES{
 // des clips manquants.
 [[nodiscard]] QString diagnosticText(const Localization* loc, const MechanismAnimationRow& row) {
     if (row.asset.empty()) {
-        return QString();
+        return {};
     }
     if (row.missingClips.empty()) {
         return t(loc, "textures.animations_complete");
@@ -173,7 +173,7 @@ constexpr std::array<core::CameraFramingMode, 3> CAMERA_FRAMING_MODES{
     QImage image(decoded.width, decoded.height, QImage::Format_RGBA8888);
     for (int y = 0; y < decoded.height; ++y) {
         const std::uint32_t* const row =
-            decoded.pixels.data() + static_cast<std::size_t>(y) * decoded.width;
+            decoded.pixels.data() + (static_cast<std::size_t>(y) * decoded.width);
         std::memcpy(image.scanLine(y), row, static_cast<std::size_t>(decoded.width) * 4);
     }
     return image;
@@ -255,8 +255,8 @@ TexturePanel::TexturePanel(std::filesystem::path skinsDirectory, std::filesystem
     : QWidget(parent),
       _ui(std::make_unique<Ui::TexturePanel>()),
       _model(new QStandardItemModel(this)),
-      _backgroundView(nullptr),
-      _objectView(nullptr),
+      _backgroundView(new AssetThumbnailView(this)),
+      _objectView(new AssetThumbnailView(this)),
       _objectsModel(new QStandardItemModel(0, OBJECTS_COLUMN_COUNT, this)),
       _cameraFramingZonesModel(new QStandardItemModel(0, CAMERA_FRAMING_ZONES_COLUMN_COUNT, this)),
       _animationsModel(new QStandardItemModel(0, ANIMATIONS_COLUMN_COUNT, this)),
@@ -281,7 +281,7 @@ TexturePanel::TexturePanel(std::filesystem::path skinsDirectory, std::filesystem
     // Section « Fond » (LOT-44) : grille de vignettes embarquee directement (pas un dialogue de
     // selection comme pour les skins) -- selectionner une case choisit le fond immediatement, avec
     // les memes controles d'import/renommage/suppression que la bibliotheque de skins (LOT-43).
-    _backgroundView = new AssetThumbnailView(this);
+
     _backgroundView->setAssetFamily(AssetFamily::Background);
     _backgroundView->setDirectory(_backgroundsDirectory);
     _ui->backgroundContainerLayout->addWidget(_backgroundView);
@@ -324,7 +324,7 @@ TexturePanel::TexturePanel(std::filesystem::path skinsDirectory, std::filesystem
     // « Texture par instance » (aucune entree "(aucun)" -- selectionner une case vide n'a pas de
     // sens, on choisit toujours un asset avant d'assigner), plus le tableau des surcharges deja
     // posees sur le niveau, avec surbrillance croisee et retrait.
-    _objectView = new AssetThumbnailView(this);
+
     _objectView->setAssetFamily(AssetFamily::Object);
     _objectView->setNoneOptionVisible(false);
     _objectView->setDirectory(_objectsDirectory);
@@ -606,7 +606,8 @@ QPixmap TexturePanel::thumbnailFor(const std::string& asset) {
         // « Aucun » assigne ou fichier illisible : meme repli que le rendu (LOT-40), pour que la
         // ligne ne prenne pas silencieusement l'apparence d'un skin different.
         const ProceduralAtlasImage missing = buildMissingTextureImage();
-        source = toImage(DecodedImage{missing.width, missing.height, missing.pixels});
+        source = toImage(DecodedImage{
+            .width = missing.width, .height = missing.height, .pixels = missing.pixels});
     }
 
     // Resolution reelle (LOT-56 TACHE-05) : sans quoi l'ecran a 125%/150% agrandirait cette
@@ -648,8 +649,7 @@ void TexturePanel::rebuildCameraFramingSelector() {
         for (const core::CameraFramingMode mode : CAMERA_FRAMING_MODES) {
             _ui->cameraFramingModeSelector->addItem(cameraFramingModeLabel(_loc, mode));
         }
-        const auto found = std::find(CAMERA_FRAMING_MODES.begin(), CAMERA_FRAMING_MODES.end(),
-                                     _levelCameraFraming.mode);
+        const auto found = std::ranges::find(CAMERA_FRAMING_MODES, _levelCameraFraming.mode);
         const int index = found == CAMERA_FRAMING_MODES.end()
                               ? 0
                               : static_cast<int>(found - CAMERA_FRAMING_MODES.begin());
@@ -758,14 +758,13 @@ void TexturePanel::refreshObjects(const core::LevelDraft& draft) {
     _objectRows = draft.textureOverrides();
     // Tri stable par position (colonne puis ligne) : un grand niveau peut porter beaucoup de
     // surcharges, une liste dans l'ordre d'insertion serait illisible.
-    std::stable_sort(
-        _objectRows.begin(), _objectRows.end(),
-        [](const core::TileTextureOverride& lhs, const core::TileTextureOverride& rhs) {
-            if (lhs.position.column != rhs.position.column) {
-                return lhs.position.column < rhs.position.column;
-            }
-            return lhs.position.row < rhs.position.row;
-        });
+    std::ranges::stable_sort(_objectRows, [](const core::TileTextureOverride& lhs,
+                                             const core::TileTextureOverride& rhs) {
+        if (lhs.position.column != rhs.position.column) {
+            return lhs.position.column < rhs.position.column;
+        }
+        return lhs.position.row < rhs.position.row;
+    });
     rebuildObjectRows();
 }
 
@@ -956,7 +955,7 @@ void TexturePanel::tickAnimationPreview() {
     QImage frame;
     if (_animationPreviewDescription && _animationPreviewAnimation.clips) {
         core::advanceAnimation(_animationPreviewAnimation,
-                               static_cast<float>(ANIMATION_PREVIEW_INTERVAL_MS) / 1000.0f);
+                               static_cast<float>(ANIMATION_PREVIEW_INTERVAL_MS) / 1000.0F);
         const core::AtlasRegion region = AnimationCatalog::currentFrameRegion(
             *_animationPreviewDescription, _animationPreviewAnimation);
         frame = _animationPreviewSheet.copy(region.x, region.y, region.width, region.height);

@@ -21,7 +21,7 @@ namespace hmi {
 namespace {
 
 /// Au-delà, une image en retard (fenêtre déplacée, point d'arrêt) ne fait pas sauter l'animation.
-constexpr float MAXIMUM_FRAME_SECONDS = 0.25f;
+constexpr float MAXIMUM_FRAME_SECONDS = 0.25F;
 
 /**
  * @brief Le peintre, côté **fil de rendu**.
@@ -80,7 +80,7 @@ void ArenaViewportRenderer::render(QRhiCommandBuffer* commandBuffer) {
         std::min(std::chrono::duration<float>(now - _previousFrame).count(), MAXIMUM_FRAME_SECONDS);
     _previousFrame = now;
 
-    const float clear[4] = {_clearColor.redF(), _clearColor.greenF(), _clearColor.blueF(), 1.0f};
+    const float clear[4] = {_clearColor.redF(), _clearColor.greenF(), _clearColor.blueF(), 1.0F};
     _arena.render(commandBuffer, renderTarget(), elapsed, clear);
 
     // Des figurines à l'écran : elles respirent, l'image suivante est demandée. Sans elles, la
@@ -129,15 +129,15 @@ ArenaViewportItem::Framing ArenaViewportItem::framing() const {
 
 qreal ArenaViewportItem::tileWidth() const {
     const Framing f = framing();
-    const core::Vector2 left = f.camera.worldToScreen({0.0f, 0.0f});
-    const core::Vector2 right = f.camera.worldToScreen({f.projection.tileWidth(), 0.0f});
+    const core::Vector2 left = f.camera.worldToScreen({0.0F, 0.0F});
+    const core::Vector2 right = f.camera.worldToScreen({f.projection.tileWidth(), 0.0F});
     return (right.x - left.x) / f.pixelsPerItemX;
 }
 
 qreal ArenaViewportItem::tileHeight() const {
     const Framing f = framing();
-    const core::Vector2 top = f.camera.worldToScreen({0.0f, 0.0f});
-    const core::Vector2 bottom = f.camera.worldToScreen({0.0f, f.projection.tileHeight()});
+    const core::Vector2 top = f.camera.worldToScreen({0.0F, 0.0F});
+    const core::Vector2 bottom = f.camera.worldToScreen({0.0F, f.projection.tileHeight()});
     return (bottom.y - top.y) / f.pixelsPerItemY;
 }
 

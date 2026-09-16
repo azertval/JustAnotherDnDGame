@@ -22,7 +22,7 @@ constexpr const char* SOURCE_LANGUAGE = "fr";
     if (!label.is_object()) {
         return std::nullopt;
     }
-    for (const std::string key : {std::string(language), std::string(SOURCE_LANGUAGE)}) {
+    for (const std::string& key : {std::string(language), std::string(SOURCE_LANGUAGE)}) {
         const auto found = label.find(key);
         if (found != label.end() && found->is_string() && !found->get<std::string>().empty()) {
             return found->get<std::string>();

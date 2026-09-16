@@ -99,7 +99,7 @@ constexpr std::array<std::string_view, kRegionAxisCount> NOMS_D_AXE{
             return false;
         }
         sortie.appraisals.push_back(
-            RegionAppraisal{*valeur, lireTexteFacultatif(element, "scope")});
+            RegionAppraisal{.grade = *valeur, .scope = lireTexteFacultatif(element, "scope")});
     }
     return true;
 }

@@ -63,15 +63,16 @@ struct StepRules {
         // Le coin d'un mur : on regarde les deux places orthogonales que la diagonale enjambe. Le
         // coin se juge en vol — seule la matière qui « remplit l'espace » l'interdit, pas une eau
         // profonde qu'on ne fait que longer.
-        if (diagonal && (!grid.isClear({to.column, from.row}, side, Locomotion::Fly) ||
-                         !grid.isClear({from.column, to.row}, side, Locomotion::Fly))) {
+        if (diagonal &&
+            (!grid.isClear({.column = to.column, .row = from.row}, side, Locomotion::Fly) ||
+             !grid.isClear({.column = from.column, .row = to.row}, side, Locomotion::Fly))) {
             return std::nullopt;
         }
         bool difficult = false;
         bool crowded = false;
         for (int row = to.row; row < to.row + side; ++row) {
             for (int column = to.column; column < to.column + side; ++column) {
-                const GridPosition cell{column, row};
+                const GridPosition cell{.column = column, .row = row};
                 const std::optional<CombatantId> occupant = grid.occupantAt(cell);
                 if (occupant.has_value() && *occupant != mover.combatant) {
                     if (!(mover.canPassThrough && mover.canPassThrough(*occupant))) {
@@ -136,7 +137,7 @@ bool relax(std::vector<int>& costs, Predecessors& predecessors, std::size_t next
 [[nodiscard]] Path rebuild(const std::vector<int>& costs, const Predecessors& predecessors,
                            GridPosition origin, GridPosition target, int width) {
     const auto indexOf = [width](GridPosition cell) {
-        return static_cast<std::size_t>(cell.row) * static_cast<std::size_t>(width) +
+        return (static_cast<std::size_t>(cell.row) * static_cast<std::size_t>(width)) +
                static_cast<std::size_t>(cell.column);
     };
     const long long axisColumn = target.column - origin.column;
@@ -144,7 +145,7 @@ bool relax(std::vector<int>& costs, Predecessors& predecessors, std::size_t next
     const auto deviation = [&](GridPosition cell) {
         const long long column = cell.column - origin.column;
         const long long row = cell.row - origin.row;
-        return std::llabs(axisColumn * row - axisRow * column);
+        return std::llabs((axisColumn * row) - (axisRow * column));
     };
 
     Path path;
@@ -159,8 +160,8 @@ bool relax(std::vector<int>& costs, Predecessors& predecessors, std::size_t next
                 continue;
             }
             // Le bit dit d'où l'on vient : le prédécesseur est à l'opposé du pas relâché.
-            const GridPosition candidate{current.column - NEIGHBOURS[rank].first,
-                                         current.row - NEIGHBOURS[rank].second};
+            const GridPosition candidate{.column = current.column - NEIGHBOURS[rank].first,
+                                         .row = current.row - NEIGHBOURS[rank].second};
             if (!best.has_value() || deviation(candidate) < deviation(*best) ||
                 (deviation(candidate) == deviation(*best) && indexOf(candidate) < indexOf(*best))) {
                 best = candidate;
@@ -171,7 +172,7 @@ bool relax(std::vector<int>& costs, Predecessors& predecessors, std::size_t next
         }
         current = *best;
     }
-    std::reverse(path.steps.begin(), path.steps.end());
+    std::ranges::reverse(path.steps);
     return path;
 }
 
@@ -214,18 +215,19 @@ ReachableArea::ReachableArea(const BattleGrid& grid, const Mover& mover, int bud
 
     MinQueue frontier;
     _costs[indexOf(_origin)] = 0;
-    frontier.push({0, indexOf(_origin)});
+    frontier.emplace(0, indexOf(_origin));
     while (!frontier.empty()) {
         const auto [cost, index] = frontier.top();
         frontier.pop();
         if (cost > _costs[index]) {
             continue;  // Entrée périmée : la case a été atteinte moins cher depuis.
         }
-        const GridPosition current{static_cast<int>(index) % _width,
-                                   static_cast<int>(index) / _width};
+        const GridPosition current{.column = static_cast<int>(index) % _width,
+                                   .row = static_cast<int>(index) / _width};
         for (std::size_t rank = 0; rank < NEIGHBOURS.size(); ++rank) {
             const auto [deltaColumn, deltaRow] = NEIGHBOURS[rank];
-            const GridPosition next{current.column + deltaColumn, current.row + deltaRow};
+            const GridPosition next{.column = current.column + deltaColumn,
+                                    .row = current.row + deltaRow};
             if (!grid.inBounds(next)) {
                 continue;
             }
@@ -237,21 +239,21 @@ ReachableArea::ReachableArea(const BattleGrid& grid, const Mover& mover, int bud
             }
             const std::size_t nextIndex = indexOf(next);
             if (relax(_costs, _predecessors, nextIndex, rank, cost + *step)) {
-                frontier.push({_costs[nextIndex], nextIndex});
+                frontier.emplace(_costs[nextIndex], nextIndex);
             }
         }
     }
 
     for (std::size_t index = 0; index < _costs.size(); ++index) {
-        const GridPosition anchor{static_cast<int>(index) % _width,
-                                  static_cast<int>(index) / _width};
+        const GridPosition anchor{.column = static_cast<int>(index) % _width,
+                                  .row = static_cast<int>(index) / _width};
         _endable[index] = _costs[index] != UNREACHED && anchor != _origin &&
                           grid.canStand(anchor, rules.side, mover.combatant, mover.locomotion);
     }
 }
 
 std::size_t ReachableArea::indexOf(GridPosition cell) const noexcept {
-    return static_cast<std::size_t>(cell.row) * static_cast<std::size_t>(_width) +
+    return (static_cast<std::size_t>(cell.row) * static_cast<std::size_t>(_width)) +
            static_cast<std::size_t>(cell.column);
 }
 
@@ -274,7 +276,8 @@ std::vector<GridPosition> ReachableArea::destinations() const {
     std::vector<GridPosition> cells;
     for (std::size_t index = 0; index < _endable.size(); ++index) {
         if (_endable[index]) {
-            cells.push_back({static_cast<int>(index) % _width, static_cast<int>(index) / _width});
+            cells.push_back({.column = static_cast<int>(index) % _width,
+                             .row = static_cast<int>(index) / _width});
         }
     }
     return cells;
@@ -296,7 +299,7 @@ std::optional<Path> findPath(const BattleGrid& grid, const Mover& mover, GridPos
     }
     const int width = grid.width();
     const auto indexOf = [width](GridPosition cell) {
-        return static_cast<std::size_t>(cell.row) * static_cast<std::size_t>(width) +
+        return (static_cast<std::size_t>(cell.row) * static_cast<std::size_t>(width)) +
                static_cast<std::size_t>(cell.column);
     };
     // Distance de Tchebychev : chaque pas coûte au moins 1 et avance d'au plus une case sur chaque
@@ -315,7 +318,7 @@ std::optional<Path> findPath(const BattleGrid& grid, const Mover& mover, GridPos
 
     MinQueue frontier;
     costs[indexOf(*start)] = 0;
-    frontier.push({estimate(*start), indexOf(*start)});
+    frontier.emplace(estimate(*start), indexOf(*start));
     while (!frontier.empty()) {
         const auto [priority, index] = frontier.top();
         // On ne s'arrête pas à la première sortie de la destination : tant qu'une case de même
@@ -326,14 +329,15 @@ std::optional<Path> findPath(const BattleGrid& grid, const Mover& mover, GridPos
             break;
         }
         frontier.pop();
-        const GridPosition current{static_cast<int>(index) % width,
-                                   static_cast<int>(index) / width};
+        const GridPosition current{.column = static_cast<int>(index) % width,
+                                   .row = static_cast<int>(index) / width};
         if (priority - estimate(current) > costs[index]) {
             continue;  // Entrée périmée.
         }
         for (std::size_t rank = 0; rank < NEIGHBOURS.size(); ++rank) {
             const auto [deltaColumn, deltaRow] = NEIGHBOURS[rank];
-            const GridPosition next{current.column + deltaColumn, current.row + deltaRow};
+            const GridPosition next{.column = current.column + deltaColumn,
+                                    .row = current.row + deltaRow};
             if (!grid.inBounds(next)) {
                 continue;
             }
@@ -343,7 +347,7 @@ std::optional<Path> findPath(const BattleGrid& grid, const Mover& mover, GridPos
             }
             const std::size_t nextIndex = indexOf(next);
             if (relax(costs, predecessors, nextIndex, rank, costs[index] + *step)) {
-                frontier.push({costs[nextIndex] + estimate(next), nextIndex});
+                frontier.emplace(costs[nextIndex] + estimate(next), nextIndex);
             }
         }
     }

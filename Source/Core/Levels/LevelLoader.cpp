@@ -156,7 +156,7 @@ struct LockedDoorLink {
 void collectProperties(const nlohmann::json& object, const std::set<std::string>& known,
                        PropertyMap& properties) {
     for (const auto& [key, value] : object.items()) {
-        if (known.count(key) != 0) {
+        if (known.contains(key)) {
             continue;
         }
         if (value.is_boolean()) {
@@ -529,9 +529,17 @@ LevelLoadResult LevelLoader::loadFromString(std::string_view json) {
         std::vector<TileTextureOverride> textureOverrides;
 
         // Chaque objet de 'tiles' place une tuile dans la grille.
-        TileParseState tileState{
-            map,          entry, exit,     entryCount,  exitCount,       occupiedPositions,
-            switchesById, doors, keysById, lockedDoors, textureOverrides};
+        TileParseState tileState{.map = map,
+                                 .entry = entry,
+                                 .exit = exit,
+                                 .entryCount = entryCount,
+                                 .exitCount = exitCount,
+                                 .occupiedPositions = occupiedPositions,
+                                 .switchesById = switchesById,
+                                 .doors = doors,
+                                 .keysById = keysById,
+                                 .lockedDoors = lockedDoors,
+                                 .textureOverrides = textureOverrides};
         for (const nlohmann::json& tile : root.at("tiles")) {
             std::optional<LevelLoadResult> tileError = parseTile(tile, tileState);
             if (tileError) {
@@ -585,7 +593,7 @@ LevelLoadResult LevelLoader::loadFromString(std::string_view json) {
                 Mechanism{.switchPosition = found->second, .doorPosition = lockedDoor.position});
         }
         for (const auto& keyEntry : keysById) {
-            if (usedKeyIds.find(keyEntry.first) == usedKeyIds.end()) {
+            if (!usedKeyIds.contains(keyEntry.first)) {
                 return failure("Cle sans porte verrouillee liee : " + keyEntry.first,
                                LevelValidationError::UnresolvedMechanism);
             }

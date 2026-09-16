@@ -13,8 +13,8 @@ namespace hmi {
 core::Vector2 parallaxRenderPosition(core::Vector2 modelPosition, core::Vector2 factor,
                                      const core::Rect& cameraBounds) noexcept {
     const core::Vector2 center = cameraBounds.position + cameraBounds.size * 0.5F;
-    return core::Vector2{center.x + (modelPosition.x - center.x) * factor.x,
-                         center.y + (modelPosition.y - center.y) * factor.y};
+    return core::Vector2{center.x + ((modelPosition.x - center.x) * factor.x),
+                         center.y + ((modelPosition.y - center.y) * factor.y)};
 }
 
 // Inverse de parallaxRenderPosition (voir en-tete) : centre + (position_rendu - centre) / facteur.
@@ -25,9 +25,9 @@ core::Vector2 parallaxModelPosition(core::Vector2 renderPosition, core::Vector2 
     // infini -- l'autre axe reste correctement inverse (robustesse, aucun plan du projet n'a un
     // facteur nul).
     const float x =
-        factor.x == 0.0F ? renderPosition.x : center.x + (renderPosition.x - center.x) / factor.x;
+        factor.x == 0.0F ? renderPosition.x : center.x + ((renderPosition.x - center.x) / factor.x);
     const float y =
-        factor.y == 0.0F ? renderPosition.y : center.y + (renderPosition.y - center.y) / factor.y;
+        factor.y == 0.0F ? renderPosition.y : center.y + ((renderPosition.y - center.y) / factor.y);
     return core::Vector2{x, y};
 }
 

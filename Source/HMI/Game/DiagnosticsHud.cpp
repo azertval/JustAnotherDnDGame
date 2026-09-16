@@ -47,7 +47,7 @@ std::string formatOneDecimal(float value) {
 // Ajoute la duree d'une image ecoulee et purge les echantillons sortis de la fenetre (voir
 // en-tete).
 void FrameRateAverage::addSample(float deltaSeconds) noexcept {
-    if (deltaSeconds <= 0.0f) {
+    if (deltaSeconds <= 0.0F) {
         return;  // robustesse : un appelant ne doit jamais en produire (cf. contrat de l'en-tete).
     }
     _recentDeltas.push_back(deltaSeconds);
@@ -60,8 +60,8 @@ void FrameRateAverage::addSample(float deltaSeconds) noexcept {
 
 // Cadence moyenne sur la fenetre courante (voir en-tete : 0 si aucun echantillon).
 float FrameRateAverage::framesPerSecond() const noexcept {
-    if (_recentDeltas.empty() || _accumulatedSeconds <= 0.0f) {
-        return 0.0f;
+    if (_recentDeltas.empty() || _accumulatedSeconds <= 0.0F) {
+        return 0.0F;
     }
     return static_cast<float>(_recentDeltas.size()) / _accumulatedSeconds;
 }
@@ -69,7 +69,7 @@ float FrameRateAverage::framesPerSecond() const noexcept {
 // Oublie tous les echantillons (voir en-tete).
 void FrameRateAverage::reset() noexcept {
     _recentDeltas.clear();
-    _accumulatedSeconds = 0.0f;
+    _accumulatedSeconds = 0.0F;
 }
 
 // Compose les lignes du compteur de diagnostic a partir de valeurs deja mesurees (voir en-tete).

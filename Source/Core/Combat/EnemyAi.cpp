@@ -56,7 +56,7 @@ constexpr long long UNITES_PAR_POINT = 800;
 [[nodiscard]] int chanceSelonPosture(int faces, RollStance posture) noexcept {
     switch (posture) {
         case RollStance::Advantage:
-            return CHANCE_SCALE - (20 - faces) * (20 - faces);
+            return CHANCE_SCALE - ((20 - faces) * (20 - faces));
         case RollStance::Disadvantage:
             return faces * faces;
         case RollStance::Normal:
@@ -72,7 +72,7 @@ constexpr long long UNITES_PAR_POINT = 800;
     for (const DamageClause& clause : profil.damage) {
         const long long moyenneDes =
             static_cast<long long>(clause.dice.count) * (clause.dice.faces + 1);
-        total += std::max(0LL, moyenneDes + 2LL * clause.dice.modifier);
+        total += std::max(0LL, moyenneDes + (2LL * clause.dice.modifier));
         des += moyenneDes;
     }
     return {total, des};
@@ -360,7 +360,7 @@ public:
                     frappe.circonstances.emplace_back("esquive de la cible");
                 }
                 if (abri != Cover::None) {
-                    frappe.circonstances.emplace_back(std::string(coverLabel(abri)));
+                    frappe.circonstances.emplace_back(coverLabel(abri));
                 }
                 frappe.posture = rollStance(avantages, desavantages);
                 frappe.requis = requiredRoll(ca, attackBonusOf(attaque));
@@ -544,7 +544,7 @@ long long expectedDamage(const AttackProfile& profile, int armorClass, RollStanc
         chanceSelonPosture(facesQuiTouchent(requis, profile.criticalThreshold), stance);
     const long long critique = criticalChance(profile.criticalThreshold, stance);
     const auto [moyens, des] = degatsMoyens(profile);
-    return touche * moyens + critique * des;
+    return (touche * moyens) + (critique * des);
 }
 
 // --- Les profils --------------------------------------------------------------------------------
@@ -783,7 +783,7 @@ TurnPlan planTurn(const ArenaSession& session, CombatantId actor, const Behavior
         if (action && profile.dodgeWhenThreatened && menaces > 0) {
             TurnPlan esquive = tenir;
             esquive.action = TurnAction::Dodge;
-            esquive.score = base - poidsMenace * eval.menace(ancre, true) - opportunites;
+            esquive.score = base - (poidsMenace * eval.menace(ancre, true)) - opportunites;
             esquive.summary += ", esquive";
             const long long scoreEsquive = esquive.score;
             proposer({.exces = exces(menaces),
@@ -820,11 +820,11 @@ TurnPlan planTurn(const ArenaSession& session, CombatantId actor, const Behavior
                             .action = TurnAction::Dash,
                             .dashTo = *but,
                             .immediateThreats = menaces,
-                            .score = -static_cast<long long>(profile.approachPerTile) *
-                                         UNITES_PAR_POINT * reste -
-                                     poidsMenace * eval.menace(*but, false) -
-                                     static_cast<long long>(profile.opportunityTaken) *
-                                         eval.opportunites(loin, *but)};
+                            .score = (-static_cast<long long>(profile.approachPerTile) *
+                                      UNITES_PAR_POINT * reste) -
+                                     (poidsMenace * eval.menace(*but, false)) -
+                                     (static_cast<long long>(profile.opportunityTaken) *
+                                      eval.opportunites(loin, *but))};
             course.summary = "ia " + profile.id + " " + nomDe(combat, actor) +
                              " : se precipite en " + caseTexte(*but) + " vers " +
                              nomDe(combat, approche->cible);
@@ -919,9 +919,9 @@ bool playTurn(ArenaSession& session, const BehaviorCatalog& catalog) {
                     .exces = std::max(0, eval.menacesImmediates(ancre) - profil->toleratedThreats),
                     .attaque = false,
                     .progresse = false,
-                    .score = -poids * eval.menace(ancre, false) -
-                             static_cast<long long>(profil->opportunityTaken) *
-                                 eval.opportunites(*zone, ancre),
+                    .score = (-poids * eval.menace(ancre, false)) -
+                             (static_cast<long long>(profil->opportunityTaken) *
+                              eval.opportunites(*zone, ancre)),
                     .deplacement = zone->costTo(ancre).value_or(0)};
             };
             Cle meilleure = cleEn(zone->origin());

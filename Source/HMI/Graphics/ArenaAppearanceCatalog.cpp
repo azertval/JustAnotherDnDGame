@@ -144,10 +144,11 @@ ArenaTileAppearance ArenaAppearanceCatalog::tileAppearance(core::GridPosition ce
     appearance.gateSpot =
         cell.column == 0 || cell.column == columns - 1 || cell.row == 0 || cell.row == rows - 1;
 
-    if (!_paleSlabs.empty() && (cell.column * 3 + cell.row * 5 + cell.column * cell.row) % 7 == 0) {
+    if (!_paleSlabs.empty() &&
+        ((cell.column * 3) + (cell.row * 5) + (cell.column * cell.row)) % 7 == 0) {
         appearance.slab = true;
         appearance.slabVariant =
-            (cell.column * 3 + cell.row * 5) % static_cast<int>(_paleSlabs.size());
+            ((cell.column * 3) + (cell.row * 5)) % static_cast<int>(_paleSlabs.size());
     }
 
     return appearance;
@@ -167,10 +168,10 @@ FigureAppearance ArenaAppearanceCatalog::figureFor(std::string_view name,
     const int index =
         name.empty()
             ? 0
-            : (static_cast<int>(name.size()) * 7 + static_cast<unsigned char>(name.front())) %
+            : ((static_cast<int>(name.size()) * 7) + static_cast<unsigned char>(name.front())) %
                   static_cast<int>(roster.size());
     const std::string& sheet = roster[static_cast<std::size_t>(index)];
-    return {sheet, sheetDirectory(sheet, side), frames};
+    return {.sheet = sheet, .directory = sheetDirectory(sheet, side), .frameCount = frames};
 }
 
 std::string ArenaAppearanceCatalog::sheetDirectory(std::string_view sheet,
@@ -186,7 +187,7 @@ std::string ArenaAppearanceCatalog::sheetDirectory(std::string_view sheet,
 }
 
 bool ArenaAppearanceCatalog::replaceHero(std::string_view hero, std::string directory) {
-    const auto known = std::find(_heroes.begin(), _heroes.end(), hero);
+    const auto known = std::ranges::find(_heroes, hero);
     if (known == _heroes.end()) {
         return false;
     }
