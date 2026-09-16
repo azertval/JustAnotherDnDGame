@@ -1,0 +1,112 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>PlaytestInteraction.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#include "HMI/Game/PlaytestInteraction.h"
+
+#include &lt;cmath&gt;
+#include &lt;optional&gt;
+
+#include "Core/Levels/MapEntity.h"
+#include "Core/Rpg/Dialogue.h"
+#include "Core/World/EntityKinds.h"
+#include "HMI/Localization/Localization.h"
+
+namespace hmi {
+
+namespace {
+
+// Valeur texte non vide d'une propriete, ou rien : un entier la ou l'on attend un nom de carte ne
+// vaut pas une carte (la validation de l'editeur le signale deja, EntityIssueCode::WrongValueType).
+[[nodiscard]] std::optional&lt;std::string&gt; textProperty(const core::MapEntity&amp; entity,
+<span style = "background-color:#dfd">                                                      std::string_view key) {
+    const auto found = entity.properties.find(std::string{key});
+    if (found == entity.properties.end()) {
+        return std::nullopt;</span>
+    }
+<span style = "background-color:#dfd">    const std::string* text = std::get_if&lt;std::string&gt;(&amp;found-&gt;second);
+    if (text == nullptr || text-&gt;empty()) {</span>
+<span style = "background-color:#fdd">        return std::nullopt;</span>
+    }
+<span style = "background-color:#dfd">    return *text;
+}</span>
+
+}  // namespace
+
+<span style = "background-color:#dfd">PlaytestMessage playtestInteractionMessage(const core::MapEntity&amp; entity, bool alreadyConsumed) {
+    if (entity.type == "chest") {
+        return {std::string{alreadyConsumed ? PLAYTEST_CHEST_ALREADY_OPENED_KEY</span>
+                                            : PLAYTEST_CHEST_OPENED_KEY},
+                {}};
+    }
+<span style = "background-color:#dfd">    if (entity.type == "sign") {
+        return {std::string{PLAYTEST_SIGN_READ_KEY}, {}};</span>
+    }
+<span style = "background-color:#dfd">    if (entity.type == core::NPC_ENTITY_TYPE) {</span>
+        // Meme lecture que le jeu (LOT-15) : un PNJ sans dialogue n'est pas un declencheur.
+<span style = "background-color:#dfd">        if (const std::optional&lt;core::DialogueTrigger&gt; trigger = core::dialogueTriggerFor(entity)) {
+            return {std::string{PLAYTEST_NPC_DIALOGUE_KEY}, {trigger-&gt;dialogueId}};
+        }
+        return {std::string{PLAYTEST_NPC_SILENT_KEY}, {}};</span>
+    }
+<span style = "background-color:#dfd">    if (entity.type == core::PORTAL_ENTITY_TYPE) {
+        const std::optional&lt;std::string&gt; target =</span>
+            textProperty(entity, core::PORTAL_TARGET_MAP_PROPERTY);
+<span style = "background-color:#dfd">        const std::optional&lt;std::string&gt; arrival =</span>
+            textProperty(entity, core::PORTAL_ARRIVAL_PROPERTY);
+<span style = "background-color:#dfd">        if (target &amp;&amp; arrival) {
+            return {std::string{PLAYTEST_PORTAL_KEY}, {*target, *arrival}};</span>
+        }
+<span style = "background-color:#dfd">        return {std::string{PLAYTEST_PORTAL_INCOMPLETE_KEY}, {}};</span>
+<span style = "background-color:#fdd">    }</span>
+<span style = "background-color:#dfd">    return {std::string{PLAYTEST_OTHER_KEY}, {entity.type}};
+}</span>
+
+std::string formatPlaytestMessage(const PlaytestMessage&amp; message,
+<span style = "background-color:#dfd">                                  const Localization&amp; localization) {
+    std::string text = localization.text(message.key);</span>
+    // Du dernier au premier : `%1` ne doit pas mordre dans un `%10`.
+<span style = "background-color:#dfd">    for (std::size_t index = message.args.size(); index &gt; 0; --index) {
+        const std::string placeholder = "%" + std::to_string(index);
+        const std::size_t position = text.find(placeholder);
+        if (position != std::string::npos) {
+            text.replace(position, placeholder.size(), message.args[index - 1]);</span>
+        }
+<span style = "background-color:#dfd">    }
+    return text;
+}</span>
+
+<span style = "background-color:#dfd">int playtestMessageSteps(float fixedDelta) {
+    if (!(fixedDelta &gt; 0.0f)) {
+        return 1;</span>
+    }
+<span style = "background-color:#dfd">    const long steps = std::lround(PLAYTEST_MESSAGE_SECONDS / fixedDelta);
+    return steps &lt; 1 ? 1 : static_cast&lt;int&gt;(steps);
+}</span>
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

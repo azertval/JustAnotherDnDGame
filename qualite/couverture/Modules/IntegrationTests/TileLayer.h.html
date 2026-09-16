@@ -18,6 +18,7 @@
 
 #include "Core/Levels/LevelProperties.h"
 #include "Core/Levels/TileMap.h"
+#include "Core/Levels/TileType.h"
 
 /**
  * @file Core/Levels/TileLayer.h
@@ -74,6 +75,63 @@ inline constexpr int LAYER_KIND_COUNT = static_cast&lt;int&gt;(LayerKind::Legacy
 <span style = "background-color:#dfd">            return "legacy";</span>
     }
 <span style = "background-color:#fdd">    return "ground";</span>
+<span style = "background-color:#dfd">}</span>
+
+/**
+ * @brief Vrai si une couche de rÃ´le @p kind porte une **image** â le sol ou le dÃ©cor â, et non le
+ *        masque de collision ou la grille unique d'une carte `version: 2`.
+ *
+ * C'est la distinction que l'Ã©diteur fait entre les couches qu'on peint Ã  part (`LOT-11`) et la
+ * grille racine, qui reste la seule oÃ¹ vivent l'entrÃ©e, la sortie et les mÃ©canismes.
+ */
+<span style = "background-color:#dfd">[[nodiscard]] constexpr bool isVisualLayerKind(LayerKind kind) noexcept {
+    switch (kind) {</span>
+        case LayerKind::Ground:
+        case LayerKind::Decor:
+<span style = "background-color:#dfd">            return true;</span>
+        case LayerKind::Collision:
+        case LayerKind::Legacy:
+<span style = "background-color:#dfd">            return false;</span>
+    }
+<span style = "background-color:#fdd">    return false;</span>
+<span style = "background-color:#dfd">}</span>
+
+/**
+ * @brief Vrai si @p type se peint sur une couche **visuelle** (sol ou dÃ©cor, `LOT-11`).
+ *
+ * Une couche visuelle est une image : elle accepte le vide, la matiÃ¨re gÃ©nÃ©rique et tout le
+ * vocabulaire de terrain du `LOT-08`. Elle refuse ce qui n'a de sens que dans la grille de
+ * collision â entrÃ©e, sortie, mÃ©canismes, danger, bloc poussable : ces types portent une
+ * **rÃ¨gle**, et une rÃ¨gle posÃ©e sur une couche que le gameplay ne lit pas serait un piÃ¨ge
+ * silencieux (une porte dessinÃ©e qu'aucun interrupteur n'ouvre). Le `switch` est exhaustif : un
+ * type ajoutÃ© sans dÃ©cision ne compile pas.
+ */
+<span style = "background-color:#dfd">[[nodiscard]] constexpr bool isVisualLayerTileType(TileType type) noexcept {
+    switch (type) {</span>
+        case TileType::Empty:
+        case TileType::Solid:
+        case TileType::Grass:
+        case TileType::Dirt:
+        case TileType::Sand:
+        case TileType::Water:
+        case TileType::DeepWater:
+        case TileType::Wall:
+        case TileType::Cliff:
+        case TileType::Bridge:
+        case TileType::Stairs:
+<span style = "background-color:#dfd">            return true;</span>
+        case TileType::Danger:
+        case TileType::Entry:
+        case TileType::Exit:
+        case TileType::Switch:
+        case TileType::Door:
+        case TileType::PressurePlate:
+        case TileType::Block:
+        case TileType::Key:
+        case TileType::LockedDoor:
+<span style = "background-color:#dfd">            return false;</span>
+    }
+<span style = "background-color:#fdd">    return false;</span>
 <span style = "background-color:#dfd">}</span>
 
 /**

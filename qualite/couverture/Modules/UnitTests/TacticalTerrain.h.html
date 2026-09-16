@@ -1,0 +1,157 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>TacticalTerrain.h</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#pragma once
+
+/**
+ * @file Core/Combat/TacticalTerrain.h
+ * @brief Une rencontre posÃ©e sur un terrain oÃ¹ l'on peut se battre â ou non (`LOT-11`,
+ *        `EX-CBT-001`).
+ */
+
+#include &lt;cstddef&gt;
+#include &lt;string&gt;
+#include &lt;vector&gt;
+
+#include "Core/Combat/Encounter.h"
+#include "Core/Levels/GridPosition.h"
+#include "Core/Levels/MapEntity.h"
+#include "Core/Levels/TileMap.h"
+
+namespace core {
+
+struct Bestiary;
+
+/**
+ * @brief Taille du groupe du joueur que la zone doit accueillir en plus de la rencontre.
+ *
+ * Quatre, le groupe pour lequel le Guide du MaÃ®tre calibre ses rencontres. La carte ne sait pas qui
+ * la traversera : l'auteur dimensionne pour un groupe complet, et un groupe plus petit n'en tiendra
+ * que mieux. DÃ©cision nommÃ©e, Ã  ajuster si le jeu fixe un autre effectif.
+ */
+inline constexpr int TACTICAL_PARTY_SIZE = 4;
+
+/**
+ * @brief Rayon de la zone de combat autour du dÃ©clencheur, en cases : un dÃ©placement de 30 pieds.
+ *
+ * 9 m, la vitesse d'un combattant de taille M, font 6 cases (`core::movementBudget`) : la zone est
+ * ce qu'un combattant ordinaire parcourt en **un tour** depuis le dÃ©clencheur. Plus large, une
+ * clairiÃ¨re Ã  trois tours de marche ferait passer un couloir pour un champ de bataille ; plus
+ * Ã©troite, le premier tour sortirait dÃ©jÃ  de la zone vÃ©rifiÃ©e. DÃ©cision nommÃ©e, l'auteur peut la
+ * rÃ©gler.
+ */
+inline constexpr int TACTICAL_AREA_RADIUS = 6;
+
+/**
+ * @brief Cases libres exigÃ©es par combattant (rencontre + groupe).
+ *
+ * Une case pour se tenir, et de quoi manÅuvrer â contourner, prendre en tenaille (`LOT-23`),
+ * reculer. Quatre est un seuil d'auteur, pas une rÃ¨gle du Manuel : il laisse passer une salle de
+ * 6 Ã 6 pour huit combattants et refuse un couloir d'une case de large. DÃ©cision nommÃ©e, Ã  ajuster
+ * quand les premiÃ¨res cartes l'Ã©prouveront.
+ */
+inline constexpr int TACTICAL_CELLS_PER_COMBATANT = 4;
+
+/// @brief Ce qui rend une rencontre injouable lÃ  oÃ¹ elle est posÃ©e. Des codes, jamais du texte
+/// (`EX-NFR-011`) : c'est l'Ã©diteur qui les dit Ã  l'auteur.
+enum class TacticalIssueCode {
+    /// L'emprise d'un combattant sort de la carte.
+    CombatantOutOfBounds,
+    /// L'emprise d'un combattant touche un obstacle au sol.
+    CombatantObstructed,
+    /// L'emprise d'un combattant recouvre celle d'un combattant prÃ©cÃ©dent.
+    CombatantsOverlap,
+    /// La zone atteignable autour du dÃ©clencheur ne loge pas tout le monde.
+    AreaTooNarrow,
+};
+
+/// @brief Un problÃ¨me relevÃ© : quoi, qui (vide pour la zone), et oÃ¹.
+struct TacticalIssue {
+    TacticalIssueCode code;
+    std::string creatureId;
+    GridPosition cell;
+
+    bool operator==(const TacticalIssue&amp;) const = default;
+};
+
+/// @brief Le verdict d'une rencontre posÃ©e sur la carte.
+struct EncounterTerrain {
+    /// Rang de l'entitÃ© dans la liste d'entitÃ©s de la carte.
+    std::size_t entityIndex = 0;
+    std::string encounterId;
+    GridPosition trigger;
+    /// Les cases voulues par la formation (`core::placeCombatants`).
+    std::vector&lt;CombatantPlacement&gt; placements;
+    /// Cases libres atteignables depuis le dÃ©clencheur, dÃ©clencheur compris, triÃ©es (ligne,
+    /// colonne).
+    std::vector&lt;GridPosition&gt; area;
+    /// `(combattants + TACTICAL_PARTY_SIZE) Ã TACTICAL_CELLS_PER_COMBATANT`.
+    int requiredCells = 0;
+    /// Dans l'ordre des combattants, puis la zone.
+    std::vector&lt;TacticalIssue&gt; issues;
+
+<span style = "background-color:#dfd">    [[nodiscard]] bool valid() const {
+        return issues.empty();
+    }</span>
+};
+
+/**
+ * @brief VÃ©rifie que chaque rencontre posÃ©e sur la carte tombe sur un terrain tactique valide.
+ *
+ * Le combat se joue **sur la carte d'exploration** : une rencontre posÃ©e dans un couloir d'une
+ * case, ou dont la formation entre dans un mur, ne se dÃ©couvrirait sinon qu'en jeu. Cette fonction
+ * le dit Ã  l'auteur au moment oÃ¹ il pose.
+ *
+ * ## Une seule rÃ¨gle pour Â« se tenir ici Â»
+ *
+ * Les combattants sont posÃ©s sur une `core::BattleGrid` construite depuis @p collision, par
+ * `core::BattleGrid::place`, dans l'ordre de la formation â ce que fait le montage
+ * (`core::mountEncounter`). Un avertissement de l'Ã©diteur et un refus au montage ne peuvent donc
+ * pas diverger. La zone est une `core::ReachableArea` : diagonales, coins de mur et terrain
+ * difficile y suivent la rÃ¨gle du `LOT-19`, sans seconde implÃ©mentation.
+ *
+ * ## Ce qu'elle ne vÃ©rifie pas
+ *
+ * Une rencontre absente de @p encounters est **ignorÃ©e** : un autre validateur la signale, et la
+ * signaler deux fois n'apprendrait rien. Une crÃ©ature absente du bestiaire â ou un bestiaire
+ * absent â compte pour une emprise de taille M. Le groupe du joueur n'est pas posÃ© : ses cases ne
+ * sont pas connues avant le jeu, et c'est la taille de la zone qui en rÃ©pond.
+ *
+ * @param collision  La grille de collision de la carte.
+ * @param entities   Les entitÃ©s de la carte ; seules les `encounter` nommant une rencontre
+ *                   comptent.
+ * @param encounters Le catalogue des rencontres.
+ * @param bestiary   Pour la taille des crÃ©atures, ou `nullptr`.
+ * @return Un verdict par rencontre reconnue, dans l'ordre des entitÃ©s.
+ */
+[[nodiscard]] std::vector&lt;EncounterTerrain&gt; analyzeEncounterTerrain(
+    const TileMap&amp; collision, const std::vector&lt;MapEntity&gt;&amp; entities,
+    const EncounterCatalog&amp; encounters, const Bestiary* bestiary = nullptr);
+
+}  // namespace core</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

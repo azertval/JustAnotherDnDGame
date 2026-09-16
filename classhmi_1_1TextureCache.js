@@ -13,11 +13,13 @@ var classhmi_1_1TextureCache =
     [ "invalidateAll", "classhmi_1_1TextureCache.html#a12ace6c083ac9c91eff8686bd0039a4b", null ],
     [ "load", "classhmi_1_1TextureCache.html#ae1e131bf205906a4f5356a07aa3f5879", null ],
     [ "loadAnimation", "classhmi_1_1TextureCache.html#a083e7d115a6a86f3e7ca7e6c3eef3316", null ],
+    [ "markerTexture", "classhmi_1_1TextureCache.html#ab61e5fc8b5834954dc2fcdefcf575c76", null ],
     [ "missingTexture", "classhmi_1_1TextureCache.html#a802c6b9b9c2e7799d2cd81277199ef44", null ],
     [ "operator=", "classhmi_1_1TextureCache.html#adf079bf9ca4b4e74bca79c59e4857dfd", null ],
     [ "_animationEntries", "classhmi_1_1TextureCache.html#a1107f9ce2c7733737b0aae9791eaacec", null ],
     [ "_context", "classhmi_1_1TextureCache.html#a81a910d3ef89f8727baa5fcafe381ce6", null ],
     [ "_entries", "classhmi_1_1TextureCache.html#ad7f17051cf5b1b1e30badc27867951a0", null ],
+    [ "_markerEntries", "classhmi_1_1TextureCache.html#af177c52b8c1f6ec22c38c335fbf5dce8", null ],
     [ "_missingTexture", "classhmi_1_1TextureCache.html#a2e085900c9d152f6727327c9492c9ccf", null ],
     [ "_paths", "classhmi_1_1TextureCache.html#ad66e7bbcd0556e4fccc7dbb009a1d2b8", null ]
 ];

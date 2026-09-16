@@ -11,5 +11,9 @@ var searchData=
   ['keypressevent_8',['keyPressEvent',['../classhmi_1_1GameViewport.html#ac3bad1f6d1f1e5f61bbb4e35283ad308',1,'hmi::GameViewport::keyPressEvent()'],['../classhmi_1_1EditorKeybindingsWidget.html#ab12500557ec10ea0d22d1bed22f1520f',1,'hmi::EditorKeybindingsWidget::keyPressEvent()'],['../classhmi_1_1KeybindingsWidget.html#adfb3f1bc4826280f3de23a4ad75de2f6',1,'hmi::KeybindingsWidget::keyPressEvent()']]],
   ['keyreleased_9',['keyReleased',['../classhmi_1_1InputState.html#ae58b5ee926c82c8f62bf57ee7e446ac4',1,'hmi::InputState']]],
   ['keyreleaseevent_10',['keyReleaseEvent',['../classhmi_1_1GameViewport.html#aeab73386d2f7ed680a6bee08b923d1c9',1,'hmi::GameViewport']]],
-  ['knowninteractablekinds_11',['knownInteractableKinds',['../namespacecore.html#a07f40df9fbe2a910d1e99b9756220fea',1,'core']]]
+  ['kindlabel_11',['kindLabel',['../classhmi_1_1EntityPanel.html#ae7e57f9e758980a58916952792ebeb17',1,'hmi::EntityPanel']]],
+  ['kindtoplace_12',['kindToPlace',['../classhmi_1_1EntityPanel.html#a3e09c0091086b69baf02c9d9c2e92c3a',1,'hmi::EntityPanel']]],
+  ['kindtoplacechanged_13',['kindToPlaceChanged',['../classhmi_1_1EntityPanel.html#a7e69f5cb14a7e3e569ea913dfdebb6b1',1,'hmi::EntityPanel']]],
+  ['knownentitykinds_14',['knownEntityKinds',['../namespacecore.html#a3c877363f8258fc1ba137c48aa283397',1,'core']]],
+  ['knowninteractablekinds_15',['knownInteractableKinds',['../namespacecore.html#a07f40df9fbe2a910d1e99b9756220fea',1,'core']]]
 ];

@@ -1,0 +1,104 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>EditorDiagnostics.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#include "HMI/Editor/EditorDiagnostics.h"
+
+namespace hmi {
+
+<span style = "background-color:#dfd">const char* entityIssueKey(core::EntityIssueCode code) noexcept {
+    switch (code) {</span>
+        case core::EntityIssueCode::UnknownType:
+<span style = "background-color:#dfd">            return "diagnostic.unknown_type";</span>
+        case core::EntityIssueCode::MissingProperty:
+<span style = "background-color:#dfd">            return "diagnostic.missing_property";</span>
+        case core::EntityIssueCode::WrongValueType:
+<span style = "background-color:#dfd">            return "diagnostic.wrong_value_type";</span>
+        case core::EntityIssueCode::InvalidChoice:
+<span style = "background-color:#dfd">            return "diagnostic.invalid_choice";</span>
+        case core::EntityIssueCode::UnknownDialogue:
+<span style = "background-color:#dfd">            return "diagnostic.unknown_dialogue";</span>
+        case core::EntityIssueCode::UnknownEncounter:
+<span style = "background-color:#dfd">            return "diagnostic.unknown_encounter";</span>
+        case core::EntityIssueCode::UnknownTargetMap:
+<span style = "background-color:#dfd">            return "diagnostic.unknown_target_map";</span>
+        case core::EntityIssueCode::UnknownArrivalPoint:
+<span style = "background-color:#dfd">            return "diagnostic.unknown_arrival_point";</span>
+        case core::EntityIssueCode::DuplicateArrivalPoint:
+<span style = "background-color:#dfd">            return "diagnostic.duplicate_arrival_point";</span>
+    }
+<span style = "background-color:#fdd">    return "diagnostic.unknown_type";</span>
+<span style = "background-color:#dfd">}</span>
+
+<span style = "background-color:#dfd">const char* tacticalIssueKey(core::TacticalIssueCode code) noexcept {
+    switch (code) {</span>
+        case core::TacticalIssueCode::CombatantOutOfBounds:
+<span style = "background-color:#dfd">            return "diagnostic.terrain_out_of_bounds";</span>
+        case core::TacticalIssueCode::CombatantObstructed:
+<span style = "background-color:#dfd">            return "diagnostic.terrain_obstructed";</span>
+        case core::TacticalIssueCode::CombatantsOverlap:
+<span style = "background-color:#dfd">            return "diagnostic.terrain_overlap";</span>
+        case core::TacticalIssueCode::AreaTooNarrow:
+<span style = "background-color:#dfd">            return "diagnostic.terrain_too_narrow";</span>
+    }
+<span style = "background-color:#fdd">    return "diagnostic.terrain_too_narrow";</span>
+<span style = "background-color:#dfd">}</span>
+
+std::vector&lt;EditorDiagnostic&gt; editorDiagnostics(
+    const std::vector&lt;core::MapEntity&gt;&amp; entities, const std::vector&lt;core::EntityIssue&gt;&amp; issues,
+<span style = "background-color:#dfd">    const std::vector&lt;core::EncounterTerrain&gt;&amp; terrains) {
+    std::vector&lt;EditorDiagnostic&gt; lines;
+    for (const core::EntityIssue&amp; issue : issues) {
+        if (issue.entityIndex &gt;= entities.size()) {</span>
+<span style = "background-color:#fdd">            continue;  // rapport perime : l'entite a disparu entre la validation et l'affichage.</span>
+        }
+<span style = "background-color:#dfd">        const core::MapEntity&amp; entity = entities[issue.entityIndex];
+        lines.push_back(EditorDiagnostic{.kind = EditorDiagnosticKind::Reference,</span>
+                                         .entityIndex = issue.entityIndex,
+                                         .cell = entity.position,
+                                         .key = entityIssueKey(issue.code),
+                                         .args = {entity.type, issue.key, issue.value}});
+<span style = "background-color:#dfd">    }
+    for (const core::EncounterTerrain&amp; terrain : terrains) {
+        for (const core::TacticalIssue&amp; issue : terrain.issues) {
+            EditorDiagnostic line{.kind = EditorDiagnosticKind::Terrain,
+                                  .entityIndex = terrain.entityIndex,
+                                  .cell = issue.cell,
+                                  .key = tacticalIssueKey(issue.code),
+                                  .args = {terrain.encounterId, issue.creatureId}};
+            if (issue.code == core::TacticalIssueCode::AreaTooNarrow) {
+                line.args = {terrain.encounterId, std::to_string(terrain.area.size()),</span>
+                             std::to_string(terrain.requiredCells)};
+            }
+<span style = "background-color:#dfd">            lines.push_back(std::move(line));
+        }
+    }
+    return lines;
+}</span>
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

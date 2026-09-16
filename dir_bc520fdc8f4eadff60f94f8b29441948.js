@@ -32,6 +32,8 @@ var dir_bc520fdc8f4eadff60f94f8b29441948 =
     [ "LineOfSight.h", "LineOfSight_8h.html", "LineOfSight_8h" ],
     [ "Pathfinding.cpp", "Pathfinding_8cpp.html", "Pathfinding_8cpp" ],
     [ "Pathfinding.h", "Pathfinding_8h.html", "Pathfinding_8h" ],
+    [ "TacticalTerrain.cpp", "TacticalTerrain_8cpp.html", "TacticalTerrain_8cpp" ],
+    [ "TacticalTerrain.h", "TacticalTerrain_8h.html", "TacticalTerrain_8h" ],
     [ "TurnOrder.cpp", "TurnOrder_8cpp.html", "TurnOrder_8cpp" ],
     [ "TurnOrder.h", "TurnOrder_8h.html", "TurnOrder_8h" ]
 ];

@@ -14,6 +14,7 @@ var dir_9c2c1d58a156aa8e30c089ae7a4e31f9 =
     [ "test_camera2d.cpp", "test__camera2d_8cpp.html", "test__camera2d_8cpp" ],
     [ "test_camera_zones.cpp", "test__camera__zones_8cpp.html", "test__camera__zones_8cpp" ],
     [ "test_depth_sort.cpp", "test__depth__sort_8cpp.html", "test__depth__sort_8cpp" ],
+    [ "test_entity_markers.cpp", "test__entity__markers_8cpp.html", "test__entity__markers_8cpp" ],
     [ "test_follow_camera.cpp", "test__follow__camera_8cpp.html", "test__follow__camera_8cpp" ],
     [ "test_image_encode.cpp", "test__image__encode_8cpp.html", "test__image__encode_8cpp" ],
     [ "test_layer_visibility.cpp", "test__layer__visibility_8cpp.html", "test__layer__visibility_8cpp" ],

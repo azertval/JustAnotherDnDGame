@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['opportunitypolicy_0',['OpportunityPolicy',['../namespacecore.html#a838239698e3440af150c5de8127b830e',1,'core']]]
+  ['mapanchor_0',['MapAnchor',['../namespacehmi.html#a3381e27cdaac8041b5c1525d4b5fb0a1',1,'hmi']]]
 ];

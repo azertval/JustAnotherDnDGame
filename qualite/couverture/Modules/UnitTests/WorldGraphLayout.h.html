@@ -1,0 +1,174 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>WorldGraphLayout.h</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#pragma once
+
+#include &lt;cstddef&gt;
+#include &lt;optional&gt;
+#include &lt;string&gt;
+#include &lt;vector&gt;
+
+#include "Core/Math/Vector2.h"
+#include "Core/World/WorldGraph.h"
+
+/**
+ * @file HMI/Editor/WorldGraphLayout.h
+ * @brief Disposition de la vue Â« graphe du monde Â» du navigateur de cartes (`LOT-11`) : oÃ¹ poser
+ *        chaque carte, quelles flÃ¨ches tirer, et ce qui est sous le pointeur. Pur et testable â
+ *        `hmi::WorldGraphView` ne fait que peindre ce qui est calculÃ© ici.
+ *
+ * Les coordonnÃ©es sont en **pixels logiques Ã  l'Ã©chelle 1**, centrÃ©es sur l'origine : la vue
+ * translate et rÃ©duit l'ensemble pour le faire tenir dans sa surface.
+ */
+
+namespace hmi {
+
+/// Rayon du disque d'une carte, en pixels logiques.
+inline constexpr float WORLD_GRAPH_NODE_RADIUS = 26.0f;
+
+/// Distance minimale entre les centres de deux cartes voisines sur le cercle : la largeur d'une
+/// Ã©tiquette (nom et identifiant, posÃ©s sous le disque) plus une marge.
+inline constexpr float WORLD_GRAPH_NODE_SPACING = 160.0f;
+
+/// Rayon plancher du cercle dÃ¨s qu'il porte deux cartes ou plus.
+inline constexpr float WORLD_GRAPH_MIN_CIRCLE_RADIUS = 120.0f;
+
+/// @brief Une carte posÃ©e sur le cercle â rÃ©elle, ou Â« fantÃ´me Â».
+struct WorldGraphLayoutNode {
+    /// Identifiant de la carte ; pour un fantÃ´me, la carte nommÃ©e par les portails (vide si les
+    /// portails n'en nomment aucune).
+    std::string mapId;
+    /// Nom de la carte ; vide pour un fantÃ´me ou une carte illisible.
+    std::string name;
+    /// Vrai si la carte n'existe pas dans le dossier : seuls des portails la nomment.
+    bool ghost = false;
+    /// Vrai si la carte existe mais n'a pas pu Ãªtre lue (`core::WorldMapNode::loadError`).
+    bool unreadable = false;
+    /// Message technique de lecture, vide sauf si `unreadable`.
+    std::string loadError;
+    /// Centre du disque.
+    core::Vector2 center;
+};
+
+/// @brief Une flÃ¨che : tous les portails d'une carte vers une autre, dessinÃ©s une seule fois.
+struct WorldGraphLayoutEdge {
+    /// Indice du nÅud source dans `WorldGraphLayout::nodes`.
+    std::size_t from = 0;
+    /// Indice du nÅud cible dans `WorldGraphLayout::nodes`.
+    std::size_t to = 0;
+    /// Statut affichÃ© : le premier statut non rÃ©solu des portails, dans l'ordre de `portals`, ou
+    /// `Resolved` si tous le sont.
+    core::PortalLinkStatus status = core::PortalLinkStatus::Resolved;
+    /// Vrai si au moins un portail de la flÃ¨che n'est pas rÃ©solu.
+    bool broken = false;
+    /// Vrai si la flÃ¨che part d'une carte et y revient (portail vers sa propre carte).
+    bool selfLoop = false;
+    /// Indices des portails regroupÃ©s, dans `core::WorldGraph::portals`, dans leur ordre.
+    std::vector&lt;std::size_t&gt; portals;
+
+    /// @return Le nombre de portails regroupÃ©s (affichÃ© en pastille s'il dÃ©passe 1).
+<span style = "background-color:#dfd">    [[nodiscard]] std::size_t count() const noexcept {
+        return portals.size();
+    }</span>
+};
+
+/// @brief La disposition complÃ¨te du graphe.
+struct WorldGraphLayout {
+    /// Les cartes rÃ©elles triÃ©es par identifiant, puis les fantÃ´mes triÃ©s par identifiant.
+    std::vector&lt;WorldGraphLayoutNode&gt; nodes;
+    /// Les flÃ¨ches, dans l'ordre de leur premier portail.
+    std::vector&lt;WorldGraphLayoutEdge&gt; edges;
+    /// Rayon du cercle portant les nÅuds (0 pour zÃ©ro ou un nÅud).
+    float circleRadius = 0.0f;
+};
+
+/**
+ * @brief Rayon du cercle pour @p nodeCount nÅuds.
+ *
+ * **RÃ¨gle** : deux voisins sur le cercle sont sÃ©parÃ©s d'une corde `2Â·RÂ·sin(Ï/n)` ; on prend le
+ * plus petit `R` qui la porte Ã  `WORLD_GRAPH_NODE_SPACING`, sans descendre sous
+ * `WORLD_GRAPH_MIN_CIRCLE_RADIUS`. ZÃ©ro ou un nÅud : rayon nul (le nÅud unique est au centre).
+ */
+[[nodiscard]] float worldGraphCircleRadius(std::size_t nodeCount) noexcept;
+
+/**
+ * @brief Dispose @p graph : nÅuds sur un cercle, fantÃ´mes et flÃ¨ches regroupÃ©es.
+ *
+ * Les nÅuds sont posÃ©s dans l'ordre de `WorldGraphLayout::nodes`, le premier en haut, puis dans le
+ * sens horaire (Y vers le bas). Un portail `UnknownMap` ou `MissingTarget` pointe sur un fantÃ´me
+ * portant l'identifiant manquant (vide pour `MissingTarget`) â un seul fantÃ´me par identifiant,
+ * quel que soit le nombre de portails qui le nomment. Les portails d'une mÃªme paire **ordonnÃ©e**
+ * (source, cible) forment une seule flÃ¨che. Le rÃ©sultat ne dÃ©pend que de @p graph.
+ */
+[[nodiscard]] WorldGraphLayout layoutWorldGraph(const core::WorldGraph&amp; graph);
+
+/**
+ * @brief Le nÅud sous @p point.
+ * @param layout Disposition dans laquelle chercher.
+ * @param point Position Ã  tester, dans le mÃªme repÃ¨re que @p layout.
+ * @param radius Distance maximale au centre (en gÃ©nÃ©ral `WORLD_GRAPH_NODE_RADIUS`).
+ * @return L'indice du nÅud le plus proche Ã  moins de @p radius (bord inclus) ; Ã  distance Ã©gale,
+ *         le plus petit indice. `std::nullopt` si aucun.
+ */
+[[nodiscard]] std::optional&lt;std::size_t&gt; nodeAt(const WorldGraphLayout&amp; layout, core::Vector2 point,
+                                                float radius);
+
+/// @brief Le tracÃ© d'une flÃ¨che, prÃªt Ã  peindre.
+struct WorldGraphEdgeGeometry {
+    /// DÃ©part du trait, au bord du disque source (hors boucle).
+    core::Vector2 start;
+    /// ArrivÃ©e du trait (pointe), au bord du disque cible (hors boucle).
+    core::Vector2 end;
+    /// Pour une boucle : centre et rayon du cercle dessinÃ© contre le nÅud.
+    core::Vector2 loopCenter;
+    float loopRadius = 0.0f;
+    /// Position de la pastille de compte (milieu du trait, ou sommet extÃ©rieur de la boucle).
+    core::Vector2 badge;
+};
+
+/**
+ * @brief TracÃ© de la flÃ¨che @p edgeIndex.
+ *
+ * Quand la flÃ¨che inverse existe (AâB et BâA), chacune est dÃ©calÃ©e perpendiculairement sur sa
+ * droite, pour ne pas se superposer. Une boucle est un cercle posÃ© contre le nÅud, en diagonale
+ * montante du cÃ´tÃ© extÃ©rieur (Ã  droite pour un nÅud au centre ou dans la moitiÃ© droite, Ã  gauche
+ * sinon) : jamais dessous, oÃ¹ l'Ã©tiquette est Ã©crite.
+ */
+[[nodiscard]] WorldGraphEdgeGeometry worldGraphEdgeGeometry(const WorldGraphLayout&amp; layout,
+                                                            std::size_t edgeIndex);
+
+/**
+ * @brief La flÃ¨che sous @p point : distance au trait (ou au cercle d'une boucle) au plus
+ *        @p tolerance.
+ * @return L'indice de la flÃ¨che la plus proche ; Ã  distance Ã©gale, le plus petit indice.
+ */
+[[nodiscard]] std::optional&lt;std::size_t&gt; edgeAt(const WorldGraphLayout&amp; layout, core::Vector2 point,
+                                                float tolerance);
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

@@ -1,0 +1,158 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>DeterministicRandom.h</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#pragma once
+
+#include &lt;cstdint&gt;
+
+/**
+ * @file Core/Math/DeterministicRandom.h
+ * @brief GÃ©nÃ©rateur pseudo-alÃ©atoire dÃ©terministe, Ã  graine explicite (jamais l'horloge,
+ *        `EX-NFR-002`).
+ */
+
+namespace core {
+
+/**
+ * @brief MÃ©lange (SplitMix64) un entier 64 bits en une valeur bien distribuÃ©e.
+ *
+ * Fonction pure et sans Ã©tat : sert Ã  combiner plusieurs valeurs reproductibles (graine de base,
+ * numÃ©ro de pas, identifiant d'entitÃ©) en une graine unique par tirage, sans jamais lire
+ * l'horloge systÃ¨me ni un gÃ©nÃ©rateur par dÃ©faut (`EX-NFR-002`).
+ * @param value Valeur Ã  mÃ©langer.
+ * @return La valeur mÃ©langÃ©e.
+ */
+<span style = "background-color:#dfd">[[nodiscard]] constexpr std::uint64_t splitMix64(std::uint64_t value) noexcept {
+    value = (value ^ (value &gt;&gt; 30)) * 0xBF58476D1CE4E5B9ULL;
+    value = (value ^ (value &gt;&gt; 27)) * 0x94D049BB133111EBULL;
+    return value ^ (value &gt;&gt; 31);
+}</span>
+
+/**
+ * @brief Combine une graine de base, un numÃ©ro de pas et un identifiant reproductible en une
+ *        graine unique, propre Ã  ce triplet (`LOT-53` TACHE-01).
+ *
+ * Reproductible quel que soit l'ordre ou le nombre d'appels : deux tirages faits pour le mÃªme
+ * triplet (graine, pas, identifiant) produisent toujours la mÃªme graine dÃ©rivÃ©e, jamais
+ * dÃ©pendante d'un compteur mutable partagÃ© entre appels.
+ * @param baseSeed Graine de base, explicite.
+ * @param step     NumÃ©ro de pas de simulation courant.
+ * @param entityId Identifiant reproductible (`core::Entity::index`, par exemple).
+ * @return Une graine dÃ©rivÃ©e, propre Ã  ce triplet.
+ */
+[[nodiscard]] constexpr std::uint64_t deriveSeed(std::uint64_t baseSeed, std::uint64_t step,
+<span style = "background-color:#dfd">                                                 std::uint64_t entityId) noexcept {
+    std::uint64_t seed = splitMix64(baseSeed);
+    seed = splitMix64(seed ^ step);
+    seed = splitMix64(seed ^ entityId);
+    return seed;
+}</span>
+
+/**
+ * @brief GÃ©nÃ©rateur pseudo-alÃ©atoire lÃ©ger (SplitMix64), Ã  graine explicite.
+ *
+ * Aucune dÃ©pendance Ã  `&lt;random&gt;` ni Ã  l'horloge systÃ¨me : deux instances construites avec la
+ * mÃªme graine produisent exactement la mÃªme suite de valeurs (`EX-NFR-002`). UtilisÃ© par
+ * `core::ParticleSystem` (`LOT-53`), oÃ¹ tout tirage doit rester reproductible d'une exÃ©cution Ã 
+ * l'autre pour une mÃªme sÃ©quence d'entrÃ©es.
+ */
+class DeterministicRandom {
+public:
+    /// @param seed Graine explicite (jamais issue de l'horloge ou d'un gÃ©nÃ©rateur par dÃ©faut).
+<span style = "background-color:#dfd">    explicit DeterministicRandom(std::uint64_t seed) noexcept : _state(seed) {}</span>
+
+    /// @return Le prochain entier 32 bits de la suite.
+<span style = "background-color:#dfd">    [[nodiscard]] std::uint32_t nextUInt32() noexcept {
+        _state += 0x9E3779B97F4A7C15ULL;
+        return static_cast&lt;std::uint32_t&gt;(splitMix64(_state) &gt;&gt; 32);
+    }</span>
+
+    /// @return Le prochain flottant dans [0, 1[.
+<span style = "background-color:#dfd">    [[nodiscard]] float nextFloat01() noexcept {
+        constexpr float UINT32_RANGE = 4294967296.0f;  // 2^32
+        return static_cast&lt;float&gt;(nextUInt32()) / UINT32_RANGE;
+    }</span>
+
+    /**
+     * @brief Prochain flottant dans [min, max].
+     * @param min Borne infÃ©rieure.
+     * @param max Borne supÃ©rieure ; si Ã©gale Ã  `min`, renvoie exactement `min` (aucun tirage
+     *            discriminant, utile pour une durÃ©e de vie ou une vitesse fixe).
+     * @return La valeur tirÃ©e.
+     */
+<span style = "background-color:#dfd">    [[nodiscard]] float nextRange(float min, float max) noexcept {
+        return min + nextFloat01() * (max - min);
+    }</span>
+
+    /**
+     * @brief Prochain entier dans **[min, max]**, bornes comprises, **sans biais modulo**.
+     *
+     * `nextUInt32() % n` est la forme Ã©vidente, et elle est fausse : 2Â³Â² n'est pas un multiple de
+     * `n`, si bien que les `2Â³Â² mod n` premiÃ¨res valeurs sortent une fois de plus que les autres.
+     * Sur un d20 le biais est d'environ un dix-millioniÃ¨me â nÃ©gligeable â, mais il est
+     * *systÃ©matique* et va toujours dans le mÃªme sens, et il rendrait indÃ©fendable toute mesure de
+     * distribution faite sur ce gÃ©nÃ©rateur. Le corriger coÃ»te une boucle qui ne tourne
+     * pratiquement jamais.
+     *
+     * La mÃ©thode est celle du **rejet** : on Ã©carte la queue de l'intervalle qui dÃ©passe le
+     * dernier multiple complet de `n`. Le nombre d'itÃ©rations est fini avec probabilitÃ© 1, et sa
+     * moyenne est infÃ©rieure Ã  2 pour tout `n` rÃ©aliste.
+     *
+     * @param min Borne infÃ©rieure, comprise.
+     * @param max Borne supÃ©rieure, **comprise**. Si `max &lt;= min`, renvoie `min` sans tirer â un
+     *            intervalle vide n'est pas une erreur, c'est une valeur fixe.
+     * @return L'entier tirÃ©.
+     */
+<span style = "background-color:#dfd">    [[nodiscard]] int nextInt(int min, int max) noexcept {
+        if (max &lt;= min) {
+            return min;</span>
+        }
+<span style = "background-color:#dfd">        const std::uint32_t etendue = static_cast&lt;std::uint32_t&gt;(max - min) + 1U;</span>
+        // `2^32 mod etendue` : le nombre de valeurs en trop, celles qui n'ont pas de contrepartie
+        // sur tout l'intervalle. On rejette la queue BASSE, `[0, reste[`, et non la haute.
+        //
+        // Rejeter la queue haute serait plus naturel Ã  lire â Â« au-delÃ  du dernier multiple
+        // complet Â» â mais ce seuil vaut `2^32` quand `etendue` divise `2^32`, et `2^32` ne tient
+        // pas dans un `std::uint32_t` : il retombe Ã  0, la condition devient toujours vraie, et la
+        // boucle ne se termine jamais. Le dÃ©faut ne se voit que sur les **puissances de deux** :
+        // un d6 et un d20 passent, un d8 bloque. C'est un test de rejouabilitÃ© sur 3d8 qui l'a
+        // trouvÃ©, pas une relecture.
+<span style = "background-color:#dfd">        const std::uint32_t reste = (std::uint32_t{0} - etendue) % etendue;
+        std::uint32_t tirage = nextUInt32();
+        while (tirage &lt; reste) {</span>
+<span style = "background-color:#fdd">            tirage = nextUInt32();
+        }</span>
+<span style = "background-color:#dfd">        return min + static_cast&lt;int&gt;(tirage % etendue);
+    }</span>
+
+private:
+    std::uint64_t _state;
+};
+
+}  // namespace core</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

@@ -38,5 +38,6 @@ var searchData=
   ['buildstylesheetvalues_35',['buildStyleSheetValues',['../namespacehmi.html#a014e8fac21fdb33837a37724048e9ee3',1,'hmi']]],
   ['buildtileonionskin_36',['buildTileOnionSkin',['../namespacehmi.html#a6ae4f32003e2351c7efa4a737d72008f',1,'hmi']]],
   ['buildui_37',['buildUi',['../classhmi_1_1MainWindow.html#a2be2a6b71ee9770ab402e16bf8d61666',1,'hmi::MainWindow']]],
-  ['button_38',['button',['../classhmi_1_1GamepadBindings.html#a0ed690827fac65b25557c931c28c77ac',1,'hmi::GamepadBindings']]]
+  ['buildworldgraph_38',['buildWorldGraph',['../namespacecore.html#a613ed3cc48dbcdf1ed1533b2bb6c9f9c',1,'core']]],
+  ['button_39',['button',['../classhmi_1_1GamepadBindings.html#a0ed690827fac65b25557c931c28c77ac',1,'hmi::GamepadBindings']]]
 ];

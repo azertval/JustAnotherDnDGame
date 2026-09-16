@@ -1,0 +1,159 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>Check.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#include "Core/Rpg/Check.h"
+
+#include &lt;algorithm&gt;
+#include &lt;utility&gt;
+
+#include "Core/Data/JsonDocument.h"
+
+namespace core {
+
+CheckResult rollCheck(int target, std::span&lt;const Modifier&gt; modifiers, RollStance stance,
+<span style = "background-color:#dfd">                      DeterministicRandom&amp; random) {
+    CheckResult resultat;
+    resultat.target = target;
+    resultat.stance = stance;</span>
+
+    // Les DEUX des sont conserves en cas d'avantage ou de desavantage, pas seulement celui qui est
+    // retenu : c'est ce que le joueur veut voir pour comprendre ce que son avantage lui a rapporte
+    // (EX-REG-003).
+<span style = "background-color:#dfd">    resultat.dice.push_back(random.nextInt(1, D20_FACES));
+    if (stance != RollStance::Normal) {
+        resultat.dice.push_back(random.nextInt(1, D20_FACES));</span>
+    }
+
+<span style = "background-color:#dfd">    switch (stance) {</span>
+        case RollStance::Advantage:
+<span style = "background-color:#dfd">            resultat.keptDie = *std::ranges::max_element(resultat.dice);
+            break;</span>
+        case RollStance::Disadvantage:
+<span style = "background-color:#dfd">            resultat.keptDie = *std::ranges::min_element(resultat.dice);
+            break;</span>
+        case RollStance::Normal:
+<span style = "background-color:#dfd">            resultat.keptDie = resultat.dice.front();</span>
+            break;
+    }
+
+<span style = "background-color:#dfd">    resultat.modifiers.assign(modifiers.begin(), modifiers.end());
+    resultat.total = resultat.keptDie;
+    for (const Modifier&amp; modificateur : resultat.modifiers) {
+        resultat.total += modificateur.value;
+    }
+    return resultat;
+}</span>
+
+<span style = "background-color:#dfd">std::string_view rollStanceName(RollStance stance) noexcept {</span>
+    // switch exhaustif sans default.
+<span style = "background-color:#dfd">    switch (stance) {</span>
+        case RollStance::Normal:
+<span style = "background-color:#fdd">            return "normal";</span>
+        case RollStance::Advantage:
+<span style = "background-color:#dfd">            return "avantage";</span>
+        case RollStance::Disadvantage:
+<span style = "background-color:#dfd">            return "desavantage";</span>
+    }
+<span style = "background-color:#fdd">    return {};</span>
+<span style = "background-color:#dfd">}</span>
+
+<span style = "background-color:#dfd">std::string CheckResult::describe() const {
+    std::string texte = "d20";
+    if (stance != RollStance::Normal) {</span>
+<span style = "background-color:#fdd">        texte += " (";
+        texte += rollStanceName(stance);
+        texte += " : ";
+        bool premier = true;
+        for (const int de : dice) {
+            if (!premier) {
+                texte += ", ";</span>
+            }
+<span style = "background-color:#fdd">            texte += std::to_string(de);
+            premier = false;
+        }
+        texte += ')';</span>
+    }
+<span style = "background-color:#dfd">    texte += " = " + std::to_string(keptDie);
+    for (const Modifier&amp; modificateur : modifiers) {
+        texte += modificateur.value &gt;= 0 ? " + " : " - ";
+        texte += std::to_string(modificateur.value &gt;= 0 ? modificateur.value : -modificateur.value);
+        texte += " (" + modificateur.source + ')';
+    }
+    texte += " = " + std::to_string(total);
+    texte += total &gt;= target ? " &gt;= " : " &lt; ";
+    texte += std::to_string(target);
+    texte += total &gt;= target ? " : reussite" : " : echec";
+    if (isNaturalTwenty()) {
+        texte += " (20 naturel)";
+    } else if (isNaturalOne()) {
+        texte += " (1 naturel)";</span>
+    }
+<span style = "background-color:#dfd">    return texte;
+}</span>
+
+<span style = "background-color:#dfd">const DifficultyTier* DifficultyScale::find(std::string_view id) const {
+    const auto trouve = std::ranges::find(tiers, id, &amp;DifficultyTier::id);
+    return trouve == tiers.end() ? nullptr : &amp;*trouve;
+}</span>
+
+<span style = "background-color:#dfd">DifficultyScale loadDifficultyScale(const std::filesystem::path&amp; path) {
+    DifficultyScale echelle;</span>
+    // Une regle, pas un document de format : pas de champ `version` (meme choix qu'au LOT-33).
+<span style = "background-color:#dfd">    const JsonDocument document = readJsonObjectFromFile(path, 0);
+    if (!document.ok()) {
+        echelle.errors.push_back(path.string() + " : " + document.message);
+        return echelle;</span>
+    }
+<span style = "background-color:#dfd">    const auto degres = document.root.find("tiers");
+    if (degres == document.root.end() || !degres-&gt;is_array()) {</span>
+<span style = "background-color:#fdd">        echelle.errors.push_back(path.string() + " : champ 'tiers' absent ou non tableau.");
+        return echelle;</span>
+    }
+<span style = "background-color:#dfd">    for (const auto&amp; degre : *degres) {
+        const auto id = degre.find("id");
+        const auto dc = degre.find("dc");
+        if (!degre.is_object() || id == degre.end() || !id-&gt;is_string() || dc == degre.end() ||</span>
+            !dc-&gt;is_number_integer()) {
+            // Ecarte en le NOMMANT : un degre sans nombre, garde a 0, ferait reussir tout jet qui
+            // le vise, ce qui se joue et ne se voit pas.
+<span style = "background-color:#fdd">            echelle.errors.push_back(path.string() + " : degre sans identifiant ou sans 'dc'.");
+            continue;</span>
+        }
+<span style = "background-color:#dfd">        DifficultyTier lu;
+        lu.id = id-&gt;get&lt;std::string&gt;();
+        lu.dc = dc-&gt;get&lt;int&gt;();
+        if (const auto nom = degre.find("name"); nom != degre.end() &amp;&amp; nom-&gt;is_string()) {
+            lu.name = nom-&gt;get&lt;std::string&gt;();
+        }
+        echelle.tiers.push_back(std::move(lu));
+    }
+    return echelle;
+}</span>
+
+}  // namespace core</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

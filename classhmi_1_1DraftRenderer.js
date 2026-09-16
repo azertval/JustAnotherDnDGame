@@ -1,7 +1,10 @@
 var classhmi_1_1DraftRenderer =
 [
     [ "DraftRenderer", "classhmi_1_1DraftRenderer.html#ab7ac8e70c8f5d62819348a53803663a3", null ],
+    [ "addOverlayRect", "classhmi_1_1DraftRenderer.html#afd7acfcb598433abf472fd34a722bf93", null ],
     [ "composeCameraFraming", "classhmi_1_1DraftRenderer.html#ac3b8c03706fcba4f7050260941a2faa9", null ],
+    [ "composeCollisionMask", "classhmi_1_1DraftRenderer.html#a3b9f10f8a953701f7d08ece10da950ca", null ],
+    [ "composeEntities", "classhmi_1_1DraftRenderer.html#a0041e4af2f4351b8345561e6bddeb2b3", null ],
     [ "composeGrid", "classhmi_1_1DraftRenderer.html#a1eabde0038500f14697e69af39359c1f", null ],
     [ "composeHighlight", "classhmi_1_1DraftRenderer.html#a25e74134b58cd46d21a696664f0b0596", null ],
     [ "composeLinks", "classhmi_1_1DraftRenderer.html#a6407efa6e5ef2c0c1818b76d99c7bc24", null ],
@@ -9,7 +12,8 @@ var classhmi_1_1DraftRenderer =
     [ "invalidate", "classhmi_1_1DraftRenderer.html#a866ad56f7e8a029aaff1b8b72210c30a", null ],
     [ "lastScene", "classhmi_1_1DraftRenderer.html#acbb89fb6d31cb5718dece21322b1630c", null ],
     [ "rebuild", "classhmi_1_1DraftRenderer.html#a3d4077be5ae7aa58ff2c349443f97d65", null ],
-    [ "render", "classhmi_1_1DraftRenderer.html#a417ed36fac04e9eb040b596d073dec2a", null ],
+    [ "render", "classhmi_1_1DraftRenderer.html#a20b4562bbc6cb8c773b1c4e70c243dcc", null ],
+    [ "setLayerView", "classhmi_1_1DraftRenderer.html#ae7ee41cd953b13d62b404542d4f5ecca", null ],
     [ "setPlanesDirectory", "classhmi_1_1DraftRenderer.html#a9af63f0ff64c8b7e52303a8ff14d4afe", null ],
     [ "setSkins", "classhmi_1_1DraftRenderer.html#a2034472c87db59e7a7941c945e9d61f4", null ],
     [ "solidOverlayQuad", "classhmi_1_1DraftRenderer.html#a2e5277668b9a776425c3d912f281f290", null ],
@@ -17,6 +21,7 @@ var classhmi_1_1DraftRenderer =
     [ "_batch", "classhmi_1_1DraftRenderer.html#a0b67904e6c3e241a281be17dafe27398", null ],
     [ "_cache", "classhmi_1_1DraftRenderer.html#aee0b5e62d6615dc8fede40871395017f", null ],
     [ "_dirty", "classhmi_1_1DraftRenderer.html#a8d81eec42fa953e30cc22510831e6d0d", null ],
+    [ "_layerView", "classhmi_1_1DraftRenderer.html#a09e3140a5abe00f58707f0ca8653a946", null ],
     [ "_planesDirectory", "classhmi_1_1DraftRenderer.html#aaf343782d3fea0918617efb4460b9327", null ],
     [ "_scene", "classhmi_1_1DraftRenderer.html#ab0e865117967424e741c7163552d57b5", null ],
     [ "_skins", "classhmi_1_1DraftRenderer.html#ac2404f33b0fc05a3623d744e78e2755e", null ],

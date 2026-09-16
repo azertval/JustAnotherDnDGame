@@ -495,8 +495,8 @@ struct TileParseState {
     // Enveloppe commune : brique partagee du LOT-79 (EX-CNT-012). La garde de version est
     // desactivee (0) parce que `parseHeader` porte la sienne, avec sa propre categorie d'echec.
 <span style = "background-color:#dfd">    const JsonDocument document = readJsonObject(json, 0, "niveau");
-    if (!document.ok()) {</span>
-<span style = "background-color:#fdd">        return failure(document.message, LevelValidationError::ParseError);</span>
+    if (!document.ok()) {
+        return failure(document.message, LevelValidationError::ParseError);</span>
     }
 <span style = "background-color:#dfd">    const nlohmann::json&amp; root = document.root;</span>
     try {

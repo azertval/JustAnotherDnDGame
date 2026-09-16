@@ -100,6 +100,8 @@ std::string replacePlaceholder(std::string text, const std::string&amp; placehol
 <span style = "background-color:#fdd">            return "tool.texture_assign";</span>
         case EditorTool::CameraZone:
 <span style = "background-color:#fdd">            return "tool.camera_zone";</span>
+        case EditorTool::Entity:
+<span style = "background-color:#fdd">            return "tool.entity";</span>
     }
 <span style = "background-color:#fdd">    return "tool.brush";</span>
 <span style = "background-color:#dfd">}</span>
@@ -119,6 +121,8 @@ std::string replacePlaceholder(std::string text, const std::string&amp; placehol
 <span style = "background-color:#fdd">            return "status.help_texture_assign";</span>
         case EditorTool::CameraZone:
 <span style = "background-color:#fdd">            return "status.help_camera_zone";</span>
+        case EditorTool::Entity:
+<span style = "background-color:#fdd">            return "status.help_entity";</span>
     }
 <span style = "background-color:#fdd">    return "status.help_paint";</span>
 <span style = "background-color:#dfd">}</span>

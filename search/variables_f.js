@@ -8,7 +8,7 @@ var searchData=
   ['ok_5',['ok',['../structhmi_1_1StyleSheetSubstitutionResult.html#ada2f1e28c45938501b1603cc752099df',1,'hmi::StyleSheetSubstitutionResult']]],
   ['onfailure_6',['onFailure',['../structcore_1_1DialogueNode.html#a48314ab2be0bcf60f41f666f48b62b3f',1,'core::DialogueNode']]],
   ['onsuccess_7',['onSuccess',['../structcore_1_1DialogueNode.html#aa4facb79ca846633e7b448c1630576b3',1,'core::DialogueNode']]],
-  ['opacity_8',['opacity',['../structcore_1_1Plane.html#a590f0ac17bcd5ffc323d567a79806908',1,'core::Plane::opacity'],['../structhmi_1_1PlaneLayer.html#a579366d10f9b54d5de1b7b551b2eeec8',1,'hmi::PlaneLayer::opacity']]],
+  ['opacity_8',['opacity',['../structcore_1_1Plane.html#a590f0ac17bcd5ffc323d567a79806908',1,'core::Plane::opacity'],['../structhmi_1_1LayerDisplay.html#a9e9aee09d588649fdfce3452cbe4f215',1,'hmi::LayerDisplay::opacity'],['../structhmi_1_1PlaneLayer.html#a579366d10f9b54d5de1b7b551b2eeec8',1,'hmi::PlaneLayer::opacity']]],
   ['opportunities_9',['opportunities',['../structcore_1_1MovePreview.html#a1a8c745466a08c738f04877b76300cdb',1,'core::MovePreview']]],
   ['opportunitymaximumroll_10',['opportunityMaximumRoll',['../structcore_1_1BehaviorProfile.html#a275156afa57268ba71a7814d432cfb98',1,'core::BehaviorProfile']]],
   ['opportunitytaken_11',['opportunityTaken',['../structcore_1_1BehaviorProfile.html#a1069744a21512a8a1c7c8b2c42c5cabb',1,'core::BehaviorProfile']]],

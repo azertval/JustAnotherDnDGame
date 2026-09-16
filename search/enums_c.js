@@ -7,5 +7,6 @@ var searchData=
   ['pixeltool_4',['PixelTool',['../namespacehmi.html#a9cb51e9b7642963a83312d94737fe571',1,'hmi']]],
   ['placementresult_5',['PlacementResult',['../namespacecore.html#a56ee2c3f69200e700ac0f1b65dc413b4',1,'core']]],
   ['planedepth_6',['PlaneDepth',['../namespacecore.html#a6dc89438a55a80980ab04f7da513f731',1,'core']]],
-  ['playerclipkind_7',['PlayerClipKind',['../namespacehmi.html#a01d3aca49804e2e7ac13786499fe7bf4',1,'hmi']]]
+  ['playerclipkind_7',['PlayerClipKind',['../namespacehmi.html#a01d3aca49804e2e7ac13786499fe7bf4',1,'hmi']]],
+  ['portallinkstatus_8',['PortalLinkStatus',['../namespacecore.html#af11c258a9c6ef53d57b7f409006e48df',1,'core']]]
 ];

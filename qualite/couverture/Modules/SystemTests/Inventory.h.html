@@ -1,0 +1,281 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>Inventory.h</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#pragma once
+
+/**
+ * @file Core/Rpg/Inventory.h
+ * @brief Objets portÃ©s, emplacements d'Ã©quipement et statistiques dÃ©rivÃ©es (`LOT-14`,
+ *        `EX-INV-020`).
+ */
+
+#include &lt;array&gt;
+#include &lt;filesystem&gt;
+#include &lt;optional&gt;
+#include &lt;string&gt;
+#include &lt;string_view&gt;
+#include &lt;vector&gt;
+
+#include "Core/Rpg/Ability.h"
+#include "Core/Rpg/Dice.h"
+#include "Core/Rpg/Equipment.h"
+#include "Core/Rpg/RpgEnums.h"
+
+namespace core {
+
+struct CharacterSheet;
+struct CharacterCreationRules;
+
+/// @brief Un objet du catalogue qui n'est ni une arme ni une armure : matÃ©riel, outil, monture,
+///        marchandise, babiole, objet magique.
+struct Item {
+    std::string id;
+    std::string name;
+    std::string source;
+    /// Famille d'usage, telle que la donnÃ©e l'Ã©crit (`gear`, `tool`, `mount`...).
+    std::string category;
+    /// Prix en **piÃ¨ces de cuivre** â l'unitÃ© interne du projet (`LOT-32`).
+    int price = 0;
+    /// Poids en **grammes**. Un objet sans poids dÃ©clarÃ© ne pÃ¨se rien : c'est le cas des objets
+    /// dont le livre ne donne pas la masse, et non un oubli Ã  corriger par une valeur inventÃ©e.
+    int weightGrams = 0;
+    /// Vrai si plusieurs exemplaires se rangent dans une mÃªme ligne d'inventaire.
+    bool stackable = false;
+    std::string rarity;
+    bool requiresAttunement = false;
+    std::string text;
+};
+
+/// @brief Le catalogue d'objets, et ce qui n'a pas pu Ãªtre lu.
+struct ItemCatalog {
+    std::vector&lt;Item&gt; items;
+    std::vector&lt;std::string&gt; errors;
+
+    [[nodiscard]] const Item* find(std::string_view id) const;
+};
+
+/// @brief Charge les objets depuis leur dossier (`Rpg/items/`).
+[[nodiscard]] ItemCatalog loadItems(const std::filesystem::path&amp; itemsDir);
+
+/**
+ * @brief Les bornes de charge, lues dans la donnÃ©e (`rules/encumbrance.json`).
+ *
+ * En **grammes par point de Force**, et non en kilogrammes : les poids d'objets sont dÃ©jÃ  des
+ * grammes entiers dans les catalogues, et mÃªler les deux unitÃ©s dans une somme est l'erreur que
+ * l'unitÃ© unique supprime.
+ */
+struct EncumbranceRules {
+    int carryingCapacityGramsPerStrength = 0;
+    int encumberedGramsPerStrength = 0;
+    int heavilyEncumberedGramsPerStrength = 0;
+    float encumberedSpeedPenaltyMeters = 0.0F;
+    float heavilyEncumberedSpeedPenaltyMeters = 0.0F;
+
+    /// @return Vrai si les bornes ont Ã©tÃ© lues. Une rÃ¨gle absente ne se remplace pas par des
+    ///         valeurs Â« raisonnables Â» : le calcul de charge se dÃ©clare alors indisponible.
+<span style = "background-color:#dfd">    [[nodiscard]] bool isLoaded() const noexcept {
+        return carryingCapacityGramsPerStrength &gt; 0;
+    }</span>
+};
+
+/// @brief Charge les bornes de charge depuis `rules/encumbrance.json`.
+/// @return Les bornes, ou une rÃ¨gle non chargÃ©e (`isLoaded()` faux) si le fichier manque.
+[[nodiscard]] EncumbranceRules loadEncumbranceRules(const std::filesystem::path&amp; rulesFile);
+
+/// @brief Ãtat de charge d'un personnage, dans l'ordre croissant de gÃªne.
+enum class EncumbranceLevel {
+    Unencumbered,       ///&lt; Rien ne le ralentit.
+    Encumbered,         ///&lt; Au-delÃ  du premier seuil : vitesse diminuÃ©e.
+    HeavilyEncumbered,  ///&lt; Au-delÃ  du second : vitesse diminuÃ©e davantage, et dÃ©savantage.
+    OverCapacity,       ///&lt; Au-delÃ  de la capacitÃ© de charge : il ne peut plus porter.
+};
+
+/**
+ * @brief Les seize emplacements d'Ã©quipement de la planche 2 du corpus.
+ *
+ * L'ordre est celui de la feuille, colonne gauche puis colonne droite, et il est **relevÃ©** et non
+ * choisi : c'est celui que l'Ã©cran d'inventaire suit pour poser ses lignes.
+ */
+enum class EquipmentSlot {
+    Head,
+    Neck,
+    Cloak,
+    Torso,
+    Belt,
+    Hands,
+    RingLeft,
+    RingRight,
+    MainHand,
+    OffHand,
+    Ranged,
+    Ammunition,
+    Feet,
+    Bracers,
+    Pouch,
+    Trinket,
+};
+
+/// Nombre d'emplacements, pour dimensionner les tableaux qui les indexent.
+inline constexpr std::size_t EQUIPMENT_SLOT_COUNT = 16;
+
+/// @brief Nom textuel d'un emplacement, tel que la donnÃ©e et les clÃ©s de traduction l'Ã©crivent.
+[[nodiscard]] std::string_view equipmentSlotName(EquipmentSlot slot);
+/// @brief Inverse d'`equipmentSlotName`. `std::nullopt` si le nom est inconnu â jamais devinÃ©.
+[[nodiscard]] std::optional&lt;EquipmentSlot&gt; parseEquipmentSlot(std::string_view name);
+
+/// @brief Une ligne du sac : un identifiant de catalogue et une quantitÃ©.
+struct InventoryStack {
+    std::string itemId;
+    int quantity = 1;
+};
+
+/**
+ * @brief Ce qu'un personnage porte : son sac, et ce qu'il a sur lui.
+ *
+ * ## Aucune statistique n'est stockÃ©e ici
+ *
+ * C'est **tout le lot**. La classe d'armure, les dÃ©gÃ¢ts de l'arme, la vitesse encombrÃ©e ne sont
+ * pas des champs de cette structure : ce sont des fonctions de ce qu'elle contient, recalculÃ©es Ã 
+ * chaque lecture (`derivedStatsFor`). Le dÃ©faut classique consiste Ã  appliquer un bonus en
+ * l'ajoutant Ã  la volÃ©e (`ca += 2`) et Ã  le retrancher au retrait ; aprÃ¨s trois Ã©quipements et
+ * deux retraits dans le dÃ©sordre, la classe d'armure a **dÃ©rivÃ©**, et rien ne le signale â le
+ * personnage est simplement devenu un peu plus, ou un peu moins, rÃ©sistant.
+ *
+ * Une valeur qu'on ne stocke pas ne peut pas dÃ©river. C'est un critÃ¨re d'acceptation du lot, pas
+ * une prÃ©fÃ©rence de style.
+ */
+struct Inventory {
+    /// L'Ã©quipement portÃ©, par emplacement : un identifiant de catalogue, ou une chaÃ®ne vide.
+    std::array&lt;std::string, EQUIPMENT_SLOT_COUNT&gt; equipped{};
+    /// Le sac, dans l'ordre oÃ¹ il a Ã©tÃ© rempli.
+    std::vector&lt;InventoryStack&gt; backpack;
+    /// Bourse, en **piÃ¨ces de cuivre** â la mÃªme unitÃ© que les prix du catalogue.
+    int purseCopper = 0;
+
+    /// @return L'identifiant portÃ© Ã  cet emplacement, ou une chaÃ®ne vide.
+<span style = "background-color:#dfd">    [[nodiscard]] const std::string&amp; at(EquipmentSlot slot) const {
+        return equipped[static_cast&lt;std::size_t&gt;(slot)];
+    }</span>
+    /// @return Vrai si cet emplacement porte quelque chose.
+<span style = "background-color:#dfd">    [[nodiscard]] bool isEquipped(EquipmentSlot slot) const {
+        return !at(slot).empty();
+    }</span>
+};
+
+/**
+ * @brief Ãquipe @p itemId Ã  @p slot, et rend ce que l'emplacement portait.
+ *
+ * Aucune rÃ¨gle de compatibilitÃ© n'est appliquÃ©e ici : ranger une armure Ã  l'emplacement de tÃªte
+ * est une question de **donnÃ©e** et d'interface, pas de cette fonction. Ce qu'elle garantit est
+ * plus Ã©troit et plus utile : l'emplacement ne porte jamais deux choses, et ce qui en sort est
+ * rendu Ã  l'appelant plutÃ´t que perdu.
+ *
+ * @return L'identifiant prÃ©cÃ©demment portÃ©, ou une chaÃ®ne vide.
+ */
+std::string equip(Inventory&amp; inventory, EquipmentSlot slot, std::string itemId);
+
+/// @brief Retire ce que @p slot porte. @return L'identifiant retirÃ©, ou une chaÃ®ne vide.
+std::string unequip(Inventory&amp; inventory, EquipmentSlot slot);
+
+/// @brief Ajoute @p quantity exemplaires de @p itemId au sac, en empilant si la ligne existe dÃ©jÃ .
+void addToBackpack(Inventory&amp; inventory, const std::string&amp; itemId, int quantity = 1);
+
+/// @brief Retire @p quantity exemplaires de @p itemId. @return Ce qui a rÃ©ellement Ã©tÃ© retirÃ©.
+int removeFromBackpack(Inventory&amp; inventory, const std::string&amp; itemId, int quantity = 1);
+
+/// @brief Les trois catalogues qu'un inventaire consulte pour peser et pour dÃ©river.
+struct ItemLookup {
+<span style = "background-color:#dfd">    const ItemCatalog* items = nullptr;
+    const EquipmentCatalog* equipment = nullptr;</span>
+
+    /// @return Le poids en grammes de @p id, cherchÃ© dans les trois catalogues. Un identifiant
+    ///         inconnu ne pÃ¨se rien â et il est **comptÃ©** par `unknownIds`, plutÃ´t que d'Ãªtre
+    ///         confondu avec un objet rÃ©ellement sans masse.
+    [[nodiscard]] int weightGramsOf(std::string_view id) const;
+};
+
+/// @brief Le poids total portÃ©, sac et Ã©quipement compris, en grammes.
+[[nodiscard]] int carriedWeightGrams(const Inventory&amp; inventory, const ItemLookup&amp; lookup);
+
+/// @brief Les identifiants que les catalogues ne portent pas â un sac qui en contient ne pÃ¨se pas
+///        ce qu'il devrait, et le dire vaut mieux que de peser faux en silence.
+[[nodiscard]] std::vector&lt;std::string&gt; unknownIds(const Inventory&amp; inventory,
+                                                  const ItemLookup&amp; lookup);
+
+/**
+ * @brief Ce que l'Ã©quipement portÃ© produit â **recalculÃ©**, jamais accumulÃ©.
+ *
+ * Tous les champs sont fonction de l'inventaire et des catalogues au moment de l'appel. Ãquiper
+ * puis retirer, dans n'importe quel ordre, redonne donc exactement les valeurs de dÃ©part : il n'y
+ * a rien Ã  annuler, puisqu'il n'y a rien eu Ã  appliquer.
+ */
+struct DerivedStats {
+    /// Classe d'armure, armure et bouclier compris (`core::armorClassFor`, `LOT-34`).
+    int armorClass = 0;
+    /// DÃ©s de dÃ©gÃ¢ts de l'arme en main directrice. Absents si elle n'en a pas â le filet, ou une
+    /// main vide.
+    std::optional&lt;Dice&gt; damage;
+    std::optional&lt;DamageType&gt; damageType;
+    /// CaractÃ©ristique du jet d'attaque : Force au corps Ã  corps, DextÃ©ritÃ© Ã  distance.
+    Ability attackAbility = Ability::Strength;
+    /// Poids portÃ©, en grammes, et la charge qui en dÃ©coule.
+    int carriedWeightGrams = 0;
+    int carryingCapacityGrams = 0;
+    EncumbranceLevel encumbrance = EncumbranceLevel::Unencumbered;
+    /// Vitesse une fois la charge retirÃ©e, en mÃ¨tres. Jamais nÃ©gative.
+    float speedMeters = 0.0F;
+};
+
+/**
+ * @brief La caractÃ©ristique du jet d'attaque avec @p weapon (Manuel, chapitre 9, Â« Modificateurs
+ *        du jet Â»).
+ *
+ * Force au corps Ã  corps, DextÃ©ritÃ© Ã  distance ; une arme de **finesse** laisse le choix, et le
+ * personnage prend la meilleure des deux. La mÃªme caractÃ©ristique s'ajoute aux dÃ©gÃ¢ts. Une seule
+ * Ã©criture de la rÃ¨gle, que la fiche (`derivedStatsFor`) et l'attaque (`core::weaponAttackFor`)
+ * lisent toutes deux.
+ */
+[[nodiscard]] Ability weaponAttackAbility(const CharacterSheet&amp; sheet, const Weapon&amp; weapon);
+
+/**
+ * @brief Calcule tout ce que l'Ã©quipement portÃ© produit, depuis la fiche et les catalogues.
+ *
+ * @param sheet     La fiche, pour ses caractÃ©ristiques et sa vitesse de base.
+ * @param inventory Ce qui est portÃ©.
+ * @param lookup    Les catalogues.
+ * @param creation  Les constantes de crÃ©ation, pour la CA sans armure.
+ * @param carrying  Les bornes de charge. Non chargÃ©es, la charge reste `Unencumbered` et la
+ *                  capacitÃ© vaut zÃ©ro : la fiche ne prÃ©tend pas connaÃ®tre une rÃ¨gle qui manque.
+ */
+[[nodiscard]] DerivedStats derivedStatsFor(const CharacterSheet&amp; sheet, const Inventory&amp; inventory,
+                                           const ItemLookup&amp; lookup,
+                                           const CharacterCreationRules&amp; creation,
+                                           const EncumbranceRules&amp; carrying);
+
+}  // namespace core</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

@@ -109,6 +109,12 @@ Inheritance diagram for hmi::GameViewport:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-signals" class="groupheader"><a id="signals" name="signals"></a>
 Signals</h2></td></tr>
+<tr class="memitem:ad03a64b2198c926c71206801fa93fdf9" id="r_ad03a64b2198c926c71206801fa93fdf9"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ad03a64b2198c926c71206801fa93fdf9">activeLayerChanged</a> (<a class="el" href="namespacehmi.html#ad45953c7acf96290259f1333570fda4d">hmi::LayerSlot</a> slot)</td></tr>
+<tr class="memdesc:ad03a64b2198c926c71206801fa93fdf9"><td class="mdescLeft">&#160;</td><td class="mdescRight">La couche active a changé (panneau, annulation qui la retire, ouverture d'une carte).  <br /></td></tr>
+<tr class="memitem:a56f7c5114400384902482f2b99a2de83" id="r_a56f7c5114400384902482f2b99a2de83"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a56f7c5114400384902482f2b99a2de83">layerViewChanged</a> ()</td></tr>
+<tr class="memdesc:a56f7c5114400384902482f2b99a2de83"><td class="mdescLeft">&#160;</td><td class="mdescRight">Visibilité ou opacité d'une couche a changé.  <br /></td></tr>
+<tr class="memitem:aec730cfe57d5552c4dfa6cac345138b5" id="r_aec730cfe57d5552c4dfa6cac345138b5"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aec730cfe57d5552c4dfa6cac345138b5">entitySelectionChanged</a> (std::optional&lt; std::size_t &gt; index)</td></tr>
+<tr class="memdesc:aec730cfe57d5552c4dfa6cac345138b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">L'entité sélectionnée a changé (clic, pose, retrait, annulation).  <br /></td></tr>
 <tr class="memitem:af5803731561d226a0140c1cb35d162bb" id="r_af5803731561d226a0140c1cb35d162bb"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#af5803731561d226a0140c1cb35d162bb">statusMessage</a> (const QString &amp;message)</td></tr>
 <tr class="memdesc:af5803731561d226a0140c1cb35d162bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Message d'état à afficher (enregistrement, essai, erreur de validation…).  <br /></td></tr>
 <tr class="memitem:a02acfb1387ff9e966f73e33f0e666894" id="r_a02acfb1387ff9e966f73e33f0e666894"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a02acfb1387ff9e966f73e33f0e666894">exitToMenuRequested</a> ()</td></tr>
@@ -266,6 +272,31 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a9aa69324accbbef35fa57083ebea1367"><td class="mdescLeft">&#160;</td><td class="mdescRight">Masque ou réaffiche le plan <code class="param">index</code> (aide d'édition).  <br /></td></tr>
 <tr class="memitem:af236b2231cc5c0e697f07aa8e1468251" id="r_af236b2231cc5c0e697f07aa8e1468251"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#af236b2231cc5c0e697f07aa8e1468251">setPlaneIsolated</a> (std::size_t index, bool isolate)</td></tr>
 <tr class="memdesc:af236b2231cc5c0e697f07aa8e1468251"><td class="mdescLeft">&#160;</td><td class="mdescRight">Isole le plan <code class="param">index</code>, ou réaffiche tout si <code class="param">isolate</code> est faux.  <br /></td></tr>
+<tr id="pub-methods-1" class="groupHeader"><td colspan="2"><div class="groupHeader">Couches de tuiles (&lt;tt&gt;LOT-11&lt;/tt&gt;)</div></td></tr>
+<tr><td colspan="2" class="ititle"><div class="groupText"><p>Le pinceau, le rectangle, la copie et le collage visent la <b>couche active</b> : la grille racine (collision) par défaut, ou une couche visuelle choisie dans le panneau « Couches ».</p>
+<p>Ajout, retrait, ordre et nom passent par <span class="tt"><a class="el" href="classcore_1_1LevelDraft.html" title="Niveau mutable en cours d&#39;édition, distinct de Level (immuable, LOT-07).">core::LevelDraft</a></span>, donc par l'historique ; visibilité et opacité sont une aide d'édition, ni annulable ni enregistrée. </p>
+</div></td></tr>
+<tr class="memitem:a491d6c6826812f38f72cdcee76446b44" id="r_a491d6c6826812f38f72cdcee76446b44"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a491d6c6826812f38f72cdcee76446b44">setActiveLayer</a> (<a class="el" href="namespacehmi.html#ad45953c7acf96290259f1333570fda4d">LayerSlot</a> slot)</td></tr>
+<tr class="memitem:a06cd84f70385283d30aad99ff6539d86" id="r_a06cd84f70385283d30aad99ff6539d86"><td class="memItemLeft"><a class="el" href="namespacehmi.html#ad45953c7acf96290259f1333570fda4d">LayerSlot</a>&#160;</td><td class="memItemRight"><a class="el" href="#a06cd84f70385283d30aad99ff6539d86">activeLayer</a> () const noexcept</td></tr>
+<tr class="memitem:a50e1f471d00ef7d1fa0321cc29248643" id="r_a50e1f471d00ef7d1fa0321cc29248643"><td class="memItemLeft">const <a class="el" href="classhmi_1_1LayerViewState.html">LayerViewState</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a50e1f471d00ef7d1fa0321cc29248643">layerView</a> () const noexcept</td></tr>
+<tr class="memitem:a9b41055f9998ef2f787e4130764d3e6d" id="r_a9b41055f9998ef2f787e4130764d3e6d"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a9b41055f9998ef2f787e4130764d3e6d">setMapLayerVisible</a> (<a class="el" href="namespacehmi.html#ad45953c7acf96290259f1333570fda4d">LayerSlot</a> slot, bool visible)</td></tr>
+<tr class="memitem:a98f66521fd3874045e288d14b521dd73" id="r_a98f66521fd3874045e288d14b521dd73"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a98f66521fd3874045e288d14b521dd73">setMapLayerOpacity</a> (<a class="el" href="namespacehmi.html#ad45953c7acf96290259f1333570fda4d">LayerSlot</a> slot, float opacity)</td></tr>
+<tr class="memitem:af1cc79c264194594874e7afe3ebaa380" id="r_af1cc79c264194594874e7afe3ebaa380"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#af1cc79c264194594874e7afe3ebaa380">addMapLayer</a> (<a class="el" href="namespacecore.html#ab0cf50b7ad0dce1357c85662e0fb7e5d">core::LayerKind</a> kind, const std::string &amp;name)</td></tr>
+<tr class="memdesc:af1cc79c264194594874e7afe3ebaa380"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ajoute une couche visuelle et la rend active.  <br /></td></tr>
+<tr class="memitem:ab9ae23444f24108d36c5a9f0c2898dba" id="r_ab9ae23444f24108d36c5a9f0c2898dba"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ab9ae23444f24108d36c5a9f0c2898dba">removeMapLayer</a> (std::size_t index)</td></tr>
+<tr class="memitem:a87c87d5363f881e5458bfc3b16277284" id="r_a87c87d5363f881e5458bfc3b16277284"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a87c87d5363f881e5458bfc3b16277284">moveMapLayer</a> (std::size_t index, bool forward)</td></tr>
+<tr class="memitem:a324335f968ded80f9510dc725a23572d" id="r_a324335f968ded80f9510dc725a23572d"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a324335f968ded80f9510dc725a23572d">renameMapLayer</a> (std::size_t index, const std::string &amp;name)</td></tr>
+<tr id="pub-methods-2" class="groupHeader"><td colspan="2"><div class="groupHeader">Entités de carte (&lt;tt&gt;LOT-11&lt;/tt&gt;)</div></td></tr>
+<tr class="memitem:a346917b065b0c8036b39bc650a084393" id="r_a346917b065b0c8036b39bc650a084393"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a346917b065b0c8036b39bc650a084393">setEditorReferences</a> (const <a class="el" href="structhmi_1_1EditorReferences.html">EditorReferences</a> *references)</td></tr>
+<tr class="memdesc:a346917b065b0c8036b39bc650a084393"><td class="mdescLeft">&#160;</td><td class="mdescRight">Catalogues que les entités référencent (non possédés, fournis par <span class="tt"><a class="el" href="classhmi_1_1MainWindow.html" title="Fenêtre principale de l&#39;application Qt : poste de travail d&#39;éditeur à panneaux dockables autour du vi...">MainWindow</a></span>) ; relance la validation.  <br /></td></tr>
+<tr class="memitem:aa294272f0c90e4d7aa388bfc2a0179ab" id="r_aa294272f0c90e4d7aa388bfc2a0179ab"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aa294272f0c90e4d7aa388bfc2a0179ab">setEntityKindToPlace</a> (std::string type)</td></tr>
+<tr class="memdesc:aa294272f0c90e4d7aa388bfc2a0179ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Famille posée par l'outil « Entité » ; vide pour la simple sélection.  <br /></td></tr>
+<tr class="memitem:a0b785f936aaef6ebc84b82af609bf10f" id="r_a0b785f936aaef6ebc84b82af609bf10f"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a0b785f936aaef6ebc84b82af609bf10f">selectEntity</a> (std::optional&lt; std::size_t &gt; index)</td></tr>
+<tr class="memitem:a25bbd9a934495d07a93b391a23e43d73" id="r_a25bbd9a934495d07a93b391a23e43d73"><td class="memItemLeft">std::optional&lt; std::size_t &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a25bbd9a934495d07a93b391a23e43d73">selectedEntity</a> () const noexcept</td></tr>
+<tr class="memitem:a6d074fa44527427c51867bd5bcdf1b3d" id="r_a6d074fa44527427c51867bd5bcdf1b3d"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a6d074fa44527427c51867bd5bcdf1b3d">setEntityProperty</a> (std::size_t index, const std::string &amp;key, <a class="el" href="namespacecore.html#a9f79b235a73b6264aa3a97d51267919d">core::PropertyValue</a> value)</td></tr>
+<tr class="memitem:adcc5bfc4437108635393c0709694ad03" id="r_adcc5bfc4437108635393c0709694ad03"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#adcc5bfc4437108635393c0709694ad03">removeEntity</a> (std::size_t index)</td></tr>
+<tr class="memitem:a42f86c5c3c95c857a2ea83747689fa77" id="r_a42f86c5c3c95c857a2ea83747689fa77"><td class="memItemLeft">const std::vector&lt; <a class="el" href="structhmi_1_1EditorDiagnostic.html">EditorDiagnostic</a> &gt; &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a42f86c5c3c95c857a2ea83747689fa77">diagnostics</a> () const noexcept</td></tr>
+<tr class="memitem:aa91c9e6a6ac7be8fb0a9a9255c470461" id="r_aa91c9e6a6ac7be8fb0a9a9255c470461"><td class="memItemLeft">const <a class="el" href="structcore_1_1EntityReferenceContext.html">core::EntityReferenceContext</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#aa91c9e6a6ac7be8fb0a9a9255c470461">entityReferenceContext</a> () const noexcept</td></tr>
 <tr class="inherit_header pub_methods_classhmi_1_1EditContextTarget"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_classhmi_1_1EditContextTarget')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Public Member Functions inherited from <a class="el" href="classhmi_1_1EditContextTarget.html">hmi::EditContextTarget</a></td></tr>
 <tr class="memitem:a82f63a0d5ba2f3fe2e78ae6bcf79eb99 inherit pub_methods_classhmi_1_1EditContextTarget" id="r_a82f63a0d5ba2f3fe2e78ae6bcf79eb99"><td class="memItemLeft">virtual&#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1EditContextTarget.html#a82f63a0d5ba2f3fe2e78ae6bcf79eb99">~EditContextTarget</a> ()=default</td></tr>
 </table><table class="memberdecls">
@@ -335,6 +366,16 @@ Private Member Functions</h2></td></tr>
 <tr class="memitem:a0bbb467b21ce8b7ce3d8ec38a799d671" id="r_a0bbb467b21ce8b7ce3d8ec38a799d671"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a0bbb467b21ce8b7ce3d8ec38a799d671">linkExists</a> (<a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a> switchPosition, <a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a> targetPosition) const</td></tr>
 <tr class="memitem:ab3bcb4f2e850c36f8a1c211fcaa8f3a2" id="r_ab3bcb4f2e850c36f8a1c211fcaa8f3a2"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ab3bcb4f2e850c36f8a1c211fcaa8f3a2">markDraftMutated</a> ()</td></tr>
 <tr class="memdesc:ab3bcb4f2e850c36f8a1c211fcaa8f3a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invalide le rendu du brouillon et notifie les panneaux dépendants (<span class="tt"><a class="el" href="#a3646e1f1bc4d4ee8ab7c45af7410f56e" title="Le brouillon vient d&#39;être modifié (peinture, undo/redo, chargement, lien…) — le panneau « Liens » se ...">draftChanged</a></span>) — à appeler après toute mutation de <span class="tt"><a class="el" href="#a0965909558a6381fb2a51b90605b2320" title="Brouillon en cours d&#39;édition (source de vérité).">_draft</a></span> (peinture, lien, undo/redo, chargement…).  <br /></td></tr>
+<tr class="memitem:a09a0a7505eeb591e748a7ca5025ae1fa" id="r_a09a0a7505eeb591e748a7ca5025ae1fa"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a09a0a7505eeb591e748a7ca5025ae1fa">syncEditingState</a> ()</td></tr>
+<tr class="memdesc:a09a0a7505eeb591e748a7ca5025ae1fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Réaligne la couche active, les réglages de couches et l'entité sélectionnée sur le brouillon, puis recalcule les avertissements (<span class="tt">LOT-11</span>).  <br /></td></tr>
+<tr class="memitem:a0ee8d64a408e99c863c45347252c1c27" id="r_a0ee8d64a408e99c863c45347252c1c27"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a0ee8d64a408e99c863c45347252c1c27">refreshDiagnostics</a> ()</td></tr>
+<tr class="memdesc:a0ee8d64a408e99c863c45347252c1c27"><td class="mdescLeft">&#160;</td><td class="mdescRight">Recalcule références et terrain tactique des entités du brouillon.  <br /></td></tr>
+<tr class="memitem:adc5ffa96baa9e68c4d4b6cc41527f274" id="r_adc5ffa96baa9e68c4d4b6cc41527f274"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#adc5ffa96baa9e68c4d4b6cc41527f274">paintActiveRegion</a> (int originColumn, int originRow, const std::vector&lt; std::vector&lt; <a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875">core::TileType</a> &gt; &gt; &amp;block)</td></tr>
+<tr class="memdesc:adc5ffa96baa9e68c4d4b6cc41527f274"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remplit <code class="param">block</code> (indexé <span class="tt">[ligne][colonne]</span>) sur la couche active ; signale un type refusé par une couche visuelle.  <br /></td></tr>
+<tr class="memitem:a56efd2a9f9d4ade890ca693a11eaf37b" id="r_a56efd2a9f9d4ade890ca693a11eaf37b"><td class="memItemLeft">const <a class="el" href="classcore_1_1TileMap.html">core::TileMap</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a56efd2a9f9d4ade890ca693a11eaf37b">activeLayerTiles</a> () const</td></tr>
+<tr class="memitem:afd8984cf00cdfe49c15cb10f7a436989" id="r_afd8984cf00cdfe49c15cb10f7a436989"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#afd8984cf00cdfe49c15cb10f7a436989">handleEntityPress</a> (const QMouseEvent *<a class="el" href="#a5d3760d8afacd89cccc12dff1f843a9b">event</a>)</td></tr>
+<tr class="memdesc:afd8984cf00cdfe49c15cb10f7a436989"><td class="mdescLeft">&#160;</td><td class="mdescRight">Appui, glisser et relâchement de l'outil « Entité ».  <br /></td></tr>
+<tr class="memitem:a8111f275ddcfafb2bd62274e8e9d42c1" id="r_a8111f275ddcfafb2bd62274e8e9d42c1"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a8111f275ddcfafb2bd62274e8e9d42c1">handleEntityRelease</a> (const QMouseEvent *<a class="el" href="#a5d3760d8afacd89cccc12dff1f843a9b">event</a>)</td></tr>
 <tr class="memitem:a8f56be33a1482cf0e02bcf588fdc862f" id="r_a8f56be33a1482cf0e02bcf588fdc862f"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a8f56be33a1482cf0e02bcf588fdc862f">pixelWidth</a> () const</td></tr>
 <tr class="memitem:a5c663161ccf294f6323e536e9a9207be" id="r_a5c663161ccf294f6323e536e9a9207be"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a5c663161ccf294f6323e536e9a9207be">pixelHeight</a> () const</td></tr>
 <tr class="memitem:ad397a1c321adbbc70a94a13cd88f5354" id="r_ad397a1c321adbbc70a94a13cd88f5354"><td class="memItemLeft">QString&#160;</td><td class="memItemRight"><a class="el" href="#ad397a1c321adbbc70a94a13cd88f5354">statusText</a> (const char *key) const</td></tr>
@@ -433,6 +474,23 @@ Private Attributes</h2></td></tr>
 <tr class="memdesc:ae1c496e476c3078dda4f2b2607ebfbc4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Carte jouée par le mode jeu (<span class="tt">LOT-67</span> : une, pas une séquence).  <br /></td></tr>
 <tr class="memitem:aff4b0205eeb55f40afa51e0b0788ba08" id="r_aff4b0205eeb55f40afa51e0b0788ba08"><td class="memItemLeft">std::optional&lt; <a class="el" href="classhmi_1_1GameSession.html">hmi::GameSession</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#aff4b0205eeb55f40afa51e0b0788ba08">_session</a></td></tr>
 <tr class="memdesc:aff4b0205eeb55f40afa51e0b0788ba08"><td class="mdescLeft">&#160;</td><td class="mdescRight">Session de jeu de l'essai immédiat ; nulle en mode édition (essai ajouté au LOT-35 TACHE-04).  <br /></td></tr>
+<tr class="memitem:af116039c2d0d703d7ee7fa6471ec7693" id="r_af116039c2d0d703d7ee7fa6471ec7693"><td class="memItemLeft"><a class="el" href="namespacehmi.html#ad45953c7acf96290259f1333570fda4d">LayerSlot</a>&#160;</td><td class="memItemRight"><a class="el" href="#af116039c2d0d703d7ee7fa6471ec7693">_activeLayer</a></td></tr>
+<tr class="memdesc:af116039c2d0d703d7ee7fa6471ec7693"><td class="mdescLeft">&#160;</td><td class="mdescRight">Couche peinte ; la grille racine par défaut.  <br /></td></tr>
+<tr class="memitem:aef9b916a2749aeaf621000f812c944d8" id="r_aef9b916a2749aeaf621000f812c944d8"><td class="memItemLeft"><a class="el" href="classhmi_1_1LayerViewState.html">hmi::LayerViewState</a>&#160;</td><td class="memItemRight"><a class="el" href="#aef9b916a2749aeaf621000f812c944d8">_layerView</a></td></tr>
+<tr class="memdesc:aef9b916a2749aeaf621000f812c944d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Visibilité et opacité par couche (aide d'édition).  <br /></td></tr>
+<tr class="memitem:a4e83850a8e8bc88246790e4ca12ddb86" id="r_a4e83850a8e8bc88246790e4ca12ddb86"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a4e83850a8e8bc88246790e4ca12ddb86">_refusalReported</a> = false</td></tr>
+<tr class="memdesc:a4e83850a8e8bc88246790e4ca12ddb86"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vrai si un type refusé par la couche active a déjà été signalé pendant le geste en cours : un glisser de pinceau ne répète pas le même message à chaque case.  <br /></td></tr>
+<tr class="memitem:aada5a34393de766dc3851be3b1d08e65" id="r_aada5a34393de766dc3851be3b1d08e65"><td class="memItemLeft">const <a class="el" href="structhmi_1_1EditorReferences.html">EditorReferences</a> *&#160;</td><td class="memItemRight"><a class="el" href="#aada5a34393de766dc3851be3b1d08e65">_references</a> = nullptr</td></tr>
+<tr class="memdesc:aada5a34393de766dc3851be3b1d08e65"><td class="mdescLeft">&#160;</td><td class="mdescRight">Catalogues, non possédés.  <br /></td></tr>
+<tr class="memitem:ae3b28add953656c517b2ab3493ade119" id="r_ae3b28add953656c517b2ab3493ade119"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#ae3b28add953656c517b2ab3493ade119">_entityKindToPlace</a></td></tr>
+<tr class="memdesc:ae3b28add953656c517b2ab3493ade119"><td class="mdescLeft">&#160;</td><td class="mdescRight">Famille posée par l'outil « Entité ».  <br /></td></tr>
+<tr class="memitem:a38b2b6d906187851cb6a210d36dcf56e" id="r_a38b2b6d906187851cb6a210d36dcf56e"><td class="memItemLeft">std::optional&lt; std::size_t &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a38b2b6d906187851cb6a210d36dcf56e">_selectedEntity</a></td></tr>
+<tr class="memitem:abfaba37da87b1a6fcc240a4faf306689" id="r_abfaba37da87b1a6fcc240a4faf306689"><td class="memItemLeft">std::optional&lt; std::size_t &gt;&#160;</td><td class="memItemRight"><a class="el" href="#abfaba37da87b1a6fcc240a4faf306689">_grabbedEntity</a></td></tr>
+<tr class="memdesc:abfaba37da87b1a6fcc240a4faf306689"><td class="mdescLeft">&#160;</td><td class="mdescRight">Entité saisie à l'appui (outil « Entité »), déplacée au relâchement si la case change.  <br /></td></tr>
+<tr class="memitem:a1a5520d087aee4e25f72fc2e5b6a386f" id="r_a1a5520d087aee4e25f72fc2e5b6a386f"><td class="memItemLeft"><a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a>&#160;</td><td class="memItemRight"><a class="el" href="#a1a5520d087aee4e25f72fc2e5b6a386f">_entityPressCell</a> {}</td></tr>
+<tr class="memitem:a3008ba795acd87de058f111fcfadd0ad" id="r_a3008ba795acd87de058f111fcfadd0ad"><td class="memItemLeft"><a class="el" href="structcore_1_1EntityReferenceContext.html">core::EntityReferenceContext</a>&#160;</td><td class="memItemRight"><a class="el" href="#a3008ba795acd87de058f111fcfadd0ad">_referenceContext</a></td></tr>
+<tr class="memitem:ae763ebd2e577f380d6b5a5a29b548a78" id="r_ae763ebd2e577f380d6b5a5a29b548a78"><td class="memItemLeft">std::vector&lt; <a class="el" href="structcore_1_1EncounterTerrain.html">core::EncounterTerrain</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#ae763ebd2e577f380d6b5a5a29b548a78">_terrains</a></td></tr>
+<tr class="memitem:a8acdae5844671dc50554e5de8b16acdd" id="r_a8acdae5844671dc50554e5de8b16acdd"><td class="memItemLeft">std::vector&lt; <a class="el" href="structhmi_1_1EditorDiagnostic.html">EditorDiagnostic</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a8acdae5844671dc50554e5de8b16acdd">_diagnostics</a></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Widget de rendu (<span class="tt">QRhiWidget</span>) où la scène est dessinée, composé avec le reste de l'interface. </p>
@@ -541,6 +599,84 @@ paintTile</span>) ; <span class="tt">Ctrl+Z</span>/<span class="tt">Ctrl+Y</span
 </div>
 </div>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
+<a id="a06cd84f70385283d30aad99ff6539d86" name="a06cd84f70385283d30aad99ff6539d86"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a06cd84f70385283d30aad99ff6539d86">&#9670;&#160;</a></span>activeLayer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacehmi.html#ad45953c7acf96290259f1333570fda4d">LayerSlot</a> hmi::GameViewport::activeLayer </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad03a64b2198c926c71206801fa93fdf9" name="ad03a64b2198c926c71206801fa93fdf9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad03a64b2198c926c71206801fa93fdf9">&#9670;&#160;</a></span>activeLayerChanged</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::GameViewport::activeLayerChanged </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacehmi.html#ad45953c7acf96290259f1333570fda4d">hmi::LayerSlot</a></td>          <td class="paramname"><span class="paramname"><em>slot</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel signal">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>La couche active a changé (panneau, annulation qui la retire, ouverture d'une carte). </p>
+
+</div>
+</div>
+<a id="a56efd2a9f9d4ade890ca693a11eaf37b" name="a56efd2a9f9d4ade890ca693a11eaf37b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a56efd2a9f9d4ade890ca693a11eaf37b">&#9670;&#160;</a></span>activeLayerTiles()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="classcore_1_1TileMap.html">core::TileMap</a> &amp; hmi::GameViewport::activeLayerTiles </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>La grille de la couche active. </dd></dl>
+
+</div>
+</div>
 <a id="ae9ea1c0226a2ba9ad8aa99d4f99ebd61" name="ae9ea1c0226a2ba9ad8aa99d4f99ebd61"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae9ea1c0226a2ba9ad8aa99d4f99ebd61">&#9670;&#160;</a></span>activeTool()</h2>
 
@@ -595,6 +731,29 @@ paintTile</span>) ; <span class="tt">Ctrl+Z</span>/<span class="tt">Ctrl+Y</span
 </div><div class="memdoc">
 
 <p>Ajoute une zone de caméra couvrant le rectangle (bornes <code class="param">a</code>, <code class="param">b</code> incluses, outil <span class="tt">CameraZone</span>, <span class="tt">EX-LVL-007</span>, <span class="tt">EX-EDIT-029</span>) au cadrage du niveau. </p>
+
+</div>
+</div>
+<a id="af1cc79c264194594874e7afe3ebaa380" name="af1cc79c264194594874e7afe3ebaa380"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af1cc79c264194594874e7afe3ebaa380">&#9670;&#160;</a></span>addMapLayer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::GameViewport::addMapLayer </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacecore.html#ab0cf50b7ad0dce1357c85662e0fb7e5d">core::LayerKind</a></td>          <td class="paramname"><span class="paramname"><em>kind</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>name</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Ajoute une couche visuelle et la rend active. </p>
 
 </div>
 </div>
@@ -898,6 +1057,32 @@ paintTile</span>) ; <span class="tt">Ctrl+Z</span>/<span class="tt">Ctrl+Y</span
 
 </div>
 </div>
+<a id="a42f86c5c3c95c857a2ea83747689fa77" name="a42f86c5c3c95c857a2ea83747689fa77"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a42f86c5c3c95c857a2ea83747689fa77">&#9670;&#160;</a></span>diagnostics()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::vector&lt; <a class="el" href="structhmi_1_1EditorDiagnostic.html">EditorDiagnostic</a> &gt; &amp; hmi::GameViewport::diagnostics </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>Les avertissements courants : références cassées et terrain tactique. </dd></dl>
+
+</div>
+</div>
 <a id="a78cf5397cf9519bbc6f93d878bc7c598" name="a78cf5397cf9519bbc6f93d878bc7c598"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a78cf5397cf9519bbc6f93d878bc7c598">&#9670;&#160;</a></span>diagnosticsOverlayEnabled()</h2>
 
@@ -1006,6 +1191,59 @@ paintTile</span>) ; <span class="tt">Ctrl+Z</span>/<span class="tt">Ctrl+Y</span
 
 </div>
 </div>
+<a id="aa91c9e6a6ac7be8fb0a9a9255c470461" name="aa91c9e6a6ac7be8fb0a9a9255c470461"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa91c9e6a6ac7be8fb0a9a9255c470461">&#9670;&#160;</a></span>entityReferenceContext()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="structcore_1_1EntityReferenceContext.html">core::EntityReferenceContext</a> &amp; hmi::GameViewport::entityReferenceContext </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>Le contexte de validation courant (catalogues + points d'arrivée du brouillon). </dd></dl>
+
+</div>
+</div>
+<a id="aec730cfe57d5552c4dfa6cac345138b5" name="aec730cfe57d5552c4dfa6cac345138b5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aec730cfe57d5552c4dfa6cac345138b5">&#9670;&#160;</a></span>entitySelectionChanged</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::GameViewport::entitySelectionChanged </td>
+          <td>(</td>
+          <td class="paramtype">std::optional&lt; std::size_t &gt;</td>          <td class="paramname"><span class="paramname"><em>index</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel signal">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>L'entité sélectionnée a changé (clic, pose, retrait, annulation). </p>
+
+</div>
+</div>
 <a id="a5d3760d8afacd89cccc12dff1f843a9b" name="a5d3760d8afacd89cccc12dff1f843a9b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5d3760d8afacd89cccc12dff1f843a9b">&#9670;&#160;</a></span>event()</h2>
 
@@ -1109,6 +1347,58 @@ paintTile</span>) ; <span class="tt">Ctrl+Z</span>/<span class="tt">Ctrl+Y</span
 </div><div class="memdoc">
 
 <p>Accès <b>modifiable</b> aux boutons manette (pour le remappage), même principe que <span class="tt"><a class="el" href="#a30002a154b0395cdc334fe7313e08219" title="Accès modifiable aux touches de jeu (pour le remappage) : la session de jeu lit ces mêmes bindings,...">gameBindings</a></span>. </p>
+
+</div>
+</div>
+<a id="afd8984cf00cdfe49c15cb10f7a436989" name="afd8984cf00cdfe49c15cb10f7a436989"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afd8984cf00cdfe49c15cb10f7a436989">&#9670;&#160;</a></span>handleEntityPress()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::GameViewport::handleEntityPress </td>
+          <td>(</td>
+          <td class="paramtype">const QMouseEvent *</td>          <td class="paramname"><span class="paramname"><em>event</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Appui, glisser et relâchement de l'outil « Entité ». </p>
+
+</div>
+</div>
+<a id="a8111f275ddcfafb2bd62274e8e9d42c1" name="a8111f275ddcfafb2bd62274e8e9d42c1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8111f275ddcfafb2bd62274e8e9d42c1">&#9670;&#160;</a></span>handleEntityRelease()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::GameViewport::handleEntityRelease </td>
+          <td>(</td>
+          <td class="paramtype">const QMouseEvent *</td>          <td class="paramname"><span class="paramname"><em>event</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -1375,6 +1665,58 @@ paintTile</span>) ; <span class="tt">Ctrl+Z</span>/<span class="tt">Ctrl+Y</span
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="a50e1f471d00ef7d1fa0321cc29248643" name="a50e1f471d00ef7d1fa0321cc29248643"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a50e1f471d00ef7d1fa0321cc29248643">&#9670;&#160;</a></span>layerView()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="classhmi_1_1LayerViewState.html">LayerViewState</a> &amp; hmi::GameViewport::layerView </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a56f7c5114400384902482f2b99a2de83" name="a56f7c5114400384902482f2b99a2de83"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a56f7c5114400384902482f2b99a2de83">&#9670;&#160;</a></span>layerViewChanged</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::GameViewport::layerViewChanged </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel signal">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Visibilité ou opacité d'une couche a changé. </p>
 
 </div>
 </div>
@@ -1668,6 +2010,27 @@ paintTile</span>) ; <span class="tt">Ctrl+Z</span>/<span class="tt">Ctrl+Y</span
 
 </div>
 </div>
+<a id="a87c87d5363f881e5458bfc3b16277284" name="a87c87d5363f881e5458bfc3b16277284"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a87c87d5363f881e5458bfc3b16277284">&#9670;&#160;</a></span>moveMapLayer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::GameViewport::moveMapLayer </td>
+          <td>(</td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>index</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>forward</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a84c020174351b7a1b1b98f8e41e3f598" name="a84c020174351b7a1b1b98f8e41e3f598"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a84c020174351b7a1b1b98f8e41e3f598">&#9670;&#160;</a></span>movePlane()</h2>
 
@@ -1732,6 +2095,43 @@ paintTile</span>) ; <span class="tt">Ctrl+Z</span>/<span class="tt">Ctrl+Y</span
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="adc5ffa96baa9e68c4d4b6cc41527f274" name="adc5ffa96baa9e68c4d4b6cc41527f274"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adc5ffa96baa9e68c4d4b6cc41527f274">&#9670;&#160;</a></span>paintActiveRegion()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool hmi::GameViewport::paintActiveRegion </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>originColumn</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>originRow</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::vector&lt; <a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875">core::TileType</a> &gt; &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>block</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Remplit <code class="param">block</code> (indexé <span class="tt">[ligne][colonne]</span>) sur la couche active ; signale un type refusé par une couche visuelle. </p>
+<dl class="section return"><dt>Returns</dt><dd><span class="tt">true</span> si le brouillon a changé. </dd></dl>
 
 </div>
 </div>
@@ -2032,6 +2432,33 @@ paintTile</span>) ; <span class="tt">Ctrl+Z</span>/<span class="tt">Ctrl+Y</span
 
 </div>
 </div>
+<a id="a0ee8d64a408e99c863c45347252c1c27" name="a0ee8d64a408e99c863c45347252c1c27"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0ee8d64a408e99c863c45347252c1c27">&#9670;&#160;</a></span>refreshDiagnostics()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::GameViewport::refreshDiagnostics </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Recalcule références et terrain tactique des entités du brouillon. </p>
+
+</div>
+</div>
 <a id="a44c4f8a4d887b32d8cdd25efc7d9cf1d" name="a44c4f8a4d887b32d8cdd25efc7d9cf1d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a44c4f8a4d887b32d8cdd25efc7d9cf1d">&#9670;&#160;</a></span>releaseResources()</h2>
 
@@ -2104,6 +2531,40 @@ paintTile</span>) ; <span class="tt">Ctrl+Z</span>/<span class="tt">Ctrl+Y</span
 
 </div>
 </div>
+<a id="adcc5bfc4437108635393c0709694ad03" name="adcc5bfc4437108635393c0709694ad03"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adcc5bfc4437108635393c0709694ad03">&#9670;&#160;</a></span>removeEntity()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::GameViewport::removeEntity </td>
+          <td>(</td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>index</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab9ae23444f24108d36c5a9f0c2898dba" name="ab9ae23444f24108d36c5a9f0c2898dba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab9ae23444f24108d36c5a9f0c2898dba">&#9670;&#160;</a></span>removeMapLayer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::GameViewport::removeMapLayer </td>
+          <td>(</td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>index</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="aafef3870453bfac2dcb2769198df5584" name="aafef3870453bfac2dcb2769198df5584"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aafef3870453bfac2dcb2769198df5584">&#9670;&#160;</a></span>removePlane()</h2>
 
@@ -2140,6 +2601,27 @@ paintTile</span>) ; <span class="tt">Ctrl+Z</span>/<span class="tt">Ctrl+Y</span
 </div><div class="memdoc">
 
 <p>Retire l'override de texture de <code class="param">position</code> (bouton « Retirer » de la section « Objets », <span class="tt">LOT-45</span>) ; sans effet si <code class="param">position</code> n'en a pas. </p>
+
+</div>
+</div>
+<a id="a324335f968ded80f9510dc725a23572d" name="a324335f968ded80f9510dc725a23572d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a324335f968ded80f9510dc725a23572d">&#9670;&#160;</a></span>renameMapLayer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::GameViewport::renameMapLayer </td>
+          <td>(</td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>index</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>name</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -2455,6 +2937,31 @@ paintTile</span>) ; <span class="tt">Ctrl+Z</span>/<span class="tt">Ctrl+Y</span
 
 </div>
 </div>
+<a id="a25bbd9a934495d07a93b391a23e43d73" name="a25bbd9a934495d07a93b391a23e43d73"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a25bbd9a934495d07a93b391a23e43d73">&#9670;&#160;</a></span>selectedEntity()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::optional&lt; std::size_t &gt; hmi::GameViewport::selectedEntity </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a273e2da0d67c189ea53d4a7325d06c56" name="a273e2da0d67c189ea53d4a7325d06c56"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a273e2da0d67c189ea53d4a7325d06c56">&#9670;&#160;</a></span>selectedPlaneIndex()</h2>
 
@@ -2481,6 +2988,23 @@ paintTile</span>) ; <span class="tt">Ctrl+Z</span>/<span class="tt">Ctrl+Y</span
 
 </div>
 </div>
+<a id="a0b785f936aaef6ebc84b82af609bf10f" name="a0b785f936aaef6ebc84b82af609bf10f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0b785f936aaef6ebc84b82af609bf10f">&#9670;&#160;</a></span>selectEntity()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::GameViewport::selectEntity </td>
+          <td>(</td>
+          <td class="paramtype">std::optional&lt; std::size_t &gt;</td>          <td class="paramname"><span class="paramname"><em>index</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a132b79cd6ee97c10fa0a5bdeb6641e64" name="a132b79cd6ee97c10fa0a5bdeb6641e64"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a132b79cd6ee97c10fa0a5bdeb6641e64">&#9670;&#160;</a></span>selectPlane()</h2>
 
@@ -2497,6 +3021,23 @@ paintTile</span>) ; <span class="tt">Ctrl+Z</span>/<span class="tt">Ctrl+Y</span
 </div><div class="memdoc">
 
 <p>Sélectionne (ou désélectionne) un plan depuis le panneau. </p>
+
+</div>
+</div>
+<a id="a491d6c6826812f38f72cdcee76446b44" name="a491d6c6826812f38f72cdcee76446b44"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a491d6c6826812f38f72cdcee76446b44">&#9670;&#160;</a></span>setActiveLayer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::GameViewport::setActiveLayer </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacehmi.html#ad45953c7acf96290259f1333570fda4d">LayerSlot</a></td>          <td class="paramname"><span class="paramname"><em>slot</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -2607,6 +3148,71 @@ paintTile</span>) ; <span class="tt">Ctrl+Z</span>/<span class="tt">Ctrl+Y</span
 
 <p>Affiche ou masque le compteur de diagnostic. </p>
 <p>Même état que <span class="tt"><a class="el" href="#adf120d3bee60d68392dc6c1d3bd1e626" title="Bascule le compteur de diagnostic (cadence, primitives, passes, pas de simulation ; F9,...">toggleDiagnosticsOverlay</a></span> et que la touche <span class="tt">F9</span> — <b>un seul</b> état, atteint par deux chemins (<span class="tt">EX-IHM-062</span>), et non deux réglages qui pourraient diverger. </p>
+
+</div>
+</div>
+<a id="a346917b065b0c8036b39bc650a084393" name="a346917b065b0c8036b39bc650a084393"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a346917b065b0c8036b39bc650a084393">&#9670;&#160;</a></span>setEditorReferences()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::GameViewport::setEditorReferences </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structhmi_1_1EditorReferences.html">EditorReferences</a> *</td>          <td class="paramname"><span class="paramname"><em>references</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Catalogues que les entités référencent (non possédés, fournis par <span class="tt"><a class="el" href="classhmi_1_1MainWindow.html" title="Fenêtre principale de l&#39;application Qt : poste de travail d&#39;éditeur à panneaux dockables autour du vi...">MainWindow</a></span>) ; relance la validation. </p>
+<p><span class="tt">nullptr</span> : rien n'est vérifié hors de la carte. </p>
+
+</div>
+</div>
+<a id="aa294272f0c90e4d7aa388bfc2a0179ab" name="aa294272f0c90e4d7aa388bfc2a0179ab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa294272f0c90e4d7aa388bfc2a0179ab">&#9670;&#160;</a></span>setEntityKindToPlace()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::GameViewport::setEntityKindToPlace </td>
+          <td>(</td>
+          <td class="paramtype">std::string</td>          <td class="paramname"><span class="paramname"><em>type</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Famille posée par l'outil « Entité » ; vide pour la simple sélection. </p>
+
+</div>
+</div>
+<a id="a6d074fa44527427c51867bd5bcdf1b3d" name="a6d074fa44527427c51867bd5bcdf1b3d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6d074fa44527427c51867bd5bcdf1b3d">&#9670;&#160;</a></span>setEntityProperty()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::GameViewport::setEntityProperty </td>
+          <td>(</td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>index</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacecore.html#a9f79b235a73b6264aa3a97d51267919d">core::PropertyValue</a></td>          <td class="paramname"><span class="paramname"><em>value</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -2799,6 +3405,48 @@ paintTile</span>) ; <span class="tt">Ctrl+Z</span>/<span class="tt">Ctrl+Y</span
 </div><div class="memdoc">
 
 <p>Fournit le catalogue de traduction (les messages d'état émis sont alors localisés). </p>
+
+</div>
+</div>
+<a id="a98f66521fd3874045e288d14b521dd73" name="a98f66521fd3874045e288d14b521dd73"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a98f66521fd3874045e288d14b521dd73">&#9670;&#160;</a></span>setMapLayerOpacity()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::GameViewport::setMapLayerOpacity </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacehmi.html#ad45953c7acf96290259f1333570fda4d">LayerSlot</a></td>          <td class="paramname"><span class="paramname"><em>slot</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>opacity</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9b41055f9998ef2f787e4130764d3e6d" name="a9b41055f9998ef2f787e4130764d3e6d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9b41055f9998ef2f787e4130764d3e6d">&#9670;&#160;</a></span>setMapLayerVisible()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::GameViewport::setMapLayerVisible </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacehmi.html#ad45953c7acf96290259f1333570fda4d">LayerSlot</a></td>          <td class="paramname"><span class="paramname"><em>slot</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>visible</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -3245,6 +3893,34 @@ paintTile</span>) ; <span class="tt">Ctrl+Z</span>/<span class="tt">Ctrl+Y</span
 
 </div>
 </div>
+<a id="a09a0a7505eeb591e748a7ca5025ae1fa" name="a09a0a7505eeb591e748a7ca5025ae1fa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a09a0a7505eeb591e748a7ca5025ae1fa">&#9670;&#160;</a></span>syncEditingState()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::GameViewport::syncEditingState </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Réaligne la couche active, les réglages de couches et l'entité sélectionnée sur le brouillon, puis recalcule les avertissements (<span class="tt">LOT-11</span>). </p>
+<p>Appelée par <span class="tt"><a class="el" href="#ab3bcb4f2e850c36f8a1c211fcaa8f3a2" title="Invalide le rendu du brouillon et notifie les panneaux dépendants (draftChanged) — à appeler après to...">markDraftMutated</a></span>. </p>
+
+</div>
+</div>
 <a id="a0c668d277f3854cf4a91b8ffe2053597" name="a0c668d277f3854cf4a91b8ffe2053597"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0c668d277f3854cf4a91b8ffe2053597">&#9670;&#160;</a></span>tick()</h2>
 
@@ -3635,6 +4311,30 @@ paintTile</span>) ; <span class="tt">Ctrl+Z</span>/<span class="tt">Ctrl+Y</span
 </div>
 </div>
 <a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Member Data Documentation</h2>
+<a id="af116039c2d0d703d7ee7fa6471ec7693" name="af116039c2d0d703d7ee7fa6471ec7693"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af116039c2d0d703d7ee7fa6471ec7693">&#9670;&#160;</a></span>_activeLayer</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacehmi.html#ad45953c7acf96290259f1333570fda4d">LayerSlot</a> hmi::GameViewport::_activeLayer</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Couche peinte ; la grille racine par défaut. </p>
+
+</div>
+</div>
 <a id="a660e1441fa6a267336b9450cbb524331" name="a660e1441fa6a267336b9450cbb524331"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a660e1441fa6a267336b9450cbb524331">&#9670;&#160;</a></span>_activeTextureAsset</h2>
 
@@ -3776,6 +4476,28 @@ paintTile</span>) ; <span class="tt">Ctrl+Z</span>/<span class="tt">Ctrl+Y</span
 </div><div class="memdoc">
 
 <p>Presse-papiers local (types de tuiles, <span class="tt">[ligne][colonne]</span>), pour <span class="tt">Ctrl+C</span>/<span class="tt">Ctrl+V</span>. </p>
+
+</div>
+</div>
+<a id="a8acdae5844671dc50554e5de8b16acdd" name="a8acdae5844671dc50554e5de8b16acdd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8acdae5844671dc50554e5de8b16acdd">&#9670;&#160;</a></span>_diagnostics</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;<a class="el" href="structhmi_1_1EditorDiagnostic.html">EditorDiagnostic</a>&gt; hmi::GameViewport::_diagnostics</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -3994,6 +4716,52 @@ paintTile</span>) ; <span class="tt">Ctrl+Z</span>/<span class="tt">Ctrl+Y</span
 
 </div>
 </div>
+<a id="ae3b28add953656c517b2ab3493ade119" name="ae3b28add953656c517b2ab3493ade119"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae3b28add953656c517b2ab3493ade119">&#9670;&#160;</a></span>_entityKindToPlace</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string hmi::GameViewport::_entityKindToPlace</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Famille posée par l'outil « Entité ». </p>
+
+</div>
+</div>
+<a id="a1a5520d087aee4e25f72fc2e5b6a386f" name="a1a5520d087aee4e25f72fc2e5b6a386f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1a5520d087aee4e25f72fc2e5b6a386f">&#9670;&#160;</a></span>_entityPressCell</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a> hmi::GameViewport::_entityPressCell {}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="ae7cbee33340359aeea915deb28375c38" name="ae7cbee33340359aeea915deb28375c38"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae7cbee33340359aeea915deb28375c38">&#9670;&#160;</a></span>_frameRateAverage</h2>
 
@@ -4132,6 +4900,30 @@ paintTile</span>) ; <span class="tt">Ctrl+Z</span>/<span class="tt">Ctrl+Y</span
 
 </div>
 </div>
+<a id="abfaba37da87b1a6fcc240a4faf306689" name="abfaba37da87b1a6fcc240a4faf306689"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abfaba37da87b1a6fcc240a4faf306689">&#9670;&#160;</a></span>_grabbedEntity</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::optional&lt;std::size_t&gt; hmi::GameViewport::_grabbedEntity</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Entité saisie à l'appui (outil « Entité »), déplacée au relâchement si la case change. </p>
+
+</div>
+</div>
 <a id="a6c194e96b4892be4af8e0196e859d702" name="a6c194e96b4892be4af8e0196e859d702"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6c194e96b4892be4af8e0196e859d702">&#9670;&#160;</a></span>_highlightedOverride</h2>
 
@@ -4249,6 +5041,30 @@ paintTile</span>) ; <span class="tt">Ctrl+Z</span>/<span class="tt">Ctrl+Y</span
 </div><div class="memdoc">
 
 <p>Nombre de pas de simulation consommés au dernier <span class="tt"><a class="el" href="#a0c668d277f3854cf4a91b8ffe2053597" title="Avance la simulation d&#39;une image (entrées, pas fixes, sons) — sans rien dessiner.">tick()</a></span> &ndash; distinct de la cadence de rendu depuis le <span class="tt">LOT-33</span> (<span class="tt"><a class="el" href="structhmi_1_1DiagnosticsMeasurements.html#a0676efd9a3bc7443d2ff90d30e376225" title="Nombre de pas de simulation consommés à la dernière image (core::FixedTimestep::advance) : révèle imm...">hmi::DiagnosticsMeasurements::simulationSteps</a></span>). </p>
+
+</div>
+</div>
+<a id="aef9b916a2749aeaf621000f812c944d8" name="aef9b916a2749aeaf621000f812c944d8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aef9b916a2749aeaf621000f812c944d8">&#9670;&#160;</a></span>_layerView</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classhmi_1_1LayerViewState.html">hmi::LayerViewState</a> hmi::GameViewport::_layerView</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Visibilité et opacité par couche (aide d'édition). </p>
 
 </div>
 </div>
@@ -4514,6 +5330,76 @@ paintTile</span>) ; <span class="tt">Ctrl+Z</span>/<span class="tt">Ctrl+Y</span
 
 </div>
 </div>
+<a id="a3008ba795acd87de058f111fcfadd0ad" name="a3008ba795acd87de058f111fcfadd0ad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3008ba795acd87de058f111fcfadd0ad">&#9670;&#160;</a></span>_referenceContext</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structcore_1_1EntityReferenceContext.html">core::EntityReferenceContext</a> hmi::GameViewport::_referenceContext</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aada5a34393de766dc3851be3b1d08e65" name="aada5a34393de766dc3851be3b1d08e65"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aada5a34393de766dc3851be3b1d08e65">&#9670;&#160;</a></span>_references</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="structhmi_1_1EditorReferences.html">EditorReferences</a>* hmi::GameViewport::_references = nullptr</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Catalogues, non possédés. </p>
+
+</div>
+</div>
+<a id="a4e83850a8e8bc88246790e4ca12ddb86" name="a4e83850a8e8bc88246790e4ca12ddb86"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4e83850a8e8bc88246790e4ca12ddb86">&#9670;&#160;</a></span>_refusalReported</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool hmi::GameViewport::_refusalReported = false</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Vrai si un type refusé par la couche active a déjà été signalé pendant le geste en cours : un glisser de pinceau ne répète pas le même message à chaque case. </p>
+
+</div>
+</div>
 <a id="aac05c7a1070af1777f025f5215336aac" name="aac05c7a1070af1777f025f5215336aac"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aac05c7a1070af1777f025f5215336aac">&#9670;&#160;</a></span>_renderMode</h2>
 
@@ -4609,6 +5495,28 @@ paintTile</span>) ; <span class="tt">Ctrl+Z</span>/<span class="tt">Ctrl+Y</span
 
 <p>Lot de sprites, atlas, police, textures et skins — communs au viewport de l'éditeur et à l'élément Qt Quick du jeu (<span class="tt">LOT-86</span>). </p>
 <p>Regroupés parce que leur ORDRE de libération est une contrainte, pas une préférence : voir <span class="tt"><a class="el" href="classhmi_1_1SceneResources.html" title="Lot de sprites, atlas, police bitmap, registre de textures et catalogue de skins — créés ensemble,...">hmi::SceneResources</a></span>. </p>
+
+</div>
+</div>
+<a id="a38b2b6d906187851cb6a210d36dcf56e" name="a38b2b6d906187851cb6a210d36dcf56e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a38b2b6d906187851cb6a210d36dcf56e">&#9670;&#160;</a></span>_selectedEntity</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::optional&lt;std::size_t&gt; hmi::GameViewport::_selectedEntity</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -4751,6 +5659,28 @@ paintTile</span>) ; <span class="tt">Ctrl+Z</span>/<span class="tt">Ctrl+Y</span
 </div><div class="memdoc">
 
 <p>Jeu de skins courant ; vide pour le jeu par défaut du catalogue. </p>
+
+</div>
+</div>
+<a id="ae763ebd2e577f380d6b5a5a29b548a78" name="ae763ebd2e577f380d6b5a5a29b548a78"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae763ebd2e577f380d6b5a5a29b548a78">&#9670;&#160;</a></span>_terrains</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;<a class="el" href="structcore_1_1EncounterTerrain.html">core::EncounterTerrain</a>&gt; hmi::GameViewport::_terrains</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 </div>
 </div>

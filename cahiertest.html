@@ -93,9 +93,9 @@ $(function(){initNavTree('cahiertest.html','',''); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md_CahierTest"></a></p>
-<p><b>1196 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
+<p><b>1272 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md5"></a>
-Tests unitaires (1181)</h1>
+Tests unitaires (1256)</h1>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md6"></a>
 Core</h2>
 <p><b><span class="tt"><a class="el" href="test__core_8cpp.html" title="Tests unitaires de la bibliothèque Core (amorçage).">test_core.cpp</a></span></b></p>
@@ -108,7 +108,7 @@ Core</h2>
 2. Executer le scenario et verifier les assertions.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">engine.version().empty()</span> est faux.  </td></tr>
 </table>
 <h3 class="doxsection"><a class="anchor" id="autotoc_md7"></a>
-Combat (102)</h3>
+Combat (112)</h3>
 <p><b><span class="tt"><a class="el" href="test__action__economy_8cpp.html" title="Tests de l&#39;économie d&#39;action et des mémoires à portée (LOT-20, EX-CBT-011).">test_action_economy.cpp</a></span></b></p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -1426,6 +1426,81 @@ Vérifie que <span class="tt">parAire-&gt;steps</span> vaut <span class="tt">par
 Vérifie que <span class="tt">parAire-&gt;cost</span> vaut <span class="tt">parAStar-&gt;cost</span>.<br  />
 Vérifie que <span class="tt">comparaisons</span> est strictement supérieur à <span class="tt">2000</span>.  </td></tr>
 </table>
+<p><b><span class="tt"><a class="el" href="test__tactical__terrain_8cpp.html" title="Tests de l&#39;avertissement d&#39;une rencontre mal posée (LOT-11, EX-CBT-001).">test_tactical_terrain.cpp</a></span></b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>TacticalTerrainTest.UneRencontreEnChampOuvertEstValide</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__tactical__terrain_8cpp.html" title="Tests de l&#39;avertissement d&#39;une rencontre mal posée (LOT-11, EX-CBT-001).">Source/Test/Unit/Core/Combat/test_tactical_terrain.cpp</a>:61</span></sub>  </td><td class="markdownTableBodyNone">Une rencontre en champ ouvert est un terrain tactique valide.  </td><td class="markdownTableBodyNone">1. Poser une rencontre de deux rats au centre d'une carte vide de 20 x 20.<br  />
+ 2. Analyser le terrain.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">verdicts.size()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">verdict.valid()</span> est vrai.<br  />
+Vérifie que <span class="tt">verdict.entityIndex</span> vaut <span class="tt">0U</span>.<br  />
+Vérifie que <span class="tt">verdict.encounterId</span> vaut <span class="tt">"rats"</span>.<br  />
+Vérifie que <span class="tt">verdict.placements.size()</span> vaut <span class="tt">2U</span>.<br  />
+Vérifie que <span class="tt">verdict.requiredCells</span> vaut <span class="tt">(2 + <a class="el" href="namespacecore.html#a76f9939825ea1936f1fd120f9435d447" title="Taille du groupe du joueur que la zone doit accueillir en plus de la rencontre.">core::TACTICAL_PARTY_SIZE</a>) * 4</span>.<br  />
+Vérifie que <span class="tt">verdict.area.size()</span> vaut <span class="tt">13U * 13U</span>.<br  />
+Vérifie que <span class="tt">verdict.area.front()</span> vaut <span class="tt">(<a class="el" href="structcore_1_1GridPosition.html" title="Position d&#39;une case dans la grille d&#39;un niveau, en coordonnées entières.">core::GridPosition</a>{.column = 4, .row = 4})</span>.<br  />
+Vérifie que <span class="tt">verdict.area.back()</span> vaut <span class="tt">(<a class="el" href="structcore_1_1GridPosition.html" title="Position d&#39;une case dans la grille d&#39;un niveau, en coordonnées entières.">core::GridPosition</a>{.column = 16, .row = 16})</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>TacticalTerrainTest.UnCombattantDansUnMurEstSignale</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__tactical__terrain_8cpp.html" title="Tests de l&#39;avertissement d&#39;une rencontre mal posée (LOT-11, EX-CBT-001).">Source/Test/Unit/Core/Combat/test_tactical_terrain.cpp</a>:90</span></sub>  </td><td class="markdownTableBodyNone">Un combattant pose dans un mur est signale.  </td><td class="markdownTableBodyNone">1. Murer la case devant le declencheur.<br  />
+2. Analyser le terrain.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">verdicts.size()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">verdicts.front().issues</span> vaut <span class="tt">attendus</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>TacticalTerrainTest.UnCombattantHorsDeLaCarteEstSignale</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__tactical__terrain_8cpp.html" title="Tests de l&#39;avertissement d&#39;une rencontre mal posée (LOT-11, EX-CBT-001).">Source/Test/Unit/Core/Combat/test_tactical_terrain.cpp</a>:114</span></sub>  </td><td class="markdownTableBodyNone">Un combattant hors de la carte est signale.  </td><td class="markdownTableBodyNone">1. Poser le declencheur sur la premiere ligne : le premier rat tombe en ligne -1.<br  />
+ 2. Analyser le terrain.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">verdicts.size()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">verdicts.front().issues</span> vaut <span class="tt">attendus</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>TacticalTerrainTest.DeuxCombattantsSuperposesSontSignales</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__tactical__terrain_8cpp.html" title="Tests de l&#39;avertissement d&#39;une rencontre mal posée (LOT-11, EX-CBT-001).">Source/Test/Unit/Core/Combat/test_tactical_terrain.cpp</a>:137</span></sub>  </td><td class="markdownTableBodyNone">Deux combattants superposes sont signales.  </td><td class="markdownTableBodyNone">1. Ecrire une rencontre dont deux combattants partagent un decalage.<br  />
+ 2. Analyser le terrain.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">verdicts.size()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">verdicts.front().issues</span> vaut <span class="tt">attendus</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>TacticalTerrainTest.UnCouloirTropEtroitEstSignale</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__tactical__terrain_8cpp.html" title="Tests de l&#39;avertissement d&#39;une rencontre mal posée (LOT-11, EX-CBT-001).">Source/Test/Unit/Core/Combat/test_tactical_terrain.cpp</a>:165</span></sub>  </td><td class="markdownTableBodyNone">Un couloir trop etroit est signale.  </td><td class="markdownTableBodyNone">1. Murer une carte de 30 x 3 sauf sa ligne du milieu.<br  />
+2. Y poser une rencontre de deux combattants alignes.<br  />
+3. Analyser le terrain.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">verdicts.size()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">verdict.area.size()</span> vaut <span class="tt">13U</span>.<br  />
+Vérifie que <span class="tt">verdict.requiredCells</span> vaut <span class="tt">24</span>.<br  />
+Vérifie que <span class="tt">verdict.issues</span> vaut <span class="tt">attendus</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>TacticalTerrainTest.UnDeclencheurDansUnMurNAAucuneZone</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__tactical__terrain_8cpp.html" title="Tests de l&#39;avertissement d&#39;une rencontre mal posée (LOT-11, EX-CBT-001).">Source/Test/Unit/Core/Combat/test_tactical_terrain.cpp</a>:200</span></sub>  </td><td class="markdownTableBodyNone">Un declencheur dans un mur n'a aucune zone.  </td><td class="markdownTableBodyNone">1. Murer la case du declencheur d'un champ ouvert.<br  />
+2. Analyser le terrain.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">verdicts.size()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">verdicts.front().area.empty()</span> est vrai.<br  />
+Vérifie que <span class="tt">verdicts.front().issues.empty()</span> est faux.<br  />
+Vérifie que <span class="tt">verdicts.front().issues.back().code</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a81dfcf1ac21704e4f64a7780ec772910a8056209b717ddb217ee5d79cfa19823c" title="La zone atteignable autour du déclencheur ne loge pas tout le monde.">core::TacticalIssueCode::AreaTooNarrow</a></span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>TacticalTerrainTest.UneRencontreInconnueEstIgnoree</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__tactical__terrain_8cpp.html" title="Tests de l&#39;avertissement d&#39;une rencontre mal posée (LOT-11, EX-CBT-001).">Source/Test/Unit/Core/Combat/test_tactical_terrain.cpp</a>:222</span></sub>  </td><td class="markdownTableBodyNone">Une rencontre inconnue est ignoree.  </td><td class="markdownTableBodyNone">1. Poser une rencontre inconnue, puis une connue.<br  />
+2. Analyser le terrain.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">verdicts.size()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">verdicts.front().entityIndex</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">verdicts.front().encounterId</span> vaut <span class="tt">"rats"</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>TacticalTerrainTest.LesAutresEntitesSontIgnorees</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__tactical__terrain_8cpp.html" title="Tests de l&#39;avertissement d&#39;une rencontre mal posée (LOT-11, EX-CBT-001).">Source/Test/Unit/Core/Combat/test_tactical_terrain.cpp</a>:244</span></sub>  </td><td class="markdownTableBodyNone">Les entites qui ne sont pas des rencontres sont ignorees.  </td><td class="markdownTableBodyNone">1. Poser un coffre portant un encounterId, et une rencontre sans encounterId, tous deux dans un mur.<br  />
+2. Analyser le terrain.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">core::analyzeEncounterTerrain(collision, entites, catalogue()).empty()</span> est vrai.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>TacticalTerrainTest.LEmpriseDUneGrandeCreatureVientDuBestiaire</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__tactical__terrain_8cpp.html" title="Tests de l&#39;avertissement d&#39;une rencontre mal posée (LOT-11, EX-CBT-001).">Source/Test/Unit/Core/Combat/test_tactical_terrain.cpp</a>:268</span></sub>  </td><td class="markdownTableBodyNone">L'emprise d'une grande creature vient du bestiaire.  </td><td class="markdownTableBodyNone">1. Poser un ogre (taille G) dont seule la case diagonale de son emprise est muree.<br  />
+2. Analyser sans bestiaire, puis avec.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">sansBestiaire.size()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">sansBestiaire.front().valid()</span> est vrai.<br  />
+Vérifie que <span class="tt">avecBestiaire.size()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">avecBestiaire.front().issues</span> vaut <span class="tt">attendus</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>TacticalTerrainTest.LAnalyseEstDeterministe</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__tactical__terrain_8cpp.html" title="Tests de l&#39;avertissement d&#39;une rencontre mal posée (LOT-11, EX-CBT-001).">Source/Test/Unit/Core/Combat/test_tactical_terrain.cpp</a>:306</span></sub>  </td><td class="markdownTableBodyNone">L'analyse est deterministe.  </td><td class="markdownTableBodyNone">1. Poser trois rencontres, dont une mal posee.<br  />
+2. Analyser deux fois.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">premier.size()</span> vaut <span class="tt">3U</span>.<br  />
+Vérifie que <span class="tt">second.size()</span> vaut <span class="tt">3U</span>.<br  />
+Vérifie que <span class="tt">premier[i].entityIndex</span> vaut <span class="tt">i</span>.<br  />
+Vérifie que <span class="tt">premier[i].area</span> vaut <span class="tt">second[i].area</span>.<br  />
+Vérifie que <span class="tt">premier[i].issues</span> vaut <span class="tt">second[i].issues</span>.<br  />
+Vérifie que <span class="tt">premier[0].valid()</span> est vrai.<br  />
+Vérifie que <span class="tt">premier[1].valid()</span> est faux.<br  />
+Vérifie que <span class="tt">premier[2].valid()</span> est faux.  </td></tr>
+</table>
 <p><b><span class="tt"><a class="el" href="test__turn__order_8cpp.html" title="Tests de l&#39;ordre d&#39;initiative : départage, repères fixes, places après un départ (LOT-20,...">test_turn_order.cpp</a></span></b></p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -2227,7 +2302,7 @@ Vérifie que <span class="tt">reloaded.isDoorOpen(0)</span> est faux.<br  />
 Vérifie que <span class="tt">reloaded.collisionMap().isSolid(4, 1)</span> est vrai.  </td></tr>
 </table>
 <h3 class="doxsection"><a class="anchor" id="autotoc_md12"></a>
-Levels (135)</h3>
+Levels (147)</h3>
 <p><b><span class="tt"><a class="el" href="test__camera__framing_8cpp.html" title="Tests unitaires du cadrage de caméra porté par le niveau : modes, règle de repli et validation (EX-LV...">test_camera_framing.cpp</a></span></b></p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -2609,6 +2684,149 @@ Vérifie que <span class="tt">rewritten.level-&gt;planes()[0].fileName</span> va
 Vérifie que <span class="tt">rewritten.level-&gt;planes()[0].pixelsPerUnit</span> vaut <span class="tt">4</span>.<br  />
 Vérifie que <span class="tt">rewritten.level-&gt;planes()[1].fileName</span> vaut <span class="tt">"devant.png"</span>.<br  />
 Vérifie que <span class="tt">rewritten.level-&gt;planes()[1].depth</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a6dc89438a55a80980ab04f7da513f731a5835bab1ade0060909e31a06af2e2cde" title="Devant le personnage (EX-DEC-042) : c&#39;est le moyen de lecture qui distingue d&#39;un coup d&#39;œil le décor ...">core::PlaneDepth::Front</a></span>.  </td></tr>
+</table>
+<p><b><span class="tt"><a class="el" href="test__level__draft__editing_8cpp.html" title="Tests unitaires de l&#39;édition des couches et des entités d&#39;un brouillon (LOT-11) : création,...">test_level_draft_editing.cpp</a></span></b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>EditionDeCarteTest.PremiereCoucheVisuellePromeutLaGrilleUnique</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__level__draft__editing_8cpp.html" title="Tests unitaires de l&#39;édition des couches et des entités d&#39;un brouillon (LOT-11) : création,...">Source/Test/Unit/Core/Levels/test_level_draft_editing.cpp</a>:81</span></sub>  </td><td class="markdownTableBodyNone">Ajouter la premiere couche promeut la grille unique.  </td><td class="markdownTableBodyNone">1. Ouvrir une carte sans couche declaree.<br  />
+2. Ajouter une couche de sol.<br  />
+3. Reconvertir en niveau.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">draft.layers().size()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">draft.layers().front().kind</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ab0cf50b7ad0dce1357c85662e0fb7e5da0cc0a0507cf3d31e5089f420a4cf8b4b">core::LayerKind::Legacy</a></span>.<br  />
+Vérifie que <span class="tt">ground.has_value()</span> est vrai.<br  />
+Vérifie que <span class="tt">draft.layers().size()</span> vaut <span class="tt">2U</span>.<br  />
+Vérifie que <span class="tt">draft.layers().front().kind</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ab0cf50b7ad0dce1357c85662e0fb7e5da15fb6ccbd11ebebcea2b48dc477f3561">core::LayerKind::Collision</a></span>.<br  />
+Vérifie que <span class="tt">tiles.tile(0, 0)</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875a94e8a499539d1a472f3b5dbbb85508c0" title="Mur : la matière pleine bâtie, distincte de Solid (matière générique du socle) parce que l&#39;éditeur et...">core::TileType::Wall</a></span>.<br  />
+Vérifie que <span class="tt">tiles.tile(1, 0)</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875aaac9a63596f76a62bb9f61a5dd7c0d25" title="Herbe : le sol par défaut d&#39;une carte extérieure.">core::TileType::Grass</a></span>.<br  />
+Vérifie que <span class="tt">tiles.tile(2, 0)</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875ace2c8aed9c2fa0cfbed56cbda4d8bf07">core::TileType::Empty</a></span>.<br  />
+Vérifie que <span class="tt">tiles.tile(1, 1)</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875ace2c8aed9c2fa0cfbed56cbda4d8bf07">core::TileType::Empty</a></span>.<br  />
+Vérifie que <span class="tt">rebuilt.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt">rebuilt.level-&gt;layers().size()</span> vaut <span class="tt">2U</span>.<br  />
+Vérifie que <span class="tt">rebuilt.level-&gt;layers().front().kind</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ab0cf50b7ad0dce1357c85662e0fb7e5da15fb6ccbd11ebebcea2b48dc477f3561">core::LayerKind::Collision</a></span>.<br  />
+Vérifie que <span class="tt">rebuilt.level-&gt;layers().front().tiles.tile(2, 0)</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875a990816b607ebf99b1415760965e4d564">core::TileType::Danger</a></span>.<br  />
+Vérifie que <span class="tt">rebuilt.level-&gt;layers()[1].tiles.tile(0, 0)</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875a94e8a499539d1a472f3b5dbbb85508c0" title="Mur : la matière pleine bâtie, distincte de Solid (matière générique du socle) parce que l&#39;éditeur et...">core::TileType::Wall</a></span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>EditionDeCarteTest.BrouillonViergeRecoitLaCoucheDeCollision</b> (Mineur)<br  />
+<sub><span class="tt"><a class="el" href="test__level__draft__editing_8cpp.html" title="Tests unitaires de l&#39;édition des couches et des entités d&#39;un brouillon (LOT-11) : création,...">Source/Test/Unit/Core/Levels/test_level_draft_editing.cpp</a>:116</span></sub>  </td><td class="markdownTableBodyNone">Un brouillon vierge s'aligne sur le chargeur.  </td><td class="markdownTableBodyNone">1. Creer un brouillon vierge et y poser un mur.<br  />
+2. Ajouter un sol puis un decor.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">draft.addLayer(<a class="el" href="namespacecore.html#ab0cf50b7ad0dce1357c85662e0fb7e5da3519d51443d41746a097cd54cd5c11cf">core::LayerKind::Ground</a>, "sol")</span> vaut <span class="tt">std::optional&lt;std::size_t&gt;{1}</span>.<br  />
+Vérifie que <span class="tt">draft.addLayer(<a class="el" href="namespacecore.html#ab0cf50b7ad0dce1357c85662e0fb7e5dae953e8671da3a0647c0939df8ebe8e44">core::LayerKind::Decor</a>, "decor")</span> vaut <span class="tt">std::optional&lt;std::size_t&gt;{2}</span>.<br  />
+Vérifie que <span class="tt">draft.layers().size()</span> vaut <span class="tt">3U</span>.<br  />
+Vérifie que <span class="tt">draft.layers()[0].kind</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ab0cf50b7ad0dce1357c85662e0fb7e5da15fb6ccbd11ebebcea2b48dc477f3561">core::LayerKind::Collision</a></span>.<br  />
+Vérifie que <span class="tt">draft.layers()[1].tiles.tile(0, 0)</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875a94e8a499539d1a472f3b5dbbb85508c0" title="Mur : la matière pleine bâtie, distincte de Solid (matière générique du socle) parce que l&#39;éditeur et...">core::TileType::Wall</a></span>.<br  />
+Vérifie que <span class="tt">draft.layers()[2].tiles.tile(0, 0)</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875ace2c8aed9c2fa0cfbed56cbda4d8bf07">core::TileType::Empty</a></span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>EditionDeCarteTest.CoucheNonVisuelleRefusee</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__level__draft__editing_8cpp.html" title="Tests unitaires de l&#39;édition des couches et des entités d&#39;un brouillon (LOT-11) : création,...">Source/Test/Unit/Core/Levels/test_level_draft_editing.cpp</a>:138</span></sub>  </td><td class="markdownTableBodyNone">Une couche de collision ne se cree pas.  </td><td class="markdownTableBodyNone">1. Demander une couche Collision, puis Legacy.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">draft.addLayer(<a class="el" href="namespacecore.html#ab0cf50b7ad0dce1357c85662e0fb7e5da15fb6ccbd11ebebcea2b48dc477f3561">core::LayerKind::Collision</a>, "x").has_value()</span> est faux.<br  />
+Vérifie que <span class="tt">draft.addLayer(<a class="el" href="namespacecore.html#ab0cf50b7ad0dce1357c85662e0fb7e5da0cc0a0507cf3d31e5089f420a4cf8b4b">core::LayerKind::Legacy</a>, "x").has_value()</span> est faux.<br  />
+Vérifie que <span class="tt">draft.canUndo()</span> est faux.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>EditionDeCarteTest.PeindreUneCoucheVisuelleNeTouchePasLaCollision</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__level__draft__editing_8cpp.html" title="Tests unitaires de l&#39;édition des couches et des entités d&#39;un brouillon (LOT-11) : création,...">Source/Test/Unit/Core/Levels/test_level_draft_editing.cpp</a>:155</span></sub>  </td><td class="markdownTableBodyNone">Peindre le sol laisse la collision intacte.  </td><td class="markdownTableBodyNone">1. Peindre de l'eau sur le sol.<br  />
+2. Tenter une porte sur le sol.<br  />
+3. Reconvertir.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">draft.paintLayerTile(ground, 2, 1, core::TileType::Water)</span> est vrai.<br  />
+Vérifie que <span class="tt">draft.paintLayerTile(ground, 2, 1, core::TileType::Door)</span> est faux.<br  />
+Vérifie que <span class="tt">draft.paintLayerTile(ground, 9, 9, core::TileType::Water)</span> est faux.<br  />
+Vérifie que <span class="tt">rebuilt.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt">rebuilt.level-&gt;tileMap().tile(2, 1)</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875ace2c8aed9c2fa0cfbed56cbda4d8bf07">core::TileType::Empty</a></span>.<br  />
+Vérifie que <span class="tt">rebuilt.level-&gt;layers()[ground].tiles.tile(2, 1)</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875a27634ff8002b12e75d98e07ccd005d18" title="Eau peu profonde : traversable — on y patauge.">core::TileType::Water</a></span>.<br  />
+Vérifie que <span class="tt">rebuilt.level-&gt;layers()[decor].tiles.tile(2, 1)</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875ace2c8aed9c2fa0cfbed56cbda4d8bf07">core::TileType::Empty</a></span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>EditionDeCarteTest.GesteDeCoucheSansEffetNEmpileRien</b> (Mineur)<br  />
+<sub><span class="tt"><a class="el" href="test__level__draft__editing_8cpp.html" title="Tests unitaires de l&#39;édition des couches et des entités d&#39;un brouillon (LOT-11) : création,...">Source/Test/Unit/Core/Levels/test_level_draft_editing.cpp</a>:182</span></sub>  </td><td class="markdownTableBodyNone">Un geste de couche refuse n'empile rien.  </td><td class="markdownTableBodyNone">1. Peindre l'entree de collision par paintLayerTile.<br  />
+2. Repeindre l'herbe deja posee sur le sol.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">draft.paintLayerTile(collision, 0, 0, core::TileType::Wall)</span> est faux.<br  />
+Vérifie que <span class="tt">draft.paintLayerTile(ground, 0, 0, core::TileType::Grass)</span> est faux.<br  />
+Vérifie que <span class="tt">draft.canUndo()</span> est faux.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>EditionDeCarteTest.BlocDeCoucheEnUnPasEtRefuseSiMixte</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__level__draft__editing_8cpp.html" title="Tests unitaires de l&#39;édition des couches et des entités d&#39;un brouillon (LOT-11) : création,...">Source/Test/Unit/Core/Levels/test_level_draft_editing.cpp</a>:202</span></sub>  </td><td class="markdownTableBodyNone">Un bloc de couche est un seul pas d'annulation.  </td><td class="markdownTableBodyNone">1. Peindre un bloc 2x2 de sable qui deborde du bord droit.<br  />
+2. Annuler.<br  />
+3. Peindre un bloc melant sable et entree.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">draft.paintLayerRegion(decor, 3, 0, sand)</span> est vrai.<br  />
+Vérifie que <span class="tt">draft.layers()[decor].tiles.tile(3, 0)</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875acec7ca178e2f7b1ae3a4600868c57aca" title="Sable : plages et déserts. Traversable, comme l&#39;herbe et la terre.">core::TileType::Sand</a></span>.<br  />
+Vérifie que <span class="tt">draft.layers()[decor].tiles.tile(3, 1)</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875acec7ca178e2f7b1ae3a4600868c57aca" title="Sable : plages et déserts. Traversable, comme l&#39;herbe et la terre.">core::TileType::Sand</a></span>.<br  />
+Vérifie que <span class="tt">draft.undo()</span> est vrai.<br  />
+Vérifie que <span class="tt">draft.layers()[decor].tiles.tile(3, 0)</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875ace2c8aed9c2fa0cfbed56cbda4d8bf07">core::TileType::Empty</a></span>.<br  />
+Vérifie que <span class="tt">draft.canUndo()</span> est faux.<br  />
+Vérifie que <span class="tt">draft.paintLayerRegion(decor, 0, 0, mixed)</span> est faux.<br  />
+Vérifie que <span class="tt">draft.layers()[decor].tiles.tile(0, 0)</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875ace2c8aed9c2fa0cfbed56cbda4d8bf07">core::TileType::Empty</a></span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>EditionDeCarteTest.DeplacerUneCoucheNeFranchitPasLaCollision</b> (Mineur)<br  />
+<sub><span class="tt"><a class="el" href="test__level__draft__editing_8cpp.html" title="Tests unitaires de l&#39;édition des couches et des entités d&#39;un brouillon (LOT-11) : création,...">Source/Test/Unit/Core/Levels/test_level_draft_editing.cpp</a>:232</span></sub>  </td><td class="markdownTableBodyNone">Une couche se deplace entre couches visuelles.  </td><td class="markdownTableBodyNone">1. Reculer le decor.<br  />
+2. Reculer encore le decor devenu premier visuel.<br  />
+3. Avancer le dernier, puis la collision.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">draft.layers()[1].kind</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ab0cf50b7ad0dce1357c85662e0fb7e5da3519d51443d41746a097cd54cd5c11cf">core::LayerKind::Ground</a></span>.<br  />
+Vérifie que <span class="tt">draft.layers()[2].kind</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ab0cf50b7ad0dce1357c85662e0fb7e5dae953e8671da3a0647c0939df8ebe8e44">core::LayerKind::Decor</a></span>.<br  />
+Vérifie que <span class="tt">draft.moveLayer(2, /*forward=*/false)</span> vaut <span class="tt">std::optional&lt;std::size_t&gt;{1}</span>.<br  />
+Vérifie que <span class="tt">draft.layers()[1].kind</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ab0cf50b7ad0dce1357c85662e0fb7e5dae953e8671da3a0647c0939df8ebe8e44">core::LayerKind::Decor</a></span>.<br  />
+Vérifie que <span class="tt">draft.moveLayer(1, /*forward=*/false)</span> vaut <span class="tt">std::optional&lt;std::size_t&gt;{1}</span>.<br  />
+Vérifie que <span class="tt">draft.moveLayer(2, /*forward=*/true)</span> vaut <span class="tt">std::optional&lt;std::size_t&gt;{2}</span>.<br  />
+Vérifie que <span class="tt">draft.moveLayer(0, /*forward=*/true).has_value()</span> est faux.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>EditionDeCarteTest.RetirerLesCouchesVisuellesRendLaGrilleUnique</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__level__draft__editing_8cpp.html" title="Tests unitaires de l&#39;édition des couches et des entités d&#39;un brouillon (LOT-11) : création,...">Source/Test/Unit/Core/Levels/test_level_draft_editing.cpp</a>:256</span></sub>  </td><td class="markdownTableBodyNone">Retirer toutes les couches visuelles rend la grille unique.  </td><td class="markdownTableBodyNone">1. Retirer le decor puis le sol.<br  />
+2. Reconvertir.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">draft.removeLayer(2)</span> est vrai.<br  />
+Vérifie que <span class="tt">draft.removeLayer(1)</span> est vrai.<br  />
+Vérifie que <span class="tt">draft.removeLayer(0)</span> est faux.<br  />
+Vérifie que <span class="tt">draft.layers().size()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">draft.layers().front().kind</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ab0cf50b7ad0dce1357c85662e0fb7e5da0cc0a0507cf3d31e5089f420a4cf8b4b">core::LayerKind::Legacy</a></span>.<br  />
+Vérifie que <span class="tt">rebuilt.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt">rebuilt.level-&gt;layers().size()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">rebuilt.level-&gt;layers().front().kind</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ab0cf50b7ad0dce1357c85662e0fb7e5da0cc0a0507cf3d31e5089f420a4cf8b4b">core::LayerKind::Legacy</a></span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>EditionDeCarteTest.NomEtRoleDUneCoucheSEditent</b> (Mineur)<br  />
+<sub><span class="tt"><a class="el" href="test__level__draft__editing_8cpp.html" title="Tests unitaires de l&#39;édition des couches et des entités d&#39;un brouillon (LOT-11) : création,...">Source/Test/Unit/Core/Levels/test_level_draft_editing.cpp</a>:279</span></sub>  </td><td class="markdownTableBodyNone">Nom et role d'une couche s'editent.  </td><td class="markdownTableBodyNone">1. Renommer le sol, puis en faire un decor.<br  />
+2. Reconvertir.<br  />
+3. Annuler deux fois.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">draft.renameLayer(1, "prairie")</span> est vrai.<br  />
+Vérifie que <span class="tt">draft.renameLayer(1, "prairie")</span> est faux.<br  />
+Vérifie que <span class="tt">draft.setLayerKind(1, core::LayerKind::Decor)</span> est vrai.<br  />
+Vérifie que <span class="tt">draft.setLayerKind(1, core::LayerKind::Collision)</span> est faux.<br  />
+Vérifie que <span class="tt">rebuilt.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt">rebuilt.level-&gt;layers()[1].name</span> vaut <span class="tt">"prairie"</span>.<br  />
+Vérifie que <span class="tt">rebuilt.level-&gt;layers()[1].kind</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ab0cf50b7ad0dce1357c85662e0fb7e5dae953e8671da3a0647c0939df8ebe8e44">core::LayerKind::Decor</a></span>.<br  />
+Vérifie que <span class="tt">draft.undo()</span> est vrai.<br  />
+Vérifie que <span class="tt">draft.undo()</span> est vrai.<br  />
+Vérifie que <span class="tt">draft.layers()[1].name</span> vaut <span class="tt">"sol"</span>.<br  />
+Vérifie que <span class="tt">draft.layers()[1].kind</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ab0cf50b7ad0dce1357c85662e0fb7e5da3519d51443d41746a097cd54cd5c11cf">core::LayerKind::Ground</a></span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>EditionDeCarteTest.EntiteSePoseSeDeplaceEtSeRenseigne</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__level__draft__editing_8cpp.html" title="Tests unitaires de l&#39;édition des couches et des entités d&#39;un brouillon (LOT-11) : création,...">Source/Test/Unit/Core/Levels/test_level_draft_editing.cpp</a>:309</span></sub>  </td><td class="markdownTableBodyNone">Une entite se pose, se deplace et se renseigne.  </td><td class="markdownTableBodyNone">1. Poser un coffre en (0, 2).<br  />
+2. Le deplacer en (1, 2).<br  />
+3. Lui donner une propriete.<br  />
+4. Reconvertir, puis annuler trois fois.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">chest</span> vaut <span class="tt">std::optional&lt;std::size_t&gt;{1}</span>.<br  />
+Vérifie que <span class="tt">draft.moveEntity(*chest, {.column = 1, .row = 2})</span> est vrai.<br  />
+Vérifie que <span class="tt">draft.setEntityProperty(*chest, "loot", std::string{"potion"})</span> est vrai.<br  />
+Vérifie que <span class="tt">rebuilt.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt">rebuilt.level-&gt;entities().size()</span> vaut <span class="tt">2U</span>.<br  />
+Vérifie que <span class="tt">relu.type</span> vaut <span class="tt">"chest"</span>.<br  />
+Vérifie que <span class="tt">relu.position</span> vaut <span class="tt">(<a class="el" href="structcore_1_1GridPosition.html" title="Position d&#39;une case dans la grille d&#39;un niveau, en coordonnées entières.">core::GridPosition</a>{.column = 1, .row = 2})</span>.<br  />
+Vérifie que <span class="tt">relu.properties.at("loot")</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a9f79b235a73b6264aa3a97d51267919d" title="Valeur d&#39;une propriété libre : booléen, entier, réel ou chaîne.">core::PropertyValue</a>{std::string{"potion"}}</span>.<br  />
+Vérifie que <span class="tt">draft.undo()</span> est vrai.<br  />
+Vérifie que <span class="tt">draft.undo()</span> est vrai.<br  />
+Vérifie que <span class="tt">draft.undo()</span> est vrai.<br  />
+Vérifie que <span class="tt">draft.entities().size()</span> vaut <span class="tt">1U</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>EditionDeCarteTest.GesteDEntiteSansEffetNEmpileRien</b> (Mineur)<br  />
+<sub><span class="tt"><a class="el" href="test__level__draft__editing_8cpp.html" title="Tests unitaires de l&#39;édition des couches et des entités d&#39;un brouillon (LOT-11) : création,...">Source/Test/Unit/Core/Levels/test_level_draft_editing.cpp</a>:342</span></sub>  </td><td class="markdownTableBodyNone">Un geste d'entite refuse n'empile rien.  </td><td class="markdownTableBodyNone">1. Poser hors de la grille.<br  />
+2. Deplacer sur place, hors grille, un rang inconnu.<br  />
+3. Reassigner la meme propriete, retirer une propriete absente.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">draft .placeEntity(<a class="el" href="structcore_1_1MapEntity.html" title="Une entité de carte — ce qui n&#39;est pas une tuile.">core::MapEntity</a>{ .type = "chest", .position = {.column = 4, .row = 0}, .properties = {}}) .has_value()</span> est faux.<br  />
+Vérifie que <span class="tt">draft.moveEntity(0, {.column = 2, .row = 2})</span> est faux.<br  />
+Vérifie que <span class="tt">draft.moveEntity(0, {.column = -1, .row = 2})</span> est faux.<br  />
+Vérifie que <span class="tt">draft.moveEntity(7, {.column = 0, .row = 0})</span> est faux.<br  />
+Vérifie que <span class="tt">draft.setEntityProperty(0, "dialogue", std::string{"heraut"})</span> est faux.<br  />
+Vérifie que <span class="tt">draft.removeEntityProperty(0, "absente")</span> est faux.<br  />
+Vérifie que <span class="tt">draft.removeEntity(3)</span> est faux.<br  />
+Vérifie que <span class="tt">draft.canUndo()</span> est faux.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>EditionDeCarteTest.CasePartageeDesigneLEntiteDuDessus</b> (Mineur)<br  />
+<sub><span class="tt"><a class="el" href="test__level__draft__editing_8cpp.html" title="Tests unitaires de l&#39;édition des couches et des entités d&#39;un brouillon (LOT-11) : création,...">Source/Test/Unit/Core/Levels/test_level_draft_editing.cpp</a>:368</span></sub>  </td><td class="markdownTableBodyNone">La case partagee designe l'entite du dessus.  </td><td class="markdownTableBodyNone">1. Poser un panneau sur la case du PNJ.<br  />
+2. Designer la case.<br  />
+3. Retirer le dialogue du PNJ puis annuler.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">sign.has_value()</span> est vrai.<br  />
+Vérifie que <span class="tt">draft.entityAt({.column = 2, .row = 2})</span> vaut <span class="tt">sign</span>.<br  />
+Vérifie que <span class="tt">draft.entityAt({.column = 0, .row = 0}).has_value()</span> est faux.<br  />
+Vérifie que <span class="tt">draft.removeEntityProperty(0, "dialogue")</span> est vrai.<br  />
+Vérifie que <span class="tt">draft.entities()[0].properties.contains("dialogue")</span> est faux.<br  />
+Vérifie que <span class="tt">draft.undo()</span> est vrai.<br  />
+Vérifie que <span class="tt">draft.entities()[0].properties.contains("dialogue")</span> est vrai.  </td></tr>
 </table>
 <p><b><span class="tt"><a class="el" href="test__level__loader_8cpp.html" title="Tests unitaires du chargement de niveau (format JSON, erreurs récupérables).">test_level_loader.cpp</a></span></b></p>
 <table class="markdownTable">
@@ -4366,7 +4584,7 @@ Vérifie que <span class="tt">timestep.advance(0.0f)</span> vaut <span class="tt
 Vérifie que <span class="tt">timestep.advance(STEP)</span> vaut <span class="tt">1</span>.  </td></tr>
 </table>
 <h3 class="doxsection"><a class="anchor" id="autotoc_md18"></a>
-World (19)</h3>
+World (34)</h3>
 <p><b><span class="tt"><a class="el" href="test__atlas_8cpp.html" title="Tests de l&#39;atlas des régions (LOT-37) : les treize régions chargent, le graphe tient,...">test_atlas.cpp</a></span></b></p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -4452,6 +4670,44 @@ Vérifie que <span class="tt">part.species.empty()</span> est faux.<br  />
 Vérifie que <span class="tt">somme</span> est supérieur ou égal à <span class="tt">97</span>.<br  />
 Vérifie que <span class="tt">somme</span> est inférieur ou égal à <span class="tt">103</span>.  </td></tr>
 </table>
+<p><b><span class="tt"><a class="el" href="test__entity__kinds_8cpp.html" title="Tests unitaires des familles d&#39;entités de carte et de la validation de leurs références (LOT-11).">test_entity_kinds.cpp</a></span></b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>FamillesDEntitesTest.LaTableReprendLesTypesDuGameplay</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__entity__kinds_8cpp.html" title="Tests unitaires des familles d&#39;entités de carte et de la validation de leurs références (LOT-11).">Source/Test/Unit/Core/World/test_entity_kinds.cpp</a>:54</span></sub>  </td><td class="markdownTableBodyNone">La table des familles reprend les types du gameplay.  </td><td class="markdownTableBodyNone">1. Chercher chaque type lu par le gameplay dans la table.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">core::findEntityKind(type)</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#adac8d52fca402a3edb35f19ad4ee4af1">core::findEntityKind</a>("dragon")</span> vaut <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">core::findEntityKind(core::NPC_ENTITY_TYPE)</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">core::findEntityKind(core::NPC_ENTITY_TYPE)-&gt;find(core::NPC_DIALOGUE_PROPERTY)</span> diffère de <span class="tt">nullptr</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>FamillesDEntitesTest.EntiteNeuvePorteSesDefauts</b> (Mineur)<br  />
+<sub><span class="tt"><a class="el" href="test__entity__kinds_8cpp.html" title="Tests unitaires des familles d&#39;entités de carte et de la validation de leurs références (LOT-11).">Source/Test/Unit/Core/World/test_entity_kinds.cpp</a>:77</span></sub>  </td><td class="markdownTableBodyNone">Une entite neuve porte ses proprietes par defaut.  </td><td class="markdownTableBodyNone">1. Fabriquer une entree d'arene en (3, 4).  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">kind</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">made.type</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a93cf3e3bbcfd17745d5f4084773b1a4a" title="Type d&#39;entité de carte qui marque un point d&#39;entrée de l&#39;arène (Source/Elements/Levels/).">core::ARENA_ENTRY_ENTITY_TYPE</a></span>.<br  />
+Vérifie que <span class="tt">made.position</span> vaut <span class="tt">(<a class="el" href="structcore_1_1GridPosition.html" title="Position d&#39;une case dans la grille d&#39;un niveau, en coordonnées entières.">core::GridPosition</a>{.column = 3, .row = 4})</span>.<br  />
+Vérifie que <span class="tt">made.properties.at(std::string{<a class="el" href="namespacecore.html#ad0cadfeea4d0cb712df6feb11ff12b9d" title="Propriété d&#39;un point d&#39;entrée : le camp qu&#39;il accueille, &quot;allies&quot; ou &quot;enemies&quot;.">core::ARENA_SIDE_PROPERTY</a>})</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a9f79b235a73b6264aa3a97d51267919d" title="Valeur d&#39;une propriété libre : booléen, entier, réel ou chaîne.">core::PropertyValue</a>{std::string{"allies"}}</span>.<br  />
+Vérifie que <span class="tt">made.properties.at(std::string{<a class="el" href="namespacecore.html#a6bb32367b37b63b19cbbcb5d0aeabd31" title="Propriété d&#39;un point d&#39;entrée : son rang dans l&#39;ordre d&#39;appel.">core::ARENA_RANK_PROPERTY</a>})</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a9f79b235a73b6264aa3a97d51267919d" title="Valeur d&#39;une propriété libre : booléen, entier, réel ou chaîne.">core::PropertyValue</a>{std::int64_t{1}}</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>FamillesDEntitesTest.CarteBienRenseigneeEstMuette</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__entity__kinds_8cpp.html" title="Tests unitaires des familles d&#39;entités de carte et de la validation de leurs références (LOT-11).">Source/Test/Unit/Core/World/test_entity_kinds.cpp</a>:98</span></sub>  </td><td class="markdownTableBodyNone">Une carte bien renseignee est muette.  </td><td class="markdownTableBodyNone">1. Valider un PNJ, une rencontre, un portail vers un point connu, un point d'arrivee et un PNJ figurant.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">core::validateMapEntities(entities, context()).empty()</span> est vrai.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>FamillesDEntitesTest.ReferencesCasseesNommees</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__entity__kinds_8cpp.html" title="Tests unitaires des familles d&#39;entités de carte et de la validation de leurs références (LOT-11).">Source/Test/Unit/Core/World/test_entity_kinds.cpp</a>:120</span></sub>  </td><td class="markdownTableBodyNone">Les references cassees sont nommees.  </td><td class="markdownTableBodyNone">1. Valider un PNJ au dialogue inconnu, une rencontre inconnue, un portail vers une carte inconnue et un portail vers un point absent d'une carte connue.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">issues.size()</span> vaut <span class="tt">4U</span>.<br  />
+Vérifie que <span class="tt">issues[0]</span> vaut <span class="tt">(<a class="el" href="structcore_1_1EntityIssue.html" title="Un problème relevé sur l&#39;entité de rang entityIndex.">core::EntityIssue</a>{.entityIndex = 0, .code = <a class="el" href="namespacecore.html#ac1032ee70b0c730c8727b80822ab035ea6ae8621bd512947e4d39c4c95d5190d4" title="Le dialogue nommé n&#39;est pas dans le catalogue, ou y a été refusé. value.">core::EntityIssueCode::UnknownDialogue</a>, .key = "dialogue", .value = "inconnu"})</span>.<br  />
+Vérifie que <span class="tt">issues[1].code</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ac1032ee70b0c730c8727b80822ab035eabf97b979ba906f53b50838e78a790824" title="La rencontre nommée n&#39;est pas dans le catalogue. value.">core::EntityIssueCode::UnknownEncounter</a></span>.<br  />
+Vérifie que <span class="tt">issues[2]</span> vaut <span class="tt">(<a class="el" href="structcore_1_1EntityIssue.html" title="Un problème relevé sur l&#39;entité de rang entityIndex.">core::EntityIssue</a>{.entityIndex = 2, .code = <a class="el" href="namespacecore.html#ac1032ee70b0c730c8727b80822ab035ea5d340c87c409e2b939ebcdec9e572406" title="La carte cible d&#39;un portail n&#39;existe pas. value.">core::EntityIssueCode::UnknownTargetMap</a>, .key = "targetMap", .value = "nulle-part"})</span>.<br  />
+Vérifie que <span class="tt">issues[3]</span> vaut <span class="tt">(<a class="el" href="structcore_1_1EntityIssue.html" title="Un problème relevé sur l&#39;entité de rang entityIndex.">core::EntityIssue</a>{.entityIndex = 3, .code = <a class="el" href="namespacecore.html#ac1032ee70b0c730c8727b80822ab035ea25b35f4409074408fe4921bfcd9e9f2c" title="Le point d&#39;arrivée d&#39;un portail n&#39;existe pas dans sa carte cible. value.">core::EntityIssueCode::UnknownArrivalPoint</a>, .key = "arrival", .value = "lisiere"})</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>FamillesDEntitesTest.ProprietesMalRenseigneesSignalees</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__entity__kinds_8cpp.html" title="Tests unitaires des familles d&#39;entités de carte et de la validation de leurs références (LOT-11).">Source/Test/Unit/Core/World/test_entity_kinds.cpp</a>:156</span></sub>  </td><td class="markdownTableBodyNone">Les proprietes mal renseignees sont signalees.  </td><td class="markdownTableBodyNone">1. Valider une rencontre sans rencontre, un portail a cible vide, une entree d'arene au rang textuel et au camp inconnu, et un type inconnu.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">codes(core::validateMapEntities(entities, context()))</span> vaut <span class="tt">(std::vector&lt;<a class="el" href="namespacecore.html#ac1032ee70b0c730c8727b80822ab035e" title="Ce qui ne va pas dans une entité.">core::EntityIssueCode</a>&gt;{ <a class="el" href="namespacecore.html#ac1032ee70b0c730c8727b80822ab035ea3cbd2aa5927cdb935e3c77e9dbd8620f" title="Une propriété requise manque ou est vide. key la nomme.">core::EntityIssueCode::MissingProperty</a>, <a class="el" href="namespacecore.html#ac1032ee70b0c730c8727b80822ab035ea3cbd2aa5927cdb935e3c77e9dbd8620f" title="Une propriété requise manque ou est vide. key la nomme.">core::EntityIssueCode::MissingProperty</a>, <a class="el" href="namespacecore.html#ac1032ee70b0c730c8727b80822ab035ea3cbd2aa5927cdb935e3c77e9dbd8620f" title="Une propriété requise manque ou est vide. key la nomme.">core::EntityIssueCode::MissingProperty</a>, <a class="el" href="namespacecore.html#ac1032ee70b0c730c8727b80822ab035eab3d59734e0024699c11b2c254ebd0bf4" title="Une valeur Choice fixe hors de sa liste. key et value.">core::EntityIssueCode::InvalidChoice</a>, <a class="el" href="namespacecore.html#ac1032ee70b0c730c8727b80822ab035eab7af0ce30d52dc67ec4d090184b78e3a" title="Une propriété a une valeur du mauvais type (un entier là où l&#39;on attend un texte…).">core::EntityIssueCode::WrongValueType</a>, <a class="el" href="namespacecore.html#ac1032ee70b0c730c8727b80822ab035ea916c74f40cb3a7d245c9f9eefde044db" title="Le type n&#39;est pas dans knownEntityKinds — toléré, signalé pour information.">core::EntityIssueCode::UnknownType</a>})</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>FamillesDEntitesTest.NomDePointDArriveeUnique</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__entity__kinds_8cpp.html" title="Tests unitaires des familles d&#39;entités de carte et de la validation de leurs références (LOT-11).">Source/Test/Unit/Core/World/test_entity_kinds.cpp</a>:183</span></sub>  </td><td class="markdownTableBodyNone">Un nom de point d'arrivee est unique dans la carte.  </td><td class="markdownTableBodyNone">1. Poser deux points « puits » et un point « gue ».<br  />
+2. Valider et relever les noms.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">issues.size()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">issues[0].entityIndex</span> vaut <span class="tt">2U</span>.<br  />
+Vérifie que <span class="tt">issues[0].code</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ac1032ee70b0c730c8727b80822ab035eacd7c9ae5e908a19e060bbcbd35f08273" title="Deux points d&#39;arrivée de la carte portent le même nom. value.">core::EntityIssueCode::DuplicateArrivalPoint</a></span>.<br  />
+Vérifie que <span class="tt">core::arrivalPointNames(entities)</span> vaut <span class="tt">(std::set&lt;std::string, std::less&lt;&gt;&gt;{"gue", "puits"})</span>.  </td></tr>
+</table>
 <p><b><span class="tt"><a class="el" href="test__grid__distance__field_8cpp.html" title="Tests unitaires de core::GridDistanceField (amendement LOT-ANNEXE-08, EX-IA-023).">test_grid_distance_field.cpp</a></span></b></p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -4489,6 +4745,92 @@ Vérifie que <span class="tt">field.distance(<a class="el" href="structcore_1_1G
 <td class="markdownTableBodyNone"><b>GridDistanceFieldTest.MultiCiblesIgnoreUneCibleSolideOuHorsGrille</b> (Bloquant)<br  />
 <sub><span class="tt"><a class="el" href="test__grid__distance__field_8cpp.html" title="Tests unitaires de core::GridDistanceField (amendement LOT-ANNEXE-08, EX-IA-023).">Source/Test/Unit/Core/World/test_grid_distance_field.cpp</a>:136</span></sub>  </td><td class="markdownTableBodyNone">Multi-cibles : une cible invalide n'empêche pas les autres de fonctionner.  </td><td class="markdownTableBodyNone">1. Grille 5x5, case <span class="tt">(1,1)</span> solide utilisée comme première cible, <span class="tt">(4,4)</span> valide comme seconde.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">field.distance(<a class="el" href="structcore_1_1GridPosition.html" title="Position d&#39;une case dans la grille d&#39;un niveau, en coordonnées entières.">core::GridPosition</a>{4, 4})</span> vaut <span class="tt">0</span>.<br  />
 Vérifie que <span class="tt">field.distance(<a class="el" href="structcore_1_1GridPosition.html" title="Position d&#39;une case dans la grille d&#39;un niveau, en coordonnées entières.">core::GridPosition</a>{3, 4})</span> vaut <span class="tt">1</span>.  </td></tr>
+</table>
+<p><b><span class="tt"><a class="el" href="test__world__graph_8cpp.html" title="Tests du graphe statique du monde (LOT-11) : cartes, points d&#39;arrivee, portails et leur statut,...">test_world_graph.cpp</a></span></b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>WorldGraphTest.UnAllerRetourSeResoutDansLesDeuxSens</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__world__graph_8cpp.html" title="Tests du graphe statique du monde (LOT-11) : cartes, points d&#39;arrivee, portails et leur statut,...">Source/Test/Unit/Core/World/test_world_graph.cpp</a>:92</span></sub>  </td><td class="markdownTableBodyNone">Un aller-retour A -&gt; B -&gt; A se resout dans les deux sens.  </td><td class="markdownTableBodyNone">1. Construire deux cartes, chacune avec un point d'arrivee et un portail vers l'autre.<br  />
+ 2. Lire les portails sortants et entrants de chaque carte.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">graphe.portals.size()</span> vaut <span class="tt">2U</span>.<br  />
+Vérifie que <span class="tt">lien.status</span> vaut <span class="tt">PortalLinkStatus::Resolved</span>.<br  />
+Vérifie que <span class="tt">graphe.portalsFrom("village").size()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">*graphe.portalsFrom("village").front()</span> vaut <span class="tt">(<a class="el" href="structcore_1_1WorldPortalLink.html" title="Une arête du graphe : un portail d&#39;une carte, et ce qu&#39;il atteint.">core::WorldPortalLink</a>{.fromMap = "village", .position = {3, 1}, .toMap = "foret", .arrival = "lisiere", .status = PortalLinkStatus::Resolved})</span>.<br  />
+Vérifie que <span class="tt">graphe.portalsTo("village").size()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">graphe.portalsTo("village").front()-&gt;fromMap</span> vaut <span class="tt">"foret"</span>.<br  />
+Vérifie que <span class="tt">graphe.unreachableFrom("village").empty()</span> est vrai.<br  />
+Vérifie que <span class="tt">graphe.unreachableFrom("foret").empty()</span> est vrai.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>WorldGraphTest.ChaqueDefautDePortailRecoitSonStatut</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__world__graph_8cpp.html" title="Tests du graphe statique du monde (LOT-11) : cartes, points d&#39;arrivee, portails et leur statut,...">Source/Test/Unit/Core/World/test_world_graph.cpp</a>:126</span></sub>  </td><td class="markdownTableBodyNone">Chaque defaut de portail recoit son statut.  </td><td class="markdownTableBodyNone">1. Construire un portail par defaut : cible vide, carte inconnue, carte illisible, arrivee vide, arrivee inconnue.<br  />
+ 2. Combiner deux defauts (carte illisible et arrivee vide).  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">statutUnique(portail("", "quai"), cibleSaine)</span> vaut <span class="tt">PortalLinkStatus::MissingTarget</span>.<br  />
+Vérifie que <span class="tt">statutUnique(portail("", ""), cibleSaine)</span> vaut <span class="tt">PortalLinkStatus::MissingTarget</span>.<br  />
+Vérifie que <span class="tt">statutUnique(portail("ailleurs", "quai"), cibleSaine)</span> vaut <span class="tt">PortalLinkStatus::UnknownMap</span>.<br  />
+Vérifie que <span class="tt">statutUnique(portail("cible", "quai"), cibleIllisible)</span> vaut <span class="tt">PortalLinkStatus::TargetUnreadable</span>.<br  />
+Vérifie que <span class="tt">statutUnique(portail("cible", ""), cibleIllisible)</span> vaut <span class="tt">PortalLinkStatus::TargetUnreadable</span>.<br  />
+Vérifie que <span class="tt">statutUnique(portail("cible", ""), cibleSaine)</span> vaut <span class="tt">PortalLinkStatus::MissingArrival</span>.<br  />
+Vérifie que <span class="tt">statutUnique(portail("cible", "gare"), cibleSaine)</span> vaut <span class="tt">PortalLinkStatus::UnknownArrival</span>.<br  />
+Vérifie que <span class="tt">statutUnique(portail("cible", "quai"), cibleSaine)</span> vaut <span class="tt">PortalLinkStatus::Resolved</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>WorldGraphTest.UneProprieteNonTextuelleVautVide</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__world__graph_8cpp.html" title="Tests du graphe statique du monde (LOT-11) : cartes, points d&#39;arrivee, portails et leur statut,...">Source/Test/Unit/Core/World/test_world_graph.cpp</a>:154</span></sub>  </td><td class="markdownTableBodyNone">Une propriete non textuelle vaut une propriete vide.  </td><td class="markdownTableBodyNone">1. Poser un portail dont la cible est un entier, puis un dont l'arrivee est un booleen.<br  />
+ 2. Poser un point d'arrivee dont le nom est un entier.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">statutUnique(cibleEntiere, cible)</span> vaut <span class="tt">PortalLinkStatus::MissingTarget</span>.<br  />
+Vérifie que <span class="tt">statutUnique(arriveeBooleenne, cible)</span> vaut <span class="tt">PortalLinkStatus::MissingArrival</span>.<br  />
+Vérifie que <span class="tt">graphe.find("cible")</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">graphe.find("cible")-&gt;arrivalPoints</span> vaut <span class="tt">(std::vector&lt;std::string&gt;{"quai"})</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>WorldGraphTest.LesPointsDArriveeSontTriesSansDoublon</b> (Mineur)<br  />
+<sub><span class="tt"><a class="el" href="test__world__graph_8cpp.html" title="Tests du graphe statique du monde (LOT-11) : cartes, points d&#39;arrivee, portails et leur statut,...">Source/Test/Unit/Core/World/test_world_graph.cpp</a>:182</span></sub>  </td><td class="markdownTableBodyNone">Les points d'arrivee sont tries, sans doublon ni nom vide.  </td><td class="markdownTableBodyNone">1. Poser quatre points d'arrivee dans le desordre, dont un doublon et un nom vide.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">graphe.find("port")</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">graphe.find("port")-&gt;arrivalPoints</span> vaut <span class="tt">(std::vector&lt;std::string&gt;{"digue", "quai"})</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>WorldGraphTest.UnPortailVersSaPropreCarteEstLegal</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__world__graph_8cpp.html" title="Tests du graphe statique du monde (LOT-11) : cartes, points d&#39;arrivee, portails et leur statut,...">Source/Test/Unit/Core/World/test_world_graph.cpp</a>:199</span></sub>  </td><td class="markdownTableBodyNone">Un portail vers sa propre carte est legal.  </td><td class="markdownTableBodyNone">1. Construire une carte dont le portail ramene a un de ses propres points d'arrivee.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">graphe.portals.size()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">graphe.portals.front().status</span> vaut <span class="tt">PortalLinkStatus::Resolved</span>.<br  />
+Vérifie que <span class="tt">graphe.portalsFrom("donjon").size()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">graphe.portalsTo("donjon").size()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">graphe.unreachableFrom("donjon").empty()</span> est vrai.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>WorldGraphTest.LesCartesInjoignablesSuiventLesPortailsResolus</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__world__graph_8cpp.html" title="Tests du graphe statique du monde (LOT-11) : cartes, points d&#39;arrivee, portails et leur statut,...">Source/Test/Unit/Core/World/test_world_graph.cpp</a>:219</span></sub>  </td><td class="markdownTableBodyNone">Les cartes injoignables suivent le sens des portails resolus.  </td><td class="markdownTableBodyNone">1. Relier A -&gt; B par un portail resolu, B -&gt; C par un portail casse ; D ne mene qu'a A.<br  />
+ 2. Demander les cartes injoignables depuis A, puis depuis une carte inexistante.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">graphe.unreachableFrom("a")</span> vaut <span class="tt">(std::vector&lt;std::string&gt;{"c", "d"})</span>.<br  />
+Vérifie que <span class="tt">graphe.unreachableFrom("d")</span> vaut <span class="tt">(std::vector&lt;std::string&gt;{"c"})</span>.<br  />
+Vérifie que <span class="tt">graphe.unreachableFrom("nulle-part")</span> vaut <span class="tt">(std::vector&lt;std::string&gt;{"a", "b", "c", "d"})</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>WorldGraphTest.LOrdreDuGrapheEstDeterministe</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__world__graph_8cpp.html" title="Tests du graphe statique du monde (LOT-11) : cartes, points d&#39;arrivee, portails et leur statut,...">Source/Test/Unit/Core/World/test_world_graph.cpp</a>:243</span></sub>  </td><td class="markdownTableBodyNone">Le graphe ne depend pas de l'ordre des cartes recues.  </td><td class="markdownTableBodyNone">1. Construire le meme monde avec les cartes dans deux ordres opposes.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">endroit.maps.size()</span> vaut <span class="tt">3U</span>.<br  />
+Vérifie que <span class="tt">endroit.maps[0].mapId</span> vaut <span class="tt">"alpha"</span>.<br  />
+Vérifie que <span class="tt">endroit.maps[1].mapId</span> vaut <span class="tt">"mu"</span>.<br  />
+Vérifie que <span class="tt">endroit.maps[2].mapId</span> vaut <span class="tt">"zeta"</span>.<br  />
+Vérifie que <span class="tt">endroit.portals.size()</span> vaut <span class="tt">3U</span>.<br  />
+Vérifie que <span class="tt">endroit.portals[0].fromMap</span> vaut <span class="tt">"alpha"</span>.<br  />
+Vérifie que <span class="tt">endroit.portals[1].position</span> vaut <span class="tt">(<a class="el" href="structcore_1_1GridPosition.html" title="Position d&#39;une case dans la grille d&#39;un niveau, en coordonnées entières.">core::GridPosition</a>{1, 0})</span>.<br  />
+Vérifie que <span class="tt">endroit.portals[2].position</span> vaut <span class="tt">(<a class="el" href="structcore_1_1GridPosition.html" title="Position d&#39;une case dans la grille d&#39;un niveau, en coordonnées entières.">core::GridPosition</a>{2, 0})</span>.<br  />
+Vérifie que <span class="tt">endroit.portals</span> vaut <span class="tt">envers.portals</span>.<br  />
+Vérifie que <span class="tt">envers.maps.size()</span> vaut <span class="tt">endroit.maps.size()</span>.<br  />
+Vérifie que <span class="tt">envers.maps[rang].mapId</span> vaut <span class="tt">endroit.maps[rang].mapId</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>WorldGraphFileTest.UnDossierDeNiveauxSeLitEnGraphe</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__world__graph_8cpp.html" title="Tests du graphe statique du monde (LOT-11) : cartes, points d&#39;arrivee, portails et leur statut,...">Source/Test/Unit/Core/World/test_world_graph.cpp</a>:278</span></sub>  </td><td class="markdownTableBodyNone">Un dossier de niveaux se lit en graphe, carte illisible comprise.  </td><td class="markdownTableBodyNone">1. Ecrire deux cartes valides reliees par des portails, un fichier JSON malforme, un fichier <span class="tt">sequence-*.json</span> et un fichier non JSON.<br  />
+ 2. Charger le graphe du dossier.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">graphe.maps.size()</span> vaut <span class="tt">3U</span>.<br  />
+Vérifie que <span class="tt">graphe.maps[0].mapId</span> vaut <span class="tt">"foret"</span>.<br  />
+Vérifie que <span class="tt">graphe.maps[1].mapId</span> vaut <span class="tt">"grotte"</span>.<br  />
+Vérifie que <span class="tt">graphe.maps[2].mapId</span> vaut <span class="tt">"village"</span>.<br  />
+Vérifie que <span class="tt">graphe.maps[2].name</span> vaut <span class="tt">"Village"</span>.<br  />
+Vérifie que <span class="tt">graphe.maps[2].loadError.empty()</span> est vrai.<br  />
+Vérifie que <span class="tt">graphe.maps[1].loadError.empty()</span> est faux.<br  />
+Vérifie que <span class="tt">graphe.maps[0].arrivalPoints</span> vaut <span class="tt">(std::vector&lt;std::string&gt;{"lisiere"})</span>.<br  />
+Vérifie que <span class="tt">graphe.portals.size()</span> vaut <span class="tt">3U</span>.<br  />
+Vérifie que <span class="tt">graphe.portals[0].status</span> vaut <span class="tt">PortalLinkStatus::Resolved</span>.<br  />
+Vérifie que <span class="tt">graphe.portals[1].status</span> vaut <span class="tt">PortalLinkStatus::Resolved</span>.<br  />
+Vérifie que <span class="tt">graphe.portals[2].toMap</span> vaut <span class="tt">"grotte"</span>.<br  />
+Vérifie que <span class="tt">graphe.portals[2].status</span> vaut <span class="tt">PortalLinkStatus::TargetUnreadable</span>.<br  />
+Vérifie que <span class="tt">graphe.unreachableFrom("village")</span> vaut <span class="tt">(std::vector&lt;std::string&gt;{"grotte"})</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>WorldGraphFileTest.UnDossierAbsentDonneUnGrapheVide</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__world__graph_8cpp.html" title="Tests du graphe statique du monde (LOT-11) : cartes, points d&#39;arrivee, portails et leur statut,...">Source/Test/Unit/Core/World/test_world_graph.cpp</a>:321</span></sub>  </td><td class="markdownTableBodyNone">Un dossier absent donne un graphe vide.  </td><td class="markdownTableBodyNone">1. Charger le graphe d'un dossier qui n'existe pas.  </td><td class="markdownTableBodyNone"><span class="tt">EXPECT_NO_THROW(graphe = <a class="el" href="namespacecore.html#a3a51a927bbd51ec10f45120e41fcab27" title="Lit chaque *.json de levelsDir (identifiant = nom sans extension) ; une carte illisible reste un nœud...">core::loadWorldGraph</a>(dir / "inexistant"))</span><br  />
+Vérifie que <span class="tt">graphe.maps.empty()</span> est vrai.<br  />
+Vérifie que <span class="tt">graphe.portals.empty()</span> est vrai.  </td></tr>
 </table>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md19"></a>
 HMI</h2>
@@ -4592,7 +4934,7 @@ Diagnostics (2)</h3>
 2. Executer le scenario et verifier les assertions.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a5bc539b762cfd88b17c71d8a44a1a22b" title="Assemble les messages de log en un texte (une ligne par message).">hmi::serializeSessionLog</a>({})</span> vaut <span class="tt">""</span>.  </td></tr>
 </table>
 <h3 class="doxsection"><a class="anchor" id="autotoc_md22"></a>
-Editor (159)</h3>
+Editor (184)</h3>
 <p><b><span class="tt"><a class="el" href="test__asset__file__operations_8cpp.html" title="Tests unitaires des opérations fichiers sur les assets (LOT-43 TACHE-02).">test_asset_file_operations.cpp</a></span></b></p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -4768,6 +5110,77 @@ Vérifie que <span class="tt">hmi::editorStatusLines(eyedropperContext, localiza
 <td class="markdownTableBodyNone"><b>EditorStatusTest.ClesDeTraductionExistentDansLesDeuxCatalogues</b> (Majeur)<br  />
 <sub><span class="tt"><a class="el" href="test__editor__status_8cpp.html" title="Tests unitaires du choix de contenu de la barre d&#39;état de l&#39;éditeur (LOT-57 TACHE-01,...">Source/Test/Unit/HMI/Editor/test_editor_status.cpp</a>:326</span></sub>  </td><td class="markdownTableBodyNone">Les cles de traduction de la barre d'etat existent dans les deux catalogues.  </td><td class="markdownTableBodyNone">1. Charger fr.lang puis en.lang depuis les catalogues livres.<br  />
 2. Resoudre chaque cle utilisee.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">localization.loadDefaultLanguage(language)</span> est vrai.<br  />
+Vérifie que <span class="tt">localization.text(key)</span> diffère de <span class="tt">key</span>.  </td></tr>
+</table>
+<p><b><span class="tt"><a class="el" href="test__entity__editing_8cpp.html" title="Tests unitaires de la logique d&#39;édition des couches et des entités de l&#39;éditeur (LOT-11) : lignes du ...">test_entity_editing.cpp</a></span></b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>EditionEntitesTest.LignesDuPanneauCouchesSuiventLOrdreDeDessin</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__entity__editing_8cpp.html" title="Tests unitaires de la logique d&#39;édition des couches et des entités de l&#39;éditeur (LOT-11) : lignes du ...">Source/Test/Unit/HMI/Editor/test_entity_editing.cpp</a>:76</span></sub>  </td><td class="markdownTableBodyNone">Les lignes du panneau Couches suivent l'ordre de dessin.  </td><td class="markdownTableBodyNone">1. Construire les lignes d'une carte sans couche visuelle.<br  />
+2. Puis d'une carte a collision, sol et decor.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a5513925544b8628185e12eae822a83e8" title="Les lignes du panneau, dans l&#39;ordre de dessin : la grille racine d&#39;abord, puis les couches visuelles ...">hmi::layerRows</a>({layer({}, <a class="el" href="namespacecore.html#ab0cf50b7ad0dce1357c85662e0fb7e5da0cc0a0507cf3d31e5089f420a4cf8b4b">core::LayerKind::Legacy</a>)})</span> vaut <span class="tt">(std::vector&lt;<a class="el" href="structhmi_1_1LayerRow.html" title="Une ligne du panneau « Couches ».">hmi::LayerRow</a>&gt;{ {.slot = std::nullopt, .kind = <a class="el" href="namespacecore.html#ab0cf50b7ad0dce1357c85662e0fb7e5da0cc0a0507cf3d31e5089f420a4cf8b4b">core::LayerKind::Legacy</a>, .name = {}}})</span>.<br  />
+Vérifie que <span class="tt">hmi::layerRows(layers)</span> vaut <span class="tt">(std::vector&lt;<a class="el" href="structhmi_1_1LayerRow.html" title="Une ligne du panneau « Couches ».">hmi::LayerRow</a>&gt;{ {.slot = std::nullopt, .kind = <a class="el" href="namespacecore.html#ab0cf50b7ad0dce1357c85662e0fb7e5da15fb6ccbd11ebebcea2b48dc477f3561">core::LayerKind::Collision</a>, .name = {}}, {.slot = 1, .kind = <a class="el" href="namespacecore.html#ab0cf50b7ad0dce1357c85662e0fb7e5da3519d51443d41746a097cd54cd5c11cf">core::LayerKind::Ground</a>, .name = "sol"}, {.slot = 2, .kind = <a class="el" href="namespacecore.html#ab0cf50b7ad0dce1357c85662e0fb7e5dae953e8671da3a0647c0939df8ebe8e44">core::LayerKind::Decor</a>, .name = "arbres"}})</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>EditionEntitesTest.CoucheActiveInvalideRetombeSurLaRacine</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__entity__editing_8cpp.html" title="Tests unitaires de la logique d&#39;édition des couches et des entités de l&#39;éditeur (LOT-11) : lignes du ...">Source/Test/Unit/HMI/Editor/test_entity_editing.cpp</a>:101</span></sub>  </td><td class="markdownTableBodyNone">La couche active invalide retombe sur la collision.  </td><td class="markdownTableBodyNone">1. Valider le rang 2, puis 5, puis 0 (collision) sur trois couches.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">hmi::validActiveLayer(layers, 2)</span> vaut <span class="tt"><a class="el" href="namespacehmi.html#ad45953c7acf96290259f1333570fda4d" title="Désignation d&#39;une couche dans l&#39;éditeur : un rang de core::LevelDraft::layers(), ou std::nullopt pour...">hmi::LayerSlot</a>{2}</span>.<br  />
+Vérifie que <span class="tt">hmi::validActiveLayer(layers, 5)</span> vaut <span class="tt"><a class="el" href="namespacehmi.html#ad45953c7acf96290259f1333570fda4d" title="Désignation d&#39;une couche dans l&#39;éditeur : un rang de core::LevelDraft::layers(), ou std::nullopt pour...">hmi::LayerSlot</a>{}</span>.<br  />
+Vérifie que <span class="tt">hmi::validActiveLayer(layers, 0)</span> vaut <span class="tt"><a class="el" href="namespacehmi.html#ad45953c7acf96290259f1333570fda4d" title="Désignation d&#39;une couche dans l&#39;éditeur : un rang de core::LevelDraft::layers(), ou std::nullopt pour...">hmi::LayerSlot</a>{}</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>EditionEntitesTest.ReglagesDAffichageDesCouches</b> (Mineur)<br  />
+<sub><span class="tt"><a class="el" href="test__entity__editing_8cpp.html" title="Tests unitaires de la logique d&#39;édition des couches et des entités de l&#39;éditeur (LOT-11) : lignes du ...">Source/Test/Unit/HMI/Editor/test_entity_editing.cpp</a>:120</span></sub>  </td><td class="markdownTableBodyNone">Les reglages d'affichage des couches.  </td><td class="markdownTableBodyNone">1. Lire l'opacite de la racine avec et sans couche visuelle.<br  />
+2. Regler une opacite hors bornes et une non finie.<br  />
+3. Masquer le rang 1 puis l'echanger avec le rang 2.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">view.display(std::nullopt, true).opacity</span> vaut <span class="tt"><a class="el" href="namespacehmi.html#a444bc34d9bb51def7585ca8f530bf2b2" title="Opacité par défaut de la collision par-dessus des couches visuelles : assez pour voir où l&#39;on bute,...">hmi::DEFAULT_COLLISION_OVERLAY_OPACITY</a></span> (comparaison flottante).<br  />
+Vérifie que <span class="tt">view.display(std::nullopt, false).opacity</span> vaut <span class="tt">1.0F</span> (comparaison flottante).<br  />
+Vérifie que <span class="tt">view.display(1, true).opacity</span> vaut <span class="tt">1.0F</span> (comparaison flottante).<br  />
+Vérifie que <span class="tt">view.display(1, true).opacity</span> vaut <span class="tt">0.25F</span> (comparaison flottante).<br  />
+Vérifie que <span class="tt">view.display(1, true).visible</span> est vrai.<br  />
+Vérifie que <span class="tt">view.display(2, true).visible</span> est faux.<br  />
+Vérifie que <span class="tt">view.display(2, true).opacity</span> vaut <span class="tt">0.25F</span> (comparaison flottante).<br  />
+Vérifie que <span class="tt">view.display(2, true)</span> vaut <span class="tt"><a class="el" href="structhmi_1_1LayerDisplay.html" title="Comment une couche est montrée dans l&#39;éditeur.">hmi::LayerDisplay</a>{}</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>EditionEntitesTest.GesteDeLOutilEntite</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__entity__editing_8cpp.html" title="Tests unitaires de la logique d&#39;édition des couches et des entités de l&#39;éditeur (LOT-11) : lignes du ...">Source/Test/Unit/HMI/Editor/test_entity_editing.cpp</a>:154</span></sub>  </td><td class="markdownTableBodyNone">Le geste de l'outil Entite.  </td><td class="markdownTableBodyNone">1. Appuyer sur la case du coffre et du panneau, avec et sans Ctrl.<br  />
+2. Appuyer sur une case libre, avec et sans famille choisie.<br  />
+3. Appuyer hors de la grille.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a90ab483e48dc54dce84409a933b6cda2" title="Résout l&#39;appui du bouton gauche sur cell.">hmi::resolveEntityPress</a>(map, shared, "npc", false)</span> vaut <span class="tt">(<a class="el" href="structhmi_1_1EntityGestureDecision.html" title="Décision rendue par resolveEntityPress ou resolveEntityRelease.">hmi::EntityGestureDecision</a>{ .action = <a class="el" href="namespacehmi.html#a406a41b256977e2be0da3b64f976cce1ae0626222614bdee31951d84c64e5e9ff" title="Sélectionner l&#39;entité entityIndex.">hmi::EntityGestureAction::Select</a>, .entityIndex = 1, .cell = shared})</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a90ab483e48dc54dce84409a933b6cda2" title="Résout l&#39;appui du bouton gauche sur cell.">hmi::resolveEntityPress</a>(map, shared, "npc", true).action</span> vaut <span class="tt"><a class="el" href="namespacehmi.html#a406a41b256977e2be0da3b64f976cce1a7b9cf007806ed854cd12ab800c8a982b" title="Poser une entité de la famille choisie en cell.">hmi::EntityGestureAction::Place</a></span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a90ab483e48dc54dce84409a933b6cda2" title="Résout l&#39;appui du bouton gauche sur cell.">hmi::resolveEntityPress</a>(map, libre, "npc", false)</span> vaut <span class="tt">(<a class="el" href="structhmi_1_1EntityGestureDecision.html" title="Décision rendue par resolveEntityPress ou resolveEntityRelease.">hmi::EntityGestureDecision</a>{ .action = <a class="el" href="namespacehmi.html#a406a41b256977e2be0da3b64f976cce1a7b9cf007806ed854cd12ab800c8a982b" title="Poser une entité de la famille choisie en cell.">hmi::EntityGestureAction::Place</a>, .entityIndex = 0, .cell = libre})</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a90ab483e48dc54dce84409a933b6cda2" title="Résout l&#39;appui du bouton gauche sur cell.">hmi::resolveEntityPress</a>(map, libre, "", false).action</span> vaut <span class="tt"><a class="el" href="namespacehmi.html#a406a41b256977e2be0da3b64f976cce1a94186070ef6773ba0f1721c19980e487" title="Case libre sans famille à poser : la sélection se vide.">hmi::EntityGestureAction::Deselect</a></span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a90ab483e48dc54dce84409a933b6cda2" title="Résout l&#39;appui du bouton gauche sur cell.">hmi::resolveEntityPress</a>(map, {.column = 9, .row = 9}, "npc", false).action</span> vaut <span class="tt"><a class="el" href="namespacehmi.html#a406a41b256977e2be0da3b64f976cce1afd038fc7f319e48f3115d92bf5bdbef9" title="Rien à faire.">hmi::EntityGestureAction::Ignore</a></span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>EditionEntitesTest.GlisserDeplaceLEntiteSaisie</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__entity__editing_8cpp.html" title="Tests unitaires de la logique d&#39;édition des couches et des entités de l&#39;éditeur (LOT-11) : lignes du ...">Source/Test/Unit/HMI/Editor/test_entity_editing.cpp</a>:183</span></sub>  </td><td class="markdownTableBodyNone">Un glisser deplace l'entite saisie.  </td><td class="markdownTableBodyNone">1. Relacher sur une autre case, sur la meme, sans entite saisie.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">hmi::resolveEntityRelease(0, from, to)</span> vaut <span class="tt">(<a class="el" href="structhmi_1_1EntityGestureDecision.html" title="Décision rendue par resolveEntityPress ou resolveEntityRelease.">hmi::EntityGestureDecision</a>{ .action = <a class="el" href="namespacehmi.html#a406a41b256977e2be0da3b64f976cce1a6bc362dbf494c61ea117fe3c71ca48a5" title="Déplacer l&#39;entité entityIndex en cell.">hmi::EntityGestureAction::Move</a>, .entityIndex = 0, .cell = to})</span>.<br  />
+Vérifie que <span class="tt">hmi::resolveEntityRelease(0, from, from).action</span> vaut <span class="tt"><a class="el" href="namespacehmi.html#a406a41b256977e2be0da3b64f976cce1afd038fc7f319e48f3115d92bf5bdbef9" title="Rien à faire.">hmi::EntityGestureAction::Ignore</a></span>.<br  />
+Vérifie que <span class="tt">hmi::resolveEntityRelease(std::nullopt, from, to).action</span> vaut <span class="tt"><a class="el" href="namespacehmi.html#a406a41b256977e2be0da3b64f976cce1afd038fc7f319e48f3115d92bf5bdbef9" title="Rien à faire.">hmi::EntityGestureAction::Ignore</a></span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>EditionEntitesTest.ChoixProposesParLePanneau</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__entity__editing_8cpp.html" title="Tests unitaires de la logique d&#39;édition des couches et des entités de l&#39;éditeur (LOT-11) : lignes du ...">Source/Test/Unit/HMI/Editor/test_entity_editing.cpp</a>:204</span></sub>  </td><td class="markdownTableBodyNone">Les choix proposes par le panneau Entites.  </td><td class="markdownTableBodyNone">1. Construire un contexte : une carte « foret » au point « lisiere », la carte editee « village » dont le brouillon pose le point « puits ».<br  />
+2. Demander les choix du camp d'une entree d'arene, des cartes, et des points d'arrivee vers le village puis sans cible.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">arena</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">portal</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a8e6e1ef57fdc109210a3e29802d85af9" title="Les valeurs que le panneau propose pour la propriété spec de entity, triées.">hmi::entityChoices</a>(*arena-&gt;find("side"), gate, context)</span> vaut <span class="tt">(std::vector&lt;std::string&gt;{"allies", "enemies"})</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a8e6e1ef57fdc109210a3e29802d85af9" title="Les valeurs que le panneau propose pour la propriété spec de entity, triées.">hmi::entityChoices</a>(*portal-&gt;find("targetMap"), gate, context)</span> vaut <span class="tt">(std::vector&lt;std::string&gt;{"foret", "village"})</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a8e6e1ef57fdc109210a3e29802d85af9" title="Les valeurs que le panneau propose pour la propriété spec de entity, triées.">hmi::entityChoices</a>(*portal-&gt;find("arrival"), gate, context).empty()</span> est vrai.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a8e6e1ef57fdc109210a3e29802d85af9" title="Les valeurs que le panneau propose pour la propriété spec de entity, triées.">hmi::entityChoices</a>(*portal-&gt;find("arrival"), gate, context)</span> vaut <span class="tt">(std::vector&lt;std::string&gt;{"puits"})</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>EditionEntitesTest.CataloguesLivresAlimententLEditeur</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__entity__editing_8cpp.html" title="Tests unitaires de la logique d&#39;édition des couches et des entités de l&#39;éditeur (LOT-11) : lignes du ...">Source/Test/Unit/HMI/Editor/test_entity_editing.cpp</a>:248</span></sub>  </td><td class="markdownTableBodyNone">Les catalogues livres alimentent l'editeur.  </td><td class="markdownTableBodyNone">1. Lire les references sous Source/Elements.<br  />
+2. Valider les entites de l'arene du futur.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">std::ranges::find(references.dialogues, "heraut-colisee")</span> diffère de <span class="tt">references.dialogues.end()</span>.<br  />
+Vérifie que <span class="tt">references.encounters.find("nuee-de-rats")</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">references.world.find("arena-of-the-future")</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">arena.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a0482bd5ffd0165e722879709e592607e" title="Relève ce que les entités de entities référencent sans l&#39;atteindre.">core::validateMapEntities</a>(arena.level-&gt;entities(), context).empty()</span> est vrai.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>EditionEntitesTest.AvertissementsDeLEditeur</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__entity__editing_8cpp.html" title="Tests unitaires de la logique d&#39;édition des couches et des entités de l&#39;éditeur (LOT-11) : lignes du ...">Source/Test/Unit/HMI/Editor/test_entity_editing.cpp</a>:274</span></sub>  </td><td class="markdownTableBodyNone">Les avertissements de l'editeur.  </td><td class="markdownTableBodyNone">1. Traduire un dialogue inconnu, un combattant dans un mur et une zone trop etroite.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">lines.size()</span> vaut <span class="tt">3U</span>.<br  />
+Vérifie que <span class="tt">lines[0]</span> vaut <span class="tt">(<a class="el" href="structhmi_1_1EditorDiagnostic.html" title="Un avertissement prêt à traduire : une clé de hmi::Localization et ses arguments, dans l&#39;ordre des %1...">hmi::EditorDiagnostic</a>{.kind = <a class="el" href="namespacehmi.html#a90a0b3556896d17a7c1ff5d1a0c23b4ea63d5049791d9d79d86e9a108b0a999ca">hmi::EditorDiagnosticKind::Reference</a>, .entityIndex = 0, .cell = {.column = 1, .row = 1}, .key = "diagnostic.unknown_dialogue", .args = {"npc", "dialogue", "absent"}})</span>.<br  />
+Vérifie que <span class="tt">lines[1].key</span> vaut <span class="tt">"diagnostic.terrain_obstructed"</span>.<br  />
+Vérifie que <span class="tt">lines[1].cell</span> vaut <span class="tt">(<a class="el" href="structcore_1_1GridPosition.html" title="Position d&#39;une case dans la grille d&#39;un niveau, en coordonnées entières.">core::GridPosition</a>{.column = 4, .row = 2})</span>.<br  />
+Vérifie que <span class="tt">lines[1].args</span> vaut <span class="tt">(std::vector&lt;std::string&gt;{"nuee-de-rats", "rat"})</span>.<br  />
+Vérifie que <span class="tt">lines[2].args</span> vaut <span class="tt">(std::vector&lt;std::string&gt;{"nuee-de-rats", "5", "24"})</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>EditionEntitesTest.ClesTraduitesDansLesDeuxCatalogues</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__entity__editing_8cpp.html" title="Tests unitaires de la logique d&#39;édition des couches et des entités de l&#39;éditeur (LOT-11) : lignes du ...">Source/Test/Unit/HMI/Editor/test_entity_editing.cpp</a>:320</span></sub>  </td><td class="markdownTableBodyNone">Les cles de l'edition de couches et d'entites sont traduites.  </td><td class="markdownTableBodyNone">1. Charger fr.lang puis en.lang.<br  />
+2. Resoudre chaque cle d'avertissement, chaque famille et chaque propriete de la table.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">localization.loadDefaultLanguage(language)</span> est vrai.<br  />
 Vérifie que <span class="tt">localization.text(key)</span> diffère de <span class="tt">key</span>.  </td></tr>
 </table>
 <p><b><span class="tt"><a class="el" href="test__level__file__operations_8cpp.html">test_level_file_operations.cpp</a></span></b></p>
@@ -5606,8 +6019,121 @@ Vérifie que <span class="tt">localization.text(categoryKey)</span> diffère de 
 Vérifie que <span class="tt">key.empty()</span> est faux.<br  />
 Vérifie que <span class="tt">localization.text(key)</span> diffère de <span class="tt">key</span>.  </td></tr>
 </table>
+<p><b><span class="tt"><a class="el" href="test__world__graph__layout_8cpp.html" title="Tests de la disposition du graphe du monde (LOT-11) : cercle, fantomes, fleches regroupees,...">test_world_graph_layout.cpp</a></span></b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>WorldGraphLayout.GrapheVideSansNoeudNiFleche</b> (Mineur)<br  />
+<sub><span class="tt"><a class="el" href="test__world__graph__layout_8cpp.html" title="Tests de la disposition du graphe du monde (LOT-11) : cercle, fantomes, fleches regroupees,...">Source/Test/Unit/HMI/Editor/test_world_graph_layout.cpp</a>:50</span></sub>  </td><td class="markdownTableBodyNone">Un graphe vide ne dessine rien.  </td><td class="markdownTableBodyNone">1. Disposer un graphe sans carte ni portail.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">disposition.nodes.empty()</span> est vrai.<br  />
+Vérifie que <span class="tt">disposition.edges.empty()</span> est vrai.<br  />
+Vérifie que <span class="tt">disposition.circleRadius</span> vaut <span class="tt">0.0f</span> (comparaison flottante).  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>WorldGraphLayout.UneSeuleCarteAuCentre</b> (Mineur)<br  />
+<sub><span class="tt"><a class="el" href="test__world__graph__layout_8cpp.html" title="Tests de la disposition du graphe du monde (LOT-11) : cercle, fantomes, fleches regroupees,...">Source/Test/Unit/HMI/Editor/test_world_graph_layout.cpp</a>:66</span></sub>  </td><td class="markdownTableBodyNone">Une carte seule est au centre.  </td><td class="markdownTableBodyNone">1. Disposer un graphe d'une seule carte.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">disposition.nodes.size()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">disposition.nodes[0].center</span> vaut <span class="tt"><a class="el" href="structcore_1_1Vector2.html" title="Vecteur bidimensionnel en coordonnées monde (composantes float).">core::Vector2</a>(0.0f, 0.0f)</span>.<br  />
+Vérifie que <span class="tt">disposition.nodes[0].name</span> vaut <span class="tt">"Nom seule"</span>.<br  />
+Vérifie que <span class="tt">disposition.nodes[0].ghost</span> est faux.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>WorldGraphLayout.CartesSurLeCercleTrieesParIdentifiantPremiereEnHaut</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__world__graph__layout_8cpp.html" title="Tests de la disposition du graphe du monde (LOT-11) : cercle, fantomes, fleches regroupees,...">Source/Test/Unit/HMI/Editor/test_world_graph_layout.cpp</a>:86</span></sub>  </td><td class="markdownTableBodyNone">Les cartes sont rangees sur le cercle.  </td><td class="markdownTableBodyNone">1. Disposer trois cartes donnees dans le desordre.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">disposition.nodes.size()</span> vaut <span class="tt">3U</span>.<br  />
+Vérifie que <span class="tt">disposition.nodes[0].mapId</span> vaut <span class="tt">"a"</span>.<br  />
+Vérifie que <span class="tt">disposition.nodes[1].mapId</span> vaut <span class="tt">"b"</span>.<br  />
+Vérifie que <span class="tt">disposition.nodes[2].mapId</span> vaut <span class="tt">"c"</span>.<br  />
+Vérifie que <span class="tt">noeud.center.length()</span> vaut <span class="tt">disposition.circleRadius</span>, à <span class="tt">0.01f</span> près.<br  />
+Vérifie que <span class="tt">disposition.nodes[0].center.x</span> vaut <span class="tt">0.0f</span>, à <span class="tt">0.01f</span> près.<br  />
+Vérifie que <span class="tt">disposition.nodes[0].center.y</span> est strictement inférieur à <span class="tt">0.0f</span>.<br  />
+Vérifie que <span class="tt">disposition.nodes[1].center.x</span> est strictement supérieur à <span class="tt">0.0f</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>WorldGraphLayout.RayonPlancherPuisCroissantPourQueLesEtiquettesNeSeChevauchentPas</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__world__graph__layout_8cpp.html" title="Tests de la disposition du graphe du monde (LOT-11) : cercle, fantomes, fleches regroupees,...">Source/Test/Unit/HMI/Editor/test_world_graph_layout.cpp</a>:112</span></sub>  </td><td class="markdownTableBodyNone">Le rayon du cercle espace les cartes.  </td><td class="markdownTableBodyNone">1. Calculer le rayon de 0 a 41 cartes.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">hmi::worldGraphCircleRadius(0)</span> vaut <span class="tt">0.0f</span> (comparaison flottante).<br  />
+Vérifie que <span class="tt">hmi::worldGraphCircleRadius(1)</span> vaut <span class="tt">0.0f</span> (comparaison flottante).<br  />
+Vérifie que <span class="tt">hmi::worldGraphCircleRadius(2)</span> vaut <span class="tt"><a class="el" href="namespacehmi.html#aa58aa4e76a3cdd2fcbd55c22d52a4bd6" title="Rayon plancher du cercle dès qu&#39;il porte deux cartes ou plus.">hmi::WORLD_GRAPH_MIN_CIRCLE_RADIUS</a></span> (comparaison flottante).<br  />
+Vérifie que <span class="tt">corde + 0.01f</span> est supérieur ou égal à <span class="tt"><a class="el" href="namespacehmi.html#a1ef72f4a347aa932d445d92e2cd5b2de" title="Distance minimale entre les centres de deux cartes voisines sur le cercle : la largeur d&#39;une étiquett...">hmi::WORLD_GRAPH_NODE_SPACING</a></span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#ab5058e349ee1e593ed34274a88dd50fd" title="Rayon du cercle pour nodeCount nœuds.">hmi::worldGraphCircleRadius</a>(n + 1)</span> est supérieur ou égal à <span class="tt">rayon</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>WorldGraphLayout.DispositionDeterministe</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__world__graph__layout_8cpp.html" title="Tests de la disposition du graphe du monde (LOT-11) : cercle, fantomes, fleches regroupees,...">Source/Test/Unit/HMI/Editor/test_world_graph_layout.cpp</a>:135</span></sub>  </td><td class="markdownTableBodyNone">La disposition est deterministe.  </td><td class="markdownTableBodyNone">1. Disposer deux fois le meme graphe, fantome compris.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">premiere.nodes.size()</span> vaut <span class="tt">seconde.nodes.size()</span>.<br  />
+Vérifie que <span class="tt">premiere.nodes[i].mapId</span> vaut <span class="tt">seconde.nodes[i].mapId</span>.<br  />
+Vérifie que <span class="tt">premiere.nodes[i].center</span> vaut <span class="tt">seconde.nodes[i].center</span>.<br  />
+Vérifie que <span class="tt">premiere.edges.size()</span> vaut <span class="tt">seconde.edges.size()</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>WorldGraphLayout.CarteIllisibleResteUnNoeudMarque</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__world__graph__layout_8cpp.html" title="Tests de la disposition du graphe du monde (LOT-11) : cercle, fantomes, fleches regroupees,...">Source/Test/Unit/HMI/Editor/test_world_graph_layout.cpp</a>:158</span></sub>  </td><td class="markdownTableBodyNone">Une carte illisible reste un noeud marque.  </td><td class="markdownTableBodyNone">1. Disposer une carte en erreur de chargement et une carte saine.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">disposition.nodes.size()</span> vaut <span class="tt">2U</span>.<br  />
+Vérifie que <span class="tt">disposition.nodes[0].unreadable</span> est vrai.<br  />
+Vérifie que <span class="tt">disposition.nodes[0].loadError</span> vaut <span class="tt">"JSON invalide"</span>.<br  />
+Vérifie que <span class="tt">disposition.nodes[1].unreadable</span> est faux.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>WorldGraphLayout.CiblesInconnuesRegroupeesEnUnFantomeParIdentifiant</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__world__graph__layout_8cpp.html" title="Tests de la disposition du graphe du monde (LOT-11) : cercle, fantomes, fleches regroupees,...">Source/Test/Unit/HMI/Editor/test_world_graph_layout.cpp</a>:177</span></sub>  </td><td class="markdownTableBodyNone">Les cibles inconnues deviennent des fantomes.  </td><td class="markdownTableBodyNone">1. Disposer quatre portails : deux vers une carte inconnue, deux sans cible.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">disposition.nodes.size()</span> vaut <span class="tt">4U</span>.<br  />
+Vérifie que <span class="tt">disposition.nodes[2].ghost</span> est vrai.<br  />
+Vérifie que <span class="tt">disposition.nodes[2].mapId</span> vaut <span class="tt">""</span>.<br  />
+Vérifie que <span class="tt">disposition.nodes[3].ghost</span> est vrai.<br  />
+Vérifie que <span class="tt">disposition.nodes[3].mapId</span> vaut <span class="tt">"perdue"</span>.<br  />
+Vérifie que <span class="tt">disposition.edges.size()</span> vaut <span class="tt">4U</span>.<br  />
+Vérifie que <span class="tt">disposition.edges[0].to</span> vaut <span class="tt">3U</span>.<br  />
+Vérifie que <span class="tt">disposition.edges[1].to</span> vaut <span class="tt">3U</span>.<br  />
+Vérifie que <span class="tt">disposition.edges[2].to</span> vaut <span class="tt">2U</span>.<br  />
+Vérifie que <span class="tt">disposition.edges[3].to</span> vaut <span class="tt">2U</span>.<br  />
+Vérifie que <span class="tt">fleche.broken</span> est vrai.<br  />
+Vérifie que <span class="tt">disposition.nodes[3].center.length()</span> vaut <span class="tt">disposition.circleRadius</span>, à <span class="tt">0.01f</span> près.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>WorldGraphLayout.PortailsDUneMemePaireOrdonneeDessinesUneFoisAvecLeurCompte</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__world__graph__layout_8cpp.html" title="Tests de la disposition du graphe du monde (LOT-11) : cercle, fantomes, fleches regroupees,...">Source/Test/Unit/HMI/Editor/test_world_graph_layout.cpp</a>:213</span></sub>  </td><td class="markdownTableBodyNone">Les portails d'une meme paire font une fleche.  </td><td class="markdownTableBodyNone">1. Disposer deux portails de a vers b et un de b vers a.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">disposition.edges.size()</span> vaut <span class="tt">2U</span>.<br  />
+Vérifie que <span class="tt">disposition.edges[0].from</span> vaut <span class="tt">0U</span>.<br  />
+Vérifie que <span class="tt">disposition.edges[0].to</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">disposition.edges[0].count()</span> vaut <span class="tt">2U</span>.<br  />
+Vérifie que <span class="tt">disposition.edges[0].portals</span> vaut <span class="tt">(std::vector&lt;std::size_t&gt;{0, 1})</span>.<br  />
+Vérifie que <span class="tt">disposition.edges[0].broken</span> est faux.<br  />
+Vérifie que <span class="tt">disposition.edges[0].status</span> vaut <span class="tt">PortalLinkStatus::Resolved</span>.<br  />
+Vérifie que <span class="tt">disposition.edges[1].from</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">disposition.edges[1].to</span> vaut <span class="tt">0U</span>.<br  />
+Vérifie que <span class="tt">disposition.edges[1].count()</span> vaut <span class="tt">1U</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>WorldGraphLayout.FlecheCasseeDesQuUnPortailLEstStatutDuPremierNonResolu</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__world__graph__layout_8cpp.html" title="Tests de la disposition du graphe du monde (LOT-11) : cercle, fantomes, fleches regroupees,...">Source/Test/Unit/HMI/Editor/test_world_graph_layout.cpp</a>:240</span></sub>  </td><td class="markdownTableBodyNone">Une fleche est cassee des qu'un portail l'est.  </td><td class="markdownTableBodyNone">1. Disposer trois portails de a vers b, dont deux non resolus.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">disposition.edges.size()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">disposition.edges[0].broken</span> est vrai.<br  />
+Vérifie que <span class="tt">disposition.edges[0].status</span> vaut <span class="tt">PortalLinkStatus::UnknownArrival</span>.<br  />
+Vérifie que <span class="tt">disposition.edges[0].count()</span> vaut <span class="tt">3U</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>WorldGraphLayout.CibleIllisibleVisePasUnFantomeMaisLaCarte</b> (Mineur)<br  />
+<sub><span class="tt"><a class="el" href="test__world__graph__layout_8cpp.html" title="Tests de la disposition du graphe du monde (LOT-11) : cercle, fantomes, fleches regroupees,...">Source/Test/Unit/HMI/Editor/test_world_graph_layout.cpp</a>:261</span></sub>  </td><td class="markdownTableBodyNone">Une cible illisible reste la carte.  </td><td class="markdownTableBodyNone">1. Disposer un portail vers une carte en erreur de chargement.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">disposition.nodes.size()</span> vaut <span class="tt">2U</span>.<br  />
+Vérifie que <span class="tt">disposition.edges.size()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">disposition.edges[0].to</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">disposition.edges[0].broken</span> est vrai.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>WorldGraphLayout.PortailVersSaPropreCarteEstUneBoucle</b> (Mineur)<br  />
+<sub><span class="tt"><a class="el" href="test__world__graph__layout_8cpp.html" title="Tests de la disposition du graphe du monde (LOT-11) : cercle, fantomes, fleches regroupees,...">Source/Test/Unit/HMI/Editor/test_world_graph_layout.cpp</a>:281</span></sub>  </td><td class="markdownTableBodyNone">Un portail vers sa propre carte est une boucle.  </td><td class="markdownTableBodyNone">1. Disposer un portail de a vers a.<br  />
+2. Calculer son trace.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">disposition.edges.size()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">disposition.edges[0].selfLoop</span> est vrai.<br  />
+Vérifie que <span class="tt">trace.loopRadius</span> est strictement supérieur à <span class="tt">0.0f</span>.<br  />
+Vérifie que <span class="tt">trace.loopCenter.y</span> est strictement inférieur à <span class="tt">0.0f</span>.<br  />
+Vérifie que <span class="tt">trace.loopCenter.x</span> est strictement supérieur à <span class="tt">0.0f</span>.<br  />
+Vérifie que <span class="tt">distance(trace.loopCenter, disposition.nodes[0].center)</span> vaut <span class="tt"><a class="el" href="namespacehmi.html#a7b7c3b187b367c4fb075b366382c9d33" title="Rayon du disque d&#39;une carte, en pixels logiques.">hmi::WORLD_GRAPH_NODE_RADIUS</a></span>, à <span class="tt">0.01f</span> près.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>WorldGraphLayout.TraceDUneFlecheDuBordSourceAuBordCible</b> (Mineur)<br  />
+<sub><span class="tt"><a class="el" href="test__world__graph__layout_8cpp.html" title="Tests de la disposition du graphe du monde (LOT-11) : cercle, fantomes, fleches regroupees,...">Source/Test/Unit/HMI/Editor/test_world_graph_layout.cpp</a>:305</span></sub>  </td><td class="markdownTableBodyNone">Une fleche va de bord a bord.  </td><td class="markdownTableBodyNone">1. Calculer le trace d'une fleche de a vers b.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">distance(trace.start, disposition.nodes[0].center)</span> vaut <span class="tt"><a class="el" href="namespacehmi.html#a7b7c3b187b367c4fb075b366382c9d33" title="Rayon du disque d&#39;une carte, en pixels logiques.">hmi::WORLD_GRAPH_NODE_RADIUS</a></span>, à <span class="tt">0.01f</span> près.<br  />
+Vérifie que <span class="tt">distance(trace.end, disposition.nodes[1].center)</span> vaut <span class="tt"><a class="el" href="namespacehmi.html#a7b7c3b187b367c4fb075b366382c9d33" title="Rayon du disque d&#39;une carte, en pixels logiques.">hmi::WORLD_GRAPH_NODE_RADIUS</a></span>, à <span class="tt">0.01f</span> près.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>WorldGraphLayout.FlechesOpposeesDecaleesPourNePasSeSuperposer</b> (Mineur)<br  />
+<sub><span class="tt"><a class="el" href="test__world__graph__layout_8cpp.html" title="Tests de la disposition du graphe du monde (LOT-11) : cercle, fantomes, fleches regroupees,...">Source/Test/Unit/HMI/Editor/test_world_graph_layout.cpp</a>:326</span></sub>  </td><td class="markdownTableBodyNone">Les fleches opposees se decalent.  </td><td class="markdownTableBodyNone">1. Calculer les traces de a vers b et de b vers a.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">distance(aller.badge, retour.badge)</span> est strictement supérieur à <span class="tt">1.0f</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>WorldGraphLayout.NodeAtTrouveLeNoeudSousLePointeur</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__world__graph__layout_8cpp.html" title="Tests de la disposition du graphe du monde (LOT-11) : cercle, fantomes, fleches regroupees,...">Source/Test/Unit/HMI/Editor/test_world_graph_layout.cpp</a>:345</span></sub>  </td><td class="markdownTableBodyNone">Le pointeur designe le noeud survole.  </td><td class="markdownTableBodyNone">1. Designer le centre d'un noeud, puis son bord, puis un point vide.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">hmi::nodeAt(disposition, centreB, hmi::WORLD_GRAPH_NODE_RADIUS)</span> vaut <span class="tt">std::optional&lt;std::size_t&gt;(1)</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a626ed35cec8a3a4b0bad705e85a87f4e" title="Le nœud sous point.">hmi::nodeAt</a>(disposition, centreB + <a class="el" href="structcore_1_1Vector2.html" title="Vecteur bidimensionnel en coordonnées monde (composantes float).">core::Vector2</a>(<a class="el" href="namespacehmi.html#a7b7c3b187b367c4fb075b366382c9d33" title="Rayon du disque d&#39;une carte, en pixels logiques.">hmi::WORLD_GRAPH_NODE_RADIUS</a>, 0.0f), <a class="el" href="namespacehmi.html#a7b7c3b187b367c4fb075b366382c9d33" title="Rayon du disque d&#39;une carte, en pixels logiques.">hmi::WORLD_GRAPH_NODE_RADIUS</a>)</span> vaut <span class="tt">std::optional&lt;std::size_t&gt;(1)</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a626ed35cec8a3a4b0bad705e85a87f4e" title="Le nœud sous point.">hmi::nodeAt</a>(disposition, <a class="el" href="structcore_1_1Vector2.html" title="Vecteur bidimensionnel en coordonnées monde (composantes float).">core::Vector2</a>(0.0f, 0.0f), <a class="el" href="namespacehmi.html#a7b7c3b187b367c4fb075b366382c9d33" title="Rayon du disque d&#39;une carte, en pixels logiques.">hmi::WORLD_GRAPH_NODE_RADIUS</a>)</span> vaut <span class="tt">std::nullopt</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>WorldGraphLayout.NodeAtDepartageParLePlusPetitIndice</b> (Mineur)<br  />
+<sub><span class="tt"><a class="el" href="test__world__graph__layout_8cpp.html" title="Tests de la disposition du graphe du monde (LOT-11) : cercle, fantomes, fleches regroupees,...">Source/Test/Unit/HMI/Editor/test_world_graph_layout.cpp</a>:368</span></sub>  </td><td class="markdownTableBodyNone">Deux noeuds recouverts se departagent.  </td><td class="markdownTableBodyNone">1. Designer le point equidistant de deux noeuds, puis un point plus proche du second.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a626ed35cec8a3a4b0bad705e85a87f4e" title="Le nœud sous point.">hmi::nodeAt</a>(disposition, <a class="el" href="structcore_1_1Vector2.html" title="Vecteur bidimensionnel en coordonnées monde (composantes float).">core::Vector2</a>(0.0f, 0.0f), 20.0f)</span> vaut <span class="tt">std::optional&lt;std::size_t&gt;(0)</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a626ed35cec8a3a4b0bad705e85a87f4e" title="Le nœud sous point.">hmi::nodeAt</a>(disposition, <a class="el" href="structcore_1_1Vector2.html" title="Vecteur bidimensionnel en coordonnées monde (composantes float).">core::Vector2</a>(4.0f, 0.0f), 20.0f)</span> vaut <span class="tt">std::optional&lt;std::size_t&gt;(1)</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>WorldGraphLayout.EdgeAtTrouveLaFlecheEtLaBoucle</b> (Mineur)<br  />
+<sub><span class="tt"><a class="el" href="test__world__graph__layout_8cpp.html" title="Tests de la disposition du graphe du monde (LOT-11) : cercle, fantomes, fleches regroupees,...">Source/Test/Unit/HMI/Editor/test_world_graph_layout.cpp</a>:389</span></sub>  </td><td class="markdownTableBodyNone">Le pointeur designe une fleche ou une boucle.  </td><td class="markdownTableBodyNone">1. Designer la pastille d'une fleche, celle d'une boucle, puis un point lointain.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a8f058cebbeb2de49915110ec3f501b2a" title="La flèche sous point : distance au trait (ou au cercle d&#39;une boucle) au plus tolerance.">hmi::edgeAt</a>(disposition, fleche.badge, 4.0f)</span> vaut <span class="tt">std::optional&lt;std::size_t&gt;(0)</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a8f058cebbeb2de49915110ec3f501b2a" title="La flèche sous point : distance au trait (ou au cercle d&#39;une boucle) au plus tolerance.">hmi::edgeAt</a>(disposition, boucle.badge, 4.0f)</span> vaut <span class="tt">std::optional&lt;std::size_t&gt;(1)</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a8f058cebbeb2de49915110ec3f501b2a" title="La flèche sous point : distance au trait (ou au cercle d&#39;une boucle) au plus tolerance.">hmi::edgeAt</a>(disposition, <a class="el" href="structcore_1_1Vector2.html" title="Vecteur bidimensionnel en coordonnées monde (composantes float).">core::Vector2</a>(500.0f, 500.0f), 4.0f)</span> vaut <span class="tt">std::nullopt</span>.  </td></tr>
+</table>
 <h3 class="doxsection"><a class="anchor" id="autotoc_md23"></a>
-Game (30)</h3>
+Game (38)</h3>
 <p><b><span class="tt"><a class="el" href="test__diagnostics__hud_8cpp.html" title="Tests unitaires de la moyenne glissante de cadence et du choix de contenu du compteur de diagnostic (...">test_diagnostics_hud.cpp</a></span></b></p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -5768,8 +6294,49 @@ Vérifie que <span class="tt">premier.name()</span> diffère de <span class="tt"
 Vérifie que <span class="tt">premier.name()</span> diffère de <span class="tt"><a class="el" href="classhmi_1_1CombatMode.html" title="Le second mode de jeu : le combat se déroule sur la carte d&#39;exploration, mais l&#39;exploration,...">hmi::CombatMode</a>{}.name()</span>.<br  />
 Vérifie que <span class="tt">passesA.calls()</span> vaut <span class="tt">passesB.calls()</span>.  </td></tr>
 </table>
+<p><b><span class="tt"><a class="el" href="test__playtest__interaction_8cpp.html" title="Tests unitaires du compte rendu d&#39;interaction de l&#39;essai immédiat de l&#39;éditeur (LOT-11).">test_playtest_interaction.cpp</a></span></b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>PlaytestInteractionTest.CoffreOuvertPuisDejaOuvert</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__playtest__interaction_8cpp.html" title="Tests unitaires du compte rendu d&#39;interaction de l&#39;essai immédiat de l&#39;éditeur (LOT-11).">Source/Test/Unit/HMI/Game/test_playtest_interaction.cpp</a>:38</span></sub>  </td><td class="markdownTableBodyNone">Le coffre se dit ouvert, puis deja ouvert.  </td><td class="markdownTableBodyNone">1. Demander le compte rendu d'un coffre non consomme, puis consomme.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a1641b93bb7b37da88535ed99d59d5af2" title="Le compte rendu de l&#39;interaction avec entity.">hmi::playtestInteractionMessage</a>(entity("chest"), false)</span> vaut <span class="tt">message(hmi::PLAYTEST_CHEST_OPENED_KEY)</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a1641b93bb7b37da88535ed99d59d5af2" title="Le compte rendu de l&#39;interaction avec entity.">hmi::playtestInteractionMessage</a>(entity("chest"), true)</span> vaut <span class="tt">message(hmi::PLAYTEST_CHEST_ALREADY_OPENED_KEY)</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>PlaytestInteractionTest.PanneauLu</b> (Mineur)<br  />
+<sub><span class="tt"><a class="el" href="test__playtest__interaction_8cpp.html" title="Tests unitaires du compte rendu d&#39;interaction de l&#39;essai immédiat de l&#39;éditeur (LOT-11).">Source/Test/Unit/HMI/Game/test_playtest_interaction.cpp</a>:54</span></sub>  </td><td class="markdownTableBodyNone">Le panneau se lit.  </td><td class="markdownTableBodyNone">1. Demander le compte rendu d'un panneau.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a1641b93bb7b37da88535ed99d59d5af2" title="Le compte rendu de l&#39;interaction avec entity.">hmi::playtestInteractionMessage</a>(entity("sign"), false)</span> vaut <span class="tt">message(hmi::PLAYTEST_SIGN_READ_KEY)</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>PlaytestInteractionTest.PnjDialogueOuSansDialogue</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__playtest__interaction_8cpp.html" title="Tests unitaires du compte rendu d&#39;interaction de l&#39;essai immédiat de l&#39;éditeur (LOT-11).">Source/Test/Unit/HMI/Game/test_playtest_interaction.cpp</a>:68</span></sub>  </td><td class="markdownTableBodyNone">Le PNJ nomme son dialogue, ou se dit sans dialogue.  </td><td class="markdownTableBodyNone">1. PNJ avec dialogue "herault".<br  />
+2. PNJ sans propriete, avec texte vide, avec entier.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">hmi::playtestInteractionMessage(pnj, false)</span> vaut <span class="tt">message(<a class="el" href="namespacehmi.html#a4774997ea28ed9d1f391d6c679b2c009">hmi::PLAYTEST_NPC_DIALOGUE_KEY</a>, {"herault"})</span>.<br  />
+Vérifie que <span class="tt">hmi::playtestInteractionMessage(muet, false)</span> vaut <span class="tt">message(hmi::PLAYTEST_NPC_SILENT_KEY)</span>.<br  />
+Vérifie que <span class="tt">hmi::playtestInteractionMessage(muet, false)</span> vaut <span class="tt">message(hmi::PLAYTEST_NPC_SILENT_KEY)</span>.<br  />
+Vérifie que <span class="tt">hmi::playtestInteractionMessage(muet, false)</span> vaut <span class="tt">message(hmi::PLAYTEST_NPC_SILENT_KEY)</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>PlaytestInteractionTest.PortailDestinationOuIncomplet</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__playtest__interaction_8cpp.html" title="Tests unitaires du compte rendu d&#39;interaction de l&#39;essai immédiat de l&#39;éditeur (LOT-11).">Source/Test/Unit/HMI/Game/test_playtest_interaction.cpp</a>:92</span></sub>  </td><td class="markdownTableBodyNone">Le portail nomme sa destination, ou se dit incomplet.  </td><td class="markdownTableBodyNone">1. Portail complet.<br  />
+2. Portail sans arrivee, puis sans carte cible.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">hmi::playtestInteractionMessage(portail, false)</span> vaut <span class="tt">message(hmi::PLAYTEST_PORTAL_INCOMPLETE_KEY)</span>.<br  />
+Vérifie que <span class="tt">hmi::playtestInteractionMessage(portail, false)</span> vaut <span class="tt">message(<a class="el" href="namespacehmi.html#ab700512a0b7f60e86d26e14a5dff1dec">hmi::PLAYTEST_PORTAL_KEY</a>, {"foret", "lisiere"})</span>.<br  />
+Vérifie que <span class="tt">hmi::playtestInteractionMessage(portail, false)</span> vaut <span class="tt">message(hmi::PLAYTEST_PORTAL_INCOMPLETE_KEY)</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>PlaytestInteractionTest.AutreTypeSeNomme</b> (Mineur)<br  />
+<sub><span class="tt"><a class="el" href="test__playtest__interaction_8cpp.html" title="Tests unitaires du compte rendu d&#39;interaction de l&#39;essai immédiat de l&#39;éditeur (LOT-11).">Source/Test/Unit/HMI/Game/test_playtest_interaction.cpp</a>:116</span></sub>  </td><td class="markdownTableBodyNone">Un type sans interaction se nomme.  </td><td class="markdownTableBodyNone">1. Demander le compte rendu d'une entite "altar".  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a1641b93bb7b37da88535ed99d59d5af2" title="Le compte rendu de l&#39;interaction avec entity.">hmi::playtestInteractionMessage</a>(entity("altar"), false)</span> vaut <span class="tt">message(<a class="el" href="namespacehmi.html#a041a8f13453275f41475aaf3013f052c">hmi::PLAYTEST_OTHER_KEY</a>, {"altar"})</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>PlaytestInteractionTest.TraductionRemplaceLesValeurs</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__playtest__interaction_8cpp.html" title="Tests unitaires du compte rendu d&#39;interaction de l&#39;essai immédiat de l&#39;éditeur (LOT-11).">Source/Test/Unit/HMI/Game/test_playtest_interaction.cpp</a>:130</span></sub>  </td><td class="markdownTableBodyNone">Le compte rendu se traduit avec ses valeurs.  </td><td class="markdownTableBodyNone">1. Traduire un compte rendu a deux valeurs.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a08d8cf692ae91b356932f7e49313437c" title="Traduit un compte rendu : le texte de sa clé, %1, %2… remplacés par ses valeurs.">hmi::formatPlaytestMessage</a>(message(<a class="el" href="namespacehmi.html#ab700512a0b7f60e86d26e14a5dff1dec">hmi::PLAYTEST_PORTAL_KEY</a>, {"foret", "lisiere"}), localization)</span> vaut <span class="tt">"Vers foret, arrivee lisiere (%1)"</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>PlaytestInteractionTest.DureeEnPasDeSimulation</b> (Mineur)<br  />
+<sub><span class="tt"><a class="el" href="test__playtest__interaction_8cpp.html" title="Tests unitaires du compte rendu d&#39;interaction de l&#39;essai immédiat de l&#39;éditeur (LOT-11).">Source/Test/Unit/HMI/Game/test_playtest_interaction.cpp</a>:148</span></sub>  </td><td class="markdownTableBodyNone">La duree d'un compte rendu se compte en pas de simulation.  </td><td class="markdownTableBodyNone">1. Convertir pour un pas de 1/60 s, de 10 s, et nul.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a8572b2f7cdbc96a8ef6a401a74a3a028" title="Les pas de simulation pendant lesquels un compte rendu reste affiché, pour un pas fixe de fixedDelta ...">hmi::playtestMessageSteps</a>(1.0f / 60.0f)</span> vaut <span class="tt">180</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a8572b2f7cdbc96a8ef6a401a74a3a028" title="Les pas de simulation pendant lesquels un compte rendu reste affiché, pour un pas fixe de fixedDelta ...">hmi::playtestMessageSteps</a>(10.0f)</span> vaut <span class="tt">1</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a8572b2f7cdbc96a8ef6a401a74a3a028" title="Les pas de simulation pendant lesquels un compte rendu reste affiché, pour un pas fixe de fixedDelta ...">hmi::playtestMessageSteps</a>(0.0f)</span> vaut <span class="tt">1</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>PlaytestInteractionTest.ClesDeTraductionExistentDansLesDeuxCatalogues</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__playtest__interaction_8cpp.html" title="Tests unitaires du compte rendu d&#39;interaction de l&#39;essai immédiat de l&#39;éditeur (LOT-11).">Source/Test/Unit/HMI/Game/test_playtest_interaction.cpp</a>:163</span></sub>  </td><td class="markdownTableBodyNone">Les cles de l'essai immediat existent dans les deux catalogues livres.  </td><td class="markdownTableBodyNone">1. Charger fr.lang puis en.lang.<br  />
+2. Resoudre chaque cle.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">localization.loadDefaultLanguage(language)</span> est vrai.<br  />
+Vérifie que <span class="tt">localization.text(key)</span> diffère de <span class="tt">key</span>.  </td></tr>
+</table>
 <h3 class="doxsection"><a class="anchor" id="autotoc_md24"></a>
-Graphics (299)</h3>
+Graphics (304)</h3>
 <p><b><span class="tt"><a class="el" href="test__animated__tiles_8cpp.html" title="Tests unitaires des tuiles animées (LOT-46 TACHE-05) : horloge partagée par asset,...">test_animated_tiles.cpp</a></span></b></p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -6587,6 +7154,42 @@ Vérifie que <span class="tt">scene.quads()[1].sortOrder</span> vaut <span class
 2. Composer et trier.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">scene.size()</span> vaut <span class="tt">2u</span>.<br  />
 Vérifie que <span class="tt">scene.quads()[0].sortOrder</span> vaut <span class="tt">0</span>.<br  />
 Vérifie que <span class="tt">scene.quads()[1].sortOrder</span> vaut <span class="tt">1</span>.  </td></tr>
+</table>
+<p><b><span class="tt"><a class="el" href="test__entity__markers_8cpp.html" title="Tests unitaires du marqueur d&#39;entité de carte : clé d&#39;asset et pixels (LOT-11).">test_entity_markers.cpp</a></span></b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>EntityMarkersTest.TypeCamelCaseDevientUneCleKebabCase</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__entity__markers_8cpp.html" title="Tests unitaires du marqueur d&#39;entité de carte : clé d&#39;asset et pixels (LOT-11).">Source/Test/Unit/HMI/Graphics/test_entity_markers.cpp</a>:22</span></sub>  </td><td class="markdownTableBodyNone">Le type d'entite devient une cle de marqueur en kebab-case.  </td><td class="markdownTableBodyNone">1. Convertir spawnPoint, arenaEntry, chest, NPCGuard et chest2.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a7325b66a46c59c65277b90fcdff97d00" title="La clé d&#39;asset du marqueur d&#39;un type d&#39;entité de carte.">hmi::entityMarkerKey</a>("spawnPoint")</span> vaut <span class="tt">"marker/spawn-point"</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a7325b66a46c59c65277b90fcdff97d00" title="La clé d&#39;asset du marqueur d&#39;un type d&#39;entité de carte.">hmi::entityMarkerKey</a>("arenaEntry")</span> vaut <span class="tt">"marker/arena-entry"</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a7325b66a46c59c65277b90fcdff97d00" title="La clé d&#39;asset du marqueur d&#39;un type d&#39;entité de carte.">hmi::entityMarkerKey</a>("chest")</span> vaut <span class="tt">"marker/chest"</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a7325b66a46c59c65277b90fcdff97d00" title="La clé d&#39;asset du marqueur d&#39;un type d&#39;entité de carte.">hmi::entityMarkerKey</a>("NPCGuard")</span> vaut <span class="tt">"marker/npc-guard"</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a7325b66a46c59c65277b90fcdff97d00" title="La clé d&#39;asset du marqueur d&#39;un type d&#39;entité de carte.">hmi::entityMarkerKey</a>("chest2")</span> vaut <span class="tt">"marker/chest2"</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>EntityMarkersTest.CaracteresInterditsIgnoresEtSeparateursNormalises</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__entity__markers_8cpp.html" title="Tests unitaires du marqueur d&#39;entité de carte : clé d&#39;asset et pixels (LOT-11).">Source/Test/Unit/HMI/Graphics/test_entity_markers.cpp</a>:39</span></sub>  </td><td class="markdownTableBodyNone">Caracteres interdits ignores, separateurs normalises.  </td><td class="markdownTableBodyNone">1. Convertir des types avec tirets bas, espaces, ponctuation et accents.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a7325b66a46c59c65277b90fcdff97d00" title="La clé d&#39;asset du marqueur d&#39;un type d&#39;entité de carte.">hmi::entityMarkerKey</a>("_old__chest_")</span> vaut <span class="tt">"marker/old-chest"</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a7325b66a46c59c65277b90fcdff97d00" title="La clé d&#39;asset du marqueur d&#39;un type d&#39;entité de carte.">hmi::entityMarkerKey</a>(" wooden - sign ")</span> vaut <span class="tt">"marker/wooden-sign"</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a7325b66a46c59c65277b90fcdff97d00" title="La clé d&#39;asset du marqueur d&#39;un type d&#39;entité de carte.">hmi::entityMarkerKey</a>("a.b!c")</span> vaut <span class="tt">"marker/abc"</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a7325b66a46c59c65277b90fcdff97d00" title="La clé d&#39;asset du marqueur d&#39;un type d&#39;entité de carte.">hmi::entityMarkerKey</a>("a.B")</span> vaut <span class="tt">"marker/a-b"</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a7325b66a46c59c65277b90fcdff97d00" title="La clé d&#39;asset du marqueur d&#39;un type d&#39;entité de carte.">hmi::entityMarkerKey</a>("coffre\\xC3\\xA9")</span> vaut <span class="tt">"marker/coffre"</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>EntityMarkersTest.TypeVideDonneLeMarqueurInconnu</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__entity__markers_8cpp.html" title="Tests unitaires du marqueur d&#39;entité de carte : clé d&#39;asset et pixels (LOT-11).">Source/Test/Unit/HMI/Graphics/test_entity_markers.cpp</a>:56</span></sub>  </td><td class="markdownTableBodyNone">Un type vide donne le marqueur inconnu.  </td><td class="markdownTableBodyNone">1. Convertir "", "---" et "!?".  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a7325b66a46c59c65277b90fcdff97d00" title="La clé d&#39;asset du marqueur d&#39;un type d&#39;entité de carte.">hmi::entityMarkerKey</a>("")</span> vaut <span class="tt">"marker/inconnu"</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a7325b66a46c59c65277b90fcdff97d00" title="La clé d&#39;asset du marqueur d&#39;un type d&#39;entité de carte.">hmi::entityMarkerKey</a>("---")</span> vaut <span class="tt">"marker/inconnu"</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a7325b66a46c59c65277b90fcdff97d00" title="La clé d&#39;asset du marqueur d&#39;un type d&#39;entité de carte.">hmi::entityMarkerKey</a>("!?")</span> vaut <span class="tt">"marker/inconnu"</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>EntityMarkersTest.ChaqueCleEstValideEtSePeint</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__entity__markers_8cpp.html" title="Tests unitaires du marqueur d&#39;entité de carte : clé d&#39;asset et pixels (LOT-11).">Source/Test/Unit/HMI/Graphics/test_entity_markers.cpp</a>:72</span></sub>  </td><td class="markdownTableBodyNone">Chaque cle de marqueur est une cle d'asset valide qui se peint.  </td><td class="markdownTableBodyNone">1. Convertir chaque type de knownEntityKinds et des types hostiles.<br  />
+2. Valider la cle et peindre le marqueur.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">core::isValidAssetKey(key)</span> est vrai.<br  />
+Vérifie que <span class="tt">image.isEmpty()</span> est faux.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>EntityMarkersTest.PixelsEmpaquetesEnRgba8</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__entity__markers_8cpp.html" title="Tests unitaires du marqueur d&#39;entité de carte : clé d&#39;asset et pixels (LOT-11).">Source/Test/Unit/HMI/Graphics/test_entity_markers.cpp</a>:97</span></sub>  </td><td class="markdownTableBodyNone">Les pixels du marqueur sont empaquetes au format de createTexture.  </td><td class="markdownTableBodyNone">1. Empaqueter une image 2x1 connue.<br  />
+2. Empaqueter une image vide.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">pixels.size()</span> vaut <span class="tt">2u</span>.<br  />
+Vérifie que <span class="tt">pixels[0]</span> vaut <span class="tt">0x44332211u</span>.<br  />
+Vérifie que <span class="tt">pixels[1]</span> vaut <span class="tt">0xFFCCBBAAu</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#abb5b5c18732cf5389e71bb864df46380" title="Les pixels d&#39;un marqueur au format que hmi::createTexture attend : un std::uint32_t par pixel,...">hmi::markerPixelsRgba8</a>(<a class="el" href="structcore_1_1MarkerImage.html" title="Les pixels d&#39;un marqueur, en RVBA, ligne par ligne depuis le haut.">core::MarkerImage</a>{}).empty()</span> est vrai.  </td></tr>
 </table>
 <p><b><span class="tt"><a class="el" href="test__follow__camera_8cpp.html" title="Tests unitaires de la caméra de suivi : zone morte, anticipation, lissage, bornage (EX-REN-016,...">test_follow_camera.cpp</a></span></b></p>
 <table class="markdownTable">
@@ -8639,37 +9242,37 @@ Vérifie que <span class="tt">toolsInToolBar</span> vaut <span class="tt">static
 <th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>EditorWorkspaceTest.ChaquePanneauAppartientAAuMoinsUnEspace</b> (Critique)<br  />
-<sub><span class="tt"><a class="el" href="test__editor__workspace_8cpp.html" title="Tests unitaires des espaces de travail de l&#39;éditeur (LOT-68, EX-IHM-073).">Source/Test/Unit/HMI/Interface/test_editor_workspace.cpp</a>:56</span></sub>  </td><td class="markdownTableBodyNone">Chaque panneau appartient a au moins un espace de travail.  </td><td class="markdownTableBodyNone">1. Parcourir les neuf panneaux et resoudre leur masque d'espaces.<br  />
+<sub><span class="tt"><a class="el" href="test__editor__workspace_8cpp.html" title="Tests unitaires des espaces de travail de l&#39;éditeur (LOT-68, EX-IHM-073).">Source/Test/Unit/HMI/Interface/test_editor_workspace.cpp</a>:58</span></sub>  </td><td class="markdownTableBodyNone">Chaque panneau appartient a au moins un espace de travail.  </td><td class="markdownTableBodyNone">1. Parcourir les neuf panneaux et resoudre leur masque d'espaces.<br  />
 2. Verifier que le compte couvert vaut PANEL_COUNT et que les trois espaces sont representes.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">seen.insert(panel).second</span> est vrai.<br  />
 Vérifie que <span class="tt">mask</span> diffère de <span class="tt">0u</span>.<br  />
 Vérifie que <span class="tt">seen.size()</span> vaut <span class="tt"><a class="el" href="namespacehmi.html#af04ce56b73b71704b41ee6d8cfe4e2e2" title="Nombre de panneaux, declare au plus pres de l&#39;enumeration qu&#39;il compte.">hmi::PANEL_COUNT</a></span>.<br  />
 Vérifie que <span class="tt">workspacesCovered.size()</span> vaut <span class="tt"><a class="el" href="namespacehmi.html#a79233aca7f9d19b332463ae81582a3d1" title="Nombre d&#39;espaces, déclaré au plus près de l&#39;énumération qu&#39;il compte.">hmi::EDITOR_WORKSPACE_COUNT</a></span>.  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>EditorWorkspaceTest.CanevasPartageEntreLesDeuxEspacesDePeinture</b> (Critique)<br  />
-<sub><span class="tt"><a class="el" href="test__editor__workspace_8cpp.html" title="Tests unitaires des espaces de travail de l&#39;éditeur (LOT-68, EX-IHM-073).">Source/Test/Unit/HMI/Interface/test_editor_workspace.cpp</a>:87</span></sub>  </td><td class="markdownTableBodyNone">Le canevas et ses panneaux servent aux deux espaces de peinture.  </td><td class="markdownTableBodyNone">1. Resoudre le masque du canevas, de l'historique et de la palette.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">hmi::workspaceMaskContains(mask, hmi::EditorWorkspace::PixelArt)</span> est vrai.<br  />
+<sub><span class="tt"><a class="el" href="test__editor__workspace_8cpp.html" title="Tests unitaires des espaces de travail de l&#39;éditeur (LOT-68, EX-IHM-073).">Source/Test/Unit/HMI/Interface/test_editor_workspace.cpp</a>:89</span></sub>  </td><td class="markdownTableBodyNone">Le canevas et ses panneaux servent aux deux espaces de peinture.  </td><td class="markdownTableBodyNone">1. Resoudre le masque du canevas, de l'historique et de la palette.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">hmi::workspaceMaskContains(mask, hmi::EditorWorkspace::PixelArt)</span> est vrai.<br  />
 Vérifie que <span class="tt">hmi::workspaceMaskContains(mask, hmi::EditorWorkspace::Planes)</span> est vrai.<br  />
 Vérifie que <span class="tt">hmi::workspaceMaskContains(mask, hmi::EditorWorkspace::Level)</span> est faux.  </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>EditorWorkspaceTest.UneSeuleBarreDOutilsParEspace</b> (Critique)<br  />
-<sub><span class="tt"><a class="el" href="test__editor__workspace_8cpp.html" title="Tests unitaires des espaces de travail de l&#39;éditeur (LOT-68, EX-IHM-073).">Source/Test/Unit/HMI/Interface/test_editor_workspace.cpp</a>:108</span></sub>  </td><td class="markdownTableBodyNone">Les deux barres d'outils ne sont jamais visibles simultanement.  </td><td class="markdownTableBodyNone">1. Lire l'habillage des deux espaces.<br  />
+<sub><span class="tt"><a class="el" href="test__editor__workspace_8cpp.html" title="Tests unitaires des espaces de travail de l&#39;éditeur (LOT-68, EX-IHM-073).">Source/Test/Unit/HMI/Interface/test_editor_workspace.cpp</a>:110</span></sub>  </td><td class="markdownTableBodyNone">Les deux barres d'outils ne sont jamais visibles simultanement.  </td><td class="markdownTableBodyNone">1. Lire l'habillage des deux espaces.<br  />
 2. Verifier qu'exactement une barre est visible dans chacun.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">dressing.levelToolBarVisible</span> diffère de <span class="tt">dressing.pixelToolBarVisible</span>.<br  />
 Vérifie que <span class="tt">level.levelToolBarVisible</span> est vrai.<br  />
 Vérifie que <span class="tt">planes.pixelToolBarVisible</span> est vrai.<br  />
 Vérifie que <span class="tt">pixel.pixelToolBarVisible</span> est vrai.  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>EditorWorkspaceTest.MenuAtelierReserveASonEspace</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__editor__workspace_8cpp.html" title="Tests unitaires des espaces de travail de l&#39;éditeur (LOT-68, EX-IHM-073).">Source/Test/Unit/HMI/Interface/test_editor_workspace.cpp</a>:140</span></sub>  </td><td class="markdownTableBodyNone">Le menu de l'atelier n'existe que dans l'espace de l'atelier.  </td><td class="markdownTableBodyNone">1. Lire l'habillage des trois espaces.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">hmi::dressingForWorkspace(hmi::EditorWorkspace::Level).workshopMenuVisible</span> est faux.<br  />
+<sub><span class="tt"><a class="el" href="test__editor__workspace_8cpp.html" title="Tests unitaires des espaces de travail de l&#39;éditeur (LOT-68, EX-IHM-073).">Source/Test/Unit/HMI/Interface/test_editor_workspace.cpp</a>:142</span></sub>  </td><td class="markdownTableBodyNone">Le menu de l'atelier n'existe que dans l'espace de l'atelier.  </td><td class="markdownTableBodyNone">1. Lire l'habillage des trois espaces.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">hmi::dressingForWorkspace(hmi::EditorWorkspace::Level).workshopMenuVisible</span> est faux.<br  />
 Vérifie que <span class="tt">hmi::dressingForWorkspace(hmi::EditorWorkspace::PixelArt).workshopMenuVisible</span> est vrai.<br  />
 Vérifie que <span class="tt">hmi::dressingForWorkspace(hmi::EditorWorkspace::Planes).workshopMenuVisible</span> est vrai.  </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>EditorWorkspaceTest.LesDeuxFamillesDOutilsSontDisjointes</b> (Critique)<br  />
-<sub><span class="tt"><a class="el" href="test__editor__workspace_8cpp.html" title="Tests unitaires des espaces de travail de l&#39;éditeur (LOT-68, EX-IHM-073).">Source/Test/Unit/HMI/Interface/test_editor_workspace.cpp</a>:159</span></sub>  </td><td class="markdownTableBodyNone">Chaque famille d'outils mene a son propre espace.  </td><td class="markdownTableBodyNone">1. Resoudre l'espace de chacun des huit outils de niveau.<br  />
+<sub><span class="tt"><a class="el" href="test__editor__workspace_8cpp.html" title="Tests unitaires des espaces de travail de l&#39;éditeur (LOT-68, EX-IHM-073).">Source/Test/Unit/HMI/Interface/test_editor_workspace.cpp</a>:161</span></sub>  </td><td class="markdownTableBodyNone">Chaque famille d'outils mene a son propre espace.  </td><td class="markdownTableBodyNone">1. Resoudre l'espace de chacun des huit outils de niveau.<br  />
 2. Resoudre celui des cinq outils de canevas.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">hmi::workspaceForTool(tool)</span> vaut <span class="tt"><a class="el" href="namespacehmi.html#afc2e687c85989440c76b94c012a1b91daa0db49ba470c1c9ae2128c3470339153" title="Édition de niveau.">hmi::EditorWorkspace::Level</a></span>.<br  />
 Vérifie que <span class="tt">levelTools</span> vaut <span class="tt"><a class="el" href="namespacehmi.html#a96d20a1938609691a1560c6dae34527f" title="Nombre d&#39;outils d&#39;édition, déclaré au plus près de l&#39;énumération qu&#39;il compte.">hmi::EDITOR_TOOL_COUNT</a></span>.<br  />
 Vérifie que <span class="tt">hmi::workspaceForPixelTool(tool)</span> vaut <span class="tt"><a class="el" href="namespacehmi.html#afc2e687c85989440c76b94c012a1b91da54d9b548d118e908a84c755d3b115553" title="Atelier pixel art.">hmi::EditorWorkspace::PixelArt</a></span>.  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>EditorWorkspaceTest.LaMiseEnAvantResteDansSonEspace</b> (Critique)<br  />
-<sub><span class="tt"><a class="el" href="test__editor__workspace_8cpp.html" title="Tests unitaires des espaces de travail de l&#39;éditeur (LOT-68, EX-IHM-073).">Source/Test/Unit/HMI/Interface/test_editor_workspace.cpp</a>:185</span></sub>  </td><td class="markdownTableBodyNone">La mise en avant ne traverse jamais la frontiere entre espaces.  </td><td class="markdownTableBodyNone">1. Parcourir la table outil -&gt; panneau, puis celle des outils de canevas.<br  />
+<sub><span class="tt"><a class="el" href="test__editor__workspace_8cpp.html" title="Tests unitaires des espaces de travail de l&#39;éditeur (LOT-68, EX-IHM-073).">Source/Test/Unit/HMI/Interface/test_editor_workspace.cpp</a>:187</span></sub>  </td><td class="markdownTableBodyNone">La mise en avant ne traverse jamais la frontiere entre espaces.  </td><td class="markdownTableBodyNone">1. Parcourir la table outil -&gt; panneau, puis celle des outils de canevas.<br  />
  2. Comparer l'espace de l'outil a celui du panneau qu'il met en avant.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a1e9cf88c150b16a6a0c4109255923da2">hmi::workspaceMaskContains</a>(<a class="el" href="namespacehmi.html#a03a0fe6ee48e4c601c49463e13dc2453" title="Espaces dans lesquels panel est affiché.">hmi::workspacesForPanel</a>(entry.panel), <a class="el" href="namespacehmi.html#a861d89e3cd32c93cccec048ed72d7647">hmi::workspaceForTool</a>(entry.tool))</span> est vrai.<br  />
 Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a1e9cf88c150b16a6a0c4109255923da2">hmi::workspaceMaskContains</a>(<a class="el" href="namespacehmi.html#a03a0fe6ee48e4c601c49463e13dc2453" title="Espaces dans lesquels panel est affiché.">hmi::workspacesForPanel</a>(entry.panel), <a class="el" href="namespacehmi.html#ad075fc85767c6c9a6e6b919548dcbe01">hmi::workspaceForPixelTool</a>(entry.tool))</span> est vrai.  </td></tr>
 </table>
@@ -9252,7 +9855,7 @@ Vérifie que <span class="tt">tilesByPosition.at({1, 0})</span> vaut <span class
 Vérifie que <span class="tt">tilesByPosition.at({1, 1})</span> vaut <span class="tt">static_cast&lt;int&gt;(<a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875afef46e5063ce3dc78b8ae64fa474241d">core::TileType::Exit</a>)</span>.  </td></tr>
 </table>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md36"></a>
-Tests système (2)</h1>
+Tests système (3)</h1>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md37"></a>
 Éditeur de niveaux — <span class="tt">test_parcours_edition.cpp</span> (2)</h2>
 <table class="markdownTable">
@@ -9288,6 +9891,43 @@ Vérifie que <span class="tt">reloaded.ok()</span> est vrai.<br  />
 Vérifie que <span class="tt">level.cameraFraming().zones.size()</span> vaut <span class="tt">2u</span>.<br  />
 Vérifie que <span class="tt">level.cameraFraming().zones[0]</span> vaut <span class="tt">(<a class="el" href="structcore_1_1CameraZone.html" title="Rectangle de caméra dessiné à la main par le level designer (mode par salle), en cases.">core::CameraZone</a>{.x = 0, .y = 0, .width = 20, .height = 20})</span>.<br  />
 Vérifie que <span class="tt">level.cameraFraming().zones[1]</span> vaut <span class="tt">(<a class="el" href="structcore_1_1CameraZone.html" title="Rectangle de caméra dessiné à la main par le level designer (mode par salle), en cases.">core::CameraZone</a>{.x = 20, .y = 0, .width = 10, .height = 20})</span>.  </td></tr>
+</table>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md38"></a>
+Éditeur de niveaux — <span class="tt">test_parcours_edition_rpg.cpp</span> (1)</h2>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>ParcoursEditionSysteme.ProduitUneCarteDuRpgSansEcrireDeJson</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__parcours__edition__rpg_8cpp.html" title="Parcours système du LOT-11 : produire une carte du RPG sans écrire de JSON — trois couches,...">Source/Test/Systeme/test_parcours_edition_rpg.cpp</a>:60</span></sub>  </td><td class="markdownTableBodyNone">Produire une carte du RPG dans l'editeur, sans JSON ecrit a la main.  </td><td class="markdownTableBodyNone">1. Creer une carte, poser entree, sortie et un couloir de murs dans la collision.<br  />
+2. Ajouter un sol (qui reprend l'image) puis un decor, peindre l'un et l'autre.<br  />
+3. Poser un PNJ au dialogue du heraut, un coffre, un point d'arrivee et un portail qui y mene, une rencontre en terrain ouvert et une dans le couloir.<br  />
+4. Valider contre les catalogues livres et analyser le terrain.<br  />
+5. Enregistrer, recharger, construire le graphe du monde et peupler le monde ECS.<br  />
+6. Tout annuler.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">ground &amp;&amp; decor</span> est vrai.<br  />
+Vérifie que <span class="tt">draft.layers()[*ground].tiles.tile(12, 5)</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875a94e8a499539d1a472f3b5dbbb85508c0" title="Mur : la matière pleine bâtie, distincte de Solid (matière générique du socle) parce que l&#39;éditeur et...">core::TileType::Wall</a></span>.<br  />
+Vérifie que <span class="tt">draft.paintLayerRegion(*ground, 0, 0, std::vector&lt;std::vector&lt;<a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875" title="Type d&#39;une tuile de la grille d&#39;une carte (EX-GP-001).">core::TileType</a>&gt;&gt;( 4, std::vector&lt;<a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875" title="Type d&#39;une tuile de la grille d&#39;une carte (EX-GP-001).">core::TileType</a>&gt;(6, <a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875aaac9a63596f76a62bb9f61a5dd7c0d25" title="Herbe : le sol par défaut d&#39;une carte extérieure.">core::TileType::Grass</a>)))</span> est vrai.<br  />
+Vérifie que <span class="tt">draft.paintLayerTile(*decor, 3, 3, core::TileType::Water)</span> est vrai.<br  />
+Vérifie que <span class="tt">draft.paintLayerTile(*decor, 3, 4, core::TileType::Door)</span> est faux.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a0482bd5ffd0165e722879709e592607e" title="Relève ce que les entités de entities référencent sans l&#39;atteindre.">core::validateMapEntities</a>(draft.entities(), context).empty()</span> est vrai.<br  />
+Vérifie que <span class="tt">terrains.size()</span> vaut <span class="tt">2U</span>.<br  />
+Vérifie que <span class="tt">terrains[0].entityIndex</span> vaut <span class="tt">open</span>.<br  />
+Vérifie que <span class="tt">terrains[0].valid()</span> est vrai.<br  />
+Vérifie que <span class="tt">terrains[1].entityIndex</span> vaut <span class="tt">corridor</span>.<br  />
+Vérifie que <span class="tt">terrains[1].valid()</span> est faux.<br  />
+Vérifie que <span class="tt">validated.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt"><a class="el" href="classcore_1_1LevelWriter.html#a388600fd0af9ddeed6675704125ce6f6" title="Écrit un niveau au format JSON dans un fichier (EX-EDIT-006).">core::LevelWriter::saveToFile</a>(*validated.level, directory / "parcours-lot-11.json")</span> est vrai.<br  />
+Vérifie que <span class="tt">reloaded.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt">reloaded.level-&gt;layers().size()</span> vaut <span class="tt">3U</span>.<br  />
+Vérifie que <span class="tt">reloaded.level-&gt;layers()[*decor].tiles.tile(3, 3)</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875a27634ff8002b12e75d98e07ccd005d18" title="Eau peu profonde : traversable — on y patauge.">core::TileType::Water</a></span>.<br  />
+Vérifie que <span class="tt">reloaded.level-&gt;entities().size()</span> vaut <span class="tt">6U</span>.<br  />
+Vérifie que <span class="tt">world.portals.size()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">world.portals.front().status</span> vaut <span class="tt"><a class="el" href="namespacecore.html#af11c258a9c6ef53d57b7f409006e48dfaf691f042a559b1c1a4f89826c6f75760" title="La carte cible et son point d&#39;arrivée existent.">core::PortalLinkStatus::Resolved</a></span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#adb2706947c6f0111c0cdd008fde5779e" title="Peuple un World d&#39;une entité par objet de la couche objects.">core::spawnMapEntities</a>(ecs, *reloaded.level, reloaded.level-&gt;name())</span> vaut <span class="tt">6U</span>.<br  />
+Vérifie que <span class="tt">interactables</span> vaut <span class="tt">(std::vector&lt;std::string&gt;{"chest", "npc"})</span>.<br  />
+Vérifie que <span class="tt">draft.undo()</span> est vrai.<br  />
+Vérifie que <span class="tt">draft.entities().empty()</span> est vrai.<br  />
+Vérifie que <span class="tt">draft.layers().empty()</span> est vrai.  </td></tr>
 </table>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->

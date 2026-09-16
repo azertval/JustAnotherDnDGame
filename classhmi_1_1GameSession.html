@@ -107,6 +107,11 @@ Inheritance diagram for hmi::GameSession:</div>
   </map>
 </div></div>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:PlaytestEntity" id="r_PlaytestEntity"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1GameSession_1_1PlaytestEntity.html">PlaytestEntity</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une entite de la couche <span class="tt">objects</span>, et son rang dans <span class="tt"><a class="el" href="classcore_1_1Level.html#aded8699b4838ee38e10891c9b7aecc58">core::Level::entities()</a></span>.  <a href="structhmi_1_1GameSession_1_1PlaytestEntity.html#details">More...</a><br /></td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a8f0dbb53ab2dd00b492e157333b42d61" id="r_a8f0dbb53ab2dd00b492e157333b42d61"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a8f0dbb53ab2dd00b492e157333b42d61">GameSession</a> (<a class="el" href="classhmi_1_1SpriteBatch.html">SpriteBatch</a> &amp;batch, const <a class="el" href="classhmi_1_1TextureAtlas.html">TextureAtlas</a> &amp;atlas, <a class="el" href="classhmi_1_1TextureCache.html">TextureCache</a> &amp;cache, int viewportWidth, int viewportHeight, <a class="el" href="classcore_1_1Level.html">core::Level</a> level, const <a class="el" href="classhmi_1_1GameKeyBindings.html">GameKeyBindings</a> &amp;gameBindings, const <a class="el" href="classhmi_1_1GamepadBindings.html">GamepadBindings</a> &amp;gamepadBindings, const <a class="el" href="classhmi_1_1BitmapFont.html">BitmapFont</a> &amp;font, const <a class="el" href="classhmi_1_1Localization.html">Localization</a> *localization=nullptr)</td></tr>
@@ -178,6 +183,12 @@ Private Member Functions</h2></td></tr>
 <tr class="memdesc:a930a2413f190c4c2ce9bfdea2ea4eadb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Avance l'horloge d'animation partagée des tuiles animées (<span class="tt">LOT-46</span> TACHE-05), au <b>pas fixe</b> : une entrée de <span class="tt"><a class="el" href="#a6ab22efca0e53c493f10c9afa18943ba" title="Horloge d&#39;animation partagee, une entree par asset de tuile anime (nom de fichier -&gt; etat).">_tileAnimations</a></span> par asset animé du jeu de skins courant, en mode <span class="tt"><a class="el" href="namespacehmi.html#ac69176e5c8acf86f4990696f7f54f11ea66ba162102bbf6ae31b522aec561735e" title="Image unique, utilisée telle quelle.">SkinMode::Single</a></span> sans silhouette (<span class="tt">bitmask16</span> et silhouette détourée excluent l'animation, signalé une fois par asset via <span class="tt"><a class="el" href="#a62f1df42a4460ab63c9628f0b4399556" title="Assets pour lesquels la combinaison (bitmask16 ou silhouette) + animation a deja ete signalee : evite...">_warnedExcludedAnimations</a></span>).  <br /></td></tr>
 <tr class="memitem:a7600fad72568c7816ca4c523d1b7cac7" id="r_a7600fad72568c7816ca4c523d1b7cac7"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a7600fad72568c7816ca4c523d1b7cac7">renderHud</a> (int viewportWidth, int viewportHeight)</td></tr>
 <tr class="memdesc:a7600fad72568c7816ca4c523d1b7cac7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compose et soumet l'affichage tête haute (invite, nom du tableau), en espace écran, sur sa propre projection (<span class="tt"><a class="el" href="namespacehmi.html#a9fbb2bf9b95887bf5bf16e14e750bac4" title="Construit la projection écran → clip du calque UI, indépendante de Camera2D.">hmi::screenProjectionMatrix</a></span>) — jamais affecté par le zoom de la caméra ni par son culling (<span class="tt">LOT-52</span> TACHE-02/03).  <br /></td></tr>
+<tr class="memitem:a1e800b4c872dd86b6ad33e88660c4b1d" id="r_a1e800b4c872dd86b6ad33e88660c4b1d"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a1e800b4c872dd86b6ad33e88660c4b1d">spawnPlaytestEntities</a> ()</td></tr>
+<tr class="memdesc:a1e800b4c872dd86b6ad33e88660c4b1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Peuple le monde des entités de la couche <span class="tt">objects</span> (<span class="tt"><a class="el" href="namespacecore.html#adb2706947c6f0111c0cdd008fde5779e" title="Peuple un World d&#39;une entité par objet de la couche objects.">core::spawnMapEntities</a></span>) et les repère pour leur marqueur.  <br /></td></tr>
+<tr class="memitem:ae655db4c38ae4479b9dc479e9036e8cb" id="r_ae655db4c38ae4479b9dc479e9036e8cb"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ae655db4c38ae4479b9dc479e9036e8cb">updatePlaytestInteraction</a> (const <a class="el" href="structcore_1_1PlayerInput.html">core::PlayerInput</a> &amp;input, float fixedDelta)</td></tr>
+<tr class="memdesc:ae655db4c38ae4479b9dc479e9036e8cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Décompte le compte rendu affiché puis, sur un appui d'« Interagir », désigne la cible (<span class="tt"><a class="el" href="namespacecore.html#a9d8c1764c03821f2f58f75d0e5795e7a" title="Désigne la cible d&#39;interaction d&#39;un personnage.">core::findInteractionTarget</a></span>) et en produit le compte rendu (<span class="tt">hmi::PlaytestInteraction</span>).  <br /></td></tr>
+<tr class="memitem:ae7ec9b5a11a0ecb2f6551aeb7552b1b0" id="r_ae7ec9b5a11a0ecb2f6551aeb7552b1b0"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ae7ec9b5a11a0ecb2f6551aeb7552b1b0">renderEntityMarkers</a> ()</td></tr>
+<tr class="memdesc:ae7ec9b5a11a0ecb2f6551aeb7552b1b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compose et soumet le marqueur de chaque entité de carte, par la caméra du monde.  <br /></td></tr>
 <tr class="inherit_header pub_methods_classhmi_1_1IGameModePasses"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_classhmi_1_1IGameModePasses')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Private Member Functions inherited from <a class="el" href="classhmi_1_1IGameModePasses.html">hmi::IGameModePasses</a></td></tr>
 <tr class="memitem:ae362c3741fcf66fe430844f1fb342743 inherit pub_methods_classhmi_1_1IGameModePasses" id="r_ae362c3741fcf66fe430844f1fb342743"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1IGameModePasses.html#ae362c3741fcf66fe430844f1fb342743">IGameModePasses</a> ()=default</td></tr>
 <tr class="memitem:a2293c9546b31e9f409d65affc68be832 inherit pub_methods_classhmi_1_1IGameModePasses" id="r_a2293c9546b31e9f409d65affc68be832"><td class="memItemLeft">virtual&#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1IGameModePasses.html#a2293c9546b31e9f409d65affc68be832">~IGameModePasses</a> ()=default</td></tr>
@@ -244,6 +255,14 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:ada6626ae59a6387c4d59672fbba2706a" id="r_ada6626ae59a6387c4d59672fbba2706a"><td class="memItemLeft"><a class="el" href="structhmi_1_1MechanismEventState.html">MechanismEventState</a>&#160;</td><td class="memItemRight"><a class="el" href="#ada6626ae59a6387c4d59672fbba2706a">_previousMechanismEventState</a></td></tr>
 <tr class="memitem:a79cd31590d71f5dade80a94be25eb357" id="r_a79cd31590d71f5dade80a94be25eb357"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a79cd31590d71f5dade80a94be25eb357">_gameEventsInitialized</a> = false</td></tr>
 <tr class="memitem:a70365096677c1ede265ae6bf72fcbdf0" id="r_a70365096677c1ede265ae6bf72fcbdf0"><td class="memItemLeft">std::vector&lt; <a class="el" href="namespacehmi.html#a3a61aed1c8e95c289c829398d48488de">GameEvent</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a70365096677c1ede265ae6bf72fcbdf0">_lastStepEvents</a></td></tr>
+<tr class="memitem:ad7814a34824ee6c96239bce1999e8082" id="r_ad7814a34824ee6c96239bce1999e8082"><td class="memItemLeft">std::vector&lt; <a class="el" href="structhmi_1_1GameSession_1_1PlaytestEntity.html">PlaytestEntity</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#ad7814a34824ee6c96239bce1999e8082">_playtestEntities</a></td></tr>
+<tr class="memitem:a0d0fc78729d53b2b11b177849fab634e" id="r_a0d0fc78729d53b2b11b177849fab634e"><td class="memItemLeft"><a class="el" href="classcore_1_1WorldFlags.html">core::WorldFlags</a>&#160;</td><td class="memItemRight"><a class="el" href="#a0d0fc78729d53b2b11b177849fab634e">_playtestFlags</a></td></tr>
+<tr class="memdesc:a0d0fc78729d53b2b11b177849fab634e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Drapeaux de l'essai : propres a la SESSION, jamais ceux d'une partie.  <br /></td></tr>
+<tr class="memitem:a7f638aa1e958cb11d8e36c679fd73f5a" id="r_a7f638aa1e958cb11d8e36c679fd73f5a"><td class="memItemLeft"><a class="el" href="classhmi_1_1ComposedScene.html">ComposedScene</a>&#160;</td><td class="memItemRight"><a class="el" href="#a7f638aa1e958cb11d8e36c679fd73f5a">_markerScene</a></td></tr>
+<tr class="memdesc:a7f638aa1e958cb11d8e36c679fd73f5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Scene des marqueurs, distincte de celle de <span class="tt"><a class="el" href="#a7673a4eb5fbc79c45bbbdfe2dd01c0a2">_renderer</a></span> (voir renderEntityMarkers).  <br /></td></tr>
+<tr class="memitem:acbef25af148b488ae96ebf8ea125c64c" id="r_acbef25af148b488ae96ebf8ea125c64c"><td class="memItemLeft">std::optional&lt; <a class="el" href="structhmi_1_1PlaytestMessage.html">PlaytestMessage</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#acbef25af148b488ae96ebf8ea125c64c">_playtestMessage</a></td></tr>
+<tr class="memdesc:acbef25af148b488ae96ebf8ea125c64c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compte rendu de la derniere interaction, et les pas pendant lesquels il reste affiche.  <br /></td></tr>
+<tr class="memitem:aff71732b96269493eb69a95fb9ab2a63" id="r_aff71732b96269493eb69a95fb9ab2a63"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#aff71732b96269493eb69a95fb9ab2a63">_playtestMessageStepsLeft</a> = 0</td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Simule et rend <b>un seul niveau</b> (déjà validé, en mémoire), indépendamment de toute infrastructure d'écran. </p>
@@ -986,6 +1005,33 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="ae7ec9b5a11a0ecb2f6551aeb7552b1b0" name="ae7ec9b5a11a0ecb2f6551aeb7552b1b0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae7ec9b5a11a0ecb2f6551aeb7552b1b0">&#9670;&#160;</a></span>renderEntityMarkers()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::GameSession::renderEntityMarkers </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Compose et soumet le marqueur de chaque entité de carte, par la caméra du monde. </p>
+
+</div>
+</div>
 <a id="a7600fad72568c7816ca4c523d1b7cac7" name="a7600fad72568c7816ca4c523d1b7cac7"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7600fad72568c7816ca4c523d1b7cac7">&#9670;&#160;</a></span>renderHud()</h2>
 
@@ -1159,6 +1205,34 @@ lastScene</span>, <span class="tt">EX-NFR-005</span>) : composées, écartées, 
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1e800b4c872dd86b6ad33e88660c4b1d" name="a1e800b4c872dd86b6ad33e88660c4b1d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1e800b4c872dd86b6ad33e88660c4b1d">&#9670;&#160;</a></span>spawnPlaytestEntities()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::GameSession::spawnPlaytestEntities </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Peuple le monde des entités de la couche <span class="tt">objects</span> (<span class="tt"><a class="el" href="namespacecore.html#adb2706947c6f0111c0cdd008fde5779e" title="Peuple un World d&#39;une entité par objet de la couche objects.">core::spawnMapEntities</a></span>) et les repère pour leur marqueur. </p>
+<p>Un portail reçoit ici, et seulement ici, un <span class="tt"><a class="el" href="structcore_1_1Interactable.html" title="Marque une entité comme cible d&#39;interaction et porte de quoi la désigner.">core::Interactable</a></span> <b>sans drapeau ni invite</b> : il devient désignable dans l'essai sans entrer dans <span class="tt"><a class="el" href="namespacecore.html#a07f40df9fbe2a910d1e99b9756220fea" title="Les familles connues : coffre, panneau (LOT-10), PNJ (LOT-15).">core::knownInteractableKinds</a></span>, que le <span class="tt">LOT-09</span> complétera quand la traversée existera. </p>
 
 </div>
 </div>
@@ -1388,6 +1462,37 @@ lastScene</span>, <span class="tt">EX-NFR-005</span>) : composées, écartées, 
 <p>Projette l'état logique des mécanismes sur leur apparence (<span class="tt">LOT-47</span>, <span class="tt">EX-REN-006</span>). </p>
 
 <p>Implements <a class="el" href="classhmi_1_1IGameModePasses.html#a8760c9e016c5bb81905dbe6975a8bf9d">hmi::IGameModePasses</a>.</p>
+
+</div>
+</div>
+<a id="ae655db4c38ae4479b9dc479e9036e8cb" name="ae655db4c38ae4479b9dc479e9036e8cb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae655db4c38ae4479b9dc479e9036e8cb">&#9670;&#160;</a></span>updatePlaytestInteraction()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::GameSession::updatePlaytestInteraction </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structcore_1_1PlayerInput.html">core::PlayerInput</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>input</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>fixedDelta</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Décompte le compte rendu affiché puis, sur un appui d'« Interagir », désigne la cible (<span class="tt"><a class="el" href="namespacecore.html#a9d8c1764c03821f2f58f75d0e5795e7a" title="Désigne la cible d&#39;interaction d&#39;un personnage.">core::findInteractionTarget</a></span>) et en produit le compte rendu (<span class="tt">hmi::PlaytestInteraction</span>). </p>
 
 </div>
 </div>
@@ -1978,6 +2083,30 @@ lastScene</span>, <span class="tt">EX-NFR-005</span>) : composées, écartées, 
 
 </div>
 </div>
+<a id="a7f638aa1e958cb11d8e36c679fd73f5a" name="a7f638aa1e958cb11d8e36c679fd73f5a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7f638aa1e958cb11d8e36c679fd73f5a">&#9670;&#160;</a></span>_markerScene</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classhmi_1_1ComposedScene.html">ComposedScene</a> hmi::GameSession::_markerScene</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Scene des marqueurs, distincte de celle de <span class="tt"><a class="el" href="#a7673a4eb5fbc79c45bbbdfe2dd01c0a2">_renderer</a></span> (voir renderEntityMarkers). </p>
+
+</div>
+</div>
 <a id="ad7f5689b0c78b0c55e46c2a675bb3144" name="ad7f5689b0c78b0c55e46c2a675bb3144"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad7f5689b0c78b0c55e46c2a675bb3144">&#9670;&#160;</a></span>_mechanisms</h2>
 
@@ -2085,6 +2214,99 @@ lastScene</span>, <span class="tt">EX-NFR-005</span>) : composées, écartées, 
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="structcore_1_1Entity.html">core::Entity</a> hmi::GameSession::_player {}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad7814a34824ee6c96239bce1999e8082" name="ad7814a34824ee6c96239bce1999e8082"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad7814a34824ee6c96239bce1999e8082">&#9670;&#160;</a></span>_playtestEntities</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;<a class="el" href="structhmi_1_1GameSession_1_1PlaytestEntity.html">PlaytestEntity</a>&gt; hmi::GameSession::_playtestEntities</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0d0fc78729d53b2b11b177849fab634e" name="a0d0fc78729d53b2b11b177849fab634e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0d0fc78729d53b2b11b177849fab634e">&#9670;&#160;</a></span>_playtestFlags</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classcore_1_1WorldFlags.html">core::WorldFlags</a> hmi::GameSession::_playtestFlags</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Drapeaux de l'essai : propres a la SESSION, jamais ceux d'une partie. </p>
+<p>Survivent au rechargement sur echec (un coffre ouvert le reste, comme en jeu), pas a la fin de l'essai. </p>
+
+</div>
+</div>
+<a id="acbef25af148b488ae96ebf8ea125c64c" name="acbef25af148b488ae96ebf8ea125c64c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acbef25af148b488ae96ebf8ea125c64c">&#9670;&#160;</a></span>_playtestMessage</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::optional&lt;<a class="el" href="structhmi_1_1PlaytestMessage.html">PlaytestMessage</a>&gt; hmi::GameSession::_playtestMessage</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Compte rendu de la derniere interaction, et les pas pendant lesquels il reste affiche. </p>
+
+</div>
+</div>
+<a id="aff71732b96269493eb69a95fb9ab2a63" name="aff71732b96269493eb69a95fb9ab2a63"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aff71732b96269493eb69a95fb9ab2a63">&#9670;&#160;</a></span>_playtestMessageStepsLeft</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int hmi::GameSession::_playtestMessageStepsLeft = 0</td>
         </tr>
       </table>
   </td>

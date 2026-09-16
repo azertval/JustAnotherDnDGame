@@ -129,6 +129,10 @@ Private Member Functions</h2></td></tr>
 <tr class="memitem:a75703620647423eab281de7ea851ec34" id="r_a75703620647423eab281de7ea851ec34"><td class="memItemLeft">std::array&lt; std::pair&lt; QDockWidget *, <a class="el" href="namespacehmi.html#aaa32928dac1bf321cd65435b9a0b0726">hmi::PanelId</a> &gt;, <a class="el" href="namespacehmi.html#af04ce56b73b71704b41ee6d8cfe4e2e2">hmi::PANEL_COUNT</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a75703620647423eab281de7ea851ec34">workspacePanels</a> () const</td></tr>
 <tr class="memitem:a9366e2431a72f64f6fd73414bc2421e5" id="r_a9366e2431a72f64f6fd73414bc2421e5"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a9366e2431a72f64f6fd73414bc2421e5">connectPlanesPanel</a> ()</td></tr>
 <tr class="memdesc:a9366e2431a72f64f6fd73414bc2421e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Branche le panneau « Plans » (<span class="tt">LOT-69</span> TACHE-08) : il demande, le viewport applique.  <br /></td></tr>
+<tr class="memitem:aeee6162d90a0c35a8a805ddab8ac92e0" id="r_aeee6162d90a0c35a8a805ddab8ac92e0"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aeee6162d90a0c35a8a805ddab8ac92e0">connectMapPanels</a> ()</td></tr>
+<tr class="memdesc:aeee6162d90a0c35a8a805ddab8ac92e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Branche les panneaux « Couches » et « Entités » (<span class="tt">LOT-11</span>) : même partage des rôles.  <br /></td></tr>
+<tr class="memitem:a952381c794fe3fd8003e5177ae7b42c4" id="r_a952381c794fe3fd8003e5177ae7b42c4"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a952381c794fe3fd8003e5177ae7b42c4">reloadEditorReferences</a> ()</td></tr>
+<tr class="memdesc:a952381c794fe3fd8003e5177ae7b42c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Relit les catalogues que les entités référencent (dialogues, rencontres, bestiaire, cartes) et les confie au viewport — au démarrage, après un enregistrement de carte et au rechargement des assets.  <br /></td></tr>
 <tr class="memitem:aecde93c971ddc897c53a114cfbcba9ef" id="r_aecde93c971ddc897c53a114cfbcba9ef"><td class="memItemLeft">std::filesystem::path&#160;</td><td class="memItemRight"><a class="el" href="#aecde93c971ddc897c53a114cfbcba9ef">planesDirectory</a> () const</td></tr>
 <tr class="memitem:ac0d13c9ba2e418481dad5e0f6d3fc107" id="r_ac0d13c9ba2e418481dad5e0f6d3fc107"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ac0d13c9ba2e418481dad5e0f6d3fc107">createPlane</a> ()</td></tr>
 <tr class="memdesc:ac0d13c9ba2e418481dad5e0f6d3fc107"><td class="mdescLeft">&#160;</td><td class="mdescRight">Crée un plan : un PNG entièrement transparent aux dimensions exactes, puis l'entrée dans le brouillon.  <br /></td></tr>
@@ -221,6 +225,12 @@ Private Attributes</h2></td></tr>
 <tr class="memdesc:aa3a6277e15086fc09f3ba9b42dfc86e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Liste/gestion des fichiers de niveaux (contenu du dock Niveaux).  <br /></td></tr>
 <tr class="memitem:a25b7f8b81604897b4eb8e29bdf3fd85e" id="r_a25b7f8b81604897b4eb8e29bdf3fd85e"><td class="memItemLeft"><a class="el" href="classhmi_1_1LinkPanel.html">LinkPanel</a> *&#160;</td><td class="memItemRight"><a class="el" href="#a25b7f8b81604897b4eb8e29bdf3fd85e">_links</a></td></tr>
 <tr class="memdesc:a25b7f8b81604897b4eb8e29bdf3fd85e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Placement/inspection de décors (dock Décors, <span class="tt">LOT-57</span> amendement) — contenait déjà tout ce qui concerne les décors (<span class="tt">ToolPanel</span>, <span class="tt">LOT-56</span> TACHE-04) avant d'y accueillir aussi l'inspecteur déplacé du panneau Textures.  <br /></td></tr>
+<tr class="memitem:a2ca20212f1ccc0c2df74dde270e8a6ff" id="r_a2ca20212f1ccc0c2df74dde270e8a6ff"><td class="memItemLeft"><a class="el" href="classhmi_1_1LayersPanel.html">LayersPanel</a> *&#160;</td><td class="memItemRight"><a class="el" href="#a2ca20212f1ccc0c2df74dde270e8a6ff">_layers</a> = nullptr</td></tr>
+<tr class="memdesc:a2ca20212f1ccc0c2df74dde270e8a6ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Couches de la carte (dock Couches, LOT-11).  <br /></td></tr>
+<tr class="memitem:abe2762f58f8dd3bcbe6ecfc081072e88" id="r_abe2762f58f8dd3bcbe6ecfc081072e88"><td class="memItemLeft"><a class="el" href="classhmi_1_1EntityPanel.html">EntityPanel</a> *&#160;</td><td class="memItemRight"><a class="el" href="#abe2762f58f8dd3bcbe6ecfc081072e88">_entities</a> = nullptr</td></tr>
+<tr class="memdesc:abe2762f58f8dd3bcbe6ecfc081072e88"><td class="mdescLeft">&#160;</td><td class="mdescRight">Entités de la carte (dock Entités, LOT-11).  <br /></td></tr>
+<tr class="memitem:a1740570708e810c8d14a9f85988296fb" id="r_a1740570708e810c8d14a9f85988296fb"><td class="memItemLeft">std::unique_ptr&lt; <a class="el" href="structhmi_1_1EditorReferences.html">EditorReferences</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a1740570708e810c8d14a9f85988296fb">_references</a></td></tr>
+<tr class="memdesc:a1740570708e810c8d14a9f85988296fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Catalogues référencés par les entités (<span class="tt">LOT-11</span>), possédés ici et prêtés au viewport.  <br /></td></tr>
 <tr class="memitem:a5602a56b2b14b4139a7512c0acf75a3e" id="r_a5602a56b2b14b4139a7512c0acf75a3e"><td class="memItemLeft"><a class="el" href="classhmi_1_1TexturePanel.html">TexturePanel</a> *&#160;</td><td class="memItemRight"><a class="el" href="#a5602a56b2b14b4139a7512c0acf75a3e">_textures</a></td></tr>
 <tr class="memdesc:a5602a56b2b14b4139a7512c0acf75a3e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Habillage : jeu de skins et assignations (dock Textures, LOT-42).  <br /></td></tr>
 <tr class="memitem:a82d3a9dc41ae7d2ec973430715219e5e" id="r_a82d3a9dc41ae7d2ec973430715219e5e"><td class="memItemLeft"><a class="el" href="classhmi_1_1PixelCanvas.html">PixelCanvas</a> *&#160;</td><td class="memItemRight"><a class="el" href="#a82d3a9dc41ae7d2ec973430715219e5e">_pixelCanvas</a></td></tr>
@@ -616,6 +626,33 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd><span class="tt">true</span> si l'on peut poursuivre : rien à perdre dans le canevas, ou perte confirmée. Même garde que <span class="tt"><a class="el" href="#aab330acfe884d7b8fef9583592f41a03">confirmDiscardPixelChanges</a></span>, message propre au plan — un plan perdu est un dessin perdu, pas un asset qu'on retrouve dans la bibliothèque. </dd></dl>
+
+</div>
+</div>
+<a id="aeee6162d90a0c35a8a805ddab8ac92e0" name="aeee6162d90a0c35a8a805ddab8ac92e0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeee6162d90a0c35a8a805ddab8ac92e0">&#9670;&#160;</a></span>connectMapPanels()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::MainWindow::connectMapPanels </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Branche les panneaux « Couches » et « Entités » (<span class="tt">LOT-11</span>) : même partage des rôles. </p>
 
 </div>
 </div>
@@ -1105,6 +1142,33 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Recalcule et réaffiche la barre d'état (zones permanentes + aide contextuelle) depuis l'état courant du viewport (<span class="tt">LOT-57</span> TACHE-01, <span class="tt"><a class="el" href="namespacehmi.html#a8a9b5847205047e29cd377960c0ff15c" title="Décide le contenu de la barre d&#39;état de l&#39;éditeur pour context.">hmi::editorStatusLines</a></span>) — seule voie de mise à jour, appelée par tout changement pertinent (outil, survol, zoom, brouillon) ainsi qu'à l'expiration d'un message transitoire, pour la restaurer. </p>
+
+</div>
+</div>
+<a id="a952381c794fe3fd8003e5177ae7b42c4" name="a952381c794fe3fd8003e5177ae7b42c4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a952381c794fe3fd8003e5177ae7b42c4">&#9670;&#160;</a></span>reloadEditorReferences()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::MainWindow::reloadEditorReferences </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Relit les catalogues que les entités référencent (dialogues, rencontres, bestiaire, cartes) et les confie au viewport — au démarrage, après un enregistrement de carte et au rechargement des assets. </p>
 
 </div>
 </div>
@@ -1846,6 +1910,54 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="abe2762f58f8dd3bcbe6ecfc081072e88" name="abe2762f58f8dd3bcbe6ecfc081072e88"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abe2762f58f8dd3bcbe6ecfc081072e88">&#9670;&#160;</a></span>_entities</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classhmi_1_1EntityPanel.html">EntityPanel</a>* hmi::MainWindow::_entities = nullptr</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Entités de la carte (dock Entités, LOT-11). </p>
+
+</div>
+</div>
+<a id="a2ca20212f1ccc0c2df74dde270e8a6ff" name="a2ca20212f1ccc0c2df74dde270e8a6ff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2ca20212f1ccc0c2df74dde270e8a6ff">&#9670;&#160;</a></span>_layers</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classhmi_1_1LayersPanel.html">LayersPanel</a>* hmi::MainWindow::_layers = nullptr</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Couches de la carte (dock Couches, LOT-11). </p>
+
+</div>
+</div>
 <a id="aff2cc741a88013d0821f5ed556409b71" name="aff2cc741a88013d0821f5ed556409b71"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aff2cc741a88013d0821f5ed556409b71">&#9670;&#160;</a></span>_layerVisibilityActions</h2>
 
@@ -2210,6 +2322,30 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="keyword">nullptr</span></div>
 </div><!-- fragment -->
 <p>Liste des plans picturaux (<span class="tt">LOT-69</span>, contenu du dock Plans). </p>
+
+</div>
+</div>
+<a id="a1740570708e810c8d14a9f85988296fb" name="a1740570708e810c8d14a9f85988296fb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1740570708e810c8d14a9f85988296fb">&#9670;&#160;</a></span>_references</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unique_ptr&lt;<a class="el" href="structhmi_1_1EditorReferences.html">EditorReferences</a>&gt; hmi::MainWindow::_references</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Catalogues référencés par les entités (<span class="tt">LOT-11</span>), possédés ici et prêtés au viewport. </p>
 
 </div>
 </div>

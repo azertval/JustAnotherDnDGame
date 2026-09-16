@@ -1,0 +1,322 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>CharacterSheet.h</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#pragma once
+
+/**
+ * @file Core/Rpg/CharacterSheet.h
+ * @brief La fiche d'une crÃ©ature : caractÃ©ristiques, PV, CA, niveau, maÃ®trises (`LOT-13`).
+ */
+
+#include &lt;array&gt;
+#include &lt;cstddef&gt;
+#include &lt;filesystem&gt;
+#include &lt;set&gt;
+#include &lt;string&gt;
+#include &lt;string_view&gt;
+#include &lt;vector&gt;
+
+#include "Core/Rpg/Ability.h"
+#include "Core/Rpg/CharacterOptions.h"
+#include "Core/Rpg/Inventory.h"
+#include "Core/Rpg/Skill.h"
+
+namespace core {
+
+/**
+ * @brief Une ligne de la table d'expÃ©rience : le seuil d'un niveau et son bonus de maÃ®trise.
+ *
+ * Les deux vont ensemble parce que le livre les donne ensemble, dans la mÃªme table.
+ */
+struct ExperienceLevel {
+    int level = 0;
+    int experience = 0;
+    int proficiencyBonus = 0;
+};
+
+/**
+ * @brief La table d'expÃ©rience, du niveau 1 au niveau 20.
+ *
+ * **Aucune de ces quarante valeurs n'est Ã©crite en C++** (`EX-VIS-007`). C'est la donnÃ©e la plus
+ * tentante Ã  coder en dur du projet â vingt seuils et vingt bonus tiendraient en trois lignes â et
+ * la plus coÃ»teuse Ã  y laisser : Ã©quilibrer la progression d'un RPG demanderait alors une
+ * recompilation Ã  chaque essai, et sans Ã©quilibrage un RPG n'est pas jouable.
+ */
+struct ExperienceTable {
+    std::vector&lt;ExperienceLevel&gt; levels;
+    std::vector&lt;std::string&gt; errors;
+
+    /// @brief Le niveau qu'atteint un total de points d'expÃ©rience.
+    [[nodiscard]] int levelFor(int experiencePoints) const;
+    /// @brief Le bonus de maÃ®trise d'un niveau. `0` si la table ne le porte pas.
+    [[nodiscard]] int proficiencyBonusAt(int level) const;
+    /// @brief Le seuil d'expÃ©rience d'un niveau. `0` si la table ne le porte pas.
+    [[nodiscard]] int thresholdAt(int level) const;
+    /// @brief Le niveau le plus Ã©levÃ© que la table porte.
+    [[nodiscard]] int maximumLevel() const;
+};
+
+/**
+ * @brief Les deux constantes de rÃ¨gle qu'une fiche emploie, lues dans la donnÃ©e.
+ *
+ * `EX-VIS-007` interdit qu'elles vivent dans le C++ : un `10` nu dans un calcul de classe d'armure
+ * ne dit pas ce qu'il reprÃ©sente, et ajuster le plafond d'une caractÃ©ristique demanderait une
+ * recompilation. Elles viennent de `rules/character-creation.json`, oÃ¹ chacune porte **la phrase
+ * du livre qui l'atteste**.
+ */
+struct CharacterCreationRules {
+    int unarmoredArmorClass = 0;
+    int maximumAbilityScore = 0;
+    std::vector&lt;std::string&gt; errors;
+
+    /// @brief Vrai si les deux valeurs ont Ã©tÃ© lues. Une rÃ¨gle absente ne se devine pas.
+<span style = "background-color:#dfd">    [[nodiscard]] bool ok() const {
+        return unarmoredArmorClass &gt; 0 &amp;&amp; maximumAbilityScore &gt; 0;
+    }</span>
+};
+
+/// @brief Charge les constantes depuis `Source/Elements/Rpg/rules/character-creation.json`.
+[[nodiscard]] CharacterCreationRules loadCharacterCreationRules(const std::filesystem::path&amp; path);
+
+/// @brief Charge la table d'expÃ©rience depuis `Source/Elements/Rpg/rules/experience.json`.
+[[nodiscard]] ExperienceTable loadExperienceTable(const std::filesystem::path&amp; path);
+
+/**
+ * @brief La fiche d'une crÃ©ature jouable ou non : hÃ©ros, PNJ, ennemi.
+ *
+ * **Un objet autonome, jamais un singleton joueur.** La dÃ©cision de cadrage est Â« un hÃ©ros au
+ * dÃ©part, quatre Ã  terme Â» : le passage au groupe (`LOT-29`) ne doit rien changer Ã  ce type. Aucune
+ * fonction de ce fichier ne prend Â« le personnage Â» implicitement â toutes reÃ§oivent la fiche sur
+ * laquelle elles travaillent, et quatre fiches vivent cÃ´te Ã  cÃ´te sans se connaÃ®tre.
+ *
+ * La fiche porte des **valeurs**, pas des rÃ¨gles : le bonus de maÃ®trise ne s'y trouve pas, il se
+ * lit dans la table d'expÃ©rience au niveau courant. Le stocker le figerait au moment de la
+ * construction, et une montÃ©e de niveau laisserait un personnage avec le bonus de l'ancien.
+ *
+ * **Une fiche se construit, elle ne se dÃ©clare pas.** Tous les champs chiffrÃ©s partent de zÃ©ro, et
+ * aucun ne porte de valeur Â« raisonnable Â» par dÃ©faut : un `armorClass = 10` dans cette structure
+ * serait la rÃ¨gle du livre Ã©crite en C++ (`EX-VIS-007`), et une fiche Ã  demi construite passerait
+ * pour une fiche jouable. `buildCharacterSheet()` est la porte d'entrÃ©e, et elle prend les
+ * constantes dans la donnÃ©e.
+ */
+struct CharacterSheet {
+    std::string name;
+    /// Identifiants des trois choix qui ont construit la fiche. Vides pour une crÃ©ature du
+    /// bestiaire, qui n'en a aucun.
+    std::string speciesId;
+    std::string classId;
+    std::string backgroundId;
+
+    /// Les six valeurs **finales**, augmentations d'espÃ¨ce comprises, indexÃ©es par `core::Ability`.
+    std::array&lt;int, 6&gt; abilities{};
+
+    int level = 1;
+    int experiencePoints = 0;
+    int maximumHitPoints = 0;
+    int currentHitPoints = 0;
+    int armorClass = 0;
+    /// Vitesse de base, en **mÃ¨tres** â l'unitÃ© du corpus. `speedInTiles()` la convertit.
+    float speedMeters = 0.0F;
+
+    /// CompÃ©tences maÃ®trisÃ©es, par identifiant du catalogue.
+    std::set&lt;std::string&gt; skillProficiencies;
+    /// Jets de sauvegarde maÃ®trisÃ©s.
+    std::set&lt;Ability&gt; savingThrowProficiencies;
+    /**
+     * @brief Langues parlÃ©es, par identifiant du catalogue (`EX-RPG-042`, `LOT-15`).
+     *
+     * Celles de l'espÃ¨ce, recopiÃ©es Ã  la construction, plus celles que la fiche **choisit** â un
+     * historique en accorde un nombre, pas une liste. Elles ne sont pas dÃ©coratives : un dialogue
+     * se refuse faute de langue commune (`core::DialogueRunner`).
+     */
+    std::set&lt;std::string&gt; languages;
+
+    /// @brief La valeur d'une caractÃ©ristique.
+<span style = "background-color:#dfd">    [[nodiscard]] int ability(Ability which) const {
+        return abilities[static_cast&lt;std::size_t&gt;(which)];
+    }</span>
+    /// @brief Le modificateur d'une caractÃ©ristique.
+<span style = "background-color:#dfd">    [[nodiscard]] int modifier(Ability which) const {
+        return abilityModifier(ability(which));
+    }</span>
+    /// @brief Vrai si la fiche est tombÃ©e Ã  0 point de vie.
+    [[nodiscard]] bool isDown() const {
+        return currentHitPoints &lt;= 0;
+    }
+    /// @brief La vitesse en **cases** de la grille tactique (`LOT-19`, `LOT-22`).
+    [[nodiscard]] float speedInTiles() const;
+};
+
+/**
+ * @brief Ce qu'une montÃ©e de niveau a produit â de quoi le dire au joueur (`EX-REG-003`).
+ *
+ * Le dÃ©tail, pas seulement le total : un joueur qui gagne deux niveaux d'un coup doit pouvoir
+ * reconstituer ce qui vient d'arriver, et un test doit pouvoir vÃ©rifier chaque marche.
+ */
+struct LevelUpResult {
+    int previousLevel = 0;
+    int newLevel = 0;
+    int hitPointsGained = 0;
+    int previousProficiencyBonus = 0;
+    int newProficiencyBonus = 0;
+
+    /// @brief Vrai si un niveau au moins a Ã©tÃ© gagnÃ©.
+<span style = "background-color:#dfd">    [[nodiscard]] bool gainedLevel() const {
+        return newLevel &gt; previousLevel;
+    }</span>
+};
+
+/**
+ * @brief Une fiche chargÃ©e depuis un fichier, et ce qui n'a pas pu l'Ãªtre.
+ *
+ * Les erreurs voyagent **avec** la donnÃ©e, jamais Ã  sa place (`EX-CNT-010`) : une fiche dont un
+ * champ est illisible reste affichable, et la refuser en bloc laisserait un Ã©cran vide sans dire
+ * pourquoi.
+ */
+struct LoadedCharacterSheet {
+    CharacterSheet sheet;
+    /// Ce que le personnage PORTE (`LOT-14`), lu dans le mÃªme fichier. Vide si le fichier n'en
+    /// dÃ©clare pas : un personnage sans inventaire est un personnage les mains vides, pas une
+    /// erreur.
+    Inventory inventory;
+    std::vector&lt;std::string&gt; errors;
+
+    [[nodiscard]] bool ok() const {
+        return errors.empty();
+    }
+};
+
+/**
+ * @brief Charge un personnage depuis son fichier JSON (`Source/Elements/Rpg/characters/`, schÃ©ma
+ *        `character.schema.json`) et **construit** sa fiche.
+ *
+ * Le fichier ne porte que des **choix** â espÃ¨ce, classe, historique, valeurs de caractÃ©ristique
+ * avant augmentation, niveau visÃ©. Tout le reste est dÃ©rivÃ© ici par `buildCharacterSheet` et par
+ * la montÃ©e en expÃ©rience : points de vie, classe d'armure, valeurs finales, bonus de maÃ®trise.
+ * Ãcrire ces valeurs dans le fichier en ferait une **seconde source**, qui diffÃ©rerait de la
+ * premiÃ¨re au premier ajustement de rÃ¨gle â et personne ne saurait laquelle croit.
+ *
+ * Le niveau s'atteint par **gain d'expÃ©rience**, le mÃªme chemin qu'une partie empruntera : donc
+ * les mÃªmes points de vie qu'un personnage montÃ© en jouant, et non une variante propre au
+ * chargement.
+ *
+ * Ne lÃ¨ve jamais (`EX-NFR-040`) : un fichier absent, mal formÃ© ou rÃ©fÃ©renÃ§ant un identifiant
+ * inconnu rend une fiche partielle **et** une erreur nommÃ©e (`EX-CNT-010`).
+ */
+[[nodiscard]] LoadedCharacterSheet loadCharacterSheet(const std::filesystem::path&amp; path,
+                                                      const CharacterOptions&amp; options,
+                                                      const CharacterCreationRules&amp; rules,
+                                                      const ExperienceTable&amp; table);
+
+/// @brief Le bonus de maÃ®trise de la fiche, **lu dans la table** au niveau courant.
+[[nodiscard]] int proficiencyBonus(const CharacterSheet&amp; sheet, const ExperienceTable&amp; table);
+
+/**
+ * @brief Le modificateur d'un jet de sauvegarde : caractÃ©ristique, plus la maÃ®trise si elle
+ *        s'applique.
+ */
+[[nodiscard]] int savingThrowModifier(const CharacterSheet&amp; sheet, const ExperienceTable&amp; table,
+                                      Ability which);
+
+/**
+ * @brief Le modificateur d'un jet de compÃ©tence.
+ *
+ * La caractÃ©ristique vient du **catalogue**, pas d'un `switch` : c'est lui qui dÃ©cide que la
+ * DiscrÃ©tion se jette en DextÃ©ritÃ©. Une compÃ©tence inconnue du catalogue renvoie le modificateur
+ * nu et **le signale** par `found`, plutÃ´t que de laisser croire Ã  une maÃ®trise absente.
+ */
+struct SkillCheckModifier {
+    int value = 0;
+    bool found = false;
+    bool proficient = false;
+};
+[[nodiscard]] SkillCheckModifier skillModifier(const CharacterSheet&amp; sheet,
+                                               const ExperienceTable&amp; table,
+                                               const SkillCatalog&amp; catalog,
+                                               std::string_view skillId);
+
+/**
+ * @brief Les points de vie d'un niveau, selon la rÃ¨gle du livre.
+ *
+ * *Â« Vous pouvez aussi choisir d'utiliser la valeur fixe indiquÃ©e dans la description de votre
+ * classe, qui se trouve Ãªtre la valeur moyenne (arrondie au supÃ©rieur) du dÃ© Â»* â *Basic Rules*
+ * p. 11. C'est la voie **dÃ©terministe**, et c'est celle que le moteur emploie : des points de vie
+ * tirÃ©s au dÃ© rendraient une partie irrejouable, ce qu'`EX-NFR-002` interdit.
+ *
+ * Le niveau 1 reÃ§oit le **maximum** du dÃ© ; chaque niveau suivant sa moyenne arrondie au
+ * supÃ©rieur. Le modificateur de Constitution s'ajoute **Ã  chaque niveau**, et le gain d'un niveau
+ * vaut au minimum 1 : un personnage Ã  la Constitution dÃ©sastreuse gagne peu de points de vie, il
+ * n'en perd pas.
+ *
+ * @param hitDie Le dÃ© de vie de la classe, **lu dans sa donnÃ©e** (`hitDie` du catalogue).
+ * @param level Le niveau atteint, Ã  partir de 1.
+ * @param constitutionModifier Le modificateur de Constitution.
+ */
+[[nodiscard]] int maximumHitPointsFor(int hitDie, int level, int constitutionModifier);
+
+/**
+ * @brief Ajoute des points d'expÃ©rience et applique la montÃ©e de niveau qui en dÃ©coule.
+ *
+ * **Reproductible** : aucune part de hasard, et le rÃ©sultat ne dÃ©pend que de la fiche, de la table
+ * et du montant. Le franchissement de plusieurs seuils d'un coup est traitÃ© comme le livre le
+ * dÃ©crit â le personnage atteint le niveau que son total lui donne, pas le suivant.
+ *
+ * @param sheet La fiche, modifiÃ©e sur place.
+ * @param table La table d'expÃ©rience.
+ * @param hitDie Le dÃ© de vie de la classe, pour recalculer les points de vie.
+ * @param amount Les points gagnÃ©s. Un montant nÃ©gatif est ignorÃ© : perdre de l'expÃ©rience n'est
+ *        pas une rÃ¨gle de ce jeu, et l'accepter en silence ferait descendre un personnage de
+ *        niveau sans que rien ne l'annonce.
+ * @return Ce que la montÃ©e a produit, niveau par niveau.
+ */
+LevelUpResult gainExperience(CharacterSheet&amp; sheet, const ExperienceTable&amp; table, int hitDie,
+                             int amount);
+
+/**
+ * @brief Construit une fiche depuis une espÃ¨ce, une classe et un historique.
+ *
+ * Les trois catalogues du `LOT-36` deviennent ici une fiche jouable : les augmentations de
+ * l'espÃ¨ce s'appliquent aux valeurs de base, la classe donne le dÃ© de vie et les jets de
+ * sauvegarde, l'historique les compÃ©tences maÃ®trisÃ©es.
+ *
+ * @param name Le nom du personnage, tel qu'il s'affichera.
+ * @param baseAbilities Les six valeurs **avant** augmentation d'espÃ¨ce, dans l'ordre de
+ *        `core::Ability`.
+ * @param species Peut Ãªtre `nullptr` â une crÃ©ature sans espÃ¨ce est lÃ©gitime.
+ * @param playableClass Peut Ãªtre `nullptr`, auquel cause la fiche n'a ni dÃ© de vie ni sauvegardes.
+ * @param background Peut Ãªtre `nullptr`.
+ * @param rules Les constantes de crÃ©ation, lues dans la donnÃ©e.
+ * @param table La table d'expÃ©rience, pour le seuil du niveau de dÃ©part.
+ */
+[[nodiscard]] CharacterSheet buildCharacterSheet(
+    std::string name, const std::array&lt;int, 6&gt;&amp; baseAbilities, const Species* species,
+    const PlayableClass* playableClass, const Background* background,
+    const CharacterCreationRules&amp; rules, const ExperienceTable&amp; table);
+
+}  // namespace core</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

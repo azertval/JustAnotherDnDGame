@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['mapanchor_0',['MapAnchor',['../namespacehmi.html#a3381e27cdaac8041b5c1525d4b5fb0a1',1,'hmi']]]
+  ['layerslot_0',['LayerSlot',['../namespacehmi.html#ad45953c7acf96290259f1333570fda4d',1,'hmi']]]
 ];

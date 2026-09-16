@@ -14,8 +14,9 @@ var searchData=
   ['block_11',['Block',['../namespacecore.html#ace99a1be913e6294e42e9ebb145eb875ae1e4c8c9ccd9fc39c391da4bcd093fb2',1,'core']]],
   ['blockpushed_12',['BlockPushed',['../namespacehmi.html#a3a61aed1c8e95c289c829398d48488dea00f3be69446cf709343350f087ad6bc3',1,'hmi']]],
   ['bludgeoning_13',['Bludgeoning',['../namespacecore.html#aae5ed49bedbf68049f008e4efac2edfda8c92f858070d9bb44fb8e3fa1b7224ed',1,'core']]],
-  ['bottom_14',['Bottom',['../namespacehmi.html#aad6be73525ade97eef38c10c8ba51be7a2ad9d63b69c4a10a5cc9cad923133bc4',1,'hmi']]],
-  ['bracers_15',['Bracers',['../namespacecore.html#af71085608729d9857e7ee3fd17be6cd6af1df96a16d18cc71cfd4bc442556bf46',1,'core']]],
-  ['bridge_16',['Bridge',['../namespacecore.html#ace99a1be913e6294e42e9ebb145eb875ade8504b73ea228d0ea9bbce69752092e',1,'core']]],
-  ['brush_17',['Brush',['../namespacehmi.html#a5889df12c254317504ef5777d27d9b0eaa25744428546172386b93dd44900a81a',1,'hmi::Brush'],['../namespacehmi.html#a9cb51e9b7642963a83312d94737fe571aa25744428546172386b93dd44900a81a',1,'hmi::Brush']]]
+  ['boolean_14',['Boolean',['../namespacecore.html#a9d3c367e939d3d4dd488fbaf5bba126ea27226c864bac7454a8504f8edb15d95b',1,'core']]],
+  ['bottom_15',['Bottom',['../namespacehmi.html#aad6be73525ade97eef38c10c8ba51be7a2ad9d63b69c4a10a5cc9cad923133bc4',1,'hmi']]],
+  ['bracers_16',['Bracers',['../namespacecore.html#af71085608729d9857e7ee3fd17be6cd6af1df96a16d18cc71cfd4bc442556bf46',1,'core']]],
+  ['bridge_17',['Bridge',['../namespacecore.html#ace99a1be913e6294e42e9ebb145eb875ade8504b73ea228d0ea9bbce69752092e',1,'core']]],
+  ['brush_18',['Brush',['../namespacehmi.html#a5889df12c254317504ef5777d27d9b0eaa25744428546172386b93dd44900a81a',1,'hmi::Brush'],['../namespacehmi.html#a9cb51e9b7642963a83312d94737fe571aa25744428546172386b93dd44900a81a',1,'hmi::Brush']]]
 ];

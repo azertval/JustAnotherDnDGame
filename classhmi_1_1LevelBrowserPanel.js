@@ -9,6 +9,7 @@ var classhmi_1_1LevelBrowserPanel =
     [ "onNew", "classhmi_1_1LevelBrowserPanel.html#a50070be85b5ad8f3a6a54c87b288c4e2", null ],
     [ "onRename", "classhmi_1_1LevelBrowserPanel.html#af6be2772b308c62a472a234e35f00c2e", null ],
     [ "refresh", "classhmi_1_1LevelBrowserPanel.html#a49e0ac7e7ba510df508285d010500429", null ],
+    [ "refreshWorldGraph", "classhmi_1_1LevelBrowserPanel.html#ab25b9ab3865c52753e08937b9b4488be", null ],
     [ "retranslateUi", "classhmi_1_1LevelBrowserPanel.html#a67a52a66f33fbc3a4164f154ccad4733", null ],
     [ "selectedPath", "classhmi_1_1LevelBrowserPanel.html#a5b1fc770c5e8e6dd08a5e857c8c07157", null ],
     [ "_dir", "classhmi_1_1LevelBrowserPanel.html#a3185bc4090e8ab36b6c79f479cb42267", null ],

@@ -119,6 +119,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aad87b9660035bbe18c6573a962622388" id="r_aad87b9660035bbe18c6573a962622388"><td class="memItemLeft">std::size_t&#160;</td><td class="memItemRight"><a class="el" href="#aad87b9660035bbe18c6573a962622388">entryCount</a> () const noexcept</td></tr>
 <tr class="memitem:a802c6b9b9c2e7799d2cd81277199ef44" id="r_a802c6b9b9c2e7799d2cd81277199ef44"><td class="memItemLeft">const <a class="el" href="structhmi_1_1LoadedTexture.html">LoadedTexture</a> *&#160;</td><td class="memItemRight"><a class="el" href="#a802c6b9b9c2e7799d2cd81277199ef44">missingTexture</a> ()</td></tr>
 <tr class="memdesc:a802c6b9b9c2e7799d2cd81277199ef44"><td class="mdescLeft">&#160;</td><td class="mdescRight">Texture de repli en damier magenta, créée <b>une seule fois</b> à la demande.  <br /></td></tr>
+<tr class="memitem:ab61e5fc8b5834954dc2fcdefcf575c76" id="r_ab61e5fc8b5834954dc2fcdefcf575c76"><td class="memItemLeft">const <a class="el" href="structhmi_1_1LoadedTexture.html">LoadedTexture</a> *&#160;</td><td class="memItemRight"><a class="el" href="#ab61e5fc8b5834954dc2fcdefcf575c76">markerTexture</a> (const std::string &amp;key)</td></tr>
+<tr class="memdesc:ab61e5fc8b5834954dc2fcdefcf575c76"><td class="mdescLeft">&#160;</td><td class="mdescRight">Texture du <b>marqueur généré</b> d'une clé d'asset (<span class="tt"><a class="el" href="namespacecore.html#ac6ae670b019f78f94c6c8354d01794bc" title="Peint le marqueur d&#39;une clé d&#39;asset.">core::assetMarker</a></span>, <span class="tt">LOT-39</span>), créée une seule fois à la demande.  <br /></td></tr>
 <tr class="memitem:acd946f2d930d2cf2a5286a0f280dddbd" id="r_acd946f2d930d2cf2a5286a0f280dddbd"><td class="memItemLeft">const <a class="el" href="classhmi_1_1AssetPaths.html">AssetPaths</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#acd946f2d930d2cf2a5286a0f280dddbd">assetPaths</a> () const noexcept</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-methods" class="groupheader"><a id="pri-methods" name="pri-methods"></a>
@@ -139,6 +141,8 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:a1107f9ce2c7733737b0aae9791eaacec" id="r_a1107f9ce2c7733737b0aae9791eaacec"><td class="memItemLeft"><a class="el" href="classhmi_1_1CacheRegistry.html">CacheRegistry</a>&lt; <a class="el" href="structhmi_1_1AnimationDescription.html">AnimationDescription</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a1107f9ce2c7733737b0aae9791eaacec">_animationEntries</a></td></tr>
 <tr class="memdesc:a1107f9ce2c7733737b0aae9791eaacec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nom logique → description d'animation, sous la <b>même clé</b> que <span class="tt"><a class="el" href="#ad7f17051cf5b1b1e30badc27867951a0" title="Nom logique → texture chargée ; mémorise aussi un échec déjà journalisé.">_entries</a></span> (<span class="tt">LOT-46</span> TACHE-03) : c'est ce qui permet à <span class="tt"><a class="el" href="#a324622b81a525996c2c2fef648ca1e49" title="Retire une entrée du cache, de sorte que le prochain get relise le fichier.">invalidate</a></span>/<span class="tt"><a class="el" href="#a12ace6c083ac9c91eff8686bd0039a4b" title="Retire toutes les entrées du cache (rechargement global, LOT-43/LOT-54), textures et descriptions d&#39;a...">invalidateAll</a></span> de rester le seul point d'invalidation, conjointe entre texture et animation.  <br /></td></tr>
 <tr class="memitem:a2e085900c9d152f6727327c9492c9ccf" id="r_a2e085900c9d152f6727327c9492c9ccf"><td class="memItemLeft">std::optional&lt; <a class="el" href="structhmi_1_1LoadedTexture.html">LoadedTexture</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a2e085900c9d152f6727327c9492c9ccf">_missingTexture</a></td></tr>
+<tr class="memitem:af177c52b8c1f6ec22c38c335fbf5dce8" id="r_af177c52b8c1f6ec22c38c335fbf5dce8"><td class="memItemLeft"><a class="el" href="classhmi_1_1CacheRegistry.html">CacheRegistry</a>&lt; <a class="el" href="structhmi_1_1LoadedTexture.html">LoadedTexture</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#af177c52b8c1f6ec22c38c335fbf5dce8">_markerEntries</a></td></tr>
+<tr class="memdesc:af177c52b8c1f6ec22c38c335fbf5dce8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clé d'asset → texture de son marqueur généré (<span class="tt"><a class="el" href="#ab61e5fc8b5834954dc2fcdefcf575c76" title="Texture du marqueur généré d&#39;une clé d&#39;asset (core::assetMarker, LOT-39), créée une seule fois à la d...">markerTexture</a></span>, <span class="tt">LOT-11</span>).  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Charge, valide et met en cache des textures GPU désignées par leur nom de fichier logique. </p>
@@ -581,6 +585,41 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="ab61e5fc8b5834954dc2fcdefcf575c76" name="ab61e5fc8b5834954dc2fcdefcf575c76"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab61e5fc8b5834954dc2fcdefcf575c76">&#9670;&#160;</a></span>markerTexture()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="structhmi_1_1LoadedTexture.html">LoadedTexture</a> * hmi::TextureCache::markerTexture </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Texture du <b>marqueur généré</b> d'une clé d'asset (<span class="tt"><a class="el" href="namespacecore.html#ac6ae670b019f78f94c6c8354d01794bc" title="Peint le marqueur d&#39;une clé d&#39;asset.">core::assetMarker</a></span>, <span class="tt">LOT-39</span>), créée une seule fois à la demande. </p>
+<p>Le marqueur tient lieu d'illustration tant qu'aucune n'existe : il ne lit rien sur le disque, et la même clé donne toujours la même image. Il est peint à <span class="tt"><a class="el" href="namespacehmi.html#a510e2271c15e392be6bcc4c19432a586" title="Côté d&#39;un marqueur d&#39;entité, en pixels : une case (Camera2D::PIXELS_PER_UNIT).">ENTITY_MARKER_SIZE_PIXELS</a></span> de côté (<span class="tt"><a class="el" href="EntityMarkers_8h.html" title="Le marqueur d&#39;une entité de carte : sa clé d&#39;asset et ses pixels (LOT-11, LOT-39).">HMI/Graphics/EntityMarkers.h</a></span>) — une case — puisque ses consommateurs (l'éditeur, l'essai immédiat, <span class="tt">LOT-11</span>) le posent sur la case d'une entité.</p>
+<p>Mémoïsé sous sa clé, <b>échec compris</b>, dans un registre distinct des fichiers : une clé de marqueur n'est pas un nom de fichier et ne doit pas pouvoir en masquer un. <span class="tt"><a class="el" href="#a12ace6c083ac9c91eff8686bd0039a4b" title="Retire toutes les entrées du cache (rechargement global, LOT-43/LOT-54), textures et descriptions d&#39;a...">invalidateAll</a></span> le vide avec le reste. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">key</td><td>Clé d'asset (<span class="tt">famille/identifiant</span>, cf. <span class="tt"><a class="el" href="namespacehmi.html#a7325b66a46c59c65277b90fcdff97d00" title="La clé d&#39;asset du marqueur d&#39;un type d&#39;entité de carte.">hmi::entityMarkerKey</a></span>). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>La texture (propriété du cache), ou <span class="tt">nullptr</span> si la clé est malformée ou que la création GPU a échoué — jamais d'exception (<span class="tt">EX-NFR-040</span>). </dd></dl>
+
+</div>
+</div>
 <a id="a802c6b9b9c2e7799d2cd81277199ef44" name="a802c6b9b9c2e7799d2cd81277199ef44"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a802c6b9b9c2e7799d2cd81277199ef44">&#9670;&#160;</a></span>missingTexture()</h2>
 
@@ -703,6 +742,30 @@ Private Attributes</h2></td></tr>
 
 <p>Nom logique → texture chargée ; mémorise aussi un <b>échec</b> déjà journalisé. </p>
 <p>La mémoïsation/invalidation elle-même est factorisée dans <span class="tt"><a class="el" href="classhmi_1_1CacheRegistry.html" title="Mémoïsation par clé logique : charge au premier accès, retient aussi un échec, et s&#39;invalide par clé ...">hmi::CacheRegistry</a></span> (<span class="tt">LOT-43</span>), testable sans GPU ; seul le <b>chargement</b> (<span class="tt"><a class="el" href="#ae1e131bf205906a4f5356a07aa3f5879" title="Charge et valide un asset depuis le disque, sans passer par le cache.">load</a></span>) reste ici, spécifique au GPU. </p>
+
+</div>
+</div>
+<a id="af177c52b8c1f6ec22c38c335fbf5dce8" name="af177c52b8c1f6ec22c38c335fbf5dce8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af177c52b8c1f6ec22c38c335fbf5dce8">&#9670;&#160;</a></span>_markerEntries</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classhmi_1_1CacheRegistry.html">CacheRegistry</a>&lt;<a class="el" href="structhmi_1_1LoadedTexture.html">LoadedTexture</a>&gt; hmi::TextureCache::_markerEntries</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Clé d'asset → texture de son marqueur généré (<span class="tt"><a class="el" href="#ab61e5fc8b5834954dc2fcdefcf575c76" title="Texture du marqueur généré d&#39;une clé d&#39;asset (core::assetMarker, LOT-39), créée une seule fois à la d...">markerTexture</a></span>, <span class="tt">LOT-11</span>). </p>
 
 </div>
 </div>

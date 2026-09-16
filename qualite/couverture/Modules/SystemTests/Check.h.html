@@ -1,0 +1,185 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>Check.h</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#pragma once
+
+/**
+ * @file Core/Rpg/Check.h
+ * @brief Le jet de d20 : avantage, dÃ©savantage, seuil, restitution (`EX-REG-002`, `EX-REG-003`).
+ */
+
+#include &lt;filesystem&gt;
+#include &lt;span&gt;
+#include &lt;string&gt;
+#include &lt;string_view&gt;
+#include &lt;vector&gt;
+
+#include "Core/Math/DeterministicRandom.h"
+
+namespace core {
+
+/// @brief Nombre de faces du dÃ© de rÃ©solution. Le d20 est la mÃ©canique centrale du jeu.
+inline constexpr int D20_FACES = 20;
+
+/**
+ * @brief Comment le d20 est lancÃ©.
+ *
+ * `Advantage` et `Disadvantage` **ne se cumulent pas** (`EX-REG-002`) : plusieurs sources
+ * d'avantage donnent un avantage, et une source de chaque s'annule entiÃ¨rement. C'est
+ * `rollStance` qui applique cette rÃ¨gle, Ã  partir du dÃ©compte des sources â jamais l'appelant, qui
+ * aurait Ã  arbitrer une pile de bonus contre toutes les autres Ã  chaque capacitÃ© ajoutÃ©e.
+ */
+enum class RollStance {
+    Normal,
+    Advantage,
+    Disadvantage,
+};
+
+/**
+ * @brief DÃ©termine la posture depuis le **nombre de sources** de chaque type (`EX-REG-002`).
+ *
+ * Deux avantages et un dÃ©savantage donnent `Normal`, pas `Advantage` : la rÃ¨gle annule, elle ne
+ * compte pas. C'est contre-intuitif la premiÃ¨re fois, et c'est prÃ©cisÃ©ment pour cela que la
+ * dÃ©cision vit ici, Ã  un seul endroit.
+ */
+[[nodiscard]] constexpr RollStance rollStance(int advantageSources,
+<span style = "background-color:#dfd">                                              int disadvantageSources) noexcept {
+    const bool avantage = advantageSources &gt; 0;
+    const bool desavantage = disadvantageSources &gt; 0;
+    if (avantage == desavantage) {
+        return RollStance::Normal;  // aucun des deux, ou les deux : ils s'annulent.</span>
+    }
+<span style = "background-color:#dfd">    return avantage ? RollStance::Advantage : RollStance::Disadvantage;
+}</span>
+
+/// @brief Un modificateur, avec **son origine** â sans quoi le jet n'est pas restituable.
+struct Modifier {
+    std::string source;
+    int value = 0;
+};
+
+/**
+ * @brief Le rÃ©sultat complet d'un jet, et de quoi le reconstituer (`EX-REG-003`).
+ *
+ * Tout y est : les dÃ©s obtenus (deux si avantage ou dÃ©savantage), celui qui a Ã©tÃ© **retenu**, les
+ * modificateurs avec leur origine, le seuil visÃ© et l'issue. Â« Vous Ã©chouez Â» n'apprend rien ;
+ * Â« 7 au dÃ©, +3 de DextÃ©ritÃ©, +2 de maÃ®trise = 12 contre 15 Â» se comprend, se discute, et se
+ * diagnostique.
+ */
+struct CheckResult {
+    /// Les dÃ©s lancÃ©s : un, ou deux en cas d'avantage ou de dÃ©savantage.
+    std::vector&lt;int&gt; dice;
+    /// Le dÃ© retenu â le meilleur, le pire, ou le seul.
+    int keptDie = 0;
+    /// Les modificateurs appliquÃ©s, avec leur origine.
+    std::vector&lt;Modifier&gt; modifiers;
+    /// `keptDie` plus la somme des modificateurs.
+    int total = 0;
+    /// Le seuil visÃ© (degrÃ© de difficultÃ©, ou classe d'armure).
+    int target = 0;
+    /// La posture effectivement appliquÃ©e, aprÃ¨s annulation.
+    RollStance stance = RollStance::Normal;
+
+    /**
+     * @brief Vrai si le **dÃ© retenu** vaut 20, indÃ©pendamment du total.
+     *
+     * Ã ne pas confondre avec Â« un total de 20 Â» : un 20 naturel dÃ©clenche le coup critique et
+     * rÃ©ussit quoi qu'il arrive, un total de 20 obtenu avec un 8 et huit points de bonus n'est
+     * qu'un total. Les confondre rendrait critique un jet sur deux Ã  haut niveau.
+     */
+<span style = "background-color:#dfd">    [[nodiscard]] constexpr bool isNaturalTwenty() const noexcept {
+        return keptDie == D20_FACES;
+    }</span>
+
+    /// @brief Vrai si le **dÃ© retenu** vaut 1, indÃ©pendamment du total.
+<span style = "background-color:#dfd">    [[nodiscard]] constexpr bool isNaturalOne() const noexcept {
+        return keptDie == 1;
+    }</span>
+
+    /// @brief Vrai si le total atteint ou dÃ©passe le seuil.
+<span style = "background-color:#dfd">    [[nodiscard]] constexpr bool succeeded() const noexcept {
+        return total &gt;= target;
+    }</span>
+
+    /// @brief Restitution lisible du jet, modificateurs et origines compris (`EX-REG-003`).
+    [[nodiscard]] std::string describe() const;
+};
+
+/**
+ * @brief Lance un d20 contre un seuil.
+ *
+ * @param target Seuil visÃ© : un degrÃ© de difficultÃ© (`Source/Elements/Rpg/rules/difficulty.json`)
+ *               ou une classe d'armure. **Jamais un littÃ©ral dans le code appelant**
+ *               (`EX-REG-021`) : un nombre nu dans un `if` ne dit pas ce qu'il reprÃ©sente, et
+ *               rÃ©gler l'Ã©quilibre du jeu ne doit pas demander de recompiler.
+ * @param modifiers Les modificateurs, **avec leur origine**.
+ * @param stance Avantage, dÃ©savantage, ou ni l'un ni l'autre â voir `rollStance`.
+ * @param random GÃ©nÃ©rateur dÃ©terministe (`EX-NFR-002`).
+ * @return Le rÃ©sultat complet, restituable.
+ */
+[[nodiscard]] CheckResult rollCheck(int target, std::span&lt;const Modifier&gt; modifiers,
+                                    RollStance stance, DeterministicRandom&amp; random);
+
+/// @brief Nom textuel d'une posture, pour les journaux et la restitution.
+[[nodiscard]] std::string_view rollStanceName(RollStance stance) noexcept;
+
+/// @brief Un degrÃ© de difficultÃ© nommÃ© : Â« moyenne Â», 15.
+struct DifficultyTier {
+    std::string id;
+    std::string name;
+    int dc = 0;
+};
+
+/**
+ * @brief L'Ã©chelle des degrÃ©s de difficultÃ©, telle que `rules/difficulty.json` la dÃ©clare
+ *        (`EX-REG-021`, `LOT-15`).
+ *
+ * Un contenu Ã©crit Â« Persuasion, difficultÃ© **moyenne** Â» et non Â« Persuasion 15 Â» : le nombre est
+ * une rÃ¨gle, et rÃ©gler l'Ã©quilibre du jeu ne doit toucher qu'un fichier. C'est la lecture qui
+ * manquait Ã  `rollCheck` depuis le `LOT-12`, et que le premier contenu Ã  jeter un d20 hors combat
+ * â le dialogue â rend nÃ©cessaire.
+ */
+struct DifficultyScale {
+    std::vector&lt;DifficultyTier&gt; tiers;
+    std::vector&lt;std::string&gt; errors;
+
+    /// @brief Le degrÃ© portant cet identifiant, ou `nullptr`.
+    [[nodiscard]] const DifficultyTier* find(std::string_view id) const;
+};
+
+/**
+ * @brief Charge l'Ã©chelle des degrÃ©s de difficultÃ©.
+ *
+ * @param path `Source/Elements/Rpg/rules/difficulty.json`.
+ * @return L'Ã©chelle et ses erreurs, un degrÃ© sans identifiant ou sans nombre Ã©tant Ã©cartÃ© en le
+ *         nommant. Ne lÃ¨ve jamais (`EX-NFR-040`).
+ */
+[[nodiscard]] DifficultyScale loadDifficultyScale(const std::filesystem::path&amp; path);
+
+}  // namespace core</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

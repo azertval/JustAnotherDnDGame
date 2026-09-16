@@ -13,5 +13,6 @@ var searchData=
   ['wisdom_10',['Wisdom',['../namespacecore.html#a97f31c7914a6cfc54cc026a77da58fd1a646f0a01b685558b975b5cd3f5b36241',1,'core']]],
   ['withdrawn_11',['Withdrawn',['../namespacecore.html#ab77b88490327a0c26ec09d4f6126e382af62dedad685b570f499b61e94084dab2',1,'core::Withdrawn'],['../namespacecore.html#ae1ab268fb5658f04b32b785790e7c082af62dedad685b570f499b61e94084dab2',1,'core::Withdrawn']]],
   ['won_12',['Won',['../namespacecore.html#a60398ec3835dd2882a7d3a9eaddb65aaa19abd416eb9fe03ae7400a22446956a5',1,'core']]],
-  ['worldmap_13',['WorldMap',['../classhmi_1_1ScreenRouter.html#a0277d29471d1699b63793797bbab3bdeade45fe3bb002bd16009ebd8331e35146',1,'hmi::ScreenRouter::WorldMap'],['../namespacehmi.html#a86e4ce6097c7a029c683096302528e72ade45fe3bb002bd16009ebd8331e35146',1,'hmi::WorldMap']]]
+  ['worldmap_13',['WorldMap',['../classhmi_1_1ScreenRouter.html#a0277d29471d1699b63793797bbab3bdeade45fe3bb002bd16009ebd8331e35146',1,'hmi::ScreenRouter::WorldMap'],['../namespacehmi.html#a86e4ce6097c7a029c683096302528e72ade45fe3bb002bd16009ebd8331e35146',1,'hmi::WorldMap']]],
+  ['wrongvaluetype_14',['WrongValueType',['../namespacecore.html#ac1032ee70b0c730c8727b80822ab035eab7af0ce30d52dc67ec4d090184b78e3a',1,'core']]]
 ];

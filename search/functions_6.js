@@ -35,11 +35,12 @@ var searchData=
   ['grant_32',['grant',['../classcore_1_1ActionEconomy.html#a8002ff757272b574b3cd886b8fa5bde3',1,'core::ActionEconomy::grant()'],['../classcore_1_1ImmunityLedger.html#a0e20501097fc196f97f6349c35bf4b0e',1,'core::ImmunityLedger::grant()']]],
   ['grantreserve_33',['grantReserve',['../classcore_1_1CombatState.html#a9bf629284941ad3a0e4d8bce749a87c2',1,'core::CombatState']]],
   ['graph_34',['graph',['../classcore_1_1DialogueRunner.html#a66b9d691ec94030a442f53c34c3f3275',1,'core::DialogueRunner']]],
-  ['grid_35',['grid',['../classcore_1_1CombatState.html#a7f3fae84024674a5c70227a98a248735',1,'core::CombatState::grid() const noexcept'],['../classcore_1_1CombatState.html#afc7082aa97336d45c5d4e8a186fdb38a',1,'core::CombatState::grid() noexcept']]],
-  ['gridcolumns_36',['gridColumns',['../classhmi_1_1ArenaModel.html#aa0e867678253a828df3d9e0285fe8388',1,'hmi::ArenaModel']]],
-  ['griddistance_37',['gridDistance',['../namespacecore.html#ae19c39c376647e74514462b13d834e06',1,'core']]],
-  ['griddistancefield_38',['GridDistanceField',['../classcore_1_1GridDistanceField.html#aa0b7fd04da8d60f9017fe0ada4f81fa6',1,'core::GridDistanceField::GridDistanceField(const core::TileMap &amp;tileMap, const core::GridPosition &amp;target)'],['../classcore_1_1GridDistanceField.html#ab912a545dae807922fa5a0fc74685338',1,'core::GridDistanceField::GridDistanceField(const core::TileMap &amp;tileMap, const std::vector&lt; core::GridPosition &gt; &amp;targets)']]],
-  ['griddistancefrom_39',['gridDistanceFrom',['../namespacecore.html#ad19e2dfeb2158624471c2a07e5a776e6',1,'core']]],
-  ['gridrows_40',['gridRows',['../classhmi_1_1ArenaModel.html#a954d10c7baddb00eec90076dab3823ab',1,'hmi::ArenaModel']]],
-  ['gridtoworld_41',['gridToWorld',['../classcore_1_1IsoProjection.html#aee928bb53e2b5d1bbee3820ece456c47',1,'core::IsoProjection']]]
+  ['graphlayout_35',['graphLayout',['../classhmi_1_1WorldGraphView.html#af52c4b259a16a7a6988ecfb7e8db6b87',1,'hmi::WorldGraphView']]],
+  ['grid_36',['grid',['../classcore_1_1CombatState.html#a7f3fae84024674a5c70227a98a248735',1,'core::CombatState::grid() const noexcept'],['../classcore_1_1CombatState.html#afc7082aa97336d45c5d4e8a186fdb38a',1,'core::CombatState::grid() noexcept']]],
+  ['gridcolumns_37',['gridColumns',['../classhmi_1_1ArenaModel.html#aa0e867678253a828df3d9e0285fe8388',1,'hmi::ArenaModel']]],
+  ['griddistance_38',['gridDistance',['../namespacecore.html#ae19c39c376647e74514462b13d834e06',1,'core']]],
+  ['griddistancefield_39',['GridDistanceField',['../classcore_1_1GridDistanceField.html#aa0b7fd04da8d60f9017fe0ada4f81fa6',1,'core::GridDistanceField::GridDistanceField(const core::TileMap &amp;tileMap, const core::GridPosition &amp;target)'],['../classcore_1_1GridDistanceField.html#ab912a545dae807922fa5a0fc74685338',1,'core::GridDistanceField::GridDistanceField(const core::TileMap &amp;tileMap, const std::vector&lt; core::GridPosition &gt; &amp;targets)']]],
+  ['griddistancefrom_40',['gridDistanceFrom',['../namespacecore.html#ad19e2dfeb2158624471c2a07e5a776e6',1,'core']]],
+  ['gridrows_41',['gridRows',['../classhmi_1_1ArenaModel.html#a954d10c7baddb00eec90076dab3823ab',1,'hmi::ArenaModel']]],
+  ['gridtoworld_42',['gridToWorld',['../classcore_1_1IsoProjection.html#aee928bb53e2b5d1bbee3820ece456c47',1,'core::IsoProjection']]]
 ];

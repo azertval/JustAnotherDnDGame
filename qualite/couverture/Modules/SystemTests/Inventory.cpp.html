@@ -1,0 +1,360 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>Inventory.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#include "Core/Rpg/Inventory.h"
+
+#include &lt;algorithm&gt;
+#include &lt;array&gt;
+#include &lt;system_error&gt;
+#include &lt;utility&gt;
+
+#include "Core/Data/JsonDocument.h"
+#include "Core/Rpg/CharacterSheet.h"
+
+namespace core {
+namespace {
+
+// Les entrees de catalogue ne portent pas de champ `version` : ce sont des donnees, pas des
+// documents de format. Meme convention que `loadEquipment` (LOT-34).
+constexpr int SANS_GARDE_DE_VERSION = 0;
+
+<span style = "background-color:#dfd">[[nodiscard]] std::string lireTexte(const nlohmann::json&amp; objet, const char* champ) {
+    const auto trouve = objet.find(champ);
+    return (trouve != objet.end() &amp;&amp; trouve-&gt;is_string()) ? trouve-&gt;get&lt;std::string&gt;()</span>
+                                                          : std::string{};
+<span style = "background-color:#dfd">}</span>
+
+<span style = "background-color:#dfd">[[nodiscard]] int lireEntier(const nlohmann::json&amp; objet, const char* champ, int defaut = 0) {
+    const auto trouve = objet.find(champ);
+    return (trouve != objet.end() &amp;&amp; trouve-&gt;is_number_integer()) ? trouve-&gt;get&lt;int&gt;() : defaut;
+}</span>
+
+<span style = "background-color:#dfd">[[nodiscard]] float lireReel(const nlohmann::json&amp; objet, const char* champ) {
+    const auto trouve = objet.find(champ);
+    return (trouve != objet.end() &amp;&amp; trouve-&gt;is_number()) ? trouve-&gt;get&lt;float&gt;() : 0.0F;
+}</span>
+
+<span style = "background-color:#dfd">[[nodiscard]] bool lireBooleen(const nlohmann::json&amp; objet, const char* champ) {
+    const auto trouve = objet.find(champ);
+    return trouve != objet.end() &amp;&amp; trouve-&gt;is_boolean() &amp;&amp; trouve-&gt;get&lt;bool&gt;();
+}</span>
+
+/// Les seize emplacements et leur nom de donnee. Un seul endroit, parcouru dans les deux sens :
+/// deux listes finiraient par diverger, et l'ecart ne se verrait qu'a l'ecran.
+constexpr std::array&lt;std::pair&lt;EquipmentSlot, const char*&gt;, EQUIPMENT_SLOT_COUNT&gt; EMPLACEMENTS = {{
+    {EquipmentSlot::Head, "head"},
+    {EquipmentSlot::Neck, "neck"},
+    {EquipmentSlot::Cloak, "cloak"},
+    {EquipmentSlot::Torso, "torso"},
+    {EquipmentSlot::Belt, "belt"},
+    {EquipmentSlot::Hands, "hands"},
+    {EquipmentSlot::RingLeft, "ring-left"},
+    {EquipmentSlot::RingRight, "ring-right"},
+    {EquipmentSlot::MainHand, "main-hand"},
+    {EquipmentSlot::OffHand, "off-hand"},
+    {EquipmentSlot::Ranged, "ranged"},
+    {EquipmentSlot::Ammunition, "ammunition"},
+    {EquipmentSlot::Feet, "feet"},
+    {EquipmentSlot::Bracers, "bracers"},
+    {EquipmentSlot::Pouch, "pouch"},
+    {EquipmentSlot::Trinket, "trinket"},
+}};
+
+}  // namespace
+
+<span style = "background-color:#dfd">std::string_view equipmentSlotName(EquipmentSlot slot) {
+    for (const auto&amp; [valeur, nom] : EMPLACEMENTS) {
+        if (valeur == slot) {
+            return nom;</span>
+        }
+<span style = "background-color:#dfd">    }</span>
+<span style = "background-color:#fdd">    return {};</span>
+<span style = "background-color:#dfd">}</span>
+
+<span style = "background-color:#dfd">std::optional&lt;EquipmentSlot&gt; parseEquipmentSlot(std::string_view name) {
+    for (const auto&amp; [valeur, nom] : EMPLACEMENTS) {
+        if (name == nom) {
+            return valeur;</span>
+        }
+<span style = "background-color:#dfd">    }
+    return std::nullopt;
+}</span>
+
+<span style = "background-color:#dfd">const Item* ItemCatalog::find(std::string_view id) const {
+    const auto trouve = std::ranges::find(items, id, &amp;Item::id);
+    return trouve == items.end() ? nullptr : &amp;*trouve;
+}</span>
+
+<span style = "background-color:#dfd">ItemCatalog loadItems(const std::filesystem::path&amp; itemsDir) {
+    ItemCatalog catalogue;
+    std::error_code code;
+    if (!std::filesystem::is_directory(itemsDir, code)) {</span>
+<span style = "background-color:#fdd">        catalogue.errors.push_back(itemsDir.string() + " : dossier absent ou illisible.");
+        return catalogue;</span>
+    }
+<span style = "background-color:#dfd">    std::vector&lt;std::filesystem::path&gt; fichiers;
+    for (const auto&amp; entree : std::filesystem::directory_iterator(itemsDir, code)) {
+        if (entree.is_regular_file(code) &amp;&amp; entree.path().extension() == ".json") {
+            fichiers.push_back(entree.path());
+        }
+    }
+    std::ranges::sort(fichiers);
+    for (const std::filesystem::path&amp; chemin : fichiers) {
+        const JsonDocument document = readJsonObjectFromFile(chemin, SANS_GARDE_DE_VERSION);
+        if (!document.ok()) {</span>
+<span style = "background-color:#fdd">            catalogue.errors.push_back(document.message);
+            continue;</span>
+        }
+<span style = "background-color:#dfd">        const nlohmann::json&amp; racine = document.root;
+        Item objet;
+        objet.id = lireTexte(racine, "id");
+        objet.name = lireTexte(racine, "name");
+        objet.source = lireTexte(racine, "source");
+        objet.category = lireTexte(racine, "category");
+        objet.price = lireEntier(racine, "price");
+        objet.weightGrams = lireEntier(racine, "weightGrams");
+        objet.stackable = lireBooleen(racine, "stackable");
+        objet.rarity = lireTexte(racine, "rarity");
+        objet.requiresAttunement = lireBooleen(racine, "requiresAttunement");
+        objet.text = lireTexte(racine, "text");
+        if (objet.id.empty()) {</span>
+<span style = "background-color:#fdd">            catalogue.errors.push_back(chemin.filename().string() + " : objet sans identifiant.");
+            continue;</span>
+        }
+<span style = "background-color:#dfd">        catalogue.items.push_back(std::move(objet));
+    }
+    return catalogue;
+}</span>
+
+<span style = "background-color:#dfd">EncumbranceRules loadEncumbranceRules(const std::filesystem::path&amp; rulesFile) {
+    EncumbranceRules regles;
+    const JsonDocument document = readJsonObjectFromFile(rulesFile, SANS_GARDE_DE_VERSION);
+    if (!document.ok()) {</span>
+<span style = "background-color:#fdd">        return regles;</span>
+    }
+<span style = "background-color:#dfd">    const nlohmann::json&amp; racine = document.root;
+    regles.carryingCapacityGramsPerStrength =</span>
+        lireEntier(racine, "carryingCapacityGramsPerStrength");
+<span style = "background-color:#dfd">    regles.encumberedGramsPerStrength = lireEntier(racine, "encumberedGramsPerStrength");
+    regles.heavilyEncumberedGramsPerStrength =</span>
+        lireEntier(racine, "heavilyEncumberedGramsPerStrength");
+<span style = "background-color:#dfd">    regles.encumberedSpeedPenaltyMeters = lireReel(racine, "encumberedSpeedPenaltyMeters");
+    regles.heavilyEncumberedSpeedPenaltyMeters =</span>
+        lireReel(racine, "heavilyEncumberedSpeedPenaltyMeters");
+<span style = "background-color:#dfd">    return regles;
+}</span>
+
+<span style = "background-color:#dfd">std::string equip(Inventory&amp; inventory, EquipmentSlot slot, std::string itemId) {
+    std::string precedent = std::move(inventory.equipped[static_cast&lt;std::size_t&gt;(slot)]);
+    inventory.equipped[static_cast&lt;std::size_t&gt;(slot)] = std::move(itemId);
+    return precedent;
+}</span>
+
+<span style = "background-color:#dfd">std::string unequip(Inventory&amp; inventory, EquipmentSlot slot) {
+    return equip(inventory, slot, std::string{});
+}</span>
+
+<span style = "background-color:#dfd">void addToBackpack(Inventory&amp; inventory, const std::string&amp; itemId, int quantity) {
+    if (itemId.empty() || quantity &lt;= 0) {</span>
+<span style = "background-color:#fdd">        return;</span>
+    }
+<span style = "background-color:#dfd">    const auto trouve = std::ranges::find(inventory.backpack, itemId, &amp;InventoryStack::itemId);
+    if (trouve != inventory.backpack.end()) {
+        trouve-&gt;quantity += quantity;
+        return;</span>
+    }
+<span style = "background-color:#dfd">    inventory.backpack.push_back({.itemId = itemId, .quantity = quantity});
+}</span>
+
+<span style = "background-color:#dfd">int removeFromBackpack(Inventory&amp; inventory, const std::string&amp; itemId, int quantity) {
+    if (quantity &lt;= 0) {</span>
+<span style = "background-color:#fdd">        return 0;</span>
+    }
+<span style = "background-color:#dfd">    const auto trouve = std::ranges::find(inventory.backpack, itemId, &amp;InventoryStack::itemId);
+    if (trouve == inventory.backpack.end()) {
+        return 0;</span>
+    }
+<span style = "background-color:#dfd">    const int retire = std::min(quantity, trouve-&gt;quantity);
+    trouve-&gt;quantity -= retire;
+    if (trouve-&gt;quantity &lt;= 0) {
+        inventory.backpack.erase(trouve);</span>
+    }
+<span style = "background-color:#dfd">    return retire;
+}</span>
+
+<span style = "background-color:#dfd">int ItemLookup::weightGramsOf(std::string_view id) const {
+    if (id.empty()) {
+        return 0;</span>
+    }
+<span style = "background-color:#dfd">    if (items != nullptr) {
+        if (const Item* const objet = items-&gt;find(id); objet != nullptr) {
+            return objet-&gt;weightGrams;</span>
+        }
+    }
+<span style = "background-color:#dfd">    if (equipment != nullptr) {
+        if (const Weapon* const arme = equipment-&gt;findWeapon(id); arme != nullptr) {
+            return arme-&gt;weightGrams;</span>
+        }
+<span style = "background-color:#dfd">        if (const Armor* const armure = equipment-&gt;findArmor(id); armure != nullptr) {
+            return armure-&gt;weightGrams;</span>
+        }
+    }
+<span style = "background-color:#dfd">    return 0;
+}</span>
+
+namespace {
+
+/// Vrai si @p id est connu de l'un des catalogues.
+<span style = "background-color:#dfd">[[nodiscard]] bool connu(const ItemLookup&amp; lookup, const std::string&amp; id) {
+    if (id.empty()) {
+        return true;</span>
+    }
+<span style = "background-color:#dfd">    if (lookup.items != nullptr &amp;&amp; lookup.items-&gt;find(id) != nullptr) {</span>
+<span style = "background-color:#fdd">        return true;</span>
+    }
+<span style = "background-color:#dfd">    if (lookup.equipment != nullptr) {
+        return lookup.equipment-&gt;findWeapon(id) != nullptr ||</span>
+               lookup.equipment-&gt;findArmor(id) != nullptr;
+    }
+<span style = "background-color:#fdd">    return false;</span>
+<span style = "background-color:#dfd">}</span>
+
+}  // namespace
+
+<span style = "background-color:#dfd">int carriedWeightGrams(const Inventory&amp; inventory, const ItemLookup&amp; lookup) {
+    int total = 0;
+    for (const std::string&amp; porte : inventory.equipped) {
+        total += lookup.weightGramsOf(porte);
+    }
+    for (const InventoryStack&amp; ligne : inventory.backpack) {
+        if (ligne.quantity &gt; 0) {
+            total += lookup.weightGramsOf(ligne.itemId) * ligne.quantity;</span>
+        }
+<span style = "background-color:#dfd">    }
+    return total;
+}</span>
+
+<span style = "background-color:#dfd">std::vector&lt;std::string&gt; unknownIds(const Inventory&amp; inventory, const ItemLookup&amp; lookup) {
+    std::vector&lt;std::string&gt; inconnus;
+    for (const std::string&amp; porte : inventory.equipped) {
+        if (!connu(lookup, porte)) {
+            inconnus.push_back(porte);</span>
+        }
+<span style = "background-color:#dfd">    }
+    for (const InventoryStack&amp; ligne : inventory.backpack) {
+        if (!connu(lookup, ligne.itemId)) {
+            inconnus.push_back(ligne.itemId);</span>
+        }
+<span style = "background-color:#dfd">    }
+    std::ranges::sort(inconnus);
+    const auto reste = std::ranges::unique(inconnus);
+    inconnus.erase(reste.begin(), reste.end());
+    return inconnus;
+}</span>
+
+<span style = "background-color:#dfd">Ability weaponAttackAbility(const CharacterSheet&amp; sheet, const Weapon&amp; weapon) {</span>
+    // Une arme de FINESSE laisse le choix -- mais aucune arme du catalogue ne declare encore cette
+    // propriete autrement qu'en toutes lettres dans son texte francais, et lire une regle dans de
+    // la prose est exactement ce que ce projet evite. La branche existe donc, et elle attend que la
+    // donnee porte `properties` (LOT-49).
+<span style = "background-color:#dfd">    const bool finesse =
+        std::ranges::any_of(weapon.properties, [](const std::string&amp; p) { return p == "finesse"; });
+    if (finesse) {
+        return sheet.modifier(Ability::Dexterity) &gt; sheet.modifier(Ability::Strength)</span>
+                   ? Ability::Dexterity
+                   : Ability::Strength;
+    }
+<span style = "background-color:#dfd">    return weapon.ranged ? Ability::Dexterity : Ability::Strength;
+}</span>
+
+DerivedStats derivedStatsFor(const CharacterSheet&amp; sheet, const Inventory&amp; inventory,
+                             const ItemLookup&amp; lookup, const CharacterCreationRules&amp; creation,
+<span style = "background-color:#dfd">                             const EncumbranceRules&amp; carrying) {
+    DerivedStats derivees;</span>
+
+    // --- Classe d'armure : RECALCULEE depuis ce qui est porte ---
+    //
+    // C'est le coeur du lot. Aucun bonus n'est accumule : on relit l'armure et le bouclier portes,
+    // et on redemande leur somme a `armorClassFor` (LOT-34). Equiper puis retirer, dans n'importe
+    // quel ordre, redonne donc la valeur de depart -- il n'y a rien a annuler, puisqu'il n'y a rien
+    // eu a appliquer.
+<span style = "background-color:#dfd">    const Armor* armure = nullptr;
+    const Armor* bouclier = nullptr;
+    if (lookup.equipment != nullptr) {
+        armure = lookup.equipment-&gt;findArmor(inventory.at(EquipmentSlot::Torso));
+        bouclier = lookup.equipment-&gt;findArmor(inventory.at(EquipmentSlot::OffHand));</span>
+        // Un bouclier range au torse resterait un bouclier : c'est sa CATEGORIE qui dit comment il
+        // compte, pas l'emplacement ou on l'a mis.
+<span style = "background-color:#dfd">        if (armure != nullptr &amp;&amp; armure-&gt;category == ArmorCategory::Shield) {
+            std::swap(armure, bouclier);</span>
+        }
+<span style = "background-color:#dfd">        if (bouclier != nullptr &amp;&amp; bouclier-&gt;category != ArmorCategory::Shield) {</span>
+<span style = "background-color:#fdd">            bouclier = nullptr;</span>
+        }
+    }
+<span style = "background-color:#dfd">    derivees.armorClass = armorClassFor(sheet, creation, armure, bouclier);</span>
+
+    // --- L'arme en main directrice ---
+<span style = "background-color:#dfd">    if (lookup.equipment != nullptr) {
+        const Weapon* const arme =</span>
+            lookup.equipment-&gt;findWeapon(inventory.at(EquipmentSlot::MainHand));
+<span style = "background-color:#dfd">        if (arme != nullptr) {
+            derivees.damage = arme-&gt;damage;
+            derivees.damageType = arme-&gt;damageType;
+            derivees.attackAbility = weaponAttackAbility(sheet, *arme);</span>
+        }
+    }
+
+    // --- La charge ---
+<span style = "background-color:#dfd">    derivees.carriedWeightGrams = carriedWeightGrams(inventory, lookup);
+    derivees.speedMeters = sheet.speedMeters;
+    if (carrying.isLoaded()) {
+        const int force = sheet.ability(Ability::Strength);
+        derivees.carryingCapacityGrams = carrying.carryingCapacityGramsPerStrength * force;
+        const int encombre = carrying.encumberedGramsPerStrength * force;
+        const int lourdement = carrying.heavilyEncumberedGramsPerStrength * force;
+        if (derivees.carriedWeightGrams &gt; derivees.carryingCapacityGrams) {
+            derivees.encumbrance = EncumbranceLevel::OverCapacity;</span>
+            // Au-dela de la capacite, le personnage ne porte plus : la vitesse ne se contente pas
+            // d'etre diminuee, elle tombe a zero. C'est le comportement DEFINI au depassement que
+            // le lot demandait -- et il est defini ici plutot que laisse a chaque appelant.
+<span style = "background-color:#dfd">            derivees.speedMeters = 0.0F;
+        } else if (derivees.carriedWeightGrams &gt; lourdement) {
+            derivees.encumbrance = EncumbranceLevel::HeavilyEncumbered;
+            derivees.speedMeters -= carrying.heavilyEncumberedSpeedPenaltyMeters;
+        } else if (derivees.carriedWeightGrams &gt; encombre) {
+            derivees.encumbrance = EncumbranceLevel::Encumbered;
+            derivees.speedMeters -= carrying.encumberedSpeedPenaltyMeters;</span>
+        }
+    }
+<span style = "background-color:#dfd">    derivees.speedMeters = std::max(0.0F, derivees.speedMeters);
+    return derivees;
+}</span>
+
+}  // namespace core</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

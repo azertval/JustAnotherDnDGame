@@ -185,6 +185,40 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:aed96d2b512ef5d877655dc6667116603"><td class="mdescLeft">&#160;</td><td class="mdescRight">Envoie le plan au rang <code class="param">index</code> au premier rang (le plus en arrière).  <br /></td></tr>
 <tr class="memitem:ac8626d2ef51f11d80bf0ca0082d17253" id="r_ac8626d2ef51f11d80bf0ca0082d17253"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ac8626d2ef51f11d80bf0ca0082d17253">setParallaxEnabled</a> (bool enabled)</td></tr>
 <tr class="memdesc:ac8626d2ef51f11d80bf0ca0082d17253"><td class="mdescLeft">&#160;</td><td class="mdescRight">Active ou désactive la parallaxe des plans pour ce niveau (<span class="tt">EX-DEC-043</span>).  <br /></td></tr>
+<tr id="pub-methods-1" class="groupHeader"><td colspan="2"><div class="groupHeader">Couches de tuiles (&lt;tt&gt;LOT-04&lt;/tt&gt;, &lt;tt&gt;LOT-11&lt;/tt&gt;)</div></td></tr>
+<tr><td colspan="2" class="ititle"><div class="groupText"><p>Un rang désigne une entrée de <span class="tt"><a class="el" href="#a6532974328bb6e474d5b91d93f34c373">layers()</a></span>.</p>
+<p>Seules les couches <b>visuelles</b> — sol et décor (<span class="tt"><a class="el" href="namespacecore.html#aaf5abd7971c954a0b6b1f917658f4d38" title="Vrai si une couche de rôle kind porte une image — le sol ou le décor —, et non le masque de collision...">core::isVisualLayerKind</a></span>) — se créent, se retirent, se renomment, se déplacent et se peignent ici : la grille de collision est <span class="tt"><a class="el" href="#acc48e2f45fb3db53de09e30f60f75845">tileMap()</a></span>, que peignent <span class="tt"><a class="el" href="#ab10397c5b66b6997de6adff24cca19d2" title="Peint le type de tuile type en (column, row).">paintTile</a></span> et <span class="tt"><a class="el" href="#a7fb667e044067f5e9bf16f747d3f5f8e" title="Applique un bloc rectangulaire de types de tuiles à partir de (originColumn, originRow).">paintRegion</a></span>, et l'entrée <span class="tt">Collision</span> ou <span class="tt">Legacy</span> de <span class="tt"><a class="el" href="#a6532974328bb6e474d5b91d93f34c373">layers()</a></span> n'en est que le reflet.</p>
+<p>Même discipline que les plans : un rang hors bornes, une couche non visuelle ou un type de tuile refusé (<span class="tt"><a class="el" href="namespacecore.html#a96f9c5663954e6157f2593864bad5840" title="Vrai si type se peint sur une couche visuelle (sol ou décor, LOT-11).">core::isVisualLayerTileType</a></span>) ne fait <b>rien</b> et n'empile <b>rien</b>. </p>
+</div></td></tr>
+<tr class="memitem:a003ed4fa8fab2d4d6dc0f60e12ea670e" id="r_a003ed4fa8fab2d4d6dc0f60e12ea670e"><td class="memItemLeft">std::optional&lt; std::size_t &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a003ed4fa8fab2d4d6dc0f60e12ea670e">addLayer</a> (<a class="el" href="namespacecore.html#ab0cf50b7ad0dce1357c85662e0fb7e5d">LayerKind</a> kind, std::string <a class="el" href="#a7ac47bce808a2ac8e8fce362411269cf">name</a>)</td></tr>
+<tr class="memdesc:a003ed4fa8fab2d4d6dc0f60e12ea670e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ajoute une couche visuelle en fin de liste (la plus en avant).  <br /></td></tr>
+<tr class="memitem:a3917b4a6f87764ed15bebaf935d31453" id="r_a3917b4a6f87764ed15bebaf935d31453"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a3917b4a6f87764ed15bebaf935d31453">removeLayer</a> (std::size_t index)</td></tr>
+<tr class="memdesc:a3917b4a6f87764ed15bebaf935d31453"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retire la couche visuelle au rang <code class="param">index</code>.  <br /></td></tr>
+<tr class="memitem:a3f45174b2fe91d89f6d0856a58d5b32c" id="r_a3f45174b2fe91d89f6d0856a58d5b32c"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a3f45174b2fe91d89f6d0856a58d5b32c">renameLayer</a> (std::size_t index, std::string <a class="el" href="#a7ac47bce808a2ac8e8fce362411269cf">name</a>)</td></tr>
+<tr class="memdesc:a3f45174b2fe91d89f6d0856a58d5b32c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Renomme la couche visuelle au rang <code class="param">index</code>. Un nom identique n'empile rien.  <br /></td></tr>
+<tr class="memitem:a90471e4d217d3e369c3c08872a2a25ee" id="r_a90471e4d217d3e369c3c08872a2a25ee"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a90471e4d217d3e369c3c08872a2a25ee">setLayerKind</a> (std::size_t index, <a class="el" href="namespacecore.html#ab0cf50b7ad0dce1357c85662e0fb7e5d">LayerKind</a> kind)</td></tr>
+<tr class="memdesc:a90471e4d217d3e369c3c08872a2a25ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change le rôle (sol ↔ décor) de la couche visuelle au rang <code class="param">index</code>.  <br /></td></tr>
+<tr class="memitem:ab3a5f821f3978837e9273b428f22bc29" id="r_ab3a5f821f3978837e9273b428f22bc29"><td class="memItemLeft">std::optional&lt; std::size_t &gt;&#160;</td><td class="memItemRight"><a class="el" href="#ab3a5f821f3978837e9273b428f22bc29">moveLayer</a> (std::size_t index, bool forward)</td></tr>
+<tr class="memdesc:ab3a5f821f3978837e9273b428f22bc29"><td class="mdescLeft">&#160;</td><td class="mdescRight">Échange la couche visuelle au rang <code class="param">index</code> avec sa voisine visuelle, en avant (<code class="param">forward</code>) ou en arrière.  <br /></td></tr>
+<tr class="memitem:a9d2d7eaf3b34811e1339d8a3be044920" id="r_a9d2d7eaf3b34811e1339d8a3be044920"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a9d2d7eaf3b34811e1339d8a3be044920">paintLayerTile</a> (std::size_t index, int column, int row, <a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875">TileType</a> type)</td></tr>
+<tr class="memdesc:a9d2d7eaf3b34811e1339d8a3be044920"><td class="mdescLeft">&#160;</td><td class="mdescRight">Peint <code class="param">type</code> en (<code class="param">column</code>, <code class="param">row</code>) de la couche visuelle <code class="param">index</code>.  <br /></td></tr>
+<tr class="memitem:a51ed31285d58e24d71d53ea70b357db7" id="r_a51ed31285d58e24d71d53ea70b357db7"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a51ed31285d58e24d71d53ea70b357db7">paintLayerRegion</a> (std::size_t index, int originColumn, int originRow, const std::vector&lt; std::vector&lt; <a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875">TileType</a> &gt; &gt; &amp;block)</td></tr>
+<tr class="memdesc:a51ed31285d58e24d71d53ea70b357db7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Applique <code class="param">block</code> (indexé <span class="tt">[ligne][colonne]</span>) sur la couche visuelle <code class="param">index</code>, découpé aux bords, en <b>un</b> pas d'annulation.  <br /></td></tr>
+<tr id="pub-methods-2" class="groupHeader"><td colspan="2"><div class="groupHeader">Entités de carte (&lt;tt&gt;LOT-04&lt;/tt&gt;, &lt;tt&gt;LOT-11&lt;/tt&gt;)</div></td></tr>
+<tr><td colspan="2" class="ititle"><div class="groupText"><p>Un rang désigne une entrée de <span class="tt"><a class="el" href="#a74e03f07db273bcdd42544044ac78e8f">entities()</a></span>.</p>
+<p>Plusieurs entités peuvent partager une case ; <span class="tt"><a class="el" href="#abb842bc0b3cfa387d1f5c20c7eb5bb3a">entityAt</a></span> rend la <b>dernière</b> posée, celle qu'on voit au-dessus. Chaque mutateur empile un pas d'annulation, sauf s'il est refusé ou sans effet. </p>
+</div></td></tr>
+<tr class="memitem:aa37465c2a3293c00fc88743b287b6649" id="r_aa37465c2a3293c00fc88743b287b6649"><td class="memItemLeft">std::optional&lt; std::size_t &gt;&#160;</td><td class="memItemRight"><a class="el" href="#aa37465c2a3293c00fc88743b287b6649">placeEntity</a> (<a class="el" href="structcore_1_1MapEntity.html">MapEntity</a> entity)</td></tr>
+<tr class="memdesc:aa37465c2a3293c00fc88743b287b6649"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pose <code class="param">entity</code> en fin de liste.  <br /></td></tr>
+<tr class="memitem:af482091fd6c1b1c65b9d3f9a4cf3501c" id="r_af482091fd6c1b1c65b9d3f9a4cf3501c"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#af482091fd6c1b1c65b9d3f9a4cf3501c">moveEntity</a> (std::size_t index, <a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> position)</td></tr>
+<tr class="memdesc:af482091fd6c1b1c65b9d3f9a4cf3501c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Déplace l'entité <code class="param">index</code> en <code class="param">position</code>. Refusé hors bornes ; sans effet sur place.  <br /></td></tr>
+<tr class="memitem:a2481967d25d79cb4911d718797accc44" id="r_a2481967d25d79cb4911d718797accc44"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a2481967d25d79cb4911d718797accc44">removeEntity</a> (std::size_t index)</td></tr>
+<tr class="memdesc:a2481967d25d79cb4911d718797accc44"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retire l'entité <code class="param">index</code>.  <br /></td></tr>
+<tr class="memitem:a3593196bd271ce43b79cb83e5daad217" id="r_a3593196bd271ce43b79cb83e5daad217"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a3593196bd271ce43b79cb83e5daad217">setEntityProperty</a> (std::size_t index, const std::string &amp;key, <a class="el" href="namespacecore.html#a9f79b235a73b6264aa3a97d51267919d">PropertyValue</a> value)</td></tr>
+<tr class="memdesc:a3593196bd271ce43b79cb83e5daad217"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assigne la propriété <code class="param">key</code> de l'entité <code class="param">index</code>. Une valeur identique n'empile rien.  <br /></td></tr>
+<tr class="memitem:ac2764691a4e1e3b6eacb50d454e0a948" id="r_ac2764691a4e1e3b6eacb50d454e0a948"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#ac2764691a4e1e3b6eacb50d454e0a948">removeEntityProperty</a> (std::size_t index, const std::string &amp;key)</td></tr>
+<tr class="memdesc:ac2764691a4e1e3b6eacb50d454e0a948"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retire la propriété <code class="param">key</code> de l'entité <code class="param">index</code>, si elle l'a.  <br /></td></tr>
+<tr class="memitem:abb842bc0b3cfa387d1f5c20c7eb5bb3a" id="r_abb842bc0b3cfa387d1f5c20c7eb5bb3a"><td class="memItemLeft">std::optional&lt; std::size_t &gt;&#160;</td><td class="memItemRight"><a class="el" href="#abb842bc0b3cfa387d1f5c20c7eb5bb3a">entityAt</a> (<a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> position) const</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-static-methods" class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
@@ -198,6 +232,10 @@ Private Member Functions</h2></td></tr>
 <tr class="memitem:acda8ea200910fc5679cd968d36de87e4" id="r_acda8ea200910fc5679cd968d36de87e4"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#acda8ea200910fc5679cd968d36de87e4">LevelDraft</a> (std::string <a class="el" href="#a7ac47bce808a2ac8e8fce362411269cf">name</a>, <a class="el" href="classcore_1_1TileMap.html">TileMap</a> <a class="el" href="#acc48e2f45fb3db53de09e30f60f75845">tileMap</a>)</td></tr>
 <tr class="memitem:a1286763b9db8bf337b2bf3a4d4049917" id="r_a1286763b9db8bf337b2bf3a4d4049917"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a1286763b9db8bf337b2bf3a4d4049917">paintTileInternal</a> (int column, int row, <a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875">TileType</a> type)</td></tr>
 <tr class="memdesc:a1286763b9db8bf337b2bf3a4d4049917"><td class="mdescLeft">&#160;</td><td class="mdescRight">Logique de <span class="tt"><a class="el" href="#ab10397c5b66b6997de6adff24cca19d2" title="Peint le type de tuile type en (column, row).">paintTile</a></span>, sans <span class="tt"><a class="el" href="#a949cfb0148244f0ba05257d4f523f51d" title="Empile l&#39;état courant sur la pile d&#39;annulation ; à appeler avant toute mutation undoable.">pushUndo()</a></span> : réutilisée cellule par cellule par <span class="tt"><a class="el" href="#a7fb667e044067f5e9bf16f747d3f5f8e" title="Applique un bloc rectangulaire de types de tuiles à partir de (originColumn, originRow).">paintRegion</a></span> pour n'empiler qu'un seul snapshot par opération de bloc.  <br /></td></tr>
+<tr class="memitem:a00ca9003b47f9e9aa47adb784018ce61" id="r_a00ca9003b47f9e9aa47adb784018ce61"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a00ca9003b47f9e9aa47adb784018ce61">isVisualLayerIndex</a> (std::size_t index) const noexcept</td></tr>
+<tr class="memdesc:a00ca9003b47f9e9aa47adb784018ce61"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vrai si <code class="param">index</code> désigne une couche visuelle de <span class="tt"><a class="el" href="#a2783d6ae5f766d52acae67fbb9f68c1b">_layers</a></span>.  <br /></td></tr>
+<tr class="memitem:a10582098171a1944915fbe6031715a67" id="r_a10582098171a1944915fbe6031715a67"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a10582098171a1944915fbe6031715a67">isEntityIndex</a> (std::size_t index) const noexcept</td></tr>
+<tr class="memdesc:a10582098171a1944915fbe6031715a67"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vrai si <code class="param">index</code> désigne une entité de <span class="tt"><a class="el" href="#aafa403c6e7bfc2795abcf8c52709775b">_entities</a></span>.  <br /></td></tr>
 <tr class="memitem:a9d039adf33432c729620cd113ee8b5fb" id="r_a9d039adf33432c729620cd113ee8b5fb"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a9d039adf33432c729620cd113ee8b5fb">setEntryInternal</a> (int column, int row)</td></tr>
 <tr class="memdesc:a9d039adf33432c729620cd113ee8b5fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Logique de <span class="tt"><a class="el" href="#ad27c800742bff5e3bd6f4c04e9780d25" title="Place l&#39;entrée en (column, row) ; déplace l&#39;occurrence existante s&#39;il y en avait une (unicité,...">setEntry</a></span>, sans <span class="tt"><a class="el" href="#a949cfb0148244f0ba05257d4f523f51d" title="Empile l&#39;état courant sur la pile d&#39;annulation ; à appeler avant toute mutation undoable.">pushUndo()</a></span>.  <br /></td></tr>
 <tr class="memitem:a2200dadec2de3ffe91fff274306a8be5" id="r_a2200dadec2de3ffe91fff274306a8be5"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a2200dadec2de3ffe91fff274306a8be5">setExitInternal</a> (int column, int row)</td></tr>
@@ -287,6 +325,38 @@ Private Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="a003ed4fa8fab2d4d6dc0f60e12ea670e" name="a003ed4fa8fab2d4d6dc0f60e12ea670e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a003ed4fa8fab2d4d6dc0f60e12ea670e">&#9670;&#160;</a></span>addLayer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::optional&lt; std::size_t &gt; core::LevelDraft::addLayer </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacecore.html#ab0cf50b7ad0dce1357c85662e0fb7e5d">LayerKind</a></td>          <td class="paramname"><span class="paramname"><em>kind</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string</td>          <td class="paramname"><span class="paramname"><em>name</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Ajoute une couche visuelle en fin de liste (la plus en avant). </p>
+<p><b>Promotion d'une carte à grille unique.</b> Tant qu'une carte n'a aucune couche visuelle, sa grille racine vaut à la fois image et collision (<span class="tt"><a class="el" href="namespacecore.html#ab0cf50b7ad0dce1357c85662e0fb7e5da0cc0a0507cf3d31e5089f420a4cf8b4b">LayerKind::Legacy</a></span>) ; dès qu'elle en a une, la grille racine n'est plus dessinée (<span class="tt"><a class="el" href="namespacecore.html#a69ac6b2c5ca32686a14824d1f1c04b2a" title="Peuple un World d&#39;une entité par tuile non vide du niveau.">core::buildLevelScene</a></span>). Ajouter la <b>première</b> couche visuelle y recopie donc la grille racine, types refusés mis à part : ce qu'on voyait reste ce qu'on voit, et l'auteur retire ensuite ce qui ne relève que de la collision. Une couche ajoutée à une carte qui en a déjà naît vide.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">kind</td><td><span class="tt">Ground</span> ou <span class="tt">Decor</span>. </td></tr>
+    <tr><td class="paramname"><a class="el" href="#a7ac47bce808a2ac8e8fce362411269cf">name</a></td><td>Nom affiché par l'éditeur. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Le rang de la couche créée, ou <span class="tt">std::nullopt</span> si <code class="param">kind</code> n'est pas visuel. </dd></dl>
 
 </div>
 </div>
@@ -479,7 +549,33 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>Les entites placees sur la carte (<span class="tt">LOT-04</span>). Portees telles quelles, comme <span class="tt"><a class="el" href="#a6532974328bb6e474d5b91d93f34c373">layers()</a></span>, en attendant l'outillage d'edition du <span class="tt">LOT-11</span>. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Les entités placées sur la carte (<span class="tt">LOT-04</span>), éditées par les mutateurs d'entités. </dd></dl>
+
+</div>
+</div>
+<a id="abb842bc0b3cfa387d1f5c20c7eb5bb3a" name="abb842bc0b3cfa387d1f5c20c7eb5bb3a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abb842bc0b3cfa387d1f5c20c7eb5bb3a">&#9670;&#160;</a></span>entityAt()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::optional&lt; std::size_t &gt; core::LevelDraft::entityAt </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcore_1_1GridPosition.html">GridPosition</a></td>          <td class="paramname"><span class="paramname"><em>position</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>Le rang de la dernière entité posée en <code class="param">position</code>, s'il y en a une. </dd></dl>
 
 </div>
 </div>
@@ -568,6 +664,60 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a10582098171a1944915fbe6031715a67" name="a10582098171a1944915fbe6031715a67"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a10582098171a1944915fbe6031715a67">&#9670;&#160;</a></span>isEntityIndex()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool core::LevelDraft::isEntityIndex </td>
+          <td>(</td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>index</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel private">private</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Vrai si <code class="param">index</code> désigne une entité de <span class="tt"><a class="el" href="#aafa403c6e7bfc2795abcf8c52709775b">_entities</a></span>. </p>
+
+</div>
+</div>
+<a id="a00ca9003b47f9e9aa47adb784018ce61" name="a00ca9003b47f9e9aa47adb784018ce61"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a00ca9003b47f9e9aa47adb784018ce61">&#9670;&#160;</a></span>isVisualLayerIndex()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool core::LevelDraft::isVisualLayerIndex </td>
+          <td>(</td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>index</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel private">private</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Vrai si <code class="param">index</code> désigne une couche visuelle de <span class="tt"><a class="el" href="#a2783d6ae5f766d52acae67fbb9f68c1b">_layers</a></span>. </p>
+
+</div>
+</div>
 <a id="a6532974328bb6e474d5b91d93f34c373" name="a6532974328bb6e474d5b91d93f34c373"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6532974328bb6e474d5b91d93f34c373">&#9670;&#160;</a></span>layers()</h2>
 
@@ -591,7 +741,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>Les couches de tuiles du niveau (<span class="tt">LOT-04</span>), dans leur ordre de superposition.</dd></dl>
-<p><b>Portees telles quelles, pas encore editables.</b> Le brouillon les recoit du fichier et les rend a l'enregistrement ; c'est le <span class="tt">LOT-11</span> qui donnera a l'editeur de quoi les creer et les peindre. Sans ce transport, ouvrir puis enregistrer une carte multi-couches les effacerait en silence &ndash; exactement le genre de perte qu'un editeur ne doit jamais infliger. </p>
+<p>Une entrée <span class="tt">Collision</span> ou <span class="tt">Legacy</span> y reflète la grille racine telle que le fichier l'a promue ; c'est <span class="tt"><a class="el" href="#acc48e2f45fb3db53de09e30f60f75845">tileMap()</a></span> qui fait foi, et <span class="tt"><a class="el" href="#a0017cadc8caea0b43ba08b120ce76bb0" title="Convertit le brouillon en Level validé (EX-EDIT-007), en repassant par la même validation que LevelLo...">toLevel()</a></span> l'y recopie. Les couches visuelles s'éditent par les mutateurs de couches (<span class="tt">LOT-11</span>). </p>
 
 </div>
 </div>
@@ -642,6 +792,53 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>Les liaisons de mécanismes courantes (déclencheur ↔ porte). </dd></dl>
+
+</div>
+</div>
+<a id="af482091fd6c1b1c65b9d3f9a4cf3501c" name="af482091fd6c1b1c65b9d3f9a4cf3501c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af482091fd6c1b1c65b9d3f9a4cf3501c">&#9670;&#160;</a></span>moveEntity()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool core::LevelDraft::moveEntity </td>
+          <td>(</td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>index</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcore_1_1GridPosition.html">GridPosition</a></td>          <td class="paramname"><span class="paramname"><em>position</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Déplace l'entité <code class="param">index</code> en <code class="param">position</code>. Refusé hors bornes ; sans effet sur place. </p>
+
+</div>
+</div>
+<a id="ab3a5f821f3978837e9273b428f22bc29" name="ab3a5f821f3978837e9273b428f22bc29"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab3a5f821f3978837e9273b428f22bc29">&#9670;&#160;</a></span>moveLayer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::optional&lt; std::size_t &gt; core::LevelDraft::moveLayer </td>
+          <td>(</td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>index</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>forward</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Échange la couche visuelle au rang <code class="param">index</code> avec sa voisine visuelle, en avant (<code class="param">forward</code>) ou en arrière. </p>
+<p>L'entrée de collision ne se franchit pas : elle n'a pas de rang de dessin. </p><dl class="section return"><dt>Returns</dt><dd>Le nouveau rang ; <code class="param">index</code> inchangé si la couche est déjà au bout ; <span class="tt">std::nullopt</span> si <code class="param">index</code> est hors bornes ou non visuel. </dd></dl>
 
 </div>
 </div>
@@ -745,6 +942,74 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>Le nom courant du niveau. </dd></dl>
+
+</div>
+</div>
+<a id="a51ed31285d58e24d71d53ea70b357db7" name="a51ed31285d58e24d71d53ea70b357db7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a51ed31285d58e24d71d53ea70b357db7">&#9670;&#160;</a></span>paintLayerRegion()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool core::LevelDraft::paintLayerRegion </td>
+          <td>(</td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>index</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>originColumn</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>originRow</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::vector&lt; <a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875">TileType</a> &gt; &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>block</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Applique <code class="param">block</code> (indexé <span class="tt">[ligne][colonne]</span>) sur la couche visuelle <code class="param">index</code>, découpé aux bords, en <b>un</b> pas d'annulation. </p>
+<p>Un bloc contenant un type refusé est refusé en entier. </p>
+
+</div>
+</div>
+<a id="a9d2d7eaf3b34811e1339d8a3be044920" name="a9d2d7eaf3b34811e1339d8a3be044920"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9d2d7eaf3b34811e1339d8a3be044920">&#9670;&#160;</a></span>paintLayerTile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool core::LevelDraft::paintLayerTile </td>
+          <td>(</td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>index</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>column</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>row</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875">TileType</a></td>          <td class="paramname"><span class="paramname"><em>type</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Peint <code class="param">type</code> en (<code class="param">column</code>, <code class="param">row</code>) de la couche visuelle <code class="param">index</code>. </p>
+<dl class="section return"><dt>Returns</dt><dd><span class="tt">false</span> (rien d'empilé) si le rang, la case ou le type est refusé, ou si la case porte déjà ce type. </dd></dl>
 
 </div>
 </div>
@@ -882,6 +1147,26 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="aa37465c2a3293c00fc88743b287b6649" name="aa37465c2a3293c00fc88743b287b6649"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa37465c2a3293c00fc88743b287b6649">&#9670;&#160;</a></span>placeEntity()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::optional&lt; std::size_t &gt; core::LevelDraft::placeEntity </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcore_1_1MapEntity.html">MapEntity</a></td>          <td class="paramname"><span class="paramname"><em>entity</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Pose <code class="param">entity</code> en fin de liste. </p>
+<dl class="section return"><dt>Returns</dt><dd>Son rang, ou <span class="tt">std::nullopt</span> si sa case est hors de la grille (<span class="tt">EX-LVL-017</span>). </dd></dl>
+
+</div>
+</div>
 <a id="a8f8733144a18e5f7b9cf4327f12486de" name="a8f8733144a18e5f7b9cf4327f12486de"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8f8733144a18e5f7b9cf4327f12486de">&#9670;&#160;</a></span>planes()</h2>
 
@@ -981,6 +1266,68 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a2481967d25d79cb4911d718797accc44" name="a2481967d25d79cb4911d718797accc44"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2481967d25d79cb4911d718797accc44">&#9670;&#160;</a></span>removeEntity()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool core::LevelDraft::removeEntity </td>
+          <td>(</td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>index</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Retire l'entité <code class="param">index</code>. </p>
+
+</div>
+</div>
+<a id="ac2764691a4e1e3b6eacb50d454e0a948" name="ac2764691a4e1e3b6eacb50d454e0a948"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac2764691a4e1e3b6eacb50d454e0a948">&#9670;&#160;</a></span>removeEntityProperty()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool core::LevelDraft::removeEntityProperty </td>
+          <td>(</td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>index</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Retire la propriété <code class="param">key</code> de l'entité <code class="param">index</code>, si elle l'a. </p>
+
+</div>
+</div>
+<a id="a3917b4a6f87764ed15bebaf935d31453" name="a3917b4a6f87764ed15bebaf935d31453"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3917b4a6f87764ed15bebaf935d31453">&#9670;&#160;</a></span>removeLayer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool core::LevelDraft::removeLayer </td>
+          <td>(</td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>index</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Retire la couche visuelle au rang <code class="param">index</code>. </p>
+<dl class="section return"><dt>Returns</dt><dd><span class="tt">false</span> si <code class="param">index</code> est hors bornes ou désigne une couche non visuelle. </dd></dl>
+
+</div>
+</div>
 <a id="ac6222b6123bc9c12d22976c642ab0275" name="ac6222b6123bc9c12d22976c642ab0275"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac6222b6123bc9c12d22976c642ab0275">&#9670;&#160;</a></span>removeLinkedDataAt()</h2>
 
@@ -1049,6 +1396,29 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Retire l'override de texture de <code class="param">position</code>, s'il y en a un. Sans effet sinon. </p>
+
+</div>
+</div>
+<a id="a3f45174b2fe91d89f6d0856a58d5b32c" name="a3f45174b2fe91d89f6d0856a58d5b32c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3f45174b2fe91d89f6d0856a58d5b32c">&#9670;&#160;</a></span>renameLayer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool core::LevelDraft::renameLayer </td>
+          <td>(</td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>index</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string</td>          <td class="paramname"><span class="paramname"><em>name</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Renomme la couche visuelle au rang <code class="param">index</code>. Un nom identique n'empile rien. </p>
 
 </div>
 </div>
@@ -1159,6 +1529,34 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a3593196bd271ce43b79cb83e5daad217" name="a3593196bd271ce43b79cb83e5daad217"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3593196bd271ce43b79cb83e5daad217">&#9670;&#160;</a></span>setEntityProperty()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool core::LevelDraft::setEntityProperty </td>
+          <td>(</td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>index</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacecore.html#a9f79b235a73b6264aa3a97d51267919d">PropertyValue</a></td>          <td class="paramname"><span class="paramname"><em>value</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Assigne la propriété <code class="param">key</code> de l'entité <code class="param">index</code>. Une valeur identique n'empile rien. </p>
+
+</div>
+</div>
 <a id="ad27c800742bff5e3bd6f4c04e9780d25" name="ad27c800742bff5e3bd6f4c04e9780d25"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad27c800742bff5e3bd6f4c04e9780d25">&#9670;&#160;</a></span>setEntry()</h2>
 
@@ -1264,6 +1662,29 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Logique de <span class="tt"><a class="el" href="#a43da8f9a68020121dfad59756c579b7a" title="Place la sortie en (column, row) ; déplace l&#39;occurrence existante s&#39;il y en avait une (unicité,...">setExit</a></span>, sans <span class="tt"><a class="el" href="#a949cfb0148244f0ba05257d4f523f51d" title="Empile l&#39;état courant sur la pile d&#39;annulation ; à appeler avant toute mutation undoable.">pushUndo()</a></span>. </p>
+
+</div>
+</div>
+<a id="a90471e4d217d3e369c3c08872a2a25ee" name="a90471e4d217d3e369c3c08872a2a25ee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a90471e4d217d3e369c3c08872a2a25ee">&#9670;&#160;</a></span>setLayerKind()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool core::LevelDraft::setLayerKind </td>
+          <td>(</td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>index</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacecore.html#ab0cf50b7ad0dce1357c85662e0fb7e5d">LayerKind</a></td>          <td class="paramname"><span class="paramname"><em>kind</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Change le rôle (sol ↔ décor) de la couche visuelle au rang <code class="param">index</code>. </p>
 
 </div>
 </div>

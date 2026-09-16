@@ -36,5 +36,6 @@ var searchData=
   ['diceroll_33',['DiceRoll',['../structcore_1_1DiceRoll.html',1,'core']]],
   ['difficultyscale_34',['DifficultyScale',['../structcore_1_1DifficultyScale.html',1,'core']]],
   ['difficultytier_35',['DifficultyTier',['../structcore_1_1DifficultyTier.html',1,'core']]],
-  ['draftrenderer_36',['DraftRenderer',['../classhmi_1_1DraftRenderer.html',1,'hmi']]]
+  ['draftentityoverlay_36',['DraftEntityOverlay',['../structhmi_1_1DraftEntityOverlay.html',1,'hmi']]],
+  ['draftrenderer_37',['DraftRenderer',['../classhmi_1_1DraftRenderer.html',1,'hmi']]]
 ];

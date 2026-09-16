@@ -39,9 +39,11 @@ var searchData=
   ['playerinput_36',['PlayerInput',['../structcore_1_1PlayerInput.html',1,'core']]],
   ['playerspritequad_37',['PlayerSpriteQuad',['../structhmi_1_1PlayerSpriteQuad.html',1,'hmi']]],
   ['playerspritetag_38',['PlayerSpriteTag',['../structhmi_1_1PlayerSpriteTag.html',1,'hmi']]],
-  ['previousposition_39',['PreviousPosition',['../structhmi_1_1PreviousPosition.html',1,'hmi']]],
-  ['proceduralatlasimage_40',['ProceduralAtlasImage',['../structhmi_1_1ProceduralAtlasImage.html',1,'hmi']]],
-  ['proceduralfont_41',['ProceduralFont',['../structhmi_1_1ProceduralFont.html',1,'hmi']]],
-  ['proceduralfontimage_42',['ProceduralFontImage',['../structhmi_1_1ProceduralFontImage.html',1,'hmi']]],
-  ['provisionalstatus_43',['ProvisionalStatus',['../structcore_1_1ProvisionalStatus.html',1,'core']]]
+  ['playtestentity_39',['PlaytestEntity',['../structhmi_1_1GameSession_1_1PlaytestEntity.html',1,'hmi::GameSession']]],
+  ['playtestmessage_40',['PlaytestMessage',['../structhmi_1_1PlaytestMessage.html',1,'hmi']]],
+  ['previousposition_41',['PreviousPosition',['../structhmi_1_1PreviousPosition.html',1,'hmi']]],
+  ['proceduralatlasimage_42',['ProceduralAtlasImage',['../structhmi_1_1ProceduralAtlasImage.html',1,'hmi']]],
+  ['proceduralfont_43',['ProceduralFont',['../structhmi_1_1ProceduralFont.html',1,'hmi']]],
+  ['proceduralfontimage_44',['ProceduralFontImage',['../structhmi_1_1ProceduralFontImage.html',1,'hmi']]],
+  ['provisionalstatus_45',['ProvisionalStatus',['../structcore_1_1ProvisionalStatus.html',1,'core']]]
 ];

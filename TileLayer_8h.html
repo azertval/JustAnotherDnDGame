@@ -98,6 +98,7 @@ $(function(){initNavTree('TileLayer_8h.html','',''); });
 <div class="textblock"><code>#include &lt;string&gt;</code><br />
 <code>#include &quot;<a class="el" href="LevelProperties_8h_source.html">Core/Levels/LevelProperties.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="TileMap_8h_source.html">Core/Levels/TileMap.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="TileType_8h_source.html">Core/Levels/TileType.h</a>&quot;</code><br />
 </div>
 <p><a href="TileLayer_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -124,6 +125,10 @@ Enumerations</h2></td></tr>
 Functions</h2></td></tr>
 <tr class="memitem:a9a1bd2ed20a557ddf1033a2c264c9bdd" id="r_a9a1bd2ed20a557ddf1033a2c264c9bdd"><td class="memItemLeft">constexpr const char *&#160;</td><td class="memItemRight"><a class="el" href="namespacecore.html#a9a1bd2ed20a557ddf1033a2c264c9bdd">core::layerKindName</a> (<a class="el" href="namespacecore.html#ab0cf50b7ad0dce1357c85662e0fb7e5d">LayerKind</a> kind) noexcept</td></tr>
 <tr class="memdesc:a9a1bd2ed20a557ddf1033a2c264c9bdd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nom JSON d'un rôle de couche.  <br /></td></tr>
+<tr class="memitem:aaf5abd7971c954a0b6b1f917658f4d38" id="r_aaf5abd7971c954a0b6b1f917658f4d38"><td class="memItemLeft">constexpr bool&#160;</td><td class="memItemRight"><a class="el" href="namespacecore.html#aaf5abd7971c954a0b6b1f917658f4d38">core::isVisualLayerKind</a> (<a class="el" href="namespacecore.html#ab0cf50b7ad0dce1357c85662e0fb7e5d">LayerKind</a> kind) noexcept</td></tr>
+<tr class="memdesc:aaf5abd7971c954a0b6b1f917658f4d38"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vrai si une couche de rôle <code class="param">kind</code> porte une <b>image</b> — le sol ou le décor —, et non le masque de collision ou la grille unique d'une carte <span class="tt">version: 2</span>.  <br /></td></tr>
+<tr class="memitem:a96f9c5663954e6157f2593864bad5840" id="r_a96f9c5663954e6157f2593864bad5840"><td class="memItemLeft">constexpr bool&#160;</td><td class="memItemRight"><a class="el" href="namespacecore.html#a96f9c5663954e6157f2593864bad5840">core::isVisualLayerTileType</a> (<a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875">TileType</a> type) noexcept</td></tr>
+<tr class="memdesc:a96f9c5663954e6157f2593864bad5840"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vrai si <code class="param">type</code> se peint sur une couche <b>visuelle</b> (sol ou décor, <span class="tt">LOT-11</span>).  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-var-members" class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>

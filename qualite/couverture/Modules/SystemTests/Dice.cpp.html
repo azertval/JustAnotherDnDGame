@@ -1,0 +1,167 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>Dice.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#include "Core/Rpg/Dice.h"
+
+#include &lt;charconv&gt;
+#include &lt;cstddef&gt;
+
+namespace core {
+
+namespace {
+
+// Bornes de bon sens. Elles ne sont pas la pour brider le jeu mais pour qu'une notation aberrante
+// -- un `999d999` issu d'une extraction ratee -- soit refusee a l'analyse plutot que de faire
+// tourner une boucle d'un million d'iterations au milieu d'un tour de combat.
+constexpr int MAX_COUNT = 100;
+constexpr int MAX_FACES = 100;
+constexpr int MAX_MODIFIER = 999;
+
+/// @brief Lit un entier decimal a partir de `position`, et avance. `nullopt` si aucun chiffre.
+<span style = "background-color:#dfd">[[nodiscard]] std::optional&lt;int&gt; lireEntier(std::string_view texte, std::size_t&amp; position) {
+    const std::size_t debut = position;
+    while (position &lt; texte.size() &amp;&amp; texte[position] &gt;= '0' &amp;&amp; texte[position] &lt;= '9') {
+        ++position;
+    }
+    if (position == debut) {
+        return std::nullopt;</span>
+    }
+<span style = "background-color:#dfd">    int valeur = 0;
+    const auto* premier = texte.data() + debut;
+    const auto* dernier = texte.data() + position;
+    if (std::from_chars(premier, dernier, valeur).ec != std::errc{}) {</span>
+<span style = "background-color:#fdd">        return std::nullopt;  // debordement : la notation est aberrante, pas ambigue.</span>
+    }
+<span style = "background-color:#dfd">    return valeur;
+}</span>
+
+}  // namespace
+
+<span style = "background-color:#dfd">std::optional&lt;Dice&gt; parseDice(std::string_view notation) {
+    if (notation.empty()) {
+        return std::nullopt;</span>
+    }
+
+<span style = "background-color:#dfd">    std::size_t position = 0;
+    const std::optional&lt;int&gt; premier = lireEntier(notation, position);
+    if (!premier.has_value()) {
+        return std::nullopt;</span>
+    }
+
+<span style = "background-color:#dfd">    Dice dice;
+    if (position &lt; notation.size() &amp;&amp; (notation[position] == 'd' || notation[position] == 'D')) {
+        ++position;
+        const std::optional&lt;int&gt; faces = lireEntier(notation, position);
+        if (!faces.has_value() || *faces &lt; 1 || *faces &gt; MAX_FACES) {
+            return std::nullopt;</span>
+        }
+<span style = "background-color:#dfd">        if (*premier &lt; 1 || *premier &gt; MAX_COUNT) {
+            return std::nullopt;</span>
+        }
+<span style = "background-color:#dfd">        dice.count = *premier;
+        dice.faces = *faces;
+    } else {</span>
+        // Valeur fixe : Â« 4 Â» est une expression legitime, et le corpus en contient (des degats
+        // qui ne se lancent pas). Elle se distingue d'un dÃ© par l'absence de `d`, pas par sa
+        // valeur.
+<span style = "background-color:#dfd">        if (*premier &gt; MAX_MODIFIER) {</span>
+<span style = "background-color:#fdd">            return std::nullopt;</span>
+        }
+<span style = "background-color:#dfd">        dice.modifier = *premier;
+        return position == notation.size() ? std::optional&lt;Dice&gt;{dice} : std::nullopt;</span>
+    }
+
+<span style = "background-color:#dfd">    if (position &lt; notation.size()) {
+        const char signe = notation[position];
+        if (signe != '+' &amp;&amp; signe != '-') {</span>
+<span style = "background-color:#fdd">            return std::nullopt;</span>
+        }
+<span style = "background-color:#dfd">        ++position;
+        const std::optional&lt;int&gt; modificateur = lireEntier(notation, position);
+        if (!modificateur.has_value() || *modificateur &gt; MAX_MODIFIER) {</span>
+<span style = "background-color:#fdd">            return std::nullopt;</span>
+        }
+<span style = "background-color:#dfd">        dice.modifier = signe == '-' ? -*modificateur : *modificateur;</span>
+    }
+
+    // Un residu apres le modificateur -- Â« 1d6+2x Â» -- n'est pas une notation a moitie valide :
+    // c'est une donnee dont on ne sait pas ce qu'elle voulait dire.
+<span style = "background-color:#dfd">    return position == notation.size() ? std::optional&lt;Dice&gt;{dice} : std::nullopt;
+}</span>
+
+<span style = "background-color:#dfd">std::string formatDice(const Dice&amp; dice) {
+    std::string texte;
+    if (dice.count &gt; 0) {
+        texte = std::to_string(dice.count) + 'd' + std::to_string(dice.faces);
+        if (dice.modifier &gt; 0) {
+            texte += '+' + std::to_string(dice.modifier);
+        } else if (dice.modifier &lt; 0) {
+            texte += '-' + std::to_string(-dice.modifier);</span>
+        }
+<span style = "background-color:#dfd">        return texte;</span>
+    }
+<span style = "background-color:#dfd">    return std::to_string(dice.modifier);
+}</span>
+
+<span style = "background-color:#dfd">DiceRoll rollDice(const Dice&amp; dice, DeterministicRandom&amp; random) {
+    DiceRoll roll;
+    roll.dice = dice;
+    roll.faces.reserve(static_cast&lt;std::size_t&gt;(dice.count));
+    roll.total = dice.modifier;
+    for (int i = 0; i &lt; dice.count; ++i) {
+        const int face = random.nextInt(1, dice.faces);
+        roll.faces.push_back(face);
+        roll.total += face;
+    }
+    return roll;
+}</span>
+
+<span style = "background-color:#dfd">std::string DiceRoll::describe() const {
+    std::string texte = formatDice(dice) + " : ";
+    bool premier = true;
+    for (const int face : faces) {
+        if (!premier) {
+            texte += " + ";</span>
+        }
+<span style = "background-color:#dfd">        texte += std::to_string(face);
+        premier = false;
+    }
+    if (dice.modifier != 0) {
+        if (!premier) {
+            texte += dice.modifier &gt; 0 ? " + " : " - ";
+            texte += std::to_string(dice.modifier &gt; 0 ? dice.modifier : -dice.modifier);
+        } else {
+            texte += std::to_string(dice.modifier);</span>
+        }
+    }
+<span style = "background-color:#dfd">    texte += " = " + std::to_string(total);
+    return texte;
+}</span>
+
+}  // namespace core</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

@@ -1,0 +1,229 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>WorldGraphLayout.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#include "HMI/Editor/WorldGraphLayout.h"
+
+#include &lt;algorithm&gt;
+#include &lt;cmath&gt;
+#include &lt;map&gt;
+#include &lt;numbers&gt;
+#include &lt;utility&gt;
+
+namespace hmi {
+
+namespace {
+
+/// DÃ©calage perpendiculaire de deux flÃ¨ches opposÃ©es (AâB et BâA), en pixels logiques.
+constexpr float REVERSE_EDGE_OFFSET = 7.0f;
+
+/// Rayon du cercle d'une boucle, en proportion du rayon d'un nÅud.
+constexpr float LOOP_RADIUS_RATIO = 0.55f;
+
+/// @return Vrai si le portail nomme une carte absente du dossier (ou n'en nomme aucune).
+<span style = "background-color:#dfd">[[nodiscard]] bool targetsGhost(core::PortalLinkStatus status) noexcept {
+    return status == core::PortalLinkStatus::UnknownMap ||</span>
+           status == core::PortalLinkStatus::MissingTarget;
+<span style = "background-color:#dfd">}</span>
+
+/// @return La distance de @p point au segment [@p a, @p b].
+<span style = "background-color:#dfd">[[nodiscard]] float distanceToSegment(core::Vector2 point, core::Vector2 a, core::Vector2 b) {
+    const core::Vector2 ab = b - a;
+    const float lengthSquared = ab.lengthSquared();
+    if (lengthSquared &lt;= 0.0f) {</span>
+<span style = "background-color:#fdd">        return (point - a).length();</span>
+    }
+<span style = "background-color:#dfd">    const float t = std::clamp((point - a).dot(ab) / lengthSquared, 0.0f, 1.0f);
+    return (point - (a + ab * t)).length();
+}</span>
+
+}  // namespace
+
+<span style = "background-color:#dfd">float worldGraphCircleRadius(std::size_t nodeCount) noexcept {
+    if (nodeCount &lt; 2) {
+        return 0.0f;</span>
+    }
+<span style = "background-color:#dfd">    const float halfAngle = std::numbers::pi_v&lt;float&gt; / static_cast&lt;float&gt;(nodeCount);
+    return std::max(WORLD_GRAPH_MIN_CIRCLE_RADIUS,</span>
+                    WORLD_GRAPH_NODE_SPACING / (2.0f * std::sin(halfAngle)));
+<span style = "background-color:#dfd">}</span>
+
+<span style = "background-color:#dfd">WorldGraphLayout layoutWorldGraph(const core::WorldGraph&amp; graph) {
+    WorldGraphLayout layout;</span>
+
+    // Cartes rÃ©elles, triÃ©es par identifiant (le graphe l'est dÃ©jÃ  : on ne s'en remet pas Ã  lui).
+<span style = "background-color:#dfd">    std::vector&lt;const core::WorldMapNode*&gt; maps;
+    maps.reserve(graph.maps.size());
+    for (const core::WorldMapNode&amp; map : graph.maps) {
+        maps.push_back(&amp;map);
+    }
+    std::ranges::stable_sort(
+        maps, [](const auto* lhs, const auto* rhs) { return lhs-&gt;mapId &lt; rhs-&gt;mapId; });</span>
+
+<span style = "background-color:#dfd">    std::map&lt;std::string, std::size_t&gt; realIndex;
+    for (const core::WorldMapNode* map : maps) {
+        if (realIndex.contains(map-&gt;mapId)) {</span>
+<span style = "background-color:#fdd">            continue;  // identifiant en double : un seul nÅud.</span>
+        }
+<span style = "background-color:#dfd">        realIndex.emplace(map-&gt;mapId, layout.nodes.size());
+        layout.nodes.push_back(WorldGraphLayoutNode{.mapId = map-&gt;mapId,</span>
+                                                    .name = map-&gt;name,
+                                                    .ghost = false,
+                                                    .unreadable = !map-&gt;loadError.empty(),
+                                                    .loadError = map-&gt;loadError,
+                                                    .center = {}});
+<span style = "background-color:#dfd">    }</span>
+
+    // FantÃ´mes : identifiants nommÃ©s par des portails sans carte. TriÃ©s, puis posÃ©s aprÃ¨s les
+    // cartes rÃ©elles â leur indice n'est connu qu'une fois tous rÃ©unis.
+<span style = "background-color:#dfd">    std::map&lt;std::string, std::size_t&gt; ghostIndex;
+    const auto noteGhost = [&amp;](const std::string&amp; mapId) { ghostIndex.emplace(mapId, 0); };
+    for (const core::WorldPortalLink&amp; portal : graph.portals) {
+        if (!realIndex.contains(portal.fromMap)) {</span>
+<span style = "background-color:#fdd">            noteGhost(portal.fromMap);  // ne survient pas avec buildWorldGraph ; par robustesse.</span>
+        }
+<span style = "background-color:#dfd">        if (targetsGhost(portal.status) || !realIndex.contains(portal.toMap)) {
+            noteGhost(portal.toMap);</span>
+        }
+<span style = "background-color:#dfd">    }
+    for (auto&amp; [mapId, index] : ghostIndex) {
+        index = layout.nodes.size();
+        layout.nodes.push_back(WorldGraphLayoutNode{.mapId = mapId,</span>
+                                                    .name = {},
+                                                    .ghost = true,
+                                                    .unreadable = false,
+                                                    .loadError = {},
+                                                    .center = {}});
+<span style = "background-color:#dfd">    }</span>
+
+    // Cercle : le premier nÅud en haut, puis sens horaire (Y vers le bas).
+<span style = "background-color:#dfd">    const std::size_t count = layout.nodes.size();
+    layout.circleRadius = worldGraphCircleRadius(count);
+    for (std::size_t i = 0; i &lt; count; ++i) {
+        const float angle = -std::numbers::pi_v&lt;float&gt; / 2.0f + 2.0f * std::numbers::pi_v&lt;float&gt; *</span>
+                                                                    static_cast&lt;float&gt;(i) /
+                                                                    static_cast&lt;float&gt;(count);
+<span style = "background-color:#dfd">        layout.nodes[i].center = core::Vector2(layout.circleRadius * std::cos(angle),</span>
+                                               layout.circleRadius * std::sin(angle));
+<span style = "background-color:#dfd">    }</span>
+
+<span style = "background-color:#dfd">    const auto indexOf = [&amp;](const std::string&amp; mapId, bool preferGhost) {
+        if (!preferGhost) {
+            if (const auto real = realIndex.find(mapId); real != realIndex.end()) {
+                return real-&gt;second;</span>
+<span style = "background-color:#fdd">            }</span>
+        }
+<span style = "background-color:#dfd">        return ghostIndex.at(mapId);
+    };</span>
+
+    // FlÃ¨ches : une par paire ordonnÃ©e (source, cible), dans l'ordre de leur premier portail.
+<span style = "background-color:#dfd">    std::map&lt;std::pair&lt;std::size_t, std::size_t&gt;, std::size_t&gt; edgeIndex;
+    for (std::size_t p = 0; p &lt; graph.portals.size(); ++p) {
+        const core::WorldPortalLink&amp; portal = graph.portals[p];
+        const std::size_t from = indexOf(portal.fromMap, false);
+        const std::size_t to = indexOf(portal.toMap, targetsGhost(portal.status));
+        auto [it, inserted] = edgeIndex.try_emplace({from, to}, layout.edges.size());
+        if (inserted) {
+            layout.edges.push_back(</span>
+                WorldGraphLayoutEdge{.from = from, .to = to, .selfLoop = from == to});
+        }
+<span style = "background-color:#dfd">        WorldGraphLayoutEdge&amp; edge = layout.edges[it-&gt;second];
+        edge.portals.push_back(p);
+        if (portal.status != core::PortalLinkStatus::Resolved &amp;&amp; !edge.broken) {
+            edge.broken = true;
+            edge.status = portal.status;</span>
+        }
+<span style = "background-color:#dfd">    }
+    return layout;
+}</span>
+
+std::optional&lt;std::size_t&gt; nodeAt(const WorldGraphLayout&amp; layout, core::Vector2 point,
+<span style = "background-color:#dfd">                                  float radius) {
+    std::optional&lt;std::size_t&gt; best;
+    float bestDistance = radius;
+    for (std::size_t i = 0; i &lt; layout.nodes.size(); ++i) {
+        const float distance = (point - layout.nodes[i].center).length();
+        if (distance &lt;= radius &amp;&amp; (!best || distance &lt; bestDistance)) {
+            best = i;
+            bestDistance = distance;</span>
+        }
+<span style = "background-color:#dfd">    }
+    return best;
+}</span>
+
+WorldGraphEdgeGeometry worldGraphEdgeGeometry(const WorldGraphLayout&amp; layout,
+<span style = "background-color:#dfd">                                              std::size_t edgeIndex) {
+    WorldGraphEdgeGeometry geometry;
+    const WorldGraphLayoutEdge&amp; edge = layout.edges.at(edgeIndex);
+    const core::Vector2 from = layout.nodes.at(edge.from).center;
+    const core::Vector2 to = layout.nodes.at(edge.to).center;</span>
+
+<span style = "background-color:#dfd">    if (edge.selfLoop) {</span>
+        // En diagonale montante, du cÃ´tÃ© extÃ©rieur : jamais dessous, oÃ¹ est l'Ã©tiquette.
+        const core::Vector2 outward =
+<span style = "background-color:#dfd">            core::Vector2(from.x &lt; 0.0f ? -1.0f : 1.0f, -1.0f).normalized();
+        geometry.loopRadius = WORLD_GRAPH_NODE_RADIUS * LOOP_RADIUS_RATIO;
+        geometry.loopCenter = from + outward * WORLD_GRAPH_NODE_RADIUS;
+        geometry.start = geometry.loopCenter;
+        geometry.end = geometry.loopCenter;
+        geometry.badge = geometry.loopCenter + outward * geometry.loopRadius;
+        return geometry;</span>
+    }
+
+<span style = "background-color:#dfd">    const core::Vector2 direction = (to - from).normalized();
+    const bool hasReverse = std::ranges::any_of(layout.edges, [&amp;](const WorldGraphLayoutEdge&amp; e) {
+        return e.from == edge.to &amp;&amp; e.to == edge.from;
+    });
+    const core::Vector2 offset =</span>
+        hasReverse ? core::Vector2(-direction.y, direction.x) * REVERSE_EDGE_OFFSET
+                   : core::Vector2();
+<span style = "background-color:#dfd">    geometry.start = from + direction * WORLD_GRAPH_NODE_RADIUS + offset;
+    geometry.end = to - direction * WORLD_GRAPH_NODE_RADIUS + offset;
+    geometry.badge = (geometry.start + geometry.end) * 0.5f;
+    return geometry;
+}</span>
+
+std::optional&lt;std::size_t&gt; edgeAt(const WorldGraphLayout&amp; layout, core::Vector2 point,
+<span style = "background-color:#dfd">                                  float tolerance) {
+    std::optional&lt;std::size_t&gt; best;
+    float bestDistance = tolerance;
+    for (std::size_t i = 0; i &lt; layout.edges.size(); ++i) {
+        const WorldGraphEdgeGeometry geometry = worldGraphEdgeGeometry(layout, i);
+        const float distance =</span>
+            layout.edges[i].selfLoop
+                ? std::abs((point - geometry.loopCenter).length() - geometry.loopRadius)
+                : distanceToSegment(point, geometry.start, geometry.end);
+<span style = "background-color:#dfd">        if (distance &lt;= tolerance &amp;&amp; (!best || distance &lt; bestDistance)) {
+            best = i;
+            bestDistance = distance;</span>
+        }
+<span style = "background-color:#dfd">    }
+    return best;
+}</span>
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

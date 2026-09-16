@@ -109,6 +109,8 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Grille de vignettes d'un dossier d'assets, avec recherche, sélection et gestion des fichiers (importer/renommer/dupliquer/supprimer).  <a href="classhmi_1_1AssetThumbnailView.html#details">More...</a><br /></td></tr>
 <tr class="memitem:EditContextTarget" id="r_EditContextTarget"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1EditContextTarget.html">EditContextTarget</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interface pure implémentée par le contexte d'édition <b>actif</b>.  <a href="classhmi_1_1EditContextTarget.html#details">More...</a><br /></td></tr>
+<tr class="memitem:EditorDiagnostic" id="r_EditorDiagnostic"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1EditorDiagnostic.html">EditorDiagnostic</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un avertissement prêt à traduire : une clé de <span class="tt"><a class="el" href="classhmi_1_1Localization.html" title="Catalogue de traduction (i18n) : associe des clés stables à des chaînes selon la langue active,...">hmi::Localization</a></span> et ses arguments, dans l'ordre des <span class="tt">%1</span>, <span class="tt">%2</span>… du texte.  <a href="structhmi_1_1EditorDiagnostic.html#details">More...</a><br /></td></tr>
 <tr class="memitem:LevelStatusInfo" id="r_LevelStatusInfo"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1LevelStatusInfo.html">LevelStatusInfo</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">État affiché pour un niveau en cours d'édition (barre d'état, <span class="tt">EX-EDIT-013</span>/<span class="tt">EX-EDIT-012</span>).  <a href="structhmi_1_1LevelStatusInfo.html#details">More...</a><br /></td></tr>
 <tr class="memitem:PlaneEditStatusInfo" id="r_PlaneEditStatusInfo"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1PlaneEditStatusInfo.html">PlaneEditStatusInfo</a></td></tr>
@@ -119,8 +121,22 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contexte d'édition dont la barre d'état décide l'affichage.  <a href="structhmi_1_1EditorStatusContext.html#details">More...</a><br /></td></tr>
 <tr class="memitem:EditorStatusLines" id="r_EditorStatusLines"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1EditorStatusLines.html">EditorStatusLines</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lignes à afficher pour la barre d'état de l'éditeur, à un instant donné.  <a href="structhmi_1_1EditorStatusLines.html#details">More...</a><br /></td></tr>
+<tr class="memitem:EntityGestureDecision" id="r_EntityGestureDecision"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1EntityGestureDecision.html">EntityGestureDecision</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Décision rendue par <span class="tt"><a class="el" href="#a90ab483e48dc54dce84409a933b6cda2" title="Résout l&#39;appui du bouton gauche sur cell.">resolveEntityPress</a></span> ou <span class="tt"><a class="el" href="#a8b42bf668a4e9cbe5f7a14ff3678888d" title="Résout le relâchement d&#39;un glisser commencé sur l&#39;entité grabbed.">resolveEntityRelease</a></span>.  <a href="structhmi_1_1EntityGestureDecision.html#details">More...</a><br /></td></tr>
+<tr class="memitem:EntityPanel" id="r_EntityPanel"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1EntityPanel.html">EntityPanel</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vue des entités du brouillon courant — remplace le panneau « Propriétés » retiré au <span class="tt">LOT-01</span>.  <a href="classhmi_1_1EntityPanel.html#details">More...</a><br /></td></tr>
+<tr class="memitem:EditorReferences" id="r_EditorReferences"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1EditorReferences.html">EditorReferences</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les catalogues que les entités d'une carte référencent, lus une fois à l'ouverture de l'éditeur puis à la demande (enregistrement d'une carte, rechargement des assets).  <a href="structhmi_1_1EditorReferences.html#details">More...</a><br /></td></tr>
 <tr class="memitem:FileOperationResult" id="r_FileOperationResult"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1FileOperationResult.html">FileOperationResult</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Succès (avec le chemin résultant) ou échec (avec un message lisible).  <a href="structhmi_1_1FileOperationResult.html#details">More...</a><br /></td></tr>
+<tr class="memitem:LayersPanel" id="r_LayersPanel"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1LayersPanel.html">LayersPanel</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vue des couches du brouillon courant.  <a href="classhmi_1_1LayersPanel.html#details">More...</a><br /></td></tr>
+<tr class="memitem:LayerRow" id="r_LayerRow"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1LayerRow.html">LayerRow</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une ligne du panneau « Couches ».  <a href="structhmi_1_1LayerRow.html#details">More...</a><br /></td></tr>
+<tr class="memitem:LayerDisplay" id="r_LayerDisplay"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1LayerDisplay.html">LayerDisplay</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Comment une couche est montrée dans l'éditeur.  <a href="structhmi_1_1LayerDisplay.html#details">More...</a><br /></td></tr>
+<tr class="memitem:LayerViewState" id="r_LayerViewState"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1LayerViewState.html">LayerViewState</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Visibilité et opacité des couches <b>dans l'éditeur</b> — une aide d'édition, jamais une propriété de la carte : rien n'est annulable, rien n'est enregistré (même statut que <span class="tt"><a class="el" href="classhmi_1_1PlaneVisibility.html" title="Jeu de visibilités des plans picturaux d&#39;un niveau, adressé par rang.">hmi::PlaneVisibility</a></span>).  <a href="classhmi_1_1LayerViewState.html#details">More...</a><br /></td></tr>
 <tr class="memitem:LevelBrowserPanel" id="r_LevelBrowserPanel"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1LevelBrowserPanel.html">LevelBrowserPanel</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Panneau de gestion des niveaux : liste filtrable + créer/renommer/dupliquer/supprimer.  <a href="classhmi_1_1LevelBrowserPanel.html#details">More...</a><br /></td></tr>
 <tr class="memitem:LevelFileOperations" id="r_LevelFileOperations"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1LevelFileOperations.html">LevelFileOperations</a></td></tr>
@@ -193,6 +209,16 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un sous-groupe : une famille de variantes (formes/tailles/orientations) sous une catégorie.  <a href="structhmi_1_1TileSubgroup.html#details">More...</a><br /></td></tr>
 <tr class="memitem:TileCategory" id="r_TileCategory"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1TileCategory.html">TileCategory</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une catégorie de premier niveau : ses tuiles directes + ses sous-groupes repliables.  <a href="structhmi_1_1TileCategory.html#details">More...</a><br /></td></tr>
+<tr class="memitem:WorldGraphLayoutNode" id="r_WorldGraphLayoutNode"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1WorldGraphLayoutNode.html">WorldGraphLayoutNode</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une carte posée sur le cercle — réelle, ou « fantôme ».  <a href="structhmi_1_1WorldGraphLayoutNode.html#details">More...</a><br /></td></tr>
+<tr class="memitem:WorldGraphLayoutEdge" id="r_WorldGraphLayoutEdge"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1WorldGraphLayoutEdge.html">WorldGraphLayoutEdge</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une flèche : tous les portails d'une carte vers une autre, dessinés une seule fois.  <a href="structhmi_1_1WorldGraphLayoutEdge.html#details">More...</a><br /></td></tr>
+<tr class="memitem:WorldGraphLayout" id="r_WorldGraphLayout"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1WorldGraphLayout.html">WorldGraphLayout</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">La disposition complète du graphe.  <a href="structhmi_1_1WorldGraphLayout.html#details">More...</a><br /></td></tr>
+<tr class="memitem:WorldGraphEdgeGeometry" id="r_WorldGraphEdgeGeometry"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1WorldGraphEdgeGeometry.html">WorldGraphEdgeGeometry</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le tracé d'une flèche, prêt à peindre.  <a href="structhmi_1_1WorldGraphEdgeGeometry.html#details">More...</a><br /></td></tr>
+<tr class="memitem:WorldGraphView" id="r_WorldGraphView"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1WorldGraphView.html">WorldGraphView</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Peint un <span class="tt"><a class="el" href="structcore_1_1WorldGraph.html" title="Les cartes et leurs portails.">core::WorldGraph</a></span> disposé par <span class="tt"><a class="el" href="#a05055b81b0f1c8241eeef2c9e9d3a588" title="Dispose graph : nœuds sur un cercle, fantômes et flèches regroupées.">hmi::layoutWorldGraph</a></span>.  <a href="classhmi_1_1WorldGraphView.html#details">More...</a><br /></td></tr>
 <tr class="memitem:CombatMode" id="r_CombatMode"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1CombatMode.html">CombatMode</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le second mode de jeu : le combat se déroule <b>sur la carte d'exploration</b>, mais l'exploration, elle, ne tourne plus.  <a href="classhmi_1_1CombatMode.html#details">More...</a><br /></td></tr>
 <tr class="memitem:FrameRateAverage" id="r_FrameRateAverage"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1FrameRateAverage.html">FrameRateAverage</a></td></tr>
@@ -213,6 +239,8 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les passes d'un pas fixe, telles que l'orchestrateur les offre à un mode de jeu.  <a href="classhmi_1_1IGameModePasses.html#details">More...</a><br /></td></tr>
 <tr class="memitem:IGameMode" id="r_IGameMode"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1IGameMode.html">IGameMode</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un <b>mode de jeu</b> : l'ordre dans lequel les passes d'un pas fixe s'enchaînent.  <a href="classhmi_1_1IGameMode.html#details">More...</a><br /></td></tr>
+<tr class="memitem:PlaytestMessage" id="r_PlaytestMessage"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1PlaytestMessage.html">PlaytestMessage</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un compte rendu : une clé de localisation et les valeurs de ses <span class="tt">%1</span>, <span class="tt">%2</span>…  <a href="structhmi_1_1PlaytestMessage.html#details">More...</a><br /></td></tr>
 <tr class="memitem:AnimationDescription" id="r_AnimationDescription"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1AnimationDescription.html">AnimationDescription</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Description d'animation d'un asset : disposition de sa spritesheet et ses clips.  <a href="structhmi_1_1AnimationDescription.html#details">More...</a><br /></td></tr>
 <tr class="memitem:AnimationDescriptionResult" id="r_AnimationDescriptionResult"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1AnimationDescriptionResult.html">AnimationDescriptionResult</a></td></tr>
@@ -275,6 +303,8 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Liste <b>ordonnée</b> des primitives d'une image, indépendante de Direct3D.  <a href="classhmi_1_1ComposedScene.html#details">More...</a><br /></td></tr>
 <tr class="memitem:LinkOverlayState" id="r_LinkOverlayState"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1LinkOverlayState.html">LinkOverlayState</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">État d'affichage des liens de mécanismes (LOT-37), fourni par le viewport à chaque rendu.  <a href="structhmi_1_1LinkOverlayState.html#details">More...</a><br /></td></tr>
+<tr class="memitem:DraftEntityOverlay" id="r_DraftEntityOverlay"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1DraftEntityOverlay.html">DraftEntityOverlay</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ce que le viewport montre des entités de carte (<span class="tt">LOT-11</span>), fourni à chaque rendu.  <a href="structhmi_1_1DraftEntityOverlay.html#details">More...</a><br /></td></tr>
 <tr class="memitem:DraftRenderer" id="r_DraftRenderer"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1DraftRenderer.html">DraftRenderer</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dessine la grille d'un <span class="tt"><a class="el" href="classcore_1_1LevelDraft.html" title="Niveau mutable en cours d&#39;édition, distinct de Level (immuable, LOT-07).">core::LevelDraft</a></span> en cours d'édition.  <a href="classhmi_1_1DraftRenderer.html#details">More...</a><br /></td></tr>
 <tr class="memitem:FollowCameraState" id="r_FollowCameraState"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1FollowCameraState.html">FollowCameraState</a></td></tr>
@@ -479,6 +509,8 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-typedef-members" class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>
+<tr class="memitem:ad45953c7acf96290259f1333570fda4d" id="r_ad45953c7acf96290259f1333570fda4d"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#ad45953c7acf96290259f1333570fda4d">LayerSlot</a> = std::optional&lt;std::size_t&gt;</td></tr>
+<tr class="memdesc:ad45953c7acf96290259f1333570fda4d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Désignation d'une couche dans l'éditeur : un rang de <span class="tt"><a class="el" href="classcore_1_1LevelDraft.html#a6532974328bb6e474d5b91d93f34c373">core::LevelDraft::layers()</a></span>, ou <span class="tt">std::nullopt</span> pour la grille racine — la collision, ou la grille unique d'une carte sans couche visuelle.  <br /></td></tr>
 <tr class="memitem:a979f7ffd7c87877cb1f65f0d08e4419d" id="r_a979f7ffd7c87877cb1f65f0d08e4419d"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#a979f7ffd7c87877cb1f65f0d08e4419d">TextureHandle</a> = void*</td></tr>
 <tr class="memdesc:a979f7ffd7c87877cb1f65f0d08e4419d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Identité <b>opaque</b> d'une texture liée, du point de vue de la composition.  <br /></td></tr>
 <tr class="memitem:ab8a3c6d8e00f86576f71c0b2a4e494d4" id="r_ab8a3c6d8e00f86576f71c0b2a4e494d4"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#ab8a3c6d8e00f86576f71c0b2a4e494d4">EditorWorkspaceMask</a> = unsigned</td></tr>
@@ -500,6 +532,10 @@ Enumerations</h2></td></tr>
 <br />
  }</td></tr>
 <tr class="memdesc:a08b7877ee84a5db1b0da3837b70c3af7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Catégorie d'échec de lecture d'un <span class="tt">sounds.json</span> (même patron que <span class="tt"><a class="el" href="#ae064c48cb814db754a1228bda7b8d77d" title="Catégorie d&#39;échec de lecture d&#39;un skins.json (même esprit que core::LevelValidationError).">hmi::SkinCatalogError</a></span>/<span class="tt"><a class="el" href="#afee4dd05bda0b2293c4a99a73cb7eb8f" title="Catégorie d&#39;échec de lecture d&#39;une description d&#39;animation (même esprit que hmi::SkinCatalogError/cor...">hmi::AnimationCatalogError</a></span>).  <a href="#a08b7877ee84a5db1b0da3837b70c3af7">More...</a><br /></td></tr>
+<tr class="memitem:a90a0b3556896d17a7c1ff5d1a0c23b4e" id="r_a90a0b3556896d17a7c1ff5d1a0c23b4e"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#a90a0b3556896d17a7c1ff5d1a0c23b4e">EditorDiagnosticKind</a> { <a class="el" href="#a90a0b3556896d17a7c1ff5d1a0c23b4ea63d5049791d9d79d86e9a108b0a999ca">Reference</a>
+, <a class="el" href="#a90a0b3556896d17a7c1ff5d1a0c23b4ea4ccfea7a25fae3c1d31555f0856d2b42">Terrain</a>
+ }</td></tr>
+<tr class="memdesc:a90a0b3556896d17a7c1ff5d1a0c23b4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">La famille d'un avertissement : ce que l'entité référence, ou le terrain qu'elle occupe.  <a href="#a90a0b3556896d17a7c1ff5d1a0c23b4e">More...</a><br /></td></tr>
 <tr class="memitem:a02048ad8ad69a87a10e8307ac2bd68dd" id="r_a02048ad8ad69a87a10e8307ac2bd68dd"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#a02048ad8ad69a87a10e8307ac2bd68dd">EditorTool</a> { <br />
 &#160;&#160;<a class="el" href="#a02048ad8ad69a87a10e8307ac2bd68dda4802a5ac6005a6ab9c68a2fb29e30a3e">Paint</a>
 , <a class="el" href="#a02048ad8ad69a87a10e8307ac2bd68ddace9291906a4c3b042650b70d7f3b152e">Rectangle</a>
@@ -508,9 +544,20 @@ Enumerations</h2></td></tr>
 , <br />
 &#160;&#160;<a class="el" href="#a02048ad8ad69a87a10e8307ac2bd68ddaa60d5a3d966eadf0cbf28a67b401bbf4">TextureAssign</a>
 , <a class="el" href="#a02048ad8ad69a87a10e8307ac2bd68ddafd61c7e53b17f9f478bee94f190b6e02">CameraZone</a>
+, <a class="el" href="#a02048ad8ad69a87a10e8307ac2bd68dda1a434befae3f49ae09347ded52032f6f">Entity</a>
 <br />
  }</td></tr>
 <tr class="memdesc:a02048ad8ad69a87a10e8307ac2bd68dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Outil actif dans la grille de l'éditeur, changé via <span class="tt">Tab</span> ou la barre d'outils (<span class="tt"><a class="el" href="classhmi_1_1EditorActions.html" title="Construit et possède les QAction du catalogue (HMI/Interface/ActionCatalog.h) : chaque outil et chaqu...">hmi::EditorActions</a></span>).  <a href="#a02048ad8ad69a87a10e8307ac2bd68dd">More...</a><br /></td></tr>
+<tr class="memitem:a406a41b256977e2be0da3b64f976cce1" id="r_a406a41b256977e2be0da3b64f976cce1"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#a406a41b256977e2be0da3b64f976cce1">EntityGestureAction</a> { <br />
+&#160;&#160;<a class="el" href="#a406a41b256977e2be0da3b64f976cce1afd038fc7f319e48f3115d92bf5bdbef9">Ignore</a>
+, <a class="el" href="#a406a41b256977e2be0da3b64f976cce1ae0626222614bdee31951d84c64e5e9ff">Select</a>
+, <a class="el" href="#a406a41b256977e2be0da3b64f976cce1a94186070ef6773ba0f1721c19980e487">Deselect</a>
+, <a class="el" href="#a406a41b256977e2be0da3b64f976cce1a7b9cf007806ed854cd12ab800c8a982b">Place</a>
+, <br />
+&#160;&#160;<a class="el" href="#a406a41b256977e2be0da3b64f976cce1a6bc362dbf494c61ea117fe3c71ca48a5">Move</a>
+<br />
+ }</td></tr>
+<tr class="memdesc:a406a41b256977e2be0da3b64f976cce1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ce que l'outil « Entité » fait d'un clic ou d'un glisser.  <a href="#a406a41b256977e2be0da3b64f976cce1">More...</a><br /></td></tr>
 <tr class="memitem:ac7ba9ad4c289f6706928912ab9bb0985" id="r_ac7ba9ad4c289f6706928912ab9bb0985"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#ac7ba9ad4c289f6706928912ab9bb0985">LinkKind</a> { <a class="el" href="#ac7ba9ad4c289f6706928912ab9bb0985a7a3d46893bda116f6b56760a98aaf631">Mechanism</a>
  }</td></tr>
 <tr class="memdesc:ac7ba9ad4c289f6706928912ab9bb0985"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nature d'une liaison affichée (couleur/libellé distincts dans le panneau et le rendu).  <a href="#ac7ba9ad4c289f6706928912ab9bb0985">More...</a><br /></td></tr>
@@ -535,9 +582,12 @@ Enumerations</h2></td></tr>
 , <a class="el" href="#aaa32928dac1bf321cd65435b9a0b0726abd908db5ccb07777ced8023dffc802f4">Links</a>
 , <a class="el" href="#aaa32928dac1bf321cd65435b9a0b0726a536300d63028e7f16ba150566ecd3a5f">Textures</a>
 , <br />
-&#160;&#160;<a class="el" href="#aaa32928dac1bf321cd65435b9a0b0726abdd4286459900f7788990a266eaf5e28">Planes</a>
+&#160;&#160;<a class="el" href="#aaa32928dac1bf321cd65435b9a0b0726a87bfda183c4f851a101e97bbb1bbace7">Layers</a>
+, <a class="el" href="#aaa32928dac1bf321cd65435b9a0b0726aea995898864fb0ea509106539758c905">Entities</a>
+, <a class="el" href="#aaa32928dac1bf321cd65435b9a0b0726abdd4286459900f7788990a266eaf5e28">Planes</a>
 , <a class="el" href="#aaa32928dac1bf321cd65435b9a0b0726ab1175488d7517a7b3490f45437b7cd0d">PixelCanvas</a>
-, <a class="el" href="#aaa32928dac1bf321cd65435b9a0b0726a60421a4156d1beef9070bc14bd2623a4">PixelHistory</a>
+, <br />
+&#160;&#160;<a class="el" href="#aaa32928dac1bf321cd65435b9a0b0726a60421a4156d1beef9070bc14bd2623a4">PixelHistory</a>
 , <a class="el" href="#aaa32928dac1bf321cd65435b9a0b0726a61b4f1c9bd8c6614c124bf11bcd1e187">PixelPalette</a>
 <br />
  }</td></tr>
@@ -843,35 +893,36 @@ Enumerations</h2></td></tr>
 , <br />
 &#160;&#160;<a class="el" href="#ab269aabb94611e449a8e7427969874f5a841a11a9910d4195f440dac6a99b4b83">ToolTextureAssign</a>
 , <a class="el" href="#ab269aabb94611e449a8e7427969874f5a63b936c59cd5c8b6056e0a9a0477d6e6">ToolCameraZone</a>
+, <a class="el" href="#ab269aabb94611e449a8e7427969874f5ac7b3c7d7478c431d2eb3d79c9b834d87">ToolEntity</a>
 , <a class="el" href="#ab269aabb94611e449a8e7427969874f5ac9cc8cce247e49bae79f15173ce97354">Save</a>
-, <a class="el" href="#ab269aabb94611e449a8e7427969874f5ab13fc91e5d02ea9e1f1a538504213bea">Playtest</a>
 , <br />
-&#160;&#160;<a class="el" href="#ab269aabb94611e449a8e7427969874f5a1cdc076b28f70afac5fcedadf99fa119">Undo</a>
+&#160;&#160;<a class="el" href="#ab269aabb94611e449a8e7427969874f5ab13fc91e5d02ea9e1f1a538504213bea">Playtest</a>
+, <a class="el" href="#ab269aabb94611e449a8e7427969874f5a1cdc076b28f70afac5fcedadf99fa119">Undo</a>
 , <a class="el" href="#ab269aabb94611e449a8e7427969874f5a5afeaba074ef570dc720caaa855d49f6">Redo</a>
 , <a class="el" href="#ab269aabb94611e449a8e7427969874f5a77bfa926518159e75c2c4b508a81f19e">ToggleGrid</a>
-, <a class="el" href="#ab269aabb94611e449a8e7427969874f5a34e806c94d1cf43980bb179a0376e173">ResetCamera</a>
 , <br />
-&#160;&#160;<a class="el" href="#ab269aabb94611e449a8e7427969874f5ae5217b6eb03211d9550042b6fe681626">ToggleRenderMode</a>
+&#160;&#160;<a class="el" href="#ab269aabb94611e449a8e7427969874f5a34e806c94d1cf43980bb179a0376e173">ResetCamera</a>
+, <a class="el" href="#ab269aabb94611e449a8e7427969874f5ae5217b6eb03211d9550042b6fe681626">ToggleRenderMode</a>
 , <a class="el" href="#ab269aabb94611e449a8e7427969874f5a5fb63579fc981698f97d55bfecb213ea">Copy</a>
 , <a class="el" href="#ab269aabb94611e449a8e7427969874f5a36bb6559696dc9124986ae120515984f">Paste</a>
-, <a class="el" href="#ab269aabb94611e449a8e7427969874f5a904a8304056d77e4547744781b7ceb50">Rename</a>
 , <br />
-&#160;&#160;<a class="el" href="#ab269aabb94611e449a8e7427969874f5a2583b92d245a881127917f19531ccf3b">ShortcutsOverview</a>
+&#160;&#160;<a class="el" href="#ab269aabb94611e449a8e7427969874f5a904a8304056d77e4547744781b7ceb50">Rename</a>
+, <a class="el" href="#ab269aabb94611e449a8e7427969874f5a2583b92d245a881127917f19531ccf3b">ShortcutsOverview</a>
 , <a class="el" href="#ab269aabb94611e449a8e7427969874f5acb62bc8345822bd1eafa0aeed010986d">PixelBrush</a>
 , <a class="el" href="#ab269aabb94611e449a8e7427969874f5a822428af0448274e8406713161f94e74">PixelEraser</a>
-, <a class="el" href="#ab269aabb94611e449a8e7427969874f5a290c657e69be64f7df2826cb91731a00">PixelFill</a>
 , <br />
-&#160;&#160;<a class="el" href="#ab269aabb94611e449a8e7427969874f5ac221e982ad3153d8d404c667a7709991">PixelEyedropper</a>
+&#160;&#160;<a class="el" href="#ab269aabb94611e449a8e7427969874f5a290c657e69be64f7df2826cb91731a00">PixelFill</a>
+, <a class="el" href="#ab269aabb94611e449a8e7427969874f5ac221e982ad3153d8d404c667a7709991">PixelEyedropper</a>
 , <a class="el" href="#ab269aabb94611e449a8e7427969874f5adf52905c862a17db8d14f43c3ae902c1">PixelOpen</a>
 , <a class="el" href="#ab269aabb94611e449a8e7427969874f5a6fc6cdcce220e482b4eb19567bc33207">PixelCreate</a>
-, <a class="el" href="#ab269aabb94611e449a8e7427969874f5abcf42ef4b1f57699f8d21f3993825168">PixelSave</a>
 , <br />
-&#160;&#160;<a class="el" href="#ab269aabb94611e449a8e7427969874f5a5319a6e4c7a4ea19fe90088019e2ea24">PixelSaveAs</a>
+&#160;&#160;<a class="el" href="#ab269aabb94611e449a8e7427969874f5abcf42ef4b1f57699f8d21f3993825168">PixelSave</a>
+, <a class="el" href="#ab269aabb94611e449a8e7427969874f5a5319a6e4c7a4ea19fe90088019e2ea24">PixelSaveAs</a>
 , <a class="el" href="#ab269aabb94611e449a8e7427969874f5adfcd991ba3cfade0c3ee7bc9a5f77f5d">PixelSelectionTool</a>
 , <a class="el" href="#ab269aabb94611e449a8e7427969874f5a6182cb405421ab907a93f405bf943345">PixelFlipHorizontal</a>
-, <a class="el" href="#ab269aabb94611e449a8e7427969874f5a9d1399be20d425f915fde7a54eeb46d7">PixelFlipVertical</a>
 , <br />
-&#160;&#160;<a class="el" href="#ab269aabb94611e449a8e7427969874f5a1beb43ed323f13176f693ac0ac53cad0">PixelRotateClockwise</a>
+&#160;&#160;<a class="el" href="#ab269aabb94611e449a8e7427969874f5a9d1399be20d425f915fde7a54eeb46d7">PixelFlipVertical</a>
+, <a class="el" href="#ab269aabb94611e449a8e7427969874f5a1beb43ed323f13176f693ac0ac53cad0">PixelRotateClockwise</a>
 , <a class="el" href="#ab269aabb94611e449a8e7427969874f5ab824c0db14abbbacd5e0f263a2dc8159">PixelRotateCounterClockwise</a>
 <br />
  }</td></tr>
@@ -981,8 +1032,25 @@ Functions</h2></td></tr>
 <tr class="memdesc:ab28a0db7bcd8252c1df7c0f37443e0f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Repère toutes les entrées de <span class="tt">skins.json</span> qui citent un fichier donné.  <br /></td></tr>
 <tr class="memitem:a5788fed057d46145b1fcb3d9ed9c2ec1" id="r_a5788fed057d46145b1fcb3d9ed9c2ec1"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a5788fed057d46145b1fcb3d9ed9c2ec1">describeReferences</a> (const std::vector&lt; <a class="el" href="structhmi_1_1AssetReference.html">AssetReference</a> &gt; &amp;references)</td></tr>
 <tr class="memdesc:a5788fed057d46145b1fcb3d9ed9c2ec1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Message d'avertissement listant des références, une par jeu de skins.  <br /></td></tr>
+<tr class="memitem:ae839ec29b82b08549c2c1c6839ab42a5" id="r_ae839ec29b82b08549c2c1c6839ab42a5"><td class="memItemLeft">const char *&#160;</td><td class="memItemRight"><a class="el" href="#ae839ec29b82b08549c2c1c6839ab42a5">entityIssueKey</a> (<a class="el" href="namespacecore.html#ac1032ee70b0c730c8727b80822ab035e">core::EntityIssueCode</a> code) noexcept</td></tr>
+<tr class="memitem:af29bd95d71df419fcc521a9c36b1ea40" id="r_af29bd95d71df419fcc521a9c36b1ea40"><td class="memItemLeft">const char *&#160;</td><td class="memItemRight"><a class="el" href="#af29bd95d71df419fcc521a9c36b1ea40">tacticalIssueKey</a> (<a class="el" href="namespacecore.html#a81dfcf1ac21704e4f64a7780ec772910">core::TacticalIssueCode</a> code) noexcept</td></tr>
+<tr class="memitem:acd5fbb54930da91b137dd315290253ff" id="r_acd5fbb54930da91b137dd315290253ff"><td class="memItemLeft">std::vector&lt; <a class="el" href="structhmi_1_1EditorDiagnostic.html">EditorDiagnostic</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#acd5fbb54930da91b137dd315290253ff">editorDiagnostics</a> (const std::vector&lt; <a class="el" href="structcore_1_1MapEntity.html">core::MapEntity</a> &gt; &amp;entities, const std::vector&lt; <a class="el" href="structcore_1_1EntityIssue.html">core::EntityIssue</a> &gt; &amp;issues, const std::vector&lt; <a class="el" href="structcore_1_1EncounterTerrain.html">core::EncounterTerrain</a> &gt; &amp;terrains)</td></tr>
+<tr class="memdesc:acd5fbb54930da91b137dd315290253ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les avertissements de la carte, les références d'abord, puis le terrain, chacun dans l'ordre des entités.  <br /></td></tr>
 <tr class="memitem:a8a9b5847205047e29cd377960c0ff15c" id="r_a8a9b5847205047e29cd377960c0ff15c"><td class="memItemLeft"><a class="el" href="structhmi_1_1EditorStatusLines.html">EditorStatusLines</a>&#160;</td><td class="memItemRight"><a class="el" href="#a8a9b5847205047e29cd377960c0ff15c">editorStatusLines</a> (const <a class="el" href="structhmi_1_1EditorStatusContext.html">EditorStatusContext</a> &amp;context, const <a class="el" href="classhmi_1_1Localization.html">Localization</a> &amp;localization)</td></tr>
 <tr class="memdesc:a8a9b5847205047e29cd377960c0ff15c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Décide le contenu de la barre d'état de l'éditeur pour <code class="param">context</code>.  <br /></td></tr>
+<tr class="memitem:a90ab483e48dc54dce84409a933b6cda2" id="r_a90ab483e48dc54dce84409a933b6cda2"><td class="memItemLeft"><a class="el" href="structhmi_1_1EntityGestureDecision.html">EntityGestureDecision</a>&#160;</td><td class="memItemRight"><a class="el" href="#a90ab483e48dc54dce84409a933b6cda2">resolveEntityPress</a> (const <a class="el" href="classcore_1_1LevelDraft.html">core::LevelDraft</a> &amp;draft, <a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a> cell, const std::string &amp;kindToPlace, bool forcePlace)</td></tr>
+<tr class="memdesc:a90ab483e48dc54dce84409a933b6cda2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Résout l'appui du bouton gauche sur <code class="param">cell</code>.  <br /></td></tr>
+<tr class="memitem:a8b42bf668a4e9cbe5f7a14ff3678888d" id="r_a8b42bf668a4e9cbe5f7a14ff3678888d"><td class="memItemLeft"><a class="el" href="structhmi_1_1EntityGestureDecision.html">EntityGestureDecision</a>&#160;</td><td class="memItemRight"><a class="el" href="#a8b42bf668a4e9cbe5f7a14ff3678888d">resolveEntityRelease</a> (std::optional&lt; std::size_t &gt; grabbed, <a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a> pressCell, <a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a> releaseCell)</td></tr>
+<tr class="memdesc:a8b42bf668a4e9cbe5f7a14ff3678888d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Résout le relâchement d'un glisser commencé sur l'entité <code class="param">grabbed</code>.  <br /></td></tr>
+<tr class="memitem:a9a7176a33d5205537d912eb3dbcbf61c" id="r_a9a7176a33d5205537d912eb3dbcbf61c"><td class="memItemLeft"><a class="el" href="structhmi_1_1EditorReferences.html">EditorReferences</a>&#160;</td><td class="memItemRight"><a class="el" href="#a9a7176a33d5205537d912eb3dbcbf61c">loadEditorReferences</a> (const std::filesystem::path &amp;root)</td></tr>
+<tr class="memdesc:a9a7176a33d5205537d912eb3dbcbf61c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lit les catalogues sous <code class="param">root</code>, la racine des éléments déployés à côté de l'exécutable : <span class="tt">World/dialogues</span>, <span class="tt">Rpg/encounters</span>, <span class="tt">Rpg/creatures</span> et <span class="tt">Levels</span>.  <br /></td></tr>
+<tr class="memitem:a0d0807508a2f34865c159279827d4806" id="r_a0d0807508a2f34865c159279827d4806"><td class="memItemLeft"><a class="el" href="structcore_1_1EntityReferenceContext.html">core::EntityReferenceContext</a>&#160;</td><td class="memItemRight"><a class="el" href="#a0d0807508a2f34865c159279827d4806">referenceContext</a> (const <a class="el" href="structhmi_1_1EditorReferences.html">EditorReferences</a> &amp;references, std::string_view editedMapId, const std::vector&lt; <a class="el" href="structcore_1_1MapEntity.html">core::MapEntity</a> &gt; &amp;editedEntities)</td></tr>
+<tr class="memdesc:a0d0807508a2f34865c159279827d4806"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le contexte de validation des entités de la carte éditée.  <br /></td></tr>
+<tr class="memitem:a8e6e1ef57fdc109210a3e29802d85af9" id="r_a8e6e1ef57fdc109210a3e29802d85af9"><td class="memItemLeft">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a8e6e1ef57fdc109210a3e29802d85af9">entityChoices</a> (const <a class="el" href="structcore_1_1EntityPropertySpec.html">core::EntityPropertySpec</a> &amp;spec, const <a class="el" href="structcore_1_1MapEntity.html">core::MapEntity</a> &amp;entity, const <a class="el" href="structcore_1_1EntityReferenceContext.html">core::EntityReferenceContext</a> &amp;context)</td></tr>
+<tr class="memdesc:a8e6e1ef57fdc109210a3e29802d85af9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les valeurs que le panneau propose pour la propriété <code class="param">spec</code> de <code class="param">entity</code>, triées.  <br /></td></tr>
+<tr class="memitem:a5513925544b8628185e12eae822a83e8" id="r_a5513925544b8628185e12eae822a83e8"><td class="memItemLeft">std::vector&lt; <a class="el" href="structhmi_1_1LayerRow.html">LayerRow</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a5513925544b8628185e12eae822a83e8">layerRows</a> (const std::vector&lt; <a class="el" href="structcore_1_1TileLayer.html">core::TileLayer</a> &gt; &amp;layers)</td></tr>
+<tr class="memdesc:a5513925544b8628185e12eae822a83e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les lignes du panneau, dans l'<b>ordre de dessin</b> : la grille racine d'abord, puis les couches visuelles dans l'ordre de <span class="tt">layers</span>.  <br /></td></tr>
+<tr class="memitem:ab632ba3c3120c215116a504837d137b9" id="r_ab632ba3c3120c215116a504837d137b9"><td class="memItemLeft"><a class="el" href="#ad45953c7acf96290259f1333570fda4d">LayerSlot</a>&#160;</td><td class="memItemRight"><a class="el" href="#ab632ba3c3120c215116a504837d137b9">validActiveLayer</a> (const std::vector&lt; <a class="el" href="structcore_1_1TileLayer.html">core::TileLayer</a> &gt; &amp;layers, <a class="el" href="#ad45953c7acf96290259f1333570fda4d">LayerSlot</a> active)</td></tr>
 <tr class="memitem:abf93f3d263fe7268a624a8a96566a89e" id="r_abf93f3d263fe7268a624a8a96566a89e"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#abf93f3d263fe7268a624a8a96566a89e">isValidLevelName</a> (const std::string &amp;name)</td></tr>
 <tr class="memdesc:abf93f3d263fe7268a624a8a96566a89e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Indique si <code class="param">name</code> peut servir de nom de niveau (donc de nom de fichier Windows).  <br /></td></tr>
 <tr class="memitem:acb440eec2a1a3d3cc760795b9875ae8e" id="r_acb440eec2a1a3d3cc760795b9875ae8e"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#acb440eec2a1a3d3cc760795b9875ae8e">trimLevelName</a> (const std::string &amp;name)</td></tr>
@@ -1107,6 +1175,16 @@ Functions</h2></td></tr>
 <tr class="memdesc:a8158375fa940021f6bb346e7c2b09247"><td class="mdescLeft">&#160;</td><td class="mdescRight">Taille en pixels <b>réels</b> pour une taille logique et un facteur d'échelle d'affichage donnés.  <br /></td></tr>
 <tr class="memitem:a324d7671eeb331de4b3459d66be9d0ca" id="r_a324d7671eeb331de4b3459d66be9d0ca"><td class="memItemLeft">std::vector&lt; <a class="el" href="structhmi_1_1TileCategory.html">TileCategory</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a324d7671eeb331de4b3459d66be9d0ca">tileTaxonomy</a> ()</td></tr>
 <tr class="memdesc:a324d7671eeb331de4b3459d66be9d0ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Taxonomie complète des types de tuiles peignables, en catégories/sous-groupes.  <br /></td></tr>
+<tr class="memitem:ab5058e349ee1e593ed34274a88dd50fd" id="r_ab5058e349ee1e593ed34274a88dd50fd"><td class="memItemLeft">float&#160;</td><td class="memItemRight"><a class="el" href="#ab5058e349ee1e593ed34274a88dd50fd">worldGraphCircleRadius</a> (std::size_t nodeCount) noexcept</td></tr>
+<tr class="memdesc:ab5058e349ee1e593ed34274a88dd50fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rayon du cercle pour <code class="param">nodeCount</code> nœuds.  <br /></td></tr>
+<tr class="memitem:a05055b81b0f1c8241eeef2c9e9d3a588" id="r_a05055b81b0f1c8241eeef2c9e9d3a588"><td class="memItemLeft"><a class="el" href="structhmi_1_1WorldGraphLayout.html">WorldGraphLayout</a>&#160;</td><td class="memItemRight"><a class="el" href="#a05055b81b0f1c8241eeef2c9e9d3a588">layoutWorldGraph</a> (const <a class="el" href="structcore_1_1WorldGraph.html">core::WorldGraph</a> &amp;graph)</td></tr>
+<tr class="memdesc:a05055b81b0f1c8241eeef2c9e9d3a588"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dispose <code class="param">graph</code> : nœuds sur un cercle, fantômes et flèches regroupées.  <br /></td></tr>
+<tr class="memitem:a626ed35cec8a3a4b0bad705e85a87f4e" id="r_a626ed35cec8a3a4b0bad705e85a87f4e"><td class="memItemLeft">std::optional&lt; std::size_t &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a626ed35cec8a3a4b0bad705e85a87f4e">nodeAt</a> (const <a class="el" href="structhmi_1_1WorldGraphLayout.html">WorldGraphLayout</a> &amp;layout, <a class="el" href="structcore_1_1Vector2.html">core::Vector2</a> point, float radius)</td></tr>
+<tr class="memdesc:a626ed35cec8a3a4b0bad705e85a87f4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le nœud sous <code class="param">point</code>.  <br /></td></tr>
+<tr class="memitem:a3d7bd36db569f5109211462ad696fe6a" id="r_a3d7bd36db569f5109211462ad696fe6a"><td class="memItemLeft"><a class="el" href="structhmi_1_1WorldGraphEdgeGeometry.html">WorldGraphEdgeGeometry</a>&#160;</td><td class="memItemRight"><a class="el" href="#a3d7bd36db569f5109211462ad696fe6a">worldGraphEdgeGeometry</a> (const <a class="el" href="structhmi_1_1WorldGraphLayout.html">WorldGraphLayout</a> &amp;layout, std::size_t edgeIndex)</td></tr>
+<tr class="memdesc:a3d7bd36db569f5109211462ad696fe6a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tracé de la flèche <code class="param">edgeIndex</code>.  <br /></td></tr>
+<tr class="memitem:a8f058cebbeb2de49915110ec3f501b2a" id="r_a8f058cebbeb2de49915110ec3f501b2a"><td class="memItemLeft">std::optional&lt; std::size_t &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a8f058cebbeb2de49915110ec3f501b2a">edgeAt</a> (const <a class="el" href="structhmi_1_1WorldGraphLayout.html">WorldGraphLayout</a> &amp;layout, <a class="el" href="structcore_1_1Vector2.html">core::Vector2</a> point, float tolerance)</td></tr>
+<tr class="memdesc:a8f058cebbeb2de49915110ec3f501b2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">La flèche sous <code class="param">point</code> : distance au trait (ou au cercle d'une boucle) au plus <code class="param">tolerance</code>.  <br /></td></tr>
 <tr class="memitem:a2d6fb50a5f3f5828b38c4b60f526f97b" id="r_a2d6fb50a5f3f5828b38c4b60f526f97b"><td class="memItemLeft">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a2d6fb50a5f3f5828b38c4b60f526f97b">composeDiagnosticsHudLines</a> (const <a class="el" href="structhmi_1_1DiagnosticsMeasurements.html">DiagnosticsMeasurements</a> &amp;measurements, const <a class="el" href="classhmi_1_1Localization.html">Localization</a> &amp;localization)</td></tr>
 <tr class="memdesc:a2d6fb50a5f3f5828b38c4b60f526f97b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compose les lignes du compteur de diagnostic à partir de valeurs déjà mesurées.  <br /></td></tr>
 <tr class="memitem:afb9ffef4971f7aeeea19cfa0a2cddbb9" id="r_afb9ffef4971f7aeeea19cfa0a2cddbb9"><td class="memItemLeft">std::vector&lt; <a class="el" href="#a3a61aed1c8e95c289c829398d48488de">GameEvent</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#afb9ffef4971f7aeeea19cfa0a2cddbb9">detectMechanismEvents</a> (const <a class="el" href="structhmi_1_1MechanismEventState.html">MechanismEventState</a> &amp;previous, const <a class="el" href="structhmi_1_1MechanismEventState.html">MechanismEventState</a> &amp;current, const std::vector&lt; bool &gt; &amp;isContinuous)</td></tr>
@@ -1115,6 +1193,12 @@ Functions</h2></td></tr>
 <tr class="memdesc:a89b12465488e01b1f3b8bfaa0e7bf26a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Traduit l'issue d'un pas de simulation en événement.  <br /></td></tr>
 <tr class="memitem:a588a6cab9c35f77c19c1f0e3a5ee6d20" id="r_a588a6cab9c35f77c19c1f0e3a5ee6d20"><td class="memItemLeft">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a588a6cab9c35f77c19c1f0e3a5ee6d20">gameHudLines</a> (const std::string &amp;levelName, const <a class="el" href="classhmi_1_1Localization.html">Localization</a> &amp;localization, bool overlappingKey=false)</td></tr>
 <tr class="memdesc:a588a6cab9c35f77c19c1f0e3a5ee6d20"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lignes à afficher pour l'affichage tête haute d'un pas de simulation donné.  <br /></td></tr>
+<tr class="memitem:a1641b93bb7b37da88535ed99d59d5af2" id="r_a1641b93bb7b37da88535ed99d59d5af2"><td class="memItemLeft"><a class="el" href="structhmi_1_1PlaytestMessage.html">PlaytestMessage</a>&#160;</td><td class="memItemRight"><a class="el" href="#a1641b93bb7b37da88535ed99d59d5af2">playtestInteractionMessage</a> (const <a class="el" href="structcore_1_1MapEntity.html">core::MapEntity</a> &amp;entity, bool alreadyConsumed)</td></tr>
+<tr class="memdesc:a1641b93bb7b37da88535ed99d59d5af2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le compte rendu de l'interaction avec <code class="param">entity</code>.  <br /></td></tr>
+<tr class="memitem:a08d8cf692ae91b356932f7e49313437c" id="r_a08d8cf692ae91b356932f7e49313437c"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a08d8cf692ae91b356932f7e49313437c">formatPlaytestMessage</a> (const <a class="el" href="structhmi_1_1PlaytestMessage.html">PlaytestMessage</a> &amp;message, const <a class="el" href="classhmi_1_1Localization.html">Localization</a> &amp;localization)</td></tr>
+<tr class="memdesc:a08d8cf692ae91b356932f7e49313437c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Traduit un compte rendu : le texte de sa clé, <span class="tt">%1</span>, <span class="tt">%2</span>… remplacés par ses valeurs.  <br /></td></tr>
+<tr class="memitem:a8572b2f7cdbc96a8ef6a401a74a3a028" id="r_a8572b2f7cdbc96a8ef6a401a74a3a028"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a8572b2f7cdbc96a8ef6a401a74a3a028">playtestMessageSteps</a> (float fixedDelta)</td></tr>
+<tr class="memdesc:a8572b2f7cdbc96a8ef6a401a74a3a028"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les pas de simulation pendant lesquels un compte rendu reste affiché, pour un pas fixe de <code class="param">fixedDelta</code> secondes.  <br /></td></tr>
 <tr class="memitem:ac88b5c42864d2a0910bf9831321e47a0" id="r_ac88b5c42864d2a0910bf9831321e47a0"><td class="memItemLeft"><a class="el" href="structhmi_1_1ArenaFigureAnimationLoad.html">ArenaFigureAnimationLoad</a>&#160;</td><td class="memItemRight"><a class="el" href="#ac88b5c42864d2a0910bf9831321e47a0">loadArenaFigureAnimations</a> (const std::filesystem::path &amp;sheetDirectory)</td></tr>
 <tr class="memdesc:ac88b5c42864d2a0910bf9831321e47a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lit le jeu de clips d'une figurine depuis les <span class="tt">.anim.json</span> de son dossier de planche.  <br /></td></tr>
 <tr class="memitem:adc16b2d32ccdf3518ee030c1dc65efc3" id="r_adc16b2d32ccdf3518ee030c1dc65efc3"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#adc16b2d32ccdf3518ee030c1dc65efc3">advanceArenaAnimation</a> (<a class="el" href="structhmi_1_1ArenaCombatantAnimation.html">ArenaCombatantAnimation</a> &amp;state, float realDeltaSeconds)</td></tr>
@@ -1163,6 +1247,10 @@ Functions</h2></td></tr>
 <tr class="memdesc:adbdaec090bf424bf2ec812fb1587c782"><td class="mdescLeft">&#160;</td><td class="mdescRight">Boîte englobante d'un segment épais, en unités monde.  <br /></td></tr>
 <tr class="memitem:a649774d217a61e4b37f00d309fa3b60e" id="r_a649774d217a61e4b37f00d309fa3b60e"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a649774d217a61e4b37f00d309fa3b60e">composeWorldSprites</a> (<a class="el" href="classhmi_1_1ComposedScene.html">ComposedScene</a> &amp;scene, <a class="el" href="classcore_1_1World.html">core::World</a> &amp;world, <a class="el" href="#ace25c100da588ab6050fb0f486d61d54">RenderMode</a> mode, const <a class="el" href="structhmi_1_1SceneTextures.html">SceneTextures</a> &amp;textures, float interpolationAlpha, const <a class="el" href="classhmi_1_1LayerVisibility.html">LayerVisibility</a> &amp;visibility=<a class="el" href="classhmi_1_1LayerVisibility.html">LayerVisibility</a>{})</td></tr>
 <tr class="memdesc:a649774d217a61e4b37f00d309fa3b60e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compose les entités affichables d'un monde ECS en primitives.  <br /></td></tr>
+<tr class="memitem:a7325b66a46c59c65277b90fcdff97d00" id="r_a7325b66a46c59c65277b90fcdff97d00"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a7325b66a46c59c65277b90fcdff97d00">entityMarkerKey</a> (std::string_view entityType)</td></tr>
+<tr class="memdesc:a7325b66a46c59c65277b90fcdff97d00"><td class="mdescLeft">&#160;</td><td class="mdescRight">La clé d'asset du marqueur d'un type d'entité de carte.  <br /></td></tr>
+<tr class="memitem:abb5b5c18732cf5389e71bb864df46380" id="r_abb5b5c18732cf5389e71bb864df46380"><td class="memItemLeft">std::vector&lt; std::uint32_t &gt;&#160;</td><td class="memItemRight"><a class="el" href="#abb5b5c18732cf5389e71bb864df46380">markerPixelsRgba8</a> (const <a class="el" href="structcore_1_1MarkerImage.html">core::MarkerImage</a> &amp;image)</td></tr>
+<tr class="memdesc:abb5b5c18732cf5389e71bb864df46380"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les pixels d'un marqueur au format que <span class="tt"><a class="el" href="#a4e6bdeca2a66b069fe3b093ee6670f0e" title="Crée une texture GPU à partir de pixels RGBA déjà décodés.">hmi::createTexture</a></span> attend : un <span class="tt">std::uint32_t</span> par pixel, <span class="tt">R | G&lt;&lt;8 | B&lt;&lt;16 | A&lt;&lt;24</span> (RGBA8 petit-boutiste), ligne par ligne depuis le haut.  <br /></td></tr>
 <tr class="memitem:a53f7d9a0159f9a5666de47c896446251" id="r_a53f7d9a0159f9a5666de47c896446251"><td class="memItemLeft"><a class="el" href="structhmi_1_1FollowCameraState.html">FollowCameraState</a>&#160;</td><td class="memItemRight"><a class="el" href="#a53f7d9a0159f9a5666de47c896446251">advanceFollowCamera</a> (const <a class="el" href="structhmi_1_1FollowCameraState.html">FollowCameraState</a> &amp;previous, <a class="el" href="structcore_1_1Vector2.html">core::Vector2</a> characterPosition, <a class="el" href="structcore_1_1Vector2.html">core::Vector2</a> facing, const <a class="el" href="structcore_1_1Rect.html">core::Rect</a> &amp;levelBounds, <a class="el" href="structcore_1_1Vector2.html">core::Vector2</a> viewHalfExtent, float fixedDelta) noexcept</td></tr>
 <tr class="memdesc:a53f7d9a0159f9a5666de47c896446251"><td class="mdescLeft">&#160;</td><td class="mdescRight">Avance la caméra de suivi d'un pas fixe.  <br /></td></tr>
 <tr class="memitem:aaed807c56ca3863821f035b79b34b36e" id="r_aaed807c56ca3863821f035b79b34b36e"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#aaed807c56ca3863821f035b79b34b36e">isStatefulMechanism</a> (<a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875">core::TileType</a> type) noexcept</td></tr>
@@ -1444,13 +1532,15 @@ Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-var-members" class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:a96d20a1938609691a1560c6dae34527f" id="r_a96d20a1938609691a1560c6dae34527f"><td class="memItemLeft">constexpr std::size_t&#160;</td><td class="memItemRight"><a class="el" href="#a96d20a1938609691a1560c6dae34527f">EDITOR_TOOL_COUNT</a> = 6</td></tr>
+<tr class="memitem:a96d20a1938609691a1560c6dae34527f" id="r_a96d20a1938609691a1560c6dae34527f"><td class="memItemLeft">constexpr std::size_t&#160;</td><td class="memItemRight"><a class="el" href="#a96d20a1938609691a1560c6dae34527f">EDITOR_TOOL_COUNT</a> = 7</td></tr>
 <tr class="memdesc:a96d20a1938609691a1560c6dae34527f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nombre d'outils d'édition, déclaré au plus près de l'énumération qu'il compte.  <br /></td></tr>
+<tr class="memitem:a444bc34d9bb51def7585ca8f530bf2b2" id="r_a444bc34d9bb51def7585ca8f530bf2b2"><td class="memItemLeft">constexpr float&#160;</td><td class="memItemRight"><a class="el" href="#a444bc34d9bb51def7585ca8f530bf2b2">DEFAULT_COLLISION_OVERLAY_OPACITY</a> = 0.55F</td></tr>
+<tr class="memdesc:a444bc34d9bb51def7585ca8f530bf2b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Opacité par défaut de la collision <b>par-dessus</b> des couches visuelles : assez pour voir où l'on bute, assez peu pour voir le sol dessous.  <br /></td></tr>
 <tr class="memitem:a71400cfb82eb06125e98cf974b6dc1be" id="r_a71400cfb82eb06125e98cf974b6dc1be"><td class="memItemLeft">constexpr <a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875">core::TileType</a>&#160;</td><td class="memItemRight"><a class="el" href="#a71400cfb82eb06125e98cf974b6dc1be">MECHANISM_ANIMATION_TYPES</a> []</td></tr>
 <tr class="memdesc:a71400cfb82eb06125e98cf974b6dc1be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les familles de mécanismes à état dont l'apparence est pilotée par un clip (<span class="tt">LOT-47</span>), dans l'ordre où elles sont proposées par la section « Animations ».  <br /></td></tr>
-<tr class="memitem:af04ce56b73b71704b41ee6d8cfe4e2e2" id="r_af04ce56b73b71704b41ee6d8cfe4e2e2"><td class="memItemLeft">constexpr std::size_t&#160;</td><td class="memItemRight"><a class="el" href="#af04ce56b73b71704b41ee6d8cfe4e2e2">PANEL_COUNT</a> = 8</td></tr>
+<tr class="memitem:af04ce56b73b71704b41ee6d8cfe4e2e2" id="r_af04ce56b73b71704b41ee6d8cfe4e2e2"><td class="memItemLeft">constexpr std::size_t&#160;</td><td class="memItemRight"><a class="el" href="#af04ce56b73b71704b41ee6d8cfe4e2e2">PANEL_COUNT</a> = 10</td></tr>
 <tr class="memdesc:af04ce56b73b71704b41ee6d8cfe4e2e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nombre de panneaux, declare au plus pres de l'enumeration qu'il compte.  <br /></td></tr>
-<tr class="memitem:aa22d8fa67dd7b945de1a25413ef6532e" id="r_aa22d8fa67dd7b945de1a25413ef6532e"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#aa22d8fa67dd7b945de1a25413ef6532e">PANEL_FOCUS_CATALOG_COUNT</a> = 2</td></tr>
+<tr class="memitem:aa22d8fa67dd7b945de1a25413ef6532e" id="r_aa22d8fa67dd7b945de1a25413ef6532e"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#aa22d8fa67dd7b945de1a25413ef6532e">PANEL_FOCUS_CATALOG_COUNT</a> = 3</td></tr>
 <tr class="memdesc:aa22d8fa67dd7b945de1a25413ef6532e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nombre d'entrées de la table (tous les outils n'ont pas de panneau dédié).  <br /></td></tr>
 <tr class="memitem:a36f90c7ddc69068df41623c0e9cdfbfa" id="r_a36f90c7ddc69068df41623c0e9cdfbfa"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#a36f90c7ddc69068df41623c0e9cdfbfa">PIXEL_PANEL_FOCUS_CATALOG_COUNT</a> = 5</td></tr>
 <tr class="memdesc:a36f90c7ddc69068df41623c0e9cdfbfa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nombre d'entrées de la table des outils de canevas (les cinq outils du canevas mettent tous en avant le même panneau : on édite toujours en le voyant).  <br /></td></tr>
@@ -1463,10 +1553,27 @@ Variables</h2></td></tr>
 <tr class="memdesc:abf5c763366d5da56e891bf1e0418036c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dénominateur de zoom maximal : au-delà, un pixel image occuperait moins d'un huitième de pixel écran, et le repère cesserait d'être lisible.  <br /></td></tr>
 <tr class="memitem:abe6ca49f68758c7bf9ba0beffeb4619d" id="r_abe6ca49f68758c7bf9ba0beffeb4619d"><td class="memItemLeft">const std::string&#160;</td><td class="memItemRight"><a class="el" href="#abe6ca49f68758c7bf9ba0beffeb4619d">PLANE_FILE_EXTENSION</a> = &quot;.png&quot;</td></tr>
 <tr class="memdesc:abe6ca49f68758c7bf9ba0beffeb4619d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extension des fichiers de plan. Un plan est une image, toujours écrite en PNG.  <br /></td></tr>
+<tr class="memitem:a7b7c3b187b367c4fb075b366382c9d33" id="r_a7b7c3b187b367c4fb075b366382c9d33"><td class="memItemLeft">constexpr float&#160;</td><td class="memItemRight"><a class="el" href="#a7b7c3b187b367c4fb075b366382c9d33">WORLD_GRAPH_NODE_RADIUS</a> = 26.0f</td></tr>
+<tr class="memdesc:a7b7c3b187b367c4fb075b366382c9d33"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rayon du disque d'une carte, en pixels logiques.  <br /></td></tr>
+<tr class="memitem:a1ef72f4a347aa932d445d92e2cd5b2de" id="r_a1ef72f4a347aa932d445d92e2cd5b2de"><td class="memItemLeft">constexpr float&#160;</td><td class="memItemRight"><a class="el" href="#a1ef72f4a347aa932d445d92e2cd5b2de">WORLD_GRAPH_NODE_SPACING</a> = 160.0f</td></tr>
+<tr class="memdesc:a1ef72f4a347aa932d445d92e2cd5b2de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Distance minimale entre les centres de deux cartes voisines sur le cercle : la largeur d'une étiquette (nom et identifiant, posés sous le disque) plus une marge.  <br /></td></tr>
+<tr class="memitem:aa58aa4e76a3cdd2fcbd55c22d52a4bd6" id="r_aa58aa4e76a3cdd2fcbd55c22d52a4bd6"><td class="memItemLeft">constexpr float&#160;</td><td class="memItemRight"><a class="el" href="#aa58aa4e76a3cdd2fcbd55c22d52a4bd6">WORLD_GRAPH_MIN_CIRCLE_RADIUS</a> = 120.0f</td></tr>
+<tr class="memdesc:aa58aa4e76a3cdd2fcbd55c22d52a4bd6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rayon plancher du cercle dès qu'il porte deux cartes ou plus.  <br /></td></tr>
 <tr class="memitem:afe37194ec48fcceeedcad65b760773b9" id="r_afe37194ec48fcceeedcad65b760773b9"><td class="memItemLeft">constexpr float&#160;</td><td class="memItemRight"><a class="el" href="#afe37194ec48fcceeedcad65b760773b9">DIAGNOSTICS_FPS_WINDOW_SECONDS</a> = 0.5f</td></tr>
 <tr class="memdesc:afe37194ec48fcceeedcad65b760773b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fenêtre de la moyenne glissante de cadence, en secondes : assez courte pour rester réactive à une vraie dégradation, assez longue pour lisser le bruit d'une image à l'autre.  <br /></td></tr>
 <tr class="memitem:aab9ebfc2ebacc5718532a560bfd830ea" id="r_aab9ebfc2ebacc5718532a560bfd830ea"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#aab9ebfc2ebacc5718532a560bfd830ea">GAME_EVENT_COUNT</a> = static_cast&lt;int&gt;(<a class="el" href="#a3a61aed1c8e95c289c829398d48488dea99db5176aa7f82eeb3e4dff344934eeb">GameEvent::PauseOpened</a>) + 1</td></tr>
 <tr class="memdesc:aab9ebfc2ebacc5718532a560bfd830ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nombre de valeurs de <span class="tt"><a class="el" href="#a3a61aed1c8e95c289c829398d48488de" title="Événement discret survenu sur un pas de simulation ou une action d&#39;interface.">GameEvent</a></span> — pour les tests d'exhaustivité (parcours de l'énumération).  <br /></td></tr>
+<tr class="memitem:a6aa5499d90de27c22488ad8eaf93f285" id="r_a6aa5499d90de27c22488ad8eaf93f285"><td class="memItemLeft">constexpr float&#160;</td><td class="memItemRight"><a class="el" href="#a6aa5499d90de27c22488ad8eaf93f285">PLAYTEST_MESSAGE_SECONDS</a> = 3.0f</td></tr>
+<tr class="memdesc:a6aa5499d90de27c22488ad8eaf93f285"><td class="mdescLeft">&#160;</td><td class="mdescRight">Durée d'affichage d'un compte rendu d'interaction, en secondes.  <br /></td></tr>
+<tr class="memitem:acdaa87f755b7ef6cb00ba7e4433a49ab" id="r_acdaa87f755b7ef6cb00ba7e4433a49ab"><td class="memItemLeft">constexpr std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#acdaa87f755b7ef6cb00ba7e4433a49ab">PLAYTEST_CHEST_OPENED_KEY</a> = &quot;playtest.interaction.chest_opened&quot;</td></tr>
+<tr class="memdesc:acdaa87f755b7ef6cb00ba7e4433a49ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clés de localisation des comptes rendus de l'essai immédiat.  <br /></td></tr>
+<tr class="memitem:a5dc0296572d6830372e0942f2eca70d0" id="r_a5dc0296572d6830372e0942f2eca70d0"><td class="memItemLeft">constexpr std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#a5dc0296572d6830372e0942f2eca70d0">PLAYTEST_CHEST_ALREADY_OPENED_KEY</a></td></tr>
+<tr class="memitem:ae010519df5ace82f671b417bfc00645a" id="r_ae010519df5ace82f671b417bfc00645a"><td class="memItemLeft">constexpr std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#ae010519df5ace82f671b417bfc00645a">PLAYTEST_SIGN_READ_KEY</a> = &quot;playtest.interaction.sign_read&quot;</td></tr>
+<tr class="memitem:a4774997ea28ed9d1f391d6c679b2c009" id="r_a4774997ea28ed9d1f391d6c679b2c009"><td class="memItemLeft">constexpr std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#a4774997ea28ed9d1f391d6c679b2c009">PLAYTEST_NPC_DIALOGUE_KEY</a> = &quot;playtest.interaction.npc_dialogue&quot;</td></tr>
+<tr class="memitem:ae2e436abc505bab04b52b9835b3df40b" id="r_ae2e436abc505bab04b52b9835b3df40b"><td class="memItemLeft">constexpr std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#ae2e436abc505bab04b52b9835b3df40b">PLAYTEST_NPC_SILENT_KEY</a> = &quot;playtest.interaction.npc_silent&quot;</td></tr>
+<tr class="memitem:ab700512a0b7f60e86d26e14a5dff1dec" id="r_ab700512a0b7f60e86d26e14a5dff1dec"><td class="memItemLeft">constexpr std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#ab700512a0b7f60e86d26e14a5dff1dec">PLAYTEST_PORTAL_KEY</a> = &quot;playtest.interaction.portal&quot;</td></tr>
+<tr class="memitem:a8df2c09fb720a4b9edcc07dd7c82225f" id="r_a8df2c09fb720a4b9edcc07dd7c82225f"><td class="memItemLeft">constexpr std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#a8df2c09fb720a4b9edcc07dd7c82225f">PLAYTEST_PORTAL_INCOMPLETE_KEY</a></td></tr>
+<tr class="memitem:a041a8f13453275f41475aaf3013f052c" id="r_a041a8f13453275f41475aaf3013f052c"><td class="memItemLeft">constexpr std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#a041a8f13453275f41475aaf3013f052c">PLAYTEST_OTHER_KEY</a> = &quot;playtest.interaction.other&quot;</td></tr>
 <tr class="memitem:a65b2c16b6aab8dd5aa2fa49fd1cb872b" id="r_a65b2c16b6aab8dd5aa2fa49fd1cb872b"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#a65b2c16b6aab8dd5aa2fa49fd1cb872b">ARENA_FIGURE_FRAME_WIDTH_PIXELS</a> = 48</td></tr>
 <tr class="memdesc:a65b2c16b6aab8dd5aa2fa49fd1cb872b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Largeur d'une image des bandes d'animation de la planche, en pixels (<span class="tt">manifest.json</span>, <span class="tt">frame</span>), quand la bande n'en déclare pas d'autre (<span class="tt"><a class="el" href="structhmi_1_1ArenaTexture.html#a54b06c2d1e41c3fdeba90bcdbdcbae1f" title="Largeur d&#39;une image si la texture est une bande d&#39;animation (frameWidth de son .anim....">ArenaTexture::frameWidth</a></span>).  <br /></td></tr>
 <tr class="memitem:a0752b5fe488b44093f9b2b6bc67f66fb" id="r_a0752b5fe488b44093f9b2b6bc67f66fb"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#a0752b5fe488b44093f9b2b6bc67f66fb">ARENA_FIGURE_FRAME_HEIGHT_PIXELS</a> = 64</td></tr>
@@ -1487,6 +1594,12 @@ Variables</h2></td></tr>
 <tr class="memdesc:aad0ce653270973d848de764b4fa308d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Durée de toute secousse d'écran, en secondes &ndash; brève par construction.  <br /></td></tr>
 <tr class="memitem:a0591a2b20237a29c762b324a7ce0d7db" id="r_a0591a2b20237a29c762b324a7ce0d7db"><td class="memItemLeft">constexpr float&#160;</td><td class="memItemRight"><a class="el" href="#a0591a2b20237a29c762b324a7ce0d7db">DEPTH_SUBDIVISIONS_PER_UNIT</a> = 16.0f</td></tr>
 <tr class="memdesc:a0591a2b20237a29c762b324a7ce0d7db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sous-divisions de profondeur par unité monde, pour la quantification du tri par Y.  <br /></td></tr>
+<tr class="memitem:ad9cefc4bdd0b8be128dde3b2c4485d3a" id="r_ad9cefc4bdd0b8be128dde3b2c4485d3a"><td class="memItemLeft">constexpr std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#ad9cefc4bdd0b8be128dde3b2c4485d3a">ENTITY_MARKER_FAMILY</a> = &quot;marker&quot;</td></tr>
+<tr class="memdesc:ad9cefc4bdd0b8be128dde3b2c4485d3a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Famille de clé d'asset des marqueurs d'entité : <span class="tt">marker/&lt;type&gt;</span>.  <br /></td></tr>
+<tr class="memitem:a249d58aea3867379fa41929b4a43c0ab" id="r_a249d58aea3867379fa41929b4a43c0ab"><td class="memItemLeft">constexpr std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#a249d58aea3867379fa41929b4a43c0ab">ENTITY_MARKER_UNKNOWN_ID</a> = &quot;inconnu&quot;</td></tr>
+<tr class="memdesc:a249d58aea3867379fa41929b4a43c0ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Identifiant retenu quand le type d'entité ne laisse <b>aucun</b> caractère utilisable (type vide, ou fait uniquement de ponctuation) : <span class="tt">marker/inconnu</span>.  <br /></td></tr>
+<tr class="memitem:a510e2271c15e392be6bcc4c19432a586" id="r_a510e2271c15e392be6bcc4c19432a586"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#a510e2271c15e392be6bcc4c19432a586">ENTITY_MARKER_SIZE_PIXELS</a> = 16</td></tr>
+<tr class="memdesc:a510e2271c15e392be6bcc4c19432a586"><td class="mdescLeft">&#160;</td><td class="mdescRight">Côté d'un marqueur d'entité, en pixels : <b>une case</b> (<span class="tt"><a class="el" href="classhmi_1_1Camera2D.html#a3d1d52a7653c7a3dca5eb2e5a5990f88" title="Nombre de pixels par unité monde (EX-ARCH-021).">Camera2D::PIXELS_PER_UNIT</a></span>).  <br /></td></tr>
 <tr class="memitem:a46b7ee519ab78d2253bf0c4415ab08d6" id="r_a46b7ee519ab78d2253bf0c4415ab08d6"><td class="memItemLeft">constexpr float&#160;</td><td class="memItemRight"><a class="el" href="#a46b7ee519ab78d2253bf0c4415ab08d6">FOLLOW_DEAD_ZONE_HALF_WIDTH_UNITS</a> = 1.5f</td></tr>
 <tr class="memdesc:a46b7ee519ab78d2253bf0c4415ab08d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Demi-taille de la zone morte, en unités monde : le personnage se déplace librement dans ce carré centré sur le point suivi sans faire bouger la caméra &ndash; ce qui supprime le tremblement permanent d'une caméra qui collerait exactement au personnage.  <br /></td></tr>
 <tr class="memitem:ae22445879ea6b17b71730fc1807a40f8" id="r_ae22445879ea6b17b71730fc1807a40f8"><td class="memItemLeft">constexpr float&#160;</td><td class="memItemRight"><a class="el" href="#ae22445879ea6b17b71730fc1807a40f8">FOLLOW_DEAD_ZONE_HALF_HEIGHT_UNITS</a> = 1.5f</td></tr>
@@ -1570,7 +1683,7 @@ Variables</h2></td></tr>
 <tr class="memdesc:aab59d64d595ba17a55cc07311285ba14"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nombre de boutons manette remappables (<span class="tt"><a class="el" href="#a7bd1f14c12b142d5227ad2560e7c5e88" title="Bouton (ou direction) manette remappable à une action de jeu (EX-CTRL-002, LOT-30).">GamepadButton</a></span>).  <br /></td></tr>
 <tr class="memitem:a2a20dc2308d9f364b3d764c4443ef799" id="r_a2a20dc2308d9f364b3d764c4443ef799"><td class="memItemLeft">constexpr std::chrono::milliseconds&#160;</td><td class="memItemRight"><a class="el" href="#a2a20dc2308d9f364b3d764c4443ef799">GAMEPAD_DISCONNECTED_PROBE_PERIOD</a> {2000}</td></tr>
 <tr class="memdesc:a2a20dc2308d9f364b3d764c4443ef799"><td class="mdescLeft">&#160;</td><td class="mdescRight">Délai minimal entre deux sondages XInput d'un slot resté <b>déconnecté</b> (anti-saccade).  <br /></td></tr>
-<tr class="memitem:a79f2b5a2f6530436d6f2b090de10d6ac" id="r_a79f2b5a2f6530436d6f2b090de10d6ac"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#a79f2b5a2f6530436d6f2b090de10d6ac">EDITOR_ACTION_CATALOG_COUNT</a> = 30</td></tr>
+<tr class="memitem:a79f2b5a2f6530436d6f2b090de10d6ac" id="r_a79f2b5a2f6530436d6f2b090de10d6ac"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#a79f2b5a2f6530436d6f2b090de10d6ac">EDITOR_ACTION_CATALOG_COUNT</a> = 31</td></tr>
 <tr class="memdesc:a79f2b5a2f6530436d6f2b090de10d6ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nombre total d'actions du catalogue (six outils de niveau, cinq outils de canevas pixel art, onze commandes principales, quatre commandes de fichier de l'atelier, quatre commandes de région de l'atelier).  <br /></td></tr>
 <tr class="memitem:a5ebc32fedafb3df6472a578a8faf7596" id="r_a5ebc32fedafb3df6472a578a8faf7596"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#a5ebc32fedafb3df6472a578a8faf7596">TOOLBAR_COMMAND_BUDGET</a> = 5</td></tr>
 <tr class="memdesc:a5ebc32fedafb3df6472a578a8faf7596"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nombre d'actions <b>hors sélection d'outil</b> admises dans une barre d'outils (<span class="tt">LOT-68</span>).  <br /></td></tr>
@@ -1603,6 +1716,22 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Ensemble d'espaces, un bit par valeur de <span class="tt"><a class="el" href="#afc2e687c85989440c76b94c012a1b91d" title="Espace de travail actif. Ils s&#39;excluent : aucun état intermédiaire n&#39;existe.">hmi::EditorWorkspace</a></span>. </p>
+
+</div>
+</div>
+<a id="ad45953c7acf96290259f1333570fda4d" name="ad45953c7acf96290259f1333570fda4d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad45953c7acf96290259f1333570fda4d">&#9670;&#160;</a></span>LayerSlot</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#ad45953c7acf96290259f1333570fda4d">hmi::LayerSlot</a> = std::optional&lt;std::size_t&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Désignation d'une couche dans l'éditeur : un rang de <span class="tt"><a class="el" href="classcore_1_1LevelDraft.html#a6532974328bb6e474d5b91d93f34c373">core::LevelDraft::layers()</a></span>, ou <span class="tt">std::nullopt</span> pour la grille racine — la collision, ou la grille unique d'une carte sans couche visuelle. </p>
 
 </div>
 </div>
@@ -1987,6 +2116,34 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="a90a0b3556896d17a7c1ff5d1a0c23b4e" name="a90a0b3556896d17a7c1ff5d1a0c23b4e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a90a0b3556896d17a7c1ff5d1a0c23b4e">&#9670;&#160;</a></span>EditorDiagnosticKind</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="#a90a0b3556896d17a7c1ff5d1a0c23b4e">hmi::EditorDiagnosticKind</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>La famille d'un avertissement : ce que l'entité référence, ou le terrain qu'elle occupe. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a90a0b3556896d17a7c1ff5d1a0c23b4ea63d5049791d9d79d86e9a108b0a999ca" name="a90a0b3556896d17a7c1ff5d1a0c23b4ea63d5049791d9d79d86e9a108b0a999ca"></a>Reference&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a90a0b3556896d17a7c1ff5d1a0c23b4ea4ccfea7a25fae3c1d31555f0856d2b42" name="a90a0b3556896d17a7c1ff5d1a0c23b4ea4ccfea7a25fae3c1d31555f0856d2b42"></a>Terrain&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
 <a id="a57dcf8ac7fd26c90a8741e698c896580" name="a57dcf8ac7fd26c90a8741e698c896580"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a57dcf8ac7fd26c90a8741e698c896580">&#9670;&#160;</a></span>EditorThemeMode</h2>
 
@@ -2065,7 +2222,7 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Outil actif dans la grille de l'éditeur, changé via <span class="tt">Tab</span> ou la barre d'outils (<span class="tt"><a class="el" href="classhmi_1_1EditorActions.html" title="Construit et possède les QAction du catalogue (HMI/Interface/ActionCatalog.h) : chaque outil et chaqu...">hmi::EditorActions</a></span>). </p>
-<p><span class="tt">Paint</span> peint case par case au clic/glisser (comportement LOT-14, inchangé). <span class="tt">Rectangle</span> peint un rectangle entier au relâchement d'un glisser. <span class="tt">Selection</span> définit une zone (glisser) dont le contenu peut être copié (<span class="tt">Ctrl+C</span>) puis collé ailleurs (<span class="tt">Ctrl+V</span>), sans peindre directement. <span class="tt">Link</span> (<span class="tt">LOT-37</span>, <span class="tt">EX-IHM-030</span>) lie/délie un mécanisme : cliquer un déclencheur (interrupteur/ plaque) passe en attente de cible, cliquer une cible (porte/danger commuté) crée la liaison ; refaire la même paire la supprime (bascule) — voir <span class="tt"><a class="el" href="#a7f0f0f4f71e52b8deb6fb88a8d6411d9" title="Résout le clic de l&#39;outil « Lien » sur clickedCell selon l&#39;attente courante.">hmi::resolveLinkClick</a></span>. <span class="tt">Échap</span> annule une attente en cours (revient à aucune case sélectionnée), sans toucher au brouillon. <span class="tt">TextureAssign</span> (<span class="tt">LOT-45</span>, <span class="tt">EX-EDIT-043</span>) assigne une texture par instance à une case : clic gauche assigne/remplace l'asset sélectionné dans la bibliothèque, reclic du même asset ou clic droit retire l'assignation — voir <span class="tt"><a class="el" href="#ad9c60c575bab3fcb92a2876cc1b11bfc" title="Résout le clic de l&#39;outil « Texture par instance » sur clickedCell.">hmi::resolveTextureAssignClick</a></span>. <span class="tt">CameraZone</span> (<span class="tt">LOT-64</span>, <span class="tt">EX-LVL-007</span>, <span class="tt">EX-EDIT-029</span>) dessine une zone de caméra du mode <em>par salle</em> : un glisser (comme <span class="tt">Rectangle</span>) définit un rectangle de cases, ajouté à <span class="tt"><a class="el" href="structcore_1_1CameraFramingConfig.html#a75511a5d232794eb1be7a83f22825600" title="Zones de caméra dessinées à la main (mode PerRoom uniquement) : si non vide, remplace entièrement le ...">core::CameraFramingConfig::zones</a></span> au relâchement (<span class="tt"><a class="el" href="classcore_1_1LevelDraft.html#a157e5169728a74a48731e290c459bd47" title="Ajoute une zone de caméra dessinée à la main en fin de liste (mode PerRoom, EX-LVL-007,...">core::LevelDraft::addCameraZone</a></span>) ; les zones existantes se retirent depuis le tableau de la section « Cadrage » du panneau Textures, pas depuis le canevas. </p>
+<p><span class="tt">Paint</span> peint case par case au clic/glisser (comportement LOT-14, inchangé). <span class="tt">Rectangle</span> peint un rectangle entier au relâchement d'un glisser. <span class="tt">Selection</span> définit une zone (glisser) dont le contenu peut être copié (<span class="tt">Ctrl+C</span>) puis collé ailleurs (<span class="tt">Ctrl+V</span>), sans peindre directement. <span class="tt">Link</span> (<span class="tt">LOT-37</span>, <span class="tt">EX-IHM-030</span>) lie/délie un mécanisme : cliquer un déclencheur (interrupteur/ plaque) passe en attente de cible, cliquer une cible (porte/danger commuté) crée la liaison ; refaire la même paire la supprime (bascule) — voir <span class="tt"><a class="el" href="#a7f0f0f4f71e52b8deb6fb88a8d6411d9" title="Résout le clic de l&#39;outil « Lien » sur clickedCell selon l&#39;attente courante.">hmi::resolveLinkClick</a></span>. <span class="tt">Échap</span> annule une attente en cours (revient à aucune case sélectionnée), sans toucher au brouillon. <span class="tt">TextureAssign</span> (<span class="tt">LOT-45</span>, <span class="tt">EX-EDIT-043</span>) assigne une texture par instance à une case : clic gauche assigne/remplace l'asset sélectionné dans la bibliothèque, reclic du même asset ou clic droit retire l'assignation — voir <span class="tt"><a class="el" href="#ad9c60c575bab3fcb92a2876cc1b11bfc" title="Résout le clic de l&#39;outil « Texture par instance » sur clickedCell.">hmi::resolveTextureAssignClick</a></span>. <span class="tt">CameraZone</span> (<span class="tt">LOT-64</span>, <span class="tt">EX-LVL-007</span>, <span class="tt">EX-EDIT-029</span>) dessine une zone de caméra du mode <em>par salle</em> : un glisser (comme <span class="tt">Rectangle</span>) définit un rectangle de cases, ajouté à <span class="tt"><a class="el" href="structcore_1_1CameraFramingConfig.html#a75511a5d232794eb1be7a83f22825600" title="Zones de caméra dessinées à la main (mode PerRoom uniquement) : si non vide, remplace entièrement le ...">core::CameraFramingConfig::zones</a></span> au relâchement (<span class="tt"><a class="el" href="classcore_1_1LevelDraft.html#a157e5169728a74a48731e290c459bd47" title="Ajoute une zone de caméra dessinée à la main en fin de liste (mode PerRoom, EX-LVL-007,...">core::LevelDraft::addCameraZone</a></span>) ; les zones existantes se retirent depuis le tableau de la section « Cadrage » du panneau Textures, pas depuis le canevas. <span class="tt">Entity</span> (<span class="tt">LOT-11</span>) pose, sélectionne, déplace et retire les entités de carte — PNJ, coffres, portails, points d'arrivée… — voir <span class="tt"><a class="el" href="#a90ab483e48dc54dce84409a933b6cda2" title="Résout l&#39;appui du bouton gauche sur cell.">hmi::resolveEntityPress</a></span> ; leurs propriétés s'éditent dans le panneau « Entités ». </p>
 <table class="fieldtable">
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a02048ad8ad69a87a10e8307ac2bd68dda4802a5ac6005a6ab9c68a2fb29e30a3e" name="a02048ad8ad69a87a10e8307ac2bd68dda4802a5ac6005a6ab9c68a2fb29e30a3e"></a>Paint&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a02048ad8ad69a87a10e8307ac2bd68ddace9291906a4c3b042650b70d7f3b152e" name="a02048ad8ad69a87a10e8307ac2bd68ddace9291906a4c3b042650b70d7f3b152e"></a>Rectangle&#160;</td><td class="fielddoc"></td></tr>
@@ -2073,6 +2230,7 @@ Variables</h2></td></tr>
 <tr><td class="fieldname"><a id="a02048ad8ad69a87a10e8307ac2bd68dda97e7c9a7d06eac006a28bf05467fcc8b" name="a02048ad8ad69a87a10e8307ac2bd68dda97e7c9a7d06eac006a28bf05467fcc8b"></a>Link&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a02048ad8ad69a87a10e8307ac2bd68ddaa60d5a3d966eadf0cbf28a67b401bbf4" name="a02048ad8ad69a87a10e8307ac2bd68ddaa60d5a3d966eadf0cbf28a67b401bbf4"></a>TextureAssign&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a02048ad8ad69a87a10e8307ac2bd68ddafd61c7e53b17f9f478bee94f190b6e02" name="a02048ad8ad69a87a10e8307ac2bd68ddafd61c7e53b17f9f478bee94f190b6e02"></a>CameraZone&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a02048ad8ad69a87a10e8307ac2bd68dda1a434befae3f49ae09347ded52032f6f" name="a02048ad8ad69a87a10e8307ac2bd68dda1a434befae3f49ae09347ded52032f6f"></a>Entity&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
 </div>
@@ -2104,6 +2262,42 @@ Variables</h2></td></tr>
 <tr><td class="fieldname"><a id="afc2e687c85989440c76b94c012a1b91dabdd4286459900f7788990a266eaf5e28" name="afc2e687c85989440c76b94c012a1b91dabdd4286459900f7788990a266eaf5e28"></a>Planes&#160;</td><td class="fielddoc"><p>Mode création : peinture des plans picturaux (<span class="tt">LOT-69</span>, <span class="tt">EX-EDIT-046</span>). </p>
 </td></tr>
 <tr><td class="fieldname"><a id="afc2e687c85989440c76b94c012a1b91da54d9b548d118e908a84c755d3b115553" name="afc2e687c85989440c76b94c012a1b91da54d9b548d118e908a84c755d3b115553"></a>PixelArt&#160;</td><td class="fielddoc"><p>Atelier pixel art. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="a406a41b256977e2be0da3b64f976cce1" name="a406a41b256977e2be0da3b64f976cce1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a406a41b256977e2be0da3b64f976cce1">&#9670;&#160;</a></span>EntityGestureAction</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="#a406a41b256977e2be0da3b64f976cce1">hmi::EntityGestureAction</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Ce que l'outil « Entité » fait d'un clic ou d'un glisser. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a406a41b256977e2be0da3b64f976cce1afd038fc7f319e48f3115d92bf5bdbef9" name="a406a41b256977e2be0da3b64f976cce1afd038fc7f319e48f3115d92bf5bdbef9"></a>Ignore&#160;</td><td class="fielddoc"><p>Rien à faire. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a406a41b256977e2be0da3b64f976cce1ae0626222614bdee31951d84c64e5e9ff" name="a406a41b256977e2be0da3b64f976cce1ae0626222614bdee31951d84c64e5e9ff"></a>Select&#160;</td><td class="fielddoc"><p>Sélectionner l'entité <span class="tt">entityIndex</span>. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a406a41b256977e2be0da3b64f976cce1a94186070ef6773ba0f1721c19980e487" name="a406a41b256977e2be0da3b64f976cce1a94186070ef6773ba0f1721c19980e487"></a>Deselect&#160;</td><td class="fielddoc"><p>Case libre sans famille à poser : la sélection se vide. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a406a41b256977e2be0da3b64f976cce1a7b9cf007806ed854cd12ab800c8a982b" name="a406a41b256977e2be0da3b64f976cce1a7b9cf007806ed854cd12ab800c8a982b"></a>Place&#160;</td><td class="fielddoc"><p>Poser une entité de la famille choisie en <span class="tt">cell</span>. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a406a41b256977e2be0da3b64f976cce1a6bc362dbf494c61ea117fe3c71ca48a5" name="a406a41b256977e2be0da3b64f976cce1a6bc362dbf494c61ea117fe3c71ca48a5"></a>Move&#160;</td><td class="fielddoc"><p>Déplacer l'entité <span class="tt">entityIndex</span> en <span class="tt">cell</span>. </p>
 </td></tr>
 </table>
 
@@ -2348,6 +2542,7 @@ Variables</h2></td></tr>
 <tr><td class="fieldname"><a id="ab269aabb94611e449a8e7427969874f5a8702edcc86ce2556bdb66ab132e3ea81" name="ab269aabb94611e449a8e7427969874f5a8702edcc86ce2556bdb66ab132e3ea81"></a>ToolLink&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="ab269aabb94611e449a8e7427969874f5a841a11a9910d4195f440dac6a99b4b83" name="ab269aabb94611e449a8e7427969874f5a841a11a9910d4195f440dac6a99b4b83"></a>ToolTextureAssign&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="ab269aabb94611e449a8e7427969874f5a63b936c59cd5c8b6056e0a9a0477d6e6" name="ab269aabb94611e449a8e7427969874f5a63b936c59cd5c8b6056e0a9a0477d6e6"></a>ToolCameraZone&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ab269aabb94611e449a8e7427969874f5ac7b3c7d7478c431d2eb3d79c9b834d87" name="ab269aabb94611e449a8e7427969874f5ac7b3c7d7478c431d2eb3d79c9b834d87"></a>ToolEntity&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="ab269aabb94611e449a8e7427969874f5ac9cc8cce247e49bae79f15173ce97354" name="ab269aabb94611e449a8e7427969874f5ac9cc8cce247e49bae79f15173ce97354"></a>Save&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="ab269aabb94611e449a8e7427969874f5ab13fc91e5d02ea9e1f1a538504213bea" name="ab269aabb94611e449a8e7427969874f5ab13fc91e5d02ea9e1f1a538504213bea"></a>Playtest&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="ab269aabb94611e449a8e7427969874f5a1cdc076b28f70afac5fcedadf99fa119" name="ab269aabb94611e449a8e7427969874f5a1cdc076b28f70afac5fcedadf99fa119"></a>Undo&#160;</td><td class="fielddoc"></td></tr>
@@ -2648,6 +2843,8 @@ Variables</h2></td></tr>
 <tr><td class="fieldname"><a id="aaa32928dac1bf321cd65435b9a0b0726a91aedca00492a5fba2c282abec5626f3" name="aaa32928dac1bf321cd65435b9a0b0726a91aedca00492a5fba2c282abec5626f3"></a>Levels&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="aaa32928dac1bf321cd65435b9a0b0726abd908db5ccb07777ced8023dffc802f4" name="aaa32928dac1bf321cd65435b9a0b0726abd908db5ccb07777ced8023dffc802f4"></a>Links&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="aaa32928dac1bf321cd65435b9a0b0726a536300d63028e7f16ba150566ecd3a5f" name="aaa32928dac1bf321cd65435b9a0b0726a536300d63028e7f16ba150566ecd3a5f"></a>Textures&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aaa32928dac1bf321cd65435b9a0b0726a87bfda183c4f851a101e97bbb1bbace7" name="aaa32928dac1bf321cd65435b9a0b0726a87bfda183c4f851a101e97bbb1bbace7"></a>Layers&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aaa32928dac1bf321cd65435b9a0b0726aea995898864fb0ea509106539758c905" name="aaa32928dac1bf321cd65435b9a0b0726aea995898864fb0ea509106539758c905"></a>Entities&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="aaa32928dac1bf321cd65435b9a0b0726abdd4286459900f7788990a266eaf5e28" name="aaa32928dac1bf321cd65435b9a0b0726abdd4286459900f7788990a266eaf5e28"></a>Planes&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="aaa32928dac1bf321cd65435b9a0b0726ab1175488d7517a7b3490f45437b7cd0d" name="aaa32928dac1bf321cd65435b9a0b0726ab1175488d7517a7b3490f45437b7cd0d"></a>PixelCanvas&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="aaa32928dac1bf321cd65435b9a0b0726a60421a4156d1beef9070bc14bd2623a4" name="aaa32928dac1bf321cd65435b9a0b0726a60421a4156d1beef9070bc14bd2623a4"></a>PixelHistory&#160;</td><td class="fielddoc"></td></tr>
@@ -6149,6 +6346,43 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="a8f058cebbeb2de49915110ec3f501b2a" name="a8f058cebbeb2de49915110ec3f501b2a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8f058cebbeb2de49915110ec3f501b2a">&#9670;&#160;</a></span>edgeAt()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::optional&lt; std::size_t &gt; hmi::edgeAt </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structhmi_1_1WorldGraphLayout.html">WorldGraphLayout</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>layout</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcore_1_1Vector2.html">core::Vector2</a></td>          <td class="paramname"><span class="paramname"><em>point</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>tolerance</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>La flèche sous <code class="param">point</code> : distance au trait (ou au cercle d'une boucle) au plus <code class="param">tolerance</code>. </p>
+<dl class="section return"><dt>Returns</dt><dd>L'indice de la flèche la plus proche ; à distance égale, le plus petit indice. </dd></dl>
+
+</div>
+</div>
 <a id="a31529e361028e2fae2f4d12dc1d5b8d1" name="a31529e361028e2fae2f4d12dc1d5b8d1"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a31529e361028e2fae2f4d12dc1d5b8d1">&#9670;&#160;</a></span>editorActionCatalog()</h2>
 
@@ -6332,6 +6566,43 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="acd5fbb54930da91b137dd315290253ff" name="acd5fbb54930da91b137dd315290253ff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acd5fbb54930da91b137dd315290253ff">&#9670;&#160;</a></span>editorDiagnostics()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; <a class="el" href="structhmi_1_1EditorDiagnostic.html">EditorDiagnostic</a> &gt; hmi::editorDiagnostics </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="structcore_1_1MapEntity.html">core::MapEntity</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>entities</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="structcore_1_1EntityIssue.html">core::EntityIssue</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>issues</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="structcore_1_1EncounterTerrain.html">core::EncounterTerrain</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>terrains</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Les avertissements de la carte, les références d'abord, puis le terrain, chacun dans l'ordre des entités. </p>
+<p>Arguments : pour une référence, le type d'entité, la propriété, puis la valeur ; pour un combattant, la rencontre puis la créature ; pour une zone trop étroite, la rencontre, les cases libres, puis les cases exigées. </p>
+
+</div>
+</div>
 <a id="a579e19561f5e93deaf52895cb3d4b7fd" name="a579e19561f5e93deaf52895cb3d4b7fd"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a579e19561f5e93deaf52895cb3d4b7fd">&#9670;&#160;</a></span>editorLightTokens()</h2>
 
@@ -6462,6 +6733,105 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><span class="tt">true</span> en cas de succès, <span class="tt">false</span> sinon (dossier de destination absent, image invalide, échec d'écriture — jamais d'exception, <span class="tt">EX-NFR-040</span>). </dd></dl>
+
+</div>
+</div>
+<a id="a8e6e1ef57fdc109210a3e29802d85af9" name="a8e6e1ef57fdc109210a3e29802d85af9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8e6e1ef57fdc109210a3e29802d85af9">&#9670;&#160;</a></span>entityChoices()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::string &gt; hmi::entityChoices </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structcore_1_1EntityPropertySpec.html">core::EntityPropertySpec</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>spec</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structcore_1_1MapEntity.html">core::MapEntity</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>entity</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structcore_1_1EntityReferenceContext.html">core::EntityReferenceContext</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>context</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Les valeurs que le panneau propose pour la propriété <code class="param">spec</code> de <code class="param">entity</code>, triées. </p>
+<p>Vide pour une propriété qui n'est pas un choix. Pour un point d'arrivée, ce sont les points de la carte que nomme <span class="tt">targetMap</span> <b>de la même entité</b> — vide tant qu'elle n'en nomme aucune. </p>
+
+</div>
+</div>
+<a id="ae839ec29b82b08549c2c1c6839ab42a5" name="ae839ec29b82b08549c2c1c6839ab42a5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae839ec29b82b08549c2c1c6839ab42a5">&#9670;&#160;</a></span>entityIssueKey()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char * hmi::entityIssueKey </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacecore.html#ac1032ee70b0c730c8727b80822ab035e">core::EntityIssueCode</a></td>          <td class="paramname"><span class="paramname"><em>code</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>La clé de traduction de <code class="param">code</code>. </dd></dl>
+
+</div>
+</div>
+<a id="a7325b66a46c59c65277b90fcdff97d00" name="a7325b66a46c59c65277b90fcdff97d00"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7325b66a46c59c65277b90fcdff97d00">&#9670;&#160;</a></span>entityMarkerKey()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string hmi::entityMarkerKey </td>
+          <td>(</td>
+          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>entityType</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>La clé d'asset du marqueur d'un type d'entité de carte. </p>
+<p>Un type d'entité est libre (<span class="tt"><a class="el" href="structcore_1_1MapEntity.html#a0585fa6522c09d42c879ed8bd9c32550" title="Type de l&#39;entité, libre : &quot;npc&quot;, &quot;chest&quot;, &quot;sign&quot;, &quot;portal&quot;, &quot;encounter&quot;…">core::MapEntity::type</a></span>) et s'écrit en <span class="tt">camelCase</span> (<span class="tt">spawnPoint</span>, <span class="tt">arenaEntry</span>) ; une clé d'asset n'admet que minuscules, chiffres et tirets simples (<span class="tt"><a class="el" href="namespacecore.html#af313492482f82ad2391f0da874bfe2a7" title="Vrai si key respecte la syntaxe d&#39;une clé d&#39;asset.">core::isValidAssetKey</a></span>). La règle de conversion, nommée ici parce que l'éditeur et l'essai immédiat doivent donner <b>le même</b> marqueur au même type :</p>
+<ul>
+<li>une <b>majuscule</b> ouvre un nouveau mot quand elle suit une minuscule ou un chiffre, ou quand elle précède une minuscule après une autre majuscule (<span class="tt">NPCGuard</span> → <span class="tt">npc-guard</span>) ; elle est écrite en minuscule ;</li>
+<li><span class="tt">-</span>, <span class="tt">_</span> et l'espace <b>séparent</b> deux mots ;</li>
+<li>tout autre caractère (ponctuation, non-ASCII) est <b>ignoré</b> ;</li>
+<li>les tirets en tête, en fin et répétés sont supprimés ;</li>
+<li>un résultat vide donne <span class="tt">marker/inconnu</span> (<span class="tt"><a class="el" href="#a249d58aea3867379fa41929b4a43c0ab" title="Identifiant retenu quand le type d&#39;entité ne laisse aucun caractère utilisable (type vide,...">ENTITY_MARKER_UNKNOWN_ID</a></span>).</li>
+</ul>
+<p>La clé rendue est donc <b>toujours</b> valide : un type mal écrit se voit avec un marqueur plutôt que de disparaître (<span class="tt">EX-NFR-040</span>). Deux types qui ne diffèrent que par la ponctuation partagent leur marqueur — assumé : c'est une faute de frappe, pas deux familles. </p>
 
 </div>
 </div>
@@ -6899,6 +7269,37 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>La région englobante des pixels effectivement remplis (vide si sans effet). </dd></dl>
+
+</div>
+</div>
+<a id="a08d8cf692ae91b356932f7e49313437c" name="a08d8cf692ae91b356932f7e49313437c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a08d8cf692ae91b356932f7e49313437c">&#9670;&#160;</a></span>formatPlaytestMessage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string hmi::formatPlaytestMessage </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structhmi_1_1PlaytestMessage.html">PlaytestMessage</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>message</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classhmi_1_1Localization.html">Localization</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>localization</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Traduit un compte rendu : le texte de sa clé, <span class="tt">%1</span>, <span class="tt">%2</span>… remplacés par ses valeurs. </p>
 
 </div>
 </div>
@@ -7786,6 +8187,62 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="a5513925544b8628185e12eae822a83e8" name="a5513925544b8628185e12eae822a83e8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5513925544b8628185e12eae822a83e8">&#9670;&#160;</a></span>layerRows()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; <a class="el" href="structhmi_1_1LayerRow.html">LayerRow</a> &gt; hmi::layerRows </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="structcore_1_1TileLayer.html">core::TileLayer</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>layers</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Les lignes du panneau, dans l'<b>ordre de dessin</b> : la grille racine d'abord, puis les couches visuelles dans l'ordre de <span class="tt">layers</span>. </p>
+<p>La grille racine n'a qu'une ligne, quel que soit le reflet qu'en porte <span class="tt">layers</span> : son rôle est <span class="tt">Collision</span> dès qu'une couche visuelle existe, <span class="tt">Legacy</span> sinon — c'est ce qui dit à l'auteur si ce qu'il peint là se voit en jeu. </p>
+
+</div>
+</div>
+<a id="a05055b81b0f1c8241eeef2c9e9d3a588" name="a05055b81b0f1c8241eeef2c9e9d3a588"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a05055b81b0f1c8241eeef2c9e9d3a588">&#9670;&#160;</a></span>layoutWorldGraph()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structhmi_1_1WorldGraphLayout.html">WorldGraphLayout</a> hmi::layoutWorldGraph </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structcore_1_1WorldGraph.html">core::WorldGraph</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>graph</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Dispose <code class="param">graph</code> : nœuds sur un cercle, fantômes et flèches regroupées. </p>
+<p>Les nœuds sont posés dans l'ordre de <span class="tt"><a class="el" href="structhmi_1_1WorldGraphLayout.html#ad1dd839cd1c8dc313ab4fb23fae55624" title="Les cartes réelles triées par identifiant, puis les fantômes triés par identifiant.">WorldGraphLayout::nodes</a></span>, le premier en haut, puis dans le sens horaire (Y vers le bas). Un portail <span class="tt">UnknownMap</span> ou <span class="tt">MissingTarget</span> pointe sur un fantôme portant l'identifiant manquant (vide pour <span class="tt">MissingTarget</span>) — un seul fantôme par identifiant, quel que soit le nombre de portails qui le nomment. Les portails d'une même paire <b>ordonnée</b> (source, cible) forment une seule flèche. Le résultat ne dépend que de <code class="param">graph</code>. </p>
+
+</div>
+</div>
 <a id="adbdaec090bf424bf2ec812fb1587c782" name="adbdaec090bf424bf2ec812fb1587c782"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#adbdaec090bf424bf2ec812fb1587c782">&#9670;&#160;</a></span>lineQuadBounds()</h2>
 
@@ -8034,6 +8491,34 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="a9a7176a33d5205537d912eb3dbcbf61c" name="a9a7176a33d5205537d912eb3dbcbf61c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9a7176a33d5205537d912eb3dbcbf61c">&#9670;&#160;</a></span>loadEditorReferences()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structhmi_1_1EditorReferences.html">EditorReferences</a> hmi::loadEditorReferences </td>
+          <td>(</td>
+          <td class="paramtype">const std::filesystem::path &amp;</td>          <td class="paramname"><span class="paramname"><em>root</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Lit les catalogues sous <code class="param">root</code>, la racine des éléments déployés à côté de l'exécutable : <span class="tt">World/dialogues</span>, <span class="tt">Rpg/encounters</span>, <span class="tt">Rpg/creatures</span> et <span class="tt">Levels</span>. </p>
+<p>Un dossier absent donne un catalogue vide, jamais une exception (<span class="tt">EX-NFR-040</span>) : l'éditeur reste utilisable, et les références qu'il ne peut vérifier sont signalées comme inconnues. </p>
+
+</div>
+</div>
 <a id="a6770c69567bdf9f23ff11a42feb080d5" name="a6770c69567bdf9f23ff11a42feb080d5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6770c69567bdf9f23ff11a42feb080d5">&#9670;&#160;</a></span>loadFontMetricsFromFile()</h2>
 
@@ -8178,6 +8663,34 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Le libellé traduit, ou le libellé source à défaut de catalogue ou de clé. </dd></dl>
+
+</div>
+</div>
+<a id="abb5b5c18732cf5389e71bb864df46380" name="abb5b5c18732cf5389e71bb864df46380"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abb5b5c18732cf5389e71bb864df46380">&#9670;&#160;</a></span>markerPixelsRgba8()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::uint32_t &gt; hmi::markerPixelsRgba8 </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structcore_1_1MarkerImage.html">core::MarkerImage</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>image</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Les pixels d'un marqueur au format que <span class="tt"><a class="el" href="#a4e6bdeca2a66b069fe3b093ee6670f0e" title="Crée une texture GPU à partir de pixels RGBA déjà décodés.">hmi::createTexture</a></span> attend : un <span class="tt">std::uint32_t</span> par pixel, <span class="tt">R | G&lt;&lt;8 | B&lt;&lt;16 | A&lt;&lt;24</span> (RGBA8 petit-boutiste), ligne par ligne depuis le haut. </p>
+<dl class="section return"><dt>Returns</dt><dd><span class="tt">width * height</span> pixels, ou un vecteur vide pour une image vide. </dd></dl>
 
 </div>
 </div>
@@ -8641,6 +9154,51 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Le point de code décodé ; <span class="tt">0xFFFD</span> (caractère de remplacement Unicode) sur une séquence invalide ou tronquée (avance alors d'un seul octet, jamais de plantage). </dd></dl>
+
+</div>
+</div>
+<a id="a626ed35cec8a3a4b0bad705e85a87f4e" name="a626ed35cec8a3a4b0bad705e85a87f4e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a626ed35cec8a3a4b0bad705e85a87f4e">&#9670;&#160;</a></span>nodeAt()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::optional&lt; std::size_t &gt; hmi::nodeAt </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structhmi_1_1WorldGraphLayout.html">WorldGraphLayout</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>layout</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcore_1_1Vector2.html">core::Vector2</a></td>          <td class="paramname"><span class="paramname"><em>point</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>radius</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Le nœud sous <code class="param">point</code>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">layout</td><td>Disposition dans laquelle chercher. </td></tr>
+    <tr><td class="paramname">point</td><td>Position à tester, dans le même repère que <code class="param">layout</code>. </td></tr>
+    <tr><td class="paramname">radius</td><td>Distance maximale au centre (en général <span class="tt"><a class="el" href="#a7b7c3b187b367c4fb075b366382c9d33" title="Rayon du disque d&#39;une carte, en pixels logiques.">WORLD_GRAPH_NODE_RADIUS</a></span>). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>L'indice du nœud le plus proche à moins de <code class="param">radius</code> (bord inclus) ; à distance égale, le plus petit indice. <span class="tt">std::nullopt</span> si aucun. </dd></dl>
 
 </div>
 </div>
@@ -9612,6 +10170,79 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="a1641b93bb7b37da88535ed99d59d5af2" name="a1641b93bb7b37da88535ed99d59d5af2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1641b93bb7b37da88535ed99d59d5af2">&#9670;&#160;</a></span>playtestInteractionMessage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structhmi_1_1PlaytestMessage.html">PlaytestMessage</a> hmi::playtestInteractionMessage </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structcore_1_1MapEntity.html">core::MapEntity</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>entity</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>alreadyConsumed</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Le compte rendu de l'interaction avec <code class="param">entity</code>. </p>
+<ul>
+<li><b>Coffre</b> : ouvert, ou déjà ouvert si <code class="param">alreadyConsumed</code>.</li>
+<li><b>Panneau</b> : lu.</li>
+<li><b>PNJ</b> : l'identifiant de son dialogue (<span class="tt"><a class="el" href="namespacecore.html#ac8e8c2031667df66e1dbb70f7e64d3b8" title="Lit entity comme un PNJ à qui parler, s&#39;il en est un.">core::dialogueTriggerFor</a></span>), ou « sans dialogue ».</li>
+<li><b>Portail</b> : sa carte cible et son point d'arrivée — la traversée vient avec le <span class="tt">LOT-09</span>. Un portail à qui manque l'une des deux se dit incomplet plutôt que de promettre un voyage.</li>
+<li>Tout autre type : son nom, sans promesse.</li>
+</ul>
+<p>Pure : aucune lecture de monde, aucun texte — l'appelant traduit (<span class="tt">EX-NFR-011</span>). </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">entity</td><td>L'entité désignée. </td></tr>
+    <tr><td class="paramname">alreadyConsumed</td><td>Vrai si son drapeau de consommation était <b>déjà</b> levé avant ce geste. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a8572b2f7cdbc96a8ef6a401a74a3a028" name="a8572b2f7cdbc96a8ef6a401a74a3a028"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8572b2f7cdbc96a8ef6a401a74a3a028">&#9670;&#160;</a></span>playtestMessageSteps()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int hmi::playtestMessageSteps </td>
+          <td>(</td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>fixedDelta</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Les pas de simulation pendant lesquels un compte rendu reste affiché, pour un pas fixe de <code class="param">fixedDelta</code> secondes. </p>
+<p>Au moins un ; un pas non positif en donne un. </p>
+
+</div>
+</div>
 <a id="ad41bb1dd00388cd216ed0adc326d0e5e" name="ad41bb1dd00388cd216ed0adc326d0e5e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad41bb1dd00388cd216ed0adc326d0e5e">&#9670;&#160;</a></span>previousRpgScreen()</h2>
 
@@ -9819,6 +10450,51 @@ Variables</h2></td></tr>
 
 <p>Réapplique la palette et la feuille de style (mais pas la police, inchangée par le thème) depuis <span class="tt"><a class="el" href="#a26a0827c46d5301e7690c51a9e6fc159">currentEditorTokens()</a></span> — bascule à chaud (<span class="tt">LOT-56</span> TACHE-06), sans reconstruire les widgets. </p>
 <p>Les icônes et vignettes ne suivent <b>pas</b> automatiquement : leurs propriétaires (<span class="tt"><a class="el" href="classhmi_1_1EditorActions.html#a92148052c84a36d97dc127936ae28530" title="Reconstruit les icônes depuis un nouveau jeu de jetons (bascule de thème, LOT-56 TACHE-06) : sans quo...">EditorActions::refreshIcons</a></span>, caches de vignettes) doivent être resynchronisés séparément. </p>
+
+</div>
+</div>
+<a id="a0d0807508a2f34865c159279827d4806" name="a0d0807508a2f34865c159279827d4806"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0d0807508a2f34865c159279827d4806">&#9670;&#160;</a></span>referenceContext()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structcore_1_1EntityReferenceContext.html">core::EntityReferenceContext</a> hmi::referenceContext </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structhmi_1_1EditorReferences.html">EditorReferences</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>references</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>editedMapId</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="structcore_1_1MapEntity.html">core::MapEntity</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>editedEntities</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Le contexte de validation des entités de la carte éditée. </p>
+<p>Les points d'arrivée de la carte éditée sont pris <b>dans le brouillon</b> et non dans son fichier : un portail vers un point qu'on vient de poser, sans avoir encore enregistré, ne doit pas être signalé comme cassé.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">references</td><td>Les catalogues. </td></tr>
+    <tr><td class="paramname">editedMapId</td><td>L'identifiant de la carte éditée (le nom de son fichier, sans extension). </td></tr>
+    <tr><td class="paramname">editedEntities</td><td>Les entités du brouillon. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -10201,6 +10877,94 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Le thème à appliquer au châssis d'édition (jamais à l'identité du jeu, invariante). </dd></dl>
+
+</div>
+</div>
+<a id="a90ab483e48dc54dce84409a933b6cda2" name="a90ab483e48dc54dce84409a933b6cda2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a90ab483e48dc54dce84409a933b6cda2">&#9670;&#160;</a></span>resolveEntityPress()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structhmi_1_1EntityGestureDecision.html">EntityGestureDecision</a> hmi::resolveEntityPress </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classcore_1_1LevelDraft.html">core::LevelDraft</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>draft</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a></td>          <td class="paramname"><span class="paramname"><em>cell</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>kindToPlace</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>forcePlace</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Résout l'appui du bouton gauche sur <code class="param">cell</code>. </p>
+<p>Une case <b>occupée</b> sélectionne l'entité du dessus (la dernière posée), et c'est elle qu'un glisser emportera ; une case <b>libre</b> pose la famille choisie, ou vide la sélection s'il n'y en a pas. Poser <b>sur</b> une entité existante demande <code class="param">forcePlace</code> (<span class="tt">Ctrl</span>) : sans quoi un clic pour sélectionner un coffre en empilerait un second dessus, et l'erreur ne se verrait pas — deux entités sur une case se dessinent comme une.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">draft</td><td>Le brouillon. </td></tr>
+    <tr><td class="paramname">cell</td><td>La case cliquée, dans la grille. </td></tr>
+    <tr><td class="paramname">kindToPlace</td><td>Le type à poser, ou vide pour l'outil en simple sélection. </td></tr>
+    <tr><td class="paramname">forcePlace</td><td>Vrai pour poser même sur une case occupée. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a8b42bf668a4e9cbe5f7a14ff3678888d" name="a8b42bf668a4e9cbe5f7a14ff3678888d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8b42bf668a4e9cbe5f7a14ff3678888d">&#9670;&#160;</a></span>resolveEntityRelease()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structhmi_1_1EntityGestureDecision.html">EntityGestureDecision</a> hmi::resolveEntityRelease </td>
+          <td>(</td>
+          <td class="paramtype">std::optional&lt; std::size_t &gt;</td>          <td class="paramname"><span class="paramname"><em>grabbed</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a></td>          <td class="paramname"><span class="paramname"><em>pressCell</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a></td>          <td class="paramname"><span class="paramname"><em>releaseCell</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Résout le relâchement d'un glisser commencé sur l'entité <code class="param">grabbed</code>. </p>
+<dl class="section return"><dt>Returns</dt><dd><span class="tt">Move</span> si le glisser a changé de case, <span class="tt">Ignore</span> sinon (un clic sur place reste une sélection, déjà faite à l'appui). </dd></dl>
 
 </div>
 </div>
@@ -10723,7 +11487,7 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Nom lisible d'un terme de règle — caractéristique, emplacement d'équipement, condition. </p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md1018"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md1030"></a>
 Pourquoi ceux-là ne passent pas par <span class="tt">qsTr</span></h2>
 <p>La chrome des écrans (« Points de vie », « Nouvelle partie ») s'écrit en français <b>dans le fichier QML</b>, et Qt la traduit par sa source. Ces libellés-ci ne le peuvent pas : leur clé est <b>calculée</b> (<span class="tt">rpg.ability.</span> + l'identifiant que le modèle rend), et <span class="tt">qsTr</span> exige une chaîne littérale — c'est ce qui permet à <span class="tt">lupdate</span> de l'extraire sans exécuter le programme.</p>
 <p>Ce n'est pas qu'une contrainte technique. Ces termes sont un <b>lexique</b> : <span class="tt">rpg.glossary.csv</span> garantit une seule traduction par terme de règle dans tout le jeu, et <span class="tt">scripts/check_glossary.py</span> le vérifie. Les disperser en littéraux dans les écrans casserait précisément cette garantie.</p>
@@ -11535,6 +12299,32 @@ Pourquoi ceux-là ne passent pas par <span class="tt">qsTr</span></h2>
 
 </div>
 </div>
+<a id="af29bd95d71df419fcc521a9c36b1ea40" name="af29bd95d71df419fcc521a9c36b1ea40"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af29bd95d71df419fcc521a9c36b1ea40">&#9670;&#160;</a></span>tacticalIssueKey()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char * hmi::tacticalIssueKey </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacecore.html#a81dfcf1ac21704e4f64a7780ec772910">core::TacticalIssueCode</a></td>          <td class="paramname"><span class="paramname"><em>code</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>La clé de traduction de <code class="param">code</code>. </dd></dl>
+
+</div>
+</div>
 <a id="acf25ab803e9993cf5baab355d23f8ca9" name="acf25ab803e9993cf5baab355d23f8ca9"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#acf25ab803e9993cf5baab355d23f8ca9">&#9670;&#160;</a></span>taxonomyLabelKey()</h2>
 
@@ -12194,6 +12984,36 @@ Pourquoi ceux-là ne passent pas par <span class="tt">qsTr</span></h2>
 
 </div>
 </div>
+<a id="ab632ba3c3120c215116a504837d137b9" name="ab632ba3c3120c215116a504837d137b9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab632ba3c3120c215116a504837d137b9">&#9670;&#160;</a></span>validActiveLayer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#ad45953c7acf96290259f1333570fda4d">LayerSlot</a> hmi::validActiveLayer </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="structcore_1_1TileLayer.html">core::TileLayer</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>layers</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#ad45953c7acf96290259f1333570fda4d">LayerSlot</a></td>          <td class="paramname"><span class="paramname"><em>active</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd><code class="param">active</code> s'il désigne encore une couche visuelle de <code class="param">layers</code>, la grille racine sinon — à réappliquer après toute mutation (annulation, retrait, ouverture d'une autre carte). </dd></dl>
+
+</div>
+</div>
 <a id="ad4e08bbde577c00ef32757d631d79922" name="ad4e08bbde577c00ef32757d631d79922"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad4e08bbde577c00ef32757d631d79922">&#9670;&#160;</a></span>validAssetSizes()</h2>
 
@@ -12509,6 +13329,66 @@ Pourquoi ceux-là ne passent pas par <span class="tt">qsTr</span></h2>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Le masque des espaces qui l'affichent ; jamais vide. </dd></dl>
+
+</div>
+</div>
+<a id="ab5058e349ee1e593ed34274a88dd50fd" name="ab5058e349ee1e593ed34274a88dd50fd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab5058e349ee1e593ed34274a88dd50fd">&#9670;&#160;</a></span>worldGraphCircleRadius()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float hmi::worldGraphCircleRadius </td>
+          <td>(</td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>nodeCount</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Rayon du cercle pour <code class="param">nodeCount</code> nœuds. </p>
+<p><b>Règle</b> : deux voisins sur le cercle sont séparés d'une corde <span class="tt">2·R·sin(π/n)</span> ; on prend le plus petit <span class="tt">R</span> qui la porte à <span class="tt"><a class="el" href="#a1ef72f4a347aa932d445d92e2cd5b2de" title="Distance minimale entre les centres de deux cartes voisines sur le cercle : la largeur d&#39;une étiquett...">WORLD_GRAPH_NODE_SPACING</a></span>, sans descendre sous <span class="tt"><a class="el" href="#aa58aa4e76a3cdd2fcbd55c22d52a4bd6" title="Rayon plancher du cercle dès qu&#39;il porte deux cartes ou plus.">WORLD_GRAPH_MIN_CIRCLE_RADIUS</a></span>. Zéro ou un nœud : rayon nul (le nœud unique est au centre). </p>
+
+</div>
+</div>
+<a id="a3d7bd36db569f5109211462ad696fe6a" name="a3d7bd36db569f5109211462ad696fe6a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3d7bd36db569f5109211462ad696fe6a">&#9670;&#160;</a></span>worldGraphEdgeGeometry()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structhmi_1_1WorldGraphEdgeGeometry.html">WorldGraphEdgeGeometry</a> hmi::worldGraphEdgeGeometry </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structhmi_1_1WorldGraphLayout.html">WorldGraphLayout</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>layout</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>edgeIndex</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Tracé de la flèche <code class="param">edgeIndex</code>. </p>
+<p>Quand la flèche inverse existe (A→B et B→A), chacune est décalée perpendiculairement sur sa droite, pour ne pas se superposer. Une boucle est un cercle posé contre le nœud, en diagonale montante du côté extérieur (à droite pour un nœud au centre ou dans la moitié droite, à gauche sinon) : jamais dessous, où l'étiquette est écrite. </p>
 
 </div>
 </div>
@@ -12889,6 +13769,31 @@ Pourquoi ceux-là ne passent pas par <span class="tt">qsTr</span></h2>
 
 </div>
 </div>
+<a id="a444bc34d9bb51def7585ca8f530bf2b2" name="a444bc34d9bb51def7585ca8f530bf2b2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a444bc34d9bb51def7585ca8f530bf2b2">&#9670;&#160;</a></span>DEFAULT_COLLISION_OVERLAY_OPACITY</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float hmi::DEFAULT_COLLISION_OVERLAY_OPACITY = 0.55F</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Opacité par défaut de la collision <b>par-dessus</b> des couches visuelles : assez pour voir où l'on bute, assez peu pour voir le sol dessous. </p>
+<p>Décision d'ergonomie, sans effet en jeu. </p>
+
+</div>
+</div>
 <a id="ab6e44ad3d54b0383ef13f332d290df46" name="ab6e44ad3d54b0383ef13f332d290df46"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab6e44ad3d54b0383ef13f332d290df46">&#9670;&#160;</a></span>DEFAULT_RENDER_LAYER</h2>
 
@@ -13022,7 +13927,7 @@ Pourquoi ceux-là ne passent pas par <span class="tt">qsTr</span></h2>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">int hmi::EDITOR_ACTION_CATALOG_COUNT = 30</td>
+          <td class="memname">int hmi::EDITOR_ACTION_CATALOG_COUNT = 31</td>
         </tr>
       </table>
   </td>
@@ -13070,7 +13975,7 @@ Pourquoi ceux-là ne passent pas par <span class="tt">qsTr</span></h2>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::size_t hmi::EDITOR_TOOL_COUNT = 6</td>
+          <td class="memname">std::size_t hmi::EDITOR_TOOL_COUNT = 7</td>
         </tr>
       </table>
   </td>
@@ -13106,6 +14011,79 @@ Pourquoi ceux-là ne passent pas par <span class="tt">qsTr</span></h2>
 </div><div class="memdoc">
 
 <p>Nombre d'espaces, déclaré au plus près de l'énumération qu'il compte. </p>
+
+</div>
+</div>
+<a id="ad9cefc4bdd0b8be128dde3b2c4485d3a" name="ad9cefc4bdd0b8be128dde3b2c4485d3a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad9cefc4bdd0b8be128dde3b2c4485d3a">&#9670;&#160;</a></span>ENTITY_MARKER_FAMILY</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string_view hmi::ENTITY_MARKER_FAMILY = &quot;marker&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Famille de clé d'asset des marqueurs d'entité : <span class="tt">marker/&lt;type&gt;</span>. </p>
+
+</div>
+</div>
+<a id="a510e2271c15e392be6bcc4c19432a586" name="a510e2271c15e392be6bcc4c19432a586"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a510e2271c15e392be6bcc4c19432a586">&#9670;&#160;</a></span>ENTITY_MARKER_SIZE_PIXELS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int hmi::ENTITY_MARKER_SIZE_PIXELS = 16</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Côté d'un marqueur d'entité, en pixels : <b>une case</b> (<span class="tt"><a class="el" href="classhmi_1_1Camera2D.html#a3d1d52a7653c7a3dca5eb2e5a5990f88" title="Nombre de pixels par unité monde (EX-ARCH-021).">Camera2D::PIXELS_PER_UNIT</a></span>). </p>
+<p>Le marqueur occupe exactement la case de l'entité, comme une tuile. </p>
+
+</div>
+</div>
+<a id="a249d58aea3867379fa41929b4a43c0ab" name="a249d58aea3867379fa41929b4a43c0ab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a249d58aea3867379fa41929b4a43c0ab">&#9670;&#160;</a></span>ENTITY_MARKER_UNKNOWN_ID</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string_view hmi::ENTITY_MARKER_UNKNOWN_ID = &quot;inconnu&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Identifiant retenu quand le type d'entité ne laisse <b>aucun</b> caractère utilisable (type vide, ou fait uniquement de ponctuation) : <span class="tt">marker/inconnu</span>. </p>
 
 </div>
 </div>
@@ -13876,7 +14854,7 @@ Pourquoi ceux-là ne passent pas par <span class="tt">qsTr</span></h2>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::size_t hmi::PANEL_COUNT = 8</td>
+          <td class="memname">std::size_t hmi::PANEL_COUNT = 10</td>
         </tr>
       </table>
   </td>
@@ -13901,7 +14879,7 @@ Pourquoi ceux-là ne passent pas par <span class="tt">qsTr</span></h2>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">int hmi::PANEL_FOCUS_CATALOG_COUNT = 2</td>
+          <td class="memname">int hmi::PANEL_FOCUS_CATALOG_COUNT = 3</td>
         </tr>
       </table>
   </td>
@@ -14274,6 +15252,213 @@ Pourquoi ceux-là ne passent pas par <span class="tt">qsTr</span></h2>
 
 </div>
 </div>
+<a id="a5dc0296572d6830372e0942f2eca70d0" name="a5dc0296572d6830372e0942f2eca70d0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5dc0296572d6830372e0942f2eca70d0">&#9670;&#160;</a></span>PLAYTEST_CHEST_ALREADY_OPENED_KEY</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string_view hmi::PLAYTEST_CHEST_ALREADY_OPENED_KEY</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">                                                                =</div>
+<div class="line"><span class="stringliteral">&quot;playtest.interaction.chest_already_opened&quot;</span></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="acdaa87f755b7ef6cb00ba7e4433a49ab" name="acdaa87f755b7ef6cb00ba7e4433a49ab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acdaa87f755b7ef6cb00ba7e4433a49ab">&#9670;&#160;</a></span>PLAYTEST_CHEST_OPENED_KEY</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string_view hmi::PLAYTEST_CHEST_OPENED_KEY = &quot;playtest.interaction.chest_opened&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Clés de localisation des comptes rendus de l'essai immédiat. </p>
+
+</div>
+</div>
+<a id="a6aa5499d90de27c22488ad8eaf93f285" name="a6aa5499d90de27c22488ad8eaf93f285"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6aa5499d90de27c22488ad8eaf93f285">&#9670;&#160;</a></span>PLAYTEST_MESSAGE_SECONDS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float hmi::PLAYTEST_MESSAGE_SECONDS = 3.0f</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Durée d'affichage d'un compte rendu d'interaction, en secondes. </p>
+<p>Convertie en <b>pas de simulation</b> (<span class="tt"><a class="el" href="#a8572b2f7cdbc96a8ef6a401a74a3a028" title="Les pas de simulation pendant lesquels un compte rendu reste affiché, pour un pas fixe de fixedDelta ...">playtestMessageSteps</a></span>) : le compte rendu s'efface au même pas quelle que soit la cadence d'affichage. </p>
+
+</div>
+</div>
+<a id="a4774997ea28ed9d1f391d6c679b2c009" name="a4774997ea28ed9d1f391d6c679b2c009"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4774997ea28ed9d1f391d6c679b2c009">&#9670;&#160;</a></span>PLAYTEST_NPC_DIALOGUE_KEY</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string_view hmi::PLAYTEST_NPC_DIALOGUE_KEY = &quot;playtest.interaction.npc_dialogue&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae2e436abc505bab04b52b9835b3df40b" name="ae2e436abc505bab04b52b9835b3df40b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae2e436abc505bab04b52b9835b3df40b">&#9670;&#160;</a></span>PLAYTEST_NPC_SILENT_KEY</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string_view hmi::PLAYTEST_NPC_SILENT_KEY = &quot;playtest.interaction.npc_silent&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a041a8f13453275f41475aaf3013f052c" name="a041a8f13453275f41475aaf3013f052c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a041a8f13453275f41475aaf3013f052c">&#9670;&#160;</a></span>PLAYTEST_OTHER_KEY</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string_view hmi::PLAYTEST_OTHER_KEY = &quot;playtest.interaction.other&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8df2c09fb720a4b9edcc07dd7c82225f" name="a8df2c09fb720a4b9edcc07dd7c82225f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8df2c09fb720a4b9edcc07dd7c82225f">&#9670;&#160;</a></span>PLAYTEST_PORTAL_INCOMPLETE_KEY</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string_view hmi::PLAYTEST_PORTAL_INCOMPLETE_KEY</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">                                                             =</div>
+<div class="line"><span class="stringliteral">&quot;playtest.interaction.portal_incomplete&quot;</span></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="ab700512a0b7f60e86d26e14a5dff1dec" name="ab700512a0b7f60e86d26e14a5dff1dec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab700512a0b7f60e86d26e14a5dff1dec">&#9670;&#160;</a></span>PLAYTEST_PORTAL_KEY</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string_view hmi::PLAYTEST_PORTAL_KEY = &quot;playtest.interaction.portal&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae010519df5ace82f671b417bfc00645a" name="ae010519df5ace82f671b417bfc00645a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae010519df5ace82f671b417bfc00645a">&#9670;&#160;</a></span>PLAYTEST_SIGN_READ_KEY</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string_view hmi::PLAYTEST_SIGN_READ_KEY = &quot;playtest.interaction.sign_read&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a8d75d16f31a44e7347ea403ce66aaff3" name="a8d75d16f31a44e7347ea403ce66aaff3"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8d75d16f31a44e7347ea403ce66aaff3">&#9670;&#160;</a></span>RENDER_LAYER_COUNT</h2>
 
@@ -14514,6 +15699,78 @@ Pourquoi ceux-là ne passent pas par <span class="tt">qsTr</span></h2>
 
 <p>Nombre d'actions <b>hors sélection d'outil</b> admises dans une barre d'outils (<span class="tt">LOT-68</span>). </p>
 <p>Sert de plafond vérifié par test : c'est le nombre au-delà duquel la barre redevient le fourre-tout que ce lot supprime, et un plafond qu'on relève sans y penser ne protège de rien. </p>
+
+</div>
+</div>
+<a id="aa58aa4e76a3cdd2fcbd55c22d52a4bd6" name="aa58aa4e76a3cdd2fcbd55c22d52a4bd6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa58aa4e76a3cdd2fcbd55c22d52a4bd6">&#9670;&#160;</a></span>WORLD_GRAPH_MIN_CIRCLE_RADIUS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float hmi::WORLD_GRAPH_MIN_CIRCLE_RADIUS = 120.0f</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Rayon plancher du cercle dès qu'il porte deux cartes ou plus. </p>
+
+</div>
+</div>
+<a id="a7b7c3b187b367c4fb075b366382c9d33" name="a7b7c3b187b367c4fb075b366382c9d33"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7b7c3b187b367c4fb075b366382c9d33">&#9670;&#160;</a></span>WORLD_GRAPH_NODE_RADIUS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float hmi::WORLD_GRAPH_NODE_RADIUS = 26.0f</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Rayon du disque d'une carte, en pixels logiques. </p>
+
+</div>
+</div>
+<a id="a1ef72f4a347aa932d445d92e2cd5b2de" name="a1ef72f4a347aa932d445d92e2cd5b2de"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1ef72f4a347aa932d445d92e2cd5b2de">&#9670;&#160;</a></span>WORLD_GRAPH_NODE_SPACING</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float hmi::WORLD_GRAPH_NODE_SPACING = 160.0f</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Distance minimale entre les centres de deux cartes voisines sur le cercle : la largeur d'une étiquette (nom et identifiant, posés sous le disque) plus une marge. </p>
 
 </div>
 </div>
