@@ -142,7 +142,9 @@ private:
 
     /**
      * @brief Passe la porte du mecanisme @p index a l'etat @p open, et signale un ecrasement.
-     * @param playerBox    Boite du personnage : une porte qui se referme dessus l'ecrase.
+     * @param index        Indice du mecanisme dont la porte change d'etat.
+     * @param open         Vrai pour ouvrir la porte, faux pour la fermer.
+     * @param playerBox   Boite du personnage : une porte qui se referme dessus l'ecrase.
      * @param triggerLabel Nom du declencheur pour la trace (« Interrupteur », « Plaque... »).
      */
     void setDoorOpen(std::size_t index, bool open, const Aabb& playerBox, const char* triggerLabel);
